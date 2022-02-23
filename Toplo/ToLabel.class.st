@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'#textElement => ObservableSlot',
 		'#alignment => ObservableSlot',
-		'#text => ObservableSlot'
+		'#text => ObservableSlot',
+		'#fontName => ObservableSlot',
+		'#fontSize => ObservableSlot'
 	],
 	#category : #'Toplo-Widgets'
 }
@@ -48,21 +50,55 @@ ToLabel >> alignmentChanged [
 ].
 ]
 
+{ #category : #font }
+ToLabel >> fontName [ 
+	^fontName
+]
+
+{ #category : #font }
+ToLabel >> fontName: aString [
+	self fontName ~= aString ifFalse: [ ^self ].
+	fontName := aString.
+	self fontNameChanged
+]
+
+{ #category : #font }
+ToLabel >> fontNameChanged [
+
+	self textElement text fontName: self fontName
+]
+
+{ #category : #font }
+ToLabel >> fontSize [
+
+	^ fontSize
+]
+
+{ #category : #font }
+ToLabel >> fontSize: aNumber [
+
+	self fontSize ~= aNumber ifFalse: [ ^ self ].
+	fontSize := aNumber.
+	self fontSizeChanged
+]
+
+{ #category : #font }
+ToLabel >> fontSizeChanged [
+
+	self textElement text fontSize: self fontSize
+]
+
 { #category : #initialization }
-ToLabel >> initialize [ 
+ToLabel >> initialize [
 
 	super initialize.
-	
 	self layout: BlFrameLayout new.
-	
 	textElement := BlTextElement new.
-	textElement background: Color white.
+	textElement background: self defaultBackground. 
 	alignment := #left.
 	self textChanged.
 	self alignmentChanged.
-	self addChild: textElement.
-	
-
+	self addChild: textElement
 ]
 
 { #category : #accessing }

@@ -4,9 +4,9 @@ Class {
 	#traits : 'TBlTextStyleable',
 	#classTraits : 'TBlTextStyleable classTrait',
 	#instVars : [
-		'#textElement => ObservableSlot',
+		'#textElement',
 		'#alignment',
-		'#text'
+		'#text => ObservableSlot'
 	],
 	#classInstVars : [
 		'#alignIdx'

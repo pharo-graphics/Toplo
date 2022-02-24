@@ -1,23 +1,72 @@
 Class {
 	#name : #ToLabel,
 	#superclass : #ToBasicWidget,
+	#traits : 'TBlTextStyleable',
+	#classTraits : 'TBlTextStyleable classTrait',
 	#instVars : [
 		'#textElement => ObservableSlot',
-		'#alignment => ObservableSlot',
-		'#text => ObservableSlot',
-		'#fontName => ObservableSlot',
-		'#fontSize => ObservableSlot'
+		'#alignment',
+		'#text'
+	],
+	#classInstVars : [
+		'#alignIdx'
 	],
 	#category : #'Toplo-Widgets'
 }
 
 { #category : #accessing }
+ToLabel class >> alignmentIndexes [
+	alignIdx ifNotNil: [ ^ alignIdx  ].
+	alignIdx := IdentityDictionary new.
+	alignIdx at: #left put: [ :c | 
+		c frame horizontal alignLeft.
+		c frame vertical alignCenter ].
+	alignIdx at: #topLeft put: [ :c | 
+		c frame horizontal alignLeft.
+		c frame vertical alignTop ].
+	alignIdx at: #right put: [ :c | 
+		c frame horizontal alignRight.
+		c frame vertical alignCenter ].
+	alignIdx at: #topRight put: [ :c | 
+		c frame horizontal alignRight.
+		c frame vertical alignTop ].
+	alignIdx at: #center put: [ :c | 
+		c frame horizontal alignCenter.
+		c frame vertical alignCenter ].
+	alignIdx at: #leftCenter put: [ :c | 
+		c frame horizontal alignLeft.
+		c frame vertical alignCenter ].
+	alignIdx at: #rightCenter put: [ :c | 
+		c frame horizontal alignRight.
+		c frame vertical alignCenter ].
+	alignIdx at: #topCenter put: [ :c | 
+		c frame horizontal alignCenter.
+		c frame vertical alignTop ].
+	alignIdx at: #bottomCenter put: [ :c | 
+		c frame horizontal alignCenter.
+		c frame vertical alignBottom ].
+	alignIdx at: #top put: [ :c | 
+		c frame horizontal alignCenter.
+		c frame vertical alignTop ].
+	alignIdx at: #bottom put: [ :c | 
+		c frame horizontal alignCenter.
+		c frame vertical alignBottom ].
+	alignIdx at: #bottomLeft put: [ :c | 
+		c frame horizontal alignLeft.
+		c frame vertical alignBottom ].
+	alignIdx at: #bottomRight put: [ :c | 
+		c frame horizontal alignRight.
+		c frame vertical alignBottom ].
+	^ alignIdx
+]
+
+{ #category : #alignment }
 ToLabel >> alignment [
 
 	^ alignment
 ]
 
-{ #category : #accessing }
+{ #category : #alignment }
 ToLabel >> alignment: aSymbol [
 
 	aSymbol ~= alignment ifFalse: [ ^ self ].
@@ -25,67 +74,23 @@ ToLabel >> alignment: aSymbol [
 	self alignmentChanged
 ]
 
+{ #category : #alignment }
+ToLabel >> alignmentChanged [
+
+
+	self textElement constraintsDo: (self alignmentIndexes at: self alignment)
+]
+
+{ #category : #alignment }
+ToLabel >> alignmentIndexes [
+	^ self class alignmentIndexes
+]
+
 { #category : #accessing }
-ToLabel >> alignmentChanged [ 
+ToLabel >> attributesBuilder [
 
-	| block |
-	self alignment = #left ifTrue:[
-		block := [ :c |
-			c frame horizontal alignLeft.
-			c frame vertical alignCenter.
-		].	
-	].
-
-	self alignment = #center ifTrue:[
-		block := [ :c |
-			c frame horizontal alignCenter.
-			c frame vertical alignCenter.
-		].	
-	].
-
-	self textElement constraintsDo: block.
-	self  constraintsDo: [ :c | 
-		c  horizontal fitContentLimited .
-		c  vertical fitContentLimited. 
-].
-]
-
-{ #category : #font }
-ToLabel >> fontName [ 
-	^fontName
-]
-
-{ #category : #font }
-ToLabel >> fontName: aString [
-	self fontName ~= aString ifFalse: [ ^self ].
-	fontName := aString.
-	self fontNameChanged
-]
-
-{ #category : #font }
-ToLabel >> fontNameChanged [
-
-	self textElement text fontName: self fontName
-]
-
-{ #category : #font }
-ToLabel >> fontSize [
-
-	^ fontSize
-]
-
-{ #category : #font }
-ToLabel >> fontSize: aNumber [
-
-	self fontSize ~= aNumber ifFalse: [ ^ self ].
-	fontSize := aNumber.
-	self fontSizeChanged
-]
-
-{ #category : #font }
-ToLabel >> fontSizeChanged [
-
-	self textElement text fontSize: self fontSize
+	<return: #BlTextAttributesBuilder>
+	^ self textElement attributesBuilder 
 ]
 
 { #category : #initialization }
@@ -93,32 +98,34 @@ ToLabel >> initialize [
 
 	super initialize.
 	self layout: BlFrameLayout new.
-	textElement := BlTextElement new.
-	textElement background: self defaultBackground. 
-	alignment := #left.
+	textElement := BlAttributedTextElement new.
+	textElement background: self defaultBackground.
+	self addChild: textElement.
+	alignment := #center.
 	self textChanged.
 	self alignmentChanged.
-	self addChild: textElement
+
 ]
 
 { #category : #accessing }
 ToLabel >> text [
 
-	^ text
+	^ text ifNil: [ '' ]
 ]
 
 { #category : #accessing }
 ToLabel >> text: aStringOrBlText [
 
 	aStringOrBlText ~= self text ifFalse: [ ^ self ].
-	text := aStringOrBlText.
+	text := aStringOrBlText asString.
 	self textChanged
 ]
 
 { #category : #accessing }
-ToLabel >> textChanged [ 
+ToLabel >> textChanged [
 
-	self textElement text: ((self text ifNil:['']) asRopedText).
+	self textElement text: (self text ifNil: [ '' ]) asRopedText
+
 ]
 
 { #category : #accessing }

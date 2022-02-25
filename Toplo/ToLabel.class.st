@@ -51,14 +51,14 @@ ToLabel >> initialize [
 { #category : #accessing }
 ToLabel >> text [
 
-	^ text ifNil: [ '' ]
+	^ text
 ]
 
 { #category : #accessing }
 ToLabel >> text: aStringOrBlText [
 
 	aStringOrBlText ~= self text ifFalse: [ ^ self ].
-	text := aStringOrBlText asString.
+	text := aStringOrBlText ifNotNil: [ :s | s asString ].
 	self textChanged
 ]
 

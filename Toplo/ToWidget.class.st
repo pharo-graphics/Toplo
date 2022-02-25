@@ -4,6 +4,11 @@ Class {
 	#category : #'Toplo-Widgets'
 }
 
+{ #category : #initialization }
+ToWidget >> defaultOutskirts [
+	^ BlOutskirts outside
+]
+
 { #category : #accessing }
 ToWidget >> model [
 

@@ -11,7 +11,8 @@ TToAlignable >> hAlignment: aSymbol [
 			c horizontal matchParent ].
 		^ self ].
 	aSymbol = #fitContent ifTrue: [ 
-		self alignmentTarget parent constraintsDo: [ :c | c horizontal fitContent ].
+		self alignmentTarget parent constraintsDo: [ :c | 
+			c horizontal fitContent ].
 		^ self ].
 	aSymbol = #center ifTrue: [ 
 		self alignmentTarget constraintsDo: [ :c | 
@@ -21,9 +22,13 @@ TToAlignable >> hAlignment: aSymbol [
 		self alignmentTarget constraintsDo: [ :c | 
 			c frame horizontal alignLeft ].
 		^ self ].
-	aSymbol = #right ifFalse: [ ^ self ].
+	aSymbol = #right ifTrue: [ 
+		self alignmentTarget constraintsDo: [ :c | 
+			c frame horizontal alignRight ].
+		^ self ].
 	self alignmentTarget constraintsDo: [ :c | 
-		c frame horizontal alignRight ].
+		c frame horizontal alignNone ].
+
 	^ self
 ]
 
@@ -31,7 +36,8 @@ TToAlignable >> hAlignment: aSymbol [
 TToAlignable >> vAlignment: aSymbol [
 
 	aSymbol = #matchParent ifTrue: [ 
-		self alignmentTarget parent constraintsDo: [ :c | c vertical matchParent ].
+		self alignmentTarget parent constraintsDo: [ :c | 
+			c vertical matchParent ].
 		^ self ].
 	aSymbol = #fitContent ifTrue: [ 
 		self alignmentTarget parent constraintsDo: [ :c | 
@@ -45,8 +51,13 @@ TToAlignable >> vAlignment: aSymbol [
 		self alignmentTarget constraintsDo: [ :c | 
 			c frame vertical alignTop ].
 		^ self ].
-	aSymbol = #bottom ifFalse: [ ^ self ].
+	aSymbol = #bottom ifTrue: [ 
+		self alignmentTarget constraintsDo: [ :c | 
+			c frame vertical alignBottom ].
+		^ self ].
+
 	self alignmentTarget constraintsDo: [ :c | 
-		c frame vertical alignBottom ].
+		c frame vertical alignNone ].
+
 	^ self
 ]

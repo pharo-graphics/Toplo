@@ -10,18 +10,6 @@ Class {
 	#category : #'Toplo-Widgets'
 }
 
-{ #category : #alignment }
-ToLabel >> alignmentChanged [
-
-
-	self textElement constraintsDo: (self alignmentIndex at: self alignment)
-]
-
-{ #category : #alignment }
-ToLabel >> alignmentIndex [
-	^ self class alignmentIndex
-]
-
 { #category : #'accessing-alignment' }
 ToLabel >> alignmentTarget [
 

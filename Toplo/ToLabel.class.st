@@ -28,12 +28,15 @@ ToLabel >> initialize [
 
 	super initialize.
 	self layout: BlFrameLayout new.
+	
 	textElement := BlAttributedTextElement new.
 	textElement background: self defaultBackground.
+	
 	self addChild: textElement.
-	"self hAlignment: #left.
-	self vAlignment: #center."
-	self textChanged
+	self hAlignment: #left.
+	self vAlignment: #center.
+	
+	self textChanged.
 ]
 
 { #category : #accessing }

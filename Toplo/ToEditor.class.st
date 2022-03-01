@@ -55,12 +55,12 @@ ToEditor >> deselecter [
 ]
 
 { #category : #accessing }
-ToEditor >> editor: aBrTextEditor [
+ToEditor >> editor: aTextEditor [
 	self editor removeEventHandler: textReplacedHandler.
 
-	super editor: aBrTextEditor.
+	super editor: aTextEditor.
 
-	aBrTextEditor addEventHandler: textReplacedHandler
+	aTextEditor addEventHandler: textReplacedHandler
 ]
 
 { #category : #initialization }
@@ -75,7 +75,7 @@ ToEditor >> initialize [
 		to prevent any possible #asRopedText convertion"
 		do: [ :anEvent | self viewModel text: anEvent text ].
 
-	self editor: BrTextEditor new.
+	self editor: ToTextEditor new.
 	self padding: (BlInsets all: 5).
 	
 	self viewModel: BrEditorModel new

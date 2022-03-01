@@ -18,22 +18,17 @@ ToEditorElement >> defaultLayout [
 	^ BlInfiniteLinearLayout vertical
 ]
 
-{ #category : #'event management' }
-ToEditorElement >> dispatchEvent: anEvent [
-	super dispatchEvent: anEvent
-]
-
 { #category : #accessing }
 ToEditorElement >> editor [
-	<return: #BrTextEditor>
+	<return: #ToTextEditor>
 
 	^ self dataSource
 ]
 
 { #category : #accessing }
-ToEditorElement >> editor: aBrTextEditor [
+ToEditorElement >> editor: aTextEditor [
 	self editor removeEventHandler: textStyleHandler.
-	self dataSource: aBrTextEditor.
+	self dataSource: aTextEditor.
 	self editor addEventHandler: textStyleHandler.
 ]
 

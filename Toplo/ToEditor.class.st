@@ -67,7 +67,7 @@ ToEditor >> editor: aTextEditor [
 ToEditor >> initialize [
 	super initialize.
 	
-	self matchParent.
+	self hMatchParent.
 
 	textReplacedHandler := BlEventHandler
 		on: BrTextEditorTextReplacedEvent
@@ -76,8 +76,6 @@ ToEditor >> initialize [
 		do: [ :anEvent | self viewModel text: anEvent text ].
 
 	self editor: ToTextEditor new.
-	self padding: (BlInsets all: 5).
-	
 	self viewModel: BrEditorModel new
 ]
 

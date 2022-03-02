@@ -1,23 +1,23 @@
 Class {
-	#name : #ToEditorTextAreaRegularAptitude,
+	#name : #ToTextAreaAptitude,
 	#superclass : #ToEditorAptitude,
 	#category : #'Toplo-Editor-Look'
 }
 
 { #category : #'focus handlers' }
-ToEditorTextAreaRegularAptitude >> blurEvent: anEvent [
+ToTextAreaAptitude >> blurEvent: anEvent [
 	self widgetContent
 		border: (BlBorder paint: self theme editor borderColor width: 1)
 ]
 
 { #category : #'focus handlers' }
-ToEditorTextAreaRegularAptitude >> focusEvent: anEvent [
+ToTextAreaAptitude >> focusEvent: anEvent [
 	self widgetContent
 		border: (BlBorder paint: self theme editor focusedBorderColor width: 1)
 ]
 
 { #category : #initialization }
-ToEditorTextAreaRegularAptitude >> initialize [
+ToTextAreaAptitude >> initialize [
 	super initialize.
 
 	self
@@ -43,7 +43,7 @@ ToEditorTextAreaRegularAptitude >> initialize [
 ]
 
 { #category : #initialization }
-ToEditorTextAreaRegularAptitude >> initializeListeners [
+ToTextAreaAptitude >> initializeListeners [
 	super initializeListeners.
 	
 	self when: BlBlurEvent do: [ :anEvent | self blurEvent: anEvent ].

@@ -1,4 +1,4 @@
-# Toploc
+# Toplo
 A widget framework on top of Bloc.
 For now, Toplo depends on Brick. 
 One can load Bloc/Brick with:

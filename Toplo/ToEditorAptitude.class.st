@@ -1,6 +1,6 @@
 Class {
 	#name : #ToEditorAptitude,
-	#superclass : #BrAptitude,
+	#superclass : #ToAptitude,
 	#traits : 'TBlTextStyleable',
 	#classTraits : 'TBlTextStyleable classTrait',
 	#instVars : [

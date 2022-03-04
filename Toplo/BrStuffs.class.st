@@ -1,11 +1,11 @@
 Class {
-	#name : #ToStuffs,
+	#name : #BrStuffs,
 	#superclass : #Object,
 	#category : #'Toplo-Stuffs'
 }
 
 { #category : #examples }
-ToStuffs class >> exampleForceLayoutOfMatchParent [
+BrStuffs class >> exampleForceLayoutOfMatchParent [
 	| anElement |
 	anElement := BlElement new.
 	anElement border: (BlBorder paint: Color gray width: 5).
@@ -19,7 +19,22 @@ ToStuffs class >> exampleForceLayoutOfMatchParent [
 ]
 
 { #category : #examples }
-ToStuffs class >> exampleParentWithChild [
+BrStuffs class >> exampleLabelOnly [ 
+| aLabel space |
+	
+	aLabel := BrLabel new.
+	aLabel aptitude: BrTextLabelAptitude new.
+	aLabel text: 'Label'.
+
+space := BlSpace new.
+space root addChild: aLabel.
+space title: 'editor'.
+space show.
+^aLabel
+]
+
+{ #category : #examples }
+BrStuffs class >> exampleParentWithChild [
 	<gtExample>
 	| child parent |
 	child := BlElement new.
@@ -49,7 +64,7 @@ ToStuffs class >> exampleParentWithChild [
 ]
 
 { #category : #examples }
-ToStuffs class >> exampleParentWithChildExactSize [
+BrStuffs class >> exampleParentWithChildExactSize [
 	<gtExample>
 	| parent |
 	parent := self exampleParentWithChild.
@@ -57,7 +72,7 @@ ToStuffs class >> exampleParentWithChildExactSize [
 ]
 
 { #category : #examples }
-ToStuffs class >> exampleParentWithChildFitContent [
+BrStuffs class >> exampleParentWithChildFitContent [
 	<gtExample>
 	| child parent |
 	parent := self exampleParentWithChildExactSize.
@@ -72,7 +87,7 @@ ToStuffs class >> exampleParentWithChildFitContent [
 ]
 
 { #category : #examples }
-ToStuffs class >> exampleParentWithChildWithInsets [
+BrStuffs class >> exampleParentWithChildWithInsets [
 	<gtExample>
 	| child parent |
 	parent := self exampleParentWithChildExactSize.

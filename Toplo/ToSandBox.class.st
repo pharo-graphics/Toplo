@@ -7,13 +7,15 @@ Class {
 { #category : #'as yet unclassified' }
 ToSandBox class >> example_ToEditorAsTextArea1 [
 
-	| ed space |
+	| ed space propagations |
 	ed := ToEditor new.
-	"propagations := BrLayoutResizerPropagations new.
-	ed layoutResizerPropagations addPropagations: propagations."
+	
+	propagations := ToLayoutResizerPropagations new.
+	"ed layoutResizerPropagations addPropagations: propagations."
 	"ed styles markDirty."
-
-	BrLayoutResizerAptitude inherit onInstalledIn: ed.
+self halt.
+	ToLayoutResizerAptitude inherit onInstalledIn: ed.
+	"ed layoutResizerPropagations addPropagations: propagations."
 	"ed layoutResizerPropagations addPropagations: BrLayoutResizerPropagations new."
 	"ed userData at: #brickLook put: nil."
 	"ed when: BrEditorStylerChanged do: [ :anEvent | ed styler: anEvent styler ]."
@@ -24,8 +26,8 @@ ToSandBox class >> example_ToEditorAsTextArea1 [
 		do: [ :anEvent | ed border: (BlBorder paint: Color red width: 1) ].
 	ed
 		when: BlFocusEvent
-		do: [ :anEvent | ed border: (BlBorder paint: Color yellow width: 1) ].
-	ed constraints vertical resizer: BlLayoutResizer fitContent.
+		do: [ :anEvent | ed border: (BlBorder paint: Color blue width: 1) ].
+	ed constraints vertical resizer: BlLayoutResizer matchParent.
 	ed constraints horizontal resizer: BlLayoutResizer fitContent.
 	"ed aptitude: ToTextAreaAptitude2."
 	ed text: String loremIpsum.
@@ -58,6 +60,7 @@ ToSandBox class >> example_ToEditorAsTextAreaWithAptitude [
 ToSandBox class >> example_ToEditorAsTextFieldWithAptitude [
 
 	| ed space |
+	self halt.
 	ed := ToEditor new
 		      aptitude: ToEditorAptitude + ToTextFieldAptitude;
 		      text: 'edit me'.

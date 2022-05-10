@@ -15,9 +15,12 @@ BaselineOfToplo >> baseline: spec [
 				spec repository: 'github://plantec/bloc:dev-1.0/src' ];
 			baseline: 'BlocPac'
 			with: [ 
-				spec repository: 'github://plantec/bloc-pac:dev-1.0/src' ].
+				spec repository: 'github://plantec/bloc-pac:dev-1.0/src' ];
+			baseline: 'Album'
+			with: [ 
+				spec repository: 'github://plantec/Album/src' ].
 
 		spec package: #Toplo with: [ 
 			spec repository: 'github://plantec/Toplo/src'.
-			spec requires: #( #Bloc #BlocPac ) ] ]
+			spec requires: #( #Bloc #BlocPac #Album) ] ]
 ]

@@ -12,7 +12,7 @@ BaselineOfToplo >> baseline: spec [
 		spec
 			baseline: 'OnBloc'
 			with: [ 
-				spec repository: 'github://plantec/ObBloc/src' ];
+				spec repository: 'github://plantec/OnBloc/src' ];
 			baseline: 'Album'
 			with: [ 
 				spec repository: 'github://plantec/Album/src' ].

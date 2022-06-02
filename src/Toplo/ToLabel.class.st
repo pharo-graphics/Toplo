@@ -1,26 +1,19 @@
 Class {
 	#name : #ToLabel,
 	#superclass : #ToBasicWidget,
-	#traits : 'TBlTextStyleable + TToAlignable',
-	#classTraits : 'TBlTextStyleable classTrait + TToAlignable classTrait',
+	#traits : 'TToAlignable + TToLayoutResizable',
+	#classTraits : 'TToAlignable classTrait + TToLayoutResizable classTrait',
 	#instVars : [
-		'#textElement',
-		'#text => ObservableSlot'
+		'textElement',
+		'text'
 	],
 	#category : #'Toplo-Widgets'
 }
 
-{ #category : #'accessing-alignment' }
+{ #category : #private }
 ToLabel >> alignmentTarget [
 
 	^ self textElement
-]
-
-{ #category : #accessing }
-ToLabel >> attributesBuilder [
-
-	<return: #BlTextAttributesBuilder>
-	^ self textElement attributesBuilder 
 ]
 
 { #category : #initialization }
@@ -28,36 +21,35 @@ ToLabel >> initialize [
 
 	super initialize.
 	self layout: BlFrameLayout new.
-	
+	self viewModel: ToLabelModel new.
 	textElement := BlAttributedTextElement new.
 	textElement background: self defaultBackground.
-	
+	self hMatchParent.
+	self vFitContent.
 	self addChild: textElement.
-	self hAlignment: #left.
-	self vAlignment: #center.
-	
-	self textChanged.
+	self
+		when: ToLabelChanged
+		do: [ :anEvent | self textChanged: anEvent text ]
 ]
 
 { #category : #accessing }
 ToLabel >> text [
+	<return: #BlText>
 
-	^ text
+	^ self viewModel text
 ]
 
 { #category : #accessing }
 ToLabel >> text: aStringOrBlText [
 
 	aStringOrBlText ~= self text ifFalse: [ ^ self ].
-	text := aStringOrBlText ifNotNil: [ :s | s asString ].
-	self textChanged
+	self textChanged: aStringOrBlText.
 ]
 
 { #category : #accessing }
-ToLabel >> textChanged [
+ToLabel >> textChanged: aText [
 
-	self textElement text: (self text ifNil: [ '' ]) asRopedText
-
+	self textElement text: aText asRopedText
 ]
 
 { #category : #accessing }

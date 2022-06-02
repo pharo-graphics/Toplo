@@ -4,7 +4,7 @@ Trait {
 		'hAlignment',
 		'vAlignment'
 	],
-	#category : #'Toplo-Widgets'
+	#category : #'Toplo-Core'
 }
 
 { #category : #private }
@@ -44,14 +44,6 @@ TToAlignable >> hAlignment: aSymbol [
 { #category : #private }
 TToAlignable >> hAlignmentChanged [
 
-	self hAlignment = #matchParent ifTrue: [ 
-		self alignmentTarget parent constraintsDo: [ :c | 
-			c horizontal matchParent ].
-		^ self ].
-	self hAlignment = #fitContent ifTrue: [ 
-		self alignmentTarget parent constraintsDo: [ :c | 
-			c horizontal fitContent ].
-		^ self ].
 	self hAlignment = #center ifTrue: [ 
 		self alignmentTarget constraintsDo: [ :c | 
 			c frame horizontal alignCenter ].
@@ -87,14 +79,6 @@ TToAlignable >> vAlignment: aSymbol [
 { #category : #private }
 TToAlignable >> vAlignmentChanged [
 
-	self vAlignment = #matchParent ifTrue: [ 
-		self alignmentTarget parent constraintsDo: [ :c | 
-			c vertical matchParent ].
-		^ self ].
-	self vAlignment = #fitContent ifTrue: [ 
-		self alignmentTarget parent constraintsDo: [ :c | 
-			c vertical fitContent ].
-		^ self ].
 	self vAlignment = #center ifTrue: [ 
 		self alignmentTarget constraintsDo: [ :c | 
 			c frame vertical alignCenter ].

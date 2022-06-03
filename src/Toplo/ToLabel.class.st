@@ -1,19 +1,26 @@
 Class {
 	#name : #ToLabel,
 	#superclass : #ToBasicWidget,
-	#traits : 'TToAlignable + TToLayoutResizable',
-	#classTraits : 'TToAlignable classTrait + TToLayoutResizable classTrait',
+	#traits : 'TBlAlignable + TToLayoutResizable',
+	#classTraits : 'TBlAlignable classTrait + TToLayoutResizable classTrait',
 	#instVars : [
-		'textElement',
-		'text'
+		'textElement'
 	],
 	#category : #'Toplo-Widgets'
 }
 
-{ #category : #private }
-ToLabel >> alignmentTarget [
+{ #category : #accessing }
+ToLabel >> horizontalAlignment [
+	<return: #BlElementAlignment>
 
-	^ self textElement
+	^ self textElement constraints frame horizontal alignment
+]
+
+{ #category : #accessing }
+ToLabel >> horizontalAlignment: aBlElementAlignment [
+	self horizontalAlignment = aBlElementAlignment ifTrue: [ ^self ].
+	self textElement constraintsDo: [ :c | c frame horizontal alignment: aBlElementAlignment].
+
 ]
 
 { #category : #initialization }
@@ -56,4 +63,18 @@ ToLabel >> textChanged: aText [
 ToLabel >> textElement [
 
 	^ textElement
+]
+
+{ #category : #accessing }
+ToLabel >> verticalAlignment [
+	<return: #BlElementAlignment>
+	
+	^ self textElement constraints frame vertical alignment
+]
+
+{ #category : #accessing }
+ToLabel >> verticalAlignment: aBlElementAlignment [
+	self verticalAlignment = aBlElementAlignment ifTrue: [ ^self ].
+	self textElement constraintsDo: [ :c | c frame vertical alignment: aBlElementAlignment].
+
 ]

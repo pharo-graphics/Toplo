@@ -4,7 +4,7 @@ Trait {
 		'hAlignment',
 		'vAlignment'
 	],
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Not-Used'
 }
 
 { #category : #private }

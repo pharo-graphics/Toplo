@@ -7,7 +7,7 @@ Class {
 	#category : #'Toplo-Tests-Widgets'
 }
 
-{ #category : #test }
+{ #category : #tests }
 ToLabelTest >> testHAlignment [
 
 	| label |
@@ -41,7 +41,7 @@ ToLabelTest >> testText [
 	self assert: label text asString equals: label defaultText asString.
 ]
 
-{ #category : #test }
+{ #category : #tests }
 ToLabelTest >> testVAlignment [
 
 	| label |

@@ -17,16 +17,10 @@ ToLabelModel class >> text: aStringOrText [
 	^ self new text: aStringOrText
 ]
 
-{ #category : #initialization }
-ToLabelModel >> initialize [
-	super initialize.
-	
-	text := 'Label' asRopedText
-]
-
-{ #category : #notifying }
-ToLabelModel >> notifyLabelChanged [
-	self dispatchEvent: (ToLabelChanged new text: self text)
+{ #category : #'api - hooks' }
+ToLabelModel >> onInstalledIn: anElement [
+	super onInstalledIn: anElement.
+	self text: anElement defaultText.
 ]
 
 { #category : #accessing }
@@ -38,12 +32,10 @@ ToLabelModel >> text [
 
 { #category : #accessing }
 ToLabelModel >> text: aBlTextOrString [
+
 	<event: #BrLabelChanged>
+	text = aBlTextOrString ifTrue: [ ^ self ].
 
-	text = aBlTextOrString
-		ifTrue: [ ^ self ].
-
-	text := aBlTextOrString asRopedText.
-
-	self notifyLabelChanged
+	text := (aBlTextOrString ifNil: [ '' ]) asRopedText.
+	self dispatchEvent: (ToLabelChanged new text: self text)
 ]

@@ -10,6 +10,11 @@ Class {
 }
 
 { #category : #accessing }
+ToLabel >> defaultText [
+	^ self textElement defaultText
+]
+
+{ #category : #accessing }
 ToLabel >> horizontalAlignment [
 	<return: #BlElementAlignment>
 
@@ -27,10 +32,10 @@ ToLabel >> horizontalAlignment: aBlElementAlignment [
 ToLabel >> initialize [
 
 	super initialize.
-	self layout: BlFrameLayout new.
-	self viewModel: ToLabelModel new.
 	textElement := BlAttributedTextElement new.
 	textElement background: self defaultBackground.
+	self layout: BlFrameLayout new.
+	self viewModel: ToLabelModel new.
 	self hMatchParent.
 	self vFitContent.
 	self addChild: textElement.
@@ -48,9 +53,11 @@ ToLabel >> text [
 
 { #category : #accessing }
 ToLabel >> text: aStringOrBlText [
+	| t |
 
-	aStringOrBlText ~= self text ifFalse: [ ^ self ].
-	self textChanged: aStringOrBlText.
+	t := (aStringOrBlText ifNil: [self textElement defaultText]).
+	t asString ~= self text asString ifFalse: [ ^ self ].
+	self viewModel text: t asRopedText
 ]
 
 { #category : #accessing }

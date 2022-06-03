@@ -29,13 +29,6 @@ ToLabelModel >> notifyLabelChanged [
 	self dispatchEvent: (ToLabelChanged new text: self text)
 ]
 
-{ #category : #initialization }
-ToLabelModel >> onInstalledIn: anElement [
-	super onInstalledIn: anElement.
-	self when: ToLabelRequest reply: [ :aResponse | aResponse text: self text ].
-	self notifyLabelChanged 
-]
-
 { #category : #accessing }
 ToLabelModel >> text [
 	<return: #BlText>

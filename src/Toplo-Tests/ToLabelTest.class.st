@@ -24,21 +24,21 @@ ToLabelTest >> testHAlignment [
 	self assert: label hAlignment equals: #left. 
 ]
 
-{ #category : #test }
+{ #category : #tests }
 ToLabelTest >> testText [
 
 	| label |
 	label := ToLabel new.
-	self assert: label text isNil.
+	self assert: label text asString equals: label defaultText asString.
 	
 	label text: ''.
-	self assert: label text equals: ''.
+	self assert: label text asString equals: ''.
 	
 	label text: 'This is a text'.
-	self assert: label text equals: 'This is a text'.
+	self assert: label text asString equals: 'This is a text'.
 	
 	label text: nil.
-	self assert: label text isNil. 
+	self assert: label text asString equals: label defaultText asString.
 ]
 
 { #category : #test }

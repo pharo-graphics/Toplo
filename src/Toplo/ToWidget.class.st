@@ -7,6 +7,11 @@ Class {
 	#category : #'Toplo-Widgets'
 }
 
+{ #category : #initialization }
+ToWidget >> defaultBackground [
+	^ Color transparent
+]
+
 { #category : #accessing }
 ToWidget >> viewModel [
 

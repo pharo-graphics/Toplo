@@ -1,6 +1,6 @@
 Class {
 	#name : #ToLabelChanged,
-	#superclass : #OBlChangeEvent,
+	#superclass : #Announcement,
 	#instVars : [
 		'text'
 	],

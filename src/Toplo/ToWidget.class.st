@@ -1,9 +1,6 @@
 Class {
 	#name : #ToWidget,
 	#superclass : #BlElement,
-	#instVars : [
-		'viewModel'
-	],
 	#category : #'Toplo-Widgets'
 }
 
@@ -15,14 +12,11 @@ ToWidget >> defaultBackground [
 { #category : #accessing }
 ToWidget >> viewModel [
 
-	^ viewModel
+	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }
 ToWidget >> viewModel: aViewModel [
 
-	self viewModelDo: [ :aCurrentModel | 
-		aCurrentModel onUninstalledIn: self ].
-	viewModel := aViewModel.
-	aViewModel onInstalledIn: self
+	^ self subclassResponsibility 
 ]

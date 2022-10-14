@@ -12,16 +12,16 @@ ToLabelTest >> testHAlignment [
 
 	| label |
 	label := ToLabel new.
-	self assert: label hAlignment equals: #left. 
+	self assert: (label horizontalAlignment isKindOf: BlHorizontalStartAlignment).
 
-	label hAlignment: #center.
-	self assert: label hAlignment equals: #center. 
+	label alignCenter.
+	self assert: (label horizontalAlignment isKindOf: BlHorizontalCenterAlignment). 
 
-	label hAlignment: #right.
-	self assert: label hAlignment equals: #right. 
+	label alignCenterRight.
+	self assert: (label horizontalAlignment isKindOf: BlHorizontalEndAlignment). 
 	
-	label hAlignment: #left.
-	self assert: label hAlignment equals: #left. 
+	label alignCenterLeft.
+	self assert: (label horizontalAlignment isKindOf: BlHorizontalStartAlignment). 
 ]
 
 { #category : #tests }
@@ -46,14 +46,14 @@ ToLabelTest >> testVAlignment [
 
 	| label |
 	label := ToLabel new.
-	self assert: label vAlignment equals: #center. 
+	self assert: (label verticalAlignment isKindOf: BlTopAlignment ).
 
-	label vAlignment: #top.
-	self assert: label vAlignment equals: #top. 
+	label alignCenter.
+	self assert: (label verticalAlignment isKindOf: BlVerticalCenterAlignment). 
 
-	label vAlignment: #bottom.
-	self assert: label vAlignment equals: #bottom. 
+	label alignTopRight.
+	self assert: (label verticalAlignment isKindOf: BlTopAlignment). 
 	
-	label vAlignment: #center.
-	self assert: label vAlignment equals: #center. 
+	label alignBottomLeft.
+	self assert: (label verticalAlignment isKindOf: BlBottomAlignment). 
 ]

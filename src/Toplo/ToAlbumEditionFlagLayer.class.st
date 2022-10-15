@@ -2,7 +2,6 @@ Class {
 	#name : #ToAlbumEditionFlagLayer,
 	#superclass : #ToAlbumLayer,
 	#instVars : [
-		'editorListener',
 		'editionFlag'
 	],
 	#category : #'Toplo-Widgets'
@@ -11,23 +10,36 @@ Class {
 { #category : #'api - attaching / detaching' }
 ToAlbumEditionFlagLayer >> attachTo: anEditorElement [
 
-	editorListener ifNotNil: [ ^ self ].
 	super attachTo: anEditorElement.
-	editorListener := self editorListener.
-	anEditorElement editor addEventHandler: editorListener.
-
+	anEditorElement viewModel when: AlbEditsStateChangedInModel send: #whenEditsStateChanged: to: self.
+	anEditorElement viewModel when: AlbSaveAccepted send: #whenSaveAcceptedFromModel: to: self.
 ]
 
 { #category : #'api - attaching / detaching' }
 ToAlbumEditionFlagLayer >> detach [
 
-	referenceElement removeEventHandler: editorListener.
-	editorListener := nil.
+	referenceElement viewModel unsubscribe: self.
 	super detach
 ]
 
 { #category : #'edition-flag' }
-ToAlbumEditionFlagLayer >> editionFlag [
+ToAlbumEditionFlagLayer >> hideEditionFlag [
+
+	editionFlag ifNil: [ ^ self ].
+	self removeChild: editionFlag.
+	editionFlag := nil
+]
+
+{ #category : #initialization }
+ToAlbumEditionFlagLayer >> initialize [
+
+	super initialize.
+	self layout: BlFrameLayout new.
+	self background: Color transparent
+]
+
+{ #category : #'edition-flag' }
+ToAlbumEditionFlagLayer >> newEditionFlag [
 
 	| flag |
 	flag := BlElement new
@@ -47,32 +59,21 @@ ToAlbumEditionFlagLayer >> editionFlag [
 ]
 
 { #category : #'edition-flag' }
-ToAlbumEditionFlagLayer >> editorListener [
-
-	^ BlEventHandler
-		  on: AlbTextEditorModifiedEvent
-		  do: [ :anEvent | self showEditionFlag ]
-]
-
-{ #category : #'edition-flag' }
-ToAlbumEditionFlagLayer >> hideEditionFlag [
-
-	editionFlag ifNil: [ ^ self ].
-	self removeChild: self editionFlag
-]
-
-{ #category : #initialization }
-ToAlbumEditionFlagLayer >> initialize [ 
-	super initialize.
-	self layout: BlFrameLayout new.
-	self background: Color transparent.
-	
-]
-
-{ #category : #'edition-flag' }
 ToAlbumEditionFlagLayer >> showEditionFlag [
 
 	editionFlag ifNotNil: [ ^ self ].
-	editionFlag := self editionFlag.
-	self addChild: self editionFlag
+	editionFlag := self newEditionFlag.
+	self addChild: editionFlag 
+]
+
+{ #category : #'api - attaching / detaching' }
+ToAlbumEditionFlagLayer >> whenEditsStateChanged: anEditsStateChangedAnnouncement [
+
+	anEditsStateChangedAnnouncement viewModel hasUnacceptedEdits ifTrue: [ self showEditionFlag ]
+]
+
+{ #category : #'api - attaching / detaching' }
+ToAlbumEditionFlagLayer >> whenSaveAcceptedFromModel: aSaveAcceptedAnnouncement [
+
+	aSaveAcceptedAnnouncement viewModel hasUnacceptedEdits ifFalse: [ self hideEditionFlag ]
 ]

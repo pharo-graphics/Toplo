@@ -19,6 +19,7 @@ ToLabel >> addEditor [
 			c horizontal fitContent.
 			c vertical fitContent ];
 		clipChildren: false.
+	self elevation: (BlRelativeElevation elevation: 1000).
 	editorOverlay fitVertically: false.
 	editor := self newEditor.
 	editorOverlay attachTo: self.

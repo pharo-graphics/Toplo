@@ -9,14 +9,9 @@ ToWidget >> defaultBackground [
 	^ Color transparent
 ]
 
-{ #category : #accessing }
-ToWidget >> viewModel [
+{ #category : #initialization }
+ToWidget >> initialize [
 
-	^ self subclassResponsibility 
-]
-
-{ #category : #accessing }
-ToWidget >> viewModel: aViewModel [
-
-	^ self subclassResponsibility 
+	super initialize.
+	self background: self defaultBackground
 ]

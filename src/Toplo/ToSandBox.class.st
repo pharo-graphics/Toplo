@@ -37,12 +37,24 @@ ToSandBox class >> example_toLabel3 [
 { #category : #label }
 ToSandBox class >> example_toLabel4 [
 
-	| lab |
-	lab := ToLabel new text: ('This is a text' asRopedText fontSize: 14).
-	lab border: (BlBorder paint: Color red width: 1).
-	lab addEditor.
-	lab openInOBlSpace.
-	[  
-	(Delay forSeconds: 10) wait.
-	lab removeEditor] fork.
+	| lab1 lab2 lab3 root |
+	root := BlElement new constraintsDo: [ :c | 
+		        c vertical matchParent.
+		        c horizontal matchParent ].
+
+	root layout: BlLinearLayout vertical.
+	lab1 := ToLabel new text: ('First text' asRopedText fontSize: 14).
+	lab1  border: (BlBorder paint: Color red width: 1).
+	"lab1 addEditor."
+	root addChild: lab1.
+	lab2 := ToLabel new text: ('Second text' asRopedText fontSize: 14).
+	lab2 border: (BlBorder paint: Color red width: 1).
+	lab2 addEditor.
+	root addChild: lab2.
+	lab3 := ToLabel new text: ('Third text' asRopedText fontSize: 14).
+	lab3 border: (BlBorder paint: Color red width: 1).
+	"lab3 addEditor."
+	root addChild: lab3.
+	root openInOBlSpace.
+
 ]

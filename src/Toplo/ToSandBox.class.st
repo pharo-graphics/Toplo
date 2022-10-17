@@ -4,6 +4,37 @@ Class {
 	#category : #'Toplo-examples'
 }
 
+{ #category : #album }
+ToSandBox class >> example_CodeEditorWithRBStylerWithDresser [
+
+	| text album space vscrollBar |
+	text := self methodText asRopedText.
+
+	album := ToAlbum forPharoCode.
+	album viewModel text: text.
+	album viewModel classOrMetaClass: self class.
+	album withLineNumbers.
+	
+	"album editorElement editor inspect."
+	"album editorElement selectionView inspect."
+	"album editorElement viewModel inspect."
+
+	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar constraintsDo: [ :c | 
+		c ignoreByLayout.
+		c margin: (BlInsets right: 2).
+		c ignored horizontal alignRight.
+		c ignored vertical alignBottom ].
+	vscrollBar attachTo: album editorElement.
+	album addChild: vscrollBar. 
+	space := OBlSpace new.
+	space root addChild: album.
+	space show.
+	^ album
+
+
+]
+
 { #category : #label }
 ToSandBox class >> example_toLabel1 [
 
@@ -57,4 +88,9 @@ ToSandBox class >> example_toLabel4 [
 	root addChild: lab3.
 	root openInOBlSpace.
 
+]
+
+{ #category : #accessing }
+ToSandBox class >> methodText [
+	^ self  class sourceCodeAt: #example_CodeEditorWithRBStylerWithDresser
 ]

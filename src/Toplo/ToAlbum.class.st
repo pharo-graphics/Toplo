@@ -5,7 +5,8 @@ Class {
 	#classTraits : 'TOBlLayoutResizable classTrait',
 	#instVars : [
 		'editorElement',
-		'editionFlagLayer'
+		'editionFlagLayer',
+		'coverLayer'
 	],
 	#category : #'Toplo-Widgets'
 }
@@ -46,7 +47,8 @@ ToAlbum >> editorElement: anEditorElement [
 ToAlbum >> forPharoCode [
 
 	self viewModel: AlbEditorPharoCodeModel new.
-	self withEditionFlagLayer 
+	self withEditionFlagLayer.
+	self withCoverLayer 
 ]
 
 { #category : #initialization }
@@ -91,6 +93,14 @@ ToAlbum >> viewModel: aViewModel [
 ]
 
 { #category : #layers }
+ToAlbum >> withCoverLayer [
+
+	coverLayer ifNotNil: [ ^ self ].
+	coverLayer := ToAlbumCoverLayer new.
+	self addLayer: coverLayer
+]
+
+{ #category : #layers }
 ToAlbum >> withEditionFlagLayer [
 
 	editionFlagLayer ifNotNil: [ ^ self ].
@@ -102,6 +112,14 @@ ToAlbum >> withEditionFlagLayer [
 ToAlbum >> withLineNumbers [
 
 	self editorElement withLineNumbers
+]
+
+{ #category : #layers }
+ToAlbum >> withoutCoverLayer [
+
+	coverLayer ifNil: [ ^ self ].
+	self removeLayer: coverLayer.
+	coverLayer := nil
 ]
 
 { #category : #layers }

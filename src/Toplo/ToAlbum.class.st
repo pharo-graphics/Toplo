@@ -71,13 +71,13 @@ ToAlbum >> removeLayer: anAlbumLayer [
 { #category : #'text - accessing' }
 ToAlbum >> text [
 
-	^ self editorElement viewModel text
+	^ self viewModel text
 ]
 
 { #category : #'text - accessing' }
 ToAlbum >> text: aBlText [
 
-	self editorElement viewModel text: aBlText
+	self viewModel text: aBlText
 ]
 
 { #category : #accessing }

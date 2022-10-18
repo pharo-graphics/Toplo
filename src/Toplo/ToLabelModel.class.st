@@ -1,8 +1,10 @@
 Class {
 	#name : #ToLabelModel,
 	#superclass : #OBlViewModel,
+	#traits : 'TObservable',
+	#classTraits : 'TObservable classTrait',
 	#instVars : [
-		'text'
+		'#text => ObservableSlot'
 	],
 	#category : #'Toplo-Widgets'
 }
@@ -23,14 +25,18 @@ ToLabelModel >> defaultText [
 	^ ''
 ]
 
+{ #category : #initialization }
+ToLabelModel >> initialize [
+	
+	self class initializeSlots: self.
+	super initialize.
+]
+
 { #category : #'api - hooks' }
 ToLabelModel >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	self
-		when: ToLabelChanged
-		send: #whenTextChangedFromModel:
-		to: anElement.
+	self whenTextChangedDo: [ :t | anElement textElement text: t asRopedText ].
 	self text: anElement defaultText
 ]
 
@@ -46,7 +52,12 @@ ToLabelModel >> text: aBlTextOrString [
 
 	<event: #BrLabelChanged>
 	text = aBlTextOrString ifTrue: [ ^ self ].
+	text := (aBlTextOrString ifNil: [ self defaultText ]) asRopedText
+]
 
-	text := (aBlTextOrString ifNil: [ self defaultText ]) asRopedText.
-	self announce: (ToLabelChanged new text: self text)
+{ #category : #enumerating }
+ToLabelModel >> whenTextChangedDo: aBlock [
+	"set a block to perform after that the text has been chanbed, and its action performed"
+
+	self property: #text whenChangedDo: aBlock
 ]

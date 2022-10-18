@@ -176,9 +176,3 @@ ToLabel >> verticalAlignment: aBlElementAlignment [
 	self textElement constraintsDo: [ :c | c frame vertical alignment: aBlElementAlignment].
 
 ]
-
-{ #category : #accessing }
-ToLabel >> whenTextChangedFromModel: aLabelChanged [
-
-	self textElement text: aLabelChanged text asRopedText
-]

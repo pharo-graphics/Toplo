@@ -87,13 +87,13 @@ ToLabel >> horizontalAlignment: aBlElementAlignment [
 ToLabel >> initialize [
 
 	super initialize.
+	textElement := self defaultTextElement.
+	self viewModel: self defaulViewModel.	
 	self padding: self defaultPaddings.
 	self background: self defaultBackground.
 	self layout: self defaultLayout.
 	self hMatchParent.
 	self vFitContent.
-	textElement := self defaultTextElement.
-	self viewModel: self defaulViewModel.
 	self addChild: textElement
 ]
 

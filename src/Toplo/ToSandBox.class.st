@@ -17,7 +17,7 @@ ToSandBox class >> example_CodeEditorWithRBStylerWithDresser [
 	
 	"album editorElement editor inspect."
 	"album editorElement selectionView inspect."
-	"album editorElement viewModel inspect."
+	album editorElement viewModel inspect.
 
 	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c | 

@@ -44,6 +44,8 @@ ToSandBox class >> example_CodeEditorWithToClient [
 	client := ToAlbumPharoCodeModel new onAlbum: album.	
 	client classOrMetaClass: self class.
 	client text: text.
+	client inspect.
+	album editorElement viewModel inspect.
 	album withLineNumbers.
 	
 	space := OBlSpace new.

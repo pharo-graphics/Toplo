@@ -5,8 +5,7 @@ Class {
 	#classTraits : 'TOBlLayoutResizable classTrait',
 	#instVars : [
 		'editorElement',
-		'editionFlagLayer',
-		'coverLayer'
+		'editsFeedbackLayer'
 	],
 	#category : #'Toplo-Widgets'
 }
@@ -109,19 +108,11 @@ ToAlbum >> whenTextChangedDo: aBlock [
 ]
 
 { #category : #layers }
-ToAlbum >> withCoverLayerFromModel: anAlbumModel [
+ToAlbum >> withEditsFeedbackFromModel: anAlbumModel [
 
-	coverLayer ifNotNil: [ ^ self ].
-	coverLayer := ToAlbumCoverLayer new.
-	self addLayer: coverLayer fromModel: anAlbumModel	
-]
-
-{ #category : #layers }
-ToAlbum >> withEditionFlagLayerFromModel: anAlbumModel [
-
-	editionFlagLayer ifNotNil: [ ^ self ].
-	editionFlagLayer := ToAlbumEditionFlagLayer new.
-	self addLayer: editionFlagLayer fromModel: anAlbumModel 
+	editsFeedbackLayer ifNotNil: [ ^ self ].
+	editsFeedbackLayer := ToAlbumEditsFeedbackLayer new.
+	self addLayer: editsFeedbackLayer fromModel: anAlbumModel 
 ]
 
 { #category : #initialization }
@@ -131,19 +122,11 @@ ToAlbum >> withLineNumbers [
 ]
 
 { #category : #layers }
-ToAlbum >> withoutCoverLayer [
+ToAlbum >> withoutEditsFeedback [
 
-	coverLayer ifNil: [ ^ self ].
-	self removeLayer: coverLayer.
-	coverLayer := nil
-]
-
-{ #category : #layers }
-ToAlbum >> withoutEditionFlagLayer [
-
-	editionFlagLayer ifNil: [ ^ self ].
-	self removeLayer: editionFlagLayer.
-	editionFlagLayer := nil
+	editsFeedbackLayer ifNil: [ ^ self ].
+	self removeLayer: editsFeedbackLayer.
+	editsFeedbackLayer := nil
 ]
 
 { #category : #initialization }

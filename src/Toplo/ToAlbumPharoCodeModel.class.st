@@ -22,6 +22,24 @@ ToAlbumPharoCodeModel >> albumDo: aBlock [
 ]
 
 { #category : #accessing }
+ToAlbumPharoCodeModel >> beEditable [
+
+	self mode: AlbEditableMode new
+]
+
+{ #category : #accessing }
+ToAlbumPharoCodeModel >> beReadonlyWithSelection [
+
+	self mode: AlbReadonlyWithSelectionMode new
+]
+
+{ #category : #accessing }
+ToAlbumPharoCodeModel >> beReadonlyWithoutSelection [
+
+	self mode: AlbReadonlyWithoutSelectionMode new
+]
+
+{ #category : #accessing }
 ToAlbumPharoCodeModel >> classOrMetaClass: aClass [
 
 	self stylerHolder classOrMetaClass: aClass
@@ -118,7 +136,7 @@ ToAlbumPharoCodeModel >> isForWorkspace: aBoolean [
 ToAlbumPharoCodeModel >> launchTextStyle [
 
 	" ask the stylerHolder through its observale slot "
-	self stylerHolder unstyledText: self text 
+	self stylerHolderDo: [ self stylerHolder unstyledText: self text ]
 ]
 
 { #category : #accessing }
@@ -134,15 +152,14 @@ ToAlbumPharoCodeModel >> mode: anEditabilityMode [
 
 	mode = anEditabilityMode ifTrue: [ ^ self ].
 	mode := anEditabilityMode
-
-	
 ]
 
 { #category : #initialization }
 ToAlbumPharoCodeModel >> modeChanged [
 
-	self stylerHolder styler: self defaultStyler.
-	self launchTextStyle
+	self stylerHolderDo: [ 
+		
+		self launchTextStyle ]
 ]
 
 { #category : #'accessing - album' }
@@ -158,9 +175,8 @@ ToAlbumPharoCodeModel >> onInstalledIn: anAlbum [
 
 	super onInstalledIn: anAlbum.
 	
-	anAlbum withEditionFlagLayerFromModel: self.
-	anAlbum withCoverLayerFromModel: self.
-	
+	anAlbum withEditsFeedbackFromModel: self.
+	self mode: anAlbum mode.
 	self when: AlbActionRequiredFromEditorElement send: #whenActionRequired: to: anAlbum editorElement.
 	self when: ToActionRequiredFromAlbum send: #whenActionRequired: to: anAlbum.
 	
@@ -222,6 +238,13 @@ ToAlbumPharoCodeModel >> stylerHolder [
 ]
 
 { #category : #accessing }
+ToAlbumPharoCodeModel >> stylerHolderDo: aBlock [
+
+	stylerHolder ifNil: [ ^self ].
+	aBlock value
+]
+
+{ #category : #accessing }
 ToAlbumPharoCodeModel >> text [
 
 	^ text
@@ -250,6 +273,12 @@ ToAlbumPharoCodeModel >> textModifiedByTextEditor [
 
 	self hasUnacceptedEdits: true.
 	self launchTextStyle
+]
+
+{ #category : #'slot - change hook' }
+ToAlbumPharoCodeModel >> unacceptedEditsDo: aBlock [
+
+	aBlock value: self hasUnacceptedEdits
 ]
 
 { #category : #'slot - change hook' }

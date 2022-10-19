@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'owner'
 	],
-	#category : #'Toplo-Widgets'
+	#category : #'Toplo-Not-Used'
 }
 
 { #category : #accessing }

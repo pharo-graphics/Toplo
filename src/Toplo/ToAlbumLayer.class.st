@@ -5,7 +5,7 @@ Class {
 		'delegator',
 		'model'
 	],
-	#category : #'Toplo-Widgets'
+	#category : #'Toplo-Widget-Album'
 }
 
 { #category : #'api - attaching / detaching' }

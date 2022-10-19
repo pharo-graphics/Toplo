@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'viewModel'
 	],
-	#category : #'Toplo-Widgets'
+	#category : #'Toplo-Core'
 }
 
 { #category : #initialization }

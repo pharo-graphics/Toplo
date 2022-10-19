@@ -7,7 +7,7 @@ Class {
 		'editorElement',
 		'editsFeedbackLayer'
 	],
-	#category : #'Toplo-Widgets'
+	#category : #'Toplo-Widget-Album'
 }
 
 { #category : #layers }

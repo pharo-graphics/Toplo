@@ -1,12 +1,11 @@
 Class {
 	#name : #ToLabelModel,
 	#superclass : #OBlViewModel,
-	#traits : 'TObservable',
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
 		'#text => ObservableSlot'
 	],
-	#category : #'Toplo-Widgets'
+	#category : #'Toplo-Widget-Label'
 }
 
 { #category : #printing }
@@ -37,7 +36,7 @@ ToLabelModel >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	self whenTextChangedDo: [ :t | anElement textElement text: t asRopedText ].
-	self text: anElement defaultText
+	self text: self defaultText
 ]
 
 { #category : #accessing }

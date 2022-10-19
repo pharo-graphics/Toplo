@@ -41,11 +41,12 @@ ToSandBox class >> example_CodeEditorWithToClient [
 	text := self methodText asRopedText.
 
 	album := ToAlbum new.
-	client := ToAlbumPharoCodeModel new onAlbum: album.	
+	client := ToAlbumBasicModel new onAlbum: album.	
+	client styler: BlRBTextStyler new.
 	client classOrMetaClass: self class.
 	client text: text.
-	client inspect.
-	album editorElement viewModel inspect.
+	"client inspect."
+	"album editorElement viewModel inspect."
 	album withLineNumbers.
 	
 	space := OBlSpace new.

@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'textElement'
 	],
-	#category : #'Toplo-Widgets'
+	#category : #'Toplo-Widget-Label'
 }
 
 { #category : #'private-label editing' }
@@ -46,7 +46,7 @@ ToLabel >> defaultLayout [
 { #category : #initialization }
 ToLabel >> defaultPaddings [
 
-	^ BlInsets all: 5 
+	^ BlInsets all: 2 
 		  
 ]
 

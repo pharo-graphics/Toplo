@@ -1,20 +1,19 @@
 Class {
-	#name : #ToAlbumPharoCodeModel,
+	#name : #ToAlbumBasicModel,
 	#superclass : #OBlElementCompanion,
-	#traits : 'TObservable',
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
-		'#stylerHolder',
 		'#hasUnacceptedEdits => ObservableSlot',
 		'#fontName => ObservableSlot',
 		'#text => ObservableSlot',
-		'#mode => ObservableSlot'
+		'#mode => ObservableSlot',
+		'#stylerHolder'
 	],
-	#category : #'Toplo-Widgets'
+	#category : #'Toplo-Widget-Album'
 }
 
 { #category : #'accessing - album' }
-ToAlbumPharoCodeModel >> albumDo: aBlock [
+ToAlbumBasicModel >> albumDo: aBlock [
 
 	self announce: (ToActionRequiredFromAlbum  new
 			 valuable: aBlock;
@@ -22,50 +21,57 @@ ToAlbumPharoCodeModel >> albumDo: aBlock [
 ]
 
 { #category : #accessing }
-ToAlbumPharoCodeModel >> beEditable [
+ToAlbumBasicModel >> beEditable [
 
 	self mode: AlbEditableMode new
 ]
 
 { #category : #accessing }
-ToAlbumPharoCodeModel >> beReadonlyWithSelection [
+ToAlbumBasicModel >> beReadonlyWithSelection [
 
 	self mode: AlbReadonlyWithSelectionMode new
 ]
 
 { #category : #accessing }
-ToAlbumPharoCodeModel >> beReadonlyWithoutSelection [
+ToAlbumBasicModel >> beReadonlyWithoutSelection [
 
 	self mode: AlbReadonlyWithoutSelectionMode new
 ]
 
 { #category : #accessing }
-ToAlbumPharoCodeModel >> classOrMetaClass: aClass [
+ToAlbumBasicModel >> classOrMetaClass: aClass [
 
 	self stylerHolder classOrMetaClass: aClass
 ]
 
 { #category : #initialization }
-ToAlbumPharoCodeModel >> defaultFontName [
+ToAlbumBasicModel >> defaultCodeFontName [
 
 	^ AeFontManager defaultCodeFontFamilyName
 	
 ]
 
 { #category : #initialization }
-ToAlbumPharoCodeModel >> defaultStyler [
+ToAlbumBasicModel >> defaultFontName [
 
-	^ BlRBTextStyler new fontName: self fontName 
+	^ nil
+	
 ]
 
 { #category : #initialization }
-ToAlbumPharoCodeModel >> editStateChanged [
+ToAlbumBasicModel >> defaultStyler [
+
+	^ nil 
+]
+
+{ #category : #initialization }
+ToAlbumBasicModel >> editStateChanged [
 
 
 ]
 
 { #category : #'accessing - album' }
-ToAlbumPharoCodeModel >> editorElementDo: aBlock [
+ToAlbumBasicModel >> editorElementDo: aBlock [
 
 	self announce: (AlbActionRequiredFromEditorElement new
 			 valuable: aBlock;
@@ -73,20 +79,20 @@ ToAlbumPharoCodeModel >> editorElementDo: aBlock [
 ]
 
 { #category : #accessing }
-ToAlbumPharoCodeModel >> fontName [
+ToAlbumBasicModel >> fontName [
 
 	^ fontName
 ]
 
 { #category : #accessing }
-ToAlbumPharoCodeModel >> fontName: aFontName [
+ToAlbumBasicModel >> fontName: aFontName [
 
 	fontName = aFontName ifTrue: [ ^ self ].
 	fontName := aFontName
 ]
 
 { #category : #initialization }
-ToAlbumPharoCodeModel >> fontNameChanged [
+ToAlbumBasicModel >> fontNameChanged [
 
 	self stylerHolder fontName: self fontName.
 	self launchTextStyle
@@ -94,20 +100,20 @@ ToAlbumPharoCodeModel >> fontNameChanged [
 ]
 
 { #category : #accessing }
-ToAlbumPharoCodeModel >> hasUnacceptedEdits [
+ToAlbumBasicModel >> hasUnacceptedEdits [
 
 	^ hasUnacceptedEdits ifNil: [ hasUnacceptedEdits := false ]
 ]
 
 { #category : #accessing }
-ToAlbumPharoCodeModel >> hasUnacceptedEdits: aBoolean [
+ToAlbumBasicModel >> hasUnacceptedEdits: aBoolean [
 
 	hasUnacceptedEdits = aBoolean ifTrue: [ ^ self ].
 	hasUnacceptedEdits := aBoolean
 ]
 
 { #category : #initialization }
-ToAlbumPharoCodeModel >> initialize [
+ToAlbumBasicModel >> initialize [
 	
 	self class initializeSlots: self.
 	super initialize.
@@ -127,20 +133,20 @@ ToAlbumPharoCodeModel >> initialize [
 ]
 
 { #category : #accessing }
-ToAlbumPharoCodeModel >> isForWorkspace: aBoolean [
+ToAlbumBasicModel >> isForWorkspace: aBoolean [
 
 	self stylerHolder isForWorkspace: aBoolean
 ]
 
 { #category : #'text style' }
-ToAlbumPharoCodeModel >> launchTextStyle [
+ToAlbumBasicModel >> launchTextStyle [
 
 	" ask the stylerHolder through its observale slot "
 	self stylerHolderDo: [ self stylerHolder unstyledText: self text ]
 ]
 
 { #category : #accessing }
-ToAlbumPharoCodeModel >> mode [
+ToAlbumBasicModel >> mode [
 
 	^ mode
 
@@ -148,28 +154,27 @@ ToAlbumPharoCodeModel >> mode [
 ]
 
 { #category : #accessing }
-ToAlbumPharoCodeModel >> mode: anEditabilityMode [
+ToAlbumBasicModel >> mode: anEditabilityMode [
 
 	mode = anEditabilityMode ifTrue: [ ^ self ].
 	mode := anEditabilityMode
 ]
 
 { #category : #initialization }
-ToAlbumPharoCodeModel >> modeChanged [
+ToAlbumBasicModel >> modeChanged [
 
 	self stylerHolderDo: [ 
-		
 		self launchTextStyle ]
 ]
 
 { #category : #'accessing - album' }
-ToAlbumPharoCodeModel >> onAlbum: anAlbum [
+ToAlbumBasicModel >> onAlbum: anAlbum [
 
 	self onInstalledIn: anAlbum
 ]
 
 { #category : #'api - hooks' }
-ToAlbumPharoCodeModel >> onInstalledIn: anAlbum [
+ToAlbumBasicModel >> onInstalledIn: anAlbum [
 
 	"Is sent when I am added to an element "
 
@@ -202,26 +207,27 @@ ToAlbumPharoCodeModel >> onInstalledIn: anAlbum [
 ]
 
 { #category : #'api - hooks' }
-ToAlbumPharoCodeModel >> onUninstalledIn: anAlbum [
+ToAlbumBasicModel >> onUninstalledIn: anAlbum [
 
 	"Is sent when I am added to an element "
 
 	super onUninstalledIn: anAlbum.
 	self unsubscribe: anAlbum editorElement.
 	anAlbum viewModel unsubscribe: self.
+
 	stylerHolder releaseStyler.
 	stylerHolder := nil
 ]
 
 { #category : #'api-transaction' }
-ToAlbumPharoCodeModel >> requestSave [
+ToAlbumBasicModel >> requestSave [
 
 	self announce: ToAlbumSaveRequested new.
 	self saveResult: true
 ]
 
 { #category : #'api-transaction' }
-ToAlbumPharoCodeModel >> saveResult: aBoolean [
+ToAlbumBasicModel >> saveResult: aBoolean [
 
 	| announcement |
 	self hasUnacceptedEdits: aBoolean not.
@@ -232,20 +238,26 @@ ToAlbumPharoCodeModel >> saveResult: aBoolean [
 ]
 
 { #category : #accessing }
-ToAlbumPharoCodeModel >> stylerHolder [
+ToAlbumBasicModel >> styler: aStyler [
+
+	self stylerHolder styler: (aStyler fontName: self defaultCodeFontName; yourself)
+]
+
+{ #category : #accessing }
+ToAlbumBasicModel >> stylerHolder [
 
 	^ stylerHolder
 ]
 
 { #category : #accessing }
-ToAlbumPharoCodeModel >> stylerHolderDo: aBlock [
+ToAlbumBasicModel >> stylerHolderDo: aBlock [
 
 	stylerHolder ifNil: [ ^self ].
 	aBlock value
 ]
 
 { #category : #accessing }
-ToAlbumPharoCodeModel >> text [
+ToAlbumBasicModel >> text [
 
 	^ text
 
@@ -253,7 +265,7 @@ ToAlbumPharoCodeModel >> text [
 ]
 
 { #category : #accessing }
-ToAlbumPharoCodeModel >> text: aBlText [
+ToAlbumBasicModel >> text: aBlText [
 
 	text = aBlText ifTrue: [ ^ self ].
 	text := aBlText
@@ -262,27 +274,27 @@ ToAlbumPharoCodeModel >> text: aBlText [
 ]
 
 { #category : #initialization }
-ToAlbumPharoCodeModel >> textChanged [
+ToAlbumBasicModel >> textChanged [
 
 	" ask the stylerClient to style through its observal slot"
 	self launchTextStyle
 ]
 
 { #category : #'api - hooks' }
-ToAlbumPharoCodeModel >> textModifiedByTextEditor [
+ToAlbumBasicModel >> textModifiedByTextEditor [
 
 	self hasUnacceptedEdits: true.
 	self launchTextStyle
 ]
 
 { #category : #'slot - change hook' }
-ToAlbumPharoCodeModel >> unacceptedEditsDo: aBlock [
+ToAlbumBasicModel >> unacceptedEditsDo: aBlock [
 
 	aBlock value: self hasUnacceptedEdits
 ]
 
 { #category : #'slot - change hook' }
-ToAlbumPharoCodeModel >> whenEditStateChangedDo: aBlock [
+ToAlbumBasicModel >> whenEditStateChangedDo: aBlock [
 
 	"set a block to perform after that the text has been chanbed, and its action performed"
 
@@ -290,7 +302,7 @@ ToAlbumPharoCodeModel >> whenEditStateChangedDo: aBlock [
 ]
 
 { #category : #'slot - change hook' }
-ToAlbumPharoCodeModel >> whenFontNameChangedDo: aBlock [
+ToAlbumBasicModel >> whenFontNameChangedDo: aBlock [
 
 	"set a block to perform after that the mode has been chanbed, and its action performed"
 
@@ -298,7 +310,7 @@ ToAlbumPharoCodeModel >> whenFontNameChangedDo: aBlock [
 ]
 
 { #category : #'slot - change hook' }
-ToAlbumPharoCodeModel >> whenModeChangedDo: aBlock [
+ToAlbumBasicModel >> whenModeChangedDo: aBlock [
 
 	"set a block to perform after that the text has been chanbed, and its action performed"
 
@@ -306,7 +318,7 @@ ToAlbumPharoCodeModel >> whenModeChangedDo: aBlock [
 ]
 
 { #category : #'slot - change hook' }
-ToAlbumPharoCodeModel >> whenTextChangedDo: aBlock [
+ToAlbumBasicModel >> whenTextChangedDo: aBlock [
 
 	"set a block to perform after that the text has been chanbed, and its action performed"
 
@@ -314,7 +326,7 @@ ToAlbumPharoCodeModel >> whenTextChangedDo: aBlock [
 ]
 
 { #category : #accessing }
-ToAlbumPharoCodeModel >> workspace: aWorkspace [
+ToAlbumBasicModel >> workspace: aWorkspace [
 
 	self stylerHolder workspace: aWorkspace
 ]

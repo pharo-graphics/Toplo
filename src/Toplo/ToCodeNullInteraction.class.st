@@ -1,5 +1,5 @@
 Class {
 	#name : #ToCodeNullInteraction,
 	#superclass : #ToCodeInteraction,
-	#category : #'Toplo-Widgets'
+	#category : #'Toplo-Not-Used'
 }

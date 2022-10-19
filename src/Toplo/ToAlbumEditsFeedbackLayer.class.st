@@ -5,7 +5,7 @@ Class {
 		'feedback',
 		'backgroundAnimation'
 	],
-	#category : #'Toplo-Widgets'
+	#category : #'Toplo-Widget-Album'
 }
 
 { #category : #'api - attaching / detaching' }

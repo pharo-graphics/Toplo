@@ -8,11 +8,13 @@ Class {
 }
 
 { #category : #'api - attaching / detaching' }
-ToAlbumEditionFlagLayer >> attachTo: anEditorElement [
+ToAlbumEditionFlagLayer >> attachTo: anEditorElement fromModel: anAlbumModel [
 
-	super attachTo: anEditorElement.
-	anEditorElement viewModel when: AlbEditsStateChangedInModel send: #whenEditsStateChanged: to: self.
-	anEditorElement viewModel when: AlbSaveAccepted send: #whenSaveAcceptedFromModel: to: self.
+	super attachTo: anEditorElement fromModel: anAlbumModel.
+	anAlbumModel whenEditStateChangedDo: [ :state | 
+		state
+			ifTrue: [ self showEditionFlag ]
+			ifFalse: [ self hideEditionFlag ] ]
 ]
 
 { #category : #'api - attaching / detaching' }
@@ -64,16 +66,4 @@ ToAlbumEditionFlagLayer >> showEditionFlag [
 	editionFlag ifNotNil: [ ^ self ].
 	editionFlag := self newEditionFlag.
 	self addChild: editionFlag 
-]
-
-{ #category : #'api - attaching / detaching' }
-ToAlbumEditionFlagLayer >> whenEditsStateChanged: anEditsStateChangedAnnouncement [
-
-	anEditsStateChangedAnnouncement viewModel hasUnacceptedEdits ifTrue: [ self showEditionFlag ]
-]
-
-{ #category : #'api - attaching / detaching' }
-ToAlbumEditionFlagLayer >> whenSaveAcceptedFromModel: aSaveAcceptedAnnouncement [
-
-	aSaveAcceptedAnnouncement viewModel hasUnacceptedEdits ifFalse: [ self hideEditionFlag ]
 ]

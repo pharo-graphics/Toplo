@@ -101,9 +101,7 @@ ToLabel >> initialize [
 ToLabel >> newEditor [
 
 	| ed |
-	ed := ToAlbum new
-		      withEditionFlagLayer;
-		      yourself.
+	ed := ToAlbum new.
 	ed clipChildren: false.
 	ed editorElement constraintsDo: [ :c | 
 		c vertical fitContent ].

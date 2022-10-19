@@ -11,16 +11,10 @@ Class {
 	#category : #'Toplo-Widgets'
 }
 
-{ #category : #'instance creation' }
-ToAlbum class >> forPharoCode [
-
-	^ self new forPharoCode
-]
-
 { #category : #layers }
-ToAlbum >> addLayer: anAlbumLayer [
+ToAlbum >> addLayer: anAlbumLayer fromModel: anAlbumModel [
 
-	anAlbumLayer attachTo: self editorElement.
+	anAlbumLayer attachTo: self editorElement fromModel: anAlbumModel.
 	self addChild: anAlbumLayer
 ]
 
@@ -44,14 +38,6 @@ ToAlbum >> editorElement: anEditorElement [
 ]
 
 { #category : #initialization }
-ToAlbum >> forPharoCode [
-
-	self viewModel: AlbEditorPharoCodeModel new.
-	self withEditionFlagLayer.
-	self withCoverLayer 
-]
-
-{ #category : #initialization }
 ToAlbum >> initialize [
 
 	super initialize.
@@ -61,6 +47,18 @@ ToAlbum >> initialize [
 	self editorElement: self defaultEditorElement.
 ]
 
+{ #category : #accessing }
+ToAlbum >> mode [
+
+	^ self viewModel mode
+]
+
+{ #category : #accessing }
+ToAlbum >> mode: anEditabilityMode [
+
+	self viewModel mode: anEditabilityMode 
+]
+
 { #category : #layers }
 ToAlbum >> removeLayer: anAlbumLayer [
 
@@ -68,13 +66,13 @@ ToAlbum >> removeLayer: anAlbumLayer [
 	self removeChild: anAlbumLayer
 ]
 
-{ #category : #'text - accessing' }
+{ #category : #accessing }
 ToAlbum >> text [
 
 	^ self viewModel text
 ]
 
-{ #category : #'text - accessing' }
+{ #category : #accessing }
 ToAlbum >> text: aBlText [
 
 	self viewModel text: aBlText
@@ -92,20 +90,38 @@ ToAlbum >> viewModel: aViewModel [
 	self editorElement viewModel: aViewModel
 ]
 
-{ #category : #layers }
-ToAlbum >> withCoverLayer [
+{ #category : #'client - protocol' }
+ToAlbum >> whenActionRequired: anActionRequiredAnnouncement [
 
-	coverLayer ifNotNil: [ ^ self ].
-	coverLayer := ToAlbumCoverLayer new.
-	self addLayer: coverLayer
+	anActionRequiredAnnouncement value: self
+]
+
+{ #category : #'client - protocol' }
+ToAlbum >> whenModeChangedDo: aBlock [
+
+	editorElement viewModel whenModeChangedDo: aBlock
+]
+
+{ #category : #'client - protocol' }
+ToAlbum >> whenTextChangedDo: aBlock [
+
+	editorElement viewModel whenTextChangedDo: aBlock
 ]
 
 { #category : #layers }
-ToAlbum >> withEditionFlagLayer [
+ToAlbum >> withCoverLayerFromModel: anAlbumModel [
+
+	coverLayer ifNotNil: [ ^ self ].
+	coverLayer := ToAlbumCoverLayer new.
+	self addLayer: coverLayer fromModel: anAlbumModel	
+]
+
+{ #category : #layers }
+ToAlbum >> withEditionFlagLayerFromModel: anAlbumModel [
 
 	editionFlagLayer ifNotNil: [ ^ self ].
 	editionFlagLayer := ToAlbumEditionFlagLayer new.
-	self addLayer: editionFlagLayer
+	self addLayer: editionFlagLayer fromModel: anAlbumModel 
 ]
 
 { #category : #initialization }

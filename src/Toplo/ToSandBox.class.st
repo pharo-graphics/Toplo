@@ -10,14 +10,13 @@ ToSandBox class >> example_CodeEditorWithRBStylerWithDresser [
 	| text album space vscrollBar |
 	text := self methodText asRopedText.
 
-	album := ToAlbum forPharoCode.
+	album := ToAlbum new.
 	album viewModel text: text.
-	album viewModel classOrMetaClass: self class.
 	album withLineNumbers.
 	
 	"album editorElement editor inspect."
 	"album editorElement selectionView inspect."
-	album editorElement viewModel inspect.
+	"album editorElement viewModel inspect."
 
 	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c | 
@@ -27,6 +26,26 @@ ToSandBox class >> example_CodeEditorWithRBStylerWithDresser [
 		c ignored vertical alignBottom ].
 	vscrollBar attachTo: album editorElement.
 	album addChild: vscrollBar. 
+	space := OBlSpace new.
+	space root addChild: album.
+	space show.
+	^ album
+
+
+]
+
+{ #category : #album }
+ToSandBox class >> example_CodeEditorWithToClient [
+
+	| text album space client |
+	text := self methodText asRopedText.
+
+	album := ToAlbum new.
+	client := ToAlbumPharoCodeModel new onAlbum: album.	
+	client classOrMetaClass: self class.
+	client text: text.
+	album withLineNumbers.
+	
 	space := OBlSpace new.
 	space root addChild: album.
 	space show.

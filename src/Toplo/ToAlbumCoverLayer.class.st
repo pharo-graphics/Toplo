@@ -8,11 +8,10 @@ Class {
 }
 
 { #category : #'api - attaching / detaching' }
-ToAlbumCoverLayer >> attachTo: anEditorElement [
+ToAlbumCoverLayer >> attachTo: anEditorElement fromModel: anAlbumModel [
 
-	super attachTo: anEditorElement.
-	anEditorElement viewModel when: AlbSaveRequested send: #whenSaveRequestedFromModel: to: self.
-	anEditorElement viewModel when: ToAlbumCoverRequested send: #whenCoverRequested: to: self
+	super attachTo: anEditorElement fromModel: anAlbumModel.
+	anEditorElement viewModel when: AlbSaveRequested send: #whenSaveRequestedFromModel: to: self
 ]
 
 { #category : #'api - attaching / detaching' }
@@ -46,14 +45,8 @@ ToAlbumCoverLayer >> initialize [
 ]
 
 { #category : #'api - attaching / detaching' }
-ToAlbumCoverLayer >> whenCoverRequested: aCoverRequestedAnnouncement [
-
-	self coverWithColor: aCoverRequestedAnnouncement background paint color
-]
-
-{ #category : #'api - attaching / detaching' }
 ToAlbumCoverLayer >> whenSaveRequestedFromModel: aSaveRequestAnnounce [
 
-	aSaveRequestAnnounce viewModel hasUnacceptedEdits ifTrue: [ ^ self ].
+	model hasUnacceptedEdits ifTrue: [ ^ self ].
 	self coverWithColor: Color gray
 ]

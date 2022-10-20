@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-Label'
 }
 
+{ #category : #adding }
+ToLabelLineMode >> addEditorIn: aLabel [
+
+	^ self subclassResponsibility  
+]
+
 { #category : #initialization }
 ToLabelLineMode >> newTextElement [
 

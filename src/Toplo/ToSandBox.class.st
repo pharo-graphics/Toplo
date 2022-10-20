@@ -71,6 +71,26 @@ AeFontStretch: condensed expanded extraCondensed extraExpanded normal semiConden
 ]
 
 { #category : #album }
+ToSandBox class >> example_CodeEditorWithGhostText [
+
+	| text album space client |
+	text := ''.
+
+	album := ToAlbum new.
+	client := ToAlbumBasicModel new onAlbum: album.	
+	client text: text.
+	client withGhostText: 'Here is a GostText'.
+	album withLineNumbers.
+	
+	space := OBlSpace new.
+	space root addChild: album.
+	space show.
+	^ album
+
+
+]
+
+{ #category : #album }
 ToSandBox class >> example_CodeEditorWithRBStylerWithDresser [
 
 	| text album space vscrollBar |
@@ -283,6 +303,7 @@ ToSandBox class >> example_toLabel2 [
 
 	| lab |
 	lab := ToLabel new text: (('This is a Text') asRopedText fontName: AeFontManager defaultCodeFontFamilyName; fontSize: 20).
+	lab beMultiLine.
 	lab openInOBlSpace 
 ]
 
@@ -315,7 +336,6 @@ ToSandBox class >> example_toLabel4 [
 	root addChild: lab1.
 	lab2 := ToLabel new text: (('This is a Text', String cr, 'secondLine') asRopedText fontSize: 14).
 	lab2 border: (BlBorder paint: Color red width: 1).
-	lab2 addEditor.
 	root addChild: lab2.
 	lab3 := ToLabel new text: ('Third text' asRopedText fontSize: 14).
 	lab3 border: (BlBorder paint: Color red width: 1).

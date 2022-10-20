@@ -4,7 +4,8 @@ Class {
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
 		'#lineMode => ObservableSlot',
-		'#text => ObservableSlot'
+		'#text => ObservableSlot',
+		'#editorEventHandler'
 	],
 	#category : #'Toplo-Widget-Label'
 }
@@ -59,8 +60,22 @@ ToLabelModel >> onInstalledIn: anElement [
 	super onInstalledIn: anElement.
 	self whenTextChangedDo: [ :t | anElement privateText: t asRopedText ].
 	self whenLineModeChangedDo: [ :lm | anElement privateLineMode: lm ].
+	editorEventHandler := BlEventHandler
+		                      on: BlMouseDownEvent
+		                      do: [ :anEvent | 
+			                      (anEvent modifiers isShift and: [ anEvent modifiers isPrimaryModifier ]) ifTrue: [ 
+				                      anElement addEditor ] ].
+	anElement addEventHandler: editorEventHandler.
 	self lineMode: self defaultLineMode.
-	self text: self defaultText.
+	self text: self defaultText
+]
+
+{ #category : #'api - hooks' }
+ToLabelModel >> onUninstalledIn: anElement [
+
+	super onUninstalledIn: anElement.
+	anElement removeEventHandler: editorEventHandler.
+
 ]
 
 { #category : #accessing }

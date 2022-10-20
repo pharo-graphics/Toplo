@@ -56,6 +56,7 @@ ToMultiLineTextElement >> text: aBlText [
 { #category : #'event handling' }
 ToMultiLineTextElement >> textChanged [
 
+	self removeChildren.
 	lines := self splitText.
 	self addChildren: lines.
 ]

@@ -177,7 +177,7 @@ ToAlbumBasicModel >> onAlbum: anAlbum [
 ToAlbumBasicModel >> onInstalledIn: anAlbum [
 
 	"Is sent when I am added to an element "
-
+	
 	super onInstalledIn: anAlbum.
 	
 	anAlbum withEditsFeedbackFromModel: self.
@@ -191,7 +191,7 @@ ToAlbumBasicModel >> onInstalledIn: anAlbum [
 	self whenTextChangedDo: [:t | anAlbum text: t].
 	self whenModeChangedDo: [:m | anAlbum mode: m].
 	
-	anAlbum viewModel when: AlbTextModifiedByEditor send: #textModifiedByTextEditor to: self.
+	anAlbum viewModel when: AlbTextModifiedByEditor send: #whenTextModifiedByTextEditor: to: self.
 	anAlbum viewModel when: AlbSaveRequested send: #requestSave to: self.
 	
 	stylerHolder := AlbStylerHolder new
@@ -280,13 +280,6 @@ ToAlbumBasicModel >> textChanged [
 	self launchTextStyle
 ]
 
-{ #category : #'api - hooks' }
-ToAlbumBasicModel >> textModifiedByTextEditor [
-
-	self hasUnacceptedEdits: true.
-	self launchTextStyle
-]
-
 { #category : #'slot - change hook' }
 ToAlbumBasicModel >> unacceptedEditsDo: aBlock [
 
@@ -323,6 +316,28 @@ ToAlbumBasicModel >> whenTextChangedDo: aBlock [
 	"set a block to perform after that the text has been chanbed, and its action performed"
 
 	self property: #text whenChangedDo: aBlock
+]
+
+{ #category : #'api - hooks' }
+ToAlbumBasicModel >> whenTextModifiedByTextEditor: aTextModifiedByEditorAnnouncement [
+
+	self hasUnacceptedEdits: true.
+	self announce: (ToAlbumTextModified new text: self text).
+	"self editorElementDo: [ :ed | (ed viewModel text) traceCr]."
+	self launchTextStyle.
+
+]
+
+{ #category : #initialization }
+ToAlbumBasicModel >> withGhostText: aText [
+
+	self albumDo: [ :album | album withGhostText: aText fromModel: self ]
+]
+
+{ #category : #initialization }
+ToAlbumBasicModel >> withoutGhostText [
+
+	self albumDo: [ :album | album withoutGhostText ]
 ]
 
 { #category : #accessing }

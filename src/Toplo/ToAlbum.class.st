@@ -5,7 +5,8 @@ Class {
 	#classTraits : 'TOBlLayoutResizable classTrait',
 	#instVars : [
 		'editorElement',
-		'editsFeedbackLayer'
+		'editsFeedbackLayer',
+		'ghostTextLayer'
 	],
 	#category : #'Toplo-Widget-Album'
 }
@@ -115,6 +116,14 @@ ToAlbum >> withEditsFeedbackFromModel: anAlbumModel [
 	self addLayer: editsFeedbackLayer fromModel: anAlbumModel 
 ]
 
+{ #category : #layers }
+ToAlbum >> withGhostText: aText fromModel: anAlbumModel [
+
+	ghostTextLayer ifNotNil: [ ^ self ].
+	ghostTextLayer := ToAlbumGhostTextLayer new text: aText.
+	self addLayer: ghostTextLayer fromModel: anAlbumModel 
+]
+
 { #category : #initialization }
 ToAlbum >> withLineNumbers [
 
@@ -127,6 +136,14 @@ ToAlbum >> withoutEditsFeedback [
 	editsFeedbackLayer ifNil: [ ^ self ].
 	self removeLayer: editsFeedbackLayer.
 	editsFeedbackLayer := nil
+]
+
+{ #category : #layers }
+ToAlbum >> withoutGhostText [ 
+
+	ghostTextLayer ifNil: [ ^ self ].
+	self removeLayer: ghostTextLayer.
+	ghostTextLayer := nil
 ]
 
 { #category : #initialization }

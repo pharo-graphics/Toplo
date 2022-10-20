@@ -12,8 +12,16 @@ Class {
 { #category : #'private-editing' }
 ToLabel >> addEditor [
 
-	| editor editorOverlay |
+	self lineMode addEditorIn: self
+]
+
+{ #category : #'private-editing' }
+ToLabel >> addEditor: anEditor [
+
+	| editorOverlay |
+	self userData at: #editorOverlay ifPresent: [ ^ self ]. 
 	self userData at: #editorOverlay put: (editorOverlay := BlOverlayElement new).
+	self userData at: #editor put: anEditor.
 	editorOverlay
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
@@ -21,13 +29,26 @@ ToLabel >> addEditor [
 		clipChildren: false.
 	self elevation: (BlRelativeElevation elevation: 1000).
 	editorOverlay fitVertically: false.
-	editor := self newEditor.
 	editorOverlay attachTo: self.
-	editorOverlay addChild: editor.
+	editorOverlay addChild: anEditor.
 	self previousClipping: self clipChildren.
+	self previousVisibility: self textElement visibility.
 	self clipChildren: false.
+	self textElement visibility: BlVisibility gone.
 	self addChild: editorOverlay.
-	editor editorElement requestFocus
+	anEditor editorElement requestFocus
+]
+
+{ #category : #initialization }
+ToLabel >> beMonoLine [
+
+	self lineMode: ToLabelMultiLineMode new
+]
+
+{ #category : #initialization }
+ToLabel >> beMultiLine [
+
+	self lineMode: ToLabelMultiLineMode new
 ]
 
 { #category : #initialization }
@@ -40,13 +61,13 @@ ToLabel >> defaulViewModel [
 { #category : #initialization }
 ToLabel >> defaultLayout [
 
-	^ AlbLineFlowLayout new
+	^ AlbLineFlowLayout new 
 ]
 
 { #category : #initialization }
 ToLabel >> defaultPaddings [
 
-	^ BlInsets all: 2 
+	^ BlInsets all: 4 
 		  
 ]
 
@@ -134,11 +155,25 @@ ToLabel >> previousClipping: aBoolean [
 	self userData at: #previousClipping put: aBoolean
 ]
 
+{ #category : #'private-editing' }
+ToLabel >> previousVisibility [
+
+	^ self userData at: #previousVisibility
+]
+
+{ #category : #'private-editing' }
+ToLabel >> previousVisibility: aBlVisibility [
+
+	self userData at: #previousVisibility put: aBlVisibility
+]
+
 { #category : #'private-change' }
 ToLabel >> privateLineMode: aLineMode [
-
+	| currText |
+	currText := self text.
 	textElement ifNotNil: [ 	self removeChild: textElement ].
 	textElement := self defaultTextElement.
+	currText ifNotNil: [textElement text: currText].
 	self addChild: textElement
 ]
 
@@ -159,13 +194,16 @@ ToLabel >> privateText: aText [
 ToLabel >> removeEditor [
 
 	| editorOverlay |
+	self userData at: #editor ifAbsent: [ ^ self ].
 	editorOverlay := self editorOverlay.
 	self removeChild: editorOverlay.
 	editorOverlay detach.
 	editorOverlay removeChildren.
 	self userData removeKey: #editorOverlay.
+	self userData removeKey: #editor.
 	self clipChildren: self previousClipping.
 	self userData removeKey: #previousClipping.
+	self textElement visibility: self previousVisibility 
 
 ]
 

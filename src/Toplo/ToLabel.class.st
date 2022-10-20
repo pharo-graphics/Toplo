@@ -9,7 +9,7 @@ Class {
 	#category : #'Toplo-Widget-Label'
 }
 
-{ #category : #'private-label editing' }
+{ #category : #'private-editing' }
 ToLabel >> addEditor [
 
 	| editor editorOverlay |
@@ -58,12 +58,10 @@ ToLabel >> defaultText [
 { #category : #initialization }
 ToLabel >> defaultTextElement [
 
-	^ BlAttributedTextElement new
-		  editorMeasurement;
-		  yourself
+	^ self lineMode newTextElement
 ]
 
-{ #category : #'private-label editing' }
+{ #category : #'private-editing' }
 ToLabel >> editorOverlay [
 
 	^ self userData at: #editorOverlay 
@@ -85,19 +83,33 @@ ToLabel >> horizontalAlignment: aBlElementAlignment [
 
 { #category : #initialization }
 ToLabel >> initialize [
-
+	
+	self class initializeSlots: self.
 	super initialize.
-	textElement := self defaultTextElement.
+	
 	self viewModel: self defaulViewModel.	
 	self padding: self defaultPaddings.
 	self background: self defaultBackground.
 	self layout: self defaultLayout.
 	self hMatchParent.
 	self vFitContent.
+	textElement := self defaultTextElement.
 	self addChild: textElement
 ]
 
-{ #category : #'private-label editing' }
+{ #category : #accessing }
+ToLabel >> lineMode [
+
+	^ self viewModel lineMode
+]
+
+{ #category : #accessing }
+ToLabel >> lineMode: aLineMode [
+
+	self viewModel lineMode: aLineMode
+]
+
+{ #category : #'private-editing' }
 ToLabel >> newEditor [
 
 	| ed |
@@ -112,17 +124,38 @@ ToLabel >> newEditor [
 	^ ed
 ]
 
-{ #category : #'private-label editing' }
+{ #category : #'private-editing' }
 ToLabel >> previousClipping [
 	^ self userData at: #previousClipping 
 ]
 
-{ #category : #'private-label editing' }
+{ #category : #'private-editing' }
 ToLabel >> previousClipping: aBoolean [
 	self userData at: #previousClipping put: aBoolean
 ]
 
-{ #category : #'private-label editing' }
+{ #category : #'private-change' }
+ToLabel >> privateLineMode: aLineMode [
+
+	textElement ifNotNil: [ 	self removeChild: textElement ].
+	textElement := self defaultTextElement.
+	self addChild: textElement
+]
+
+{ #category : #accessing }
+ToLabel >> privateText [
+	<return: #BlText>
+
+	^ self textElement text
+]
+
+{ #category : #accessing }
+ToLabel >> privateText: aText [
+
+	self textElement text: aText
+]
+
+{ #category : #'private-editing' }
 ToLabel >> removeEditor [
 
 	| editorOverlay |
@@ -147,12 +180,6 @@ ToLabel >> text [
 ToLabel >> text: aStringOrBlText [
 
 	self viewModel text: aStringOrBlText
-]
-
-{ #category : #accessing }
-ToLabel >> textChanged: aText [
-
-	self textElement text: aText asRopedText
 ]
 
 { #category : #accessing }

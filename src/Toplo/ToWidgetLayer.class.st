@@ -1,15 +1,15 @@
 Class {
-	#name : #ToAlbumLayer,
+	#name : #ToWidgetLayer,
 	#superclass : #BlOverlayElement,
 	#instVars : [
 		'delegator',
 		'model'
 	],
-	#category : #'Toplo-Widget-Album'
+	#category : #'Toplo-Core'
 }
 
 { #category : #'api - attaching / detaching' }
-ToAlbumLayer >> attachTo: anElement fromModel: anAlbumModel [
+ToWidgetLayer >> attachTo: anElement fromModel: anAlbumModel [
 
 	model := anAlbumModel.
 	self attachTo: anElement.
@@ -18,7 +18,7 @@ ToAlbumLayer >> attachTo: anElement fromModel: anAlbumModel [
 ]
 
 { #category : #'api - attaching / detaching' }
-ToAlbumLayer >> detach [
+ToWidgetLayer >> detach [
 
 	self removeEventHandler: delegator.
 	delegator := nil.

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToLabel,
 	#superclass : #ToBasicWidget,
-	#traits : 'TBlAlignable + TOBlLayoutResizable',
-	#classTraits : 'TBlAlignable classTrait + TOBlLayoutResizable classTrait',
+	#traits : 'TBlAlignable + TOBlLayoutResizable + TToWidgetWithLayers',
+	#classTraits : 'TBlAlignable classTrait + TOBlLayoutResizable classTrait + TToWidgetWithLayers classTrait',
 	#instVars : [
 		'textElement'
 	],
@@ -86,6 +86,18 @@ ToLabel >> defaultText [
 ToLabel >> defaultTextElement [
 
 	^ self lineMode newTextElement
+]
+
+{ #category : #accessing }
+ToLabel >> editable [
+
+	^ self viewModel editable
+]
+
+{ #category : #private }
+ToLabel >> editable: aBoolean [
+
+	self viewModel editable: aBoolean
 ]
 
 { #category : #'private-editing' }

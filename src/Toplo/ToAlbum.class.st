@@ -1,8 +1,8 @@
 Class {
 	#name : #ToAlbum,
 	#superclass : #ToWidget,
-	#traits : 'TOBlLayoutResizable',
-	#classTraits : 'TOBlLayoutResizable classTrait',
+	#traits : 'TOBlLayoutResizable + TToWidgetWithLayers',
+	#classTraits : 'TOBlLayoutResizable classTrait + TToWidgetWithLayers classTrait',
 	#instVars : [
 		'editorElement',
 		'editsFeedbackLayer',
@@ -10,13 +10,6 @@ Class {
 	],
 	#category : #'Toplo-Widget-Album'
 }
-
-{ #category : #layers }
-ToAlbum >> addLayer: anAlbumLayer fromModel: anAlbumModel [
-
-	anAlbumLayer attachTo: self editorElement fromModel: anAlbumModel.
-	self addChild: anAlbumLayer
-]
 
 { #category : #initialization }
 ToAlbum >> defaultEditorElement [
@@ -59,13 +52,6 @@ ToAlbum >> mode [
 ToAlbum >> mode: anEditabilityMode [
 
 	self viewModel mode: anEditabilityMode 
-]
-
-{ #category : #layers }
-ToAlbum >> removeLayer: anAlbumLayer [
-
-	anAlbumLayer detach.
-	self removeChild: anAlbumLayer
 ]
 
 { #category : #accessing }
@@ -122,7 +108,7 @@ ToAlbum >> withEditsFeedbackFromModel: anAlbumModel [
 ToAlbum >> withGhostText: aText fromModel: anAlbumModel [
 
 	ghostTextLayer ifNotNil: [ ^ self ].
-	ghostTextLayer := ToAlbumGhostTextLayer new text: aText.
+	ghostTextLayer := ToGhostTextLayer new text: aText.
 	self addLayer: ghostTextLayer fromModel: anAlbumModel 
 ]
 

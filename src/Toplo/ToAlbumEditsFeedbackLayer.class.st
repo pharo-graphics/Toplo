@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAlbumEditsFeedbackLayer,
-	#superclass : #ToAlbumLayer,
+	#superclass : #ToWidgetLayer,
 	#instVars : [
 		'feedback',
 		'backgroundAnimation'

@@ -1,15 +1,14 @@
 Class {
-	#name : #ToAlbumGhostTextLayer,
-	#superclass : #ToAlbumLayer,
+	#name : #ToGhostTextLayer,
+	#superclass : #ToWidgetLayer,
 	#instVars : [
-		'label',
-		'labelHolder'
+		'label'
 	],
-	#category : #'Toplo-Widget-Album'
+	#category : #'Toplo-Core'
 }
 
 { #category : #'api - attaching / detaching' }
-ToAlbumGhostTextLayer >> attachTo: anEditorElement fromModel: anAlbumModel [
+ToGhostTextLayer >> attachTo: anEditorElement fromModel: anAlbumModel [
 
 	super attachTo: anEditorElement fromModel: anAlbumModel.
 
@@ -21,7 +20,7 @@ ToAlbumGhostTextLayer >> attachTo: anEditorElement fromModel: anAlbumModel [
 ]
 
 { #category : #initialization }
-ToAlbumGhostTextLayer >> initialize [
+ToGhostTextLayer >> initialize [
 
 	super initialize.
 	self
@@ -41,7 +40,7 @@ ToAlbumGhostTextLayer >> initialize [
 ]
 
 { #category : #accessing }
-ToAlbumGhostTextLayer >> text: aBlText [
+ToGhostTextLayer >> text: aBlText [
 
 	label text: aBlText
 ]

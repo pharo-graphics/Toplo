@@ -270,6 +270,7 @@ ToSandBox class >> example_toLabel3 [
 	lab textElement bold.
 	lab background: Color lightBlue.
 	lab textElement foreground: Color gray.
+	lab editable: true.
 	lab border: (BlBorder paint: Color yellow width: 1).
 	lab openInOBlSpace
 ]
@@ -284,11 +285,11 @@ ToSandBox class >> example_toLabel4 [
 
 	root layout: BlLinearLayout vertical.
 	lab1 := ToLabel new text: ('' asRopedText fontSize: 14).
+	lab1 viewModel editable: true.
 	lab1 vFitContent.
 	"lab1 withGhostText: 'cmd-shift-mouseDown to enter text editing - hit Cr to accept text or Esc to cancel'."
 	lab1 hMatchParent.
 	lab1 alignCenter.
-	"lab1 fitContent."
 
 	lab1 border: (BlBorder paint: Color red width: 1).
 	root addChild: lab1.
@@ -297,6 +298,9 @@ ToSandBox class >> example_toLabel4 [
 	lab2 vFitContent.
 	lab2 hMatchParent.
 	lab2 border: (BlBorder paint: Color red width: 1).
+	lab2 viewModel editable: true.
+
+	
 	root addChild: lab2.
 	lab3 := ToLabel new text: ('Third text' asRopedText fontSize: 14).
 	lab3 border: (BlBorder paint: Color red width: 1).

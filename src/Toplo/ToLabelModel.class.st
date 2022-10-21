@@ -29,7 +29,7 @@ ToLabelModel >> defaultLineMode [
 { #category : #initialization }
 ToLabelModel >> defaultText [
 
-	^ ''
+	^ '' asRopedText
 ]
 
 { #category : #initialization }

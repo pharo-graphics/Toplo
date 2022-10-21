@@ -71,56 +71,6 @@ AeFontStretch: condensed expanded extraCondensed extraExpanded normal semiConden
 ]
 
 { #category : #album }
-ToSandBox class >> example_CodeEditorWithGhostText [
-
-	| text album space client |
-	text := ''.
-
-	album := ToAlbum new.
-	client := ToAlbumBasicModel new onAlbum: album.	
-	client text: text.
-	client withGhostText: 'Here is a GostText'.
-	album withLineNumbers.
-	
-	space := OBlSpace new.
-	space root addChild: album.
-	space show.
-	^ album
-
-
-]
-
-{ #category : #album }
-ToSandBox class >> example_CodeEditorWithRBStylerWithDresser [
-
-	| text album space vscrollBar |
-	text := self methodText asRopedText.
-
-	album := ToAlbum new.
-	album viewModel text: text.
-	album withLineNumbers.
-	
-	"album editorElement editor inspect."
-	"album editorElement selectionView inspect."
-	"album editorElement viewModel inspect."
-
-	vscrollBar := BlVerticalScrollbarElement new.
-	vscrollBar constraintsDo: [ :c | 
-		c ignoreByLayout.
-		c margin: (BlInsets right: 2).
-		c ignored horizontal alignRight.
-		c ignored vertical alignBottom ].
-	vscrollBar attachTo: album editorElement.
-	album addChild: vscrollBar. 
-	space := OBlSpace new.
-	space root addChild: album.
-	space show.
-	^ album
-
-
-]
-
-{ #category : #album }
 ToSandBox class >> example_CodeEditorWithToClient [
 
 	| text album space client |
@@ -141,6 +91,29 @@ ToSandBox class >> example_CodeEditorWithToClient [
 	^ album
 
 
+]
+
+{ #category : #album }
+ToSandBox class >> example_EditorWithGhostText [
+
+	| text album space client message |
+	message := 'Here is a GhostText' , String cr , 'It is visible only in case of empty text', String cr, String cr.
+	message := message , '- Cmd-shift-mouseDown to enter text editing' , String cr
+	           , '- Cmd-Cr to accept text', String cr, '- Esc to cancel editing'.
+	text := message asRopedText.
+	text foreground: Color lightGray.
+	text fontSize: 24.
+
+	album := ToAlbum new.
+	client := ToAlbumBasicModel new onAlbum: album.
+	client text: ''.
+	client withGhostText: text.
+	album withLineNumbers.
+
+	space := OBlSpace new.
+	space root addChild: album.
+	space show.
+	^ album
 ]
 
 { #category : #elements }
@@ -266,7 +239,7 @@ ToSandBox class >> example_ExperimentForMultilineLabel5 [
 		        constraintsDo: [ :c | 
 			        c vertical matchParent.
 			        c horizontal matchParent ];
-		        layout: BlLinearLayout vertical alignTopCenter.
+		        layout: BlLinearLayout vertical alignCenter.
 	itor := text iterator.
 	[ itor hasNext ] whileTrue: [ 
 		itor nextLineIndicesDo: [ :aLineStart :aLineEnd :aLineDelimiterEnd | 
@@ -284,37 +257,17 @@ ToSandBox class >> example_ExperimentForMultilineLabel5 [
 				               addChildren:
 					               (cutted collect: [ :w | 
 							                w asElement editorMeasurement ]).
-			"lineElement constraintsDo: [ :c | c linear horizontal alignCenter ]."
 			root addChild: lineElement ] ].
 
 	root openInOBlSpace
 ]
 
 { #category : #label }
-ToSandBox class >> example_toLabel1 [
-
-	| lab |
-	lab := ToLabel new text: ('This is a Text', String cr, 'secondLine').
-	lab openInOBlSpace 
-]
-
-{ #category : #label }
-ToSandBox class >> example_toLabel2 [
-
-	| lab |
-	lab := ToLabel new text: (('This is a Text') asRopedText fontName: AeFontManager defaultCodeFontFamilyName; fontSize: 20).
-	lab beMultiLine.
-	lab openInOBlSpace 
-]
-
-{ #category : #label }
 ToSandBox class >> example_toLabel3 [
 
 	| lab |
-	lab := ToLabel new text: ('This is a bold text' asRopedText fontSize: 20).
-	lab alignCenterRight.
+	lab := ToLabel new text: ('This is a bold label' asRopedText fontSize: 20).
 	lab textElement bold.
-	lab hFitContent.
 	lab background: Color lightBlue.
 	lab textElement foreground: Color gray.
 	lab border: (BlBorder paint: Color yellow width: 1).
@@ -326,26 +279,56 @@ ToSandBox class >> example_toLabel4 [
 
 	| lab1 lab2 lab3 root |
 	root := BlElement new constraintsDo: [ :c | 
-		        c vertical matchParent.
+		        c vertical fitContent.
 		        c horizontal matchParent ].
 
 	root layout: BlLinearLayout vertical.
-	lab1 := ToLabel new text: ('First text' asRopedText fontSize: 14).
-	lab1  border: (BlBorder paint: Color red width: 1).
-	"lab1 addEditor."
+	lab1 := ToLabel new text: ('' asRopedText fontSize: 14).
+	lab1 vFitContent.
+	"lab1 withGhostText: 'cmd-shift-mouseDown to enter text editing - hit Cr to accept text or Esc to cancel'."
+	lab1 hMatchParent.
+	lab1 alignCenter.
+	"lab1 fitContent."
+
+	lab1 border: (BlBorder paint: Color red width: 1).
 	root addChild: lab1.
-	lab2 := ToLabel new text: (('This is a Text', String cr, 'secondLine') asRopedText fontSize: 14).
+	lab2 := ToLabel new text: (('This is a Text' , String cr , 'secondLine') asRopedText fontSize: 14).
+	lab2 beMultiLine.
+	lab2 vFitContent.
+	lab2 hMatchParent.
 	lab2 border: (BlBorder paint: Color red width: 1).
 	root addChild: lab2.
 	lab3 := ToLabel new text: ('Third text' asRopedText fontSize: 14).
 	lab3 border: (BlBorder paint: Color red width: 1).
-	"lab3 addEditor."
+	lab3 vFitContent.
+	lab3 hMatchParent.
 	root addChild: lab3.
-	root openInOBlSpace.
+	root openInOBlSpace
+]
 
+{ #category : #label }
+ToSandBox class >> example_toLabel_Multiline1 [
+
+	| lab |
+	lab := ToLabel new text: ('This is a Text', String cr, 'secondLine').
+	lab beMultiLine.
+	lab openInOBlSpace 
+]
+
+{ #category : #label }
+ToSandBox class >> example_toLabel_Multiline2_Centered [
+
+	| lab space |
+	lab := ToLabel new text: (('This is a Centered Text - size 20') asRopedText fontName: AeFontManager defaultCodeFontFamilyName; fontSize: 20).
+	lab beMultiLine.
+	lab alignCenter.
+	lab fitContent.
+	space := lab openInOBlSpace.
+	space root layout: BlLinearLayout vertical alignCenter.
+	
 ]
 
 { #category : #accessing }
 ToSandBox class >> methodText [
-	^ self  class sourceCodeAt: #example_CodeEditorWithRBStylerWithDresser
+	^ self  class sourceCodeAt: #example_CodeEditorWithToClient
 ]

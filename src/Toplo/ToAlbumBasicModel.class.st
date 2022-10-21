@@ -1,6 +1,7 @@
 Class {
 	#name : #ToAlbumBasicModel,
 	#superclass : #OBlElementCompanion,
+	#traits : 'TObservable',
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
 		'#hasUnacceptedEdits => ObservableSlot',
@@ -62,6 +63,13 @@ ToAlbumBasicModel >> defaultFontName [
 ToAlbumBasicModel >> defaultStyler [
 
 	^ nil 
+]
+
+{ #category : #initialization }
+ToAlbumBasicModel >> defaultText [
+
+	^ '' asRopedText
+	
 ]
 
 { #category : #initialization }
@@ -202,6 +210,8 @@ ToAlbumBasicModel >> onInstalledIn: anAlbum [
 	stylerHolder whenStyledTextChangedDo: [ :styledText | 
 		self text takeInternalRepresentationOf: styledText.
 		self editorElementDo: [ :element | element textInternalRepresentationChanged ] ].
+	
+	self text: self defaultText
 
 
 ]
@@ -267,8 +277,8 @@ ToAlbumBasicModel >> text [
 { #category : #accessing }
 ToAlbumBasicModel >> text: aBlText [
 
-	text = aBlText ifTrue: [ ^ self ].
-	text := aBlText
+	text == aBlText ifTrue: [ ^ self ].
+	text := aBlText asRopedText 
 
 	
 ]
@@ -323,7 +333,6 @@ ToAlbumBasicModel >> whenTextModifiedByTextEditor: aTextModifiedByEditorAnnounce
 
 	self hasUnacceptedEdits: true.
 	self announce: (ToAlbumTextModified new text: self text).
-	"self editorElementDo: [ :ed | (ed viewModel text) traceCr]."
 	self launchTextStyle.
 
 ]

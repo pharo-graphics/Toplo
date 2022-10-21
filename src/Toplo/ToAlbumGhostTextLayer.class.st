@@ -2,7 +2,8 @@ Class {
 	#name : #ToAlbumGhostTextLayer,
 	#superclass : #ToAlbumLayer,
 	#instVars : [
-		'label'
+		'label',
+		'labelHolder'
 	],
 	#category : #'Toplo-Widget-Album'
 }
@@ -11,40 +12,36 @@ Class {
 ToAlbumGhostTextLayer >> attachTo: anEditorElement fromModel: anAlbumModel [
 
 	super attachTo: anEditorElement fromModel: anAlbumModel.
-	
+
 	" add/remove according to unaccepted text size"
 	anAlbumModel when: ToAlbumTextModified do: [ :announce | 
-		announce text ifEmpty: [ label visibility: BlVisibility visible ] ifNotEmpty: [ BlVisibility gone ] ]
+		announce text
+			ifEmpty: [ label visibility: BlVisibility visible ]
+			ifNotEmpty: [ label visibility: BlVisibility hidden ] ]
 ]
 
 { #category : #initialization }
 ToAlbumGhostTextLayer >> initialize [
 
-	| e |
 	super initialize.
-	"self layout: BlFrameLayout new."
-	self constraintsDo: [ :c | 
-		c horizontal matchParent.
-		c vertical matchParent ].
-
+	self
+		layout: BlFrameLayout new;
+		constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent ].
 	label := ToLabel new
+		         fitContent;
 		         constraintsDo: [ :c | 
-			         c frame vertical alignTop.
-			         c frame horizontal alignRight ];
+			         c frame vertical alignCenter.
+			         c frame horizontal alignCenter ];
 		         beMultiLine;
+		         alignCenter;
 		         yourself.
-	label := (BlElement new
-		      background: Color red;
-		      border: (BlBorder paint: Color lightGray width: 4))
-		     size: 100 @ 100;
-		     constraintsDo: [ :c | 
-			     c frame horizontal alignRight.
-			     c frame vertical alignTop ].
 	self addChild: label
 ]
 
 { #category : #accessing }
 ToAlbumGhostTextLayer >> text: aBlText [
 
-	"label text: aBlText"
+	label text: aBlText
 ]

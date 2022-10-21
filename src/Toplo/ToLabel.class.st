@@ -19,22 +19,18 @@ ToLabel >> addEditor [
 ToLabel >> addEditor: anEditor [
 
 	| editorOverlay |
-	self userData at: #editorOverlay ifPresent: [ ^ self ]. 
+	self userData at: #editorOverlay ifPresent: [ ^ self ].
 	self userData at: #editorOverlay put: (editorOverlay := BlOverlayElement new).
 	self userData at: #editor put: anEditor.
-	editorOverlay
-		constraintsDo: [ :c | 
-			c horizontal fitContent.
-			c vertical fitContent ];
-		clipChildren: false.
+	editorOverlay clipChildren: false.
 	self elevation: (BlRelativeElevation elevation: 1000).
 	editorOverlay fitVertically: false.
 	editorOverlay attachTo: self.
 	editorOverlay addChild: anEditor.
 	self previousClipping: self clipChildren.
 	self previousVisibility: self textElement visibility.
+	self textElement visibility: BlVisibility hidden.
 	self clipChildren: false.
-	self textElement visibility: BlVisibility gone.
 	self addChild: editorOverlay.
 	anEditor editorElement requestFocus
 ]
@@ -136,12 +132,9 @@ ToLabel >> newEditor [
 	| ed |
 	ed := ToAlbum new.
 	ed clipChildren: false.
-	ed editorElement constraintsDo: [ :c | 
-		c vertical fitContent ].
 	ed editorElement padding: self padding.
 	ed text: self text copy.
-	ed matchParent.
-
+	ed fitContent.
 	^ ed
 ]
 

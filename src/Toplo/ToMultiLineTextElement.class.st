@@ -17,7 +17,7 @@ ToMultiLineTextElement >> initialize [
 	super initialize.
 	self
 		constraintsDo: [ :c | 
-			c vertical fitContent.
+			c vertical matchParent.
 			c horizontal fitContent ];
 		layout: BlLinearLayout vertical.
 	lines := OrderedCollection new.

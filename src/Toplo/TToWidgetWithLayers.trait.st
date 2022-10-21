@@ -4,10 +4,16 @@ Trait {
 }
 
 { #category : #'api-layers' }
-TToWidgetWithLayers >> addLayer: aToWidgetLayer fromModel: anAlbumModel [
+TToWidgetWithLayers >> addLayer: aToWidgetLayer from: anAlbumClient [
 
-	aToWidgetLayer attachTo: self editorElement fromModel: anAlbumModel.
+	aToWidgetLayer attachTo: self layerReferentElement from: anAlbumClient.
 	self addChild: aToWidgetLayer
+]
+
+{ #category : #'as yet unclassified' }
+TToWidgetWithLayers >> layerReferentElement [
+
+		^ self explicitRequirement
 ]
 
 { #category : #'api-layers' }

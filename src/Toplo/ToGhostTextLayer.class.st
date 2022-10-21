@@ -8,15 +8,20 @@ Class {
 }
 
 { #category : #'api - attaching / detaching' }
-ToGhostTextLayer >> attachTo: anEditorElement fromModel: anAlbumModel [
+ToGhostTextLayer >> attachTo: anEditorElement from: anAlbumClient [
 
-	super attachTo: anEditorElement fromModel: anAlbumModel.
-
+	super attachTo: anEditorElement from: anAlbumClient.
+	self checkText: anEditorElement text.
 	" add/remove according to unaccepted text size"
-	anAlbumModel when: ToAlbumTextModified do: [ :announce | 
-		announce text
-			ifEmpty: [ label visibility: BlVisibility visible ]
-			ifNotEmpty: [ label visibility: BlVisibility hidden ] ]
+	anAlbumClient when: ToAlbumTextModified do: [ :announce | self checkText: announce text ]
+]
+
+{ #category : #'api - attaching / detaching' }
+ToGhostTextLayer >> checkText: aText [
+
+	aText
+		ifEmpty: [ label visibility: BlVisibility visible ]
+		ifNotEmpty: [ label visibility: BlVisibility hidden ]
 ]
 
 { #category : #initialization }

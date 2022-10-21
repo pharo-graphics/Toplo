@@ -73,11 +73,19 @@ AeFontStretch: condensed expanded extraCondensed extraExpanded normal semiConden
 { #category : #album }
 ToSandBox class >> example_CodeEditorWithToClient [
 
+"
+The Client is a defined by user class. 
+ToAlbumBasicClient implement typical Album user with a styler.
+It is a kind of model but without any association from the widget to the client (no reference to the client is stored in widget).
+It can be used and subclassed to support comment and code editing, workspace implementation...
+All the different kind of Album using should use the available basic client class or subclass it for specific purpose.
+Here an example of a client for a method.
+"
+
 	| text album space client |
 	text := self methodText asRopedText.
-
 	album := ToAlbum new.
-	client := ToAlbumBasicModel new onAlbum: album.	
+	client := ToAlbumBasicClient new onAlbum: album; yourself.	
 	client styler: BlRBTextStyler new.
 	client classOrMetaClass: self class.
 	client text: text.
@@ -105,7 +113,7 @@ ToSandBox class >> example_EditorWithGhostText [
 	text fontSize: 24.
 
 	album := ToAlbum new.
-	client := ToAlbumBasicModel new onAlbum: album.
+	client := ToAlbumBasicClient new onAlbum: album; yourself.
 	client text: ''.
 	client withGhostText: text.
 	album withLineNumbers.
@@ -114,152 +122,6 @@ ToSandBox class >> example_EditorWithGhostText [
 	space root addChild: album.
 	space show.
 	^ album
-]
-
-{ #category : #elements }
-ToSandBox class >> example_ExperimentForMultilineLabel [
-
-	| element l |
-	l := ToTextScissor new cut: String loremIpsum asRopedText.
-
-	element := BlElement new
-		           layout: AlbLineFlowLayout new;
-		           constraintsDo: [ :c | 
-			           c horizontal matchParent.
-			           c vertical fitContent ];
-		           addChildren: (l collect: [ :w | w asElement editorMeasurement ]).
-	element openInOBlSpace
-]
-
-{ #category : #elements }
-ToSandBox class >> example_ExperimentForMultilineLabel0 [
-
-	| element l |
-	l := ToTextScissor new cut: ('This is a text' asRopedText fontSize: 20).
-
-	element := BlElement new
-		           layout: AlbLineFlowLayout new;
-		           constraintsDo: [ :c | 
-			           c horizontal matchParent.
-			           c vertical fitContent ];
-		           addChildren: (l collect: [ :w | w asElement editorMeasurement ]).
-	element border: (BlBorder paint: Color gray width: 1).
-	element inspect.
-	element openInOBlSpace
-]
-
-{ #category : #elements }
-ToSandBox class >> example_ExperimentForMultilineLabel2 [
-
-	| element l |
-	l := ToTextScissor new cut: (('Default font and size' asRopedText, ('Source code pro 40 bold' asRopedText fontSize: 40; fontName: 'Source code pro'; bold) 
-	 , (' Default font 30' asRopedText fontSize: 30))).
-
-	element := BlElement new
-		           layout: AlbLineFlowLayout new;
-		           constraintsDo: [ :c | 
-			           c horizontal matchParent.
-			           c vertical fitContent ];
-		           addChildren: (l collect: [ :w | w asElement editorMeasurement ]).
-	element openInOBlSpace
-]
-
-{ #category : #elements }
-ToSandBox class >> example_ExperimentForMultilineLabel3 [
-
-	| root text itor |
-	text := 'Default font and size' asRopedText , String cr asRopedText , ('Source code pro 40 bold' asRopedText
-		         fontSize: 40;
-		         fontName: 'Source code pro';
-		         bold) , String cr asRopedText , (' Default font 30' asRopedText fontSize: 30).
-
-	root := BlElement new
-		        constraintsDo: [ :c | 
-			        c vertical matchParent.
-			        c horizontal matchParent ];
-		        layout: BlLinearLayout vertical.
-
-	itor := text iterator.
-	[ itor hasNext ] whileTrue: [ 
-		itor nextLineIndicesDo: [ :aLineStart :aLineEnd :aLineDelimiterEnd | 
-			| sub cutted lineElement |
-			sub := text from: aLineStart to: aLineEnd.
-			cutted := ToTextScissor new cut: sub.
-			lineElement := BlElement new
-				               layout: AlbLineFlowLayout new;
-				               constraintsDo: [ :c | 
-					               c horizontal matchParent.
-					               c vertical fitContent ];
-				               addChildren: (cutted collect: [ :w | w asElement editorMeasurement ]).
-			root addChild: lineElement ] ].
-
-	root openInOBlSpace
-]
-
-{ #category : #elements }
-ToSandBox class >> example_ExperimentForMultilineLabel4 [
-
-	| root text itor |
-	text := self embeddedFontsText.
-
-	root := BlElement new
-		        constraintsDo: [ :c | 
-			        c vertical fitContent.
-			        c horizontal fitContent ];
-		        layout: BlLinearLayout vertical.
-	itor := text iterator.
-	[ itor hasNext ] whileTrue: [ 
-		itor nextLineIndicesDo: [ :aLineStart :aLineEnd :aLineDelimiterEnd | 
-			| sub cutted lineElement |
-			sub := text from: aLineStart to: aLineEnd.
-			cutted := ToTextScissor new cut: sub.
-			cutted ifEmpty: [ 
-				cutted := Array with:
-					          (BlText empty attributes: sub iterator attributes) ].
-			lineElement := BlElement new
-				               layout: AlbLineFlowLayout new;
-				               constraintsDo: [ :c | 
-					               c horizontal matchParent.
-					               c vertical fitContent ];
-				               addChildren:
-					               (cutted collect: [ :w | 
-							                w asElement editorMeasurement ]).
-			root addChild: lineElement ] ].
-
-	root openInOBlSpace
-]
-
-{ #category : #elements }
-ToSandBox class >> example_ExperimentForMultilineLabel5 [
-
-	| root text itor |
-	text := self embeddedFontsText.
-
-	root := BlElement new
-		        constraintsDo: [ :c | 
-			        c vertical matchParent.
-			        c horizontal matchParent ];
-		        layout: BlLinearLayout vertical alignCenter.
-	itor := text iterator.
-	[ itor hasNext ] whileTrue: [ 
-		itor nextLineIndicesDo: [ :aLineStart :aLineEnd :aLineDelimiterEnd | 
-			| sub cutted lineElement |
-			sub := text from: aLineStart to: aLineEnd.
-			cutted := ToTextScissor new cut: sub.
-			cutted ifEmpty: [ 
-				cutted := Array with:
-					          (BlText empty attributes: sub iterator attributes) ].
-			lineElement := BlElement new
-				               layout: AlbLineFlowLayout new;
-				               constraintsDo: [ :c | 
-					               c horizontal fitContent.
-					               c vertical fitContent ];
-				               addChildren:
-					               (cutted collect: [ :w | 
-							                w asElement editorMeasurement ]).
-			root addChild: lineElement ] ].
-
-	root openInOBlSpace
 ]
 
 { #category : #label }

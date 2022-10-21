@@ -1,8 +1,8 @@
 Class {
 	#name : #ToLabel,
 	#superclass : #ToBasicWidget,
-	#traits : 'TBlAlignable + TOBlLayoutResizable + TToWidgetWithLayers',
-	#classTraits : 'TBlAlignable classTrait + TOBlLayoutResizable classTrait + TToWidgetWithLayers classTrait',
+	#traits : 'TBlAlignable + TOBlLayoutResizable',
+	#classTraits : 'TBlAlignable classTrait + TOBlLayoutResizable classTrait',
 	#instVars : [
 		'textElement'
 	],

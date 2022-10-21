@@ -9,17 +9,17 @@ Class {
 }
 
 { #category : #'api - attaching / detaching' }
-ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement fromModel: anAlbumModel [
+ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement from: anAlbumClient [
 
-	super attachTo: anEditorElement fromModel: anAlbumModel.
+	super attachTo: anEditorElement from: anAlbumClient.
 	
 	" flash if save requested with no text change "
-	anAlbumModel
+	anAlbumClient
 		when: ToAlbumSaveRequested
-		do: [ model unacceptedEditsDo: [ :b | b ifFalse: [ self coverWithColor: Color lightGray ] ] ].
+		do: [ client unacceptedEditsDo: [ :b | b ifFalse: [ self coverWithColor: Color lightGray ] ] ].
 
 	" visual flag add/remove according to unaccepted edits or not"
-	anAlbumModel whenEditStateChangedDo: [ :state | 
+	anAlbumClient whenEditStateChangedDo: [ :state | 
 		state
 			ifTrue: [ self showEditsFeedback ]
 			ifFalse: [ self hideEditsFeedback ] ]

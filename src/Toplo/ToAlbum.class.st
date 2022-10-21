@@ -42,6 +42,12 @@ ToAlbum >> initialize [
 	self editorElement: self defaultEditorElement.
 ]
 
+{ #category : #'api-layers' }
+ToAlbum >> layerReferentElement [
+
+		^ self editorElement
+]
+
 { #category : #accessing }
 ToAlbum >> mode [
 
@@ -97,19 +103,19 @@ ToAlbum >> whenTextChangedDo: aBlock [
 ]
 
 { #category : #layers }
-ToAlbum >> withEditsFeedbackFromModel: anAlbumModel [
+ToAlbum >> withEditsFeedbackFrom: anAlbumClient [
 
 	editsFeedbackLayer ifNotNil: [ ^ self ].
 	editsFeedbackLayer := ToAlbumEditsFeedbackLayer new.
-	self addLayer: editsFeedbackLayer fromModel: anAlbumModel 
+	self addLayer: editsFeedbackLayer from: anAlbumClient 
 ]
 
 { #category : #layers }
-ToAlbum >> withGhostText: aText fromModel: anAlbumModel [
+ToAlbum >> withGhostText: aText from: anAlbumClient [
 
 	ghostTextLayer ifNotNil: [ ^ self ].
 	ghostTextLayer := ToGhostTextLayer new text: aText.
-	self addLayer: ghostTextLayer fromModel: anAlbumModel 
+	self addLayer: ghostTextLayer from: anAlbumClient 
 ]
 
 { #category : #initialization }

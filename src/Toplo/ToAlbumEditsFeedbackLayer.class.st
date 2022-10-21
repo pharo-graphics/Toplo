@@ -28,15 +28,17 @@ ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement fromModel: anAlbumModel [
 { #category : #'api - attaching / detaching' }
 ToAlbumEditsFeedbackLayer >> coverWithColor: aCoverColor [
 
-	| previousBackground  |
+	| previousBackground |
 	backgroundAnimation ifNotNil: [ ^ self ].
 	previousBackground := self background.
 	backgroundAnimation := BlColorTransition new
-		duration: 200 milliSeconds;
-		from: aCoverColor;
-		to: Color transparent;
-		onStepDo: [ :aColor :anElement | anElement background: aColor ].
-	backgroundAnimation onFinishedDo: [ self background: previousBackground. backgroundAnimation := nil ].
+		                       duration: 200 milliSeconds;
+		                       from: aCoverColor;
+		                       to: Color transparent;
+		                       onStepDo: [ :aColor :anElement | anElement background: aColor ].
+	backgroundAnimation onFinishedDo: [ 
+		self background: previousBackground.
+		backgroundAnimation := nil ].
 	self addAnimation: backgroundAnimation
 ]
 

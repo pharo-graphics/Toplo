@@ -23,13 +23,16 @@ ToLabel >> addEditor: anEditor [
 	self userData at: #editorOverlay put: (editorOverlay := BlOverlayElement new).
 	self userData at: #editor put: anEditor.
 	editorOverlay clipChildren: false.
+	self previousElevation: self elevation.
 	self elevation: (BlRelativeElevation elevation: 1000).
-	editorOverlay fitVertically: false.
-	editorOverlay attachTo: self.
+	editorOverlay attachTo: self textElement.
 	editorOverlay addChild: anEditor.
+	anEditor border: BlBorder empty.
 	self previousClipping: self clipChildren.
 	self previousVisibility: self textElement visibility.
+	self previousTextElementClipping: self textElement clipChildren.
 	self textElement visibility: BlVisibility hidden.
+	self textElement clipChildren: false.
 	self clipChildren: false.
 	self addChild: editorOverlay.
 	anEditor editorElement requestFocus
@@ -57,13 +60,20 @@ ToLabel >> defaulViewModel [
 { #category : #initialization }
 ToLabel >> defaultLayout [
 
-	^ AlbLineFlowLayout new 
+	^ self lineMode ifNil: [ super defaultLayout ] ifNotNil: [ :lm | lm defaultLayout ]
+]
+
+{ #category : #initialization }
+ToLabel >> defaultMargins [
+
+	^ BlInsets all: 0
+		  
 ]
 
 { #category : #initialization }
 ToLabel >> defaultPaddings [
 
-	^ BlInsets all: 4 
+	^ BlInsets all: 3 
 		  
 ]
 
@@ -104,10 +114,11 @@ ToLabel >> initialize [
 	self class initializeSlots: self.
 	super initialize.
 	
-	self viewModel: self defaulViewModel.	
-	self padding: self defaultPaddings.
-	self background: self defaultBackground.
+	self viewModel: self defaulViewModel.
 	self layout: self defaultLayout.
+	self padding: self defaultPaddings.
+	self margin: self defaultMargins.
+	self background: self defaultBackground.
 	self hMatchParent.
 	self vFitContent.
 	textElement := self defaultTextElement.
@@ -117,7 +128,7 @@ ToLabel >> initialize [
 { #category : #accessing }
 ToLabel >> lineMode [
 
-	^ self viewModel lineMode
+	^ self viewModel ifNotNil: [:vm | vm lineMode]
 ]
 
 { #category : #accessing }
@@ -131,8 +142,12 @@ ToLabel >> newEditor [
 
 	| ed |
 	ed := ToAlbum new.
+	"remove padding to ensure that the editor is exactly at the right position according to the label text"
+	ed editorElement padding: BlInsets empty.
+	"draw the border outside"
+	ed editorElement outskirts: BlOutskirts outside.
+	" do not clip children otherwise the editor may be invisible"
 	ed clipChildren: false.
-	ed editorElement padding: self padding.
 	ed text: self text copy.
 	ed fitContent.
 	^ ed
@@ -149,6 +164,28 @@ ToLabel >> previousClipping: aBoolean [
 ]
 
 { #category : #'private-editing' }
+ToLabel >> previousElevation [
+
+	^ self userData at: #previousElevation
+]
+
+{ #category : #'private-editing' }
+ToLabel >> previousElevation: aBlElevation [
+
+	self userData at: #previousElevation put: aBlElevation
+]
+
+{ #category : #'private-editing' }
+ToLabel >> previousTextElementClipping [
+	^ self userData at: #previousTextElementClipping 
+]
+
+{ #category : #'private-editing' }
+ToLabel >> previousTextElementClipping: aBoolean [
+	self userData at: #previousTextElementClipping put: aBoolean
+]
+
+{ #category : #'private-editing' }
 ToLabel >> previousVisibility [
 
 	^ self userData at: #previousVisibility
@@ -161,12 +198,13 @@ ToLabel >> previousVisibility: aBlVisibility [
 ]
 
 { #category : #'private-change' }
-ToLabel >> privateLineMode: aLineMode [
+ToLabel >> privateLineModeChanged: aLineMode [
 	| currText |
 	currText := self text.
 	textElement ifNotNil: [ 	self removeChild: textElement ].
 	textElement := self defaultTextElement.
 	currText ifNotNil: [textElement text: currText].
+	self layout: self defaultLayout.
 	self addChild: textElement
 ]
 
@@ -192,11 +230,15 @@ ToLabel >> removeEditor [
 	self removeChild: editorOverlay.
 	editorOverlay detach.
 	editorOverlay removeChildren.
+	self elevation: self previousElevation.
+	self clipChildren: self previousClipping.
+	self textElement clipChildren: self previousTextElementClipping.
+	self textElement visibility: self previousVisibility.
+	self userData removeKey: #previousElevation.
 	self userData removeKey: #editorOverlay.
 	self userData removeKey: #editor.
-	self clipChildren: self previousClipping.
 	self userData removeKey: #previousClipping.
-	self textElement visibility: self previousVisibility 
+	self userData removeKey: #previousTextElementClipping.
 
 ]
 

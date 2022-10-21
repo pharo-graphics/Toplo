@@ -19,6 +19,12 @@ ToLabelMultiLineMode >> addEditorIn: aLabel [
 	aLabel addEditor: editor
 ]
 
+{ #category : #layout }
+ToLabelMultiLineMode >> defaultLayout [
+
+	^ BlFlowLayout new.
+]
+
 { #category : #initialization }
 ToLabelMultiLineMode >> newTextElement [
 

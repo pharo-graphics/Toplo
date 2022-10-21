@@ -21,7 +21,9 @@ ToAlbum >> addLayer: anAlbumLayer fromModel: anAlbumModel [
 { #category : #initialization }
 ToAlbum >> defaultEditorElement [
 
-	^ AlbEditorElement new dresser: AlbTextAreaDresser new
+	^ AlbEditorElement new
+		  dresser: AlbTextAreaDresser new;
+		  yourself
 ]
 
 { #category : #accessing }

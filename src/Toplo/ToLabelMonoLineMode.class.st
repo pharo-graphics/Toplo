@@ -10,12 +10,19 @@ ToLabelMonoLineMode >> addEditorIn: aLabel [
 	| editor |
 	editor := aLabel newEditor.
 	editor editorElement editor addEditorShortcut: (ToLabelEditorCarriageReturnShortcut new
+			 combination: (BlKeyCombination primaryReturn or: BlKeyCombination return);
 			 label: aLabel;
 			 yourself).
 	editor editorElement editor addEditorShortcut: (ToLabelEditorEscapeShortcut new
 			 label: aLabel;
 			 yourself).
 	aLabel addEditor: editor
+]
+
+{ #category : #layout }
+ToLabelMonoLineMode >> defaultLayout [
+
+	^ BlFrameLayout new 
 ]
 
 { #category : #initialization }

@@ -59,7 +59,7 @@ ToLabelModel >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	self whenTextChangedDo: [ :t | anElement privateText: t asRopedText ].
-	self whenLineModeChangedDo: [ :lm | anElement privateLineMode: lm ].
+	self whenLineModeChangedDo: [ :lm | anElement privateLineModeChanged: lm ].
 	editorEventHandler := BlEventHandler
 		                      on: BlMouseDownEvent
 		                      do: [ :anEvent | 

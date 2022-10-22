@@ -86,10 +86,9 @@ Here an example of a client for a method.
 	text := self methodText asRopedText.
 	album := ToAlbum new.
 	client := ToAlbumBasicClient new onAlbum: album; yourself.	
-	client styler: BlRBTextStyler new.
-	client classOrMetaClass: self class.
+	client styler: (BlRBTextStyler new classOrMetaClass: self class).
 	client text: text.
-	"client inspect."
+	client inspect.
 	"album editorElement viewModel inspect."
 	album withLineNumbers.
 	

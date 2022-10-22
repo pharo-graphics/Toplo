@@ -53,7 +53,7 @@ ToLabel >> beMultiLine [
 { #category : #initialization }
 ToLabel >> defaulViewModel [
 
-	^ ToLabelModel new.
+	^ ToLabelViewModel new.
 
 ]
 

@@ -27,9 +27,7 @@ Class {
 	#instVars : [
 		'#hasUnacceptedEdits => ObservableSlot',
 		'#text',
-		'#mode',
-		'#stylerHolder',
-		'#postponed'
+		'#mode'
 	],
 	#category : #'Toplo-Widget-Album'
 }
@@ -37,7 +35,7 @@ Class {
 { #category : #'accessing - album' }
 ToAlbumBasicClient >> albumDo: aBlock [
 
-	self announce: (ToActionRequiredFromAlbum new
+	self announce: (ToActionRequiredInAlbum new
 			 valuable: aBlock;
 			 yourself)
 ]
@@ -60,10 +58,16 @@ ToAlbumBasicClient >> beReadonlyWithoutSelection [
 	self mode: AlbReadonlyWithoutSelectionMode new
 ]
 
-{ #category : #accessing }
-ToAlbumBasicClient >> classOrMetaClass: aClass [
+{ #category : #'api - styling' }
+ToAlbumBasicClient >> codeFontName [ 
 
-	self stylerHolder classOrMetaClass: aClass
+	^ self userData at: #codeFontName ifAbsentPut: [ self defaultCodeFontName  ]
+]
+
+{ #category : #'api - styling' }
+ToAlbumBasicClient >> codeFontName: aFontName [
+
+	^ self userData at: #codeFontName put: aFontName
 ]
 
 { #category : #initialization }
@@ -92,13 +96,6 @@ ToAlbumBasicClient >> editStateChanged [
 
 ]
 
-{ #category : #'api - hooks' }
-ToAlbumBasicClient >> flushPostponed [
-
-	postponed do: [ :announcement | self announce: announcement ].
-	postponed := nil
-]
-
 { #category : #accessing }
 ToAlbumBasicClient >> hasUnacceptedEdits [
 
@@ -118,31 +115,11 @@ ToAlbumBasicClient >> initialize [
 	self class initializeSlots: self.
 	super initialize.
 	
-	
-	postponed  := OrderedCollection new.	
-	self when: ToActionRequiredFromAlbum send: #postponeActionRequiredOnAlbum: to: self.
-	
-	stylerHolder := AlbStylerHolder new
-		                styler: self defaultStyler;
-		                yourself.
-		
+	self startPostponedActionsStorage.
 	self text: self defaultText.
 	
 	" action when edit state change (Observable slot) "
 	self whenEditStateChangedDo: [ :t | self editStateChanged ]
-]
-
-{ #category : #accessing }
-ToAlbumBasicClient >> isForWorkspace: aBoolean [
-
-	self stylerHolder isForWorkspace: aBoolean
-]
-
-{ #category : #'text style' }
-ToAlbumBasicClient >> launchTextStyle [
-
-	" ask the stylerHolder through its observale slot "
-	self stylerHolder unstyledText: self text
 ]
 
 { #category : #accessing }
@@ -187,23 +164,16 @@ ToAlbumBasicClient >> onInstalledIn: anAlbum [
 
 	super onInstalledIn: anAlbum.
 	
-	self unsubscribe: self.
-	self when: ToActionRequiredFromAlbum send: #whenActionRequired: to: anAlbum.
+	self stopPostponedActionsStorage.	
+	self when: ToActionRequiredInAlbum send: #whenActionRequired: to: anAlbum.
 
 	self mode: anAlbum mode.
 
 	anAlbum whenTextChangedDo: [ :t | self privateText: t ].
 	anAlbum whenModeChangedDo: [ :m | self privateMode: m ].
-
 	anAlbum viewModel when: AlbTextModifiedByEditor send: #whenTextModifiedByTextEditor: to: self.
-	anAlbum viewModel when: AlbSaveRequested send: #requestSave to: self.
 
-	stylerHolder referentElement: anAlbum.
-	stylerHolder whenStyledTextChangedDo: [ :styledText | 
-		self text takeInternalRepresentationOf: styledText.
-		self albumDo: [ :album | album editorElement textInternalRepresentationChanged ] ].
-
-	self flushPostponed.
+	self runPostponedAction.
 
 ]
 
@@ -252,13 +222,15 @@ ToAlbumBasicClient >> onUninstalledIn: anAlbum [
 	anAlbum viewModel unsubscribe: self.
 	self unsubscribe: anAlbum editorElement.
 	self unsubscribe: anAlbum.
-	stylerHolder releaseStyler
+	self styler ifNotNil: [ :styler | 
+		self styler unsubscribe: self.
+		self unsubscribe: styler ]
 ]
 
-{ #category : #private }
-ToAlbumBasicClient >> postponeActionRequiredOnAlbum: anActionRequiredFromAlbum [
+{ #category : #'private-postponed actions' }
+ToAlbumBasicClient >> postponedActions [
 
-	postponed add: anActionRequiredFromAlbum.
+	^ self userData at: #postponedActions ifAbsentPut: [ OrderedCollection new ]
 ]
 
 { #category : #private }
@@ -277,10 +249,29 @@ ToAlbumBasicClient >> privateText: aBlText [
 	self textChanged
 ]
 
+{ #category : #'private-postponed actions' }
+ToAlbumBasicClient >> removePostponedActions [
+
+	self userData removeKey: #postponedActions ifAbsent: [  ]
+]
+
 { #category : #'api-transaction' }
 ToAlbumBasicClient >> requestSave [
 
 	self announce: (ToAlbumSaveRequested new client: self)
+]
+
+{ #category : #'api - styling' }
+ToAlbumBasicClient >> requestTextStyle [
+
+	self announce: ToTextStyleRequested new
+]
+
+{ #category : #'private-postponed actions' }
+ToAlbumBasicClient >> runPostponedAction [
+
+	self postponedActions do: [ :announcement | self announce: announcement ].
+	self removePostponedActions
 ]
 
 { #category : #'api-transaction' }
@@ -294,16 +285,40 @@ ToAlbumBasicClient >> saveResult: aBoolean [
 	self announce: announcement
 ]
 
-{ #category : #accessing }
-ToAlbumBasicClient >> styler: aStyler [ 
+{ #category : #'private-postponed actions' }
+ToAlbumBasicClient >> startPostponedActionsStorage [
 
-	self stylerHolder styler: (aStyler fontName: self defaultCodeFontName; yourself)
+	self when: ToActionRequiredInAlbum send: #whenActionRequiredInAlbum: to: self
 ]
 
-{ #category : #accessing }
-ToAlbumBasicClient >> stylerHolder [
+{ #category : #'private-postponed actions' }
+ToAlbumBasicClient >> stopPostponedActionsStorage [
 
-	^ stylerHolder
+	self unsubscribe: self.
+
+]
+
+{ #category : #'api - styling' }
+ToAlbumBasicClient >> styler [
+
+	^ self userData at: #styler ifAbsent: [  ]
+]
+
+{ #category : #'api - styling' }
+ToAlbumBasicClient >> styler: aBlStyler [
+
+	self styler ifNotNil: [ :styler | 
+		self styler unsubscribe: self.
+		self unsubscribe: styler ].
+
+	self userData at: #styler put: aBlStyler.
+
+	self styler ifNil: [ ^ self ].
+
+	aBlStyler fontName: self codeFontName.
+	aBlStyler when: BlStylerStateChanged send: #whenStylerStateChanged: to: self.
+	aBlStyler when: BlStylerTextStyled send: #whenStylerTextStyled: to: self.
+	self when: ToTextStyleRequested send: #whenTextStyleRequested: to: self
 ]
 
 { #category : #accessing }
@@ -327,14 +342,20 @@ ToAlbumBasicClient >> textChanged [
 
 	self announce: (ToAlbumTextModified new client: self; text: self text; yourself).
 	" ask the stylerHolder to style through its observal slot"
-	self launchTextStyle
+	self requestTextStyle
 
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #'change hook' }
 ToAlbumBasicClient >> unacceptedEditsDo: aBlock [
 
 	aBlock value: self hasUnacceptedEdits
+]
+
+{ #category : #private }
+ToAlbumBasicClient >> whenActionRequiredInAlbum: anActionRequired [
+
+	self postponedActions add: anActionRequired.
 ]
 
 { #category : #'private-change hook' }
@@ -345,12 +366,42 @@ ToAlbumBasicClient >> whenEditStateChangedDo: aBlock [
 	self property: #hasUnacceptedEdits whenChangedDo: aBlock
 ]
 
+{ #category : #'api - styling' }
+ToAlbumBasicClient >> whenStylerStateChanged: aBlStylerStateChangedAnnouncement [
+
+	self albumDo: [ :album | self requestTextStyle ]
+]
+
+{ #category : #'api - styling' }
+ToAlbumBasicClient >> whenStylerTextStyled: aBlStylerTextStyledAnnouncement [
+
+	self albumDo: [ :album | 
+		| result |
+		result := aBlStylerTextStyledAnnouncement styledText.
+		" text just styled by the styler, check the generation (to be thread-safe) to ensure that 
+			my text has not be changed elsewhere during the styling "
+		(result isNextGenerationOf: self text) ifFalse: [ ^ self ].
+		self text takeInternalRepresentationOf: result.
+		album editorElement textInternalRepresentationChanged ]
+]
+
 { #category : #'event management' }
 ToAlbumBasicClient >> whenTextModifiedByTextEditor: aTextModifiedByEditorAnnouncement [
 
 	self hasUnacceptedEdits: true.
 	self textChanged
 
+]
+
+{ #category : #'api - styling' }
+ToAlbumBasicClient >> whenTextStyleRequested: aToTextStyleRequested [
+
+	self albumDo: [ :album | 
+		self styler ifNotNil: [ 
+			self styler announce: (BlStylerTextStyleRequested new
+					 unstyledText: self text nextGeneration;
+					 referentElement: album;
+					 yourself) ] ]
 ]
 
 { #category : #configuration }
@@ -387,10 +438,4 @@ ToAlbumBasicClient >> withoutGhostText [
 ToAlbumBasicClient >> withoutLineNumbers [
 
 	self albumDo: [ :album | album withoutLineNumbers ]
-]
-
-{ #category : #accessing }
-ToAlbumBasicClient >> workspace: aWorkspace [
-
-	self stylerHolder workspace: aWorkspace
 ]

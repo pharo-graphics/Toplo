@@ -1,5 +1,5 @@
 Class {
-	#name : #ToLabelModel,
+	#name : #ToLabelViewModel,
 	#superclass : #OBlViewModel,
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
@@ -12,17 +12,17 @@ Class {
 }
 
 { #category : #printing }
-ToLabelModel class >> modelName [
+ToLabelViewModel class >> modelName [
 	^ 'Label'
 ]
 
 { #category : #'instance creation' }
-ToLabelModel class >> text: aStringOrText [
+ToLabelViewModel class >> text: aStringOrText [
 	^ self new text: aStringOrText
 ]
 
 { #category : #editability }
-ToLabelModel >> beEditableIn: anElement [
+ToLabelViewModel >> beEditableIn: anElement [
 
 	editorEventHandler ifNotNil: [ ^ self ].
 	editorEventHandler := BlEventHandler
@@ -34,7 +34,7 @@ ToLabelModel >> beEditableIn: anElement [
 ]
 
 { #category : #editability }
-ToLabelModel >> beReadOnlyIn: anElement [
+ToLabelViewModel >> beReadOnlyIn: anElement [
 
 	editorEventHandler ifNil: [ ^ self ].
 	anElement removeEventHandler: editorEventHandler.
@@ -42,31 +42,31 @@ ToLabelModel >> beReadOnlyIn: anElement [
 ]
 
 { #category : #initialization }
-ToLabelModel >> defaultLineMode [
+ToLabelViewModel >> defaultLineMode [
 
 	^ ToLabelMonoLineMode new
 ]
 
 { #category : #initialization }
-ToLabelModel >> defaultText [
+ToLabelViewModel >> defaultText [
 
 	^ '' asRopedText
 ]
 
 { #category : #accessing }
-ToLabelModel >> editable [
+ToLabelViewModel >> editable [
 
 	^ editable
 ]
 
 { #category : #accessing }
-ToLabelModel >> editable: aBoolean [
+ToLabelViewModel >> editable: aBoolean [
 
 	editable := aBoolean
 ]
 
 { #category : #initialization }
-ToLabelModel >> initialize [
+ToLabelViewModel >> initialize [
 	
 	self class initializeSlots: self.
 	editable := false.
@@ -76,20 +76,20 @@ ToLabelModel >> initialize [
 ]
 
 { #category : #accessing }
-ToLabelModel >> lineMode [
+ToLabelViewModel >> lineMode [
 
 	^ lineMode
 ]
 
 { #category : #accessing }
-ToLabelModel >> lineMode: aLineMode [
+ToLabelViewModel >> lineMode: aLineMode [
 
 	lineMode = aLineMode ifTrue: [ ^ self ].
 	lineMode := aLineMode
 ]
 
 { #category : #'api - hooks' }
-ToLabelModel >> onInstalledIn: anElement [
+ToLabelViewModel >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	self whenTextChangedDo: [ :t | anElement privateText: t asRopedText ].
@@ -103,7 +103,7 @@ ToLabelModel >> onInstalledIn: anElement [
 ]
 
 { #category : #'api - hooks' }
-ToLabelModel >> onUninstalledIn: anElement [
+ToLabelViewModel >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
 	anElement removeEventHandler: editorEventHandler.
@@ -111,21 +111,21 @@ ToLabelModel >> onUninstalledIn: anElement [
 ]
 
 { #category : #accessing }
-ToLabelModel >> text [
+ToLabelViewModel >> text [
 	<return: #BlText>
 
 	^ text
 ]
 
 { #category : #accessing }
-ToLabelModel >> text: aBlTextOrString [
+ToLabelViewModel >> text: aBlTextOrString [
 
 	text = aBlTextOrString ifTrue: [ ^ self ].
 	text := (aBlTextOrString ifNil: [ self defaultText ]) asRopedText
 ]
 
 { #category : #'api - change hook' }
-ToLabelModel >> whenEditableChangedDo: aBlock [
+ToLabelViewModel >> whenEditableChangedDo: aBlock [
 
 	"set a block to perform after that the text has been chanbed, and its action performed"
 
@@ -133,7 +133,7 @@ ToLabelModel >> whenEditableChangedDo: aBlock [
 ]
 
 { #category : #'api - change hook' }
-ToLabelModel >> whenLineModeChangedDo: aBlock [
+ToLabelViewModel >> whenLineModeChangedDo: aBlock [
 
 	"set a block to perform after that the text has been chanbed, and its action performed"
 
@@ -141,7 +141,7 @@ ToLabelModel >> whenLineModeChangedDo: aBlock [
 ]
 
 { #category : #'api - change hook' }
-ToLabelModel >> whenTextChangedDo: aBlock [
+ToLabelViewModel >> whenTextChangedDo: aBlock [
 
 	"set a block to perform after that the text has been chanbed, and its action performed"
 

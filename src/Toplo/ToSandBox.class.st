@@ -104,24 +104,17 @@ Here an example of a client for a method.
 { #category : #album }
 ToSandBox class >> example_EditorWithGhostText [
 
-	| text album space client message |
-	message := 'Here is a GhostText' , String cr , 'It is visible only in case of empty text', String cr, String cr.
-	message := message , '- Cmd-shift-mouseDown to enter text editing' , String cr
-	           , '- Cmd-Cr to accept text', String cr, '- Esc to cancel editing'.
-	text := message asRopedText.
-	text foreground: Color lightGray.
-	text fontSize: 24.
+	| ghost |
+	ghost := ('Here is a GhostText' , String cr , 'It is visible only in case of empty text') asRopedText.
+	ghost foreground: Color lightGray.
+	ghost fontSize: 24.
 
-	album := ToAlbum new.
-	client := ToAlbumBasicClient new onAlbum: album; yourself.
-	client text: ''.
-	client withGhostText: text.
-	album withLineNumbers.
-
-	space := OBlSpace new.
-	space root addChild: album.
-	space show.
-	^ album
+	(ToAlbumBasicClient new
+		 text: '';
+		 onSaveRequestedDo: [ :announcement | announcement client saveResult: true ];
+		 withGhostText: ghost;
+		 withLineNumbers;
+		 withEditsFeedbackLayer) onAlbum openInOBlSpace
 ]
 
 { #category : #label }
@@ -149,7 +142,6 @@ ToSandBox class >> example_toLabel4 [
 	lab1 := ToLabel new text: ('' asRopedText fontSize: 14).
 	lab1 viewModel editable: true.
 	lab1 vFitContent.
-	"lab1 withGhostText: 'cmd-shift-mouseDown to enter text editing - hit Cr to accept text or Esc to cancel'."
 	lab1 hMatchParent.
 	lab1 alignCenter.
 

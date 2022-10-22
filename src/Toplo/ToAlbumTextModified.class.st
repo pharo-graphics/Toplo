@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAlbumTextModified,
-	#superclass : #Announcement,
+	#superclass : #ToAlbumClientAnnouncement,
 	#instVars : [
 		'text'
 	],

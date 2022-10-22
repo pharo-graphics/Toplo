@@ -1,5 +1,5 @@
 Class {
 	#name : #ToAlbumSaveRequested,
-	#superclass : #Announcement,
+	#superclass : #ToAlbumClientAnnouncement,
 	#category : #'Toplo-Widget-Album-Announcements'
 }

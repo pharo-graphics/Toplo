@@ -207,6 +207,42 @@ ToAlbumBasicClient >> onInstalledIn: anAlbum [
 
 ]
 
+{ #category : #'api-transaction' }
+ToAlbumBasicClient >> onSaveAcceptedDo: aBlock [
+
+	self when: ToAlbumSaveAccepted do: aBlock
+]
+
+{ #category : #'api-transaction' }
+ToAlbumBasicClient >> onSaveAcceptedSend: aSelector to: anObject [
+
+	self when: ToAlbumSaveAccepted send: aSelector to: anObject
+]
+
+{ #category : #'api-transaction' }
+ToAlbumBasicClient >> onSaveDeniedDo: aBlock [
+
+	self when: ToAlbumSaveDenied do: aBlock
+]
+
+{ #category : #'api-transaction' }
+ToAlbumBasicClient >> onSaveDeniedSend: aSelector to: anObject [
+
+	self when: ToAlbumSaveDenied send: aSelector to: anObject
+]
+
+{ #category : #'api-transaction' }
+ToAlbumBasicClient >> onSaveRequestedDo: aBlock [
+
+	self when: ToAlbumSaveRequested do: aBlock
+]
+
+{ #category : #'api-transaction' }
+ToAlbumBasicClient >> onSaveRequestedSend: aSelector to: anObject [
+
+	self when: ToAlbumSaveRequested send: aSelector to: anObject
+]
+
 { #category : #'api - hooks' }
 ToAlbumBasicClient >> onUninstalledIn: anAlbum [
 
@@ -244,8 +280,7 @@ ToAlbumBasicClient >> privateText: aBlText [
 { #category : #'api-transaction' }
 ToAlbumBasicClient >> requestSave [
 
-	self announce: ToAlbumSaveRequested new.
-	self saveResult: true
+	self announce: (ToAlbumSaveRequested new client: self)
 ]
 
 { #category : #'api-transaction' }
@@ -254,8 +289,8 @@ ToAlbumBasicClient >> saveResult: aBoolean [
 	| announcement |
 	self hasUnacceptedEdits: aBoolean not.
 	announcement := aBoolean
-		                ifTrue: [ ToAlbumSaveAccepted new ]
-		                ifFalse: [ ToAlbumSaveDenied new ].
+		                ifTrue: [ ToAlbumSaveAccepted new client: self ]
+		                ifFalse: [ ToAlbumSaveDenied new client: self ].
 	self announce: announcement
 ]
 
@@ -290,7 +325,7 @@ ToAlbumBasicClient >> text: aBlText [
 { #category : #'change hook' }
 ToAlbumBasicClient >> textChanged [
 
-	self announce: (ToAlbumTextModified new text: self text).
+	self announce: (ToAlbumTextModified new client: self; text: self text; yourself).
 	" ask the stylerHolder to style through its observal slot"
 	self launchTextStyle
 

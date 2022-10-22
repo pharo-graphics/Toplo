@@ -1,7 +1,7 @@
 Class {
 	#name : #ToExperiments,
 	#superclass : #Object,
-	#category : #'Toplo-examples'
+	#category : #'Toplo-Examples'
 }
 
 { #category : #elements }

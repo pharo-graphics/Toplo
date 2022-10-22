@@ -96,6 +96,12 @@ ToAlbumBasicClient >> editStateChanged [
 
 ]
 
+{ #category : #'view request' }
+ToAlbumBasicClient >> flash [
+
+	self announce: (ToAlbumFlashRequested new client: self)
+]
+
 { #category : #accessing }
 ToAlbumBasicClient >> hasUnacceptedEdits [
 
@@ -157,6 +163,12 @@ ToAlbumBasicClient >> onAlbum: anAlbum [
 	^ anAlbum
 ]
 
+{ #category : #'transaction hook' }
+ToAlbumBasicClient >> onCancelRequestedDo: aBlock [
+
+	self when: ToAlbumCancelRequested do: aBlock
+]
+
 { #category : #'api - hooks' }
 ToAlbumBasicClient >> onInstalledIn: anAlbum [
 
@@ -177,40 +189,52 @@ ToAlbumBasicClient >> onInstalledIn: anAlbum [
 
 ]
 
-{ #category : #'api-transaction' }
+{ #category : #'transaction hook' }
 ToAlbumBasicClient >> onSaveAcceptedDo: aBlock [
 
 	self when: ToAlbumSaveAccepted do: aBlock
 ]
 
-{ #category : #'api-transaction' }
+{ #category : #'transaction hook' }
 ToAlbumBasicClient >> onSaveAcceptedSend: aSelector to: anObject [
 
 	self when: ToAlbumSaveAccepted send: aSelector to: anObject
 ]
 
-{ #category : #'api-transaction' }
+{ #category : #'transaction hook' }
 ToAlbumBasicClient >> onSaveDeniedDo: aBlock [
 
 	self when: ToAlbumSaveDenied do: aBlock
 ]
 
-{ #category : #'api-transaction' }
+{ #category : #'transaction hook' }
 ToAlbumBasicClient >> onSaveDeniedSend: aSelector to: anObject [
 
 	self when: ToAlbumSaveDenied send: aSelector to: anObject
 ]
 
-{ #category : #'api-transaction' }
+{ #category : #'transaction hook' }
 ToAlbumBasicClient >> onSaveRequestedDo: aBlock [
 
 	self when: ToAlbumSaveRequested do: aBlock
 ]
 
-{ #category : #'api-transaction' }
+{ #category : #'transaction hook' }
 ToAlbumBasicClient >> onSaveRequestedSend: aSelector to: anObject [
 
 	self when: ToAlbumSaveRequested send: aSelector to: anObject
+]
+
+{ #category : #'change hook' }
+ToAlbumBasicClient >> onTextChangedDo: aBlock [
+
+	self when: ToAlbumTextChanged do: aBlock
+]
+
+{ #category : #'change hook' }
+ToAlbumBasicClient >> onTextModifiedDo: aBlock [
+
+	self when: ToAlbumTextModified do: aBlock
 ]
 
 { #category : #'api - hooks' }
@@ -244,6 +268,8 @@ ToAlbumBasicClient >> privateMode: anEditabilityMode [
 { #category : #private }
 ToAlbumBasicClient >> privateText: aBlText [
 
+	self hasUnacceptedEdits: false.
+	self resetEditorHistory.
 	aBlText == self text ifTrue: [ ^ self ].
 	text := aBlText.
 	self textChanged
@@ -255,16 +281,31 @@ ToAlbumBasicClient >> removePostponedActions [
 	self userData removeKey: #postponedActions ifAbsent: [  ]
 ]
 
-{ #category : #'api-transaction' }
+{ #category : #'transaction hook' }
+ToAlbumBasicClient >> requestCancel [
+
+	self announce: (ToAlbumCancelRequested new client: self)
+]
+
+{ #category : #'transaction hook' }
 ToAlbumBasicClient >> requestSave [
 
-	self announce: (ToAlbumSaveRequested new client: self)
+	self announce: (ToAlbumSaveRequested new
+			 client: self;
+			 unacceptedEdits: self hasUnacceptedEdits ;
+			 yourself)
 ]
 
 { #category : #'api - styling' }
 ToAlbumBasicClient >> requestTextStyle [
 
 	self announce: ToTextStyleRequested new
+]
+
+{ #category : #private }
+ToAlbumBasicClient >> resetEditorHistory [ 
+
+	self albumDo: [ :album | album resetEditorHistory ]
 ]
 
 { #category : #'private-postponed actions' }
@@ -274,7 +315,7 @@ ToAlbumBasicClient >> runPostponedAction [
 	self removePostponedActions
 ]
 
-{ #category : #'api-transaction' }
+{ #category : #'transaction hook' }
 ToAlbumBasicClient >> saveResult: aBoolean [
 
 	| announcement |
@@ -333,17 +374,24 @@ ToAlbumBasicClient >> text [
 ToAlbumBasicClient >> text: aBlText [
 
 	self text == aBlText ifTrue: [ ^ self ].
-	self albumDo: [ :album | 
-		album text: aBlText asRopedText]
+	self albumDo: [ :album | album text: aBlText asRopedText]
 ]
 
 { #category : #'change hook' }
 ToAlbumBasicClient >> textChanged [
 
-	self announce: (ToAlbumTextModified new client: self; text: self text; yourself).
+	self announce: (ToAlbumTextChanged new client: self; text: self text; yourself).
 	" ask the stylerHolder to style through its observal slot"
 	self requestTextStyle
 
+]
+
+{ #category : #'change hook' }
+ToAlbumBasicClient >> textModified [
+
+	self announce: (ToAlbumTextModified new client: self; text: self text; yourself).
+	" ask the stylerHolder to style through its observal slot"
+	self requestTextStyle
 ]
 
 { #category : #'change hook' }
@@ -389,7 +437,7 @@ ToAlbumBasicClient >> whenStylerTextStyled: aBlStylerTextStyledAnnouncement [
 ToAlbumBasicClient >> whenTextModifiedByTextEditor: aTextModifiedByEditorAnnouncement [
 
 	self hasUnacceptedEdits: true.
-	self textChanged
+	self textModified
 
 ]
 
@@ -420,6 +468,23 @@ ToAlbumBasicClient >> withGhostText: aText [
 ToAlbumBasicClient >> withLineNumbers [
 
 	self albumDo: [ :album | album withLineNumbers ]
+]
+
+{ #category : #'transaction hook' }
+ToAlbumBasicClient >> withSaveTransaction [
+
+	self withEditsFeedbackLayer.
+	self albumDo: [ :album | 
+		album editorElement addEditorShortcut: (BlShortcutWithAction new
+				 combination: BlKeyCombination primaryS;
+				 action: [ :aShortcutEvent :aShortcut | self requestSave ];
+				 name: 'Save';
+				 description: 'Apply changes and save the source code (compile).').
+		album editorElement addEditorShortcut: (BlShortcutWithAction new
+				 combination: BlKeyCombination primaryL;
+				 action: [ :aShortcutEvent :aShortcut | self requestCancel ];
+				 name: 'Cancel';
+				 description: 'Cancel changes and rollback the previous accepted source code.') ]
 ]
 
 { #category : #configuration }

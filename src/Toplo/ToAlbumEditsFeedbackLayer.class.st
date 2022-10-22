@@ -13,10 +13,14 @@ ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement from: anAlbumClient [
 
 	super attachTo: anEditorElement from: anAlbumClient.
 	
+	anAlbumClient
+		when: ToAlbumFlashRequested
+		do: [ self flash ].
+
 	" flash if save requested with no text change "
 	anAlbumClient
 		when: ToAlbumSaveRequested
-		do: [ client unacceptedEditsDo: [ :b | b ifFalse: [ self coverWithColor: Color lightGray ] ] ].
+		do: [ :announce | announce unacceptedEdits ifFalse: [ self flash ] ].
 
 	" visual flag add/remove according to unaccepted edits or not"
 	anAlbumClient whenEditStateChangedDo: [ :state | 
@@ -32,7 +36,7 @@ ToAlbumEditsFeedbackLayer >> coverWithColor: aCoverColor [
 	backgroundAnimation ifNotNil: [ ^ self ].
 	previousBackground := self background.
 	backgroundAnimation := BlColorTransition new
-		                       duration: 200 milliSeconds;
+		                       duration: 300 milliSeconds;
 		                       from: aCoverColor;
 		                       to: Color transparent;
 		                       onStepDo: [ :aColor :anElement | anElement background: aColor ].
@@ -47,6 +51,12 @@ ToAlbumEditsFeedbackLayer >> detach [
 
 	referenceElement viewModel unsubscribe: self.
 	super detach
+]
+
+{ #category : #'api - attaching / detaching' }
+ToAlbumEditsFeedbackLayer >> flash [
+
+	self coverWithColor: (Color lightGray alpha: 0.5)
 ]
 
 { #category : #'edition-flag' }

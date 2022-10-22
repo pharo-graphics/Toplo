@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSandBox,
 	#superclass : #Object,
-	#category : #'Toplo-examples'
+	#category : #'Toplo-Examples'
 }
 
 { #category : #accessing }
@@ -87,8 +87,11 @@ Here an example of a client for a method.
 	album := ToAlbum new.
 	client := ToAlbumBasicClient new onAlbum: album; yourself.	
 	client styler: (BlRBTextStyler new classOrMetaClass: self class).
-	client text: text.
-	client inspect.
+	client text: text copy.
+	"client inspect."
+	client withSaveTransaction.
+	client onSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ].
+	client onCancelRequestedDo: [ :cancelRequested | cancelRequested client text: text copy ].
 	"album editorElement viewModel inspect."
 	album withLineNumbers.
 	
@@ -113,6 +116,8 @@ ToSandBox class >> example_EditorWithGhostText [
 		 onSaveRequestedDo: [ :announcement | announcement client saveResult: true ];
 		 withGhostText: ghost;
 		 withLineNumbers;
+		 withSaveTransaction;
+		 onSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
 		 withEditsFeedbackLayer) onAlbum openInOBlSpace
 ]
 

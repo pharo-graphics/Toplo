@@ -60,6 +60,12 @@ ToAlbum >> mode: anEditabilityMode [
 	self viewModel mode: anEditabilityMode 
 ]
 
+{ #category : #private }
+ToAlbum >> resetEditorHistory [
+
+	self editorElement editor history setUpToStart 
+]
+
 { #category : #accessing }
 ToAlbum >> text [
 

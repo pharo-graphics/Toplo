@@ -27,15 +27,20 @@ ToLabelTest >> testText [
 	| label |
 	label := ToLabel new.
 	self assert: label text asString equals: label defaultText asString.
+	self assert: label viewModel text == label text.
 	
 	label text: ''.
 	self assert: label text asString equals: ''.
+	self assert: label viewModel text == label text.
 	
 	label text: 'This is a text'.
 	self assert: label text asString equals: 'This is a text'.
+	self assert: label viewModel text == label text.
 	
 	label text: nil.
-	self assert: label text asString equals: label defaultText asString.
+	self assert: label text asString equals: label defaultText asString.	
+	self assert: label viewModel text == label text.
+
 ]
 
 { #category : #tests }

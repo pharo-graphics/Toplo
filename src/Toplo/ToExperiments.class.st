@@ -4,6 +4,72 @@ Class {
 	#category : #'Toplo-Examples'
 }
 
+{ #category : #accessing }
+ToExperiments class >> embeddedFontsText [
+
+	"
+AeFontSlant: normal italic oblique.
+AeFontWeight: black bold extraBlack extraBold extraLight light medium normal semiBold semiLight thin
+AeFontStretch: condensed expanded extraCondensed extraExpanded normal semiCondensed semiExpanded ultraCondensed ultraExpanded 
+"
+
+	| aManager allSlants allWeights allStreches text allChars |
+	allChars := 'azertyuiopqsdfghjklmwxcvbn' , String cr , 'AZERTYUIOPQSDFGHJKLMWXCVBN' , String cr , '1234567890'
+	            , String cr , '@&é"''[(§è!çà)]-#°_¨*%£+/*.?' , String cr , '~^$`ù=:;,~|'.
+	"AeFontManager resetGlobalInstance."
+	aManager := AeFontManager globalInstance .
+	allSlants := { 
+		             BlFontSlant normal.
+		             BlFontSlant italic.
+		             BlFontSlant oblique }.
+	allWeights := { 
+		              BlFontWeight normal.
+		              BlFontWeight light.
+		              BlFontWeight extraLight.
+		              BlFontWeight medium.
+		              BlFontWeight bold.
+		              BlFontWeight semiBold.
+		              BlFontWeight extraBold.
+		              BlFontWeight black.
+		              BlFontWeight extraBlack.
+		              BlFontWeight thin }.
+	allStreches := { 
+		               BlFontStretch normal.
+		               BlFontStretch condensed.
+		               BlFontStretch semiCondensed.
+		               BlFontStretch extraCondensed.
+		               BlFontStretch ultraCondensed.
+		               BlFontStretch expanded.
+		               BlFontStretch semiExpanded.
+		               BlFontStretch extraExpanded.
+		               BlFontStretch ultraExpanded }.
+
+	text := '' asRopedText.
+	aManager familyNames do: [ :fname | 
+		allSlants do: [ :slant | 
+			allWeights do: [ :weight | 
+				allStreches do: [ :strech | 
+					(aManager
+						 detectFamilyName: fname
+						 slant: (AeFontSlant perform: slant name asSymbol)
+						 weight: (AeFontWeight perform: weight name asSymbol)
+						 stretch: (AeFontStretch perform: strech name asSymbol)
+						 ifNone: [  ]) in: [ :face | 
+						face ifNotNil: [ 
+							| fontBuilder t |
+							fontBuilder := BlTextFontAndStyleBuilder new.
+							fontBuilder familyName: fname.
+							fontBuilder fontSize: 18.
+							fontBuilder fontStretch: strech.
+							fontBuilder fontWeight: weight.
+							fontBuilder fontSlant: slant.
+							t := allChars copy asRopedText.
+							fontBuilder font applyOnText: t.
+							text := text, (String cr , String cr , String cr , fname , ' slant: ' , slant name , ' weight: ' , weight name
+							         , ' strech: ' , strech name , ' ' , String cr , String cr) asRopedText , t ] ] ] ] ] ].
+	^ text
+]
+
 { #category : #elements }
 ToExperiments class >> example_ExperimentForMultilineLabel [
 
@@ -125,8 +191,8 @@ ToExperiments class >> example_ExperimentForMultilineLabel5 [
 
 	root := BlElement new
 		        constraintsDo: [ :c | 
-			        c vertical matchParent.
-			        c horizontal matchParent ];
+			        c vertical fitContent.
+			        c horizontal fitContent ];
 		        layout: BlLinearLayout vertical alignCenter.
 	itor := text iterator.
 	[ itor hasNext ] whileTrue: [ 
@@ -138,13 +204,11 @@ ToExperiments class >> example_ExperimentForMultilineLabel5 [
 				cutted := Array with:
 					          (BlText empty attributes: sub iterator attributes) ].
 			lineElement := BlElement new
-				               layout: AlbLineFlowLayout new;
+				               layout: BlFlowLayout new;
 				               constraintsDo: [ :c | 
 					               c horizontal fitContent.
 					               c vertical fitContent ];
-				               addChildren:
-					               (cutted collect: [ :w | 
-							                w asElement editorMeasurement ]).
+				               addChildren: (cutted collect: [ :w | w asElement editorMeasurement ]).
 			root addChild: lineElement ] ].
 
 	root openInOBlSpace

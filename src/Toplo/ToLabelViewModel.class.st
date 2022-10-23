@@ -22,6 +22,12 @@ ToLabelViewModel class >> text: aStringOrText [
 ]
 
 { #category : #editability }
+ToLabelViewModel >> beEditable [
+
+	self editable: true
+]
+
+{ #category : #'private editability' }
 ToLabelViewModel >> beEditableIn: anElement [
 
 	editorEventHandler ifNotNil: [ ^ self ].
@@ -33,7 +39,25 @@ ToLabelViewModel >> beEditableIn: anElement [
 	anElement addEventHandler: editorEventHandler
 ]
 
+{ #category : #initialization }
+ToLabelViewModel >> beMonoLine [
+
+	self widgetDo: [:widget | self lineMode: ToLabelMonoLineMode new ]
+]
+
+{ #category : #initialization }
+ToLabelViewModel >> beMultiLine [
+
+	self widgetDo: [:widget | self lineMode: ToLabelMultiLineMode new ]
+]
+
 { #category : #editability }
+ToLabelViewModel >> beReadOnly [ 
+
+	self editable: false
+]
+
+{ #category : #'private editability' }
 ToLabelViewModel >> beReadOnlyIn: anElement [
 
 	editorEventHandler ifNil: [ ^ self ].
@@ -62,7 +86,8 @@ ToLabelViewModel >> editable [
 { #category : #accessing }
 ToLabelViewModel >> editable: aBoolean [
 
-	editable := aBoolean
+	editable = aBoolean ifTrue: [ ^ self ].
+	self widgetDo: [:label | editable := aBoolean ]
 ]
 
 { #category : #initialization }
@@ -85,13 +110,14 @@ ToLabelViewModel >> lineMode [
 ToLabelViewModel >> lineMode: aLineMode [
 
 	lineMode = aLineMode ifTrue: [ ^ self ].
-	lineMode := aLineMode
+	self widgetDo: [ :label | lineMode := aLineMode ]
 ]
 
 { #category : #'api - hooks' }
 ToLabelViewModel >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
+	self text: self defaultText.
 	self whenTextChangedDo: [ :t | anElement privateText: t asRopedText ].
 	self whenLineModeChangedDo: [ :lm | anElement privateLineModeChanged: lm ].
 	self whenEditableChangedDo: [ :edi | 
@@ -99,15 +125,27 @@ ToLabelViewModel >> onInstalledIn: anElement [
 			ifTrue: [ self beEditableIn: anElement ]
 			ifFalse: [ self beReadOnlyIn: anElement ] ].
 	self lineMode: self defaultLineMode.
-	self text: self defaultText
+	
+	self runPostponedAction.
+
+
+
+
+]
+
+{ #category : #'view creating' }
+ToLabelViewModel >> onLabel [
+
+	^ ToLabel new
+		  viewModel: self;
+		  yourself
 ]
 
 { #category : #'api - hooks' }
 ToLabelViewModel >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
-	anElement removeEventHandler: editorEventHandler.
-
+	anElement removeEventHandler: editorEventHandler
 ]
 
 { #category : #accessing }
@@ -121,7 +159,7 @@ ToLabelViewModel >> text [
 ToLabelViewModel >> text: aBlTextOrString [
 
 	text = aBlTextOrString ifTrue: [ ^ self ].
-	text := (aBlTextOrString ifNil: [ self defaultText ]) asRopedText
+	self widgetDo: [ :label | text := (aBlTextOrString ifNil: [ self defaultText ]) asRopedText ]
 ]
 
 { #category : #'api - change hook' }

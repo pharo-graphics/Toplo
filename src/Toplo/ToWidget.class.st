@@ -15,3 +15,9 @@ ToWidget >> initialize [
 	super initialize.
 	self background: self defaultBackground
 ]
+
+{ #category : #'model - events' }
+ToWidget >> whenActionRequired: anActionRequiredAnnouncement [
+
+	anActionRequiredAnnouncement value: self
+]

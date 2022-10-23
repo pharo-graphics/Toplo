@@ -27,7 +27,8 @@ ToAlbum >> editorElement [
 
 { #category : #accessing }
 ToAlbum >> editorElement: anEditorElement [
-	editorElement ifNotNil: [ editorElement removeFromParent ].
+	editorElement ifNotNil: [ 
+		editorElement removeFromParent ].
 	editorElement := anEditorElement.
 	self addChild: anEditorElement
 ]
@@ -39,7 +40,7 @@ ToAlbum >> initialize [
 	self constraintsDo: [ :c | 
 		c horizontal matchParent.
 		c vertical matchParent ].
-	self editorElement: self defaultEditorElement.
+	self editorElement: self defaultEditorElement
 ]
 
 { #category : #'api-layers' }
@@ -51,13 +52,13 @@ ToAlbum >> layerReferentElement [
 { #category : #accessing }
 ToAlbum >> mode [
 
-	^ self viewModel mode
+	^ self editorElement mode
 ]
 
 { #category : #accessing }
 ToAlbum >> mode: anEditabilityMode [
 
-	self viewModel mode: anEditabilityMode 
+	self editorElement mode: anEditabilityMode 
 ]
 
 { #category : #private }
@@ -69,31 +70,13 @@ ToAlbum >> resetEditorHistory [
 { #category : #accessing }
 ToAlbum >> text [
 
-	^ self viewModel text
+	^ self editorElement text
 ]
 
 { #category : #accessing }
 ToAlbum >> text: aBlText [
 
-	self viewModel text: aBlText
-]
-
-{ #category : #accessing }
-ToAlbum >> viewModel [
-
-	^ self editorElement viewModel
-]
-
-{ #category : #accessing }
-ToAlbum >> viewModel: aViewModel [
-
-	self editorElement viewModel: aViewModel
-]
-
-{ #category : #'client - protocol' }
-ToAlbum >> whenActionRequired: anActionRequiredAnnouncement [
-
-	anActionRequiredAnnouncement value: self
+	self editorElement text: aBlText
 ]
 
 { #category : #'client - protocol' }

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToBasicWidget,
 	#superclass : #ToWidget,
-	#traits : 'TObservable',
-	#classTraits : 'TObservable classTrait',
+	#traits : 'TObservable + TBlDebug',
+	#classTraits : 'TObservable classTrait + TBlDebug classTrait',
 	#instVars : [
 		'viewModel'
 	],
@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #initialization }
-ToBasicWidget >> defaulViewModel [
+ToBasicWidget >> defaultViewModel [
 
 	^ self subclassResponsibility
 ]
@@ -25,12 +25,18 @@ ToBasicWidget >> initialize [
 { #category : #accessing }
 ToBasicWidget >> viewModel [
 
-	^ viewModel
+	" should be lazy to avoid unecessary instanciation and installation of my viewModel "
+	^ viewModel ifNil: [ self viewModel: self defaultViewModel ]
 ]
 
 { #category : #accessing }
 ToBasicWidget >> viewModel: aViewModel [
 
+	" A viewModel is normally installed only once by the widget or by the viewModel itself.
+	Installing a new viewModel is possible but be aware of what you are doing (lost of data stored in the installed viewModel).
+	To reinstall a viewModel first send #viewModel: with nil as argument to uninstall the previous viewModel 
+	then send #viewModel: with the new one as argument."
+	self assert: (aViewModel isNil or: [aViewModel notNil and: [viewModel isNil]]).
 	self viewModelDo: [ :aCurrentModel | aCurrentModel onUninstalledIn: self ].
 	viewModel := aViewModel.
 	self viewModelDo: [ :aCurrentModel | aViewModel onInstalledIn: self ]

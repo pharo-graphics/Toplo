@@ -39,6 +39,12 @@ ToLabel >> addEditor: anEditor [
 ]
 
 { #category : #initialization }
+ToLabel >> beEditable [
+
+	self editable: true
+]
+
+{ #category : #initialization }
 ToLabel >> beMonoLine [
 
 	self lineMode: ToLabelMultiLineMode new
@@ -51,16 +57,15 @@ ToLabel >> beMultiLine [
 ]
 
 { #category : #initialization }
-ToLabel >> defaulViewModel [
+ToLabel >> beReadOnly [
 
-	^ ToLabelViewModel new.
-
+	self editable: false
 ]
 
 { #category : #initialization }
 ToLabel >> defaultLayout [
 
-	^ self lineMode ifNil: [ super defaultLayout ] ifNotNil: [ :lm | lm defaultLayout ]
+	^ BlLinearLayout vertical 
 ]
 
 { #category : #initialization }
@@ -73,7 +78,7 @@ ToLabel >> defaultMargins [
 { #category : #initialization }
 ToLabel >> defaultPaddings [
 
-	^ BlInsets all: 3 
+	^ BlInsets all: 3
 		  
 ]
 
@@ -86,6 +91,13 @@ ToLabel >> defaultText [
 ToLabel >> defaultTextElement [
 
 	^ self lineMode newTextElement
+]
+
+{ #category : #initialization }
+ToLabel >> defaultViewModel [
+
+	^ ToLabelViewModel new.
+
 ]
 
 { #category : #accessing }
@@ -110,13 +122,14 @@ ToLabel >> editorOverlay [
 ToLabel >> horizontalAlignment [
 	<return: #BlElementAlignment>
 
-	^ self textElement constraints frame horizontal alignment
+	^ self layout horizontalAlignment 
 ]
 
 { #category : #accessing }
 ToLabel >> horizontalAlignment: aBlElementAlignment [
+
 	self horizontalAlignment = aBlElementAlignment ifTrue: [ ^self ].
-	self textElement constraintsDo: [ :c | c frame horizontal alignment: aBlElementAlignment].
+	self layout horizontalAlignment: aBlElementAlignment.
 
 ]
 
@@ -125,16 +138,11 @@ ToLabel >> initialize [
 	
 	self class initializeSlots: self.
 	super initialize.
-	
-	self viewModel: self defaulViewModel.
 	self layout: self defaultLayout.
 	self padding: self defaultPaddings.
 	self margin: self defaultMargins.
 	self background: self defaultBackground.
-	self hMatchParent.
-	self vFitContent.
-	textElement := self defaultTextElement.
-	self addChild: textElement
+	self fitContent
 ]
 
 { #category : #accessing }
@@ -160,7 +168,7 @@ ToLabel >> newEditor [
 	ed editorElement outskirts: BlOutskirts outside.
 	" do not clip children otherwise the editor may be invisible"
 	ed clipChildren: false.
-	ed text: self text copy.
+	ed text: self privateText copy.
 	ed fitContent.
 	^ ed
 ]
@@ -213,7 +221,7 @@ ToLabel >> previousVisibility: aBlVisibility [
 ToLabel >> privateLineModeChanged: aLineMode [
 	| currText |
 	currText := self text.
-	textElement ifNotNil: [ 	self removeChild: textElement ].
+	self removeChildren.
 	textElement := self defaultTextElement.
 	currText ifNotNil: [textElement text: currText].
 	self layout: self defaultLayout.
@@ -277,12 +285,13 @@ ToLabel >> textElement [
 ToLabel >> verticalAlignment [
 	<return: #BlElementAlignment>
 	
-	^ self textElement constraints frame vertical alignment
+	^ self layout verticalAlignment 
 ]
 
 { #category : #accessing }
 ToLabel >> verticalAlignment: aBlElementAlignment [
+
 	self verticalAlignment = aBlElementAlignment ifTrue: [ ^self ].
-	self textElement constraintsDo: [ :c | c frame vertical alignment: aBlElementAlignment].
+	self layout verticalAlignment: aBlElementAlignment
 
 ]

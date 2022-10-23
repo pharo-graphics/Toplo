@@ -4,72 +4,6 @@ Class {
 	#category : #'Toplo-Examples'
 }
 
-{ #category : #accessing }
-ToSandBox class >> embeddedFontsText [
-
-	"
-AeFontSlant: normal italic oblique.
-AeFontWeight: black bold extraBlack extraBold extraLight light medium normal semiBold semiLight thin
-AeFontStretch: condensed expanded extraCondensed extraExpanded normal semiCondensed semiExpanded ultraCondensed ultraExpanded 
-"
-
-	| aManager allSlants allWeights allStreches text allChars |
-	allChars := 'azertyuiopqsdfghjklmwxcvbn' , String cr , 'AZERTYUIOPQSDFGHJKLMWXCVBN' , String cr , '1234567890'
-	            , String cr , '@&é"''[(§è!çà)]-#°_¨*%£+/*.?' , String cr , '~^$`ù=:;,~|'.
-	"AeFontManager resetGlobalInstance."
-	aManager := AeFontManager globalInstance .
-	allSlants := { 
-		             BlFontSlant normal.
-		             BlFontSlant italic.
-		             BlFontSlant oblique }.
-	allWeights := { 
-		              BlFontWeight normal.
-		              BlFontWeight light.
-		              BlFontWeight extraLight.
-		              BlFontWeight medium.
-		              BlFontWeight bold.
-		              BlFontWeight semiBold.
-		              BlFontWeight extraBold.
-		              BlFontWeight black.
-		              BlFontWeight extraBlack.
-		              BlFontWeight thin }.
-	allStreches := { 
-		               BlFontStretch normal.
-		               BlFontStretch condensed.
-		               BlFontStretch semiCondensed.
-		               BlFontStretch extraCondensed.
-		               BlFontStretch ultraCondensed.
-		               BlFontStretch expanded.
-		               BlFontStretch semiExpanded.
-		               BlFontStretch extraExpanded.
-		               BlFontStretch ultraExpanded }.
-
-	text := '' asRopedText.
-	aManager familyNames do: [ :fname | 
-		allSlants do: [ :slant | 
-			allWeights do: [ :weight | 
-				allStreches do: [ :strech | 
-					(aManager
-						 detectFamilyName: fname
-						 slant: (AeFontSlant perform: slant name asSymbol)
-						 weight: (AeFontWeight perform: weight name asSymbol)
-						 stretch: (AeFontStretch perform: strech name asSymbol)
-						 ifNone: [  ]) in: [ :face | 
-						face ifNotNil: [ 
-							| fontBuilder t |
-							fontBuilder := BlTextFontAndStyleBuilder new.
-							fontBuilder familyName: fname.
-							fontBuilder fontSize: 18.
-							fontBuilder fontStretch: strech.
-							fontBuilder fontWeight: weight.
-							fontBuilder fontSlant: slant.
-							t := allChars copy asRopedText.
-							fontBuilder font applyOnText: t.
-							text := text, (String cr , String cr , String cr , fname , ' slant: ' , slant name , ' weight: ' , weight name
-							         , ' strech: ' , strech name , ' ' , String cr , String cr) asRopedText , t ] ] ] ] ] ].
-	^ text
-]
-
 { #category : #album }
 ToSandBox class >> example_CodeEditorWithToClient [
 
@@ -82,24 +16,18 @@ All the different kind of Album using should use the available basic client clas
 Here an example of a client for a method.
 "
 
-	| text album space client |
+	| text space client |
 	text := self methodText asRopedText.
-	album := ToAlbum new.
-	client := ToAlbumBasicClient new onAlbum: album; yourself.	
+	client := ToAlbumViewModel new.	
 	client styler: (BlRBTextStyler new classOrMetaClass: self class).
 	client text: text copy.
-	"client inspect."
-	client withSaveTransaction.
+	client withSaveCapability.
 	client onSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ].
 	client onCancelRequestedDo: [ :cancelRequested | cancelRequested client text: text copy ].
-	"album editorElement viewModel inspect."
-	album withLineNumbers.
-	
+	"client inspect."
 	space := OBlSpace new.
-	space root addChild: album.
+	space root addChild: client onAlbum.
 	space show.
-	^ album
-
 
 ]
 
@@ -107,16 +35,16 @@ Here an example of a client for a method.
 ToSandBox class >> example_EditorWithGhostText [
 
 	| ghost |
-	ghost := ('Here is a GhostText' , String cr , 'It is visible only in case of empty text') asRopedText.
+	ghost := ('Here is a GhostText' , String cr , 'visible only if the text is empty') asRopedText.
 	ghost foreground: Color lightGray.
 	ghost fontSize: 24.
 
-	(ToAlbumBasicClient new
+	(ToAlbumViewModel new
 		 text: '';
 		 onSaveRequestedDo: [ :announcement | announcement client saveResult: true ];
 		 withGhostText: ghost;
 		 withLineNumbers;
-		 withSaveTransaction;
+		 withSaveCapability;
 		 onSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
 		 withEditsFeedbackLayer) onAlbum openInOBlSpace
 ]
@@ -125,13 +53,31 @@ ToSandBox class >> example_EditorWithGhostText [
 ToSandBox class >> example_toLabel3 [
 
 	| lab |
-	lab := ToLabel new text: ('This is a bold label' asRopedText fontSize: 20).
-	lab textElement bold.
+	lab := ToLabel new text: ('This is a bold label' asRopedText fontSize: 20; bold; foreground: Color gray; yourself).
 	lab background: Color lightBlue.
-	lab textElement foreground: Color gray.
 	lab editable: true.
+	lab alignCenter.
 	lab border: (BlBorder paint: Color yellow width: 1).
-	lab openInOBlSpace
+	lab openInOBlSpace.
+
+]
+
+{ #category : #label }
+ToSandBox class >> example_toLabel3_bis [
+
+	| model widget |
+	model := ToLabelViewModel new.
+	model text: ('This is a bold label' asRopedText
+			 fontSize: 20;
+			 bold;
+			 foreground: Color gray;
+			 yourself).
+	model widgetDo: [ :label | 
+		label background: Color lightBlue.
+		label alignCenter.
+		label border: (BlBorder paint: Color yellow width: 1) ].
+	model editable: true.
+	(widget := model onLabel) openInOBlSpace	
 ]
 
 { #category : #label }
@@ -143,28 +89,51 @@ ToSandBox class >> example_toLabel4 [
 		        c horizontal matchParent ].
 
 	root layout: BlLinearLayout vertical.
-	lab1 := ToLabel new text: ('' asRopedText fontSize: 14).
-	lab1 viewModel editable: true.
+	lab1 := ToLabel new text: ('Editable centered monoline label' asRopedText fontSize: 18).
+	lab1 editable: true.
 	lab1 vFitContent.
 	lab1 hMatchParent.
 	lab1 alignCenter.
-
-	lab1 border: (BlBorder paint: Color red width: 1).
+	lab1 border: (BlBorder paint: Color lightGray width: 1).
 	root addChild: lab1.
-	lab2 := ToLabel new text: (('This is a Text' , String cr , 'secondLine') asRopedText fontSize: 14).
+
+	lab2 := ToLabel new text: (('Editable multiline label' , String cr , 'secondLine') asRopedText fontSize: 18).
 	lab2 beMultiLine.
 	lab2 vFitContent.
 	lab2 hMatchParent.
-	lab2 border: (BlBorder paint: Color red width: 1).
+	lab2 border: (BlBorder paint: Color lightGray width: 1).
 	lab2 viewModel editable: true.
 
-	
 	root addChild: lab2.
-	lab3 := ToLabel new text: ('Third text' asRopedText fontSize: 14).
-	lab3 border: (BlBorder paint: Color red width: 1).
+	lab3 := ToLabel new text: ('Monoline label not editable' asRopedText fontSize: 18).
+	lab3 border: (BlBorder paint: Color lightGray width: 1).
 	lab3 vFitContent.
 	lab3 hMatchParent.
 	root addChild: lab3.
+	root clipChildren: false.
+	
+	root openInOBlSpace
+]
+
+{ #category : #label }
+ToSandBox class >> example_toLabel5 [
+
+	| label root model |
+	root := BlElement new constraintsDo: [ :c | 
+		        c vertical fitContent.
+		        c horizontal matchParent ].
+	root layout: BlLinearLayout vertical.
+	label := ToLabel new.
+	model := ToLabelViewModel new.
+	model text: ('' asRopedText fontSize: 24).
+	model beMultiLine.
+	model widgetDo: [ :widget | 
+		widget vFitContent.
+		widget hMatchParent.
+		widget border: (BlBorder paint: Color red width: 1) ].
+	model editable: true.
+	label viewModel: model.
+	root addChild: label.
 	root openInOBlSpace
 ]
 
@@ -181,13 +150,15 @@ ToSandBox class >> example_toLabel_Multiline1 [
 ToSandBox class >> example_toLabel_Multiline2_Centered [
 
 	| lab space |
-	lab := ToLabel new text: (('This is a Centered Text - size 20') asRopedText fontName: AeFontManager defaultCodeFontFamilyName; fontSize: 20).
+	lab := ToLabel new text: (('This is a Centered editable label', String cr, 'size 20') asRopedText
+			        fontName: AeFontManager defaultCodeFontFamilyName;
+			        fontSize: 20).
 	lab beMultiLine.
+	lab matchParent.
 	lab alignCenter.
-	lab fitContent.
-	space := lab openInOBlSpace.
-	space root layout: BlLinearLayout vertical alignCenter.
-	
+	lab textElement alignCenter.
+	lab editable: true.
+	space := lab openInOBlSpace
 ]
 
 { #category : #accessing }

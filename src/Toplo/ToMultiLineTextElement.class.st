@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMultiLineTextElement,
 	#superclass : #BlElement,
-	#traits : 'TObservable',
-	#classTraits : 'TObservable classTrait',
+	#traits : 'TObservable + TBlAlignable + TOBlLayoutResizable',
+	#classTraits : 'TObservable classTrait + TBlAlignable classTrait + TOBlLayoutResizable classTrait',
 	#instVars : [
 		'#lines',
 		'#text => ObservableSlot'
@@ -10,40 +10,73 @@ Class {
 	#category : #'Toplo-Widget-Label'
 }
 
+{ #category : #accessing }
+ToMultiLineTextElement >> horizontalAlignment [
+	<return: #BlElementAlignment>
+
+	^ self layout horizontalAlignment 
+]
+
+{ #category : #accessing }
+ToMultiLineTextElement >> horizontalAlignment: aBlElementAlignment [
+
+	self horizontalAlignment = aBlElementAlignment ifTrue: [ ^self ].
+	self layout horizontalAlignment: aBlElementAlignment.
+
+]
+
 { #category : #initialization }
 ToMultiLineTextElement >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	self
-		constraintsDo: [ :c | 
-			c vertical matchParent.
-			c horizontal fitContent ];
-		layout: BlLinearLayout vertical.
+	self fitContent.
+	self layout: BlLinearLayout vertical.
 	lines := OrderedCollection new.
 	self whenTextChangedDo: [ :t | self textChanged ]
+]
+
+{ #category : #'private - text splitting' }
+ToMultiLineTextElement >> newLineElement [
+
+	^ AlbTextEditorSegmentElement new
+		  layout: BlFlowLayout new;
+		  constraintsDo: [ :c | 
+			  c horizontal fitContent.
+			  c vertical fitContent ];
+		  beInSeparateCompositionLayer;
+		  yourself
 ]
 
 { #category : #'private - text splitting' }
 ToMultiLineTextElement >> splitText [
 
 	^ Array streamContents: [ :stream | 
-		  | itor |
-		  itor := text iterator.
+		  | itor lineElement |
+		  text
+			  ifEmpty: [
+				  lineElement := self newLineElement
+					                 addChild: ('' asRopedText attributes: text iterator attributes) asElement editorMeasurement;
+					                 yourself.
+				  stream nextPut: lineElement ]
+			  ifNotEmpty: [ 
+				  itor := text iterator.
+				  [ itor hasNext ] whileTrue: [ 
+					  itor nextLineIndicesDo: [ :aLineStart :aLineEnd :aLineDelimiterEnd | 
+						  | sub cutted |
+						  sub := text from: aLineStart to: aLineEnd.
+						  cutted := ToTextScissor new cut: sub.
+						  cutted ifEmpty: [ cutted := Array with: (BlText empty attributes: sub iterator attributes) ].
+						  lineElement := self newLineElement
+							                 addChildren: (cutted collect: [ :w | w asElement editorMeasurement ]);
+							                 yourself.
+						  stream nextPut: lineElement ] ] ] ]
+]
 
-		  [ itor hasNext ] whileTrue: [ 
-			  itor nextLineIndicesDo: [ :aLineStart :aLineEnd :aLineDelimiterEnd | 
-				  | sub cutted lineElement |
-				  sub := text from: aLineStart to: aLineEnd.
-				  cutted := ToTextScissor new cut: sub.
-				  cutted ifEmpty: [ cutted := Array with: (BlText empty attributes: sub iterator attributes) ].
-				  lineElement := BlElement new
-					                 layout: AlbLineFlowLayout new;
-					                 constraintsDo: [ :c | 
-						                 c horizontal matchParent.
-						                 c vertical fitContent ];
-					                 addChildren: (cutted collect: [ :w | w asElement editorMeasurement ]).
-				  stream nextPut: lineElement ] ] ]
+{ #category : #accessing }
+ToMultiLineTextElement >> text [
+
+	^ text 
 ]
 
 { #category : #accessing }
@@ -59,6 +92,21 @@ ToMultiLineTextElement >> textChanged [
 	self removeChildren.
 	lines := self splitText.
 	self addChildren: lines.
+]
+
+{ #category : #accessing }
+ToMultiLineTextElement >> verticalAlignment [
+	<return: #BlElementAlignment>
+	
+	^ self layout verticalAlignment 
+]
+
+{ #category : #accessing }
+ToMultiLineTextElement >> verticalAlignment: aBlElementAlignment [
+
+	self verticalAlignment = aBlElementAlignment ifTrue: [ ^self ].
+	self layout verticalAlignment: aBlElementAlignment
+
 ]
 
 { #category : #'slot - change hook' }

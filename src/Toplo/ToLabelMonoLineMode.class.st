@@ -19,12 +19,6 @@ ToLabelMonoLineMode >> addEditorIn: aLabel [
 	aLabel addEditor: editor
 ]
 
-{ #category : #layout }
-ToLabelMonoLineMode >> defaultLayout [
-
-	^ BlFrameLayout new 
-]
-
 { #category : #initialization }
 ToLabelMonoLineMode >> newTextElement [
 

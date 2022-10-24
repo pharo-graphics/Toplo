@@ -114,21 +114,17 @@ ToLabelViewModel >> lineMode: aLineMode [
 ]
 
 { #category : #'api - hooks' }
-ToLabelViewModel >> onInstalledIn: anElement [
+ToLabelViewModel >> onInstalledOnlyMeIn: anElement [
 
-	super onInstalledIn: anElement.
+	super onInstalledOnlyMeIn: anElement.
 	self text: self defaultText.
-	self whenTextChangedDo: [ :t | anElement privateText: t asRopedText ].
+	self onTextReplacedDo: [ :t | anElement privateText: t asRopedText ].
 	self whenLineModeChangedDo: [ :lm | anElement privateLineModeChanged: lm ].
 	self whenEditableChangedDo: [ :edi | 
 		edi
 			ifTrue: [ self beEditableIn: anElement ]
 			ifFalse: [ self beReadOnlyIn: anElement ] ].
-	self lineMode: self defaultLineMode.
-	
-	self runPostponedAction.
-
-
+	self lineMode: self defaultLineMode
 
 
 ]
@@ -141,10 +137,18 @@ ToLabelViewModel >> onLabel [
 		  yourself
 ]
 
-{ #category : #'api - hooks' }
-ToLabelViewModel >> onUninstalledIn: anElement [
+{ #category : #'api - change hook' }
+ToLabelViewModel >> onTextReplacedDo: aBlock [
 
-	super onUninstalledIn: anElement.
+	"set a block to perform after that the text has been chanbed, and its action performed"
+
+	self property: #text whenChangedDo: aBlock
+]
+
+{ #category : #'api - hooks' }
+ToLabelViewModel >> onUninstalledOnlyMeIn: anElement [
+
+	super onUninstalledOnlyMeIn: anElement.
 	anElement removeEventHandler: editorEventHandler
 ]
 
@@ -176,12 +180,4 @@ ToLabelViewModel >> whenLineModeChangedDo: aBlock [
 	"set a block to perform after that the text has been chanbed, and its action performed"
 
 	self property: #lineMode whenChangedDo: aBlock
-]
-
-{ #category : #'api - change hook' }
-ToLabelViewModel >> whenTextChangedDo: aBlock [
-
-	"set a block to perform after that the text has been chanbed, and its action performed"
-
-	self property: #text whenChangedDo: aBlock
 ]

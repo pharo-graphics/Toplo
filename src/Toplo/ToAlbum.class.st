@@ -15,8 +15,6 @@ Class {
 ToAlbum >> defaultEditorElement [
 
 	^ AlbEditorElement new
-		  dresser: AlbTextAreaDresser new;
-		  yourself
 ]
 
 { #category : #accessing }
@@ -40,6 +38,7 @@ ToAlbum >> initialize [
 	self constraintsDo: [ :c | 
 		c horizontal matchParent.
 		c vertical matchParent ].
+	
 	self editorElement: self defaultEditorElement
 ]
 
@@ -61,10 +60,23 @@ ToAlbum >> mode: anEditabilityMode [
 	self editorElement mode: anEditabilityMode 
 ]
 
-{ #category : #private }
-ToAlbum >> resetEditorHistory [
+{ #category : #'client - protocol' }
+ToAlbum >> onModeChangedDo: aBlock [
 
-	self editorElement editor history setUpToStart 
+	editorElement onModeChangedDo: aBlock
+]
+
+{ #category : #'client - protocol' }
+ToAlbum >> onTextEditedDo: aBlock [
+
+	self editorElement announcerWhen: AlbTextEdited do: aBlock
+]
+
+{ #category : #'client - protocol' }
+ToAlbum >> onTextReplacedDo: aBlock [
+
+	editorElement 
+		whenTextReplacedDo: [ :announcement | aBlock cull: announcement text cull: announcement ]
 ]
 
 { #category : #accessing }
@@ -77,18 +89,6 @@ ToAlbum >> text [
 ToAlbum >> text: aBlText [
 
 	self editorElement text: aBlText
-]
-
-{ #category : #'client - protocol' }
-ToAlbum >> whenModeChangedDo: aBlock [
-
-	editorElement viewModel whenModeChangedDo: aBlock
-]
-
-{ #category : #'client - protocol' }
-ToAlbum >> whenTextChangedDo: aBlock [
-
-	editorElement viewModel whenTextChangedDo: aBlock
 ]
 
 { #category : #layers }

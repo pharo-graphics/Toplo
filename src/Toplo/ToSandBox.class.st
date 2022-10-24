@@ -18,7 +18,7 @@ Here an example of a client for a method.
 
 	| text space client |
 	text := self methodText asRopedText.
-	client := ToAlbumViewModel new.	
+	client := ToAlbumViewModel new.
 	client styler: (BlRBTextStyler new classOrMetaClass: self class).
 	client text: text copy.
 	client withSaveCapability.

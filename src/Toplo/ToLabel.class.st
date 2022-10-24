@@ -161,13 +161,7 @@ ToLabel >> lineMode: aLineMode [
 ToLabel >> newEditor [
 
 	| ed |
-	ed := ToAlbum new.
-	"remove padding to ensure that the editor is exactly at the right position according to the label text"
-	ed editorElement padding: BlInsets empty.
-	"draw the border outside"
-	ed editorElement outskirts: BlOutskirts outside.
-	" do not clip children otherwise the editor may be invisible"
-	ed clipChildren: false.
+	ed := (ToAlbumViewModel new dresser: ToLabelEditorBasicDresser new) onAlbum.
 	ed text: self privateText copy.
 	ed fitContent.
 	^ ed

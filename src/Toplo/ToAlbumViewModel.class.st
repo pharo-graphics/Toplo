@@ -25,38 +25,38 @@ Class {
 	#superclass : #OBlViewModel,
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
-		'#hasUnacceptedEdits => ObservableSlot',
-		'#text',
-		'#mode'
+		'#text => ObservableSlot',
+		'#mode => ObservableSlot',
+		'#edited => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Album'
 }
 
-{ #category : #accessing }
+{ #category : #'view configuration' }
 ToAlbumViewModel >> beEditable [
 
 	self mode: AlbEditableMode new
 ]
 
-{ #category : #accessing }
+{ #category : #'view configuration' }
 ToAlbumViewModel >> beReadonlyWithSelection [
 
 	self mode: AlbReadonlyWithSelectionMode new
 ]
 
-{ #category : #accessing }
+{ #category : #'transaction hook' }
 ToAlbumViewModel >> beReadonlyWithoutSelection [
 
 	self mode: AlbReadonlyWithoutSelectionMode new
 ]
 
-{ #category : #'api - styling' }
+{ #category : #'styler configuration' }
 ToAlbumViewModel >> codeFontName [ 
 
 	^ self userData at: #codeFontName ifAbsentPut: [ self defaultCodeFontName  ]
 ]
 
-{ #category : #'api - styling' }
+{ #category : #'styler configuration' }
 ToAlbumViewModel >> codeFontName: aFontName [
 
 	^ self userData at: #codeFontName put: aFontName
@@ -66,6 +66,13 @@ ToAlbumViewModel >> codeFontName: aFontName [
 ToAlbumViewModel >> defaultCodeFontName [
 
 	^ AeFontManager defaultCodeFontFamilyName
+	
+]
+
+{ #category : #initialization }
+ToAlbumViewModel >> defaultDresser [
+
+	^ ToAlbumBasicDresser new
 	
 ]
 
@@ -88,23 +95,23 @@ ToAlbumViewModel >> editStateChanged [
 
 ]
 
+{ #category : #accessing }
+ToAlbumViewModel >> edited [
+
+	^ edited ifNil: [ edited := false ]
+]
+
+{ #category : #accessing }
+ToAlbumViewModel >> edited: aBoolean [
+
+	edited = aBoolean ifTrue: [ ^ self ].
+	edited := aBoolean
+]
+
 { #category : #'view request' }
 ToAlbumViewModel >> flash [
 
 	self announce: (ToAlbumFlashRequested new client: self)
-]
-
-{ #category : #accessing }
-ToAlbumViewModel >> hasUnacceptedEdits [
-
-	^ hasUnacceptedEdits ifNil: [ hasUnacceptedEdits := false ]
-]
-
-{ #category : #accessing }
-ToAlbumViewModel >> hasUnacceptedEdits: aBoolean [
-
-	hasUnacceptedEdits = aBoolean ifTrue: [ ^ self ].
-	hasUnacceptedEdits := aBoolean
 ]
 
 { #category : #initialization }
@@ -112,10 +119,11 @@ ToAlbumViewModel >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	self text: self defaultText.
-	
+
 	" action when edit state change (Observable slot) "
-	self whenEditStateChangedDo: [ :t | self editStateChanged ]
+	self onEditedChangedDo: [ self editStateChanged ].
+	self onTextReplacedDo: [ self textChanged ].
+	self onModeChangedDo: [ self modeChanged ]
 ]
 
 { #category : #accessing }
@@ -152,23 +160,37 @@ ToAlbumViewModel >> onAlbum [
 { #category : #'transaction hook' }
 ToAlbumViewModel >> onCancelRequestedDo: aBlock [
 
-	self when: ToAlbumCancelRequested do: aBlock
+	self announcerWhen: ToAlbumCancelRequested do: aBlock
+]
+
+{ #category : #'property change hook' }
+ToAlbumViewModel >> onEditedChangedDo: aBlock [
+
+	"set a block to perform after that the text has been chanbed, and its action performed"
+
+	self property: #edited whenChangedDo: aBlock
 ]
 
 { #category : #'api - hooks' }
-ToAlbumViewModel >> onInstalledIn: anAlbum [
+ToAlbumViewModel >> onInstalledOnlyMeIn: anAlbum [
 
 	"Is sent when I am added to an element "
 
-	super onInstalledIn: anAlbum.
+	super onInstalledOnlyMeIn: anAlbum.
+
 	self mode: anAlbum mode.
 
-	anAlbum whenTextChangedDo: [ :t | self privateText: t ].
-	anAlbum whenModeChangedDo: [ :m | self privateMode: m ].
-	anAlbum editorElement viewModel when: AlbTextModifiedByEditor send: #whenTextModified: to: self.
+	anAlbum onTextReplacedDo: [ :t | self privateText: t ].
+	anAlbum onModeChangedDo: [ :m | self privateMode: m ].
+	anAlbum onTextEditedDo: [ self textEdited ]
+]
 
-	self runPostponedAction.
+{ #category : #'property change hook' }
+ToAlbumViewModel >> onModeChangedDo: aBlock [
 
+	"set a block to perform after that the text has been chanbed, and its action performed"
+
+	self property: #mode whenChangedDo: aBlock
 ]
 
 { #category : #'transaction hook' }
@@ -198,7 +220,7 @@ ToAlbumViewModel >> onSaveDeniedSend: aSelector to: anObject [
 { #category : #'transaction hook' }
 ToAlbumViewModel >> onSaveRequestedDo: aBlock [
 
-	self when: ToAlbumSaveRequested do: aBlock
+	self announcerWhen: ToAlbumSaveRequested do: aBlock
 ]
 
 { #category : #'transaction hook' }
@@ -207,24 +229,20 @@ ToAlbumViewModel >> onSaveRequestedSend: aSelector to: anObject [
 	self when: ToAlbumSaveRequested send: aSelector to: anObject
 ]
 
-{ #category : #'change hook' }
-ToAlbumViewModel >> onTextChangedDo: aBlock [
+{ #category : #'property change hook' }
+ToAlbumViewModel >> onTextReplacedDo: aBlock [
 
-	self when: ToAlbumTextChanged do: aBlock
-]
+	"set a block to perform after that the text has been chanbed, and its action performed"
 
-{ #category : #'change hook' }
-ToAlbumViewModel >> onTextModifiedDo: aBlock [
-
-	self when: ToAlbumTextModified do: aBlock
+	self property: #text whenChangedDo: aBlock
 ]
 
 { #category : #'api - hooks' }
-ToAlbumViewModel >> onUninstalledIn: anAlbum [
+ToAlbumViewModel >> onUninstalledOnlyMeIn: anAlbum [
 
 	"Is sent when I am added to an element "
 
-	super onUninstalledIn: anAlbum.
+	super onUninstalledOnlyMeIn: anAlbum.
 	anAlbum viewModel unsubscribe: self.
 	self unsubscribe: anAlbum editorElement.
 	self styler ifNotNil: [ :styler | 
@@ -236,18 +254,19 @@ ToAlbumViewModel >> onUninstalledIn: anAlbum [
 ToAlbumViewModel >> privateMode: anEditabilityMode [
 
 	mode = anEditabilityMode ifTrue: [ ^ self ].
-	mode := anEditabilityMode.
-	self modeChanged
+	mode := anEditabilityMode
 ]
 
 { #category : #private }
 ToAlbumViewModel >> privateText: aBlText [
 
-	self hasUnacceptedEdits: false.
-	self resetEditorHistory.
 	aBlText == self text ifTrue: [ ^ self ].
+	self edited: false.
 	text := aBlText.
-	self textChanged
+	self announce: (ToAlbumTextChanged new client: self; text: self text; yourself).
+	" ask the stylerHolder to style through its observal slot"
+	self requestTextStyle
+
 ]
 
 { #category : #'transaction hook' }
@@ -261,40 +280,34 @@ ToAlbumViewModel >> requestSave [
 
 	self announce: (ToAlbumSaveRequested new
 			 client: self;
-			 unacceptedEdits: self hasUnacceptedEdits ;
+			 unacceptedEdits: self edited ;
 			 yourself)
 ]
 
-{ #category : #'api - styling' }
+{ #category : #'styler configuration' }
 ToAlbumViewModel >> requestTextStyle [
 
 	self announce: ToTextStyleRequested new
-]
-
-{ #category : #private }
-ToAlbumViewModel >> resetEditorHistory [ 
-
-	self widgetDo: [ :album | album resetEditorHistory ]
 ]
 
 { #category : #'transaction hook' }
 ToAlbumViewModel >> saveResult: aBoolean [
 
 	| announcement |
-	self hasUnacceptedEdits: aBoolean not.
+	self edited: aBoolean not.
 	announcement := aBoolean
 		                ifTrue: [ ToAlbumSaveAccepted new client: self ]
 		                ifFalse: [ ToAlbumSaveDenied new client: self ].
 	self announce: announcement
 ]
 
-{ #category : #'api - styling' }
+{ #category : #'styler configuration' }
 ToAlbumViewModel >> styler [
 
 	^ self userData at: #styler ifAbsent: [  ]
 ]
 
-{ #category : #'api - styling' }
+{ #category : #'styler configuration' }
 ToAlbumViewModel >> styler: aBlStyler [
 
 	self widgetDo: [ :album | 
@@ -307,9 +320,9 @@ ToAlbumViewModel >> styler: aBlStyler [
 		self styler ifNil: [ ^ self ].
 
 		aBlStyler fontName: self codeFontName.
-		aBlStyler when: BlStylerStateChanged send: #whenStylerStateChanged: to: self.
-		aBlStyler when: BlStylerTextStyled send: #whenStylerTextStyled: to: self.
-		self when: ToTextStyleRequested send: #whenTextStyleRequested: to: self ]
+		aBlStyler announcerWhen: BlStylerStateChanged send: #whenStylerStateChanged: to: self.
+		aBlStyler announcerWhen: BlStylerTextStyled send: #whenStylerTextStyled: to: self.
+		self announcerWhen: ToTextStyleRequested send: #whenTextStyleRequested: to: self ]
 ]
 
 { #category : #accessing }
@@ -329,42 +342,24 @@ ToAlbumViewModel >> text: aBlText [
 
 { #category : #'change hook' }
 ToAlbumViewModel >> textChanged [
-
-	self announce: (ToAlbumTextChanged new client: self; text: self text; yourself).
-	" ask the stylerHolder to style through its observal slot"
-	self requestTextStyle
-
 ]
 
 { #category : #'change hook' }
-ToAlbumViewModel >> textModified [
+ToAlbumViewModel >> textEdited [
 
+	self edited: true.
 	self announce: (ToAlbumTextModified new client: self; text: self text; yourself).
 	" ask the stylerHolder to style through its observal slot"
 	self requestTextStyle
 ]
 
-{ #category : #'change hook' }
-ToAlbumViewModel >> unacceptedEditsDo: aBlock [
-
-	aBlock value: self hasUnacceptedEdits
-]
-
-{ #category : #'private-change hook' }
-ToAlbumViewModel >> whenEditStateChangedDo: aBlock [
-
-	"set a block to perform after that the text has been chanbed, and its action performed"
-
-	self property: #hasUnacceptedEdits whenChangedDo: aBlock
-]
-
-{ #category : #'api - styling' }
+{ #category : #'styler configuration' }
 ToAlbumViewModel >> whenStylerStateChanged: aBlStylerStateChangedAnnouncement [
 
 	self widgetDo: [ :album | self requestTextStyle ]
 ]
 
-{ #category : #'api - styling' }
+{ #category : #'styler configuration' }
 ToAlbumViewModel >> whenStylerTextStyled: aBlStylerTextStyledAnnouncement [
 
 	self widgetDo: [ :album | 
@@ -377,15 +372,7 @@ ToAlbumViewModel >> whenStylerTextStyled: aBlStylerTextStyledAnnouncement [
 		album editorElement textInternalRepresentationChanged ]
 ]
 
-{ #category : #'event management' }
-ToAlbumViewModel >> whenTextModified: aTextModifiedByEditorAnnouncement [
-
-	self hasUnacceptedEdits: true.
-	self textModified
-
-]
-
-{ #category : #'api - styling' }
+{ #category : #'styler configuration' }
 ToAlbumViewModel >> whenTextStyleRequested: aToTextStyleRequested [
 
 	self widgetDo: [ :album | 
@@ -396,25 +383,25 @@ ToAlbumViewModel >> whenTextStyleRequested: aToTextStyleRequested [
 					 yourself) ] ]
 ]
 
-{ #category : #configuration }
+{ #category : #'view configuration' }
 ToAlbumViewModel >> withEditsFeedbackLayer [
 
 	self widgetDo: [ :album | album withEditsFeedbackFrom: self. ]
 ]
 
-{ #category : #configuration }
+{ #category : #'view configuration' }
 ToAlbumViewModel >> withGhostText: aText [
 
 	self widgetDo: [ :album | album withGhostText: aText from: self ]
 ]
 
-{ #category : #configuration }
+{ #category : #'view configuration' }
 ToAlbumViewModel >> withLineNumbers [
 
 	self widgetDo: [ :album | album withLineNumbers ]
 ]
 
-{ #category : #'transaction hook' }
+{ #category : #'view configuration' }
 ToAlbumViewModel >> withSaveCapability [
 
 	self withEditsFeedbackLayer.
@@ -431,19 +418,19 @@ ToAlbumViewModel >> withSaveCapability [
 				 description: 'Cancel changes and rollback the previous accepted source code.') ]
 ]
 
-{ #category : #configuration }
+{ #category : #'view configuration' }
 ToAlbumViewModel >> withoutEditsFeedbackLayer [
 
 	self widgetDo: [ :album | album withoutEditsFeedback. ]
 ]
 
-{ #category : #configuration }
+{ #category : #'view configuration' }
 ToAlbumViewModel >> withoutGhostText [
 
 	self widgetDo: [ :album | album withoutGhostText ]
 ]
 
-{ #category : #configuration }
+{ #category : #'view configuration' }
 ToAlbumViewModel >> withoutLineNumbers [
 
 	self widgetDo: [ :album | album withoutLineNumbers ]

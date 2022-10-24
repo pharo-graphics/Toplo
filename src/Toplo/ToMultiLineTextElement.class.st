@@ -33,7 +33,7 @@ ToMultiLineTextElement >> initialize [
 	self fitContent.
 	self layout: BlLinearLayout vertical.
 	lines := OrderedCollection new.
-	self whenTextChangedDo: [ :t | self textChanged ]
+	self onTextReplacedDo: [ :t | self textChanged ]
 ]
 
 { #category : #'private - text splitting' }
@@ -46,6 +46,14 @@ ToMultiLineTextElement >> newLineElement [
 			  c vertical fitContent ];
 		  beInSeparateCompositionLayer;
 		  yourself
+]
+
+{ #category : #'slot - change hook' }
+ToMultiLineTextElement >> onTextReplacedDo: aBlock [
+
+	"set a block to perform after that the text has been chanbed, and its action performed"
+
+	self property: #text whenChangedDo: aBlock
 ]
 
 { #category : #'private - text splitting' }
@@ -107,12 +115,4 @@ ToMultiLineTextElement >> verticalAlignment: aBlElementAlignment [
 	self verticalAlignment = aBlElementAlignment ifTrue: [ ^self ].
 	self layout verticalAlignment: aBlElementAlignment
 
-]
-
-{ #category : #'slot - change hook' }
-ToMultiLineTextElement >> whenTextChangedDo: aBlock [
-
-	"set a block to perform after that the text has been chanbed, and its action performed"
-
-	self property: #text whenChangedDo: aBlock
 ]

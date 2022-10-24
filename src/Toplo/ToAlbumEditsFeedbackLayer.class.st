@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToWidgetLayer,
 	#instVars : [
 		'feedback',
-		'backgroundAnimation'
+		'backgroundAnimation',
+		'coverColor'
 	],
 	#category : #'Toplo-Widget-Album'
 }
@@ -13,17 +14,18 @@ ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement from: anAlbumClient [
 
 	super attachTo: anEditorElement from: anAlbumClient.
 	
+	coverColor := anEditorElement selectionColor alpha: 0.1.
 	anAlbumClient
-		when: ToAlbumFlashRequested
+		announcerWhen: ToAlbumFlashRequested
 		do: [ self flash ].
 
 	" flash if save requested with no text change "
 	anAlbumClient
-		when: ToAlbumSaveRequested
+		announcerWhen: ToAlbumSaveRequested
 		do: [ :announce | announce unacceptedEdits ifFalse: [ self flash ] ].
 
 	" visual flag add/remove according to unaccepted edits or not"
-	anAlbumClient whenEditStateChangedDo: [ :state | 
+	anAlbumClient onEditedChangedDo: [ :state | 
 		state
 			ifTrue: [ self showEditsFeedback ]
 			ifFalse: [ self hideEditsFeedback ] ]
@@ -36,7 +38,7 @@ ToAlbumEditsFeedbackLayer >> coverWithColor: aCoverColor [
 	backgroundAnimation ifNotNil: [ ^ self ].
 	previousBackground := self background.
 	backgroundAnimation := BlColorTransition new
-		                       duration: 300 milliSeconds;
+		                       duration: 500 milliSeconds;
 		                       from: aCoverColor;
 		                       to: Color transparent;
 		                       onStepDo: [ :aColor :anElement | anElement background: aColor ].
@@ -56,7 +58,7 @@ ToAlbumEditsFeedbackLayer >> detach [
 { #category : #'api - attaching / detaching' }
 ToAlbumEditsFeedbackLayer >> flash [
 
-	self coverWithColor: (Color lightGray alpha: 0.5)
+	self coverWithColor: (coverColor)
 ]
 
 { #category : #'edition-flag' }

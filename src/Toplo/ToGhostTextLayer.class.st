@@ -13,8 +13,8 @@ ToGhostTextLayer >> attachTo: anEditorElement from: anAlbumClient [
 	super attachTo: anEditorElement from: anAlbumClient.
 	self checkText: anEditorElement text.
 	" add/remove according to unaccepted text size"
-	anAlbumClient announcerWhen: ToAlbumTextModified do: [ :announce | self checkText: announce text ].
-	anAlbumClient announcerWhen: ToAlbumTextChanged do: [ :announce | self checkText: announce text ]
+	anAlbumClient announcerWhen: ToAlbumTextEdited do: [ :announce | self checkText: announce text ].
+	anAlbumClient announcerWhen: ToAlbumTextReplaced do: [ :announce | self checkText: announce text ]
 ]
 
 { #category : #'api - attaching / detaching' }

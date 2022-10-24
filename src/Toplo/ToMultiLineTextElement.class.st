@@ -33,7 +33,7 @@ ToMultiLineTextElement >> initialize [
 	self fitContent.
 	self layout: BlLinearLayout vertical.
 	lines := OrderedCollection new.
-	self onTextReplacedDo: [ :t | self textChanged ]
+	self onTextReplacedDo: [ :t | self textReplaced ]
 ]
 
 { #category : #'private - text splitting' }
@@ -95,7 +95,7 @@ ToMultiLineTextElement >> text: aBlText [
 ]
 
 { #category : #'event handling' }
-ToMultiLineTextElement >> textChanged [
+ToMultiLineTextElement >> textReplaced [
 
 	self removeChildren.
 	lines := self splitText.

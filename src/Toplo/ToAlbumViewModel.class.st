@@ -122,7 +122,7 @@ ToAlbumViewModel >> initialize [
 
 	" action when edit state change (Observable slot) "
 	self onEditedChangedDo: [ self editStateChanged ].
-	self onTextReplacedDo: [ self textChanged ].
+	self onTextReplacedDo: [ self textReplaced ].
 	self onModeChangedDo: [ self modeChanged ]
 ]
 
@@ -196,25 +196,25 @@ ToAlbumViewModel >> onModeChangedDo: aBlock [
 { #category : #'transaction hook' }
 ToAlbumViewModel >> onSaveAcceptedDo: aBlock [
 
-	self when: ToAlbumSaveAccepted do: aBlock
+	self announcerWhen: ToAlbumSaveAccepted do: aBlock
 ]
 
 { #category : #'transaction hook' }
 ToAlbumViewModel >> onSaveAcceptedSend: aSelector to: anObject [
 
-	self when: ToAlbumSaveAccepted send: aSelector to: anObject
+	self announcerWhen: ToAlbumSaveAccepted send: aSelector to: anObject
 ]
 
 { #category : #'transaction hook' }
 ToAlbumViewModel >> onSaveDeniedDo: aBlock [
 
-	self when: ToAlbumSaveDenied do: aBlock
+	self announcerWhen: ToAlbumSaveDenied do: aBlock
 ]
 
 { #category : #'transaction hook' }
 ToAlbumViewModel >> onSaveDeniedSend: aSelector to: anObject [
 
-	self when: ToAlbumSaveDenied send: aSelector to: anObject
+	self announcerWhen: ToAlbumSaveDenied send: aSelector to: anObject
 ]
 
 { #category : #'transaction hook' }
@@ -226,7 +226,7 @@ ToAlbumViewModel >> onSaveRequestedDo: aBlock [
 { #category : #'transaction hook' }
 ToAlbumViewModel >> onSaveRequestedSend: aSelector to: anObject [
 
-	self when: ToAlbumSaveRequested send: aSelector to: anObject
+	self announcerWhen: ToAlbumSaveRequested send: aSelector to: anObject
 ]
 
 { #category : #'property change hook' }
@@ -263,7 +263,7 @@ ToAlbumViewModel >> privateText: aBlText [
 	aBlText == self text ifTrue: [ ^ self ].
 	self edited: false.
 	text := aBlText.
-	self announce: (ToAlbumTextChanged new client: self; text: self text; yourself).
+	self announce: (ToAlbumTextReplaced new client: self; text: self text; yourself).
 	" ask the stylerHolder to style through its observal slot"
 	self requestTextStyle
 
@@ -341,16 +341,16 @@ ToAlbumViewModel >> text: aBlText [
 ]
 
 { #category : #'change hook' }
-ToAlbumViewModel >> textChanged [
-]
-
-{ #category : #'change hook' }
 ToAlbumViewModel >> textEdited [
 
 	self edited: true.
-	self announce: (ToAlbumTextModified new client: self; text: self text; yourself).
+	self announce: (ToAlbumTextEdited new client: self; text: self text; yourself).
 	" ask the stylerHolder to style through its observal slot"
 	self requestTextStyle
+]
+
+{ #category : #'change hook' }
+ToAlbumViewModel >> textReplaced [
 ]
 
 { #category : #'styler configuration' }

@@ -1,5 +1,5 @@
 Class {
-	#name : #ToAlbumTextModified,
+	#name : #ToAlbumTextEdited,
 	#superclass : #ToAlbumClientAnnouncement,
 	#instVars : [
 		'text'
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-ToAlbumTextModified >> text [
+ToAlbumTextEdited >> text [
 
 	^ text
 ]
 
 { #category : #accessing }
-ToAlbumTextModified >> text: aBlText [
+ToAlbumTextEdited >> text: aBlText [
 
 	text := aBlText
 ]

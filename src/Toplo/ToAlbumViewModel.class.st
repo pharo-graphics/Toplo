@@ -182,7 +182,9 @@ ToAlbumViewModel >> onInstalledOnlyMeIn: anAlbum [
 
 	anAlbum onTextReplacedDo: [ :t | self privateText: t ].
 	anAlbum onModeChangedDo: [ :m | self privateMode: m ].
-	anAlbum onTextEditedDo: [ self textEdited ]
+	anAlbum onTextEditedDo: [ self textEdited ].
+	
+	self text: ''
 ]
 
 { #category : #'property change hook' }

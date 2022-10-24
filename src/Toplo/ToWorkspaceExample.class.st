@@ -10,56 +10,10 @@ Class {
 	#category : #'Toplo-Examples'
 }
 
-{ #category : #examples }
-ToWorkspaceExample class >> exampleWindowWithScrolledText [
-	<sampleInstance>
-
-	^self open
-]
-
-{ #category : #examples }
-ToWorkspaceExample class >> exampleWithCustomShortcut [
-
-	 |  window text |
-    text := RubScrolledTextMorph new.
-
-    "define a custom shortcut  - notice  the call to textArea"
-
-    text textArea removeKeyCombination: $s meta.
-	 text setText: 'Hit cmd $s to revert the text'.
-    text textArea on: $s meta do:[
-        text setText: text text asString reverse].
-
-    window := StandardWindow new.
-    window addMorph: text fullFrame: LayoutFrame identity.
-    window title: 'Custom shortcuts example'.
-    window openInWorld.
-]
-
 { #category : #'instance creation' }
 ToWorkspaceExample class >> open [
 	<script>
-	(self windowWithScrolledText: (self new newScrolledText)) openInWorld
-]
-
-{ #category : #'private - accessing' }
-ToWorkspaceExample class >> title [
-	^ 'Rubric workspace example'
-]
-
-{ #category : #'private - utilities' }
-ToWorkspaceExample class >> windowWithScrolledText: aScrolledText [ 
-	| w |
-	w := StandardWindow new.
-	w title: self title.
-	w addMorph: aScrolledText fullFrame: LayoutFrame identity.
-	^w
-]
-
-{ #category : #accessing }
-ToWorkspaceExample >> acceptString: aString [
-	textModel setText: aString asText.
-	 ^ true
+	self new open
 ]
 
 { #category : #accessing }
@@ -67,7 +21,7 @@ ToWorkspaceExample >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]
 ]
 
-{ #category : #shout }
+{ #category : #bindings }
 ToWorkspaceExample >> bindingOf: aString [
 
 	mustDeclareVariables
@@ -79,53 +33,108 @@ ToWorkspaceExample >> bindingOf: aString [
 	^ bindings associationAt: aString
 ]
 
-{ #category : #'code pane menu' }
-ToWorkspaceExample >> codePaneMenu: aMenu shifted: shifted [ 
-	"Note that unless we override perform:orSendTo:, 
-	PluggableTextController will respond to all menu items in a 
-	text pane"
-	"Not tested"
-]
-
 { #category : #'user interface' }
-ToWorkspaceExample >> getText [
-	^ textModel getText
+ToWorkspaceExample >> codeEditor [
+
+	| st |
+	st := textModel
+		      withLineNumbers;
+		      withGhostText:
+			      ('Workspace: a place where you can code and test scripts'
+				       asRopedText
+				       fontSize: 24;
+				       foreground: Color gray lighter;
+				       yourself);
+		      styler: (BlRBTextStyler new workspace: self);
+		      yourself.
+	st widgetDo: [ :album | 
+		album editorElement addEditorShortcut: (BlShortcutWithAction new
+				 combination: BlKeyCombination primaryD;
+				 action: [ :aShortcutEvent :aShortcut | self doIt ];
+				 name: 'Do it';
+				 description: 'Run selected expression.') ].
+	^ st onAlbum
 ]
 
-{ #category : #shout }
+{ #category : #accessing }
+ToWorkspaceExample >> doIt [
+
+	textModel widgetDo: [ :widget |
+		| selectedString |
+		
+		selectedString := widget editorElement selectedText asString.
+		self evaluate: selectedString onCompileError: [self halt] onError: [self halt]
+		 ]
+]
+
+{ #category : #accessing }
+ToWorkspaceExample >> doItContext [
+
+	^ self
+]
+
+{ #category : #accessing }
+ToWorkspaceExample >> doItReceiver [
+
+	^ nil
+]
+
+{ #category : #accessing }
+ToWorkspaceExample >> evaluate: aString onCompileError: compileErrorBlock onError: errorBlock [ 
+	"evaluate aString. 
+	 evaluate compileErrorBlock if there are compilation errors. 
+	 evaluate errorBlock is anything happens *during* evaluation (code compiled, but it does not 
+	 executes.). 
+	 NOTE for future me. This is how I understand the evaluation works and why we need to catch 
+	 differently the error: If there is a syntax error (avoiding compilation), it will evaluate 
+	 requestor>>#notify:at:in: to notify the error and then it will call failBlock: *which is not 
+	 intended to be used to throw an error*, since that should be handled (and it is) in the 
+	 notification. Instead, most users of failBlock: use it to return execution without doing 
+	 anything. 
+	 Instead, the on:do: will catch all errors happening while executing the code once it is 
+	 compiled. "
+	| receiver result oldBindings |
+	
+	^ [
+		self announcer announce: (SpCodeWillBeEvaluatedAnnouncement newContent: aString).
+		oldBindings := bindings.
+		receiver := self doItReceiver.
+		result := receiver class compiler
+			source: aString readStream;
+			context: self doItContext;
+			receiver: self doItReceiver;
+			requestor: self;
+			environment: self environment;
+			failBlock:  [ 
+				^ compileErrorBlock value ];
+			evaluate.
+		result ]
+	on: Error 
+	do: [ :e | errorBlock value: e ]
+]
+
+{ #category : #bindings }
 ToWorkspaceExample >> hasBindingOf: aString [
-	^bindings includesKey: aString asSymbol
+	^ bindings includesKey: aString asSymbol
 ]
 
 { #category : #initialization }
 ToWorkspaceExample >> initialize [
 	super initialize.
-	textModel := RubScrolledTextModel new
-		interactionModel: self;
-		yourself.
+	textModel := ToAlbumViewModel new.
 	mustDeclareVariables := false
 ]
 
-{ #category : #'user interface' }
-ToWorkspaceExample >> newScrolledText [
-	| st |
-	st := textModel newScrolledText 
-		beWrapped;
-		autoAccept: true;
-		withLineNumbers;
-		withGhostText: 'Workspace: a place where you can code and test scripts';
-		withAnnotation;
-		yourself.
-	st ghostTextRuler fontName: 'Bitmap DejaVu Sans' pointSize: 18; textColor: Color gray lighter; centered.
-	^st
+{ #category : #bindings }
+ToWorkspaceExample >> initializeBindings [
+	
+	bindings := Dictionary new
 ]
 
 { #category : #'user interface' }
-ToWorkspaceExample >> setText: aText from: aView [ 
-	^ self acceptString: aText string
-]
-
-{ #category : #shout }
-ToWorkspaceExample >> shoutAboutToStyle: ATextView [
-	^ true
+ToWorkspaceExample >> open [
+	| space |
+	space := OBlSpace new.
+	space root addChild: self codeEditor.
+	space show.
 ]

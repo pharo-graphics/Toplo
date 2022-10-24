@@ -40,7 +40,6 @@ ToSandBox class >> example_EditorWithGhostText [
 	ghost fontSize: 24.
 
 	(ToAlbumViewModel new
-		 text: '';
 		 onSaveRequestedDo: [ :announcement | announcement client saveResult: true ];
 		 withGhostText: ghost;
 		 withLineNumbers;

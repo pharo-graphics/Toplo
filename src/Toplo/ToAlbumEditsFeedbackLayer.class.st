@@ -16,12 +16,12 @@ ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement from: anAlbumClient [
 	
 	coverColor := anEditorElement selectionColor alpha: 0.1.
 	anAlbumClient
-		announcerWhen: ToAlbumFlashRequested
+		whenAnnouncement: ToAlbumFlashRequested
 		do: [ self flash ].
 
 	" flash if save requested with no text change "
 	anAlbumClient
-		announcerWhen: ToAlbumSaveRequested
+		whenAnnouncement: ToAlbumSaveRequested
 		do: [ :announce | announce unacceptedEdits ifFalse: [ self flash ] ].
 
 	" visual flag add/remove according to unaccepted edits or not"

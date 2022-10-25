@@ -69,7 +69,7 @@ ToAlbum >> onModeChangedDo: aBlock [
 { #category : #'client - protocol' }
 ToAlbum >> onTextEditedDo: aBlock [
 
-	self editorElement announcerWhen: AlbTextEdited do: aBlock
+	self editorElement whenAnnouncement: AlbTextEdited do: aBlock
 ]
 
 { #category : #'client - protocol' }

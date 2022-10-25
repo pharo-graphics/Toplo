@@ -160,7 +160,7 @@ ToAlbumViewModel >> onAlbum [
 { #category : #'transaction hook' }
 ToAlbumViewModel >> onCancelRequestedDo: aBlock [
 
-	self announcerWhen: ToAlbumCancelRequested do: aBlock
+	self whenAnnouncement: ToAlbumCancelRequested do: aBlock
 ]
 
 { #category : #'property change hook' }
@@ -198,37 +198,37 @@ ToAlbumViewModel >> onModeChangedDo: aBlock [
 { #category : #'transaction hook' }
 ToAlbumViewModel >> onSaveAcceptedDo: aBlock [
 
-	self announcerWhen: ToAlbumSaveAccepted do: aBlock
+	self whenAnnouncement: ToAlbumSaveAccepted do: aBlock
 ]
 
 { #category : #'transaction hook' }
 ToAlbumViewModel >> onSaveAcceptedSend: aSelector to: anObject [
 
-	self announcerWhen: ToAlbumSaveAccepted send: aSelector to: anObject
+	self whenAnnouncement: ToAlbumSaveAccepted send: aSelector to: anObject
 ]
 
 { #category : #'transaction hook' }
 ToAlbumViewModel >> onSaveDeniedDo: aBlock [
 
-	self announcerWhen: ToAlbumSaveDenied do: aBlock
+	self whenAnnouncement: ToAlbumSaveDenied do: aBlock
 ]
 
 { #category : #'transaction hook' }
 ToAlbumViewModel >> onSaveDeniedSend: aSelector to: anObject [
 
-	self announcerWhen: ToAlbumSaveDenied send: aSelector to: anObject
+	self whenAnnouncement: ToAlbumSaveDenied send: aSelector to: anObject
 ]
 
 { #category : #'transaction hook' }
 ToAlbumViewModel >> onSaveRequestedDo: aBlock [
 
-	self announcerWhen: ToAlbumSaveRequested do: aBlock
+	self whenAnnouncement: ToAlbumSaveRequested do: aBlock
 ]
 
 { #category : #'transaction hook' }
 ToAlbumViewModel >> onSaveRequestedSend: aSelector to: anObject [
 
-	self announcerWhen: ToAlbumSaveRequested send: aSelector to: anObject
+	self whenAnnouncement: ToAlbumSaveRequested send: aSelector to: anObject
 ]
 
 { #category : #'property change hook' }
@@ -322,9 +322,9 @@ ToAlbumViewModel >> styler: aBlStyler [
 		self styler ifNil: [ ^ self ].
 
 		aBlStyler fontName: self codeFontName.
-		aBlStyler announcerWhen: BlStylerStateChanged send: #whenStylerStateChanged: to: self.
-		aBlStyler announcerWhen: BlStylerTextStyled send: #whenStylerTextStyled: to: self.
-		self announcerWhen: ToTextStyleRequested send: #whenTextStyleRequested: to: self ]
+		aBlStyler whenAnnouncement: BlStylerStateChanged send: #whenStylerStateChanged: to: self.
+		aBlStyler whenAnnouncement: BlStylerTextStyled send: #whenStylerTextStyled: to: self.
+		self whenAnnouncement: ToTextStyleRequested send: #whenTextStyleRequested: to: self ]
 ]
 
 { #category : #accessing }

@@ -4,7 +4,8 @@ Class {
 	#traits : 'TBlAlignable + TOBlLayoutResizable',
 	#classTraits : 'TBlAlignable classTrait + TOBlLayoutResizable classTrait',
 	#instVars : [
-		'textElement'
+		'textElement',
+		'textReplacedHandler'
 	],
 	#category : #'Toplo-Widget-Label'
 }
@@ -216,10 +217,22 @@ ToLabel >> privateLineModeChanged: aLineMode [
 	| currText |
 	currText := self text.
 	self removeChildren.
-	textElement := self defaultTextElement.
+	self privateReplaceTextElement.
 	currText ifNotNil: [textElement text: currText].
 	self layout: self defaultLayout.
 	self addChild: textElement
+]
+
+{ #category : #'private-change' }
+ToLabel >> privateReplaceTextElement [
+
+	textElement ifNotNil: [ 
+		textElement removeEventHandler: textReplacedHandler ].
+	textElement := self defaultTextElement.
+	textReplacedHandler := BlEventHandler
+		                       on: ToTextReplacedEvent
+		                       do: [ :evt | self viewModel text: evt text ].
+	textElement addEventHandler: textReplacedHandler
 ]
 
 { #category : #accessing }

@@ -22,7 +22,7 @@ ToLabelMonoLineMode >> addEditorIn: aLabel [
 { #category : #initialization }
 ToLabelMonoLineMode >> newTextElement [
 
-	^ BlAttributedTextElement new
+	^ ToMonoLineTextElement new
 		  editorMeasurement;
 		  yourself
 ]

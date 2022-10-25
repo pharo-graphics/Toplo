@@ -100,6 +100,8 @@ ToMultiLineTextElement >> textReplaced [
 	self removeChildren.
 	lines := self splitText.
 	self addChildren: lines.
+	self dispatchEvent: (ToTextReplacedEvent new text: self text)
+
 ]
 
 { #category : #accessing }

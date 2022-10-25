@@ -1,3 +1,6 @@
+"
+I'm a workspace example made with Album/Toplo
+"
 Class {
 	#name : #ToWorkspaceExample,
 	#superclass : #Object,
@@ -5,13 +8,73 @@ Class {
 		'textModel',
 		'bindings'
 	],
+	#classVars : [
+		'MyTranscript'
+	],
 	#category : #'Toplo-Examples'
 }
 
 { #category : #'instance creation' }
-ToWorkspaceExample class >> open [
+ToWorkspaceExample class >> closeTranscript [
+
+	MyTranscript ifNotNil: [ MyTranscript close ]
+]
+
+{ #category : #'instance creation' }
+ToWorkspaceExample class >> openInHost: aBlOSWindowHost [
+
 	<script>
-	self new open
+	| space |
+	self transcriptAlreadyOpened ifFalse: [ self openTranscript ].
+
+	space := BlSpace new
+		         host: aBlOSWindowHost;
+		         yourself.
+	self new openInSpace: space
+]
+
+{ #category : #'instance creation' }
+ToWorkspaceExample class >> openInMorphic [
+
+	<script>
+	self openInHost: BAMorphicWindowHost new
+]
+
+{ #category : #'instance creation' }
+ToWorkspaceExample class >> openInSDL [
+
+	<script>
+	self openInHost: BAOSWindowSDL2Host new
+]
+
+{ #category : #'instance creation' }
+ToWorkspaceExample class >> openTranscript [
+
+	MyTranscript := Transcript openLabel: self class instanceSide name , ' Transcript'.
+	MyTranscript
+		onAnnouncement: MorphDeleted
+		send: #transcriptClosed
+		to: self
+]
+
+{ #category : #initialization }
+ToWorkspaceExample class >> resetTranscript [
+
+	" self resetTranscript "
+	MyTranscript := nil
+]
+
+{ #category : #'instance creation' }
+ToWorkspaceExample class >> transcriptAlreadyOpened [
+
+	^ MyTranscript notNil
+]
+
+{ #category : #'instance creation' }
+ToWorkspaceExample class >> transcriptClosed [
+
+	MyTranscript announcer unsubscribe: self.
+	self resetTranscript 
 ]
 
 { #category : #bindings }
@@ -40,8 +103,8 @@ ToWorkspaceExample >> codeEditor [
 	st := textModel
 		      withLineNumbers;
 		      withGhostText:
-			      (('Workspace: a place where you can code and test scripts'
-			        , String cr , 'doit: Cmd-d') asRopedText
+			      (('Workspace example' , String cr , '- doit: Cmd-d')
+				       asRopedText
 				       fontSize: 24;
 				       foreground: Color gray lighter;
 				       yourself);
@@ -70,10 +133,11 @@ ToWorkspaceExample >> correctFrom: start to: stop with: aString [
 ToWorkspaceExample >> doIt [
 
 	textModel widgetDo: [ :widget | 
-		| selectedString |
-		selectedString := widget editorElement selectedText asString.
+		| toDo |
+		toDo := widget editorElement selectedText asString.
+		toDo ifEmpty: [ toDo := widget editorElement text asString ].
 		^ OpalCompiler new
-			  source: selectedString readStream;
+			  source: toDo readStream;
 			  requestor: self;
 			  failBlock: [ ^ Object new ];
 			  evaluate ]
@@ -99,10 +163,21 @@ ToWorkspaceExample >> notify: aString at: anInteger in: aString3 [
 
 { #category : #'user interface' }
 ToWorkspaceExample >> open [
-	| space |
-	space := OBlSpace new.
-	space root addChild: self codeEditor.
-	space show.
+
+	self openInSpace: OBlSpace new
+]
+
+{ #category : #'user interface' }
+ToWorkspaceExample >> openInSpace: aSpace [
+
+	aSpace
+		title: self class instanceSide name;
+		extent: 300 asPoint.
+	aSpace root addChild: self codeEditor.
+	aSpace show.
+	aSpace addEventHandler: (BlEventHandler
+			 on: BlSpaceClosedEvent
+			 do: [ :evt | self class closeTranscript ])
 ]
 
 { #category : #accessing }

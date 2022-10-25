@@ -20,9 +20,17 @@ ToWorkspaceExample >> bindingOf: aString [
 	"I want to have workspace that force the user to declare  
 	variables. Still subclasses may want to do something else"
 	
-	(bindings includesKey: aString) ifFalse: [ 
-		bindings at: aString put: nil ].
-	^ bindings associationAt: aString
+	| key |
+	key := aString asSymbol.
+	(bindings includesKey: key) ifFalse: [ 
+		bindings at: key put: (WorkspaceVariable key: key value: nil) ].
+	^ bindings at: key
+]
+
+{ #category : #bindings }
+ToWorkspaceExample >> bindings [
+
+	^ bindings 
 ]
 
 { #category : #'user interface' }
@@ -39,6 +47,7 @@ ToWorkspaceExample >> codeEditor [
 				       yourself);
 		      styler: (BlRBTextStyler new
 				       isForWorkspace: true;
+				       workspace: self;
 				       fontName: AeFontManager defaultCodeFontFamilyName;
 				       yourself);
 		      yourself.
@@ -49,6 +58,12 @@ ToWorkspaceExample >> codeEditor [
 				 name: 'Do it';
 				 description: 'Run selected expression.') ].
 	^ st onAlbum
+]
+
+{ #category : #accessing }
+ToWorkspaceExample >> correctFrom: start to: stop with: aString [
+
+	('correctFrom: ', start asString, ' to: ', stop asString, ' with: ', aString asString) traceCr
 ]
 
 { #category : #accessing }
@@ -64,18 +79,6 @@ ToWorkspaceExample >> doIt [
 			  evaluate ]
 ]
 
-{ #category : #accessing }
-ToWorkspaceExample >> doItContext [
-
-	^ self
-]
-
-{ #category : #accessing }
-ToWorkspaceExample >> doItReceiver [
-
-	^ nil
-]
-
 { #category : #bindings }
 ToWorkspaceExample >> hasBindingOf: aString [
 	^ bindings includesKey: aString asSymbol
@@ -89,10 +92,21 @@ ToWorkspaceExample >> initialize [
 
 ]
 
+{ #category : #bindings }
+ToWorkspaceExample >> notify: aString at: anInteger in: aString3 [ 
+	('parse error: ', aString, ' at: ', anInteger asString) traceCr.
+]
+
 { #category : #'user interface' }
 ToWorkspaceExample >> open [
 	| space |
 	space := OBlSpace new.
 	space root addChild: self codeEditor.
 	space show.
+]
+
+{ #category : #accessing }
+ToWorkspaceExample >> text [
+
+	^ textModel text
 ]

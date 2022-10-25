@@ -246,7 +246,7 @@ ToAlbumViewModel >> onUninstalledOnlyMeIn: anAlbum [
 
 	super onUninstalledOnlyMeIn: anAlbum.
 	anAlbum viewModel unsubscribe: self.
-	self unsubscribe: anAlbum editorElement.
+	self unsubscribe: anAlbum innerElement.
 	self styler ifNotNil: [ :styler | 
 		self styler unsubscribe: self.
 		self unsubscribe: styler ]
@@ -371,7 +371,7 @@ ToAlbumViewModel >> whenStylerTextStyled: aBlStylerTextStyledAnnouncement [
 			my text has not be changed elsewhere during the styling "
 		(result isNextGenerationOf: self text) ifFalse: [ ^ self ].
 		self text takeInternalRepresentationOf: result.
-		album editorElement textInternalRepresentationChanged ]
+		album innerElement textInternalRepresentationChanged ]
 ]
 
 { #category : #'styler configuration' }
@@ -408,12 +408,12 @@ ToAlbumViewModel >> withSaveCapability [
 
 	self withEditsFeedbackLayer.
 	self widgetDo: [ :album | 
-		album editorElement addEditorShortcut: (BlShortcutWithAction new
+		album innerElement addEditorShortcut: (BlShortcutWithAction new
 				 combination: BlKeyCombination primaryS;
 				 action: [ :aShortcutEvent :aShortcut | self requestSave ];
 				 name: 'Save';
 				 description: 'Apply changes and save the source code (compile).').
-		album editorElement addEditorShortcut: (BlShortcutWithAction new
+		album innerElement addEditorShortcut: (BlShortcutWithAction new
 				 combination: BlKeyCombination primaryL;
 				 action: [ :aShortcutEvent :aShortcut | self requestCancel ];
 				 name: 'Cancel';

@@ -1,17 +1,11 @@
 Class {
 	#name : #ToLabelLineMode,
 	#superclass : #Object,
-	#category : #'Toplo-Widget-Label'
+	#category : #'Toplo-Widget-Labels'
 }
 
-{ #category : #adding }
-ToLabelLineMode >> addEditorIn: aLabel [
-
-	^ self subclassResponsibility  
-]
-
 { #category : #initialization }
-ToLabelLineMode >> newTextElement [
+ToLabelLineMode >> newTextElementIn: aLabel [
 
 	^ self subclassResponsibility 
 	

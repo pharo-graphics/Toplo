@@ -4,9 +4,9 @@ Class {
 	#traits : 'TOBlLayoutResizable + TToWidgetWithLayers',
 	#classTraits : 'TOBlLayoutResizable classTrait + TToWidgetWithLayers classTrait',
 	#instVars : [
-		'editorElement',
 		'editsFeedbackLayer',
-		'ghostTextLayer'
+		'ghostTextLayer',
+		'innerElement'
 	],
 	#category : #'Toplo-Widget-Album'
 }
@@ -17,20 +17,6 @@ ToAlbum >> defaultEditorElement [
 	^ AlbEditorElement new
 ]
 
-{ #category : #accessing }
-ToAlbum >> editorElement [
-
-	^ editorElement
-]
-
-{ #category : #accessing }
-ToAlbum >> editorElement: anEditorElement [
-	editorElement ifNotNil: [ 
-		editorElement removeFromParent ].
-	editorElement := anEditorElement.
-	self addChild: anEditorElement
-]
-
 { #category : #initialization }
 ToAlbum >> initialize [
 
@@ -39,56 +25,70 @@ ToAlbum >> initialize [
 		c horizontal matchParent.
 		c vertical matchParent ].
 	
-	self editorElement: self defaultEditorElement
+	self innerElement: self defaultEditorElement
+]
+
+{ #category : #accessing }
+ToAlbum >> innerElement [
+
+	^ innerElement
+]
+
+{ #category : #accessing }
+ToAlbum >> innerElement: anEditorElement [
+	innerElement ifNotNil: [ 
+		innerElement removeFromParent ].
+	innerElement := anEditorElement.
+	self addChild: anEditorElement
 ]
 
 { #category : #'api-layers' }
 ToAlbum >> layerReferentElement [
 
-		^ self editorElement
+		^ self innerElement
 ]
 
 { #category : #accessing }
 ToAlbum >> mode [
 
-	^ self editorElement mode
+	^ self innerElement mode
 ]
 
 { #category : #accessing }
 ToAlbum >> mode: anEditabilityMode [
 
-	self editorElement mode: anEditabilityMode 
+	self innerElement mode: anEditabilityMode 
 ]
 
 { #category : #'client - protocol' }
 ToAlbum >> onModeChangedDo: aBlock [
 
-	editorElement onModeChangedDo: aBlock
+	innerElement onModeChangedDo: aBlock
 ]
 
 { #category : #'client - protocol' }
 ToAlbum >> onTextEditedDo: aBlock [
 
-	self editorElement whenAnnouncement: AlbTextEdited do: aBlock
+	self innerElement whenAnnouncement: AlbTextEdited do: aBlock
 ]
 
 { #category : #'client - protocol' }
 ToAlbum >> onTextReplacedDo: aBlock [
 
-	editorElement 
+	innerElement 
 		whenTextReplacedDo: [ :announcement | aBlock cull: announcement text cull: announcement ]
 ]
 
 { #category : #accessing }
 ToAlbum >> text [
 
-	^ self editorElement text
+	^ self innerElement text
 ]
 
 { #category : #accessing }
 ToAlbum >> text: aBlText [
 
-	self editorElement text: aBlText
+	self innerElement text: aBlText
 ]
 
 { #category : #layers }
@@ -110,7 +110,7 @@ ToAlbum >> withGhostText: aText from: anAlbumClient [
 { #category : #initialization }
 ToAlbum >> withLineNumbers [
 
-	self editorElement withLineNumbers
+	self innerElement withLineNumbers
 ]
 
 { #category : #layers }
@@ -132,5 +132,5 @@ ToAlbum >> withoutGhostText [
 { #category : #initialization }
 ToAlbum >> withoutLineNumbers [
 
-	self editorElement withoutLineNumbers
+	self innerElement withoutLineNumbers
 ]

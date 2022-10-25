@@ -4,16 +4,18 @@ Class {
 	#traits : 'TBlAlignable + TOBlLayoutResizable',
 	#classTraits : 'TBlAlignable classTrait + TOBlLayoutResizable classTrait',
 	#instVars : [
-		'textElement',
-		'textReplacedHandler'
+		'textReplacedHandler',
+		'innerElement'
 	],
-	#category : #'Toplo-Widget-Label'
+	#category : #'Toplo-Widget-Labels'
 }
 
 { #category : #'private-editing' }
 ToLabel >> addEditor [
 
-	self lineMode addEditorIn: self
+	| editor |
+	editor := self innerElement newEditorIn: self.
+	self addEditor: editor
 ]
 
 { #category : #'private-editing' }
@@ -26,17 +28,17 @@ ToLabel >> addEditor: anEditor [
 	editorOverlay clipChildren: false.
 	self previousElevation: self elevation.
 	self elevation: (BlRelativeElevation elevation: 1000).
-	editorOverlay attachTo: self textElement.
+	editorOverlay attachTo: self innerElement overlayReferentElement.
 	editorOverlay addChild: anEditor.
 	anEditor border: BlBorder empty.
 	self previousClipping: self clipChildren.
-	self previousVisibility: self textElement visibility.
-	self previousTextElementClipping: self textElement clipChildren.
-	self textElement visibility: BlVisibility hidden.
-	self textElement clipChildren: false.
+	self previousVisibility: self innerElement visibility.
+	self previousTextElementClipping: self innerElement clipChildren.
+	self innerElement visibility: BlVisibility hidden.
+	self innerElement clipChildren: false.
 	self clipChildren: false.
 	self addChild: editorOverlay.
-	anEditor editorElement requestFocus
+	anEditor innerElement overlayReferentElement requestFocus
 ]
 
 { #category : #initialization }
@@ -91,7 +93,7 @@ ToLabel >> defaultText [
 { #category : #initialization }
 ToLabel >> defaultTextElement [
 
-	^ self lineMode newTextElement
+	^ self lineMode newTextElementIn: self
 ]
 
 { #category : #initialization }
@@ -111,6 +113,12 @@ ToLabel >> editable [
 ToLabel >> editable: aBoolean [
 
 	self viewModel editable: aBoolean
+]
+
+{ #category : #'private-editing' }
+ToLabel >> editor [
+
+	^ self userData at: #editor
 ]
 
 { #category : #'private-editing' }
@@ -147,6 +155,24 @@ ToLabel >> initialize [
 ]
 
 { #category : #accessing }
+ToLabel >> innerElement [
+
+	^ innerElement
+]
+
+{ #category : #accessing }
+ToLabel >> innerElementStencil [
+
+	^ self viewModel innerElementStencil
+]
+
+{ #category : #accessing }
+ToLabel >> innerElementStencil: aValuable [
+
+	^ self viewModel innerElementStencil: aValuable
+]
+
+{ #category : #accessing }
 ToLabel >> lineMode [
 
 	^ self viewModel ifNotNil: [:vm | vm lineMode]
@@ -161,11 +187,7 @@ ToLabel >> lineMode: aLineMode [
 { #category : #'private-editing' }
 ToLabel >> newEditor [
 
-	| ed |
-	ed := (ToAlbumViewModel new dresser: ToLabelEditorBasicDresser new) onAlbum.
-	ed text: self privateText copy.
-	ed fitContent.
-	^ ed
+	^ self innerElement newEditor
 ]
 
 { #category : #'private-editing' }
@@ -218,34 +240,34 @@ ToLabel >> privateLineModeChanged: aLineMode [
 	currText := self text.
 	self removeChildren.
 	self privateReplaceTextElement.
-	currText ifNotNil: [textElement text: currText].
+	currText ifNotNil: [innerElement text: currText].
 	self layout: self defaultLayout.
-	self addChild: textElement
+	self addChild: innerElement
 ]
 
 { #category : #'private-change' }
 ToLabel >> privateReplaceTextElement [
 
-	textElement ifNotNil: [ 
-		textElement removeEventHandler: textReplacedHandler ].
-	textElement := self defaultTextElement.
+	innerElement ifNotNil: [ 
+		innerElement removeEventHandler: textReplacedHandler ].
+	innerElement := self defaultTextElement.
 	textReplacedHandler := BlEventHandler
 		                       on: ToTextReplacedEvent
 		                       do: [ :evt | self viewModel text: evt text ].
-	textElement addEventHandler: textReplacedHandler
+	innerElement addEventHandler: textReplacedHandler
 ]
 
 { #category : #accessing }
 ToLabel >> privateText [
 	<return: #BlText>
 
-	^ self textElement text
+	^ self innerElement text
 ]
 
 { #category : #accessing }
 ToLabel >> privateText: aText [
 
-	self textElement text: aText
+	self innerElement text: aText
 ]
 
 { #category : #'private-editing' }
@@ -259,8 +281,8 @@ ToLabel >> removeEditor [
 	editorOverlay removeChildren.
 	self elevation: self previousElevation.
 	self clipChildren: self previousClipping.
-	self textElement clipChildren: self previousTextElementClipping.
-	self textElement visibility: self previousVisibility.
+	self innerElement clipChildren: self previousTextElementClipping.
+	self innerElement visibility: self previousVisibility.
 	self userData removeKey: #previousElevation.
 	self userData removeKey: #editorOverlay.
 	self userData removeKey: #editor.
@@ -280,12 +302,6 @@ ToLabel >> text [
 ToLabel >> text: aStringOrBlText [
 
 	self viewModel text: aStringOrBlText
-]
-
-{ #category : #accessing }
-ToLabel >> textElement [
-
-	^ textElement
 ]
 
 { #category : #accessing }

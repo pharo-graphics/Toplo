@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'text'
 	],
-	#category : #'Toplo-Widget-Label'
+	#category : #'Toplo-Widget-Labels'
 }
 
 { #category : #accessing }

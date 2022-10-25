@@ -115,7 +115,7 @@ ToWorkspaceExample >> codeEditor [
 				       yourself);
 		      yourself.
 	st widgetDo: [ :album | 
-		album editorElement addEditorShortcut: (BlShortcutWithAction new
+		album innerElement addEditorShortcut: (BlShortcutWithAction new
 				 combination: BlKeyCombination primaryD;
 				 action: [ :aShortcutEvent :aShortcut | self doIt ];
 				 name: 'Do it';
@@ -134,8 +134,8 @@ ToWorkspaceExample >> doIt [
 
 	textModel widgetDo: [ :widget | 
 		| toDo |
-		toDo := widget editorElement selectedText asString.
-		toDo ifEmpty: [ toDo := widget editorElement text asString ].
+		toDo := widget innerElement selectedText asString.
+		toDo ifEmpty: [ toDo := widget innerElement text asString ].
 		^ OpalCompiler new
 			  source: toDo readStream;
 			  requestor: self;

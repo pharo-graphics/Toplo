@@ -6,9 +6,10 @@ Class {
 		'#lineMode => ObservableSlot',
 		'#text => ObservableSlot',
 		'#editable => ObservableSlot',
-		'#editorEventHandler'
+		'#editorEventHandler',
+		'#innerElementStencil'
 	],
-	#category : #'Toplo-Widget-Label'
+	#category : #'Toplo-Widget-Labels'
 }
 
 { #category : #printing }
@@ -66,6 +67,12 @@ ToLabelViewModel >> beReadOnlyIn: anElement [
 ]
 
 { #category : #initialization }
+ToLabelViewModel >> beStenciledWith: aBlock [
+
+	self innerElementStencil: aBlock
+]
+
+{ #category : #initialization }
 ToLabelViewModel >> defaultLineMode [
 
 	^ ToLabelMonoLineMode new
@@ -95,9 +102,23 @@ ToLabelViewModel >> initialize [
 	
 	self class initializeSlots: self.
 	editable := false.
+	innerElementStencil := [ :label | ToLabelMonoLineInnerElement new editorMeasurement  ].
 	super initialize.
 	
 
+]
+
+{ #category : #accessing }
+ToLabelViewModel >> innerElementStencil [
+
+	^ innerElementStencil
+]
+
+{ #category : #accessing }
+ToLabelViewModel >> innerElementStencil: aValuable [
+
+	innerElementStencil := aValuable.
+	self widgetDo: [:widget | self lineMode: ToLabelStencilMode new ]
 ]
 
 { #category : #accessing }

@@ -1,26 +1,11 @@
 Class {
 	#name : #ToLabelMultiLineMode,
 	#superclass : #ToLabelLineMode,
-	#category : #'Toplo-Widget-Label'
+	#category : #'Toplo-Widget-Labels'
 }
 
-{ #category : #adding }
-ToLabelMultiLineMode >> addEditorIn: aLabel [
-
-	| editor |
-	editor := aLabel newEditor.
-	editor editorElement editor addEditorShortcut: (ToLabelEditorCarriageReturnShortcut new
-			 combination: BlKeyCombination primaryReturn;
-			 label: aLabel;
-			 yourself).
-	editor editorElement editor addEditorShortcut: (ToLabelEditorEscapeShortcut new
-			 label: aLabel;
-			 yourself).
-	aLabel addEditor: editor
-]
-
 { #category : #initialization }
-ToLabelMultiLineMode >> newTextElement [
+ToLabelMultiLineMode >> newTextElementIn: aLabel [
 
-	^ ToMultiLineTextElement  new
+	^ ToLabelMultiLineInnerElement  new
 ]

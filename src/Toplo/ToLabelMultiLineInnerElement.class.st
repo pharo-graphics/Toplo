@@ -1,24 +1,44 @@
 Class {
-	#name : #ToMultiLineTextElement,
+	#name : #ToLabelMultiLineInnerElement,
 	#superclass : #BlElement,
-	#traits : 'TObservable + TBlAlignable + TOBlLayoutResizable',
-	#classTraits : 'TObservable classTrait + TBlAlignable classTrait + TOBlLayoutResizable classTrait',
+	#traits : 'TToLabelInnerElement + TObservable + TBlAlignable + TOBlLayoutResizable',
+	#classTraits : 'TToLabelInnerElement classTrait + TObservable classTrait + TBlAlignable classTrait + TOBlLayoutResizable classTrait',
 	#instVars : [
 		'#lines',
 		'#text => ObservableSlot'
 	],
-	#category : #'Toplo-Widget-Label'
+	#category : #'Toplo-Widget-Labels'
 }
 
+{ #category : #'api - editor' }
+ToLabelMultiLineInnerElement >> editorShortcutsIn: aLabel [
+
+	^ { 
+		  (BlShortcutWithAction new
+			   combination: BlKeyCombination primaryReturn;
+			   action: [ 
+				   aLabel text: aLabel editor text.
+				   aLabel removeEditor ];
+			   description: 'Accept the edited text';
+			   name: 'Accept';
+			   yourself).
+		  (BlShortcutWithAction new
+			   combination: BlKeyCombination escape;
+			   action: [ aLabel removeEditor ];
+			   description: 'Escape from text editing';
+			   name: 'Escape';
+			   yourself) }
+]
+
 { #category : #accessing }
-ToMultiLineTextElement >> horizontalAlignment [
+ToLabelMultiLineInnerElement >> horizontalAlignment [
 	<return: #BlElementAlignment>
 
 	^ self layout horizontalAlignment 
 ]
 
 { #category : #accessing }
-ToMultiLineTextElement >> horizontalAlignment: aBlElementAlignment [
+ToLabelMultiLineInnerElement >> horizontalAlignment: aBlElementAlignment [
 
 	self horizontalAlignment = aBlElementAlignment ifTrue: [ ^self ].
 	self layout horizontalAlignment: aBlElementAlignment.
@@ -26,7 +46,7 @@ ToMultiLineTextElement >> horizontalAlignment: aBlElementAlignment [
 ]
 
 { #category : #initialization }
-ToMultiLineTextElement >> initialize [
+ToLabelMultiLineInnerElement >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
@@ -36,8 +56,19 @@ ToMultiLineTextElement >> initialize [
 	self onTextReplacedDo: [ :t | self textReplaced ]
 ]
 
+{ #category : #'api - editor' }
+ToLabelMultiLineInnerElement >> newEditorIn: aLabel [
+
+	| ed |
+	ed := (ToAlbumViewModel new dresser: ToLabelEditorBasicDresser new) onAlbum.
+	(self editorShortcutsIn: aLabel) do: [ :s | ed innerElement editor addEditorShortcut: s ].
+	ed text: self text copy.
+	ed fitContent.
+	^ ed
+]
+
 { #category : #'private - text splitting' }
-ToMultiLineTextElement >> newLineElement [
+ToLabelMultiLineInnerElement >> newLineElement [
 
 	^ AlbTextEditorSegmentElement new
 		  layout: BlFlowLayout new;
@@ -49,7 +80,7 @@ ToMultiLineTextElement >> newLineElement [
 ]
 
 { #category : #'slot - change hook' }
-ToMultiLineTextElement >> onTextReplacedDo: aBlock [
+ToLabelMultiLineInnerElement >> onTextReplacedDo: aBlock [
 
 	"set a block to perform after that the text has been chanbed, and its action performed"
 
@@ -57,7 +88,7 @@ ToMultiLineTextElement >> onTextReplacedDo: aBlock [
 ]
 
 { #category : #'private - text splitting' }
-ToMultiLineTextElement >> splitText [
+ToLabelMultiLineInnerElement >> splitText [
 
 	^ Array streamContents: [ :stream | 
 		  | itor lineElement |
@@ -82,20 +113,20 @@ ToMultiLineTextElement >> splitText [
 ]
 
 { #category : #accessing }
-ToMultiLineTextElement >> text [
+ToLabelMultiLineInnerElement >> text [
 
 	^ text 
 ]
 
 { #category : #accessing }
-ToMultiLineTextElement >> text: aBlText [
+ToLabelMultiLineInnerElement >> text: aBlText [
 
 	text = aBlText ifTrue: [ ^ self ].
 	text := aBlText
 ]
 
 { #category : #'event handling' }
-ToMultiLineTextElement >> textReplaced [
+ToLabelMultiLineInnerElement >> textReplaced [
 
 	self removeChildren.
 	lines := self splitText.
@@ -105,14 +136,14 @@ ToMultiLineTextElement >> textReplaced [
 ]
 
 { #category : #accessing }
-ToMultiLineTextElement >> verticalAlignment [
+ToLabelMultiLineInnerElement >> verticalAlignment [
 	<return: #BlElementAlignment>
 	
 	^ self layout verticalAlignment 
 ]
 
 { #category : #accessing }
-ToMultiLineTextElement >> verticalAlignment: aBlElementAlignment [
+ToLabelMultiLineInnerElement >> verticalAlignment: aBlElementAlignment [
 
 	self verticalAlignment = aBlElementAlignment ifTrue: [ ^self ].
 	self layout verticalAlignment: aBlElementAlignment

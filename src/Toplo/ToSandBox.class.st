@@ -137,6 +137,27 @@ ToSandBox class >> example_toLabel5 [
 ]
 
 { #category : #label }
+ToSandBox class >> example_toLabelWithStencil [
+
+	| lab |
+	lab := ToLabel new.
+	lab innerElementStencil: [ :label | ToLabelMultiLineInnerElement new ].
+	lab text: 'A multiline Label'.
+	lab beEditable.
+	lab openInOBlSpace
+]
+
+{ #category : #label }
+ToSandBox class >> example_toLabelWithStencil2 [
+
+	| lab |
+	lab := ToLabel new.
+	lab innerElementStencil: [ :label | ToLabelInnerElementExample new ].
+	lab beEditable.
+	lab openInOBlSpace
+]
+
+{ #category : #label }
 ToSandBox class >> example_toLabel_Multiline1 [
 
 	| lab |
@@ -155,7 +176,7 @@ ToSandBox class >> example_toLabel_Multiline2_Centered [
 	lab beMultiLine.
 	lab matchParent.
 	lab alignCenter.
-	lab textElement alignCenter.
+	lab innerElement alignCenter.
 	lab editable: true.
 	space := lab openInOBlSpace
 ]

@@ -9,22 +9,22 @@ ToAlbumBasicDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	"anElement editorElement geometry: (BlRoundedRectangleGeometry cornerRadius: 6)."
-	anElement editorElement
+	anElement innerElement
 		when: BlBlurEvent
 		do: [ :anEvent | 
-			anElement editorElement border: (BlBorder
+			anElement innerElement border: (BlBorder
 					 paint: anElement theme editor borderColor
 					 width: 1) ].
-	anElement editorElement
+	anElement innerElement
 		when: BlFocusEvent
 		do: [ :anEvent | 
-			anElement editorElement border: (BlBorder
+			anElement innerElement border: (BlBorder
 					 paint: anElement theme editor focusedBorderColor
 					 width: 2) ].
 
-	anElement editorElement border: (BlBorder
+	anElement innerElement border: (BlBorder
 			 paint: anElement theme editor borderColor
 			 width: 1).
 
-	anElement editorElement background: Color white
+	anElement innerElement background: Color white
 ]

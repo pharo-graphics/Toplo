@@ -168,6 +168,39 @@ ToSandBox class >> example_toLabelWithStencil2 [
 ]
 
 { #category : #label }
+ToSandBox class >> example_toLabelWithTime [
+
+	| lab timeLab container anim |
+	lab := ToLabel new text: ('Time: ' asRopedText
+			        fontSize: 20;
+			        foreground: Color gray;
+			        yourself).
+	container := BlElement new
+		             layout: BlLinearLayout horizontal;
+		             constraintsDo: [ :c | 
+			             c horizontal matchParent.
+			             c vertical matchParent ].
+	container
+		border: (BlBorder paint: Color lightGray width: 3);
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical fitContent ].
+	timeLab := ToLabel new.
+	anim := BlRepeatedTaskAction new
+		        delay: 1 second;
+		        action: [ 
+			        timeLab text: (DateAndTime now asString asRopedText
+						         fontSize: 20;
+						         foreground: Color gray) ].
+	timeLab enqueueTask: anim.
+
+	container addChildren: { 
+			lab.
+			timeLab }.
+	container openInOBlSpace
+]
+
+{ #category : #label }
 ToSandBox class >> example_toLabel_Multiline1 [
 
 	| lab |

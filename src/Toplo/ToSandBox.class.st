@@ -26,7 +26,7 @@ Here an example of a client for a method.
 	client onCancelRequestedDo: [ :cancelRequested | cancelRequested client text: text copy ].
 	"client inspect."
 	space := OBlSpace new.
-	space root addChild: client onAlbum.
+	space root addChild: client onWidget.
 	space show.
 
 ]
@@ -34,18 +34,21 @@ Here an example of a client for a method.
 { #category : #album }
 ToSandBox class >> example_EditorWithGhostText [
 
-	| ghost |
+	| ghost view |
 	ghost := ('Here is a GhostText' , String cr , 'visible only if the text is empty') asRopedText.
 	ghost foreground: Color lightGray.
 	ghost fontSize: 24.
 
-	(ToAlbumViewModel new
+	view := (ToAlbumViewModel new
 		 onSaveRequestedDo: [ :announcement | announcement client saveResult: true ];
 		 withGhostText: ghost;
 		 withLineNumbers;
 		 withSaveCapability;
 		 onSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
-		 withEditsFeedbackLayer) onAlbum openInOBlSpace
+		 withEditsFeedbackLayer) onWidget.
+
+	view openInOBlSpace.
+view viewModel inspect.
 ]
 
 { #category : #label }
@@ -76,7 +79,7 @@ ToSandBox class >> example_toLabel3_bis [
 		label alignCenter.
 		label border: (BlBorder paint: Color yellow width: 1) ].
 	model editable: true.
-	(widget := model onLabel) openInOBlSpace	
+	(widget := model onWidget) openInOBlSpace	
 ]
 
 { #category : #label }
@@ -88,7 +91,9 @@ ToSandBox class >> example_toLabel4 [
 		        c horizontal matchParent ].
 
 	root layout: BlLinearLayout vertical.
-	lab1 := ToLabel new text: ('Editable centered monoline label' asRopedText fontSize: 18).
+	lab1 := ToLabel new text:
+		        ('Editable centered monoline label (cmd-shift-mousedown to edit then return or escape)'
+			         asRopedText fontSize: 18).
 	lab1 editable: true.
 	lab1 vFitContent.
 	lab1 hMatchParent.
@@ -96,7 +101,11 @@ ToSandBox class >> example_toLabel4 [
 	lab1 border: (BlBorder paint: Color lightGray width: 1).
 	root addChild: lab1.
 
-	lab2 := ToLabel new text: (('Editable multiline label' , String cr , 'secondLine') asRopedText fontSize: 18).
+	lab2 := ToLabel new text:
+		        (('Editable multiline label' , String cr , 'secondLine'
+		          , String cr
+		          , 'cmd-shift-mousedown to edit then cmd-return or escape)')
+			         asRopedText fontSize: 18).
 	lab2 beMultiLine.
 	lab2 vFitContent.
 	lab2 hMatchParent.
@@ -104,13 +113,14 @@ ToSandBox class >> example_toLabel4 [
 	lab2 viewModel editable: true.
 
 	root addChild: lab2.
-	lab3 := ToLabel new text: ('Monoline label not editable' asRopedText fontSize: 18).
+	lab3 := ToLabel new text:
+		        ('Monoline label not editable' asRopedText fontSize: 18).
 	lab3 border: (BlBorder paint: Color lightGray width: 1).
 	lab3 vFitContent.
 	lab3 hMatchParent.
 	root addChild: lab3.
 	root clipChildren: false.
-	
+
 	root openInOBlSpace
 ]
 
@@ -169,16 +179,42 @@ ToSandBox class >> example_toLabel_Multiline1 [
 { #category : #label }
 ToSandBox class >> example_toLabel_Multiline2_Centered [
 
-	| lab space |
-	lab := ToLabel new text: (('This is a Centered editable label', String cr, 'size 20') asRopedText
-			        fontName: AeFontManager defaultCodeFontFamilyName;
-			        fontSize: 20).
-	lab beMultiLine.
-	lab matchParent.
-	lab alignCenter.
-	lab innerElement alignCenter.
-	lab editable: true.
-	space := lab openInOBlSpace
+	| lab1 lab2 space container |
+	lab1 := ToLabel new
+		        text: (('This is a Centered editable label' , String cr
+			          , AeFontManager defaultFontFamilyName , ' size 20')
+				         asRopedText
+				         fontName: AeFontManager defaultFontFamilyName;
+				         fontSize: 20);
+		        border: (BlBorder paint: Color lightGray width: 1);
+		        outskirts: BlOutskirts inside.
+	lab2 := ToLabel new
+		        text: (('This is a Centered editable label' , String cr
+			          , AeFontManager defaultCodeFontFamilyName , ' size 20')
+				         asRopedText
+				         fontName: AeFontManager defaultCodeFontFamilyName;
+				         fontSize: 20);
+		        border: (BlBorder paint: Color lightGray width: 1);
+		        outskirts: BlOutskirts inside.
+	lab1 beMultiLine.
+	lab2 beMultiLine.
+	lab1 matchParent.
+	lab2 matchParent.
+	lab1 alignCenter.
+	lab2 alignCenter.
+	lab1 innerElement alignCenter.
+	lab2 innerElement alignCenter.
+	lab1 editable: true.
+	lab2 editable: true.
+	container := BlElement new
+		             layout: BlLinearLayout vertical;
+		             constraintsDo: [ :c | 
+			             c horizontal matchParent.
+			             c vertical matchParent ].
+	container addChildren: { 
+			lab1.
+			lab2 }.
+	space := container openInOBlSpace
 ]
 
 { #category : #accessing }

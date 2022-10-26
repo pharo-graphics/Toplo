@@ -120,7 +120,7 @@ ToWorkspaceExample >> codeEditor [
 				 action: [ :aShortcutEvent :aShortcut | self doIt ];
 				 name: 'Do it';
 				 description: 'Run selected expression.') ].
-	^ st onAlbum
+	^ st onWidget
 ]
 
 { #category : #accessing }

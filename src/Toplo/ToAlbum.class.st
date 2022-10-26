@@ -18,6 +18,12 @@ ToAlbum >> defaultEditorElement [
 ]
 
 { #category : #initialization }
+ToAlbum >> defaultViewModel [
+
+	^ ToAlbumViewModel new
+]
+
+{ #category : #initialization }
 ToAlbum >> initialize [
 
 	super initialize.

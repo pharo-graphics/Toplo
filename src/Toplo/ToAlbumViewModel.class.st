@@ -148,15 +148,6 @@ ToAlbumViewModel >> modeChanged [
 
 ]
 
-{ #category : #'view instanciation' }
-ToAlbumViewModel >> onAlbum [
-
-	| album |
-	album := ToAlbum new.
-	self onInstalledIn: album.
-	^ album
-]
-
 { #category : #'transaction hook' }
 ToAlbumViewModel >> onCancelRequestedDo: aBlock [
 
@@ -245,7 +236,6 @@ ToAlbumViewModel >> onUninstalledOnlyMeIn: anAlbum [
 	"Is sent when I am added to an element "
 
 	super onUninstalledOnlyMeIn: anAlbum.
-	anAlbum viewModel unsubscribe: self.
 	self unsubscribe: anAlbum innerElement.
 	self styler ifNotNil: [ :styler | 
 		self styler unsubscribe: self.
@@ -383,6 +373,12 @@ ToAlbumViewModel >> whenTextStyleRequested: aToTextStyleRequested [
 					 unstyledText: self text nextGeneration;
 					 referentElement: album;
 					 yourself) ] ]
+]
+
+{ #category : #'accessing - widget' }
+ToAlbumViewModel >> widget [
+
+	^ ToAlbum new
 ]
 
 { #category : #'view configuration' }

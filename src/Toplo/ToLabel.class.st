@@ -1,6 +1,6 @@
 Class {
 	#name : #ToLabel,
-	#superclass : #ToBasicWidget,
+	#superclass : #ToWidget,
 	#traits : 'TBlAlignable + TOBlLayoutResizable',
 	#classTraits : 'TBlAlignable classTrait + TOBlLayoutResizable classTrait',
 	#instVars : [
@@ -83,11 +83,6 @@ ToLabel >> defaultPaddings [
 
 	^ BlInsets all: 3
 		  
-]
-
-{ #category : #accessing }
-ToLabel >> defaultText [
-	^ self viewModel defaultText
 ]
 
 { #category : #initialization }
@@ -253,7 +248,7 @@ ToLabel >> privateReplaceTextElement [
 	innerElement := self defaultTextElement.
 	textReplacedHandler := BlEventHandler
 		                       on: ToTextReplacedEvent
-		                       do: [ :evt | self viewModel text: evt text ].
+		                       do: [ :evt | self "viewModel" text: evt text ].
 	innerElement addEventHandler: textReplacedHandler
 ]
 
@@ -276,9 +271,9 @@ ToLabel >> removeEditor [
 	| editorOverlay |
 	self userData at: #editor ifAbsent: [ ^ self ].
 	editorOverlay := self editorOverlay.
-	self removeChild: editorOverlay.
 	editorOverlay detach.
 	editorOverlay removeChildren.
+	self removeChild: editorOverlay.
 	self elevation: self previousElevation.
 	self clipChildren: self previousClipping.
 	self innerElement clipChildren: self previousTextElementClipping.

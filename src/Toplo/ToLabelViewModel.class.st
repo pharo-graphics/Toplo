@@ -150,14 +150,6 @@ ToLabelViewModel >> onInstalledOnlyMeIn: anElement [
 
 ]
 
-{ #category : #'view creating' }
-ToLabelViewModel >> onLabel [
-
-	^ ToLabel new
-		  viewModel: self;
-		  yourself
-]
-
 { #category : #'api - change hook' }
 ToLabelViewModel >> onTextReplacedDo: aBlock [
 
@@ -201,4 +193,10 @@ ToLabelViewModel >> whenLineModeChangedDo: aBlock [
 	"set a block to perform after that the text has been chanbed, and its action performed"
 
 	self property: #lineMode whenChangedDo: aBlock
+]
+
+{ #category : #'accessing - widget' }
+ToLabelViewModel >> widget [
+
+	^ ToLabel new
 ]

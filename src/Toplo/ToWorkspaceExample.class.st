@@ -136,11 +136,14 @@ ToWorkspaceExample >> doIt [
 		| toDo |
 		toDo := widget innerElement selectedText asString.
 		toDo ifEmpty: [ toDo := widget innerElement text asString ].
-		^ OpalCompiler new
-			  source: toDo readStream;
-			  requestor: self;
-			  failBlock: [ ^ Object new ];
-			  evaluate ]
+		[ 
+		OpalCompiler new
+			source: toDo readStream;
+			requestor: self;
+			failBlock: [ ^ Object new ];
+			evaluate ]
+			on: OCUndeclaredVariableWarning
+			do: [ :warn | warn traceCr ] ]
 ]
 
 { #category : #bindings }

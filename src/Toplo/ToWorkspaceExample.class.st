@@ -77,7 +77,7 @@ ToWorkspaceExample class >> transcriptClosed [
 	self resetTranscript 
 ]
 
-{ #category : #bindings }
+{ #category : #binding }
 ToWorkspaceExample >> bindingOf: aString [
 
 	"I want to have workspace that force the user to declare  
@@ -86,7 +86,7 @@ ToWorkspaceExample >> bindingOf: aString [
 	| key |
 	key := aString asSymbol.
 	(bindings includesKey: key) ifFalse: [ 
-		bindings at: key put: (WorkspaceVariable key: key value: nil) ].
+		bindings at: key put: (GlobalVariable key: key value: nil) ].
 	^ bindings at: key
 ]
 
@@ -154,6 +154,12 @@ ToWorkspaceExample >> initialize [
 	bindings := Dictionary new.
 	textModel := ToAlbumViewModel new.
 
+]
+
+{ #category : #accessing }
+ToWorkspaceExample >> isScripting [
+
+	^ true
 ]
 
 { #category : #bindings }

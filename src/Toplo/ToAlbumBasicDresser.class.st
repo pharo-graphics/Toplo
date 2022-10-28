@@ -8,7 +8,7 @@ Class {
 ToAlbumBasicDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	"anElement editorElement geometry: (BlRoundedRectangleGeometry cornerRadius: 6)."
+	anElement innerElement geometry: (BlRoundedRectangleGeometry cornerRadius: 8).
 	anElement innerElement
 		when: BlBlurEvent
 		do: [ :anEvent | 

@@ -9,7 +9,7 @@ ToLabelEditorBasicDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 
-	"anElement editorElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4)."
+	anElement innerElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
 	"remove padding to ensure that the editor is exactly at the right position according to the label text"
 	anElement innerElement padding: BlInsets empty.
 	"draw the border outside"

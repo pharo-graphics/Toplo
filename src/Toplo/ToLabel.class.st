@@ -38,7 +38,10 @@ ToLabel >> addEditor: anEditor [
 	self innerElement clipChildren: false.
 	self clipChildren: false.
 	self addChild: editorOverlay.
-	anEditor innerElement requestFocus
+	anEditor text: self text copy.
+	anEditor innerElement requestFocus.
+	anEditor innerElement selecter all; apply
+	
 ]
 
 { #category : #initialization }

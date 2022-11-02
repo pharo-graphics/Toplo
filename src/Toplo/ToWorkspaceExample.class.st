@@ -179,10 +179,13 @@ ToWorkspaceExample >> open [
 { #category : #'user interface' }
 ToWorkspaceExample >> openInSpace: aSpace [
 
+	| editor |
 	aSpace
 		title: self class instanceSide name;
 		extent: 300 asPoint.
-	aSpace root addChild: self codeEditor.
+	editor := self codeEditor.
+	aSpace root addChild: editor.
+	editor requestFocus.
 	aSpace show.
 	aSpace addEventHandler: (BlEventHandler
 			 on: BlSpaceClosedEvent

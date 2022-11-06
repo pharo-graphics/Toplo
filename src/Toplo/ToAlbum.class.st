@@ -98,19 +98,19 @@ ToAlbum >> text: aBlText [
 ]
 
 { #category : #layers }
-ToAlbum >> withEditsFeedbackFrom: anAlbumClient [
+ToAlbum >> withEditsFeedbackFrom: anAlbumViewModel [
 
 	editsFeedbackLayer ifNotNil: [ ^ self ].
 	editsFeedbackLayer := ToAlbumEditsFeedbackLayer new.
-	self addLayer: editsFeedbackLayer from: anAlbumClient 
+	self addLayer: editsFeedbackLayer 
 ]
 
 { #category : #layers }
-ToAlbum >> withGhostText: aText from: anAlbumClient [
+ToAlbum >> withGhostText: aText from: anAlbumViewModel [
 
 	ghostTextLayer ifNotNil: [ ^ self ].
-	ghostTextLayer := ToGhostTextLayer new text: aText.
-	self addLayer: ghostTextLayer from: anAlbumClient 
+	ghostTextLayer := ToAlbumGhostTextLayer new text: aText.
+	self addLayer: ghostTextLayer 
 ]
 
 { #category : #initialization }

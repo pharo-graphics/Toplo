@@ -1,24 +1,24 @@
 Class {
-	#name : #ToGhostTextLayer,
+	#name : #ToAlbumGhostTextLayer,
 	#superclass : #ToWidgetLayer,
 	#instVars : [
 		'label'
 	],
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Widget-Album'
 }
 
 { #category : #'api - attaching / detaching' }
-ToGhostTextLayer >> attachTo: anEditorElement from: anAlbumClient [
+ToAlbumGhostTextLayer >> attachTo: anEditorElement from: anAlbumViewModel [
 
-	super attachTo: anEditorElement from: anAlbumClient.
+	super attachTo: anEditorElement from: anAlbumViewModel.
 	self checkText: anEditorElement text.
 	" add/remove according to unaccepted text size"
-	anAlbumClient whenAnnouncement: ToAlbumTextEdited do: [ :announce | self checkText: announce text ].
-	anAlbumClient whenAnnouncement: ToAlbumTextReplaced do: [ :announce | self checkText: announce text ]
+	viewModel whenAnnouncement: ToAlbumTextEdited do: [ :announce | self checkText: announce text ].
+	viewModel whenAnnouncement: ToAlbumTextReplaced do: [ :announce | self checkText: announce text ]
 ]
 
 { #category : #'api - attaching / detaching' }
-ToGhostTextLayer >> checkText: aText [
+ToAlbumGhostTextLayer >> checkText: aText [
 
 	aText
 		ifEmpty: [ label visibility: BlVisibility visible ]
@@ -26,7 +26,7 @@ ToGhostTextLayer >> checkText: aText [
 ]
 
 { #category : #initialization }
-ToGhostTextLayer >> initialize [
+ToAlbumGhostTextLayer >> initialize [
 
 	super initialize.
 	self
@@ -46,7 +46,7 @@ ToGhostTextLayer >> initialize [
 ]
 
 { #category : #accessing }
-ToGhostTextLayer >> text: aBlText [
+ToAlbumGhostTextLayer >> text: aBlText [
 
 	label text: aBlText
 ]

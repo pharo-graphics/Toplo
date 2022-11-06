@@ -1,8 +1,8 @@
 Class {
 	#name : #ToLabelMultiLineInnerElement,
 	#superclass : #BlElement,
-	#traits : 'TToLabelInnerElement + TObservable + TBlAlignable + TOBlLayoutResizable',
-	#classTraits : 'TToLabelInnerElement classTrait + TObservable classTrait + TBlAlignable classTrait + TOBlLayoutResizable classTrait',
+	#traits : 'TToLabelInnerElement + TToObservable + TBlAlignable + TOBlLayoutResizable',
+	#classTraits : 'TToLabelInnerElement classTrait + TToObservable classTrait + TBlAlignable classTrait + TOBlLayoutResizable classTrait',
 	#instVars : [
 		'#lines',
 		'#text => ObservableSlot'

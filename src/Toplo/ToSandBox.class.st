@@ -22,6 +22,7 @@ Here an example of a client for a method.
 	client styler: (BlRBTextStyler new classOrMetaClass: self class).
 	client text: text copy.
 	client withSaveCapability.
+	client withLineNumbers.
 	client onSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ].
 	client onCancelRequestedDo: [ :cancelRequested | cancelRequested client text: text copy ].
 	"client inspect."
@@ -51,6 +52,165 @@ ToSandBox class >> example_EditorWithGhostText [
 view viewModel inspect.
 ]
 
+{ #category : #image }
+ToSandBox class >> example_Smalltalk_ui_icons [
+
+	| column |
+	column := BlElement new
+		          layout: BlLinearLayout vertical;
+		          constraintsDo: [ :c | 
+			          c horizontal fitContent.
+			          c vertical fitContent ];
+		          yourself.
+	Smalltalk ui icons allIconNames do: [ :k | 
+		| lab im row |
+		im := ToImage new image: (Smalltalk ui icons iconNamed: k).
+		im constraintsDo: [ :c | c linear vertical alignCenter ].
+		im border: (BlBorder paint: Color lightGray).
+		lab := ToLabel new text: k asString.
+		lab padding: (BlInsets all: 6).
+		lab border: (BlBorder paint: Color lightGray).
+		lab constraintsDo: [ :c | c linear vertical alignCenter ].
+		row := BlElement new
+			       layout: BlLinearLayout horizontal;
+			       constraintsDo: [ :c | 
+				       c horizontal fitContent.
+				       c vertical fitContent ];
+			       border: (BlBorder paint: Color lightGray);
+			       outskirts: BlOutskirts outside;
+			       yourself.
+		row
+			addChild: lab;
+			addChild: im.
+		column addChild: row ].
+
+	column openInOBlSpace
+]
+
+{ #category : #stuffs }
+ToSandBox class >> example_enterLeave [
+
+	| e1 e2 space |
+	e1 := BlElement new background: Color yellow; size: 100@60.
+	e2 := BlElement new background: Color blue; preventMouseEvents.
+	e1 when: BlMouseEnterEvent do: [ :event | e2 relocate: e1 bounds bottomRight. e1 space addChild: e2 ].
+	e1 when: BlMouseLeaveEvent do: [ :event | e1 space removeChild: e2 ].
+	space := OBlSpace new.
+	space addChild: e1.
+	space show
+]
+
+{ #category : #button }
+ToSandBox class >> example_toButton0 [
+
+	| but |
+	but := ToButtonViewModel new.
+	but onWidget openInOBlSpace; inspect.
+]
+
+{ #category : #button }
+ToSandBox class >> example_toButtonOritentaionDirectionChanger [
+
+	| but space |
+	but := ToButton new.
+	but beIconFirst.
+	but help: ('This is a button' , String cr , 'so, click on me...') asRopedText.
+	but action: [ 
+		but labelFirst: but labelFirst not.
+		but direction: but direction inverted.
+		but orientation: but orientation inverted.
+		but alignCenter ].
+	but whenActionPerformedDo: [ self inform: 'Button action performed' ].
+	space := OBlSpace new.
+	space addChild: but.
+	space show
+]
+
+{ #category : #button }
+ToSandBox class >> example_toButtonWithHelp [
+
+	| but space |
+	but := ToButton new.
+	but help: ('This is a button', String cr, 'so, click on me...') asRopedText. 
+	but action: [ self inform: 'Button clicked' ].
+	but whenActionPerformedDo: [ self inform: 'Button action performed' ].
+	space := OBlSpace new.
+	space addChild: but.
+	space show
+]
+
+{ #category : #image }
+ToSandBox class >> example_toImage0 [
+
+	| im |
+	im := ToImage new.
+	im inspect.
+	im openInOBlSpace 
+]
+
+{ #category : #image }
+ToSandBox class >> example_toImage1 [
+
+	| im |
+	im := ToImage new image: (BlElement new
+		  size: 16 @ 16;
+		  background: (Color green alpha: 0.5);
+		  geometry: BlCircleGeometry new ).
+	im inspect.
+	im openInOBlSpace 
+]
+
+{ #category : #image }
+ToSandBox class >> example_toImageViewModel0 [
+
+	| im |
+	im := ToImageViewModel new.
+	im inspect.
+	im onWidget openInOBlSpace 
+]
+
+{ #category : #image }
+ToSandBox class >> example_toImageViewModel1 [
+
+	| im |
+	im := ToImageViewModel new image: (BlElement new
+		  size: 16 @ 16;
+		  border: (BlBorder paint: Color gray width: 2);
+		  background: (Color gray alpha: 0.1);
+		  geometry: BlCircleGeometry new ).
+	im inspect.
+	im onWidget openInOBlSpace 
+]
+
+{ #category : #image }
+ToSandBox class >> example_toImageViewModel2 [
+
+	| im |
+	im := ToImageViewModel new image: (Form dotOfSize: 40).
+	im inspect.
+	im onWidget openInOBlSpace 
+]
+
+{ #category : #image }
+ToSandBox class >> example_toImageViewModel3 [
+
+	| im |
+	im := ToImageViewModel new image: (Smalltalk ui icons iconNamed: #classIcon).
+	im widgetPerformOrDefer: [:w | w border: (BlBorder paint: Color black width: 2)].
+	im onWidget openInOBlSpace
+]
+
+{ #category : #label }
+ToSandBox class >> example_toLabel0 [
+
+	| lab |
+	lab := ToLabel new.
+	lab inspect.
+	lab border: (BlBorder paint: Color black).
+	lab openInOBlSpace.
+
+]
+
 { #category : #label }
 ToSandBox class >> example_toLabel3 [
 
@@ -74,7 +234,7 @@ ToSandBox class >> example_toLabel3_bis [
 			 bold;
 			 foreground: Color gray;
 			 yourself).
-	model widgetDo: [ :label | 
+	model widgetPerformOrDefer: [ :label | 
 		label background: Color lightBlue.
 		label alignCenter.
 		label border: (BlBorder paint: Color yellow width: 1) ].
@@ -136,7 +296,7 @@ ToSandBox class >> example_toLabel5 [
 	model := ToLabelViewModel new.
 	model text: ('' asRopedText fontSize: 24).
 	model beMultiLine.
-	model widgetDo: [ :widget | 
+	model widgetPerformOrDefer: [ :widget | 
 		widget vFitContent.
 		widget hMatchParent.
 		widget border: (BlBorder paint: Color red width: 1) ].
@@ -144,27 +304,6 @@ ToSandBox class >> example_toLabel5 [
 	label viewModel: model.
 	root addChild: label.
 	root openInOBlSpace
-]
-
-{ #category : #label }
-ToSandBox class >> example_toLabelWithStencil [
-
-	| lab |
-	lab := ToLabel new.
-	lab innerElementStencil: [ :label | ToLabelMultiLineInnerElement new ].
-	lab text: 'A multiline Label'.
-	lab beEditable.
-	lab openInOBlSpace
-]
-
-{ #category : #label }
-ToSandBox class >> example_toLabelWithStencil2 [
-
-	| lab |
-	lab := ToLabel new.
-	lab innerElementStencil: [ :label | ToLabelInnerElementExample new ].
-	lab beEditable.
-	lab openInOBlSpace
 ]
 
 { #category : #label }

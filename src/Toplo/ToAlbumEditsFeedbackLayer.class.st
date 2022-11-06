@@ -10,22 +10,22 @@ Class {
 }
 
 { #category : #'api - attaching / detaching' }
-ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement from: anAlbumClient [
+ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement from: anAlbumViewModel [
 
-	super attachTo: anEditorElement from: anAlbumClient.
+	super attachTo: anEditorElement from: anAlbumViewModel.
 	
 	coverColor := anEditorElement selectionColor alpha: 0.1.
-	anAlbumClient
+	viewModel
 		whenAnnouncement: ToAlbumFlashRequested
 		do: [ self flash ].
 
 	" flash if save requested with no text change "
-	anAlbumClient
+	viewModel
 		whenAnnouncement: ToAlbumSaveRequested
 		do: [ :announce | announce unacceptedEdits ifFalse: [ self flash ] ].
 
 	" visual flag add/remove according to unaccepted edits or not"
-	anAlbumClient onEditedChangedDo: [ :state | 
+	viewModel onEditedChangedDo: [ :state | 
 		state
 			ifTrue: [ self showEditsFeedback ]
 			ifFalse: [ self hideEditsFeedback ] ]
@@ -51,7 +51,7 @@ ToAlbumEditsFeedbackLayer >> coverWithColor: aCoverColor [
 { #category : #'api - attaching / detaching' }
 ToAlbumEditsFeedbackLayer >> detach [
 
-	referenceElement viewModel unsubscribe: self.
+	viewModel unsubscribe: self.
 	super detach
 ]
 

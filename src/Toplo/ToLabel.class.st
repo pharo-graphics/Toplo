@@ -25,10 +25,11 @@ ToLabel >> addEditor: anEditor [
 	self userData at: #editorOverlay ifPresent: [ ^ self ].
 	self userData at: #editorOverlay put: (editorOverlay := BlOverlayElement new).
 	self userData at: #editor put: anEditor.
+	anEditor innerElement margin: self innerElement margin.
 	editorOverlay clipChildren: false.
 	self previousElevation: self elevation.
 	self elevation: (BlRelativeElevation elevation: 1000).
-	editorOverlay attachTo: self innerElement overlayReferentElement.
+	editorOverlay attachTo: self innerElement.
 	editorOverlay addChild: anEditor.
 	anEditor border: BlBorder empty.
 	self previousClipping: self clipChildren.
@@ -66,19 +67,6 @@ ToLabel >> beMultiLine [
 ToLabel >> beReadOnly [
 
 	self editable: false
-]
-
-{ #category : #initialization }
-ToLabel >> defaultLayout [
-
-	^ BlLinearLayout vertical 
-]
-
-{ #category : #initialization }
-ToLabel >> defaultMargins [
-
-	^ BlInsets all: 0
-		  
 ]
 
 { #category : #initialization }
@@ -142,32 +130,18 @@ ToLabel >> horizontalAlignment: aBlElementAlignment [
 
 { #category : #initialization }
 ToLabel >> initialize [
-	
+
 	self class initializeSlots: self.
 	super initialize.
-	self layout: self defaultLayout.
-	self padding: self defaultPaddings.
-	self margin: self defaultMargins.
-	self background: self defaultBackground.
-	self fitContent
+	self constraintsDo: [ :c | 
+		c vertical fitContent.
+		c horizontal fitContent ]
 ]
 
 { #category : #accessing }
 ToLabel >> innerElement [
 
 	^ innerElement
-]
-
-{ #category : #accessing }
-ToLabel >> innerElementStencil [
-
-	^ self viewModel innerElementStencil
-]
-
-{ #category : #accessing }
-ToLabel >> innerElementStencil: aValuable [
-
-	^ self viewModel innerElementStencil: aValuable
 ]
 
 { #category : #accessing }
@@ -251,18 +225,18 @@ ToLabel >> privateReplaceTextElement [
 	innerElement := self defaultTextElement.
 	textReplacedHandler := BlEventHandler
 		                       on: ToTextReplacedEvent
-		                       do: [ :evt | self "viewModel" text: evt text ].
+		                       do: [ :evt | self text: evt text ].
 	innerElement addEventHandler: textReplacedHandler
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 ToLabel >> privateText [
 	<return: #BlText>
 
 	^ self innerElement text
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 ToLabel >> privateText: aText [
 
 	self innerElement text: aText

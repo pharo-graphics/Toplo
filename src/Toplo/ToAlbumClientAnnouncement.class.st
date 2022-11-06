@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'client'
 	],
-	#category : #'Toplo-Widget-Album-Announcements'
+	#category : #'Toplo-Widget-Album'
 }
 
 { #category : #accessing }

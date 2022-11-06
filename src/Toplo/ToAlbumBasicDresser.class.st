@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAlbumBasicDresser,
-	#superclass : #OBlElementCompanion,
+	#superclass : #ToElementCompanion,
 	#category : #'Toplo-Widget-Album'
 }
 

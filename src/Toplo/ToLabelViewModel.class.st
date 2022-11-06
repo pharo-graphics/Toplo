@@ -1,13 +1,12 @@
 Class {
 	#name : #ToLabelViewModel,
-	#superclass : #OBlViewModel,
+	#superclass : #ToViewModel,
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
 		'#lineMode => ObservableSlot',
 		'#text => ObservableSlot',
 		'#editable => ObservableSlot',
-		'#editorEventHandler',
-		'#innerElementStencil'
+		'#editorEventHandler'
 	],
 	#category : #'Toplo-Widget-Labels'
 }
@@ -28,48 +27,22 @@ ToLabelViewModel >> beEditable [
 	self editable: true
 ]
 
-{ #category : #'private editability' }
-ToLabelViewModel >> beEditableIn: anElement [
-
-	editorEventHandler ifNotNil: [ ^ self ].
-	editorEventHandler := BlEventHandler
-		                      on: BlMouseDownEvent
-		                      do: [ :anEvent | 
-			                      (anEvent modifiers isShift and: [ anEvent modifiers isPrimaryModifier ]) ifTrue: [ 
-				                      anElement addEditor ] ].
-	anElement addEventHandler: editorEventHandler
-]
-
 { #category : #initialization }
 ToLabelViewModel >> beMonoLine [
 
-	self widgetDo: [:widget | self lineMode: ToLabelMonoLineMode new ]
+	self widgetPerformOrDefer: [:widget | self lineMode: ToLabelMonoLineMode new ]
 ]
 
 { #category : #initialization }
 ToLabelViewModel >> beMultiLine [
 
-	self widgetDo: [:widget | self lineMode: ToLabelMultiLineMode new ]
+	self widgetPerformOrDefer: [:widget | self lineMode: ToLabelMultiLineMode new ]
 ]
 
 { #category : #editability }
 ToLabelViewModel >> beReadOnly [ 
 
 	self editable: false
-]
-
-{ #category : #'private editability' }
-ToLabelViewModel >> beReadOnlyIn: anElement [
-
-	editorEventHandler ifNil: [ ^ self ].
-	anElement removeEventHandler: editorEventHandler.
-	editorEventHandler := nil
-]
-
-{ #category : #initialization }
-ToLabelViewModel >> beStenciledWith: aBlock [
-
-	self innerElementStencil: aBlock
 ]
 
 { #category : #initialization }
@@ -94,7 +67,7 @@ ToLabelViewModel >> editable [
 ToLabelViewModel >> editable: aBoolean [
 
 	editable = aBoolean ifTrue: [ ^ self ].
-	self widgetDo: [:label | editable := aBoolean ]
+	self widgetPerformOrDefer: [:label | editable := aBoolean ]
 ]
 
 { #category : #initialization }
@@ -102,23 +75,9 @@ ToLabelViewModel >> initialize [
 	
 	self class initializeSlots: self.
 	editable := false.
-	innerElementStencil := [ :label | ToLabelMonoLineInnerElement new editorMeasurement  ].
 	super initialize.
 	
 
-]
-
-{ #category : #accessing }
-ToLabelViewModel >> innerElementStencil [
-
-	^ innerElementStencil
-]
-
-{ #category : #accessing }
-ToLabelViewModel >> innerElementStencil: aValuable [
-
-	innerElementStencil := aValuable.
-	self widgetDo: [:widget | self lineMode: ToLabelStencilMode new ]
 ]
 
 { #category : #accessing }
@@ -131,7 +90,7 @@ ToLabelViewModel >> lineMode [
 ToLabelViewModel >> lineMode: aLineMode [
 
 	lineMode = aLineMode ifTrue: [ ^ self ].
-	self widgetDo: [ :label | lineMode := aLineMode ]
+	self widgetPerformOrDefer: [ :label | lineMode := aLineMode ]
 ]
 
 { #category : #'api - hooks' }
@@ -143,8 +102,8 @@ ToLabelViewModel >> onInstalledOnlyMeIn: anElement [
 	self whenLineModeChangedDo: [ :lm | anElement privateLineModeChanged: lm ].
 	self whenEditableChangedDo: [ :edi | 
 		edi
-			ifTrue: [ self beEditableIn: anElement ]
-			ifFalse: [ self beReadOnlyIn: anElement ] ].
+			ifTrue: [ self privateBeEditableIn: anElement ]
+			ifFalse: [ self privateBeReadOnlyIn: anElement ] ].
 	self lineMode: self defaultLineMode
 
 
@@ -153,7 +112,11 @@ ToLabelViewModel >> onInstalledOnlyMeIn: anElement [
 { #category : #'api - change hook' }
 ToLabelViewModel >> onTextReplacedDo: aBlock [
 
-	"set a block to perform after that the text has been chanbed, and its action performed"
+	"Inform when text property has changed. 
+	 `aBlock` has three optional arguments: 
+	 - new value
+	 - old value
+	 - the announcement triggering this action"
 
 	self property: #text whenChangedDo: aBlock
 ]
@@ -162,7 +125,33 @@ ToLabelViewModel >> onTextReplacedDo: aBlock [
 ToLabelViewModel >> onUninstalledOnlyMeIn: anElement [
 
 	super onUninstalledOnlyMeIn: anElement.
-	anElement removeEventHandler: editorEventHandler
+	editorEventHandler ifNotNil: [ anElement removeEventHandler: editorEventHandler ]
+]
+
+{ #category : #'private editability' }
+ToLabelViewModel >> privateBeEditableIn: anElement [
+
+	editorEventHandler ifNotNil: [ ^ self ].
+	editorEventHandler := BlEventHandler
+		                      on: BlMouseDownEvent
+		                      do: [ :anEvent | 
+			                      (anEvent modifiers isShift and: [ anEvent modifiers isPrimaryModifier ]) ifTrue: [ 
+				                      anElement addEditor ] ].
+	anElement addEventHandler: editorEventHandler
+]
+
+{ #category : #'private editability' }
+ToLabelViewModel >> privateBeReadOnlyIn: anElement [
+
+	editorEventHandler ifNil: [ ^ self ].
+	anElement removeEventHandler: editorEventHandler.
+	editorEventHandler := nil
+]
+
+{ #category : #'private - accessing - widget' }
+ToLabelViewModel >> privateNewWidget [
+
+	^ ToLabel new
 ]
 
 { #category : #accessing }
@@ -176,13 +165,17 @@ ToLabelViewModel >> text [
 ToLabelViewModel >> text: aBlTextOrString [
 
 	text = aBlTextOrString ifTrue: [ ^ self ].
-	self widgetDo: [ :label | text := (aBlTextOrString ifNil: [ self defaultText ]) asRopedText ]
+	self widgetPerformOrDefer: [ :label | text := (aBlTextOrString ifNil: [ self defaultText ]) asRopedText ]
 ]
 
 { #category : #'api - change hook' }
 ToLabelViewModel >> whenEditableChangedDo: aBlock [
 
-	"set a block to perform after that the text has been chanbed, and its action performed"
+	"Inform when editable property has changed. 
+	 `aBlock` has three optional arguments: 
+	 - new value
+	 - old value
+	 - the announcement triggering this action"
 
 	self property: #editable whenChangedDo: aBlock
 ]
@@ -190,13 +183,11 @@ ToLabelViewModel >> whenEditableChangedDo: aBlock [
 { #category : #'api - change hook' }
 ToLabelViewModel >> whenLineModeChangedDo: aBlock [
 
-	"set a block to perform after that the text has been chanbed, and its action performed"
+	"Inform when lineMode property has changed. 
+	 `aBlock` has three optional arguments: 
+	 - new value
+	 - old value
+	 - the announcement triggering this action"
 
 	self property: #lineMode whenChangedDo: aBlock
-]
-
-{ #category : #'accessing - widget' }
-ToLabelViewModel >> widget [
-
-	^ ToLabel new
 ]

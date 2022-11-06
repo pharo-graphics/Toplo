@@ -15,12 +15,6 @@ TToLabelInnerElement >> newEditorIn: aLabel [
 	^ self explicitRequirement 
 ]
 
-{ #category : #'api - overlay' }
-TToLabelInnerElement >> overlayReferentElement [
-
-	^ self
-]
-
 { #category : #'api - text accessing' }
 TToLabelInnerElement >> text [
 

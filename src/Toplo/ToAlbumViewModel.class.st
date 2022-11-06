@@ -22,7 +22,7 @@ client onAlbum openInOBlSpace.
 "
 Class {
 	#name : #ToAlbumViewModel,
-	#superclass : #OBlViewModel,
+	#superclass : #ToViewModel,
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
 		'#text => ObservableSlot',
@@ -139,7 +139,7 @@ ToAlbumViewModel >> mode: anEditabilityMode [
 
 	mode = anEditabilityMode ifTrue: [ ^ self ].
 	mode := anEditabilityMode.
-	self widgetDo: [ :album | album mode: anEditabilityMode ]
+	self widgetPerformOrDefer: [ :album | album mode: anEditabilityMode ]
 ]
 
 { #category : #'change hook' }
@@ -249,6 +249,12 @@ ToAlbumViewModel >> privateMode: anEditabilityMode [
 	mode := anEditabilityMode
 ]
 
+{ #category : #'private - accessing - widget' }
+ToAlbumViewModel >> privateNewWidget [
+
+	^ ToAlbum new
+]
+
 { #category : #private }
 ToAlbumViewModel >> privateText: aBlText [
 
@@ -302,7 +308,7 @@ ToAlbumViewModel >> styler [
 { #category : #'styler configuration' }
 ToAlbumViewModel >> styler: aBlStyler [
 
-	self widgetDo: [ :album | 
+	self widgetPerformOrDefer: [ :album | 
 		self styler ifNotNil: [ :styler | 
 			self styler unsubscribe: self.
 			self unsubscribe: styler ].
@@ -329,7 +335,7 @@ ToAlbumViewModel >> text [
 ToAlbumViewModel >> text: aBlText [
 
 	self text == aBlText ifTrue: [ ^ self ].
-	self widgetDo: [ :album | album text: aBlText asRopedText]
+	self widgetPerformOrDefer: [ :album | album text: aBlText asRopedText]
 ]
 
 { #category : #'change hook' }
@@ -348,13 +354,13 @@ ToAlbumViewModel >> textReplaced [
 { #category : #'styler configuration' }
 ToAlbumViewModel >> whenStylerStateChanged: aBlStylerStateChangedAnnouncement [
 
-	self widgetDo: [ :album | self requestTextStyle ]
+	self widgetPerformOrDefer: [ :album | self requestTextStyle ]
 ]
 
 { #category : #'styler configuration' }
 ToAlbumViewModel >> whenStylerTextStyled: aBlStylerTextStyledAnnouncement [
 
-	self widgetDo: [ :album | 
+	self widgetPerformOrDefer: [ :album | 
 		| result |
 		result := aBlStylerTextStyledAnnouncement styledText.
 		" text just styled by the styler, check the generation (to be thread-safe) to ensure that 
@@ -367,7 +373,7 @@ ToAlbumViewModel >> whenStylerTextStyled: aBlStylerTextStyledAnnouncement [
 { #category : #'styler configuration' }
 ToAlbumViewModel >> whenTextStyleRequested: aToTextStyleRequested [
 
-	self widgetDo: [ :album | 
+	self widgetPerformOrDefer: [ :album | 
 		self styler ifNotNil: [ 
 			self styler announce: (BlStylerTextStyleRequested new
 					 unstyledText: self text nextGeneration;
@@ -375,35 +381,29 @@ ToAlbumViewModel >> whenTextStyleRequested: aToTextStyleRequested [
 					 yourself) ] ]
 ]
 
-{ #category : #'accessing - widget' }
-ToAlbumViewModel >> widget [
-
-	^ ToAlbum new
-]
-
 { #category : #'view configuration' }
 ToAlbumViewModel >> withEditsFeedbackLayer [
 
-	self widgetDo: [ :album | album withEditsFeedbackFrom: self. ]
+	self widgetPerformOrDefer: [ :album | album withEditsFeedbackFrom: self. ]
 ]
 
 { #category : #'view configuration' }
 ToAlbumViewModel >> withGhostText: aText [
 
-	self widgetDo: [ :album | album withGhostText: aText from: self ]
+	self widgetPerformOrDefer: [ :album | album withGhostText: aText from: self ]
 ]
 
 { #category : #'view configuration' }
 ToAlbumViewModel >> withLineNumbers [
 
-	self widgetDo: [ :album | album withLineNumbers ]
+	self widgetPerformOrDefer: [ :album | album withLineNumbers ]
 ]
 
 { #category : #'view configuration' }
 ToAlbumViewModel >> withSaveCapability [
 
 	self withEditsFeedbackLayer.
-	self widgetDo: [ :album | 
+	self widgetPerformOrDefer: [ :album | 
 		album innerElement addEditorShortcut: (BlShortcutWithAction new
 				 combination: BlKeyCombination primaryS;
 				 action: [ :aShortcutEvent :aShortcut | self requestSave ];
@@ -419,17 +419,17 @@ ToAlbumViewModel >> withSaveCapability [
 { #category : #'view configuration' }
 ToAlbumViewModel >> withoutEditsFeedbackLayer [
 
-	self widgetDo: [ :album | album withoutEditsFeedback. ]
+	self widgetPerformOrDefer: [ :album | album withoutEditsFeedback. ]
 ]
 
 { #category : #'view configuration' }
 ToAlbumViewModel >> withoutGhostText [
 
-	self widgetDo: [ :album | album withoutGhostText ]
+	self widgetPerformOrDefer: [ :album | album withoutGhostText ]
 ]
 
 { #category : #'view configuration' }
 ToAlbumViewModel >> withoutLineNumbers [
 
-	self widgetDo: [ :album | album withoutLineNumbers ]
+	self widgetPerformOrDefer: [ :album | album withoutLineNumbers ]
 ]

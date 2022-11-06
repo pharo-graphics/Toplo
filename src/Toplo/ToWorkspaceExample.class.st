@@ -114,7 +114,7 @@ ToWorkspaceExample >> codeEditor [
 				       fontName: AeFontManager defaultCodeFontFamilyName;
 				       yourself);
 		      yourself.
-	st widgetDo: [ :album | 
+	st widgetPerformOrDefer: [ :album | 
 		album innerElement addEditorShortcut: (BlShortcutWithAction new
 				 combination: BlKeyCombination primaryD;
 				 action: [ :aShortcutEvent :aShortcut | self doIt ];
@@ -132,7 +132,7 @@ ToWorkspaceExample >> correctFrom: start to: stop with: aString [
 { #category : #accessing }
 ToWorkspaceExample >> doIt [
 
-	textModel widgetDo: [ :widget | 
+	textModel widgetPerformOrDefer: [ :widget | 
 		| toDo |
 		toDo := widget innerElement selectedText asString.
 		toDo ifEmpty: [ toDo := widget innerElement text asString ].
@@ -184,8 +184,8 @@ ToWorkspaceExample >> openInSpace: aSpace [
 		title: self class instanceSide name;
 		extent: 300 asPoint.
 	editor := self codeEditor.
+	editor innerElement requestFocus.
 	aSpace root addChild: editor.
-	editor requestFocus.
 	aSpace show.
 	aSpace addEventHandler: (BlEventHandler
 			 on: BlSpaceClosedEvent

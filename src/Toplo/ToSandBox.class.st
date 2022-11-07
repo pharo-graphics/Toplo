@@ -123,6 +123,7 @@ ToSandBox class >> example_toButtonOritentaionDirectionChanger [
 	but whenActionPerformedDo: [ self inform: 'Button action performed' ].
 	space := OBlSpace new.
 	space addChild: but.
+	"space host: BAOSWindowSDL2Host new."
 	space show
 ]
 

@@ -136,6 +136,7 @@ ToSandBox class >> example_toButtonWithHelp [
 	but action: [ self inform: 'Button clicked' ].
 	but whenActionPerformedDo: [ self inform: 'Button action performed' ].
 	space := OBlSpace new.
+	but inspect.
 	space addChild: but.
 	space show
 ]

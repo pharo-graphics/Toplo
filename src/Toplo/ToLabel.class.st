@@ -72,7 +72,7 @@ ToLabel >> beReadOnly [
 { #category : #initialization }
 ToLabel >> defaultPaddings [
 
-	^ BlInsets all: 3
+	^ BlInsets empty
 		  
 ]
 

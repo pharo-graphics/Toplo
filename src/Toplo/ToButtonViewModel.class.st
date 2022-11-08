@@ -5,7 +5,7 @@ Class {
 		'#labelViewModel',
 		'#iconViewModel',
 		'#action => ObservableSlot',
-		'#labelFirst'
+		'#labelFirst => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Buttons'
 }
@@ -77,8 +77,34 @@ ToButtonViewModel >> iconViewModel [
 ToButtonViewModel >> initialize [ 
 	super initialize.
 	action := [  ].
+	labelFirst := false. 
 	labelViewModel := ToLabelViewModel new.
 	iconViewModel := ToImageViewModel new.
+]
+
+{ #category : #'api - presentation' }
+ToButtonViewModel >> isIconFirst [
+	
+	^ self isLabelFirst not
+]
+
+{ #category : #'api - presentation' }
+ToButtonViewModel >> isLabelFirst [
+	
+	^ labelFirst
+]
+
+{ #category : #'api - presentation' }
+ToButtonViewModel >> labelFirst [
+
+	^ labelFirst
+]
+
+{ #category : #'api - presentation' }
+ToButtonViewModel >> labelFirst: aBoolean [
+	
+	labelFirst = aBoolean ifTrue: [ ^ self ].
+	labelFirst := aBoolean
 ]
 
 { #category : #accessing }
@@ -115,7 +141,8 @@ ToButtonViewModel >> onInstalledOnlyMeIn: aToButton [
 	aToButton iconViewModel: iconViewModel.
 	self onLabelTextReplacedDo: [ aToButton labelTextReplaced ].
 	self onIconImageReplacedDo: [ aToButton iconImageReplaced ].
-	aToButton when: BlClickEvent do: [ :anEvent | self clickEvent: anEvent ]
+	self onPresentationChangedDo: [ aToButton presentationChanged ].
+	aToButton when: BlClickEvent do: [ :anEvent | aToButton clickEvent: anEvent ]
 
 ]
 
@@ -123,6 +150,17 @@ ToButtonViewModel >> onInstalledOnlyMeIn: aToButton [
 ToButtonViewModel >> onLabelTextReplacedDo: aBlock [
 
 	labelViewModel onTextReplacedDo: aBlock
+]
+
+{ #category : #'api - presentation' }
+ToButtonViewModel >> onPresentationChangedDo: aBlock [
+
+	"Inform when labelFirst has been changed. 
+	 `aBlock` receives two optional arguments: 
+	 - new action block
+	 - old action block"
+
+	self property: #labelFirst whenChangedDo: aBlock
 ]
 
 { #category : #'private - accessing - widget' }

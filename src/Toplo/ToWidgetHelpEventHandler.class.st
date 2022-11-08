@@ -40,8 +40,9 @@ ToWidgetHelpEventHandler >> mouseEnterEvent: anEvent [
 
 	helpOpenTask ifNotNil: [ anEvent currentTarget dequeueTask: helpOpenTask ].
 	helpElement ifNotNil: [ helpElement := nil ].
+	anEvent anyButtonPressed ifTrue: [ ^ self ].
 	helpOpenTask := BlDelayedTaskAction new
-		                delay: 600 milliSeconds;
+		                delay: 1000 milliSeconds;
 		                action: [ 
 			                self popupHelpFor: anEvent currentTarget.
 			                helpOpenTask := nil ].

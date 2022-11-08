@@ -97,12 +97,12 @@ ToWidget >> viewModel: aViewModel [
 	self viewModelDo: [ :aCurrentModel | aViewModel onInstalledIn: self ]
 ]
 
-{ #category : #enumerating }
+{ #category : #accessing }
 ToWidget >> viewModelDo: aBlock [
 	viewModel ifNotNil: aBlock
 ]
 
-{ #category : #'model - events' }
+{ #category : #'private - model events' }
 ToWidget >> whenActionRequired: anActionRequiredAnnouncement [
 
 	anActionRequiredAnnouncement value: self

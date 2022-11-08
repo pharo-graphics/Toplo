@@ -5,8 +5,7 @@ Class {
 	#classTraits : 'TBlAlignable classTrait + TOBlLayoutResizable classTrait',
 	#instVars : [
 		'label',
-		'icon',
-		'labelFirst'
+		'icon'
 	],
 	#category : #'Toplo-Widget-Buttons'
 }
@@ -61,6 +60,13 @@ ToButton >> beVertical [
 
 	self layout beVertical.
 	self requestLayout 
+]
+
+{ #category : #'mouse handlers' }
+ToButton >> clickEvent: anEvent [
+
+	self isDisabled ifTrue: [ ^ self ].
+	self viewModel clickEvent: anEvent
 ]
 
 { #category : #initialization }
@@ -127,7 +133,6 @@ ToButton >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	labelFirst := true. 
 	self
 		layout: BlLinearLayout horizontal;
 		constraintsDo: [ :c | 
@@ -138,27 +143,25 @@ ToButton >> initialize [
 { #category : #'api - orientation/direction' }
 ToButton >> isIconFirst [
 	
-	^ self isLabelFirst not
+	^ self viewModel isIconFirst
 ]
 
 { #category : #'api - orientation/direction' }
 ToButton >> isLabelFirst [
 	
-	^ labelFirst
+	^ self viewModel isLabelFirst
 ]
 
 { #category : #'api - orientation/direction' }
 ToButton >> labelFirst [
-
-	^ labelFirst
+	
+	^ self viewModel labelFirst
 ]
 
 { #category : #'api - orientation/direction' }
 ToButton >> labelFirst: aBoolean [
 	
-	labelFirst = aBoolean ifTrue: [ ^ self ].
-	labelFirst := aBoolean.
-	self privateUpdateChildren
+	self viewModel labelFirst: aBoolean
 ]
 
 { #category : #accessing }
@@ -192,6 +195,12 @@ ToButton >> orientation [
 ToButton >> orientation: aBlLayoutOrientation [
 
 	self layout orientation: aBlLayoutOrientation
+]
+
+{ #category : #'api - orientation/direction' }
+ToButton >> presentationChanged [
+	
+		self privateUpdateChildren
 ]
 
 { #category : #private }
@@ -254,7 +263,7 @@ ToButton >> verticalAlignment: aBlElementAlignment [
 
 ]
 
-{ #category : #enumerating }
+{ #category : #'api-  action' }
 ToButton >> whenActionPerformedDo: aBlock [
 	"Inform that the button has been aclicked, and its action has been performed.
 	 `aBlock` receive zero arguments."

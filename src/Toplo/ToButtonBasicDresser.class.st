@@ -9,6 +9,36 @@ Class {
 }
 
 { #category : #'api - hooks' }
+ToButtonBasicDresser >> almostClicked: anElement [
+
+	anElement border: (BlBorder paint: Color gray width: 2).
+	downBorder := anElement border 
+]
+
+{ #category : #'api - hooks' }
+ToButtonBasicDresser >> clicked: anElement [
+
+	downBorder := nil.
+	self readyToClick: anElement
+]
+
+{ #category : #'api - hooks' }
+ToButtonBasicDresser >> escaped: anElement [
+
+	downBorder := nil
+	
+]
+
+{ #category : #'api - hooks' }
+ToButtonBasicDresser >> initialState: anElement [
+
+	initialBorder ifNil: [ 
+		initialBorder := anElement border.
+		^ self ].
+	anElement border: initialBorder
+]
+
+{ #category : #'api - hooks' }
 ToButtonBasicDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
@@ -20,51 +50,39 @@ ToButtonBasicDresser >> onInstalledIn: anElement [
 			 bottom: 0
 			 right: 2).
 
-	downBorder := nil.
-	initialBorder := anElement border.
-	
+
 	"
 	updating initialBorder do not work with the following : 
 	anElement when: BlElementBorderChangedEvent do: [ initialBorder := anElement border ].
 	A finest management should be implemented but do we need that ?
 	It means that the border of a button can't be changed after the dresser has been installed on the button
 	"
+	self initialState: anElement.
+	downBorder := nil.
 
 	anElement
 		when: BlMouseEnterEvent
-		do: [ :anEvent | self showMouseIsOver: anElement ].
-
-	anElement when: BlMouseDownEvent do: [ :anEvent | 
-		self showAsAlmostClicked: anElement.
-		downBorder := anElement border ].
-
-	anElement when: BlClickEvent do: [ :anEvent | 
-		downBorder := nil.
-		self showMouseIsOver: anElement ].
+		do: [ :anEvent | self readyToClick: anElement ].
 
 	anElement
 		when: BlMouseLeaveEvent
-		do: [ :anEvent | self showInitialLookIn: anElement ].
+		do: [ :anEvent | self initialState: anElement ].
+
+	anElement
+		when: BlMouseDownEvent
+		do: [ :anEvent | self almostClicked: anElement ].
+
+	anElement
+		when: BlClickEvent
+		do: [ :anEvent | self clicked: anElement ].
 
 	anElement
 		when: BlMouseUpSomewhereEvent
-		do: [ :anEvent | downBorder := nil ]
+		do: [ :anEvent | self escaped: anElement ]
 ]
 
 { #category : #'api - hooks' }
-ToButtonBasicDresser >> showAsAlmostClicked: anElement [
-
-	anElement border: (BlBorder paint: Color gray width: 2)
-]
-
-{ #category : #'api - hooks' }
-ToButtonBasicDresser >> showInitialLookIn: anElement [
-
-	anElement border: initialBorder 
-]
-
-{ #category : #'api - hooks' }
-ToButtonBasicDresser >> showMouseIsOver: anElement [
+ToButtonBasicDresser >> readyToClick: anElement [
 
 	anElement border: (downBorder ifNil: [ (BlBorder paint: Color gray width: 1) ])
 ]

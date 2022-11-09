@@ -39,22 +39,6 @@ ToBasicButtonViewModel >> defaultDresser [
 	
 ]
 
-{ #category : #initialization }
-ToBasicButtonViewModel >> defaultIconImage [
-
-	^ (BlElement new
-		  size: 16 @ 16;
-		  border: (BlBorder paint: Color gray width: 2);
-		  background: (Color gray alpha: 0.2);
-		  geometry: BlCircleGeometry new ).
-]
-
-{ #category : #initialization }
-ToBasicButtonViewModel >> defaultLabelText [
-
-	^ 'Button'
-]
-
 { #category : #accessing }
 ToBasicButtonViewModel >> iconImage [
 

@@ -9,9 +9,3 @@ ToButtonViewModel >> iconImage: anElement [
 
 	iconViewModel image: anElement
 ]
-
-{ #category : #'api - hooks' }
-ToButtonViewModel >> onInstalledOnlyMeIn: aToButton [
-
-	super onInstalledOnlyMeIn: aToButton
-]

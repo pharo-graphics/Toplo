@@ -84,17 +84,18 @@ ToBasicButton >> direction [
 { #category : #'api - orientation/direction' }
 ToBasicButton >> direction: aBlLayoutDirection [
 
-	self layout direction: aBlLayoutDirection
+	self layout direction: aBlLayoutDirection.
+	self requestLayout 
 ]
 
-{ #category : #accessing }
+{ #category : #'private - alignment' }
 ToBasicButton >> horizontalAlignment [
 	<return: #BlElementAlignment>
 
 	^ self layout horizontalAlignment 
 ]
 
-{ #category : #accessing }
+{ #category : #'private - alignment' }
 ToBasicButton >> horizontalAlignment: aBlElementAlignment [
 
 	self horizontalAlignment = aBlElementAlignment ifTrue: [ ^self ].
@@ -103,9 +104,19 @@ ToBasicButton >> horizontalAlignment: aBlElementAlignment [
 ]
 
 { #category : #accessing }
-ToBasicButton >> iconImage [
+ToBasicButton >> icon [
 
-	^ self viewModel iconImage
+	^ icon
+]
+
+{ #category : #accessing }
+ToBasicButton >> icon: anImage [
+
+	icon = anImage ifTrue: [ ^self ].
+	icon := anImage.
+	"icon ifNotNil: [ icon constraintsDo: [ :c | c linear vertical alignCenter ] ]."
+	self privateUpdateChildren 
+	
 ]
 
 { #category : #private }
@@ -114,11 +125,11 @@ ToBasicButton >> iconImageReplaced [
 	self privateUpdateChildren 
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 ToBasicButton >> iconViewModel: anImageViewModel [
 
-	self privateIcon: anImageViewModel privateNewWidget.
-	self privateIcon viewModel: anImageViewModel
+	self icon: anImageViewModel privateNewWidget.
+	self icon viewModel: anImageViewModel
 
 ]
 
@@ -131,7 +142,8 @@ ToBasicButton >> initialize [
 		layout: (BlLinearLayout horizontal);
 		constraintsDo: [ :c | 
 			c vertical fitContent.
-			c horizontal fitContent ]
+			c horizontal fitContent ].
+	self alignCenter
 ]
 
 { #category : #'api - orientation/direction' }
@@ -144,6 +156,22 @@ ToBasicButton >> isIconFirst [
 ToBasicButton >> isLabelFirst [
 	
 	^ self viewModel isLabelFirst
+]
+
+{ #category : #accessing }
+ToBasicButton >> label [
+
+	^ label
+]
+
+{ #category : #accessing }
+ToBasicButton >> label: aLabel [
+
+	label = aLabel ifTrue: [ ^ self ].
+	label := aLabel.
+	"label ifNotNil: [ label constraintsDo: [ :c | c linear vertical alignCenter ] ]."
+	self privateUpdateChildren 
+	
 ]
 
 { #category : #'api - orientation/direction' }
@@ -170,11 +198,11 @@ ToBasicButton >> labelTextReplaced [
 	self privateUpdateChildren 
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 ToBasicButton >> labelViewModel: aLabelViewModel [
 
-	self privateLabel: aLabelViewModel privateNewWidget.
-	self privateLabel viewModel: aLabelViewModel
+	self label: aLabelViewModel privateNewWidget.
+	self label viewModel: aLabelViewModel
 
 
 ]
@@ -188,68 +216,31 @@ ToBasicButton >> orientation [
 { #category : #'api - orientation/direction' }
 ToBasicButton >> orientation: aBlLayoutOrientation [
 
-	self layout orientation: aBlLayoutOrientation
+	self layout orientation: aBlLayoutOrientation.
+	self requestLayout 
 ]
 
-{ #category : #'api - orientation/direction' }
+{ #category : #private }
 ToBasicButton >> presentationChanged [
 	
 		self privateUpdateChildren
 ]
 
 { #category : #private }
-ToBasicButton >> privateIcon [
-
-	^ icon
-]
-
-{ #category : #private }
-ToBasicButton >> privateIcon: anImage [
-
-	icon = anImage ifTrue: [ ^self ].
-	icon := anImage.
-	icon ifNotNil: [ icon constraintsDo: [ :c | c linear vertical alignCenter ] ].
-	self privateUpdateChildren 
-	
-]
-
-{ #category : #private }
-ToBasicButton >> privateLabel [
-
-	^ label
-]
-
-{ #category : #private }
-ToBasicButton >> privateLabel: aLabel [
-
-	label = aLabel ifTrue: [ ^ self ].
-	label := aLabel.
-	label ifNotNil: [ label constraintsDo: [ :c | c linear vertical alignCenter ] ].
-	self privateUpdateChildren 
-	
-]
-
-{ #category : #private }
 ToBasicButton >> privateUpdateChildren [
 
 	self removeChildren.
-	self isLabelFirst
-		ifTrue: [ 
-			label ifNotNil: [ self addChild: label ].
-			icon ifNotNil: [ self addChild: icon ] ]
-		ifFalse: [ 
-			icon ifNotNil: [ self addChild: icon ].
-			label ifNotNil: [ self addChild: label ] ]
+	self addChildren: ((self isLabelFirst ifTrue: [ { label. icon } ] ifFalse: [ { icon. label } ]) select: #notNil)
 ]
 
-{ #category : #accessing }
+{ #category : #'private - alignment' }
 ToBasicButton >> verticalAlignment [
 	<return: #BlElementAlignment>
 	
 	^ self layout verticalAlignment 
 ]
 
-{ #category : #accessing }
+{ #category : #'private - alignment' }
 ToBasicButton >> verticalAlignment: aBlElementAlignment [
 
 	self verticalAlignment = aBlElementAlignment ifTrue: [ ^self ].

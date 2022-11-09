@@ -105,7 +105,7 @@ ToSandBox class >> example_toButton0 [
 
 	| but |
 	but := ToButtonViewModel new.
-	but openInOBlSpace
+	but onWidget openInOBlSpace
 ]
 
 { #category : #button }
@@ -116,16 +116,13 @@ ToSandBox class >> example_toButtonOritentaionDirectionChanger [
 	but background: Color black.
 	but border: (BlBorder paint: Color lightGray).
 	but beIconFirst.
-	but alignCenter.
 	but labelText: ('Button' asRopedText foreground: Color white; bold).
 	but iconImage: (BlElement new size: 20@20; background: Color lightGray; yourself).
-	but layout cellSpacing: 4.
 	but padding: (BlInsets all: 4).
 	but action: [ 
 		but labelFirst: but labelFirst not.
 		but direction: but direction inverted.
-		but orientation: but orientation inverted.
-		"but alignCenter" ].
+		but orientation: but orientation inverted].
 	but whenActionPerformedDo: [ self inform: 'Button action performed' ].
 	space := OBlSpace new.
 	space addChild: but.
@@ -159,6 +156,25 @@ ToSandBox class >> example_toButtonWithIconOnly [
 			 yourself).
 	but border: (BlBorder paint: Color red width: 2).
 	but padding: (BlInsets all: 3).
+	space := OBlSpace new.
+	space addChild: but.
+	space show
+]
+
+{ #category : #button }
+ToSandBox class >> example_toButtonWithTextAndIconVertical [
+
+	| but space |
+	but := ToButton new beVertical; beLabelFirst.
+	but labelText: 'Button'. 
+	but iconImage: (BlElement new
+			 size: 60 @ 20;
+			 background: (Color blue alpha: 0.2);
+			 yourself).
+	but action: [ but orientation: but orientation inverted ].
+	but icon border: (BlBorder paint: Color black).
+	but label border: (BlBorder paint: Color black).
+	but border: (BlBorder paint: Color red width: 2).
 	space := OBlSpace new.
 	space addChild: but.
 	space show

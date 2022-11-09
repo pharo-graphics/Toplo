@@ -8,7 +8,7 @@ Class {
 	#category : #'Toplo-Widget-Buttons'
 }
 
-{ #category : #'api - hooks' }
+{ #category : #private }
 ToButtonBorderBasedStateDresser >> border: aBorder in: anElement [
 
 	self
@@ -16,7 +16,7 @@ ToButtonBorderBasedStateDresser >> border: aBorder in: anElement [
 		while: [ anElement border: aBorder ]
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #'api - state transitions' }
 ToButtonBorderBasedStateDresser >> clicked: anElement [
 
 	downBorder := nil.
@@ -24,7 +24,7 @@ ToButtonBorderBasedStateDresser >> clicked: anElement [
 
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #private }
 ToButtonBorderBasedStateDresser >> disableBorderChangeEventIn: anElement while: aBlock [
 
 	anElement eventDispatcher disableEventType: BlElementBorderChangedEvent.
@@ -32,14 +32,14 @@ ToButtonBorderBasedStateDresser >> disableBorderChangeEventIn: anElement while: 
 		anElement eventDispatcher enableEventType: BlElementBorderChangedEvent ]
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #'api - state transitions' }
 ToButtonBorderBasedStateDresser >> escaped: anElement [
 
 	downBorder := nil.
 	
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #'api - state transitions' }
 ToButtonBorderBasedStateDresser >> hover: anElement [
 
 	self border: self hoveredBorder in: anElement
@@ -52,7 +52,7 @@ ToButtonBorderBasedStateDresser >> hoveredBorder [
 
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #'api - state transitions' }
 ToButtonBorderBasedStateDresser >> initialState: anElement [
 
 	initialBorder ifNil: [ initialBorder := anElement border ].
@@ -60,7 +60,7 @@ ToButtonBorderBasedStateDresser >> initialState: anElement [
 
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #'api - state transitions' }
 ToButtonBorderBasedStateDresser >> leaved: anElement [
 
 	self border: initialBorder in: anElement
@@ -75,7 +75,7 @@ ToButtonBorderBasedStateDresser >> onInstalledIn: anElement [
 	downBorder := nil
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #'api - state transitions' }
 ToButtonBorderBasedStateDresser >> pressed: anElement [
 
 	self border: self pressedBorder in: anElement.

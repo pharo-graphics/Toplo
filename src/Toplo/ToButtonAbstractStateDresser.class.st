@@ -25,7 +25,7 @@ ToButtonAbstractStateDresser >> hover: anElement [
 
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #'api - state transitions' }
 ToButtonAbstractStateDresser >> initialState: anElement [
 
 	self subclassResponsibility 

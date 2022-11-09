@@ -148,6 +148,33 @@ ToSandBox class >> example_toButtonWithHelp [
 	space show
 ]
 
+{ #category : #button }
+ToSandBox class >> example_toButtonWithIconOnly [
+
+	| but space |
+	but := ToButton new.
+	but iconImage: (BlElement new
+			 size: 60 @ 20;
+			 background: Color blue;
+			 yourself).
+	but border: (BlBorder paint: Color red width: 2).
+	but padding: (BlInsets all: 3).
+	space := OBlSpace new.
+	space addChild: but.
+	space show
+]
+
+{ #category : #button }
+ToSandBox class >> example_toButtonWithTextOnly [
+
+	| but space |
+	but := ToButton new.
+	but labelText: 'Button'. 
+	space := OBlSpace new.
+	space addChild: but.
+	space show
+]
+
 { #category : #image }
 ToSandBox class >> example_toImage0 [
 

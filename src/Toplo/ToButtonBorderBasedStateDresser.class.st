@@ -9,11 +9,27 @@ Class {
 }
 
 { #category : #'api - hooks' }
+ToButtonBorderBasedStateDresser >> border: aBorder in: anElement [
+
+	self
+		disableBorderChangeEventIn: anElement
+		while: [ anElement border: aBorder ]
+]
+
+{ #category : #'api - hooks' }
 ToButtonBorderBasedStateDresser >> clicked: anElement [
 
 	downBorder := nil.
-	anElement border: self hoveredBorder 
+	self border: self hoveredBorder in: anElement
 
+]
+
+{ #category : #'api - hooks' }
+ToButtonBorderBasedStateDresser >> disableBorderChangeEventIn: anElement while: aBlock [
+
+	anElement eventDispatcher disableEventType: BlElementBorderChangedEvent.
+	aBlock ensure: [ 
+		anElement eventDispatcher enableEventType: BlElementBorderChangedEvent ]
 ]
 
 { #category : #'api - hooks' }
@@ -26,8 +42,7 @@ ToButtonBorderBasedStateDresser >> escaped: anElement [
 { #category : #'api - hooks' }
 ToButtonBorderBasedStateDresser >> hover: anElement [
 
-	anElement border: self hoveredBorder 
-
+	self border: self hoveredBorder in: anElement
 ]
 
 { #category : #'border accessing' }
@@ -41,27 +56,29 @@ ToButtonBorderBasedStateDresser >> hoveredBorder [
 ToButtonBorderBasedStateDresser >> initialState: anElement [
 
 	initialBorder ifNil: [ initialBorder := anElement border ].
-	anElement border: initialBorder
+	self border: initialBorder in: anElement
+
 ]
 
 { #category : #'api - hooks' }
 ToButtonBorderBasedStateDresser >> leaved: anElement [
 
-	anElement border: initialBorder
+	self border: initialBorder in: anElement
+
 ]
 
 { #category : #'api - hooks' }
 ToButtonBorderBasedStateDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	anElement border: BlBorder empty.	
+	anElement when: BlElementBorderChangedEvent do: [ initialBorder := anElement border ].
 	downBorder := nil
 ]
 
 { #category : #'api - hooks' }
 ToButtonBorderBasedStateDresser >> pressed: anElement [
 
-	anElement border: self pressedBorder.
+	self border: self pressedBorder in: anElement.
 	downBorder := anElement border.
 
 ]

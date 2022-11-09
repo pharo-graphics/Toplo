@@ -135,7 +135,6 @@ ToBasicButtonViewModel >> onInstalledOnlyMeIn: aToButton [
 	self onIconImageReplacedDo: [ aToButton iconImageReplaced ].
 	self onPresentationChangedDo: [ aToButton presentationChanged ].
 	aToButton when: BlClickEvent do: [ :anEvent | aToButton clickEvent: anEvent ]
-
 ]
 
 { #category : #'api - change hook' }

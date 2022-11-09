@@ -105,7 +105,7 @@ ToSandBox class >> example_toButton0 [
 
 	| but |
 	but := ToButtonViewModel new.
-	but onWidget openInOBlSpace; inspect.
+	but onWidget border: (BlBorder paint: Color red width: 1); openInOBlSpace; inspect.
 ]
 
 { #category : #button }
@@ -135,6 +135,7 @@ ToSandBox class >> example_toButtonWithHelp [
 	but help: ('This is a button', String cr, 'so, click on me...') asRopedText. 
 	but action: [ self inform: 'Button clicked' ].
 	but whenActionPerformedDo: [ self inform: 'Button action performed' ].
+	but background: Color lightBrown.
 	space := OBlSpace new.
 	but inspect.
 	space addChild: but.

@@ -11,7 +11,7 @@ Class {
 ToImageViewModel >> defaultImage [
 
 	^ BlElement new
-		  size: 20 @ 20;
+		  size: 0 @ 0;
 		  background: Color blue;
 		  yourself
 ]

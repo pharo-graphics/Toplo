@@ -22,8 +22,5 @@ ToButtonViewModel >> initialize [
 { #category : #'api - hooks' }
 ToButtonViewModel >> onInstalledOnlyMeIn: aToButton [
 
-	super onInstalledOnlyMeIn: aToButton.
-	self labelText: self defaultLabelText.
-	self iconImage: self defaultIconImage.
-
+	super onInstalledOnlyMeIn: aToButton
 ]

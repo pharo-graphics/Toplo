@@ -105,7 +105,7 @@ ToSandBox class >> example_toButton0 [
 
 	| but |
 	but := ToButtonViewModel new.
-	but onWidget border: (BlBorder paint: Color red width: 1); openInOBlSpace; inspect.
+	but openInOBlSpace
 ]
 
 { #category : #button }
@@ -113,13 +113,19 @@ ToSandBox class >> example_toButtonOritentaionDirectionChanger [
 
 	| but space |
 	but := ToButton new.
+	but background: Color black.
+	but border: (BlBorder paint: Color lightGray).
 	but beIconFirst.
-	but help: ('This is a button' , String cr , 'so, click on me...') asRopedText.
+	but alignCenter.
+	but labelText: ('Button' asRopedText foreground: Color white; bold).
+	but iconImage: (BlElement new size: 20@20; background: Color lightGray; yourself).
+	but layout cellSpacing: 4.
+	but padding: (BlInsets all: 4).
 	but action: [ 
 		but labelFirst: but labelFirst not.
 		but direction: but direction inverted.
 		but orientation: but orientation inverted.
-		but alignCenter ].
+		"but alignCenter" ].
 	but whenActionPerformedDo: [ self inform: 'Button action performed' ].
 	space := OBlSpace new.
 	space addChild: but.
@@ -135,9 +141,9 @@ ToSandBox class >> example_toButtonWithHelp [
 	but help: ('This is a button', String cr, 'so, click on me...') asRopedText. 
 	but action: [ self inform: 'Button clicked' ].
 	but whenActionPerformedDo: [ self inform: 'Button action performed' ].
-	but background: Color lightBrown.
+	but background: (Color red alpha: 0.3).
+	but size: 32@16.
 	space := OBlSpace new.
-	but inspect.
 	space addChild: but.
 	space show
 ]

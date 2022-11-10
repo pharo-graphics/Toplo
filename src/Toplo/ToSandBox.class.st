@@ -237,11 +237,35 @@ ToSandBox class >> example_toCheckbox0 [
 ]
 
 { #category : #checkbox }
-ToSandBox class >> example_toCheckboxWithLabel [
+ToSandBox class >> example_toCheckboxModelWithLabel [
 
 	| but |
 	but := ToCheckboxModel new labelText: 'Check me'.
 	but onWidget openInOBlSpace
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_toCheckboxModelWithLabel2 [
+
+	| but |
+	but := ToCheckboxModel new labelText: 'Check me'; beLabelFirst.
+	but onWidget openInOBlSpace
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_toCheckboxModelWithLabel3 [
+
+	| but |
+	but := ToCheckboxModel new labelText: 'Check me'; beVertical.
+	but onWidget openInOBlSpace
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_toCheckboxWithLabel [
+
+	| but |
+	but := ToCheckbox new labelText: 'Check me'.
+	but openInOBlSpace
 ]
 
 { #category : #checkbox }

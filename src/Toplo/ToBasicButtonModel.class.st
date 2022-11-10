@@ -159,7 +159,13 @@ ToBasicButtonModel >> onInstalledOnlyMeIn: aToButton [
 	self whenIconImageReplacedDo: [ aToButton iconImageReplaced ].
 	self whenPresentationChangedDo: [ aToButton presentationChanged ].
 	self whenOrientationChangedDo: [ aToButton orientationChanged ].
-	aToButton when: BlClickEvent do: [ :anEvent | aToButton clickEvent: anEvent ]
+	aToButton when: BlClickEvent do: [ :anEvent | 
+		aToButton clickEvent: anEvent ].
+	"Because of the button has sub-elements, a Mouse up can a different target than the related mouse down but it can come from the button or from one of its children (if mouse has moved from the label to the icon as an example)"
+	"aToButton when: BlMouseUpSomewhereEvent do: [ :anEvent | 
+		(anEvent currentTarget == aToButton or: [ 
+			 anEvent currentTarget hasParent: aToButton ]) ifTrue: [ 
+			aToButton dispatchEvent: anEvent asClickEvent ] ]"
 ]
 
 { #category : #'private - accessing - widget' }

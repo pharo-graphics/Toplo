@@ -27,7 +27,7 @@ ToLabelMonoLineInnerElement >> editorShortcutsIn: aLabel [
 ToLabelMonoLineInnerElement >> newEditorIn: aLabel [
 
 	| ed |
-	ed := (ToAlbumViewModel new dresser: ToLabelEditorBasicDresser new) onWidget.
+	ed := (ToAlbumModel new dresser: ToLabelEditorBasicDresser new) onWidget.
 	(self editorShortcutsIn: aLabel) do: [ :s | ed innerElement editor addEditorShortcut: s ].
 	self flag: 'ed matchParent here leads to a Pharo crash'.
 	ed fitContent.

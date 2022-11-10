@@ -25,7 +25,7 @@ ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement from: anAlbumViewModel [
 		do: [ :announce | announce unacceptedEdits ifFalse: [ self flash ] ].
 
 	" visual flag add/remove according to unaccepted edits or not"
-	viewModel onEditedChangedDo: [ :state | 
+	viewModel whenEditedChangedDo: [ :state | 
 		state
 			ifTrue: [ self showEditsFeedback ]
 			ifFalse: [ self hideEditsFeedback ] ]

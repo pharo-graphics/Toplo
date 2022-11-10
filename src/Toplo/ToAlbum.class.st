@@ -20,7 +20,7 @@ ToAlbum >> defaultEditorElement [
 { #category : #initialization }
 ToAlbum >> defaultViewModel [
 
-	^ ToAlbumViewModel new
+	^ ToAlbumModel new
 ]
 
 { #category : #initialization }
@@ -67,22 +67,9 @@ ToAlbum >> mode: anEditabilityMode [
 ]
 
 { #category : #'client - protocol' }
-ToAlbum >> onModeChangedDo: aBlock [
-
-	innerElement onModeChangedDo: aBlock
-]
-
-{ #category : #'client - protocol' }
 ToAlbum >> onTextEditedDo: aBlock [
 
 	self innerElement whenAnnouncement: AlbTextEdited do: aBlock
-]
-
-{ #category : #'client - protocol' }
-ToAlbum >> onTextReplacedDo: aBlock [
-
-	innerElement 
-		whenTextReplacedDo: [ :announcement | aBlock cull: announcement text cull: announcement ]
 ]
 
 { #category : #accessing }
@@ -95,6 +82,19 @@ ToAlbum >> text [
 ToAlbum >> text: aBlText [
 
 	self innerElement text: aBlText
+]
+
+{ #category : #'client - protocol' }
+ToAlbum >> whenModeChangedDo: aBlock [
+
+	innerElement whenModeChangedDo: aBlock
+]
+
+{ #category : #'client - protocol' }
+ToAlbum >> whenTextReplacedDo: aBlock [
+
+	innerElement 
+		whenTextReplacedDo: [ :announcement | aBlock cull: announcement text cull: announcement ]
 ]
 
 { #category : #layers }

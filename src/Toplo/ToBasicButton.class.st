@@ -25,8 +25,7 @@ ToBasicButton >> action: aBlock [
 { #category : #'api - orientation/direction' }
 ToBasicButton >> beHorizontal [ 
 
-	self layout beHorizontal.
-	self requestLayout 
+	self horizontal: true
 ]
 
 { #category : #'api - orientation/direction' }
@@ -58,8 +57,7 @@ ToBasicButton >> beRightToLeft [
 { #category : #'api - orientation/direction' }
 ToBasicButton >> beVertical [
 
-	self layout beVertical.
-	self requestLayout 
+	self horizontal: false
 ]
 
 { #category : #'mouse handlers' }
@@ -88,6 +86,12 @@ ToBasicButton >> direction: aBlLayoutDirection [
 	self requestLayout 
 ]
 
+{ #category : #'api - orientation/direction' }
+ToBasicButton >> horizontal: aBoolean [
+
+	self viewModel horizontal: aBoolean
+]
+
 { #category : #'private - alignment' }
 ToBasicButton >> horizontalAlignment [
 	<return: #BlElementAlignment>
@@ -111,18 +115,24 @@ ToBasicButton >> icon [
 
 { #category : #accessing }
 ToBasicButton >> icon: anImage [
-
-	icon = anImage ifTrue: [ ^self ].
-	icon := anImage.
-	"icon ifNotNil: [ icon constraintsDo: [ :c | c linear vertical alignCenter ] ]."
+	self privateIcon: anImage.
 	self privateUpdateChildren 
+	
+]
+
+{ #category : #accessing }
+ToBasicButton >> icon: anImage label: aLabel [
+
+	self privateIcon: anImage.
+	self privateLabel: aLabel.
+	self privateUpdateChildren 
+
 	
 ]
 
 { #category : #private }
 ToBasicButton >> iconImageReplaced [
 
-	self privateUpdateChildren 
 ]
 
 { #category : #private }
@@ -133,13 +143,21 @@ ToBasicButton >> iconViewModel: anImageViewModel [
 
 ]
 
+{ #category : #private }
+ToBasicButton >> iconViewModel: anImageViewModel labelViewModel: aLabelViewModel [
+
+	self icon: anImageViewModel privateNewWidget label: aLabelViewModel privateNewWidget.
+	self icon viewModel: anImageViewModel.
+	self label viewModel: aLabelViewModel
+
+]
+
 { #category : #initialization }
 ToBasicButton >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
 	self
-		layout: (BlLinearLayout horizontal);
 		constraintsDo: [ :c | 
 			c vertical fitContent.
 			c horizontal fitContent ].
@@ -167,9 +185,7 @@ ToBasicButton >> label [
 { #category : #accessing }
 ToBasicButton >> label: aLabel [
 
-	label = aLabel ifTrue: [ ^ self ].
-	label := aLabel.
-	"label ifNotNil: [ label constraintsDo: [ :c | c linear vertical alignCenter ] ]."
+	self privateLabel: aLabel.
 	self privateUpdateChildren 
 	
 ]
@@ -195,7 +211,6 @@ ToBasicButton >> labelText: aText [
 { #category : #private }
 ToBasicButton >> labelTextReplaced [
 
-	self privateUpdateChildren 
 ]
 
 { #category : #private }
@@ -221,9 +236,33 @@ ToBasicButton >> orientation: aBlLayoutOrientation [
 ]
 
 { #category : #private }
+ToBasicButton >> orientationChanged [
+	
+	self viewModel horizontal
+		ifTrue: [ self layout beHorizontal ]
+		ifFalse: [ self layout beVertical ].
+	self requestLayout
+]
+
+{ #category : #private }
 ToBasicButton >> presentationChanged [
 	
-		self privateUpdateChildren
+	self privateUpdateChildren
+]
+
+{ #category : #accessing }
+ToBasicButton >> privateIcon: anImage [
+
+	icon = anImage ifTrue: [ ^self ].
+	icon := anImage.
+	
+]
+
+{ #category : #accessing }
+ToBasicButton >> privateLabel: aLabel [
+
+	label = aLabel ifTrue: [ ^ self ].
+	label := aLabel
 ]
 
 { #category : #private }
@@ -246,6 +285,13 @@ ToBasicButton >> verticalAlignment: aBlElementAlignment [
 	self verticalAlignment = aBlElementAlignment ifTrue: [ ^self ].
 	self layout verticalAlignment: aBlElementAlignment
 
+]
+
+{ #category : #accessing }
+ToBasicButton >> viewModel: aButtonModel [
+
+	super viewModel: aButtonModel.
+	self horizontal: aButtonModel horizontal
 ]
 
 { #category : #'api-  action' }

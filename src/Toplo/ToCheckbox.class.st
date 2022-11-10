@@ -7,5 +7,17 @@ Class {
 { #category : #initialization }
 ToCheckbox >> defaultViewModel [ 
 
-	^ ToCheckboxViewModel new
+	^ ToCheckboxModel new
+]
+
+{ #category : #'api - checked change hook' }
+ToCheckbox >> ifChecked: checkedBloc unchecked: uncheckedBloc else: indeterminateBlock [
+
+	^ self viewModel ifChecked: checkedBloc unchecked: uncheckedBloc else: indeterminateBlock
+]
+
+{ #category : #'api - checked change hook' }
+ToCheckbox >> whenCheckedChangedDo: aBlock [
+
+	self viewModel whenCheckedChangedDo: aBlock
 ]

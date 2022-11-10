@@ -8,7 +8,7 @@ Class {
 ToAlbumTest >> testModel1 [
 
 	| widget |
-	widget := ToAlbumViewModel new onWidget.
+	widget := ToAlbumModel new onWidget.
 	self assert: widget viewModel text identicalTo: widget text.
 	self assert: widget innerElement text identicalTo: widget text.
 	

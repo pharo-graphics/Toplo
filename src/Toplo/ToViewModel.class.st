@@ -53,7 +53,7 @@ ToViewModel >> enabled: aBooleanOrValuable [
 	This can either be a boolean or a block returning a boolean."
 
 	enabled := aBooleanOrValuable.
-	self widgetPerformOrDefer: [ :widget | widget enablementChangedWith: enabled ]
+	self widgetDo: [ :widget | widget enablementChangedWith: enabled ]
 	
 ]
 
@@ -216,6 +216,12 @@ ToViewModel >> whenHelpChangedDo: aBlock [
 	 - the announcement triggering this action"
 
 	self property: #help whenChangedDo: aBlock
+]
+
+{ #category : #'accessing - widget' }
+ToViewModel >> widgetDo: aBlock [
+
+	self widgetPerformOrDefer: aBlock
 ]
 
 { #category : #'accessing - widget' }

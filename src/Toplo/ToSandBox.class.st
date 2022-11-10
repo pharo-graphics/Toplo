@@ -18,13 +18,13 @@ Here an example of a client for a method.
 
 	| text space client |
 	text := self methodText asRopedText.
-	client := ToAlbumViewModel new.
+	client := ToAlbumModel new.
 	client styler: (BlRBTextStyler new classOrMetaClass: self class).
 	client text: text copy.
 	client withSaveCapability.
 	client withLineNumbers.
-	client onSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ].
-	client onCancelRequestedDo: [ :cancelRequested | cancelRequested client text: text copy ].
+	client whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ].
+	client whenCancelRequestedDo: [ :cancelRequested | cancelRequested client text: text copy ].
 	"client inspect."
 	space := OBlSpace new.
 	space root addChild: client onWidget.
@@ -40,12 +40,12 @@ ToSandBox class >> example_EditorWithGhostText [
 	ghost foreground: Color lightGray.
 	ghost fontSize: 24.
 
-	view := (ToAlbumViewModel new
-		 onSaveRequestedDo: [ :announcement | announcement client saveResult: true ];
+	view := (ToAlbumModel new
+		 whenSaveRequestedDo: [ :announcement | announcement client saveResult: true ];
 		 withGhostText: ghost;
 		 withLineNumbers;
 		 withSaveCapability;
-		 onSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
+		 whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
 		 withEditsFeedbackLayer) onWidget.
 
 	view openInOBlSpace.
@@ -104,12 +104,49 @@ ToSandBox class >> example_enterLeave [
 ToSandBox class >> example_toButton0 [
 
 	| but |
-	but := ToButtonViewModel new.
+	but := ToButtonModel new.
 	but onWidget openInOBlSpace
 ]
 
 { #category : #button }
-ToSandBox class >> example_toButtonOritentaionDirectionChanger [
+ToSandBox class >> example_toButtonModelWithIconOnly [
+
+	| but space |
+	but := ToButtonModel new.
+	but iconImage: (BlElement new
+			 size: 60 @ 20;
+			 background: Color blue;
+			 yourself).
+	but widgetDo: [ :widget | 
+		widget border: (BlBorder paint: Color red width: 2).
+		widget padding: (BlInsets all: 3) ].
+	space := OBlSpace new.
+	space addChild: but onWidget.
+	space show
+]
+
+{ #category : #button }
+ToSandBox class >> example_toButtonModelWithTextAndIconVertical [
+
+	| but space |
+	but := ToButtonModel new beVertical; beLabelFirst.
+	but labelText: 'Button'. 
+	but iconImage: (BlElement new
+			 size: 60 @ 20;
+			 background: (Color blue alpha: 0.2);
+			 yourself).
+	but action: [ but horizontal: but horizontal not ].
+	but widgetDo: [ :widget |
+	widget icon border: (BlBorder paint: Color black).
+	widget label border: (BlBorder paint: Color black).
+	widget border: (BlBorder paint: Color red width: 2)].
+	space := OBlSpace new.
+	space addChild: but onWidget.
+	space show
+]
+
+{ #category : #button }
+ToSandBox class >> example_toButtonOrientationChanger [
 
 	| but space |
 	but := ToButton new.
@@ -191,6 +228,30 @@ ToSandBox class >> example_toButtonWithTextOnly [
 	space show
 ]
 
+{ #category : #checkbox }
+ToSandBox class >> example_toCheckbox0 [
+
+	| but |
+	but := ToCheckboxModel new.
+	but onWidget openInOBlSpace
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_toCheckboxWithLabel [
+
+	| but |
+	but := ToCheckboxModel new labelText: 'Check me'.
+	but onWidget openInOBlSpace
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_toCheckboxWithLabel2 [
+
+	| but |
+	but := ToCheckboxModel new labelText: 'Check me'; beLabelFirst.
+	but onWidget openInOBlSpace
+]
+
 { #category : #image }
 ToSandBox class >> example_toImage0 [
 
@@ -216,7 +277,7 @@ ToSandBox class >> example_toImage1 [
 ToSandBox class >> example_toImageViewModel0 [
 
 	| im |
-	im := ToImageViewModel new.
+	im := ToImageModel new.
 	im inspect.
 	im onWidget openInOBlSpace 
 ]
@@ -225,7 +286,7 @@ ToSandBox class >> example_toImageViewModel0 [
 ToSandBox class >> example_toImageViewModel1 [
 
 	| im |
-	im := ToImageViewModel new image: (BlElement new
+	im := ToImageModel new image: (BlElement new
 		  size: 16 @ 16;
 		  border: (BlBorder paint: Color gray width: 2);
 		  background: (Color gray alpha: 0.1);
@@ -238,7 +299,7 @@ ToSandBox class >> example_toImageViewModel1 [
 ToSandBox class >> example_toImageViewModel2 [
 
 	| im |
-	im := ToImageViewModel new image: (Form dotOfSize: 40).
+	im := ToImageModel new image: (Form dotOfSize: 40).
 	im inspect.
 	im onWidget openInOBlSpace 
 ]
@@ -247,8 +308,8 @@ ToSandBox class >> example_toImageViewModel2 [
 ToSandBox class >> example_toImageViewModel3 [
 
 	| im |
-	im := ToImageViewModel new image: (Smalltalk ui icons iconNamed: #classIcon).
-	im widgetPerformOrDefer: [:w | w border: (BlBorder paint: Color black width: 2)].
+	im := ToImageModel new image: (Smalltalk ui icons iconNamed: #classIcon).
+	im widgetDo: [:w | w border: (BlBorder paint: Color black width: 2)].
 	im onWidget openInOBlSpace
 ]
 
@@ -280,13 +341,13 @@ ToSandBox class >> example_toLabel3 [
 ToSandBox class >> example_toLabel3_bis [
 
 	| model widget |
-	model := ToLabelViewModel new.
+	model := ToLabelModel new.
 	model text: ('This is a bold label' asRopedText
 			 fontSize: 20;
 			 bold;
 			 foreground: Color gray;
 			 yourself).
-	model widgetPerformOrDefer: [ :label | 
+	model widgetDo: [ :label | 
 		label background: Color lightBlue.
 		label alignCenter.
 		label border: (BlBorder paint: Color yellow width: 1) ].
@@ -345,10 +406,10 @@ ToSandBox class >> example_toLabel5 [
 		        c horizontal matchParent ].
 	root layout: BlLinearLayout vertical.
 	label := ToLabel new.
-	model := ToLabelViewModel new.
+	model := ToLabelModel new.
 	model text: ('' asRopedText fontSize: 24).
 	model beMultiLine.
-	model widgetPerformOrDefer: [ :widget | 
+	model widgetDo: [ :widget | 
 		widget vFitContent.
 		widget hMatchParent.
 		widget border: (BlBorder paint: Color red width: 1) ].

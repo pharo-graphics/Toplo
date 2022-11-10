@@ -7,7 +7,7 @@ Class {
 { #category : #initialization }
 ToButton >> defaultViewModel [
 
-	^ ToButtonViewModel new
+	^ ToButtonModel new
 ]
 
 { #category : #accessing }

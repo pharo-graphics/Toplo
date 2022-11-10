@@ -53,14 +53,14 @@ ToLabelMultiLineInnerElement >> initialize [
 	self fitContent.
 	self layout: BlLinearLayout vertical.
 	lines := OrderedCollection new.
-	self onTextReplacedDo: [ :t | self textReplaced ]
+	self whenTextReplacedDo: [ :t | self textReplaced ]
 ]
 
 { #category : #'api - editor' }
 ToLabelMultiLineInnerElement >> newEditorIn: aLabel [
 
 	| ed |
-	ed := (ToAlbumViewModel new dresser: ToLabelEditorBasicDresser new) onWidget.
+	ed := (ToAlbumModel new dresser: ToLabelEditorBasicDresser new) onWidget.
 	(self editorShortcutsIn: aLabel) do: [ :s | ed innerElement editor addEditorShortcut: s ].
 	self flag: 'ed matchParent here leads to a Pharo crash'.
 	"ed vFitContent.
@@ -78,14 +78,6 @@ ToLabelMultiLineInnerElement >> newLineElement [
 			  c vertical fitContent ];
 		  beInSeparateCompositionLayer;
 		  yourself
-]
-
-{ #category : #'slot - change hook' }
-ToLabelMultiLineInnerElement >> onTextReplacedDo: aBlock [
-
-	"set a block to perform after that the text has been chanbed, and its action performed"
-
-	self property: #text whenChangedDo: aBlock
 ]
 
 { #category : #'private - text splitting' }
@@ -149,4 +141,12 @@ ToLabelMultiLineInnerElement >> verticalAlignment: aBlElementAlignment [
 	self verticalAlignment = aBlElementAlignment ifTrue: [ ^self ].
 	self layout verticalAlignment: aBlElementAlignment
 
+]
+
+{ #category : #'slot - change hook' }
+ToLabelMultiLineInnerElement >> whenTextReplacedDo: aBlock [
+
+	"set a block to perform after that the text has been chanbed, and its action performed"
+
+	self property: #text whenChangedDo: aBlock
 ]

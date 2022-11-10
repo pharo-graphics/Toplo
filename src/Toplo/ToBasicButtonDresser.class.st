@@ -17,7 +17,6 @@ ToBasicButtonDresser >> defaultStateDresser [
 ToBasicButtonDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 6).
 	self stateDresser onInstalledIn: anElement
 ]
 

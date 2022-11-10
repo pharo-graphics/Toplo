@@ -85,7 +85,7 @@ ToLabel >> defaultTextElement [
 { #category : #initialization }
 ToLabel >> defaultViewModel [
 
-	^ ToLabelViewModel new.
+	^ ToLabelModel new.
 
 ]
 

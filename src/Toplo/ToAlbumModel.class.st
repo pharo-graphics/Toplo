@@ -21,7 +21,7 @@ client onAlbum openInOBlSpace.
 
 "
 Class {
-	#name : #ToAlbumViewModel,
+	#name : #ToAlbumModel,
 	#superclass : #ToViewModel,
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
@@ -33,101 +33,101 @@ Class {
 }
 
 { #category : #'view configuration' }
-ToAlbumViewModel >> beEditable [
+ToAlbumModel >> beEditable [
 
 	self mode: AlbEditableMode new
 ]
 
 { #category : #'view configuration' }
-ToAlbumViewModel >> beReadonlyWithSelection [
+ToAlbumModel >> beReadonlyWithSelection [
 
 	self mode: AlbReadonlyWithSelectionMode new
 ]
 
 { #category : #'transaction hook' }
-ToAlbumViewModel >> beReadonlyWithoutSelection [
+ToAlbumModel >> beReadonlyWithoutSelection [
 
 	self mode: AlbReadonlyWithoutSelectionMode new
 ]
 
 { #category : #'styler configuration' }
-ToAlbumViewModel >> codeFontName [ 
+ToAlbumModel >> codeFontName [ 
 
 	^ self userData at: #codeFontName ifAbsentPut: [ self defaultCodeFontName  ]
 ]
 
 { #category : #'styler configuration' }
-ToAlbumViewModel >> codeFontName: aFontName [
+ToAlbumModel >> codeFontName: aFontName [
 
 	^ self userData at: #codeFontName put: aFontName
 ]
 
 { #category : #initialization }
-ToAlbumViewModel >> defaultCodeFontName [
+ToAlbumModel >> defaultCodeFontName [
 
 	^ AeFontManager defaultCodeFontFamilyName
 	
 ]
 
 { #category : #initialization }
-ToAlbumViewModel >> defaultDresser [
+ToAlbumModel >> defaultDresser [
 
 	^ ToAlbumBasicDresser new
 	
 ]
 
 { #category : #initialization }
-ToAlbumViewModel >> defaultStyler [
+ToAlbumModel >> defaultStyler [
 
 	^ nil 
 ]
 
 { #category : #initialization }
-ToAlbumViewModel >> defaultText [
+ToAlbumModel >> defaultText [
 
 	^ '' asRopedText
 	
 ]
 
 { #category : #'change hook' }
-ToAlbumViewModel >> editStateChanged [
+ToAlbumModel >> editStateChanged [
 
 
 ]
 
 { #category : #accessing }
-ToAlbumViewModel >> edited [
+ToAlbumModel >> edited [
 
 	^ edited ifNil: [ edited := false ]
 ]
 
 { #category : #accessing }
-ToAlbumViewModel >> edited: aBoolean [
+ToAlbumModel >> edited: aBoolean [
 
 	edited = aBoolean ifTrue: [ ^ self ].
 	edited := aBoolean
 ]
 
 { #category : #'view request' }
-ToAlbumViewModel >> flash [
+ToAlbumModel >> flash [
 
 	self announce: (ToAlbumFlashRequested new client: self)
 ]
 
 { #category : #initialization }
-ToAlbumViewModel >> initialize [
+ToAlbumModel >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
 
 	" action when edit state change (Observable slot) "
-	self onEditedChangedDo: [ self editStateChanged ].
-	self onTextReplacedDo: [ self textReplaced ].
-	self onModeChangedDo: [ self modeChanged ]
+	self whenEditedChangedDo: [ self editStateChanged ].
+	self whenTextReplacedDo: [ self textReplaced ].
+	self whenModeChangedDo: [ self modeChanged ]
 ]
 
 { #category : #accessing }
-ToAlbumViewModel >> mode [
+ToAlbumModel >> mode [
 
 	^ mode
 
@@ -135,35 +135,21 @@ ToAlbumViewModel >> mode [
 ]
 
 { #category : #accessing }
-ToAlbumViewModel >> mode: anEditabilityMode [
+ToAlbumModel >> mode: anEditabilityMode [
 
 	mode = anEditabilityMode ifTrue: [ ^ self ].
 	mode := anEditabilityMode.
-	self widgetPerformOrDefer: [ :album | album mode: anEditabilityMode ]
+	self widgetDo: [ :album | album mode: anEditabilityMode ]
 ]
 
 { #category : #'change hook' }
-ToAlbumViewModel >> modeChanged [
+ToAlbumModel >> modeChanged [
 
 
-]
-
-{ #category : #'transaction hook' }
-ToAlbumViewModel >> onCancelRequestedDo: aBlock [
-
-	self whenAnnouncement: ToAlbumCancelRequested do: aBlock
-]
-
-{ #category : #'property change hook' }
-ToAlbumViewModel >> onEditedChangedDo: aBlock [
-
-	"set a block to perform after that the text has been chanbed, and its action performed"
-
-	self property: #edited whenChangedDo: aBlock
 ]
 
 { #category : #'api - hooks' }
-ToAlbumViewModel >> onInstalledOnlyMeIn: anAlbum [
+ToAlbumModel >> onInstalledOnlyMeIn: anAlbum [
 
 	"Is sent when I am added to an element "
 
@@ -171,67 +157,15 @@ ToAlbumViewModel >> onInstalledOnlyMeIn: anAlbum [
 
 	self mode: anAlbum mode.
 
-	anAlbum onTextReplacedDo: [ :t | self privateText: t ].
-	anAlbum onModeChangedDo: [ :m | self privateMode: m ].
+	anAlbum whenTextReplacedDo: [ :t | self privateText: t ].
+	anAlbum whenModeChangedDo: [ :m | self privateMode: m ].
 	anAlbum onTextEditedDo: [ self textEdited ].
 	
 	self text: ''
 ]
 
-{ #category : #'property change hook' }
-ToAlbumViewModel >> onModeChangedDo: aBlock [
-
-	"set a block to perform after that the text has been chanbed, and its action performed"
-
-	self property: #mode whenChangedDo: aBlock
-]
-
-{ #category : #'transaction hook' }
-ToAlbumViewModel >> onSaveAcceptedDo: aBlock [
-
-	self whenAnnouncement: ToAlbumSaveAccepted do: aBlock
-]
-
-{ #category : #'transaction hook' }
-ToAlbumViewModel >> onSaveAcceptedSend: aSelector to: anObject [
-
-	self whenAnnouncement: ToAlbumSaveAccepted send: aSelector to: anObject
-]
-
-{ #category : #'transaction hook' }
-ToAlbumViewModel >> onSaveDeniedDo: aBlock [
-
-	self whenAnnouncement: ToAlbumSaveDenied do: aBlock
-]
-
-{ #category : #'transaction hook' }
-ToAlbumViewModel >> onSaveDeniedSend: aSelector to: anObject [
-
-	self whenAnnouncement: ToAlbumSaveDenied send: aSelector to: anObject
-]
-
-{ #category : #'transaction hook' }
-ToAlbumViewModel >> onSaveRequestedDo: aBlock [
-
-	self whenAnnouncement: ToAlbumSaveRequested do: aBlock
-]
-
-{ #category : #'transaction hook' }
-ToAlbumViewModel >> onSaveRequestedSend: aSelector to: anObject [
-
-	self whenAnnouncement: ToAlbumSaveRequested send: aSelector to: anObject
-]
-
-{ #category : #'property change hook' }
-ToAlbumViewModel >> onTextReplacedDo: aBlock [
-
-	"set a block to perform after that the text has been chanbed, and its action performed"
-
-	self property: #text whenChangedDo: aBlock
-]
-
 { #category : #'api - hooks' }
-ToAlbumViewModel >> onUninstalledOnlyMeIn: anAlbum [
+ToAlbumModel >> onUninstalledOnlyMeIn: anAlbum [
 
 	"Is sent when I am added to an element "
 
@@ -243,20 +177,20 @@ ToAlbumViewModel >> onUninstalledOnlyMeIn: anAlbum [
 ]
 
 { #category : #private }
-ToAlbumViewModel >> privateMode: anEditabilityMode [
+ToAlbumModel >> privateMode: anEditabilityMode [
 
 	mode = anEditabilityMode ifTrue: [ ^ self ].
 	mode := anEditabilityMode
 ]
 
 { #category : #'private - accessing - widget' }
-ToAlbumViewModel >> privateNewWidget [
+ToAlbumModel >> privateNewWidget [
 
 	^ ToAlbum new
 ]
 
 { #category : #private }
-ToAlbumViewModel >> privateText: aBlText [
+ToAlbumModel >> privateText: aBlText [
 
 	aBlText == self text ifTrue: [ ^ self ].
 	self edited: false.
@@ -268,13 +202,13 @@ ToAlbumViewModel >> privateText: aBlText [
 ]
 
 { #category : #'transaction hook' }
-ToAlbumViewModel >> requestCancel [
+ToAlbumModel >> requestCancel [
 
 	self announce: (ToAlbumCancelRequested new client: self)
 ]
 
 { #category : #'transaction hook' }
-ToAlbumViewModel >> requestSave [
+ToAlbumModel >> requestSave [
 
 	self announce: (ToAlbumSaveRequested new
 			 client: self;
@@ -283,13 +217,13 @@ ToAlbumViewModel >> requestSave [
 ]
 
 { #category : #'styler configuration' }
-ToAlbumViewModel >> requestTextStyle [
+ToAlbumModel >> requestTextStyle [
 
 	self announce: ToTextStyleRequested new
 ]
 
 { #category : #'transaction hook' }
-ToAlbumViewModel >> saveResult: aBoolean [
+ToAlbumModel >> saveResult: aBoolean [
 
 	| announcement |
 	self edited: aBoolean not.
@@ -300,15 +234,15 @@ ToAlbumViewModel >> saveResult: aBoolean [
 ]
 
 { #category : #'styler configuration' }
-ToAlbumViewModel >> styler [
+ToAlbumModel >> styler [
 
 	^ self userData at: #styler ifAbsent: [  ]
 ]
 
 { #category : #'styler configuration' }
-ToAlbumViewModel >> styler: aBlStyler [
+ToAlbumModel >> styler: aBlStyler [
 
-	self widgetPerformOrDefer: [ :album | 
+	self widgetDo: [ :album | 
 		self styler ifNotNil: [ :styler | 
 			self styler unsubscribe: self.
 			self unsubscribe: styler ].
@@ -324,7 +258,7 @@ ToAlbumViewModel >> styler: aBlStyler [
 ]
 
 { #category : #accessing }
-ToAlbumViewModel >> text [
+ToAlbumModel >> text [
 
 	^ text
 
@@ -332,14 +266,14 @@ ToAlbumViewModel >> text [
 ]
 
 { #category : #accessing }
-ToAlbumViewModel >> text: aBlText [
+ToAlbumModel >> text: aBlText [
 
 	self text == aBlText ifTrue: [ ^ self ].
-	self widgetPerformOrDefer: [ :album | album text: aBlText asRopedText]
+	self widgetDo: [ :album | album text: aBlText asRopedText]
 ]
 
 { #category : #'change hook' }
-ToAlbumViewModel >> textEdited [
+ToAlbumModel >> textEdited [
 
 	self edited: true.
 	self announce: (ToAlbumTextEdited new client: self; text: self text; yourself).
@@ -348,19 +282,77 @@ ToAlbumViewModel >> textEdited [
 ]
 
 { #category : #'change hook' }
-ToAlbumViewModel >> textReplaced [
+ToAlbumModel >> textReplaced [
+]
+
+{ #category : #'transaction hook' }
+ToAlbumModel >> whenCancelRequestedDo: aBlock [
+
+	self whenAnnouncement: ToAlbumCancelRequested do: aBlock
+]
+
+{ #category : #'property change hook' }
+ToAlbumModel >> whenEditedChangedDo: aBlock [
+
+	"set a block to perform after that the text has been chanbed, and its action performed"
+
+	self property: #edited whenChangedDo: aBlock
+]
+
+{ #category : #'property change hook' }
+ToAlbumModel >> whenModeChangedDo: aBlock [
+
+	"set a block to perform after that the text has been chanbed, and its action performed"
+
+	self property: #mode whenChangedDo: aBlock
+]
+
+{ #category : #'transaction hook' }
+ToAlbumModel >> whenSaveAcceptedDo: aBlock [
+
+	self whenAnnouncement: ToAlbumSaveAccepted do: aBlock
+]
+
+{ #category : #'transaction hook' }
+ToAlbumModel >> whenSaveAcceptedSend: aSelector to: anObject [
+
+	self whenAnnouncement: ToAlbumSaveAccepted send: aSelector to: anObject
+]
+
+{ #category : #'transaction hook' }
+ToAlbumModel >> whenSaveDeniedDo: aBlock [
+
+	self whenAnnouncement: ToAlbumSaveDenied do: aBlock
+]
+
+{ #category : #'transaction hook' }
+ToAlbumModel >> whenSaveDeniedSend: aSelector to: anObject [
+
+	self whenAnnouncement: ToAlbumSaveDenied send: aSelector to: anObject
+]
+
+{ #category : #'transaction hook' }
+ToAlbumModel >> whenSaveRequestedDo: aBlock [
+
+	self whenAnnouncement: ToAlbumSaveRequested do: aBlock
+]
+
+{ #category : #'transaction hook' }
+ToAlbumModel >> whenSaveRequestedSend: aSelector to: anObject [
+
+	self whenAnnouncement: ToAlbumSaveRequested send: aSelector to: anObject
 ]
 
 { #category : #'styler configuration' }
-ToAlbumViewModel >> whenStylerStateChanged: aBlStylerStateChangedAnnouncement [
+ToAlbumModel >> whenStylerStateChanged: aBlStylerStateChangedAnnouncement [
 
-	self widgetPerformOrDefer: [ :album | self requestTextStyle ]
+	self widgetDo: [ :album | self requestTextStyle ]
 ]
 
 { #category : #'styler configuration' }
-ToAlbumViewModel >> whenStylerTextStyled: aBlStylerTextStyledAnnouncement [
+ToAlbumModel >> whenStylerTextStyled: aBlStylerTextStyledAnnouncement [
 
-	self widgetPerformOrDefer: [ :album | 
+	self widgetDo: [ :album | 
 		| result |
 		result := aBlStylerTextStyledAnnouncement styledText.
 		" text just styled by the styler, check the generation (to be thread-safe) to ensure that 
@@ -370,10 +362,18 @@ ToAlbumViewModel >> whenStylerTextStyled: aBlStylerTextStyledAnnouncement [
 		album innerElement textInternalRepresentationChanged ]
 ]
 
-{ #category : #'styler configuration' }
-ToAlbumViewModel >> whenTextStyleRequested: aToTextStyleRequested [
+{ #category : #'property change hook' }
+ToAlbumModel >> whenTextReplacedDo: aBlock [
 
-	self widgetPerformOrDefer: [ :album | 
+	"set a block to perform after that the text has been chanbed, and its action performed"
+
+	self property: #text whenChangedDo: aBlock
+]
+
+{ #category : #'styler configuration' }
+ToAlbumModel >> whenTextStyleRequested: aToTextStyleRequested [
+
+	self widgetDo: [ :album | 
 		self styler ifNotNil: [ 
 			self styler announce: (BlStylerTextStyleRequested new
 					 unstyledText: self text nextGeneration;
@@ -382,28 +382,28 @@ ToAlbumViewModel >> whenTextStyleRequested: aToTextStyleRequested [
 ]
 
 { #category : #'view configuration' }
-ToAlbumViewModel >> withEditsFeedbackLayer [
+ToAlbumModel >> withEditsFeedbackLayer [
 
-	self widgetPerformOrDefer: [ :album | album withEditsFeedbackFrom: self. ]
+	self widgetDo: [ :album | album withEditsFeedbackFrom: self. ]
 ]
 
 { #category : #'view configuration' }
-ToAlbumViewModel >> withGhostText: aText [
+ToAlbumModel >> withGhostText: aText [
 
-	self widgetPerformOrDefer: [ :album | album withGhostText: aText from: self ]
+	self widgetDo: [ :album | album withGhostText: aText from: self ]
 ]
 
 { #category : #'view configuration' }
-ToAlbumViewModel >> withLineNumbers [
+ToAlbumModel >> withLineNumbers [
 
-	self widgetPerformOrDefer: [ :album | album withLineNumbers ]
+	self widgetDo: [ :album | album withLineNumbers ]
 ]
 
 { #category : #'view configuration' }
-ToAlbumViewModel >> withSaveCapability [
+ToAlbumModel >> withSaveCapability [
 
 	self withEditsFeedbackLayer.
-	self widgetPerformOrDefer: [ :album | 
+	self widgetDo: [ :album | 
 		album innerElement addEditorShortcut: (BlShortcutWithAction new
 				 combination: BlKeyCombination primaryS;
 				 action: [ :aShortcutEvent :aShortcut | self requestSave ];
@@ -417,19 +417,19 @@ ToAlbumViewModel >> withSaveCapability [
 ]
 
 { #category : #'view configuration' }
-ToAlbumViewModel >> withoutEditsFeedbackLayer [
+ToAlbumModel >> withoutEditsFeedbackLayer [
 
-	self widgetPerformOrDefer: [ :album | album withoutEditsFeedback. ]
+	self widgetDo: [ :album | album withoutEditsFeedback. ]
 ]
 
 { #category : #'view configuration' }
-ToAlbumViewModel >> withoutGhostText [
+ToAlbumModel >> withoutGhostText [
 
-	self widgetPerformOrDefer: [ :album | album withoutGhostText ]
+	self widgetDo: [ :album | album withoutGhostText ]
 ]
 
 { #category : #'view configuration' }
-ToAlbumViewModel >> withoutLineNumbers [
+ToAlbumModel >> withoutLineNumbers [
 
-	self widgetPerformOrDefer: [ :album | album withoutLineNumbers ]
+	self widgetDo: [ :album | album withoutLineNumbers ]
 ]

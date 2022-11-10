@@ -12,7 +12,7 @@ Class {
 { #category : #initialization }
 ToImage >> defaultViewModel [
 
-	^ ToImageViewModel new.
+	^ ToImageModel new.
 
 ]
 

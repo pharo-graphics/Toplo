@@ -114,7 +114,7 @@ ToWorkspaceExample >> codeEditor [
 				       fontName: AeFontManager defaultCodeFontFamilyName;
 				       yourself);
 		      yourself.
-	st widgetPerformOrDefer: [ :album | 
+	st widgetDo: [ :album | 
 		album innerElement addEditorShortcut: (BlShortcutWithAction new
 				 combination: BlKeyCombination primaryD;
 				 action: [ :aShortcutEvent :aShortcut | self doIt ];
@@ -132,7 +132,7 @@ ToWorkspaceExample >> correctFrom: start to: stop with: aString [
 { #category : #accessing }
 ToWorkspaceExample >> doIt [
 
-	textModel widgetPerformOrDefer: [ :widget | 
+	textModel widgetDo: [ :widget | 
 		| toDo |
 		toDo := widget innerElement selectedText asString.
 		toDo ifEmpty: [ toDo := widget innerElement text asString ].
@@ -155,7 +155,7 @@ ToWorkspaceExample >> hasBindingOf: aString [
 ToWorkspaceExample >> initialize [
 	super initialize.
 	bindings := Dictionary new.
-	textModel := ToAlbumViewModel new.
+	textModel := ToAlbumModel new.
 
 ]
 

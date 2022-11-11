@@ -86,7 +86,7 @@ ToCheckboxModel >> isUnchecked [
 ToCheckboxModel >> onInstalledOnlyMeIn: aToButton [
 
 	super onInstalledOnlyMeIn: aToButton.
-	aToButton when: BlDoubleClickEvent do: [ :anEvent | aToButton clickEvent: anEvent ]
+	"aToButton when: BlDoubleClickEvent do: [ :anEvent | aToButton clickEvent: anEvent ]"
 
 ]
 

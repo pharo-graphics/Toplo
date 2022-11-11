@@ -129,17 +129,20 @@ ToSandBox class >> example_toButtonModelWithIconOnly [
 ToSandBox class >> example_toButtonModelWithTextAndIconVertical [
 
 	| but space |
-	but := ToButtonModel new beVertical; beLabelFirst.
-	but labelText: 'Button'. 
+	but := ToButtonModel new
+		       beVertical;
+		       beLabelFirst.
+	but labelText: 'Button'.
 	but iconImage: (BlElement new
 			 size: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).
-	but action: [ but horizontal: but horizontal not ].
-	but widgetDo: [ :widget |
-	widget icon border: (BlBorder paint: Color black).
-	widget label border: (BlBorder paint: Color black).
-	widget border: (BlBorder paint: Color red width: 2)].
+	but whenClickedDo: [ :ann | 
+		ann widget horizontal: but horizontal not ].
+	but widgetDo: [ :widget | 
+		widget icon border: (BlBorder paint: Color black).
+		widget label border: (BlBorder paint: Color black).
+		widget border: (BlBorder paint: Color red width: 2) ].
 	space := OBlSpace new.
 	space addChild: but onWidget.
 	space show
@@ -156,10 +159,10 @@ ToSandBox class >> example_toButtonOrientationChanger [
 	but labelText: ('Button' asRopedText foreground: Color white; bold).
 	but iconImage: (BlElement new size: 20@20; background: Color lightGray; yourself).
 	but padding: (BlInsets all: 4).
-	but action: [ 
-		but labelFirst: but labelFirst not.
-		but direction: but direction inverted.
-		but orientation: but orientation inverted].
+	but whenClickedDo: [ :ann | 
+		ann widget labelFirst: but labelFirst not.
+		ann widget direction: but direction inverted.
+		ann widget orientation: but orientation inverted].
 	but whenActionPerformedDo: [ self inform: 'Button action performed' ].
 	space := OBlSpace new.
 	space addChild: but.
@@ -173,7 +176,7 @@ ToSandBox class >> example_toButtonWithHelp [
 	| but space |
 	but := ToButton new.
 	but help: ('This is a button', String cr, 'so, click on me...') asRopedText. 
-	but action: [ self inform: 'Button clicked' ].
+	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
 	but whenActionPerformedDo: [ self inform: 'Button action performed' ].
 	but background: (Color red alpha: 0.3).
 	but size: 32@16.
@@ -208,7 +211,7 @@ ToSandBox class >> example_toButtonWithTextAndIconVertical [
 			 size: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).
-	but action: [ but orientation: but orientation inverted ].
+	but whenClickedDo: [ :ann |  ann widget orientation: ann widget orientation inverted ].
 	but icon border: (BlBorder paint: Color black).
 	but label border: (BlBorder paint: Color black).
 	but border: (BlBorder paint: Color red width: 2).

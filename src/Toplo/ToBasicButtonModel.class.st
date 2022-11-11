@@ -4,27 +4,11 @@ Class {
 	#instVars : [
 		'#labelViewModel',
 		'#iconViewModel',
-		'#action => ObservableSlot',
 		'#labelFirst => ObservableSlot',
 		'#horizontal => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Buttons'
 }
-
-{ #category : #'api - action' }
-ToBasicButtonModel >> action [
-	"Answer the block performed when the button is clicked."
-
-	^ action
-]
-
-{ #category : #'api - action' }
-ToBasicButtonModel >> action: aBlock [
-	"Set the block performed when the button is clicked. 
-	 `aBlock` receives zero arguments."
-
-	action := aBlock
-]
 
 { #category : #accessing }
 ToBasicButtonModel >> beHorizontal [
@@ -53,9 +37,7 @@ ToBasicButtonModel >> beVertical [
 { #category : #'api - action' }
 ToBasicButtonModel >> clickEvent: anEvent [
 
-	anEvent consumed: true.
-	self announce: ToButtonLaunchAction new.
-	self announce: ToButtonActionPerformed new
+
 ]
 
 { #category : #initialization }
@@ -92,12 +74,10 @@ ToBasicButtonModel >> iconViewModel [
 { #category : #initialization }
 ToBasicButtonModel >> initialize [ 
 	super initialize.
-	action := [  ].
 	labelFirst := false.
 	horizontal := true.
 	labelViewModel := ToLabelModel new.
-	iconViewModel := ToImageModel new.
-	self whenLaunchActionDo: [ self launchAction ].
+	iconViewModel := ToImageModel new
 
 ]
 
@@ -144,12 +124,6 @@ ToBasicButtonModel >> labelViewModel [
 	^ labelViewModel 
 ]
 
-{ #category : #'api - action' }
-ToBasicButtonModel >> launchAction [
-
-	action value
-]
-
 { #category : #'api - hooks' }
 ToBasicButtonModel >> onInstalledOnlyMeIn: aToButton [
 
@@ -159,13 +133,25 @@ ToBasicButtonModel >> onInstalledOnlyMeIn: aToButton [
 	self whenIconImageReplacedDo: [ aToButton iconImageReplaced ].
 	self whenPresentationChangedDo: [ aToButton presentationChanged ].
 	self whenOrientationChangedDo: [ aToButton orientationChanged ].
-	aToButton when: BlClickEvent do: [ :anEvent | 
-		aToButton clickEvent: anEvent ].
-	"Because of the button has sub-elements, a Mouse up can a different target than the related mouse down but it can come from the button or from one of its children (if mouse has moved from the label to the icon as an example)"
-	"aToButton when: BlMouseUpSomewhereEvent do: [ :anEvent | 
-		(anEvent currentTarget == aToButton or: [ 
-			 anEvent currentTarget hasParent: aToButton ]) ifTrue: [ 
-			aToButton dispatchEvent: anEvent asClickEvent ] ]"
+	aToButton
+		when: BlClickEvent
+		do: [ :anEvent | aToButton clickEvent: anEvent ].
+	aToButton
+		when: BlDoubleClickEvent
+		do: [ :anEvent | aToButton clickEvent: anEvent ].
+	"Because of the button has sub-elements, a Mouse up can a different target than the related mouse down but it can come from the button or from one of its children (if mouse has slided from the label to the icon as an example)"
+	
+	"mouse up must be consumed here so that BlClickCandidateEvent is created with the right BlMouseUpEvent"
+	aToButton
+		when: BlMouseUpEvent
+		do: [ :anEvent | anEvent consumed: true ].
+		
+	"then try to manage hidden click "
+	aToButton when: BlClickCandidateEvent do: [ :anEvent | 
+		| mup |
+		mup := anEvent mouseUpEvent.
+		(mup currentTarget == aToButton or: [ 
+			 mup currentTarget hasParent: aToButton ]) ifTrue: [ aToButton dispatchEvent: mup asClickEvent ] ]
 ]
 
 { #category : #'private - accessing - widget' }
@@ -175,21 +161,19 @@ ToBasicButtonModel >> privateNewWidget [
 ]
 
 { #category : #'api - action' }
-ToBasicButtonModel >> whenActionChangedDo: aBlock [
-	"Inform when action block has been changed. 
-	 `aBlock` receives two optional arguments: 
-	 - new action block
-	 - old action block"
-
-	self property: #action whenChangedDo: aBlock
-]
-
-{ #category : #'api - action' }
 ToBasicButtonModel >> whenActionPerformedDo: aBlock [
 	"Inform that the button has been aclicked, and its action has been performed.
 	 `aBlock` receive zero arguments."
 
 	self whenAnnouncement: ToButtonActionPerformed do: aBlock
+]
+
+{ #category : #'api - action' }
+ToBasicButtonModel >> whenClickedDo: aBlock [
+	"Inform that the button has been aclicked, and its action has been performed.
+	 `aBlock` receive zero arguments."
+	
+	self whenAnnouncement: ToButtonLaunchClickAction do: aBlock
 ]
 
 { #category : #'api - change hook' }
@@ -202,14 +186,6 @@ ToBasicButtonModel >> whenIconImageReplacedDo: aBlock [
 ToBasicButtonModel >> whenLabelTextReplacedDo: aBlock [
 
 	labelViewModel whenTextReplacedDo: aBlock
-]
-
-{ #category : #'api - action' }
-ToBasicButtonModel >> whenLaunchActionDo: aBlock [
-	"Inform that the button has been aclicked, and its action has been performed.
-	 `aBlock` receive zero arguments."
-
-	self whenAnnouncement: ToButtonLaunchAction do: aBlock
 ]
 
 { #category : #'api - action' }

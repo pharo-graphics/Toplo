@@ -64,6 +64,9 @@ ToBasicButton >> beVertical [
 ToBasicButton >> clickEvent: anEvent [
 
 	self isDisabled ifTrue: [ ^ self ].
+	anEvent consumed: true.
+	self viewModel announce: (ToButtonLaunchClickAction new widget: self).
+	self viewModel announce: (ToButtonActionPerformed new widget: self).
 	self viewModel clickEvent: anEvent
 ]
 
@@ -300,4 +303,10 @@ ToBasicButton >> whenActionPerformedDo: aBlock [
 	 `aBlock` receive zero arguments."
 
 	self viewModel whenActionPerformedDo: aBlock
+]
+
+{ #category : #'api-  action' }
+ToBasicButton >> whenClickedDo: aBlock [
+
+	self viewModel whenClickedDo: aBlock
 ]

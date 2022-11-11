@@ -66,6 +66,12 @@ ToBasicButtonModel >> iconImage [
 ]
 
 { #category : #accessing }
+ToBasicButtonModel >> iconImage: anElement [
+
+	iconViewModel image: anElement
+]
+
+{ #category : #accessing }
 ToBasicButtonModel >> iconViewModel [
 
 	^ iconViewModel 

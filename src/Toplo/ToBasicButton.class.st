@@ -65,9 +65,11 @@ ToBasicButton >> clickEvent: anEvent [
 
 	self isDisabled ifTrue: [ ^ self ].
 	anEvent consumed: true.
+	anEvent currentTarget: self.
+	self viewModel clickEvent: anEvent.
 	self viewModel announce: (ToButtonLaunchClickAction new widget: self).
 	self viewModel announce: (ToButtonActionPerformed new widget: self).
-	self viewModel clickEvent: anEvent
+
 ]
 
 { #category : #initialization }

@@ -100,6 +100,14 @@ ToSandBox class >> example_enterLeave [
 	space show
 ]
 
+{ #category : #checkbox }
+ToSandBox class >> example_to3statesCheckbox [
+
+	| but |
+	but := ToCheckboxModel new withTreeStates.
+	but onWidget openInOBlSpace
+]
+
 { #category : #button }
 ToSandBox class >> example_toButton0 [
 
@@ -527,6 +535,152 @@ ToSandBox class >> example_toLabel_Multiline2_Centered [
 			lab1.
 			lab2 }.
 	space := container openInOBlSpace
+]
+
+{ #category : #multistate }
+ToSandBox class >> example_toMultiState0 [
+
+	| but |
+	but := ToMultiStateButtonModel new.
+	but onWidget openInOBlSpace
+]
+
+{ #category : #multistate }
+ToSandBox class >> example_toMultiState1 [
+
+	| but |
+	but := ToMultiStateButtonModel new.
+	but
+		states: { (ToButtonState new
+				 iconImage: (BlElement new
+						  size: 50 @ 30;
+						  background: Color green);
+				 labelText: 'Green';
+				 name: #green;
+				 yourself) }
+		transitions: { (ToButtonTransition new
+				 name: #green;
+				 exitAnimation: [ 
+					 BlOpacityAnimation new
+						 duration: 500 milliSeconds;
+						 opacity: 0;
+						 yourself ];
+				 enterAnimation: [ 
+					 BlOpacityAnimation new
+						 duration: 1000 milliSeconds;
+						 opacity: 1;
+						 yourself ];
+				 yourself) }.
+	but onWidget openInOBlSpace
+]
+
+{ #category : #multistate }
+ToSandBox class >> example_toMultiStateWithBigBlue [
+
+	| but |
+	but := ToMultiStateButtonModel new.
+	but
+		states: { 
+				(ToButtonState new
+					 iconImage: (BlElement new
+							  size: 400 @ 400;
+							  background: Color blue);
+					 labelText: 'Big blue';
+					 name: #blue;
+					 yourself).
+				(ToButtonState new
+					 iconImage: (BlElement new
+							  size: 20 @ 40;
+							  background: Color green);
+					 labelText: 'Green';
+					 name: #green;
+					 yourself).
+				(ToButtonState new
+					 iconImage: (BlElement new
+							  size: 50 @ 50;
+							  background: Color black);
+					 labelText: 'Black';
+					 name: #black;
+					 yourself).
+				(ToButtonState new
+					 iconImage: (BlElement new
+							  size: 100 @ 100;
+							  background: Color yellow);
+					 labelText: 'Yellow';
+					 name: #yellow;
+					 yourself) }
+		transitions: { #green. #yellow. #black. #blue }.
+	but onWidget openInOBlSpace
+]
+
+{ #category : #multistate }
+ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
+
+	| but exitAnimation enterAnimation |
+	exitAnimation := [ 
+	                 BlOpacityAnimation new
+		                 duration: 150 milliSeconds;
+		                 opacity: 0;
+		                 yourself ].
+	enterAnimation := [ 
+	                  BlOpacityAnimation new
+		                  duration: 100 milliSeconds;
+		                  opacity: 1;
+		                  yourself ].
+
+	but := ToMultiStateButtonModel new.
+	but
+		states: { 
+				(ToButtonState new
+					 iconImage: (BlElement new
+							  size: 100 @ 100;
+							  background: Color blue);
+					 labelText: ('Big blue' asRopedText fontSize: 24);
+					 name: #blue;
+					 yourself).
+				(ToButtonState new
+					 iconImage: (BlElement new
+							  size: 100 @ 100;
+							  background: Color green);
+					 labelText: ('Green' asRopedText fontSize: 24);
+					 name: #green;
+					 yourself).
+				(ToButtonState new
+					 iconImage: (BlElement new
+							  size: 100 @ 100;
+							  background: Color black);
+					 labelText: ('Black' asRopedText fontSize: 24);
+					 name: #black;
+					 yourself).
+				(ToButtonState new
+					 iconImage: (BlElement new
+							  size: 100 @ 100;
+							  background: Color yellow);
+					 labelText: ('Yellow' asRopedText fontSize: 24);
+					 name: #yellow;
+					 yourself) }
+		transitions: { 
+				(ToButtonTransition new
+					 name: #green;
+					 exitAnimation: exitAnimation;
+					 enterAnimation: enterAnimation;
+					 yourself).
+				(ToButtonTransition new
+					 name: #yellow;
+					 exitAnimation: exitAnimation;
+					 enterAnimation: enterAnimation;
+					 yourself).
+				(ToButtonTransition new
+					 name: #black;
+					 exitAnimation: exitAnimation;
+					 enterAnimation: enterAnimation;
+					 yourself).
+				(ToButtonTransition new
+					 name: #blue;
+					 exitAnimation: exitAnimation;
+					 enterAnimation: enterAnimation;
+					 yourself) }.
+	but onWidget openInOBlSpace
 ]
 
 { #category : #accessing }

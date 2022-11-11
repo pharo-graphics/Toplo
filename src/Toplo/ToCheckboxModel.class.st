@@ -2,7 +2,8 @@ Class {
 	#name : #ToCheckboxModel,
 	#superclass : #ToBasicButtonModel,
 	#instVars : [
-		'#checked => ObservableSlot'
+		'#checked => ObservableSlot',
+		'#threeSteps => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Buttons'
 }
@@ -23,16 +24,26 @@ ToCheckboxModel >> checked: aBooleanOrNil [
 { #category : #'mouse handlers' }
 ToCheckboxModel >> clickEvent: anEvent [
 
-	(self isIndeterminate or: [ self isUnchecked ])
-		ifTrue: [ self check ]
-		ifFalse: [ self uncheck ].
+	threeSteps
+		ifTrue: [ 
+			self isIndeterminate
+				ifTrue: [ self check ]
+				ifFalse: [ 
+					self isChecked
+						ifTrue: [ self uncheck ]
+						ifFalse: [ self indeterminate ] ] ]
+		ifFalse: [ 
+			self isUnchecked
+				ifTrue: [ self check ]
+				ifFalse: [ self uncheck ] ].
+
 	super clickEvent: anEvent
 ]
 
 { #category : #initialization }
 ToCheckboxModel >> defaultCheckState [
 
-	^ nil
+	^ false
 ]
 
 { #category : #initialization }
@@ -53,14 +64,16 @@ ToCheckboxModel >> ifChecked: checkedBloc unchecked: uncheckedBloc else: indeter
 ]
 
 { #category : #'api - checkbox' }
-ToCheckboxModel >> indeterminateState [
-
-	checked := nil
+ToCheckboxModel >> indeterminate [
+	
+	threeSteps ifFalse: [ ^ self ].
+	self checked: nil
 ]
 
 { #category : #initialization }
 ToCheckboxModel >> initialize [ 
 	super initialize.
+	threeSteps := false.
 	checked := self defaultCheckState
 ]
 
@@ -80,14 +93,6 @@ ToCheckboxModel >> isIndeterminate [
 ToCheckboxModel >> isUnchecked [
 
 	^ checked notNil and: [ checked not ]
-]
-
-{ #category : #'api - hooks' }
-ToCheckboxModel >> onInstalledOnlyMeIn: aToButton [
-
-	super onInstalledOnlyMeIn: aToButton.
-	"aToButton when: BlDoubleClickEvent do: [ :anEvent | aToButton clickEvent: anEvent ]"
-
 ]
 
 { #category : #'private - accessing - widget' }
@@ -116,19 +121,41 @@ ToCheckboxModel >> whenCheckedChangedDo: aBlock [
 ToCheckboxModel >> whenCheckedDo: aBlock [
 
 	self
-		whenCheckedChangedDo: [ self isChecked ifTrue: [ aBlock value ] ]
+		whenCheckedChangedDo: [ :c | c ifTrue: [ aBlock value ] ]
 ]
 
 { #category : #'api - checkbox' }
 ToCheckboxModel >> whenInderterminateDo: aBlock [
 
 	self
-		whenCheckedChangedDo: [ self isIndeterminate ifTrue: [ aBlock value ] ]
+		whenCheckedChangedDo: [ :c | c ifNil: [ aBlock value ] ]
+]
+
+{ #category : #'api - checked change hook' }
+ToCheckboxModel >> whenThreeStepsChangedDo: aBlock [
+	"Inform when action block has been changed. 
+	 `aBlock` receives two optional arguments: 
+	 - new checked value
+	 - old checked value"
+
+	self property: #threeSteps whenChangedDo: aBlock
 ]
 
 { #category : #'api - checkbox' }
 ToCheckboxModel >> whenUncheckedDo: aBlock [
 
 	self
-		whenCheckedChangedDo: [ self isChecked ifFalse: [ aBlock value ] ]
+		whenCheckedChangedDo: [ :c | c  ifFalse: [ aBlock value ] ]
+]
+
+{ #category : #initialization }
+ToCheckboxModel >> withTreeStates [
+
+	threeSteps := true
+]
+
+{ #category : #initialization }
+ToCheckboxModel >> withTwoStates [
+
+	threeSteps := false
 ]

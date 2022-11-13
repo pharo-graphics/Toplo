@@ -109,11 +109,43 @@ ToSandBox class >> example_to3statesCheckbox [
 ]
 
 { #category : #button }
+ToSandBox class >> example_toBasicButton0 [
+
+	| but |
+	but := ToBasicButton new.
+	but openInOBlSpace
+]
+
+{ #category : #button }
+ToSandBox class >> example_toBasicButtonModel0 [
+
+	| but |
+	but := ToBasicButtonModel new.
+	but onWidget openInOBlSpace
+]
+
+{ #category : #button }
 ToSandBox class >> example_toButton0 [
 
 	| but |
-	but := ToButtonModel new.
-	but onWidget openInOBlSpace
+	but := ToButton new.
+	but  openInOBlSpace
+]
+
+{ #category : #button }
+ToSandBox class >> example_toButton1 [
+
+	| but |
+	but := ToButton new labelText: 'Button'.
+	but  openInOBlSpace
+]
+
+{ #category : #button }
+ToSandBox class >> example_toButtonModel1 [
+
+	| but |
+	but := ToButtonModel new labelText: 'Button'.
+	but  onWidget openInOBlSpace
 ]
 
 { #category : #button }
@@ -146,7 +178,7 @@ ToSandBox class >> example_toButtonModelWithTextAndIconVertical [
 			 background: (Color blue alpha: 0.2);
 			 yourself).
 	but whenClickedDo: [ :ann | 
-		ann widget horizontal: but horizontal not ].
+		ann widget horizontal: ann widget horizontal not ].
 	but widgetDo: [ :widget | 
 		widget icon border: (BlBorder paint: Color black).
 		widget label border: (BlBorder paint: Color black).
@@ -530,7 +562,7 @@ ToSandBox class >> example_toLabel_Multiline2_Centered [
 		             layout: BlLinearLayout vertical;
 		             constraintsDo: [ :c | 
 			             c horizontal matchParent.
-			             c vertical matchParent ].
+			             c vertical fitContent ].
 	container addChildren: { 
 			lab1.
 			lab2 }.

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToButton,
-	#superclass : #ToBasicButton,
+	#superclass : #ToLinearButton,
 	#category : #'Toplo-Widget-Buttons'
 }
 
@@ -8,10 +8,4 @@ Class {
 ToButton >> defaultViewModel [
 
 	^ ToButtonModel new
-]
-
-{ #category : #accessing }
-ToButton >> iconImage: anElement [
-
-	self viewModel iconImage: anElement
 ]

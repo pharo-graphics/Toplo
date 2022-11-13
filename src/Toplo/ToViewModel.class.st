@@ -92,6 +92,12 @@ ToViewModel >> installDresserIn: aWidget [
 	self dresserDo: [ :currDresser | currDresser onInstalledIn: aWidget ]
 ]
 
+{ #category : #'change reporting' }
+ToViewModel >> invalidate [
+
+	" invalidate was sent to the widget. Subclasses may have action to run model side before invalidation"
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToViewModel >> managePostponedActionsIn: anElement while: aBlock [
 
@@ -139,8 +145,6 @@ ToViewModel >> onUninstalledOnlyMeIn: anElement [
 ToViewModel >> onWidget [
 
 	^ self privateNewWidget
-		  viewModel: self;
-		  yourself
 ]
 
 { #category : #'private-postponed actions' }
@@ -152,7 +156,15 @@ ToViewModel >> postponedActions [
 { #category : #'private - accessing - widget' }
 ToViewModel >> privateNewWidget [
 
-	^self subclassResponsibility 
+	^ self privateWidgetClass new
+		  viewModel: self;
+		  yourself
+]
+
+{ #category : #'private - accessing - widget' }
+ToViewModel >> privateWidgetClass [
+
+	^ self subclassResponsibility 
 ]
 
 { #category : #'private-postponed actions' }

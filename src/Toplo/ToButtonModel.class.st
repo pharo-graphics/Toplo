@@ -1,11 +1,11 @@
 Class {
 	#name : #ToButtonModel,
-	#superclass : #ToBasicButtonModel,
+	#superclass : #ToLinearButtonModel,
 	#category : #'Toplo-Widget-Buttons'
 }
 
 { #category : #'private - accessing - widget' }
-ToButtonModel >> privateNewWidget [
+ToButtonModel >> privateWidgetClass [
 
-	^ ToButton new 
+	^ ToButton
 ]

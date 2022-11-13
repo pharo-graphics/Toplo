@@ -137,9 +137,9 @@ ToLabelModel >> privateBeReadOnlyIn: anElement [
 ]
 
 { #category : #'private - accessing - widget' }
-ToLabelModel >> privateNewWidget [
+ToLabelModel >> privateWidgetClass [
 
-	^ ToLabel new
+	^ ToLabel
 ]
 
 { #category : #accessing }

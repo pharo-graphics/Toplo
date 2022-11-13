@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMultiStateButtonModel,
-	#superclass : #ToBasicButtonModel,
+	#superclass : #ToLinearButtonModel,
 	#instVars : [
 		'stateEngine'
 	],
@@ -28,9 +28,9 @@ ToMultiStateButtonModel >> onInstalledOnlyMeIn: aToButton [
 ]
 
 { #category : #'private - accessing - widget' }
-ToMultiStateButtonModel >> privateNewWidget [
+ToMultiStateButtonModel >> privateWidgetClass [
 
-	^ ToButton new 
+	^ ToButton
 ]
 
 { #category : #'state - accessing' }

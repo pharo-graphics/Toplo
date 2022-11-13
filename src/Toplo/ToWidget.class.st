@@ -76,6 +76,21 @@ ToWidget >> initialize [
 	self margin: self defaultMargins
 ]
 
+{ #category : #'change reporting' }
+ToWidget >> invalidate [
+
+	self invalidateModel.
+	^ super invalidate
+]
+
+{ #category : #'change reporting' }
+ToWidget >> invalidateModel [
+
+	self viewModelDo: [ :m | m invalidate].
+	
+	
+]
+
 { #category : #accessing }
 ToWidget >> viewModel [
 
@@ -90,7 +105,6 @@ ToWidget >> viewModel: aViewModel [
 	Installing a new viewModel is possible but be aware of what you are doing (lost of data stored in the installed viewModel).
 	To reinstall a viewModel first send #viewModel: with nil as argument to uninstall the previous viewModel 
 	then send #viewModel: with the new one as argument."
-	
 	self assert: (aViewModel isNil or: [aViewModel notNil and: [viewModel isNil]]).
 	self viewModelDo: [ :aCurrentModel | aCurrentModel onUninstalledIn: self ].
 	viewModel := aViewModel.

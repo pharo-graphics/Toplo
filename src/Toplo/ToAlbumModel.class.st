@@ -183,12 +183,6 @@ ToAlbumModel >> privateMode: anEditabilityMode [
 	mode := anEditabilityMode
 ]
 
-{ #category : #'private - accessing - widget' }
-ToAlbumModel >> privateNewWidget [
-
-	^ ToAlbum new
-]
-
 { #category : #private }
 ToAlbumModel >> privateText: aBlText [
 
@@ -199,6 +193,12 @@ ToAlbumModel >> privateText: aBlText [
 	" ask the stylerHolder to style through its observal slot"
 	self requestTextStyle
 
+]
+
+{ #category : #'private - accessing - widget' }
+ToAlbumModel >> privateWidgetClass [
+
+	^ ToAlbum
 ]
 
 { #category : #'transaction hook' }

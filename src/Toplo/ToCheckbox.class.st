@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCheckbox,
-	#superclass : #ToBasicButton,
+	#superclass : #ToLinearButton,
 	#category : #'Toplo-Widget-Buttons'
 }
 

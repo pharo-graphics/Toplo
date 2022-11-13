@@ -49,9 +49,9 @@ ToImageModel >> onInstalledOnlyMeIn: anElement [
 ]
 
 { #category : #'private - accessing - widget' }
-ToImageModel >> privateNewWidget [
+ToImageModel >> privateWidgetClass [
 
-	^ ToImage new
+	^ ToImage
 ]
 
 { #category : #'api - change hook' }

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCheckboxModel,
-	#superclass : #ToBasicButtonModel,
+	#superclass : #ToLinearButtonModel,
 	#instVars : [
 		'#checked => ObservableSlot',
 		'#threeSteps => ObservableSlot'
@@ -96,9 +96,9 @@ ToCheckboxModel >> isUnchecked [
 ]
 
 { #category : #'private - accessing - widget' }
-ToCheckboxModel >> privateNewWidget [
+ToCheckboxModel >> privateWidgetClass [
 
-	^ ToCheckbox new
+	^ ToCheckbox
 ]
 
 { #category : #'api - checkbox' }

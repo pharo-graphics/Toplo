@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMultiStateButtonModel,
-	#superclass : #ToLinearButtonModel,
+	#superclass : #ToButtonModel,
 	#instVars : [
 		'stateEngine'
 	],

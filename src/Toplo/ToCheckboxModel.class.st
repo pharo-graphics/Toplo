@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCheckboxModel,
-	#superclass : #ToLinearButtonModel,
+	#superclass : #ToButtonModel,
 	#instVars : [
 		'#checked => ObservableSlot',
 		'#threeSteps => ObservableSlot'

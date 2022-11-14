@@ -113,7 +113,20 @@ ToSandBox class >> example_toBasicButton0 [
 
 	| but |
 	but := ToBasicButton new.
+	but whenClickedDo: [ self inform: 'clicked' ].
 	but openInOBlSpace
+]
+
+{ #category : #button }
+ToSandBox class >> example_toBasicButton1 [
+
+	| but |
+	but := ToBasicButton new.
+	but layout: (BlLinearLayout new).
+	but addChild: (BlElement new size: 30@30; background: Color lightBlue;  yourself).
+	but padding: (BlInsets all: 2).
+	but fitContent.
+	but openInOBlSpace 
 ]
 
 { #category : #button }
@@ -121,6 +134,23 @@ ToSandBox class >> example_toBasicButtonModel0 [
 
 	| but |
 	but := ToBasicButtonModel new.
+	but whenClickedDo: [ self inform: 'clicked' ].
+	but onWidget openInOBlSpace
+]
+
+{ #category : #button }
+ToSandBox class >> example_toBasicButtonModel1 [
+
+	| but |
+	but := ToBasicButtonModel new.
+	but widgetDo: [ :widget | 
+		widget addChild: (BlElement new
+				 size: 30 @ 30;
+				 background: Color lightBlue;
+				 yourself) ].
+	but widgetDo: [ :widget | widget fitContent ].
+	but whenClickedDo: [ self inform: 'clicked' ].
+
 	but onWidget openInOBlSpace
 ]
 
@@ -129,7 +159,7 @@ ToSandBox class >> example_toButton0 [
 
 	| but |
 	but := ToButton new.
-	but  openInOBlSpace
+	but  openInOBlSpace 
 ]
 
 { #category : #button }
@@ -137,6 +167,8 @@ ToSandBox class >> example_toButton1 [
 
 	| but |
 	but := ToButton new labelText: 'Button'.
+	but whenClickedDo: [ self inform: 'clicked' ].
+
 	but  openInOBlSpace
 ]
 

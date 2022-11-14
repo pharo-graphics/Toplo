@@ -1,6 +1,9 @@
 Class {
 	#name : #ToBasicButtonModel,
 	#superclass : #ToViewModel,
+	#instVars : [
+		'basicHandler'
+	],
 	#category : #'Toplo-Widget-Buttons'
 }
 
@@ -21,25 +24,15 @@ ToBasicButtonModel >> defaultDresser [
 ToBasicButtonModel >> onInstalledOnlyMeIn: aToButton [
 
 	super onInstalledOnlyMeIn: aToButton.
-	aToButton
-		when: BlClickEvent
-		do: [ :anEvent | aToButton clickEvent: anEvent ].
-	aToButton
-		when: BlDoubleClickEvent
-		do: [ :anEvent | aToButton clickEvent: anEvent ].
-	"Because of the button has sub-elements, a Mouse up can a different target than the related mouse down but it can come from the button or from one of its children (if mouse has slided from the label to the icon as an example)"
-	
-	"mouse up must be consumed here so that BlClickCandidateEvent is created with the right BlMouseUpEvent"
-	aToButton
-		when: BlMouseUpEvent
-		do: [ :anEvent | anEvent consumed: true ].
-		
-	"then try to manage hidden click "
-	aToButton when: BlClickCandidateEvent do: [ :anEvent | 
-		| mup |
-		mup := anEvent mouseUpEvent.
-		(mup currentTarget == aToButton or: [ 
-			 mup currentTarget hasParent: aToButton ]) ifTrue: [ aToButton dispatchEvent: mup asClickEvent ] ]
+	basicHandler := ToBasicButtonEventHandler new button: aToButton.
+	aToButton addEventHandler: basicHandler
+]
+
+{ #category : #'api - hooks' }
+ToBasicButtonModel >> onUninstalledOnlyMeIn: aToButton [
+
+	super onUninstalledOnlyMeIn: aToButton.
+	aToButton removeEventHandler: basicHandler
 ]
 
 { #category : #'private - accessing - widget' }

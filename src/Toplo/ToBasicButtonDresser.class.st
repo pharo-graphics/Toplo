@@ -2,10 +2,22 @@ Class {
 	#name : #ToBasicButtonDresser,
 	#superclass : #ToElementCompanion,
 	#instVars : [
-		'stateDresser'
+		'automatonDresser'
 	],
 	#category : #'Toplo-Widget-Buttons'
 }
+
+{ #category : #accessing }
+ToBasicButtonDresser >> automatonDresser [
+
+	^ automatonDresser ifNil: [ automatonDresser := self defaultStateDresser ]
+]
+
+{ #category : #accessing }
+ToBasicButtonDresser >> automatonDresser: aButtonStateDresser [
+
+	automatonDresser := aButtonStateDresser
+]
 
 { #category : #'api - hooks' }
 ToBasicButtonDresser >> defaultStateDresser [
@@ -17,17 +29,12 @@ ToBasicButtonDresser >> defaultStateDresser [
 ToBasicButtonDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	self stateDresser onInstalledIn: anElement
+	self automatonDresser onInstalledIn: anElement
 ]
 
-{ #category : #accessing }
-ToBasicButtonDresser >> stateDresser [
+{ #category : #'api - hooks' }
+ToBasicButtonDresser >> onUninstalledIn: anElement [
 
-	^ stateDresser ifNil: [ stateDresser := self defaultStateDresser ]
-]
-
-{ #category : #accessing }
-ToBasicButtonDresser >> stateDresser: aButtonStateDresser [
-
-	stateDresser := aButtonStateDresser
+	super onUninstalledIn: anElement.
+	self automatonDresser onUninstalledIn: anElement
 ]

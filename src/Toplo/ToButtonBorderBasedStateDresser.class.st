@@ -1,6 +1,6 @@
 Class {
 	#name : #ToButtonBorderBasedStateDresser,
-	#superclass : #ToButtonAbstractStateDresser,
+	#superclass : #ToButtonAutomatonDresser,
 	#instVars : [
 		'downBorder',
 		'initialBorder'
@@ -52,6 +52,12 @@ ToButtonBorderBasedStateDresser >> hoveredBorder [
 
 ]
 
+{ #category : #accessing }
+ToButtonBorderBasedStateDresser >> initialBorder: aBorder [
+
+	initialBorder := aBorder
+]
+
 { #category : #'api - state transitions' }
 ToButtonBorderBasedStateDresser >> initialState: anElement [
 
@@ -68,10 +74,15 @@ ToButtonBorderBasedStateDresser >> leaved: anElement [
 ]
 
 { #category : #'api - hooks' }
+ToButtonBorderBasedStateDresser >> newAutomatonEventHandler [
+
+	^ ToButtonBorderBasedAutomatonEventHandler new
+]
+
+{ #category : #'api - hooks' }
 ToButtonBorderBasedStateDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	anElement when: BlElementBorderChangedEvent do: [ initialBorder := anElement border ].
 	downBorder := nil
 ]
 

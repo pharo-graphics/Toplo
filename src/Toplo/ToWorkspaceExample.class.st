@@ -113,13 +113,12 @@ ToWorkspaceExample >> codeEditor [
 				       workspace: self;
 				       fontName: AeFontManager defaultCodeFontFamilyName;
 				       yourself);
+		      addEditorShortcut: (BlShortcutWithAction new
+				       combination: BlKeyCombination primaryD;
+				       action: [ :aShortcutEvent :aShortcut | self doIt ];
+				       name: 'Do it';
+				       description: 'Run selected expression.');
 		      yourself.
-	st widgetDo: [ :album | 
-		album innerElement addEditorShortcut: (BlShortcutWithAction new
-				 combination: BlKeyCombination primaryD;
-				 action: [ :aShortcutEvent :aShortcut | self doIt ];
-				 name: 'Do it';
-				 description: 'Run selected expression.') ].
 	^ st onWidget
 ]
 

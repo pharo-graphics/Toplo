@@ -27,6 +27,12 @@ Class {
 	#category : #'Toplo-Widget-Album'
 }
 
+{ #category : #'api - shortcuts' }
+ToAlbumModel >> addEditorShortcut: aTextEditorInteraction [
+
+	self widgetDo: [ :widget | widget addEditorShortcut: aTextEditorInteraction ]
+]
+
 { #category : #'view configuration' }
 ToAlbumModel >> beEditable [
 
@@ -111,6 +117,12 @@ ToAlbumModel >> onUninstalledOnlyMeIn: anAlbum [
 ToAlbumModel >> privateWidgetClass [
 
 	^ ToAlbum
+]
+
+{ #category : #'api - shortcuts' }
+ToAlbumModel >> removeEditorShortcut: aTextEditorInteraction [
+
+	self widgetDo: [ :widget | widget removeEditorShortcut: aTextEditorInteraction ]
 ]
 
 { #category : #'transaction hook' }

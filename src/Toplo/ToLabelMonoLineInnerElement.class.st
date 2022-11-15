@@ -16,11 +16,12 @@ ToLabelMonoLineInnerElement >> editorShortcutsIn: aLabel [
 			 name: 'Accept';
 			 yourself).
 	 (BlShortcutWithAction new
-			 combination: (BlKeyCombination escape);
+			 combination: (BlKeyCombination escape or: BlKeyCombination primaryL);
 			 action: [  aLabel removeEditor ];
 			 description: 'Escape from text editing';
 			 name: 'Escape';
-			 yourself) }
+			 yourself).
+		 }
 ]
 
 { #category : #'api - editor' }

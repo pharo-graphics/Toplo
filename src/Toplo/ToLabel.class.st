@@ -4,8 +4,12 @@ Class {
 	#traits : 'TBlAlignable + TOBlLayoutResizable',
 	#classTraits : 'TBlAlignable classTrait + TOBlLayoutResizable classTrait',
 	#instVars : [
-		'textReplacedHandler',
-		'innerElement'
+		'#textReplacedHandler',
+		'#innerElement',
+		'#text => ObservableSlot',
+		'#editable => ObservableSlot',
+		'#lineMode => ObservableSlot',
+		'#editorEventHandler'
 	],
 	#category : #'Toplo-Widget-Labels'
 }
@@ -70,10 +74,22 @@ ToLabel >> beReadOnly [
 ]
 
 { #category : #initialization }
+ToLabel >> defaultLineMode [
+
+	^ ToLabelMonoLineMode new
+]
+
+{ #category : #initialization }
 ToLabel >> defaultPaddings [
 
 	^ BlInsets empty
 		  
+]
+
+{ #category : #initialization }
+ToLabel >> defaultText [
+
+	^ '' asRopedText
 ]
 
 { #category : #initialization }
@@ -92,13 +108,17 @@ ToLabel >> defaultViewModel [
 { #category : #accessing }
 ToLabel >> editable [
 
-	^ self viewModel editable
+	^ editable
 ]
 
-{ #category : #private }
+{ #category : #accessing }
 ToLabel >> editable: aBoolean [
 
-	self viewModel editable: aBoolean
+	editable = aBoolean ifTrue: [ ^ self ].
+	editable := aBoolean.
+	aBoolean
+		ifTrue: [ self privateBeEditable ]
+		ifFalse: [ self privateBeReadOnly ]
 ]
 
 { #category : #'private-editing' }
@@ -133,9 +153,15 @@ ToLabel >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
+	editable := false.
 	self constraintsDo: [ :c | 
 		c vertical fitContent.
-		c horizontal fitContent ]
+		c horizontal fitContent ].
+	self whenTextReplacedDo: [ self privateText: self text ].
+	self whenLineModeChangedDo: [ self privateLineModeChanged ].
+	self lineMode: self defaultLineMode.
+	self text: self defaultText 
+
 ]
 
 { #category : #accessing }
@@ -147,13 +173,14 @@ ToLabel >> innerElement [
 { #category : #accessing }
 ToLabel >> lineMode [
 
-	^ self viewModel ifNotNil: [:vm | vm lineMode]
+	^ lineMode
 ]
 
 { #category : #accessing }
 ToLabel >> lineMode: aLineMode [
 
-	self viewModel lineMode: aLineMode
+	lineMode = aLineMode ifTrue: [ ^ self ].
+	lineMode := aLineMode
 ]
 
 { #category : #'private-editing' }
@@ -207,6 +234,37 @@ ToLabel >> previousVisibility: aBlVisibility [
 ]
 
 { #category : #'private-change' }
+ToLabel >> privateBeEditable [
+
+	editorEventHandler ifNotNil: [ ^ self ].
+	editorEventHandler := BlEventHandler
+		                      on: BlMouseDownEvent
+		                      do: [ :anEvent | 
+			                      (anEvent modifiers isShift and: [ anEvent modifiers isPrimaryModifier ]) ifTrue: [ 
+				                      self addEditor ] ].
+	self addEventHandler: editorEventHandler
+]
+
+{ #category : #'private-change' }
+ToLabel >> privateBeReadOnly [
+
+	editorEventHandler ifNil: [ ^ self ].
+	self removeEventHandler: editorEventHandler.
+	editorEventHandler := nil
+]
+
+{ #category : #'private-change' }
+ToLabel >> privateLineModeChanged [
+	| currText |
+	currText := self text.
+	self removeChildren.
+	self privateReplaceTextElement.
+	currText ifNotNil: [innerElement text: currText].
+	self layout: self defaultLayout.
+	self addChild: innerElement
+]
+
+{ #category : #'private-change' }
 ToLabel >> privateLineModeChanged: aLineMode [
 	| currText |
 	currText := self text.
@@ -229,14 +287,7 @@ ToLabel >> privateReplaceTextElement [
 	innerElement addEventHandler: textReplacedHandler
 ]
 
-{ #category : #private }
-ToLabel >> privateText [
-	<return: #BlText>
-
-	^ self innerElement text
-]
-
-{ #category : #private }
+{ #category : #'private-change' }
 ToLabel >> privateText: aText [
 
 	self innerElement text: aText
@@ -267,13 +318,14 @@ ToLabel >> removeEditor [
 ToLabel >> text [
 	<return: #BlText>
 
-	^ self viewModel text
+	^ text
 ]
 
 { #category : #accessing }
-ToLabel >> text: aStringOrBlText [
+ToLabel >> text: aBlTextOrString [
 
-	self viewModel text: aStringOrBlText
+	text = aBlTextOrString ifTrue: [ ^ self ].
+	text := (aBlTextOrString ifNil: [ self defaultText ]) asRopedText
 ]
 
 { #category : #accessing }
@@ -289,4 +341,40 @@ ToLabel >> verticalAlignment: aBlElementAlignment [
 	self verticalAlignment = aBlElementAlignment ifTrue: [ ^self ].
 	self layout verticalAlignment: aBlElementAlignment
 
+]
+
+{ #category : #'api - change hook' }
+ToLabel >> whenEditableChangedDo: aBlock [
+
+	"Inform when editable property has changed. 
+	 `aBlock` has three optional arguments: 
+	 - new value
+	 - old value
+	 - the announcement triggering this action"
+
+	self property: #editable whenChangedDo: aBlock
+]
+
+{ #category : #'api - change hook' }
+ToLabel >> whenLineModeChangedDo: aBlock [
+
+	"Inform when lineMode property has changed. 
+	 `aBlock` has three optional arguments: 
+	 - new value
+	 - old value
+	 - the announcement triggering this action"
+
+	self property: #lineMode whenChangedDo: aBlock
+]
+
+{ #category : #'api - change hook' }
+ToLabel >> whenTextReplacedDo: aBlock [
+
+	"Inform when text property has changed. 
+	 `aBlock` has three optional arguments: 
+	 - new value
+	 - old value
+	 - the announcement triggering this action"
+
+	self property: #text whenChangedDo: aBlock
 ]

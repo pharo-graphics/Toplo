@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #'api - attaching / detaching' }
-ToDisablementLayer >> attachTo: anEditorElement from: aviewModel [
+ToDisablementLayer >> attachTo: anEditorElement from: aWidget [
 
-	super attachTo: anEditorElement from: aviewModel.	
+	super attachTo: anEditorElement from: aWidget.	
 	self removeEventHandler: delegator 
 
 ]

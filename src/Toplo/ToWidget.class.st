@@ -1,8 +1,8 @@
 Class {
 	#name : #ToWidget,
 	#superclass : #BlElement,
-	#traits : 'TToEnableable',
-	#classTraits : 'TToEnableable classTrait',
+	#traits : 'TBlAnnouncerProvider + TToObservable + TToEnableable',
+	#classTraits : 'TBlAnnouncerProvider classTrait + TToObservable classTrait + TToEnableable classTrait',
 	#instVars : [
 		'viewModel'
 	],

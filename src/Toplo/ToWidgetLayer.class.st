@@ -3,15 +3,15 @@ Class {
 	#superclass : #BlOverlayElement,
 	#instVars : [
 		'delegator',
-		'viewModel'
+		'widget'
 	],
 	#category : #'Toplo-Core'
 }
 
 { #category : #'api - attaching / detaching' }
-ToWidgetLayer >> attachTo: anElement from: aViewModel [
+ToWidgetLayer >> attachTo: anElement from: aWidget [
 
-	viewModel := aViewModel.
+	widget := aWidget.
 	self attachTo: anElement.
 	delegator := BlEventDelegator delegate: BlEvent to: anElement. 
 	self addEventHandler: delegator
@@ -22,6 +22,6 @@ ToWidgetLayer >> detach [
 
 	self removeEventHandler: delegator.
 	delegator := nil.
-	viewModel := nil.
+	widget := nil.
 	super detach
 ]

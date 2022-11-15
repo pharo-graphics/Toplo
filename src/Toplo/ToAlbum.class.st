@@ -4,12 +4,36 @@ Class {
 	#traits : 'TOBlLayoutResizable + TToWidgetWithLayers',
 	#classTraits : 'TOBlLayoutResizable classTrait + TToWidgetWithLayers classTrait',
 	#instVars : [
-		'editsFeedbackLayer',
-		'ghostTextLayer',
-		'innerElement'
+		'#editsFeedbackLayer',
+		'#ghostTextLayer',
+		'#innerElement',
+		'#edited => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Album'
 }
+
+{ #category : #'api - shortcuts' }
+ToAlbum >> addEditorShortcut: aTextEditorInteraction [
+	self innerElement addEditorShortcut: aTextEditorInteraction
+]
+
+{ #category : #'view configuration' }
+ToAlbum >> beEditable [
+
+	self innerElement beEditable
+]
+
+{ #category : #'view configuration' }
+ToAlbum >> beReadonlyWithSelection [
+
+	self innerElement beReadonlyWithSelection
+]
+
+{ #category : #'view configuration' }
+ToAlbum >> beReadonlyWithoutSelection [
+
+	self innerElement beReadonlyWithoutSelection
+]
 
 { #category : #initialization }
 ToAlbum >> defaultEditorElement [
@@ -23,6 +47,25 @@ ToAlbum >> defaultViewModel [
 	^ ToAlbumModel new
 ]
 
+{ #category : #accessing }
+ToAlbum >> edited [
+
+	^ edited ifNil: [ edited := false ]
+]
+
+{ #category : #accessing }
+ToAlbum >> edited: aBoolean [
+
+	edited = aBoolean ifTrue: [ ^ self ].
+	edited := aBoolean
+]
+
+{ #category : #'client - protocol' }
+ToAlbum >> flash [
+
+	self announce: (ToAlbumFlashRequested new client: self)
+]
+
 { #category : #initialization }
 ToAlbum >> initialize [
 
@@ -31,7 +74,8 @@ ToAlbum >> initialize [
 		c horizontal matchParent.
 		c vertical matchParent ].
 	
-	self innerElement: self defaultEditorElement
+	self innerElement: self defaultEditorElement.
+	self innerElement whenAnnouncement: AlbTextEdited do: [ self edited: true ] 
 ]
 
 { #category : #accessing }
@@ -51,7 +95,7 @@ ToAlbum >> innerElement: anEditorElement [
 { #category : #'api-layers' }
 ToAlbum >> layerReferentElement [
 
-		^ self innerElement
+		^ self
 ]
 
 { #category : #accessing }
@@ -66,10 +110,36 @@ ToAlbum >> mode: anEditabilityMode [
 	self innerElement mode: anEditabilityMode 
 ]
 
-{ #category : #'client - protocol' }
-ToAlbum >> onTextEditedDo: aBlock [
+{ #category : #'api - shortcuts' }
+ToAlbum >> removeEditorShortcut: aTextEditorShortcut [
 
-	self innerElement whenAnnouncement: AlbTextEdited do: aBlock
+	self innerElement removeEditorShortcut: aTextEditorShortcut
+]
+
+{ #category : #'transaction hook' }
+ToAlbum >> requestCancel [
+
+	self announce: (ToAlbumCancelRequested new client: self)
+]
+
+{ #category : #'transaction hook' }
+ToAlbum >> requestSave [
+
+	self announce: (ToAlbumSaveRequested new
+			 client: self;
+			 unacceptedEdits: self edited ;
+			 yourself)
+]
+
+{ #category : #'transaction hook' }
+ToAlbum >> saveResult: aBoolean [
+
+	| announcement |
+	self edited: aBoolean not.
+	announcement := aBoolean
+		                ifTrue: [ ToAlbumSaveAccepted new client: self ]
+		                ifFalse: [ ToAlbumSaveDenied new client: self ].
+	self announce: announcement
 ]
 
 { #category : #accessing }
@@ -81,16 +151,75 @@ ToAlbum >> text [
 { #category : #accessing }
 ToAlbum >> text: aBlText [
 
-	self innerElement text: aBlText
+	aBlText == self text ifTrue: [ ^ self ].
+	self edited: false.
+	self innerElement text: aBlText.
+	self announce: (ToAlbumTextReplaced new client: self; text: self text; yourself)
 ]
 
-{ #category : #'client - protocol' }
+{ #category : #'transaction hook' }
+ToAlbum >> whenCancelRequestedDo: aBlock [
+
+	self whenAnnouncement: ToAlbumCancelRequested do: aBlock
+]
+
+{ #category : #'property change hook' }
+ToAlbum >> whenEditedChangedDo: aBlock [
+
+	"set a block to perform after that the text has been chanbed, and its action performed"
+
+	self property: #edited whenChangedDo: aBlock
+]
+
+{ #category : #'property change hook' }
 ToAlbum >> whenModeChangedDo: aBlock [
 
 	innerElement whenModeChangedDo: aBlock
 ]
 
-{ #category : #'client - protocol' }
+{ #category : #'transaction hook' }
+ToAlbum >> whenSaveAcceptedDo: aBlock [
+
+	self whenAnnouncement: ToAlbumSaveAccepted do: aBlock
+]
+
+{ #category : #'transaction hook' }
+ToAlbum >> whenSaveAcceptedSend: aSelector to: anObject [
+
+	self whenAnnouncement: ToAlbumSaveAccepted send: aSelector to: anObject
+]
+
+{ #category : #'transaction hook' }
+ToAlbum >> whenSaveDeniedDo: aBlock [
+
+	self whenAnnouncement: ToAlbumSaveDenied do: aBlock
+]
+
+{ #category : #'transaction hook' }
+ToAlbum >> whenSaveDeniedSend: aSelector to: anObject [
+
+	self whenAnnouncement: ToAlbumSaveDenied send: aSelector to: anObject
+]
+
+{ #category : #'transaction hook' }
+ToAlbum >> whenSaveRequestedDo: aBlock [
+
+	self whenAnnouncement: ToAlbumSaveRequested do: aBlock
+]
+
+{ #category : #'transaction hook' }
+ToAlbum >> whenSaveRequestedSend: aSelector to: anObject [
+
+	self whenAnnouncement: ToAlbumSaveRequested send: aSelector to: anObject
+]
+
+{ #category : #'transaction hook' }
+ToAlbum >> whenTextEditedDo: aBlock [
+
+	self innerElement whenAnnouncement: AlbTextEdited do: aBlock
+]
+
+{ #category : #'property change hook' }
 ToAlbum >> whenTextReplacedDo: aBlock [
 
 	innerElement 
@@ -98,7 +227,7 @@ ToAlbum >> whenTextReplacedDo: aBlock [
 ]
 
 { #category : #layers }
-ToAlbum >> withEditsFeedbackFrom: anAlbumViewModel [
+ToAlbum >> withEditsFeedbackLayer [
 
 	editsFeedbackLayer ifNotNil: [ ^ self ].
 	editsFeedbackLayer := ToAlbumEditsFeedbackLayer new.
@@ -117,6 +246,23 @@ ToAlbum >> withGhostText: aText from: anAlbumViewModel [
 ToAlbum >> withLineNumbers [
 
 	self innerElement withLineNumbers
+]
+
+{ #category : #initialization }
+ToAlbum >> withSaveCapability [
+
+	self withEditsFeedbackLayer.
+
+	self innerElement addEditorShortcut: (BlShortcutWithAction new
+			 combination: BlKeyCombination primaryS;
+			 action: [ :aShortcutEvent :aShortcut | self requestSave ];
+			 name: 'Save';
+			 description: 'Apply changes and save the source code (compile).').
+	self innerElement addEditorShortcut: (BlShortcutWithAction new
+			 combination: BlKeyCombination primaryL;
+			 action: [ :aShortcutEvent :aShortcut | self requestCancel ];
+			 name: 'Cancel';
+			 description: 'Cancel changes and rollback the previous accepted source code.')
 ]
 
 { #category : #layers }

@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #'api - attaching / detaching' }
-ToAlbumGhostTextLayer >> attachTo: anEditorElement from: anAlbumViewModel [
+ToAlbumGhostTextLayer >> attachTo: anEditorElement from: aWidget [
 
-	super attachTo: anEditorElement from: anAlbumViewModel.
+	super attachTo: anEditorElement from: aWidget.
 	self checkText: anEditorElement text.
 	" add/remove according to unaccepted text size"
-	viewModel whenAnnouncement: ToAlbumTextEdited do: [ :announce | self checkText: announce text ].
-	viewModel whenAnnouncement: ToAlbumTextReplaced do: [ :announce | self checkText: announce text ]
+	anEditorElement whenTextEditedDo: [ self checkText: anEditorElement text ].
+	anEditorElement whenTextReplacedDo: [ self checkText: anEditorElement text ]
 ]
 
 { #category : #'api - attaching / detaching' }

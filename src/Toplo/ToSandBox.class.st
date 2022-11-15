@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #album }
-ToSandBox class >> example_CodeEditorWithToClient [
+ToSandBox class >> example_CodeEditorWithToAlbumModel [
 
 "
 The Client is a defined by user class. 
@@ -41,15 +41,31 @@ ToSandBox class >> example_EditorWithGhostText [
 	ghost fontSize: 24.
 
 	view := (ToAlbumModel new
-		 whenSaveRequestedDo: [ :announcement | announcement client saveResult: true ];
 		 withGhostText: ghost;
 		 withLineNumbers;
 		 withSaveCapability;
 		 whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
 		 withEditsFeedbackLayer) onWidget.
 
-	view openInOBlSpace.
-view viewModel inspect.
+	view openInOBlSpace
+]
+
+{ #category : #album }
+ToSandBox class >> example_EditorWithGhostTextWithToAlbumModel [
+
+	| ghost view |
+	ghost := ('Here is a GhostText' , String cr , 'visible only if the text is empty') asRopedText.
+	ghost foreground: Color lightGray.
+	ghost fontSize: 24.
+
+	view := (ToAlbumModel new
+		 withGhostText: ghost;
+		 withLineNumbers;
+		 withSaveCapability;
+		 whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
+		 withEditsFeedbackLayer) onWidget.
+
+	view openInOBlSpace
 ]
 
 { #category : #image }
@@ -122,10 +138,12 @@ ToSandBox class >> example_toBasicButton1 [
 
 	| but |
 	but := ToBasicButton new.
-	but layout: (BlLinearLayout new).
-	but addChild: (BlElement new size: 30@30; background: Color lightBlue;  yourself).
-	but padding: (BlInsets all: 2).
-	but fitContent.
+	but addChild: (BlElement new
+				 size: 30 @ 30;
+				 background: Color lightBlue;
+				 yourself).
+	but  fitContent.
+	but whenClickedDo: [ self inform: 'clicked' ].	
 	but openInOBlSpace 
 ]
 
@@ -749,5 +767,5 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 
 { #category : #accessing }
 ToSandBox class >> methodText [
-	^ self  class sourceCodeAt: #example_CodeEditorWithToClient
+	^ self  class sourceCodeAt: #example_CodeEditorWithToAlbumModel
 ]

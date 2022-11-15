@@ -24,30 +24,25 @@ Class {
 	#name : #ToAlbumModel,
 	#superclass : #ToViewModel,
 	#classTraits : 'TObservable classTrait',
-	#instVars : [
-		'#text => ObservableSlot',
-		'#mode => ObservableSlot',
-		'#edited => ObservableSlot'
-	],
 	#category : #'Toplo-Widget-Album'
 }
 
 { #category : #'view configuration' }
 ToAlbumModel >> beEditable [
 
-	self mode: AlbEditableMode new
+	self widgetDo: [ :widget | widget beEditable ]
 ]
 
 { #category : #'view configuration' }
 ToAlbumModel >> beReadonlyWithSelection [
 
-	self mode: AlbReadonlyWithSelectionMode new
+	self widgetDo: [ :widget | widget beReadonlyWithSelection ]
 ]
 
-{ #category : #'transaction hook' }
+{ #category : #'view configuration' }
 ToAlbumModel >> beReadonlyWithoutSelection [
 
-	self mode: AlbReadonlyWithoutSelectionMode new
+	self widgetDo: [ :widget | widget beReadonlyWithoutSelection ]
 ]
 
 { #category : #'styler configuration' }
@@ -82,70 +77,10 @@ ToAlbumModel >> defaultStyler [
 	^ nil 
 ]
 
-{ #category : #initialization }
-ToAlbumModel >> defaultText [
-
-	^ '' asRopedText
-	
-]
-
-{ #category : #'change hook' }
-ToAlbumModel >> editStateChanged [
-
-
-]
-
-{ #category : #accessing }
-ToAlbumModel >> edited [
-
-	^ edited ifNil: [ edited := false ]
-]
-
-{ #category : #accessing }
-ToAlbumModel >> edited: aBoolean [
-
-	edited = aBoolean ifTrue: [ ^ self ].
-	edited := aBoolean
-]
-
 { #category : #'view request' }
 ToAlbumModel >> flash [
 
-	self announce: (ToAlbumFlashRequested new client: self)
-]
-
-{ #category : #initialization }
-ToAlbumModel >> initialize [
-
-	self class initializeSlots: self.
-	super initialize.
-
-	" action when edit state change (Observable slot) "
-	self whenEditedChangedDo: [ self editStateChanged ].
-	self whenTextReplacedDo: [ self textReplaced ].
-	self whenModeChangedDo: [ self modeChanged ]
-]
-
-{ #category : #accessing }
-ToAlbumModel >> mode [
-
-	^ mode
-
-	
-]
-
-{ #category : #accessing }
-ToAlbumModel >> mode: anEditabilityMode [
-
-	mode = anEditabilityMode ifTrue: [ ^ self ].
-	mode := anEditabilityMode.
-	self widgetDo: [ :album | album mode: anEditabilityMode ]
-]
-
-{ #category : #'change hook' }
-ToAlbumModel >> modeChanged [
-
-
+	self widgetDo: [ :widget | widget flash ]
 ]
 
 { #category : #'api - hooks' }
@@ -154,12 +89,8 @@ ToAlbumModel >> onInstalledOnlyMeIn: anAlbum [
 	"Is sent when I am added to an element "
 
 	super onInstalledOnlyMeIn: anAlbum.
-
-	self mode: anAlbum mode.
-
-	anAlbum whenTextReplacedDo: [ :t | self privateText: t ].
-	anAlbum whenModeChangedDo: [ :m | self privateMode: m ].
-	anAlbum onTextEditedDo: [ self textEdited ].
+	anAlbum whenTextReplacedDo: [ :t | self requestTextStyle ].
+	anAlbum whenTextEditedDo: [ :t | self requestTextStyle ].
 	
 	self text: ''
 ]
@@ -176,25 +107,6 @@ ToAlbumModel >> onUninstalledOnlyMeIn: anAlbum [
 		self unsubscribe: styler ]
 ]
 
-{ #category : #private }
-ToAlbumModel >> privateMode: anEditabilityMode [
-
-	mode = anEditabilityMode ifTrue: [ ^ self ].
-	mode := anEditabilityMode
-]
-
-{ #category : #private }
-ToAlbumModel >> privateText: aBlText [
-
-	aBlText == self text ifTrue: [ ^ self ].
-	self edited: false.
-	text := aBlText.
-	self announce: (ToAlbumTextReplaced new client: self; text: self text; yourself).
-	" ask the stylerHolder to style through its observal slot"
-	self requestTextStyle
-
-]
-
 { #category : #'private - accessing - widget' }
 ToAlbumModel >> privateWidgetClass [
 
@@ -204,16 +116,13 @@ ToAlbumModel >> privateWidgetClass [
 { #category : #'transaction hook' }
 ToAlbumModel >> requestCancel [
 
-	self announce: (ToAlbumCancelRequested new client: self)
+	self widgetDo: [ :widget | widget requestCancel ]
 ]
 
 { #category : #'transaction hook' }
 ToAlbumModel >> requestSave [
 
-	self announce: (ToAlbumSaveRequested new
-			 client: self;
-			 unacceptedEdits: self edited ;
-			 yourself)
+	self widgetDo: [ :widget | widget requestSave ]
 ]
 
 { #category : #'styler configuration' }
@@ -225,12 +134,7 @@ ToAlbumModel >> requestTextStyle [
 { #category : #'transaction hook' }
 ToAlbumModel >> saveResult: aBoolean [
 
-	| announcement |
-	self edited: aBoolean not.
-	announcement := aBoolean
-		                ifTrue: [ ToAlbumSaveAccepted new client: self ]
-		                ifFalse: [ ToAlbumSaveDenied new client: self ].
-	self announce: announcement
+	self widgetDo: [ :widget | widget saveResult: aBoolean ]
 ]
 
 { #category : #'styler configuration' }
@@ -258,37 +162,15 @@ ToAlbumModel >> styler: aBlStyler [
 ]
 
 { #category : #accessing }
-ToAlbumModel >> text [
-
-	^ text
-
-	
-]
-
-{ #category : #accessing }
 ToAlbumModel >> text: aBlText [
 
-	self text == aBlText ifTrue: [ ^ self ].
 	self widgetDo: [ :album | album text: aBlText asRopedText]
-]
-
-{ #category : #'change hook' }
-ToAlbumModel >> textEdited [
-
-	self edited: true.
-	self announce: (ToAlbumTextEdited new client: self; text: self text; yourself).
-	" ask the stylerHolder to style through its observal slot"
-	self requestTextStyle
-]
-
-{ #category : #'change hook' }
-ToAlbumModel >> textReplaced [
 ]
 
 { #category : #'transaction hook' }
 ToAlbumModel >> whenCancelRequestedDo: aBlock [
 
-	self whenAnnouncement: ToAlbumCancelRequested do: aBlock
+	self widgetDo: [ :widget | widget whenCancelRequestedDo: aBlock ]
 ]
 
 { #category : #'property change hook' }
@@ -296,7 +178,7 @@ ToAlbumModel >> whenEditedChangedDo: aBlock [
 
 	"set a block to perform after that the text has been chanbed, and its action performed"
 
-	self property: #edited whenChangedDo: aBlock
+	self widgetDo: [ :widget | widget whenEditedChangedDo: aBlock ]
 ]
 
 { #category : #'property change hook' }
@@ -304,43 +186,43 @@ ToAlbumModel >> whenModeChangedDo: aBlock [
 
 	"set a block to perform after that the text has been chanbed, and its action performed"
 
-	self property: #mode whenChangedDo: aBlock
+	self widgetDo: [ :widget | widget whenModeChangedDo: aBlock ] 
 ]
 
 { #category : #'transaction hook' }
 ToAlbumModel >> whenSaveAcceptedDo: aBlock [
 
-	self whenAnnouncement: ToAlbumSaveAccepted do: aBlock
+	self widgetDo: [ :widget | widget whenSaveAcceptedDo: aBlock ]
 ]
 
 { #category : #'transaction hook' }
 ToAlbumModel >> whenSaveAcceptedSend: aSelector to: anObject [
 
-	self whenAnnouncement: ToAlbumSaveAccepted send: aSelector to: anObject
+	self widgetDo: [ :widget | widget whenSaveAcceptedSend: aSelector to: anObject ]
 ]
 
 { #category : #'transaction hook' }
 ToAlbumModel >> whenSaveDeniedDo: aBlock [
 
-	self whenAnnouncement: ToAlbumSaveDenied do: aBlock
+	self widgetDo: [ :widget | widget whenSaveDeniedDo: aBlock ]
 ]
 
 { #category : #'transaction hook' }
 ToAlbumModel >> whenSaveDeniedSend: aSelector to: anObject [
 
-	self whenAnnouncement: ToAlbumSaveDenied send: aSelector to: anObject
+	self widgetDo: [ :widget | widget whenSaveDeniedSend: aSelector to: anObject ]
 ]
 
 { #category : #'transaction hook' }
 ToAlbumModel >> whenSaveRequestedDo: aBlock [
 
-	self whenAnnouncement: ToAlbumSaveRequested do: aBlock
+	self widgetDo: [ :widget | widget whenSaveRequestedDo: aBlock ]
 ]
 
 { #category : #'transaction hook' }
 ToAlbumModel >> whenSaveRequestedSend: aSelector to: anObject [
 
-	self whenAnnouncement: ToAlbumSaveRequested send: aSelector to: anObject
+	self widgetDo: [ :widget | widget whenSaveRequestedSend: aSelector to: anObject ]
 ]
 
 { #category : #'styler configuration' }
@@ -357,8 +239,8 @@ ToAlbumModel >> whenStylerTextStyled: aBlStylerTextStyledAnnouncement [
 		result := aBlStylerTextStyledAnnouncement styledText.
 		" text just styled by the styler, check the generation (to be thread-safe) to ensure that 
 			my text has not be changed elsewhere during the styling "
-		(result isNextGenerationOf: self text) ifFalse: [ ^ self ].
-		self text takeInternalRepresentationOf: result.
+		(result isNextGenerationOf: album text) ifFalse: [ ^ self ].
+		album text takeInternalRepresentationOf: result.
 		album innerElement textInternalRepresentationChanged ]
 ]
 
@@ -367,7 +249,7 @@ ToAlbumModel >> whenTextReplacedDo: aBlock [
 
 	"set a block to perform after that the text has been chanbed, and its action performed"
 
-	self property: #text whenChangedDo: aBlock
+	self widgetDo: [ :widget | widget whenTextReplacedDo: aBlock ]
 ]
 
 { #category : #'styler configuration' }
@@ -376,7 +258,7 @@ ToAlbumModel >> whenTextStyleRequested: aToTextStyleRequested [
 	self widgetDo: [ :album | 
 		self styler ifNotNil: [ 
 			self styler announce: (BlStylerTextStyleRequested new
-					 unstyledText: self text nextGeneration;
+					 unstyledText: album text nextGeneration;
 					 referentElement: album;
 					 yourself) ] ]
 ]
@@ -384,7 +266,7 @@ ToAlbumModel >> whenTextStyleRequested: aToTextStyleRequested [
 { #category : #'view configuration' }
 ToAlbumModel >> withEditsFeedbackLayer [
 
-	self widgetDo: [ :album | album withEditsFeedbackFrom: self. ]
+	self widgetDo: [ :album | album withEditsFeedbackLayer ]
 ]
 
 { #category : #'view configuration' }
@@ -402,18 +284,7 @@ ToAlbumModel >> withLineNumbers [
 { #category : #'view configuration' }
 ToAlbumModel >> withSaveCapability [
 
-	self withEditsFeedbackLayer.
-	self widgetDo: [ :album | 
-		album innerElement addEditorShortcut: (BlShortcutWithAction new
-				 combination: BlKeyCombination primaryS;
-				 action: [ :aShortcutEvent :aShortcut | self requestSave ];
-				 name: 'Save';
-				 description: 'Apply changes and save the source code (compile).').
-		album innerElement addEditorShortcut: (BlShortcutWithAction new
-				 combination: BlKeyCombination primaryL;
-				 action: [ :aShortcutEvent :aShortcut | self requestCancel ];
-				 name: 'Cancel';
-				 description: 'Cancel changes and rollback the previous accepted source code.') ]
+	self widgetDo: [ :widget |  widget withSaveCapability ]
 ]
 
 { #category : #'view configuration' }

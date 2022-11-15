@@ -6,7 +6,7 @@ Trait {
 { #category : #'api-layers' }
 TToWidgetWithLayers >> addLayer: aToWidgetLayer [ 
 
-	aToWidgetLayer attachTo: self layerReferentElement from: self viewModel.
+	aToWidgetLayer attachTo: self layerReferentElement from: self.
 	self addChild: aToWidgetLayer
 ]
 

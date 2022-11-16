@@ -2,42 +2,48 @@ Class {
 	#name : #ToButtonState,
 	#superclass : #Object,
 	#instVars : [
-		'labelText',
-		'iconImage',
-		'name'
+		'name',
+		'next',
+		'enterAnimation',
+		'exitAnimation',
+		'stencil'
 	],
 	#category : #'Toplo-Widget-Buttons'
 }
 
-{ #category : #hook }
-ToButtonState >> applyOn: aToButton [
+{ #category : #processing }
+ToButtonState >> applyOn: aButton [
 
-	iconImage ifNotNil: [ aToButton iconImage: iconImage ].
-	labelText ifNotNil: [ aToButton labelText: labelText ]
+	self exitOn: aButton
 ]
 
 { #category : #accessing }
-ToButtonState >> iconImage [
+ToButtonState >> enterAnimation: anAnimation [
 
-	^ iconImage
+	enterAnimation := anAnimation
+]
+
+{ #category : #processing }
+ToButtonState >> enterOn: aButton [
+
+	enterAnimation ifNotNil: [ :anim | aButton addAnimation: anim value ]
 ]
 
 { #category : #accessing }
-ToButtonState >> iconImage: anElement [
+ToButtonState >> exitAnimation: anAnimation [
 
-	iconImage := anElement
+	exitAnimation := anAnimation
 ]
 
-{ #category : #accessing }
-ToButtonState >> labelText [
+{ #category : #processing }
+ToButtonState >> exitOn: aButton [
 
-	^ labelText
-]
-
-{ #category : #accessing }
-ToButtonState >> labelText: aText [
-
-	labelText := aText
+	exitAnimation ifNil: [next startOn: aButton] ifNotNil: [ :animStencyl | 
+		| anim |
+		anim := animStencyl value.
+		anim onFinishedDo: [ 
+			next startOn: aButton  ].
+		aButton addAnimation: anim ]
 ]
 
 { #category : #accessing }
@@ -50,4 +56,29 @@ ToButtonState >> name [
 ToButtonState >> name: anObject [
 
 	name := anObject
+]
+
+{ #category : #accessing }
+ToButtonState >> next [
+
+	^ next
+]
+
+{ #category : #accessing }
+ToButtonState >> next: anEngineStep [
+
+	next := anEngineStep
+]
+
+{ #category : #processing }
+ToButtonState >> startOn: aButton [
+
+	stencil value: aButton.
+	self enterOn: aButton
+]
+
+{ #category : #accessing }
+ToButtonState >> stencil: aBlock [
+
+	stencil := aBlock
 ]

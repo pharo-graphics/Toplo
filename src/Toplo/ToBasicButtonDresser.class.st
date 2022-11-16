@@ -2,6 +2,7 @@ Class {
 	#name : #ToBasicButtonDresser,
 	#superclass : #ToElementCompanion,
 	#instVars : [
+		'basicHandler',
 		'automatonDresser'
 	],
 	#category : #'Toplo-Widget-Buttons'
@@ -22,13 +23,15 @@ ToBasicButtonDresser >> automatonDresser: aButtonStateDresser [
 { #category : #'api - hooks' }
 ToBasicButtonDresser >> defaultStateDresser [
 
-	^ ToButtonBorderBasedStateDresser new
+	^ ToButtonBorderBasedDresser new
 ]
 
 { #category : #'api - hooks' }
 ToBasicButtonDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
+	basicHandler := ToBasicButtonEventHandler new button: anElement.
+	anElement addEventHandler: basicHandler.
 	self automatonDresser onInstalledIn: anElement
 ]
 
@@ -36,5 +39,7 @@ ToBasicButtonDresser >> onInstalledIn: anElement [
 ToBasicButtonDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
+	anElement removeEventHandler: basicHandler.
+	basicHandler := nil.
 	self automatonDresser onUninstalledIn: anElement
 ]

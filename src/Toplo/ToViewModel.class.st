@@ -9,35 +9,11 @@ Class {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #initialization }
-ToViewModel >> defaultDresser [
-
-	^ ToNullDresser new
-
-]
-
 { #category : #'api - enablement' }
 ToViewModel >> disable [
 	"Disable the view"
 	
 	self enabled: false
-]
-
-{ #category : #'accessing - dresser' }
-ToViewModel >> dresser [
-	^ self userData at: #dresser ifAbsent: nil
-]
-
-{ #category : #'accessing - dresser' }
-ToViewModel >> dresser: aDresser [
-
-	self userData at: #dresser put: aDresser
-
-]
-
-{ #category : #'accessing - dresser' }
-ToViewModel >> dresserDo: aBlock [
-	self dresser ifNotNil: aBlock
 ]
 
 { #category : #'api - enablement' }
@@ -82,14 +58,7 @@ ToViewModel >> helpString: aString [
 ToViewModel >> initialize [ 
 
 	super initialize.
-	self startPostponedActionsStorage.
-	self dresser: self defaultDresser
-]
-
-{ #category : #'accessing - dresser' }
-ToViewModel >> installDresserIn: aWidget [
-
-	self dresserDo: [ :currDresser | currDresser onInstalledIn: aWidget ]
+	self startPostponedActionsStorage
 ]
 
 { #category : #'change reporting' }
@@ -111,8 +80,7 @@ ToViewModel >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	self managePostponedActionsIn: anElement while: [ 
-		self onInstalledOnlyMeIn: anElement.
-		self installDresserIn: anElement ]
+		self onInstalledOnlyMeIn: anElement]
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -192,14 +160,6 @@ ToViewModel >> stopPostponedActionsStorageFor: anElement [
 	self unsubscribe: self.
 	self whenAnnouncement: ToActionRequiredInWidget send: #whenActionRequired: to: anElement
 
-]
-
-{ #category : #'accessing - dresser' }
-ToViewModel >> unInstallDresserIn: aWidget [
-
-	self dresserDo: [ :currDresser | 
-		currDresser onUninstalledIn: aWidget.
-		self userData at: #dresser put: nil ]
 ]
 
 { #category : #'private - accessing - widget' }

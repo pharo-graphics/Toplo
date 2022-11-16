@@ -4,8 +4,10 @@ Class {
 	#traits : 'TBlAlignable',
 	#classTraits : 'TBlAlignable classTrait',
 	#instVars : [
-		'label',
-		'icon'
+		'#label',
+		'#icon',
+		'#labelFirst => ObservableSlot',
+		'#horizontal => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Buttons'
 }
@@ -18,13 +20,13 @@ ToButton >> beHorizontal [
 
 { #category : #'api - orientation/direction' }
 ToButton >> beIconFirst [
-	
+
 	self labelFirst: false
 ]
 
-{ #category : #'api - orientation/direction' }
+{ #category : #'api - presentation' }
 ToButton >> beLabelFirst [
-	
+
 	self labelFirst: true
 ]
 
@@ -70,13 +72,15 @@ ToButton >> direction: aBlLayoutDirection [
 { #category : #'api - orientation/direction' }
 ToButton >> horizontal [
 
-	^ self viewModel horizontal
+	^ horizontal
 ]
 
 { #category : #'api - orientation/direction' }
 ToButton >> horizontal: aBoolean [
 
-	self viewModel horizontal: aBoolean
+	horizontal = aBoolean ifTrue: [ ^ self ].
+	horizontal := aBoolean.
+	self orientationChanged 
 ]
 
 { #category : #'private - alignment' }
@@ -102,25 +106,22 @@ ToButton >> icon [
 
 { #category : #accessing }
 ToButton >> icon: anImage [
-	self privateIcon: anImage.
-	self privateUpdateChildren 
-	
+
+	icon = anImage ifTrue: [ ^self ].
+	icon := anImage.
+	self privateUpdateChildren
 ]
 
 { #category : #accessing }
-ToButton >> icon: anImage label: aLabel [
+ToButton >> iconImage [
 
-	self privateIcon: anImage.
-	self privateLabel: aLabel.
-	self privateUpdateChildren 
-
-	
+	^ icon innerImage
 ]
 
 { #category : #accessing }
 ToButton >> iconImage: anElement [
 
-	self viewModel iconImage: anElement
+	icon innerImage: anElement
 ]
 
 { #category : #private }
@@ -128,45 +129,34 @@ ToButton >> iconImageReplaced [
 
 ]
 
-{ #category : #private }
-ToButton >> iconViewModel: anImageViewModel [
-
-	self icon: anImageViewModel privateNewWidget.
-	"self icon viewModel: anImageViewModel"
-
-]
-
-{ #category : #private }
-ToButton >> iconViewModel: anImageViewModel labelViewModel: aLabelViewModel [
-
-	self icon: anImageViewModel privateNewWidget label: aLabelViewModel privateNewWidget.
-	"self icon viewModel: anImageViewModel.
-	self label viewModel: aLabelViewModel
-"
-]
-
 { #category : #initialization }
 ToButton >> initialize [
 
-	self class initializeSlots: self.
 	super initialize.
+	horizontal := true.
+	labelFirst := false.
 	self
 		constraintsDo: [ :c | 
 			c vertical fitContent.
 			c horizontal fitContent ].
-	self alignCenter
+	self alignCenter.
+	label := ToLabel new.
+	icon := ToImage new.
+	self privateUpdateChildren.
+	self whenLabelTextReplacedDo: [ self labelTextReplaced ].
+	self whenIconImageReplacedDo: [ self iconImageReplaced ]
 ]
 
-{ #category : #'api - orientation/direction' }
+{ #category : #'api - presentation' }
 ToButton >> isIconFirst [
 	
-	^ self viewModel isIconFirst
+	^ self isLabelFirst not
 ]
 
-{ #category : #'api - orientation/direction' }
+{ #category : #'api - presentation' }
 ToButton >> isLabelFirst [
 	
-	^ self viewModel isLabelFirst
+	^ labelFirst
 ]
 
 { #category : #accessing }
@@ -178,40 +168,40 @@ ToButton >> label [
 { #category : #accessing }
 ToButton >> label: aLabel [
 
-	self privateLabel: aLabel.
+	label = aLabel ifTrue: [ ^ self ].
+	label := aLabel.
 	self privateUpdateChildren 
 	
 ]
 
-{ #category : #'api - orientation/direction' }
+{ #category : #'api - presentation' }
 ToButton >> labelFirst [
-	
-	^ self viewModel labelFirst
+
+	^ labelFirst
 ]
 
-{ #category : #'api - orientation/direction' }
+{ #category : #'api - presentation' }
 ToButton >> labelFirst: aBoolean [
 	
-	self viewModel labelFirst: aBoolean
+	labelFirst = aBoolean ifTrue: [ ^ self ].
+	labelFirst := aBoolean.
+	self presentationChanged
+]
+
+{ #category : #accessing }
+ToButton >> labelText [
+
+	^ label text
 ]
 
 { #category : #accessing }
 ToButton >> labelText: aText [
 
-	self viewModel labelText: aText
+	label text: aText
 ]
 
 { #category : #private }
 ToButton >> labelTextReplaced [
-
-]
-
-{ #category : #private }
-ToButton >> labelViewModel: aLabelViewModel [
-
-	self label: aLabelViewModel privateNewWidget.
-	"self label viewModel: aLabelViewModel"
-
 
 ]
 
@@ -231,7 +221,7 @@ ToButton >> orientation: aBlLayoutOrientation [
 { #category : #private }
 ToButton >> orientationChanged [
 	
-	self viewModel horizontal
+	self horizontal
 		ifTrue: [ self layout beHorizontal ]
 		ifFalse: [ self layout beVertical ].
 	self requestLayout
@@ -241,21 +231,6 @@ ToButton >> orientationChanged [
 ToButton >> presentationChanged [
 	
 	self privateUpdateChildren
-]
-
-{ #category : #private }
-ToButton >> privateIcon: anImage [
-
-	icon = anImage ifTrue: [ ^self ].
-	icon := anImage.
-	
-]
-
-{ #category : #private }
-ToButton >> privateLabel: aLabel [
-
-	label = aLabel ifTrue: [ ^ self ].
-	label := aLabel
 ]
 
 { #category : #private }
@@ -280,9 +255,35 @@ ToButton >> verticalAlignment: aBlElementAlignment [
 
 ]
 
-{ #category : #accessing }
-ToButton >> viewModel: aButtonModel [
+{ #category : #'api - change hook' }
+ToButton >> whenIconImageReplacedDo: aBlock [
 
-	super viewModel: aButtonModel.
-	"self horizontal: aButtonModel horizontal"
+	icon whenInnerImageReplacedDo: aBlock
+]
+
+{ #category : #'api - change hook' }
+ToButton >> whenLabelTextReplacedDo: aBlock [
+
+	label whenTextReplacedDo: aBlock
+]
+
+{ #category : #'api - change hook' }
+ToButton >> whenOrientationChangedDo: aBlock [
+	"Inform when action block has been changed. 
+	 `aBlock` receives two optional arguments: 
+	 - new action block
+	 - old action block"
+
+	self property: #horizontal whenChangedDo: aBlock
+]
+
+{ #category : #'api - change hook' }
+ToButton >> whenPresentationChangedDo: aBlock [
+
+	"Inform when labelFirst has been changed. 
+	 `aBlock` receives two optional arguments: 
+	 - new labelFirst
+	 - old labelFirst"
+
+	self property: #labelFirst whenChangedDo: aBlock
 ]

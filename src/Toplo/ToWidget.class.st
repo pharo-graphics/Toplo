@@ -9,9 +9,22 @@ Class {
 	#category : #'Toplo-Core'
 }
 
+{ #category : #'api - space' }
+ToWidget >> attachSpace [
+	super attachSpace.
+	self dresserDo: [ :d | d onInstalledIn: self ]
+]
+
 { #category : #initialization }
 ToWidget >> defaultBackground [
 	^ Color transparent
+]
+
+{ #category : #initialization }
+ToWidget >> defaultDresser [
+
+	^ ToNullDresser new
+
 ]
 
 { #category : #initialization }
@@ -38,6 +51,30 @@ ToWidget >> defaultPaddings [
 ToWidget >> defaultViewModel [
 
 	^ self subclassResponsibility
+]
+
+{ #category : #'api - space' }
+ToWidget >> detachSpace [
+	self dresserDo: [ :d | d onUninstalledIn: self ].
+	super detachSpace.
+
+]
+
+{ #category : #'accessing - dresser' }
+ToWidget >> dresser [
+	^ self userData at: #dresser ifAbsent: nil
+]
+
+{ #category : #'accessing - dresser' }
+ToWidget >> dresser: aDresser [
+
+	self dresserDo: [ :d  | d onUninstalledIn: self ].
+	self userData at: #dresser put: aDresser
+]
+
+{ #category : #'accessing - dresser' }
+ToWidget >> dresserDo: aBlock [
+	self dresser ifNotNil: aBlock
 ]
 
 { #category : #'api - enablement' }
@@ -70,10 +107,12 @@ ToWidget >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
+	self dresser: self defaultDresser.
 	self background: self defaultBackground.
 	self layout: self defaultLayout.
 	self padding: self defaultPaddings.
-	self margin: self defaultMargins
+	self margin: self defaultMargins.
+
 ]
 
 { #category : #'change reporting' }

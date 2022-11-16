@@ -36,6 +36,13 @@ ToAlbum >> beReadonlyWithoutSelection [
 ]
 
 { #category : #initialization }
+ToAlbum >> defaultDresser [
+
+	^ ToAlbumBasicDresser new
+	
+]
+
+{ #category : #initialization }
 ToAlbum >> defaultEditorElement [
 
 	^ AlbEditorElement new
@@ -73,7 +80,6 @@ ToAlbum >> initialize [
 	self constraintsDo: [ :c | 
 		c horizontal matchParent.
 		c vertical matchParent ].
-	
 	self innerElement: self defaultEditorElement.
 	self innerElement whenAnnouncement: AlbTextEdited do: [ self edited: true ] 
 ]

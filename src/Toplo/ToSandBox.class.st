@@ -168,7 +168,6 @@ ToSandBox class >> example_toBasicButtonModel1 [
 				 yourself) ].
 	but widgetDo: [ :widget | widget fitContent ].
 	but whenClickedDo: [ self inform: 'clicked' ].
-
 	but onWidget openInOBlSpace
 ]
 
@@ -181,20 +180,11 @@ ToSandBox class >> example_toButton0 [
 ]
 
 { #category : #button }
-ToSandBox class >> example_toButton1 [
-
-	| but |
-	but := ToButton new labelText: 'Button'.
-	but whenClickedDo: [ self inform: 'clicked' ].
-
-	but  openInOBlSpace
-]
-
-{ #category : #button }
 ToSandBox class >> example_toButtonModel1 [
 
 	| but |
 	but := ToButtonModel new labelText: 'Button'.
+	but whenClickedDo: [ self inform: 'clicked' ].
 	but  onWidget openInOBlSpace
 ]
 
@@ -230,8 +220,6 @@ ToSandBox class >> example_toButtonModelWithTextAndIconVertical [
 	but whenClickedDo: [ :ann | 
 		ann widget horizontal: ann widget horizontal not ].
 	but widgetDo: [ :widget | 
-		widget icon border: (BlBorder paint: Color black).
-		widget label border: (BlBorder paint: Color black).
 		widget border: (BlBorder paint: Color red width: 2) ].
 	space := OBlSpace new.
 	space addChild: but onWidget.
@@ -278,16 +266,18 @@ ToSandBox class >> example_toButtonWithHelp [
 { #category : #button }
 ToSandBox class >> example_toButtonWithIconOnly [
 
-	| but space |
+	| but space container |
+	container := BlElement new size: 200@200; border: (BlBorder paint: Color gray); background: (Color gray alpha: 0.1).
 	but := ToButton new.
 	but iconImage: (BlElement new
 			 size: 60 @ 20;
 			 background: Color blue;
 			 yourself).
-	but border: (BlBorder paint: Color red width: 2).
 	but padding: (BlInsets all: 3).
+	but relocate: 30@30.
+	container addChild: but.
 	space := OBlSpace new.
-	space addChild: but.
+	space addChild: container.
 	space show
 ]
 
@@ -295,15 +285,16 @@ ToSandBox class >> example_toButtonWithIconOnly [
 ToSandBox class >> example_toButtonWithTextAndIconVertical [
 
 	| but space |
-	but := ToButton new beVertical; beLabelFirst.
-	but labelText: 'Button'. 
+	but := ToButton new
+		       beVertical;
+		       beLabelFirst.
+	but labelText: 'Button'.
 	but iconImage: (BlElement new
 			 size: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).
-	but whenClickedDo: [ :ann |  ann widget orientation: ann widget orientation inverted ].
-	but icon border: (BlBorder paint: Color black).
-	but label border: (BlBorder paint: Color black).
+	but whenClickedDo: [ :ann | 
+		ann widget horizontal: ann widget horizontal not ].
 	but border: (BlBorder paint: Color red width: 2).
 	space := OBlSpace new.
 	space addChild: but.
@@ -316,6 +307,8 @@ ToSandBox class >> example_toButtonWithTextOnly [
 	| but space |
 	but := ToButton new.
 	but labelText: 'Button'. 
+	but whenClickedDo: [ self inform: 'clicked' ].
+
 	space := OBlSpace new.
 	space addChild: but.
 	space show
@@ -622,79 +615,70 @@ ToSandBox class >> example_toLabel_Multiline2_Centered [
 ]
 
 { #category : #multistate }
-ToSandBox class >> example_toMultiState0 [
-
-	| but |
-	but := ToMultiStateButtonModel new.
-	but onWidget openInOBlSpace
-]
-
-{ #category : #multistate }
 ToSandBox class >> example_toMultiState1 [
 
 	| but |
-	but := ToMultiStateButtonModel new.
-	but
-		states: { (ToButtonState new
-				 iconImage: (BlElement new
-						  size: 50 @ 30;
-						  background: Color green);
-				 labelText: 'Green';
-				 name: #green;
-				 yourself) }
-		transitions: { (ToButtonTransition new
-				 name: #green;
-				 exitAnimation: [ 
-					 BlOpacityAnimation new
-						 duration: 500 milliSeconds;
-						 opacity: 0;
-						 yourself ];
-				 enterAnimation: [ 
-					 BlOpacityAnimation new
-						 duration: 1000 milliSeconds;
-						 opacity: 1;
-						 yourself ];
-				 yourself) }.
-	but onWidget openInOBlSpace
+	but := ToButton new.
+	but states: { (ToButtonState new
+			 stencil: [ :button | 
+				 button
+					 iconImage: (BlElement new
+							  size: 50 @ 30;
+							  background: Color green);
+					 labelText: 'Green' ];
+			 exitAnimation: [ 
+				 BlOpacityAnimation new
+					 duration: 500 milliSeconds;
+					 opacity: 0;
+					 yourself ];
+			 enterAnimation: [ 
+				 BlOpacityAnimation new
+					 duration: 1000 milliSeconds;
+					 opacity: 1;
+					 yourself ];
+			 yourself) }.
+	but openInOBlSpace
 ]
 
 { #category : #multistate }
 ToSandBox class >> example_toMultiStateWithBigBlue [
 
 	| but |
-	but := ToMultiStateButtonModel new.
-	but
-		states: { 
-				(ToButtonState new
-					 iconImage: (BlElement new
-							  size: 400 @ 400;
-							  background: Color blue);
-					 labelText: 'Big blue';
-					 name: #blue;
-					 yourself).
-				(ToButtonState new
-					 iconImage: (BlElement new
-							  size: 20 @ 40;
-							  background: Color green);
-					 labelText: 'Green';
-					 name: #green;
-					 yourself).
-				(ToButtonState new
-					 iconImage: (BlElement new
-							  size: 50 @ 50;
-							  background: Color black);
-					 labelText: 'Black';
-					 name: #black;
-					 yourself).
-				(ToButtonState new
-					 iconImage: (BlElement new
-							  size: 100 @ 100;
-							  background: Color yellow);
-					 labelText: 'Yellow';
-					 name: #yellow;
-					 yourself) }
-		transitions: { #green. #yellow. #black. #blue }.
-	but onWidget openInOBlSpace
+	but := ToButton new.
+	but states: { 
+			(ToButtonState new
+				 stencil: [ :button | 
+					 button
+						 iconImage: (BlElement new
+								  size: 400 @ 400;
+								  background: Color blue);
+						 labelText: 'Big blue' ];
+				 yourself).
+			(ToButtonState new
+				 stencil: [ :button | 
+					 button
+						 iconImage: (BlElement new
+								  size: 20 @ 40;
+								  background: Color green);
+						 labelText: 'Green' ];
+				 yourself).
+			(ToButtonState new
+				 stencil: [ :button | 
+					 button
+						 iconImage: (BlElement new
+								  size: 50 @ 50;
+								  background: Color black);
+						 labelText: 'Black' ];
+				 yourself).
+			(ToButtonState new
+				 stencil: [ :button | 
+					 button
+						 iconImage: (BlElement new
+								  size: 100 @ 100;
+								  background: Color yellow);
+						 labelText: 'Yellow' ];
+				 yourself) }.
+	but openInOBlSpace
 ]
 
 { #category : #multistate }
@@ -712,58 +696,48 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 		                  opacity: 1;
 		                  yourself ].
 
-	but := ToMultiStateButtonModel new.
-	but
-		states: { 
-				(ToButtonState new
-					 iconImage: (BlElement new
-							  size: 100 @ 100;
-							  background: Color blue);
-					 labelText: ('Big blue' asRopedText fontSize: 24);
-					 name: #blue;
-					 yourself).
-				(ToButtonState new
-					 iconImage: (BlElement new
-							  size: 100 @ 100;
-							  background: Color green);
-					 labelText: ('Green' asRopedText fontSize: 24);
-					 name: #green;
-					 yourself).
-				(ToButtonState new
-					 iconImage: (BlElement new
-							  size: 100 @ 100;
-							  background: Color black);
-					 labelText: ('Black' asRopedText fontSize: 24);
-					 name: #black;
-					 yourself).
-				(ToButtonState new
-					 iconImage: (BlElement new
-							  size: 100 @ 100;
-							  background: Color yellow);
-					 labelText: ('Yellow' asRopedText fontSize: 24);
-					 name: #yellow;
-					 yourself) }
-		transitions: { 
-				(ToButtonTransition new
-					 name: #green;
-					 exitAnimation: exitAnimation;
-					 enterAnimation: enterAnimation;
-					 yourself).
-				(ToButtonTransition new
-					 name: #yellow;
-					 exitAnimation: exitAnimation;
-					 enterAnimation: enterAnimation;
-					 yourself).
-				(ToButtonTransition new
-					 name: #black;
-					 exitAnimation: exitAnimation;
-					 enterAnimation: enterAnimation;
-					 yourself).
-				(ToButtonTransition new
-					 name: #blue;
-					 exitAnimation: exitAnimation;
-					 enterAnimation: enterAnimation;
-					 yourself) }.
+	but := ToButtonModel new.
+	but states: { 
+			(ToButtonState new
+				 stencil: [ :button | 
+					 button
+						 iconImage: (BlElement new
+								  size: 100 @ 100;
+								  background: Color blue);
+						 labelText: ('Big blue' asRopedText fontSize: 24) ];
+				 exitAnimation: exitAnimation;
+				 enterAnimation: enterAnimation;
+				 yourself).
+			(ToButtonState new
+				 stencil: [ :button | 
+					 button
+						 iconImage: (BlElement new
+								  size: 100 @ 100;
+								  background: Color green);
+						 labelText: ('Green' asRopedText fontSize: 24) ];
+				 exitAnimation: exitAnimation;
+				 enterAnimation: enterAnimation;
+				 yourself).
+			(ToButtonState new
+				 stencil: [ :button | 
+					 button
+						 iconImage: (BlElement new
+								  size: 100 @ 100;
+								  background: Color black);
+						 labelText: ('Black' asRopedText fontSize: 24) ];
+				 exitAnimation: exitAnimation;
+				 enterAnimation: enterAnimation;
+				 yourself).
+			(ToButtonState new
+				 stencil: [ :button | 
+					 button
+						 iconImage: (BlElement new
+								  size: 100 @ 100;
+								  background: Color yellow);
+						 labelText: ('Yellow' asRopedText fontSize: 24) ];
+				 exitAnimation: exitAnimation;
+				 enterAnimation: enterAnimation;
+				 yourself) }.
 	but onWidget openInOBlSpace
 ]
 

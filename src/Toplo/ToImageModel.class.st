@@ -1,7 +1,7 @@
 Class {
 	#name : #ToImageModel,
 	#superclass : #ToViewModel,
-	#category : #'Toplo-Widget-Images'
+	#category : #'Toplo-View Models'
 }
 
 { #category : #accessing }

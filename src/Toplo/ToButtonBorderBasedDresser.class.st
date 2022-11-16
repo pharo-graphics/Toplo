@@ -1,5 +1,5 @@
 Class {
-	#name : #ToButtonBorderBasedStateDresser,
+	#name : #ToButtonBorderBasedDresser,
 	#superclass : #ToButtonAutomatonDresser,
 	#instVars : [
 		'downBorder',
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #private }
-ToButtonBorderBasedStateDresser >> border: aBorder in: anElement [
+ToButtonBorderBasedDresser >> border: aBorder in: anElement [
 
 	self
 		disableBorderChangeEventIn: anElement
@@ -17,7 +17,7 @@ ToButtonBorderBasedStateDresser >> border: aBorder in: anElement [
 ]
 
 { #category : #'api - state transitions' }
-ToButtonBorderBasedStateDresser >> clicked: anElement [
+ToButtonBorderBasedDresser >> clicked: anElement [
 
 	downBorder := nil.
 	self border: self hoveredBorder in: anElement
@@ -25,7 +25,7 @@ ToButtonBorderBasedStateDresser >> clicked: anElement [
 ]
 
 { #category : #private }
-ToButtonBorderBasedStateDresser >> disableBorderChangeEventIn: anElement while: aBlock [
+ToButtonBorderBasedDresser >> disableBorderChangeEventIn: anElement while: aBlock [
 
 	anElement eventDispatcher disableEventType: BlElementBorderChangedEvent.
 	aBlock ensure: [ 
@@ -33,33 +33,33 @@ ToButtonBorderBasedStateDresser >> disableBorderChangeEventIn: anElement while: 
 ]
 
 { #category : #'api - state transitions' }
-ToButtonBorderBasedStateDresser >> escaped: anElement [
+ToButtonBorderBasedDresser >> escaped: anElement [
 
 	downBorder := nil.
 	
 ]
 
 { #category : #'api - state transitions' }
-ToButtonBorderBasedStateDresser >> hover: anElement [
+ToButtonBorderBasedDresser >> hover: anElement [
 
 	self border: self hoveredBorder in: anElement
 ]
 
 { #category : #'border accessing' }
-ToButtonBorderBasedStateDresser >> hoveredBorder [
+ToButtonBorderBasedDresser >> hoveredBorder [
 
 	^ downBorder ifNil: [ (BlBorder paint: Color gray width: 1) ]
 
 ]
 
 { #category : #accessing }
-ToButtonBorderBasedStateDresser >> initialBorder: aBorder [
+ToButtonBorderBasedDresser >> initialBorder: aBorder [
 
 	initialBorder := aBorder
 ]
 
 { #category : #'api - state transitions' }
-ToButtonBorderBasedStateDresser >> initialState: anElement [
+ToButtonBorderBasedDresser >> initialState: anElement [
 
 	initialBorder ifNil: [ initialBorder := anElement border ].
 	self border: initialBorder in: anElement
@@ -67,27 +67,27 @@ ToButtonBorderBasedStateDresser >> initialState: anElement [
 ]
 
 { #category : #'api - state transitions' }
-ToButtonBorderBasedStateDresser >> leaved: anElement [
+ToButtonBorderBasedDresser >> leaved: anElement [
 
 	self border: initialBorder in: anElement
 
 ]
 
 { #category : #'api - hooks' }
-ToButtonBorderBasedStateDresser >> newAutomatonEventHandler [
+ToButtonBorderBasedDresser >> newAutomatonEventHandler [
 
 	^ ToButtonBorderBasedAutomatonEventHandler new
 ]
 
 { #category : #'api - hooks' }
-ToButtonBorderBasedStateDresser >> onInstalledIn: anElement [
+ToButtonBorderBasedDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	downBorder := nil
 ]
 
 { #category : #'api - state transitions' }
-ToButtonBorderBasedStateDresser >> pressed: anElement [
+ToButtonBorderBasedDresser >> pressed: anElement [
 
 	self border: self pressedBorder in: anElement.
 	downBorder := anElement border.
@@ -95,7 +95,7 @@ ToButtonBorderBasedStateDresser >> pressed: anElement [
 ]
 
 { #category : #'border accessing' }
-ToButtonBorderBasedStateDresser >> pressedBorder [
+ToButtonBorderBasedDresser >> pressedBorder [
 
 	^ BlBorder paint: Color gray width: 2
 ]

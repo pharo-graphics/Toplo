@@ -1,12 +1,6 @@
 Class {
 	#name : #ToButtonModel,
 	#superclass : #ToBasicButtonModel,
-	#instVars : [
-		'#labelViewModel',
-		'#iconViewModel',
-		'#labelFirst => ObservableSlot',
-		'#horizontal => ObservableSlot'
-	],
 	#category : #'Toplo-Widget-Buttons'
 }
 
@@ -19,13 +13,13 @@ ToButtonModel >> beHorizontal [
 { #category : #'api - presentation' }
 ToButtonModel >> beIconFirst [
 
-	self labelFirst: false
+	self widgetDo: [ :widget | widget beIconFirst ]
 ]
 
 { #category : #'api - presentation' }
 ToButtonModel >> beLabelFirst [
 
-	self labelFirst: true
+	self widgetDo: [ :widget | widget beLabelFirst ]
 ]
 
 { #category : #accessing }
@@ -35,99 +29,21 @@ ToButtonModel >> beVertical [
 ]
 
 { #category : #accessing }
-ToButtonModel >> horizontal [
-
-	^ horizontal
-]
-
-{ #category : #accessing }
 ToButtonModel >> horizontal: aBoolean [
 
-	horizontal := aBoolean
-]
-
-{ #category : #accessing }
-ToButtonModel >> iconImage [
-
-	^ self iconViewModel image
+	self widgetDo: [ :widget | widget horizontal: aBoolean ]
 ]
 
 { #category : #accessing }
 ToButtonModel >> iconImage: anElement [
 
-	iconViewModel innerImage: anElement
-]
-
-{ #category : #accessing }
-ToButtonModel >> iconViewModel [
-
-	^ iconViewModel 
-]
-
-{ #category : #initialization }
-ToButtonModel >> initialize [ 
-	super initialize.
-	labelFirst := false.
-	horizontal := true.
-	labelViewModel := ToLabelModel new.
-	iconViewModel := ToImageModel new
-
-]
-
-{ #category : #'api - presentation' }
-ToButtonModel >> isIconFirst [
-	
-	^ self isLabelFirst not
-]
-
-{ #category : #'api - presentation' }
-ToButtonModel >> isLabelFirst [
-	
-	^ labelFirst
-]
-
-{ #category : #'api - presentation' }
-ToButtonModel >> labelFirst [
-
-	^ labelFirst
-]
-
-{ #category : #'api - presentation' }
-ToButtonModel >> labelFirst: aBoolean [
-	
-	labelFirst = aBoolean ifTrue: [ ^ self ].
-	labelFirst := aBoolean
-]
-
-{ #category : #accessing }
-ToButtonModel >> labelText [
-
-	^ labelViewModel text
+	self widgetDo: [ :widget | widget iconImage: anElement ]
 ]
 
 { #category : #accessing }
 ToButtonModel >> labelText: aText [
 
-	labelViewModel text: aText
-]
-
-{ #category : #accessing }
-ToButtonModel >> labelViewModel [
-
-	^ labelViewModel 
-]
-
-{ #category : #'api - hooks' }
-ToButtonModel >> onInstalledOnlyMeIn: aToButton [
-
-	super onInstalledOnlyMeIn: aToButton.
-	aToButton iconViewModel: iconViewModel labelViewModel: labelViewModel.
-	self whenLabelTextReplacedDo: [ aToButton labelTextReplaced ].
-	self whenIconImageReplacedDo: [ aToButton iconImageReplaced ].
-	self whenPresentationChangedDo: [ aToButton presentationChanged ].
-	self whenOrientationChangedDo: [ aToButton orientationChanged ].
-	aToButton horizontal: self horizontal.
-
+	self widgetDo: [ :widget | widget labelText: aText]
 ]
 
 { #category : #'private - accessing - widget' }
@@ -139,26 +55,26 @@ ToButtonModel >> privateWidgetClass [
 { #category : #'api - change hook' }
 ToButtonModel >> whenIconImageReplacedDo: aBlock [
 
-	iconViewModel whenInnerImageReplacedDo: aBlock
+	self widgetDo: [ :widget | widget whenIconImageReplacedDo: aBlock ]
 ]
 
 { #category : #'api - change hook' }
 ToButtonModel >> whenLabelTextReplacedDo: aBlock [
 
-	labelViewModel whenTextReplacedDo: aBlock
+	self widgetDo: [ :widget | widget whenLabelTextReplacedDo: aBlock]
 ]
 
-{ #category : #'api - action' }
+{ #category : #'api - change hook' }
 ToButtonModel >> whenOrientationChangedDo: aBlock [
 	"Inform when action block has been changed. 
 	 `aBlock` receives two optional arguments: 
 	 - new action block
 	 - old action block"
 
-	self property: #horizontal whenChangedDo: aBlock
+	self widgetDo: [ :widget | widget whenOrientationChangedDo: aBlock ]
 ]
 
-{ #category : #'api - presentation' }
+{ #category : #'api - change hook' }
 ToButtonModel >> whenPresentationChangedDo: aBlock [
 
 	"Inform when labelFirst has been changed. 
@@ -166,5 +82,5 @@ ToButtonModel >> whenPresentationChangedDo: aBlock [
 	 - new labelFirst
 	 - old labelFirst"
 
-	self property: #labelFirst whenChangedDo: aBlock
+	self widgetDo: [ :widget | widget whenPresentationChangedDo: aBlock ]
 ]

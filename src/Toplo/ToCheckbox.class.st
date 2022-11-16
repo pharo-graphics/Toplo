@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #initialization }
+ToCheckbox >> defaultDresser [
+
+	^ ToCheckboxDresser new
+]
+
+{ #category : #initialization }
 ToCheckbox >> defaultViewModel [ 
 
 	^ ToCheckboxModel new

@@ -24,7 +24,7 @@ Class {
 	#name : #ToAlbumModel,
 	#superclass : #ToViewModel,
 	#classTraits : 'TObservable classTrait',
-	#category : #'Toplo-Widget-Album'
+	#category : #'Toplo-View Models'
 }
 
 { #category : #'api - shortcuts' }
@@ -67,13 +67,6 @@ ToAlbumModel >> codeFontName: aFontName [
 ToAlbumModel >> defaultCodeFontName [
 
 	^ AeFontManager defaultCodeFontFamilyName
-	
-]
-
-{ #category : #initialization }
-ToAlbumModel >> defaultDresser [
-
-	^ ToAlbumBasicDresser new
 	
 ]
 

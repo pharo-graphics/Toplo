@@ -46,12 +46,6 @@ ToCheckboxModel >> defaultCheckState [
 	^ false
 ]
 
-{ #category : #initialization }
-ToCheckboxModel >> defaultDresser [
-
-	^ ToCheckboxDresser new
-]
-
 { #category : #'api - checked change hook' }
 ToCheckboxModel >> ifChecked: checkedBloc unchecked: uncheckedBloc else: indeterminateBlock [
 

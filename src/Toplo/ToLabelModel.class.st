@@ -2,7 +2,7 @@ Class {
 	#name : #ToLabelModel,
 	#superclass : #ToViewModel,
 	#classTraits : 'TObservable classTrait',
-	#category : #'Toplo-Widget-Labels'
+	#category : #'Toplo-View Models'
 }
 
 { #category : #editability }

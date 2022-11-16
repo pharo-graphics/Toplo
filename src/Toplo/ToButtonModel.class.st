@@ -55,7 +55,7 @@ ToButtonModel >> iconImage [
 { #category : #accessing }
 ToButtonModel >> iconImage: anElement [
 
-	iconViewModel image: anElement
+	iconViewModel innerImage: anElement
 ]
 
 { #category : #accessing }
@@ -139,7 +139,7 @@ ToButtonModel >> privateWidgetClass [
 { #category : #'api - change hook' }
 ToButtonModel >> whenIconImageReplacedDo: aBlock [
 
-	iconViewModel whenImageReplacedDo: aBlock
+	iconViewModel whenInnerImageReplacedDo: aBlock
 ]
 
 { #category : #'api - change hook' }

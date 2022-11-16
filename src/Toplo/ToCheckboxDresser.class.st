@@ -16,7 +16,7 @@ ToCheckboxDresser >> actualIconImageIn: aCheckbox [
 { #category : #'api - hooks' }
 ToCheckboxDresser >> checkedChangedIn: aCheckbox [
 
-	aCheckbox viewModel iconViewModel image: (self actualIconImageIn: aCheckbox)
+	aCheckbox viewModel iconViewModel innerImage: (self actualIconImageIn: aCheckbox)
 ]
 
 { #category : #initialization }

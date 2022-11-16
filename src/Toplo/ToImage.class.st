@@ -4,10 +4,16 @@ Class {
 	#traits : 'TBlAlignable + TOBlLayoutResizable',
 	#classTraits : 'TBlAlignable classTrait + TOBlLayoutResizable classTrait',
 	#instVars : [
-		'innerElement'
+		'#innerImage => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Images'
 }
+
+{ #category : #initialization }
+ToImage >> defaultInnerImage [
+
+	^ BlElement new size: 0 @ 0
+]
 
 { #category : #initialization }
 ToImage >> defaultViewModel [
@@ -31,40 +37,30 @@ ToImage >> horizontalAlignment: aBlElementAlignment [
 
 ]
 
-{ #category : #accessing }
-ToImage >> image [
-
-	^ self viewModel image
-]
-
-{ #category : #accessing }
-ToImage >> image: anImageElement [
-
-	self viewModel image: anImageElement
-]
-
 { #category : #initialization }
 ToImage >> initialize [
 	
 	self class initializeSlots: self.
 	super initialize.
-	self fitContent
+	self fitContent.
+	self innerImage: self defaultInnerImage 
 ]
 
-{ #category : #private }
-ToImage >> privateImage [
+{ #category : #accessing }
+ToImage >> innerImage [
 
-	^ innerElement
+	^ innerImage 
 ]
 
-{ #category : #private }
-ToImage >> privateImage: anImageElement [
+{ #category : #accessing }
+ToImage >> innerImage: anImage [
 
-	innerElement = anImageElement ifTrue: [ ^ self ].
+	| element |
+	anImage = innerImage ifTrue: [ ^ self ].
 	self removeChildren.
-	innerElement := anImageElement.
-	anImageElement ifNotNil: [ self addChild: innerElement].
-	self invalidate
+	element := anImage ifNil: [ self defaultInnerImage ] ifNotNil: [anImage asElement].
+	self addChild: element.
+	innerImage := element
 ]
 
 { #category : #accessing }
@@ -80,4 +76,12 @@ ToImage >> verticalAlignment: aBlElementAlignment [
 	self verticalAlignment = aBlElementAlignment ifTrue: [ ^self ].
 	self layout verticalAlignment: aBlElementAlignment
 
+]
+
+{ #category : #'api - change hook' }
+ToImage >> whenInnerImageReplacedDo: aBlock [
+
+	"set a block to perform after that the image has been changed, and its action performed"
+
+	self property: #innerImage whenChangedDo: aBlock
 ]

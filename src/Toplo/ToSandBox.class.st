@@ -80,7 +80,7 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 		          yourself.
 	Smalltalk ui icons allIconNames do: [ :k | 
 		| lab im row |
-		im := ToImage new image: (Smalltalk ui icons iconNamed: k).
+		im := ToImage new innerImage: (Smalltalk ui icons iconNamed: k).
 		im constraintsDo: [ :c | c linear vertical alignCenter ].
 		im border: (BlBorder paint: Color lightGray).
 		lab := ToLabel new text: k asString.
@@ -382,7 +382,7 @@ ToSandBox class >> example_toImage0 [
 ToSandBox class >> example_toImage1 [
 
 	| im |
-	im := ToImage new image: (BlElement new
+	im := ToImage new innerImage: (BlElement new
 		  size: 16 @ 16;
 		  background: (Color green alpha: 0.5);
 		  geometry: BlCircleGeometry new ).
@@ -403,7 +403,7 @@ ToSandBox class >> example_toImageViewModel0 [
 ToSandBox class >> example_toImageViewModel1 [
 
 	| im |
-	im := ToImageModel new image: (BlElement new
+	im := ToImageModel new innerImage: (BlElement new
 		  size: 16 @ 16;
 		  border: (BlBorder paint: Color gray width: 2);
 		  background: (Color gray alpha: 0.1);
@@ -416,7 +416,7 @@ ToSandBox class >> example_toImageViewModel1 [
 ToSandBox class >> example_toImageViewModel2 [
 
 	| im |
-	im := ToImageModel new image: (Form dotOfSize: 40).
+	im := ToImageModel new innerImage: (Form dotOfSize: 40).
 	im inspect.
 	im onWidget openInOBlSpace 
 ]
@@ -425,7 +425,7 @@ ToSandBox class >> example_toImageViewModel2 [
 ToSandBox class >> example_toImageViewModel3 [
 
 	| im |
-	im := ToImageModel new image: (Smalltalk ui icons iconNamed: #classIcon).
+	im := ToImageModel new innerImage: (Smalltalk ui icons iconNamed: #classIcon).
 	im widgetDo: [:w | w border: (BlBorder paint: Color black width: 2)].
 	im onWidget openInOBlSpace
 ]
@@ -451,6 +451,7 @@ ToSandBox class >> example_toLabel3 [
 	lab alignCenter.
 	lab border: (BlBorder paint: Color yellow width: 1).
 	lab openInOBlSpace.
+	lab inspect
 
 ]
 
@@ -469,7 +470,8 @@ ToSandBox class >> example_toLabel3_bis [
 		label alignCenter.
 		label border: (BlBorder paint: Color yellow width: 1) ].
 	model editable: true.
-	(widget := model onWidget) openInOBlSpace	
+	(widget := model onWidget) openInOBlSpace.
+	widget inspect
 ]
 
 { #category : #label }

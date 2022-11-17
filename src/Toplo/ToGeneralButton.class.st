@@ -4,8 +4,8 @@ Class {
 	#traits : 'TBlAlignable + TOBlLayoutResizable',
 	#classTraits : 'TBlAlignable classTrait + TOBlLayoutResizable classTrait',
 	#instVars : [
-		'clickHandler',
-		'state'
+		'#clickHandler',
+		'#state => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Buttons'
 }
@@ -85,6 +85,7 @@ ToGeneralButton >> horizontalAlignment: aBlElementAlignment [
 { #category : #initialization }
 ToGeneralButton >> initialize [ 
 
+	self class initializeSlots: self.
 	super initialize.
 
 ]
@@ -154,20 +155,20 @@ ToGeneralButton >> whenActionPerformedDo: aBlock [
 	self whenAnnouncement: ToButtonClickActionPerformed do: aBlock
 ]
 
-{ #category : #'api-  action' }
-ToGeneralButton >> whenClickedDo: aBlock [
-	"Inform that the button has been aclicked, and its action has been performed.
-	 `aBlock` receive zero arguments."
-
-	self whenAnnouncement: ToButtonClickLaunchAction do: aBlock
-]
-
 { #category : #'api - change hook' }
-ToGeneralButton >> whenStateChangedDo: aBlock [
+ToGeneralButton >> whenChangedDo: aBlock [
 	"Inform when the current state has been changed. 
 	 `aBlock` receives two optional arguments: 
 	 - new state
 	 - old state"
 
 	self property: #state whenChangedDo: aBlock
+]
+
+{ #category : #'api-  action' }
+ToGeneralButton >> whenClickedDo: aBlock [
+	"Inform that the button has been aclicked, and its action has been performed.
+	 `aBlock` receive zero arguments."
+
+	self whenAnnouncement: ToButtonClickLaunchAction do: aBlock
 ]

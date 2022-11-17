@@ -380,6 +380,26 @@ ToSandBox class >> example_toCheckboxWithLabel2 [
 	but openInOBlSpace 
 ]
 
+{ #category : #checkbox }
+ToSandBox class >> example_toCheckboxWithToggleGroup [
+
+	| group container |
+	group := ToToggleGroup new.
+	1 to: 4 do: [ :idx | | chb |
+		chb := ToCheckbox new labelText: idx asString.
+		chb icon margin: (BlInsets all: 4).
+		chb label margin: (BlInsets all: 4).
+	group add: chb ].
+	container := BlElement new.
+	container constraintsDo: [ :c | 
+		c horizontal matchParent.
+		c vertical matchParent ].
+	container layout: BlLinearLayout vertical.
+	container addChildren: group buttons.
+	group whenCheckedDo: [ :chb | self inform: ('checked: ', chb labelText asString) ].
+	container openInOBlSpace
+]
+
 { #category : #image }
 ToSandBox class >> example_toImage0 [
 

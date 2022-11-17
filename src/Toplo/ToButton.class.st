@@ -50,6 +50,12 @@ ToButton >> beVertical [
 	self horizontal: false
 ]
 
+{ #category : #accessing }
+ToButton >> cellSpacing: aNumber [
+
+	self layout cellSpacing: aNumber
+]
+
 { #category : #initialization }
 ToButton >> defaultViewModel [ 
 

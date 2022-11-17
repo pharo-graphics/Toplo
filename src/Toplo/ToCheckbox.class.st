@@ -7,6 +7,18 @@ Class {
 	#category : #'Toplo-Widget-Buttons'
 }
 
+{ #category : #'toggle group' }
+ToCheckbox >> addToGroup: aToggleGroup [
+
+	aToggleGroup addButton: self
+]
+
+{ #category : #'api - change hook' }
+ToCheckbox >> check [
+
+	self changeToStateNamed: #checked
+]
+
 { #category : #initialization }
 ToCheckbox >> checkedIconImage [
 
@@ -77,6 +89,12 @@ ToCheckbox >> inderterminateStateIconImage [
 		  yourself ).
 ]
 
+{ #category : #'api - change hook' }
+ToCheckbox >> indeterminate [
+
+	self changeToStateNamed: #indeterminate
+]
+
 { #category : #initialization }
 ToCheckbox >> initialize [ 
 	super initialize.
@@ -103,6 +121,18 @@ ToCheckbox >> isUnchecked [
 	^ state notNil and: [ state name = #unchecked ]
 ]
 
+{ #category : #'toggle group' }
+ToCheckbox >> removeFromGroup: aToggleGroup [
+
+	aToggleGroup removeButton: self
+]
+
+{ #category : #'api - change hook' }
+ToCheckbox >> uncheck [
+
+	self changeToStateNamed: #unchecked
+]
+
 { #category : #initialization }
 ToCheckbox >> uncheckedIconImage [
 
@@ -117,14 +147,14 @@ ToCheckbox >> uncheckedIconImage [
 ToCheckbox >> whenCheckedDo: aBlock [
 
 	self
-		whenStateChangedDo: [ :s | s name = #checked ifTrue: [ aBlock value ] ]
+		whenChangedDo: [ :s | s name = #checked ifTrue: [ aBlock value ] ]
 ]
 
 { #category : #'api - change hook' }
 ToCheckbox >> whenIndeterminateDo: aBlock [
 
 	self
-		whenStateChangedDo: [ :s | s name = #indeterminate ifTrue: [ aBlock value ] ]
+		whenChangedDo: [ :s | s name = #indeterminate ifTrue: [ aBlock value ] ]
 ]
 
 { #category : #'api - change hook' }
@@ -141,7 +171,7 @@ ToCheckbox >> whenThreeStepsChangedDo: aBlock [
 ToCheckbox >> whenUncheckedDo: aBlock [
 
 	self
-		whenStateChangedDo: [ :s | s name = #unchecked ifTrue: [ aBlock value ] ]
+		whenChangedDo: [ :s | s name = #unchecked ifTrue: [ aBlock value ] ]
 ]
 
 { #category : #initialization }

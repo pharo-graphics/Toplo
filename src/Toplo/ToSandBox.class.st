@@ -124,6 +124,14 @@ ToSandBox class >> example_to3statesCheckbox [
 	but onWidget openInOBlSpace
 ]
 
+{ #category : #checkbox }
+ToSandBox class >> example_to3statesRadioButton [
+
+	| but |
+	but := ToRadioButtonModel new withTreeStates.
+	but onWidget openInOBlSpace
+]
+
 { #category : #button }
 ToSandBox class >> example_toBasicButton0 [
 
@@ -140,9 +148,8 @@ ToSandBox class >> example_toBasicButton1 [
 	but := ToGeneralButton new.
 	but addChild: (BlElement new
 				 size: 30 @ 30;
-				 background: Color lightBlue;
 				 yourself).
-	but  fitContent.
+	but fitContent.
 	but whenClickedDo: [ self inform: 'clicked' ].	
 	but openInOBlSpace 
 ]
@@ -152,12 +159,11 @@ ToSandBox class >> example_toBasicButton2 [
 
 	| but lab |
 	lab := ToLabel new text:
-		       (('Button' asRopedText foreground: Color white)
+		       (('Button' asRopedText)
 			        fontSize: 40;
 			        yourself).
 	but := ToGeneralButton new.
 	but matchParent.
-	but background: Color black.
 	but addChild: lab.
 	but alignCenter.
 	but whenClickedDo: [ self inform: 'clicked' ].
@@ -212,11 +218,8 @@ ToSandBox class >> example_toButtonModelWithIconOnly [
 	but := ToButtonModel new.
 	but iconImage: (BlElement new
 			 size: 60 @ 20;
-			 background: Color blue;
 			 yourself).
-	but widgetDo: [ :widget | 
-		widget border: (BlBorder paint: Color red width: 2).
-		widget padding: (BlInsets all: 3) ].
+	but widgetDo: [ :widget | widget padding: (BlInsets all: 3) ].
 	space := OBlSpace new.
 	space addChild: but onWidget.
 	space show
@@ -236,8 +239,6 @@ ToSandBox class >> example_toButtonModelWithTextAndIconVertical [
 			 yourself).
 	but whenClickedDo: [ :ann | 
 		ann widget horizontal: ann widget horizontal not ].
-	but widgetDo: [ :widget | 
-		widget border: (BlBorder paint: Color red width: 2) ].
 	space := OBlSpace new.
 	space addChild: but onWidget.
 	space show
@@ -246,13 +247,15 @@ ToSandBox class >> example_toButtonModelWithTextAndIconVertical [
 { #category : #button }
 ToSandBox class >> example_toButtonOrientationChanger [
 
-	| but space |
+	| but space iconImage |
 	but := ToButton new.
 	but background: Color black.
 	but border: (BlBorder paint: Color lightGray).
 	but beIconFirst.
-	but labelText: ('Button' asRopedText foreground: Color white; bold).
-	but iconImage: (BlElement new size: 20@20; background: Color lightGray; yourself).
+	but labelText: ('Button' asRopedText bold).
+	iconImage := BlElement new size: 20@20; background: Color lightGray; yourself.
+	but icon padding: (BlInsets all: 2).
+	but iconImage: iconImage.
 	but padding: (BlInsets all: 4).
 	but whenClickedDo: [ :ann | 
 		ann widget labelFirst: but labelFirst not.
@@ -273,7 +276,6 @@ ToSandBox class >> example_toButtonWithHelp [
 	but help: ('This is a button', String cr, 'so, click on me...') asRopedText. 
 	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
 	but whenActionPerformedDo: [ self inform: 'Button action performed' ].
-	but background: (Color red alpha: 0.3).
 	but size: 32@16.
 	space := OBlSpace new.
 	space addChild: but.
@@ -288,7 +290,6 @@ ToSandBox class >> example_toButtonWithIconOnly [
 	but := ToButton new.
 	but iconImage: (BlElement new
 			 size: 60 @ 20;
-			 background: Color blue;
 			 yourself).
 	but padding: (BlInsets all: 3).
 	but relocate: 30@30.
@@ -323,7 +324,8 @@ ToSandBox class >> example_toButtonWithTextOnly [
 
 	| but space |
 	but := ToButton new.
-	but labelText: 'Button'. 
+	but labelText: 'Button'.
+	but padding: (BlInsets all: 4).
 	but whenClickedDo: [ self inform: 'clicked' ].
 
 	space := OBlSpace new.
@@ -385,18 +387,51 @@ ToSandBox class >> example_toCheckboxWithToggleGroup [
 
 	| group container |
 	group := ToToggleGroup new.
-	1 to: 4 do: [ :idx | | chb |
-		chb := ToCheckbox new labelText: idx asString.
-		chb icon margin: (BlInsets all: 4).
+	1 to: 4 do: [ :idx | 
+		| chb |
+		chb := ToCheckbox new
+			       labelText: idx asString;
+			       id: idx asString.
+		chb icon margin: (BlInsets all: 3).
 		chb label margin: (BlInsets all: 4).
-	group add: chb ].
+		group add: chb ].
+
+	group whenCheckedDo: [ :chb :previous | 
+		self inform: 'checked: ' , chb id asString, ' (previous was: ', (previous ifNil: [ 'none' ] ifNotNil: [ previous id asString ]) ].
+	group buttons first check.
+	
 	container := BlElement new.
 	container constraintsDo: [ :c | 
 		c horizontal matchParent.
 		c vertical matchParent ].
+	
 	container layout: BlLinearLayout vertical.
 	container addChildren: group buttons.
-	group whenCheckedDo: [ :chb | self inform: ('checked: ', chb labelText asString) ].
+	container openInOBlSpace
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_toCheckboxWithToggleGroup2 [
+
+	| group container |
+	group := ToToggleGroup new.
+	1 to: 4 do: [ :idx | 
+		| chb |
+		chb := ToRadioButton new
+			       labelText: idx asString;
+			       id: idx asString.
+		chb icon margin: (BlInsets all: 3).
+		chb label margin: (BlInsets all: 4).
+		chb margin: (BlInsets right: 4).
+		group add: chb ].
+	container := BlElement new.
+	container constraintsDo: [ :c | 
+		c horizontal matchParent.
+		c vertical matchParent ].
+	container layout: BlLinearLayout horizontal.
+	container addChildren: group buttons.
+	group whenCheckedDo: [ :chb :previous | 
+		self inform: 'checked: ' , chb id asString, ' (previous was: ', (previous ifNil: [ 'none' ] ifNotNil: [ previous id asString ]) ].
 	container openInOBlSpace
 ]
 
@@ -783,7 +818,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 ToSandBox class >> example_toMultiStateWithLabel [
 
 	| but |
-	but := ToButton new.
+	but := ToButton new size: 70@35.
 	but states: { 
 			(ToButtonState new
 				 buttonStencil: [ :button | 
@@ -798,6 +833,14 @@ ToSandBox class >> example_toMultiStateWithLabel [
 					 button labelText: ('Three' asRopedText fontSize: 24) ];
 				 yourself) }.
 	but openInOBlSpace
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_toRadioButton0 [
+
+	| but |
+	but := ToRadioButtonModel new.
+	but onWidget openInOBlSpace
 ]
 
 { #category : #accessing }

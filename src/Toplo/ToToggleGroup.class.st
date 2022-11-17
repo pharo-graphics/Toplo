@@ -26,9 +26,10 @@ ToToggleGroup >> buttons [
 
 { #category : #'adding / removing' }
 ToToggleGroup >> checked: aCheckable [
-
+	
 	(buttons select: [ :b | b ~= aCheckable ]) do: [ :b | b uncheck ].
-	checkAction ifNotNil: [ checkAction value: aCheckable ]
+	checkAction ifNotNil: [ checkAction cull: aCheckable cull: checked].
+	checked := aCheckable 
 ]
 
 { #category : #initialization }

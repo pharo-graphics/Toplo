@@ -2,7 +2,7 @@ Class {
 	#name : #ToWidgetDresser,
 	#superclass : #ToElementCompanion,
 	#instVars : [
-		'widgetHandler'
+		'theme'
 	],
 	#category : #'Toplo-Core'
 }
@@ -11,6 +11,8 @@ Class {
 ToWidgetDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
+	theme := 	anElement theme
+
 ]
 
 { #category : #'api - hooks' }

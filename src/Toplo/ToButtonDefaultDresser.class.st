@@ -69,14 +69,14 @@ ToButtonDefaultDresser >> hover: anElement [
 { #category : #'border accessing' }
 ToButtonDefaultDresser >> hoveredBackground [
 
-	^ downBackground ifNil: [ Color lightGray alpha: 0.2 ]
+	^ downBackground ifNil: [ theme button hoveredBorderColor alpha: 0.1 ]
 
 ]
 
 { #category : #'border accessing' }
 ToButtonDefaultDresser >> hoveredBorder [
 
-	^ downBorder ifNil: [ initialBackground ]
+	^ downBorder ifNil: [ BlBorder paint: theme button hoveredBorderColor ]
 
 ]
 
@@ -111,7 +111,7 @@ ToButtonDefaultDresser >> installEventListenersIn: anElement [
 		                        do: [ self initialBorder: anElement border ].
 	backgroundChangedHandler := BlEventHandler
 		                        on: BlElementBackgroundChangedEvent
-		                        do: [ self initialBackground: anElement border ].
+		                        do: [ self initialBackground: anElement background ].
 	anElement addEventHandler: borderChangedHandler.
 	anElement addEventHandler: backgroundChangedHandler
 ]
@@ -129,7 +129,10 @@ ToButtonDefaultDresser >> leaved: anElement [
 ToButtonDefaultDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
+	
 	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
+	anElement background: theme button defaultBackgroundColor.
+	anElement border:  (BlBorder paint: theme button defaultBorderColor width: 1).
 	downBorder := nil.
 	downBackground := nil
 ]
@@ -146,13 +149,13 @@ ToButtonDefaultDresser >> pressed: anElement [
 { #category : #'border accessing' }
 ToButtonDefaultDresser >> pressedBackground [
 
-	^ Color gray alpha: 0.3
+	^ theme button pressedBackground
 ]
 
 { #category : #'border accessing' }
 ToButtonDefaultDresser >> pressedBorder [
 
-	^ BlBorder paint: Color gray width: 2
+	^ BlBorder paint: theme button pressedBorderColor width: 2
 ]
 
 { #category : #'api - hooks' }

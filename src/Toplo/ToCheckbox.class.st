@@ -42,7 +42,7 @@ ToCheckbox >> defaultThreeStates [
 		  (ToButtonState new
 			   name: #indeterminate;
 			   buttonStencil: [ :button | 
-				   button iconImage: self inderterminateStateIconImage ];
+				   button iconImage: self inderterminateIconImage ];
 			   yourself).
 		  (ToButtonState new
 			   name: #checked;
@@ -73,20 +73,23 @@ ToCheckbox >> defaultTwoStates [
 ]
 
 { #category : #initialization }
-ToCheckbox >> inderterminateStateIconImage [
+ToCheckbox >> inderterminateIconImage [
 
-	^ (BlElement new
-		  size: 16 @ 16;
-		  border: (BlBorder paint: Color gray width: 1);
-		  background: ((BlLinearGradientPaint direction: 1 @ 1)
-				         start: 25 @ 0;
-				         stops: { 
-						         (0 -> Color gray).
-						         (0.45 -> (Color gray alpha: 0.4)).
-						         (0.50 -> (Color gray alpha: 0.1)).
-						         (0.50 -> (Color gray alpha: 0.0)).
-						         (1 -> Color transparent) });
-		  yourself ).
+	| bar im |
+	bar := BlElement new
+		       size: 10 @ 3;
+		       border: (BlBorder paint: Color gray width: 1);
+		       background: Color gray.
+	bar constraintsDo: [ :c | 
+		c frame horizontal alignCenter.
+		c frame vertical alignCenter ].
+	im := BlElement new
+		      size: 16 @ 16;
+		      border: (BlBorder paint: Color gray width: 1);
+		      yourself.
+	im layout: BlFrameLayout new.
+	im addChild: bar.
+	^ im
 ]
 
 { #category : #'api - change hook' }

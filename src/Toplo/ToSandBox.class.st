@@ -620,7 +620,7 @@ ToSandBox class >> example_toMultiState1 [
 	| but |
 	but := ToButton new.
 	but states: { (ToButtonState new
-			 stencil: [ :button | 
+			 buttonStencil: [ :button | 
 				 button
 					 iconImage: (BlElement new
 							  size: 50 @ 30;
@@ -647,7 +647,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 	but := ToButton new.
 	but states: { 
 			(ToButtonState new
-				 stencil: [ :button | 
+				 buttonStencil: [ :button | 
 					 button
 						 iconImage: (BlElement new
 								  size: 400 @ 400;
@@ -655,7 +655,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 						 labelText: 'Big blue' ];
 				 yourself).
 			(ToButtonState new
-				 stencil: [ :button | 
+				 buttonStencil: [ :button | 
 					 button
 						 iconImage: (BlElement new
 								  size: 20 @ 40;
@@ -663,7 +663,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 						 labelText: 'Green' ];
 				 yourself).
 			(ToButtonState new
-				 stencil: [ :button | 
+				 buttonStencil: [ :button | 
 					 button
 						 iconImage: (BlElement new
 								  size: 50 @ 50;
@@ -671,7 +671,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 						 labelText: 'Black' ];
 				 yourself).
 			(ToButtonState new
-				 stencil: [ :button | 
+				 buttonStencil: [ :button | 
 					 button
 						 iconImage: (BlElement new
 								  size: 100 @ 100;
@@ -692,14 +692,14 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 		                 yourself ].
 	enterAnimation := [ 
 	                  BlOpacityAnimation new
-		                  duration: 100 milliSeconds;
+		                  duration: 150 milliSeconds;
 		                  opacity: 1;
 		                  yourself ].
 
 	but := ToButtonModel new.
 	but states: { 
 			(ToButtonState new
-				 stencil: [ :button | 
+				 buttonStencil: [ :button | 
 					 button
 						 iconImage: (BlElement new
 								  size: 100 @ 100;
@@ -709,7 +709,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 				 enterAnimation: enterAnimation;
 				 yourself).
 			(ToButtonState new
-				 stencil: [ :button | 
+				 buttonStencil: [ :button | 
 					 button
 						 iconImage: (BlElement new
 								  size: 100 @ 100;
@@ -719,7 +719,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 				 enterAnimation: enterAnimation;
 				 yourself).
 			(ToButtonState new
-				 stencil: [ :button | 
+				 buttonStencil: [ :button | 
 					 button
 						 iconImage: (BlElement new
 								  size: 100 @ 100;
@@ -729,7 +729,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 				 enterAnimation: enterAnimation;
 				 yourself).
 			(ToButtonState new
-				 stencil: [ :button | 
+				 buttonStencil: [ :button | 
 					 button
 						 iconImage: (BlElement new
 								  size: 100 @ 100;

@@ -6,7 +6,7 @@ Class {
 		'next',
 		'enterAnimation',
 		'exitAnimation',
-		'stencil'
+		'buttonStencil'
 	],
 	#category : #'Toplo-Widget-Buttons'
 }
@@ -15,6 +15,12 @@ Class {
 ToButtonState >> applyOn: aButton [
 
 	self exitOn: aButton
+]
+
+{ #category : #accessing }
+ToButtonState >> buttonStencil: aBlock [
+
+	buttonStencil := aBlock
 ]
 
 { #category : #accessing }
@@ -38,12 +44,13 @@ ToButtonState >> exitAnimation: anAnimation [
 { #category : #processing }
 ToButtonState >> exitOn: aButton [
 
-	exitAnimation ifNil: [next startOn: aButton] ifNotNil: [ :animStencyl | 
-		| anim |
-		anim := animStencyl value.
-		anim onFinishedDo: [ 
-			next startOn: aButton  ].
-		aButton addAnimation: anim ]
+	exitAnimation
+		ifNil: [ next startOn: aButton ]
+		ifNotNil: [ :animStencyl | 
+			| anim |
+			anim := animStencyl value.
+			anim onFinishedDo: [ next startOn: aButton ].
+			aButton addAnimation: anim ]
 ]
 
 { #category : #accessing }
@@ -73,12 +80,6 @@ ToButtonState >> next: anEngineStep [
 { #category : #processing }
 ToButtonState >> startOn: aButton [
 
-	stencil value: aButton.
+	buttonStencil value: aButton.
 	self enterOn: aButton
-]
-
-{ #category : #accessing }
-ToButtonState >> stencil: aBlock [
-
-	stencil := aBlock
 ]

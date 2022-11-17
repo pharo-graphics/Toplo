@@ -1,6 +1,6 @@
 Class {
 	#name : #ToButton,
-	#superclass : #ToBasicButton,
+	#superclass : #ToGeneralButton,
 	#traits : 'TBlAlignable',
 	#classTraits : 'TBlAlignable classTrait',
 	#instVars : [
@@ -286,4 +286,16 @@ ToButton >> whenPresentationChangedDo: aBlock [
 	 - old labelFirst"
 
 	self property: #labelFirst whenChangedDo: aBlock
+]
+
+{ #category : #accessing }
+ToButton >> withoutImage [
+
+	self iconImage: nil
+]
+
+{ #category : #accessing }
+ToButton >> withoutLabel [
+
+	self labelText: nil
 ]

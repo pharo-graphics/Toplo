@@ -1,5 +1,5 @@
 Class {
-	#name : #ToButtonLaunchClickAction,
+	#name : #ToButtonClickActionPerformed,
 	#superclass : #ToWidgetAnnouncement,
 	#category : #'Toplo-Widget-Buttons'
 }

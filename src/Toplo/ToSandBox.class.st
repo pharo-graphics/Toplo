@@ -128,7 +128,7 @@ ToSandBox class >> example_to3statesCheckbox [
 ToSandBox class >> example_toBasicButton0 [
 
 	| but |
-	but := ToBasicButton new.
+	but := ToGeneralButton new.
 	but whenClickedDo: [ self inform: 'clicked' ].
 	but openInOBlSpace
 ]
@@ -137,7 +137,7 @@ ToSandBox class >> example_toBasicButton0 [
 ToSandBox class >> example_toBasicButton1 [
 
 	| but |
-	but := ToBasicButton new.
+	but := ToGeneralButton new.
 	but addChild: (BlElement new
 				 size: 30 @ 30;
 				 background: Color lightBlue;
@@ -148,10 +148,27 @@ ToSandBox class >> example_toBasicButton1 [
 ]
 
 { #category : #button }
+ToSandBox class >> example_toBasicButton2 [
+
+	| but lab |
+	lab := ToLabel new text:
+		       (('Button' asRopedText foreground: Color white)
+			        fontSize: 40;
+			        yourself).
+	but := ToGeneralButton new.
+	but matchParent.
+	but background: Color black.
+	but addChild: lab.
+	but alignCenter.
+	but whenClickedDo: [ self inform: 'clicked' ].
+	but openInOBlSpace
+]
+
+{ #category : #button }
 ToSandBox class >> example_toBasicButtonModel0 [
 
 	| but |
-	but := ToBasicButtonModel new.
+	but := ToGeneralButtonModel new.
 	but whenClickedDo: [ self inform: 'clicked' ].
 	but onWidget openInOBlSpace
 ]
@@ -160,7 +177,7 @@ ToSandBox class >> example_toBasicButtonModel0 [
 ToSandBox class >> example_toBasicButtonModel1 [
 
 	| but |
-	but := ToBasicButtonModel new.
+	but := ToGeneralButtonModel new.
 	but widgetDo: [ :widget | 
 		widget addChild: (BlElement new
 				 size: 30 @ 30;
@@ -351,15 +368,16 @@ ToSandBox class >> example_toCheckboxWithLabel [
 
 	| but |
 	but := ToCheckbox new labelText: 'Check me'.
-	but openInOBlSpace
+	but openInOBlSpace.
+	but inspect
 ]
 
 { #category : #checkbox }
 ToSandBox class >> example_toCheckboxWithLabel2 [
 
 	| but |
-	but := ToCheckboxModel new labelText: 'Check me'; beLabelFirst.
-	but onWidget openInOBlSpace
+	but := ToCheckbox new labelText: 'Check me'; beLabelFirst.
+	but openInOBlSpace 
 ]
 
 { #category : #image }
@@ -626,12 +644,12 @@ ToSandBox class >> example_toMultiState1 [
 							  size: 50 @ 30;
 							  background: Color green);
 					 labelText: 'Green' ];
-			 exitAnimation: [ 
+			 endAnimation: [ 
 				 BlOpacityAnimation new
 					 duration: 500 milliSeconds;
 					 opacity: 0;
 					 yourself ];
-			 enterAnimation: [ 
+			 beginAnimation: [ 
 				 BlOpacityAnimation new
 					 duration: 1000 milliSeconds;
 					 opacity: 1;
@@ -705,8 +723,8 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 								  size: 100 @ 100;
 								  background: Color blue);
 						 labelText: ('Big blue' asRopedText fontSize: 24) ];
-				 exitAnimation: exitAnimation;
-				 enterAnimation: enterAnimation;
+				 endAnimation: exitAnimation;
+				 beginAnimation: enterAnimation;
 				 yourself).
 			(ToButtonState new
 				 buttonStencil: [ :button | 
@@ -715,8 +733,8 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 								  size: 100 @ 100;
 								  background: Color green);
 						 labelText: ('Green' asRopedText fontSize: 24) ];
-				 exitAnimation: exitAnimation;
-				 enterAnimation: enterAnimation;
+				 endAnimation: exitAnimation;
+				 beginAnimation: enterAnimation;
 				 yourself).
 			(ToButtonState new
 				 buttonStencil: [ :button | 
@@ -725,8 +743,8 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 								  size: 100 @ 100;
 								  background: Color black);
 						 labelText: ('Black' asRopedText fontSize: 24) ];
-				 exitAnimation: exitAnimation;
-				 enterAnimation: enterAnimation;
+				 endAnimation: exitAnimation;
+				 beginAnimation: enterAnimation;
 				 yourself).
 			(ToButtonState new
 				 buttonStencil: [ :button | 
@@ -735,10 +753,31 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 								  size: 100 @ 100;
 								  background: Color yellow);
 						 labelText: ('Yellow' asRopedText fontSize: 24) ];
-				 exitAnimation: exitAnimation;
-				 enterAnimation: enterAnimation;
+				 endAnimation: exitAnimation;
+				 beginAnimation: enterAnimation;
 				 yourself) }.
 	but onWidget openInOBlSpace
+]
+
+{ #category : #multistate }
+ToSandBox class >> example_toMultiStateWithLabel [
+
+	| but |
+	but := ToButton new.
+	but states: { 
+			(ToButtonState new
+				 buttonStencil: [ :button | 
+					 button labelText: ('One' asRopedText fontSize: 24) ];
+				 yourself).
+			(ToButtonState new
+				 buttonStencil: [ :button | 
+					 button labelText: ('Two' asRopedText fontSize: 24) ];
+				 yourself).
+			(ToButtonState new
+				 buttonStencil: [ :button | 
+					 button labelText: ('Three' asRopedText fontSize: 24) ];
+				 yourself) }.
+	but openInOBlSpace
 ]
 
 { #category : #accessing }

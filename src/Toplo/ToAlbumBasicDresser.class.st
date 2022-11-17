@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAlbumBasicDresser,
-	#superclass : #ToElementCompanion,
+	#superclass : #ToWidgetDresser,
 	#category : #'Toplo-Widget-Album'
 }
 
@@ -27,4 +27,10 @@ ToAlbumBasicDresser >> onInstalledIn: anElement [
 			 width: 1).
 
 	anElement innerElement background: Color white
+]
+
+{ #category : #'api - hooks' }
+ToAlbumBasicDresser >> onUninstalledIn: anElement [
+
+	super onUninstalledIn: anElement
 ]

@@ -60,7 +60,8 @@ ToLabelMultiLineInnerElement >> initialize [
 ToLabelMultiLineInnerElement >> newEditorIn: aLabel [
 
 	| ed |
-	ed := (ToAlbumModel new dresser: ToLabelEditorBasicDresser new) onWidget.
+	ed := (ToAlbumModel new ) onWidget.
+	ed dresser: ToLabelEditorBasicDresser new.
 	(self editorShortcutsIn: aLabel) do: [ :s | ed innerElement editor addEditorShortcut: s ].
 	self flag: 'ed matchParent here leads to a Pharo crash'.
 	"ed vFitContent.

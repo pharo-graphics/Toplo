@@ -4,9 +4,9 @@ Class {
 	#instVars : [
 		'name',
 		'next',
-		'enterAnimation',
-		'exitAnimation',
-		'buttonStencil'
+		'buttonStencil',
+		'beginAnimation',
+		'endAnimation'
 	],
 	#category : #'Toplo-Widget-Buttons'
 }
@@ -18,38 +18,44 @@ ToButtonState >> applyOn: aButton [
 ]
 
 { #category : #accessing }
+ToButtonState >> beginAnimation: anAnimation [
+
+	beginAnimation := anAnimation
+]
+
+{ #category : #accessing }
 ToButtonState >> buttonStencil: aBlock [
 
 	buttonStencil := aBlock
 ]
 
 { #category : #accessing }
-ToButtonState >> enterAnimation: anAnimation [
+ToButtonState >> endAnimation: anAnimation [
 
-	enterAnimation := anAnimation
+	endAnimation := anAnimation
 ]
 
 { #category : #processing }
 ToButtonState >> enterOn: aButton [
 
-	enterAnimation ifNotNil: [ :anim | aButton addAnimation: anim value ]
-]
-
-{ #category : #accessing }
-ToButtonState >> exitAnimation: anAnimation [
-
-	exitAnimation := anAnimation
+	beginAnimation ifNotNil: [ :anim | aButton addAnimation: anim value ]
 ]
 
 { #category : #processing }
 ToButtonState >> exitOn: aButton [
 
-	exitAnimation
-		ifNil: [ next startOn: aButton ]
+	self exitOn: aButton nextState: next
+]
+
+{ #category : #processing }
+ToButtonState >> exitOn: aButton nextState: aState [
+
+	endAnimation
+		ifNil: [ aState startOn: aButton ]
 		ifNotNil: [ :animStencyl | 
 			| anim |
 			anim := animStencyl value.
-			anim onFinishedDo: [ next startOn: aButton ].
+			anim onFinishedDo: [ aState startOn: aButton ].
 			aButton addAnimation: anim ]
 ]
 

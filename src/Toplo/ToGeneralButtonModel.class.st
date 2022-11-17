@@ -1,28 +1,28 @@
 Class {
-	#name : #ToBasicButtonModel,
+	#name : #ToGeneralButtonModel,
 	#superclass : #ToViewModel,
-	#category : #'Toplo-Widget-Buttons'
+	#category : #'Toplo-View Models'
 }
 
 { #category : #'api - action' }
-ToBasicButtonModel >> clickEvent: anEvent [
+ToGeneralButtonModel >> clickEvent: anEvent [
 
 ]
 
 { #category : #'private - accessing - widget' }
-ToBasicButtonModel >> privateWidgetClass [
+ToGeneralButtonModel >> privateWidgetClass [
 
-	^ ToBasicButton
+	^ ToGeneralButton
 ]
 
 { #category : #processing }
-ToBasicButtonModel >> states: aCollectionOfStates [
+ToGeneralButtonModel >> states: aCollectionOfStates [
 
 	self widgetDo: [ :widget | widget states: aCollectionOfStates ]
 ]
 
 { #category : #'api - action' }
-ToBasicButtonModel >> whenActionPerformedDo: aBlock [
+ToGeneralButtonModel >> whenActionPerformedDo: aBlock [
 	"Inform that the button has been aclicked, and its action has been performed.
 	 `aBlock` receive zero arguments."
 
@@ -30,7 +30,7 @@ ToBasicButtonModel >> whenActionPerformedDo: aBlock [
 ]
 
 { #category : #'api - action' }
-ToBasicButtonModel >> whenClickedDo: aBlock [
+ToGeneralButtonModel >> whenClickedDo: aBlock [
 	"Inform that the button has been aclicked, and its action has been performed.
 	 `aBlock` receive zero arguments."
 	

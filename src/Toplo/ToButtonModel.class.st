@@ -1,7 +1,7 @@
 Class {
 	#name : #ToButtonModel,
-	#superclass : #ToBasicButtonModel,
-	#category : #'Toplo-Widget-Buttons'
+	#superclass : #ToGeneralButtonModel,
+	#category : #'Toplo-View Models'
 }
 
 { #category : #accessing }

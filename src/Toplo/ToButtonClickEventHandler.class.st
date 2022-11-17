@@ -1,5 +1,5 @@
 Class {
-	#name : #ToBasicButtonEventHandler,
+	#name : #ToButtonClickEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'button'
@@ -8,19 +8,19 @@ Class {
 }
 
 { #category : #accessing }
-ToBasicButtonEventHandler >> button [
+ToButtonClickEventHandler >> button [
 
 	^ button
 ]
 
 { #category : #accessing }
-ToBasicButtonEventHandler >> button: aButton [
+ToButtonClickEventHandler >> button: aButton [
 
 	button := aButton
 ]
 
 { #category : #'api - accessing' }
-ToBasicButtonEventHandler >> clickCandidateEvent: anEvent [
+ToButtonClickEventHandler >> clickCandidateEvent: anEvent [
 
 	"then try to manage hidden click "
 
@@ -32,24 +32,24 @@ ToBasicButtonEventHandler >> clickCandidateEvent: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToBasicButtonEventHandler >> clickEvent: anEvent [
+ToButtonClickEventHandler >> clickEvent: anEvent [
 
 	button clickEvent: anEvent
 ]
 
 { #category : #'api - accessing' }
-ToBasicButtonEventHandler >> doubleClickEvent: anEvent [
+ToButtonClickEventHandler >> doubleClickEvent: anEvent [
 
 	button clickEvent: anEvent
 ]
 
 { #category : #'api - accessing' }
-ToBasicButtonEventHandler >> eventsToHandle [
+ToButtonClickEventHandler >> eventsToHandle [
 	^ { BlClickEvent. BlDoubleClickEvent. BlMouseUpEvent. BlClickCandidateEvent}
 ]
 
 { #category : #'api - accessing' }
-ToBasicButtonEventHandler >> mouseUpEvent: anEvent [
+ToButtonClickEventHandler >> mouseUpEvent: anEvent [
 
 	"Because of the button has sub-elements, a Mouse up can a different target than the related mouse down but it can come from the button or from one of its children (if mouse has slided from the label to the icon as an example)"
 

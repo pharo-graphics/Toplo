@@ -171,6 +171,18 @@ ToSandBox class >> example_toBasicButton2 [
 ]
 
 { #category : #button }
+ToSandBox class >> example_toBasicButton3 [
+
+	| but |
+	but := ToButton new labelText: (('Button' asRopedText)
+			        fontSize: 40;
+			        yourself).
+	but matchParent.
+	but whenClickedDo: [ self inform: 'clicked' ].
+	but openInOBlSpace
+]
+
+{ #category : #button }
 ToSandBox class >> example_toBasicButtonModel0 [
 
 	| but |
@@ -692,7 +704,7 @@ ToSandBox class >> example_toMultiState1 [
 
 	| but |
 	but := ToButton new.
-	but states: { (ToButtonState new
+	but toggleStates: { (ToToggleState new
 			 buttonStencil: [ :button | 
 				 button
 					 iconImage: (BlElement new
@@ -718,8 +730,8 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 
 	| but |
 	but := ToButton new.
-	but states: { 
-			(ToButtonState new
+	but toggleStates: { 
+			(ToToggleState new
 				 buttonStencil: [ :button | 
 					 button
 						 iconImage: (BlElement new
@@ -727,7 +739,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 								  background: Color blue);
 						 labelText: 'Big blue' ];
 				 yourself).
-			(ToButtonState new
+			(ToToggleState new
 				 buttonStencil: [ :button | 
 					 button
 						 iconImage: (BlElement new
@@ -735,7 +747,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 								  background: Color green);
 						 labelText: 'Green' ];
 				 yourself).
-			(ToButtonState new
+			(ToToggleState new
 				 buttonStencil: [ :button | 
 					 button
 						 iconImage: (BlElement new
@@ -743,7 +755,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 								  background: Color black);
 						 labelText: 'Black' ];
 				 yourself).
-			(ToButtonState new
+			(ToToggleState new
 				 buttonStencil: [ :button | 
 					 button
 						 iconImage: (BlElement new
@@ -770,8 +782,8 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 		                  yourself ].
 
 	but := ToButtonModel new.
-	but states: { 
-			(ToButtonState new
+	but toggleStates: { 
+			(ToToggleState new
 				 buttonStencil: [ :button | 
 					 button
 						 iconImage: (BlElement new
@@ -781,7 +793,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 				 endAnimation: exitAnimation;
 				 beginAnimation: enterAnimation;
 				 yourself).
-			(ToButtonState new
+			(ToToggleState new
 				 buttonStencil: [ :button | 
 					 button
 						 iconImage: (BlElement new
@@ -791,7 +803,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 				 endAnimation: exitAnimation;
 				 beginAnimation: enterAnimation;
 				 yourself).
-			(ToButtonState new
+			(ToToggleState new
 				 buttonStencil: [ :button | 
 					 button
 						 iconImage: (BlElement new
@@ -801,7 +813,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 				 endAnimation: exitAnimation;
 				 beginAnimation: enterAnimation;
 				 yourself).
-			(ToButtonState new
+			(ToToggleState new
 				 buttonStencil: [ :button | 
 					 button
 						 iconImage: (BlElement new
@@ -819,16 +831,16 @@ ToSandBox class >> example_toMultiStateWithLabel [
 
 	| but |
 	but := ToButton new size: 70@35.
-	but states: { 
-			(ToButtonState new
+	but toggleStates: { 
+			(ToToggleState new
 				 buttonStencil: [ :button | 
 					 button labelText: ('One' asRopedText fontSize: 24) ];
 				 yourself).
-			(ToButtonState new
+			(ToToggleState new
 				 buttonStencil: [ :button | 
 					 button labelText: ('Two' asRopedText fontSize: 24) ];
 				 yourself).
-			(ToButtonState new
+			(ToToggleState new
 				 buttonStencil: [ :button | 
 					 button labelText: ('Three' asRopedText fontSize: 24) ];
 				 yourself) }.

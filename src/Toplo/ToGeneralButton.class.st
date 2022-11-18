@@ -5,10 +5,25 @@ Class {
 	#classTraits : 'TBlAlignable classTrait + TOBlLayoutResizable classTrait',
 	#instVars : [
 		'#clickHandler',
-		'#state => ObservableSlot'
+		'#toggleState => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Buttons'
 }
+
+{ #category : #'processing - toggle state' }
+ToGeneralButton >> applyStartToggleState [
+
+	toggleState ifNil: [ ^ self ].
+	toggleState applyStartStateOn: self
+]
+
+{ #category : #'processing - toggle state' }
+ToGeneralButton >> applyToggleStateTransition [
+
+	toggleState ifNil: [ ^ self ].
+	toggleState applyStateTransitionOn: self.
+	toggleState := toggleState next
+]
 
 { #category : #'api - space' }
 ToGeneralButton >> attachSpace [ 
@@ -18,25 +33,25 @@ ToGeneralButton >> attachSpace [
 	clickHandler := ToButtonClickEventHandler new button: self.
 	self addEventHandler: clickHandler.
 
-	self startOn: self 	
+	self applyStartToggleState
 ]
 
 { #category : #'api - change hook' }
-ToGeneralButton >> changeToStateNamed: aStateName [
+ToGeneralButton >> changeToToggleStateNamed: aStateName [
 
 	| found |
-	found := self stateNamed: aStateName.
+	found := self toggleStateNamed: aStateName.
 	found ifNil: [ ^ self ].
-	found = state ifTrue: [ ^ self ].
-	state exitOn: self nextState: found.
-	state := found
+	found = toggleState ifTrue: [ ^ self ].
+	toggleState exitOn: self nextState: found.
+	toggleState := found
 ]
 
 { #category : #'mouse handlers' }
 ToGeneralButton >> clickEvent: anEvent [
 
 	self isDisabled ifTrue: [ ^ self ].
-	self stepOn: anEvent currentTarget.
+	self applyToggleStateTransition.
 	anEvent consumed: true.
 	anEvent currentTarget: self.
 	self viewModelDo: [ :m | m clickEvent: anEvent].
@@ -90,46 +105,31 @@ ToGeneralButton >> initialize [
 
 ]
 
-{ #category : #'state processing' }
-ToGeneralButton >> startOn: aButton [
-
-	state ifNil: [ ^ self ].
-	state startOn: aButton
-]
-
-{ #category : #'state processing' }
-ToGeneralButton >> stateNamed: anObject [
+{ #category : #'accessing - toggle state' }
+ToGeneralButton >> toggleStateNamed: anObject [
 
 	| curr |
-	state ifNil: [ ^ nil ].
-	curr := state.
+	toggleState ifNil: [ ^ nil ].
+	curr := toggleState.
 	[ 
 	curr name = anObject ifTrue: [ ^ curr ].
 	curr := curr next.
-	curr = state ] whileFalse: [  ]
+	curr = toggleState ] whileFalse: [  ]
 ]
 
-{ #category : #'state processing' }
-ToGeneralButton >> states: aCollectionOfStates [
+{ #category : #'accessing - toggle state' }
+ToGeneralButton >> toggleStates: aCollectionOfStates [
 
 	| curr states |
-	state := nil.
+	toggleState := nil.
 	aCollectionOfStates ifEmpty: [ ^self ].
 	states := aCollectionOfStates copy asOrderedCollection.
-	state := states removeFirst. 
-	curr := state.
+	toggleState := states removeFirst. 
+	curr := toggleState.
 	[ states isEmpty ] whileFalse: [ 
 		curr next: states removeFirst.
 		curr := curr next ].
-	curr next: state.
-]
-
-{ #category : #'state processing' }
-ToGeneralButton >> stepOn: aButton [
-
-	state ifNil: [ ^ self ].
-	state applyOn: aButton.
-	state := state next
+	curr next: toggleState.
 ]
 
 { #category : #accessing }
@@ -162,7 +162,7 @@ ToGeneralButton >> whenChangedDo: aBlock [
 	 - new state
 	 - old state"
 
-	self property: #state whenChangedDo: aBlock
+	self property: #toggleState whenChangedDo: aBlock
 ]
 
 { #category : #'api-  action' }

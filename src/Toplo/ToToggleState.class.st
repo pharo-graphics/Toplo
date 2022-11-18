@@ -1,5 +1,5 @@
 Class {
-	#name : #ToButtonState,
+	#name : #ToToggleState,
 	#superclass : #Object,
 	#instVars : [
 		'name',
@@ -12,80 +12,80 @@ Class {
 }
 
 { #category : #processing }
-ToButtonState >> applyOn: aButton [
+ToToggleState >> applyStartStateOn: aButton [
+
+	buttonStencil value: aButton.
+	self enterOn: aButton
+]
+
+{ #category : #processing }
+ToToggleState >> applyStateTransitionOn: aButton [
 
 	self exitOn: aButton
 ]
 
 { #category : #accessing }
-ToButtonState >> beginAnimation: anAnimation [
+ToToggleState >> beginAnimation: anAnimation [
 
 	beginAnimation := anAnimation
 ]
 
 { #category : #accessing }
-ToButtonState >> buttonStencil: aBlock [
+ToToggleState >> buttonStencil: aBlock [
 
 	buttonStencil := aBlock
 ]
 
 { #category : #accessing }
-ToButtonState >> endAnimation: anAnimation [
+ToToggleState >> endAnimation: anAnimation [
 
 	endAnimation := anAnimation
 ]
 
 { #category : #processing }
-ToButtonState >> enterOn: aButton [
+ToToggleState >> enterOn: aButton [
 
 	beginAnimation ifNotNil: [ :anim | aButton addAnimation: anim value ]
 ]
 
 { #category : #processing }
-ToButtonState >> exitOn: aButton [
+ToToggleState >> exitOn: aButton [
 
 	self exitOn: aButton nextState: next
 ]
 
 { #category : #processing }
-ToButtonState >> exitOn: aButton nextState: aState [
+ToToggleState >> exitOn: aButton nextState: aState [
 
 	endAnimation
-		ifNil: [ aState startOn: aButton ]
+		ifNil: [ aState applyStartStateOn: aButton ]
 		ifNotNil: [ :animStencyl | 
 			| anim |
 			anim := animStencyl value.
-			anim onFinishedDo: [ aState startOn: aButton ].
+			anim onFinishedDo: [ aState applyStartStateOn: aButton ].
 			aButton addAnimation: anim ]
 ]
 
 { #category : #accessing }
-ToButtonState >> name [
+ToToggleState >> name [
 
 	^ name
 ]
 
 { #category : #accessing }
-ToButtonState >> name: anObject [
+ToToggleState >> name: anObject [
 
 	name := anObject
 ]
 
 { #category : #accessing }
-ToButtonState >> next [
+ToToggleState >> next [
 
 	^ next
 ]
 
 { #category : #accessing }
-ToButtonState >> next: anEngineStep [
+ToToggleState >> next: anEngineStep [
 
 	next := anEngineStep
-]
-
-{ #category : #processing }
-ToButtonState >> startOn: aButton [
-
-	buttonStencil value: aButton.
-	self enterOn: aButton
 ]

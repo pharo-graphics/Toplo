@@ -16,7 +16,7 @@ ToCheckbox >> addToGroup: aToggleGroup [
 { #category : #'api - change hook' }
 ToCheckbox >> check [
 
-	self changeToStateNamed: #checked
+	self changeToToggleStateNamed: #checked
 ]
 
 { #category : #initialization }
@@ -39,17 +39,17 @@ ToCheckbox >> defaultStates [
 ToCheckbox >> defaultThreeStates [
 
 	^ { 
-		  (ToButtonState new
+		  (ToToggleState new
 			   name: #indeterminate;
 			   buttonStencil: [ :button | 
 				   button iconImage: self inderterminateIconImage ];
 			   yourself).
-		  (ToButtonState new
+		  (ToToggleState new
 			   name: #checked;
 			   buttonStencil: [ :button | 
 				   button iconImage: self checkedIconImage ];
 			   yourself).
-		  (ToButtonState new
+		  (ToToggleState new
 			   name: #unchecked;
 			   buttonStencil: [ :button | 
 				   button iconImage: self uncheckedIconImage ];
@@ -60,12 +60,12 @@ ToCheckbox >> defaultThreeStates [
 ToCheckbox >> defaultTwoStates [
 
 	^ { 
-		  (ToButtonState new
+		  (ToToggleState new
 			   name: #unchecked;
 			   buttonStencil: [ :button | 
 				   button iconImage: self uncheckedIconImage ];
 			   yourself).
-		  (ToButtonState new
+		  (ToToggleState new
 			   name: #checked;
 			   buttonStencil: [ :button | 
 				   button iconImage: self checkedIconImage ];
@@ -95,13 +95,13 @@ ToCheckbox >> inderterminateIconImage [
 { #category : #'api - change hook' }
 ToCheckbox >> indeterminate [
 
-	self changeToStateNamed: #indeterminate
+	self changeToToggleStateNamed: #indeterminate
 ]
 
 { #category : #initialization }
 ToCheckbox >> initialize [ 
 	super initialize.
-	self whenThreeStepsChangedDo: [ self states: self defaultStates ].
+	self whenThreeStepsChangedDo: [ self toggleStates: self defaultStates ].
 	threeSteps := false
 	
 ]
@@ -109,19 +109,19 @@ ToCheckbox >> initialize [
 { #category : #testing }
 ToCheckbox >> isChecked [
 
-	^ state notNil and: [ state name = #checked ]
+	^ toggleState notNil and: [ toggleState name = #checked ]
 ]
 
 { #category : #testing }
 ToCheckbox >> isIndeterminate [
 
-	^ state notNil and: [ state name = #indeterminate ]
+	^ toggleState notNil and: [ toggleState name = #indeterminate ]
 ]
 
 { #category : #testing }
 ToCheckbox >> isUnchecked [
 
-	^ state notNil and: [ state name = #unchecked ]
+	^ toggleState notNil and: [ toggleState name = #unchecked ]
 ]
 
 { #category : #'toggle group' }
@@ -133,7 +133,7 @@ ToCheckbox >> removeFromGroup: aToggleGroup [
 { #category : #'api - change hook' }
 ToCheckbox >> uncheck [
 
-	self changeToStateNamed: #unchecked
+	self changeToToggleStateNamed: #unchecked
 ]
 
 { #category : #initialization }

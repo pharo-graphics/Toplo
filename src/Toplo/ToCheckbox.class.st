@@ -178,13 +178,13 @@ ToCheckbox >> whenUncheckedDo: aBlock [
 ]
 
 { #category : #initialization }
-ToCheckbox >> withTreeStates [
+ToCheckbox >> withIndeterminate [
 
 	threeSteps := true
 ]
 
 { #category : #initialization }
-ToCheckbox >> withTwoStates [
+ToCheckbox >> withoutIndeterminate [
 
 	threeSteps := false
 ]

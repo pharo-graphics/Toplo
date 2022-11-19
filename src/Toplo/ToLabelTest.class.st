@@ -1,3 +1,6 @@
+"
+A ToLabelTest is a test class for testing the behavior of ToLabel
+"
 Class {
 	#name : #ToLabelTest,
 	#superclass : #ToTestCase,
@@ -9,7 +12,7 @@ ToLabelTest >> testHAlignment [
 
 	| label |
 	label := ToLabel new.
-	self assert: (label horizontalAlignment isKindOf: BlNullHorizontalAlignment).
+	self assert: (label horizontalAlignment isKindOf: BlHorizontalStartAlignment).
 
 	label alignCenter.
 	self assert: (label horizontalAlignment isKindOf: BlHorizontalCenterAlignment). 
@@ -92,11 +95,28 @@ ToLabelTest >> testMultiLineText [
 ]
 
 { #category : #tests }
+ToLabelTest >> testText [
+
+	| label |
+	label := ToLabel new.
+	self assert: label text asString equals: label defaultText asString.
+	
+	label text: ''.
+	self assert: label text asString equals: ''.
+	
+	label text: 'This is a text'.
+	self assert: label text asString equals: 'This is a text'.
+	
+	label text: nil.
+	self assert: label text asString equals: label defaultText asString.
+]
+
+{ #category : #tests }
 ToLabelTest >> testVAlignment [
 
 	| label |
 	label := ToLabel new.
-	self assert: (label verticalAlignment isKindOf: BlNullVerticalAlignment ).
+	self assert: (label verticalAlignment isKindOf: BlTopAlignment ).
 
 	label alignCenter.
 	self assert: (label verticalAlignment isKindOf: BlVerticalCenterAlignment). 

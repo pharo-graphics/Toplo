@@ -53,13 +53,13 @@ ToCheckboxModel >> whenUncheckedDo: aBlock [
 ]
 
 { #category : #initialization }
-ToCheckboxModel >> withTreeStates [
+ToCheckboxModel >> withIndeterminate [
 
-	self widgetDo: [ :widget | widget withTreeStates ]
+	self widgetDo: [ :widget | widget withIndeterminate ]
 ]
 
 { #category : #initialization }
-ToCheckboxModel >> withTwoStates [
+ToCheckboxModel >> withoutIndeterminate [
 
-	self widgetDo: [ :widget | widget withTwoStates ]
+	self widgetDo: [ :widget | widget withoutIndeterminate ]
 ]

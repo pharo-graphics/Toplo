@@ -15,7 +15,7 @@ ToLabelMultiLineInnerElement >> editorShortcutsIn: aLabel [
 
 	^ { 
 		  (BlShortcutWithAction new
-			   combination: BlKeyCombination primaryReturn;
+			   combination: (BlKeyCombination primaryReturn or: BlKeyCombination primaryS);
 			   action: [ 
 				   aLabel text: aLabel editor text.
 				   aLabel removeEditor ];
@@ -60,8 +60,7 @@ ToLabelMultiLineInnerElement >> initialize [
 ToLabelMultiLineInnerElement >> newEditorIn: aLabel [
 
 	| ed |
-	ed := (ToAlbumModel new ) onWidget.
-	ed dresser: ToLabelEditorBasicDresser new.
+	ed := ToAlbum new dresser: ToLabelEditorBasicDresser new.
 	(self editorShortcutsIn: aLabel) do: [ :s | ed innerElement editor addEditorShortcut: s ].
 	self flag: 'ed matchParent here leads to a Pharo crash'.
 	"ed vFitContent.

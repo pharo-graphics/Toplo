@@ -10,7 +10,7 @@ Class {
 ToLabelMonoLineInnerElement >> editorShortcutsIn: aLabel [
 
 	^ { (BlShortcutWithAction new
-			 combination: (BlKeyCombination primaryReturn or: BlKeyCombination return);
+			 combination: ((BlKeyCombination primaryReturn or: BlKeyCombination return) or: BlKeyCombination primaryS );
 			 action: [  aLabel text: aLabel editor text. aLabel removeEditor ];
 			 description: 'Accept the edited text';
 			 name: 'Accept';
@@ -28,7 +28,7 @@ ToLabelMonoLineInnerElement >> editorShortcutsIn: aLabel [
 ToLabelMonoLineInnerElement >> newEditorIn: aLabel [
 
 	| ed |
-	ed := (ToAlbumModel new dresser: ToLabelEditorBasicDresser new) onWidget.
+	ed := ToTextField new dresser: ToLabelEditorBasicDresser new.
 	(self editorShortcutsIn: aLabel) do: [ :s | ed innerElement editor addEditorShortcut: s ].
 	self flag: 'ed matchParent here leads to a Pharo crash'.
 	ed fitContent.

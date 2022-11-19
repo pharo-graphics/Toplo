@@ -116,11 +116,21 @@ ToSandBox class >> example_enterLeave [
 	space show
 ]
 
+{ #category : #'text field' }
+ToSandBox class >> example_textField0 [
+
+	| t |
+	t := ToTextField new.
+	t openInOBlSpace.
+	t innerElement inspect
+	
+]
+
 { #category : #checkbox }
 ToSandBox class >> example_to3statesCheckbox [
 
 	| but |
-	but := ToCheckboxModel new withTreeStates.
+	but := ToCheckboxModel new withIndeterminate.
 	but onWidget openInOBlSpace
 ]
 
@@ -128,7 +138,7 @@ ToSandBox class >> example_to3statesCheckbox [
 ToSandBox class >> example_to3statesRadioButton [
 
 	| but |
-	but := ToRadioButtonModel new withTreeStates.
+	but := ToRadioButtonModel new withIndeterminate.
 	but onWidget openInOBlSpace
 ]
 

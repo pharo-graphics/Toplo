@@ -11,8 +11,6 @@ Class {
 ToAlbumGhostTextLayer >> attachTo: anEditorElement from: aWidget [
 
 	super attachTo: anEditorElement from: aWidget.
-	label padding: anEditorElement padding copy.
-
 	self checkText: anEditorElement text.
 	" add/remove according to unaccepted text size"
 	anEditorElement whenTextEditedDo: [ self checkText: anEditorElement text ].
@@ -28,6 +26,19 @@ ToAlbumGhostTextLayer >> checkText: aText [
 ]
 
 { #category : #initialization }
+ToAlbumGhostTextLayer >> defaultLabel [
+
+	^ ToLabel new
+		  fitContent;
+		  constraintsDo: [ :c | 
+			  c frame vertical alignCenter.
+			  c frame horizontal alignCenter ];
+		  beMultiLine;
+		  alignCenter;
+		  yourself
+]
+
+{ #category : #initialization }
 ToAlbumGhostTextLayer >> initialize [
 
 	super initialize.
@@ -36,14 +47,7 @@ ToAlbumGhostTextLayer >> initialize [
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
 			c vertical fitContent ].
-	label := ToLabel new
-		         fitContent;
-		         constraintsDo: [ :c | 
-			         c frame vertical alignCenter.
-			         c frame horizontal alignLeft ];
-		         beMultiLine;
-		         alignCenter;
-		         yourself.
+	label := self defaultLabel.
 	self addChild: label
 ]
 

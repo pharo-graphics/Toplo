@@ -32,6 +32,14 @@ ToTextField >> layerReferentElement [
 	^ self
 ]
 
+{ #category : #'accessing - rulers' }
+ToTextField >> withGhostText: aText [
+
+	ghostTextLayer ifNotNil: [ ^ self ].
+	ghostTextLayer := ToTextFieldGhostTextLayer new text: aText.
+	self addLayer: ghostTextLayer
+]
+
 { #category : #initialization }
 ToTextField >> withLineWrapping [
 

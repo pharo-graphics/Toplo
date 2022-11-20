@@ -25,6 +25,7 @@ ToButtonClickEventHandler >> clickCandidateEvent: anEvent [
 	"then try to manage hidden click "
 
 	| mup |
+	anEvent consumed: true.
 	mup := anEvent mouseUpEvent.
 	(mup currentTarget == button or: [ 
 		 mup currentTarget hasParent: button ]) ifTrue: [ 
@@ -34,17 +35,20 @@ ToButtonClickEventHandler >> clickCandidateEvent: anEvent [
 { #category : #'api - accessing' }
 ToButtonClickEventHandler >> clickEvent: anEvent [
 
-	button clickEvent: anEvent
+	anEvent consumed: true.
+	anEvent currentTarget clickEvent: anEvent
 ]
 
 { #category : #'api - accessing' }
 ToButtonClickEventHandler >> doubleClickEvent: anEvent [
 
-	button clickEvent: anEvent
+	anEvent consumed: true.
+	anEvent currentTarget clickEvent: anEvent
 ]
 
 { #category : #'api - accessing' }
 ToButtonClickEventHandler >> eventsToHandle [
+
 	^ { BlClickEvent. BlDoubleClickEvent. BlMouseUpEvent. BlClickCandidateEvent}
 ]
 

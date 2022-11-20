@@ -213,3 +213,33 @@ ToExperiments class >> example_ExperimentForMultilineLabel5 [
 
 	root openInOBlSpace
 ]
+
+{ #category : #frame }
+ToExperiments class >> example_frame [
+| frame bar close fill fill2 expand title |
+
+frame := BlElement new background: Color white; size: 300@100.
+frame geometry: (BlRoundedRectangleGeometry cornerRadius: 5).
+frame border: (BlBorder paint: Color lightGray width: 1).
+frame addEventHandler: BlPullHandler new. 
+fill := BlElement new background: Color white; height: 20; constraintsDo: [ :c | c horizontal matchParent ].
+fill2 := BlElement new background: Color white; height: 20; constraintsDo: [ :c | c horizontal matchParent ].
+bar := BlElement new background: (Color white); constraintsDo: [ :c | c vertical fitContent. c horizontal matchParent ].
+bar padding: (BlInsets all: 3).
+bar layout: (BlGridLayout horizontal cellSpacing: 2).
+bar border: (BlBorder paint: Color lightGray width: 1).
+bar geometry: (BlRoundedRectangleGeometry cornerRadius: 5).
+
+close := ToButton new iconImage: (Smalltalk ui theme windowCloseForm).
+expand := ToButton new iconImage: (Smalltalk ui theme windowMaximizeForm).
+title := ToLabel new text: 'Frame'; background: Color white.
+bar addChild: close.
+bar addChild: fill.
+bar addChild: title.
+bar addChild: fill2.
+bar addChild: expand.
+
+frame layout: BlLinearLayout vertical.
+frame addChild: bar.
+frame openInNewSpace 
+]

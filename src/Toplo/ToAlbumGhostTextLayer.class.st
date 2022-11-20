@@ -35,6 +35,7 @@ ToAlbumGhostTextLayer >> defaultLabel [
 			  c frame horizontal alignCenter ];
 		  beMultiLine;
 		  alignCenter;
+		  in: [ :l | l innerElement alignCenter ];
 		  yourself
 ]
 

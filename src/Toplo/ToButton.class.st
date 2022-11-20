@@ -1,8 +1,6 @@
 Class {
 	#name : #ToButton,
 	#superclass : #ToGeneralButton,
-	#traits : 'TBlAlignable',
-	#classTraits : 'TBlAlignable classTrait',
 	#instVars : [
 		'#label',
 		'#icon',
@@ -114,7 +112,7 @@ ToButton >> icon [
 ToButton >> icon: anImage [
 
 	icon = anImage ifTrue: [ ^self ].
-	icon := anImage.
+	self privateIcon: anImage.
 	self privateUpdateChildren
 ]
 
@@ -141,13 +139,13 @@ ToButton >> initialize [
 	super initialize.
 	horizontal := true.
 	labelFirst := false.
+	self layout: BlLinearLayout new.
 	self
 		constraintsDo: [ :c | 
 			c vertical fitContent.
 			c horizontal fitContent ].
-	self alignCenter.
-	label := ToLabel new.
-	icon := ToImage new.
+	self privateLabel: ToLabel new.
+	self privateIcon: ToImage new.
 	self privateUpdateChildren.
 	self whenLabelTextReplacedDo: [ self labelTextReplaced ].
 	self whenIconImageReplacedDo: [ self iconImageReplaced ]
@@ -175,7 +173,7 @@ ToButton >> label [
 ToButton >> label: aLabel [
 
 	label = aLabel ifTrue: [ ^ self ].
-	label := aLabel.
+	self privateLabel: aLabel.
 	self privateUpdateChildren 
 	
 ]
@@ -230,13 +228,31 @@ ToButton >> orientationChanged [
 	self horizontal
 		ifTrue: [ self layout beHorizontal ]
 		ifFalse: [ self layout beVertical ].
-	self requestLayout
+	self requestLayout   
 ]
 
 { #category : #private }
 ToButton >> presentationChanged [
 	
 	self privateUpdateChildren
+]
+
+{ #category : #private }
+ToButton >> privateIcon: anImage [
+
+	icon := anImage.
+	icon constraintsDo: [ :c | 
+			c linear vertical alignCenter. 
+			c linear horizontal alignCenter]
+]
+
+{ #category : #private }
+ToButton >> privateLabel: aLabel [
+
+	label := aLabel.
+	label constraintsDo: [ :c | 
+			c linear vertical alignCenter. 
+			c linear horizontal alignCenter]
 ]
 
 { #category : #private }

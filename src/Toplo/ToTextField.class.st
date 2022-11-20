@@ -32,7 +32,7 @@ ToTextField >> layerReferentElement [
 	^ self
 ]
 
-{ #category : #'accessing - rulers' }
+{ #category : #layers }
 ToTextField >> withGhostText: aText [
 
 	ghostTextLayer ifNotNil: [ ^ self ].

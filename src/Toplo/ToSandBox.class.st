@@ -237,6 +237,7 @@ ToSandBox class >> example_toBasicButton3 [
 			        fontSize: 40;
 			        yourself).
 	but matchParent.
+	but alignCenter.
 	but whenClickedDo: [ self inform: 'clicked' ].
 	but openInOBlSpace
 ]
@@ -320,17 +321,14 @@ ToSandBox class >> example_toButtonOrientationChanger [
 
 	| but space iconImage |
 	but := ToButton new.
+	but cellSpacing: 10.
 	but background: Color black.
 	but border: (BlBorder paint: Color lightGray).
 	but beIconFirst.
 	but labelText: ('Button' asRopedText bold).
 	iconImage := BlElement new size: 20@20; background: Color lightGray; yourself.
-	but icon padding: (BlInsets all: 2).
 	but iconImage: iconImage.
-	but padding: (BlInsets all: 4).
 	but whenClickedDo: [ :ann | 
-		ann widget labelFirst: but labelFirst not.
-		ann widget direction: but direction inverted.
 		ann widget orientation: but orientation inverted].
 	but whenActionPerformedDo: [ self inform: 'Button action performed' ].
 	space := OBlSpace new.

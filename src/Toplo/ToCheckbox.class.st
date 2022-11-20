@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'#threeSteps => ObservableSlot'
 	],
-	#category : #'Toplo-Widget-Buttons'
+	#category : #'Toplo-Widget-Button'
 }
 
 { #category : #'toggle group' }

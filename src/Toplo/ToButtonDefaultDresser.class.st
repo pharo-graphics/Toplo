@@ -9,7 +9,7 @@ Class {
 		'initialBackground',
 		'backgroundChangedHandler'
 	],
-	#category : #'Toplo-Widget-Buttons'
+	#category : #'Toplo-Widget-Button'
 }
 
 { #category : #private }

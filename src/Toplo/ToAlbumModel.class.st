@@ -277,7 +277,7 @@ ToAlbumModel >> withEditsFeedbackLayer [
 { #category : #'view configuration' }
 ToAlbumModel >> withGhostText: aText [
 
-	self widgetDo: [ :album | album withGhostText: aText from: self ]
+	self widgetDo: [ :album | album withGhostText: aText ]
 ]
 
 { #category : #'view configuration' }

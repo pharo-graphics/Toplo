@@ -1,7 +1,7 @@
 Class {
 	#name : #ToLabelLineMode,
 	#superclass : #Object,
-	#category : #'Toplo-Widget-Labels'
+	#category : #'Toplo-Widget-Label'
 }
 
 { #category : #initialization }

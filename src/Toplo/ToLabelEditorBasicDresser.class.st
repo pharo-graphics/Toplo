@@ -1,7 +1,7 @@
 Class {
 	#name : #ToLabelEditorBasicDresser,
 	#superclass : #ToAlbumBasicDresser,
-	#category : #'Toplo-Widget-Labels'
+	#category : #'Toplo-Widget-Label'
 }
 
 { #category : #'api - hooks' }

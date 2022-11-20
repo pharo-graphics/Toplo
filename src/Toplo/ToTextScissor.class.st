@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'privateCount'
 	],
-	#category : #'Toplo-Widget-Labels'
+	#category : #'Toplo-Widget-Label'
 }
 
 { #category : #splitting }

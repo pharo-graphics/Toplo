@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToLabelInnerElement,
-	#category : #'Toplo-Widget-Labels'
+	#category : #'Toplo-Widget-Label'
 }
 
 { #category : #'api - editor' }

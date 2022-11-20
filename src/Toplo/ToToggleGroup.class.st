@@ -6,7 +6,7 @@ Class {
 		'checked',
 		'checkAction'
 	],
-	#category : #'Toplo-Widget-Buttons'
+	#category : #'Toplo-Widget-Button'
 }
 
 { #category : #'adding / removing' }

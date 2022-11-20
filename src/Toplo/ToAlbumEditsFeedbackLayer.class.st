@@ -14,7 +14,7 @@ ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement from: aWidget [
 
 	super attachTo: anEditorElement from: aWidget.
 	
-	coverColor := anEditorElement innerElement selectionColor alpha: 0.1.
+	coverColor := anEditorElement selectionColor alpha: 0.1.
 	aWidget
 		whenAnnouncement: ToAlbumFlashRequested
 		do: [ self flash ].
@@ -82,6 +82,7 @@ ToAlbumEditsFeedbackLayer >> newEditsFeedback [
 
 	| flag |
 	flag := BlElement new
+		        geometry: (BlRoundedRectangleGeometry cornerRadius: 8);
 		        background: ((BlLinearGradientPaint direction: 1 @ 1)
 				         start: 25 @ 0;
 				         stops: { 

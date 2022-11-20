@@ -3,7 +3,7 @@ Class {
 	#superclass : #BlAttributedTextElement,
 	#traits : 'TToLabelInnerElement + TOBlLayoutResizable',
 	#classTraits : 'TToLabelInnerElement classTrait + TOBlLayoutResizable classTrait',
-	#category : #'Toplo-Widget-Labels'
+	#category : #'Toplo-Widget-Label'
 }
 
 { #category : #'api - editor' }

@@ -9,7 +9,7 @@ Class {
 		'#labelFirst => ObservableSlot',
 		'#horizontal => ObservableSlot'
 	],
-	#category : #'Toplo-Widget-Buttons'
+	#category : #'Toplo-Widget-Button'
 }
 
 { #category : #'api - orientation/direction' }

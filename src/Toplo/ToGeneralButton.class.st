@@ -7,7 +7,7 @@ Class {
 		'#clickHandler',
 		'#toggleState => ObservableSlot'
 	],
-	#category : #'Toplo-Widget-Buttons'
+	#category : #'Toplo-Widget-Button'
 }
 
 { #category : #'processing - toggle state' }

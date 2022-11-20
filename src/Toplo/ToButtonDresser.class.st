@@ -8,7 +8,7 @@ Class {
 		'mouseEnterHandler',
 		'mouseLeaveHandler'
 	],
-	#category : #'Toplo-Widget-Buttons'
+	#category : #'Toplo-Widget-Button'
 }
 
 { #category : #'events handling' }

@@ -126,6 +126,55 @@ ToSandBox class >> example_textField0 [
 	
 ]
 
+{ #category : #'text field' }
+ToSandBox class >> example_textFieldWithGhostText [
+
+	| t text |
+	t := ToTextField new withSaveCapability.
+	text := ''.
+	t withGhostText: 'Enter to accept'.
+	t text: text copy.
+	t whenSaveRequestedDo: [ :saveRequested | 
+		saveRequested client saveResult: true.
+		text := saveRequested client text copy].
+	t whenCancelRequestedDo: [ :cancelRequested | 
+		cancelRequested client text: text copy ].
+	t openInOBlSpace.
+
+]
+
+{ #category : #'text field' }
+ToSandBox class >> example_textFieldWithLineWrapping [
+
+	| t |
+	t := ToTextField new withLineWrapping.
+	t openInOBlSpace
+]
+
+{ #category : #'text field' }
+ToSandBox class >> example_textFieldWithLineWrappingWithSaveCapability [
+
+	| t |
+	t := ToTextField new withLineWrapping; withSaveCapability.
+	t openInOBlSpace
+]
+
+{ #category : #'text field' }
+ToSandBox class >> example_textFieldWithSaveCapability [
+
+	| t text |
+	t := ToTextField new withSaveCapability.
+	text := ''.
+	t text: text copy.
+	t whenSaveRequestedDo: [ :saveRequested | 
+		saveRequested client saveResult: true.
+		text := saveRequested client text copy].
+	t whenCancelRequestedDo: [ :cancelRequested | 
+		cancelRequested client text: text copy ].
+	t openInOBlSpace.
+	t innerElement inspect
+]
+
 { #category : #checkbox }
 ToSandBox class >> example_to3statesCheckbox [
 

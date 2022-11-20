@@ -1,7 +1,7 @@
 Class {
 	#name : #ToRadioButton,
 	#superclass : #ToCheckbox,
-	#category : #'Toplo-Widget-Buttons'
+	#category : #'Toplo-Widget-Button'
 }
 
 { #category : #initialization }

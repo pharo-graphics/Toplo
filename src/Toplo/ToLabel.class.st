@@ -11,7 +11,7 @@ Class {
 		'#lineMode => ObservableSlot',
 		'#editorEventHandler'
 	],
-	#category : #'Toplo-Widget-Labels'
+	#category : #'Toplo-Widget-Label'
 }
 
 { #category : #'private-editing' }

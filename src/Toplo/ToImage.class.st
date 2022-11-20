@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'#innerImage => ObservableSlot'
 	],
-	#category : #'Toplo-Widget-Images'
+	#category : #'Toplo-Widget-Image'
 }
 
 { #category : #initialization }

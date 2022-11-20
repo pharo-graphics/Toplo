@@ -7,7 +7,7 @@ Class {
 		'#lines',
 		'#text => ObservableSlot'
 	],
-	#category : #'Toplo-Widget-Labels'
+	#category : #'Toplo-Widget-Label'
 }
 
 { #category : #'api - editor' }

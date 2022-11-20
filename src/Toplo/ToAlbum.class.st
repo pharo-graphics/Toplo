@@ -81,7 +81,7 @@ ToAlbum >> initialize [
 		c horizontal matchParent.
 		c vertical matchParent ].
 	self innerElement: self defaultEditorElement.
-	self innerElement whenAnnouncement: AlbTextEdited do: [ self edited: true ] 
+	self innerElement whenAnnouncement: AlbTextEdited do: [ self edited: true ].
 ]
 
 { #category : #accessing }
@@ -101,7 +101,7 @@ ToAlbum >> innerElement: anEditorElement [
 { #category : #'api-layers' }
 ToAlbum >> layerReferentElement [
 
-		^ self
+		^ self innerElement 
 ]
 
 { #category : #accessing }
@@ -146,6 +146,12 @@ ToAlbum >> saveResult: aBoolean [
 		                ifTrue: [ ToAlbumSaveAccepted new client: self ]
 		                ifFalse: [ ToAlbumSaveDenied new client: self ].
 	self announce: announcement
+]
+
+{ #category : #accessing }
+ToAlbum >> selectionColor [
+
+	^ self innerElement selectionColor
 ]
 
 { #category : #accessing }
@@ -222,7 +228,7 @@ ToAlbum >> whenSaveRequestedSend: aSelector to: anObject [
 { #category : #'transaction hook' }
 ToAlbum >> whenTextEditedDo: aBlock [
 
-	self innerElement whenAnnouncement: AlbTextEdited do: aBlock
+	self innerElement whenTextEditedDo: aBlock
 ]
 
 { #category : #'property change hook' }
@@ -241,11 +247,11 @@ ToAlbum >> withEditsFeedbackLayer [
 ]
 
 { #category : #layers }
-ToAlbum >> withGhostText: aText from: anAlbumViewModel [
+ToAlbum >> withGhostText: aText [
 
 	ghostTextLayer ifNotNil: [ ^ self ].
 	ghostTextLayer := ToAlbumGhostTextLayer new text: aText.
-	self addLayer: ghostTextLayer 
+	self addLayer: ghostTextLayer
 ]
 
 { #category : #initialization }

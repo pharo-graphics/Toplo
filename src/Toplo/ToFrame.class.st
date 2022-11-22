@@ -7,7 +7,7 @@ Class {
 		'title',
 		'titleLabel'
 	],
-	#category : #'Toplo-Widget-Root frame'
+	#category : #'Toplo-Widget-Frame'
 }
 
 { #category : #'api - adding children' }
@@ -37,9 +37,15 @@ ToFrame >> bar: anElement [
 
 { #category : #'api - displaying' }
 ToFrame >> close [
+
 	"Delegate closing work to the Universe"
-	
-	self removeFromParent
+
+	self parentDo: [ :p | 
+		[ self removeFromParent ]
+			on: Error
+			do: [ :err | 
+				(self class name , '>>close') traceCr.
+				err traceCr ] ]
 ]
 
 { #category : #initialization }
@@ -58,6 +64,7 @@ ToFrame >> defaultBar [
 	b layout: (BlGridLayout horizontal cellSpacing: 1).
 
 	b when: BlDoubleClickEvent do: [ self maximize ].
+	b when: BlMouseDownEvent do: [ self toFront  ].
 	close := ToButton new iconImage: Smalltalk ui theme windowCloseForm.
 	close whenClickedDo: [ self close ].
 	expand := ToButton new iconImage:
@@ -154,7 +161,7 @@ ToFrame >> initialize [
 
 	super initialize.
 	self
-		background: Color transparent;
+		background: (Color white alpha: 0.7);
 		size: self defaultSize;
 		border: self defaultBorder;
 		layout: BlLinearLayout vertical;
@@ -279,4 +286,17 @@ ToFrame >> title: aString [
 
 	title := aString.
 	titleLabel ifNotNil: [ titleLabel text: aString ]
+]
+
+{ #category : #'api - displaying' }
+ToFrame >> toFront [
+
+	self parentDo: [ :p | 
+		| focused |
+		focused := self deepestFocusedChild.
+		focused traceCr.
+		p detachChild: self.
+		self elevation: (BlRelativeElevation elevation: 10000).
+		p attachChild: self.
+		focused ifNotNil: [ focused requestFocus ] ]
 ]

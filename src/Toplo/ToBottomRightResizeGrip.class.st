@@ -1,7 +1,7 @@
 Class {
 	#name : #ToBottomRightResizeGrip,
 	#superclass : #ToResizeGrip,
-	#category : #'Toplo-Widget-Root frame'
+	#category : #'Toplo-Widget-Frame'
 }
 
 { #category : #initialization }

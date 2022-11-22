@@ -131,7 +131,6 @@ ToButtonDefaultDresser >> onInstalledIn: anElement [
 	super onInstalledIn: anElement.
 	
 	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
-	anElement background: theme button defaultBackgroundColor.
 	anElement border:  (BlBorder paint: theme button defaultBorderColor width: 1).
 	downBorder := nil.
 	downBackground := nil

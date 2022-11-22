@@ -4,6 +4,14 @@ Class {
 	#category : #'Toplo-Examples'
 }
 
+{ #category : #'root frame' }
+ToSandBox class >> example_2RootFramesInOBlWorld [
+
+	ToFrame new title: 'Frame 1' ; openInWorld.	
+	ToFrame new title: 'Frame 2' ; openInWorld.	
+	
+]
+
 { #category : #album }
 ToSandBox class >> example_CodeEditorWithToAlbumModel [
 
@@ -114,6 +122,11 @@ ToSandBox class >> example_enterLeave [
 	space := OBlSpace new.
 	space addChild: e1.
 	space show
+]
+
+{ #category : #'root frame' }
+ToSandBox class >> example_rootFrame1 [
+	ToFrame new title: 'Internal Frame example' ; openInOBlSpace 
 ]
 
 { #category : #'text field' }
@@ -322,7 +335,6 @@ ToSandBox class >> example_toButtonOrientationChanger [
 	| but space iconImage |
 	but := ToButton new.
 	but cellSpacing: 10.
-	but background: Color black.
 	but border: (BlBorder paint: Color lightGray).
 	but beIconFirst.
 	but labelText: ('Button' asRopedText bold).
@@ -566,7 +578,7 @@ ToSandBox class >> example_toImageViewModel3 [
 	| im |
 	im := ToImageModel new innerImage: (Smalltalk ui icons iconNamed: #classIcon).
 	im widgetDo: [:w | w border: (BlBorder paint: Color black width: 2)].
-	im onWidget openInOBlSpace
+	im onWidget openInWorld
 ]
 
 { #category : #label }

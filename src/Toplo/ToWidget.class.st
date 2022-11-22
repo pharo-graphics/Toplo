@@ -130,6 +130,24 @@ ToWidget >> invalidateModel [
 	
 ]
 
+{ #category : #world }
+ToWidget >> openInFrame [
+
+	| frame |
+	frame := ToFrame new.
+	frame addChild: self.
+	frame openInWorld
+]
+
+{ #category : #world }
+ToWidget >> openInWorld [
+
+	| world |
+	world := ToManager world.
+	world isOpened ifFalse: [ world show ].
+	world root addChild: self
+]
+
 { #category : #accessing }
 ToWidget >> viewModel [
 

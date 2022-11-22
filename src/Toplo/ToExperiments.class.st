@@ -214,32 +214,107 @@ ToExperiments class >> example_ExperimentForMultilineLabel5 [
 	root openInOBlSpace
 ]
 
+{ #category : #'mouse drag' }
+ToExperiments class >> example_drag [
+
+	| e child p |
+	e := BlElement new
+		     background: Color red;
+		     size: 500 @ 500.
+
+	child := BlElement new
+		         background: Color yellow;
+		         size: 50 @ 50;
+		         relocate: 20 @ 20.
+
+	e addChild: child.
+
+	child when: BlDragStartEvent do: [ :evt | 
+		p := evt position - child position.
+		evt consumed: true ].
+
+	child
+		when: BlDragEvent
+		do: [ :evt | child relocate: evt position - p ].
+
+	e openInNewSpace
+]
+
+{ #category : #'mouse drag' }
+ToExperiments class >> example_drag2 [
+
+	| e child |
+	e := BlElement new
+		     background: Color red;
+		     size: 500 @ 500.
+
+	child := BlElement new
+		         background: Color yellow;
+		         size: 50 @ 50;
+		         relocate: 20 @ 20.
+
+	e addChild: child.
+	child addEventHandler: BlPullHandler new.
+
+	e openInNewSpace
+]
+
 { #category : #frame }
 ToExperiments class >> example_frame [
-| frame bar close fill fill2 expand title |
 
-frame := BlElement new background: Color white; size: 300@100.
-frame geometry: (BlRoundedRectangleGeometry cornerRadius: 5).
-frame border: (BlBorder paint: Color lightGray width: 1).
-frame addEventHandler: BlPullHandler new. 
-fill := BlElement new background: Color white; height: 20; constraintsDo: [ :c | c horizontal matchParent ].
-fill2 := BlElement new background: Color white; height: 20; constraintsDo: [ :c | c horizontal matchParent ].
-bar := BlElement new background: (Color white); constraintsDo: [ :c | c vertical fitContent. c horizontal matchParent ].
-bar padding: (BlInsets all: 3).
-bar layout: (BlGridLayout horizontal cellSpacing: 2).
-bar border: (BlBorder paint: Color lightGray width: 1).
-bar geometry: (BlRoundedRectangleGeometry cornerRadius: 5).
+	| frame bar close fill fill2 expand title root bkg pullHandler |
+	bkg := Color veryLightGray alpha: 0.2.
+	frame := BlElement new
+		         background: Color white;
+		         size: 300 @ 100.
+	frame geometry: (BlRoundedRectangleGeometry cornerRadius: 5).
+	frame border: (BlBorder paint: bkg width: 3).
 
-close := ToButton new iconImage: (Smalltalk ui theme windowCloseForm).
-expand := ToButton new iconImage: (Smalltalk ui theme windowMaximizeForm).
-title := ToLabel new text: 'Frame'; background: Color white.
-bar addChild: close.
-bar addChild: fill.
-bar addChild: title.
-bar addChild: fill2.
-bar addChild: expand.
+	fill := BlElement new
+		        background: Color transparent;
+		        height: 20;
+		        constraintsDo: [ :c | c horizontal matchParent ].
+	fill2 := BlElement new
+		         background: Color transparent;
+		         height: 20;
+		         constraintsDo: [ :c | c horizontal matchParent ].
+	bar := BlElement new
+		       background: Color white;
+		       constraintsDo: [ :c | 
+			       c vertical fitContent.
+			       c horizontal matchParent ].
+	bar padding: (BlInsets all: 3).
+	bar background: bkg.
+	bar layout: (BlGridLayout horizontal cellSpacing: 2).
+	bar border: (BlBorder paint: bkg width: 3).
+	bar geometry: (BlRoundedRectangleGeometry cornerRadius: 5).
+	pullHandler := BlPullHandler new pullTarget: frame.
+	bar addEventHandler: pullHandler.
+	
+	close := ToButton new iconImage: Smalltalk ui theme windowCloseForm; labelText: 'close'.
+	close whenClickedDo: [ frame removeFromParent ].
+	close background: Color transparent.
+	expand := ToButton new iconImage: Smalltalk ui theme windowMaximizeForm.
+	expand whenClickedDo: [ 
+		frame 
+			relocate: 0@0; 
+			size: frame parent size ].	
 
-frame layout: BlLinearLayout vertical.
-frame addChild: bar.
-frame openInNewSpace 
+	title := ToLabel new
+		         text: 'Frame';
+		         background: Color transparent.
+	bar addChild: close.
+	bar addChild: fill.
+	bar addChild: title.
+	bar addChild: fill2.
+	bar addChild: expand.
+
+	root := BlElement new background: Color transparent; constraintsDo: [ :c | 
+			       c vertical matchParent.
+			       c horizontal matchParent ].
+
+	frame layout: BlLinearLayout vertical.
+	frame addChild: bar.
+	frame addChild: root.
+	frame openInNewSpace
 ]

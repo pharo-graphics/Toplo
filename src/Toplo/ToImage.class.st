@@ -12,7 +12,7 @@ Class {
 { #category : #initialization }
 ToImage >> defaultInnerImage [
 
-	^ BlElement new size: 0 @ 0
+	^ BlElement new size: 0 @ 0; yourself
 ]
 
 { #category : #initialization }

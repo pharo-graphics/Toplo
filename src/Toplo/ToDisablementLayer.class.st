@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'api - attaching / detaching' }
+{ #category : #initialization }
 ToDisablementLayer >> attachTo: anEditorElement from: aWidget [
 
 	super attachTo: anEditorElement from: aWidget.	

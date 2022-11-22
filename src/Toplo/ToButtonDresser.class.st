@@ -45,13 +45,16 @@ ToButtonDresser >> installEventListenersIn: anElement [
 	clickCandidateHandler := BlEventHandler on: BlClickCandidateEvent do: [ self escaped: anElement ].
 	mouseDownHandler := BlEventHandler on: BlMouseDownEvent do: [ self pressed: anElement ].
 	mouseUpHandler := BlEventHandler on: BlMouseUpEvent do: [ self clicked: anElement ].
-	mouseEnterHandler := BlEventHandler on: BlMouseEnterEvent do: [ self hover: anElement ].
+	mouseEnterHandler := BlEventHandler on: BlMouseEnterEvent 
+		do: [ :event | 
+			(event anyButtonPressed and: [event currentTarget ~= anElement ] )
+				ifFalse: [self hover: anElement ] ].
 	mouseLeaveHandler := BlEventHandler on: BlMouseLeaveEvent do: [ self leaved: anElement ].
 	anElement addEventHandler: clickCandidateHandler.
 	anElement addEventHandler: mouseDownHandler.
 	anElement addEventHandler: mouseUpHandler.
 	anElement addEventHandler: mouseEnterHandler.
-	anElement addEventHandler: mouseLeaveHandler.
+	anElement addEventHandler: mouseLeaveHandler
 ]
 
 { #category : #'events handling' }

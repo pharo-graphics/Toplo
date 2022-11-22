@@ -27,9 +27,8 @@ ToWorkspaceExample class >> openInHost: aBlOSWindowHost [
 	| space |
 	self transcriptAlreadyOpened ifFalse: [ self openTranscript ].
 
-	space := BlSpace new
-		         host: aBlOSWindowHost;
-		         yourself.
+	space := aBlOSWindowHost oblWorld.
+	space isOpened ifFalse: [ space show ].
 	self new openInSpace: space
 ]
 
@@ -178,17 +177,15 @@ ToWorkspaceExample >> open [
 { #category : #'user interface' }
 ToWorkspaceExample >> openInSpace: aSpace [
 
-	| editor |
-	aSpace
-		title: self class instanceSide name;
-		extent: 300 asPoint.
+	| editor frame |
 	editor := self codeEditor.
 	editor innerElement requestFocus.
-	aSpace root addChild: editor.
-	aSpace show.
-	aSpace addEventHandler: (BlEventHandler
+	frame := ToFrame new title: 'Workspace'.
+	frame addChild: editor.
+	aSpace root addChild: frame.
+"	aSpace addEventHandler: (BlEventHandler
 			 on: BlSpaceClosedEvent
-			 do: [ :evt | self class closeTranscript ])
+			 do: [ :evt | self class closeTranscript ])"
 ]
 
 { #category : #accessing }

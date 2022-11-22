@@ -101,7 +101,7 @@ ToGeneralButton >> horizontalAlignment: aBlElementAlignment [
 ToGeneralButton >> initialize [ 
 
 	self class initializeSlots: self.
-	super initialize.
+	super initialize
 
 ]
 

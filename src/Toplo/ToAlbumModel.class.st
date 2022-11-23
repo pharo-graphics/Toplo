@@ -82,24 +82,24 @@ ToAlbumModel >> flash [
 	self widgetDo: [ :widget | widget flash ]
 ]
 
-{ #category : #'api - hooks' }
-ToAlbumModel >> onInstalledOnlyMeIn: anAlbum [
+{ #category : #'api - install/uninstall  hook' }
+ToAlbumModel >> onInstalledIn: anAlbum [
 
 	"Is sent when I am added to an element "
 
-	super onInstalledOnlyMeIn: anAlbum.
+	super onInstalledIn: anAlbum.
 	anAlbum whenTextReplacedDo: [ :t | self requestTextStyle ].
 	anAlbum whenTextEditedDo: [ :t | self requestTextStyle ].
 	
 	self text: ''
 ]
 
-{ #category : #'api - hooks' }
-ToAlbumModel >> onUninstalledOnlyMeIn: anAlbum [
+{ #category : #'api - install/uninstall  hook' }
+ToAlbumModel >> onUninstalledIn: anAlbum [
 
 	"Is sent when I am added to an element "
 
-	super onUninstalledOnlyMeIn: anAlbum.
+	super onUninstalledIn: anAlbum.
 	self unsubscribe: anAlbum innerElement.
 	self styler ifNotNil: [ :styler | 
 		self styler unsubscribe: self.

@@ -47,7 +47,7 @@ ToToggleGroup >> remove: aCheckable [
 
 ]
 
-{ #category : #enumerating }
+{ #category : #'api - checkbox' }
 ToToggleGroup >> whenCheckedDo: aBlock [
 
 	checkAction := aBlock

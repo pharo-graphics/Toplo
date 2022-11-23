@@ -8,6 +8,18 @@ Class {
 	#category : #'Toplo-Widget-Frame'
 }
 
+{ #category : #accessing }
+ToResizeGrip >> cursor [
+
+	^ BlCursor perform: self cursorSelector
+]
+
+{ #category : #accessing }
+ToResizeGrip >> cursorSelector [
+
+	^ self subclassResponsibility 
+]
+
 { #category : #initialization }
 ToResizeGrip >> defaultGeometry [
 
@@ -57,7 +69,7 @@ ToResizeGrip >> initialize [
 		constraintsDo: [ :c | c ignoreByLayout ]
 ]
 
-{ #category : #initialization }
+{ #category : #'mouse processing' }
 ToResizeGrip >> layoutIn: anElement [
 
 	self subclassResponsibility 
@@ -69,29 +81,17 @@ ToResizeGrip >> newPullHandler [
 	^ BlPullHandler new
 ]
 
-{ #category : #accessing }
-ToResizeGrip >> ptName [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : #initialization }
+{ #category : #'mouse processing' }
 ToResizeGrip >> pullEvent: anEvent on: anElement [
 
 	self subclassResponsibility 
-]
-
-{ #category : #accessing }
-ToResizeGrip >> resizeCursor [
-
-	^ Cursor resizeForEdge: self ptName
 ]
 
 { #category : #initialization }
 ToResizeGrip >> target: anElement [
 
 	self layoutIn: anElement.
-	
+
 	anElement
 		when: BlElementExtentChangedEvent
 		do: [ :evt | self layoutIn: anElement ].
@@ -99,11 +99,17 @@ ToResizeGrip >> target: anElement [
 	self when: BlPullStartEvent do: [ :anEvent | 
 		self initialTargetPosition: anElement position.
 		self initialTargetSize: anElement size ].
-	
+
 	self when: BlPullEvent do: [ :anEvent | 
-		self
-			disableExtentChangeEventIn: anElement
-			while: [ self pullEvent: anEvent on: anElement ] ].
+		self pullEvent: anEvent on: anElement.
+		self layoutIn: anElement ].
+
+	self when: BlPullEndEvent do: [ :anEvent | 
+		self layoutIn: anElement.
+		anEvent currentTarget mouseCursor: BlCursor default ].
+	
+	self when: BlMouseEnterEvent do: [ :event | 
+		event currentTarget mouseCursor: event currentTarget cursor ].
 
 	self addEventHandler: self newPullHandler
 ]

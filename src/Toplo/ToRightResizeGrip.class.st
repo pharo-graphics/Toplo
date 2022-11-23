@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-Frame'
 }
 
+{ #category : #accessing }
+ToRightResizeGrip >> cursorSelector [
+
+	^ #resizeRight
+]
+
 { #category : #initialization }
 ToRightResizeGrip >> layoutIn: anElement [
 
@@ -16,12 +22,6 @@ ToRightResizeGrip >> newPullHandler [
 
 	^ super newPullHandler beHorizontal 
 
-]
-
-{ #category : #accessing }
-ToRightResizeGrip >> ptName [
-
-	^ #right
 ]
 
 { #category : #initialization }

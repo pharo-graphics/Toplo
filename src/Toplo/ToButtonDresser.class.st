@@ -39,7 +39,7 @@ ToButtonDresser >> initialState: anElement [
 
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #'api - install/uninstall  hook' }
 ToButtonDresser >> installEventListenersIn: anElement [
 
 	clickCandidateHandler := BlEventHandler on: BlClickCandidateEvent do: [ self escaped: anElement ].
@@ -64,7 +64,7 @@ ToButtonDresser >> leaved: anElement [
 
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #'api - install/uninstall  hook' }
 ToButtonDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
@@ -72,7 +72,7 @@ ToButtonDresser >> onInstalledIn: anElement [
 	self installEventListenersIn: anElement
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #'api - install/uninstall  hook' }
 ToButtonDresser >> onUninstalledIn: anElement [
 
 	self uninstallEventListenersIn: anElement.
@@ -87,7 +87,7 @@ ToButtonDresser >> pressed: anElement [
 
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #'api - install/uninstall  hook' }
 ToButtonDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: clickCandidateHandler.

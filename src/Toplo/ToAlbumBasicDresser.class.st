@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-Album'
 }
 
-{ #category : #'api - hooks' }
+{ #category : #'api - install/uninstall  hook' }
 ToAlbumBasicDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
@@ -27,10 +27,4 @@ ToAlbumBasicDresser >> onInstalledIn: anElement [
 			 width: 1).
 
 	anElement innerElement background: Color white
-]
-
-{ #category : #'api - hooks' }
-ToAlbumBasicDresser >> onUninstalledIn: anElement [
-
-	super onUninstalledIn: anElement
 ]

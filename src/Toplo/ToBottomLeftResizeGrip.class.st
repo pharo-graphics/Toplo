@@ -4,16 +4,16 @@ Class {
 	#category : #'Toplo-Widget-Frame'
 }
 
+{ #category : #accessing }
+ToBottomLeftResizeGrip >> cursorSelector [
+
+	^ #resizeBottomLeft
+]
+
 { #category : #initialization }
 ToBottomLeftResizeGrip >> layoutIn: anElement [
 
 	self relocate: 0 @ anElement height - (self width / 2 @ (self height / 2)) 
-]
-
-{ #category : #accessing }
-ToBottomLeftResizeGrip >> ptName [
-
-	^ #bottomLeft
 ]
 
 { #category : #initialization }

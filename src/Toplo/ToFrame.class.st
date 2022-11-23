@@ -189,6 +189,8 @@ ToFrame >> initializeGrip: aGrip [
 	aGrip
 		when: BlMouseEnterEvent
 		do: [ :anEvent | anEvent currentTarget border: (BlBorder paint: self theme button hoveredBorderColor width: 1) ];
+		when: BlMouseDownEvent
+		do: [ :anEvent | anEvent currentTarget border: BlBorder empty ];
 		when: BlMouseLeaveEvent
 		do: [ :anEvent | 
 			anEvent currentTarget border: BlBorder empty ].
@@ -215,6 +217,20 @@ ToFrame >> initializeGrips [
 ToFrame >> initializeRoot [
 
 	self root: self defaultRoot
+]
+
+{ #category : #spec2 }
+ToFrame >> inspectionPreview: aBuilder [
+	"<inspectorPresentationOrder: 1 title: 'Preview'>"
+
+	^ self root inspectionPreview: aBuilder
+]
+
+{ #category : #spec2 }
+ToFrame >> inspectionTree: aBuilder [
+	<inspectorPresentationOrder: 2 title: 'Tree'>
+
+	^ self root inspectionTree: aBuilder
 ]
 
 { #category : #'api - displaying' }
@@ -292,11 +308,7 @@ ToFrame >> title: aString [
 ToFrame >> toFront [
 
 	self parentDo: [ :p | 
-		| focused |
-		focused := self deepestFocusedChild.
-		focused traceCr.
 		p detachChild: self.
-		self elevation: (BlRelativeElevation elevation: 10000).
-		p attachChild: self.
-		focused ifNotNil: [ focused requestFocus ] ]
+		self elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
+		p attachChild: self ]
 ]

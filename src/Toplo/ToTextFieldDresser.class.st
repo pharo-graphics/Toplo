@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-TextField'
 }
 
-{ #category : #'api - hooks' }
+{ #category : #'api - install/uninstall  hook' }
 ToTextFieldDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
@@ -36,10 +36,4 @@ ToTextFieldDresser >> onInstalledIn: anElement [
 			 width: 1).
 
 	anElement innerElement background: Color white
-]
-
-{ #category : #'api - hooks' }
-ToTextFieldDresser >> onUninstalledIn: anElement [
-
-	super onUninstalledIn: anElement
 ]

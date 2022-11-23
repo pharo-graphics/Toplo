@@ -171,7 +171,7 @@ ToWorkspaceExample >> notify: aString at: anInteger in: aString3 [
 { #category : #'user interface' }
 ToWorkspaceExample >> open [
 
-	self openInSpace: OBlSpace new
+	self openInSpace: ToManager world
 ]
 
 { #category : #'user interface' }

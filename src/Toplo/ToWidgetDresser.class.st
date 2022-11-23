@@ -1,13 +1,22 @@
 Class {
 	#name : #ToWidgetDresser,
-	#superclass : #ToElementCompanion,
+	#superclass : #ToCompanion,
 	#instVars : [
-		'theme'
+		'theme',
+		'unabled'
 	],
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'api - hooks' }
+{ #category : #initialization }
+ToWidgetDresser >> initialize [ 
+
+	super initialize.
+	unabled := true.
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToWidgetDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
@@ -15,8 +24,10 @@ ToWidgetDresser >> onInstalledIn: anElement [
 
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #'api - install/uninstall  hook' }
 ToWidgetDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
+	theme := 	nil
+
 ]

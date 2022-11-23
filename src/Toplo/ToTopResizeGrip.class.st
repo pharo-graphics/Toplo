@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-Frame'
 }
 
+{ #category : #accessing }
+ToTopResizeGrip >> cursorSelector [
+
+	^ #resizeTop
+]
+
 { #category : #initialization }
 ToTopResizeGrip >> layoutIn: anElement [
 
@@ -16,12 +22,6 @@ ToTopResizeGrip >> newPullHandler [
 
 	^ super newPullHandler beVertical.
 
-]
-
-{ #category : #accessing }
-ToTopResizeGrip >> ptName [
-
-	^ #top
 ]
 
 { #category : #initialization }

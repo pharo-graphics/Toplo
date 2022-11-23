@@ -1,6 +1,6 @@
 Class {
 	#name : #ToViewModel,
-	#superclass : #ToElementCompanion,
+	#superclass : #ToCompanion,
 	#instVars : [
 		'#enabled => ObservableSlot',
 		'#help => ObservableSlot',
@@ -8,6 +8,19 @@ Class {
 	],
 	#category : #'Toplo-Core'
 }
+
+{ #category : #'api - install/uninstall  hook' }
+ToViewModel >> afterInstallationIn: anElement [
+
+	self runPostponedActions
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToViewModel >> beforeInstallationIn: anElement [
+
+	super beforeInstallationIn: anElement.
+	self stopPostponedActionsStorageFor: anElement
+]
 
 { #category : #'api - enablement' }
 ToViewModel >> disable [
@@ -68,24 +81,9 @@ ToViewModel >> invalidate [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToViewModel >> managePostponedActionsIn: anElement while: aBlock [
-
-	self stopPostponedActionsStorageFor: anElement.
-	aBlock value.
-	self runPostponedActions
-]
-
-{ #category : #'api - install/uninstall  hook' }
 ToViewModel >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	self managePostponedActionsIn: anElement while: [ 
-		self onInstalledOnlyMeIn: anElement]
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToViewModel >> onInstalledOnlyMeIn: anElement [
-
 	helpEventHandler := ToWidgetHelpEventHandler new.
 	anElement addEventHandler: helpEventHandler
 ]
@@ -97,16 +95,10 @@ ToViewModel >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
 	self unsubscribe: anElement.
-	self unInstallDresserIn: anElement.
-	self onUninstalledOnlyMeIn: anElement
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToViewModel >> onUninstalledOnlyMeIn: anElement [
-
 	helpEventHandler ifNotNil: [ 
 		anElement removeEventHandler: helpEventHandler.
 		helpEventHandler := nil ]
+
 ]
 
 { #category : #'accessing - widget' }

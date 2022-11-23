@@ -102,7 +102,7 @@ ToButtonDefaultDresser >> initialState: anElement [
 
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #'api - install/uninstall  hook' }
 ToButtonDefaultDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
@@ -125,7 +125,7 @@ ToButtonDefaultDresser >> leaved: anElement [
 
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #'api - install/uninstall  hook' }
 ToButtonDefaultDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
@@ -157,7 +157,7 @@ ToButtonDefaultDresser >> pressedBorder [
 	^ BlBorder paint: theme button pressedBorderColor width: 2
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #'api - install/uninstall  hook' }
 ToButtonDefaultDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: borderChangedHandler.

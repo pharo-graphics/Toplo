@@ -12,7 +12,9 @@ Class {
 { #category : #'api - space' }
 ToWidget >> attachSpace [
 	super attachSpace.
-	self dresserDo: [ :d | d onInstalledIn: self ]
+	"Dresser installation is automatically launched (whereas dresser uninstalltion must be explicitely send)
+	This is to avoid mutiple unstallations and installations"
+	self dresserDo: [ :d | d launchInstallationIn: self ]
 ]
 
 { #category : #initialization }
@@ -53,13 +55,6 @@ ToWidget >> defaultViewModel [
 	^ self subclassResponsibility
 ]
 
-{ #category : #'api - space' }
-ToWidget >> detachSpace [
-	self dresserDo: [ :d | d onUninstalledIn: self ].
-	super detachSpace.
-
-]
-
 { #category : #'accessing - dresser' }
 ToWidget >> dresser [
 	^ self userData at: #dresser ifAbsent: nil
@@ -68,7 +63,7 @@ ToWidget >> dresser [
 { #category : #'accessing - dresser' }
 ToWidget >> dresser: aDresser [
 
-	self dresserDo: [ :d  | d onUninstalledIn: self ].
+	self dresserDo: [ :d  | d launchUninstallationIn: self ].
 	self userData at: #dresser put: aDresser
 ]
 
@@ -159,13 +154,10 @@ ToWidget >> viewModel [
 ToWidget >> viewModel: aViewModel [
 
 	" A viewModel is normally installed only once by the widget or by the viewModel itself.
-	Installing a new viewModel is possible but be aware of what you are doing (lost of data stored in the installed viewModel).
-	To reinstall a viewModel first send #viewModel: with nil as argument to uninstall the previous viewModel 
-	then send #viewModel: with the new one as argument."
-	"self assert: (aViewModel isNil or: [aViewModel notNil and: [viewModel isNil]])."
-	self viewModelDo: [ :aCurrentModel | aCurrentModel onUninstalledIn: self ].
+	Installing a new viewModel is possible but be aware of what you are doing (lost of data stored in the installed viewModel)."
+	self viewModelDo: [ :aCurrentModel | aCurrentModel launchUninstallationIn: self ].
 	viewModel := aViewModel.
-	self viewModelDo: [ :aCurrentModel | aViewModel onInstalledIn: self ]
+	self viewModelDo: [ :aCurrentModel | aViewModel launchInstallationIn: self ]
 ]
 
 { #category : #accessing }

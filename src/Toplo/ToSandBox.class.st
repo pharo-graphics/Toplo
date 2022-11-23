@@ -517,7 +517,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroup2 [
 	container addChildren: group buttons.
 	group whenCheckedDo: [ :chb :previous | 
 		self inform: 'checked: ' , chb id asString, ' (previous was: ', (previous ifNil: [ 'none' ] ifNotNil: [ previous id asString ]) ].
-	container openInOBlSpace
+	ToFrame new in: [ :f | f addChild: container ]; openInWorld
 ]
 
 { #category : #image }
@@ -795,7 +795,7 @@ ToSandBox class >> example_toMultiState1 [
 					 opacity: 1;
 					 yourself ];
 			 yourself) }.
-	but openInOBlSpace
+	but openInWorld
 ]
 
 { #category : #multistate }
@@ -917,7 +917,7 @@ ToSandBox class >> example_toMultiStateWithLabel [
 				 buttonStencil: [ :button | 
 					 button labelText: ('Three' asRopedText fontSize: 24) ];
 				 yourself) }.
-	but openInOBlSpace
+	but openInWorld
 ]
 
 { #category : #checkbox }

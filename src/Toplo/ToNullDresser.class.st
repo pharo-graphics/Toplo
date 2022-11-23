@@ -1,5 +1,5 @@
 Class {
 	#name : #ToNullDresser,
-	#superclass : #ToElementCompanion,
+	#superclass : #ToCompanion,
 	#category : #'Toplo-Core'
 }

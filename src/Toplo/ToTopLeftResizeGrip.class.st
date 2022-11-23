@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTopLeftResizeGrip,
-	#superclass : #ToResizeGrip,
+	#superclass : #ToCornerResizeGrip,
 	#category : #'Toplo-Widget-Frame'
 }
 
@@ -18,6 +18,15 @@ ToTopLeftResizeGrip >> layoutIn: anElement [
 
 
 
+]
+
+{ #category : #initialization }
+ToTopLeftResizeGrip >> newPullHandler [
+
+	^ super newPullHandler
+		  relocateX: false;
+		  relocateY: false;
+		  yourself
 ]
 
 { #category : #initialization }

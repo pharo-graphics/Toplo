@@ -1,6 +1,6 @@
 Class {
 	#name : #ToBottomRightResizeGrip,
-	#superclass : #ToResizeGrip,
+	#superclass : #ToCornerResizeGrip,
 	#category : #'Toplo-Widget-Frame'
 }
 

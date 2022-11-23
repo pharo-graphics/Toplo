@@ -5,7 +5,8 @@ Class {
 		'bar',
 		'root',
 		'title',
-		'titleLabel'
+		'titleLabel',
+		'grips'
 	],
 	#category : #'Toplo-Widget-Frame'
 }
@@ -54,8 +55,8 @@ ToFrame >> defaultBar [
 	| b close expand fill1 fill2 |
 	b := BlElement new
 		     margin: (BlInsets all: 1);
-		border: self defaultBorder;
-		 		outskirts: BlOutskirts outside;
+		     border: self defaultBorder;
+		     outskirts: BlOutskirts outside;
 		     background: self defaultBarBackground;
 		     constraintsDo: [ :c | 
 			     c vertical fitContent.
@@ -64,27 +65,30 @@ ToFrame >> defaultBar [
 	b layout: (BlGridLayout horizontal cellSpacing: 1).
 
 	b when: BlDoubleClickEvent do: [ self maximize ].
-	b when: BlMouseDownEvent do: [ self toFront  ].
+	b when: BlMouseDownEvent do: [ self toFront ].
 	close := ToButton new iconImage: Smalltalk ui theme windowCloseForm.
 	close whenClickedDo: [ self close ].
-	expand := ToButton new iconImage:
-		          Smalltalk ui theme windowMaximizeForm.
+	expand := ToButton new iconImage: Smalltalk ui theme windowMaximizeForm.
 	expand whenClickedDo: [ self maximize ].
 
 	fill1 := BlElement new
 		         background: Color transparent;
-		         height: 20;
-		         constraintsDo: [ :c | c horizontal matchParent ].
+		         constraintsDo: [ :c | 
+			         c vertical matchParent.
+			         c horizontal matchParent ].
 	fill2 := BlElement new
 		         background: Color transparent;
-		         height: 20;
-		         constraintsDo: [ :c | c horizontal matchParent ].
-
-	b addChild: close.
-	b addChild: fill1.
-	b addChild: (titleLabel := ToLabel new text: self title).
-	b addChild: fill2.
-	b addChild: expand.
+		         constraintsDo: [ :c | 
+			         c vertical matchParent.
+			         c horizontal matchParent ].
+	titleLabel := ToLabel new text: self title.
+	
+	b addChildren: { 
+			close.
+			fill1.
+			titleLabel.
+			fill2.
+			expand }.
 
 	^ b
 ]
@@ -98,13 +102,19 @@ ToFrame >> defaultBarBackground [
 { #category : #initialization }
 ToFrame >> defaultBorder [
 
-	^ BlBorder paint: self defaultBorderPaint width: 3
+	^ BlBorder paint: self defaultBorderPaint width: self defaultBorderWidth
 ]
 
 { #category : #initialization }
 ToFrame >> defaultBorderPaint [
 
 	^ Color veryLightGray alpha: 0.8
+]
+
+{ #category : #initialization }
+ToFrame >> defaultBorderWidth [
+
+	^ 3
 ]
 
 { #category : #initialization }
@@ -135,7 +145,7 @@ ToFrame >> defaultRootBackground [
 
 { #category : #initialization }
 ToFrame >> defaultRootLabel [
-	^ 'Root element'
+	^ 'Frame root'
 ]
 
 { #category : #initialization }
@@ -182,26 +192,9 @@ ToFrame >> initializeBar [
 ]
 
 { #category : #initialization }
-ToFrame >> initializeGrip: aGrip [
-
-	aGrip background: Color transparent.
-	aGrip border: BlBorder empty.
-	aGrip
-		when: BlMouseEnterEvent
-		do: [ :anEvent | anEvent currentTarget border: (BlBorder paint: self theme button hoveredBorderColor width: 1) ];
-		when: BlMouseDownEvent
-		do: [ :anEvent | anEvent currentTarget border: BlBorder empty ];
-		when: BlMouseLeaveEvent
-		do: [ :anEvent | 
-			anEvent currentTarget border: BlBorder empty ].
-	super addChild: aGrip
-
-]
-
-{ #category : #initialization }
 ToFrame >> initializeGrips [
 
-	{ 
+	grips := { 
 		ToBottomRightResizeGrip.
 		ToBottomLeftResizeGrip.
 		ToTopRightResizeGrip.
@@ -209,8 +202,15 @@ ToFrame >> initializeGrips [
 		ToRightResizeGrip.
 		ToLeftResizeGrip.
 		ToBottomResizeGrip.
-		ToTopResizeGrip } do: [ :cls | 
-		self initializeGrip: (cls new target: self) ]
+		ToTopResizeGrip } collect: [ :cls | cls new target: self ].
+		
+	self addChildren: grips.
+	
+	self
+		when: BlElementExtentChangedEvent
+		do: [ :evt | self layoutGrips ].
+
+
 ]
 
 { #category : #initialization }
@@ -231,6 +231,12 @@ ToFrame >> inspectionTree: aBuilder [
 	<inspectorPresentationOrder: 2 title: 'Tree'>
 
 	^ self root inspectionTree: aBuilder
+]
+
+{ #category : #'grips managing' }
+ToFrame >> layoutGrips [
+
+	grips	do: [ :g | g applyLayoutIn: self ]
 ]
 
 { #category : #'api - displaying' }

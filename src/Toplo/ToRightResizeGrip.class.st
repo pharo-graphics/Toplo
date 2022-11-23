@@ -1,6 +1,6 @@
 Class {
 	#name : #ToRightResizeGrip,
-	#superclass : #ToResizeGrip,
+	#superclass : #ToBorderResizeGrip,
 	#category : #'Toplo-Widget-Frame'
 }
 
@@ -13,8 +13,8 @@ ToRightResizeGrip >> cursorSelector [
 { #category : #initialization }
 ToRightResizeGrip >> layoutIn: anElement [
 
-	self relocate: anElement size x - (self width / 2) @ 10.
-	self size: 3 @ (anElement height - 20)
+	self relocate: anElement size x - (self width / 2) @ self defaultThickness.
+	self size: self defaultThickness  @ (anElement height - (self defaultThickness * 2))
 ]
 
 { #category : #initialization }

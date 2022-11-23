@@ -254,9 +254,47 @@ ToExperiments class >> example_drag2 [
 		         relocate: 20 @ 20.
 
 	e addChild: child.
-	child addEventHandler: BlPullHandler new.
+	child addEventHandler: (BlPullHandler new ).
 
 	e openInNewSpace
+]
+
+{ #category : #'mouse drag' }
+ToExperiments class >> example_drag3 [
+
+	| e child |
+	e := BlElement new
+		     background: Color red;
+		     size: 50 @ 50;
+			clipChildren: false.
+
+	child := BlElement new
+		         background: Color yellow;
+		         size: 50 @ 50;
+		         relocate: 200 @ 200.
+
+	e addChild: child.
+	child addEventHandler: (BlPullHandler new pullTarget: e; beVertical).
+
+	e openInNewSpace
+]
+
+{ #category : #'mouse drag' }
+ToExperiments class >> example_drag4 [
+
+	| e child |
+	e := ToFrame new.
+
+	child := ToImage new
+		         innerImage: (BlElement new
+				          background: Color yellow;
+				          size: 50 @ 50);
+		         relocate: 200 @ 200.
+
+	child addEventHandler: (BlPullHandler new pullTarget: e).
+
+	e openInWorld.
+	child openInWorld
 ]
 
 { #category : #frame }

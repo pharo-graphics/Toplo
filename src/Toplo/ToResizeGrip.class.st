@@ -3,10 +3,19 @@ Class {
 	#superclass : #BlElement,
 	#instVars : [
 		'initialTargetPosition',
-		'initialTargetSize'
+		'initialTargetSize',
+		'pulled'
 	],
 	#category : #'Toplo-Widget-Frame'
 }
+
+{ #category : #'mouse processing' }
+ToResizeGrip >> applyLayoutIn: anElement [
+
+	"compute my position/size only if I'm not pulled"
+	pulled ifTrue: [^self ].
+	self layoutIn: anElement
+]
 
 { #category : #accessing }
 ToResizeGrip >> cursor [
@@ -21,17 +30,27 @@ ToResizeGrip >> cursorSelector [
 ]
 
 { #category : #initialization }
-ToResizeGrip >> defaultGeometry [
+ToResizeGrip >> defaultBackground [ 
 
-	^ BlRoundedRectangleGeometry cornerRadius: 4
+	^ Color transparent
 ]
 
-{ #category : #private }
-ToResizeGrip >> disableExtentChangeEventIn: anElement while: aBlock [
+{ #category : #initialization }
+ToResizeGrip >> defaultBorder [
 
-	anElement eventDispatcher disableEventType: BlElementExtentChangedEvent.
-	aBlock ensure: [ 
-		anElement eventDispatcher enableEventType: BlElementExtentChangedEvent ]
+	^ BlBorder empty
+]
+
+{ #category : #initialization }
+ToResizeGrip >> defaultGeometry [
+
+	^ BlRoundedRectangleGeometry cornerRadius: self defaultThickness 
+]
+
+{ #category : #initialization }
+ToResizeGrip >> defaultThickness [
+
+	^ 8
 ]
 
 { #category : #accessing }
@@ -62,10 +81,13 @@ ToResizeGrip >> initialTargetSize: aPoint [
 ToResizeGrip >> initialize [
 
 	super initialize.
+	pulled := false.
+	
 	self
-		size: 10 @ 10;
-		background: Color transparent;
+		size: self defaultThickness @ self defaultThickness;
+		background: self defaultBackground;
 		geometry: self defaultGeometry;
+		border: self defaultBorder;
 		constraintsDo: [ :c | c ignoreByLayout ]
 ]
 
@@ -92,20 +114,16 @@ ToResizeGrip >> target: anElement [
 
 	self layoutIn: anElement.
 
-	anElement
-		when: BlElementExtentChangedEvent
-		do: [ :evt | self layoutIn: anElement ].
-
 	self when: BlPullStartEvent do: [ :anEvent | 
+		pulled := true.
 		self initialTargetPosition: anElement position.
 		self initialTargetSize: anElement size ].
 
 	self when: BlPullEvent do: [ :anEvent | 
-		self pullEvent: anEvent on: anElement.
-		self layoutIn: anElement ].
+		self pullEvent: anEvent on: anElement].
 
 	self when: BlPullEndEvent do: [ :anEvent | 
-		self layoutIn: anElement.
+		pulled := false.
 		anEvent currentTarget mouseCursor: BlCursor default ].
 	
 	self when: BlMouseEnterEvent do: [ :event | 

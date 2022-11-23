@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTopResizeGrip,
-	#superclass : #ToResizeGrip,
+	#superclass : #ToBorderResizeGrip,
 	#category : #'Toplo-Widget-Frame'
 }
 
@@ -13,15 +13,17 @@ ToTopResizeGrip >> cursorSelector [
 { #category : #initialization }
 ToTopResizeGrip >> layoutIn: anElement [
 
-	self relocate: 10 @ (self height / 2) negated.
-	self size: anElement width - 20 @ 3
+	self relocate: self defaultThickness @ (self height / 2) negated.
+	self size: (anElement width - (self defaultThickness * 2)) @ self defaultThickness
 ]
 
 { #category : #initialization }
 ToTopResizeGrip >> newPullHandler [
 
-	^ super newPullHandler beVertical.
-
+	^ super newPullHandler
+		  beVertical;
+		  relocateY: false;
+		  yourself
 ]
 
 { #category : #initialization }

@@ -9,19 +9,6 @@ Class {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'api - install/uninstall  hook' }
-ToViewModel >> afterInstallationIn: anElement [
-
-	self runPostponedActions
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToViewModel >> beforeInstallationIn: anElement [
-
-	super beforeInstallationIn: anElement.
-	self stopPostponedActionsStorageFor: anElement
-]
-
 { #category : #'api - enablement' }
 ToViewModel >> disable [
 	"Disable the view"
@@ -67,13 +54,6 @@ ToViewModel >> helpString: aString [
 	self help: aString asRopedText
 ]
 
-{ #category : #initialization }
-ToViewModel >> initialize [ 
-
-	super initialize.
-	self startPostponedActionsStorage
-]
-
 { #category : #'change reporting' }
 ToViewModel >> invalidate [
 
@@ -107,12 +87,6 @@ ToViewModel >> onWidget [
 	^ self privateNewWidget
 ]
 
-{ #category : #'private-postponed actions' }
-ToViewModel >> postponedActions [
-
-	^ self userData at: #postponedActions ifAbsentPut: [ OrderedCollection new ]
-]
-
 { #category : #'private - accessing - widget' }
 ToViewModel >> privateNewWidget [
 
@@ -125,39 +99,6 @@ ToViewModel >> privateNewWidget [
 ToViewModel >> privateWidgetClass [
 
 	^ self subclassResponsibility 
-]
-
-{ #category : #'private-postponed actions' }
-ToViewModel >> removePostponedActions [
-
-	self userData removeKey: #postponedActions ifAbsent: [  ]
-]
-
-{ #category : #'private-postponed actions' }
-ToViewModel >> runPostponedActions [
-
-	self postponedActions do: [ :announcement | self announce: announcement ].
-	self removePostponedActions
-]
-
-{ #category : #'private-postponed actions' }
-ToViewModel >> startPostponedActionsStorage [
-
-	self whenAnnouncement: ToActionRequiredInWidget send: #whenActionRequiredInWidget: to: self
-]
-
-{ #category : #'private-postponed actions' }
-ToViewModel >> stopPostponedActionsStorageFor: anElement [
-
-	self unsubscribe: self.
-	self whenAnnouncement: ToActionRequiredInWidget send: #whenActionRequired: to: anElement
-
-]
-
-{ #category : #'private - accessing - widget' }
-ToViewModel >> whenActionRequiredInWidget: anActionRequired [
-
-	self postponedActions add: anActionRequired.
 ]
 
 { #category : #'api - properties change hook' }
@@ -180,18 +121,4 @@ ToViewModel >> whenHelpChangedDo: aBlock [
 	 - the announcement triggering this action"
 
 	self property: #help whenChangedDo: aBlock
-]
-
-{ #category : #'accessing - widget' }
-ToViewModel >> widgetDo: aBlock [
-
-	self widgetPerformOrDefer: aBlock
-]
-
-{ #category : #'accessing - widget' }
-ToViewModel >> widgetPerformOrDefer: aBlock [
-
-	self announce: (ToActionRequiredInWidget new
-			 valuable: aBlock;
-			 yourself)
 ]

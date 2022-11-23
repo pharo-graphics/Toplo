@@ -14,6 +14,7 @@ Class {
 
 { #category : #'api - shortcuts' }
 ToAlbum >> addEditorShortcut: aTextEditorInteraction [
+
 	self innerElement addEditorShortcut: aTextEditorInteraction
 ]
 
@@ -80,20 +81,20 @@ ToAlbum >> initialize [
 	self constraintsDo: [ :c | 
 		c horizontal matchParent.
 		c vertical matchParent ].
-	self innerElement: self defaultEditorElement.
 	self innerElement whenAnnouncement: AlbTextEdited do: [ self edited: true ].
 ]
 
 { #category : #accessing }
 ToAlbum >> innerElement [
 
-	^ innerElement
+	"need to be lazy because the inner element is dressed by the dresser (which is installed from my superclass)"
+	^ innerElement ifNil: [ 	self innerElement: self defaultEditorElement. innerElement ]
 ]
 
 { #category : #accessing }
 ToAlbum >> innerElement: anEditorElement [
-	innerElement ifNotNil: [ 
-		innerElement removeFromParent ].
+
+	innerElement ifNotNil: [ innerElement removeFromParent ].
 	innerElement := anEditorElement.
 	self addChild: anEditorElement
 ]

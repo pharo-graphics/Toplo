@@ -79,7 +79,7 @@ ToSandBox class >> example_EditorWithGhostTextWithToAlbumModel [
 { #category : #image }
 ToSandBox class >> example_Smalltalk_ui_icons [
 
-	| column |
+	| column root vscrollBar container |
 	column := BlElement new
 		          layout: BlLinearLayout vertical;
 		          constraintsDo: [ :c | 
@@ -108,7 +108,21 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 			addChild: im.
 		column addChild: row ].
 
-	column openInOBlSpace
+	root := column asScrollableElement.
+	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar constraintsDo: [ :c |
+			c ignoreByLayout.
+			c margin: (BlInsets right: 2).
+			c ignored horizontal alignRight.
+			c ignored vertical alignBottom]. 
+	vscrollBar attachTo: root.
+	container := BlElement new
+		          constraintsDo: [ :c | 
+			          c horizontal matchParent.
+			          c vertical matchParent ];
+		          yourself.
+	container addChild: root; addChild: vscrollBar.
+	container openInOBlSpace 
 ]
 
 { #category : #stuffs }

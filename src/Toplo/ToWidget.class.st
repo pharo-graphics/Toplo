@@ -9,19 +9,6 @@ Class {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'api - space' }
-ToWidget >> attachSpace [
-	super attachSpace.
-	"Dresser installation is automatically launched (whereas dresser uninstalltion must be explicitely send)
-	This is to avoid mutiple unstallations and installations"
-	self dresserDo: [ :d | d launchInstallationIn: self ]
-]
-
-{ #category : #initialization }
-ToWidget >> defaultBackground [
-	^ Color transparent
-]
-
 { #category : #initialization }
 ToWidget >> defaultDresser [
 
@@ -33,20 +20,6 @@ ToWidget >> defaultDresser [
 ToWidget >> defaultLayout [
 
 	^ BlLinearLayout horizontal 
-]
-
-{ #category : #initialization }
-ToWidget >> defaultMargins [
-
-	^ BlInsets empty
-		  
-]
-
-{ #category : #initialization }
-ToWidget >> defaultPaddings [
-
-	^ BlInsets empty
-		  
 ]
 
 { #category : #initialization }
@@ -64,7 +37,9 @@ ToWidget >> dresser [
 ToWidget >> dresser: aDresser [
 
 	self dresserDo: [ :d  | d launchUninstallationIn: self ].
-	self userData at: #dresser put: aDresser
+	self userData at: #dresser put: aDresser.
+	self dresserDo: [ :d  | d launchInstallationIn: self ].
+
 ]
 
 { #category : #'accessing - dresser' }
@@ -102,12 +77,7 @@ ToWidget >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	self dresser: self defaultDresser.
-	self background: self defaultBackground.
-	self layout: self defaultLayout.
-	self padding: self defaultPaddings.
-	self margin: self defaultMargins.
-
+	self dresser: self defaultDresser
 ]
 
 { #category : #'change reporting' }
@@ -162,6 +132,7 @@ ToWidget >> viewModel: aViewModel [
 
 { #category : #accessing }
 ToWidget >> viewModelDo: aBlock [
+
 	viewModel ifNotNil: aBlock
 ]
 

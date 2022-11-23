@@ -25,17 +25,6 @@ ToGeneralButton >> applyToggleStateTransition [
 	toggleState := toggleState next
 ]
 
-{ #category : #'api - space' }
-ToGeneralButton >> attachSpace [ 
-
-	super attachSpace.
-
-	clickHandler := ToButtonClickEventHandler new button: self.
-	self addEventHandler: clickHandler.
-
-	self applyStartToggleState
-]
-
 { #category : #'api - change hook' }
 ToGeneralButton >> changeToToggleStateNamed: aStateName [
 
@@ -70,16 +59,6 @@ ToGeneralButton >> defaultDresser [
 ToGeneralButton >> defaultViewModel [ 
 
 	^ ToGeneralButtonModel new
-]
-
-{ #category : #'api - space' }
-ToGeneralButton >> detachSpace [ 
-
-	self removeEventHandler: clickHandler.
-	clickHandler := nil.
-	
-	super detachSpace.
-
 ]
 
 { #category : #accessing }
@@ -130,6 +109,7 @@ ToGeneralButton >> toggleStates: aCollectionOfStates [
 		curr next: states removeFirst.
 		curr := curr next ].
 	curr next: toggleState.
+	self applyStartToggleState
 ]
 
 { #category : #accessing }

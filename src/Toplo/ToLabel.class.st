@@ -80,7 +80,7 @@ ToLabel >> defaultLineMode [
 ]
 
 { #category : #initialization }
-ToLabel >> defaultPaddings [
+ToLabel >> defaultPadding [
 
 	^ BlInsets empty
 		  

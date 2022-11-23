@@ -6,7 +6,8 @@ Class {
 		'mouseDownHandler',
 		'mouseUpHandler',
 		'mouseEnterHandler',
-		'mouseLeaveHandler'
+		'mouseLeaveHandler',
+		'clickHandler'
 	],
 	#category : #'Toplo-Widget-Button'
 }
@@ -43,6 +44,8 @@ ToButtonDresser >> initialState: anElement [
 ToButtonDresser >> installEventListenersIn: anElement [
 
 	clickCandidateHandler := BlEventHandler on: BlClickCandidateEvent do: [ self escaped: anElement ].
+
+	clickHandler := ToButtonClickEventHandler new button: anElement.
 	mouseDownHandler := BlEventHandler on: BlMouseDownEvent do: [ self pressed: anElement ].
 	mouseUpHandler := BlEventHandler on: BlMouseUpEvent do: [ self clicked: anElement ].
 	mouseEnterHandler := BlEventHandler on: BlMouseEnterEvent 
@@ -54,7 +57,10 @@ ToButtonDresser >> installEventListenersIn: anElement [
 	anElement addEventHandler: mouseDownHandler.
 	anElement addEventHandler: mouseUpHandler.
 	anElement addEventHandler: mouseEnterHandler.
-	anElement addEventHandler: mouseLeaveHandler
+	anElement addEventHandler: mouseLeaveHandler.
+	anElement addEventHandler: clickHandler.
+
+
 ]
 
 { #category : #'events handling' }
@@ -94,5 +100,6 @@ ToButtonDresser >> uninstallEventListenersIn: anElement [
 	anElement removeEventHandler: mouseDownHandler.
 	anElement removeEventHandler: mouseUpHandler.
 	anElement removeEventHandler: mouseEnterHandler.
-	anElement removeEventHandler: mouseLeaveHandler
+	anElement removeEventHandler: mouseLeaveHandler.
+	anElement removeEventHandler: clickHandler.
 ]

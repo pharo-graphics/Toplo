@@ -48,54 +48,9 @@ ToButtonClickEventHandler >> doubleClickEvent: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToButtonClickEventHandler >> dragEndEvent: anEvent [
-
-	anEvent consumed: true.
-	anEvent currentTarget dispatchEvent: anEvent asClickCandidateEvent 
-
-]
-
-{ #category : #'api - accessing' }
-ToButtonClickEventHandler >> dragEnterEvent: anEvent [
-
-	anEvent consumed: true.
-	anEvent currentTarget dispatchEvent: anEvent asMouseEnterEvent 
-]
-
-{ #category : #'api - accessing' }
-ToButtonClickEventHandler >> dragEvent: anEvent [
-
-	anEvent consumed: true.
-
-]
-
-{ #category : #'api - accessing' }
-ToButtonClickEventHandler >> dragLeaveEvent: anEvent [
-
-	anEvent consumed: true.
-	anEvent currentTarget dispatchEvent: anEvent asMouseLeaveEvent 
-
-]
-
-{ #category : #'api - accessing' }
-ToButtonClickEventHandler >> dragStartEvent: anEvent [
-
-	anEvent consumed: true.
-
-]
-
-{ #category : #'api - accessing' }
-ToButtonClickEventHandler >> dropEvent: anEvent [
-
-	anEvent consumed: true.	
-	anEvent currentTarget dispatchEvent: anEvent asClickCandidateEvent 
-
-]
-
-{ #category : #'api - accessing' }
 ToButtonClickEventHandler >> eventsToHandle [
 
-	^ { BlClickEvent. BlDoubleClickEvent. BlMouseDownEvent. BlMouseUpEvent. BlClickCandidateEvent. BlDragStartEvent. BlDragEvent. BlDragLeaveEvent. BlDragEnterEvent. BlDragEndEvent.  BlDropEvent }
+	^ { BlClickEvent. BlDoubleClickEvent. BlMouseDownEvent. BlMouseUpEvent. BlClickCandidateEvent }
 ]
 
 { #category : #'api - accessing' }
@@ -108,7 +63,7 @@ ToButtonClickEventHandler >> mouseDownEvent: anEvent [
 { #category : #'api - accessing' }
 ToButtonClickEventHandler >> mouseUpEvent: anEvent [
 
-	"Because of the button has sub-elements, a Mouse up can a different target than the related mouse down but it can come from the button or from one of its children (if mouse has slided from the label to the icon as an example)"
+	"Because of the button has sub-elements, a Mouse up can have a different target than the corresponding mouse down but it can come from the button or from one of its children (if mouse has slided from the label to the icon as an example)"
 
 	"mouse up must be consumed here so that BlClickCandidateEvent is created with the right BlMouseUpEvent"
 

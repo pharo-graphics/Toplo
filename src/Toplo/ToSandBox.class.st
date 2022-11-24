@@ -364,20 +364,6 @@ ToSandBox class >> example_toButtonOrientationChanger [
 ]
 
 { #category : #button }
-ToSandBox class >> example_toButtonWithHelp [
-
-	| but space |
-	but := ToButton new.
-	but help: ('This is a button', String cr, 'so, click on me...') asRopedText. 
-	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
-	but whenActionPerformedDo: [ self inform: 'Button action performed' ].
-	but size: 32@16.
-	space := OBlSpace new.
-	space addChild: but.
-	space show
-]
-
-{ #category : #button }
 ToSandBox class >> example_toButtonWithIconOnly [
 
 	| but space container |
@@ -423,6 +409,20 @@ ToSandBox class >> example_toButtonWithTextOnly [
 	but padding: (BlInsets all: 4).
 	but whenClickedDo: [ self inform: 'clicked' ].
 
+	space := OBlSpace new.
+	space addChild: but.
+	space show
+]
+
+{ #category : #button }
+ToSandBox class >> example_toButtonWithTooltip [
+
+	| but space |
+	but := ToButton new.
+	but tooltipContent: ('This is a button', String cr, 'so, click on me...') asRopedText. 
+	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
+	but whenActionPerformedDo: [ self inform: 'Button action performed' ].
+	but size: 32@16.
 	space := OBlSpace new.
 	space addChild: but.
 	space show

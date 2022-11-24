@@ -3,24 +3,18 @@ Class {
 	#superclass : #ToCompanion,
 	#instVars : [
 		'theme',
-		'unabled'
+		'minimalEventHandler'
 	],
 	#category : #'Toplo-Core'
 }
-
-{ #category : #initialization }
-ToWidgetDresser >> initialize [ 
-
-	super initialize.
-	unabled := true.
-
-]
 
 { #category : #'api - install/uninstall  hook' }
 ToWidgetDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	theme := 	anElement theme
+	theme := 	anElement theme.
+	minimalEventHandler := ToWidgetMinimalEventHandler new.
+	anElement addEventHandler: minimalEventHandler
 
 ]
 
@@ -28,6 +22,8 @@ ToWidgetDresser >> onInstalledIn: anElement [
 ToWidgetDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
+	anElement removeEventHandler: minimalEventHandler.
+	minimalEventHandler := nil.
 	theme := 	nil
 
 ]

@@ -17,6 +17,7 @@ TToEnableable >> disabled: aBoolean [
 
 { #category : #'api - enablement' }
 TToEnableable >> enable [
+
 	self states removeState: BlElementState disabled
 ]
 

@@ -1,10 +1,9 @@
 Class {
 	#name : #ToGeneralButton,
-	#superclass : #ToWidget,
-	#traits : 'TBlAlignable + TOBlLayoutResizable',
-	#classTraits : 'TBlAlignable classTrait + TOBlLayoutResizable classTrait',
+	#superclass : #BlElement,
+	#traits : 'TToWidget + TBlAlignable + TOBlLayoutResizable',
+	#classTraits : 'TToWidget classTrait + TBlAlignable classTrait + TOBlLayoutResizable classTrait',
 	#instVars : [
-		'#clickHandler',
 		'#toggleState => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Button'
@@ -80,7 +79,8 @@ ToGeneralButton >> horizontalAlignment: aBlElementAlignment [
 ToGeneralButton >> initialize [ 
 
 	self class initializeSlots: self.
-	super initialize
+	super initialize.
+	self dresser: self defaultDresser 
 
 ]
 

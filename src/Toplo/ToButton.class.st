@@ -136,6 +136,7 @@ ToButton >> iconImageReplaced [
 { #category : #initialization }
 ToButton >> initialize [
 
+	self class initializeSlots: self.
 	super initialize.
 	horizontal := true.
 	labelFirst := false.

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToLabel,
-	#superclass : #ToWidget,
-	#traits : 'TBlAlignable + TOBlLayoutResizable',
-	#classTraits : 'TBlAlignable classTrait + TOBlLayoutResizable classTrait',
+	#superclass : #BlElement,
+	#traits : 'TToWidget + TBlAlignable + TOBlLayoutResizable',
+	#classTraits : 'TToWidget classTrait + TBlAlignable classTrait + TOBlLayoutResizable classTrait',
 	#instVars : [
 		'#textReplacedHandler',
 		'#innerElement',
@@ -160,7 +160,8 @@ ToLabel >> initialize [
 	self whenTextReplacedDo: [ self privateText: self text ].
 	self whenLineModeChangedDo: [ self privateLineModeChanged ].
 	self lineMode: self defaultLineMode.
-	self text: self defaultText 
+	self text: self defaultText.
+	self dresser: self defaultDresser
 
 ]
 

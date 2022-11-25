@@ -215,36 +215,20 @@ ToExperiments class >> example_ExperimentForMultilineLabel5 [
 ]
 
 { #category : #image }
-ToExperiments class >> example_Smalltalk_ui_icons_withElements [
+ToExperiments class >> example_Smalltalk_all_classes [
 
 | column root vscrollBar container space |
 	column := BlElement new
 		          layout: BlLinearLayout vertical;
 		          constraintsDo: [ :c | 
-			          c horizontal fitContent.
+			          c horizontal matchParent.
 			          c vertical fitContent ];
 		          yourself.
-	Smalltalk ui icons allIconNames do: [ :k | 
-		| lab im row |
-		im := (Smalltalk ui icons iconNamed: k) asElement.
-		im constraintsDo: [ :c | c linear vertical alignCenter ].
-		im border: (BlBorder paint: Color lightGray).
-		lab := BlTextElement new text: k asString asRopedText.
-		lab padding: (BlInsets all: 6).
-		lab border: (BlBorder paint: Color lightGray).
-		lab constraintsDo: [ :c | c linear vertical alignCenter ].
-		row := BlElement new
-			       layout: BlLinearLayout horizontal;
-			       constraintsDo: [ :c | 
-				       c horizontal fitContent.
-				       c vertical fitContent ];
-			       border: (BlBorder paint: Color lightGray);
-			       outskirts: BlOutskirts outside;
-			       yourself.
-		row
-			addChild: lab;
-			addChild: im.
-		column addChild: row ].
+	1 timesRepeat: [ 
+	Object allSubclassesDo: [ :cls | 
+		| lab |
+		lab := ToLabel new text: cls name asRopedText.
+		column addChild: lab ] ].
 
 	root := column asScrollableElement.
 	vscrollBar := BlVerticalScrollbarElement new.
@@ -260,7 +244,57 @@ ToExperiments class >> example_Smalltalk_ui_icons_withElements [
 			          c vertical matchParent ];
 		          yourself.
 	container addChild: root; addChild: vscrollBar.
-	space := BlSpace new.
+	space := OBlSpace new.
+	space addChild: container.
+	space show
+]
+
+{ #category : #image }
+ToExperiments class >> example_Smalltalk_ui_icons_withElements [
+
+| column root vscrollBar container space |
+	column := BlElement new
+		          layout: BlLinearLayout vertical;
+		          constraintsDo: [ :c | 
+			          c horizontal matchParent.
+			          c vertical fitContent ];
+		          yourself.
+	1 timesRepeat: [ 
+	Smalltalk ui icons allIconNames do: [ :k | 
+		| lab im row |
+		im := (Smalltalk ui icons iconNamed: k) asElement.
+		im constraintsDo: [ :c | c linear vertical alignCenter ].
+		lab := BlTextElement new text: k asString asRopedText.
+		lab padding: (BlInsets all: 6).
+		lab constraintsDo: [ :c | c linear vertical alignCenter ].
+		row := BlElement new
+			       layout: BlLinearLayout horizontal;
+					padding: (BlInsets all: 5);
+			       constraintsDo: [ :c | 
+				       c horizontal matchParent.
+				       c vertical fitContent ];
+			       border: (BlBorder paint: (Color veryLightGray alpha: 0.4));
+			       yourself.
+		row
+			addChild: lab;
+			addChild: im.
+		column addChild: row ] ].
+
+	root := column asScrollableElement.
+	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar constraintsDo: [ :c |
+			c ignoreByLayout.
+			c margin: (BlInsets right: 2).
+			c ignored horizontal alignRight.
+			c ignored vertical alignBottom]. 
+	vscrollBar attachTo: root.
+	container := BlElement new
+		          constraintsDo: [ :c | 
+			          c horizontal matchParent.
+			          c vertical matchParent ];
+		          yourself.
+	container addChild: root; addChild: vscrollBar.
+	space := OBlSpace new.
 	space addChild: container.
 	space show
 ]

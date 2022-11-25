@@ -1,6 +1,8 @@
 Class {
 	#name : #ToTooltip,
-	#superclass : #ToWidget,
+	#superclass : #BlElement,
+	#traits : 'TToWidget',
+	#classTraits : 'TToWidget classTrait',
 	#instVars : [
 		'#content => ObservableSlot',
 		'#popupAnimation',
@@ -80,6 +82,7 @@ ToTooltip >> deleteAnimation: anAnimationStencyl [
 { #category : #initialization }
 ToTooltip >> initialize [
 
+	self class initializeSlots: self.
 	super initialize.
 	eventHandler := ToTooltipEventHandler new.
 	self addEventHandler: eventHandler.
@@ -95,7 +98,8 @@ ToTooltip >> initialize [
 		                  duration: 500 milliSeconds;
 		                  opacity: 1;
 		                  yourself ].
-	self whenContentChangedDo: [ self label text: self content ]
+	self whenContentChangedDo: [ self label text: self content ].
+	self dresser: self defaultDresser 
 ]
 
 { #category : #accessing }

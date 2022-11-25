@@ -1,8 +1,8 @@
 Class {
 	#name : #ToImage,
-	#superclass : #ToWidget,
-	#traits : 'TBlAlignable + TOBlLayoutResizable',
-	#classTraits : 'TBlAlignable classTrait + TOBlLayoutResizable classTrait',
+	#superclass : #BlElement,
+	#traits : 'TToWidget + TBlAlignable + TOBlLayoutResizable',
+	#classTraits : 'TToWidget classTrait + TBlAlignable classTrait + TOBlLayoutResizable classTrait',
 	#instVars : [
 		'#innerImage => ObservableSlot'
 	],
@@ -43,7 +43,8 @@ ToImage >> initialize [
 	self class initializeSlots: self.
 	super initialize.
 	self fitContent.
-	self innerImage: self defaultInnerImage 
+	self innerImage: self defaultInnerImage.
+	self dresser: self defaultDresser
 ]
 
 { #category : #accessing }

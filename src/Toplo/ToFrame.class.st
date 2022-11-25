@@ -1,6 +1,8 @@
 Class {
 	#name : #ToFrame,
-	#superclass : #ToWidget,
+	#superclass : #BlElement,
+	#traits : 'TToWidget',
+	#classTraits : 'TToWidget classTrait',
 	#instVars : [
 		'bar',
 		'root',
@@ -182,7 +184,8 @@ ToFrame >> initialize [
 	self title: self defaultTitle.
 	self initializeBar.
 	self initializeRoot.
-	self initializeGrips
+	self initializeGrips.
+	self dresser: self defaultDresser
 ]
 
 { #category : #initialization }

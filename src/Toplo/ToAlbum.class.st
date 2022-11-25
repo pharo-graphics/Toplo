@@ -1,8 +1,8 @@
 Class {
 	#name : #ToAlbum,
-	#superclass : #ToWidget,
-	#traits : 'TOBlLayoutResizable + TToWidgetWithLayers',
-	#classTraits : 'TOBlLayoutResizable classTrait + TToWidgetWithLayers classTrait',
+	#superclass : #BlElement,
+	#traits : 'TToWidget + TOBlLayoutResizable + TToWidgetWithLayers',
+	#classTraits : 'TToWidget classTrait + TOBlLayoutResizable classTrait + TToWidgetWithLayers classTrait',
 	#instVars : [
 		'#editsFeedbackLayer',
 		'#ghostTextLayer',
@@ -77,11 +77,13 @@ ToAlbum >> flash [
 { #category : #initialization }
 ToAlbum >> initialize [
 
+	self class initializeSlots: self.
 	super initialize.
 	self constraintsDo: [ :c | 
 		c horizontal matchParent.
 		c vertical matchParent ].
 	self innerElement whenAnnouncement: AlbTextEdited do: [ self edited: true ].
+	self dresser: self defaultDresser
 ]
 
 { #category : #accessing }

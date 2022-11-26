@@ -1,5 +1,5 @@
 Class {
 	#name : #ToBorderResizeGrip,
 	#superclass : #ToResizeGrip,
-	#category : #'Toplo-Widget-Frame'
+	#category : #'Toplo-Widget-InnerWindow'
 }

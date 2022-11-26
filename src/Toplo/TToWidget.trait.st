@@ -71,10 +71,10 @@ TToWidget >> newTooltipWidget [
 ]
 
 { #category : #'t - world' }
-TToWidget >> openInFrame [
+TToWidget >> openInInnerWindow [
 
 	| frame |
-	frame := ToFrame new.
+	frame := ToInnerWindow new.
 	frame addChild: self.
 	frame openInWorld
 ]

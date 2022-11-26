@@ -1,8 +1,6 @@
 Class {
 	#name : #ToImage,
-	#superclass : #BlElement,
-	#traits : 'TToWidget + TBlAlignable + TOBlLayoutResizable',
-	#classTraits : 'TToWidget classTrait + TBlAlignable classTrait + TOBlLayoutResizable classTrait',
+	#superclass : #ToContainer,
 	#instVars : [
 		'#innerImage => ObservableSlot'
 	],

@@ -1,5 +1,5 @@
 Class {
-	#name : #ToFrame,
+	#name : #ToInnerWindow,
 	#superclass : #BlElement,
 	#traits : 'TToWidget',
 	#classTraits : 'TToWidget classTrait',
@@ -10,24 +10,24 @@ Class {
 		'titleLabel',
 		'grips'
 	],
-	#category : #'Toplo-Widget-Frame'
+	#category : #'Toplo-Widget-InnerWindow'
 }
 
 { #category : #'api - adding children' }
-ToFrame >> addChild: anElement [
+ToInnerWindow >> addChild: anElement [
 	"Add a given element as a direct child to the space root"
 	
 	self root addChild: anElement
 ]
 
 { #category : #accessing }
-ToFrame >> bar [
+ToInnerWindow >> bar [
 
 	^ bar
 ]
 
 { #category : #accessing }
-ToFrame >> bar: anElement [
+ToInnerWindow >> bar: anElement [
 
 	bar ifNotNil: [ 
 		bar removeEventHandler: (bar userData at: #pullHandler).
@@ -39,7 +39,7 @@ ToFrame >> bar: anElement [
 ]
 
 { #category : #'api - displaying' }
-ToFrame >> close [
+ToInnerWindow >> close [
 
 	"Delegate closing work to the Universe"
 
@@ -52,7 +52,7 @@ ToFrame >> close [
 ]
 
 { #category : #initialization }
-ToFrame >> defaultBar [
+ToInnerWindow >> defaultBar [
 
 	| b close expand fill1 fill2 |
 	b := BlElement new
@@ -96,37 +96,37 @@ ToFrame >> defaultBar [
 ]
 
 { #category : #initialization }
-ToFrame >> defaultBarBackground [
+ToInnerWindow >> defaultBarBackground [
 	
 	^ Color veryLightGray alpha: 0.4
 ]
 
 { #category : #initialization }
-ToFrame >> defaultBorder [
+ToInnerWindow >> defaultBorder [
 
 	^ BlBorder paint: self defaultBorderPaint width: self defaultBorderWidth
 ]
 
 { #category : #initialization }
-ToFrame >> defaultBorderPaint [
+ToInnerWindow >> defaultBorderPaint [
 
 	^ Color veryLightGray alpha: 0.8
 ]
 
 { #category : #initialization }
-ToFrame >> defaultBorderWidth [
+ToInnerWindow >> defaultBorderWidth [
 
 	^ 3
 ]
 
 { #category : #initialization }
-ToFrame >> defaultGeometry [ 
+ToInnerWindow >> defaultGeometry [ 
 	
 	^ (BlRoundedRectangleGeometry cornerRadius: 5)
 ]
 
 { #category : #initialization }
-ToFrame >> defaultRoot [
+ToInnerWindow >> defaultRoot [
 
 	^ BlElement new
 		  background: self defaultRootBackground;
@@ -140,36 +140,36 @@ ToFrame >> defaultRoot [
 ]
 
 { #category : #initialization }
-ToFrame >> defaultRootBackground [
+ToInnerWindow >> defaultRootBackground [
 
 	^ Color white
 ]
 
 { #category : #initialization }
-ToFrame >> defaultRootLabel [
+ToInnerWindow >> defaultRootLabel [
 	^ 'Frame root'
 ]
 
 { #category : #initialization }
-ToFrame >> defaultSize [
+ToInnerWindow >> defaultSize [
 
 	^ 300@200
 ]
 
 { #category : #initialization }
-ToFrame >> defaultTitle [
+ToInnerWindow >> defaultTitle [
 
 	^ ''
 ]
 
 { #category : #initialization }
-ToFrame >> defaultViewModel [
+ToInnerWindow >> defaultViewModel [
 
-	^ ToFrameModel new
+	^ ToInnerWindowModel new
 ]
 
 { #category : #initialization }
-ToFrame >> initialize [
+ToInnerWindow >> initialize [
 
 	super initialize.
 	self
@@ -189,13 +189,13 @@ ToFrame >> initialize [
 ]
 
 { #category : #initialization }
-ToFrame >> initializeBar [
+ToInnerWindow >> initializeBar [
 
 	self bar: self defaultBar
 ]
 
 { #category : #initialization }
-ToFrame >> initializeGrips [
+ToInnerWindow >> initializeGrips [
 
 	grips := { 
 		ToBottomRightResizeGrip.
@@ -217,33 +217,33 @@ ToFrame >> initializeGrips [
 ]
 
 { #category : #initialization }
-ToFrame >> initializeRoot [
+ToInnerWindow >> initializeRoot [
 
 	self root: self defaultRoot
 ]
 
 { #category : #spec2 }
-ToFrame >> inspectionPreview: aBuilder [
+ToInnerWindow >> inspectionPreview: aBuilder [
 	"<inspectorPresentationOrder: 1 title: 'Preview'>"
 
 	^ self root inspectionPreview: aBuilder
 ]
 
 { #category : #spec2 }
-ToFrame >> inspectionTree: aBuilder [
+ToInnerWindow >> inspectionTree: aBuilder [
 	<inspectorPresentationOrder: 2 title: 'Tree'>
 
 	^ self root inspectionTree: aBuilder
 ]
 
 { #category : #'grips managing' }
-ToFrame >> layoutGrips [
+ToInnerWindow >> layoutGrips [
 
 	grips	do: [ :g | g applyLayoutIn: self ]
 ]
 
 { #category : #'api - displaying' }
-ToFrame >> maximize [
+ToInnerWindow >> maximize [
 
 	self
 		relocate: 0 @ 0;
@@ -251,14 +251,14 @@ ToFrame >> maximize [
 ]
 
 { #category : #'api - adding children' }
-ToFrame >> removeChild: anElement [
+ToInnerWindow >> removeChild: anElement [
 	"Remove a given element from the space root"
 	
 	self root removeChild: anElement
 ]
 
 { #category : #accessing }
-ToFrame >> root [
+ToInnerWindow >> root [
 	"Return my current root element.
 	root can not be nil"
 	
@@ -266,7 +266,7 @@ ToFrame >> root [
 ]
 
 { #category : #accessing }
-ToFrame >> root: anElement [
+ToInnerWindow >> root: anElement [
 
 	"Make a given element my root element.
 	anElement must not be nil.
@@ -286,7 +286,7 @@ ToFrame >> root: anElement [
 ]
 
 { #category : #accessing }
-ToFrame >> rootDo: aBlock [
+ToInnerWindow >> rootDo: aBlock [
 	"A helper method to evaluate a given block with the root element as its argument.
 	May be useful for scripting"
 
@@ -294,30 +294,28 @@ ToFrame >> rootDo: aBlock [
 ]
 
 { #category : #'api - displaying' }
-ToFrame >> show [
+ToInnerWindow >> show [
 	"Open me in a window and show it to the user"
 
 	self openInOBlSpace
 ]
 
 { #category : #accessing }
-ToFrame >> title [
+ToInnerWindow >> title [
 
 	^ title
 ]
 
 { #category : #accessing }
-ToFrame >> title: aString [
+ToInnerWindow >> title: aString [
 
 	title := aString.
 	titleLabel ifNotNil: [ titleLabel text: aString ]
 ]
 
 { #category : #'api - displaying' }
-ToFrame >> toFront [
+ToInnerWindow >> toFront [
 
-	self parentDo: [ :p | 
-		p detachChild: self.
-		self elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
-		p attachChild: self ]
+	self detachFromParentWhile: [ 
+		self elevation: (BlRelativeElevation elevation: SmallInteger maxVal) ]
 ]

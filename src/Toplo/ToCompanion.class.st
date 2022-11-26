@@ -20,7 +20,6 @@ ToCompanion >> initialize [
 	self class initializeSlots: self.
 	super initialize.
 	installed := false.
-	privateAnnouncer := Announcer new.
 	self startPostponedActionsStorage
 ]
 

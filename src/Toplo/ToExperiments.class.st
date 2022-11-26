@@ -368,7 +368,7 @@ ToExperiments class >> example_drag3 [
 ToExperiments class >> example_drag4 [
 
 	| e child |
-	e := ToFrame new.
+	e := ToInnerWindow new.
 
 	child := ToImage new
 		         innerImage: (BlElement new

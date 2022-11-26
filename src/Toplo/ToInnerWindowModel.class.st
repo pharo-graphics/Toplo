@@ -1,11 +1,11 @@
 Class {
-	#name : #ToFrameModel,
+	#name : #ToInnerWindowModel,
 	#superclass : #ToViewModel,
 	#category : #'Toplo-View Models'
 }
 
 { #category : #'private - accessing - widget' }
-ToFrameModel >> privateWidgetClass [
+ToInnerWindowModel >> privateWidgetClass [
 
-	^ ToFrame
+	^ ToInnerWindow
 ]

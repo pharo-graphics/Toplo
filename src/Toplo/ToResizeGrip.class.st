@@ -6,7 +6,7 @@ Class {
 		'initialTargetSize',
 		'pulled'
 	],
-	#category : #'Toplo-Widget-Frame'
+	#category : #'Toplo-Widget-InnerWindow'
 }
 
 { #category : #'mouse processing' }

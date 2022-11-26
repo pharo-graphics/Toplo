@@ -7,8 +7,8 @@ Class {
 { #category : #'root frame' }
 ToSandBox class >> example_2RootFramesInOBlWorld [
 
-	ToFrame new title: 'Frame 1' ; openInWorld.	
-	ToFrame new title: 'Frame 2' ; openInWorld.	
+	ToInnerWindow new title: 'Frame 1' ; openInWorld.	
+	ToInnerWindow new title: 'Frame 2' ; openInWorld.	
 	
 ]
 
@@ -140,7 +140,7 @@ ToSandBox class >> example_enterLeave [
 
 { #category : #'root frame' }
 ToSandBox class >> example_rootFrame1 [
-	ToFrame new title: 'Internal Frame example' ; openInOBlSpace 
+	ToInnerWindow new title: 'Internal Frame example' ; openInOBlSpace 
 ]
 
 { #category : #'text field' }
@@ -531,7 +531,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroup2 [
 	container addChildren: group buttons.
 	group whenCheckedDo: [ :chb :previous | 
 		self inform: 'checked: ' , chb id asString, ' (previous was: ', (previous ifNil: [ 'none' ] ifNotNil: [ previous id asString ]) ].
-	ToFrame new in: [ :f | f addChild: container ]; openInWorld
+	ToInnerWindow new in: [ :f | f addChild: container ]; openInWorld
 ]
 
 { #category : #image }

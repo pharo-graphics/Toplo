@@ -86,7 +86,6 @@ ToTooltip >> initialize [
 	super initialize.
 	eventHandler := ToTooltipEventHandler new.
 	self addEventHandler: eventHandler.
-
 	self animate: true.
 	deleteAnimation := [ 
 	                   BlOpacityAnimation new
@@ -98,6 +97,7 @@ ToTooltip >> initialize [
 		                  duration: 500 milliSeconds;
 		                  opacity: 1;
 		                  yourself ].
+	self label: self defaultLabel.
 	self whenContentChangedDo: [ self label text: self content ].
 	self dresser: self defaultDresser 
 ]
@@ -105,9 +105,7 @@ ToTooltip >> initialize [
 { #category : #accessing }
 ToTooltip >> label [
 
-	^ label ifNil: [ 
-		  self label: self defaultLabel.
-		  label ]
+	^ label
 ]
 
 { #category : #accessing }

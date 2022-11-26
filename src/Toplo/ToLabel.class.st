@@ -1,8 +1,6 @@
 Class {
 	#name : #ToLabel,
-	#superclass : #BlElement,
-	#traits : 'TToWidget + TBlAlignable + TOBlLayoutResizable',
-	#classTraits : 'TToWidget classTrait + TBlAlignable classTrait + TOBlLayoutResizable classTrait',
+	#superclass : #ToContainer,
 	#instVars : [
 		'#textReplacedHandler',
 		'#innerElement',

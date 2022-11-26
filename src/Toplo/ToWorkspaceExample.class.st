@@ -180,7 +180,7 @@ ToWorkspaceExample >> openInSpace: aSpace [
 	| editor frame |
 	editor := self codeEditor.
 	editor innerElement requestFocus.
-	frame := ToFrame new title: 'Workspace'.
+	frame := ToInnerWindow new title: 'Workspace'.
 	frame addChild: editor.
 	aSpace root addChild: frame.
 "	aSpace addEventHandler: (BlEventHandler

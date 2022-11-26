@@ -1,8 +1,8 @@
 Class {
 	#name : #ToAlbum,
-	#superclass : #BlElement,
-	#traits : 'TToWidget + TOBlLayoutResizable + TToWidgetWithLayers',
-	#classTraits : 'TToWidget classTrait + TOBlLayoutResizable classTrait + TToWidgetWithLayers classTrait',
+	#superclass : #ToContainer,
+	#traits : 'TToWidgetWithLayers',
+	#classTraits : 'TToWidgetWithLayers classTrait',
 	#instVars : [
 		'#editsFeedbackLayer',
 		'#ghostTextLayer',
@@ -82,6 +82,7 @@ ToAlbum >> initialize [
 	self constraintsDo: [ :c | 
 		c horizontal matchParent.
 		c vertical matchParent ].
+	self innerElement: self defaultEditorElement.
 	self innerElement whenAnnouncement: AlbTextEdited do: [ self edited: true ].
 	self dresser: self defaultDresser
 ]
@@ -90,7 +91,7 @@ ToAlbum >> initialize [
 ToAlbum >> innerElement [
 
 	"need to be lazy because the inner element is dressed by the dresser (which is installed from my superclass)"
-	^ innerElement ifNil: [ 	self innerElement: self defaultEditorElement. innerElement ]
+	^ innerElement 
 ]
 
 { #category : #accessing }

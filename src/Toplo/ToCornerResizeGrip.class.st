@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCornerResizeGrip,
 	#superclass : #ToResizeGrip,
-	#category : #'Toplo-Widget-Frame'
+	#category : #'Toplo-Widget-InnerWindow'
 }
 
 { #category : #initialization }

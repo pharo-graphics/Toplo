@@ -1,8 +1,8 @@
 Class {
 	#name : #ToAlbum,
-	#superclass : #ToContainer,
-	#traits : 'TToWidgetWithLayers',
-	#classTraits : 'TToWidgetWithLayers classTrait',
+	#superclass : #BlElement,
+	#traits : 'TToWidget + TToContainer + TToWidgetWithLayers',
+	#classTraits : 'TToWidget classTrait + TToContainer classTrait + TToWidgetWithLayers classTrait',
 	#instVars : [
 		'#editsFeedbackLayer',
 		'#ghostTextLayer',

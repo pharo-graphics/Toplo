@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTextFieldDresser,
-	#superclass : #ToWidgetDresser,
+	#superclass : #ToDresser,
 	#category : #'Toplo-Widget-TextField'
 }
 

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToButtonDresser,
-	#superclass : #ToWidgetDresser,
+	#superclass : #ToDresser,
 	#instVars : [
 		'clickCandidateHandler',
 		'mouseDownHandler',

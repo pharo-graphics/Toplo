@@ -22,14 +22,6 @@ ToGeneralButtonModel >> toggleStates: aCollectionOfStates [
 ]
 
 { #category : #'api - action' }
-ToGeneralButtonModel >> whenActionPerformedDo: aBlock [
-	"Inform that the button has been aclicked, and its action has been performed.
-	 `aBlock` receive zero arguments."
-
-	self widgetDo: [ :widget | widget whenActionPerformedDo: aBlock ]
-]
-
-{ #category : #'api - action' }
 ToGeneralButtonModel >> whenClickedDo: aBlock [
 	"Inform that the button has been aclicked, and its action has been performed.
 	 `aBlock` receive zero arguments."

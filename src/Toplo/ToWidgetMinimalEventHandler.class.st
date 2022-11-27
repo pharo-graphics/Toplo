@@ -26,7 +26,7 @@ ToWidgetMinimalEventHandler >> hideTooltipFor: aWidget [
 ]
 
 { #category : #'api - accessing' }
-ToWidgetMinimalEventHandler >> launchPopup: anEvent [
+ToWidgetMinimalEventHandler >> launchPopupTooltip: anEvent [
 
 	anEvent currentTarget tooltipDo: [ :tooltip | 
 		tooltip content ifEmpty: [ ^ self ].
@@ -50,7 +50,7 @@ ToWidgetMinimalEventHandler >> mouseEnterEvent: anEvent [
 
 	openTooltipTask ifNotNil: [ anEvent currentTarget dequeueTask: openTooltipTask ].
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
-	self launchPopup: anEvent
+	self launchPopupTooltip: anEvent
 ]
 
 { #category : #'api - accessing' }

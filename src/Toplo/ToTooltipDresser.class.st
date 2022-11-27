@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTooltipDresser,
-	#superclass : #ToWidgetDresser,
+	#superclass : #ToDresser,
 	#instVars : [
 		'eventHandler'
 	],

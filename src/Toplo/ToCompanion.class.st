@@ -23,6 +23,12 @@ ToCompanion >> initialize [
 	self startPostponedActionsStorage
 ]
 
+{ #category : #accessing }
+ToCompanion >> isInstalled [
+
+	^ installed
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToCompanion >> launchInstallationIn: anElement [
 

@@ -120,6 +120,12 @@ ToInnerWindow >> defaultBorderWidth [
 ]
 
 { #category : #initialization }
+ToInnerWindow >> defaultDresser [ 
+
+	^ ToNullDresser new
+]
+
+{ #category : #initialization }
 ToInnerWindow >> defaultGeometry [ 
 	
 	^ (BlRoundedRectangleGeometry cornerRadius: 5)

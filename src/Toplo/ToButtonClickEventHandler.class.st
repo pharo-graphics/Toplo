@@ -37,14 +37,16 @@ ToButtonClickEventHandler >> clickCandidateEvent: anEvent [
 ToButtonClickEventHandler >> clickEvent: anEvent [
 
 	anEvent consumed: true.
-	anEvent currentTarget clickEvent: anEvent
+	button isDisabled ifTrue: [ ^ self ].
+	button viewModelDo: [ :m | m clickEvent: anEvent].
+	button announce: (ToButtonClickLaunchAction new widget: button)
 ]
 
 { #category : #'api - accessing' }
 ToButtonClickEventHandler >> doubleClickEvent: anEvent [
 
 	anEvent consumed: true.
-	anEvent currentTarget clickEvent: anEvent
+	self clickEvent: anEvent
 ]
 
 { #category : #'api - accessing' }

@@ -5,6 +5,12 @@ Trait {
 	#category : #'Toplo-Core'
 }
 
+{ #category : #'t - accessing - dresser' }
+TToWidget >> addDresser: aDresser [
+
+	self dresser addDresser: aDresser in: self
+]
+
 { #category : #'t - api - tooltip' }
 TToWidget >> checkTooltip [
 
@@ -14,8 +20,7 @@ TToWidget >> checkTooltip [
 { #category : #'t - initialization' }
 TToWidget >> defaultDresser [
 
-	^ ToNullDresser new
-
+	^ self explicitRequirement
 ]
 
 { #category : #'t - initialization' }
@@ -47,6 +52,12 @@ TToWidget >> dresser: aDresser [
 { #category : #'t - accessing - dresser' }
 TToWidget >> dresserDo: aBlock [
 	self dresser ifNotNil: aBlock
+]
+
+{ #category : #'t - accessing - dresser' }
+TToWidget >> dresserSatisfying: aBlock [
+
+	^ self dresser dresserSatisfying: aBlock
 ]
 
 { #category : #'t - change reporting' }
@@ -86,6 +97,17 @@ TToWidget >> openInWorld [
 	world := ToManager world.
 	world isOpened ifFalse: [ world show ].
 	world root addChild: self
+]
+
+{ #category : #'t - accessing - dresser' }
+TToWidget >> removeDresser: aDresser [
+
+	self dresser = aDresser ifFalse: [ 
+		self dresser removeDresser: aDresser in: self.
+		^ self ].
+	self dresser: aDresser next.
+	aDresser next: ToNullDresser new.
+	aDresser launchUninstallationIn: self
 ]
 
 { #category : #'t - accessing' }

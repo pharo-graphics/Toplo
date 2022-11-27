@@ -356,7 +356,6 @@ ToSandBox class >> example_toButtonOrientationChanger [
 	but iconImage: iconImage.
 	but whenClickedDo: [ :ann | 
 		ann widget orientation: but orientation inverted].
-	but whenActionPerformedDo: [ self inform: 'Button action performed' ].
 	space := OBlSpace new.
 	space addChild: but.
 	"space host: BAOSWindowSDL2Host new."
@@ -421,7 +420,6 @@ ToSandBox class >> example_toButtonWithTooltip [
 	but := ToButton new.
 	but tooltipContent: ('This is a button', String cr, 'so, click on me...') asRopedText. 
 	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
-	but whenActionPerformedDo: [ self inform: 'Button action performed' ].
 	but size: 32@16.
 	space := OBlSpace new.
 	space addChild: but.
@@ -940,6 +938,17 @@ ToSandBox class >> example_toRadioButton0 [
 	| but |
 	but := ToRadioButtonModel new.
 	but onWidget openInOBlSpace
+]
+
+{ #category : #button }
+ToSandBox class >> example_toWidgetAsButton0 [
+
+	| but |
+	but := ToWidget new.
+	but addDresser: ToButtonDefaultDresser new.
+	but background: Color blue.
+	but size: 50@50.
+	but  openInOBlSpace 
 ]
 
 { #category : #accessing }

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAlbumBasicDresser,
-	#superclass : #ToWidgetDresser,
+	#superclass : #ToDresser,
 	#category : #'Toplo-Widget-Album'
 }
 

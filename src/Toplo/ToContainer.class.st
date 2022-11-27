@@ -1,6 +1,6 @@
 Class {
 	#name : #ToContainer,
-	#superclass : #BlElement,
+	#superclass : #ToWidget,
 	#traits : 'TToContainer',
 	#classTraits : 'TToContainer classTrait',
 	#category : #'Toplo-Core'

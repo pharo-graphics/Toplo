@@ -36,13 +36,6 @@ ToGeneralButton >> changeToToggleStateNamed: aStateName [
 { #category : #'mouse handlers' }
 ToGeneralButton >> clickEvent: anEvent [
 
-	self isDisabled ifTrue: [ ^ self ].
-	self applyToggleStateTransition.
-	anEvent consumed: true.
-	anEvent currentTarget: self.
-	self viewModelDo: [ :m | m clickEvent: anEvent].
-	self announce: (ToButtonClickLaunchAction new widget: self).
-	self announce: (ToButtonClickActionPerformed new widget: self).
 
 ]
 
@@ -78,6 +71,7 @@ ToGeneralButton >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
+	self whenClickedDo: [ self applyToggleStateTransition ].
 	self dresser: self defaultDresser 
 
 ]
@@ -123,14 +117,6 @@ ToGeneralButton >> verticalAlignment: aBlElementAlignment [
 	self verticalAlignment = aBlElementAlignment ifTrue: [ ^self ].
 	self layout verticalAlignment: aBlElementAlignment
 
-]
-
-{ #category : #'api-  action' }
-ToGeneralButton >> whenActionPerformedDo: aBlock [
-	"Inform that the button has been aclicked, and its action has been performed.
-	 `aBlock` receive zero arguments."
-
-	self whenAnnouncement: ToButtonClickActionPerformed do: aBlock
 ]
 
 { #category : #'api - change hook' }

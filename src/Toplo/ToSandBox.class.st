@@ -7,9 +7,12 @@ Class {
 { #category : #'root frame' }
 ToSandBox class >> example_2RootFramesInOBlWorld [
 
-	ToInnerWindow new title: 'Frame 1' ; openInWorld.	
-	ToInnerWindow new title: 'Frame 2' ; openInWorld.	
-	
+	ToInnerWindow new
+		title: 'Frame 1';
+		openInWorld.
+	ToInnerWindow new
+		title: 'Frame 2';
+		openInWorld
 ]
 
 { #category : #album }

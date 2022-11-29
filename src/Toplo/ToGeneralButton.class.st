@@ -1,8 +1,8 @@
 Class {
 	#name : #ToGeneralButton,
 	#superclass : #BlElement,
-	#traits : 'TToWidget',
-	#classTraits : 'TToWidget classTrait',
+	#traits : 'TToWidget + TToEnableable + TToWidgetWithTooltip + TToWidgetWithDresser + TToWidgetWithViewModel',
+	#classTraits : 'TToWidget classTrait + TToEnableable classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithDresser classTrait + TToWidgetWithViewModel classTrait',
 	#category : #'Toplo-Widget-Button'
 }
 
@@ -45,16 +45,10 @@ ToGeneralButton >> currentState: aState [
 		action cull: aState cull: prev ]
 ]
 
-{ #category : #'t - initialization' }
+{ #category : #'t - accessing - dresser' }
 ToGeneralButton >> defaultDresser [
 
 	^ ToButtonDefaultDresser new
-]
-
-{ #category : #initialization }
-ToGeneralButton >> defaultViewModel [ 
-
-	^ ToGeneralButtonModel new
 ]
 
 { #category : #initialization }

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToLabel,
 	#superclass : #BlElement,
-	#traits : 'TToWidget',
-	#classTraits : 'TToWidget classTrait',
+	#traits : 'TToWidget + TToEnableable + TToWidgetWithTooltip + TToWidgetWithDresser + TToWidgetWithViewModel',
+	#classTraits : 'TToWidget classTrait + TToEnableable classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithDresser classTrait + TToWidgetWithViewModel classTrait',
 	#instVars : [
 		'#textReplacedHandler',
 		'#innerElement',
@@ -96,13 +96,6 @@ ToLabel >> defaultText [
 ToLabel >> defaultTextElement [
 
 	^ self lineMode newTextElementIn: self
-]
-
-{ #category : #initialization }
-ToLabel >> defaultViewModel [
-
-	^ ToLabelModel new.
-
 ]
 
 { #category : #accessing }

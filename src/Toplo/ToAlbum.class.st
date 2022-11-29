@@ -1,8 +1,8 @@
 Class {
 	#name : #ToAlbum,
 	#superclass : #BlElement,
-	#traits : 'TToWidget + TToWidgetWithLayers',
-	#classTraits : 'TToWidget classTrait + TToWidgetWithLayers classTrait',
+	#traits : 'TToWidget + TToWidgetWithViewModel + TToEnableable + TToWidgetWithTooltip + TToWidgetWithLayers + TToWidgetWithDresser',
+	#classTraits : 'TToWidget classTrait + TToWidgetWithViewModel classTrait + TToEnableable classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithLayers classTrait + TToWidgetWithDresser classTrait',
 	#instVars : [
 		'#editsFeedbackLayer',
 		'#ghostTextLayer',
@@ -36,7 +36,7 @@ ToAlbum >> beReadonlyWithoutSelection [
 	self innerElement beReadonlyWithoutSelection
 ]
 
-{ #category : #'t - initialization' }
+{ #category : #'t - accessing - dresser' }
 ToAlbum >> defaultDresser [
 
 	^ ToAlbumBasicDresser new
@@ -47,12 +47,6 @@ ToAlbum >> defaultDresser [
 ToAlbum >> defaultEditorElement [
 
 	^ AlbEditorElement new
-]
-
-{ #category : #initialization }
-ToAlbum >> defaultViewModel [
-
-	^ ToAlbumModel new
 ]
 
 { #category : #accessing }

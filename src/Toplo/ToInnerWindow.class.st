@@ -119,12 +119,6 @@ ToInnerWindow >> defaultBorderWidth [
 	^ 3
 ]
 
-{ #category : #'t - initialization' }
-ToInnerWindow >> defaultDresser [ 
-
-	^ ToNullDresser new
-]
-
 { #category : #initialization }
 ToInnerWindow >> defaultGeometry [ 
 	
@@ -169,12 +163,6 @@ ToInnerWindow >> defaultTitle [
 ]
 
 { #category : #initialization }
-ToInnerWindow >> defaultViewModel [
-
-	^ ToInnerWindowModel new
-]
-
-{ #category : #initialization }
 ToInnerWindow >> initialize [
 
 	super initialize.
@@ -190,8 +178,7 @@ ToInnerWindow >> initialize [
 	self title: self defaultTitle.
 	self initializeBar.
 	self initializeRoot.
-	self initializeGrips.
-	self dresser: self defaultDresser
+	self initializeGrips
 ]
 
 { #category : #initialization }

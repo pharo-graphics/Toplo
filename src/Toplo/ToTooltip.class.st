@@ -1,17 +1,18 @@
 Class {
 	#name : #ToTooltip,
 	#superclass : #BlElement,
-	#traits : 'TToWidget',
-	#classTraits : 'TToWidget classTrait',
+	#traits : 'TToWidget + TToWidgetWithDresser',
+	#classTraits : 'TToWidget classTrait + TToWidgetWithDresser classTrait',
 	#instVars : [
 		'#content => ObservableSlot',
-		'#widgetEventHandler',
 		'#eventHandler',
 		'#label',
 		'#animate',
 		'#deleteAnimationStencil',
 		'#popupAnimationStencil',
-		'#deleteAnimation'
+		'#deleteAnimation',
+		'#widget',
+		'#widgetWithTooltipEventHandler'
 	],
 	#category : #'Toplo-Widget-Tooltip'
 }
@@ -54,7 +55,7 @@ ToTooltip >> contentString: aString [
 	self content: aString asRopedText
 ]
 
-{ #category : #'t - initialization' }
+{ #category : #'t - accessing - dresser' }
 ToTooltip >> defaultDresser [
 
 	^ ToTooltipDresser new
@@ -69,12 +70,6 @@ ToTooltip >> defaultLabel [
 		  text: self content;
 		  preventMouseEvents;
 		  yourself
-]
-
-{ #category : #initialization }
-ToTooltip >> defaultViewModel [
-
-	^ ToTooltipModel new
 ]
 
 { #category : #accessing }
@@ -99,15 +94,16 @@ ToTooltip >> initialize [
 	self addEventHandler: eventHandler.
 	self animate: true.
 	deleteAnimationStencil := [ 
-	                   BlOpacityAnimation new
-		                   duration: 400 milliSeconds;
-		                   opacity: 0;
-		                   yourself ].
+	                          BlOpacityAnimation new
+		                          duration: 400 milliSeconds;
+		                          opacity: 0;
+		                          yourself ].
 	popupAnimationStencil := [ 
-	                  BlOpacityAnimation new
-		                  duration: 500 milliSeconds;
-		                  opacity: 1;
-		                  yourself ].
+	                         self opacity: 0.0.
+	                         BlOpacityAnimation new
+		                         duration: 500 milliSeconds;
+		                         opacity: 1;
+		                         yourself ].
 	self label: self defaultLabel.
 	self whenContentChangedDo: [ self label text: self content ].
 	self dresser: self defaultDresser
@@ -131,8 +127,16 @@ ToTooltip >> label: aLabel [
 { #category : #initialization }
 ToTooltip >> onInstalledIn: aWidget [
 
-	widgetEventHandler := ToWidgetWithTooltipEventHandler new.
-	aWidget addEventFilter: widgetEventHandler 
+	widget := aWidget.
+	widgetWithTooltipEventHandler := ToWidgetWithTooltipEventHandler new.
+	aWidget addEventFilter: widgetWithTooltipEventHandler 
+]
+
+{ #category : #initialization }
+ToTooltip >> onUninstalledIn: aWidget [
+
+	aWidget removeEventFilter: widgetWithTooltipEventHandler.
+	widgetWithTooltipEventHandler := nil
 ]
 
 { #category : #accessing }
@@ -148,17 +152,17 @@ ToTooltip >> popupAnimation: anAnimationStencyl [
 ]
 
 { #category : #'showing / hiding' }
-ToTooltip >> popupFor: aWidget [
-
-	self flag: 'TODO : polish tooltip placement'.
+ToTooltip >> popupFor: aWidget fromPosition: aPoint [
 
 	self cleanUp.
-	self relocate: (aWidget localPointToGlobal: aWidget bounds bottomRight).
-	self animate ifFalse: [ 
-		aWidget topMostParent addChild: aWidget tooltip.
-		^ self ].
-	self opacity: 0.0.
-	aWidget topMostParent addChild: aWidget tooltip.
+	" aWidget is already attached, thus its bounds is up-to-date"
+	self relocate: aPoint x @ (aWidget localPointToGlobal: 0 @ aWidget bounds bottom) y.
+	aWidget topMostParent addChild: self.
+	self animate ifFalse: [ ^ self ].
+	"enqueue task in myself to adapt my bounds to the space one, it it runned just after i'm attached "
+	self enqueueTask: (BlTaskAction new action: [ 
+			 self relocate: (self geometryBoundsInSpace translatedToBeWithin:
+					  aWidget topMostParent bounds asRectangle) origin ]).
 	self addAnimation: self popupAnimation value
 ]
 
@@ -203,13 +207,13 @@ ToTooltip >> whenContentChangedDo: aBlock [
 { #category : #accessing }
 ToTooltip >> widgetEventHandler [
 
-	^ widgetEventHandler
+	^ widgetWithTooltipEventHandler
 ]
 
 { #category : #accessing }
 ToTooltip >> widgetEventHandler: anObject [
 
-	widgetEventHandler := anObject
+	widgetWithTooltipEventHandler := anObject
 ]
 
 { #category : #initialization }

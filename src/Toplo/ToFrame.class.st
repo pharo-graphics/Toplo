@@ -1,3 +1,6 @@
+"
+I'm a container with a Frame layout. (see `BlFrameLayout` comments)
+"
 Class {
 	#name : #ToFrame,
 	#superclass : #BlElement,

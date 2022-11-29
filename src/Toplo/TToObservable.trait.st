@@ -2,7 +2,7 @@ Trait {
 	#name : #TToObservable,
 	#traits : 'TObservable',
 	#classTraits : 'TObservable classTrait',
-	#category : #'Toplo-Observable'
+	#category : #'Toplo-Core'
 }
 
 { #category : #events }

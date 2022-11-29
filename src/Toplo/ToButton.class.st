@@ -54,12 +54,6 @@ ToButton >> cellSpacing: aNumber [
 	self layout cellSpacing: aNumber
 ]
 
-{ #category : #initialization }
-ToButton >> defaultViewModel [ 
-
-	^ ToButtonModel new
-]
-
 { #category : #'api - orientation/direction' }
 ToButton >> direction [
 

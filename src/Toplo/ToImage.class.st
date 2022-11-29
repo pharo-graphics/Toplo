@@ -1,8 +1,8 @@
 Class {
 	#name : #ToImage,
 	#superclass : #BlElement,
-	#traits : 'TToWidget',
-	#classTraits : 'TToWidget classTrait',
+	#traits : 'TToWidget + TToEnableable + TToWidgetWithTooltip + TToWidgetWithViewModel',
+	#classTraits : 'TToWidget classTrait + TToEnableable classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithViewModel classTrait',
 	#instVars : [
 		'#innerImage => ObservableSlot'
 	],
@@ -16,13 +16,6 @@ ToImage >> defaultInnerImage [
 ]
 
 { #category : #initialization }
-ToImage >> defaultViewModel [
-
-	^ ToImageModel new.
-
-]
-
-{ #category : #initialization }
 ToImage >> initialize [
 
 	self class initializeSlots: self.
@@ -30,8 +23,7 @@ ToImage >> initialize [
 	self constraintsDo: [ :c | 
 		c vertical fitContent.
 		c horizontal fitContent ].
-	self innerImage: self defaultInnerImage.
-	self dresser: self defaultDresser
+	self innerImage: self defaultInnerImage
 ]
 
 { #category : #accessing }

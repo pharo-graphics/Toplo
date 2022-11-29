@@ -17,6 +17,10 @@ ToTooltipDresser >> newEventHandler [
 ToTooltipDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
+	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 8).
+	anElement border: (BlBorder paint: (Color gray alpha: 0.3)).
+	anElement background: (Color yellow alpha: 0.1).
+	anElement padding: (BlInsets all: 6).
 	eventHandler := self newEventHandler.
 	anElement addEventHandler: eventHandler.
 	anElement constraintsDo: [ :c | 
@@ -25,7 +29,7 @@ ToTooltipDresser >> onInstalledIn: anElement [
 	anElement label constraintsDo: [ :c | 
 		c linear vertical alignCenter.
 		c linear horizontal alignCenter ].
-	anElement background: (Color yellow alpha: 0.4).
+
 ]
 
 { #category : #'api - install/uninstall  hook' }

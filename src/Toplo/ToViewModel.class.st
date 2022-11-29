@@ -34,12 +34,6 @@ ToViewModel >> enabled: aBoolean [
 		ifFalse: [ self disable ]
 ]
 
-{ #category : #'change reporting' }
-ToViewModel >> invalidate [
-
-	" invalidate was sent to the widget. Subclasses may have action to run model side before invalidation"
-]
-
 { #category : #'accessing - widget' }
 ToViewModel >> onWidget [
 

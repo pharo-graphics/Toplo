@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-TextField'
 }
 
-{ #category : #initialization }
+{ #category : #'t - accessing - dresser' }
 ToTextField >> defaultDresser [
 
 	^ ToTextFieldDresser new

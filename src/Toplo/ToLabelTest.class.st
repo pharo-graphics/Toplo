@@ -12,16 +12,16 @@ ToLabelTest >> testHAlignment [
 
 	| label |
 	label := ToLabel new.
-	self assert: (label horizontalAlignment isKindOf: BlHorizontalStartAlignment).
+	self assert: (label layout horizontalAlignment isKindOf: BlNullHorizontalAlignment).
 
-	label alignCenter.
-	self assert: (label horizontalAlignment isKindOf: BlHorizontalCenterAlignment). 
+	label layout alignCenter.
+	self assert: (label layout horizontalAlignment isKindOf: BlHorizontalCenterAlignment). 
 
-	label alignCenterRight.
-	self assert: (label horizontalAlignment isKindOf: BlHorizontalEndAlignment). 
+	label layout alignCenterRight.
+	self assert: (label layout horizontalAlignment isKindOf: BlHorizontalEndAlignment). 
 	
-	label alignCenterLeft.
-	self assert: (label horizontalAlignment isKindOf: BlHorizontalStartAlignment). 
+	label layout alignCenterLeft.
+	self assert: (label layout horizontalAlignment isKindOf: BlHorizontalStartAlignment). 
 ]
 
 { #category : #tests }
@@ -29,31 +29,25 @@ ToLabelTest >> testMonoLineText [
 
 	| label |
 	label := ToLabel new.
-	self assert: label viewModel text identicalTo: label text.
 	self assert: label innerElement text identicalTo: label text.
 	
 	label text: ''.
 	self assert: label text asString equals: ''.
-	self assert: label viewModel text identicalTo: label text.
 	self assert: label innerElement text identicalTo: label text.
 	
 	label innerElement text: '' asRopedText .
 	self assert: label text asString equals: ''.
-	self assert: label viewModel text identicalTo: label text.
 	self assert: label innerElement text identicalTo: label text.
 	
 	label text: 'This is a text'.
 	self assert: label text asString equals: 'This is a text'.
-	self assert: label viewModel text identicalTo: label text.
 	self assert: label innerElement text identicalTo: label text.
 	
 	label innerElement text: 'This is a text' asRopedText .
 	self assert: label text asString equals: 'This is a text'.
-	self assert: label viewModel text identicalTo: label text.
 	self assert: label innerElement text identicalTo: label text.
 	
 	label text: nil.
-	self assert: label viewModel text identicalTo: label text.
 	self assert: label innerElement text identicalTo: label text.
 	
 
@@ -64,31 +58,25 @@ ToLabelTest >> testMultiLineText [
 
 	| label |
 	label := ToLabel new beMultiLine.
-	self assert: label viewModel text identicalTo: label text.
 	self assert: label innerElement text identicalTo: label text.
 	
 	label text: ''.
 	self assert: label text asString equals: ''.
-	self assert: label viewModel text identicalTo: label text.
 	self assert: label innerElement text identicalTo: label text.
 	
 	label innerElement text: '' asRopedText .
 	self assert: label text asString equals: ''.
-	self assert: label viewModel text identicalTo: label text.
 	self assert: label innerElement text identicalTo: label text.
 	
 	label text: 'This is a text'.
 	self assert: label text asString equals: 'This is a text'.
-	self assert: label viewModel text identicalTo: label text.
 	self assert: label innerElement text identicalTo: label text.
 	
 	label innerElement text: 'This is a text' asRopedText .
 	self assert: label text asString equals: 'This is a text'.
-	self assert: label viewModel text identicalTo: label text.
 	self assert: label innerElement text identicalTo: label text.
 	
 	label text: nil.
-	self assert: label viewModel text identicalTo: label text.
 	self assert: label innerElement text identicalTo: label text.
 	
 
@@ -116,14 +104,14 @@ ToLabelTest >> testVAlignment [
 
 	| label |
 	label := ToLabel new.
-	self assert: (label verticalAlignment isKindOf: BlTopAlignment ).
+	self assert: (label layout verticalAlignment isKindOf: BlNullVerticalAlignment ).
 
-	label alignCenter.
-	self assert: (label verticalAlignment isKindOf: BlVerticalCenterAlignment). 
+	label layout alignCenter.
+	self assert: (label layout verticalAlignment isKindOf: BlVerticalCenterAlignment). 
 
-	label alignTopRight.
-	self assert: (label verticalAlignment isKindOf: BlTopAlignment). 
+	label layout alignTopRight.
+	self assert: (label layout verticalAlignment isKindOf: BlTopAlignment). 
 	
-	label alignBottomLeft.
-	self assert: (label verticalAlignment isKindOf: BlBottomAlignment). 
+	label layout alignBottomLeft.
+	self assert: (label layout verticalAlignment isKindOf: BlBottomAlignment). 
 ]

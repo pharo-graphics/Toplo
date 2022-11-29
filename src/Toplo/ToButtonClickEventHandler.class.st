@@ -38,7 +38,6 @@ ToButtonClickEventHandler >> clickEvent: anEvent [
 
 	anEvent consumed: true.
 	button isDisabled ifTrue: [ ^ self ].
-	button viewModelDo: [ :m | m clickEvent: anEvent].
 	button announce: (ToButtonClickLaunchAction new widget: button)
 ]
 

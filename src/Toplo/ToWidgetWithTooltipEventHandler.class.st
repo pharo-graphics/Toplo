@@ -7,10 +7,17 @@ Class {
 	#category : #'Toplo-Widget-Tooltip'
 }
 
+{ #category : #'element handlers' }
+ToWidgetWithTooltipEventHandler >> elementPositionChangedEvent: anEvent [
+
+	anEvent currentTarget removePopup
+
+]
+
 { #category : #'api - accessing' }
 ToWidgetWithTooltipEventHandler >> eventsToHandle [
 
-	^ { 
+	^ { BlElementPositionChangedEvent.
 		  BlMouseEnterEvent.
 		  BlMouseLeaveEvent.
 		  BlMouseDownEvent }
@@ -35,7 +42,7 @@ ToWidgetWithTooltipEventHandler >> launchPopupTooltip: anEvent [
 		openTooltipTask := BlDelayedTaskAction new
 			            delay: 700 milliSeconds;
 			            action: [ 
-				            self popupTooltipFor: anEvent currentTarget.
+				            self popupTooltipFor: anEvent currentTarget fromPosition: anEvent position.
 				            openTooltipTask := nil ].
 		anEvent currentTarget enqueueTask: openTooltipTask ]
 ]
@@ -63,8 +70,8 @@ ToWidgetWithTooltipEventHandler >> mouseLeaveEvent: anEvent [
 ]
 
 { #category : #private }
-ToWidgetWithTooltipEventHandler >> popupTooltipFor: aWidget [
+ToWidgetWithTooltipEventHandler >> popupTooltipFor: aWidget fromPosition: aPosition [
 
 	aWidget tooltip ifNil: [ ^ self ].
-	aWidget tooltip popupFor: aWidget
+	aWidget tooltip popupFor: aWidget fromPosition: aPosition
 ]

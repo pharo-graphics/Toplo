@@ -1,6 +1,8 @@
 Class {
 	#name : #ToImage,
-	#superclass : #ToContainer,
+	#superclass : #BlElement,
+	#traits : 'TToWidget',
+	#classTraits : 'TToWidget classTrait',
 	#instVars : [
 		'#innerImage => ObservableSlot'
 	],
@@ -20,27 +22,14 @@ ToImage >> defaultViewModel [
 
 ]
 
-{ #category : #accessing }
-ToImage >> horizontalAlignment [
-	<return: #BlElementAlignment>
-
-	^ self layout horizontalAlignment 
-]
-
-{ #category : #accessing }
-ToImage >> horizontalAlignment: aBlElementAlignment [
-
-	self horizontalAlignment = aBlElementAlignment ifTrue: [ ^self ].
-	self layout horizontalAlignment: aBlElementAlignment.
-
-]
-
 { #category : #initialization }
 ToImage >> initialize [
-	
+
 	self class initializeSlots: self.
 	super initialize.
-	self fitContent.
+	self constraintsDo: [ :c | 
+		c vertical fitContent.
+		c horizontal fitContent ].
 	self innerImage: self defaultInnerImage.
 	self dresser: self defaultDresser
 ]
@@ -60,21 +49,6 @@ ToImage >> innerImage: anImage [
 	element := anImage ifNil: [ self defaultInnerImage ] ifNotNil: [anImage asElement].
 	self addChild: element.
 	innerImage := element
-]
-
-{ #category : #accessing }
-ToImage >> verticalAlignment [
-	<return: #BlElementAlignment>
-	
-	^ self layout verticalAlignment 
-]
-
-{ #category : #accessing }
-ToImage >> verticalAlignment: aBlElementAlignment [
-
-	self verticalAlignment = aBlElementAlignment ifTrue: [ ^self ].
-	self layout verticalAlignment: aBlElementAlignment
-
 ]
 
 { #category : #'api - change hook' }

@@ -16,7 +16,7 @@ ToCheckbox >> addToGroup: aToggleGroup [
 { #category : #'api - change hook' }
 ToCheckbox >> check [
 
-	self changeToToggleStateNamed: #checked
+	self switchToStateNamed: #checked
 ]
 
 { #category : #initialization }
@@ -95,13 +95,13 @@ ToCheckbox >> inderterminateIconImage [
 { #category : #'api - change hook' }
 ToCheckbox >> indeterminate [
 
-	self changeToToggleStateNamed: #indeterminate
+	self switchToStateNamed: #indeterminate
 ]
 
 { #category : #initialization }
 ToCheckbox >> initialize [ 
 	super initialize.
-	self whenThreeStepsChangedDo: [ self toggleStates: self defaultStates ].
+	self whenThreeStepsChangedDo: [ self states: self defaultStates ].
 	threeSteps := false
 	
 ]
@@ -109,19 +109,19 @@ ToCheckbox >> initialize [
 { #category : #testing }
 ToCheckbox >> isChecked [
 
-	^ toggleState notNil and: [ toggleState name = #checked ]
+	^ self currentState notNil and: [ self currentState name = #checked ]
 ]
 
 { #category : #testing }
 ToCheckbox >> isIndeterminate [
 
-	^ toggleState notNil and: [ toggleState name = #indeterminate ]
+	^ self currentState notNil and: [ self currentState name = #indeterminate ]
 ]
 
 { #category : #testing }
 ToCheckbox >> isUnchecked [
 
-	^ toggleState notNil and: [ toggleState name = #unchecked ]
+	^ self currentState notNil and: [ self currentState name = #unchecked ]
 ]
 
 { #category : #'toggle group' }
@@ -133,7 +133,7 @@ ToCheckbox >> removeFromGroup: aToggleGroup [
 { #category : #'api - change hook' }
 ToCheckbox >> uncheck [
 
-	self changeToToggleStateNamed: #unchecked
+	self switchToStateNamed: #unchecked
 ]
 
 { #category : #initialization }
@@ -150,14 +150,14 @@ ToCheckbox >> uncheckedIconImage [
 ToCheckbox >> whenCheckedDo: aBlock [
 
 	self
-		whenChangedDo: [ :s | s name = #checked ifTrue: [ aBlock value ] ]
+		whenCurrentStateChangedDo: [ :s | s name = #checked ifTrue: [ aBlock value ] ]
 ]
 
 { #category : #'api - change hook' }
 ToCheckbox >> whenIndeterminateDo: aBlock [
 
 	self
-		whenChangedDo: [ :s | s name = #indeterminate ifTrue: [ aBlock value ] ]
+		whenCurrentStateChangedDo: [ :s | s name = #indeterminate ifTrue: [ aBlock value ] ]
 ]
 
 { #category : #'api - change hook' }
@@ -174,7 +174,7 @@ ToCheckbox >> whenThreeStepsChangedDo: aBlock [
 ToCheckbox >> whenUncheckedDo: aBlock [
 
 	self
-		whenChangedDo: [ :s | s name = #unchecked ifTrue: [ aBlock value ] ]
+		whenCurrentStateChangedDo: [ :s | s name = #unchecked ifTrue: [ aBlock value ] ]
 ]
 
 { #category : #initialization }

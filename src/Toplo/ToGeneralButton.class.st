@@ -1,36 +1,26 @@
 Class {
 	#name : #ToGeneralButton,
-	#superclass : #ToContainer,
-	#instVars : [
-		'#toggleState => ObservableSlot'
-	],
+	#superclass : #BlElement,
+	#traits : 'TToWidget',
+	#classTraits : 'TToWidget classTrait',
 	#category : #'Toplo-Widget-Button'
 }
 
 { #category : #'processing - toggle state' }
-ToGeneralButton >> applyStartToggleState [
+ToGeneralButton >> applyStartState [
 
-	toggleState ifNil: [ ^ self ].
-	toggleState applyStartStateOn: self
+	| curr |
+	(curr := self currentState) ifNil: [ ^ self ].
+	curr applyStartStateOn: self
 ]
 
 { #category : #'processing - toggle state' }
-ToGeneralButton >> applyToggleStateTransition [
+ToGeneralButton >> applyStateTransition [
 
-	toggleState ifNil: [ ^ self ].
-	toggleState applyStateTransitionOn: self.
-	toggleState := toggleState next
-]
-
-{ #category : #'api - change hook' }
-ToGeneralButton >> changeToToggleStateNamed: aStateName [
-
-	| found |
-	found := self toggleStateNamed: aStateName.
-	found ifNil: [ ^ self ].
-	found = toggleState ifTrue: [ ^ self ].
-	toggleState exitOn: self nextState: found.
-	toggleState := found
+	| curr |
+	(curr := self currentState) ifNil: [ ^ self ].
+	curr applyStateTransitionOn: self.
+	self currentState: curr next
 ]
 
 { #category : #'mouse handlers' }
@@ -39,7 +29,23 @@ ToGeneralButton >> clickEvent: anEvent [
 
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
+ToGeneralButton >> currentState [
+
+	^ self userData at: #currentState ifAbsent: [  ]
+]
+
+{ #category : #accessing }
+ToGeneralButton >> currentState: aState [
+
+	| prev |
+	prev := self currentState.
+	self userData at: #currentState put: aState.
+	self stateChangeAction ifNotNil: [ :action | 
+		action cull: aState cull: prev ]
+]
+
+{ #category : #'t - initialization' }
 ToGeneralButton >> defaultDresser [
 
 	^ ToButtonDefaultDresser new
@@ -51,82 +57,64 @@ ToGeneralButton >> defaultViewModel [
 	^ ToGeneralButtonModel new
 ]
 
-{ #category : #accessing }
-ToGeneralButton >> horizontalAlignment [
-	<return: #BlElementAlignment>
-
-	^ self layout horizontalAlignment 
-]
-
-{ #category : #accessing }
-ToGeneralButton >> horizontalAlignment: aBlElementAlignment [
-
-	self horizontalAlignment = aBlElementAlignment ifTrue: [ ^self ].
-	self layout horizontalAlignment: aBlElementAlignment.
-
-]
-
 { #category : #initialization }
 ToGeneralButton >> initialize [ 
 
 	self class initializeSlots: self.
 	super initialize.
-	self whenClickedDo: [ self applyToggleStateTransition ].
+	self whenClickedDo: [ self applyStateTransition ].
+	
 	self dresser: self defaultDresser 
-
 ]
 
 { #category : #'accessing - toggle state' }
-ToGeneralButton >> toggleStateNamed: anObject [
+ToGeneralButton >> stateChangeAction [
+
+	^ self userData at: #stateChangeAction ifAbsent: [  ]
+]
+
+{ #category : #'accessing - toggle state' }
+ToGeneralButton >> stateChangeAction: aBlock [
+
+	^ self userData at: #stateChangeAction put: aBlock
+]
+
+{ #category : #'accessing - toggle state' }
+ToGeneralButton >> stateNamed: anObject [
 
 	| curr |
-	toggleState ifNil: [ ^ nil ].
-	curr := toggleState.
+	(curr := self currentState) ifNil: [ ^ nil ].
 	[ 
 	curr name = anObject ifTrue: [ ^ curr ].
 	curr := curr next.
-	curr = toggleState ] whileFalse: [  ]
+	curr = self currentState ] whileFalse: [  ]
 ]
 
 { #category : #'accessing - toggle state' }
-ToGeneralButton >> toggleStates: aCollectionOfStates [
+ToGeneralButton >> states: aCollectionOfStates [
 
 	| curr states |
-	toggleState := nil.
+	self userData removeKey: #currentState ifAbsent: [].
 	aCollectionOfStates ifEmpty: [ ^self ].
 	states := aCollectionOfStates copy asOrderedCollection.
-	toggleState := states removeFirst. 
-	curr := toggleState.
+	self currentState: states removeFirst. 
+	curr := self currentState.
 	[ states isEmpty ] whileFalse: [ 
 		curr next: states removeFirst.
 		curr := curr next ].
-	curr next: toggleState.
-	self applyStartToggleState
-]
-
-{ #category : #accessing }
-ToGeneralButton >> verticalAlignment [
-	<return: #BlElementAlignment>
-	
-	^ self layout verticalAlignment 
-]
-
-{ #category : #accessing }
-ToGeneralButton >> verticalAlignment: aBlElementAlignment [
-
-	self verticalAlignment = aBlElementAlignment ifTrue: [ ^self ].
-	self layout verticalAlignment: aBlElementAlignment
-
+	curr next: self currentState.
+	self applyStartState
 ]
 
 { #category : #'api - change hook' }
-ToGeneralButton >> whenChangedDo: aBlock [
-	"Inform when the current state has been changed. 
-	 `aBlock` receives two optional arguments: 
-	 - new state
-	 - old state"
+ToGeneralButton >> switchToStateNamed: aStateName [
 
-	self property: #toggleState whenChangedDo: aBlock
+	| found curr |
+	found := self stateNamed: aStateName.
+	found ifNil: [ ^ self ].
+	found = (curr := self currentState) ifTrue: [ ^ self ].
+	curr exitOn: self nextState: found.
+	self currentState: found
 ]
 
 { #category : #'api-  action' }
@@ -135,4 +123,14 @@ ToGeneralButton >> whenClickedDo: aBlock [
 	 `aBlock` receive zero arguments."
 
 	self whenAnnouncement: ToButtonClickLaunchAction do: aBlock
+]
+
+{ #category : #'api - change hook' }
+ToGeneralButton >> whenCurrentStateChangedDo: aBlock [
+	"Inform when the current state has been changed. 
+	 `aBlock` receives two optional arguments: 
+	 - new state
+	 - old state"
+
+	self stateChangeAction: aBlock
 ]

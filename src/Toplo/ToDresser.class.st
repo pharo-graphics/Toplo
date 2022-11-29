@@ -3,8 +3,7 @@ Class {
 	#superclass : #ToCompanion,
 	#instVars : [
 		'next',
-		'theme',
-		'minimalEventHandler'
+		'theme'
 	],
 	#category : #'Toplo-Core'
 }
@@ -56,8 +55,6 @@ ToDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	theme := 	anElement theme.
-	minimalEventHandler := ToWidgetMinimalEventHandler new.
-	anElement addEventHandler: minimalEventHandler.
 	next launchInstallationIn: anElement
 
 ]
@@ -66,8 +63,6 @@ ToDresser >> onInstalledIn: anElement [
 ToDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
-	anElement removeEventHandler: minimalEventHandler.
-	minimalEventHandler := nil.
 	theme := 	nil.
 	next launchUninstallationIn: anElement
 

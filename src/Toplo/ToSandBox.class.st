@@ -190,7 +190,7 @@ ToSandBox class >> example_textFieldWithLineWrappingWithSaveCapability [
 ToSandBox class >> example_textFieldWithSaveCapability [
 
 	| t text |
-	t := ToTextField new withSaveCapability.
+	t := ToTextField new withSaveCapability; tooltipString: 'Return to accept'.
 	text := ''.
 	t text: text copy.
 	t whenSaveRequestedDo: [ :saveRequested | 
@@ -198,8 +198,7 @@ ToSandBox class >> example_textFieldWithSaveCapability [
 		text := saveRequested client text copy].
 	t whenCancelRequestedDo: [ :cancelRequested | 
 		cancelRequested client text: text copy ].
-	t openInOBlSpace.
-	t innerElement inspect
+	t openInInnerWindow 
 ]
 
 { #category : #checkbox }
@@ -251,7 +250,7 @@ ToSandBox class >> example_toBasicButton2 [
 	but := ToGeneralButton new.
 	but matchParent.
 	but addChild: lab.
-	but alignCenter.
+	but layout alignCenter.
 	but whenClickedDo: [ self inform: 'clicked' ].
 	but openInOBlSpace
 ]
@@ -264,7 +263,7 @@ ToSandBox class >> example_toBasicButton3 [
 			        fontSize: 40;
 			        yourself).
 	but matchParent.
-	but alignCenter.
+	but layout alignCenter.
 	but whenClickedDo: [ self inform: 'clicked' ].
 	but openInOBlSpace
 ]
@@ -416,14 +415,13 @@ ToSandBox class >> example_toButtonWithTextOnly [
 { #category : #button }
 ToSandBox class >> example_toButtonWithTooltip [
 
-	| but space |
+	| but  |
 	but := ToButton new.
 	but tooltipContent: ('This is a button', String cr, 'so, click on me...') asRopedText. 
 	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
 	but size: 32@16.
-	space := OBlSpace new.
-	space addChild: but.
-	space show
+	but openInInnerWindow 
+
 ]
 
 { #category : #checkbox }
@@ -610,6 +608,7 @@ ToSandBox class >> example_toLabel3 [
 	| lab |
 	lab := ToLabel new text: ('This is a bold label' asRopedText fontSize: 20; bold; foreground: Color gray; yourself).
 	lab background: Color lightBlue.
+	lab hMatchParent.
 	lab editable: true.
 	lab alignCenter.
 	lab border: (BlBorder paint: Color yellow width: 1).
@@ -629,8 +628,29 @@ ToSandBox class >> example_toLabel3_bis [
 			 foreground: Color gray;
 			 yourself).
 	model widgetDo: [ :label | 
+		label hMatchParent.
 		label background: Color lightBlue.
-		label alignCenter.
+		label alignCenterRight.
+		label border: (BlBorder paint: Color yellow width: 1) ].
+	model editable: true.
+	(widget := model onWidget) openInOBlSpace.
+	widget inspect
+]
+
+{ #category : #label }
+ToSandBox class >> example_toLabel3_bis2 [
+
+	| model widget |
+	model := ToLabelModel new beMultiLine.
+	model text: ('This is a bold label' asRopedText
+			 fontSize: 20;
+			 bold;
+			 foreground: Color gray;
+			 yourself).
+	model widgetDo: [ :label | 
+		label hMatchParent.
+		label background: Color lightBlue.
+		label alignCenterRight.
 		label border: (BlBorder paint: Color yellow width: 1) ].
 	model editable: true.
 	(widget := model onWidget) openInOBlSpace.
@@ -665,7 +685,7 @@ ToSandBox class >> example_toLabel4 [
 	lab2 vFitContent.
 	lab2 hMatchParent.
 	lab2 border: (BlBorder paint: Color lightGray width: 1).
-	lab2 viewModel editable: true.
+	lab2 editable: true.
 
 	root addChild: lab2.
 	lab3 := ToLabel new text:
@@ -789,7 +809,7 @@ ToSandBox class >> example_toMultiState1 [
 
 	| but |
 	but := ToButton new.
-	but toggleStates: { (ToToggleState new
+	but states: { (ToToggleState new
 			 buttonStencil: [ :button | 
 				 button
 					 iconImage: (BlElement new
@@ -815,7 +835,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 
 	| but |
 	but := ToButton new.
-	but toggleStates: { 
+	but states: { 
 			(ToToggleState new
 				 buttonStencil: [ :button | 
 					 button
@@ -867,7 +887,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 		                  yourself ].
 
 	but := ToButtonModel new.
-	but toggleStates: { 
+	but states: { 
 			(ToToggleState new
 				 buttonStencil: [ :button | 
 					 button
@@ -916,7 +936,7 @@ ToSandBox class >> example_toMultiStateWithLabel [
 
 	| but |
 	but := ToButton new size: 70@35.
-	but toggleStates: { 
+	but states: { 
 			(ToToggleState new
 				 buttonStencil: [ :button | 
 					 button labelText: ('One' asRopedText fontSize: 24) ];

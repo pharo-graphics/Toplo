@@ -119,7 +119,7 @@ ToInnerWindow >> defaultBorderWidth [
 	^ 3
 ]
 
-{ #category : #initialization }
+{ #category : #'t - initialization' }
 ToInnerWindow >> defaultDresser [ 
 
 	^ ToNullDresser new

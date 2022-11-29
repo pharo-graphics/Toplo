@@ -29,13 +29,12 @@ ToAlbumGhostTextLayer >> checkText: aText [
 ToAlbumGhostTextLayer >> defaultLabel [
 
 	^ ToLabel new
-		  fitContent;
 		  constraintsDo: [ :c | 
 			  c frame vertical alignCenter.
 			  c frame horizontal alignCenter ];
 		  beMultiLine;
-		  alignCenter;
-		  in: [ :l | l innerElement alignCenter ];
+		  in: [ :l | l layout alignCenter];
+		  in: [ :l | l innerElement layout alignCenter ];
 		  yourself
 ]
 

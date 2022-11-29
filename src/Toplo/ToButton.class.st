@@ -87,21 +87,6 @@ ToButton >> horizontal: aBoolean [
 	self orientationChanged 
 ]
 
-{ #category : #'private - alignment' }
-ToButton >> horizontalAlignment [
-	<return: #BlElementAlignment>
-
-	^ self layout horizontalAlignment 
-]
-
-{ #category : #'private - alignment' }
-ToButton >> horizontalAlignment: aBlElementAlignment [
-
-	self horizontalAlignment = aBlElementAlignment ifTrue: [ ^self ].
-	self layout horizontalAlignment: aBlElementAlignment.
-
-]
-
 { #category : #accessing }
 ToButton >> icon [
 
@@ -261,21 +246,6 @@ ToButton >> privateUpdateChildren [
 
 	self removeChildren.
 	self addChildren: ((self isLabelFirst ifTrue: [ { label. icon } ] ifFalse: [ { icon. label } ]) select: #notNil)
-]
-
-{ #category : #'private - alignment' }
-ToButton >> verticalAlignment [
-	<return: #BlElementAlignment>
-	
-	^ self layout verticalAlignment 
-]
-
-{ #category : #'private - alignment' }
-ToButton >> verticalAlignment: aBlElementAlignment [
-
-	self verticalAlignment = aBlElementAlignment ifTrue: [ ^self ].
-	self layout verticalAlignment: aBlElementAlignment
-
 ]
 
 { #category : #'api - change hook' }

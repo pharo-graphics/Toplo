@@ -1,14 +1,14 @@
 Class {
-	#name : #ToWidgetMinimalEventHandler,
+	#name : #ToWidgetWithTooltipEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'openTooltipTask'
 	],
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Widget-Tooltip'
 }
 
 { #category : #'api - accessing' }
-ToWidgetMinimalEventHandler >> eventsToHandle [
+ToWidgetWithTooltipEventHandler >> eventsToHandle [
 
 	^ { 
 		  BlMouseEnterEvent.
@@ -17,7 +17,7 @@ ToWidgetMinimalEventHandler >> eventsToHandle [
 ]
 
 { #category : #private }
-ToWidgetMinimalEventHandler >> hideTooltipFor: aWidget [
+ToWidgetWithTooltipEventHandler >> hideTooltipFor: aWidget [
 
 	openTooltipTask ifNotNil: [ 
 		aWidget dequeueTask: openTooltipTask.
@@ -26,7 +26,7 @@ ToWidgetMinimalEventHandler >> hideTooltipFor: aWidget [
 ]
 
 { #category : #'api - accessing' }
-ToWidgetMinimalEventHandler >> launchPopupTooltip: anEvent [
+ToWidgetWithTooltipEventHandler >> launchPopupTooltip: anEvent [
 
 	anEvent currentTarget tooltipDo: [ :tooltip | 
 		tooltip cleanUp.
@@ -41,14 +41,14 @@ ToWidgetMinimalEventHandler >> launchPopupTooltip: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToWidgetMinimalEventHandler >> mouseDownEvent: anEvent [
+ToWidgetWithTooltipEventHandler >> mouseDownEvent: anEvent [
 
 	self hideTooltipFor: anEvent currentTarget
 
 ]
 
 { #category : #'api - accessing' }
-ToWidgetMinimalEventHandler >> mouseEnterEvent: anEvent [
+ToWidgetWithTooltipEventHandler >> mouseEnterEvent: anEvent [
 
 	openTooltipTask ifNotNil: [ anEvent currentTarget dequeueTask: openTooltipTask ].
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
@@ -56,14 +56,14 @@ ToWidgetMinimalEventHandler >> mouseEnterEvent: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToWidgetMinimalEventHandler >> mouseLeaveEvent: anEvent [
+ToWidgetWithTooltipEventHandler >> mouseLeaveEvent: anEvent [
 
 	self hideTooltipFor: anEvent currentTarget
 
 ]
 
 { #category : #private }
-ToWidgetMinimalEventHandler >> popupTooltipFor: aWidget [
+ToWidgetWithTooltipEventHandler >> popupTooltipFor: aWidget [
 
 	aWidget tooltip ifNil: [ ^ self ].
 	aWidget tooltip popupFor: aWidget

@@ -16,9 +16,9 @@ ToGeneralButtonModel >> privateWidgetClass [
 ]
 
 { #category : #processing }
-ToGeneralButtonModel >> toggleStates: aCollectionOfStates [
+ToGeneralButtonModel >> states: aCollectionOfStates [
 
-	self widgetDo: [ :widget | widget toggleStates: aCollectionOfStates ]
+	self widgetDo: [ :widget | widget states: aCollectionOfStates ]
 ]
 
 { #category : #'api - action' }

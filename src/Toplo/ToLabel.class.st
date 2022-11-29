@@ -1,6 +1,8 @@
 Class {
 	#name : #ToLabel,
-	#superclass : #ToContainer,
+	#superclass : #BlElement,
+	#traits : 'TToWidget',
+	#classTraits : 'TToWidget classTrait',
 	#instVars : [
 		'#textReplacedHandler',
 		'#innerElement',
@@ -129,21 +131,6 @@ ToLabel >> editor [
 ToLabel >> editorOverlay [
 
 	^ self userData at: #editorOverlay 
-]
-
-{ #category : #accessing }
-ToLabel >> horizontalAlignment [
-	<return: #BlElementAlignment>
-
-	^ self layout horizontalAlignment 
-]
-
-{ #category : #accessing }
-ToLabel >> horizontalAlignment: aBlElementAlignment [
-
-	self horizontalAlignment = aBlElementAlignment ifTrue: [ ^self ].
-	self layout horizontalAlignment: aBlElementAlignment.
-
 ]
 
 { #category : #initialization }
@@ -325,21 +312,6 @@ ToLabel >> text: aBlTextOrString [
 
 	text = aBlTextOrString ifTrue: [ ^ self ].
 	text := (aBlTextOrString ifNil: [ self defaultText ]) asRopedText
-]
-
-{ #category : #accessing }
-ToLabel >> verticalAlignment [
-	<return: #BlElementAlignment>
-	
-	^ self layout verticalAlignment 
-]
-
-{ #category : #accessing }
-ToLabel >> verticalAlignment: aBlElementAlignment [
-
-	self verticalAlignment = aBlElementAlignment ifTrue: [ ^self ].
-	self layout verticalAlignment: aBlElementAlignment
-
 ]
 
 { #category : #'api - change hook' }

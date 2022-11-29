@@ -5,11 +5,13 @@ Class {
 	#classTraits : 'TToWidget classTrait',
 	#instVars : [
 		'#content => ObservableSlot',
-		'#popupAnimation',
-		'#deleteAnimation',
+		'#widgetEventHandler',
 		'#eventHandler',
 		'#label',
-		'#animate'
+		'#animate',
+		'#deleteAnimationStencil',
+		'#popupAnimationStencil',
+		'#deleteAnimation'
 	],
 	#category : #'Toplo-Widget-Tooltip'
 }
@@ -24,6 +26,14 @@ ToTooltip >> animate [
 ToTooltip >> animate: aBoolean [
 
 	animate := aBoolean
+]
+
+{ #category : #'showing / hiding' }
+ToTooltip >> cleanUp [
+
+	deleteAnimation ifNotNil: [ 
+		self dequeueTask: deleteAnimation.
+		deleteAnimation := nil ]
 ]
 
 { #category : #accessing }
@@ -44,7 +54,7 @@ ToTooltip >> contentString: aString [
 	self content: aString asRopedText
 ]
 
-{ #category : #initialization }
+{ #category : #'t - initialization' }
 ToTooltip >> defaultDresser [
 
 	^ ToTooltipDresser new
@@ -70,13 +80,13 @@ ToTooltip >> defaultViewModel [
 { #category : #accessing }
 ToTooltip >> deleteAnimation [
 
-	^ deleteAnimation
+	^ deleteAnimationStencil
 ]
 
 { #category : #accessing }
 ToTooltip >> deleteAnimation: anAnimationStencyl [
 
-	deleteAnimation := anAnimationStencyl
+	deleteAnimationStencil := anAnimationStencyl
 ]
 
 { #category : #initialization }
@@ -84,22 +94,23 @@ ToTooltip >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
+	self elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
 	eventHandler := ToTooltipEventHandler new.
 	self addEventHandler: eventHandler.
 	self animate: true.
-	deleteAnimation := [ 
+	deleteAnimationStencil := [ 
 	                   BlOpacityAnimation new
 		                   duration: 400 milliSeconds;
 		                   opacity: 0;
 		                   yourself ].
-	popupAnimation := [ 
+	popupAnimationStencil := [ 
 	                  BlOpacityAnimation new
 		                  duration: 500 milliSeconds;
 		                  opacity: 1;
 		                  yourself ].
 	self label: self defaultLabel.
 	self whenContentChangedDo: [ self label text: self content ].
-	self dresser: self defaultDresser 
+	self dresser: self defaultDresser
 ]
 
 { #category : #accessing }
@@ -117,16 +128,23 @@ ToTooltip >> label: aLabel [
 
 ]
 
+{ #category : #initialization }
+ToTooltip >> onInstalledIn: aWidget [
+
+	widgetEventHandler := ToWidgetWithTooltipEventHandler new.
+	aWidget addEventFilter: widgetEventHandler 
+]
+
 { #category : #accessing }
 ToTooltip >> popupAnimation [
 
-	^ popupAnimation
+	^ popupAnimationStencil
 ]
 
 { #category : #accessing }
 ToTooltip >> popupAnimation: anAnimationStencyl [
 
-	popupAnimation := anAnimationStencyl
+	popupAnimationStencil := anAnimationStencyl
 ]
 
 { #category : #'showing / hiding' }
@@ -134,7 +152,8 @@ ToTooltip >> popupFor: aWidget [
 
 	self flag: 'TODO : polish tooltip placement'.
 
-	self relocate: aWidget bounds bottomRight.
+	self cleanUp.
+	self relocate: (aWidget localPointToGlobal: aWidget bounds bottomRight).
 	self animate ifFalse: [ 
 		aWidget topMostParent addChild: aWidget tooltip.
 		^ self ].
@@ -146,11 +165,14 @@ ToTooltip >> popupFor: aWidget [
 { #category : #'showing / hiding' }
 ToTooltip >> removePopup [
 
+	self cleanUp.
 	animate ifTrue: [ 
-		| anim |
-		anim := deleteAnimation value.
-		anim onFinishedDo: [ self parentDo: [ :p | self removeFromParent ] ].
-		self addAnimation: anim.
+		deleteAnimation := deleteAnimationStencil value.
+		deleteAnimation onFinishedDo: [ 
+			self parentDo: [ :p | 
+				self removeFromParent.
+				self cleanUp ] ].
+		self addAnimation: deleteAnimation.
 		^ self ].
 
 	self parentDo: [ :p | self removeFromParent ]
@@ -176,6 +198,18 @@ ToTooltip >> whenContentChangedDo: aBlock [
 	 - the announcement triggering this action"
 
 	self property: #content whenChangedDo: aBlock
+]
+
+{ #category : #accessing }
+ToTooltip >> widgetEventHandler [
+
+	^ widgetEventHandler
+]
+
+{ #category : #accessing }
+ToTooltip >> widgetEventHandler: anObject [
+
+	widgetEventHandler := anObject
 ]
 
 { #category : #initialization }

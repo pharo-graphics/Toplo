@@ -1,8 +1,8 @@
 Class {
 	#name : #ToLabelMultiLineInnerElement,
 	#superclass : #BlElement,
-	#traits : 'TToLabelInnerElement + TToObservable + TBlAlignable + TOBlLayoutResizable',
-	#classTraits : 'TToLabelInnerElement classTrait + TToObservable classTrait + TBlAlignable classTrait + TOBlLayoutResizable classTrait',
+	#traits : 'TToLabelInnerElement + TToObservable + TOBlLayoutResizable',
+	#classTraits : 'TToLabelInnerElement classTrait + TToObservable classTrait + TOBlLayoutResizable classTrait',
 	#instVars : [
 		'#lines',
 		'#text => ObservableSlot'
@@ -28,21 +28,6 @@ ToLabelMultiLineInnerElement >> editorShortcutsIn: aLabel [
 			   description: 'Escape from text editing';
 			   name: 'Escape';
 			   yourself) }
-]
-
-{ #category : #accessing }
-ToLabelMultiLineInnerElement >> horizontalAlignment [
-	<return: #BlElementAlignment>
-
-	^ self layout horizontalAlignment 
-]
-
-{ #category : #accessing }
-ToLabelMultiLineInnerElement >> horizontalAlignment: aBlElementAlignment [
-
-	self horizontalAlignment = aBlElementAlignment ifTrue: [ ^self ].
-	self layout horizontalAlignment: aBlElementAlignment.
-
 ]
 
 { #category : #initialization }
@@ -125,21 +110,6 @@ ToLabelMultiLineInnerElement >> textReplaced [
 	lines := self splitText.
 	self addChildren: lines.
 	self dispatchEvent: (ToTextReplacedEvent new text: self text)
-
-]
-
-{ #category : #accessing }
-ToLabelMultiLineInnerElement >> verticalAlignment [
-	<return: #BlElementAlignment>
-	
-	^ self layout verticalAlignment 
-]
-
-{ #category : #accessing }
-ToLabelMultiLineInnerElement >> verticalAlignment: aBlElementAlignment [
-
-	self verticalAlignment = aBlElementAlignment ifTrue: [ ^self ].
-	self layout verticalAlignment: aBlElementAlignment
 
 ]
 

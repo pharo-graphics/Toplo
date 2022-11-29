@@ -1,8 +1,8 @@
 Class {
 	#name : #ToAlbum,
 	#superclass : #BlElement,
-	#traits : 'TToWidget + TToContainer + TToWidgetWithLayers',
-	#classTraits : 'TToWidget classTrait + TToContainer classTrait + TToWidgetWithLayers classTrait',
+	#traits : 'TToWidget + TToWidgetWithLayers',
+	#classTraits : 'TToWidget classTrait + TToWidgetWithLayers classTrait',
 	#instVars : [
 		'#editsFeedbackLayer',
 		'#ghostTextLayer',
@@ -36,7 +36,7 @@ ToAlbum >> beReadonlyWithoutSelection [
 	self innerElement beReadonlyWithoutSelection
 ]
 
-{ #category : #initialization }
+{ #category : #'t - initialization' }
 ToAlbum >> defaultDresser [
 
 	^ ToAlbumBasicDresser new

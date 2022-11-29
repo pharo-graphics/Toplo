@@ -1,7 +1,7 @@
 Trait {
 	#name : #TToWidget,
-	#traits : 'TBlAnnouncerProvider + TToObservable + TToEnableable',
-	#classTraits : 'TBlAnnouncerProvider classTrait + TToObservable classTrait + TToEnableable classTrait',
+	#traits : 'TBlAnnouncerProvider + TToObservable + TToEnableable + TOBlLayoutResizable',
+	#classTraits : 'TBlAnnouncerProvider classTrait + TToObservable classTrait + TToEnableable classTrait + TOBlLayoutResizable classTrait',
 	#category : #'Toplo-Core'
 }
 
@@ -14,13 +14,13 @@ TToWidget >> addDresser: aDresser [
 { #category : #'t - api - tooltip' }
 TToWidget >> checkTooltip [
 
-	self tooltip ifNil: [ self tooltip: self newTooltipWidget ]
+	self tooltip ifNil: [ self installTooltip ]
 ]
 
 { #category : #'t - initialization' }
 TToWidget >> defaultDresser [
 
-	^ self explicitRequirement
+	^ ToNullDresser new
 ]
 
 { #category : #'t - initialization' }
@@ -32,7 +32,7 @@ TToWidget >> defaultLayout [
 { #category : #'t - initialization' }
 TToWidget >> defaultViewModel [
 
-	^ self explicitRequirement 
+	^ ToViewModel new
 ]
 
 { #category : #'t - accessing - dresser' }
@@ -58,6 +58,13 @@ TToWidget >> dresserDo: aBlock [
 TToWidget >> dresserSatisfying: aBlock [
 
 	^ self dresser dresserSatisfying: aBlock
+]
+
+{ #category : #'t - api - tooltip' }
+TToWidget >> installTooltip [
+
+	self tooltip: self newTooltipWidget.
+	self tooltip onInstalledIn: self
 ]
 
 { #category : #'t - change reporting' }

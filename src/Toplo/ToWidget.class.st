@@ -6,18 +6,6 @@ Class {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'t - initialization' }
-ToWidget >> defaultDresser [
-
-	^ ToNullDresser new
-]
-
-{ #category : #'t - initialization' }
-ToWidget >> defaultViewModel [
-
-	^ ToViewModel new
-]
-
 { #category : #initialization }
 ToWidget >> initialize [ 
 

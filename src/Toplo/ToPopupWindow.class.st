@@ -83,15 +83,22 @@ ToPopupWindow >> popupAnimationStencyl: anAnimationStencyl [
 { #category : #'showing / hiding' }
 ToPopupWindow >> popupAtPosition: aPoint [
 
+	self popupIn: self widget topMostParent atPosition: aPoint
+]
+
+{ #category : #'showing / hiding' }
+ToPopupWindow >> popupIn: aWidget atPosition: aPoint [
+
 	self cleanUp.
 	" aWidget is already attached, thus its bounds is up-to-date "
 	self relocate: aPoint.
-	self widget topMostParent addChild: self.
+	aWidget addChild: self.
 	self animate ifFalse: [ ^ self ].
 	" enqueue task in myself to adapt my bounds to the space one, it it runned just after i'm attached "
-	self enqueueTask: (BlTaskAction new action: [ 
+
+	self enqueueTask: (BlTaskAction new action: [
 			 self relocate: (self geometryBoundsInSpace translatedToBeWithin:
-					  self widget topMostParent bounds asRectangle) origin ]).
+					  aWidget bounds asRectangle) origin ]).
 	self addAnimation: self popupAnimationStencil value
 ]
 

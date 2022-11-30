@@ -102,6 +102,12 @@ ToInnerWindow >> defaultBorderWidth [
 ]
 
 { #category : #initialization }
+ToInnerWindow >> defaultRootLayout [
+
+	^ BlBasicLayout uniqueInstance 
+]
+
+{ #category : #initialization }
 ToInnerWindow >> defaultSize [
 
 	^ 300@200

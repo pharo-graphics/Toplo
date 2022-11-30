@@ -613,7 +613,7 @@ ToSandBox class >> example_toLabel3 [
 	lab background: Color lightBlue.
 	lab hMatchParent.
 	lab editable: true.
-	lab alignCenter.
+	lab layout alignCenter.
 	lab border: (BlBorder paint: Color yellow width: 1).
 	lab openInOBlSpace.
 	lab inspect
@@ -633,7 +633,7 @@ ToSandBox class >> example_toLabel3_bis [
 	model widgetDo: [ :label | 
 		label hMatchParent.
 		label background: Color lightBlue.
-		label alignCenterRight.
+		label layout alignCenterRight.
 		label border: (BlBorder paint: Color yellow width: 1) ].
 	model editable: true.
 	(widget := model onWidget) openInOBlSpace.
@@ -653,7 +653,7 @@ ToSandBox class >> example_toLabel3_bis2 [
 	model widgetDo: [ :label | 
 		label hMatchParent.
 		label background: Color lightBlue.
-		label alignCenterRight.
+		label layout alignCenterRight.
 		label border: (BlBorder paint: Color yellow width: 1) ].
 	model editable: true.
 	(widget := model onWidget) openInOBlSpace.
@@ -675,7 +675,7 @@ ToSandBox class >> example_toLabel4 [
 	lab1 editable: true.
 	lab1 vFitContent.
 	lab1 hMatchParent.
-	lab1 alignCenter.
+	lab1 layout alignCenter.
 	lab1 border: (BlBorder paint: Color lightGray width: 1).
 	root addChild: lab1.
 
@@ -790,10 +790,10 @@ ToSandBox class >> example_toLabel_Multiline2_Centered [
 	lab2 beMultiLine.
 	lab1 matchParent.
 	lab2 matchParent.
-	lab1 alignCenter.
-	lab2 alignCenter.
-	lab1 innerElement alignCenter.
-	lab2 innerElement alignCenter.
+	lab1 layout alignCenter.
+	lab2 layout alignCenter.
+	lab1 innerElement layout alignCenter.
+	lab2 innerElement layout alignCenter.
 	lab1 editable: true.
 	lab2 editable: true.
 	container := BlElement new
@@ -810,7 +810,7 @@ ToSandBox class >> example_toLabel_Multiline2_Centered [
 { #category : #multistate }
 ToSandBox class >> example_toMultiState1 [
 
-	| but |
+	| but space |
 	but := ToButton new.
 	but states: { (ToToggleState new
 			 buttonStencil: [ :button | 
@@ -830,7 +830,9 @@ ToSandBox class >> example_toMultiState1 [
 					 opacity: 1;
 					 yourself ];
 			 yourself) }.
-	but openInWorld
+	space := OBlSpace new.
+	space addChild: but.
+	space show
 ]
 
 { #category : #multistate }
@@ -969,6 +971,7 @@ ToSandBox class >> example_toWidgetAsButton0 [
 	| but |
 	but := ToWidget new.
 	but addDresser: ToButtonDefaultDresser new.
+	but whenAnnouncement: ToButtonClickLaunchAction do: [ self inform: 'Click' ]. 
 	but background: Color blue.
 	but size: 50@50.
 	but  openInOBlSpace 

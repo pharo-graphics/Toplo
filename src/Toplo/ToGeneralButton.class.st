@@ -1,8 +1,8 @@
 Class {
 	#name : #ToGeneralButton,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TToEnableable + TToWidgetWithTooltip + TToWidgetWithDresser + TToWidgetWithViewModel',
-	#classTraits : 'TToWidget classTrait + TToEnableable classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithDresser classTrait + TToWidgetWithViewModel classTrait',
+	#traits : 'TToWidget + TToWidgetWithTooltip + TToWidgetWithViewModel',
+	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithViewModel classTrait',
 	#category : #'Toplo-Widget-Button'
 }
 
@@ -21,12 +21,6 @@ ToGeneralButton >> applyStateTransition [
 	(curr := self currentState) ifNil: [ ^ self ].
 	curr applyStateTransitionOn: self.
 	self currentState: curr next
-]
-
-{ #category : #'mouse handlers' }
-ToGeneralButton >> clickEvent: anEvent [
-
-
 ]
 
 { #category : #accessing }

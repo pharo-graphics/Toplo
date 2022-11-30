@@ -8,7 +8,7 @@ Class {
 		'titleLabel',
 		'grips'
 	],
-	#category : #'Toplo-Widget-InnerWindow'
+	#category : #'Toplo-Widget-Window'
 }
 
 { #category : #'api - adding children' }
@@ -154,11 +154,26 @@ ToInnerWindow >> layoutGrips [
 	grips	do: [ :g | g applyLayoutIn: self ]
 ]
 
+{ #category : #'api - displaying' }
+ToInnerWindow >> maximize [
+
+	self
+		relocate: 0 @ 0;
+		size: self parent size
+]
+
 { #category : #'api - adding children' }
 ToInnerWindow >> removeChild: anElement [
 	"Remove a given element from the space root"
 	
 	self root removeChild: anElement
+]
+
+{ #category : #'api - displaying' }
+ToInnerWindow >> show [
+	"Open me in a window and show it to the user"
+
+	self openInOBlSpace
 ]
 
 { #category : #accessing }

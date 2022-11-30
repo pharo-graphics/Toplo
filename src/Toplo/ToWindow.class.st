@@ -1,12 +1,10 @@
 Class {
 	#name : #ToWindow,
 	#superclass : #ToElement,
-	#traits : 'TBlAnnouncerProvider + TToObservable',
-	#classTraits : 'TBlAnnouncerProvider classTrait + TToObservable classTrait',
 	#instVars : [
 		'root'
 	],
-	#category : #'Toplo-Widget-InnerWindow'
+	#category : #'Toplo-Widget-Window'
 }
 
 { #category : #'api - adding children' }
@@ -56,15 +54,14 @@ ToWindow >> defaultGeometry [
 { #category : #initialization }
 ToWindow >> defaultRoot [
 
-	^ BlElement new
+	^ ToElement new
 		  background: self defaultRootBackground;
 		  labeled: self defaultRootLabel;
 		  border: self defaultBorder;
 		  margin: (BlInsets all: 1);
 		  outskirts: BlOutskirts outside;
-		  constraintsDo: [ :c | 
-			  c vertical matchParent.
-			  c horizontal matchParent ]
+		  layout: self defaultRootLayout;
+		  matchParent
 ]
 
 { #category : #initialization }
@@ -76,6 +73,12 @@ ToWindow >> defaultRootBackground [
 { #category : #initialization }
 ToWindow >> defaultRootLabel [
 	^ 'Frame root'
+]
+
+{ #category : #initialization }
+ToWindow >> defaultRootLayout [
+
+	^ BlFrameLayout new
 ]
 
 { #category : #initialization }
@@ -96,6 +99,7 @@ ToWindow >> initialize [
 	super initialize.
 	self
 		background: (Color white alpha: 0.7);
+		elevation: (BlRelativeElevation elevation: SmallInteger maxVal);
 		size: self defaultSize;
 		border: self defaultBorder;
 		layout: BlLinearLayout vertical;
@@ -110,22 +114,14 @@ ToWindow >> initialize [
 ToWindow >> inspectionPreview: aBuilder [
 	"<inspectorPresentationOrder: 1 title: 'Preview'>"
 
-	^ self root inspectionPreview: aBuilder
+	^ super inspectionPreview: aBuilder
 ]
 
 { #category : #spec2 }
 ToWindow >> inspectionTree: aBuilder [
 	<inspectorPresentationOrder: 2 title: 'Tree'>
 
-	^ self root inspectionTree: aBuilder
-]
-
-{ #category : #'api - displaying' }
-ToWindow >> maximize [
-
-	self
-		relocate: 0 @ 0;
-		size: self parent size
+	^ super inspectionTree: aBuilder
 ]
 
 { #category : #'api - adding children' }
@@ -161,13 +157,6 @@ ToWindow >> rootDo: aBlock [
 	May be useful for scripting"
 
 	aBlock value: self root
-]
-
-{ #category : #'api - displaying' }
-ToWindow >> show [
-	"Open me in a window and show it to the user"
-
-	self openInOBlSpace
 ]
 
 { #category : #'api - displaying' }

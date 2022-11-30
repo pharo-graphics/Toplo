@@ -12,14 +12,13 @@ TToWidgetWithTooltip >> checkTooltip [
 { #category : #'t - api - tooltip' }
 TToWidgetWithTooltip >> installTooltip [
 
-	self tooltip: self newTooltipWidget.
-	self tooltip onInstalledIn: self
+	self tooltip: self newTooltipWidget
 ]
 
 { #category : #'t - api - tooltip' }
 TToWidgetWithTooltip >> newTooltipWidget [
 
-	^ self tooltipWidgetClass new
+	^ self tooltipWidgetClass new widget: self; yourself 
 ]
 
 { #category : #'t - api - tooltip' }

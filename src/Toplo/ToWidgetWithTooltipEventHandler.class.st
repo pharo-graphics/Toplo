@@ -33,21 +33,6 @@ ToWidgetWithTooltipEventHandler >> hideTooltipFor: aWidget [
 ]
 
 { #category : #'api - accessing' }
-ToWidgetWithTooltipEventHandler >> launchPopupTooltip: anEvent [
-
-	anEvent currentTarget tooltipDo: [ :tooltip | 
-		tooltip cleanUp.
-		tooltip content ifEmpty: [ ^ self ].
-		tooltip parentDo: [ :p | tooltip removeFromParent ].
-		openTooltipTask := BlDelayedTaskAction new
-			            delay: 700 milliSeconds;
-			            action: [ 
-				            self popupTooltipFor: anEvent currentTarget fromPosition: anEvent position.
-				            openTooltipTask := nil ].
-		anEvent currentTarget enqueueTask: openTooltipTask ]
-]
-
-{ #category : #'api - accessing' }
 ToWidgetWithTooltipEventHandler >> mouseDownEvent: anEvent [
 
 	self hideTooltipFor: anEvent currentTarget
@@ -59,7 +44,7 @@ ToWidgetWithTooltipEventHandler >> mouseEnterEvent: anEvent [
 
 	openTooltipTask ifNotNil: [ anEvent currentTarget dequeueTask: openTooltipTask ].
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
-	self launchPopupTooltip: anEvent
+	self prepareDelayedPopupTooltipFromEvent: anEvent
 ]
 
 { #category : #'api - accessing' }
@@ -70,8 +55,36 @@ ToWidgetWithTooltipEventHandler >> mouseLeaveEvent: anEvent [
 ]
 
 { #category : #private }
-ToWidgetWithTooltipEventHandler >> popupTooltipFor: aWidget fromPosition: aPosition [
+ToWidgetWithTooltipEventHandler >> popupDelay [
 
+	^ 700 milliSeconds
+]
+
+{ #category : #private }
+ToWidgetWithTooltipEventHandler >> popupTooltipFor: aWidget fromEventPosition: aPosition [
+
+	| ttPoint |
 	aWidget tooltip ifNil: [ ^ self ].
-	aWidget tooltip popupFor: aWidget fromPosition: aPosition
+	ttPoint := aPosition x @ (aWidget localPointToGlobal: 0 @ aWidget bounds bottom) y + self vgap.
+	aWidget tooltip popupAtPosition: ttPoint
+]
+
+{ #category : #private }
+ToWidgetWithTooltipEventHandler >> prepareDelayedPopupTooltipFromEvent: anEvent [
+
+	anEvent currentTarget tooltipDo: [ :tooltip | 
+		tooltip content ifEmpty: [ ^ self ].
+		tooltip parentDo: [ :p | tooltip removePopup ].
+		openTooltipTask := BlDelayedTaskAction new
+			            delay: self popupDelay;
+			            action: [ 
+				            self popupTooltipFor: anEvent currentTarget fromEventPosition: anEvent position.
+				            openTooltipTask := nil ].
+		anEvent currentTarget enqueueTask: openTooltipTask ]
+]
+
+{ #category : #'showing / hiding' }
+ToWidgetWithTooltipEventHandler >> vgap [
+
+	^ 5
 ]

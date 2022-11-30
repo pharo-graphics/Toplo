@@ -1,7 +1,7 @@
 Class {
 	#name : #ToBottomResizeGrip,
 	#superclass : #ToBorderResizeGrip,
-	#category : #'Toplo-Widget-InnerWindow'
+	#category : #'Toplo-Widget-Window'
 }
 
 { #category : #accessing }

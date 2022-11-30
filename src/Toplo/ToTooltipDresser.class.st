@@ -17,10 +17,12 @@ ToTooltipDresser >> newEventHandler [
 ToTooltipDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
+	
 	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 8).
-	anElement border: (BlBorder paint: (Color gray alpha: 0.3)).
-	anElement background: (Color yellow alpha: 0.1).
-	anElement padding: (BlInsets all: 6).
+	anElement border: (BlBorder paint: (Color gray alpha: 0.4)).
+	anElement background: (Color yellow alpha: 0.2).
+	anElement padding: (BlInsets all: 4).
+	anElement label margin: (BlInsets all: 4).
 	eventHandler := self newEventHandler.
 	anElement addEventHandler: eventHandler.
 	anElement constraintsDo: [ :c | 

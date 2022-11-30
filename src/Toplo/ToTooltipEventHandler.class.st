@@ -21,10 +21,6 @@ ToTooltipEventHandler >> eventsToHandle [
 ToTooltipEventHandler >> mouseDownEvent: anEvent [
 
 	anEvent currentTarget removePopup
-	"widget when: BlElementPositionChangedEvent do: [ 'x' traceCr. self removePopup ]."
-
-
-
 ]
 
 { #category : #'api - accessing' }

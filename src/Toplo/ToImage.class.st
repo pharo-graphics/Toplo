@@ -1,8 +1,8 @@
 Class {
 	#name : #ToImage,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TToEnableable + TToWidgetWithTooltip + TToWidgetWithViewModel',
-	#classTraits : 'TToWidget classTrait + TToEnableable classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithViewModel classTrait',
+	#traits : 'TToWidget + TToWidgetWithTooltip + TToWidgetWithViewModel',
+	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithViewModel classTrait',
 	#instVars : [
 		'#innerImage => ObservableSlot'
 	],

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToLabel,
-	#superclass : #BlElement,
+	#superclass : #ToElement,
 	#traits : 'TToWidget + TToEnableable + TToWidgetWithTooltip + TToWidgetWithDresser + TToWidgetWithViewModel',
 	#classTraits : 'TToWidget classTrait + TToEnableable classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithDresser classTrait + TToWidgetWithViewModel classTrait',
 	#instVars : [

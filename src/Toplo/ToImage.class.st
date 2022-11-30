@@ -1,6 +1,6 @@
 Class {
 	#name : #ToImage,
-	#superclass : #BlElement,
+	#superclass : #ToElement,
 	#traits : 'TToWidget + TToEnableable + TToWidgetWithTooltip + TToWidgetWithViewModel',
 	#classTraits : 'TToWidget classTrait + TToEnableable classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithViewModel classTrait',
 	#instVars : [

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToWidget,
-	#superclass : #BlElement,
+	#superclass : #ToElement,
 	#traits : 'TToWidget',
 	#classTraits : 'TToWidget classTrait',
 	#category : #'Toplo-Core'

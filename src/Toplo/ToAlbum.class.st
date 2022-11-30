@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAlbum,
-	#superclass : #BlElement,
+	#superclass : #ToElement,
 	#traits : 'TToWidget + TToWidgetWithViewModel + TToEnableable + TToWidgetWithTooltip + TToWidgetWithLayers + TToWidgetWithDresser',
 	#classTraits : 'TToWidget classTrait + TToWidgetWithViewModel classTrait + TToEnableable classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithLayers classTrait + TToWidgetWithDresser classTrait',
 	#instVars : [

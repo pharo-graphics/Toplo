@@ -3,7 +3,7 @@ I'm a container with a Frame layout. (see `BlFrameLayout` comments)
 "
 Class {
 	#name : #ToFrame,
-	#superclass : #BlElement,
+	#superclass : #ToElement,
 	#traits : 'TToWidget',
 	#classTraits : 'TToWidget classTrait',
 	#category : #'Toplo-Widget-Frame'

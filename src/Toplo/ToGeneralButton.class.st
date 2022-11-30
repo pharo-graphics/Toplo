@@ -1,6 +1,6 @@
 Class {
 	#name : #ToGeneralButton,
-	#superclass : #BlElement,
+	#superclass : #ToElement,
 	#traits : 'TToWidget + TToEnableable + TToWidgetWithTooltip + TToWidgetWithDresser + TToWidgetWithViewModel',
 	#classTraits : 'TToWidget classTrait + TToEnableable classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithDresser classTrait + TToWidgetWithViewModel classTrait',
 	#category : #'Toplo-Widget-Button'

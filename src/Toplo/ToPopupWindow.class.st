@@ -25,7 +25,7 @@ ToPopupWindow >> animate: aBoolean [
 	animate := aBoolean
 ]
 
-{ #category : #'showing / hiding' }
+{ #category : #'api - displaying' }
 ToPopupWindow >> cleanUp [
 
 	self flag: 'keeping track of the delete animation is required but why exactly ?'.
@@ -33,6 +33,21 @@ ToPopupWindow >> cleanUp [
 	deleteAnimation ifNotNil: [ 
 		self dequeueTask: deleteAnimation.
 		deleteAnimation := nil ]
+]
+
+{ #category : #'api - displaying' }
+ToPopupWindow >> close [
+
+	self cleanUp.
+	animate ifTrue: [ 
+		deleteAnimation := deleteAnimationStencil value.
+		deleteAnimation onFinishedDo: [ 
+			super close.
+			self cleanUp ].
+		self addAnimation: deleteAnimation.
+		^ self ].
+
+	super close
 ]
 
 { #category : #accessing }
@@ -80,13 +95,13 @@ ToPopupWindow >> popupAnimationStencyl: anAnimationStencyl [
 	popupAnimationStencil := anAnimationStencyl
 ]
 
-{ #category : #'showing / hiding' }
+{ #category : #'api - displaying' }
 ToPopupWindow >> popupAtPosition: aPoint [
 
-	self popupIn: self widget space popupRoot atPosition: aPoint
+	self popupIn: self widget space popupLayer atPosition: aPoint
 ]
 
-{ #category : #'showing / hiding' }
+{ #category : #'api - displaying' }
 ToPopupWindow >> popupIn: aWidget atPosition: aPoint [
 
 	self cleanUp.
@@ -102,7 +117,7 @@ ToPopupWindow >> popupIn: aWidget atPosition: aPoint [
 	self addAnimation: self popupAnimationStencil value
 ]
 
-{ #category : #'showing / hiding' }
+{ #category : #'api - displaying' }
 ToPopupWindow >> popupInWidget: aWidget atPosition: aPoint [
 
 	self cleanUp.
@@ -118,22 +133,6 @@ ToPopupWindow >> popupInWidget: aWidget atPosition: aPoint [
 	self addAnimation: self popupAnimationStencil value
 ]
 
-{ #category : #'showing / hiding' }
-ToPopupWindow >> removePopup [
-
-	self cleanUp.
-	animate ifTrue: [ 
-		deleteAnimation := deleteAnimationStencil value.
-		deleteAnimation onFinishedDo: [ 
-			self parentDo: [ :p | 
-				self removeFromParent.
-				self cleanUp ] ].
-		self addAnimation: deleteAnimation.
-		^ self ].
-
-	self parentDo: [ :p | self removeFromParent ]
-]
-
 { #category : #'property change hook' }
 ToPopupWindow >> whenWidgetChangedDo: aBlock [
 
@@ -142,14 +141,14 @@ ToPopupWindow >> whenWidgetChangedDo: aBlock [
 	self property: #widget whenChangedDo: aBlock
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : #accessing }
 ToPopupWindow >> widget [
 
 	^ widget 
 
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : #accessing }
 ToPopupWindow >> widget: aWidget [
 
 	widget := aWidget.

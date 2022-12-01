@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Examples'
 }
 
-{ #category : #'root frame' }
+{ #category : #window }
 ToSandBox class >> example_2RootFramesInOBlWorld [
 
 	ToInnerWindow new
@@ -79,6 +79,22 @@ ToSandBox class >> example_EditorWithGhostTextWithToAlbumModel [
 	view openInOBlSpace
 ]
 
+{ #category : #window }
+ToSandBox class >> example_Popup1 [
+
+	| e p |
+	e := ToElement new background: Color lightGray; size: 100@100.
+	p := ToPopupWindow new background: Color green; size: 75@200; widget: e.
+	e addEventHandler: (BlEventHandler
+				on: BlClickEvent
+				do: [ :evt | p popupAtPosition: evt position ]).
+	p addEventHandler: (BlEventHandler
+				on: BlClickEvent
+				do: [ :evt | p close  ]).
+	e openInInnerWindow 
+	
+]
+
 { #category : #image }
 ToSandBox class >> example_Smalltalk_ui_icons [
 
@@ -134,9 +150,11 @@ ToSandBox class >> example_elementInPopupRoot [
 	| e space |
 	space := OBlSpace new.
 	e := BlElement new background: Color blue; size: 50@50; yourself.
-	space popupRoot addChild: e.
-	space show.
-	space inspect
+	space popupLayer addChild: e.
+	e addEventHandler: (BlEventHandler
+				on: BlClickEvent
+				do: [ :evt | self inform: 'Clicked'  ]).
+	space show
 ]
 
 { #category : #stuffs }
@@ -152,7 +170,7 @@ ToSandBox class >> example_enterLeave [
 	space show
 ]
 
-{ #category : #'root frame' }
+{ #category : #window }
 ToSandBox class >> example_rootFrame1 [
 	ToInnerWindow new title: 'Internal Frame example' ; openInOBlSpace 
 ]
@@ -212,7 +230,7 @@ ToSandBox class >> example_textFieldWithSaveCapability [
 		text := saveRequested client text copy].
 	t whenCancelRequestedDo: [ :cancelRequested | 
 		cancelRequested client text: text copy ].
-	t openInOBlSpace 
+	t openInInnerWindow 
 ]
 
 { #category : #checkbox }

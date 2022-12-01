@@ -24,7 +24,7 @@ TToWidgetWithTooltip >> newTooltipWidget [
 { #category : #'t - api - tooltip' }
 TToWidgetWithTooltip >> removeTooltip [
 
-	self tooltip ifNotNil: [ :tooltip | tooltip removePopup ]
+	self tooltip ifNotNil: [ :tooltip | tooltip close ]
 ]
 
 { #category : #'t - accessing' }

@@ -10,7 +10,7 @@ Class {
 { #category : #'element handlers' }
 ToWidgetWithTooltipEventHandler >> elementPositionChangedEvent: anEvent [
 
-	anEvent currentTarget removePopup
+	anEvent currentTarget close
 
 ]
 
@@ -29,7 +29,7 @@ ToWidgetWithTooltipEventHandler >> hideTooltipFor: aWidget [
 	openTooltipTask ifNotNil: [ 
 		aWidget dequeueTask: openTooltipTask.
 		openTooltipTask := nil ].
-	aWidget tooltip ifNotNil: [ :tooltip | tooltip removePopup ]
+	aWidget tooltip ifNotNil: [ :tooltip | tooltip close ]
 ]
 
 { #category : #'api - accessing' }
@@ -74,7 +74,7 @@ ToWidgetWithTooltipEventHandler >> prepareDelayedPopupTooltipFromEvent: anEvent 
 
 	anEvent currentTarget tooltipDo: [ :tooltip | 
 		tooltip content ifEmpty: [ ^ self ].
-		tooltip parentDo: [ :p | tooltip removePopup ].
+		tooltip parentDo: [ :p | tooltip close ].
 		openTooltipTask := BlDelayedTaskAction new
 			            delay: self popupDelay;
 			            action: [ 

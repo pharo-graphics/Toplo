@@ -20,7 +20,7 @@ ToTooltipEventHandler >> eventsToHandle [
 { #category : #'api - accessing' }
 ToTooltipEventHandler >> mouseDownEvent: anEvent [
 
-	anEvent currentTarget removePopup
+	anEvent currentTarget close
 ]
 
 { #category : #'api - accessing' }

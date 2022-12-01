@@ -128,6 +128,17 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 	container openInOBlSpace 
 ]
 
+{ #category : #space }
+ToSandBox class >> example_elementInPopupRoot [
+
+	| e space |
+	space := OBlSpace new.
+	e := BlElement new background: Color blue; size: 50@50; yourself.
+	space popupRoot addChild: e.
+	space show.
+	space inspect
+]
+
 { #category : #stuffs }
 ToSandBox class >> example_enterLeave [
 
@@ -201,7 +212,7 @@ ToSandBox class >> example_textFieldWithSaveCapability [
 		text := saveRequested client text copy].
 	t whenCancelRequestedDo: [ :cancelRequested | 
 		cancelRequested client text: text copy ].
-	t openInInnerWindow 
+	t openInOBlSpace 
 ]
 
 { #category : #checkbox }

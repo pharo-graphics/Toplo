@@ -8,7 +8,8 @@ Class {
 		'#deleteAnimationStencil',
 		'#popupAnimationStencil',
 		'#deleteAnimation',
-		'#widget => ObservableSlot'
+		'#widget => ObservableSlot',
+		'#checkPositionOnLayout'
 	],
 	#category : #'Toplo-Widget-Window'
 }
@@ -70,6 +71,7 @@ ToPopupWindow >> initialize [
 	self fitContent.
 	self root fitContent.
 	self animate: true.
+	checkPositionOnLayout := false.
 	deleteAnimationStencil := [ 
 	                          BlOpacityAnimation new
 		                          duration: 400 milliSeconds;
@@ -81,6 +83,24 @@ ToPopupWindow >> initialize [
 		                         duration: 400 milliSeconds;
 		                         opacity: 1;
 		                         yourself ]
+]
+
+{ #category : #'hooks - layout' }
+ToPopupWindow >> onLayoutDone [
+
+	" layout is done, my bounds are now up-to-date"
+
+	checkPositionOnLayout ifFalse: [ ^ self ].
+	checkPositionOnLayout := false.
+
+	self isFullyVisibleInSpace ifFalse: [ 
+		| gap rect |
+		rect := self bounds inSpace asRectangle.
+		gap := rect amountToTranslateWithin: (0 @ 0 extent: self space extent).
+		self relocate: self position + gap ].
+
+	self animate ifFalse: [ ^ self ].
+	self addAnimation: self popupAnimationStencil value
 ]
 
 { #category : #accessing }
@@ -106,31 +126,11 @@ ToPopupWindow >> popupIn: aWidget atPosition: aPoint [
 
 	self cleanUp.
 	" aWidget is already attached, thus its bounds is up-to-date "
-	self relocate: aPoint.
+	self relocate: (aWidget globalPointToLocal: aPoint).
 	aWidget addChild: self.
-	self animate ifFalse: [ ^ self ].
-	" enqueue task in myself to adapt my bounds to the space one, it it runned just after i'm attached "
+	"flag checked in #layoutDone to finalize my position"
+	checkPositionOnLayout := true.
 
-	self enqueueTask: (BlTaskAction new action: [
-			 self relocate: (self geometryBoundsInSpace translatedToBeWithin:
-					  aWidget bounds asRectangle) origin ]).
-	self addAnimation: self popupAnimationStencil value
-]
-
-{ #category : #'api - displaying' }
-ToPopupWindow >> popupInWidget: aWidget atPosition: aPoint [
-
-	self cleanUp.
-	" aWidget is already attached, thus its bounds is up-to-date "
-	self relocate: aPoint.
-	aWidget addChild: self.
-	self animate ifFalse: [ ^ self ].
-	" enqueue task in myself to adapt my bounds to the space one, it it runned just after i'm attached "
-
-	self enqueueTask: (BlTaskAction new action: [
-			 self relocate: (self geometryBoundsInSpace translatedToBeWithin:
-					  aWidget bounds asRectangle) origin ]).
-	self addAnimation: self popupAnimationStencil value
 ]
 
 { #category : #'property change hook' }

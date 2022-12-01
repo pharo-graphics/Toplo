@@ -19,13 +19,13 @@ ToManager class >> checkSession [
 	session == Smalltalk session ifFalse: [ self reset ]
 ]
 
-{ #category : #initialization }
+{ #category : #'class initialization' }
 ToManager class >> initialize [
 
 	SessionManager default registerGuiClassNamed: self name
 ]
 
-{ #category : #accessing }
+{ #category : #'class initialization' }
 ToManager class >> reset [
 
 	"self reset"
@@ -33,10 +33,10 @@ ToManager class >> reset [
 	"Session dependents"
 
 	session := Smalltalk session.
-	^ UniqueInstance := nil
+	UniqueInstance := nil
 ]
 
-{ #category : #initialization }
+{ #category : #'class initialization' }
 ToManager class >> startUp: isResuming [
 
 	isResuming ifTrue: [ self reset ]

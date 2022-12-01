@@ -441,3 +441,76 @@ ToExperiments class >> example_frame [
 	frame addChild: root.
 	frame openInNewSpace
 ]
+
+{ #category : #frame }
+ToExperiments class >> example_mouseEvent_descending_bubbling [
+
+	| gray blue yellow world |
+	yellow := ToInnerWindow new
+		          size: 450 @ 500;
+		          in: [ :w | w root background: Color yellow ];
+		          relocate: 50 @ 50.
+	blue := ToInnerWindow new
+		        in: [ :w | w root background: Color blue ];
+		        size: 200 @ 200;
+		        relocate: 150 @ 50;
+		        yourself.
+	gray := ToInnerWindow new
+		        in: [ :w | w root background: Color gray ];
+		        size: 100 @ 100;
+		        relocate: 50 @ 50.
+	world := ToManager world.
+
+	world root addEventHandler: (BlEventHandler
+			 on: BlMouseDownEvent
+			 do: [ :evt | 
+				 ('bubbling world' , evt localPosition asString , ' '
+				  , evt position asString , ' ' , evt screenPosition asString)
+					 traceCr ]).
+	gray addEventHandler: (BlEventHandler
+			 on: BlMouseDownEvent
+			 do: [ :evt | 
+				 ('bubbling gray' , evt localPosition asString , ' '
+				  , evt position asString , ' ' , evt screenPosition asString)
+					 traceCr ]).
+	yellow addEventHandler: (BlEventHandler
+			 on: BlMouseDownEvent
+			 do: [ :evt | 
+				 ('bubbling yellow' , evt localPosition asString , ' '
+				  , evt position asString , ' ' , evt screenPosition asString)
+					 traceCr ]).
+	blue addEventHandler: (BlEventHandler
+			 on: BlMouseDownEvent
+			 do: [ :evt | 
+				 ('bubbling blue' , evt localPosition asString , ' '
+				  , evt position asString , ' ' , evt screenPosition asString)
+					 traceCr ]).
+	world root addEventFilter: (BlEventHandler
+			 on: BlMouseDownEvent
+			 do: [ :evt | 
+				 ('descending world' , evt localPosition asString , ' '
+				  , evt position asString , ' ' , evt screenPosition asString)
+					 traceCr ]).
+	gray addEventFilter: (BlEventHandler
+			 on: BlMouseDownEvent
+			 do: [ :evt | 
+				 ('descending gray' , evt localPosition asString , ' '
+				  , evt position asString , ' ' , evt screenPosition asString)
+					 traceCr ]).
+	yellow addEventFilter: (BlEventHandler
+			 on: BlMouseDownEvent
+			 do: [ :evt | 
+				 ('descending yellow' , evt localPosition asString , ' '
+				  , evt position asString , ' ' , evt screenPosition asString)
+					 traceCr ]).
+	blue addEventFilter: (BlEventHandler
+			 on: BlMouseDownEvent
+			 do: [ :evt | 
+				 ('descending blue' , evt localPosition asString , ' '
+				  , evt position asString , ' ' , evt screenPosition asString)
+					 traceCr ]).
+	blue addChild: gray.
+	yellow addChild: blue.
+	world addChild: yellow.
+	world show
+]

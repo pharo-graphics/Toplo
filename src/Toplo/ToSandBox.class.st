@@ -82,7 +82,7 @@ ToSandBox class >> example_EditorWithGhostTextWithToAlbumModel [
 { #category : #window }
 ToSandBox class >> example_Popup1 [
 
-	| e p container |
+	| e p container but |
 	container := ToInnerWindow new
 		             relocate: 10 @ 10;
 		             size: 400 @ 200;
@@ -93,8 +93,11 @@ ToSandBox class >> example_Popup1 [
 		     relocate: 50 @ 50.
 	p := ToPopupWindow new
 		     background: Color green;
-		     size: 75 @ 200;
 		     widget: e.
+	but := ToWidget new size: 50@90.
+	but addDresser: ToButtonDefaultDresser new.
+	but whenAnnouncement: ToButtonClickLaunchAction do: [ self inform: 'Click'. p close ]. 
+	p addChild: but.
 	p addEventHandler: (BlEventHandler
 			 on: BlSpaceMouseDownOutsideEvent
 			 do: [ :event | self inform: 'OUTSIDE'. p close ]).

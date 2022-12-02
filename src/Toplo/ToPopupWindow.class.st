@@ -27,6 +27,25 @@ ToPopupWindow >> animate: aBoolean [
 ]
 
 { #category : #'api - displaying' }
+ToPopupWindow >> checkPositionBeforePopup [
+
+	| gap rect |
+	" layout is done, my bounds are now up-to-date"
+	checkPositionOnLayout ifFalse: [ ^ self ].
+	checkPositionOnLayout := false.
+
+	" I have to check if my position is ok according to my extent and the space extent"
+	rect := self bounds inSpace asRectangle.
+	gap := rect amountToTranslateWithin: (0 asPoint extent: self space extent).
+	self relocate: self position + gap.
+
+	" my bounds are up-to-date, I can be visible "
+	self visibility: BlVisibility visible.
+	self animate ifFalse: [ ^ self ].
+	self addAnimation: self popupAnimationStencil value
+]
+
+{ #category : #'api - displaying' }
 ToPopupWindow >> cleanUp [
 
 	self flag: 'keeping track of the delete animation is required but why exactly ?'.
@@ -88,19 +107,8 @@ ToPopupWindow >> initialize [
 { #category : #'hooks - layout' }
 ToPopupWindow >> onLayoutDone [
 
-	" layout is done, my bounds are now up-to-date"
-
-	checkPositionOnLayout ifFalse: [ ^ self ].
-	checkPositionOnLayout := false.
-
-	self isFullyVisibleInSpace ifFalse: [ 
-		| gap rect |
-		rect := self bounds inSpace asRectangle.
-		gap := rect amountToTranslateWithin: (0 @ 0 extent: self space extent).
-		self relocate: self position + gap ].
-
-	self animate ifFalse: [ ^ self ].
-	self addAnimation: self popupAnimationStencil value
+	super onLayoutDone.
+	self checkPositionBeforePopup 
 ]
 
 { #category : #accessing }
@@ -116,17 +124,19 @@ ToPopupWindow >> popupAnimationStencyl: anAnimationStencyl [
 ]
 
 { #category : #'api - displaying' }
-ToPopupWindow >> popupAtPosition: aPoint [
+ToPopupWindow >> popupAtGlobalPosition: aPoint [
 
-	self popupIn: self widget space popupLayer atPosition: aPoint
+	self popupIn: self widget space popupLayer atGlobalPosition: aPoint
 ]
 
 { #category : #'api - displaying' }
-ToPopupWindow >> popupIn: aWidget atPosition: aPoint [
+ToPopupWindow >> popupIn: aWidget atGlobalPosition: aPoint [
 
 	self cleanUp.
 	" aWidget is already attached, thus its bounds is up-to-date "
 	self relocate: (aWidget globalPointToLocal: aPoint).
+	"I'm not ready to be visible because my bounds are not checked according to the popup layer extent"
+	self visibility: BlVisibility hidden.
 	aWidget addChild: self.
 	"flag checked in #layoutDone to finalize my position"
 	checkPositionOnLayout := true.

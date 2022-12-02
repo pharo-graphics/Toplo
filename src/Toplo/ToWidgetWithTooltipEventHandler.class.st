@@ -66,7 +66,7 @@ ToWidgetWithTooltipEventHandler >> popupTooltipFor: aWidget fromEventPosition: a
 	| ttPoint |
 	aWidget tooltip ifNil: [ ^ self ].
 	ttPoint := aPosition x @ (aWidget localPointToGlobal: 0 @ aWidget bounds bottom) y + self vgap.
-	aWidget tooltip popupAtPosition: ttPoint
+	aWidget tooltip popupAtGlobalPosition: ttPoint
 ]
 
 { #category : #private }

@@ -82,7 +82,7 @@ ToSandBox class >> example_EditorWithGhostTextWithToAlbumModel [
 { #category : #window }
 ToSandBox class >> example_Popup1 [
 
-	| e p container  |
+	| e p container |
 	container := ToInnerWindow new
 		             relocate: 10 @ 10;
 		             size: 400 @ 200;
@@ -95,16 +95,18 @@ ToSandBox class >> example_Popup1 [
 		     background: Color green;
 		     size: 75 @ 200;
 		     widget: e.
+	p addEventHandler: (BlEventHandler
+			 on: BlSpaceMouseDownOutsideEvent
+			 do: [ :event | self inform: 'OUTSIDE'. p close ]).
 	e addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
 			 do: [ :evt | 
 				 p isAttachedToSceneGraph
-					 ifTrue: [ p close ]
-					 ifFalse: [ p popupAtPosition: evt position ] ]).
+					 ifFalse: [ p popupAtGlobalPosition: evt position ] ]).
 	p addEventHandler: (BlEventHandler
 			 on: BlClickEvent
-			 do: [ :evt | p close ]).
-			
+			 do: [ :evt | self inform: 'CLICK'. p close ]).
+
 	container addChild: e.
 	container openInOBlSpace
 ]

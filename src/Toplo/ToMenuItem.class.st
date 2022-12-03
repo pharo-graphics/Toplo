@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuItem,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TToWidgetWithTooltip',
-	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait',
+	#traits : 'TToWidget + TToClickableWidget + TToWidgetWithTooltip',
+	#classTraits : 'TToWidget classTrait + TToClickableWidget classTrait + TToWidgetWithTooltip classTrait',
 	#category : #'Toplo-Widget-Menu'
 }
 
@@ -20,6 +20,6 @@ ToMenuItem >> initialize [
 	
 	self layout: BlLinearLayout horizontal.
 	self fitContent.
-	
+	self initializeClickBehavior.
 	self initializeDresser 
 ]

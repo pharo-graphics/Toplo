@@ -1,18 +1,18 @@
 Trait {
-	#name : #TToWidgetWithClickBehavior,
+	#name : #TToClickableWidget,
 	#traits : 'TToWidgetWithState',
 	#classTraits : 'TToWidgetWithState classTrait',
 	#category : #'Toplo-Core'
 }
 
 { #category : #'t - initialization click behavior' }
-TToWidgetWithClickBehavior >> initializeClickBehavior [
+TToClickableWidget >> initializeClickBehavior [
 
 	self whenClickedDo: [ self switchToNextState ].
 ]
 
 { #category : #'t - click behavior' }
-TToWidgetWithClickBehavior >> whenClickedDo: aBlock [
+TToClickableWidget >> whenClickedDo: aBlock [
 	"Inform that the button has been aclicked, and its action has been performed.
 	 `aBlock` receive zero arguments."
 

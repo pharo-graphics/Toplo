@@ -120,10 +120,7 @@ ToButton >> initialize [
 	horizontal := true.
 	labelFirst := false.
 	self layout: BlLinearLayout new.
-	self
-		constraintsDo: [ :c | 
-			c vertical fitContent.
-			c horizontal fitContent ].
+	self fitContent.
 	self privateLabel: ToLabel new.
 	self privateIcon: ToImage new.
 	self privateUpdateChildren.

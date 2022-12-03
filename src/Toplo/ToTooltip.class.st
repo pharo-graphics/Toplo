@@ -52,10 +52,11 @@ ToTooltip >> initialize [
 	self elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
 	self label: self defaultLabel.
 	self whenContentChangedDo: [ self label text: self content ].
-	self dresser: self defaultDresser.
 	self whenWidgetChangedDo: [ :newWidget :oldWidget | 
 		self uninstalledFrom: oldWidget.
-		self installedIn: newWidget ]
+		self installedIn: newWidget ].
+	
+	self initializeDresser 
 ]
 
 { #category : #initialization }

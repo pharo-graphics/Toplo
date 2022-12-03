@@ -31,9 +31,6 @@ ToPopupWindow >> checkPositionBeforePopup [
 
 	| gap rect |
 	" layout is done, my bounds are now up-to-date"
-	checkPositionOnLayout ifFalse: [ ^ self ].
-	checkPositionOnLayout := false.
-
 	" I have to check if my position is ok according to my extent and the space extent"
 	rect := self bounds inSpace asRectangle.
 	gap := rect amountToTranslateWithin: (0 asPoint extent: self space extent).
@@ -43,6 +40,14 @@ ToPopupWindow >> checkPositionBeforePopup [
 	self visibility: BlVisibility visible.
 	self animate ifFalse: [ ^ self ].
 	self addAnimation: self popupAnimationStencil value
+	
+"<kept for the record>
+	"" layout is done, my bounds are now up-to-date""
+	boundsInSpace := widget bounds inSpace bounds.
+	(boundsInSpace closestEdgeTo: pointer) traceCr.
+	proj := (boundsInSpace outsideNormalCloseTo: pointer).
+	self relocate: proj point.
+"
 ]
 
 { #category : #'api - displaying' }
@@ -104,13 +109,6 @@ ToPopupWindow >> initialize [
 		                         yourself ]
 ]
 
-{ #category : #'hooks - layout' }
-ToPopupWindow >> onLayoutDone [
-
-	super onLayoutDone.
-	self checkPositionBeforePopup 
-]
-
 { #category : #accessing }
 ToPopupWindow >> popupAnimationStencil [
 
@@ -133,13 +131,14 @@ ToPopupWindow >> popupAtGlobalPosition: aPoint [
 ToPopupWindow >> popupIn: aWidget atGlobalPosition: aPoint [
 
 	self cleanUp.
+	
 	" aWidget is already attached, thus its bounds is up-to-date "
 	self relocate: (aWidget globalPointToLocal: aPoint).
 	"I'm not ready to be visible because my bounds are not checked according to the popup layer extent"
 	self visibility: BlVisibility hidden.
 	aWidget addChild: self.
-	"flag checked in #layoutDone to finalize my position"
-	checkPositionOnLayout := true.
+	"I need to finalize my position as soon as my layout is up-to-date"
+	self whenLayoutedDoOnce: [ self checkPositionBeforePopup ].
 
 ]
 

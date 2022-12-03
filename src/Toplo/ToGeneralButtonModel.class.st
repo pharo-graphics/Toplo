@@ -4,11 +4,6 @@ Class {
 	#category : #'Toplo-View Models'
 }
 
-{ #category : #'api - action' }
-ToGeneralButtonModel >> clickEvent: anEvent [
-
-]
-
 { #category : #'private - accessing - widget' }
 ToGeneralButtonModel >> privateWidgetClass [
 
@@ -16,9 +11,9 @@ ToGeneralButtonModel >> privateWidgetClass [
 ]
 
 { #category : #processing }
-ToGeneralButtonModel >> states: aCollectionOfStates [
+ToGeneralButtonModel >> setUpStatesWith: aCollectionOfStates [
 
-	self widgetDo: [ :widget | widget states: aCollectionOfStates ]
+	self widgetDo: [ :widget | widget setUpStatesWith: aCollectionOfStates ]
 ]
 
 { #category : #'api - action' }

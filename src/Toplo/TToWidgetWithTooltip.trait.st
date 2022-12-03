@@ -3,49 +3,51 @@ Trait {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'t - api - tooltip' }
+{ #category : #'t - tooltip private' }
 TToWidgetWithTooltip >> checkTooltip [
 
 	self tooltip ifNil: [ self installTooltip ]
 ]
 
-{ #category : #'t - api - tooltip' }
+{ #category : #'t - tooltip private' }
 TToWidgetWithTooltip >> installTooltip [
 
 	self tooltip: self newTooltipWidget
 ]
 
-{ #category : #'t - api - tooltip' }
+{ #category : #'t - tooltip private' }
 TToWidgetWithTooltip >> newTooltipWidget [
 
-	^ self tooltipWidgetClass new widget: self; yourself 
+	^ self tooltipWidgetClass new
+		  widget: self;
+		  yourself
 ]
 
-{ #category : #'t - api - tooltip' }
+{ #category : #'t - tooltip private' }
 TToWidgetWithTooltip >> removeTooltip [
 
 	self tooltip ifNotNil: [ :tooltip | tooltip close ]
 ]
 
-{ #category : #'t - accessing' }
+{ #category : #'t - accessing tooltip' }
 TToWidgetWithTooltip >> tooltip [
 
 	^ self userData at: #tooltip ifAbsent: [  ]
 ]
 
-{ #category : #'t - accessing' }
+{ #category : #'t - accessing tooltip' }
 TToWidgetWithTooltip >> tooltip: aTooltip [
 
 	self userData at: #tooltip put: aTooltip
 ]
 
-{ #category : #'t - api - tooltip' }
+{ #category : #'t - accessing tooltip' }
 TToWidgetWithTooltip >> tooltipContent [
 
 	^ self tooltip ifNotNil: [ :tooltip | tooltip content ]
 ]
 
-{ #category : #'t - api - tooltip' }
+{ #category : #'t - accessing tooltip' }
 TToWidgetWithTooltip >> tooltipContent: aTooltipContent [
 
 	self checkTooltip.
@@ -53,7 +55,7 @@ TToWidgetWithTooltip >> tooltipContent: aTooltipContent [
 
 ]
 
-{ #category : #'t - accessing' }
+{ #category : #'t - accessing tooltip' }
 TToWidgetWithTooltip >> tooltipDo: aBlock [
 
 	self tooltip
@@ -61,7 +63,7 @@ TToWidgetWithTooltip >> tooltipDo: aBlock [
 		ifNotNil: [ :tooltip | aBlock value: tooltip ]
 ]
 
-{ #category : #'t - api - tooltip' }
+{ #category : #'t - accessing tooltip' }
 TToWidgetWithTooltip >> tooltipString: aString [
 
 	"Set a help string to display to the user if he let the mouse over the widget (a tooltip)."
@@ -69,13 +71,13 @@ TToWidgetWithTooltip >> tooltipString: aString [
 	self tooltipContent: aString asRopedText
 ]
 
-{ #category : #'t - api - tooltip' }
+{ #category : #'t - tooltip private' }
 TToWidgetWithTooltip >> tooltipWidgetClass [
 
 	^ ToTooltip 
 ]
 
-{ #category : #'t - api - properties change hook' }
+{ #category : #'t - tooltip change hook' }
 TToWidgetWithTooltip >> whenTooltipChangedDo: aBlock [
 	"Inform when tooltip property has changed. 
 	 `aBlock` has three optional arguments: 

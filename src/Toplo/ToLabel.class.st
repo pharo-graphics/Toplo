@@ -139,7 +139,8 @@ ToLabel >> initialize [
 	self whenLineModeChangedDo: [ self privateLineModeChanged ].
 	self lineMode: self defaultLineMode.
 	self text: self defaultText.
-	self dresser: self defaultDresser
+	
+	self initializeDresser
 
 ]
 
@@ -307,7 +308,7 @@ ToLabel >> text: aBlTextOrString [
 	text := (aBlTextOrString ifNil: [ self defaultText ]) asRopedText
 ]
 
-{ #category : #'api - change hook' }
+{ #category : #'change hook' }
 ToLabel >> whenEditableChangedDo: aBlock [
 
 	"Inform when editable property has changed. 
@@ -319,7 +320,7 @@ ToLabel >> whenEditableChangedDo: aBlock [
 	self property: #editable whenChangedDo: aBlock
 ]
 
-{ #category : #'api - change hook' }
+{ #category : #'change hook' }
 ToLabel >> whenLineModeChangedDo: aBlock [
 
 	"Inform when lineMode property has changed. 
@@ -331,7 +332,7 @@ ToLabel >> whenLineModeChangedDo: aBlock [
 	self property: #lineMode whenChangedDo: aBlock
 ]
 
-{ #category : #'api - change hook' }
+{ #category : #'change hook' }
 ToLabel >> whenTextReplacedDo: aBlock [
 
 	"Inform when text property has changed. 

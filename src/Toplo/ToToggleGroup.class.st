@@ -26,7 +26,6 @@ ToToggleGroup >> buttons [
 
 { #category : #'adding / removing' }
 ToToggleGroup >> checked: aCheckable [
-	
 	(buttons select: [ :b | b ~= aCheckable ]) do: [ :b | b uncheck ].
 	checkAction ifNotNil: [ checkAction cull: aCheckable cull: checked].
 	checked := aCheckable 
@@ -49,6 +48,10 @@ ToToggleGroup >> remove: aCheckable [
 
 { #category : #'api - checkbox' }
 ToToggleGroup >> whenCheckedDo: aBlock [
+	"Run aBlock when one of my buttons is checked. 
+	 `aBlock` receives two optional arguments: 
+	 - new checked button
+	 - previous checked button"
 
 	checkAction := aBlock
 ]

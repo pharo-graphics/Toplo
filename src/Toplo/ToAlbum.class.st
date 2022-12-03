@@ -36,7 +36,7 @@ ToAlbum >> beReadonlyWithoutSelection [
 	self innerElement beReadonlyWithoutSelection
 ]
 
-{ #category : #'t - accessing - dresser' }
+{ #category : #'t - initialization dresser' }
 ToAlbum >> defaultDresser [
 
 	^ ToAlbumBasicDresser new
@@ -78,7 +78,8 @@ ToAlbum >> initialize [
 		c vertical matchParent ].
 	self innerElement: self defaultEditorElement.
 	self innerElement whenAnnouncement: AlbTextEdited do: [ self edited: true ].
-	self dresser: self defaultDresser
+	
+	self initializeDresser 
 ]
 
 { #category : #accessing }
@@ -96,7 +97,7 @@ ToAlbum >> innerElement: anEditorElement [
 	self addChild: anEditorElement
 ]
 
-{ #category : #'api-layers' }
+{ #category : #'t - accessing layers' }
 ToAlbum >> layerReferentElement [
 
 		^ self innerElement 

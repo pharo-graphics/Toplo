@@ -1,8 +1,8 @@
 Class {
 	#name : #ToCompanion,
 	#superclass : #Object,
-	#traits : 'TToObservable + TBlAnnouncerProvider',
-	#classTraits : 'TToObservable classTrait + TBlAnnouncerProvider classTrait',
+	#traits : 'TObservable + TBlAnnouncerProvider',
+	#classTraits : 'TObservable classTrait + TBlAnnouncerProvider classTrait',
 	#instVars : [
 		'userData',
 		'installed'

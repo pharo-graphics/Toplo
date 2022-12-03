@@ -44,7 +44,6 @@ ToButtonDresser >> initialState: anElement [
 ToButtonDresser >> installEventListenersIn: anElement [
 
 	clickCandidateHandler := BlEventHandler on: BlClickCandidateEvent do: [ self escaped: anElement ].
-
 	clickHandler := ToButtonClickEventHandler new button: anElement.
 	mouseDownHandler := BlEventHandler on: BlMouseDownEvent do: [ self pressed: anElement ].
 	mouseUpHandler := BlEventHandler on: BlMouseUpEvent do: [ self clicked: anElement ].

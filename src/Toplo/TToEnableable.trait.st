@@ -3,13 +3,13 @@ Trait {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'api - enablement' }
+{ #category : #'t - accessing enablement' }
 TToEnableable >> disable [
 
 	self states addState: BlElementState disabled
 ]
 
-{ #category : #'api - enablement' }
+{ #category : #'t - accessing enablement' }
 TToEnableable >> disabled: aBoolean [
 
 	aBoolean value
@@ -17,13 +17,13 @@ TToEnableable >> disabled: aBoolean [
 		ifFalse: [ self enable ]
 ]
 
-{ #category : #'api - enablement' }
+{ #category : #'t - accessing enablement' }
 TToEnableable >> enable [
 
 	self states removeState: BlElementState disabled
 ]
 
-{ #category : #'api - enablement' }
+{ #category : #'t - accessing enablement' }
 TToEnableable >> enabled: aBoolean [
 
 	aBoolean value
@@ -31,14 +31,14 @@ TToEnableable >> enabled: aBoolean [
 		ifFalse: [ self disable ]
 ]
 
-{ #category : #'api - enablement' }
+{ #category : #'t - accessing enablement' }
 TToEnableable >> isDisabled [
 	<return: #Boolean>
 
 	^ self states hasState: BlElementState disabled
 ]
 
-{ #category : #'api - enablement' }
+{ #category : #'t - accessing enablement' }
 TToEnableable >> isEnabled [
 
 	^ self isDisabled not

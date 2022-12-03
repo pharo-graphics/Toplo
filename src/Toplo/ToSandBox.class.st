@@ -523,6 +523,8 @@ ToSandBox class >> example_toCheckboxWithLabel2 [
 
 	| but |
 	but := ToCheckbox new labelText: 'Check me'; beLabelFirst.
+	but whenCheckedDo: [ self inform: '+++ checked' ].
+	but whenUncheckedDo: [ self inform: '--- unchecked' ].
 	but openInOBlSpace 
 ]
 
@@ -860,8 +862,8 @@ ToSandBox class >> example_toMultiState1 [
 
 	| but space |
 	but := ToButton new.
-	but states: { (ToToggleState new
-			 buttonStencil: [ :button | 
+	but setUpStatesWith: { (ToWidgetState new
+			 widgetStencil: [ :button | 
 				 button
 					 iconImage: (BlElement new
 							  size: 50 @ 30;
@@ -888,33 +890,33 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 
 	| but |
 	but := ToButton new.
-	but states: { 
-			(ToToggleState new
-				 buttonStencil: [ :button | 
+	but setUpStatesWith: { 
+			(ToWidgetState new
+				 widgetStencil: [ :button | 
 					 button
 						 iconImage: (BlElement new
 								  size: 400 @ 400;
 								  background: Color blue);
 						 labelText: 'Big blue' ];
 				 yourself).
-			(ToToggleState new
-				 buttonStencil: [ :button | 
+			(ToWidgetState new
+				 widgetStencil: [ :button | 
 					 button
 						 iconImage: (BlElement new
 								  size: 20 @ 40;
 								  background: Color green);
 						 labelText: 'Green' ];
 				 yourself).
-			(ToToggleState new
-				 buttonStencil: [ :button | 
+			(ToWidgetState new
+				 widgetStencil: [ :button | 
 					 button
 						 iconImage: (BlElement new
 								  size: 50 @ 50;
 								  background: Color black);
 						 labelText: 'Black' ];
 				 yourself).
-			(ToToggleState new
-				 buttonStencil: [ :button | 
+			(ToWidgetState new
+				 widgetStencil: [ :button | 
 					 button
 						 iconImage: (BlElement new
 								  size: 100 @ 100;
@@ -940,9 +942,9 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 		                  yourself ].
 
 	but := ToButtonModel new.
-	but states: { 
-			(ToToggleState new
-				 buttonStencil: [ :button | 
+	but setUpStatesWith: { 
+			(ToWidgetState new
+				 widgetStencil: [ :button | 
 					 button
 						 iconImage: (BlElement new
 								  size: 100 @ 100;
@@ -951,8 +953,8 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 				 endAnimation: exitAnimation;
 				 beginAnimation: enterAnimation;
 				 yourself).
-			(ToToggleState new
-				 buttonStencil: [ :button | 
+			(ToWidgetState new
+				 widgetStencil: [ :button | 
 					 button
 						 iconImage: (BlElement new
 								  size: 100 @ 100;
@@ -961,8 +963,8 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 				 endAnimation: exitAnimation;
 				 beginAnimation: enterAnimation;
 				 yourself).
-			(ToToggleState new
-				 buttonStencil: [ :button | 
+			(ToWidgetState new
+				 widgetStencil: [ :button | 
 					 button
 						 iconImage: (BlElement new
 								  size: 100 @ 100;
@@ -971,8 +973,8 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 				 endAnimation: exitAnimation;
 				 beginAnimation: enterAnimation;
 				 yourself).
-			(ToToggleState new
-				 buttonStencil: [ :button | 
+			(ToWidgetState new
+				 widgetStencil: [ :button | 
 					 button
 						 iconImage: (BlElement new
 								  size: 100 @ 100;
@@ -989,17 +991,17 @@ ToSandBox class >> example_toMultiStateWithLabel [
 
 	| but |
 	but := ToButton new size: 70@35.
-	but states: { 
-			(ToToggleState new
-				 buttonStencil: [ :button | 
+	but setUpStatesWith: { 
+			(ToWidgetState new
+				 widgetStencil: [ :button | 
 					 button labelText: ('One' asRopedText fontSize: 24) ];
 				 yourself).
-			(ToToggleState new
-				 buttonStencil: [ :button | 
+			(ToWidgetState new
+				 widgetStencil: [ :button | 
 					 button labelText: ('Two' asRopedText fontSize: 24) ];
 				 yourself).
-			(ToToggleState new
-				 buttonStencil: [ :button | 
+			(ToWidgetState new
+				 widgetStencil: [ :button | 
 					 button labelText: ('Three' asRopedText fontSize: 24) ];
 				 yourself) }.
 	but openInWorld

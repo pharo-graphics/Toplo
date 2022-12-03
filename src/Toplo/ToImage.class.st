@@ -20,9 +20,9 @@ ToImage >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	self constraintsDo: [ :c | 
-		c vertical fitContent.
-		c horizontal fitContent ].
+	
+	self fitContent.
+	
 	self innerImage: self defaultInnerImage
 ]
 

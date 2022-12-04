@@ -863,18 +863,18 @@ ToSandBox class >> example_toMultiState1 [
 	| but space |
 	but := ToButton new.
 	but setUpStatesWith: { (ToWidgetState new
-			 widgetStencil: [ :button | 
+			 whenEnterDo: [ :button | 
 				 button
 					 iconImage: (BlElement new
 							  size: 50 @ 30;
 							  background: Color green);
 					 labelText: 'Green' ];
-			 endAnimation: [ 
+			 exitAnimationStencyl: [ 
 				 BlOpacityAnimation new
 					 duration: 500 milliSeconds;
 					 opacity: 0;
 					 yourself ];
-			 beginAnimation: [ 
+			 enterAnimationStencyl: [ 
 				 BlOpacityAnimation new
 					 duration: 1000 milliSeconds;
 					 opacity: 1;
@@ -892,7 +892,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 	but := ToButton new.
 	but setUpStatesWith: { 
 			(ToWidgetState new
-				 widgetStencil: [ :button | 
+				 whenEnterDo: [ :button | 
 					 button
 						 iconImage: (BlElement new
 								  size: 400 @ 400;
@@ -900,7 +900,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 						 labelText: 'Big blue' ];
 				 yourself).
 			(ToWidgetState new
-				 widgetStencil: [ :button | 
+				 whenEnterDo: [ :button | 
 					 button
 						 iconImage: (BlElement new
 								  size: 20 @ 40;
@@ -908,7 +908,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 						 labelText: 'Green' ];
 				 yourself).
 			(ToWidgetState new
-				 widgetStencil: [ :button | 
+				 whenEnterDo: [ :button | 
 					 button
 						 iconImage: (BlElement new
 								  size: 50 @ 50;
@@ -916,7 +916,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 						 labelText: 'Black' ];
 				 yourself).
 			(ToWidgetState new
-				 widgetStencil: [ :button | 
+				 whenEnterDo: [ :button | 
 					 button
 						 iconImage: (BlElement new
 								  size: 100 @ 100;
@@ -944,44 +944,44 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 	but := ToButtonModel new.
 	but setUpStatesWith: { 
 			(ToWidgetState new
-				 widgetStencil: [ :button | 
+				 whenEnterDo: [ :button | 
 					 button
 						 iconImage: (BlElement new
 								  size: 100 @ 100;
 								  background: Color blue);
 						 labelText: ('Big blue' asRopedText fontSize: 24) ];
-				 endAnimation: exitAnimation;
-				 beginAnimation: enterAnimation;
+				 exitAnimationStencyl: exitAnimation;
+				 enterAnimationStencyl: enterAnimation;
 				 yourself).
 			(ToWidgetState new
-				 widgetStencil: [ :button | 
+				 whenEnterDo: [ :button | 
 					 button
 						 iconImage: (BlElement new
 								  size: 100 @ 100;
 								  background: Color green);
 						 labelText: ('Green' asRopedText fontSize: 24) ];
-				 endAnimation: exitAnimation;
-				 beginAnimation: enterAnimation;
+				 exitAnimationStencyl: exitAnimation;
+				 enterAnimationStencyl: enterAnimation;
 				 yourself).
 			(ToWidgetState new
-				 widgetStencil: [ :button | 
+				 whenEnterDo: [ :button | 
 					 button
 						 iconImage: (BlElement new
 								  size: 100 @ 100;
 								  background: Color black);
 						 labelText: ('Black' asRopedText fontSize: 24) ];
-				 endAnimation: exitAnimation;
-				 beginAnimation: enterAnimation;
+				 exitAnimationStencyl: exitAnimation;
+				 enterAnimationStencyl: enterAnimation;
 				 yourself).
 			(ToWidgetState new
-				 widgetStencil: [ :button | 
+				 whenEnterDo: [ :button | 
 					 button
 						 iconImage: (BlElement new
 								  size: 100 @ 100;
 								  background: Color yellow);
 						 labelText: ('Yellow' asRopedText fontSize: 24) ];
-				 endAnimation: exitAnimation;
-				 beginAnimation: enterAnimation;
+				 exitAnimationStencyl: exitAnimation;
+				 enterAnimationStencyl: enterAnimation;
 				 yourself) }.
 	but onWidget openInOBlSpace
 ]
@@ -990,18 +990,21 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 ToSandBox class >> example_toMultiStateWithLabel [
 
 	| but |
-	but := ToButton new size: 70@35.
+	but := ToButton new size: 70 @ 35.
 	but setUpStatesWith: { 
 			(ToWidgetState new
-				 widgetStencil: [ :button | 
+				 name: #one;
+				 whenEnterDo: [ :button | 
 					 button labelText: ('One' asRopedText fontSize: 24) ];
 				 yourself).
 			(ToWidgetState new
-				 widgetStencil: [ :button | 
+				 name: #two;
+				 whenEnterDo: [ :button | 
 					 button labelText: ('Two' asRopedText fontSize: 24) ];
 				 yourself).
 			(ToWidgetState new
-				 widgetStencil: [ :button | 
+				 name: #three;
+				 whenEnterDo: [ :button | 
 					 button labelText: ('Three' asRopedText fontSize: 24) ];
 				 yourself) }.
 	but openInWorld

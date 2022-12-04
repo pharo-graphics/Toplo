@@ -514,3 +514,36 @@ ToExperiments class >> example_mouseEvent_descending_bubbling [
 	world addChild: yellow.
 	world show
 ]
+
+{ #category : #'animate toogle button' }
+ToExperiments class >> example_toggle_with_animation [
+
+	| btn track lab |
+	track := ToElement new
+		         geometry: (BlRoundedRectangleGeometry cornerRadius: 10);
+		         border: (BlBorder paint: Color veryLightGray);
+					layout: BlLinearLayout horizontal;
+					padding: (BlInsets all: 3);
+		         vFitContent; hExact: 40.
+	track layout alignCenterLeft.
+	lab := ToLabel new text: 'Off'.
+	btn := ToElement new
+		       geometry: BlEllipseGeometry new;
+		       background: Color veryLightGray;
+		       size: 16 @ 16;
+		       relocate: 3 @ 3.
+	track addChild: btn.
+	track addChild: lab.
+	track openInOBlSpace.
+	btn addAnimation: (BlParallelAnimation withAll: { 
+				 (BlTransformAnimation new
+					  duration: 3000 milliSeconds;
+					  transformDo: [ :b | b translateBy: 18 @ 0 ]).
+				 (BlColorTransition new
+					  duration: 3000 milliSeconds;
+					  from: Color veryLightGray;
+					  to: Color black;
+					  onStepDo: [ :aColor :anElement | 
+						  anElement background: aColor.
+						  anElement parent border: (BlBorder paint: aColor) ]) })
+]

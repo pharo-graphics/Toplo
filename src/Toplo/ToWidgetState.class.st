@@ -1,59 +1,57 @@
 Class {
 	#name : #ToWidgetState,
 	#superclass : #Object,
+	#traits : 'TBlAnnouncerProvider',
+	#classTraits : 'TBlAnnouncerProvider classTrait',
 	#instVars : [
 		'name',
 		'next',
-		'beginAnimation',
-		'endAnimation',
-		'changeAction',
-		'widgetStencil'
+		'enterAnimationStencyl',
+		'exitAnimationStencyl'
 	],
 	#category : #'Toplo-Core'
 }
 
-{ #category : #processing }
-ToWidgetState >> beCurrentStateOn: aStateOwner previousState: aPreviousState [
-
-	widgetStencil value: aStateOwner.
-	self enterOn: aStateOwner previousState: aPreviousState
-]
-
 { #category : #accessing }
-ToWidgetState >> beginAnimation: anAnimation [
+ToWidgetState >> enterAnimationStencyl: anAnimation [
 
-	beginAnimation := anAnimation
-]
-
-{ #category : #accessing }
-ToWidgetState >> changeAction: aBlock [
-
-	changeAction := aBlock
-]
-
-{ #category : #accessing }
-ToWidgetState >> endAnimation: anAnimation [
-
-	endAnimation := anAnimation
+	enterAnimationStencyl := anAnimation
 ]
 
 { #category : #processing }
-ToWidgetState >> enterOn: aStateOwner previousState: aPreviousState [
+ToWidgetState >> enterOn: aWidget previousState: aPreviousState [
 
-	beginAnimation ifNotNil: [ :anim | aStateOwner addAnimation: anim value ].
-	changeAction ifNotNil: [ :a | a cull: self cull: aPreviousState ]
+	self announce: (ToEnterStateAnnouncement new
+			 widget: aWidget;
+			 previousState: aPreviousState;
+			 yourself).
+	enterAnimationStencyl ifNotNil: [ :animStencyl | 
+		| anim |
+		anim := animStencyl cull: aWidget.
+		aWidget addAnimation: anim ]
+]
+
+{ #category : #accessing }
+ToWidgetState >> exitAnimationStencyl: anAnimation [
+
+	exitAnimationStencyl := anAnimation
 ]
 
 { #category : #processing }
-ToWidgetState >> exitOn: aStateOwner nextState: aState [
+ToWidgetState >> exitOn: aWidget nextState: aState [
 
-	endAnimation
-		ifNil: [ aState beCurrentStateOn: aStateOwner previousState: self]
+	self announce: (ToExitStateAnnouncement new
+			 widget: aWidget;
+			 nextState: aState;
+			 yourself).
+
+	exitAnimationStencyl
+		ifNil: [ aState enterOn: aWidget previousState: self ]
 		ifNotNil: [ :animStencyl | 
 			| anim |
-			anim := animStencyl value.
-			anim onFinishedDo: [ aState beCurrentStateOn: aStateOwner previousState: self ].
-			aStateOwner addAnimation: anim ].
+			anim := animStencyl cull: aWidget.
+			anim onFinishedDo: [ aState enterOn: aWidget previousState: self ].
+			aWidget addAnimation: anim ]
 ]
 
 { #category : #accessing }
@@ -81,7 +79,13 @@ ToWidgetState >> next: aWidgetState [
 ]
 
 { #category : #accessing }
-ToWidgetState >> widgetStencil: aBlock [
+ToWidgetState >> whenEnterDo: aBlock [
 
-	widgetStencil := aBlock
+	self whenAnnouncement: ToEnterStateAnnouncement do: [ :ann | aBlock cull: ann widget cull: ann widget currentState cull: ann previousState ].
+]
+
+{ #category : #accessing }
+ToWidgetState >> whenExitDo: aBlock [
+
+	self whenAnnouncement: ToExitStateAnnouncement do: [ :ann | aBlock cull: ann widget cull: ann widget currentState cull: ann nextState ].
 ]

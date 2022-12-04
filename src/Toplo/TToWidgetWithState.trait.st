@@ -32,18 +32,6 @@ TToWidgetWithState >> setUpStatesWith: aCollectionOfStates [
 ]
 
 { #category : #'t - accessing state' }
-TToWidgetWithState >> stateChangeAction [
-
-	^ self userData at: #stateChangeAction ifAbsent: [  ]
-]
-
-{ #category : #'t - accessing state' }
-TToWidgetWithState >> stateChangeAction: aBlock [
-
-	^ self userData at: #stateChangeAction put: aBlock
-]
-
-{ #category : #'t - accessing state' }
 TToWidgetWithState >> stateNamed: anObject [
 
 	| curr |
@@ -69,11 +57,17 @@ TToWidgetWithState >> switchToStartState [
 { #category : #'t - state change hook' }
 TToWidgetWithState >> switchToState: aState [
 
-	|  previous |
+	| previous |
 	previous := self currentState.
-	previous ifNotNil: [ previous exitOn: self nextState: aState].
+	self announce: (ToBeforeStateChangeAnnouncement new
+			 widget: self;
+			 yourself).
+	previous ifNotNil: [ previous exitOn: self nextState: aState ].
 	self currentState: aState.
-	self stateChangeAction ifNotNil: [ :action | action cull: aState cull: previous ]
+	self announce: (ToAfterStateChangeAnnouncement new
+			 widget: self;
+			 previousState: previous;
+			 yourself)
 ]
 
 { #category : #'t - state change hook' }
@@ -83,14 +77,4 @@ TToWidgetWithState >> switchToStateNamed: aStateName [
 	found := self stateNamed: aStateName.
 	found ifNil: [ ^ self ].
 	self switchToState: found
-]
-
-{ #category : #'t - state change hook' }
-TToWidgetWithState >> whenCurrentStateChangedDo: aBlock [
-	"Inform when the current state has been changed. 
-	 `aBlock` receives two optional arguments: 
-	 - new state
-	 - old state"
-
-	self stateChangeAction: aBlock
 ]

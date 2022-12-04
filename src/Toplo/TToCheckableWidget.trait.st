@@ -32,7 +32,7 @@ TToCheckableWidget >> defaultCheckedState [
 
 	^ ToWidgetState new
 		  name: self checkedStateName;
-		  widgetStencil: [ :widget | widget iconImage: self checkedIconImage ];
+		  whenEnterDo: [ :widget | widget iconImage: self checkedIconImage ];
 		  yourself
 ]
 
@@ -41,7 +41,7 @@ TToCheckableWidget >> defaultIndeterminateState [
 
 	^ ToWidgetState new
 		  name: self indeterminateStateName;
-		  widgetStencil: [ :widget |  widget iconImage: self inderterminateIconImage ];
+		  whenEnterDo: [ :widget |  widget iconImage: self inderterminateIconImage ];
 		  yourself
 ]
 
@@ -58,16 +58,8 @@ TToCheckableWidget >> defaultStatesWithIndeterminate [
 TToCheckableWidget >> defaultStatesWithoutIndeterminate [
 
 	^ { 
-		  (ToWidgetState new
-			   name: self uncheckedStateName;
-			   widgetStencil: [ :button | 
-				   button iconImage: self uncheckedIconImage ];
-			   yourself).
-		  (ToWidgetState new
-			   name: self checkedStateName;
-			   widgetStencil: [ :button | 
-				   button iconImage: self checkedIconImage ];
-			   yourself) }
+		  self defaultUncheckedState.
+		  self defaultCheckedState }
 ]
 
 { #category : #'t - initialization checkable' }
@@ -75,7 +67,7 @@ TToCheckableWidget >> defaultUncheckedState [
 
 	^ ToWidgetState new
 		  name: self uncheckedStateName;
-		  widgetStencil: [ :widget | widget iconImage: self uncheckedIconImage ];
+		  whenEnterDo: [ :widget | widget iconImage: self uncheckedIconImage ];
 		  yourself
 ]
 
@@ -149,19 +141,19 @@ TToCheckableWidget >> uncheckedStateName [
 { #category : #'t - checking protocol' }
 TToCheckableWidget >> whenCheckedDo: aBlock [
 
-	(self stateNamed: self checkedStateName) changeAction: aBlock
+	(self stateNamed: self checkedStateName) whenEnterDo: aBlock
 ]
 
 { #category : #'t - checking protocol' }
 TToCheckableWidget >> whenIndeterminateDo: aBlock [
 
-	(self stateNamed: self indeterminateStateName ) changeAction: aBlock
+	(self stateNamed: self indeterminateStateName ) whenEnterDo: aBlock
 ]
 
 { #category : #'t - checking protocol' }
 TToCheckableWidget >> whenUncheckedDo: aBlock [
 
-	(self stateNamed: self uncheckedStateName ) changeAction: aBlock
+	(self stateNamed: self uncheckedStateName ) whenEnterDo: aBlock
 ]
 
 { #category : #'t - checking protocol' }

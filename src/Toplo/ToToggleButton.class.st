@@ -2,7 +2,8 @@ Class {
 	#name : #ToToggleButton,
 	#superclass : #ToGeneralButton,
 	#instVars : [
-		'icon'
+		'icon',
+		'animationDuration'
 	],
 	#category : #'Toplo-Widget-Button'
 }
@@ -17,6 +18,18 @@ ToToggleButton class >> horizontal [
 ToToggleButton class >> vertical [
 
 	^ ToVerticalToggleButton new
+]
+
+{ #category : #accessing }
+ToToggleButton >> animationDuration [
+
+	^ animationDuration
+]
+
+{ #category : #accessing }
+ToToggleButton >> animationDuration: aDuration [
+
+	animationDuration := aDuration
 ]
 
 { #category : #private }
@@ -54,6 +67,12 @@ ToToggleButton >> checkedStateName [
 	^ #checked
 ]
 
+{ #category : #initialization }
+ToToggleButton >> defaultAnimationDuration [
+
+	^ 200 milliSeconds
+]
+
 { #category : #'t - initialization dresser' }
 ToToggleButton >> defaultDresser [
 
@@ -68,7 +87,7 @@ ToToggleButton >> defaultStates [
 			   name: self uncheckedStateName;
 			   whenExitDo: [ :ann | 
 				   ann widget icon addAnimation: (BlTransformAnimation new
-							    duration: 200 milliSeconds;
+							    duration: self animationDuration;
 							    transformDo: [ :b | b translateBy: self animationTranslation ]) ];
 			   whenEnterDo: [ :ann | ann widget iconImage: self uncheckedIconImage ];
 			   yourself).
@@ -76,7 +95,7 @@ ToToggleButton >> defaultStates [
 			   name: self checkedStateName;
 			   whenExitDo: [ :ann | 
 				   ann widget icon addAnimation: (BlTransformAnimation new
-							    duration: 200 milliSeconds;
+							    duration: self animationDuration;
 							    transformDo: [ :b | b translateBy: self animationTranslation negated ]) ];
 			   whenEnterDo: [ :ann | ann widget iconImage: self checkedIconImage ];
 			   yourself) }
@@ -113,6 +132,7 @@ ToToggleButton >> iconImage: anElement [
 ToToggleButton >> initialize [
 
 	super initialize.
+	self animationDuration: self defaultAnimationDuration.
 	self layout: BlLinearLayout new.
 	self border: (BlBorder paint: Color black).
 	self icon: ToImage new.

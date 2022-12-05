@@ -6,16 +6,21 @@ Class {
 	#instVars : [
 		'name',
 		'next',
-		'enterAnimationStencyl',
-		'exitAnimationStencyl'
+		'counter'
 	],
 	#category : #'Toplo-Core'
 }
 
 { #category : #accessing }
-ToWidgetState >> enterAnimationStencyl: anAnimation [
+ToWidgetState >> counter [
 
-	enterAnimationStencyl := anAnimation
+	^ counter
+]
+
+{ #category : #accessing }
+ToWidgetState >> counter: aNumber [
+
+	counter := aNumber
 ]
 
 { #category : #processing }
@@ -23,18 +28,9 @@ ToWidgetState >> enterOn: aWidget previousState: aPreviousState [
 
 	self announce: (ToEnterStateAnnouncement new
 			 widget: aWidget;
+			 state: self;
 			 previousState: aPreviousState;
 			 yourself).
-	enterAnimationStencyl ifNotNil: [ :animStencyl | 
-		| anim |
-		anim := animStencyl cull: aWidget.
-		aWidget addAnimation: anim ]
-]
-
-{ #category : #accessing }
-ToWidgetState >> exitAnimationStencyl: anAnimation [
-
-	exitAnimationStencyl := anAnimation
 ]
 
 { #category : #processing }
@@ -42,16 +38,11 @@ ToWidgetState >> exitOn: aWidget nextState: aState [
 
 	self announce: (ToExitStateAnnouncement new
 			 widget: aWidget;
+			 state: self;
 			 nextState: aState;
 			 yourself).
 
-	exitAnimationStencyl
-		ifNil: [ aState enterOn: aWidget previousState: self ]
-		ifNotNil: [ :animStencyl | 
-			| anim |
-			anim := animStencyl cull: aWidget.
-			anim onFinishedDo: [ aState enterOn: aWidget previousState: self ].
-			aWidget addAnimation: anim ]
+	aState enterOn: aWidget previousState: self
 ]
 
 { #category : #accessing }
@@ -81,11 +72,11 @@ ToWidgetState >> next: aWidgetState [
 { #category : #accessing }
 ToWidgetState >> whenEnterDo: aBlock [
 
-	self whenAnnouncement: ToEnterStateAnnouncement do: [ :ann | aBlock cull: ann widget cull: ann widget currentState cull: ann previousState ].
+	self whenAnnouncement: ToEnterStateAnnouncement do: [ :ann | aBlock cull: ann ]
 ]
 
 { #category : #accessing }
 ToWidgetState >> whenExitDo: aBlock [
 
-	self whenAnnouncement: ToExitStateAnnouncement do: [ :ann | aBlock cull: ann widget cull: ann widget currentState cull: ann nextState ].
+	self whenAnnouncement: ToExitStateAnnouncement do: [ :ann | aBlock cull: ann ]
 ]

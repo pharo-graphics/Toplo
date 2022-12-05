@@ -45,36 +45,44 @@ TToWidgetWithState >> stateNamed: anObject [
 { #category : #'t - state processing' }
 TToWidgetWithState >> switchToNextState [
 
-	self currentState ifNotNil: [ :curr | self switchToState: curr next ]
+	self currentState ifNotNil: [ :curr | 
+		curr next counter: curr counter + 1.
+		self switchToState: curr next ]
 ]
 
 { #category : #'t - state processing' }
 TToWidgetWithState >> switchToStartState [
 
-	self currentState ifNotNil: [ :curr | self switchToState: curr ]
+	self currentState ifNotNil: [ :curr | 
+		curr counter: 0.
+		curr enterOn: self previousState: nil]
 ]
 
-{ #category : #'t - state change hook' }
+{ #category : #'t - private state processing' }
 TToWidgetWithState >> switchToState: aState [
 
 	| previous |
 	previous := self currentState.
 	self announce: (ToBeforeStateChangeAnnouncement new
 			 widget: self;
+			 state: aState;
 			 yourself).
 	previous ifNotNil: [ previous exitOn: self nextState: aState ].
 	self currentState: aState.
 	self announce: (ToAfterStateChangeAnnouncement new
 			 widget: self;
+			 state: aState;
 			 previousState: previous;
 			 yourself)
 ]
 
-{ #category : #'t - state change hook' }
+{ #category : #'t - accessing state' }
 TToWidgetWithState >> switchToStateNamed: aStateName [
 
-	| found |
+	| found n |
 	found := self stateNamed: aStateName.
 	found ifNil: [ ^ self ].
+	n := self currentState ifNil: [ 0 ] ifNotNil: [ :s | s counter ].
+	found counter: n + 1.
 	self switchToState: found
 ]

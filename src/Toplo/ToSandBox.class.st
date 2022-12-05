@@ -189,6 +189,14 @@ ToSandBox class >> example_enterLeave [
 	space show
 ]
 
+{ #category : #'toggle button' }
+ToSandBox class >> example_htoggle1 [
+
+	| t |
+	t := ToHorizontalToggleButton new width: 60.
+	t openInOBlSpace 
+]
+
 { #category : #window }
 ToSandBox class >> example_rootFrame1 [
 	ToInnerWindow new title: 'Internal Frame example' ; openInOBlSpace 
@@ -272,7 +280,7 @@ ToSandBox class >> example_to3statesRadioButton [
 ToSandBox class >> example_toBasicButton0 [
 
 	| but |
-	but := ToGeneralButton new.
+	but := ToGeneralButton new dresser: ToButtonDefaultDresser new.
 	but whenClickedDo: [ self inform: 'clicked' ].
 	but openInOBlSpace
 ]
@@ -281,7 +289,7 @@ ToSandBox class >> example_toBasicButton0 [
 ToSandBox class >> example_toBasicButton1 [
 
 	| but |
-	but := ToGeneralButton new.
+	but := ToGeneralButton new dresser: ToButtonDefaultDresser new.
 	but addChild: (BlElement new
 				 size: 30 @ 30;
 				 yourself).
@@ -298,7 +306,7 @@ ToSandBox class >> example_toBasicButton2 [
 		       (('Button' asRopedText)
 			        fontSize: 40;
 			        yourself).
-	but := ToGeneralButton new.
+	but := ToGeneralButton new dresser: ToButtonDefaultDresser new.
 	but matchParent.
 	but addChild: lab.
 	but layout alignCenter.
@@ -532,7 +540,7 @@ ToSandBox class >> example_toCheckboxWithLabel2 [
 ToSandBox class >> example_toCheckboxWithToggleGroup [
 
 	| group container |
-	group := ToToggleGroup new.
+	group := ToCheckableGroup new.
 	1 to: 4 do: [ :idx | 
 		| chb |
 		chb := ToCheckbox new
@@ -562,7 +570,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroup [
 ToSandBox class >> example_toCheckboxWithToggleGroup2 [
 
 	| group container |
-	group := ToToggleGroup new.
+	group := ToCheckableGroup new.
 	1 to: 4 do: [ :idx | 
 		| chb |
 		chb := ToRadioButton new
@@ -862,25 +870,52 @@ ToSandBox class >> example_toMultiState1 [
 
 	| but space |
 	but := ToButton new.
-	but setUpStatesWith: { (ToWidgetState new
-			 whenEnterDo: [ :button | 
-				 button
+	but setUpStatesWith: { (ToWidgetState new whenEnterDo: [ :ann | 
+			 | anim |
+			 ann state counter traceCr.
+			 anim := BlOpacityAnimation new
+				         duration: 1000 milliSeconds;
+				         opacity: 0;
+				         yourself.
+			 anim onFinishedDo: [ 
+				 ann widget
 					 iconImage: (BlElement new
-							  size: 50 @ 30;
-							  background: Color green);
-					 labelText: 'Green' ];
-			 exitAnimationStencyl: [ 
-				 BlOpacityAnimation new
-					 duration: 500 milliSeconds;
+							  size: 100 @ 100;
+							  background: Color blue);
+					 labelText: ('Blue' asRopedText fontSize: 24);
 					 opacity: 0;
-					 yourself ];
-			 enterAnimationStencyl: [ 
-				 BlOpacityAnimation new
-					 duration: 1000 milliSeconds;
-					 opacity: 1;
-					 yourself ];
-			 yourself) }.
+					 addAnimation: (BlOpacityAnimation new
+							  duration: 1000 milliSeconds;
+							  opacity: 1;
+							  yourself) ].
+			 ann widget addAnimation: anim ]) }.
 	space := OBlSpace new.
+	space addChild: but.
+	space show
+]
+
+{ #category : #multistate }
+ToSandBox class >> example_toMultiState2 [
+
+	| but space |
+	but := ToButton new
+		       clipChildren: false;
+		       iconImage: (BlElement new
+				        size: 100 @ 100;
+				        background: Color blue);
+		       labelText: ('Blue' asRopedText fontSize: 24).
+	but setUpStatesWith: { (ToWidgetState new whenExitDo: [ :ann | 
+			 | anim |
+			 anim := (BlTransformAnimation scale: 4) absolute
+				         duration: 100 milliSeconds;
+				         yourself.
+			 anim onFinishedDo: [ 
+				 ann widget addAnimation: ((BlTransformAnimation scale: 1) absolute
+						  duration: 100 milliSeconds;
+						  yourself) ].
+			 ann widget addAnimation: anim ]) }.
+	space := OBlSpace new.
+	but relocate: 100 @ 100.
 	space addChild: but.
 	space show
 ]
@@ -892,32 +927,32 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 	but := ToButton new.
 	but setUpStatesWith: { 
 			(ToWidgetState new
-				 whenEnterDo: [ :button | 
-					 button
+				 whenEnterDo: [ :ann | 
+					 ann widget
 						 iconImage: (BlElement new
 								  size: 400 @ 400;
 								  background: Color blue);
 						 labelText: 'Big blue' ];
 				 yourself).
 			(ToWidgetState new
-				 whenEnterDo: [ :button | 
-					 button
+				 whenEnterDo: [ :ann | 
+					 ann widget
 						 iconImage: (BlElement new
 								  size: 20 @ 40;
 								  background: Color green);
 						 labelText: 'Green' ];
 				 yourself).
 			(ToWidgetState new
-				 whenEnterDo: [ :button | 
-					 button
+				 whenEnterDo: [ :ann | 
+					 ann widget
 						 iconImage: (BlElement new
 								  size: 50 @ 50;
 								  background: Color black);
 						 labelText: 'Black' ];
 				 yourself).
 			(ToWidgetState new
-				 whenEnterDo: [ :button | 
-					 button
+				 whenEnterDo: [ :ann | 
+					 ann widget
 						 iconImage: (BlElement new
 								  size: 100 @ 100;
 								  background: Color yellow);
@@ -932,7 +967,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 	| but exitAnimation enterAnimation |
 	exitAnimation := [ 
 	                 BlOpacityAnimation new
-		                 duration: 150 milliSeconds;
+		                 duration: 300 milliSeconds;
 		                 opacity: 0;
 		                 yourself ].
 	enterAnimation := [ 
@@ -944,45 +979,60 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 	but := ToButtonModel new.
 	but setUpStatesWith: { 
 			(ToWidgetState new
-				 whenEnterDo: [ :button | 
-					 button
-						 iconImage: (BlElement new
-								  size: 100 @ 100;
-								  background: Color blue);
-						 labelText: ('Big blue' asRopedText fontSize: 24) ];
-				 exitAnimationStencyl: exitAnimation;
-				 enterAnimationStencyl: enterAnimation;
+				 whenEnterDo: [ :ann | 
+					 | anim |
+					 anim := exitAnimation value.
+					 anim onFinishedDo: [ 
+							 ann widget
+								 iconImage: (BlElement new
+										  size: 100 @ 100;
+										  background: Color blue);
+								 labelText: ('Blue' asRopedText fontSize: 24);
+								 opacity: 0;
+								 addAnimation: enterAnimation value ].
+					 ann widget addAnimation: anim ];
 				 yourself).
 			(ToWidgetState new
-				 whenEnterDo: [ :button | 
-					 button
-						 iconImage: (BlElement new
-								  size: 100 @ 100;
-								  background: Color green);
-						 labelText: ('Green' asRopedText fontSize: 24) ];
-				 exitAnimationStencyl: exitAnimation;
-				 enterAnimationStencyl: enterAnimation;
+				 whenEnterDo: [ :ann | 
+					 | anim |
+					 anim := exitAnimation value.
+					 anim onFinishedDo: [ 
+							 ann widget
+								 iconImage: (BlElement new
+										  size: 100 @ 100;
+										  background: Color green);
+								 labelText: ('Green' asRopedText fontSize: 24);
+								 opacity: 0;
+								 addAnimation: enterAnimation value ].
+					 ann widget addAnimation: anim ];
 				 yourself).
 			(ToWidgetState new
-				 whenEnterDo: [ :button | 
-					 button
-						 iconImage: (BlElement new
-								  size: 100 @ 100;
-								  background: Color black);
-						 labelText: ('Black' asRopedText fontSize: 24) ];
-				 exitAnimationStencyl: exitAnimation;
-				 enterAnimationStencyl: enterAnimation;
+				 whenEnterDo: [ :ann | 
+					 | anim |
+					 anim := exitAnimation value.
+					 anim onFinishedDo: [ 
+							 ann widget
+								 iconImage: (BlElement new
+										  size: 100 @ 100;
+										  background: Color black);
+								 labelText: ('Black' asRopedText fontSize: 24);
+								 opacity: 0;
+								 addAnimation: enterAnimation value ].
+					 ann widget addAnimation: anim ];
 				 yourself).
 			(ToWidgetState new
-				 whenEnterDo: [ :button | 
-					 button
-						 iconImage: (BlElement new
-								  size: 100 @ 100;
-								  background: Color yellow);
-						 labelText: ('Yellow' asRopedText fontSize: 24) ];
-				 exitAnimationStencyl: exitAnimation;
-				 enterAnimationStencyl: enterAnimation;
-				 yourself) }.
+				 whenEnterDo: [ :ann | 
+					 | anim |
+					 anim := exitAnimation value.
+					 anim onFinishedDo: [ 
+							 ann widget
+								 iconImage: (BlElement new
+										  size: 100 @ 100;
+										  background: Color yellow);
+								 labelText: ('Yellow' asRopedText fontSize: 24);
+								 opacity: 0;
+								 addAnimation: enterAnimation value ].
+					 ann widget addAnimation: anim ]) }.
 	but onWidget openInOBlSpace
 ]
 
@@ -994,18 +1044,18 @@ ToSandBox class >> example_toMultiStateWithLabel [
 	but setUpStatesWith: { 
 			(ToWidgetState new
 				 name: #one;
-				 whenEnterDo: [ :button | 
-					 button labelText: ('One' asRopedText fontSize: 24) ];
+				 whenEnterDo: [ :ann | 
+					 ann widget labelText: ('One' asRopedText fontSize: 24) ];
 				 yourself).
 			(ToWidgetState new
 				 name: #two;
-				 whenEnterDo: [ :button | 
-					 button labelText: ('Two' asRopedText fontSize: 24) ];
+				 whenEnterDo: [ :ann | 
+					 ann widget labelText: ('Two' asRopedText fontSize: 24) ];
 				 yourself).
 			(ToWidgetState new
 				 name: #three;
-				 whenEnterDo: [ :button | 
-					 button labelText: ('Three' asRopedText fontSize: 24) ];
+				 whenEnterDo: [ :ann | 
+					 ann widget labelText: ('Three' asRopedText fontSize: 24) ];
 				 yourself) }.
 	but openInWorld
 ]
@@ -1028,6 +1078,14 @@ ToSandBox class >> example_toWidgetAsButton0 [
 	but background: Color blue.
 	but size: 50@50.
 	but  openInOBlSpace 
+]
+
+{ #category : #'toggle button' }
+ToSandBox class >> example_vtoggle1 [
+
+	| t |
+	t := ToVerticalToggleButton new height: 60.
+	t openInOBlSpace 
 ]
 
 { #category : #accessing }

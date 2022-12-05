@@ -54,6 +54,12 @@ ToButton >> cellSpacing: aNumber [
 	self layout cellSpacing: aNumber
 ]
 
+{ #category : #'t - initialization dresser' }
+ToButton >> defaultDresser [
+
+	^ ToButtonDefaultDresser new
+]
+
 { #category : #'api - orientation/direction' }
 ToButton >> direction [
 

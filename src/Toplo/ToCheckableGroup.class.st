@@ -1,5 +1,5 @@
 Class {
-	#name : #ToToggleGroup,
+	#name : #ToCheckableGroup,
 	#superclass : #Object,
 	#instVars : [
 		'buttons',
@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #'adding / removing' }
-ToToggleGroup >> add: aCheckable [
+ToCheckableGroup >> add: aCheckable [
 
 	(buttons includes: aCheckable) ifTrue: [ ^ self ].
 	buttons add: aCheckable.
@@ -19,27 +19,27 @@ ToToggleGroup >> add: aCheckable [
 ]
 
 { #category : #accessing }
-ToToggleGroup >> buttons [
+ToCheckableGroup >> buttons [
 
 	^ buttons
 ]
 
 { #category : #'adding / removing' }
-ToToggleGroup >> checked: aCheckable [
+ToCheckableGroup >> checked: aCheckable [
 	(buttons select: [ :b | b ~= aCheckable ]) do: [ :b | b uncheck ].
 	checkAction ifNotNil: [ checkAction cull: aCheckable cull: checked].
 	checked := aCheckable 
 ]
 
 { #category : #initialization }
-ToToggleGroup >> initialize [ 
+ToCheckableGroup >> initialize [ 
 
 	super initialize.
 	buttons := OrderedCollection new
 ]
 
 { #category : #'adding / removing' }
-ToToggleGroup >> remove: aCheckable [
+ToCheckableGroup >> remove: aCheckable [
 
 	(buttons includes: aCheckable) ifFalse: [ ^ self ].
 	buttons remove: aCheckable.
@@ -47,7 +47,7 @@ ToToggleGroup >> remove: aCheckable [
 ]
 
 { #category : #'api - checkbox' }
-ToToggleGroup >> whenCheckedDo: aBlock [
+ToCheckableGroup >> whenCheckedDo: aBlock [
 	"Run aBlock when one of my buttons is checked. 
 	 `aBlock` receives two optional arguments: 
 	 - new checked button

@@ -1,5 +1,5 @@
 Class {
 	#name : #ToBeforeStateChangeAnnouncement,
-	#superclass : #ToWidgetAnnouncement,
+	#superclass : #ToStateAnnouncement,
 	#category : #'Toplo-Core'
 }

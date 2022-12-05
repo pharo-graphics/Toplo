@@ -32,7 +32,7 @@ TToCheckableWidget >> defaultCheckedState [
 
 	^ ToWidgetState new
 		  name: self checkedStateName;
-		  whenEnterDo: [ :widget | widget iconImage: self checkedIconImage ];
+		  whenEnterDo: [ :ann | ann widget iconImage: self checkedIconImage ];
 		  yourself
 ]
 
@@ -41,7 +41,7 @@ TToCheckableWidget >> defaultIndeterminateState [
 
 	^ ToWidgetState new
 		  name: self indeterminateStateName;
-		  whenEnterDo: [ :widget |  widget iconImage: self inderterminateIconImage ];
+		  whenEnterDo: [ :ann | ann widget iconImage: self inderterminateIconImage ];
 		  yourself
 ]
 
@@ -67,7 +67,7 @@ TToCheckableWidget >> defaultUncheckedState [
 
 	^ ToWidgetState new
 		  name: self uncheckedStateName;
-		  whenEnterDo: [ :widget | widget iconImage: self uncheckedIconImage ];
+		  whenEnterDo: [ :ann | ann widget iconImage: self uncheckedIconImage ];
 		  yourself
 ]
 
@@ -141,19 +141,19 @@ TToCheckableWidget >> uncheckedStateName [
 { #category : #'t - checking protocol' }
 TToCheckableWidget >> whenCheckedDo: aBlock [
 
-	(self stateNamed: self checkedStateName) whenEnterDo: aBlock
+	(self stateNamed: self checkedStateName) whenEnterDo: [:ann | aBlock cull: ann widget ]
 ]
 
 { #category : #'t - checking protocol' }
 TToCheckableWidget >> whenIndeterminateDo: aBlock [
 
-	(self stateNamed: self indeterminateStateName ) whenEnterDo: aBlock
+	(self stateNamed: self indeterminateStateName ) whenEnterDo: [:ann | aBlock cull: ann widget ]
 ]
 
 { #category : #'t - checking protocol' }
 TToCheckableWidget >> whenUncheckedDo: aBlock [
 
-	(self stateNamed: self uncheckedStateName ) whenEnterDo: aBlock
+	(self stateNamed: self uncheckedStateName ) whenEnterDo: [:ann | aBlock cull: ann widget ]
 ]
 
 { #category : #'t - checking protocol' }

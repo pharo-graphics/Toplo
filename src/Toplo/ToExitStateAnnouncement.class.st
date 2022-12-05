@@ -1,6 +1,6 @@
 Class {
 	#name : #ToExitStateAnnouncement,
-	#superclass : #ToWidgetAnnouncement,
+	#superclass : #ToStateAnnouncement,
 	#instVars : [
 		'nextState'
 	],

@@ -6,12 +6,6 @@ Class {
 	#category : #'Toplo-Widget-Button'
 }
 
-{ #category : #'t - initialization dresser' }
-ToGeneralButton >> defaultDresser [
-
-	^ ToButtonDefaultDresser new
-]
-
 { #category : #initialization }
 ToGeneralButton >> initialize [ 
 

@@ -1,10 +1,13 @@
 Class {
 	#name : #ToResizeGrip,
-	#superclass : #BlElement,
+	#superclass : #ToElement,
+	#traits : 'TToDressableWidget',
+	#classTraits : 'TToDressableWidget classTrait',
 	#instVars : [
 		'initialTargetPosition',
 		'initialTargetSize',
-		'pulled'
+		'pulled',
+		'thickness'
 	],
 	#category : #'Toplo-Widget-Window'
 }
@@ -13,7 +16,8 @@ Class {
 ToResizeGrip >> applyLayoutIn: anElement [
 
 	"compute my position/size only if I'm not pulled"
-	pulled ifTrue: [^self ].
+
+	pulled ifTrue: [ ^ self ].
 	self layoutIn: anElement
 ]
 
@@ -29,28 +33,10 @@ ToResizeGrip >> cursorSelector [
 	^ self subclassResponsibility 
 ]
 
-{ #category : #initialization }
-ToResizeGrip >> defaultBackground [ 
+{ #category : #'t - initialization dresser' }
+ToResizeGrip >> defaultDresser [
 
-	^ Color transparent
-]
-
-{ #category : #initialization }
-ToResizeGrip >> defaultBorder [
-
-	^ BlBorder empty
-]
-
-{ #category : #initialization }
-ToResizeGrip >> defaultGeometry [
-
-	^ BlRoundedRectangleGeometry cornerRadius: self defaultThickness 
-]
-
-{ #category : #initialization }
-ToResizeGrip >> defaultThickness [
-
-	^ 8
+	^ ToResizeGripDresser new
 ]
 
 { #category : #accessing }
@@ -82,13 +68,8 @@ ToResizeGrip >> initialize [
 
 	super initialize.
 	pulled := false.
-	
-	self
-		size: self defaultThickness @ self defaultThickness;
-		background: self defaultBackground;
-		geometry: self defaultGeometry;
-		border: self defaultBorder;
-		constraintsDo: [ :c | c ignoreByLayout ]
+	self layout: BlFrameLayout new.
+	self initializeDresser 
 ]
 
 { #category : #'mouse processing' }
@@ -130,4 +111,10 @@ ToResizeGrip >> target: anElement [
 		event currentTarget mouseCursor: event currentTarget cursor ].
 
 	self addEventHandler: self newPullHandler
+]
+
+{ #category : #initialization }
+ToResizeGrip >> thickness: aNumber [
+
+	thickness := aNumber
 ]

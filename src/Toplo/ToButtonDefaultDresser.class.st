@@ -15,16 +15,16 @@ Class {
 { #category : #private }
 ToButtonDefaultDresser >> background: aBackground in: anElement [
 
-	self
-		disableBackgroundChangeEventIn: anElement
+	anElement
+		disableEventType: BlElementBackgroundChangedEvent 
 		while: [ anElement background: aBackground ]
 ]
 
 { #category : #private }
 ToButtonDefaultDresser >> border: aBorder in: anElement [
 
-	self
-		disableBorderChangeEventIn: anElement
+	anElement
+		disableEventType: BlElementBorderChangedEvent
 		while: [ anElement border: aBorder ]
 ]
 
@@ -34,22 +34,6 @@ ToButtonDefaultDresser >> clicked: anElement [
 	downBorder := nil.
 	self border: self hoveredBorder in: anElement
 
-]
-
-{ #category : #private }
-ToButtonDefaultDresser >> disableBackgroundChangeEventIn: anElement while: aBlock [
-
-	anElement eventDispatcher disableEventType: BlElementBackgroundChangedEvent.
-	aBlock ensure: [ 
-		anElement eventDispatcher enableEventType: BlElementBackgroundChangedEvent ]
-]
-
-{ #category : #private }
-ToButtonDefaultDresser >> disableBorderChangeEventIn: anElement while: aBlock [
-
-	anElement eventDispatcher disableEventType: BlElementBorderChangedEvent.
-	aBlock ensure: [ 
-		anElement eventDispatcher enableEventType: BlElementBorderChangedEvent ]
 ]
 
 { #category : #'events handling' }

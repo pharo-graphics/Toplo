@@ -1,12 +1,12 @@
 Class {
 	#name : #ToInnerWindow,
 	#superclass : #ToWindow,
-	#classTraits : 'TToWidget classTrait',
+	#traits : 'TToWidgetWithResizeGrips',
+	#classTraits : 'TToWidgetWithResizeGrips classTrait',
 	#instVars : [
 		'bar',
 		'title',
-		'titleLabel',
-		'grips'
+		'titleLabel'
 	],
 	#category : #'Toplo-Widget-Window'
 }
@@ -129,35 +129,8 @@ ToInnerWindow >> elements [
 ToInnerWindow >> initialize [ 
 
 	super initialize.
-	self initializeGrips 
-]
+	self initializeGrips
 
-{ #category : #initialization }
-ToInnerWindow >> initializeGrips [
-
-	grips := { 
-		ToBottomRightResizeGrip.
-		ToBottomLeftResizeGrip.
-		ToTopRightResizeGrip.
-		ToTopLeftResizeGrip.
-		ToRightResizeGrip.
-		ToLeftResizeGrip.
-		ToBottomResizeGrip.
-		ToTopResizeGrip } collect: [ :cls | cls new target: self ].
-		
-	self addChildren: grips.
-	
-	self
-		when: BlElementExtentChangedEvent
-		do: [ :evt | self layoutGrips ].
-
-
-]
-
-{ #category : #'grips managing' }
-ToInnerWindow >> layoutGrips [
-
-	grips	do: [ :g | g applyLayoutIn: self ]
 ]
 
 { #category : #'api - displaying' }

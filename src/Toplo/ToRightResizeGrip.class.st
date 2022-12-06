@@ -13,8 +13,9 @@ ToRightResizeGrip >> cursorSelector [
 { #category : #initialization }
 ToRightResizeGrip >> layoutIn: anElement [
 
-	self relocate: anElement size x - (self width / 2) @ self defaultThickness.
-	self size: self defaultThickness  @ (anElement height - (self defaultThickness * 2))
+	self size: thickness  @ (anElement height - (thickness * 2)).
+	self relocate: anElement width - (thickness / 2) @ thickness.
+
 ]
 
 { #category : #initialization }

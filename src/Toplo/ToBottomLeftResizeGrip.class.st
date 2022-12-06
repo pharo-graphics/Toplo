@@ -13,7 +13,8 @@ ToBottomLeftResizeGrip >> cursorSelector [
 { #category : #initialization }
 ToBottomLeftResizeGrip >> layoutIn: anElement [
 
-	self relocate: 0 @ anElement height - (self width / 2 @ (self height / 2)) 
+	self size: thickness @ thickness.
+	self relocate: 0 @ anElement height - (thickness / 2 @ (thickness / 2)) 
 ]
 
 { #category : #'instance creation' }

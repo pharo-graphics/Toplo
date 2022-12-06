@@ -13,7 +13,8 @@ ToTopRightResizeGrip >> cursorSelector [
 { #category : #initialization }
 ToTopRightResizeGrip >> layoutIn: anElement [
 
-	self relocate: (anElement size x - (self width / 2)) @ ((self height / 2) negated)
+	self size: thickness @ thickness.
+	self relocate: (anElement width - (thickness / 2)) @ ((thickness / 2) negated)
 
 
 

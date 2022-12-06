@@ -874,7 +874,7 @@ ToSandBox class >> example_toMultiState1 [
 			 | anim |
 			 ann state counter traceCr.
 			 anim := BlOpacityAnimation new
-				         duration: 1000 milliSeconds;
+				         duration: 500 milliSeconds;
 				         opacity: 0;
 				         yourself.
 			 anim onFinishedDo: [ 
@@ -885,7 +885,7 @@ ToSandBox class >> example_toMultiState1 [
 					 labelText: ('Blue' asRopedText fontSize: 24);
 					 opacity: 0;
 					 addAnimation: (BlOpacityAnimation new
-							  duration: 1000 milliSeconds;
+							  duration: 300 milliSeconds;
 							  opacity: 1;
 							  yourself) ].
 			 ann widget addAnimation: anim ]) }.
@@ -913,6 +913,32 @@ ToSandBox class >> example_toMultiState2 [
 				 ann widget addAnimation: ((BlTransformAnimation scale: 1) absolute
 						  duration: 100 milliSeconds;
 						  yourself) ].
+			 ann widget addAnimation: anim ]) }.
+	space := OBlSpace new.
+	but relocate: 100 @ 100.
+	space addChild: but.
+	space show
+]
+
+{ #category : #multistate }
+ToSandBox class >> example_toMultiState2_v2_do_not_work_well [
+
+	| but space |
+	but := ToButton new
+		       clipChildren: false;
+		       iconImage: (BlElement new
+				        size: 100 @ 100;
+				        background: Color blue);
+		       labelText: ('Blue' asRopedText fontSize: 24).
+	but setUpStatesWith: { (ToWidgetState new whenExitDo: [ :ann | 
+			 | anim |
+			 anim := BlSequentialAnimation withAll: { 
+					         ((BlTransformAnimation scale: 4) absolute
+						          duration: 100 milliSeconds;
+						          yourself).
+					         ((BlTransformAnimation scale: 1) absolute
+						          duration: 100 milliSeconds;
+						          yourself) }.
 			 ann widget addAnimation: anim ]) }.
 	space := OBlSpace new.
 	but relocate: 100 @ 100.

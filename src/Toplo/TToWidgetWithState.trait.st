@@ -55,7 +55,7 @@ TToWidgetWithState >> switchToStartState [
 
 	self currentState ifNotNil: [ :curr | 
 		curr counter: 0.
-		self currentState: curr ]
+		curr enterOn: self previousState: nil]
 ]
 
 { #category : #'t - private state processing' }

@@ -50,7 +50,7 @@ ToToggleButton >> checkedIconImage [
 		      yourself.
 	im layout: BlFrameLayout new.
 	im addChild: (BlTextElement new
-			 text: ('ON' asRopedText
+			 text: ('On' asRopedText
 					  fontSize: 13;
 					  bold;
 					  foreground: Color white);

@@ -19,5 +19,5 @@ ToToggleButton class >> vertical [
 { #category : #'t - initialization dresser' }
 ToToggleButton >> defaultDresser [
 
-	^ super defaultDresser next: ToToggleButtonDresser new
+	^ ToToggleButtonDresser new
 ]

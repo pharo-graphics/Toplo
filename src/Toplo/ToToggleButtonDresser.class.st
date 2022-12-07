@@ -1,6 +1,6 @@
 Class {
 	#name : #ToToggleButtonDresser,
-	#superclass : #ToDresser,
+	#superclass : #ToButtonDresser,
 	#category : #'Toplo-Widget-Button'
 }
 

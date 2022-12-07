@@ -11,7 +11,5 @@ ToGeneralButton >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	self initializeClickBehavior.
-	
-	self initializeDresser 
+	self initializeClickBehavior
 ]

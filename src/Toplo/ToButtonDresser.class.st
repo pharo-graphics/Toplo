@@ -1,71 +1,117 @@
 Class {
 	#name : #ToButtonDresser,
-	#superclass : #ToDresser,
+	#superclass : #ToAbstractButtonDresser,
 	#instVars : [
-		'clickCandidateHandler',
-		'mouseDownHandler',
-		'mouseUpHandler',
-		'mouseEnterHandler',
-		'mouseLeaveHandler',
-		'clickHandler'
+		'downBorder',
+		'initialBorder',
+		'borderChangedHandler',
+		'downBackground',
+		'initialBackground',
+		'backgroundChangedHandler'
 	],
 	#category : #'Toplo-Widget-Button'
 }
 
+{ #category : #private }
+ToButtonDresser >> background: aBackground in: anElement [
+
+	anElement
+		disableEventType: BlElementBackgroundChangedEvent 
+		while: [ anElement background: aBackground ]
+]
+
+{ #category : #private }
+ToButtonDresser >> border: aBorder in: anElement [
+
+	anElement
+		disableEventType: BlElementBorderChangedEvent
+		while: [ anElement border: aBorder ]
+]
+
 { #category : #'events handling' }
 ToButtonDresser >> clicked: anElement [
 
-	self subclassResponsibility 
+	downBorder := nil.
+	self border: self hoveredBorder in: anElement
 
+]
+
+{ #category : #initialization }
+ToButtonDresser >> defaultAnimationDuration [
+
+	^ 200 milliSeconds
 ]
 
 { #category : #'events handling' }
 ToButtonDresser >> escaped: anElement [
 
-	self subclassResponsibility 
-
+	downBorder := nil.
+	
 ]
 
 { #category : #'events handling' }
 ToButtonDresser >> hover: anElement [
 
-	self subclassResponsibility 
+	self border: self hoveredBorder in: anElement.
+	self background: self hoveredBackground in: anElement.
+]
 
+{ #category : #'border accessing' }
+ToButtonDresser >> hoveredBackground [
+
+	^ downBackground ifNil: [ theme button hoveredBorderColor alpha: 0.1 ]
+
+]
+
+{ #category : #'border accessing' }
+ToButtonDresser >> hoveredBorder [
+
+	^ downBorder ifNil: [ BlBorder paint: theme button hoveredBorderColor ]
+
+]
+
+{ #category : #accessing }
+ToButtonDresser >> initialBackground: aBackground [
+
+	initialBackground := aBackground
+]
+
+{ #category : #accessing }
+ToButtonDresser >> initialBorder: aBorder [
+
+	initialBorder := aBorder
 ]
 
 { #category : #'events handling' }
 ToButtonDresser >> initialState: anElement [
 
-	self subclassResponsibility 
+	initialBorder ifNil: [ initialBorder := anElement border ].
+	initialBackground ifNil: [ initialBackground := anElement background ].
+	self border: initialBorder in: anElement.
+	self background: initialBackground in: anElement
 
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToButtonDresser >> installEventListenersIn: anElement [
 
-	clickCandidateHandler := BlEventHandler on: BlClickCandidateEvent do: [ self escaped: anElement ].
-	clickHandler := ToButtonClickEventHandler new button: anElement.
-	mouseDownHandler := BlEventHandler on: BlMouseDownEvent do: [ self pressed: anElement ].
-	mouseUpHandler := BlEventHandler on: BlMouseUpEvent do: [ self clicked: anElement ].
-	mouseEnterHandler := BlEventHandler on: BlMouseEnterEvent 
-		do: [ :event | 
-			(event anyButtonPressed and: [event currentTarget ~= anElement ] )
-				ifFalse: [self hover: anElement ] ].
-	mouseLeaveHandler := BlEventHandler on: BlMouseLeaveEvent do: [ self leaved: anElement ].
-	anElement addEventHandler: clickCandidateHandler.
-	anElement addEventHandler: mouseDownHandler.
-	anElement addEventHandler: mouseUpHandler.
-	anElement addEventHandler: mouseEnterHandler.
-	anElement addEventHandler: mouseLeaveHandler.
-	anElement addEventHandler: clickHandler.
-
-
+	super installEventListenersIn: anElement.
+	borderChangedHandler := BlEventHandler
+		                        on: BlElementBorderChangedEvent
+		                        do: [ self initialBorder: anElement border ].
+	backgroundChangedHandler := BlEventHandler
+		                        on: BlElementBackgroundChangedEvent
+		                        do: [ self initialBackground: anElement background ].
+	anElement addEventHandler: borderChangedHandler.
+	anElement addEventHandler: backgroundChangedHandler
 ]
 
 { #category : #'events handling' }
 ToButtonDresser >> leaved: anElement [
 
-	self subclassResponsibility 
+	self border: initialBorder in: anElement.
+	self background: initialBackground in: anElement
+
 
 ]
 
@@ -73,32 +119,38 @@ ToButtonDresser >> leaved: anElement [
 ToButtonDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	self initialState: anElement.
-	self installEventListenersIn: anElement
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonDresser >> onUninstalledIn: anElement [
-
-	self uninstallEventListenersIn: anElement.
-	super onUninstalledIn: anElement.
-
+	
+	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
+	anElement border:  (BlBorder paint: theme button defaultBorderColor width: 1).
+	downBorder := nil.
+	downBackground := nil
 ]
 
 { #category : #'events handling' }
 ToButtonDresser >> pressed: anElement [
 
-	self subclassResponsibility 
+	self border: self pressedBorder in: anElement.
+	downBorder := anElement border.
+	downBackground := anElement background.
 
+]
+
+{ #category : #'border accessing' }
+ToButtonDresser >> pressedBackground [
+
+	^ theme button pressedBackground
+]
+
+{ #category : #'border accessing' }
+ToButtonDresser >> pressedBorder [
+
+	^ BlBorder paint: theme button pressedBorderColor width: 2
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToButtonDresser >> uninstallEventListenersIn: anElement [
 
-	anElement removeEventHandler: clickCandidateHandler.
-	anElement removeEventHandler: mouseDownHandler.
-	anElement removeEventHandler: mouseUpHandler.
-	anElement removeEventHandler: mouseEnterHandler.
-	anElement removeEventHandler: mouseLeaveHandler.
-	anElement removeEventHandler: clickHandler.
+	anElement removeEventHandler: borderChangedHandler.
+	anElement removeEventHandler: backgroundChangedHandler.
+	super uninstallEventListenersIn: anElement
 ]

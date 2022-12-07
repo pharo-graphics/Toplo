@@ -8,6 +8,12 @@ Class {
 	#category : #'Toplo-Core'
 }
 
+{ #category : #'instance creation' }
+ToDresser class >> next: aDresser [
+
+	^ self new next: aDresser
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToDresser >> addDresser: aDresser in: anElement [
 

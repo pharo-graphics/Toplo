@@ -57,7 +57,7 @@ ToButton >> cellSpacing: aNumber [
 { #category : #'t - initialization dresser' }
 ToButton >> defaultDresser [
 
-	^ ToButtonDefaultDresser new
+	^ ToButtonDresser new
 ]
 
 { #category : #'api - orientation/direction' }
@@ -130,8 +130,8 @@ ToButton >> initialize [
 	self privateLabel: ToLabel new.
 	self privateIcon: ToImage new.
 	self privateUpdateChildren.
-	self whenLabelTextReplacedDo: [ self labelTextReplaced ].
-	self whenIconImageReplacedDo: [ self iconImageReplaced ]
+	
+	self initializeDresser 
 ]
 
 { #category : #'api - presentation' }

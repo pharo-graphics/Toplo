@@ -95,7 +95,7 @@ ToSandBox class >> example_Popup1 [
 		     background: Color green;
 		     widget: e.
 	but := ToWidget new size: 50@90.
-	but addDresser: ToButtonDefaultDresser new.
+	but addDresser: ToButtonDresser new.
 	but whenAnnouncement: ToButtonClickLaunchAction do: [ self inform: 'Click'. p close ]. 
 	p addChild: but.
 	p addEventHandler: (BlEventHandler
@@ -193,7 +193,10 @@ ToSandBox class >> example_enterLeave [
 ToSandBox class >> example_htoggle1 [
 
 	| t |
-	t := ToHorizontalToggleButton new width: 60.
+	t := ToToggleButton new labelText: 'Cheesecake'; beLabelFirst; cellSpacing: 2; padding: (BlInsets all: 3).
+"	t whenCheckedDo: [ self inform: '+++ checked' ].
+	t whenUncheckedDo: [ self inform: '--- unchecked' ].
+"
 	t openInOBlSpace 
 ]
 
@@ -280,7 +283,7 @@ ToSandBox class >> example_to3statesRadioButton [
 ToSandBox class >> example_toBasicButton0 [
 
 	| but |
-	but := ToGeneralButton new dresser: ToButtonDefaultDresser new.
+	but := ToGeneralButton new dresser: ToButtonDresser new.
 	but whenClickedDo: [ self inform: 'clicked' ].
 	but openInOBlSpace
 ]
@@ -289,7 +292,7 @@ ToSandBox class >> example_toBasicButton0 [
 ToSandBox class >> example_toBasicButton1 [
 
 	| but |
-	but := ToGeneralButton new dresser: ToButtonDefaultDresser new.
+	but := ToGeneralButton new dresser: ToButtonDresser new.
 	but addChild: (BlElement new
 				 size: 30 @ 30;
 				 yourself).
@@ -306,7 +309,7 @@ ToSandBox class >> example_toBasicButton2 [
 		       (('Button' asRopedText)
 			        fontSize: 40;
 			        yourself).
-	but := ToGeneralButton new dresser: ToButtonDefaultDresser new.
+	but := ToGeneralButton new dresser: ToButtonDresser new.
 	but matchParent.
 	but addChild: lab.
 	but layout alignCenter.
@@ -1099,7 +1102,7 @@ ToSandBox class >> example_toWidgetAsButton0 [
 
 	| but |
 	but := ToWidget new.
-	but addDresser: ToButtonDefaultDresser new.
+	but addDresser: ToButtonDresser new.
 	but whenAnnouncement: ToButtonClickLaunchAction do: [ self inform: 'Click' ]. 
 	but background: Color blue.
 	but size: 50@50.
@@ -1107,10 +1110,20 @@ ToSandBox class >> example_toWidgetAsButton0 [
 ]
 
 { #category : #'toggle button' }
+ToSandBox class >> example_toggleButton [
+
+	| t btn |
+	btn := ToButton new labelText: 'Cheesecake'; beLabelFirst; beVertical.
+	t := ToToggleButton new.
+	btn icon: t.
+	btn openInOBlSpace 
+]
+
+{ #category : #'toggle button' }
 ToSandBox class >> example_vtoggle1 [
 
 	| t |
-	t := ToVerticalToggleButton new height: 60.
+	t := ToToggleButton new beVertical; labelText: 'Cheesecake'; beLabelFirst; cellSpacing: 2; padding: (BlInsets all: 3).
 	t openInOBlSpace 
 ]
 

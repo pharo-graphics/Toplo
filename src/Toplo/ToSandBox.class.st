@@ -456,6 +456,24 @@ ToSandBox class >> example_toButtonWithIconOnly [
 ]
 
 { #category : #button }
+ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
+
+	| but space |
+	but := ToButton new cellSpacing: 6.
+	but labelText: 'Button'.
+	but iconImage: (BlElement new
+			 size: 60 @ 20;
+			 background: (Color blue alpha: 0.2);
+			 yourself).
+	but whenClickedDo: [ :ann | 
+		ann widget horizontal: ann widget horizontal not ].
+	but border: (BlBorder paint: Color red width: 2).
+	space := OBlSpace new.
+	space addChild: but.
+	space show
+]
+
+{ #category : #button }
 ToSandBox class >> example_toButtonWithTextAndIconVertical [
 
 	| but space |

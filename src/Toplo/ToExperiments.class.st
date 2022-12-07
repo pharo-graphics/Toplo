@@ -214,6 +214,75 @@ ToExperiments class >> example_ExperimentForMultilineLabel5 [
 	root openInOBlSpace
 ]
 
+{ #category : #frame }
+ToExperiments class >> example_FrameLayout [
+
+	| frame left right fill |
+	frame := BlElement new
+		         background: Color gray;
+		         size: 300 @ 100;
+		         layout: BlFrameLayout new;
+		         constraintsDo: [ :c | 
+			         c horizontal matchParent.
+			         c vertical fitContent ].
+
+	left := BlElement new
+		        background: Color blue;
+		        width: 100;
+		        constraintsDo: [ :c | c frame horizontal alignLeft ].
+	fill := BlElement new
+		        background: Color yellow;
+		        height: 20;
+		        constraintsDo: [ :c | 
+			        c frame horizontal alignCenter.
+			        c minWidth: 50 ].
+	right := BlElement new
+		         background: Color red;
+		         width: 100;
+		         constraintsDo: [ :c | c frame horizontal alignRight ].
+
+	frame addChild: left.
+	frame addChild: fill.
+	frame addChild: right.
+	frame openInNewSpace
+]
+
+{ #category : #frame }
+ToExperiments class >> example_LinearLayout [
+
+	| frame left right fill |
+	frame := BlElement new
+		         background: Color gray;
+		         size: 300 @ 100;
+		         layout: BlLinearLayout new;
+		         constraintsDo: [ :c | 
+			         c horizontal matchParent.
+			         c vertical fitContent ].
+
+	left := BlElement new
+		        background: Color blue;
+		        width: 100;
+		        constraintsDo: [ :c | c frame horizontal alignLeft ].
+
+	fill := BlElement new
+		        background: Color yellow;
+		        height: 20;
+		        constraintsDo: [ :c | 
+			        c horizontal
+				        matchParent.
+				      c minWidth: 50 ].
+	fill when: BlElementExtentChangedEvent do: [ :ann | fill width traceCr ].
+	right := BlElement new
+		         background: Color red;
+		         width: 100;
+		         constraintsDo: [ :c | c frame horizontal alignRight ].
+
+	frame addChild: left.
+	frame addChild: fill.
+	frame addChild: right.
+	frame openInNewSpace
+]
+
 { #category : #image }
 ToExperiments class >> example_Smalltalk_all_classes [
 
@@ -513,6 +582,34 @@ ToExperiments class >> example_mouseEvent_descending_bubbling [
 	yellow addChild: blue.
 	world addChild: yellow.
 	world show
+]
+
+{ #category : #'popup strategy' }
+ToExperiments class >> example_strategy [
+
+	| win blue red yellow |
+	win := ToInnerWindow new id: #win;
+		         background: Color gray;
+		         size: 600 @ 600.
+
+	blue := BlElement new id: #blue;
+		        background: Color blue;
+		        size: 50@50.
+		
+	red := BlElement new id: #red;
+		        background: Color red;
+					relocate: 100@75;
+		        size: 50@50.
+	yellow := BlElement new id: #yellow;
+		        background: Color yellow;
+					relocate: 250@250;
+		        size: 50@50.
+		
+
+	win addChild: red.
+	win addChild: yellow.
+	win openInOBlSpace.
+	win space popupLayer addChild: blue
 ]
 
 { #category : #'animate toogle button' }

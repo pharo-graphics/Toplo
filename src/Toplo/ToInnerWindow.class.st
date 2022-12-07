@@ -129,6 +129,7 @@ ToInnerWindow >> elements [
 ToInnerWindow >> initialize [ 
 
 	super initialize.
+	self background: Color gray.
 	self initializeGrips
 
 ]

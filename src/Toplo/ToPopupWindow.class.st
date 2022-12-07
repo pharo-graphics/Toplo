@@ -27,7 +27,7 @@ ToPopupWindow >> animate: aBoolean [
 ]
 
 { #category : #'api - displaying' }
-ToPopupWindow >> checkPositionBeforePopup [
+ToPopupWindow >> checkPositionBeforePopupIn: aWidget [
 
 	| gap rect |
 	" layout is done, my bounds are now up-to-date"
@@ -35,7 +35,6 @@ ToPopupWindow >> checkPositionBeforePopup [
 	rect := self bounds inSpace asRectangle.
 	gap := rect amountToTranslateWithin: (0 asPoint extent: self space extent).
 	self relocate: self position + gap.
-
 	" my bounds are up-to-date, I can be visible "
 	self visibility: BlVisibility visible.
 	self animate ifFalse: [ ^ self ].
@@ -137,8 +136,9 @@ ToPopupWindow >> popupIn: aWidget atGlobalPosition: aPoint [
 	"I'm not ready to be visible because my bounds are not checked according to the popup layer extent"
 	self visibility: BlVisibility hidden.
 	aWidget addChild: self.
+	
 	"I need to finalize my position as soon as my layout is up-to-date"
-	self whenLayoutedDoOnce: [ self checkPositionBeforePopup ].
+	self whenLayoutedDoOnce: [ self checkPositionBeforePopupIn: aWidget ].
 
 ]
 

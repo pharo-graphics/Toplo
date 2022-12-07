@@ -193,11 +193,12 @@ ToSandBox class >> example_enterLeave [
 ToSandBox class >> example_htoggle1 [
 
 	| t |
-	t := ToToggleButton new labelText: 'Cheesecake'; beLabelFirst; cellSpacing: 2; padding: (BlInsets all: 3).
-"	t whenCheckedDo: [ self inform: '+++ checked' ].
+	t := ToToggleButton new labelText: 'Cheesecake'; beLabelFirst; cellSpacing: 2; padding: (BlInsets all: 3); hMatchParent.
+	t label beEditable.
+	t whenCheckedDo: [ self inform: '+++ checked' ].
 	t whenUncheckedDo: [ self inform: '--- unchecked' ].
-"
-	t openInOBlSpace 
+
+	t openInInnerWindow 
 ]
 
 { #category : #window }
@@ -277,6 +278,18 @@ ToSandBox class >> example_to3statesRadioButton [
 	| but |
 	but := ToRadioButtonModel new withIndeterminate.
 	but onWidget openInOBlSpace
+]
+
+{ #category : #button }
+ToSandBox class >> example_toAlbumAsButton [
+
+	| but |
+	but := ToAlbum new text: 'Hello world'; preventChildrenMouseEvents.
+	but addDresser: ToButtonDresser new.
+	but whenAnnouncement: ToButtonClickLaunchAction do: [ self inform: 'Click' ]. 
+	but background: Color blue.
+	but size: 300@100.
+	but  openInOBlSpace 
 ]
 
 { #category : #button }
@@ -409,17 +422,19 @@ ToSandBox class >> example_toButtonOrientationChanger [
 
 	| but space iconImage |
 	but := ToButton new.
-	but cellSpacing: 10.
+	but cellSpacing: 4.
+	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).
-	but beIconFirst.
-	but labelText: ('Button' asRopedText bold).
-	iconImage := BlElement new size: 20@20; background: Color lightGray; yourself.
+	but labelText: 'Button' asRopedText bold.
+	iconImage := BlElement new
+		             size: 20 @ 20;
+		             background: Color lightGray;
+		             yourself.
 	but iconImage: iconImage.
 	but whenClickedDo: [ :ann | 
-		ann widget orientation: but orientation inverted].
+		ann widget orientation: but orientation inverted ].
 	space := OBlSpace new.
 	space addChild: but.
-	"space host: BAOSWindowSDL2Host new."
 	space show
 ]
 
@@ -1093,8 +1108,8 @@ ToSandBox class >> example_toMultiStateWithLabel [
 ToSandBox class >> example_toRadioButton0 [
 
 	| but |
-	but := ToRadioButtonModel new.
-	but onWidget openInOBlSpace
+	but := ToRadioButton new.
+	but openInOBlSpace
 ]
 
 { #category : #button }
@@ -1110,20 +1125,10 @@ ToSandBox class >> example_toWidgetAsButton0 [
 ]
 
 { #category : #'toggle button' }
-ToSandBox class >> example_toggleButton [
-
-	| t btn |
-	btn := ToButton new labelText: 'Cheesecake'; beLabelFirst; beVertical.
-	t := ToToggleButton new.
-	btn icon: t.
-	btn openInOBlSpace 
-]
-
-{ #category : #'toggle button' }
 ToSandBox class >> example_vtoggle1 [
 
 	| t |
-	t := ToToggleButton new beVertical; labelText: 'Cheesecake'; beLabelFirst; cellSpacing: 2; padding: (BlInsets all: 3).
+	t := ToToggleButton new beVertical; labelText: 'Cheesecake'; beLabelFirst; cellSpacing: 2; padding: (BlInsets all: 3); hFitContent.
 	t openInOBlSpace 
 ]
 

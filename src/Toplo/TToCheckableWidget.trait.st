@@ -15,83 +15,28 @@ TToCheckableWidget >> check [
 	self switchToStateNamed: #checked
 ]
 
-{ #category : #'t - accessing checkable' }
-TToCheckableWidget >> checkedIconImage [
-
-	^ self userData at: #checkedIconImage ifAbsent: [  ]
-]
-
-{ #category : #'t - accessing checkable' }
-TToCheckableWidget >> checkedIconImage: anIconImage [
-
-	^ self userData at: #checkedIconImage put: anIconImage
-]
-
-{ #category : #'t - accessing checkable' }
-TToCheckableWidget >> checkedState [
-
-	^ self userData at: #checkedState ifAbsent: [  ]
-]
-
-{ #category : #'t - accessing checkable' }
-TToCheckableWidget >> checkedState: aState [
-
-	^ self userData at: #checkedState put: aState
-]
-
 { #category : #'t - checking protocol' }
 TToCheckableWidget >> indeterminate [
 
 	self switchToStateNamed: #indeterminate
 ]
 
-{ #category : #'t - accessing checkable' }
-TToCheckableWidget >> indeterminateIconImage [
-
-	^ self userData at: #indeterminateIconImage ifAbsent: [  ]
-]
-
-{ #category : #'t - accessing checkable' }
-TToCheckableWidget >> indeterminateIconImage: anInconImage [
-
-	^ self userData at: #indeterminateIconImage put: anInconImage
-]
-
-{ #category : #'t - accessing checkable' }
-TToCheckableWidget >> indeterminateState [
-
-	^ self userData at: #indeterminateState ifAbsent: [  ]
-]
-
-{ #category : #'t - accessing checkable' }
-TToCheckableWidget >> indeterminateState: aState [
-
-	^ self userData at: #indeterminateState put: aState
-]
-
-{ #category : #'t - initialization checkable' }
-TToCheckableWidget >> initializeAsCheckable [
-
-	self withoutIndeterminate
-	
-]
-
 { #category : #'t - checking protocol' }
 TToCheckableWidget >> isChecked [
 
-	^ self currentState notNil and: [ self currentState name = self checkedStateName ]
+	^ self currentState notNil and: [ self currentState name = #checked ]
 ]
 
 { #category : #'t - checking protocol' }
 TToCheckableWidget >> isIndeterminate [
 
-	^ self currentState notNil and: [ self currentState name = self indeterminateStateName ]
+	^ self currentState notNil and: [ self currentState name = #indeterminate ]
 ]
 
 { #category : #'t - checking protocol' }
 TToCheckableWidget >> isUnchecked [
 
-	^ self currentState notNil and: [ self currentState name = self uncheckedStateName ]
+	^ self currentState notNil and: [ self currentState name = #unchecked ]
 ]
 
 { #category : #'t - toggle group' }
@@ -104,30 +49,6 @@ TToCheckableWidget >> removeFromGroup: aToggleGroup [
 TToCheckableWidget >> uncheck [
 
 	self switchToStateNamed: #unchecked
-]
-
-{ #category : #'t - accessing checkable' }
-TToCheckableWidget >> uncheckedIconImage [
-
-	^ 	self userData at: #uncheckedIconImage ifAbsent: [  ]
-]
-
-{ #category : #'t - accessing checkable' }
-TToCheckableWidget >> uncheckedIconImage: anInconImage [
-
-	^ 	self userData at: #uncheckedIconImage put: anInconImage
-]
-
-{ #category : #'t - accessing checkable' }
-TToCheckableWidget >> uncheckedState [
-
-	^ self userData at: #uncheckedState ifAbsent: [  ]
-]
-
-{ #category : #'t - accessing checkable' }
-TToCheckableWidget >> uncheckedState: aState [
-
-	^ self userData at: #uncheckedState put: aState
 ]
 
 { #category : #'t - checking protocol' }
@@ -151,16 +72,11 @@ TToCheckableWidget >> whenUncheckedDo: aBlock [
 { #category : #'t - checking protocol' }
 TToCheckableWidget >> withIndeterminate [
 
-	self setUpStatesWith: { 
-		  self indeterminateState.
-		  self checkedState.
-		  self uncheckedState }
+	self dresserDoOrDefer: [ :d | d withIndeterminateIn: self ]
 ]
 
 { #category : #'t - checking protocol' }
 TToCheckableWidget >> withoutIndeterminate [
 
-	self setUpStatesWith: { 
-		  self uncheckedState.
-		  self checkedState }
+	self dresserDoOrDefer: [ :d | d withoutIndeterminateIn: self ]
 ]

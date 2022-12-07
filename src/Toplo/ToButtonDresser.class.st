@@ -70,6 +70,12 @@ ToButtonDresser >> hoveredBorder [
 
 ]
 
+{ #category : #'t - accessing checkable' }
+ToButtonDresser >> indeterminateIconImage: anInconImage [
+
+	^ self userData at: #indeterminateIconImage put: anInconImage
+]
+
 { #category : #accessing }
 ToButtonDresser >> initialBackground: aBackground [
 

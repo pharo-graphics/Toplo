@@ -11,10 +11,3 @@ ToCheckbox >> defaultDresser [
 
 	^ ToCheckBoxDresser new
 ]
-
-{ #category : #initialization }
-ToCheckbox >> initialize [
-
-	super initialize.
-	self initializeAsCheckable
-]

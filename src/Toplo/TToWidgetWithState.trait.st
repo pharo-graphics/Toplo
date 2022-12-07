@@ -63,17 +63,10 @@ TToWidgetWithState >> switchToState: aState [
 
 	| previous |
 	previous := self currentState.
-	self announce: (ToBeforeStateChangeAnnouncement new
-			 widget: self;
-			 state: aState;
-			 yourself).
+	" do nothing if aState is the current state whereas several states exist "
+	(previous = aState and: [previous next ~= previous]) ifTrue: [ ^ self ].
 	previous ifNotNil: [ previous exitOn: self nextState: aState ].
-	self currentState: aState.
-	self announce: (ToAfterStateChangeAnnouncement new
-			 widget: self;
-			 state: aState;
-			 previousState: previous;
-			 yourself)
+	self currentState: aState
 ]
 
 { #category : #'t - accessing state' }

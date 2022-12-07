@@ -5,7 +5,7 @@ Class {
 		'#label',
 		'#icon',
 		'#labelFirst => ObservableSlot',
-		'#horizontal => ObservableSlot'
+		'#fill'
 	],
 	#category : #'Toplo-Widget-Button'
 }
@@ -76,15 +76,16 @@ ToButton >> direction: aBlLayoutDirection [
 { #category : #'api - orientation/direction' }
 ToButton >> horizontal [
 
-	^ horizontal
+	^ self layout isHorizontal
 ]
 
 { #category : #'api - orientation/direction' }
 ToButton >> horizontal: aBoolean [
 
-	horizontal = aBoolean ifTrue: [ ^ self ].
-	horizontal := aBoolean.
-	self orientationChanged 
+	aBoolean
+		ifTrue: [ self layout beHorizontal ]
+		ifFalse: [ self layout beVertical ].
+	self requestLayout   
 ]
 
 { #category : #accessing }
@@ -123,8 +124,7 @@ ToButton >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	horizontal := true.
-	labelFirst := false.
+	labelFirst := true.
 	self layout: BlLinearLayout new.
 	self fitContent.
 	self privateLabel: ToLabel new.
@@ -132,6 +132,12 @@ ToButton >> initialize [
 	self privateUpdateChildren.
 	
 	self initializeDresser 
+]
+
+{ #category : #'api - orientation/direction' }
+ToButton >> isHorizontal [
+
+	^ self horizontal
 ]
 
 { #category : #'api - presentation' }
@@ -206,18 +212,26 @@ ToButton >> orientation: aBlLayoutOrientation [
 ]
 
 { #category : #private }
-ToButton >> orientationChanged [
-	
-	self horizontal
-		ifTrue: [ self layout beHorizontal ]
-		ifFalse: [ self layout beVertical ].
-	self requestLayout   
-]
-
-{ #category : #private }
 ToButton >> presentationChanged [
 	
 	self privateUpdateChildren
+]
+
+{ #category : #private }
+ToButton >> privateFill [
+
+	| e |
+	e := BlElement new id: #fill.
+	self isHorizontal
+		ifTrue: [ 
+			e constraintsDo: [ :c | 
+				c vertical exact: 0.
+				c horizontal matchParent ] ]
+		ifFalse: [ 
+			e constraintsDo: [ :c | 
+				c horizontal exact: 0.
+				c vertical matchParent ] ].
+	^ e
 ]
 
 { #category : #private }
@@ -234,15 +248,27 @@ ToButton >> privateLabel: aLabel [
 
 	label := aLabel.
 	label constraintsDo: [ :c | 
-			c linear vertical alignCenter. 
-			c linear horizontal alignCenter]
+		"c horizontal matchParent."
+		c linear vertical alignCenter.
+		c linear horizontal alignCenter ]
 ]
 
 { #category : #private }
 ToButton >> privateUpdateChildren [
 
 	self removeChildren.
-	self addChildren: ((self isLabelFirst ifTrue: [ { label. icon } ] ifFalse: [ { icon. label } ]) select: #notNil)
+	fill := self privateFill.
+	self addChildren: ((self isLabelFirst
+			  ifTrue: [ 
+				  { 
+					  label.
+					  fill.
+					  icon } ]
+			  ifFalse: [ 
+				  { 
+					  icon.
+					  fill.
+					  label } ]) select: #notNil)
 ]
 
 { #category : #'api - change hook' }

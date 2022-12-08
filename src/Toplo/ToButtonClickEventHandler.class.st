@@ -28,6 +28,7 @@ ToButtonClickEventHandler >> clickCandidateEvent: anEvent [
 	anEvent consumed: true.
 	mup := anEvent mouseUpEvent.
 	mup ifNil: [ ^self ].
+	anEvent modifiers isEmpty ifFalse: [ ^ self ].
 	(mup currentTarget == button or: [ 
 		 mup currentTarget hasParent: button ]) ifTrue: [ 
 		button dispatchEvent: mup asClickEvent ]
@@ -36,6 +37,8 @@ ToButtonClickEventHandler >> clickCandidateEvent: anEvent [
 { #category : #'api - accessing' }
 ToButtonClickEventHandler >> clickEvent: anEvent [
 
+	anEvent modifiers isEmpty ifFalse: [ ^ self ].
+	anEvent isConsumed ifTrue: [ ^ self ].
 	anEvent consumed: true.
 	button isDisabled ifTrue: [ ^ self ].
 	button announce: (ToButtonClickLaunchAction new widget: button)
@@ -44,6 +47,7 @@ ToButtonClickEventHandler >> clickEvent: anEvent [
 { #category : #'api - accessing' }
 ToButtonClickEventHandler >> doubleClickEvent: anEvent [
 
+	anEvent modifiers isEmpty ifFalse: [ ^ self ].
 	anEvent consumed: true.
 	self clickEvent: anEvent
 ]

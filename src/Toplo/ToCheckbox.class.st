@@ -1,8 +1,8 @@
 Class {
 	#name : #ToCheckbox,
 	#superclass : #ToButton,
-	#traits : 'TToCheckableWidget',
-	#classTraits : 'TToCheckableWidget classTrait',
+	#traits : 'TToCheckableWidgetWithIndeterminate',
+	#classTraits : 'TToCheckableWidgetWithIndeterminate classTrait',
 	#category : #'Toplo-Widget-Button'
 }
 

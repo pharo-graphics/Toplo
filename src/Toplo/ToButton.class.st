@@ -4,8 +4,7 @@ Class {
 	#instVars : [
 		'#label',
 		'#icon',
-		'#labelFirst => ObservableSlot',
-		'#fill'
+		'#labelFirst => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Button'
 }
@@ -130,6 +129,7 @@ ToButton >> initialize [
 	self privateLabel: ToLabel new.
 	self privateIcon: ToImage new.
 	self privateUpdateChildren.
+	"self preventChildrenMouseEvents."
 	
 	self initializeDresser 
 ]
@@ -218,23 +218,6 @@ ToButton >> presentationChanged [
 ]
 
 { #category : #private }
-ToButton >> privateFill [
-
-	| e |
-	e := BlElement new id: #fill.
-	self isHorizontal
-		ifTrue: [ 
-			e constraintsDo: [ :c | 
-				c vertical exact: 0.
-				c horizontal matchParent ] ]
-		ifFalse: [ 
-			e constraintsDo: [ :c | 
-				c horizontal exact: 0.
-				c vertical matchParent ] ].
-	^ e
-]
-
-{ #category : #private }
 ToButton >> privateIcon: anImage [
 
 	icon := anImage.
@@ -257,17 +240,14 @@ ToButton >> privateLabel: aLabel [
 ToButton >> privateUpdateChildren [
 
 	self removeChildren.
-	fill := self privateFill.
 	self addChildren: ((self isLabelFirst
 			  ifTrue: [ 
 				  { 
 					  label.
-					  fill.
 					  icon } ]
 			  ifFalse: [ 
 				  { 
 					  icon.
-					  fill.
 					  label } ]) select: #notNil)
 ]
 

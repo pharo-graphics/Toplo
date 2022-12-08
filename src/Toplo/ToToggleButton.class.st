@@ -1,6 +1,11 @@
 Class {
 	#name : #ToToggleButton,
 	#superclass : #ToButton,
+	#traits : 'TToCheckableWidget',
+	#classTraits : 'TToCheckableWidget classTrait',
+	#instVars : [
+		'fill'
+	],
 	#category : #'Toplo-Widget-Button'
 }
 
@@ -22,14 +27,37 @@ ToToggleButton >> defaultDresser [
 	^ ToToggleButtonDresser new
 ]
 
-{ #category : #'checking protocol' }
-ToToggleButton >> whenCheckedDo: aBlock [
+{ #category : #private }
+ToToggleButton >> privateFill [
 
-	(self stateNamed: #checked) whenEnterDo: [:ann | aBlock cull: ann widget ]
+	| e |
+	e := BlElement new id: #fill.
+	self isHorizontal
+		ifTrue: [ 
+			e constraintsDo: [ :c | 
+				c vertical exact: 4.
+				c horizontal matchParent ] ]
+		ifFalse: [ 
+			e constraintsDo: [ :c | 
+				c horizontal exact: 4.
+				c vertical matchParent ] ].
+	^ e
 ]
 
-{ #category : #'checking protocol' }
-ToToggleButton >> whenUncheckedDo: aBlock [
+{ #category : #private }
+ToToggleButton >> privateUpdateChildren [
 
-	(self stateNamed: #unchecked) whenEnterDo: [:ann | aBlock cull: ann widget ]
+	self removeChildren.
+	fill := self privateFill.
+	self addChildren: ((self isLabelFirst
+			  ifTrue: [ 
+				  { 
+					  label.
+					  fill.
+					  icon } ]
+			  ifFalse: [ 
+				  { 
+					  icon.
+					  fill.
+					  label } ]) select: #notNil)
 ]

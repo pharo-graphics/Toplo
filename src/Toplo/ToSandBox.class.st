@@ -189,18 +189,6 @@ ToSandBox class >> example_enterLeave [
 	space show
 ]
 
-{ #category : #'toggle button' }
-ToSandBox class >> example_htoggle1 [
-
-	| t |
-	t := ToToggleButton new labelText: 'Cheesecake'; beLabelFirst; cellSpacing: 2; padding: (BlInsets all: 3); hMatchParent.
-	t label beEditable.
-	t whenCheckedDo: [ self inform: '+++ checked' ].
-	t whenUncheckedDo: [ self inform: '--- unchecked' ].
-
-	t openInInnerWindow 
-]
-
 { #category : #window }
 ToSandBox class >> example_rootFrame1 [
 	ToInnerWindow new title: 'Internal Frame example' ; openInOBlSpace 
@@ -459,15 +447,13 @@ ToSandBox class >> example_toButtonWithIconOnly [
 ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 
 	| but space |
-	but := ToButton new cellSpacing: 6.
+	but := ToButton new cellSpacing: 2; padding: (BlInsets all: 4).
 	but labelText: 'Button'.
 	but iconImage: (BlElement new
 			 size: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).
-	but whenClickedDo: [ :ann | 
-		ann widget horizontal: ann widget horizontal not ].
-	but border: (BlBorder paint: Color red width: 2).
+	but whenClickedDo: [ :ann | but iconImage background: Color random ].
 	space := OBlSpace new.
 	space addChild: but.
 	space show
@@ -477,17 +463,13 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 ToSandBox class >> example_toButtonWithTextAndIconVertical [
 
 	| but space |
-	but := ToButton new
-		       beVertical;
-		       beLabelFirst.
+	but := ToButton new cellSpacing: 2; padding: (BlInsets all: 4); beVertical.
 	but labelText: 'Button'.
 	but iconImage: (BlElement new
 			 size: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).
-	but whenClickedDo: [ :ann | 
-		ann widget horizontal: ann widget horizontal not ].
-	but border: (BlBorder paint: Color red width: 2).
+	but whenClickedDo: [ :ann | but iconImage background: Color random ].
 	space := OBlSpace new.
 	space addChild: but.
 	space show
@@ -1143,11 +1125,27 @@ ToSandBox class >> example_toWidgetAsButton0 [
 ]
 
 { #category : #'toggle button' }
-ToSandBox class >> example_vtoggle1 [
+ToSandBox class >> example_toggle [
 
-	| t |
-	t := ToToggleButton new beVertical; labelText: 'Cheesecake'; beLabelFirst; cellSpacing: 2; padding: (BlInsets all: 3); hFitContent.
-	t openInOBlSpace 
+	| th tv win |
+	th := ToToggleButton new labelText: 'Cheesecake'; beLabelFirst; cellSpacing: 2; padding: (BlInsets all: 3); hMatchParent.
+
+	tv := ToToggleButton new beVertical; labelText: 'Cheesecake'; beLabelFirst; cellSpacing: 2; padding: (BlInsets all: 3); hMatchParent.
+	tv check.
+
+	th whenCheckedDo: [ :ann | ann traceCr ].
+	th whenUncheckedDo: [ :ann | ann traceCr ].
+	
+	tv whenCheckedDo: [ :ann | ann traceCr ].
+	tv whenUncheckedDo: [ :ann | ann traceCr ].
+
+	win := ToInnerWindow new
+		             relocate: 10 @ 10;
+		             size: 400 @ 200;
+		             yourself.
+	win root layout: (BlLinearLayout vertical).
+	win root addChildren: { th. tv }.
+	win openInWorld
 ]
 
 { #category : #accessing }

@@ -5,6 +5,18 @@ Class {
 }
 
 { #category : #initialization }
+ToToggleButtonDresser >> checkedStateIconBackground [
+
+	^ Color black
+]
+
+{ #category : #initialization }
+ToToggleButtonDresser >> checkedStateIconImageBackground [
+
+	^ Color white
+]
+
+{ #category : #initialization }
 ToToggleButtonDresser >> defaultAnimationDuration [
 
 	^ 200 milliSeconds
@@ -15,9 +27,6 @@ ToToggleButtonDresser >> defaultCheckedState [
 
 	^ ToWidgetState new
 		  name: #checked;
-		  whenEnterDo: [ :ann | 
-			  ann widget icon background: (Color black alpha: 0.4).
-			  ann widget iconImage background: Color black ];
 		  whenExitDo: [ :ann | 
 			  ann widget iconImage addAnimation:
 					  (BlParallelAnimation withAll: { 
@@ -27,10 +36,15 @@ ToToggleButtonDresser >> defaultCheckedState [
 										    b translateBy: (self slideLength @ 0) negated ]).
 								   (BlColorTransition new
 									    duration: self defaultAnimationDuration;
-									    from: Color black;
-									    to: Color veryLightGray;
+									    from: self checkedStateIconBackground;
+									    to: self uncheckedStateIconBackground;
 									    onStepDo: [ :aColor :anElement | 
-										    ann widget icon background: (aColor alpha: 0.4).
+										    ann widget icon background: aColor ]).
+								   (BlColorTransition new
+									    duration: self defaultAnimationDuration;
+									    from: self checkedStateIconImageBackground;
+									    to: self uncheckedStateIconImageBackground;
+									    onStepDo: [ :aColor :anElement | 
 										    ann widget iconImage background: aColor ]) }) ]
 ]
 
@@ -52,8 +66,9 @@ ToToggleButtonDresser >> defaultUncheckedState [
 	^ ToWidgetState new
 		  name: #unchecked;
 		  whenEnterDo: [ :ann | 
-			  ann widget icon background: (Color veryLightGray alpha: 0.4).
-			  ann widget iconImage background: Color veryLightGray ];
+			  ann widget icon background: self uncheckedStateIconBackground.
+			  ann widget iconImage background:
+					  self uncheckedStateIconImageBackground ];
 		  whenExitDo: [ :ann | 
 			  ann widget iconImage addAnimation:
 					  (BlParallelAnimation withAll: { 
@@ -62,10 +77,15 @@ ToToggleButtonDresser >> defaultUncheckedState [
 									    transformDo: [ :b | b translateBy: self slideLength @ 0 ]).
 								   (BlColorTransition new
 									    duration: self defaultAnimationDuration;
-									    from: Color veryLightGray;
-									    to: Color black;
+									    from: self uncheckedStateIconBackground;
+									    to: self checkedStateIconBackground;
 									    onStepDo: [ :aColor :anElement | 
-										    ann widget icon background: (aColor alpha: 0.4).
+										    ann widget icon background: aColor ]).
+								   (BlColorTransition new
+									    duration: self defaultAnimationDuration;
+									    from: self uncheckedStateIconImageBackground;
+									    to: self checkedStateIconImageBackground;
+									    onStepDo: [ :aColor :anElement | 
 										    ann widget iconImage background: aColor ]) }) ]
 ]
 
@@ -96,5 +116,17 @@ ToToggleButtonDresser >> onUninstalledIn: anElement [
 { #category : #private }
 ToToggleButtonDresser >> slideLength [
 
-	^ 10
+	^ 9
+]
+
+{ #category : #initialization }
+ToToggleButtonDresser >> uncheckedStateIconBackground [
+
+	^ Color veryLightGray alpha: 0.4
+]
+
+{ #category : #initialization }
+ToToggleButtonDresser >> uncheckedStateIconImageBackground [
+
+	^ Color veryLightGray
 ]

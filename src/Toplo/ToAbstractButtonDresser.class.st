@@ -45,8 +45,8 @@ ToAbstractButtonDresser >> installEventListenersIn: anElement [
 
 	clickCandidateHandler := BlEventHandler on: BlClickCandidateEvent do: [ self escaped: anElement ].
 	clickHandler := ToButtonClickEventHandler new button: anElement.
-	mouseDownHandler := BlEventHandler on: BlMouseDownEvent do: [ self pressed: anElement ].
-	mouseUpHandler := BlEventHandler on: BlMouseUpEvent do: [ self clicked: anElement ].
+	mouseDownHandler := BlEventHandler on: BlMouseDownEvent do: [ :event | event modifiers isEmpty ifTrue: [self pressed: anElement] ].
+	mouseUpHandler := BlEventHandler on: BlMouseUpEvent do: [ :event | event modifiers isEmpty ifTrue: [self clicked: anElement ]].
 	mouseEnterHandler := BlEventHandler on: BlMouseEnterEvent 
 		do: [ :event | 
 			(event anyButtonPressed and: [event currentTarget ~= anElement ] )

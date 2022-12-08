@@ -16,21 +16,9 @@ TToCheckableWidget >> check [
 ]
 
 { #category : #'t - checking protocol' }
-TToCheckableWidget >> indeterminate [
-
-	self switchToStateNamed: #indeterminate
-]
-
-{ #category : #'t - checking protocol' }
 TToCheckableWidget >> isChecked [
 
 	^ self currentState notNil and: [ self currentState name = #checked ]
-]
-
-{ #category : #'t - checking protocol' }
-TToCheckableWidget >> isIndeterminate [
-
-	^ self currentState notNil and: [ self currentState name = #indeterminate ]
 ]
 
 { #category : #'t - checking protocol' }
@@ -58,25 +46,7 @@ TToCheckableWidget >> whenCheckedDo: aBlock [
 ]
 
 { #category : #'t - checking protocol' }
-TToCheckableWidget >> whenIndeterminateDo: aBlock [
-
-	(self stateNamed: #indeterminate ) whenEnterDo: [:ann | aBlock cull: ann widget ]
-]
-
-{ #category : #'t - checking protocol' }
 TToCheckableWidget >> whenUncheckedDo: aBlock [
 
 	(self stateNamed: #unchecked ) whenEnterDo: [:ann | aBlock cull: ann widget ]
-]
-
-{ #category : #'t - checking protocol' }
-TToCheckableWidget >> withIndeterminate [
-
-	self dresserDoOrDefer: [ :d | d withIndeterminateIn: self ]
-]
-
-{ #category : #'t - checking protocol' }
-TToCheckableWidget >> withoutIndeterminate [
-
-	self dresserDoOrDefer: [ :d | d withoutIndeterminateIn: self ]
 ]

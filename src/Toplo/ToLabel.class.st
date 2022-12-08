@@ -220,8 +220,11 @@ ToLabel >> privateBeEditable [
 	editorEventHandler := BlEventHandler
 		                      on: BlMouseDownEvent
 		                      do: [ :anEvent | 
-			                      (anEvent modifiers isShift and: [ anEvent modifiers isPrimaryModifier ]) ifTrue: [ 
-				                      self addEditor ] ].
+			                      (anEvent modifiers isShift and: [ 
+				                       anEvent modifiers isPrimaryModifier ]) 
+				                      ifTrue: [ 
+					                      anEvent consumed: true.
+					                      self addEditor ] ].
 	self addEventHandler: editorEventHandler
 ]
 

@@ -1,15 +1,12 @@
 Class {
 	#name : #ToMenuDresser,
-	#superclass : #ToButtonDresser,
+	#superclass : #ToMenuItemDresser,
 	#category : #'Toplo-Widget-Menu'
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToMenuDresser >> onInstalledIn: anElement [
+ToMenuDresser >> clickedIn: aMenuItem [
 
-	super onInstalledIn: anElement.
-	
-	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
-	anElement padding: (BlInsets all: 2)
-
+	super clickedIn: aMenuItem
+	" redifined to not close the menu window"
 ]

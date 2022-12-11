@@ -1,25 +1,30 @@
 Class {
 	#name : #ToMenuWindow,
 	#superclass : #ToPopupWindow,
+	#instVars : [
+		'currentOpenedSubmenuWindow'
+	],
 	#category : #'Toplo-Widget-Menu'
 }
 
-{ #category : #'api - displaying' }
-ToMenuWindow >> checkBeforePopupIn: aWidget [
+{ #category : #'initialize-release' }
+ToMenuWindow >> close [
 
-	| minw |
-	super checkBeforePopupIn: aWidget.
-	minw := 0.
-	self root childrenDo: [ :child |
-		
-		minw := minw max: child width ].
+	currentOpenedSubmenuWindow ifNotNil: [ :w | w close ].
+	super close
 	
-	"self root childrenDo: [ :child |
-		child constraints minWidth: minw ].
-	self requestLayout "
+]
 
-	
-	
+{ #category : #accessing }
+ToMenuWindow >> currentOpenedSubmenuWindow [
+
+	^ currentOpenedSubmenuWindow
+]
+
+{ #category : #accessing }
+ToMenuWindow >> currentOpenedSubmenuWindow: aWindow [
+
+	currentOpenedSubmenuWindow := aWindow
 ]
 
 { #category : #initialization }
@@ -38,7 +43,6 @@ ToMenuWindow >> defaultDresser [
 ToMenuWindow >> initialize [
 
 	super initialize.
-	self padding: (BlInsets all: 2).
 	self initializeDresser 
 	
 ]

@@ -1,19 +1,27 @@
 Class {
 	#name : #ToButton,
 	#superclass : #ToGeneralButton,
-	#traits : 'TToOrientableButton',
-	#classTraits : 'TToOrientableButton classTrait',
+	#traits : 'TToLayoutableButton',
+	#classTraits : 'TToLayoutableButton classTrait',
 	#instVars : [
-		'#label',
-		'#icon'
+		'label',
+		'icon'
 	],
 	#category : #'Toplo-Widget-Button'
 }
 
-{ #category : #'t - button accessing' }
-ToButton >> buttonPane [
+{ #category : #'t - button initialization' }
+ToButton >> childrenLayout [
 
-	^ self 
+	^ (self isLabelFirst
+		   ifTrue: [ 
+			   { 
+				   self label.
+				   self icon } ]
+		   ifFalse: [ 
+			   { 
+				   self icon.
+				   self label } ]) select: #notNil
 ]
 
 { #category : #'t - initialization dresser' }

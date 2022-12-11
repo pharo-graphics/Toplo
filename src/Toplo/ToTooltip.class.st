@@ -49,6 +49,7 @@ ToTooltip >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
+		
 	self elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
 	self label: self defaultLabel.
 	self whenContentChangedDo: [ self label text: self content ].

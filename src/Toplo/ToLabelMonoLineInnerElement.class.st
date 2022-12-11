@@ -24,6 +24,13 @@ ToLabelMonoLineInnerElement >> editorShortcutsIn: aLabel [
 		 }
 ]
 
+{ #category : #initialization }
+ToLabelMonoLineInnerElement >> initialize [ 
+
+	super initialize.
+	self editorMeasurement
+]
+
 { #category : #'api - editor' }
 ToLabelMonoLineInnerElement >> newEditorIn: aLabel [
 

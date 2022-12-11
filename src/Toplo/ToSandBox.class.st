@@ -192,13 +192,26 @@ ToSandBox class >> example_enterLeave [
 { #category : #menu }
 ToSandBox class >> example_menu1 [
 
-	| menu |
+	| menu sub subsub |
 	menu := ToMenu new.
 	menu labelText: 'File'.
-	menu addItem: (ToButtonMenuItem new labelText: 'Open').
-	menu addItem: (ToButtonMenuItem new labelText: 'Close').
-	menu addItem: (ToMenu new labelText: 'Export').
-	menu openInInnerWindow 
+	menu iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
+	menu addItem: (ToButtonMenuItem new
+			 labelText: 'Open file';
+			 iconImage: (Smalltalk ui icons iconNamed: #config)).
+	menu addItem: (ToButtonMenuItem new labelText: 'Export').
+	
+	sub := ToMenu new labelText: 'Save All'.
+	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
+	
+	subsub := ToMenu new labelText: 'Externally'.
+	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
+
+	sub addItem: (subsub).
+	
+	menu addItem: sub.
+	menu relocate: 10@10.
+	menu openInInnerWindow
 ]
 
 { #category : #window }
@@ -1142,7 +1155,7 @@ ToSandBox class >> example_toWidgetAsButton0 [
 ToSandBox class >> example_toggle [
 
 	| th tv win |
-	th := ToToggleButton new labelText: 'Cheesecake'; beLabelFirst; cellSpacing: 2; padding: (BlInsets all: 3); hMatchParent; withFilling.
+	th := ToToggleButton new labelText: 'Cheesecake'; beLabelFirst; cellSpacing: 2; padding: (BlInsets all: 3); hMatchParent.
 
 	tv := ToToggleButton new beVertical; labelText: 'Cheesecake'; beLabelFirst; cellSpacing: 2; padding: (BlInsets all: 3); hMatchParent.
 	tv check.

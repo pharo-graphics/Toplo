@@ -63,14 +63,3 @@ ToButtonModel >> whenLabelTextReplacedDo: aBlock [
 
 	self widgetDo: [ :widget | widget whenLabelTextReplacedDo: aBlock]
 ]
-
-{ #category : #'api - change hook' }
-ToButtonModel >> whenPresentationChangedDo: aBlock [
-
-	"Inform when labelFirst has been changed. 
-	 `aBlock` receives two optional arguments: 
-	 - new labelFirst
-	 - old labelFirst"
-
-	self widgetDo: [ :widget | widget whenPresentationChangedDo: aBlock ]
-]

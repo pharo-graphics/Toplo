@@ -4,11 +4,8 @@ Class {
 	#traits : 'TToButton',
 	#classTraits : 'TToButton classTrait',
 	#instVars : [
-		'#buttonPane',
-		'#label',
-		'#icon',
-		'#rightPane',
-		'#rightFill'
+		'label',
+		'menuItemIcon'
 	],
 	#category : #'Toplo-Widget-Menu'
 }
@@ -17,20 +14,23 @@ Class {
 ToButtonMenuItem >> addedInMenu: aMenu [
 
 	super addedInMenu: aMenu.
-	self iconImage: self emptyIconImage.
-	rightPane addChild: self rightIconImage 
+
 ]
 
-{ #category : #'t - button accessing' }
-ToButtonMenuItem >> buttonPane [
+{ #category : #'t - button initialization' }
+ToButtonMenuItem >> childrenLayout [
 
-	^ buttonPane
+	^ { 
+		  self icon.
+		  self label.
+		  self privateFill.
+		  }
 ]
 
 { #category : #initialization }
 ToButtonMenuItem >> emptyIconImage [
 
-	^ BlElement new size: 16@16;background: Color random; 
+	^ BlElement new size: 16@16;background: Color transparent; 
 		constraintsDo: [ :c | 
 			c linear vertical alignCenter.
 			c linear horizontal alignCenter ];
@@ -40,13 +40,13 @@ ToButtonMenuItem >> emptyIconImage [
 { #category : #'t - button accessing' }
 ToButtonMenuItem >> icon [
 
-	^ icon
+	^ menuItemIcon
 ]
 
 { #category : #'t - button accessing' }
 ToButtonMenuItem >> icon: anImage [
 
-	icon := anImage 
+	menuItemIcon := anImage 
 ]
 
 { #category : #initialization }
@@ -54,36 +54,15 @@ ToButtonMenuItem >> initialize [
 
 	super initialize.
 	
-	"self layout: BlLinearLayout horizontal."
-	self layout:  (BlGridLayout new columnCount: 2; cellSpacing: 2).
-	self fitContent.
-	buttonPane := ToHorizontalPane new.
-	self addChild: buttonPane.
-	buttonPane constraintsDo: [ :c | c grid horizontal weight: 0.3 ].
 	self initializeButton.
+	"horizontal matchParent required here ** after ** initializeButton "
+	self constraintsDo: [ :c | 
+				        c horizontal matchParent.
+				        c vertical fitContent ].
+	self iconImage: self emptyIconImage.
 	
-	rightPane := ToHorizontalPane new.
-	rightPane constraintsDo: [ :c | c grid horizontal weight: 0.7 ].
-	"rightFill := self privateFill."
-	"rightFill width: 10."
-	"self addChild: rightFill."
-	self addChild: rightPane.
-	self initializeRightPane.
-
-	self beIconFirst.
-
 	self initializeDresser 
 	
-]
-
-{ #category : #initialization }
-ToButtonMenuItem >> initializeRightPane [
-
-	rightPane layout: BlLinearLayout horizontal.
-	rightPane constraintsDo: [ :c | 
-			c linear vertical alignCenter.
-			c linear horizontal alignCenter ].
-	rightPane fitContent.	
 ]
 
 { #category : #'t - button accessing' }
@@ -99,9 +78,8 @@ ToButtonMenuItem >> label: aLabel [
 	
 ]
 
-{ #category : #initialization }
-ToButtonMenuItem >> rightIconImage [
+{ #category : #window }
+ToButtonMenuItem >> menuWindow [
 
-	^ self emptyIconImage 
-	
+	^ nil
 ]

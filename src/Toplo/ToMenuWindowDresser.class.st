@@ -10,7 +10,7 @@ ToMenuWindowDresser >> onInstalledIn: anElement [
 	super onInstalledIn: anElement.
 	
 	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
-	anElement padding: (BlInsets all: 2).
+	anElement padding: (BlInsets all: 0).
 	anElement background: (Color veryLightGray muchLighter)
 
 ]

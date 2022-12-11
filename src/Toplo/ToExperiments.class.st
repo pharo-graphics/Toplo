@@ -283,6 +283,98 @@ ToExperiments class >> example_LinearLayout [
 	frame openInNewSpace
 ]
 
+{ #category : #frame }
+ToExperiments class >> example_LinearLayoutFillWithFitContent [
+
+	| frame cpt |
+	frame := BlElement new
+		         background: Color lightGray;
+		         layout: (BlLinearLayout vertical cellSpacing: 2);
+		         border: (BlBorder paint: Color gray);
+		         constraintsDo: [ :c | 
+			         c horizontal fitContent.
+			         c vertical fitContent ].
+	cpt := 0.
+	3 timesRepeat: [ 
+		| left middle right fill1 fill2 node |
+		cpt := cpt + 20.
+		node := BlElement new
+			        layout: (BlLinearLayout horizontal cellSpacing: 2);
+			        constraintsDo: [ :c | 
+				        c horizontal matchParent.
+				        c vertical fitContent ].
+		left := BlElement new
+			        id: #left;
+			        background: Color blue;
+			        width: 10.
+		middle := BlElement new
+			        id: #left;
+			        background: Color yellow;
+			        width: 10 + cpt.
+		fill1 := BlElement new
+			        id: #fill;
+			        background: Color white;
+			        height: 15;
+			        constraintsDo: [ :c | 
+				        c horizontal matchParent.
+				        c vertical matchParent ].
+		fill2 := BlElement new
+			        id: #fill;
+			        background: Color white;
+			        height: 15;
+			        constraintsDo: [ :c | 
+				        c horizontal matchParent.
+				        c vertical matchParent ].
+		right := BlElement new
+			         id: #right;
+			         background: Color red;
+			         width: 14.
+		node addChild: left.
+"		node addChild: fill1.
+"		node addChild: middle.
+		node addChild: fill2.
+		node addChild: right.
+		frame addChild: node ].
+
+	frame openInOBlSpace
+]
+
+{ #category : #frame }
+ToExperiments class >> example_LinearLayoutFillWithMatchParent [
+
+	| frame left right fill |
+	frame := BlElement new
+		         background: Color gray;
+		         size: 300 @ 100;
+		         layout: BlLinearLayout new;
+		         constraintsDo: [ :c | 
+			         c horizontal matchParent.
+			         c vertical fitContent ].
+
+	left := BlElement new
+		        background: Color blue;
+		        width: 100;
+		        constraintsDo: [ :c | c frame horizontal alignLeft ].
+
+	fill := BlElement new
+		        background: Color yellow;
+		        height: 20;
+		        constraintsDo: [ :c | 
+			        c horizontal
+				        matchParent.
+				      c minWidth: 50 ].
+	fill when: BlElementExtentChangedEvent do: [ :ann | fill width traceCr ].
+	right := BlElement new
+		         background: Color red;
+		         width: 100;
+		         constraintsDo: [ :c | c frame horizontal alignRight ].
+
+	frame addChild: left.
+	frame addChild: fill.
+	frame addChild: right.
+	frame openInNewSpace
+]
+
 { #category : #image }
 ToExperiments class >> example_Smalltalk_all_classes [
 
@@ -617,6 +709,56 @@ ToExperiments class >> example_strategy [
 
 ]
 
+{ #category : #frame }
+ToExperiments class >> example_testTwoChildrenOnOppositeSidesWithSpan [
+	<gtExample>
+	| parent left span right |
+	parent := BlElement new.
+	parent background: (Color gray alpha: 0.3).
+	parent layout: BlLinearLayout horizontal.
+	parent
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical fitContent ].
+	left := BlElement new.
+	left background: (Color red alpha: 0.3).
+	left border: (BlBorder paint: Color red width: 1).
+	left margin: (BlInsets all: 5).
+	left
+		constraintsDo: [ :c | 
+			c horizontal exact: 200.
+			c vertical exact: 50.
+			c grid vertical alignCenter.
+			c grid horizontal alignLeft ].
+	span := BlElement new.
+	span
+		border:
+			(BlBorder builder dashed
+				width: 1;
+				paint: Color gray;
+				build).
+	span margin: (BlInsets all: 5).
+	span
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ].
+	right := BlElement new.
+	right margin: (BlInsets all: 5).
+	right background: (Color blue alpha: 0.3).
+	right border: (BlBorder paint: Color blue width: 1).
+	right
+		constraintsDo: [ :c | 
+			c horizontal exact: 300.
+			c vertical exact: 30.
+			c linear vertical alignCenter ].
+	parent
+		addChildren:
+			{left.
+			span.
+			right}.
+	^ parent openInOBlSpace 
+]
+
 { #category : #'animate toogle button' }
 ToExperiments class >> example_toggle_with_animation [
 
@@ -648,4 +790,39 @@ ToExperiments class >> example_toggle_with_animation [
 					  onStepDo: [ :aColor :anElement | 
 						  anElement background: aColor.
 						  anElement parent border: (BlBorder paint: aColor) ]) })
+]
+
+{ #category : #frame }
+ToExperiments class >> example_twoChildrenMatchParentInFitContent [
+	| parent child child2 |
+	parent := BlElement new.
+	parent layout: BlLinearLayout vertical.
+	parent background: (Color gray alpha: 0.3).
+	parent padding: (BlInsets all: 25).
+	parent
+		constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent ].
+	child := BlTextElement new.
+	child text: ('Hello world haba' asRopedText fontSize: 40).
+	child background: (Color red alpha: 0.3).
+	child margin: (BlInsets all: 5).
+	child border: (BlBorder paint: Color red width: 1).
+	child
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ].
+	child2 := BlTextElement new.
+	child2 text: ('Hello' asRopedText fontSize: 15).
+	child2 background: (Color blue alpha: 0.3).
+	child2 margin: (BlInsets all: 5).
+	child2 border: (BlBorder paint: Color blue width: 1).
+	child2
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ].
+	parent addChild: child.
+	parent addChild: child2.
+	parent forceLayout.
+	^ parent openInOBlSpace 
 ]

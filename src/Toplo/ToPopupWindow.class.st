@@ -62,6 +62,7 @@ ToPopupWindow >> cleanUp [
 ToPopupWindow >> close [
 
 	self cleanUp.
+
 	animate ifTrue: [ 
 		deleteAnimation := deleteAnimationStencil value.
 		deleteAnimation onFinishedDo: [ 
@@ -92,17 +93,18 @@ ToPopupWindow >> initialize [
 	super initialize.
 	self animate: true.
 	self addEventHandler: (BlEventHandler
-			 on: BlSpaceMouseDownOutsideEvent
-			 do: [ :event | self close ]).
+		 on: BlSpaceMouseDownOutsideEvent
+		 do: [ :event | self close ]).
+
 	deleteAnimationStencil := [ 
 	                          BlOpacityAnimation new
-		                          duration: 400 milliSeconds;
+		                          duration: 250 milliSeconds;
 		                          opacity: 0;
 		                          yourself ].
 	popupAnimationStencil := [ 
 	                         self opacity: 0.0.
 	                         BlOpacityAnimation new
-		                         duration: 400 milliSeconds;
+		                         duration: 200 milliSeconds;
 		                         opacity: 1;
 		                         yourself ]
 ]
@@ -175,7 +177,8 @@ ToPopupWindow >> widget [
 ToPopupWindow >> widget: aWidget [
 
 	widget := aWidget.
-
+	widget when: BlElementPositionInSpaceChangedEvent do: [ :event | 
+		self relocate: self widget bounds inSpace bounds bottomLeft ]
 ]
 
 { #category : #initialization }

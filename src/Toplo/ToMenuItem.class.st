@@ -4,7 +4,7 @@ Class {
 	#traits : 'TToWidget + TToWidgetWithTooltip + TToClickableWidget',
 	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait + TToClickableWidget classTrait',
 	#instVars : [
-		'menuWindow'
+		'parentMenuWindow'
 	],
 	#category : #'Toplo-Widget-Menu'
 }
@@ -12,7 +12,10 @@ Class {
 { #category : #initialization }
 ToMenuItem >> addedInMenu: aMenu [
 	
-	self privateMenuWindow: aMenu menuWindow.
+	self privateParentMenuWindow: aMenu menuWindow.
+	self constraintsDo: [ :c | 
+		c horizontal matchParent.
+		c vertical fitContent ].
 	
 
 ]
@@ -35,13 +38,13 @@ ToMenuItem >> initialize [
 ]
 
 { #category : #window }
-ToMenuItem >> menuWindow [
+ToMenuItem >> parentMenuWindow [
 
-	^ menuWindow 
+	^ parentMenuWindow 
 ]
 
 { #category : #'private - accessing' }
-ToMenuItem >> privateMenuWindow: aWindow [
+ToMenuItem >> privateParentMenuWindow: aWindow [
 
-	menuWindow := aWindow
+	parentMenuWindow := aWindow
 ]

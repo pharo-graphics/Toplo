@@ -1,18 +1,69 @@
 Class {
 	#name : #ToMenuItemDresser,
 	#superclass : #ToButtonDresser,
+	#instVars : [
+		'otherWindowCloeHandler'
+	],
 	#category : #'Toplo-Widget-Menu'
 }
+
+{ #category : #'api - install/uninstall  hook' }
+ToMenuItemDresser >> clickedIn: aMenuItem [
+
+	aMenuItem parentMenuWindow ifNil: [ ^ self ].
+	aMenuItem parentMenuWindow close 
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToMenuItemDresser >> installEventListenersIn: anElement [
+
+	super installEventListenersIn: anElement.
+	otherWindowCloeHandler := BlEventHandler
+		                          on: BlMouseEnterEvent
+		                          do: [ :event | self onEnterEvent: event in: anElement].
+	anElement addEventHandler: otherWindowCloeHandler
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToMenuItemDresser >> onEnterEvent: anEvent in: anElement [
+
+	| parentWindow |
+	" check event and current target "
+	(anEvent anyButtonPressed and: [ anEvent currentTarget ~= anElement ]) 
+		ifTrue: [ ^ self ].
+
+	" the element is visible in a window "
+	anElement parentMenuWindow ifNil: [ ^ self ].
+	parentWindow := anElement parentMenuWindow.
+
+	" a submenu is opened "
+	parentWindow currentOpenedSubmenuWindow ifNil: [ ^ self ].
+
+	" the submenu is not mine "
+	parentWindow currentOpenedSubmenuWindow == anElement menuWindow 
+		ifTrue: [ ^ self ].
+
+	" ok, I can close other item submenu window"
+	parentWindow currentOpenedSubmenuWindow close.
+	parentWindow currentOpenedSubmenuWindow: nil
+]
 
 { #category : #'api - install/uninstall  hook' }
 ToMenuItemDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	
-	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
 	anElement background: Color transparent.
 	anElement border:  (BlBorder empty).
-	anElement padding: (BlInsets all: 2).
-	anElement whenClickedDo: [ anElement menuWindow close ]
+	anElement padding: (BlInsets all: 0).
+	anElement layout cellSpacing: 4.
+	anElement whenClickedDo: [ self clickedIn: anElement ]
 
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToMenuItemDresser >> uninstallEventListenersIn: anElement [
+
+	super uninstallEventListenersIn: anElement.
+	anElement removeEventHandler: otherWindowCloeHandler
 ]

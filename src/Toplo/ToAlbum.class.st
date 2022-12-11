@@ -30,13 +30,6 @@ ToAlbum >> beReadonlyWithoutSelection [
 	self innerElement beReadonlyWithoutSelection
 ]
 
-{ #category : #'tinitialization dresser' }
-ToAlbum >> defaultDresser [
-
-	^ ToAlbumBasicDresser new
-	
-]
-
 { #category : #initialization }
 ToAlbum >> defaultEditorElement [
 

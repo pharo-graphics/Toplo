@@ -15,7 +15,6 @@ Class {
 { #category : #'api - shortcuts' }
 ToAlbum >> addEditorShortcut: aTextEditorInteraction [
 
-	
 	self innerElement addEditorShortcut: aTextEditorInteraction
 ]
 

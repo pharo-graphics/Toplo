@@ -13,10 +13,7 @@ Class {
 }
 
 { #category : #'api - shortcuts' }
-ToAlbum >> addEditorShortcut: aTextEditorInteraction [
-
-	self innerElement addEditorShortcut: aTextEditorInteraction
-]
+ToAlbum >> addEditorShortcut: aTextEditorInteraction [self innerElement addEditorShortcut: aTextEditorInteraction]
 
 { #category : #'view configuration' }
 ToAlbum >> beEditable [

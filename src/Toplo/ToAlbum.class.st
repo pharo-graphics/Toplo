@@ -30,7 +30,7 @@ ToAlbum >> beReadonlyWithoutSelection [
 	self innerElement beReadonlyWithoutSelection
 ]
 
-{ #category : #'t - initialization dresser' }
+{ #category : #'tinitialization dresser' }
 ToAlbum >> defaultDresser [
 
 	^ ToAlbumBasicDresser new

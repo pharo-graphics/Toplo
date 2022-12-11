@@ -102,6 +102,21 @@ ToInnerWindow >> defaultBorderWidth [
 ]
 
 { #category : #initialization }
+ToInnerWindow >> defaultRoot [
+
+	^ super defaultRoot
+		  margin: (BlInsets all: 1);
+		  outskirts: BlOutskirts outside;
+		  matchParent
+]
+
+{ #category : #initialization }
+ToInnerWindow >> defaultRootBackground [
+
+	^ Color white
+]
+
+{ #category : #initialization }
 ToInnerWindow >> defaultRootLayout [
 
 	^ BlBasicLayout uniqueInstance 
@@ -129,6 +144,7 @@ ToInnerWindow >> elements [
 ToInnerWindow >> initialize [ 
 
 	super initialize.
+	self size: self defaultSize.
 	self background: Color gray.
 	self initializeGrips
 

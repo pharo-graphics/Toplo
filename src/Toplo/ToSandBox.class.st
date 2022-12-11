@@ -100,7 +100,7 @@ ToSandBox class >> example_Popup1 [
 	p addChild: but.
 	p addEventHandler: (BlEventHandler
 			 on: BlSpaceMouseDownOutsideEvent
-			 do: [ :event | self inform: 'OUTSIDE'. p close ]).
+			 do: [ :event | self inform: 'OUTSIDE']).
 	e addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
 			 do: [ :evt | 
@@ -187,6 +187,18 @@ ToSandBox class >> example_enterLeave [
 	space := OBlSpace new.
 	space addChild: e1.
 	space show
+]
+
+{ #category : #menu }
+ToSandBox class >> example_menu1 [
+
+	| menu |
+	menu := ToMenu new.
+	menu labelText: 'File'.
+	menu addItem: (ToButtonMenuItem new labelText: 'Open').
+	menu addItem: (ToButtonMenuItem new labelText: 'Close').
+	menu addItem: (ToMenu new labelText: 'Export').
+	menu openInInnerWindow 
 ]
 
 { #category : #window }
@@ -592,21 +604,23 @@ ToSandBox class >> example_toCheckboxWithToggleGroup2 [
 	1 to: 4 do: [ :idx | 
 		| chb |
 		chb := ToRadioButton new
+			       beVertical;
+			       beIconFirst;
 			       labelText: idx asString;
 			       id: idx asString.
-		chb icon margin: (BlInsets all: 3).
-		chb label margin: (BlInsets all: 4).
+		chb icon margin: (BlInsets all: 2).
 		group add: chb ].
-	container := BlElement new.
-	container constraintsDo: [ :c | 
-		c horizontal matchParent.
-		c vertical matchParent ].
+	container := ToElement new.
+	container matchParent.
 	container layout: BlLinearLayout horizontal.
-	container layout cellSpacing: 5.
+	container layout cellSpacing: 2.
 	container addChildren: group buttons.
 	group whenCheckedDo: [ :chb :previous | 
-		self inform: 'checked: ' , chb id asString, ' (previous was: ', (previous ifNil: [ 'none' ] ifNotNil: [ previous id asString ]) ].
-	ToInnerWindow new in: [ :f | f addChild: container ]; openInWorld
+		self inform: 'checked: ' , chb id asString , ' (previous was: '
+			, (previous ifNil: [ 'none' ] ifNotNil: [ previous id asString ]) ].
+	ToInnerWindow new
+		in: [ :f | f addChild: container ];
+		openInWorld
 ]
 
 { #category : #image }
@@ -1128,7 +1142,7 @@ ToSandBox class >> example_toWidgetAsButton0 [
 ToSandBox class >> example_toggle [
 
 	| th tv win |
-	th := ToToggleButton new labelText: 'Cheesecake'; beLabelFirst; cellSpacing: 2; padding: (BlInsets all: 3); hMatchParent.
+	th := ToToggleButton new labelText: 'Cheesecake'; beLabelFirst; cellSpacing: 2; padding: (BlInsets all: 3); hMatchParent; withFilling.
 
 	tv := ToToggleButton new beVertical; labelText: 'Cheesecake'; beLabelFirst; cellSpacing: 2; padding: (BlInsets all: 3); hMatchParent.
 	tv check.
@@ -1145,7 +1159,7 @@ ToSandBox class >> example_toggle [
 		             yourself.
 	win root layout: (BlLinearLayout vertical).
 	win root addChildren: { th. tv }.
-	win openInWorld
+	win openInNewSpace 
 ]
 
 { #category : #accessing }

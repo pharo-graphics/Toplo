@@ -30,19 +30,7 @@ ToWindow >> close [
 { #category : #initialization }
 ToWindow >> defaultBorder [
 
-	^ BlBorder paint: self defaultBorderPaint width: self defaultBorderWidth
-]
-
-{ #category : #initialization }
-ToWindow >> defaultBorderPaint [
-
-	^ Color veryLightGray alpha: 0.8
-]
-
-{ #category : #initialization }
-ToWindow >> defaultBorderWidth [
-
-	^ 0
+	^ BlBorder empty
 ]
 
 { #category : #initialization }
@@ -57,17 +45,14 @@ ToWindow >> defaultRoot [
 	^ ToElement new
 		  background: self defaultRootBackground;
 		  labeled: self defaultRootLabel;
-		  border: self defaultBorder;
-		  margin: (BlInsets all: 1);
-		  outskirts: BlOutskirts outside;
 		  layout: self defaultRootLayout;
-		  matchParent
+		  fitContent
 ]
 
 { #category : #initialization }
 ToWindow >> defaultRootBackground [
 
-	^ Color white
+	^ Color transparent
 ]
 
 { #category : #initialization }
@@ -78,13 +63,8 @@ ToWindow >> defaultRootLabel [
 { #category : #initialization }
 ToWindow >> defaultRootLayout [
 
-	^ BlFrameLayout new
-]
+	^ BlLinearLayout vertical 	withSpaceEqualization
 
-{ #category : #initialization }
-ToWindow >> defaultSize [
-
-	^ 300@200
 ]
 
 { #category : #initialization }
@@ -100,12 +80,12 @@ ToWindow >> initialize [
 	self
 		background: (Color white alpha: 0.7);
 		elevation: (BlRelativeElevation elevation: SmallInteger maxVal);
-		size: self defaultSize;
 		border: self defaultBorder;
 		layout: BlLinearLayout vertical;
 		outskirts: BlOutskirts outside;
 		geometry: self defaultGeometry;
-		clipChildren: false.
+		clipChildren: false;
+		fitContent.
 		
 	self addChildren: self elements.
 ]

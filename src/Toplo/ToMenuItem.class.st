@@ -1,10 +1,21 @@
 Class {
 	#name : #ToMenuItem,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TToClickableWidget + TToWidgetWithTooltip',
-	#classTraits : 'TToWidget classTrait + TToClickableWidget classTrait + TToWidgetWithTooltip classTrait',
+	#traits : 'TToWidget + TToWidgetWithTooltip + TToClickableWidget',
+	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait + TToClickableWidget classTrait',
+	#instVars : [
+		'menuWindow'
+	],
 	#category : #'Toplo-Widget-Menu'
 }
+
+{ #category : #initialization }
+ToMenuItem >> addedInMenu: aMenu [
+	
+	self privateMenuWindow: aMenu menuWindow.
+	
+
+]
 
 { #category : #'t - initialization dresser' }
 ToMenuItem >> defaultDresser [
@@ -20,6 +31,17 @@ ToMenuItem >> initialize [
 	
 	self layout: BlLinearLayout horizontal.
 	self fitContent.
-	self initializeClickBehavior.
-	self initializeDresser 
+
+]
+
+{ #category : #window }
+ToMenuItem >> menuWindow [
+
+	^ menuWindow 
+]
+
+{ #category : #'private - accessing' }
+ToMenuItem >> privateMenuWindow: aWindow [
+
+	menuWindow := aWindow
 ]

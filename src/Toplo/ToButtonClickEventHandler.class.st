@@ -38,7 +38,7 @@ ToButtonClickEventHandler >> clickCandidateEvent: anEvent [
 ToButtonClickEventHandler >> clickEvent: anEvent [
 
 	anEvent modifiers isEmpty ifFalse: [ ^ self ].
-	anEvent isConsumed ifTrue: [ ^ self ].
+	"anEvent isConsumed ifTrue: [ ^ self ]."
 	anEvent consumed: true.
 	button isDisabled ifTrue: [ ^ self ].
 	button announce: (ToButtonClickLaunchAction new widget: button)

@@ -65,16 +65,6 @@ ToButtonModel >> whenLabelTextReplacedDo: aBlock [
 ]
 
 { #category : #'api - change hook' }
-ToButtonModel >> whenOrientationChangedDo: aBlock [
-	"Inform when action block has been changed. 
-	 `aBlock` receives two optional arguments: 
-	 - new action block
-	 - old action block"
-
-	self widgetDo: [ :widget | widget whenOrientationChangedDo: aBlock ]
-]
-
-{ #category : #'api - change hook' }
 ToButtonModel >> whenPresentationChangedDo: aBlock [
 
 	"Inform when labelFirst has been changed. 

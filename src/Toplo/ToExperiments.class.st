@@ -587,29 +587,34 @@ ToExperiments class >> example_mouseEvent_descending_bubbling [
 { #category : #'popup strategy' }
 ToExperiments class >> example_strategy [
 
-	| win blue red yellow |
-	win := ToInnerWindow new id: #win;
-		         background: Color gray;
-		         size: 600 @ 600.
+	| win blue red  |
 
-	blue := BlElement new id: #blue;
+	win := ToInnerWindow new id: #win; 
+		         background: Color gray;
+		         size: 500 @ 400;
+					relocate: 100@100.
+
+	blue := ToElement new id: #blue;
 		        background: Color blue;
 		        size: 50@50.
 		
-	red := BlElement new id: #red;
+	red := ToElement new id: #red;
 		        background: Color red;
-					relocate: 100@75;
+				relocate: 100@75;
 		        size: 50@50.
-	yellow := BlElement new id: #yellow;
-		        background: Color yellow;
-					relocate: 250@250;
-		        size: 50@50.
-		
 
 	win addChild: red.
-	win addChild: yellow.
+	win addChild: blue. 
+	blue constraintsDo: [ :c | c ignoreByLayout  ].
+	blue anchorLeft: red leftAnchor + 10.
+	blue anchorTop: red topAnchor + 10.
+	blue anchorBottom: red bottomAnchor - 10.
+	blue anchorRight: red rightAnchor - 10.
+
 	win openInOBlSpace.
-	win space popupLayer addChild: blue
+	win relocate: 100@30.
+	
+
 ]
 
 { #category : #'animate toogle button' }

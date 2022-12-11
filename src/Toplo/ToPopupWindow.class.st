@@ -8,8 +8,7 @@ Class {
 		'#deleteAnimationStencil',
 		'#popupAnimationStencil',
 		'#deleteAnimation',
-		'#widget => ObservableSlot',
-		'#checkPositionOnLayout'
+		'#widget => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Window'
 }
@@ -27,7 +26,7 @@ ToPopupWindow >> animate: aBoolean [
 ]
 
 { #category : #'api - displaying' }
-ToPopupWindow >> checkPositionBeforePopupIn: aWidget [
+ToPopupWindow >> checkBeforePopupIn: aWidget [
 
 	| gap rect |
 	" layout is done, my bounds are now up-to-date"
@@ -91,10 +90,10 @@ ToPopupWindow >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	self fitContent.
-	self root fitContent.
 	self animate: true.
-	checkPositionOnLayout := false.
+	self addEventHandler: (BlEventHandler
+			 on: BlSpaceMouseDownOutsideEvent
+			 do: [ :event | self close ]).
 	deleteAnimationStencil := [ 
 	                          BlOpacityAnimation new
 		                          duration: 400 milliSeconds;
@@ -106,6 +105,21 @@ ToPopupWindow >> initialize [
 		                         duration: 400 milliSeconds;
 		                         opacity: 1;
 		                         yourself ]
+]
+
+{ #category : #'api - displaying' }
+ToPopupWindow >> popup [
+
+	self relocate: (self widget bounds inSpace bounds bottomLeft).
+	"I'm not ready to be visible because my bounds are not checked according to the popup layer extent"
+	self visibility: BlVisibility hidden.
+	self widget space popupLayer addChild: self.
+	
+	"I need to finalize my position as soon as my layout is up-to-date"
+	self whenLayoutedDoOnce: [ self checkBeforePopupIn: self widget space popupLayer ].
+
+	
+
 ]
 
 { #category : #accessing }
@@ -138,7 +152,7 @@ ToPopupWindow >> popupIn: aWidget atGlobalPosition: aPoint [
 	aWidget addChild: self.
 	
 	"I need to finalize my position as soon as my layout is up-to-date"
-	self whenLayoutedDoOnce: [ self checkPositionBeforePopupIn: aWidget ].
+	self whenLayoutedDoOnce: [ self checkBeforePopupIn: aWidget ].
 
 ]
 

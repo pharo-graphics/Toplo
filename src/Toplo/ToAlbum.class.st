@@ -12,6 +12,16 @@ Class {
 	#category : #'Toplo-Widget-Album'
 }
 
+{ #category : #'api - shortcuts' }
+ToAlbum >> addEditorShortcut: aTextEditorInteraction [
+	self innerElement addEditorShortcut: aTextEditorInteraction
+]
+
+{ #category : #'t - initialization dresser' }
+ToAlbum >> defaultDresser [
+	^ ToAlbumBasicDresser new
+]
+
 { #category : #'view configuration' }
 ToAlbum >> beEditable [
 

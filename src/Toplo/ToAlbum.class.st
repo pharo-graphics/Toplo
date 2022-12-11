@@ -12,13 +12,15 @@ Class {
 	#category : #'Toplo-Widget-Album'
 }
 
-{ #category : #'api - shortcuts' }
-ToAlbum >> addEditorShortcut: aTextEditorInteraction [self innerElement addEditorShortcut: aTextEditorInteraction]
-
 { #category : #'view configuration' }
 ToAlbum >> beEditable [
 
 	self innerElement beEditable
+]
+
+{ #category : #'api - shortcuts' }
+ToAlbum >> addEditorShortcut: aTextEditorInteraction [
+	self innerElement addEditorShortcut: aTextEditorInteraction
 ]
 
 { #category : #'view configuration' }

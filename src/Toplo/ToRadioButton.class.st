@@ -7,5 +7,5 @@ Class {
 { #category : #'t - initialization dresser' }
 ToRadioButton >> defaultDresser [
 
-	^ ToRadioButtonDresser new
+	^ ToButtonDresser next: ToRadioButtonDresser new
 ]

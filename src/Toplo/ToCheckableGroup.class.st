@@ -12,9 +12,18 @@ Class {
 { #category : #'adding / removing' }
 ToCheckableGroup >> add: aCheckable [
 
+	aCheckable group ifNotNil: [ ^ self ].
 	(buttons includes: aCheckable) ifTrue: [ ^ self ].
 	buttons add: aCheckable.
+	aCheckable group: self.
 	aCheckable whenCheckedDo: [ self checked: aCheckable ]
+
+]
+
+{ #category : #'adding / removing' }
+ToCheckableGroup >> addAll: aCollection [
+
+	aCollection do: [ :b | self add: b ]
 
 ]
 
@@ -26,9 +35,15 @@ ToCheckableGroup >> buttons [
 
 { #category : #'adding / removing' }
 ToCheckableGroup >> checked: aCheckable [
-	(buttons select: [ :b | b ~= aCheckable ]) do: [ :b | b uncheck ].
+	(buttons select: [ :b | b ~= aCheckable ]) do: [ :b | b uncheckFromGroup ].
 	checkAction ifNotNil: [ checkAction cull: aCheckable cull: checked].
 	checked := aCheckable 
+]
+
+{ #category : #accessing }
+ToCheckableGroup >> hasCheckedButton [
+
+	^ self buttons anySatisfy: [ :b | b isChecked ]
 ]
 
 { #category : #initialization }

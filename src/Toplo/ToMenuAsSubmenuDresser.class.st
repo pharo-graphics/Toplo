@@ -38,6 +38,9 @@ ToMenuAsSubmenuDresser >> onEnterEvent: anEvent in: anElement [
 	" the sub menu window must not be already opened "
 	anElement menuWindow isAttachedToSceneGraph ifTrue: [ ^ self ].
 	
+	" do not open if empty "
+	anElement items ifEmpty: [ ^ self ].
+	
 	" ok, open the sub menu window "
 	anElement parentMenuWindow currentOpenedSubmenuWindow: anElement menuWindow.
 	pos := anElement bounds inSpace bounds topRight.

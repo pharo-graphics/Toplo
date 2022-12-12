@@ -215,6 +215,39 @@ ToExperiments class >> example_ExperimentForMultilineLabel5 [
 ]
 
 { #category : #frame }
+ToExperiments class >> example_FlowLayoutHorizontal [
+
+	| frame left right fill |
+	frame := BlElement new
+		         background: Color gray;
+		         size: 300 @ 100;
+		         layout: BlFlowLayout horizontal;
+		         constraintsDo: [ :c | 
+			         c horizontal matchParent.
+			         c vertical fitContent ].
+
+	left := BlElement new
+		        background: Color blue;
+		        width: 100;
+		        constraintsDo: [ :c | c frame horizontal alignLeft ].
+
+	fill := BlElement new
+		        background: Color yellow;
+		        height: 20; width: 200;
+		        constraintsDo: [ :c | c minWidth: 50. c flow  newLine: false. c flow vertical alignCenter ].
+			
+	right := BlElement new
+		         background: Color red;
+		         width: 100;
+		         constraintsDo: [ :c | c frame horizontal alignRight ].
+
+	frame addChild: left.
+	frame addChild: fill.
+	frame addChild: right.
+	frame openInNewSpace
+]
+
+{ #category : #frame }
 ToExperiments class >> example_FrameLayout [
 
 	| frame left right fill |

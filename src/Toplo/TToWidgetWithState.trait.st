@@ -3,6 +3,12 @@ Trait {
 	#category : #'Toplo-Core'
 }
 
+{ #category : #'t - state processing' }
+TToWidgetWithState >> canSwitchToNextState [ 
+
+	^ self currentState notNil
+]
+
 { #category : #'t - accessing state' }
 TToWidgetWithState >> currentState [
 
@@ -13,6 +19,12 @@ TToWidgetWithState >> currentState [
 TToWidgetWithState >> currentState: aState [
 
 	self userData at: #currentState put: aState
+]
+
+{ #category : #initialization }
+TToWidgetWithState >> initializeClickBehavior [
+
+	self whenClickedDo: [ self switchToNextState ].
 ]
 
 { #category : #'t - accessing state' }
@@ -45,9 +57,10 @@ TToWidgetWithState >> stateNamed: anObject [
 { #category : #'t - state processing' }
 TToWidgetWithState >> switchToNextState [
 
-	self currentState ifNotNil: [ :curr | 
+	self canSwitchToNextState ifFalse: [ ^ self ].
+	self currentState in: [:curr | 
 		curr next counter: curr counter + 1.
-		self switchToState: curr next ]
+		self switchToState: curr next ] 
 ]
 
 { #category : #'t - state processing' }

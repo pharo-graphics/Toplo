@@ -1,7 +1,5 @@
 Trait {
 	#name : #TToCheckableWidgetWithIndeterminate,
-	#traits : 'TToCheckableWidget',
-	#classTraits : 'TToCheckableWidget classTrait',
 	#category : #'Toplo-Widget-Button'
 }
 

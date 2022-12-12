@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #initialization }
+ToCheckBoxDresser >> defaultAnimationDuration [
+
+	^ 200 milliSeconds
+]
+
+{ #category : #initialization }
 ToCheckBoxDresser >> defaultCheckedIconImage [
 
 	^ BlElement new

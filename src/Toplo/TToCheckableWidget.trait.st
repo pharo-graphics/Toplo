@@ -6,13 +6,33 @@ Trait {
 { #category : #'t - toggle group' }
 TToCheckableWidget >> addToGroup: aToggleGroup [
 
-	aToggleGroup add: self
+	aToggleGroup add: self.
+	self group: aToggleGroup 
 ]
 
 { #category : #'t - checking protocol' }
 TToCheckableWidget >> check [
-
+	(self group notNil and: [ self isChecked ]) ifTrue: [ ^ self ].
 	self switchToStateNamed: #checked
+]
+
+{ #category : #'t - checking protocol' }
+TToCheckableWidget >> check: aBoolean [
+
+	aBoolean ifTrue: [ self check ] ifFalse: [ self uncheck  ]
+
+]
+
+{ #category : #'t - toggle group' }
+TToCheckableWidget >> group [
+
+	^ self explicitRequirement
+]
+
+{ #category : #'t - toggle group' }
+TToCheckableWidget >> group: aToggleGroup [
+
+	self explicitRequirement
 ]
 
 { #category : #'t - checking protocol' }
@@ -28,13 +48,20 @@ TToCheckableWidget >> isUnchecked [
 ]
 
 { #category : #'t - toggle group' }
-TToCheckableWidget >> removeFromGroup: aToggleGroup [
+TToCheckableWidget >> removeFromGroup [
 
-	aToggleGroup remove: self
+	self group remove: self
 ]
 
 { #category : #'t - checking protocol' }
 TToCheckableWidget >> uncheck [
+
+	self group ifNotNil: [ ^ self ].
+	self switchToStateNamed: #unchecked
+]
+
+{ #category : #'t - checking protocol' }
+TToCheckableWidget >> uncheckFromGroup [
 
 	self switchToStateNamed: #unchecked
 ]

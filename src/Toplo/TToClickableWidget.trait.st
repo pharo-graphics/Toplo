@@ -1,15 +1,7 @@
 Trait {
 	#name : #TToClickableWidget,
-	#traits : 'TToWidgetWithState',
-	#classTraits : 'TToWidgetWithState classTrait',
 	#category : #'Toplo-Core'
 }
-
-{ #category : #'t - initialization click behavior' }
-TToClickableWidget >> initializeClickBehavior [
-
-	self whenClickedDo: [ self switchToNextState ].
-]
 
 { #category : #'t - click behavior' }
 TToClickableWidget >> whenClickedDo: aBlock [

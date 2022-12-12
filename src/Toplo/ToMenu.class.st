@@ -11,6 +11,12 @@ Class {
 }
 
 { #category : #'item adding/removing' }
+ToMenu >> addAllItems: aCollection [
+
+	aCollection do: [ :item | self addItem: item ]
+]
+
+{ #category : #'item adding/removing' }
 ToMenu >> addItem: aMenuItem [
 
 	self items add: aMenuItem.

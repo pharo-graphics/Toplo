@@ -222,8 +222,106 @@ ToSandBox class >> example_menu2 [
 	menu := ToMenu new.
 	menu labelText: 'File'.
 	menu addItem: (ToMenu new labelText: 'Export').
-	menu addItem: (ToSeparatorMenuItem new width: 100).
 	menu relocate: 10@10.
+	menu openInInnerWindow
+]
+
+{ #category : #menu }
+ToSandBox class >> example_menu3 [
+
+	| menu sub subsub |
+	menu := ToMenu new.
+	menu labelText: 'File'.
+	menu iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
+	menu addItem: (ToButtonMenuItem new
+			 labelText: 'Open file';
+			 iconImage: (Smalltalk ui icons iconNamed: #config)).
+	menu addItem: (ToButtonMenuItem new labelText: 'Export').
+	menu addItem: (ToCheckMenuItem new labelText: 'Align right').
+	menu addSeparator.
+	
+	sub := ToMenu new labelText: 'Save All'.
+	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
+	
+	subsub := ToMenu new labelText: 'Externally'; iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
+	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
+
+	sub addItem: (subsub).
+	
+	menu addItem: sub.
+	menu relocate: 10@10.
+	menu openInInnerWindow
+]
+
+{ #category : #menu }
+ToSandBox class >> example_menu4 [
+
+	| menu sub subsub |
+	menu := ToMenu new.
+	menu labelText: 'File'.
+	menu iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
+	menu addItem: (ToButtonMenuItem new
+			 labelText: 'Open file';
+			 iconImage: (Smalltalk ui icons iconNamed: #config)).
+	menu addItem: (ToButtonMenuItem new labelText: 'Export').
+	menu addItem: (ToRadioMenuItem new labelText: 'Align right').
+	menu addSeparator.
+	
+	sub := ToMenu new labelText: 'Save All'.
+	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
+	
+	subsub := ToMenu new labelText: 'Externally'; iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
+	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
+
+	sub addItem: (subsub).
+	
+	menu addItem: sub.
+	menu relocate: 10@10.
+	menu openInInnerWindow
+]
+
+{ #category : #menu }
+ToSandBox class >> example_menu5 [
+
+	| menu sub subsub grp right center left |
+	menu := ToMenu new.
+	menu labelText: 'File'.
+	menu iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
+	menu addItem: (ToButtonMenuItem new
+			 labelText: 'Open file';
+			 iconImage: (Smalltalk ui icons iconNamed: #config)).
+
+	menu addItem: (ToButtonMenuItem new labelText: 'Export').
+	grp := ToCheckableGroup new.
+	right := ToRadioMenuItem new labelText: 'Right'; id: #right.
+	center := ToRadioMenuItem new labelText: 'Center'; id: #center.
+	left := ToRadioMenuItem new labelText: 'Left'; id: #left.
+	center check.
+	grp add: right.
+	grp add: center.
+	grp add: left.
+
+	grp whenCheckedDo: [ :chb :previous | 
+		self inform: 'checked: ' , chb id asSymbol , ' (previous was: '
+			, (previous ifNil: [ 'none' ] ifNotNil: [ previous id asSymbol ]) ].
+
+
+	menu addSeparator.
+	menu addAllItems: grp buttons.
+	menu addSeparator.
+
+	sub := ToMenu new labelText: 'Save All'.
+	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
+
+	subsub := ToMenu new
+		          labelText: 'Externally';
+		          iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
+	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
+
+	sub addItem: subsub.
+
+	menu addItem: sub.
+	menu relocate: 10 @ 10.
 	menu openInInnerWindow
 ]
 

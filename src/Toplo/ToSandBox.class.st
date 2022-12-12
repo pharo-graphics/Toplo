@@ -200,16 +200,29 @@ ToSandBox class >> example_menu1 [
 			 labelText: 'Open file';
 			 iconImage: (Smalltalk ui icons iconNamed: #config)).
 	menu addItem: (ToButtonMenuItem new labelText: 'Export').
+	menu addSeparator.
 	
 	sub := ToMenu new labelText: 'Save All'.
 	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
 	
-	subsub := ToMenu new labelText: 'Externally'.
+	subsub := ToMenu new labelText: 'Externally'; iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
 	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
 
 	sub addItem: (subsub).
 	
 	menu addItem: sub.
+	menu relocate: 10@10.
+	menu openInInnerWindow
+]
+
+{ #category : #menu }
+ToSandBox class >> example_menu2 [
+
+	| menu  |
+	menu := ToMenu new.
+	menu labelText: 'File'.
+	menu addItem: (ToMenu new labelText: 'Export').
+	menu addItem: (ToSeparatorMenuItem new width: 100).
 	menu relocate: 10@10.
 	menu openInInnerWindow
 ]

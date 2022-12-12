@@ -12,7 +12,16 @@ Class {
 { #category : #initialization }
 ToImage >> defaultInnerImage [
 
-	^ BlElement new size: 0 @ 0; yourself
+	^ BlElement new
+		  id: #emptyImage;
+		  size: 0 @ 0;
+		  yourself
+]
+
+{ #category : #testing }
+ToImage >> hasInnerImage [
+
+	^ self innerImage id asSymbol ~= #emptyImage
 ]
 
 { #category : #initialization }

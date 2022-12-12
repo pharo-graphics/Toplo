@@ -8,6 +8,18 @@ Class {
 }
 
 { #category : #'api - install/uninstall  hook' }
+ToMenuAsSubmenuDresser >> defaultIconImage [
+
+	^ BlElement new
+		  size: 16 @ 16;
+		  background: Color transparent;
+		  constraintsDo: [ :c | 
+			  c linear vertical alignCenter.
+			  c linear horizontal alignCenter ];
+		  yourself
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToMenuAsSubmenuDresser >> installEventListenersIn: anElement [
 
 	popupHandler := BlEventHandler
@@ -36,6 +48,8 @@ ToMenuAsSubmenuDresser >> onEnterEvent: anEvent in: anElement [
 ToMenuAsSubmenuDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
+	anElement icon hasInnerImage ifFalse: [ 
+		anElement iconImage: self defaultIconImage ].
 	self installEventListenersIn: anElement
 ]
 

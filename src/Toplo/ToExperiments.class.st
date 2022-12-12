@@ -334,7 +334,14 @@ ToExperiments class >> example_LinearLayoutFillWithFitContent [
 "		node addChild: middle.
 		node addChild: fill2.
 		node addChild: right.
+		frame addChild: (BlElement new
+		background: (Color pink);
+			        constraintsDo: [ :c | 
+				        c horizontal matchParent.
+				        c vertical exact: 5 ]).
+
 		frame addChild: node ].
+	
 
 	frame openInOBlSpace
 ]

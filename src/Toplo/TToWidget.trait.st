@@ -1,7 +1,7 @@
 Trait {
 	#name : #TToWidget,
-	#traits : 'TBlAnnouncerProvider + TObservable + TToDressableWidget + TToEnableable',
-	#classTraits : 'TBlAnnouncerProvider classTrait + TObservable classTrait + TToDressableWidget classTrait + TToEnableable classTrait',
+	#traits : 'TBlAnnouncerProvider + TObservable + TToEnableable',
+	#classTraits : 'TBlAnnouncerProvider classTrait + TObservable classTrait + TToEnableable classTrait',
 	#category : #'Toplo-Core'
 }
 

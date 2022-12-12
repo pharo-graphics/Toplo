@@ -63,7 +63,7 @@ ToWindow >> defaultRootLabel [
 { #category : #initialization }
 ToWindow >> defaultRootLayout [
 
-	^ BlLinearLayout vertical 	withSpaceEqualization
+	^ BlLinearLayout vertical 
 
 ]
 

@@ -8,9 +8,8 @@ Class {
 ToMenuWindowDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	
 	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
-	anElement padding: (BlInsets all: 0).
+	anElement padding: (BlInsets all: 2).
 	anElement background: (Color veryLightGray muchLighter)
 
 ]

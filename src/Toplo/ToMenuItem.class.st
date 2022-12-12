@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMenuItem,
-	#superclass : #ToElement,
+	#superclass : #ToAbstractMenuItem,
 	#traits : 'TToWidget + TToWidgetWithTooltip + TToClickableWidget',
 	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait + TToClickableWidget classTrait',
 	#instVars : [
@@ -12,11 +12,8 @@ Class {
 { #category : #initialization }
 ToMenuItem >> addedInMenu: aMenu [
 	
+	super addedInMenu: aMenu.
 	self privateParentMenuWindow: aMenu menuWindow.
-	self constraintsDo: [ :c | 
-		c horizontal matchParent.
-		c vertical fitContent ].
-	
 
 ]
 
@@ -31,8 +28,6 @@ ToMenuItem >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	
-	self layout: BlLinearLayout horizontal.
 	self fitContent.
 
 ]
@@ -52,5 +47,6 @@ ToMenuItem >> privateParentMenuWindow: aWindow [
 { #category : #initialization }
 ToMenuItem >> removedFromMenu: aMenu [
 	
+	super removedFromMenu: aMenu.
 	self privateParentMenuWindow: nil
 ]

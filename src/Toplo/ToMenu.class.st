@@ -18,6 +18,12 @@ ToMenu >> addItem: aMenuItem [
 	aMenuItem addedInMenu: self
 ]
 
+{ #category : #'item adding/removing' }
+ToMenu >> addSeparator [
+
+	self addItem: ToSeparatorMenuItem new
+]
+
 { #category : #initialization }
 ToMenu >> addedInMenu: aMenu [
 
@@ -54,6 +60,12 @@ ToMenu >> close [
 ToMenu >> defaultDresser [
 
 	^ ToMenuDresser new
+]
+
+{ #category : #initialization }
+ToMenu >> emptyIconImage [
+
+	^ nil
 ]
 
 { #category : #initialization }

@@ -4,8 +4,8 @@ Class {
 	#instVars : [
 		'items',
 		'rightIcon',
-		'asSubmenu',
-		'menuWindow'
+		'menuWindow',
+		'submenuDresser'
 	],
 	#category : #'Toplo-Widget-Menu'
 }
@@ -22,21 +22,16 @@ ToMenu >> addItem: aMenuItem [
 ToMenu >> addedInMenu: aMenu [
 
 	super addedInMenu: aMenu.
-	asSubmenu ifFalse: [ self addDresser: ToMenuAsSubmenuDresser new ].
-	asSubmenu := true.
+	submenuDresser ifNil: [ 
+		submenuDresser := ToMenuAsSubmenuDresser new.
+		self addDresser: submenuDresser ].
 	self privateUpdateChildren
-]
-
-{ #category : #accessing }
-ToMenu >> asSubmenu [
-
-	^ asSubmenu ifNil: [ asSubmenu := false ]
 ]
 
 { #category : #'t - button initialization' }
 ToMenu >> childrenLayout [
 
-	^ self asSubmenu
+	^ self isSubmenu
 		  ifTrue: [ 
 			  { 
 				  self icon.
@@ -76,6 +71,12 @@ ToMenu >> initialize [
 	self whenClickedDo: [ self popupOrClose ]
 ]
 
+{ #category : #accessing }
+ToMenu >> isSubmenu [
+
+	^ submenuDresser notNil
+]
+
 { #category : #'item  accessing' }
 ToMenu >> items [
 
@@ -105,10 +106,18 @@ ToMenu >> popupOrClose [
 { #category : #'item adding/removing' }
 ToMenu >> removeItem: aMenuItem [
 
+	aMenuItem removedFromMenu: self.
 	self items remove: aMenuItem.
-	self menuWindow removeChild: aMenuItem.
-	aMenuItem privateParentMenuWindow: nil.
+	self menuWindow removeChild: aMenuItem
+]
 
+{ #category : #initialization }
+ToMenu >> removedFromMenu: aMenu [
+
+	super removedFromMenu: aMenu.
+	submenuDresser ifNotNil: [ 
+		self removeDresser: submenuDresser.
+		submenuDresser := nil ]
 ]
 
 { #category : #initialization }

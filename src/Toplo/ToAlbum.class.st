@@ -17,11 +17,6 @@ ToAlbum >> addEditorShortcut: aTextEditorInteraction [
 	self innerElement addEditorShortcut: aTextEditorInteraction
 ]
 
-{ #category : #'t - initialization dresser' }
-ToAlbum >> defaultDresser [
-	^ ToAlbumBasicDresser new
-]
-
 { #category : #'view configuration' }
 ToAlbum >> beEditable [
 
@@ -38,6 +33,11 @@ ToAlbum >> beReadonlyWithSelection [
 ToAlbum >> beReadonlyWithoutSelection [
 
 	self innerElement beReadonlyWithoutSelection
+]
+
+{ #category : #'t - initialization dresser' }
+ToAlbum >> defaultDresser [
+	^ ToAlbumBasicDresser new
 ]
 
 { #category : #initialization }

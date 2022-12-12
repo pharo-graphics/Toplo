@@ -48,3 +48,9 @@ ToMenuItem >> privateParentMenuWindow: aWindow [
 
 	parentMenuWindow := aWindow
 ]
+
+{ #category : #initialization }
+ToMenuItem >> removedFromMenu: aMenu [
+	
+	self privateParentMenuWindow: nil
+]

@@ -10,13 +10,6 @@ Class {
 	#category : #'Toplo-Widget-Menu'
 }
 
-{ #category : #initialization }
-ToButtonMenuItem >> addedInMenu: aMenu [
-
-	super addedInMenu: aMenu.
-
-]
-
 { #category : #'t - button initialization' }
 ToButtonMenuItem >> childrenLayout [
 

@@ -296,7 +296,6 @@ ToSandBox class >> example_menu5 [
 	right := ToRadioMenuItem new labelText: 'Right'; id: #right.
 	center := ToRadioMenuItem new labelText: 'Center'; id: #center.
 	left := ToRadioMenuItem new labelText: 'Left'; id: #left.
-	center check.
 	grp add: right.
 	grp add: center.
 	grp add: left.
@@ -305,6 +304,7 @@ ToSandBox class >> example_menu5 [
 		self inform: 'checked: ' , chb id asSymbol , ' (previous was: '
 			, (previous ifNil: [ 'none' ] ifNotNil: [ previous id asSymbol ]) ].
 
+	center startChecked.
 
 	menu addSeparator.
 	menu addAllItems: grp buttons.
@@ -675,26 +675,29 @@ ToSandBox class >> example_toCheckboxWithLabel [
 	| but |
 	but := ToCheckbox new labelText: 'Check me'.
 	but cellSpacing: 5.
+	but whenCheckedDo: [ self inform: '+++ checked' ].
+	but whenUncheckedDo: [ self inform: '--- unchecked' ].
 
 	but openInOBlSpace.
-	but inspect
 ]
 
 { #category : #checkbox }
 ToSandBox class >> example_toCheckboxWithLabel2 [
 
 	| but |
-	but := ToCheckbox new labelText: 'Check me'; beLabelFirst.
+	but := ToCheckbox new labelText: 'Check me'; beLabelFirst; startChecked.
 	but whenCheckedDo: [ self inform: '+++ checked' ].
 	but whenUncheckedDo: [ self inform: '--- unchecked' ].
+	
 	but openInOBlSpace 
 ]
 
 { #category : #checkbox }
 ToSandBox class >> example_toCheckboxWithToggleGroup [
 
-	| group container |
+	| group container buttons |
 	group := ToCheckableGroup new.
+	buttons := OrderedCollection new.
 	1 to: 4 do: [ :idx | 
 		| chb |
 		chb := ToCheckbox new
@@ -702,11 +705,11 @@ ToSandBox class >> example_toCheckboxWithToggleGroup [
 			       id: idx asString.
 		chb icon margin: (BlInsets all: 3).
 		chb label margin: (BlInsets all: 4).
-		group add: chb ].
-
+		buttons add: chb ].
+	buttons second startChecked.
+	group addAll: buttons.
 	group whenCheckedDo: [ :chb :previous | 
 		self inform: 'checked: ' , chb id asString, ' (previous was: ', (previous ifNil: [ 'none' ] ifNotNil: [ previous id asString ]) ].
-	group buttons first check.
 	
 	container := BlElement new.
 	container constraintsDo: [ :c | 
@@ -1026,25 +1029,27 @@ ToSandBox class >> example_toMultiState1 [
 
 	| but space |
 	but := ToButton new.
+	but
+		iconImage: (BlElement new
+				 size: 100 @ 100;
+				 background: Color blue);
+		labelText: ('Blue' asRopedText fontSize: 24).
 	but setUpStatesWith: { (ToWidgetState new whenEnterDo: [ :ann | 
 			 | anim |
 			 ann state counter traceCr.
-			 anim := BlOpacityAnimation new
-				         duration: 500 milliSeconds;
-				         opacity: 0;
-				         yourself.
-			 anim onFinishedDo: [ 
-				 ann widget
-					 iconImage: (BlElement new
-							  size: 100 @ 100;
-							  background: Color blue);
-					 labelText: ('Blue' asRopedText fontSize: 24);
-					 opacity: 0;
-					 addAnimation: (BlOpacityAnimation new
-							  duration: 300 milliSeconds;
-							  opacity: 1;
-							  yourself) ].
-			 ann widget addAnimation: anim ]) }.
+			 ann state counter isZero ifFalse: [ 
+				 anim := BlOpacityAnimation new
+					         duration: 500 milliSeconds;
+					         opacity: 0;
+					         yourself.
+				 anim onFinishedDo: [ 
+					 ann widget
+						 opacity: 0;
+						 addAnimation: (BlOpacityAnimation new
+								  duration: 300 milliSeconds;
+								  opacity: 1;
+								  yourself) ].
+				 ann widget addAnimation: anim ] ]) }.
 	space := OBlSpace new.
 	space addChild: but.
 	space show
@@ -1116,7 +1121,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 								  background: Color blue);
 						 labelText: 'Big blue' ];
 				 yourself).
-			(ToWidgetState new
+			(ToWidgetState new name: #green;
 				 whenEnterDo: [ :ann | 
 					 ann widget
 						 iconImage: (BlElement new
@@ -1140,6 +1145,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 								  background: Color yellow);
 						 labelText: 'Yellow' ];
 				 yourself) }.
+	but startState: (but stateNamed: #green).
 	but openInOBlSpace
 ]
 
@@ -1239,7 +1245,8 @@ ToSandBox class >> example_toMultiStateWithLabel [
 				 whenEnterDo: [ :ann | 
 					 ann widget labelText: ('Three' asRopedText fontSize: 24) ];
 				 yourself) }.
-	but openInWorld
+	but openInWorld.
+	but startState: (but stateNamed: #three)
 ]
 
 { #category : #checkbox }

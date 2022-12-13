@@ -54,6 +54,20 @@ TToCheckableWidget >> removeFromGroup [
 ]
 
 { #category : #'t - checking protocol' }
+TToCheckableWidget >> startChecked [
+
+	self isChecked ifTrue: [ ^ self ].
+	self startState: (self stateNamed: #checked)
+]
+
+{ #category : #'t - checking protocol' }
+TToCheckableWidget >> startUnchecked [
+
+	self isChecked ifFalse: [ ^ self ].
+	self startState: (self stateNamed: #unchecked)
+]
+
+{ #category : #'t - checking protocol' }
 TToCheckableWidget >> uncheck [
 
 	self group ifNotNil: [ ^ self ].

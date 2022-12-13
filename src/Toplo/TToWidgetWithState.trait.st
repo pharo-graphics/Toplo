@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToWidgetWithState,
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Widget-Button'
 }
 
 { #category : #'t - state processing' }
@@ -44,6 +44,19 @@ TToWidgetWithState >> setUpStatesWith: aCollectionOfStates [
 ]
 
 { #category : #'t - accessing state' }
+TToWidgetWithState >> startState [
+
+	^ self userData at: #startState ifAbsent: [ self currentState ]
+]
+
+{ #category : #'t - accessing state' }
+TToWidgetWithState >> startState: aState [
+
+	self userData at: #startState put: aState.
+	self switchToStartState
+]
+
+{ #category : #'t - accessing state' }
 TToWidgetWithState >> stateNamed: anObject [
 
 	| curr |
@@ -66,9 +79,10 @@ TToWidgetWithState >> switchToNextState [
 { #category : #'t - state processing' }
 TToWidgetWithState >> switchToStartState [
 
-	self currentState ifNotNil: [ :curr | 
+	self startState ifNotNil: [ :curr | 
 		curr counter: 0.
-		curr enterOn: self previousState: nil]
+		curr enterOn: self previousState: nil.
+		self currentState: curr]
 ]
 
 { #category : #'t - private state processing' }

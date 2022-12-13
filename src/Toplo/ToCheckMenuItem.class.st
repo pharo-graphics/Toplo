@@ -4,6 +4,7 @@ Class {
 	#traits : 'TToWidgetWithState + TToCheckableWidget + TToCheckableWidgetWithIndeterminate',
 	#classTraits : 'TToWidgetWithState classTrait + TToCheckableWidget classTrait + TToCheckableWidgetWithIndeterminate classTrait',
 	#instVars : [
+		'hasIndeterminateState',
 		'group'
 	],
 	#category : #'Toplo-Widget-Menu'
@@ -32,4 +33,19 @@ ToCheckMenuItem >> group [
 ToCheckMenuItem >> group: aToggleGroup [
 
 	group := aToggleGroup
+]
+
+{ #category : #'t - checking accessing state' }
+ToCheckMenuItem >> hasIndeterminateState [
+
+	^ hasIndeterminateState ifNil: [ hasIndeterminateState := false ]
+]
+
+{ #category : #'t - checking accessing state' }
+ToCheckMenuItem >> hasIndeterminateState: aBoolean [
+
+	aBoolean = self hasIndeterminateState ifTrue: [ ^ self ].
+	hasIndeterminateState := aBoolean.
+	self announce: 	(ToStatesDefinitionChangedAnnouncement new widget: self)
+
 ]

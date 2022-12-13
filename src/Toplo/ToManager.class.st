@@ -32,7 +32,7 @@ ToManager class >> reset [
 
 	"Session dependents"
 
-	session := Smalltalk session.
+	session := -1.
 	UniqueInstance := nil
 ]
 

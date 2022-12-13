@@ -2,7 +2,7 @@ Class {
 	#name : #ToMenuItemDresser,
 	#superclass : #ToButtonDresser,
 	#instVars : [
-		'otherWindowCloeHandler'
+		'otherWindowClickHandler'
 	],
 	#category : #'Toplo-Widget-Menu'
 }
@@ -18,10 +18,10 @@ ToMenuItemDresser >> clickedIn: aMenuItem [
 ToMenuItemDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
-	otherWindowCloeHandler := BlEventHandler
+	otherWindowClickHandler := BlEventHandler
 		                          on: BlMouseEnterEvent
 		                          do: [ :event | self onEnterEvent: event in: anElement].
-	anElement addEventHandler: otherWindowCloeHandler
+	anElement addEventHandler: otherWindowClickHandler
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -65,5 +65,5 @@ ToMenuItemDresser >> onInstalledIn: anElement [
 ToMenuItemDresser >> uninstallEventListenersIn: anElement [
 
 	super uninstallEventListenersIn: anElement.
-	anElement removeEventHandler: otherWindowCloeHandler
+	anElement removeEventHandler: otherWindowClickHandler
 ]

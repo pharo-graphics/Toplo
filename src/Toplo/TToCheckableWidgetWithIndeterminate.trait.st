@@ -3,9 +3,22 @@ Trait {
 	#category : #'Toplo-Widget-Button'
 }
 
+{ #category : #'t - checking accessing state' }
+TToCheckableWidgetWithIndeterminate >> hasIndeterminateState [
+
+	^ self explicitRequirement 
+]
+
+{ #category : #'t - checking accessing state' }
+TToCheckableWidgetWithIndeterminate >> hasIndeterminateState: aBoolean [
+
+	self explicitRequirement 
+]
+
 { #category : #'t - checking protocol' }
 TToCheckableWidgetWithIndeterminate >> indeterminate [
 
+	self hasIndeterminateState ifFalse: [ ^ self ].
 	self switchToStateNamed: #indeterminate
 ]
 
@@ -13,6 +26,13 @@ TToCheckableWidgetWithIndeterminate >> indeterminate [
 TToCheckableWidgetWithIndeterminate >> isIndeterminate [
 
 	^ self currentState notNil and: [ self currentState name = #indeterminate ]
+]
+
+{ #category : #'t - checking protocol' }
+TToCheckableWidgetWithIndeterminate >> startIndeterminate [
+
+	self isIndeterminate ifTrue: [ ^ self ].
+	self startState: (self stateNamed: #indeterminate)
 ]
 
 { #category : #'t - checking protocol' }
@@ -24,11 +44,11 @@ TToCheckableWidgetWithIndeterminate >> whenIndeterminateDo: aBlock [
 { #category : #'t - checking protocol' }
 TToCheckableWidgetWithIndeterminate >> withIndeterminate [
 
-	self dresserDoOrDefer: [ :d | d withIndeterminateIn: self ]
+	self hasIndeterminateState: true
 ]
 
 { #category : #'t - checking protocol' }
 TToCheckableWidgetWithIndeterminate >> withoutIndeterminate [
 
-	self dresserDoOrDefer: [ :d | d withoutIndeterminateIn: self ]
+	self hasIndeterminateState: false
 ]

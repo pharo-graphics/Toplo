@@ -46,3 +46,19 @@ ToMenuWindow >> initialize [
 	self initializeDresser 
 	
 ]
+
+{ #category : #'api - displaying' }
+ToMenuWindow >> openSubmenuWindowFor: anElement [
+
+	" the sub menu window must not be already opened "
+	| pos |
+	anElement menuWindow isAttachedToSceneGraph ifTrue: [ ^ self ].
+	
+	" do not open if empty "
+	anElement items ifEmpty: [ ^ self ].
+	
+	" ok, open the sub menu window "
+	self currentOpenedSubmenuWindow: anElement menuWindow.
+	pos := anElement bounds inSpace bounds topRight.
+	anElement menuWindow popupAtGlobalPosition: pos
+]

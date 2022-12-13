@@ -11,7 +11,7 @@ Class {
 ToMenuItemDresser >> clickedIn: aMenuItem [
 
 	aMenuItem parentMenuWindow ifNil: [ ^ self ].
-	aMenuItem parentMenuWindow close 
+	"aMenuItem parentMenuWindow close "
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -57,7 +57,7 @@ ToMenuItemDresser >> onInstalledIn: anElement [
 	anElement border:  (BlBorder empty).
 	anElement padding: (BlInsets all: 0).
 	anElement layout cellSpacing: 4.
-	anElement whenClickedDo: [ self clickedIn: anElement ]
+	anElement whenClickedDo: [ :anEvent |  ]
 
 ]
 

@@ -32,19 +32,11 @@ ToMenuAsSubmenuDresser >> installEventListenersIn: anElement [
 ToMenuAsSubmenuDresser >> onEnterEvent: anEvent in: anElement [
 
 	" check the event "
-	| pos |
 	(anEvent anyButtonPressed and: [ anEvent currentTarget ~= anElement ]) 
 		ifTrue: [ ^ self ].
-	" the sub menu window must not be already opened "
-	anElement menuWindow isAttachedToSceneGraph ifTrue: [ ^ self ].
-	
-	" do not open if empty "
-	anElement items ifEmpty: [ ^ self ].
-	
-	" ok, open the sub menu window "
-	anElement parentMenuWindow currentOpenedSubmenuWindow: anElement menuWindow.
-	pos := anElement bounds inSpace bounds topRight.
-	anElement menuWindow popupAtGlobalPosition: pos
+		
+	" ask the window which includes anElement to open the subwindow "
+	anElement parentMenuWindow openSubmenuWindowFor: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }

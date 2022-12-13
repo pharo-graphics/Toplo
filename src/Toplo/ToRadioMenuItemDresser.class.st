@@ -17,6 +17,6 @@ ToRadioMenuItemDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	
-	anElement whenClickedDo: [ self clickedIn: anElement ]
+	anElement whenClickedDo: [ :event | event consumed: true. self clickedIn: anElement ]
 
 ]

@@ -74,6 +74,12 @@ ToPopupWindow >> close [
 	super close
 ]
 
+{ #category : #'t - initialization dresser' }
+ToPopupWindow >> defaultDresser [ 
+
+	^ ToPopupWindowDresser new
+]
+
 { #category : #accessing }
 ToPopupWindow >> deleteAnimationStencil [
 
@@ -92,9 +98,6 @@ ToPopupWindow >> initialize [
 	self class initializeSlots: self.
 	super initialize.
 	self animate: true.
-	self addEventHandler: (BlEventHandler
-		 on: BlSpaceMouseDownOutsideEvent
-		 do: [ :event | self close ]).
 
 	deleteAnimationStencil := [ 
 	                          BlOpacityAnimation new
@@ -106,7 +109,9 @@ ToPopupWindow >> initialize [
 	                         BlOpacityAnimation new
 		                         duration: 200 milliSeconds;
 		                         opacity: 1;
-		                         yourself ]
+		                         yourself ].
+	
+	self initializeDresser 
 ]
 
 { #category : #'api - displaying' }

@@ -20,6 +20,12 @@ ToButtonMenuItem >> childrenLayout [
 		  }
 ]
 
+{ #category : #'t - initialization dresser' }
+ToButtonMenuItem >> defaultDresser [ 
+
+	^ ToButtonMenuItemDresser new
+]
+
 { #category : #initialization }
 ToButtonMenuItem >> emptyIconImage [
 

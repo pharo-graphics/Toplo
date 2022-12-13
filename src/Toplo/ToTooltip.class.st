@@ -51,13 +51,10 @@ ToTooltip >> initialize [
 	super initialize.
 		
 	self elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
-	self label: self defaultLabel.
 	self whenContentChangedDo: [ self label text: self content ].
 	self whenWidgetChangedDo: [ :newWidget :oldWidget | 
 		self uninstalledFrom: oldWidget.
-		self installedIn: newWidget ].
-	
-	self initializeDresser 
+		self installedIn: newWidget ]
 ]
 
 { #category : #initialization }
@@ -71,7 +68,7 @@ ToTooltip >> installedIn: aWidget [
 { #category : #accessing }
 ToTooltip >> label [
 
-	^ label
+	^ label ifNil: [ 	label := self defaultLabel ]
 ]
 
 { #category : #accessing }

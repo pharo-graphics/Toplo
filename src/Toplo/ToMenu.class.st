@@ -116,9 +116,11 @@ ToMenu >> popup [
 { #category : #window }
 ToMenu >> popupOrClose [
 
-	self menuWindow isAttachedToSceneGraph
-		ifTrue: [ self menuWindow close ]
-		ifFalse: [ self menuWindow popup ]
+	self menuWindow isAttachedToSceneGraph ifTrue: [ 
+		^ self menuWindow close ].
+	self parentMenuWindow ifNotNil: [ :w | 
+		^ w openSubmenuWindowFor: self ].
+	self menuWindow popup
 ]
 
 { #category : #'item adding/removing' }

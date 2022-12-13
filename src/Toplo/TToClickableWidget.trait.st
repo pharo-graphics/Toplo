@@ -8,5 +8,5 @@ TToClickableWidget >> whenClickedDo: aBlock [
 	"Inform that the button has been aclicked, and its action has been performed.
 	 `aBlock` receive zero arguments."
 
-	self whenAnnouncement: ToButtonClickLaunchAction do: aBlock
+	self when: BlClickEvent do: aBlock
 ]

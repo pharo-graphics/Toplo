@@ -325,6 +325,69 @@ ToSandBox class >> example_menu5 [
 	menu openInInnerWindow
 ]
 
+{ #category : #menu }
+ToSandBox class >> example_menu6 [
+
+	| menu grp right center left textField sub th lbl |
+	menu := ToMenu new.
+	menu labelText: 'File'.
+	menu iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
+	menu addItem: (ToButtonMenuItem new
+			 labelText: 'Open file';
+			 whenClickedDo: [ self inform: 'Open file' ];
+			 iconImage: (Smalltalk ui icons iconNamed: #config)).
+
+	menu addItem: (ToButtonMenuItem new
+			 labelText: 'Export';
+			 whenClickedDo: [ self inform: 'Export' ]).
+	grp := ToCheckableGroup new.
+	right := ToRadioMenuItem new
+		         labelText: 'Right';
+		         id: #right.
+	center := ToRadioMenuItem new
+		          labelText: 'Center';
+		          id: #center.
+	left := ToRadioMenuItem new
+		        labelText: 'Left';
+		        id: #left.
+	grp add: right.
+	grp add: center.
+	grp add: left.
+
+	grp whenCheckedDo: [ :chb :previous | 
+		self inform: 'checked: ' , chb id asSymbol , ' (previous was: '
+			, (previous ifNil: [ 'none' ] ifNotNil: [ previous id asSymbol ]) ].
+
+	center startChecked.
+
+	menu addSeparator.
+	lbl := ToLabel new text:
+		        ('Right center left stuffs'
+			   asRopedText fontSize: 14; bold); margin: (BlInsets all: 5).
+	menu addItem: (ToCustomMenuItem new innerElement: (lbl)).
+	menu addAllItems: grp buttons.
+	menu addSeparator.
+
+	textField := ToTextField new withLineWrapping; width: 150; withGhostText: 'Your name'.
+	menu addItem: (ToCustomMenuItem new innerElement: textField).
+
+	menu addSeparator.
+	th := ToToggleButton new labelText: 'Cheesecake'; beVertical; beLabelFirst; hMatchParent.
+	menu addItem: (ToCustomMenuItem new innerElement: th).
+	menu addSeparator.
+	lbl := ToLabel new text:
+		        ('Saving stuffs'
+			   asRopedText fontSize: 14; bold); margin: (BlInsets all: 5).
+	menu addItem: (ToCustomMenuItem new innerElement: (lbl)).
+	sub := ToMenu new labelText: 'Save All'.
+	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
+
+	menu addItem: sub.
+
+	menu relocate: 10 @ 10.
+	menu openInInnerWindow
+]
+
 { #category : #window }
 ToSandBox class >> example_rootFrame1 [
 	ToInnerWindow new title: 'Internal Frame example' ; openInOBlSpace 
@@ -535,7 +598,7 @@ ToSandBox class >> example_toButtonModelWithTextAndIconVertical [
 			 background: (Color blue alpha: 0.2);
 			 yourself).
 	but whenClickedDo: [ :ann | 
-		ann widget horizontal: ann widget horizontal not ].
+		ann currentTarget horizontal: ann currentTarget horizontal not ].
 	space := OBlSpace new.
 	space addChild: but onWidget.
 	space show
@@ -556,7 +619,7 @@ ToSandBox class >> example_toButtonOrientationChanger [
 		             yourself.
 	but iconImage: iconImage.
 	but whenClickedDo: [ :ann | 
-		ann widget orientation: but orientation inverted ].
+		ann currentTarget orientation: but orientation inverted ].
 	space := OBlSpace new.
 	space addChild: but.
 	space show

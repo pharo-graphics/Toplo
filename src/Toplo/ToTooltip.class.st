@@ -68,7 +68,7 @@ ToTooltip >> installedIn: aWidget [
 { #category : #accessing }
 ToTooltip >> label [
 
-	^ label ifNil: [ 	label := self defaultLabel ]
+	^ label ifNil: [ 	self label: self defaultLabel. label ]
 ]
 
 { #category : #accessing }

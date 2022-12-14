@@ -79,6 +79,18 @@ TToLayoutableButton >> isLabelFirst [
 	^ self labelFirst
 ]
 
+{ #category : #'t - button direction' }
+TToLayoutableButton >> isLeftToRight [
+
+	^ self layout direction = BlLayoutDirection leftToRight
+]
+
+{ #category : #'t - button direction' }
+TToLayoutableButton >> isRightToLeft [
+
+	^ self layout direction = BlLayoutDirection rightToLeft
+]
+
 { #category : #'t - button presentation' }
 TToLayoutableButton >> labelFirst [
 

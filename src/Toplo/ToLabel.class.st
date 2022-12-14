@@ -126,6 +126,12 @@ ToLabel >> editorOverlay [
 	^ self userData at: #editorOverlay 
 ]
 
+{ #category : #accessing }
+ToLabel >> hasText [
+
+	^ self text notNil and: [ self text isNotEmpty ]
+]
+
 { #category : #initialization }
 ToLabel >> initialize [
 

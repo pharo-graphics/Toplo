@@ -43,7 +43,7 @@ TToButton >> icon: anImage [
 { #category : #'t - button accessing' }
 TToButton >> iconImage [
 
-	^ self icon innerImage
+	^ self icon hasInnerImage ifTrue: [ self icon innerImage ] ifFalse: [ nil ]
 ]
 
 { #category : #'t - button accessing' }
@@ -79,7 +79,7 @@ TToButton >> label: aLabel [
 { #category : #'t - button accessing' }
 TToButton >> labelText [
 
-	^ self label text
+	^ self label hasText ifTrue: [ self label text ] ifFalse: [ nil ]
 ]
 
 { #category : #'t - button accessing' }

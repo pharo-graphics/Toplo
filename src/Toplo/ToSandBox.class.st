@@ -340,8 +340,13 @@ ToSandBox class >> example_menu6 [
 	menu addItem: (ToButtonMenuItem new
 			 labelText: 'Export';
 			 whenClickedDo: [ self inform: 'Export' ]).
+	menu addItem: (ToButtonMenuItem new
+			 ensureIconLeftAlignment: false;
+			 labelText: 'Export';
+			 whenClickedDo: [ self inform: 'Export' ]).
 	grp := ToCheckableGroup new.
 	right := ToRadioMenuItem new
+		         beLabelFirst;
 		         labelText: 'Right';
 		         id: #right.
 	center := ToRadioMenuItem new
@@ -361,25 +366,42 @@ ToSandBox class >> example_menu6 [
 	center startChecked.
 
 	menu addSeparator.
-	lbl := ToLabel new text:
-		        ('Right center left stuffs'
-			   asRopedText fontSize: 14; bold); margin: (BlInsets all: 5).
-	menu addItem: (ToCustomMenuItem new innerElement: (lbl)).
+	lbl := ToLabel new
+		       text: ('Right center left stuffs' asRopedText
+				        fontSize: 14;
+				        bold);
+		       margin: (BlInsets all: 5).
+	menu addItem: (ToCustomMenuItem new innerElement: lbl).
 	menu addAllItems: grp buttons.
 	menu addSeparator.
 
-	textField := ToTextField new withLineWrapping; width: 150; withGhostText: 'Your name'.
+	textField := ToTextField new
+		             withLineWrapping;
+		             width: 150;
+		             withGhostText: 'Your name'.
 	menu addItem: (ToCustomMenuItem new innerElement: textField).
 
 	menu addSeparator.
-	th := ToToggleButton new labelText: 'Cheesecake'; beVertical; beLabelFirst; hMatchParent.
+	th := ToToggleButton new
+		      labelText: 'Cheesecake';
+		      beLabelFirst;
+		      hMatchParent.
+	menu addItem: (ToCustomMenuItem new innerElement: th).
+	th := ToToggleButton new
+		      labelText: 'Cheesecake';
+		      beVertical;
+		      beLabelFirst;
+		      hMatchParent.
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	menu addSeparator.
-	lbl := ToLabel new text:
-		        ('Saving stuffs'
-			   asRopedText fontSize: 14; bold); margin: (BlInsets all: 5).
-	menu addItem: (ToCustomMenuItem new innerElement: (lbl)).
+	lbl := ToLabel new
+		       text: ('Saving stuffs' asRopedText
+				        fontSize: 14;
+				        bold);
+		       margin: (BlInsets all: 5).
+	menu addItem: (ToCustomMenuItem new innerElement: lbl).
 	sub := ToMenu new labelText: 'Save All'.
+	sub ensureIconLeftAlignment: false.
 	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
 
 	menu addItem: sub.

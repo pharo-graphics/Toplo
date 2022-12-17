@@ -3,7 +3,7 @@ A ToDresserTest is a test class for testing the behavior of ToDresser
 "
 Class {
 	#name : #ToDresserTest,
-	#superclass : #ToTestCase,
+	#superclass : #AnObsoleteToTestCase,
 	#category : #'Toplo-Tests-Dresser'
 }
 

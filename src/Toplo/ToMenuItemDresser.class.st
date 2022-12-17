@@ -56,7 +56,7 @@ ToMenuItemDresser >> onInstalledIn: anElement [
 	anElement background: Color transparent.
 	anElement border:  (BlBorder empty).
 	anElement padding: (BlInsets all: 0).
-	anElement layout cellSpacing: 4.
+	anElement layout cellSpacing: 3.
 	anElement whenClickedDo: [ :anEvent |  ]
 
 ]

@@ -121,14 +121,7 @@ TToLayoutableButton >> orientation: aBlLayoutOrientation [
 { #category : #'t - button private' }
 TToLayoutableButton >> privateFill [
 
-	| e |
-	e := ToElement new id: #fill.
-	self isHorizontal
-		ifTrue: [ 
-			e vExact: 4.
-			e hMatchParent ]
-		ifFalse: [ 
-			e hExact: 4.
-			e vMatchParent ].
-	^ e
+	^ ToElement new
+		     id: #fill;
+		     matchParent
 ]

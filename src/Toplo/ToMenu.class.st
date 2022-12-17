@@ -49,11 +49,9 @@ ToMenu >> childrenLayout [
 				  self icon.
 				  self label.
 				  self privateFill.
-				  self rightIcon } ]
+				  self rightIcon } select: #notNil]
 		  ifFalse: [ 
-			  { 
-				  self icon.
-				  self label } ]
+			  super childrenLayout ]
 ]
 
 { #category : #window }

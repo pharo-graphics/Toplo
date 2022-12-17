@@ -369,8 +369,7 @@ ToSandBox class >> example_menu6 [
 	lbl := ToLabel new
 		       text: ('Right center left stuffs' asRopedText
 				        fontSize: 14;
-				        bold);
-		       margin: (BlInsets all: 5).
+				        bold).
 	menu addItem: (ToCustomMenuItem new innerElement: lbl).
 	menu addAllItems: grp buttons.
 	menu addSeparator.
@@ -397,8 +396,7 @@ ToSandBox class >> example_menu6 [
 	lbl := ToLabel new
 		       text: ('Saving stuffs' asRopedText
 				        fontSize: 14;
-				        bold);
-		       margin: (BlInsets all: 5).
+				        bold).
 	menu addItem: (ToCustomMenuItem new innerElement: lbl).
 	sub := ToMenu new labelText: 'Save All'.
 	sub ensureIconLeftAlignment: false.
@@ -786,6 +784,10 @@ ToSandBox class >> example_toCheckboxWithToggleGroup [
 	1 to: 4 do: [ :idx | 
 		| chb |
 		chb := ToCheckbox new
+			       beJustified;
+			       hMatchParent;
+			       beLabelFirst;
+			       beRightToLeft;
 			       labelText: idx asString;
 			       id: idx asString.
 		chb icon margin: (BlInsets all: 3).
@@ -794,13 +796,14 @@ ToSandBox class >> example_toCheckboxWithToggleGroup [
 	buttons second startChecked.
 	group addAll: buttons.
 	group whenCheckedDo: [ :chb :previous | 
-		self inform: 'checked: ' , chb id asString, ' (previous was: ', (previous ifNil: [ 'none' ] ifNotNil: [ previous id asString ]) ].
-	
+		self inform: 'checked: ' , chb id asString , ' (previous was: '
+			, (previous ifNil: [ 'none' ] ifNotNil: [ previous id asString ]) ].
+
 	container := BlElement new.
 	container constraintsDo: [ :c | 
 		c horizontal matchParent.
 		c vertical matchParent ].
-	
+
 	container layout: BlLinearLayout vertical.
 	container layout cellSpacing: 5.
 

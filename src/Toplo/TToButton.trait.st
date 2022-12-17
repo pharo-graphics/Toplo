@@ -7,6 +7,20 @@ Trait {
 }
 
 { #category : #'t - button accessing' }
+TToButton >> beJustified [
+
+	layoutJustified := true.
+	self privateUpdateChildren 
+]
+
+{ #category : #'t - button accessing' }
+TToButton >> beNotjustified [
+
+	layoutJustified := false.
+	self privateUpdateChildren 
+]
+
+{ #category : #'t - button accessing' }
 TToButton >> cellSpacing: aNumber [
 
 	self layout cellSpacing: aNumber
@@ -43,13 +57,6 @@ TToButton >> direction: aBlLayoutDirection [
 
 	self layout direction: aBlLayoutDirection.
 	self requestLayout 
-]
-
-{ #category : #'t - button accessing' }
-TToButton >> doNotjustifyLayout [
-
-	layoutJustified := false.
-	self privateUpdateChildren 
 ]
 
 { #category : #'t - button accessing' }

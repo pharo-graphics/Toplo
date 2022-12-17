@@ -1,6 +1,6 @@
 Class {
 	#name : #ToButtonTest,
-	#superclass : #AnObsoleteToTestCase,
+	#superclass : #TestCase,
 	#category : #'Toplo-Tests-Widget'
 }
 
@@ -19,10 +19,10 @@ ToButtonTest >> testButton [
 	self assert: button isLabelFirst equals: false.
 	
 	self assert: button icon notNil.
-	self assert: button iconImage isNil.
+	self assert: button icon hasInnerImage equals: false.
 	
 	self assert: button label notNil.
-	self assert: button labelText isNil.
+	self assert: button labelText isEmpty.
 ]
 
 { #category : #tests }

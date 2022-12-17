@@ -784,10 +784,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroup [
 	1 to: 4 do: [ :idx | 
 		| chb |
 		chb := ToCheckbox new
-			       beJustified;
-			       hMatchParent;
 			       beLabelFirst;
-			       beRightToLeft;
 			       labelText: idx asString;
 			       id: idx asString.
 		chb icon margin: (BlInsets all: 3).
@@ -836,6 +833,41 @@ ToSandBox class >> example_toCheckboxWithToggleGroup2 [
 	ToInnerWindow new
 		in: [ :f | f addChild: container ];
 		openInWorld
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_toCheckboxWithToggleGroupJustified [
+
+	| group container buttons |
+	group := ToCheckableGroup new.
+	buttons := OrderedCollection new.
+	1 to: 4 do: [ :idx | 
+		| chb |
+		chb := ToCheckbox new
+			       beJustified;
+			       hMatchParent;
+			       beLabelFirst;
+			       labelText: idx asString;
+			       id: idx asString.
+		chb icon margin: (BlInsets all: 3).
+		chb label margin: (BlInsets all: 4).
+		buttons add: chb ].
+	buttons second startChecked.
+	group addAll: buttons.
+	group whenCheckedDo: [ :chb :previous | 
+		self inform: 'checked: ' , chb id asString , ' (previous was: '
+			, (previous ifNil: [ 'none' ] ifNotNil: [ previous id asString ]) ].
+
+	container := BlElement new.
+	container constraintsDo: [ :c | 
+		c horizontal matchParent.
+		c vertical matchParent ].
+
+	container layout: BlLinearLayout vertical.
+	container layout cellSpacing: 5.
+
+	container addChildren: group buttons.
+	container openInOBlSpace
 ]
 
 { #category : #image }

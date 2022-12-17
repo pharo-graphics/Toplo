@@ -123,7 +123,7 @@ TToButton >> label: aLabel [
 { #category : #'t - button accessing' }
 TToButton >> labelText [
 
-	^ self label hasText ifTrue: [ self label text ] ifFalse: [ nil ]
+	^ self label text
 ]
 
 { #category : #'t - button accessing' }

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToLabel,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TToWidgetWithTooltip + TToWidgetWithViewModel + TToEditable',
-	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithViewModel classTrait + TToEditable classTrait',
+	#traits : 'TToWidget + TToWidgetWithTooltip + TToWidgetWithViewModel + TToEditable + TToLabel',
+	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithViewModel classTrait + TToEditable classTrait + TToLabel classTrait',
 	#instVars : [
 		'#textReplacedHandler',
 		'#innerElement',

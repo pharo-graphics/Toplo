@@ -11,17 +11,20 @@ Class {
 ToLabelTest >> testHAlignment [
 
 	| label |
-	label := ToLabel new.
-	self assert: (label layout horizontalAlignment isKindOf: BlNullHorizontalAlignment).
-
-	label layout alignCenter.
-	self assert: (label layout horizontalAlignment isKindOf: BlHorizontalCenterAlignment). 
-
-	label layout alignCenterRight.
-	self assert: (label layout horizontalAlignment isKindOf: BlHorizontalEndAlignment). 
 	
-	label layout alignCenterLeft.
-	self assert: (label layout horizontalAlignment isKindOf: BlHorizontalStartAlignment). 
+	self flag:'PLA : todo rewrite tests with H and V'.
+	
+	label := ToLabel new.
+	self assert: (label horizontalAlignment isKindOf: BlNullHorizontalAlignment).
+
+	label alignCenter.
+	self assert: (label horizontalAlignment isKindOf: BlHorizontalCenterAlignment). 
+
+	label alignCenterRight.
+	self assert: (label horizontalAlignment isKindOf: BlHorizontalEndAlignment). 
+	
+	label alignCenterLeft.
+	self assert: (label horizontalAlignment isKindOf: BlHorizontalStartAlignment). 
 ]
 
 { #category : #tests }
@@ -136,6 +139,9 @@ ToLabelTest >> testText [
 ToLabelTest >> testVAlignment [
 
 	| label |
+	
+	self flag:'PLA : todo rewrite tests with H and V'.
+	
 	label := ToLabel new.
 	self assert: (label layout verticalAlignment isKindOf: BlNullVerticalAlignment ).
 

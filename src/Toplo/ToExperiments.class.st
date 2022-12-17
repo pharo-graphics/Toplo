@@ -799,6 +799,42 @@ ToExperiments class >> example_testTwoChildrenOnOppositeSidesWithSpan [
 	^ parent openInOBlSpace 
 ]
 
+{ #category : #multistate }
+ToExperiments class >> example_toScaling [
+
+	| space container |
+	container := ToElement new
+		             layout: BlLinearLayout vertical;
+		             border: (BlBorder paint: Color black);
+		             fitContent;
+		             clipChildren: false.
+	container layout cellSpacing: 5.
+	container addChild: ((ToButton new
+			 clipChildren: false;
+			 iconImage: (BlElement new
+					  size: 100 @ 100;
+					  background: Color blue);
+			 labelText: ('Blue' asRopedText fontSize: 24);
+			 transformDo: [ :d | 
+				 d
+					 topLeftOrigin;
+					 scaleBy: 2.0 ])) asScalableElement .
+	container addChild: (ToButton new
+			 clipChildren: false;
+			 iconImage: (BlElement new
+					  size: 100 @ 100;
+					  background: Color red);
+			 labelText: ('red' asRopedText fontSize: 24);
+			 transformDo: [ :d | 
+				 d
+					 topLeftOrigin;
+					 scaleBy: 2.0 ]) asScalableElement .
+	space := OBlSpace new.
+	container relocate: 100 @ 100.
+	space addChild: container.
+	space show
+]
+
 { #category : #'animate toogle button' }
 ToExperiments class >> example_toggle_with_animation [
 

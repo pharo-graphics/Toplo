@@ -40,6 +40,24 @@ ToLabelTest >> testLabel [
 ]
 
 { #category : #tests }
+ToLabelTest >> testLabelDefaultDresser [
+	
+	| label |
+	label := ToLabel new.
+	
+	self assert: label defaultDresser class equals: ToLabelDresser.
+]
+
+{ #category : #tests }
+ToLabelTest >> testLabelDresser [
+	
+	| label |
+	label := ToLabel new.
+	
+	self assert: label dresser class equals: ToLabelDresser.
+]
+
+{ #category : #tests }
 ToLabelTest >> testMonoLineText [
 
 	| label |

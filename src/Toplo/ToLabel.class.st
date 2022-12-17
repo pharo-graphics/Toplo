@@ -61,6 +61,12 @@ ToLabel >> beMultiLine [
 ]
 
 { #category : #initialization }
+ToLabel >> defaultDresser [
+
+	^ ToLabelDresser new
+]
+
+{ #category : #initialization }
 ToLabel >> defaultLineMode [
 
 	^ ToLabelMonoLineMode new

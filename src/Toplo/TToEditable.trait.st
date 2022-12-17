@@ -36,13 +36,14 @@ TToEditable >> isEditable: aBoolean [
 
 { #category : #'private-change' }
 TToEditable >> privateBeEditable [
-	"to be implemented"
+	
+	self explicitRequirement 
 ]
 
 { #category : #'private-change' }
 TToEditable >> privateBeReadOnly [
-	"to be implemented"
-	
+
+	self explicitRequirement 
 ]
 
 { #category : #'change hook' }
@@ -54,5 +55,5 @@ TToEditable >> whenEditableChangedDo: aBlock [
 	 - old value
 	 - the announcement triggering this action"
 
-	self property: #editable whenChangedDo: aBlock
+	self property: #isEditable whenChangedDo: aBlock
 ]

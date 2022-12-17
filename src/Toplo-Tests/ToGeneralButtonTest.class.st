@@ -1,6 +1,6 @@
 Class {
 	#name : #ToGeneralButtonTest,
-	#superclass : #TestCase,
+	#superclass : #ToTestCase,
 	#category : #'Toplo-Tests-Widget'
 }
 

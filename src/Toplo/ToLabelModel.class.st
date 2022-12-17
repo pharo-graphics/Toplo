@@ -30,9 +30,9 @@ ToLabelModel >> beReadOnly [
 ]
 
 { #category : #accessing }
-ToLabelModel >> editable: aBoolean [
+ToLabelModel >> isEditable: aBoolean [
 
-	self widgetDo: [:label | label editable: aBoolean ]
+	self widgetDo: [:label | label isEditable: aBoolean ]
 ]
 
 { #category : #accessing }

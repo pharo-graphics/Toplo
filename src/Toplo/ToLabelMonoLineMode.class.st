@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #initialization }
+ToLabelMonoLineMode >> isMonoLine [ 
+
+	^ true
+]
+
+{ #category : #initialization }
 ToLabelMonoLineMode >> newTextElementIn: aLabel [
 
 	^ ToLabelMonoLineInnerElement new

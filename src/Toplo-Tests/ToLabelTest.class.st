@@ -25,6 +25,21 @@ ToLabelTest >> testHAlignment [
 ]
 
 { #category : #tests }
+ToLabelTest >> testLabel [
+	"Test default values of a new label"
+
+	| label |
+	label := ToLabel new.
+	
+	self assert: label isEditable equals: false.
+	
+	self assert: label isMonoLine.
+	self assert: label isMultiLine equals: false.
+	
+	self assert: label text isEmpty. 
+]
+
+{ #category : #tests }
 ToLabelTest >> testMonoLineText [
 
 	| label |

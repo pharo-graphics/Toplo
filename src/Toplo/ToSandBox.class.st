@@ -892,7 +892,7 @@ ToSandBox class >> example_toLabel3 [
 	lab := ToLabel new text: ('This is a bold label' asRopedText fontSize: 20; bold; foreground: Color gray; yourself).
 	lab background: Color lightBlue.
 	lab hMatchParent.
-	lab editable: true.
+	lab isEditable: true.
 	lab layout alignCenter.
 	lab border: (BlBorder paint: Color yellow width: 1).
 	lab openInOBlSpace.
@@ -915,7 +915,7 @@ ToSandBox class >> example_toLabel3_bis [
 		label background: Color lightBlue.
 		label layout alignCenterRight.
 		label border: (BlBorder paint: Color yellow width: 1) ].
-	model editable: true.
+	model isEditable: true.
 	(widget := model onWidget) openInOBlSpace.
 	widget inspect
 ]
@@ -935,7 +935,7 @@ ToSandBox class >> example_toLabel3_bis2 [
 		label background: Color lightBlue.
 		label layout alignCenterRight.
 		label border: (BlBorder paint: Color yellow width: 1) ].
-	model editable: true.
+	model isEditable: true.
 	(widget := model onWidget) openInOBlSpace.
 	widget inspect
 ]
@@ -952,7 +952,7 @@ ToSandBox class >> example_toLabel4 [
 	lab1 := ToLabel new text:
 		        ('Editable centered monoline label (cmd-shift-mousedown to edit then return or escape)'
 			         asRopedText fontSize: 18).
-	lab1 editable: true.
+	lab1 isEditable: true.
 	lab1 vFitContent.
 	lab1 hMatchParent.
 	lab1 layout alignCenter.
@@ -968,7 +968,7 @@ ToSandBox class >> example_toLabel4 [
 	lab2 vFitContent.
 	lab2 hMatchParent.
 	lab2 border: (BlBorder paint: Color lightGray width: 1).
-	lab2 editable: true.
+	lab2 isEditable: true.
 
 	root addChild: lab2.
 	lab3 := ToLabel new text:
@@ -998,7 +998,7 @@ ToSandBox class >> example_toLabel5 [
 		widget vFitContent.
 		widget hMatchParent.
 		widget border: (BlBorder paint: Color red width: 1) ].
-	model editable: true.
+	model isEditable: true.
 	label viewModel: model.
 	root addChild: label.
 	root openInOBlSpace
@@ -1074,8 +1074,8 @@ ToSandBox class >> example_toLabel_Multiline2_Centered [
 	lab2 layout alignCenter.
 	lab1 innerElement layout alignCenter.
 	lab2 innerElement layout alignCenter.
-	lab1 editable: true.
-	lab2 editable: true.
+	lab1 isEditable: true.
+	lab2 isEditable: true.
 	container := BlElement new
 		             layout: BlLinearLayout vertical;
 		             constraintsDo: [ :c | 

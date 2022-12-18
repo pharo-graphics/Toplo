@@ -6,7 +6,6 @@ Class {
 	#superclass : #AnObsoleteToTestCase,
 	#category : #'Toplo-Tests-Dresser'
 }
-
 { #category : #tests }
 ToDresserTest >> testInstallOnlyOnce [
 

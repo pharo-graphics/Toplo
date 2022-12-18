@@ -79,6 +79,18 @@ TToLayoutableButton >> isLabelFirst [
 	^ self labelFirst
 ]
 
+{ #category : #'t - button direction' }
+TToLayoutableButton >> isLeftToRight [
+
+	^ self layout direction = BlLayoutDirection leftToRight
+]
+
+{ #category : #'t - button direction' }
+TToLayoutableButton >> isRightToLeft [
+
+	^ self layout direction = BlLayoutDirection rightToLeft
+]
+
 { #category : #'t - button presentation' }
 TToLayoutableButton >> labelFirst [
 
@@ -109,14 +121,7 @@ TToLayoutableButton >> orientation: aBlLayoutOrientation [
 { #category : #'t - button private' }
 TToLayoutableButton >> privateFill [
 
-	| e |
-	e := ToElement new id: #fill.
-	self isHorizontal
-		ifTrue: [ 
-			e vExact: 4.
-			e hMatchParent ]
-		ifFalse: [ 
-			e hExact: 4.
-			e vMatchParent ].
-	^ e
+	^ ToElement new
+		     id: #fill;
+		     matchParent
 ]

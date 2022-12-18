@@ -38,7 +38,6 @@ ToButtonClickEventHandler >> clickCandidateEvent: anEvent [
 ToButtonClickEventHandler >> clickEvent: anEvent [
 
 	anEvent modifiers isEmpty ifFalse: [ ^ self ].
-	"anEvent isConsumed ifTrue: [ ^ self ]."
 	anEvent consumed: true.
 	button isDisabled ifTrue: [ ^ self ].
 	button announce: (ToButtonClickLaunchAction new widget: button)
@@ -49,7 +48,7 @@ ToButtonClickEventHandler >> doubleClickEvent: anEvent [
 
 	anEvent modifiers isEmpty ifFalse: [ ^ self ].
 	anEvent consumed: true.
-	self clickEvent: anEvent
+	button dispatchEvent: anEvent asClickEvent
 ]
 
 { #category : #'api - accessing' }

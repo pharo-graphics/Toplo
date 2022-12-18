@@ -1,13 +1,12 @@
 Class {
 	#name : #ToLabel,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TToWidgetWithTooltip + TToWidgetWithViewModel',
-	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithViewModel classTrait',
+	#traits : 'TToWidget + TToWidgetWithTooltip + TToWidgetWithViewModel + TToEditable + TToLabel',
+	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithViewModel classTrait + TToEditable classTrait + TToLabel classTrait',
 	#instVars : [
 		'#textReplacedHandler',
 		'#innerElement',
 		'#text => ObservableSlot',
-		'#editable => ObservableSlot',
 		'#lineMode => ObservableSlot',
 		'#editorEventHandler'
 	],
@@ -50,12 +49,6 @@ ToLabel >> addEditor: anEditor [
 ]
 
 { #category : #initialization }
-ToLabel >> beEditable [
-
-	self editable: true
-]
-
-{ #category : #initialization }
 ToLabel >> beMonoLine [
 
 	self lineMode: ToLabelMultiLineMode new
@@ -68,9 +61,9 @@ ToLabel >> beMultiLine [
 ]
 
 { #category : #initialization }
-ToLabel >> beReadOnly [
+ToLabel >> defaultDresser [
 
-	self editable: false
+	^ ToLabelDresser new
 ]
 
 { #category : #initialization }
@@ -98,22 +91,6 @@ ToLabel >> defaultTextElement [
 	^ self lineMode newTextElementIn: self
 ]
 
-{ #category : #accessing }
-ToLabel >> editable [
-
-	^ editable
-]
-
-{ #category : #accessing }
-ToLabel >> editable: aBoolean [
-
-	editable = aBoolean ifTrue: [ ^ self ].
-	editable := aBoolean.
-	aBoolean
-		ifTrue: [ self privateBeEditable ]
-		ifFalse: [ self privateBeReadOnly ]
-]
-
 { #category : #'private-editing' }
 ToLabel >> editor [
 
@@ -126,12 +103,18 @@ ToLabel >> editorOverlay [
 	^ self userData at: #editorOverlay 
 ]
 
+{ #category : #accessing }
+ToLabel >> hasText [
+
+	^ self text notNil and: [ self text isNotEmpty ]
+]
+
 { #category : #initialization }
 ToLabel >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	editable := false.
+	isEditable := false.
 	self constraintsDo: [ :c | 
 		c vertical fitContent.
 		c horizontal fitContent ].
@@ -148,6 +131,22 @@ ToLabel >> initialize [
 ToLabel >> innerElement [
 
 	^ innerElement
+]
+
+{ #category : #accessing }
+ToLabel >> isMonoLine [
+
+	^ self lineMode
+		  ifNil: [ ^ false ]
+		  ifNotNil: [ :mode | mode isMonoLine ]
+]
+
+{ #category : #accessing }
+ToLabel >> isMultiLine [
+
+	^ self lineMode
+		  ifNil: [ ^ false ]
+		  ifNotNil: [ :mode | mode isMultiLine ]
 ]
 
 { #category : #accessing }
@@ -215,7 +214,7 @@ ToLabel >> previousVisibility: aBlVisibility [
 
 { #category : #'private-change' }
 ToLabel >> privateBeEditable [
-
+ 
 	editorEventHandler ifNotNil: [ ^ self ].
 	editorEventHandler := BlEventHandler
 		                      on: BlMouseDownEvent
@@ -233,7 +232,7 @@ ToLabel >> privateBeReadOnly [
 
 	editorEventHandler ifNil: [ ^ self ].
 	self removeEventHandler: editorEventHandler.
-	editorEventHandler := nil
+	editorEventHandler := nil 
 ]
 
 { #category : #'private-change' }
@@ -309,18 +308,6 @@ ToLabel >> text: aBlTextOrString [
 
 	text = aBlTextOrString ifTrue: [ ^ self ].
 	text := (aBlTextOrString ifNil: [ self defaultText ]) asRopedText
-]
-
-{ #category : #'change hook' }
-ToLabel >> whenEditableChangedDo: aBlock [
-
-	"Inform when editable property has changed. 
-	 `aBlock` has three optional arguments: 
-	 - new value
-	 - old value
-	 - the announcement triggering this action"
-
-	self property: #editable whenChangedDo: aBlock
 ]
 
 { #category : #'change hook' }

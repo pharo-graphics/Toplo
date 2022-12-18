@@ -340,8 +340,13 @@ ToSandBox class >> example_menu6 [
 	menu addItem: (ToButtonMenuItem new
 			 labelText: 'Export';
 			 whenClickedDo: [ self inform: 'Export' ]).
+	menu addItem: (ToButtonMenuItem new
+			 ensureIconLeftAlignment: false;
+			 labelText: 'Export';
+			 whenClickedDo: [ self inform: 'Export' ]).
 	grp := ToCheckableGroup new.
 	right := ToRadioMenuItem new
+		         beLabelFirst;
 		         labelText: 'Right';
 		         id: #right.
 	center := ToRadioMenuItem new
@@ -361,25 +366,40 @@ ToSandBox class >> example_menu6 [
 	center startChecked.
 
 	menu addSeparator.
-	lbl := ToLabel new text:
-		        ('Right center left stuffs'
-			   asRopedText fontSize: 14; bold); margin: (BlInsets all: 5).
-	menu addItem: (ToCustomMenuItem new innerElement: (lbl)).
+	lbl := ToLabel new
+		       text: ('Right center left stuffs' asRopedText
+				        fontSize: 14;
+				        bold).
+	menu addItem: (ToCustomMenuItem new innerElement: lbl).
 	menu addAllItems: grp buttons.
 	menu addSeparator.
 
-	textField := ToTextField new withLineWrapping; width: 150; withGhostText: 'Your name'.
+	textField := ToTextField new
+		             withLineWrapping;
+		             width: 150;
+		             withGhostText: 'Your name'.
 	menu addItem: (ToCustomMenuItem new innerElement: textField).
 
 	menu addSeparator.
-	th := ToToggleButton new labelText: 'Cheesecake'; beVertical; beLabelFirst; hMatchParent.
+	th := ToToggleButton new
+		      labelText: 'Cheesecake';
+		      beLabelFirst;
+		      hMatchParent.
+	menu addItem: (ToCustomMenuItem new innerElement: th).
+	th := ToToggleButton new
+		      labelText: 'Cheesecake';
+		      beVertical;
+		      beLabelFirst;
+		      hMatchParent.
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	menu addSeparator.
-	lbl := ToLabel new text:
-		        ('Saving stuffs'
-			   asRopedText fontSize: 14; bold); margin: (BlInsets all: 5).
-	menu addItem: (ToCustomMenuItem new innerElement: (lbl)).
+	lbl := ToLabel new
+		       text: ('Saving stuffs' asRopedText
+				        fontSize: 14;
+				        bold).
+	menu addItem: (ToCustomMenuItem new innerElement: lbl).
 	sub := ToMenu new labelText: 'Save All'.
+	sub ensureIconLeftAlignment: false.
 	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
 
 	menu addItem: sub.
@@ -764,6 +784,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroup [
 	1 to: 4 do: [ :idx | 
 		| chb |
 		chb := ToCheckbox new
+			       beLabelFirst;
 			       labelText: idx asString;
 			       id: idx asString.
 		chb icon margin: (BlInsets all: 3).
@@ -772,13 +793,14 @@ ToSandBox class >> example_toCheckboxWithToggleGroup [
 	buttons second startChecked.
 	group addAll: buttons.
 	group whenCheckedDo: [ :chb :previous | 
-		self inform: 'checked: ' , chb id asString, ' (previous was: ', (previous ifNil: [ 'none' ] ifNotNil: [ previous id asString ]) ].
-	
+		self inform: 'checked: ' , chb id asString , ' (previous was: '
+			, (previous ifNil: [ 'none' ] ifNotNil: [ previous id asString ]) ].
+
 	container := BlElement new.
 	container constraintsDo: [ :c | 
 		c horizontal matchParent.
 		c vertical matchParent ].
-	
+
 	container layout: BlLinearLayout vertical.
 	container layout cellSpacing: 5.
 
@@ -811,6 +833,41 @@ ToSandBox class >> example_toCheckboxWithToggleGroup2 [
 	ToInnerWindow new
 		in: [ :f | f addChild: container ];
 		openInWorld
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_toCheckboxWithToggleGroupJustified [
+
+	| group container buttons |
+	group := ToCheckableGroup new.
+	buttons := OrderedCollection new.
+	1 to: 4 do: [ :idx | 
+		| chb |
+		chb := ToCheckbox new
+			       beJustified;
+			       hMatchParent;
+			       beLabelFirst;
+			       labelText: idx asString;
+			       id: idx asString.
+		chb icon margin: (BlInsets all: 3).
+		chb label margin: (BlInsets all: 4).
+		buttons add: chb ].
+	buttons second startChecked.
+	group addAll: buttons.
+	group whenCheckedDo: [ :chb :previous | 
+		self inform: 'checked: ' , chb id asString , ' (previous was: '
+			, (previous ifNil: [ 'none' ] ifNotNil: [ previous id asString ]) ].
+
+	container := BlElement new.
+	container constraintsDo: [ :c | 
+		c horizontal matchParent.
+		c vertical matchParent ].
+
+	container layout: BlLinearLayout vertical.
+	container layout cellSpacing: 5.
+
+	container addChildren: group buttons.
+	container openInOBlSpace
 ]
 
 { #category : #image }
@@ -892,7 +949,7 @@ ToSandBox class >> example_toLabel3 [
 	lab := ToLabel new text: ('This is a bold label' asRopedText fontSize: 20; bold; foreground: Color gray; yourself).
 	lab background: Color lightBlue.
 	lab hMatchParent.
-	lab editable: true.
+	lab isEditable: true.
 	lab layout alignCenter.
 	lab border: (BlBorder paint: Color yellow width: 1).
 	lab openInOBlSpace.
@@ -915,7 +972,7 @@ ToSandBox class >> example_toLabel3_bis [
 		label background: Color lightBlue.
 		label layout alignCenterRight.
 		label border: (BlBorder paint: Color yellow width: 1) ].
-	model editable: true.
+	model isEditable: true.
 	(widget := model onWidget) openInOBlSpace.
 	widget inspect
 ]
@@ -935,7 +992,7 @@ ToSandBox class >> example_toLabel3_bis2 [
 		label background: Color lightBlue.
 		label layout alignCenterRight.
 		label border: (BlBorder paint: Color yellow width: 1) ].
-	model editable: true.
+	model isEditable: true.
 	(widget := model onWidget) openInOBlSpace.
 	widget inspect
 ]
@@ -952,7 +1009,7 @@ ToSandBox class >> example_toLabel4 [
 	lab1 := ToLabel new text:
 		        ('Editable centered monoline label (cmd-shift-mousedown to edit then return or escape)'
 			         asRopedText fontSize: 18).
-	lab1 editable: true.
+	lab1 isEditable: true.
 	lab1 vFitContent.
 	lab1 hMatchParent.
 	lab1 layout alignCenter.
@@ -968,7 +1025,7 @@ ToSandBox class >> example_toLabel4 [
 	lab2 vFitContent.
 	lab2 hMatchParent.
 	lab2 border: (BlBorder paint: Color lightGray width: 1).
-	lab2 editable: true.
+	lab2 isEditable: true.
 
 	root addChild: lab2.
 	lab3 := ToLabel new text:
@@ -998,7 +1055,7 @@ ToSandBox class >> example_toLabel5 [
 		widget vFitContent.
 		widget hMatchParent.
 		widget border: (BlBorder paint: Color red width: 1) ].
-	model editable: true.
+	model isEditable: true.
 	label viewModel: model.
 	root addChild: label.
 	root openInOBlSpace
@@ -1074,8 +1131,8 @@ ToSandBox class >> example_toLabel_Multiline2_Centered [
 	lab2 layout alignCenter.
 	lab1 innerElement layout alignCenter.
 	lab2 innerElement layout alignCenter.
-	lab1 editable: true.
-	lab2 editable: true.
+	lab1 isEditable: true.
+	lab2 isEditable: true.
 	container := BlElement new
 		             layout: BlLinearLayout vertical;
 		             constraintsDo: [ :c | 

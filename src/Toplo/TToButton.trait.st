@@ -1,7 +1,24 @@
 Trait {
 	#name : #TToButton,
+	#instVars : [
+		'layoutJustified'
+	],
 	#category : #'Toplo-Widget-Button'
 }
+
+{ #category : #'t - button accessing' }
+TToButton >> beJustified [
+
+	layoutJustified := true.
+	self privateUpdateChildren 
+]
+
+{ #category : #'t - button accessing' }
+TToButton >> beNotjustified [
+
+	layoutJustified := false.
+	self privateUpdateChildren 
+]
 
 { #category : #'t - button accessing' }
 TToButton >> cellSpacing: aNumber [
@@ -12,7 +29,21 @@ TToButton >> cellSpacing: aNumber [
 { #category : #'t - button initialization' }
 TToButton >> childrenLayout [
 
-	^ self explicitRequirement
+	| fill |
+	fill := self isLayoutJustified
+		        ifTrue: [ self privateFill ]
+		        ifFalse: [  ].
+	^ (self isLabelFirst
+		   ifTrue: [ 
+			   { 
+				   self label.
+				   fill.
+				   self icon } ]
+		   ifFalse: [ 
+			   { 
+				   self icon.
+				   fill.
+				   self label } ]) select: #notNil
 ]
 
 { #category : #'t - button direction' }
@@ -60,6 +91,19 @@ TToButton >> initializeButton [
 	self label: ToLabel new.
 	self icon: ToImage new.
 	
+	self privateUpdateChildren 
+]
+
+{ #category : #'t - button accessing' }
+TToButton >> isLayoutJustified [
+
+	^ layoutJustified ifNil: [ layoutJustified := false ]
+]
+
+{ #category : #'t - button accessing' }
+TToButton >> justifyLayout [
+
+	layoutJustified := true.
 	self privateUpdateChildren 
 ]
 

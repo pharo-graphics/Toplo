@@ -1,24 +1,15 @@
 Class {
 	#name : #ToButtonMenuItem,
 	#superclass : #ToMenuItem,
-	#traits : 'TToButton',
-	#classTraits : 'TToButton classTrait',
+	#traits : 'TToLayoutableButton',
+	#classTraits : 'TToLayoutableButton classTrait',
 	#instVars : [
 		'label',
-		'menuItemIcon'
+		'menuItemIcon',
+		'ensureIconLeftAlignment'
 	],
 	#category : #'Toplo-Widget-Menu'
 }
-
-{ #category : #'t - button initialization' }
-ToButtonMenuItem >> childrenLayout [
-
-	^ { 
-		  self icon.
-		  self label.
-		  self privateFill.
-		  }
-]
 
 { #category : #'t - initialization dresser' }
 ToButtonMenuItem >> defaultDresser [ 
@@ -29,11 +20,40 @@ ToButtonMenuItem >> defaultDresser [
 { #category : #initialization }
 ToButtonMenuItem >> emptyIconImage [
 
-	^ BlElement new size: 16@16;background: Color transparent; 
-		constraintsDo: [ :c | 
-			c linear vertical alignCenter.
-			c linear horizontal alignCenter ];
-		yourself.
+	^ BlElement new
+		  id: #'empty-icon-image';
+		  size: 16 @ 16;
+		  background: Color transparent;
+		  constraintsDo: [ :c | 
+			  c linear vertical alignCenter.
+			  c linear horizontal alignCenter ];
+		  yourself
+]
+
+{ #category : #initialization }
+ToButtonMenuItem >> emptyIconImageExtent [
+
+	^ 16 @ 16
+]
+
+{ #category : #'t - button accessing' }
+ToButtonMenuItem >> ensureIconLeftAlignment [
+
+	^ ensureIconLeftAlignment ifNil: [ ensureIconLeftAlignment := true ]
+]
+
+{ #category : #'t - button accessing' }
+ToButtonMenuItem >> ensureIconLeftAlignment: aBoolean [
+
+	ensureIconLeftAlignment := aBoolean.
+	aBoolean
+		ifTrue: [ 
+			self icon ifNil: [ 
+				self icon: ToImage new.
+				self iconImage size: self emptyIconImageExtent  ] ]
+		ifFalse: [ self icon hasInnerImage ifFalse: [ self icon: nil ] ].
+
+	self privateUpdateChildren
 ]
 
 { #category : #'t - button accessing' }
@@ -58,7 +78,7 @@ ToButtonMenuItem >> initialize [
 	self constraintsDo: [ :c | 
 				        c horizontal matchParent.
 				        c vertical fitContent ].
-	self iconImage: self emptyIconImage.
+	self iconImage size: self emptyIconImageExtent.
 	
 	self initializeDresser 
 	

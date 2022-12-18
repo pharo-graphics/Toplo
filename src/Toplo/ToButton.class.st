@@ -10,20 +10,6 @@ Class {
 	#category : #'Toplo-Widget-Button'
 }
 
-{ #category : #'t - button initialization' }
-ToButton >> childrenLayout [
-
-	^ (self isLabelFirst
-		   ifTrue: [ 
-			   { 
-				   self label.
-				   self icon } ]
-		   ifFalse: [ 
-			   { 
-				   self icon.
-				   self label } ]) select: #notNil
-]
-
 { #category : #'t - initialization dresser' }
 ToButton >> defaultDresser [
 

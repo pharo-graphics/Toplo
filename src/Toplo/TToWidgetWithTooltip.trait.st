@@ -38,20 +38,23 @@ TToWidgetWithTooltip >> tooltip [
 { #category : #'t - accessing tooltip' }
 TToWidgetWithTooltip >> tooltip: aTooltip [
 
+	self flag:'PLA : How to uninstall a tooltip ? How to change a tooltip with content reuse ?'.
 	self userData at: #tooltip put: aTooltip
 ]
 
 { #category : #'t - accessing tooltip' }
 TToWidgetWithTooltip >> tooltipContent [
 
-	^ self tooltip ifNotNil: [ :tooltip | tooltip content ]
+	^ self tooltip ifNotNil: [ :tooltip | tooltip content ifNotNil:[ :e | e asString ] ]
 ]
 
 { #category : #'t - accessing tooltip' }
-TToWidgetWithTooltip >> tooltipContent: aTooltipContent [
+TToWidgetWithTooltip >> tooltipContent: aString [
+
+	(self tooltipContent = aString) ifTrue:[^self].
 
 	self checkTooltip.
-	self tooltip content: aTooltipContent asRopedText
+	self tooltip content: aString asRopedText
 
 ]
 

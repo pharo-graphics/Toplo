@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #initialization }
+ToLabelMultiLineMode >> isMultiLine [ 
+
+	^ true
+]
+
+{ #category : #initialization }
 ToLabelMultiLineMode >> newTextElementIn: aLabel [
 
 	^ ToLabelMultiLineInnerElement  new

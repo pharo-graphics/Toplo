@@ -803,13 +803,14 @@ ToExperiments class >> example_testTwoChildrenOnOppositeSidesWithSpan [
 ToExperiments class >> example_toScaling [
 
 	| space container |
-	container := ToElement new
+	container := ToElement new constraintsDo: [ :c | c accountTransformation ];
 		             layout: BlLinearLayout vertical;
 		             border: (BlBorder paint: Color black);
 		             fitContent;
 		             clipChildren: false.
 	container layout cellSpacing: 5.
 	container addChild: ((ToButton new
+	constraintsDo: [ :c | c accountTransformation ];
 			 clipChildren: false;
 			 iconImage: (BlElement new
 					  size: 100 @ 100;
@@ -818,17 +819,17 @@ ToExperiments class >> example_toScaling [
 			 transformDo: [ :d | 
 				 d
 					 topLeftOrigin;
-					 scaleBy: 2.0 ])) asScalableElement .
-	container addChild: (ToButton new
+					 scaleBy: 3.0 ]))  .
+	container addChild: (ToButton new constraintsDo: [ :c | c accountTransformation ];
 			 clipChildren: false;
-			 iconImage: (BlElement new
+			 iconImage: (BlElement new constraintsDo: [ :c | c accountTransformation ];
 					  size: 100 @ 100;
 					  background: Color red);
 			 labelText: ('red' asRopedText fontSize: 24);
 			 transformDo: [ :d | 
 				 d
 					 topLeftOrigin;
-					 scaleBy: 2.0 ]) asScalableElement .
+					 scaleBy: 2.0 ])  .
 	space := OBlSpace new.
 	container relocate: 100 @ 100.
 	space addChild: container.

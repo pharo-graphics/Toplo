@@ -7,6 +7,19 @@ Class {
 	#category : #'Toplo-Widget-Menu'
 }
 
+{ #category : #'t - initialization dresser' }
+ToCustomMenuItem >> defaultDresser [
+
+	^ ToBasicMenuItemDresser new
+]
+
+{ #category : #initialization }
+ToCustomMenuItem >> initialize [
+
+	super initialize.
+	self initializeDresser 
+]
+
 { #category : #accessing }
 ToCustomMenuItem >> innerElement [
 
@@ -17,5 +30,6 @@ ToCustomMenuItem >> innerElement [
 ToCustomMenuItem >> innerElement: anElement [
 
 	innerElement := anElement.
-	self addChild: anElement
+	self addChild: anElement.
+	anElement border: BlBorder empty
 ]

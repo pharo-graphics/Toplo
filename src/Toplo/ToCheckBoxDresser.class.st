@@ -25,7 +25,7 @@ ToCheckBoxDresser >> defaultCheckedIconImage [
 	^ BlElement new
 		  size: 12 @ 12;
 		  border: (BlBorder paint: Color lightGray width: 1);
-		  margin: (BlInsets all: 2);
+		  margin: (BlInsets all: 0);
 		  background: theme button hoveredBorderColor;
 		  yourself
 ]
@@ -60,7 +60,7 @@ ToCheckBoxDresser >> defaultIndeterminateIconImage [
 		c frame vertical alignCenter ].
 	im := BlElement new
 		      size: 12 @ 12;
-				margin: (BlInsets all: 2);
+				margin: (BlInsets all: 0);
 		      border: (BlBorder paint: Color lightGray width: 1);
 		      yourself.
 	im layout: BlFrameLayout new.
@@ -82,7 +82,7 @@ ToCheckBoxDresser >> defaultUncheckedIconImage [
 
 	^ BlElement new
 		  size: 12 @ 12;
-		  margin: (BlInsets all: 2);
+		  margin: (BlInsets all: 0);
 		  border: (BlBorder paint: Color gray width: 1);
 		  background: (Color gray alpha: 0.2);
 		  yourself

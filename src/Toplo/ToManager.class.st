@@ -59,7 +59,6 @@ ToManager class >> world [
 ToManager >> world [ 
 
 	| host |
-	world ifNotNil: [ ^ world ].
 	host := BlHost pickHost.
 	world := host oblWorld.
 	world when: BlSpaceDestroyedEvent do: [ world := nil ].

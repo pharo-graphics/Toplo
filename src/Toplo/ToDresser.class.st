@@ -51,7 +51,6 @@ ToDresser >> next [
 { #category : #'api - install/uninstall  hook' }
 ToDresser >> next: aDresser [
 
-	aDresser next: next.
 	next := aDresser.
 	
 ]

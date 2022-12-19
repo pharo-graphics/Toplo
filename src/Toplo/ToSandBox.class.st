@@ -243,7 +243,7 @@ ToSandBox class >> example_menu3 [
 	sub := ToMenu new labelText: 'Save All'.
 	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
 	
-	subsub := ToMenu new labelText: 'Externally'; iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
+	subsub := ToMenu new labelText: 'Externally'.
 	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
 
 	sub addItem: (subsub).
@@ -331,7 +331,7 @@ ToSandBox class >> example_menu6 [
 	| menu grp right center left textField sub th lbl |
 	menu := ToMenu new.
 	menu labelText: 'File'.
-	menu iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
+	"menu iconImage: (Smalltalk ui icons iconNamed: #solidMenu)."
 	menu addItem: (ToButtonMenuItem new
 			 labelText: 'Open file';
 			 whenClickedDo: [ self inform: 'Open file' ];
@@ -341,12 +341,11 @@ ToSandBox class >> example_menu6 [
 			 labelText: 'Export';
 			 whenClickedDo: [ self inform: 'Export' ]).
 	menu addItem: (ToButtonMenuItem new
-			 ensureIconLeftAlignment: false;
 			 labelText: 'Export';
 			 whenClickedDo: [ self inform: 'Export' ]).
+
 	grp := ToCheckableGroup new.
 	right := ToRadioMenuItem new
-		         beLabelFirst;
 		         labelText: 'Right';
 		         id: #right.
 	center := ToRadioMenuItem new
@@ -355,9 +354,10 @@ ToSandBox class >> example_menu6 [
 	left := ToRadioMenuItem new
 		        labelText: 'Left';
 		        id: #left.
-	grp add: right.
-	grp add: center.
-	grp add: left.
+	grp addAll: { 
+			right.
+			center.
+			left }.
 
 	grp whenCheckedDo: [ :chb :previous | 
 		self inform: 'checked: ' , chb id asSymbol , ' (previous was: '
@@ -366,17 +366,55 @@ ToSandBox class >> example_menu6 [
 	center startChecked.
 
 	menu addSeparator.
-	lbl := ToLabel new
-		       text: ('Right center left stuffs' asRopedText
-				        fontSize: 14;
-				        bold).
-	menu addItem: (ToCustomMenuItem new innerElement: lbl).
+
+	lbl := ToLabel new text: ('Radio button icon first' asRopedText
+			        fontSize: 12;
+			        foreground: (Color black alpha: 0.7)).
+	menu addItem: (ToCustomMenuItem new
+			 innerElement: lbl;
+			 margin: (BlInsets top:2; bottom: 4)).
+	menu addAllItems: grp buttons.
+
+	grp := ToCheckableGroup new.
+	right := ToRadioMenuItem new
+		         beLabelFirst;
+		         beJustified;
+		         labelText: 'Right';
+		         id: #right.
+	center := ToRadioMenuItem new
+		          beLabelFirst;
+		          beJustified;
+		          labelText: 'Center';
+		          id: #center.
+	left := ToRadioMenuItem new
+		        beLabelFirst;
+		        beJustified;
+		        labelText: 'Left';
+		        id: #left.
+	grp addAll: { 
+			right.
+			center.
+			left }.
+
+	grp whenCheckedDo: [ :chb :previous | 
+		self inform: 'checked: ' , chb id asSymbol , ' (previous was: '
+			, (previous ifNil: [ 'none' ] ifNotNil: [ previous id asSymbol ]) ].
+
+	center startChecked.
+
+	menu addSeparator.
+	lbl := ToLabel new text:
+		       ('Radio buttons label first and justified' asRopedText
+			        fontSize: 12;
+			        foreground: (Color black alpha: 0.7)).
+	menu addItem: (ToCustomMenuItem new
+			 innerElement: lbl;
+			 margin: (BlInsets top:2; bottom: 4)).
 	menu addAllItems: grp buttons.
 	menu addSeparator.
-
 	textField := ToTextField new
 		             withLineWrapping;
-		             width: 150;
+		             width: 200;
 		             withGhostText: 'Your name'.
 	menu addItem: (ToCustomMenuItem new innerElement: textField).
 
@@ -388,24 +426,30 @@ ToSandBox class >> example_menu6 [
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';
+		      beIconFirst;
+		      hMatchParent.
+	menu addItem: (ToCustomMenuItem new innerElement: th).
+	th := ToToggleButton new
+		      labelText: 'Cheesecake';
 		      beVertical;
 		      beLabelFirst;
 		      hMatchParent.
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	menu addSeparator.
-	lbl := ToLabel new
-		       text: ('Saving stuffs' asRopedText
-				        fontSize: 14;
-				        bold).
-	menu addItem: (ToCustomMenuItem new innerElement: lbl).
+	lbl := ToLabel new text: ('Saving stuffs' asRopedText
+			        fontSize: 12;
+			        foreground: (Color black alpha: 0.7)).
+	menu addItem: (ToCustomMenuItem new
+			 innerElement: lbl;
+			 margin: (BlInsets top:2; bottom: 4)).
 	sub := ToMenu new labelText: 'Save All'.
-	sub ensureIconLeftAlignment: false.
+	"sub ensureLabelLeftAlignment: true."
 	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
-
+	sub iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
 	menu addItem: sub.
 
 	menu relocate: 10 @ 10.
-	menu openInInnerWindow
+	menu openInOBlSpace
 ]
 
 { #category : #window }
@@ -666,7 +710,7 @@ ToSandBox class >> example_toButtonWithIconOnly [
 ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 
 	| but space |
-	but := ToButton new cellSpacing: 2; padding: (BlInsets all: 4).
+	but := ToButton new "cellSpacing: 2; padding: (BlInsets all: 4)".
 	but labelText: 'Button'.
 	but iconImage: (BlElement new
 			 size: 60 @ 20;

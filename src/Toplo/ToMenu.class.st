@@ -5,7 +5,8 @@ Class {
 		'items',
 		'rightIcon',
 		'menuWindow',
-		'submenuDresser'
+		'submenuDresser',
+		'ensureLabelLeftAlignment'
 	],
 	#category : #'Toplo-Widget-Menu'
 }
@@ -36,22 +37,23 @@ ToMenu >> addedInMenu: aMenu [
 	super addedInMenu: aMenu.
 	submenuDresser ifNil: [ 
 		submenuDresser := ToMenuAsSubmenuDresser new.
-		self addDresser: submenuDresser ].
+		self addDresser: submenuDresser].
 	self privateUpdateChildren
 ]
 
 { #category : #'t - button initialization' }
 ToMenu >> childrenLayout [
 
-	^ self isSubmenu
-		  ifTrue: [ 
-			  { 
-				  self icon.
-				  self label.
-				  self privateFill.
-				  self rightIcon } select: #notNil]
-		  ifFalse: [ 
-			  super childrenLayout ]
+	self isSubmenu ifTrue: [ 
+		^ { 
+			  self icon.
+			  iconColumnFill.
+			  labelColumnFill.
+			  self label.
+			  self privateMatchParentFill.
+			  self rightIcon } select: #notNil ].
+
+	^ super childrenLayout
 ]
 
 { #category : #window }
@@ -63,13 +65,13 @@ ToMenu >> close [
 { #category : #'t - initialization dresser' }
 ToMenu >> defaultDresser [
 
-	^ ToMenuDresser new
+	^ ToBasicMenuItemDresser next: ToMenuDresser new
 ]
 
-{ #category : #initialization }
-ToMenu >> emptyIconImage [
+{ #category : #'t - button accessing' }
+ToMenu >> ensureLabelLeftAlignment [
 
-	^ nil
+	^ ensureLabelLeftAlignment ifNil: [ ensureLabelLeftAlignment := true ]
 ]
 
 { #category : #initialization }
@@ -80,14 +82,13 @@ ToMenu >> initialize [
 	self constraintsDo: [ :c | 
 		c horizontal fitContent.
 		c vertical fitContent ].
-
 	items := OrderedCollection new.
 	menuWindow := ToMenuWindow new widget: self.
-
-	self whenClickedDo: [ self popupOrClose ]
+	self whenClickedDo: [ self popupOrClose ].
+	self whenLayoutedDo: [ self items do: [ :i | i updateFilling ] ]
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 ToMenu >> isSubmenu [
 
 	^ submenuDresser notNil
@@ -156,4 +157,10 @@ ToMenu >> rightIconImage [
 			c linear vertical alignCenter.
 			c linear horizontal alignCenter ].
 	^ ic
+]
+
+{ #category : #initialization }
+ToMenu >> shouldCheckIconColumnFill [
+
+	^ self icon hasInnerImage 
 ]

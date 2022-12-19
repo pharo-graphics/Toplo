@@ -119,7 +119,7 @@ TToLayoutableButton >> orientation: aBlLayoutOrientation [
 ]
 
 { #category : #'t - button private' }
-TToLayoutableButton >> privateFill [
+TToLayoutableButton >> privateMatchParentFill [
 
 	^ ToElement new
 		     id: #fill;

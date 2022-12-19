@@ -5,67 +5,65 @@ Class {
 	#classTraits : 'TToLayoutableButton classTrait',
 	#instVars : [
 		'label',
-		'menuItemIcon',
-		'ensureIconLeftAlignment'
+		'icon',
+		'iconColumnFill',
+		'iconColumnWidth',
+		'labelColumnFill'
 	],
 	#category : #'Toplo-Widget-Menu'
 }
 
+{ #category : #'t - button initialization' }
+ToButtonMenuItem >> childrenLayout [
+
+	^ (self isLabelFirst
+		   ifTrue: [ 
+			   { 
+				   self label.
+				   labelColumnFill.
+				   self icon } ]
+		   ifFalse: [ 
+			   { 
+				   self icon.
+				   iconColumnFill.
+				   labelColumnFill.
+				   self label } ]) select: #notNil
+]
+
 { #category : #'t - initialization dresser' }
 ToButtonMenuItem >> defaultDresser [ 
 
-	^ ToButtonMenuItemDresser new
+	^ ToBasicMenuItemDresser next: ToButtonMenuItemDresser new
 ]
 
 { #category : #initialization }
-ToButtonMenuItem >> emptyIconImage [
+ToButtonMenuItem >> defaultIconColumnWidth [
 
-	^ BlElement new
-		  id: #'empty-icon-image';
-		  size: 16 @ 16;
-		  background: Color transparent;
-		  constraintsDo: [ :c | 
-			  c linear vertical alignCenter.
-			  c linear horizontal alignCenter ];
-		  yourself
-]
-
-{ #category : #initialization }
-ToButtonMenuItem >> emptyIconImageExtent [
-
-	^ 16 @ 16
-]
-
-{ #category : #'t - button accessing' }
-ToButtonMenuItem >> ensureIconLeftAlignment [
-
-	^ ensureIconLeftAlignment ifNil: [ ensureIconLeftAlignment := true ]
-]
-
-{ #category : #'t - button accessing' }
-ToButtonMenuItem >> ensureIconLeftAlignment: aBoolean [
-
-	ensureIconLeftAlignment := aBoolean.
-	aBoolean
-		ifTrue: [ 
-			self icon ifNil: [ 
-				self icon: ToImage new.
-				self iconImage size: self emptyIconImageExtent  ] ]
-		ifFalse: [ self icon hasInnerImage ifFalse: [ self icon: nil ] ].
-
-	self privateUpdateChildren
+	^ 20 
 ]
 
 { #category : #'t - button accessing' }
 ToButtonMenuItem >> icon [
 
-	^ menuItemIcon
+	^ icon
 ]
 
 { #category : #'t - button accessing' }
 ToButtonMenuItem >> icon: anImage [
 
-	menuItemIcon := anImage 
+	icon := anImage 
+]
+
+{ #category : #initialization }
+ToButtonMenuItem >> iconColumnWidth [
+
+	^ iconColumnWidth 
+]
+
+{ #category : #initialization }
+ToButtonMenuItem >> iconColumnWidth: anInteger [
+
+	iconColumnWidth := anInteger
 ]
 
 { #category : #initialization }
@@ -73,13 +71,12 @@ ToButtonMenuItem >> initialize [
 
 	super initialize.
 	
+	iconColumnWidth := self defaultIconColumnWidth.
 	self initializeButton.
 	"horizontal matchParent required here ** after ** initializeButton "
 	self constraintsDo: [ :c | 
 				        c horizontal matchParent.
 				        c vertical fitContent ].
-	self iconImage size: self emptyIconImageExtent.
-	
 	self initializeDresser 
 	
 ]
@@ -97,8 +94,37 @@ ToButtonMenuItem >> label: aLabel [
 	
 ]
 
-{ #category : #window }
-ToButtonMenuItem >> menuWindow [
+{ #category : #initialization }
+ToButtonMenuItem >> shouldCheckIconColumnFill [ 
 
-	^ nil
+	^ self isIconFirst
+	
+]
+
+{ #category : #initialization }
+ToButtonMenuItem >> updateFilling [
+
+	| w |
+	" first the label column only if it is justified "
+	(labelColumnFill isNil and: [ self isLayoutJustified ]) ifTrue: [ 
+		labelColumnFill := self privateMatchParentFill.
+		self privateUpdateChildren ].
+
+	" then check the icon column "
+	self shouldCheckIconColumnFill ifFalse: [ ^ self ].
+
+	" check if there a need to fill after the icon  "
+	(w := self iconColumnWidth - self iconImage width) > 0 ifFalse: [ 
+		^ self ].
+
+	" ok, now measure the gap "
+	iconColumnFill ifNotNil: [ " adapt the existing fill "
+		iconColumnFill width = w ifTrue: [ ^ self ].
+		iconColumnFill constraintsDo: [ :c | c horizontal exact: w ].
+		self privateUpdateChildren.
+		^ self ].
+
+	" first check, create the fill"
+	iconColumnFill := BlElement new size: w @ 0.
+	self privateUpdateChildren
 ]

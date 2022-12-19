@@ -20,7 +20,7 @@ ToCheckMenuItem >> canSwitchToNextState [
 { #category : #'t - initialization dresser' }
 ToCheckMenuItem >> defaultDresser [
 
-	^ ToMenuItemDresser next: ToCheckMenuItemDresser new
+	^ ToBasicMenuItemDresser next: (ToMenuItemDresser next: ToCheckMenuItemDresser new )
 ]
 
 { #category : #'t - toggle group' }

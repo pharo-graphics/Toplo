@@ -29,21 +29,7 @@ TToButton >> cellSpacing: aNumber [
 { #category : #'t - button initialization' }
 TToButton >> childrenLayout [
 
-	| fill |
-	fill := self isLayoutJustified
-		        ifTrue: [ self privateFill ]
-		        ifFalse: [  ].
-	^ (self isLabelFirst
-		   ifTrue: [ 
-			   { 
-				   self label.
-				   fill.
-				   self icon } ]
-		   ifFalse: [ 
-			   { 
-				   self icon.
-				   fill.
-				   self label } ]) select: #notNil
+	^ self explicitRequirement 
 ]
 
 { #category : #'t - button direction' }
@@ -133,7 +119,7 @@ TToButton >> labelText: aText [
 ]
 
 { #category : #'t - button private' }
-TToButton >> privateFill [
+TToButton >> privateMatchParentFill [
 
 	^ ToElement new id: #fill; matchParent.
 

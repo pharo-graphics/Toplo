@@ -1,6 +1,6 @@
 Class {
 	#name : #ToButtonMenuItemDresser,
-	#superclass : #ToMenuItemDresser,
+	#superclass : #ToButtonDresser,
 	#category : #'Toplo-Widget-Menu'
 }
 

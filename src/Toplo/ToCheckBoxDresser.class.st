@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCheckBoxDresser,
-	#superclass : #ToDresser,
+	#superclass : #ToButtonDresser,
 	#category : #'Toplo-Widget-Button'
 }
 

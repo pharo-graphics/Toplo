@@ -43,15 +43,6 @@ ToAbstractMenuItem >> privateParentMenuWindow: aWindow [
 ]
 
 { #category : #initialization }
-ToAbstractMenuItem >> privateUpdateChildren [
-]
-
-{ #category : #initialization }
 ToAbstractMenuItem >> removedFromMenu: aMenu [
-
-]
-
-{ #category : #initialization }
-ToAbstractMenuItem >> updateFilling [
 
 ]

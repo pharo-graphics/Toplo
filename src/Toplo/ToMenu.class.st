@@ -5,8 +5,7 @@ Class {
 		'items',
 		'rightIcon',
 		'menuWindow',
-		'submenuDresser',
-		'ensureLabelLeftAlignment'
+		'submenuDresser'
 	],
 	#category : #'Toplo-Widget-Menu'
 }
@@ -41,21 +40,6 @@ ToMenu >> addedInMenu: aMenu [
 	self privateUpdateChildren
 ]
 
-{ #category : #'t - button initialization' }
-ToMenu >> childrenLayout [
-
-	self isSubmenu ifTrue: [ 
-		^ { 
-			  self icon.
-			  iconColumnFill.
-			  labelColumnFill.
-			  self label.
-			  self privateMatchParentFill.
-			  self rightIcon } select: #notNil ].
-
-	^ super childrenLayout
-]
-
 { #category : #window }
 ToMenu >> close [
 
@@ -65,13 +49,7 @@ ToMenu >> close [
 { #category : #'t - initialization dresser' }
 ToMenu >> defaultDresser [
 
-	^ ToBasicMenuItemDresser next: ToMenuDresser new
-]
-
-{ #category : #'t - button accessing' }
-ToMenu >> ensureLabelLeftAlignment [
-
-	^ ensureLabelLeftAlignment ifNil: [ ensureLabelLeftAlignment := true ]
+	^ ToBasicMenuItemDresser next: (ToMenuDresser next: ToMenuRowDresser new)
 ]
 
 { #category : #initialization }
@@ -85,7 +63,7 @@ ToMenu >> initialize [
 	items := OrderedCollection new.
 	menuWindow := ToMenuWindow new widget: self.
 	self whenClickedDo: [ self popupOrClose ].
-	self whenLayoutedDo: [ self items do: [ :i | i updateFilling ] ]
+	
 ]
 
 { #category : #testing }
@@ -157,10 +135,4 @@ ToMenu >> rightIconImage [
 			c linear vertical alignCenter.
 			c linear horizontal alignCenter ].
 	^ ic
-]
-
-{ #category : #initialization }
-ToMenu >> shouldCheckIconColumnFill [
-
-	^ self icon hasInnerImage 
 ]

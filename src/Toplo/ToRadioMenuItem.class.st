@@ -7,5 +7,5 @@ Class {
 { #category : #'t - initialization dresser' }
 ToRadioMenuItem >> defaultDresser [
 
-	^ ToBasicMenuItemDresser next: (ToMenuItemDresser next: ToRadioMenuItemDresser new)
+	^ ToBasicMenuItemDresser next: (ToRadioButtonDresser next: ToMenuItemRowDresser new)
 ]

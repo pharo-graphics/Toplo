@@ -21,7 +21,7 @@ TToWidgetWithState >> currentState: aState [
 	self userData at: #currentState put: aState
 ]
 
-{ #category : #initialization }
+{ #category : #'t - initialization behavior' }
 TToWidgetWithState >> initializeClickBehavior [
 
 	self whenClickedDo: [ self switchToNextState ].

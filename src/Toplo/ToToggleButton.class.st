@@ -9,18 +9,6 @@ Class {
 	#category : #'Toplo-Widget-Button'
 }
 
-{ #category : #factory }
-ToToggleButton class >> horizontal [
-
-	^ ToHorizontalToggleButton new
-]
-
-{ #category : #factory }
-ToToggleButton class >> vertical [
-
-	^ ToVerticalToggleButton new
-]
-
 { #category : #'t - initialization dresser' }
 ToToggleButton >> defaultDresser [
 
@@ -43,5 +31,5 @@ ToToggleButton >> group: aToggleGroup [
 ToToggleButton >> initialize [ 
 
 	super initialize.
-	self justifyLayout 
+	self beJustified
 ]

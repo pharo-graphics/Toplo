@@ -1,8 +1,8 @@
 Class {
 	#name : #ToCheckMenuItem,
 	#superclass : #ToButtonMenuItem,
-	#traits : 'TToWidgetWithState + TToCheckableWidget + TToCheckableWidgetWithIndeterminate',
-	#classTraits : 'TToWidgetWithState classTrait + TToCheckableWidget classTrait + TToCheckableWidgetWithIndeterminate classTrait',
+	#traits : 'TToCheckableWidget + TToCheckableWidgetWithIndeterminate',
+	#classTraits : 'TToCheckableWidget classTrait + TToCheckableWidgetWithIndeterminate classTrait',
 	#instVars : [
 		'hasIndeterminateState',
 		'group'
@@ -20,7 +20,7 @@ ToCheckMenuItem >> canSwitchToNextState [
 { #category : #'t - initialization dresser' }
 ToCheckMenuItem >> defaultDresser [
 
-	^ ToBasicMenuItemDresser next: (ToMenuItemDresser next: ToCheckMenuItemDresser new )
+	^ ToBasicMenuItemDresser next: (ToCheckBoxDresser next: ToMenuItemRowDresser new)
 ]
 
 { #category : #'t - toggle group' }

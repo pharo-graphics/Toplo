@@ -342,6 +342,7 @@ ToSandBox class >> example_menu6 [
 			 whenClickedDo: [ self inform: 'Export' ]).
 	menu addItem: (ToButtonMenuItem new
 			 labelText: 'Export';
+			 iconColumnWidth: 0;
 			 whenClickedDo: [ self inform: 'Export' ]).
 
 	grp := ToCheckableGroup new.
@@ -372,7 +373,45 @@ ToSandBox class >> example_menu6 [
 			        foreground: (Color black alpha: 0.7)).
 	menu addItem: (ToCustomMenuItem new
 			 innerElement: lbl;
-			 margin: (BlInsets top:2; bottom: 4)).
+			 margin: (BlInsets
+					  top: 2;
+					  bottom: 4)).
+	menu addAllItems: grp buttons.
+
+	grp := ToCheckableGroup new.
+	right := ToRadioMenuItem new
+		         beLabelFirst;
+		         labelText: 'Right';
+		         id: #right.
+	center := ToRadioMenuItem new
+		          beLabelFirst;
+		          labelText: 'Center';
+		          id: #center.
+	left := ToRadioMenuItem new
+		        beLabelFirst;
+		        labelText: 'Left';
+		        id: #left.
+	grp addAll: { 
+			right.
+			center.
+			left }.
+
+	grp whenCheckedDo: [ :chb :previous | 
+		self inform: 'checked: ' , chb id asSymbol , ' (previous was: '
+			, (previous ifNil: [ 'none' ] ifNotNil: [ previous id asSymbol ]) ].
+
+	center startChecked.
+
+	menu addSeparator.
+
+	lbl := ToLabel new text: ('Radio button label first' asRopedText
+			        fontSize: 12;
+			        foreground: (Color black alpha: 0.7)).
+	menu addItem: (ToCustomMenuItem new
+			 innerElement: lbl;
+			 margin: (BlInsets
+					  top: 2;
+					  bottom: 4)).
 	menu addAllItems: grp buttons.
 
 	grp := ToCheckableGroup new.
@@ -409,7 +448,9 @@ ToSandBox class >> example_menu6 [
 			        foreground: (Color black alpha: 0.7)).
 	menu addItem: (ToCustomMenuItem new
 			 innerElement: lbl;
-			 margin: (BlInsets top:2; bottom: 4)).
+			 margin: (BlInsets
+					  top: 2;
+					  bottom: 4)).
 	menu addAllItems: grp buttons.
 	menu addSeparator.
 	textField := ToTextField new
@@ -421,6 +462,12 @@ ToSandBox class >> example_menu6 [
 	menu addSeparator.
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';
+		      beLabelFirst;
+		      hMatchParent.
+	menu addItem: (ToCustomMenuItem new innerElement: th).
+	th := ToToggleButton new
+		      labelText: 'Cheesecake';
+		      beNotJustified;
 		      beLabelFirst;
 		      hMatchParent.
 	menu addItem: (ToCustomMenuItem new innerElement: th).
@@ -441,7 +488,9 @@ ToSandBox class >> example_menu6 [
 			        foreground: (Color black alpha: 0.7)).
 	menu addItem: (ToCustomMenuItem new
 			 innerElement: lbl;
-			 margin: (BlInsets top:2; bottom: 4)).
+			 margin: (BlInsets
+					  top: 2;
+					  bottom: 4)).
 	sub := ToMenu new labelText: 'Save All'.
 	"sub ensureLabelLeftAlignment: true."
 	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
@@ -673,7 +722,7 @@ ToSandBox class >> example_toButtonOrientationChanger [
 
 	| but space iconImage |
 	but := ToButton new.
-	but cellSpacing: 4.
+	but layout cellSpacing: 4.
 	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).
 	but labelText: 'Button' asRopedText bold.
@@ -726,7 +775,7 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 ToSandBox class >> example_toButtonWithTextAndIconVertical [
 
 	| but space |
-	but := ToButton new cellSpacing: 2; padding: (BlInsets all: 4); beVertical.
+	but := ToButton new padding: (BlInsets all: 4); beVertical.
 	but labelText: 'Button'.
 	but iconImage: (BlElement new
 			 size: 60 @ 20;
@@ -801,7 +850,7 @@ ToSandBox class >> example_toCheckboxWithLabel [
 
 	| but |
 	but := ToCheckbox new labelText: 'Check me'.
-	but cellSpacing: 5.
+	but layout cellSpacing: 5.
 	but whenCheckedDo: [ self inform: '+++ checked' ].
 	but whenUncheckedDo: [ self inform: '--- unchecked' ].
 
@@ -1437,9 +1486,9 @@ ToSandBox class >> example_toWidgetAsButton0 [
 ToSandBox class >> example_toggle [
 
 	| th tv win |
-	th := ToToggleButton new labelText: 'Cheesecake'; beLabelFirst; cellSpacing: 2; padding: (BlInsets all: 3); hMatchParent.
+	th := ToToggleButton new labelText: 'Cheesecake'; beLabelFirst; padding: (BlInsets all: 3); hMatchParent.
 
-	tv := ToToggleButton new beVertical; labelText: 'Cheesecake'; beLabelFirst; cellSpacing: 2; padding: (BlInsets all: 3); hMatchParent.
+	tv := ToToggleButton new beVertical; labelText: 'Cheesecake'; beLabelFirst; padding: (BlInsets all: 3); hMatchParent.
 	tv check.
 
 	th whenCheckedDo: [ :ann | ann traceCr ].

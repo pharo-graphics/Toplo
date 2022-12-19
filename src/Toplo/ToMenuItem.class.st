@@ -6,12 +6,6 @@ Class {
 	#category : #'Toplo-Widget-Menu'
 }
 
-{ #category : #'t - initialization dresser' }
-ToMenuItem >> defaultDresser [
-
-	^ ToMenuItemDresser next: ToBasicMenuItemDresser new
-]
-
 { #category : #initialization }
 ToMenuItem >> initialize [
 

@@ -14,22 +14,10 @@ TToButton >> beJustified [
 ]
 
 { #category : #'t - button accessing' }
-TToButton >> beNotjustified [
+TToButton >> beNotJustified [
 
 	layoutJustified := false.
 	self privateUpdateChildren 
-]
-
-{ #category : #'t - button accessing' }
-TToButton >> cellSpacing: aNumber [
-
-	self layout cellSpacing: aNumber
-]
-
-{ #category : #'t - button initialization' }
-TToButton >> childrenLayout [
-
-	^ self explicitRequirement 
 ]
 
 { #category : #'t - button direction' }
@@ -77,20 +65,13 @@ TToButton >> initializeButton [
 	self label: ToLabel new.
 	self icon: ToImage new.
 	
-	self privateUpdateChildren 
+	self privateUpdateChildren
 ]
 
 { #category : #'t - button accessing' }
 TToButton >> isLayoutJustified [
 
 	^ layoutJustified ifNil: [ layoutJustified := false ]
-]
-
-{ #category : #'t - button accessing' }
-TToButton >> justifyLayout [
-
-	layoutJustified := true.
-	self privateUpdateChildren 
 ]
 
 { #category : #'t - button accessing' }
@@ -121,8 +102,9 @@ TToButton >> labelText: aText [
 { #category : #'t - button private' }
 TToButton >> privateMatchParentFill [
 
-	^ ToElement new id: #fill; matchParent.
-
+	^ ToElement new
+		  id: #'match-parent-fill';
+		  matchParent
 ]
 
 { #category : #'t - button private' }
@@ -130,12 +112,18 @@ TToButton >> privateUpdateChildren [
 
 	| subs |
 	self removeChildren.
-	subs := self childrenLayout.
+	subs := self rowLayout.
 	subs do: [ :s | 
 		s constraintsDo: [ :c | 
 			c linear vertical alignCenter.
 			c linear horizontal alignCenter ] ].
 	self addChildren: subs
+]
+
+{ #category : #'t - button initialization' }
+TToButton >> rowLayout [
+
+	^ self explicitRequirement 
 ]
 
 { #category : #'t - button change hook' }

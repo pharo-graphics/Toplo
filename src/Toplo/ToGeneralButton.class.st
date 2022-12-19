@@ -13,9 +13,3 @@ ToGeneralButton >> initialize [
 	super initialize.
 	self initializeClickBehavior
 ]
-
-{ #category : #initialization }
-ToGeneralButton >> initializeClickBehavior [
-
-	self whenClickedDo: [ self switchToNextState ].
-]

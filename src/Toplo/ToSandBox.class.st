@@ -221,7 +221,7 @@ ToSandBox class >> example_menu2 [
 	| menu  |
 	menu := ToMenu new.
 	menu labelText: 'File'.
-	menu addItem: (ToMenu new labelText: 'Export').
+	menu addItem: (ToCheckMenuItem new labelText: 'Align right'; beLabelFirst).
 	menu relocate: 10@10.
 	menu openInInnerWindow
 ]
@@ -331,7 +331,7 @@ ToSandBox class >> example_menu6 [
 	| menu grp right center left textField sub th lbl |
 	menu := ToMenu new.
 	menu labelText: 'File'.
-	"menu iconImage: (Smalltalk ui icons iconNamed: #solidMenu)."
+	menu iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
 	menu addItem: (ToButtonMenuItem new
 			 labelText: 'Open file';
 			 whenClickedDo: [ self inform: 'Open file' ];
@@ -492,9 +492,7 @@ ToSandBox class >> example_menu6 [
 					  top: 2;
 					  bottom: 4)).
 	sub := ToMenu new labelText: 'Save All'.
-	"sub ensureLabelLeftAlignment: true."
 	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
-	sub iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
 	menu addItem: sub.
 
 	menu relocate: 10 @ 10.
@@ -765,6 +763,7 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 			 size: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).
+	but beLabelFirst.
 	but whenClickedDo: [ :ann | but iconImage background: Color random ].
 	space := OBlSpace new.
 	space addChild: but.

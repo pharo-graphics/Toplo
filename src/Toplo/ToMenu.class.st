@@ -36,8 +36,8 @@ ToMenu >> addedInMenu: aMenu [
 	super addedInMenu: aMenu.
 	submenuDresser ifNil: [ 
 		submenuDresser := ToMenuAsSubmenuDresser new.
-		self addDresser: submenuDresser].
-	self privateUpdateChildren
+		self addDresser: submenuDresser ].
+	self announce: ToMenuPresentationChangedAnnouncement new
 ]
 
 { #category : #window }

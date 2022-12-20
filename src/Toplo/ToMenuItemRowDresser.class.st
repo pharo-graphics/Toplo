@@ -13,6 +13,8 @@ ToMenuItemRowDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	anElement whenLayoutedDo: [ self updateRowLayoutIn: anElement ].
+	anElement whenAnnouncement: ToMenuPresentationChangedAnnouncement do:  [ anElement rowLayout: (self rowLayoutIn: anElement) ].
+	anElement rowLayout: (self rowLayoutIn: anElement)
 
 ]
 
@@ -53,18 +55,19 @@ ToMenuItemRowDresser >> updateIconColumnFillIn: anElement [
 	| w |
 	" check if there a need to fill after the icon  "
 	(w := anElement iconColumnWidth - anElement iconImage width) > 0 
-		ifFalse: [ ^ self ].
+		ifFalse: [ ^ false ].
 
 	" ok, now measure the gap "
 	iconColumnFill ifNotNil: [ " adapt the existing fill "
-		iconColumnFill size x = w ifTrue: [ ^ self ].
+		iconColumnFill size x = w ifTrue: [ ^ false ].
 		iconColumnFill size: w @ 0.
-		^ self ].
+		^ true ].
 
 	" first check, create the fill "
 	iconColumnFill := BlElement new
 		                  size: w @ 0;
-		                  id: #'icon-column-fill'
+		                  id: #'icon-column-fill'.
+	^ true
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -72,12 +75,16 @@ ToMenuItemRowDresser >> updateRowLayoutIn: anElement [
 
 	" first the label column only if it is justified "
 
+	| changed |
+	changed := false.
+
 	(labelColumnFill isNil and: [ anElement isLayoutJustified ]) ifTrue: [ 
-		labelColumnFill := anElement privateMatchParentFill ].
+		labelColumnFill := anElement privateMatchParentFill.
+		changed := true ].
 
 	" then check the icon column "
 	(self shouldCheckIconColumnFillIn: anElement) ifTrue: [ 
-		self updateIconColumnFillIn: anElement ].
+		changed := self updateIconColumnFillIn: anElement ].
 
-	anElement rowLayout: (self rowLayoutIn: anElement)
+	changed ifTrue: [ anElement rowLayout: (self rowLayoutIn: anElement) ]
 ]

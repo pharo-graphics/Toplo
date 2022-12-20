@@ -4,8 +4,8 @@ Class {
 	#traits : 'TToLayoutableButton',
 	#classTraits : 'TToLayoutableButton classTrait',
 	#instVars : [
-		'label',
-		'icon'
+		'#label',
+		'#icon'
 	],
 	#category : #'Toplo-Widget-Button'
 }

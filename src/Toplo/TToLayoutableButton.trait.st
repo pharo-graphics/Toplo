@@ -1,7 +1,7 @@
 Trait {
 	#name : #TToLayoutableButton,
 	#instVars : [
-		'labelFirst'
+		'#labelFirst => ObservableSlot'
 	],
 	#traits : 'TToButton',
 	#classTraits : 'TToButton classTrait',
@@ -94,7 +94,7 @@ TToLayoutableButton >> isRightToLeft [
 { #category : #'t - button presentation' }
 TToLayoutableButton >> labelFirst [
 
-	^ labelFirst ifNil: [ labelFirst := false ]
+	^ labelFirst ifNil: [ labelFirst := false ] 
 ]
 
 { #category : #'t - button presentation' }
@@ -102,7 +102,7 @@ TToLayoutableButton >> labelFirst: aBoolean [
 	
 	labelFirst = aBoolean ifTrue: [ ^ self ].
 	labelFirst := aBoolean.
-	self privateUpdateChildren 
+	self privateUpdateChildren.
 ]
 
 { #category : #'t - button orientation' }
@@ -124,4 +124,12 @@ TToLayoutableButton >> privateMatchParentFill [
 	^ ToElement new
 		     id: #fill;
 		     matchParent
+]
+
+{ #category : #'t - button presentation' }
+TToLayoutableButton >> whenPresentationChangedDo: aBlock [
+
+	"set a block to perform after that the image has been changed, and its action performed"
+
+	self property: #labelFirst whenChangedDo: aBlock
 ]

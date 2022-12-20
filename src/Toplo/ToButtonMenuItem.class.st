@@ -4,10 +4,10 @@ Class {
 	#traits : 'TToLayoutableButton + TToWidgetWithState',
 	#classTraits : 'TToLayoutableButton classTrait + TToWidgetWithState classTrait',
 	#instVars : [
-		'label',
-		'icon',
-		'iconColumnWidth',
-		'rowLayout'
+		'#label',
+		'#icon',
+		'#iconColumnWidth',
+		'#rowLayout'
 	],
 	#category : #'Toplo-Widget-Menu'
 }
@@ -51,6 +51,7 @@ ToButtonMenuItem >> iconColumnWidth: anInteger [
 { #category : #initialization }
 ToButtonMenuItem >> initialize [
 
+	self class initializeSlots: self.
 	super initialize.
 	
 	iconColumnWidth := self defaultIconColumnWidth.
@@ -59,8 +60,9 @@ ToButtonMenuItem >> initialize [
 	self constraintsDo: [ :c | 
 				        c horizontal matchParent.
 				        c vertical fitContent ].
+	self whenPresentationChangedDo: [ self announce: ToMenuPresentationChangedAnnouncement new ].
 	self initializeClickBehavior.
-	self initializeDresser.
+	self initializeDresser
 
 ]
 

@@ -55,7 +55,7 @@ ToButton >> label: aLabel [
 ToButton >> rowLayout [
 
 	| fill |
-	fill := self isLayoutJustified
+	fill := self isJustified
 		        ifTrue: [ self privateMatchParentFill ]
 		        ifFalse: [  ].
 	^ (self isLabelFirst

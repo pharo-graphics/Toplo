@@ -194,6 +194,7 @@ ToSandBox class >> example_menu1 [
 
 	| menu sub subsub |
 	menu := ToMenu new.
+	menu globalLeftColumnWidth: 22.
 	menu labelText: 'File'.
 	menu iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
 	menu addItem: (ToButtonMenuItem new
@@ -221,7 +222,22 @@ ToSandBox class >> example_menu2 [
 	| menu  |
 	menu := ToMenu new.
 	menu labelText: 'File'.
+	menu leftColumnWidth: 0.
 	menu addItem: (ToCheckMenuItem new labelText: 'Align right'; beLabelFirst).
+	menu relocate: 10@10.
+	menu openInInnerWindow
+]
+
+{ #category : #menu }
+ToSandBox class >> example_menu2_2 [
+
+	| menu  sub |
+	menu := ToMenu new.
+	menu iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
+	
+	sub := ToMenu new labelText: 'Save All'.
+	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
+	menu addItem: sub.
 	menu relocate: 10@10.
 	menu openInInnerWindow
 ]
@@ -330,6 +346,8 @@ ToSandBox class >> example_menu6 [
 
 	| menu grp right center left textField sub th lbl |
 	menu := ToMenu new.
+	menu globalLeftColumnWidth: 22.
+
 	menu labelText: 'File'.
 	menu iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
 	menu addItem: (ToButtonMenuItem new
@@ -342,7 +360,7 @@ ToSandBox class >> example_menu6 [
 			 whenClickedDo: [ self inform: 'Export' ]).
 	menu addItem: (ToButtonMenuItem new
 			 labelText: 'Export';
-			 iconColumnWidth: 0;
+			 withoutLeftColumn;
 			 whenClickedDo: [ self inform: 'Export' ]).
 
 	grp := ToCheckableGroup new.
@@ -381,14 +399,17 @@ ToSandBox class >> example_menu6 [
 	grp := ToCheckableGroup new.
 	right := ToRadioMenuItem new
 		         beLabelFirst;
+		         leftColumnWidth: 50;
 		         labelText: 'Right';
 		         id: #right.
 	center := ToRadioMenuItem new
 		          beLabelFirst;
+		          leftColumnWidth: 50;
 		          labelText: 'Center';
 		          id: #center.
 	left := ToRadioMenuItem new
 		        beLabelFirst;
+		        leftColumnWidth: 50;
 		        labelText: 'Left';
 		        id: #left.
 	grp addAll: { 
@@ -492,6 +513,7 @@ ToSandBox class >> example_menu6 [
 					  top: 2;
 					  bottom: 4)).
 	sub := ToMenu new labelText: 'Save All'.
+	sub withoutLeftColumn.
 	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
 	menu addItem: sub.
 
@@ -687,9 +709,7 @@ ToSandBox class >> example_toButtonModelWithIconOnly [
 
 	| but space |
 	but := ToButtonModel new.
-	but iconImage: (BlElement new
-			 size: 60 @ 20;
-			 yourself).
+	but iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
 	but widgetDo: [ :widget | widget padding: (BlInsets all: 3) ].
 	space := OBlSpace new.
 	space addChild: but onWidget.
@@ -742,11 +762,8 @@ ToSandBox class >> example_toButtonWithIconOnly [
 	| but space container |
 	container := BlElement new size: 200@200; border: (BlBorder paint: Color gray); background: (Color gray alpha: 0.1).
 	but := ToButton new.
-	but iconImage: (BlElement new
-			 size: 60 @ 20;
-			 yourself).
-	but padding: (BlInsets all: 3).
-	but relocate: 30@30.
+	but iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
+	but icon layout alignCenter.
 	container addChild: but.
 	space := OBlSpace new.
 	space addChild: container.

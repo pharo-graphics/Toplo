@@ -24,6 +24,12 @@ ToAbstractMenuItem >> initialize [
 
 ]
 
+{ #category : #testing }
+ToAbstractMenuItem >> isSubmenu [ 
+
+	^ false
+]
+
 { #category : #window }
 ToAbstractMenuItem >> menuWindow [
 

@@ -1,26 +1,32 @@
 Class {
 	#name : #ToMenuRowDresser,
 	#superclass : #ToMenuItemRowDresser,
+	#instVars : [
+		'rightIcon'
+	],
 	#category : #'Toplo-Widget-Menu'
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToMenuRowDresser >> rowLayoutIn: anElement [
+ToMenuRowDresser >> rightIconIn: anElement [
 
-	anElement isSubmenu ifTrue: [ 
-		^ { 
-			  anElement icon.
-			  iconColumnFill.
-			  labelColumnFill.
-			  anElement label.
-			  anElement privateMatchParentFill.
-			  anElement rightIcon } select: #notNil ].
-
-	^ super rowLayoutIn: anElement
+	^ rightIcon ifNil: [ 
+		  rightIcon := ToImage new
+			               innerImage: anElement rightIconImage;
+			               hExact: 15;
+			               in: [ :im | im layout alignCenterRight ];
+			               yourself ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToMenuRowDresser >> shouldCheckIconColumnFillIn: anElement [
+ToMenuRowDresser >> rowLayoutIn: anElement [
+	anElement isSubmenu ifTrue: [
+		^ { 
+			  anElement icon.
+			  interspace.
+			  anElement label.
+			  anElement privateMatchParentFill.
+			  self rightIconIn: anElement } select: #notNil ].
 
-	^ anElement icon hasInnerImage 
+	^ super rowLayoutIn: anElement
 ]

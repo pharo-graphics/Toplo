@@ -1,5 +1,9 @@
 Trait {
 	#name : #TToWidgetWithState,
+	#instVars : [
+		'currentState',
+		'startState'
+	],
 	#category : #'Toplo-Widget-Button'
 }
 
@@ -12,13 +16,13 @@ TToWidgetWithState >> canSwitchToNextState [
 { #category : #'t - accessing state' }
 TToWidgetWithState >> currentState [
 
-	^ self userData at: #currentState ifAbsent: [  ]
+	^ currentState
 ]
 
 { #category : #'t - accessing state' }
 TToWidgetWithState >> currentState: aState [
 
-	self userData at: #currentState put: aState
+	currentState := aState
 ]
 
 { #category : #'t - initialization behavior' }
@@ -31,7 +35,7 @@ TToWidgetWithState >> initializeClickBehavior [
 TToWidgetWithState >> setUpStatesWith: aCollectionOfStates [
 
 	| curr states |
-	self userData removeKey: #currentState ifAbsent: [].
+	self currentState: nil.
 	aCollectionOfStates ifEmpty: [ ^self ].
 	states := aCollectionOfStates copy asOrderedCollection.
 	self currentState: states removeFirst. 
@@ -46,13 +50,13 @@ TToWidgetWithState >> setUpStatesWith: aCollectionOfStates [
 { #category : #'t - accessing state' }
 TToWidgetWithState >> startState [
 
-	^ self userData at: #startState ifAbsent: [ self currentState ]
+	^ startState ifNil: [ self currentState ]
 ]
 
 { #category : #'t - accessing state' }
 TToWidgetWithState >> startState: aState [
 
-	self userData at: #startState put: aState.
+	startState := aState.
 	self switchToStartState
 ]
 

@@ -3,10 +3,6 @@ Class {
 	#superclass : #ToButtonMenuItem,
 	#traits : 'TToCheckableWidget + TToCheckableWidgetWithIndeterminate',
 	#classTraits : 'TToCheckableWidget classTrait + TToCheckableWidgetWithIndeterminate classTrait',
-	#instVars : [
-		'hasIndeterminateState',
-		'group'
-	],
 	#category : #'Toplo-Widget-Menu'
 }
 
@@ -21,31 +17,4 @@ ToCheckMenuItem >> canSwitchToNextState [
 ToCheckMenuItem >> defaultDresser [
 
 	^ ToBasicMenuItemDresser next: (ToCheckBoxDresser next: ToMenuItemRowDresser new)
-]
-
-{ #category : #'t - toggle group' }
-ToCheckMenuItem >> group [
-
-	^ group
-]
-
-{ #category : #'t - toggle group' }
-ToCheckMenuItem >> group: aToggleGroup [
-
-	group := aToggleGroup
-]
-
-{ #category : #'t - checking accessing state' }
-ToCheckMenuItem >> hasIndeterminateState [
-
-	^ hasIndeterminateState ifNil: [ hasIndeterminateState := false ]
-]
-
-{ #category : #'t - checking accessing state' }
-ToCheckMenuItem >> hasIndeterminateState: aBoolean [
-
-	aBoolean = self hasIndeterminateState ifTrue: [ ^ self ].
-	hasIndeterminateState := aBoolean.
-	self announce: 	(ToStatesDefinitionChangedAnnouncement new widget: self)
-
 ]

@@ -3,9 +3,6 @@ Class {
 	#superclass : #ToButton,
 	#traits : 'TToCheckableWidget',
 	#classTraits : 'TToCheckableWidget classTrait',
-	#instVars : [
-		'group'
-	],
 	#category : #'Toplo-Widget-Button'
 }
 
@@ -13,18 +10,6 @@ Class {
 ToToggleButton >> defaultDresser [
 
 	^ ToToggleButtonDresser new
-]
-
-{ #category : #accessing }
-ToToggleButton >> group [
-
-	^ group
-]
-
-{ #category : #accessing }
-ToToggleButton >> group: aToggleGroup [
-
-	group := aToggleGroup
 ]
 
 { #category : #initialization }

@@ -1,36 +1,35 @@
 Trait {
 	#name : #TToButton,
 	#instVars : [
-		'layoutJustified'
+		'justified'
 	],
 	#category : #'Toplo-Widget-Button'
 }
 
-{ #category : #'t - button accessing' }
+{ #category : #'t - button presentation' }
 TToButton >> beJustified [
 
-	layoutJustified := true.
-	self privateUpdateChildren 
+	self isJustified: true.
+
 ]
 
-{ #category : #'t - button accessing' }
+{ #category : #'t - button presentation' }
 TToButton >> beNotJustified [
 
-	layoutJustified := false.
-	self privateUpdateChildren 
+	self isJustified: false.
+
 ]
 
-{ #category : #'t - button direction' }
-TToButton >> direction [
+{ #category : #'t - button testing' }
+TToButton >> hasIcon [
 
-	^ self layout direction
+	^ self icon hasInnerImage 
 ]
 
-{ #category : #'t - button direction' }
-TToButton >> direction: aBlLayoutDirection [
+{ #category : #'t - button testing' }
+TToButton >> hasLabel [
 
-	self layout direction: aBlLayoutDirection.
-	self requestLayout 
+	^ self label text isNotEmpty
 ]
 
 { #category : #'t - button accessing' }
@@ -54,7 +53,11 @@ TToButton >> iconImage [
 { #category : #'t - button accessing' }
 TToButton >> iconImage: anElement [
 
-	self icon innerImage: anElement
+	self icon innerImage: anElement.
+	self iconImage constraintsDo: [ :c | 
+		c linear horizontal alignCenter.
+		c linear vertical alignCenter ].
+	self privateUpdateChildren 
 ]
 
 { #category : #'t - button initialization' }
@@ -64,14 +67,24 @@ TToButton >> initializeButton [
 	self fitContent.
 	self label: ToLabel new.
 	self icon: ToImage new.
+	self label layout alignCenter.
+	self icon layout alignCenter.
 	
 	self privateUpdateChildren
 ]
 
-{ #category : #'t - button accessing' }
-TToButton >> isLayoutJustified [
+{ #category : #'t - button presentation' }
+TToButton >> isJustified [
 
-	^ layoutJustified ifNil: [ layoutJustified := false ]
+	^ justified ifNil: [ justified := false ]
+]
+
+{ #category : #'t - button presentation' }
+TToButton >> isJustified: aBoolean [
+
+	justified = aBoolean ifTrue: [ ^self ].
+	justified := aBoolean.
+	self announce: ToMenuPresentationChangedAnnouncement new
 ]
 
 { #category : #'t - button accessing' }

@@ -1,18 +1,24 @@
 Trait {
 	#name : #TToCheckableWidgetWithIndeterminate,
+	#instVars : [
+		'hasIndeterminateState'
+	],
 	#category : #'Toplo-Widget-Button'
 }
 
 { #category : #'t - checking accessing state' }
 TToCheckableWidgetWithIndeterminate >> hasIndeterminateState [
 
-	^ self explicitRequirement 
+	^ hasIndeterminateState ifNil: [ hasIndeterminateState := false ]
 ]
 
 { #category : #'t - checking accessing state' }
 TToCheckableWidgetWithIndeterminate >> hasIndeterminateState: aBoolean [
 
-	self explicitRequirement 
+	aBoolean = self hasIndeterminateState ifTrue: [ ^ self ].
+	hasIndeterminateState := aBoolean.
+	self announce: 	(ToStatesDefinitionChangedAnnouncement new widget: self)
+
 ]
 
 { #category : #'t - checking protocol' }

@@ -3,9 +3,9 @@ Class {
 	#superclass : #ToButtonMenuItem,
 	#instVars : [
 		'items',
-		'rightIcon',
 		'menuWindow',
-		'submenuDresser'
+		'submenuDresser',
+		'globalLeftColumnWidth'
 	],
 	#category : #'Toplo-Widget-Menu'
 }
@@ -52,6 +52,21 @@ ToMenu >> defaultDresser [
 	^ ToBasicMenuItemDresser next: (ToMenuDresser next: ToMenuRowDresser new)
 ]
 
+{ #category : #accessing }
+ToMenu >> globalLeftColumnWidth [
+
+	^ globalLeftColumnWidth ifNil: [ 22 ]
+]
+
+{ #category : #accessing }
+ToMenu >> globalLeftColumnWidth: anInteger [
+
+	self globalLeftColumnWidth = anInteger ifTrue: [ ^ self ].
+	globalLeftColumnWidth := anInteger.
+	self items do: [ :item | item 	leftColumnWidth: anInteger ]
+	
+]
+
 { #category : #initialization }
 ToMenu >> initialize [
 
@@ -60,6 +75,7 @@ ToMenu >> initialize [
 	self constraintsDo: [ :c | 
 		c horizontal fitContent.
 		c vertical fitContent ].
+	
 	items := OrderedCollection new.
 	menuWindow := ToMenuWindow new widget: self.
 	self whenClickedDo: [ self popupOrClose ].
@@ -118,20 +134,11 @@ ToMenu >> removedFromMenu: aMenu [
 ]
 
 { #category : #initialization }
-ToMenu >> rightIcon [
-
-	^ rightIcon ifNil: [ 
-		  rightIcon := ToImage new
-			               innerImage: self rightIconImage;
-			               yourself ]
-]
-
-{ #category : #initialization }
 ToMenu >> rightIconImage [
 
 	| ic |
 	ic := BlTextElement new text: '>' asRopedText bold.
-	ic constraintsDo: [ :c | 
+	ic constraintsDo: [ :c |
 			c linear vertical alignCenter.
 			c linear horizontal alignCenter ].
 	^ ic

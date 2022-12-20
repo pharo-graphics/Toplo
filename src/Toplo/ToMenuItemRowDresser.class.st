@@ -2,20 +2,67 @@ Class {
 	#name : #ToMenuItemRowDresser,
 	#superclass : #ToDresser,
 	#instVars : [
-		'labelColumnFill',
-		'iconColumnFill'
+		'interspace'
 	],
 	#category : #'Toplo-Widget-Menu'
 }
+
+{ #category : #'interspace computing' }
+ToMenuItemRowDresser >> exactInterspaceChangedIn: anElement [
+
+	| w left |
+	left := anElement isLabelFirst
+		        ifTrue: [ anElement label ]
+		        ifFalse: [ anElement icon ].
+
+	" ok, now measure the gap "
+	w := anElement leftColumnWidth - left width max: 0.
+
+	interspace ifNotNil: [ " adapt the existing fill "
+		interspace width = w ifTrue: [ ^ false ].
+		interspace size: w @ 0.
+		^ true ].
+
+	" first check, create the fill "
+	interspace := BlElement new
+		                  size: w @ 0;
+		                  id: #'icon-column-fill'.
+	^ true
+]
+
+{ #category : #'interspace computing' }
+ToMenuItemRowDresser >> interspaceChangedIn: anElement [
+
+	" first the label column only if it is justified "
+
+	anElement isJustified ifTrue: [ 
+		(self justifiedInterspaceChangedIn: anElement) ifTrue: [ ^ true ].
+		^ false ].
+
+	" then check the left column "
+	^ self exactInterspaceChangedIn: anElement
+]
+
+{ #category : #'interspace computing' }
+ToMenuItemRowDresser >> justifiedInterspaceChangedIn: anElement [
+
+	interspace ifNil: [ 
+		interspace := anElement privateMatchParentFill.
+		^ true ].
+	^ false
+]
 
 { #category : #'api - install/uninstall  hook' }
 ToMenuItemRowDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	anElement whenLayoutedDo: [ self updateRowLayoutIn: anElement ].
-	anElement whenAnnouncement: ToMenuPresentationChangedAnnouncement do:  [ anElement rowLayout: (self rowLayoutIn: anElement) ].
+	anElement whenLayoutedDo: [ self updateInterspaceIn: anElement ].
+	anElement
+		whenAnnouncement: ToMenuPresentationChangedAnnouncement
+		do: [ 
+			interspace := nil.
+			self updateInterspaceIn: anElement ].
 	anElement rowLayout: (self rowLayoutIn: anElement)
-
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -32,59 +79,18 @@ ToMenuItemRowDresser >> rowLayoutIn: anElement [
 		   ifTrue: [ 
 			   { 
 				   anElement label.
-				   labelColumnFill.
+				   interspace.
 				   anElement icon } ]
 		   ifFalse: [ 
 			   { 
 				   anElement icon.
-				   iconColumnFill.
-				   labelColumnFill.
+				   interspace.
 				   anElement label } ]) select: #notNil
 ]
 
-{ #category : #'api - install/uninstall  hook' }
-ToMenuItemRowDresser >> shouldCheckIconColumnFillIn: anElement [
+{ #category : #'interspace computing' }
+ToMenuItemRowDresser >> updateInterspaceIn: anElement [
 
-	^ anElement isIconFirst
-	
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToMenuItemRowDresser >> updateIconColumnFillIn: anElement [
-
-	| w |
-	" check if there a need to fill after the icon  "
-	(w := anElement iconColumnWidth - anElement iconImage width) > 0 
-		ifFalse: [ ^ false ].
-
-	" ok, now measure the gap "
-	iconColumnFill ifNotNil: [ " adapt the existing fill "
-		iconColumnFill size x = w ifTrue: [ ^ false ].
-		iconColumnFill size: w @ 0.
-		^ true ].
-
-	" first check, create the fill "
-	iconColumnFill := BlElement new
-		                  size: w @ 0;
-		                  id: #'icon-column-fill'.
-	^ true
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToMenuItemRowDresser >> updateRowLayoutIn: anElement [
-
-	" first the label column only if it is justified "
-
-	| changed |
-	changed := false.
-
-	(labelColumnFill isNil and: [ anElement isLayoutJustified ]) ifTrue: [ 
-		labelColumnFill := anElement privateMatchParentFill.
-		changed := true ].
-
-	" then check the icon column "
-	(self shouldCheckIconColumnFillIn: anElement) ifTrue: [ 
-		changed := self updateIconColumnFillIn: anElement ].
-
-	changed ifTrue: [ anElement rowLayout: (self rowLayoutIn: anElement) ]
+	(self interspaceChangedIn: anElement) ifTrue: [ 
+		anElement rowLayout: (self rowLayoutIn: anElement) ]
 ]

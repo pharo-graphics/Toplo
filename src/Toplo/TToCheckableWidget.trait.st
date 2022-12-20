@@ -1,5 +1,8 @@
 Trait {
 	#name : #TToCheckableWidget,
+	#instVars : [
+		'group'
+	],
 	#category : #'Toplo-Widget-Button'
 }
 
@@ -26,13 +29,13 @@ TToCheckableWidget >> check: aBoolean [
 { #category : #'t - toggle group' }
 TToCheckableWidget >> group [
 
-	^ self explicitRequirement
+	^ group
 ]
 
 { #category : #'t - toggle group' }
 TToCheckableWidget >> group: aToggleGroup [
 
-	self explicitRequirement
+	group := aToggleGroup
 ]
 
 { #category : #'t - checking protocol' }

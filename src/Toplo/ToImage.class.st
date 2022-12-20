@@ -31,7 +31,6 @@ ToImage >> initialize [
 	super initialize.
 	
 	self fitContent.
-	
 	self innerImage: self defaultInnerImage
 ]
 

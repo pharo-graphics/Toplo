@@ -14,7 +14,7 @@ TToLayoutableButton >> beHorizontal [
 	self horizontal: true
 ]
 
-{ #category : #'t - button direction' }
+{ #category : #'t - button presentation' }
 TToLayoutableButton >> beIconFirst [
 
 	self labelFirst: false
@@ -24,20 +24,6 @@ TToLayoutableButton >> beIconFirst [
 TToLayoutableButton >> beLabelFirst [
 
 	self labelFirst: true
-]
-
-{ #category : #'t - button direction' }
-TToLayoutableButton >> beLeftToRight [
-
-	self layout leftToRight.
-	self requestLayout 
-]
-
-{ #category : #'t - button direction' }
-TToLayoutableButton >> beRightToLeft [
-
-	self layout rightToLeft.
-	self requestLayout 
 ]
 
 { #category : #'t - button orientation' }
@@ -61,6 +47,13 @@ TToLayoutableButton >> horizontal: aBoolean [
 	self requestLayout   
 ]
 
+{ #category : #initialization }
+TToLayoutableButton >> initialize [
+	
+	self class initializeSlots: self.
+	super initialize.
+]
+
 { #category : #'t - button orientation' }
 TToLayoutableButton >> isHorizontal [
 
@@ -77,18 +70,6 @@ TToLayoutableButton >> isIconFirst [
 TToLayoutableButton >> isLabelFirst [
 	
 	^ self labelFirst
-]
-
-{ #category : #'t - button direction' }
-TToLayoutableButton >> isLeftToRight [
-
-	^ self layout direction = BlLayoutDirection leftToRight
-]
-
-{ #category : #'t - button direction' }
-TToLayoutableButton >> isRightToLeft [
-
-	^ self layout direction = BlLayoutDirection rightToLeft
 ]
 
 { #category : #'t - button presentation' }
@@ -116,14 +97,6 @@ TToLayoutableButton >> orientation: aBlLayoutOrientation [
 
 	self layout orientation: aBlLayoutOrientation.
 	self requestLayout 
-]
-
-{ #category : #'t - button private' }
-TToLayoutableButton >> privateMatchParentFill [
-
-	^ ToElement new
-		     id: #fill;
-		     matchParent
 ]
 
 { #category : #'t - button presentation' }

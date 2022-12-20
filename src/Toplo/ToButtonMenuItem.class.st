@@ -6,11 +6,20 @@ Class {
 	#instVars : [
 		'#label',
 		'#icon',
-		'#iconColumnWidth',
-		'#rowLayout'
+		'#rowLayout',
+		'#leftColumnWidth'
 	],
 	#category : #'Toplo-Widget-Menu'
 }
+
+{ #category : #initialization }
+ToButtonMenuItem >> addedInMenu: aMenu [
+
+	super addedInMenu: aMenu.
+	aMenu globalLeftColumnWidth isZero ifTrue: [^ self ].
+	self leftColumnWidth = self defaultLeftColumnWidth ifFalse: [ ^ self ].
+	self leftColumnWidth: aMenu globalLeftColumnWidth
+]
 
 { #category : #'t - initialization dresser' }
 ToButtonMenuItem >> defaultDresser [ 
@@ -19,9 +28,9 @@ ToButtonMenuItem >> defaultDresser [
 ]
 
 { #category : #initialization }
-ToButtonMenuItem >> defaultIconColumnWidth [
+ToButtonMenuItem >> defaultLeftColumnWidth [
 
-	^ 20 
+	^ -1 
 ]
 
 { #category : #'t - button accessing' }
@@ -36,25 +45,13 @@ ToButtonMenuItem >> icon: anImage [
 	icon := anImage 
 ]
 
-{ #category : #accessing }
-ToButtonMenuItem >> iconColumnWidth [
-
-	^ iconColumnWidth 
-]
-
-{ #category : #accessing }
-ToButtonMenuItem >> iconColumnWidth: anInteger [
-
-	iconColumnWidth := anInteger
-]
-
 { #category : #initialization }
 ToButtonMenuItem >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
 	
-	iconColumnWidth := self defaultIconColumnWidth.
+	leftColumnWidth := self defaultLeftColumnWidth.
 	self initializeButton.
 	"horizontal matchParent required here ** after ** initializeButton "
 	self constraintsDo: [ :c | 
@@ -77,6 +74,19 @@ ToButtonMenuItem >> label: aLabel [
 
 	label := aLabel
 	
+]
+
+{ #category : #accessing }
+ToButtonMenuItem >> leftColumnWidth [
+
+	^ leftColumnWidth 
+]
+
+{ #category : #accessing }
+ToButtonMenuItem >> leftColumnWidth: anInteger [
+
+	leftColumnWidth := anInteger.
+	self announce: ToMenuPresentationChangedAnnouncement new
 ]
 
 { #category : #'t - button private' }
@@ -104,4 +114,10 @@ ToButtonMenuItem >> rowLayout: aListOfElements [
 
 	rowLayout := aListOfElements.
 	self privateUpdateChildren 
+]
+
+{ #category : #accessing }
+ToButtonMenuItem >> withoutLeftColumn [
+
+	self leftColumnWidth: 0
 ]

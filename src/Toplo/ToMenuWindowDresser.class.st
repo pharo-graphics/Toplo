@@ -16,13 +16,13 @@ ToMenuWindowDresser >> mouseDownOutside: anEvent receivedIn: aMenuWindow [
 	anEvent event currentTarget ifNil: [ ^ super mouseDownOutside: anEvent receivedIn: aMenuWindow ].
 	(anEvent event currentTarget hasParent: aMenuWindow) ifTrue: [ ^ self ].
 
-	win := aMenuWindow currentOpenedSubmenuWindow.
+	win := aMenuWindow openedSubmenuWindow.
 	[ win notNil ] whileTrue: [ 
 		" If the submenu is the original event target then do nothing"
 		win = anEvent event currentTarget ifTrue: [ ^ self ].
 		" If the original event target is one of the submenu child then do nothing"
 		(anEvent event currentTarget hasParent: win) ifTrue: [ ^ self ].
-		win := win currentOpenedSubmenuWindow ].
+		win := win openedSubmenuWindow ].
 	
 	" ok, the event is outside of the submenu chain"
 	super mouseDownOutside: anEvent receivedIn: aMenuWindow

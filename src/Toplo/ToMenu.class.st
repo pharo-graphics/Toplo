@@ -17,5 +17,14 @@ ToMenu >> initialize [
 
 	super initialize.
 
-	self initializeMenu
+	self initializeMenu.
+	self menuWindow  widget: self.
+	self whenClickedDo: [ self popupOrClose ].
+
+]
+
+{ #category : #'t - menu initialization' }
+ToMenu >> menuWindowClass [
+
+	^ ToMenuWindow
 ]

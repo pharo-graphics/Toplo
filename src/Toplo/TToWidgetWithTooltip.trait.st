@@ -12,13 +12,13 @@ TToWidgetWithTooltip >> checkTooltip [
 { #category : #'t - tooltip private' }
 TToWidgetWithTooltip >> installTooltip [
 
-	self tooltip: self newTooltipWidget
+	self tooltip: self newTooltipWindow
 ]
 
 { #category : #'t - tooltip private' }
-TToWidgetWithTooltip >> newTooltipWidget [
+TToWidgetWithTooltip >> newTooltipWindow [
 
-	^ self tooltipWidgetClass new
+	^ self tooltipWindowClass new
 		  widget: self;
 		  yourself
 ]
@@ -74,7 +74,7 @@ TToWidgetWithTooltip >> tooltipString: aString [
 ]
 
 { #category : #'t - tooltip private' }
-TToWidgetWithTooltip >> tooltipWidgetClass [
+TToWidgetWithTooltip >> tooltipWindowClass [
 
 	^ ToTooltip 
 ]

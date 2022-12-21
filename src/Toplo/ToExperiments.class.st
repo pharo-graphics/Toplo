@@ -225,7 +225,7 @@ ToExperiments class >> example_FlowLayoutHorizontal [
 		         constraintsDo: [ :c | 
 			         c horizontal matchParent.
 			         c vertical fitContent ].
-
+	frame layout cellSpacing: 10.
 	left := BlElement new
 		        background: Color blue;
 		        width: 100;
@@ -390,7 +390,7 @@ ToExperiments class >> example_LinearLayoutFillWithMatchParent [
 		         constraintsDo: [ :c | 
 			         c horizontal matchParent.
 			         c vertical fitContent ].
-
+	frame layout cellSpacing: 10.
 	left := BlElement new
 		        background: Color blue;
 		        width: 100;

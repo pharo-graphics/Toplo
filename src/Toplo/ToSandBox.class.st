@@ -527,6 +527,33 @@ ToSandBox class >> example_rootFrame1 [
 	ToInnerWindow new title: 'Internal Frame example' ; openInOBlSpace 
 ]
 
+{ #category : #window }
+ToSandBox class >> example_rootFrameWithContextMenu [
+	
+	| win menu sub subsub |
+	win := ToInnerWindow new title: 'Context menu Example'.
+	menu := ToContextMenu new.
+	menu globalLeftColumnWidth: 22.
+	menu addItem: (ToButtonMenuItem new
+			 labelText: 'Open file';
+			 iconImage: (Smalltalk ui icons iconNamed: #config)).
+	menu addItem: (ToButtonMenuItem new labelText: 'Export').
+	menu addSeparator.
+	
+	sub := ToMenu new labelText: 'Save All'.
+	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
+	
+	subsub := ToMenu new labelText: 'Externally'; iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
+	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
+
+	sub addItem: (subsub).
+	
+	menu addItem: sub.
+
+	win contextMenu: menu.
+	win openInWorld 
+]
+
 { #category : #'text field' }
 ToSandBox class >> example_textField0 [
 

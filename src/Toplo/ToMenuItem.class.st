@@ -19,5 +19,5 @@ ToMenuItem >> initialize [
 ToMenuItem >> removedFromMenu: aMenu [
 	
 	super removedFromMenu: aMenu.
-	self privateParentMenuWindow: nil
+	self privateParentMenu: nil
 ]

@@ -2,7 +2,7 @@ Class {
 	#name : #ToAbstractMenuItem,
 	#superclass : #ToElement,
 	#instVars : [
-		'parentMenuWindow'
+		'parentMenu'
 	],
 	#category : #'Toplo-Widget-Menu'
 }
@@ -10,7 +10,7 @@ Class {
 { #category : #initialization }
 ToAbstractMenuItem >> addedInMenu: aMenu [
 
-	self privateParentMenuWindow: aMenu menuWindow.
+	self privateParentMenu: aMenu.
 	self constraintsDo: [ :c | 
 		c horizontal matchParent.
 		c vertical fitContent ]
@@ -39,13 +39,13 @@ ToAbstractMenuItem >> menuWindow [
 { #category : #window }
 ToAbstractMenuItem >> parentMenuWindow [
 
-	^ parentMenuWindow 
+	^ parentMenu ifNotNil: [:m | m menuWindow ] 
 ]
 
 { #category : #'private - accessing' }
-ToAbstractMenuItem >> privateParentMenuWindow: aWindow [
+ToAbstractMenuItem >> privateParentMenu: aMenu [
 
-	parentMenuWindow := aWindow
+	parentMenu := aMenu
 ]
 
 { #category : #initialization }

@@ -2,7 +2,7 @@ Class {
 	#name : #ToMenuWindow,
 	#superclass : #ToPopupWindow,
 	#instVars : [
-		'currentOpenedSubmenuWindow'
+		'openedSubmenuWindow'
 	],
 	#category : #'Toplo-Widget-Menu'
 }
@@ -10,21 +10,9 @@ Class {
 { #category : #'initialize-release' }
 ToMenuWindow >> close [
 
-	currentOpenedSubmenuWindow ifNotNil: [ :w | w close ].
+	openedSubmenuWindow ifNotNil: [ :w | w close ].
 	super close
 	
-]
-
-{ #category : #accessing }
-ToMenuWindow >> currentOpenedSubmenuWindow [
-
-	^ currentOpenedSubmenuWindow
-]
-
-{ #category : #accessing }
-ToMenuWindow >> currentOpenedSubmenuWindow: aWindow [
-
-	currentOpenedSubmenuWindow := aWindow
 ]
 
 { #category : #initialization }
@@ -58,7 +46,19 @@ ToMenuWindow >> openSubmenuWindowFor: anElement [
 	anElement items ifEmpty: [ ^ self ].
 	
 	" ok, open the sub menu window "
-	self currentOpenedSubmenuWindow: anElement menuWindow.
+	self openedSubmenuWindow: anElement menuWindow.
 	pos := anElement bounds inSpace bounds topRight.
 	anElement menuWindow popupAtGlobalPosition: pos
+]
+
+{ #category : #accessing }
+ToMenuWindow >> openedSubmenuWindow [
+
+	^ openedSubmenuWindow
+]
+
+{ #category : #accessing }
+ToMenuWindow >> openedSubmenuWindow: aWindow [
+
+	openedSubmenuWindow := aWindow
 ]

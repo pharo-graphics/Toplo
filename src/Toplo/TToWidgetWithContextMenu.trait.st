@@ -12,7 +12,8 @@ TToWidgetWithContextMenu >> contextMenu [
 { #category : #'t - accessing context menu' }
 TToWidgetWithContextMenu >> contextMenu: aMenu [
 
-	self userData at: #contextMenu put: aMenu
+	self userData at: #contextMenu put: aMenu.
+	aMenu widget: self
 ]
 
 { #category : #'t - accessing context menu' }

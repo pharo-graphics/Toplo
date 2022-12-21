@@ -39,6 +39,12 @@ TToMenu >> addedInMenu: aMenu [
 	self announce: ToMenuPresentationChangedAnnouncement new
 ]
 
+{ #category : #'event management' }
+TToMenu >> announce: anAnnouncement [
+
+	self explicitRequirement 
+]
+
 { #category : #'t - menu window' }
 TToMenu >> close [
 
@@ -46,9 +52,15 @@ TToMenu >> close [
 ]
 
 { #category : #'t - menu accessing' }
+TToMenu >> defaultGlobalLeftColumnWidth [
+
+	^ 22 
+]
+
+{ #category : #'t - menu accessing' }
 TToMenu >> globalLeftColumnWidth [
 
-	^ globalLeftColumnWidth ifNil: [ 22 ] 
+	^ globalLeftColumnWidth ifNil: [ self defaultGlobalLeftColumnWidth ] 
 ]
 
 { #category : #'t - menu accessing' }
@@ -68,9 +80,7 @@ TToMenu >> initializeMenu [
 		c vertical fitContent ].
 	
 	items := OrderedCollection new.
-	menuWindow := ToMenuWindow new widget: self.
-	self whenClickedDo: [ self popupOrClose ].
-	
+	menuWindow := self menuWindowClass new
 ]
 
 { #category : #'t - menu testing' }
@@ -91,6 +101,18 @@ TToMenu >> menuWindow [
 	^ menuWindow 
 ]
 
+{ #category : #'t - menu initialization' }
+TToMenu >> menuWindowClass [
+
+	^ self explicitRequirement 
+]
+
+{ #category : #'t - menu window' }
+TToMenu >> parentMenuWindow [
+
+	^ self explicitRequirement 
+]
+
 { #category : #'t - menu window' }
 TToMenu >> popup [
 
@@ -104,7 +126,7 @@ TToMenu >> popupOrClose [
 		^ self menuWindow close ].
 	self parentMenuWindow ifNotNil: [ :w | 
 		^ w openSubmenuWindowFor: self ].
-	self menuWindow popup
+	self popup
 ]
 
 { #category : #'t - menu item adding/removing' }

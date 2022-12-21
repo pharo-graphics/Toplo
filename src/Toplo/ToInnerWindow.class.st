@@ -1,8 +1,8 @@
 Class {
 	#name : #ToInnerWindow,
 	#superclass : #ToWindow,
-	#traits : 'TToWidgetWithResizeGrips',
-	#classTraits : 'TToWidgetWithResizeGrips classTrait',
+	#traits : 'TToWidgetWithResizeGrips + TToWidgetWithContextMenu',
+	#classTraits : 'TToWidgetWithResizeGrips classTrait + TToWidgetWithContextMenu classTrait',
 	#instVars : [
 		'bar',
 		'title',

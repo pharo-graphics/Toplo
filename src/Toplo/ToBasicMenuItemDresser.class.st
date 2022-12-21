@@ -29,15 +29,15 @@ ToBasicMenuItemDresser >> onEnterEvent: anEvent in: anElement [
 	parentWindow := anElement parentMenuWindow.
 
 	" a submenu is opened "
-	parentWindow currentOpenedSubmenuWindow ifNil: [ ^ self ].
+	parentWindow openedSubmenuWindow ifNil: [ ^ self ].
 
 	" the submenu is not mine "
-	parentWindow currentOpenedSubmenuWindow == anElement menuWindow 
+	parentWindow openedSubmenuWindow == anElement menuWindow 
 		ifTrue: [ ^ self ].
 
 	" ok, I can close other item submenu window"
-	parentWindow currentOpenedSubmenuWindow close.
-	parentWindow currentOpenedSubmenuWindow: nil
+	parentWindow openedSubmenuWindow close.
+	parentWindow openedSubmenuWindow: nil
 ]
 
 { #category : #'api - install/uninstall  hook' }

@@ -101,7 +101,6 @@ ToMenuItemRowDresser >> rowLayingOutIn: anElement [
 { #category : #'interspace computing' }
 ToMenuItemRowDresser >> updateInterspaceIn: anElement [
 
-'x' traceCr.
 	(self interspaceChangedIn: anElement) ifFalse: [ ^ self ].
 	
 	" update the row laying out in the element "

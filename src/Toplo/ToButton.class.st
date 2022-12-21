@@ -1,8 +1,8 @@
 Class {
 	#name : #ToButton,
 	#superclass : #ToGeneralButton,
-	#traits : 'TToLayoutableButton',
-	#classTraits : 'TToLayoutableButton classTrait',
+	#traits : 'TToButton + TToOrientableButton',
+	#classTraits : 'TToButton classTrait + TToOrientableButton classTrait',
 	#instVars : [
 		'#label',
 		'#icon'
@@ -52,21 +52,23 @@ ToButton >> label: aLabel [
 ]
 
 { #category : #'t - button initialization' }
-ToButton >> rowLayout [
+ToButton >> rowLayingOut [
 
-	| fill |
+	| fill la ic |
 	fill := self isJustified
 		        ifTrue: [ self privateMatchParentFill ]
 		        ifFalse: [  ].
+	la := self label text ifNotEmpty: [ self label] ifEmpty: [ nil ].
+	ic := self icon hasInnerImage ifTrue: [ self icon ] ifFalse: [ nil ].
 	^ (self isLabelFirst
 		   ifTrue: [ 
 			   { 
-				   self label.
+				   la.
 				   fill.
-				   self icon } ]
+				   ic } ]
 		   ifFalse: [ 
 			   { 
-				   self icon.
+				   ic.
 				   fill.
-				   self label } ]) select: #notNil
+				   la } ]) select: #notNil
 ]

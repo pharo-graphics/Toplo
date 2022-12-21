@@ -1,13 +1,13 @@
 Class {
 	#name : #ToButtonMenuItem,
 	#superclass : #ToMenuItem,
-	#traits : 'TToLayoutableButton + TToWidgetWithState',
-	#classTraits : 'TToLayoutableButton classTrait + TToWidgetWithState classTrait',
+	#traits : 'TToButton + TToWidgetWithState',
+	#classTraits : 'TToButton classTrait + TToWidgetWithState classTrait',
 	#instVars : [
 		'#label',
 		'#icon',
-		'#rowLayout',
-		'#leftColumnWidth'
+		'#leftColumnWidth',
+		'#rowLayingOut'
 	],
 	#category : #'Toplo-Widget-Menu'
 }
@@ -57,7 +57,10 @@ ToButtonMenuItem >> initialize [
 	self constraintsDo: [ :c | 
 				        c horizontal matchParent.
 				        c vertical fitContent ].
-	self whenPresentationChangedDo: [ self announce: ToMenuPresentationChangedAnnouncement new ].
+	self icon whenInnerImageReplacedDo: [ self announce: ToMenuPresentationChangedAnnouncement new ].
+	self label whenTextReplacedDo:[ self announce: ToMenuPresentationChangedAnnouncement new ].
+	self whenLabelFirstChangedDo: [ self announce: ToMenuPresentationChangedAnnouncement new ].
+	self whenJustifiedChangedDo: [ self announce: ToMenuPresentationChangedAnnouncement new ].
 	self initializeClickBehavior.
 	self initializeDresser
 
@@ -89,31 +92,17 @@ ToButtonMenuItem >> leftColumnWidth: anInteger [
 	self announce: ToMenuPresentationChangedAnnouncement new
 ]
 
-{ #category : #'t - button private' }
-ToButtonMenuItem >> privateUpdateChildren [
+{ #category : #'t - button initialization' }
+ToButtonMenuItem >> rowLayingOut [
 
-	| subs |
-	self removeChildren.
-	subs := self rowLayout.
-	subs ifNil: [ ^ self ].
-	subs do: [ :s | 
-		s constraintsDo: [ :c | 
-			c linear vertical alignCenter.
-			c linear horizontal alignCenter ] ].
-	self addChildren: subs
+	^ rowLayingOut 
 ]
 
 { #category : #'t - button initialization' }
-ToButtonMenuItem >> rowLayout [
+ToButtonMenuItem >> rowLayingOut: aListOfElements [
 
-	^ rowLayout 
-]
-
-{ #category : #'t - button initialization' }
-ToButtonMenuItem >> rowLayout: aListOfElements [
-
-	rowLayout := aListOfElements.
-	self privateUpdateChildren 
+	rowLayingOut := aListOfElements.
+	self privateUpdateRowLayingOut 
 ]
 
 { #category : #accessing }

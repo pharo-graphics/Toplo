@@ -225,7 +225,8 @@ ToSandBox class >> example_menu2 [
 	menu leftColumnWidth: 0.
 	menu addItem: (ToCheckMenuItem new labelText: 'Align right'; beLabelFirst).
 	menu relocate: 10@10.
-	menu openInInnerWindow
+	menu openInNewSpace.
+	
 ]
 
 { #category : #menu }
@@ -518,7 +519,7 @@ ToSandBox class >> example_menu6 [
 	menu addItem: sub.
 
 	menu relocate: 10 @ 10.
-	menu openInOBlSpace
+	menu openInInnerWindow
 ]
 
 { #category : #window }

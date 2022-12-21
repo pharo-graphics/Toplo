@@ -62,7 +62,7 @@ ToMenuItemRowDresser >> onInstalledIn: anElement [
 		do: [ 
 			interspace := nil.
 			self updateInterspaceIn: anElement ].
-	anElement rowLayout: (self rowLayoutIn: anElement)
+	anElement rowLayingOut: (self rowLayingOutIn: anElement)
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -73,24 +73,32 @@ ToMenuItemRowDresser >> onUninstalledIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToMenuItemRowDresser >> rowLayoutIn: anElement [
+ToMenuItemRowDresser >> rowLayingOutIn: anElement [
+
+	| la ic |
+	la := anElement label text
+		      ifNotEmpty: [ anElement label ]
+		      ifEmpty: [ nil ].
+	ic := anElement icon hasInnerImage
+		      ifTrue: [ anElement icon ]
+		      ifFalse: [ nil ].
 
 	^ (anElement isLabelFirst
 		   ifTrue: [ 
 			   { 
-				   anElement label.
+				   la.
 				   interspace.
-				   anElement icon } ]
+				   ic } ]
 		   ifFalse: [ 
 			   { 
-				   anElement icon.
+				   ic.
 				   interspace.
-				   anElement label } ]) select: #notNil
+				   la } ]) select: #notNil
 ]
 
 { #category : #'interspace computing' }
 ToMenuItemRowDresser >> updateInterspaceIn: anElement [
 
 	(self interspaceChangedIn: anElement) ifTrue: [ 
-		anElement rowLayout: (self rowLayoutIn: anElement) ]
+		anElement rowLayingOut: (self rowLayingOutIn: anElement) ]
 ]

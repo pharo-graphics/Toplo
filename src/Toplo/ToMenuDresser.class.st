@@ -7,7 +7,9 @@ Class {
 { #category : #'api - install/uninstall  hook' }
 ToMenuDresser >> onInstalledIn: anElement [
 
-	super onInstalledIn: anElement
+	super onInstalledIn: anElement.
+	anElement icon padding: (BlInsets left: 2 right: 2).
+	anElement label padding: (BlInsets left: 2 right: 2)
 
 ]
 

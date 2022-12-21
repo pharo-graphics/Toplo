@@ -19,14 +19,23 @@ ToMenuRowDresser >> rightIconIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToMenuRowDresser >> rowLayoutIn: anElement [
-	anElement isSubmenu ifTrue: [
-		^ { 
-			  anElement icon.
-			  interspace.
-			  anElement label.
-			  anElement privateMatchParentFill.
-			  self rightIconIn: anElement } select: #notNil ].
+ToMenuRowDresser >> rowLayingOutIn: anElement [
 
-	^ super rowLayoutIn: anElement
+	| la ic |
+	la := anElement label text
+		      ifNotEmpty: [ anElement label ]
+		      ifEmpty: [ nil ].
+	ic := anElement icon hasInnerImage
+		      ifTrue: [ anElement icon ]
+		      ifFalse: [ nil ].
+
+	anElement isSubmenu ifTrue: [ 
+		^ { 
+			  ic.
+			  interspace.
+			  la.
+			  anElement privateMatchParentFill.
+			  (self rightIconIn: anElement) } select: #notNil ].
+
+	^ super rowLayingOutIn: anElement
 ]

@@ -31,7 +31,9 @@ ToMenuAsSubmenuDresser >> onEnterEvent: anEvent in: anElement [
 ToMenuAsSubmenuDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	self installEventListenersIn: anElement
+	self installEventListenersIn: anElement.
+	anElement icon padding: (BlInsets left: 2 right: 2).
+	anElement label padding: (BlInsets left: 2 right: 2)
 ]
 
 { #category : #'api - install/uninstall  hook' }

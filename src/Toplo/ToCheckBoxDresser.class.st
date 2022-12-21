@@ -16,7 +16,7 @@ ToCheckBoxDresser >> checkIndeterminateIn: anElement [
 { #category : #initialization }
 ToCheckBoxDresser >> defaultAnimationDuration [
 
-	^ 200 milliSeconds
+	^ 300 milliSeconds
 ]
 
 { #category : #initialization }
@@ -25,7 +25,7 @@ ToCheckBoxDresser >> defaultCheckedIconImage [
 	^ BlElement new
 		  size: 12 @ 12;
 		  border: (BlBorder paint: Color lightGray width: 1);
-		  margin: (BlInsets all: 0);
+		  margin: (BlInsets all: 2);
 		  background: theme button hoveredBorderColor;
 		  yourself
 ]
@@ -36,14 +36,17 @@ ToCheckBoxDresser >> defaultCheckedState [
 	^ ToWidgetState new
 		  name: #checked;
 		  whenEnterDo: [ :ann | 
-			  | op |
 			  ann widget iconImage: self defaultCheckedIconImage.
-			  op := ann widget iconImage opacity.
-			  ann widget iconImage opacity: 0.1.
-			  ann widget iconImage addAnimation: (BlOpacityAnimation new
-						   duration: (ann state counter isZero ifTrue: [0 milliSecond] ifFalse: [self defaultAnimationDuration]);
-						   opacity: op;
-						   yourself) ];
+			  ann widget isAttachedToSceneGraph ifTrue: [ 
+					  | op |
+					  op := ann widget iconImage opacity.
+					  ann widget iconImage opacity: 0.1.
+					  ann widget iconImage addAnimation: (BlOpacityAnimation new
+								   duration: (ann state counter isZero
+										    ifTrue: [ 0 milliSecond ]
+										    ifFalse: [ self defaultAnimationDuration ]);
+								   opacity: op;
+								   yourself) ] ];
 		  yourself
 ]
 
@@ -60,7 +63,7 @@ ToCheckBoxDresser >> defaultIndeterminateIconImage [
 		c frame vertical alignCenter ].
 	im := BlElement new
 		      size: 12 @ 12;
-				margin: (BlInsets all: 0);
+				margin: (BlInsets all: 2);
 		      border: (BlBorder paint: Color lightGray width: 1);
 		      yourself.
 	im layout: BlFrameLayout new.
@@ -82,7 +85,7 @@ ToCheckBoxDresser >> defaultUncheckedIconImage [
 
 	^ BlElement new
 		  size: 12 @ 12;
-		  margin: (BlInsets all: 0);
+		  margin: (BlInsets all: 2);
 		  border: (BlBorder paint: Color gray width: 1);
 		  background: (Color gray alpha: 0.2);
 		  yourself
@@ -94,16 +97,7 @@ ToCheckBoxDresser >> defaultUncheckedState [
 	^ ToWidgetState new
 		  name: #unchecked;
 		  whenEnterDo: [ :ann | 
-			  | prevIm op |
-			  prevIm := ann widget iconImage.
-			  op := prevIm opacity.
-			  ann widget iconImage addAnimation: (BlOpacityAnimation new
-						   duration: (ann state counter isZero ifTrue: [0 milliSecond] ifFalse: [self defaultAnimationDuration]);
-						   opacity: 0.1;
-						   onFinishedDo: [ 
-							   ann widget iconImage: self defaultUncheckedIconImage.
-							   prevIm opacity: op ];
-						   yourself) ]
+			  ann widget iconImage: self defaultUncheckedIconImage ]
 ]
 
 { #category : #'api - install/uninstall  hook' }

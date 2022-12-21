@@ -18,3 +18,10 @@ ToCheckMenuItem >> defaultDresser [
 
 	^ ToBasicMenuItemDresser next: (ToCheckBoxDresser next: ToMenuItemRowDresser new)
 ]
+
+{ #category : #initialization }
+ToCheckMenuItem >> initialize [
+
+	super initialize.
+
+]

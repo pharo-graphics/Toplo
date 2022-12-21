@@ -1,16 +1,29 @@
 Trait {
 	#name : #TToButton,
 	#instVars : [
-		'justified'
+		'#justified => ObservableSlot',
+		'#labelFirst => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Button'
 }
+
+{ #category : #'t - button presentation' }
+TToButton >> beIconFirst [
+
+	self labelFirst: false
+]
 
 { #category : #'t - button presentation' }
 TToButton >> beJustified [
 
 	self isJustified: true.
 
+]
+
+{ #category : #'t - button presentation' }
+TToButton >> beLabelFirst [
+
+	self labelFirst: true
 ]
 
 { #category : #'t - button presentation' }
@@ -57,7 +70,14 @@ TToButton >> iconImage: anElement [
 	self iconImage constraintsDo: [ :c | 
 		c linear horizontal alignCenter.
 		c linear vertical alignCenter ].
-	self privateUpdateChildren 
+	self privateUpdateRowLayingOut 
+]
+
+{ #category : #initialization }
+TToButton >> initialize [
+	
+	self class initializeSlots: self.
+	super initialize.
 ]
 
 { #category : #'t - button initialization' }
@@ -70,7 +90,13 @@ TToButton >> initializeButton [
 	self label layout alignCenter.
 	self icon layout alignCenter.
 	
-	self privateUpdateChildren
+	self privateUpdateRowLayingOut
+]
+
+{ #category : #'t - button presentation' }
+TToButton >> isIconFirst [
+	
+	^ self isLabelFirst not
 ]
 
 { #category : #'t - button presentation' }
@@ -87,6 +113,12 @@ TToButton >> isJustified: aBoolean [
 	self announce: ToMenuPresentationChangedAnnouncement new
 ]
 
+{ #category : #'t - button presentation' }
+TToButton >> isLabelFirst [
+	
+	^ self labelFirst
+]
+
 { #category : #'t - button accessing' }
 TToButton >> label [
 
@@ -100,6 +132,20 @@ TToButton >> label: aLabel [
 	
 ]
 
+{ #category : #'t - button presentation' }
+TToButton >> labelFirst [
+
+	^ labelFirst ifNil: [ labelFirst := false ]  
+]
+
+{ #category : #'t - button presentation' }
+TToButton >> labelFirst: aBoolean [
+	
+	labelFirst = aBoolean ifTrue: [ ^ self ].
+	labelFirst := aBoolean.
+	self privateUpdateRowLayingOut.
+]
+
 { #category : #'t - button accessing' }
 TToButton >> labelText [
 
@@ -109,7 +155,8 @@ TToButton >> labelText [
 { #category : #'t - button accessing' }
 TToButton >> labelText: aText [
 
-	self label text: aText
+	self label text: aText.
+	self privateUpdateRowLayingOut.
 ]
 
 { #category : #'t - button private' }
@@ -121,11 +168,12 @@ TToButton >> privateMatchParentFill [
 ]
 
 { #category : #'t - button private' }
-TToButton >> privateUpdateChildren [
+TToButton >> privateUpdateRowLayingOut [
 
 	| subs |
 	self removeChildren.
-	subs := self rowLayout.
+	subs := self rowLayingOut.
+	subs ifNil: [ ^ self ].
 	subs do: [ :s | 
 		s constraintsDo: [ :c | 
 			c linear vertical alignCenter.
@@ -134,7 +182,7 @@ TToButton >> privateUpdateChildren [
 ]
 
 { #category : #'t - button initialization' }
-TToButton >> rowLayout [
+TToButton >> rowLayingOut [
 
 	^ self explicitRequirement 
 ]
@@ -143,6 +191,22 @@ TToButton >> rowLayout [
 TToButton >> whenIconImageReplacedDo: aBlock [
 
 	self icon whenInnerImageReplacedDo: aBlock
+]
+
+{ #category : #'t - button change hook' }
+TToButton >> whenJustifiedChangedDo: aBlock [
+
+	"set a block to perform after that the image has been changed, and its action performed"
+
+	self property: #justified whenChangedDo: aBlock
+]
+
+{ #category : #'t - button change hook' }
+TToButton >> whenLabelFirstChangedDo: aBlock [
+
+	"set a block to perform after that the image has been changed, and its action performed"
+
+	self property: #labelFirst whenChangedDo: aBlock
 ]
 
 { #category : #'t - button change hook' }

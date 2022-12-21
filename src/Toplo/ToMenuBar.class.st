@@ -21,6 +21,8 @@ ToMenuBar >> addFiller [
 ToMenuBar >> addMenu: aMenu [
 
 	self menus add: aMenu.
+	aMenu constraintsDo: [ :c | c linear vertical alignCenter ].
+	aMenu constraintsDo: [ :c | c linear horizontal alignCenter ].
 	self addChild: aMenu
 ]
 

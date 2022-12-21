@@ -529,9 +529,8 @@ ToSandBox class >> example_rootFrame1 [
 
 { #category : #'context menu + menubar' }
 ToSandBox class >> example_rootFrameWithContextMenu [
-	
-	| win menu sub subsub bar |
-	
+
+	| win menu sub subsub bar textField |
 	win := ToInnerWindow new title: 'Context menu Example'.
 	menu := ToContextMenu new.
 	menu globalLeftColumnWidth: 22.
@@ -540,28 +539,44 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 			 iconImage: (Smalltalk ui icons iconNamed: #config)).
 	menu addItem: (ToButtonMenuItem new labelText: 'Export').
 	menu addSeparator.
-	
+
 	sub := ToMenu new labelText: 'Save All'.
 	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
-	
-	subsub := ToMenu new labelText: 'Externally'; iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
+
+	subsub := ToMenu new
+		          labelText: 'Externally';
+		          iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
 	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
 
-	sub addItem: (subsub).
-	
+	sub addItem: subsub.
+
 	menu addItem: sub.
 
 	win contextMenu: menu.
-	
-	bar := ToMenuBar new hMatchParent; vFitContent.
-	bar addMenu: (ToMenu new labelText: 'File').
-	bar addMenu: (ToMenu new labelText: 'Edit').
-	bar addFiller.
-	bar addMenu: (ToMenu new labelText: 'Help').
 
-	bar relocate: 0@0.
+	bar := ToMenuBar new
+		       hMatchParent;
+		       vFitContent.
+	bar addMenu: (ToMenu new
+			 labelText: 'File';
+			 tooltipString: 'file stuffs').
+	bar addMenu: (ToMenu new
+			 labelText: 'Edit';
+			 tooltipString: 'editing stuffs').
+	bar addFiller.
+	textField := ToTextField new
+		             withLineWrapping;
+		             width: 200;
+		             withGhostText: 'search...'.
+	bar addChild: textField.
+	bar addMenu: (ToMenu new
+			 labelText: 'Help';
+			 tooltipString: 'help stuffs').
+
+	bar relocate: 0 @ 0.
+	bar border: (BlBorder paint: Color black).
 	win root addChild: bar.
-	win openInWorld 
+	win openInWorld
 ]
 
 { #category : #'text field' }

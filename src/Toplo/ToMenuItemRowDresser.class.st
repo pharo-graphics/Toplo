@@ -11,11 +11,13 @@ Class {
 ToMenuItemRowDresser >> exactInterspaceChangedIn: anElement [
 
 	| w left |
+	
+	" get the left side element "
 	left := anElement isLabelFirst
 		        ifTrue: [ anElement label ]
 		        ifFalse: [ anElement icon ].
 
-	" ok, now measure the gap "
+	" now measure the gap according to leftColumnWidth "
 	w := anElement leftColumnWidth - left width max: 0.
 
 	interspace ifNotNil: [ " adapt the existing fill "
@@ -23,7 +25,7 @@ ToMenuItemRowDresser >> exactInterspaceChangedIn: anElement [
 		interspace size: w @ 0.
 		^ true ].
 
-	" first check, create the fill "
+	" first pass, create the fill "
 	interspace := BlElement new
 		                  size: w @ 0;
 		                  id: #'icon-column-fill'.
@@ -56,7 +58,7 @@ ToMenuItemRowDresser >> justifiedInterspaceChangedIn: anElement [
 ToMenuItemRowDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	anElement whenLayoutedDo: [ self updateInterspaceIn: anElement ].
+	anElement whenLayoutedDoOnce: [ self updateInterspaceIn: anElement ].
 	anElement
 		whenAnnouncement: ToMenuPresentationChangedAnnouncement
 		do: [ 
@@ -99,6 +101,11 @@ ToMenuItemRowDresser >> rowLayingOutIn: anElement [
 { #category : #'interspace computing' }
 ToMenuItemRowDresser >> updateInterspaceIn: anElement [
 
-	(self interspaceChangedIn: anElement) ifTrue: [ 
-		anElement rowLayingOut: (self rowLayingOutIn: anElement) ]
+'x' traceCr.
+	(self interspaceChangedIn: anElement) ifFalse: [ ^ self ].
+	
+	" update the row laying out in the element "
+	anElement rowLayingOut: (self rowLayingOutIn: anElement).
+	" launch a second pass to finalize the laying out "
+	anElement whenLayoutedDoOnce: [ self updateInterspaceIn: anElement ]
 ]

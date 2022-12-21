@@ -51,11 +51,10 @@ TToWidgetWithTooltip >> tooltipContent [
 { #category : #'t - accessing tooltip' }
 TToWidgetWithTooltip >> tooltipContent: aString [
 
-	(self tooltipContent = aString) ifTrue:[^self].
+	self tooltipContent = aString ifTrue: [ ^ self ].
 
 	self checkTooltip.
 	self tooltip content: aString asRopedText
-
 ]
 
 { #category : #'t - accessing tooltip' }

@@ -1,50 +1,10 @@
 Class {
 	#name : #ToMenu,
 	#superclass : #ToButtonMenuItem,
-	#instVars : [
-		'items',
-		'menuWindow',
-		'submenuDresser',
-		'globalLeftColumnWidth'
-	],
+	#traits : 'TToMenu',
+	#classTraits : 'TToMenu classTrait',
 	#category : #'Toplo-Widget-Menu'
 }
-
-{ #category : #'item adding/removing' }
-ToMenu >> addAllItems: aCollection [
-
-	aCollection do: [ :item | self addItem: item ]
-]
-
-{ #category : #'item adding/removing' }
-ToMenu >> addItem: aMenuItem [
-
-	self items add: aMenuItem.
-	self menuWindow addChild: aMenuItem.
-	aMenuItem addedInMenu: self
-]
-
-{ #category : #'item adding/removing' }
-ToMenu >> addSeparator [
-
-	self addItem: ToSeparatorMenuItem new
-]
-
-{ #category : #initialization }
-ToMenu >> addedInMenu: aMenu [
-
-	super addedInMenu: aMenu.
-	submenuDresser ifNil: [ 
-		submenuDresser := ToMenuAsSubmenuDresser new.
-		self addDresser: submenuDresser ].
-	self announce: ToMenuPresentationChangedAnnouncement new
-]
-
-{ #category : #window }
-ToMenu >> close [
-
-	self menuWindow close
-]
 
 { #category : #'t - initialization dresser' }
 ToMenu >> defaultDresser [
@@ -52,94 +12,10 @@ ToMenu >> defaultDresser [
 	^ ToBasicMenuItemDresser next: (ToMenuDresser next: ToMenuRowDresser new)
 ]
 
-{ #category : #accessing }
-ToMenu >> globalLeftColumnWidth [
-
-	^ globalLeftColumnWidth ifNil: [ 22 ]
-]
-
-{ #category : #accessing }
-ToMenu >> globalLeftColumnWidth: anInteger [
-
-	self globalLeftColumnWidth = anInteger ifTrue: [ ^ self ].
-	globalLeftColumnWidth := anInteger.
-	self items do: [ :item | item 	leftColumnWidth: anInteger ]
-	
-]
-
 { #category : #initialization }
 ToMenu >> initialize [
 
 	super initialize.
 
-	self constraintsDo: [ :c | 
-		c horizontal fitContent.
-		c vertical fitContent ].
-	
-	items := OrderedCollection new.
-	menuWindow := ToMenuWindow new widget: self.
-	self whenClickedDo: [ self popupOrClose ].
-	
-]
-
-{ #category : #testing }
-ToMenu >> isSubmenu [
-
-	^ submenuDresser notNil
-]
-
-{ #category : #'item  accessing' }
-ToMenu >> items [
-
-	^ items
-]
-
-{ #category : #window }
-ToMenu >> menuWindow [
-
-	^ menuWindow 
-]
-
-{ #category : #window }
-ToMenu >> popup [
-
-	self menuWindow popup
-]
-
-{ #category : #window }
-ToMenu >> popupOrClose [
-
-	self menuWindow isAttachedToSceneGraph ifTrue: [ 
-		^ self menuWindow close ].
-	self parentMenuWindow ifNotNil: [ :w | 
-		^ w openSubmenuWindowFor: self ].
-	self menuWindow popup
-]
-
-{ #category : #'item adding/removing' }
-ToMenu >> removeItem: aMenuItem [
-
-	aMenuItem removedFromMenu: self.
-	self items remove: aMenuItem.
-	self menuWindow removeChild: aMenuItem
-]
-
-{ #category : #initialization }
-ToMenu >> removedFromMenu: aMenu [
-
-	super removedFromMenu: aMenu.
-	submenuDresser ifNotNil: [ 
-		self removeDresser: submenuDresser.
-		submenuDresser := nil ]
-]
-
-{ #category : #initialization }
-ToMenu >> rightIconImage [
-
-	| ic |
-	ic := BlTextElement new text: '>' asRopedText bold.
-	ic constraintsDo: [ :c |
-			c linear vertical alignCenter.
-			c linear horizontal alignCenter ].
-	^ ic
+	self initializeMenu
 ]

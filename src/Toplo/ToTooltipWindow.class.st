@@ -1,5 +1,5 @@
 Class {
-	#name : #ToTooltip,
+	#name : #ToTooltipWindow,
 	#superclass : #ToPopupWindow,
 	#instVars : [
 		'#content => ObservableSlot',
@@ -10,32 +10,32 @@ Class {
 }
 
 { #category : #accessing }
-ToTooltip >> content [
+ToTooltipWindow >> content [
 
 	^ content
 ]
 
 { #category : #accessing }
-ToTooltip >> content: aText [
+ToTooltipWindow >> content: aText [
 
 	content := aText
 ]
 
 { #category : #accessing }
-ToTooltip >> contentString: aString [
+ToTooltipWindow >> contentString: aString [
 
 	self content: aString asRopedText
 ]
 
 { #category : #'t - accessing - dresser' }
-ToTooltip >> defaultDresser [
+ToTooltipWindow >> defaultDresser [
 
-	^ ToTooltipDresser new
+	^ ToTooltipWindowDresser new
 
 ]
 
 { #category : #initialization }
-ToTooltip >> defaultLabel [
+ToTooltipWindow >> defaultLabel [
 
 	^ ToLabel new
 		  beMultiLine;
@@ -45,7 +45,7 @@ ToTooltip >> defaultLabel [
 ]
 
 { #category : #initialization }
-ToTooltip >> initialize [
+ToTooltipWindow >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
@@ -58,7 +58,7 @@ ToTooltip >> initialize [
 ]
 
 { #category : #initialization }
-ToTooltip >> installedIn: aWidget [
+ToTooltipWindow >> installedIn: aWidget [
 
 	aWidget ifNil: [ ^ self ].
 	widgetWithTooltipEventHandler := ToWidgetWithTooltipEventHandler new.
@@ -66,13 +66,13 @@ ToTooltip >> installedIn: aWidget [
 ]
 
 { #category : #accessing }
-ToTooltip >> label [
+ToTooltipWindow >> label [
 
 	^ label ifNil: [ 	self label: self defaultLabel. label ]
 ]
 
 { #category : #accessing }
-ToTooltip >> label: aLabel [
+ToTooltipWindow >> label: aLabel [
 
 	label ifNotNil: [ label removeFromParent ].
 	label := aLabel.
@@ -81,7 +81,7 @@ ToTooltip >> label: aLabel [
 ]
 
 { #category : #initialization }
-ToTooltip >> uninstalledFrom: aWidget [
+ToTooltipWindow >> uninstalledFrom: aWidget [
 
 	aWidget ifNil: [ ^ self ].
 	aWidget removeEventFilter: widgetWithTooltipEventHandler.
@@ -89,7 +89,7 @@ ToTooltip >> uninstalledFrom: aWidget [
 ]
 
 { #category : #'api - properties change hook' }
-ToTooltip >> whenContentChangedDo: aBlock [
+ToTooltipWindow >> whenContentChangedDo: aBlock [
 	"Inform when content property has changed. 
 	 `aBlock` has three optional arguments: 
 	 - new value

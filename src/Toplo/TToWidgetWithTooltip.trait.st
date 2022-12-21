@@ -76,7 +76,7 @@ TToWidgetWithTooltip >> tooltipString: aString [
 { #category : #'t - tooltip private' }
 TToWidgetWithTooltip >> tooltipWindowClass [
 
-	^ ToTooltip 
+	^ ToTooltipWindow 
 ]
 
 { #category : #'t - tooltip change hook' }

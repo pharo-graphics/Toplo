@@ -1,5 +1,5 @@
 Class {
-	#name : #ToTooltipDresser,
+	#name : #ToTooltipWindowDresser,
 	#superclass : #ToDresser,
 	#instVars : [
 		'eventHandler'
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToTooltipDresser >> newEventHandler [
+ToTooltipWindowDresser >> newEventHandler [
 
-	^ ToTooltipEventHandler new
+	^ ToTooltipWindowEventHandler new
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToTooltipDresser >> onInstalledIn: anElement [
+ToTooltipWindowDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	
@@ -35,7 +35,7 @@ ToTooltipDresser >> onInstalledIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToTooltipDresser >> onUninstalledIn: anElement [
+ToTooltipWindowDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
 	anElement removeEventHandler: eventHandler.

@@ -19,7 +19,7 @@ ToTooltipModel >> contentString: aString [
 { #category : #'private - accessing - widget' }
 ToTooltipModel >> privateWidgetClass [
 
-	^ ToTooltip
+	^ ToTooltipWindow
 ]
 
 { #category : #enumerating }

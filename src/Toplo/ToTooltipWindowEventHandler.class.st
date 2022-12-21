@@ -1,5 +1,5 @@
 Class {
-	#name : #ToTooltipEventHandler,
+	#name : #ToTooltipWindowEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'tooltipElement',
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #'api - accessing' }
-ToTooltipEventHandler >> eventsToHandle [
+ToTooltipWindowEventHandler >> eventsToHandle [
 
 	^ { 
 		  BlMouseEnterEvent.
@@ -18,19 +18,19 @@ ToTooltipEventHandler >> eventsToHandle [
 ]
 
 { #category : #'api - accessing' }
-ToTooltipEventHandler >> mouseDownEvent: anEvent [
+ToTooltipWindowEventHandler >> mouseDownEvent: anEvent [
 
 	anEvent currentTarget close
 ]
 
 { #category : #'api - accessing' }
-ToTooltipEventHandler >> mouseEnterEvent: anEvent [
+ToTooltipWindowEventHandler >> mouseEnterEvent: anEvent [
 
 
 ]
 
 { #category : #'api - accessing' }
-ToTooltipEventHandler >> mouseLeaveEvent: anEvent [
+ToTooltipWindowEventHandler >> mouseLeaveEvent: anEvent [
 
 
 ]

@@ -527,10 +527,11 @@ ToSandBox class >> example_rootFrame1 [
 	ToInnerWindow new title: 'Internal Frame example' ; openInOBlSpace 
 ]
 
-{ #category : #window }
+{ #category : #'context menu + menubar' }
 ToSandBox class >> example_rootFrameWithContextMenu [
 	
-	| win menu sub subsub |
+	| win menu sub subsub bar |
+	
 	win := ToInnerWindow new title: 'Context menu Example'.
 	menu := ToContextMenu new.
 	menu globalLeftColumnWidth: 22.
@@ -551,6 +552,15 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	menu addItem: sub.
 
 	win contextMenu: menu.
+	
+	bar := ToMenuBar new hMatchParent; vFitContent.
+	bar addMenu: (ToMenu new labelText: 'File').
+	bar addMenu: (ToMenu new labelText: 'Edit').
+	bar addFiller.
+	bar addMenu: (ToMenu new labelText: 'Help').
+
+	bar relocate: 0@0.
+	win root addChild: bar.
 	win openInWorld 
 ]
 

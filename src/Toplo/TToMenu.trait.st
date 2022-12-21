@@ -72,6 +72,12 @@ TToMenu >> globalLeftColumnWidth: anInteger [
 	
 ]
 
+{ #category : #'t - menu testing' }
+TToMenu >> hasItems [ 
+
+	^ self items notEmpty
+]
+
 { #category : #'t - menu initialization' }
 TToMenu >> initializeMenu [
 
@@ -116,6 +122,7 @@ TToMenu >> parentMenuWindow [
 { #category : #'t - menu window' }
 TToMenu >> popup [
 
+	self hasItems ifFalse: [ ^ self ].
 	self menuWindow popup
 ]
 

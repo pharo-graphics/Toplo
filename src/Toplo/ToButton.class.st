@@ -1,8 +1,8 @@
 Class {
 	#name : #ToButton,
 	#superclass : #ToGeneralButton,
-	#traits : 'TToButton + TToOrientableButton',
-	#classTraits : 'TToButton classTrait + TToOrientableButton classTrait',
+	#traits : 'TToButton + TToOrientableWidget',
+	#classTraits : 'TToButton classTrait + TToOrientableWidget classTrait',
 	#instVars : [
 		'#label',
 		'#icon'

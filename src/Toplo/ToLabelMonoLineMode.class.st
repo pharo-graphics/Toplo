@@ -14,6 +14,4 @@ ToLabelMonoLineMode >> isMonoLine [
 ToLabelMonoLineMode >> newTextElementIn: aLabel [
 
 	^ ToLabelMonoLineInnerElement new
-		  editorMeasurement;
-		  yourself
 ]

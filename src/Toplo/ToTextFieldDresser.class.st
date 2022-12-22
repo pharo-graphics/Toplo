@@ -9,9 +9,12 @@ ToTextFieldDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 
-	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 8).
-	anElement innerElement geometry: (BlRoundedRectangleGeometry cornerRadius: 8).
-	anElement padding: (BlInsets all: 1).
+	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 6).
+	anElement innerElement geometry: (BlRoundedRectangleGeometry cornerRadius: 6).
+	anElement padding: (BlInsets all: 0).
+	anElement margin: (BlInsets all: 0).
+	anElement innerElement margin: (BlInsets all: 2).
+	anElement innerElement padding: (BlInsets all: 0).
 
 	anElement addEventHandler: (BlEventHandler
 				on: BlMouseDownEvent 

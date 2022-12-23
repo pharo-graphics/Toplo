@@ -26,7 +26,15 @@ ToPopupWindowDresser >> mouseDownOutside: anEvent receivedIn: aMenuWindow [
 ToPopupWindowDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	self installEventListenersIn: anElement
+	self installEventListenersIn: anElement.
+	anElement effect:
+		(BlGaussianShadowEffect
+			 color: Color gray
+			 width: 5
+			 offset: 2 asPoint).
+
+
+
 ]
 
 { #category : #'api - install/uninstall  hook' }

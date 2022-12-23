@@ -527,6 +527,25 @@ ToSandBox class >> example_rootFrame1 [
 	ToInnerWindow new title: 'Internal Frame example' ; openInOBlSpace 
 ]
 
+{ #category : #choicebox }
+ToSandBox class >> example_rootFrameWithChoiceBox [
+
+	| win bar choicebox |
+	win := ToInnerWindow new title: 'Choice box Example'.
+
+	bar := ToMenuBar new
+		       hMatchParent;
+		       vFitContent.
+	choicebox := ToChoiceBox new width: 50.
+	choicebox addAllChoiceNames: { 'OS-X'. 'Windows'. 'Linux'}.
+	bar addChild: (choicebox tooltipString: 'Select your operating system').
+
+	bar relocate: 0 @ 0.
+	bar border: (BlBorder paint: Color lightGray).
+	win root addChild: bar.
+	win openInWorld
+]
+
 { #category : #'context menu + menubar' }
 ToSandBox class >> example_rootFrameWithContextMenu [
 
@@ -1310,7 +1329,7 @@ ToSandBox class >> example_toLabel_Multiline2_Centered [
 ToSandBox class >> example_toMultiState1 [
 
 	| but space |
-	but := ToButton new.
+	but := ToMultiStateButton new.
 	but
 		iconImage: (BlElement new
 				 size: 100 @ 100;
@@ -1341,7 +1360,7 @@ ToSandBox class >> example_toMultiState1 [
 ToSandBox class >> example_toMultiState2 [
 
 	| but space |
-	but := ToButton new
+	but := ToMultiStateButton new
 		       clipChildren: false;
 		       iconImage: (BlElement new
 				        size: 100 @ 100;
@@ -1367,7 +1386,7 @@ ToSandBox class >> example_toMultiState2 [
 ToSandBox class >> example_toMultiState2_v2_do_not_work_well [
 
 	| but space |
-	but := ToButton new
+	but := ToMultiStateButton new
 		       clipChildren: false;
 		       iconImage: (BlElement new
 				        size: 100 @ 100;
@@ -1393,7 +1412,7 @@ ToSandBox class >> example_toMultiState2_v2_do_not_work_well [
 ToSandBox class >> example_toMultiStateWithBigBlue [
 
 	| but |
-	but := ToButton new.
+	but := ToMultiStateButton new.
 	but setUpStatesWith: { 
 			(ToWidgetState new
 				 whenEnterDo: [ :ann | 
@@ -1446,7 +1465,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 		                  opacity: 1;
 		                  yourself ].
 
-	but := ToButtonModel new.
+	but := ToMultiStateButton new.
 	but setUpStatesWith: { 
 			(ToWidgetState new
 				 whenEnterDo: [ :ann | 
@@ -1503,14 +1522,14 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 								 opacity: 0;
 								 addAnimation: enterAnimation value ].
 					 ann widget addAnimation: anim ]) }.
-	but onWidget openInOBlSpace
+	but  openInOBlSpace
 ]
 
 { #category : #multistate }
 ToSandBox class >> example_toMultiStateWithLabel [
 
 	| but |
-	but := ToButton new size: 70 @ 35.
+	but := ToMultiStateButton new size: 70 @ 35.
 	but setUpStatesWith: { 
 			(ToWidgetState new
 				 name: #one;

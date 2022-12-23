@@ -23,5 +23,5 @@ ToCheckMenuItem >> defaultDresser [
 ToCheckMenuItem >> initialize [
 
 	super initialize.
-
+	self whenClickedDo: [ self switchToNextState ]
 ]

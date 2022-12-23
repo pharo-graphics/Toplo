@@ -5,7 +5,7 @@ Trait {
 
 { #category : #'t - click behavior' }
 TToClickableWidget >> whenClickedDo: aBlock [
-	"Inform that the button has been aclicked, and its action has been performed.
+	"Inform that the widget has been aclicked, and its action has been performed.
 	 `aBlock` receive zero arguments."
 
 	self when: BlClickEvent do: aBlock

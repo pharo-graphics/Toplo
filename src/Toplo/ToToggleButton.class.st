@@ -1,6 +1,6 @@
 Class {
 	#name : #ToToggleButton,
-	#superclass : #ToButton,
+	#superclass : #ToMultiStateButton,
 	#traits : 'TToCheckableWidget',
 	#classTraits : 'TToCheckableWidget classTrait',
 	#category : #'Toplo-Widget-Button'
@@ -16,5 +16,7 @@ ToToggleButton >> defaultDresser [
 ToToggleButton >> initialize [ 
 
 	super initialize.
-	self beJustified
+	
+	self beJustified.
+
 ]

@@ -25,12 +25,6 @@ TToWidgetWithState >> currentState: aState [
 	currentState := aState
 ]
 
-{ #category : #'t - initialization behavior' }
-TToWidgetWithState >> initializeClickBehavior [
-
-	self whenClickedDo: [ self switchToNextState ].
-]
-
 { #category : #'t - accessing state' }
 TToWidgetWithState >> setUpStatesWith: aCollectionOfStates [
 

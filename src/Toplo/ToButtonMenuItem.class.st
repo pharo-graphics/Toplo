@@ -61,7 +61,7 @@ ToButtonMenuItem >> initialize [
 	self label whenTextReplacedDo:[ self announce: ToMenuPresentationChangedAnnouncement new ].
 	self whenLabelFirstChangedDo: [ self announce: ToMenuPresentationChangedAnnouncement new ].
 	self whenJustifiedChangedDo: [ self announce: ToMenuPresentationChangedAnnouncement new ].
-	self initializeClickBehavior.
+
 	self initializeDresser
 
 ]

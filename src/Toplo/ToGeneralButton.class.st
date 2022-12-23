@@ -1,8 +1,8 @@
 Class {
 	#name : #ToGeneralButton,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TToWidgetWithState + TToClickableWidget + TToWidgetWithTooltip + TToWidgetWithViewModel',
-	#classTraits : 'TToWidget classTrait + TToWidgetWithState classTrait + TToClickableWidget classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithViewModel classTrait',
+	#traits : 'TToWidget + TToClickableWidget + TToWidgetWithTooltip + TToWidgetWithViewModel',
+	#classTraits : 'TToWidget classTrait + TToClickableWidget classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithViewModel classTrait',
 	#category : #'Toplo-Widget-Button'
 }
 
@@ -11,5 +11,5 @@ ToGeneralButton >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	self initializeClickBehavior
+
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCheckbox,
-	#superclass : #ToButton,
+	#superclass : #ToMultiStateButton,
 	#traits : 'TToCheckableWidget + TToCheckableWidgetWithIndeterminate',
 	#classTraits : 'TToCheckableWidget classTrait + TToCheckableWidgetWithIndeterminate classTrait',
 	#category : #'Toplo-Widget-Button'
@@ -16,5 +16,5 @@ ToCheckbox >> canSwitchToNextState [
 { #category : #'t - initialization dresser' }
 ToCheckbox >> defaultDresser [
 
-	^ ToButtonDresser next: ToCheckBoxDresser new
+	^ ToCheckBoxDresser new
 ]

@@ -30,6 +30,7 @@ ToButtonMenuItem >> defaultDresser [
 { #category : #initialization }
 ToButtonMenuItem >> defaultLeftColumnWidth [
 
+	" -1 means no default "
 	^ -1 
 ]
 
@@ -53,14 +54,14 @@ ToButtonMenuItem >> initialize [
 	
 	leftColumnWidth := self defaultLeftColumnWidth.
 	self initializeButton.
-	"horizontal matchParent required here ** after ** initializeButton "
+	"horizontal matchParent required here ** after ** initializeButton ( because of the #fitContent sent)"
 	self constraintsDo: [ :c | 
 				        c horizontal matchParent.
 				        c vertical fitContent ].
-	self icon whenInnerImageReplacedDo: [ self announce: ToMenuPresentationChangedAnnouncement new ].
-	self label whenTextReplacedDo:[ self announce: ToMenuPresentationChangedAnnouncement new ].
-	self whenLabelFirstChangedDo: [ self announce: ToMenuPresentationChangedAnnouncement new ].
-	self whenJustifiedChangedDo: [ self announce: ToMenuPresentationChangedAnnouncement new ].
+	self icon whenInnerImageReplacedDo: [ self presentationChanged ].
+	self label whenTextReplacedDo:[ self presentationChanged ].
+	self whenLabelFirstChangedDo: [ self presentationChanged ].
+	self whenJustifiedChangedDo: [ self presentationChanged ].
 
 	self initializeDresser
 
@@ -90,6 +91,12 @@ ToButtonMenuItem >> leftColumnWidth: anInteger [
 
 	leftColumnWidth := anInteger.
 	self announce: ToMenuPresentationChangedAnnouncement new
+]
+
+{ #category : #presentation }
+ToButtonMenuItem >> presentationChanged [
+
+	self announce: ToMenuPresentationChangedAnnouncement new 
 ]
 
 { #category : #'t - button initialization' }

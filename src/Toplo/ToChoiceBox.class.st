@@ -64,13 +64,15 @@ ToChoiceBox >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	button := ToChoiceBoxButton new labelText: 'choicebox'.
+	self layout: BlFrameLayout new.
+	self fitContent.
+	button := ToChoiceBoxButton new.
 	group := ToCheckableGroup new.
 	self addChild: button.
-	self fitContent.
 	self whenSelectedItemChangedDo: [ self selectedItemChanged ].
 	group whenCheckedDo: [ :item :previous | selectedItem := item ].
-	self initializeDresser
+	self initializeDresser.
+
 ]
 
 { #category : #accessing }

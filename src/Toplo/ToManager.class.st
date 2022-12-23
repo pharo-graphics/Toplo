@@ -27,11 +27,12 @@ ToManager class >> initialize [
 
 { #category : #'class initialization' }
 ToManager class >> reset [
+	<script>
 
 	"self reset"
 
 	"Session dependents"
-
+	BlParallelUniverse initialize.
 	session := -1.
 	UniqueInstance := nil
 ]

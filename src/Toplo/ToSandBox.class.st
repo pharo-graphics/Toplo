@@ -536,7 +536,7 @@ ToSandBox class >> example_rootFrameWithChoiceBox [
 	bar := ToMenuBar new
 		       hMatchParent;
 		       vFitContent.
-	choicebox := ToChoiceBox new width: 50.
+	choicebox := ToChoiceBox new.
 	choicebox addAllChoiceNames: { 'OS-X'. 'Windows'. 'Linux'}.
 	choicebox default: (choicebox itemWithLabelString: 'Windows').
 

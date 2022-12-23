@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'buttons',
 		'checked',
-		'checkAction'
+		'checkAction',
+		'default'
 	],
 	#category : #'Toplo-Widget-Button'
 }
@@ -38,6 +39,19 @@ ToCheckableGroup >> checked: aCheckable [
 	(buttons select: [ :b | b ~= aCheckable ]) do: [ :b | b uncheckFromGroup ].
 	checkAction ifNotNil: [ checkAction cull: aCheckable cull: checked].
 	checked := aCheckable 
+]
+
+{ #category : #'adding / removing' }
+ToCheckableGroup >> default: aCheckable [
+
+	default ifNotNil: [ 
+		default uncheck.
+		default := nil ].
+	aCheckable ifNil: [ ^ self ].
+	(buttons select: [ :b | b ~= aCheckable ]) do: [ :b | 
+		b uncheckFromGroup ].
+	aCheckable startChecked.
+	default := aCheckable
 ]
 
 { #category : #accessing }

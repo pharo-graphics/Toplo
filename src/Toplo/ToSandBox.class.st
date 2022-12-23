@@ -538,6 +538,8 @@ ToSandBox class >> example_rootFrameWithChoiceBox [
 		       vFitContent.
 	choicebox := ToChoiceBox new width: 50.
 	choicebox addAllChoiceNames: { 'OS-X'. 'Windows'. 'Linux'}.
+	choicebox default: (choicebox itemWithLabelString: 'Windows').
+
 	bar addChild: (choicebox tooltipString: 'Select your operating system').
 
 	bar relocate: 0 @ 0.
@@ -1003,6 +1005,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroup2 [
 			       id: idx asString.
 		chb icon margin: (BlInsets all: 2).
 		group add: chb ].
+	group default: (group buttons second).
 	container := ToElement new.
 	container matchParent.
 	container layout: BlLinearLayout horizontal.

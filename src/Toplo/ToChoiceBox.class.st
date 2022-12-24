@@ -4,38 +4,27 @@ Class {
 	#traits : 'TToWidget + TToWidgetWithTooltip',
 	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait',
 	#instVars : [
+		'#choices',
 		'#button',
 		'#group',
-		'#selectedItem => ObservableSlot'
+		'#selectedChoice => ObservableSlot',
+		'#toTextConverter'
 	],
 	#category : #'Toplo-Widget-ChoiceBox'
 }
 
 { #category : #'adding / removing' }
-ToChoiceBox >> addAllChoiceNames: aListOfText [
+ToChoiceBox >> addAllChoices: aList [
 
-	aListOfText do: [ :t | self addChoiceName: t ]
-
-]
-
-{ #category : #'adding / removing' }
-ToChoiceBox >> addAllItems: aCollection [
-
-	button addAllItems: aCollection
-]
-
-{ #category : #'adding / removing' }
-ToChoiceBox >> addChoiceName: aText [
-
-	self addItem: (ToChoiceBoxItem new labelText: aText)
+	aList do: [ :t | self addChoice: t ]
 
 ]
 
 { #category : #'adding / removing' }
-ToChoiceBox >> addItem: anItem [
+ToChoiceBox >> addChoice: anObject [
 
-	button addItem: anItem.
-	group add: anItem
+	self choices add: anObject.
+	self privateAddItem: (self newItemFromChoice: anObject)
 
 ]
 
@@ -45,11 +34,31 @@ ToChoiceBox >> addSeparator [
 	button addSeparator
 ]
 
-{ #category : #initialization }
-ToChoiceBox >> default: aCheckable [
+{ #category : #accessing }
+ToChoiceBox >> choiceFromItem: anItem [
 
-	group default: aCheckable.
-	selectedItem := aCheckable
+	^ self choices
+		  detect: [ :c | 
+			  (self toTextConverter value: c) asString
+			  = anItem labelText asString ]
+		  ifNone: [  ]
+]
+
+{ #category : #accessing }
+ToChoiceBox >> choices [
+
+	^ choices
+]
+
+{ #category : #accessing }
+ToChoiceBox >> defaultChoice: anObject [
+
+
+	| item |
+	item := self itemFromChoice: anObject.
+	item ifNil: [ ^ self ].
+	group default: item.
+	selectedChoice := anObject
 	
 ]
 
@@ -64,45 +73,98 @@ ToChoiceBox >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
+	toTextConverter := [ :i | i ].
+	choices := OrderedCollection new.
 	self layout: BlFrameLayout new.
 	self fitContent.
 	button := ToChoiceBoxButton new.
 	group := ToCheckableGroup new.
 	self addChild: button.
-	self whenSelectedItemChangedDo: [ self selectedItemChanged ].
-	group whenCheckedDo: [ :item :previous | selectedItem := item ].
+	self whenSelectedChoiceChangedDo: [ self selectedChoiceChanged ].
+	group whenCheckedDo: [ :item :previous | selectedChoice := self choiceFromItem: item ].
 	self initializeDresser.
 
 ]
 
 { #category : #accessing }
-ToChoiceBox >> itemWithLabelString: aString [
+ToChoiceBox >> itemFromChoice: anObject [
 
-	^ button items detect: [ :i | i labelText asString = aString  ] ifNone: [  ]
-	
+	^ button items
+		  detect: [ :i | 
+			  i labelText asString
+			  = (self toTextConverter value: anObject) asString ]
+		  ifNone: [  ]
+]
+
+{ #category : #'adding / removing' }
+ToChoiceBox >> newItemFromChoice: anObject [
+
+	^ ToChoiceBoxItem new labelText:
+		  (self toTextConverter value: anObject)
+]
+
+{ #category : #'private adding / removing' }
+ToChoiceBox >> privateAddItem: anItem [
+
+	button addItem: anItem.
+	group add: anItem
+
+]
+
+{ #category : #'private adding / removing' }
+ToChoiceBox >> privateRemoveItem: anItem [
+
+	button removeItem: anItem.
+	group remove: anItem
 
 ]
 
 { #category : #'adding / removing' }
-ToChoiceBox >> removeItem: anItem [
+ToChoiceBox >> removeChoice: anObject [
 
-	button removeItem: anItem
+	| i |
+	self choices remove: anObject.
+	i := self itemFromChoice: anObject.
+	self privateRemoveItem: i
+]
 
+{ #category : #accessing }
+ToChoiceBox >> selectedChoice [
+
+	^ selectedChoice
+]
+
+{ #category : #accessing }
+ToChoiceBox >> selectedChoice: anObject [
+
+	selectedChoice := anObject
 ]
 
 { #category : #'api - change hook' }
-ToChoiceBox >> selectedItemChanged [
+ToChoiceBox >> selectedChoiceChanged [
 
-	selectedItem ifNil: [ 
+	selectedChoice ifNil: [ 
 		button labelText: nil.
 		^ self ].
-	button labelText: selectedItem labelText copy
+	button labelText: (self toTextConverter value: selectedChoice) copy
+]
+
+{ #category : #accessing }
+ToChoiceBox >> toTextConverter [
+
+	^ toTextConverter
+]
+
+{ #category : #accessing }
+ToChoiceBox >> toTextConverter: anObject [
+
+	toTextConverter := anObject
 ]
 
 { #category : #'api - change hook' }
-ToChoiceBox >> whenSelectedItemChangedDo: aBlock [
+ToChoiceBox >> whenSelectedChoiceChangedDo: aBlock [
 
 	"set a block to perform after that the selected item has been changed, and its action performed"
 
-	self property: #selectedItem whenChangedDo: aBlock
+	self property: #selectedChoice whenChangedDo: aBlock
 ]

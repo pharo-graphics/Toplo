@@ -537,10 +537,35 @@ ToSandBox class >> example_rootFrameWithChoiceBox [
 		       hMatchParent;
 		       vFitContent.
 	choicebox := ToChoiceBox new.
-	choicebox addAllChoiceNames: { 'OS-X'. 'Windows'. 'Linux'}.
-	choicebox default: (choicebox itemWithLabelString: 'Windows').
+	choicebox addAllChoices: { 'OS-X'. 'Windows'. }.
+	choicebox addSeparator.
+	choicebox addChoice: 'Linux'.
+	choicebox defaultChoice: 'Windows'.
 
 	bar addChild: (choicebox tooltipString: 'Select your operating system').
+
+	bar relocate: 0 @ 0.
+	bar border: (BlBorder paint: Color lightGray).
+	win root addChild: bar.
+	win openInWorld
+]
+
+{ #category : #choicebox }
+ToSandBox class >> example_rootFrameWithChoiceBox2 [
+
+	| win bar choicebox |
+	win := ToInnerWindow new title: 'Alexandrie host'.
+
+	bar := ToMenuBar new
+		       hMatchParent;
+		       vFitContent.
+	choicebox := ToChoiceBox new.
+	choicebox toTextConverter: [ :cls | cls name ].
+	choicebox addAllChoices: { BAMorphicWindowHost. BAOSWindowSDL2Host. }.
+	choicebox defaultChoice: BAOSWindowSDL2Host.
+	choicebox whenSelectedChoiceChangedDo: [ self inform: choicebox selectedChoice name].
+
+	bar addChild: (choicebox tooltipString: 'Select the Alexandrie host').
 
 	bar relocate: 0 @ 0.
 	bar border: (BlBorder paint: Color lightGray).

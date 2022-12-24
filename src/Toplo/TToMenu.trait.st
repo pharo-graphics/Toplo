@@ -39,6 +39,12 @@ TToMenu >> addedInMenu: aMenu [
 	self announce: ToMenuPresentationChangedAnnouncement new
 ]
 
+{ #category : #'t - menu initialization' }
+TToMenu >> addedInMenuBar: aMenuBar [
+
+	aMenuBar whenOrientationChangedDo: [ self inHorizontalMenuBar: aMenuBar isHorizontal ]
+]
+
 { #category : #'event management' }
 TToMenu >> announce: anAnnouncement [
 
@@ -76,6 +82,14 @@ TToMenu >> globalLeftColumnWidth: anInteger [
 TToMenu >> hasItems [ 
 
 	^ self items notEmpty
+]
+
+{ #category : #'t - menu initialization' }
+TToMenu >> inHorizontalMenuBar: aBoolean [
+
+	aBoolean
+		ifTrue: [ self hFitContent ]
+		ifFalse: [ self hMatchParent ]
 ]
 
 { #category : #'t - menu initialization' }

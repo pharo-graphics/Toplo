@@ -79,6 +79,18 @@ ToSandBox class >> example_EditorWithGhostTextWithToAlbumModel [
 	view openInOBlSpace
 ]
 
+{ #category : #list }
+ToSandBox class >> example_ListWithAllClasses [
+
+	| l |
+	l := ToInfinite new
+		dataToElementStencyl: [ :cls | ToLabel new text: cls name ];
+		list: Smalltalk globals allClasses asArray;
+		yourself.
+	l inspect.
+	l openInOBlSpace
+]
+
 { #category : #window }
 ToSandBox class >> example_Popup1 [
 
@@ -540,7 +552,7 @@ ToSandBox class >> example_rootFrameWithChoiceBox [
 	choicebox addAllChoices: { 'OS-X'. 'Windows'. }.
 	choicebox addSeparator.
 	choicebox addChoice: 'Linux'.
-	choicebox defaultChoice: 'Windows'.
+	"choicebox defaultChoice: 'Windows'."
 
 	bar addChild: (choicebox tooltipString: 'Select your operating system').
 
@@ -559,11 +571,16 @@ ToSandBox class >> example_rootFrameWithChoiceBox2 [
 	bar := ToMenuBar new
 		       hMatchParent;
 		       vFitContent.
-	choicebox := ToChoiceBox new.
-	choicebox toTextConverter: [ :cls | cls name ].
-	choicebox addAllChoices: { BAMorphicWindowHost. BAOSWindowSDL2Host. }.
-	choicebox defaultChoice: BAOSWindowSDL2Host.
-	choicebox whenSelectedChoiceChangedDo: [ self inform: choicebox selectedChoice name].
+	choicebox := ToChoiceBox new
+		             hMatchParent;
+		             beJustified.
+	choicebox toTextConverter: [ :assoc | assoc key ].
+	choicebox addAllChoices: { 
+			('Morphic SDL' -> BAMorphicWindowHost).
+			('Native SDL' -> BAOSWindowSDL2Host) }.
+	choicebox defaultChoiceIndex: 2.
+	choicebox whenSelectedChoiceChangedDo: [ 
+		self inform: choicebox selectedChoice value name ].
 
 	bar addChild: (choicebox tooltipString: 'Select the Alexandrie host').
 
@@ -620,6 +637,61 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 			 tooltipString: 'help stuffs').
 
 	bar relocate: 0 @ 0.
+	bar border: (BlBorder paint: Color black).
+	win root addChild: bar.
+	win openInWorld
+]
+
+{ #category : #'context menu + menubar' }
+ToSandBox class >> example_rootFrameWithContextMenu_menubarHorizontal [
+
+	| win menu sub subsub bar textField |
+	win := ToInnerWindow new title: 'Context menu Example'.
+	menu := ToContextMenu new.
+	menu globalLeftColumnWidth: 22.
+	menu addItem: (ToButtonMenuItem new
+			 labelText: 'Open file';
+			 iconImage: (Smalltalk ui icons iconNamed: #config)).
+	menu addItem: (ToButtonMenuItem new labelText: 'Export').
+	menu addSeparator.
+
+	sub := ToMenu new labelText: 'Save All'.
+	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
+
+	subsub := ToMenu new
+		          labelText: 'Externally';
+		          iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
+	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
+
+	sub addItem: subsub.
+
+	menu addItem: sub.
+
+	win contextMenu: menu.
+
+	bar := ToMenuBar new
+		       hMatchParent;
+		       vFitContent.
+	bar addMenu: (ToMenu new
+			 labelText: 'File';
+			 tooltipString: 'file stuffs').
+	bar addMenu: (ToMenu new
+			 labelText: 'Edit';
+			 tooltipString: 'editing stuffs').
+	bar addFiller.
+	bar addSeparator.
+	textField := ToTextField new
+		             withLineWrapping;
+		             width: 200;
+		             withGhostText: 'search...'.
+	bar addChild: textField.
+	bar addMenu: (ToMenu new
+			 labelText: 'Help';
+			 tooltipString: 'help stuffs').
+
+	bar relocate: 0 @ 0.
+	bar beVertical.
+	bar hFitContent.
 	bar border: (BlBorder paint: Color black).
 	win root addChild: bar.
 	win openInWorld

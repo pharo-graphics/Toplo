@@ -24,14 +24,21 @@ ToChoiceBox >> addAllChoices: aList [
 ToChoiceBox >> addChoice: anObject [
 
 	self choices add: anObject.
-	self privateAddItem: (self newItemFromChoice: anObject)
-
+	self privateAddItem: (self newItemFromChoice: anObject).
+	selectedChoice ifNil: [ self defaultChoice: anObject ]
 ]
 
 { #category : #'adding / removing' }
 ToChoiceBox >> addSeparator [
 
 	button addSeparator
+]
+
+{ #category : #initialization }
+ToChoiceBox >> beJustified [
+
+	button hMatchParent.
+	button beJustified
 ]
 
 { #category : #accessing }
@@ -59,6 +66,14 @@ ToChoiceBox >> defaultChoice: anObject [
 	item ifNil: [ ^ self ].
 	group default: item.
 	selectedChoice := anObject
+	
+]
+
+{ #category : #accessing }
+ToChoiceBox >> defaultChoiceIndex: anInteger [
+
+
+	self defaultChoice: (self choices at: anInteger)
 	
 ]
 

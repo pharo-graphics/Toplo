@@ -1,9 +1,6 @@
 Class {
 	#name : #ToSeparatorMenuItemDresser,
 	#superclass : #ToDresser,
-	#instVars : [
-		'popupHandler'
-	],
 	#category : #'Toplo-Widget-Menu'
 }
 

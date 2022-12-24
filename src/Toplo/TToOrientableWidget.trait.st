@@ -27,7 +27,8 @@ TToOrientableWidget >> horizontal: aBoolean [
 	aBoolean
 		ifTrue: [ self layout beHorizontal ]
 		ifFalse: [ self layout beVertical ].
-	self requestLayout   
+	self requestLayout.
+	self orientationChanged
 ]
 
 { #category : #initialization }
@@ -53,5 +54,18 @@ TToOrientableWidget >> orientation [
 TToOrientableWidget >> orientation: aBlLayoutOrientation [
 
 	self layout orientation: aBlLayoutOrientation.
-	self requestLayout 
+	self requestLayout.
+	self orientationChanged
+]
+
+{ #category : #'t - widget orientation' }
+TToOrientableWidget >> orientationChanged [
+
+	self announce: (ToOrientationChanged new widget: self)
+]
+
+{ #category : #'t - widget orientation' }
+TToOrientableWidget >> whenOrientationChangedDo: aBlock [
+
+	self whenAnnouncement: ToOrientationChanged do: aBlock
 ]

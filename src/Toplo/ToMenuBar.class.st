@@ -1,20 +1,32 @@
 Class {
 	#name : #ToMenuBar,
 	#superclass : #ToElement,
-	#traits : 'TToOrientableWidget',
-	#classTraits : 'TToOrientableWidget classTrait',
+	#traits : 'TToWidget + TToOrientableWidget',
+	#classTraits : 'TToWidget classTrait + TToOrientableWidget classTrait',
 	#instVars : [
 		'menus'
 	],
 	#category : #'Toplo-Widget-MenuBar'
 }
 
+{ #category : #initialize }
+ToMenuBar >> adaptToOrientation [
+
+	self isHorizontal
+		ifTrue: [ 
+			self hMatchParent.
+			self vFitContent ]
+		ifFalse: [ 
+			self vMatchParent.
+			self hFitContent ]
+]
+
 { #category : #adding }
 ToMenuBar >> addFiller [
 
-	self addChild: (ToElement new
-			 id: #'match-parent-fill';
-			 matchParent)
+	| filler |
+	self addChild: (filler := ToMenuBarFiller new).
+	filler addedInMenuBar: self
 ]
 
 { #category : #adding }
@@ -23,7 +35,16 @@ ToMenuBar >> addMenu: aMenu [
 	self menus add: aMenu.
 	aMenu constraintsDo: [ :c | c linear vertical alignCenter ].
 	aMenu constraintsDo: [ :c | c linear horizontal alignCenter ].
-	self addChild: aMenu
+	self addChild: aMenu.
+	aMenu addedInMenuBar: self
+]
+
+{ #category : #adding }
+ToMenuBar >> addSeparator [
+
+	| sep |
+	self addChild: (sep := ToMenuBarSeparator new).
+	sep addedInMenuBar: self
 ]
 
 { #category : #'t - initialization dresser' }
@@ -41,7 +62,8 @@ ToMenuBar >> initialize [
 	
 	menus := OrderedCollection new.
 	
-	self initializeDresser 
+	self initializeDresser.
+	self whenOrientationChangedDo: [ self adaptToOrientation ]
 ]
 
 { #category : #accessing }

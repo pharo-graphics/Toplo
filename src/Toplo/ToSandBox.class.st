@@ -643,7 +643,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 ]
 
 { #category : #'context menu + menubar' }
-ToSandBox class >> example_rootFrameWithContextMenu_menubarHorizontal [
+ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 
 	| win menu sub subsub bar textField |
 	win := ToInnerWindow new title: 'Context menu Example'.
@@ -680,11 +680,6 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarHorizontal [
 			 tooltipString: 'editing stuffs').
 	bar addFiller.
 	bar addSeparator.
-	textField := ToTextField new
-		             withLineWrapping;
-		             width: 200;
-		             withGhostText: 'search...'.
-	bar addChild: textField.
 	bar addMenu: (ToMenu new
 			 labelText: 'Help';
 			 tooltipString: 'help stuffs').

@@ -1,27 +1,27 @@
 Trait {
-	#name : #TToDressableWidget,
+	#name : #TToDressable,
 	#category : #'Toplo-Core'
 }
 
 { #category : #'t - accessing dresser' }
-TToDressableWidget >> addDresser: aDresser [
+TToDressable >> addDresser: aDresser [
 
 	self dresser addDresser: aDresser in: self
 ]
 
 { #category : #'t - initialization dresser' }
-TToDressableWidget >> defaultDresser [
+TToDressable >> defaultDresser [
 
 	^ ToNullDresser new
 ]
 
 { #category : #'t - accessing dresser' }
-TToDressableWidget >> dresser [
+TToDressable >> dresser [
 	^ self userData at: #dresser ifAbsent: nil
 ]
 
 { #category : #'t - accessing dresser' }
-TToDressableWidget >> dresser: aDresser [
+TToDressable >> dresser: aDresser [
 
 	self dresserDo: [ :d | d launchUninstallationIn: self ].
 	self userData at: #dresser put: aDresser.
@@ -32,13 +32,13 @@ TToDressableWidget >> dresser: aDresser [
 ]
 
 { #category : #'t - accessing dresser' }
-TToDressableWidget >> dresserDo: aBlock [
+TToDressable >> dresserDo: aBlock [
 
 	self dresser ifNotNil: [ :d | aBlock cull: d ]
 ]
 
 { #category : #'t - initialization dresser' }
-TToDressableWidget >> dresserDoOrDefer: aBlock [
+TToDressable >> dresserDoOrDefer: aBlock [
 
 	self dresser ifNotNil: [ :d | 
 		aBlock cull: d cull: self.
@@ -47,19 +47,19 @@ TToDressableWidget >> dresserDoOrDefer: aBlock [
 ]
 
 { #category : #'t - accessing dresser' }
-TToDressableWidget >> dresserSatisfying: aBlock [
+TToDressable >> dresserSatisfying: aBlock [
 
 	^ self dresser dresserSatisfying: aBlock
 ]
 
 { #category : #'t - initialization dresser' }
-TToDressableWidget >> initializeDresser [
+TToDressable >> initializeDresser [
 
 	self dresser: self defaultDresser
 ]
 
 { #category : #'t - accessing dresser' }
-TToDressableWidget >> removeDresser: aDresser [
+TToDressable >> removeDresser: aDresser [
 
 	self dresser = aDresser ifFalse: [ 
 		self dresser removeDresser: aDresser in: self.
@@ -70,7 +70,7 @@ TToDressableWidget >> removeDresser: aDresser [
 ]
 
 { #category : #'t - initialization dresser' }
-TToDressableWidget >> storeDresserAction: aBlock [
+TToDressable >> storeDresserAction: aBlock [
 
 	| l |
 	l := self userData at: #dresserActions ifAbsentPut: [ OrderedCollection new ].

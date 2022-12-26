@@ -1,16 +1,16 @@
 Class {
-	#name : #ToObservableList,
+	#name : #ToObservableCollection,
 	#superclass : #Object,
 	#traits : 'TBlAnnouncerProvider',
 	#classTraits : 'TBlAnnouncerProvider classTrait',
 	#instVars : [
 		'list'
 	],
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Core-Infinite'
 }
 
 { #category : #'instance creation' }
-ToObservableList class >> newFrom: aCollection [
+ToObservableCollection class >> newFrom: aCollection [
 
 	| l |
 	l := self new.
@@ -19,7 +19,7 @@ ToObservableList class >> newFrom: aCollection [
 ]
 
 { #category : #copying }
-ToObservableList >> , otherCollection [ 
+ToObservableCollection >> , otherCollection [ 
 	"Concatenate two Strings or Collections."
 	
 	^ self copyReplaceFrom: self size + 1
@@ -28,13 +28,13 @@ ToObservableList >> , otherCollection [
 ]
 
 { #category : #adding }
-ToObservableList >> add: newObject [
+ToObservableCollection >> add: newObject [
 
 	self addLast: newObject 
 ]
 
 { #category : #adding }
-ToObservableList >> add: newObject after: oldObject [
+ToObservableCollection >> add: newObject after: oldObject [
 
 	"Add the argument, newObject, as an element of the receiver. Put it in 
 	the sequence just succeeding oldObject. Answer newObject.
@@ -46,7 +46,7 @@ ToObservableList >> add: newObject after: oldObject [
 ]
 
 { #category : #adding }
-ToObservableList >> add: newObject afterIndex: index [ 
+ToObservableCollection >> add: newObject afterIndex: index [ 
 	"Add the argument, newObject, as an element of the receiver. Put it in 
 	the sequence just after index. Answer newObject."
 	
@@ -56,7 +56,7 @@ ToObservableList >> add: newObject afterIndex: index [
 ]
 
 { #category : #private }
-ToObservableList >> add: newObject before: oldObject [ 
+ToObservableCollection >> add: newObject before: oldObject [ 
 	"Add the argument, newObject, as an element of the receiver. Put it in 
 	the sequence just preceding oldObject. Answer newObject."
 
@@ -66,7 +66,7 @@ ToObservableList >> add: newObject before: oldObject [
 ]
 
 { #category : #private }
-ToObservableList >> add: newObject beforeIndex: index [ 
+ToObservableCollection >> add: newObject beforeIndex: index [ 
 	"Add the argument, newObject, as an element of the receiver. Put it in 
 	the sequence just before index. Answer newObject."
 
@@ -76,14 +76,14 @@ ToObservableList >> add: newObject beforeIndex: index [
 ]
 
 { #category : #adding }
-ToObservableList >> addAll: aCollection [ 
+ToObservableCollection >> addAll: aCollection [ 
 	"Add each element of aCollection at my end. Answer aCollection."
 
 	^ self addAllLast: aCollection
 ]
 
 { #category : #adding }
-ToObservableList >> addAllFirst: aCollection [
+ToObservableCollection >> addAllFirst: aCollection [
 
 	list addAllFirst: aCollection.
 	aCollection ifNotEmpty: [ 
@@ -91,7 +91,7 @@ ToObservableList >> addAllFirst: aCollection [
 ]
 
 { #category : #adding }
-ToObservableList >> addAllLast: aCollection [
+ToObservableCollection >> addAllLast: aCollection [
 
 	| idx |
 	idx := list size.
@@ -102,7 +102,7 @@ ToObservableList >> addAllLast: aCollection [
 ]
 
 { #category : #adding }
-ToObservableList >> addFirst: newObject [
+ToObservableCollection >> addFirst: newObject [
 
 	"Add newObject to the end of the receiver. Answer newObject."
 
@@ -111,7 +111,7 @@ ToObservableList >> addFirst: newObject [
 ]
 
 { #category : #adding }
-ToObservableList >> addLast: newObject [
+ToObservableCollection >> addLast: newObject [
 
 	"Add newObject to the end of the receiver. Answer newObject."
 
@@ -121,32 +121,32 @@ ToObservableList >> addLast: newObject [
 ]
 
 { #category : #converting }
-ToObservableList >> asArray [
+ToObservableCollection >> asArray [
 
 	^ list asArray
 ]
 
 { #category : #converting }
-ToObservableList >> asOrderedCollection [
+ToObservableCollection >> asOrderedCollection [
 
 	^ OrderedCollection newFrom: list
 ]
 
 { #category : #accessing }
-ToObservableList >> at: anInteger [ 
+ToObservableCollection >> at: anInteger [ 
 
 	^ list at: anInteger
 ]
 
 { #category : #accessing }
-ToObservableList >> at: anInteger put: anObject [
+ToObservableCollection >> at: anInteger put: anObject [
 
 	list at: anInteger put: anObject.
 	self announce: (ToObservableListUpdateChange new interval: (anInteger to: anInteger))
 ]
 
 { #category : #copying }
-ToObservableList >> copyFrom: startIndex to: endIndex [ 
+ToObservableCollection >> copyFrom: startIndex to: endIndex [ 
 	"Answer a copy of the receiver that contains elements from position
 	startIndex to endIndex."
 
@@ -156,7 +156,7 @@ ToObservableList >> copyFrom: startIndex to: endIndex [
 ]
 
 { #category : #copying }
-ToObservableList >> copyReplaceFrom: start to: stop with: replacementCollection [
+ToObservableCollection >> copyReplaceFrom: start to: stop with: replacementCollection [
 
 	"Concatenate two Strings or Collections."
 
@@ -167,19 +167,19 @@ ToObservableList >> copyReplaceFrom: start to: stop with: replacementCollection 
 ]
 
 { #category : #enumerating }
-ToObservableList >> do: aBlock [
+ToObservableCollection >> do: aBlock [
 
 	list do: aBlock
 ]
 
 { #category : #accessing }
-ToObservableList >> first [
+ToObservableCollection >> first [
 
 	^ list first
 ]
 
 { #category : #copying }
-ToObservableList >> first: n [
+ToObservableCollection >> first: n [
 	"Answer the first n elements of the receiver.
 	Raise an error if there are not enough elements."
 
@@ -187,7 +187,7 @@ ToObservableList >> first: n [
 ]
 
 { #category : #testing }
-ToObservableList >> ifEmpty: aBlock [
+ToObservableCollection >> ifEmpty: aBlock [
 	"Evaluate the given block with the receiver as argument, answering its value
 	unless the receiver is not empty, in which case answer the receiver."
 
@@ -197,7 +197,7 @@ ToObservableList >> ifEmpty: aBlock [
 ]
 
 { #category : #testing }
-ToObservableList >> ifNotEmpty: aBlock [
+ToObservableCollection >> ifNotEmpty: aBlock [
 	"Evaluate the given block with the receiver as argument, answering its value
 	unless the receiver is empty, in which case answer the receiver."
 
@@ -207,39 +207,39 @@ ToObservableList >> ifNotEmpty: aBlock [
 ]
 
 { #category : #private }
-ToObservableList >> indexOf: anObject [
+ToObservableCollection >> indexOf: anObject [
 
 
 	^ list indexOf: anObject
 ]
 
 { #category : #initialization }
-ToObservableList >> initialize [
+ToObservableCollection >> initialize [
 
 	super initialize.
 	list := OrderedCollection new
 ]
 
 { #category : #testing }
-ToObservableList >> isEmpty [
+ToObservableCollection >> isEmpty [
 
 	^ list isEmpty 
 ]
 
 { #category : #testing }
-ToObservableList >> isNotEmpty [
+ToObservableCollection >> isNotEmpty [
 
 	^ self isEmpty not
 ]
 
 { #category : #accessing }
-ToObservableList >> last [
+ToObservableCollection >> last [
 
 	^ list last
 ]
 
 { #category : #accessing }
-ToObservableList >> last: n [
+ToObservableCollection >> last: n [
 	"Answer the last n elements of the receiver.  
 	Raise an error if there are not enough elements."
 
@@ -249,12 +249,12 @@ ToObservableList >> last: n [
 ]
 
 { #category : #copying }
-ToObservableList >> postCopy [
+ToObservableCollection >> postCopy [
 	list := list copy
 ]
 
 { #category : #removing }
-ToObservableList >> remove: anObject [
+ToObservableCollection >> remove: anObject [
 
 	| idx |
 	idx := self indexOf: anObject.
@@ -264,7 +264,7 @@ ToObservableList >> remove: anObject [
 ]
 
 { #category : #removing }
-ToObservableList >> removeAll [
+ToObservableCollection >> removeAll [
 
 	| s |
 	s := list size.
@@ -273,14 +273,14 @@ ToObservableList >> removeAll [
 ]
 
 { #category : #removing }
-ToObservableList >> removeAt: removedIndex [
+ToObservableCollection >> removeAt: removedIndex [
 
 	list removeAt: removedIndex.
 	self announce: (ToObservableListRemoveChange new interval: (removedIndex to: removedIndex))
 ]
 
 { #category : #removing }
-ToObservableList >> removeFirst [
+ToObservableCollection >> removeFirst [
 
 	list removeFirst.
 	self announce: (ToObservableListRemoveChange new interval: (1 to: 1)).
@@ -288,14 +288,14 @@ ToObservableList >> removeFirst [
 ]
 
 { #category : #removing }
-ToObservableList >> removeFirst: n [ 
+ToObservableCollection >> removeFirst: n [ 
 
 	list removeFirst: n. 
 	self announce: (ToObservableListRemoveChange new interval: (1 to: n))
 ]
 
 { #category : #removing }
-ToObservableList >> removeLast [
+ToObservableCollection >> removeLast [
 
 	list removeLast.
 	self announce: (ToObservableListRemoveChange new interval:
@@ -303,7 +303,7 @@ ToObservableList >> removeLast [
 ]
 
 { #category : #removing }
-ToObservableList >> removeLast: n [
+ToObservableCollection >> removeLast: n [
 
 	| s |
 	s := self size.
@@ -312,13 +312,13 @@ ToObservableList >> removeLast: n [
 ]
 
 { #category : #enumerating }
-ToObservableList >> reverseDo: aBlock [
+ToObservableCollection >> reverseDo: aBlock [
 
 	list reverseDo: aBlock
 ]
 
 { #category : #copying }
-ToObservableList >> reversed [
+ToObservableCollection >> reversed [
 
 	"Answer a copy of the receiver with element order reversed.  "
 
@@ -326,43 +326,43 @@ ToObservableList >> reversed [
 ]
 
 { #category : #accessing }
-ToObservableList >> size [
+ToObservableCollection >> size [
 
 	^ list size
 ]
 
 { #category : #'event management' }
-ToObservableList >> whenAddChangeDo: aBlock [
+ToObservableCollection >> whenAddChangeDo: aBlock [
 
 	self whenAnnouncement: ToObservableListAddChange  do: [ :ann | aBlock cull: ann ] 
 ]
 
 { #category : #'event management' }
-ToObservableList >> whenAddChangeSend: aSelector to: anObject [
+ToObservableCollection >> whenAddChangeSend: aSelector to: anObject [
 
 	self whenAnnouncement: ToObservableListAddChange  send: aSelector to: anObject
 ]
 
 { #category : #'event management' }
-ToObservableList >> whenRemoveChangeDo: aBlock [
+ToObservableCollection >> whenRemoveChangeDo: aBlock [
 
 	self whenAnnouncement: ToObservableListRemoveChange  do: [ :ann | aBlock cull: ann ] 
 ]
 
 { #category : #'event management' }
-ToObservableList >> whenRemoveChangeSend: aSelector to: anObject [
+ToObservableCollection >> whenRemoveChangeSend: aSelector to: anObject [
 
 	self whenAnnouncement: ToObservableListRemoveChange  send: aSelector to: anObject
 ]
 
 { #category : #'event management' }
-ToObservableList >> whenUpdateChangeDo: aBlock [
+ToObservableCollection >> whenUpdateChangeDo: aBlock [
 
 	self whenAnnouncement: ToObservableListUpdateChange  do: [ :ann | aBlock cull: ann ] 
 ]
 
 { #category : #'event management' }
-ToObservableList >> whenUpdateChangeSend: aSelector to: anObject [
+ToObservableCollection >> whenUpdateChangeSend: aSelector to: anObject [
 
 	self whenAnnouncement: ToObservableListUpdateChange  send: aSelector to: anObject
 ]

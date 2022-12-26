@@ -1,12 +1,8 @@
 Class {
 	#name : #ToButton,
 	#superclass : #ToGeneralButton,
-	#traits : 'TToButton + TToOrientableWidget',
-	#classTraits : 'TToButton classTrait + TToOrientableWidget classTrait',
-	#instVars : [
-		'#label',
-		'#icon'
-	],
+	#traits : 'TToLabeled + TToOrientable',
+	#classTraits : 'TToLabeled classTrait + TToOrientable classTrait',
 	#category : #'Toplo-Widget-Button'
 }
 
@@ -16,13 +12,13 @@ ToButton >> defaultDresser [
 	^ ToButtonDresser new
 ]
 
-{ #category : #'t - button accessing' }
+{ #category : #'as yet unclassified' }
 ToButton >> icon [
 
 	^ icon
 ]
 
-{ #category : #'t - button accessing' }
+{ #category : #'as yet unclassified' }
 ToButton >> icon: anImage [
 
 	icon := anImage
@@ -38,20 +34,20 @@ ToButton >> initialize [
 	self initializeDresser 
 ]
 
-{ #category : #'t - button accessing' }
+{ #category : #'t - labeled accessing' }
 ToButton >> label [
 
 	^ label
 ]
 
-{ #category : #'t - button accessing' }
+{ #category : #'t - labeled accessing' }
 ToButton >> label: aLabel [
 
 	label := aLabel
 	
 ]
 
-{ #category : #'t - button initialization' }
+{ #category : #'t - labeled initialization' }
 ToButton >> rowLayingOut [
 
 	| fill la ic |

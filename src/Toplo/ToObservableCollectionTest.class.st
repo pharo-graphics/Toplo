@@ -2,13 +2,13 @@
 A ToObservableListTest is a test class for testing the behavior of ToObservableList
 "
 Class {
-	#name : #ToObservableListTest,
+	#name : #ToObservableCollectionTest,
 	#superclass : #TestCase,
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Core-Infinite'
 }
 
 { #category : #'tests - adding' }
-ToObservableListTest >> testAdd [
+ToObservableCollectionTest >> testAdd [
 
 	| l i|
 	l := ToObservableList new.
@@ -28,7 +28,7 @@ ToObservableListTest >> testAdd [
 ]
 
 { #category : #'tests - adding' }
-ToObservableListTest >> testAddAfter [
+ToObservableCollectionTest >> testAddAfter [
 
 	| l i |
 	l := ToObservableList newFrom: #( 1 2 3 4 ).
@@ -54,7 +54,7 @@ ToObservableListTest >> testAddAfter [
 ]
 
 { #category : #'tests - adding' }
-ToObservableListTest >> testAddAfterIndex [
+ToObservableCollectionTest >> testAddAfterIndex [
 	| coll |
 	coll := ToObservableList newFrom: #( 1 2 3 4 ).
 	coll add: 77 afterIndex: 0.
@@ -74,7 +74,7 @@ ToObservableListTest >> testAddAfterIndex [
 ]
 
 { #category : #'tests - adding' }
-ToObservableListTest >> testAddAll [
+ToObservableCollectionTest >> testAddAll [
 	"Allows one to add each element of an OrderedCollection at the end of another
 	 OrderedCollection"
 
@@ -88,7 +88,7 @@ ToObservableListTest >> testAddAll [
 ]
 
 { #category : #'tests - adding' }
-ToObservableListTest >> testAddAllFirst [
+ToObservableCollectionTest >> testAddAllFirst [
 	"Allows one to add each element of an OrderedCollection at the end of another
 	 OrderedCollection"
 
@@ -110,7 +110,7 @@ ToObservableListTest >> testAddAllFirst [
 ]
 
 { #category : #'tests - adding' }
-ToObservableListTest >> testAddAllLast [
+ToObservableCollectionTest >> testAddAllLast [
 	"Allows one to add each element of an OrderedCollection at the end of another
 	 OrderedCollection"
 
@@ -132,7 +132,7 @@ ToObservableListTest >> testAddAllLast [
 ]
 
 { #category : #'tests - adding' }
-ToObservableListTest >> testAddBefore [
+ToObservableCollectionTest >> testAddBefore [
 
 	| l i |
 	l := ToObservableList new
@@ -160,7 +160,7 @@ ToObservableListTest >> testAddBefore [
 ]
 
 { #category : #'tests - adding' }
-ToObservableListTest >> testAddBeforeAndRemove [
+ToObservableCollectionTest >> testAddBeforeAndRemove [
 
 	| l i initialCollection |
 	l := ToObservableList new
@@ -191,7 +191,7 @@ ToObservableListTest >> testAddBeforeAndRemove [
 ]
 
 { #category : #'tests - adding' }
-ToObservableListTest >> testAddFirst [
+ToObservableCollectionTest >> testAddFirst [
 
 	| l i  |
 	l := ToObservableList new
@@ -221,7 +221,7 @@ ToObservableListTest >> testAddFirst [
 ]
 
 { #category : #'tests - adding' }
-ToObservableListTest >> testAddLast [
+ToObservableCollectionTest >> testAddLast [
 
 	| l i |
 	l := ToObservableList new
@@ -253,7 +253,7 @@ ToObservableListTest >> testAddLast [
 ]
 
 { #category : #'tests - accessing' }
-ToObservableListTest >> testAt [
+ToObservableCollectionTest >> testAt [
 	| collection |
 	collection := ToObservableList newFrom: #('Jim' 'Mary' 'John' 'Andrew').
 	self assert: (collection at: 1) equals: 'Jim'.
@@ -261,7 +261,7 @@ ToObservableListTest >> testAt [
 ]
 
 { #category : #'tests - accessing' }
-ToObservableListTest >> testAtPut [
+ToObservableCollectionTest >> testAtPut [
 	"Allows one to replace an element but not at an off range index"
 
 	| c i |
@@ -275,7 +275,7 @@ ToObservableListTest >> testAtPut [
 ]
 
 { #category : #'tests - adding' }
-ToObservableListTest >> testComma [
+ToObservableCollectionTest >> testComma [
 
 	| 	c1 c2 c3 |
 	c1 := ToObservableList new
@@ -293,7 +293,7 @@ ToObservableListTest >> testComma [
 ]
 
 { #category : #'tests - adding' }
-ToObservableListTest >> testConcatenation [
+ToObservableCollectionTest >> testConcatenation [
 
 	| result index firstCollection secondCollection |
 	firstCollection := ToObservableList newFrom: #( 1 2 3 4 ).
@@ -314,7 +314,7 @@ ToObservableListTest >> testConcatenation [
 ]
 
 { #category : #'tests - removing' }
-ToObservableListTest >> testRemove [
+ToObservableCollectionTest >> testRemove [
 
 	"Allows one to remove an element from a collection at an index"
 
@@ -330,7 +330,7 @@ ToObservableListTest >> testRemove [
 ]
 
 { #category : #'tests - removing' }
-ToObservableListTest >> testRemoveAll [
+ToObservableCollectionTest >> testRemoveAll [
 
 	"Allows one to remove all elements of a collection"
 
@@ -357,7 +357,7 @@ ToObservableListTest >> testRemoveAll [
 ]
 
 { #category : #'tests - removing' }
-ToObservableListTest >> testRemoveAt [
+ToObservableCollectionTest >> testRemoveAt [
 
 	"Allows one to remove an element from a collection at an index"
 
@@ -374,7 +374,7 @@ ToObservableListTest >> testRemoveAt [
 ]
 
 { #category : #'tests - removing' }
-ToObservableListTest >> testRemoveFirst [
+ToObservableCollectionTest >> testRemoveFirst [
 
 	"Allows one to remove n element of a collection at the first"
 
@@ -394,7 +394,7 @@ ToObservableListTest >> testRemoveFirst [
 ]
 
 { #category : #'tests - removing' }
-ToObservableListTest >> testRemoveLast [
+ToObservableCollectionTest >> testRemoveLast [
 	"Allows one to remove n element of a collection at the end"
 	
 	| c1 i |
@@ -413,7 +413,7 @@ ToObservableListTest >> testRemoveLast [
 ]
 
 { #category : #'tests - adding' }
-ToObservableListTest >> testReversed [
+ToObservableCollectionTest >> testReversed [
 
 	| collection1 collection2 |
 	collection1 := ToObservableList newFrom:

@@ -4,11 +4,11 @@ Class {
 	#traits : 'TToWidget + TToWidgetWithTooltip',
 	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait',
 	#instVars : [
-		'#choices',
 		'#button',
 		'#group',
-		'#selectedChoice => ObservableSlot',
-		'#toTextConverter'
+		'#toTextConverter',
+		'#items',
+		'#selectedItem => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-ChoiceBox'
 }
@@ -20,7 +20,7 @@ ToChoiceBox >> addAllChoices: aList [
 
 ]
 
-{ #category : #'adding / removing' }
+{ #category : #'as yet unclassified' }
 ToChoiceBox >> addChoice: anObject [
 
 	self choices add: anObject.
@@ -51,13 +51,13 @@ ToChoiceBox >> choiceFromItem: anItem [
 		  ifNone: [  ]
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToChoiceBox >> choices [
 
 	^ choices
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToChoiceBox >> defaultChoice: anObject [
 
 
@@ -143,19 +143,19 @@ ToChoiceBox >> removeChoice: anObject [
 	self privateRemoveItem: i
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToChoiceBox >> selectedChoice [
 
 	^ selectedChoice
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToChoiceBox >> selectedChoice: anObject [
 
 	selectedChoice := anObject
 ]
 
-{ #category : #'api - change hook' }
+{ #category : #'as yet unclassified' }
 ToChoiceBox >> selectedChoiceChanged [
 
 	selectedChoice ifNil: [ 

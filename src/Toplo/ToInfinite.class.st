@@ -2,9 +2,10 @@ Class {
 	#name : #ToInfinite,
 	#superclass : #OBlInfiniteElement,
 	#instVars : [
-		'dataToElementStencyl'
+		'dataToElementStencyl',
+		'list'
 	],
-	#category : #'Toplo-Widget-List'
+	#category : #'Toplo-Core-Infinite'
 }
 
 { #category : #accessing }
@@ -35,7 +36,7 @@ ToInfinite >> initialize [
 		c vertical matchParent ]
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToInfinite >> list: aList [
 
 	dataSource list: aList

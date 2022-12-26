@@ -1,11 +1,9 @@
 Class {
 	#name : #ToButtonMenuItem,
 	#superclass : #ToMenuItem,
-	#traits : 'TToButton + TToWidgetWithState',
-	#classTraits : 'TToButton classTrait + TToWidgetWithState classTrait',
+	#traits : 'TToLabeled + TToWidgetWithState',
+	#classTraits : 'TToLabeled classTrait + TToWidgetWithState classTrait',
 	#instVars : [
-		'#label',
-		'#icon',
 		'#leftColumnWidth',
 		'#rowLayingOut'
 	],
@@ -34,13 +32,13 @@ ToButtonMenuItem >> defaultLeftColumnWidth [
 	^ -1 
 ]
 
-{ #category : #'t - button accessing' }
+{ #category : #'as yet unclassified' }
 ToButtonMenuItem >> icon [
 
 	^ icon
 ]
 
-{ #category : #'t - button accessing' }
+{ #category : #'as yet unclassified' }
 ToButtonMenuItem >> icon: anImage [
 
 	icon := anImage 
@@ -67,13 +65,13 @@ ToButtonMenuItem >> initialize [
 
 ]
 
-{ #category : #'t - button accessing' }
+{ #category : #'t - labeled accessing' }
 ToButtonMenuItem >> label [
 
 	^ label
 ]
 
-{ #category : #'t - button accessing' }
+{ #category : #'t - labeled accessing' }
 ToButtonMenuItem >> label: aLabel [
 
 	label := aLabel
@@ -93,13 +91,13 @@ ToButtonMenuItem >> leftColumnWidth: anInteger [
 	self announce: ToMenuPresentationChangedAnnouncement new
 ]
 
-{ #category : #presentation }
+{ #category : #'as yet unclassified' }
 ToButtonMenuItem >> presentationChanged [
 
 	self announce: ToMenuPresentationChangedAnnouncement new 
 ]
 
-{ #category : #'t - button initialization' }
+{ #category : #'t - labeled initialization' }
 ToButtonMenuItem >> rowLayingOut [
 
 	^ rowLayingOut 

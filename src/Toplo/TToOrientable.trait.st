@@ -1,28 +1,28 @@
 Trait {
-	#name : #TToOrientableWidget,
+	#name : #TToOrientable,
 	#category : #'Toplo-Core'
 }
 
 { #category : #'t - widget orientation' }
-TToOrientableWidget >> beHorizontal [ 
+TToOrientable >> beHorizontal [ 
 
 	self horizontal: true
 ]
 
 { #category : #'t - widget orientation' }
-TToOrientableWidget >> beVertical [
+TToOrientable >> beVertical [
 
 	self horizontal: false
 ]
 
 { #category : #'t - widget orientation' }
-TToOrientableWidget >> horizontal [
+TToOrientable >> horizontal [
 
 	^ self layout isHorizontal
 ]
 
 { #category : #'t - widget orientation' }
-TToOrientableWidget >> horizontal: aBoolean [
+TToOrientable >> horizontal: aBoolean [
 
 	aBoolean
 		ifTrue: [ self layout beHorizontal ]
@@ -32,26 +32,26 @@ TToOrientableWidget >> horizontal: aBoolean [
 ]
 
 { #category : #initialization }
-TToOrientableWidget >> initialize [
+TToOrientable >> initialize [
 	
 	self class initializeSlots: self.
 	super initialize.
 ]
 
 { #category : #'t - widget orientation' }
-TToOrientableWidget >> isHorizontal [
+TToOrientable >> isHorizontal [
 
 	^ self horizontal
 ]
 
 { #category : #'t - widget orientation' }
-TToOrientableWidget >> orientation [
+TToOrientable >> orientation [
 
 	^ self layout orientation
 ]
 
 { #category : #'t - widget orientation' }
-TToOrientableWidget >> orientation: aBlLayoutOrientation [
+TToOrientable >> orientation: aBlLayoutOrientation [
 
 	self layout orientation: aBlLayoutOrientation.
 	self requestLayout.
@@ -59,13 +59,13 @@ TToOrientableWidget >> orientation: aBlLayoutOrientation [
 ]
 
 { #category : #'t - widget orientation' }
-TToOrientableWidget >> orientationChanged [
+TToOrientable >> orientationChanged [
 
 	self announce: (ToOrientationChanged new widget: self)
 ]
 
 { #category : #'t - widget orientation' }
-TToOrientableWidget >> whenOrientationChangedDo: aBlock [
+TToOrientable >> whenOrientationChangedDo: aBlock [
 
 	self whenAnnouncement: ToOrientationChanged do: aBlock
 ]

@@ -4,14 +4,14 @@ Class {
 	#instVars : [
 		'list'
 	],
-	#category : #'Toplo-Widget-List'
+	#category : #'Toplo-Core-Infinite'
 }
 
 { #category : #initialization }
 ToInfiniteDataSource >> initialize [
 	super initialize.
 
-	list := OrderedCollection new
+
 ]
 
 { #category : #accessing }
@@ -29,7 +29,7 @@ ToInfiniteDataSource >> itemTypeAt: aPosition [
 	^ 0
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToInfiniteDataSource >> list [
 
 	^ list
@@ -38,7 +38,7 @@ ToInfiniteDataSource >> list [
 { #category : #accessing }
 ToInfiniteDataSource >> list: aList [
 
-	list addAll: aList
+	list := aList
 ]
 
 { #category : #'instance creation' }

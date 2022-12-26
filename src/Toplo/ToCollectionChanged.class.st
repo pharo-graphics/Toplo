@@ -1,20 +1,20 @@
 Class {
-	#name : #ToObservableListChanged,
+	#name : #ToCollectionChanged,
 	#superclass : #Announcement,
 	#instVars : [
 		'interval'
 	],
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Core-Infinite'
 }
 
 { #category : #accessing }
-ToObservableListChanged >> interval [
+ToCollectionChanged >> interval [
 
 	^ interval
 ]
 
 { #category : #accessing }
-ToObservableListChanged >> interval: anInterval [
+ToCollectionChanged >> interval: anInterval [
 
 	interval := anInterval
 ]

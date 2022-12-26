@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'data'
 	],
-	#category : #'Toplo-Widget-List'
+	#category : #'Toplo-Core-Infinite'
 }
 
 { #category : #accessing }

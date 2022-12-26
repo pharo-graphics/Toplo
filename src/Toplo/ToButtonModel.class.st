@@ -34,7 +34,7 @@ ToButtonModel >> horizontal: aBoolean [
 	self widgetDo: [ :widget | widget horizontal: aBoolean ]
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToButtonModel >> iconImage: anElement [
 
 	self widgetDo: [ :widget | widget iconImage: anElement ]
@@ -52,13 +52,13 @@ ToButtonModel >> privateWidgetClass [
 	^ ToButton
 ]
 
-{ #category : #'api - change hook' }
+{ #category : #'as yet unclassified' }
 ToButtonModel >> whenIconImageReplacedDo: aBlock [
 
 	self widgetDo: [ :widget | widget whenIconImageReplacedDo: aBlock ]
 ]
 
-{ #category : #'api - change hook' }
+{ #category : #'as yet unclassified' }
 ToButtonModel >> whenLabelTextReplacedDo: aBlock [
 
 	self widgetDo: [ :widget | widget whenLabelTextReplacedDo: aBlock]

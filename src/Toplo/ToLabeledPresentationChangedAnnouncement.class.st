@@ -1,5 +1,5 @@
 Class {
-	#name : #ToMenuPresentationChangedAnnouncement,
+	#name : #ToLabeledPresentationChangedAnnouncement,
 	#superclass : #Announcement,
 	#category : #'Toplo-Widget-Menu'
 }

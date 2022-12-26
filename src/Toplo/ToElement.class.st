@@ -1,8 +1,8 @@
 Class {
 	#name : #ToElement,
 	#superclass : #BlElement,
-	#traits : 'TOBlLayoutResizable + TToDressableWidget',
-	#classTraits : 'TOBlLayoutResizable classTrait + TToDressableWidget classTrait',
+	#traits : 'TOBlLayoutResizable + TToDressable',
+	#classTraits : 'TOBlLayoutResizable classTrait + TToDressable classTrait',
 	#category : #'Toplo-Core'
 }
 

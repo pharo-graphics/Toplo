@@ -1,6 +1,11 @@
 Class {
 	#name : #ToCheckBoxDresser,
 	#superclass : #ToButtonDresser,
+	#instVars : [
+		'checkedIcon',
+		'indeterminateIcon',
+		'uncheckedIcon'
+	],
 	#category : #'Toplo-Widget-Button'
 }
 

@@ -1435,9 +1435,9 @@ ToSandBox class >> example_toMultiState1 [
 	| but space |
 	but := ToMultiStateButton new.
 	but
-		iconImage: (BlElement new
+		element: (ToImage inner: (BlElement new
 				 size: 100 @ 100;
-				 background: Color blue);
+				 background: Color blue));
 		labelText: ('Blue' asRopedText fontSize: 24).
 	but setUpStatesWith: { (ToWidgetState new whenEnterDo: [ :ann | 
 			 | anim |
@@ -1466,9 +1466,9 @@ ToSandBox class >> example_toMultiState2 [
 	| but space |
 	but := ToMultiStateButton new
 		       clipChildren: false;
-		       iconImage: (BlElement new
+		       element: (ToImage inner:  (BlElement new
 				        size: 100 @ 100;
-				        background: Color blue);
+				        background: Color blue));
 		       labelText: ('Blue' asRopedText fontSize: 24).
 	but setUpStatesWith: { (ToWidgetState new whenExitDo: [ :ann | 
 			 | anim |
@@ -1492,9 +1492,9 @@ ToSandBox class >> example_toMultiState2_v2_do_not_work_well [
 	| but space |
 	but := ToMultiStateButton new
 		       clipChildren: false;
-		       iconImage: (BlElement new
+		       element: (ToImage inner:  (BlElement new
 				        size: 100 @ 100;
-				        background: Color blue);
+				        background: Color blue));
 		       labelText: ('Blue' asRopedText fontSize: 24).
 	but setUpStatesWith: { (ToWidgetState new whenExitDo: [ :ann | 
 			 | anim |
@@ -1521,33 +1521,33 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 			(ToWidgetState new
 				 whenEnterDo: [ :ann | 
 					 ann widget
-						 iconImage: (BlElement new
+						 element: (ToImage inner:  (BlElement new
 								  size: 400 @ 400;
-								  background: Color blue);
+								  background: Color blue));
 						 labelText: 'Big blue' ];
 				 yourself).
 			(ToWidgetState new name: #green;
 				 whenEnterDo: [ :ann | 
 					 ann widget
-						 iconImage: (BlElement new
+						 element: (ToImage inner:  (BlElement new
 								  size: 20 @ 40;
-								  background: Color green);
+								  background: Color green));
 						 labelText: 'Green' ];
 				 yourself).
 			(ToWidgetState new
 				 whenEnterDo: [ :ann | 
 					 ann widget
-						 iconImage: (BlElement new
+						 element: (ToImage inner:  (BlElement new
 								  size: 50 @ 50;
-								  background: Color black);
+								  background: Color black));
 						 labelText: 'Black' ];
 				 yourself).
 			(ToWidgetState new
 				 whenEnterDo: [ :ann | 
 					 ann widget
-						 iconImage: (BlElement new
+						 element: (ToImage inner:  (BlElement new
 								  size: 100 @ 100;
-								  background: Color yellow);
+								  background: Color yellow));
 						 labelText: 'Yellow' ];
 				 yourself) }.
 	but startState: (but stateNamed: #green).
@@ -1577,9 +1577,9 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 					 anim := exitAnimation value.
 					 anim onFinishedDo: [ 
 							 ann widget
-								 iconImage: (BlElement new
+								 element: (ToImage inner:  (BlElement new
 										  size: 100 @ 100;
-										  background: Color blue);
+										  background: Color blue));
 								 labelText: ('Blue' asRopedText fontSize: 24);
 								 opacity: 0;
 								 addAnimation: enterAnimation value ].
@@ -1591,9 +1591,9 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 					 anim := exitAnimation value.
 					 anim onFinishedDo: [ 
 							 ann widget
-								 iconImage: (BlElement new
+								 element: (ToImage inner:  (BlElement new
 										  size: 100 @ 100;
-										  background: Color green);
+										  background: Color green));
 								 labelText: ('Green' asRopedText fontSize: 24);
 								 opacity: 0;
 								 addAnimation: enterAnimation value ].
@@ -1605,9 +1605,9 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 					 anim := exitAnimation value.
 					 anim onFinishedDo: [ 
 							 ann widget
-								 iconImage: (BlElement new
+								 element: (ToImage inner:  (BlElement new
 										  size: 100 @ 100;
-										  background: Color black);
+										  background: Color black));
 								 labelText: ('Black' asRopedText fontSize: 24);
 								 opacity: 0;
 								 addAnimation: enterAnimation value ].
@@ -1619,9 +1619,9 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 					 anim := exitAnimation value.
 					 anim onFinishedDo: [ 
 							 ann widget
-								 iconImage: (BlElement new
+								 element: (ToImage inner:  (BlElement new
 										  size: 100 @ 100;
-										  background: Color yellow);
+										  background: Color yellow));
 								 labelText: ('Yellow' asRopedText fontSize: 24);
 								 opacity: 0;
 								 addAnimation: enterAnimation value ].

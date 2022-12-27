@@ -150,13 +150,15 @@ TToLabeled >> privateMatchParentFill [
 TToLabeled >> privateUpdateRowLayingOut [
 
 	| subs |
-	self removeChildren.
+	self eventDispatcher disableLayoutChanged.
+	[ self removeChildren ] ensure: [ 
+		self eventDispatcher enableLayoutChanged ].
 	subs := self rowLayingOut.
 	subs ifNil: [ ^ self ].
 	subs do: [ :s | 
 		s constraintsDo: [ :c | 
 			c linear vertical alignCenter.
-			c linear horizontal alignCenter ] ]. 
+			c linear horizontal alignCenter ] ].
 	self addChildren: subs
 ]
 

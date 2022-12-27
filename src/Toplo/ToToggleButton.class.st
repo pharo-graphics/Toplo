@@ -1,8 +1,8 @@
 Class {
 	#name : #ToToggleButton,
 	#superclass : #ToMultiStateButton,
-	#traits : 'TToCheckableWidget',
-	#classTraits : 'TToCheckableWidget classTrait',
+	#traits : 'TToCheckable',
+	#classTraits : 'TToCheckable classTrait',
 	#category : #'Toplo-Widget-Button'
 }
 

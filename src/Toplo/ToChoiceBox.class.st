@@ -16,7 +16,7 @@ Class {
 { #category : #'adding / removing' }
 ToChoiceBox >> addAllChoices: aList [
 
-	aList do: [ :t | self addChoice: t ]
+	aList do: [ :t | self addItem: t ]
 
 ]
 
@@ -26,6 +26,14 @@ ToChoiceBox >> addChoice: anObject [
 	self choices add: anObject.
 	self privateAddItem: (self newItemFromChoice: anObject).
 	selectedChoice ifNil: [ self defaultChoice: anObject ]
+]
+
+{ #category : #'adding / removing' }
+ToChoiceBox >> addItem: anObject [
+
+	self items add: anObject.
+	self privateAddItem: (self newItemFromChoice: anObject).
+	selectedItem ifNil: [ self defaultItem: anObject ]
 ]
 
 { #category : #'adding / removing' }
@@ -44,10 +52,10 @@ ToChoiceBox >> beJustified [
 { #category : #accessing }
 ToChoiceBox >> choiceFromItem: anItem [
 
-	^ self choices
+	^ self items
 		  detect: [ :c | 
 			  (self toTextConverter value: c) asString
-			  = anItem labelText asString ]
+			  = anItem label text asString ]
 		  ifNone: [  ]
 ]
 
@@ -73,7 +81,7 @@ ToChoiceBox >> defaultChoice: anObject [
 ToChoiceBox >> defaultChoiceIndex: anInteger [
 
 
-	self defaultChoice: (self choices at: anInteger)
+	self defaultItem: (self items at: anInteger)
 	
 ]
 
@@ -83,20 +91,32 @@ ToChoiceBox >> defaultDresser [
 	^ ToChoiceBoxDresser new
 ]
 
+{ #category : #accessing }
+ToChoiceBox >> defaultItem: anObject [
+
+
+	| item |
+	item := self itemFromChoice: anObject.
+	item ifNil: [ ^ self ].
+	group default: item.
+	selectedItem := anObject
+	
+]
+
 { #category : #initialization }
 ToChoiceBox >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
 	toTextConverter := [ :i | i ].
-	choices := OrderedCollection new.
+	items := OrderedCollection new.
 	self layout: BlFrameLayout new.
 	self fitContent.
 	button := ToChoiceBoxButton new.
 	group := ToCheckableGroup new.
 	self addChild: button.
-	self whenSelectedChoiceChangedDo: [ self selectedChoiceChanged ].
-	group whenCheckedDo: [ :item :previous | selectedChoice := self choiceFromItem: item ].
+	self whenSelectedChoiceChangedDo: [ self selectedItemChanged ].
+	group whenCheckedDo: [ :item :previous | selectedItem := self choiceFromItem: item ].
 	self initializeDresser.
 
 ]
@@ -106,9 +126,15 @@ ToChoiceBox >> itemFromChoice: anObject [
 
 	^ button items
 		  detect: [ :i | 
-			  i labelText asString
+			  i label text asString
 			  = (self toTextConverter value: anObject) asString ]
 		  ifNone: [  ]
+]
+
+{ #category : #accessing }
+ToChoiceBox >> items [
+
+	^ items
 ]
 
 { #category : #'adding / removing' }
@@ -138,7 +164,7 @@ ToChoiceBox >> privateRemoveItem: anItem [
 ToChoiceBox >> removeChoice: anObject [
 
 	| i |
-	self choices remove: anObject.
+	self items remove: anObject.
 	i := self itemFromChoice: anObject.
 	self privateRemoveItem: i
 ]
@@ -165,6 +191,27 @@ ToChoiceBox >> selectedChoiceChanged [
 ]
 
 { #category : #accessing }
+ToChoiceBox >> selectedItem [
+
+	^ selectedItem
+]
+
+{ #category : #accessing }
+ToChoiceBox >> selectedItem: anObject [
+
+	selectedItem := anObject
+]
+
+{ #category : #'api - change hook' }
+ToChoiceBox >> selectedItemChanged [
+
+	selectedItem ifNil: [ 
+		button labelText: nil.
+		^ self ].
+	button labelText: (self toTextConverter value: selectedItem) copy
+]
+
+{ #category : #accessing }
 ToChoiceBox >> toTextConverter [
 
 	^ toTextConverter
@@ -181,5 +228,5 @@ ToChoiceBox >> whenSelectedChoiceChangedDo: aBlock [
 
 	"set a block to perform after that the selected item has been changed, and its action performed"
 
-	self property: #selectedChoice whenChangedDo: aBlock
+	self property: #selectedItem whenChangedDo: aBlock
 ]

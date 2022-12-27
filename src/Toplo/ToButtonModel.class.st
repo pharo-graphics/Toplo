@@ -11,12 +11,6 @@ ToButtonModel >> beHorizontal [
 ]
 
 { #category : #'api - presentation' }
-ToButtonModel >> beIconFirst [
-
-	self widgetDo: [ :widget | widget beIconFirst ]
-]
-
-{ #category : #'api - presentation' }
 ToButtonModel >> beLabelFirst [
 
 	self widgetDo: [ :widget | widget beLabelFirst ]
@@ -29,9 +23,21 @@ ToButtonModel >> beVertical [
 ]
 
 { #category : #accessing }
+ToButtonModel >> element: anElement [
+
+	self widgetDo: [ :widget | widget element: anElement ] 
+]
+
+{ #category : #accessing }
 ToButtonModel >> horizontal: aBoolean [
 
-	self widgetDo: [ :widget | widget horizontal: aBoolean ]
+	self widgetDo: [ :widget | widget horizontal: aBoolean ] 
+]
+
+{ #category : #accessing }
+ToButtonModel >> icon: anElement [
+
+	self widgetDo: [ :widget | widget element: anElement ] 
 ]
 
 { #category : #accessing }
@@ -43,23 +49,11 @@ ToButtonModel >> iconImage: anElement [
 { #category : #accessing }
 ToButtonModel >> labelText: aText [
 
-	self widgetDo: [ :widget | widget labelText: aText]
+	self widgetDo: [ :widget | widget labelText: aText] 
 ]
 
 { #category : #'private - accessing - widget' }
 ToButtonModel >> privateWidgetClass [
 
 	^ ToButton
-]
-
-{ #category : #'api - change hook' }
-ToButtonModel >> whenIconImageReplacedDo: aBlock [
-
-	self widgetDo: [ :widget | widget whenIconImageReplacedDo: aBlock ]
-]
-
-{ #category : #'api - change hook' }
-ToButtonModel >> whenLabelTextReplacedDo: aBlock [
-
-	self widgetDo: [ :widget | widget whenLabelTextReplacedDo: aBlock]
 ]

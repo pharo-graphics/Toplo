@@ -1,11 +1,9 @@
 Class {
 	#name : #ToButtonMenuItem,
 	#superclass : #ToMenuItem,
-	#traits : 'TToButton + TToWidgetWithState',
-	#classTraits : 'TToButton classTrait + TToWidgetWithState classTrait',
+	#traits : 'TToLabeled + TToWidgetWithState',
+	#classTraits : 'TToLabeled classTrait + TToWidgetWithState classTrait',
 	#instVars : [
-		'#label',
-		'#icon',
 		'#leftColumnWidth',
 		'#rowLayingOut'
 	],
@@ -34,18 +32,6 @@ ToButtonMenuItem >> defaultLeftColumnWidth [
 	^ -1 
 ]
 
-{ #category : #'t - button accessing' }
-ToButtonMenuItem >> icon [
-
-	^ icon
-]
-
-{ #category : #'t - button accessing' }
-ToButtonMenuItem >> icon: anImage [
-
-	icon := anImage 
-]
-
 { #category : #initialization }
 ToButtonMenuItem >> initialize [
 
@@ -53,31 +39,16 @@ ToButtonMenuItem >> initialize [
 	super initialize.
 	
 	leftColumnWidth := self defaultLeftColumnWidth.
-	self initializeButton.
+	self initializeLabeled.
 	"horizontal matchParent required here ** after ** initializeButton ( because of the #fitContent sent)"
 	self constraintsDo: [ :c | 
 				        c horizontal matchParent.
 				        c vertical fitContent ].
-	self icon whenInnerImageReplacedDo: [ self presentationChanged ].
-	self label whenTextReplacedDo:[ self presentationChanged ].
-	self whenLabelFirstChangedDo: [ self presentationChanged ].
-	self whenJustifiedChangedDo: [ self presentationChanged ].
+	self whenLabelFirstChangedDo: [ self announcePresentationChanged ].
+	self whenJustifiedChangedDo: [ self announcePresentationChanged ].
 
 	self initializeDresser
 
-]
-
-{ #category : #'t - button accessing' }
-ToButtonMenuItem >> label [
-
-	^ label
-]
-
-{ #category : #'t - button accessing' }
-ToButtonMenuItem >> label: aLabel [
-
-	label := aLabel
-	
 ]
 
 { #category : #accessing }
@@ -90,16 +61,10 @@ ToButtonMenuItem >> leftColumnWidth [
 ToButtonMenuItem >> leftColumnWidth: anInteger [
 
 	leftColumnWidth := anInteger.
-	self announce: ToMenuPresentationChangedAnnouncement new
+	self announce: ToLabeledPresentationChangedAnnouncement new
 ]
 
-{ #category : #presentation }
-ToButtonMenuItem >> presentationChanged [
-
-	self announce: ToMenuPresentationChangedAnnouncement new 
-]
-
-{ #category : #'t - button initialization' }
+{ #category : #'t - labeled initialization' }
 ToButtonMenuItem >> rowLayingOut [
 
 	^ rowLayingOut 

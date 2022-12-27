@@ -1,6 +1,9 @@
 Class {
 	#name : #ToToggleButtonDresser,
 	#superclass : #ToButtonDresser,
+	#instVars : [
+		'icon'
+	],
 	#category : #'Toplo-Widget-Button'
 }
 
@@ -39,29 +42,30 @@ ToToggleButtonDresser >> defaultCheckedState [
 							           from: self checkedStateIconBackground;
 							           to: self uncheckedStateIconBackground;
 							           onStepDo: [ :aColor :anElement | 
-								           ann widget icon background: aColor ]).
+								           ann widget element background: aColor ]).
 						          (BlColorTransition new
 							           duration: self defaultAnimationDuration;
 							           from: self checkedStateIconImageBackground;
 							           to: self uncheckedStateIconImageBackground;
 							           onStepDo: [ :aColor :anElement | 
-								           ann widget iconImage background: aColor ]) }.
+								           ann widget element innerImage background: aColor ]) }.
 			  anim onFinishedDo: [ 
-				  ann widget iconImage transformDo: [ :aTransform | 
+				  ann widget element innerImage transformDo: [ :aTransform | 
 					  aTransform translateBy: 0 @ 0 ] ].
-			  ann widget iconImage addAnimation: anim ]
+			  ann widget element innerImage addAnimation: anim ]
 ]
 
 { #category : #initialization }
 ToToggleButtonDresser >> defaultIconImage [
 
-	^ ToElement new
-		  background: Color black;
-		  margin: (BlInsets all: 2);
-		  geometry: BlEllipseGeometry new;
-		  vExact: 14;
-		  hExact: 14;
-		  yourself
+	^ icon ifNil: [ 
+		  icon := ToImage inner: (ToElement new
+				           background: Color black;
+				           margin: (BlInsets all: 2);
+				           geometry: BlEllipseGeometry new;
+				           vExact: 14;
+				           hExact: 14;
+				           yourself) ]
 ]
 
 { #category : #initialization }
@@ -70,8 +74,8 @@ ToToggleButtonDresser >> defaultUncheckedState [
 	^ ToWidgetState new
 		  name: #unchecked;
 		  whenEnterDo: [ :ann | 
-			  ann widget icon background: self uncheckedStateIconBackground.
-			  ann widget iconImage background:
+			  ann widget element background: self uncheckedStateIconBackground.
+			  ann widget element innerImage background:
 					  self uncheckedStateIconImageBackground ];
 		  whenExitDo: [ :ann | 
 			  | anim |
@@ -85,17 +89,17 @@ ToToggleButtonDresser >> defaultUncheckedState [
 							           from: self uncheckedStateIconBackground;
 							           to: self checkedStateIconBackground;
 							           onStepDo: [ :aColor :anElement | 
-								           ann widget icon background: aColor ]).
+								           ann widget element background: aColor ]).
 						          (BlColorTransition new
 							           duration: self defaultAnimationDuration;
 							           from: self uncheckedStateIconImageBackground;
 							           to: self checkedStateIconImageBackground;
 							           onStepDo: [ :aColor :anElement | 
-								           ann widget iconImage background: aColor ]) }.
+								           ann widget element innerImage background: aColor ]) }.
 			  anim onFinishedDo: [ 
-				  ann widget iconImage transformDo: [ :aTransform | 
+				  ann widget element innerImage transformDo: [ :aTransform | 
 					  aTransform translateBy: self slideLength @ 0 ] ].
-			  ann widget iconImage addAnimation: anim ]
+			  ann widget element innerImage addAnimation: anim ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -103,12 +107,12 @@ ToToggleButtonDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	
-	anElement icon layout: BlLinearLayout horizontal.
-	anElement icon constraintsDo: [ :c | 
+	anElement element: self defaultIconImage.
+	anElement element layout: BlLinearLayout horizontal.
+	anElement element constraintsDo: [ :c | 
 		c horizontal exact: 30.
 		c vertical fitContent. ].
-	anElement icon geometry: (BlRoundedRectangleGeometry  cornerRadius: 12).
-	anElement iconImage: self defaultIconImage.
+	anElement element geometry: (BlRoundedRectangleGeometry  cornerRadius: 12).
 	
 	anElement setUpStatesWith: { 
 			self defaultUncheckedState.

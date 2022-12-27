@@ -1,5 +1,5 @@
 Trait {
-	#name : #TToCheckableWidget,
+	#name : #TToCheckable,
 	#instVars : [
 		'group'
 	],
@@ -7,90 +7,90 @@ Trait {
 }
 
 { #category : #'t - toggle group' }
-TToCheckableWidget >> addToGroup: aToggleGroup [
+TToCheckable >> addToGroup: aToggleGroup [
 
 	aToggleGroup add: self.
 	self group: aToggleGroup 
 ]
 
 { #category : #'t - checking protocol' }
-TToCheckableWidget >> check [
+TToCheckable >> check [
 	(self group notNil and: [ self isChecked ]) ifTrue: [ ^ self ].
 	self switchToStateNamed: #checked
 ]
 
 { #category : #'t - checking protocol' }
-TToCheckableWidget >> check: aBoolean [
+TToCheckable >> check: aBoolean [
 
 	aBoolean ifTrue: [ self check ] ifFalse: [ self uncheck  ]
 
 ]
 
 { #category : #'t - toggle group' }
-TToCheckableWidget >> group [
+TToCheckable >> group [
 
 	^ group
 ]
 
 { #category : #'t - toggle group' }
-TToCheckableWidget >> group: aToggleGroup [
+TToCheckable >> group: aToggleGroup [
 
 	group := aToggleGroup
 ]
 
 { #category : #'t - checking protocol' }
-TToCheckableWidget >> isChecked [
+TToCheckable >> isChecked [
 
 	^ self currentState notNil and: [ self currentState name = #checked ]
 ]
 
 { #category : #'t - checking protocol' }
-TToCheckableWidget >> isUnchecked [
+TToCheckable >> isUnchecked [
 
 	^ self currentState notNil and: [ self currentState name = #unchecked ]
 ]
 
 { #category : #'t - toggle group' }
-TToCheckableWidget >> removeFromGroup [
+TToCheckable >> removeFromGroup [
 
 	self group remove: self
 ]
 
 { #category : #'t - checking protocol' }
-TToCheckableWidget >> startChecked [
+TToCheckable >> startChecked [
 
 	self isChecked ifTrue: [ ^ self ].
 	self startState: (self stateNamed: #checked)
 ]
 
 { #category : #'t - checking protocol' }
-TToCheckableWidget >> startUnchecked [
+TToCheckable >> startUnchecked [
 
 	self isChecked ifFalse: [ ^ self ].
 	self startState: (self stateNamed: #unchecked)
 ]
 
 { #category : #'t - checking protocol' }
-TToCheckableWidget >> uncheck [
+TToCheckable >> uncheck [
 
 	self group ifNotNil: [ ^ self ].
 	self switchToStateNamed: #unchecked
 ]
 
 { #category : #'t - checking protocol' }
-TToCheckableWidget >> uncheckFromGroup [
+TToCheckable >> uncheckFromGroup [
 
 	self switchToStateNamed: #unchecked
 ]
 
 { #category : #'t - checking protocol' }
-TToCheckableWidget >> whenCheckedDo: aBlock [
+TToCheckable >> whenCheckedDo: aBlock [
 
 	(self stateNamed: #checked) whenEnterDo: [:ann | aBlock cull: ann widget ]
 ]
 
 { #category : #'t - checking protocol' }
-TToCheckableWidget >> whenUncheckedDo: aBlock [
+TToCheckable >> whenUncheckedDo: aBlock [
 
 	(self stateNamed: #unchecked ) whenEnterDo: [:ann | aBlock cull: ann widget ]
 ]

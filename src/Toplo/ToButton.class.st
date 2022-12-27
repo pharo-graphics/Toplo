@@ -1,12 +1,8 @@
 Class {
 	#name : #ToButton,
 	#superclass : #ToGeneralButton,
-	#traits : 'TToButton + TToOrientableWidget',
-	#classTraits : 'TToButton classTrait + TToOrientableWidget classTrait',
-	#instVars : [
-		'#label',
-		'#icon'
-	],
+	#traits : 'TToLabeled + TToOrientable',
+	#classTraits : 'TToLabeled classTrait + TToOrientable classTrait',
 	#category : #'Toplo-Widget-Button'
 }
 
@@ -16,59 +12,32 @@ ToButton >> defaultDresser [
 	^ ToButtonDresser new
 ]
 
-{ #category : #'t - button accessing' }
-ToButton >> icon [
-
-	^ icon
-]
-
-{ #category : #'t - button accessing' }
-ToButton >> icon: anImage [
-
-	icon := anImage
-]
-
 { #category : #initialization }
 ToButton >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	self initializeButton.
+	self initializeLabeled.
 	
 	self initializeDresser 
 ]
 
-{ #category : #'t - button accessing' }
-ToButton >> label [
-
-	^ label
-]
-
-{ #category : #'t - button accessing' }
-ToButton >> label: aLabel [
-
-	label := aLabel
-	
-]
-
-{ #category : #'t - button initialization' }
+{ #category : #'t - labeled initialization' }
 ToButton >> rowLayingOut [
 
-	| fill la ic |
+	| fill  |
 	fill := self isJustified
 		        ifTrue: [ self privateMatchParentFill ]
 		        ifFalse: [  ].
-	la := self label text ifNotEmpty: [ self label] ifEmpty: [ nil ].
-	ic := self icon hasInnerImage ifTrue: [ self icon ] ifFalse: [ nil ].
 	^ (self isLabelFirst
 		   ifTrue: [ 
 			   { 
-				   la.
+				   self label.
 				   fill.
-				   ic } ]
+				   self element } ]
 		   ifFalse: [ 
 			   { 
-				   ic.
+				   self element.
 				   fill.
-				   la } ]) select: #notNil
+				   self label } ]) select: #notNil
 ]

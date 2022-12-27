@@ -1,5 +1,5 @@
 Trait {
-	#name : #TToCheckableWidgetWithIndeterminate,
+	#name : #TToCheckableWithIndeterminate,
 	#instVars : [
 		'hasIndeterminateState'
 	],
@@ -7,13 +7,13 @@ Trait {
 }
 
 { #category : #'t - checking accessing state' }
-TToCheckableWidgetWithIndeterminate >> hasIndeterminateState [
+TToCheckableWithIndeterminate >> hasIndeterminateState [
 
 	^ hasIndeterminateState ifNil: [ hasIndeterminateState := false ]
 ]
 
 { #category : #'t - checking accessing state' }
-TToCheckableWidgetWithIndeterminate >> hasIndeterminateState: aBoolean [
+TToCheckableWithIndeterminate >> hasIndeterminateState: aBoolean [
 
 	aBoolean = self hasIndeterminateState ifTrue: [ ^ self ].
 	hasIndeterminateState := aBoolean.
@@ -22,39 +22,39 @@ TToCheckableWidgetWithIndeterminate >> hasIndeterminateState: aBoolean [
 ]
 
 { #category : #'t - checking protocol' }
-TToCheckableWidgetWithIndeterminate >> indeterminate [
+TToCheckableWithIndeterminate >> indeterminate [
 
 	self hasIndeterminateState ifFalse: [ ^ self ].
 	self switchToStateNamed: #indeterminate
 ]
 
 { #category : #'t - checking protocol' }
-TToCheckableWidgetWithIndeterminate >> isIndeterminate [
+TToCheckableWithIndeterminate >> isIndeterminate [
 
 	^ self currentState notNil and: [ self currentState name = #indeterminate ]
 ]
 
 { #category : #'t - checking protocol' }
-TToCheckableWidgetWithIndeterminate >> startIndeterminate [
+TToCheckableWithIndeterminate >> startIndeterminate [
 
 	self isIndeterminate ifTrue: [ ^ self ].
 	self startState: (self stateNamed: #indeterminate)
 ]
 
 { #category : #'t - checking protocol' }
-TToCheckableWidgetWithIndeterminate >> whenIndeterminateDo: aBlock [
+TToCheckableWithIndeterminate >> whenIndeterminateDo: aBlock [
 
 	(self stateNamed: #indeterminate ) whenEnterDo: [:ann | aBlock cull: ann widget ]
 ]
 
 { #category : #'t - checking protocol' }
-TToCheckableWidgetWithIndeterminate >> withIndeterminate [
+TToCheckableWithIndeterminate >> withIndeterminate [
 
 	self hasIndeterminateState: true
 ]
 
 { #category : #'t - checking protocol' }
-TToCheckableWidgetWithIndeterminate >> withoutIndeterminate [
+TToCheckableWithIndeterminate >> withoutIndeterminate [
 
 	self hasIndeterminateState: false
 ]

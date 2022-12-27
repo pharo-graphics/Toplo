@@ -84,8 +84,8 @@ ToSandBox class >> example_ListWithAllClasses [
 
 	| l |
 	l := ToInfinite new
-		dataToElementStencyl: [ :cls | ToLabel new text: cls name ];
-		list: Smalltalk globals allClasses asArray;
+		dataToElementStencyl: [ :cls | ToButton new labelText: cls name; hMatchParent  ];
+		addAll: Smalltalk globals allClasses;
 		yourself.
 	l inspect.
 	l openInOBlSpace
@@ -207,21 +207,21 @@ ToSandBox class >> example_menu1 [
 	| menu sub subsub |
 	menu := ToMenu new.
 	menu globalLeftColumnWidth: 22.
-	menu labelText: 'File'.
-	menu iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
+	menu label: (ToLabel new text: 'File').
+	menu element: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
 	menu addItem: (ToButtonMenuItem new
-			 labelText: 'Open file';
-			 iconImage: (Smalltalk ui icons iconNamed: #config)).
-	menu addItem: (ToButtonMenuItem new labelText: 'Export').
+			 label: (ToLabel new text: 'Open file');
+			 element: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #config))).
+	menu addItem: (ToButtonMenuItem new label: (ToLabel new text: 'Export')).
 	menu addSeparator.
 	
-	sub := ToMenu new labelText: 'Save All'.
-	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
+	sub := ToMenu new label: (ToLabel new text: 'Save All').
+	sub addItem: (ToButtonMenuItem new label: (ToLabel new text: 'Locally')).
 	
-	subsub := ToMenu new labelText: 'Externally'; iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
-	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
+	subsub := ToMenu new label: (ToLabel new text: 'Externally'); element: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	subsub addItem: (ToButtonMenuItem new label: (ToLabel new text: 'Here')).
 
-	sub addItem: (subsub).
+	sub addItem: subsub.
 	
 	menu addItem: sub.
 	menu relocate: 10@10.
@@ -233,9 +233,9 @@ ToSandBox class >> example_menu2 [
 
 	| menu  |
 	menu := ToMenu new.
-	menu labelText: 'File'.
+	menu label: (ToLabel text: 'File').
 	menu leftColumnWidth: 0.
-	menu addItem: (ToCheckMenuItem new labelText: 'Align right'; beLabelFirst).
+	menu addItem: (ToCheckMenuItem new label: (ToLabel text:'Align right'); beLabelFirst).
 	menu relocate: 10@10.
 	menu openInNewSpace.
 	
@@ -246,11 +246,16 @@ ToSandBox class >> example_menu2_2 [
 
 	| menu  sub |
 	menu := ToMenu new.
-	menu iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
+	menu element: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
 	
 	sub := ToMenu new labelText: 'Save All'.
 	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
 	menu addItem: sub.
+
+	menu addItem: (ToButtonMenuItem new labelText: 'Export').
+	menu addItem: (ToCheckMenuItem new labelText: 'Align right').
+	menu addSeparator.
+	
 	menu relocate: 10@10.
 	menu openInInnerWindow
 ]
@@ -260,11 +265,12 @@ ToSandBox class >> example_menu3 [
 
 	| menu sub subsub |
 	menu := ToMenu new.
-	menu labelText: 'File'.
-	menu iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
+	menu label: (ToLabel new text: 'File').
+	menu leftColumnWidth: 0.
+
 	menu addItem: (ToButtonMenuItem new
 			 labelText: 'Open file';
-			 iconImage: (Smalltalk ui icons iconNamed: #config)).
+			 element: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
 	menu addItem: (ToButtonMenuItem new labelText: 'Export').
 	menu addItem: (ToCheckMenuItem new labelText: 'Align right').
 	menu addSeparator.
@@ -275,7 +281,7 @@ ToSandBox class >> example_menu3 [
 	subsub := ToMenu new labelText: 'Externally'.
 	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
 
-	sub addItem: (subsub).
+	sub addItem: subsub.
 	
 	menu addItem: sub.
 	menu relocate: 10@10.
@@ -288,10 +294,8 @@ ToSandBox class >> example_menu4 [
 	| menu sub subsub |
 	menu := ToMenu new.
 	menu labelText: 'File'.
-	menu iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
-	menu addItem: (ToButtonMenuItem new
-			 labelText: 'Open file';
-			 iconImage: (Smalltalk ui icons iconNamed: #config)).
+	menu element: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+	menu addItem: (ToButtonMenuItem new labelText: 'Open file').
 	menu addItem: (ToButtonMenuItem new labelText: 'Export').
 	menu addItem: (ToRadioMenuItem new labelText: 'Align right').
 	menu addSeparator.
@@ -299,7 +303,7 @@ ToSandBox class >> example_menu4 [
 	sub := ToMenu new labelText: 'Save All'.
 	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
 	
-	subsub := ToMenu new labelText: 'Externally'; iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
+	subsub := ToMenu new labelText: 'Externally'; element: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
 	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
 
 	sub addItem: (subsub).
@@ -315,10 +319,7 @@ ToSandBox class >> example_menu5 [
 	| menu sub subsub grp right center left |
 	menu := ToMenu new.
 	menu labelText: 'File'.
-	menu iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
-	menu addItem: (ToButtonMenuItem new
-			 labelText: 'Open file';
-			 iconImage: (Smalltalk ui icons iconNamed: #config)).
+	menu addItem: (ToButtonMenuItem new labelText: 'Open file').
 
 	menu addItem: (ToButtonMenuItem new labelText: 'Export').
 	grp := ToCheckableGroup new.
@@ -343,8 +344,7 @@ ToSandBox class >> example_menu5 [
 	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
 
 	subsub := ToMenu new
-		          labelText: 'Externally';
-		          iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
+		          labelText: 'Externally'.
 	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
 
 	sub addItem: subsub.
@@ -362,11 +362,10 @@ ToSandBox class >> example_menu6 [
 	menu globalLeftColumnWidth: 22.
 
 	menu labelText: 'File'.
-	menu iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
 	menu addItem: (ToButtonMenuItem new
 			 labelText: 'Open file';
 			 whenClickedDo: [ self inform: 'Open file' ];
-			 iconImage: (Smalltalk ui icons iconNamed: #config)).
+			 element: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
 
 	menu addItem: (ToButtonMenuItem new
 			 labelText: 'Export';
@@ -507,7 +506,7 @@ ToSandBox class >> example_menu6 [
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';
-		      beIconFirst;
+		      labelFirst: false;
 		      hMatchParent.
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	th := ToToggleButton new
@@ -551,7 +550,7 @@ ToSandBox class >> example_rootFrameWithChoiceBox [
 	choicebox := ToChoiceBox new.
 	choicebox addAllChoices: { 'OS-X'. 'Windows'. }.
 	choicebox addSeparator.
-	choicebox addChoice: 'Linux'.
+	choicebox addItem: 'Linux'.
 	"choicebox defaultChoice: 'Windows'."
 
 	bar addChild: (choicebox tooltipString: 'Select your operating system').
@@ -580,7 +579,7 @@ ToSandBox class >> example_rootFrameWithChoiceBox2 [
 			('Native SDL' -> BAOSWindowSDL2Host) }.
 	choicebox defaultChoiceIndex: 2.
 	choicebox whenSelectedChoiceChangedDo: [ 
-		self inform: choicebox selectedChoice value name ].
+		self inform: choicebox selectedItem value name ].
 
 	bar addChild: (choicebox tooltipString: 'Select the Alexandrie host').
 
@@ -775,7 +774,7 @@ ToSandBox class >> example_toAlbumAsButton [
 	but whenAnnouncement: ToButtonClickLaunchAction do: [ self inform: 'Click' ]. 
 	but background: Color blue.
 	but size: 300@100.
-	but  openInOBlSpace 
+	but  openInOBlSpace  
 ]
 
 { #category : #button }
@@ -784,7 +783,7 @@ ToSandBox class >> example_toBasicButton0 [
 	| but |
 	but := ToGeneralButton new dresser: ToButtonDresser new.
 	but whenClickedDo: [ self inform: 'clicked' ].
-	but openInOBlSpace
+	but openInOBlSpace 
 ]
 
 { #category : #button }
@@ -797,7 +796,7 @@ ToSandBox class >> example_toBasicButton1 [
 				 yourself).
 	but fitContent.
 	but whenClickedDo: [ self inform: 'clicked' ].	
-	but openInOBlSpace 
+	but openInOBlSpace  
 ]
 
 { #category : #button }
@@ -813,20 +812,20 @@ ToSandBox class >> example_toBasicButton2 [
 	but addChild: lab.
 	but layout alignCenter.
 	but whenClickedDo: [ self inform: 'clicked' ].
-	but openInOBlSpace
+	but openInOBlSpace 
 ]
 
 { #category : #button }
 ToSandBox class >> example_toBasicButton3 [
 
 	| but |
-	but := ToButton new labelText: (('Button' asRopedText)
+	but := ToButton new label: (ToLabel new text: (('Button' asRopedText)
 			        fontSize: 40;
-			        yourself).
+			        yourself)).
 	but matchParent.
 	but layout alignCenter.
 	but whenClickedDo: [ self inform: 'clicked' ].
-	but openInOBlSpace
+	but openInOBlSpace 
 ]
 
 { #category : #button }
@@ -835,7 +834,7 @@ ToSandBox class >> example_toBasicButtonModel0 [
 	| but |
 	but := ToGeneralButtonModel new.
 	but whenClickedDo: [ self inform: 'clicked' ].
-	but onWidget openInOBlSpace
+	but onWidget openInOBlSpace 
 ]
 
 { #category : #button }
@@ -850,7 +849,7 @@ ToSandBox class >> example_toBasicButtonModel1 [
 				 yourself) ].
 	but widgetDo: [ :widget | widget fitContent ].
 	but whenClickedDo: [ self inform: 'clicked' ].
-	but onWidget openInOBlSpace
+	but onWidget openInOBlSpace 
 ]
 
 { #category : #button }
@@ -858,7 +857,7 @@ ToSandBox class >> example_toButton0 [
 
 	| but |
 	but := ToButton new.
-	but  openInOBlSpace 
+	but  openInOBlSpace  
 ]
 
 { #category : #button }
@@ -867,7 +866,7 @@ ToSandBox class >> example_toButtonModel1 [
 	| but |
 	but := ToButtonModel new labelText: 'Button'.
 	but whenClickedDo: [ self inform: 'clicked' ].
-	but  onWidget openInOBlSpace
+	but  onWidget openInOBlSpace 
 ]
 
 { #category : #button }
@@ -875,11 +874,11 @@ ToSandBox class >> example_toButtonModelWithIconOnly [
 
 	| but space |
 	but := ToButtonModel new.
-	but iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
+	but icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
 	but widgetDo: [ :widget | widget padding: (BlInsets all: 3) ].
 	space := OBlSpace new.
 	space addChild: but onWidget.
-	space show
+	space show 
 ]
 
 { #category : #button }
@@ -890,7 +889,7 @@ ToSandBox class >> example_toButtonModelWithTextAndIconVertical [
 		       beVertical;
 		       beLabelFirst.
 	but labelText: 'Button'.
-	but iconImage: (BlElement new
+	but element: (BlElement new
 			 size: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).
@@ -898,7 +897,7 @@ ToSandBox class >> example_toButtonModelWithTextAndIconVertical [
 		ann currentTarget horizontal: ann currentTarget horizontal not ].
 	space := OBlSpace new.
 	space addChild: but onWidget.
-	space show
+	space show 
 ]
 
 { #category : #button }
@@ -914,12 +913,12 @@ ToSandBox class >> example_toButtonOrientationChanger [
 		             size: 20 @ 20;
 		             background: Color lightGray;
 		             yourself.
-	but iconImage: iconImage.
+	but element: iconImage.
 	but whenClickedDo: [ :ann | 
 		ann currentTarget orientation: but orientation inverted ].
 	space := OBlSpace new.
 	space addChild: but.
-	space show
+	space show 
 ]
 
 { #category : #button }
@@ -928,12 +927,26 @@ ToSandBox class >> example_toButtonWithIconOnly [
 	| but space container |
 	container := BlElement new size: 200@200; border: (BlBorder paint: Color gray); background: (Color gray alpha: 0.1).
 	but := ToButton new.
-	but iconImage: (Smalltalk ui icons iconNamed: #solidMenu).
-	but icon layout alignCenter.
+	but element: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	but element layout alignCenter.
 	container addChild: but.
 	space := OBlSpace new.
 	space addChild: container.
-	space show
+	space show 
+]
+
+{ #category : #button }
+ToSandBox class >> example_toButtonWithIconOnly2 [
+
+	| but space container |
+	container := BlElement new size: 200@200; border: (BlBorder paint: Color gray); background: (Color gray alpha: 0.1).
+	but := ToButton new.
+	but element: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	but element layout alignCenter.
+	container addChild: but.
+	space := OBlSpace new.
+	space addChild: container.
+	space show 
 ]
 
 { #category : #button }
@@ -942,15 +955,15 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 	| but space |
 	but := ToButton new "cellSpacing: 2; padding: (BlInsets all: 4)".
 	but labelText: 'Button'.
-	but iconImage: (BlElement new
+	but element: (BlElement new
 			 size: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).
 	but beLabelFirst.
-	but whenClickedDo: [ :ann | but iconImage background: Color random ].
+	but whenClickedDo: [ :ann | but element background: Color random ].
 	space := OBlSpace new.
 	space addChild: but.
-	space show
+	space show 
 ]
 
 { #category : #button }
@@ -959,14 +972,14 @@ ToSandBox class >> example_toButtonWithTextAndIconVertical [
 	| but space |
 	but := ToButton new padding: (BlInsets all: 4); beVertical.
 	but labelText: 'Button'.
-	but iconImage: (BlElement new
+	but element: (BlElement new
 			 size: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).
-	but whenClickedDo: [ :ann | but iconImage background: Color random ].
+	but whenClickedDo: [ :ann | but element background: Color random ].
 	space := OBlSpace new.
 	space addChild: but.
-	space show
+	space show 
 ]
 
 { #category : #button }
@@ -980,7 +993,7 @@ ToSandBox class >> example_toButtonWithTextOnly [
 
 	space := OBlSpace new.
 	space addChild: but.
-	space show
+	space show 
 ]
 
 { #category : #button }
@@ -992,7 +1005,7 @@ ToSandBox class >> example_toButtonWithTooltip [
 	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
 	but size: 32@16.
 	but openInInnerWindow 
-
+ 
 ]
 
 { #category : #checkbox }
@@ -1062,8 +1075,6 @@ ToSandBox class >> example_toCheckboxWithToggleGroup [
 			       beLabelFirst;
 			       labelText: idx asString;
 			       id: idx asString.
-		chb icon margin: (BlInsets all: 3).
-		chb label margin: (BlInsets all: 4).
 		buttons add: chb ].
 	buttons second startChecked.
 	group addAll: buttons.
@@ -1092,10 +1103,9 @@ ToSandBox class >> example_toCheckboxWithToggleGroup2 [
 		| chb |
 		chb := ToRadioButton new
 			       beVertical;
-			       beIconFirst;
 			       labelText: idx asString;
 			       id: idx asString.
-		chb icon margin: (BlInsets all: 2).
+		chb labelFirst: false.
 		group add: chb ].
 	group default: (group buttons second).
 	container := ToElement new.
@@ -1125,8 +1135,6 @@ ToSandBox class >> example_toCheckboxWithToggleGroupJustified [
 			       beLabelFirst;
 			       labelText: idx asString;
 			       id: idx asString.
-		chb icon margin: (BlInsets all: 3).
-		chb label margin: (BlInsets all: 4).
 		buttons add: chb ].
 	buttons second startChecked.
 	group addAll: buttons.
@@ -1662,7 +1670,7 @@ ToSandBox class >> example_toWidgetAsButton0 [
 	but whenAnnouncement: ToButtonClickLaunchAction do: [ self inform: 'Click' ]. 
 	but background: Color blue.
 	but size: 50@50.
-	but  openInOBlSpace 
+	but  openInOBlSpace  
 ]
 
 { #category : #'toggle button' }

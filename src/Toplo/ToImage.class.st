@@ -9,6 +9,12 @@ Class {
 	#category : #'Toplo-Widget-Image'
 }
 
+{ #category : #'instance creation' }
+ToImage class >> inner: anImage [
+
+	^ self new innerImage: anImage
+]
+
 { #category : #initialization }
 ToImage >> defaultInnerImage [
 

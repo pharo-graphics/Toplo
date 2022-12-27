@@ -36,7 +36,7 @@ TToMenu >> addedInMenu: aMenu [
 	submenuDresser ifNil: [ 
 		submenuDresser := ToMenuAsSubmenuDresser new.
 		self addDresser: submenuDresser ].
-	self announce: ToMenuPresentationChangedAnnouncement new
+	self announce: ToLabeledPresentationChangedAnnouncement new
 ]
 
 { #category : #'t - menu initialization' }

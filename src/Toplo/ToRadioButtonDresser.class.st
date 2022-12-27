@@ -8,7 +8,7 @@ Class {
 ToRadioButtonDresser >> defaultCheckedIconImage [
 
 	^ super defaultCheckedIconImage
-		  geometry: BlEllipseGeometry new;
+		  in: [ :im | im innerImage geometry: BlEllipseGeometry new ];
 		  yourself
 ]
 
@@ -16,7 +16,7 @@ ToRadioButtonDresser >> defaultCheckedIconImage [
 ToRadioButtonDresser >> defaultIndeterminateIconImage [
 
 	^ super defaultIndeterminateIconImage
-		  geometry: BlEllipseGeometry new;
+		  in: [ :im | im innerImage geometry: BlEllipseGeometry new ];
 		  yourself
 ]
 
@@ -24,6 +24,6 @@ ToRadioButtonDresser >> defaultIndeterminateIconImage [
 ToRadioButtonDresser >> defaultUncheckedIconImage [
 
 	^ super defaultUncheckedIconImage
-		  geometry: BlEllipseGeometry new;
+		  in: [ :im | im innerImage geometry: BlEllipseGeometry new ];
 		  yourself
 ]

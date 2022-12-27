@@ -10,15 +10,16 @@ Class {
 { #category : #'interspace computing' }
 ToMenuItemRowDresser >> exactInterspaceChangedIn: anElement [
 
-	| w left |
+	| w left lw |
 	
 	" get the left side element "
 	left := anElement isLabelFirst
 		        ifTrue: [ anElement label ]
-		        ifFalse: [ anElement icon ].
+		        ifFalse: [ anElement element ].
 
+	lw := left ifNil: [ 0 ] ifNotNil: [ left width ].
 	" now measure the gap according to leftColumnWidth "
-	w := anElement leftColumnWidth - left width max: 0.
+	w := anElement leftColumnWidth - lw max: 0.
 
 	interspace ifNotNil: [ " adapt the existing fill "
 		interspace width = w ifTrue: [ ^ false ].
@@ -60,7 +61,7 @@ ToMenuItemRowDresser >> onInstalledIn: anElement [
 	super onInstalledIn: anElement.
 	anElement whenLayoutedDoOnce: [ self updateInterspaceIn: anElement ].
 	anElement
-		whenAnnouncement: ToMenuPresentationChangedAnnouncement
+		whenAnnouncement: ToLabeledPresentationChangedAnnouncement
 		do: [ 
 			interspace := nil.
 			self updateInterspaceIn: anElement ].
@@ -77,25 +78,17 @@ ToMenuItemRowDresser >> onUninstalledIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToMenuItemRowDresser >> rowLayingOutIn: anElement [
 
-	| la ic |
-	la := anElement label text
-		      ifNotEmpty: [ anElement label ]
-		      ifEmpty: [ nil ].
-	ic := anElement icon hasInnerImage
-		      ifTrue: [ anElement icon ]
-		      ifFalse: [ nil ].
-
 	^ (anElement isLabelFirst
 		   ifTrue: [ 
 			   { 
-				   la.
+				   anElement label.
 				   interspace.
-				   ic } ]
+				   anElement element } ]
 		   ifFalse: [ 
 			   { 
-				   ic.
+				   anElement element.
 				   interspace.
-				   la } ]) select: #notNil
+				   anElement label } ]) select: #notNil
 ]
 
 { #category : #'interspace computing' }

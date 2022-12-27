@@ -13,6 +13,12 @@ Class {
 	#category : #'Toplo-Widget-Label'
 }
 
+{ #category : #'instance creation' }
+ToLabel class >> text: aText [
+
+	^ self new text: aText
+]
+
 { #category : #'private-editing' }
 ToLabel >> addEditor [
 

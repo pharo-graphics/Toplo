@@ -2,10 +2,17 @@ Class {
 	#name : #ToInfinite,
 	#superclass : #OBlInfiniteElement,
 	#instVars : [
-		'dataToElementStencyl'
+		'dataToElementStencyl',
+		'list'
 	],
-	#category : #'Toplo-Widget-List'
+	#category : #'Toplo-Core-Infinite'
 }
+
+{ #category : #adding }
+ToInfinite >> addAll: aCollection [
+
+	self list addAll: aCollection 
+]
 
 { #category : #accessing }
 ToInfinite >> dataToElementStencyl [
@@ -28,11 +35,23 @@ ToInfinite >> defaultLayout [
 ToInfinite >> initialize [
 
 	super initialize.
-	self dataSource: ToInfiniteDataSource new.
+	list := ToObservableCollection new.
+	
+	list whenAddChangeDo: [ :ann | self dataSource notifyItemsInserted: ann interval ]. 
+	list whenRemoveChangeDo: [ :ann | self dataSource notifyItemsRemoved: ann interval ]. 
+	list whenUpdateChangeDo: [ :ann | self dataSource notifyItemsChanged: ann interval ]. 
+		
+	self dataSource: (ToInfiniteDataSource new list: list).
 	dataToElementStencyl := [ :d | d asElement ].
 	self constraintsDo: [ :c | 
 		c horizontal matchParent.
 		c vertical matchParent ]
+]
+
+{ #category : #accessing }
+ToInfinite >> list [
+
+	^ list
 ]
 
 { #category : #accessing }

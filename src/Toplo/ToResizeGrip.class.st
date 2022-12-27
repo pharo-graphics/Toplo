@@ -1,8 +1,8 @@
 Class {
 	#name : #ToResizeGrip,
 	#superclass : #ToElement,
-	#traits : 'TToDressableWidget',
-	#classTraits : 'TToDressableWidget classTrait',
+	#traits : 'TToDressable',
+	#classTraits : 'TToDressable classTrait',
 	#instVars : [
 		'initialTargetPosition',
 		'initialTargetSize',

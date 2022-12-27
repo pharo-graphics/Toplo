@@ -1,8 +1,8 @@
 Class {
 	#name : #ToChoiceBoxItem,
 	#superclass : #ToButtonMenuItem,
-	#traits : 'TToCheckableWidget',
-	#classTraits : 'TToCheckableWidget classTrait',
+	#traits : 'TToCheckable',
+	#classTraits : 'TToCheckable classTrait',
 	#category : #'Toplo-Widget-ChoiceBox'
 }
 

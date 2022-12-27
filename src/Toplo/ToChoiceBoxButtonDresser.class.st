@@ -9,9 +9,9 @@ ToChoiceBoxButtonDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	anElement beLabelFirst.
-	anElement iconImage: (Smalltalk ui icons iconNamed: #bottom).
-	anElement icon padding: (BlInsets left: 0 right: 2).
-	anElement label padding: (BlInsets left: 2 right: 0)
+	anElement element: (ToImage inner: (Smalltalk ui icons iconNamed: #bottom)).
+	anElement element padding: (BlInsets left: 0 right: 2).
+	anElement label ifNotNil: [:l | l padding: (BlInsets left: 2 right: 0) ]
 
 ]
 

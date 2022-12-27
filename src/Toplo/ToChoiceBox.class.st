@@ -7,8 +7,9 @@ Class {
 		'#choices',
 		'#button',
 		'#group',
-		'#selectedChoice => ObservableSlot',
-		'#toTextConverter'
+		'#selectedItem => ObservableSlot',
+		'#toTextConverter',
+		'#items'
 	],
 	#category : #'Toplo-Widget-ChoiceBox'
 }
@@ -18,14 +19,6 @@ ToChoiceBox >> addAllChoices: aList [
 
 	aList do: [ :t | self addItem: t ]
 
-]
-
-{ #category : #'adding / removing' }
-ToChoiceBox >> addChoice: anObject [
-
-	self choices add: anObject.
-	self privateAddItem: (self newItemFromChoice: anObject).
-	selectedChoice ifNil: [ self defaultChoice: anObject ]
 ]
 
 { #category : #'adding / removing' }
@@ -63,18 +56,6 @@ ToChoiceBox >> choiceFromItem: anItem [
 ToChoiceBox >> choices [
 
 	^ choices
-]
-
-{ #category : #accessing }
-ToChoiceBox >> defaultChoice: anObject [
-
-
-	| item |
-	item := self itemFromChoice: anObject.
-	item ifNil: [ ^ self ].
-	group default: item.
-	selectedChoice := anObject
-	
 ]
 
 { #category : #accessing }
@@ -134,7 +115,7 @@ ToChoiceBox >> itemFromChoice: anObject [
 { #category : #accessing }
 ToChoiceBox >> items [
 
-	^ items
+	^ items 
 ]
 
 { #category : #'adding / removing' }
@@ -167,27 +148,6 @@ ToChoiceBox >> removeChoice: anObject [
 	self items remove: anObject.
 	i := self itemFromChoice: anObject.
 	self privateRemoveItem: i
-]
-
-{ #category : #accessing }
-ToChoiceBox >> selectedChoice [
-
-	^ selectedChoice
-]
-
-{ #category : #accessing }
-ToChoiceBox >> selectedChoice: anObject [
-
-	selectedChoice := anObject
-]
-
-{ #category : #'api - change hook' }
-ToChoiceBox >> selectedChoiceChanged [
-
-	selectedChoice ifNil: [ 
-		button labelText: nil.
-		^ self ].
-	button labelText: (self toTextConverter value: selectedChoice) copy
 ]
 
 { #category : #accessing }

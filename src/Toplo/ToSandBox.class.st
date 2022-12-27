@@ -188,19 +188,6 @@ ToSandBox class >> example_elementInPopupRoot [
 	space show
 ]
 
-{ #category : #stuffs }
-ToSandBox class >> example_enterLeave [
-
-	| e1 e2 space |
-	e1 := BlElement new background: Color yellow; size: 100@60.
-	e2 := BlElement new background: Color blue; preventMouseEvents.
-	e1 when: BlMouseEnterEvent do: [ :event | e2 relocate: e1 bounds bottomRight. e1 space addChild: e2 ].
-	e1 when: BlMouseLeaveEvent do: [ :event | e1 space removeChild: e2 ].
-	space := OBlSpace new.
-	space addChild: e1.
-	space show
-]
-
 { #category : #menu }
 ToSandBox class >> example_menu1 [
 

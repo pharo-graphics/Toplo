@@ -16,7 +16,7 @@ ToCheckMenuItem >> canSwitchToNextState [
 { #category : #'t - initialization dresser' }
 ToCheckMenuItem >> defaultDresser [
 
-	^ ToBasicMenuItemDresser next: (ToCheckBoxDresser next: ToMenuItemRowDresser new)
+	^ ToBasicMenuItemDresser next: (ToCheckBoxDresser new)
 ]
 
 { #category : #initialization }

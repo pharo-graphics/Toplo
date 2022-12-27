@@ -21,23 +21,3 @@ ToButton >> initialize [
 	
 	self initializeDresser 
 ]
-
-{ #category : #'t - labeled initialization' }
-ToButton >> rowLayingOut [
-
-	| fill  |
-	fill := self isJustified
-		        ifTrue: [ self privateMatchParentFill ]
-		        ifFalse: [  ].
-	^ (self isLabelFirst
-		   ifTrue: [ 
-			   { 
-				   self label.
-				   fill.
-				   self element } ]
-		   ifFalse: [ 
-			   { 
-				   self element.
-				   fill.
-				   self label } ]) select: #notNil
-]

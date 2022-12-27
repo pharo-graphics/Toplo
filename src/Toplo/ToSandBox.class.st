@@ -234,7 +234,7 @@ ToSandBox class >> example_menu2 [
 	| menu  |
 	menu := ToMenu new.
 	menu label: (ToLabel text: 'File').
-	menu leftColumnWidth: 0.
+	menu leftColumnWidth: -1.
 	menu addItem: (ToCheckMenuItem new label: (ToLabel text:'Align right'); beLabelFirst).
 	menu relocate: 10@10.
 	menu openInNewSpace.
@@ -1073,6 +1073,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroup [
 		| chb |
 		chb := ToCheckbox new
 			       beLabelFirst;
+			       leftColumnWidth: 15;
 			       labelText: idx asString;
 			       id: idx asString.
 		buttons add: chb ].

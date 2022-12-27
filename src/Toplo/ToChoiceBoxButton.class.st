@@ -9,7 +9,7 @@ Class {
 { #category : #'t - initialization dresser' }
 ToChoiceBoxButton >> defaultDresser [
 
-	^ ToBasicMenuItemDresser next: (ToChoiceBoxButtonDresser next: ToMenuRowDresser new)
+	^ ToBasicMenuItemDresser next: (ToChoiceBoxButtonDresser new)
 ]
 
 { #category : #initialization }

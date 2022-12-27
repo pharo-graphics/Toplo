@@ -47,7 +47,8 @@ ToCheckBoxDresser >> defaultCheckedState [
 					  | op |
 					  op := ann widget element innerImage opacity.
 					  ann widget element innerImage opacity: 0.1.
-					  ann widget element innerImage addAnimation: (BlOpacityAnimation new
+					  ann widget element innerImage addAnimation:
+							  (BlOpacityAnimation new
 								   duration: (ann state counter isZero
 										    ifTrue: [ 0 milliSecond ]
 										    ifFalse: [ self defaultAnimationDuration ]);
@@ -85,7 +86,8 @@ ToCheckBoxDresser >> defaultIndeterminateState [
 
 	^ ToWidgetState new
 		  name: #indeterminate;
-		  whenEnterDo: [ :ann | ann widget element: self defaultIndeterminateIconImage ];
+		  whenEnterDo: [ :ann | 
+			  ann widget element: self defaultIndeterminateIconImage ];
 		  yourself
 ]
 

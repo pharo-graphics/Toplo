@@ -120,8 +120,7 @@ TToLabeled >> isJustified: aBoolean [
 
 	justified = aBoolean ifTrue: [ ^self ].
 	justified := aBoolean.
-	self requestLayout.
-	self whenLayoutedDoOnce: [ self privateUpdateRowLayingOut ].
+	self requestLayout
 ]
 
 { #category : #'t - labeled presentation' }

@@ -8,7 +8,7 @@ Trait {
 		'#label',
 		'#leftColumnWidth'
 	],
-	#category : #'Toplo-Widget-Button'
+	#category : #'Toplo-Core'
 }
 
 { #category : #'t - labeled presentation' }
@@ -40,8 +40,7 @@ TToLabeled >> beNotJustified [
 { #category : #'t - labeled initialization' }
 TToLabeled >> defaultLeftColumnWidth [
 
-	" -1 means no default "
-	^ -1 
+	^ 0 
 ]
 
 { #category : #'t - labeled accessing' }
@@ -55,17 +54,41 @@ TToLabeled >> element: anElement [
 
 	element = anElement ifTrue: [ ^ self ]. 
 	element := anElement.
-	self privateUpdateRowLayingOut.
+		element ifNotNil: [ 
+		element constraintsDo: [ :c | 
+			c linear vertical alignCenter.
+			c linear horizontal alignCenter ] ].
 
+	self privateUpdateLayingOut
  
+]
+
+{ #category : #'t - labeled accessing' }
+TToLabeled >> icon [
+
+	^ self element
+]
+
+{ #category : #'t - labeled accessing' }
+TToLabeled >> icon: anImage [
+
+	self element: anImage
+]
+
+{ #category : #'t - labeled accessing' }
+TToLabeled >> iconImage: anInnerImage [
+
+	self element: (ToImage inner: anInnerImage)
 ]
 
 { #category : #'t - labeled initialization' }
 TToLabeled >> initializeLabeled [
 
 	self layout: BlLinearLayout horizontal.
-	self fitContent.
-
+	interspace := BlElement new constraintsDo: [ :c | 
+		              c horizontal exact: 0.
+		              c vertical exact: 0 ].
+	self fitContent
 ]
 
 { #category : #layout }
@@ -73,10 +96,17 @@ TToLabeled >> interspaceMeasure: anExtentMeasurementSpec [
 
 	| w left lw |
 	self isJustified ifTrue: [ 
-		interspace := self privateMatchParentFill.
+		(interspace constraints horizontal resizer isMatchParent and: [ 
+			 interspace constraints vertical resizer isMatchParent ]) ifFalse: [ 
+			interspace constraintsDo: [ :c | 
+				c horizontal matchParent.
+				c vertical matchParent ] ].
 		^ self ].
 
-	" get the left side element "
+	" cell spacing is not compatible with left column sizing "
+	self layout cellSpacing isZero ifFalse: [ ^ self ].
+
+	" get the left side element and then its width "
 	left := self isLabelFirst
 		        ifTrue: [ self label ]
 		        ifFalse: [ self element ].
@@ -85,22 +115,9 @@ TToLabeled >> interspaceMeasure: anExtentMeasurementSpec [
 	" now measure the gap according to leftColumnWidth "
 	w := self leftColumnWidth - lw max: 0.
 
-	interspace ifNotNil: [ " adapt the existing fill "
-		interspace measuredWidth = w ifTrue: [ ^ self ].
-		interspace measuredExtent: w @ 0.
-		interspace constraintsDo: [ :c | 
-			c horizontal exact: w.
-			c vertical exact: 0 ].
-		^ self ].
-
-	" first pass, create the fill "
-	interspace := BlElement new
-		              id: #'icon-column-fill';
-		              measuredExtent: w @ 0;
-		              yourself.
-	interspace constraintsDo: [ :c | 
-		c horizontal exact: w.
-		c vertical exact: 0 ]
+	interspace measuredWidth = w ifTrue: [ ^ self ].
+	interspace measuredExtent: w @ 0.
+	interspace size: w @ 0
 ]
 
 { #category : #'t - labeled presentation' }
@@ -140,9 +157,12 @@ TToLabeled >> label: aLabel [
 
 	aLabel = label ifTrue: [ ^ self ].
 	label := aLabel.
-	label layout alignCenter.
-	self privateUpdateRowLayingOut
-	 
+	label ifNotNil: [ 
+		label layout alignCenter.
+		label constraintsDo: [ :c | 
+			c linear vertical alignCenter.
+			c linear horizontal alignCenter ] ].
+	self privateUpdateLayingOut
 ]
 
 { #category : #'t - labeled presentation' }
@@ -156,8 +176,7 @@ TToLabeled >> labelFirst: aBoolean [
 	
 	labelFirst = aBoolean ifTrue: [ ^ self ].
 	labelFirst := aBoolean.
-	self requestLayout.
-	self whenLayoutedDoOnce: [ self privateUpdateRowLayingOut ].
+	self requestLayout
 ]
 
 { #category : #'t - labeled accessing' }
@@ -167,6 +186,22 @@ TToLabeled >> labelText: aText [
 		label text: aText.
 		^ self ].
 	self label: (ToLabel new text: aText)
+]
+
+{ #category : #'t - labeled initialization' }
+TToLabeled >> layingOut [
+
+	^ (self isLabelFirst
+		   ifTrue: [ 
+			   { 
+				   self label.
+				   self privateUsedInterspace.
+				   self element } ]
+		   ifFalse: [ 
+			   { 
+				   self element.
+				   self privateUsedInterspace.
+				   self label } ]) select: #notNil
 ]
 
 { #category : #'t - labeled presentation' }
@@ -181,55 +216,50 @@ TToLabeled >> leftColumnWidth: anInteger [
 
 	leftColumnWidth := anInteger.
 	self requestLayout.
-	self whenLayoutedDoOnce: [ self privateUpdateRowLayingOut ].
+	self whenLayoutedDoOnce: [ self privateUpdateLayingOut ]
 ]
 
 { #category : #layout }
 TToLabeled >> onMeasure: anExtentMeasurementSpec [
 
+	" send to super before to ensure the children are already measured "
+	super onMeasure: anExtentMeasurementSpec.
 	self interspaceMeasure: anExtentMeasurementSpec.
-	super onMeasure: anExtentMeasurementSpec
 	
 ]
 
 { #category : #'t - labeled private' }
-TToLabeled >> privateMatchParentFill [
+TToLabeled >> privateJustificationFill [
 
 	^ ToElement new
-		  id: #'match-parent-fill';
+		  id: self privateJustificationFillId;
 		  matchParent 
 ]
 
 { #category : #'t - labeled private' }
-TToLabeled >> privateUpdateRowLayingOut [
+TToLabeled >> privateJustificationFillId [
+
+	^ #'justification'
+]
+
+{ #category : #'t - labeled private' }
+TToLabeled >> privateUpdateLayingOut [
 
 	| subs |
+	subs := self layingOut.
+	"self children asArray = subs ifTrue: [ 'y' traceCr. ^ self ]."
 	self eventDispatcher disableLayoutChanged.
 	[ self removeChildren ] ensure: [ 
 		self eventDispatcher enableLayoutChanged ].
-	subs := self rowLayingOut.
-	subs ifNil: [ ^ self ].
-	subs do: [ :s | 
-		s constraintsDo: [ :c | 
-			c linear vertical alignCenter.
-			c linear horizontal alignCenter ] ].
 	self addChildren: subs
 ]
 
-{ #category : #'t - labeled initialization' }
-TToLabeled >> rowLayingOut [
+{ #category : #'t - labeled private' }
+TToLabeled >> privateUsedInterspace [
 
-	^ (self isLabelFirst
-		   ifTrue: [ 
-			   { 
-				   self label.
-				   interspace.
-				   self element } ]
-		   ifFalse: [ 
-			   { 
-				   self element.
-				   interspace.
-				   self label } ]) select: #notNil
+	^ (self isJustified or: [ self leftColumnWidth > 0 ])
+		  ifTrue: [ interspace ]
+		  ifFalse: [ nil ]
 ]
 
 { #category : #'t - labeled change hook' }

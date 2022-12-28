@@ -26,6 +26,19 @@ ToMenu >> initialize [
 
 ]
 
+{ #category : #accessing }
+ToMenu >> layingOut [ 
+	self isSubmenu ifTrue: [ 
+		^ { 
+			  self element.
+			  interspace.
+			  self label.
+			  self privateJustificationFill.
+			  self rightIcon } select: #notNil ].
+
+	^ super layingOut
+]
+
 { #category : #'t - menu initialization' }
 ToMenu >> menuWindowClass [
 
@@ -38,19 +51,9 @@ ToMenu >> rightIcon [
 	^ rightIcon ifNil: [ 
 		  rightIcon := (ToImage inner: self rightIconImage)
 			               hExact: 15;
+			               constraintsDo: [ :c | 
+				               c linear vertical alignCenter.
+				               c linear horizontal alignCenter ];
 			               in: [ :im | im layout alignCenterRight ];
 			               yourself ]
-]
-
-{ #category : #accessing }
-ToMenu >> rowLayingOut [ 
-	self isSubmenu ifTrue: [ 
-		^ { 
-			  self element.
-			  interspace.
-			  self label.
-			  self privateMatchParentFill.
-			  self rightIcon } select: #notNil ].
-
-	^ super rowLayingOut
 ]

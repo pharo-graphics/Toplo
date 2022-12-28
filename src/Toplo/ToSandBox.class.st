@@ -488,8 +488,16 @@ ToSandBox class >> example_menu6 [
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';
 		      beNotJustified;
-		      beLabelFirst;
+				beLabelFirst;
 		      hMatchParent.
+	th leftColumnWidth: 100.
+	menu addItem: (ToCustomMenuItem new innerElement: th).
+	th := ToToggleButton new
+		      labelText: 'Cheesecake';
+		      beNotJustified;
+				beLabelFirst;
+		      hMatchParent.
+	th layout cellSpacing: 10.
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';
@@ -871,7 +879,7 @@ ToSandBox class >> example_toButtonModelWithIconOnly [
 { #category : #button }
 ToSandBox class >> example_toButtonModelWithTextAndIconVertical [
 
-	| but space |
+	| but space wid |
 	but := ToButtonModel new
 		       beVertical;
 		       beLabelFirst.
@@ -883,7 +891,9 @@ ToSandBox class >> example_toButtonModelWithTextAndIconVertical [
 	but whenClickedDo: [ :ann | 
 		ann currentTarget horizontal: ann currentTarget horizontal not ].
 	space := OBlSpace new.
-	space addChild: but onWidget.
+	wid := but onWidget.
+	wid layout cellSpacing: 10.
+	space addChild: wid.
 	space show 
 ]
 
@@ -893,6 +903,50 @@ ToSandBox class >> example_toButtonOrientationChanger [
 	| but space iconImage |
 	but := ToButton new.
 	but layout cellSpacing: 4.
+	but padding: (BlInsets all: 3).
+	but border: (BlBorder paint: Color lightGray).
+	but labelText: 'Button' asRopedText bold.
+	iconImage := BlElement new
+		             size: 20 @ 20;
+		             background: Color lightGray;
+		             yourself.
+	but element: iconImage.
+	but whenClickedDo: [ :ann | 
+		ann currentTarget orientation: but orientation inverted ].
+	space := OBlSpace new.
+	space addChild: but.
+	space show 
+]
+
+{ #category : #button }
+ToSandBox class >> example_toButtonOrientationChanger2 [
+
+	| but space iconImage |
+	but := ToButton new.
+	but layout cellSpacing: 10.
+	but labelFirst: true.
+	but padding: (BlInsets all: 3).
+	but border: (BlBorder paint: Color lightGray).
+	but labelText: 'Button' asRopedText bold.
+	iconImage := BlElement new
+		             size: 20 @ 20;
+		             background: Color lightGray;
+		             yourself.
+	but element: iconImage.
+	but whenClickedDo: [ :ann | 
+		ann currentTarget orientation: but orientation inverted ].
+	space := OBlSpace new.
+	space addChild: but.
+	space show 
+]
+
+{ #category : #button }
+ToSandBox class >> example_toButtonOrientationChanger3 [
+
+	| but space iconImage |
+	but := ToButton new.
+	but leftColumnWidth: 100.
+	but labelFirst: true.
 	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).
 	but labelText: 'Button' asRopedText bold.
@@ -947,6 +1001,7 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 			 background: (Color blue alpha: 0.2);
 			 yourself).
 	but beLabelFirst.
+	but layout cellSpacing: 10.
 	but whenClickedDo: [ :ann | but element background: Color random ].
 	space := OBlSpace new.
 	space addChild: but.
@@ -963,6 +1018,7 @@ ToSandBox class >> example_toButtonWithTextAndIconVertical [
 			 size: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).
+	but layout cellSpacing: 10.
 	but whenClickedDo: [ :ann | but element background: Color random ].
 	space := OBlSpace new.
 	space addChild: but.
@@ -1004,6 +1060,40 @@ ToSandBox class >> example_toCheckbox0 [
 ]
 
 { #category : #checkbox }
+ToSandBox class >> example_toCheckbox1 [
+
+	| chb |
+	chb := ToCheckbox new
+		       leftColumnWidth: 50;
+		       labelText: '1';
+		       id: 1 asString.
+	"beLabelFirst;"
+	chb openInInnerWindow
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_toCheckbox2 [
+
+	| chb container |
+	chb := ToCheckbox new "beLabelFirst;"
+		       leftColumnWidth: 50;
+		       labelText: '1';
+		       id: 1 asString.
+	""
+	container := BlElement new.
+	container constraintsDo: [ :c | 
+		c horizontal matchParent.
+		c vertical matchParent ].
+
+	container layout: BlLinearLayout vertical.
+	container layout cellSpacing: 5.
+
+	container addChild: chb.
+	container openInOBlSpace
+	
+]
+
+{ #category : #checkbox }
 ToSandBox class >> example_toCheckboxModelWithLabel [
 
 	| but |
@@ -1023,6 +1113,15 @@ ToSandBox class >> example_toCheckboxModelWithLabel2 [
 ToSandBox class >> example_toCheckboxModelWithLabel3 [
 
 	| but |
+	but := ToCheckbox new labelText: 'Check me'.
+	but layout cellSpacing: 10.
+	but   openInOBlSpace
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_toCheckboxModelWithLabel4 [
+
+	| but |
 	but := ToCheckboxModel new labelText: 'Check me'; beVertical.
 	but onWidget openInOBlSpace
 ]
@@ -1032,7 +1131,7 @@ ToSandBox class >> example_toCheckboxWithLabel [
 
 	| but |
 	but := ToCheckbox new labelText: 'Check me'.
-	but layout cellSpacing: 5.
+	but layout cellSpacing: 25.
 	but whenCheckedDo: [ self inform: '+++ checked' ].
 	but whenUncheckedDo: [ self inform: '--- unchecked' ].
 
@@ -1060,7 +1159,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroup [
 		| chb |
 		chb := ToCheckbox new
 			       beLabelFirst;
-			       leftColumnWidth: 15;
+			       leftColumnWidth: 50;
 			       labelText: idx asString;
 			       id: idx asString.
 		buttons add: chb ].

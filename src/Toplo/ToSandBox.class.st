@@ -193,6 +193,7 @@ ToSandBox class >> example_menu1 [
 
 	| menu sub subsub |
 	menu := ToMenu new.
+	menu layout cellSpacing: 5.
 	menu globalLeftColumnWidth: 22.
 	menu label: (ToLabel new text: 'File').
 	menu element: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).

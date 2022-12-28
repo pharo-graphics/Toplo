@@ -1,3 +1,22 @@
+"
+A lot of kind of views consist in a Label associated with another element sur as an image or an icon, a text...
+I represent such a view. Basically, I hold a label and another element. I'm used to build buttons and menu items and as a basic block to implement elements viewed within a list, a table or a tree .
+
+The label and the associated element are optional. I can hold a label alone or a label associated with another element or an element alone without any label.
+
+Internal Representation and Key Implementation Points.
+
+    Instance Variables
+	element:		<BlElement> 
+	interspace:		<BlElement> a transparent element which is used for the appropriate laying-out of the label and the associted element
+	justified:		<Boolean> if set to true, then the label and its associated alement are located on the left and on the right side.
+	label:		<ToLabel> 
+	labelFirst:		<Boolean> if true, then the label layed-out on the left of the element
+	leftColumnWidth:		<Integer> the size of the left column (mainly used to align labels (or icons) in menus)
+
+
+    Implementation Points
+"
 Trait {
 	#name : #TToLabeled,
 	#instVars : [
@@ -100,11 +119,11 @@ TToLabeled >> interspaceMeasure: anExtentMeasurementSpec [
 			 interspace constraints vertical resizer isMatchParent ]) ifFalse: [ 
 			interspace constraintsDo: [ :c | 
 				c horizontal matchParent.
-				c vertical matchParent ] ].
-		^ self ].
+				c vertical matchParent ]. ^ false].
+		^ true ].
 
 	" cell spacing is not compatible with left column sizing "
-	self layout cellSpacing isZero ifFalse: [ ^ self ].
+	self layout cellSpacing isZero ifFalse: [ ^ true ].
 
 	" get the left side element and then its width "
 	left := self isLabelFirst
@@ -115,9 +134,10 @@ TToLabeled >> interspaceMeasure: anExtentMeasurementSpec [
 	" now measure the gap according to leftColumnWidth "
 	w := self leftColumnWidth - lw max: 0.
 
-	interspace measuredWidth = w ifTrue: [ ^ self ].
+	interspace measuredWidth = w ifTrue: [ ^ true ].
 	interspace measuredExtent: w @ 0.
-	interspace size: w @ 0
+	interspace size: w @ 0.
+	^ false
 ]
 
 { #category : #'t - labeled presentation' }
@@ -137,7 +157,7 @@ TToLabeled >> isJustified: aBoolean [
 
 	justified = aBoolean ifTrue: [ ^self ].
 	justified := aBoolean.
-	self requestLayout
+	self privateUpdateLayingOut
 ]
 
 { #category : #'t - labeled presentation' }
@@ -176,7 +196,7 @@ TToLabeled >> labelFirst: aBoolean [
 	
 	labelFirst = aBoolean ifTrue: [ ^ self ].
 	labelFirst := aBoolean.
-	self requestLayout
+	self privateUpdateLayingOut
 ]
 
 { #category : #'t - labeled accessing' }
@@ -223,9 +243,10 @@ TToLabeled >> leftColumnWidth: anInteger [
 TToLabeled >> onMeasure: anExtentMeasurementSpec [
 
 	" send to super before to ensure the children are already measured "
+
 	super onMeasure: anExtentMeasurementSpec.
-	self interspaceMeasure: anExtentMeasurementSpec.
-	
+	(self interspaceMeasure: anExtentMeasurementSpec) ifFalse: [ 
+		self onMeasure: anExtentMeasurementSpec ]
 ]
 
 { #category : #'t - labeled private' }
@@ -246,8 +267,9 @@ TToLabeled >> privateJustificationFillId [
 TToLabeled >> privateUpdateLayingOut [
 
 	| subs |
+	
 	subs := self layingOut.
-	"self children asArray = subs ifTrue: [ 'y' traceCr. ^ self ]."
+	self children asArray = subs ifTrue: [ ^ self ].
 	self eventDispatcher disableLayoutChanged.
 	[ self removeChildren ] ensure: [ 
 		self eventDispatcher enableLayoutChanged ].

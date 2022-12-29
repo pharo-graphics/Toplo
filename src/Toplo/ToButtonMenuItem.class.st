@@ -10,9 +10,9 @@ Class {
 ToButtonMenuItem >> addedInMenu: aMenu [
 
 	super addedInMenu: aMenu.
-	aMenu globalLeftColumnWidth isZero ifTrue: [^ self ].
-	self leftColumnWidth = self defaultLeftColumnWidth ifFalse: [ ^ self ].
-	self leftColumnWidth: aMenu globalLeftColumnWidth
+	self isJustified ifFalse: [ 
+		self leftColumnWidth > 0 ifFalse: [ 
+			self leftColumnWidth: aMenu globalLeftColumnWidth ] ]
 ]
 
 { #category : #'t - initialization dresser' }
@@ -26,12 +26,11 @@ ToButtonMenuItem >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	
+
 	self initializeLabeled.
 	"horizontal matchParent required here ** after ** initializeButton ( because of the #fitContent sent)"
 	self constraintsDo: [ :c | 
-				        c horizontal matchParent.
-				        c vertical fitContent ].
+		c horizontal matchParent.
+		c vertical fitContent ].
 	self initializeDresser
-
 ]

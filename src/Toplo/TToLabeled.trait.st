@@ -20,14 +20,12 @@ Internal Representation and Key Implementation Points.
 Trait {
 	#name : #TToLabeled,
 	#instVars : [
-		'#justified => ObservableSlot',
-		'#labelFirst => ObservableSlot',
-		'#element',
-		'#interspace',
-		'#label',
-		'#leftColumnWidth'
+		'labelFirst',
+		'element',
+		'label',
+		'strategy'
 	],
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Core-Labeled'
 }
 
 { #category : #'t - labeled presentation' }
@@ -39,7 +37,7 @@ TToLabeled >> beElementFirst [
 { #category : #'t - labeled presentation' }
 TToLabeled >> beJustified [
 
-	self isJustified: true
+	self strategy: ToLabeledJustifiedStrategy new
  
 ]
 
@@ -47,19 +45,6 @@ TToLabeled >> beJustified [
 TToLabeled >> beLabelFirst [
 
 	self labelFirst: true 
-]
-
-{ #category : #'t - labeled presentation' }
-TToLabeled >> beNotJustified [
-
-	self isJustified: false
-
-]
-
-{ #category : #'t - labeled initialization' }
-TToLabeled >> defaultLeftColumnWidth [
-
-	^ 0 
 ]
 
 { #category : #'t - labeled accessing' }
@@ -78,7 +63,7 @@ TToLabeled >> element: anElement [
 			c linear vertical alignCenter.
 			c linear horizontal alignCenter ] ].
 
-	self privateUpdateLayingOut
+	self privateUpdateChildren
  
 ]
 
@@ -100,44 +85,19 @@ TToLabeled >> iconImage: anInnerImage [
 	self element: (ToImage inner: anInnerImage)
 ]
 
+{ #category : #initialization }
+TToLabeled >> initialize [
+	
+	self class initializeSlots: self.
+	super initialize.
+]
+
 { #category : #'t - labeled initialization' }
 TToLabeled >> initializeLabeled [
 
 	self layout: BlLinearLayout horizontal.
-	interspace := BlElement new constraintsDo: [ :c | 
-		              c horizontal exact: 0.
-		              c vertical exact: 0 ].
+	self strategy: ToLabeledWithoutInterspaceStrategy new.
 	self fitContent
-]
-
-{ #category : #layout }
-TToLabeled >> interspaceMeasure: anExtentMeasurementSpec [
-
-	| w left lw |
-	self isJustified ifTrue: [ 
-		(interspace constraints horizontal resizer isMatchParent and: [ 
-			 interspace constraints vertical resizer isMatchParent ]) ifFalse: [ 
-			interspace constraintsDo: [ :c | 
-				c horizontal matchParent.
-				c vertical matchParent ]. ^ false].
-		^ true ].
-
-	" cell spacing is not compatible with left column sizing "
-	self layout cellSpacing isZero ifFalse: [ ^ true ].
-
-	" get the left side element and then its width "
-	left := self isLabelFirst
-		        ifTrue: [ self label ]
-		        ifFalse: [ self element ].
-
-	lw := left ifNil: [ 0 ] ifNotNil: [ left measuredWidth ].
-	" now measure the gap according to leftColumnWidth "
-	w := self leftColumnWidth - lw max: 0.
-
-	interspace measuredWidth = w ifTrue: [ ^ true ].
-	interspace measuredExtent: w @ 0.
-	interspace size: w @ 0.
-	^ false
 ]
 
 { #category : #'t - labeled presentation' }
@@ -149,15 +109,7 @@ TToLabeled >> isIconFirst [
 { #category : #'t - labeled presentation' }
 TToLabeled >> isJustified [
 
-	^ justified ifNil: [ justified := false ] 
-]
-
-{ #category : #'t - labeled presentation' }
-TToLabeled >> isJustified: aBoolean [
-
-	justified = aBoolean ifTrue: [ ^self ].
-	justified := aBoolean.
-	self privateUpdateLayingOut
+	^ strategy ifNil: [ false ] ifNotNil: [ :strat | strat isJustified ]
 ]
 
 { #category : #'t - labeled presentation' }
@@ -182,7 +134,7 @@ TToLabeled >> label: aLabel [
 		label constraintsDo: [ :c | 
 			c linear vertical alignCenter.
 			c linear horizontal alignCenter ] ].
-	self privateUpdateLayingOut
+	self privateUpdateChildren
 ]
 
 { #category : #'t - labeled presentation' }
@@ -196,7 +148,7 @@ TToLabeled >> labelFirst: aBoolean [
 	
 	labelFirst = aBoolean ifTrue: [ ^ self ].
 	labelFirst := aBoolean.
-	self privateUpdateLayingOut
+	self privateUpdateChildren
 ]
 
 { #category : #'t - labeled accessing' }
@@ -208,35 +160,18 @@ TToLabeled >> labelText: aText [
 	self label: (ToLabel new text: aText)
 ]
 
-{ #category : #'t - labeled initialization' }
-TToLabeled >> layingOut [
-
-	^ (self isLabelFirst
-		   ifTrue: [ 
-			   { 
-				   self label.
-				   self privateUsedInterspace.
-				   self element } ]
-		   ifFalse: [ 
-			   { 
-				   self element.
-				   self privateUsedInterspace.
-				   self label } ]) select: #notNil
-]
-
 { #category : #'t - labeled presentation' }
 TToLabeled >> leftColumnWidth [
 
-	^ leftColumnWidth ifNil: [ leftColumnWidth := self defaultLeftColumnWidth].
-
+	^ strategy
+		  ifNil: [ 0 ]
+		  ifNotNil: [ :strat | strat leftColumnWidth ]
 ]
 
 { #category : #'t - labeled presentation' }
 TToLabeled >> leftColumnWidth: anInteger [
 
-	leftColumnWidth := anInteger.
-	self requestLayout.
-	self whenLayoutedDoOnce: [ self privateUpdateLayingOut ]
+	self strategy: (ToLabeledLeftColumnStrategy new width: anInteger)
 ]
 
 { #category : #layout }
@@ -245,59 +180,29 @@ TToLabeled >> onMeasure: anExtentMeasurementSpec [
 	" send to super before to ensure the children are already measured "
 
 	super onMeasure: anExtentMeasurementSpec.
-	(self interspaceMeasure: anExtentMeasurementSpec) ifFalse: [ 
-		self onMeasure: anExtentMeasurementSpec ]
+	(self strategy onMeasure: anExtentMeasurementSpec in: self) 
+		ifFalse: [ " re-launch measuring if necessary" 
+			self onMeasure: anExtentMeasurementSpec ]
 ]
 
 { #category : #'t - labeled private' }
-TToLabeled >> privateJustificationFill [
+TToLabeled >> privateUpdateChildren [
 
-	^ ToElement new
-		  id: self privateJustificationFillId;
-		  matchParent 
+	strategy ifNil: [ ^ self ].
+	strategy updateChildrenIn: self
 ]
 
-{ #category : #'t - labeled private' }
-TToLabeled >> privateJustificationFillId [
+{ #category : #'t - labeled accessing' }
+TToLabeled >> strategy [
 
-	^ #'justification'
+	^ strategy ifNil: [ strategy := ToLabeledWithoutInterspaceStrategy ]
 ]
 
-{ #category : #'t - labeled private' }
-TToLabeled >> privateUpdateLayingOut [
+{ #category : #'t - labeled accessing' }
+TToLabeled >> strategy: aLabeledStrategy [
 
-	| subs |
-	
-	subs := self layingOut.
-	self children asArray = subs ifTrue: [ ^ self ].
-	self eventDispatcher disableLayoutChanged.
-	[ self removeChildren ] ensure: [ 
-		self eventDispatcher enableLayoutChanged ].
-	self addChildren: subs
-]
-
-{ #category : #'t - labeled private' }
-TToLabeled >> privateUsedInterspace [
-
-	^ (self isJustified or: [ self leftColumnWidth > 0 ])
-		  ifTrue: [ interspace ]
-		  ifFalse: [ nil ]
-]
-
-{ #category : #'t - labeled change hook' }
-TToLabeled >> whenJustifiedChangedDo: aBlock [
-
-	"set a block to perform after that the image has been changed, and its action performed"
-
-	self property: #justified whenChangedDo: aBlock 
-]
-
-{ #category : #'t - labeled change hook' }
-TToLabeled >> whenLabelFirstChangedDo: aBlock [
-
-	"set a block to perform after that the image has been changed, and its action performed"
-
-	self property: #labelFirst whenChangedDo: aBlock 
+	strategy := aLabeledStrategy.
+	self privateUpdateChildren
 ]
 
 { #category : #'t - labeled presentation' }
@@ -310,10 +215,4 @@ TToLabeled >> withoutElement [
 TToLabeled >> withoutLabel [
 
 	self label: nil 
-]
-
-{ #category : #'t - labeled presentation' }
-TToLabeled >> withoutLeftColumn [
-
-	self leftColumnWidth: -1
 ]

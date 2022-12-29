@@ -32,10 +32,12 @@ TToMenu >> addSeparator [
 { #category : #'t - menu initialization' }
 TToMenu >> addedInMenu: aMenu [
 
-	super addedInMenu: aMenu. 
+	super addedInMenu: aMenu.
 	submenuDresser ifNil: [ 
 		submenuDresser := ToMenuAsSubmenuDresser new.
-		self addDresser: submenuDresser ]
+		self addDresser: submenuDresser ].
+	self strategy: (ToLabeledSubmenuStrategy new width: self leftColumnWidth)
+
 ]
 
 { #category : #'t - menu initialization' }
@@ -164,15 +166,4 @@ TToMenu >> removedFromMenu: aMenu [
 	submenuDresser ifNotNil: [ 
 		self removeDresser: submenuDresser.
 		submenuDresser := nil ]
-]
-
-{ #category : #'t - menu initialization' }
-TToMenu >> rightIconImage [
-
-	| ic |
-	ic := BlTextElement new text: '>' asRopedText bold.
-	ic constraintsDo: [ :c |
-			c linear vertical alignCenter.
-			c linear horizontal alignCenter ].
-	^ ic
 ]

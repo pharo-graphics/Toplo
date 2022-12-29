@@ -16,7 +16,6 @@ ToToggleButton >> defaultDresser [
 ToToggleButton >> initialize [ 
 
 	super initialize.
-	
 	self beJustified.
 
 ]

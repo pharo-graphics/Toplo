@@ -222,8 +222,8 @@ ToSandBox class >> example_menu2 [
 	| menu  |
 	menu := ToMenu new.
 	menu label: (ToLabel text: 'File').
-	menu leftColumnWidth: -1.
-	menu addItem: (ToCheckMenuItem new label: (ToLabel text:'Align right'); beLabelFirst).
+	menu addItem: (ToCheckMenuItem new label: (ToLabel text:'Align right'); beLabelFirst; beJustified).
+	menu addItem: (ToCheckMenuItem new label: (ToLabel text:'Other'); beLabelFirst; leftColumnWidth: 100).
 	menu relocate: 10@10.
 	menu openInNewSpace.
 	
@@ -360,7 +360,7 @@ ToSandBox class >> example_menu6 [
 			 whenClickedDo: [ self inform: 'Export' ]).
 	menu addItem: (ToButtonMenuItem new
 			 labelText: 'Export';
-			 withoutLeftColumn;
+			 leftColumnWidth: 0;
 			 whenClickedDo: [ self inform: 'Export' ]).
 
 	grp := ToCheckableGroup new.
@@ -488,14 +488,12 @@ ToSandBox class >> example_menu6 [
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';
-		      beNotJustified;
 				beLabelFirst;
 		      hMatchParent.
 	th leftColumnWidth: 100.
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';
-		      beNotJustified;
 				beLabelFirst;
 		      hMatchParent.
 	th layout cellSpacing: 10.
@@ -521,7 +519,7 @@ ToSandBox class >> example_menu6 [
 					  top: 2;
 					  bottom: 4)).
 	sub := ToMenu new labelText: 'Save All'.
-	sub withoutLeftColumn.
+	sub leftColumnWidth: 0.
 	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
 	menu addItem: sub.
 
@@ -948,6 +946,49 @@ ToSandBox class >> example_toButtonOrientationChanger3 [
 	but := ToButton new.
 	but leftColumnWidth: 100.
 	but labelFirst: true.
+	but padding: (BlInsets all: 3).
+	but border: (BlBorder paint: Color lightGray).
+	but labelText: 'Button' asRopedText bold.
+	iconImage := BlElement new
+		             size: 20 @ 20;
+		             background: Color lightGray;
+		             yourself.
+	but element: iconImage.
+	but whenClickedDo: [ :ann | 
+		ann currentTarget orientation: but orientation inverted ].
+	space := OBlSpace new.
+	space addChild: but.
+	space show 
+]
+
+{ #category : #button }
+ToSandBox class >> example_toButtonOrientationChanger4 [
+
+	| but space iconImage |
+	but := ToButton new hMatchParent.
+	but beJustified.
+	but padding: (BlInsets all: 3).
+	but border: (BlBorder paint: Color lightGray).
+	but labelText: 'Button' asRopedText bold.
+	iconImage := BlElement new
+		             size: 20 @ 20;
+		             background: Color lightGray;
+		             yourself.
+	but element: iconImage.
+	but whenClickedDo: [ :ann | 
+		ann currentTarget orientation: but orientation inverted ].
+	space := OBlSpace new.
+	space addChild: but.
+	space show 
+]
+
+{ #category : #button }
+ToSandBox class >> example_toButtonOrientationChanger5 [
+
+	| but space iconImage |
+	but := ToButton new hMatchParent.
+	but beJustified.
+	but beLabelFirst.
 	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).
 	but labelText: 'Button' asRopedText bold.

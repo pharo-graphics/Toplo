@@ -85,13 +85,6 @@ TToLabeled >> iconImage: anInnerImage [
 	self element: (ToImage inner: anInnerImage)
 ]
 
-{ #category : #initialization }
-TToLabeled >> initialize [
-	
-	self class initializeSlots: self.
-	super initialize.
-]
-
 { #category : #'t - labeled initialization' }
 TToLabeled >> initializeLabeled [
 

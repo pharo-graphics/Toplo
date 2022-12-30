@@ -22,13 +22,6 @@ ToInfiniteDataSource >> itemCount [
 ]
 
 { #category : #accessing }
-ToInfiniteDataSource >> itemTypeAt: aPosition [
-	"All my items are homogene, it is enough to use 0"
-
-	^ ToInfiniteItemType new
-]
-
-{ #category : #accessing }
 ToInfiniteDataSource >> list [
 
 	^ list
@@ -50,7 +43,7 @@ ToInfiniteDataSource >> onBindHolder: anElementHolder at: aPosition [
 ]
 
 { #category : #'instance creation' }
-ToInfiniteDataSource >> onCreateHolder: anInfiniteElement type: anItemType [
+ToInfiniteDataSource >> onCreateHolder: anInfiniteElement [ 
 
-	^ anInfiniteElement holderFactory cull: anInfiniteElement cull: anItemType
+	^ anInfiniteElement holderFactory cull: anInfiniteElement 
 ]

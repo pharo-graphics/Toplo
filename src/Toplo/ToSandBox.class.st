@@ -84,7 +84,7 @@ ToSandBox class >> example_InfiniteWithAllClassesAsButton [
 
 	| l |
 	l := ToInfinite new
-		     holderFactory: [ :infinite :itemType | 
+		     holderFactory: [ :infinite  | 
 			     ToInfiniteElementHolder new dataToElementFactory: [ :cls | 
 					     ToButton new
 						     labelText: cls name;
@@ -109,7 +109,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 
 	| l |
 	l := ToList new
-		     holderFactory: [ :infinite :itemType | 
+		     holderFactory: [ :infinite  | 
 			     ToListNodeHolder new nodeFactory: [ :cls | 
 					     | icn |
 					     icn := cls hasComment
@@ -130,7 +130,7 @@ ToSandBox class >> example_ListWithAllClasses4 [
 
 	| l |
 	l := ToList new
-		     holderFactory: [ :infinite :itemType | 
+		     holderFactory: [ :infinite  | 
 			     ToListNodeHolder new nodeFactory: [ :cls | 
 					     ToCheckNode new
 						     labelText: cls name;

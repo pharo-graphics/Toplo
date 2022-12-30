@@ -4,9 +4,9 @@ Class {
 	#category : #'Toplo-Core-Infinite'
 }
 
-{ #category : #initialization }
-ToListDataSource >> defaultElementHolderClass [
-	
-	^ ToListNodeHolder 
+{ #category : #accessing }
+ToListDataSource >> itemTypeAt: aPosition [
+	"All my items are homogene, it is enough to use 0"
 
+	^ ToListItemType new
 ]

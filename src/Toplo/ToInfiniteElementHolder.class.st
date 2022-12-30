@@ -2,7 +2,8 @@ Class {
 	#name : #ToInfiniteElementHolder,
 	#superclass : #OBlInfiniteHolder,
 	#instVars : [
-		'data'
+		'data',
+		'dataToElementFactory'
 	],
 	#category : #'Toplo-Core-Infinite'
 }
@@ -11,5 +12,24 @@ Class {
 ToInfiniteElementHolder >> data: aData [
 
 	data := aData.
-	itemElement := infiniteElement dataToElementFactory value: data	
+	itemElement := self dataToElementFactory value: data	
+]
+
+{ #category : #accessing }
+ToInfiniteElementHolder >> dataToElementFactory [
+
+	^ dataToElementFactory
+]
+
+{ #category : #accessing }
+ToInfiniteElementHolder >> dataToElementFactory: aBlock [
+
+	dataToElementFactory := aBlock
+]
+
+{ #category : #initialization }
+ToInfiniteElementHolder >> initialize [
+
+	super initialize.
+	dataToElementFactory := [ :d | d asElement ]
 ]

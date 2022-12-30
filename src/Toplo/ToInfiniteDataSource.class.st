@@ -2,35 +2,14 @@ Class {
 	#name : #ToInfiniteDataSource,
 	#superclass : #OBlInfiniteDataSource,
 	#instVars : [
-		'list',
-		'elementHolderClass'
+		'list'
 	],
 	#category : #'Toplo-Core-Infinite'
 }
 
 { #category : #initialization }
-ToInfiniteDataSource >> defaultElementHolderClass [
-	
-	^ ToInfiniteElementHolder 
-
-]
-
-{ #category : #accessing }
-ToInfiniteDataSource >> elementHolderClass [
-
-	^ elementHolderClass
-]
-
-{ #category : #accessing }
-ToInfiniteDataSource >> elementHolderClass: aElementHolderClass [
-
-	elementHolderClass := aElementHolderClass
-]
-
-{ #category : #initialization }
 ToInfiniteDataSource >> initialize [
 	super initialize.
-	elementHolderClass := self defaultElementHolderClass 
 
 ]
 
@@ -46,7 +25,7 @@ ToInfiniteDataSource >> itemCount [
 ToInfiniteDataSource >> itemTypeAt: aPosition [
 	"All my items are homogene, it is enough to use 0"
 
-	^ 0
+	^ ToInfiniteItemType new
 ]
 
 { #category : #accessing }
@@ -73,5 +52,5 @@ ToInfiniteDataSource >> onBindHolder: anElementHolder at: aPosition [
 { #category : #'instance creation' }
 ToInfiniteDataSource >> onCreateHolder: anInfiniteElement type: anItemType [
 
-	^ ToInfiniteElementHolder new
+	^ anInfiniteElement holderFactory cull: anInfiniteElement cull: anItemType
 ]

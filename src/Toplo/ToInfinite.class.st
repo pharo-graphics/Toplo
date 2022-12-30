@@ -3,8 +3,8 @@ Class {
 	#superclass : #OBlInfiniteElement,
 	#instVars : [
 		'list',
-		'dataSourceClass',
-		'dataToElementFactory'
+		'holderFactory',
+		'dataSourceClass'
 	],
 	#category : #'Toplo-Core-Infinite'
 }
@@ -27,18 +27,6 @@ ToInfinite >> dataSourceClass: aDataSourceClass [
 	dataSourceClass := aDataSourceClass
 ]
 
-{ #category : #accessing }
-ToInfinite >> dataToElementFactory [
-
-	^ dataToElementFactory
-]
-
-{ #category : #accessing }
-ToInfinite >> dataToElementFactory: aBlock [
-
-	dataToElementFactory := aBlock
-]
-
 { #category : #initialization }
 ToInfinite >> defaultDataSourceClass [
 
@@ -48,6 +36,18 @@ ToInfinite >> defaultDataSourceClass [
 { #category : #initialization }
 ToInfinite >> defaultLayout [
 	^ OBlInfiniteLinearLayout new
+]
+
+{ #category : #accessing }
+ToInfinite >> holderFactory [
+
+	^ holderFactory 
+]
+
+{ #category : #accessing }
+ToInfinite >> holderFactory: aValuable [
+
+	holderFactory := aValuable
 ]
 
 { #category : #initialization }
@@ -62,7 +62,6 @@ ToInfinite >> initialize [
 	list whenUpdateChangeDo: [ :ann | self dataSource notifyItemsChanged: ann interval ]. 
 		
 	self dataSource: (self dataSourceClass new list: list).
-	dataToElementFactory := [ :d | d asElement ].
 	self constraintsDo: [ :c | 
 		c horizontal matchParent.
 		c vertical matchParent ]

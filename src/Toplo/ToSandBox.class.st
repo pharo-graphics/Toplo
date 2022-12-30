@@ -84,9 +84,13 @@ ToSandBox class >> example_InfiniteWithAllClassesAsButton [
 
 	| l |
 	l := ToInfinite new
-		dataToElementFactory: [ :cls | ToButton new labelText: cls name; hMatchParent  ];
-		addAll: Smalltalk globals allClasses;
-		yourself.
+		     holderFactory: [ :infinite :itemType | 
+			     ToInfiniteElementHolder new dataToElementFactory: [ :cls | 
+					     ToButton new
+						     labelText: cls name;
+						     hMatchParent ] ];
+		     addAll: Smalltalk globals allClasses;
+		     yourself.
 	l openInOBlSpace
 ]
 
@@ -105,16 +109,17 @@ ToSandBox class >> example_ListWithAllClasses3 [
 
 	| l |
 	l := ToList new
-		     nodeFactory: [ :cls | 
-			     | icn |
-			     icn := cls hasComment
-				            ifTrue: [ #class ]
-				            ifFalse: [ #uncommentedClass ].
-			     ToLabeledNode new
-				     labelText: cls name;
-				     element: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
-				     leftColumnWidth: 20;
-				     hMatchParent ];
+		     holderFactory: [ :infinite :itemType | 
+			     ToListNodeHolder new nodeFactory: [ :cls | 
+					     | icn |
+					     icn := cls hasComment
+						            ifTrue: [ #class ]
+						            ifFalse: [ #uncommentedClass ].
+					     ToLabeledNode new
+						     labelText: cls name;
+						     element: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
+						     leftColumnWidth: 20;
+						     hMatchParent ] ];
 		     addAll: Smalltalk globals allClasses;
 		     yourself.
 	l openInOBlSpace
@@ -125,11 +130,12 @@ ToSandBox class >> example_ListWithAllClasses4 [
 
 	| l |
 	l := ToList new
-		     nodeFactory: [ :cls | 
-			     ToCheckNode new
-				     labelText: cls name;
-				     leftColumnWidth: 25;
-				     hMatchParent ];
+		     holderFactory: [ :infinite :itemType | 
+			     ToListNodeHolder new nodeFactory: [ :cls | 
+					     ToCheckNode new
+						     labelText: cls name;
+						     leftColumnWidth: 25;
+						     hMatchParent ] ];
 		     addAll: Smalltalk globals allClasses;
 		     yourself.
 	l openInOBlSpace

@@ -45,5 +45,5 @@ ToInfiniteDataSource >> onBindHolder: anElementHolder at: aPosition [
 { #category : #'instance creation' }
 ToInfiniteDataSource >> onCreateHolder: anInfiniteElement [ 
 
-	^ anInfiniteElement holderFactory cull: anInfiniteElement 
+	^ anInfiniteElement holderFactory value: anInfiniteElement 
 ]

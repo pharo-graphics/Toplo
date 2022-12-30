@@ -130,12 +130,11 @@ ToSandBox class >> example_ListWithAllClasses4 [
 
 	| l |
 	l := ToList new
-		     holderFactory: [ :infinite  | 
-			     ToListNodeHolder new nodeFactory: [ :cls | 
-					     ToCheckNode new
-						     labelText: cls name;
-						     leftColumnWidth: 25;
-						     hMatchParent ] ];
+		     nodeFactory: [ :cls | 
+			     ToCheckNode new
+				     labelText: cls name;
+				     leftColumnWidth: 25;
+				     hMatchParent ];
 		     addAll: Smalltalk globals allClasses;
 		     yourself.
 	l openInOBlSpace

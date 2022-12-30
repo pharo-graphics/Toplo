@@ -1,7 +1,7 @@
 Class {
 	#name : #ToListNodeHolder,
 	#superclass : #ToInfiniteElementHolder,
-	#category : #'Toplo-Core-Infinite'
+	#category : #'Toplo-Widget-List'
 }
 
 { #category : #accessing }
@@ -16,7 +16,7 @@ ToListNodeHolder >> data: aData [
 ToListNodeHolder >> initialize [ 
 
 	super initialize.
-	dataToElementFactory := [ :d | ToLabeledNode new labelText: d asRopedText ]
+	self nodeFactory: [ :d | ToLabeledNode new labelText: d asRopedText ]
 ]
 
 { #category : #accessing }

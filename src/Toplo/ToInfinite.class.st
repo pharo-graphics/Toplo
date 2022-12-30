@@ -34,7 +34,14 @@ ToInfinite >> defaultDataSourceClass [
 ]
 
 { #category : #initialization }
+ToInfinite >> defaultHolderFactory [
+
+	^ ToInfiniteHolderFactory new.
+]
+
+{ #category : #initialization }
 ToInfinite >> defaultLayout [
+
 	^ OBlInfiniteLinearLayout new
 ]
 
@@ -45,9 +52,9 @@ ToInfinite >> holderFactory [
 ]
 
 { #category : #accessing }
-ToInfinite >> holderFactory: aValuable [
+ToInfinite >> holderFactory: anHolderFactory [
 
-	holderFactory := aValuable
+	holderFactory := anHolderFactory
 ]
 
 { #category : #initialization }
@@ -62,6 +69,7 @@ ToInfinite >> initialize [
 	list whenUpdateChangeDo: [ :ann | self dataSource notifyItemsChanged: ann interval ]. 
 		
 	self dataSource: (self dataSourceClass new list: list).
+	self holderFactory: self defaultHolderFactory.
 	self constraintsDo: [ :c | 
 		c horizontal matchParent.
 		c vertical matchParent ]

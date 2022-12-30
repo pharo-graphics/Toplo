@@ -1,7 +1,7 @@
 Class {
 	#name : #ToList,
 	#superclass : #ToInfinite,
-	#category : #'Toplo-Core-Infinite'
+	#category : #'Toplo-Widget-List'
 }
 
 { #category : #initialization }
@@ -11,9 +11,15 @@ ToList >> defaultDataSourceClass [
 ]
 
 { #category : #initialization }
-ToList >> initialize [
+ToList >> defaultHolderFactory [
 
-	super initialize.
-	holderFactory := [ ToListNodeHolder new ].
+	^ ToListActionHolderFactory new.
+]
 
+{ #category : #initialization }
+ToList >> nodeFactory: aValuable [
+
+	self holderFactory:
+		(ToListActionHolderFactory new action: [ :infinite | 
+			 ToListNodeHolder new nodeFactory: aValuable ])
 ]

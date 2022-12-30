@@ -1,5 +1,5 @@
 Class {
 	#name : #ToListDataSource,
 	#superclass : #ToInfiniteDataSource,
-	#category : #'Toplo-Core-Infinite'
+	#category : #'Toplo-Widget-List'
 }

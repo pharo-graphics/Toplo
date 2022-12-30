@@ -2,8 +2,9 @@ Class {
 	#name : #ToInfinite,
 	#superclass : #OBlInfiniteElement,
 	#instVars : [
-		'dataToElementStencyl',
-		'list'
+		'list',
+		'dataSourceClass',
+		'dataToElementFactory'
 	],
 	#category : #'Toplo-Core-Infinite'
 }
@@ -15,15 +16,33 @@ ToInfinite >> addAll: aCollection [
 ]
 
 { #category : #accessing }
-ToInfinite >> dataToElementStencyl [
+ToInfinite >> dataSourceClass [ 
 
-	^ dataToElementStencyl
+	^ dataSourceClass 
 ]
 
 { #category : #accessing }
-ToInfinite >> dataToElementStencyl: aBlock [
+ToInfinite >> dataSourceClass: aDataSourceClass [
 
-	dataToElementStencyl := aBlock
+	dataSourceClass := aDataSourceClass
+]
+
+{ #category : #accessing }
+ToInfinite >> dataToElementFactory [
+
+	^ dataToElementFactory
+]
+
+{ #category : #accessing }
+ToInfinite >> dataToElementFactory: aBlock [
+
+	dataToElementFactory := aBlock
+]
+
+{ #category : #initialization }
+ToInfinite >> defaultDataSourceClass [
+
+	^ ToInfiniteDataSource 
 ]
 
 { #category : #initialization }
@@ -36,13 +55,14 @@ ToInfinite >> initialize [
 
 	super initialize.
 	list := ToObservableCollection new.
+	dataSourceClass := self defaultDataSourceClass.
 	
 	list whenAddChangeDo: [ :ann | self dataSource notifyItemsInserted: ann interval ]. 
 	list whenRemoveChangeDo: [ :ann | self dataSource notifyItemsRemoved: ann interval ]. 
 	list whenUpdateChangeDo: [ :ann | self dataSource notifyItemsChanged: ann interval ]. 
 		
-	self dataSource: (ToInfiniteDataSource new list: list).
-	dataToElementStencyl := [ :d | d asElement ].
+	self dataSource: (self dataSourceClass new list: list).
+	dataToElementFactory := [ :d | d asElement ].
 	self constraintsDo: [ :c | 
 		c horizontal matchParent.
 		c vertical matchParent ]

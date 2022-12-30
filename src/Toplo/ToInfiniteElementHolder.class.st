@@ -11,6 +11,5 @@ Class {
 ToInfiniteElementHolder >> data: aData [
 
 	data := aData.
-	itemElement := infiniteElement dataToElementStencyl value: data
-	
+	itemElement := infiniteElement dataToElementFactory value: data	
 ]

@@ -5,10 +5,10 @@ Class {
 	#classTraits : 'TToWidget classTrait',
 	#instVars : [
 		'#animate',
-		'#deleteAnimationStencil',
-		'#popupAnimationStencil',
 		'#deleteAnimation',
-		'#widget => ObservableSlot'
+		'#widget => ObservableSlot',
+		'#deleteAnimationFactory',
+		'#popupAnimationFactory'
 	],
 	#category : #'Toplo-Widget-Window'
 }
@@ -37,7 +37,7 @@ ToPopupWindow >> checkBeforePopupIn: aWidget [
 	" my bounds are up-to-date, I can be visible "
 	self visibility: BlVisibility visible.
 	self animate ifFalse: [ ^ self ].
-	self addAnimation: self popupAnimationStencil value
+	self addAnimation: self popupAnimationFactory value
 	
 "<kept for the record>
 	"" layout is done, my bounds are now up-to-date""
@@ -64,7 +64,7 @@ ToPopupWindow >> close [
 	self cleanUp.
 
 	animate ifTrue: [ 
-		deleteAnimation := deleteAnimationStencil value.
+		deleteAnimation := deleteAnimationFactory value.
 		deleteAnimation onFinishedDo: [ 
 			super close.
 			self cleanUp ].
@@ -81,15 +81,15 @@ ToPopupWindow >> defaultDresser [
 ]
 
 { #category : #accessing }
-ToPopupWindow >> deleteAnimationStencil [
+ToPopupWindow >> deleteAnimationFactory [
 
-	^ deleteAnimationStencil
+	^ deleteAnimationFactory
 ]
 
 { #category : #accessing }
-ToPopupWindow >> deleteAnimationStencil: anAnimationStencyl [
+ToPopupWindow >> deleteAnimationFactory: aValuable [
 
-	deleteAnimationStencil := anAnimationStencyl
+	deleteAnimationFactory := aValuable
 ]
 
 { #category : #initialization }
@@ -99,12 +99,12 @@ ToPopupWindow >> initialize [
 	super initialize.
 	self animate: true.
 
-	deleteAnimationStencil := [ 
+	deleteAnimationFactory := [ 
 	                          BlOpacityAnimation new
 		                          duration: 250 milliSeconds;
 		                          opacity: 0;
 		                          yourself ].
-	popupAnimationStencil := [ 
+	popupAnimationFactory := [ 
 	                         self opacity: 0.0.
 	                         BlOpacityAnimation new
 		                         duration: 200 milliSeconds;
@@ -130,15 +130,15 @@ ToPopupWindow >> popup [
 ]
 
 { #category : #accessing }
-ToPopupWindow >> popupAnimationStencil [
+ToPopupWindow >> popupAnimationFactory [
 
-	^ popupAnimationStencil
+	^ popupAnimationFactory
 ]
 
 { #category : #accessing }
-ToPopupWindow >> popupAnimationStencyl: anAnimationStencyl [
+ToPopupWindow >> popupAnimationFactory: aValuable [
 
-	popupAnimationStencil := anAnimationStencyl
+	popupAnimationFactory := aValuable
 ]
 
 { #category : #'api - displaying' }

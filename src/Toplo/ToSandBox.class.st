@@ -80,14 +80,58 @@ ToSandBox class >> example_EditorWithGhostTextWithToAlbumModel [
 ]
 
 { #category : #list }
-ToSandBox class >> example_ListWithAllClasses [
+ToSandBox class >> example_InfiniteWithAllClassesAsButton [
 
 	| l |
 	l := ToInfinite new
-		dataToElementStencyl: [ :cls | ToButton new labelText: cls name; hMatchParent  ];
+		dataToElementFactory: [ :cls | ToButton new labelText: cls name; hMatchParent  ];
 		addAll: Smalltalk globals allClasses;
 		yourself.
-	l inspect.
+	l openInOBlSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_ListWithAllClasses [
+
+	| l |
+	l := ToList new
+		addAll: ((Smalltalk globals allClasses) collect: [:cls | cls name]);
+		yourself.
+	l openInOBlSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_ListWithAllClasses3 [
+
+	| l |
+	l := ToList new
+		     nodeFactory: [ :cls | 
+			     | icn |
+			     icn := cls hasComment
+				            ifTrue: [ #class ]
+				            ifFalse: [ #uncommentedClass ].
+			     ToLabeledNode new
+				     labelText: cls name;
+				     element: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
+				     leftColumnWidth: 20;
+				     hMatchParent ];
+		     addAll: Smalltalk globals allClasses;
+		     yourself.
+	l openInOBlSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_ListWithAllClasses4 [
+
+	| l |
+	l := ToList new
+		     nodeFactory: [ :cls | 
+			     ToCheckNode new
+				     labelText: cls name;
+				     leftColumnWidth: 25;
+				     hMatchParent ];
+		     addAll: Smalltalk globals allClasses;
+		     yourself.
 	l openInOBlSpace
 ]
 

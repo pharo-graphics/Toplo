@@ -2,15 +2,35 @@ Class {
 	#name : #ToInfiniteDataSource,
 	#superclass : #OBlInfiniteDataSource,
 	#instVars : [
-		'list'
+		'list',
+		'elementHolderClass'
 	],
 	#category : #'Toplo-Core-Infinite'
 }
 
 { #category : #initialization }
+ToInfiniteDataSource >> defaultElementHolderClass [
+	
+	^ ToInfiniteElementHolder 
+
+]
+
+{ #category : #accessing }
+ToInfiniteDataSource >> elementHolderClass [
+
+	^ elementHolderClass
+]
+
+{ #category : #accessing }
+ToInfiniteDataSource >> elementHolderClass: aElementHolderClass [
+
+	elementHolderClass := aElementHolderClass
+]
+
+{ #category : #initialization }
 ToInfiniteDataSource >> initialize [
 	super initialize.
-
+	elementHolderClass := self defaultElementHolderClass 
 
 ]
 

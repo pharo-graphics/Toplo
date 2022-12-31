@@ -1,25 +1,61 @@
 Class {
 	#name : #ToList,
-	#superclass : #ToInfinite,
+	#superclass : #OBlInfiniteElement,
+	#instVars : [
+		'nodeFactory'
+	],
 	#category : #'Toplo-Widget-List'
 }
 
 { #category : #initialization }
-ToList >> defaultDataSourceClass [
+ToList >> defaultDataSource [
 
-	^ ToListDataSource 
+	^ ToListDataSource new
 ]
 
 { #category : #initialization }
-ToList >> defaultHolderFactory [
+ToList >> defaultLayout [
 
-	^ ToListActionHolderFactory new.
+	^ OBlInfiniteLinearLayout new
 ]
 
 { #category : #initialization }
+ToList >> holderClass [
+
+	^ ToListNodeHolder 
+]
+
+{ #category : #initialization }
+ToList >> initialize [ 
+
+	super initialize.
+	nodeFactory := [ :d | ToLabeledNode new labelText: d ].
+	self list: ToObservableCollection new.	
+	self constraintsDo: [ :c | 
+		c horizontal matchParent.
+		c vertical matchParent ]
+]
+
+{ #category : #accessing }
+ToList >> list [
+
+	^ dataSource list
+]
+
+{ #category : #accessing }
+ToList >> list: aList [
+
+	dataSource list: aList
+]
+
+{ #category : #accessing }
+ToList >> nodeFactory [
+
+	^ nodeFactory 
+]
+
+{ #category : #accessing }
 ToList >> nodeFactory: aValuable [
 
-	self holderFactory:
-		(ToListActionHolderFactory new action: [ :infinite | 
-			 ToListNodeHolder new nodeFactory: aValuable ])
+	nodeFactory := aValuable
 ]

@@ -41,6 +41,13 @@ ToAbstractButtonDresser >> hover: anElement [
 ]
 
 { #category : #'events handling' }
+ToAbstractButtonDresser >> hover: anElement event: anEvent [
+
+	self hover: anElement
+
+]
+
+{ #category : #'events handling' }
 ToAbstractButtonDresser >> initialState: anElement [
 
 	self subclassResponsibility 
@@ -57,7 +64,7 @@ ToAbstractButtonDresser >> installEventListenersIn: anElement [
 	mouseEnterHandler := BlEventHandler on: BlMouseEnterEvent 
 		do: [ :event | 
 			(event anyButtonPressed and: [event currentTarget ~= anElement ] )
-				ifFalse: [self hover: anElement ] ].
+				ifFalse: [self hover: anElement event: event] ].
 	mouseLeaveHandler := BlEventHandler on: BlMouseLeaveEvent do: [ self leaved: anElement ].
 	anElement addEventHandler: clickCandidateHandler.
 	anElement addEventHandler: mouseDownHandler.

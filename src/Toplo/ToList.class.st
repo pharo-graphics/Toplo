@@ -1,6 +1,8 @@
 Class {
 	#name : #ToList,
 	#superclass : #OBlInfiniteElement,
+	#traits : 'TOBlLayoutResizable + TToDressable',
+	#classTraits : 'TOBlLayoutResizable classTrait + TToDressable classTrait',
 	#instVars : [
 		'nodeFactory',
 		'selectionModel'
@@ -12,6 +14,12 @@ Class {
 ToList >> defaultDataSource [
 
 	^ ToListDataSource new
+]
+
+{ #category : #'t - initialization dresser' }
+ToList >> defaultDresser [ 
+
+	^ ToListDresser new
 ]
 
 { #category : #initialization }
@@ -35,7 +43,8 @@ ToList >> initialize [
 	self list: ToObservableCollection new.	
 	self constraintsDo: [ :c | 
 		c horizontal matchParent.
-		c vertical matchParent ]
+		c vertical matchParent ].
+	self initializeDresser 
 ]
 
 { #category : #accessing }

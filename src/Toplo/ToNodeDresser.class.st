@@ -26,12 +26,30 @@ ToNodeDresser >> clicked: anElement event: anEvent [
 ]
 
 { #category : #'events handling' }
-ToNodeDresser >> hover: anElement [
+ToNodeDresser >> hover: anElement event: anEvent [
 
-	
 	self border: self hoveredBorder in: anElement.
 	unselectedBackground ifNotNil: [ ^ self ].
-	self background: self hoveredBackground in: anElement.
+	self background: self hoveredBackground in: anElement
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToNodeDresser >> installEventListenersIn: anElement [
+
+	super installEventListenersIn: anElement.
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToNodeDresser >> onInstalledIn: anElement [
+
+	super onInstalledIn: anElement
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToNodeDresser >> onUninstalledIn: anElement [
+
+	super onUninstalledIn: anElement
 ]
 
 { #category : #enumerating }
@@ -46,4 +64,11 @@ ToNodeDresser >> removedFromSelection: anElement [
 ToNodeDresser >> selectionBackground [
 
 	^ theme button hoveredBorderColor alpha: 0.3 
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToNodeDresser >> uninstallEventListenersIn: anElement [
+
+	super uninstallEventListenersIn: anElement.
+
 ]

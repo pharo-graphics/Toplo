@@ -1,6 +1,8 @@
 Class {
 	#name : #ToSelectionModel,
 	#superclass : #Object,
+	#traits : 'TBlAnnouncerProvider',
+	#classTraits : 'TBlAnnouncerProvider classTrait',
 	#instVars : [
 		'selection'
 	],
@@ -12,7 +14,27 @@ ToSelectionModel class >> modelName [
 	^ 'Selection'
 ]
 
-{ #category : #'api - testing' }
+{ #category : #notifying }
+ToSelectionModel >> announceDeselected: anInterval [
+
+	self announce: (ToDeselectAnnouncement new model: self; interval: anInterval)
+]
+
+{ #category : #notifying }
+ToSelectionModel >> announceSelected: anInterval [
+
+	self
+		announceSelected: anInterval
+		dueTo: nil
+]
+
+{ #category : #notifying }
+ToSelectionModel >> announceSelected: anInterval dueTo: aSourceEvent [
+
+	self announce: (ToSelectAnnouncement new model: self; interval: anInterval; event: aSourceEvent)
+]
+
+{ #category : #testing }
 ToSelectionModel >> contains: anIndex [
 	"Return true if item at a given index is selected, false otherwise"
 	<return: #Boolean>
@@ -20,36 +42,36 @@ ToSelectionModel >> contains: anIndex [
 	^ selection containsIndex: anIndex
 ]
 
-{ #category : #'api - selection' }
+{ #category : #selection }
 ToSelectionModel >> deselect: aFromIndex to: aToIndex [
 	"Deselect items within a given interval"
 
 	selection deselect: aFromIndex - 1 to: aToIndex.
-	self notifyDeselected: (aFromIndex to: aToIndex) 
+	self announceDeselected: (aFromIndex to: aToIndex) 
 ]
 
-{ #category : #'api - selection' }
+{ #category : #selection }
 ToSelectionModel >> deselectAll [
 	"Deselect all items"
 
 	selection reverseDo: [ :aMonotoneSelection | self deselect: aMonotoneSelection from + 1 to: aMonotoneSelection to ]
 ]
 
-{ #category : #'api - selection' }
+{ #category : #selection }
 ToSelectionModel >> deselectOne: anIndex [
 	"Deselect items with a given index"
 
 	self deselect: anIndex to: anIndex
 ]
 
-{ #category : #'api - testing' }
+{ #category : #testing }
 ToSelectionModel >> hasSelection [
 	<return: #Boolean>
 	
 	^ selection isNotEmpty
 ]
 
-{ #category : #'api - accessing' }
+{ #category : #accessing }
 ToSelectionModel >> indices [
 	<return: #Collection of: #Number>
 	
@@ -63,22 +85,7 @@ ToSelectionModel >> initialize [
 	selection := BlCompositeSelection new
 ]
 
-{ #category : #notifying }
-ToSelectionModel >> notifyDeselected: anInterval [
-]
-
-{ #category : #notifying }
-ToSelectionModel >> notifySelected: anInterval [
-	self
-		notifySelected: anInterval
-		dueTo: nil
-]
-
-{ #category : #notifying }
-ToSelectionModel >> notifySelected: anInterval dueTo: aSourceEvent [
-]
-
-{ #category : #'api - selection' }
+{ #category : #selection }
 ToSelectionModel >> select: aFromIndex to: aToIndex [
 	"Select items within a given interval"
 
@@ -88,15 +95,15 @@ ToSelectionModel >> select: aFromIndex to: aToIndex [
 		dueTo: nil
 ]
 
-{ #category : #'api - selection' }
+{ #category : #selection }
 ToSelectionModel >> select: aFromIndex to: aToIndex dueTo: aSourceEvent [
 	"Select items within a given interval"
 
 	selection select: aFromIndex - 1 to: aToIndex.
-	self notifySelected: (aFromIndex to: aToIndex) dueTo: aSourceEvent
+	self announceSelected: (aFromIndex to: aToIndex) dueTo: aSourceEvent
 ]
 
-{ #category : #'api - selection' }
+{ #category : #selection }
 ToSelectionModel >> selectOne: anIndex [
 	"Select an item at a given index deselecting all previously selected items"
 	
@@ -105,7 +112,7 @@ ToSelectionModel >> selectOne: anIndex [
 		dueTo: nil
 ]
 
-{ #category : #'api - selection' }
+{ #category : #selection }
 ToSelectionModel >> selectOne: anIndex dueTo: aSourceEvent [
 	"Select an item at a given index deselecting all previously selected items"
 	| aSelectionCopy |
@@ -119,5 +126,5 @@ ToSelectionModel >> selectOne: anIndex dueTo: aSourceEvent [
 		ifTrue: [ ^ self ].
 
 	selection select: anIndex - 1 to: anIndex.
-	self notifySelected: (anIndex to: anIndex) dueTo: aSourceEvent
+	self announceSelected: (anIndex to: anIndex) dueTo: aSourceEvent
 ]

@@ -1,15 +1,5 @@
 Class {
 	#name : #ToListNodeHolder,
-	#superclass : #OBlInfiniteHolder,
-	#instVars : [
-		'data'
-	],
+	#superclass : #ToNodeHolder,
 	#category : #'Toplo-Widget-List'
 }
-
-{ #category : #accessing }
-ToListNodeHolder >> data: aData [
-
-	data := aData.
-	itemElement := infiniteElement nodeFactory value: aData
-]

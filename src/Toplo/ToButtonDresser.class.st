@@ -36,12 +36,6 @@ ToButtonDresser >> clicked: anElement [
 
 ]
 
-{ #category : #initialization }
-ToButtonDresser >> defaultAnimationDuration [
-
-	^ 200 milliSeconds
-]
-
 { #category : #'events handling' }
 ToButtonDresser >> escaped: anElement [
 
@@ -68,12 +62,6 @@ ToButtonDresser >> hoveredBorder [
 
 	^ downBorder ifNil: [ BlBorder paint: theme button hoveredBorderColor ]
 
-]
-
-{ #category : #'t - accessing checkable' }
-ToButtonDresser >> indeterminateIconImage: anInconImage [
-
-	^ self userData at: #indeterminateIconImage put: anInconImage
 ]
 
 { #category : #accessing }

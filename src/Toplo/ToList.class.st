@@ -2,7 +2,8 @@ Class {
 	#name : #ToList,
 	#superclass : #OBlInfiniteElement,
 	#instVars : [
-		'nodeFactory'
+		'nodeFactory',
+		'selectionModel'
 	],
 	#category : #'Toplo-Widget-List'
 }
@@ -30,6 +31,7 @@ ToList >> initialize [
 
 	super initialize.
 	nodeFactory := [ :d | ToLabeledNode new labelText: d ].
+	selectionModel := ToSelectionModel new.
 	self list: ToObservableCollection new.	
 	self constraintsDo: [ :c | 
 		c horizontal matchParent.
@@ -58,4 +60,16 @@ ToList >> nodeFactory [
 ToList >> nodeFactory: aValuable [
 
 	nodeFactory := aValuable
+]
+
+{ #category : #accessing }
+ToList >> selectionModel [
+
+	^ selectionModel 
+]
+
+{ #category : #'selection events' }
+ToList >> whenClickOnNodeAnnouncement: anAnnouncement [
+
+	self selectionModel selectOne: anAnnouncement holder layoutPosition dueTo: anAnnouncement event
 ]

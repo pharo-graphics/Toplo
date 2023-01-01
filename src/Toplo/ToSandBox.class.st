@@ -85,6 +85,7 @@ ToSandBox class >> example_ListWithAllClasses [
 	| l |
 	l := ToList new.
 	l list addAll: ((Smalltalk globals allClasses) collect: [:cls | cls name]).
+	l inspect.
 	l openInOBlSpace
 ]
 

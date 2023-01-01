@@ -39,11 +39,38 @@ ToListDataSource >> list: aList [
 ToListDataSource >> onBindHolder: anElementHolder at: aPosition [
 
 	"Update holder's model"
-	anElementHolder data: (list at: aPosition)
+	anElementHolder data: (list at: aPosition).
+
 ]
 
 { #category : #'instance creation' }
 ToListDataSource >> onCreateHolder: anInfiniteElement [ 
 
 	^ anInfiniteElement holderClass new infiniteElement: anInfiniteElement 
+]
+
+{ #category : #'instance creation' }
+ToListDataSource >> onElementAttached: anElementHolder [
+
+	| dresser |
+	super onElementAttached: anElementHolder.
+	anElementHolder itemElement holder: anElementHolder.
+	dresser := ToNodeDresser new.
+	anElementHolder dressNodeWith: dresser.
+	(anElementHolder infiniteElement selectionModel contains:
+		 anElementHolder layoutPosition) ifTrue: [ 
+		dresser addedToSelection: anElementHolder itemElement ].
+	anElementHolder
+		whenAnnouncement: ToClickOnNodeAnnouncement
+		send: #whenClickOnNodeAnnouncement:
+		to: anElementHolder infiniteElement
+]
+
+{ #category : #'instance creation' }
+ToListDataSource >> onElementDetached: anElementHolder [
+	
+	super onElementDetached: anElementHolder.
+	anElementHolder unsubscribe: self.
+	anElementHolder undressNode.
+	anElementHolder itemElement holder: nil.
 ]

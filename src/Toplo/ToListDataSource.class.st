@@ -52,25 +52,18 @@ ToListDataSource >> onCreateHolder: anInfiniteElement [
 { #category : #'instance creation' }
 ToListDataSource >> onElementAttached: anElementHolder [
 
-	| dresser |
 	super onElementAttached: anElementHolder.
 	anElementHolder itemElement holder: anElementHolder.
-	dresser := ToNodeDresser new.
-	anElementHolder dressNodeWith: dresser.
-	(anElementHolder infiniteElement selectionModel contains:
-		 anElementHolder layoutPosition) ifTrue: [ 
-		dresser addedToSelection: anElementHolder itemElement ].
-	anElementHolder
-		whenAnnouncement: ToClickOnNodeAnnouncement
-		send: #whenClickOnNodeAnnouncement:
-		to: anElementHolder infiniteElement
+	anElementHolder onAttachedFromDatasource: self.
+
 ]
 
 { #category : #'instance creation' }
 ToListDataSource >> onElementDetached: anElementHolder [
 	
 	super onElementDetached: anElementHolder.
+	anElementHolder onDetachedFromDatasource: self.
 	anElementHolder unsubscribe: self.
-	anElementHolder undressNode.
 	anElementHolder itemElement holder: nil.
+
 ]

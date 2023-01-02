@@ -9,12 +9,5 @@ Class {
 { #category : #'t - initialization dresser' }
 ToCheckNode >> defaultDresser [ 
 
-	^ ToCheckBoxDresser new
-]
-
-{ #category : #initialization }
-ToCheckNode >> initialize [ 
-
-	super initialize.
-	self whenClickedDo: [ self switchToNextState ]
+	^ ToCheckNodeDresser new
 ]

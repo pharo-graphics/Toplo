@@ -80,6 +80,20 @@ ToSandBox class >> example_EditorWithGhostTextWithToAlbumModel [
 ]
 
 { #category : #list }
+ToSandBox class >> example_ListOneClass [
+
+	| l |
+	l := ToList new
+		     nodeFactory: [ :cls | 
+			     ToCheckNode new
+				     labelText: cls name;
+				     leftColumnWidth: 25;
+				     hMatchParent ].
+	l list addAll: { Smalltalk globals allClasses first }.
+	l openInOBlSpace
+]
+
+{ #category : #list }
 ToSandBox class >> example_ListWithAllClasses [
 
 	| l |
@@ -104,7 +118,6 @@ ToSandBox class >> example_ListWithAllClasses3 [
 						     leftColumnWidth: 20;
 						     hMatchParent ].
 	l list addAll: Smalltalk globals allClasses.
-	l withRowNumbers.
 	l openInOBlSpace
 ]
 
@@ -131,6 +144,16 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 						     labelText: cls name;
 						     hMatchParent ].
 	l list addAll: Smalltalk globals allClasses.
+	l openInOBlSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_ListWithOneString [
+
+	| l |
+	l := ToList new.
+	l list addAll: { 'AAAAAA'}.
+	l inspect.
 	l openInOBlSpace
 ]
 

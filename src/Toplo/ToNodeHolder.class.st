@@ -4,8 +4,7 @@ Class {
 	#traits : 'TBlAnnouncerProvider',
 	#classTraits : 'TBlAnnouncerProvider classTrait',
 	#instVars : [
-		'data',
-		'nodeDresser'
+		'data'
 	],
 	#category : #'Toplo-Core-Node'
 }
@@ -18,10 +17,16 @@ ToNodeHolder >> data: aData [
 ]
 
 { #category : #accessing }
-ToNodeHolder >> dressNodeWith: aDresser [
+ToNodeHolder >> onAttachedFromDatasource: aDataSource [
 
-	nodeDresser := aDresser.
-	self itemElement addDresser: nodeDresser.
+
+	(infiniteElement selectionModel contains:
+		 self layoutPosition) ifTrue: [ 
+		itemElement dresser addedToSelection: itemElement ].
+	self
+		whenAnnouncement: ToClickOnNodeAnnouncement
+		send: #whenClickOnNodeAnnouncement:
+		to: infiniteElement.
 	infiniteElement selectionModel
 		whenAnnouncement: ToDeselectAnnouncement
 		send: #whenDeselectAnnouncement:
@@ -33,24 +38,23 @@ ToNodeHolder >> dressNodeWith: aDresser [
 ]
 
 { #category : #accessing }
-ToNodeHolder >> undressNode [
+ToNodeHolder >> onDetachedFromDatasource: aDataSource [
 
-	infiniteElement selectionModel unsubscribe: self.
-	self itemElement removeDresser: nodeDresser.
-	nodeDresser := nil.
-
+	itemElement undress.
+	self unsubscribe: infiniteElement.
+	infiniteElement selectionModel unsubscribe: self
 ]
 
 { #category : #'selection - handling' }
 ToNodeHolder >> whenDeselectAnnouncement: anAnnouncement [
 
 	(anAnnouncement interval includes: self layoutPosition) 
-		ifTrue: [ nodeDresser removedFromSelection: itemElement ]
+		ifTrue: [ itemElement dresser removedFromSelection: itemElement ]
 ]
 
 { #category : #'selection - handling' }
 ToNodeHolder >> whenSelectAnnouncement: anAnnouncement [
 
 	(anAnnouncement interval includes: self layoutPosition) 
-		ifTrue: [ nodeDresser addedToSelection: itemElement ]
+		ifTrue: [ itemElement dresser addedToSelection: itemElement ]
 ]

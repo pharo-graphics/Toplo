@@ -9,6 +9,12 @@ Class {
 	#category : #'Toplo-Core-Node'
 }
 
+{ #category : #'t - initialization dresser' }
+ToLabeledNode >> defaultDresser [ 
+
+	^ ToNodeDresser new
+]
+
 { #category : #accessing }
 ToLabeledNode >> holder [
 

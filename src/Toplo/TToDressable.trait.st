@@ -76,3 +76,10 @@ TToDressable >> storeDresserAction: aBlock [
 	l := self userData at: #dresserActions ifAbsentPut: [ OrderedCollection new ].
 	l add: aBlock
 ]
+
+{ #category : #'t - accessing dresser' }
+TToDressable >> undress [
+
+	self dresserDo: [ :d | d launchUninstallationIn: self ].
+	self userData at: #dresser put: nil
+]

@@ -65,6 +65,7 @@ ToAbstractButtonDresser >> installEventListenersIn: anElement [
 		do: [ :event | 
 			(event anyButtonPressed and: [event currentTarget ~= anElement ] )
 				ifFalse: [self hover: anElement event: event] ].
+
 	mouseLeaveHandler := BlEventHandler on: BlMouseLeaveEvent do: [ self leaved: anElement ].
 	anElement addEventHandler: clickCandidateHandler.
 	anElement addEventHandler: mouseDownHandler.

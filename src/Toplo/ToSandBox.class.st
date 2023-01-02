@@ -104,6 +104,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 						     leftColumnWidth: 20;
 						     hMatchParent ].
 	l list addAll: Smalltalk globals allClasses.
+	l withRowNumbers.
 	l openInOBlSpace
 ]
 

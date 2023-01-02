@@ -5,7 +5,7 @@ Class {
 	#classTraits : 'TOBlLayoutResizable classTrait + TToDressable classTrait',
 	#instVars : [
 		'nodeFactory',
-		'selectionModel'
+		'selectionStrategy'
 	],
 	#category : #'Toplo-Widget-List'
 }
@@ -39,7 +39,7 @@ ToList >> initialize [
 
 	super initialize.
 	nodeFactory := [ :d | ToLabeledNode new labelText: d ].
-	selectionModel := ToSelectionModel new.
+	selectionStrategy := ToSelectionStrategy new dataSource: self dataSource.
 	self list: ToObservableCollection new.	
 	self constraintsDo: [ :c | 
 		c horizontal matchParent.
@@ -56,7 +56,9 @@ ToList >> list [
 { #category : #accessing }
 ToList >> list: aList [
 
+	selectionStrategy clearSelection.
 	dataSource list: aList
+
 ]
 
 { #category : #accessing }
@@ -71,14 +73,26 @@ ToList >> nodeFactory: aValuable [
 	nodeFactory := aValuable
 ]
 
-{ #category : #accessing }
-ToList >> selectionModel [
+{ #category : #private }
+ToList >> scrollToIndex: anIndex [
+	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
+	which can, for example, be a data source position or child index"
+	
+	self scrollToPosition: anIndex.
+	
+	"aWish smooth
+		ifTrue: [ self listElement smoothScrollToPosition: aWish index ]
+		ifFalse: [ self listElement scrollToPosition: aWish index ]"
+]
 
-	^ selectionModel 
+{ #category : #accessing }
+ToList >> selectionStrategy [
+
+	^ selectionStrategy
 ]
 
 { #category : #'selection events' }
 ToList >> whenClickOnNodeAnnouncement: anAnnouncement [
 
-	self selectionModel selectOne: anAnnouncement holder layoutPosition dueTo: anAnnouncement event
+	self selectionStrategy selectIndex: anAnnouncement holder layoutPosition
 ]

@@ -20,18 +20,18 @@ ToNodeHolder >> data: aData [
 ToNodeHolder >> onAttachedFromDatasource: aDataSource [
 
 
-	(infiniteElement selectionModel contains:
+	(infiniteElement selectionStrategy isSelected:
 		 self layoutPosition) ifTrue: [ 
 		itemElement dresser addedToSelection: itemElement ].
 	self
 		whenAnnouncement: ToClickOnNodeAnnouncement
 		send: #whenClickOnNodeAnnouncement:
 		to: infiniteElement.
-	infiniteElement selectionModel
+	infiniteElement selectionStrategy
 		whenAnnouncement: ToDeselectAnnouncement
 		send: #whenDeselectAnnouncement:
 		to: self.
-	infiniteElement selectionModel
+	infiniteElement selectionStrategy
 		whenAnnouncement: ToSelectAnnouncement
 		send: #whenSelectAnnouncement:
 		to: self.
@@ -42,7 +42,7 @@ ToNodeHolder >> onDetachedFromDatasource: aDataSource [
 
 	itemElement undress.
 	self unsubscribe: infiniteElement.
-	infiniteElement selectionModel unsubscribe: self
+	infiniteElement selectionStrategy unsubscribe: self
 ]
 
 { #category : #'selection - handling' }

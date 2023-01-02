@@ -118,7 +118,8 @@ ToSandBox class >> example_ListWithAllClasses3 [
 						     leftColumnWidth: 20;
 						     hMatchParent ].
 	l list addAll: Smalltalk globals allClasses.
-	l openInOBlSpace
+	l openInOBlSpace.
+	l requestFocus 
 ]
 
 { #category : #list }
@@ -132,7 +133,8 @@ ToSandBox class >> example_ListWithAllClasses4 [
 				     leftColumnWidth: 25;
 				     hMatchParent ].
 	l list addAll: Smalltalk globals allClasses.
-	l openInOBlSpace
+	l openInOBlSpace.
+	l requestFocus 
 ]
 
 { #category : #list }
@@ -153,7 +155,6 @@ ToSandBox class >> example_ListWithOneString [
 	| l |
 	l := ToList new.
 	l list addAll: { 'AAAAAA'}.
-	l inspect.
 	l openInOBlSpace
 ]
 
@@ -169,7 +170,8 @@ ToSandBox class >> example_ListWithRowNumbers [
 				     hMatchParent ].
 	l list addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
-	l openInOBlSpace
+	l openInOBlSpace.
+	l requestFocus.
 ]
 
 { #category : #window }

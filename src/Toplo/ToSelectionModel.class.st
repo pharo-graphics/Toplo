@@ -34,14 +34,6 @@ ToSelectionModel >> announceSelected: anInterval dueTo: aSourceEvent [
 	self announce: (ToSelectAnnouncement new model: self; interval: anInterval; event: aSourceEvent)
 ]
 
-{ #category : #testing }
-ToSelectionModel >> contains: anIndex [
-	"Return true if item at a given index is selected, false otherwise"
-	<return: #Boolean>
-
-	^ selection containsIndex: anIndex
-]
-
 { #category : #selection }
 ToSelectionModel >> deselect: aFromIndex to: aToIndex [
 	"Deselect items within a given interval"
@@ -65,10 +57,11 @@ ToSelectionModel >> deselectOne: anIndex [
 ]
 
 { #category : #testing }
-ToSelectionModel >> hasSelection [
+ToSelectionModel >> includes: anIndex [
+	"Return true if item at a given index is selected, false otherwise"
 	<return: #Boolean>
-	
-	^ selection isNotEmpty
+
+	^ selection containsIndex: anIndex
 ]
 
 { #category : #accessing }
@@ -83,6 +76,20 @@ ToSelectionModel >> initialize [
 	super initialize.
 
 	selection := BlCompositeSelection new
+]
+
+{ #category : #testing }
+ToSelectionModel >> isEmpty [
+	<return: #Boolean>
+	
+	^ selection isEmpty
+]
+
+{ #category : #testing }
+ToSelectionModel >> isNotEmpty [
+	<return: #Boolean>
+	
+	^ selection isNotEmpty
 ]
 
 { #category : #selection }
@@ -122,7 +129,7 @@ ToSelectionModel >> selectOne: anIndex dueTo: aSourceEvent [
 
 	aSelectionCopy do: [ :aMonotoneSelection | self deselect: aMonotoneSelection from + 1 to: aMonotoneSelection to ].
 
-	(self contains: anIndex)
+	(self includes: anIndex)
 		ifTrue: [ ^ self ].
 
 	selection select: anIndex - 1 to: anIndex.

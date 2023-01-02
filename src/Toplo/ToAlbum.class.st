@@ -251,9 +251,9 @@ ToAlbum >> withGhostText: aText [
 ]
 
 { #category : #initialization }
-ToAlbum >> withLineNumbers [
+ToAlbum >> withRowNumbers [
 
-	self innerElement withLineNumbers
+	self innerElement withRowNumbers
 ]
 
 { #category : #initialization }
@@ -290,7 +290,7 @@ ToAlbum >> withoutGhostText [
 ]
 
 { #category : #initialization }
-ToAlbum >> withoutLineNumbers [
+ToAlbum >> withoutRowNumbers [
 
-	self innerElement withoutLineNumbers
+	self innerElement withoutRowNumbers
 ]

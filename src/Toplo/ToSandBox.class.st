@@ -33,7 +33,7 @@ Here an example of a client for a method.
 	client styler: (BlRBTextStyler new classOrMetaClass: self class).
 	client text: text copy.
 	client withSaveCapability.
-	client withLineNumbers.
+	client withRowNumbers.
 	client whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ].
 	client whenCancelRequestedDo: [ :cancelRequested | cancelRequested client text: text copy ].
 	"client inspect."
@@ -53,7 +53,7 @@ ToSandBox class >> example_EditorWithGhostText [
 
 	view := (ToAlbumModel new
 		 withGhostText: ghost;
-		 withLineNumbers;
+		 withRowNumbers;
 		 withSaveCapability;
 		 whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
 		 withEditsFeedbackLayer) onWidget.
@@ -71,7 +71,7 @@ ToSandBox class >> example_EditorWithGhostTextWithToAlbumModel [
 
 	view := (ToAlbumModel new
 		 withGhostText: ghost;
-		 withLineNumbers;
+		 withRowNumbers;
 		 withSaveCapability;
 		 whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
 		 withEditsFeedbackLayer) onWidget.
@@ -130,6 +130,21 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 						     labelText: cls name;
 						     hMatchParent ].
 	l list addAll: Smalltalk globals allClasses.
+	l openInOBlSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_ListWithRowNumbers [
+
+	| l |
+	l := ToList new
+		     nodeFactory: [ :cls | 
+			     ToCheckNode new
+				     labelText: cls name;
+				     leftColumnWidth: 25;
+				     hMatchParent ].
+	l list addAll: Smalltalk globals allClasses.
+	l withRowNumbers.
 	l openInOBlSpace
 ]
 

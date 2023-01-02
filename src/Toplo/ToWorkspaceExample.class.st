@@ -100,7 +100,7 @@ ToWorkspaceExample >> codeEditor [
 
 	| st |
 	st := textModel
-		      withLineNumbers;
+		      withRowNumbers;
 		      withGhostText:
 			      (('Workspace example' , String cr , '- doit: Cmd-d')
 				       asRopedText

@@ -281,9 +281,9 @@ ToAlbumModel >> withGhostText: aText [
 ]
 
 { #category : #'view configuration' }
-ToAlbumModel >> withLineNumbers [
+ToAlbumModel >> withRowNumbers [
 
-	self widgetDo: [ :album | album withLineNumbers ]
+	self widgetDo: [ :album | album withRowNumbers ]
 ]
 
 { #category : #'view configuration' }
@@ -305,7 +305,7 @@ ToAlbumModel >> withoutGhostText [
 ]
 
 { #category : #'view configuration' }
-ToAlbumModel >> withoutLineNumbers [
+ToAlbumModel >> withoutRowNumbers [
 
-	self widgetDo: [ :album | album withoutLineNumbers ]
+	self widgetDo: [ :album | album withoutRowNumbers ]
 ]

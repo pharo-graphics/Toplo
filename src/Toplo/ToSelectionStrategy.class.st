@@ -10,6 +10,13 @@ Class {
 }
 
 { #category : #'selection managing' }
+ToSelectionStrategy >> cherryPickIndex: index [
+
+	(self isSelected: index) ifTrue: [ ^ self clearSelection: index ].
+	self selectInterval: (index to: index)
+]
+
+{ #category : #'selection managing' }
 ToSelectionStrategy >> clearAndSelectIndex: index [
 
 	self clearSelection.
@@ -25,8 +32,8 @@ ToSelectionStrategy >> clearSelection [
 { #category : #'selection managing' }
 ToSelectionStrategy >> clearSelection: index [
 
-	selectionModel deselectOne: index.
-	self announceDeselected: (index to: index) 
+	selectionModel deselectOne: index
+
 ]
 
 { #category : #accessing }
@@ -49,10 +56,22 @@ ToSelectionStrategy >> isEmpty [
 	^ selectionModel isEmpty
 ]
 
+{ #category : #'mode testing' }
+ToSelectionStrategy >> isMultiple [
+
+	^ mode = #multiple
+]
+
 { #category : #'selection accessing' }
 ToSelectionStrategy >> isSelected: index [
 
 	^ selectionModel includes: index
+]
+
+{ #category : #'mode testing' }
+ToSelectionStrategy >> isSingle [
+
+	^ self isMultiple not
 ]
 
 { #category : #'selection managing' }
@@ -130,6 +149,20 @@ ToSelectionStrategy >> selectPreviousIn: anElement event: aShortcutEvent [
 	anElement scrollToIndex: idx
 ]
 
+{ #category : #'selection managing' }
+ToSelectionStrategy >> selectToIndex: index [
+
+	| indexes |
+	indexes := self selectedIndexes.
+	indexes ifEmpty: [ ^ selectionModel selectOne: index ].
+	indexes first < index ifTrue: [ 
+		self clearSelection.
+		^ self selectInterval: (indexes first to: index) ].
+	indexes last >= index ifTrue: [ 
+		self clearSelection.
+		^ self selectInterval: (index to: indexes last) ]
+]
+
 { #category : #'selection accessing' }
 ToSelectionStrategy >> selectedIndex [
 
@@ -154,6 +187,27 @@ ToSelectionStrategy >> selectedNode [
 ToSelectionStrategy >> selectedNodes [
 
 	^ self selectedIndexes collect: [ :idx | dataSource list at: idx  ]
+]
+
+{ #category : #shortcuts }
+ToSelectionStrategy >> shortcutsIn: aList [
+
+	| shortcuts |
+	shortcuts := { 
+		             (BlShortcutWithAction new
+			              combination: BlKeyCombination builder arrowDown build;
+			              action: [ :aShortcutEvent :aShortcut | 
+				              self selectNextIn: aList event: aShortcutEvent ]).
+		             (BlShortcutWithAction new
+			              combination: BlKeyCombination builder arrowUp build;
+			              action: [ :aShortcutEvent :aShortcut | 
+				              self selectPreviousIn: aList event: aShortcutEvent ]) }.
+	self isMultiple ifTrue: [ 
+		shortcuts := shortcuts , { (BlShortcutWithAction new
+			              combination: BlKeyCombination primaryA;
+			              action: [ :aShortcutEvent :aShortcut | 
+				              self selectAll ]) } ].
+	^ shortcuts
 ]
 
 { #category : #'event management' }

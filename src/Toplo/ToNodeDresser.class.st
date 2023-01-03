@@ -67,7 +67,7 @@ ToNodeDresser >> removedFromSelection: anElement [
 { #category : #enumerating }
 ToNodeDresser >> selectionBackground [
 
-	^ theme button hoveredBorderColor alpha: 0.3 
+	^ theme button hoveredBorderColor alpha: 0.5 
 ]
 
 { #category : #'api - install/uninstall  hook' }

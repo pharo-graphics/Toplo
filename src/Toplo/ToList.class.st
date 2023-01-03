@@ -1,8 +1,8 @@
 Class {
 	#name : #ToList,
 	#superclass : #OBlInfiniteElement,
-	#traits : 'TOBlLayoutResizable + TToDressable',
-	#classTraits : 'TOBlLayoutResizable classTrait + TToDressable classTrait',
+	#traits : 'TOBlLayoutResizable + TToDressable + TToWorldElement',
+	#classTraits : 'TOBlLayoutResizable classTrait + TToDressable classTrait + TToWorldElement classTrait',
 	#instVars : [
 		'nodeFactory',
 		'selectionStrategy'
@@ -106,5 +106,12 @@ ToList >> selectionStrategy [
 { #category : #'selection events' }
 ToList >> whenClickOnNodeAnnouncement: anAnnouncement [
 
-	self selectionStrategy selectIndex: anAnnouncement holder layoutPosition
+	| event |
+	event := anAnnouncement event.
+	event modifiers isShift ifTrue: [ 
+		^ self selectionStrategy selectToIndex: anAnnouncement holder layoutPosition ].
+	event modifiers isPrimaryModifier ifTrue: [ 
+		^ self selectionStrategy cherryPickIndex: anAnnouncement holder layoutPosition ].
+	self selectionStrategy selectIndex:
+		anAnnouncement holder layoutPosition
 ]

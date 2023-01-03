@@ -11,6 +11,18 @@ Class {
 	#category : #'Toplo-Widget-List'
 }
 
+{ #category : #initialization }
+ToListDresser >> defaultMargin [
+
+	^ BlInsets all: 5
+]
+
+{ #category : #initialization }
+ToListDresser >> defaultPadding [
+
+	^ BlInsets all: 5
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToListDresser >> installEventListenersIn: anElement [
 
@@ -41,6 +53,29 @@ ToListDresser >> installEventListenersIn: anElement [
 ToListDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
+	anElement padding: self defaultPadding.
+	anElement margin: self defaultMargin.
+	anElement clipChildren: true.
+	anElement  geometry: (BlRoundedRectangleGeometry cornerRadius: 8).
+	anElement 
+		when: BlBlurEvent
+		do: [ :anEvent | 
+			anElement  border: (BlBorder
+					 paint: anElement theme editor borderColor
+					 width: 1) ].
+	anElement 
+		when: BlFocusEvent
+		do: [ :anEvent | 
+			anElement border: (BlBorder
+					 paint: anElement theme editor focusedBorderColor
+					 width: 2) ].
+
+	anElement  border: (BlBorder
+			 paint: anElement theme editor borderColor
+			 width: 1).
+
+	anElement background: Color white.
+	
 	self installEventListenersIn: anElement
 ]
 

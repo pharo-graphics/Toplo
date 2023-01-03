@@ -119,7 +119,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 						     hMatchParent ].
 	l list addAll: Smalltalk globals allClasses.
 	l openInOBlSpace.
-	l requestFocus 
+
 ]
 
 { #category : #list }
@@ -134,7 +134,7 @@ ToSandBox class >> example_ListWithAllClasses4 [
 				     hMatchParent ].
 	l list addAll: Smalltalk globals allClasses.
 	l openInOBlSpace.
-	l requestFocus 
+
 ]
 
 { #category : #list }
@@ -171,7 +171,7 @@ ToSandBox class >> example_ListWithRowNumbers [
 	l list addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
 	l openInOBlSpace.
-	l requestFocus.
+
 ]
 
 { #category : #window }

@@ -73,6 +73,18 @@ ToList >> nodeFactory: aValuable [
 	nodeFactory := aValuable
 ]
 
+{ #category : #'private - focus' }
+ToList >> onGotFocus [ 
+
+	'onGotFocus' traceCr
+]
+
+{ #category : #'private - focus' }
+ToList >> onLostFocus [ 
+
+	'onLostFocus' traceCr
+]
+
 { #category : #private }
 ToList >> scrollToIndex: anIndex [
 	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,

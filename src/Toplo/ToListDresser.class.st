@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'scrolledHandler',
 		'selectNextShortcut',
-		'selectPreviousShortcut'
+		'selectPreviousShortcut',
+		'focusGetterHandler',
+		'focusHandler'
 	],
 	#category : #'Toplo-Widget-List'
 }
@@ -12,11 +14,17 @@ Class {
 { #category : #'api - install/uninstall  hook' }
 ToListDresser >> installEventListenersIn: anElement [
 
+
+	focusHandler := ToFocusHandler new.
+	focusGetterHandler := BlEventHandler
+		                   on: BlClickEvent do: [ :anEvent | anEvent currentTarget requestFocus ].
 	scrolledHandler := BlEventHandler
 		                   on: BlElementScrolledEvent
 		                   do: [ self updateHoveredNodeIn: anElement ].
 		
 	anElement addEventHandler: scrolledHandler.
+	anElement addEventHandler: focusHandler.
+	anElement addEventHandler: focusGetterHandler.
 
 	selectNextShortcut := BlShortcutWithAction new
 		                      combination: BlKeyCombination builder arrowDown build;
@@ -61,6 +69,8 @@ ToListDresser >> selectPreviousIn: anElement event: aShortcutEvent [
 ToListDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: scrolledHandler.
+	anElement removeEventHandler: focusHandler.
+	anElement removeEventHandler: focusGetterHandler.
 	anElement removeShortcut: selectNextShortcut.
 	anElement removeShortcut: selectPreviousShortcut
 

@@ -2,7 +2,8 @@ Class {
 	#name : #ToNodeDresser,
 	#superclass : #ToButtonDresser,
 	#instVars : [
-		'unselectedBackground'
+		'unselectedBackground',
+		'focusGetterHandler'
 	],
 	#category : #'Toplo-Core-Node'
 }
@@ -37,6 +38,9 @@ ToNodeDresser >> hover: anElement event: anEvent [
 ToNodeDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
+	focusGetterHandler := BlEventHandler
+		                   on: BlClickEvent do: [ :anEvent | anElement holder infiniteElement requestFocus ].
+	anElement addEventHandler: focusGetterHandler
 
 ]
 
@@ -70,5 +74,6 @@ ToNodeDresser >> selectionBackground [
 ToNodeDresser >> uninstallEventListenersIn: anElement [
 
 	super uninstallEventListenersIn: anElement.
+	anElement removeEventHandler: focusGetterHandler
 
 ]

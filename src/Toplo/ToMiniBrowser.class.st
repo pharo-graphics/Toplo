@@ -24,25 +24,31 @@ ToMiniBrowser class >> open [
 ToMiniBrowser >> initialize [ 
 
 	super initialize.
-	listsPane := ToHorizontalPane new.
-	listsPane layout: (BlGridLayout horizontal columnCount: 4; cellSpacing: 10).
+	listsPane := ToHorizontalPane new margin: (BlInsets top: 5).
+	listsPane layout: (BlLinearLayout horizontal cellSpacing: 5).
 	listsPane matchParent.
-	mainPane := ToVerticalPane new matchParent.
+	mainPane := ToVerticalPane new.
+	mainPane matchParent.
+	
 	packages := ToList new nodeFactory: [ :pkg | 
 		            ToLabeledNode new
 			            labelText: pkg name;
 			            hMatchParent ].
+		
 	packages list addAll:
 		(RPackage organizer packages asSortedCollection: [ :p1 :p2 | 
 			 p1 name < p2 name ]).
+		
 	classes := ToList new nodeFactory: [ :cls | 
 		            ToLabeledNode new
 			            labelText: cls name;
 			            hMatchParent ].
+		
 	protocols := ToList new nodeFactory: [ :prot | 
 		            ToLabeledNode new
 			            labelText: prot name;
 			            hMatchParent ].
+		
 	selectors := ToList new nodeFactory: [ :sel | 
 		            ToLabeledNode new
 			            labelText: sel asString;

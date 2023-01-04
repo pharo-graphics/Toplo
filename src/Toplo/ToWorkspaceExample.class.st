@@ -106,7 +106,7 @@ ToWorkspaceExample >> codeEditor [
 				       asRopedText
 				       fontSize: 24;
 				       foreground: Color gray lighter;
-				       yourself);
+				       yourself), 'sgdfjlhqgsdfjhqgdf' asRopedText ;
 		      styler: (BlRBTextStyler new
 				       isForWorkspace: true;
 				       workspace: self;

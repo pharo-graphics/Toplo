@@ -47,7 +47,9 @@ ToNodeDresser >> installEventListenersIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToNodeDresser >> onInstalledIn: anElement [
 
-	super onInstalledIn: anElement
+	super onInstalledIn: anElement.
+	anElement geometry: BlRectangleGeometry new.
+	anElement border: BlBorder empty
 ]
 
 { #category : #'api - install/uninstall  hook' }

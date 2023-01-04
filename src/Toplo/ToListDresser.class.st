@@ -48,7 +48,7 @@ ToListDresser >> onInstalledIn: anElement [
 	anElement padding: self defaultPadding.
 	anElement margin: self defaultMargin.
 	anElement clipChildren: true.
-	anElement  geometry: (BlRoundedRectangleGeometry cornerRadius: 8).
+	anElement outskirts: (BlOutskirts outside ).
 	anElement 
 		when: BlBlurEvent
 		do: [ :anEvent | 

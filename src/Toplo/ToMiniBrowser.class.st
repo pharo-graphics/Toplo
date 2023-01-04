@@ -25,7 +25,7 @@ ToMiniBrowser >> initialize [
 
 	super initialize.
 	listsPane := ToHorizontalPane new.
-	listsPane layout: BlGridLayout new.
+	listsPane layout: (BlGridLayout horizontal columnCount: 4; cellSpacing: 10).
 	listsPane matchParent.
 	mainPane := ToVerticalPane new matchParent.
 	packages := ToList new nodeFactory: [ :pkg | 

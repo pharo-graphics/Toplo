@@ -13,13 +13,13 @@ Class {
 { #category : #initialization }
 ToListDresser >> defaultMargin [
 
-	^ BlInsets all: 5
+	^ BlInsets all: 1
 ]
 
 { #category : #initialization }
 ToListDresser >> defaultPadding [
 
-	^ BlInsets all: 5
+	^ BlInsets all: 1
 ]
 
 { #category : #'api - install/uninstall  hook' }

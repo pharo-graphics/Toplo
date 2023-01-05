@@ -92,13 +92,12 @@ ToInfiniteElement >> nodeFactory: aValuable [
 { #category : #'private - focus' }
 ToInfiniteElement >> onGotFocus [ 
 
-	'onGotFocus' traceCr
+
 ]
 
 { #category : #'private - focus' }
 ToInfiniteElement >> onLostFocus [ 
 
-	'onLostFocus' traceCr
 ]
 
 { #category : #private }

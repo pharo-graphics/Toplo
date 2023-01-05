@@ -119,7 +119,7 @@ ToMiniBrowser >> initialize [
 
 	codeModel := ToAlbumModel new withRowNumbers.
 	codeModel styler: BlRBTextStyler new.
-	codePane := codeModel onWidget.
+	codePane := codeModel onWidget margin: (BlInsets all: 5).
 	
 	codeMenu := ToContextMenu new globalLeftColumnWidth: 0.
 	codeMenu addItem: (ToButtonMenuItem new labelText: 'Accept').

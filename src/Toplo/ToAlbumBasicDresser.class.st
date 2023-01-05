@@ -21,7 +21,7 @@ ToAlbumBasicDresser >> onInstalledIn: anElement [
 		do: [ :anEvent | 
 			anElement innerElement border: (BlBorder
 					 paint: anElement theme editor focusedBorderColor
-					 width: 2) ].
+					 width: 1) ].
 
 	anElement innerElement border: (BlBorder
 			 paint: anElement theme editor borderColor

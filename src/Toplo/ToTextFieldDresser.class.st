@@ -32,7 +32,7 @@ ToTextFieldDresser >> onInstalledIn: anElement [
 		do: [ :anEvent | 
 			anElement border: (BlBorder
 					 paint: anElement theme editor focusedBorderColor
-					 width: 2) ].
+					 width: 1) ].
 
 	anElement border: (BlBorder
 			 paint: anElement theme editor borderColor

@@ -49,6 +49,7 @@ ToNodeDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	anElement geometry: BlRectangleGeometry new.
+	anElement padding: (BlInsets all: 2).
 	anElement border: BlBorder empty
 ]
 

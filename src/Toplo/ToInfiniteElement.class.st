@@ -34,6 +34,15 @@ ToInfiniteElement >> defaultSelectionStrategy [
 	^ ToSelectionStrategy new dataSource: self dataSource.
 ]
 
+{ #category : #'selection events' }
+ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
+
+	| indexes |
+	indexes := self selectedIndexes copy.
+	aBlock value.
+	self dispatchEvent: (ToSelectionChanged from: indexes to: self selectedIndexes)
+]
+
 { #category : #initialization }
 ToInfiniteElement >> holderClass [
 
@@ -105,6 +114,12 @@ ToInfiniteElement >> scrollToIndex: anIndex [
 ]
 
 { #category : #accessing }
+ToInfiniteElement >> selectedIndexes [ 
+
+	^ self selectionStrategy selectedIndexes
+]
+
+{ #category : #accessing }
 ToInfiniteElement >> selectionStrategy [
 
 	^ selectionStrategy
@@ -116,9 +131,14 @@ ToInfiniteElement >> whenClickOnNodeAnnouncement: anAnnouncement [
 	| event |
 	event := anAnnouncement event.
 	event modifiers isShift ifTrue: [ 
-		^ self selectionStrategy selectToIndex: anAnnouncement holder layoutPosition ].
+		^ self dispatchSelectionChangedAfter: [ 
+			  self selectionStrategy selectToIndex:
+				  anAnnouncement holder layoutPosition ] ].
 	event modifiers isPrimaryModifier ifTrue: [ 
-		^ self selectionStrategy cherryPickIndex: anAnnouncement holder layoutPosition ].
-	self selectionStrategy selectIndex:
-		anAnnouncement holder layoutPosition
+		^ self dispatchSelectionChangedAfter: [ 
+			  self selectionStrategy cherryPickIndex:
+				  anAnnouncement holder layoutPosition ] ].
+	self dispatchSelectionChangedAfter: [ 
+		self selectionStrategy selectIndex:
+			anAnnouncement holder layoutPosition ]
 ]

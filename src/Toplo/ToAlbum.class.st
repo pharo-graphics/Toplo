@@ -1,8 +1,8 @@
 Class {
 	#name : #ToAlbum,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TToWidgetWithViewModel + TToWidgetWithTooltip + TToWidgetWithLayers',
-	#classTraits : 'TToWidget classTrait + TToWidgetWithViewModel classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithLayers classTrait',
+	#traits : 'TToWidget + TToWidgetWithViewModel + TToWidgetWithTooltip + TToWidgetWithLayers + TToWidgetWithContextMenu',
+	#classTraits : 'TToWidget classTrait + TToWidgetWithViewModel classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithLayers classTrait + TToWidgetWithContextMenu classTrait',
 	#instVars : [
 		'#editsFeedbackLayer',
 		'#ghostTextLayer',

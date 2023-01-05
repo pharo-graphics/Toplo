@@ -197,16 +197,19 @@ ToSelectionStrategy >> shortcutsIn: aList [
 		             (BlShortcutWithAction new
 			              combination: BlKeyCombination builder arrowDown build;
 			              action: [ :aShortcutEvent :aShortcut | 
-				              self selectNextIn: aList event: aShortcutEvent ]).
+				              aList dispatchSelectionChangedAfter: [ 
+						              self selectNextIn: aList event: aShortcutEvent ] ]).
 		             (BlShortcutWithAction new
 			              combination: BlKeyCombination builder arrowUp build;
 			              action: [ :aShortcutEvent :aShortcut | 
-				              self selectPreviousIn: aList event: aShortcutEvent ]) }.
+				              aList dispatchSelectionChangedAfter: [ 
+						              self selectPreviousIn: aList event: aShortcutEvent ] ]) }.
 	self isMultiple ifTrue: [ 
 		shortcuts := shortcuts , { (BlShortcutWithAction new
 			              combination: BlKeyCombination primaryA;
 			              action: [ :aShortcutEvent :aShortcut | 
-				              self selectAll ]) } ].
+				              aList dispatchSelectionChangedAfter: [ 
+						              self selectAll ] ]) } ].
 	^ shortcuts
 ]
 

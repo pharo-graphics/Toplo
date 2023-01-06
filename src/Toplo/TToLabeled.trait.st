@@ -58,7 +58,7 @@ TToLabeled >> columnWidth [
 { #category : #'t - labeled presentation' }
 TToLabeled >> columnWidth: anInteger [
 
-	self strategy: (ToPairColumnStrategy new width: anInteger)
+	self strategy: (ToLabeledColumnStrategy new width: anInteger)
 ]
 
 { #category : #'t - labeled accessing' }

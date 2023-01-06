@@ -1,5 +1,5 @@
 Class {
-	#name : #ToLabeledLeftColumnStrategy,
+	#name : #ToLabeledColumnStrategy,
 	#superclass : #ToLabeledWithInterspaceStrategy,
 	#instVars : [
 		'width'
@@ -8,20 +8,20 @@ Class {
 }
 
 { #category : #'t - labeled presentation' }
-ToLabeledLeftColumnStrategy >> columnWidth [
+ToLabeledColumnStrategy >> columnWidth [
 
 	^ self width
 ]
 
 { #category : #initialization }
-ToLabeledLeftColumnStrategy >> initialize [ 
+ToLabeledColumnStrategy >> initialize [ 
 
 	super initialize.
 	width := 0
 ]
 
 { #category : #layout }
-ToLabeledLeftColumnStrategy >> onMeasure: anExtentMeasurementSpec in: aLabeled [
+ToLabeledColumnStrategy >> onMeasure: anExtentMeasurementSpec in: aLabeled [
 
 	" return true if the measure is up-to-date "
 
@@ -42,13 +42,13 @@ ToLabeledLeftColumnStrategy >> onMeasure: anExtentMeasurementSpec in: aLabeled [
 ]
 
 { #category : #accessing }
-ToLabeledLeftColumnStrategy >> width [
+ToLabeledColumnStrategy >> width [
 
 	^ width
 ]
 
 { #category : #accessing }
-ToLabeledLeftColumnStrategy >> width: anInteger [
+ToLabeledColumnStrategy >> width: anInteger [
 
 	width := anInteger
 ]

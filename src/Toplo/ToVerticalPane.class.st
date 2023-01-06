@@ -9,3 +9,11 @@ ToVerticalPane >> defaultLayout [
 
 	^ BlLinearLayout vertical 
 ]
+
+{ #category : #initialization }
+ToVerticalPane >> initialize [ 
+
+	super initialize.
+	self vMatchParent.
+	self hFitContent 
+]

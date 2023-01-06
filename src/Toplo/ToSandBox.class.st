@@ -87,7 +87,7 @@ ToSandBox class >> example_ListOneClass [
 		     nodeFactory: [ :cls | 
 			     ToCheckNode new
 				     labelText: cls name;
-				     leftColumnWidth: 25;
+				     columnWidth: 25;
 				     hMatchParent ].
 	l list addAll: { Smalltalk globals allClasses first }.
 	l openInOBlSpace
@@ -114,7 +114,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 					     ToLabeledNode new
 						     labelText: cls name;
 						     element: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
-						     leftColumnWidth: 20;
+						     columnWidth: 20;
 						     hMatchParent ].
 	l list addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
@@ -130,7 +130,7 @@ ToSandBox class >> example_ListWithAllClasses4 [
 		     nodeFactory: [ :cls | 
 			     ToCheckNode new
 				     labelText: cls name;
-				     leftColumnWidth: 25;
+				     columnWidth: 25;
 				     hMatchParent ].
 	l list addAll: Smalltalk globals allClasses.
 	l openInOBlSpace.
@@ -167,7 +167,7 @@ ToSandBox class >> example_ListWithRowNumbers [
 		     nodeFactory: [ :cls | 
 			     ToCheckNode new
 				     labelText: cls name;
-				     leftColumnWidth: 25;
+				     columnWidth: 25;
 				     hMatchParent ].
 	l list addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
@@ -278,7 +278,7 @@ ToSandBox class >> example_menu1 [
 	| menu sub subsub |
 	menu := ToMenu new.
 	menu layout cellSpacing: 5.
-	menu globalLeftColumnWidth: 22.
+	menu globalColumnWidth: 22.
 	menu label: (ToLabel new text: 'File').
 	menu element: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
 	menu addItem: (ToButtonMenuItem new
@@ -307,7 +307,7 @@ ToSandBox class >> example_menu2 [
 	menu := ToMenu new.
 	menu label: (ToLabel text: 'File').
 	menu addItem: (ToCheckMenuItem new label: (ToLabel text:'Align right'); beLabelFirst; beJustified).
-	menu addItem: (ToCheckMenuItem new label: (ToLabel text:'Other'); beLabelFirst; leftColumnWidth: 100).
+	menu addItem: (ToCheckMenuItem new label: (ToLabel text:'Other'); beLabelFirst; columnWidth: 100).
 	menu relocate: 10@10.
 	menu openInNewSpace.
 	
@@ -338,7 +338,7 @@ ToSandBox class >> example_menu3 [
 	| menu sub subsub |
 	menu := ToMenu new.
 	menu label: (ToLabel new text: 'File').
-	menu leftColumnWidth: 0.
+	menu columnWidth: 0.
 
 	menu addItem: (ToButtonMenuItem new
 			 labelText: 'Open file';
@@ -431,7 +431,7 @@ ToSandBox class >> example_menu6 [
 
 	| menu grp right center left textField sub th lbl |
 	menu := ToMenu new.
-	menu globalLeftColumnWidth: 22.
+	menu globalColumnWidth: 22.
 
 	menu labelText: 'File'.
 	menu addItem: (ToButtonMenuItem new
@@ -444,7 +444,7 @@ ToSandBox class >> example_menu6 [
 			 whenClickedDo: [ self inform: 'Export' ]).
 	menu addItem: (ToButtonMenuItem new
 			 labelText: 'Export';
-			 leftColumnWidth: 0;
+			 columnWidth: 0;
 			 whenClickedDo: [ self inform: 'Export' ]).
 
 	grp := ToCheckableGroup new.
@@ -483,17 +483,17 @@ ToSandBox class >> example_menu6 [
 	grp := ToCheckableGroup new.
 	right := ToRadioMenuItem new
 		         beLabelFirst;
-		         leftColumnWidth: 50;
+		         columnWidth: 50;
 		         labelText: 'Right';
 		         id: #right.
 	center := ToRadioMenuItem new
 		          beLabelFirst;
-		          leftColumnWidth: 50;
+		          columnWidth: 50;
 		          labelText: 'Center';
 		          id: #center.
 	left := ToRadioMenuItem new
 		        beLabelFirst;
-		        leftColumnWidth: 50;
+		        columnWidth: 50;
 		        labelText: 'Left';
 		        id: #left.
 	grp addAll: { 
@@ -574,7 +574,7 @@ ToSandBox class >> example_menu6 [
 		      labelText: 'Cheesecake';
 				beLabelFirst;
 		      hMatchParent.
-	th leftColumnWidth: 100.
+	th columnWidth: 100.
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';
@@ -603,7 +603,7 @@ ToSandBox class >> example_menu6 [
 					  top: 2;
 					  bottom: 4)).
 	sub := ToMenu new labelText: 'Save All'.
-	sub leftColumnWidth: 0.
+	sub columnWidth: 0.
 	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
 	menu addItem: sub.
 
@@ -673,7 +673,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	| win menu sub subsub bar textField |
 	win := ToInnerWindow new title: 'Context menu Example'.
 	menu := ToContextMenu new.
-	menu globalLeftColumnWidth: 22.
+	menu globalColumnWidth: 22.
 	menu addItem: (ToButtonMenuItem new
 			 labelText: 'Open file';
 			 element: (ToImage inner:  (Smalltalk ui icons iconNamed: #config))).
@@ -725,7 +725,7 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 	| win menu sub subsub bar  |
 	win := ToInnerWindow new title: 'Context menu Example'.
 	menu := ToContextMenu new.
-	menu globalLeftColumnWidth: 22.
+	menu globalColumnWidth: 22.
 	menu addItem: (ToButtonMenuItem new
 			 labelText: 'Open file';
 			 element: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
@@ -1028,7 +1028,7 @@ ToSandBox class >> example_toButtonOrientationChanger3 [
 
 	| but space iconImage |
 	but := ToButton new.
-	but leftColumnWidth: 100.
+	but columnWidth: 100.
 	but labelFirst: true.
 	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).
@@ -1190,7 +1190,7 @@ ToSandBox class >> example_toCheckbox1 [
 
 	| chb |
 	chb := ToCheckbox new
-		       leftColumnWidth: 50;
+		       columnWidth: 50;
 		       labelText: '1';
 		       id: 1 asString.
 	"beLabelFirst;"
@@ -1202,7 +1202,7 @@ ToSandBox class >> example_toCheckbox2 [
 
 	| chb container |
 	chb := ToCheckbox new "beLabelFirst;"
-		       leftColumnWidth: 50;
+		       columnWidth: 50;
 		       labelText: '1';
 		       id: 1 asString.
 	""
@@ -1285,7 +1285,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroup [
 		| chb |
 		chb := ToCheckbox new
 			       beLabelFirst;
-			       leftColumnWidth: 50;
+			       columnWidth: 50;
 			       labelText: idx asString;
 			       id: idx asString.
 		buttons add: chb ].
@@ -1864,6 +1864,142 @@ ToSandBox class >> example_toMultiStateWithLabel [
 				 yourself) }.
 	but openInWorld.
 	but startState: (but stateNamed: #three)
+]
+
+{ #category : #pair }
+ToSandBox class >> example_toPairDirectionChanger [
+
+	| but space iconImage |
+	but := ToPairElement new.
+	but layout cellSpacing: 4.
+	but padding: (BlInsets all: 3).
+	but border: (BlBorder paint: Color lightGray).
+	but first: (ToLabel text: 'Pair' asRopedText bold).
+	iconImage := BlElement new
+		             size: 20 @ 20;
+		             background: Color lightGray;
+		             yourself.
+	but second: iconImage.
+	but when: BlClickEvent do: [ 
+		but layout direction: but layout direction inverted.
+		but requestLayout ].
+	space := OBlSpace new.
+	space addChild: but.
+	space show
+]
+
+{ #category : #pair }
+ToSandBox class >> example_toPairJustified1 [
+
+	| but space iconImage |
+	but := ToPairElement new.
+	but layout cellSpacing: 4.
+	but padding: (BlInsets all: 3).
+	but border: (BlBorder paint: Color lightGray).
+	but first: (ToLabel text: 'Pair' asRopedText bold).
+	iconImage := BlElement new
+		             size: 20 @ 20;
+		             background: Color lightGray;
+		             yourself.
+	but second: iconImage.
+	but when: BlClickEvent do: [ but orientation: but orientation inverted ].
+	but beJustified.
+	but hMatchParent.
+
+	space := OBlSpace new.
+	space addChild: but.
+	space show
+]
+
+{ #category : #pair }
+ToSandBox class >> example_toPairJustified2 [
+
+	| but space iconImage |
+	but := ToPairElement new.
+	but layout cellSpacing: 4.
+	but padding: (BlInsets all: 3).
+	but border: (BlBorder paint: Color lightGray).
+	but first: (ToLabel text: 'Pair' asRopedText bold).
+	iconImage := BlElement new
+		             size: 20 @ 20;
+		             background: Color lightGray;
+		             yourself.
+	but second: iconImage.
+	but when: BlClickEvent do: [ 
+		but layout direction: but layout direction inverted.
+		but requestLayout ].	but beJustified.
+	but beJustified.
+	but hMatchParent.
+
+	space := OBlSpace new.
+	space addChild: but.
+	space show
+]
+
+{ #category : #pair }
+ToSandBox class >> example_toPairOrientationChanger [
+
+	| but space iconImage |
+	but := ToPairElement new.
+	but layout cellSpacing: 4.
+	but padding: (BlInsets all: 3).
+	but border: (BlBorder paint: Color lightGray).
+	but first: (ToLabel text: 'Pair' asRopedText bold).
+	iconImage := BlElement new
+		             size: 20 @ 20;
+		             background: Color lightGray;
+		             yourself.
+	but second: iconImage.
+	but when: BlClickEvent do: [ but orientation: but orientation inverted ].
+	space := OBlSpace new.
+	space addChild: but.
+	space show 
+]
+
+{ #category : #pair }
+ToSandBox class >> example_toPairWithColumn1 [
+
+	| but space iconImage |
+	but := ToPairElement new.
+	but layout cellSpacing: 4.
+	but padding: (BlInsets all: 3).
+	but border: (BlBorder paint: Color lightGray).
+	but first: (ToLabel text: 'Pair' asRopedText bold).
+	iconImage := BlElement new
+		             size: 20 @ 20;
+		             background: Color lightGray;
+		             yourself.
+	but second: iconImage.
+	but columnWidth: 50.
+	but when: BlClickEvent do: [ but orientation: but orientation inverted ].	
+	but hMatchParent.
+	space := OBlSpace new.
+	space addChild: but.
+	space show 
+]
+
+{ #category : #pair }
+ToSandBox class >> example_toPairWithColumn2 [
+
+	| but space iconImage |
+	but := ToPairElement new.
+	but layout cellSpacing: 4.
+	but padding: (BlInsets all: 3).
+	but border: (BlBorder paint: Color lightGray).
+	but first: (ToLabel text: 'Pair' asRopedText bold).
+	iconImage := BlElement new
+		             size: 50 @ 20;
+		             background: Color lightGray;
+		             yourself.
+	but second: iconImage.
+	but columnWidth: 100.
+	but when: BlClickEvent do: [ 
+		but layout direction: but layout direction inverted.
+		but requestLayout ].	
+	but hMatchParent.
+	space := OBlSpace new.
+	space addChild: but.
+	space show 
 ]
 
 { #category : #checkbox }

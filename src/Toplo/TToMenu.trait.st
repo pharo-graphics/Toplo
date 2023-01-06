@@ -4,7 +4,7 @@ Trait {
 		'items',
 		'menuWindow',
 		'submenuDresser',
-		'globalLeftColumnWidth'
+		'globalColumnWidth'
 	],
 	#category : #'Toplo-Widget-Menu'
 }
@@ -36,7 +36,7 @@ TToMenu >> addedInMenu: aMenu [
 	submenuDresser ifNil: [ 
 		submenuDresser := ToMenuAsSubmenuDresser new.
 		self addDresser: submenuDresser ].
-	self strategy: (ToLabeledSubmenuStrategy new width: self leftColumnWidth)
+	self strategy: (ToLabeledSubmenuStrategy new width: self columnWidth)
 
 ]
 
@@ -65,17 +65,17 @@ TToMenu >> defaultGlobalLeftColumnWidth [
 ]
 
 { #category : #'t - menu accessing' }
-TToMenu >> globalLeftColumnWidth [
+TToMenu >> globalColumnWidth [
 
-	^ globalLeftColumnWidth ifNil: [ self defaultGlobalLeftColumnWidth ] 
+	^ globalColumnWidth ifNil: [ self defaultGlobalLeftColumnWidth ] 
 ]
 
 { #category : #'t - menu accessing' }
-TToMenu >> globalLeftColumnWidth: anInteger [
+TToMenu >> globalColumnWidth: anInteger [
 
-	self globalLeftColumnWidth = anInteger ifTrue: [ ^ self ].
-	globalLeftColumnWidth := anInteger.
-	self items do: [ :item | item 	leftColumnWidth: anInteger ]
+	self globalColumnWidth = anInteger ifTrue: [ ^ self ].
+	globalColumnWidth := anInteger.
+	self items do: [ :item | item 	columnWidth: anInteger ]
 	
 ]
 

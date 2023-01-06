@@ -47,6 +47,20 @@ TToLabeled >> beLabelFirst [
 	self labelFirst: true 
 ]
 
+{ #category : #'t - labeled presentation' }
+TToLabeled >> columnWidth [
+
+	^ strategy
+		  ifNil: [ 0 ]
+		  ifNotNil: [ :strat | strat columnWidth ]
+]
+
+{ #category : #'t - labeled presentation' }
+TToLabeled >> columnWidth: anInteger [
+
+	self strategy: (ToPairColumnStrategy new width: anInteger)
+]
+
 { #category : #'t - labeled accessing' }
 TToLabeled >> element [
 
@@ -151,20 +165,6 @@ TToLabeled >> labelText: aText [
 		label text: aText.
 		^ self ].
 	self label: (ToLabel new text: aText)
-]
-
-{ #category : #'t - labeled presentation' }
-TToLabeled >> leftColumnWidth [
-
-	^ strategy
-		  ifNil: [ 0 ]
-		  ifNotNil: [ :strat | strat leftColumnWidth ]
-]
-
-{ #category : #'t - labeled presentation' }
-TToLabeled >> leftColumnWidth: anInteger [
-
-	self strategy: (ToLabeledLeftColumnStrategy new width: anInteger)
 ]
 
 { #category : #layout }

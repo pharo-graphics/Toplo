@@ -1,6 +1,6 @@
 Class {
 	#name : #ToLabeledSubmenuStrategy,
-	#superclass : #ToLabeledLeftColumnStrategy,
+	#superclass : #ToPairColumnStrategy,
 	#instVars : [
 		'rightIcon',
 		'fill'

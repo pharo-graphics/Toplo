@@ -11,15 +11,15 @@ ToLabeledStrategy >> childrenIn: aLabeled [
 ]
 
 { #category : #accessing }
-ToLabeledStrategy >> isJustified [
+ToLabeledStrategy >> columnWidth [
 
-	^ false
+	^ 0
 ]
 
 { #category : #accessing }
-ToLabeledStrategy >> leftColumnWidth [
+ToLabeledStrategy >> isJustified [
 
-	^ 0
+	^ false
 ]
 
 { #category : #layout }

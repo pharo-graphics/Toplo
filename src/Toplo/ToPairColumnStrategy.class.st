@@ -1,54 +1,55 @@
 Class {
-	#name : #ToLabeledLeftColumnStrategy,
-	#superclass : #ToLabeledWithInterspaceStrategy,
+	#name : #ToPairColumnStrategy,
+	#superclass : #ToPairWithInterspaceStrategy,
 	#instVars : [
 		'width'
 	],
-	#category : #'Toplo-Core-Labeled'
+	#category : #'Toplo-Core-Pair'
 }
 
 { #category : #'t - labeled presentation' }
-ToLabeledLeftColumnStrategy >> columnWidth [
+ToPairColumnStrategy >> columnWidth [
 
 	^ self width
 ]
 
 { #category : #initialization }
-ToLabeledLeftColumnStrategy >> initialize [ 
+ToPairColumnStrategy >> initialize [ 
 
 	super initialize.
 	width := 0
 ]
 
 { #category : #layout }
-ToLabeledLeftColumnStrategy >> onMeasure: anExtentMeasurementSpec in: aLabeled [
+ToPairColumnStrategy >> onMeasure: anExtentMeasurementSpec in: aPair [
 
 	" return true if the measure is up-to-date "
 
 	" note that cell spacing is not compatible with left column sizing "
 	" get the left side element and then its width "
-	| left lw w |
-	left := aLabeled isLabelFirst
-		        ifTrue: [ aLabeled label ]
-		        ifFalse: [ aLabeled element ].
+	| first lw w |
+	
+	first := aPair layout direction isLeftToRight
+		        ifTrue: [ aPair first ]
+		        ifFalse: [ aPair second ].
 
-	lw := left ifNil: [ 0 ] ifNotNil: [ left measuredWidth ].
+	lw := first ifNil: [ 0 ] ifNotNil: [ first measuredWidth ].
 	" now measure the gap according to leftColumnWidth "
 	w := self width - lw max: 0.
 
 	interspace measuredWidth = w ifTrue: [ ^ true ].
-	interspace size: w @ 0.
+	interspace size: w @ 5.
 	^ false
 ]
 
 { #category : #accessing }
-ToLabeledLeftColumnStrategy >> width [
+ToPairColumnStrategy >> width [
 
 	^ width
 ]
 
 { #category : #accessing }
-ToLabeledLeftColumnStrategy >> width: anInteger [
+ToPairColumnStrategy >> width: anInteger [
 
 	width := anInteger
 ]

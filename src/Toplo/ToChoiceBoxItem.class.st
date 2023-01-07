@@ -16,5 +16,5 @@ ToChoiceBoxItem >> defaultDresser [
 ToChoiceBoxItem >> initialize [
 
 	super initialize.
-	self whenClickedDo: [ self switchToNextState ]
+	self whenClickedDo: [ self isChecked ifFalse: [ self switchToNextState ] ]
 ]

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToButton,
 	#superclass : #ToGeneralButton,
-	#traits : 'TToLabeled + TToOrientable',
-	#classTraits : 'TToLabeled classTrait + TToOrientable classTrait',
+	#traits : 'TToPair + TToLabeledIcon + TToOrientable',
+	#classTraits : 'TToPair classTrait + TToLabeledIcon classTrait + TToOrientable classTrait',
 	#category : #'Toplo-Widget-Button'
 }
 
@@ -17,7 +17,7 @@ ToButton >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	self initializeLabeled.
+	self initializePair.
 	
 	self initializeDresser 
 ]

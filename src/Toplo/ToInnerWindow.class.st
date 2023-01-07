@@ -51,10 +51,10 @@ ToInnerWindow >> defaultBar [
 	b layout: (BlGridLayout horizontal cellSpacing: 1).
 	b when: BlDoubleClickEvent do: [ self maximize ].
 	b when: BlMouseDownEvent do: [ self toFront ].
-	close := ToButton new element: (ToImage new innerImage: Smalltalk ui theme windowCloseForm).
-	close 	element border: (BlBorder paint: Color black).
+	close := ToButton new icon: (ToImage new innerImage: Smalltalk ui theme windowCloseForm).
+	close 	icon border: (BlBorder paint: Color black).
 	close whenClickedDo: [ self close ].
-	expand := ToButton new element: (ToImage new innerImage: Smalltalk ui theme windowMaximizeForm).
+	expand := ToButton new icon: (ToImage new innerImage: Smalltalk ui theme windowMaximizeForm).
 	expand whenClickedDo: [ self maximize ].
 
 	fill1 := BlElement new

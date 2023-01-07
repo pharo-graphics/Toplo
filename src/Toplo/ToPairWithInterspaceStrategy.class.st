@@ -24,7 +24,6 @@ ToPairWithInterspaceStrategy >> initialize [
 		              constraintsDo: [ :c | 
 			              c horizontal exact: 0.
 			              c vertical exact: 0 ];
-		              background: Color red;
 		              yourself
 ]
 

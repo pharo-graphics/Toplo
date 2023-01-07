@@ -23,7 +23,7 @@ ToChoiceBoxItemDresser >> defaultCheckedState [
 	^ ToWidgetState new
 		  name: #checked;
 		  whenEnterDo: [ :ann | 
-			  ann widget element: (ToImage inner: self defaultCheckedIconImage) ];
+			  ann widget icon: (ToImage inner: self defaultCheckedIconImage) ];
 		  yourself
 ]
 
@@ -41,7 +41,7 @@ ToChoiceBoxItemDresser >> defaultUncheckedState [
 	^ ToWidgetState new
 		  name: #unchecked;
 		  whenEnterDo: [ :ann | 
-			  ann widget element: (ToImage inner: self defaultUncheckedIconImage) ]
+			  ann widget icon: (ToImage inner: self defaultUncheckedIconImage) ]
 ]
 
 { #category : #'api - install/uninstall  hook' }

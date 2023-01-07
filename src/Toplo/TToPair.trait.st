@@ -8,14 +8,14 @@ Trait {
 	#category : #'Toplo-Core-Pair'
 }
 
-{ #category : #'t - labeled presentation' }
+{ #category : #'t - pair presentation' }
 TToPair >> beJustified [
 
 	self strategy: ToPairJustifiedStrategy new
  
 ]
 
-{ #category : #'t - labeled presentation' }
+{ #category : #'t - pair presentation' }
 TToPair >> columnWidth [
 
 	^ strategy
@@ -23,19 +23,32 @@ TToPair >> columnWidth [
 		  ifNotNil: [ :strat | strat columnWidth ]
 ]
 
-{ #category : #'t - labeled presentation' }
+{ #category : #'t - pair presentation' }
 TToPair >> columnWidth: anInteger [
 
 	self strategy: (ToPairColumnStrategy new width: anInteger)
 ]
 
-{ #category : #accessing }
+{ #category : #'t - pair presentation' }
+TToPair >> direction [
+
+	^ self layout direction
+]
+
+{ #category : #'t - pair presentation' }
+TToPair >> direction: aLayoutDirection [
+
+	self layout direction: aLayoutDirection.
+	self requestLayout
+]
+
+{ #category : #'t - pair accessing' }
 TToPair >> first [
 
 	^ first
 ]
 
-{ #category : #accessing }
+{ #category : #'t - pair accessing' }
 TToPair >> first: anElement [
 
 	first = anElement ifTrue: [ ^ self ].
@@ -48,7 +61,7 @@ TToPair >> first: anElement [
 	self privateUpdateChildren
 ]
 
-{ #category : #'t - labeled initialization' }
+{ #category : #'t - pair initialization' }
 TToPair >> initializePair [
 
 	self layout: BlLinearLayout horizontal.
@@ -56,7 +69,7 @@ TToPair >> initializePair [
 	self fitContent
 ]
 
-{ #category : #'t - labeled presentation' }
+{ #category : #'t - pair presentation' }
 TToPair >> isJustified [
 
 	^ strategy ifNil: [ false ] ifNotNil: [ :strat | strat isJustified ]
@@ -73,20 +86,20 @@ TToPair >> onMeasure: anExtentMeasurementSpec [
 			self onMeasure: anExtentMeasurementSpec ]
 ]
 
-{ #category : #'t - labeled private' }
+{ #category : #'t - pair private' }
 TToPair >> privateUpdateChildren [
 
 	strategy ifNil: [ ^ self ].
 	strategy updateChildrenIn: self
 ]
 
-{ #category : #accessing }
+{ #category : #'t - pair accessing' }
 TToPair >> second [
 
 	^ second
 ]
 
-{ #category : #accessing }
+{ #category : #'t - pair accessing' }
 TToPair >> second: anElement [
 
 	second = anElement ifTrue: [ ^ self ].
@@ -99,13 +112,13 @@ TToPair >> second: anElement [
 	self privateUpdateChildren
 ]
 
-{ #category : #'t - labeled accessing' }
+{ #category : #'t - pair accessing' }
 TToPair >> strategy [
 
-	^ strategy ifNil: [ strategy := ToLabeledWithoutInterspaceStrategy ]
+	^ strategy ifNil: [ strategy := ToPairWithoutInterspaceStrategy ]
 ]
 
-{ #category : #'t - labeled accessing' }
+{ #category : #'t - pair accessing' }
 TToPair >> strategy: aPairStrategy [
 
 	strategy := aPairStrategy.

@@ -36,7 +36,7 @@ TToMenu >> addedInMenu: aMenu [
 	submenuDresser ifNil: [ 
 		submenuDresser := ToMenuAsSubmenuDresser new.
 		self addDresser: submenuDresser ].
-	self strategy: (ToLabeledSubmenuStrategy new width: self columnWidth)
+	self strategy: (ToPairSubmenuColumnStrategy new width: self columnWidth)
 
 ]
 

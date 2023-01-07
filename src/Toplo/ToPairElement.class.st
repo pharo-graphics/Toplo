@@ -1,8 +1,8 @@
 Class {
 	#name : #ToPairElement,
 	#superclass : #ToWidget,
-	#traits : 'TToPair + TToOrientable',
-	#classTraits : 'TToPair classTrait + TToOrientable classTrait',
+	#traits : 'TToPair',
+	#classTraits : 'TToPair classTrait',
 	#category : #'Toplo-Core-Pair'
 }
 

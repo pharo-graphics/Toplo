@@ -48,12 +48,12 @@ ToCheckNodeDresser >> defaultCheckedState [
 	^ ToWidgetState new
 		  name: #checked;
 		  whenEnterDo: [ :ann | 
-			  ann widget element: self defaultCheckedIconImage.
+			  ann widget icon: self defaultCheckedIconImage.
 			  ann widget isAttachedToSceneGraph ifTrue: [ 
 					  | op |
-					  op := ann widget element innerImage opacity.
-					  ann widget element innerImage opacity: 0.1.
-					  ann widget element innerImage addAnimation:
+					  op := ann widget icon innerImage opacity.
+					  ann widget icon innerImage opacity: 0.1.
+					  ann widget icon innerImage addAnimation:
 							  (BlOpacityAnimation new
 								   duration: (ann state counter isZero
 										    ifTrue: [ 0 milliSecond ]
@@ -93,7 +93,7 @@ ToCheckNodeDresser >> defaultIndeterminateState [
 	^ ToWidgetState new
 		  name: #indeterminate;
 		  whenEnterDo: [ :ann | 
-			  ann widget element: self defaultIndeterminateIconImage ];
+			  ann widget icon: self defaultIndeterminateIconImage ];
 		  yourself
 ]
 
@@ -115,7 +115,7 @@ ToCheckNodeDresser >> defaultUncheckedState [
 	^ ToWidgetState new
 		  name: #unchecked;
 		  whenEnterDo: [ :ann | 
-			  ann widget element: self defaultUncheckedIconImage ]
+			  ann widget icon: self defaultUncheckedIconImage ]
 ]
 
 { #category : #'api - install/uninstall  hook' }

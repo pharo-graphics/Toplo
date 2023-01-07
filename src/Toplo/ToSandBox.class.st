@@ -113,7 +113,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 						            ifFalse: [ #uncommentedClass ].
 					     ToLabeledNode new
 						     labelText: cls name;
-						     element: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
+						     icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
 						     columnWidth: 20;
 						     hMatchParent ].
 	l list addAll: Smalltalk globals allClasses.
@@ -280,17 +280,17 @@ ToSandBox class >> example_menu1 [
 	menu layout cellSpacing: 5.
 	menu globalColumnWidth: 22.
 	menu label: (ToLabel new text: 'File').
-	menu element: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	menu icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
 	menu addItem: (ToButtonMenuItem new
 			 label: (ToLabel new text: 'Open file');
-			 element: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #config))).
+			 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #config))).
 	menu addItem: (ToButtonMenuItem new label: (ToLabel new text: 'Export')).
 	menu addSeparator.
 	
 	sub := ToMenu new label: (ToLabel new text: 'Save All').
 	sub addItem: (ToButtonMenuItem new label: (ToLabel new text: 'Locally')).
 	
-	subsub := ToMenu new label: (ToLabel new text: 'Externally'); element: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	subsub := ToMenu new label: (ToLabel new text: 'Externally'); icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
 	subsub addItem: (ToButtonMenuItem new label: (ToLabel new text: 'Here')).
 
 	sub addItem: subsub.
@@ -318,7 +318,7 @@ ToSandBox class >> example_menu2_2 [
 
 	| menu  sub |
 	menu := ToMenu new.
-	menu element: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+	menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
 	
 	sub := ToMenu new labelText: 'Save All'.
 	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
@@ -342,7 +342,7 @@ ToSandBox class >> example_menu3 [
 
 	menu addItem: (ToButtonMenuItem new
 			 labelText: 'Open file';
-			 element: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
+			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
 	menu addItem: (ToButtonMenuItem new labelText: 'Export').
 	menu addItem: (ToCheckMenuItem new labelText: 'Align right').
 	menu addSeparator.
@@ -366,7 +366,7 @@ ToSandBox class >> example_menu4 [
 	| menu sub subsub |
 	menu := ToMenu new.
 	menu labelText: 'File'.
-	menu element: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+	menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
 	menu addItem: (ToButtonMenuItem new labelText: 'Open file').
 	menu addItem: (ToButtonMenuItem new labelText: 'Export').
 	menu addItem: (ToRadioMenuItem new labelText: 'Align right').
@@ -375,7 +375,7 @@ ToSandBox class >> example_menu4 [
 	sub := ToMenu new labelText: 'Save All'.
 	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
 	
-	subsub := ToMenu new labelText: 'Externally'; element: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+	subsub := ToMenu new labelText: 'Externally'; icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
 	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
 
 	sub addItem: (subsub).
@@ -415,8 +415,7 @@ ToSandBox class >> example_menu5 [
 	sub := ToMenu new labelText: 'Save All'.
 	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
 
-	subsub := ToMenu new
-		          labelText: 'Externally'.
+	subsub := ToMenu new labelText: 'Externally'.
 	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
 
 	sub addItem: subsub.
@@ -437,7 +436,7 @@ ToSandBox class >> example_menu6 [
 	menu addItem: (ToButtonMenuItem new
 			 labelText: 'Open file';
 			 whenClickedDo: [ self inform: 'Open file' ];
-			 element: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
+			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
 
 	menu addItem: (ToButtonMenuItem new
 			 labelText: 'Export';
@@ -942,7 +941,7 @@ ToSandBox class >> example_toButton0 [
 ToSandBox class >> example_toButtonModel1 [
 
 	| but |
-	but := ToButtonModel new labelText: 'Button'.
+	but := ToButtonModel new label: (ToLabel text: 'Button').
 	but whenClickedDo: [ self inform: 'clicked' ].
 	but  onWidget openInOBlSpace 
 ]
@@ -964,10 +963,9 @@ ToSandBox class >> example_toButtonModelWithTextAndIconVertical [
 
 	| but space wid |
 	but := ToButtonModel new
-		       beVertical;
-		       beLabelFirst.
-	but labelText: 'Button'.
-	but element: (BlElement new
+		       beVertical.
+	but label: (ToLabel text: 'Button').
+	but icon: (BlElement new
 			 size: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).
@@ -988,34 +986,12 @@ ToSandBox class >> example_toButtonOrientationChanger [
 	but layout cellSpacing: 4.
 	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).
-	but labelText: 'Button' asRopedText bold.
+	but label: (ToLabel text:'Button' asRopedText bold).
 	iconImage := BlElement new
 		             size: 20 @ 20;
 		             background: Color lightGray;
 		             yourself.
-	but element: iconImage.
-	but whenClickedDo: [ :ann | 
-		ann currentTarget orientation: but orientation inverted ].
-	space := OBlSpace new.
-	space addChild: but.
-	space show 
-]
-
-{ #category : #button }
-ToSandBox class >> example_toButtonOrientationChanger2 [
-
-	| but space iconImage |
-	but := ToButton new.
-	but layout cellSpacing: 10.
-	but labelFirst: true.
-	but padding: (BlInsets all: 3).
-	but border: (BlBorder paint: Color lightGray).
-	but labelText: 'Button' asRopedText bold.
-	iconImage := BlElement new
-		             size: 20 @ 20;
-		             background: Color lightGray;
-		             yourself.
-	but element: iconImage.
+	but icon: iconImage.
 	but whenClickedDo: [ :ann | 
 		ann currentTarget orientation: but orientation inverted ].
 	space := OBlSpace new.
@@ -1029,58 +1005,14 @@ ToSandBox class >> example_toButtonOrientationChanger3 [
 	| but space iconImage |
 	but := ToButton new.
 	but columnWidth: 100.
-	but labelFirst: true.
 	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).
-	but labelText: 'Button' asRopedText bold.
+	but label: (ToLabel text:'Button' asRopedText bold).
 	iconImage := BlElement new
 		             size: 20 @ 20;
 		             background: Color lightGray;
 		             yourself.
-	but element: iconImage.
-	but whenClickedDo: [ :ann | 
-		ann currentTarget orientation: but orientation inverted ].
-	space := OBlSpace new.
-	space addChild: but.
-	space show 
-]
-
-{ #category : #button }
-ToSandBox class >> example_toButtonOrientationChanger4 [
-
-	| but space iconImage |
-	but := ToButton new hMatchParent.
-	but beJustified.
-	but padding: (BlInsets all: 3).
-	but border: (BlBorder paint: Color lightGray).
-	but labelText: 'Button' asRopedText bold.
-	iconImage := BlElement new
-		             size: 20 @ 20;
-		             background: Color lightGray;
-		             yourself.
-	but element: iconImage.
-	but whenClickedDo: [ :ann | 
-		ann currentTarget orientation: but orientation inverted ].
-	space := OBlSpace new.
-	space addChild: but.
-	space show 
-]
-
-{ #category : #button }
-ToSandBox class >> example_toButtonOrientationChanger5 [
-
-	| but space iconImage |
-	but := ToButton new hMatchParent.
-	but beJustified.
-	but beLabelFirst.
-	but padding: (BlInsets all: 3).
-	but border: (BlBorder paint: Color lightGray).
-	but labelText: 'Button' asRopedText bold.
-	iconImage := BlElement new
-		             size: 20 @ 20;
-		             background: Color lightGray;
-		             yourself.
-	but element: iconImage.
+	but icon: iconImage.
 	but whenClickedDo: [ :ann | 
 		ann currentTarget orientation: but orientation inverted ].
 	space := OBlSpace new.
@@ -1094,22 +1026,7 @@ ToSandBox class >> example_toButtonWithIconOnly [
 	| but space container |
 	container := BlElement new size: 200@200; border: (BlBorder paint: Color gray); background: (Color gray alpha: 0.1).
 	but := ToButton new.
-	but element: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
-	but element layout alignCenter.
-	container addChild: but.
-	space := OBlSpace new.
-	space addChild: container.
-	space show 
-]
-
-{ #category : #button }
-ToSandBox class >> example_toButtonWithIconOnly2 [
-
-	| but space container |
-	container := BlElement new size: 200@200; border: (BlBorder paint: Color gray); background: (Color gray alpha: 0.1).
-	but := ToButton new.
-	but element: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
-	but element layout alignCenter.
+	but icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
 	container addChild: but.
 	space := OBlSpace new.
 	space addChild: container.
@@ -1121,14 +1038,14 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 
 	| but space |
 	but := ToButton new "cellSpacing: 2; padding: (BlInsets all: 4)".
-	but labelText: 'Button'.
-	but element: (BlElement new
+	but label: (ToLabel text: 'Button').
+	but icon: (BlElement new
 			 size: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).
-	but beLabelFirst.
+	but beRightToLeft.
 	but layout cellSpacing: 10.
-	but whenClickedDo: [ :ann | but element background: Color random ].
+	but whenClickedDo: [ :ann | but icon background: Color random ].
 	space := OBlSpace new.
 	space addChild: but.
 	space show 
@@ -1139,13 +1056,13 @@ ToSandBox class >> example_toButtonWithTextAndIconVertical [
 
 	| but space |
 	but := ToButton new padding: (BlInsets all: 4); beVertical.
-	but labelText: 'Button'.
-	but element: (BlElement new
+	but label: (ToLabel text: 'Button').
+	but icon: (BlElement new
 			 size: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).
 	but layout cellSpacing: 10.
-	but whenClickedDo: [ :ann | but element background: Color random ].
+	but whenClickedDo: [ :ann | but icon background: Color random ].
 	space := OBlSpace new.
 	space addChild: but.
 	space show 
@@ -1156,7 +1073,7 @@ ToSandBox class >> example_toButtonWithTextOnly [
 
 	| but space |
 	but := ToButton new.
-	but labelText: 'Button'.
+	but label: (ToLabel text: 'Button').
 	but padding: (BlInsets all: 4).
 	but whenClickedDo: [ self inform: 'clicked' ].
 
@@ -1191,9 +1108,9 @@ ToSandBox class >> example_toCheckbox1 [
 	| chb |
 	chb := ToCheckbox new
 		       columnWidth: 50;
-		       labelText: '1';
+		       label: (ToLabel text: '1');
 		       id: 1 asString.
-	"beLabelFirst;"
+	chb beRightToLeft.
 	chb openInInnerWindow
 ]
 
@@ -1223,7 +1140,7 @@ ToSandBox class >> example_toCheckbox2 [
 ToSandBox class >> example_toCheckboxModelWithLabel [
 
 	| but |
-	but := ToCheckboxModel new labelText: 'Check me'.
+	but := ToCheckboxModel new label: (ToLabel text: 'Check me').
 	but onWidget openInOBlSpace
 ]
 
@@ -1318,7 +1235,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroup2 [
 			       beVertical;
 			       labelText: idx asString;
 			       id: idx asString.
-		chb labelFirst: false.
+		chb beIconFirst.
 		group add: chb ].
 	group default: (group buttons second).
 	container := ToElement new.
@@ -1881,7 +1798,7 @@ ToSandBox class >> example_toPairDirectionChanger [
 		             yourself.
 	but second: iconImage.
 	but when: BlClickEvent do: [ 
-		but layout direction: but layout direction inverted.
+		but direction: but direction inverted.
 		but requestLayout ].
 	space := OBlSpace new.
 	space addChild: but.
@@ -1925,9 +1842,7 @@ ToSandBox class >> example_toPairJustified2 [
 		             background: Color lightGray;
 		             yourself.
 	but second: iconImage.
-	but when: BlClickEvent do: [ 
-		but layout direction: but layout direction inverted.
-		but requestLayout ].	but beJustified.
+	but when: BlClickEvent do: [ but direction: but direction inverted ].
 	but beJustified.
 	but hMatchParent.
 
@@ -1993,13 +1908,11 @@ ToSandBox class >> example_toPairWithColumn2 [
 		             yourself.
 	but second: iconImage.
 	but columnWidth: 100.
-	but when: BlClickEvent do: [ 
-		but layout direction: but layout direction inverted.
-		but requestLayout ].	
+	but when: BlClickEvent do: [ but direction: but direction inverted ].
 	but hMatchParent.
 	space := OBlSpace new.
 	space addChild: but.
-	space show 
+	space show
 ]
 
 { #category : #checkbox }

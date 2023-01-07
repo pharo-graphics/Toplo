@@ -1,5 +1,5 @@
 Class {
-	#name : #ToLabeledSubmenuStrategy,
+	#name : #ToPairSubmenuColumnStrategy,
 	#superclass : #ToPairColumnStrategy,
 	#instVars : [
 		'rightIcon',
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #layout }
-ToLabeledSubmenuStrategy >> childrenIn: aSubmenu [
+ToPairSubmenuColumnStrategy >> childrenIn: aSubmenu [
 
 	^ (super childrenIn: aSubmenu) , { 
 		  self privateJustificationFill.
@@ -17,7 +17,7 @@ ToLabeledSubmenuStrategy >> childrenIn: aSubmenu [
 ]
 
 { #category : #accessing }
-ToLabeledSubmenuStrategy >> privateJustificationFill [
+ToPairSubmenuColumnStrategy >> privateJustificationFill [
 
 	^ fill ifNil: [ 
 		  fill := ToElement new
@@ -26,13 +26,13 @@ ToLabeledSubmenuStrategy >> privateJustificationFill [
 ]
 
 { #category : #accessing }
-ToLabeledSubmenuStrategy >> privateJustificationFillId [
+ToPairSubmenuColumnStrategy >> privateJustificationFillId [
 
 	^ #'justification'
 ]
 
 { #category : #accessing }
-ToLabeledSubmenuStrategy >> rightIcon [
+ToPairSubmenuColumnStrategy >> rightIcon [
 
 	^ rightIcon ifNil: [ 
 		  rightIcon := (ToImage inner: self rightIconImage)
@@ -45,7 +45,7 @@ ToLabeledSubmenuStrategy >> rightIcon [
 ]
 
 { #category : #accessing }
-ToLabeledSubmenuStrategy >> rightIconImage [
+ToPairSubmenuColumnStrategy >> rightIconImage [
 
 	| ic |
 	ic := BlTextElement new text: '>' asRopedText bold.

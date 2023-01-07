@@ -1,8 +1,8 @@
 Class {
 	#name : #ToLabeledNode,
 	#superclass : #ToWidget,
-	#traits : 'TToLabeled + TToWidgetWithState + TToClickable + TToSelectableNode',
-	#classTraits : 'TToLabeled classTrait + TToWidgetWithState classTrait + TToClickable classTrait + TToSelectableNode classTrait',
+	#traits : 'TToPair + TToLabeledIcon + TToWidgetWithState + TToClickable + TToSelectableNode',
+	#classTraits : 'TToPair classTrait + TToLabeledIcon classTrait + TToWidgetWithState classTrait + TToClickable classTrait + TToSelectableNode classTrait',
 	#instVars : [
 		'holder'
 	],
@@ -31,6 +31,6 @@ ToLabeledNode >> holder: anHolder [
 ToLabeledNode >> initialize [ 
 
 	super initialize.
-	self initializeLabeled.
+	self initializePair.
 	self initializeDresser
 ]

@@ -145,7 +145,7 @@ ToMiniBrowser >> initialize [
 	classesPane := ToVerticalPane new matchParent.
 	classesPane addChild: classes.
 	classesButtonPane := ToHorizontalPane new hMatchParent; vFitContent.
-	classesButtonPane addChild: (sideToggle := ToToggleButton new labelText: 'Class side'; beJustified; beLabelFirst; hMatchParent; margin: (BlInsets top: 5); padding: (BlInsets all: 3) ).
+	classesButtonPane addChild: (sideToggle := ToToggleButton new first: (ToLabel text:'Class side'); beJustified; hMatchParent; margin: (BlInsets top: 5); padding: (BlInsets all: 3) ).
 	classesPane addChild: classesButtonPane.
 	
 	sideToggle check: self classSide.

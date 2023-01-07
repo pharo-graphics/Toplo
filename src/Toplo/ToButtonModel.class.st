@@ -10,8 +10,8 @@ ToButtonModel >> beHorizontal [
 	self horizontal: true
 ]
 
-{ #category : #'api - presentation' }
-ToButtonModel >> beLabelFirst [
+{ #category : #accessing }
+ToButtonModel >> beLabelFirst [ 
 
 	self widgetDo: [ :widget | widget beLabelFirst ]
 ]
@@ -23,12 +23,6 @@ ToButtonModel >> beVertical [
 ]
 
 { #category : #accessing }
-ToButtonModel >> element: anElement [
-
-	self widgetDo: [ :widget | widget element: anElement ] 
-]
-
-{ #category : #accessing }
 ToButtonModel >> horizontal: aBoolean [
 
 	self widgetDo: [ :widget | widget horizontal: aBoolean ] 
@@ -37,19 +31,25 @@ ToButtonModel >> horizontal: aBoolean [
 { #category : #accessing }
 ToButtonModel >> icon: anElement [
 
-	self widgetDo: [ :widget | widget element: anElement ] 
+	self widgetDo: [ :widget | widget icon: anElement ] 
 ]
 
 { #category : #accessing }
 ToButtonModel >> iconImage: anElement [
 
-	self widgetDo: [ :widget | widget iconImage: anElement ]
+	self widgetDo: [ :widget | widget icon innerImage: anElement ]
+]
+
+{ #category : #accessing }
+ToButtonModel >> label: anElement [
+
+	self widgetDo: [ :widget | widget label: anElement ] 
 ]
 
 { #category : #accessing }
 ToButtonModel >> labelText: aText [
 
-	self widgetDo: [ :widget | widget labelText: aText] 
+	self widgetDo: [ :widget | widget labelText: aText ] 
 ]
 
 { #category : #'private - accessing - widget' }

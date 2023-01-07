@@ -29,7 +29,7 @@ ToPairColumnStrategy >> onMeasure: anExtentMeasurementSpec in: aPair [
 	" get the left side element and then its width "
 	| first lw w |
 	
-	first := aPair layout direction isLeftToRight
+	first := aPair direction isLeftToRight
 		        ifTrue: [ aPair first ]
 		        ifFalse: [ aPair second ].
 

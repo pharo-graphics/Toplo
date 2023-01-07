@@ -2,8 +2,8 @@ Class {
 	#name : #ToNodeDresser,
 	#superclass : #ToButtonDresser,
 	#instVars : [
-		'unselectedBackground',
-		'focusGetterHandler'
+		'focusGetterHandler',
+		'initialBackgroundSave'
 	],
 	#category : #'Toplo-Core-Node'
 }
@@ -11,7 +11,7 @@ Class {
 { #category : #enumerating }
 ToNodeDresser >> addedToSelection: anElement [
 
-	unselectedBackground := initialBackground.
+	initialBackgroundSave := initialBackground.
 	anElement background: self selectionBackground
 ]
 
@@ -30,8 +30,16 @@ ToNodeDresser >> clicked: anElement event: anEvent [
 ToNodeDresser >> hover: anElement event: anEvent [
 
 	self border: self hoveredBorder in: anElement.
-	unselectedBackground ifNotNil: [ ^ self ].
+	initialBackgroundSave ifNotNil: [ ^ self ].
 	self background: self hoveredBackground in: anElement
+]
+
+{ #category : #'events handling' }
+ToNodeDresser >> hoveredBackground: aBackground [
+
+	" do not change the background if selected "
+	initialBackgroundSave ifNotNil: [ ^ self ].
+	super hoveredBackground: aBackground.
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -62,9 +70,10 @@ ToNodeDresser >> onUninstalledIn: anElement [
 { #category : #enumerating }
 ToNodeDresser >> removedFromSelection: anElement [
 
-	initialBackground := unselectedBackground.
+	" recover initial background "
+	initialBackground := initialBackgroundSave.
 	self background: initialBackground  in: anElement.
-	unselectedBackground := nil
+	initialBackgroundSave := nil
 ]
 
 { #category : #enumerating }

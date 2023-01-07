@@ -58,6 +58,13 @@ ToButtonDresser >> hoveredBackground [
 ]
 
 { #category : #'border accessing' }
+ToButtonDresser >> hoveredBackground: aBackground [
+
+	downBackground := aBackground
+
+]
+
+{ #category : #'border accessing' }
 ToButtonDresser >> hoveredBorder [
 
 	^ downBorder ifNil: [ BlBorder paint: theme button hoveredBorderColor ]
@@ -125,7 +132,7 @@ ToButtonDresser >> pressed: anElement [
 
 	self border: self pressedBorder in: anElement.
 	downBorder := anElement border.
-	downBackground := anElement background.
+	self hoveredBackground: anElement background.
 
 ]
 

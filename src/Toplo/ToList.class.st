@@ -7,7 +7,7 @@ Class {
 { #category : #initialization }
 ToList >> defaultDataSource [
 
-	^ ToListDataSource new
+	^ ToObservableCollectionDataSource new
 ]
 
 { #category : #'t - initialization dresser' }

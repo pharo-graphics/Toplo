@@ -128,6 +128,7 @@ ToMiniBrowser >> initialize [
 		            ToLabeledNode new
 			            labelText: pkg name;
 			            hMatchParent ].
+	"packages hasFixedSize: true."
 
 	packages
 		when: ToSelectionChanged
@@ -182,7 +183,8 @@ ToMiniBrowser >> initialize [
 		when: ToSelectionChanged
 		do: [ :event | self selectorSelectionChangedEvent: event ].
 	selectors list whenRemoveChangeDo: [ self clearCodeInEditor ].
-
+	"selectors hasFixedSize: true."
+	
 	codeModel := ToAlbumModel new withRowNumbers.
 	codeModel styler: BlRBTextStyler new.
 	codePane := codeModel onWidget margin: (BlInsets all: 5).

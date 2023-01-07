@@ -132,7 +132,9 @@ ToMiniBrowser >> initialize [
 	packages
 		when: ToSelectionChanged
 		do: [ :event | self packageSelectionChangedEvent: event ].
-	packages list addAll:	(RPackage organizer packages asSortedCollection: [ :p1 :p2 | p1 name < p2 name ]).
+	packages list addAll:
+		(RPackage organizer packages asSortedCollection: [ :p1 :p2 | 
+			 p1 name < p2 name ]).
 
 	classes := ToList new nodeFactory: [ :cls | 
 		           ToLabeledNode new
@@ -144,13 +146,23 @@ ToMiniBrowser >> initialize [
 	classes list whenRemoveChangeDo: [ protocols list removeAll ].
 	classesPane := ToVerticalPane new matchParent.
 	classesPane addChild: classes.
-	classesButtonPane := ToHorizontalPane new hMatchParent; vFitContent.
-	classesButtonPane addChild: (sideToggle := ToToggleButton new first: (ToLabel text:'Class side'); beJustified; hMatchParent; margin: (BlInsets top: 5); padding: (BlInsets all: 3) ).
+	classesButtonPane := ToHorizontalPane new
+		                     hMatchParent;
+		                     vFitContent.
+	classesButtonPane addChild: (sideToggle := ToToggleButton new
+			               label: (ToLabel text: 'Class side');
+			               beLabelFirst;
+								
+			               margin: (BlInsets top: 5);
+			               padding: (BlInsets all: 0)).
+	sideToggle layout cellSpacing: 5.
 	classesPane addChild: classesButtonPane.
-	
+
 	sideToggle check: self classSide.
-	sideToggle whenCheckedDo: [ classes dispatchSelectionChangedAfter: [ classSide := true] ].
-	sideToggle whenUncheckedDo: [ classes dispatchSelectionChangedAfter: [ classSide := false] ].
+	sideToggle whenCheckedDo: [ 
+		classes dispatchSelectionChangedAfter: [ classSide := true ] ].
+	sideToggle whenUncheckedDo: [ 
+		classes dispatchSelectionChangedAfter: [ classSide := false ] ].
 
 	protocols := ToList new nodeFactory: [ :assoc | 
 		             ToLabeledNode new
@@ -174,11 +186,11 @@ ToMiniBrowser >> initialize [
 	codeModel := ToAlbumModel new withRowNumbers.
 	codeModel styler: BlRBTextStyler new.
 	codePane := codeModel onWidget margin: (BlInsets all: 5).
-	
+
 	codeMenu := ToContextMenu new globalColumnWidth: 0.
 	codeMenu addItem: (ToButtonMenuItem new labelText: 'Accept').
 	codePane contextMenu: codeMenu.
-	
+
 	packages withRowNumbers.
 	classes withRowNumbers.
 	protocols withRowNumbers.

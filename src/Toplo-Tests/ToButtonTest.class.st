@@ -18,11 +18,8 @@ ToButtonTest >> testButton [
 	self assert: button isIconFirst.
 	self assert: button isLabelFirst equals: false.
 	
-	self assert: button icon notNil.
-	self assert: button icon hasInnerImage equals: false.
-	
-	self assert: button label notNil.
-	self assert: button labelText isEmpty.
+	self assert: button icon isNil.
+	self assert: button label isNil
 ]
 
 { #category : #tests }

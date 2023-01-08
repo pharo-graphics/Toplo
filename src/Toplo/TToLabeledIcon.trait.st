@@ -35,6 +35,18 @@ TToLabeledIcon >> iconImage: anElement [
 ]
 
 { #category : #'t - labeled icon' }
+TToLabeledIcon >> isIconFirst [
+
+	^ self isLeftToRight 
+]
+
+{ #category : #'t - labeled icon' }
+TToLabeledIcon >> isLabelFirst [
+
+	^ self isRightToLeft 
+]
+
+{ #category : #'t - labeled icon' }
 TToLabeledIcon >> label [
 
 	^ self second

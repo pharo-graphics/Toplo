@@ -78,6 +78,7 @@ ToSelectionStrategy >> isSingle [
 ToSelectionStrategy >> selectAll [
 	
 	dataSource itemCount > 0 ifFalse: [ ^ self ].
+	self clearSelection.
 	self selectInterval: (1 to: dataSource itemCount)
 ]
 

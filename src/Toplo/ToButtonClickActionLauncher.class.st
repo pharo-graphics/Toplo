@@ -1,5 +1,5 @@
 Class {
-	#name : #ToButtonClickEventHandler,
+	#name : #ToButtonClickActionLauncher,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'button'
@@ -8,19 +8,19 @@ Class {
 }
 
 { #category : #accessing }
-ToButtonClickEventHandler >> button [
+ToButtonClickActionLauncher >> button [
 
 	^ button
 ]
 
 { #category : #accessing }
-ToButtonClickEventHandler >> button: aButton [
+ToButtonClickActionLauncher >> button: aButton [
 
 	button := aButton
 ]
 
 { #category : #'api - accessing' }
-ToButtonClickEventHandler >> clickCandidateEvent: anEvent [
+ToButtonClickActionLauncher >> clickCandidateEvent: anEvent [
 
 	"then try to manage hidden click "
 
@@ -35,7 +35,7 @@ ToButtonClickEventHandler >> clickCandidateEvent: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToButtonClickEventHandler >> clickEvent: anEvent [
+ToButtonClickActionLauncher >> clickEvent: anEvent [
 
 	anEvent modifiers isEmpty ifFalse: [ ^ self ].
 	anEvent consumed: true.
@@ -44,28 +44,29 @@ ToButtonClickEventHandler >> clickEvent: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToButtonClickEventHandler >> doubleClickEvent: anEvent [
+ToButtonClickActionLauncher >> doubleClickEvent: anEvent [
 
+	" double click on a button is managed as a click  "
 	anEvent modifiers isEmpty ifFalse: [ ^ self ].
 	anEvent consumed: true.
 	button dispatchEvent: anEvent asClickEvent
 ]
 
 { #category : #'api - accessing' }
-ToButtonClickEventHandler >> eventsToHandle [
+ToButtonClickActionLauncher >> eventsToHandle [
 
 	^ { BlClickEvent. BlDoubleClickEvent. BlMouseDownEvent. BlMouseUpEvent. BlClickCandidateEvent }
 ]
 
 { #category : #'api - accessing' }
-ToButtonClickEventHandler >> mouseDownEvent: anEvent [
+ToButtonClickActionLauncher >> mouseDownEvent: anEvent [
 
 
 	anEvent consumed: true
 ]
 
 { #category : #'api - accessing' }
-ToButtonClickEventHandler >> mouseUpEvent: anEvent [
+ToButtonClickActionLauncher >> mouseUpEvent: anEvent [
 
 	"Because of the button has sub-elements, a Mouse up can have a different target than the corresponding mouse down but it can come from the button or from one of its children (if mouse has slided from the label to the icon as an example)"
 

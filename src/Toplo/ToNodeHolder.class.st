@@ -27,6 +27,10 @@ ToNodeHolder >> onAttachedFromDatasource: aDataSource [
 		whenAnnouncement: ToClickOnNodeAnnouncement
 		send: #whenClickOnNodeAnnouncement:
 		to: infiniteElement.
+	self
+		whenAnnouncement: ToStrongClickOnNodeAnnouncement
+		send: #whenStrongClickOnNodeAnnouncement:
+		to: infiniteElement.
 	infiniteElement selectionStrategy
 		whenAnnouncement: ToDeselectAnnouncement
 		send: #whenDeselectAnnouncement:

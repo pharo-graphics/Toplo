@@ -1,5 +1,5 @@
 Class {
-	#name : #ToClickOnNodeAnnouncement,
+	#name : #ToStrongClickOnNodeAnnouncement,
 	#superclass : #ToEventOnNodeAnnouncement,
 	#category : #'Toplo-Core-Node'
 }

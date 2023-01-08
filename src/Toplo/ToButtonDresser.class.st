@@ -37,6 +37,14 @@ ToButtonDresser >> clicked: anElement [
 ]
 
 { #category : #'events handling' }
+ToButtonDresser >> doubleClicked: anElement [
+
+	downBorder := nil.
+	self border: self hoveredBorder in: anElement
+
+]
+
+{ #category : #'events handling' }
 ToButtonDresser >> escaped: anElement [
 
 	downBorder := nil.

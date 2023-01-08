@@ -15,6 +15,12 @@ ToNodeDresser >> addedToSelection: anElement [
 	anElement background: self selectionBackground
 ]
 
+{ #category : #accessing }
+ToNodeDresser >> clickActionLauncher [
+
+	^ ToNodeClickActionLauncher new
+]
+
 { #category : #'events handling' }
 ToNodeDresser >> clicked: anElement event: anEvent [
 
@@ -24,6 +30,15 @@ ToNodeDresser >> clicked: anElement event: anEvent [
 			 event: anEvent;
 			 yourself)
 
+]
+
+{ #category : #'events handling' }
+ToNodeDresser >> doubleClicked: anElement event: anEvent [
+
+	anElement holder announce: (ToStrongClickOnNodeAnnouncement new
+			 holder: anElement holder;
+			 event: anEvent;
+			 yourself)
 ]
 
 { #category : #'events handling' }

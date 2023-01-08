@@ -43,6 +43,22 @@ ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 	self dispatchEvent: (ToSelectionChanged from: indexes to: self selectedIndexes)
 ]
 
+{ #category : #'selection events' }
+ToInfiniteElement >> dispatchStrongSelectionChangedAfter: aBlock [
+
+	| indexes |
+	indexes := self selectedIndexes copy.
+	aBlock value.
+	self dispatchEvent: (ToStrongSelectionChanged indexes: self selectedIndexes)
+]
+
+{ #category : #'selection events' }
+ToInfiniteElement >> dispatchStrongSelectionChangedAfter: aBlock event: anEvent [
+
+	aBlock value.
+	self dispatchEvent: (ToStrongSelectionChanged indexes: self selectedIndexes event: anEvent)
+]
+
 { #category : #initialization }
 ToInfiniteElement >> holderClass [
 
@@ -140,4 +156,14 @@ ToInfiniteElement >> whenClickOnNodeAnnouncement: anAnnouncement [
 	self dispatchSelectionChangedAfter: [ 
 		self selectionStrategy selectIndex:
 			anAnnouncement holder layoutPosition ]
+]
+
+{ #category : #'selection events' }
+ToInfiniteElement >> whenStrongClickOnNodeAnnouncement: anAnnouncement [
+
+	self
+		dispatchStrongSelectionChangedAfter: [ 
+			"self selectionStrategy selectIndex:
+				anAnnouncement holder layoutPosition" ]
+		event: anAnnouncement event
 ]

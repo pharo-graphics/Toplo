@@ -652,8 +652,8 @@ ToSandBox class >> example_rootFrameWithChoiceBox2 [
 		             beJustified.
 	choicebox toTextConverter: [ :assoc | assoc key ].
 	choicebox addAllChoices: { 
-			('Morphic SDL' -> BAMorphicWindowHost).
-			('Native SDL' -> BAOSWindowSDL2Host) }.
+			('Morphic SDL' -> BlMorphicWindowHost).
+			('Native SDL' -> BlOSWindowSDL2Host) }.
 	choicebox defaultChoiceIndex: 2.
 	choicebox whenSelectedChoiceChangedDo: [ 
 		self inform: choicebox selectedItem value name ].
@@ -675,7 +675,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	menu globalColumnWidth: 22.
 	menu addItem: (ToButtonMenuItem new
 			 labelText: 'Open file';
-			 element: (ToImage inner:  (Smalltalk ui icons iconNamed: #config))).
+			 icon: (ToImage inner:  (Smalltalk ui icons iconNamed: #config))).
 	menu addItem: (ToButtonMenuItem new labelText: 'Export').
 	menu addSeparator.
 
@@ -684,7 +684,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 
 	subsub := ToMenu new
 		          labelText: 'Externally';
-		          element: (ToImage inner:  (Smalltalk ui icons iconNamed: #solidMenu)).
+		          icon: (ToImage inner:  (Smalltalk ui icons iconNamed: #solidMenu)).
 	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
 
 	sub addItem: subsub.

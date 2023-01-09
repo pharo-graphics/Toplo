@@ -35,6 +35,8 @@ ToNodeDresser >> clicked: anElement event: anEvent [
 { #category : #'events handling' }
 ToNodeDresser >> doubleClicked: anElement event: anEvent [
 
+	downBorder := nil.
+	self border: self hoveredBorder in: anElement.
 	anElement holder announce: (ToStrongClickOnNodeAnnouncement new
 			 holder: anElement holder;
 			 event: anEvent;

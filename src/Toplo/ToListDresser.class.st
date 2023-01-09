@@ -5,7 +5,8 @@ Class {
 		'scrolledHandler',
 		'focusGetterHandler',
 		'focusHandler',
-		'shortcuts'
+		'shortcuts',
+		'doubleClickHandler'
 	],
 	#category : #'Toplo-Widget-List'
 }
@@ -27,12 +28,17 @@ ToListDresser >> installEventListenersIn: anElement [
 
 
 	focusHandler := ToFocusHandler new.
-	focusGetterHandler := BlEventHandler
-		                   on: BlClickEvent do: [ :anEvent | anEvent currentTarget requestFocus ].
+	focusGetterHandler := BlEventHandler 
+								on: BlClickEvent 
+								do: [ :anEvent | anElement requestFocus ].
+	doubleClickHandler := BlEventHandler 
+								on: BlDoubleClickEvent 
+								do: [ :anEvent | anElement selectionStrategy dispatchStrongSelectionChangedTo: anElement].
 	scrolledHandler := BlEventHandler
 		                   on: BlElementScrolledEvent
 		                   do: [ self updateHoveredNodeIn: anElement ].
 		
+	anElement addEventHandler: doubleClickHandler.
 	anElement addEventHandler: scrolledHandler.
 	anElement addEventHandler: focusHandler.
 	anElement addEventHandler: focusGetterHandler.
@@ -85,6 +91,7 @@ ToListDresser >> uninstallEventListenersIn: anElement [
 	anElement removeEventHandler: scrolledHandler.
 	anElement removeEventHandler: focusHandler.
 	anElement removeEventHandler: focusGetterHandler.
+	anElement removeEventHandler: doubleClickHandler.
 	shortcuts do: [ :s | anElement removeShortcut: s ]
 ]
 

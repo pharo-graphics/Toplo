@@ -20,21 +20,20 @@ ToNodeHolder >> data: aData [
 ToNodeHolder >> onAttachedFromDatasource: aDataSource [
 
 
-	(infiniteElement selectionStrategy isSelected:
-		 self layoutPosition) ifTrue: [ 
+	" when holder is attached it can be already selected (as an example with a selectAll) "
+	(infiniteElement selectionStrategy isSelected: self layoutPosition) ifTrue: [ 
 		itemElement dresser addedToSelection: itemElement ].
+
 	self
 		whenAnnouncement: ToClickOnNodeAnnouncement
 		send: #whenClickOnNodeAnnouncement:
 		to: infiniteElement.
-	self
-		whenAnnouncement: ToStrongClickOnNodeAnnouncement
-		send: #whenStrongClickOnNodeAnnouncement:
-		to: infiniteElement.
+
 	infiniteElement selectionStrategy
 		whenAnnouncement: ToDeselectAnnouncement
 		send: #whenDeselectAnnouncement:
 		to: self.
+
 	infiniteElement selectionStrategy
 		whenAnnouncement: ToSelectAnnouncement
 		send: #whenSelectAnnouncement:

@@ -7,5 +7,8 @@ Class {
 { #category : #'event handling' }
 ToNodeClickActionLauncher >> doubleClickEvent: anEvent [
 
-	" double click on a node differs from a click  "
+	" double click on a node differs from a click, 
+	no action launched at the node level, 
+	the action is launch at the infinite level  "
+
 ]

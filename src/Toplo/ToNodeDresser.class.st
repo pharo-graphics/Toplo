@@ -33,17 +33,6 @@ ToNodeDresser >> clicked: anElement event: anEvent [
 ]
 
 { #category : #'events handling' }
-ToNodeDresser >> doubleClicked: anElement event: anEvent [
-
-	downBorder := nil.
-	self border: self hoveredBorder in: anElement.
-	anElement holder announce: (ToStrongClickOnNodeAnnouncement new
-			 holder: anElement holder;
-			 event: anEvent;
-			 yourself)
-]
-
-{ #category : #'events handling' }
 ToNodeDresser >> hover: anElement event: anEvent [
 
 	self border: self hoveredBorder in: anElement.
@@ -63,8 +52,7 @@ ToNodeDresser >> hoveredBackground: aBackground [
 ToNodeDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
-	focusGetterHandler := BlEventHandler
-		                   on: BlClickEvent do: [ :anEvent | anElement holder infiniteElement requestFocus ].
+	focusGetterHandler := BlEventHandler on: BlClickEvent do: [ :anEvent | anElement holder infiniteElement requestFocus ].
 	anElement addEventHandler: focusGetterHandler
 
 ]

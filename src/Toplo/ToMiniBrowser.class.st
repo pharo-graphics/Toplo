@@ -131,7 +131,7 @@ ToMiniBrowser >> initialize [
 	"packages hasFixedSize: true."
 
 	packages
-		when: ToSelectionChanged
+		when: ToSelectionChangedEvent
 		do: [ :event | self packageSelectionChangedEvent: event ].
 	packages list addAll:
 		(RPackage organizer packages asSortedCollection: [ :p1 :p2 | 
@@ -142,7 +142,7 @@ ToMiniBrowser >> initialize [
 			           labelText: cls name;
 			           hMatchParent ].
 	classes
-		when: ToSelectionChanged
+		when: ToSelectionChangedEvent
 		do: [ :event | self classSelectionChangedEvent: event ].
 	classes list whenRemoveChangeDo: [ protocols list removeAll ].
 	classesPane := ToVerticalPane new matchParent.
@@ -171,7 +171,7 @@ ToMiniBrowser >> initialize [
 			             hMatchParent ].
 
 	protocols
-		when: ToSelectionChanged
+		when: ToSelectionChangedEvent
 		do: [ :event | self protocolSelectionChangedEvent: event ].
 	protocols list whenRemoveChangeDo: [ selectors list removeAll ].
 
@@ -180,7 +180,7 @@ ToMiniBrowser >> initialize [
 			             labelText: assoc value asString;
 			             hMatchParent ].
 	selectors
-		when: ToSelectionChanged
+		when: ToSelectionChangedEvent
 		do: [ :event | self selectorSelectionChangedEvent: event ].
 	selectors list whenRemoveChangeDo: [ self clearCodeInEditor ].
 	"selectors hasFixedSize: true."

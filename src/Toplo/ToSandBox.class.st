@@ -155,6 +155,7 @@ ToSandBox class >> example_ListWithOneString [
 	| l |
 	l := ToList new.
 	l list addAll: { 'AAAAAA'}.
+	l when: ToStrongSelectionEvent do: [ :event | l list add: 'BBBBBB' ].
 	l withRowNumbers.
 	l openInOBlSpace
 ]

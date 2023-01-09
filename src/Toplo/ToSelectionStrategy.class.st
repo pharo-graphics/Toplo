@@ -42,6 +42,18 @@ ToSelectionStrategy >> dataSource: aDataSource [
 	dataSource := aDataSource
 ]
 
+{ #category : #'event management' }
+ToSelectionStrategy >> dispatchSelectionChangedAfter: aBlock to: anInfiniteElement [
+
+	anInfiniteElement dispatchSelectionChangedAfter: aBlock
+]
+
+{ #category : #'event management' }
+ToSelectionStrategy >> dispatchStrongSelectionChangedTo: anInfiniteElement [
+
+	anInfiniteElement dispatchStrongSelectionChanged
+]
+
 { #category : #initialization }
 ToSelectionStrategy >> initialize [
 
@@ -198,19 +210,19 @@ ToSelectionStrategy >> shortcutsIn: aList [
 		             (BlShortcutWithAction new
 			              combination: BlKeyCombination builder arrowDown build;
 			              action: [ :aShortcutEvent :aShortcut | 
-				              aList dispatchSelectionChangedAfter: [ 
-						              self selectNextIn: aList event: aShortcutEvent ] ]).
+				              aList selectionStrategy dispatchSelectionChangedAfter: [ 
+						              self selectNextIn: aList event: aShortcutEvent ] to: aList ]).
 		             (BlShortcutWithAction new
 			              combination: BlKeyCombination builder arrowUp build;
 			              action: [ :aShortcutEvent :aShortcut | 
-				              aList dispatchSelectionChangedAfter: [ 
-						              self selectPreviousIn: aList event: aShortcutEvent ] ]) }.
+				              aList selectionStrategy dispatchSelectionChangedAfter: [ 
+						              self selectPreviousIn: aList event: aShortcutEvent ] to: aList]) }.
 	self isMultiple ifTrue: [ 
 		shortcuts := shortcuts , { (BlShortcutWithAction new
 			              combination: BlKeyCombination primaryA;
 			              action: [ :aShortcutEvent :aShortcut | 
-				              aList dispatchSelectionChangedAfter: [ 
-						              self selectAll ] ]) } ].
+				              aList selectionStrategy  dispatchSelectionChangedAfter: [ 
+						              self selectAll ] to: aList ]) } ].
 	^ shortcuts
 ]
 

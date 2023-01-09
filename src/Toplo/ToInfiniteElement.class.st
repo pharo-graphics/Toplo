@@ -40,23 +40,13 @@ ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 	| indexes |
 	indexes := self selectedIndexes copy.
 	aBlock value.
-	self dispatchEvent: (ToSelectionChanged from: indexes to: self selectedIndexes)
+	self dispatchEvent: (ToSelectionChangedEvent from: indexes to: self selectedIndexes)
 ]
 
 { #category : #'selection events' }
-ToInfiniteElement >> dispatchStrongSelectionChangedAfter: aBlock [
+ToInfiniteElement >> dispatchStrongSelectionChanged [
 
-	| indexes |
-	indexes := self selectedIndexes copy.
-	aBlock value.
-	self dispatchEvent: (ToStrongSelectionChanged indexes: self selectedIndexes)
-]
-
-{ #category : #'selection events' }
-ToInfiniteElement >> dispatchStrongSelectionChangedAfter: aBlock event: anEvent [
-
-	aBlock value.
-	self dispatchEvent: (ToStrongSelectionChanged indexes: self selectedIndexes event: anEvent)
+	self dispatchEvent: (ToStrongSelectionEvent indexes: self selectedIndexes)
 ]
 
 { #category : #initialization }
@@ -146,24 +136,20 @@ ToInfiniteElement >> whenClickOnNodeAnnouncement: anAnnouncement [
 	| event |
 	event := anAnnouncement event.
 	event modifiers isShift ifTrue: [ 
-		^ self dispatchSelectionChangedAfter: [ 
-			  self selectionStrategy selectToIndex:
-				  anAnnouncement holder layoutPosition ] ].
+		^ self selectionStrategy
+			  dispatchSelectionChangedAfter: [ 
+				  self selectionStrategy selectToIndex:
+					  anAnnouncement holder layoutPosition ]
+			  to: self ].
 	event modifiers isPrimaryModifier ifTrue: [ 
-		^ self dispatchSelectionChangedAfter: [ 
-			  self selectionStrategy cherryPickIndex:
-				  anAnnouncement holder layoutPosition ] ].
-	self dispatchSelectionChangedAfter: [ 
-		self selectionStrategy selectIndex:
-			anAnnouncement holder layoutPosition ]
-]
-
-{ #category : #'selection events' }
-ToInfiniteElement >> whenStrongClickOnNodeAnnouncement: anAnnouncement [
-
-	self
-		dispatchStrongSelectionChangedAfter: [ 
-			"self selectionStrategy selectIndex:
-				anAnnouncement holder layoutPosition" ]
-		event: anAnnouncement event
+		^ self selectionStrategy
+			  dispatchSelectionChangedAfter: [ 
+				  self selectionStrategy cherryPickIndex:
+					  anAnnouncement holder layoutPosition ]
+			  to: self ].
+	self selectionStrategy
+		dispatchSelectionChangedAfter: [ 
+			self selectionStrategy selectIndex:
+				anAnnouncement holder layoutPosition ]
+		to: self
 ]

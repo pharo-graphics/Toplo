@@ -5,10 +5,25 @@ Class {
 	#classTraits : 'TOBlLayoutResizable classTrait + TToDressable classTrait + TToWorldElement classTrait',
 	#instVars : [
 		'selectionStrategy',
-		'nodeFactory'
+		'nodeFactory',
+		'clickLauncher'
 	],
 	#category : #'Toplo-Core-Infinite'
 }
+
+{ #category : #private }
+ToInfiniteElement >> clickLauncher [
+
+	^ clickLauncher
+
+]
+
+{ #category : #private }
+ToInfiniteElement >> clickLauncher: aProcessOrNil [
+
+	clickLauncher := aProcessOrNil
+
+]
 
 { #category : #initialization }
 ToInfiniteElement >> defaultDataSource [
@@ -46,7 +61,14 @@ ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 { #category : #'selection events' }
 ToInfiniteElement >> dispatchStrongSelectionChanged [
 
+	self terminateClickLauncher.
 	self dispatchEvent: (ToStrongSelectionEvent indexes: self selectedIndexes)
+]
+
+{ #category : #private }
+ToInfiniteElement >> hasClickLauncher [
+
+	^ clickLauncher notNil
 ]
 
 { #category : #initialization }
@@ -128,6 +150,13 @@ ToInfiniteElement >> selectedIndexes [
 ToInfiniteElement >> selectionStrategy [
 
 	^ selectionStrategy
+]
+
+{ #category : #private }
+ToInfiniteElement >> terminateClickLauncher [
+
+	clickLauncher ifNotNil: #terminate.
+	clickLauncher := nil.
 ]
 
 { #category : #'selection events' }

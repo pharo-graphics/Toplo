@@ -9,6 +9,24 @@ Class {
 	#category : #'Toplo-Core-Infinite'
 }
 
+{ #category : #'mode testing' }
+ToSelectionStrategy >> beMultipleSelection [ 
+
+	mode := #multiple
+]
+
+{ #category : #'mode testing' }
+ToSelectionStrategy >> beSingleSelection [ 
+
+	mode := #single
+]
+
+{ #category : #'mode testing' }
+ToSelectionStrategy >> beWithoutSelection [ 
+
+	mode := #none
+]
+
 { #category : #'selection managing' }
 ToSelectionStrategy >> cherryPickIndex: index [
 
@@ -45,12 +63,14 @@ ToSelectionStrategy >> dataSource: aDataSource [
 { #category : #'event management' }
 ToSelectionStrategy >> dispatchSelectionChangedAfter: aBlock to: anInfiniteElement [
 
+	self isNone ifTrue: [ ^ self ].
 	anInfiniteElement dispatchSelectionChangedAfter: aBlock
 ]
 
 { #category : #'event management' }
 ToSelectionStrategy >> dispatchStrongSelectionChangedTo: anInfiniteElement [
 
+	self isNone ifTrue: [ ^ self ].
 	anInfiniteElement dispatchStrongSelectionChanged
 ]
 
@@ -72,6 +92,12 @@ ToSelectionStrategy >> isEmpty [
 ToSelectionStrategy >> isMultiple [
 
 	^ mode = #multiple
+]
+
+{ #category : #'mode testing' }
+ToSelectionStrategy >> isNone [
+
+	^ mode = #none
 ]
 
 { #category : #'selection accessing' }

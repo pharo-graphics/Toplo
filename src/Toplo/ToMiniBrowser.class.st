@@ -121,6 +121,7 @@ ToMiniBrowser >> initialize [
 	listsPane := ToHorizontalPane new margin: (BlInsets top: 5 bottom: 5).
 	listsPane layout: (BlLinearLayout horizontal cellSpacing: 5).
 	listsPane matchParent.
+	
 	mainPane := ToVerticalPane new.
 	mainPane matchParent.
 
@@ -129,7 +130,7 @@ ToMiniBrowser >> initialize [
 			            labelText: pkg name;
 			            hMatchParent ].
 	"packages hasFixedSize: true."
-
+	"packages selectionStrategy beWithoutSelection."
 	packages
 		when: ToSelectionChangedEvent
 		do: [ :event | self packageSelectionChangedEvent: event ].

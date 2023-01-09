@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToButtonDresser,
 	#instVars : [
 		'focusGetterHandler',
-		'initialBackgroundSave'
+		'initialBackgroundSave',
+		'monitor'
 	],
 	#category : #'Toplo-Core-Node'
 }
@@ -24,12 +25,15 @@ ToNodeDresser >> clickActionLauncher [
 { #category : #'events handling' }
 ToNodeDresser >> clicked: anElement event: anEvent [
 
-	super clicked: anElement event: anEvent.
-	anElement holder announce: (ToClickOnNodeAnnouncement new
-			 holder: anElement holder;
-			 event: anEvent;
-			 yourself)
-
+	anEvent primaryButtonPressed ifFalse: [ ^ self ].
+	self
+		launchClick: [ 
+			super clicked: anElement event: anEvent.
+			anElement holder announce: (ToClickOnNodeAnnouncement new
+					 holder: anElement holder;
+					 event: anEvent;
+					 yourself) ]
+		for: anElement holder infiniteElement
 ]
 
 { #category : #'events handling' }
@@ -48,6 +52,13 @@ ToNodeDresser >> hoveredBackground: aBackground [
 	super hoveredBackground: aBackground.
 ]
 
+{ #category : #initialization }
+ToNodeDresser >> initialize [ 
+
+	super initialize.
+	monitor := Monitor new
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToNodeDresser >> installEventListenersIn: anElement [
 
@@ -55,6 +66,22 @@ ToNodeDresser >> installEventListenersIn: anElement [
 	focusGetterHandler := BlEventHandler on: BlClickEvent do: [ :anEvent | anElement holder infiniteElement requestFocus ].
 	anElement addEventHandler: focusGetterHandler
 
+]
+
+{ #category : #'events handling' }
+ToNodeDresser >> launchClick: aBlock for: anInfinite [
+
+	| launcher |
+	anInfinite hasClickLauncher ifTrue: [ ^self ].
+	anInfinite selectedIndexes size > 1 ifFalse: [ ^ aBlock value ].
+	monitor critical: [ 
+		launcher := [ 
+		            (Delay forMilliseconds: 250) wait.
+		            aBlock value.
+		            anInfinite clickLauncher: nil ]
+			            forkAt: Processor highIOPriority
+			            named: 'OBlMouseProcessor clickLauncher'.
+		anInfinite clickLauncher: launcher ]
 ]
 
 { #category : #'api - install/uninstall  hook' }

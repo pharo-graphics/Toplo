@@ -155,7 +155,10 @@ ToSandBox class >> example_ListWithOneString [
 	| l |
 	l := ToList new.
 	l list addAll: { 'AAAAAA'}.
-	l when: ToStrongSelectionEvent do: [ :event | l list add: 'BBBBBB' ].
+	l when: ToStrongSelectionEvent 
+		do: [ :event | 
+			event indexes do: [ :idx | 
+				l list add: (idx asString, ':BBBBBB') afterIndex: idx] ].
 	l withRowNumbers.
 	l openInOBlSpace
 ]

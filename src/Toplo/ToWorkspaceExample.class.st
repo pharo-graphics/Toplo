@@ -36,14 +36,14 @@ ToWorkspaceExample class >> openInHost: aBlOSWindowHost [
 ToWorkspaceExample class >> openInMorphic [
 
 	<script>
-	self openInHost: BAMorphicWindowHost new
+	self openInHost: BlMorphicWindowHost new
 ]
 
 { #category : #'instance creation' }
 ToWorkspaceExample class >> openInSDL [
 
 	<script>
-	self openInHost: BAOSWindowSDL2Host new
+	self openInHost: BlOSWindowSDL2Host new
 ]
 
 { #category : #'instance creation' }

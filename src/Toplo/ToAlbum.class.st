@@ -74,7 +74,7 @@ ToAlbum >> initialize [
 		c horizontal matchParent.
 		c vertical matchParent ].
 	self innerElement: self defaultEditorElement.
-	self innerElement whenAnnouncement: AlbTextEdited do: [ self edited: true ].
+	self innerElement whenTextEditedDo: [ self edited: true ].
 	
 	self initializeDresser 
 ]
@@ -230,8 +230,7 @@ ToAlbum >> whenTextEditedDo: aBlock [
 { #category : #'property change hook' }
 ToAlbum >> whenTextReplacedDo: aBlock [
 
-	innerElement 
-		whenTextReplacedDo: [ :announcement | aBlock cull: announcement text cull: announcement ]
+	innerElement whenTextReplacedDo: aBlock
 ]
 
 { #category : #layers }

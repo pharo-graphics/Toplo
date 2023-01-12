@@ -36,7 +36,6 @@ Here an example of a client for a method.
 	client withRowNumbers.
 	client whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ].
 	client whenCancelRequestedDo: [ :cancelRequested | cancelRequested client text: text copy ].
-	"client inspect."
 	space := OBlSpace new.
 	space root addChild: client onWidget.
 	space show.

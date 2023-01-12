@@ -1418,7 +1418,7 @@ ToSandBox class >> example_toLabel3_bis2 [
 ToSandBox class >> example_toLabel4 [
 
 	| lab1 lab2 lab3 root |
-	root := BlElement new constraintsDo: [ :c | 
+	root := ToElement new constraintsDo: [ :c | 
 		        c vertical fitContent.
 		        c horizontal matchParent ].
 
@@ -1453,7 +1453,7 @@ ToSandBox class >> example_toLabel4 [
 	root addChild: lab3.
 	root clipChildren: false.
 
-	root openInOBlSpace
+	root openInInnerWindow 
 ]
 
 { #category : #label }

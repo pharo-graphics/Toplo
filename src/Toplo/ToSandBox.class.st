@@ -775,9 +775,8 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 ToSandBox class >> example_textField0 [
 
 	| t |
-	t := ToTextField new.
+	t := ToTextField new text: 'AAAA'.
 	t openInOBlSpace.
-	t innerElement inspect
 	
 ]
 
@@ -802,7 +801,7 @@ ToSandBox class >> example_textFieldWithGhostText [
 ToSandBox class >> example_textFieldWithLineWrapping [
 
 	| t |
-	t := ToTextField new withLineWrapping.
+	t := ToTextField new withLineWrapping; withSaveCapability.
 	t openInOBlSpace
 ]
 
@@ -811,7 +810,7 @@ ToSandBox class >> example_textFieldWithLineWrappingWithSaveCapability [
 
 	| t |
 	t := ToTextField new withLineWrapping; withSaveCapability.
-	t openInOBlSpace
+	t openInInnerWindow
 ]
 
 { #category : #'text field' }

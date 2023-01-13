@@ -48,6 +48,7 @@ ToLabelMultiLineInnerElement >> newEditorIn: aLabel [
 	ed := ToAlbum new dresser: ToLabelEditorBasicDresser new.
 	(self editorShortcutsIn: aLabel) do: [ :s | ed innerElement editor addEditorShortcut: s ].
 	self flag: 'ed matchParent here leads to a Pharo crash'.
+	ed infinite fitContent.
 	"ed vFitContent.
 	ed hMatchParent."
 	^ ed

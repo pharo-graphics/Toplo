@@ -65,6 +65,12 @@ ToAlbum >> flash [
 	self announce: (ToAlbumFlashRequested new client: self)
 ]
 
+{ #category : #accessing }
+ToAlbum >> infinite [
+
+	^ self innerElement infinite
+]
+
 { #category : #initialization }
 ToAlbum >> initialize [
 
@@ -97,7 +103,7 @@ ToAlbum >> innerElement: anEditorElement [
 { #category : #'t - accessing layers' }
 ToAlbum >> layerReferentElement [
 
-		^ self innerElement 
+		^ self infinite  
 ]
 
 { #category : #accessing }

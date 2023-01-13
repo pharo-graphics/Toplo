@@ -15,6 +15,7 @@ ToTextField >> defaultDresser [
 ToTextField >> initialize [
 
 	super initialize.
+	self innerElement infinite vFitContent.
 	self innerElement vFitContent.
 	self vFitContent.
 	self withoutLineWrapping.
@@ -23,13 +24,15 @@ ToTextField >> initialize [
 			 action: [  ];
 			 description: 'Accept edition';
 			 name: 'Accept';
-			 yourself)
+			 yourself).
+	self addEventHandler: (AlbTextEditorCursorIconHandler new element: self)
+
 ]
 
 { #category : #'api-layers' }
 ToTextField >> layerReferentElement [
 
-	^ self
+	^ self 
 ]
 
 { #category : #layers }
@@ -44,6 +47,7 @@ ToTextField >> withGhostText: aText [
 ToTextField >> withLineWrapping [
 
 	self innerElement hMatchParent.
+	self infinite hMatchParent.
 
 ]
 
@@ -71,6 +75,7 @@ ToTextField >> withSaveCapability [
 { #category : #initialization }
 ToTextField >> withoutLineWrapping [
 
+	self infinite hFitContent.
 	self innerElement hFitContent
 
 ]

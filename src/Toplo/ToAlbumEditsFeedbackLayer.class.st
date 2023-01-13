@@ -95,6 +95,7 @@ ToAlbumEditsFeedbackLayer >> newEditsFeedback [
 	flag constraintsDo: [ :c | 
 		c frame horizontal alignRight.
 		c frame vertical alignTop ].
+	flag preventMouseEvents.
 	^ flag
 ]
 

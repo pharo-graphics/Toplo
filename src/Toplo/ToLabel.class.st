@@ -49,8 +49,8 @@ ToLabel >> addEditor: anEditor [
 	self addChild: self editorOverlay.
 	
 	anEditor text: self text copy.
-	anEditor innerElement requestFocus.
-	anEditor innerElement selecter all; apply
+	anEditor infinite requestFocus.
+	anEditor infinite selecter all; apply
 	
 ]
 

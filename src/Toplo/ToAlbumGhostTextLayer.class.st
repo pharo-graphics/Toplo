@@ -33,8 +33,9 @@ ToAlbumGhostTextLayer >> defaultLabel [
 			  c frame vertical alignCenter.
 			  c frame horizontal alignCenter ];
 		  beMultiLine;
-		  in: [ :l | l layout alignCenter];
+		  in: [ :l | l layout alignCenter ];
 		  in: [ :l | l innerElement layout alignCenter ];
+		  elevation: (BlRelativeElevation elevation: -1000);
 		  yourself
 ]
 
@@ -48,6 +49,7 @@ ToAlbumGhostTextLayer >> initialize [
 			c horizontal fitContent.
 			c vertical fitContent ].
 	label := self defaultLabel.
+	label preventMouseEvents.
 	self addChild: label
 ]
 

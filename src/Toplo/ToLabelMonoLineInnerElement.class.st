@@ -28,7 +28,8 @@ ToLabelMonoLineInnerElement >> editorShortcutsIn: aLabel [
 ToLabelMonoLineInnerElement >> initialize [ 
 
 	super initialize.
-	self editorMeasurement
+	" Need Label measurement to ensure right vertical alignement with labels/menus "
+	self labelMeasurement
 ]
 
 { #category : #'api - editor' }

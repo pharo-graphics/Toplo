@@ -730,7 +730,7 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 	menu globalColumnWidth: 22.
 	menu addItem: (ToButtonMenuItem new
 			 labelText: 'Open file';
-			 element: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
+			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
 	menu addItem: (ToButtonMenuItem new labelText: 'Export').
 	menu addSeparator.
 
@@ -739,7 +739,7 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 
 	subsub := ToMenu new
 		          labelText: 'Externally';
-		          element: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+		          icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
 	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
 
 	sub addItem: subsub.

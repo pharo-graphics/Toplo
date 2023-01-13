@@ -30,24 +30,24 @@ ToLabel >> addEditor [
 { #category : #'private-editing' }
 ToLabel >> addEditor: anEditor [
 
-	| editorOverlay |
-	self userData at: #editorOverlay ifPresent: [ ^ self ].
-	self userData at: #editorOverlay put: (editorOverlay := BlOverlayElement new).
-	self userData at: #editor put: anEditor.
-	anEditor innerElement margin: self innerElement margin.
-	editorOverlay clipChildren: false.
+	self editor ifNotNil: [^ self ].	
+	self editor: anEditor.
+	
 	self previousElevation: self elevation.
-	self elevation: (BlRelativeElevation elevation: 1000).
-	editorOverlay attachTo: self innerElement.
-	editorOverlay addChild: anEditor.
-	anEditor border: BlBorder empty.
 	self previousClipping: self clipChildren.
-	self previousVisibility: self innerElement visibility.
-	self previousTextElementClipping: self innerElement clipChildren.
-	self innerElement visibility: BlVisibility hidden.
-	self innerElement clipChildren: false.
 	self clipChildren: false.
-	self addChild: editorOverlay.
+	self elevation: ((BlRelativeElevation elevation: SmallInteger maxVal)).
+	
+	anEditor innerElement margin: self innerElement margin.
+	anEditor innerElement padding: self innerElement padding.
+
+	self editorOverlay: BlOverlayElement new.
+	self editorOverlay attachTo: self innerElement.
+	self editorOverlay addChild: anEditor.
+	
+	self innerElement visibility: BlVisibility hidden.
+	self addChild: self editorOverlay.
+	
 	anEditor text: self text copy.
 	anEditor innerElement requestFocus.
 	anEditor innerElement selecter all; apply
@@ -64,6 +64,16 @@ ToLabel >> beMonoLine [
 ToLabel >> beMultiLine [
 
 	self lineMode: ToLabelMultiLineMode new
+]
+
+{ #category : #'private-editing' }
+ToLabel >> cleanUpUserData [
+
+	self userData removeKey: #previousElevation.
+	self userData removeKey: #editorOverlay.
+	self userData removeKey: #editor.
+	self userData removeKey: #previousClipping.
+
 ]
 
 { #category : #initialization }
@@ -100,13 +110,25 @@ ToLabel >> defaultTextElement [
 { #category : #'private-editing' }
 ToLabel >> editor [
 
-	^ self userData at: #editor
+	^ self userData at: #editor ifAbsent: [  ]
+]
+
+{ #category : #'private-editing' }
+ToLabel >> editor: anEditor [
+
+	self userData at: #editor put: anEditor
 ]
 
 { #category : #'private-editing' }
 ToLabel >> editorOverlay [
 
-	^ self userData at: #editorOverlay 
+	^ self userData at: #editorOverlay ifAbsent: [  ]
+]
+
+{ #category : #'private-editing' }
+ToLabel >> editorOverlay: anOverlay [
+
+	self userData at: #editorOverlay put: anOverlay
 ]
 
 { #category : #accessing }
@@ -196,28 +218,6 @@ ToLabel >> previousElevation: aBlElevation [
 	self userData at: #previousElevation put: aBlElevation
 ]
 
-{ #category : #'private-editing' }
-ToLabel >> previousTextElementClipping [
-	^ self userData at: #previousTextElementClipping 
-]
-
-{ #category : #'private-editing' }
-ToLabel >> previousTextElementClipping: aBoolean [
-	self userData at: #previousTextElementClipping put: aBoolean
-]
-
-{ #category : #'private-editing' }
-ToLabel >> previousVisibility [
-
-	^ self userData at: #previousVisibility
-]
-
-{ #category : #'private-editing' }
-ToLabel >> previousVisibility: aBlVisibility [
-
-	self userData at: #previousVisibility put: aBlVisibility
-]
-
 { #category : #'private-change' }
 ToLabel >> privateBeEditable [
  
@@ -284,21 +284,16 @@ ToLabel >> privateText: aText [
 { #category : #'private-editing' }
 ToLabel >> removeEditor [
 
-	| editorOverlay |
-	self userData at: #editor ifAbsent: [ ^ self ].
-	editorOverlay := self editorOverlay.
-	editorOverlay detach.
-	editorOverlay removeChildren.
-	self removeChild: editorOverlay.
+	self editor ifNil: [ ^ self ].
+	self editorOverlay detach.
+	self editorOverlay removeChildren.
+	self editorOverlay removeFromParent.
+	
 	self elevation: self previousElevation.
-	self clipChildren: self previousClipping.
-	self innerElement clipChildren: self previousTextElementClipping.
-	self innerElement visibility: self previousVisibility.
-	self userData removeKey: #previousElevation.
-	self userData removeKey: #editorOverlay.
-	self userData removeKey: #editor.
-	self userData removeKey: #previousClipping.
-	self userData removeKey: #previousTextElementClipping.
+	self clipChildren: self previousClipping.	
+	self innerElement visibility: BlVisibility visible.
+	
+	self cleanUpUserData 
 
 ]
 

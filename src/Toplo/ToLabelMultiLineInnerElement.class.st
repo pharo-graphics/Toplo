@@ -61,7 +61,6 @@ ToLabelMultiLineInnerElement >> newLineElement [
 		  constraintsDo: [ :c | 
 			  c horizontal fitContent.
 			  c vertical fitContent ];
-		  beInSeparateCompositionLayer;
 		  yourself
 ]
 

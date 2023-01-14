@@ -43,13 +43,13 @@ ToAlbumGhostTextLayer >> defaultLabel [
 ToAlbumGhostTextLayer >> initialize [
 
 	super initialize.
+	self preventMeAndChildrenMouseEvents.
 	self
 		layout: BlFrameLayout new;
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
 			c vertical fitContent ].
 	label := self defaultLabel.
-	label preventMouseEvents.
 	self addChild: label
 ]
 

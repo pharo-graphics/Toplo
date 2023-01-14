@@ -5,14 +5,6 @@ Class {
 }
 
 { #category : #initialization }
-ToDisablementLayer >> attachTo: anEditorElement from: aWidget [
-
-	super attachTo: anEditorElement from: aWidget.	
-	self removeEventHandler: delegator 
-
-]
-
-{ #category : #initialization }
 ToDisablementLayer >> initialize [
 
 	super initialize.

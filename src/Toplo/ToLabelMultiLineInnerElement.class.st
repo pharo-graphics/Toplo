@@ -38,7 +38,8 @@ ToLabelMultiLineInnerElement >> initialize [
 	self fitContent.
 	self layout: BlLinearLayout vertical.
 	lines := OrderedCollection new.
-	self whenTextReplacedDo: [ :t | self textReplaced ]
+	self whenTextReplacedDo: [ :t | self textReplaced ].
+	self preventMouseEvents 
 ]
 
 { #category : #'api - editor' }
@@ -73,7 +74,7 @@ ToLabelMultiLineInnerElement >> splitText [
 		  text
 			  ifEmpty: [
 				  lineElement := self newLineElement
-					                 addChild: ('' asRopedText attributes: text iterator attributes) asElement editorMeasurement;
+					                 addChild: ('' asRopedText attributes: text iterator attributes) asElement labelMeasurement;
 					                 yourself.
 				  stream nextPut: lineElement ]
 			  ifNotEmpty: [ 
@@ -85,7 +86,7 @@ ToLabelMultiLineInnerElement >> splitText [
 						  cutted := ToTextScissor new cut: sub.
 						  cutted ifEmpty: [ cutted := Array with: (BlText empty attributes: sub iterator attributes) ].
 						  lineElement := self newLineElement
-							                 addChildren: (cutted collect: [ :w | w asElement editorMeasurement ]);
+							                 addChildren: (cutted collect: [ :w | w asElement labelMeasurement ]);
 							                 yourself.
 						  stream nextPut: lineElement ] ] ] ]
 ]

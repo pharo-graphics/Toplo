@@ -74,7 +74,9 @@ ToAlbumEditsFeedbackLayer >> initialize [
 
 	super initialize.
 	self layout: BlFrameLayout new.
-	self background: Color transparent
+	self background: Color transparent.
+	self preventMeAndChildrenMouseEvents.
+
 ]
 
 { #category : #'edition-flag' }

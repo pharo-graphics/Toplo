@@ -1369,8 +1369,7 @@ ToSandBox class >> example_toLabel3 [
 	lab layout alignCenter.
 	lab border: (BlBorder paint: Color yellow width: 1).
 	lab openInOBlSpace.
-	lab inspect
-
+ 
 ]
 
 { #category : #label }

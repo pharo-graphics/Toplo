@@ -2,7 +2,6 @@ Class {
 	#name : #ToWidgetLayer,
 	#superclass : #BlOverlayElement,
 	#instVars : [
-		'delegator',
 		'widget'
 	],
 	#category : #'Toplo-Core'
@@ -12,16 +11,12 @@ Class {
 ToWidgetLayer >> attachTo: anElement from: aWidget [
 
 	widget := aWidget.
-	self attachTo: anElement.
-	delegator := BlEventDelegator delegate: BlEvent to: anElement. 
-	self addEventHandler: delegator
+	self attachTo: anElement
 ]
 
 { #category : #'api - attaching / detaching' }
 ToWidgetLayer >> detach [
 
-	self removeEventHandler: delegator.
-	delegator := nil.
 	widget := nil.
 	super detach
 ]

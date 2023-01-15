@@ -68,7 +68,7 @@ ToAlbum >> flash [
 { #category : #accessing }
 ToAlbum >> infinite [
 
-	^ self innerElement infinite
+	^ self innerElement next
 ]
 
 { #category : #initialization }

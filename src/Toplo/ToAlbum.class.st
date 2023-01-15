@@ -1,8 +1,8 @@
 Class {
 	#name : #ToAlbum,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TToWidgetWithViewModel + TToWidgetWithTooltip + TToWidgetWithLayers + TToWidgetWithContextMenu',
-	#classTraits : 'TToWidget classTrait + TToWidgetWithViewModel classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithLayers classTrait + TToWidgetWithContextMenu classTrait',
+	#traits : 'TToWidget + TToWidgetWithViewModel + TToWidgetWithTooltip + TToWidgetWithLayers + TToWidgetWithContextMenu + TAlbInfiniteDecorator',
+	#classTraits : 'TToWidget classTrait + TToWidgetWithViewModel classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithLayers classTrait + TToWidgetWithContextMenu classTrait + TAlbInfiniteDecorator classTrait',
 	#instVars : [
 		'#editsFeedbackLayer',
 		'#ghostTextLayer',
@@ -11,29 +11,6 @@ Class {
 	],
 	#category : #'Toplo-Widget-Album'
 }
-
-{ #category : #'api - shortcuts' }
-ToAlbum >> addEditorShortcut: aTextEditorInteraction [
-	self innerElement addEditorShortcut: aTextEditorInteraction
-]
-
-{ #category : #'view configuration' }
-ToAlbum >> beEditable [
-
-	self innerElement beEditable
-]
-
-{ #category : #'view configuration' }
-ToAlbum >> beReadonlyWithSelection [
-
-	self innerElement beReadonlyWithSelection
-]
-
-{ #category : #'view configuration' }
-ToAlbum >> beReadonlyWithoutSelection [
-
-	self innerElement beReadonlyWithoutSelection
-]
 
 { #category : #'t - initialization dresser' }
 ToAlbum >> defaultDresser [
@@ -65,12 +42,6 @@ ToAlbum >> flash [
 	self announce: (ToAlbumFlashRequested new client: self)
 ]
 
-{ #category : #accessing }
-ToAlbum >> infinite [
-
-	^ self innerElement next
-]
-
 { #category : #initialization }
 ToAlbum >> initialize [
 
@@ -79,49 +50,17 @@ ToAlbum >> initialize [
 	self constraintsDo: [ :c | 
 		c horizontal matchParent.
 		c vertical matchParent ].
-	self innerElement: self defaultEditorElement.
-	self innerElement whenTextEditedDo: [ self edited: true ].
+	self next: self defaultEditorElement.
+	self addChild: self next.
+	self whenTextEditedDo: [ self edited: true ].
 	
 	self initializeDresser 
-]
-
-{ #category : #accessing }
-ToAlbum >> innerElement [
-
-	"need to be lazy because the inner element is dressed by the dresser (which is installed from my superclass)"
-	^ innerElement 
-]
-
-{ #category : #accessing }
-ToAlbum >> innerElement: anEditorElement [
-
-	innerElement ifNotNil: [ innerElement removeFromParent ].
-	innerElement := anEditorElement.
-	self addChild: anEditorElement
 ]
 
 { #category : #'t - accessing layers' }
 ToAlbum >> layerReferentElement [
 
-		^ self infinite  
-]
-
-{ #category : #accessing }
-ToAlbum >> mode [
-
-	^ self innerElement mode
-]
-
-{ #category : #accessing }
-ToAlbum >> mode: anEditabilityMode [
-
-	self innerElement mode: anEditabilityMode 
-]
-
-{ #category : #'api - shortcuts' }
-ToAlbum >> removeEditorShortcut: aTextEditorShortcut [
-
-	self innerElement removeEditorShortcut: aTextEditorShortcut
+		^ self infinite
 ]
 
 { #category : #'transaction hook' }
@@ -151,24 +90,11 @@ ToAlbum >> saveResult: aBoolean [
 ]
 
 { #category : #accessing }
-ToAlbum >> selectionColor [
-
-	^ self innerElement selectionColor
-]
-
-{ #category : #accessing }
-ToAlbum >> text [
-
-	^ self innerElement text
-]
-
-{ #category : #accessing }
 ToAlbum >> text: aBlText [
 
 	aBlText == self text ifTrue: [ ^ self ].
-	self edited: false.
-	self innerElement text: aBlText.
-	self announce: (ToAlbumTextReplaced new client: self; text: self text; yourself)
+	self next text: aBlText.
+	self edited: false
 ]
 
 { #category : #'transaction hook' }
@@ -183,12 +109,6 @@ ToAlbum >> whenEditedChangedDo: aBlock [
 	"set a block to perform after that the text has been chanbed, and its action performed"
 
 	self property: #edited whenChangedDo: aBlock
-]
-
-{ #category : #'property change hook' }
-ToAlbum >> whenModeChangedDo: aBlock [
-
-	innerElement whenModeChangedDo: aBlock
 ]
 
 { #category : #'transaction hook' }
@@ -227,18 +147,6 @@ ToAlbum >> whenSaveRequestedSend: aSelector to: anObject [
 	self whenAnnouncement: ToAlbumSaveRequested send: aSelector to: anObject
 ]
 
-{ #category : #'transaction hook' }
-ToAlbum >> whenTextEditedDo: aBlock [
-
-	self innerElement whenTextEditedDo: aBlock
-]
-
-{ #category : #'property change hook' }
-ToAlbum >> whenTextReplacedDo: aBlock [
-
-	innerElement whenTextReplacedDo: aBlock
-]
-
 { #category : #layers }
 ToAlbum >> withEditsFeedbackLayer [
 
@@ -256,22 +164,16 @@ ToAlbum >> withGhostText: aText [
 ]
 
 { #category : #initialization }
-ToAlbum >> withRowNumbers [
-
-	self innerElement withRowNumbers
-]
-
-{ #category : #initialization }
 ToAlbum >> withSaveCapability [
 
 	self withEditsFeedbackLayer.
 
-	self innerElement addEditorShortcut: (BlShortcutWithAction new
+	self addEditorShortcut: (BlShortcutWithAction new
 			 combination: BlKeyCombination primaryS;
 			 action: [ :aShortcutEvent :aShortcut | self requestSave ];
 			 name: 'Save';
 			 description: 'Apply changes and save the source code (compile).').
-	self innerElement addEditorShortcut: (BlShortcutWithAction new
+	self addEditorShortcut: (BlShortcutWithAction new
 			 combination: BlKeyCombination primaryL;
 			 action: [ :aShortcutEvent :aShortcut | self requestCancel ];
 			 name: 'Cancel';
@@ -292,10 +194,4 @@ ToAlbum >> withoutGhostText [
 	ghostTextLayer ifNil: [ ^ self ].
 	self removeLayer: ghostTextLayer.
 	ghostTextLayer := nil
-]
-
-{ #category : #initialization }
-ToAlbum >> withoutRowNumbers [
-
-	self innerElement withoutRowNumbers
 ]

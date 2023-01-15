@@ -9,8 +9,8 @@ ToTextFieldGhostTextLayer >> attachTo: anEditorElement from: aWidget [
 
 	super attachTo: anEditorElement from: aWidget.
 	self flag: 'Attachement is to be evised : having a constant insets is not desirable'.
-	label padding: aWidget innerElement padding copy + (BlInsets left: 1).
-	label margin: aWidget innerElement margin copy.
+	label padding: aWidget next padding copy + (BlInsets left: 1).
+	label margin: aWidget next margin copy.
 ]
 
 { #category : #initialization }

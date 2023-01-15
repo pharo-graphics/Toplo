@@ -38,8 +38,8 @@ ToLabel >> addEditor: anEditor [
 	self clipChildren: false.
 	self elevation: ((BlRelativeElevation elevation: SmallInteger maxVal)).
 	
-	anEditor innerElement margin: self innerElement margin.
-	anEditor innerElement padding: self innerElement padding.
+	anEditor next margin: self innerElement margin.
+	anEditor next padding: self innerElement padding.
 
 	self editorOverlay: BlOverlayElement new.
 	self editorOverlay attachTo: self innerElement.
@@ -50,7 +50,7 @@ ToLabel >> addEditor: anEditor [
 	
 	anEditor text: self text copy.
 	anEditor infinite requestFocus.
-	anEditor infinite selecter all; apply
+	anEditor selecter all; apply
 	
 ]
 

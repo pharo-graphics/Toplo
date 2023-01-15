@@ -8,8 +8,8 @@ Class {
 ToLabelEditorBasicDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	anElement innerElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
-	anElement innerElement outskirts: BlOutskirts outside.
-	anElement innerElement fitContent.
+	anElement next geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
+	anElement next outskirts: BlOutskirts outside.
+	anElement next fitContent.
 
 ]

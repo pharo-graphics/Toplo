@@ -8,21 +8,21 @@ Class {
 ToAlbumBasicDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	anElement innerElement geometry: (BlRoundedRectangleGeometry cornerRadius: 8).
+	anElement next geometry: (BlRoundedRectangleGeometry cornerRadius: 8).
 	anElement infinite
 		when: BlBlurEvent
 		do: [ :anEvent | 
-			anElement innerElement border: (BlBorder
+			anElement next border: (BlBorder
 					 paint: anElement theme editor borderColor
 					 width: 1) ].
 	anElement infinite
 		when: BlFocusEvent
 		do: [ :anEvent | 
-			anElement innerElement border: (BlBorder
+			anElement next border: (BlBorder
 					 paint: anElement theme editor focusedBorderColor
 					 width: 1) ].
 
-	anElement innerElement border: (BlBorder
+	anElement next border: (BlBorder
 			 paint: anElement theme editor borderColor
 			 width: 1).
 

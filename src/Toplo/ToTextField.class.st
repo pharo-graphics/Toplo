@@ -15,8 +15,8 @@ ToTextField >> defaultDresser [
 ToTextField >> initialize [
 
 	super initialize.
-	self innerElement infinite vFitContent.
-	self innerElement vFitContent.
+	self infinite vFitContent.
+	self next vFitContent.
 	self vFitContent.
 	self withoutLineWrapping.
 	self addEditorShortcut: (BlShortcutWithAction new
@@ -46,7 +46,7 @@ ToTextField >> withGhostText: aText [
 { #category : #initialization }
 ToTextField >> withLineWrapping [
 
-	self innerElement hMatchParent.
+	self next hMatchParent.
 	self infinite hMatchParent.
 
 ]
@@ -76,6 +76,6 @@ ToTextField >> withSaveCapability [
 ToTextField >> withoutLineWrapping [
 
 	self infinite hFitContent.
-	self innerElement hFitContent
+	self next hFitContent
 
 ]

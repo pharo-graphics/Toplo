@@ -37,5 +37,5 @@ ToTextFieldDresser >> onInstalledIn: anElement [
 			 paint: anElement theme editor borderColor
 			 width: 1).
 
-	anElement innerElement background: Color white
+	anElement next background: Color white
 ]

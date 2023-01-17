@@ -24,7 +24,7 @@ ToContextMenuWindow >> installedIn: aWidget [
 
 	aWidget ifNil: [ ^ self ].
 	widgetWithContextMenuEventHandler := ToWidgetWithContextMenuEventHandler new.
-	aWidget addEventFilter: widgetWithContextMenuEventHandler 
+	aWidget addEventHandler: widgetWithContextMenuEventHandler 
 ]
 
 { #category : #initialization }

@@ -61,8 +61,8 @@ ToButtonClickActionLauncher >> eventsToHandle [
 { #category : #'api - accessing' }
 ToButtonClickActionLauncher >> mouseDownEvent: anEvent [
 
-
-	anEvent consumed: true
+	" do not consume here to allow right click "
+	"anEvent consumed: true"
 ]
 
 { #category : #'api - accessing' }

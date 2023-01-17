@@ -42,6 +42,38 @@ Here an example of a client for a method.
 
 ]
 
+{ #category : #list }
+ToSandBox class >> example_EditableListWithAllClassesNames [
+
+	| l menu |
+	l := ToList new nodeFactory: [ :assoc :holder | | lab |
+		     lab := ToLabel new
+			            text: assoc value;
+			            beEditable;
+			            yourself.
+			  lab whenTextReplacedDo: [ 
+					holder list at: holder position put: (assoc key -> lab text asString) ].
+		     ToLabeledNode new
+			     label: lab;
+			     icon: (ToImage inner: assoc key);
+			     columnWidth: 20;
+			     hMatchParent ].
+	l list addAll: (Smalltalk globals allClasses collect: [:cls | | icon isel |
+		isel := cls hasComment
+			            ifTrue: [ #class ]
+			            ifFalse: [ #uncommentedClass ].
+		icon := (Smalltalk ui icons iconNamed: isel).
+		icon -> cls name ]).
+	l withRowNumbers.
+	menu := ToContextMenu new.
+	menu addItem: (ToButtonMenuItem new labelText: 'Insert before'; whenClickedDo: [:event | event currentTarget traceCr]; yourself).
+	menu addItem: (ToButtonMenuItem new labelText: 'Insert after').
+	menu addItem: (ToButtonMenuItem new labelText: 'Remove').
+	menu addItem: (ToButtonMenuItem new labelText: 'Edit').
+	l contextMenu: menu.
+	l openInInnerWindow
+]
+
 { #category : #album }
 ToSandBox class >> example_EditorWithGhostText [
 
@@ -105,20 +137,24 @@ ToSandBox class >> example_ListWithAllClasses [
 ToSandBox class >> example_ListWithAllClasses3 [
 
 	| l |
-	l := ToList new nodeFactory: [ :cls |
-					     | icn |
-					     icn := cls hasComment
-						            ifTrue: [ #class ]
-						            ifFalse: [ #uncommentedClass ].
-					     ToLabeledNode new
-						     labelText: cls name;
-						     icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
-						     columnWidth: 20;
-						     hMatchParent ].
+	l := ToList new nodeFactory: [ :cls :holder | 
+		     | icn lab |
+		     icn := cls hasComment
+			            ifTrue: [ #class ]
+			            ifFalse: [ #uncommentedClass ].
+		     lab := ToLabel new
+			            text: cls name;
+			            beEditable;
+			            yourself.
+			  lab whenTextReplacedDo: [ holder infiniteElement dataSource list at: holder layoutPosition put: lab text ].
+		     ToLabeledNode new
+			     label: lab;
+			     icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
+			     columnWidth: 20;
+			     hMatchParent ].
 	l list addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
-	l openInInnerWindow 
-
+	l openInInnerWindow
 ]
 
 { #category : #list }

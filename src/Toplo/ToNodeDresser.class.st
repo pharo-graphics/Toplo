@@ -99,6 +99,16 @@ ToNodeDresser >> onUninstalledIn: anElement [
 	super onUninstalledIn: anElement
 ]
 
+{ #category : #'events handling' }
+ToNodeDresser >> pressed: anElement event: anEvent [
+
+	super pressed: anElement event: anEvent.
+	anEvent primaryButtonPressed ifTrue: [ ^ self ].
+	self inform: 'right click'.
+	anEvent currentTarget traceCr.
+	
+]
+
 { #category : #enumerating }
 ToNodeDresser >> removedFromSelection: anElement [
 
@@ -120,4 +130,13 @@ ToNodeDresser >> uninstallEventListenersIn: anElement [
 	super uninstallEventListenersIn: anElement.
 	anElement removeEventHandler: focusGetterHandler
 
+]
+
+{ #category : #'events handling' }
+ToNodeDresser >> up: anElement event: anEvent [
+
+	anEvent primaryButtonPressed ifTrue: [ ^ super up: anElement event: anEvent ].
+	self inform: 'up'.
+	anEvent currentTarget traceCr.
+	
 ]

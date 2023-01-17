@@ -13,7 +13,7 @@ Class {
 ToNodeHolder >> data: aData [ 
 
 	data := aData.
-	itemElement := infiniteElement nodeFactory value: aData
+	itemElement := infiniteElement nodeFactory cull: aData cull: self
 ]
 
 { #category : #accessing }

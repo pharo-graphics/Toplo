@@ -39,7 +39,7 @@ ToWidgetWithContextMenuEventHandler >> initialize [
 ToWidgetWithContextMenuEventHandler >> mouseDownEvent: anEvent [
 
 	anEvent button = mouseButton ifFalse: [ ^ self ].
-	anEvent consumed: true.
+	"anEvent consumed: true."
 
 	self hideContextMenuFor: anEvent currentTarget.
 	self

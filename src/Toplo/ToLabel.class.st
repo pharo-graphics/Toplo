@@ -22,9 +22,7 @@ ToLabel class >> text: aText [
 { #category : #'private-editing' }
 ToLabel >> addEditor [
 
-	| editor |
-	editor := self innerElement newEditorIn: self.
-	self addEditor: editor
+	self addEditor: self newEditor
 ]
 
 { #category : #'private-editing' }
@@ -32,25 +30,14 @@ ToLabel >> addEditor: anEditor [
 
 	self editor ifNotNil: [^ self ].	
 	self editor: anEditor.
-	
-	self previousElevation: self elevation.
-	self previousClipping: self clipChildren.
-	self clipChildren: false.
-	"self elevation: (BlRelativeElevation elevation: 1000)."
-
-	anEditor margin: BlInsets empty.
-	anEditor padding: BlInsets empty.
-
-	self editorOverlay: (BlOverlayElement new).
-	self editorOverlay attachTo: self innerElement.
-	self editorOverlay addChild: anEditor.
-	
+	self editor text: self text copy.
+	self editorFrame: (ToAnchoredWindow new popupAnimationFactory: nil).
+	self editorFrame anchor: self innerElement.
+	self editorFrame addChild: anEditor.	
 	self innerElement visibility: BlVisibility hidden.
-	self addChild: self editorOverlay.
-	
-	anEditor text: self text copy.
-	anEditor infinite requestFocus.
-	anEditor selecter all; apply
+	self editorFrame popup.
+	self editor requestFocus.
+	self editor selecter all; apply
 	
 ]
 
@@ -69,11 +56,8 @@ ToLabel >> beMultiLine [
 { #category : #'private-editing' }
 ToLabel >> cleanUpUserData [
 
-	self userData removeKey: #previousElevation.
-	self userData removeKey: #editorOverlay.
-	self userData removeKey: #editor.
-	self userData removeKey: #previousClipping.
-
+	self userData removeKey: #editorFrame.
+	self userData removeKey: #editor
 ]
 
 { #category : #initialization }
@@ -120,15 +104,15 @@ ToLabel >> editor: anEditor [
 ]
 
 { #category : #'private-editing' }
-ToLabel >> editorOverlay [
+ToLabel >> editorFrame [
 
-	^ self userData at: #editorOverlay ifAbsent: [  ]
+	^ self userData at: #editorFrame ifAbsent: [  ]
 ]
 
 { #category : #'private-editing' }
-ToLabel >> editorOverlay: anOverlay [
+ToLabel >> editorFrame: anAnchoredWindow [
 
-	self userData at: #editorOverlay put: anOverlay
+	self userData at: #editorFrame put: anAnchoredWindow
 ]
 
 { #category : #accessing }
@@ -193,29 +177,7 @@ ToLabel >> lineMode: aLineMode [
 { #category : #'private-editing' }
 ToLabel >> newEditor [
 
-	^ self innerElement newEditor
-]
-
-{ #category : #'private-editing' }
-ToLabel >> previousClipping [
-	^ self userData at: #previousClipping 
-]
-
-{ #category : #'private-editing' }
-ToLabel >> previousClipping: aBoolean [
-	self userData at: #previousClipping put: aBoolean
-]
-
-{ #category : #'private-editing' }
-ToLabel >> previousElevation [
-
-	^ self userData at: #previousElevation
-]
-
-{ #category : #'private-editing' }
-ToLabel >> previousElevation: aBlElevation [
-
-	self userData at: #previousElevation put: aBlElevation
+	^ self innerElement newEditorIn: self
 ]
 
 { #category : #'private-change' }
@@ -285,14 +247,9 @@ ToLabel >> privateText: aText [
 ToLabel >> removeEditor [
 
 	self editor ifNil: [ ^ self ].
-	self editorOverlay detach.
-	self editorOverlay removeChildren.
-	self editorOverlay removeFromParent.
-	
-	self elevation: self previousElevation.
-	self clipChildren: self previousClipping.	
+	self editorFrame close.
 	self innerElement visibility: BlVisibility visible.
-	
+	self requestLayout.
 	self cleanUpUserData 
 
 ]

@@ -8,16 +8,12 @@ Class {
 ToLabelEditorBasicDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	"anElement infinite geometry: (BlRoundedRectangleGeometry cornerRadius: 4)."
-	"anElement infinite border: (BlBorder paint: anElement selectionColor).
-	anElement infinite outskirts: BlOutskirts outside."
 	anElement fitContent.
 	anElement next fitContent.
 	anElement infinite fitContent.
-	"anElement next elevation: ((BlRelativeElevation elevation: SmallInteger maxVal))."
-	"anElement infinite background: Color veryLightGray."
+	anElement margin: BlInsets empty.
+	anElement padding: BlInsets empty.
 	anElement clipChildren: false.
-	"anElement next clipChildren: false."
 
 
 ]

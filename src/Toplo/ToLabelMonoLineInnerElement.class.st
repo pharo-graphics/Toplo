@@ -39,9 +39,6 @@ ToLabelMonoLineInnerElement >> newEditorIn: aLabel [
 	| ed |
 	ed := ToTextField new dresser: ToLabelEditorBasicDresser new.
 	(self editorShortcutsIn: aLabel) do: [ :s | ed editor addEditorShortcut: s ].
-	self flag: 'ed matchParent here leads to a Pharo crash'.
-	ed vFitContent.
-	ed hMatchParent.
 	^ ed
 ]
 

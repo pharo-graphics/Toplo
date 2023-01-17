@@ -262,6 +262,26 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 	container openInOBlSpace 
 ]
 
+{ #category : #window }
+ToSandBox class >> example_anchoredWidow1 [
+
+	| w e |
+	w := ToAnchoredWindow new.
+	w background: (Color gray alpha: 0.2).
+	w border: (BlBorder paint: Color black width: 2).
+	w padding: (BlInsets all: 4).
+	e := (ToElement new
+			 size: 100 @ 100;
+			 relocate: 50 @ 50;
+			 background: Color yellow;
+			 border: (BlBorder paint: Color red)).
+	w anchor: e.
+	w addChild: (ToAlbum new dresser: ToLabelEditorBasicDresser new; text: 'bla bla bla').
+	w fitContent.
+	e openInInnerWindow.
+	w popup
+]
+
 { #category : #space }
 ToSandBox class >> example_elementInPopupRoot [
 
@@ -613,7 +633,7 @@ ToSandBox class >> example_menu6 [
 	menu openInInnerWindow
 ]
 
-{ #category : #'overlay window' }
+{ #category : #window }
 ToSandBox class >> example_overlayWidow1 [
 
 	| w e |

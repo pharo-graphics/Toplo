@@ -29,12 +29,6 @@ ToTextField >> initialize [
 
 ]
 
-{ #category : #'api-layers' }
-ToTextField >> layerReferentElement [
-
-	^ self 
-]
-
 { #category : #layers }
 ToTextField >> withGhostText: aText [
 

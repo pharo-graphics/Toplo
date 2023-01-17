@@ -60,7 +60,7 @@ ToAlbum >> initialize [
 { #category : #'t - accessing layers' }
 ToAlbum >> layerReferentElement [
 
-		^ self infinite
+		^ self
 ]
 
 { #category : #'transaction hook' }

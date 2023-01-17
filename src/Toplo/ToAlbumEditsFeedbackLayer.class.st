@@ -10,22 +10,22 @@ Class {
 }
 
 { #category : #'api - attaching / detaching' }
-ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement from: aWidget [
+ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement [ 
 
-	super attachTo: anEditorElement from: aWidget.
+	super attachTo: anEditorElement.
 	
 	coverColor := anEditorElement selectionColor alpha: 0.1.
-	aWidget
+	anEditorElement
 		whenAnnouncement: ToAlbumFlashRequested
 		do: [ self flash ].
 
 	" flash if save requested with no text change "
-	aWidget
+	anEditorElement
 		whenAnnouncement: ToAlbumSaveRequested
 		do: [ :announce | announce unacceptedEdits ifFalse: [ self flash ] ].
 
 	" visual flag add/remove according to unaccepted edits or not"
-	aWidget whenEditedChangedDo: [ :state | 
+	anEditorElement whenEditedChangedDo: [ :state | 
 		state
 			ifTrue: [ self showEditsFeedback ]
 			ifFalse: [ self hideEditsFeedback ] ]
@@ -51,7 +51,6 @@ ToAlbumEditsFeedbackLayer >> coverWithColor: aCoverColor [
 { #category : #'api - attaching / detaching' }
 ToAlbumEditsFeedbackLayer >> detach [
 
-	widget unsubscribe: self.
 	super detach
 ]
 

@@ -613,6 +613,23 @@ ToSandBox class >> example_menu6 [
 	menu openInInnerWindow
 ]
 
+{ #category : #'overlay window' }
+ToSandBox class >> example_overlayWidow1 [
+
+	| w e |
+	w := ToOverlayWindow new.
+	w background: (Color gray alpha: 0.2).
+	w border: (BlBorder paint: Color black width: 2).
+	e := (ToElement new
+			 size: 100 @ 100;
+			 relocate: 50 @ 50;
+			 background: Color yellow;
+			 border: (BlBorder paint: Color red)).
+	w overlayed: e.
+	e openInInnerWindow.
+	w popup
+]
+
 { #category : #window }
 ToSandBox class >> example_rootFrame1 [
 	ToInnerWindow new title: 'Internal Frame example' ; openInOBlSpace 

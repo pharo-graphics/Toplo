@@ -36,12 +36,12 @@ ToLabel >> addEditor: anEditor [
 	self previousElevation: self elevation.
 	self previousClipping: self clipChildren.
 	self clipChildren: false.
-	self elevation: ((BlRelativeElevation elevation: SmallInteger maxVal)).
-	
-	anEditor next margin: self innerElement margin.
-	anEditor next padding: self innerElement padding.
+	"self elevation: (BlRelativeElevation elevation: 1000)."
 
-	self editorOverlay: BlOverlayElement new.
+	anEditor margin: BlInsets empty.
+	anEditor padding: BlInsets empty.
+
+	self editorOverlay: (BlOverlayElement new).
 	self editorOverlay attachTo: self innerElement.
 	self editorOverlay addChild: anEditor.
 	

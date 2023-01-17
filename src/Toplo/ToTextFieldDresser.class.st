@@ -11,9 +11,7 @@ ToTextFieldDresser >> onInstalledIn: anElement [
 
 	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 6).
 	anElement padding: (BlInsets empty).
-	anElement margin: (BlInsets empty).
 	anElement margin: (BlInsets all: 2).
-	anElement padding: (BlInsets empty).
 
 	anElement addEventHandler: (BlEventHandler
 				on: BlMouseDownEvent 

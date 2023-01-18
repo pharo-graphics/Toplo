@@ -102,7 +102,6 @@ ToNodeDresser >> onUninstalledIn: anElement [
 { #category : #'events handling' }
 ToNodeDresser >> pressed: anElement event: anEvent [
 
-	anEvent currentTarget traceCr.
 	super pressed: anElement event: anEvent
 ]
 
@@ -132,6 +131,5 @@ ToNodeDresser >> uninstallEventListenersIn: anElement [
 { #category : #'events handling' }
 ToNodeDresser >> up: anElement event: anEvent [
 
-	anEvent currentTarget traceCr.
 	super up: anElement event: anEvent
 ]

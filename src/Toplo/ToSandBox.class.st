@@ -60,6 +60,8 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 		     lab := ToLabel new
 			            text: assoc value;
 			            beEditable;
+							margin: (BlInsets all: 2);
+							padding: (BlInsets all: 2);
 			            yourself.
 			  lab whenTextReplacedDo: [ 
 					holder list at: holder position put: (assoc key -> lab text asString) ].

@@ -17,7 +17,7 @@ Class {
 { #category : #accessing }
 ToAbstractButtonDresser >> clickActionLauncher [
 
-	^ ToButtonClickActionLauncher new
+	^ ToClickHandler new
 ]
 
 { #category : #'event handlers' }
@@ -36,6 +36,7 @@ ToAbstractButtonDresser >> clicked: anElement [
 { #category : #'events handling' }
 ToAbstractButtonDresser >> clicked: anElement event: anEvent [
 
+	anEvent secondaryButtonPressed ifTrue: [ ^ self rightClicked: anElement event: anEvent ].
 	self clicked: anElement
 
 ]
@@ -179,8 +180,43 @@ ToAbstractButtonDresser >> pressed: anElement [
 { #category : #'events handling' }
 ToAbstractButtonDresser >> pressed: anElement event: anEvent [
 
-	self pressed: anElement
+	anEvent secondaryButtonPressed ifFalse: [ ^ self pressed: anElement ].
+	self rightPressed: anElement event: anEvent
 
+]
+
+{ #category : #'events handling' }
+ToAbstractButtonDresser >> rightClicked: anElement [ 
+
+	
+]
+
+{ #category : #'events handling' }
+ToAbstractButtonDresser >> rightClicked: anElement event: anEvent [
+
+	self rightClicked: anElement
+]
+
+{ #category : #'events handling' }
+ToAbstractButtonDresser >> rightPressed: anElement [
+
+]
+
+{ #category : #'events handling' }
+ToAbstractButtonDresser >> rightPressed: anElement event: anEvent [
+
+	self rightPressed: anElement
+]
+
+{ #category : #'events handling' }
+ToAbstractButtonDresser >> rightUp: anElement [
+
+]
+
+{ #category : #'events handling' }
+ToAbstractButtonDresser >> rightUp: anElement event: anEvent [
+
+	self rightUp: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -203,5 +239,6 @@ ToAbstractButtonDresser >> up: anElement [
 { #category : #'events handling' }
 ToAbstractButtonDresser >> up: anElement event: anEvent [
 
-	self up: anElement
+	anEvent primaryButtonPressed ifTrue: [ ^ self up: anElement ].
+	self rightUp: anElement event: anEvent
 ]

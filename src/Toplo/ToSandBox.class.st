@@ -27,7 +27,7 @@ All the different kind of Album using should use the available basic client clas
 Here an example of a client for a method.
 "
 
-	| text space client |
+	| text space client menu |
 	text := self methodText asRopedText.
 	client := ToAlbumModel new.
 	client styler: (BlRBTextStyler new classOrMetaClass: self class).
@@ -36,6 +36,16 @@ Here an example of a client for a method.
 	client withRowNumbers.
 	client whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ].
 	client whenCancelRequestedDo: [ :cancelRequested | cancelRequested client text: text copy ].
+	
+	menu := ToContextMenu new.
+	menu addItem: (ToButtonMenuItem new labelText: 'Select all'; whenClickedDo: [:event | client widgetDo: [:w | w selecter all; apply ] ]; yourself).
+	menu addItem: (ToButtonMenuItem new labelText: 'Copy').
+	menu addItem: (ToButtonMenuItem new labelText: 'Paste').
+	menu addSeparator.
+	menu addItem: (ToButtonMenuItem new labelText: 'Cancel').
+	client widgetDo: [ :widget | widget contextMenu: menu ].
+
+	
 	space := OBlSpace new.
 	space root addChild: client onWidget.
 	space show.
@@ -231,7 +241,7 @@ ToSandBox class >> example_Popup1 [
 		     widget: e.
 	but := ToWidget new size: 50@90.
 	but addDresser: ToButtonDresser new.
-	but whenAnnouncement: ToButtonClickLaunchAction do: [ self inform: 'Click'. p close ]. 
+	but whenAnnouncement: ToClickAnnouncement do: [ self inform: 'Click'. p close ]. 
 	p addChild: but.
 	p addEventHandler: (BlEventHandler
 			 on: BlSpaceMouseDownOutsideEvent
@@ -923,7 +933,7 @@ ToSandBox class >> example_toAlbumAsButton [
 	| but |
 	but := ToAlbum new text: 'Hello world'; preventChildrenMouseEvents.
 	but addDresser: ToButtonDresser new.
-	but whenAnnouncement: ToButtonClickLaunchAction do: [ self inform: 'Click' ]. 
+	but whenAnnouncement: ToClickAnnouncement do: [ self inform: 'Click' ]. 
 	but background: Color blue.
 	but size: 300@100.
 	but  openInOBlSpace  
@@ -1638,7 +1648,7 @@ ToSandBox class >> example_toMultiState1 [
 	| but space |
 	but := ToMultiStateButton new.
 	but
-		element: (ToImage inner: (BlElement new
+		icon: (ToImage inner: (BlElement new
 				 size: 100 @ 100;
 				 background: Color blue));
 		labelText: ('Blue' asRopedText fontSize: 24).
@@ -1669,7 +1679,7 @@ ToSandBox class >> example_toMultiState2 [
 	| but space |
 	but := ToMultiStateButton new
 		       clipChildren: false;
-		       element: (ToImage inner:  (BlElement new
+		       icon: (ToImage inner:  (BlElement new
 				        size: 100 @ 100;
 				        background: Color blue));
 		       labelText: ('Blue' asRopedText fontSize: 24).
@@ -1724,7 +1734,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 			(ToWidgetState new
 				 whenEnterDo: [ :ann | 
 					 ann widget
-						 element: (ToImage inner:  (BlElement new
+						 icon: (ToImage inner:  (BlElement new
 								  size: 400 @ 400;
 								  background: Color blue));
 						 labelText: 'Big blue' ];
@@ -1732,7 +1742,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 			(ToWidgetState new name: #green;
 				 whenEnterDo: [ :ann | 
 					 ann widget
-						 element: (ToImage inner:  (BlElement new
+						 icon: (ToImage inner:  (BlElement new
 								  size: 20 @ 40;
 								  background: Color green));
 						 labelText: 'Green' ];
@@ -1740,7 +1750,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 			(ToWidgetState new
 				 whenEnterDo: [ :ann | 
 					 ann widget
-						 element: (ToImage inner:  (BlElement new
+						 icon: (ToImage inner:  (BlElement new
 								  size: 50 @ 50;
 								  background: Color black));
 						 labelText: 'Black' ];
@@ -1748,7 +1758,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 			(ToWidgetState new
 				 whenEnterDo: [ :ann | 
 					 ann widget
-						 element: (ToImage inner:  (BlElement new
+						 icon: (ToImage inner:  (BlElement new
 								  size: 100 @ 100;
 								  background: Color yellow));
 						 labelText: 'Yellow' ];
@@ -1780,7 +1790,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 					 anim := exitAnimation value.
 					 anim onFinishedDo: [ 
 							 ann widget
-								 element: (ToImage inner:  (BlElement new
+								 icon: (ToImage inner:  (BlElement new
 										  size: 100 @ 100;
 										  background: Color blue));
 								 labelText: ('Blue' asRopedText fontSize: 24);
@@ -1794,7 +1804,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 					 anim := exitAnimation value.
 					 anim onFinishedDo: [ 
 							 ann widget
-								 element: (ToImage inner:  (BlElement new
+								 icon: (ToImage inner:  (BlElement new
 										  size: 100 @ 100;
 										  background: Color green));
 								 labelText: ('Green' asRopedText fontSize: 24);
@@ -1808,7 +1818,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 					 anim := exitAnimation value.
 					 anim onFinishedDo: [ 
 							 ann widget
-								 element: (ToImage inner:  (BlElement new
+								 icon: (ToImage inner:  (BlElement new
 										  size: 100 @ 100;
 										  background: Color black));
 								 labelText: ('Black' asRopedText fontSize: 24);
@@ -1822,7 +1832,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 					 anim := exitAnimation value.
 					 anim onFinishedDo: [ 
 							 ann widget
-								 element: (ToImage inner:  (BlElement new
+								 icon: (ToImage inner:  (BlElement new
 										  size: 100 @ 100;
 										  background: Color yellow));
 								 labelText: ('Yellow' asRopedText fontSize: 24);
@@ -2003,7 +2013,7 @@ ToSandBox class >> example_toWidgetAsButton0 [
 	| but |
 	but := ToWidget new.
 	but addDresser: ToButtonDresser new.
-	but whenAnnouncement: ToButtonClickLaunchAction do: [ self inform: 'Click' ]. 
+	but whenAnnouncement: ToClickAnnouncement do: [ self inform: 'Click' ]. 
 	but background: Color blue.
 	but size: 50@50.
 	but  openInOBlSpace  

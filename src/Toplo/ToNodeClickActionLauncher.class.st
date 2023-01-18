@@ -1,6 +1,6 @@
 Class {
 	#name : #ToNodeClickActionLauncher,
-	#superclass : #ToButtonClickActionLauncher,
+	#superclass : #ToClickHandler,
 	#category : #'Toplo-Core-Node'
 }
 

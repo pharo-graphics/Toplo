@@ -46,9 +46,9 @@ Here an example of a client for a method.
 	client widgetDo: [ :widget | widget contextMenu: menu ].
 
 	
-	space := OBlSpace new.
-	space root addChild: client onWidget.
-	space show.
+	
+	client onWidget openInInnerWindow 
+
 
 ]
 

@@ -9,16 +9,16 @@ Class {
 
 { #category : #'element handlers' }
 ToWidgetWithContextMenuEventHandler >> elementPositionChangedEvent: anEvent [
-
-	anEvent currentTarget close
+self flag: 'To be tracked'.
+	"anEvent currentTarget close"
 
 ]
 
 { #category : #'api - accessing' }
 ToWidgetWithContextMenuEventHandler >> eventsToHandle [
-
+	self flag: 'check why BlElementPositionChangedEvent'.
 	^ { 
-		  BlElementPositionChangedEvent.
+		  "BlElementPositionChangedEvent."
 		  BlMouseDownEvent }
 ]
 

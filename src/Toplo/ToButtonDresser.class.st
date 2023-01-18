@@ -61,7 +61,7 @@ ToButtonDresser >> hover: anElement [
 { #category : #'border accessing' }
 ToButtonDresser >> hoveredBackground [
 
-	^ downBackground ifNil: [ theme button hoveredBorderColor alpha: 0.1 ]
+	^ downBackground ifNil: [ theme button hoveredBorderColor lighter alpha: 0.1 ]
 
 ]
 
@@ -75,7 +75,7 @@ ToButtonDresser >> hoveredBackground: aBackground [
 { #category : #'border accessing' }
 ToButtonDresser >> hoveredBorder [
 
-	^ downBorder ifNil: [ BlBorder paint: theme button hoveredBorderColor ]
+	^ downBorder ifNil: [ BlBorder paint: Color transparent "theme button hoveredBorderColor" ]
 
 ]
 

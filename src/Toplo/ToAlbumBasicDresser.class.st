@@ -4,28 +4,47 @@ Class {
 	#category : #'Toplo-Widget-Album'
 }
 
+{ #category : #initialization }
+ToAlbumBasicDresser >> defaultMargin [
+
+	^ BlInsets all: 1
+]
+
+{ #category : #initialization }
+ToAlbumBasicDresser >> defaultPadding [
+
+	^ BlInsets
+		  top: 2
+		  left: 3
+		  bottom: 2
+		  right: 2
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToAlbumBasicDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
+	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 8).
 	
-	anElement innerElement geometry: (BlRoundedRectangleGeometry cornerRadius: 8).
-	anElement innerElement
+	anElement margin: self defaultMargin.
+	anElement padding: self defaultPadding.
+
+	anElement infinite
 		when: BlBlurEvent
 		do: [ :anEvent | 
-			anElement innerElement border: (BlBorder
+			anElement border: (BlBorder
 					 paint: anElement theme editor borderColor
 					 width: 1) ].
-	anElement innerElement
+	anElement infinite
 		when: BlFocusEvent
 		do: [ :anEvent | 
-			anElement innerElement border: (BlBorder
+			anElement  border: (BlBorder
 					 paint: anElement theme editor focusedBorderColor
 					 width: 1) ].
 
-	anElement innerElement border: (BlBorder
+	anElement  border: (BlBorder
 			 paint: anElement theme editor borderColor
 			 width: 1).
 
-	anElement innerElement background: Color white
+	anElement  background: Color white
 ]

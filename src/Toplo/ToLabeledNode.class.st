@@ -34,3 +34,10 @@ ToLabeledNode >> initialize [
 	self initializePair.
 	self initializeDresser
 ]
+
+{ #category : #'t - labeled icon' }
+ToLabeledNode >> labelText: aText [
+
+	self label ifNotNil: [ :lab | ^ lab text: aText ].
+	self label: (ToLabel text: aText)
+]

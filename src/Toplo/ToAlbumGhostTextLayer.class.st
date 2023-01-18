@@ -8,9 +8,9 @@ Class {
 }
 
 { #category : #'api - attaching / detaching' }
-ToAlbumGhostTextLayer >> attachTo: anEditorElement from: aWidget [
+ToAlbumGhostTextLayer >> attachTo: anEditorElement [ 
 
-	super attachTo: anEditorElement from: aWidget.
+	super attachTo: anEditorElement.
 	self checkText: anEditorElement text.
 	" add/remove according to unaccepted text size"
 	anEditorElement whenTextEditedDo: [ self checkText: anEditorElement text ].
@@ -33,7 +33,7 @@ ToAlbumGhostTextLayer >> defaultLabel [
 			  c frame vertical alignCenter.
 			  c frame horizontal alignCenter ];
 		  beMultiLine;
-		  in: [ :l | l layout alignCenter];
+		  in: [ :l | l layout alignCenter ];
 		  in: [ :l | l innerElement layout alignCenter ];
 		  yourself
 ]
@@ -48,7 +48,9 @@ ToAlbumGhostTextLayer >> initialize [
 			c horizontal fitContent.
 			c vertical fitContent ].
 	label := self defaultLabel.
-	self addChild: label
+	self addChild: label.
+	self preventMeAndChildrenMouseEvents.
+
 ]
 
 { #category : #accessing }

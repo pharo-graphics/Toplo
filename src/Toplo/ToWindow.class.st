@@ -40,6 +40,12 @@ ToWindow >> defaultGeometry [
 ]
 
 { #category : #initialization }
+ToWindow >> defaultLayout [
+
+	^ BlLinearLayout vertical
+]
+
+{ #category : #initialization }
 ToWindow >> defaultRoot [
 
 	^ ToElement new
@@ -81,7 +87,7 @@ ToWindow >> initialize [
 		background: (Color white alpha: 0.7);
 		elevation: (BlRelativeElevation elevation: SmallInteger maxVal);
 		border: self defaultBorder;
-		layout: BlLinearLayout vertical;
+		layout: self defaultLayout;
 		outskirts: BlOutskirts outside;
 		geometry: self defaultGeometry;
 		clipChildren: false;

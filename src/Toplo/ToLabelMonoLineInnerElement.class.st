@@ -29,7 +29,8 @@ ToLabelMonoLineInnerElement >> initialize [
 
 	super initialize.
 	" Need Label measurement to ensure right vertical alignement with labels/menus "
-	self labelMeasurement
+	self labelMeasurement.
+	self preventMouseEvents 
 ]
 
 { #category : #'api - editor' }
@@ -37,9 +38,7 @@ ToLabelMonoLineInnerElement >> newEditorIn: aLabel [
 
 	| ed |
 	ed := ToTextField new dresser: ToLabelEditorBasicDresser new.
-	(self editorShortcutsIn: aLabel) do: [ :s | ed innerElement editor addEditorShortcut: s ].
-	self flag: 'ed matchParent here leads to a Pharo crash'.
-	ed fitContent.
+	(self editorShortcutsIn: aLabel) do: [ :s | ed editor addEditorShortcut: s ].
 	^ ed
 ]
 

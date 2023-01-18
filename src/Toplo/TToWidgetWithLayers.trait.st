@@ -6,7 +6,7 @@ Trait {
 { #category : #'t - accessing layers' }
 TToWidgetWithLayers >> addLayer: aToWidgetLayer [ 
 
-	aToWidgetLayer attachTo: self layerReferentElement from: self.
+	aToWidgetLayer attachTo: self layerReferentElement.
 	self addChild: aToWidgetLayer
 ]
 

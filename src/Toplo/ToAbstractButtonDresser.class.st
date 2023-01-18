@@ -8,7 +8,8 @@ Class {
 		'mouseLeaveHandler',
 		'clickActionLauncher',
 		'mouseClickHandler',
-		'mouseDoubleClickHandler'
+		'mouseDoubleClickHandler',
+		'mouseUpHandler'
 	],
 	#category : #'Toplo-Widget-Button'
 }
@@ -16,7 +17,13 @@ Class {
 { #category : #accessing }
 ToAbstractButtonDresser >> clickActionLauncher [
 
-	^ ToButtonClickActionLauncher new
+	^ ToClickHandler new
+]
+
+{ #category : #'event handlers' }
+ToAbstractButtonDresser >> clickCandidateHandlerIn: anElement [
+
+	^ BlEventHandler on: BlClickCandidateEvent do: [ self escaped: anElement ]
 ]
 
 { #category : #'events handling' }
@@ -29,6 +36,7 @@ ToAbstractButtonDresser >> clicked: anElement [
 { #category : #'events handling' }
 ToAbstractButtonDresser >> clicked: anElement event: anEvent [
 
+	anEvent secondaryButtonPressed ifTrue: [ ^ self rightClicked: anElement event: anEvent ].
 	self clicked: anElement
 
 ]
@@ -79,18 +87,17 @@ ToAbstractButtonDresser >> initialState: anElement [
 ToAbstractButtonDresser >> installEventListenersIn: anElement [
 
 	clickActionLauncher := self clickActionLauncher button: anElement.
-	clickCandidateHandler := BlEventHandler on: BlClickCandidateEvent do: [ self escaped: anElement ].
-	mouseDownHandler := BlEventHandler on: BlMouseDownEvent do: [ :event | self pressed: anElement ].
-	mouseClickHandler := BlEventHandler on: BlClickEvent do: [ :event | self clicked: anElement event: event].
-	mouseDoubleClickHandler := BlEventHandler on: BlDoubleClickEvent do: [ :event | self doubleClicked: anElement event: event].
-	mouseEnterHandler := BlEventHandler on: BlMouseEnterEvent 
-		do: [ :event | 
-			(event anyButtonPressed and: [event currentTarget ~= anElement ] )
-				ifFalse: [self hover: anElement event: event] ].
-
-	mouseLeaveHandler := BlEventHandler on: BlMouseLeaveEvent do: [ self leaved: anElement ].
+	clickCandidateHandler := self clickCandidateHandlerIn: anElement.
+	mouseDownHandler := self mouseDownHandlerIn: anElement.
+	mouseUpHandler := self mouseUpHandlerIn: anElement.
+	mouseClickHandler := self mouseClickHandlerIn: anElement.
+	mouseDoubleClickHandler := self mouseDoubleClickHandlerIn: anElement.
+	mouseEnterHandler := self mouseEnterHandlerIn: anElement.
+	mouseLeaveHandler := self mouseLeaveHandlerIn: anElement.
+	
 	anElement addEventHandler: clickCandidateHandler.
 	anElement addEventHandler: mouseDownHandler.
+	anElement addEventHandler: mouseUpHandler.
 	anElement addEventHandler: mouseClickHandler.
 	anElement addEventHandler: mouseDoubleClickHandler.
 	anElement addEventHandler: mouseEnterHandler.
@@ -105,6 +112,45 @@ ToAbstractButtonDresser >> leaved: anElement [
 
 	self subclassResponsibility 
 
+]
+
+{ #category : #'event handlers' }
+ToAbstractButtonDresser >> mouseClickHandlerIn: anElement [
+
+	^ BlEventHandler on: BlClickEvent do: [ :event | self clicked: anElement event: event].
+]
+
+{ #category : #'event handlers' }
+ToAbstractButtonDresser >> mouseDoubleClickHandlerIn: anElement [
+
+	^ BlEventHandler on: BlDoubleClickEvent do: [ :event | self doubleClicked: anElement event: event].
+]
+
+{ #category : #'event handlers' }
+ToAbstractButtonDresser >> mouseDownHandlerIn: anElement [
+
+	^ BlEventHandler on: BlMouseDownEvent do: [ :event | self pressed: anElement event: event]
+]
+
+{ #category : #'event handlers' }
+ToAbstractButtonDresser >> mouseEnterHandlerIn: anElement [
+
+	^ BlEventHandler on: BlMouseEnterEvent 
+		do: [ :event | 
+			(event anyButtonPressed and: [event currentTarget ~= anElement ] )
+				ifFalse: [self hover: anElement event: event] ]
+]
+
+{ #category : #'event handlers' }
+ToAbstractButtonDresser >> mouseLeaveHandlerIn: anElement [
+
+	^ BlEventHandler on: BlMouseLeaveEvent do: [ self leaved: anElement ]
+]
+
+{ #category : #'event handlers' }
+ToAbstractButtonDresser >> mouseUpHandlerIn: anElement [
+
+	^ BlEventHandler on: BlMouseUpEvent do: [ :event | self up: anElement event: event].
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -131,14 +177,68 @@ ToAbstractButtonDresser >> pressed: anElement [
 
 ]
 
+{ #category : #'events handling' }
+ToAbstractButtonDresser >> pressed: anElement event: anEvent [
+
+	anEvent secondaryButtonPressed ifFalse: [ ^ self pressed: anElement ].
+	self rightPressed: anElement event: anEvent
+
+]
+
+{ #category : #'events handling' }
+ToAbstractButtonDresser >> rightClicked: anElement [ 
+
+	
+]
+
+{ #category : #'events handling' }
+ToAbstractButtonDresser >> rightClicked: anElement event: anEvent [
+
+	self rightClicked: anElement
+]
+
+{ #category : #'events handling' }
+ToAbstractButtonDresser >> rightPressed: anElement [
+
+]
+
+{ #category : #'events handling' }
+ToAbstractButtonDresser >> rightPressed: anElement event: anEvent [
+
+	self rightPressed: anElement
+]
+
+{ #category : #'events handling' }
+ToAbstractButtonDresser >> rightUp: anElement [
+
+]
+
+{ #category : #'events handling' }
+ToAbstractButtonDresser >> rightUp: anElement event: anEvent [
+
+	self rightUp: anElement
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToAbstractButtonDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: clickCandidateHandler.
 	anElement removeEventHandler: mouseDownHandler.
+	anElement removeEventHandler: mouseUpHandler.
 	anElement removeEventHandler: mouseClickHandler.
 	anElement removeEventHandler: mouseDoubleClickHandler.
 	anElement removeEventHandler: mouseEnterHandler.
 	anElement removeEventHandler: mouseLeaveHandler.
-	anElement removeEventHandler: clickActionLauncher.
+	anElement removeEventHandler: clickActionLauncher
+]
+
+{ #category : #'events handling' }
+ToAbstractButtonDresser >> up: anElement [
+]
+
+{ #category : #'events handling' }
+ToAbstractButtonDresser >> up: anElement event: anEvent [
+
+	anEvent primaryButtonPressed ifTrue: [ ^ self up: anElement ].
+	self rightUp: anElement event: anEvent
 ]

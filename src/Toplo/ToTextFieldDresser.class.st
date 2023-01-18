@@ -10,24 +10,21 @@ ToTextFieldDresser >> onInstalledIn: anElement [
 	super onInstalledIn: anElement.
 
 	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 6).
-	anElement innerElement geometry: (BlRoundedRectangleGeometry cornerRadius: 6).
-	anElement padding: (BlInsets all: 0).
-	anElement margin: (BlInsets all: 0).
-	anElement innerElement margin: (BlInsets all: 2).
-	anElement innerElement padding: (BlInsets all: 0).
+	anElement padding: (BlInsets empty).
+	anElement margin: (BlInsets all: 2).
 
 	anElement addEventHandler: (BlEventHandler
 				on: BlMouseDownEvent 
-				do: [ :evt | anElement innerElement dispatchEvent: evt ]).
+				do: [ :evt | anElement infinite dispatchEvent: evt ]).
 
-	anElement innerElement
+	anElement infinite
 		when: BlBlurEvent
 		do: [ :anEvent | 
 			anElement border: (BlBorder
 					 paint: anElement theme editor borderColor
 					 width: 1) ].
 
-	anElement innerElement
+	anElement infinite
 		when: BlFocusEvent
 		do: [ :anEvent | 
 			anElement border: (BlBorder
@@ -38,5 +35,5 @@ ToTextFieldDresser >> onInstalledIn: anElement [
 			 paint: anElement theme editor borderColor
 			 width: 1).
 
-	anElement innerElement background: Color white
+	anElement next background: Color white
 ]

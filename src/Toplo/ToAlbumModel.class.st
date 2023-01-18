@@ -100,7 +100,7 @@ ToAlbumModel >> onUninstalledIn: anAlbum [
 	"Is sent when I am added to an element "
 
 	super onUninstalledIn: anAlbum.
-	self unsubscribe: anAlbum innerElement.
+	self unsubscribe: anAlbum next.
 	self styler ifNotNil: [ :styler | 
 		self styler unsubscribe: self.
 		self unsubscribe: styler ]
@@ -246,7 +246,7 @@ ToAlbumModel >> whenStylerTextStyled: aBlStylerTextStyledAnnouncement [
 			my text has not be changed elsewhere during the styling "
 		(result isNextGenerationOf: album text) ifFalse: [ ^ self ].
 		album text takeInternalRepresentationOf: result.
-		album innerElement textInternalRepresentationChanged ]
+		album textInternalRepresentationChanged ]
 ]
 
 { #category : #'property change hook' }

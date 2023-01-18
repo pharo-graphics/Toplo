@@ -5,12 +5,11 @@ Class {
 }
 
 { #category : #'api - attaching / detaching' }
-ToTextFieldGhostTextLayer >> attachTo: anEditorElement from: aWidget [
+ToTextFieldGhostTextLayer >> attachTo: anEditorElement [
 
-	super attachTo: anEditorElement from: aWidget.
-	self flag: 'Attachement is to be evised : having a constant insets is not desirable'.
-	label padding: aWidget innerElement padding copy + (BlInsets left: 1).
-	label margin: aWidget innerElement margin copy.
+	super attachTo: anEditorElement.
+	label padding: anEditorElement next padding copy.
+	label margin: anEditorElement next margin copy.
 ]
 
 { #category : #initialization }

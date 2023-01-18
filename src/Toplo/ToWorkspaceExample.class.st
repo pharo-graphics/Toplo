@@ -132,8 +132,8 @@ ToWorkspaceExample >> doIt [
 
 	textModel widgetDo: [ :widget | 
 		| toDo |
-		toDo := widget innerElement selectedText asString.
-		toDo ifEmpty: [ toDo := widget innerElement text asString ].
+		toDo := widget selectedText asString.
+		toDo ifEmpty: [ toDo := widget text asString ].
 		[ 
 		OpalCompiler new
 			source: toDo readStream;
@@ -179,7 +179,7 @@ ToWorkspaceExample >> openInSpace: aSpace [
 
 	| editor frame |
 	editor := self codeEditor.
-	editor innerElement requestFocus.
+	editor infinite requestFocus.
 	frame := ToInnerWindow new title: 'Workspace'.
 	frame addChild: editor.
 	aSpace root addChild: frame.

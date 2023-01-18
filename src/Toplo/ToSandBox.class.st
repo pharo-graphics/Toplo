@@ -27,7 +27,7 @@ All the different kind of Album using should use the available basic client clas
 Here an example of a client for a method.
 "
 
-	| text space client |
+	| text space client menu |
 	text := self methodText asRopedText.
 	client := ToAlbumModel new.
 	client styler: (BlRBTextStyler new classOrMetaClass: self class).
@@ -36,10 +36,52 @@ Here an example of a client for a method.
 	client withRowNumbers.
 	client whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ].
 	client whenCancelRequestedDo: [ :cancelRequested | cancelRequested client text: text copy ].
+	
+	menu := ToContextMenu new.
+	menu addItem: (ToButtonMenuItem new labelText: 'Select all'; whenClickedDo: [:event | client widgetDo: [:w | w selecter all; apply ] ]; yourself).
+	menu addItem: (ToButtonMenuItem new labelText: 'Copy').
+	menu addItem: (ToButtonMenuItem new labelText: 'Paste').
+	menu addSeparator.
+	menu addItem: (ToButtonMenuItem new labelText: 'Cancel').
+	client widgetDo: [ :widget | widget contextMenu: menu ].
+
+	
 	space := OBlSpace new.
 	space root addChild: client onWidget.
 	space show.
 
+]
+
+{ #category : #list }
+ToSandBox class >> example_EditableListWithAllClassesNames [
+
+	| l menu |
+	l := ToList new nodeFactory: [ :assoc :holder | | lab |
+		     lab := ToLabel new
+			            text: assoc value;
+			            beEditable;
+			            yourself.
+			  lab whenTextReplacedDo: [ 
+					holder list at: holder position put: (assoc key -> lab text asString) ].
+		     ToLabeledNode new
+			     label: lab;
+			     icon: (ToImage inner: assoc key);
+			     columnWidth: 20;
+			     hMatchParent ].
+	l list addAll: (Smalltalk globals allClasses collect: [:cls | | icon isel |
+		isel := cls hasComment
+			            ifTrue: [ #class ]
+			            ifFalse: [ #uncommentedClass ].
+		icon := (Smalltalk ui icons iconNamed: isel).
+		icon -> cls name ]).
+	l withRowNumbers.
+	menu := ToContextMenu new.
+	menu addItem: (ToButtonMenuItem new labelText: 'Insert before'; whenClickedDo: [:event | event currentTarget traceCr]; yourself).
+	menu addItem: (ToButtonMenuItem new labelText: 'Insert after').
+	menu addItem: (ToButtonMenuItem new labelText: 'Remove').
+	menu addItem: (ToButtonMenuItem new labelText: 'Edit').
+	l contextMenu: menu.
+	l openInInnerWindow
 ]
 
 { #category : #album }
@@ -105,20 +147,24 @@ ToSandBox class >> example_ListWithAllClasses [
 ToSandBox class >> example_ListWithAllClasses3 [
 
 	| l |
-	l := ToList new nodeFactory: [ :cls |
-					     | icn |
-					     icn := cls hasComment
-						            ifTrue: [ #class ]
-						            ifFalse: [ #uncommentedClass ].
-					     ToLabeledNode new
-						     labelText: cls name;
-						     icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
-						     columnWidth: 20;
-						     hMatchParent ].
+	l := ToList new nodeFactory: [ :cls :holder | 
+		     | icn lab |
+		     icn := cls hasComment
+			            ifTrue: [ #class ]
+			            ifFalse: [ #uncommentedClass ].
+		     lab := ToLabel new
+			            text: cls name;
+			            beEditable;
+			            yourself.
+			  lab whenTextReplacedDo: [ holder infiniteElement dataSource list at: holder layoutPosition put: lab text ].
+		     ToLabeledNode new
+			     label: lab;
+			     icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
+			     columnWidth: 20;
+			     hMatchParent ].
 	l list addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
-	l openInInnerWindow 
-
+	l openInInnerWindow
 ]
 
 { #category : #list }
@@ -195,7 +241,7 @@ ToSandBox class >> example_Popup1 [
 		     widget: e.
 	but := ToWidget new size: 50@90.
 	but addDresser: ToButtonDresser new.
-	but whenAnnouncement: ToButtonClickLaunchAction do: [ self inform: 'Click'. p close ]. 
+	but whenAnnouncement: ToClickAnnouncement do: [ self inform: 'Click'. p close ]. 
 	p addChild: but.
 	p addEventHandler: (BlEventHandler
 			 on: BlSpaceMouseDownOutsideEvent
@@ -260,6 +306,26 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 		          yourself.
 	container addChild: root; addChild: vscrollBar.
 	container openInOBlSpace 
+]
+
+{ #category : #window }
+ToSandBox class >> example_anchoredWidow1 [
+
+	| w e |
+	w := ToAnchoredWindow new.
+	w background: (Color gray alpha: 0.2).
+	w border: (BlBorder paint: Color black width: 2).
+	w padding: (BlInsets all: 4).
+	e := (ToElement new
+			 size: 100 @ 100;
+			 relocate: 50 @ 50;
+			 background: Color yellow;
+			 border: (BlBorder paint: Color red)).
+	w anchor: e.
+	w addChild: (ToAlbum new dresser: ToLabelEditorBasicDresser new; text: 'bla bla bla').
+	w fitContent.
+	e openInInnerWindow.
+	w popup
 ]
 
 { #category : #space }
@@ -614,6 +680,23 @@ ToSandBox class >> example_menu6 [
 ]
 
 { #category : #window }
+ToSandBox class >> example_overlayWidow1 [
+
+	| w e |
+	w := ToOverlayWindow new.
+	w background: (Color gray alpha: 0.2).
+	w border: (BlBorder paint: Color black width: 2).
+	e := (ToElement new
+			 size: 100 @ 100;
+			 relocate: 50 @ 50;
+			 background: Color yellow;
+			 border: (BlBorder paint: Color red)).
+	w overlayed: e.
+	e openInInnerWindow.
+	w popup
+]
+
+{ #category : #window }
 ToSandBox class >> example_rootFrame1 [
 	ToInnerWindow new title: 'Internal Frame example' ; openInOBlSpace 
 ]
@@ -775,9 +858,8 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 ToSandBox class >> example_textField0 [
 
 	| t |
-	t := ToTextField new.
+	t := ToTextField new text: 'AAAA'.
 	t openInOBlSpace.
-	t innerElement inspect
 	
 ]
 
@@ -802,7 +884,7 @@ ToSandBox class >> example_textFieldWithGhostText [
 ToSandBox class >> example_textFieldWithLineWrapping [
 
 	| t |
-	t := ToTextField new withLineWrapping.
+	t := ToTextField new withLineWrapping; withSaveCapability.
 	t openInOBlSpace
 ]
 
@@ -811,7 +893,7 @@ ToSandBox class >> example_textFieldWithLineWrappingWithSaveCapability [
 
 	| t |
 	t := ToTextField new withLineWrapping; withSaveCapability.
-	t openInOBlSpace
+	t openInInnerWindow
 ]
 
 { #category : #'text field' }
@@ -851,7 +933,7 @@ ToSandBox class >> example_toAlbumAsButton [
 	| but |
 	but := ToAlbum new text: 'Hello world'; preventChildrenMouseEvents.
 	but addDresser: ToButtonDresser new.
-	but whenAnnouncement: ToButtonClickLaunchAction do: [ self inform: 'Click' ]. 
+	but whenAnnouncement: ToClickAnnouncement do: [ self inform: 'Click' ]. 
 	but background: Color blue.
 	but size: 300@100.
 	but  openInOBlSpace  
@@ -1370,8 +1452,7 @@ ToSandBox class >> example_toLabel3 [
 	lab layout alignCenter.
 	lab border: (BlBorder paint: Color yellow width: 1).
 	lab openInOBlSpace.
-	lab inspect
-
+ 
 ]
 
 { #category : #label }
@@ -1567,7 +1648,7 @@ ToSandBox class >> example_toMultiState1 [
 	| but space |
 	but := ToMultiStateButton new.
 	but
-		element: (ToImage inner: (BlElement new
+		icon: (ToImage inner: (BlElement new
 				 size: 100 @ 100;
 				 background: Color blue));
 		labelText: ('Blue' asRopedText fontSize: 24).
@@ -1598,7 +1679,7 @@ ToSandBox class >> example_toMultiState2 [
 	| but space |
 	but := ToMultiStateButton new
 		       clipChildren: false;
-		       element: (ToImage inner:  (BlElement new
+		       icon: (ToImage inner:  (BlElement new
 				        size: 100 @ 100;
 				        background: Color blue));
 		       labelText: ('Blue' asRopedText fontSize: 24).
@@ -1653,7 +1734,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 			(ToWidgetState new
 				 whenEnterDo: [ :ann | 
 					 ann widget
-						 element: (ToImage inner:  (BlElement new
+						 icon: (ToImage inner:  (BlElement new
 								  size: 400 @ 400;
 								  background: Color blue));
 						 labelText: 'Big blue' ];
@@ -1661,7 +1742,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 			(ToWidgetState new name: #green;
 				 whenEnterDo: [ :ann | 
 					 ann widget
-						 element: (ToImage inner:  (BlElement new
+						 icon: (ToImage inner:  (BlElement new
 								  size: 20 @ 40;
 								  background: Color green));
 						 labelText: 'Green' ];
@@ -1669,7 +1750,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 			(ToWidgetState new
 				 whenEnterDo: [ :ann | 
 					 ann widget
-						 element: (ToImage inner:  (BlElement new
+						 icon: (ToImage inner:  (BlElement new
 								  size: 50 @ 50;
 								  background: Color black));
 						 labelText: 'Black' ];
@@ -1677,7 +1758,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 			(ToWidgetState new
 				 whenEnterDo: [ :ann | 
 					 ann widget
-						 element: (ToImage inner:  (BlElement new
+						 icon: (ToImage inner:  (BlElement new
 								  size: 100 @ 100;
 								  background: Color yellow));
 						 labelText: 'Yellow' ];
@@ -1709,7 +1790,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 					 anim := exitAnimation value.
 					 anim onFinishedDo: [ 
 							 ann widget
-								 element: (ToImage inner:  (BlElement new
+								 icon: (ToImage inner:  (BlElement new
 										  size: 100 @ 100;
 										  background: Color blue));
 								 labelText: ('Blue' asRopedText fontSize: 24);
@@ -1723,7 +1804,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 					 anim := exitAnimation value.
 					 anim onFinishedDo: [ 
 							 ann widget
-								 element: (ToImage inner:  (BlElement new
+								 icon: (ToImage inner:  (BlElement new
 										  size: 100 @ 100;
 										  background: Color green));
 								 labelText: ('Green' asRopedText fontSize: 24);
@@ -1737,7 +1818,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 					 anim := exitAnimation value.
 					 anim onFinishedDo: [ 
 							 ann widget
-								 element: (ToImage inner:  (BlElement new
+								 icon: (ToImage inner:  (BlElement new
 										  size: 100 @ 100;
 										  background: Color black));
 								 labelText: ('Black' asRopedText fontSize: 24);
@@ -1751,7 +1832,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 					 anim := exitAnimation value.
 					 anim onFinishedDo: [ 
 							 ann widget
-								 element: (ToImage inner:  (BlElement new
+								 icon: (ToImage inner:  (BlElement new
 										  size: 100 @ 100;
 										  background: Color yellow));
 								 labelText: ('Yellow' asRopedText fontSize: 24);
@@ -1932,7 +2013,7 @@ ToSandBox class >> example_toWidgetAsButton0 [
 	| but |
 	but := ToWidget new.
 	but addDresser: ToButtonDresser new.
-	but whenAnnouncement: ToButtonClickLaunchAction do: [ self inform: 'Click' ]. 
+	but whenAnnouncement: ToClickAnnouncement do: [ self inform: 'Click' ]. 
 	but background: Color blue.
 	but size: 50@50.
 	but  openInOBlSpace  

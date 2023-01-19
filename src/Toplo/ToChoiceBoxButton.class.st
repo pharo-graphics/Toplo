@@ -24,7 +24,7 @@ ToChoiceBoxButton >> initialize [
 ]
 
 { #category : #'t - menu initialization' }
-ToChoiceBoxButton >> menuWindowClass [
+ToChoiceBoxButton >> newMenuWindow [
 
-	^ ToMenuWindow
+	^ ToMenuWindow new
 ]

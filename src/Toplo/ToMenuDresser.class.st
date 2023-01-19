@@ -7,7 +7,10 @@ Class {
 { #category : #'api - install/uninstall  hook' }
 ToMenuDresser >> onInstalledIn: anElement [
 
-	super onInstalledIn: anElement
+	super onInstalledIn: anElement.
+	anElement constraintsDo: [ :c | 
+		c horizontal fitContent.
+		c vertical fitContent ]
 ]
 
 { #category : #'api - install/uninstall  hook' }

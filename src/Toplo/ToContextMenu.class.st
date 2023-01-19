@@ -1,8 +1,8 @@
 Class {
 	#name : #ToContextMenu,
-	#superclass : #ToElement,
-	#traits : 'TToWidget + TToMenu',
-	#classTraits : 'TToWidget classTrait + TToMenu classTrait',
+	#superclass : #Object,
+	#traits : 'TToMenu',
+	#classTraits : 'TToMenu classTrait',
 	#category : #'Toplo-Widget-Menu'
 }
 
@@ -10,14 +10,13 @@ Class {
 ToContextMenu >> initialize [
 
 	super initialize.
-
 	self initializeMenu 
 ]
 
 { #category : #'t - menu initialization' }
-ToContextMenu >> menuWindowClass [
+ToContextMenu >> newMenuWindow [
 
-	^ ToContextMenuWindow
+	^ ToContextMenuWindow new
 ]
 
 { #category : #'t - menu window' }

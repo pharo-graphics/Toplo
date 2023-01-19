@@ -43,7 +43,7 @@ ToMenuWindow >> openSubmenuWindowFor: anElement [
 	anElement menuWindow isAttachedToSceneGraph ifTrue: [ ^ self ].
 	
 	" do not open if empty "
-	anElement items ifEmpty: [ ^ self ].
+	anElement hasItems ifFalse: [ ^ self ].
 	
 	" ok, open the sub menu window "
 	self openedSubmenuWindow: anElement menuWindow.

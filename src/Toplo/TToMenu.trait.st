@@ -46,12 +46,6 @@ TToMenu >> addedInMenuBar: aMenuBar [
 	aMenuBar whenOrientationChangedDo: [ self inHorizontalMenuBar: aMenuBar isHorizontal ]
 ]
 
-{ #category : #'event management' }
-TToMenu >> announce: anAnnouncement [
-
-	self explicitRequirement 
-]
-
 { #category : #'t - menu window' }
 TToMenu >> close [
 
@@ -96,12 +90,8 @@ TToMenu >> inHorizontalMenuBar: aBoolean [
 { #category : #'t - menu initialization' }
 TToMenu >> initializeMenu [
 
-	self constraintsDo: [ :c | 
-		c horizontal fitContent.
-		c vertical fitContent ].
-	
 	items := OrderedCollection new.
-	menuWindow := self menuWindowClass new
+	menuWindow := self newMenuWindow
 ]
 
 { #category : #'t - menu testing' }
@@ -123,7 +113,7 @@ TToMenu >> menuWindow [
 ]
 
 { #category : #'t - menu initialization' }
-TToMenu >> menuWindowClass [
+TToMenu >> newMenuWindow [
 
 	^ self explicitRequirement 
 ]

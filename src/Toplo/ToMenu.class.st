@@ -24,7 +24,7 @@ ToMenu >> initialize [
 ]
 
 { #category : #'t - menu initialization' }
-ToMenu >> menuWindowClass [
+ToMenu >> newMenuWindow [
 
-	^ ToMenuWindow
+	^ ToMenuWindow new
 ]

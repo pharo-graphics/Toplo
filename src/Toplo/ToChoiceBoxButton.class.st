@@ -17,7 +17,7 @@ ToChoiceBoxButton >> initialize [
 
 	super initialize.
 
-	self initializeMenu.
+	self initializeMenuItemHolder.
 	self initializeMenuWindowModel
 
 

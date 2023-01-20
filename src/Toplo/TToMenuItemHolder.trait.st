@@ -55,7 +55,7 @@ TToMenuItemHolder >> hasItems [
 ]
 
 { #category : #'t - menu initialization' }
-TToMenuItemHolder >> initializeMenu [
+TToMenuItemHolder >> initializeMenuItemHolder [
 
 	items := OrderedCollection new
 ]

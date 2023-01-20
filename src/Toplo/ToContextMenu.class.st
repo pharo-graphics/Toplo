@@ -14,7 +14,7 @@ ToContextMenu >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	self initializeMenu.
+	self initializeMenuItemHolder.
 	self whenWidgetChangedDo: [ :newWidget :oldWidget | 
 		self uninstalledFrom: oldWidget.
 		self installedIn: newWidget ]

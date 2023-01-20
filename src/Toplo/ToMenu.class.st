@@ -1,15 +1,34 @@
 Class {
 	#name : #ToMenu,
 	#superclass : #ToButtonMenuItem,
-	#traits : 'TToMenu',
-	#classTraits : 'TToMenu classTrait',
+	#traits : 'TToMenuItemHolder + TToMenuWindowModel',
+	#classTraits : 'TToMenuItemHolder classTrait + TToMenuWindowModel classTrait',
+	#instVars : [
+		'submenuDresser'
+	],
 	#category : #'Toplo-Widget-Menu'
 }
+
+{ #category : #'t - menu initialization' }
+ToMenu >> addedAsSubmenuInMenu: aMenu [
+
+	submenuDresser ifNil: [ 
+		submenuDresser := ToMenuAsSubmenuDresser new.
+		self addDresser: submenuDresser ]
+
+]
+
+{ #category : #'t - menu initialization' }
+ToMenu >> addedInMenu: aMenu [
+
+	super addedInMenu: aMenu.
+	self addedAsSubmenuInMenu: aMenu
+]
 
 { #category : #'t - initialization dresser' }
 ToMenu >> defaultDresser [
 
-	^ ToBasicMenuItemDresser next: ToMenuDresser new
+	^ ToBasicMenuItemDresser next: (ToMenuWindowModelDresser next: ToMenuDresser new)
 ]
 
 { #category : #initialization }
@@ -18,13 +37,22 @@ ToMenu >> initialize [
 	super initialize.
 
 	self initializeMenu.
-	self menuWindow  widget: self.
-	self whenClickedDo: [ self popupOrClose ].
+	self initializeMenuWindowModel
 
 ]
 
 { #category : #'t - menu initialization' }
-ToMenu >> newMenuWindow [
+ToMenu >> removedAsSubmenuInMenu: aMenu [
 
-	^ ToMenuWindow new
+	submenuDresser ifNotNil: [ 
+		self removeDresser: submenuDresser.
+		submenuDresser := nil ]
+]
+
+{ #category : #'t - menu item adding/removing' }
+ToMenu >> removedFromMenu: aMenu [
+
+	super removedFromMenu: aMenu.
+	self removedAsSubmenuInMenu: aMenu
+	
 ]

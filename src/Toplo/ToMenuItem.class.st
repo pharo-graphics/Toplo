@@ -14,10 +14,3 @@ ToMenuItem >> initialize [
 	self fitContent.
 
 ]
-
-{ #category : #initialization }
-ToMenuItem >> removedFromMenu: aMenu [
-	
-	super removedFromMenu: aMenu.
-	self privateParentMenu: nil
-]

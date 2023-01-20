@@ -25,8 +25,7 @@ ToMenuBar >> adaptToOrientation [
 ToMenuBar >> addFiller [
 
 	| filler |
-	self addChild: (filler := ToMenuBarFiller new).
-	filler addedInMenuBar: self
+	self addChild: (filler := ToMenuBarFiller new)
 ]
 
 { #category : #adding }
@@ -36,7 +35,10 @@ ToMenuBar >> addMenu: aMenu [
 	aMenu constraintsDo: [ :c | c linear vertical alignCenter ].
 	aMenu constraintsDo: [ :c | c linear horizontal alignCenter ].
 	self addChild: aMenu.
-	aMenu addedInMenuBar: self
+	self whenOrientationChangedDo: [ 
+		self isHorizontal
+			ifTrue: [ aMenu hFitContent ]
+			ifFalse: [ aMenu hMatchParent ] ]
 ]
 
 { #category : #adding }
@@ -44,7 +46,8 @@ ToMenuBar >> addSeparator [
 
 	| sep |
 	self addChild: (sep := ToMenuBarSeparator new).
-	sep addedInMenuBar: self
+	self whenOrientationChangedDo: [ sep horizontal: self isHorizontal not ].
+	sep horizontal: self isHorizontal not
 ]
 
 { #category : #'t - initialization dresser' }

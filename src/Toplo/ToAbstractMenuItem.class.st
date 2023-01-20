@@ -24,25 +24,20 @@ ToAbstractMenuItem >> initialize [
 
 ]
 
-{ #category : #testing }
-ToAbstractMenuItem >> isSubmenu [ 
-
-	^ false
-]
-
 { #category : #window }
 ToAbstractMenuItem >> menuWindow [
 
+	" by default, a menuItem do not open a submenu "
 	^ nil
 ]
 
-{ #category : #window }
+{ #category : #'t - menu window' }
 ToAbstractMenuItem >> parentMenuWindow [
 
 	^ parentMenu ifNotNil: [:m | m menuWindow ] 
 ]
 
-{ #category : #'private - accessing' }
+{ #category : #'t - menu window' }
 ToAbstractMenuItem >> privateParentMenu: aMenu [
 
 	parentMenu := aMenu
@@ -51,4 +46,5 @@ ToAbstractMenuItem >> privateParentMenu: aMenu [
 { #category : #initialization }
 ToAbstractMenuItem >> removedFromMenu: aMenu [
 
+	self privateParentMenu: nil
 ]

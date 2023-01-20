@@ -7,7 +7,7 @@ Class {
 	#category : #'Toplo-Widget-Menu'
 }
 
-{ #category : #'initialize-release' }
+{ #category : #'api - displaying' }
 ToMenuWindow >> close [
 
 	openedSubmenuWindow ifNotNil: [ :w | w close ].
@@ -33,6 +33,21 @@ ToMenuWindow >> initialize [
 	super initialize.
 	self initializeDresser 
 	
+]
+
+{ #category : #'api - displaying' }
+ToMenuWindow >> mouseEnterOnMenuItem: aMenuItem [
+
+	" test if a submenu is opened "
+	self openedSubmenuWindow ifNil: [ ^ self ].
+
+	" test if the submenu is not the menuItem one "
+	self openedSubmenuWindow == aMenuItem menuWindow 
+		ifTrue: [ ^ self ].
+
+	" ok, I can close other item submenu window"
+	self openedSubmenuWindow close.
+	self openedSubmenuWindow: nil
 ]
 
 { #category : #'api - displaying' }

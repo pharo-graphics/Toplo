@@ -53,7 +53,7 @@ ToWidgetWithContextMenuEventHandler >> popupContextMenuFor: aWidget fromEventPos
 	| ttPoint win |
 	aWidget contextMenu ifNil: [ ^ self ].
 	ttPoint := aPosition + self vgap.
-	win := aWidget contextMenu menuWindow.
+	win := aWidget contextMenu.
 	win isAttachedToSceneGraph ifTrue: [ ^ self ].
 	win popupAtGlobalPosition: ttPoint
 ]

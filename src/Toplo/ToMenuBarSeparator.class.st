@@ -4,13 +4,6 @@ Class {
 	#category : #'Toplo-Widget-MenuBar'
 }
 
-{ #category : #'t - menu initialization' }
-ToMenuBarSeparator >> addedInMenuBar: aMenuBar [
-
-	aMenuBar whenOrientationChangedDo: [ self horizontal: aMenuBar isHorizontal not ].
-	self horizontal: aMenuBar isHorizontal not
-]
-
 { #category : #orientation }
 ToMenuBarSeparator >> beHorizontal [
 

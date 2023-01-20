@@ -19,25 +19,13 @@ ToBasicMenuItemDresser >> installEventListenersIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToBasicMenuItemDresser >> onEnterEvent: anEvent in: anElement [
 
-	| parentWindow |
-
 	" check event and current target "
 	(anEvent anyButtonPressed and: [ anEvent currentTarget ~= anElement ]) 
 		ifTrue: [ ^ self ].
-	" the element is visible in a window "
+	" normally the element is visible in a window "
 	anElement parentMenuWindow ifNil: [ ^ self ].
-	parentWindow := anElement parentMenuWindow.
-
-	" a submenu is opened "
-	parentWindow openedSubmenuWindow ifNil: [ ^ self ].
-
-	" the submenu is not mine "
-	parentWindow openedSubmenuWindow == anElement menuWindow 
-		ifTrue: [ ^ self ].
-
-	" ok, I can close other item submenu window"
-	parentWindow openedSubmenuWindow close.
-	parentWindow openedSubmenuWindow: nil
+	" ask the window to react "
+	anElement parentMenuWindow mouseEnterOnMenuItem: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }

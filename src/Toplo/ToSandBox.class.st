@@ -43,10 +43,8 @@ Here an example of a client for a method.
 	menu addItem: (ToButtonMenuItem new labelText: 'Paste').
 	menu addSeparator.
 	menu addItem: (ToButtonMenuItem new labelText: 'Cancel').
+	menu withoutLeftColumn.
 	client widgetDo: [ :widget | widget contextMenu: menu ].
-
-	
-	
 	client onWidget openInInnerWindow 
 
 

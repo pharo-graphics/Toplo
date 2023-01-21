@@ -887,6 +887,13 @@ ToExperiments class >> example_twoChildrenInPolygon [
 
 	| top parent child child2 |
 	parent := ToPolyElement new layout: BlLinearLayout vertical.
+	parent effect:
+		(BlGaussianShadowEffect
+			 color: Color black
+			 width: 15
+			 offset: 0 asPoint).
+
+
 	parent
 		constraintsDo: [ :c | 
 			c horizontal fitContent.

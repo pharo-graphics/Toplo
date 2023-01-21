@@ -16,6 +16,16 @@ ToAbstractMenuItem >> addedInMenu: aMenu [
 		c vertical fitContent ]
 ]
 
+{ #category : #'t - menu window' }
+ToAbstractMenuItem >> allParentMenusDo: aBlock [
+	
+	| pm |
+	pm := self parentMenu.
+	pm ifNil: [ ^ self ].
+	aBlock value: pm.
+	pm allParentMenusDo: aBlock
+]
+
 { #category : #'t - pair presentation' }
 ToAbstractMenuItem >> columnWidth: anInteger [
 ]
@@ -28,17 +38,16 @@ ToAbstractMenuItem >> initialize [
 
 ]
 
-{ #category : #window }
-ToAbstractMenuItem >> menuWindow [
+{ #category : #'t - menu window' }
+ToAbstractMenuItem >> parentMenu [
 
-	" by default, a menuItem do not open a submenu "
-	^ nil
+	 ^ parentMenu
 ]
 
 { #category : #'t - menu window' }
 ToAbstractMenuItem >> parentMenuWindow [
 
-	^ parentMenu ifNotNil: [:m | m menuWindow ] 
+	^ parentMenu ifNotNil: [:m | m subMenuWindow ] 
 ]
 
 { #category : #'t - menu window' }
@@ -51,4 +60,11 @@ ToAbstractMenuItem >> privateParentMenu: aMenu [
 ToAbstractMenuItem >> removedFromMenu: aMenu [
 
 	self privateParentMenu: nil
+]
+
+{ #category : #window }
+ToAbstractMenuItem >> subMenuWindow [
+
+	" by default, a menuItem do not open a submenu "
+	^ nil
 ]

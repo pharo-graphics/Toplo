@@ -42,7 +42,7 @@ ToMenuWindow >> mouseEnterOnMenuItem: aMenuItem [
 	self openedSubmenuWindow ifNil: [ ^ self ].
 
 	" test if the submenu is not the menuItem one "
-	self openedSubmenuWindow == aMenuItem menuWindow 
+	self openedSubmenuWindow == aMenuItem subMenuWindow 
 		ifTrue: [ ^ self ].
 
 	" ok, I can close other item submenu window"
@@ -55,15 +55,15 @@ ToMenuWindow >> openSubmenuWindowFor: anElement [
 
 	" the sub menu window must not be already opened "
 	| pos |
-	anElement menuWindow isAttachedToSceneGraph ifTrue: [ ^ self ].
+	anElement subMenuWindow isAttachedToSceneGraph ifTrue: [ ^ self ].
 	
 	" do not open if empty "
 	anElement hasItems ifFalse: [ ^ self ].
 	
 	" ok, open the sub menu window "
-	self openedSubmenuWindow: anElement menuWindow.
+	self openedSubmenuWindow: anElement subMenuWindow.
 	pos := anElement bounds inSpace bounds topRight.
-	anElement menuWindow popupAtGlobalPosition: pos
+	anElement subMenuWindow popupAtGlobalPosition: pos
 ]
 
 { #category : #accessing }

@@ -1,7 +1,7 @@
 Trait {
 	#name : #TToMenuWindowModel,
 	#instVars : [
-		'menuWindow'
+		'subMenuWindow'
 	],
 	#category : #'Toplo-Widget-Menu'
 }
@@ -9,12 +9,12 @@ Trait {
 { #category : #initialization }
 TToMenuWindowModel >> initializeMenuWindowModel [
 
-	menuWindow := ToMenuWindow new.
-	menuWindow widget: self
+	subMenuWindow := ToMenuWindow new.
+	subMenuWindow widget: self
 ]
 
 { #category : #'t - menu window accessing' }
-TToMenuWindowModel >> menuWindow [
+TToMenuWindowModel >> subMenuWindow [
 
-	^ menuWindow 
+	^ subMenuWindow 
 ]

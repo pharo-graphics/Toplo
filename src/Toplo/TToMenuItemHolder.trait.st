@@ -17,7 +17,7 @@ TToMenuItemHolder >> addAllItems: aCollection [
 TToMenuItemHolder >> addItem: aMenuItem [
 
 	self items add: aMenuItem.
-	self menuWindow addChild: aMenuItem.
+	self subMenuWindow addChild: aMenuItem.
 	aMenuItem addedInMenu: self
 ]
 
@@ -66,18 +66,18 @@ TToMenuItemHolder >> items [
 	^ items
 ]
 
-{ #category : #'t - menu accessing' }
-TToMenuItemHolder >> menuWindow [
-
-	^ self explicitRequirement 
-]
-
 { #category : #'t - menu item adding/removing' }
 TToMenuItemHolder >> removeItem: aMenuItem [
 
 	aMenuItem removedFromMenu: self.
 	self items remove: aMenuItem.
-	self menuWindow removeChild: aMenuItem
+	self subMenuWindow removeChild: aMenuItem
+]
+
+{ #category : #'t - menu accessing' }
+TToMenuItemHolder >> subMenuWindow [
+
+	^ self explicitRequirement 
 ]
 
 { #category : #'t - menu accessing' }

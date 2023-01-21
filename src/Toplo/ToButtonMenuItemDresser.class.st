@@ -8,7 +8,7 @@ Class {
 ToButtonMenuItemDresser >> clicked: anElement [
 
 	super clicked: anElement.
-	anElement parentMenuWindow close
+	anElement allParentMenusDo: [ :pm | pm subMenuWindow close ]
 ]
 
 { #category : #'api - install/uninstall  hook' }

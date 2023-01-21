@@ -9,6 +9,10 @@ Class {
 	#category : #'Toplo-Widget-Menu'
 }
 
+{ #category : #'t - menu window accessing' }
+ToContextMenu >> allParentMenusDo: aBlock [
+]
+
 { #category : #initialization }
 ToContextMenu >> initialize [
 
@@ -29,7 +33,7 @@ ToContextMenu >> installedIn: aWidget [
 ]
 
 { #category : #'t - menu window accessing' }
-ToContextMenu >> menuWindow [ 
+ToContextMenu >> subMenuWindow [ 
 
 	^ self
 ]

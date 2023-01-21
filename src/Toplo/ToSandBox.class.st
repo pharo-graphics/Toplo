@@ -39,10 +39,10 @@ Here an example of a client for a method.
 	
 	menu := ToContextMenu new.
 	menu addItem: (ToButtonMenuItem new labelText: 'Select all'; whenClickedDo: [:event | client widgetDo: [:w | w selecter all; apply ] ]; yourself).
-	menu addItem: (ToButtonMenuItem new labelText: 'Copy').
-	menu addItem: (ToButtonMenuItem new labelText: 'Paste').
+	menu addItem: (ToButtonMenuItem new labelText: 'Copy'; whenClickedDo: [:event | event currentTarget traceCr. client widgetDo: [:w | w editor copySelected ] ]; yourself).
+	menu addItem: (ToButtonMenuItem new labelText: 'Paste'; whenClickedDo: [:event | client widgetDo: [:w | w editor paste ] ]; yourself).
 	menu addSeparator.
-	menu addItem: (ToButtonMenuItem new labelText: 'Cancel').
+	menu addItem: (ToButtonMenuItem new labelText: 'Cancel'; whenClickedDo: [:event | client widgetDo: [:w | w requestCancel ] ]; yourself).
 	menu withoutLeftColumn.
 	client widgetDo: [ :widget | widget contextMenu: menu ].
 	client onWidget openInInnerWindow 

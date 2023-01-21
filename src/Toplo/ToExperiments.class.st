@@ -891,13 +891,13 @@ ToExperiments class >> example_twoChildrenInPolygon [
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
 			c vertical fitContent ].
-	parent clipChildren: false.
+	parent clipChildren: true.
 
 	parent border: (BlBorder paint: Color black width: 2).
 	"parent outskirts: (BlOutskirts centered)."
-	parent background: (Color gray alpha: 0.3).
+	parent background: (Color gray alpha: 0.6).
 	parent padding: (BlInsets all: 15).
-	"parent margin: (BlInsets all: 10)."
+	parent margin: (BlInsets all: 10).
 	
 	child := BlElement new size: 50@30.
 	child layout: BlFrameLayout new.
@@ -915,13 +915,13 @@ ToExperiments class >> example_twoChildrenInPolygon [
 	child2 padding: (BlInsets all: 5).
 	child2 border: (BlBorder paint: Color blue width: 1).
 	child2 outskirts: (BlOutskirts inside).
-	"child2 addChild: (BlElement new background: Color yellow; size: 40@40)."
+	child2 addChild: (BlElement new background: Color yellow; size: 40@40).
 	
 	parent addChild: child.
 	parent addChild: child2.
 	
 	top := ToElement new fitContent.
-	"top clipChildren: false."
+	top clipChildren: true.
 	top addChild: parent.
 	top layout: BlFrameLayout new.
 	top border: (BlBorder paint: Color green width: 2).

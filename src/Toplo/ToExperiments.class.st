@@ -883,6 +883,53 @@ ToExperiments class >> example_toggle_with_animation [
 ]
 
 { #category : #frame }
+ToExperiments class >> example_twoChildrenInPolygon [
+
+	| top parent child child2 |
+	parent := ToPolyElement new layout: BlLinearLayout vertical.
+	parent
+		constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent ].
+	parent clipChildren: false.
+
+	parent border: (BlBorder paint: Color black width: 2).
+	"parent outskirts: (BlOutskirts centered)."
+	parent background: (Color gray alpha: 0.3).
+	parent padding: (BlInsets all: 15).
+	"parent margin: (BlInsets all: 10)."
+	
+	child := BlElement new size: 50@30.
+	child layout: BlFrameLayout new.
+	child background: (Color red alpha: 0.3).
+	child margin: (BlInsets all: 3).
+	child padding: (BlInsets all: 5).
+	child border: (BlBorder paint: Color red width: 1).
+	child outskirts: (BlOutskirts inside).
+	"child addChild: (BlElement new background: Color yellow; size: 40@40)."
+
+	child2 := BlElement new size: 250@100.
+	child2 layout: BlFrameLayout new.
+	child2 background: (Color blue alpha: 0.3).
+	child2 margin: (BlInsets all: 3).
+	child2 padding: (BlInsets all: 5).
+	child2 border: (BlBorder paint: Color blue width: 1).
+	child2 outskirts: (BlOutskirts inside).
+	"child2 addChild: (BlElement new background: Color yellow; size: 40@40)."
+	
+	parent addChild: child.
+	parent addChild: child2.
+	
+	top := ToElement new fitContent.
+	"top clipChildren: false."
+	top addChild: parent.
+	top layout: BlFrameLayout new.
+	top border: (BlBorder paint: Color green width: 2).
+	top relocate: 15@15.
+	^ top openInOBlSpace
+]
+
+{ #category : #frame }
 ToExperiments class >> example_twoChildrenMatchParentInFitContent [
 	| parent child child2 |
 	parent := BlElement new.

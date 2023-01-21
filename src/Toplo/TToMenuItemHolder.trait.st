@@ -79,3 +79,9 @@ TToMenuItemHolder >> removeItem: aMenuItem [
 	self items remove: aMenuItem.
 	self menuWindow removeChild: aMenuItem
 ]
+
+{ #category : #'t - menu accessing' }
+TToMenuItemHolder >> withoutLeftColumn [
+
+	self globalColumnWidth: 0
+]

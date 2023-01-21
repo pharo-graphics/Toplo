@@ -16,6 +16,10 @@ ToAbstractMenuItem >> addedInMenu: aMenu [
 		c vertical fitContent ]
 ]
 
+{ #category : #'t - pair presentation' }
+ToAbstractMenuItem >> columnWidth: anInteger [
+]
+
 { #category : #initialization }
 ToAbstractMenuItem >> initialize [
 

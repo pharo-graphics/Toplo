@@ -31,6 +31,7 @@ ToMenuAsSubmenuDresser >> onEnterEvent: anEvent in: anElement [
 ToMenuAsSubmenuDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
+	anElement strategy: (ToPairSubmenuColumnStrategy new width: anElement columnWidth).
 	self installEventListenersIn: anElement
 ]
 

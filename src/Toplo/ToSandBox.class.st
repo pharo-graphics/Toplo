@@ -418,10 +418,10 @@ ToSandBox class >> example_menu3 [
 	menu addItem: (ToCheckMenuItem new labelText: 'Align right').
 	menu addSeparator.
 	
-	sub := ToMenu new labelText: 'Save All'.
+	sub := ToMenu new labelText: 'Save All'; withoutLeftColumn.
 	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
 	
-	subsub := ToMenu new labelText: 'Externally'.
+	subsub := ToMenu new labelText: 'Externally'; withoutLeftColumn.
 	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
 
 	sub addItem: subsub.

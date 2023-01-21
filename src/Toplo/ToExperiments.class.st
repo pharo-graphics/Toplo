@@ -919,6 +919,8 @@ ToExperiments class >> example_twoChildrenInPolygon [
 	
 	parent addChild: child.
 	parent addChild: child2.
+	parent when: BlMouseEnterEvent do: [ 'Enter' traceCr ].
+	parent when: BlMouseLeaveEvent do: [ 'Leave' traceCr ].
 	
 	top := ToElement new fitContent.
 	top clipChildren: true.
@@ -926,7 +928,7 @@ ToExperiments class >> example_twoChildrenInPolygon [
 	top layout: BlFrameLayout new.
 	top border: (BlBorder paint: Color green width: 2).
 	top relocate: 15@15.
-	^ top openInOBlSpace
+	^ top openInInnerWindow 
 ]
 
 { #category : #frame }

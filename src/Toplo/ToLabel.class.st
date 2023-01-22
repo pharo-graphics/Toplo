@@ -36,6 +36,9 @@ ToLabel >> addEditor: anEditor [
 	self editorFrame addChild: anEditor.	
 	self innerElement visibility: BlVisibility hidden.
 	self editorFrame popup.
+	self editorFocusHandler: (BlEventHandler on: BlFocusEvent do: [ self editorFrame toFront ]).
+	self editor infinite addEventHandler: self editorFocusHandler.
+
 	self editor requestFocus.
 	self editor selecter all; apply
 	
@@ -101,6 +104,19 @@ ToLabel >> editor [
 ToLabel >> editor: anEditor [
 
 	self userData at: #editor put: anEditor
+]
+
+{ #category : #'private-editing' }
+ToLabel >> editorFocusHandler [
+
+	^ self userData at: #editorFocusHandler 
+]
+
+{ #category : #'private-editing' }
+ToLabel >> editorFocusHandler: anHandler [
+
+	anHandler ifNil: [ ^ self userData removeKey: #editorFocusHandler ].
+	self userData at: #editorFocusHandler put: anHandler
 ]
 
 { #category : #'private-editing' }
@@ -248,6 +264,8 @@ ToLabel >> removeEditor [
 
 	self editor ifNil: [ ^ self ].
 	self editorFrame close.
+	self editor infinite removeEventHandler: self editorFocusHandler.
+	self editorFocusHandler: nil.
 	self innerElement visibility: BlVisibility visible.
 	self requestLayout.
 	self cleanUpUserData 

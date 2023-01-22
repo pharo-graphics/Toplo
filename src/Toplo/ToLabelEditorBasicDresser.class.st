@@ -17,3 +17,10 @@ ToLabelEditorBasicDresser >> onInstalledIn: anElement [
 
 
 ]
+
+{ #category : #'api - hooks' }
+ToLabelEditorBasicDresser >> onUninstalledIn: anElement [
+
+	super onUninstalledIn: anElement.
+
+]

@@ -892,8 +892,6 @@ ToExperiments class >> example_twoChildrenInPolygon [
 			 color: Color black
 			 width: 15
 			 offset: 0 asPoint).
-
-
 	parent
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
@@ -913,7 +911,7 @@ ToExperiments class >> example_twoChildrenInPolygon [
 	child padding: (BlInsets all: 5).
 	child border: (BlBorder paint: Color red width: 1).
 	child outskirts: (BlOutskirts inside).
-	"child addChild: (BlElement new background: Color yellow; size: 40@40)."
+	child addChild: (BlElement new background: Color yellow; size: 40@40).
 
 	child2 := BlElement new size: 250@100.
 	child2 layout: BlFrameLayout new.
@@ -928,6 +926,7 @@ ToExperiments class >> example_twoChildrenInPolygon [
 	parent addChild: child2.
 	parent when: BlMouseEnterEvent do: [ 'Enter' traceCr ].
 	parent when: BlMouseLeaveEvent do: [ 'Leave' traceCr ].
+	child when: BlClickEvent do: [ child2 hasParent ifTrue: [ child2 removeFromParent ] ifFalse: [ parent addChild: child2 ] ].
 	
 	top := ToElement new fitContent.
 	top clipChildren: true.

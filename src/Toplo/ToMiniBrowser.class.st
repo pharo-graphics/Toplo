@@ -125,12 +125,15 @@ ToMiniBrowser >> initialize [
 	mainPane := ToVerticalPane new.
 	mainPane matchParent.
 
-	packages := ToList new nodeFactory: [ :pkg | 
-		            ToLabeledNode new
+	packages := ToList new nodeFactory: [ :pkg | | node |
+		            node := ToLabeledNode new
 			            labelText: pkg name;
-			            hMatchParent ].
+			            hMatchParent.
+							node when: BlClickEvent do: [ :event | self inform: event printString  ].
+							node ].
 	"packages hasFixedSize: true."
 	"packages selectionStrategy beWithoutSelection."
+	"packages selectionStrategy beSingleSelection."
 	packages
 		when: ToSelectionChangedEvent
 		do: [ :event | self packageSelectionChangedEvent: event ].

@@ -22,6 +22,12 @@ ToOverlayWindow >> defaultDresser [
 ]
 
 { #category : #initialization }
+ToOverlayWindow >> defaultPlacementStrategy [
+
+	^ ToOverlayedPlacementStrategy new
+]
+
+{ #category : #initialization }
 ToOverlayWindow >> initialize [
 
 	super initialize.
@@ -44,19 +50,4 @@ ToOverlayWindow >> overlayed: aWidget [
 	self overlayed when: BlElementExtentChangedEvent do: [ self size: self overlayed size ].
 	self overlayed when: BlElementRemovedFromParentEvent do: [ self close ].
 	self overlayed when: BlElementRemovedFromSceneGraphEvent do: [ self close ].
-]
-
-{ #category : #'api - displaying' }
-ToOverlayWindow >> popup [
-
-	self relocate: (self overlayed bounds inSpace bounds topLeft).
-	"I'm not ready to be visible because my bounds are not checked according to the popup layer extent"
-	self visibility: BlVisibility hidden.
-	self overlayed space overlayLayer addChild: self.
-	
-	"I need to finalize my position as soon as my layout is up-to-date"
-	self whenLayoutedDoOnce: [ self checkBeforePopupIn: self overlayed space overlayLayer ].
-
-	
-
 ]

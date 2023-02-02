@@ -24,7 +24,7 @@ ToMenuAsSubmenuDresser >> onEnterEvent: anEvent in: anElement [
 		ifTrue: [ ^ self ].
 		
 	" ask the window which includes anElement to open the subwindow "
-	anElement parentMenuWindow openSubmenuWindowFor: anElement
+	anElement parentMenuWindow openSubmenuWindowFor: anElement event: anEvent
 ]
 
 { #category : #'api - install/uninstall  hook' }

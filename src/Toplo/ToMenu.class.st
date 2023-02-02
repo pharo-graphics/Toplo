@@ -41,6 +41,12 @@ ToMenu >> initialize [
 
 ]
 
+{ #category : #'t - menu testing' }
+ToMenu >> isSubmenu [
+
+	^ submenuDresser notNil
+]
+
 { #category : #'t - menu initialization' }
 ToMenu >> removedAsSubmenuInMenu: aMenu [
 

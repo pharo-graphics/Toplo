@@ -13,6 +13,12 @@ TToMenuWindowModel >> initializeMenuWindowModel [
 	subMenuWindow widget: self
 ]
 
+{ #category : #'t - menu window testing' }
+TToMenuWindowModel >> isSubmenu [
+
+	^ false
+]
+
 { #category : #'t - menu window accessing' }
 TToMenuWindowModel >> subMenuWindow [
 

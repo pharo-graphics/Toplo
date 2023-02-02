@@ -249,8 +249,7 @@ ToSandBox class >> example_Popup1 [
 	e addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
 			 do: [ :evt | 
-				 p isAttachedToSceneGraph
-					 ifFalse: [ p popupAtGlobalPosition: evt position ] ]).
+				 p isAttachedToSceneGraph ifFalse: [ p popupEvent: evt ] ]).
 	p addEventHandler: (BlEventHandler
 			 on: BlClickEvent
 			 do: [ :evt | self inform: 'CLICK'. p close ]).

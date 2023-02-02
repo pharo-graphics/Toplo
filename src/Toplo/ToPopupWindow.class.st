@@ -35,6 +35,12 @@ ToPopupWindow >> defaultDresser [
 ]
 
 { #category : #initialization }
+ToPopupWindow >> defaultPlacementStrategy [
+
+	^ ToWidgetPlacementStrategyWithAction new
+]
+
+{ #category : #initialization }
 ToPopupWindow >> initialize [
 
 	self class initializeSlots: self.
@@ -43,37 +49,9 @@ ToPopupWindow >> initialize [
 ]
 
 { #category : #'api - displaying' }
-ToPopupWindow >> popup [
-
-	self relocate: (self widget bounds inSpace bounds bottomLeft).
-	"I'm not ready to be visible because my bounds are not checked according to the popup layer extent"
-	self visibility: BlVisibility hidden.
-	self widget space popupLayer addChild: self.
-
-	"I need to finalize my position as soon as my layout is up-to-date"
-	self whenLayoutedDoOnce: [ self checkBeforePopupIn: self widget space popupLayer ]
-]
-
-{ #category : #'api - displaying' }
-ToPopupWindow >> popupAtGlobalPosition: aPoint [
-
-	self popupIn: self widget space popupLayer atGlobalPosition: aPoint
-]
-
-{ #category : #'api - displaying' }
-ToPopupWindow >> popupIn: aWidget atGlobalPosition: aPoint [
-
+ToPopupWindow >> popupEvent: anEvent [
 	self cleanUp.
-	
-	" aWidget is already attached, thus its bounds is up-to-date "
-	self relocate: (aWidget globalPointToLocal: aPoint).
-	"I'm not ready to be visible because my bounds are not checked according to the popup layer extent"
-	self visibility: BlVisibility hidden.
-	aWidget addChild: self.
-	
-	"I need to finalize my position as soon as my layout is up-to-date"
-	self whenLayoutedDoOnce: [ self checkBeforePopupIn: aWidget ].
-
+	self placementStrategy popup: self event: anEvent
 ]
 
 { #category : #'property change hook' }

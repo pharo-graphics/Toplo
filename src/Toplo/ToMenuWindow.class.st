@@ -28,6 +28,14 @@ ToMenuWindow >> defaultDresser [
 ]
 
 { #category : #initialization }
+ToMenuWindow >> defaultPlacementStrategy [
+
+	^ ToWidgetPlacementStrategyWithAction new placementAction: [ 
+		  :window 
+		  :event | window relocate: (self openPositionFromEvent: event) ]
+]
+
+{ #category : #initialization }
 ToMenuWindow >> initialize [
 
 	super initialize.
@@ -50,11 +58,18 @@ ToMenuWindow >> mouseEnterOnMenuItem: aMenuItem [
 	self openedSubmenuWindow: nil
 ]
 
+{ #category : #initialization }
+ToMenuWindow >> openPositionFromEvent: anEvent [
+
+	^ self widget isSubmenu
+		  ifTrue: [ widget bounds inSpace bounds topRight ]
+		  ifFalse: [ widget bounds inSpace bounds bottomLeft ]
+]
+
 { #category : #'api - displaying' }
-ToMenuWindow >> openSubmenuWindowFor: anElement [
+ToMenuWindow >> openSubmenuWindowFor: anElement event: anEvent [
 
 	" the sub menu window must not be already opened "
-	| pos |
 	anElement subMenuWindow isAttachedToSceneGraph ifTrue: [ ^ self ].
 	
 	" do not open if empty "
@@ -62,8 +77,7 @@ ToMenuWindow >> openSubmenuWindowFor: anElement [
 	
 	" ok, open the sub menu window "
 	self openedSubmenuWindow: anElement subMenuWindow.
-	pos := anElement bounds inSpace bounds topRight.
-	anElement subMenuWindow popupAtGlobalPosition: pos
+	anElement subMenuWindow popupEvent: anEvent
 ]
 
 { #category : #accessing }

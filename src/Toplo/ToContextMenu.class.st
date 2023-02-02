@@ -32,6 +32,12 @@ ToContextMenu >> installedIn: aWidget [
 	aWidget addEventHandler: widgetWithContextMenuEventHandler 
 ]
 
+{ #category : #initialization }
+ToContextMenu >> openPositionFromEvent: anEvent [
+
+	^ anEvent position
+]
+
 { #category : #'t - menu window accessing' }
 ToContextMenu >> subMenuWindow [ 
 

@@ -60,7 +60,9 @@ ToLabel >> beMultiLine [
 ToLabel >> cleanUpUserData [
 
 	self userData removeKey: #editorFrame.
-	self userData removeKey: #editor
+	self userData removeKey: #editor.
+	self editorFocusHandler: nil.
+
 ]
 
 { #category : #initialization }
@@ -265,11 +267,9 @@ ToLabel >> removeEditor [
 	self editor ifNil: [ ^ self ].
 	self editorFrame close.
 	self editor infinite removeEventHandler: self editorFocusHandler.
-	self editorFocusHandler: nil.
 	self innerElement visibility: BlVisibility visible.
 	self requestLayout.
-	self cleanUpUserData 
-
+	self cleanUpUserData
 ]
 
 { #category : #accessing }

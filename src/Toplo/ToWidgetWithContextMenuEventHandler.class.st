@@ -39,23 +39,21 @@ ToWidgetWithContextMenuEventHandler >> initialize [
 ToWidgetWithContextMenuEventHandler >> mouseDownEvent: anEvent [
 
 	anEvent button = mouseButton ifFalse: [ ^ self ].
-	"anEvent consumed: true."
 
 	self hideContextMenuFor: anEvent currentTarget.
 	self
 		popupContextMenuFor: anEvent currentTarget 
-		fromEventPosition: anEvent position
+		event: anEvent
 ]
 
 { #category : #private }
-ToWidgetWithContextMenuEventHandler >> popupContextMenuFor: aWidget fromEventPosition: aPosition [
+ToWidgetWithContextMenuEventHandler >> popupContextMenuFor: aWidget event: anEvent [
 
-	| ttPoint win |
+	| win |
 	aWidget contextMenu ifNil: [ ^ self ].
-	ttPoint := aPosition + self vgap.
 	win := aWidget contextMenu.
 	win isAttachedToSceneGraph ifTrue: [ ^ self ].
-	win popupAtGlobalPosition: ttPoint
+	win popupEvent: anEvent
 ]
 
 { #category : #'api - accessing' }
@@ -68,10 +66,4 @@ ToWidgetWithContextMenuEventHandler >> usePrimaryMouseButton [
 ToWidgetWithContextMenuEventHandler >> useSecondaryMouseButton [
 
 	mouseButton := BlMouseButton secondary
-]
-
-{ #category : #'showing / hiding' }
-ToWidgetWithContextMenuEventHandler >> vgap [
-
-	^ 0
 ]

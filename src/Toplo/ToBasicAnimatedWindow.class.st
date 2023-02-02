@@ -7,7 +7,8 @@ Class {
 		'animate',
 		'deleteAnimation',
 		'deleteAnimationFactory',
-		'popupAnimationFactory'
+		'popupAnimationFactory',
+		'placementStrategy'
 	],
 	#category : #'Toplo-Widget-Window'
 }
@@ -62,6 +63,12 @@ ToBasicAnimatedWindow >> close [
 	super close
 ]
 
+{ #category : #initialization }
+ToBasicAnimatedWindow >> defaultPlacementStrategy [
+
+	^ self subclassResponsibility 
+]
+
 { #category : #accessing }
 ToBasicAnimatedWindow >> deleteAnimationFactory [
 
@@ -79,6 +86,7 @@ ToBasicAnimatedWindow >> initialize [
 
 	super initialize.
 	self animate: true.
+	self placementStrategy: self defaultPlacementStrategy.
 
 	deleteAnimationFactory := [ 
 	                          BlOpacityAnimation new
@@ -93,10 +101,22 @@ ToBasicAnimatedWindow >> initialize [
 		                         yourself ]
 ]
 
+{ #category : #accessing }
+ToBasicAnimatedWindow >> placementStrategy [
+
+	^ placementStrategy
+]
+
+{ #category : #accessing }
+ToBasicAnimatedWindow >> placementStrategy: aPlacementStrategy [
+
+	placementStrategy := aPlacementStrategy
+]
+
 { #category : #'api - displaying' }
 ToBasicAnimatedWindow >> popup [
 
-	self subclassResponsibility 
+	self placementStrategy popup: self
 ]
 
 { #category : #accessing }

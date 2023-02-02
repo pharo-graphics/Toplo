@@ -11,7 +11,7 @@ Class {
 ToMenuWindowModelDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	clickHandler := BlEventHandler on: BlClickEvent do: [ self popupOrClose: anElement ].
+	clickHandler := BlEventHandler on: BlClickEvent do: [ :event | self popupOrClose: anElement event: event].
 	anElement addEventHandler: clickHandler
 ]
 
@@ -23,11 +23,9 @@ ToMenuWindowModelDresser >> onUninstalledIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToMenuWindowModelDresser >> popupOrClose: anElement [
+ToMenuWindowModelDresser >> popupOrClose: anElement event: anEvent [
 
 	anElement subMenuWindow isAttachedToSceneGraph ifTrue: [ 
 		^ anElement subMenuWindow close ].
-	anElement parentMenuWindow ifNotNil: [ :w | 
-		^ w openSubmenuWindowFor: anElement ].
-	anElement subMenuWindow popup
+	anElement subMenuWindow popupEvent: anEvent
 ]

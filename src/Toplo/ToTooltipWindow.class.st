@@ -45,6 +45,13 @@ ToTooltipWindow >> defaultLabel [
 ]
 
 { #category : #initialization }
+ToTooltipWindow >> defaultPlacementStrategy [
+
+	^ ToWidgetPlacementStrategyWithAction new placementAction: [ :window :event |
+		window relocate: (event position x @ (self widget localPointToGlobal: 0 @ self widget height) y + self vgap) ]
+]
+
+{ #category : #initialization }
 ToTooltipWindow >> initialize [
 
 	self class initializeSlots: self.
@@ -86,6 +93,12 @@ ToTooltipWindow >> uninstalledFrom: aWidget [
 	aWidget ifNil: [ ^ self ].
 	aWidget removeEventFilter: widgetWithTooltipEventHandler.
 	widgetWithTooltipEventHandler := nil
+]
+
+{ #category : #initialization }
+ToTooltipWindow >> vgap [
+
+	^ 5
 ]
 
 { #category : #'api - properties change hook' }

@@ -30,7 +30,7 @@ ToMenuWindow >> defaultDresser [
 { #category : #initialization }
 ToMenuWindow >> defaultPlacementStrategy [
 
-	^ ToWidgetPlacementStrategyWithAction new placementAction: [ 
+	^ ToPopupPlacementStrategy new action: [ 
 		  :window 
 		  :event | window relocate: (self openPositionFromEvent: event) ]
 ]

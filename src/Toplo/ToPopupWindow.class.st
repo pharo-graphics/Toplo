@@ -37,7 +37,7 @@ ToPopupWindow >> defaultDresser [
 { #category : #initialization }
 ToPopupWindow >> defaultPlacementStrategy [
 
-	^ ToWidgetPlacementStrategyWithAction new
+	^ ToPopupPlacementStrategy new
 ]
 
 { #category : #initialization }

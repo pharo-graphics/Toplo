@@ -1,14 +1,27 @@
 Class {
-	#name : #ToWidgetPlacementStrategyWithAction,
+	#name : #ToPopupPlacementStrategy,
 	#superclass : #ToPlacementStrategy,
 	#instVars : [
-		'placementAction'
+		'action'
 	],
 	#category : #'Toplo-Widget-Window'
 }
 
+{ #category : #accessing }
+ToPopupPlacementStrategy >> action [
+
+	^ action
+]
+
+{ #category : #accessing }
+ToPopupPlacementStrategy >> action: aBlock [
+
+	" aBlock takes the window and anEvent as arguments, returns the position"
+	action := aBlock
+]
+
 { #category : #'opening-closing' }
-ToWidgetPlacementStrategyWithAction >> check: aWindow beforePopupIn: aWidget [
+ToPopupPlacementStrategy >> check: aWindow beforePopupIn: aWidget [
 
 	| gap rect |
 	" layout is done, aWindow bounds are now up-to-date"
@@ -22,35 +35,28 @@ ToWidgetPlacementStrategyWithAction >> check: aWindow beforePopupIn: aWidget [
 ]
 
 { #category : #initialization }
-ToWidgetPlacementStrategyWithAction >> initialize [ 
+ToPopupPlacementStrategy >> defaultAction [ 
+
+	^ [ :window :event | window relocate: (window widget bounds inSpace bounds bottomLeft)]
+]
+
+{ #category : #initialization }
+ToPopupPlacementStrategy >> initialize [ 
 
 	super initialize.
-	placementAction := [ :window :event | window relocate: (window widget bounds inSpace bounds bottomLeft)]
-]
-
-{ #category : #accessing }
-ToWidgetPlacementStrategyWithAction >> placementAction [
-
-	^ placementAction
-]
-
-{ #category : #accessing }
-ToWidgetPlacementStrategyWithAction >> placementAction: aBlock [
-
-	" aBlock takes the window and anEvent as arguments, returns the position"
-	placementAction := aBlock
+	action := self defaultAction
 ]
 
 { #category : #'opening-closing' }
-ToWidgetPlacementStrategyWithAction >> popup: aWindow [
+ToPopupPlacementStrategy >> popup: aWindow [
 	
 	self popup: aWindow event: nil
 ]
 
 { #category : #'opening-closing' }
-ToWidgetPlacementStrategyWithAction >> popup: aWindow event: anEvent [
+ToPopupPlacementStrategy >> popup: aWindow event: anEvent [
 
-	self placementAction value: aWindow value: anEvent.
+	self action value: aWindow value: anEvent.
 	"I'm not ready to be visible because my bounds are not checked according to the popup layer extent"
 	aWindow visibility: BlVisibility hidden.
 	aWindow widget space popupLayer addChild: aWindow.

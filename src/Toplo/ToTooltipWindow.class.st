@@ -47,7 +47,7 @@ ToTooltipWindow >> defaultLabel [
 { #category : #initialization }
 ToTooltipWindow >> defaultPlacementStrategy [
 
-	^ ToWidgetPlacementStrategyWithAction new placementAction: [ :window :event |
+	^ ToPopupPlacementStrategy new action: [ :window :event |
 		window relocate: (event position x @ (self widget localPointToGlobal: 0 @ self widget height) y + self vgap) ]
 ]
 

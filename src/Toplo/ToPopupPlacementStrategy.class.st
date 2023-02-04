@@ -29,7 +29,6 @@ ToPopupPlacementStrategy >> check: aWindow beforePopupIn: aWidget [
 	rect := aWindow bounds inSpace asRectangle.
 	gap := rect amountToTranslateWithin: (0 asPoint extent: aWindow space extent).
 	aWindow relocate: aWindow position + gap.
-	" aWindow bounds are up-to-date, I can be visible "
 	super check: aWindow beforePopupIn: aWidget
 
 ]

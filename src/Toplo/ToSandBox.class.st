@@ -890,8 +890,16 @@ ToSandBox class >> example_textFieldWithLineWrapping [
 { #category : #'text field' }
 ToSandBox class >> example_textFieldWithLineWrappingWithSaveCapability [
 
-	| t |
-	t := ToTextField new withLineWrapping; withSaveCapability.
+	| t text |
+	t := ToTextField new
+		     withLineWrapping;
+		     withSaveCapability.
+	t whenSaveRequestedDo: [ :saveRequested |
+		saveRequested client saveResult: true.
+		text := saveRequested client text copy ].
+	t whenCancelRequestedDo: [ :cancelRequested |
+		cancelRequested client text: text copy ].
+
 	t openInInnerWindow
 ]
 

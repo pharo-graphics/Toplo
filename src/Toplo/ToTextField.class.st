@@ -19,6 +19,7 @@ ToTextField >> initialize [
 	self next vFitContent.
 	self vFitContent.
 	self withoutLineWrapping.
+
 	self addEditorShortcut: (BlShortcutWithAction new
 			 combination: BlKeyCombination return;
 			 action: [  ];
@@ -41,8 +42,7 @@ ToTextField >> withGhostText: aText [
 ToTextField >> withLineWrapping [
 
 	self next hMatchParent.
-	self infinite hMatchParent.
-
+	self infinite hMatchParent
 ]
 
 { #category : #initialization }
@@ -71,5 +71,4 @@ ToTextField >> withoutLineWrapping [
 
 	self infinite hFitContent.
 	self next hFitContent
-
 ]

@@ -1,39 +1,61 @@
 Class {
 	#name : #ToTextFieldDresser,
-	#superclass : #ToDresser,
+	#superclass : #ToAlbumBasicDresser,
+	#instVars : [
+		'selectionHandler',
+		'doubleClickHandler',
+		'mouseDownHandler',
+		'mouseUpHandler'
+	],
 	#category : #'Toplo-Widget-TextField'
 }
+
+{ #category : #'api - install/uninstall  hook' }
+ToTextFieldDresser >> defaultGeometry [
+
+	^ BlRoundedRectangleGeometry cornerRadius: 4
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToTextFieldDresser >> defaultMargin [
+
+	^ BlInsets all: 2
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToTextFieldDresser >> defaultPadding [
+
+	^ BlInsets empty
+]
 
 { #category : #'api - install/uninstall  hook' }
 ToTextFieldDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 
-	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 6).
-	anElement padding: (BlInsets empty).
-	anElement margin: (BlInsets all: 2).
-
-	anElement addEventHandler: (BlEventHandler
+	selectionHandler := AlbTextEditorSelectionHandler new element: anElement infinite.
+	doubleClickHandler := AlbTextEditorDoubleClickHandler new element: anElement infinite.
+	mouseDownHandler := BlEventHandler
 				on: BlMouseDownEvent 
-				do: [ :evt | anElement infinite dispatchEvent: evt ]).
+				do: [ :evt | anElement infinite dispatchEvent: evt ].
+	mouseUpHandler := BlEventHandler
+				on: BlMouseUpEvent 
+				do: [ :evt | anElement infinite dispatchEvent: evt ].
+				
+	anElement addEventHandler: selectionHandler.
+	anElement addEventHandler: doubleClickHandler.
+	anElement addEventHandler: mouseDownHandler.
+	anElement addEventHandler: mouseUpHandler
 
-	anElement infinite
-		when: BlBlurEvent
-		do: [ :anEvent | 
-			anElement border: (BlBorder
-					 paint: anElement theme editor borderColor
-					 width: 1) ].
+]
 
-	anElement infinite
-		when: BlFocusEvent
-		do: [ :anEvent | 
-			anElement border: (BlBorder
-					 paint: anElement theme editor focusedBorderColor
-					 width: 1) ].
+{ #category : #'api - install/uninstall  hook' }
+ToTextFieldDresser >> onUninstalledIn: anElement [
 
-	anElement border: (BlBorder
-			 paint: anElement theme editor borderColor
-			 width: 1).
+	super onUninstalledIn: anElement.
 
-	anElement next background: Color white
+	anElement removeEventHandler: selectionHandler.
+	anElement removeEventHandler: doubleClickHandler.
+	anElement removeEventHandler: mouseDownHandler.
+	anElement removeEventHandler: mouseUpHandler
 ]

@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-Album'
 }
 
+{ #category : #'api - install/uninstall  hook' }
+ToAlbumBasicDresser >> defaultGeometry [
+
+	^ BlRoundedRectangleGeometry cornerRadius: 8
+]
+
 { #category : #initialization }
 ToAlbumBasicDresser >> defaultMargin [
 
@@ -24,8 +30,7 @@ ToAlbumBasicDresser >> defaultPadding [
 ToAlbumBasicDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 8).
-	
+	anElement geometry: self defaultGeometry.
 	anElement margin: self defaultMargin.
 	anElement padding: self defaultPadding.
 

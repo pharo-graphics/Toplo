@@ -27,31 +27,22 @@ ToAbstractButtonDresser >> clickCandidateHandlerIn: anElement [
 ]
 
 { #category : #'events handling' }
-ToAbstractButtonDresser >> clicked: anElement [
-
-	self subclassResponsibility 
-
-]
-
-{ #category : #'events handling' }
 ToAbstractButtonDresser >> clicked: anElement event: anEvent [
 
 	anEvent secondaryButtonPressed ifTrue: [ ^ self rightClicked: anElement event: anEvent ].
-	self clicked: anElement
+	self leftClicked: anElement
 
 ]
 
 { #category : #'events handling' }
 ToAbstractButtonDresser >> doubleClicked: anElement [ 
 
-	self clicked: anElement
-
 ]
 
 { #category : #'events handling' }
 ToAbstractButtonDresser >> doubleClicked: anElement event: anEvent [
 
-	self doubleClicked: anElement
+	self clicked: anElement event: anEvent
 
 ]
 
@@ -114,10 +105,20 @@ ToAbstractButtonDresser >> leaved: anElement [
 
 ]
 
+{ #category : #'events handling' }
+ToAbstractButtonDresser >> leftClicked: anElement [
+
+	anElement requestFocus
+
+]
+
 { #category : #'event handlers' }
 ToAbstractButtonDresser >> mouseClickHandlerIn: anElement [
 
-	^ BlEventHandler on: BlClickEvent do: [ :event | self clicked: anElement event: event].
+	^ BlEventHandler
+		  on: BlClickEvent
+		  do: [ :event |
+			  self clicked: anElement event: event ]
 ]
 
 { #category : #'event handlers' }

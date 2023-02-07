@@ -1,5 +1,5 @@
 Class {
-	#name : #ToWindow,
+	#name : #ToWindowElement,
 	#superclass : #ToElement,
 	#instVars : [
 		'root'
@@ -8,14 +8,19 @@ Class {
 }
 
 { #category : #'api - adding children' }
-ToWindow >> addChild: anElement [
+ToWindowElement >> addChild: anElement [
 	"Add a given element as a direct child to the space root"
-	
+	self
+		deprecated: 'Send addChild: to root.'
+		transformWith:
+			'`@receiver addChild: `@arg'
+				-> '`@receiver root addChild: `@arg'.
+
 	self root addChild: anElement
 ]
 
 { #category : #'api - displaying' }
-ToWindow >> close [
+ToWindowElement >> close [
 
 	"Delegate closing work to the Universe"
 
@@ -28,25 +33,25 @@ ToWindow >> close [
 ]
 
 { #category : #initialization }
-ToWindow >> defaultBorder [
+ToWindowElement >> defaultBorder [
 
 	^ BlBorder empty
 ]
 
 { #category : #initialization }
-ToWindow >> defaultGeometry [ 
+ToWindowElement >> defaultGeometry [ 
 	
 	^ (BlRoundedRectangleGeometry cornerRadius: 5)
 ]
 
 { #category : #initialization }
-ToWindow >> defaultLayout [
+ToWindowElement >> defaultLayout [
 
 	^ BlLinearLayout vertical
 ]
 
 { #category : #initialization }
-ToWindow >> defaultRoot [
+ToWindowElement >> defaultRoot [
 
 	^ ToElement new
 		  background: self defaultRootBackground;
@@ -56,31 +61,31 @@ ToWindow >> defaultRoot [
 ]
 
 { #category : #initialization }
-ToWindow >> defaultRootBackground [
+ToWindowElement >> defaultRootBackground [
 
 	^ Color transparent
 ]
 
 { #category : #initialization }
-ToWindow >> defaultRootLabel [
+ToWindowElement >> defaultRootLabel [
 	^ 'Frame root'
 ]
 
 { #category : #initialization }
-ToWindow >> defaultRootLayout [
+ToWindowElement >> defaultRootLayout [
 
 	^ BlLinearLayout vertical 
 
 ]
 
 { #category : #initialization }
-ToWindow >> elements [
+ToWindowElement >> elements [
 
 	^ { self root }
 ]
 
 { #category : #initialization }
-ToWindow >> initialize [
+ToWindowElement >> initialize [
 
 	super initialize.
 	self
@@ -97,28 +102,33 @@ ToWindow >> initialize [
 ]
 
 { #category : #spec2 }
-ToWindow >> inspectionPreview: aBuilder [
+ToWindowElement >> inspectionPreview: aBuilder [
 	"<inspectorPresentationOrder: 1 title: 'Preview'>"
 
 	^ super inspectionPreview: aBuilder
 ]
 
 { #category : #spec2 }
-ToWindow >> inspectionTree: aBuilder [
+ToWindowElement >> inspectionTree: aBuilder [
 	<inspectorPresentationOrder: 2 title: 'Tree'>
 
 	^ super inspectionTree: aBuilder
 ]
 
 { #category : #'api - adding children' }
-ToWindow >> removeChild: anElement [
+ToWindowElement >> removeChild: anElement [
 	"Remove a given element from the space root"
-	
+	self
+		deprecated: 'Send removeChild: to root.'
+		transformWith:
+			'`@receiver removeChild: `@arg'
+				-> '`@receiver root removeChild: `@arg'.
+
 	self root removeChild: anElement
 ]
 
 { #category : #accessing }
-ToWindow >> root [
+ToWindowElement >> root [
 	"Return my current root element.
 	root can not be nil"
 	
@@ -126,7 +136,7 @@ ToWindow >> root [
 ]
 
 { #category : #accessing }
-ToWindow >> root: anElement [
+ToWindowElement >> root: anElement [
 
 	"Make a given element my root element.
 	anElement must not be nil.
@@ -138,7 +148,7 @@ ToWindow >> root: anElement [
 ]
 
 { #category : #accessing }
-ToWindow >> rootDo: aBlock [
+ToWindowElement >> rootDo: aBlock [
 	"A helper method to evaluate a given block with the root element as its argument.
 	May be useful for scripting"
 
@@ -146,7 +156,7 @@ ToWindow >> rootDo: aBlock [
 ]
 
 { #category : #'api - displaying' }
-ToWindow >> toFront [
+ToWindowElement >> toFront [
 
 	self detachFromParentWhile: [ 
 		self elevation: (BlRelativeElevation elevation: SmallInteger maxVal) ]

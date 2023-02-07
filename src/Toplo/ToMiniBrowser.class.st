@@ -10,7 +10,8 @@ Class {
 		'selectors',
 		'codeModel',
 		'codePane',
-		'classSide'
+		'classSide',
+		'selectedSelector'
 	],
 	#category : #'Toplo-Examples'
 }
@@ -35,10 +36,11 @@ ToMiniBrowser >> candidateProtocolsForClass: aClass [
 ToMiniBrowser >> changeCodeInEditor [
 
 	| selected cls sel codeText |
-
 	selected := selectors list at: selectors selectedIndexes anyOne.
-	cls := selected key.
-	sel := selected value.
+	selected = selectedSelector ifTrue: [ ^ self ].
+	selectedSelector := selected.
+	cls := selectedSelector key.
+	sel := selectedSelector value.
 	codeModel styler classOrMetaClass: cls.
 	codeText := cls sourceCodeAt: sel.
 	codeModel text: codeText copy

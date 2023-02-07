@@ -1,6 +1,6 @@
 Class {
-	#name : #ToBasicAnimatedWindow,
-	#superclass : #ToWindow,
+	#name : #ToBasicWindowElement,
+	#superclass : #ToWindowElement,
 	#traits : 'TToWidget',
 	#classTraits : 'TToWidget classTrait',
 	#instVars : [
@@ -14,19 +14,19 @@ Class {
 }
 
 { #category : #accessing }
-ToBasicAnimatedWindow >> animate [
+ToBasicWindowElement >> animate [
 
 	^ animate
 ]
 
 { #category : #accessing }
-ToBasicAnimatedWindow >> animate: aBoolean [
+ToBasicWindowElement >> animate: aBoolean [
 
 	animate := aBoolean
 ]
 
 { #category : #'api - displaying' }
-ToBasicAnimatedWindow >> checkBeforePopupIn: aWidget [
+ToBasicWindowElement >> checkBeforePopupIn: aWidget [
 
 	" my bounds are up-to-date, I can be visible "
 	| anim |
@@ -38,7 +38,7 @@ ToBasicAnimatedWindow >> checkBeforePopupIn: aWidget [
 ]
 
 { #category : #'api - displaying' }
-ToBasicAnimatedWindow >> cleanUp [
+ToBasicWindowElement >> cleanUp [
 
 	self flag: 'keeping track of the delete animation is required but why exactly ?'.
 	" need to remove the delate animation to avoid premature popup remove (don't know exactly why)"
@@ -48,7 +48,7 @@ ToBasicAnimatedWindow >> cleanUp [
 ]
 
 { #category : #'api - displaying' }
-ToBasicAnimatedWindow >> close [
+ToBasicWindowElement >> close [
 
 	self cleanUp.
 
@@ -64,25 +64,25 @@ ToBasicAnimatedWindow >> close [
 ]
 
 { #category : #initialization }
-ToBasicAnimatedWindow >> defaultPlacementStrategy [
+ToBasicWindowElement >> defaultPlacementStrategy [
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }
-ToBasicAnimatedWindow >> deleteAnimationFactory [
+ToBasicWindowElement >> deleteAnimationFactory [
 
 	^ deleteAnimationFactory
 ]
 
 { #category : #accessing }
-ToBasicAnimatedWindow >> deleteAnimationFactory: aValuable [
+ToBasicWindowElement >> deleteAnimationFactory: aValuable [
 
 	deleteAnimationFactory := aValuable
 ]
 
 { #category : #initialization }
-ToBasicAnimatedWindow >> initialize [
+ToBasicWindowElement >> initialize [
 
 	super initialize.
 	self animate: true.
@@ -102,43 +102,43 @@ ToBasicAnimatedWindow >> initialize [
 ]
 
 { #category : #accessing }
-ToBasicAnimatedWindow >> placementStrategy [
+ToBasicWindowElement >> placementStrategy [
 
 	^ placementStrategy
 ]
 
 { #category : #accessing }
-ToBasicAnimatedWindow >> placementStrategy: aPlacementStrategy [
+ToBasicWindowElement >> placementStrategy: aPlacementStrategy [
 
 	placementStrategy := aPlacementStrategy
 ]
 
 { #category : #'api - displaying' }
-ToBasicAnimatedWindow >> popup [
+ToBasicWindowElement >> popup [
 
 	self placementStrategy popup: self
 ]
 
 { #category : #accessing }
-ToBasicAnimatedWindow >> popupAnimationFactory [
+ToBasicWindowElement >> popupAnimationFactory [
 
 	^ popupAnimationFactory
 ]
 
 { #category : #accessing }
-ToBasicAnimatedWindow >> popupAnimationFactory: aValuable [
+ToBasicWindowElement >> popupAnimationFactory: aValuable [
 
 	popupAnimationFactory := aValuable
 ]
 
 { #category : #initialization }
-ToBasicAnimatedWindow >> withAnimation [
+ToBasicWindowElement >> withAnimation [
 
 	self animate: true
 ]
 
 { #category : #initialization }
-ToBasicAnimatedWindow >> withoutAnimation [
+ToBasicWindowElement >> withoutAnimation [
 
 	self animate: false
 ]

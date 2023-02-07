@@ -29,14 +29,6 @@ ToButtonDresser >> border: aBorder in: anElement [
 ]
 
 { #category : #'events handling' }
-ToButtonDresser >> clicked: anElement [
-
-	downBorder := nil.
-	self border: self hoveredBorder in: anElement
-
-]
-
-{ #category : #'events handling' }
 ToButtonDresser >> doubleClicked: anElement [
 
 	downBorder := nil.
@@ -121,6 +113,15 @@ ToButtonDresser >> leaved: anElement [
 	self border: initialBorder in: anElement.
 	self background: initialBackground in: anElement
 
+
+]
+
+{ #category : #'events handling' }
+ToButtonDresser >> leftClicked: anElement [
+	
+	super leftClicked: anElement.
+	downBorder := nil.
+	self border: self hoveredBorder in: anElement
 
 ]
 

@@ -242,7 +242,7 @@ ToSandBox class >> example_Popup1 [
 	but := ToWidget new size: 50@90.
 	but addDresser: ToButtonDresser new.
 	but whenAnnouncement: ToClickAnnouncement do: [ self inform: 'Click'. p close ]. 
-	p addChild: but.
+	p root addChild: but.
 	p addEventHandler: (BlEventHandler
 			 on: BlSpaceMouseDownOutsideEvent
 			 do: [ :event | self inform: 'OUTSIDE']).
@@ -321,7 +321,7 @@ ToSandBox class >> example_anchoredWidow1 [
 			 background: Color yellow;
 			 border: (BlBorder paint: Color red)).
 	w anchor: e.
-	w addChild: (ToAlbum new dresser: ToLabelEditorBasicDresser new; text: 'bla bla bla').
+	w root addChild: (ToAlbum new dresser: ToLabelEditorBasicDresser new; text: 'bla bla bla').
 	w fitContent.
 	e openInInnerWindow.
 	w popup

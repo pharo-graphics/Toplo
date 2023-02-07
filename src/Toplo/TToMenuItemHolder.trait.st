@@ -17,7 +17,7 @@ TToMenuItemHolder >> addAllItems: aCollection [
 TToMenuItemHolder >> addItem: aMenuItem [
 
 	self items add: aMenuItem.
-	self subMenuWindow addChild: aMenuItem.
+	self subMenuWindow root addChild: aMenuItem.
 	aMenuItem addedInMenu: self
 ]
 

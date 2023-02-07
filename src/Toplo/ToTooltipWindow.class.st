@@ -83,7 +83,7 @@ ToTooltipWindow >> label: aLabel [
 
 	label ifNotNil: [ label removeFromParent ].
 	label := aLabel.
-	self addChild: label.
+	self root addChild: label.
 
 ]
 

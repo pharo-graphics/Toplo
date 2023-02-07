@@ -1,6 +1,6 @@
 Class {
 	#name : #ToPopupWindow,
-	#superclass : #ToBasicAnimatedWindow,
+	#superclass : #ToBasicWindowElement,
 	#instVars : [
 		'#widget => ObservableSlot'
 	],

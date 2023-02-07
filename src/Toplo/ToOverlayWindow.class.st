@@ -1,6 +1,6 @@
 Class {
 	#name : #ToOverlayWindow,
-	#superclass : #ToBasicAnimatedWindow,
+	#superclass : #ToBasicWindowElement,
 	#instVars : [
 		'overlayed'
 	],

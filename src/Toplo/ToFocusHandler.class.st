@@ -10,10 +10,16 @@ ToFocusHandler >> blurEvent: anEvent [
 	anEvent currentTarget onLostFocus
 ]
 
+{ #category : #'event handling' }
+ToFocusHandler >> clickEvent: anEvent [
+
+	anEvent currentTarget requestFocus 
+]
+
 { #category : #'api - accessing' }
 ToFocusHandler >> eventsToHandle [
 
-	^ { 
+	^ {  BlClickEvent.
 		  BlFocusEvent.
 		  BlBlurEvent }
 ]

@@ -4,13 +4,6 @@ Class {
 	#category : #'Toplo-Widget-ChoiceBox'
 }
 
-{ #category : #'events handling' }
-ToChoiceBoxItemDresser >> clicked: anElement [
-
-	super clicked: anElement.
-	anElement parentMenuWindow close
-]
-
 { #category : #initialization }
 ToChoiceBoxItemDresser >> defaultCheckedIconImage [
 
@@ -42,6 +35,13 @@ ToChoiceBoxItemDresser >> defaultUncheckedState [
 		  name: #unchecked;
 		  whenEnterDo: [ :ann | 
 			  ann widget icon: (ToImage inner: self defaultUncheckedIconImage) ]
+]
+
+{ #category : #'events handling' }
+ToChoiceBoxItemDresser >> leftClicked: anElement [
+
+	super leftClicked: anElement.
+	anElement parentMenuWindow close
 ]
 
 { #category : #'api - install/uninstall  hook' }

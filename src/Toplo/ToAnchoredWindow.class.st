@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAnchoredWindow,
-	#superclass : #ToBasicAnimatedWindow,
+	#superclass : #ToBasicWindowElement,
 	#instVars : [
 		'anchor'
 	],

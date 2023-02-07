@@ -1,11 +1,11 @@
 Class {
-	#name : #ToTextFieldGhostTextLayer,
-	#superclass : #ToAlbumGhostTextLayer,
+	#name : #ToTextFieldPromptLayer,
+	#superclass : #ToAlbumPromptLayer,
 	#category : #'Toplo-Widget-TextField'
 }
 
 { #category : #'api - attaching / detaching' }
-ToTextFieldGhostTextLayer >> attachTo: anEditorElement [
+ToTextFieldPromptLayer >> attachTo: anEditorElement [
 
 	super attachTo: anEditorElement.
 	label padding: anEditorElement next padding copy.
@@ -13,7 +13,7 @@ ToTextFieldGhostTextLayer >> attachTo: anEditorElement [
 ]
 
 { #category : #initialization }
-ToTextFieldGhostTextLayer >> defaultLabel [
+ToTextFieldPromptLayer >> defaultLabel [
 
 	^ ToLabel new
 		  fitContent;

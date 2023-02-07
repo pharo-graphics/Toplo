@@ -156,10 +156,10 @@ ToAlbum >> withEditsFeedbackLayer [
 ]
 
 { #category : #layers }
-ToAlbum >> withGhostText: aText [
+ToAlbum >> withPrompt: aText [
 
 	ghostTextLayer ifNotNil: [ ^ self ].
-	ghostTextLayer := ToAlbumGhostTextLayer new text: aText.
+	ghostTextLayer := ToAlbumPromptLayer new text: aText.
 	self addLayer: ghostTextLayer
 ]
 
@@ -189,7 +189,7 @@ ToAlbum >> withoutEditsFeedback [
 ]
 
 { #category : #layers }
-ToAlbum >> withoutGhostText [ 
+ToAlbum >> withoutPrompt [ 
 
 	ghostTextLayer ifNil: [ ^ self ].
 	self removeLayer: ghostTextLayer.

@@ -30,19 +30,19 @@ ToTextField >> initialize [
 
 ]
 
-{ #category : #layers }
-ToTextField >> withGhostText: aText [
-
-	ghostTextLayer ifNotNil: [ ^ self ].
-	ghostTextLayer := ToTextFieldGhostTextLayer new text: aText.
-	self addLayer: ghostTextLayer
-]
-
 { #category : #initialization }
 ToTextField >> withLineWrapping [
 
 	self next hMatchParent.
 	self infinite hMatchParent
+]
+
+{ #category : #layers }
+ToTextField >> withPrompt: aText [
+
+	ghostTextLayer ifNotNil: [ ^ self ].
+	ghostTextLayer := ToTextFieldPromptLayer new text: aText.
+	self addLayer: ghostTextLayer
 ]
 
 { #category : #initialization }

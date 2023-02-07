@@ -14,7 +14,7 @@ client styler: BlRBTextStyler new.
 client classOrMetaClass: self class.
 client withLineNumbers.
 client text: (Collection sourceCodeAt: #difference:).
-client withGhostText: (('Styled code') asRopedText fontSize: 30; foreground: Color veryLightGray).
+client withPrompt: (('Styled code') asRopedText fontSize: 30; foreground: Color veryLightGray).
 client withEditsFeedbackLayer.
 
 client onAlbum openInOBlSpace.
@@ -275,9 +275,9 @@ ToAlbumModel >> withEditsFeedbackLayer [
 ]
 
 { #category : #'view configuration' }
-ToAlbumModel >> withGhostText: aText [
+ToAlbumModel >> withPrompt: aText [
 
-	self widgetDo: [ :album | album withGhostText: aText ]
+	self widgetDo: [ :album | album withPrompt: aText ]
 ]
 
 { #category : #'view configuration' }
@@ -299,9 +299,9 @@ ToAlbumModel >> withoutEditsFeedbackLayer [
 ]
 
 { #category : #'view configuration' }
-ToAlbumModel >> withoutGhostText [
+ToAlbumModel >> withoutPrompt [
 
-	self widgetDo: [ :album | album withoutGhostText ]
+	self widgetDo: [ :album | album withoutPrompt ]
 ]
 
 { #category : #'view configuration' }

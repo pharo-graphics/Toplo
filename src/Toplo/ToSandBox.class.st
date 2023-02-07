@@ -45,7 +45,7 @@ Here an example of a client for a method.
 	menu addItem: (ToButtonMenuItem new labelText: 'Cancel'; whenClickedDo: [:event | client widgetDo: [:w | w requestCancel ] ]; yourself).
 	menu withoutLeftColumn.
 	client widgetDo: [ :widget | widget contextMenu: menu ].
-	client onWidget openInInnerWindow 
+	client onWidget openInWorld 
 
 
 ]
@@ -85,15 +85,15 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 ]
 
 { #category : #album }
-ToSandBox class >> example_EditorWithGhostText [
+ToSandBox class >> example_EditorWithPrompt [
 
-	| ghost view |
-	ghost := ('Here is a GhostText' , String cr , 'visible only if the text is empty') asRopedText.
-	ghost foreground: Color lightGray.
-	ghost fontSize: 24.
+	| prompt view |
+	prompt := ('Here is a prompt' , String cr , 'visible only if the text is empty') asRopedText.
+	prompt foreground: Color lightGray.
+	prompt fontSize: 24.
 
 	view := (ToAlbumModel new
-		 withGhostText: ghost;
+		 withPrompt: prompt;
 		 withRowNumbers;
 		 withSaveCapability;
 		 whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
@@ -103,15 +103,15 @@ ToSandBox class >> example_EditorWithGhostText [
 ]
 
 { #category : #album }
-ToSandBox class >> example_EditorWithGhostTextWithToAlbumModel [
+ToSandBox class >> example_EditorWithPromptWithToAlbumModel [
 
-	| ghost view |
-	ghost := ('Here is a GhostText' , String cr , 'visible only if the text is empty') asRopedText.
-	ghost foreground: Color lightGray.
-	ghost fontSize: 24.
+	| prompt view |
+	prompt := ('Here is a prompt' , String cr , 'visible only if the text is empty') asRopedText.
+	prompt foreground: Color lightGray.
+	prompt fontSize: 24.
 
 	view := (ToAlbumModel new
-		 withGhostText: ghost;
+		 withPrompt: prompt;
 		 withRowNumbers;
 		 withSaveCapability;
 		 whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
@@ -628,7 +628,7 @@ ToSandBox class >> example_menu6 [
 	textField := ToTextField new
 		             withLineWrapping;
 		             width: 200;
-		             withGhostText: 'Your name'.
+		             withPrompt: 'Your name'.
 	menu addItem: (ToCustomMenuItem new innerElement: textField).
 
 	menu addSeparator.
@@ -791,7 +791,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	textField := ToTextField new
 		             withLineWrapping;
 		             width: 200;
-		             withGhostText: 'search...'.
+		             withPrompt: 'search...'.
 	bar addChild: textField.
 	bar addMenu: (ToMenu new
 			 labelText: 'Help';
@@ -863,23 +863,6 @@ ToSandBox class >> example_textField0 [
 ]
 
 { #category : #'text field' }
-ToSandBox class >> example_textFieldWithGhostText [
-
-	| t text |
-	t := ToTextField new withSaveCapability.
-	text := ''.
-	t withGhostText: 'Enter to accept'.
-	t text: text copy.
-	t whenSaveRequestedDo: [ :saveRequested | 
-		saveRequested client saveResult: true.
-		text := saveRequested client text copy].
-	t whenCancelRequestedDo: [ :cancelRequested | 
-		cancelRequested client text: text copy ].
-	t openInOBlSpace.
-
-]
-
-{ #category : #'text field' }
 ToSandBox class >> example_textFieldWithLineWrapping [
 
 	| t |
@@ -901,6 +884,23 @@ ToSandBox class >> example_textFieldWithLineWrappingWithSaveCapability [
 		cancelRequested client text: text copy ].
 
 	t openInInnerWindow
+]
+
+{ #category : #'text field' }
+ToSandBox class >> example_textFieldWithPrompt [
+
+	| t text |
+	t := ToTextField new withSaveCapability.
+	text := ''.
+	t withPrompt: 'Enter to accept'.
+	t text: text copy.
+	t whenSaveRequestedDo: [ :saveRequested | 
+		saveRequested client saveResult: true.
+		text := saveRequested client text copy].
+	t whenCancelRequestedDo: [ :cancelRequested | 
+		cancelRequested client text: text copy ].
+	t openInOBlSpace.
+
 ]
 
 { #category : #'text field' }

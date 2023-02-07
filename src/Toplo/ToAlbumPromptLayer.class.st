@@ -1,5 +1,5 @@
 Class {
-	#name : #ToAlbumGhostTextLayer,
+	#name : #ToAlbumPromptLayer,
 	#superclass : #ToWidgetLayer,
 	#instVars : [
 		'label'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'api - attaching / detaching' }
-ToAlbumGhostTextLayer >> attachTo: anEditorElement [ 
+ToAlbumPromptLayer >> attachTo: anEditorElement [ 
 
 	super attachTo: anEditorElement.
 	self checkText: anEditorElement text.
@@ -18,7 +18,7 @@ ToAlbumGhostTextLayer >> attachTo: anEditorElement [
 ]
 
 { #category : #'api - attaching / detaching' }
-ToAlbumGhostTextLayer >> checkText: aText [
+ToAlbumPromptLayer >> checkText: aText [
 
 	aText
 		ifEmpty: [ label visibility: BlVisibility visible ]
@@ -26,7 +26,7 @@ ToAlbumGhostTextLayer >> checkText: aText [
 ]
 
 { #category : #initialization }
-ToAlbumGhostTextLayer >> defaultLabel [
+ToAlbumPromptLayer >> defaultLabel [
 
 	^ ToLabel new
 		  constraintsDo: [ :c | 
@@ -39,7 +39,7 @@ ToAlbumGhostTextLayer >> defaultLabel [
 ]
 
 { #category : #initialization }
-ToAlbumGhostTextLayer >> initialize [
+ToAlbumPromptLayer >> initialize [
 
 	super initialize.
 	self
@@ -54,7 +54,7 @@ ToAlbumGhostTextLayer >> initialize [
 ]
 
 { #category : #accessing }
-ToAlbumGhostTextLayer >> text: aBlText [
+ToAlbumPromptLayer >> text: aBlText [
 
 	label text: aBlText
 ]

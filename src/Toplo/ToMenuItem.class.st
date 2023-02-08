@@ -6,6 +6,12 @@ Class {
 	#category : #'Toplo-Widget-Menu'
 }
 
+{ #category : #'t - click behavior' }
+ToMenuItem >> client [
+
+	^ self parentMenu client
+]
+
 { #category : #initialization }
 ToMenuItem >> initialize [
 

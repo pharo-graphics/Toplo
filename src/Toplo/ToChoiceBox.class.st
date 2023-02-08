@@ -96,7 +96,7 @@ ToChoiceBox >> initialize [
 	button := ToChoiceBoxButton new.
 	group := ToCheckableGroup new.
 	self addChild: button.
-	self whenSelectedChoiceChangedDo: [ self selectedItemChanged ].
+	self whenSelectedItemChangedDo: [ self selectedItemChanged ].
 	group whenCheckedDo: [ :item :previous | selectedItem := self choiceFromItem: item ].
 	self initializeDresser.
 
@@ -184,7 +184,7 @@ ToChoiceBox >> toTextConverter: anObject [
 ]
 
 { #category : #'api - change hook' }
-ToChoiceBox >> whenSelectedChoiceChangedDo: aBlock [
+ToChoiceBox >> whenSelectedItemChangedDo: aBlock [
 
 	"set a block to perform after that the selected item has been changed, and its action performed"
 

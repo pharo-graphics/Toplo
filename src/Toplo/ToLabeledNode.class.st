@@ -9,6 +9,12 @@ Class {
 	#category : #'Toplo-Core-Node'
 }
 
+{ #category : #'t - click behavior' }
+ToLabeledNode >> client [
+
+	^ self holder infiniteElement client
+]
+
 { #category : #'t - initialization dresser' }
 ToLabeledNode >> defaultDresser [ 
 

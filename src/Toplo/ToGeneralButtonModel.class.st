@@ -18,8 +18,7 @@ ToGeneralButtonModel >> setUpStatesWith: aCollectionOfStates [
 
 { #category : #'api - action' }
 ToGeneralButtonModel >> whenClickedDo: aBlock [
-	"Inform that the button has been aclicked, and its action has been performed.
-	 `aBlock` receive zero arguments."
+	"Inform that the button has been aclicked."
 	
 	self widgetDo: [ :widget | widget whenClickedDo: aBlock ]
 ]

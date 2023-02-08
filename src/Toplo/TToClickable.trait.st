@@ -4,9 +4,14 @@ Trait {
 }
 
 { #category : #'t - click behavior' }
-TToClickable >> whenClickedDo: aBlock [
-	"Inform that the widget has been aclicked, and its action has been performed.
-	 `aBlock` receive zero arguments."
+TToClickable >> client [
 
-	self when: BlClickEvent do: aBlock
+	^ self explicitRequirement 
+]
+
+{ #category : #'t - click behavior' }
+TToClickable >> whenClickedDo: aBlock [
+	"Inform that the widget has been clicked."
+
+	self when: BlClickEvent do: [ :event | aBlock cull: event cull: self client]
 ]

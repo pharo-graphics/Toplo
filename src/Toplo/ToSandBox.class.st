@@ -27,25 +27,26 @@ All the different kind of Album using should use the available basic client clas
 Here an example of a client for a method.
 "
 
-	| text space client menu |
+	| text model menu |
 	text := self methodText asRopedText.
-	client := ToAlbumModel new.
-	client styler: (BlRBTextStyler new classOrMetaClass: self class).
-	client text: text copy.
-	client withSaveCapability.
-	client withRowNumbers.
-	client whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ].
-	client whenCancelRequestedDo: [ :cancelRequested | cancelRequested client text: text copy ].
+	model := ToAlbumModel new.
+	model styler: (BlRBTextStyler new classOrMetaClass: self class).
+	model text: text copy.
+	model withSaveCapability.
+	model withRowNumbers.
+	model whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ].
+	model whenCancelRequestedDo: [ :cancelRequested | cancelRequested client text: text copy ].
 	
 	menu := ToContextMenu new.
-	menu addItem: (ToButtonMenuItem new labelText: 'Select all'; whenClickedDo: [:event | client widgetDo: [:w | w selecter all; apply ] ]; yourself).
-	menu addItem: (ToButtonMenuItem new labelText: 'Copy'; whenClickedDo: [:event | event currentTarget traceCr. client widgetDo: [:w | w editor copySelected ] ]; yourself).
-	menu addItem: (ToButtonMenuItem new labelText: 'Paste'; whenClickedDo: [:event | client widgetDo: [:w | w editor paste ] ]; yourself).
+	menu addItem: (ToButtonMenuItem new labelText: 'Select all'; whenClickedDo: [:event :client | client widgetDo: [:w | w selecter all; apply ] ]; yourself).
+	menu addItem: (ToButtonMenuItem new labelText: 'Copy'; whenClickedDo: [:event :client | client widgetDo: [:w | w editor copySelected ] ]; yourself).
+	menu addItem: (ToButtonMenuItem new labelText: 'Paste'; whenClickedDo: [:event :client | client widgetDo: [:w | w editor paste ] ]; yourself).
 	menu addSeparator.
-	menu addItem: (ToButtonMenuItem new labelText: 'Cancel'; whenClickedDo: [:event | client widgetDo: [:w | w requestCancel ] ]; yourself).
+	menu addItem: (ToButtonMenuItem new labelText: 'Cancel'; whenClickedDo: [:event :client | client widgetDo: [:w | w requestCancel ] ]; yourself).
 	menu withoutLeftColumn.
-	client widgetDo: [ :widget | widget contextMenu: menu ].
-	client onWidget openInWorld 
+	menu client: model.
+	model widgetDo: [ :widget | widget contextMenu: menu ].
+	model onWidget openInWorld 
 
 
 ]
@@ -58,8 +59,8 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 		     lab := ToLabel new
 			            text: assoc value;
 			            beEditable;
-							margin: (BlInsets all: 2);
-							padding: (BlInsets all: 2);
+							margin: (BlInsets all: 1);
+							padding: (BlInsets all: 1);
 			            yourself.
 			  lab whenTextReplacedDo: [ 
 					holder list at: holder position put: (assoc key -> lab text asString) ].
@@ -76,7 +77,8 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 		icon -> cls name ]).
 	l withRowNumbers.
 	menu := ToContextMenu new.
-	menu addItem: (ToButtonMenuItem new labelText: 'Insert before'; whenClickedDo: [:event | event currentTarget traceCr]; yourself).
+	menu client: l.
+	menu addItem: (ToButtonMenuItem new labelText: 'Insert before'; whenClickedDo: [:event :client | client traceCr]; yourself).
 	menu addItem: (ToButtonMenuItem new labelText: 'Insert after').
 	menu addItem: (ToButtonMenuItem new labelText: 'Remove').
 	menu addItem: (ToButtonMenuItem new labelText: 'Edit').
@@ -740,7 +742,7 @@ ToSandBox class >> example_rootFrameWithChoiceBox2 [
 			('Morphic SDL' -> BlMorphicWindowHost).
 			('Native SDL' -> BlOSWindowSDL2Host) }.
 	choicebox defaultChoiceIndex: 2.
-	choicebox whenSelectedChoiceChangedDo: [ 
+	choicebox whenSelectedItemChangedDo: [ 
 		self inform: choicebox selectedItem value name ].
 
 	bar addChild: (choicebox tooltipString: 'Select the Alexandrie host').

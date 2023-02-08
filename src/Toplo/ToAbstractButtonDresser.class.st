@@ -108,8 +108,6 @@ ToAbstractButtonDresser >> leaved: anElement [
 { #category : #'events handling' }
 ToAbstractButtonDresser >> leftClicked: anElement [
 
-	anElement requestFocus
-
 ]
 
 { #category : #'event handlers' }

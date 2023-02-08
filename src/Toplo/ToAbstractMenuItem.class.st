@@ -34,7 +34,7 @@ ToAbstractMenuItem >> columnWidth: anInteger [
 ToAbstractMenuItem >> initialize [
 
 	super initialize.
-	self layout: BlLinearLayout horizontal.
+	self layout: BlLinearLayout horizontal
 
 ]
 

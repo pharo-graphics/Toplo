@@ -2,7 +2,8 @@ Trait {
 	#name : #TToMenuItemHolder,
 	#instVars : [
 		'items',
-		'globalColumnWidth'
+		'globalColumnWidth',
+		'client'
 	],
 	#category : #'Toplo-Widget-Menu'
 }
@@ -25,6 +26,18 @@ TToMenuItemHolder >> addItem: aMenuItem [
 TToMenuItemHolder >> addSeparator [
 
 	self addItem: ToSeparatorMenuItem new
+]
+
+{ #category : #'t - menu accessing' }
+TToMenuItemHolder >> client [
+
+	^ client
+]
+
+{ #category : #'t - menu accessing' }
+TToMenuItemHolder >> client: anObject [
+
+	client := anObject
 ]
 
 { #category : #'t - menu accessing' }

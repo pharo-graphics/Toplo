@@ -154,7 +154,7 @@ ToButtonDresser >> pressedBackground [
 { #category : #'border accessing' }
 ToButtonDresser >> pressedBorder [
 
-	^ BlBorder paint: theme button pressedBorderColor width: 2
+	^ BlBorder paint: theme button pressedBorderColor width: 1
 ]
 
 { #category : #'api - install/uninstall  hook' }

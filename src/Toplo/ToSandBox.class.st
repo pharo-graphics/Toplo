@@ -123,6 +123,25 @@ ToSandBox class >> example_EditorWithPromptWithToAlbumModel [
 ]
 
 { #category : #album }
+ToSandBox class >> example_EditorWithSoftLine [
+
+	| prompt view |
+	prompt := ('Here is a prompt' , String cr , 'visible only if the text is empty') asRopedText.
+	prompt foreground: Color lightGray.
+	prompt fontSize: 24.
+
+	view := (ToAlbumModel new
+		 withPrompt: prompt;
+		 withRowNumbers;
+		 withSaveCapability;
+		 whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
+		 withEditsFeedbackLayer) onWidget.
+	view withSoftLine.
+	view text: ((String loremIpsum: 100000) asRopedText fontName: 'Source Code Pro').
+	view openInOBlSpace
+]
+
+{ #category : #album }
 ToSandBox class >> example_EditorWithoutSoftLine [
 
 	| prompt view |

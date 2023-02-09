@@ -30,6 +30,14 @@ ToNullDresser >> next: aDresser [
 ]
 
 { #category : #'api - install/uninstall  hook' }
+ToNullDresser >> onElementAttached: anElement inInfinite: aToInfinite [
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToNullDresser >> onElementDetached: anElement inInfinite: aToInfinite [
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToNullDresser >> onInstalledIn: anElement [
 
 ]

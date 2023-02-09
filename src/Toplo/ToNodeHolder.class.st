@@ -16,16 +16,16 @@ ToNodeHolder >> data: aData [
 	itemElement := infiniteElement nodeFactory cull: aData cull: self
 ]
 
+{ #category : #private }
+ToNodeHolder >> offsetPositionBy: anOffset applyToPreLayout: shouldApplyOnPreLayout [
+
+	super offsetPositionBy: anOffset applyToPreLayout: shouldApplyOnPreLayout.
+	self infiniteElement selectionStrategy clearSelection.
+]
+
 { #category : #accessing }
 ToNodeHolder >> onAttachedFromDatasource: aDataSource [
 
-
-	" when holder is attached it can be already selected (as an example with a selectAll) "
-	
-	self flag: 'Selection must be preserved when adding/removing in the datasource list '.
-	
-	(infiniteElement selectionStrategy isSelected: self layoutPosition) ifTrue: [ 
-		itemElement dresser addedToSelection: itemElement ].
 
 	self
 		whenAnnouncement: ToClickOnNodeAnnouncement

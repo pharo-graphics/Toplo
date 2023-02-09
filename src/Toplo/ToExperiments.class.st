@@ -221,7 +221,7 @@ ToExperiments class >> example_FlowLayoutHorizontal [
 	frame := BlElement new
 		         background: Color gray;
 		         size: 300 @ 100;
-		         layout: BlFlowLayout horizontal;
+		         layout: BlLinearLayout horizontal;
 		         constraintsDo: [ :c | 
 			         c horizontal matchParent.
 			         c vertical fitContent ].
@@ -415,6 +415,30 @@ ToExperiments class >> example_LinearLayoutFillWithMatchParent [
 	frame openInNewSpace
 ]
 
+{ #category : #elements }
+ToExperiments class >> example_ScaledElement [
+
+	| content scalable |
+	content := BlElement new
+		           size: 20 @ 20;
+		           background: Color red.
+
+	scalable := BlScalableElement new.
+	
+	scalable scaleStrategy: (BlScalableFixedStrategy zoom: 10). "set custom zoom level"
+	"scalable scaleStrategy: BlScalableFitWidthStrategy new." "Fit horizontally"
+	"scalable scaleStrategy: BlScalableFitHeightStrategy new. ""Fit vertically""
+	scalable scaleStrategy: BlScalableFitAllStrategy new. ""Fit vertically and horizontally at the same time"""
+	scalable constraintsDo: [ :c | 
+		c horizontal matchParent .
+		c vertical matchParent ].
+	content border: (BlBorder paint: Color blue width: 2).
+	scalable contentElement: content.
+	scalable border: (BlBorder paint: Color yellow width: 5).
+	scalable outskirts: BlOutskirts inside.
+	scalable openInOBlSpace
+]
+
 { #category : #image }
 ToExperiments class >> example_Smalltalk_all_classes [
 
@@ -500,6 +524,69 @@ ToExperiments class >> example_Smalltalk_ui_icons_withElements [
 	space show
 ]
 
+{ #category : #elements }
+ToExperiments class >> example_TextFlowWithBlElements [
+
+	| element |
+	element := BlElement new
+		           layout: (AlbLineFlowLayout new lineSpacing: 10);
+		           constraintsDo: [ :c | 
+							c minWidth: 50.
+			           c horizontal matchParent.
+			           c vertical matchParent ];
+		           addChildren: (20 timesCollect: [ 
+					            | anAnimation |
+					            anAnimation := BlSequentialAnimation new.
+					            anAnimation add:
+							            (BlTransformAnimation scale: 2) absolute.
+					            anAnimation add:
+							            (BlTransformAnimation scale: 0.5) absolute.
+					            anAnimation beInfinite.
+					            BlElement new
+						            size: 50 @ 20;
+						            margin: (BlInsets all: 4);
+						            background: (Color random alpha: 0.5);
+						            addAnimation: anAnimation ]).
+	element openInOBlSpace
+]
+
+{ #category : #elements }
+ToExperiments class >> example_TextFlowWithBlElements2 [
+
+	| element |
+	element := BlElement new
+		           layout: (BlLinearLayout new);
+		           constraintsDo: [ :c |
+			           c minWidth: 50.
+			           c horizontal matchParent.
+			           c vertical matchParent ];
+		           addChildren: (20 timesCollect: [
+					            | anAnimation e parent |
+					            anAnimation := BlSequentialAnimation new.
+					            anAnimation add:
+							            (BlTransformAnimation scale: 2) absolute.
+					            anAnimation add:
+							            (BlTransformAnimation scale: 0.5) absolute.
+					            anAnimation beInfinite.
+					            parent := BlElement new
+						                      layout:
+							                      (BlWrapAroundChildrenLayout new
+								                       addLayout: BlBasicNodeBasedLayout new);
+						                      constraintsDo: [ :c |
+							                      c horizontal fitContent.
+							                      c vertical fitContent ];
+						                      background: (Color gray alpha: 0.2).
+					            e := BlElement new
+						                 size: 50 @ 20;
+						                 margin: (BlInsets all: 4);
+						                 background: (Color random alpha: 0.5);
+						                 addAnimation: anAnimation.
+					            parent
+						            addChild: e;
+						            yourself ]).
+	element openInNewSpace
+]
+
 { #category : #'mouse drag' }
 ToExperiments class >> example_drag [
 
@@ -581,6 +668,24 @@ ToExperiments class >> example_drag4 [
 
 	e openInWorld.
 	child openInWorld
+]
+
+{ #category : #elements }
+ToExperiments class >> example_elements_sandbox [
+
+	| sp root child1 child2 |
+	root := BlElement new background: Color cyan.
+	child1 := BlElement new background: Color yellow.
+	child2 := BlElement new background: Color gray.
+	root layout: BlLinearLayout vertical.
+	root addChild: child1.
+	root addChild: child2.
+	root constraintsDo: [ :c |
+			c horizontal fitContent .
+			c vertical fitContent ].
+	sp := OBlSpace new.
+	sp addChild: root.
+	sp show
 ]
 
 { #category : #stuffs }

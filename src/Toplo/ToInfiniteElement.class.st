@@ -49,6 +49,20 @@ ToInfiniteElement >> defaultSelectionStrategy [
 	^ ToSelectionStrategy new dataSource: self dataSource.
 ]
 
+{ #category : #dispatching }
+ToInfiniteElement >> dispatchChildAttached: anElement [
+	
+	super dispatchChildAttached: anElement.
+	anElement dresserDo: [ :d | d onElementAttached: anElement inInfinite: self]
+]
+
+{ #category : #dispatching }
+ToInfiniteElement >> dispatchChildDetached: anElement [
+	
+	super dispatchChildDetached: anElement.
+	anElement dresserDo: [ :d | d onElementDetached: anElement inInfinite: self ]
+]
+
 { #category : #'selection events' }
 ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 

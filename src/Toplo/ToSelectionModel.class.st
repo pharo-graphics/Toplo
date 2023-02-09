@@ -38,7 +38,7 @@ ToSelectionModel >> announceSelected: anInterval dueTo: aSourceEvent [
 ToSelectionModel >> deselect: aFromIndex to: aToIndex [
 	"Deselect items within a given interval"
 
-	selection deselect: aFromIndex - 1 to: aToIndex.
+	self rawDeselect: aFromIndex to: aToIndex.
 	self announceDeselected: (aFromIndex to: aToIndex) 
 ]
 
@@ -90,6 +90,27 @@ ToSelectionModel >> isNotEmpty [
 	<return: #Boolean>
 	
 	^ selection isNotEmpty
+]
+
+{ #category : #selection }
+ToSelectionModel >> rawDeselect: aFromIndex to: aToIndex [
+	"Deselect items within a given interval"
+
+	selection deselect: aFromIndex - 1 to: aToIndex
+]
+
+{ #category : #selection }
+ToSelectionModel >> rawDeselectAll [
+	"Deselect all items"
+
+	selection reverseDo: [ :aMonotoneSelection | self rawDeselect: aMonotoneSelection from + 1 to: aMonotoneSelection to ]
+]
+
+{ #category : #selection }
+ToSelectionModel >> rawSelect: aFromIndex to: aToIndex [
+	"Select items within a given interval"
+
+	selection select: aFromIndex - 1 to: aToIndex
 ]
 
 { #category : #selection }

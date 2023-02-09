@@ -85,6 +85,25 @@ ToNodeDresser >> launchClick: aBlock for: anInfinite [
 ]
 
 { #category : #'api - install/uninstall  hook' }
+ToNodeDresser >> onElementAttached: anElement inInfinite: aToInfinite [
+
+	| holder |
+	super onElementAttached: anElement inInfinite: aToInfinite.
+	" when holder is attached it can be already selected (as an example with a selectAll) "
+	"Selection must be preserved when adding/removing in the datasource list "
+	holder := aToInfinite elementHolderOf: anElement.
+	(aToInfinite selectionStrategy isSelected: holder layoutPosition) ifTrue: [ 
+		self addedToSelection: anElement ].
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToNodeDresser >> onElementDetached: anElement inInfinite: aToInfinite [
+
+	super onElementDetached: anElement inInfinite: aToInfinite
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToNodeDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.

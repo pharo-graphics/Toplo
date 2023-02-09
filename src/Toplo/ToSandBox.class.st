@@ -237,13 +237,31 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 { #category : #list }
 ToSandBox class >> example_ListWithOneString [
 
-	| l |
+	| l menu |
 	l := ToList new.
 	l list addAll: { 'AAAAAA'}.
 	l when: ToStrongSelectionEvent 
-		do: [ :event | 
-			event indexes do: [ :idx | 
-				l list add: (idx asString, ':BBBBBB') afterIndex: idx] ].
+		do: [ :event | | r | 
+				r := event indexes collect: [ :idx | idx asString, ':XXXXXX'].
+				r do: [ :e | l list addFirst: e ] ].
+			
+	menu := ToContextMenu new.
+	menu client: l.
+	menu addItem: (ToButtonMenuItem new 
+		labelText: 'Insert before'; 
+		whenClickedDo: [:event :client | 
+				client selectedIndexes do: [ :idx | client list add: (idx asString, ':XXXXXX') beforeIndex:idx ]]; yourself).
+	menu addItem: (ToButtonMenuItem new labelText: 'Insert after'; 
+		whenClickedDo: [:event :client | 
+				client selectedIndexes do: [ :idx | client list add: (idx asString, ':XXXXXX') afterIndex:idx ]]; yourself).
+	menu addItem: (ToButtonMenuItem new labelText: 'Remove'; 
+		whenClickedDo: [:event :client | 
+				client selectedIndexes ifNotEmpty: [ | from |
+					from := client selectedIndexes first.
+					client selectedIndexes size timesRepeat: [ client list removeAt: from ]]]; yourself).
+	menu addItem: (ToButtonMenuItem new labelText: 'RemoveAll'; 
+		whenClickedDo: [:event :client | client list removeAll ]; yourself).
+	l contextMenu: menu.
 	l withRowNumbers.
 	l openInOBlSpace
 ]

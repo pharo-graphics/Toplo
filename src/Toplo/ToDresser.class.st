@@ -56,6 +56,20 @@ ToDresser >> next: aDresser [
 ]
 
 { #category : #'api - install/uninstall  hook' }
+ToDresser >> onElementAttached: anElement inInfinite: aToInfinite [
+
+	next onElementAttached: anElement inInfinite: aToInfinite
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToDresser >> onElementDetached: anElement inInfinite: aToInfinite [
+
+	next onElementDetached: anElement inInfinite: aToInfinite
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.

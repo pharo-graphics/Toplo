@@ -239,7 +239,7 @@ ToSandBox class >> example_ListWithOneString [
 
 	| l menu |
 	l := ToList new.
-	l list addAll: { 'AAAAAA'}.
+	l list addAll: { 'AAAAAA'.'BBBBBB'.'CCCCCC'.'DDDDDD'.'EEEEEE'}.
 	l when: ToStrongSelectionEvent 
 		do: [ :event | | r | 
 				r := event indexes collect: [ :idx | idx asString, ':XXXXXX'].
@@ -255,10 +255,11 @@ ToSandBox class >> example_ListWithOneString [
 		whenClickedDo: [:event :client | 
 				client selectedIndexes do: [ :idx | client list add: (idx asString, ':XXXXXX') afterIndex:idx ]]; yourself).
 	menu addItem: (ToButtonMenuItem new labelText: 'Remove'; 
-		whenClickedDo: [:event :client | 
-				client selectedIndexes ifNotEmpty: [ | from |
-					from := client selectedIndexes first.
-					client selectedIndexes size timesRepeat: [ client list removeAt: from ]]]; yourself).
+		whenClickedDo: [:event :client | | from to |
+			client selectedIndexes ifNotEmpty: [
+				from := client selectedIndexes first.
+				to := client selectedIndexes last.
+				client list removeFrom: from to: to] ]; yourself).
 	menu addItem: (ToButtonMenuItem new labelText: 'RemoveAll'; 
 		whenClickedDo: [:event :client | client list removeAll ]; yourself).
 	l contextMenu: menu.

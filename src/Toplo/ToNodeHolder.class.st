@@ -16,11 +16,10 @@ ToNodeHolder >> data: aData [
 	itemElement := infiniteElement nodeFactory cull: aData cull: self
 ]
 
-{ #category : #private }
-ToNodeHolder >> offsetPositionBy: anOffset applyToPreLayout: shouldApplyOnPreLayout [
-
-	super offsetPositionBy: anOffset applyToPreLayout: shouldApplyOnPreLayout.
-	self infiniteElement selectionStrategy clearSelection.
+{ #category : #initialization }
+ToNodeHolder >> initialize [
+	super initialize.
+	'initialize' traceCr
 ]
 
 { #category : #accessing }

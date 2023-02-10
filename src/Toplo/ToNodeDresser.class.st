@@ -129,6 +129,7 @@ ToNodeDresser >> removedFromSelection: anElement [
 
 	" recover initial background "
 	initialBackground := initialBackgroundSave.
+	initialBackground ifNil: [ ^ self ].
 	self background: initialBackground  in: anElement.
 	initialBackgroundSave := nil
 ]

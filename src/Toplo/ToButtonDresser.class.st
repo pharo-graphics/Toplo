@@ -111,6 +111,7 @@ ToButtonDresser >> installEventListenersIn: anElement [
 ToButtonDresser >> leaved: anElement [
 
 	self border: initialBorder in: anElement.
+	initialBackground ifNil: [ ^ self ].
 	self background: initialBackground in: anElement
 
 

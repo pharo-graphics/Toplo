@@ -26,7 +26,6 @@ ToListDataSource >> onCreateHolder: anInfiniteElement [
 ToListDataSource >> onElementAttached: anElementHolder [
 
 	super onElementAttached: anElementHolder.
-	anElementHolder itemElement holder: anElementHolder.
 	anElementHolder onAttachedFromDatasource: self.
 
 ]
@@ -36,7 +35,5 @@ ToListDataSource >> onElementDetached: anElementHolder [
 	
 	super onElementDetached: anElementHolder.
 	anElementHolder onDetachedFromDatasource: self.
-	anElementHolder unsubscribe: self.
-	anElementHolder itemElement holder: nil.
-
+	anElementHolder unsubscribe: self
 ]

@@ -3,9 +3,6 @@ Class {
 	#superclass : #ToWidget,
 	#traits : 'TToPair + TToLabeledIcon + TToWidgetWithState + TToClickable + TToSelectableNode',
 	#classTraits : 'TToPair classTrait + TToLabeledIcon classTrait + TToWidgetWithState classTrait + TToClickable classTrait + TToSelectableNode classTrait',
-	#instVars : [
-		'holder'
-	],
 	#category : #'Toplo-Core-Node'
 }
 
@@ -24,21 +21,14 @@ ToLabeledNode >> defaultDresser [
 { #category : #accessing }
 ToLabeledNode >> holder [
 
-	^ holder
-]
-
-{ #category : #accessing }
-ToLabeledNode >> holder: anHolder [
-
-	holder := anHolder
+	^ self constraints infinite holder
 ]
 
 { #category : #initialization }
 ToLabeledNode >> initialize [ 
 
 	super initialize.
-	self initializePair.
-	self initializeDresser
+	self initializePair
 ]
 
 { #category : #'t - labeled icon' }

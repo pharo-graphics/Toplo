@@ -2,15 +2,23 @@ Class {
 	#name : #ToButtonDresser,
 	#superclass : #ToAbstractButtonDresser,
 	#instVars : [
-		'downBorder',
 		'initialBorder',
 		'borderChangedHandler',
-		'downBackground',
 		'initialBackground',
-		'backgroundChangedHandler'
+		'backgroundChangedHandler',
+		'savedPressedBackground',
+		'savedPressedBorder'
 	],
 	#category : #'Toplo-Widget-Button'
 }
+
+{ #category : #'events handling' }
+ToButtonDresser >> backToUnpressedState [
+
+	savedPressedBorder := nil.
+	savedPressedBackground := nil.
+
+]
 
 { #category : #private }
 ToButtonDresser >> background: aBackground in: anElement [
@@ -31,16 +39,30 @@ ToButtonDresser >> border: aBorder in: anElement [
 { #category : #'events handling' }
 ToButtonDresser >> doubleClicked: anElement [
 
-	downBorder := nil.
-	self border: self hoveredBorder in: anElement
+	self backToUnpressedState.
+	self border: self hoveredBorder in: anElement.
+	self background: self hoveredBackground in: anElement
 
+]
+
+{ #category : #accessing }
+ToButtonDresser >> downBackground: aBackground [
+
+	savedPressedBackground := aBackground
+
+]
+
+{ #category : #accessing }
+ToButtonDresser >> downBorder: aBorder [
+
+	savedPressedBorder := aBorder
 ]
 
 { #category : #'events handling' }
 ToButtonDresser >> escaped: anElement [
 
-	downBorder := nil.
-	
+	self backToUnpressedState
+
 ]
 
 { #category : #'events handling' }
@@ -50,24 +72,17 @@ ToButtonDresser >> hover: anElement [
 	self background: self hoveredBackground in: anElement.
 ]
 
-{ #category : #'border accessing' }
+{ #category : #accessing }
 ToButtonDresser >> hoveredBackground [
 
-	^ downBackground ifNil: [ theme button hoveredBorderColor lighter alpha: 0.1 ]
+	^ savedPressedBackground ifNil: [ theme button hoveredBackgroundColor ]
 
 ]
 
-{ #category : #'border accessing' }
-ToButtonDresser >> hoveredBackground: aBackground [
-
-	downBackground := aBackground
-
-]
-
-{ #category : #'border accessing' }
+{ #category : #accessing }
 ToButtonDresser >> hoveredBorder [
 
-	^ downBorder ifNil: [ BlBorder paint: Color transparent "theme button hoveredBorderColor" ]
+	^ savedPressedBorder ifNil: [ BlBorder paint: theme button hoveredBorderColor ]
 
 ]
 
@@ -86,8 +101,8 @@ ToButtonDresser >> initialBorder: aBorder [
 { #category : #'events handling' }
 ToButtonDresser >> initialState: anElement [
 
-	initialBorder ifNil: [ initialBorder := anElement border ].
-	initialBackground ifNil: [ initialBackground := anElement background ].
+	initialBorder := BlBorder paint: self theme button defaultBorderColor.
+	initialBackground := self theme button defaultBackgroundColor.
 	self border: initialBorder in: anElement.
 	self background: initialBackground in: anElement
 
@@ -111,7 +126,6 @@ ToButtonDresser >> installEventListenersIn: anElement [
 ToButtonDresser >> leaved: anElement [
 
 	self border: initialBorder in: anElement.
-	initialBackground ifNil: [ ^ self ].
 	self background: initialBackground in: anElement
 
 
@@ -121,9 +135,19 @@ ToButtonDresser >> leaved: anElement [
 ToButtonDresser >> leftClicked: anElement [
 	
 	super leftClicked: anElement.
-	downBorder := nil.
-	self border: self hoveredBorder in: anElement
+	self backToUnpressedState.
+	self border: self hoveredBorder in: anElement.
+	self background: self hoveredBackground in: anElement
 
+
+]
+
+{ #category : #'events handling' }
+ToButtonDresser >> leftPressed: anElement [
+
+	self savePressedState.
+	self border: savedPressedBorder in: anElement.
+	self background: savedPressedBackground in: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -133,29 +157,28 @@ ToButtonDresser >> onInstalledIn: anElement [
 	
 	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
 	anElement border:  (BlBorder paint: theme button defaultBorderColor width: 1).
-	downBorder := nil.
-	downBackground := nil
+	savedPressedBorder := nil.
+	savedPressedBackground := nil
 ]
 
-{ #category : #'events handling' }
-ToButtonDresser >> pressed: anElement [
-
-	self border: self pressedBorder in: anElement.
-	downBorder := anElement border.
-	self hoveredBackground: anElement background.
-
-]
-
-{ #category : #'border accessing' }
+{ #category : #accessing }
 ToButtonDresser >> pressedBackground [
 
-	^ theme button pressedBackground
+	^ theme button pressedBackgroundColor
 ]
 
-{ #category : #'border accessing' }
+{ #category : #accessing }
 ToButtonDresser >> pressedBorder [
 
 	^ BlBorder paint: theme button pressedBorderColor width: 1
+]
+
+{ #category : #'events handling' }
+ToButtonDresser >> savePressedState [
+
+	self downBorder: self pressedBorder.
+	self downBackground: self pressedBackground.
+
 ]
 
 { #category : #'api - install/uninstall  hook' }

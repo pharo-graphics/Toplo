@@ -93,6 +93,13 @@ ToSelectionModel >> isNotEmpty [
 ]
 
 { #category : #selection }
+ToSelectionModel >> rawDeselect: anIndex [ 
+	"Deselect items within a given interval"
+
+	self rawDeselect: anIndex to: anIndex
+]
+
+{ #category : #selection }
 ToSelectionModel >> rawDeselect: aFromIndex to: aToIndex [
 	"Deselect items within a given interval"
 

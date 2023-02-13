@@ -3,17 +3,18 @@ Class {
 	#superclass : #ToButtonDresser,
 	#instVars : [
 		'focusGetterHandler',
-		'initialBackgroundSave',
-		'monitor'
+		'monitor',
+		'selected'
 	],
 	#category : #'Toplo-Core-Node'
 }
 
-{ #category : #enumerating }
+{ #category : #'events handling' }
 ToNodeDresser >> addedToSelection: anElement [
 
-	initialBackgroundSave := initialBackground.
-	anElement background: self selectionBackground
+	selected := true.
+	self background: self selectionBackground  in: anElement
+
 ]
 
 { #category : #accessing }
@@ -23,40 +24,28 @@ ToNodeDresser >> clickActionLauncher [
 ]
 
 { #category : #'events handling' }
-ToNodeDresser >> clicked: anElement event: anEvent [
-
-	anEvent primaryButtonPressed ifFalse: [ ^ self ].
-	self
-		launchClick: [ 
-			super clicked: anElement event: anEvent.
-			anElement holder announce: (ToClickOnNodeAnnouncement new
-					 holder: anElement holder;
-					 event: anEvent;
-					 yourself) ]
-		for: anElement holder infiniteElement
-]
-
-{ #category : #'events handling' }
-ToNodeDresser >> hover: anElement event: anEvent [
-
-	self border: self hoveredBorder in: anElement.
-	initialBackgroundSave ifNotNil: [ ^ self ].
-	self background: self hoveredBackground in: anElement
-]
-
-{ #category : #'events handling' }
-ToNodeDresser >> hoveredBackground: aBackground [
+ToNodeDresser >> downBackground: aBackground [
 
 	" do not change the background if selected "
-	initialBackgroundSave ifNotNil: [ ^ self ].
-	super hoveredBackground: aBackground.
+	selected ifTrue: [ ^ self ].
+	super downBackground: aBackground.
+]
+
+{ #category : #'events handling' }
+ToNodeDresser >> hover: anElement [ 
+
+	self border: self hoveredBorder in: anElement.
+	" do not change the background if selected "
+	selected ifTrue: [ ^ self ].
+	self background: self hoveredBackground in: anElement
 ]
 
 { #category : #initialization }
 ToNodeDresser >> initialize [ 
 
 	super initialize.
-	monitor := Monitor new
+	monitor := Monitor new.
+	selected := false
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -82,6 +71,47 @@ ToNodeDresser >> launchClick: aBlock for: anInfinite [
 			            forkAt: Processor highIOPriority
 			            named: 'OBlMouseProcessor clickLauncher'.
 		anInfinite clickLauncher: launcher ]
+]
+
+{ #category : #'events handling' }
+ToNodeDresser >> leaved: anElement [
+
+	self border: initialBorder in: anElement.
+	selected ifTrue: [ ^ self ].
+	" do not change the background if selected "
+	self background: initialBackground in: anElement
+
+]
+
+{ #category : #'events handling' }
+ToNodeDresser >> leftClicked: anElement [ 
+	
+	self backToUnpressedState.
+	selected ifTrue: [ ^ self ].
+	" do not change the background and the border if selected "
+	self border: self hoveredBorder in: anElement.
+	self background: self hoveredBackground in: anElement
+
+
+]
+
+{ #category : #'events handling' }
+ToNodeDresser >> leftClicked: anElement event: anEvent [
+
+	self
+		launchClick: [ 
+			self leftClicked: anElement.
+			anElement holder announce: (ToClickOnNodeAnnouncement new
+					 holder: anElement holder;
+					 event: anEvent;
+					 yourself) ]
+		for: anElement holder infiniteElement
+]
+
+{ #category : #'events handling' }
+ToNodeDresser >> leftUp: anElement event: anEvent [
+
+	super leftUp: anElement event: anEvent
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -121,20 +151,18 @@ ToNodeDresser >> onUninstalledIn: anElement [
 { #category : #'events handling' }
 ToNodeDresser >> pressed: anElement event: anEvent [
 
-	super pressed: anElement event: anEvent
+	"super pressed: anElement event: anEvent"
 ]
 
-{ #category : #enumerating }
+{ #category : #'events handling' }
 ToNodeDresser >> removedFromSelection: anElement [
 
+	selected := false.
 	" recover initial background "
-	initialBackground := initialBackgroundSave.
-	initialBackground ifNil: [ ^ self ].
-	self background: initialBackground  in: anElement.
-	initialBackgroundSave := nil
+	self background: initialBackground  in: anElement
 ]
 
-{ #category : #enumerating }
+{ #category : #accessing }
 ToNodeDresser >> selectionBackground [
 
 	^ theme button hoveredBorderColor alpha: 0.5 
@@ -146,10 +174,4 @@ ToNodeDresser >> uninstallEventListenersIn: anElement [
 	super uninstallEventListenersIn: anElement.
 	anElement removeEventHandler: focusGetterHandler
 
-]
-
-{ #category : #'events handling' }
-ToNodeDresser >> up: anElement event: anEvent [
-
-	super up: anElement event: anEvent
 ]

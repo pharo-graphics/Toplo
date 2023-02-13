@@ -161,6 +161,51 @@ ToSandBox class >> example_EditorWithoutSoftLine [
 ]
 
 { #category : #list }
+ToSandBox class >> example_ListInsertRemove [
+
+	| l menu selectionMenu |
+	l := ToList new.
+	l when: ToStrongSelectionEvent 
+		do: [ :event | | r | 
+				r := event indexes collect: [ :idx | idx asString, ':XXXXXX'].
+				r do: [ :e | l list addFirst: e ] ].
+	l
+		when: ToSelectionChangedEvent
+		do: [ :event | l selectedIndexes traceCr ].
+
+	menu := ToContextMenu new.
+	menu client: l.
+	menu addItem: (ToButtonMenuItem new 
+		labelText: 'Add initial Items'; 
+		whenClickedDo: [:event :client | 
+				client list addAll: { 'AAAAAA'.'BBBBBB'.'CCCCCC'.'DDDDDD'.'EEEEEE'} ]).
+	selectionMenu := ToMenu new.
+	selectionMenu client: l.
+	selectionMenu label: (ToLabel new text: 'Selection actions').
+	selectionMenu addItem: (ToButtonMenuItem new 
+		labelText: 'Insert before'; 
+		whenClickedDo: [:event :client | 
+				client selectedIndexes do: [ :idx | client list add: (idx asString, ':XXXXXX') beforeIndex:idx ]]; yourself).
+	selectionMenu addItem: (ToButtonMenuItem new labelText: 'Insert after'; 
+		whenClickedDo: [:event :client | | nb |
+				nb := client selectedIndexes size.
+				client selectedIndexes do: [ :idx | client list add: (idx asString, ':XXXXXX') afterIndex:idx + nb - 1]]; yourself).
+	selectionMenu addItem: (ToButtonMenuItem new labelText: 'Remove'; 
+		whenClickedDo: [:event :client | | from to |
+			client selectedIndexes ifNotEmpty: [
+				from := client selectedIndexes first.
+				to := client selectedIndexes last.
+				client list removeFrom: from to: to] ]; yourself).
+	menu addItem: selectionMenu.
+	menu addSeparator.
+	menu addItem: (ToButtonMenuItem new labelText: 'RemoveAll'; 
+		whenClickedDo: [:event :client | client list removeAll ]; yourself).
+	l contextMenu: menu.
+	l withRowNumbers.
+	l openInOBlSpace
+]
+
+{ #category : #list }
 ToSandBox class >> example_ListOneClass [
 
 	| l |
@@ -231,39 +276,6 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 						     labelText: cls name;
 						     hMatchParent ].
 	l list addAll: Smalltalk globals allClasses.
-	l openInOBlSpace
-]
-
-{ #category : #list }
-ToSandBox class >> example_ListWithOneString [
-
-	| l menu |
-	l := ToList new.
-	l list addAll: { 'AAAAAA'.'BBBBBB'.'CCCCCC'.'DDDDDD'.'EEEEEE'}.
-	l when: ToStrongSelectionEvent 
-		do: [ :event | | r | 
-				r := event indexes collect: [ :idx | idx asString, ':XXXXXX'].
-				r do: [ :e | l list addFirst: e ] ].
-			
-	menu := ToContextMenu new.
-	menu client: l.
-	menu addItem: (ToButtonMenuItem new 
-		labelText: 'Insert before'; 
-		whenClickedDo: [:event :client | 
-				client selectedIndexes do: [ :idx | client list add: (idx asString, ':XXXXXX') beforeIndex:idx ]]; yourself).
-	menu addItem: (ToButtonMenuItem new labelText: 'Insert after'; 
-		whenClickedDo: [:event :client | 
-				client selectedIndexes do: [ :idx | client list add: (idx asString, ':XXXXXX') afterIndex:idx ]]; yourself).
-	menu addItem: (ToButtonMenuItem new labelText: 'Remove'; 
-		whenClickedDo: [:event :client | | from to |
-			client selectedIndexes ifNotEmpty: [
-				from := client selectedIndexes first.
-				to := client selectedIndexes last.
-				client list removeFrom: from to: to] ]; yourself).
-	menu addItem: (ToButtonMenuItem new labelText: 'RemoveAll'; 
-		whenClickedDo: [:event :client | client list removeAll ]; yourself).
-	l contextMenu: menu.
-	l withRowNumbers.
 	l openInOBlSpace
 ]
 

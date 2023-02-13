@@ -95,3 +95,9 @@ ToDresser >> removeDresser: aDresser in: anElement [
 	aDresser next: ToNullDresser new.
 	aDresser launchUninstallationIn: anElement
 ]
+
+{ #category : #accessing }
+ToDresser >> theme [
+
+	^ theme
+]

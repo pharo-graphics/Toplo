@@ -17,14 +17,28 @@ ToNodeHolder >> data: aData [
 ]
 
 { #category : #initialization }
-ToNodeHolder >> initialize [
-	super initialize.
-	'initialize' traceCr
+ToNodeHolder >> initialize [ 
+
+	super initialize
+]
+
+{ #category : #private }
+ToNodeHolder >> offsetPositionBy: anOffset applyToPreLayout: shouldApplyOnPreLayout [
+
+	| wasSelected |
+	wasSelected := false.
+	(infiniteElement selectionStrategy isSelected: self position) ifTrue: [
+		infiniteElement selectionStrategy clearSelection: self position.
+		wasSelected := true ]. 
+	super
+		offsetPositionBy: anOffset
+		applyToPreLayout: shouldApplyOnPreLayout.
+	anOffset < 0 ifTrue: [ ^ self ].
+	wasSelected ifTrue: [ infiniteElement selectionStrategy cherryPickIndex: self position ]
 ]
 
 { #category : #accessing }
 ToNodeHolder >> onAttachedFromDatasource: aDataSource [
-
 
 	self
 		whenAnnouncement: ToClickOnNodeAnnouncement
@@ -50,16 +64,23 @@ ToNodeHolder >> onDetachedFromDatasource: aDataSource [
 	infiniteElement selectionStrategy unsubscribe: self
 ]
 
+{ #category : #accessing }
+ToNodeHolder >> selected: aBoolean [
+	aBoolean
+		ifTrue: [ itemElement dresser addedToSelection: itemElement ]
+		ifFalse: [ itemElement dresser removedFromSelection: itemElement ]
+]
+
 { #category : #'selection - handling' }
 ToNodeHolder >> whenDeselectAnnouncement: anAnnouncement [
 
-	(anAnnouncement interval includes: self layoutPosition) 
-		ifTrue: [ itemElement dresser removedFromSelection: itemElement ]
+	(anAnnouncement interval includes: self position) ifFalse: [ ^ self ].
+	self selected: false
 ]
 
 { #category : #'selection - handling' }
 ToNodeHolder >> whenSelectAnnouncement: anAnnouncement [
 
-	(anAnnouncement interval includes: self layoutPosition) 
-		ifTrue: [ itemElement dresser addedToSelection: itemElement ]
+	(anAnnouncement interval includes: self position) ifFalse: [ ^ self ].
+	self selected: true
 ]

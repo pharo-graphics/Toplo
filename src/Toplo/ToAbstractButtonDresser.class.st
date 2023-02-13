@@ -30,7 +30,7 @@ ToAbstractButtonDresser >> clickCandidateHandlerIn: anElement [
 ToAbstractButtonDresser >> clicked: anElement event: anEvent [
 
 	anEvent secondaryButtonPressed ifTrue: [ ^ self rightClicked: anElement event: anEvent ].
-	self leftClicked: anElement
+	self leftClicked: anElement event: anEvent
 
 ]
 
@@ -110,6 +110,35 @@ ToAbstractButtonDresser >> leftClicked: anElement [
 
 ]
 
+{ #category : #'events handling' }
+ToAbstractButtonDresser >> leftClicked: anElement event: anEvent [
+
+	self leftClicked: anElement
+]
+
+{ #category : #'events handling' }
+ToAbstractButtonDresser >> leftPressed: anElement [
+
+	self subclassResponsibility
+]
+
+{ #category : #'events handling' }
+ToAbstractButtonDresser >> leftPressed: anElement event: anEvent [
+
+	self leftPressed: anElement
+
+]
+
+{ #category : #'events handling' }
+ToAbstractButtonDresser >> leftUp: anElement [
+]
+
+{ #category : #'events handling' }
+ToAbstractButtonDresser >> leftUp: anElement event: anEvent [
+
+	self leftUp: anElement
+]
+
 { #category : #'event handlers' }
 ToAbstractButtonDresser >> mouseClickHandlerIn: anElement [
 
@@ -157,7 +186,7 @@ ToAbstractButtonDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	self initialState: anElement.
-	anElement outskirts: (BlOutskirts outside).
+	"anElement outskirts: (BlOutskirts inside)."
 	self installEventListenersIn: anElement
 ]
 
@@ -170,16 +199,9 @@ ToAbstractButtonDresser >> onUninstalledIn: anElement [
 ]
 
 { #category : #'events handling' }
-ToAbstractButtonDresser >> pressed: anElement [
-
-	self subclassResponsibility 
-
-]
-
-{ #category : #'events handling' }
 ToAbstractButtonDresser >> pressed: anElement event: anEvent [
 
-	anEvent secondaryButtonPressed ifFalse: [ ^ self pressed: anElement ].
+	anEvent secondaryButtonPressed ifFalse: [ ^ self leftPressed: anElement event: anEvent].
 	self rightPressed: anElement event: anEvent
 
 ]
@@ -232,12 +254,8 @@ ToAbstractButtonDresser >> uninstallEventListenersIn: anElement [
 ]
 
 { #category : #'events handling' }
-ToAbstractButtonDresser >> up: anElement [
-]
-
-{ #category : #'events handling' }
 ToAbstractButtonDresser >> up: anElement event: anEvent [
 
-	anEvent primaryButtonPressed ifTrue: [ ^ self up: anElement ].
+	anEvent primaryButtonPressed ifTrue: [ ^ self leftUp: anElement event: anEvent].
 	self rightUp: anElement event: anEvent
 ]

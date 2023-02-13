@@ -9,6 +9,12 @@ Class {
 	#category : #'Toplo-Core-Infinite'
 }
 
+{ #category : #'selection managing' }
+ToSelectionStrategy >> addToSelection: index [
+
+	self selectInterval: (index to: index)
+]
+
 { #category : #'mode testing' }
 ToSelectionStrategy >> beMultipleSelection [ 
 
@@ -58,6 +64,13 @@ ToSelectionStrategy >> clearSelection: index [
 ToSelectionStrategy >> dataSource: aDataSource [
 
 	dataSource := aDataSource
+]
+
+{ #category : #'selection managing' }
+ToSelectionStrategy >> deselectInterval: anInterval [
+
+	selectionModel deselect: anInterval first to: anInterval last
+
 ]
 
 { #category : #'event management' }
@@ -113,6 +126,13 @@ ToSelectionStrategy >> isSingle [
 ]
 
 { #category : #'selection managing' }
+ToSelectionStrategy >> rawDeselect: anIndex [ 
+
+	selectionModel rawDeselect: anIndex
+
+]
+
+{ #category : #'selection managing' }
 ToSelectionStrategy >> selectAll [
 	
 	dataSource itemCount > 0 ifFalse: [ ^ self ].
@@ -132,6 +152,12 @@ ToSelectionStrategy >> selectFirst [
 ToSelectionStrategy >> selectIndex: index [
 
 	selectionModel selectOne: index
+]
+
+{ #category : #'selection managing' }
+ToSelectionStrategy >> selectIndexes: indexes [
+	
+	indexes do: [ :idx | self addToSelection: idx ]
 ]
 
 { #category : #'selection managing' }

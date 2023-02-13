@@ -131,6 +131,28 @@ ToInfiniteElement >> nodeFactory: aValuable [
 	nodeFactory := aValuable
 ]
 
+{ #category : #'private - commands' }
+ToInfiniteElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount [
+
+	super offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount
+]
+
+{ #category : #'private - commands' }
+ToInfiniteElement >> offsetPositionRecordsForMove: aFromPosition to: aToPosition [
+
+	super offsetPositionRecordsForMove: aFromPosition to: aToPosition
+]
+
+{ #category : #removing }
+ToInfiniteElement >> offsetPositionRecordsForRemove: aPositionStart itemCount: anItemCount applyToPreLayout: applyToPreLayout [
+
+	self dispatchSelectionChangedAfter: [
+		super
+			offsetPositionRecordsForRemove: aPositionStart
+			itemCount: anItemCount
+			applyToPreLayout: applyToPreLayout ]
+]
+
 { #category : #'private - focus' }
 ToInfiniteElement >> onGotFocus [ 
 

@@ -13,7 +13,8 @@ Class {
 ToNodeDresser >> addedToSelection: anElement [
 
 	selected := true.
-	self background: self selectionBackground  in: anElement
+	self background: self selectionBackground  in: anElement.
+	self border: self hoveredBorder in: anElement.
 
 ]
 
@@ -23,12 +24,24 @@ ToNodeDresser >> clickActionLauncher [
 	^ ToNodeClickActionLauncher new
 ]
 
-{ #category : #'events handling' }
-ToNodeDresser >> downBackground: aBackground [
+{ #category : #'api - install/uninstall  hook' }
+ToNodeDresser >> defaultHoveredBorder [
 
-	" do not change the background if selected "
-	selected ifTrue: [ ^ self ].
-	super downBackground: aBackground.
+	^ BlBorder paint: self theme item hoveredBorderColor
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToNodeDresser >> defaultInitialBackground [
+
+	^ self theme item defaultColor
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToNodeDresser >> defaultInitialBorder [
+
+	^ BlBorder paint: self theme item deselectedColor.
+
 ]
 
 { #category : #'events handling' }
@@ -77,8 +90,8 @@ ToNodeDresser >> launchClick: aBlock for: anInfinite [
 ToNodeDresser >> leaved: anElement [
 
 	self border: initialBorder in: anElement.
-	selected ifTrue: [ ^ self ].
 	" do not change the background if selected "
+	selected ifTrue: [ ^ self ].
 	self background: initialBackground in: anElement
 
 ]
@@ -106,6 +119,13 @@ ToNodeDresser >> leftClicked: anElement event: anEvent [
 					 event: anEvent;
 					 yourself) ]
 		for: anElement holder infiniteElement
+]
+
+{ #category : #'events handling' }
+ToNodeDresser >> leftPressed: anElement [
+
+	selected ifTrue: [ ^ self ].
+	super leftPressed: anElement
 ]
 
 { #category : #'events handling' }
@@ -151,7 +171,19 @@ ToNodeDresser >> onUninstalledIn: anElement [
 { #category : #'events handling' }
 ToNodeDresser >> pressed: anElement event: anEvent [
 
-	"super pressed: anElement event: anEvent"
+	super pressed: anElement event: anEvent
+]
+
+{ #category : #accessing }
+ToNodeDresser >> pressedBackground [
+
+	^ theme item pressedColor
+]
+
+{ #category : #accessing }
+ToNodeDresser >> pressedBorder [
+
+	^ BlBorder paint: theme item pressedBorderColor width: 1
 ]
 
 { #category : #'events handling' }
@@ -162,10 +194,17 @@ ToNodeDresser >> removedFromSelection: anElement [
 	self background: initialBackground  in: anElement
 ]
 
+{ #category : #'events handling' }
+ToNodeDresser >> savedPressedBackground: aBackground [
+
+	" do not change the background if selected "
+	super savedPressedBackground: aBackground.
+]
+
 { #category : #accessing }
 ToNodeDresser >> selectionBackground [
 
-	^ theme button hoveredBorderColor alpha: 0.5 
+	^ self theme item selectedColor
 ]
 
 { #category : #'api - install/uninstall  hook' }

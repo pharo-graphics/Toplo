@@ -36,6 +36,33 @@ ToButtonDresser >> border: aBorder in: anElement [
 		while: [ anElement border: aBorder ]
 ]
 
+{ #category : #accessing }
+ToButtonDresser >> defaultHoveredBackground [
+
+	^ theme item hoveredColor
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonDresser >> defaultHoveredBorder [
+
+	^ BlBorder paint: theme button hoveredBorderColor
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonDresser >> defaultInitialBackground [
+
+	^ self theme button defaultBackgroundColor
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonDresser >> defaultInitialBorder [
+
+	^ BlBorder paint: self theme button defaultBorderColor.
+
+]
+
 { #category : #'events handling' }
 ToButtonDresser >> doubleClicked: anElement [
 
@@ -43,19 +70,6 @@ ToButtonDresser >> doubleClicked: anElement [
 	self border: self hoveredBorder in: anElement.
 	self background: self hoveredBackground in: anElement
 
-]
-
-{ #category : #accessing }
-ToButtonDresser >> downBackground: aBackground [
-
-	savedPressedBackground := aBackground
-
-]
-
-{ #category : #accessing }
-ToButtonDresser >> downBorder: aBorder [
-
-	savedPressedBorder := aBorder
 ]
 
 { #category : #'events handling' }
@@ -82,7 +96,7 @@ ToButtonDresser >> hoveredBackground [
 { #category : #accessing }
 ToButtonDresser >> hoveredBorder [
 
-	^ savedPressedBorder ifNil: [ BlBorder paint: theme button hoveredBorderColor ]
+	^ savedPressedBorder ifNil: [ self defaultHoveredBorder ]
 
 ]
 
@@ -101,8 +115,9 @@ ToButtonDresser >> initialBorder: aBorder [
 { #category : #'events handling' }
 ToButtonDresser >> initialState: anElement [
 
-	initialBorder := BlBorder paint: self theme button defaultBorderColor.
-	initialBackground := self theme button defaultBackgroundColor.
+	initialBorder := self defaultInitialBorder.
+	initialBackground := self defaultInitialBackground.
+
 	self border: initialBorder in: anElement.
 	self background: initialBackground in: anElement
 
@@ -176,9 +191,22 @@ ToButtonDresser >> pressedBorder [
 { #category : #'events handling' }
 ToButtonDresser >> savePressedState [
 
-	self downBorder: self pressedBorder.
-	self downBackground: self pressedBackground.
+	self savedPressedBorder: self pressedBorder.
+	self savedPressedBackground: self pressedBackground.
 
+]
+
+{ #category : #accessing }
+ToButtonDresser >> savedPressedBackground: aBackground [
+
+	savedPressedBackground := aBackground
+
+]
+
+{ #category : #accessing }
+ToButtonDresser >> savedPressedBorder: aBorder [
+
+	savedPressedBorder := aBorder
 ]
 
 { #category : #'api - install/uninstall  hook' }

@@ -134,7 +134,12 @@ ToInfiniteElement >> nodeFactory: aValuable [
 { #category : #'private - commands' }
 ToInfiniteElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount [
 
-	super offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount
+	super
+		offsetPositionRecordsForInsert: aStartPosition
+		itemCount: anItemCount.
+	self selectionStrategy
+		offsetPositionForInsert: aStartPosition
+		itemCount: anItemCount
 ]
 
 { #category : #'private - commands' }
@@ -144,13 +149,15 @@ ToInfiniteElement >> offsetPositionRecordsForMove: aFromPosition to: aToPosition
 ]
 
 { #category : #removing }
-ToInfiniteElement >> offsetPositionRecordsForRemove: aPositionStart itemCount: anItemCount applyToPreLayout: applyToPreLayout [
+ToInfiniteElement >> offsetPositionRecordsForRemove: aStartPosition itemCount: anItemCount applyToPreLayout: applyToPreLayout [
 
-	self dispatchSelectionChangedAfter: [
-		super
-			offsetPositionRecordsForRemove: aPositionStart
-			itemCount: anItemCount
-			applyToPreLayout: applyToPreLayout ]
+	super
+		offsetPositionRecordsForRemove: aStartPosition
+		itemCount: anItemCount
+		applyToPreLayout: applyToPreLayout.
+	self selectionStrategy
+		offsetPositionForRemove: aStartPosition
+		itemCount: anItemCount
 ]
 
 { #category : #'private - focus' }

@@ -22,21 +22,6 @@ ToNodeHolder >> initialize [
 	super initialize
 ]
 
-{ #category : #private }
-ToNodeHolder >> offsetPositionBy: anOffset applyToPreLayout: shouldApplyOnPreLayout [
-
-	| wasSelected |
-	wasSelected := false.
-	(infiniteElement selectionStrategy isSelected: self position) ifTrue: [
-		infiniteElement selectionStrategy clearSelection: self position.
-		wasSelected := true ]. 
-	super
-		offsetPositionBy: anOffset
-		applyToPreLayout: shouldApplyOnPreLayout.
-	anOffset < 0 ifTrue: [ ^ self ].
-	wasSelected ifTrue: [ infiniteElement selectionStrategy cherryPickIndex: self position ]
-]
-
 { #category : #accessing }
 ToNodeHolder >> onAttachedFromDatasource: aDataSource [
 

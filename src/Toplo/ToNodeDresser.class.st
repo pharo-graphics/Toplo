@@ -14,7 +14,7 @@ ToNodeDresser >> addedToSelection: anElement [
 
 	selected := true.
 	self background: self selectionBackground  in: anElement.
-	self border: self hoveredBorder in: anElement.
+	self border: initialBorder in: anElement.
 
 ]
 
@@ -22,6 +22,13 @@ ToNodeDresser >> addedToSelection: anElement [
 ToNodeDresser >> clickActionLauncher [
 
 	^ ToNodeClickActionLauncher new
+]
+
+{ #category : #accessing }
+ToNodeDresser >> defaultHoveredBackground [  
+
+	^ theme item hoveredColor
+
 ]
 
 { #category : #'api - install/uninstall  hook' }

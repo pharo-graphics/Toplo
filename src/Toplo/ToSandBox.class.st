@@ -182,27 +182,28 @@ ToSandBox class >> example_ListInsertRemove [
 		do: [ :event | | r | 
 				r := event indexes collect: [ :idx | idx asString, ':XXXXXX'].
 				r do: [ :e | l list addFirst: e ] ].
-	l
-		when: ToSelectionChangedEvent
-		do: [ :event | l selectedIndexes traceCr ].
 
 	menu := ToContextMenu new.
 	menu client: l.
 	menu addItem: (ToButtonMenuItem new 
 		labelText: 'Add initial Items'; 
 		whenClickedDo: [:event :client | 
-				client list addAll: { 'AAAAAA'.'BBBBBB'.'CCCCCC'.'DDDDDD'.'EEEEEE'} ]).
+			40 timesRepeat: [ client list add: 'AAAAAAAAAAA' ] ]).
 	selectionMenu := ToMenu new.
 	"selectionMenu client: l."
 	selectionMenu label: (ToLabel new text: 'Selection actions').
 	selectionMenu addItem: (ToButtonMenuItem new 
 		labelText: 'Insert before'; 
 		whenClickedDo: [:event :client | 
-				client selectedIndexes do: [ :idx | client list add: (idx asString, ':XXXXXX') beforeIndex:idx ]]; yourself).
+				"'before ' trace. client selectedIndexes traceCr."
+				client selectedIndexes do: [ :idx | client list add: (idx asString, ':XXXXXX') beforeIndex:idx ].
+				"'after ' trace. client selectedIndexes traceCr"]; yourself).
 	selectionMenu addItem: (ToButtonMenuItem new labelText: 'Insert after'; 
 		whenClickedDo: [:event :client | | nb |
+				"'before ' trace. client selectedIndexes traceCr."
 				nb := client selectedIndexes size.
-				client selectedIndexes do: [ :idx | client list add: (idx asString, ':XXXXXX') afterIndex:idx + nb - 1]]; yourself).
+				client selectedIndexes do: [ :idx | client list add: (idx asString, ':XXXXXX') afterIndex:idx + nb - 1].
+				"'after ' trace. client selectedIndexes traceCr"]; yourself).
 	selectionMenu addItem: (ToButtonMenuItem new labelText: 'Remove'; 
 		whenClickedDo: [:event :client | | from to |
 			client selectedIndexes ifNotEmpty: [

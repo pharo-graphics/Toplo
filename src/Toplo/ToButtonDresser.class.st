@@ -37,9 +37,9 @@ ToButtonDresser >> border: aBorder in: anElement [
 ]
 
 { #category : #accessing }
-ToButtonDresser >> defaultHoveredBackground [
+ToButtonDresser >> defaultHoveredBackground [  
 
-	^ theme item hoveredColor
+	^ theme button hoveredBackgroundColor
 
 ]
 
@@ -89,7 +89,7 @@ ToButtonDresser >> hover: anElement [
 { #category : #accessing }
 ToButtonDresser >> hoveredBackground [
 
-	^ savedPressedBackground ifNil: [ theme button hoveredBackgroundColor ]
+	^ savedPressedBackground ifNil: [ self defaultHoveredBackground ]
 
 ]
 

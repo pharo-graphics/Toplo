@@ -125,6 +125,22 @@ ToSelectionStrategy >> isSingle [
 	^ self isMultiple not
 ]
 
+{ #category : #'data source change' }
+ToSelectionStrategy >> offsetPositionForInsert: aStartPosition itemCount: anItemCount [
+
+	| selected |
+	selected := self selectedIndexes select: [ :idx | idx >= aStartPosition ].
+	selected do: [ :idx | self clearSelection: idx ].
+	selected do: [ :idx | self addToSelection: idx + anItemCount ].
+]
+
+{ #category : #'data source change' }
+ToSelectionStrategy >> offsetPositionForRemove: aStartPosition itemCount: anItemCount [
+
+	aStartPosition to: aStartPosition + anItemCount - 1 do: [ :idx |
+		self clearSelection: idx ]
+]
+
 { #category : #'selection managing' }
 ToSelectionStrategy >> rawDeselect: anIndex [ 
 

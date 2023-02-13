@@ -1,7 +1,7 @@
 Trait {
 	#name : #TToEditable,
 	#instVars : [
-		'isEditable'
+		'#isEditable => ObservableSlot'
 	],
 	#category : #'Toplo-Core'
 }
@@ -19,6 +19,12 @@ TToEditable >> beReadOnly [
 ]
 
 { #category : #'t - editable' }
+TToEditable >> initializeEditable [
+
+	isEditable := false
+]
+
+{ #category : #'t - editable' }
 TToEditable >> isEditable [
 
 	^ isEditable 
@@ -28,22 +34,7 @@ TToEditable >> isEditable [
 TToEditable >> isEditable: aBoolean [
 
 	isEditable = aBoolean ifTrue: [ ^ self ].
-	isEditable := aBoolean.
-	aBoolean
-		ifTrue: [ self privateBeEditable ]
-		ifFalse: [ self privateBeReadOnly ]
-]
-
-{ #category : #'private-change' }
-TToEditable >> privateBeEditable [
-	
-	self explicitRequirement 
-]
-
-{ #category : #'private-change' }
-TToEditable >> privateBeReadOnly [
-
-	self explicitRequirement 
+	isEditable := aBoolean
 ]
 
 { #category : #'change hook' }

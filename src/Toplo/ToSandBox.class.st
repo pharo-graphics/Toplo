@@ -165,6 +165,19 @@ ToSandBox class >> example_ListInsertRemove [
 
 	| l menu selectionMenu |
 	l := ToList new.
+	l nodeFactory: [ :t :holder | | lab |
+		     lab := ToLabel new
+			            text: t;
+							beMultiLine;
+							margin: (BlInsets all: 1);
+							padding: (BlInsets all: 1);
+			            yourself.
+			  lab whenTextReplacedDo: [ 
+					holder list at: holder position put: (lab text asString) ].
+		     ToLabeledNode new
+			     label: lab;
+				  beEditable;
+			     hMatchParent ].
 	l when: ToStrongSelectionEvent 
 		do: [ :event | | r | 
 				r := event indexes collect: [ :idx | idx asString, ':XXXXXX'].
@@ -180,7 +193,7 @@ ToSandBox class >> example_ListInsertRemove [
 		whenClickedDo: [:event :client | 
 				client list addAll: { 'AAAAAA'.'BBBBBB'.'CCCCCC'.'DDDDDD'.'EEEEEE'} ]).
 	selectionMenu := ToMenu new.
-	selectionMenu client: l.
+	"selectionMenu client: l."
 	selectionMenu label: (ToLabel new text: 'Selection actions').
 	selectionMenu addItem: (ToButtonMenuItem new 
 		labelText: 'Insert before'; 

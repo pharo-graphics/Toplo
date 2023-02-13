@@ -25,6 +25,13 @@ ToMenu >> addedInMenu: aMenu [
 	self addedAsSubmenuInMenu: aMenu
 ]
 
+{ #category : #'t - menu accessing' }
+ToMenu >> client [
+
+	" get parent menu client if none is declared locally "
+	^ client ifNil: [ self parentMenu ifNotNil: [ :pm | pm client ] ]
+]
+
 { #category : #'t - initialization dresser' }
 ToMenu >> defaultDresser [
 

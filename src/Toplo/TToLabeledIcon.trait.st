@@ -53,9 +53,9 @@ TToLabeledIcon >> label [
 ]
 
 { #category : #'t - labeled icon' }
-TToLabeledIcon >> label: anElement [
+TToLabeledIcon >> label: aLabel [
 
-	self second: anElement
+	self second: aLabel
 ]
 
 { #category : #'t - labeled icon' }

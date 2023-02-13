@@ -96,6 +96,14 @@ ToLabel >> defaultTextElement [
 	^ self lineMode newTextElementIn: self
 ]
 
+{ #category : #'private-change' }
+ToLabel >> editabilityChanged [
+
+	self isEditable
+		ifTrue: [ self privateBeEditable ]
+		ifFalse: [ self privateBeReadOnly ]
+]
+
 { #category : #'private-editing' }
 ToLabel >> editor [
 
@@ -144,7 +152,7 @@ ToLabel >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	isEditable := false.
+	self initializeEditable.
 	self constraintsDo: [ :c | 
 		c vertical fitContent.
 		c horizontal fitContent ].
@@ -152,6 +160,7 @@ ToLabel >> initialize [
 	self whenLineModeChangedDo: [ self privateLineModeChanged ].
 	self lineMode: self defaultLineMode.
 	self text: self defaultText.
+	self whenEditableChangedDo: [ self editabilityChanged ].
 	
 	self initializeDresser
 

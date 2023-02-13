@@ -1,8 +1,8 @@
 Class {
 	#name : #ToLabeledNode,
 	#superclass : #ToWidget,
-	#traits : 'TToPair + TToLabeledIcon + TToWidgetWithState + TToClickable + TToSelectableNode',
-	#classTraits : 'TToPair classTrait + TToLabeledIcon classTrait + TToWidgetWithState classTrait + TToClickable classTrait + TToSelectableNode classTrait',
+	#traits : 'TToPair + TToLabeledIcon + TToEditable + TToWidgetWithState + TToClickable + TToSelectableNode',
+	#classTraits : 'TToPair classTrait + TToLabeledIcon classTrait + TToEditable classTrait + TToWidgetWithState classTrait + TToClickable classTrait + TToSelectableNode classTrait',
 	#category : #'Toplo-Core-Node'
 }
 
@@ -18,6 +18,14 @@ ToLabeledNode >> defaultDresser [
 	^ ToNodeDresser new
 ]
 
+{ #category : #'private-change' }
+ToLabeledNode >> editabilityChanged [
+
+	self isEditable
+		ifTrue: [ self privateBeEditable ]
+		ifFalse: [ self privateBeReadOnly ]
+]
+
 { #category : #accessing }
 ToLabeledNode >> holder [
 
@@ -27,8 +35,19 @@ ToLabeledNode >> holder [
 { #category : #initialization }
 ToLabeledNode >> initialize [ 
 
+	self class initializeSlots: self.
 	super initialize.
-	self initializePair
+	self initializeEditable.
+	self initializePair.
+	self whenEditableChangedDo: [ self editabilityChanged ].
+
+]
+
+{ #category : #'t - labeled icon' }
+ToLabeledNode >> label: aLabel [
+
+	aLabel isEditable: self isEditable.
+	self second: aLabel
 ]
 
 { #category : #'t - labeled icon' }
@@ -36,4 +55,16 @@ ToLabeledNode >> labelText: aText [
 
 	self label ifNotNil: [ :lab | ^ lab text: aText ].
 	self label: (ToLabel text: aText)
+]
+
+{ #category : #'private-change' }
+ToLabeledNode >> privateBeEditable [
+
+	self label ifNotNil: [ :l | l beEditable ]
+]
+
+{ #category : #'private-change' }
+ToLabeledNode >> privateBeReadOnly [ 
+
+	self label ifNotNil: [ :l | l beReadOnly ]
 ]

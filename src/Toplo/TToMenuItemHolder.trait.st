@@ -31,7 +31,7 @@ TToMenuItemHolder >> addSeparator [
 { #category : #'t - menu accessing' }
 TToMenuItemHolder >> client [
 
-	^ client
+	^ client 
 ]
 
 { #category : #'t - menu accessing' }

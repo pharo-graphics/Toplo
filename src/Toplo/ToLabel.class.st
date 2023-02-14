@@ -206,6 +206,14 @@ ToLabel >> lineMode: aLineMode [
 	lineMode := aLineMode
 ]
 
+{ #category : #initialization }
+ToLabel >> monoLine: aBoolean [
+
+	aBoolean
+		ifTrue: [ self beMonoLine ]
+		ifFalse: [ self beMultiLine ]
+]
+
 { #category : #'private-editing' }
 ToLabel >> newEditor [
 

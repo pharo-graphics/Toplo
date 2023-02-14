@@ -161,77 +161,6 @@ ToSandBox class >> example_EditorWithoutSoftLine [
 ]
 
 { #category : #list }
-ToSandBox class >> example_ListInsertRemove [
-
-	| l selectionMenu menuFactory |
-	l := ToList new.
-	l nodeFactory: [ :t :holder | | lab |
-		     lab := ToLabel new
-			            text: t;
-							beMultiLine;
-							margin: (BlInsets all: 1);
-							padding: (BlInsets all: 1);
-			            yourself.
-			  lab whenTextReplacedDo: [ 
-					holder list at: holder position put: (lab text asString) ].
-		     ToLabeledNode new
-			     label: lab;
-				  beEditable;
-			     hMatchParent ].
-	l when: ToStrongSelectionEvent 
-		do: [ :event | | r | 
-				r := event indexes collect: [ :idx | idx asString, ':XXXXXX'].
-				r do: [ :e | l list addFirst: e ] ].
-	menuFactory := [ | menu |
-		menu := ToContextMenu new withoutLeftColumn.
-		menu client: l.
-		menu addItem: (ToButtonMenuItem new 
-			labelText: 'Add initial Items'; 
-			whenClickedDo: [:event :client | 
-				40 timesRepeat: [ client list add: 'AAAAAAAAAAA' ] ]).
-		l list ifNotEmpty: [ 
-			menu addItem: (ToButtonMenuItem new 
-				labelText: 'Select all'; 
-				whenClickedDo: [:event :client | client selectionStrategy selectAll ]).
-			selectionMenu := ToMenu new withoutLeftColumn.
-			selectionMenu label: (ToLabel new text: 'Selection actions') ].
-		l selectedIndexes ifNotEmpty: [ 
-			l selectedIndexes size = 1 ifTrue: [ 
-				selectionMenu addItem: (ToButtonMenuItem new 
-					labelText: 'Edit Selection'; 
-					whenClickedDo: [:event :client | 
-						client selectedIndexes first in: [ :idx | | holder |
-							holder := client findElementHolderForDataSourcePosition: idx.
-							holder itemElement label addEditor  ] ]; yourself).
-				selectionMenu addSeparator ].
-			selectionMenu addItem: (ToButtonMenuItem new 
-				labelText: 'Insert before'; 
-				whenClickedDo: [:event :client | 
-					client selectedIndexes do: [ :idx | client list add: (idx asString, ':XXXXXX') beforeIndex:idx ].
-					]; yourself).
-			selectionMenu addItem: (ToButtonMenuItem new labelText: 'Insert after'; 
-				whenClickedDo: [:event :client | | nb |	
-					nb := client selectedIndexes size.
-					client selectedIndexes do: [ :idx | client list add: (idx asString, ':XXXXXX') afterIndex:idx + nb - 1] ]; yourself).
-			selectionMenu addSeparator.
-			selectionMenu addItem: (ToButtonMenuItem new labelText: 'Remove selection'; 
-				whenClickedDo: [:event :client | | from to |
-					client selectedIndexes ifNotEmpty: [
-					from := client selectedIndexes first.
-					to := client selectedIndexes last.
-					client list removeFrom: from to: to] ]; yourself).
-			menu addItem: selectionMenu.
-			menu addSeparator. ].
-		l list ifNotEmpty: [ 
-			menu addItem: (ToButtonMenuItem new labelText: 'Remove all'; 
-				whenClickedDo: [:event :client | client list removeAll ]; yourself) ].
-		menu ].
-	l contextMenuFactory: menuFactory.
-	l withRowNumbers.
-	l openInOBlSpace
-]
-
-{ #category : #list }
 ToSandBox class >> example_ListOneClass [
 
 	| l |
@@ -302,6 +231,74 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 						     labelText: cls name;
 						     hMatchParent ].
 	l list addAll: Smalltalk globals allClasses.
+	l openInOBlSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_ListWithEditableAndContextMenu [
+
+	| l selectionMenu menuFactory |
+	l := ToList new.
+	l nodeFactory: [ :t :holder |
+			  t removeFromParent.
+		     ToLabeledNode new
+			     label: t;
+				  beEditable;
+			     hMatchParent ].
+	l when: ToStrongSelectionEvent 
+		do: [ :event | | r | 
+				r := event indexes collect: [ :idx | ToLabel new text: (idx asString, ':XXXXXX'); yourself].
+				r do: [ :e | l list addFirst: e ] ].
+	menuFactory := [ | menu |
+		menu := ToContextMenu new withoutLeftColumn.
+		menu client: l.
+		menu addItem: (ToButtonMenuItem new 
+			labelText: 'Add initial Items'; 
+			whenClickedDo: [:event :client | 
+				40 timesRepeat: [ client list add: (ToLabel new text: ('AAAAAAAAAAA'); yourself) ] ]).
+		l list ifNotEmpty: [ 
+			menu addItem: (ToButtonMenuItem new 
+				labelText: 'Select all'; 
+				whenClickedDo: [:event :client | client selectionStrategy selectAll ]).
+			selectionMenu := ToMenu new withoutLeftColumn.
+			selectionMenu label: (ToLabel new text: 'Selection actions') ].
+		l selectedIndexes ifNotEmpty: [ 
+			l selectedIndexes size = 1 ifTrue: [ | holder idx |
+				idx := l selectedIndexes first.
+				holder := l findElementHolderForDataSourcePosition: idx.
+				selectionMenu addItem: (ToButtonMenuItem new 
+					labelText: 'Edit Selection'; 
+					whenClickedDo: [:event :client | 
+						holder itemElement label addEditor  ]; yourself).
+				selectionMenu addItem: (ToButtonMenuItem new 
+					labelText: (holder itemElement label isMonoLine ifTrue: ['Be multiline'] ifFalse: [ 'Be monoline' ]) ; 
+					whenClickedDo: [:event :client | 
+						holder itemElement label monoLine: holder itemElement label isMonoLine not]; yourself).
+				selectionMenu addSeparator ].
+			selectionMenu addItem: (ToButtonMenuItem new 
+				labelText: 'Insert before'; 
+				whenClickedDo: [:event :client | 
+					client selectedIndexes do: [ :idx | client list add: (ToLabel new text: (idx asString, ':XXXXXX')) beforeIndex:idx ].
+					]; yourself).
+			selectionMenu addItem: (ToButtonMenuItem new labelText: 'Insert after'; 
+				whenClickedDo: [:event :client | | nb |	
+					nb := client selectedIndexes size.
+					client selectedIndexes do: [ :idx | client list add: (ToLabel new text: (idx asString, ':XXXXXX')) afterIndex:idx + nb - 1] ]; yourself).
+			selectionMenu addSeparator.
+			selectionMenu addItem: (ToButtonMenuItem new labelText: 'Remove selection'; 
+				whenClickedDo: [:event :client | | from to |
+					client selectedIndexes ifNotEmpty: [
+					from := client selectedIndexes first.
+					to := client selectedIndexes last.
+					client list removeFrom: from to: to] ]; yourself).
+			menu addItem: selectionMenu.
+			menu addSeparator. ].
+		l list ifNotEmpty: [ 
+			menu addItem: (ToButtonMenuItem new labelText: 'Remove all'; 
+				whenClickedDo: [:event :client | client list removeAll ]; yourself) ].
+		menu ].
+	l contextMenuFactory: menuFactory.
+	l withRowNumbers.
 	l openInOBlSpace
 ]
 

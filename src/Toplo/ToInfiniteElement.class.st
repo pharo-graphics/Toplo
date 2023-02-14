@@ -25,6 +25,12 @@ ToInfiniteElement >> clickLauncher: aProcessOrNil [
 
 ]
 
+{ #category : #accessing }
+ToInfiniteElement >> client [
+
+	^ self
+]
+
 { #category : #initialization }
 ToInfiniteElement >> defaultDataSource [
 
@@ -94,6 +100,7 @@ ToInfiniteElement >> holderClass [
 { #category : #initialization }
 ToInfiniteElement >> initialize [ 
 
+	self class initializeSlots: self.
 	super initialize.
 	nodeFactory := self defaultNodeFactory.
 	selectionStrategy := self defaultSelectionStrategy.

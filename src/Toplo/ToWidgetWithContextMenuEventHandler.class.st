@@ -2,7 +2,8 @@ Class {
 	#name : #ToWidgetWithContextMenuEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
-		'mouseButton'
+		'mouseButton',
+		'contextMenu'
 	],
 	#category : #'Toplo-Widget-Menu'
 }
@@ -25,7 +26,9 @@ ToWidgetWithContextMenuEventHandler >> eventsToHandle [
 { #category : #private }
 ToWidgetWithContextMenuEventHandler >> hideContextMenuFor: aWidget [
 
-	aWidget contextMenu ifNotNil: [ :m | m close ]
+	contextMenu ifNotNil: [ :m |
+		m close.
+		contextMenu := nil ]
 ]
 
 { #category : #initialization }
@@ -39,7 +42,6 @@ ToWidgetWithContextMenuEventHandler >> initialize [
 ToWidgetWithContextMenuEventHandler >> mouseDownEvent: anEvent [
 
 	anEvent button = mouseButton ifFalse: [ ^ self ].
-
 	self hideContextMenuFor: anEvent currentTarget.
 	self
 		popupContextMenuFor: anEvent currentTarget 
@@ -49,11 +51,8 @@ ToWidgetWithContextMenuEventHandler >> mouseDownEvent: anEvent [
 { #category : #private }
 ToWidgetWithContextMenuEventHandler >> popupContextMenuFor: aWidget event: anEvent [
 
-	| win |
-	aWidget contextMenu ifNil: [ ^ self ].
-	win := aWidget contextMenu.
-	win isAttachedToSceneGraph ifTrue: [ ^ self ].
-	win popupEvent: anEvent
+	contextMenu := aWidget contextMenu.
+	contextMenu popupEvent: anEvent
 ]
 
 { #category : #'api - accessing' }

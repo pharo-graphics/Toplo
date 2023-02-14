@@ -197,7 +197,7 @@ ToMiniBrowser >> initialize [
 
 	codeMenu := ToContextMenu new globalColumnWidth: 0.
 	codeMenu addItem: (ToButtonMenuItem new labelText: 'Accept').
-	codePane contextMenu: codeMenu.
+	codePane contextMenuFactory: codeMenu.
 
 	packages withRowNumbers.
 	classes withRowNumbers.

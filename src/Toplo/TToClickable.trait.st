@@ -4,6 +4,12 @@ Trait {
 }
 
 { #category : #'t - click behavior' }
+TToClickable >> clickTargetFromEvent: anEvent [
+
+	^ anEvent currentTarget
+]
+
+{ #category : #'t - click behavior' }
 TToClickable >> client [
 
 	^ self explicitRequirement 
@@ -13,5 +19,9 @@ TToClickable >> client [
 TToClickable >> whenClickedDo: aBlock [
 	"Inform that the widget has been clicked."
 
-	self when: BlClickEvent do: [ :event | aBlock cull: event cull: self client]
+	self when: BlClickEvent do: [ :event |
+		aBlock
+			cull: event
+			cull: self client
+			cull: (self clickTargetFromEvent: event) ]
 ]

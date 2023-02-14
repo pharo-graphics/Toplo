@@ -84,7 +84,7 @@ TToMenuItemHolder >> removeItem: aMenuItem [
 
 	aMenuItem removedFromMenu: self.
 	self items remove: aMenuItem.
-	self subMenuWindow removeChild: aMenuItem
+	self subMenuWindow root removeChild: aMenuItem
 ]
 
 { #category : #'t - menu accessing' }

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToLabeledNode,
 	#superclass : #ToWidget,
-	#traits : 'TToPair + TToLabeledIcon + TToEditable + TToWidgetWithState + TToClickable + TToSelectableNode',
-	#classTraits : 'TToPair classTrait + TToLabeledIcon classTrait + TToEditable classTrait + TToWidgetWithState classTrait + TToClickable classTrait + TToSelectableNode classTrait',
+	#traits : 'TToPair + TToLabeledIcon + TToEditable + TToWidgetWithState + TToSelectableNode + TToClickable',
+	#classTraits : 'TToPair classTrait + TToLabeledIcon classTrait + TToEditable classTrait + TToWidgetWithState classTrait + TToSelectableNode classTrait + TToClickable classTrait',
 	#category : #'Toplo-Core-Node'
 }
 

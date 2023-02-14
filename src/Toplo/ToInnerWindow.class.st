@@ -144,6 +144,7 @@ ToInnerWindow >> elements [
 { #category : #initialization }
 ToInnerWindow >> initialize [ 
 
+	self class initializeSlots: self.
 	super initialize.
 	self size: self defaultSize.
 	self background: Color gray.

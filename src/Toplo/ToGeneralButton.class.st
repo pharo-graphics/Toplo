@@ -21,14 +21,6 @@ ToGeneralButton >> client: anObject [
 	client := anObject
 ]
 
-{ #category : #'t - accessing context menu' }
-ToGeneralButton >> contextMenu: aMenu [
-
-	self userData at: #contextMenu put: aMenu.
-	aMenu client: self client.
-	aMenu widget: self
-]
-
 { #category : #initialization }
 ToGeneralButton >> initialize [ 
 

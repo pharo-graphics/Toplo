@@ -53,7 +53,6 @@ ToTextFieldDresser >> onInstalledIn: anElement [
 ToTextFieldDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
-
 	anElement removeEventHandler: selectionHandler.
 	anElement removeEventHandler: doubleClickHandler.
 	anElement removeEventHandler: mouseDownHandler.

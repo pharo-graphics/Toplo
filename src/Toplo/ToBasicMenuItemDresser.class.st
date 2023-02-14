@@ -34,7 +34,7 @@ ToBasicMenuItemDresser >> onInstalledIn: anElement [
 	super onInstalledIn: anElement.
 	anElement background: Color transparent.
 	anElement border: BlBorder empty.
-	anElement padding: (BlInsets top: 2; bottom: 2).
+	anElement padding: (BlInsets top: 2 left: 5 bottom: 2 right: 4 ).
 	self installEventListenersIn: anElement
 ]
 

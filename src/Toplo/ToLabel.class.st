@@ -33,12 +33,17 @@ ToLabel >> addEditor: anEditor [
 	self editor text: self text copy.
 	self editorFrame: (ToAnchoredWindow new popupAnimationFactory: nil).
 	self editorFrame anchor: self innerElement.
-	self editorFrame root addChild: anEditor.	
+	self editorFrame root addChild: anEditor.
+	self editorFrame geometry: self editor geometry.
 	self innerElement visibility: BlVisibility hidden.
 	self editorFrame popup.
 	self editorFocusHandler: (BlEventHandler on: BlFocusEvent do: [ self editorFrame toFront ]).
 	self editor infinite addEventHandler: self editorFocusHandler.
-
+	self editor effect:
+		(BlGaussianShadowEffect
+			 color: Color gray
+			 width: 10
+			 offset: 0 asPoint).
 	self editor requestFocus.
 	self editor selecter all; apply
 	

@@ -18,7 +18,6 @@ ToAnchoredWindowDresser >> onInstalledIn: anElement [
 	super onInstalledIn: anElement.
 	self installEventListenersIn: anElement
 
-
 ]
 
 { #category : #'api - install/uninstall  hook' }

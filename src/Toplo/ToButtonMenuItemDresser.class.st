@@ -14,6 +14,7 @@ ToButtonMenuItemDresser >> leftClicked: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToButtonMenuItemDresser >> onInstalledIn: anElement [
 
-	super onInstalledIn: anElement.
+	super onInstalledIn: anElement
+
 
 ]

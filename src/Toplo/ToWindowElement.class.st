@@ -41,7 +41,7 @@ ToWindowElement >> defaultBorder [
 { #category : #initialization }
 ToWindowElement >> defaultGeometry [ 
 	
-	^ (BlRoundedRectangleGeometry cornerRadius: 5)
+	^ (BlRoundedRectangleGeometry cornerRadius: 4)
 ]
 
 { #category : #initialization }

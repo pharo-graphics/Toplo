@@ -186,7 +186,6 @@ ToAbstractButtonDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	self initialState: anElement.
-	"anElement outskirts: (BlOutskirts inside)."
 	self installEventListenersIn: anElement
 ]
 

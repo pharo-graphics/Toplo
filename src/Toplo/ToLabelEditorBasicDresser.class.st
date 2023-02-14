@@ -13,6 +13,8 @@ ToLabelEditorBasicDresser >> onInstalledIn: anElement [
 	anElement infinite fitContent.
 	anElement margin: BlInsets empty.
 	anElement padding: BlInsets empty.
+	anElement next background: Color transparent.
+	anElement outskirts: (BlOutskirts outside).
 	anElement clipChildren: false.
 
 

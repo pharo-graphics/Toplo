@@ -239,15 +239,17 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l selectionMenu menuFactory |
 	l := ToList new.
-	l nodeFactory: [ :t :holder |
-			  t removeFromParent.
-		     ToLabeledNode new
-			     label: t;
-				  beEditable;
-			     hMatchParent ].
+	l nodeFactory: [ :t :holder | | lab |
+		lab := ToLabel text: t.
+		lab beMultiLine.
+		lab whenTextReplacedDo: [ l list at: holder position put: (lab text asString) ].
+		ToLabeledNode new
+			label: (lab);
+			beEditable;
+			hMatchParent ].
 	l when: ToStrongSelectionEvent 
 		do: [ :event | | r | 
-				r := event indexes collect: [ :idx | ToLabel new text: (idx asString, ':XXXXXX'); yourself].
+				r := event indexes collect: [ :idx | idx asString, ':XXXXXX'].
 				r do: [ :e | l list addFirst: e ] ].
 	menuFactory := [ | menu |
 		menu := ToContextMenu new withoutLeftColumn.
@@ -255,7 +257,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		menu addItem: (ToButtonMenuItem new 
 			labelText: 'Add initial Items'; 
 			whenClickedDo: [:event :client | 
-				40 timesRepeat: [ client list add: (ToLabel new text: ('AAAAAAAAAAA'); yourself) ] ]).
+				40 timesRepeat: [ client list add: 'AAAAAAAAAAA' ] ]).
 		l list ifNotEmpty: [ 
 			menu addItem: (ToButtonMenuItem new 
 				labelText: 'Select all'; 
@@ -278,12 +280,12 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 			selectionMenu addItem: (ToButtonMenuItem new 
 				labelText: 'Insert before'; 
 				whenClickedDo: [:event :client | 
-					client selectedIndexes do: [ :idx | client list add: (ToLabel new text: (idx asString, ':XXXXXX')) beforeIndex:idx ].
+					client selectedIndexes do: [ :idx | client list add: (idx asString, ':XXXXXX') beforeIndex:idx ].
 					]; yourself).
 			selectionMenu addItem: (ToButtonMenuItem new labelText: 'Insert after'; 
 				whenClickedDo: [:event :client | | nb |	
 					nb := client selectedIndexes size.
-					client selectedIndexes do: [ :idx | client list add: (ToLabel new text: (idx asString, ':XXXXXX')) afterIndex:idx + nb - 1] ]; yourself).
+					client selectedIndexes do: [ :idx | client list add: (idx asString, ':XXXXXX') afterIndex:idx + nb - 1] ]; yourself).
 			selectionMenu addSeparator.
 			selectionMenu addItem: (ToButtonMenuItem new labelText: 'Remove selection'; 
 				whenClickedDo: [:event :client | | from to |
@@ -299,7 +301,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		menu ].
 	l contextMenuFactory: menuFactory.
 	l withRowNumbers.
-	l openInOBlSpace
+	l openInInnerWindow 
 ]
 
 { #category : #list }
@@ -415,7 +417,7 @@ ToSandBox class >> example_anchoredWidow1 [
 			 background: Color yellow;
 			 border: (BlBorder paint: Color red)).
 	w anchor: e.
-	w root addChild: (ToAlbum new dresser: ToLabelEditorBasicDresser new; text: 'bla bla bla').
+	w root addChild: (ToAlbum new dresser: ToLabelEditorDresser new; text: 'bla bla bla').
 	w fitContent.
 	e openInInnerWindow.
 	w popup

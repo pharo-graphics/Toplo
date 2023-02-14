@@ -26,8 +26,7 @@ ToListDataSource >> onCreateHolder: anInfiniteElement [
 ToListDataSource >> onElementAttached: anElementHolder [
 
 	super onElementAttached: anElementHolder.
-	anElementHolder onAttachedFromDatasource: self.
-
+	anElementHolder onAttachedFromDatasource: self
 ]
 
 { #category : #'instance creation' }

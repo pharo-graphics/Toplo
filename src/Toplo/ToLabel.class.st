@@ -28,25 +28,17 @@ ToLabel >> addEditor [
 { #category : #'private-editing' }
 ToLabel >> addEditor: anEditor [
 
-	self editor ifNotNil: [^ self ].	
+	self editor ifNotNil: [ ^ self ].
 	self editor: anEditor.
 	self editor text: self text copy.
-	self editorFrame: (ToAnchoredWindow new popupAnimationFactory: nil).
-	self editorFrame anchor: self innerElement.
-	self editorFrame root addChild: anEditor.
-	self editorFrame geometry: self editor geometry.
+	self editorFrame: (self newEditorFrameForEditor: self editor).
 	self innerElement visibility: BlVisibility hidden.
-	self editorFrame popup.
-	self editorFocusHandler: (BlEventHandler on: BlFocusEvent do: [ self editorFrame toFront ]).
-	self editor infinite addEventHandler: self editorFocusHandler.
-	self editor effect:
-		(BlGaussianShadowEffect
-			 color: Color gray
-			 width: 10
-			 offset: 0 asPoint).
 	self editor requestFocus.
-	self editor selecter all; apply
-	
+	self editorFrame popup.
+	self editor when: ToLabelEditorRemoveRequestEvent do: [ self removeEditor ].
+	self editor selecter
+		all;
+		apply
 ]
 
 { #category : #initialization }
@@ -65,9 +57,7 @@ ToLabel >> beMultiLine [
 ToLabel >> cleanUpUserData [
 
 	self userData removeKey: #editorFrame.
-	self userData removeKey: #editor.
-	self editorFocusHandler: nil.
-
+	self userData removeKey: #editor
 ]
 
 { #category : #initialization }
@@ -122,19 +112,6 @@ ToLabel >> editor: anEditor [
 ]
 
 { #category : #'private-editing' }
-ToLabel >> editorFocusHandler [
-
-	^ self userData at: #editorFocusHandler 
-]
-
-{ #category : #'private-editing' }
-ToLabel >> editorFocusHandler: anHandler [
-
-	anHandler ifNil: [ ^ self userData removeKey: #editorFocusHandler ].
-	self userData at: #editorFocusHandler put: anHandler
-]
-
-{ #category : #'private-editing' }
 ToLabel >> editorFrame [
 
 	^ self userData at: #editorFrame ifAbsent: [  ]
@@ -144,6 +121,12 @@ ToLabel >> editorFrame [
 ToLabel >> editorFrame: anAnchoredWindow [
 
 	self userData at: #editorFrame put: anAnchoredWindow
+]
+
+{ #category : #'private-editing' }
+ToLabel >> hasEditor [
+
+	^ self editor notNil
 ]
 
 { #category : #accessing }
@@ -220,6 +203,16 @@ ToLabel >> newEditor [
 	^ self innerElement newEditorIn: self
 ]
 
+{ #category : #'private-editing' }
+ToLabel >> newEditorFrameForEditor: anEditor [
+
+	^ ToAnchoredWindow new
+		  popupAnimationFactory: nil;
+		  anchor: self innerElement;
+		  in: [ :aw | aw root addChild: anEditor ];
+		  yourself
+]
+
 { #category : #'private-change' }
 ToLabel >> privateBeEditable [
  
@@ -287,10 +280,8 @@ ToLabel >> privateText: aText [
 ToLabel >> removeEditor [
 
 	self editor ifNil: [ ^ self ].
-	self editorFrame close.
-	self editor infinite removeEventHandler: self editorFocusHandler.
+	self editorFrame removeFromParent.
 	self innerElement visibility: BlVisibility visible.
-	self requestLayout.
 	self cleanUpUserData
 ]
 

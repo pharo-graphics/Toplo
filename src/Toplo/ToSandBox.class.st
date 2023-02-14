@@ -54,7 +54,7 @@ Here an example of a client for a method.
 { #category : #list }
 ToSandBox class >> example_EditableListWithAllClassesNames [
 
-	| l menu |
+	| l |
 	l := ToList new nodeFactory: [ :assoc :holder | | lab |
 		     lab := ToLabel new
 			            text: assoc value;
@@ -76,13 +76,6 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 		icon := (Smalltalk ui icons iconNamed: isel).
 		icon -> cls name ]).
 	l withRowNumbers.
-	menu := ToContextMenu new.
-	menu client: l.
-	menu addItem: (ToButtonMenuItem new labelText: 'Insert before'; whenClickedDo: [:event :client | client traceCr]; yourself).
-	menu addItem: (ToButtonMenuItem new labelText: 'Insert after').
-	menu addItem: (ToButtonMenuItem new labelText: 'Remove').
-	menu addItem: (ToButtonMenuItem new labelText: 'Edit').
-	l contextMenuFactory: [ menu ].
 	l openInInnerWindow
 ]
 
@@ -242,10 +235,10 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 	l nodeFactory: [ :t :holder | | lab |
 		lab := ToLabel text: t.
 		lab beMultiLine.
+		lab beEditable.
 		lab whenTextReplacedDo: [ l list at: holder position put: (lab text asString) ].
 		ToLabeledNode new
-			label: (lab);
-			beEditable;
+			label: lab;
 			hMatchParent ].
 	l when: ToStrongSelectionEvent 
 		do: [ :event | | r | 

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToLabeledNode,
 	#superclass : #ToWidget,
-	#traits : 'TToPair + TToLabeledIcon + TToEditable + TToWidgetWithState + TToSelectableNode + TToClickable',
-	#classTraits : 'TToPair classTrait + TToLabeledIcon classTrait + TToEditable classTrait + TToWidgetWithState classTrait + TToSelectableNode classTrait + TToClickable classTrait',
+	#traits : 'TToPair + TToLabeledIcon + TToWidgetWithState + TToClickable',
+	#classTraits : 'TToPair classTrait + TToLabeledIcon classTrait + TToWidgetWithState classTrait + TToClickable classTrait',
 	#category : #'Toplo-Core-Node'
 }
 
@@ -37,16 +37,12 @@ ToLabeledNode >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	self initializeEditable.
-	self initializePair.
-	self whenEditableChangedDo: [ self editabilityChanged ].
-
+	self initializePair
 ]
 
 { #category : #'t - labeled icon' }
 ToLabeledNode >> label: aLabel [
 
-	aLabel isEditable: self isEditable.
 	self second: aLabel
 ]
 

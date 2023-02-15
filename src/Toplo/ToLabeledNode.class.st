@@ -18,14 +18,6 @@ ToLabeledNode >> defaultDresser [
 	^ ToNodeDresser new
 ]
 
-{ #category : #'private-change' }
-ToLabeledNode >> editabilityChanged [
-
-	self isEditable
-		ifTrue: [ self privateBeEditable ]
-		ifFalse: [ self privateBeReadOnly ]
-]
-
 { #category : #accessing }
 ToLabeledNode >> holder [
 

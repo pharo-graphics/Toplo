@@ -4,11 +4,9 @@ Class {
 	#traits : 'TToWidget + TToWidgetWithTooltip + TToWidgetWithViewModel + TToEditable + TBlAlignable',
 	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithViewModel classTrait + TToEditable classTrait + TBlAlignable classTrait',
 	#instVars : [
-		'#textReplacedHandler',
 		'#innerElement',
 		'#text => ObservableSlot',
-		'#lineMode => ObservableSlot',
-		'#editorEventHandler'
+		'#lineMode => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Label'
 }
@@ -22,6 +20,7 @@ ToLabel class >> text: aText [
 { #category : #'private-editing' }
 ToLabel >> addEditor [
 
+	self isEditable ifFalse: [ ^ self ].
 	self addEditor: self newEditor
 ]
 
@@ -91,14 +90,6 @@ ToLabel >> defaultTextElement [
 	^ self lineMode newTextElementIn: self
 ]
 
-{ #category : #'private-change' }
-ToLabel >> editabilityChanged [
-
-	self isEditable
-		ifTrue: [ self privateBeEditable ]
-		ifFalse: [ self privateBeReadOnly ]
-]
-
 { #category : #'private-editing' }
 ToLabel >> editor [
 
@@ -144,13 +135,12 @@ ToLabel >> initialize [
 	self constraintsDo: [ :c | 
 		c vertical fitContent.
 		c horizontal fitContent ].
-	self whenTextReplacedDo: [ self privateText: self text ].
-	self whenLineModeChangedDo: [ self privateLineModeChanged ].
+	
+	" need to initialize the dresser before setting lineMode and text"
+	self initializeDresser.
+	
 	self lineMode: self defaultLineMode.
 	self text: self defaultText.
-	self whenEditableChangedDo: [ self editabilityChanged ].
-	
-	self initializeDresser
 
 ]
 
@@ -158,6 +148,12 @@ ToLabel >> initialize [
 ToLabel >> innerElement [
 
 	^ innerElement
+]
+
+{ #category : #accessing }
+ToLabel >> innerElement: anInnerElement [
+
+	innerElement := anInnerElement 
 ]
 
 { #category : #accessing }
@@ -211,63 +207,6 @@ ToLabel >> newEditorFrameForEditor: anEditor [
 		  anchor: self innerElement;
 		  in: [ :aw | aw root addChild: anEditor ];
 		  yourself
-]
-
-{ #category : #'private-change' }
-ToLabel >> privateBeEditable [
- 
-	editorEventHandler ifNotNil: [ ^ self ].
-	editorEventHandler := BlEventHandler
-		                      on: BlMouseDownEvent
-		                      do: [ :anEvent | 
-			                      (anEvent modifiers isShift and: [ 
-				                       anEvent modifiers isPrimaryModifier ]) 
-				                      ifTrue: [ 
-					                      anEvent consumed: true.
-					                      self addEditor ] ].
-	self addEventHandler: editorEventHandler
-]
-
-{ #category : #'private-change' }
-ToLabel >> privateBeReadOnly [
-
-	editorEventHandler ifNil: [ ^ self ].
-	self removeEventHandler: editorEventHandler.
-	editorEventHandler := nil 
-]
-
-{ #category : #'private-change' }
-ToLabel >> privateLineModeChanged [
-	| currText |
-	currText := self text.
-	self removeChildren.
-	self privateReplaceTextElement.
-	currText ifNotNil: [innerElement text: currText].
-	self layout: self defaultLayout.
-	self addChild: innerElement
-]
-
-{ #category : #'private-change' }
-ToLabel >> privateLineModeChanged: aLineMode [
-	| currText |
-	currText := self text.
-	self removeChildren.
-	self privateReplaceTextElement.
-	currText ifNotNil: [innerElement text: currText].
-	self layout: self defaultLayout.
-	self addChild: innerElement
-]
-
-{ #category : #'private-change' }
-ToLabel >> privateReplaceTextElement [
-
-	innerElement ifNotNil: [ 
-		innerElement removeEventHandler: textReplacedHandler ].
-	innerElement := self defaultTextElement.
-	textReplacedHandler := BlEventHandler
-		                       on: ToTextReplacedEvent
-		                       do: [ :evt | self text: evt text ].
-	innerElement addEventHandler: textReplacedHandler
 ]
 
 { #category : #'private-change' }

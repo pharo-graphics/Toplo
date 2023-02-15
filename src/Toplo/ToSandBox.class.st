@@ -1007,6 +1007,14 @@ ToSandBox class >> example_textFieldWithSaveCapability [
 	t openInInnerWindow 
 ]
 
+{ #category : #'text field' }
+ToSandBox class >> example_textFieldWithoutLineWrapping [
+
+	| t |
+	t := ToTextField new withoutLineWrapping; withSaveCapability.
+	t openInOBlSpace
+]
+
 { #category : #checkbox }
 ToSandBox class >> example_to3statesCheckbox [
 

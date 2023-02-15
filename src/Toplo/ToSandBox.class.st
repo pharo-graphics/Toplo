@@ -45,8 +45,8 @@ Here an example of a client for a method.
 	menu addItem: (ToButtonMenuItem new labelText: 'Cancel'; whenClickedDo: [:event :client | client widgetDo: [:w | w requestCancel ] ]; yourself).
 	menu withoutLeftColumn.
 	menu client: model.
-	model widgetDo: [ :widget | widget contextMenuFactory: menu ].
-	model onWidget openInWorld 
+	model widgetDo: [ :widget | widget contextMenuFactory: [ menu ] ].
+	model onWidget openInInnerWindow 
 
 
 ]
@@ -410,7 +410,7 @@ ToSandBox class >> example_anchoredWidow1 [
 			 background: Color yellow;
 			 border: (BlBorder paint: Color red)).
 	w anchor: e.
-	w root addChild: (ToAlbum new dresser: ToLabelEditorDresser new; text: 'bla bla bla').
+	w root addChild: (ToAlbum new dresser: ToLabelEditorBasicDresser new; text: 'bla bla bla').
 	w fitContent.
 	e openInInnerWindow.
 	w popup

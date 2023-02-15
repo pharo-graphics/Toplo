@@ -46,7 +46,7 @@ ToLabelMultiLineInnerElement >> initialize [
 ToLabelMultiLineInnerElement >> newEditorIn: aLabel [
 
 	| ed |
-	ed := ToAlbum new dresser: ToLabelEditorDresser new.
+	ed := ToAlbum new dresser: (ToLabelEditorDresser label: aLabel).
 	(self editorShortcutsIn: aLabel) do: [ :s | ed editor addEditorShortcut: s ].
 	^ ed
 ]

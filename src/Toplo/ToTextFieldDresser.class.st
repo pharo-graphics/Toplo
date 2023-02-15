@@ -17,18 +17,6 @@ ToTextFieldDresser >> defaultGeometry [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToTextFieldDresser >> defaultMargin [
-
-	^ BlInsets all: 2
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToTextFieldDresser >> defaultPadding [
-
-	^ BlInsets empty
-]
-
-{ #category : #'api - install/uninstall  hook' }
 ToTextFieldDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.

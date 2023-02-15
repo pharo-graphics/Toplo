@@ -54,7 +54,7 @@ ToAlbum >> initialize [
 	self addChild: self next.
 	self whenTextEditedDo: [ self edited: true ].
 	
-	self initializeDresser 
+	self initializeDresser
 ]
 
 { #category : #'t - accessing layers' }

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToPolyElement,
-	#superclass : #BlElement,
+	#superclass : #ToElement,
 	#category : #'Toplo-Core'
 }
 

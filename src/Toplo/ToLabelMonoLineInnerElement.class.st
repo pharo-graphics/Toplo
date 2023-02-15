@@ -37,7 +37,7 @@ ToLabelMonoLineInnerElement >> initialize [
 ToLabelMonoLineInnerElement >> newEditorIn: aLabel [
 
 	| ed |
-	ed := ToTextField new dresser: ToLabelEditorDresser new.
+	ed := ToTextField new dresser: (ToLabelEditorDresser label: aLabel).
 	(self editorShortcutsIn: aLabel) do: [ :s | ed editor addEditorShortcut: s ].
 	^ ed
 ]

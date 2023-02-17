@@ -45,8 +45,8 @@ ToLabelEditorDresser >> onInstalledIn: anElement [
 	anElement infinite fitContent.
 	anElement next background: Color transparent.
 	label ifNotNil: [ 	
-		anElement padding: label padding.
-		anElement margin: label margin].
+		anElement innerElement padding: label padding.
+		anElement innerElement margin: label margin].
 
 	anElement effect: (BlGaussianShadowEffect
 			 color: self defaultBorderColor

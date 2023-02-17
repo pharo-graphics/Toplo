@@ -1,8 +1,8 @@
 Class {
 	#name : #ToAlbum,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TToWidgetWithViewModel + TToWidgetWithTooltip + TToWidgetWithLayers + TToWidgetWithContextMenu + TAlbInfiniteDecorator',
-	#classTraits : 'TToWidget classTrait + TToWidgetWithViewModel classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithLayers classTrait + TToWidgetWithContextMenu classTrait + TAlbInfiniteDecorator classTrait',
+	#traits : 'TToWidget + TToElement + TToWidgetWithViewModel + TToWidgetWithTooltip + TToWidgetWithLayers + TToWidgetWithContextMenu + TAlbInfiniteDecorator',
+	#classTraits : 'TToWidget classTrait + TToElement classTrait + TToWidgetWithViewModel classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithLayers classTrait + TToWidgetWithContextMenu classTrait + TAlbInfiniteDecorator classTrait',
 	#instVars : [
 		'#editsFeedbackLayer',
 		'#ghostTextLayer',
@@ -57,10 +57,16 @@ ToAlbum >> initialize [
 	self initializeDresser
 ]
 
+{ #category : #'t - accessing' }
+ToAlbum >> innerElement [
+
+	^ self next
+]
+
 { #category : #'t - accessing layers' }
 ToAlbum >> layerReferentElement [
 
-		^ self
+		^ self 
 ]
 
 { #category : #'transaction hook' }

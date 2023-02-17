@@ -55,10 +55,10 @@ ToAlbumBasicDresser >> defaultOutskirts [
 ToAlbumBasicDresser >> defaultPadding [
 
 	^ BlInsets
-		  top: (2 + self defaultBorderWidth )
+		  top: (3 + self defaultBorderWidth )
 		  left: (3 + self defaultBorderWidth )
 		  bottom: (2 + self defaultBorderWidth )
-		  right: (2 + self defaultBorderWidth )
+		  right: (3 + self defaultBorderWidth )
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -66,28 +66,29 @@ ToAlbumBasicDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	anElement geometry: self defaultGeometry.
-	anElement margin: self defaultMargin.
-	anElement padding: self defaultPadding.
-	anElement outskirts: self defaultOutskirts.
-
+	anElement innerElement outskirts: self defaultOutskirts.
+	anElement innerElement geometry: self defaultGeometry.
+	anElement innerElement margin: self defaultMargin.
+	anElement innerElement padding: self defaultPadding.
+	
 	infiniteBlurHandler := BlEventHandler
 		on: BlBlurEvent
 		do: [ :anEvent | 
-			anElement border: (BlBorder
+			anElement innerElement border: (BlBorder
 					 paint: self defaultBorderColor
 					 width: self defaultBorderWidth ) ].
 
 	infiniteFocusedHandler := BlEventHandler
 		on:  BlFocusEvent
 		do: [ :anEvent | 
-			anElement  border: (BlBorder
+			anElement innerElement border: (BlBorder
 					 paint: self defaultFocusedBorderColor
 					 width: self defaultBorderWidth) ].
 	
 	anElement infinite addEventHandler: infiniteBlurHandler.
 	anElement infinite addEventHandler: infiniteFocusedHandler.
 	
-	anElement  border: (BlBorder
+	anElement innerElement border: (BlBorder
 			 paint: self defaultBorderColor
 			 width: self defaultBorderWidth).
 

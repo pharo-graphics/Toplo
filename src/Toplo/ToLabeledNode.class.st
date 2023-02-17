@@ -1,8 +1,8 @@
 Class {
 	#name : #ToLabeledNode,
-	#superclass : #ToWidget,
-	#traits : 'TToPair + TToLabeledIcon + TToWidgetWithState + TToClickable',
-	#classTraits : 'TToPair classTrait + TToLabeledIcon classTrait + TToWidgetWithState classTrait + TToClickable classTrait',
+	#superclass : #ToPairedElement,
+	#traits : 'TToLabeledIcon + TToWidgetWithState + TToClickable',
+	#classTraits : 'TToLabeledIcon classTrait + TToWidgetWithState classTrait + TToClickable classTrait',
 	#category : #'Toplo-Core-Node'
 }
 
@@ -30,19 +30,6 @@ ToLabeledNode >> initialize [
 	self class initializeSlots: self.
 	super initialize.
 	self initializePair
-]
-
-{ #category : #'t - labeled icon' }
-ToLabeledNode >> label: aLabel [
-
-	self second: aLabel
-]
-
-{ #category : #'t - labeled icon' }
-ToLabeledNode >> labelText: aText [
-
-	self label ifNotNil: [ :lab | ^ lab text: aText ].
-	self label: (ToLabel text: aText)
 ]
 
 { #category : #'private-change' }

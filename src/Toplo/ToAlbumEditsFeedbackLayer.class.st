@@ -12,7 +12,7 @@ Class {
 { #category : #'api - attaching / detaching' }
 ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement [ 
 
-	super attachTo: anEditorElement.
+	super attachTo: anEditorElement innerElement.
 	
 	coverColor := anEditorElement selectionColor alpha: 0.1.
 	anEditorElement

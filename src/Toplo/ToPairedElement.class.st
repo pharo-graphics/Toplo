@@ -1,5 +1,5 @@
 Class {
-	#name : #ToPairElement,
+	#name : #ToPairedElement,
 	#superclass : #ToWidget,
 	#traits : 'TToPair + TToOrientable',
 	#classTraits : 'TToPair classTrait + TToOrientable classTrait',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : #initialization }
-ToPairElement >> initialize [
+ToPairedElement >> initialize [
 
 	super initialize.
 	self initializePair 

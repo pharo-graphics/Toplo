@@ -1,6 +1,6 @@
 Class {
 	#name : #ToChoiceBoxItemDresser,
-	#superclass : #ToButtonDresser,
+	#superclass : #ToPairedButtonDresser,
 	#category : #'Toplo-Widget-ChoiceBox'
 }
 

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToNodeDresser,
-	#superclass : #ToButtonDresser,
+	#superclass : #ToPairedButtonDresser,
 	#instVars : [
 		'focusGetterHandler',
 		'monitor',

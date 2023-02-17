@@ -1,16 +1,76 @@
 Class {
 	#name : #ToComboBox,
-	#superclass : #ToPolyElement,
+	#superclass : #ToElement,
 	#traits : 'TToWidget + TToWidgetWithTooltip',
 	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait',
 	#instVars : [
 		'#button',
-		'#selectedItem => ObservableSlot',
-		'#list',
-		'#selectedIndex'
+		'#selectedIndex => ObservableSlot',
+		'#items',
+		'#listElement',
+		'#buttonFactory',
+		'#listPlaceHolder',
+		'#buttonPlaceHolder => ObservableSlot'
 	],
-	#category : #'Toplo-Widget-ChoiceBox'
+	#category : #'Toplo-Widget-ComboBox'
 }
+
+{ #category : #accessing }
+ToComboBox >> button [
+
+	^ button
+]
+
+{ #category : #accessing }
+ToComboBox >> button: aButton [
+	button = aButton ifTrue: [ ^ self ].
+	button ifNotNil: [ button removeFromParent ].
+	button := aButton.
+	self addChild: button
+]
+
+{ #category : #accessing }
+ToComboBox >> buttonFactory [
+	" a Valuable can take 2 args, a selected data value and the previous button"
+
+	^ buttonFactory
+]
+
+{ #category : #accessing }
+ToComboBox >> buttonFactory: aValuable [
+	" a Valuable can take 2 args, a selected data value and the previous button"
+
+	buttonFactory := aValuable
+]
+
+{ #category : #accessing }
+ToComboBox >> buttonItem: anObject [
+
+	self button: (self buttonFactory cull: anObject cull: self button)
+
+]
+
+{ #category : #accessing }
+ToComboBox >> buttonPlaceHolder [
+
+	^ buttonPlaceHolder
+]
+
+{ #category : #accessing }
+ToComboBox >> buttonPlaceHolder: anElement [
+
+	buttonPlaceHolder := anElement
+]
+
+{ #category : #'change hook' }
+ToComboBox >> buttonPlaceHolderChanged [
+]
+
+{ #category : #initialization }
+ToComboBox >> defaultPlaceHolder [
+
+	^ 'Place holder'
+]
 
 { #category : #initialization }
 ToComboBox >> defaultStartSelectedIndex [
@@ -26,14 +86,39 @@ ToComboBox >> initialize [
 	self class initializeSlots: self.
 	super initialize.
 	self layout: self defaultLayout.
-	list := ToList new.
-	button := ToBoxButton new.
-	selectedIndex := self defaultStartSelectedIndex.
-	self addChild: button.
-	self whenSelectedIndexChangedDo: [ self selectedIndexChanged ].
+	self fitContent
+]
 
-	self initializeDresser.
+{ #category : #accessing }
+ToComboBox >> items [
+	
+	^ items
+]
 
+{ #category : #accessing }
+ToComboBox >> items: aCollection [
+
+	items := aCollection.
+	listElement list removeAll.
+	listElement list addAll: aCollection.
+]
+
+{ #category : #accessing }
+ToComboBox >> listItems [
+	
+	^ listElement list
+]
+
+{ #category : #accessing }
+ToComboBox >> listPlaceHolder [
+
+	^ listPlaceHolder
+]
+
+{ #category : #accessing }
+ToComboBox >> listPlaceHolder: anElement [
+
+	listPlaceHolder := anElement
 ]
 
 { #category : #accessing }
@@ -48,11 +133,19 @@ ToComboBox >> selectedIndex: anInteger [
 	selectedIndex := anInteger
 ]
 
-{ #category : #'selection change' }
+{ #category : #'change hook' }
 ToComboBox >> selectedIndexChanged [
 ]
 
-{ #category : #enumerating }
+{ #category : #'change hook' }
+ToComboBox >> whenButtonPlaceHolderChangedDo: aBlock [
+
+	"set a block to perform after that the place holder has been changed, and its action performed"
+
+	self property: #buttonPlaceHolder whenChangedDo: aBlock
+]
+
+{ #category : #'change hook' }
 ToComboBox >> whenSelectedIndexChangedDo: aBlock [
 
 	"set a block to perform after that the selected item has been changed, and its action performed"

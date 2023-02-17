@@ -55,7 +55,7 @@ Here an example of a client for a method.
 ToSandBox class >> example_EditableListWithAllClassesNames [
 
 	| l |
-	l := ToList new nodeFactory: [ :assoc :holder | | lab |
+	l := ToListElement new nodeFactory: [ :assoc :holder | | lab |
 		     lab := ToLabel new
 			            text: assoc value;
 			            beEditable;
@@ -157,7 +157,7 @@ ToSandBox class >> example_EditorWithoutSoftLine [
 ToSandBox class >> example_ListOneClass [
 
 	| l |
-	l := ToList new
+	l := ToListElement new
 		     nodeFactory: [ :cls | 
 			     ToCheckNode new
 				     labelText: cls name;
@@ -171,7 +171,7 @@ ToSandBox class >> example_ListOneClass [
 ToSandBox class >> example_ListWithAllClasses [
 
 	| l |
-	l := ToList new.
+	l := ToListElement new.
 	l list addAll: ((Smalltalk globals allClasses) collect: [:cls | cls name]).
 	l openInOBlSpace
 ]
@@ -180,7 +180,7 @@ ToSandBox class >> example_ListWithAllClasses [
 ToSandBox class >> example_ListWithAllClasses3 [
 
 	| l |
-	l := ToList new nodeFactory: [ :cls :holder | 
+	l := ToListElement new nodeFactory: [ :cls :holder | 
 		     | icn lab |
 		     icn := cls hasComment
 			            ifTrue: [ #class ]
@@ -204,7 +204,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 ToSandBox class >> example_ListWithAllClasses4 [
 
 	| l |
-	l := ToList new
+	l := ToListElement new
 		     nodeFactory: [ :cls | 
 			     ToCheckNode new
 				     labelText: cls name;
@@ -219,7 +219,7 @@ ToSandBox class >> example_ListWithAllClasses4 [
 ToSandBox class >> example_ListWithAllClassesAsButton [
 
 	| l |
-	l := ToList new nodeFactory: [ :cls | 
+	l := ToListElement new nodeFactory: [ :cls | 
 					     ToButton new
 						     labelText: cls name;
 						     hMatchParent ].
@@ -231,7 +231,7 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l selectionMenu menuFactory |
-	l := ToList new.
+	l := ToListElement new.
 	l nodeFactory: [ :t :holder | | lab |
 		lab := ToLabel text: t.
 		lab beMultiLine.
@@ -301,7 +301,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 ToSandBox class >> example_ListWithRowNumbers [
 
 	| l |
-	l := ToList new
+	l := ToListElement new
 		     nodeFactory: [ :cls | 
 			     ToCheckNode new
 				     labelText: cls name;
@@ -329,7 +329,7 @@ ToSandBox class >> example_Popup1 [
 		     background: Color green;
 		     widget: e.
 	but := ToWidget new size: 50@90.
-	but addDresser: ToButtonDresser new.
+	but addDresser: ToPairedButtonDresser new.
 	but whenAnnouncement: ToClickAnnouncement do: [ self inform: 'Click'. p close ]. 
 	p root addChild: but.
 	p addEventHandler: (BlEventHandler
@@ -840,6 +840,27 @@ ToSandBox class >> example_rootFrameWithChoiceBox2 [
 	win openInWorld
 ]
 
+{ #category : #combobox }
+ToSandBox class >> example_rootFrameWithComboBox [
+
+	| win bar combo |
+	win := ToInnerWindow new title: 'Combo box Example'.
+
+	bar := ToMenuBar new
+		       hMatchParent;
+		       vFitContent.
+	combo := ToComboBox new.
+	combo button: (ToComboBoxButton new labelText: 'No item').
+	combo buttonPlaceHolder: (ToLabel text: 'Place holder').
+
+	bar addChild: combo.
+
+	bar relocate: 0 @ 0.
+	bar border: (BlBorder paint: Color lightGray).
+	win root addChild: bar.
+	win openInWorld
+]
+
 { #category : #'context menu + menubar' }
 ToSandBox class >> example_rootFrameWithContextMenu [
 
@@ -1036,7 +1057,7 @@ ToSandBox class >> example_toAlbumAsButton [
 
 	| but |
 	but := ToAlbum new text: 'Hello world'; preventChildrenMouseEvents.
-	but addDresser: ToButtonDresser new.
+	but addDresser: ToPairedButtonDresser new.
 	but whenAnnouncement: ToClickAnnouncement do: [ self inform: 'Click' ]. 
 	but background: Color blue.
 	but size: 300@100.
@@ -1047,7 +1068,7 @@ ToSandBox class >> example_toAlbumAsButton [
 ToSandBox class >> example_toBasicButton0 [
 
 	| but |
-	but := ToGeneralButton new dresser: ToButtonDresser new.
+	but := ToGeneralButton new dresser: ToPairedButtonDresser new.
 	but whenClickedDo: [ self inform: 'clicked' ].
 	but openInOBlSpace 
 ]
@@ -1056,7 +1077,7 @@ ToSandBox class >> example_toBasicButton0 [
 ToSandBox class >> example_toBasicButton1 [
 
 	| but |
-	but := ToGeneralButton new dresser: ToButtonDresser new.
+	but := ToGeneralButton new dresser: ToPairedButtonDresser new.
 	but addChild: (BlElement new
 				 size: 30 @ 30;
 				 yourself).
@@ -1073,7 +1094,7 @@ ToSandBox class >> example_toBasicButton2 [
 		       (('Button' asRopedText)
 			        fontSize: 40;
 			        yourself).
-	but := ToGeneralButton new dresser: ToButtonDresser new.
+	but := ToGeneralButton new dresser: ToPairedButtonDresser new.
 	but matchParent.
 	but addChild: lab.
 	but layout alignCenter.
@@ -1975,7 +1996,7 @@ ToSandBox class >> example_toMultiStateWithLabel [
 ToSandBox class >> example_toPairDirectionChanger [
 
 	| but space iconImage |
-	but := ToPairElement new.
+	but := ToPairedElement new.
 	but layout cellSpacing: 4.
 	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).
@@ -1997,7 +2018,7 @@ ToSandBox class >> example_toPairDirectionChanger [
 ToSandBox class >> example_toPairJustified1 [
 
 	| but space iconImage |
-	but := ToPairElement new.
+	but := ToPairedElement new.
 	but layout cellSpacing: 4.
 	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).
@@ -2020,7 +2041,7 @@ ToSandBox class >> example_toPairJustified1 [
 ToSandBox class >> example_toPairJustified2 [
 
 	| but space iconImage |
-	but := ToPairElement new.
+	but := ToPairedElement new.
 	but layout cellSpacing: 4.
 	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).
@@ -2043,7 +2064,7 @@ ToSandBox class >> example_toPairJustified2 [
 ToSandBox class >> example_toPairOrientationChanger [
 
 	| but space iconImage |
-	but := ToPairElement new.
+	but := ToPairedElement new.
 	but layout cellSpacing: 4.
 	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).
@@ -2063,7 +2084,7 @@ ToSandBox class >> example_toPairOrientationChanger [
 ToSandBox class >> example_toPairWithColumn1 [
 
 	| but space iconImage |
-	but := ToPairElement new.
+	but := ToPairedElement new.
 	but layout cellSpacing: 4.
 	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).
@@ -2085,7 +2106,7 @@ ToSandBox class >> example_toPairWithColumn1 [
 ToSandBox class >> example_toPairWithColumn2 [
 
 	| but space iconImage |
-	but := ToPairElement new.
+	but := ToPairedElement new.
 	but layout cellSpacing: 4.
 	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).
@@ -2116,7 +2137,7 @@ ToSandBox class >> example_toWidgetAsButton0 [
 
 	| but |
 	but := ToWidget new.
-	but addDresser: ToButtonDresser new.
+	but addDresser: ToPairedButtonDresser new.
 	but whenAnnouncement: ToClickAnnouncement do: [ self inform: 'Click' ]. 
 	but background: Color blue.
 	but size: 50@50.

@@ -1,11 +1,11 @@
 Class {
-	#name : #ToChoiceBoxButtonDresser,
+	#name : #ToComboBoxButtonDresser,
 	#superclass : #ToPairedButtonDresser,
-	#category : #'Toplo-Widget-ChoiceBox'
+	#category : #'Toplo-Widget-ComboBox'
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToChoiceBoxButtonDresser >> onInstalledIn: anElement [
+ToComboBoxButtonDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	anElement constraintsDo: [ :c | 
@@ -19,7 +19,7 @@ ToChoiceBoxButtonDresser >> onInstalledIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToChoiceBoxButtonDresser >> onUninstalledIn: anElement [
+ToComboBoxButtonDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement
 

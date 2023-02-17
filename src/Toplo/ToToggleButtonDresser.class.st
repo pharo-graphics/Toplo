@@ -1,6 +1,6 @@
 Class {
 	#name : #ToToggleButtonDresser,
-	#superclass : #ToButtonDresser,
+	#superclass : #ToPairedButtonDresser,
 	#instVars : [
 		'icon'
 	],

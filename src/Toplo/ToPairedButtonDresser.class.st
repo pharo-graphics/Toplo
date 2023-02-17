@@ -1,5 +1,5 @@
 Class {
-	#name : #ToButtonDresser,
+	#name : #ToPairedButtonDresser,
 	#superclass : #ToAbstractButtonDresser,
 	#instVars : [
 		'initialBorder',
@@ -13,7 +13,7 @@ Class {
 }
 
 { #category : #'events handling' }
-ToButtonDresser >> backToUnpressedState [
+ToPairedButtonDresser >> backToUnpressedState [
 
 	savedPressedBorder := nil.
 	savedPressedBackground := nil.
@@ -21,7 +21,7 @@ ToButtonDresser >> backToUnpressedState [
 ]
 
 { #category : #private }
-ToButtonDresser >> background: aBackground in: anElement [
+ToPairedButtonDresser >> background: aBackground in: anElement [
 
 	anElement
 		disableEventType: BlElementBackgroundChangedEvent 
@@ -29,7 +29,7 @@ ToButtonDresser >> background: aBackground in: anElement [
 ]
 
 { #category : #private }
-ToButtonDresser >> border: aBorder in: anElement [
+ToPairedButtonDresser >> border: aBorder in: anElement [
 
 	anElement
 		disableEventType: BlElementBorderChangedEvent
@@ -37,34 +37,34 @@ ToButtonDresser >> border: aBorder in: anElement [
 ]
 
 { #category : #accessing }
-ToButtonDresser >> defaultHoveredBackground [  
+ToPairedButtonDresser >> defaultHoveredBackground [  
 
 	^ theme button hoveredBackgroundColor
 
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonDresser >> defaultHoveredBorder [
+ToPairedButtonDresser >> defaultHoveredBorder [
 
 	^ BlBorder paint: theme button hoveredBorderColor
 
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonDresser >> defaultInitialBackground [
+ToPairedButtonDresser >> defaultInitialBackground [
 
 	^ self theme button defaultBackgroundColor
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonDresser >> defaultInitialBorder [
+ToPairedButtonDresser >> defaultInitialBorder [
 
 	^ BlBorder paint: self theme button defaultBorderColor.
 
 ]
 
 { #category : #'events handling' }
-ToButtonDresser >> doubleClicked: anElement [
+ToPairedButtonDresser >> doubleClicked: anElement [
 
 	self backToUnpressedState.
 	self border: self hoveredBorder in: anElement.
@@ -73,47 +73,47 @@ ToButtonDresser >> doubleClicked: anElement [
 ]
 
 { #category : #'events handling' }
-ToButtonDresser >> escaped: anElement [
+ToPairedButtonDresser >> escaped: anElement [
 
 	self backToUnpressedState
 
 ]
 
 { #category : #'events handling' }
-ToButtonDresser >> hover: anElement [
+ToPairedButtonDresser >> hover: anElement [
 
 	self border: self hoveredBorder in: anElement.
 	self background: self hoveredBackground in: anElement.
 ]
 
 { #category : #accessing }
-ToButtonDresser >> hoveredBackground [
+ToPairedButtonDresser >> hoveredBackground [
 
 	^ savedPressedBackground ifNil: [ self defaultHoveredBackground ]
 
 ]
 
 { #category : #accessing }
-ToButtonDresser >> hoveredBorder [
+ToPairedButtonDresser >> hoveredBorder [
 
 	^ savedPressedBorder ifNil: [ self defaultHoveredBorder ]
 
 ]
 
 { #category : #accessing }
-ToButtonDresser >> initialBackground: aBackground [
+ToPairedButtonDresser >> initialBackground: aBackground [
 
 	initialBackground := aBackground
 ]
 
 { #category : #accessing }
-ToButtonDresser >> initialBorder: aBorder [
+ToPairedButtonDresser >> initialBorder: aBorder [
 
 	initialBorder := aBorder
 ]
 
 { #category : #'events handling' }
-ToButtonDresser >> initialState: anElement [
+ToPairedButtonDresser >> initialState: anElement [
 
 	initialBorder := self defaultInitialBorder.
 	initialBackground := self defaultInitialBackground.
@@ -124,7 +124,7 @@ ToButtonDresser >> initialState: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonDresser >> installEventListenersIn: anElement [
+ToPairedButtonDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
 	borderChangedHandler := BlEventHandler
@@ -138,7 +138,7 @@ ToButtonDresser >> installEventListenersIn: anElement [
 ]
 
 { #category : #'events handling' }
-ToButtonDresser >> leaved: anElement [
+ToPairedButtonDresser >> leaved: anElement [
 
 	self border: initialBorder in: anElement.
 	self background: initialBackground in: anElement
@@ -147,7 +147,7 @@ ToButtonDresser >> leaved: anElement [
 ]
 
 { #category : #'events handling' }
-ToButtonDresser >> leftClicked: anElement [
+ToPairedButtonDresser >> leftClicked: anElement [
 	
 	super leftClicked: anElement.
 	self backToUnpressedState.
@@ -158,7 +158,7 @@ ToButtonDresser >> leftClicked: anElement [
 ]
 
 { #category : #'events handling' }
-ToButtonDresser >> leftPressed: anElement [
+ToPairedButtonDresser >> leftPressed: anElement [
 
 	self savePressedState.
 	self border: savedPressedBorder in: anElement.
@@ -166,7 +166,7 @@ ToButtonDresser >> leftPressed: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonDresser >> onInstalledIn: anElement [
+ToPairedButtonDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	
@@ -177,19 +177,19 @@ ToButtonDresser >> onInstalledIn: anElement [
 ]
 
 { #category : #accessing }
-ToButtonDresser >> pressedBackground [
+ToPairedButtonDresser >> pressedBackground [
 
 	^ theme button pressedBackgroundColor
 ]
 
 { #category : #accessing }
-ToButtonDresser >> pressedBorder [
+ToPairedButtonDresser >> pressedBorder [
 
 	^ BlBorder paint: theme button pressedBorderColor width: 1
 ]
 
 { #category : #'events handling' }
-ToButtonDresser >> savePressedState [
+ToPairedButtonDresser >> savePressedState [
 
 	self savedPressedBorder: self pressedBorder.
 	self savedPressedBackground: self pressedBackground.
@@ -197,20 +197,20 @@ ToButtonDresser >> savePressedState [
 ]
 
 { #category : #accessing }
-ToButtonDresser >> savedPressedBackground: aBackground [
+ToPairedButtonDresser >> savedPressedBackground: aBackground [
 
 	savedPressedBackground := aBackground
 
 ]
 
 { #category : #accessing }
-ToButtonDresser >> savedPressedBorder: aBorder [
+ToPairedButtonDresser >> savedPressedBorder: aBorder [
 
 	savedPressedBorder := aBorder
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonDresser >> uninstallEventListenersIn: anElement [
+ToPairedButtonDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: borderChangedHandler.
 	anElement removeEventHandler: backgroundChangedHandler.

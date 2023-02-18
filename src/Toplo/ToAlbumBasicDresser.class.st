@@ -55,7 +55,7 @@ ToAlbumBasicDresser >> defaultOutskirts [
 ToAlbumBasicDresser >> defaultPadding [
 
 	^ BlInsets
-		  top: (3 + self defaultBorderWidth )
+		  top: (6 + self defaultBorderWidth )
 		  left: (3 + self defaultBorderWidth )
 		  bottom: (2 + self defaultBorderWidth )
 		  right: (3 + self defaultBorderWidth )

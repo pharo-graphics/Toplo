@@ -5,6 +5,18 @@ Class {
 }
 
 { #category : #'opening-closing' }
+ToAnchoredPlacementStrategy >> check: aWindow beforePopupIn: aWidget [
+
+	| gap |
+	" layout is done, aWindow bounds are now up-to-date"
+	
+	" check if aWindow position is ok according to aWidget "
+	gap := aWidget margin topLeft + aWidget padding topLeft.
+	aWindow relocate: aWindow position + gap.
+	super check: aWindow beforePopupIn: aWidget
+]
+
+{ #category : #'opening-closing' }
 ToAnchoredPlacementStrategy >> popup: aWindow [
 
 	| spaceLayer |

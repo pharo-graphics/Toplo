@@ -1677,7 +1677,8 @@ ToSandBox class >> example_toLabel5 [
 	model widgetDo: [ :widget | 
 		widget vFitContent.
 		widget hMatchParent.
-		widget border: (BlBorder paint: Color red width: 1) ].
+		widget border: (BlBorder paint: Color red width: 1).
+		widget innerElement margin: (BlInsets all: 8) ].
 	model isEditable: true.
 	label viewModel: model.
 	root addChild: label.

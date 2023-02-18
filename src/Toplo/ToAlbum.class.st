@@ -57,7 +57,7 @@ ToAlbum >> initialize [
 	self initializeDresser
 ]
 
-{ #category : #'t - accessing' }
+{ #category : #'as yet unclassified' }
 ToAlbum >> innerElement [
 
 	^ self next

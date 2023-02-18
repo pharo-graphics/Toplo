@@ -4,66 +4,87 @@ Class {
 	#traits : 'TToWidget + TToWidgetWithTooltip',
 	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait',
 	#instVars : [
-		'#choices',
-		'#button',
 		'#group',
-		'#selectedItem => ObservableSlot',
-		'#toTextConverter',
-		'#items'
+		'#placeHolder => ObservableSlot',
+		'#menuButton',
+		'#data',
+		'#selectedData => ObservableSlot',
+		'#dataToTextConverter'
 	],
 	#category : #'Toplo-Widget-ChoiceBox'
 }
 
 { #category : #'adding / removing' }
-ToChoiceBox >> addAllChoices: aList [
+ToChoiceBox >> addAllData: aCollection [
 
-	aList do: [ :t | self addItem: t ]
+	aCollection do: [ :t | self addData: t ]
 
 ]
 
 { #category : #'adding / removing' }
-ToChoiceBox >> addItem: anObject [
+ToChoiceBox >> addData: anObject [
 
-	self items add: anObject.
-	self privateAddItem: (self newItemFromChoice: anObject).
-	selectedItem ifNil: [ self defaultItem: anObject ]
+	| item |
+	self data add: anObject.
+	item := self newMenuItemFromData: anObject.
+	menuButton addItem: item.
+	group add: item.
+	selectedData ifNil: [ self defaultData: anObject ]
 ]
 
 { #category : #'adding / removing' }
 ToChoiceBox >> addSeparator [
 
-	button addSeparator
+	menuButton addSeparator
 ]
 
 { #category : #initialization }
 ToChoiceBox >> beJustified [
 
-	button hMatchParent.
-	button beJustified
+	menuButton hMatchParent.
+	menuButton beJustified
+]
+
+{ #category : #'api - change hook' }
+ToChoiceBox >> checked: anItem [
+
+	anItem ifNil: [ selectedData := nil. ^ self ].
+	selectedData := self data
+		  detect: [ :c | (self dataToTextConverter value: c) asString = anItem label text asString ]
+		  ifNone: [ ^ self ]
 ]
 
 { #category : #accessing }
-ToChoiceBox >> choiceFromItem: anItem [
+ToChoiceBox >> data [
 
-	^ self items
-		  detect: [ :c | 
-			  (self toTextConverter value: c) asString
-			  = anItem label text asString ]
-		  ifNone: [  ]
+	^ data 
 ]
 
 { #category : #accessing }
-ToChoiceBox >> choices [
+ToChoiceBox >> dataToTextConverter [
 
-	^ choices
+	^ dataToTextConverter
 ]
 
 { #category : #accessing }
-ToChoiceBox >> defaultChoiceIndex: anInteger [
+ToChoiceBox >> dataToTextConverter: aValuable [
 
+	dataToTextConverter := aValuable
+]
 
-	self defaultItem: (self items at: anInteger)
-	
+{ #category : #accessing }
+ToChoiceBox >> defaultData: anObject [
+
+	| item |
+	anObject ifNil: [
+		selectedData := nil.
+		^ self ].
+	item := self menuItemFromData: anObject.
+	item ifNil: [
+		selectedData := nil.
+		^ self ].
+	group default: item.
+	selectedData := anObject
 ]
 
 { #category : #'t - initialization dresser' }
@@ -73,15 +94,12 @@ ToChoiceBox >> defaultDresser [
 ]
 
 { #category : #accessing }
-ToChoiceBox >> defaultItem: anObject [
+ToChoiceBox >> defaultSelectedIndex: anInteger [
 
-
-	| item |
-	item := self itemFromChoice: anObject.
-	item ifNil: [ ^ self ].
-	group default: item.
-	selectedItem := anObject
-	
+	self defaultData:
+		((anInteger > 0 and: [ anInteger <= self data size ])
+			 ifTrue: [ self data at: anInteger ]
+			 ifFalse: [  ])
 ]
 
 { #category : #initialization }
@@ -89,104 +107,110 @@ ToChoiceBox >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	toTextConverter := [ :i | i ].
-	items := OrderedCollection new.
-	self layout: BlFrameLayout new.
+	dataToTextConverter := [ :i | i ].
+	data := OrderedCollection new.
+	self layout: self defaultLayout.
 	self fitContent.
-	button := ToChoiceBoxButton new.
+	menuButton := ToChoiceBoxMenuButton new.
 	group := ToCheckableGroup new.
-	self addChild: button.
-	self whenSelectedItemChangedDo: [ self selectedItemChanged ].
-	group whenCheckedDo: [ :item :previous | selectedItem := self choiceFromItem: item ].
+	self addChild: menuButton.
+	self whenSelectedDataChangedDo: [ self selectedDataChanged ].
+	self whenPlaceHolderChangedDo: [ self placeHolderChanged ].
+	group whenCheckedDo: [ :item :previous | self checked: item ].
 	self initializeDresser.
 
 ]
 
 { #category : #accessing }
-ToChoiceBox >> itemFromChoice: anObject [
+ToChoiceBox >> menuItemFromData: anObject [
 
-	^ button items
-		  detect: [ :i | 
-			  i label text asString
-			  = (self toTextConverter value: anObject) asString ]
+	^ group buttons
+		  detect: [ :i | i label text asString = (self dataToTextConverter value: anObject) asString ]
 		  ifNone: [  ]
 ]
 
-{ #category : #accessing }
-ToChoiceBox >> items [
-
-	^ items 
-]
-
 { #category : #'adding / removing' }
-ToChoiceBox >> newItemFromChoice: anObject [
+ToChoiceBox >> newMenuItemFromData: anObject [
 
-	^ ToChoiceBoxItem new labelText:
-		  (self toTextConverter value: anObject)
-]
-
-{ #category : #'private adding / removing' }
-ToChoiceBox >> privateAddItem: anItem [
-
-	button addItem: anItem.
-	group add: anItem
-
-]
-
-{ #category : #'private adding / removing' }
-ToChoiceBox >> privateRemoveItem: anItem [
-
-	button removeItem: anItem.
-	group remove: anItem
-
-]
-
-{ #category : #'adding / removing' }
-ToChoiceBox >> removeChoice: anObject [
-
-	| i |
-	self items remove: anObject.
-	i := self itemFromChoice: anObject.
-	self privateRemoveItem: i
+	^ ToChoiceBoxMenuItem new labelText: (self dataToTextConverter value: anObject)
 ]
 
 { #category : #accessing }
-ToChoiceBox >> selectedItem [
+ToChoiceBox >> placeHolder [
 
-	^ selectedItem
+	^ placeHolder
 ]
 
 { #category : #accessing }
-ToChoiceBox >> selectedItem: anObject [
+ToChoiceBox >> placeHolder: anElement [
 
-	selectedItem := anObject
+	placeHolder := anElement
 ]
 
 { #category : #'api - change hook' }
-ToChoiceBox >> selectedItemChanged [
+ToChoiceBox >> placeHolderChanged [
 
-	selectedItem ifNil: [ 
-		button labelText: nil.
+	selectedData ifNotNil: [ ^ self ].
+	self usePlaceHolder 
+
+]
+
+{ #category : #'adding / removing' }
+ToChoiceBox >> removeData: anObject [
+
+	| item |
+	self data remove: anObject.
+	item := self menuItemFromData: anObject.
+	menuButton removeItem: item.
+	group remove: item.
+	selectedData = anObject ifTrue: [ selectedData := nil ]
+]
+
+{ #category : #accessing }
+ToChoiceBox >> selectedData [
+
+	^ selectedData
+]
+
+{ #category : #accessing }
+ToChoiceBox >> selectedData: anObject [
+
+	selectedData := anObject
+]
+
+{ #category : #'api - change hook' }
+ToChoiceBox >> selectedDataChanged [
+
+	| found menuItem |
+	selectedData ifNil: [
+		self usePlaceHolder.
 		^ self ].
-	button labelText: (self toTextConverter value: selectedItem) copy
-]
-
-{ #category : #accessing }
-ToChoiceBox >> toTextConverter [
-
-	^ toTextConverter
-]
-
-{ #category : #accessing }
-ToChoiceBox >> toTextConverter: anObject [
-
-	toTextConverter := anObject
+	found := self data detect: [ :d | selectedData = d ] ifNone: [].
+	found == selectedData ifFalse: [ selectedData := found ].
+	menuButton label: (ToLabel text: (self dataToTextConverter value: selectedData) copy).
+	menuItem := self menuItemFromData: selectedData.
+	menuItem isChecked ifFalse: [ menuItem check ]
 ]
 
 { #category : #'api - change hook' }
-ToChoiceBox >> whenSelectedItemChangedDo: aBlock [
+ToChoiceBox >> usePlaceHolder [
+
+	menuButton label: self placeHolder.
+	group uncheckAll
+]
+
+{ #category : #'api - change hook' }
+ToChoiceBox >> whenPlaceHolderChangedDo: aBlock [
 
 	"set a block to perform after that the selected item has been changed, and its action performed"
 
-	self property: #selectedItem whenChangedDo: aBlock
+	self property: #placeHolder whenChangedDo: aBlock
+]
+
+{ #category : #'api - change hook' }
+ToChoiceBox >> whenSelectedDataChangedDo: aBlock [
+
+	"set a block to perform after that the selected item has been changed, and its action performed"
+
+	self property: #selectedData whenChangedDo: aBlock
 ]

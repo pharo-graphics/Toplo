@@ -1,17 +1,17 @@
 Class {
-	#name : #ToChoiceBoxItemDresser,
+	#name : #ToChoiceBoxMenuItemDresser,
 	#superclass : #ToPairedButtonDresser,
 	#category : #'Toplo-Widget-ChoiceBox'
 }
 
 { #category : #initialization }
-ToChoiceBoxItemDresser >> defaultCheckedIconImage [
+ToChoiceBoxMenuItemDresser >> defaultCheckedIconImage [
 
 	^ Smalltalk ui icons iconNamed: 'smallOk'
 ]
 
 { #category : #initialization }
-ToChoiceBoxItemDresser >> defaultCheckedState [
+ToChoiceBoxMenuItemDresser >> defaultCheckedState [
 
 	^ ToWidgetState new
 		  name: #checked;
@@ -21,7 +21,7 @@ ToChoiceBoxItemDresser >> defaultCheckedState [
 ]
 
 { #category : #initialization }
-ToChoiceBoxItemDresser >> defaultUncheckedIconImage [
+ToChoiceBoxMenuItemDresser >> defaultUncheckedIconImage [
 
 	^ BlElement new
 		  size: 14 @ 14;
@@ -29,7 +29,7 @@ ToChoiceBoxItemDresser >> defaultUncheckedIconImage [
 ]
 
 { #category : #initialization }
-ToChoiceBoxItemDresser >> defaultUncheckedState [
+ToChoiceBoxMenuItemDresser >> defaultUncheckedState [
 
 	^ ToWidgetState new
 		  name: #unchecked;
@@ -38,14 +38,14 @@ ToChoiceBoxItemDresser >> defaultUncheckedState [
 ]
 
 { #category : #'events handling' }
-ToChoiceBoxItemDresser >> leftClicked: anElement [
+ToChoiceBoxMenuItemDresser >> leftClicked: anElement [
 
 	super leftClicked: anElement.
 	anElement parentMenuWindow close
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToChoiceBoxItemDresser >> onInstalledIn: anElement [
+ToChoiceBoxMenuItemDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	anElement setUpStatesWith: { 
@@ -54,7 +54,7 @@ ToChoiceBoxItemDresser >> onInstalledIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToChoiceBoxItemDresser >> onUninstalledIn: anElement [
+ToChoiceBoxMenuItemDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
 	anElement unsubscribe: self

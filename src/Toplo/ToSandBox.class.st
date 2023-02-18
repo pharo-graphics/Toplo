@@ -799,10 +799,10 @@ ToSandBox class >> example_rootFrameWithChoiceBox [
 		       hMatchParent;
 		       vFitContent.
 	choicebox := ToChoiceBox new.
-	choicebox addAllChoices: { 'OS-X'. 'Windows'. }.
+	choicebox addAllData: { 'OS-X'. 'Windows'. }.
 	choicebox addSeparator.
-	choicebox addItem: 'Linux'.
-	"choicebox defaultChoice: 'Windows'."
+	choicebox addData: 'Linux'.
+	choicebox defaultData: 'Windows'.
 
 	bar addChild: (choicebox tooltipString: 'Select your operating system').
 
@@ -824,18 +824,40 @@ ToSandBox class >> example_rootFrameWithChoiceBox2 [
 	choicebox := ToChoiceBox new
 		             hMatchParent;
 		             beJustified.
-	choicebox toTextConverter: [ :assoc | assoc key ].
-	choicebox addAllChoices: { 
+	choicebox dataToTextConverter: [ :assoc | assoc key ].
+	choicebox addAllData: { 
 			('Morphic SDL' -> BlMorphicWindowHost).
 			('Native SDL' -> BlOSWindowSDL2Host) }.
-	choicebox defaultChoiceIndex: 2.
-	choicebox whenSelectedItemChangedDo: [ 
-		self inform: choicebox selectedItem value name ].
-
+	choicebox placeHolder: (ToLabel text: 'Place holder').
+	choicebox defaultSelectedIndex: 2.
+	choicebox whenSelectedDataChangedDo: [ 
+		self inform: choicebox selectedData asString ].
+	choicebox inspect.
 	bar addChild: (choicebox tooltipString: 'Select the Alexandrie host').
 
 	bar relocate: 0 @ 0.
 	bar border: (BlBorder paint: Color lightGray).
+	win root addChild: bar.
+	win openInWorld
+]
+
+{ #category : #choicebox }
+ToSandBox class >> example_rootFrameWithChoiceBox3 [
+
+	| win bar choicebox |
+	bar := ToMenuBar new
+		       hMatchParent;
+		       vFitContent.
+	win := ToInnerWindow new title: 'Some host'.
+	choicebox := ToChoiceBox new hMatchParent.
+	choicebox placeHolder: (ToLabel text: 'None').
+	choicebox dataToTextConverter: [ :assoc | assoc key ].
+	choicebox whenSelectedDataChangedDo: [ self inform: choicebox selectedData value asString].
+	bar addChild: choicebox.
+	choicebox addAllData: { 
+			('Morphic SDL' -> BlMorphicWindowHost).
+			('Native SDL' -> BlOSWindowSDL2Host) }.
+	choicebox selectedData: nil.
 	win root addChild: bar.
 	win openInWorld
 ]
@@ -851,7 +873,6 @@ ToSandBox class >> example_rootFrameWithComboBox [
 		       vFitContent.
 	combo := ToComboBox new.
 	combo button: (ToComboBoxButton new labelText: 'No item').
-	combo buttonPlaceHolder: (ToLabel text: 'Place holder').
 
 	bar addChild: combo.
 

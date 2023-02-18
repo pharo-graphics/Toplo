@@ -72,3 +72,15 @@ TToLabeledIcon >> labelText: aText [
 	self label ifNotNil: [ :lab | ^ lab text: aText ].
 	self label: (ToLabel text: aText)
 ]
+
+{ #category : #enumerating }
+TToLabeledIcon >> whenIconChangedDo: aBlock [
+
+	self whenFirstChangedDo: aBlock
+]
+
+{ #category : #enumerating }
+TToLabeledIcon >> whenLabelChangedDo:  aBlock [
+
+	self whenSecondChangedDo: aBlock
+]

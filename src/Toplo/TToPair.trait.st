@@ -1,9 +1,9 @@
 Trait {
 	#name : #TToPair,
 	#instVars : [
-		'first',
-		'second',
-		'strategy'
+		'#first => ObservableSlot',
+		'#second => ObservableSlot',
+		'#strategy => ObservableSlot'
 	],
 	#category : #'Toplo-Core-Pair'
 }
@@ -52,6 +52,7 @@ TToPair >> first [
 TToPair >> first: anElement [
 
 	first = anElement ifTrue: [ ^ self ].
+	first ifNotNil: [ first removeFromParent ].
 	first := anElement.
 	first ifNotNil: [ 
 		first constraintsDo: [ :c | 
@@ -103,6 +104,7 @@ TToPair >> second [
 TToPair >> second: anElement [
 
 	second = anElement ifTrue: [ ^ self ].
+	second ifNotNil: [ second removeFromParent ].
 	second := anElement.
 	second ifNotNil: [ 
 		second constraintsDo: [ :c | 
@@ -123,4 +125,28 @@ TToPair >> strategy: aPairStrategy [
 
 	strategy := aPairStrategy.
 	self privateUpdateChildren
+]
+
+{ #category : #enumerating }
+TToPair >> whenFirstChangedDo: aBlock [
+
+	"set a block to perform after that the slot has been changed, and its action performed"
+
+	self property: #first whenChangedDo: aBlock
+]
+
+{ #category : #enumerating }
+TToPair >> whenSecondChangedDo: aBlock [
+
+	"set a block to perform after that the slot has been changed, and its action performed"
+
+	self property: #second whenChangedDo: aBlock
+]
+
+{ #category : #enumerating }
+TToPair >> whenStrategyChangedDo: aBlock [
+
+	"set a block to perform after that the slot has been changed, and its action performed"
+
+	self property: #strategy whenChangedDo: aBlock
 ]

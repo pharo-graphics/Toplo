@@ -75,6 +75,15 @@ ToCheckableGroup >> remove: aCheckable [
 
 ]
 
+{ #category : #'adding / removing' }
+ToCheckableGroup >> uncheckAll [
+	| current |
+	current := buttons detect: [ :b | b isChecked ] ifNone: [].
+	buttons do: [ :b | b uncheckFromGroup ].
+	checkAction ifNotNil: [ checkAction cull: nil cull: current].
+	checked := nil 
+]
+
 { #category : #'api - checkbox' }
 ToCheckableGroup >> whenCheckedDo: aBlock [
 	"Run aBlock when one of my buttons is checked. 

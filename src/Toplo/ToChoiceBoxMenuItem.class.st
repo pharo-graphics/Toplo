@@ -1,5 +1,5 @@
 Class {
-	#name : #ToChoiceBoxItem,
+	#name : #ToChoiceBoxMenuItem,
 	#superclass : #ToButtonMenuItem,
 	#traits : 'TToCheckable',
 	#classTraits : 'TToCheckable classTrait',
@@ -7,13 +7,13 @@ Class {
 }
 
 { #category : #'t - initialization dresser' }
-ToChoiceBoxItem >> defaultDresser [
+ToChoiceBoxMenuItem >> defaultDresser [
 
-	^ ToBasicMenuItemDresser next: (ToChoiceBoxItemDresser new)
+	^ ToBasicMenuItemDresser next: (ToChoiceBoxMenuItemDresser new)
 ]
 
 { #category : #initialization }
-ToChoiceBoxItem >> initialize [
+ToChoiceBoxMenuItem >> initialize [
 
 	super initialize.
 	self whenClickedDo: [ self isChecked ifFalse: [ self switchToNextState ] ]

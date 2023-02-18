@@ -1,11 +1,11 @@
 Class {
-	#name : #ToChoiceBoxButtonDresser,
+	#name : #ToChoiceBoxMenuButtonDresser,
 	#superclass : #ToPairedButtonDresser,
 	#category : #'Toplo-Widget-ChoiceBox'
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToChoiceBoxButtonDresser >> onInstalledIn: anElement [
+ToChoiceBoxMenuButtonDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	anElement constraintsDo: [ :c | 
@@ -13,13 +13,11 @@ ToChoiceBoxButtonDresser >> onInstalledIn: anElement [
 		c vertical fitContent ].
 	anElement beLabelFirst.
 	anElement icon: (ToImage inner: (Smalltalk ui icons iconNamed: #bottom)).
-	anElement icon padding: (BlInsets left: 0 right: 2).
-	anElement label ifNotNil: [:l | l padding: (BlInsets left: 2 right: 0) ]
-
+	anElement icon padding: (BlInsets left: 0 right: 2)
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToChoiceBoxButtonDresser >> onUninstalledIn: anElement [
+ToChoiceBoxMenuButtonDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement
 

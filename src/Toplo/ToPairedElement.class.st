@@ -6,7 +6,7 @@ Class {
 	#category : #'Toplo-Core-Pair'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 ToPairedElement >> initialize [
 
 	super initialize.

@@ -28,6 +28,14 @@ TToMenuItemHolder >> addSeparator [
 	self addItem: ToSeparatorMenuItem new
 ]
 
+{ #category : #'t - menu item adding/removing' }
+TToMenuItemHolder >> changeItemAt: anIndex with: anItem [
+
+	| item |
+	item := self items at: anIndex.
+	self removeItem: item
+]
+
 { #category : #'t - menu accessing' }
 TToMenuItemHolder >> client [
 
@@ -85,6 +93,25 @@ TToMenuItemHolder >> removeItem: aMenuItem [
 	aMenuItem removedFromMenu: self.
 	self items remove: aMenuItem.
 	self subMenuWindow root removeChild: aMenuItem
+]
+
+{ #category : #'t - menu item adding/removing' }
+TToMenuItemHolder >> removeItemAt: anIndex [
+
+	| item |
+	item := self items at: anIndex.
+	self removeItem: item
+]
+
+{ #category : #'t - menu item adding/removing' }
+TToMenuItemHolder >> replaceItemAt: anIndex with: anItem [
+
+	| previous |
+	previous := self items at: anIndex.
+	previous removedFromMenu: self.
+	self items at: anIndex put: anItem.
+	self subMenuWindow root replaceChild: previous with: anItem
+
 ]
 
 { #category : #'t - menu accessing' }

@@ -10,7 +10,7 @@ Class {
 ToCheckMenuItem >> canSwitchToNextState [
 
 	^ self currentState notNil and: [ 
-		  self group isNil or: [ self isUnchecked ] ]
+		  self group isNil or: [ self group canSwitchToNextState: self  ] ]
 ]
 
 { #category : #'t - initialization dresser' }

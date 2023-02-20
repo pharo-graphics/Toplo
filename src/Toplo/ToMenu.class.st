@@ -69,3 +69,9 @@ ToMenu >> removedFromMenu: aMenu [
 	self removedAsSubmenuInMenu: aMenu
 	
 ]
+
+{ #category : #accessing }
+ToMenu >> subMenuWindow [
+
+	^ subMenuWindow 
+]

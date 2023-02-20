@@ -3,7 +3,7 @@ Trait {
 	#instVars : [
 		'list'
 	],
-	#category : #'Toplo-Core-Infinite'
+	#category : #'Toplo-Core-Collection'
 }
 
 { #category : #'t - observable collection copying' }
@@ -201,6 +201,12 @@ TToObservableCollection >> ifNotEmpty: aBlock [
 	^ self isEmpty
 		ifTrue: [ self ]
 		ifFalse: [ aBlock cull: self ]
+]
+
+{ #category : #'t - observable collection testing' }
+TToObservableCollection >> includes: anObject [
+
+	^ list includes: anObject 
 ]
 
 { #category : #'t - observable collection accessing' }

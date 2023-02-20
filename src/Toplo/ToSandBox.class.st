@@ -55,26 +55,30 @@ Here an example of a client for a method.
 ToSandBox class >> example_EditableListWithAllClassesNames [
 
 	| l |
-	l := ToListElement new nodeFactory: [ :assoc :holder | | lab |
+	l := ToListElement new nodeFactory: [ :assoc :holder |
+		     | lab |
 		     lab := ToLabel new
 			            text: assoc value;
 			            beEditable;
-							margin: (BlInsets all: 1);
-							padding: (BlInsets all: 1);
+			            margin: (BlInsets all: 1);
+			            padding: (BlInsets all: 1);
 			            yourself.
-			  lab whenTextReplacedDo: [ 
-					holder list at: holder position put: (assoc key -> lab text asString) ].
+		     lab whenTextReplacedDo: [
+			     holder list
+				     at: holder position
+				     put: assoc key -> lab text asString ].
 		     ToLabeledNode new
 			     label: lab;
 			     icon: (ToImage inner: assoc key);
 			     columnWidth: 20;
 			     hMatchParent ].
-	l list addAll: (Smalltalk globals allClasses collect: [:cls | | icon isel |
-		isel := cls hasComment
-			            ifTrue: [ #class ]
-			            ifFalse: [ #uncommentedClass ].
-		icon := (Smalltalk ui icons iconNamed: isel).
-		icon -> cls name ]).
+	l data addAll: (Smalltalk globals allClasses collect: [ :cls |
+			 | icon isel |
+			 isel := cls hasComment
+				         ifTrue: [ #class ]
+				         ifFalse: [ #uncommentedClass ].
+			 icon := Smalltalk ui icons iconNamed: isel.
+			 icon -> cls name ]).
 	l withRowNumbers.
 	l openInInnerWindow
 ]
@@ -157,13 +161,12 @@ ToSandBox class >> example_EditorWithoutSoftLine [
 ToSandBox class >> example_ListOneClass [
 
 	| l |
-	l := ToListElement new
-		     nodeFactory: [ :cls | 
-			     ToCheckNode new
-				     labelText: cls name;
-				     columnWidth: 25;
-				     hMatchParent ].
-	l list addAll: { Smalltalk globals allClasses first }.
+	l := ToListElement new nodeFactory: [ :cls |
+		     ToCheckNode new
+			     labelText: cls name;
+			     columnWidth: 25;
+			     hMatchParent ].
+	l data addAll: { Smalltalk globals allClasses first }.
 	l openInOBlSpace
 ]
 
@@ -204,26 +207,24 @@ ToSandBox class >> example_ListWithAllClasses3 [
 ToSandBox class >> example_ListWithAllClasses4 [
 
 	| l |
-	l := ToListElement new
-		     nodeFactory: [ :cls | 
-			     ToCheckNode new
-				     labelText: cls name;
-				     columnWidth: 25;
-				     hMatchParent ].
-	l list addAll: Smalltalk globals allClasses.
-	l openInOBlSpace.
-
+	l := ToListElement new nodeFactory: [ :cls |
+		     ToCheckNode new
+			     labelText: cls name;
+			     columnWidth: 25;
+			     hMatchParent ].
+	l data addAll: Smalltalk globals allClasses.
+	l openInOBlSpace
 ]
 
 { #category : #list }
 ToSandBox class >> example_ListWithAllClassesAsButton [
 
 	| l |
-	l := ToListElement new nodeFactory: [ :cls | 
-					     ToButton new
-						     labelText: cls name;
-						     hMatchParent ].
-	l list addAll: Smalltalk globals allClasses.
+	l := ToListElement new nodeFactory: [ :cls |
+		     ToButton new
+			     labelText: cls name;
+			     hMatchParent ].
+	l data addAll: Smalltalk globals allClasses.
 	l openInOBlSpace
 ]
 
@@ -232,85 +233,110 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l selectionMenu menuFactory |
 	l := ToListElement new.
-	l nodeFactory: [ :t :holder | | lab |
+	l nodeFactory: [ :t :holder |
+		| lab |
 		lab := ToLabel text: t.
 		lab beMultiLine.
 		lab beEditable.
-		lab whenTextReplacedDo: [ l list at: holder position put: (lab text asString) ].
+		lab whenTextReplacedDo: [
+			l list at: holder position put: lab text asString ].
 		ToLabeledNode new
 			label: lab;
 			hMatchParent ].
-	l when: ToStrongSelectionEvent 
-		do: [ :event | | r | 
-				r := event indexes collect: [ :idx | idx asString, ':XXXXXX'].
-				r do: [ :e | l list addFirst: e ] ].
-	menuFactory := [ | menu |
-		menu := ToContextMenu new withoutLeftColumn.
-		menu client: l.
-		menu addItem: (ToButtonMenuItem new 
-			labelText: 'Add initial Items'; 
-			whenClickedDo: [:event :client | 
-				40 timesRepeat: [ client list add: 'AAAAAAAAAAA' ] ]).
-		l list ifNotEmpty: [ 
-			menu addItem: (ToButtonMenuItem new 
-				labelText: 'Select all'; 
-				whenClickedDo: [:event :client | client selectionStrategy selectAll ]).
-			selectionMenu := ToMenu new withoutLeftColumn.
-			selectionMenu label: (ToLabel new text: 'Selection actions') ].
-		l selectedIndexes ifNotEmpty: [ 
-			l selectedIndexes size = 1 ifTrue: [ | holder idx |
-				idx := l selectedIndexes first.
-				holder := l findElementHolderForDataSourcePosition: idx.
-				selectionMenu addItem: (ToButtonMenuItem new 
-					labelText: 'Edit Selection'; 
-					whenClickedDo: [:event :client | 
-						holder itemElement label addEditor  ]; yourself).
-				selectionMenu addItem: (ToButtonMenuItem new 
-					labelText: (holder itemElement label isMonoLine ifTrue: ['Be multiline'] ifFalse: [ 'Be monoline' ]) ; 
-					whenClickedDo: [:event :client | 
-						holder itemElement label monoLine: holder itemElement label isMonoLine not]; yourself).
-				selectionMenu addSeparator ].
-			selectionMenu addItem: (ToButtonMenuItem new 
-				labelText: 'Insert before'; 
-				whenClickedDo: [:event :client | 
-					client selectedIndexes do: [ :idx | client list add: (idx asString, ':XXXXXX') beforeIndex:idx ].
-					]; yourself).
-			selectionMenu addItem: (ToButtonMenuItem new labelText: 'Insert after'; 
-				whenClickedDo: [:event :client | | nb |	
-					nb := client selectedIndexes size.
-					client selectedIndexes do: [ :idx | client list add: (idx asString, ':XXXXXX') afterIndex:idx + nb - 1] ]; yourself).
-			selectionMenu addSeparator.
-			selectionMenu addItem: (ToButtonMenuItem new labelText: 'Remove selection'; 
-				whenClickedDo: [:event :client | | from to |
-					client selectedIndexes ifNotEmpty: [
-					from := client selectedIndexes first.
-					to := client selectedIndexes last.
-					client list removeFrom: from to: to] ]; yourself).
-			menu addItem: selectionMenu.
-			menu addSeparator. ].
-		l list ifNotEmpty: [ 
-			menu addItem: (ToButtonMenuItem new labelText: 'Remove all'; 
-				whenClickedDo: [:event :client | client list removeAll ]; yourself) ].
-		menu ].
+	l when: ToStrongSelectionEvent do: [ :event |
+		| r |
+		r := event indexes collect: [ :idx | idx asString , ':XXXXXX' ].
+		r do: [ :e | l list addFirst: e ] ].
+	menuFactory := [
+	               | menu |
+	               menu := ToContextMenu new withoutLeftColumn.
+	               menu client: l.
+	               menu addItem: (ToButtonMenuItem new
+			                labelText: 'Add initial Items';
+			                whenClickedDo: [ :event :client |
+				                40 timesRepeat: [ client data add: 'AAAAAAAAAAA' ] ]).
+	               l data ifNotEmpty: [
+		               menu addItem: (ToButtonMenuItem new
+				                labelText: 'Select all';
+				                whenClickedDo: [ :event :client |
+					                client selectionStrategy selectAll ]).
+		               selectionMenu := ToMenu new withoutLeftColumn.
+		               selectionMenu label:
+			               (ToLabel new text: 'Selection actions') ].
+	               l selectedIndexes ifNotEmpty: [
+		               l selectedIndexes size = 1 ifTrue: [
+			               | holder idx |
+			               idx := l selectedIndexes first.
+			               holder := l findElementHolderForDataSourcePosition:
+				                         idx.
+			               selectionMenu addItem: (ToButtonMenuItem new
+					                labelText: 'Edit Selection';
+					                whenClickedDo: [ :event :client |
+						                holder itemElement label addEditor ];
+					                yourself).
+			               selectionMenu addItem: (ToButtonMenuItem new
+					                labelText: (holder itemElement label isMonoLine
+							                 ifTrue: [ 'Be multiline' ]
+							                 ifFalse: [ 'Be monoline' ]);
+					                whenClickedDo: [ :event :client |
+						                holder itemElement label monoLine:
+								                holder itemElement label isMonoLine not ];
+					                yourself).
+			               selectionMenu addSeparator ].
+		               selectionMenu addItem: (ToButtonMenuItem new
+				                labelText: 'Insert before';
+				                whenClickedDo: [ :event :client |
+					                client selectedIndexes do: [ :idx |
+							                client data
+								                add: idx asString , ':XXXXXX'
+								                beforeIndex: idx ] ];
+				                yourself).
+		               selectionMenu addItem: (ToButtonMenuItem new
+				                labelText: 'Insert after';
+				                whenClickedDo: [ :event :client |
+					                | nb |
+					                nb := client selectedIndexes size.
+					                client selectedIndexes do: [ :idx |
+							                client data
+								                add: idx asString , ':XXXXXX'
+								                afterIndex: idx + nb - 1 ] ];
+				                yourself).
+		               selectionMenu addSeparator.
+		               selectionMenu addItem: (ToButtonMenuItem new
+				                labelText: 'Remove selection';
+				                whenClickedDo: [ :event :client |
+					                | from to |
+					                client selectedIndexes ifNotEmpty: [
+							                from := client selectedIndexes first.
+							                to := client selectedIndexes last.
+							                client list removeFrom: from to: to ] ];
+				                yourself).
+		               menu addItem: selectionMenu.
+		               menu addSeparator ].
+	               l data ifNotEmpty: [
+		               menu addItem: (ToButtonMenuItem new
+				                labelText: 'Remove all';
+				                whenClickedDo: [ :event :client |
+					                client data removeAll ];
+				                yourself) ].
+	               menu ].
 	l contextMenuFactory: menuFactory.
 	l withRowNumbers.
-	l openInInnerWindow 
+	l openInInnerWindow
 ]
 
 { #category : #list }
 ToSandBox class >> example_ListWithRowNumbers [
 
 	| l |
-	l := ToListElement new
-		     nodeFactory: [ :cls | 
-			     ToCheckNode new
-				     labelText: cls name;
-				     columnWidth: 25;
-				     hMatchParent ].
-	l list addAll: Smalltalk globals allClasses.
+	l := ToListElement new nodeFactory: [ :cls |
+		     ToCheckNode new
+			     labelText: cls name;
+			     columnWidth: 25;
+			     hMatchParent ].
+	l data addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
-	l openInOBlSpace.
-
+	l openInOBlSpace
 ]
 
 { #category : #window }
@@ -799,9 +825,9 @@ ToSandBox class >> example_rootFrameWithChoiceBox [
 		       hMatchParent;
 		       vFitContent.
 	choicebox := ToChoiceBox new.
-	choicebox addAllData: { 'OS-X'. 'Windows'. }.
+	choicebox data addAll: { 'OS-X'. 'Windows'. }.
 	choicebox addSeparator.
-	choicebox addData: 'Linux'.
+	choicebox data add: 'Linux'.
 	choicebox defaultData: 'Windows'.
 
 	bar addChild: (choicebox tooltipString: 'Select your operating system').
@@ -825,7 +851,7 @@ ToSandBox class >> example_rootFrameWithChoiceBox2 [
 		             hMatchParent;
 		             beJustified.
 	choicebox dataToTextConverter: [ :assoc | assoc key ].
-	choicebox addAllData: { 
+	choicebox data addAll: { 
 			('Morphic SDL' -> BlMorphicWindowHost).
 			('Native SDL' -> BlOSWindowSDL2Host) }.
 	choicebox placeHolder: (ToLabel text: 'Place holder').
@@ -854,7 +880,7 @@ ToSandBox class >> example_rootFrameWithChoiceBox3 [
 	choicebox dataToTextConverter: [ :assoc | assoc key ].
 	choicebox whenSelectedDataChangedDo: [ self inform: choicebox selectedData value asString].
 	bar addChild: choicebox.
-	choicebox addAllData: { 
+	choicebox data addAll: { 
 			('Morphic SDL' -> BlMorphicWindowHost).
 			('Native SDL' -> BlOSWindowSDL2Host) }.
 	choicebox selectedData: nil.
@@ -1440,8 +1466,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroup [
 	buttons second startChecked.
 	group addAll: buttons.
 	group whenCheckedDo: [ :chb :previous | 
-		self inform: 'checked: ' , chb id asString , ' (previous was: '
-			, (previous ifNil: [ 'none' ] ifNotNil: [ previous id asString ]) ].
+		self inform: 'checked: ' , chb asString , ' unchecked: ', previous asString ].
 
 	container := BlElement new.
 	container constraintsDo: [ :c | 
@@ -1475,11 +1500,74 @@ ToSandBox class >> example_toCheckboxWithToggleGroup2 [
 	container layout cellSpacing: 2.
 	container addChildren: group buttons.
 	group whenCheckedDo: [ :chb :previous | 
-		self inform: 'checked: ' , chb id asString , ' (previous was: '
-			, (previous ifNil: [ 'none' ] ifNotNil: [ previous id asString ]) ].
+		self inform: 'checked: ' , chb asString , ' unchecked: ', previous asString ].
 	ToInnerWindow new
 		in: [ :f | f addChild: container ];
 		openInWorld
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_toCheckboxWithToggleGroupAndNoneStrategy [
+
+	| group container buttons |
+	group := ToCheckableGroup new.
+	group withoutCheckingStrategy.
+	buttons := OrderedCollection new.
+	1 to: 4 do: [ :idx | 
+		| chb |
+		chb := ToCheckbox new
+			       beLabelFirst;
+			       columnWidth: 50;
+			       labelText: idx asString;
+			       id: idx asString.
+		buttons add: chb ].
+	buttons second startChecked.
+	group addAll: buttons.
+	group whenCheckedDo: [ :chb :previous | 
+		self inform: 'checked: ' , chb asString , ' unchecked: ', previous asString ].
+
+	container := BlElement new.
+	container constraintsDo: [ :c | 
+		c horizontal matchParent.
+		c vertical matchParent ].
+
+	container layout: BlLinearLayout vertical.
+	container layout cellSpacing: 5.
+
+	container addChildren: group buttons.
+	container openInOBlSpace
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_toCheckboxWithToggleGroupAndSoftStrategy [
+
+	| group container buttons |
+	group := ToCheckableGroup new.
+	group withSoftCheckingStrategy.
+	buttons := OrderedCollection new.
+	1 to: 4 do: [ :idx | 
+		| chb |
+		chb := ToCheckbox new
+			       beLabelFirst;
+			       columnWidth: 50;
+			       labelText: idx asString;
+			       id: idx asString.
+		buttons add: chb ].
+	buttons second startChecked.
+	group addAll: buttons.
+	group whenCheckedDo: [ :chb :previous | 
+		self inform: 'checked: ' , chb asString , ' unchecked: ', previous asString ].
+
+	container := BlElement new.
+	container constraintsDo: [ :c | 
+		c horizontal matchParent.
+		c vertical matchParent ].
+
+	container layout: BlLinearLayout vertical.
+	container layout cellSpacing: 5.
+
+	container addChildren: group buttons.
+	container openInOBlSpace
 ]
 
 { #category : #checkbox }
@@ -1500,8 +1588,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroupJustified [
 	buttons second startChecked.
 	group addAll: buttons.
 	group whenCheckedDo: [ :chb :previous | 
-		self inform: 'checked: ' , chb id asString , ' (previous was: '
-			, (previous ifNil: [ 'none' ] ifNotNil: [ previous id asString ]) ].
+		self inform: 'checked: ' , chb asString , ' unchecked: ', previous asString ].
 
 	container := BlElement new.
 	container constraintsDo: [ :c | 

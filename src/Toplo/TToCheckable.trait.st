@@ -15,8 +15,8 @@ TToCheckable >> addToGroup: aToggleGroup [
 
 { #category : #'t - checking protocol' }
 TToCheckable >> check [
-	(self group notNil and: [ self isChecked ]) ifTrue: [ ^ self ].
-	self switchToStateNamed: #checked
+	self group ifNotNil: [ ^ self ].
+	self privateCheck
 ]
 
 { #category : #'t - checking protocol' }
@@ -50,6 +50,17 @@ TToCheckable >> isUnchecked [
 	^ self currentState notNil and: [ self currentState name = #unchecked ]
 ]
 
+{ #category : #'t - checking protocol' }
+TToCheckable >> privateCheck [
+	self switchToStateNamed: #checked
+]
+
+{ #category : #'t - checking protocol' }
+TToCheckable >> privateUncheck [
+
+	self switchToStateNamed: #unchecked
+]
+
 { #category : #'t - toggle group' }
 TToCheckable >> removeFromGroup [
 
@@ -74,13 +85,7 @@ TToCheckable >> startUnchecked [
 TToCheckable >> uncheck [
 
 	self group ifNotNil: [ ^ self ].
-	self switchToStateNamed: #unchecked
-]
-
-{ #category : #'t - checking protocol' }
-TToCheckable >> uncheckFromGroup [
-
-	self switchToStateNamed: #unchecked
+	self privateUncheck
 ]
 
 { #category : #'t - checking protocol' }

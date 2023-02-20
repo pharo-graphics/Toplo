@@ -31,6 +31,12 @@ ToInfiniteElement >> client [
 	^ self
 ]
 
+{ #category : #accessing }
+ToInfiniteElement >> data [
+
+	^ dataSource list
+]
+
 { #category : #initialization }
 ToInfiniteElement >> defaultDataSource [
 
@@ -98,31 +104,43 @@ ToInfiniteElement >> holderClass [
 ]
 
 { #category : #initialization }
-ToInfiniteElement >> initialize [ 
+ToInfiniteElement >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
 	nodeFactory := self defaultNodeFactory.
 	selectionStrategy := self defaultSelectionStrategy.
-	self list: ToObservableCollection new.	
-	self constraintsDo: [ :c | 
+	self privateData: ToObservableCollection new.
+	self constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical matchParent ].
-	
-	self initializeDresser 
+
+	self initializeDresser
 ]
 
 { #category : #accessing }
 ToInfiniteElement >> list [
 
-	^ dataSource list
+	self
+		deprecated: 'Please use #data instead.'
+		transformWith:
+			'`@receiver list'
+				-> '`@receiver data'.
+
+	^ self data
+
 ]
 
 { #category : #accessing }
 ToInfiniteElement >> list: aList [
 
-	selectionStrategy clearSelection.
-	dataSource list: aList
+	self
+		deprecated: 'Please use #privateData: instead.'
+		transformWith:
+			'`@receiver list: `@statements1'
+				-> '`@receiver privateData: `@statements1'.
+
+	self privateData: aList
 
 ]
 
@@ -176,6 +194,13 @@ ToInfiniteElement >> onGotFocus [
 { #category : #'private - focus' }
 ToInfiniteElement >> onLostFocus [ 
 
+]
+
+{ #category : #'private - accessing' }
+ToInfiniteElement >> privateData: aCollection [
+
+	selectionStrategy clearSelection.
+	dataSource list: aCollection
 ]
 
 { #category : #private }

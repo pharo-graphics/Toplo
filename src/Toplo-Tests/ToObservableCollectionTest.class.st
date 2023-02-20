@@ -4,7 +4,7 @@ A ToObservableListTest is a test class for testing the behavior of ToObservableL
 Class {
 	#name : #ToObservableCollectionTest,
 	#superclass : #TestCase,
-	#category : #'Toplo-Core-Infinite'
+	#category : #'Toplo-Tests-Core-Collection'
 }
 
 { #category : #'tests - adding' }

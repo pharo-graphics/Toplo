@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'interval'
 	],
-	#category : #'Toplo-Core-Infinite'
+	#category : #'Toplo-Core-Collection'
 }
 
 { #category : #accessing }

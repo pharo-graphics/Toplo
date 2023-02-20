@@ -90,8 +90,9 @@ TToWidgetWithState >> switchToState: aState [
 	previous := self currentState.
 	" do nothing if aState is the current state whereas several states exist "
 	(previous = aState and: [previous next ~= previous]) ifTrue: [ ^ self ].
+	self currentState: aState.
 	previous ifNotNil: [ previous exitOn: self nextState: aState ].
-	self currentState: aState
+
 ]
 
 { #category : #'t - accessing state' }

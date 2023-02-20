@@ -3,9 +3,9 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'buttons',
-		'checked',
+		'default',
 		'checkAction',
-		'default'
+		'checkingStrategy'
 	],
 	#category : #'Toplo-Widget-Button'
 }
@@ -17,7 +17,8 @@ ToCheckableGroup >> add: aCheckable [
 	(buttons includes: aCheckable) ifTrue: [ ^ self ].
 	buttons add: aCheckable.
 	aCheckable group: self.
-	aCheckable whenCheckedDo: [ self checked: aCheckable ]
+	aCheckable whenCheckedDo: [ self checked: aCheckable ].
+	aCheckable whenUncheckedDo: [ self unchecked: aCheckable ]
 
 ]
 
@@ -34,14 +35,41 @@ ToCheckableGroup >> buttons [
 	^ buttons
 ]
 
-{ #category : #'adding / removing' }
-ToCheckableGroup >> checked: aCheckable [
-	(buttons select: [ :b | b ~= aCheckable ]) do: [ :b | b uncheckFromGroup ].
-	checkAction ifNotNil: [ checkAction cull: aCheckable cull: checked].
-	checked := aCheckable 
+{ #category : #testing }
+ToCheckableGroup >> canSwitchToNextState: aCheckable [
+
+	^ checkingStrategy canSwitchToNextState: aCheckable
 ]
 
-{ #category : #'adding / removing' }
+{ #category : #'check-uncheck-request' }
+ToCheckableGroup >> checked: aCheckable [
+
+	aCheckable privateCheck.
+	checkingStrategy checked: aCheckable in: self.
+	self notifyChecked
+
+]
+
+{ #category : #accessing }
+ToCheckableGroup >> checkedButtons [
+
+
+	^ buttons select: [ :b | b isChecked ]
+]
+
+{ #category : #accessing }
+ToCheckableGroup >> checkingStrategy [
+
+	^ checkingStrategy
+]
+
+{ #category : #accessing }
+ToCheckableGroup >> checkingStrategy: aCheckableGroupCheckingStrategy [
+
+	checkingStrategy := aCheckableGroupCheckingStrategy
+]
+
+{ #category : #accessing }
 ToCheckableGroup >> default: aCheckable [
 
 	default ifNotNil: [ 
@@ -49,22 +77,29 @@ ToCheckableGroup >> default: aCheckable [
 		default := nil ].
 	aCheckable ifNil: [ ^ self ].
 	(buttons select: [ :b | b ~= aCheckable ]) do: [ :b | 
-		b uncheckFromGroup ].
+		b privateUncheck ].
 	aCheckable startChecked.
 	default := aCheckable
 ]
 
-{ #category : #accessing }
-ToCheckableGroup >> hasCheckedButton [
+{ #category : #initialization }
+ToCheckableGroup >> defaultCheckStrategy [
 
-	^ self buttons anySatisfy: [ :b | b isChecked ]
+	^ ToCheckableGroupStrictStrategy new
 ]
 
 { #category : #initialization }
 ToCheckableGroup >> initialize [ 
 
 	super initialize.
+	checkingStrategy := self defaultCheckStrategy.
 	buttons := OrderedCollection new
+]
+
+{ #category : #'checking protocol' }
+ToCheckableGroup >> notifyChecked [
+
+	checkAction ifNotNil: [ checkAction cull: self checkedButtons cull: self uncheckedButtons ]
 ]
 
 { #category : #'adding / removing' }
@@ -75,21 +110,52 @@ ToCheckableGroup >> remove: aCheckable [
 
 ]
 
-{ #category : #'adding / removing' }
+{ #category : #'check-uncheck-request' }
 ToCheckableGroup >> uncheckAll [
 	| current |
 	current := buttons detect: [ :b | b isChecked ] ifNone: [].
-	buttons do: [ :b | b uncheckFromGroup ].
-	checkAction ifNotNil: [ checkAction cull: nil cull: current].
-	checked := nil 
+	buttons do: [ :b | b privateUncheck ].
+	self notifyChecked
 ]
 
-{ #category : #'api - checkbox' }
+{ #category : #'check-uncheck-request' }
+ToCheckableGroup >> unchecked: aCheckable [
+
+	aCheckable privateUncheck.
+	checkingStrategy unchecked: aCheckable in: self
+
+]
+
+{ #category : #accessing }
+ToCheckableGroup >> uncheckedButtons [
+
+	^ buttons reject: [ :b | b isChecked ]
+]
+
+{ #category : #'checking protocol' }
 ToCheckableGroup >> whenCheckedDo: aBlock [
 	"Run aBlock when one of my buttons is checked. 
 	 `aBlock` receives two optional arguments: 
-	 - new checked button
-	 - previous checked button"
+	 - checked button list
+	 - unchecked button list"
 
 	checkAction := aBlock
+]
+
+{ #category : #accessing }
+ToCheckableGroup >> withSoftCheckingStrategy [
+
+	self checkingStrategy: ToCheckableGroupSoftStrategy new
+]
+
+{ #category : #accessing }
+ToCheckableGroup >> withStrictCheckingStrategy [
+
+	self checkingStrategy: ToCheckableGroupStrictStrategy new
+]
+
+{ #category : #accessing }
+ToCheckableGroup >> withoutCheckingStrategy [
+
+	self checkingStrategy: ToCheckableGroupNoneStrategy new
 ]

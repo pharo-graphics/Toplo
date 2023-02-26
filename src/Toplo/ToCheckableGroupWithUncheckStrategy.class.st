@@ -1,5 +1,5 @@
 Class {
-	#name : #ToCheckableGroupSoftStrategy,
+	#name : #ToCheckableGroupWithUncheckStrategy,
 	#superclass : #ToCheckableGroupCheckingStrategy,
 	#category : #'Toplo-Widget-Button'
 }

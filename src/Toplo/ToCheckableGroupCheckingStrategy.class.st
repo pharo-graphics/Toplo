@@ -1,7 +1,7 @@
 "
-aStrategy can be Strong, Soft or None
+aStrategy can be Strong, WithUncheck or None
 	- Strict means that there must be always one and only one checked element. 
-	- Soft  means that only one checked element is alowed but a group can have no checked element.
+	- WithUncheck  means that only one checked element is alowed. A checked element can be unchecked. As a consequence,  a group may have no checked element.
 	- None means that there is no rule : an element can checked or unchecked whatever the others element state
 
 "

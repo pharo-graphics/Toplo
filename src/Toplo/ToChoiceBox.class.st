@@ -72,8 +72,7 @@ ToChoiceBox >> defaultData: anObject [
 	(anObject isNil or: [ (item := self menuItemFromData: anObject) isNil ]) ifTrue: [ 
 		selectedData := nil.
 		^ self ].
-	group default: item.
-	selectedData := anObject
+	group startDefault: item
 ]
 
 { #category : #'t - initialization dresser' }
@@ -111,7 +110,9 @@ ToChoiceBox >> initialize [
 	self addChild: menuButton.
 	self whenSelectedDataChangedDo: [ self selectedDataChanged ].
 	self whenPlaceHolderChangedDo: [ self placeHolderChanged ].
-	group whenCheckedDo: [ :checkedList :uncheckedList | checkedList do: [:e | self checked: e] ].
+	group whenCheckedDo: [ :checkedList :uncheckedList | 
+		checkedList do: [:e | self checked: e].
+		uncheckedList do:[:e | self unchecked: e ]].
 	self initializeDresser.
 
 ]
@@ -263,6 +264,13 @@ ToChoiceBox >> selectedDataChanged [
 ]
 
 { #category : #'api - change hook' }
+ToChoiceBox >> unchecked: anItem [
+
+	self group checkedButtons ifNotEmpty: [ ^ self ].
+	selectedData := nil
+]
+
+{ #category : #'api - change hook' }
 ToChoiceBox >> usePlaceHolder [
 
 	menuButton label: self placeHolder.
@@ -283,4 +291,16 @@ ToChoiceBox >> whenSelectedDataChangedDo: aBlock [
 	"set a block to perform after that the selected item has been changed, and its action performed"
 
 	self property: #selectedData whenChangedDo: aBlock
+]
+
+{ #category : #accessing }
+ToChoiceBox >> withStrictCheckingStrategy [
+
+	self group withStrictCheckingStrategy
+]
+
+{ #category : #accessing }
+ToChoiceBox >> withUncheckingStrategy [
+
+	self group withUncheckingStrategy
 ]

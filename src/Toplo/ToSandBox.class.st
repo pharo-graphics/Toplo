@@ -876,6 +876,7 @@ ToSandBox class >> example_rootFrameWithChoiceBox3 [
 		       vFitContent.
 	win := ToInnerWindow new title: 'Some host'.
 	choicebox := ToChoiceBox new hMatchParent.
+	choicebox withUncheckingStrategy.
 	choicebox placeHolder: (ToLabel text: 'None').
 	choicebox dataToTextConverter: [ :assoc | assoc key ].
 	choicebox whenSelectedDataChangedDo: [ self inform: choicebox selectedData value asString].
@@ -1493,7 +1494,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroup2 [
 			       id: idx asString.
 		chb beIconFirst.
 		group add: chb ].
-	group default: (group buttons second).
+	group startDefault: (group buttons second).
 	container := ToElement new.
 	container matchParent.
 	container layout: BlLinearLayout horizontal.
@@ -1543,7 +1544,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndSoftStrategy [
 
 	| group container buttons |
 	group := ToCheckableGroup new.
-	group withSoftCheckingStrategy.
+	group withUncheckingStrategy.
 	buttons := OrderedCollection new.
 	1 to: 4 do: [ :idx | 
 		| chb |

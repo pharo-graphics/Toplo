@@ -69,19 +69,6 @@ ToCheckableGroup >> checkingStrategy: aCheckableGroupCheckingStrategy [
 	checkingStrategy := aCheckableGroupCheckingStrategy
 ]
 
-{ #category : #accessing }
-ToCheckableGroup >> default: aCheckable [
-
-	default ifNotNil: [ 
-		default uncheck.
-		default := nil ].
-	aCheckable ifNil: [ ^ self ].
-	(buttons select: [ :b | b ~= aCheckable ]) do: [ :b | 
-		b privateUncheck ].
-	aCheckable startChecked.
-	default := aCheckable
-]
-
 { #category : #initialization }
 ToCheckableGroup >> defaultCheckStrategy [
 
@@ -108,6 +95,19 @@ ToCheckableGroup >> remove: aCheckable [
 	(buttons includes: aCheckable) ifFalse: [ ^ self ].
 	buttons remove: aCheckable.
 
+]
+
+{ #category : #accessing }
+ToCheckableGroup >> startDefault: aCheckable [
+
+	default ifNotNil: [ 
+		default uncheck.
+		default := nil ].
+	aCheckable ifNil: [ ^ self ].
+	(buttons select: [ :b | b ~= aCheckable ]) do: [ :b | 
+		b privateUncheck ].
+	aCheckable startChecked.
+	default := aCheckable
 ]
 
 { #category : #'check-uncheck-request' }
@@ -143,15 +143,15 @@ ToCheckableGroup >> whenCheckedDo: aBlock [
 ]
 
 { #category : #accessing }
-ToCheckableGroup >> withSoftCheckingStrategy [
-
-	self checkingStrategy: ToCheckableGroupSoftStrategy new
-]
-
-{ #category : #accessing }
 ToCheckableGroup >> withStrictCheckingStrategy [
 
 	self checkingStrategy: ToCheckableGroupStrictStrategy new
+]
+
+{ #category : #accessing }
+ToCheckableGroup >> withUncheckingStrategy [
+
+	self checkingStrategy: ToCheckableGroupWithUncheckStrategy new
 ]
 
 { #category : #accessing }

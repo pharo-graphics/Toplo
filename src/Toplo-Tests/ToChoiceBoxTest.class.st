@@ -121,15 +121,14 @@ ToChoiceBoxTest >> testWith5StringData [
 	cb := ToChoiceBox new.
 	d := { '#1'. '#2'. '#3'. '#4'. '#5' }.
 	cb data addAll: d.
-	self assert: cb data size = 5.
-	self assert: cb selectedData = d first.
-	self assert: cb menuButton label text asString = d first.
-	self assert: cb menuButton subMenuWindow root children size = 5.
-	self assert: cb group buttons size = 5.	
+	self assert: cb data size equals: 5.
+	self assert: cb selectedData equals: d first.
+	self assert: cb menuButton label text asString equals: d first.
+	self assert: cb menuButton subMenuWindow root children size equals: 5.
+	self assert: cb group buttons size equals: 5.
 	self assert: cb placeHolder isNil.
 	cb data removeAll.
 	self assertEmpty: cb
-
 ]
 
 { #category : #'basic tests' }

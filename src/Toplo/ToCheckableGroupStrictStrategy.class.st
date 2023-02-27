@@ -9,7 +9,3 @@ ToCheckableGroupStrictStrategy >> canSwitchToNextState: aCheckable [
 
 	^ aCheckable isUnchecked 
 ]
-
-{ #category : #testing }
-ToCheckableGroupStrictStrategy >> unchecked: aCheckable in: aGroup [
-]

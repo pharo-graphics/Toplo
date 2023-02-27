@@ -110,7 +110,7 @@ ToChoiceBox >> initialize [
 	self addChild: menuButton.
 	self whenSelectedDataChangedDo: [ self selectedDataChanged ].
 	self whenPlaceHolderChangedDo: [ self placeHolderChanged ].
-	group whenCheckedDo: [ :checkedList :uncheckedList | 
+	group whenChangedDo: [ :checkedList :uncheckedList | 
 		checkedList do: [:e | self checked: e].
 		uncheckedList do:[:e | self unchecked: e ]].
 	self initializeDresser.

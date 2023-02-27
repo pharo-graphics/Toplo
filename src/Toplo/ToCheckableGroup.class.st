@@ -4,8 +4,8 @@ Class {
 	#instVars : [
 		'buttons',
 		'default',
-		'checkAction',
-		'checkingStrategy'
+		'checkingStrategy',
+		'changeAction'
 	],
 	#category : #'Toplo-Widget-Button'
 }
@@ -44,9 +44,7 @@ ToCheckableGroup >> canSwitchToNextState: aCheckable [
 { #category : #'check-uncheck-request' }
 ToCheckableGroup >> checked: aCheckable [
 
-	aCheckable privateCheck.
 	checkingStrategy checked: aCheckable in: self.
-	self notifyChecked
 
 ]
 
@@ -84,9 +82,9 @@ ToCheckableGroup >> initialize [
 ]
 
 { #category : #'checking protocol' }
-ToCheckableGroup >> notifyChecked [
+ToCheckableGroup >> notifyChanged [
 
-	checkAction ifNotNil: [ checkAction cull: self checkedButtons cull: self uncheckedButtons ]
+	changeAction ifNotNil: [ changeAction cull: self checkedButtons cull: self uncheckedButtons ]
 ]
 
 { #category : #'adding / removing' }
@@ -115,13 +113,12 @@ ToCheckableGroup >> uncheckAll [
 	| current |
 	current := buttons detect: [ :b | b isChecked ] ifNone: [].
 	buttons do: [ :b | b privateUncheck ].
-	self notifyChecked
+	self notifyChanged
 ]
 
 { #category : #'check-uncheck-request' }
 ToCheckableGroup >> unchecked: aCheckable [
 
-	aCheckable privateUncheck.
 	checkingStrategy unchecked: aCheckable in: self
 
 ]
@@ -133,13 +130,13 @@ ToCheckableGroup >> uncheckedButtons [
 ]
 
 { #category : #'checking protocol' }
-ToCheckableGroup >> whenCheckedDo: aBlock [
+ToCheckableGroup >> whenChangedDo: aBlock [
 	"Run aBlock when one of my buttons is checked. 
 	 `aBlock` receives two optional arguments: 
 	 - checked button list
 	 - unchecked button list"
 
-	checkAction := aBlock
+	changeAction := aBlock
 ]
 
 { #category : #accessing }

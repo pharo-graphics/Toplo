@@ -585,7 +585,7 @@ ToSandBox class >> example_menu5 [
 	grp add: center.
 	grp add: left.
 
-	grp whenCheckedDo: [ :chb :previous | 
+	grp whenChangedDo: [ :chb :previous | 
 		self inform: 'checked: ' , chb id asSymbol , ' (previous was: '
 			, (previous ifNil: [ 'none' ] ifNotNil: [ previous id asSymbol ]) ].
 
@@ -644,7 +644,7 @@ ToSandBox class >> example_menu6 [
 			center.
 			left }.
 
-	grp whenCheckedDo: [ :chb :previous | 
+	grp whenChangedDo: [ :chb :previous | 
 		self inform: 'checked: ' , chb id asSymbol , ' (previous was: '
 			, (previous ifNil: [ 'none' ] ifNotNil: [ previous id asSymbol ]) ].
 
@@ -683,7 +683,7 @@ ToSandBox class >> example_menu6 [
 			center.
 			left }.
 
-	grp whenCheckedDo: [ :chb :previous | 
+	grp whenChangedDo: [ :chb :previous | 
 		self inform: 'checked: ' , chb id asSymbol , ' (previous was: '
 			, (previous ifNil: [ 'none' ] ifNotNil: [ previous id asSymbol ]) ].
 
@@ -722,7 +722,7 @@ ToSandBox class >> example_menu6 [
 			center.
 			left }.
 
-	grp whenCheckedDo: [ :chb :previous | 
+	grp whenChangedDo: [ :chb :previous | 
 		self inform: 'checked: ' , chb id asSymbol , ' (previous was: '
 			, (previous ifNil: [ 'none' ] ifNotNil: [ previous id asSymbol ]) ].
 
@@ -1451,37 +1451,6 @@ ToSandBox class >> example_toCheckboxWithLabel2 [
 ]
 
 { #category : #checkbox }
-ToSandBox class >> example_toCheckboxWithToggleGroup [
-
-	| group container buttons |
-	group := ToCheckableGroup new.
-	buttons := OrderedCollection new.
-	1 to: 4 do: [ :idx | 
-		| chb |
-		chb := ToCheckbox new
-			       beLabelFirst;
-			       columnWidth: 50;
-			       labelText: idx asString;
-			       id: idx asString.
-		buttons add: chb ].
-	buttons second startChecked.
-	group addAll: buttons.
-	group whenCheckedDo: [ :chb :previous | 
-		self inform: 'checked: ' , chb asString , ' unchecked: ', previous asString ].
-
-	container := BlElement new.
-	container constraintsDo: [ :c | 
-		c horizontal matchParent.
-		c vertical matchParent ].
-
-	container layout: BlLinearLayout vertical.
-	container layout cellSpacing: 5.
-
-	container addChildren: group buttons.
-	container openInOBlSpace
-]
-
-{ #category : #checkbox }
 ToSandBox class >> example_toCheckboxWithToggleGroup2 [
 
 	| group container |
@@ -1500,7 +1469,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroup2 [
 	container layout: BlLinearLayout horizontal.
 	container layout cellSpacing: 2.
 	container addChildren: group buttons.
-	group whenCheckedDo: [ :chb :previous | 
+	group whenChangedDo: [ :chb :previous | 
 		self inform: 'checked: ' , chb asString , ' unchecked: ', previous asString ].
 	ToInnerWindow new
 		in: [ :f | f addChild: container ];
@@ -1524,7 +1493,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndNoneStrategy [
 		buttons add: chb ].
 	buttons second startChecked.
 	group addAll: buttons.
-	group whenCheckedDo: [ :chb :previous | 
+	group whenChangedDo: [ :chb :previous | 
 		self inform: 'checked: ' , chb asString , ' unchecked: ', previous asString ].
 
 	container := BlElement new.
@@ -1540,7 +1509,38 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndNoneStrategy [
 ]
 
 { #category : #checkbox }
-ToSandBox class >> example_toCheckboxWithToggleGroupAndSoftStrategy [
+ToSandBox class >> example_toCheckboxWithToggleGroupAndStrictStrategy [
+
+	| group container buttons |
+	group := ToCheckableGroup new.
+	buttons := OrderedCollection new.
+	1 to: 4 do: [ :idx | 
+		| chb |
+		chb := ToCheckbox new
+			       beLabelFirst;
+			       columnWidth: 50;
+			       labelText: idx asString;
+			       id: idx asString.
+		buttons add: chb ].
+	buttons second startChecked.
+	group addAll: buttons.
+	group whenChangedDo: [ :chb :previous | 
+		self inform: 'checked: ' , chb asString , ' unchecked: ', previous asString ].
+
+	container := BlElement new.
+	container constraintsDo: [ :c | 
+		c horizontal matchParent.
+		c vertical matchParent ].
+
+	container layout: BlLinearLayout vertical.
+	container layout cellSpacing: 5.
+
+	container addChildren: group buttons.
+	container openInOBlSpace
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_toCheckboxWithToggleGroupAndUnckekingStrategy [
 
 	| group container buttons |
 	group := ToCheckableGroup new.
@@ -1556,7 +1556,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndSoftStrategy [
 		buttons add: chb ].
 	buttons second startChecked.
 	group addAll: buttons.
-	group whenCheckedDo: [ :chb :previous | 
+	group whenChangedDo: [ :chb :previous | 
 		self inform: 'checked: ' , chb asString , ' unchecked: ', previous asString ].
 
 	container := BlElement new.
@@ -1588,7 +1588,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroupJustified [
 		buttons add: chb ].
 	buttons second startChecked.
 	group addAll: buttons.
-	group whenCheckedDo: [ :chb :previous | 
+	group whenChangedDo: [ :chb :previous | 
 		self inform: 'checked: ' , chb asString , ' unchecked: ', previous asString ].
 
 	container := BlElement new.

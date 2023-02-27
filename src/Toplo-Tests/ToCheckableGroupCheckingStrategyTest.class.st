@@ -12,7 +12,7 @@ ToCheckableGroupCheckingStrategyTest >> testNoneStrategy [
 
 	| group |
 	group := ToCheckableGroup new.
-	1 to: 4 do: [ :idx | 
+	1 to: 4 do: [ :idx |
 		| chb |
 		chb := ToCheckbox new.
 		group add: chb ].
@@ -30,12 +30,7 @@ ToCheckableGroupCheckingStrategyTest >> testNoneStrategy [
 	group buttons second check.
 	self assert: group buttons second isChecked.
 	self assert: group buttons first isChecked.
-	self assert: ((group buttons copyFrom: 3 to: 4) allSatisfy: [ :btn | btn isUnchecked ]).
-
-
-
-
-
+	self assert: ((group buttons copyFrom: 3 to: 4) allSatisfy: [ :btn | btn isUnchecked ])
 ]
 
 { #category : #tests }
@@ -43,7 +38,7 @@ ToCheckableGroupCheckingStrategyTest >> testStrictStrategy [
 
 	| group |
 	group := ToCheckableGroup new.
-	1 to: 4 do: [ :idx | 
+	1 to: 4 do: [ :idx |
 		| chb |
 		chb := ToCheckbox new.
 		group add: chb ].
@@ -60,12 +55,7 @@ ToCheckableGroupCheckingStrategyTest >> testStrictStrategy [
 	group buttons second check.
 	self assert: group buttons second isChecked.
 	self assert: group buttons first isUnchecked.
-	self assert: ((group buttons copyFrom: 3 to: 4) allSatisfy: [ :btn | btn isUnchecked ]).
-
-
-
-
-
+	self assert: ((group buttons copyFrom: 3 to: 4) allSatisfy: [ :btn | btn isUnchecked ])
 ]
 
 { #category : #tests }
@@ -73,7 +63,7 @@ ToCheckableGroupCheckingStrategyTest >> testWithUncheckStrategy [
 
 	| group |
 	group := ToCheckableGroup new.
-	1 to: 4 do: [ :idx | 
+	1 to: 4 do: [ :idx |
 		| chb |
 		chb := ToCheckbox new.
 		group add: chb ].
@@ -96,13 +86,5 @@ ToCheckableGroupCheckingStrategyTest >> testWithUncheckStrategy [
 	self assert: group buttons first isUnchecked.
 	self assert: group buttons second isUnchecked.
 	self assert: group buttons third isUnchecked.
-	self assert: group buttons fourth isChecked.
-
-
-
-
-
-
-
-
+	self assert: group buttons fourth isChecked
 ]

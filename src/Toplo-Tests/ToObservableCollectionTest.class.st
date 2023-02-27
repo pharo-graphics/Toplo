@@ -12,7 +12,7 @@ ToObservableCollectionTest >> testAdd [
 
 	| l i|
 	l := ToObservableCollection new.
-	
+
 	l whenAddChangeDo: [ :ann | i := ann interval ].
 	l add: 88.
 	self
@@ -32,11 +32,11 @@ ToObservableCollectionTest >> testAddAfter [
 
 	| l i |
 	l := ToObservableCollection newFrom: #( 1 2 3 4 ).
-		
+
 	l whenAddChangeDo: [ :ann | i := ann interval ].
-		
+
 	l add: 88 after: 1.
-	
+
 	self assert: i notNil.
 	self assert: i equals: (2 to: 2).
 
@@ -45,7 +45,7 @@ ToObservableCollectionTest >> testAddAfter [
 		equals: #( 1 88 2 3 4 ) asOrderedCollection.
 
 	l add: 99 after: 2.
-	
+
 	self assert: i equals: (4 to: 4).
 
 	self
@@ -60,12 +60,12 @@ ToObservableCollectionTest >> testAddAfterIndex [
 	coll add: 77 afterIndex: 0.
 	self assert: coll asArray equals: #(77 1 2 3 4).
 	coll add: 88 afterIndex: 2.
-	self assert: coll asArray equals: #(77 1 88 2 3 4). 
+	self assert: coll asArray equals: #(77 1 88 2 3 4).
 	coll add: 99 afterIndex: coll size.
-	self assert: coll asArray equals: #(77 1 88 2 3 4 99). 
+	self assert: coll asArray equals: #(77 1 88 2 3 4 99).
 	self should: [ coll add: 666 afterIndex: -1 ] raise: Error.
 	self should: [ coll add: 666 afterIndex: coll size+1 ] raise: Error.
-	
+
 	"Now make room by removing first two and last two elements,
 	and see if the illegal bounds test still fails"
 	(coll first: 2), (coll last: 2) reversed do: [:e | coll remove: e].
@@ -99,14 +99,13 @@ ToObservableCollectionTest >> testAddAllFirst [
 	c2 := ToObservableCollection new
 		     addAll: #(5 6 7 8 9);
 		     yourself.
-		
+
 	c2 whenAddChangeDo: [ :ann | i := ann interval ].
-		
+
 	c2 addAllFirst: c1.
 	self assert: c2 asOrderedCollection equals: #(1 2 3 4 5 6 7 8 9) asOrderedCollection.
-	
+
 	self assert: i equals: (1 to: 4)
-	
 ]
 
 { #category : #'tests - adding' }
@@ -121,14 +120,13 @@ ToObservableCollectionTest >> testAddAllLast [
 	c2 := ToObservableCollection new
 		     addAll: #(5 6 7 8 9);
 		     yourself.
-		
+
 	c1 whenAddChangeDo: [ :ann | i := ann interval ].
-		
+
 	c1 addAllLast: c2.
 	self assert: c1 asOrderedCollection equals: #(1 2 3 4 5 6 7 8 9) asOrderedCollection.
-	
+
 	self assert: i equals: (5 to: 9)
-	
 ]
 
 { #category : #'tests - adding' }
@@ -138,11 +136,11 @@ ToObservableCollectionTest >> testAddBefore [
 	l := ToObservableCollection new
 		     addAll: #( 1 2 3 4 );
 		     yourself.
-		
+
 	l whenAddChangeDo: [ :ann | i := ann interval ].
-		
+
 	l add: 88 before: 1.
-	
+
 	self assert: i notNil.
 	self assert: i equals: (1 to: 1).
 
@@ -151,7 +149,7 @@ ToObservableCollectionTest >> testAddBefore [
 		equals: #(88 1 2 3 4) asOrderedCollection.
 
 	l add: 99 before: 2.
-	
+
 	self assert: i equals: (3 to: 3).
 
 	self
@@ -166,13 +164,13 @@ ToObservableCollectionTest >> testAddBeforeAndRemove [
 	l := ToObservableCollection new
 		     addAll: #( 1 2 3 4 );
 		     yourself.
-		
+
 	initialCollection := l copy.
-			
+
 	l whenAddChangeDo: [ :ann | i := ann interval ].
-		
+
 	l add: 88 before: 1.
-	
+
 	self assert: i notNil.
 	self assert: i equals: (1 to: 1).
 
@@ -181,13 +179,13 @@ ToObservableCollectionTest >> testAddBeforeAndRemove [
 		equals: #(88 1 2 3 4) asOrderedCollection.
 
 	l add: 99 before: 2.
-	
+
 	self assert: i equals: (3 to: 3).
-	
+
 	l remove: 99.
 	l remove: 88.
-	
-	self assert: l asArray equals: initialCollection asArray 
+
+	self assert: l asArray equals: initialCollection asArray
 ]
 
 { #category : #'tests - adding' }
@@ -197,11 +195,11 @@ ToObservableCollectionTest >> testAddBeforeIndex [
 	l := ToObservableCollection new
 		     addAll: #( 1 2 3 4 );
 		     yourself.
-		
+
 	l whenAddChangeDo: [ :ann | i := ann interval ].
-		
+
 	l add: 88 beforeIndex: 1.
-	
+
 	self assert: i notNil.
 	self assert: i equals: (1 to: 1).
 
@@ -210,7 +208,7 @@ ToObservableCollectionTest >> testAddBeforeIndex [
 		equals: #(88 1 2 3 4) asOrderedCollection.
 
 	l add: 99 beforeIndex: 3.
-	
+
 	self assert: i equals: (3 to: 3).
 
 	self
@@ -225,11 +223,11 @@ ToObservableCollectionTest >> testAddFirst [
 	l := ToObservableCollection new
 		     addAll: #( 1 2 3 4 );
 		     yourself.
-		
+
 	l whenAddChangeDo: [ :ann | i := ann interval ].
-		
+
 	l addFirst: 88.
-	
+
 	self assert: i notNil.
 	self assert: i equals: (1 to: 1).
 
@@ -240,7 +238,7 @@ ToObservableCollectionTest >> testAddFirst [
 	i := nil.
 
 	l addFirst: 99.
-	
+
 	self
 		assert: l asOrderedCollection
 		equals: #(99 88 1 2 3 4) asOrderedCollection.
@@ -255,11 +253,11 @@ ToObservableCollectionTest >> testAddLast [
 	l := ToObservableCollection new
 		     addAll: #( 1 2 3 4 );
 		     yourself.
-		
+
 	l whenAddChangeDo: [ :ann | i := ann interval ].
-		
+
 	l addLast: 88.
-	
+
 	self assert: i notNil.
 	self assert: i equals: (5 to: 5).
 
@@ -270,7 +268,7 @@ ToObservableCollectionTest >> testAddLast [
 	i := nil.
 
 	l addLast: 99.
-	
+
 	self
 		assert: l asOrderedCollection
 		equals: #(1 2 3 4 88 99) asOrderedCollection.
@@ -285,16 +283,14 @@ ToObservableCollectionTest >> testAsArray [
 	| l |
 	l := ToObservableCollection newFrom: #( 1 2 3 4 ).
 	self assert: l asArray equals: #( 1 2 3 4 )
-
 ]
 
 { #category : #'tests - converting' }
-ToObservableCollectionTest >> testAsOrderedCollection [ 
+ToObservableCollectionTest >> testAsOrderedCollection [
 
 	| l |
 	l := ToObservableCollection newFrom: #( 1 2 3 4 ).
-	self assert: l asOrderedCollection equals: #( 1 2 3 4 ) asOrderedCollection 
-
+	self assert: l asOrderedCollection equals: #( 1 2 3 4 ) asOrderedCollection
 ]
 
 { #category : #'tests - accessing' }
@@ -329,12 +325,10 @@ ToObservableCollectionTest >> testComma [
 	c2 := ToObservableCollection new
 		     addAll: #(5 6 7 8 9);
 		     yourself.
-		
+
 	c3 := c1, c2.
 	self assert: c3 size equals: (c1 size + c2 size).
 	self assert: c3 asArray equals: #(1 2 3 4 5 6 7 8 9)
-		
-
 ]
 
 { #category : #'tests - adding' }
@@ -346,16 +340,17 @@ ToObservableCollectionTest >> testConcatenation [
 	result := firstCollection , secondCollection.
 	"first part : "
 	index := 1.
-	firstCollection do: [ :each | 
-		self assert: (firstCollection at: index) = each.
+	firstCollection do: [ :each |
+		self assert: (firstCollection at: index) equals: each.
 		index := index + 1 ].
 	"second part : "
-	1 to: secondCollection size do: [ :i | 
-		self assert: (secondCollection at: i) = (result at: index).
+	1 to: secondCollection size do: [ :i |
+		self assert: (secondCollection at: i) equals: (result at: index).
 		index := index + 1 ].
 	"size : "
-	self assert:
-		result size = (firstCollection size + secondCollection size)
+	self
+		assert: result size
+		equals: firstCollection size + secondCollection size
 ]
 
 { #category : #'tests - removing' }
@@ -450,7 +445,7 @@ ToObservableCollectionTest >> testRemoveFromTo [
 	c1 removeFrom: 2 to: 2.
 	self assert: i equals: (2 to: 2).
 	self assert: c1 size equals: 3.
-	
+
 	c1 addAll: (1 to: 100).
 	c1 removeFrom: 2 to: 103.
 	self assert: i equals: (2 to: 103).
@@ -464,14 +459,14 @@ ToObservableCollectionTest >> testRemoveFromTo [
 { #category : #'tests - removing' }
 ToObservableCollectionTest >> testRemoveLast [
 	"Allows one to remove n element of a collection at the end"
-	
+
 	| c1 i |
 	c1 := ToObservableCollection newFrom: #(2 3 4 6).
 	c1 whenRemoveChangeDo: [ :ann | i := ann interval ].
-	
+
 	c1 removeLast: 1.
 	self assert: i equals: (4 to: 4).
-	
+
 	self assert: c1 asArray equals: #(2 3 4).
 	c1 removeLast: 2.
 	self assert: i equals: (2 to: 3).

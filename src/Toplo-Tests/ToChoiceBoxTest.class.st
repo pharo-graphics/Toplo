@@ -33,7 +33,7 @@ ToChoiceBoxTest >> testAddRemoveOneStringData [
 ]
 
 { #category : #'basic tests' }
-ToChoiceBoxTest >> testCheckUncheckWithUncheckStrategy [ 
+ToChoiceBoxTest >> testCheckUncheckWithUncheckStrategy [
 
 	| cb d1 d2 d3 |
 	cb := ToChoiceBox new.
@@ -41,20 +41,19 @@ ToChoiceBoxTest >> testCheckUncheckWithUncheckStrategy [
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
-	cb data addAll: {d1. d2. d3}.
+	cb data addAll: {
+			d1.
+			d2.
+			d3 }.
 	cb selectedIndex: 1.
-	self assert: cb data size = 3.
-	self assert: cb selectedData = d1.
-	self assert: cb menuButton label text asString = d1.
-	self assert: cb group buttons size = 3.	
+	self assert: cb data size equals: 3.
+	self assert: cb selectedData equals: d1.
+	self assert: cb menuButton label text asString equals: d1.
+	self assert: cb group buttons size equals: 3.
 	cb group buttons first uncheck.
-	self assert: cb group buttons first isUnchecked.	
-	self assert: cb group buttons second isUnchecked.	
-	self assert: cb group buttons third isUnchecked.
-	
-	
-
-
+	self assert: cb group buttons first isUnchecked.
+	self assert: cb group buttons second isUnchecked.
+	self assert: cb group buttons third isUnchecked
 ]
 
 { #category : #'basic tests' }
@@ -103,7 +102,7 @@ ToChoiceBoxTest >> testNoSelectedDataWithPlaceHolder2 [
 	d := { '#1'. '#2'. '#3'. '#4'. '#5' }.
 	cb data addAll: d.
 	cb selectedIndex: 1.
-	self assert: cb selectedData = '#1'.
+	self assert: cb selectedData equals: '#1'.
 	self assert: cb menuButton label text asString equals: d first.
 	cb selectedData: nil.
 	self assert: cb selectedData isNil.
@@ -119,9 +118,9 @@ ToChoiceBoxTest >> testSelectedData1 [
 	d := { '#1'. '#2'. '#3'. '#4'. '#5' }.
 	cb data addAll: d.
 	cb selectedIndex: 1.
-	self assert: cb selectedData = d first.
+	self assert: cb selectedData equals: d first.
 	cb selectedData: d second.
-	self assert: cb menuButton label text asString = d second.
+	self assert: cb menuButton label text asString equals: d second.
 	self assert: cb group buttons second isChecked
 ]
 
@@ -133,10 +132,10 @@ ToChoiceBoxTest >> testSelectedData2 [
 	d := { '#1'. '#2'. '#3'. '#4'. '#5' }.
 	cb data addAll: d.
 	cb selectedIndex: 1.
-	self assert: cb selectedData = '#1'.
+	self assert: cb selectedData equals: '#1'.
 	cb selectedData: '#99999'.
-	self assert: cb selectedData = '#1'.
-	self assert: cb menuButton label text asString = d first.
+	self assert: cb selectedData equals: '#1'.
+	self assert: cb menuButton label text asString equals: d first.
 	self assert: cb group buttons first isChecked
 ]
 
@@ -166,41 +165,42 @@ ToChoiceBoxTest >> testWithOneStringData [
 	d := '#1'.
 	cb data add: d.
 	cb selectedIndex: 1.
-	self assert: cb data size = 1.
-	self assert: cb selectedData = d.
-	self assert: cb menuButton label text asString = d.
-	self assert: cb menuButton subMenuWindow root children size = 1.
-	self assert: cb group buttons size = 1.	
-	self assert: cb placeHolder isNil.
-
+	self assert: cb data size equals: 1.
+	self assert: cb selectedData equals: d.
+	self assert: cb menuButton label text asString equals: d.
+	self assert: cb menuButton subMenuWindow root children size equals: 1.
+	self assert: cb group buttons size equals: 1.
+	self assert: cb placeHolder isNil
 ]
 
 { #category : #'basic tests' }
-ToChoiceBoxTest >> testWithStrictStrategy [ 
+ToChoiceBoxTest >> testWithStrictStrategy [
 
 	| cb d1 d2 d3 |
 	cb := ToChoiceBox new.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
-	cb data addAll: {d1. d2. d3}.
+	cb data addAll: {
+			d1.
+			d2.
+			d3 }.
 	cb selectedIndex: 1.
-	self assert: cb data size = 3.
-	self assert: cb selectedData = d1.
-	self assert: cb menuButton label text asString = d1.
-	self assert: cb menuButton subMenuWindow root children size = 3.
-	self assert: cb group buttons size = 3.
-	self assert: cb group buttons first isChecked.	
-	self assert: cb group buttons second isUnchecked.	
-	self assert: cb group buttons third isUnchecked.	
+	self assert: cb data size equals: 3.
+	self assert: cb selectedData equals: d1.
+	self assert: cb menuButton label text asString equals: d1.
+	self assert: cb menuButton subMenuWindow root children size equals: 3.
+	self assert: cb group buttons size equals: 3.
+	self assert: cb group buttons first isChecked.
+	self assert: cb group buttons second isUnchecked.
+	self assert: cb group buttons third isUnchecked.
 	self assert: cb placeHolder isNil.
 	cb group buttons first uncheck.
-	self assert: cb group buttons first isChecked.	
-
+	self assert: cb group buttons first isChecked
 ]
 
 { #category : #'basic tests' }
-ToChoiceBoxTest >> testWithUncheckStrategy [ 
+ToChoiceBoxTest >> testWithUncheckStrategy [
 
 	| cb d1 d2 d3 |
 	cb := ToChoiceBox new.
@@ -208,17 +208,19 @@ ToChoiceBoxTest >> testWithUncheckStrategy [
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
-	cb data addAll: {d1. d2. d3}.
-	self assert: cb data size = 3.
+	cb data addAll: {
+			d1.
+			d2.
+			d3 }.
+	self assert: cb data size equals: 3.
 	cb selectedData: d1.
-	self assert: cb menuButton label text asString = d1.
-	self assert: cb menuButton subMenuWindow root children size = 3.
-	self assert: cb group buttons size = 3.
-	self assert: cb group buttons first isChecked.	
-	self assert: cb group buttons second isUnchecked.	
-	self assert: cb group buttons third isUnchecked.	
+	self assert: cb menuButton label text asString equals: d1.
+	self assert: cb menuButton subMenuWindow root children size equals: 3.
+	self assert: cb group buttons size equals: 3.
+	self assert: cb group buttons first isChecked.
+	self assert: cb group buttons second isUnchecked.
+	self assert: cb group buttons third isUnchecked.
 	self assert: cb placeHolder isNil.
 	cb group buttons first uncheck.
 	self assert: cb menuButton label isNil
-
 ]

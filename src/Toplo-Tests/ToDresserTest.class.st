@@ -20,11 +20,10 @@ ToDresserTest >> testInstallOnlyOnce [
 	widget addDresser: d1.
 	self assert: d1 isInstalled.
 	self assert: d1cpt equals: 1.
-	
+
 	widget addDresser: d1.
 	self assert: d1 isInstalled.
-	self assert: d1cpt equals: 1.
-
+	self assert: d1cpt equals: 1
 ]
 
 { #category : #tests }
@@ -48,8 +47,7 @@ ToDresserTest >> testInstalled [
 	self assert: d3 isInstalled.
 	self assert: d1cpt equals: 1.
 	self assert: d2cpt equals: 1.
-	self assert: d3cpt equals: 1.
-
+	self assert: d3cpt equals: 1
 ]
 
 { #category : #tests }
@@ -62,7 +60,6 @@ ToDresserTest >> testToWidgetWithNullDresser [
 	d2 := ToNullDresser new.
 	widget addDresser: d2.
 	self assert: widget dresser identicalTo: d2
-	
 ]
 
 { #category : #tests }
@@ -79,8 +76,6 @@ ToDresserTest >> testToWidgetWithThreeDressers [
 	self assert: widget dresser identicalTo: d2.
 	self assert: d2 next identicalTo: d3.
 	self assert: d3 next identicalTo: d1
-
-		
 ]
 
 { #category : #tests }
@@ -94,9 +89,7 @@ ToDresserTest >> testToWidgetWithTwoDresser [
 	self assert: widget dresser identicalTo: d2.
 	self assert: d2 next identicalTo: d1.
 	self assert: widget dresser identicalTo: d2.
-	self assert: d2 next identicalTo: d1.
-
-	
+	self assert: d2 next identicalTo: d1
 ]
 
 { #category : #tests }
@@ -121,8 +114,7 @@ ToDresserTest >> testUninstalled1 [
 	self assert: d3 isInstalled.
 	self assert: d1cpt equals: 0.
 	self assert: d2cpt equals: 1.
-	self assert: d3cpt equals: 1.
-
+	self assert: d3cpt equals: 1
 ]
 
 { #category : #tests }
@@ -147,8 +139,7 @@ ToDresserTest >> testUninstalled2 [
 	self assert: d3 isInstalled.
 	self assert: d1cpt equals: 1.
 	self assert: d2cpt equals: 0.
-	self assert: d3cpt equals: 1.
-
+	self assert: d3cpt equals: 1
 ]
 
 { #category : #tests }
@@ -173,8 +164,7 @@ ToDresserTest >> testUninstalled3 [
 	self assert: d3 isInstalled  not.
 	self assert: d1cpt equals: 1.
 	self assert: d2cpt equals: 1.
-	self assert: d3cpt equals: 0.
-
+	self assert: d3cpt equals: 0
 ]
 
 { #category : #tests }
@@ -202,7 +192,6 @@ ToDresserTest >> testUninstalled4 [
 	self assert: d2cpt equals: 1.
 	self assert: d3cpt equals: 0.
 	self assert: widget dresser identicalTo: d2
-
 ]
 
 { #category : #tests }
@@ -231,5 +220,4 @@ ToDresserTest >> testUninstalled5 [
 	self assert: d2cpt equals: 0.
 	self assert: d3cpt equals: 0.
 	self assert: (widget dresser isKindOf: ToNullDresser)
-
 ]

@@ -21,8 +21,7 @@ ToChoiceBox >> addData: anObject [
 	self data add: anObject.
 	item := self newMenuItemFromData: anObject.
 	menuButton addItem: item.
-	group add: item.
-	selectedData ifNil: [ self defaultData: anObject ]
+	group add: item
 ]
 
 { #category : #'adding / removing' }
@@ -65,29 +64,10 @@ ToChoiceBox >> dataToTextConverter: aValuable [
 	dataToTextConverter := aValuable
 ]
 
-{ #category : #accessing }
-ToChoiceBox >> defaultData: anObject [
-
-	| item |
-	(anObject isNil or: [ (item := self menuItemFromData: anObject) isNil ]) ifTrue: [ 
-		selectedData := nil.
-		^ self ].
-	group startDefault: item
-]
-
 { #category : #'t - initialization dresser' }
 ToChoiceBox >> defaultDresser [
 
 	^ ToChoiceBoxDresser new
-]
-
-{ #category : #accessing }
-ToChoiceBox >> defaultSelectedIndex: anInteger [
-
-	self defaultData:
-		((anInteger > 0 and: [ anInteger <= self data size ])
-			 ifTrue: [ self data at: anInteger ]
-			 ifFalse: [  ])
 ]
 
 { #category : #accessing }
@@ -131,7 +111,7 @@ ToChoiceBox >> menuItemFromData: anObject [
 		  ifNone: [  ]
 ]
 
-{ #category : #'adding / removing' }
+{ #category : #'private - accessing' }
 ToChoiceBox >> newMenuItemFromData: anObject [
 
 	^ ToChoiceBoxMenuItem new labelText: (self dataToTextConverter value: anObject)
@@ -173,8 +153,7 @@ ToChoiceBox >> notifyDataInserted: anInterval [
 	anInterval ifEmpty: [ ^ self ].
 	items := anInterval collect: [ :idx | self newMenuItemFromData: (self data at: idx) ].
 	self menuButton addAllItems: items.
-	self group addAll: items.
-	selectedData ifNil: [ self defaultData: self data first ]
+	self group addAll: items
 ]
 
 { #category : #'private - notifications' }
@@ -261,6 +240,15 @@ ToChoiceBox >> selectedDataChanged [
 	menuItem ifNil: [ ^ self error: 'A menu item should exist for the current selectedData' ].
 	menuButton label: (ToLabel text: (self dataToTextConverter value: selectedData) copy).
 	menuItem isChecked ifFalse: [ menuItem check ]
+]
+
+{ #category : #accessing }
+ToChoiceBox >> selectedIndex: anInteger [
+
+	self selectedData:
+		((anInteger > 0 and: [ anInteger <= self data size ])
+			 ifTrue: [ self data at: anInteger ]
+			 ifFalse: [  ])
 ]
 
 { #category : #'api - change hook' }

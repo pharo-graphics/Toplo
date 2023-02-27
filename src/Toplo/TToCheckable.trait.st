@@ -23,8 +23,9 @@ TToCheckable >> check [
 { #category : #'t - checking protocol' }
 TToCheckable >> check: aBoolean [
 
-	aBoolean ifTrue: [ self check ] ifFalse: [ self uncheck  ]
-
+	aBoolean
+		ifTrue: [ self check ]
+		ifFalse: [ self uncheck ]
 ]
 
 { #category : #'t - toggle group' }

@@ -8,6 +8,16 @@ Class {
 	#category : #'Toplo-Widget-Label'
 }
 
+{ #category : #initialization }
+ToLabelDresser >> defaultPadding [
+
+	^ BlInsets
+		  top: 0
+		  left: 3
+		  bottom: 1
+		  right: 3
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToLabelDresser >> lineModeChangedIn: anElement [
 
@@ -24,6 +34,7 @@ ToLabelDresser >> lineModeChangedIn: anElement [
 ToLabelDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
+	anElement padding: self defaultPadding.
 	anElement whenLineModeChangedDo: [ self lineModeChangedIn: anElement ].
 	anElement whenTextReplacedDo: [ anElement privateText: anElement text ].
 	anElement whenEditableChangedDo: [

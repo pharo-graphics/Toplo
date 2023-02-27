@@ -9,6 +9,7 @@ Class {
 { #category : #initialization }
 ToPairedElement >> initialize [
 
+	self class initializeSlots: self.
 	super initialize.
 	self initializePair 
 ]

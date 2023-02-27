@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'list'
 	],
-	#category : #'Toplo-Core-Infinite'
+	#category : #'Toplo-Core-Collection'
 }
 
 { #category : #'instance creation' }

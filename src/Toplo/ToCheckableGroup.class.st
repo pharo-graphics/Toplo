@@ -13,19 +13,14 @@ Class {
 { #category : #'adding / removing' }
 ToCheckableGroup >> add: aCheckable [
 
-	aCheckable group ifNotNil: [ ^ self ].
-	(buttons includes: aCheckable) ifTrue: [ ^ self ].
-	buttons add: aCheckable.
-	aCheckable group: self.
-	aCheckable whenCheckedDo: [ self checked: aCheckable ].
-	aCheckable whenUncheckedDo: [ self unchecked: aCheckable ]
+	buttons add: aCheckable
 
 ]
 
 { #category : #'adding / removing' }
 ToCheckableGroup >> addAll: aCollection [
 
-	aCollection do: [ :b | self add: b ]
+	buttons addAll: aCollection
 
 ]
 
@@ -78,7 +73,44 @@ ToCheckableGroup >> initialize [
 
 	super initialize.
 	checkingStrategy := self defaultCheckStrategy.
-	buttons := OrderedCollection new
+	buttons := ToObservableCollection new.
+	buttons whenBeforeAddChangeDo: [ :ann | self notifyBeforeButtonsInserted: ann ].
+	buttons whenBeforeRemoveChangeDo: [ :ann | self notifyBeforeButtonsRemoved: ann ].
+	buttons whenBeforeUpdateChangeDo: [ :ann | self notifyBeforeButtonsChanged: ann ].
+	buttons whenAddChangeDo: [ :ann | self notifyButtonsInserted: ann ].
+	buttons whenRemoveChangeDo: [ :ann | self notifyButtonsRemoved: ann ].
+
+	self notifyChanged
+]
+
+{ #category : #notifications }
+ToCheckableGroup >> notifyBeforeButtonsChanged: aCollectionChangeAnnouncement [
+
+	self error: 'Changing a button in a CheckableGroup is not allowed'
+]
+
+{ #category : #notifications }
+ToCheckableGroup >> notifyBeforeButtonsInserted: aCollectionChangeAnnouncement [
+
+	self checkingStrategy notifyBeforeButtonsInserted: aCollectionChangeAnnouncement in: self
+]
+
+{ #category : #notifications }
+ToCheckableGroup >> notifyBeforeButtonsRemoved: aCollectionChangeAnnouncement [
+
+	self checkingStrategy notifyBeforeButtonsRemoved: aCollectionChangeAnnouncement in: self
+]
+
+{ #category : #notifications }
+ToCheckableGroup >> notifyButtonsInserted: aCollectionChangeAnnouncement [
+
+	self checkingStrategy notifyButtonsInserted: aCollectionChangeAnnouncement in: self
+]
+
+{ #category : #notifications }
+ToCheckableGroup >> notifyButtonsRemoved: aCollectionChangeAnnouncement [
+
+	self checkingStrategy notifyButtonsRemoved: aCollectionChangeAnnouncement in: self
 ]
 
 { #category : #'checking protocol' }
@@ -90,22 +122,8 @@ ToCheckableGroup >> notifyChanged [
 { #category : #'adding / removing' }
 ToCheckableGroup >> remove: aCheckable [
 
-	(buttons includes: aCheckable) ifFalse: [ ^ self ].
 	buttons remove: aCheckable.
 
-]
-
-{ #category : #accessing }
-ToCheckableGroup >> startDefault: aCheckable [
-
-	default ifNotNil: [ 
-		default uncheck.
-		default := nil ].
-	aCheckable ifNil: [ ^ self ].
-	(buttons select: [ :b | b ~= aCheckable ]) do: [ :b | 
-		b privateUncheck ].
-	aCheckable startChecked.
-	default := aCheckable
 ]
 
 { #category : #'check-uncheck-request' }

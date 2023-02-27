@@ -34,13 +34,14 @@ TToObservableCollection >> add: newObject after: oldObject [
 ]
 
 { #category : #'t - observable collection adding' }
-TToObservableCollection >> add: newObject afterIndex: index [ 
+TToObservableCollection >> add: newObject afterIndex: index [
 	"Add the argument, newObject, as an element of the receiver. Put it in 
 	the sequence just after index. Answer newObject."
-	
-	list add: newObject afterIndex: index.
-	self announce: (ToCollectionAddChange new interval: (index + 1 to: index + 1 )).
-	
+
+	self
+		notifyAddChangeAround: [ list add: newObject afterIndex: index ]
+		candidates: (Array with: newObject)
+		interval: (index + 1 to: index + 1)
 ]
 
 { #category : #'t - observable collection private' }
@@ -58,9 +59,10 @@ TToObservableCollection >> add: newObject beforeIndex: index [
 	"Add the argument, newObject, as an element of the receiver. Put it in 
 	the sequence just before index. Answer newObject."
 
-	list add: newObject beforeIndex: index.
-	self announce: (ToCollectionAddChange new interval: (index to: index )).
-	
+	self
+		notifyAddChangeAround: [ list add: newObject beforeIndex: index ]
+		candidates: (Array with: newObject)
+		interval: (index to: index)
 ]
 
 { #category : #'t - observable collection adding' }
@@ -73,39 +75,49 @@ TToObservableCollection >> addAll: aCollection [
 { #category : #'t - observable collection adding' }
 TToObservableCollection >> addAllFirst: aCollection [
 
-	list addAllFirst: aCollection.
-	aCollection ifNotEmpty: [ 
-		self announce: (ToCollectionAddChange new interval: (1 to: aCollection size)) ]
+	aCollection ifEmpty: [ ^ self ].
+	self
+		notifyAddChangeAround: [ list addAllFirst: aCollection ]
+		candidates: aCollection
+		interval: (1 to: aCollection size)
 ]
 
 { #category : #'t - observable collection adding' }
 TToObservableCollection >> addAllLast: aCollection [
 
 	| idx |
+	aCollection ifEmpty: [ ^ self ].
 	idx := list size.
-	list addAllLast: aCollection.
-	aCollection ifNotEmpty: [ 
-		self announce: (ToCollectionAddChange new interval:
-				 (idx + 1 to: idx + aCollection size)) ]
+	self
+		notifyAddChangeAround: [ list addAllLast: aCollection ]
+		candidates: aCollection
+		interval: (idx + 1 to: idx + aCollection size)
 ]
 
 { #category : #'t - observable collection adding' }
 TToObservableCollection >> addFirst: newObject [
 
 	"Add newObject to the end of the receiver. Answer newObject."
-
-	list addFirst: newObject.
-	self announce: (ToCollectionAddChange new interval: (1 to: 1))
+	self
+		notifyAddChangeAround: [ list addFirst: newObject ]
+		candidates: (Array with: newObject)
+		interval: (1 to: 1)
 ]
 
 { #category : #'t - observable collection adding' }
 TToObservableCollection >> addLast: newObject [
 
 	"Add newObject to the end of the receiver. Answer newObject."
+	self
+		notifyAddChangeAround: [ list addLast: newObject ]
+		candidates: (Array with: newObject)
+		interval: (self size + 1 to: self size + 1)
+]
 
-	list addLast: newObject.
-	self announce:
-		(ToCollectionAddChange new interval: (self size to: self size))
+{ #category : #'t - observable collection enumerating' }
+TToObservableCollection >> allSatisfy: aBlock [
+
+	^ list allSatisfy: aBlock
 ]
 
 { #category : #'t - observable collection converting' }
@@ -129,8 +141,15 @@ TToObservableCollection >> at: anInteger [
 { #category : #'t - observable collection accessing' }
 TToObservableCollection >> at: anInteger put: anObject [
 
-	list at: anInteger put: anObject.
-	self announce: (ToCollectionUpdateChange new interval: (anInteger to: anInteger))
+	self
+		notifyUpdateChangeAround: [ list at: anInteger put: anObject ]
+		interval: (anInteger to: anInteger)
+]
+
+{ #category : #'t - observable collection enumerating' }
+TToObservableCollection >> collect: aBlock [
+
+	^ list collect: aBlock
 ]
 
 { #category : #'t - observable collection copying' }
@@ -170,6 +189,12 @@ TToObservableCollection >> do: aBlock [
 ]
 
 { #category : #'t - observable collection accessing' }
+TToObservableCollection >> fifth [
+
+	^ list fifth
+]
+
+{ #category : #'t - observable collection accessing' }
 TToObservableCollection >> first [
 
 	^ list first
@@ -181,6 +206,12 @@ TToObservableCollection >> first: n [
 	Raise an error if there are not enough elements."
 
 	^ self copyFrom: 1 to: n
+]
+
+{ #category : #'t - observable collection accessing' }
+TToObservableCollection >> fourth [
+
+	^ list fourth
 ]
 
 { #category : #'t - observable collection testing' }
@@ -250,9 +281,51 @@ TToObservableCollection >> last: n [
 	^ self copyFrom: size - n + 1 to: size
 ]
 
+{ #category : #'t - observable collection enumerating' }
+TToObservableCollection >> noneSatisfy: aBlock [
+
+	^ list noneSatisfy: aBlock
+]
+
+{ #category : #'t - observable collection notifications' }
+TToObservableCollection >> notifyAddChangeAround: aBlock candidates: aCollection interval: anInterval [
+
+	self announce: (ToCollectionBeforeAddChange new
+			 interval: anInterval;
+			 candidates: aCollection;
+			 yourself).
+	aBlock value.
+	self announce: (ToCollectionAddChange new interval: anInterval)
+]
+
+{ #category : #'t - observable collection notifications' }
+TToObservableCollection >> notifyRemoveChangeAround: aBlock removed: aCollection interval: anInterval [
+
+	self announce: (ToCollectionBeforeRemoveChange new interval: anInterval).
+	aBlock value.
+	self announce: (ToCollectionRemoveChange new
+			 interval: anInterval;
+			 removed: aCollection;
+			 yourself)
+]
+
+{ #category : #'t - observable collection notifications' }
+TToObservableCollection >> notifyUpdateChangeAround: aBlock interval: anInterval [
+
+	self announce: (ToCollectionBeforeUpdateChange new interval: anInterval).	
+	aBlock value.
+	self announce: (ToCollectionUpdateChange new interval: anInterval).
+]
+
 { #category : #'t - observable collection copying' }
 TToObservableCollection >> postCopy [
 	list := list copy
+]
+
+{ #category : #'t - observable collection enumerating' }
+TToObservableCollection >> reject: aBlock [
+
+	^ list reject: aBlock
 ]
 
 { #category : #'t - observable collection removing' }
@@ -270,49 +343,58 @@ TToObservableCollection >> removeAll [
 
 	| s |
 	s := list size.
-	list removeAll.
-	self announce: (ToCollectionRemoveChange new interval: (1 to: s))
+	s isZero ifTrue: [ ^ self ].
+	self notifyRemoveChangeAround: [ list removeAll. ] removed: list interval: (1 to: s)
 ]
 
 { #category : #'t - observable collection removing' }
 TToObservableCollection >> removeAt: removedIndex [
 
-	list removeAt: removedIndex.
-	self announce: (ToCollectionRemoveChange new interval: (removedIndex to: removedIndex))
+	self
+		notifyRemoveChangeAround: [ list removeAt: removedIndex ]
+		removed: (Array with: (list at: removedIndex)) 
+		interval: (removedIndex to: removedIndex)
 ]
 
 { #category : #'t - observable collection removing' }
 TToObservableCollection >> removeFirst [
 
-	list removeFirst.
-	self announce: (ToCollectionRemoveChange new interval: (1 to: 1)).
-
+	self
+		notifyRemoveChangeAround: [ list removeFirst ]
+		removed: (Array with: list first)
+		interval: (1 to: 1)
 ]
 
 { #category : #'t - observable collection removing' }
 TToObservableCollection >> removeFirst: n [ 
 
-	list removeFirst: n. 
-	self announce: (ToCollectionRemoveChange new interval: (1 to: n))
+	self 
+		notifyRemoveChangeAround: [ list removeFirst: n ] 		
+		removed: (Array withAll: (list copyFrom: 1 to: n))
+		interval: (1 to: n)
 ]
 
 { #category : #'t - observable collection removing' }
 TToObservableCollection >> removeFrom: start to: stop [
 
-	| idx |
-	idx := start.
-	[ idx > stop ] whileFalse: [ 
-		list removeAt: start.
-		idx := idx + 1 ].
-	self announce: (ToCollectionRemoveChange new interval: (start to: stop))
+	self
+		notifyRemoveChangeAround: [
+			| idx |
+			idx := start.
+			[ idx > stop ] whileFalse: [
+				list removeAt: start.
+				idx := idx + 1 ] ]
+		removed: (Array withAll: (list copyFrom: start to: stop))
+		interval: (start to: stop)
 ]
 
 { #category : #'t - observable collection removing' }
 TToObservableCollection >> removeLast [
 
-	list removeLast.
-	self announce: (ToCollectionRemoveChange new interval:
-			 (self size + 1 to: self size + 1))
+	self
+		notifyRemoveChangeAround: [ list removeLast ]
+		removed: (Array with: list last)
+		interval: (self size + 1 to: self size + 1)
 ]
 
 { #category : #'t - observable collection removing' }
@@ -320,8 +402,11 @@ TToObservableCollection >> removeLast: n [
 
 	| s |
 	s := self size.
-	list removeLast: n.
-	self announce: (ToCollectionRemoveChange new interval: (s - n + 1 to: s))
+	s isZero ifTrue: [ ^ self ].
+	self
+		notifyRemoveChangeAround: [ list removeLast: n ]
+		removed: (Array withAll: (list copyFrom: (s - n + 1) to: s))
+		interval: (s - n + 1 to: s)
 ]
 
 { #category : #'t - observable collection accessing' }
@@ -336,9 +421,9 @@ TToObservableCollection >> replaceFrom: start to: stop with: replacement startin
 	(replacement size - repStart) = (stop - start)
 		ifFalse: [self error: 'Size of replacement doesnt match'].
 
-	list replaceFrom: start to: stop with: replacement startingAt: repStart.
-	
-	self announce: (ToCollectionUpdateChange new interval: (start to: stop))
+	self
+		notifyUpdateChangeAround: [ list replaceFrom: start to: stop with: replacement startingAt: repStart ]
+		interval: (start to: stop)
 ]
 
 { #category : #'t - observable collection enumerating' }
@@ -356,9 +441,27 @@ TToObservableCollection >> reversed [
 ]
 
 { #category : #'t - observable collection accessing' }
+TToObservableCollection >> second [
+
+	^ list second
+]
+
+{ #category : #'t - observable collection enumerating' }
+TToObservableCollection >> select: aBlock [
+
+	^ list select: aBlock
+]
+
+{ #category : #'t - observable collection accessing' }
 TToObservableCollection >> size [
 
 	^ list size
+]
+
+{ #category : #'t - observable collection accessing' }
+TToObservableCollection >> third [
+
+	^ list third
 ]
 
 { #category : #'t - observable collection event management' }
@@ -371,6 +474,42 @@ TToObservableCollection >> whenAddChangeDo: aBlock [
 TToObservableCollection >> whenAddChangeSend: aSelector to: anObject [
 
 	self whenAnnouncement: ToCollectionAddChange  send: aSelector to: anObject
+]
+
+{ #category : #'t - observable collection event management' }
+TToObservableCollection >> whenBeforeAddChangeDo: aBlock [
+
+	self whenAnnouncement: ToCollectionBeforeAddChange  do: [ :ann | aBlock cull: ann ] 
+]
+
+{ #category : #'t - observable collection event management' }
+TToObservableCollection >> whenBeforeAddChangeSend: aSelector to: anObject [
+
+	self whenAnnouncement: ToCollectionBeforeAddChange  send: aSelector to: anObject
+]
+
+{ #category : #'t - observable collection event management' }
+TToObservableCollection >> whenBeforeRemoveChangeDo: aBlock [
+
+	self whenAnnouncement: ToCollectionBeforeRemoveChange  do: [ :ann | aBlock cull: ann ] 
+]
+
+{ #category : #'t - observable collection event management' }
+TToObservableCollection >> whenBeforeRemoveChangeSend: aSelector to: anObject [
+
+	self whenAnnouncement: ToCollectionBeforeRemoveChange  send: aSelector to: anObject
+]
+
+{ #category : #'t - observable collection event management' }
+TToObservableCollection >> whenBeforeUpdateChangeDo: aBlock [
+
+	self whenAnnouncement: ToCollectionBeforeUpdateChange  do: [ :ann | aBlock cull: ann ] 
+]
+
+{ #category : #'t - observable collection event management' }
+TToObservableCollection >> whenBeforeUpdateChangeSend: aSelector to: anObject [
+
+	self whenAnnouncement: ToCollectionBeforeUpdateChange  send: aSelector to: anObject
 ]
 
 { #category : #'t - observable collection event management' }

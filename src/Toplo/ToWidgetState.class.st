@@ -69,6 +69,12 @@ ToWidgetState >> next: aWidgetState [
 	next := aWidgetState
 ]
 
+{ #category : #initialization }
+ToWidgetState >> reset [
+
+	self resetAnnouncer 
+]
+
 { #category : #accessing }
 ToWidgetState >> whenEnterDo: aBlock [
 

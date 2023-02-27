@@ -275,7 +275,6 @@ ToObservableCollectionTest >> testAddLast [
 		assert: l asOrderedCollection
 		equals: #(1 2 3 4 88 99) asOrderedCollection.
 
-	
 	self assert: i notNil.
 	self assert: i equals: (6 to: 6)
 ]

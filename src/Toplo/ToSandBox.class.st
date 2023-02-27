@@ -436,7 +436,7 @@ ToSandBox class >> example_anchoredWidow1 [
 			 background: Color yellow;
 			 border: (BlBorder paint: Color red)).
 	w anchor: e.
-	w root addChild: (ToAlbum new dresser: ToLabelEditorBasicDresser new; text: 'bla bla bla').
+	w root addChild: (ToAlbum new dresser: ToLabelEditorDresser new; text: 'bla bla bla').
 	w fitContent.
 	e openInInnerWindow.
 	w popup
@@ -581,15 +581,13 @@ ToSandBox class >> example_menu5 [
 	right := ToRadioMenuItem new labelText: 'Right'; id: #right.
 	center := ToRadioMenuItem new labelText: 'Center'; id: #center.
 	left := ToRadioMenuItem new labelText: 'Left'; id: #left.
+	grp whenChangedDo: [ :chb :previous | ('checked: ' , chb asString , ' previous: ', previous asString) traceCr].
+	center startChecked.
+	
 	grp add: right.
 	grp add: center.
 	grp add: left.
 
-	grp whenChangedDo: [ :chb :previous | 
-		self inform: 'checked: ' , chb id asSymbol , ' (previous was: '
-			, (previous ifNil: [ 'none' ] ifNotNil: [ previous id asSymbol ]) ].
-
-	center startChecked.
 
 	menu addSeparator.
 	menu addAllItems: grp buttons.
@@ -639,16 +637,14 @@ ToSandBox class >> example_menu6 [
 	left := ToRadioMenuItem new
 		        labelText: 'Left';
 		        id: #left.
+	center startChecked.
 	grp addAll: { 
 			right.
 			center.
 			left }.
 
 	grp whenChangedDo: [ :chb :previous | 
-		self inform: 'checked: ' , chb id asSymbol , ' (previous was: '
-			, (previous ifNil: [ 'none' ] ifNotNil: [ previous id asSymbol ]) ].
-
-	center startChecked.
+		self inform: 'checked: ' , chb asString , ' previous: ', previous asString ].
 
 	menu addSeparator.
 
@@ -678,16 +674,14 @@ ToSandBox class >> example_menu6 [
 		        columnWidth: 50;
 		        labelText: 'Left';
 		        id: #left.
+	center startChecked.
 	grp addAll: { 
 			right.
 			center.
 			left }.
-
 	grp whenChangedDo: [ :chb :previous | 
-		self inform: 'checked: ' , chb id asSymbol , ' (previous was: '
-			, (previous ifNil: [ 'none' ] ifNotNil: [ previous id asSymbol ]) ].
+		self inform: 'checked: ' , chb asString , ' previous: ', previous asString ].
 
-	center startChecked.
 
 	menu addSeparator.
 
@@ -717,14 +711,14 @@ ToSandBox class >> example_menu6 [
 		        beJustified;
 		        labelText: 'Left';
 		        id: #left.
+	center startChecked.
 	grp addAll: { 
 			right.
 			center.
 			left }.
 
 	grp whenChangedDo: [ :chb :previous | 
-		self inform: 'checked: ' , chb id asSymbol , ' (previous was: '
-			, (previous ifNil: [ 'none' ] ifNotNil: [ previous id asSymbol ]) ].
+		self inform: 'checked: ' , chb asString , ' previous: ', previous asString ].
 
 	center startChecked.
 
@@ -828,7 +822,7 @@ ToSandBox class >> example_rootFrameWithChoiceBox [
 	choicebox data addAll: { 'OS-X'. 'Windows'. }.
 	choicebox addSeparator.
 	choicebox data add: 'Linux'.
-	choicebox defaultData: 'Windows'.
+	choicebox selectedData: 'Windows'.
 
 	bar addChild: (choicebox tooltipString: 'Select your operating system').
 
@@ -855,10 +849,9 @@ ToSandBox class >> example_rootFrameWithChoiceBox2 [
 			('Morphic SDL' -> BlMorphicWindowHost).
 			('Native SDL' -> BlOSWindowSDL2Host) }.
 	choicebox placeHolder: (ToLabel text: 'Place holder').
-	choicebox defaultSelectedIndex: 2.
+	choicebox selectedIndex: 2.
 	choicebox whenSelectedDataChangedDo: [ 
 		self inform: choicebox selectedData asString ].
-	choicebox inspect.
 	bar addChild: (choicebox tooltipString: 'Select the Alexandrie host').
 
 	bar relocate: 0 @ 0.
@@ -884,8 +877,21 @@ ToSandBox class >> example_rootFrameWithChoiceBox3 [
 	choicebox data addAll: { 
 			('Morphic SDL' -> BlMorphicWindowHost).
 			('Native SDL' -> BlOSWindowSDL2Host) }.
-	choicebox selectedData: nil.
 	win root addChild: bar.
+	win openInWorld
+]
+
+{ #category : #choicebox }
+ToSandBox class >> example_rootFrameWithChoiceBoxWithPlaceHolder [
+
+	| win choicebox |
+	win := ToInnerWindow new title: 'Choice box Example'.
+
+	choicebox := ToChoiceBox new.
+	choicebox data addAll: { 'OS-X'. 'Windows'. }.
+	choicebox placeHolder: (ToLabel text: ('Invalid choice' asRopedText foreground: Color red)).
+
+	win root addChild: choicebox.
 	win openInWorld
 ]
 
@@ -986,7 +992,7 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 
 	menu addItem: sub.
 
-	win contextMenuFactory: menu.
+	win contextMenuFactory: [ menu ].
 
 	bar := ToMenuBar new
 		       hMatchParent;
@@ -1463,7 +1469,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroup2 [
 			       id: idx asString.
 		chb beIconFirst.
 		group add: chb ].
-	group startDefault: (group buttons second).
+	group buttons second startChecked.
 	container := ToElement new.
 	container matchParent.
 	container layout: BlLinearLayout horizontal.

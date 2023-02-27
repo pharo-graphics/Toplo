@@ -1,5 +1,5 @@
 Class {
 	#name : #ToCollectionAddChange,
-	#superclass : #ToCollectionChanged,
+	#superclass : #ToCollectionAfterChange,
 	#category : #'Toplo-Core-Collection'
 }

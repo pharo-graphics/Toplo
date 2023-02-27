@@ -26,6 +26,13 @@ TToWidgetWithState >> currentState: aState [
 ]
 
 { #category : #'t - accessing state' }
+TToWidgetWithState >> resetWidgetStates [
+
+	self widgetStates do: [ :s | s reset ].
+	self currentState: nil
+]
+
+{ #category : #'t - accessing state' }
 TToWidgetWithState >> setUpStatesWith: aCollectionOfStates [
 
 	| curr states |
@@ -104,4 +111,18 @@ TToWidgetWithState >> switchToStateNamed: aStateName [
 	n := self currentState ifNil: [ 0 ] ifNotNil: [ :s | s counter ].
 	found counter: n + 1.
 	self switchToState: found
+]
+
+{ #category : #'t - accessing state' }
+TToWidgetWithState >> widgetStates [
+
+	self currentState ifNil: [ ^ {  } ].
+	^ Array streamContents: [ :stream |
+		  | start curr |
+		  start := self currentState.
+		  stream nextPut: start.
+		  curr := start next.
+		  [ curr = start ] whileFalse: [
+			  stream nextPut: curr.
+			  curr := curr next ] ]
 ]

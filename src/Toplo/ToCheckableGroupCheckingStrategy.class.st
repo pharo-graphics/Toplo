@@ -11,6 +11,21 @@ Class {
 	#category : #'Toplo-Widget-Button'
 }
 
+{ #category : #notifications }
+ToCheckableGroupCheckingStrategy >> buttonInserted: aCheckable in: aGroup [
+
+	aCheckable group: aGroup.
+	aCheckable whenCheckedDo: [ aCheckable check ].
+	aCheckable whenUncheckedDo: [ aCheckable uncheck ]
+]
+
+{ #category : #notifications }
+ToCheckableGroupCheckingStrategy >> buttonRemoved: aCheckable in: aGroup [
+
+	aCheckable group: nil.
+	aCheckable widgetStates do: [ :state | state reset ]
+]
+
 { #category : #testing }
 ToCheckableGroupCheckingStrategy >> canSwitchToNextState: aCheckable [
 
@@ -25,6 +40,33 @@ ToCheckableGroupCheckingStrategy >> checked: aCheckable in: aGroup [
 	aGroup notifyChanged
 
 
+]
+
+{ #category : #notifications }
+ToCheckableGroupCheckingStrategy >> notifyBeforeButtonsInserted: aCollectionChangeAnnouncement in: aGroup [
+
+
+]
+
+{ #category : #notifications }
+ToCheckableGroupCheckingStrategy >> notifyBeforeButtonsRemoved: aCollectionChangeAnnouncement in: aGroup [
+
+
+]
+
+{ #category : #notifications }
+ToCheckableGroupCheckingStrategy >> notifyButtonsInserted: aCollectionChangeAnnouncement in: aGroup [
+
+	aCollectionChangeAnnouncement interval do: [ :idx | | aCheckable |
+		aCheckable := aGroup buttons at: idx.
+		self buttonInserted: aCheckable in: aGroup]
+]
+
+{ #category : #notifications }
+ToCheckableGroupCheckingStrategy >> notifyButtonsRemoved: aCollectionChangeAnnouncement in: aGroup [
+
+	aCollectionChangeAnnouncement removed do: [ :checkable |
+		self buttonRemoved: checkable in: aGroup ]
 ]
 
 { #category : #testing }

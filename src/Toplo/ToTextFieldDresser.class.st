@@ -16,6 +16,16 @@ ToTextFieldDresser >> defaultGeometry [
 	^ BlRoundedRectangleGeometry cornerRadius: 4
 ]
 
+{ #category : #initialization }
+ToTextFieldDresser >> defaultPadding [
+
+	^ BlInsets
+		  top: (2 + self defaultBorderWidth )
+		  left: (3 + self defaultBorderWidth )
+		  bottom: (1 + self defaultBorderWidth )
+		  right: (3 + self defaultBorderWidth )
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToTextFieldDresser >> onInstalledIn: anElement [
 

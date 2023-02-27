@@ -148,7 +148,7 @@ ToPairedButtonDresser >> leaved: anElement [
 
 { #category : #'events handling' }
 ToPairedButtonDresser >> leftClicked: anElement [
-	
+
 	super leftClicked: anElement.
 	self backToUnpressedState.
 	self border: self hoveredBorder in: anElement.

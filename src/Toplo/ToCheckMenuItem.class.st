@@ -9,7 +9,7 @@ Class {
 { #category : #testing }
 ToCheckMenuItem >> canSwitchToNextState [
 
-	^ self currentState notNil and: [ 
+	^ super canSwitchToNextState and: [ 
 		  self group isNil or: [ self group canSwitchToNextState: self  ] ]
 ]
 

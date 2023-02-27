@@ -25,12 +25,9 @@ ToObservableCollectionDataSource >> list [
 ToObservableCollectionDataSource >> list: anObservableCollection [
 
 	list := anObservableCollection.
-	list whenAddChangeDo: [ :ann | 
-		self notifyItemsInserted: ann interval ].
-	list whenRemoveChangeDo: [ :ann | 
-		self notifyItemsRemoved: ann interval ].
-	list whenUpdateChangeDo: [ :ann | 
-		self notifyItemsChanged: ann interval ].
+	list whenAddChangeDo: [ :ann | self notifyItemsInserted: ann interval ].
+	list whenRemoveChangeDo: [ :ann | self notifyItemsRemoved: ann interval ].
+	list whenUpdateChangeDo: [ :ann | self notifyItemsChanged: ann interval ].
 
 	self notifyChanged
 ]

@@ -27,6 +27,9 @@ ToComboBox >> button: aButton [
 	button = aButton ifTrue: [ ^ self ].
 	button ifNotNil: [ button removeFromParent ].
 	button := aButton.
+	button addEventHandler: (BlEventHandler
+			 on: BlMouseDownEvent
+			 do: [ :evt | listFrame isAttachedToSceneGraph  ifTrue: [listFrame close] ifFalse: [ listFrame popupEvent: evt ]]).
 	self addChild: button
 ]
 
@@ -77,12 +80,34 @@ ToComboBox >> defaultButtonPlaceHolder [
 ToComboBox >> defaultListElement [
 
 	^ ToListElement new
+		  matchParent;
+		  yourself
+]
+
+{ #category : #initialization }
+ToComboBox >> defaultListFrame [
+	| win |
+	win := ToPopupWindow new widget: self.
+	win root size: 250@350.
+	win root addChild: self listElement.
+	^  win
 ]
 
 { #category : #initialization }
 ToComboBox >> defaultListPlaceHolder [
 
 	^ ToLabel text: 'List place holder'
+]
+
+{ #category : #initialization }
+ToComboBox >> defaultNodeFactory [
+
+	^ [ :d |
+	  ToLabeledNode new
+		  beLabelFirst;
+		  hMatchParent;
+		  labelText: d;
+		  yourself ]
 ]
 
 { #category : #initialization }
@@ -99,8 +124,8 @@ ToComboBox >> initialize [
 	self class initializeSlots: self.
 	super initialize.
 	self layout: self defaultLayout.
-	listFrame := self newListFrame.
 	listElement := self defaultListElement.
+	listFrame := self defaultListFrame.
 	self fitContent
 ]
 
@@ -125,6 +150,18 @@ ToComboBox >> listItems [
 ]
 
 { #category : #accessing }
+ToComboBox >> listNodeFactory [
+
+	^ self listElement nodeFactory
+]
+
+{ #category : #accessing }
+ToComboBox >> listNodeFactory: aBlock [
+
+	self listElement nodeFactory: aBlock
+]
+
+{ #category : #accessing }
 ToComboBox >> listPlaceHolder [
 
 	^ listPlaceHolder
@@ -134,12 +171,6 @@ ToComboBox >> listPlaceHolder [
 ToComboBox >> listPlaceHolder: anElement [
 
 	listPlaceHolder := anElement
-]
-
-{ #category : #accessing }
-ToComboBox >> newListFrame [
-
-	^ ToPopupWindow new widget: self
 ]
 
 { #category : #accessing }

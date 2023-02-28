@@ -876,20 +876,15 @@ ToSandBox class >> example_rootFrame1 [
 { #category : #combobox }
 ToSandBox class >> example_rootFrameWithComboBox [
 
-	| win bar combo |
+	| win combo |
 	win := ToInnerWindow new title: 'Combo box Example'.
 
-	bar := ToMenuBar new
-		       hMatchParent;
-		       vFitContent.
 	combo := ToComboBox new.
+	combo listData addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	combo button: (ToComboBoxButton new labelText: 'No item').
-
-	bar addChild: combo.
-
-	bar relocate: 0 @ 0.
-	bar border: (BlBorder paint: Color lightGray).
-	win root addChild: bar.
+	win root addChild: combo.
+	combo listElement withRowNumbers.
+	combo listElement scrollToIndex: 100.
 	win openInWorld
 ]
 

@@ -10,7 +10,8 @@ Class {
 		'#listElement',
 		'#buttonFactory',
 		'#listPlaceHolder',
-		'#buttonPlaceHolder => ObservableSlot'
+		'#buttonPlaceHolder => ObservableSlot',
+		'#listFrame'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
@@ -67,9 +68,21 @@ ToComboBox >> buttonPlaceHolderChanged [
 ]
 
 { #category : #initialization }
-ToComboBox >> defaultPlaceHolder [
+ToComboBox >> defaultButtonPlaceHolder [
 
-	^ 'Place holder'
+	^ ToLabel text: 'Button place holder'
+]
+
+{ #category : #initialization }
+ToComboBox >> defaultListElement [
+
+	^ ToListElement new
+]
+
+{ #category : #initialization }
+ToComboBox >> defaultListPlaceHolder [
+
+	^ ToLabel text: 'List place holder'
 ]
 
 { #category : #initialization }
@@ -86,6 +99,8 @@ ToComboBox >> initialize [
 	self class initializeSlots: self.
 	super initialize.
 	self layout: self defaultLayout.
+	listFrame := self newListFrame.
+	listElement := self defaultListElement.
 	self fitContent
 ]
 
@@ -119,6 +134,12 @@ ToComboBox >> listPlaceHolder [
 ToComboBox >> listPlaceHolder: anElement [
 
 	listPlaceHolder := anElement
+]
+
+{ #category : #accessing }
+ToComboBox >> newListFrame [
+
+	^ ToPopupWindow new widget: self
 ]
 
 { #category : #accessing }

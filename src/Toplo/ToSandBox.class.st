@@ -343,32 +343,30 @@ ToSandBox class >> example_ListWithRowNumbers [
 { #category : #window }
 ToSandBox class >> example_Popup1 [
 
-	| e p container but |
+	| e popup container but |
 	container := ToInnerWindow new
 		             relocate: 10 @ 10;
 		             size: 400 @ 200;
 		             yourself.
 	e := ToElement new
 		     background: Color lightGray;
-		     size: 100 @ 100;
+		     size: 100 @ 40;
 		     relocate: 50 @ 50.
-	p := ToPopupWindow new
-		     background: Color green;
-		     widget: e.
+	popup := ToPopupWindow new widget: e.
 	but := ToWidget new size: 50@90.
 	but addDresser: ToGeneralButtonDresser new.
-	but whenAnnouncement: ToClickAnnouncement do: [ self inform: 'Click'. p close ]. 
-	p root addChild: but.
-	p addEventHandler: (BlEventHandler
+	but whenAnnouncement: ToClickAnnouncement do: [ self inform: 'Click'. popup close ]. 
+	popup root addChild: but.
+	popup addEventHandler: (BlEventHandler
 			 on: BlSpaceMouseDownOutsideEvent
 			 do: [ :event | self inform: 'OUTSIDE']).
 	e addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
 			 do: [ :evt | 
-				 p isAttachedToSceneGraph ifFalse: [ p popupEvent: evt ] ]).
-	p addEventHandler: (BlEventHandler
+				 popup isAttachedToSceneGraph ifFalse: [ popup popupEvent: evt ] ]).
+	popup addEventHandler: (BlEventHandler
 			 on: BlClickEvent
-			 do: [ :evt | self inform: 'CLICK'. p close ]).
+			 do: [ :evt | self inform: 'CLICK'. popup close ]).
 
 	container addChild: e.
 	container openInOBlSpace

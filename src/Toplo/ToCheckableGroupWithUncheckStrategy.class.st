@@ -8,10 +8,7 @@ Class {
 ToCheckableGroupWithUncheckStrategy >> checked: aCheckable in: aGroup [
 
 	aCheckable privateCheck.
-	(aGroup buttons select: [ :b | b ~= aCheckable and: [b isChecked]]) ifNotEmpty: [
-		:uncheckedBtns |
-		uncheckedBtns do: [ :b | b privateUncheck ].
-		^ self ].
+	aGroup uncheckAllExcept: aCheckable ifFoundDo: [ ^ self ].
 	aGroup notifyChanged
 ]
 

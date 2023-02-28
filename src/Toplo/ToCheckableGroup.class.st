@@ -1,11 +1,11 @@
 Class {
 	#name : #ToCheckableGroup,
 	#superclass : #Object,
+	#traits : 'TBlAnnouncerProvider',
+	#classTraits : 'TBlAnnouncerProvider classTrait',
 	#instVars : [
 		'buttons',
-		'default',
-		'checkingStrategy',
-		'changeAction'
+		'checkingStrategy'
 	],
 	#category : #'Toplo-Widget-Button'
 }
@@ -116,7 +116,10 @@ ToCheckableGroup >> notifyButtonsRemoved: aCollectionChangeAnnouncement [
 { #category : #'checking protocol' }
 ToCheckableGroup >> notifyChanged [
 
-	changeAction ifNotNil: [ changeAction cull: self checkedButtons cull: self uncheckedButtons ]
+	self announce: (ToCheckableGroupChangedAnnouncement new
+			 checkedButtons: self checkedButtons;
+			 uncheckedButtons: self uncheckedButtons;
+			 yourself)
 ]
 
 { #category : #'adding / removing' }
@@ -128,10 +131,24 @@ ToCheckableGroup >> remove: aCheckable [
 
 { #category : #'check-uncheck-request' }
 ToCheckableGroup >> uncheckAll [
-	| current |
-	current := buttons detect: [ :b | b isChecked ] ifNone: [].
-	buttons do: [ :b | b privateUncheck ].
-	self notifyChanged
+
+	self checkedButtons ifNotEmpty: [ :found |
+		found do: [ :b | b privateUncheck ] ]
+]
+
+{ #category : #'check-uncheck-request' }
+ToCheckableGroup >> uncheckAllExcept: aButton [
+
+	self uncheckAllExcept: aButton ifFoundDo: [ ]
+]
+
+{ #category : #'check-uncheck-request' }
+ToCheckableGroup >> uncheckAllExcept: aButton ifFoundDo: aBlock [
+
+	(self buttons select: [ :b | b ~= aButton and: [ b isChecked ] ])
+		ifNotEmpty: [ :uncheckedBtns |
+			uncheckedBtns do: [ :b | b privateUncheck ].
+			aBlock value ]
 ]
 
 { #category : #'check-uncheck-request' }
@@ -150,11 +167,16 @@ ToCheckableGroup >> uncheckedButtons [
 { #category : #'checking protocol' }
 ToCheckableGroup >> whenChangedDo: aBlock [
 	"Run aBlock when one of my buttons is checked. 
-	 `aBlock` receives two optional arguments: 
-	 - checked button list
-	 - unchecked button list"
+	 `aBlock` receives a ToCheckableGroupChanged announcement asArgument"
 
-	changeAction := aBlock
+	self whenAnnouncement: ToCheckableGroupChangedAnnouncement do: aBlock
+]
+
+{ #category : #'checking protocol' }
+ToCheckableGroup >> whenChangedSend: aSelector to: aReceiver [
+	"Send a message to the receiver according to the argument selector (with the announcement as argument) "
+
+	self whenAnnouncement: ToCheckableGroupChangedAnnouncement send: aSelector to: aReceiver
 ]
 
 { #category : #accessing }

@@ -6,18 +6,10 @@ Class {
 	#category : #'Toplo-Widget-Button'
 }
 
-{ #category : #'t - initialization dresser' }
-ToPairedButton >> defaultDresser [
-
-	^ ToPairedButtonDresser new
-]
-
 { #category : #initialization }
 ToPairedButton >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	self initializePair.
-	
-	self initializeDresser 
+	self initializePair
 ]

@@ -21,10 +21,17 @@ ToGeneralButton >> client: anObject [
 	client := anObject
 ]
 
+{ #category : #'t - initialization dresser' }
+ToGeneralButton >> defaultDresser [
+
+	^ ToGeneralButtonDresser new
+]
+
 { #category : #initialization }
 ToGeneralButton >> initialize [ 
 
 	self class initializeSlots: self.
 	super initialize.
+	self initializeDresser 
 
 ]

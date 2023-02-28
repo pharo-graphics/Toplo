@@ -40,10 +40,14 @@ ToChoiceBox >> beJustified [
 { #category : #'api - change hook' }
 ToChoiceBox >> checked: anItem [
 
-	anItem ifNil: [ selectedData := nil. ^ self ].
-	selectedData := self data
-		  detect: [ :c | (self dataToTextConverter value: c) asString = anItem label text asString ]
-		  ifNone: [ ^ self ]
+	anItem ifNil: [
+		self selectedData: nil.
+		^ self ].
+	self selectedData: (self data
+			 detect: [ :c |
+				 (self dataToTextConverter value: c) asString
+				 = anItem label text asString ]
+			 ifNone: [ ])
 ]
 
 { #category : #accessing }
@@ -90,9 +94,9 @@ ToChoiceBox >> initialize [
 	self addChild: menuButton.
 	self whenSelectedDataChangedDo: [ self selectedDataChanged ].
 	self whenPlaceHolderChangedDo: [ self placeHolderChanged ].
-	group whenChangedDo: [ :checkedList :uncheckedList | 
-		checkedList do: [:e | self checked: e].
-		uncheckedList do:[:e | self unchecked: e ]].
+	group whenChangedDo: [ :ann | 
+		ann checkedButtons do: [:e | self checked: e].
+		ann uncheckedButtons do:[:e | self unchecked: e ]].
 	self initializeDresser.
 
 ]
@@ -143,7 +147,7 @@ ToChoiceBox >> notifyDataChanged: anInterval [
 		newItem := self newMenuItemFromData: (self data at: idx).
 		self menuButton replaceItemAt: idx with: newItem.
 		self group replace: prevItem with: newItem.
-		(selectedData = self data at: idx) ifTrue: [ selectedData := nil ] ]
+		(self selectedData = self data at: idx) ifTrue: [ self selectedData: nil ] ]
 ]
 
 { #category : #'private - notifications' }
@@ -165,7 +169,7 @@ ToChoiceBox >> notifyDataRemoved: anInterval [
 	removed do: [ :item |
 		self menuButton removeItem: item.
 		self group remove: item ].
-	(self data includes: selectedData) ifFalse: [ selectedData := nil ]
+	(self data includes: self selectedData) ifFalse: [ self selectedData: nil ]
 ]
 
 { #category : #accessing }
@@ -183,7 +187,7 @@ ToChoiceBox >> placeHolder: anElement [
 { #category : #'api - change hook' }
 ToChoiceBox >> placeHolderChanged [
 
-	selectedData ifNotNil: [ ^ self ].
+	self selectedData ifNotNil: [ ^ self ].
 	self usePlaceHolder 
 
 ]
@@ -192,13 +196,9 @@ ToChoiceBox >> placeHolderChanged [
 ToChoiceBox >> privateData: anObservableCollection [
 
 	data := anObservableCollection.
-
-	data whenAddChangeDo: [ :ann | 
-		self notifyDataInserted: ann interval ].
-	data whenRemoveChangeDo: [ :ann | 
-		self notifyDataRemoved: ann interval ].
-	data whenUpdateChangeDo: [ :ann | 
-		self notifyDataChanged: ann interval ].
+	data whenAddChangeDo: [ :ann | self notifyDataInserted: ann interval ].
+	data whenRemoveChangeDo: [ :ann | self notifyDataRemoved: ann interval ].
+	data whenUpdateChangeDo: [ :ann | self notifyDataChanged: ann interval ].
 
 	self notifyChanged
 ]
@@ -211,7 +211,7 @@ ToChoiceBox >> removeData: anObject [
 	self data remove: anObject.
 	menuButton removeItem: item.
 	group remove: item.
-	selectedData = anObject ifTrue: [ selectedData := nil ]
+	self selectedData = anObject ifTrue: [ self selectedData: nil ]
 ]
 
 { #category : #accessing }
@@ -233,12 +233,12 @@ ToChoiceBox >> selectedData: aData [
 ToChoiceBox >> selectedDataChanged [ 
 
 	| menuItem |
-	selectedData ifNil: [
+	self selectedData ifNil: [
 		self usePlaceHolder.
 		^ self ].
-	menuItem := self menuItemFromData: selectedData.
+	menuItem := self menuItemFromData: self selectedData.
 	menuItem ifNil: [ ^ self error: 'A menu item should exist for the current selectedData' ].
-	menuButton label: (ToLabel text: (self dataToTextConverter value: selectedData) copy).
+	menuButton label: (ToLabel text: (self dataToTextConverter value: self selectedData) copy).
 	menuItem isChecked ifFalse: [ menuItem check ]
 ]
 
@@ -255,7 +255,7 @@ ToChoiceBox >> selectedIndex: anInteger [
 ToChoiceBox >> unchecked: anItem [
 
 	self group checkedButtons ifNotEmpty: [ ^ self ].
-	selectedData := nil
+	self selectedData: nil
 ]
 
 { #category : #'api - change hook' }

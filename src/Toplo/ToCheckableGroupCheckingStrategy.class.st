@@ -36,10 +36,10 @@ ToCheckableGroupCheckingStrategy >> canSwitchToNextState: aCheckable [
 ToCheckableGroupCheckingStrategy >> checked: aCheckable in: aGroup [
 
 	aCheckable privateCheck.
-	(aGroup buttons select: [ :b | b ~= aCheckable ]) do: [ :b | b privateUncheck ].
+	aGroup
+		uncheckAllExcept: aCheckable
+		ifFoundDo: [  ].
 	aGroup notifyChanged
-
-
 ]
 
 { #category : #notifications }

@@ -35,11 +35,6 @@ ToAbstractButtonDresser >> clicked: anElement event: anEvent [
 ]
 
 { #category : #'events handling' }
-ToAbstractButtonDresser >> doubleClicked: anElement [ 
-
-]
-
-{ #category : #'events handling' }
 ToAbstractButtonDresser >> doubleClicked: anElement event: anEvent [
 
 	self clicked: anElement event: anEvent
@@ -54,16 +49,9 @@ ToAbstractButtonDresser >> escaped: anElement [
 ]
 
 { #category : #'events handling' }
-ToAbstractButtonDresser >> hover: anElement [
-
-	self subclassResponsibility 
-
-]
-
-{ #category : #'events handling' }
 ToAbstractButtonDresser >> hover: anElement event: anEvent [
 
-	self hover: anElement
+	self subclassResponsibility 
 
 ]
 
@@ -117,26 +105,15 @@ ToAbstractButtonDresser >> leftClicked: anElement event: anEvent [
 ]
 
 { #category : #'events handling' }
-ToAbstractButtonDresser >> leftPressed: anElement [
-
-	self subclassResponsibility
-]
-
-{ #category : #'events handling' }
 ToAbstractButtonDresser >> leftPressed: anElement event: anEvent [
 
-	self leftPressed: anElement
+	self subclassResponsibility 
 
-]
-
-{ #category : #'events handling' }
-ToAbstractButtonDresser >> leftUp: anElement [
 ]
 
 { #category : #'events handling' }
 ToAbstractButtonDresser >> leftUp: anElement event: anEvent [
 
-	self leftUp: anElement
 ]
 
 { #category : #'event handlers' }
@@ -206,37 +183,15 @@ ToAbstractButtonDresser >> pressed: anElement event: anEvent [
 ]
 
 { #category : #'events handling' }
-ToAbstractButtonDresser >> rightClicked: anElement [ 
-
-	
-]
-
-{ #category : #'events handling' }
 ToAbstractButtonDresser >> rightClicked: anElement event: anEvent [
-
-	self rightClicked: anElement
-]
-
-{ #category : #'events handling' }
-ToAbstractButtonDresser >> rightPressed: anElement [
-
 ]
 
 { #category : #'events handling' }
 ToAbstractButtonDresser >> rightPressed: anElement event: anEvent [
-
-	self rightPressed: anElement
-]
-
-{ #category : #'events handling' }
-ToAbstractButtonDresser >> rightUp: anElement [
-
 ]
 
 { #category : #'events handling' }
 ToAbstractButtonDresser >> rightUp: anElement event: anEvent [
-
-	self rightUp: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }

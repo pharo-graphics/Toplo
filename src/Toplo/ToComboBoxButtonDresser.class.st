@@ -1,6 +1,6 @@
 Class {
 	#name : #ToComboBoxButtonDresser,
-	#superclass : #ToPairedButtonDresser,
+	#superclass : #ToGeneralButtonDresser,
 	#category : #'Toplo-Widget-ComboBox'
 }
 

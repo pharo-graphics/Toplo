@@ -1,6 +1,6 @@
 Class {
 	#name : #ToNodeDresser,
-	#superclass : #ToPairedButtonDresser,
+	#superclass : #ToGeneralButtonDresser,
 	#instVars : [
 		'focusGetterHandler',
 		'monitor',
@@ -52,7 +52,7 @@ ToNodeDresser >> defaultInitialBorder [
 ]
 
 { #category : #'events handling' }
-ToNodeDresser >> hover: anElement [ 
+ToNodeDresser >> hover: anElement event: anEvent [
 
 	self border: self hoveredBorder in: anElement.
 	" do not change the background if selected "
@@ -106,7 +106,7 @@ ToNodeDresser >> leaved: anElement [
 { #category : #'events handling' }
 ToNodeDresser >> leftClicked: anElement [ 
 	
-	self backToUnpressedState.
+	self restoreUnpressedState.
 	selected ifTrue: [ ^ self ].
 	" do not change the background and the border if selected "
 	self border: self hoveredBorder in: anElement.
@@ -129,16 +129,10 @@ ToNodeDresser >> leftClicked: anElement event: anEvent [
 ]
 
 { #category : #'events handling' }
-ToNodeDresser >> leftPressed: anElement [
+ToNodeDresser >> leftPressed: anElement event: anEvent [
 
 	selected ifTrue: [ ^ self ].
-	super leftPressed: anElement
-]
-
-{ #category : #'events handling' }
-ToNodeDresser >> leftUp: anElement event: anEvent [
-
-	super leftUp: anElement event: anEvent
+	super leftPressed: anElement event: anEvent
 ]
 
 { #category : #'api - install/uninstall  hook' }

@@ -7,7 +7,7 @@ Class {
 	#category : #'Toplo-Tests-Widget-ChoiceBox'
 }
 
-{ #category : #'basic tests' }
+{ #category : #' tests' }
 ToChoiceBoxTest >> assertEmpty: aChoiceBox [
 
 	self assert: aChoiceBox group buttons isEmpty.	
@@ -20,7 +20,7 @@ ToChoiceBoxTest >> assertEmpty: aChoiceBox [
 
 ]
 
-{ #category : #'basic tests' }
+{ #category : #' tests' }
 ToChoiceBoxTest >> testAddRemoveOneStringData [
 
 	| cb d |
@@ -32,7 +32,7 @@ ToChoiceBoxTest >> testAddRemoveOneStringData [
 
 ]
 
-{ #category : #'basic tests' }
+{ #category : #' tests' }
 ToChoiceBoxTest >> testCheckUncheckWithUncheckStrategy [
 
 	| cb d1 d2 d3 |
@@ -56,7 +56,7 @@ ToChoiceBoxTest >> testCheckUncheckWithUncheckStrategy [
 	self assert: cb group buttons third isUnchecked
 ]
 
-{ #category : #'basic tests' }
+{ #category : #' tests' }
 ToChoiceBoxTest >> testEmpty [
 
 	| cb d |
@@ -66,7 +66,7 @@ ToChoiceBoxTest >> testEmpty [
 	self assert: (cb dataToTextConverter value: d) equals: d.
 ]
 
-{ #category : #'basic tests' }
+{ #category : #' tests' }
 ToChoiceBoxTest >> testNoSelectedData [
 
 	| cb d |
@@ -78,7 +78,7 @@ ToChoiceBoxTest >> testNoSelectedData [
 	self assert: (cb group buttons noneSatisfy: [ :b | b isChecked ])
 ]
 
-{ #category : #'basic tests' }
+{ #category : #' tests' }
 ToChoiceBoxTest >> testNoSelectedDataWithPlaceHolder [
 
 	| cb |
@@ -93,7 +93,7 @@ ToChoiceBoxTest >> testNoSelectedDataWithPlaceHolder [
 	self assert: (cb group buttons noneSatisfy: [ :b | b isChecked ])
 ]
 
-{ #category : #'basic tests' }
+{ #category : #' tests' }
 ToChoiceBoxTest >> testNoSelectedDataWithPlaceHolder2 [
 
 	| cb d |
@@ -110,7 +110,68 @@ ToChoiceBoxTest >> testNoSelectedDataWithPlaceHolder2 [
 	self assert: (cb group buttons noneSatisfy: [ :b | b isChecked ])
 ]
 
-{ #category : #'basic tests' }
+{ #category : #' tests' }
+ToChoiceBoxTest >> testPlaceHolder [
+
+	| cb |
+	cb := ToChoiceBox new.
+	cb data addAll: { 'A'. 'B'. }.
+	cb placeHolder: (ToLabel text: 'X').
+	self assert: cb menuButton label text asString equals: 'X'.
+	cb group buttons first check.
+	self assert: cb selectedData equals: 'A'.
+	self assert: cb menuButton label text asString equals: 'A'.
+	" strict strategy do not allow unchecking "
+	cb group buttons first uncheck.
+	self assert: cb menuButton label text asString equals: 'A'.
+	self assert: cb selectedData equals: 'A'
+]
+
+{ #category : #' tests' }
+ToChoiceBoxTest >> testPlaceHolder2 [
+
+	| cb |
+	cb := ToChoiceBox new.
+	cb withUncheckingStrategy.
+	cb data addAll: { 'A'. 'B'. }.
+	cb placeHolder: (ToLabel text: 'X').
+	self assert: cb menuButton label text asString equals: 'X'.
+	cb group buttons first check.
+	self assert: cb selectedData equals: 'A'.
+	self assert: cb menuButton label text asString equals: 'A'.
+	" Unchecking strategy does allow unchecking "
+	cb group buttons first uncheck.
+	self assert: cb menuButton label text asString equals: 'X'.
+	self assert: cb selectedData isNil.
+
+	
+
+]
+
+{ #category : #' tests' }
+ToChoiceBoxTest >> testPlaceHolder3 [
+
+	| cb |
+	cb := ToChoiceBox new.
+	cb withUncheckingStrategy.
+	cb data addAll: { 'A'. 'B'. }.
+	cb placeHolder: (ToLabel text: 'X').
+	self assert: cb menuButton label text asString equals: 'X'.
+	cb selectedData: 'A'.
+	self assert: cb group buttons first isChecked.
+	self assert: cb selectedData identicalTo: cb data first.
+	self assert: cb menuButton label text asString equals: 'A'.
+	" Unchecking strategy does allow unchecking "
+	cb selectedData: nil.
+	self assert: cb group buttons first isUnchecked.
+	self assert: cb menuButton label identicalTo: cb placeHolder.
+	self assert: cb selectedData isNil.
+
+	
+
+]
+
+{ #category : #' tests' }
 ToChoiceBoxTest >> testSelectedData1 [
 
 	| cb d |
@@ -124,7 +185,7 @@ ToChoiceBoxTest >> testSelectedData1 [
 	self assert: cb group buttons second isChecked
 ]
 
-{ #category : #'basic tests' }
+{ #category : #' tests' }
 ToChoiceBoxTest >> testSelectedData2 [
 
 	| cb d |
@@ -139,7 +200,7 @@ ToChoiceBoxTest >> testSelectedData2 [
 	self assert: cb group buttons first isChecked
 ]
 
-{ #category : #'basic tests' }
+{ #category : #' tests' }
 ToChoiceBoxTest >> testWith5StringData [
 
 	| cb d |
@@ -157,7 +218,7 @@ ToChoiceBoxTest >> testWith5StringData [
 	self assertEmpty: cb
 ]
 
-{ #category : #'basic tests' }
+{ #category : #' tests' }
 ToChoiceBoxTest >> testWithOneStringData [
 
 	| cb d |
@@ -173,7 +234,7 @@ ToChoiceBoxTest >> testWithOneStringData [
 	self assert: cb placeHolder isNil
 ]
 
-{ #category : #'basic tests' }
+{ #category : #' tests' }
 ToChoiceBoxTest >> testWithStrictStrategy [
 
 	| cb d1 d2 d3 |
@@ -199,7 +260,7 @@ ToChoiceBoxTest >> testWithStrictStrategy [
 	self assert: cb group buttons first isChecked
 ]
 
-{ #category : #'basic tests' }
+{ #category : #' tests' }
 ToChoiceBoxTest >> testWithUncheckStrategy [
 
 	| cb d1 d2 d3 |

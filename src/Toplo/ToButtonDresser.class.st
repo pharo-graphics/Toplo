@@ -1,5 +1,5 @@
 Class {
 	#name : #ToButtonDresser,
-	#superclass : #ToPairedButtonDresser,
+	#superclass : #ToGeneralButtonDresser,
 	#category : #'Toplo-Widget-Button'
 }

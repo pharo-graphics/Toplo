@@ -175,7 +175,8 @@ ToSandBox class >> example_ListWithAllClasses [
 
 	| l |
 	l := ToListElement new.
-	l list addAll: ((Smalltalk globals allClasses) collect: [:cls | cls name]).
+	l data addAll:
+		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInOBlSpace
 ]
 
@@ -355,7 +356,7 @@ ToSandBox class >> example_Popup1 [
 		     background: Color green;
 		     widget: e.
 	but := ToWidget new size: 50@90.
-	but addDresser: ToPairedButtonDresser new.
+	but addDresser: ToGeneralButtonDresser new.
 	but whenAnnouncement: ToClickAnnouncement do: [ self inform: 'Click'. p close ]. 
 	p root addChild: but.
 	p addEventHandler: (BlEventHandler
@@ -650,7 +651,7 @@ ToSandBox class >> example_menu5 [
 	right := ToRadioMenuItem new labelText: 'Right'; id: #right.
 	center := ToRadioMenuItem new labelText: 'Center'; id: #center.
 	left := ToRadioMenuItem new labelText: 'Left'; id: #left.
-	grp whenChangedDo: [ :chb :previous | ('checked: ' , chb asString , ' previous: ', previous asString) traceCr].
+	grp whenChangedDo: [ :ann | ('checked: ' , ann checkedButtons asString , ' unchecked: ', ann uncheckedButtons asString) traceCr].
 	center startChecked.
 	
 	grp add: right.
@@ -712,8 +713,7 @@ ToSandBox class >> example_menu6 [
 			center.
 			left }.
 
-	grp whenChangedDo: [ :chb :previous | 
-		self inform: 'checked: ' , chb asString , ' previous: ', previous asString ].
+	grp whenChangedDo: [ :ann | ('checked: ' , ann checkedButtons asString , ' unchecked: ', ann uncheckedButtons asString) traceCr].
 
 	menu addSeparator.
 
@@ -748,9 +748,7 @@ ToSandBox class >> example_menu6 [
 			right.
 			center.
 			left }.
-	grp whenChangedDo: [ :chb :previous | 
-		self inform: 'checked: ' , chb asString , ' previous: ', previous asString ].
-
+	grp whenChangedDo: [ :ann | ('checked: ' , ann checkedButtons asString , ' unchecked: ', ann uncheckedButtons asString) traceCr].
 
 	menu addSeparator.
 
@@ -786,8 +784,7 @@ ToSandBox class >> example_menu6 [
 			center.
 			left }.
 
-	grp whenChangedDo: [ :chb :previous | 
-		self inform: 'checked: ' , chb asString , ' previous: ', previous asString ].
+	grp whenChangedDo: [ :ann | ('checked: ' , ann checkedButtons asString , ' unchecked: ', ann uncheckedButtons asString) traceCr].
 
 	center startChecked.
 
@@ -1094,7 +1091,7 @@ ToSandBox class >> example_toAlbumAsButton [
 
 	| but |
 	but := ToAlbum new text: 'Hello world'; preventChildrenMouseEvents.
-	but addDresser: ToPairedButtonDresser new.
+	but addDresser: ToGeneralButtonDresser new.
 	but whenAnnouncement: ToClickAnnouncement do: [ self inform: 'Click' ]. 
 	but background: Color blue.
 	but size: 300@100.
@@ -1105,7 +1102,7 @@ ToSandBox class >> example_toAlbumAsButton [
 ToSandBox class >> example_toBasicButton0 [
 
 	| but |
-	but := ToGeneralButton new dresser: ToPairedButtonDresser new.
+	but := ToGeneralButton new.
 	but whenClickedDo: [ self inform: 'clicked' ].
 	but openInOBlSpace 
 ]
@@ -1114,7 +1111,7 @@ ToSandBox class >> example_toBasicButton0 [
 ToSandBox class >> example_toBasicButton1 [
 
 	| but |
-	but := ToGeneralButton new dresser: ToPairedButtonDresser new.
+	but := ToGeneralButton new dresser: ToGeneralButtonDresser new.
 	but addChild: (BlElement new
 				 size: 30 @ 30;
 				 yourself).
@@ -1131,7 +1128,7 @@ ToSandBox class >> example_toBasicButton2 [
 		       (('Button' asRopedText)
 			        fontSize: 40;
 			        yourself).
-	but := ToGeneralButton new dresser: ToPairedButtonDresser new.
+	but := ToGeneralButton new dresser: ToGeneralButtonDresser new.
 	but matchParent.
 	but addChild: lab.
 	but layout alignCenter.
@@ -1458,8 +1455,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroup2 [
 	container layout: BlLinearLayout horizontal.
 	container layout cellSpacing: 2.
 	container addChildren: group buttons.
-	group whenChangedDo: [ :chb :previous | 
-		self inform: 'checked: ' , chb asString , ' unchecked: ', previous asString ].
+	group whenChangedDo: [ :ann | ('checked: ' , ann checkedButtons asString , ' unchecked: ', ann uncheckedButtons asString) traceCr].
 	ToInnerWindow new
 		in: [ :f | f addChild: container ];
 		openInWorld
@@ -1482,8 +1478,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndNoneStrategy [
 		buttons add: chb ].
 	buttons second startChecked.
 	group addAll: buttons.
-	group whenChangedDo: [ :chb :previous | 
-		self inform: 'checked: ' , chb asString , ' unchecked: ', previous asString ].
+	group whenChangedDo: [ :ann | ('checked: ' , ann checkedButtons asString , ' unchecked: ', ann uncheckedButtons asString) traceCr].
 
 	container := BlElement new.
 	container constraintsDo: [ :c | 
@@ -1513,8 +1508,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndStrictStrategy [
 		buttons add: chb ].
 	buttons second startChecked.
 	group addAll: buttons.
-	group whenChangedDo: [ :chb :previous | 
-		self inform: 'checked: ' , chb asString , ' unchecked: ', previous asString ].
+	group whenChangedDo: [ :ann | ('checked: ' , ann checkedButtons asString , ' unchecked: ', ann uncheckedButtons asString) traceCr].
 
 	container := BlElement new.
 	container constraintsDo: [ :c | 
@@ -1545,8 +1539,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndUnckekingStrategy [
 		buttons add: chb ].
 	buttons second startChecked.
 	group addAll: buttons.
-	group whenChangedDo: [ :chb :previous | 
-		self inform: 'checked: ' , chb asString , ' unchecked: ', previous asString ].
+	group whenChangedDo: [ :ann | ('checked: ' , ann checkedButtons asString , ' unchecked: ', ann uncheckedButtons asString) traceCr].
 
 	container := BlElement new.
 	container constraintsDo: [ :c | 
@@ -1577,8 +1570,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroupJustified [
 		buttons add: chb ].
 	buttons second startChecked.
 	group addAll: buttons.
-	group whenChangedDo: [ :chb :previous | 
-		self inform: 'checked: ' , chb asString , ' unchecked: ', previous asString ].
+	group whenChangedDo: [ :ann | ('checked: ' , ann checkedButtons asString , ' unchecked: ', ann uncheckedButtons asString) traceCr].
 
 	container := BlElement new.
 	container constraintsDo: [ :c | 
@@ -2236,7 +2228,7 @@ ToSandBox class >> example_toWidgetAsButton0 [
 
 	| but |
 	but := ToWidget new.
-	but addDresser: ToPairedButtonDresser new.
+	but addDresser: ToGeneralButtonDresser new.
 	but whenAnnouncement: ToClickAnnouncement do: [ self inform: 'Click' ]. 
 	but background: Color blue.
 	but size: 50@50.

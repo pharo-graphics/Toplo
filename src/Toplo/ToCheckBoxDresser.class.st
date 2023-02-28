@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCheckBoxDresser,
-	#superclass : #ToPairedButtonDresser,
+	#superclass : #ToGeneralButtonDresser,
 	#instVars : [
 		'checkedIcon',
 		'indeterminateIcon',

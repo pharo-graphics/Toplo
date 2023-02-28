@@ -457,6 +457,24 @@ ToSandBox class >> example_choiceBoxWithPlaceHolder [
 ]
 
 { #category : #choicebox }
+ToSandBox class >> example_choiceBoxWithPlaceHolderWithUncheckingStrategy [
+
+	| win choicebox t |
+	win := ToInnerWindow new title: 'Some host'.
+	choicebox := ToChoiceBox new hMatchParent.
+	choicebox withUncheckingStrategy.
+	t := 'No selection...' asRopedText , String cr asRopedText, ('Please choose an host from the list' asRopedText foreground: Color lightGray; fontSize: 12).
+	choicebox placeHolder: (ToLabel new beMultiLine; text: t).
+	choicebox dataToTextConverter: [ :assoc | assoc key ].
+	choicebox whenSelectedDataChangedDo: [ self inform: choicebox selectedData value asString].
+	choicebox data addAll: {
+			('Morphic SDL' -> BlMorphicWindowHost).
+			('Native SDL' -> BlOSWindowSDL2Host) }.
+	win root addChild: choicebox.
+	win openInWorld
+]
+
+{ #category : #choicebox }
 ToSandBox class >> example_choiceBoxWithStringData [
 
 	| win choicebox |
@@ -468,6 +486,27 @@ ToSandBox class >> example_choiceBoxWithStringData [
 	choicebox data add: 'Linux'.
 	choicebox selectedData: 'Windows'.
 
+	win root addChild: choicebox.
+	win openInWorld
+]
+
+{ #category : #choicebox }
+ToSandBox class >> example_choiceBoxWithStructuredData [
+
+	| win choicebox |
+	win := ToInnerWindow new title: 'Alexandrie host'.
+
+	choicebox := ToChoiceBox new
+		             hMatchParent;
+		             beJustified.
+	choicebox dataToTextConverter: [ :assoc | assoc key ].
+	choicebox data addAll: {
+			('Morphic SDL' -> BlMorphicWindowHost).
+			('Native SDL' -> BlOSWindowSDL2Host) }.
+	choicebox placeHolder: (ToLabel text: 'Place holder').
+	choicebox selectedIndex: 2.
+	choicebox whenSelectedDataChangedDo: [
+		self inform: choicebox selectedData asString ].
 	win root addChild: choicebox.
 	win openInWorld
 ]

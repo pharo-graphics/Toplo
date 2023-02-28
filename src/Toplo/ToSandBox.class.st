@@ -558,10 +558,9 @@ ToSandBox class >> example_menu2 [
 	menu := ToMenu new.
 	menu label: (ToLabel text: 'File').
 	menu addItem: (ToCheckMenuItem new label: (ToLabel text:'Align right'); beLabelFirst; beJustified).
-	menu addItem: (ToCheckMenuItem new label: (ToLabel text:'Other'); beLabelFirst; columnWidth: 100).
+	menu addItem: (ToCheckMenuItem new label: (ToLabel text:'Other'); beLabelFirst; columnWidth: 200).
 	menu relocate: 10@10.
-	menu openInNewSpace.
-	
+	menu openInNewSpace
 ]
 
 { #category : #menu }

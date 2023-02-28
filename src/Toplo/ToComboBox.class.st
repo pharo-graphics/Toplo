@@ -144,9 +144,21 @@ ToComboBox >> items: aCollection [
 ]
 
 { #category : #accessing }
+ToComboBox >> listData [
+
+	^ listElement data
+]
+
+{ #category : #accessing }
+ToComboBox >> listElement [
+
+	^ listElement
+]
+
+{ #category : #accessing }
 ToComboBox >> listItems [
-	
-	^ listElement list
+
+	^ listElement data
 ]
 
 { #category : #accessing }

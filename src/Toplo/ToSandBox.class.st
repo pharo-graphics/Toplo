@@ -442,6 +442,36 @@ ToSandBox class >> example_anchoredWidow1 [
 	w popup
 ]
 
+{ #category : #choicebox }
+ToSandBox class >> example_choiceBoxWithPlaceHolder [
+
+	| win choicebox |
+	win := ToInnerWindow new title: 'Choice box Example'.
+
+	choicebox := ToChoiceBox new.
+	choicebox data addAll: { 'OS-X'. 'Windows'. }.
+	choicebox placeHolder: (ToLabel text: ('Invalid choice' asRopedText foreground: Color red)).
+
+	win root addChild: choicebox.
+	win openInWorld
+]
+
+{ #category : #choicebox }
+ToSandBox class >> example_choiceBoxWithStringData [
+
+	| win choicebox |
+	win := ToInnerWindow new title: 'Choice box Example'.
+
+	choicebox := ToChoiceBox new.
+	choicebox data addAll: { 'OS-X'. 'Windows'. }.
+	choicebox addSeparator.
+	choicebox data add: 'Linux'.
+	choicebox selectedData: 'Windows'.
+
+	win root addChild: choicebox.
+	win openInWorld
+]
+
 { #category : #space }
 ToSandBox class >> example_elementInPopupRoot [
 
@@ -807,92 +837,6 @@ ToSandBox class >> example_overlayWidow1 [
 { #category : #window }
 ToSandBox class >> example_rootFrame1 [
 	ToInnerWindow new title: 'Internal Frame example' ; openInOBlSpace 
-]
-
-{ #category : #choicebox }
-ToSandBox class >> example_rootFrameWithChoiceBox [
-
-	| win bar choicebox |
-	win := ToInnerWindow new title: 'Choice box Example'.
-
-	bar := ToMenuBar new
-		       hMatchParent;
-		       vFitContent.
-	choicebox := ToChoiceBox new.
-	choicebox data addAll: { 'OS-X'. 'Windows'. }.
-	choicebox addSeparator.
-	choicebox data add: 'Linux'.
-	choicebox selectedData: 'Windows'.
-
-	bar addChild: (choicebox tooltipString: 'Select your operating system').
-
-	bar relocate: 0 @ 0.
-	bar border: (BlBorder paint: Color lightGray).
-	win root addChild: bar.
-	win openInWorld
-]
-
-{ #category : #choicebox }
-ToSandBox class >> example_rootFrameWithChoiceBox2 [
-
-	| win bar choicebox |
-	win := ToInnerWindow new title: 'Alexandrie host'.
-
-	bar := ToMenuBar new
-		       hMatchParent;
-		       vFitContent.
-	choicebox := ToChoiceBox new
-		             hMatchParent;
-		             beJustified.
-	choicebox dataToTextConverter: [ :assoc | assoc key ].
-	choicebox data addAll: { 
-			('Morphic SDL' -> BlMorphicWindowHost).
-			('Native SDL' -> BlOSWindowSDL2Host) }.
-	choicebox placeHolder: (ToLabel text: 'Place holder').
-	choicebox selectedIndex: 2.
-	choicebox whenSelectedDataChangedDo: [ 
-		self inform: choicebox selectedData asString ].
-	bar addChild: (choicebox tooltipString: 'Select the Alexandrie host').
-
-	bar relocate: 0 @ 0.
-	bar border: (BlBorder paint: Color lightGray).
-	win root addChild: bar.
-	win openInWorld
-]
-
-{ #category : #choicebox }
-ToSandBox class >> example_rootFrameWithChoiceBox3 [
-
-	| win bar choicebox |
-	bar := ToMenuBar new
-		       hMatchParent;
-		       vFitContent.
-	win := ToInnerWindow new title: 'Some host'.
-	choicebox := ToChoiceBox new hMatchParent.
-	choicebox withUncheckingStrategy.
-	choicebox placeHolder: (ToLabel text: 'None').
-	choicebox dataToTextConverter: [ :assoc | assoc key ].
-	choicebox whenSelectedDataChangedDo: [ self inform: choicebox selectedData value asString].
-	bar addChild: choicebox.
-	choicebox data addAll: { 
-			('Morphic SDL' -> BlMorphicWindowHost).
-			('Native SDL' -> BlOSWindowSDL2Host) }.
-	win root addChild: bar.
-	win openInWorld
-]
-
-{ #category : #choicebox }
-ToSandBox class >> example_rootFrameWithChoiceBoxWithPlaceHolder [
-
-	| win choicebox |
-	win := ToInnerWindow new title: 'Choice box Example'.
-
-	choicebox := ToChoiceBox new.
-	choicebox data addAll: { 'OS-X'. 'Windows'. }.
-	choicebox placeHolder: (ToLabel text: ('Invalid choice' asRopedText foreground: Color red)).
-
-	win root addChild: choicebox.
-	win openInWorld
 ]
 
 { #category : #combobox }

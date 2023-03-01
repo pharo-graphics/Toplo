@@ -142,7 +142,7 @@ ToMiniBrowser >> initialize [
 	"packages selectionStrategy beWithoutSelection."
 	"packages selectionStrategy beSingleSelection."
 	packages
-		when: ToSelectionChangedEvent
+		when: ToInfiniteSelectionChangedEvent
 		do: [ :event | self packageSelectionChangedEvent: event ].
 	packages data addAll:
 		(RPackage organizer packages asSortedCollection: [ :p1 :p2 |
@@ -153,7 +153,7 @@ ToMiniBrowser >> initialize [
 			           labelText: cls name;
 			           hMatchParent ].
 	classes
-		when: ToSelectionChangedEvent
+		when: ToInfiniteSelectionChangedEvent
 		do: [ :event | self classSelectionChangedEvent: event ].
 	classes data whenRemoveChangeDo: [ protocols data removeAll ].
 	classesPane := ToVerticalPane new matchParent.
@@ -181,7 +181,7 @@ ToMiniBrowser >> initialize [
 			             hMatchParent ].
 
 	protocols
-		when: ToSelectionChangedEvent
+		when: ToInfiniteSelectionChangedEvent
 		do: [ :event | self protocolSelectionChangedEvent: event ].
 	protocols data whenRemoveChangeDo: [ selectors data removeAll ].
 
@@ -190,7 +190,7 @@ ToMiniBrowser >> initialize [
 			             labelText: assoc value asString;
 			             hMatchParent ].
 	selectors
-		when: ToSelectionChangedEvent
+		when: ToInfiniteSelectionChangedEvent
 		do: [ :event | self selectorSelectionChangedEvent: event ].
 	selectors data whenRemoveChangeDo: [ self clearCodeInEditor ].
 	"selectors hasFixedSize: true."

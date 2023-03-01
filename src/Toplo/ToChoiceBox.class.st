@@ -86,7 +86,7 @@ ToChoiceBox >> initialize [
 	self class initializeSlots: self.
 	super initialize.
 	dataToTextConverter := [ :i | i ].
-	self privateData: ToObservableCollection new.
+	self privateData: self newDataCollection.
 	self layout: self defaultLayout.
 	self fitContent.
 	menuButton := ToChoiceBoxMenuButton new.
@@ -94,11 +94,10 @@ ToChoiceBox >> initialize [
 	self addChild: menuButton.
 	self whenSelectedDataChangedDo: [ self selectedDataChanged ].
 	self whenPlaceHolderChangedDo: [ self placeHolderChanged ].
-	group whenChangedDo: [ :ann | 
+	group whenChangedDo: [ :ann |
 		ann checkedButtons do: [:e | self checked: e].
 		ann uncheckedButtons do:[:e | self unchecked: e ]].
-	self initializeDresser.
-
+	self initializeDresser
 ]
 
 { #category : #accessing }
@@ -113,6 +112,12 @@ ToChoiceBox >> menuItemFromData: anObject [
 	^ group buttons
 		  detect: [ :i | i label text asString = (self dataToTextConverter value: anObject) asString ]
 		  ifNone: [  ]
+]
+
+{ #category : #initialization }
+ToChoiceBox >> newDataCollection [
+
+	^ ToObservableCollection new
 ]
 
 { #category : #'private - accessing' }

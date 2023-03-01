@@ -51,6 +51,7 @@ ToNodeHolder >> onDetachedFromDatasource: aDataSource [
 
 { #category : #accessing }
 ToNodeHolder >> selected: aBoolean [
+
 	aBoolean
 		ifTrue: [ itemElement dresser addedToSelection: itemElement ]
 		ifFalse: [ itemElement dresser removedFromSelection: itemElement ]

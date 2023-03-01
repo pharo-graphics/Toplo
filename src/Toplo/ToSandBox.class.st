@@ -877,13 +877,12 @@ ToSandBox class >> example_rootFrameWithComboBox [
 
 	| win combo |
 	win := ToInnerWindow new title: 'Combo box Example'.
-
 	combo := ToComboBox new.
-	combo listData addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
-	combo button: (ToComboBoxButton new labelText: 'No item').
+	combo data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
+	combo headData: combo data first.
 	win root addChild: combo.
-	combo listElement withRowNumbers.
-	combo listElement scrollToIndex: 100.
+	"combo listElement scrollToIndex: 100."
+	combo listElementSize: 400@300.
 	win openInWorld
 ]
 

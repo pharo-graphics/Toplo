@@ -81,7 +81,7 @@ ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 	| indexes |
 	indexes := self selectedIndexes copy.
 	aBlock value.
-	self dispatchEvent: (ToSelectionChangedEvent from: indexes to: self selectedIndexes)
+	self dispatchEvent: (ToInfiniteSelectionChangedEvent from: indexes to: self selectedIndexes)
 ]
 
 { #category : #'selection events' }
@@ -239,21 +239,25 @@ ToInfiniteElement >> whenClickOnNodeAnnouncement: anAnnouncement [
 
 	| event |
 	event := anAnnouncement event.
-	event modifiers isShift ifTrue: [ 
+	event modifiers isShift ifTrue: [
 		^ self selectionStrategy
-			  dispatchSelectionChangedAfter: [ 
+			  dispatchSelectionChangedAfter: [
 				  self selectionStrategy selectToIndex:
 					  anAnnouncement holder layoutPosition ]
 			  to: self ].
-	event modifiers isPrimaryModifier ifTrue: [ 
+	event modifiers isPrimaryModifier ifTrue: [
 		^ self selectionStrategy
-			  dispatchSelectionChangedAfter: [ 
+			  dispatchSelectionChangedAfter: [
 				  self selectionStrategy cherryPickIndex:
 					  anAnnouncement holder layoutPosition ]
 			  to: self ].
 	self selectionStrategy
-		dispatchSelectionChangedAfter: [ 
+		dispatchSelectionChangedAfter: [
 			self selectionStrategy selectIndex:
 				anAnnouncement holder layoutPosition ]
-		to: self
+		to: self.
+	self dispatchEvent: (ToInfiniteClickOnDataEvent new
+			 index: anAnnouncement holder layoutPosition;
+			 event: event;
+			 yourself)
 ]

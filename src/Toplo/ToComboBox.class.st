@@ -4,70 +4,41 @@ Class {
 	#traits : 'TToWidget + TToWidgetWithTooltip',
 	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait',
 	#instVars : [
-		'#button',
+		'#data',
 		'#selectedIndex => ObservableSlot',
-		'#items',
 		'#listElement',
-		'#buttonFactory',
 		'#listPlaceHolder',
-		'#buttonPlaceHolder => ObservableSlot',
-		'#listFrame'
+		'#listFrame',
+		'#headFactory',
+		'#headElement',
+		'#headPlaceHolder'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
 
-{ #category : #accessing }
-ToComboBox >> button [
+{ #category : #events }
+ToComboBox >> clickOnDataEvent: aClickOnDataEvent [
 
-	^ button
+	self headData: (self presentedData at: aClickOnDataEvent index).
+	self closeEvent: aClickOnDataEvent event
+]
+
+{ #category : #displaying }
+ToComboBox >> closeEvent: anEvent [
+
+	self listFrame close
 ]
 
 { #category : #accessing }
-ToComboBox >> button: aButton [
-	button = aButton ifTrue: [ ^ self ].
-	button ifNotNil: [ button removeFromParent ].
-	button := aButton.
-	button addEventHandler: (BlEventHandler
-			 on: BlMouseDownEvent
-			 do: [ :evt | listFrame isAttachedToSceneGraph  ifTrue: [listFrame close] ifFalse: [ listFrame popupEvent: evt ]]).
-	self addChild: button
+ToComboBox >> data [
+
+	^ data
 ]
 
 { #category : #accessing }
-ToComboBox >> buttonFactory [
-	" a Valuable can take 2 args, a selected data value and the previous button"
+ToComboBox >> data: aCollection [
 
-	^ buttonFactory
-]
-
-{ #category : #accessing }
-ToComboBox >> buttonFactory: aValuable [
-	" a Valuable can take 2 args, a selected data value and the previous button"
-
-	buttonFactory := aValuable
-]
-
-{ #category : #accessing }
-ToComboBox >> buttonItem: anObject [
-
-	self button: (self buttonFactory cull: anObject cull: self button)
-
-]
-
-{ #category : #accessing }
-ToComboBox >> buttonPlaceHolder [
-
-	^ buttonPlaceHolder
-]
-
-{ #category : #accessing }
-ToComboBox >> buttonPlaceHolder: anElement [
-
-	buttonPlaceHolder := anElement
-]
-
-{ #category : #'change hook' }
-ToComboBox >> buttonPlaceHolderChanged [
+	data := aCollection
 ]
 
 { #category : #initialization }
@@ -76,19 +47,46 @@ ToComboBox >> defaultButtonPlaceHolder [
 	^ ToLabel text: 'Button place holder'
 ]
 
+{ #category : #'t - initialization dresser' }
+ToComboBox >> defaultDresser [
+
+	^ ToComboBoxDresser new
+]
+
+{ #category : #initialization }
+ToComboBox >> defaultHeadFactory [
+
+	^ [ :d | | pair head |
+	  pair := ToPairedElement new
+		  hMatchParent;
+		  first: (ToLabel text: d);
+		  second: (ToButton new icon: (ToImage inner: (Smalltalk ui icons iconNamed: #bottom)));
+		  yourself.
+		head := ToComboBoxHead new.
+		head addChild: pair.
+		head ]
+]
+
 { #category : #initialization }
 ToComboBox >> defaultListElement [
 
 	^ ToListElement new
 		  matchParent;
+		  nodeFactory: self defaultNodeFactory;
 		  yourself
+]
+
+{ #category : #initialization }
+ToComboBox >> defaultListElementSize [
+
+		^ 250@350
 ]
 
 { #category : #initialization }
 ToComboBox >> defaultListFrame [
 	| win |
 	win := ToPopupWindow new widget: self.
-	win root size: 250@350.
+	win root size: self defaultListElementSize.
 	win root addChild: self listElement.
 	^  win
 ]
@@ -118,35 +116,71 @@ ToComboBox >> defaultStartSelectedIndex [
 	
 ]
 
+{ #category : #accessing }
+ToComboBox >> headData: aData [
+
+	self headElement: (self headFactory cull: aData cull: self headElement)
+]
+
+{ #category : #accessing }
+ToComboBox >> headElement [
+
+	^ headElement
+]
+
+{ #category : #accessing }
+ToComboBox >> headElement: anElement [
+
+	headElement = anElement ifTrue: [ ^ self ].
+	headElement ifNotNil: [
+		headElement removeFromParent ].
+	headElement := anElement.
+	self addChild: headElement
+]
+
+{ #category : #accessing }
+ToComboBox >> headFactory [
+	" a Valuable can take 2 args, a selected data value and the previous button"
+
+	^ headFactory
+]
+
+{ #category : #accessing }
+ToComboBox >> headFactory: aValuable [
+	" a Valuable can take 2 args, a selected data value and the previous button"
+
+	headFactory := aValuable
+]
+
+{ #category : #accessing }
+ToComboBox >> headPlaceHolder [
+
+	^ headPlaceHolder
+]
+
+{ #category : #accessing }
+ToComboBox >> headPlaceHolder: anElement [
+
+	headPlaceHolder := anElement
+]
+
+{ #category : #'change hook' }
+ToComboBox >> headPlaceHolderChanged [
+]
+
 { #category : #initialization }
 ToComboBox >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
+	self privateData: self newDataCollection.
 	self layout: self defaultLayout.
-	listElement := self defaultListElement.
+	self headFactory: self defaultHeadFactory.
+	self listElement: self defaultListElement.
 	listFrame := self defaultListFrame.
-	self fitContent
-]
+	self fitContent.
 
-{ #category : #accessing }
-ToComboBox >> items [
-	
-	^ items
-]
-
-{ #category : #accessing }
-ToComboBox >> items: aCollection [
-
-	items := aCollection.
-	listElement list removeAll.
-	listElement list addAll: aCollection.
-]
-
-{ #category : #accessing }
-ToComboBox >> listData [
-
-	^ listElement data
+	self initializeDresser
 ]
 
 { #category : #accessing }
@@ -156,9 +190,27 @@ ToComboBox >> listElement [
 ]
 
 { #category : #accessing }
-ToComboBox >> listItems [
+ToComboBox >> listElement: aListElement [
 
-	^ listElement data
+	listElement := aListElement
+]
+
+{ #category : #initialization }
+ToComboBox >> listElementSize: aSize [
+
+	self listFrameSize: aSize
+]
+
+{ #category : #accessing }
+ToComboBox >> listFrame [
+
+	^ listFrame
+]
+
+{ #category : #initialization }
+ToComboBox >> listFrameSize: aSize [
+
+	self listFrame root size: aSize
 ]
 
 { #category : #accessing }
@@ -185,6 +237,78 @@ ToComboBox >> listPlaceHolder: anElement [
 	listPlaceHolder := anElement
 ]
 
+{ #category : #initialization }
+ToComboBox >> newDataCollection [
+
+	^ ToObservableCollection new
+]
+
+{ #category : #'private - notifications' }
+ToComboBox >> notifyChanged [
+
+	self dispatchEvent: ToComboBoxChangedEvent new
+]
+
+{ #category : #'private - notifications' }
+ToComboBox >> notifyDataChanged: anAnnouncement [
+
+	anAnnouncement interval ifEmpty: [ ^ self ].
+	self presentedData
+		replaceFrom: anAnnouncement interval first
+		to: anAnnouncement interval last
+		with: self data list
+		startingAt: anAnnouncement interval first
+]
+
+{ #category : #'private - notifications' }
+ToComboBox >> notifyDataInserted: anAnnouncement [
+
+	anAnnouncement interval ifEmpty: [ ^ self ].
+	self presentedData addAll: (self data
+			 copyFrom: anAnnouncement interval first
+			 to: anAnnouncement interval last)
+]
+
+{ #category : #'private - notifications' }
+ToComboBox >> notifyDataRemoved: anAnnouncement [
+
+	anAnnouncement interval ifEmpty: [ ^ self ].
+	self presentedData
+		removeFrom: anAnnouncement interval first
+		to: anAnnouncement interval last
+]
+
+{ #category : #displaying }
+ToComboBox >> popupEvent: anEvent [
+
+	self listFrame popupEvent: anEvent
+]
+
+{ #category : #displaying }
+ToComboBox >> popupOrCloseEvent: anEvent [
+
+	self listFrame isAttachedToSceneGraph
+		ifTrue: [ self closeEvent: anEvent ]
+		ifFalse: [ self popupEvent: anEvent ]
+]
+
+{ #category : #accessing }
+ToComboBox >> presentedData [
+
+	^ listElement data
+]
+
+{ #category : #'private - accessing' }
+ToComboBox >> privateData: anObservableCollection [
+
+	anObservableCollection whenAddChangeDo: [ :ann | self notifyDataInserted: ann ].
+	anObservableCollection whenRemoveChangeDo: [ :ann | self notifyDataRemoved: ann ].
+	anObservableCollection whenUpdateChangeDo: [ :ann | self notifyDataInserted: ann ].
+	data := anObservableCollection.
+
+	self notifyChanged
+]
+
 { #category : #accessing }
 ToComboBox >> selectedIndex [
 	
@@ -206,7 +330,7 @@ ToComboBox >> whenButtonPlaceHolderChangedDo: aBlock [
 
 	"set a block to perform after that the place holder has been changed, and its action performed"
 
-	self property: #buttonPlaceHolder whenChangedDo: aBlock
+	self property: #headPlaceHolder whenChangedDo: aBlock
 ]
 
 { #category : #'change hook' }

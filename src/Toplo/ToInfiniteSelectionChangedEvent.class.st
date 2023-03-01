@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSelectionChangedEvent,
+	#name : #ToInfiniteSelectionChangedEvent,
 	#superclass : #BlEvent,
 	#instVars : [
 		'newSelectedIndexes',
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToSelectionChangedEvent class >> from: oldArray to: newArray [
+ToInfiniteSelectionChangedEvent class >> from: oldArray to: newArray [
 	^ self new
 		oldSelectedIndexes: oldArray;
 		newSelectedIndexes: newArray;
@@ -17,27 +17,27 @@ ToSelectionChangedEvent class >> from: oldArray to: newArray [
 ]
 
 { #category : #accessing }
-ToSelectionChangedEvent >> newSelectedIndexes [
+ToInfiniteSelectionChangedEvent >> newSelectedIndexes [
 	^ newSelectedIndexes
 ]
 
 { #category : #accessing }
-ToSelectionChangedEvent >> newSelectedIndexes: anObject [
+ToInfiniteSelectionChangedEvent >> newSelectedIndexes: anObject [
 	newSelectedIndexes := anObject
 ]
 
 { #category : #accessing }
-ToSelectionChangedEvent >> oldSelectedIndexes [
+ToInfiniteSelectionChangedEvent >> oldSelectedIndexes [
 	^ oldSelectedIndexes
 ]
 
 { #category : #accessing }
-ToSelectionChangedEvent >> oldSelectedIndexes: anObject [
+ToInfiniteSelectionChangedEvent >> oldSelectedIndexes: anObject [
 	oldSelectedIndexes := anObject
 ]
 
 { #category : #sending }
-ToSelectionChangedEvent >> sendTo: anObject [
+ToInfiniteSelectionChangedEvent >> sendTo: anObject [
 
 	anObject selectionChanged: self
 ]

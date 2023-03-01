@@ -3,7 +3,9 @@ Class {
 	#superclass : #ToGeneralButtonDresser,
 	#instVars : [
 		'addedToParentHandler',
-		'removedFromParentHandler'
+		'removedFromParentHandler',
+		'downShortcut',
+		'combo'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
@@ -61,5 +63,9 @@ ToComboBoxHeadDresser >> whenAddedToParent: anElement [
 ToComboBoxHeadDresser >> whenRemovedFromParent: anElement [
 
 	anElement removeEventHandler: mouseDownHandler.
-	mouseDownHandler := nil
+	combo removeShortcut: downShortcut.
+
+	mouseDownHandler := nil.
+	downShortcut := nil.
+	combo := nil
 ]

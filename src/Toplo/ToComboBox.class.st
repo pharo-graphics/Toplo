@@ -26,6 +26,7 @@ ToComboBox >> clickOnDataEvent: aClickOnDataEvent [
 { #category : #displaying }
 ToComboBox >> closeEvent: anEvent [
 
+	self listFrame isAttachedToSceneGraph ifFalse: [ ^ self ].
 	self listFrame close
 ]
 
@@ -288,6 +289,7 @@ ToComboBox >> notifyDataRemoved: anAnnouncement [
 { #category : #displaying }
 ToComboBox >> popupEvent: anEvent [
 
+	self listFrame isAttachedToSceneGraph ifTrue: [ ^ self ].
 	self listFrame popupEvent: anEvent.
 	self listElement requestFocus
 ]

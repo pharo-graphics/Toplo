@@ -2,7 +2,9 @@ Class {
 	#name : #ToComboBoxDresser,
 	#superclass : #ToDresser,
 	#instVars : [
-		'clickOnDataHandler'
+		'clickOnDataHandler',
+		'crShortcut',
+		'escShortcut'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
@@ -11,9 +13,26 @@ Class {
 ToComboBoxDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
+
+	
+	anElement listElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
+	
 	clickOnDataHandler := BlEventHandler on: ToInfiniteClickOnDataEvent do: [ :event | anElement clickOnDataEvent: event ].
 	anElement listElement addEventHandler: clickOnDataHandler.
-	anElement listElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4)
+	
+	crShortcut := BlShortcutWithAction new
+			 combination: (BlKeyCombination primaryReturn or: BlKeyCombination return );
+			 action: [ anElement listElement selectedIndexes ifNotEmpty: [ :idxes | anElement selectIndex: idxes first. anElement closeEvent: nil ] ];
+			 name: 'Accept';
+			 yourself.
+	escShortcut := BlShortcutWithAction new
+			 combination: (BlKeyCombination escape );
+			 action: [ anElement closeEvent: nil. anElement requestFocus ];
+			 name: 'Escape';
+			 yourself.
+	anElement listElement addShortcut: crShortcut.
+	anElement listElement addShortcut: escShortcut.
+
 ]
 
 { #category : #'api - install/uninstall  hook' }

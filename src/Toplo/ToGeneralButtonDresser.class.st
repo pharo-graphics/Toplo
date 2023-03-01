@@ -152,9 +152,8 @@ ToGeneralButtonDresser >> leftPressed: anElement event: anEvent [
 ToGeneralButtonDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	
+
 	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
-	anElement border:  (BlBorder paint: theme button defaultBorderColor width: 1).
 	savedPressedBorder := nil.
 	savedPressedBackground := nil
 ]

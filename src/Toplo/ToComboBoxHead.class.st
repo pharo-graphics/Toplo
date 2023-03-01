@@ -7,5 +7,5 @@ Class {
 { #category : #'t - initialization dresser' }
 ToComboBoxHead >> defaultDresser [
 
-	^ super defaultDresser next: ToComboBoxHeadDresser new
+	^ ToComboBoxHeadDresser new
 ]

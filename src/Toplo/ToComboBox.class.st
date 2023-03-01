@@ -56,15 +56,16 @@ ToComboBox >> defaultDresser [
 { #category : #initialization }
 ToComboBox >> defaultHeadFactory [
 
-	^ [ :d | | pair head |
+	^ [ :d |
+	  | pair head |
 	  pair := ToPairedElement new
-		  hMatchParent;
-		  first: (ToLabel text: d);
-		  second: (ToButton new icon: (ToImage inner: (Smalltalk ui icons iconNamed: #bottom)));
-		  yourself.
-		head := ToComboBoxHead new.
-		head addChild: pair.
-		head ]
+		          hMatchParent;
+		          first: (ToLabel text: d);
+		          second: (ToButton new icon: (ToImage inner: (Smalltalk ui icons iconNamed: #bottom)));
+		          yourself.
+	  head := ToComboBoxHead new.
+	  head addChild: pair.
+	  head ]
 ]
 
 { #category : #initialization }

@@ -11,6 +11,7 @@ Class {
 { #category : #'api - install/uninstall  hook' }
 ToComboBoxHeadDresser >> installEventListenersIn: anElement [
 
+	super installEventListenersIn: anElement.
 	addedToParentHandler := BlEventHandler on: BlElementAddedToParentEvent do: [ self whenAddedToParent: anElement ].
 	removedFromParentHandler := BlEventHandler on: BlElementRemovedFromParentEvent do: [ self whenRemovedFromParent: anElement ].
 	anElement addEventHandler: addedToParentHandler.
@@ -21,6 +22,7 @@ ToComboBoxHeadDresser >> installEventListenersIn: anElement [
 ToComboBoxHeadDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
+	anElement padding: (BlInsets top: 2 left: 5 bottom: 2 right: 4 ).
 	anElement constraintsDo: [ :c |
 		c horizontal fitContent.
 		c vertical fitContent ]
@@ -35,6 +37,7 @@ ToComboBoxHeadDresser >> onUninstalledIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToComboBoxHeadDresser >> uninstallEventListenersIn: anElement [
 
+	super uninstallEventListenersIn: anElement.
 	anElement removeEventHandler: addedToParentHandler.
 	anElement removeEventHandler: removedFromParentHandler.
 	mouseDownHandler ifNotNil: [ anElement removeEventHandler: mouseDownHandler ].

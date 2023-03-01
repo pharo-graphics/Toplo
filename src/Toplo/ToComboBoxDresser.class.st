@@ -14,12 +14,12 @@ ToComboBoxDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 
-	
+
 	anElement listElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
-	
+
 	clickOnDataHandler := BlEventHandler on: ToInfiniteClickOnDataEvent do: [ :event | anElement clickOnDataEvent: event ].
 	anElement listElement addEventHandler: clickOnDataHandler.
-	
+
 	crShortcut := BlShortcutWithAction new
 			 combination: (BlKeyCombination primaryReturn or: BlKeyCombination return );
 			 action: [ anElement listElement selectedIndexes ifNotEmpty: [ :idxes | anElement selectIndex: idxes first. anElement closeEvent: nil ] ];
@@ -31,13 +31,14 @@ ToComboBoxDresser >> onInstalledIn: anElement [
 			 name: 'Escape';
 			 yourself.
 	anElement listElement addShortcut: crShortcut.
-	anElement listElement addShortcut: escShortcut.
-
+	anElement listElement addShortcut: escShortcut
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToComboBoxDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
-	anElement removeEventHandler: clickOnDataHandler
+	anElement listElement removeEventHandler: clickOnDataHandler.
+	anElement listElement removeShortcut: crShortcut.
+	anElement listElement removeShortcut: escShortcut
 ]

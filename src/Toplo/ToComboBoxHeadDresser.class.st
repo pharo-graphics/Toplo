@@ -51,12 +51,17 @@ ToComboBoxHeadDresser >> uninstallEventListenersIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToComboBoxHeadDresser >> whenAddedToParent: anElement [
 
-	| combo |
 	combo := anElement parent.
 	mouseDownHandler := (BlEventHandler
 			 on: BlMouseDownEvent
-			 do: [ :evt | combo popupOrCloseEvent: evt ]).
-	anElement addEventHandler: mouseDownHandler
+			 do: [ :evt | combo requestFocus. combo popupOrCloseEvent: evt ]).
+	anElement addEventHandler: mouseDownHandler.
+	downShortcut := BlShortcutWithAction new
+			 combination: BlKeyCombination arrowDown ;
+			 action: [ :event | event traceCr. combo popupEvent: event ];
+			 name: 'Popup';
+			 yourself.
+	combo addShortcut: downShortcut
 ]
 
 { #category : #'api - install/uninstall  hook' }

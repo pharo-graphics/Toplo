@@ -15,6 +15,18 @@ ToSandBox class >> example_2RootFramesInOBlWorld [
 		openInWorld
 ]
 
+{ #category : #combobox }
+ToSandBox class >> example_BasicComboBox [
+
+	| win combo |
+	win := ToInnerWindow new title: 'Combo box Example'.
+	combo := ToComboBox new.
+	combo data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
+	combo headData: combo data first.
+	win root addChild: combo.
+	win openInWorld
+]
+
 { #category : #album }
 ToSandBox class >> example_CodeEditorWithToAlbumModel [
 
@@ -870,20 +882,6 @@ ToSandBox class >> example_overlayWidow1 [
 { #category : #window }
 ToSandBox class >> example_rootFrame1 [
 	ToInnerWindow new title: 'Internal Frame example' ; openInOBlSpace 
-]
-
-{ #category : #combobox }
-ToSandBox class >> example_rootFrameWithComboBox [
-
-	| win combo |
-	win := ToInnerWindow new title: 'Combo box Example'.
-	combo := ToComboBox new.
-	combo data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
-	combo headData: combo data first.
-	win root addChild: combo.
-	"combo listElement scrollToIndex: 100."
-	combo listElementSize: 400@300.
-	win openInWorld
 ]
 
 { #category : #'context menu + menubar' }

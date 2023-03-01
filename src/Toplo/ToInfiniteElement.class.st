@@ -11,6 +11,14 @@ Class {
 	#category : #'Toplo-Core-Infinite'
 }
 
+{ #category : #'selection events' }
+ToInfiniteElement >> cherryPickIndex: anIndex [
+
+	self selectionStrategy dispatchSelectionChangedAfter: [
+		self selectionStrategy cherryPickIndex: anIndex ]
+		to: self
+]
+
 { #category : #private }
 ToInfiniteElement >> clickLauncher [
 
@@ -215,6 +223,22 @@ ToInfiniteElement >> scrollToIndex: anIndex [
 		ifFalse: [ self listElement scrollToPosition: aWish index ]"
 ]
 
+{ #category : #'selection events' }
+ToInfiniteElement >> selectIndex: anIndex [
+
+	self selectionStrategy dispatchSelectionChangedAfter: [
+		self selectionStrategy selectIndex: anIndex ]
+	to: self
+]
+
+{ #category : #'selection events' }
+ToInfiniteElement >> selectToIndex: anIndex [
+
+	self selectionStrategy dispatchSelectionChangedAfter: [
+		self selectionStrategy selectToIndex: anIndex ]
+	to: self
+]
+
 { #category : #accessing }
 ToInfiniteElement >> selectedIndexes [ 
 
@@ -240,22 +264,10 @@ ToInfiniteElement >> whenClickOnNodeAnnouncement: anAnnouncement [
 	| event |
 	event := anAnnouncement event.
 	event modifiers isShift ifTrue: [
-		^ self selectionStrategy
-			  dispatchSelectionChangedAfter: [
-				  self selectionStrategy selectToIndex:
-					  anAnnouncement holder layoutPosition ]
-			  to: self ].
+		^ self selectToIndex: anAnnouncement holder layoutPosition ].
 	event modifiers isPrimaryModifier ifTrue: [
-		^ self selectionStrategy
-			  dispatchSelectionChangedAfter: [
-				  self selectionStrategy cherryPickIndex:
-					  anAnnouncement holder layoutPosition ]
-			  to: self ].
-	self selectionStrategy
-		dispatchSelectionChangedAfter: [
-			self selectionStrategy selectIndex:
-				anAnnouncement holder layoutPosition ]
-		to: self.
+		^ self cherryPickIndex: anAnnouncement holder layoutPosition ].
+	self selectIndex: anAnnouncement holder layoutPosition.
 	self dispatchEvent: (ToInfiniteClickOnDataEvent new
 			 index: anAnnouncement holder layoutPosition;
 			 event: event;

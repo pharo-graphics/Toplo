@@ -19,7 +19,7 @@ Class {
 { #category : #events }
 ToComboBox >> clickOnDataEvent: aClickOnDataEvent [
 
-	self headData: (self presentedData at: aClickOnDataEvent index).
+	self selectIndex: aClickOnDataEvent index.
 	self closeEvent: aClickOnDataEvent event
 ]
 
@@ -177,9 +177,9 @@ ToComboBox >> initialize [
 	self layout: self defaultLayout.
 	self headFactory: self defaultHeadFactory.
 	self listElement: self defaultListElement.
-	listFrame := self defaultListFrame.
+	self listFrame: self defaultListFrame.
 	self fitContent.
-
+	self whenSelectedIndexChangedDo: [ self selectedIndexChanged ].
 	self initializeDresser
 ]
 
@@ -205,6 +205,12 @@ ToComboBox >> listElementSize: aSize [
 ToComboBox >> listFrame [
 
 	^ listFrame
+]
+
+{ #category : #initialization }
+ToComboBox >> listFrame: aWindow [
+
+	listFrame := aWindow
 ]
 
 { #category : #initialization }
@@ -281,7 +287,8 @@ ToComboBox >> notifyDataRemoved: anAnnouncement [
 { #category : #displaying }
 ToComboBox >> popupEvent: anEvent [
 
-	self listFrame popupEvent: anEvent
+	self listFrame popupEvent: anEvent.
+	self listElement requestFocus
 ]
 
 { #category : #displaying }
@@ -309,6 +316,14 @@ ToComboBox >> privateData: anObservableCollection [
 	self notifyChanged
 ]
 
+{ #category : #events }
+ToComboBox >> selectIndex: anIndex [
+
+	self headData: (self presentedData at: anIndex).
+	self listElement selectIndex: anIndex.
+	self selectedIndex: anIndex
+]
+
 { #category : #accessing }
 ToComboBox >> selectedIndex [
 	
@@ -326,7 +341,7 @@ ToComboBox >> selectedIndexChanged [
 ]
 
 { #category : #'change hook' }
-ToComboBox >> whenButtonPlaceHolderChangedDo: aBlock [
+ToComboBox >> whenHeadPlaceHolderChangedDo: aBlock [
 
 	"set a block to perform after that the place holder has been changed, and its action performed"
 

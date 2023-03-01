@@ -22,7 +22,7 @@ ToSandBox class >> example_BasicComboBox [
 	win := ToInnerWindow new title: 'Combo box Example'.
 	combo := ToComboBox new.
 	combo data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
-	combo headData: combo data first.
+	combo selectIndex: 1.
 	win root addChild: combo.
 	win openInWorld
 ]

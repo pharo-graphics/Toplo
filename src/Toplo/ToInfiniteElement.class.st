@@ -58,7 +58,7 @@ ToInfiniteElement >> defaultLayout [
 ]
 
 { #category : #initialization }
-ToInfiniteElement >> defaultNodeFactory [
+ToInfiniteElement >> defaultListNodeFactory [
 
 	^ self subclassResponsibility 
 ]
@@ -116,7 +116,7 @@ ToInfiniteElement >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	nodeFactory := self defaultNodeFactory.
+	nodeFactory := self defaultListNodeFactory.
 	selectionStrategy := self defaultSelectionStrategy.
 	self privateData: ToObservableCollection new.
 	self constraintsDo: [ :c |

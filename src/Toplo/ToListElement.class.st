@@ -17,7 +17,7 @@ ToListElement >> defaultDresser [
 ]
 
 { #category : #initialization }
-ToListElement >> defaultNodeFactory [
+ToListElement >> defaultListNodeFactory [
 
 	^ [ :d | ToLabeledNode new labelText: d ]
 ]

@@ -26,7 +26,7 @@ ToComboBoxHeadDresser >> onInstalledIn: anElement [
 	super onInstalledIn: anElement.
 	anElement padding: (BlInsets top: 2 left: 5 bottom: 2 right: 4 ).
 	anElement constraintsDo: [ :c |
-		c horizontal fitContent.
+		c horizontal matchParent.
 		c vertical fitContent ]
 ]
 

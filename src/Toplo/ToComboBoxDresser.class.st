@@ -14,7 +14,8 @@ ToComboBoxDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 
-
+	anElement vFitContent.
+	anElement hMatchParent.
 	anElement listElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
 
 	clickOnDataHandler := BlEventHandler on: ToInfiniteClickOnDataEvent do: [ :event | anElement clickOnDataEvent: event ].

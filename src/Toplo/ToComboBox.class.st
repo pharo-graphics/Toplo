@@ -9,9 +9,9 @@ Class {
 		'#listElement',
 		'#listPlaceHolder',
 		'#listFrame',
-		'#headFactory',
 		'#headElement',
-		'#headPlaceHolder'
+		'#headPlaceHolder',
+		'#headContentFactory'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
@@ -42,12 +42,6 @@ ToComboBox >> data: aCollection [
 	data := aCollection
 ]
 
-{ #category : #initialization }
-ToComboBox >> defaultButtonPlaceHolder [
-
-	^ ToLabel text: 'Button place holder'
-]
-
 { #category : #'t - initialization dresser' }
 ToComboBox >> defaultDresser [
 
@@ -55,18 +49,27 @@ ToComboBox >> defaultDresser [
 ]
 
 { #category : #initialization }
-ToComboBox >> defaultHeadFactory [
+ToComboBox >> defaultHeadContentFactory [
 
 	^ [ :d |
-	  | pair head |
-	  pair := ToPairedElement new
-		          hMatchParent;
-		          first: (ToLabel text: d);
-		          second: (ToButton new icon: (ToImage inner: (Smalltalk ui icons iconNamed: #bottom)));
-		          yourself.
-	  head := ToComboBoxHead new.
-	  head addChild: pair.
-	  head ]
+	  ToPairedElement new
+		  hMatchParent;
+		  first: (ToLabel text: d);
+		  beJustified;
+		  second: (ToButton new icon: (ToImage inner: (Smalltalk ui icons iconNamed: #bottom)));
+		  yourself ]
+]
+
+{ #category : #initialization }
+ToComboBox >> defaultHeadElement [
+
+	^ ToComboBoxHead new matchParent
+]
+
+{ #category : #initialization }
+ToComboBox >> defaultHeadPlaceHolder [
+
+	^ ToLabel text: 'Button place holder'
 ]
 
 { #category : #initialization }
@@ -74,7 +77,7 @@ ToComboBox >> defaultListElement [
 
 	^ ToListElement new
 		  matchParent;
-		  nodeFactory: self defaultNodeFactory;
+		  nodeFactory: self defaultListNodeFactory;
 		  yourself
 ]
 
@@ -94,13 +97,7 @@ ToComboBox >> defaultListFrame [
 ]
 
 { #category : #initialization }
-ToComboBox >> defaultListPlaceHolder [
-
-	^ ToLabel text: 'List place holder'
-]
-
-{ #category : #initialization }
-ToComboBox >> defaultNodeFactory [
+ToComboBox >> defaultListNodeFactory [
 
 	^ [ :d |
 	  ToLabeledNode new
@@ -108,6 +105,12 @@ ToComboBox >> defaultNodeFactory [
 		  hMatchParent;
 		  labelText: d;
 		  yourself ]
+]
+
+{ #category : #initialization }
+ToComboBox >> defaultListPlaceHolder [
+
+	^ ToLabel text: 'List place holder'
 ]
 
 { #category : #initialization }
@@ -119,9 +122,23 @@ ToComboBox >> defaultStartSelectedIndex [
 ]
 
 { #category : #accessing }
+ToComboBox >> headContentFactory [
+	" a Valuable can take 2 args, a selected data value and the previous button"
+
+	^ headContentFactory
+]
+
+{ #category : #accessing }
+ToComboBox >> headContentFactory: aValuable [
+	" a Valuable can take 2 args, a selected data value and the previous head"
+
+	headContentFactory := aValuable
+]
+
+{ #category : #accessing }
 ToComboBox >> headData: aData [
 
-	self headElement: (self headFactory cull: aData cull: self headElement)
+	self headElementContent: (self headContentFactory cull: aData cull: self headElement)
 ]
 
 { #category : #accessing }
@@ -141,17 +158,10 @@ ToComboBox >> headElement: anElement [
 ]
 
 { #category : #accessing }
-ToComboBox >> headFactory [
-	" a Valuable can take 2 args, a selected data value and the previous button"
+ToComboBox >> headElementContent: anElement [
 
-	^ headFactory
-]
-
-{ #category : #accessing }
-ToComboBox >> headFactory: aValuable [
-	" a Valuable can take 2 args, a selected data value and the previous button"
-
-	headFactory := aValuable
+	headElement childrenDo: [ :chld | chld removeFromParent ].
+	headElement addChild: anElement
 ]
 
 { #category : #accessing }
@@ -177,10 +187,10 @@ ToComboBox >> initialize [
 	super initialize.
 	self privateData: self newDataCollection.
 	self layout: self defaultLayout.
-	self headFactory: self defaultHeadFactory.
+	self headElement: self defaultHeadElement.
+	self headContentFactory: self defaultHeadContentFactory.
 	self listElement: self defaultListElement.
 	self listFrame: self defaultListFrame.
-	self fitContent.
 	self whenSelectedIndexChangedDo: [ self selectedIndexChanged ].
 	self initializeDresser
 ]

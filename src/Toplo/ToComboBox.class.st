@@ -51,13 +51,7 @@ ToComboBox >> defaultDresser [
 { #category : #initialization }
 ToComboBox >> defaultHeadContentFactory [
 
-	^ [ :d |
-	  ToPairedElement new
-		  hMatchParent;
-		  first: (ToLabel text: d);
-		  beJustified;
-		  second: (ToButton new icon: (ToImage inner: (Smalltalk ui icons iconNamed: #bottom)));
-		  yourself ]
+	^ [ :d | ToLabel text: d ]
 ]
 
 { #category : #initialization }
@@ -69,7 +63,7 @@ ToComboBox >> defaultHeadElement [
 { #category : #initialization }
 ToComboBox >> defaultHeadPlaceHolder [
 
-	^ ToLabel text: 'Button place holder'
+	^ ToLabel new
 ]
 
 { #category : #initialization }
@@ -160,8 +154,7 @@ ToComboBox >> headElement: anElement [
 { #category : #accessing }
 ToComboBox >> headElementContent: anElement [
 
-	headElement childrenDo: [ :chld | chld removeFromParent ].
-	headElement addChild: anElement
+	headElement contentElement: anElement
 ]
 
 { #category : #accessing }
@@ -188,10 +181,12 @@ ToComboBox >> initialize [
 	self privateData: self newDataCollection.
 	self layout: self defaultLayout.
 	self headElement: self defaultHeadElement.
+	self headPlaceHolder: self defaultHeadPlaceHolder.
 	self headContentFactory: self defaultHeadContentFactory.
 	self listElement: self defaultListElement.
 	self listFrame: self defaultListFrame.
 	self whenSelectedIndexChangedDo: [ self selectedIndexChanged ].
+	self selectIndex: 0.
 	self initializeDresser
 ]
 
@@ -329,9 +324,12 @@ ToComboBox >> privateData: anObservableCollection [
 	self notifyChanged
 ]
 
-{ #category : #events }
+{ #category : #accessing }
 ToComboBox >> selectIndex: anIndex [
 
+	anIndex isZero ifTrue: [
+		self useHeadPlaceHolder.
+		^ self ].
 	self headData: (self presentedData at: anIndex).
 	self listElement selectIndex: anIndex.
 	self selectedIndex: anIndex
@@ -351,6 +349,16 @@ ToComboBox >> selectedIndex: anInteger [
 
 { #category : #'change hook' }
 ToComboBox >> selectedIndexChanged [
+
+
+]
+
+{ #category : #accessing }
+ToComboBox >> useHeadPlaceHolder [
+
+	self headElementContent: self headPlaceHolder.
+	self listElement clearSelection.
+	self selectedIndex: 0
 ]
 
 { #category : #'change hook' }

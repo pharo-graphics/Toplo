@@ -19,6 +19,14 @@ ToInfiniteElement >> cherryPickIndex: anIndex [
 		to: self
 ]
 
+{ #category : #'selection events' }
+ToInfiniteElement >> clearSelection [
+
+	self selectionStrategy dispatchSelectionChangedAfter: [
+		self selectionStrategy clearSelection ]
+	to: self
+]
+
 { #category : #private }
 ToInfiniteElement >> clickLauncher [
 

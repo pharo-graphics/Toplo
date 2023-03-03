@@ -126,6 +126,19 @@ ToLabel >> hasText [
 	^ self text notNil and: [ self text isNotEmpty ]
 ]
 
+{ #category : #accessing }
+ToLabel >> horizontalAlignment [
+	<return: #BlElementAlignment>
+
+	^ self layout horizontalAlignment
+]
+
+{ #category : #accessing }
+ToLabel >> horizontalAlignment: aBlElementAlignment [
+
+	self layout horizontalAlignment: aBlElementAlignment
+]
+
 { #category : #initialization }
 ToLabel >> initialize [
 
@@ -236,6 +249,19 @@ ToLabel >> text: aBlTextOrString [
 
 	text = aBlTextOrString ifTrue: [ ^ self ].
 	text := (aBlTextOrString ifNil: [ self defaultText ]) asRopedText
+]
+
+{ #category : #accessing }
+ToLabel >> verticalAlignment [
+	<return: #BlElementAlignment>
+	
+	^ self layout verticalAlignment
+]
+
+{ #category : #accessing }
+ToLabel >> verticalAlignment: aBlElementAlignment [
+
+	self layout verticalAlignment: aBlElementAlignment
 ]
 
 { #category : #'change hook' }

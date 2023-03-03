@@ -70,7 +70,9 @@ ToComboBox >> defaultHeadPlaceHolder [
 ToComboBox >> defaultListElement [
 
 	^ ToListElement new
-		  matchParent;
+		  vFitContent;
+		  width: self defaultListElementSize x;
+		  constraintsDo: [ :c | c maxHeight: self defaultListElementSize y ];
 		  nodeFactory: self defaultListNodeFactory;
 		  yourself
 ]
@@ -107,7 +109,10 @@ ToComboBox >> defaultListPlaceHolder [
 
 	^ ToLabel new
 		  text: ('<< Empty >>' asRopedText foreground: Color gray);
-		  size: self defaultListElementSize;
+		  vFitContent;
+		  margin: (BlInsets all: 5);
+		  width: self defaultListElementSize x;
+		  constraintsDo: [ :c | c maxHeight: self defaultListElementSize y ];
 		  alignCenter;
 		  yourself
 ]
@@ -160,8 +165,7 @@ ToComboBox >> headElement [
 ToComboBox >> headElement: anElement [
 
 	headElement = anElement ifTrue: [ ^ self ].
-	headElement ifNotNil: [
-		headElement removeFromParent ].
+	headElement ifNotNil: [ headElement removeFromParent ].
 	headElement := anElement.
 	self addChild: headElement
 ]
@@ -181,7 +185,9 @@ ToComboBox >> headPlaceHolder [
 { #category : #accessing }
 ToComboBox >> headPlaceHolder: anElement [
 
-	headPlaceHolder := anElement
+	headPlaceHolder := anElement.
+	self selectedIndex ifNil: [^ self].
+	self selectedIndex isZero ifTrue: [ self useHeadPlaceHolder ]
 ]
 
 { #category : #displaying }
@@ -228,9 +234,7 @@ ToComboBox >> listElement [
 { #category : #accessing }
 ToComboBox >> listElement: aListElement [
 
-	listElement := aListElement.
-	listElement width: self defaultListElementSize x.
-	self listElement vFitContentLimited 
+	listElement := aListElement
 ]
 
 { #category : #initialization }
@@ -249,12 +253,6 @@ ToComboBox >> listFrame [
 ToComboBox >> listFrame: aWindow [
 
 	listFrame := aWindow
-]
-
-{ #category : #initialization }
-ToComboBox >> listFrameSize: aSize [
-
-	self listFrame root size: aSize
 ]
 
 { #category : #accessing }
@@ -278,6 +276,7 @@ ToComboBox >> listPlaceHolder [
 { #category : #accessing }
 ToComboBox >> listPlaceHolder: anElement [
 
+	listPlaceHolder ifNotNil: [ listPlaceHolder parentDo: [ :p |	listPlaceHolder removeFromParent. listPlaceHolder := anElement. self listFrame root addChild: listPlaceHolder. ^ self ] ].
 	listPlaceHolder := anElement
 ]
 

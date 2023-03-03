@@ -7,7 +7,9 @@ Class {
 { #category : #accessing }
 ToComboBoxHead >> contentElement: anElement [
 
-	self firstChild first: anElement
+	self firstChild removeFromParent.
+	anElement hMatchParent.
+	self addChild: anElement at: 1
 ]
 
 { #category : #'t - initialization dresser' }

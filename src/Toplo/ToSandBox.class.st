@@ -73,6 +73,40 @@ Here an example of a client for a method.
 
 ]
 
+{ #category : #combobox }
+ToSandBox class >> example_ComboBoxWithHeadPlaceHolder [
+
+	| win combo but |
+	win := ToInnerWindow new title: 'Combo box Example'.
+	combo := ToComboBox new.
+	but := ToButton new labelText: ('<< Fetch data >>' asRopedText foreground: Color gray).
+	but whenClickedDo: [ combo data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]) ].
+	combo headPlaceHolder: but.
+	win root addChild: combo.
+	win openInWorld
+]
+
+{ #category : #combobox }
+ToSandBox class >> example_ComboBoxWithListPlaceHolder [
+
+	| win combo placeHolder lab but |
+	win := ToInnerWindow new title: 'Combo box Example'.
+	combo := ToComboBox new.
+	placeHolder := ToElement new.
+	placeHolder layout: BlLinearLayout vertical.
+	placeHolder layout cellSpacing: 10.
+	placeHolder margin: (BlInsets all: 10).
+	placeHolder fitContent.
+	placeHolder addChild: (lab := ToLabel new text: ('No element - click to get data' asRopedText foreground: Color red)).
+	placeHolder addChild: (but := ToButton new labelText: 'Fetch data').
+	lab constraintsDo: [ :c | c linear horizontal alignCenter ].
+	but constraintsDo: [ :c | c linear horizontal alignCenter ].
+	but whenClickedDo: [ combo data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]) ].
+	combo listPlaceHolder: placeHolder.
+	win root addChild: combo.
+	win openInWorld
+]
+
 { #category : #list }
 ToSandBox class >> example_EditableListWithAllClassesNames [
 

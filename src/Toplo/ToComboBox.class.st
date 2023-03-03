@@ -11,7 +11,7 @@ Class {
 		'#listFrame',
 		'#headElement',
 		'#headPlaceHolder',
-		'#headContentFactory'
+		'#headContentFactory => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
@@ -63,7 +63,7 @@ ToComboBox >> defaultHeadElement [
 { #category : #initialization }
 ToComboBox >> defaultHeadPlaceHolder [
 
-	^ ToLabel new
+	^ ToLabel new text: ('<< No choice >>' asRopedText foreground: Color gray)
 ]
 
 { #category : #initialization }
@@ -85,7 +85,8 @@ ToComboBox >> defaultListElementSize [
 ToComboBox >> defaultListFrame [
 	| win |
 	win := ToPopupWindow new widget: self.
-	win root size: self defaultListElementSize.
+	win root layout: BlFrameLayout new.
+	win root fitContent.
 	win root addChild: self listElement.
 	^  win
 ]
@@ -104,7 +105,11 @@ ToComboBox >> defaultListNodeFactory [
 { #category : #initialization }
 ToComboBox >> defaultListPlaceHolder [
 
-	^ ToLabel text: 'List place holder'
+	^ ToLabel new
+		  text: ('<< Empty >>' asRopedText foreground: Color gray);
+		  size: self defaultListElementSize;
+		  alignCenter;
+		  yourself
 ]
 
 { #category : #initialization }
@@ -127,6 +132,16 @@ ToComboBox >> headContentFactory: aValuable [
 	" a Valuable can take 2 args, a selected data value and the previous head"
 
 	headContentFactory := aValuable
+]
+
+{ #category : #'change hook' }
+ToComboBox >> headContentFactoryChanged [
+
+	self selectedIndex isZero ifTrue: [
+		self useHeadPlaceHolder.
+		^ self ].
+	self headData: (self presentedData at: self selectedIndex).
+	self listElement selectIndex: self selectedIndex
 ]
 
 { #category : #accessing }
@@ -169,8 +184,19 @@ ToComboBox >> headPlaceHolder: anElement [
 	headPlaceHolder := anElement
 ]
 
-{ #category : #'change hook' }
-ToComboBox >> headPlaceHolderChanged [
+{ #category : #displaying }
+ToComboBox >> hideListPlaceHolder [
+
+	self listPlaceHolder parentDo: [ :p |
+		self listPlaceHolder removeFromParent.
+		self listFrame root addChild: self listElement]
+]
+
+{ #category : #displaying }
+ToComboBox >> hideOrShowListPlaceHolder [
+
+	self data ifEmpty: [ ^ self showListPlaceHolder ]. 
+	self hideListPlaceHolder.
 ]
 
 { #category : #initialization }
@@ -182,11 +208,14 @@ ToComboBox >> initialize [
 	self layout: self defaultLayout.
 	self headElement: self defaultHeadElement.
 	self headPlaceHolder: self defaultHeadPlaceHolder.
+	self listPlaceHolder: self defaultListPlaceHolder.
 	self headContentFactory: self defaultHeadContentFactory.
 	self listElement: self defaultListElement.
 	self listFrame: self defaultListFrame.
 	self whenSelectedIndexChangedDo: [ self selectedIndexChanged ].
+	self whenHeadContentFactoryChangedChangedDo: [ self headContentFactoryChanged  ].
 	self selectIndex: 0.
+	self showListPlaceHolder.
 	self initializeDresser
 ]
 
@@ -199,13 +228,15 @@ ToComboBox >> listElement [
 { #category : #accessing }
 ToComboBox >> listElement: aListElement [
 
-	listElement := aListElement
+	listElement := aListElement.
+	listElement width: self defaultListElementSize x.
+	self listElement vFitContentLimited 
 ]
 
 { #category : #initialization }
 ToComboBox >> listElementSize: aSize [
 
-	self listFrameSize: aSize
+	self listElement size: aSize
 ]
 
 { #category : #accessing }
@@ -277,6 +308,7 @@ ToComboBox >> notifyDataChanged: anAnnouncement [
 ToComboBox >> notifyDataInserted: anAnnouncement [
 
 	anAnnouncement interval ifEmpty: [ ^ self ].
+	self hideOrShowListPlaceHolder.
 	self presentedData addAll: (self data
 			 copyFrom: anAnnouncement interval first
 			 to: anAnnouncement interval last)
@@ -286,6 +318,7 @@ ToComboBox >> notifyDataInserted: anAnnouncement [
 ToComboBox >> notifyDataRemoved: anAnnouncement [
 
 	anAnnouncement interval ifEmpty: [ ^ self ].
+	self hideOrShowListPlaceHolder.
 	self presentedData
 		removeFrom: anAnnouncement interval first
 		to: anAnnouncement interval last
@@ -353,6 +386,14 @@ ToComboBox >> selectedIndexChanged [
 
 ]
 
+{ #category : #displaying }
+ToComboBox >> showListPlaceHolder [
+
+	self listPlaceHolder parentDo: [ :p | ^ self ].
+	self listFrame root addChild: self listPlaceHolder.
+	self listFrame root removeChild: self listElement
+]
+
 { #category : #accessing }
 ToComboBox >> useHeadPlaceHolder [
 
@@ -362,11 +403,11 @@ ToComboBox >> useHeadPlaceHolder [
 ]
 
 { #category : #'change hook' }
-ToComboBox >> whenHeadPlaceHolderChangedDo: aBlock [
+ToComboBox >> whenHeadContentFactoryChangedChangedDo: aBlock [
 
 	"set a block to perform after that the place holder has been changed, and its action performed"
 
-	self property: #headPlaceHolder whenChangedDo: aBlock
+	self property: #headContentFactory whenChangedDo: aBlock
 ]
 
 { #category : #'change hook' }

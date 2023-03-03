@@ -26,6 +26,17 @@ ToSandBox class >> example_BasicComboBox [
 	win openInWorld
 ]
 
+{ #category : #combobox }
+ToSandBox class >> example_BasicComboBoxWith5Elements [
+
+	| win combo |
+	win := ToInnerWindow new title: 'Combo box Example'.
+	combo := ToComboBox new.
+	combo data addAll: ((1 to: 5) collect: [:i | '#', i asString]).
+	win root addChild: combo.
+	win openInWorld
+]
+
 { #category : #album }
 ToSandBox class >> example_CodeEditorWithToAlbumModel [
 
@@ -166,6 +177,16 @@ ToSandBox class >> example_EditorWithoutSoftLine [
 	view withoutSoftLine.
 	view text: ((String loremIpsum: 100000) asRopedText fontName: 'Source Code Pro').
 	view openInOBlSpace
+]
+
+{ #category : #combobox }
+ToSandBox class >> example_EmptyComboBox [
+
+	| win combo |
+	win := ToInnerWindow new title: 'Combo box Example'.
+	combo := ToComboBox new.
+	win root addChild: combo.
+	win openInWorld
 ]
 
 { #category : #list }

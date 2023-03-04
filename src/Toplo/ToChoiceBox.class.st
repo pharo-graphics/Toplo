@@ -5,7 +5,7 @@ Class {
 	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait',
 	#instVars : [
 		'#group',
-		'#placeHolder => ObservableSlot',
+		'#placeholder => ObservableSlot',
 		'#menuButton',
 		'#data',
 		'#selectedData => ObservableSlot',
@@ -93,7 +93,7 @@ ToChoiceBox >> initialize [
 	group := ToCheckableGroup new.
 	self addChild: menuButton.
 	self whenSelectedDataChangedDo: [ self selectedDataChanged ].
-	self whenPlaceHolderChangedDo: [ self placeHolderChanged ].
+	self whenPlaceholderChangedDo: [ self placeholderChanged ].
 	group whenChangedDo: [ :ann |
 		ann checkedButtons do: [:e | self checked: e].
 		ann uncheckedButtons do:[:e | self unchecked: e ]].
@@ -178,23 +178,22 @@ ToChoiceBox >> notifyDataRemoved: anInterval [
 ]
 
 { #category : #accessing }
-ToChoiceBox >> placeHolder [
+ToChoiceBox >> placeholder [
 
-	^ placeHolder
+	^ placeholder
 ]
 
 { #category : #accessing }
-ToChoiceBox >> placeHolder: anElement [
+ToChoiceBox >> placeholder: anElement [
 
-	placeHolder := anElement
+	placeholder := anElement
 ]
 
 { #category : #'api - change hook' }
-ToChoiceBox >> placeHolderChanged [
+ToChoiceBox >> placeholderChanged [
 
 	self selectedData ifNotNil: [ ^ self ].
-	self usePlaceHolder 
-
+	self usePlaceholder
 ]
 
 { #category : #'private - accessing' }
@@ -235,11 +234,11 @@ ToChoiceBox >> selectedData: aData [
 ]
 
 { #category : #'api - change hook' }
-ToChoiceBox >> selectedDataChanged [ 
+ToChoiceBox >> selectedDataChanged [
 
 	| menuItem |
 	self selectedData ifNil: [
-		self usePlaceHolder.
+		self usePlaceholder.
 		^ self ].
 	menuItem := self menuItemFromData: self selectedData.
 	menuItem ifNil: [ ^ self error: 'A menu item should exist for the current selectedData' ].
@@ -264,18 +263,18 @@ ToChoiceBox >> unchecked: anItem [
 ]
 
 { #category : #'api - change hook' }
-ToChoiceBox >> usePlaceHolder [
+ToChoiceBox >> usePlaceholder [
 
-	menuButton label: self placeHolder.
+	menuButton label: self placeholder.
 	group uncheckAll
 ]
 
 { #category : #'api - change hook' }
-ToChoiceBox >> whenPlaceHolderChangedDo: aBlock [
+ToChoiceBox >> whenPlaceholderChangedDo: aBlock [
 
 	"set a block to perform after that the selected item has been changed, and its action performed"
 
-	self property: #placeHolder whenChangedDo: aBlock
+	self property: #placeholder whenChangedDo: aBlock
 ]
 
 { #category : #'api - change hook' }

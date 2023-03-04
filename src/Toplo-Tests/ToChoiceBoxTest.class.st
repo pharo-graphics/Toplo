@@ -7,17 +7,16 @@ Class {
 	#category : #'Toplo-Tests-Widget-ChoiceBox'
 }
 
-{ #category : #' tests' }
+{ #category : #asserting }
 ToChoiceBoxTest >> assertEmpty: aChoiceBox [
 
-	self assert: aChoiceBox group buttons isEmpty.	
-	self assert: aChoiceBox placeHolder isNil.
+	self assert: aChoiceBox group buttons isEmpty.
+	self assert: aChoiceBox placeholder isNil.
 	self assert: aChoiceBox menuButton label isNil.
 	self assert: aChoiceBox menuButton icon notNil.
 	self assert: aChoiceBox data isEmpty.
 	self assert: aChoiceBox selectedData isNil.
-	self assert: aChoiceBox dataToTextConverter notNil.
-
+	self assert: aChoiceBox dataToTextConverter notNil
 ]
 
 { #category : #' tests' }
@@ -78,12 +77,12 @@ ToChoiceBoxTest >> testNoSelectedData [
 	self assert: (cb group buttons noneSatisfy: [ :b | b isChecked ])
 ]
 
-{ #category : #' tests' }
-ToChoiceBoxTest >> testNoSelectedDataWithPlaceHolder [
+{ #category : #tests }
+ToChoiceBoxTest >> testNoSelectedDataWithPlaceholder [
 
 	| cb |
 	cb := ToChoiceBox new.
-	cb placeHolder: (ToLabel text: 'No choice').
+	cb placeholder: (ToLabel text: 'No choice').
 	self assert: cb selectedData isNil.
 	self assert: cb menuButton label text asString equals: 'No choice'.
 	self assert: (cb group buttons noneSatisfy: [ :b | b isChecked ]).
@@ -93,12 +92,12 @@ ToChoiceBoxTest >> testNoSelectedDataWithPlaceHolder [
 	self assert: (cb group buttons noneSatisfy: [ :b | b isChecked ])
 ]
 
-{ #category : #' tests' }
-ToChoiceBoxTest >> testNoSelectedDataWithPlaceHolder2 [
+{ #category : #tests }
+ToChoiceBoxTest >> testNoSelectedDataWithPlaceholder2 [
 
 	| cb d |
 	cb := ToChoiceBox new.
-	cb placeHolder: (ToLabel text: 'No choice').
+	cb placeholder: (ToLabel text: 'No choice').
 	d := { '#1'. '#2'. '#3'. '#4'. '#5' }.
 	cb data addAll: d.
 	cb selectedIndex: 1.
@@ -111,12 +110,12 @@ ToChoiceBoxTest >> testNoSelectedDataWithPlaceHolder2 [
 ]
 
 { #category : #' tests' }
-ToChoiceBoxTest >> testPlaceHolder [
+ToChoiceBoxTest >> testPlaceholder [
 
 	| cb |
 	cb := ToChoiceBox new.
 	cb data addAll: { 'A'. 'B'. }.
-	cb placeHolder: (ToLabel text: 'X').
+	cb placeholder: (ToLabel text: 'X').
 	self assert: cb menuButton label text asString equals: 'X'.
 	cb group buttons first check.
 	self assert: cb selectedData equals: 'A'.
@@ -127,14 +126,14 @@ ToChoiceBoxTest >> testPlaceHolder [
 	self assert: cb selectedData equals: 'A'
 ]
 
-{ #category : #' tests' }
-ToChoiceBoxTest >> testPlaceHolder2 [
+{ #category : #tests }
+ToChoiceBoxTest >> testPlaceholder2 [
 
 	| cb |
 	cb := ToChoiceBox new.
 	cb withUncheckingStrategy.
 	cb data addAll: { 'A'. 'B'. }.
-	cb placeHolder: (ToLabel text: 'X').
+	cb placeholder: (ToLabel text: 'X').
 	self assert: cb menuButton label text asString equals: 'X'.
 	cb group buttons first check.
 	self assert: cb selectedData equals: 'A'.
@@ -142,20 +141,17 @@ ToChoiceBoxTest >> testPlaceHolder2 [
 	" Unchecking strategy does allow unchecking "
 	cb group buttons first uncheck.
 	self assert: cb menuButton label text asString equals: 'X'.
-	self assert: cb selectedData isNil.
-
-	
-
+	self assert: cb selectedData isNil
 ]
 
-{ #category : #' tests' }
-ToChoiceBoxTest >> testPlaceHolder3 [
+{ #category : #tests }
+ToChoiceBoxTest >> testPlaceholder3 [
 
 	| cb |
 	cb := ToChoiceBox new.
 	cb withUncheckingStrategy.
 	cb data addAll: { 'A'. 'B'. }.
-	cb placeHolder: (ToLabel text: 'X').
+	cb placeholder: (ToLabel text: 'X').
 	self assert: cb menuButton label text asString equals: 'X'.
 	cb selectedData: 'A'.
 	self assert: cb group buttons first isChecked.
@@ -164,11 +160,8 @@ ToChoiceBoxTest >> testPlaceHolder3 [
 	" Unchecking strategy does allow unchecking "
 	cb selectedData: nil.
 	self assert: cb group buttons first isUnchecked.
-	self assert: cb menuButton label identicalTo: cb placeHolder.
-	self assert: cb selectedData isNil.
-
-	
-
+	self assert: cb menuButton label identicalTo: cb placeholder.
+	self assert: cb selectedData isNil
 ]
 
 { #category : #' tests' }
@@ -200,7 +193,7 @@ ToChoiceBoxTest >> testSelectedData2 [
 	self assert: cb group buttons first isChecked
 ]
 
-{ #category : #' tests' }
+{ #category : #tests }
 ToChoiceBoxTest >> testWith5StringData [
 
 	| cb d |
@@ -213,12 +206,12 @@ ToChoiceBoxTest >> testWith5StringData [
 	self assert: cb menuButton label text asString equals: d first.
 	self assert: cb menuButton subMenuWindow root children size equals: 5.
 	self assert: cb group buttons size equals: 5.
-	self assert: cb placeHolder isNil.
+	self assert: cb placeholder isNil.
 	cb data removeAll.
 	self assertEmpty: cb
 ]
 
-{ #category : #' tests' }
+{ #category : #tests }
 ToChoiceBoxTest >> testWithOneStringData [
 
 	| cb d |
@@ -231,7 +224,7 @@ ToChoiceBoxTest >> testWithOneStringData [
 	self assert: cb menuButton label text asString equals: d.
 	self assert: cb menuButton subMenuWindow root children size equals: 1.
 	self assert: cb group buttons size equals: 1.
-	self assert: cb placeHolder isNil
+	self assert: cb placeholder isNil
 ]
 
 { #category : #' tests' }
@@ -255,12 +248,12 @@ ToChoiceBoxTest >> testWithStrictStrategy [
 	self assert: cb group buttons first isChecked.
 	self assert: cb group buttons second isUnchecked.
 	self assert: cb group buttons third isUnchecked.
-	self assert: cb placeHolder isNil.
+	self assert: cb placeholder isNil.
 	cb group buttons first uncheck.
 	self assert: cb group buttons first isChecked
 ]
 
-{ #category : #' tests' }
+{ #category : #tests }
 ToChoiceBoxTest >> testWithUncheckStrategy [
 
 	| cb d1 d2 d3 |
@@ -281,7 +274,7 @@ ToChoiceBoxTest >> testWithUncheckStrategy [
 	self assert: cb group buttons first isChecked.
 	self assert: cb group buttons second isUnchecked.
 	self assert: cb group buttons third isUnchecked.
-	self assert: cb placeHolder isNil.
+	self assert: cb placeholder isNil.
 	cb group buttons first uncheck.
 	self assert: cb menuButton label isNil
 ]

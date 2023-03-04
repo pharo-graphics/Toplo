@@ -74,7 +74,7 @@ Here an example of a client for a method.
 ]
 
 { #category : #combobox }
-ToSandBox class >> example_ComboBoxWithHeadPlaceHolder [
+ToSandBox class >> example_ComboBoxWithHeadPlaceholder [
 
 	| win combo but head |
 	win := ToInnerWindow new title: 'Combo box Example'.
@@ -84,13 +84,13 @@ ToSandBox class >> example_ComboBoxWithHeadPlaceHolder [
 	head := ToElement new layout: BlFrameLayout new.
 	head vFitContent.
 	head addChild: but.
-	combo headPlaceHolder: head.
+	combo headPlaceholder: head.
 	win root addChild: combo.
 	win openInWorld
 ]
 
 { #category : #combobox }
-ToSandBox class >> example_ComboBoxWithListPlaceHolder [
+ToSandBox class >> example_ComboBoxWithListPlaceholder [
 
 	| win combo placeHolder lab but |
 	win := ToInnerWindow new title: 'Combo box Example'.
@@ -105,7 +105,7 @@ ToSandBox class >> example_ComboBoxWithListPlaceHolder [
 	lab constraintsDo: [ :c | c linear horizontal alignCenter ].
 	but constraintsDo: [ :c | c linear horizontal alignCenter ].
 	but whenClickedDo: [ combo data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]) ].
-	combo listPlaceHolder: placeHolder.
+	combo listPlaceholder: placeHolder.
 	win root addChild: combo.
 	win openInWorld
 ]
@@ -511,28 +511,28 @@ ToSandBox class >> example_anchoredWidow1 [
 ]
 
 { #category : #choicebox }
-ToSandBox class >> example_choiceBoxWithPlaceHolder [
+ToSandBox class >> example_choiceBoxWithPlaceholder [
 
 	| win choicebox |
 	win := ToInnerWindow new title: 'Choice box Example'.
 
 	choicebox := ToChoiceBox new.
 	choicebox data addAll: { 'OS-X'. 'Windows'. }.
-	choicebox placeHolder: (ToLabel text: ('Invalid choice' asRopedText foreground: Color red)).
+	choicebox placeholder: (ToLabel text: ('Invalid choice' asRopedText foreground: Color red)).
 
 	win root addChild: choicebox.
 	win openInWorld
 ]
 
 { #category : #choicebox }
-ToSandBox class >> example_choiceBoxWithPlaceHolderWithUncheckingStrategy [
+ToSandBox class >> example_choiceBoxWithPlaceholderWithUncheckingStrategy [
 
 	| win choicebox t |
 	win := ToInnerWindow new title: 'Some host'.
 	choicebox := ToChoiceBox new hMatchParent.
 	choicebox withUncheckingStrategy.
 	t := 'No selection...' asRopedText , String cr asRopedText, ('Please choose an host from the list' asRopedText foreground: Color lightGray; fontSize: 12).
-	choicebox placeHolder: (ToLabel new beMultiLine; text: t).
+	choicebox placeholder: (ToLabel new beMultiLine; text: t).
 	choicebox dataToTextConverter: [ :assoc | assoc key ].
 	choicebox whenSelectedDataChangedDo: [ self inform: choicebox selectedData value asString].
 	choicebox data addAll: {
@@ -571,7 +571,7 @@ ToSandBox class >> example_choiceBoxWithStructuredData [
 	choicebox data addAll: {
 			('Morphic SDL' -> BlMorphicWindowHost).
 			('Native SDL' -> BlOSWindowSDL2Host) }.
-	choicebox placeHolder: (ToLabel text: 'Place holder').
+	choicebox placeholder: (ToLabel text: 'Place holder').
 	choicebox selectedIndex: 2.
 	choicebox whenSelectedDataChangedDo: [
 		self inform: choicebox selectedData asString ].

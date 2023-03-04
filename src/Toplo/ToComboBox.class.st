@@ -7,10 +7,10 @@ Class {
 		'#data',
 		'#selectedIndex => ObservableSlot',
 		'#listElement',
-		'#listPlaceHolder',
+		'#listPlaceholder',
 		'#listFrame',
 		'#headElement',
-		'#headPlaceHolder',
+		'#headPlaceholder',
 		'#headContentFactory => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-ComboBox'
@@ -62,7 +62,7 @@ ToComboBox >> defaultHeadElement [
 ]
 
 { #category : #initialization }
-ToComboBox >> defaultHeadPlaceHolder [
+ToComboBox >> defaultHeadPlaceholder [
 
 	^ ToLabel new text: ('<< No choice >>' asRopedText foreground: Color gray)
 ]
@@ -106,7 +106,7 @@ ToComboBox >> defaultListNodeFactory [
 ]
 
 { #category : #initialization }
-ToComboBox >> defaultListPlaceHolder [
+ToComboBox >> defaultListPlaceholder [
 
 	^ ToLabel new
 		  text: ('<< Empty >>' asRopedText foreground: Color gray);
@@ -144,7 +144,7 @@ ToComboBox >> headContentFactory: aValuable [
 ToComboBox >> headContentFactoryChanged [
 
 	self selectedIndex isZero ifTrue: [
-		self useHeadPlaceHolder.
+		self useHeadPlaceholder.
 		^ self ].
 	self headData: (self presentedData at: self selectedIndex).
 	self listElement selectIndex: self selectedIndex
@@ -178,32 +178,32 @@ ToComboBox >> headElementContent: anElement [
 ]
 
 { #category : #accessing }
-ToComboBox >> headPlaceHolder [
+ToComboBox >> headPlaceholder [
 
-	^ headPlaceHolder
+	^ headPlaceholder
 ]
 
 { #category : #accessing }
-ToComboBox >> headPlaceHolder: anElement [
+ToComboBox >> headPlaceholder: anElement [
 
-	headPlaceHolder := anElement.
+	headPlaceholder := anElement.
 	self selectedIndex ifNil: [^ self].
-	self selectedIndex isZero ifTrue: [ self useHeadPlaceHolder ]
+	self selectedIndex isZero ifTrue: [ self useHeadPlaceholder ]
 ]
 
 { #category : #displaying }
-ToComboBox >> hideListPlaceHolder [
+ToComboBox >> hideListPlaceholder [
 
-	self listPlaceHolder parentDo: [ :p |
-		self listPlaceHolder removeFromParent.
+	self listPlaceholder parentDo: [ :p |
+		self listPlaceholder removeFromParent.
 		self listFrame root addChild: self listElement]
 ]
 
 { #category : #displaying }
-ToComboBox >> hideOrShowListPlaceHolder [
+ToComboBox >> hideOrShowListPlaceholder [
 
-	self data ifEmpty: [ ^ self showListPlaceHolder ]. 
-	self hideListPlaceHolder.
+	self data ifEmpty: [ ^ self showListPlaceholder ].
+	self hideListPlaceholder
 ]
 
 { #category : #initialization }
@@ -214,15 +214,15 @@ ToComboBox >> initialize [
 	self privateData: self newDataCollection.
 	self layout: self defaultLayout.
 	self headElement: self defaultHeadElement.
-	self headPlaceHolder: self defaultHeadPlaceHolder.
-	self listPlaceHolder: self defaultListPlaceHolder.
+	self headPlaceholder: self defaultHeadPlaceholder.
+	self listPlaceholder: self defaultListPlaceholder.
 	self headContentFactory: self defaultHeadContentFactory.
 	self listElement: self defaultListElement.
 	self listFrame: self defaultListFrame.
 	self whenSelectedIndexChangedDo: [ self selectedIndexChanged ].
 	self whenHeadContentFactoryChangedChangedDo: [ self headContentFactoryChanged  ].
 	self selectIndex: 0.
-	self showListPlaceHolder.
+	self showListPlaceholder.
 	self initializeDresser
 ]
 
@@ -269,21 +269,21 @@ ToComboBox >> listNodeFactory: aBlock [
 ]
 
 { #category : #accessing }
-ToComboBox >> listPlaceHolder [
+ToComboBox >> listPlaceholder [
 
-	^ listPlaceHolder
+	^ listPlaceholder
 ]
 
 { #category : #accessing }
-ToComboBox >> listPlaceHolder: anElement [
+ToComboBox >> listPlaceholder: anElement [
 
-	listPlaceHolder ifNotNil: [
-		listPlaceHolder parentDo: [ :p |
-			listPlaceHolder removeFromParent.
-			listPlaceHolder := anElement.
-			self listFrame root addChild: listPlaceHolder.
+	listPlaceholder ifNotNil: [
+		listPlaceholder parentDo: [ :p |
+			listPlaceholder removeFromParent.
+			listPlaceholder := anElement.
+			self listFrame root addChild: listPlaceholder.
 			^ self ] ].
-	listPlaceHolder := anElement
+	listPlaceholder := anElement
 ]
 
 { #category : #initialization }
@@ -313,7 +313,7 @@ ToComboBox >> notifyDataChanged: anAnnouncement [
 ToComboBox >> notifyDataInserted: anAnnouncement [
 
 	anAnnouncement interval ifEmpty: [ ^ self ].
-	self hideOrShowListPlaceHolder.
+	self hideOrShowListPlaceholder.
 	self presentedData addAll: (self data
 			 copyFrom: anAnnouncement interval first
 			 to: anAnnouncement interval last)
@@ -323,7 +323,7 @@ ToComboBox >> notifyDataInserted: anAnnouncement [
 ToComboBox >> notifyDataRemoved: anAnnouncement [
 
 	anAnnouncement interval ifEmpty: [ ^ self ].
-	self hideOrShowListPlaceHolder.
+	self hideOrShowListPlaceholder.
 	self presentedData
 		removeFrom: anAnnouncement interval first
 		to: anAnnouncement interval last
@@ -366,7 +366,7 @@ ToComboBox >> privateData: anObservableCollection [
 ToComboBox >> selectIndex: anIndex [
 
 	anIndex isZero ifTrue: [
-		self useHeadPlaceHolder.
+		self useHeadPlaceholder.
 		^ self ].
 	self headData: (self presentedData at: anIndex).
 	self listElement selectIndex: anIndex.
@@ -392,17 +392,17 @@ ToComboBox >> selectedIndexChanged [
 ]
 
 { #category : #displaying }
-ToComboBox >> showListPlaceHolder [
+ToComboBox >> showListPlaceholder [
 
-	self listPlaceHolder parentDo: [ :p | ^ self ].
-	self listFrame root addChild: self listPlaceHolder.
+	self listPlaceholder parentDo: [ :p | ^ self ].
+	self listFrame root addChild: self listPlaceholder.
 	self listFrame root removeChild: self listElement
 ]
 
 { #category : #accessing }
-ToComboBox >> useHeadPlaceHolder [
+ToComboBox >> useHeadPlaceholder [
 
-	self headElementContent: self headPlaceHolder.
+	self headElementContent: self headPlaceholder.
 	self listElement clearSelection.
 	self selectedIndex: 0
 ]

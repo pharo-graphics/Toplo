@@ -223,9 +223,9 @@ ToInfiniteElement >> privateData: aCollection [
 ToInfiniteElement >> scrollToIndex: anIndex [
 	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
 	which can, for example, be a data source position or child index"
-	
+
 	self scrollToPosition: anIndex.
-	
+
 	"aWish smooth
 		ifTrue: [ self listElement smoothScrollToPosition: aWish index ]
 		ifFalse: [ self listElement scrollToPosition: aWish index ]"

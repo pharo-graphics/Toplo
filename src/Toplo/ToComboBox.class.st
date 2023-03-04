@@ -20,7 +20,8 @@ Class {
 ToComboBox >> clickOnDataEvent: aClickOnDataEvent [
 
 	self selectIndex: aClickOnDataEvent index.
-	self closeEvent: aClickOnDataEvent event
+	self closeEvent: aClickOnDataEvent event.
+	self requestFocus
 ]
 
 { #category : #displaying }
@@ -72,7 +73,7 @@ ToComboBox >> defaultListElement [
 	^ ToListElement new
 		  vFitContent;
 		  width: self defaultListElementSize x;
-		  constraintsDo: [ :c | c maxHeight: self defaultListElementSize y ];
+		  maxHeight: self defaultListElementSize y;
 		  nodeFactory: self defaultListNodeFactory;
 		  yourself
 ]
@@ -276,7 +277,12 @@ ToComboBox >> listPlaceHolder [
 { #category : #accessing }
 ToComboBox >> listPlaceHolder: anElement [
 
-	listPlaceHolder ifNotNil: [ listPlaceHolder parentDo: [ :p |	listPlaceHolder removeFromParent. listPlaceHolder := anElement. self listFrame root addChild: listPlaceHolder. ^ self ] ].
+	listPlaceHolder ifNotNil: [
+		listPlaceHolder parentDo: [ :p |
+			listPlaceHolder removeFromParent.
+			listPlaceHolder := anElement.
+			self listFrame root addChild: listPlaceHolder.
+			^ self ] ].
 	listPlaceHolder := anElement
 ]
 

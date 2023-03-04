@@ -66,7 +66,7 @@ ToComboBoxHeadDresser >> whenAddedToParent: anElement [
 	anElement addEventHandler: mouseDownHandler.
 	downShortcut := BlShortcutWithAction new
 			 combination: BlKeyCombination arrowDown ;
-			 action: [ :event | event traceCr. combo popupEvent: event ];
+			 action: [ :event | combo popupEvent: event ];
 			 name: 'Popup';
 			 yourself.
 	combo addShortcut: downShortcut

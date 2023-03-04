@@ -76,12 +76,15 @@ Here an example of a client for a method.
 { #category : #combobox }
 ToSandBox class >> example_ComboBoxWithHeadPlaceHolder [
 
-	| win combo but |
+	| win combo but head |
 	win := ToInnerWindow new title: 'Combo box Example'.
 	combo := ToComboBox new.
 	but := ToButton new labelText: ('<< Fetch data >>' asRopedText foreground: Color gray).
 	but whenClickedDo: [ combo data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]) ].
-	combo headPlaceHolder: but.
+	head := ToElement new layout: BlFrameLayout new.
+	head vFitContent.
+	head addChild: but.
+	combo headPlaceHolder: head.
 	win root addChild: combo.
 	win openInWorld
 ]

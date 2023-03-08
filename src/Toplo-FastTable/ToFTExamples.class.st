@@ -13,7 +13,7 @@ ToFTExamples class >> example1 [
 	<example>
 	| list |
 
-	list := ToFTTableMorph new
+	list := ToFTTableElement new
 		extent: 300@300;
 		dataSource: (ToFTExampleDataSource elements: (Smalltalk allClassesAndTraits
 			sorted: [ :a :b | a name < b name]));
@@ -27,7 +27,7 @@ ToFTExamples class >> example2 [
 	<example>
 	| list |
 
-	list := ToFTTableMorph new
+	list := ToFTTableElement new
 		extent: 300@300;
 		dataSource: (ToFTExampleDataSource elements: ((Smalltalk allClassesAndTraits
 			sorted: [ :a :b | a name < b name])
@@ -43,7 +43,7 @@ ToFTExamples class >> exampleDragAndDrop1 [
 	<example>
 	| list1 list2 |
 
-	list1 := ToFTTableMorph new
+	list1 := ToFTTableElement new
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		addColumn: (ToFTColumn id: 'Drag from me!');
@@ -51,7 +51,7 @@ ToFTExamples class >> exampleDragAndDrop1 [
 		dragEnabled: true;
 		yourself.
 
-	list2 := ToFTTableMorph new
+	list2 := ToFTTableElement new
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		addColumn: (ToFTColumn id: 'Drop into me!');
@@ -82,7 +82,7 @@ ToFTExamples class >> exampleDragAndDrop2 [
 	<example>
 	| list1 list2 |
 
-	list1 := ToFTTableMorph new
+	list1 := ToFTTableElement new
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		addColumn: (ToFTColumn id: 'Drag from me!');
@@ -91,7 +91,7 @@ ToFTExamples class >> exampleDragAndDrop2 [
 		beMultipleSelection;
 		yourself.
 
-	list2 := ToFTTableMorph new
+	list2 := ToFTTableElement new
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		addColumn: (ToFTColumn id: 'Drop into me!');
@@ -123,7 +123,7 @@ ToFTExamples class >> exampleDragAndDrop3 [
 	<example>
 	| list1 list2 |
 
-	list1 := ToFTTableMorph new
+	list1 := ToFTTableElement new
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		addColumn: (ToFTColumn id: 'Drag from me!');
@@ -132,7 +132,7 @@ ToFTExamples class >> exampleDragAndDrop3 [
 		beMultipleSelection;
 		yourself.
 
-	list2 := ToFTTableMorph new
+	list2 := ToFTTableElement new
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		addColumn: (ToFTColumn id: 'Drop into me!');
@@ -163,7 +163,7 @@ ToFTExamples class >> exampleDragAndDrop4 [
 	<example>
 	| list |
 
-	list := ToFTTableMorph new
+	list := ToFTTableElement new
 		extent: 300@300;
 		addColumn: (ToFTColumn id: 'Drag from & to me!');
 		dataSource: (ToFTExampleDropDataSource elements: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]));
@@ -250,7 +250,7 @@ ToFTExamples class >> exampleEditableList1 [
 	<example>
 	| list data |
 	data := OrderedCollection with: 'A' with: 'B' with: 'C'.
-	list := ToFTTableMorph new
+	list := ToFTTableElement new
 		extent: 300 @ 550;
 		dataSource: (ToFTExampleDropDataSource new elements: data);
 		selectIndex: 1;
@@ -285,7 +285,7 @@ ToFTExamples class >> exampleEditableList1 [
 ToFTExamples class >> exampleFilterableList [
 	<example>
 	| list |
-	list := ToFTTableMorph new
+	list := ToFTTableElement new
 		extent: 300 @ 300;
 		dataSource:
 			(ToFTExampleDataSource elements: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]));
@@ -301,7 +301,7 @@ ToFTExamples class >> exampleList1 [
 	<sampleInstance>
 	| list |
 
-	list := ToFTTableMorph new
+	list := ToFTTableElement new
 		extent: 300@550;
 		dataSource: (ToFTExampleMethodListDataSource for: Object);
 		yourself.
@@ -316,7 +316,7 @@ ToFTExamples class >> exampleList2 [
 	<example>
 	<sampleInstance>
 	| list |
-	list := ToFTTableMorph new
+	list := ToFTTableElement new
 		extent: 300 @ 550;
 		dataSource: (ToFTExampleMethodListDataSource for: Object);
 		selectIndex: 42;
@@ -336,7 +336,7 @@ ToFTExamples class >> exampleList3 [
 	<example>
 	<sampleInstance>
 	| list |
-	list := ToFTTableMorph new
+	list := ToFTTableElement new
 		extent: 300 @ 550;
 		dataSource: (ToFTExampleMethodListDataSource for: Object);
 		selectIndex: 42;
@@ -357,7 +357,7 @@ ToFTExamples class >> exampleList4 [
 	<sampleInstance>
 	<example>
 	| list |
-	list := ToFTTableMorph new
+	list := ToFTTableElement new
 		extent: 300 @ 550;
 		dataSource: (ToFTExampleMethodListDataSource for: Object);
 		selectIndex: 42;
@@ -382,7 +382,7 @@ ToFTExamples class >> exampleList5 [
 	<sampleInstance>
 	<example>
 	| list |
-	list := ToFTTableMorph new
+	list := ToFTTableElement new
 		extent: 300 @ 550;
 		dataSource: (ToFTExampleMethodListDataSource for: Object);
 		selectIndexes: #(42 43);
@@ -399,7 +399,7 @@ ToFTExamples class >> exampleList5 [
 ToFTExamples class >> exampleListWithExplicitFilter [
 	<example>
 	| list |
-	list := ToFTTableMorph new
+	list := ToFTTableElement new
 		extent: 300 @ 300;
 		dataSource: (ToFTExampleDataSource elements: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]));
 		enableFilter;
@@ -412,7 +412,7 @@ ToFTExamples class >> exampleListWithExplicitFilter [
 ToFTExamples class >> exampleListWithExplicitFilterAndActionButton [
 	<example>
 	| list |
-	list := ToFTTableMorph new
+	list := ToFTTableElement new
 		extent: 300 @ 300;
 		dataSource:
 			(ToFTExampleDataSource
@@ -427,7 +427,7 @@ ToFTExamples class >> exampleListWithExplicitFilterAndActionButton [
 ToFTExamples class >> exampleListWithExplicitFilterAndActionButton2 [
 	<example>
 	| list |
-	list := ToFTTableMorph new
+	list := ToFTTableElement new
 		extent: 300 @ 300;
 		dataSource: (ToFTExampleDataSource elements: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]));
 		enableFilterWithAction: [ :dataSource :searchPattern :selectedRow | selectedRow browse ];
@@ -439,7 +439,7 @@ ToFTExamples class >> exampleListWithExplicitFilterAndActionButton2 [
 ToFTExamples class >> exampleListWithExplicitSearch [
 	<example>
 	| list |
-	list := ToFTTableMorph new
+	list := ToFTTableElement new
 		extent: 300 @ 300;
 		dataSource:
 			(ToFTExampleDataSource elements: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]));
@@ -455,7 +455,7 @@ ToFTExamples class >> exampleListWithGenerator [
 	<sampleInstance>
 	| list |
 
-	list := ToFTTableMorph new
+	list := ToFTTableElement new
 		extent: 300@550;
 		dataSource: (ToFTExampleMethodListGeneratorDataSource for: Object);
 		yourself.
@@ -470,7 +470,7 @@ ToFTExamples class >> exampleListWithHeader [
 	<example>
 	<sampleInstance>
 	| list |
-	list := ToFTTableMorph new
+	list := ToFTTableElement new
 		extent: 300 @ 550;
 		addColumn: (ToFTColumn id: 'Method name');
 		dataSource: (ToFTExampleMethodListDataSource for: Object);
@@ -483,7 +483,7 @@ ToFTExamples class >> exampleListWithHeader [
 ToFTExamples class >> exampleOutline1 [
 	<example>
 	| list |
-	list := ToFTTableMorph new
+	list := ToFTTableElement new
 		extent: 200 @ 400;
 		dataSource:
 			(ToFTOutlineDataSource
@@ -504,7 +504,7 @@ ToFTExamples class >> exampleOutline2 [
 		withAll:
 			(Morph allSubclasses
 				collect: [ :each | each allSubclasses sorted: [ :a :b | a name < b name ] ]).
-	list := ToFTTableMorph new
+	list := ToFTTableElement new
 		extent: 300 @ 300;
 		dataSource: (ToFTOutlineDataSource items: data).
 	list openInWindow
@@ -516,7 +516,7 @@ ToFTExamples class >> exampleRowNotHomogeneousList1 [
 	<example>
 	| list |
 
-	list := ToFTTableMorph new
+	list := ToFTTableElement new
 		extent: 300@550;
 		beRowNotHomogeneous;
 		dataSource: (ToFTExampleMethodNotHomogeneousListDataSource for: Object);
@@ -532,7 +532,7 @@ ToFTExamples class >> exampleSortableList [
 	<example>
 	<sampleInstance>
 	| list |
-	list := ToFTTableMorph new
+	list := ToFTTableElement new
 		extent: 300 @ 550;
 		addColumn:
 			((ToFTColumn id: 'Class name')
@@ -551,7 +551,7 @@ ToFTExamples class >> exampleSortableList2 [
 	<example>
 	<sampleInstance>
 	| list |
-	list := ToFTTableMorph new
+	list := ToFTTableElement new
 		extent: 300 @ 550;
 		addColumn:
 			((ToFTColumn id: 'Class name')
@@ -570,7 +570,7 @@ ToFTExamples class >> exampleSortableTable1 [
 	<sampleInstance>
 	<example>
 	| table |
-	table := ToFTTableMorph new
+	table := ToFTTableElement new
 		extent: 650 @ 500;
 		addColumn:
 			((ToFTColumn id: 'Name')
@@ -603,7 +603,7 @@ ToFTExamples class >> exampleSortableTable2 [
 	<sampleInstance>
 	<example>
 	| table |
-	table := ToFTTableMorph new
+	table := ToFTTableElement new
 		extent: 650 @ 500;
 		addColumn:
 			((ToFTColumn id: 'Icon')
@@ -637,7 +637,7 @@ ToFTExamples class >> exampleSortableTable3 [
 	<sampleInstance>
 	<example>
 	| table |
-	table := ToFTTableMorph new
+	table := ToFTTableElement new
 		extent: 650 @ 500;
 		addColumn:
 			((ToFTColumn id: 'Icon')
@@ -672,7 +672,7 @@ ToFTExamples class >> exampleSortableTree [
 	<sampleInstance>
 	| ds |
 	ds := ToFTTreeDataSource roots: (ProtoObject allSubclasses reject: [ :e | e isMeta ]) children: [ :data | data subclasses ].
-	ToFTTableMorph new
+	ToFTTableElement new
 		extent: 200 @ 400;
 		addColumn:
 			((ToFTColumn id: 'Class name')
@@ -689,7 +689,7 @@ ToFTExamples class >> exampleTable1 [
 	<sampleInstance>
 	<example>
 	| table |
-	table := ToFTTableMorph new
+	table := ToFTTableElement new
 		extent: 650 @ 500;
 		addColumn: (ToFTColumn id: 'Name');
 		addColumn: (ToFTColumn id: 'Protocol');
@@ -713,7 +713,7 @@ ToFTExamples class >> exampleTable2 [
 	<sampleInstance>
 	<example>
 	| table |
-	table := ToFTTableMorph new
+	table := ToFTTableElement new
 		extent: 650 @ 500;
 		addColumn: ((ToFTColumn id: 'Name') width: 350);
 		addColumn: (ToFTColumn id: 'Protocol');
@@ -737,7 +737,7 @@ ToFTExamples class >> exampleTable3 [
 	<sampleInstance>
 	<example>
 	| table |
-	table := ToFTTableMorph new
+	table := ToFTTableElement new
 		extent: 650 @ 500;
 		addColumn: ((ToFTColumn id: '#') width: 40);
 		addColumn: ((ToFTColumn id: 'Name') width: 350);
@@ -763,7 +763,7 @@ ToFTExamples class >> exampleTable4 [
 	<sampleInstance>
 	<example>
 	| table |
-	table := ToFTTableMorph new
+	table := ToFTTableElement new
 		extent: 650 @ 500;
 		addColumn: ((ToFTColumn id: '#') width: 40);
 		addColumn: ((ToFTColumn id: 'Name') width: 350);
@@ -792,7 +792,7 @@ ToFTExamples class >> exampleTable5 [
 	<example>
 	| table ds |
 	ds := ToFTExampleMethodTableDataSource for: Object.
-	table := ToFTTableMorph new
+	table := ToFTTableElement new
 		extent: 650 @ 500;
 		beCellSelection;
 		addColumn: (ToFTColumn id: 'Name');
@@ -815,7 +815,7 @@ ToFTExamples class >> exampleTableHorizontalScroll [
 
 	<example>
 	| table |
-	table := ToFTTableMorph newWithHorizontalScrollBar
+	table := ToFTTableElement newWithHorizontalScrollBar
 		extent: 650 @ 500;
 		addColumn: ((ToFTColumn id: '#') width: 40);
 		addColumn: ((ToFTColumn id: 'Name') width: 350);
@@ -842,7 +842,7 @@ ToFTExamples class >> exampleTree1 [
 			((Collection allSubclasses reject: [ :e | e name endsWith: 'class' ])
 				sort: [ :a :b | a name < b name ])
 		children: [ :data | data subclasses sort: [ :a :b | a name < b name ] ].
-	ToFTTableMorph new
+	ToFTTableElement new
 		extent: 200 @ 400;
 		dataSource: ds;
 		openInWindow
@@ -858,7 +858,7 @@ ToFTExamples class >> exampleTree2 [
 			item depth even
 				ifTrue: [ 1 to: data / 2 ]
 				ifFalse: [ 1 to: data - 1 ] ].
-	ToFTTableMorph new
+	ToFTTableElement new
 		extent: 200 @ 400;
 		dataSource: ds;
 		openInWindow
@@ -875,7 +875,7 @@ ToFTExamples class >> exampleTreeWithAllItemsFilter [
 				ifTrue: [ 1 to: data / 2 ]
 				ifFalse: [ 1 to: data - 1 ] ].
 	ds searchStrategy: #allItems.
-	ToFTTableMorph new
+	ToFTTableElement new
 		extent: 200 @ 400;
 		dataSource: ds;
 		enableFilter;
@@ -894,7 +894,7 @@ ToFTExamples class >> exampleTreeWithAllItemsSearch [
 				ifTrue: [ 1 to: data / 2 ]
 				ifFalse: [ 1 to: data - 1 ] ].
 	ds searchStrategy: #allItems.
-	ToFTTableMorph new
+	ToFTTableElement new
 		extent: 200 @ 400;
 		dataSource: ds;
 		explicitFunction;
@@ -912,7 +912,7 @@ ToFTExamples class >> exampleTreeWithRootFilter [
 				ifTrue: [ 1 to: data / 2 ]
 				ifFalse: [ 1 to: data - 1 ] ].
 	ds searchStrategy: #rootsOnly.
-	ToFTTableMorph new
+	ToFTTableElement new
 		extent: 200 @ 400;
 		dataSource: ds;
 		enableFilter;
@@ -931,7 +931,7 @@ ToFTExamples class >> exampleTreeWithRootSearch [
 				ifTrue: [ 1 to: data / 2 ]
 				ifFalse: [ 1 to: data - 1 ] ].
 	ds searchStrategy: #rootsOnly.
-	ToFTTableMorph new
+	ToFTTableElement new
 		extent: 200 @ 400;
 		dataSource: ds;
 		explicitFunction;
@@ -949,7 +949,7 @@ ToFTExamples class >> exampleTreeWithVisibleItemsFilter [
 				ifTrue: [ 1 to: data / 2 ]
 				ifFalse: [ 1 to: data - 1 ] ].
 	ds searchStrategy: #default.	"Optional"
-	ToFTTableMorph new
+	ToFTTableElement new
 		extent: 200 @ 400;
 		dataSource: ds;
 		enableFilter;
@@ -968,7 +968,7 @@ ToFTExamples class >> exampleTreeWithVisibleItemsSearch [
 				ifTrue: [ 1 to: data / 2 ]
 				ifFalse: [ 1 to: data - 1 ] ].
 	ds searchStrategy: #default.	"Optional"
-	ToFTTableMorph new
+	ToFTTableElement new
 		extent: 200 @ 400;
 		dataSource: ds;
 		explicitFunction;
@@ -985,7 +985,7 @@ ToFTExamples class >> exampleexampleOneSubLevelTree [
 				sort: [ :a :b | a name < b name ])
 		children: [ :item | item subclasses sort: [ :a :b | a name < b name ] ].
 	ds maxDepth: 1.
-	ToFTTableMorph new
+	ToFTTableElement new
 		extent: 200 @ 400;
 		dataSource: ds;
 		openInWindow

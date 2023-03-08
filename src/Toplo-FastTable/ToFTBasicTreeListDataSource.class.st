@@ -32,7 +32,7 @@ ToFTBasicTreeListDataSource class >> exampleBasicInspect: anObject [
 		display: [ :item :cell | cell addMorphBack: item printString asMorph ];
 		yourself.
 
-	ft := ToFTTableMorph new
+	ft := ToFTTableElement new
 		extent: 600@500;
 		dataSource: ds.
 
@@ -61,7 +61,7 @@ ToFTBasicTreeListDataSource class >> exampleInspect: anObject [
 
 	ds expand: 1.
 
-	ft := ToFTTableMorph new
+	ft := ToFTTableElement new
 		extent: 800@500;
 		dataSource: ds.
 
@@ -82,7 +82,7 @@ ToFTBasicTreeListDataSource class >> exampleProtoObjectClassTree [
 		display: [ :item :cell | cell addMorphBack: item printString asMorph ];
 		yourself.
 
-	ft := ToFTTableMorph new
+	ft := ToFTTableElement new
 		extent: 200@200;
 		dataSource: ds.
 
@@ -101,7 +101,7 @@ ToFTBasicTreeListDataSource class >> exampleSomeClassesSubclassesTree [
 		display: [ :item :cell | cell addMorphBack: (item name asString , ' (' , item methods size asString , ')') asMorph ];
 		yourself.
 
-	ft := ToFTTableMorph new
+	ft := ToFTTableElement new
 		extent: 200@200;
 		dataSource: ds.
 
@@ -127,7 +127,7 @@ ToFTBasicTreeListDataSource class >> exampleStateTree [
 
 	ds expand: 3.
 
-	ft := ToFTTableMorph new
+	ft := ToFTTableElement new
 		extent: 600@500;
 		dataSource: ds.
 
@@ -146,7 +146,7 @@ ToFTBasicTreeListDataSource class >> exampleWorldSubmorphTree [
 		display: [ :item :cell | cell addMorphBack: item printString asMorph ];
 		yourself.
 
-	ft := ToFTTableMorph new
+	ft := ToFTTableElement new
 		extent: 400@500;
 		dataSource: ds.
 

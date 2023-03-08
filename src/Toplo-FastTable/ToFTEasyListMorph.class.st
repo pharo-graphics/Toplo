@@ -13,7 +13,7 @@ ToFTEasyListMorph new
 "
 Class {
 	#name : #ToFTEasyListMorph,
-	#superclass : #ToFTTableMorph,
+	#superclass : #ToFTTableElement,
 	#category : #'Toplo-FastTable-Easy'
 }
 

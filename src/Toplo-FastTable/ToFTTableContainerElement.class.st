@@ -28,8 +28,10 @@ Internal Representation and Key Implementation Points.
 The method #drawOn: is responsible of my rendering.
 "
 Class {
-	#name : #ToFTTableContainerMorph,
-	#superclass : #Morph,
+	#name : #ToFTTableContainerElement,
+	#superclass : #ToElement,
+	#traits : 'TToWidget',
+	#classTraits : 'TToWidget classTrait',
 	#instVars : [
 		'needsRefreshExposedRows',
 		'headerRow',
@@ -41,13 +43,13 @@ Class {
 }
 
 { #category : #accessing }
-ToFTTableContainerMorph class >> rowLeftMargin [
+ToFTTableContainerElement class >> rowLeftMargin [
 	"I'm keeping a small margin beween the list and the begining of a row, to enhance visibility."
 	^ 1
 ]
 
 { #category : #drawing }
-ToFTTableContainerMorph >> addResizeSplitters [
+ToFTTableContainerElement >> addResizeSplitters [
 	| columnWidths nextColumn delta |
 	columnWidths := self calculateColumnWidths.
 	nextColumn := self left.
@@ -64,7 +66,7 @@ ToFTTableContainerMorph >> addResizeSplitters [
 ]
 
 { #category : #updating }
-ToFTTableContainerMorph >> adjustToHorizontalScrollBarValue: aNumber [
+ToFTTableContainerElement >> adjustToHorizontalScrollBarValue: aNumber [
 	| newStartColumnIndex |
 	newStartColumnIndex := (self table numberOfColumns * aNumber) rounded
 		min: self table numberOfColumns
@@ -76,14 +78,14 @@ ToFTTableContainerMorph >> adjustToHorizontalScrollBarValue: aNumber [
 ]
 
 { #category : #drawing }
-ToFTTableContainerMorph >> alternateRowsColor [
+ToFTTableContainerElement >> alternateRowsColor [
 	rowColors := Array
 		with: self theme backgroundColor lighter
 		with: self theme backgroundColor darker
 ]
 
 { #category : #private }
-ToFTTableContainerMorph >> calculateColumnWidths [
+ToFTTableContainerElement >> calculateColumnWidths [
 	"do three runs
 	- first collect defined columnwidth that fit
 	- collect remaining undefined columnwidth
@@ -117,7 +119,7 @@ ToFTTableContainerMorph >> calculateColumnWidths [
 ]
 
 { #category : #private }
-ToFTTableContainerMorph >> calculateExactVisibleRows [
+ToFTTableContainerElement >> calculateExactVisibleRows [
 	"Answer the rows to show in list - with possible fraction"
 
 	| visibleRows |
@@ -128,21 +130,21 @@ ToFTTableContainerMorph >> calculateExactVisibleRows [
 ]
 
 { #category : #private }
-ToFTTableContainerMorph >> calculateMaxVisibleRows [
+ToFTTableContainerElement >> calculateMaxVisibleRows [
 	"Answer the maximal number of rows to shown in list"
 
 	^ self calculateExactVisibleRows ceiling
 ]
 
 { #category : #private }
-ToFTTableContainerMorph >> calculateMinVisibleRows [
+ToFTTableContainerElement >> calculateMinVisibleRows [
 	"Answer the minimal fully visible number of rows to shown in list"
 
 	^ self calculateExactVisibleRows floor
 ]
 
 { #category : #private }
-ToFTTableContainerMorph >> calculateStartIndexWhenShowing: visibleRows [
+ToFTTableContainerElement >> calculateStartIndexWhenShowing: visibleRows [
 	"Answer the first row to show when showing visibleRows rows.
 	 This works in case we are exceeding the available rows to show"
 	| currentIndex startIndex oldIndex |
@@ -158,7 +160,7 @@ ToFTTableContainerMorph >> calculateStartIndexWhenShowing: visibleRows [
 ]
 
 { #category : #private }
-ToFTTableContainerMorph >> calculateVisibleRows [
+ToFTTableContainerElement >> calculateVisibleRows [
 	"Answer the rows to show in list.
 	 Ensures we show the maximum amount possible"
 
@@ -166,25 +168,25 @@ ToFTTableContainerMorph >> calculateVisibleRows [
 ]
 
 { #category : #testing }
-ToFTTableContainerMorph >> canRefreshValues [
+ToFTTableContainerElement >> canRefreshValues [
 	^ self needsRefreshExposedRows and: [ self table isNotNil and: [ self table hasDataSource ] ]
 ]
 
 { #category : #updating }
-ToFTTableContainerMorph >> changed [
+ToFTTableContainerElement >> changed [
 	self table ifNil: [ ^ self ].
 	self setNeedsRefreshExposedRows.
 	super changed
 ]
 
 { #category : #drawing }
-ToFTTableContainerMorph >> clipSubmorphs [
+ToFTTableContainerElement >> clipSubmorphs [
 
 	^ true
 ]
 
 { #category : #private }
-ToFTTableContainerMorph >> columnOrderOfWidthDistribution [
+ToFTTableContainerElement >> columnOrderOfWidthDistribution [
 	"returns column indexes ordered by priority to get screenspace"
 	| idxToLast idxToFirstReversed |
 	self startColumnIndex isZero "a special case implementing default/current behaviour -- natural order of columns starting from the first one"
@@ -198,7 +200,7 @@ ToFTTableContainerMorph >> columnOrderOfWidthDistribution [
 ]
 
 { #category : #private }
-ToFTTableContainerMorph >> createResizableHeaderWith: aMorph between: leftColumn and: rightColumn [
+ToFTTableContainerElement >> createResizableHeaderWith: aMorph between: leftColumn and: rightColumn [
 	"Create a wrapper morph with a resizable morph et the left (so we bind two columns).
 	 This morph will be completely transparent in all terms... it acts just as a container."
 	^ Morph new
@@ -215,25 +217,25 @@ ToFTTableContainerMorph >> createResizableHeaderWith: aMorph between: leftColumn
 ]
 
 { #category : #initialization }
-ToFTTableContainerMorph >> defaultColor [
+ToFTTableContainerElement >> defaultColor [
 
 	^Color transparent
 ]
 
 { #category : #drawing }
-ToFTTableContainerMorph >> drawOn: canvas [
+ToFTTableContainerElement >> drawOn: canvas [
 
 	super drawOn: canvas.
 	self drawRowsOn: canvas
 ]
 
 { #category : #drawing }
-ToFTTableContainerMorph >> drawOnAthensCanvas: anAthensCanvas [
+ToFTTableContainerElement >> drawOnAthensCanvas: anAthensCanvas [
 	self drawOnCanvasWrapperFor: anAthensCanvas
 ]
 
 { #category : #drawing }
-ToFTTableContainerMorph >> drawRowsOn: canvas [
+ToFTTableContainerElement >> drawRowsOn: canvas [
 	| x y cellWidth cellHeight rowsToDisplay rowSubviews highligtedIndexes primarySelectionIndex |
 
 	self canRefreshValues ifFalse: [ ^ self ].	"Nothing to update yet"
@@ -290,7 +292,7 @@ ToFTTableContainerMorph >> drawRowsOn: canvas [
 ]
 
 { #category : #private }
-ToFTTableContainerMorph >> exposedColumnsRange: columnWidths [
+ToFTTableContainerElement >> exposedColumnsRange: columnWidths [
 	"Return a subset of indexes for columns which are to be drawn.
 	startColumnIndex=0 is default/current behaviour -- draw all, even if they will not fit
 	otherwise, we select only indexes of columns having non-zero screen width"
@@ -301,14 +303,14 @@ ToFTTableContainerMorph >> exposedColumnsRange: columnWidths [
 ]
 
 { #category : #private }
-ToFTTableContainerMorph >> exposedRows [
+ToFTTableContainerElement >> exposedRows [
 	"Answer a dictionary of rowIndex->row pairs"
 
 	^ exposedRows
 ]
 
 { #category : #accessing }
-ToFTTableContainerMorph >> firstVisibleRowIndex [
+ToFTTableContainerElement >> firstVisibleRowIndex [
 
 	^ self exposedRows
 		ifNotEmpty: [ :rows | rows keys first ]
@@ -316,20 +318,20 @@ ToFTTableContainerMorph >> firstVisibleRowIndex [
 ]
 
 { #category : #accessing }
-ToFTTableContainerMorph >> headerRow [
+ToFTTableContainerElement >> headerRow [
 
 	^ headerRow
 ]
 
 { #category : #initialization }
-ToFTTableContainerMorph >> initialize [
+ToFTTableContainerElement >> initialize [
 	super initialize.
 	needsRefreshExposedRows := false.
 	startColumnIndex :=0
 ]
 
 { #category : #testing }
-ToFTTableContainerMorph >> isRowIndexExceding: rowIndex [
+ToFTTableContainerElement >> isRowIndexExceding: rowIndex [
 	| headerPresentModificator nextRowIndexByPosition heightWithSpacing |
 
 	headerPresentModificator := headerRow ifNotNil: [ 1 ] ifNil: [ 0 ].
@@ -340,7 +342,7 @@ ToFTTableContainerMorph >> isRowIndexExceding: rowIndex [
 ]
 
 { #category : #testing }
-ToFTTableContainerMorph >> isRowIndexFullyVisible: rowIndex [
+ToFTTableContainerElement >> isRowIndexFullyVisible: rowIndex [
 	"Answer if a row is *fully* visible. That means row is completely visible (there is
 	 not hidden part)"
 	^ (self isRowIndexVisible: rowIndex)
@@ -348,13 +350,13 @@ ToFTTableContainerMorph >> isRowIndexFullyVisible: rowIndex [
 ]
 
 { #category : #testing }
-ToFTTableContainerMorph >> isRowIndexVisible: rowIndex [
+ToFTTableContainerElement >> isRowIndexVisible: rowIndex [
 	self exposedRows ifNil: [ ^ false ].
 	^ self exposedRows includesKey: rowIndex
 ]
 
 { #category : #accessing }
-ToFTTableContainerMorph >> lastVisibleRowIndex [
+ToFTTableContainerElement >> lastVisibleRowIndex [
 
 	^ self exposedRows
 		ifNotEmpty: [ :rows | rows keys last ]
@@ -362,17 +364,17 @@ ToFTTableContainerMorph >> lastVisibleRowIndex [
 ]
 
 { #category : #private }
-ToFTTableContainerMorph >> needsRefreshExposedRows [
+ToFTTableContainerElement >> needsRefreshExposedRows [
 	^ needsRefreshExposedRows
 ]
 
 { #category : #geometry }
-ToFTTableContainerMorph >> outerBounds [
+ToFTTableContainerElement >> outerBounds [
 	^ self bounds
 ]
 
 { #category : #accessing }
-ToFTTableContainerMorph >> rowAndColumnIndexContainingPoint: aPoint [
+ToFTTableContainerElement >> rowAndColumnIndexContainingPoint: aPoint [
 	"answer a tuple containing { rowIndex. columnNumber } to be used for menus, etc.
 	 (check senders for references)"
 
@@ -387,13 +389,13 @@ ToFTTableContainerMorph >> rowAndColumnIndexContainingPoint: aPoint [
 ]
 
 { #category : #private }
-ToFTTableContainerMorph >> rowHeight: rowIndex default: aNumber [
+ToFTTableContainerElement >> rowHeight: rowIndex default: aNumber [
 
 	^ aNumber
 ]
 
 { #category : #accessing }
-ToFTTableContainerMorph >> rowIndexContainingPoint: aPoint [
+ToFTTableContainerElement >> rowIndexContainingPoint: aPoint [
 
 	self exposedRows ifNil: [ ^ nil ].
 	self exposedRows keysAndValuesDo: [ :rowIndex :row |
@@ -404,41 +406,41 @@ ToFTTableContainerMorph >> rowIndexContainingPoint: aPoint [
 ]
 
 { #category : #private }
-ToFTTableContainerMorph >> setColorRow: aToFTTableRowMorph index: rowIndex [
+ToFTTableContainerElement >> setColorRow: aToFTTableRowMorph index: rowIndex [
 	"Set the raw color if needed, e.g. when alternateRowsColor is configured"
 	rowColors ifNotNil: [ aToFTTableRowMorph color: (rowColors at: ((rowIndex \\ 2) + 1)) ]
 ]
 
 { #category : #private }
-ToFTTableContainerMorph >> setNeedsRefreshExposedRows [
+ToFTTableContainerElement >> setNeedsRefreshExposedRows [
 	needsRefreshExposedRows := true
 ]
 
 { #category : #accessing }
-ToFTTableContainerMorph >> startColumnIndex [
+ToFTTableContainerElement >> startColumnIndex [
 	startColumnIndex ifNil: [ startColumnIndex := 0 ].
 	^startColumnIndex
 ]
 
 { #category : #accessing }
-ToFTTableContainerMorph >> startColumnIndex: anObject [
+ToFTTableContainerElement >> startColumnIndex: anObject [
 	startColumnIndex := anObject
 ]
 
 { #category : #accessing }
-ToFTTableContainerMorph >> table [
+ToFTTableContainerElement >> table [
 	^ self owner
 ]
 
 { #category : #theme }
-ToFTTableContainerMorph >> themeChanged [
+ToFTTableContainerElement >> themeChanged [
 	"reset rows color to follow the new theme if needed"
 	rowColors ifNotNil: [ self alternateRowsColor ].
 	super themeChanged
 ]
 
 { #category : #updating }
-ToFTTableContainerMorph >> updateAllRows [
+ToFTTableContainerElement >> updateAllRows [
 
 	self table isShowColumnHeaders
 		ifTrue: [ self updateHeaderRow ]
@@ -447,7 +449,7 @@ ToFTTableContainerMorph >> updateAllRows [
 ]
 
 { #category : #updating }
-ToFTTableContainerMorph >> updateExposedRows [
+ToFTTableContainerElement >> updateExposedRows [
 	"updated (as #updateHeaderRow also) to draw only subset of columns if horizontal scrolling in use, see #exposedColumnsRange:"
 	| visibleRows columns columnWidths startIndex |
 
@@ -474,7 +476,7 @@ ToFTTableContainerMorph >> updateExposedRows [
 ]
 
 { #category : #updating }
-ToFTTableContainerMorph >> updateHeaderRow [
+ToFTTableContainerElement >> updateHeaderRow [
 	"Recalculates the header row if they are defined.
 	 Please, note that If one of the headers is nil, I assume all are nil and I return.
 	 This is probably not the best approach, but like that I enforce people defines at least
@@ -506,6 +508,6 @@ ToFTTableContainerMorph >> updateHeaderRow [
 ]
 
 { #category : #accessing }
-ToFTTableContainerMorph >> visibleRowMorphAtIndex: index [
+ToFTTableContainerElement >> visibleRowMorphAtIndex: index [
 	^ self exposedRows at: index
 ]

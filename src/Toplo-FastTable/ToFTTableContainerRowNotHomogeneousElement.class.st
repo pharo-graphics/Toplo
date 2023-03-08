@@ -2,13 +2,13 @@
 I contain table rows, but opposite to my parent, I calculate my row heights allowing users to display tables with rows of different height.
 "
 Class {
-	#name : #ToFTTableContainerRowNotHomogeneousMorph,
-	#superclass : #ToFTTableContainerMorph,
+	#name : #ToFTTableContainerRowNotHomogeneousElement,
+	#superclass : #ToFTTableContainerElement,
 	#category : #'Toplo-FastTable-Base'
 }
 
 { #category : #private }
-ToFTTableContainerRowNotHomogeneousMorph >> calculateExactVisibleRows [
+ToFTTableContainerRowNotHomogeneousElement >> calculateExactVisibleRows [
 	"Answer the rows to show in list - with possible fraction"
 	| rowIndex maxHeight height |
 
@@ -29,7 +29,7 @@ ToFTTableContainerRowNotHomogeneousMorph >> calculateExactVisibleRows [
 ]
 
 { #category : #drawing }
-ToFTTableContainerRowNotHomogeneousMorph >> rowHeight: rowIndex default: aNumber [
+ToFTTableContainerRowNotHomogeneousElement >> rowHeight: rowIndex default: aNumber [
 
 	^ self table dataSource rowHeight: rowIndex
 ]

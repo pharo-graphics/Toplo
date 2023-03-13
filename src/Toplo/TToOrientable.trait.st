@@ -3,19 +3,19 @@ Trait {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'t - orientable presentation' }
-TToOrientable >> beHorizontal [ 
+{ #category : #'t - orientable orientation' }
+TToOrientable >> beHorizontal [
 
+	self isHorizontal ifTrue: [ ^ self ].
 	self horizontal: true
 ]
 
 { #category : #'t - orientable direction' }
-TToOrientable >> beLeftToRight [ 
+TToOrientable >> beLeftToRight [
 
 	self isLeftToRight ifTrue: [ ^ self ].
 	self layout leftToRight.
-	self directionChanged 
- 
+	self directionChanged
 ]
 
 { #category : #'t - orientable direction' }
@@ -23,9 +23,7 @@ TToOrientable >> beRightToLeft [
 
 	self isRightToLeft ifTrue: [ ^ self ].
 	self layout rightToLeft.
-	self directionChanged 
-
- 
+	self directionChanged
 ]
 
 { #category : #'t - orientable orientation' }

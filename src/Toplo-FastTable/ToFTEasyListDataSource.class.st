@@ -15,7 +15,7 @@ Class {
 
 { #category : #accessing }
 ToFTEasyListDataSource >> cellColumn: column row: rowIndex [
-	^ ToFTCellMorph new
+	^ ToFTCellElement new
 		cellInset: 5;
 		in: [ :me |
 			(self iconFor: rowIndex)
@@ -32,7 +32,7 @@ ToFTEasyListDataSource >> display: aBlock [
 { #category : #private }
 ToFTEasyListDataSource >> displayFor: rowIndex [
 	| element |
-	element := self elementAt: rowIndex.
+	element := self dataAt: rowIndex.
 	^ displayBlock
 		ifNotNil: [ displayBlock value: element ]
 		ifNil: [ ^ element ]
@@ -46,7 +46,7 @@ ToFTEasyListDataSource >> icon: aBlock [
 { #category : #private }
 ToFTEasyListDataSource >> iconFor: rowIndex [
 	iconBlock ifNil: [ ^ nil ].
-	^ iconBlock value: (self elementAt: rowIndex)
+	^ iconBlock value: (self dataAt: rowIndex)
 ]
 
 { #category : #accessing }
@@ -61,5 +61,5 @@ ToFTEasyListDataSource >> menuColumn: column row: rowIndex [
 		"I could answer a menu without selection, but in this case I will just answer nil,
 		 which means 'no menu'"
 		^ nil ].
-	^ menuBlock value: (self elementAt: rowIndex)
+	^ menuBlock value: (self dataAt: rowIndex)
 ]

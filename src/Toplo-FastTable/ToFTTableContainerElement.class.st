@@ -78,6 +78,17 @@ ToFTTableContainerElement >> adjustToHorizontalScrollBarValue: aNumber [
 ]
 
 { #category : #drawing }
+ToFTTableContainerElement >> aeDrawChildrenOn: aeCanvas [
+	"Draw my children.
+	
+	Notes:
+	- Receiver assumes that position and transformations are already applied on the canvas."
+	
+	self children sortedByElevation do: [ :each |
+		each aeFullDrawOn: aeCanvas ].
+]
+
+{ #category : #drawing }
 ToFTTableContainerElement >> alternateRowsColor [
 	rowColors := Array
 		with: self theme backgroundColor lighter
@@ -176,7 +187,7 @@ ToFTTableContainerElement >> canRefreshValues [
 ToFTTableContainerElement >> changed [
 	self table ifNil: [ ^ self ].
 	self setNeedsRefreshExposedRows.
-	super changed
+	self invalidate.
 ]
 
 { #category : #drawing }
@@ -220,6 +231,12 @@ ToFTTableContainerElement >> createResizableHeaderWith: aMorph between: leftColu
 ToFTTableContainerElement >> defaultColor [
 
 	^Color transparent
+]
+
+{ #category : #initialization }
+ToFTTableContainerElement >> defaultLayout [ 
+
+	^ BlLinearLayout vertical
 ]
 
 { #category : #drawing }
@@ -326,8 +343,12 @@ ToFTTableContainerElement >> headerRow [
 { #category : #initialization }
 ToFTTableContainerElement >> initialize [
 	super initialize.
+	self border: (BlBorder paint: Color blue width: 3).
 	needsRefreshExposedRows := false.
-	startColumnIndex :=0
+	startColumnIndex :=0.
+	self layout: self defaultLayout.
+	self matchParent.
+	self whenLayoutedDoOnce: [ self updateAllRows ]
 ]
 
 { #category : #testing }
@@ -368,9 +389,34 @@ ToFTTableContainerElement >> needsRefreshExposedRows [
 	^ needsRefreshExposedRows
 ]
 
+{ #category : #'hooks - geometry' }
+ToFTTableContainerElement >> onExtentChanged [
+
+	self setNeedsRefreshExposedRows.
+	super onExtentChanged 
+]
+
+{ #category : #layout }
+ToFTTableContainerElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+	"I am sent then and only then when my extent changed as the result of a layout"
+	"By default let layout strategy do the layouting job.
+	If needed override this method to do some additional actions.
+	@see BlLayoutStrategy>>#layout: self in: aBounds - override if
+	custom layout strategy is needed"
+
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext
+]
+
 { #category : #geometry }
 ToFTTableContainerElement >> outerBounds [
 	^ self bounds
+]
+
+{ #category : #layout }
+ToFTTableContainerElement >> requestLayout [
+
+	self setNeedsRefreshExposedRows.
+	super requestLayout.
 ]
 
 { #category : #accessing }
@@ -413,7 +459,9 @@ ToFTTableContainerElement >> setColorRow: aToFTTableRowMorph index: rowIndex [
 
 { #category : #private }
 ToFTTableContainerElement >> setNeedsRefreshExposedRows [
-	needsRefreshExposedRows := true
+	needsRefreshExposedRows ifTrue: [ ^ self ].
+	needsRefreshExposedRows := true.
+	self enqueueTask: (BlTaskAction new action: [ self updateAllRows ])
 ]
 
 { #category : #accessing }
@@ -442,10 +490,13 @@ ToFTTableContainerElement >> themeChanged [
 { #category : #updating }
 ToFTTableContainerElement >> updateAllRows [
 
+	self flag: 'TODO'.
+	true ifFalse: [ 
 	self table isShowColumnHeaders
 		ifTrue: [ self updateHeaderRow ]
-		ifFalse: [ headerRow := nil ].
-	self updateExposedRows
+		ifFalse: [ headerRow := nil ]].
+	self updateExposedRows.
+	needsRefreshExposedRows := false
 ]
 
 { #category : #updating }
@@ -453,7 +504,7 @@ ToFTTableContainerElement >> updateExposedRows [
 	"updated (as #updateHeaderRow also) to draw only subset of columns if horizontal scrolling in use, see #exposedColumnsRange:"
 	| visibleRows columns columnWidths startIndex |
 
-	self canRefreshValues ifFalse: [ ^ self ].
+	"self canRefreshValues ifFalse: [ ^ self ]."
 
 	visibleRows := self calculateMaxVisibleRows.
 	startIndex := self calculateStartIndexWhenShowing: visibleRows.
@@ -464,14 +515,14 @@ ToFTTableContainerElement >> updateExposedRows [
 	startIndex to: (startIndex + visibleRows - 1) do: [ :rowIndex |
 		(self table dataSource hasElementAt: rowIndex) ifTrue: [
 			| row |
-			row := ToFTTableRowMorph table: self table.
+			row := ToFTTableRowElement table: self table.
 			(self exposedColumnsRange: columnWidths) do: [ :columnIndex | | cell |
 				cell := (self table dataSource
 					cellColumn: (columns at: columnIndex)
 					row: rowIndex).
 				cell width: (columnWidths at: columnIndex).
-				row addMorphBack: cell ].
-			row privateOwner: self.
+				row addChild: cell ].
+			self addChild: row.
 			exposedRows at: rowIndex put: row ] ]
 ]
 
@@ -501,7 +552,7 @@ ToFTTableContainerElement >> updateHeaderRow [
 		columnHeaders addLast: headerCell.
 		ToFTDisplayColumn column: column width: columnWidth ].
 
-	headerRow := (ToFTTableHeaderRowMorph table: self table)
+	headerRow := (ToFTTableHeaderRowElement table: self table)
 		privateOwner: self;
 		addAllMorphs: columnHeaders;
 		yourself

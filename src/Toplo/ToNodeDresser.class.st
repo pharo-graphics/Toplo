@@ -158,6 +158,7 @@ ToNodeDresser >> onElementDetached: anElement inInfinite: aToInfinite [
 ToNodeDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
+	anElement hMatchParent. 
 	anElement geometry: BlRectangleGeometry new.
 	anElement padding: (BlInsets top: 1  left: 3 bottom: 0 right: 3 ).
 	anElement border: BlBorder empty

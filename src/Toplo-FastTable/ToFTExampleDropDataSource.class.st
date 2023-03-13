@@ -12,15 +12,15 @@ Class {
 
 { #category : #'drag and drop' }
 ToFTExampleDropDataSource >> dropElements: aCollection index: rowIndex [
-	self elements: (rowIndex = 0
-		ifTrue: [ self elements, aCollection ]
-		ifFalse: [ (self elements first: rowIndex), aCollection, (self elements allButFirst: rowIndex) ])
+	self data: (rowIndex = 0
+		ifTrue: [ self data, aCollection ]
+		ifFalse: [ (self data first: rowIndex), aCollection, (self data allButFirst: rowIndex) ])
 ]
 
 { #category : #initialization }
 ToFTExampleDropDataSource >> initialize [
 	super initialize.
-	self elements: #()
+	self data: #()
 ]
 
 { #category : #'drag and drop' }

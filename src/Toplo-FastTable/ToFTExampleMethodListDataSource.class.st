@@ -24,10 +24,10 @@ ToFTExampleMethodListDataSource class >> for: aClass [
 { #category : #accessing }
 ToFTExampleMethodListDataSource >> cellColumn: column row: rowIndex [
 
-	^ ToFTCellMorph new
+	^ ToFTCellElement new
 		cellInset: 5;
 		addMorphBack: (self iconFor: rowIndex) asMorph;
-		addMorphBack: (self elementAt: rowIndex) name asMorph;
+		addMorphBack: (self dataAt: rowIndex) name asMorph;
 		yourself
 ]
 
@@ -39,13 +39,13 @@ ToFTExampleMethodListDataSource >> colorFor: index [
 
 { #category : #private }
 ToFTExampleMethodListDataSource >> iconFor: rowIndex [
-	^ (self elementAt: rowIndex) actionOn: self
+	^ (self dataAt: rowIndex) actionOn: self
 ]
 
 { #category : #initialization }
 ToFTExampleMethodListDataSource >> initializeClass: aClass [
 	self initialize.
-	self elements: ((aClass selectors sorted: [ :a :b | a < b ])
+	self data: ((aClass selectors sorted: [ :a :b | a < b ])
 		collect: [ :each | ToFTExampleMethodModel method: aClass>>each ])
 ]
 
@@ -58,7 +58,7 @@ ToFTExampleMethodListDataSource >> menuColumn: column row: rowIndex [
 		 which means 'no menu'"
 		^ nil ].
 
-	method := (self elementAt: rowIndex) method.
+	method := (self dataAt: rowIndex) method.
 	menu := UIManager default newMenuIn: self table for: self.
 	menu add: ('Browse ', (method methodClass name), '>>#', method selector)
 		target: method
@@ -74,7 +74,7 @@ ToFTExampleMethodListDataSource >> menuColumn: column row: rowIndex [
 ToFTExampleMethodListDataSource >> searchText: aString [
 	aString isEmptyOrNil ifTrue: [ ^ #() ].
 
-	self elements withIndexDo: [ :each :index |
+	self data withIndexDo: [ :each :index |
 		( each name beginsWith: aString)
 			ifTrue: [ ^ { index } ] ].
 	^ #()

@@ -124,7 +124,7 @@ ToInfiniteElement >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	nodeFactory := self defaultListNodeFactory.
+	self nodeFactory: self defaultListNodeFactory.
 	selectionStrategy := self defaultSelectionStrategy.
 	self privateData: ToObservableCollection new.
 	self constraintsDo: [ :c |
@@ -167,9 +167,9 @@ ToInfiniteElement >> nodeFactory [
 ]
 
 { #category : #accessing }
-ToInfiniteElement >> nodeFactory: aValuable [
+ToInfiniteElement >> nodeFactory: aNodeFactory [
 
-	nodeFactory := aValuable
+	nodeFactory := aNodeFactory asToDataToElementConverter
 ]
 
 { #category : #'private - commands' }

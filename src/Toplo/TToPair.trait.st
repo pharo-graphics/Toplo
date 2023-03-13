@@ -134,7 +134,7 @@ TToPair >> strategy: aPairStrategy [
 	self privateUpdateChildren
 ]
 
-{ #category : #enumerating }
+{ #category : #'t - pair slot - change hook' }
 TToPair >> whenFirstChangedDo: aBlock [
 
 	"set a block to perform after that the slot has been changed, and its action performed"
@@ -142,7 +142,7 @@ TToPair >> whenFirstChangedDo: aBlock [
 	self property: #first whenChangedDo: aBlock
 ]
 
-{ #category : #enumerating }
+{ #category : #'t - pair slot - change hook' }
 TToPair >> whenSecondChangedDo: aBlock [
 
 	"set a block to perform after that the slot has been changed, and its action performed"
@@ -150,7 +150,7 @@ TToPair >> whenSecondChangedDo: aBlock [
 	self property: #second whenChangedDo: aBlock
 ]
 
-{ #category : #enumerating }
+{ #category : #'t - pair slot - change hook' }
 TToPair >> whenStrategyChangedDo: aBlock [
 
 	"set a block to perform after that the slot has been changed, and its action performed"

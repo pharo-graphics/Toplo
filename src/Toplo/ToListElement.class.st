@@ -19,7 +19,7 @@ ToListElement >> defaultDresser [
 { #category : #initialization }
 ToListElement >> defaultListNodeFactory [
 
-	^ [ :d | ToLabeledNode new labelText: d ]
+	^ ToActionDataToElementConverter new valuable: [ :d :h | ToLabeledNode new labelText: d ]
 ]
 
 { #category : #initialization }

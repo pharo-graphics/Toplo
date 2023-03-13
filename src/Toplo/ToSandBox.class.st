@@ -287,6 +287,15 @@ ToSandBox class >> example_ListWithAllClasses4 [
 ]
 
 { #category : #list }
+ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
+
+	| l |
+	l := ToListElement new nodeFactory: (ToClassToNodeConverterExample new).
+	l data addAll: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name]).
+	l openInOBlSpace
+]
+
+{ #category : #list }
 ToSandBox class >> example_ListWithAllClassesAsButton [
 
 	| l |
@@ -393,6 +402,21 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 	l contextMenuFactory: menuFactory.
 	l withRowNumbers.
 	l openInInnerWindow
+]
+
+{ #category : #list }
+ToSandBox class >> example_ListWithIndexedColors [
+
+	| l |
+	l := ToListElement new nodeFactory: [ :color |
+		     ToLabeledNode new
+			     labelText: (color asString asRopedText
+					      foreground: color contrastingBlackAndWhiteColor;
+					      yourself);
+			     background: color;
+			     hMatchParent ].
+	l data addAll: Color indexedColors.
+	l openInOBlSpace
 ]
 
 { #category : #list }
@@ -590,6 +614,32 @@ ToSandBox class >> example_elementInPopupRoot [
 				on: BlClickEvent
 				do: [ :evt | self inform: 'Clicked'  ]).
 	space show
+]
+
+{ #category : #pane }
+ToSandBox class >> example_horizontalPaneWithDivider [
+
+	| pane e1 e2 e3 |
+	pane := ToPane new.
+	pane size: 300 @ 200.
+	e1 := ToElement new
+		      background: (Color random alpha: 0.2);
+		      vMatchParent;
+		      width: 100.
+	e2 := ToElement new
+		      background: (Color random alpha: 0.2);
+		      vMatchParent;
+		      width: 100.
+	e3 := ToElement new
+		      background: (Color random alpha: 0.2);
+		      vMatchParent;
+		      width: 100.
+	pane addChildren: {
+			e1.
+			e2.
+			e3 }.
+	pane addDividers.
+	pane openInWorld
 ]
 
 { #category : #menu }
@@ -2303,6 +2353,33 @@ ToSandBox class >> example_toggle [
 	win root layout: (BlLinearLayout vertical).
 	win root addChildren: { th. tv }.
 	win openInNewSpace 
+]
+
+{ #category : #pane }
+ToSandBox class >> example_verticalPaneWithDivider [
+
+	| pane e1 e2 e3 |
+	pane := ToPane new beVertical.
+	pane vMatchParent.
+	pane width: 200.
+	e1 := ToElement new
+		      background: (Color random alpha: 0.2);
+		      hMatchParent;
+		      height: 100.
+	e2 := ToElement new
+		      background: (Color random alpha: 0.2);
+		      hMatchParent;
+		      height: 100.
+	e3 := ToElement new
+		      background: (Color random alpha: 0.2);
+		      hMatchParent;
+		      height: 100.
+	pane addChildren: {
+			e1.
+			e2.
+			e3 }.
+	pane addDividers.
+	pane openInWorld
 ]
 
 { #category : #accessing }

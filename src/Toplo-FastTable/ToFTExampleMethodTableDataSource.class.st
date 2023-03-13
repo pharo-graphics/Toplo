@@ -19,7 +19,7 @@ ToFTExampleMethodTableDataSource class >> for: aClass [
 
 { #category : #accessing }
 ToFTExampleMethodTableDataSource >> cellColumn: column row: rowIndex [
-	column id = '#' ifTrue: [ ^ ToFTCellMorph new addMorph: rowIndex asMorph ].
+	column id = '#' ifTrue: [ ^ ToFTCellElement new addMorph: rowIndex asMorph ].
 	column id = 'Name' ifTrue: [ ^ self nameColumn: column row: rowIndex ].
 	column id = 'Protocol' ifTrue: [ ^ self protocolColumn: column row: rowIndex ].
 	column id = 'Origin' ifTrue: [ ^ self originColumn: column row: rowIndex ].
@@ -35,13 +35,13 @@ ToFTExampleMethodTableDataSource >> colorFor: index [
 
 { #category : #private }
 ToFTExampleMethodTableDataSource >> iconFor: rowIndex [
-	^ (self elementAt: rowIndex) actionOn: self
+	^ (self dataAt: rowIndex) actionOn: self
 ]
 
 { #category : #initialization }
 ToFTExampleMethodTableDataSource >> initializeClass: aClass [
 	self initialize.
-	self elements: ((aClass allSelectors sorted: [ :a :b | a < b ]) collect: [ :each | ToFTExampleMethodModel method: (aClass lookupSelector: each) ])
+	self data: ((aClass allSelectors sorted: [ :a :b | a < b ]) collect: [ :each | ToFTExampleMethodModel method: (aClass lookupSelector: each) ])
 ]
 
 { #category : #accessing }
@@ -60,18 +60,18 @@ ToFTExampleMethodTableDataSource >> menuColumn: column row: rowIndex [
 
 { #category : #accessing }
 ToFTExampleMethodTableDataSource >> nameColumn: column row: rowIndex [
-	^ ToFTCellMorph new
+	^ ToFTCellElement new
 		color: (self colorFor: rowIndex);
 		cellInset: 5;
 		addMorphBack: (self iconFor: rowIndex) asMorph;
-		addMorphBack: (self elementAt: rowIndex) name asStringMorph;
+		addMorphBack: (self dataAt: rowIndex) name asStringMorph;
 		yourself
 ]
 
 { #category : #accessing }
 ToFTExampleMethodTableDataSource >> nameMenuColumn: column row: rowIndex [
 	| method menu |
-	method := (self elementAt: rowIndex) method.
+	method := (self dataAt: rowIndex) method.
 	menu := UIManager default newMenuIn: self table for: self.
 	menu add: ('Browse ', (method methodClass name), '>>#', method selector)
 		target: method
@@ -85,16 +85,16 @@ ToFTExampleMethodTableDataSource >> nameMenuColumn: column row: rowIndex [
 
 { #category : #accessing }
 ToFTExampleMethodTableDataSource >> originColumn: column row: rowIndex [
-	^ ToFTCellMorph new
+	^ ToFTCellElement new
 		color: (self colorFor: rowIndex);
-		addMorph: (self elementAt: rowIndex) origin name asMorph;
+		addMorph: (self dataAt: rowIndex) origin name asMorph;
 		yourself
 ]
 
 { #category : #accessing }
 ToFTExampleMethodTableDataSource >> originMenuColumn: column row: rowIndex [
 	| method menu |
-	method := (self elementAt: rowIndex) method.
+	method := (self dataAt: rowIndex) method.
 	menu := UIManager default newMenuIn: self table for: self.
 	menu add: ('Browse ', (method methodClass name))
 		target: method methodClass
@@ -105,9 +105,9 @@ ToFTExampleMethodTableDataSource >> originMenuColumn: column row: rowIndex [
 
 { #category : #accessing }
 ToFTExampleMethodTableDataSource >> protocolColumn: column row: rowIndex [
-	^ ToFTCellMorph new
+	^ ToFTCellElement new
 		color: (self colorFor: rowIndex);
-		addMorph: (self elementAt: rowIndex) protocol asStringMorph;
+		addMorph: (self dataAt: rowIndex) protocol asStringMorph;
 		yourself
 ]
 
@@ -115,7 +115,7 @@ ToFTExampleMethodTableDataSource >> protocolColumn: column row: rowIndex [
 ToFTExampleMethodTableDataSource >> searchText: aString [
 	aString isEmptyOrNil ifTrue: [ ^ #() ].
 
-	self elements withIndexDo: [ :each :index |
+	self data withIndexDo: [ :each :index |
 		( each name beginsWith: aString)
 			ifTrue: [ ^ { index } ] ].
 	^ #()

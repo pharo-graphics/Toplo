@@ -29,31 +29,41 @@ Internal Representation and Key Implementation Points.
 
 "
 Class {
-	#name : #ToFTCellMorph,
-	#superclass : #ToFTSelectableMorph,
+	#name : #ToFTCellElement,
+	#superclass : #ToFTSelectableElement,
 	#instVars : [
 		'topSeparator'
 	],
 	#category : #'Toplo-FastTable-Base'
 }
 
+{ #category : #layout }
+ToFTCellElement >> defaultLayout [ 
+
+	^ BlLinearLayout horizontal 
+]
+
 { #category : #drawing }
-ToFTCellMorph >> drawOn: aCanvas [
+ToFTCellElement >> drawOn: aCanvas [
 	super drawOn: aCanvas.
 	topSeparator
 		ifTrue: [ aCanvas line: bounds topLeft to: bounds topRight color: self seperatorColor ]
 ]
 
 { #category : #'event handling' }
-ToFTCellMorph >> handlesMouseOver: evt [
+ToFTCellElement >> handlesMouseOver: evt [
 	self table ifNotNil: [ :table | ^ table selectionModeStrategy allowsCellSelection ].
 	^ false
 ]
 
 { #category : #initialization }
-ToFTCellMorph >> initialize [
+ToFTCellElement >> initialize [
 	super initialize.
 	topSeparator := false.
+	self layout: self defaultLayout.
+	self vFitContent.
+	self flag: 'TODO'.
+	true ifTrue: [ ^ self ].
 	self
 		clipSubmorphs: true;
 		layoutPolicy: TableLayout new;
@@ -65,11 +75,11 @@ ToFTCellMorph >> initialize [
 ]
 
 { #category : #drawing }
-ToFTCellMorph >> seperatorColor [
+ToFTCellElement >> seperatorColor [
 	^ self theme scrollbarColor
 ]
 
 { #category : #accessing }
-ToFTCellMorph >> withTopSeparator [
+ToFTCellElement >> withTopSeparator [
 	topSeparator := true
 ]

@@ -160,7 +160,7 @@ ToFTBasicTreeListDataSource >> cellColumn: column row: rowIndex [
 	"this is a bad way for tree; maybe list too. the morph should ask for the full collection from index start to n elements.
 	eps when elementAt: must traverse the tree to find each element: not only a basic at:
 	"
-	item := self elementAt: rowIndex.
+	item := self dataAt: rowIndex.
 
 	^item cellMorphFor: self
 ]
@@ -195,6 +195,20 @@ ToFTBasicTreeListDataSource >> countAvailableRows [
 	availableRows := rootItems inject: 0 into: [ :sum :item | sum + item availableRows ]
 ]
 
+{ #category : #private }
+ToFTBasicTreeListDataSource >> dataAt: index [
+	| curr b |
+
+	curr := 0.
+
+	b := nil.
+	b := [ :p | p do: [ :each | (curr := curr + 1) = index ifTrue: [ ^each ] ifFalse: [ b value: each children ] ] ].
+
+	b value: rootItems.
+
+	SubscriptOutOfBounds signal: index
+]
+
 { #category : #construction }
 ToFTBasicTreeListDataSource >> display: aBlock [
 
@@ -207,20 +221,6 @@ ToFTBasicTreeListDataSource >> display: aBlock [
 ToFTBasicTreeListDataSource >> displayBlock [
 
 	^displayBlock
-]
-
-{ #category : #private }
-ToFTBasicTreeListDataSource >> elementAt: index [
-	| curr b |
-
-	curr := 0.
-
-	b := nil.
-	b := [ :p | p do: [ :each | (curr := curr + 1) = index ifTrue: [ ^each ] ifFalse: [ b value: each children ] ] ].
-
-	b value: rootItems.
-
-	SubscriptOutOfBounds signal: index
 ]
 
 { #category : #'expanding-collapsing' }

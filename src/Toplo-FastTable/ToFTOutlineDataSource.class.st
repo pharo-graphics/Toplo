@@ -24,8 +24,8 @@ ToFTOutlineDataSource class >> items: aCollectionOfCollection [
 { #category : #accessing }
 ToFTOutlineDataSource >> cellColumn: column row: rowIndex [
 	| cell |
-	cell := ToFTCellMorph new
-		addMorphBack: (self elementAt: rowIndex) asMorph;
+	cell := ToFTCellElement new
+		addMorphBack: (self dataAt: rowIndex) asMorph;
 		yourself.
 	(self needSeparatorBefore: rowIndex)
 		ifTrue: [ cell withTopSeparator ].
@@ -33,7 +33,7 @@ ToFTOutlineDataSource >> cellColumn: column row: rowIndex [
 ]
 
 { #category : #accessing }
-ToFTOutlineDataSource >> elementAt: index [
+ToFTOutlineDataSource >> dataAt: index [
 	| tmpIndex |
 	tmpIndex := index.
 	self items

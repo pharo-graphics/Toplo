@@ -122,11 +122,11 @@ ToMiniBrowser >> initialize [
 
 	| codeMenu classesPane classesButtonPane sideToggle |
 	super initialize.
-	listsPane := ToHorizontalPane new margin: (BlInsets top: 5 bottom: 5).
+	listsPane := ToPane new margin: (BlInsets top: 5 bottom: 5).
 	listsPane layout: (BlLinearLayout horizontal cellSpacing: 5).
 	listsPane matchParent.
 
-	mainPane := ToVerticalPane new.
+	mainPane := ToPane new beVertical.
 	mainPane matchParent.
 
 	packages := ToListElement new nodeFactory: [ :pkg |
@@ -148,17 +148,14 @@ ToMiniBrowser >> initialize [
 		(RPackage organizer packages asSortedCollection: [ :p1 :p2 |
 			 p1 name < p2 name ]).
 
-	classes := ToListElement new nodeFactory: [ :cls |
-		           ToLabeledNode new
-			           labelText: cls name;
-			           hMatchParent ].
+	classes := ToListElement new nodeFactory: ToClassToNodeConverterExample new.
 	classes
 		when: ToInfiniteSelectionChangedEvent
 		do: [ :event | self classSelectionChangedEvent: event ].
 	classes data whenRemoveChangeDo: [ protocols data removeAll ].
-	classesPane := ToVerticalPane new matchParent.
+	classesPane := ToPane new beVertical; matchParent.
 	classesPane addChild: classes.
-	classesButtonPane := ToHorizontalPane new
+	classesButtonPane := ToPane new
 		                     hMatchParent;
 		                     vFitContent.
 	classesButtonPane addChild: (sideToggle := ToToggleButton new
@@ -201,7 +198,7 @@ ToMiniBrowser >> initialize [
 
 	codeMenu := ToContextMenu new globalColumnWidth: 0.
 	codeMenu addItem: (ToButtonMenuItem new labelText: 'Accept').
-	codePane contextMenuFactory: codeMenu.
+	codePane contextMenuFactory: [ codeMenu ].
 
 	packages withRowNumbers.
 	classes withRowNumbers.
@@ -212,9 +209,11 @@ ToMiniBrowser >> initialize [
 	listsPane addChild: classesPane.
 	listsPane addChild: protocols.
 	listsPane addChild: selectors.
+	listsPane addDividers.
 
 	mainPane addChild: listsPane.
-	mainPane addChild: codePane
+	mainPane addChild: codePane.
+	mainPane addDividers.
 ]
 
 { #category : #opening }

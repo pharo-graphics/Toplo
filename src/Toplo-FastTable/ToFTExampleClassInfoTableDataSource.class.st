@@ -20,7 +20,7 @@ ToFTExampleClassInfoTableDataSource >> cellColumn: column row: rowIndex [
 
 { #category : #accessing }
 ToFTExampleClassInfoTableDataSource >> iconColumn: column row: rowIndex [
-	^ ToFTCellMorph new
+	^ ToFTCellElement new
 		addMorphBack: (self iconFor: rowIndex) asMorph;
 		yourself
 ]
@@ -28,7 +28,7 @@ ToFTExampleClassInfoTableDataSource >> iconColumn: column row: rowIndex [
 { #category : #private }
 ToFTExampleClassInfoTableDataSource >> iconFor: index [
 	| class |
-	class := self elementAt: index.
+	class := self dataAt: index.
 	((class
 		includesBehavior: (Smalltalk globals at: #TestCase ifAbsent: [ false ]))
 		and: [ class isAbstract not ])
@@ -59,27 +59,27 @@ ToFTExampleClassInfoTableDataSource >> iconFor: index [
 { #category : #initialization }
 ToFTExampleClassInfoTableDataSource >> initialize [
 	super initialize.
-	self elements: Smalltalk allClassesAndTraits shuffled
+	self data: Smalltalk allClassesAndTraits shuffled
 ]
 
 { #category : #accessing }
 ToFTExampleClassInfoTableDataSource >> nameColumn: column row: rowIndex [
-	^ ToFTCellMorph new
-		addMorphBack: (self elementAt: rowIndex) name asStringMorph;
+	^ ToFTCellElement new
+		addMorphBack: (self dataAt: rowIndex) name asStringMorph;
 		yourself
 ]
 
 { #category : #accessing }
 ToFTExampleClassInfoTableDataSource >> numberOfInstanceVariablesColumn: column row: rowIndex [
-	^ ToFTCellMorph new
-		addMorph: (self elementAt: rowIndex) instSize asStringMorph;
+	^ ToFTCellElement new
+		addMorph: (self dataAt: rowIndex) instSize asStringMorph;
 		yourself
 ]
 
 { #category : #accessing }
 ToFTExampleClassInfoTableDataSource >> numberOfMethodsColumn: column row: rowIndex [
-	^ ToFTCellMorph new
-		addMorph: (self elementAt: rowIndex) numberOfMethods asStringMorph;
+	^ ToFTCellElement new
+		addMorph: (self dataAt: rowIndex) numberOfMethods asStringMorph;
 		yourself
 ]
 
@@ -87,6 +87,6 @@ ToFTExampleClassInfoTableDataSource >> numberOfMethodsColumn: column row: rowInd
 ToFTExampleClassInfoTableDataSource >> searchText: aString [
 	aString isEmptyOrNil ifTrue: [ ^ #() ].
 
-	self elements withIndexDo: [ :each :index | (each name beginsWith: aString) ifTrue: [ ^ {index} ] ].
+	self data withIndexDo: [ :each :index | (each name beginsWith: aString) ifTrue: [ ^ {index} ] ].
 	^ #()
 ]

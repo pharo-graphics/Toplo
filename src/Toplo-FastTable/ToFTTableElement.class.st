@@ -270,12 +270,12 @@ ToFTTableElement >> defaultColor [
 	^self class defaultBackgroundColor
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 ToFTTableElement >> defaultContainer [
 	^ ToFTTableContainerElement new
 ]
 
-{ #category : #'t - initialization' }
+{ #category : #initialization }
 ToFTTableElement >> defaultLayout [
 
 	^ BlFrameLayout new 
@@ -362,13 +362,6 @@ ToFTTableElement >> ensureVisibleFirstSelection [
 { #category : #accessing }
 ToFTTableElement >> explicitFunction [
 	function showWidget
-]
-
-{ #category : #geometry }
-ToFTTableElement >> extent: aPoint [
-	super extent: aPoint.
-	container extent: aPoint.
-	self resizeAllSubviews
 ]
 
 { #category : #accessing }
@@ -482,6 +475,8 @@ ToFTTableElement >> horizontalScrollBarValue: aNumber [
 { #category : #initialization }
 ToFTTableElement >> initialize [
 	super initialize.
+	self layout: self defaultLayout.
+	self border: (BlBorder paint: Color red width: 3).
 	showIndex := 0.
 	showColumnHeaders := true.
 	columns := #().
@@ -494,6 +489,7 @@ ToFTTableElement >> initialize [
 	self initializeContainer.
 	self initializeKeyBindings.
 
+	self matchParent.
 	self resizeAllSubviews
 ]
 
@@ -507,6 +503,8 @@ ToFTTableElement >> initializeContainer [
 ToFTTableElement >> initializeKeyBindings [
 	"add keybindings used by table"
 
+	self flag: 'TODO'.
+	true ifTrue: [ ^ self ].
 	self
 		bindKeyCombination: Character arrowUp shift | Character arrowUp asKeyCombination
 		toAction: [ :target :morph :event | self keyStrokeArrowUp: event ].
@@ -630,7 +628,10 @@ ToFTTableElement >> isShowColumnHeaders [
 
 { #category : #private }
 ToFTTableElement >> isVerticalScrollBarVisible [
-	^ self verticalScrollBar parent isNotNil
+
+	self flag: 'TODO'.
+	^ false.
+	"^ self verticalScrollBar parent isNotNil"
 ]
 
 { #category : #private }
@@ -855,7 +856,7 @@ ToFTTableElement >> recalculateVerticalScrollBar [
 { #category : #private }
 ToFTTableElement >> recalculateVerticalScrollBarVisibilityIfHidden: aBlock [
 
-	self flagr: 'TODO'.
+	self flag: 'TODO'.
 	true ifTrue: [ ^ self ].
 	self container calculateExactVisibleRows >= self dataSource numberOfRows
 		ifTrue: [
@@ -876,9 +877,10 @@ ToFTTableElement >> recalculateVerticalScrollBarVisibilityIfHidden: aBlock [
 ToFTTableElement >> refresh [
 	"Refreshes all internal values (forces an invalidate of all subviews)"
 	self ensureAtLeastOneColumn.
-	self recalculateVerticalScrollBar.
+	self flag: 'TODO'.
+	true ifFalse: [ self recalculateVerticalScrollBar.
 	self verticalScrollBar changed.
-	horizontalScrollBar ifNotNil: [ self horizontalScrollBar changed ].
+	horizontalScrollBar ifNotNil: [ self horizontalScrollBar changed ]].
 	self container changed
 ]
 
@@ -891,7 +893,8 @@ ToFTTableElement >> resetFunction [
 ToFTTableElement >> resetPosition [
 	"Resets all values to original value"
 	showIndex := 0.
-	self verticalScrollBar value: 0.
+	self flag: 'TODO'.
+	true ifFalse: [ self verticalScrollBar value: 0. ].
 	horizontalScrollBar ifNotNil: [	self horizontalScrollBar value: 0 ].
 	self container setNeedsRefreshExposedRows.
 	self container updateExposedRows
@@ -907,7 +910,8 @@ ToFTTableElement >> resizeAllSubviews [
 	self resizeContainer.
 	self container setNeedsRefreshExposedRows.
 	self container updateExposedRows.
-	self verticalScrollBar value: (self rowIndexToVerticalScrollBarValue: showIndex).
+	self flag: 'TODO'.
+	true ifFalse: [self verticalScrollBar value: (self rowIndexToVerticalScrollBarValue: showIndex)].
 	function isExplicit
 		ifTrue: [ function resizeWidget ]
 ]

@@ -18,13 +18,13 @@ Class {
 }
 
 { #category : #accessing }
-ToFTEasyListMorph >> display: aBlock [
-	self dataSource display: aBlock
+ToFTEasyListMorph >> data: aSequenceableCollection [
+	self dataSource data: aSequenceableCollection
 ]
 
 { #category : #accessing }
-ToFTEasyListMorph >> elements: aSequenceableCollection [
-	self dataSource elements: aSequenceableCollection
+ToFTEasyListMorph >> display: aBlock [
+	self dataSource display: aBlock
 ]
 
 { #category : #accessing }

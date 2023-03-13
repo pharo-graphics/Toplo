@@ -43,7 +43,7 @@ Class {
 ToFTDataSource >> basicHeaderCellFor: column [
 	| cell |
 	column id ifNil: [ ^ nil ].
-	cell := ToFTHeaderColumnCellMorph new
+	cell := ToFTHeaderColumnCellElement new
 		listCentering: #center;
 		column: column;
 		cellInset: 5;
@@ -62,16 +62,16 @@ ToFTDataSource >> cellColumn: column row: rowIndex [
 	self subclassResponsibility
 ]
 
-{ #category : #'drag and drop' }
-ToFTDataSource >> dropElements: aCollection index: rowIndex [
-	^ false
-]
-
 { #category : #private }
-ToFTDataSource >> elementAt: rowIndex [
+ToFTDataSource >> dataAt: rowIndex [
 	"I am a really important method for a DataSource. I take an index and I return an object
 	 that should be displayed in the table for the index."
 	self subclassResponsibility
+]
+
+{ #category : #'drag and drop' }
+ToFTDataSource >> dropElements: aCollection index: rowIndex [
+	^ false
 ]
 
 { #category : #testing }
@@ -114,7 +114,7 @@ ToFTDataSource >> numberOfRows [
 ToFTDataSource >> passengerAt: rowIndex [
 	"Answer 'passenger' for drag&drop operation (a passenger is the object who will travel between
 	 drag and drop). By default, passenger is same as current element"
-	^ self elementAt: rowIndex
+	^ self dataAt: rowIndex
 ]
 
 { #category : #private }
@@ -126,7 +126,7 @@ ToFTDataSource >> readyToBeDisplayed [
 ToFTDataSource >> realElementAt: anIndex [
 	"I am here because some dataSource wrap there element into an other Object but we still want to access to the initial element. In that case a DataSource can override me to get the real element."
 
-	^ self elementAt: anIndex
+	^ self dataAt: anIndex
 ]
 
 { #category : #accessing }

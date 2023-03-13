@@ -14,30 +14,31 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToFTSimpleDataSource class >> elements: aCollection [
-	^ self new elements: aCollection
+ToFTSimpleDataSource class >> data: aCollection [
+	^ self new data: aCollection
 ]
 
 { #category : #accessing }
 ToFTSimpleDataSource >> cellColumn: column row: rowIndex [
-	^ ToFTCellMorph new
-		addMorphBack: (self elementAt: rowIndex) asMorph;
+
+	^ ToFTCellElement new
+		addMorphBack: (self dataAt: rowIndex) asElement;
 		yourself
 ]
 
 { #category : #accessing }
-ToFTSimpleDataSource >> elementAt: index [
-	^ self elements at: index
-]
-
-{ #category : #accessing }
-ToFTSimpleDataSource >> elements [
+ToFTSimpleDataSource >> data [
 	^ elements
 ]
 
 { #category : #accessing }
-ToFTSimpleDataSource >> elements: anObject [
-	elements := anObject
+ToFTSimpleDataSource >> data: aCollection [
+	elements := aCollection
+]
+
+{ #category : #accessing }
+ToFTSimpleDataSource >> dataAt: index [
+	^ self data at: index
 ]
 
 { #category : #accessing }
@@ -50,13 +51,13 @@ ToFTSimpleDataSource >> newDataSourceMatching: aToFTFilter [
 	| newElements |
 	newElements := Array withAll: (elements select: [ :each |
 		aToFTFilter matches: (self toString: each) ]).
-	^ self class new elements: newElements
+	^ self class new data: newElements
 ]
 
 { #category : #accessing }
 ToFTSimpleDataSource >> numberOfRows [
-	^ self elements
-		ifNotNil: [ self elements size ]
+	^ self data
+		ifNotNil: [ self data size ]
 		ifNil: [ 0 ]
 ]
 
@@ -65,7 +66,7 @@ ToFTSimpleDataSource >> searchText: aString [
 	| result |
 	aString isEmptyOrNil ifTrue: [ ^ #() ].
 	result := OrderedCollection new.
-	self elements withIndexDo: [ :each :index |
+	self data withIndexDo: [ :each :index |
 		((self toString: each) beginsWith: aString)
 			ifTrue: [ result add: index ] ].
 	^ result asArray
@@ -73,14 +74,14 @@ ToFTSimpleDataSource >> searchText: aString [
 
 { #category : #sorting }
 ToFTSimpleDataSource >> sortElements: aSortFunction [
-	unsortedElements ifNil: [ unsortedElements := self elements ].
-	self elements: (self elements sorted: aSortFunction)
+	unsortedElements ifNil: [ unsortedElements := self data ].
+	self data: (self data sorted: aSortFunction)
 ]
 
 { #category : #sorting }
 ToFTSimpleDataSource >> unsortElements [
 	unsortedElements ifNil: [ ^ self ].
 
-	self elements: unsortedElements.
+	self data: unsortedElements.
 	unsortedElements := nil
 ]

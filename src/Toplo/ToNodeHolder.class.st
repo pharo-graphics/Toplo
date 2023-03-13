@@ -13,13 +13,25 @@ Class {
 ToNodeHolder >> data: aData [ 
 
 	data := aData.
-	itemElement := infiniteElement nodeFactory cull: aData cull: self
+	self node: (infiniteElement nodeFactory cull: aData cull: self)
 ]
 
 { #category : #initialization }
 ToNodeHolder >> initialize [ 
 
 	super initialize
+]
+
+{ #category : #accessing }
+ToNodeHolder >> node [
+
+	^ self itemElement 
+]
+
+{ #category : #accessing }
+ToNodeHolder >> node: aNode [
+
+	itemElement := aNode
 ]
 
 { #category : #accessing }
@@ -53,8 +65,8 @@ ToNodeHolder >> onDetachedFromDatasource: aDataSource [
 ToNodeHolder >> selected: aBoolean [
 
 	aBoolean
-		ifTrue: [ itemElement dresser addedToSelection: itemElement ]
-		ifFalse: [ itemElement dresser removedFromSelection: itemElement ]
+		ifTrue: [ self node dresser addedToSelection: itemElement ]
+		ifFalse: [ self node dresser removedFromSelection: itemElement ]
 ]
 
 { #category : #'selection - handling' }

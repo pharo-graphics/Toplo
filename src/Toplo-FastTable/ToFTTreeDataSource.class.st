@@ -155,8 +155,8 @@ ToFTTreeDataSource >> canDisplayChildrenOf: item [
 { #category : #accessing }
 ToFTTreeDataSource >> cellColumn: column row: rowIndex [
 	| item cell |
-	item := self elementAt: rowIndex.
-	cell := ToFTIndentedCellMorph new.
+	item := self dataAt: rowIndex.
+	cell := ToFTIndentedCellElement new.
 	cell indentBy: item depth * 16.
 
 	cell addMorphBack: (self buttonFor: item).
@@ -181,7 +181,7 @@ ToFTTreeDataSource >> collapseAll [
 ]
 
 { #category : #accessing }
-ToFTTreeDataSource >> elementAt: index [
+ToFTTreeDataSource >> dataAt: index [
 	^ rootItem childAt: index
 ]
 
@@ -212,7 +212,7 @@ ToFTTreeDataSource >> indexOfChangedItem [
 	"I should be call when the user of the Fast Tree collapse or extand an Item. I return the index of the changed item. I should not be used by an other method than #updateSelectionWithCollectBlock:."
 
 	1 to: self numberOfRows do: [ :index |
-		(self elementAt: index) recentlyChanged
+		(self dataAt: index) recentlyChanged
 			ifTrue: [ ^ index ] ].
 
 	^ self errorSubscriptBounds: self numberOfRows + 1

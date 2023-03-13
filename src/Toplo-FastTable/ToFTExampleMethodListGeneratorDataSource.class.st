@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #initialization }
-ToFTExampleMethodListGeneratorDataSource >> elementAt: anIndex [
+ToFTExampleMethodListGeneratorDataSource >> dataAt: anIndex [
 
 	^ self
 		elementAt: anIndex

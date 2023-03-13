@@ -2,8 +2,8 @@
 I represent a column header cell morph, i handle mouse click and double to trigger the needed functionalities.
 "
 Class {
-	#name : #ToFTHeaderColumnCellMorph,
-	#superclass : #ToFTCellMorph,
+	#name : #ToFTHeaderColumnCellElement,
+	#superclass : #ToFTCellElement,
 	#instVars : [
 		'column'
 	],
@@ -11,26 +11,26 @@ Class {
 }
 
 { #category : #accessing }
-ToFTHeaderColumnCellMorph >> column [
+ToFTHeaderColumnCellElement >> column [
 	^ column
 ]
 
 { #category : #accessing }
-ToFTHeaderColumnCellMorph >> column: aColumn [
+ToFTHeaderColumnCellElement >> column: aColumn [
 	column  := aColumn
 ]
 
 { #category : #'event handling' }
-ToFTHeaderColumnCellMorph >> handlesMouseDown: event [
+ToFTHeaderColumnCellElement >> handlesMouseDown: event [
 	^ true
 ]
 
 { #category : #'event handling' }
-ToFTHeaderColumnCellMorph >> handlesMouseOver: event [
+ToFTHeaderColumnCellElement >> handlesMouseOver: event [
 	^ false
 ]
 
 { #category : #'event handling' }
-ToFTHeaderColumnCellMorph >> mouseDown: event [
+ToFTHeaderColumnCellElement >> mouseDown: event [
 	self column sortDataSource: self table dataSource
 ]

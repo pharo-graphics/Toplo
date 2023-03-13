@@ -52,7 +52,7 @@ ToComboBox >> defaultDresser [
 { #category : #initialization }
 ToComboBox >> defaultHeadContentFactory [
 
-	^ [ :d | ToLabel text: d ]
+	^ ToActionDataToElementConverter new valuable: [ :d | ToLabel text: d ] 
 ]
 
 { #category : #initialization }
@@ -97,8 +97,8 @@ ToComboBox >> defaultListFrame [
 { #category : #initialization }
 ToComboBox >> defaultListNodeFactory [
 
-	^ [ :d |
-	  ToLabeledNode new
+	^ ToActionDataToElementConverter new valuable: [ :d :h |
+	  	ToLabeledNode new
 		  beLabelFirst;
 		  hMatchParent;
 		  labelText: d;
@@ -128,16 +128,16 @@ ToComboBox >> defaultStartSelectedIndex [
 
 { #category : #accessing }
 ToComboBox >> headContentFactory [
-	" a Valuable can take 2 args, a selected data value and the previous button"
+	" is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
 
 	^ headContentFactory
 ]
 
 { #category : #accessing }
 ToComboBox >> headContentFactory: aValuable [
-	" a Valuable can take 2 args, a selected data value and the previous head"
+	" is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
 
-	headContentFactory := aValuable
+	headContentFactory := aValuable asToDataToElementConverter 
 ]
 
 { #category : #'change hook' }
@@ -258,14 +258,15 @@ ToComboBox >> listFrame: aWindow [
 
 { #category : #accessing }
 ToComboBox >> listNodeFactory [
+	" is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
 
 	^ self listElement nodeFactory
 ]
 
 { #category : #accessing }
-ToComboBox >> listNodeFactory: aBlock [
-
-	self listElement nodeFactory: aBlock
+ToComboBox >> listNodeFactory: aConverter [
+	" is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
+	self listElement nodeFactory: aConverter
 ]
 
 { #category : #accessing }

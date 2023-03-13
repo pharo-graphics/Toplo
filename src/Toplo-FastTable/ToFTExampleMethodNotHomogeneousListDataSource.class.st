@@ -7,7 +7,7 @@ Class {
 { #category : #accessing }
 ToFTExampleMethodNotHomogeneousListDataSource >> cellColumn: column row: rowIndex [
 
-	^ ToFTCellMorph new
+	^ ToFTCellElement new
 		cellInset: 5;
 		addMorphBack: (self iconFor: rowIndex) asMorph;
 		addMorphBack: (Morph new
@@ -15,8 +15,8 @@ ToFTExampleMethodNotHomogeneousListDataSource >> cellColumn: column row: rowInde
 			hResizing: #shrinkWrap;
 			listDirection: #topToBottom;
 			color: Color transparent;
-			addMorphBack: ((self elementAt: rowIndex) protocol asMorph emphasis: 2r10);
-			addMorphBack: (self elementAt: rowIndex) name asMorph;
+			addMorphBack: ((self dataAt: rowIndex) protocol asMorph emphasis: 2r10);
+			addMorphBack: (self dataAt: rowIndex) name asMorph;
 			yourself);
 		yourself
 ]

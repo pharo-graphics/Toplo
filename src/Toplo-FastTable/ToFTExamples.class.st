@@ -9,17 +9,31 @@ Class {
 }
 
 { #category : #examples }
+ToFTExamples class >> example0 [
+	<example>
+	| list |
+	list := ToFTTableElement new
+		size: 300@300;
+		dataSource: (ToFTExampleDataSource data: ((Smalltalk allClassesAndTraits
+			sorted: [ :a :b | a name < b name]) copyFrom: 1 to: 10));
+		yourself.
+	list inspect.
+	list matchParent.
+	list openInInnerWindow
+]
+
+{ #category : #examples }
 ToFTExamples class >> example1 [
 	<example>
 	| list |
 
 	list := ToFTTableElement new
-		extent: 300@300;
-		dataSource: (ToFTExampleDataSource elements: (Smalltalk allClassesAndTraits
+		size: 300@300;
+		dataSource: (ToFTExampleDataSource data: (Smalltalk allClassesAndTraits
 			sorted: [ :a :b | a name < b name]));
 		yourself.
 	list inspect.
-	list openInWindow
+	list openInInnerWindow
 ]
 
 { #category : #examples }
@@ -29,7 +43,7 @@ ToFTExamples class >> example2 [
 
 	list := ToFTTableElement new
 		extent: 300@300;
-		dataSource: (ToFTExampleDataSource elements: ((Smalltalk allClassesAndTraits
+		dataSource: (ToFTExampleDataSource data: ((Smalltalk allClassesAndTraits
 			sorted: [ :a :b | a name < b name])
 			first: 10));
 		yourself.
@@ -47,7 +61,7 @@ ToFTExamples class >> exampleDragAndDrop1 [
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		addColumn: (ToFTColumn id: 'Drag from me!');
-		dataSource: (ToFTExampleDataSource elements: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]));
+		dataSource: (ToFTExampleDataSource data: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]));
 		dragEnabled: true;
 		yourself.
 
@@ -86,7 +100,7 @@ ToFTExamples class >> exampleDragAndDrop2 [
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		addColumn: (ToFTColumn id: 'Drag from me!');
-		dataSource: (ToFTExampleDataSource elements: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]));
+		dataSource: (ToFTExampleDataSource data: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]));
 		dragEnabled: true;
 		beMultipleSelection;
 		yourself.
@@ -127,7 +141,7 @@ ToFTExamples class >> exampleDragAndDrop3 [
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		addColumn: (ToFTColumn id: 'Drag from me!');
-		dataSource: (ToFTExampleDataSource elements: ((Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]) first: 50));
+		dataSource: (ToFTExampleDataSource data: ((Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]) first: 50));
 		dragEnabled: true;
 		beMultipleSelection;
 		yourself.
@@ -166,7 +180,7 @@ ToFTExamples class >> exampleDragAndDrop4 [
 	list := ToFTTableElement new
 		extent: 300@300;
 		addColumn: (ToFTColumn id: 'Drag from & to me!');
-		dataSource: (ToFTExampleDropDataSource elements: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]));
+		dataSource: (ToFTExampleDropDataSource data: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]));
 		dragEnabled: true;
 		dropEnabled: true;
 		yourself.
@@ -183,7 +197,7 @@ ToFTExamples class >> exampleEasyList1 [
 
 	list := ToFTEasyListMorph new
 		extent: 300@550;
-		elements: Morph methods;
+		data: Morph methods;
 		icon: [ :method | (ToFTExampleMethodModel method: method) actionOn: nil ];
 		"display: [ :method | method selector ];	"
 		yourself.
@@ -200,7 +214,7 @@ ToFTExamples class >> exampleEasyList2 [
 
 	list := ToFTEasyListMorph new
 		extent: 300@550;
-		elements: Morph methods;
+		data: Morph methods;
 		icon: [ :method | (ToFTExampleMethodModel method: method) actionOn: nil ];
 		display: [ :method | method selector ];
 		menu: [ :method |
@@ -226,7 +240,7 @@ ToFTExamples class >> exampleEasyList3 [
 
 	list := ToFTEasyListMorph new
 		extent: 300@550;
-		elements: Morph methods;
+		data: Morph methods;
 		header: 'Method list';
 		icon: [ :method | (ToFTExampleMethodModel method: method) actionOn: nil ];
 		display: [ :method | method selector ];
@@ -252,7 +266,7 @@ ToFTExamples class >> exampleEditableList1 [
 	data := OrderedCollection with: 'A' with: 'B' with: 'C'.
 	list := ToFTTableElement new
 		extent: 300 @ 550;
-		dataSource: (ToFTExampleDropDataSource new elements: data);
+		dataSource: (ToFTExampleDropDataSource new data: data);
 		selectIndex: 1;
 		showFirstSelection;
 		onAnnouncement: ToFTStrongSelectionChanged
@@ -288,7 +302,7 @@ ToFTExamples class >> exampleFilterableList [
 	list := ToFTTableElement new
 		extent: 300 @ 300;
 		dataSource:
-			(ToFTExampleDataSource elements: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]));
+			(ToFTExampleDataSource data: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]));
 		enableFilter;
 		yourself.
 	list openInWindow
@@ -401,7 +415,7 @@ ToFTExamples class >> exampleListWithExplicitFilter [
 	| list |
 	list := ToFTTableElement new
 		extent: 300 @ 300;
-		dataSource: (ToFTExampleDataSource elements: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]));
+		dataSource: (ToFTExampleDataSource data: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]));
 		enableFilter;
 		explicitFunction;
 		yourself.
@@ -416,7 +430,7 @@ ToFTExamples class >> exampleListWithExplicitFilterAndActionButton [
 		extent: 300 @ 300;
 		dataSource:
 			(ToFTExampleDataSource
-				elements: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]));
+				data: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]));
 		enableFilterWithAction: [ :dataSource :searchPattern | self crTrace: searchPattern ]
 			named: 'Show';
 		yourself.
@@ -429,7 +443,7 @@ ToFTExamples class >> exampleListWithExplicitFilterAndActionButton2 [
 	| list |
 	list := ToFTTableElement new
 		extent: 300 @ 300;
-		dataSource: (ToFTExampleDataSource elements: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]));
+		dataSource: (ToFTExampleDataSource data: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]));
 		enableFilterWithAction: [ :dataSource :searchPattern :selectedRow | selectedRow browse ];
 		yourself.
 	list openInWindow
@@ -442,7 +456,7 @@ ToFTExamples class >> exampleListWithExplicitSearch [
 	list := ToFTTableElement new
 		extent: 300 @ 300;
 		dataSource:
-			(ToFTExampleDataSource elements: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]));
+			(ToFTExampleDataSource data: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]));
 		explicitFunction;
 		yourself.
 	list openInWindow
@@ -538,7 +552,7 @@ ToFTExamples class >> exampleSortableList [
 			((ToFTColumn id: 'Class name')
 				sortableOnProperty: #printString;
 				yourself);
-		dataSource: (ToFTExampleDataSource elements: Smalltalk allClassesAndTraits shuffled);
+		dataSource: (ToFTExampleDataSource data: Smalltalk allClassesAndTraits shuffled);
 		yourself.
 
 	^ list openInWindow
@@ -557,7 +571,7 @@ ToFTExamples class >> exampleSortableList2 [
 			((ToFTColumn id: 'Class name')
 				sortableUsing: #printString ascending;
 				yourself);
-		dataSource: (ToFTExampleDataSource elements: Smalltalk allClassesAndTraits shuffled);
+		dataSource: (ToFTExampleDataSource data: Smalltalk allClassesAndTraits shuffled);
 		yourself.
 
 	^ list openInWindow

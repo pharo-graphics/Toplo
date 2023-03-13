@@ -4,8 +4,8 @@ ToFTCell with adjustable indentation in the X axis that can be configured so tha
 
 "
 Class {
-	#name : #ToFTIndentedCellMorph,
-	#superclass : #ToFTCellMorph,
+	#name : #ToFTIndentedCellElement,
+	#superclass : #ToFTCellElement,
 	#instVars : [
 		'indentation'
 	],
@@ -13,25 +13,25 @@ Class {
 }
 
 { #category : #layout }
-ToFTIndentedCellMorph >> addIndendtation: aNumber [
+ToFTIndentedCellElement >> addIndendtation: aNumber [
 
 	indentation := indentation + aNumber + self cellInset
 ]
 
 { #category : #layout }
-ToFTIndentedCellMorph >> depthIndent: aNumber [
+ToFTIndentedCellElement >> depthIndent: aNumber [
 
 	aNumber timesRepeat: [ self addIndendtation: 16 ]
 ]
 
 { #category : #layout }
-ToFTIndentedCellMorph >> indentBy: aNumber [
+ToFTIndentedCellElement >> indentBy: aNumber [
 
 	indentation := aNumber + self cellInset
 ]
 
 { #category : #initialization }
-ToFTIndentedCellMorph >> initialize [
+ToFTIndentedCellElement >> initialize [
 
 	indentation := 0. "must be before super"
 
@@ -41,7 +41,7 @@ ToFTIndentedCellMorph >> initialize [
 ]
 
 { #category : #layout }
-ToFTIndentedCellMorph >> layoutBounds [
+ToFTIndentedCellElement >> layoutBounds [
 
 	| inner |
 

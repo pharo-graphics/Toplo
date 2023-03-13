@@ -7,8 +7,8 @@ I am a morph that can be selected by a user in a FastTable.
 I manage the color changes when the user is doing a mouse over or a selection.
 "
 Class {
-	#name : #ToFTSelectableMorph,
-	#superclass : #Morph,
+	#name : #ToFTSelectableElement,
+	#superclass : #ToElement,
 	#instVars : [
 		'selectionColor',
 		'colorBeforeOver'
@@ -17,18 +17,18 @@ Class {
 }
 
 { #category : #initialization }
-ToFTSelectableMorph >> defaultColor [
+ToFTSelectableElement >> defaultColor [
 	^ Color transparent
 ]
 
 { #category : #initialization }
-ToFTSelectableMorph >> initialize [
+ToFTSelectableElement >> initialize [
 	super initialize.
 	selectionColor := self defaultColor
 ]
 
 { #category : #'event handling' }
-ToFTSelectableMorph >> mouseEnter: evt [
+ToFTSelectableElement >> mouseEnter: evt [
 
 	colorBeforeOver := self color.
 	self color: (selectionColor isTransparent
@@ -37,27 +37,27 @@ ToFTSelectableMorph >> mouseEnter: evt [
 ]
 
 { #category : #'event handling' }
-ToFTSelectableMorph >> mouseLeave: evt [
+ToFTSelectableElement >> mouseLeave: evt [
 	self color: colorBeforeOver
 ]
 
 { #category : #accessing }
-ToFTSelectableMorph >> mouseOverColor [
+ToFTSelectableElement >> mouseOverColor [
 	^ self theme mouseOverColor
 ]
 
 { #category : #initialization }
-ToFTSelectableMorph >> selectionColor [
+ToFTSelectableElement >> selectionColor [
 	^ selectionColor
 ]
 
 { #category : #accessing }
-ToFTSelectableMorph >> selectionColor: aColor [
+ToFTSelectableElement >> selectionColor: aColor [
 	selectionColor := aColor.
 	self color: selectionColor
 ]
 
 { #category : #accessing }
-ToFTSelectableMorph >> table [
+ToFTSelectableElement >> table [
 	^ self owner ifNotNil: #table
 ]

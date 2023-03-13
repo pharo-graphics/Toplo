@@ -52,7 +52,7 @@ ToFTBasicTreeListItem >> cellMorphFor: aDataSource [
 
 	| morph |
 
-	morph := ToFTIndentedCellMorph new.
+	morph := ToFTIndentedCellElement new.
 	morph depthIndent: depth.
 
 	self hasChildren

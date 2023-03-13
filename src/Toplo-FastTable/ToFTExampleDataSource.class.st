@@ -12,11 +12,11 @@ Class {
 
 { #category : #accessing }
 ToFTExampleDataSource >> cellColumn: column row: rowIndex [
-	^ ToFTCellMorph new
-		color: (self colorFor: rowIndex);
-		cellInset: 5;
-		addMorphBack: (self iconFor: rowIndex) asMorph;
-		addMorphBack: (self elementAt: rowIndex) name asStringMorph;
+
+	^ ToFTCellElement new
+		background: (self colorFor: rowIndex);
+		addChild: (ToImage new innerImage: (self iconFor: rowIndex));
+		addChild: (ToLabel text: (self dataAt: rowIndex) name);
 		yourself
 ]
 
@@ -29,7 +29,7 @@ ToFTExampleDataSource >> colorFor: index [
 { #category : #private }
 ToFTExampleDataSource >> iconFor: index [
 	| class |
-	class := self elementAt: index.
+	class := self dataAt: index.
 	((class
 		includesBehavior: (Smalltalk globals at: #TestCase ifAbsent: [ false ]))
 		and: [ class isAbstract not ])

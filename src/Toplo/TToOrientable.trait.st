@@ -12,14 +12,17 @@ TToOrientable >> beHorizontal [
 { #category : #'t - orientable presentation' }
 TToOrientable >> beLeftToRight [ 
 
-	self layout leftToRight
+	self layout leftToRight.
+	self directionChanged 
  
 ]
 
 { #category : #'t - orientable presentation' }
 TToOrientable >> beRightToLeft [
 
-	self layout rightToLeft
+	self layout rightToLeft.
+	self directionChanged 
+
  
 ]
 
@@ -27,6 +30,12 @@ TToOrientable >> beRightToLeft [
 TToOrientable >> beVertical [
 
 	self horizontal: false
+]
+
+{ #category : #'t - orientable presentation' }
+TToOrientable >> directionChanged [
+
+	self announce: (ToDirectionChanged new widget: self)
 ]
 
 { #category : #'t - orientable presentation' }
@@ -81,6 +90,12 @@ TToOrientable >> orientation: aBlLayoutOrientation [
 TToOrientable >> orientationChanged [
 
 	self announce: (ToOrientationChanged new widget: self)
+]
+
+{ #category : #enumerating }
+TToOrientable >> whenDirectionChangedDo: aBlock [
+
+	self whenAnnouncement: ToDirectionChanged do: aBlock
 ]
 
 { #category : #'t - orientable presentation' }

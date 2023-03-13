@@ -415,6 +415,27 @@ ToExperiments class >> example_LinearLayoutFillWithMatchParent [
 	frame openInNewSpace
 ]
 
+{ #category : #frame }
+ToExperiments class >> example_LinearLayoutWithLabels [
+
+	| frame |
+	frame := ToElement new
+		         size: 300 @ 100;
+		         layout: BlLinearLayout new;
+		         constraintsDo: [ :c |
+			         c horizontal matchParent.
+			         c vertical fitContent ].
+	1 to: 5 do: [ :idx |
+		frame addChild: (ToLabel new
+				 text: idx asString;
+				 background: Color random;
+				 fitContent;
+				 border: (BlBorder paint: Color black width: 1);
+				 yourself) ].
+	frame firstChild width: 60.
+	frame openInNewSpace
+]
+
 { #category : #elements }
 ToExperiments class >> example_ScaledElement [
 

@@ -13,27 +13,9 @@ Class {
 ToPane >> addDividerBetween: aFirstElement and: aSecondElement [
 
 	| divider |
-	self isHorizontal ifFalse: [ 
-	divider := ToDivider horizontal.
-	self whenLayoutedDoOnce: [
-		| firstY secondY gap |
-		firstY := aFirstElement bounds bottom.
-		secondY := aSecondElement bounds top.
-		gap := secondY - firstY / 2 - (divider thickness / 2).
-		divider relocate: divider position x @ firstY + gap.
-		divider width: self width.
-		self addChild: divider.
-		]. ^ self  ].
-	divider := ToDivider vertical.
-	self whenLayoutedDoOnce: [
-		| firstX secondX gap |
-		firstX := aFirstElement bounds right.
-		secondX := aSecondElement bounds left.
-		gap := secondX - firstX / 2 - (divider thickness / 2).
-		divider relocate:  firstX + gap @ divider position y.
-		divider height: self height.
-		self addChild: divider]
-
+	divider := ToDivider between: aFirstElement and: aSecondElement in: self.
+	self addChild: divider.
+	divider addedInPane
 ]
 
 { #category : #adding }
@@ -53,21 +35,6 @@ ToPane >> defaultLayout [
 ]
 
 { #category : #accessing }
-ToPane >> horizontalAlignment [
-	<return: #BlElementAlignment>
-
-	^ self layout horizontalAlignment 
-]
-
-{ #category : #accessing }
-ToPane >> horizontalAlignment: aBlElementAlignment [
-
-	self horizontalAlignment = aBlElementAlignment ifTrue: [ ^self ].
-	self layout horizontalAlignment: aBlElementAlignment.
-
-]
-
-{ #category : #accessing }
 ToPane >> privateAnnouncer: anObject [
 
 	privateAnnouncer := anObject
@@ -77,19 +44,4 @@ ToPane >> privateAnnouncer: anObject [
 ToPane >> privateAnnouncerIsPlugged: anObject [
 
 	privateAnnouncerIsPlugged := anObject
-]
-
-{ #category : #accessing }
-ToPane >> verticalAlignment [
-	<return: #BlElementAlignment>
-
-	^ self layout verticalAlignment 
-]
-
-{ #category : #accessing }
-ToPane >> verticalAlignment: aBlElementAlignment [
-
-	self verticalAlignment = aBlElementAlignment ifTrue: [ ^self ].
-	self layout verticalAlignment: aBlElementAlignment
-
 ]

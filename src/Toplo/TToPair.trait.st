@@ -29,19 +29,6 @@ TToPair >> columnWidth: anInteger [
 	self strategy: (ToPairColumnStrategy new width: anInteger)
 ]
 
-{ #category : #'t - pair presentation' }
-TToPair >> direction [
-
-	^ self layout direction
-]
-
-{ #category : #'t - pair presentation' }
-TToPair >> direction: aLayoutDirection [
-
-	self layout direction: aLayoutDirection.
-	self requestLayout
-]
-
 { #category : #'t - pair accessing' }
 TToPair >> first [
 

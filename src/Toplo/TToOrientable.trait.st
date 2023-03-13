@@ -14,16 +14,14 @@ TToOrientable >> beHorizontal [
 TToOrientable >> beLeftToRight [
 
 	self isLeftToRight ifTrue: [ ^ self ].
-	self layout leftToRight.
-	self directionChanged
+	self layout leftToRight
 ]
 
 { #category : #'t - orientable direction' }
 TToOrientable >> beRightToLeft [
 
 	self isRightToLeft ifTrue: [ ^ self ].
-	self layout rightToLeft.
-	self directionChanged
+	self layout rightToLeft
 ]
 
 { #category : #'t - orientable orientation' }
@@ -33,10 +31,10 @@ TToOrientable >> beVertical [
 	self horizontal: false
 ]
 
-{ #category : #'t - orientable direction' }
-TToOrientable >> directionChanged [
+{ #category : #accessing }
+TToOrientable >> direction [
 
-	self announce: (ToDirectionChanged new widget: self)
+	^ self layout direction
 ]
 
 { #category : #'t - orientable orientation' }
@@ -51,8 +49,7 @@ TToOrientable >> horizontal: aBoolean [
 	aBoolean
 		ifTrue: [ self layout beHorizontal ]
 		ifFalse: [ self layout beVertical ].
-	self requestLayout.
-	self orientationChanged
+	self requestLayout
 ]
 
 { #category : #'t - orientable orientation' }
@@ -89,24 +86,17 @@ TToOrientable >> orientation [
 TToOrientable >> orientation: aBlLayoutOrientation [
 
 	self layout orientation: aBlLayoutOrientation.
-	self requestLayout.
-	self orientationChanged
-]
-
-{ #category : #'t - orientable orientation' }
-TToOrientable >> orientationChanged [
-
-	self announce: (ToOrientationChanged new widget: self)
+	self requestLayout
 ]
 
 { #category : #'t - orientable direction' }
 TToOrientable >> whenDirectionChangedDo: aBlock [
 
-	self whenAnnouncement: ToDirectionChanged do: aBlock
+	self layout whenDirectionChangedDo: aBlock
 ]
 
 { #category : #'t - orientable orientation' }
 TToOrientable >> whenOrientationChangedDo: aBlock [
 
-	self whenAnnouncement: ToOrientationChanged do: aBlock
+	self layout whenOrientationChangedDo: aBlock
 ]

@@ -8,21 +8,12 @@ Class {
 ToDividerDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
+	anElement background: Color random.
 	anElement thickness: 4.
-	anElement elevation:
-		(BlRelativeElevation elevation: SmallInteger maxVal).
+	anElement elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
 	anElement constraintsDo: [ :c | c ignoreByLayout ].
-	anElement isVertical
-		ifTrue: [
-			anElement
-				vMatchParent;
-				width: anElement thickness.
-			anElement constraintsDo: [ :c | c ignored vertical alignTop ] ]
-		ifFalse: [
-			anElement
-				hMatchParent;
-				height: anElement thickness.
-			anElement constraintsDo: [ :c | c ignored horizontal alignLeft ] ]
+	anElement pane whenOrientationChangedDo: [ anElement adaptToPane ].
+	anElement adaptToPane 
 ]
 
 { #category : #'api - install/uninstall  hook' }

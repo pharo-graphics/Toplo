@@ -619,7 +619,7 @@ ToSandBox class >> example_elementInPopupRoot [
 { #category : #pane }
 ToSandBox class >> example_horizontalPaneWithDivider [
 
-	| pane e1 e2 e3 |
+	| pane e1 e2 e3 btn |
 	pane := ToPane new.
 	pane matchParent.
 	e1 := ToElement new
@@ -633,11 +633,14 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 	e3 := ToElement new
 		      background: (Color random alpha: 0.2);
 		      vMatchParent;
-		      width: 100.
+		      width: 50.
 	pane addChildren: {
 			e1.
 			e2.
 			e3 }.
+	btn := ToButton new labelText: 'Change orientation'.
+	btn whenClickedDo: [ pane orientation: pane orientation inverted ].
+	pane addChild: btn.
 	pane addDividers.
 	pane openInWorld
 ]
@@ -1753,6 +1756,28 @@ ToSandBox class >> example_toLabel0 [
 ]
 
 { #category : #label }
+ToSandBox class >> example_toLabel1 [
+
+	| lab |
+	lab := ToLabel text: 'Hello world'.
+	lab openInNewSpace.
+
+]
+
+{ #category : #label }
+ToSandBox class >> example_toLabel2 [
+
+	| lab |
+	lab := ToLabel text: 
+'Mme XX
+28 allée de la mer,
+29200 Brest'.
+	lab beMultiLine.
+	lab openInNewSpace.
+
+]
+
+{ #category : #label }
 ToSandBox class >> example_toLabel3 [
 
 	| lab |
@@ -2358,26 +2383,31 @@ ToSandBox class >> example_toggle [
 { #category : #pane }
 ToSandBox class >> example_verticalPaneWithDivider [
 
-	| pane e1 e2 e3 |
+	| pane e1 e2 e3 btn |
 	pane := ToPane new beVertical.
-	pane vMatchParent.
-	pane width: 200.
+	pane matchParent.
 	e1 := ToElement new
 		      background: (Color random alpha: 0.2);
+				id: #e1;
 		      hMatchParent;
 		      height: 100.
 	e2 := ToElement new
 		      background: (Color random alpha: 0.2);
+				id: #e2;
 		      hMatchParent;
-		      height: 100.
+		      height: 200.
 	e3 := ToElement new
 		      background: (Color random alpha: 0.2);
+				id: #e3;
 		      hMatchParent;
-		      height: 100.
+		      height: 50.
 	pane addChildren: {
 			e1.
 			e2.
 			e3 }.
+	btn := ToButton new labelText: 'Change orientation'.
+	btn whenClickedDo: [ pane orientation: pane orientation inverted ].
+	pane addChild: btn.
 	pane addDividers.
 	pane openInWorld
 ]

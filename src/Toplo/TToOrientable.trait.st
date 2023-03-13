@@ -9,42 +9,45 @@ TToOrientable >> beHorizontal [
 	self horizontal: true
 ]
 
-{ #category : #'t - orientable presentation' }
+{ #category : #'t - orientable direction' }
 TToOrientable >> beLeftToRight [ 
 
+	self isLeftToRight ifTrue: [ ^ self ].
 	self layout leftToRight.
 	self directionChanged 
  
 ]
 
-{ #category : #'t - orientable presentation' }
+{ #category : #'t - orientable direction' }
 TToOrientable >> beRightToLeft [
 
+	self isRightToLeft ifTrue: [ ^ self ].
 	self layout rightToLeft.
 	self directionChanged 
 
  
 ]
 
-{ #category : #'t - orientable presentation' }
+{ #category : #'t - orientable orientation' }
 TToOrientable >> beVertical [
 
+	self isVertical ifTrue: [ ^ self ].
 	self horizontal: false
 ]
 
-{ #category : #'t - orientable presentation' }
+{ #category : #'t - orientable direction' }
 TToOrientable >> directionChanged [
 
 	self announce: (ToDirectionChanged new widget: self)
 ]
 
-{ #category : #'t - orientable presentation' }
+{ #category : #'t - orientable orientation' }
 TToOrientable >> horizontal [
 
 	^ self layout isHorizontal
 ]
 
-{ #category : #'t - orientable presentation' }
+{ #category : #'t - orientable orientation' }
 TToOrientable >> horizontal: aBoolean [
 
 	aBoolean
@@ -54,31 +57,37 @@ TToOrientable >> horizontal: aBoolean [
 	self orientationChanged
 ]
 
-{ #category : #'t - orientable presentation' }
+{ #category : #'t - orientable orientation' }
 TToOrientable >> isHorizontal [
 
 	^ self horizontal
 ]
 
-{ #category : #'t - orientable presentation' }
+{ #category : #'t - orientable direction' }
 TToOrientable >> isLeftToRight [
 
 	^ self direction isLeftToRight
 ]
 
-{ #category : #'t - orientable presentation' }
+{ #category : #'t - orientable direction' }
 TToOrientable >> isRightToLeft [
 
 	^ self direction isRightToLeft
 ]
 
-{ #category : #'t - orientable presentation' }
+{ #category : #'t - orientable orientation' }
+TToOrientable >> isVertical [
+
+	^ self isHorizontal not
+]
+
+{ #category : #'t - orientable orientation' }
 TToOrientable >> orientation [
 
 	^ self layout orientation
 ]
 
-{ #category : #'t - orientable presentation' }
+{ #category : #'t - orientable orientation' }
 TToOrientable >> orientation: aBlLayoutOrientation [
 
 	self layout orientation: aBlLayoutOrientation.
@@ -86,19 +95,19 @@ TToOrientable >> orientation: aBlLayoutOrientation [
 	self orientationChanged
 ]
 
-{ #category : #'t - orientable presentation' }
+{ #category : #'t - orientable orientation' }
 TToOrientable >> orientationChanged [
 
 	self announce: (ToOrientationChanged new widget: self)
 ]
 
-{ #category : #enumerating }
+{ #category : #'t - orientable direction' }
 TToOrientable >> whenDirectionChangedDo: aBlock [
 
 	self whenAnnouncement: ToDirectionChanged do: aBlock
 ]
 
-{ #category : #'t - orientable presentation' }
+{ #category : #'t - orientable orientation' }
 TToOrientable >> whenOrientationChangedDo: aBlock [
 
 	self whenAnnouncement: ToOrientationChanged do: aBlock

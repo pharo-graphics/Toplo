@@ -621,7 +621,7 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 
 	| pane e1 e2 e3 |
 	pane := ToPane new.
-	pane size: 300 @ 200.
+	pane matchParent.
 	e1 := ToElement new
 		      background: (Color random alpha: 0.2);
 		      vMatchParent;
@@ -629,7 +629,7 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 	e2 := ToElement new
 		      background: (Color random alpha: 0.2);
 		      vMatchParent;
-		      width: 100.
+		      width: 200.
 	e3 := ToElement new
 		      background: (Color random alpha: 0.2);
 		      vMatchParent;

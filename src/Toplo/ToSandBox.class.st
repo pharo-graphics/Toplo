@@ -2409,7 +2409,7 @@ ToSandBox class >> example_verticalPaneWithDivider [
 	btn whenClickedDo: [ pane orientation: pane orientation inverted ].
 	pane addChild: btn.
 	pane addDividers.
-	pane openInWorld
+	pane openInInnerWindow 
 ]
 
 { #category : #accessing }

@@ -125,7 +125,7 @@ ToMiniBrowser >> initialize [
 	listsPane := ToPane new margin: (BlInsets top: 5 bottom: 5).
 	listsPane layout: (BlLinearLayout horizontal cellSpacing: 5).
 	listsPane matchParent.
-
+	
 	mainPane := ToPane new beVertical.
 	mainPane matchParent.
 
@@ -154,6 +154,7 @@ ToMiniBrowser >> initialize [
 		do: [ :event | self classSelectionChangedEvent: event ].
 	classes data whenRemoveChangeDo: [ protocols data removeAll ].
 	classesPane := ToPane new beVertical; matchParent.
+
 	classesPane addChild: classes.
 	classesButtonPane := ToPane new
 		                     hMatchParent;
@@ -190,6 +191,7 @@ ToMiniBrowser >> initialize [
 		when: ToInfiniteSelectionChangedEvent
 		do: [ :event | self selectorSelectionChangedEvent: event ].
 	selectors data whenRemoveChangeDo: [ self clearCodeInEditor ].
+
 	"selectors hasFixedSize: true."
 
 	codeModel := ToAlbumModel new withRowNumbers.

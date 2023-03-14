@@ -32,7 +32,7 @@ ToDivider class >> new [
 { #category : #'private - adding' }
 ToDivider >> adaptToHorizontalPane [
 
-	| firstY secondY gap firstX secondX firstH secondH |
+	| firstY secondY gap firstX secondX firstH secondH w |
 	self width: self thickness.
 	firstX := self leftTarget bounds right.
 	secondX := self rightTarget bounds left.
@@ -42,7 +42,14 @@ ToDivider >> adaptToHorizontalPane [
 	secondH := self bottomTarget bounds height.
 	gap := secondX - firstX / 2 - (self thickness / 2).
 	self relocate: firstX + gap @ (firstY max: secondY).
-	self height: (firstH min: secondH)
+	self height: (firstH min: secondH).
+	w := self weightFromWidth: self firstTarget width.
+	self firstTarget constraints linear weight: w.
+	w := self weightFromWidth: self secondTarget width.
+	self secondTarget constraints linear weight: w.
+
+	
+
 
 ]
 
@@ -53,23 +60,28 @@ ToDivider >> adaptToPane [
 		self isHorizontal
 			ifTrue: [ self adaptToVerticalPane ]
 			ifFalse: [ self adaptToHorizontalPane ] ].
-	"self pane requestLayout"
+	self pane requestLayout 
 ]
 
 { #category : #'private - adding' }
 ToDivider >> adaptToVerticalPane [
 
-	| firstY secondY gap firstX secondX firstW secondW|
+	| firstY secondY gap firstX secondX firstW secondW w |
 	self height: self thickness.
 	firstY := self topTarget bounds bottom.
 	secondY := self bottomTarget bounds top.
 	firstX := self topTarget bounds left.
 	secondX := self bottomTarget bounds left.
-	firstW := self topTarget bounds width.
-	secondW := self bottomTarget bounds width.
+	firstW := self topTarget width.
+	secondW := self bottomTarget width.
 	gap := secondY - firstY / 2 - (self thickness / 2).
 	self relocate: (firstX max: secondX) @ firstY + gap.
-	self width: (firstW min: secondW)
+	self width: (firstW min: secondW).
+	w := self weightFromWidth: self firstTarget height.
+	self firstTarget constraints linear weight: w.
+	w := self weightFromWidth: self secondTarget height.
+	self secondTarget constraints linear weight: w.
+
 ]
 
 { #category : #'private - adding' }
@@ -107,16 +119,16 @@ ToDivider >> firstTarget [
 ]
 
 { #category : #accessing }
-ToDivider >> firstTarget: anObject [
+ToDivider >> firstTarget: anElement [
 
-	firstTarget := anObject
+	firstTarget := anElement
 ]
 
 { #category : #initialization }
 ToDivider >> initialize [
 
 	super initialize.
-	self initializeDresser 
+	self initializeDresser.
 ]
 
 { #category : #testing }
@@ -164,9 +176,9 @@ ToDivider >> secondTarget [
 ]
 
 { #category : #accessing }
-ToDivider >> secondTarget: anObject [
+ToDivider >> secondTarget: anElement [
 
-	secondTarget := anObject
+	secondTarget := anElement
 ]
 
 { #category : #accessing }
@@ -187,4 +199,10 @@ ToDivider >> topTarget [
 	^ self pane isLeftToRight  
 		  ifTrue: [ self firstTarget ]
 		  ifFalse: [ self secondTarget ]
+]
+
+{ #category : #accessing }
+ToDivider >> weightFromWidth: aWidth [
+
+	^ ((aWidth ) / self pane width) asFloat
 ]

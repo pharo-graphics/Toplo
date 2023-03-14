@@ -204,5 +204,6 @@ ToDivider >> topTarget [
 { #category : #accessing }
 ToDivider >> weightFromWidth: aWidth [
 
+	self pane width isZero ifTrue: [ ^ 1 ].
 	^ ((aWidth ) / self pane width) asFloat
 ]

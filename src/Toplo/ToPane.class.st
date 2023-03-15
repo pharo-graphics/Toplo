@@ -33,6 +33,14 @@ ToPane >> defaultLayout [
 	^ BlLinearLayout new 
 ]
 
+{ #category : #layout }
+ToPane >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
+	self layout layoutIgnored: self context: aBlElementBoundsUpdateContext
+
+]
+
 { #category : #accessing }
 ToPane >> privateAnnouncer: anObject [
 

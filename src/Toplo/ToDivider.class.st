@@ -29,73 +29,10 @@ ToDivider class >> new [
 	^ self error: 'Use between:and:in'
 ]
 
-{ #category : #'private - adding' }
-ToDivider >> adaptToHorizontalPane [
-
-	| firstY secondY gap firstX secondX firstH secondH w |
-	self width: self thickness.
-	firstX := self leftTarget bounds right.
-	secondX := self rightTarget bounds left.
-	firstY := self leftTarget bounds top.
-	secondY := self rightTarget bounds top.
-	firstH := self topTarget bounds height.
-	secondH := self bottomTarget bounds height.
-	gap := secondX - firstX / 2 - (self thickness / 2).
-	self relocate: firstX + gap @ (firstY max: secondY).
-	self height: (firstH min: secondH).
-	w := self weightFromWidth: self firstTarget width.
-	self firstTarget constraints linear weight: w.
-	w := self weightFromWidth: self secondTarget width.
-	self secondTarget constraints linear weight: w.
-
-	
-
-
-]
-
-{ #category : #'private - adding' }
-ToDivider >> adaptToPane [
-
-	self pane whenLayoutedDoOnce: [
-		self isHorizontal
-			ifTrue: [ self adaptToVerticalPane ]
-			ifFalse: [ self adaptToHorizontalPane ] ].
-	self pane requestLayout 
-]
-
-{ #category : #'private - adding' }
-ToDivider >> adaptToVerticalPane [
-
-	| firstY secondY gap firstX secondX firstW secondW w |
-	self height: self thickness.
-	firstY := self topTarget bounds bottom.
-	secondY := self bottomTarget bounds top.
-	firstX := self topTarget bounds left.
-	secondX := self bottomTarget bounds left.
-	firstW := self topTarget width.
-	secondW := self bottomTarget width.
-	gap := secondY - firstY / 2 - (self thickness / 2).
-	self relocate: (firstX max: secondX) @ firstY + gap.
-	self width: (firstW min: secondW).
-	w := self weightFromWidth: self firstTarget height.
-	self firstTarget constraints linear weight: w.
-	w := self weightFromWidth: self secondTarget height.
-	self secondTarget constraints linear weight: w.
-
-]
-
-{ #category : #'private - adding' }
-ToDivider >> addedInPane [
-
-	self adaptToPane.
-	self pane whenOrientationChangedDo: [ self adaptToPane ].
-	self pane when: BlElementExtentChangedEvent do: [ self adaptToPane ]
-]
-
 { #category : #accessing }
 ToDivider >> bottomTarget [
 
-	^ self pane isLeftToRight 
+	^ (self pane isLeftToRight or: [ self pane isVertical ]) 
 		  ifTrue: [ self secondTarget ]
 		  ifFalse: [ self firstTarget ]
 ]
@@ -109,7 +46,7 @@ ToDivider >> defaultDresser [
 { #category : #'t - initialization' }
 ToDivider >> defaultLayout [
 
-	^ BlFrameLayout new 
+	^ BlBasicLayout new 
 ]
 
 { #category : #accessing }
@@ -143,10 +80,99 @@ ToDivider >> isVertical [
 	^ self isHorizontal not
 ]
 
+{ #category : #layout }
+ToDivider >> layoutInHorizontalPane [
+
+	| firstY secondY gap firstX secondX position |
+		
+	firstX := self leftTarget bounds right.
+	secondX := self rightTarget bounds left.
+	firstY := self leftTarget bounds top.
+	secondY := self rightTarget bounds top.
+	gap := (((secondX - firstX) / 2) - (self thickness / 2)) rounded.
+	
+	position := (firstX + gap) @ (firstY max: secondY).
+	self constraints position: position.
+	self measuredBounds position: position.
+	
+	
+
+
+]
+
+{ #category : #layout }
+ToDivider >> layoutInVerticalPane [
+
+	| firstY secondY gap firstX secondX x position |
+	
+	firstY := self topTarget bounds bottom.
+	secondY := self bottomTarget bounds top.
+
+	firstX := self topTarget bounds left.
+	secondX := self bottomTarget bounds left.
+
+	gap := secondY - firstY / 2 - (self thickness / 2).
+	x := self pane direction isLeftToRight
+		     ifTrue: [ firstX max: secondX ]
+		     ifFalse: [ firstX min: secondX ].
+	
+	position := x @ firstY + gap.
+	self constraints position: position.
+	self measuredBounds position: position
+]
+
 { #category : #accessing }
 ToDivider >> leftTarget [
 
 	^ self pane isLeftToRight ifTrue: [  self firstTarget ] ifFalse: [ self secondTarget ]
+]
+
+{ #category : #layout }
+ToDivider >> measureInHorizontalPane [
+
+	| firstH secondH w |
+	
+	firstH := self topTarget measuredBounds height.
+	secondH := self bottomTarget measuredBounds height.
+	
+	self measuredExtent: self thickness @ (firstH max: secondH).	
+	w := self weightFromWidth: self firstTarget measuredWidth.
+	self firstTarget constraints linear weight: w.
+	w := self weightFromWidth: self secondTarget measuredWidth.
+	self secondTarget constraints linear weight: w
+]
+
+{ #category : #layout }
+ToDivider >> measureInVerticalPane [
+
+	| firstW secondW w |
+	
+	firstW := self topTarget measuredWidth.
+	secondW := self bottomTarget measuredWidth.
+
+	self measuredExtent: (firstW max: secondW) @ self thickness.
+	w := self weightFromWidth: self firstTarget measuredHeight.
+	self firstTarget constraints linear weight: w.
+	w := self weightFromWidth: self secondTarget measuredHeight.
+	self secondTarget constraints linear weight: w
+]
+
+{ #category : #layout }
+ToDivider >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
+	self isHorizontal
+		ifTrue: [ self layoutInVerticalPane ]
+		ifFalse: [ self layoutInHorizontalPane ]
+]
+
+{ #category : #layout }
+ToDivider >> onMeasure: anExtentMeasurementSpec [
+
+	super onMeasure: anExtentMeasurementSpec.
+	self isHorizontal
+		ifTrue: [ self measureInVerticalPane ]
+		ifFalse: [ self measureInHorizontalPane ]
 ]
 
 { #category : #accessing }
@@ -196,7 +222,7 @@ ToDivider >> thickness: aNumber [
 { #category : #accessing }
 ToDivider >> topTarget [
 
-	^ self pane isLeftToRight  
+	^ (self pane isLeftToRight or: [ self pane isVertical ]) 
 		  ifTrue: [ self firstTarget ]
 		  ifFalse: [ self secondTarget ]
 ]

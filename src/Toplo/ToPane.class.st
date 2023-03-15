@@ -14,8 +14,7 @@ ToPane >> addDividerBetween: aFirstElement and: aSecondElement [
 
 	| divider |
 	divider := ToDivider between: aFirstElement and: aSecondElement in: self.
-	self addChild: divider.
-	divider addedInPane
+	self addChild: divider
 ]
 
 { #category : #adding }

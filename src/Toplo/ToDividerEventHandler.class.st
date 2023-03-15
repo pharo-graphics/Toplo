@@ -26,27 +26,35 @@ ToDividerEventHandler >> divider: aDivider [
 
 { #category : #'dnd handlers' }
 ToDividerEventHandler >> dragEndEvent: anEvent [
-	"anEvent consumed: true"
+	
+	self dragEvent: anEvent
 ]
 
 { #category : #'dnd handlers' }
 ToDividerEventHandler >> dragEvent: anEvent [
 
-	| dragPosition dragDelta widthChanged heightChanged firstTargetBounds secondTargetBounds firstTargetOriginalBounds secondTargetOriginalBounds dividerPosition |
+	| dragPosition dragDelta widthChanged heightChanged firstTargetBounds secondTargetBounds firstTargetOriginalBounds secondTargetOriginalBounds appliedDragDelta |
 	anEvent consumed: true.
 
-	dividerPosition := self divider position.
 	dragPosition := anEvent position.
 	dragDelta := dragPosition - dragStartPosition.
 
-	firstTargetBounds := BlBounds origin: firstTargetOriginalPosition extent: firstTargetOriginalExtent.
-	secondTargetBounds := BlBounds origin: secondTargetOriginalPosition extent: secondTargetOriginalExtent.
+	firstTargetBounds := BlBounds
+		                     origin: firstTargetOriginalPosition
+		                     extent: firstTargetOriginalExtent.
+	secondTargetBounds := BlBounds
+		                      origin: secondTargetOriginalPosition
+		                      extent: secondTargetOriginalExtent.
 
 	firstTargetOriginalBounds := firstTargetBounds copy.
 	secondTargetOriginalBounds := secondTargetBounds copy.
 
-	self resizeBounds: firstTargetBounds by: (self divider isVertical ifTrue: [dragDelta negated] ifFalse: [dragDelta]).
-	self resizeBounds: secondTargetBounds by: (self divider isHorizontal ifTrue: [dragDelta negated] ifFalse: [dragDelta]).
+	appliedDragDelta := (self divider isVertical)
+			 ifTrue: [ dragDelta negated ]
+			 ifFalse: [ dragDelta ].
+	(self divider isVertical and: [self pane isRightToLeft ]) ifTrue: [ appliedDragDelta := appliedDragDelta negated ].
+	self resizeBounds: firstTargetBounds by: (appliedDragDelta).
+	self resizeBounds: secondTargetBounds by: (appliedDragDelta negated).
 	widthChanged := firstTargetBounds width ~= firstTargetOriginalBounds width.
 	heightChanged := firstTargetBounds height ~= firstTargetOriginalBounds height.
 
@@ -58,27 +66,34 @@ ToDividerEventHandler >> dragEvent: anEvent [
 	anEvent currentTarget mouseCursor: self resizerCursor.
 	(widthChanged or: [ heightChanged ]) ifFalse: [ ^ self ].
 
-	widthChanged ifTrue: [ | w |
-		self firstTarget constraints horizontal resizer isExact ifTrue: [
-			self firstTarget width: firstTargetBounds width ].
-		self secondTarget constraints horizontal resizer isExact ifTrue: [
-			self secondTarget width: secondTargetBounds width ].
-		w := self weightFromWidth: firstTargetBounds width.
-		self firstTarget constraints linear weight: w.
-		w := self weightFromWidth: secondTargetBounds width.
-		self secondTarget constraints linear weight: w].
+	" in case of matchParent, the width/height must be converted as a weight "
+	widthChanged ifTrue: [
+		| w |
+		self firstTarget constraints horizontal resizer isExact
+			ifTrue: [ self firstTarget width: firstTargetBounds width ]
+			ifFalse: [
+				w := self weightFromWidth: firstTargetBounds width.
+				self firstTarget constraints linear weight: w ].
+		self secondTarget constraints horizontal resizer isExact
+			ifTrue: [ self secondTarget width: secondTargetBounds width ]
+			ifFalse: [
+				w := self weightFromWidth: secondTargetBounds width.
+				self secondTarget constraints linear weight: w ] ].
 
-	heightChanged ifTrue: [ | w |
-		self firstTarget constraints vertical resizer isExact ifTrue: [
-			self firstTarget height: firstTargetBounds height ].
-		self secondTarget constraints vertical resizer isExact ifTrue: [
-			self secondTarget height: secondTargetBounds height ].
-		w := self weightFromWidth: firstTargetBounds height.
-		self firstTarget constraints linear weight: w.
-		w := self weightFromWidth: secondTargetBounds height.
-		self secondTarget constraints linear weight: w].
+	heightChanged ifTrue: [
+		| w |
+		self firstTarget constraints vertical resizer isExact
+			ifTrue: [ self firstTarget height: firstTargetBounds height ]
+			ifFalse: [
+				w := self weightFromWidth: firstTargetBounds height.
+				self firstTarget constraints linear weight: w ].
+		self secondTarget constraints vertical resizer isExact
+			ifTrue: [ self secondTarget height: secondTargetBounds height ]
+			ifFalse: [
+				w := self weightFromWidth: secondTargetBounds height.
+				self secondTarget constraints linear weight: w ] ].
 
-	self divider adaptToPane
+	self divider requestLayout
 ]
 
 { #category : #'dnd handlers' }
@@ -116,7 +131,7 @@ ToDividerEventHandler >> minimumExtent [
 { #category : #'mouse handlers' }
 ToDividerEventHandler >> mouseDownEvent: anEvent [
 
-	"anEvent consumed: true"
+	anEvent consumed: true
 ]
 
 { #category : #'mouse handlers' }
@@ -131,15 +146,18 @@ ToDividerEventHandler >> mouseLeaveEvent: anEvent [
 
 	anEvent consumed: true.
 	anEvent anyButtonPressed ifFalse: [ ^ self ].
-	anEvent currentTarget mouseCursor: self resizerCursor
+	anEvent currentTarget mouseCursor: BlCursor default.
 ]
 
 { #category : #'mouse handlers' }
 ToDividerEventHandler >> mouseUpEvent: anEvent [
-
-	anEvent currentTarget mouseCursor: BlCursor default.
-	"anEvent consumed: true"
 	
+]
+
+{ #category : #accessing }
+ToDividerEventHandler >> pane [
+
+	^ self divider pane
 ]
 
 { #category : #resizer }

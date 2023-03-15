@@ -8,73 +8,65 @@ Class {
 		'mouseDownHandler',
 		'mouseUpHandler',
 		'mouseEnterHandler',
-		'mouseLeaveHandler'
+		'mouseLeaveHandler',
+		'dragEndHandler',
+		'paneExtentHandler'
 	],
 	#category : #'Toplo-Widget-Pane'
 }
 
-{ #category : #accessing }
-ToDividerDresser >> defaultHoveredBackground [  
-
-	^ theme divider hoveredBackgroundColor
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToDividerDresser >> defaultHoveredBorder [
-
-	^ BlBorder paint: theme divider hoveredBorderColor
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToDividerDresser >> defaultInitialBackground [
-
-	^ self theme divider defaultBackgroundColor
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToDividerDresser >> defaultInitialBorder [
-
-	^ BlBorder paint: self theme divider defaultBorderColor.
-
-]
-
 { #category : #'api - install/uninstall  hook' }
 ToDividerDresser >> defaultMargins [ 
 
-	^ BlInsets all: 1
+	^ BlInsets empty
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToDividerDresser >> defaultPadding [
+
+	^ BlInsets all: 2 
+]
+
+{ #category : #'event handlers' }
+ToDividerDresser >> dragEndHandlerIn: anElement [
+
+	^ BlEventHandler on: BlDragEndEvent do: [ :event | self up: anElement event: event ].
 ]
 
 { #category : #'events handling' }
 ToDividerDresser >> hover: anElement event: anEvent [
 
 	anElement border: (BlBorder paint: self theme divider hoveredBorderColor).
-	anElement background: self theme divider hoveredBackgroundColor 
+	anElement background: self theme divider hoveredBackgroundColor
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToDividerDresser >> installEventListenersIn: anElement [
 
-	anElement pane whenOrientationChangedDo: [ anElement adaptToPane ].
+	anElement pane whenOrientationChangedDo: [ anElement requestLayout ].
+	anElement pane whenDirectionChangedDo: [ anElement requestLayout ].
 	
 	mouseDownHandler := self mouseDownHandlerIn: anElement.
 	mouseUpHandler := self mouseUpHandlerIn: anElement.
+	dragEndHandler := self dragEndHandlerIn: anElement.
 	mouseEnterHandler := self mouseEnterHandlerIn: anElement.
 	mouseLeaveHandler := self mouseLeaveHandlerIn: anElement.
+
 	dividerHandler := ToDividerEventHandler new divider: anElement.
 	
 	anElement addEventHandler: mouseDownHandler.
 	anElement addEventHandler: mouseUpHandler.
+	anElement addEventHandler: dragEndHandler.
 	anElement addEventHandler: mouseEnterHandler.
 	anElement addEventHandler: mouseLeaveHandler.
 	anElement addEventHandler: dividerHandler.
-	anElement addEventHandler: (self mouseClickHandlerIn: anElement).
-	anElement addEventHandler: (self mouseClickCandidateHandlerIn: anElement).
 	
-	firstTargetPositionChangeHandler := BlEventHandler on: BlElementPositionChangedEvent do: [ anElement adaptToPane ].	
+	paneExtentHandler := self paneExtentChangeHandlerIn: anElement.
+	anElement pane addEventHandler: paneExtentHandler.
+	
+	firstTargetPositionChangeHandler := BlEventHandler on: BlElementPositionChangedEvent do: [ anElement requestLayout ].	
 	anElement firstTarget addEventHandler: firstTargetPositionChangeHandler.
-	secondTargetPositionChangeHandler := BlEventHandler on: BlElementPositionChangedEvent do: [ anElement adaptToPane ].	
+	secondTargetPositionChangeHandler := BlEventHandler on: BlElementPositionChangedEvent do: [ anElement requestLayout ].	
 	anElement secondTarget addEventHandler: secondTargetPositionChangeHandler.
 
 ]
@@ -91,18 +83,6 @@ ToDividerDresser >> leftPressed: anElement event: anEvent [
 
 	anElement border: (BlBorder paint: self theme divider pressedBorderColor).
 	anElement background: self theme divider pressedBackgroundColor
-]
-
-{ #category : #'event handlers' }
-ToDividerDresser >> mouseClickCandidateHandlerIn: anElement [
-
-	^ BlEventHandler on: BlClickCandidateEvent do: [ :event | self up: anElement event: event]
-]
-
-{ #category : #'event handlers' }
-ToDividerDresser >> mouseClickHandlerIn: anElement [
-
-	^ BlEventHandler on: BlClickEvent do: [ :event | self up: anElement event: event]
 ]
 
 { #category : #'event handlers' }
@@ -138,11 +118,12 @@ ToDividerDresser >> onInstalledIn: anElement [
 	super onInstalledIn: anElement.
 	self installEventListenersIn: anElement.
 	anElement thickness: 3.
+	anElement border: (BlBorder paint: self theme divider defaultBorderColor).
+	anElement background: self theme divider defaultBackgroundColor.
 	anElement margin: self defaultMargins.
+	anElement padding: self defaultPadding.
 	anElement elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
-	anElement constraintsDo: [ :c | c ignoreByLayout ].
-	anElement adaptToPane.
-
+	anElement constraintsDo: [ :c | c ignoreByLayout ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -151,6 +132,13 @@ ToDividerDresser >> onUninstalledIn: anElement [
 	super onUninstalledIn: anElement.
 	self uninstallEventListenersIn: anElement.
 
+
+]
+
+{ #category : #'event handlers' }
+ToDividerDresser >> paneExtentChangeHandlerIn: anElement [
+
+	^ BlEventHandler on: BlElementExtentChangedEvent do: [ :event | anElement requestLayout ].
 
 ]
 
@@ -183,10 +171,13 @@ ToDividerDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: mouseDownHandler.
 	anElement removeEventHandler: mouseUpHandler.
+	anElement removeEventHandler: dragEndHandler.
 	anElement removeEventHandler: mouseEnterHandler.
 	anElement removeEventHandler: mouseLeaveHandler.
 	anElement removeEventHandler: dividerHandler.
 	
+	anElement pane removeEventHandler: paneExtentHandler.
+
 	anElement firstTarget removeEventHandler: firstTargetPositionChangeHandler.
 	anElement secondTarget removeEventHandler: secondTargetPositionChangeHandler.
 
@@ -196,5 +187,5 @@ ToDividerDresser >> uninstallEventListenersIn: anElement [
 ToDividerDresser >> up: anElement event: anEvent [
 
 	self leaved: anElement.
-	anElement adaptToPane
+	anElement space mouseProcessor handleLastMouseMove
 ]

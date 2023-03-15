@@ -641,6 +641,10 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 	btn := ToButton new labelText: 'Change orientation'.
 	btn whenClickedDo: [ pane orientation: pane orientation inverted ].
 	pane addChild: btn.
+	btn := ToButton new labelText: 'Change direction'.
+	btn whenClickedDo: [ pane direction: pane direction inverted ].
+	pane addChild: btn.
+
 	pane addDividers.
 	pane openInWorld
 ]
@@ -2407,6 +2411,9 @@ ToSandBox class >> example_verticalPaneWithDivider [
 			e3 }.
 	btn := ToButton new labelText: 'Change orientation'.
 	btn whenClickedDo: [ pane orientation: pane orientation inverted ].
+	pane addChild: btn.
+	btn := ToButton new labelText: 'Change direction'.
+	btn whenClickedDo: [ pane direction: pane direction inverted ].
 	pane addChild: btn.
 	pane addDividers.
 	pane openInInnerWindow 

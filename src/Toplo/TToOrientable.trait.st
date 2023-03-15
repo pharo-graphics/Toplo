@@ -37,6 +37,13 @@ TToOrientable >> direction [
 	^ self layout direction
 ]
 
+{ #category : #accessing }
+TToOrientable >> direction: aDirection [
+
+	self layout direction: aDirection.
+	self requestLayout
+]
+
 { #category : #'t - orientable orientation' }
 TToOrientable >> horizontal [
 

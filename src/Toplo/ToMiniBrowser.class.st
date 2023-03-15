@@ -123,14 +123,15 @@ ToMiniBrowser >> initialize [
 	| codeMenu classesPane classesButtonPane sideToggle |
 	super initialize.
 	listsPane := ToPane new id: #listPane; margin: (BlInsets top: 5 bottom: 5).
-	listsPane layout: (BlLinearLayout horizontal cellSpacing: 5).
+	listsPane layout: (BlLinearLayout horizontal cellSpacing: 6).
 	listsPane matchParent.
 	
 	mainPane := ToPane new beVertical.
 	mainPane matchParent.
 
 	packages := ToListElement new 
-		id: #packages; 
+		id: #packages;
+		margin: (BlInsets all: 1);
 		nodeFactory: [ :pkg |
 		            | node |
 		            node := ToLabeledNode new

@@ -89,9 +89,8 @@ ToDivider >> layoutInHorizontalPane [
 	secondX := self rightTarget bounds left.
 	firstY := self leftTarget bounds top.
 	secondY := self rightTarget bounds top.
-	gap := (((secondX - firstX) / 2) - (self thickness / 2)) rounded.
-	
-	position := (firstX + gap) @ (firstY max: secondY).
+	gap := (((secondX - firstX)  - (self thickness )) / 2) rounded.
+	position := (firstX + gap) @ (firstY min: secondY).
 	self constraints position: position.
 	self measuredBounds position: position.
 	
@@ -111,7 +110,7 @@ ToDivider >> layoutInVerticalPane [
 	firstX := self topTarget bounds left.
 	secondX := self bottomTarget bounds left.
 
-	gap := secondY - firstY / 2 - (self thickness / 2).
+	gap := (secondY - firstY / 2) - (self thickness / 2).
 	x := self pane direction isLeftToRight
 		     ifTrue: [ firstX max: secondX ]
 		     ifFalse: [ firstX min: secondX ].

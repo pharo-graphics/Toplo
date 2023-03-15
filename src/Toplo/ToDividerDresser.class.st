@@ -24,7 +24,7 @@ ToDividerDresser >> defaultMargins [
 { #category : #'api - install/uninstall  hook' }
 ToDividerDresser >> defaultPadding [
 
-	^ BlInsets all: 2 
+	^ BlInsets empty
 ]
 
 { #category : #'event handlers' }
@@ -118,6 +118,7 @@ ToDividerDresser >> onInstalledIn: anElement [
 	super onInstalledIn: anElement.
 	self installEventListenersIn: anElement.
 	anElement thickness: 3.
+	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
 	anElement border: (BlBorder paint: self theme divider defaultBorderColor).
 	anElement background: self theme divider defaultBackgroundColor.
 	anElement margin: self defaultMargins.

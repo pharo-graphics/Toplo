@@ -64,7 +64,7 @@ ToComboBox >> defaultHeadElement [
 { #category : #initialization }
 ToComboBox >> defaultHeadPlaceholder [
 
-	^ ToLabel new text: ('<< No choice >>' asRopedText foreground: Color gray)
+	^ ToLabel new 
 ]
 
 { #category : #initialization }
@@ -109,7 +109,6 @@ ToComboBox >> defaultListNodeFactory [
 ToComboBox >> defaultListPlaceholder [
 
 	^ ToLabel new
-		  text: ('<< Empty >>' asRopedText foreground: Color gray);
 		  vFitContent;
 		  margin: (BlInsets all: 5);
 		  width: self defaultListElementSize x;
@@ -124,6 +123,12 @@ ToComboBox >> defaultStartSelectedIndex [
 	^ 1
 
 	
+]
+
+{ #category : #accessing }
+ToComboBox >> hasSelectedData [
+
+	^ self selectedIndex > 0
 ]
 
 { #category : #accessing }
@@ -257,19 +262,6 @@ ToComboBox >> listFrame: aWindow [
 ]
 
 { #category : #accessing }
-ToComboBox >> listNodeFactory [
-	" is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
-
-	^ self listElement nodeFactory
-]
-
-{ #category : #accessing }
-ToComboBox >> listNodeFactory: aConverter [
-	" is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
-	self listElement nodeFactory: aConverter
-]
-
-{ #category : #accessing }
 ToComboBox >> listPlaceholder [
 
 	^ listPlaceholder
@@ -291,6 +283,19 @@ ToComboBox >> listPlaceholder: anElement [
 ToComboBox >> newDataCollection [
 
 	^ ToObservableCollection new
+]
+
+{ #category : #accessing }
+ToComboBox >> nodeFactory [
+	" is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
+
+	^ self listElement nodeFactory
+]
+
+{ #category : #accessing }
+ToComboBox >> nodeFactory: aConverter [
+	" is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
+	self listElement nodeFactory: aConverter
 ]
 
 { #category : #'private - notifications' }
@@ -372,6 +377,19 @@ ToComboBox >> selectIndex: anIndex [
 	self headData: (self presentedData at: anIndex).
 	self listElement selectIndex: anIndex.
 	self selectedIndex: anIndex
+]
+
+{ #category : #accessing }
+ToComboBox >> selectedData [
+	
+	^ self presentedData at: self selectedIndex 
+]
+
+{ #category : #accessing }
+ToComboBox >> selectedDataDo: aBlock [
+	
+	self hasSelectedData ifFalse: [ ^ self ].
+	aBlock value: self selectedData
 ]
 
 { #category : #accessing }

@@ -74,6 +74,28 @@ Here an example of a client for a method.
 ]
 
 { #category : #combobox }
+ToSandBox class >> example_ComboBoxWithColors [
+
+	| win combo |
+	win := ToInnerWindow new title: 'Combo box Example'.
+	combo := ToComboBox new.
+	combo nodeFactory: [ :color |
+		     ToLabeledNode new
+			     labelText: (color asString asRopedText
+					      foreground: color contrastingBlackAndWhiteColor;
+					      yourself);
+			     background: color;
+			     hMatchParent].
+	combo headContentFactory: [ :color | ToLabel new text: (color asString asRopedText
+					      foreground: color contrastingBlackAndWhiteColor;
+					      yourself); background: color; yourself ].
+	combo data addAll: Color indexedColors.
+	combo selectIndex: 1.
+	win root addChild: combo.
+	win openInWorld
+]
+
+{ #category : #combobox }
 ToSandBox class >> example_ComboBoxWithHeadPlaceholder [
 
 	| win combo but head |
@@ -253,7 +275,7 @@ ToSandBox class >> example_ListWithAllClasses [
 ToSandBox class >> example_ListWithAllClasses3 [
 
 	| l |
-	l := ToListElement new nodeFactory: [ :cls :holder | 
+	l := ToListElement new nodeFactory: [ :cls :holder |
 		     | icn lab |
 		     icn := cls hasComment
 			            ifTrue: [ #class ]
@@ -262,13 +284,16 @@ ToSandBox class >> example_ListWithAllClasses3 [
 			            text: cls name;
 			            beEditable;
 			            yourself.
-			  lab whenTextReplacedDo: [ holder infiniteElement dataSource list at: holder layoutPosition put: lab text ].
+		     lab whenTextReplacedDo: [
+			     holder infiniteElement dataSource list
+				     at: holder layoutPosition
+				     put: lab text ].
 		     ToLabeledNode new
 			     label: lab;
 			     icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
 			     columnWidth: 20;
 			     hMatchParent ].
-	l list addAll: Smalltalk globals allClasses.
+	l data addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
 	l openInInnerWindow
 ]

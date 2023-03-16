@@ -8,6 +8,7 @@ Class {
 ToComboBoxHead >> contentElement: anElement [
 
 	self firstChild removeFromParent.
+	anElement ifNil: [ ^ self ].
 	anElement hMatchParent.
 	self addChild: anElement at: 1
 ]

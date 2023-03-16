@@ -168,12 +168,6 @@ ToNodeDresser >> onUninstalledIn: anElement [
 	super onUninstalledIn: anElement
 ]
 
-{ #category : #'events handling' }
-ToNodeDresser >> pressed: anElement event: anEvent [
-
-	super pressed: anElement event: anEvent
-]
-
 { #category : #accessing }
 ToNodeDresser >> pressedBackground [
 

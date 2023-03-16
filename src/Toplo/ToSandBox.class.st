@@ -435,11 +435,11 @@ ToSandBox class >> example_ListWithIndexedColors [
 	| l |
 	l := ToListElement new nodeFactory: [ :color |
 		     ToLabeledNode new
+			     dresser: ToColorNodeDresserExample new;
 			     labelText: (color asString asRopedText
 					      foreground: color contrastingBlackAndWhiteColor;
 					      yourself);
-			     background: color;
-			     hMatchParent ].
+			     background: color ].
 	l data addAll: Color indexedColors.
 	l openInOBlSpace
 ]

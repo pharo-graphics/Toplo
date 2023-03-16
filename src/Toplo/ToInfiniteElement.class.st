@@ -92,6 +92,20 @@ ToInfiniteElement >> dispatchChildDetached: anElement [
 ]
 
 { #category : #'selection events' }
+ToInfiniteElement >> dispatchNodeHovered: aNodeHolder after: aBlock [
+
+	aBlock value.
+	self dispatchEvent: (ToInfiniteNodeHoveredEvent new holder: aNodeHolder; yourself)
+]
+
+{ #category : #'selection events' }
+ToInfiniteElement >> dispatchNodeLeaved: aNodeHolder after: aBlock [
+
+	aBlock value.
+	self dispatchEvent: (ToInfiniteNodeLeavedEvent new holder: aNodeHolder; yourself)
+]
+
+{ #category : #'selection events' }
 ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 
 	| indexes |

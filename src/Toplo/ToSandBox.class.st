@@ -440,6 +440,8 @@ ToSandBox class >> example_ListWithIndexedColors [
 					      yourself);
 			     background: color;
 			     hMatchParent ].
+	l when: ToInfiniteNodeHoveredEvent do: [ :event |  ].
+	l when: ToInfiniteNodeLeavedEvent do: [ :event |  ].
 	l data addAll: Color indexedColors.
 	l openInOBlSpace
 ]

@@ -54,13 +54,10 @@ ToNodeDresser >> defaultInitialBorder [
 { #category : #'events handling' }
 ToNodeDresser >> hover: anElement event: anEvent [
 
-	| holder |
-	holder := anElement holder.
-	holder infiniteElement dispatchNodeHovered: holder after: [
-		self border: self hoveredBorder in: anElement.
-		" do not change the background if selected "
-		selected ifFalse: [
-			self background: self hoveredBackground in: anElement ] ]
+	self border: self hoveredBorder in: anElement.
+	" do not change the background if selected "
+	selected ifFalse: [
+		self background: self hoveredBackground in: anElement ]
 ]
 
 { #category : #initialization }
@@ -99,13 +96,9 @@ ToNodeDresser >> launchClick: aBlock for: anInfinite [
 { #category : #'events handling' }
 ToNodeDresser >> leaved: anElement [
 
-	| holder |
-	holder := anElement holder.
-	holder infiniteElement dispatchNodeLeaved: holder after: [
-		self border: initialBorder in: anElement.
-		" do not change the background if selected "
-		selected ifFalse: [
-			self background: initialBackground in: anElement ] ]
+	self border: initialBorder in: anElement.
+	" do not change the background if selected "
+	selected ifFalse: [ self background: initialBackground in: anElement ]
 ]
 
 { #category : #'events handling' }

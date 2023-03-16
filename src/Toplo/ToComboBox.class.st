@@ -225,7 +225,7 @@ ToComboBox >> initialize [
 	self listElement: self defaultListElement.
 	self listFrame: self defaultListFrame.
 	self whenSelectedIndexChangedDo: [ self selectedIndexChanged ].
-	self whenHeadContentFactoryChangedChangedDo: [ self headContentFactoryChanged  ].
+	self whenHeadContentFactoryChangedDo: [ self headContentFactoryChanged  ].
 	self selectIndex: 0.
 	self showListPlaceholder.
 	self initializeDresser
@@ -243,7 +243,7 @@ ToComboBox >> listElement: aListElement [
 	listElement := aListElement
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
 ToComboBox >> listElementSize: aSize [
 
 	self listElement size: aSize
@@ -255,7 +255,7 @@ ToComboBox >> listFrame [
 	^ listFrame
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
 ToComboBox >> listFrame: aWindow [
 
 	listFrame := aWindow
@@ -427,7 +427,7 @@ ToComboBox >> useHeadPlaceholder [
 ]
 
 { #category : #'change hook' }
-ToComboBox >> whenHeadContentFactoryChangedChangedDo: aBlock [
+ToComboBox >> whenHeadContentFactoryChangedDo: aBlock [
 
 	"set a block to perform after that the place holder has been changed, and its action performed"
 

@@ -7,14 +7,6 @@ Class {
 	#category : #'Toplo-Widget-Window'
 }
 
-{ #category : #'api - displaying' }
-ToOverlayWindow >> checkBeforePopupIn: aWidget [
-
-	" my bounds are up-to-date, I can be visible "
-	self size: self overlayed size.
-	super checkBeforePopupIn: aWidget
-]
-
 { #category : #'t - initialization dresser' }
 ToOverlayWindow >> defaultDresser [ 
 

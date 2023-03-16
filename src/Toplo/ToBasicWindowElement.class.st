@@ -26,18 +26,6 @@ ToBasicWindowElement >> animate: aBoolean [
 ]
 
 { #category : #'api - displaying' }
-ToBasicWindowElement >> checkBeforePopupIn: aWidget [
-
-	" my bounds are up-to-date, I can be visible "
-	| anim |
-	self visibility: BlVisibility visible.
-	self animate ifFalse: [ ^ self ].
-	anim := self popupAnimationFactory value.
-	anim ifNil: [ ^ self ].
-	self addAnimation: anim
-]
-
-{ #category : #'api - displaying' }
 ToBasicWindowElement >> cleanUp [
 
 	self flag: 'keeping track of the delete animation is required but why exactly ?'.

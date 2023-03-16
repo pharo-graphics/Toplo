@@ -45,13 +45,6 @@ ToTooltipWindow >> defaultLabel [
 ]
 
 { #category : #initialization }
-ToTooltipWindow >> defaultPlacementStrategy [
-
-	^ ToPopupPlacementStrategy new action: [ :window :event |
-		window relocate: (event position x @ (self widget localPointToGlobal: 0 @ self widget height) y + self vgap) ]
-]
-
-{ #category : #initialization }
 ToTooltipWindow >> initialize [
 
 	self class initializeSlots: self.
@@ -85,6 +78,12 @@ ToTooltipWindow >> label: aLabel [
 	label := aLabel.
 	self root addChild: label.
 
+]
+
+{ #category : #initialization }
+ToTooltipWindow >> openPositionFromEvent: anEvent [
+
+	^ anEvent position x @ (self widget localPointToGlobal: 0 @ self widget height) y + self vgap
 ]
 
 { #category : #initialization }

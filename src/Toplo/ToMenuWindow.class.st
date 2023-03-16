@@ -28,14 +28,6 @@ ToMenuWindow >> defaultDresser [
 ]
 
 { #category : #initialization }
-ToMenuWindow >> defaultPlacementStrategy [
-
-	^ ToPopupPlacementStrategy new action: [ 
-		  :window 
-		  :event | window relocate: (self openPositionFromEvent: event) ]
-]
-
-{ #category : #initialization }
 ToMenuWindow >> initialize [
 
 	super initialize.

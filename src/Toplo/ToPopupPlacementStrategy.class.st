@@ -34,9 +34,9 @@ ToPopupPlacementStrategy >> check: aWindow beforePopupIn: aWidget [
 ]
 
 { #category : #initialization }
-ToPopupPlacementStrategy >> defaultAction [ 
+ToPopupPlacementStrategy >> defaultAction [
 
-	^ [ :window :event | window relocate: (window widget bounds inSpace bounds bottomLeft)]
+	^ [ :window :event | window relocate: (window openPositionFromEvent: event)]
 ]
 
 { #category : #initialization }

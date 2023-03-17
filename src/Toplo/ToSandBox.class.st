@@ -265,7 +265,7 @@ ToSandBox class >> example_ListOneClass [
 ToSandBox class >> example_ListWithAllClasses [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement new alternateRowsColor: true.
 	l data addAll:
 		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInOBlSpace
@@ -275,7 +275,9 @@ ToSandBox class >> example_ListWithAllClasses [
 ToSandBox class >> example_ListWithAllClasses3 [
 
 	| l |
-	l := ToListElement new nodeFactory: [ :cls :holder |
+	l := ToListElement new 
+			alternateRowsColor: true; 
+			nodeFactory: [ :cls :holder |
 		     | icn lab |
 		     icn := cls hasComment
 			            ifTrue: [ #class ]
@@ -302,7 +304,9 @@ ToSandBox class >> example_ListWithAllClasses3 [
 ToSandBox class >> example_ListWithAllClasses4 [
 
 	| l |
-	l := ToListElement new nodeFactory: [ :cls |
+	l := ToListElement new 
+		alternateRowsColor: true;
+		nodeFactory: [ :cls |
 		     ToCheckNode new
 			     labelText: cls name;
 			     columnWidth: 25;
@@ -455,6 +459,38 @@ ToSandBox class >> example_ListWithRowNumbers [
 			     hMatchParent ].
 	l data addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
+	l openInOBlSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_ListWithSingleSelection [
+
+	| l |
+	l := ToListElement new 
+		alternateRowsColor: true;
+		nodeFactory: [ :cls |
+		     ToCheckNode new
+			     labelText: cls name;
+			     columnWidth: 25;
+			     hMatchParent ].
+	l data addAll: Smalltalk globals allClasses.
+	l selectionStrategy beSingleSelection.
+	l openInOBlSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_ListWithoutSelection [
+
+	| l |
+	l := ToListElement new 
+		alternateRowsColor: true;
+		nodeFactory: [ :cls |
+		     ToCheckNode new
+			     labelText: cls name;
+			     columnWidth: 25;
+			     hMatchParent ].
+	l data addAll: Smalltalk globals allClasses.
+	l selectionStrategy beWithoutSelection.
 	l openInOBlSpace
 ]
 

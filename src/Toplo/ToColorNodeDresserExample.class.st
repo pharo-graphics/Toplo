@@ -44,6 +44,14 @@ ToColorNodeDresserExample >> leftPressed: anElement event: anEvent [
 
 ]
 
+{ #category : #'events handling' }
+ToColorNodeDresserExample >> onElementAttached: anElement inInfinite: aToInfinite [
+]
+
+{ #category : #'events handling' }
+ToColorNodeDresserExample >> onElementDetached: anElement inInfinite: aToInfinite [
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToColorNodeDresserExample >> onInstalledIn: anElement [
 

@@ -43,6 +43,18 @@ ToDresser >> initialize [
 ]
 
 { #category : #'api - install/uninstall  hook' }
+ToDresser >> launchElementAttached: anElement inInfinite: aToInfinite [
+
+	self onElementAttached: anElement inInfinite: aToInfinite
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToDresser >> launchElementDetached: anElement inInfinite: aToInfinite [
+
+	self onElementDetached: anElement inInfinite: aToInfinite
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToDresser >> next [
 
 	^ next

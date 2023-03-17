@@ -138,12 +138,17 @@ ToNodeDresser >> onElementAttached: anElement inInfinite: aToInfinite [
 
 	| holder |
 	super onElementAttached: anElement inInfinite: aToInfinite.
+	
 	" when holder is attached it can be already selected (as an example with a selectAll) "
 	"Selection must be preserved when adding/removing in the datasource list "
 	holder := aToInfinite elementHolderOf: anElement.
-	(aToInfinite selectionStrategy isSelected: holder layoutPosition) ifTrue: [ 
-		self addedToSelection: anElement ].
-
+	" check if the node is selected "
+	(aToInfinite selectionStrategy isSelected: holder layoutPosition)
+		ifTrue: [ self addedToSelection: anElement ]
+		ifFalse: [
+			aToInfinite alternateRowsColor
+				ifTrue: [ 	anElement background: (self theme item alternatingColorArray at: holder position \\ self theme item alternatingColorArray size + 1) ]
+				ifFalse: [ anElement background: self theme item defaultColor ] ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -156,11 +161,15 @@ ToNodeDresser >> onElementDetached: anElement inInfinite: aToInfinite [
 ToNodeDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	anElement hMatchParent. 
+	anElement hMatchParent.
 	anElement geometry: BlRectangleGeometry new.
-	anElement padding: (BlInsets top: 1  left: 3 bottom: 0 right: 1 ).
+	anElement padding: (BlInsets
+			 top: 1
+			 left: 3
+			 bottom: 0
+			 right: 1).
 	" a margin of 1 (min) is set to make the list border visible "
-	anElement margin: (BlInsets all: 1 ).
+	anElement margin: (BlInsets all: 1).
 	anElement border: BlBorder empty
 ]
 

@@ -6,10 +6,23 @@ Class {
 	#instVars : [
 		'selectionStrategy',
 		'nodeFactory',
-		'clickLauncher'
+		'clickLauncher',
+		'alternateRowsColor'
 	],
 	#category : #'Toplo-Core-Infinite'
 }
+
+{ #category : #accessing }
+ToInfiniteElement >> alternateRowsColor [
+
+	^ alternateRowsColor
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> alternateRowsColor: aBoolean [
+
+	alternateRowsColor := aBoolean
+]
 
 { #category : #'selection events' }
 ToInfiniteElement >> cherryPickIndex: anIndex [
@@ -74,21 +87,21 @@ ToInfiniteElement >> defaultListNodeFactory [
 { #category : #initialization }
 ToInfiniteElement >> defaultSelectionStrategy [
 
-	^ ToSelectionStrategy new dataSource: self dataSource.
+	^ ToSelectionStrategy new infiniteElement: self
 ]
 
 { #category : #dispatching }
 ToInfiniteElement >> dispatchChildAttached: anElement [
 	
 	super dispatchChildAttached: anElement.
-	anElement dresserDo: [ :d | d onElementAttached: anElement inInfinite: self]
+	anElement dresserDo: [ :d | d launchElementAttached: anElement inInfinite: self]
 ]
 
 { #category : #dispatching }
 ToInfiniteElement >> dispatchChildDetached: anElement [
 	
 	super dispatchChildDetached: anElement.
-	anElement dresserDo: [ :d | d onElementDetached: anElement inInfinite: self ]
+	anElement dresserDo: [ :d | d launchElementDetached: anElement inInfinite: self ]
 ]
 
 { #category : #'selection events' }
@@ -271,13 +284,16 @@ ToInfiniteElement >> whenClickOnNodeAnnouncement: anAnnouncement [
 
 	| event |
 	event := anAnnouncement event.
-	event modifiers isShift ifTrue: [
-		^ self selectToIndex: anAnnouncement holder layoutPosition ].
-	event modifiers isPrimaryModifier ifTrue: [
-		^ self cherryPickIndex: anAnnouncement holder layoutPosition ].
-	self selectIndex: anAnnouncement holder layoutPosition.
-	self dispatchEvent: (ToInfiniteClickOnDataEvent new
-			 index: anAnnouncement holder layoutPosition;
-			 event: event;
-			 yourself)
+	self selectionStrategy multipleSelectionModeDo: [
+		event modifiers isShift ifTrue: [
+			^ self selectToIndex: anAnnouncement holder layoutPosition ].
+		event modifiers isPrimaryModifier ifTrue: [
+			^ self cherryPickIndex: anAnnouncement holder layoutPosition ] ].
+
+	self selectionStrategy atLeastMonoSelectionDo: [
+		self selectIndex: anAnnouncement holder layoutPosition.
+		self dispatchEvent: (ToInfiniteClickOnDataEvent new
+				 index: anAnnouncement holder layoutPosition;
+				 event: event;
+				 yourself) ]
 ]

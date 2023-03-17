@@ -26,22 +26,32 @@ ToListDresser >> defaultPadding [
 { #category : #'api - install/uninstall  hook' }
 ToListDresser >> installEventListenersIn: anElement [
 
-
 	focusHandler := ToFocusHandler new.
-	focusGetterHandler := BlEventHandler 
-								on: BlClickEvent 
-								do: [ :anEvent | anElement requestFocus ].
-	doubleClickHandler := BlEventHandler 
-								on: BlDoubleClickEvent 
-								do: [ :anEvent | anElement selectionStrategy dispatchStrongSelectionChangedTo: anElement].
+	focusGetterHandler := BlEventHandler
+		                      on: BlClickEvent
+		                      do: [ :anEvent | anElement requestFocus ].
+	doubleClickHandler := BlEventHandler
+		                      on: BlDoubleClickEvent
+		                      do: [ :anEvent |
+			                      anElement selectionStrategy
+				                      dispatchStrongSelectionChangedTo: anElement ].
 	scrolledHandler := BlEventHandler
 		                   on: BlElementScrolledEvent
 		                   do: [ self updateHoveredNodeIn: anElement ].
-		
+
 	anElement addEventHandler: doubleClickHandler.
 	anElement addEventHandler: scrolledHandler.
 	anElement addEventHandler: focusHandler.
 	anElement addEventHandler: focusGetterHandler.
+
+	anElement selectionStrategy whenModeChangedDo: [
+		self uninstallShortInIn: anElement.
+		self installShortInIn: anElement ].
+	self installShortInIn: anElement
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToListDresser >> installShortInIn: anElement [
 
 	shortcuts := anElement selectionStrategy shortcutsIn: anElement.
 	shortcuts do: [ :s | anElement addShortcut: s ]
@@ -91,11 +101,18 @@ ToListDresser >> uninstallEventListenersIn: anElement [
 	anElement removeEventHandler: focusHandler.
 	anElement removeEventHandler: focusGetterHandler.
 	anElement removeEventHandler: doubleClickHandler.
-	shortcuts do: [ :s | anElement removeShortcut: s ]
+	self uninstallShortInIn: anElement
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToListDresser >> uninstallShortInIn: anElement [
+
+	shortcuts do: [ :s | anElement removeShortcut: s ].
+	shortcuts := nil
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToListDresser >> updateHoveredNodeIn: anElement [
 
-	anElement space mouseProcessor handleLastMouseMove
+	anElement spaceDo: [ :sp | sp mouseProcessor handleLastMouseMove ]
 ]

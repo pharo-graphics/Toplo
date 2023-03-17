@@ -28,6 +28,13 @@ ToListElement >> holderClass [
 	^ ToListNodeHolder 
 ]
 
+{ #category : #initialization }
+ToListElement >> initialize [
+
+	super initialize.
+	self alternateRowsColor: false
+]
+
 { #category : #'hooks - children' }
 ToListElement >> onChildAttached: anElement [
 	"Sent when an item element is attached to this InfiniteElement.

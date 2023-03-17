@@ -1,18 +1,82 @@
 Class {
 	#name : #ToSelectionStrategy,
 	#superclass : #Object,
+	#traits : 'TObservable',
+	#classTraits : 'TObservable classTrait',
 	#instVars : [
-		'selectionModel',
-		'dataSource',
-		'mode'
+		'#selectionModel',
+		'#dataSource',
+		'#mode => ObservableSlot',
+		'#lastManagedIndex',
+		'#prevDir'
 	],
 	#category : #'Toplo-Core-Infinite'
 }
 
 { #category : #'selection managing' }
+ToSelectionStrategy >> addNextToSelection [
+
+	| indexes |
+	indexes := self selectedIndexes.
+	indexes isEmpty ifTrue: [ ^ self selectIndex: 1 ].
+	indexes last = dataSource itemCount ifTrue: [ ^ self ].
+	^ self addToSelection: indexes last + 1
+]
+
+{ #category : #'selection managing' }
+ToSelectionStrategy >> addOrRemoveNext [
+
+	| next |
+	lastManagedIndex = dataSource itemCount ifTrue: [ ^ self ].
+	next := prevDir = #next
+		        ifTrue: [ lastManagedIndex + 1 ]
+		        ifFalse: [ lastManagedIndex ].
+	prevDir := #next.
+
+	(self isSelected: next)
+		ifTrue: [
+			self selectedIndexes size > 1
+				ifTrue: [ self clearSelection: next ]
+				ifFalse: [
+					next := next + 1.
+					self addToSelection: next ] ]
+		ifFalse: [ self addToSelection: next ].
+	lastManagedIndex := next
+]
+
+{ #category : #'selection managing' }
+ToSelectionStrategy >> addOrRemovePrevious [
+
+	| next |
+	lastManagedIndex = 1 ifTrue: [ ^ self ].
+	next := prevDir = #previous
+		        ifTrue: [ lastManagedIndex - 1 ]
+		        ifFalse: [ lastManagedIndex ].
+	prevDir := #previous.
+
+	(self isSelected: next)
+		ifTrue: [
+			self selectedIndexes size > 1
+				ifTrue: [ self clearSelection: next ]
+				ifFalse: [
+					next := next - 1.
+					self addToSelection: next ] ]
+		ifFalse: [ self addToSelection: next ].
+	lastManagedIndex := next
+]
+
+{ #category : #'selection managing' }
 ToSelectionStrategy >> addToSelection: index [
 
-	self selectInterval: (index to: index)
+	self selectInterval: (index to: index).
+	lastManagedIndex := index
+]
+
+{ #category : #'selection managing' }
+ToSelectionStrategy >> atLeastMonoSelectionDo: aBlock [
+
+	self isNone ifTrue: [ ^ self ].
+	aBlock value
 ]
 
 { #category : #'mode testing' }
@@ -30,6 +94,7 @@ ToSelectionStrategy >> beSingleSelection [
 { #category : #'mode testing' }
 ToSelectionStrategy >> beWithoutSelection [ 
 
+	self clearSelection.
 	mode := #none
 ]
 
@@ -56,8 +121,8 @@ ToSelectionStrategy >> clearSelection [
 { #category : #'selection managing' }
 ToSelectionStrategy >> clearSelection: index [
 
-	selectionModel deselectOne: index
-
+	selectionModel deselectOne: index.
+	lastManagedIndex := index
 ]
 
 { #category : #accessing }
@@ -87,12 +152,25 @@ ToSelectionStrategy >> dispatchStrongSelectionChangedTo: anInfiniteElement [
 	anInfiniteElement dispatchStrongSelectionChanged
 ]
 
+{ #category : #accessing }
+ToSelectionStrategy >> infiniteElement: anInfiniteElement [
+
+	self dataSource: anInfiniteElement dataSource
+]
+
 { #category : #initialization }
 ToSelectionStrategy >> initialize [
 
+	self class initializeSlots: self.
 	super initialize.
 	selectionModel := ToSelectionModel new.
 	mode := #multiple
+]
+
+{ #category : #'selection managing' }
+ToSelectionStrategy >> invalidOperation [
+
+	^ self error: 'Invalid operation'
 ]
 
 { #category : #'selection accessing' }
@@ -123,6 +201,13 @@ ToSelectionStrategy >> isSelected: index [
 ToSelectionStrategy >> isSingle [
 
 	^ self isMultiple not
+]
+
+{ #category : #'selection managing' }
+ToSelectionStrategy >> multipleSelectionModeDo: aBlock [
+
+	self isMultiple ifFalse: [ ^ self ].
+	aBlock value
 ]
 
 { #category : #'data source change' }
@@ -167,18 +252,21 @@ ToSelectionStrategy >> selectFirst [
 { #category : #'selection managing' }
 ToSelectionStrategy >> selectIndex: index [
 
-	selectionModel selectOne: index
+	selectionModel selectOne: index.
+	lastManagedIndex := index
 ]
 
 { #category : #'selection managing' }
 ToSelectionStrategy >> selectIndexes: indexes [
 	
+	self isMultiple ifFalse: [ self error: 'Invalid operation' ].
 	indexes do: [ :idx | self addToSelection: idx ]
 ]
 
 { #category : #'selection managing' }
 ToSelectionStrategy >> selectInterval: anInterval [
 
+	(self isMultiple not and: [ anInterval size > 1 ]) ifTrue: [ self invalidOperation ].
 	selectionModel select: anInterval first to: anInterval last
 ]
 
@@ -193,41 +281,38 @@ ToSelectionStrategy >> selectLast [
 { #category : #'selection managing' }
 ToSelectionStrategy >> selectNext [
 
-	| indexes |
-	indexes := self selectedIndexes.
-	indexes isEmpty ifTrue: [ ^ self selectIndex: 1 ].
-	indexes last = dataSource itemCount ifTrue: [ ^ self ].
-	^ self selectIndex: indexes last + 1
+	lastManagedIndex < dataSource list size ifFalse: [ ^ self ].
+	lastManagedIndex := lastManagedIndex + 1.
+	self selectIndex: lastManagedIndex
 ]
 
 { #category : #'selection managing' }
 ToSelectionStrategy >> selectNextIn: anElement event: aShortcutEvent [
 
-	| idx |
-	self selectNext.
+	aShortcutEvent modifiers isShift
+		ifTrue: [ self addOrRemoveNext ]
+		ifFalse: [ self selectNext ].
 	self isEmpty ifTrue: [ ^ self ].
-	idx := self selectedIndexes last.
-	anElement scrollToIndex: idx
+	anElement scrollToIndex: lastManagedIndex
 ]
 
 { #category : #'selection managing' }
 ToSelectionStrategy >> selectPrevious [
 
-	| indexes |
-	indexes := self selectedIndexes.
-	indexes isEmpty ifTrue: [ ^ self selectIndex: 1 ].
-	indexes first = 1 ifTrue: [ ^ self ].
-	^ self selectIndex: indexes first - 1
+	lastManagedIndex > 1 ifFalse: [ ^ self ].
+	lastManagedIndex := lastManagedIndex - 1.
+	self selectIndex: lastManagedIndex
+	
 ]
 
 { #category : #'selection managing' }
 ToSelectionStrategy >> selectPreviousIn: anElement event: aShortcutEvent [
 
-	| idx |
-	self selectPrevious.
+	aShortcutEvent modifiers isShift
+		ifTrue: [ self addOrRemovePrevious ]
+		ifFalse: [ self selectPrevious ].
 	self isEmpty ifTrue: [ ^ self ].
-	idx := self selectedIndexes first.
-	anElement scrollToIndex: idx
+	anElement scrollToIndex: lastManagedIndex 
 ]
 
 { #category : #'selection managing' }
@@ -274,23 +359,45 @@ ToSelectionStrategy >> selectedNodes [
 ToSelectionStrategy >> shortcutsIn: aList [
 
 	| shortcuts |
-	shortcuts := { 
+	shortcuts := {
 		             (BlShortcutWithAction new
 			              combination: BlKeyCombination builder arrowDown build;
-			              action: [ :aShortcutEvent :aShortcut | 
-				              aList selectionStrategy dispatchSelectionChangedAfter: [ 
-						              self selectNextIn: aList event: aShortcutEvent ] to: aList ]).
+			              action: [ :aShortcutEvent :aShortcut |
+				              aList selectionStrategy
+					              dispatchSelectionChangedAfter: [
+						              self selectNextIn: aList event: aShortcutEvent ]
+					              to: aList ]).
 		             (BlShortcutWithAction new
 			              combination: BlKeyCombination builder arrowUp build;
-			              action: [ :aShortcutEvent :aShortcut | 
-				              aList selectionStrategy dispatchSelectionChangedAfter: [ 
-						              self selectPreviousIn: aList event: aShortcutEvent ] to: aList]) }.
-	self isMultiple ifTrue: [ 
-		shortcuts := shortcuts , { (BlShortcutWithAction new
-			              combination: BlKeyCombination primaryA;
-			              action: [ :aShortcutEvent :aShortcut | 
-				              aList selectionStrategy  dispatchSelectionChangedAfter: [ 
-						              self selectAll ] to: aList ]) } ].
+			              action: [ :aShortcutEvent :aShortcut |
+				              aList selectionStrategy
+					              dispatchSelectionChangedAfter: [
+						              self selectPreviousIn: aList event: aShortcutEvent ]
+					              to: aList ]) }.
+	self isMultiple ifTrue: [
+		shortcuts := shortcuts , {
+			             (BlShortcutWithAction new
+				              combination: BlKeyCombination primaryA;
+				              action: [ :aShortcutEvent :aShortcut |
+					              aList selectionStrategy
+						              dispatchSelectionChangedAfter: [ self selectAll ]
+						              to: aList ]).
+			             (BlShortcutWithAction new
+				              combination: BlKeyCombination shiftArrowDown;
+				              action: [ :aShortcutEvent :aShortcut |
+					              aList selectionStrategy
+						              dispatchSelectionChangedAfter: [
+							              self selectNextIn: aList event: aShortcutEvent ]
+						              to: aList ]).
+			             (BlShortcutWithAction new
+				              combination: BlKeyCombination shiftArrowUp;
+				              action: [ :aShortcutEvent :aShortcut |
+					              aList selectionStrategy
+						              dispatchSelectionChangedAfter: [
+							              self
+								              selectPreviousIn: aList
+								              event: aShortcutEvent ]
+						              to: aList ]) } ].
 	^ shortcuts
 ]
 
@@ -304,4 +411,12 @@ ToSelectionStrategy >> unsubscribe: anObject [
 ToSelectionStrategy >> whenAnnouncement: anAnnouncementClass send: aSelector to: anObject [
 
 	selectionModel whenAnnouncement: anAnnouncementClass send: aSelector to: anObject
+]
+
+{ #category : #'slot change hook' }
+ToSelectionStrategy >> whenModeChangedDo: aBlock [
+
+	"set a block to perform after that the slot has been changed, and its action performed"
+
+	self property: #mode whenChangedDo: aBlock
 ]

@@ -3,26 +3,26 @@ Class {
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'divider',
-		'dragStartPosition',
-		'firstTargetOriginalExtent',
-		'secondTargetOriginalExtent',
-		'firstTargetOriginalPosition',
-		'secondTargetOriginalPosition'
+		'startPosition',
+		'startBounds'
 	],
 	#category : #'Toplo-Widget-Pane'
 }
 
 { #category : #'dnd handlers' }
-ToDividerEventHandler >> appliedDragDeltaToPosition: aPoint [
+ToDividerEventHandler >> appliedDragDeltaFromPosition: aPoint [
 
 	| dragDelta |
-	dragDelta := aPoint - dragStartPosition.
-	dragDelta := self divider isVertical
-		             ifTrue: [ dragDelta negated ]
-		             ifFalse: [ dragDelta ].
-	(self divider isVertical and: [ self pane isRightToLeft ]) ifTrue: [
+	dragDelta := aPoint - startPosition.
+	(self divider isVertical and: [ self pane isLeftToRight ]) ifTrue: [
 		dragDelta := dragDelta negated ].
 	^ dragDelta
+]
+
+{ #category : #accessing }
+ToDividerEventHandler >> bottomTarget [
+
+	^ self topTarget == self firstTarget ifTrue: [ self secondTarget  ] ifFalse: [ self firstTarget ]
 ]
 
 { #category : #accessing }
@@ -39,122 +39,36 @@ ToDividerEventHandler >> divider: aDivider [
 
 { #category : #'dnd handlers' }
 ToDividerEventHandler >> dragEndEvent: anEvent [
-	
-	self dragEvent: anEvent
 ]
 
 { #category : #'dnd handlers' }
 ToDividerEventHandler >> dragEvent: anEvent [
 
-	| dragPosition dragDelta widthChanged heightChanged firstTargetBounds secondTargetBounds firstTargetOriginalBounds secondTargetOriginalBounds appliedDragDelta |
-	anEvent consumed: true.
-
-	dragPosition := anEvent position.
-	dragDelta := dragPosition - dragStartPosition.
-
-	firstTargetBounds := BlBounds
-		                     origin: firstTargetOriginalPosition
-		                     extent: firstTargetOriginalExtent.
-	secondTargetBounds := BlBounds
-		                      origin: secondTargetOriginalPosition
-		                      extent: secondTargetOriginalExtent.
-
-	firstTargetOriginalBounds := firstTargetBounds copy.
-	secondTargetOriginalBounds := secondTargetBounds copy.
-
-	appliedDragDelta := (self divider isVertical)
-			 ifTrue: [ dragDelta negated ]
-			 ifFalse: [ dragDelta ].
-	(self divider isVertical and: [self pane isRightToLeft ]) ifTrue: [ appliedDragDelta := appliedDragDelta negated ].
-	
-	self resizeBounds: firstTargetBounds by: (appliedDragDelta).
-	self resizeBounds: secondTargetBounds by: (appliedDragDelta negated).
-	widthChanged := firstTargetBounds width ~= firstTargetOriginalBounds width.
-	heightChanged := firstTargetBounds height ~= firstTargetOriginalBounds height.
-
-	self firstTarget globalBoundsToLocal: firstTargetBounds.
-	self secondTarget globalBoundsToLocal: secondTargetBounds.
-	self firstTarget localBoundsToParent: firstTargetBounds.
-	self secondTarget localBoundsToParent: secondTargetBounds.
-
-	anEvent currentTarget mouseCursor: self resizerCursor.
-	(widthChanged or: [ heightChanged ]) ifFalse: [ ^ self ].
-
-	" in case of matchParent, the width/height must be converted as a weight "
-	widthChanged ifTrue: [
-		| w |
-		self firstTarget constraints horizontal resizer isExact
-			ifTrue: [ self firstTarget width: firstTargetBounds width ]
-			ifFalse: [
-				w := self weightFromWidth: firstTargetBounds width.
-				self firstTarget constraints linear weight: w ].
-		self secondTarget constraints horizontal resizer isExact
-			ifTrue: [ self secondTarget width: secondTargetBounds width ]
-			ifFalse: [
-				w := self weightFromWidth: secondTargetBounds width.
-				self secondTarget constraints linear weight: w ] ].
-
-	heightChanged ifTrue: [
-		| w |
-		self firstTarget constraints vertical resizer isExact
-			ifTrue: [ self firstTarget height: firstTargetBounds height ]
-			ifFalse: [
-				w := self weightFromWidth: firstTargetBounds height.
-				self firstTarget constraints linear weight: w ].
-		self secondTarget constraints vertical resizer isExact
-			ifTrue: [ self secondTarget height: secondTargetBounds height ]
-			ifFalse: [
-				w := self weightFromWidth: secondTargetBounds height.
-				self secondTarget constraints linear weight: w ] ].
-
-	self divider requestLayout 
-]
-
-{ #category : #'dnd handlers' }
-ToDividerEventHandler >> dragEventNew: anEvent [
-
 	| firstTargetBounds secondTargetBounds dragDelta |
 	anEvent consumed: true.
 
-	firstTargetBounds := BlBounds
-		                     origin: firstTargetOriginalPosition
-		                     extent: firstTargetOriginalExtent.
-	secondTargetBounds := BlBounds
-		                      origin: secondTargetOriginalPosition
-		                      extent: secondTargetOriginalExtent.
-	dragDelta := self appliedDragDeltaToPosition: anEvent position.
+	firstTargetBounds := startBounds first copy.
+	secondTargetBounds := startBounds second copy.
+
+	dragDelta := self appliedDragDeltaFromPosition: anEvent position.
 
 	self
-		dragTarget: self firstTarget
+		dragEvent: anEvent
+		target: self firstTarget
 		bounds: firstTargetBounds
 		by: dragDelta.
-		
-	self secondTarget constraints horizontal resizer isExact
-		ifFalse: [
-			self
-				dragTarget: self secondTarget
-				bounds: secondTargetBounds
-				by: dragDelta negated ].
+
+	self
+		dragEvent: anEvent
+		target: self secondTarget
+		bounds: secondTargetBounds
+		by: dragDelta negated.
 
 	self divider requestLayout
 ]
 
 { #category : #'dnd handlers' }
-ToDividerEventHandler >> dragStartEvent: anEvent [
-	anEvent consumed: true.
-
-	"drag start position in parent"
-	dragStartPosition := anEvent position.
-
-	"element's original extent"
-	firstTargetOriginalExtent := self firstTarget bounds inSpace extent.
-	secondTargetOriginalExtent := self secondTarget bounds inSpace extent.
-	firstTargetOriginalPosition := self firstTarget bounds inSpace position.
-	secondTargetOriginalPosition := self secondTarget bounds inSpace position
-]
-
-{ #category : #'dnd handlers' }
-ToDividerEventHandler >> dragTarget: aTarget bounds: aTargetBounds by: aDelta [
+ToDividerEventHandler >> dragEvent: anEvent target: aTarget bounds: aTargetBounds by: aDelta [
 
 	| targetOriginalBounds widthChanged heightChanged |
 	targetOriginalBounds := aTargetBounds copy.
@@ -170,20 +84,31 @@ ToDividerEventHandler >> dragTarget: aTarget bounds: aTargetBounds by: aDelta [
 
 	" in case of matchParent, the width/height must be converted as a weight "
 	widthChanged ifTrue: [
-		| w |
-		aTarget constraints horizontal resizer isExact
-			ifTrue: [ aTarget width: aTargetBounds width ]
-			ifFalse: [
-				w := self weightFromWidth: aTargetBounds width.
-				aTarget constraints linear weight: w ] ].
+		self
+			horizontalDragEvent: anEvent
+			target: aTarget
+			width: aTargetBounds width ].
 
 	heightChanged ifTrue: [
-		| w |
-		aTarget constraints vertical resizer isExact
-			ifTrue: [ aTarget height: aTargetBounds height ]
-			ifFalse: [
-				w := self weightFromWidth: aTargetBounds height.
-				aTarget constraints linear weight: w ] ].
+		self
+			verticalDragEvent: anEvent
+			target: aTarget
+			height: aTargetBounds height ]
+]
+
+{ #category : #'dnd handlers' }
+ToDividerEventHandler >> dragStartEvent: anEvent [
+
+	anEvent consumed: true.
+
+	"drag start position in parent"
+	startPosition := anEvent position.
+
+	"element's original bounds"
+	startBounds := {
+		               self firstTarget bounds.
+		               self secondTarget bounds } collect: [ :bnds |
+		               bnds inSpace bounds copy ]
 ]
 
 { #category : #'api - accessing' }
@@ -196,6 +121,25 @@ ToDividerEventHandler >> eventsToHandle [
 ToDividerEventHandler >> firstTarget [
 
 	^ self divider firstTarget
+]
+
+{ #category : #'dnd handlers' }
+ToDividerEventHandler >> horizontalDragEvent: anEvent target: aTarget width: aWidth [
+
+	aTarget constraints horizontal resizer isExact
+		ifTrue: [
+			(aTarget == self leftTarget or: [ anEvent modifiers isShift ])
+				ifTrue: [ aTarget width: aWidth ] ]
+		ifFalse: [
+			| w |
+			w := self weightFromWidth: aWidth.
+			aTarget constraints linear weight: w ]
+]
+
+{ #category : #accessing }
+ToDividerEventHandler >> leftTarget [
+
+	^ (self firstTarget bounds left < self secondTarget bounds left) ifTrue: [ self firstTarget  ] ifFalse: [ self secondTarget  ]
 ]
 
 { #category : #accessing }
@@ -228,6 +172,7 @@ ToDividerEventHandler >> mouseLeaveEvent: anEvent [
 { #category : #'mouse handlers' }
 ToDividerEventHandler >> mouseUpEvent: anEvent [
 	
+	anEvent currentTarget mouseCursor: BlCursor default.
 ]
 
 { #category : #accessing }
@@ -255,12 +200,37 @@ ToDividerEventHandler >> resizerCursor [
 ]
 
 { #category : #accessing }
+ToDividerEventHandler >> rightTarget [
+
+	^ self leftTarget == self firstTarget ifTrue: [ self secondTarget  ] ifFalse: [ self firstTarget ]
+]
+
+{ #category : #accessing }
 ToDividerEventHandler >> secondTarget [
 
 	^ self divider secondTarget
 ]
 
 { #category : #accessing }
+ToDividerEventHandler >> topTarget [
+
+	^ (self firstTarget bounds top < self secondTarget bounds top) ifTrue: [ self firstTarget  ] ifFalse: [ self secondTarget  ]
+]
+
+{ #category : #'dnd handlers' }
+ToDividerEventHandler >> verticalDragEvent: anEvent target: aTarget height: aHeight [
+
+	aTarget constraints vertical resizer isExact
+		ifTrue: [
+			(aTarget == self topTarget or: [ anEvent modifiers isShift ])
+				ifTrue: [ aTarget height: aHeight ] ]
+		ifFalse: [
+			| w |
+			w := self weightFromWidth: aHeight.
+			aTarget constraints linear weight: w ]
+]
+
+{ #category : #'dnd handlers' }
 ToDividerEventHandler >> weightFromWidth: aWidth [
 
 	^ self divider weightFromWidth: aWidth

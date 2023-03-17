@@ -54,7 +54,6 @@ ToListDresser >> onInstalledIn: anElement [
 	anElement padding: self defaultPadding.
 	anElement margin: self defaultMargin.
 	anElement clipChildren: true.
-	anElement outskirts: (BlOutskirts outside ).
 	anElement 
 		when: BlBlurEvent
 		do: [ :anEvent | 

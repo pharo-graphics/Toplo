@@ -230,5 +230,5 @@ ToDivider >> topTarget [
 ToDivider >> weightFromWidth: aWidth [
 
 	self pane width isZero ifTrue: [ ^ 1 ].
-	^ ((aWidth ) / self pane width) asFloat
+	^ aWidth / self pane width
 ]

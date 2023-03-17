@@ -158,7 +158,9 @@ ToNodeDresser >> onInstalledIn: anElement [
 	super onInstalledIn: anElement.
 	anElement hMatchParent. 
 	anElement geometry: BlRectangleGeometry new.
-	anElement padding: (BlInsets top: 1  left: 3 bottom: 0 right: 3 ).
+	anElement padding: (BlInsets top: 1  left: 3 bottom: 0 right: 1 ).
+	" a margin of 1 (min) is set to make the list border visible "
+	anElement margin: (BlInsets all: 1 ).
 	anElement border: BlBorder empty
 ]
 

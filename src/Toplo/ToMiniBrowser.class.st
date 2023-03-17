@@ -123,7 +123,7 @@ ToMiniBrowser >> initialize [
 	| codeMenu classesPane classesButtonPane sideToggle |
 	super initialize.
 	listsPane := ToPane new id: #listPane; margin: (BlInsets top: 5 bottom: 5).
-	listsPane layout: (BlLinearLayout horizontal cellSpacing: 6).
+	listsPane layout: (BlLinearLayout horizontal cellSpacing: 0).
 	listsPane matchParent.
 	
 	mainPane := ToPane new beVertical.
@@ -131,7 +131,7 @@ ToMiniBrowser >> initialize [
 
 	packages := ToListElement new 
 		id: #packages;
-		margin: (BlInsets all: 1);
+		margin: (BlInsets all: 3);
 		nodeFactory: [ :pkg |
 		            | node |
 		            node := ToLabeledNode new
@@ -159,7 +159,11 @@ ToMiniBrowser >> initialize [
 		do: [ :event | self classSelectionChangedEvent: event ].
 	classes data whenRemoveChangeDo: [ protocols data removeAll ].
 	classesPane := ToPane new id: #classesPane; beVertical; matchParent.
+	classesPane	margin: (BlInsets all: 3).
 
+
+	classes margin: BlInsets empty.
+	classes padding: BlInsets empty.
 	classesPane addChild: classes.
 	classesButtonPane := ToPane new
 		                     hMatchParent;
@@ -182,6 +186,7 @@ ToMiniBrowser >> initialize [
 		             ToLabeledNode new
 			             labelText: assoc value name;
 			             hMatchParent ].
+	protocols margin: (BlInsets all: 3).
 
 	protocols
 		when: ToInfiniteSelectionChangedEvent
@@ -192,6 +197,8 @@ ToMiniBrowser >> initialize [
 		             ToLabeledNode new
 			             labelText: assoc value asString;
 			             hMatchParent ].
+	selectors margin: (BlInsets all: 3).
+	
 	selectors
 		when: ToInfiniteSelectionChangedEvent
 		do: [ :event | self selectorSelectionChangedEvent: event ].

@@ -117,7 +117,7 @@ ToDividerDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	self installEventListenersIn: anElement.
-	anElement thickness: 3.
+	anElement thickness: 4.
 	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
 	anElement border: (BlBorder paint: self theme divider defaultBorderColor).
 	anElement background: self theme divider defaultBackgroundColor.

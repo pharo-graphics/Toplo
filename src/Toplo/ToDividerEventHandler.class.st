@@ -20,12 +20,6 @@ ToDividerEventHandler >> appliedDragDeltaFromPosition: aPoint [
 ]
 
 { #category : #accessing }
-ToDividerEventHandler >> bottomTarget [
-
-	^ self topTarget == self firstTarget ifTrue: [ self secondTarget  ] ifFalse: [ self firstTarget ]
-]
-
-{ #category : #accessing }
 ToDividerEventHandler >> divider [
 
 	^ divider
@@ -139,7 +133,7 @@ ToDividerEventHandler >> horizontalDragEvent: anEvent target: aTarget width: aWi
 { #category : #accessing }
 ToDividerEventHandler >> leftTarget [
 
-	^ (self firstTarget bounds left < self secondTarget bounds left) ifTrue: [ self firstTarget  ] ifFalse: [ self secondTarget  ]
+	^ self divider leftTarget
 ]
 
 { #category : #accessing }
@@ -200,12 +194,6 @@ ToDividerEventHandler >> resizerCursor [
 ]
 
 { #category : #accessing }
-ToDividerEventHandler >> rightTarget [
-
-	^ self leftTarget == self firstTarget ifTrue: [ self secondTarget  ] ifFalse: [ self firstTarget ]
-]
-
-{ #category : #accessing }
 ToDividerEventHandler >> secondTarget [
 
 	^ self divider secondTarget
@@ -214,7 +202,7 @@ ToDividerEventHandler >> secondTarget [
 { #category : #accessing }
 ToDividerEventHandler >> topTarget [
 
-	^ (self firstTarget bounds top < self secondTarget bounds top) ifTrue: [ self firstTarget  ] ifFalse: [ self secondTarget  ]
+	^ self divider topTarget
 ]
 
 { #category : #'dnd handlers' }

@@ -32,9 +32,7 @@ ToDivider class >> new [
 { #category : #accessing }
 ToDivider >> bottomTarget [
 
-	^ (self pane isLeftToRight or: [ self pane isVertical ]) 
-		  ifTrue: [ self secondTarget ]
-		  ifFalse: [ self firstTarget ]
+	^ self topTarget == self firstTarget ifTrue: [ self secondTarget  ] ifFalse: [ self firstTarget ]
 ]
 
 { #category : #'t - initialization dresser' }
@@ -123,7 +121,7 @@ ToDivider >> layoutInVerticalPane [
 { #category : #accessing }
 ToDivider >> leftTarget [
 
-	^ self pane isLeftToRight ifTrue: [  self firstTarget ] ifFalse: [ self secondTarget ]
+	^ (self firstTarget bounds left < self secondTarget bounds left) ifTrue: [ self firstTarget  ] ifFalse: [ self secondTarget  ]
 ]
 
 { #category : #layout }
@@ -189,9 +187,7 @@ ToDivider >> pane: aPane [
 { #category : #accessing }
 ToDivider >> rightTarget [
 
-	^ self pane isLeftToRight
-		  ifTrue: [ self secondTarget ]
-		  ifFalse: [ self firstTarget ]
+	^ self leftTarget == self firstTarget ifTrue: [ self secondTarget  ] ifFalse: [ self firstTarget ]
 ]
 
 { #category : #accessing }
@@ -221,9 +217,7 @@ ToDivider >> thickness: aNumber [
 { #category : #accessing }
 ToDivider >> topTarget [
 
-	^ (self pane isLeftToRight or: [ self pane isVertical ]) 
-		  ifTrue: [ self firstTarget ]
-		  ifFalse: [ self secondTarget ]
+	^ (self firstTarget bounds top < self secondTarget bounds top) ifTrue: [ self firstTarget  ] ifFalse: [ self secondTarget  ]
 ]
 
 { #category : #accessing }

@@ -476,7 +476,7 @@ ToSandBox class >> example_ListWithSelectedNodeFactory [
 			     hMatchParent  ].
 	l := ToListElement new 
 			nodeFactory: factory;
-			selectedNodeFactory: [:cls :holder | ToLabeledNode new labelText: cls name; hMatchParent; border: (BlBorder paint: Color red)].
+			selectedNodeFactory: [:cls :holder | (factory value: cls value: holder) border: (BlBorder paint: Color red)].
 	l data addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
 	l openInInnerWindow

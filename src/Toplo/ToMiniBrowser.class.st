@@ -160,10 +160,11 @@ ToMiniBrowser >> initialize [
 	classes data whenRemoveChangeDo: [ protocols data removeAll ].
 	classesPane := ToPane new id: #classesPane; beVertical; matchParent.
 	classesPane	margin: (BlInsets all: 3).
+	"classesPane	padding: (BlInsets all: 2)."
 
-
-	classes margin: BlInsets empty.
-	classes padding: BlInsets empty.
+	"classes margin: (BlInsets all: 1)."
+	"classes padding: (BlInsets all: 3)."
+	classes outskirts: BlOutskirts outside.
 	classesPane addChild: classes.
 	classesButtonPane := ToPane new
 		                     hMatchParent;

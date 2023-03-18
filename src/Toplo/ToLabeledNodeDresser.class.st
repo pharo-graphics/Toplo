@@ -20,7 +20,7 @@ ToLabeledNodeDresser >> addedToSelection: anElement [
 	anElement label requestLayout.
 	
 	self background: self selectionBackground  in: anElement.
-	self border: initialBorder in: anElement.
+	"self border: initialBorder in: anElement."
 
 ]
 
@@ -146,17 +146,12 @@ ToLabeledNodeDresser >> onInstalledIn: anElement [
 	anElement hMatchParent.
 	anElement geometry: BlRectangleGeometry new.
 	anElement padding: (BlInsets
-			 top: 1
+			 top: 0
 			 left: 3
 			 bottom: 0
 			 right: 1).
-	" a margin of 1 (min) is set to make the list border visible "
-	anElement margin: (BlInsets
-			 top: 0
-			 left: 1
-			 bottom: 0
-			 right: 1).
-	anElement border: BlBorder empty.
+	anElement margin: (BlInsets all: 0).
+	anElement border: (BlBorder paint: Color transparent).
 	anElement background: self theme item defaultColor
 ]
 

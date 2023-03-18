@@ -61,9 +61,9 @@ TToColumned >> onMeasure: anExtentMeasurementSpec [
 	" send to super before to ensure the children are already measured "
 
 	super onMeasure: anExtentMeasurementSpec.
-	(self strategy onMeasure: anExtentMeasurementSpec in: self) 
-		ifFalse: [ " re-launch measuring if necessary" 
-			self onMeasure: anExtentMeasurementSpec ]
+	"(self strategy onMeasure: anExtentMeasurementSpec in: self) 
+		ifFalse: [ 
+			self onMeasure: anExtentMeasurementSpec ]"
 ]
 
 { #category : #'t - columned private' }

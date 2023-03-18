@@ -73,13 +73,13 @@ TToLabeledIcon >> labelText: aText [
 	self label: (ToLabel text: aText)
 ]
 
-{ #category : #enumerating }
+{ #category : #'t - change hook' }
 TToLabeledIcon >> whenIconChangedDo: aBlock [
 
 	self whenFirstChangedDo: aBlock
 ]
 
-{ #category : #enumerating }
+{ #category : #'t - change hook' }
 TToLabeledIcon >> whenLabelChangedDo:  aBlock [
 
 	self whenSecondChangedDo: aBlock

@@ -4,10 +4,17 @@ Class {
 	#traits : 'TBlAnnouncerProvider',
 	#classTraits : 'TBlAnnouncerProvider classTrait',
 	#instVars : [
-		'data'
+		'data',
+		'unselectedNode'
 	],
 	#category : #'Toplo-Core-Node'
 }
+
+{ #category : #accessing }
+ToNodeHolder >> data [
+
+	^ data
+]
 
 { #category : #accessing }
 ToNodeHolder >> data: aData [ 
@@ -54,11 +61,36 @@ ToNodeHolder >> onAttachedFromDatasource: aDataSource [
 ]
 
 { #category : #accessing }
+ToNodeHolder >> onAttachedFromInfinite [
+
+	" when holder is attached it can be already selected (as an example with a selectAll) "
+	"Selection must be preserved "
+	(self infiniteElement selectionStrategy isSelected: self position)
+		ifFalse: [ ^ self ].
+	self infiniteElement selectedNodeFactory ifNotNil: [
+		unselectedNode := self node.
+		self node:
+			(self infiniteElement selectedNodeFactory
+				 cull: self data
+				 cull: self).
+		self infiniteElement requestLayout ].
+	self selected: true.
+
+
+]
+
+{ #category : #accessing }
 ToNodeHolder >> onDetachedFromDatasource: aDataSource [
 
 	itemElement undress.
 	self unsubscribe: infiniteElement.
 	infiniteElement selectionStrategy unsubscribe: self
+]
+
+{ #category : #accessing }
+ToNodeHolder >> onDetachedFromInfinite [
+
+	
 ]
 
 { #category : #accessing }
@@ -73,6 +105,11 @@ ToNodeHolder >> selected: aBoolean [
 ToNodeHolder >> whenDeselectAnnouncement: anAnnouncement [
 
 	(anAnnouncement interval includes: self position) ifFalse: [ ^ self ].
+	unselectedNode ifNotNil: [
+		self node undress.
+		self node: unselectedNode.
+		unselectedNode := nil.
+		self infiniteElement requestLayout ].
 	self selected: false
 ]
 
@@ -80,5 +117,12 @@ ToNodeHolder >> whenDeselectAnnouncement: anAnnouncement [
 ToNodeHolder >> whenSelectAnnouncement: anAnnouncement [
 
 	(anAnnouncement interval includes: self position) ifFalse: [ ^ self ].
+	self infiniteElement selectedNodeFactory ifNotNil: [
+		unselectedNode := self node.
+		self node:
+			(self infiniteElement selectedNodeFactory
+				 cull: self data
+				 cull: self).
+		self infiniteElement requestLayout ].
 	self selected: true
 ]

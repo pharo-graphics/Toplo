@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCheckNodeDresser,
-	#superclass : #ToNodeDresser,
+	#superclass : #ToLabeledNodeDresser,
 	#instVars : [
 		'checkedIcon',
 		'indeterminateIcon',
@@ -12,6 +12,7 @@ Class {
 { #category : #enumerating }
 ToCheckNodeDresser >> addedToSelection: anElement [
 
+	super addedToSelection: anElement.
 	anElement isChecked ifFalse: [anElement check]
 ]
 
@@ -139,6 +140,7 @@ ToCheckNodeDresser >> onUninstalledIn: anElement [
 { #category : #enumerating }
 ToCheckNodeDresser >> removedFromSelection: anElement [
 
+	super removedFromSelection: anElement.
 	anElement isChecked ifTrue: [anElement uncheck]
 ]
 

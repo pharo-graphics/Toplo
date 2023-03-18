@@ -265,7 +265,7 @@ ToSandBox class >> example_ListOneClass [
 ToSandBox class >> example_ListWithAllClasses [
 
 	| l |
-	l := ToListElement new alternateRowsColor: true.
+	l := ToListElement new.
 	l data addAll:
 		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInOBlSpace
@@ -276,7 +276,6 @@ ToSandBox class >> example_ListWithAllClasses3 [
 
 	| l |
 	l := ToListElement new 
-			alternateRowsColor: true; 
 			nodeFactory: [ :cls :holder |
 		     | icn lab |
 		     icn := cls hasComment
@@ -286,10 +285,6 @@ ToSandBox class >> example_ListWithAllClasses3 [
 			            text: cls name;
 			            beEditable;
 			            yourself.
-		     lab whenTextReplacedDo: [
-			     holder infiniteElement dataSource list
-				     at: holder layoutPosition
-				     put: lab text ].
 		     ToLabeledNode new
 			     label: lab;
 			     icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
@@ -305,7 +300,6 @@ ToSandBox class >> example_ListWithAllClasses4 [
 
 	| l |
 	l := ToListElement new 
-		alternateRowsColor: true;
 		nodeFactory: [ :cls |
 		     ToCheckNode new
 			     labelText: cls name;
@@ -347,14 +341,14 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		lab beMultiLine.
 		lab beEditable.
 		lab whenTextReplacedDo: [
-			l list at: holder position put: lab text asString ].
+			l data at: holder position put: lab text asString ].
 		ToLabeledNode new
 			label: lab;
 			hMatchParent ].
 	l when: ToStrongSelectionEvent do: [ :event |
 		| r |
 		r := event indexes collect: [ :idx | idx asString , ':XXXXXX' ].
-		r do: [ :e | l list addFirst: e ] ].
+		r do: [ :e | l data addFirst: e ] ].
 	menuFactory := [
 	               | menu |
 	               menu := ToContextMenu new withoutLeftColumn.
@@ -417,7 +411,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 					                client selectedIndexes ifNotEmpty: [
 							                from := client selectedIndexes first.
 							                to := client selectedIndexes last.
-							                client list removeFrom: from to: to ] ];
+							                client data removeFrom: from to: to ] ];
 				                yourself).
 		               menu addItem: selectionMenu.
 		               menu addSeparator ].
@@ -463,11 +457,36 @@ ToSandBox class >> example_ListWithRowNumbers [
 ]
 
 { #category : #list }
+ToSandBox class >> example_ListWithSelectedNodeFactory [
+
+	| l factory |
+	factory := [  :cls :holder |
+		     | icn lab |
+		     icn := cls hasComment
+			            ifTrue: [ #class ]
+			            ifFalse: [ #uncommentedClass ].
+		     lab := ToLabel new
+			            text: cls name;
+			            beEditable;
+			            yourself.
+		     ToLabeledNode new
+			     label: lab;
+			     icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
+			     columnWidth: 20;
+			     hMatchParent  ].
+	l := ToListElement new 
+			nodeFactory: factory;
+			selectedNodeFactory: [:cls :holder | ToLabeledNode new labelText: cls name; hMatchParent; border: (BlBorder paint: Color red)].
+	l data addAll: Smalltalk globals allClasses.
+	l withRowNumbers.
+	l openInInnerWindow
+]
+
+{ #category : #list }
 ToSandBox class >> example_ListWithSingleSelection [
 
 	| l |
-	l := ToListElement new 
-		alternateRowsColor: true;
+	l := ToListElement new
 		nodeFactory: [ :cls |
 		     ToCheckNode new
 			     labelText: cls name;
@@ -482,8 +501,7 @@ ToSandBox class >> example_ListWithSingleSelection [
 ToSandBox class >> example_ListWithoutSelection [
 
 	| l |
-	l := ToListElement new 
-		alternateRowsColor: true;
+	l := ToListElement new
 		nodeFactory: [ :cls |
 		     ToCheckNode new
 			     labelText: cls name;

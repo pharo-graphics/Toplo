@@ -15,7 +15,7 @@ ToLabeledNode >> client [
 { #category : #'t - initialization dresser' }
 ToLabeledNode >> defaultDresser [ 
 
-	^ ToNodeDresser new
+	^ ToLabeledNodeDresser new
 ]
 
 { #category : #accessing }

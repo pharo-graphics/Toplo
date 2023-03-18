@@ -35,9 +35,9 @@ ToLabelMultiLineInnerElement >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
+	lines := OrderedCollection new.
 	self fitContent.
 	self layout: BlLinearLayout vertical.
-	lines := OrderedCollection new.
 	self whenTextReplacedDo: [ :t | self textReplaced ].
 	self preventMouseEvents 
 ]
@@ -60,6 +60,13 @@ ToLabelMultiLineInnerElement >> newLineElement [
 			  c horizontal fitContent.
 			  c vertical fitContent ];
 		  yourself
+]
+
+{ #category : #layout }
+ToLabelMultiLineInnerElement >> requestLayout [ 
+
+	lines do: [:l | l childrenDo: #requestLayout].
+	super requestLayout
 ]
 
 { #category : #'private - text splitting' }

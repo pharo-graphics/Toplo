@@ -31,8 +31,7 @@ ToListElement >> holderClass [
 { #category : #initialization }
 ToListElement >> initialize [
 
-	super initialize.
-	self alternateRowsColor: false
+	super initialize
 ]
 
 { #category : #'hooks - children' }

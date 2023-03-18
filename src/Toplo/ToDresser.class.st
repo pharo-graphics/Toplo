@@ -28,6 +28,12 @@ ToDresser >> addDresser: aDresser in: anElement previous: aPreviousDresser [
 	self next addDresser: aDresser in: anElement previous: self
 ]
 
+{ #category : #'events handling' }
+ToDresser >> addedToSelection: anElement [
+
+	self next addedToSelection: anElement
+]
+
 { #category : #'t - accessing - dresser' }
 ToDresser >> dresserSatisfying: aBlock [
 
@@ -43,18 +49,6 @@ ToDresser >> initialize [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToDresser >> launchElementAttached: anElement inInfinite: aToInfinite [
-
-	self onElementAttached: anElement inInfinite: aToInfinite
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToDresser >> launchElementDetached: anElement inInfinite: aToInfinite [
-
-	self onElementDetached: anElement inInfinite: aToInfinite
-]
-
-{ #category : #'api - install/uninstall  hook' }
 ToDresser >> next [
 
 	^ next
@@ -65,20 +59,6 @@ ToDresser >> next: aDresser [
 
 	next := aDresser.
 	
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToDresser >> onElementAttached: anElement inInfinite: aToInfinite [
-
-	next onElementAttached: anElement inInfinite: aToInfinite
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToDresser >> onElementDetached: anElement inInfinite: aToInfinite [
-
-	next onElementDetached: anElement inInfinite: aToInfinite
-
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -106,6 +86,12 @@ ToDresser >> removeDresser: aDresser in: anElement [
 	next := aDresser next.
 	aDresser next: ToNullDresser new.
 	aDresser launchUninstallationIn: anElement
+]
+
+{ #category : #'events handling' }
+ToDresser >> removedFromSelection: anElement [
+
+	self next removedFromSelection: anElement
 ]
 
 { #category : #accessing }

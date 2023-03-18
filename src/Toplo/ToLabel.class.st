@@ -145,6 +145,7 @@ ToLabel >> initialize [
 	self class initializeSlots: self.
 	super initialize.
 	self initializeEditable.
+	self layout: self defaultLayout.
 	self constraintsDo: [ :c | 
 		c vertical fitContent.
 		c horizontal fitContent ].
@@ -235,6 +236,13 @@ ToLabel >> removeEditor [
 	self editorFrame removeFromParent.
 	self innerElement visibility: BlVisibility visible.
 	self cleanUpUserData
+]
+
+{ #category : #layout }
+ToLabel >> requestLayout [
+
+	self innerElement ifNotNil: [:ie | ie requestLayout ].
+	super requestLayout
 ]
 
 { #category : #accessing }

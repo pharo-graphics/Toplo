@@ -1,6 +1,6 @@
 Class {
 	#name : #ToColorNodeDresserExample,
-	#superclass : #ToNodeDresser,
+	#superclass : #ToLabeledNodeDresser,
 	#instVars : [
 		'nodeButton'
 	],
@@ -10,6 +10,7 @@ Class {
 { #category : #'events handling' }
 ToColorNodeDresserExample >> addedToSelection: anElement [
 
+	" do not send to super "
 	selected := true.
 
 ]
@@ -44,14 +45,6 @@ ToColorNodeDresserExample >> leftPressed: anElement event: anEvent [
 
 ]
 
-{ #category : #'events handling' }
-ToColorNodeDresserExample >> onElementAttached: anElement inInfinite: aToInfinite [
-]
-
-{ #category : #'events handling' }
-ToColorNodeDresserExample >> onElementDetached: anElement inInfinite: aToInfinite [
-]
-
 { #category : #'api - install/uninstall  hook' }
 ToColorNodeDresserExample >> onInstalledIn: anElement [
 
@@ -69,6 +62,7 @@ ToColorNodeDresserExample >> onInstalledIn: anElement [
 { #category : #'events handling' }
 ToColorNodeDresserExample >> removedFromSelection: anElement [
 
+	" do not send to super "
 	selected := false.
 
 ]

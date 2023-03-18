@@ -7,22 +7,10 @@ Class {
 		'selectionStrategy',
 		'nodeFactory',
 		'clickLauncher',
-		'alternateRowsColor'
+		'selectedNodeFactory'
 	],
 	#category : #'Toplo-Core-Infinite'
 }
-
-{ #category : #accessing }
-ToInfiniteElement >> alternateRowsColor [
-
-	^ alternateRowsColor
-]
-
-{ #category : #accessing }
-ToInfiniteElement >> alternateRowsColor: aBoolean [
-
-	alternateRowsColor := aBoolean
-]
 
 { #category : #'selection events' }
 ToInfiniteElement >> cherryPickIndex: anIndex [
@@ -94,14 +82,14 @@ ToInfiniteElement >> defaultSelectionStrategy [
 ToInfiniteElement >> dispatchChildAttached: anElement [
 	
 	super dispatchChildAttached: anElement.
-	anElement dresserDo: [ :d | d launchElementAttached: anElement inInfinite: self]
+	anElement holder onAttachedFromInfinite
 ]
 
 { #category : #dispatching }
 ToInfiniteElement >> dispatchChildDetached: anElement [
 	
 	super dispatchChildDetached: anElement.
-	anElement dresserDo: [ :d | d launchElementDetached: anElement inInfinite: self ]
+	anElement holder onDetachedFromInfinite
 ]
 
 { #category : #'selection events' }
@@ -264,6 +252,19 @@ ToInfiniteElement >> selectToIndex: anIndex [
 ToInfiniteElement >> selectedIndexes [ 
 
 	^ self selectionStrategy selectedIndexes
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> selectedNodeFactory [
+
+	^ selectedNodeFactory 
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> selectedNodeFactory: aNodeFactory [
+
+	selectedNodeFactory := aNodeFactory asToDataToElementConverter.
+	self requestLayout 
 ]
 
 { #category : #accessing }

@@ -7,8 +7,8 @@ Class {
 		'#selectionModel',
 		'#dataSource',
 		'#mode => ObservableSlot',
-		'#lastManagedIndex',
-		'#prevDir'
+		'#prevDir',
+		'#currentIndex'
 	],
 	#category : #'Toplo-Core-Infinite'
 }
@@ -27,10 +27,10 @@ ToSelectionStrategy >> addNextToSelection [
 ToSelectionStrategy >> addOrRemoveNext [
 
 	| next |
-	lastManagedIndex = dataSource itemCount ifTrue: [ ^ self ].
+	self currentIndex = dataSource itemCount ifTrue: [ ^ self ].
 	next := prevDir = #next
-		        ifTrue: [ lastManagedIndex + 1 ]
-		        ifFalse: [ lastManagedIndex ].
+		        ifTrue: [ self currentIndex + 1 ]
+		        ifFalse: [ self currentIndex ].
 	prevDir := #next.
 
 	(self isSelected: next)
@@ -41,17 +41,17 @@ ToSelectionStrategy >> addOrRemoveNext [
 					next := next + 1.
 					self addToSelection: next ] ]
 		ifFalse: [ self addToSelection: next ].
-	lastManagedIndex := next
+	self currentIndex:  next
 ]
 
 { #category : #'selection managing' }
 ToSelectionStrategy >> addOrRemovePrevious [
 
 	| next |
-	lastManagedIndex = 1 ifTrue: [ ^ self ].
+	self currentIndex = 1 ifTrue: [ ^ self ].
 	next := prevDir = #previous
-		        ifTrue: [ lastManagedIndex - 1 ]
-		        ifFalse: [ lastManagedIndex ].
+		        ifTrue: [ self currentIndex - 1 ]
+		        ifFalse: [ self currentIndex ].
 	prevDir := #previous.
 
 	(self isSelected: next)
@@ -62,14 +62,14 @@ ToSelectionStrategy >> addOrRemovePrevious [
 					next := next - 1.
 					self addToSelection: next ] ]
 		ifFalse: [ self addToSelection: next ].
-	lastManagedIndex := next
+	self currentIndex: next
 ]
 
 { #category : #'selection managing' }
 ToSelectionStrategy >> addToSelection: index [
 
 	self selectInterval: (index to: index).
-	lastManagedIndex := index
+	self currentIndex: index
 ]
 
 { #category : #'selection managing' }
@@ -122,7 +122,19 @@ ToSelectionStrategy >> clearSelection [
 ToSelectionStrategy >> clearSelection: index [
 
 	selectionModel deselectOne: index.
-	lastManagedIndex := index
+	self currentIndex:  index
+]
+
+{ #category : #accessing }
+ToSelectionStrategy >> currentIndex [
+
+	^ currentIndex ifNil: [ currentIndex := 1 ]
+]
+
+{ #category : #accessing }
+ToSelectionStrategy >> currentIndex: anInteger [
+
+	currentIndex := anInteger 
 ]
 
 { #category : #accessing }
@@ -253,7 +265,7 @@ ToSelectionStrategy >> selectFirst [
 ToSelectionStrategy >> selectIndex: index [
 
 	selectionModel selectOne: index.
-	lastManagedIndex := index
+	self currentIndex: index
 ]
 
 { #category : #'selection managing' }
@@ -267,7 +279,8 @@ ToSelectionStrategy >> selectIndexes: indexes [
 ToSelectionStrategy >> selectInterval: anInterval [
 
 	(self isMultiple not and: [ anInterval size > 1 ]) ifTrue: [ self invalidOperation ].
-	selectionModel select: anInterval first to: anInterval last
+	selectionModel select: anInterval first to: anInterval last.
+	anInterval size = 1 ifTrue: [ self currentIndex: anInterval first ]
 ]
 
 { #category : #'selection managing' }
@@ -281,9 +294,9 @@ ToSelectionStrategy >> selectLast [
 { #category : #'selection managing' }
 ToSelectionStrategy >> selectNext [
 
-	lastManagedIndex < dataSource list size ifFalse: [ ^ self ].
-	lastManagedIndex := lastManagedIndex + 1.
-	self selectIndex: lastManagedIndex
+	self currentIndex < dataSource list size ifFalse: [ ^ self ].
+	self currentIndex: self currentIndex + 1.
+	self selectIndex: self currentIndex
 ]
 
 { #category : #'selection managing' }
@@ -293,15 +306,15 @@ ToSelectionStrategy >> selectNextIn: anElement event: aShortcutEvent [
 		ifTrue: [ self addOrRemoveNext ]
 		ifFalse: [ self selectNext ].
 	self isEmpty ifTrue: [ ^ self ].
-	anElement scrollToIndex: lastManagedIndex
+	anElement scrollToIndex: self currentIndex
 ]
 
 { #category : #'selection managing' }
 ToSelectionStrategy >> selectPrevious [
 
-	lastManagedIndex > 1 ifFalse: [ ^ self ].
-	lastManagedIndex := lastManagedIndex - 1.
-	self selectIndex: lastManagedIndex
+	self currentIndex > 1 ifFalse: [ ^ self ].
+	self currentIndex: self currentIndex - 1.
+	self selectIndex: self currentIndex
 	
 ]
 
@@ -312,7 +325,7 @@ ToSelectionStrategy >> selectPreviousIn: anElement event: aShortcutEvent [
 		ifTrue: [ self addOrRemovePrevious ]
 		ifFalse: [ self selectPrevious ].
 	self isEmpty ifTrue: [ ^ self ].
-	anElement scrollToIndex: lastManagedIndex 
+	anElement scrollToIndex: self currentIndex 
 ]
 
 { #category : #'selection managing' }

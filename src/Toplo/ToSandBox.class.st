@@ -102,7 +102,7 @@ ToSandBox class >> example_ComboBoxWithHeadPlaceholder [
 	win := ToInnerWindow new title: 'Combo box Example'.
 	combo := ToComboBox new.
 	but := ToButton new labelText: ('<< Fetch data >>' asRopedText foreground: Color gray).
-	but whenClickedDo: [ combo data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]) ].
+	but whenClickedDo: [ combo data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]). combo headPlaceholder: nil ].
 	head := ToElement new layout: BlFrameLayout new.
 	head vFitContent.
 	head addChild: but.
@@ -440,6 +440,27 @@ ToSandBox class >> example_ListWithIndexedColors [
 			     background: color ].
 	l data addAll: Color indexedColors.
 	l openInOBlSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_ListWithPanes [
+
+	| list |
+	list := ToListElement new nodeFactory: [ :collectible :holder |
+		        | title blContent |
+		        title := ToLabel new
+			                 id: #title;
+			                 text: collectible;
+			                 margin: (BlInsets all: 1);
+			                 padding: (BlInsets all: 1);
+			                 yourself.
+
+		        blContent := ToPaneNodeExample new.
+		        blContent addChild: title at: 1.
+		        blContent vFitContent.
+		        blContent ].
+	list data addAll: (1 to: 1000 ).
+	list openInOBlSpace
 ]
 
 { #category : #list }

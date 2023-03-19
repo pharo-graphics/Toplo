@@ -18,12 +18,6 @@ ToLabeledNode >> defaultDresser [
 	^ ToLabeledNodeDresser new
 ]
 
-{ #category : #accessing }
-ToLabeledNode >> holder [
-
-	^ self constraints infinite holder
-]
-
 { #category : #initialization }
 ToLabeledNode >> initialize [ 
 

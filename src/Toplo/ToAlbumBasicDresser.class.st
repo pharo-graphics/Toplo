@@ -42,7 +42,7 @@ ToAlbumBasicDresser >> defaultGeometry [
 ToAlbumBasicDresser >> defaultMargin [
 
 	"setup to not depend on parent layout"
-	^ BlInsets all: 0
+	^ BlInsets all: 1
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -74,21 +74,21 @@ ToAlbumBasicDresser >> onInstalledIn: anElement [
 	infiniteBlurHandler := BlEventHandler
 		on: BlBlurEvent
 		do: [ :anEvent | 
-			anElement innerElement border: (BlBorder
+			anElement border: (BlBorder
 					 paint: self defaultBorderColor
 					 width: self defaultBorderWidth ) ].
 
 	infiniteFocusedHandler := BlEventHandler
 		on:  BlFocusEvent
 		do: [ :anEvent | 
-			anElement innerElement border: (BlBorder
+			anElement border: (BlBorder
 					 paint: self defaultFocusedBorderColor
 					 width: self defaultBorderWidth) ].
 	
 	anElement infinite addEventHandler: infiniteBlurHandler.
 	anElement infinite addEventHandler: infiniteFocusedHandler.
 	
-	anElement innerElement border: (BlBorder
+	anElement border: (BlBorder
 			 paint: self defaultBorderColor
 			 width: self defaultBorderWidth).
 

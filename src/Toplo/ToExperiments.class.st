@@ -1097,3 +1097,14 @@ ToExperiments class >> example_twoChildrenMatchParentInFitContent [
 	parent forceLayout.
 	^ parent openInOBlSpace 
 ]
+
+{ #category : #'rotated text' }
+ToExperiments class >> example_verticalLabel [
+
+((ToLabel new text: 'AAAA') 
+	transformDo: [ :t | 
+		"t normalizedOrigin: 0 @ 1."
+		t rotateBy: 270 ]) 
+	border: (BlBorder paint: Color gray); 
+	openInOBlSpace 
+]

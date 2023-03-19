@@ -2,7 +2,8 @@ Class {
 	#name : #ToWidgetWithTooltipEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
-		'openTooltipTask'
+		'openTooltipTask',
+		'widget'
 	],
 	#category : #'Toplo-Widget-Tooltip'
 }
@@ -10,7 +11,7 @@ Class {
 { #category : #'element handlers' }
 ToWidgetWithTooltipEventHandler >> elementPositionChangedEvent: anEvent [
 
-	anEvent currentTarget close
+	widget tooltip close
 
 ]
 
@@ -35,14 +36,14 @@ ToWidgetWithTooltipEventHandler >> hideTooltipFor: aWidget [
 { #category : #'api - accessing' }
 ToWidgetWithTooltipEventHandler >> mouseDownEvent: anEvent [
 
-	self hideTooltipFor: anEvent currentTarget
+	self hideTooltipFor: widget
 
 ]
 
 { #category : #'api - accessing' }
 ToWidgetWithTooltipEventHandler >> mouseEnterEvent: anEvent [
 
-	openTooltipTask ifNotNil: [ anEvent currentTarget dequeueTask: openTooltipTask ].
+	openTooltipTask ifNotNil: [ widget dequeueTask: openTooltipTask ].
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
 	self prepareDelayedPopupTooltipFromEvent: anEvent
 ]
@@ -50,7 +51,7 @@ ToWidgetWithTooltipEventHandler >> mouseEnterEvent: anEvent [
 { #category : #'api - accessing' }
 ToWidgetWithTooltipEventHandler >> mouseLeaveEvent: anEvent [
 
-	self hideTooltipFor: anEvent currentTarget
+	self hideTooltipFor: widget
 
 ]
 
@@ -63,7 +64,7 @@ ToWidgetWithTooltipEventHandler >> popupDelay [
 { #category : #private }
 ToWidgetWithTooltipEventHandler >> prepareDelayedPopupTooltipFromEvent: anEvent [
 
-	anEvent currentTarget tooltipDo: [ :tooltip | 
+	widget tooltipDo: [ :tooltip | 
 		tooltip content ifEmpty: [ ^ self ].
 		tooltip parentDo: [ :p | tooltip close ].
 		openTooltipTask := BlDelayedTaskAction new
@@ -71,5 +72,17 @@ ToWidgetWithTooltipEventHandler >> prepareDelayedPopupTooltipFromEvent: anEvent 
 			                   action: [ 
 				                   tooltip popupEvent: anEvent.
 				                   openTooltipTask := nil ].
-		anEvent currentTarget enqueueTask: openTooltipTask ]
+		widget enqueueTask: openTooltipTask ]
+]
+
+{ #category : #accessing }
+ToWidgetWithTooltipEventHandler >> widget [
+
+	^ widget
+]
+
+{ #category : #accessing }
+ToWidgetWithTooltipEventHandler >> widget: aWidget [
+
+	widget := aWidget
 ]

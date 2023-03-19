@@ -19,13 +19,6 @@ ToTextField >> initialize [
 	self next vFitContent.
 	self vFitContent.
 	self withoutLineWrapping.
-
-	self addEditorShortcut: (BlShortcutWithAction new
-			 combination: BlKeyCombination return;
-			 action: [  ];
-			 description: 'Accept edition';
-			 name: 'Accept';
-			 yourself).
 	self addEventHandler: (AlbTextEditorCursorIconHandler new element: self)
 
 ]

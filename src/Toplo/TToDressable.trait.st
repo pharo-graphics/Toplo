@@ -25,9 +25,6 @@ TToDressable >> dresser: aDresser [
 
 	self dresserDo: [ :d | d launchUninstallationIn: self ].
 	self userData at: #dresser put: aDresser.
-	self userData at: #dresserActions ifPresent: [ :l | 
-		l do: [ :a | a cull: aDresser cull: self ].
-		self userData removeKey: #dressersActions ].
 	self dresserDo: [ :d | d launchInstallationIn: self ]
 ]
 
@@ -35,15 +32,6 @@ TToDressable >> dresser: aDresser [
 TToDressable >> dresserDo: aBlock [
 
 	self dresser ifNotNil: [ :d | aBlock cull: d ]
-]
-
-{ #category : #'t - initialization dresser' }
-TToDressable >> dresserDoOrDefer: aBlock [
-
-	self dresser ifNotNil: [ :d | 
-		aBlock cull: d cull: self.
-		^ self ].
-	self storeDresserAction: aBlock
 ]
 
 { #category : #'t - accessing dresser' }
@@ -67,14 +55,6 @@ TToDressable >> removeDresser: aDresser [
 	self dresser: aDresser next.
 	aDresser next: ToNullDresser new.
 	aDresser launchUninstallationIn: self
-]
-
-{ #category : #'t - initialization dresser' }
-TToDressable >> storeDresserAction: aBlock [
-
-	| l |
-	l := self userData at: #dresserActions ifAbsentPut: [ OrderedCollection new ].
-	l add: aBlock
 ]
 
 { #category : #'t - accessing dresser' }

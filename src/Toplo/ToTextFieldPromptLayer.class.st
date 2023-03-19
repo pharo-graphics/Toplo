@@ -8,8 +8,8 @@ Class {
 ToTextFieldPromptLayer >> attachTo: anEditorElement [
 
 	super attachTo: anEditorElement.
-	"label padding: anEditorElement padding copy."
-	label margin: anEditorElement next margin copy.
+	"label padding: anEditorElement padding copy.
+	label margin: anEditorElement margin copy."
 ]
 
 { #category : #initialization }

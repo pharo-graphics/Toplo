@@ -192,6 +192,7 @@ ToComboBox >> headPlaceholder [
 ToComboBox >> headPlaceholder: anElement [
 
 	headPlaceholder := anElement.
+	headPlaceholder ifNil: [ headPlaceholder := self defaultHeadPlaceholder ].
 	self selectedIndex ifNil: [^ self].
 	self selectedIndex isZero ifTrue: [ self useHeadPlaceholder ]
 ]

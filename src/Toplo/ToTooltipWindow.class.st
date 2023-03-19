@@ -61,7 +61,7 @@ ToTooltipWindow >> initialize [
 ToTooltipWindow >> installedIn: aWidget [
 
 	aWidget ifNil: [ ^ self ].
-	widgetWithTooltipEventHandler := ToWidgetWithTooltipEventHandler new.
+	widgetWithTooltipEventHandler := ToWidgetWithTooltipEventHandler new widget: aWidget.
 	aWidget addEventFilter: widgetWithTooltipEventHandler 
 ]
 

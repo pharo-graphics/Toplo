@@ -43,10 +43,7 @@ ToAlbumPromptLayer >> initialize [
 
 	super initialize.
 	self
-		layout: BlFrameLayout new;
-		constraintsDo: [ :c | 
-			c horizontal fitContent.
-			c vertical fitContent ].
+		layout: BlFrameLayout new.
 	label := self defaultLabel.
 	self addChild: label.
 	self preventMeAndChildrenMouseEvents.

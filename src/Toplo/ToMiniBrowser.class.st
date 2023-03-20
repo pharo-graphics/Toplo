@@ -129,7 +129,7 @@ ToMiniBrowser >> initialize [
 	mainPane := ToPane new beVertical.
 	mainPane matchParent.
 
-	packages := ToListElement new 
+	packages := ToListInfiniteElement new 
 		id: #packages;
 		margin: (BlInsets all: 3);
 		nodeFactory: [ :pkg |
@@ -151,7 +151,7 @@ ToMiniBrowser >> initialize [
 		(RPackage organizer packages asSortedCollection: [ :p1 :p2 |
 			 p1 name < p2 name ]).
 
-	classes := ToListElement new 
+	classes := ToListInfiniteElement new 
 		id: #classes; 
 		nodeFactory: ToClassToNodeConverterExample new.
 	classes
@@ -183,7 +183,7 @@ ToMiniBrowser >> initialize [
 	sideToggle whenUncheckedDo: [
 		classes dispatchSelectionChangedAfter: [ classSide := false ] ].
 
-	protocols := ToListElement new id: #protocols; nodeFactory: [ :assoc |
+	protocols := ToListInfiniteElement new id: #protocols; nodeFactory: [ :assoc |
 		             ToLabeledNode new
 			             labelText: assoc value name;
 			             hMatchParent ].
@@ -194,7 +194,7 @@ ToMiniBrowser >> initialize [
 		do: [ :event | self protocolSelectionChangedEvent: event ].
 	protocols data whenRemoveChangeDo: [ selectors data removeAll ].
 
-	selectors := ToListElement new id: #selectors; nodeFactory: [ :assoc |
+	selectors := ToListInfiniteElement new id: #selectors; nodeFactory: [ :assoc |
 		             ToLabeledNode new
 			             labelText: assoc value asString;
 			             hMatchParent ].

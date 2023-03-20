@@ -1,5 +1,5 @@
 Class {
-	#name : #ToListDresser,
+	#name : #ToListInfiniteElementDresser,
 	#superclass : #ToDresser,
 	#instVars : [
 		'scrolledHandler',
@@ -12,19 +12,19 @@ Class {
 }
 
 { #category : #initialization }
-ToListDresser >> defaultMargin [
+ToListInfiniteElementDresser >> defaultMargin [
 
 	^ BlInsets all: 1
 ]
 
 { #category : #initialization }
-ToListDresser >> defaultPadding [
+ToListInfiniteElementDresser >> defaultPadding [
 
 	^ BlInsets all: 1
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListDresser >> installEventListenersIn: anElement [
+ToListInfiniteElementDresser >> installEventListenersIn: anElement [
 
 	focusHandler := ToFocusHandler new.
 	focusGetterHandler := BlEventHandler
@@ -51,14 +51,14 @@ ToListDresser >> installEventListenersIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListDresser >> installShortInIn: anElement [
+ToListInfiniteElementDresser >> installShortInIn: anElement [
 
 	shortcuts := anElement selectionStrategy shortcutsIn: anElement.
 	shortcuts do: [ :s | anElement addShortcut: s ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListDresser >> onInstalledIn: anElement [
+ToListInfiniteElementDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	
@@ -89,7 +89,7 @@ ToListDresser >> onInstalledIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListDresser >> onUninstalledIn: anElement [
+ToListInfiniteElementDresser >> onUninstalledIn: anElement [
 
 	self uninstallEventListenersIn: anElement.
 	super onUninstalledIn: anElement.
@@ -97,7 +97,7 @@ ToListDresser >> onUninstalledIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListDresser >> uninstallEventListenersIn: anElement [
+ToListInfiniteElementDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: scrolledHandler.
 	anElement removeEventHandler: focusHandler.
@@ -107,14 +107,14 @@ ToListDresser >> uninstallEventListenersIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListDresser >> uninstallShortInIn: anElement [
+ToListInfiniteElementDresser >> uninstallShortInIn: anElement [
 
 	shortcuts do: [ :s | anElement removeShortcut: s ].
 	shortcuts := nil
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListDresser >> updateHoveredNodeIn: anElement [
+ToListInfiniteElementDresser >> updateHoveredNodeIn: anElement [
 
 	anElement spaceDo: [ :sp | sp mouseProcessor handleLastMouseMove ]
 ]

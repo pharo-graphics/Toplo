@@ -70,7 +70,7 @@ ToComboBox >> defaultHeadPlaceholder [
 { #category : #initialization }
 ToComboBox >> defaultListElement [
 
-	^ ToListElement new
+	^ ToListInfiniteElement new
 		  vFitContent;
 		  width: self defaultListElementSize x;
 		  maxHeight: self defaultListElementSize y;

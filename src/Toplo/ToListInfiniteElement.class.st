@@ -1,41 +1,41 @@
 Class {
-	#name : #ToListElement,
+	#name : #ToListInfiniteElement,
 	#superclass : #ToInfiniteElement,
 	#category : #'Toplo-Widget-List'
 }
 
 { #category : #initialization }
-ToListElement >> defaultDataSource [
+ToListInfiniteElement >> defaultDataSource [
 
 	^ ToObservableCollectionDataSource new
 ]
 
 { #category : #'t - initialization dresser' }
-ToListElement >> defaultDresser [ 
+ToListInfiniteElement >> defaultDresser [ 
 
-	^ ToListDresser new
+	^ ToListInfiniteElementDresser new
 ]
 
 { #category : #initialization }
-ToListElement >> defaultListNodeFactory [
+ToListInfiniteElement >> defaultListNodeFactory [
 
 	^ ToActionDataToElementConverter new valuable: [ :d :h | ToLabeledNode new labelText: d ]
 ]
 
 { #category : #initialization }
-ToListElement >> holderClass [
+ToListInfiniteElement >> holderClass [
 
 	^ ToListNodeHolder 
 ]
 
 { #category : #initialization }
-ToListElement >> initialize [
+ToListInfiniteElement >> initialize [
 
 	super initialize
 ]
 
 { #category : #'hooks - children' }
-ToListElement >> onChildAttached: anElement [
+ToListInfiniteElement >> onChildAttached: anElement [
 	"Sent when an item element is attached to this InfiniteElement.
 	My subclasses may want to perform extra bookkeeping or modifications of child elements
 	as they become attached. This will be called before an InfiniteLayout measures or lays out
@@ -46,7 +46,7 @@ ToListElement >> onChildAttached: anElement [
 ]
 
 { #category : #'hooks - children' }
-ToListElement >> onChildDetached: anElement [
+ToListInfiniteElement >> onChildDetached: anElement [
 	"I sent when an item element is detached from this InfiniteElement.
 	My subclasses may want to perform extra bookkeeping or modifications
 	of child elements as they become detached. This will be sent as an

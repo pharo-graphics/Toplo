@@ -7,7 +7,7 @@ Class {
 { #category : #'t - initialization dresser' }
 ToPaneNodeExample >> defaultDresser [ 
 
-	^ ToPaneNodeDresserExample new
+	^ ToNodeWithHoverButtonDresserExample new
 ]
 
 { #category : #initialization }

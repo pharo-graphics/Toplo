@@ -12,46 +12,36 @@ Class {
 	#category : #'Toplo-Widget-Button'
 }
 
-{ #category : #private }
-ToGeneralButtonDresser >> background: aBackground in: anElement [
+{ #category : #accessing }
+ToGeneralButtonDresser >> colorProvider [
 
-	anElement
-		disableEventType: BlElementBackgroundChangedEvent 
-		while: [ anElement background: aBackground ]
-]
-
-{ #category : #private }
-ToGeneralButtonDresser >> border: aBorder in: anElement [
-
-	anElement
-		disableEventType: BlElementBorderChangedEvent
-		while: [ anElement border: aBorder ]
+	^ self theme button
 ]
 
 { #category : #accessing }
 ToGeneralButtonDresser >> defaultHoveredBackground [  
 
-	^ theme button hoveredBackgroundColor
+	^ self colorProvider hoveredBackgroundColor
 
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : #accessing }
 ToGeneralButtonDresser >> defaultHoveredBorder [
 
-	^ BlBorder paint: theme button hoveredBorderColor
+	^ BlBorder paint: self colorProvider hoveredBorderColor
 
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : #accessing }
 ToGeneralButtonDresser >> defaultInitialBackground [
 
-	^ self theme button defaultBackgroundColor
+	^ self colorProvider defaultBackgroundColor
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : #accessing }
 ToGeneralButtonDresser >> defaultInitialBorder [
 
-	^ BlBorder paint: self theme button defaultBorderColor.
+	^ BlBorder paint: self colorProvider defaultBorderColor.
 
 ]
 
@@ -161,13 +151,13 @@ ToGeneralButtonDresser >> onInstalledIn: anElement [
 { #category : #accessing }
 ToGeneralButtonDresser >> pressedBackground [
 
-	^ theme button pressedBackgroundColor
+	^ self colorProvider pressedBackgroundColor
 ]
 
 { #category : #accessing }
 ToGeneralButtonDresser >> pressedBorder [
 
-	^ BlBorder paint: theme button pressedBorderColor width: 1
+	^ BlBorder paint: self colorProvider pressedBorderColor width: 1
 ]
 
 { #category : #'events handling' }

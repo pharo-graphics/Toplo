@@ -1,16 +1,30 @@
 Class {
-	#name : #ToPaneNodeDresserExample,
-	#superclass : #ToGeneralButtonDresser,
+	#name : #ToNodeWithHoverButtonDresserExample,
+	#superclass : #ToMouseHandlingDresser,
 	#instVars : [
-		'nodeButton'
+		'nodeButton',
+		'changeBackground'
 	],
 	#category : #'Toplo-Examples'
 }
 
+{ #category : #accessing }
+ToNodeWithHoverButtonDresserExample >> changeBackground [
+
+	^ changeBackground ifNil: [ changeBackground := true ]
+]
+
+{ #category : #accessing }
+ToNodeWithHoverButtonDresserExample >> changeBackground: aBoolean [
+
+	changeBackground := aBoolean
+]
+
 { #category : #'events handling' }
-ToPaneNodeDresserExample >> hover: anElement event: anEvent [
+ToNodeWithHoverButtonDresserExample >> hover: anElement event: anEvent [
 
 	super hover: anElement event: anEvent.
+	self changeBackground ifTrue: [ anElement background: (Color lightGray alpha: 0.2) ].
 	nodeButton := ToButton new labelText: 'Do something'.
 	nodeButton whenClickedDo: [ self inform: 'CLICK' ].
 	nodeButton constraintsDo: [ :c |
@@ -23,16 +37,17 @@ ToPaneNodeDresserExample >> hover: anElement event: anEvent [
 ]
 
 { #category : #'events handling' }
-ToPaneNodeDresserExample >> leaved: anElement [
+ToNodeWithHoverButtonDresserExample >> leaved: anElement event: anEvent [
 
-	super leaved: anElement.
+	super leaved: anElement event: anEvent.
+	self changeBackground ifTrue: [ anElement background: (Color transparent) ].
 	nodeButton ifNotNil: [
 		nodeButton removeFromParent.
 		nodeButton := nil ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToPaneNodeDresserExample >> onInstalledIn: anElement [
+ToNodeWithHoverButtonDresserExample >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	anElement

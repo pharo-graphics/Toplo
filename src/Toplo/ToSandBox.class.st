@@ -433,7 +433,7 @@ ToSandBox class >> example_ListWithIndexedColors [
 	| l |
 	l := ToListElement new nodeFactory: [ :color |
 		     ToLabeledNode new
-			     dresser: ToColorNodeDresserExample new;
+			     dresser: (ToNodeWithHoverButtonDresserExample new changeBackground: false; yourself);
 			     labelText: (color asString asRopedText
 					      foreground: color contrastingBlackAndWhiteColor;
 					      yourself);
@@ -454,12 +454,16 @@ ToSandBox class >> example_ListWithPanes [
 			                 margin: (BlInsets all: 1);
 			                 padding: (BlInsets all: 1);
 			                 yourself.
-
 		        blContent := ToPaneNodeExample new.
 		        blContent addChild: title at: 1.
 		        blContent vFitContent.
+		        blContent hMatchParent.
+		        blContent margin: (BlInsets all: 4).
+		        blContent padding: (BlInsets all: 12).
+		        blContent geometry: (BlRoundedRectangleGeometry cornerRadius: 6).
+		        blContent border: (BlBorder paint: Color lightGray).
 		        blContent ].
-	list data addAll: (1 to: 1000 ).
+	list data addAll: (1 to: 1000).
 	list openInOBlSpace
 ]
 

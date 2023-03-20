@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCheckNodeDresser,
-	#superclass : #ToLabeledNodeDresser,
+	#superclass : #ToNodeDresser,
 	#instVars : [
 		'checkedIcon',
 		'indeterminateIcon',
@@ -8,13 +8,6 @@ Class {
 	],
 	#category : #'Toplo-Core-Node'
 }
-
-{ #category : #enumerating }
-ToCheckNodeDresser >> addedToSelection: anElement [
-
-	super addedToSelection: anElement.
-	anElement isChecked ifFalse: [anElement check]
-]
 
 { #category : #accessing }
 ToCheckNodeDresser >> checkIndeterminateIn: anElement [
@@ -119,6 +112,37 @@ ToCheckNodeDresser >> defaultUncheckedState [
 			  ann widget icon: self defaultUncheckedIconImage ]
 ]
 
+{ #category : #enumerating }
+ToCheckNodeDresser >> deselected: anElement [
+
+	anElement isChecked ifTrue: [anElement uncheck]
+]
+
+{ #category : #'events handling' }
+ToCheckNodeDresser >> hover: anElement event: anEvent [
+
+	self border: self hoveredBorder in: anElement.
+	self background: self hoveredBackground in: anElement
+]
+
+{ #category : #'events handling' }
+ToCheckNodeDresser >> leaved: anElement event: anEvent [
+
+	self border: self defaultBorder in: anElement.
+	self background: self defaultBackground in: anElement
+
+
+]
+
+{ #category : #'events handling' }
+ToCheckNodeDresser >> leftClicked: anElement [ 
+	
+	self border: self hoveredBorder in: anElement.
+	self background: self hoveredBackground in: anElement
+
+
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToCheckNodeDresser >> onInstalledIn: anElement [
 
@@ -138,10 +162,9 @@ ToCheckNodeDresser >> onUninstalledIn: anElement [
 ]
 
 { #category : #enumerating }
-ToCheckNodeDresser >> removedFromSelection: anElement [
+ToCheckNodeDresser >> selected: anElement [
 
-	super removedFromSelection: anElement.
-	anElement isChecked ifTrue: [anElement uncheck]
+	anElement isChecked ifFalse: [anElement check]
 ]
 
 { #category : #accessing }

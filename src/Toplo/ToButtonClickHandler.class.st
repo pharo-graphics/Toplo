@@ -1,26 +1,26 @@
 Class {
-	#name : #ToClickHandler,
+	#name : #ToButtonClickHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'button'
 	],
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Widget-Button'
 }
 
 { #category : #accessing }
-ToClickHandler >> button [
+ToButtonClickHandler >> button [
 
 	^ button
 ]
 
 { #category : #accessing }
-ToClickHandler >> button: aButton [
+ToButtonClickHandler >> button: aButton [
 
 	button := aButton
 ]
 
 { #category : #'api - accessing' }
-ToClickHandler >> clickCandidateEvent: anEvent [
+ToButtonClickHandler >> clickCandidateEvent: anEvent [
 
 	"then try to manage hidden click "
 
@@ -35,7 +35,7 @@ ToClickHandler >> clickCandidateEvent: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToClickHandler >> clickEvent: anEvent [
+ToButtonClickHandler >> clickEvent: anEvent [
 
 	button isDisabled ifTrue: [ ^ self ].
 	anEvent secondaryButtonPressed ifTrue: [ ^ self rightClickEvent: anEvent].
@@ -44,7 +44,7 @@ ToClickHandler >> clickEvent: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToClickHandler >> doubleClickEvent: anEvent [
+ToButtonClickHandler >> doubleClickEvent: anEvent [
 
 	" double click on a button is managed as a click  "
 	anEvent modifiers isEmpty ifFalse: [ ^ self ].
@@ -53,20 +53,20 @@ ToClickHandler >> doubleClickEvent: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToClickHandler >> eventsToHandle [
+ToButtonClickHandler >> eventsToHandle [
 
 	^ { BlClickEvent. BlDoubleClickEvent. BlMouseDownEvent. BlMouseUpEvent. BlClickCandidateEvent }
 ]
 
 { #category : #'api - accessing' }
-ToClickHandler >> mouseDownEvent: anEvent [
+ToButtonClickHandler >> mouseDownEvent: anEvent [
 
 	" do not consume here to allow right click "
 	"anEvent consumed: true"
 ]
 
 { #category : #'api - accessing' }
-ToClickHandler >> mouseUpEvent: anEvent [
+ToButtonClickHandler >> mouseUpEvent: anEvent [
 
 	"Because of the button has sub-elements, a Mouse up can have a different target than the corresponding mouse down but it can come from the button or from one of its children (if mouse has slided from the label to the icon as an example)"
 
@@ -76,7 +76,7 @@ ToClickHandler >> mouseUpEvent: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToClickHandler >> rightClickEvent: anEvent [
+ToButtonClickHandler >> rightClickEvent: anEvent [
 
 	anEvent consumed: true.
 	button announce: (ToRightClickAnnouncement new widget: button)

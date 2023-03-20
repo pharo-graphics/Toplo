@@ -180,9 +180,9 @@ ToDividerEventHandler >> resizeBounds: aBlBounds by: aPoint [
 
 	self divider isHorizontal
 		ifTrue: [
-			aBlBounds extent: (aBlBounds extent + (0 @ aPoint y) max: self minimumExtent) ]
+			aBlBounds extent: (aBlBounds extent + (0.0 @ aPoint y) max: self minimumExtent) ]
 		ifFalse: [
-			aBlBounds extent: (aBlBounds extent + (aPoint negated x @ 0.0) max: self minimumExtent) ]
+			aBlBounds extent: (aBlBounds extent + (aPoint x negated @ 0.0) max: self minimumExtent) ]
 ]
 
 { #category : #resizer }

@@ -9,7 +9,7 @@ Class {
 		'mouseDoubleClickHandler',
 		'mouseUpHandler'
 	],
-	#category : #'Toplo-Widget-Button'
+	#category : #'Toplo-Core'
 }
 
 { #category : #private }

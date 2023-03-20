@@ -67,13 +67,7 @@ ToNodeHolder >> onAttachedFromInfinite [
 	"Selection must be preserved "
 	(self infiniteElement selectionStrategy isSelected: self position)
 		ifFalse: [ ^ self ].
-	self infiniteElement selectedNodeFactory ifNotNil: [
-		unselectedNode := self node.
-		self node:
-			(self infiniteElement selectedNodeFactory
-				 cull: self data
-				 cull: self).
-		self infiniteElement requestLayout ].
+	self updateSelectedNode.
 	self selected: true.
 
 
@@ -93,6 +87,16 @@ ToNodeHolder >> onDetachedFromInfinite [
 	
 ]
 
+{ #category : #'selection - handling' }
+ToNodeHolder >> recoverUnselectedNode [
+
+	unselectedNode ifNotNil: [
+		self node undress.
+		self node: unselectedNode.
+		unselectedNode := nil.
+		self infiniteElement requestLayout ]
+]
+
 { #category : #accessing }
 ToNodeHolder >> selected: aBoolean [
 
@@ -101,15 +105,23 @@ ToNodeHolder >> selected: aBoolean [
 		ifFalse: [ self node dresser removedFromSelection: itemElement ]
 ]
 
+{ #category : #accessing }
+ToNodeHolder >> updateSelectedNode [
+
+	self infiniteElement selectedNodeFactory ifNotNil: [
+		unselectedNode := self node.
+		self node:
+			(self infiniteElement selectedNodeFactory
+				 cull: self data
+				 cull: self).
+		self infiniteElement requestLayout ]
+]
+
 { #category : #'selection - handling' }
 ToNodeHolder >> whenDeselectAnnouncement: anAnnouncement [
 
 	(anAnnouncement interval includes: self position) ifFalse: [ ^ self ].
-	unselectedNode ifNotNil: [
-		self node undress.
-		self node: unselectedNode.
-		unselectedNode := nil.
-		self infiniteElement requestLayout ].
+	self recoverUnselectedNode.
 	self selected: false
 ]
 
@@ -117,12 +129,6 @@ ToNodeHolder >> whenDeselectAnnouncement: anAnnouncement [
 ToNodeHolder >> whenSelectAnnouncement: anAnnouncement [
 
 	(anAnnouncement interval includes: self position) ifFalse: [ ^ self ].
-	self infiniteElement selectedNodeFactory ifNotNil: [
-		unselectedNode := self node.
-		self node:
-			(self infiniteElement selectedNodeFactory
-				 cull: self data
-				 cull: self).
-		self infiniteElement requestLayout ].
+	self updateSelectedNode.
 	self selected: true
 ]

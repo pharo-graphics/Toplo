@@ -71,9 +71,13 @@ ToNodeDresser >> defaultInitialBorder [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToNodeDresser >> defaultMargin [ 
+ToNodeDresser >> defaultMargin [
 
-	^ BlInsets empty
+	^ (BlInsets
+			 top: 1
+			 left: 3
+			 bottom: 1
+			 right: 3)
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -81,9 +85,9 @@ ToNodeDresser >> defaultPadding [
 
 	^ (BlInsets
 			 top: 0
-			 left: 3
+			 left: 2
 			 bottom: 0
-			 right: 1)
+			 right: 2)
 ]
 
 { #category : #'events handling' }

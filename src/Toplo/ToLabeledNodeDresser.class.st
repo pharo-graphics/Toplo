@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToNodeDresser,
 	#instVars : [
 		'selected',
-		'textBackup'
+		'textBackup',
+		'deselectedBackground'
 	],
 	#category : #'Toplo-Core-Node'
 }
@@ -18,9 +19,11 @@ ToLabeledNodeDresser >> addedToSelection: anElement [
 
 { #category : #'api - styles' }
 ToLabeledNodeDresser >> deselected: anElement [
-
 	" recover initial background "
-	self background: self defaultInitialBackground in: anElement.
+
+	deselectedBackground ifNotNil: [
+		self background: deselectedBackground in: anElement.
+		deselectedBackground := nil ].
 	textBackup ifNotNil: [
 		anElement label text rope: textBackup.
 		anElement label requestLayout.
@@ -33,7 +36,7 @@ ToLabeledNodeDresser >> hover: anElement event: anEvent [
 	self border: self hoveredBorder in: anElement.
 	" do not change the background if selected "
 	selected ifFalse: [
-		self background: self hoveredBackground in: anElement ]
+		"self background: self hoveredBackground in: anElement" ]
 ]
 
 { #category : #initialization }
@@ -48,7 +51,7 @@ ToLabeledNodeDresser >> leaved: anElement event: anEvent [
 
 	self border: self defaultBorder in: anElement.
 	selected ifFalse: [
-		self background: self defaultBackground in: anElement ]
+		"self background: self defaultBackground in: anElement" ]
 
 
 ]
@@ -59,7 +62,7 @@ ToLabeledNodeDresser >> leftClicked: anElement [
 	selected ifTrue: [ ^ self ].
 	" do not change the background and the border if selected "
 	self border: self hoveredBorder in: anElement.
-	self background: self hoveredBackground in: anElement
+	"self background: self hoveredBackground in: anElement"
 
 
 ]
@@ -83,6 +86,7 @@ ToLabeledNodeDresser >> removedFromSelection: anElement [
 ToLabeledNodeDresser >> selected: anElement [
 
 	super selected: anElement.
+	deselectedBackground := anElement background.
 	self background: self selectionBackground  in: anElement.
 	textBackup := anElement label text rope copy.
 	anElement label text foreground: self selectionBackground contrastingBlackAndWhiteColor.

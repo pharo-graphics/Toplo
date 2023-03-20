@@ -61,6 +61,8 @@ ToListDresser >> installShortInIn: anElement [
 ToListDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
+	
+	anElement outskirts: BlOutskirts outside.
 	anElement padding: self defaultPadding.
 	anElement margin: self defaultMargin.
 	anElement clipChildren: true.

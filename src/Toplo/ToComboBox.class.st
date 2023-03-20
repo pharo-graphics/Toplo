@@ -70,8 +70,9 @@ ToComboBox >> defaultHeadPlaceholder [
 { #category : #initialization }
 ToComboBox >> defaultListElement [
 
-	^ ToListInfiniteElement new
+	^ ToListElement new
 		  vFitContent;
+		  in: [ :e | e infinite vFitContent ];
 		  width: self defaultListElementSize x;
 		  maxHeight: self defaultListElementSize y;
 		  nodeFactory: self defaultListNodeFactory;
@@ -341,7 +342,7 @@ ToComboBox >> popupEvent: anEvent [
 
 	self listFrame isAttachedToSceneGraph ifTrue: [ ^ self ].
 	self listFrame popupEvent: anEvent.
-	self listElement requestFocus
+	self listElement infinite requestFocus
 ]
 
 { #category : #displaying }

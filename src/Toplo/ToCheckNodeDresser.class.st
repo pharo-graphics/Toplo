@@ -9,6 +9,13 @@ Class {
 	#category : #'Toplo-Core-Node'
 }
 
+{ #category : #enumerating }
+ToCheckNodeDresser >> addedToSelection: anElement [
+
+	super addedToSelection: anElement.
+	anElement isChecked ifFalse: [anElement check]
+]
+
 { #category : #accessing }
 ToCheckNodeDresser >> checkIndeterminateIn: anElement [
 
@@ -112,12 +119,6 @@ ToCheckNodeDresser >> defaultUncheckedState [
 			  ann widget icon: self defaultUncheckedIconImage ]
 ]
 
-{ #category : #enumerating }
-ToCheckNodeDresser >> deselected: anElement [
-
-	anElement isChecked ifTrue: [anElement uncheck]
-]
-
 { #category : #'events handling' }
 ToCheckNodeDresser >> hover: anElement event: anEvent [
 
@@ -162,9 +163,10 @@ ToCheckNodeDresser >> onUninstalledIn: anElement [
 ]
 
 { #category : #enumerating }
-ToCheckNodeDresser >> selected: anElement [
+ToCheckNodeDresser >> removedFromSelection: anElement [
 
-	anElement isChecked ifFalse: [anElement check]
+	super removedFromSelection: anElement.
+	anElement isChecked ifTrue: [anElement uncheck]
 ]
 
 { #category : #accessing }

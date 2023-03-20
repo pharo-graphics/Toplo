@@ -28,6 +28,12 @@ ToListInfiniteElement >> holderClass [
 	^ ToListNodeHolder 
 ]
 
+{ #category : #'t - infinite accessing' }
+ToListInfiniteElement >> infinite [ 
+
+	^ self
+]
+
 { #category : #initialization }
 ToListInfiniteElement >> initialize [
 

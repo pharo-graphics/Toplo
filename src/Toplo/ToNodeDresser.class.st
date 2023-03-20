@@ -11,8 +11,7 @@ Class {
 { #category : #'events handling' }
 ToNodeDresser >> addedToSelection: anElement [
 
-	super addedToSelection: anElement.
-	self selected: anElement
+	super addedToSelection: anElement
 ]
 
 { #category : #accessing }
@@ -88,12 +87,6 @@ ToNodeDresser >> defaultPadding [
 			 left: 2
 			 bottom: 0
 			 right: 2)
-]
-
-{ #category : #'events handling' }
-ToNodeDresser >> deselected: anElement [
-
-
 ]
 
 { #category : #accessing }
@@ -181,14 +174,7 @@ ToNodeDresser >> onUninstalledIn: anElement [
 { #category : #'events handling' }
 ToNodeDresser >> removedFromSelection: anElement [
 
-	super removedFromSelection: anElement.
-	self deselected: anElement
-]
-
-{ #category : #'events handling' }
-ToNodeDresser >> selected: anElement [
-
-
+	super removedFromSelection: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }

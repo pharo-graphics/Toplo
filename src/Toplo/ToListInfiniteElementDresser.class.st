@@ -14,13 +14,13 @@ Class {
 { #category : #initialization }
 ToListInfiniteElementDresser >> defaultMargin [
 
-	^ BlInsets all: 1
+	^ BlInsets all: 0
 ]
 
 { #category : #initialization }
 ToListInfiniteElementDresser >> defaultPadding [
 
-	^ BlInsets all: 1
+	^ BlInsets all: 0
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -62,7 +62,7 @@ ToListInfiniteElementDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	
-	anElement outskirts: BlOutskirts outside.
+	"anElement outskirts: BlOutskirts outside."
 	anElement padding: self defaultPadding.
 	anElement margin: self defaultMargin.
 	anElement clipChildren: true.

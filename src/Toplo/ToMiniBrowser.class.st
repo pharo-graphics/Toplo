@@ -122,16 +122,16 @@ ToMiniBrowser >> initialize [
 
 	| codeMenu classesPane classesButtonPane sideToggle |
 	super initialize.
-	listsPane := ToPane new id: #listPane; margin: (BlInsets top: 5 bottom: 5).
+	
+	listsPane := ToPane new id: #listPane; margin: (BlInsets top: 0 bottom: 5).
 	listsPane layout: (BlLinearLayout horizontal cellSpacing: 0).
 	listsPane matchParent.
 	
 	mainPane := ToPane new beVertical.
 	mainPane matchParent.
 
-	packages := ToListInfiniteElement new 
+	packages := ToListElement new 
 		id: #packages;
-		margin: (BlInsets all: 3);
 		nodeFactory: [ :pkg |
 		            | node |
 		            node := ToLabeledNode new
@@ -141,30 +141,31 @@ ToMiniBrowser >> initialize [
 			            when: BlClickEvent
 			            do: [ :event | self inform: event printString ].
 		            node ].
+
+	packages padding: (BlInsets all: 3).
+
 	"packages hasFixedSize: true."
 	"packages selectionStrategy beWithoutSelection."
 	"packages selectionStrategy beSingleSelection."
 	packages
-		when: ToInfiniteSelectionChangedEvent
+		infinite when: ToInfiniteSelectionChangedEvent
 		do: [ :event | self packageSelectionChangedEvent: event ].
 	packages data addAll:
 		(RPackage organizer packages asSortedCollection: [ :p1 :p2 |
 			 p1 name < p2 name ]).
 
-	classes := ToListInfiniteElement new 
+	classes := ToListElement new 
 		id: #classes; 
 		nodeFactory: ToClassToNodeConverterExample new.
-	classes
+	classes padding: (BlInsets all: 3).
+
+	classes infinite
 		when: ToInfiniteSelectionChangedEvent
 		do: [ :event | self classSelectionChangedEvent: event ].
 	classes data whenRemoveChangeDo: [ protocols data removeAll ].
 	classesPane := ToPane new id: #classesPane; beVertical; matchParent.
-	classesPane	margin: (BlInsets all: 3).
-	"classesPane	padding: (BlInsets all: 2)."
-
 	"classes margin: (BlInsets all: 1)."
 	"classes padding: (BlInsets all: 3)."
-	classes outskirts: BlOutskirts outside.
 	classesPane addChild: classes.
 	classesButtonPane := ToPane new
 		                     hMatchParent;
@@ -179,29 +180,29 @@ ToMiniBrowser >> initialize [
 
 	sideToggle check: self classSide.
 	sideToggle whenCheckedDo: [
-		classes dispatchSelectionChangedAfter: [ classSide := true ] ].
+		classes infinite dispatchSelectionChangedAfter: [ classSide := true ] ].
 	sideToggle whenUncheckedDo: [
-		classes dispatchSelectionChangedAfter: [ classSide := false ] ].
+		classes infinite dispatchSelectionChangedAfter: [ classSide := false ] ].
 
-	protocols := ToListInfiniteElement new id: #protocols; nodeFactory: [ :assoc |
+	protocols := ToListElement new id: #protocols; nodeFactory: [ :assoc |
 		             ToLabeledNode new
 			             labelText: assoc value name;
 			             hMatchParent ].
-	protocols margin: (BlInsets all: 3).
+	protocols padding: (BlInsets all: 3).
 
-	protocols
+	protocols infinite
 		when: ToInfiniteSelectionChangedEvent
 		do: [ :event | self protocolSelectionChangedEvent: event ].
 	protocols data whenRemoveChangeDo: [ selectors data removeAll ].
 
-	selectors := ToListInfiniteElement new id: #selectors; nodeFactory: [ :assoc |
+	selectors := ToListElement new id: #selectors; nodeFactory: [ :assoc |
 		             ToLabeledNode new
 			             labelText: assoc value asString;
 			             hMatchParent ].
-	selectors margin: (BlInsets all: 3).
 	
+	selectors padding: (BlInsets all: 3).
 	selectors
-		when: ToInfiniteSelectionChangedEvent
+		infinite when: ToInfiniteSelectionChangedEvent
 		do: [ :event | self selectorSelectionChangedEvent: event ].
 	selectors data whenRemoveChangeDo: [ self clearCodeInEditor ].
 

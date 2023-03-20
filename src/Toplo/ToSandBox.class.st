@@ -136,7 +136,7 @@ ToSandBox class >> example_ComboBoxWithListPlaceholder [
 ToSandBox class >> example_EditableListWithAllClassesNames [
 
 	| l |
-	l := ToListInfiniteElement new nodeFactory: [ :assoc :holder |
+	l := ToListElement new nodeFactory: [ :assoc :holder |
 		     | lab |
 		     lab := ToLabel new
 			            text: assoc value;
@@ -252,7 +252,7 @@ ToSandBox class >> example_EmptyComboBox [
 ToSandBox class >> example_ListOneClass [
 
 	| l |
-	l := ToListInfiniteElement new nodeFactory: [ :cls |
+	l := ToListElement new nodeFactory: [ :cls |
 		     ToCheckNode new
 			     labelText: cls name;
 			     columnWidth: 25;
@@ -265,7 +265,7 @@ ToSandBox class >> example_ListOneClass [
 ToSandBox class >> example_ListWithAllClasses [
 
 	| l |
-	l := ToListInfiniteElement new.
+	l := ToListElement new.
 	l data addAll:
 		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInOBlSpace
@@ -275,7 +275,7 @@ ToSandBox class >> example_ListWithAllClasses [
 ToSandBox class >> example_ListWithAllClasses3 [
 
 	| l |
-	l := ToListInfiniteElement new 
+	l := ToListElement new 
 			nodeFactory: [ :cls :holder |
 		     | icn lab |
 		     icn := cls hasComment
@@ -299,7 +299,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 ToSandBox class >> example_ListWithAllClasses4 [
 
 	| l |
-	l := ToListInfiniteElement new 
+	l := ToListElement new 
 		nodeFactory: [ :cls |
 		     ToCheckNode new
 			     labelText: cls name;
@@ -313,7 +313,7 @@ ToSandBox class >> example_ListWithAllClasses4 [
 ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 
 	| l |
-	l := ToListInfiniteElement new nodeFactory: (ToClassToNodeConverterExample new).
+	l := ToListElement new nodeFactory: (ToClassToNodeConverterExample new).
 	l data addAll: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name]).
 	l openInOBlSpace
 ]
@@ -322,7 +322,7 @@ ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 ToSandBox class >> example_ListWithAllClassesAsButton [
 
 	| l |
-	l := ToListInfiniteElement new nodeFactory: [ :cls |
+	l := ToListElement new nodeFactory: [ :cls |
 		     ToButton new
 			     labelText: cls name;
 			     hMatchParent ].
@@ -334,7 +334,7 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l selectionMenu menuFactory |
-	l := ToListInfiniteElement new.
+	l := ToListElement new.
 	l nodeFactory: [ :t :holder |
 		| lab |
 		lab := ToLabel text: t.
@@ -369,8 +369,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		               l selectedIndexes size = 1 ifTrue: [
 			               | holder idx |
 			               idx := l selectedIndexes first.
-			               holder := l findElementHolderForDataSourcePosition:
-				                         idx.
+			               holder := l findElementHolderForDataSourcePosition: idx.
 			               selectionMenu addItem: (ToButtonMenuItem new
 					                labelText: 'Edit Selection';
 					                whenClickedDo: [ :event :client |
@@ -431,7 +430,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 ToSandBox class >> example_ListWithIndexedColors [
 
 	| l |
-	l := ToListInfiniteElement new nodeFactory: [ :color |
+	l := ToListElement new nodeFactory: [ :color |
 		     ToLabeledNode new
 			     dresser: (ToNodeWithHoverButtonDresserExample new changeBackground: false; yourself);
 			     labelText: (color asString asRopedText
@@ -446,7 +445,7 @@ ToSandBox class >> example_ListWithIndexedColors [
 ToSandBox class >> example_ListWithPanes [
 
 	| list |
-	list := ToListInfiniteElement new nodeFactory: [ :collectible :holder |
+	list := ToListElement new nodeFactory: [ :collectible :holder |
 		        | title blContent |
 		        title := ToLabel new
 			                 id: #title;
@@ -471,7 +470,7 @@ ToSandBox class >> example_ListWithPanes [
 ToSandBox class >> example_ListWithRowNumbers [
 
 	| l |
-	l := ToListInfiniteElement new nodeFactory: [ :cls |
+	l := ToListElement new nodeFactory: [ :cls |
 		     ToCheckNode new
 			     labelText: cls name;
 			     columnWidth: 25;
@@ -499,7 +498,7 @@ ToSandBox class >> example_ListWithSelectedNodeFactory [
 			     icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
 			     columnWidth: 20;
 			     hMatchParent  ].
-	l := ToListInfiniteElement new 
+	l := ToListElement new 
 			nodeFactory: factory;
 			selectedNodeFactory: [:cls :holder | (factory value: cls value: holder) border: (BlBorder paint: Color red)].
 	l data addAll: Smalltalk globals allClasses.
@@ -511,7 +510,7 @@ ToSandBox class >> example_ListWithSelectedNodeFactory [
 ToSandBox class >> example_ListWithSingleSelection [
 
 	| l |
-	l := ToListInfiniteElement new
+	l := ToListElement new
 		nodeFactory: [ :cls |
 		     ToCheckNode new
 			     labelText: cls name;
@@ -526,7 +525,7 @@ ToSandBox class >> example_ListWithSingleSelection [
 ToSandBox class >> example_ListWithoutSelection [
 
 	| l |
-	l := ToListInfiniteElement new
+	l := ToListElement new
 		nodeFactory: [ :cls |
 		     ToCheckNode new
 			     labelText: cls name;

@@ -22,7 +22,7 @@ ToComboBoxDresser >> onInstalledIn: anElement [
 		                      on: ToInfiniteClickOnDataEvent
 		                      do: [ :event |
 		                      anElement clickOnDataEvent: event ].
-	anElement listElement addEventHandler: clickOnDataHandler.
+	anElement listElement infinite addEventHandler: clickOnDataHandler.
 
 	crShortcut := BlShortcutWithAction new
 		              combination:

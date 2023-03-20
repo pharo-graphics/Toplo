@@ -12,22 +12,15 @@ Class {
 { #category : #'events handling' }
 ToLabeledNodeDresser >> addedToSelection: anElement [
 
-	selected := true.
 	super addedToSelection: anElement.
+	selected := true.
+	deselectedBackground := anElement background.
+	self background: self selectionBackground  in: anElement.
+	textBackup := anElement label text rope copy.
+	anElement label text foreground: self selectionBackground contrastingBlackAndWhiteColor.
+	anElement label requestLayout.
+	
 
-]
-
-{ #category : #'api - styles' }
-ToLabeledNodeDresser >> deselected: anElement [
-	" recover initial background "
-
-	deselectedBackground ifNotNil: [
-		self background: deselectedBackground in: anElement.
-		deselectedBackground := nil ].
-	textBackup ifNotNil: [
-		anElement label text rope: textBackup.
-		anElement label requestLayout.
-		textBackup := nil ]
 ]
 
 { #category : #'events handling' }
@@ -77,22 +70,15 @@ ToLabeledNodeDresser >> leftPressed: anElement event: anEvent [
 { #category : #'events handling' }
 ToLabeledNodeDresser >> removedFromSelection: anElement [
 
-	selected := false.
 	super removedFromSelection: anElement.
-
-]
-
-{ #category : #accessing }
-ToLabeledNodeDresser >> selected: anElement [
-
-	super selected: anElement.
-	deselectedBackground := anElement background.
-	self background: self selectionBackground  in: anElement.
-	textBackup := anElement label text rope copy.
-	anElement label text foreground: self selectionBackground contrastingBlackAndWhiteColor.
-	anElement label requestLayout.
-	
-
+	selected := false.
+	deselectedBackground ifNotNil: [
+		self background: deselectedBackground in: anElement.
+		deselectedBackground := nil ].
+	textBackup ifNotNil: [
+		anElement label text rope: textBackup.
+		anElement label requestLayout.
+		textBackup := nil ]
 ]
 
 { #category : #accessing }

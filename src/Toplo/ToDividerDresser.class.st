@@ -39,6 +39,7 @@ ToDividerDresser >> dragEndHandlerIn: anElement [
 ToDividerDresser >> hover: anElement event: anEvent [
 
 	super hover: anElement event: anEvent.
+	anEvent anyButtonPressed ifTrue: [ ^ self ].
 	anElement border: (BlBorder paint: self colorProvider hoveredBorderColor).
 	anElement background: self colorProvider hoveredBackgroundColor
 ]
@@ -149,6 +150,7 @@ ToDividerDresser >> uninstallEventListenersIn: anElement [
 { #category : #'events handling' }
 ToDividerDresser >> up: anElement event: anEvent [
 
-	self leaved: anElement event: anEvent.
+	anElement border: (BlBorder paint: self colorProvider defaultBorderColor).
+	anElement background: self colorProvider defaultBackgroundColor.
 	anElement space mouseProcessor handleLastMouseMove
 ]

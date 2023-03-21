@@ -95,10 +95,12 @@ ToInfiniteElement >> dispatchChildDetached: anElement [
 { #category : #'selection events' }
 ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 
-	| indexes |
-	indexes := self selectedIndexes copy.
+	| prevIndexes currentIndexes |
+	prevIndexes := self selectedIndexes copy.
 	aBlock value.
-	self dispatchEvent: (ToInfiniteSelectionChangedEvent from: indexes to: self selectedIndexes)
+	currentIndexes := self selectedIndexes.
+	prevIndexes = currentIndexes ifTrue: [ ^ self ].
+	self dispatchEvent: (ToInfiniteSelectionChangedEvent from: prevIndexes to: currentIndexes)
 ]
 
 { #category : #'selection events' }
@@ -252,19 +254,6 @@ ToInfiniteElement >> selectToIndex: anIndex [
 ToInfiniteElement >> selectedIndexes [ 
 
 	^ self selectionStrategy selectedIndexes
-]
-
-{ #category : #accessing }
-ToInfiniteElement >> selectedNodeFactory [
-
-	^ selectedNodeFactory 
-]
-
-{ #category : #accessing }
-ToInfiniteElement >> selectedNodeFactory: aNodeFactory [
-
-	selectedNodeFactory := aNodeFactory asToDataToElementConverter.
-	self requestLayout 
 ]
 
 { #category : #accessing }

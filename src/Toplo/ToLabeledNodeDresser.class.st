@@ -4,29 +4,54 @@ Class {
 	#instVars : [
 		'selected',
 		'textBackup',
-		'deselectedBackground'
+		'backgroundBackup'
 	],
 	#category : #'Toplo-Core-Node'
 }
 
 { #category : #'events handling' }
-ToLabeledNodeDresser >> addedToSelection: anElement [
+ToLabeledNodeDresser >> element: anElement addedInInfiniteDecoration: aDecoration [
 
-	super addedToSelection: anElement.
-	selected := true.
-	deselectedBackground := anElement background.
-	self background: self selectionBackground  in: anElement.
-	textBackup := anElement label text rope copy.
-	anElement label text foreground: self selectionBackground contrastingBlackAndWhiteColor.
-	anElement label requestLayout.
+	super element: anElement addedInInfiniteDecoration: aDecoration.
 	
+	selected ifTrue: [ 
+		anElement label text foreground: aDecoration background paint color contrastingBlackAndWhiteColor.
+		anElement label requestLayout.
+		^ self ].
+	
+	selected := true.
+	
+	backgroundBackup := anElement background.
+	anElement background: Color transparent.
 
+	textBackup := anElement label text rope copy.
+	anElement label text foreground: aDecoration background paint color contrastingBlackAndWhiteColor.
+	anElement label requestLayout
+
+]
+
+{ #category : #'events handling' }
+ToLabeledNodeDresser >> element: anElement removedFromInfiniteDecoration: aSelectionDecoration [
+
+	super element: anElement removedFromInfiniteDecoration: aSelectionDecoration.
+
+	selected ifFalse: [ ^ self ].
+	selected := false.
+
+	backgroundBackup ifNotNil: [ 
+		anElement background: backgroundBackup.
+		backgroundBackup := nil].
+
+	textBackup ifNotNil: [
+		anElement label text rope: textBackup.
+		anElement label requestLayout.
+		textBackup := nil ]
 ]
 
 { #category : #'events handling' }
 ToLabeledNodeDresser >> hover: anElement event: anEvent [
 
-	self border: self hoveredBorder in: anElement.
+	"self border: self hoveredBorder in: anElement."
 	" do not change the background if selected "
 	selected ifFalse: [
 		"self background: self hoveredBackground in: anElement" ]
@@ -42,7 +67,7 @@ ToLabeledNodeDresser >> initialize [
 { #category : #'events handling' }
 ToLabeledNodeDresser >> leaved: anElement event: anEvent [
 
-	self border: self defaultBorder in: anElement.
+	"self border: self defaultBorder in: anElement."
 	selected ifFalse: [
 		"self background: self defaultBackground in: anElement" ]
 
@@ -54,7 +79,7 @@ ToLabeledNodeDresser >> leftClicked: anElement [
 	
 	selected ifTrue: [ ^ self ].
 	" do not change the background and the border if selected "
-	self border: self hoveredBorder in: anElement.
+	"self border: self hoveredBorder in: anElement."
 	"self background: self hoveredBackground in: anElement"
 
 
@@ -65,20 +90,6 @@ ToLabeledNodeDresser >> leftPressed: anElement event: anEvent [
 
 	selected ifTrue: [ ^ self ].
 	super leftPressed: anElement event: anEvent
-]
-
-{ #category : #'events handling' }
-ToLabeledNodeDresser >> removedFromSelection: anElement [
-
-	super removedFromSelection: anElement.
-	selected := false.
-	deselectedBackground ifNotNil: [
-		self background: deselectedBackground in: anElement.
-		deselectedBackground := nil ].
-	textBackup ifNotNil: [
-		anElement label text rope: textBackup.
-		anElement label requestLayout.
-		textBackup := nil ]
 ]
 
 { #category : #accessing }

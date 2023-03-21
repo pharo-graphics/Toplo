@@ -19,14 +19,18 @@ ToNullDresser >> addDresser: aDresser in: anElement previous: aPreviousDresser [
 	aDresser launchInstallationIn: anElement
 ]
 
-{ #category : #'events handling' }
-ToNullDresser >> addedToSelection: anElement [
-]
-
 { #category : #'accessing - dresser' }
 ToNullDresser >> dresserSatisfying: aBlock [
 
 	^ nil
+]
+
+{ #category : #'events handling' }
+ToNullDresser >> element: anElement addedInInfiniteDecoration: aDecoration [
+]
+
+{ #category : #'events handling' }
+ToNullDresser >> element: anElement removedFromInfiniteDecoration: aSelectionDecoration [
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -45,8 +49,4 @@ ToNullDresser >> onUninstalledIn: anElement [
 
 { #category : #'api - install/uninstall  hook' }
 ToNullDresser >> removeDresser: aDresser in: anElement [
-]
-
-{ #category : #'events handling' }
-ToNullDresser >> removedFromSelection: anElement [
 ]

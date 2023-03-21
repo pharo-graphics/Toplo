@@ -6,7 +6,7 @@ Trait {
 	#category : #'Toplo-Widget-List'
 }
 
-{ #category : #resolution }
+{ #category : #'t - accessing selection' }
 TToListElementDecorator >> clearSelection [
 
 	self next clearSelection
@@ -18,13 +18,13 @@ TToListElementDecorator >> contextMenuFactory: aValuable [
 	self next contextMenuFactory: aValuable
 ]
 
-{ #category : #accessing }
+{ #category : #'t - infinite accessing' }
 TToListElementDecorator >> data [
 
 	^ self next data
 ]
 
-{ #category : #'children - accessing' }
+{ #category : #'t - children - accessing' }
 TToListElementDecorator >> findElementHolderForDataSourcePosition: anInteger [
 
 	^ self next findElementHolderForDataSourcePosition: anInteger
@@ -36,7 +36,7 @@ TToListElementDecorator >> infinite [
 	^ self next infinite
 ]
 
-{ #category : #accessing }
+{ #category : #'t - accessing constraints' }
 TToListElementDecorator >> maxHeight: aHeight [
 
 	self next maxHeight: aHeight
@@ -54,37 +54,31 @@ TToListElementDecorator >> next: aDecoratorOrInfinite [
 	next := aDecoratorOrInfinite
 ]
 
-{ #category : #accessing }
+{ #category : #'t - infinite accessing' }
 TToListElementDecorator >> nodeFactory: aNodeFactory [
 
 	self next nodeFactory: aNodeFactory
 ]
 
-{ #category : #api }
+{ #category : #'t - accessing selection' }
 TToListElementDecorator >> selectIndex: anInteger [
 
 	self next selectIndex: anInteger
 ]
 
-{ #category : #'api - selection' }
+{ #category : #'t - accessing selection' }
 TToListElementDecorator >> selectedIndexes [
 
 	^ self next selectedIndexes
 ]
 
-{ #category : #accessing }
-TToListElementDecorator >> selectedNodeFactory: aNodeFactory [
-
-	self next selectedNodeFactory: aNodeFactory
-]
-
-{ #category : #'selection strategy' }
+{ #category : #'t - accessing selection' }
 TToListElementDecorator >> selectionStrategy [
 
 	^ self next selectionStrategy
 ]
 
-{ #category : #'t - infinite editor view - configuration' }
+{ #category : #'t - infinite accessing' }
 TToListElementDecorator >> withRowNumbers [ 
 
 	self next withRowNumbers 

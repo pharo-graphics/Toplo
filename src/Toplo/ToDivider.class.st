@@ -7,7 +7,8 @@ Class {
 		'thickness',
 		'pane',
 		'firstTarget',
-		'secondTarget'
+		'secondTarget',
+		'hgap'
 	],
 	#category : #'Toplo-Widget-Pane'
 }
@@ -82,13 +83,15 @@ ToDivider >> isVertical [
 ToDivider >> layoutInHorizontalPane [
 
 	| firstY secondY gap firstX secondX position |
-		
-	firstX := self leftTarget bounds right.
-	secondX := self rightTarget bounds left.
-	firstY := self leftTarget bounds top.
-	secondY := self rightTarget bounds top.
-	gap := (((secondX - firstX)  - (self thickness )) / 2) rounded.
+	
+	firstX := self leftTarget measuredBounds inParent right + self leftTarget constraints margin right.
+	secondX := self rightTarget measuredBounds inParent left - self rightTarget constraints margin left.
+	
+	firstY := self leftTarget measuredBounds inParent top + self leftTarget constraints margin top.
+	secondY := self rightTarget measuredBounds inParent top + self rightTarget constraints margin top.
+	gap := (((secondX - firstX)  - (self thickness )) / 2).
 	position := (firstX + gap) @ (firstY min: secondY).
+	
 	self constraints position: position.
 	self measuredBounds position: position.
 	
@@ -102,11 +105,11 @@ ToDivider >> layoutInVerticalPane [
 
 	| firstY secondY gap firstX secondX x position |
 	
-	firstY := self topTarget bounds bottom.
-	secondY := self bottomTarget bounds top.
+	firstY := self topTarget bounds bottom + self topTarget constraints margin bottom.
+	secondY := self bottomTarget bounds top - self bottomTarget constraints margin bottom.
 
-	firstX := self topTarget bounds left.
-	secondX := self bottomTarget bounds left.
+	firstX := self topTarget bounds left "+ self topTarget constraints margin left".
+	secondX := self bottomTarget bounds left "+ self bottomTarget constraints margin left".
 
 	gap := (secondY - firstY / 2) - (self thickness / 2).
 	x := self pane direction isLeftToRight
@@ -129,8 +132,8 @@ ToDivider >> measureInHorizontalPane [
 
 	| firstH secondH w |
 	
-	firstH := self topTarget measuredBounds height.
-	secondH := self bottomTarget measuredBounds height.
+	firstH := self topTarget measuredBounds height "- (self topTarget constraints margin top + self topTarget constraints margin bottom)".
+	secondH := self bottomTarget measuredBounds height "- (self bottomTarget constraints margin top + self bottomTarget constraints margin bottom)".
 	
 	self measuredExtent: self thickness @ (firstH max: secondH).	
 	w := self weightFromWidth: self firstTarget measuredWidth.
@@ -144,8 +147,8 @@ ToDivider >> measureInVerticalPane [
 
 	| firstW secondW w |
 	
-	firstW := self topTarget measuredWidth.
-	secondW := self bottomTarget measuredWidth.
+	firstW := self topTarget measuredWidth "- (self topTarget constraints margin left + self topTarget constraints margin right)".
+	secondW := self bottomTarget measuredWidth "- (self bottomTarget constraints margin left + self bottomTarget constraints margin right)".
 
 	self measuredExtent: (firstW max: secondW) @ self thickness.
 	w := self weightFromWidth: self firstTarget measuredHeight.
@@ -156,6 +159,7 @@ ToDivider >> measureInVerticalPane [
 
 { #category : #layout }
 ToDivider >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+
 
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
 	self isHorizontal

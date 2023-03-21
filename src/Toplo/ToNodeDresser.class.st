@@ -8,12 +8,6 @@ Class {
 	#category : #'Toplo-Core-Node'
 }
 
-{ #category : #'events handling' }
-ToNodeDresser >> addedToSelection: anElement [
-
-	super addedToSelection: anElement
-]
-
 { #category : #accessing }
 ToNodeDresser >> colorProvider [
 
@@ -69,14 +63,14 @@ ToNodeDresser >> defaultInitialBorder [
 
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : #initialization }
 ToNodeDresser >> defaultMargin [
 
 	^ (BlInsets
-			 top: 1
-			 left: 3
-			 bottom: 1
-			 right: 3)
+			 top: 2
+			 left: 6
+			 bottom: 0
+			 right: 6)
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -84,9 +78,9 @@ ToNodeDresser >> defaultPadding [
 
 	^ (BlInsets
 			 top: 0
-			 left: 2
+			 left: 0
 			 bottom: 0
-			 right: 2)
+			 right: 0)
 ]
 
 { #category : #accessing }
@@ -119,13 +113,24 @@ ToNodeDresser >> installEventListenersIn: anElement [
 ]
 
 { #category : #'events handling' }
-ToNodeDresser >> launchClick: aBlock for: anInfinite [
+ToNodeDresser >> launchClick: aBlock event: anEvent for: anInfinite [
+
+	" click launcher management to allow double click to work with several selected nodes "
 
 	| launcher |
-	anInfinite hasClickLauncher ifTrue: [ ^self ].
+	" do not try double click if ctrl or Cmd or shift is pressed "
+	(anEvent modifiers isPrimaryModifier or: [ anEvent modifiers isShift ])
+		ifTrue: [
+			anInfinite terminateClickLauncher.
+			^ aBlock value ].
+	
+	" Already has a click launcher "
+	anInfinite hasClickLauncher ifTrue: [ ^ self ].
+	
+	" no click launcher for only one selected node "
 	anInfinite selectedIndexes size > 1 ifFalse: [ ^ aBlock value ].
-	monitor critical: [ 
-		launcher := [ 
+	monitor critical: [
+		launcher := [
 		            (Delay forMilliseconds: 250) wait.
 		            aBlock value.
 		            anInfinite clickLauncher: nil ]
@@ -150,6 +155,7 @@ ToNodeDresser >> leftClicked: anElement event: anEvent [
 					 holder: anElement holder;
 					 event: anEvent;
 					 yourself) ]
+		event: anEvent
 		for: anElement holder infiniteElement
 ]
 
@@ -169,12 +175,6 @@ ToNodeDresser >> onInstalledIn: anElement [
 ToNodeDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement
-]
-
-{ #category : #'events handling' }
-ToNodeDresser >> removedFromSelection: anElement [
-
-	super removedFromSelection: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }

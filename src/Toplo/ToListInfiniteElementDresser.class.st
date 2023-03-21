@@ -20,7 +20,7 @@ ToListInfiniteElementDresser >> defaultMargin [
 { #category : #initialization }
 ToListInfiniteElementDresser >> defaultPadding [
 
-	^ BlInsets all: 0
+	^ BlInsets all: 2
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -62,7 +62,7 @@ ToListInfiniteElementDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	
-	"anElement outskirts: BlOutskirts outside."
+	anElement outskirts: BlOutskirts outside.
 	anElement padding: self defaultPadding.
 	anElement margin: self defaultMargin.
 	anElement clipChildren: true.
@@ -83,7 +83,7 @@ ToListInfiniteElementDresser >> onInstalledIn: anElement [
 			 paint: anElement theme editor borderColor
 			 width: 1).
 
-	anElement background: Color white.
+	anElement background: Color transparent.
 	
 	self installEventListenersIn: anElement
 ]

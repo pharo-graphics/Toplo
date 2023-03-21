@@ -142,7 +142,7 @@ ToMiniBrowser >> initialize [
 			            do: [ :event | self inform: event printString ].
 		            node ].
 
-	packages padding: (BlInsets all: 3).
+	packages margin: (BlInsets all: 3).
 
 	"packages hasFixedSize: true."
 	"packages selectionStrategy beWithoutSelection."
@@ -157,15 +157,13 @@ ToMiniBrowser >> initialize [
 	classes := ToListElement new 
 		id: #classes; 
 		nodeFactory: ToClassToNodeConverterExample new.
-	classes padding: (BlInsets all: 3).
 
 	classes infinite
 		when: ToInfiniteSelectionChangedEvent
 		do: [ :event | self classSelectionChangedEvent: event ].
 	classes data whenRemoveChangeDo: [ protocols data removeAll ].
 	classesPane := ToPane new id: #classesPane; beVertical; matchParent.
-	"classes margin: (BlInsets all: 1)."
-	"classes padding: (BlInsets all: 3)."
+	classesPane margin: (BlInsets all: 3).
 	classesPane addChild: classes.
 	classesButtonPane := ToPane new
 		                     hMatchParent;
@@ -188,7 +186,7 @@ ToMiniBrowser >> initialize [
 		             ToLabeledNode new
 			             labelText: assoc value name;
 			             hMatchParent ].
-	protocols padding: (BlInsets all: 3).
+	protocols margin: (BlInsets all: 3).
 
 	protocols infinite
 		when: ToInfiniteSelectionChangedEvent
@@ -200,7 +198,7 @@ ToMiniBrowser >> initialize [
 			             labelText: assoc value asString;
 			             hMatchParent ].
 	
-	selectors padding: (BlInsets all: 3).
+	selectors margin: (BlInsets all: 3).
 	selectors
 		infinite when: ToInfiniteSelectionChangedEvent
 		do: [ :event | self selectorSelectionChangedEvent: event ].
@@ -210,7 +208,7 @@ ToMiniBrowser >> initialize [
 
 	codeModel := ToAlbumModel new withRowNumbers.
 	codeModel styler: BlRBTextStyler new.
-	codePane := codeModel onWidget margin: (BlInsets all: 5).
+	codePane := codeModel onWidget margin: (BlInsets top: 8 left: 3 bottom: 3 right: 3).
 
 	codeMenu := ToContextMenu new globalColumnWidth: 0.
 	codeMenu addItem: (ToButtonMenuItem new labelText: 'Accept').

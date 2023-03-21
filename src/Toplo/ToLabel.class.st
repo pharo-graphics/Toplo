@@ -29,7 +29,7 @@ ToLabel >> addEditor: anEditor [
 
 	self editor ifNotNil: [ ^ self ].
 	self editor: anEditor.
-	self editor text: self text asString copy.
+	self editor text: self text asString.
 	self editorFrame: (self newEditorFrameForEditor: self editor).
 	self innerElement visibility: BlVisibility hidden.
 	self editor requestFocus.

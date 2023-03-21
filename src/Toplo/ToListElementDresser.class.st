@@ -16,22 +16,30 @@ ToListElementDresser >> defaultBackground [
 { #category : #initialization }
 ToListElementDresser >> defaultMargin [
 
-	^ BlInsets all: 1
+	^ BlInsets all: 0
 ]
 
 { #category : #initialization }
 ToListElementDresser >> defaultPadding [
 
-	^ BlInsets all: 1
+	^ BlInsets all: 0
 
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToListElementDresser >> installEventListenersIn: anElement [
 
-	keyboardHandler := BlEventHandler on: BlKeyboardEvent do: [ :event | anElement infinite dispatchEvent: event ].	
-	anElement addEventHandler: keyboardHandler
+	keyboardHandler := BlEventHandler
+		                   on: BlKeyboardEvent
+		                   do: [ :event |
+		                   anElement infinite dispatchEvent: event ].
+	anElement addEventHandler: keyboardHandler.
 
+	anElement infinite when: BlBlurEvent do: [ :anEvent |
+		anElement updateSelectionBackground: anElement blurSelectedItemBackground  ].
+	anElement infinite when: BlFocusEvent do: [ :anEvent |
+		anElement updateSelectionBackground:
+			anElement selectedItemBackground ]
 ]
 
 { #category : #'api - install/uninstall  hook' }

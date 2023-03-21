@@ -481,32 +481,6 @@ ToSandBox class >> example_ListWithRowNumbers [
 ]
 
 { #category : #list }
-ToSandBox class >> example_ListWithSelectedNodeFactory [
-
-	| l factory |
-	factory := [  :cls :holder |
-		     | icn lab |
-		     icn := cls hasComment
-			            ifTrue: [ #class ]
-			            ifFalse: [ #uncommentedClass ].
-		     lab := ToLabel new
-			            text: cls name;
-			            beEditable;
-			            yourself.
-		     ToLabeledNode new
-			     label: lab;
-			     icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
-			     columnWidth: 20;
-			     hMatchParent  ].
-	l := ToListElement new 
-			nodeFactory: factory;
-			selectedNodeFactory: [:cls :holder | (factory value: cls value: holder) border: (BlBorder paint: Color red)].
-	l data addAll: Smalltalk globals allClasses.
-	l withRowNumbers.
-	l openInInnerWindow
-]
-
-{ #category : #list }
 ToSandBox class >> example_ListWithSingleSelection [
 
 	| l |

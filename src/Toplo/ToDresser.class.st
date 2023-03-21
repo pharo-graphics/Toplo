@@ -28,17 +28,23 @@ ToDresser >> addDresser: aDresser in: anElement previous: aPreviousDresser [
 	self next addDresser: aDresser in: anElement previous: self
 ]
 
-{ #category : #'events handling' }
-ToDresser >> addedToSelection: anElement [
-
-	self next addedToSelection: anElement
-]
-
 { #category : #'t - accessing - dresser' }
 ToDresser >> dresserSatisfying: aBlock [
 
 	(aBlock value: self) ifTrue: [ ^ self ].
 	^ next dresserSatisfying: aBlock
+]
+
+{ #category : #'events handling' }
+ToDresser >> element: anElement addedInInfiniteDecoration: aDecoration [
+
+	self next element: anElement addedInInfiniteDecoration: aDecoration
+]
+
+{ #category : #'events handling' }
+ToDresser >> element: anElement removedFromInfiniteDecoration: aSelectionDecoration [
+
+	self next element: anElement removedFromInfiniteDecoration: aSelectionDecoration
 ]
 
 { #category : #initialization }
@@ -86,12 +92,6 @@ ToDresser >> removeDresser: aDresser in: anElement [
 	next := aDresser next.
 	aDresser next: ToNullDresser new.
 	aDresser launchUninstallationIn: anElement
-]
-
-{ #category : #'events handling' }
-ToDresser >> removedFromSelection: anElement [
-
-	self next removedFromSelection: anElement
 ]
 
 { #category : #accessing }

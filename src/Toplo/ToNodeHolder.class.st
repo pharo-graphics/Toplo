@@ -30,6 +30,12 @@ ToNodeHolder >> initialize [
 ]
 
 { #category : #accessing }
+ToNodeHolder >> isSelected [
+
+	^ self infiniteElement selectionStrategy isSelected: self position
+]
+
+{ #category : #accessing }
 ToNodeHolder >> node [
 
 	^ self itemElement 
@@ -65,9 +71,8 @@ ToNodeHolder >> onAttachedFromInfinite [
 
 	" when holder is attached it can be already selected (as an example with a selectAll) "
 	"Selection must be preserved "
-	(self infiniteElement selectionStrategy isSelected: self position)
+	self isSelected
 		ifFalse: [ ^ self ].
-	self updateSelectedNode.
 	self selected: true.
 
 
@@ -101,20 +106,8 @@ ToNodeHolder >> recoverUnselectedNode [
 ToNodeHolder >> selected: aBoolean [
 
 	aBoolean
-		ifTrue: [ self node dresser addedToSelection: itemElement ]
-		ifFalse: [ self node dresser removedFromSelection: itemElement ]
-]
-
-{ #category : #accessing }
-ToNodeHolder >> updateSelectedNode [
-
-	self infiniteElement selectedNodeFactory ifNotNil: [
-		unselectedNode := self node.
-		self node:
-			(self infiniteElement selectedNodeFactory
-				 cull: self data
-				 cull: self).
-		self infiniteElement requestLayout ]
+		ifTrue: [ self node selectedInInfiniteElement ]
+		ifFalse: [ self node deselectedInInfiniteElement ]
 ]
 
 { #category : #'selection - handling' }
@@ -129,6 +122,5 @@ ToNodeHolder >> whenDeselectAnnouncement: anAnnouncement [
 ToNodeHolder >> whenSelectAnnouncement: anAnnouncement [
 
 	(anAnnouncement interval includes: self position) ifFalse: [ ^ self ].
-	self updateSelectedNode.
 	self selected: true
 ]

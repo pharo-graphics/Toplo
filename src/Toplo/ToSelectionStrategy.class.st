@@ -50,7 +50,7 @@ ToSelectionStrategy >> addOrRemovePrevious [
 	| next |
 	self currentIndex = 1 ifTrue: [ ^ self ].
 	next := prevDir = #previous
-		        ifTrue: [ self currentIndex - 1 ]
+		        ifTrue: [ self currentIndex - 1 max: 1]
 		        ifFalse: [ self currentIndex ].
 	prevDir := #previous.
 

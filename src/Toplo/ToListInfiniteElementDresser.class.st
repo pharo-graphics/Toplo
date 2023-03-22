@@ -20,7 +20,7 @@ ToListInfiniteElementDresser >> defaultMargin [
 { #category : #initialization }
 ToListInfiniteElementDresser >> defaultPadding [
 
-	^ BlInsets all: 2
+	^ BlInsets all: 0
 ]
 
 { #category : #'api - install/uninstall  hook' }

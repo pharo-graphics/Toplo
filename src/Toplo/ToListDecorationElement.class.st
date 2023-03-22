@@ -29,7 +29,7 @@ ToListDecorationElement >> defaultBorder [
 ToListDecorationElement >> initialize [ 
 
 	super initialize.
-	self geometry: (BlRoundedRectangleGeometry cornerRadius: 6).
+	self geometry: self defaultGeometry.
 	self background: Color transparent.
 	self border:	self defaultBorder.
 	self constraintsDo: [ :c | c ignoreByLayout  ].

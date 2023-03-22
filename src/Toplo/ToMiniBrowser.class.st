@@ -142,7 +142,7 @@ ToMiniBrowser >> initialize [
 			            do: [ :event | self inform: event printString ].
 		            node ].
 
-	packages margin: (BlInsets all: 3).
+	packages margin: (BlInsets all: 2).
 
 	"packages hasFixedSize: true."
 	"packages selectionStrategy beWithoutSelection."
@@ -163,7 +163,7 @@ ToMiniBrowser >> initialize [
 		do: [ :event | self classSelectionChangedEvent: event ].
 	classes data whenRemoveChangeDo: [ protocols data removeAll ].
 	classesPane := ToPane new id: #classesPane; beVertical; matchParent.
-	classesPane margin: (BlInsets all: 3).
+	classesPane margin: (BlInsets all: 2).
 	classesPane addChild: classes.
 	classesButtonPane := ToPane new
 		                     hMatchParent;
@@ -186,7 +186,7 @@ ToMiniBrowser >> initialize [
 		             ToLabeledNode new
 			             labelText: assoc value name;
 			             hMatchParent ].
-	protocols margin: (BlInsets all: 3).
+	protocols margin: (BlInsets all: 2).
 
 	protocols infinite
 		when: ToInfiniteSelectionChangedEvent
@@ -198,7 +198,7 @@ ToMiniBrowser >> initialize [
 			             labelText: assoc value asString;
 			             hMatchParent ].
 	
-	selectors margin: (BlInsets all: 3).
+	selectors margin: (BlInsets all: 2).
 	selectors
 		infinite when: ToInfiniteSelectionChangedEvent
 		do: [ :event | self selectorSelectionChangedEvent: event ].

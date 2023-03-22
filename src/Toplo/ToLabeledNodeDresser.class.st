@@ -13,9 +13,9 @@ Class {
 ToLabeledNodeDresser >> element: anElement addedInInfiniteDecoration: aDecoration [
 
 	super element: anElement addedInInfiniteDecoration: aDecoration.
-	
+
 	selected ifTrue: [ 
-		anElement label text foreground: aDecoration background paint color contrastingBlackAndWhiteColor.
+		anElement label text foreground: aDecoration actualBackgroundColor contrastingBlackAndWhiteColor.
 		anElement label requestLayout.
 		^ self ].
 	
@@ -25,7 +25,7 @@ ToLabeledNodeDresser >> element: anElement addedInInfiniteDecoration: aDecoratio
 	anElement background: Color transparent.
 
 	textBackup := anElement label text rope copy.
-	anElement label text foreground: aDecoration background paint color contrastingBlackAndWhiteColor.
+	anElement label text foreground: aDecoration actualBackgroundColor contrastingBlackAndWhiteColor.
 	anElement label requestLayout
 
 ]

@@ -7,8 +7,8 @@ Class {
 	#category : #'Toplo-Widget-List'
 }
 
-{ #category : #'as yet unclassified' }
-ToListSelectionDecorationElement >> actualBackground [
+{ #category : #accessing }
+ToListSelectionDecorationElement >> actualBackgroundColor [
 
 	^ self listElement infinite isFocused
 		  ifTrue: [ self listElement selectedItemBackground ]
@@ -26,7 +26,7 @@ ToListSelectionDecorationElement >> adjacentNodes: aCollection [
 
 	adjacentNodes := aCollection.
 	self computeBounds.
-	self background: self actualBackground.
+	self background: self actualBackgroundColor.
 	self changedSelectionBackground 
 ]
 
@@ -52,19 +52,29 @@ ToListSelectionDecorationElement >> computeBounds [
 	| first last top bottom |
 	first := adjacentNodes first.
 	last := adjacentNodes last.
-	top := first bounds inSpace bounds.
-	first globalBoundsToLocal: top.
-	first localBoundsToParent: top.
-	top expandBy: (BlInsets left: first margin left right: first margin right).
-	first = last
-		ifTrue: [ bottom := top ]
-		ifFalse: [
-			bottom := last bounds inSpace bounds.
-			last globalBoundsToLocal: bottom.
-			last localBoundsToParent: bottom.
-			bottom expandBy: (BlInsets left: last margin left right: last margin right) ].
+	top := self nodeBounds: first.
+	bottom := first = last
+		          ifTrue: [ top ]
+		          ifFalse: [ self nodeBounds: last ].
+	self bounds: (BlBounds origin: top origin corner: bottom corner)
+]
 
-	self bounds: (BlBounds origin: top position corner: bottom corner)
+{ #category : #initialization }
+ToListSelectionDecorationElement >> defaultGeometry [
+
+	^ BlRoundedRectangleGeometry cornerRadius: 6
+]
+
+{ #category : #private }
+ToListSelectionDecorationElement >> nodeBounds: aNode [
+	" compute local node bounds "
+
+	| bnds |
+	bnds := aNode bounds inSpace bounds.
+	aNode globalBoundsToLocal: bnds.
+	aNode localBoundsToParent: bnds.
+	^ BlBounds origin: bnds origin + listElement padding topLeft corner: bnds corner + listElement padding topLeft
+	"bnds expandBy: (BlInsets left: node margin left right: node margin right)."	
 ]
 
 { #category : #removing }

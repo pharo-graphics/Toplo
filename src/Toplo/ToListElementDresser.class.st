@@ -22,7 +22,8 @@ ToListElementDresser >> defaultMargin [
 { #category : #initialization }
 ToListElementDresser >> defaultPadding [
 
-	^ BlInsets all: 0
+	" Must be 1 to see the focus frame AND to draw selection decoration correctly (not outside infinite bounds)  "
+	^ BlInsets all: 1
 
 ]
 
@@ -49,7 +50,6 @@ ToListElementDresser >> onInstalledIn: anElement [
 	anElement background: self defaultBackground.
 	anElement margin: self defaultMargin.
 	anElement padding: self defaultPadding.
-	
 	self installEventListenersIn: anElement
 
 ]

@@ -5,12 +5,6 @@ BlElement >> addedInSelectionDecoration: aSelectionDecoration [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> blurSelectedItemBackground [
-
-	^ self selectedItemBackground muchLighter
-]
-
-{ #category : #'*Toplo' }
 BlElement >> deselectedInInfiniteElement [
 ]
 
@@ -29,7 +23,13 @@ BlElement >> selectedInInfiniteElement [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> selectedItemBackground [
+BlElement >> selectedItemBackgroundColor [
 
 	^ self theme item selectedColor
+]
+
+{ #category : #'*Toplo' }
+BlElement >> selectedItemBlurredBackgroundColor [
+
+	^ self selectedItemBackgroundColor muchLighter
 ]

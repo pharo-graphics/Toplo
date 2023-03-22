@@ -79,6 +79,6 @@ ToListDecorationUpdater >> selectionChangedIn: anInfiniteElement [
 ]
 
 { #category : #'infinite element changes' }
-ToListDecorationUpdater >> updateDecorationsIn: anEditorElement [
+ToListDecorationUpdater >> updateDecorationsIn: aListElement [
 
 ]

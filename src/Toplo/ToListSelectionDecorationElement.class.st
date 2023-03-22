@@ -11,8 +11,8 @@ Class {
 ToListSelectionDecorationElement >> actualBackgroundColor [
 
 	^ self listElement infinite isFocused
-		  ifTrue: [ self listElement selectedItemBackground ]
-		  ifFalse: [ self listElement blurSelectedItemBackground ]
+		  ifTrue: [ self listElement selectedItemBackgroundColor ]
+		  ifFalse: [ self listElement selectedItemBlurredBackgroundColor ]
 ]
 
 { #category : #accessing }

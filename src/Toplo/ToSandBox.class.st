@@ -300,6 +300,7 @@ ToSandBox class >> example_ListWithAllClasses4 [
 
 	| l |
 	l := ToListElement new 
+		withoutSelectionBackground;
 		nodeFactory: [ :cls |
 		     ToCheckNode new
 			     labelText: cls name;

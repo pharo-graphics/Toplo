@@ -41,6 +41,13 @@ TToColumned >> direction: aLayoutDirection [
 	self requestLayout
 ]
 
+{ #category : #initialization }
+TToColumned >> initialize [
+
+	self class initializeSlots: self.
+	super initialize.
+]
+
 { #category : #'t - columned initialization' }
 TToColumned >> initializeColumned [
 

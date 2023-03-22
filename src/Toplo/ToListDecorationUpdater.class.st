@@ -42,7 +42,7 @@ ToListDecorationUpdater >> onInstalledIn: aListElement [
 		                 on: BlElementScrolledEvent
 		                 do: [ :evt | self scrollEventIn: aListElement ].
 
-	aListElement addEventHandler: extentChangeHandler.
+	aListElement infinite addEventHandler: extentChangeHandler.
 	aListElement infinite addEventHandler: selectionHandler.
 	aListElement infinite addEventHandler: scrollHandler
 ]

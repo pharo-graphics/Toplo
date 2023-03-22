@@ -21,28 +21,6 @@ ToListSelectionDecorationUpdater >> adjacentSelectedNodesGroupsIn: aListElement 
 		  g ifNotEmpty: [ stream nextPut: g ] ]
 ]
 
-{ #category : #'as yet unclassified' }
-ToListSelectionDecorationUpdater >> adjacentSelectedNodesGroupsMergedBoundsFrom: adjacentSelectedNodesGroupList [
-
-	" returns an array of bounds. Each bounds is the merge bound of a group of adjacent selected node "
-	^ Array streamContents: [:stream |
-		adjacentSelectedNodesGroupList do: [ :currGroup |
-		| top bottom |
-		top := currGroup first bounds inSpace bounds.
-		currGroup first globalBoundsToLocal: top.
-		currGroup first localBoundsToParent: top.
-		top expandBy: (BlInsets left: currGroup first margin left right: currGroup first margin right).
-		currGroup size = 1
-			ifTrue: [ bottom := top ]
-			ifFalse: [
-				bottom := currGroup last bounds inSpace bounds.
-				currGroup last globalBoundsToLocal: bottom.
-				currGroup last localBoundsToParent: bottom.
-				bottom expandBy: (BlInsets left: currGroup last margin left right: currGroup last margin right).].
-		
-		stream nextPut: (BlBounds origin: top position  corner: bottom corner) ] ]
-]
-
 { #category : #initialization }
 ToListSelectionDecorationUpdater >> resetDecorations [ 
 

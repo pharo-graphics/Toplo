@@ -8,17 +8,17 @@ Class {
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToNotebookPageTitleDresser >> dressSelected: aToNotebookTitle [
+ToNotebookPageTitleDresser >> dressDeselected: aToNotebookTitle [
 
 	aToNotebookTitle background:
-		notebookDresser theme notebook selectedBackgroundColor
+		notebookDresser theme notebook deselectedPageTitleBackgroundColor
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToNotebookPageTitleDresser >> dressUnselected: aToNotebookTitle [
+ToNotebookPageTitleDresser >> dressSelected: aToNotebookTitle [
 
 	aToNotebookTitle background:
-		notebookDresser theme notebook deselectedBackgroundColor
+		notebookDresser theme notebook selectedPageTitleBackgroundColor
 ]
 
 { #category : #accessing }
@@ -50,13 +50,8 @@ ToNotebookPageTitleDresser >> onInstalledIn: aToNotebookTitle [
 				yourself)).
 	aToNotebookTitle border: BlBorder empty.
 	
-"	(aToNotebookTitle labelElement) text
-		unstyle;
-		fontSize: notebookDresser parameters standardFontSize."
-
 	aToNotebookTitle labelElement
 		margin: (BlInsets top: 2 right: 20 bottom: 2 left: 20).
-
 
 	aToNotebookTitle constraintsDo: [ :c |
 		c horizontal fitContent.
@@ -73,5 +68,5 @@ ToNotebookPageTitleDresser >> refreshIsSelected: aToNotebookTitle [
 
 	aToNotebookTitle isSelected
 		ifTrue: [ self dressSelected: aToNotebookTitle ]
-		ifFalse: [ self dressUnselected: aToNotebookTitle ]
+		ifFalse: [ self dressDeselected: aToNotebookTitle ]
 ]

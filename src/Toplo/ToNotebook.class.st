@@ -67,7 +67,7 @@ ToNotebook >> newTitleElementFor: aPage title: aTitle [
 		title: aTitle;
 		whenClickedDo: [
 			self selectPage: aPage ];
-		dresser: self dresser pageTitleDresser;
+		dresser: self dresser newPageTitleDresser;
 		yourself
 ]
 

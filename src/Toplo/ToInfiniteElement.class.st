@@ -240,6 +240,14 @@ ToInfiniteElement >> scrollToIndex: anIndex [
 ]
 
 { #category : #'selection events' }
+ToInfiniteElement >> selectAll [
+
+	self selectionStrategy dispatchSelectionChangedAfter: [
+		self selectionStrategy selectAll ]
+	to: self
+]
+
+{ #category : #'selection events' }
 ToInfiniteElement >> selectIndex: anIndex [
 
 	self selectionStrategy dispatchSelectionChangedAfter: [

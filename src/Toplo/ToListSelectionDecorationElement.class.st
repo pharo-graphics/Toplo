@@ -35,6 +35,19 @@ ToListSelectionDecorationElement >> defaultGeometry [
 	^ BlRoundedRectangleGeometry cornerRadius: 5
 ]
 
+{ #category : #initialization }
+ToListSelectionDecorationElement >> defaultPadding [
+
+	^ BlInsets all: 5
+]
+
+{ #category : #initialization }
+ToListSelectionDecorationElement >> initialize [ 
+
+	super initialize.
+	self padding: self defaultPadding
+]
+
 { #category : #accessing }
 ToListSelectionDecorationElement >> listElement: aListElement [
 

@@ -25,10 +25,17 @@ ToListDecorationElement >> defaultBorder [
 	^ BlBorder paint: self borderColor width: self borderWidth
 ]
 
+{ #category : #accessing }
+ToListDecorationElement >> defaultLayout [
+
+	^ BlFrameLayout new
+]
+
 { #category : #initialization }
 ToListDecorationElement >> initialize [ 
 
 	super initialize.
+	self layout: self defaultLayout.
 	self geometry: self defaultGeometry.
 	self background: Color transparent.
 	self border:	self defaultBorder.

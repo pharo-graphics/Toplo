@@ -361,8 +361,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 	               l data ifNotEmpty: [
 		               menu addItem: (ToButtonMenuItem new
 				                labelText: 'Select all';
-				                whenClickedDo: [ :event :client |
-					                client selectionStrategy selectAll ]).
+				                whenClickedDo: [ :event :client | client selectAll ]).
 		               selectionMenu := ToMenu new withoutLeftColumn.
 		               selectionMenu label:
 			               (ToLabel new text: 'Selection actions') ].
@@ -447,7 +446,9 @@ ToSandBox class >> example_ListWithIndexedColors [
 ToSandBox class >> example_ListWithPanes [
 
 	| list |
-	list := ToListElement new nodeFactory: [ :collectible :holder |
+	list := ToListElement new 
+		withRowNumbers;
+		nodeFactory: [ :collectible :holder |
 		        | title blContent |
 		        title := ToLabel new
 			                 id: #title;

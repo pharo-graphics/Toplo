@@ -66,6 +66,12 @@ TToListElementDecorator >> nodeFactory: aNodeFactory [
 	self next nodeFactory: aNodeFactory
 ]
 
+{ #category : #'api - selection' }
+TToListElementDecorator >> selectAll [
+
+	self next selectAll
+]
+
 { #category : #'t - accessing selection' }
 TToListElementDecorator >> selectIndex: anInteger [
 

@@ -2,7 +2,7 @@ Class {
 	#name : #ToListSelectionDecorationElement,
 	#superclass : #ToListDecorationElement,
 	#instVars : [
-		'adjacentNodes'
+		'nodes'
 	],
 	#category : #'Toplo-Widget-List'
 }
@@ -15,33 +15,13 @@ ToListSelectionDecorationElement >> actualBackgroundColor [
 		  ifFalse: [ self listElement selectedItemBlurredBackgroundColor ]
 ]
 
-{ #category : #accessing }
-ToListSelectionDecorationElement >> adjacentNodes [
-
-	^ adjacentNodes
-]
-
-{ #category : #accessing }
-ToListSelectionDecorationElement >> adjacentNodes: aCollection [
-
-	adjacentNodes := aCollection.
-	self computeBounds
-]
-
-{ #category : #private }
-ToListSelectionDecorationElement >> adjacentNodesDo: aBlock [
-
-	self adjacentNodes ifNil: [ ^ self ].
-	self adjacentNodes do: aBlock
-]
-
 { #category : #private }
 ToListSelectionDecorationElement >> computeBounds [
 	" compute my bounds from my list of adjacent nodes. "
 
 	| first last top bottom |
-	first := adjacentNodes first.
-	last := adjacentNodes last.
+	first := nodes first.
+	last := nodes last.
 	top := self nodeBounds: first.
 	bottom := first = last
 		          ifTrue: [ top ]
@@ -68,10 +48,30 @@ ToListSelectionDecorationElement >> nodeBounds: aNode [
 ]
 
 { #category : #accessing }
+ToListSelectionDecorationElement >> nodes [
+
+	^ nodes
+]
+
+{ #category : #accessing }
+ToListSelectionDecorationElement >> nodes: aCollection [
+
+	nodes := aCollection.
+	self computeBounds
+]
+
+{ #category : #private }
+ToListSelectionDecorationElement >> nodesDo: aBlock [
+
+	self nodes ifNil: [ ^ self ].
+	self nodes do: aBlock
+]
+
+{ #category : #accessing }
 ToListSelectionDecorationElement >> onAddedToParent [ 
 
 	self background: self actualBackgroundColor.
-	self adjacentNodesDo: [ :node | node dispatchEvent: (ToListSelectionDecorationAddedEvent new decoration: self; yourself) ].
+	self nodesDo: [ :node | node dispatchEvent: (ToListSelectionDecorationAddedEvent new decoration: self; yourself) ].
 	super onAddedToParent 
 ]
 
@@ -79,7 +79,7 @@ ToListSelectionDecorationElement >> onAddedToParent [
 ToListSelectionDecorationElement >> onRemovedFromParent: aParentElement [
 
 	super onRemovedFromParent: aParentElement.
-	self adjacentNodesDo: [ :node | node dispatchEvent: (ToListSelectionDecorationRemovedEvent new decoration: self; yourself) ].
+	self nodesDo: [ :node | node dispatchEvent: (ToListSelectionDecorationRemovedEvent new decoration: self; yourself) ].
 
 	
 
@@ -90,6 +90,6 @@ ToListSelectionDecorationElement >> updateBackground [
 
 	listElement ifNil: [ ^ self ].
 	super updateBackground.
-	self adjacentNodesDo: [ :node | node dispatchEvent: (ToListSelectionDecorationChangedEvent new decoration: self; yourself) ].
+	self nodesDo: [ :node | node dispatchEvent: (ToListSelectionDecorationChangedEvent new decoration: self; yourself) ].
 
 ]

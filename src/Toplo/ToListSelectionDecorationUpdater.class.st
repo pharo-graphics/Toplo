@@ -35,7 +35,7 @@ ToListSelectionDecorationUpdater >> selectionDecorationElementsIn: aListElement 
 	^ (self adjacentSelectedNodesGroupsIn: aListElement) collect: [ :g |
 		  ToListSelectionDecorationElement new
 			  listElement: aListElement;
-			  adjacentNodes: g;
+			  nodes: g;
 			  yourself ]
 ]
 

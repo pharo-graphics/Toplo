@@ -11,8 +11,8 @@ Class {
 ToListSelectionDecorationElement >> actualBackgroundColor [
 
 	^ self listElement infinite isFocused
-		  ifTrue: [ self listElement selectedItemBackgroundColor ]
-		  ifFalse: [ self listElement selectedItemBlurredBackgroundColor ]
+		  ifTrue: [ self theme item selectedColor ]
+		  ifFalse: [ self theme item selectedBlurredColor ]
 ]
 
 { #category : #private }
@@ -33,6 +33,14 @@ ToListSelectionDecorationElement >> computeBounds [
 ToListSelectionDecorationElement >> defaultGeometry [
 
 	^ BlRoundedRectangleGeometry cornerRadius: 5
+]
+
+{ #category : #accessing }
+ToListSelectionDecorationElement >> listElement: aListElement [
+
+	super listElement: aListElement.
+	aListElement infinite when: BlBlurEvent do: [ :anEvent | self background: self actualBackgroundColor ].
+	aListElement infinite when: BlFocusEvent do: [ :anEvent | self background: self actualBackgroundColor ]
 ]
 
 { #category : #private }

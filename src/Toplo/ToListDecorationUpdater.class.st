@@ -50,7 +50,7 @@ ToListDecorationUpdater >> onInstalledIn: aListElement [
 { #category : #'api - install/uninstall  hook' }
 ToListDecorationUpdater >> onUninstalledIn: aListElement [
 
-	aListElement removeEventHandler: extentChangeHandler.
+	aListElement infinite removeEventHandler: extentChangeHandler.
 	aListElement infinite removeEventHandler: selectionHandler.
 	aListElement infinite removeEventHandler: scrollHandler
 
@@ -59,11 +59,8 @@ ToListDecorationUpdater >> onUninstalledIn: aListElement [
 { #category : #private }
 ToListDecorationUpdater >> resetDecorations [
 
-	| rems |
-	rems := decorations copy.
-	rems do: [ :r | 
-		r removeFromParent.
-		decorations remove: r ]
+	decorations do: #removeFromParent.
+	decorations reset
 ]
 
 { #category : #'infinite element changes' }

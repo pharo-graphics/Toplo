@@ -4,9 +4,7 @@ Class {
 	#traits : 'TToListElementDecorator',
 	#classTraits : 'TToListElementDecorator classTrait',
 	#instVars : [
-		'selectionUpdater',
-		'selectedItemBackgroundColor',
-		'selectedItemBlurredBackgroundColor'
+		'selectionDecorationUpdater'
 	],
 	#category : #'Toplo-Widget-List'
 }
@@ -32,51 +30,22 @@ ToListElement >> initialize [
 	self next elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
 	self addChild: next.
 	self matchParent.
-	selectionUpdater := ToListSelectionDecorationUpdater new.
-	selectionUpdater onInstalledIn: self.
+	self withSelectionDecoration.
 	self initializeDresser 
 ]
 
 { #category : #accessing }
-ToListElement >> selectedItemBackgroundColor [
+ToListElement >> withSelectionDecoration [
 
-	^  selectedItemBackgroundColor ifNil: [ super selectedItemBackgroundColor ]
+	selectionDecorationUpdater ifNil: [
+		selectionDecorationUpdater := ToListSelectionDecorationUpdater new.
+		selectionDecorationUpdater onInstalledIn: self ]
 ]
 
 { #category : #accessing }
-ToListElement >> selectedItemBackgroundColor: aColor [
+ToListElement >> withoutSelectionDecoration [
 
-	selectedItemBackgroundColor := aColor
-]
-
-{ #category : #accessing }
-ToListElement >> selectedItemBlurredBackgroundColor [
-
-	^  selectedItemBlurredBackgroundColor ifNil: [ super selectedItemBlurredBackgroundColor ]
-]
-
-{ #category : #accessing }
-ToListElement >> selectedItemBlurredBackgroundColor: aColor [
-
-	selectedItemBlurredBackgroundColor := aColor
-]
-
-{ #category : #accessing }
-ToListElement >> selectionUpdater [
-
-	^ selectionUpdater
-]
-
-{ #category : #'infinite element changes' }
-ToListElement >> updateSelectionBackground: aBackground [
-
-	selectionUpdater updateSelectionBackground: aBackground
-]
-
-{ #category : #accessing }
-ToListElement >> withoutSelectionBackground [
-
-	self selectedItemBackgroundColor: Color transparent.
-	self selectedItemBlurredBackgroundColor: Color transparent.
-	selectionUpdater updateDecorationsIn: self
+	selectionDecorationUpdater ifNotNil: [
+		selectionDecorationUpdater onUninstalledIn: self.
+		selectionDecorationUpdater := nil ]
 ]

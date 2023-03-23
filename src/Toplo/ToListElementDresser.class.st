@@ -34,12 +34,7 @@ ToListElementDresser >> installEventListenersIn: anElement [
 		                   on: BlKeyboardEvent
 		                   do: [ :event |
 		                   anElement infinite dispatchEvent: event ].
-	anElement addEventHandler: keyboardHandler.
-	anElement infinite when: BlBlurEvent do: [ :anEvent |
-		anElement updateSelectionBackground: anElement selectedItemBlurredBackgroundColor  ].
-	anElement infinite when: BlFocusEvent do: [ :anEvent |
-		anElement updateSelectionBackground:
-			anElement selectedItemBackgroundColor ]
+	anElement addEventHandler: keyboardHandler
 ]
 
 { #category : #'api - install/uninstall  hook' }

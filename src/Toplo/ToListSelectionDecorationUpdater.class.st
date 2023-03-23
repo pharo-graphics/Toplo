@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-List'
 }
 
-{ #category : #'infinite element changes' }
+{ #category : #private }
 ToListSelectionDecorationUpdater >> adjacentSelectedNodesGroupsIn: aListElement [
 	" return an array of collection. Each collection contains a list of adjacent selected nodes "
 
@@ -21,14 +21,7 @@ ToListSelectionDecorationUpdater >> adjacentSelectedNodesGroupsIn: aListElement 
 		  g ifNotEmpty: [ stream nextPut: g ] ]
 ]
 
-{ #category : #initialization }
-ToListSelectionDecorationUpdater >> resetDecorations [ 
-
-	"decorations do: [ :d | d cleanUpNodes ]."
-	super resetDecorations
-]
-
-{ #category : #'infinite element changes' }
+{ #category : #private }
 ToListSelectionDecorationUpdater >> selectionDecorationElementsIn: aListElement [
 	" return a collection with instances of ListSelectionDecorationElement "
 
@@ -46,11 +39,4 @@ ToListSelectionDecorationUpdater >> updateDecorationsIn: aListElement [
 	self resetDecorations.
 	decorations addAll: (self selectionDecorationElementsIn: aListElement).
 	aListElement addChildren: decorations
-]
-
-{ #category : #'infinite element changes' }
-ToListSelectionDecorationUpdater >> updateSelectionBackground: aBackground [
-
-	decorations do: [ :d |
-		d background: aBackground ]
 ]

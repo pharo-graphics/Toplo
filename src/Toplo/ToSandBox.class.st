@@ -424,6 +424,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 	               menu ].
 	l contextMenuFactory: menuFactory.
 	l withRowNumbers.
+	l inspect.
 	l openInInnerWindow
 ]
 

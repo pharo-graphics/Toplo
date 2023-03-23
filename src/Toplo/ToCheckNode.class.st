@@ -11,15 +11,3 @@ ToCheckNode >> defaultDresser [
 
 	^ ToCheckNodeDresser new
 ]
-
-{ #category : #'as yet unclassified' }
-ToCheckNode >> deselectedInInfiniteElement [
-
-	self uncheck
-]
-
-{ #category : #'as yet unclassified' }
-ToCheckNode >> selectedInInfiniteElement [
-
-	self check
-]

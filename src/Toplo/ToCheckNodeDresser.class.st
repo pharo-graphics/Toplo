@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'checkedIcon',
 		'indeterminateIcon',
-		'uncheckedIcon'
+		'uncheckedIcon',
+		'selectedHandler',
+		'deselectedHandler'
 	],
 	#category : #'Toplo-Core-Node'
 }
@@ -119,6 +121,21 @@ ToCheckNodeDresser >> hover: anElement event: anEvent [
 	self background: self hoveredBackground in: anElement"
 ]
 
+{ #category : #'api - install/uninstall  hook' }
+ToCheckNodeDresser >> installEventListenersIn: anElement [
+
+	super installEventListenersIn: anElement.
+	anElement
+		whenAnnouncement: ToStatesDefinitionChangedAnnouncement
+		do: [ self checkIndeterminateIn: anElement ].
+	selectedHandler := BlEventHandler on: ToNodeHolderSelectedEvent do: [ :event | anElement check ].
+	deselectedHandler := BlEventHandler on: ToNodeHolderDeselectedEvent do: [ :event | anElement uncheck ].
+	
+	anElement addEventHandler: selectedHandler.
+	anElement addEventHandler: deselectedHandler.
+
+]
+
 { #category : #'events handling' }
 ToCheckNodeDresser >> leaved: anElement event: anEvent [
 
@@ -141,17 +158,23 @@ ToCheckNodeDresser >> leftClicked: anElement [
 ToCheckNodeDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	self checkIndeterminateIn: anElement.
-	anElement
-		whenAnnouncement: ToStatesDefinitionChangedAnnouncement
-		do: [ self checkIndeterminateIn: anElement ]
+	self checkIndeterminateIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToCheckNodeDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
-	anElement unsubscribe: self
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToCheckNodeDresser >> uninstallEventListenersIn: anElement [
+
+	super uninstallEventListenersIn: anElement.
+	anElement unsubscribe: self.
+	anElement removeEventHandler: selectedHandler.
+	anElement removeEventHandler: deselectedHandler.
 
 ]
 

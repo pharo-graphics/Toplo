@@ -40,6 +40,13 @@ ToListInfiniteElement >> initialize [
 	super initialize
 ]
 
+{ #category : #'private - commands' }
+ToListInfiniteElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount [
+
+	super offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount.
+	self requestLayout
+]
+
 { #category : #'hooks - children' }
 ToListInfiniteElement >> onChildAttached: anElement [
 	"Sent when an item element is attached to this InfiniteElement.

@@ -36,6 +36,12 @@ TToListElementDecorator >> infinite [
 	^ self next infinite
 ]
 
+{ #category : #'t - accessing selection' }
+TToListElementDecorator >> isSelectedAtIndex: anIndex [
+
+	^ self next isSelectedAtIndex: anIndex
+]
+
 { #category : #'t - accessing constraints' }
 TToListElementDecorator >> maxHeight: aHeight [
 

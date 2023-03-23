@@ -4,36 +4,41 @@ Class {
 	#instVars : [
 		'selected',
 		'textBackup',
-		'backgroundBackup'
+		'backgroundBackup',
+		'selectionDecorationAddedHandler',
+		'selectionDecorationRemovedHandler',
+		'selectionDecorationChangedHandler'
 	],
 	#category : #'Toplo-Core-Node'
 }
 
-{ #category : #'events handling' }
-ToLabeledNodeDresser >> element: anElement addedInInfiniteDecoration: aDecoration [
+{ #category : #'api - install/uninstall  hook' }
+ToLabeledNodeDresser >> element: anElement listSelectionDecorationAddedEvent: anEvent [
 
-	super element: anElement addedInInfiniteDecoration: aDecoration.
-
-	selected ifTrue: [ 
-		anElement label text foreground: aDecoration actualBackgroundColor contrastingBlackAndWhiteColor.
-		anElement label requestLayout.
-		^ self ].
-	
+	anEvent currentTarget = anElement ifFalse: [ ^ self ].
 	selected := true.
 	
 	backgroundBackup := anElement background.
 	anElement background: Color transparent.
 
 	textBackup := anElement label text rope copy.
-	anElement label text foreground: aDecoration actualBackgroundColor contrastingBlackAndWhiteColor.
+	anElement label text foreground: anEvent decoration actualBackgroundColor contrastingBlackAndWhiteColor.
 	anElement label requestLayout
 
 ]
 
-{ #category : #'events handling' }
-ToLabeledNodeDresser >> element: anElement removedFromInfiniteDecoration: aSelectionDecoration [
+{ #category : #'api - install/uninstall  hook' }
+ToLabeledNodeDresser >> element: anElement listSelectionDecorationChangedEvent: anEvent [
 
-	super element: anElement removedFromInfiniteDecoration: aSelectionDecoration.
+	selected ifFalse: [ ^ self ].
+	anElement label text foreground:
+		anEvent decoration actualBackgroundColor
+			contrastingBlackAndWhiteColor.
+	anElement label requestLayout
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToLabeledNodeDresser >> element: anElement listSelectionDecorationRemovedEvent: anEvent [
 
 	selected ifFalse: [ ^ self ].
 	selected := false.
@@ -62,6 +67,20 @@ ToLabeledNodeDresser >> initialize [
 
 	super initialize.
 	selected := false
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToLabeledNodeDresser >> installEventListenersIn: anElement [
+
+	super installEventListenersIn: anElement.
+	selectionDecorationAddedHandler := BlEventHandler on: ToListSelectionDecorationAddedEvent do: [ :event | self element: anElement listSelectionDecorationAddedEvent: event ].
+	selectionDecorationRemovedHandler := BlEventHandler on: ToListSelectionDecorationRemovedEvent do: [ :event | self element: anElement listSelectionDecorationRemovedEvent: event ].
+	selectionDecorationChangedHandler := BlEventHandler on: ToListSelectionDecorationChangedEvent do: [ :event | self element: anElement listSelectionDecorationChangedEvent: event ].
+	
+	anElement addEventHandler: selectionDecorationAddedHandler.
+	anElement addEventHandler: selectionDecorationRemovedHandler.
+	anElement addEventHandler: selectionDecorationChangedHandler.
+
 ]
 
 { #category : #'events handling' }
@@ -96,4 +115,15 @@ ToLabeledNodeDresser >> leftPressed: anElement event: anEvent [
 ToLabeledNodeDresser >> selectionBackground [
 
 	^ self colorProvider selectedColor
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToLabeledNodeDresser >> uninstallEventListenersIn: anElement [
+
+	super uninstallEventListenersIn: anElement.
+	
+	anElement removeEventHandler: selectionDecorationAddedHandler.
+	anElement removeEventHandler: selectionDecorationRemovedHandler.
+	anElement removeEventHandler: selectionDecorationChangedHandler.
+
 ]

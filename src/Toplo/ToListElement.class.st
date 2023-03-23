@@ -61,6 +61,12 @@ ToListElement >> selectedItemBlurredBackgroundColor: aColor [
 	selectedItemBlurredBackgroundColor := aColor
 ]
 
+{ #category : #accessing }
+ToListElement >> selectionUpdater [
+
+	^ selectionUpdater
+]
+
 { #category : #'infinite element changes' }
 ToListElement >> updateSelectionBackground: aBackground [
 

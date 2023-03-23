@@ -35,18 +35,6 @@ ToDresser >> dresserSatisfying: aBlock [
 	^ next dresserSatisfying: aBlock
 ]
 
-{ #category : #'events handling' }
-ToDresser >> element: anElement addedInInfiniteDecoration: aDecoration [
-
-	self next element: anElement addedInInfiniteDecoration: aDecoration
-]
-
-{ #category : #'events handling' }
-ToDresser >> element: anElement removedFromInfiniteDecoration: aSelectionDecoration [
-
-	self next element: anElement removedFromInfiniteDecoration: aSelectionDecoration
-]
-
 { #category : #initialization }
 ToDresser >> initialize [
 

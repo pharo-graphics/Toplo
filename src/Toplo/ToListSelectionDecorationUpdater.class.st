@@ -24,7 +24,7 @@ ToListSelectionDecorationUpdater >> adjacentSelectedNodesGroupsIn: aListElement 
 { #category : #initialization }
 ToListSelectionDecorationUpdater >> resetDecorations [ 
 
-	decorations do: [ :d | d cleanUpNodes ].
+	"decorations do: [ :d | d cleanUpNodes ]."
 	super resetDecorations
 ]
 
@@ -52,6 +52,5 @@ ToListSelectionDecorationUpdater >> updateDecorationsIn: aListElement [
 ToListSelectionDecorationUpdater >> updateSelectionBackground: aBackground [
 
 	decorations do: [ :d |
-		d background: aBackground.
-		d changedSelectionBackground ]
+		d background: aBackground ]
 ]

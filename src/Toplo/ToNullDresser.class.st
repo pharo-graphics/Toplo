@@ -25,14 +25,6 @@ ToNullDresser >> dresserSatisfying: aBlock [
 	^ nil
 ]
 
-{ #category : #'events handling' }
-ToNullDresser >> element: anElement addedInInfiniteDecoration: aDecoration [
-]
-
-{ #category : #'events handling' }
-ToNullDresser >> element: anElement removedFromInfiniteDecoration: aSelectionDecoration [
-]
-
 { #category : #'api - install/uninstall  hook' }
 ToNullDresser >> next: aDresser [
 ]

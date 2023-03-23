@@ -25,24 +25,14 @@ ToListSelectionDecorationElement >> adjacentNodes [
 ToListSelectionDecorationElement >> adjacentNodes: aCollection [
 
 	adjacentNodes := aCollection.
-	self computeBounds.
-	self background: self actualBackgroundColor.
-	self changedSelectionBackground 
+	self computeBounds
 ]
 
 { #category : #private }
-ToListSelectionDecorationElement >> changedSelectionBackground [
+ToListSelectionDecorationElement >> adjacentNodesDo: aBlock [
 
 	self adjacentNodes ifNil: [ ^ self ].
-	self adjacentNodes do: [ :node | node addedInSelectionDecoration: self ]
-]
-
-{ #category : #removing }
-ToListSelectionDecorationElement >> cleanUpNodes [
-
-	self adjacentNodes do: [ :node | node removedFromSelectionDecoration: self ].
-
-
+	self adjacentNodes do: aBlock
 ]
 
 { #category : #private }
@@ -62,7 +52,7 @@ ToListSelectionDecorationElement >> computeBounds [
 { #category : #initialization }
 ToListSelectionDecorationElement >> defaultGeometry [
 
-	^ BlRoundedRectangleGeometry cornerRadius: 6
+	^ BlRoundedRectangleGeometry cornerRadius: 5
 ]
 
 { #category : #private }
@@ -77,9 +67,29 @@ ToListSelectionDecorationElement >> nodeBounds: aNode [
 	"bnds expandBy: (BlInsets left: node margin left right: node margin right)."	
 ]
 
-{ #category : #removing }
-ToListSelectionDecorationElement >> removeFromParent [
+{ #category : #accessing }
+ToListSelectionDecorationElement >> onAddedToParent [ 
 
-	super removeFromParent.
+	self background: self actualBackgroundColor.
+	self adjacentNodesDo: [ :node | node dispatchEvent: (ToListSelectionDecorationAddedEvent new decoration: self; yourself) ].
+	super onAddedToParent 
+]
+
+{ #category : #removing }
+ToListSelectionDecorationElement >> onRemovedFromParent: aParentElement [
+
+	super onRemovedFromParent: aParentElement.
+	self adjacentNodesDo: [ :node | node dispatchEvent: (ToListSelectionDecorationRemovedEvent new decoration: self; yourself) ].
+
+	
+
+]
+
+{ #category : #'change reporting' }
+ToListSelectionDecorationElement >> updateBackground [ 
+
+	listElement ifNil: [ ^ self ].
+	super updateBackground.
+	self adjacentNodesDo: [ :node | node dispatchEvent: (ToListSelectionDecorationChangedEvent new decoration: self; yourself) ].
 
 ]

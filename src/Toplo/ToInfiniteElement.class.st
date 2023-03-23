@@ -81,15 +81,13 @@ ToInfiniteElement >> defaultSelectionStrategy [
 { #category : #dispatching }
 ToInfiniteElement >> dispatchChildAttached: anElement [
 	
-	super dispatchChildAttached: anElement.
-	anElement holder onAttachedFromInfinite
+	super dispatchChildAttached: anElement
 ]
 
 { #category : #dispatching }
 ToInfiniteElement >> dispatchChildDetached: anElement [
 	
-	super dispatchChildDetached: anElement.
-	anElement holder onDetachedFromInfinite
+	super dispatchChildDetached: anElement
 ]
 
 { #category : #'selection events' }
@@ -137,6 +135,12 @@ ToInfiniteElement >> initialize [
 	self initializeDresser
 ]
 
+{ #category : #'selection events' }
+ToInfiniteElement >> isSelectedAtIndex: anIndex [
+
+	^ self selectionStrategy isSelected: anIndex
+]
+
 { #category : #accessing }
 ToInfiniteElement >> list [
 
@@ -181,9 +185,10 @@ ToInfiniteElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: a
 	super
 		offsetPositionRecordsForInsert: aStartPosition
 		itemCount: anItemCount.
+
 	self selectionStrategy
-		offsetPositionForInsert: aStartPosition
-		itemCount: anItemCount
+			offsetPositionForInsert: aStartPosition
+			itemCount: anItemCount.
 ]
 
 { #category : #'private - commands' }

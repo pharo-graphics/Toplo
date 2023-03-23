@@ -4,8 +4,7 @@ Class {
 	#traits : 'TBlAnnouncerProvider',
 	#classTraits : 'TBlAnnouncerProvider classTrait',
 	#instVars : [
-		'data',
-		'unselectedNode'
+		'data'
 	],
 	#category : #'Toplo-Core-Node'
 }
@@ -32,7 +31,7 @@ ToNodeHolder >> initialize [
 { #category : #accessing }
 ToNodeHolder >> isSelected [
 
-	^ self infiniteElement selectionStrategy isSelected: self position
+	^ self infiniteElement isSelectedAtIndex: self position
 ]
 
 { #category : #accessing }
@@ -64,15 +63,10 @@ ToNodeHolder >> onAttachedFromDatasource: aDataSource [
 		whenAnnouncement: ToSelectAnnouncement
 		send: #whenSelectAnnouncement:
 		to: self.
-]
-
-{ #category : #accessing }
-ToNodeHolder >> onAttachedFromInfinite [
 
 	" when holder is attached it can be already selected (as an example with a selectAll) "
 	"Selection must be preserved "
-	self isSelected
-		ifFalse: [ ^ self ].
+	self isSelected ifFalse: [ ^ self ].
 	self selected: true.
 
 
@@ -87,34 +81,17 @@ ToNodeHolder >> onDetachedFromDatasource: aDataSource [
 ]
 
 { #category : #accessing }
-ToNodeHolder >> onDetachedFromInfinite [
-
-	
-]
-
-{ #category : #'selection - handling' }
-ToNodeHolder >> recoverUnselectedNode [
-
-	unselectedNode ifNotNil: [
-		self node undress.
-		self node: unselectedNode.
-		unselectedNode := nil.
-		self infiniteElement requestLayout ]
-]
-
-{ #category : #accessing }
 ToNodeHolder >> selected: aBoolean [
 
 	aBoolean
-		ifTrue: [ self node selectedInInfiniteElement ]
-		ifFalse: [ self node deselectedInInfiniteElement ]
+		ifTrue: [ self node dispatchEvent: (ToNodeHolderSelectedEvent new holder: self; yourself) ]
+		ifFalse: [ self node dispatchEvent: (ToNodeHolderDeselectedEvent new holder: self; yourself) ]
 ]
 
 { #category : #'selection - handling' }
 ToNodeHolder >> whenDeselectAnnouncement: anAnnouncement [
 
 	(anAnnouncement interval includes: self position) ifFalse: [ ^ self ].
-	self recoverUnselectedNode.
 	self selected: false
 ]
 

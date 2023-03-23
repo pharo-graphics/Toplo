@@ -114,6 +114,12 @@ ToInfiniteElement >> hasClickLauncher [
 	^ clickLauncher notNil
 ]
 
+{ #category : #testing }
+ToInfiniteElement >> hasSelection [
+
+	^ self selectionStrategy isEmpty not
+]
+
 { #category : #initialization }
 ToInfiniteElement >> holderClass [
 
@@ -287,6 +293,11 @@ ToInfiniteElement >> whenClickOnNodeAnnouncement: anAnnouncement [
 
 	| event |
 	event := anAnnouncement event.
+
+	self hasFocus ifFalse: [
+		self requestFocus.
+		self hasSelection ifTrue: [ ^ self ] ].
+
 	self selectionStrategy multipleSelectionModeDo: [
 		event modifiers isShift ifTrue: [
 			^ self selectToIndex: anAnnouncement holder layoutPosition ].

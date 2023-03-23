@@ -3,7 +3,6 @@ Class {
 	#superclass : #ToDresser,
 	#instVars : [
 		'scrolledHandler',
-		'focusHandler',
 		'shortcuts',
 		'doubleClickHandler'
 	],
@@ -25,7 +24,6 @@ ToListInfiniteElementDresser >> defaultPadding [
 { #category : #'api - install/uninstall  hook' }
 ToListInfiniteElementDresser >> installEventListenersIn: anElement [
 
-	focusHandler := ToFocusHandler new.
 	doubleClickHandler := BlEventHandler
 		                      on: BlDoubleClickEvent
 		                      do: [ :anEvent |
@@ -37,7 +35,6 @@ ToListInfiniteElementDresser >> installEventListenersIn: anElement [
 
 	anElement addEventHandler: doubleClickHandler.
 	anElement addEventHandler: scrolledHandler.
-	anElement addEventHandler: focusHandler.
 	
 	anElement selectionStrategy whenModeChangedDo: [
 		self uninstallShortInIn: anElement.
@@ -95,7 +92,6 @@ ToListInfiniteElementDresser >> onUninstalledIn: anElement [
 ToListInfiniteElementDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: scrolledHandler.
-	anElement removeEventHandler: focusHandler.
 	anElement removeEventHandler: doubleClickHandler.
 	self uninstallShortInIn: anElement
 ]

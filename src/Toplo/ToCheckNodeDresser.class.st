@@ -114,13 +114,6 @@ ToCheckNodeDresser >> defaultUncheckedState [
 			  ann widget icon: self defaultUncheckedIconImage ]
 ]
 
-{ #category : #'events handling' }
-ToCheckNodeDresser >> hover: anElement event: anEvent [
-
-	"self border: self hoveredBorder in: anElement.
-	self background: self hoveredBackground in: anElement"
-]
-
 { #category : #'api - install/uninstall  hook' }
 ToCheckNodeDresser >> installEventListenersIn: anElement [
 
@@ -133,24 +126,6 @@ ToCheckNodeDresser >> installEventListenersIn: anElement [
 	
 	anElement addEventHandler: selectedHandler.
 	anElement addEventHandler: deselectedHandler.
-
-]
-
-{ #category : #'events handling' }
-ToCheckNodeDresser >> leaved: anElement event: anEvent [
-
-	"self border: self defaultBorder in: anElement.
-	self background: self defaultBackground in: anElement"
-
-
-]
-
-{ #category : #'events handling' }
-ToCheckNodeDresser >> leftClicked: anElement [ 
-	
-	"self border: self hoveredBorder in: anElement.
-	self background: self hoveredBackground in: anElement"
-
 
 ]
 

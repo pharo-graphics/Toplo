@@ -2,7 +2,6 @@ Class {
 	#name : #ToNodeDresser,
 	#superclass : #ToMouseHandlingDresser,
 	#instVars : [
-		'focusGetterHandler',
 		'monitor'
 	],
 	#category : #'Toplo-Core-Node'
@@ -99,8 +98,6 @@ ToNodeDresser >> initialize [
 ToNodeDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
-	focusGetterHandler := BlEventHandler on: BlClickEvent do: [ :anEvent | anElement holder infiniteElement requestFocus ].
-	anElement addEventHandler: focusGetterHandler
 
 ]
 
@@ -130,14 +127,8 @@ ToNodeDresser >> launchClick: aBlock event: anEvent for: anElement [
 		            aBlock value.
 		            infinite clickLauncher: nil ]
 			            forkAt: Processor highIOPriority
-			            named: 'OBlMouseProcessor clickLauncher'.
+			            named: 'ToNodeDresser clickLauncher'.
 		infinite clickLauncher: launcher ]
-]
-
-{ #category : #'events handling' }
-ToNodeDresser >> leftClicked: anElement [ 
-
-
 ]
 
 { #category : #'events handling' }
@@ -145,7 +136,6 @@ ToNodeDresser >> leftClicked: anElement event: anEvent [
 
 	self
 		launchClick: [ 
-			self leftClicked: anElement.
 			anElement holder announce: (ToClickOnNodeAnnouncement new
 					 holder: anElement holder;
 					 event: anEvent;
@@ -178,6 +168,4 @@ ToNodeDresser >> onUninstalledIn: anElement [
 ToNodeDresser >> uninstallEventListenersIn: anElement [
 
 	super uninstallEventListenersIn: anElement.
-	anElement removeEventHandler: focusGetterHandler
-
 ]

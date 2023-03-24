@@ -66,6 +66,12 @@ TToListElementDecorator >> nodeFactory: aNodeFactory [
 	self next nodeFactory: aNodeFactory
 ]
 
+{ #category : #'t - accessing selection' }
+TToListElementDecorator >> primarySelection [
+
+	^ self next primarySelection
+]
+
 { #category : #'api - selection' }
 TToListElementDecorator >> selectAll [
 
@@ -82,12 +88,6 @@ TToListElementDecorator >> selectIndex: anInteger [
 TToListElementDecorator >> selectedIndexes [
 
 	^ self next selectedIndexes
-]
-
-{ #category : #'t - accessing selection' }
-TToListElementDecorator >> selectionStrategy [
-
-	^ self next selectionStrategy
 ]
 
 { #category : #'t - infinite accessing' }

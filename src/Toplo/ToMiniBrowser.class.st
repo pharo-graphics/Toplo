@@ -50,7 +50,7 @@ ToMiniBrowser >> changeCodeInEditor [
 ToMiniBrowser >> classSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedClasses allProtocols |
-	protocols selectionStrategy deselectAll.
+	protocols primarySelection deselectAll.
 	protocols data removeAll.
 	selectedClasses := aToSelectionChanged newSelectedIndexes collect: [
 		                   :idx | classes data at: idx ].
@@ -240,7 +240,7 @@ ToMiniBrowser >> open [
 ToMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedPackages clsList |
-	classes selectionStrategy deselectAll.
+	classes primarySelection deselectAll.
 	classes data removeAll.
 	selectedPackages := aToSelectionChanged newSelectedIndexes collect: [
 		                    :idx | packages data at: idx ].
@@ -255,7 +255,7 @@ ToMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
 ToMiniBrowser >> protocolSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedProtocols |
-	selectors selectionStrategy deselectAll.
+	selectors primarySelection deselectAll.
 	selectors data removeAll.
 	selectedProtocols := aToSelectionChanged newSelectedIndexes collect: [
 		                     :idx | protocols data at: idx ].

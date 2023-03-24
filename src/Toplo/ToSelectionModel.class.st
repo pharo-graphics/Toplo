@@ -23,15 +23,7 @@ ToSelectionModel >> announceDeselected: anInterval [
 { #category : #notifying }
 ToSelectionModel >> announceSelected: anInterval [
 
-	self
-		announceSelected: anInterval
-		dueTo: nil
-]
-
-{ #category : #notifying }
-ToSelectionModel >> announceSelected: anInterval dueTo: aSourceEvent [
-
-	self announce: (ToSelectAnnouncement new model: self; interval: anInterval; event: aSourceEvent)
+	self announce: (ToSelectAnnouncement new model: self; interval: anInterval)
 ]
 
 { #category : #selection }
@@ -97,7 +89,7 @@ ToSelectionModel >> select: aFromIndex to: aToIndex [
 	"Select items within a given interval"
 
 	selection select: aFromIndex - 1 to: aToIndex.
-	self announceSelected: (aFromIndex to: aToIndex) dueTo: nil
+	self announceSelected: (aFromIndex to: aToIndex)
 ]
 
 { #category : #selection }
@@ -114,7 +106,7 @@ ToSelectionModel >> selectIndex: anIndex [
 		ifTrue: [ ^ self ].
 
 	selection select: anIndex - 1 to: anIndex.
-	self announceSelected: (anIndex to: anIndex) dueTo: nil
+	self announceSelected: (anIndex to: anIndex)
 ]
 
 { #category : #accessing }

@@ -347,14 +347,14 @@ ToSelectionStrategy >> shortcutsIn: aList [
 		             (BlShortcutWithAction new
 			              combination: BlKeyCombination builder arrowDown build;
 			              action: [ :aShortcutEvent :aShortcut |
-				              aList selectionStrategy
+				              aList primarySelection
 					              dispatchSelectionChangedAfter: [
 						              self selectNextIn: aList event: aShortcutEvent ]
 					              to: aList ]).
 		             (BlShortcutWithAction new
 			              combination: BlKeyCombination builder arrowUp build;
 			              action: [ :aShortcutEvent :aShortcut |
-				              aList selectionStrategy
+				              aList primarySelection
 					              dispatchSelectionChangedAfter: [
 						              self selectPreviousIn: aList event: aShortcutEvent ]
 					              to: aList ]) }.
@@ -363,20 +363,20 @@ ToSelectionStrategy >> shortcutsIn: aList [
 			             (BlShortcutWithAction new
 				              combination: BlKeyCombination primaryA;
 				              action: [ :aShortcutEvent :aShortcut |
-					              aList selectionStrategy
+					              aList primarySelection
 						              dispatchSelectionChangedAfter: [ self selectAll ]
 						              to: aList ]).
 			             (BlShortcutWithAction new
 				              combination: BlKeyCombination shiftArrowDown;
 				              action: [ :aShortcutEvent :aShortcut |
-					              aList selectionStrategy
+					              aList primarySelection
 						              dispatchSelectionChangedAfter: [
 							              self selectNextIn: aList event: aShortcutEvent ]
 						              to: aList ]).
 			             (BlShortcutWithAction new
 				              combination: BlKeyCombination shiftArrowUp;
 				              action: [ :aShortcutEvent :aShortcut |
-					              aList selectionStrategy
+					              aList primarySelection
 						              dispatchSelectionChangedAfter: [
 							              self
 								              selectPreviousIn: aList

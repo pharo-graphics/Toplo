@@ -493,7 +493,7 @@ ToSandBox class >> example_ListWithSingleSelection [
 			     columnWidth: 25;
 			     hMatchParent ].
 	l data addAll: Smalltalk globals allClasses.
-	l selectionStrategy beSingleSelection.
+	l primarySelection beSingleSelection.
 	l openInOBlSpace
 ]
 
@@ -508,7 +508,7 @@ ToSandBox class >> example_ListWithoutSelection [
 			     columnWidth: 25;
 			     hMatchParent ].
 	l data addAll: Smalltalk globals allClasses.
-	l selectionStrategy beWithoutSelection.
+	l primarySelection beWithoutSelection.
 	l openInOBlSpace
 ]
 

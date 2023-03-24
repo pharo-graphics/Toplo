@@ -54,12 +54,12 @@ ToNodeHolder >> onAttachedFromDatasource: aDataSource [
 		send: #whenClickOnNodeAnnouncement:
 		to: infiniteElement.
 
-	infiniteElement selectionStrategy
+	infiniteElement primarySelection
 		whenAnnouncement: ToDeselectAnnouncement
 		send: #whenDeselectAnnouncement:
 		to: self.
 
-	infiniteElement selectionStrategy
+	infiniteElement primarySelection
 		whenAnnouncement: ToSelectAnnouncement
 		send: #whenSelectAnnouncement:
 		to: self.
@@ -77,7 +77,7 @@ ToNodeHolder >> onDetachedFromDatasource: aDataSource [
 
 	itemElement undress.
 	self unsubscribe: infiniteElement.
-	infiniteElement selectionStrategy unsubscribe: self
+	infiniteElement primarySelection unsubscribe: self
 ]
 
 { #category : #accessing }

@@ -27,7 +27,7 @@ ToListInfiniteElementDresser >> installEventListenersIn: anElement [
 	doubleClickHandler := BlEventHandler
 		                      on: BlDoubleClickEvent
 		                      do: [ :anEvent |
-			                      anElement selectionStrategy
+			                      anElement primarySelection
 				                      dispatchStrongSelectionChangedTo: anElement ].
 	scrolledHandler := BlEventHandler
 		                   on: BlElementScrolledEvent
@@ -36,7 +36,7 @@ ToListInfiniteElementDresser >> installEventListenersIn: anElement [
 	anElement addEventHandler: doubleClickHandler.
 	anElement addEventHandler: scrolledHandler.	
 	
-	anElement selectionStrategy whenModeChangedDo: [
+	anElement primarySelection whenModeChangedDo: [
 		self uninstallShortInIn: anElement.
 		self installShortInIn: anElement ].
 	self installShortInIn: anElement
@@ -45,7 +45,7 @@ ToListInfiniteElementDresser >> installEventListenersIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToListInfiniteElementDresser >> installShortInIn: anElement [
 
-	shortcuts := anElement selectionStrategy shortcutsIn: anElement.
+	shortcuts := anElement primarySelection shortcutsIn: anElement.
 	shortcuts do: [ :s | anElement addShortcut: s ]
 ]
 

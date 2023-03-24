@@ -4,10 +4,11 @@ Class {
 	#traits : 'TOBlLayoutResizable + TToDressable + TToWorldElement + TToWidgetWithContextMenu',
 	#classTraits : 'TOBlLayoutResizable classTrait + TToDressable classTrait + TToWorldElement classTrait + TToWidgetWithContextMenu classTrait',
 	#instVars : [
-		'selectionStrategy',
 		'nodeFactory',
 		'clickLauncher',
-		'selectedNodeFactory'
+		'selectedNodeFactory',
+		'secondarySelection',
+		'primarySelection'
 	],
 	#category : #'Toplo-Core-Infinite'
 }
@@ -15,8 +16,8 @@ Class {
 { #category : #'selection events' }
 ToInfiniteElement >> cherryPickIndex: anIndex [
 
-	self selectionStrategy dispatchSelectionChangedAfter: [
-		self selectionStrategy cherryPickIndex: anIndex ]
+	self primarySelection dispatchSelectionChangedAfter: [
+		self primarySelection cherryPickIndex: anIndex ]
 		to: self
 ]
 
@@ -65,16 +66,22 @@ ToInfiniteElement >> defaultListNodeFactory [
 ]
 
 { #category : #initialization }
-ToInfiniteElement >> defaultSelectionStrategy [
+ToInfiniteElement >> defaultPrimarySelection [
 
 	^ ToSelectionStrategy new infiniteElement: self
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> defaultSecondarySelection [
+
+	^ ToSelectionModel new
 ]
 
 { #category : #'selection events' }
 ToInfiniteElement >> deselectAll [
 
-	self selectionStrategy dispatchSelectionChangedAfter: [
-		self selectionStrategy deselectAll ]
+	self primarySelection dispatchSelectionChangedAfter: [
+		self primarySelection deselectAll ]
 	to: self
 ]
 
@@ -117,7 +124,7 @@ ToInfiniteElement >> hasClickLauncher [
 { #category : #testing }
 ToInfiniteElement >> hasSelection [
 
-	^ self selectionStrategy isEmpty not
+	^ self primarySelection isEmpty not
 ]
 
 { #category : #initialization }
@@ -132,7 +139,8 @@ ToInfiniteElement >> initialize [
 	self class initializeSlots: self.
 	super initialize.
 	self nodeFactory: self defaultListNodeFactory.
-	selectionStrategy := self defaultSelectionStrategy.
+	primarySelection := self defaultPrimarySelection.
+	secondarySelection := self defaultSecondarySelection.
 	self privateData: ToObservableCollection new.
 	self constraintsDo: [ :c |
 		c horizontal matchParent.
@@ -144,7 +152,7 @@ ToInfiniteElement >> initialize [
 { #category : #'selection events' }
 ToInfiniteElement >> isSelectedAtIndex: anIndex [
 
-	^ self selectionStrategy includes: anIndex
+	^ self primarySelection includes: anIndex
 ]
 
 { #category : #accessing }
@@ -192,7 +200,7 @@ ToInfiniteElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: a
 		offsetPositionRecordsForInsert: aStartPosition
 		itemCount: anItemCount.
 
-	self selectionStrategy
+	self primarySelection
 			offsetPositionForInsert: aStartPosition
 			itemCount: anItemCount.
 ]
@@ -210,7 +218,7 @@ ToInfiniteElement >> offsetPositionRecordsForRemove: aStartPosition itemCount: a
 		offsetPositionRecordsForRemove: aStartPosition
 		itemCount: anItemCount
 		applyToPreLayout: applyToPreLayout.
-	self selectionStrategy
+	self primarySelection
 		offsetPositionForRemove: aStartPosition
 		itemCount: anItemCount
 ]
@@ -226,10 +234,16 @@ ToInfiniteElement >> onLostFocus [
 
 ]
 
+{ #category : #accessing }
+ToInfiniteElement >> primarySelection [
+
+	^ primarySelection
+]
+
 { #category : #'private - accessing' }
 ToInfiniteElement >> privateData: aCollection [
 
-	selectionStrategy deselectAll.
+	self primarySelection deselectAll.
 	dataSource list: aCollection
 ]
 
@@ -245,40 +259,40 @@ ToInfiniteElement >> scrollToIndex: anIndex [
 		ifFalse: [ self listElement scrollToPosition: aWish index ]"
 ]
 
+{ #category : #accessing }
+ToInfiniteElement >> secondarySelection [
+
+	^ secondarySelection
+]
+
 { #category : #'selection events' }
 ToInfiniteElement >> selectAll [
 
-	self selectionStrategy dispatchSelectionChangedAfter: [
-		self selectionStrategy selectAll ]
+	self primarySelection dispatchSelectionChangedAfter: [
+		self primarySelection selectAll ]
 	to: self
 ]
 
 { #category : #'selection events' }
 ToInfiniteElement >> selectIndex: anIndex [
 
-	self selectionStrategy dispatchSelectionChangedAfter: [
-		self selectionStrategy selectIndex: anIndex ]
+	self primarySelection dispatchSelectionChangedAfter: [
+		self primarySelection selectIndex: anIndex ]
 	to: self
 ]
 
 { #category : #'selection events' }
 ToInfiniteElement >> selectToIndex: anIndex [
 
-	self selectionStrategy dispatchSelectionChangedAfter: [
-		self selectionStrategy selectToIndex: anIndex ]
+	self primarySelection dispatchSelectionChangedAfter: [
+		self primarySelection selectToIndex: anIndex ]
 	to: self
 ]
 
 { #category : #accessing }
 ToInfiniteElement >> selectedIndexes [ 
 
-	^ self selectionStrategy selectedIndexes
-]
-
-{ #category : #accessing }
-ToInfiniteElement >> selectionStrategy [
-
-	^ selectionStrategy
+	^ self primarySelection selectedIndexes
 ]
 
 { #category : #private }
@@ -298,13 +312,13 @@ ToInfiniteElement >> whenClickOnNodeAnnouncement: anAnnouncement [
 		self requestFocus.
 		self hasSelection ifTrue: [ ^ self ] ].
 
-	self selectionStrategy multipleSelectionModeDo: [
+	self primarySelection multipleSelectionModeDo: [
 		event modifiers isShift ifTrue: [
 			^ self selectToIndex: anAnnouncement holder layoutPosition ].
 		event modifiers isPrimaryModifier ifTrue: [
 			^ self cherryPickIndex: anAnnouncement holder layoutPosition ] ].
 
-	self selectionStrategy atLeastMonoSelectionDo: [
+	self primarySelection atLeastMonoSelectionDo: [
 		self selectIndex: anAnnouncement holder layoutPosition.
 		self dispatchEvent: (ToInfiniteClickOnDataEvent new
 				 index: anAnnouncement holder layoutPosition;

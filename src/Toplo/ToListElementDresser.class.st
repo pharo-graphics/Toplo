@@ -4,11 +4,28 @@ Class {
 	#instVars : [
 		'keyboardHandler',
 		'menuPopupHandler',
-		'menuCloseHandler',
-		'popupNode'
+		'menuCloseHandler'
 	],
 	#category : #'Toplo-Widget-List'
 }
+
+{ #category : #'context menu popup' }
+ToListElementDresser >> addSecondarySelectionDecorationOnNode: aChildNode In: anElement [
+	" update selection decoration to show the secondary selection on which the popup is opened"
+
+	| d |
+	d := ToListSecondarySelectionElement new
+		     listElement: anElement;
+		     nodes: (Array with: aChildNode);
+		     yourself.
+	anElement addChild: d.
+	menuCloseHandler := BlEventHandler
+		                    on: ToPopupWindowClosedEvent
+		                    do: [ :event |
+			                    anElement removeChild: d.
+			                    anElement infinite removeEventHandler: menuCloseHandler ].
+	anElement infinite addEventHandler: menuCloseHandler
+]
 
 { #category : #initialization }
 ToListElementDresser >> defaultBackground [
@@ -35,12 +52,9 @@ ToListElementDresser >> installEventListenersIn: anElement [
 
 	keyboardHandler := BlEventHandler on: BlKeyboardEvent do: [ :event | anElement infinite dispatchEvent: event ].
 	menuPopupHandler := BlEventHandler on: ToPopupWindowOpenedEvent do: [ :event | self popupOpenedEvent: event in: anElement ].
-	menuCloseHandler := BlEventHandler on: ToPopupWindowClosedEvent do: [ :event | self popupClosedEvent: event in: anElement ].
 
 	anElement addEventHandler: keyboardHandler.
-	anElement infinite addEventHandler: menuPopupHandler.
-	anElement infinite addEventHandler: menuCloseHandler.
-
+	anElement infinite addEventHandler: menuPopupHandler
 	
 	
 ]
@@ -65,36 +79,42 @@ ToListElementDresser >> onUninstalledIn: anElement [
 
 ]
 
-{ #category : #'api - install/uninstall  hook' }
-ToListElementDresser >> popupClosedEvent: anEvent in: anElement [
-
-	popupNode ifNil: [ ^ self ].
-	(popupNode parent = anElement) ifFalse: [ ^ self ]
-]
-
-{ #category : #'api - install/uninstall  hook' }
+{ #category : #'context menu popup' }
 ToListElementDresser >> popupOpenedEvent: anEvent in: anElement [
 
-	| pos targetChildren |
+	| pos targetChildren childNode |
 	pos := anElement infinite globalPointToLocal: anEvent sourceEvent position.
 	targetChildren := (anElement infinite withAllChildrenAt: pos) allButLast.
 	targetChildren ifEmpty: [ ^ self ].
-	self popupOpenedEvent: anEvent onNode: targetChildren last
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToListElementDresser >> popupOpenedEvent: anEvent onNode: aChildNode [
-
-	popupNode := aChildNode.
-	popupNode holder isSelected traceCr
+	childNode := targetChildren last.
+	childNode holder isSelected
+		ifTrue: [ self updatePrimarySelectionDecorationIn: anElement ]
+		ifFalse: [
+			self
+				addSecondarySelectionDecorationOnNode: childNode
+				In: anElement ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToListElementDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: keyboardHandler.
-	anElement infinite removeEventHandler: menuPopupHandler.
-	anElement infinite removeEventHandler: menuCloseHandler.
+	anElement infinite removeEventHandler: menuPopupHandler
 
+]
 
+{ #category : #'context menu popup' }
+ToListElementDresser >> updatePrimarySelectionDecorationIn: anElement [
+	" if the node selected with right mouse click is already selected, 
+	then all selected nodes are also within the secondary selection "
+
+	anElement primarySelectionDecorations do: [ :d | d beWithSecondarySelection ].
+	menuCloseHandler := BlEventHandler
+		                    on: ToPopupWindowClosedEvent
+		                    do: [ :event |
+			                    anElement primarySelectionDecorations do: [ :d |
+				                    d beWithoutSecondarySelection ].
+			                    anElement infinite removeEventHandler:
+				                    menuCloseHandler ].
+	anElement infinite addEventHandler: menuCloseHandler
 ]

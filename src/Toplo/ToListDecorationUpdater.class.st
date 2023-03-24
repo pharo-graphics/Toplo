@@ -2,7 +2,6 @@ Class {
 	#name : #ToListDecorationUpdater,
 	#superclass : #Object,
 	#instVars : [
-		'selectionHandler',
 		'extentChangeHandler',
 		'scrollHandler',
 		'decorations'
@@ -32,26 +31,23 @@ ToListDecorationUpdater >> initialize [
 { #category : #'api - install/uninstall  hook' }
 ToListDecorationUpdater >> onInstalledIn: aListElement [
 
-	selectionHandler := BlEventHandler on: ToInfiniteSelectionChangedEvent do: [ self selectionChangedIn: aListElement ].
 	extentChangeHandler := BlEventHandler
 		                       on: BlElementExtentChangedEvent
-		                       do: [ :evt | 
-		                       self extentChangedIn: aListElement ].
+		                       do: [ :evt | self extentChangedIn: aListElement ].
 
 	scrollHandler := BlEventHandler
 		                 on: BlElementScrolledEvent
 		                 do: [ :evt | self scrollEventIn: aListElement ].
 
 	aListElement infinite addEventHandler: extentChangeHandler.
-	aListElement infinite addEventHandler: selectionHandler.
-	aListElement infinite addEventHandler: scrollHandler
+	aListElement infinite addEventHandler: scrollHandler.
+
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToListDecorationUpdater >> onUninstalledIn: aListElement [
 
 	aListElement infinite removeEventHandler: extentChangeHandler.
-	aListElement infinite removeEventHandler: selectionHandler.
 	aListElement infinite removeEventHandler: scrollHandler
 
 ]

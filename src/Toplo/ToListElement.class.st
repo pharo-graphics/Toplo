@@ -4,7 +4,7 @@ Class {
 	#traits : 'TToListElementDecorator',
 	#classTraits : 'TToListElementDecorator classTrait',
 	#instVars : [
-		'selectionDecorationUpdater'
+		'primarySelectionDecorationUpdater'
 	],
 	#category : #'Toplo-Widget-List'
 }
@@ -41,17 +41,23 @@ ToListElement >> initialize [
 ]
 
 { #category : #accessing }
+ToListElement >> primarySelectionDecorations [
+
+	^ primarySelectionDecorationUpdater decorations
+]
+
+{ #category : #accessing }
 ToListElement >> withSelectionDecoration [
 
-	selectionDecorationUpdater ifNil: [
-		selectionDecorationUpdater := ToListSelectionDecorationUpdater new.
-		selectionDecorationUpdater onInstalledIn: self ]
+	primarySelectionDecorationUpdater ifNil: [
+		primarySelectionDecorationUpdater := ToListPrimarySelectionUpdater new.
+		primarySelectionDecorationUpdater onInstalledIn: self ]
 ]
 
 { #category : #accessing }
 ToListElement >> withoutSelectionDecoration [
 
-	selectionDecorationUpdater ifNotNil: [
-		selectionDecorationUpdater onUninstalledIn: self.
-		selectionDecorationUpdater := nil ]
+	primarySelectionDecorationUpdater ifNotNil: [
+		primarySelectionDecorationUpdater onUninstalledIn: self.
+		primarySelectionDecorationUpdater := nil ]
 ]

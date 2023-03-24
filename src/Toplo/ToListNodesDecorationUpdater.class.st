@@ -1,18 +1,18 @@
 Class {
-	#name : #ToListSelectionDecorationUpdater,
+	#name : #ToListNodesDecorationUpdater,
 	#superclass : #ToListDecorationUpdater,
 	#category : #'Toplo-Widget-List'
 }
 
 { #category : #private }
-ToListSelectionDecorationUpdater >> adjacentSelectedNodesGroupsIn: aListElement [
+ToListNodesDecorationUpdater >> adjacentSelectedNodesGroupsIn: aListElement [
 	" return an array of collection. Each collection contains a list of adjacent selected nodes "
 
 	^ Array streamContents: [ :stream |
 		  | g |
 		  g := OrderedCollection new.
 		  aListElement infinite childrenDo: [ :node |
-			  node holder isSelected
+			  (self includesNode: node)
 				  ifTrue: [ g add: node ]
 				  ifFalse: [
 					  g ifNotEmpty: [
@@ -21,19 +21,31 @@ ToListSelectionDecorationUpdater >> adjacentSelectedNodesGroupsIn: aListElement 
 		  g ifNotEmpty: [ stream nextPut: g ] ]
 ]
 
+{ #category : #'instance creation' }
+ToListNodesDecorationUpdater >> includesNode: aNode [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #'instance creation' }
+ToListNodesDecorationUpdater >> newDecorationElement [
+
+	^ self subclassResponsibility 
+]
+
 { #category : #private }
-ToListSelectionDecorationUpdater >> selectionDecorationElementsIn: aListElement [
+ToListNodesDecorationUpdater >> selectionDecorationElementsIn: aListElement [
 	" return a collection with instances of ListSelectionDecorationElement "
 
 	^ (self adjacentSelectedNodesGroupsIn: aListElement) collect: [ :g |
-		  ToListSelectionDecorationElement new
+		  self newDecorationElement
 			  listElement: aListElement;
 			  nodes: g;
 			  yourself ]
 ]
 
 { #category : #'infinite element changes' }
-ToListSelectionDecorationUpdater >> updateDecorationsIn: aListElement [
+ToListNodesDecorationUpdater >> updateDecorationsIn: aListElement [
 	"add a ListDecorationElement for each group of adjacent selected nodes "
 
 	self resetDecorations.

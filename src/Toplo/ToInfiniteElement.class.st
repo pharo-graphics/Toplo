@@ -7,7 +7,6 @@ Class {
 		'nodeFactory',
 		'clickLauncher',
 		'selectedNodeFactory',
-		'secondarySelection',
 		'primarySelection'
 	],
 	#category : #'Toplo-Core-Infinite'
@@ -140,7 +139,6 @@ ToInfiniteElement >> initialize [
 	super initialize.
 	self nodeFactory: self defaultListNodeFactory.
 	primarySelection := self defaultPrimarySelection.
-	secondarySelection := self defaultSecondarySelection.
 	self privateData: ToObservableCollection new.
 	self constraintsDo: [ :c |
 		c horizontal matchParent.
@@ -259,12 +257,6 @@ ToInfiniteElement >> scrollToIndex: anIndex [
 		ifFalse: [ self listElement scrollToPosition: aWish index ]"
 ]
 
-{ #category : #accessing }
-ToInfiniteElement >> secondarySelection [
-
-	^ secondarySelection
-]
-
 { #category : #'selection events' }
 ToInfiniteElement >> selectAll [
 
@@ -324,4 +316,10 @@ ToInfiniteElement >> whenClickOnNodeAnnouncement: anAnnouncement [
 				 index: anAnnouncement holder layoutPosition;
 				 event: event;
 				 yourself) ]
+]
+
+{ #category : #'selection events' }
+ToInfiniteElement >> whenSecondarySelectionChangedAnnouncement: anAnnouncement [
+
+
 ]

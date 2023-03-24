@@ -72,7 +72,7 @@ TToListElementDecorator >> primarySelection [
 	^ self next primarySelection
 ]
 
-{ #category : #'api - selection' }
+{ #category : #'t - accessing selection' }
 TToListElementDecorator >> selectAll [
 
 	self next selectAll

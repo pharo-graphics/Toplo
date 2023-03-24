@@ -1,11 +1,11 @@
 Class {
-	#name : #ToListSelectionDecorationElement,
+	#name : #ToListPrimarySelectionElement,
 	#superclass : #ToListNodesDecorationElement,
 	#category : #'Toplo-Widget-List'
 }
 
 { #category : #accessing }
-ToListSelectionDecorationElement >> actualBackgroundColor [
+ToListPrimarySelectionElement >> actualBackgroundColor [
 
 	^ self listElement infinite isFocused
 		  ifTrue: [ self theme item selectedColor ]
@@ -13,15 +13,27 @@ ToListSelectionDecorationElement >> actualBackgroundColor [
 ]
 
 { #category : #'change reporting' }
-ToListSelectionDecorationElement >> backgroundChanged [ 
+ToListPrimarySelectionElement >> backgroundChanged [ 
 
 	listElement ifNil: [ ^ self ].
 	self nodesDo: [ :node | node dispatchEvent: (ToListSelectionDecorationChangedEvent new decoration: self; yourself) ].
 
 ]
 
+{ #category : #'change reporting' }
+ToListPrimarySelectionElement >> beWithSecondarySelection [
+
+	self padding: (BlInsets all: 3)
+]
+
+{ #category : #'change reporting' }
+ToListPrimarySelectionElement >> beWithoutSecondarySelection [
+
+	self padding: self defaultPadding
+]
+
 { #category : #initialization }
-ToListSelectionDecorationElement >> initialize [ 
+ToListPrimarySelectionElement >> initialize [ 
 
 	super initialize.
 	self padding: self defaultPadding.
@@ -32,7 +44,7 @@ ToListSelectionDecorationElement >> initialize [
 ]
 
 { #category : #accessing }
-ToListSelectionDecorationElement >> listElement: aListElement [
+ToListPrimarySelectionElement >> listElement: aListElement [
 
 	super listElement: aListElement.
 	aListElement infinite when: BlBlurEvent do: [ :anEvent | back background: self actualBackgroundColor ].
@@ -40,7 +52,7 @@ ToListSelectionDecorationElement >> listElement: aListElement [
 ]
 
 { #category : #'hooks - children' }
-ToListSelectionDecorationElement >> onAddedToParent [ 
+ToListPrimarySelectionElement >> onAddedToParent [ 
 
 	self background: Color white.
 	back background: self actualBackgroundColor.
@@ -49,7 +61,7 @@ ToListSelectionDecorationElement >> onAddedToParent [
 ]
 
 { #category : #'hooks - children' }
-ToListSelectionDecorationElement >> onRemovedFromParent: aParentElement [
+ToListPrimarySelectionElement >> onRemovedFromParent: aParentElement [
 
 	super onRemovedFromParent: aParentElement.
 	self nodesDo: [ :node | node dispatchEvent: (ToListSelectionDecorationRemovedEvent new decoration: self; yourself) ].

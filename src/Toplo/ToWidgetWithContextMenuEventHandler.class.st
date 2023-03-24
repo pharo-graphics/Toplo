@@ -8,18 +8,9 @@ Class {
 	#category : #'Toplo-Widget-Menu'
 }
 
-{ #category : #'element handlers' }
-ToWidgetWithContextMenuEventHandler >> elementPositionChangedEvent: anEvent [
-self flag: 'To be tracked'.
-	"anEvent currentTarget close"
-
-]
-
 { #category : #'api - accessing' }
 ToWidgetWithContextMenuEventHandler >> eventsToHandle [
-	self flag: 'check why BlElementPositionChangedEvent'.
 	^ { 
-		  "BlElementPositionChangedEvent."
 		  BlMouseDownEvent }
 ]
 

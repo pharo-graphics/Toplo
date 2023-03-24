@@ -4,9 +4,7 @@ Class {
 	#instVars : [
 		'scrolledHandler',
 		'shortcuts',
-		'doubleClickHandler',
-		'menuPopupHandler',
-		'menuCloseHandler'
+		'doubleClickHandler'
 	],
 	#category : #'Toplo-Widget-List'
 }
@@ -20,14 +18,12 @@ ToListInfiniteElementDresser >> defaultMargin [
 { #category : #initialization }
 ToListInfiniteElementDresser >> defaultPadding [
 
-	^ BlInsets all: 0
+	^ BlInsets all: 4
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToListInfiniteElementDresser >> installEventListenersIn: anElement [
 
-	menuPopupHandler := BlEventHandler on: ToPopupWindowOpenedEvent do: [ :event | self popupOpenedEvent: event in: anElement ].
-	menuCloseHandler := BlEventHandler on: ToPopupWindowClosedEvent do: [ :event | self popupClosedEvent: event in: anElement ].
 	doubleClickHandler := BlEventHandler
 		                      on: BlDoubleClickEvent
 		                      do: [ :anEvent |
@@ -38,10 +34,7 @@ ToListInfiniteElementDresser >> installEventListenersIn: anElement [
 		                   do: [ self updateHoveredNodeIn: anElement ].
 
 	anElement addEventHandler: doubleClickHandler.
-	anElement addEventHandler: scrolledHandler.
-	anElement addEventHandler: menuPopupHandler.
-	anElement addEventHandler: menuCloseHandler.
-	
+	anElement addEventHandler: scrolledHandler.	
 	
 	anElement selectionStrategy whenModeChangedDo: [
 		self uninstallShortInIn: anElement.
@@ -96,23 +89,10 @@ ToListInfiniteElementDresser >> onUninstalledIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListInfiniteElementDresser >> popupClosedEvent: anEvent in: anElement [
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToListInfiniteElementDresser >> popupOpenedEvent: anEvent in: anElement [
-
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
 ToListInfiniteElementDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: scrolledHandler.
 	anElement removeEventHandler: doubleClickHandler.
-	anElement removeEventHandler: menuPopupHandler.
-	anElement removeEventHandler: menuCloseHandler.
 
 	self uninstallShortInIn: anElement
 ]

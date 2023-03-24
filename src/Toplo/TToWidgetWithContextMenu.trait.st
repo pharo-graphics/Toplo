@@ -3,7 +3,7 @@ Trait {
 	#instVars : [
 		'contextMenuFactory',
 		'contextMenuEventHandler',
-		'openedContextMenu'
+		'lastOpenedContextMenu'
 	],
 	#category : #'Toplo-Core'
 }
@@ -23,6 +23,12 @@ TToWidgetWithContextMenu >> contextMenuFactory: aValuable [
 	self installContextMenuFactory 
 ]
 
+{ #category : #testing }
+TToWidgetWithContextMenu >> hasOpenedContextMenu [
+
+	^ lastOpenedContextMenu notNil and: [ lastOpenedContextMenu isAttachedToSceneGraph ]
+]
+
 { #category : #'t - accessing context menu' }
 TToWidgetWithContextMenu >> installContextMenuFactory [
 
@@ -32,15 +38,15 @@ TToWidgetWithContextMenu >> installContextMenuFactory [
 ]
 
 { #category : #'t - accessing context menu' }
-TToWidgetWithContextMenu >> openedContextMenu [
+TToWidgetWithContextMenu >> lastOpenedContextMenu [
 
-	^ openedContextMenu
+	^ lastOpenedContextMenu
 ]
 
 { #category : #'t - accessing context menu' }
-TToWidgetWithContextMenu >> openedContextMenu: aBoolean [
+TToWidgetWithContextMenu >> lastOpenedContextMenu: aContextMenu [
 
-	openedContextMenu := aBoolean
+	lastOpenedContextMenu := aContextMenu
 ]
 
 { #category : #'t - accessing context menu' }

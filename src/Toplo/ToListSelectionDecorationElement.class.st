@@ -2,7 +2,8 @@ Class {
 	#name : #ToListSelectionDecorationElement,
 	#superclass : #ToListDecorationElement,
 	#instVars : [
-		'nodes'
+		'nodes',
+		'back'
 	],
 	#category : #'Toplo-Widget-List'
 }
@@ -13,6 +14,14 @@ ToListSelectionDecorationElement >> actualBackgroundColor [
 	^ self listElement infinite isFocused
 		  ifTrue: [ self theme item selectedColor ]
 		  ifFalse: [ self theme item selectedBlurredColor ]
+]
+
+{ #category : #'change reporting' }
+ToListSelectionDecorationElement >> backgroundChanged [ 
+
+	listElement ifNil: [ ^ self ].
+	self nodesDo: [ :node | node dispatchEvent: (ToListSelectionDecorationChangedEvent new decoration: self; yourself) ].
+
 ]
 
 { #category : #private }
@@ -38,22 +47,27 @@ ToListSelectionDecorationElement >> defaultGeometry [
 { #category : #initialization }
 ToListSelectionDecorationElement >> defaultPadding [
 
-	^ BlInsets all: 5
+	^ BlInsets all: 0
 ]
 
 { #category : #initialization }
 ToListSelectionDecorationElement >> initialize [ 
 
 	super initialize.
-	self padding: self defaultPadding
+	self padding: self defaultPadding.
+	back := ToElement new matchParent.
+	back background: Color red.
+	back geometry: self defaultGeometry.
+	back when: BlElementBackgroundChangedEvent do: [ self backgroundChanged ].
+	self addChild: back.
 ]
 
 { #category : #accessing }
 ToListSelectionDecorationElement >> listElement: aListElement [
 
 	super listElement: aListElement.
-	aListElement infinite when: BlBlurEvent do: [ :anEvent | self background: self actualBackgroundColor ].
-	aListElement infinite when: BlFocusEvent do: [ :anEvent | self background: self actualBackgroundColor ]
+	aListElement infinite when: BlBlurEvent do: [ :anEvent | back background: self actualBackgroundColor ].
+	aListElement infinite when: BlFocusEvent do: [ :anEvent | back background: self actualBackgroundColor ]
 ]
 
 { #category : #private }
@@ -91,7 +105,8 @@ ToListSelectionDecorationElement >> nodesDo: aBlock [
 { #category : #accessing }
 ToListSelectionDecorationElement >> onAddedToParent [ 
 
-	self background: self actualBackgroundColor.
+	self background: Color white.
+	back background: self actualBackgroundColor.
 	self nodesDo: [ :node | node dispatchEvent: (ToListSelectionDecorationAddedEvent new decoration: self; yourself) ].
 	super onAddedToParent 
 ]
@@ -103,14 +118,5 @@ ToListSelectionDecorationElement >> onRemovedFromParent: aParentElement [
 	self nodesDo: [ :node | node dispatchEvent: (ToListSelectionDecorationRemovedEvent new decoration: self; yourself) ].
 
 	
-
-]
-
-{ #category : #'change reporting' }
-ToListSelectionDecorationElement >> updateBackground [ 
-
-	listElement ifNil: [ ^ self ].
-	super updateBackground.
-	self nodesDo: [ :node | node dispatchEvent: (ToListSelectionDecorationChangedEvent new decoration: self; yourself) ].
 
 ]

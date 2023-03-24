@@ -65,13 +65,13 @@ ToNodeDresser >> defaultInitialBorder [
 { #category : #initialization }
 ToNodeDresser >> defaultMargin [
 
-	^ (BlInsets all: 0)
+	^ BlInsets all: 0
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToNodeDresser >> defaultPadding [ 
+ToNodeDresser >> defaultPadding [
 
-	^ (BlInsets all: 0)
+	^ BlInsets all: 2
 ]
 
 { #category : #accessing }
@@ -110,12 +110,15 @@ ToNodeDresser >> launchClick: aBlock event: anEvent for: anElement [
 	
 	infinite := anElement holder infiniteElement.
 	
+	infinite hasOpenedContextMenu ifTrue: [ infinite terminateClickLauncher. ^ self ].
+	
 	" do not try double click if ctrl or Cmd or shift is pressed "
 	(anElement holder isSelected not or: [anEvent modifiers isPrimaryModifier or: [ anEvent modifiers isShift ]])
 		ifTrue: [
 			infinite terminateClickLauncher.
 			^ aBlock value ].
 		
+	
 	" Already has a click launcher "
 	infinite hasClickLauncher ifTrue: [ ^ self ].
 	
@@ -162,19 +165,6 @@ ToNodeDresser >> onInstalledIn: anElement [
 ToNodeDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement
-]
-
-{ #category : #'events handling' }
-ToNodeDresser >> rightPressed: anElement event: anEvent [
-
-	super rightPressed: anElement event: anEvent
-]
-
-{ #category : #'events handling' }
-ToNodeDresser >> rightUp: anElement event: anEvent [
-
-	super rightUp: anElement event: anEvent
-
 ]
 
 { #category : #'api - install/uninstall  hook' }

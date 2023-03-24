@@ -40,23 +40,23 @@ ToNotebookPageTitleDresser >> onInstalledIn: aToNotebookTitle [
 	super onInstalledIn: aToNotebookTitle.
 
 	radius := 4.
-	aToNotebookTitle geometry:
-		(BlRoundedRectangleGeometry cornerRadii:
-			(BlCornerRadii new
-				topLeft: radius;
-				topRight: radius;
-				bottomLeft: 0;
-				bottomRight: 0;
-				yourself)).
-	aToNotebookTitle border: BlBorder empty.
-	
+	aToNotebookTitle
+		border: BlBorder empty;
+		geometry:
+			(BlRoundedRectangleGeometry cornerRadii:
+				(BlCornerRadii new
+					topLeft: radius;
+					topRight: radius;
+					bottomLeft: 0;
+					bottomRight: 0;
+					yourself));
+		constraintsDo: [ :c |
+			c horizontal fitContent.
+			c vertical fitContent.
+			c linear vertical alignBottom. ].
+
 	aToNotebookTitle labelElement
 		margin: (BlInsets top: 2 right: 20 bottom: 2 left: 20).
-
-	aToNotebookTitle constraintsDo: [ :c |
-		c horizontal fitContent.
-		c vertical fitContent.
-		c linear vertical alignBottom. ].
 
 	self refreshIsSelected: aToNotebookTitle.
 	aToNotebookTitle whenIsSelectedChangedDo: [ :newValue |

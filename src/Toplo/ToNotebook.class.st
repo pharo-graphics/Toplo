@@ -15,6 +15,10 @@ ToNotebook >> addPage: aPage [
 	pages add: aPage.
 
 	header addChild: aPage titleElement.
+
+	aPage bodyElement constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical matchParent ].
 	
 	pages size = 1 ifTrue: [ self selectPage: aPage ]
 ]
@@ -24,13 +28,11 @@ ToNotebook >> addPageTitle: aTitle body: aBlElement [
 
 	| aPage |
 	aPage := ToNotebookPage new.
-
 	aPage
 		titleElement: (self newTitleElementFor: aPage title: aTitle);
 		bodyElement: aBlElement.
-	
+
 	self addPage: aPage.
-	
 	^ aPage
 ]
 
@@ -42,6 +44,7 @@ ToNotebook >> defaultDresser [
 
 { #category : #accessing }
 ToNotebook >> header [
+
 	^ header
 ]
 
@@ -65,8 +68,7 @@ ToNotebook >> newTitleElementFor: aPage title: aTitle [
 
 	^ ToNotebookPageTitle new
 		title: aTitle;
-		whenClickedDo: [
-			self selectPage: aPage ];
+		whenClickedDo: [ self selectPage: aPage ];
 		dresser: self dresser newPageTitleDresser;
 		yourself
 ]
@@ -87,9 +89,6 @@ ToNotebook >> selectPage: aPage [
 
 	"Add the newly selected page."
 	aPage titleElement isSelected: true.
-	aPage bodyElement constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical matchParent ].
 
 	self addChild: aPage bodyElement as: #body.
 	selectedPage := aPage

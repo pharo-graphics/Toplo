@@ -1,10 +1,6 @@
 Class {
 	#name : #ToListSelectionDecorationElement,
-	#superclass : #ToListDecorationElement,
-	#instVars : [
-		'nodes',
-		'back'
-	],
+	#superclass : #ToListNodesDecorationElement,
 	#category : #'Toplo-Widget-List'
 }
 
@@ -24,39 +20,12 @@ ToListSelectionDecorationElement >> backgroundChanged [
 
 ]
 
-{ #category : #private }
-ToListSelectionDecorationElement >> computeBounds [
-	" compute my bounds from my list of adjacent nodes. "
-
-	| first last top bottom |
-	first := nodes first.
-	last := nodes last.
-	top := self nodeBounds: first.
-	bottom := first = last
-		          ifTrue: [ top ]
-		          ifFalse: [ self nodeBounds: last ].
-	self bounds: (BlBounds origin: top origin corner: bottom corner)
-]
-
-{ #category : #initialization }
-ToListSelectionDecorationElement >> defaultGeometry [
-
-	^ BlRoundedRectangleGeometry cornerRadius: 5
-]
-
-{ #category : #initialization }
-ToListSelectionDecorationElement >> defaultPadding [
-
-	^ BlInsets all: 0
-]
-
 { #category : #initialization }
 ToListSelectionDecorationElement >> initialize [ 
 
 	super initialize.
 	self padding: self defaultPadding.
 	back := ToElement new matchParent.
-	back background: Color red.
 	back geometry: self defaultGeometry.
 	back when: BlElementBackgroundChangedEvent do: [ self backgroundChanged ].
 	self addChild: back.
@@ -70,39 +39,7 @@ ToListSelectionDecorationElement >> listElement: aListElement [
 	aListElement infinite when: BlFocusEvent do: [ :anEvent | back background: self actualBackgroundColor ]
 ]
 
-{ #category : #private }
-ToListSelectionDecorationElement >> nodeBounds: aNode [
-	" compute local node bounds "
-
-	| bnds |
-	bnds := aNode bounds inSpace bounds.
-	aNode globalBoundsToLocal: bnds.
-	aNode localBoundsToParent: bnds.
-	^ BlBounds origin: bnds origin + listElement padding topLeft corner: bnds corner + listElement padding topLeft
-	"bnds expandBy: (BlInsets left: node margin left right: node margin right)."	
-]
-
-{ #category : #accessing }
-ToListSelectionDecorationElement >> nodes [
-
-	^ nodes
-]
-
-{ #category : #accessing }
-ToListSelectionDecorationElement >> nodes: aCollection [
-
-	nodes := aCollection.
-	self computeBounds
-]
-
-{ #category : #private }
-ToListSelectionDecorationElement >> nodesDo: aBlock [
-
-	self nodes ifNil: [ ^ self ].
-	self nodes do: aBlock
-]
-
-{ #category : #accessing }
+{ #category : #'hooks - children' }
 ToListSelectionDecorationElement >> onAddedToParent [ 
 
 	self background: Color white.
@@ -111,7 +48,7 @@ ToListSelectionDecorationElement >> onAddedToParent [
 	super onAddedToParent 
 ]
 
-{ #category : #removing }
+{ #category : #'hooks - children' }
 ToListSelectionDecorationElement >> onRemovedFromParent: aParentElement [
 
 	super onRemovedFromParent: aParentElement.

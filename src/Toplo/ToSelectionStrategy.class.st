@@ -33,10 +33,10 @@ ToSelectionStrategy >> addOrRemoveNext [
 		        ifFalse: [ self currentIndex ].
 	prevDir := #next.
 
-	(self isSelected: next)
+	(self includes: next)
 		ifTrue: [
 			self selectedIndexes size > 1
-				ifTrue: [ self clearSelection: next ]
+				ifTrue: [ self deselectIndex: next ]
 				ifFalse: [
 					next := next + 1.
 					self addToSelection: next ] ]
@@ -54,10 +54,10 @@ ToSelectionStrategy >> addOrRemovePrevious [
 		        ifFalse: [ self currentIndex ].
 	prevDir := #previous.
 
-	(self isSelected: next)
+	(self includes: next)
 		ifTrue: [
 			self selectedIndexes size > 1
-				ifTrue: [ self clearSelection: next ]
+				ifTrue: [ self deselectIndex: next ]
 				ifFalse: [
 					next := next - 1.
 					self addToSelection: next ] ]
@@ -68,7 +68,7 @@ ToSelectionStrategy >> addOrRemovePrevious [
 { #category : #'selection managing' }
 ToSelectionStrategy >> addToSelection: index [
 
-	self selectInterval: (index to: index).
+	self select: index to: index.
 	self currentIndex: index
 ]
 
@@ -94,35 +94,22 @@ ToSelectionStrategy >> beSingleSelection [
 { #category : #'mode testing' }
 ToSelectionStrategy >> beWithoutSelection [ 
 
-	self clearSelection.
+	self deselectAll.
 	mode := #none
 ]
 
 { #category : #'selection managing' }
 ToSelectionStrategy >> cherryPickIndex: index [
 
-	(self isSelected: index) ifTrue: [ ^ self clearSelection: index ].
-	self selectInterval: (index to: index)
+	(self includes: index) ifTrue: [ ^ self deselectIndex: index ].
+	self select: index to: index
 ]
 
 { #category : #'selection managing' }
 ToSelectionStrategy >> clearAndSelectIndex: index [
 
-	self clearSelection.
+	self deselectAll.
 	self selectIndex: index.
-]
-
-{ #category : #'selection managing' }
-ToSelectionStrategy >> clearSelection [
-
-	selectionModel deselectAll
-]
-
-{ #category : #'selection managing' }
-ToSelectionStrategy >> clearSelection: index [
-
-	selectionModel deselectOne: index.
-	self currentIndex:  index
 ]
 
 { #category : #accessing }
@@ -144,10 +131,16 @@ ToSelectionStrategy >> dataSource: aDataSource [
 ]
 
 { #category : #'selection managing' }
-ToSelectionStrategy >> deselectInterval: anInterval [
+ToSelectionStrategy >> deselectAll [
 
-	selectionModel deselect: anInterval first to: anInterval last
+	selectionModel deselectAll
+]
 
+{ #category : #'selection managing' }
+ToSelectionStrategy >> deselectIndex: index [
+
+	selectionModel deselectIndex: index.
+	self currentIndex: index
 ]
 
 { #category : #'event management' }
@@ -162,6 +155,12 @@ ToSelectionStrategy >> dispatchStrongSelectionChangedTo: anInfiniteElement [
 
 	self isNone ifTrue: [ ^ self ].
 	anInfiniteElement dispatchStrongSelectionChanged
+]
+
+{ #category : #'selection accessing' }
+ToSelectionStrategy >> includes: index [
+
+	^ selectionModel includes: index
 ]
 
 { #category : #accessing }
@@ -204,9 +203,9 @@ ToSelectionStrategy >> isNone [
 ]
 
 { #category : #'selection accessing' }
-ToSelectionStrategy >> isSelected: index [
+ToSelectionStrategy >> isNotEmpty [
 
-	^ selectionModel includes: index
+	^ selectionModel isNotEmpty
 ]
 
 { #category : #'mode testing' }
@@ -227,7 +226,7 @@ ToSelectionStrategy >> offsetPositionForInsert: aStartPosition itemCount: anItem
 
 	| selected |
 	selected := self selectedIndexes select: [ :idx | idx >= aStartPosition ].
-	selected do: [ :idx | self clearSelection: idx ].
+	selected do: [ :idx | self deselectIndex: idx ].
 	selected do: [ :idx | self addToSelection: idx + anItemCount ].
 ]
 
@@ -235,36 +234,28 @@ ToSelectionStrategy >> offsetPositionForInsert: aStartPosition itemCount: anItem
 ToSelectionStrategy >> offsetPositionForRemove: aStartPosition itemCount: anItemCount [
 
 	aStartPosition to: aStartPosition + anItemCount - 1 do: [ :idx |
-		self clearSelection: idx ]
+		self deselectIndex: idx ]
 ]
 
 { #category : #'selection managing' }
-ToSelectionStrategy >> rawDeselect: anIndex [ 
+ToSelectionStrategy >> select: aFirstIndex to: aLastIndex [
 
-	selectionModel rawDeselect: anIndex
-
+	(self isMultiple not and: [ aLastIndex > aFirstIndex ]) ifTrue: [ self invalidOperation ].
+	selectionModel select: aFirstIndex to: aLastIndex.
+	aFirstIndex = aLastIndex ifTrue: [ self currentIndex: aFirstIndex ]
 ]
 
 { #category : #'selection managing' }
 ToSelectionStrategy >> selectAll [
 	
 	dataSource itemCount > 0 ifFalse: [ ^ self ].
-	self clearSelection.
-	self selectInterval: (1 to: dataSource itemCount)
-]
-
-{ #category : #'selection managing' }
-ToSelectionStrategy >> selectFirst [
-
-	dataSource itemCount > 0 ifFalse: [ ^ self ].
-	self selectIndex: 1
-
+	self select: 1 to: dataSource itemCount
 ]
 
 { #category : #'selection managing' }
 ToSelectionStrategy >> selectIndex: index [
 
-	selectionModel selectOne: index.
+	selectionModel selectIndex: index.
 	self currentIndex: index
 ]
 
@@ -273,14 +264,6 @@ ToSelectionStrategy >> selectIndexes: indexes [
 	
 	self isMultiple ifFalse: [ self error: 'Invalid operation' ].
 	indexes do: [ :idx | self addToSelection: idx ]
-]
-
-{ #category : #'selection managing' }
-ToSelectionStrategy >> selectInterval: anInterval [
-
-	(self isMultiple not and: [ anInterval size > 1 ]) ifTrue: [ self invalidOperation ].
-	selectionModel select: anInterval first to: anInterval last.
-	anInterval size = 1 ifTrue: [ self currentIndex: anInterval first ]
 ]
 
 { #category : #'selection managing' }
@@ -333,13 +316,13 @@ ToSelectionStrategy >> selectToIndex: index [
 
 	| indexes |
 	indexes := self selectedIndexes.
-	indexes ifEmpty: [ ^ selectionModel selectOne: index ].
+	indexes ifEmpty: [ ^ selectionModel selectIndex: index ].
 	indexes first < index ifTrue: [ 
-		self clearSelection.
-		^ self selectInterval: (indexes first to: index) ].
+		self deselectAll.
+		^ self select: indexes first to: index ].
 	indexes last >= index ifTrue: [ 
-		self clearSelection.
-		^ self selectInterval: (index to: indexes last) ]
+		self deselectAll.
+		^ self select: index to: indexes last ]
 ]
 
 { #category : #'selection accessing' }
@@ -354,18 +337,6 @@ ToSelectionStrategy >> selectedIndex [
 ToSelectionStrategy >> selectedIndexes [
 
 	^ selectionModel indices
-]
-
-{ #category : #'selection accessing' }
-ToSelectionStrategy >> selectedNode [
-
-	^ dataSource list at: self selectedIndex
-]
-
-{ #category : #'selection accessing' }
-ToSelectionStrategy >> selectedNodes [
-
-	^ self selectedIndexes collect: [ :idx | dataSource list at: idx  ]
 ]
 
 { #category : #shortcuts }

@@ -38,7 +38,7 @@ ToSelectionModel >> announceSelected: anInterval dueTo: aSourceEvent [
 ToSelectionModel >> deselect: aFromIndex to: aToIndex [
 	"Deselect items within a given interval"
 
-	self rawDeselect: aFromIndex to: aToIndex.
+	selection deselect: aFromIndex - 1 to: aToIndex.
 	self announceDeselected: (aFromIndex to: aToIndex) 
 ]
 
@@ -50,7 +50,7 @@ ToSelectionModel >> deselectAll [
 ]
 
 { #category : #selection }
-ToSelectionModel >> deselectOne: anIndex [
+ToSelectionModel >> deselectIndex: anIndex [
 	"Deselect items with a given index"
 
 	self deselect: anIndex to: anIndex
@@ -93,62 +93,15 @@ ToSelectionModel >> isNotEmpty [
 ]
 
 { #category : #selection }
-ToSelectionModel >> rawDeselect: anIndex [ 
-	"Deselect items within a given interval"
-
-	self rawDeselect: anIndex to: anIndex
-]
-
-{ #category : #selection }
-ToSelectionModel >> rawDeselect: aFromIndex to: aToIndex [
-	"Deselect items within a given interval"
-
-	selection deselect: aFromIndex - 1 to: aToIndex
-]
-
-{ #category : #selection }
-ToSelectionModel >> rawDeselectAll [
-	"Deselect all items"
-
-	selection reverseDo: [ :aMonotoneSelection | self rawDeselect: aMonotoneSelection from + 1 to: aMonotoneSelection to ]
-]
-
-{ #category : #selection }
-ToSelectionModel >> rawSelect: aFromIndex to: aToIndex [
-	"Select items within a given interval"
-
-	selection select: aFromIndex - 1 to: aToIndex
-]
-
-{ #category : #selection }
 ToSelectionModel >> select: aFromIndex to: aToIndex [
 	"Select items within a given interval"
 
-	self
-		select: aFromIndex
-		to: aToIndex
-		dueTo: nil
-]
-
-{ #category : #selection }
-ToSelectionModel >> select: aFromIndex to: aToIndex dueTo: aSourceEvent [
-	"Select items within a given interval"
-
 	selection select: aFromIndex - 1 to: aToIndex.
-	self announceSelected: (aFromIndex to: aToIndex) dueTo: aSourceEvent
+	self announceSelected: (aFromIndex to: aToIndex) dueTo: nil
 ]
 
 { #category : #selection }
-ToSelectionModel >> selectOne: anIndex [
-	"Select an item at a given index deselecting all previously selected items"
-	
-	self
-		selectOne: anIndex
-		dueTo: nil
-]
-
-{ #category : #selection }
-ToSelectionModel >> selectOne: anIndex dueTo: aSourceEvent [
+ToSelectionModel >> selectIndex: anIndex [
 	"Select an item at a given index deselecting all previously selected items"
 	| aSelectionCopy |
 
@@ -161,5 +114,11 @@ ToSelectionModel >> selectOne: anIndex dueTo: aSourceEvent [
 		ifTrue: [ ^ self ].
 
 	selection select: anIndex - 1 to: anIndex.
-	self announceSelected: (anIndex to: anIndex) dueTo: aSourceEvent
+	self announceSelected: (anIndex to: anIndex) dueTo: nil
+]
+
+{ #category : #accessing }
+ToSelectionModel >> selectedIndexes [
+
+	^ self indices
 ]

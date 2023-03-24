@@ -424,7 +424,7 @@ ToComboBox >> showListPlaceholder [
 ToComboBox >> useHeadPlaceholder [
 
 	self headElementContent: self headPlaceholder.
-	self listElement clearSelection.
+	self listElement deselectAll.
 	self selectedIndex: 0
 ]
 

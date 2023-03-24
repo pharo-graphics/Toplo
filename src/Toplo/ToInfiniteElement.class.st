@@ -20,14 +20,6 @@ ToInfiniteElement >> cherryPickIndex: anIndex [
 		to: self
 ]
 
-{ #category : #'selection events' }
-ToInfiniteElement >> clearSelection [
-
-	self selectionStrategy dispatchSelectionChangedAfter: [
-		self selectionStrategy clearSelection ]
-	to: self
-]
-
 { #category : #private }
 ToInfiniteElement >> clickLauncher [
 
@@ -76,6 +68,14 @@ ToInfiniteElement >> defaultListNodeFactory [
 ToInfiniteElement >> defaultSelectionStrategy [
 
 	^ ToSelectionStrategy new infiniteElement: self
+]
+
+{ #category : #'selection events' }
+ToInfiniteElement >> deselectAll [
+
+	self selectionStrategy dispatchSelectionChangedAfter: [
+		self selectionStrategy deselectAll ]
+	to: self
 ]
 
 { #category : #dispatching }
@@ -144,7 +144,7 @@ ToInfiniteElement >> initialize [
 { #category : #'selection events' }
 ToInfiniteElement >> isSelectedAtIndex: anIndex [
 
-	^ self selectionStrategy isSelected: anIndex
+	^ self selectionStrategy includes: anIndex
 ]
 
 { #category : #accessing }
@@ -229,7 +229,7 @@ ToInfiniteElement >> onLostFocus [
 { #category : #'private - accessing' }
 ToInfiniteElement >> privateData: aCollection [
 
-	selectionStrategy clearSelection.
+	selectionStrategy deselectAll.
 	dataSource list: aCollection
 ]
 

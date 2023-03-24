@@ -6,12 +6,6 @@ Trait {
 	#category : #'Toplo-Widget-List'
 }
 
-{ #category : #'t - accessing selection' }
-TToListElementDecorator >> clearSelection [
-
-	self next clearSelection
-]
-
 { #category : #'t - accessing context menu' }
 TToListElementDecorator >> contextMenuFactory: aValuable [
 
@@ -22,6 +16,12 @@ TToListElementDecorator >> contextMenuFactory: aValuable [
 TToListElementDecorator >> data [
 
 	^ self next data
+]
+
+{ #category : #'t - accessing selection' }
+TToListElementDecorator >> deselectAll [
+
+	self next deselectAll
 ]
 
 { #category : #'t - children - accessing' }

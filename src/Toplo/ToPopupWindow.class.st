@@ -7,6 +7,16 @@ Class {
 	#category : #'Toplo-Widget-Window'
 }
 
+{ #category : #'initialize-release' }
+ToPopupWindow >> close [
+
+	self widget ifNotNil: [ :w |
+		w dispatchEvent: (ToPopupWindowClosedEvent new
+				 window: self;
+				 yourself) ].
+	^ super close
+]
+
 { #category : #'t - initialization dresser' }
 ToPopupWindow >> defaultDresser [ 
 
@@ -35,7 +45,13 @@ ToPopupWindow >> openPositionFromEvent: anEvent [
 
 { #category : #'api - displaying' }
 ToPopupWindow >> popupEvent: anEvent [
+
 	self cleanUp.
+	self widget ifNotNil: [ :w |
+		w dispatchEvent: (ToPopupWindowOpenedEvent new
+				 window: self;
+				 sourceEvent: anEvent;
+				 yourself) ].
 	self placementStrategy popup: self event: anEvent
 ]
 

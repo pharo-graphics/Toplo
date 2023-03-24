@@ -169,10 +169,12 @@ ToMouseHandlingDresser >> rightClicked: anElement event: anEvent [
 
 { #category : #'events handling' }
 ToMouseHandlingDresser >> rightPressed: anElement event: anEvent [
+
 ]
 
 { #category : #'events handling' }
 ToMouseHandlingDresser >> rightUp: anElement event: anEvent [
+
 ]
 
 { #category : #'api - install/uninstall  hook' }

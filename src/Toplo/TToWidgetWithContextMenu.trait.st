@@ -2,7 +2,8 @@ Trait {
 	#name : #TToWidgetWithContextMenu,
 	#instVars : [
 		'contextMenuFactory',
-		'contextMenuEventHandler'
+		'contextMenuEventHandler',
+		'openedContextMenu'
 	],
 	#category : #'Toplo-Core'
 }
@@ -27,14 +28,26 @@ TToWidgetWithContextMenu >> installContextMenuFactory [
 
 	contextMenuFactory ifNotNil: [
 		contextMenuEventHandler := ToWidgetWithContextMenuEventHandler new.
-		self addEventFilter: contextMenuEventHandler ]
+		self addEventHandler: contextMenuEventHandler ]
+]
+
+{ #category : #'t - accessing context menu' }
+TToWidgetWithContextMenu >> openedContextMenu [
+
+	^ openedContextMenu
+]
+
+{ #category : #'t - accessing context menu' }
+TToWidgetWithContextMenu >> openedContextMenu: aBoolean [
+
+	openedContextMenu := aBoolean
 ]
 
 { #category : #'t - accessing context menu' }
 TToWidgetWithContextMenu >> uninstallContextMenuFactory [
 
 	contextMenuFactory ifNotNil: [
-		self removeEventFilter: contextMenuEventHandler.
+		self removeEventHandler: contextMenuEventHandler.
 		contextMenuEventHandler := nil ]
 ]
 

@@ -30,11 +30,11 @@ ToListElementDresser >> defaultPadding [
 { #category : #'api - install/uninstall  hook' }
 ToListElementDresser >> installEventListenersIn: anElement [
 
-	keyboardHandler := BlEventHandler
-		                   on: BlKeyboardEvent
-		                   do: [ :event |
-		                   anElement infinite dispatchEvent: event ].
-	anElement addEventHandler: keyboardHandler
+	keyboardHandler := BlEventHandler on: BlKeyboardEvent do: [ :event | anElement infinite dispatchEvent: event ].
+
+	anElement addEventHandler: keyboardHandler.
+	
+	
 ]
 
 { #category : #'api - install/uninstall  hook' }

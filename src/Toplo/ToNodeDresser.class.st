@@ -115,7 +115,7 @@ ToNodeDresser >> launchClick: aBlock event: anEvent for: anElement [
 		ifTrue: [
 			infinite terminateClickLauncher.
 			^ aBlock value ].
-	
+		
 	" Already has a click launcher "
 	infinite hasClickLauncher ifTrue: [ ^ self ].
 	
@@ -162,6 +162,19 @@ ToNodeDresser >> onInstalledIn: anElement [
 ToNodeDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement
+]
+
+{ #category : #'events handling' }
+ToNodeDresser >> rightPressed: anElement event: anEvent [
+
+	super rightPressed: anElement event: anEvent
+]
+
+{ #category : #'events handling' }
+ToNodeDresser >> rightUp: anElement event: anEvent [
+
+	super rightUp: anElement event: anEvent
+
 ]
 
 { #category : #'api - install/uninstall  hook' }

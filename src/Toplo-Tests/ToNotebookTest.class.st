@@ -60,6 +60,36 @@ ToNotebookTest >> tearDown [
 ]
 
 { #category : #tests }
+ToNotebookTest >> testClosePage [
+
+	| aNotebook redPage greenPage |
+	aNotebook := ToNotebook new.
+	
+	redPage := aNotebook
+		addPageTitle: 'Red'
+		body: (BlElement new
+			background: Color red darker;
+			yourself).
+	redPage isCloseable: true.
+
+	greenPage := aNotebook
+		addPageTitle: 'Green'
+		body: (BlElement new
+			background: Color green darker;
+			yourself).
+	
+	self newTestingSpace addChild: aNotebook; show.
+	self waitTestingSpaces.
+	self assert: (aNotebook pages includes: redPage).
+
+	OBlSpace simulateClickOn: redPage closeButton.
+	self waitTestingSpaces.
+	self deny: (aNotebook pages includes: redPage).
+	self assert: greenPage isSelected.
+
+]
+
+{ #category : #tests }
 ToNotebookTest >> testSelectPage [
 
 	| aNotebook orangePage greenPage |
@@ -78,13 +108,13 @@ ToNotebookTest >> testSelectPage [
 	
 	self newTestingSpace addChild: aNotebook; show.
 	self waitTestingSpaces.
-	self assert: orangePage titleElement isSelected.
-	self deny: greenPage titleElement isSelected.
+	self assert: orangePage isSelected.
+	self deny: greenPage isSelected.
 
 	OBlSpace simulateClickOn: greenPage titleElement.
 	self waitTestingSpaces.
-	self assert: greenPage titleElement isSelected.
-	self deny: orangePage titleElement isSelected.
+	self assert: greenPage isSelected.
+	self deny: orangePage isSelected.
 
 ]
 

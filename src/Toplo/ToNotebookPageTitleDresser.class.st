@@ -8,6 +8,18 @@ Class {
 }
 
 { #category : #'api - install/uninstall  hook' }
+ToNotebookPageTitleDresser >> dressCloseable: aToNotebookTitle [
+
+	| closeButton |
+	closeButton := aToNotebookTitle childWithId: #closeButton.
+	closeButton
+		background: Color transparent;
+		border: BlBorder empty;
+		margin: (BlInsets top: 1 bottom: 2). "Check this"
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToNotebookPageTitleDresser >> dressDeselected: aToNotebookTitle [
 
 	aToNotebookTitle background:
@@ -42,6 +54,7 @@ ToNotebookPageTitleDresser >> onInstalledIn: aToNotebookTitle [
 	radius := 4.
 	aToNotebookTitle
 		border: BlBorder empty;
+		padding: (BlInsets vertical: 2);
 		geometry:
 			(BlRoundedRectangleGeometry cornerRadii:
 				(BlCornerRadii new
@@ -56,17 +69,37 @@ ToNotebookPageTitleDresser >> onInstalledIn: aToNotebookTitle [
 			c linear vertical alignBottom. ].
 
 	aToNotebookTitle labelElement
-		margin: (BlInsets top: 2 right: 20 bottom: 2 left: 20).
+		margin: (BlInsets horizontal: 20).
 
-	self refreshIsSelected: aToNotebookTitle.
-	aToNotebookTitle whenIsSelectedChangedDo: [ :newValue |
-		self refreshIsSelected: aToNotebookTitle ]
+	"Force initial dress"
+	self
+		refreshIsSelected: aToNotebookTitle;
+		refreshIsCloseable: aToNotebookTitle.
+
+	"Refresh on change"
+	aToNotebookTitle page
+		whenIsSelectedChangedDo: [
+			self refreshIsSelected: aToNotebookTitle ];
+		whenIsCloseableChangedDo: [
+			"Defer"
+			aToNotebookTitle labelElement enqueueTask:
+				(BlTaskAction new
+					action: [ self refreshIsCloseable: aToNotebookTitle ];
+				 	yourself) ]
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToNotebookPageTitleDresser >> refreshIsCloseable: aToNotebookTitle [
+
+	aToNotebookTitle page isCloseable ifFalse: [ ^ self ].
+	self dressCloseable: aToNotebookTitle.
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToNotebookPageTitleDresser >> refreshIsSelected: aToNotebookTitle [
 
-	aToNotebookTitle isSelected
+	aToNotebookTitle page isSelected
 		ifTrue: [ self dressSelected: aToNotebookTitle ]
 		ifFalse: [ self dressDeselected: aToNotebookTitle ]
 ]

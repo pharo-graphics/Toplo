@@ -13,14 +13,19 @@ Class {
 ToNotebook >> addPage: aPage [
 
 	pages add: aPage.
-
-	header addChild: aPage titleElement.
+	aPage
+		whenIsSelectedChangedDo: [ :new :old |
+			new = old
+				ifTrue: [ 'isSelected didnt change!' traceCr ]
+				ifFalse: [ self refreshOnPageIsSelectedChange: aPage ] ];
+		whenIsCloseableChangedDo: [ self refreshOnPageIsCloseableChange: aPage ].
 
 	aPage bodyElement constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical matchParent ].
+	header addChild: aPage titleElement.
 	
-	pages size = 1 ifTrue: [ self selectPage: aPage ]
+	pages size = 1 ifTrue: [ aPage isSelected: true ]
 ]
 
 { #category : #adding }
@@ -67,8 +72,9 @@ ToNotebook >> initialize [
 ToNotebook >> newTitleElementFor: aPage title: aTitle [
 
 	^ ToNotebookPageTitle new
+		page: aPage;
 		title: aTitle;
-		whenClickedDo: [ self selectPage: aPage ];
+		whenClickedDo: [ aPage isSelected: true ];
 		dresser: self dresser newPageTitleDresser;
 		yourself
 ]
@@ -80,16 +86,52 @@ ToNotebook >> pages [
 ]
 
 { #category : #api }
+ToNotebook >> refreshOnPageIsCloseableChange: aPage [
+
+	aPage isCloseable
+		ifTrue: [
+			| but |
+			but := ToButton new.
+			but icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #windowClose)).
+			but whenClickedDo: [ self removePage: aPage ].
+			aPage titleElement addChild: but as: #closeButton ]
+		ifFalse: [
+			aPage titleElement removeChildNamed: #closeButton ]
+]
+
+{ #category : #api }
+ToNotebook >> refreshOnPageIsSelectedChange: aPage [
+
+	aPage isSelected
+		ifTrue: [
+			"Single selection only, for now, so deselect current."
+			selectedPage ifNotNil: [ 
+				selectedPage isSelected: false ].
+			self addChild: aPage bodyElement as: #body.
+			selectedPage := aPage ]
+		ifFalse: [
+			self removeChildNamed: #body.
+			selectedPage := nil ]
+]
+
+{ #category : #removing }
+ToNotebook >> removePage: aPage [
+
+	aPage isSelected ifTrue: [
+		aPage isSelected: false ].
+
+	header removeChild: aPage titleElement.
+	
+	self flag: #todo. "Unsubscribe from aPage"
+
+	pages remove: aPage.
+
+	(selectedPage isNil and: [ pages isNotEmpty ])
+		ifTrue: [ pages last isSelected: true ]
+]
+
+{ #category : #api }
 ToNotebook >> selectPage: aPage [
 
-	"Remove current selection, if any."
-	selectedPage ifNotNil: [ 
-		selectedPage titleElement isSelected: false.
-		self removeChildNamed: #body ].
-
-	"Add the newly selected page."
-	aPage titleElement isSelected: true.
-
-	self addChild: aPage bodyElement as: #body.
-	selectedPage := aPage
+	aPage isSelected: true
 ]

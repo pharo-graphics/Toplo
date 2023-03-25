@@ -7,7 +7,8 @@ Class {
 		'nodeFactory',
 		'clickLauncher',
 		'selectedNodeFactory',
-		'primarySelection'
+		'primarySelection',
+		'secondarySelection'
 	],
 	#category : #'Toplo-Core-Infinite'
 }
@@ -100,9 +101,9 @@ ToInfiniteElement >> dispatchChildDetached: anElement [
 ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 
 	| prevIndexes currentIndexes |
-	prevIndexes := self selectedIndexes copy.
+	prevIndexes := self primarySelectionIndexes copy.
 	aBlock value.
-	currentIndexes := self selectedIndexes.
+	currentIndexes := self primarySelectionIndexes.
 	prevIndexes = currentIndexes ifTrue: [ ^ self ].
 	self dispatchEvent: (ToInfiniteSelectionChangedEvent from: prevIndexes to: currentIndexes)
 ]
@@ -111,7 +112,7 @@ ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 ToInfiniteElement >> dispatchStrongSelectionChanged [
 
 	self terminateClickLauncher.
-	self dispatchEvent: (ToStrongSelectionEvent indexes: self selectedIndexes)
+	self dispatchEvent: (ToStrongSelectionEvent indexes: self primarySelectionIndexes)
 ]
 
 { #category : #private }
@@ -139,6 +140,7 @@ ToInfiniteElement >> initialize [
 	super initialize.
 	self nodeFactory: self defaultListNodeFactory.
 	primarySelection := self defaultPrimarySelection.
+	secondarySelection := self defaultSecondarySelection.
 	self privateData: ToObservableCollection new.
 	self constraintsDo: [ :c |
 		c horizontal matchParent.
@@ -177,6 +179,15 @@ ToInfiniteElement >> list: aList [
 
 	self privateData: aList
 
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> nodeAt: anIndex [
+
+	" return the holder for the data at anIndex according to currently viewed data range. Returns nil if anIndex is not currently viewed in the infinite element"
+	^ (self findElementHolderForDataSourcePosition: anIndex)
+		  ifNotNil: [ :holder | holder itemElement ]
+		  ifNil: [  ]
 ]
 
 { #category : #accessing }
@@ -238,6 +249,19 @@ ToInfiniteElement >> primarySelection [
 	^ primarySelection
 ]
 
+{ #category : #accessing }
+ToInfiniteElement >> primarySelectionDo: aBlock [
+
+	self primarySelectionIndexes ifEmpty: [ ^ self ].
+	aBlock value: self primarySelection 
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> primarySelectionIndexes [ 
+
+	^ self primarySelection selectedIndexes
+]
+
 { #category : #'private - accessing' }
 ToInfiniteElement >> privateData: aCollection [
 
@@ -255,6 +279,25 @@ ToInfiniteElement >> scrollToIndex: anIndex [
 	"aWish smooth
 		ifTrue: [ self listElement smoothScrollToPosition: aWish index ]
 		ifFalse: [ self listElement scrollToPosition: aWish index ]"
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> secondarySelection [
+
+	^ secondarySelection
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> secondarySelectionDo: aBlock [
+
+	self secondarySelectionIndexes ifEmpty: [ ^ self ].
+	aBlock value: self secondarySelection 
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> secondarySelectionIndexes [ 
+
+	^ self secondarySelection selectedIndexes
 ]
 
 { #category : #'selection events' }
@@ -282,9 +325,16 @@ ToInfiniteElement >> selectToIndex: anIndex [
 ]
 
 { #category : #accessing }
-ToInfiniteElement >> selectedIndexes [ 
+ToInfiniteElement >> selectedIndexes [
 
-	^ self primarySelection selectedIndexes
+	^ self primarySelectionIndexes 
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> selectionDo: aBlock [
+
+	self primarySelectionDo: aBlock
+
 ]
 
 { #category : #private }

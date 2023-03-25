@@ -48,6 +48,12 @@ ToSelectionModel >> deselectIndex: anIndex [
 	self deselect: anIndex to: anIndex
 ]
 
+{ #category : #accessing }
+ToSelectionModel >> first [
+
+	^ self indices first
+]
+
 { #category : #testing }
 ToSelectionModel >> includes: anIndex [
 	"Return true if item at a given index is selected, false otherwise"
@@ -84,6 +90,12 @@ ToSelectionModel >> isNotEmpty [
 	^ selection isNotEmpty
 ]
 
+{ #category : #accessing }
+ToSelectionModel >> last [
+
+	^ self indices last
+]
+
 { #category : #selection }
 ToSelectionModel >> select: aFromIndex to: aToIndex [
 	"Select items within a given interval"
@@ -109,8 +121,22 @@ ToSelectionModel >> selectIndex: anIndex [
 	self announceSelected: (anIndex to: anIndex)
 ]
 
-{ #category : #accessing }
-ToSelectionModel >> selectedIndexes [
+{ #category : #selection }
+ToSelectionModel >> selectIndexes: aCollection [
+
+	aCollection do: [ :idx |
+		selection select: idx - 1 to: idx.
+		self announceSelected: (idx to: idx) ]
+]
+
+{ #category : #'api - selection' }
+ToSelectionModel >> selectedIndexes [ 
 
 	^ self indices
+]
+
+{ #category : #accessing }
+ToSelectionModel >> size [
+
+	^ self indices size
 ]

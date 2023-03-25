@@ -123,7 +123,7 @@ ToNodeDresser >> launchClick: aBlock event: anEvent for: anElement [
 	infinite hasClickLauncher ifTrue: [ ^ self ].
 	
 	" no click launcher for only one selected node "
-	infinite selectedIndexes size > 1 ifFalse: [ ^ aBlock value ].
+	infinite primarySelectionIndexes size > 1 ifFalse: [ ^ aBlock value ].
 	monitor critical: [
 		launcher := [
 		            (Delay forMilliseconds: 250) wait.

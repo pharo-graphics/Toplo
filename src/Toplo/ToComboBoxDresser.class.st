@@ -29,7 +29,7 @@ ToComboBoxDresser >> onInstalledIn: anElement [
 			              (BlKeyCombination primaryReturn or:
 					               BlKeyCombination return);
 		              action: [
-			              anElement listElement selectedIndexes ifNotEmpty: [
+			              anElement listElement primarySelectionIndexes ifNotEmpty: [
 					              :idxes |
 					              anElement selectIndex: idxes first.
 					              anElement closeEvent: nil.

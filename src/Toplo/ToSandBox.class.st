@@ -365,29 +365,30 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		               selectionMenu := ToMenu new withoutLeftColumn.
 		               selectionMenu label:
 			               (ToLabel new text: 'Selection actions') ].
-	               l selectedIndexes ifNotEmpty: [
-		               l selectedIndexes size = 1 ifTrue: [
-			               | holder idx |
-			               idx := l selectedIndexes first.
-			               holder := l findElementHolderForDataSourcePosition: idx.
+		l secondarySelection selectedIndexes traceCr.
+	               l secondarySelectionDo: [ :selection |
+		               selection size = 1 ifTrue: [
+			               | node idx |
+			               idx := selection first.
+			               node := l nodeAt: idx.
 			               selectionMenu addItem: (ToButtonMenuItem new
 					                labelText: 'Edit Selection';
 					                whenClickedDo: [ :event :client |
-						                holder itemElement label addEditor ];
+						                node label addEditor ];
 					                yourself).
 			               selectionMenu addItem: (ToButtonMenuItem new
-					                labelText: (holder itemElement label isMonoLine
+					                labelText: (node label isMonoLine
 							                 ifTrue: [ 'Be multiline' ]
 							                 ifFalse: [ 'Be monoline' ]);
 					                whenClickedDo: [ :event :client |
-						                holder itemElement label monoLine:
-								                holder itemElement label isMonoLine not ];
+						                node label monoLine:
+								                node label isMonoLine not ];
 					                yourself).
 			               selectionMenu addSeparator ].
 		               selectionMenu addItem: (ToButtonMenuItem new
 				                labelText: 'Insert before';
 				                whenClickedDo: [ :event :client |
-					                client selectedIndexes do: [ :idx |
+					                client primarySelectionIndexes do: [ :idx |
 							                client data
 								                add: idx asString , ':XXXXXX'
 								                beforeIndex: idx ] ];
@@ -396,8 +397,8 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				                labelText: 'Insert after';
 				                whenClickedDo: [ :event :client |
 					                | nb |
-					                nb := client selectedIndexes size.
-					                client selectedIndexes do: [ :idx |
+					                nb := client primarySelectionIndexes size.
+					                client primarySelectionIndexes do: [ :idx |
 							                client data
 								                add: idx asString , ':XXXXXX'
 								                afterIndex: idx + nb - 1 ] ];
@@ -407,9 +408,9 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				                labelText: 'Remove selection';
 				                whenClickedDo: [ :event :client |
 					                | from to |
-					                client selectedIndexes ifNotEmpty: [
-							                from := client selectedIndexes first.
-							                to := client selectedIndexes last.
+					                client primarySelectionIndexes ifNotEmpty: [
+							                from := client primarySelectionIndexes first.
+							                to := client primarySelectionIndexes last.
 							                client data removeFrom: from to: to ] ];
 				                yourself).
 		               menu addItem: selectionMenu.

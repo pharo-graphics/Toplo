@@ -23,7 +23,8 @@ ToListElementDresser >> addSecondarySelectionDecorationOnNode: aChildNode In: an
 		                    on: ToPopupWindowClosedEvent
 		                    do: [ :event |
 			                    anElement removeChild: d.
-			                    anElement infinite removeEventHandler: menuCloseHandler ].
+			                    anElement infinite removeEventHandler: menuCloseHandler.
+			                    anElement secondarySelection deselectAll ].
 	anElement infinite addEventHandler: menuCloseHandler
 ]
 
@@ -88,11 +89,14 @@ ToListElementDresser >> popupOpenedEvent: anEvent in: anElement [
 	targetChildren ifEmpty: [ ^ self ].
 	childNode := targetChildren last.
 	childNode holder isSelected
-		ifTrue: [ self updatePrimarySelectionDecorationIn: anElement ]
+		ifTrue: [ 
+			self updatePrimarySelectionDecorationIn: anElement.
+			anElement secondarySelection selectIndexes: anElement primarySelectionIndexes. ]
 		ifFalse: [
 			self
 				addSecondarySelectionDecorationOnNode: childNode
-				In: anElement ]
+				In: anElement.
+			anElement secondarySelection selectIndex: childNode holder position ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -114,7 +118,7 @@ ToListElementDresser >> updatePrimarySelectionDecorationIn: anElement [
 		                    do: [ :event |
 			                    anElement primarySelectionDecorations do: [ :d |
 				                    d beWithoutSecondarySelection ].
-			                    anElement infinite removeEventHandler:
-				                    menuCloseHandler ].
+			                    anElement infinite removeEventHandler: menuCloseHandler.
+			                    anElement secondarySelection deselectAll ].
 	anElement infinite addEventHandler: menuCloseHandler
 ]

@@ -60,6 +60,12 @@ TToListElementDecorator >> next: aDecoratorOrInfinite [
 	next := aDecoratorOrInfinite
 ]
 
+{ #category : #accessing }
+TToListElementDecorator >> nodeAt: anIndex [
+
+	^ self next nodeAt: anIndex
+]
+
 { #category : #'t - infinite accessing' }
 TToListElementDecorator >> nodeFactory: aNodeFactory [
 
@@ -70,6 +76,36 @@ TToListElementDecorator >> nodeFactory: aNodeFactory [
 TToListElementDecorator >> primarySelection [
 
 	^ self next primarySelection
+]
+
+{ #category : #'t - accessing selection' }
+TToListElementDecorator >> primarySelectionDo: aBlock [
+
+	^ self next primarySelectionDo: aBlock
+]
+
+{ #category : #'t - accessing selection' }
+TToListElementDecorator >> primarySelectionIndexes [
+
+	^ self next primarySelectionIndexes
+]
+
+{ #category : #'t - accessing selection' }
+TToListElementDecorator >> secondarySelection [
+
+	^ self next secondarySelection
+]
+
+{ #category : #'t - accessing selection' }
+TToListElementDecorator >> secondarySelectionDo: aBlock [
+
+	^ self next secondarySelectionDo: aBlock
+]
+
+{ #category : #'t - accessing selection' }
+TToListElementDecorator >> secondarySelectionIndexes [
+
+	^ self next secondarySelectionIndexes
 ]
 
 { #category : #'t - accessing selection' }
@@ -87,7 +123,13 @@ TToListElementDecorator >> selectIndex: anInteger [
 { #category : #'t - accessing selection' }
 TToListElementDecorator >> selectedIndexes [
 
-	^ self next selectedIndexes
+	self next selectedIndexes
+]
+
+{ #category : #'t - accessing selection' }
+TToListElementDecorator >> selectionDo: aBlock [
+
+	self next selectionDo: aBlock
 ]
 
 { #category : #'t - infinite accessing' }

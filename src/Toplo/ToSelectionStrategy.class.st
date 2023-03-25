@@ -157,6 +157,12 @@ ToSelectionStrategy >> dispatchStrongSelectionChangedTo: anInfiniteElement [
 	anInfiniteElement dispatchStrongSelectionChanged
 ]
 
+{ #category : #accessing }
+ToSelectionStrategy >> first [
+
+	^ selectionModel first
+]
+
 { #category : #'selection accessing' }
 ToSelectionStrategy >> includes: index [
 
@@ -212,6 +218,12 @@ ToSelectionStrategy >> isNotEmpty [
 ToSelectionStrategy >> isSingle [
 
 	^ self isMultiple not
+]
+
+{ #category : #accessing }
+ToSelectionStrategy >> last [
+
+	^ selectionModel last
 ]
 
 { #category : #'selection managing' }
@@ -383,6 +395,12 @@ ToSelectionStrategy >> shortcutsIn: aList [
 								              event: aShortcutEvent ]
 						              to: aList ]) } ].
 	^ shortcuts
+]
+
+{ #category : #accessing }
+ToSelectionStrategy >> size [ 
+
+	^ self selectedIndexes size
 ]
 
 { #category : #'event management' }

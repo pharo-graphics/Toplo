@@ -36,7 +36,7 @@ ToMiniBrowser >> candidateProtocolsForClass: aClass [
 ToMiniBrowser >> changeCodeInEditor [
 
 	| selected cls sel codeText |
-	selected := selectors data at: selectors selectedIndexes anyOne.
+	selected := selectors data at: selectors primarySelectionIndexes anyOne.
 	selected = selectedSelector ifTrue: [ ^ self ].
 	selectedSelector := selected.
 	cls := selectedSelector key.

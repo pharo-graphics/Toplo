@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #accessing }
+ToListSecondarySelectionElement >> borderWidth [
+
+	^ 2
+]
+
+{ #category : #accessing }
 ToListSecondarySelectionElement >> defaultPadding [
 
 	^ BlInsets all: 3

@@ -55,6 +55,22 @@ ToSelectionModel >> first [
 ]
 
 { #category : #testing }
+ToSelectionModel >> ifEmpty: aBlock [
+
+	^ self isEmpty
+		ifTrue: [ aBlock value ]
+		ifFalse: [ self ]
+]
+
+{ #category : #testing }
+ToSelectionModel >> ifNotEmpty: aBlock [
+
+	^ self isEmpty
+		ifTrue: [ self ]
+		ifFalse: [ aBlock cull: self ]
+]
+
+{ #category : #testing }
 ToSelectionModel >> includes: anIndex [
 	"Return true if item at a given index is selected, false otherwise"
 	<return: #Boolean>
@@ -94,6 +110,13 @@ ToSelectionModel >> isNotEmpty [
 ToSelectionModel >> last [
 
 	^ self indices last
+]
+
+{ #category : #copying }
+ToSelectionModel >> postCopy [  
+
+	selection := selection copy.
+	^ super postCopy
 ]
 
 { #category : #selection }

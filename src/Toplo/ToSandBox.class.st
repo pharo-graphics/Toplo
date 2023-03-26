@@ -350,23 +350,21 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		| r |
 		r := event indexes collect: [ :idx | idx asString , ':XXXXXX' ].
 		r do: [ :e | l data addFirst: e ] ].
-	menuFactory := [
+	menuFactory := [ :widget :selection |
 	               | menu |
 	               menu := ToContextMenu new withoutLeftColumn.
-	               menu client: l.
 	               menu addItem: (ToButtonMenuItem new
 			                labelText: 'Add initial Items';
 			                whenClickedDo: [ :event :client |
 				                40 timesRepeat: [ client data add: 'AAAAAAAAAAA' ] ]).
-	               l data ifNotEmpty: [
+	               widget data ifNotEmpty: [
 		               menu addItem: (ToButtonMenuItem new
 				                labelText: 'Select all';
 				                whenClickedDo: [ :event :client | client selectAll ]).
 		               selectionMenu := ToMenu new withoutLeftColumn.
 		               selectionMenu label:
 			               (ToLabel new text: 'Selection actions') ].
-		l secondarySelection selectedIndexes traceCr.
-	               l secondarySelectionDo: [ :selection |
+	               selection ifNotEmpty: [ 
 		               selection size = 1 ifTrue: [
 			               | node idx |
 			               idx := selection first.
@@ -381,14 +379,13 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 							                 ifTrue: [ 'Be multiline' ]
 							                 ifFalse: [ 'Be monoline' ]);
 					                whenClickedDo: [ :event :client |
-						                node label monoLine:
-								                node label isMonoLine not ];
+						                node label monoLine: node label isMonoLine not ];
 					                yourself).
 			               selectionMenu addSeparator ].
 		               selectionMenu addItem: (ToButtonMenuItem new
 				                labelText: 'Insert before';
 				                whenClickedDo: [ :event :client |
-					                client primarySelectionIndexes do: [ :idx |
+					                selection selectedIndexes do: [ :idx |
 							                client data
 								                add: idx asString , ':XXXXXX'
 								                beforeIndex: idx ] ];
@@ -397,8 +394,8 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				                labelText: 'Insert after';
 				                whenClickedDo: [ :event :client |
 					                | nb |
-					                nb := client primarySelectionIndexes size.
-					                client primarySelectionIndexes do: [ :idx |
+					                nb := selection size.
+					                selection selectedIndexes do: [ :idx |
 							                client data
 								                add: idx asString , ':XXXXXX'
 								                afterIndex: idx + nb - 1 ] ];
@@ -407,15 +404,11 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		               selectionMenu addItem: (ToButtonMenuItem new
 				                labelText: 'Remove selection';
 				                whenClickedDo: [ :event :client |
-					                | from to |
-					                client primarySelectionIndexes ifNotEmpty: [
-							                from := client primarySelectionIndexes first.
-							                to := client primarySelectionIndexes last.
-							                client data removeFrom: from to: to ] ];
+					                selection ifNotEmpty: [client data removeFrom: selection first to: selection last ] ];
 				                yourself).
 		               menu addItem: selectionMenu.
 		               menu addSeparator ].
-	               l data ifNotEmpty: [
+	               widget data ifNotEmpty: [
 		               menu addItem: (ToButtonMenuItem new
 				                labelText: 'Remove all';
 				                whenClickedDo: [ :event :client |

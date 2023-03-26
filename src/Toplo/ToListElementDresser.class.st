@@ -20,7 +20,7 @@ ToListElementDresser >> addSecondarySelectionDecorationOnNode: aChildNode In: an
 		     yourself.
 	anElement addChild: d.
 	menuCloseHandler := BlEventHandler
-		                    on: ToPopupWindowClosedEvent
+		                    on: ToContextMenuClosedEvent
 		                    do: [ :event |
 			                    anElement removeChild: d.
 			                    anElement infinite removeEventHandler: menuCloseHandler.
@@ -52,7 +52,7 @@ ToListElementDresser >> defaultPadding [
 ToListElementDresser >> installEventListenersIn: anElement [
 
 	keyboardHandler := BlEventHandler on: BlKeyboardEvent do: [ :event | anElement infinite dispatchEvent: event ].
-	menuPopupHandler := BlEventHandler on: ToPopupWindowOpenedEvent do: [ :event | self popupOpenedEvent: event in: anElement ].
+	menuPopupHandler := BlEventHandler on: ToContextMenuOpenedEvent do: [ :event | self popupOpenedEvent: event in: anElement ].
 
 	anElement addEventHandler: keyboardHandler.
 	anElement infinite addEventHandler: menuPopupHandler
@@ -114,7 +114,7 @@ ToListElementDresser >> updatePrimarySelectionDecorationIn: anElement [
 
 	anElement primarySelectionDecorations do: [ :d | d beWithSecondarySelection ].
 	menuCloseHandler := BlEventHandler
-		                    on: ToPopupWindowClosedEvent
+		                    on: ToContextMenuClosedEvent
 		                    do: [ :event |
 			                    anElement primarySelectionDecorations do: [ :d |
 				                    d beWithoutSecondarySelection ].

@@ -41,6 +41,14 @@ ToInfiniteElement >> client [
 	^ self
 ]
 
+{ #category : #'t - accessing context menu' }
+ToInfiniteElement >> contextMenu [
+
+	" specific version to pass the secondary selection as 2de argument "
+	^ 	(self contextMenuFactory cull: self cull: self secondarySelection copy) widget: self; client: self; yourself
+
+]
+
 { #category : #accessing }
 ToInfiniteElement >> data [
 

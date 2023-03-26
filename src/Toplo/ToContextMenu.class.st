@@ -17,8 +17,10 @@ ToContextMenu >> allParentMenusDo: aBlock [
 ToContextMenu >> close [
 
 	super close.
-	self widget ifNotNil: [ :w | self widget requestFocus ].
-
+	self widget dispatchEvent: (ToContextMenuClosedEvent new
+			 widget: self widget;
+			 yourself).
+	self widget ifNotNil: [ :w | self widget requestFocus ]
 ]
 
 { #category : #initialization }

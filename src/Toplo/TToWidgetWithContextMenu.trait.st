@@ -11,7 +11,13 @@ Trait {
 { #category : #'t - accessing context menu' }
 TToWidgetWithContextMenu >> contextMenu [
 
-	^ (contextMenuFactory cull: self) widget: self; yourself
+	^ (contextMenuFactory cull: self) widget: self; client: self; yourself
+]
+
+{ #category : #'t - accessing context menu' }
+TToWidgetWithContextMenu >> contextMenuFactory [
+
+	^ contextMenuFactory 
 ]
 
 { #category : #'t - accessing context menu' }

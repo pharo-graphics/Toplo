@@ -27,6 +27,11 @@ ToPopupWindowDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	self installEventListenersIn: anElement.
+	
+	anElement whenWidgetChangedDo: [ :newWidget :oldWidget | 
+		anElement uninstalledFromWidget: oldWidget.
+		anElement installedInWidget: newWidget ].
+	
 	anElement effect:
 		(BlGaussianShadowEffect
 			 color: Color gray

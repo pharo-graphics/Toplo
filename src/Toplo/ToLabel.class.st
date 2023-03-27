@@ -29,12 +29,13 @@ ToLabel >> addEditor: anEditor [
 
 	self editor ifNotNil: [ ^ self ].
 	self editor: anEditor.
-	self editor text: self text asString.
+	self dispatchEvent: ToLabelEditorAddedEvent new.
+	self editor text: self text copy.
 	self editorFrame: (self newEditorFrameForEditor: self editor).
 	self innerElement visibility: BlVisibility hidden.
-	self editor requestFocus.
 	self editorFrame popup.
 	self editor when: ToLabelEditorRemoveRequestEvent do: [ self removeEditor ].
+	self editor requestFocus.
 	self editor selecter
 		all;
 		apply
@@ -235,7 +236,9 @@ ToLabel >> removeEditor [
 	self editor ifNil: [ ^ self ].
 	self editorFrame removeFromParent.
 	self innerElement visibility: BlVisibility visible.
-	self cleanUpUserData
+	self cleanUpUserData.
+	self dispatchEvent: ToLabelEditorRemovedEvent new.
+
 ]
 
 { #category : #layout }

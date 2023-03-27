@@ -361,16 +361,20 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		               menu addItem: (ToButtonMenuItem new
 				                labelText: 'Select all';
 				                whenClickedDo: [ :event :client | client selectAll ]).
-		               selectionMenu := ToMenu new withoutLeftColumn.
-		               selectionMenu label:
-			               (ToLabel new text: 'Selection actions') ].
+			            menu addItem: (ToButtonMenuItem new
+				                labelText: 'Remove all';
+				                whenClickedDo: [ :event :client |
+					                client data removeAll ];
+				                yourself) ].
 	               selection ifNotEmpty: [ 
+				         selectionMenu := ToMenu new withoutLeftColumn.
+		               selectionMenu label: (ToLabel new text: 'Selection').
 		               selection size = 1 ifTrue: [
 			               | node idx |
 			               idx := selection first.
 			               node := l nodeAt: idx.
 			               selectionMenu addItem: (ToButtonMenuItem new
-					                labelText: 'Edit Selection';
+					                labelText: 'Edit';
 					                whenClickedDo: [ :event :client |
 						                node label addEditor ];
 					                yourself).
@@ -402,18 +406,12 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				                yourself).
 		               selectionMenu addSeparator.
 		               selectionMenu addItem: (ToButtonMenuItem new
-				                labelText: 'Remove selection';
+				                labelText: 'Remove';
 				                whenClickedDo: [ :event :client |
 					                selection ifNotEmpty: [client data removeFrom: selection first to: selection last ] ];
 				                yourself).
-		               menu addItem: selectionMenu.
-		               menu addSeparator ].
-	               widget data ifNotEmpty: [
-		               menu addItem: (ToButtonMenuItem new
-				                labelText: 'Remove all';
-				                whenClickedDo: [ :event :client |
-					                client data removeAll ];
-				                yourself) ].
+  							menu addSeparator.
+		               menu addItem: selectionMenu].
 	               menu ].
 	l contextMenuFactory: menuFactory.
 	l withRowNumbers.

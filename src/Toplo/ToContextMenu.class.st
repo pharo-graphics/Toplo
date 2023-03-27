@@ -4,7 +4,9 @@ Class {
 	#traits : 'TToMenuItemHolder',
 	#classTraits : 'TToMenuItemHolder classTrait',
 	#instVars : [
-		'widgetWithContextMenuEventHandler'
+		'widgetWithContextMenuEventHandler',
+		'widgetExtentChangeHandler',
+		'widgetScrollHandler'
 	],
 	#category : #'Toplo-Widget-Menu'
 }
@@ -33,6 +35,22 @@ ToContextMenu >> initialize [
 ]
 
 { #category : #initialization }
+ToContextMenu >> installedInWidget: aWidget [
+
+	widgetExtentChangeHandler := BlEventHandler
+		                       on: BlElementExtentChangedEvent
+		                       do: [ :evt | self close ].
+
+	widgetScrollHandler := BlEventHandler
+		                 on: BlElementScrolledEvent
+		                 do: [ :evt | self close ].
+
+	aWidget addEventHandler: widgetExtentChangeHandler.
+	aWidget addEventHandler: widgetScrollHandler.
+
+]
+
+{ #category : #initialization }
 ToContextMenu >> openPositionFromEvent: anEvent [
 
 	^ anEvent position
@@ -50,4 +68,15 @@ ToContextMenu >> popupEvent: anEvent [
 ToContextMenu >> subMenuWindow [ 
 
 	^ self
+]
+
+{ #category : #initialization }
+ToContextMenu >> uninstalledFromWidget: aWidget [
+
+	aWidget ifNil: [ ^ self ].
+	aWidget removeEventHandler: widgetExtentChangeHandler.
+	widgetExtentChangeHandler := nil.
+	aWidget removeEventHandler: widgetScrollHandler.
+	widgetScrollHandler := nil
+
 ]

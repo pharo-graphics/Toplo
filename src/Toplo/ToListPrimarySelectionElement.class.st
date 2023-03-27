@@ -1,6 +1,10 @@
 Class {
 	#name : #ToListPrimarySelectionElement,
 	#superclass : #ToListNodesDecorationElement,
+	#instVars : [
+		'blurHandler',
+		'focusHandler'
+	],
 	#category : #'Toplo-Widget-List'
 }
 
@@ -39,7 +43,6 @@ ToListPrimarySelectionElement >> initialize [
 	self padding: self defaultPadding.
 	back := ToElement new matchParent.
 	back geometry: self defaultGeometry.
-	back when: BlElementBackgroundChangedEvent do: [ self backgroundChanged ].
 	self addChild: back.
 ]
 
@@ -47,13 +50,21 @@ ToListPrimarySelectionElement >> initialize [
 ToListPrimarySelectionElement >> listElement: aListElement [
 
 	super listElement: aListElement.
-	aListElement infinite when: BlBlurEvent do: [ :anEvent | back background: self actualBackgroundColor ].
-	aListElement infinite when: BlFocusEvent do: [ :anEvent | back background: self actualBackgroundColor ]
+
 ]
 
 { #category : #'hooks - children' }
 ToListPrimarySelectionElement >> onAddedToParent [ 
 
+	super onAddedToParent.
+	blurHandler := BlEventHandler on: BlBlurEvent do: [ :anEvent |
+		back background: self actualBackgroundColor.
+		self backgroundChanged ].
+	focusHandler := BlEventHandler on: BlFocusEvent do: [ :anEvent |
+		back background: self actualBackgroundColor.
+		self backgroundChanged ].
+	listElement infinite addEventHandler: blurHandler.
+	listElement infinite addEventHandler: focusHandler.
 	self background: Color white.
 	back background: self actualBackgroundColor.
 	self nodesDo: [ :node | node dispatchEvent: (ToListSelectionDecorationAddedEvent new decoration: self; yourself) ].
@@ -65,6 +76,9 @@ ToListPrimarySelectionElement >> onRemovedFromParent: aParentElement [
 
 	super onRemovedFromParent: aParentElement.
 	self nodesDo: [ :node | node dispatchEvent: (ToListSelectionDecorationRemovedEvent new decoration: self; yourself) ].
+	listElement infinite removeEventHandler: blurHandler.
+	listElement infinite removeEventHandler: focusHandler.
+
 
 	
 

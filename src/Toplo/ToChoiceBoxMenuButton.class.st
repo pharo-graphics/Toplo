@@ -23,12 +23,6 @@ ToChoiceBoxMenuButton >> initialize [
 ]
 
 { #category : #accessing }
-ToChoiceBoxMenuButton >> newLabel: aLabel previous: aPrevious [
-
-	aLabel text traceCr.
-]
-
-{ #category : #accessing }
 ToChoiceBoxMenuButton >> subMenuWindow [
 
 	^ subMenuWindow 

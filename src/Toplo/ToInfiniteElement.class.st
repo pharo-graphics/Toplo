@@ -111,8 +111,7 @@ ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 	| prevIndexes currentIndexes |
 	prevIndexes := self primarySelectionIndexes copy.
 	aBlock value.
-	currentIndexes := self primarySelectionIndexes.
-	prevIndexes = currentIndexes ifTrue: [ ^ self ].
+	currentIndexes := self primarySelectionIndexes.			
 	self dispatchEvent: (ToInfiniteSelectionChangedEvent from: prevIndexes to: currentIndexes)
 ]
 
@@ -359,8 +358,7 @@ ToInfiniteElement >> whenClickOnNodeAnnouncement: anAnnouncement [
 	event := anAnnouncement event.
 
 	self hasFocus ifFalse: [
-		self requestFocus.
-		self hasSelection ifTrue: [ ^ self ] ].
+		self requestFocus ].
 
 	self primarySelection multipleSelectionModeDo: [
 		event modifiers isShift ifTrue: [

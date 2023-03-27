@@ -2,7 +2,8 @@ Class {
 	#name : #ToPopupWindow,
 	#superclass : #ToBasicWindowElement,
 	#instVars : [
-		'#widget => ObservableSlot'
+		'#widget => ObservableSlot',
+		'#widgetPositionHandler'
 	],
 	#category : #'Toplo-Widget-Window'
 }
@@ -13,7 +14,8 @@ ToPopupWindow >> close [
 	self widget ifNotNil: [ :w |
 		w dispatchEvent: (ToPopupWindowClosedEvent new
 				 window: self;
-				 yourself) ].
+				 yourself).
+		self uninstalledFromWidget: w ].
 	^ super close
 ]
 
@@ -38,6 +40,13 @@ ToPopupWindow >> initialize [
 ]
 
 { #category : #initialization }
+ToPopupWindow >> installedInWidget: aWidget [
+
+	widgetPositionHandler := BlEventHandler on: BlElementPositionChangedEvent do: [ :event | self close ].
+	widget addEventHandler: widgetPositionHandler
+]
+
+{ #category : #initialization }
 ToPopupWindow >> openPositionFromEvent: anEvent [
 
 	^ self widget bounds inSpace bounds bottomLeft
@@ -53,6 +62,14 @@ ToPopupWindow >> popupEvent: anEvent [
 				 sourceEvent: anEvent;
 				 yourself) ].
 	self placementStrategy popup: self event: anEvent
+]
+
+{ #category : #initialization }
+ToPopupWindow >> uninstalledFromWidget: aWidget [
+
+	aWidget ifNil: [ ^ self ].
+	aWidget removeEventHandler: widgetPositionHandler.
+	widgetPositionHandler := nil
 ]
 
 { #category : #'property change hook' }
@@ -73,7 +90,5 @@ ToPopupWindow >> widget [
 { #category : #accessing }
 ToPopupWindow >> widget: aWidget [
 
-	widget := aWidget.
-	widget when: BlElementPositionInSpaceChangedEvent do: [ :event | 
-		self relocate: self widget bounds inSpace bounds bottomLeft ]
+	widget := aWidget
 ]

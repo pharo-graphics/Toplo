@@ -21,13 +21,23 @@ ToLabelDresser >> defaultPadding [
 { #category : #'api - install/uninstall  hook' }
 ToLabelDresser >> lineModeChangedIn: anElement [
 
-	| currText |
+	| currText default |
 	currText := anElement text.
-	anElement removeChildren.
-	self replaceInnerElementIn: anElement.
-	currText ifNotNil: [anElement innerElement text: currText].
 	anElement layout: anElement defaultLayout.
-	anElement addChild: anElement innerElement
+	default := anElement defaultTextElement.	
+	anElement innerElement
+		ifNil: [
+			anElement innerElement: default.	
+			anElement addChild: default ]
+		ifNotNil: [ :inner |
+			inner removeEventHandler: textReplacedHandler.
+			anElement innerElement: default.
+			anElement replaceChild: inner with: default ].
+	textReplacedHandler := BlEventHandler
+		                       on: ToTextReplacedEvent
+		                       do: [ :evt | anElement text: evt text ].
+	anElement innerElement addEventHandler: textReplacedHandler.
+	currText ifNotNil: [anElement innerElement text: currText]
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -52,19 +62,6 @@ ToLabelDresser >> onUninstalledIn: anElement [
 		textReplacedHandler ifNotNil: [
 			anElement innerElement removeEventHandler: textReplacedHandler ] ].
 
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToLabelDresser >> replaceInnerElementIn: anElement [
-
-	anElement innerElement ifNotNil: [
-		textReplacedHandler ifNotNil: [
-			anElement innerElement removeEventHandler: textReplacedHandler ] ].
-	anElement innerElement: anElement defaultTextElement.
-	textReplacedHandler := BlEventHandler
-		                       on: ToTextReplacedEvent
-		                       do: [ :evt | anElement text: evt text ].
-	anElement innerElement addEventHandler: textReplacedHandler
 ]
 
 { #category : #'api - install/uninstall  hook' }

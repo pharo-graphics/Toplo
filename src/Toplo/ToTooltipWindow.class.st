@@ -51,15 +51,13 @@ ToTooltipWindow >> initialize [
 	super initialize.
 		
 	self elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
-	self whenContentChangedDo: [ self label text: self content ].
-	self whenWidgetChangedDo: [ :newWidget :oldWidget | 
-		self uninstalledFrom: oldWidget.
-		self installedIn: newWidget ]
+	self whenContentChangedDo: [ self label text: self content ]
 ]
 
 { #category : #initialization }
-ToTooltipWindow >> installedIn: aWidget [
+ToTooltipWindow >> installedInWidget: aWidget [
 
+	super installedInWidget: aWidget.
 	aWidget ifNil: [ ^ self ].
 	widgetWithTooltipEventHandler := ToWidgetWithTooltipEventHandler new widget: aWidget.
 	aWidget addEventFilter: widgetWithTooltipEventHandler 
@@ -87,8 +85,9 @@ ToTooltipWindow >> openPositionFromEvent: anEvent [
 ]
 
 { #category : #initialization }
-ToTooltipWindow >> uninstalledFrom: aWidget [
+ToTooltipWindow >> uninstalledFromWidget: aWidget [
 
+	super uninstalledFromWidget: aWidget.
 	aWidget ifNil: [ ^ self ].
 	aWidget removeEventFilter: widgetWithTooltipEventHandler.
 	widgetWithTooltipEventHandler := nil

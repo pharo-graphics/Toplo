@@ -1,6 +1,6 @@
 Class {
-	#name : #ToLabeledNodeDresser,
-	#superclass : #ToNodeDresser,
+	#name : #ToLabelInInfiniteNodeDresser,
+	#superclass : #ToDresser,
 	#instVars : [
 		'selected',
 		'backgroundBackup',
@@ -16,7 +16,7 @@ Class {
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToLabeledNodeDresser >> decoration: aDecoration addedIn: anElement [
+ToLabelInInfiniteNodeDresser >> decoration: aDecoration addedIn: anElement [
 
 	selected := true.
 	selectionDecoration := aDecoration.
@@ -33,38 +33,34 @@ ToLabeledNodeDresser >> decoration: aDecoration addedIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToLabeledNodeDresser >> decoration: aDecoration changedIn: anElement [
+ToLabelInInfiniteNodeDresser >> decoration: aDecoration changedIn: anElement [
 
 	selected ifFalse: [ ^ self ].
-	anElement label text foreground: aDecoration actualBackgroundColor contrastingBlackAndWhiteColor.
-	anElement label requestLayout
+	anElement text foreground: aDecoration actualBackgroundColor contrastingBlackAndWhiteColor.
+	anElement requestLayout
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToLabeledNodeDresser >> decoration: aDecoration removedIn: anElement [
+ToLabelInInfiniteNodeDresser >> decoration: aDecoration removedIn: anElement [
 
 	selected ifFalse: [ ^ self ].
 	selected := false.
 	selectionDecoration := nil.
-	backgroundBackup ifNotNil: [ 
-		anElement background: backgroundBackup.
-		backgroundBackup := nil].
-
 	textRopeBackup ifNotNil: [
-		anElement label text rope: textRopeBackup.
-		anElement label requestLayout.
+		anElement text rope: textRopeBackup.
+		anElement requestLayout.
 		textRopeBackup := nil ]
 ]
 
 { #category : #initialization }
-ToLabeledNodeDresser >> initialize [ 
+ToLabelInInfiniteNodeDresser >> initialize [ 
 
 	super initialize.
 	selected := false
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToLabeledNodeDresser >> installEventListenersIn: anElement [
+ToLabelInInfiniteNodeDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
 
@@ -99,7 +95,7 @@ ToLabeledNodeDresser >> installEventListenersIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToLabeledNodeDresser >> installNewLabel: curr previous: prev [
+ToLabelInInfiniteNodeDresser >> installNewLabel: curr previous: prev [
 
 	prev ifNotNil: [
 		prev removeEventHandler: editorAddedHandler.
@@ -116,7 +112,8 @@ ToLabeledNodeDresser >> installNewLabel: curr previous: prev [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToLabeledNodeDresser >> labelEditorAddedIn: aLabel [
+ToLabelInInfiniteNodeDresser >> labelEditorAddedIn: aLabel [
+
 
 	textRopeBackup ifNil: [ ^ self ].
 	aLabel text rope: textRopeBackup.
@@ -126,7 +123,7 @@ ToLabeledNodeDresser >> labelEditorAddedIn: aLabel [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToLabeledNodeDresser >> labelEditorRemovedIn: aLabel [
+ToLabelInInfiniteNodeDresser >> labelEditorRemovedIn: aLabel [
 
 	selectionDecoration ifNil: [ ^ self ].
 	aLabel text foreground: selectionDecoration actualBackgroundColor contrastingBlackAndWhiteColor.
@@ -134,7 +131,23 @@ ToLabeledNodeDresser >> labelEditorRemovedIn: aLabel [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToLabeledNodeDresser >> uninstallEventListenersIn: anElement [
+ToLabelInInfiniteNodeDresser >> onInstalledIn: anElement [
+
+	super onInstalledIn: anElement.
+	self installEventListenersIn: anElement
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToLabelInInfiniteNodeDresser >> onUninstalledIn: anElement [
+
+	super onUninstalledIn: anElement.
+	self uninstallEventListenersIn: anElement
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToLabelInInfiniteNodeDresser >> uninstallEventListenersIn: anElement [
 
 	super uninstallEventListenersIn: anElement.
 	

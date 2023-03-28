@@ -7,7 +7,7 @@ Class {
 		'#isSelected => ObservableSlot',
 		'#isCloseable => ObservableSlot',
 		'#titleElement',
-		'#bodyElement'
+		'#bodyFactory => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Notebook'
 }
@@ -15,13 +15,26 @@ Class {
 { #category : #accessing }
 ToNotebookPage >> bodyElement [
 
-	^ bodyElement
+	^ bodyFactory value
 ]
 
 { #category : #accessing }
 ToNotebookPage >> bodyElement: aBlElement [
 
-	bodyElement := aBlElement
+	self bodyFactory: [ aBlElement ]
+]
+
+{ #category : #accessing }
+ToNotebookPage >> bodyFactory [
+
+	^ bodyFactory
+]
+
+{ #category : #accessing }
+ToNotebookPage >> bodyFactory: aValuable [
+	"Establish what is my body. When a page is selected in a notebook, it will send `#value` to this factory, and use the answered `BlElement` as the page's body."
+
+	bodyFactory := aValuable
 ]
 
 { #category : #accessing }
@@ -38,6 +51,7 @@ ToNotebookPage >> initialize [
 	
 	isSelected := false.
 	isCloseable := false.
+	bodyFactory := [ BlElement new ]
 ]
 
 { #category : #accessing }
@@ -74,6 +88,12 @@ ToNotebookPage >> titleElement [
 ToNotebookPage >> titleElement: aBlElement [
 
 	titleElement := aBlElement
+]
+
+{ #category : #enumerating }
+ToNotebookPage >> whenBodyFactoryChangedDo: aBlock [
+
+	self property: #bodyFactory whenChangedDo: aBlock
 ]
 
 { #category : #events }

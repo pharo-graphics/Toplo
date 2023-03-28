@@ -43,6 +43,10 @@ ToDresser >> initialize [
 ]
 
 { #category : #'api - install/uninstall  hook' }
+ToDresser >> installEventListenersIn: anElement [
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToDresser >> next [
 
 	^ next
@@ -86,4 +90,8 @@ ToDresser >> removeDresser: aDresser in: anElement [
 ToDresser >> theme [
 
 	^ theme
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToDresser >> uninstallEventListenersIn: anElement [
 ]

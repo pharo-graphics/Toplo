@@ -1,147 +1,26 @@
 Class {
 	#name : #ToLabeledNodeDresser,
 	#superclass : #ToNodeDresser,
-	#instVars : [
-		'selected',
-		'backgroundBackup',
-		'selectionDecorationAddedHandler',
-		'selectionDecorationRemovedHandler',
-		'selectionDecorationChangedHandler',
-		'editorAddedHandler',
-		'editorRemovedHandler',
-		'selectionDecoration',
-		'textRopeBackup'
-	],
 	#category : #'Toplo-Core-Node'
 }
-
-{ #category : #'api - install/uninstall  hook' }
-ToLabeledNodeDresser >> decoration: aDecoration addedIn: anElement [
-
-	selected := true.
-	selectionDecoration := aDecoration.
-
-	backgroundBackup := anElement background.
-	anElement background: Color transparent.
-
-	textRopeBackup := anElement label text rope copy.
-
-	anElement label text foreground:
-		selectionDecoration actualBackgroundColor
-			contrastingBlackAndWhiteColor.
-	anElement label requestLayout
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToLabeledNodeDresser >> decoration: aDecoration changedIn: anElement [
-
-	selected ifFalse: [ ^ self ].
-	anElement label text foreground: aDecoration actualBackgroundColor contrastingBlackAndWhiteColor.
-	anElement label requestLayout
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToLabeledNodeDresser >> decoration: aDecoration removedIn: anElement [
-
-	selected ifFalse: [ ^ self ].
-	selected := false.
-	selectionDecoration := nil.
-	backgroundBackup ifNotNil: [ 
-		anElement background: backgroundBackup.
-		backgroundBackup := nil].
-
-	textRopeBackup ifNotNil: [
-		anElement label text rope: textRopeBackup.
-		anElement label requestLayout.
-		textRopeBackup := nil ]
-]
-
-{ #category : #initialization }
-ToLabeledNodeDresser >> initialize [ 
-
-	super initialize.
-	selected := false
-]
 
 { #category : #'api - install/uninstall  hook' }
 ToLabeledNodeDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
-
-	anElement whenLabelChangedDo: [ :curr :prev |
-		self installNewLabel: curr previous: prev ].
-
-	selectionDecorationAddedHandler := BlEventHandler
-		                                   on:
-		                                   ToListSelectionDecorationAddedEvent
-		                                   do: [ :event |
-		                                   self
-			                                   decoration: event decoration
-			                                   addedIn: anElement ].
-	selectionDecorationRemovedHandler := BlEventHandler
-		                                     on:
-		                                     ToListSelectionDecorationRemovedEvent
-		                                     do: [ :event |
-		                                     self
-			                                     decoration: event decoration
-			                                     removedIn: anElement ].
-	selectionDecorationChangedHandler := BlEventHandler
-		                                     on:
-		                                     ToListSelectionDecorationChangedEvent
-		                                     do: [ :event |
-		                                     self
-			                                     decoration: event decoration
-			                                     changedIn: anElement ].
-
-	anElement addEventHandler: selectionDecorationAddedHandler.
-	anElement addEventHandler: selectionDecorationRemovedHandler.
-	anElement addEventHandler: selectionDecorationChangedHandler
+	anElement whenLabelChangedDo: [ :curr :prev | self installNewLabel: curr previous: prev in: anElement]
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToLabeledNodeDresser >> installNewLabel: curr previous: prev [
+ToLabeledNodeDresser >> installNewLabel: curr previous: prev in: anElement [
 
-	prev ifNotNil: [
-		prev removeEventHandler: editorAddedHandler.
-		prev removeEventHandler: editorRemovedHandler ].
-
-	editorAddedHandler := BlEventHandler
-		                      on: ToLabelEditorAddedEvent
-		                      do: [ :event | self labelEditorAddedIn: curr ].
-	editorRemovedHandler := BlEventHandler
-		                        on: ToLabelEditorRemovedEvent
-		                        do: [ :event | self labelEditorRemovedIn: curr ].
-	curr addEventHandler: editorAddedHandler.
-	curr addEventHandler: editorRemovedHandler
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToLabeledNodeDresser >> labelEditorAddedIn: aLabel [
-
-	textRopeBackup ifNil: [ ^ self ].
-	aLabel text rope: textRopeBackup.
-	aLabel requestLayout.
-
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToLabeledNodeDresser >> labelEditorRemovedIn: aLabel [
-
-	selectionDecoration ifNil: [ ^ self ].
-	aLabel text foreground: selectionDecoration actualBackgroundColor contrastingBlackAndWhiteColor.
-	aLabel requestLayout
+	prev ifNotNil: [ prev undress ].
+	curr addDresser: (ToLabelInNodeDresser new node: anElement; yourself)
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToLabeledNodeDresser >> uninstallEventListenersIn: anElement [
 
 	super uninstallEventListenersIn: anElement.
-	
-	anElement removeEventHandler: selectionDecorationAddedHandler.
-	anElement removeEventHandler: selectionDecorationRemovedHandler.
-	anElement removeEventHandler: selectionDecorationChangedHandler.
-	anElement label ifNotNil: [:l | l removeEventHandler: editorAddedHandler].
-	anElement label ifNotNil: [:l | l removeEventHandler: editorRemovedHandler ].	
-
+	anElement label ifNotNil: [:l | l undress]
 ]

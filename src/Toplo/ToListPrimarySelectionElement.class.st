@@ -43,7 +43,6 @@ ToListPrimarySelectionElement >> initialize [
 	self padding: self defaultPadding.
 	back := ToElement new matchParent.
 	back geometry: self defaultGeometry.
-	self addChild: back.
 ]
 
 { #category : #accessing }
@@ -57,6 +56,7 @@ ToListPrimarySelectionElement >> listElement: aListElement [
 ToListPrimarySelectionElement >> onAddedToParent [ 
 
 	super onAddedToParent.
+	self addChild: back.
 	blurHandler := BlEventHandler on: BlBlurEvent do: [ :anEvent |
 		back background: self actualBackgroundColor.
 		self backgroundChanged ].
@@ -78,6 +78,8 @@ ToListPrimarySelectionElement >> onRemovedFromParent: aParentElement [
 	self nodesDo: [ :node | node dispatchEvent: (ToListSelectionDecorationRemovedEvent new decoration: self; yourself) ].
 	listElement infinite removeEventHandler: blurHandler.
 	listElement infinite removeEventHandler: focusHandler.
+	self removeChild: back.
+
 
 
 	

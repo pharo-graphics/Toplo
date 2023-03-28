@@ -62,6 +62,12 @@ ToLabelMultiLineInnerElement >> newLineElement [
 		  yourself
 ]
 
+{ #category : #'private - text splitting' }
+ToLabelMultiLineInnerElement >> newTextElement [
+
+	^ BlAttributedTextElement new labelMeasurement
+]
+
 { #category : #layout }
 ToLabelMultiLineInnerElement >> requestLayout [ 
 
@@ -75,10 +81,10 @@ ToLabelMultiLineInnerElement >> splitText [
 	^ Array streamContents: [ :stream | 
 		  | itor lineElement |
 		  text
-			  ifEmpty: [
-				  lineElement := self newLineElement
-					                 addChild: ('' asRopedText attributes: text iterator attributes) asElement labelMeasurement;
-					                 yourself.
+			  ifEmpty: [ | textElement |
+				textElement := self newTextElement.
+				textElement text: '' asRopedText attributes: text iterator attributes.
+				  lineElement := self newLineElement addChild: textElement ;                 yourself.
 				  stream nextPut: lineElement ]
 			  ifNotEmpty: [ 
 				  itor := text iterator.
@@ -89,7 +95,10 @@ ToLabelMultiLineInnerElement >> splitText [
 						  cutted := ToTextScissor new cut: sub.
 						  cutted ifEmpty: [ cutted := Array with: (BlText empty attributes: sub iterator attributes) ].
 						  lineElement := self newLineElement
-							                 addChildren: (cutted collect: [ :w | w asElement labelMeasurement ]);
+							                 addChildren: (cutted collect: [ :w | | textElement |
+				textElement := self newTextElement.
+				textElement text: w.
+				textElement]);
 							                 yourself.
 						  stream nextPut: lineElement ] ] ] ]
 ]

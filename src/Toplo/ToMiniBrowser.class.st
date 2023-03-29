@@ -113,7 +113,7 @@ ToMiniBrowser >> finalProtocolsFrom: aListOfProtocols forClass: aClass [
 					  fake addAllMethodsFrom: prot.
 					  stream nextPut: aClass -> fake ]
 				  ifFalse: [ 
-					  prot name = Protocol nullCategory ifFalse: [ 
+					  prot name = Protocol nullProtocolName ifFalse: [ 
 						  stream nextPut: aClass -> prot ] ] ] ]
 ]
 

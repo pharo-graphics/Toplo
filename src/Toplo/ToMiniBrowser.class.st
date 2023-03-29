@@ -50,7 +50,7 @@ ToMiniBrowser >> changeCodeInEditor [
 ToMiniBrowser >> classSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedClasses allProtocols |
-	protocols primarySelection deselectAll.
+	protocols deselectAll.
 	protocols data removeAll.
 	selectedClasses := aToSelectionChanged newSelectedIndexes collect: [
 		                   :idx | classes data at: idx ].
@@ -68,7 +68,8 @@ ToMiniBrowser >> classSelectionChangedEvent: aToSelectionChanged [
 
 	selectedClasses size > 1 ifTrue: [
 		allProtocols := self filteredProtocolsFrom: allProtocols ].
-	protocols data addAll: allProtocols
+	protocols data addAll: allProtocols.
+
 ]
 
 { #category : #accessing }
@@ -112,9 +113,7 @@ ToMiniBrowser >> finalProtocolsFrom: aListOfProtocols forClass: aClass [
 					  fake := Protocol new name: (String streamContents: [ :str | str nextPutAll: AllProtocol defaultName ]).
 					  fake addAllMethodsFrom: prot.
 					  stream nextPut: aClass -> fake ]
-				  ifFalse: [ 
-					  prot name = Protocol nullProtocolName ifFalse: [ 
-						  stream nextPut: aClass -> prot ] ] ] ]
+				  ifFalse: [ stream nextPut: aClass -> prot ] ] ]
 ]
 
 { #category : #initialization }
@@ -132,15 +131,11 @@ ToMiniBrowser >> initialize [
 
 	packages := ToListElement new 
 		id: #packages;
-		nodeFactory: [ :pkg |
-		            | node |
-		            node := ToLabeledNode new
-			                    labelText: pkg name;
-			                    hMatchParent.
-		            node
-			            when: BlClickEvent
-			            do: [ :event | self inform: event printString ].
-		            node ].
+		nodeFactory: [ :pkg | 
+			ToLabeledNode new
+				labelText: pkg name;
+			 	hMatchParent;
+				yourself].
 
 	packages margin: (BlInsets all: 2).
 
@@ -240,7 +235,7 @@ ToMiniBrowser >> open [
 ToMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedPackages clsList |
-	classes primarySelection deselectAll.
+	classes deselectAll.
 	classes data removeAll.
 	selectedPackages := aToSelectionChanged newSelectedIndexes collect: [
 		                    :idx | packages data at: idx ].
@@ -248,14 +243,14 @@ ToMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
 		           selectedPackages do: [ :pkg |
 			           stream nextPutAll: pkg definedClasses ] ].
 	clsList := clsList asSortedCollection: [ :a :b | a name < b name ].
-	classes data addAll: clsList
+	classes data addAll: clsList	
 ]
 
 { #category : #initialization }
 ToMiniBrowser >> protocolSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedProtocols |
-	selectors primarySelection deselectAll.
+	selectors deselectAll.
 	selectors data removeAll.
 	selectedProtocols := aToSelectionChanged newSelectedIndexes collect: [
 		                     :idx | protocols data at: idx ].

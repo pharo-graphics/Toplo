@@ -39,7 +39,7 @@ ToListDecorationElement >> initialize [
 	self geometry: self defaultGeometry.
 	self background: Color transparent.
 	self border:	self defaultBorder.
-	self constraintsDo: [ :c | c ignoreByLayout  ].
+	self constraintsDo: [ :c | c ignoreByLayout ].
 	self outskirts: BlOutskirts inside
 
 ]

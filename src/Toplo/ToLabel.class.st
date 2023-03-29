@@ -115,6 +115,13 @@ ToLabel >> editorFrame: anAnchoredWindow [
 	self userData at: #editorFrame put: anAnchoredWindow
 ]
 
+{ #category : #'api - text style' }
+ToLabel >> foreground: aBlPaint [
+
+	self text foreground: aBlPaint.
+	self requestLayout 
+]
+
 { #category : #'private-editing' }
 ToLabel >> hasEditor [
 
@@ -239,6 +246,7 @@ ToLabel >> removeEditor [
 	self cleanUpUserData.
 	self dispatchEvent: ToLabelEditorRemovedEvent new.
 
+
 ]
 
 { #category : #layout }
@@ -260,6 +268,12 @@ ToLabel >> text: aBlTextOrString [
 
 	text = aBlTextOrString ifTrue: [ ^ self ].
 	text := (aBlTextOrString ifNil: [ self defaultText ]) asRopedText
+]
+
+{ #category : #'event handling' }
+ToLabel >> textChanged [
+
+	self innerElement textChanged
 ]
 
 { #category : #accessing }

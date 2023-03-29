@@ -356,7 +356,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 	               menu addItem: (ToButtonMenuItem new
 			                labelText: 'Add initial Items';
 			                whenClickedDo: [ :event :client |
-				                40 timesRepeat: [ client data add: 'AAAAAAAAAAA' ] ]).
+				                1 timesRepeat: [ client data add: 'AAAAAAAAAAA' ] ]).
 	               widget data ifNotEmpty: [
 		               menu addItem: (ToButtonMenuItem new
 				                labelText: 'Select all';
@@ -384,6 +384,11 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 							                 ifFalse: [ 'Be monoline' ]);
 					                whenClickedDo: [ :event :client |
 						                node label monoLine: node label isMonoLine not ];
+					                yourself).			               
+								selectionMenu addItem: (ToButtonMenuItem new
+					                labelText: 'Inspect';
+					                whenClickedDo: [ :event :client |
+						                node inspect ];
 					                yourself).
 			               selectionMenu addSeparator ].
 		               selectionMenu addItem: (ToButtonMenuItem new

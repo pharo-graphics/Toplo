@@ -10,6 +10,14 @@ Class {
 }
 
 { #category : #accessing }
+ToListDecorationUpdater >> decorationOn: aNode [
+
+	self decorations do: [ :d |
+		(d nodes includes: aNode) ifTrue: [ ^ d ] ].
+	^ nil
+]
+
+{ #category : #accessing }
 ToListDecorationUpdater >> decorations [ 
 
 	^ decorations

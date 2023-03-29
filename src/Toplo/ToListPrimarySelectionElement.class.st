@@ -20,8 +20,7 @@ ToListPrimarySelectionElement >> actualBackgroundColor [
 ToListPrimarySelectionElement >> backgroundChanged [ 
 
 	listElement ifNil: [ ^ self ].
-	self nodesDo: [ :node | node dispatchEvent: (ToListSelectionDecorationChangedEvent new decoration: self; yourself) ].
-
+	self nodesDo: [ :node | node dispatchEvent: (ToListSelectionDecorationChangedEvent new decoration: self; yourself) ]
 ]
 
 { #category : #'change reporting' }
@@ -36,13 +35,20 @@ ToListPrimarySelectionElement >> beWithoutSecondarySelection [
 	self padding: self defaultPadding
 ]
 
+{ #category : #accessing }
+ToListPrimarySelectionElement >> borderColor [
+
+	^ super borderColor 
+]
+
 { #category : #initialization }
 ToListPrimarySelectionElement >> initialize [ 
 
 	super initialize.
 	self padding: self defaultPadding.
 	back := ToElement new matchParent.
-	back geometry: self defaultGeometry.
+	self flag: 'zero divide while drawing after editing a labeled node if the geometry is a round rectangle '.
+	"back geometry: self defaultGeometry."
 ]
 
 { #category : #accessing }
@@ -56,7 +62,6 @@ ToListPrimarySelectionElement >> listElement: aListElement [
 ToListPrimarySelectionElement >> onAddedToParent [ 
 
 	super onAddedToParent.
-	self addChild: back.
 	blurHandler := BlEventHandler on: BlBlurEvent do: [ :anEvent |
 		back background: self actualBackgroundColor.
 		self backgroundChanged ].
@@ -68,6 +73,7 @@ ToListPrimarySelectionElement >> onAddedToParent [
 	self background: Color white.
 	back background: self actualBackgroundColor.
 	self nodesDo: [ :node | node dispatchEvent: (ToListSelectionDecorationAddedEvent new decoration: self; yourself) ].
+	self addChild: back.
 	super onAddedToParent 
 ]
 

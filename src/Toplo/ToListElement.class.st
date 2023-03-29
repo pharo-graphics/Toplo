@@ -9,6 +9,12 @@ Class {
 	#category : #'Toplo-Widget-List'
 }
 
+{ #category : #accessing }
+ToListElement >> decorationOn: aNode [
+
+	^ primarySelectionDecorationUpdater decorationOn: aNode
+]
+
 { #category : #'t - initialization dresser' }
 ToListElement >> defaultDresser [ 
 
@@ -44,6 +50,12 @@ ToListElement >> initialize [
 ToListElement >> primarySelectionDecorations [
 
 	^ primarySelectionDecorationUpdater decorations
+]
+
+{ #category : #accessing }
+ToListElement >> updateSelectionDecoration [
+
+	primarySelectionDecorationUpdater selectionChangedIn: self
 ]
 
 { #category : #accessing }

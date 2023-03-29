@@ -27,16 +27,14 @@ ToLabelInNodeDresser >> decoration: aDecoration addedIn: anElement [
 
 	textRopeBackup := anElement text rope copy.
 
-	anElement text foreground: selectionDecoration actualBackgroundColor contrastingBlackAndWhiteColor.
-	anElement requestLayout
+	anElement foreground: selectionDecoration actualBackgroundColor contrastingBlackAndWhiteColor
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToLabelInNodeDresser >> decoration: aDecoration changedIn: anElement [
 
 	selected ifFalse: [ ^ self ].
-	anElement text foreground: aDecoration actualBackgroundColor contrastingBlackAndWhiteColor.
-	anElement requestLayout
+	anElement foreground: aDecoration actualBackgroundColor contrastingBlackAndWhiteColor
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -97,23 +95,6 @@ ToLabelInNodeDresser >> installEventListenersIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToLabelInNodeDresser >> installNewLabel: curr previous: prev [
-
-	prev ifNotNil: [
-		prev removeEventHandler: editorAddedHandler.
-		prev removeEventHandler: editorRemovedHandler ].
-
-	editorAddedHandler := BlEventHandler
-		                      on: ToLabelEditorAddedEvent
-		                      do: [ :event | self labelEditorAddedIn: curr ].
-	editorRemovedHandler := BlEventHandler
-		                        on: ToLabelEditorRemovedEvent
-		                        do: [ :event | self labelEditorRemovedIn: curr ].
-	curr addEventHandler: editorAddedHandler.
-	curr addEventHandler: editorRemovedHandler
-]
-
-{ #category : #'api - install/uninstall  hook' }
 ToLabelInNodeDresser >> labelEditorAddedIn: aLabel [
 
 
@@ -128,10 +109,19 @@ ToLabelInNodeDresser >> labelEditorAddedIn: aLabel [
 { #category : #'api - install/uninstall  hook' }
 ToLabelInNodeDresser >> labelEditorRemovedIn: aLabel [
 
-	selectionDecoration ifNil: [ ^ self ].
+	"selectionDecoration ifNil: [ ^ self ]."
 	" editor removed and the node is selected; get back the contrasting background "
-	aLabel text foreground: selectionDecoration actualBackgroundColor contrastingBlackAndWhiteColor.
-	aLabel requestLayout
+	| infinite |
+	self flag: 'Do not work if the edition is accepted because a new node is created in that case (because the data is updated) '.
+	"aLabel background: selectionDecoration actualBackgroundColor contrastingBlackAndWhiteColor."
+
+	self flag: 'workaround to make the node label foreground drawn correctly according to the selection background '.
+	infinite := node parent.
+	infinite requestFocus.
+	infinite whenLayoutedDoOnce: [ infinite parent updateSelectionDecoration ]
+	"node holder infiniteElement selectIndex: node holder position -1.
+	node holder infiniteElement selectIndex: node holder position."
+
 ]
 
 { #category : #accessing }

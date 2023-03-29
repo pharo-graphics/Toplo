@@ -84,8 +84,8 @@ ToNodeHolder >> onDetachedFromDatasource: aDataSource [
 ToNodeHolder >> selected: aBoolean [
 
 	aBoolean
-		ifTrue: [ self node dispatchEvent: (ToNodeHolderSelectedEvent new holder: self; yourself) ]
-		ifFalse: [ self node dispatchEvent: (ToNodeHolderDeselectedEvent new holder: self; yourself) ]
+		ifTrue: [ self node holder infiniteElement dispatchEvent: (ToNodeHolderSelectedEvent new holder: self; yourself) ]
+		ifFalse: [ self node holder infiniteElement dispatchEvent: (ToNodeHolderDeselectedEvent new holder: self; yourself) ]
 ]
 
 { #category : #'selection - handling' }

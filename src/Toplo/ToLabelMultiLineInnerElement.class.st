@@ -117,6 +117,12 @@ ToLabelMultiLineInnerElement >> text: aBlText [
 ]
 
 { #category : #'event handling' }
+ToLabelMultiLineInnerElement >> textChanged [
+
+	self textReplaced
+]
+
+{ #category : #'event handling' }
 ToLabelMultiLineInnerElement >> textReplaced [
 
 	self removeChildren.

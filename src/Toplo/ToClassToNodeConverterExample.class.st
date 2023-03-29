@@ -7,8 +7,8 @@ Class {
 { #category : #private }
 ToClassToNodeConverterExample >> colorFor: index [
 
-	index odd ifTrue: [ ^ Smalltalk ui theme lightBackgroundColor darker ].
-	^ Smalltalk ui theme backgroundColor 
+	index odd ifTrue: [ ^ Smalltalk ui theme lightBackgroundColor ].
+	^ Smalltalk ui theme backgroundColor
 ]
 
 { #category : #evaluating }

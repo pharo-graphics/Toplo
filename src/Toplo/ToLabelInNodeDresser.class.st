@@ -43,6 +43,7 @@ ToLabelInNodeDresser >> decoration: aDecoration removedIn: anElement [
 	selected ifFalse: [ ^ self ].
 	selected := false.
 	selectionDecoration := nil.
+	backgroundBackup ifNotNil: [ anElement background: backgroundBackup ].
 	textRopeBackup ifNotNil: [
 		anElement text rope: textRopeBackup.
 		anElement requestLayout.

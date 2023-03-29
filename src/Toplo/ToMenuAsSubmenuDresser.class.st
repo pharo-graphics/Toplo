@@ -31,15 +31,13 @@ ToMenuAsSubmenuDresser >> onEnterEvent: anEvent in: anElement [
 ToMenuAsSubmenuDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	anElement strategy: (ToPairSubmenuColumnStrategy new width: anElement columnWidth).
-	self installEventListenersIn: anElement
+	anElement strategy: (ToPairSubmenuColumnStrategy new width: anElement columnWidth)
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToMenuAsSubmenuDresser >> onUninstalledIn: anElement [
 
-	super onUninstalledIn: anElement.
-	self uninstallEventListenersIn: anElement
+	super onUninstalledIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }

@@ -64,8 +64,8 @@ ToDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	theme := 	anElement theme.
-	next launchInstallationIn: anElement
-
+	next launchInstallationIn: anElement.
+	self installEventListenersIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -73,7 +73,8 @@ ToDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
 	theme := 	nil.
-	next launchUninstallationIn: anElement
+	next launchUninstallationIn: anElement.
+	self uninstallEventListenersIn: anElement
 
 ]
 

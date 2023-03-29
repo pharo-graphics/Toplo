@@ -66,18 +66,13 @@ ToListElementDresser >> onInstalledIn: anElement [
 	super onInstalledIn: anElement.
 	anElement background: self defaultBackground.
 	anElement margin: self defaultMargin.
-	anElement padding: self defaultPadding.
-	self installEventListenersIn: anElement
-
+	anElement padding: self defaultPadding
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToListElementDresser >> onUninstalledIn: anElement [
 
-	super onUninstalledIn: anElement.
-	
-	self uninstallEventListenersIn: anElement
-
+	super onUninstalledIn: anElement
 ]
 
 { #category : #'context menu popup' }

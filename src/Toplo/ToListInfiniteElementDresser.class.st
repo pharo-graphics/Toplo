@@ -75,15 +75,12 @@ ToListInfiniteElementDresser >> onInstalledIn: anElement [
 			 paint: anElement theme editor borderColor
 			 width: 1).
 
-	anElement background: Color transparent.
-	
-	self installEventListenersIn: anElement
+	anElement background: Color transparent
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToListInfiniteElementDresser >> onUninstalledIn: anElement [
 
-	self uninstallEventListenersIn: anElement.
 	super onUninstalledIn: anElement.
 
 ]

@@ -18,12 +18,10 @@ ToLabeledNodeDresser >> installEventListenersIn: anElement [
 	anElement whenLabelChangedDo: [ :curr :prev | self installNewLabel: curr previous: prev in: anElement].
 	selectionAddedHandler := BlEventHandler
 		                         on: ToListSelectionDecorationAddedEvent
-		                         do: [ :event |
-		                         	self selectionDecorationAddedIn: anElement ].
+		                         do: [ :event | self selectionDecorationAddedIn: anElement ].
 	selectionRemovedHandler := BlEventHandler
 		                           on: ToListSelectionDecorationRemovedEvent
-		                           do: [ :event |
-		                           	self selectionDecorationRemovedIn: anElement ].
+		                           do: [ :event | self selectionDecorationRemovedIn: anElement ].
 	anElement addEventHandler: selectionAddedHandler.
 	anElement addEventHandler: selectionRemovedHandler.
 

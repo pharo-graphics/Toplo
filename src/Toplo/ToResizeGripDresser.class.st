@@ -152,17 +152,13 @@ ToResizeGripDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 
-	self initialState: anElement.
-	self installEventListenersIn: anElement.
-
+	self initialState: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToResizeGripDresser >> onUninstalledIn: anElement [
 
-	super onUninstalledIn: anElement.
-	self uninstallEventListenersIn: anElement
-
+	super onUninstalledIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }

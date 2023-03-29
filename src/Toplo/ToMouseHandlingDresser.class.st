@@ -143,14 +143,12 @@ ToMouseHandlingDresser >> mouseUpHandlerIn: anElement [
 ToMouseHandlingDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	self initialState: anElement.
-	self installEventListenersIn: anElement
+	self initialState: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToMouseHandlingDresser >> onUninstalledIn: anElement [
 
-	self uninstallEventListenersIn: anElement.
 	super onUninstalledIn: anElement.
 
 ]

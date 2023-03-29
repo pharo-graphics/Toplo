@@ -26,7 +26,6 @@ ToPopupWindowDresser >> mouseDownOutside: anEvent receivedIn: aMenuWindow [
 ToPopupWindowDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	self installEventListenersIn: anElement.
 	
 	anElement whenWidgetChangedDo: [ :newWidget :oldWidget | 
 		anElement uninstalledFromWidget: oldWidget.
@@ -45,8 +44,7 @@ ToPopupWindowDresser >> onInstalledIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToPopupWindowDresser >> onUninstalledIn: anElement [
 
-	super onUninstalledIn: anElement.
-	self uninstallEventListenersIn: anElement
+	super onUninstalledIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }

@@ -34,17 +34,13 @@ ToBasicMenuItemDresser >> onInstalledIn: anElement [
 	super onInstalledIn: anElement.
 	anElement background: Color transparent.
 	anElement border: BlBorder empty.
-	anElement padding: (BlInsets top: 2 left: 5 bottom: 2 right: 4 ).
-	self installEventListenersIn: anElement
+	anElement padding: (BlInsets top: 2 left: 5 bottom: 2 right: 4 )
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToBasicMenuItemDresser >> onUninstalledIn: anElement [
 
-	super onUninstalledIn: anElement.
-	self uninstallEventListenersIn: anElement.
-	
-
+	super onUninstalledIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }

@@ -113,12 +113,13 @@ ToLabelInNodeDresser >> labelEditorRemovedIn: aLabel [
 	"selectionDecoration ifNil: [ ^ self ]."
 	" editor removed and the node is selected; get back the contrasting background "
 	| infinite |
+	infinite := node parent.
+	infinite requestFocus.
+	selected ifFalse: [ ^ self ].
 	self flag: 'Do not work if the edition is accepted because a new node is created in that case (because the data is updated) '.
 	"aLabel background: selectionDecoration actualBackgroundColor contrastingBlackAndWhiteColor."
 
 	self flag: 'workaround to make the node label foreground drawn correctly according to the selection background '.
-	infinite := node parent.
-	infinite requestFocus.
 	infinite whenLayoutedDoOnce: [ infinite parent updateSelectionDecoration ]
 	"node holder infiniteElement selectIndex: node holder position -1.
 	node holder infiniteElement selectIndex: node holder position."
@@ -134,16 +135,13 @@ ToLabelInNodeDresser >> node: aNode [
 { #category : #'api - install/uninstall  hook' }
 ToLabelInNodeDresser >> onInstalledIn: anElement [
 
-	super onInstalledIn: anElement.
-	self installEventListenersIn: anElement
-
+	super onInstalledIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToLabelInNodeDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
-	self uninstallEventListenersIn: anElement.
 	node := nil
 
 ]

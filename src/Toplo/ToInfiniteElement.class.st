@@ -209,16 +209,14 @@ ToInfiniteElement >> nodeFactory: aNodeFactory [
 	nodeFactory := aNodeFactory asToDataToElementConverter
 ]
 
-{ #category : #'private - commands' }
+{ #category : #removing }
 ToInfiniteElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount [
 
-	super
-		offsetPositionRecordsForInsert: aStartPosition
-		itemCount: anItemCount.
-
+	super offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount.
 	self primarySelection
-			offsetPositionForInsert: aStartPosition
-			itemCount: anItemCount.
+		dispatchSelectionChangedAfter: [
+			self deselectAll ]
+		to: self
 ]
 
 { #category : #'private - commands' }
@@ -235,8 +233,11 @@ ToInfiniteElement >> offsetPositionRecordsForRemove: aStartPosition itemCount: a
 		itemCount: anItemCount
 		applyToPreLayout: applyToPreLayout.
 	self primarySelection
-		offsetPositionForRemove: aStartPosition
-		itemCount: anItemCount
+		dispatchSelectionChangedAfter: [
+			self primarySelection
+				offsetPositionForRemove: aStartPosition
+				itemCount: anItemCount ]
+		to: self
 ]
 
 { #category : #'private - focus' }
@@ -372,10 +373,4 @@ ToInfiniteElement >> whenClickOnNodeAnnouncement: anAnnouncement [
 				 index: anAnnouncement holder layoutPosition;
 				 event: event;
 				 yourself) ]
-]
-
-{ #category : #'selection events' }
-ToInfiniteElement >> whenSecondarySelectionChangedAnnouncement: anAnnouncement [
-
-
 ]

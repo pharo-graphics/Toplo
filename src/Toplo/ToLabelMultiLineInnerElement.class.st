@@ -82,10 +82,10 @@ ToLabelMultiLineInnerElement >> splitText [
 		  | itor lineElement |
 		  text
 			  ifEmpty: [ | textElement |
-				textElement := self newTextElement.
-				textElement text: '' asRopedText attributes: text iterator attributes.
-				  lineElement := self newLineElement addChild: textElement ;                 yourself.
-				  stream nextPut: lineElement ]
+					textElement := self newTextElement.
+					textElement text: ('' asRopedText attributes: text iterator attributes).
+				 	lineElement := self newLineElement addChild: textElement ;                 yourself.
+				  	stream nextPut: lineElement ]
 			  ifNotEmpty: [ 
 				  itor := text iterator.
 				  [ itor hasNext ] whileTrue: [ 

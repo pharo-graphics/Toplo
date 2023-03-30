@@ -85,6 +85,7 @@ ToListElementDresser >> popupOpenedEvent: anEvent in: anElement [
 	childNode := targetChildren last.
 	childNode holder isSelected
 		ifTrue: [ 
+			anElement dispatchEvent: (ToListSecondarySelectionRequestEvent new node: childNode; yourself).
 			self updatePrimarySelectionDecorationIn: anElement.
 			anElement secondarySelection selectIndexes: anElement primarySelectionIndexes. ]
 		ifFalse: [
@@ -107,7 +108,6 @@ ToListElementDresser >> updatePrimarySelectionDecorationIn: anElement [
 	" if the node selected with right mouse click is already selected, 
 	then all selected nodes are also within the secondary selection "
 
-	anElement primarySelectionDecorations do: [ :d | d beWithSecondarySelection ].
 	menuCloseHandler := BlEventHandler
 		                    on: ToContextMenuClosedEvent
 		                    do: [ :event |

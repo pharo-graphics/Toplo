@@ -2,7 +2,8 @@ Class {
 	#name : #ToListPrimarySelectionUpdater,
 	#superclass : #ToListNodesDecorationUpdater,
 	#instVars : [
-		'selectionHandler'
+		'selectionHandler',
+		'secondarySelectionRequestHandler'
 	],
 	#category : #'Toplo-Widget-List'
 }
@@ -22,7 +23,13 @@ ToListPrimarySelectionUpdater >> newDecorationElement [
 { #category : #'api - install/uninstall  hook' }
 ToListPrimarySelectionUpdater >> onInstalledIn: aListElement [
 
-	super onInstalledIn: aListElement.
+	super onInstalledIn: aListElement. 
+	
+	secondarySelectionRequestHandler := BlEventHandler 
+		on: ToListSecondarySelectionRequestEvent 
+		do: [ :event | self secondaryDecorationRequest: event ].
+	aListElement addEventHandler: secondarySelectionRequestHandler.
+
 	selectionHandler := BlEventHandler on: ToInfiniteSelectionChangedEvent do: [ self selectionChangedIn: aListElement ].
 	aListElement infinite addEventHandler: selectionHandler.
 
@@ -33,5 +40,7 @@ ToListPrimarySelectionUpdater >> onUninstalledIn: aListElement [
 
 	super onUninstalledIn: aListElement.
 	aListElement infinite removeEventHandler: selectionHandler.
+	aListElement removeEventHandler: secondarySelectionRequestHandler.
+
 
 ]

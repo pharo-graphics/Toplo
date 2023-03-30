@@ -120,7 +120,7 @@ ToLabelInNodeDresser >> labelEditorRemovedIn: aLabel [
 	"aLabel background: selectionDecoration actualBackgroundColor contrastingBlackAndWhiteColor."
 
 	self flag: 'workaround to make the node label foreground drawn correctly according to the selection background '.
-	infinite whenLayoutedDoOnce: [ infinite parent updateSelectionDecoration ]
+	infinite whenLayoutedDoOnce: [ infinite parent dispatchEvent: ToListPrimarySelectionUpdateEvent new ]
 	"node holder infiniteElement selectIndex: node holder position -1.
 	node holder infiniteElement selectIndex: node holder position."
 

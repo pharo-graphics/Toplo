@@ -85,7 +85,7 @@ ToListElementDresser >> popupOpenedEvent: anEvent in: anElement [
 	childNode := targetChildren last.
 	childNode holder isSelected
 		ifTrue: [ 
-			anElement dispatchEvent: (ToListSecondarySelectionRequestEvent new node: childNode; yourself).
+			anElement dispatchEvent: (ToListSecondarySelectionAddedEvent new node: childNode; yourself).
 			self updatePrimarySelectionDecorationIn: anElement.
 			anElement secondarySelection selectIndexes: anElement primarySelectionIndexes. ]
 		ifFalse: [
@@ -111,8 +111,7 @@ ToListElementDresser >> updatePrimarySelectionDecorationIn: anElement [
 	menuCloseHandler := BlEventHandler
 		                    on: ToContextMenuClosedEvent
 		                    do: [ :event |
-			                    anElement primarySelectionDecorations do: [ :d |
-				                    d beWithoutSecondarySelection ].
+			                    anElement dispatchEvent: (ToListSecondarySelectionRemovedEvent new).
 			                    anElement infinite removeEventHandler: menuCloseHandler.
 			                    anElement secondarySelection deselectAll ].
 	anElement infinite addEventHandler: menuCloseHandler

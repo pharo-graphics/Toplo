@@ -1,5 +1,5 @@
 Class {
-	#name : #ToListSecondarySelectionRequestEvent,
+	#name : #ToListSecondarySelectionRemovedEvent,
 	#superclass : #ToListSelectionRequestEvent,
 	#instVars : [
 		'node'
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-ToListSecondarySelectionRequestEvent >> node [
+ToListSecondarySelectionRemovedEvent >> node [
 
 	^ node
 ]
 
 { #category : #accessing }
-ToListSecondarySelectionRequestEvent >> node: aNode [
+ToListSecondarySelectionRemovedEvent >> node: aNode [
 
 	node := aNode
 ]

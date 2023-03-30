@@ -41,18 +41,6 @@ ToListElement >> initialize [
 ]
 
 { #category : #accessing }
-ToListElement >> primarySelectionDecorations [
-
-	^ primarySelectionDecorationUpdater decorations
-]
-
-{ #category : #accessing }
-ToListElement >> updateSelectionDecoration [
-
-	primarySelectionDecorationUpdater selectionChangedIn: self
-]
-
-{ #category : #accessing }
 ToListElement >> withSelectionDecoration [
 
 	primarySelectionDecorationUpdater ifNil: [

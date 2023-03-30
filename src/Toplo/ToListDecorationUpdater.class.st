@@ -2,7 +2,6 @@ Class {
 	#name : #ToListDecorationUpdater,
 	#superclass : #Object,
 	#instVars : [
-		'listElement',
 		'extentChangeHandler',
 		'scrollHandler',
 		'decorations'
@@ -40,8 +39,6 @@ ToListDecorationUpdater >> initialize [
 { #category : #'api - install/uninstall  hook' }
 ToListDecorationUpdater >> onInstalledIn: aListElement [
 
-	listElement := aListElement.
-
 	extentChangeHandler := BlEventHandler
 		                       on: BlElementExtentChangedEvent
 		                       do: [ :evt | self extentChangedIn: aListElement ].
@@ -59,8 +56,7 @@ ToListDecorationUpdater >> onInstalledIn: aListElement [
 ToListDecorationUpdater >> onUninstalledIn: aListElement [
 
 	aListElement infinite removeEventHandler: extentChangeHandler.
-	aListElement infinite removeEventHandler: scrollHandler.
-	listElement := nil
+	aListElement infinite removeEventHandler: scrollHandler
 ]
 
 { #category : #private }
@@ -74,13 +70,6 @@ ToListDecorationUpdater >> resetDecorations [
 ToListDecorationUpdater >> scrollEventIn: anInfiniteElement [
 
 	self updateDecorationsIn: anInfiniteElement
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToListDecorationUpdater >> secondaryDecorationRequest: anEvent [
-
-	anEvent node holder isSelected ifFalse: [ ^ self ].
-	self decorations do: [ :d | d beWithSecondarySelection ]
 ]
 
 { #category : #'infinite element changes' }

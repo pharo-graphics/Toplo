@@ -85,7 +85,7 @@ ToListElementDresser >> popupOpenedEvent: anEvent in: anElement [
 	childNode := targetChildren last.
 	childNode holder isSelected
 		ifTrue: [ 
-			anElement dispatchEvent: (ToListSecondarySelectionAddedEvent new node: childNode; yourself).
+			anElement dispatchEvent: ToListSecondarySelectionAddedEvent new.
 			self updatePrimarySelectionDecorationIn: anElement.
 			anElement secondarySelection selectIndexes: anElement primarySelectionIndexes. ]
 		ifFalse: [

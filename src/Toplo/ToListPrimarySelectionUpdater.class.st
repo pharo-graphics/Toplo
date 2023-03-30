@@ -33,32 +33,35 @@ ToListPrimarySelectionUpdater >> onInstalledIn: aListElement [
 
 	super onInstalledIn: aListElement.
 
+	aListElement when: ToListSelectionUpdaterStopEvent do: [ :event | listElement = event target ifTrue: [ self onUninstalledIn: listElement ] ].
+
 	secondarySelectionAddedHandler := BlEventHandler
-		                                    on: ToListSecondarySelectionAddedEvent
-		                                    do: [ :event | self showSecondaryDecoration ].
-	aListElement addEventHandler: secondarySelectionAddedHandler.
+		                                  on: ToListSecondarySelectionAddedEvent
+		                                  do: [ :event | self showSecondaryDecoration ].
 	secondarySelectionRemovedHandler := BlEventHandler
 		                                    on: ToListSecondarySelectionRemovedEvent
 		                                    do: [ :event | self hideSecondaryDecoration ].
-	aListElement addEventHandler: secondarySelectionRemovedHandler.
-	
-	primarySelectionUpdateHandler := BlEventHandler on: ToListPrimarySelectionUpdateEvent do: [ :event | self selectionChangedIn: aListElement  ].
-	aListElement addEventHandler: primarySelectionUpdateHandler.
-	
+	primarySelectionUpdateHandler := BlEventHandler
+		                                 on: ToListPrimarySelectionUpdateEvent
+		                                 do: [ :event | self selectionChangedIn: aListElement ].
 	selectionModelHandler := BlEventHandler
-		                    on: ToInfiniteSelectionChangedEvent
-		                    do: [ self selectionChangedIn: aListElement ].
-	aListElement infinite addEventHandler: selectionModelHandler
+		                         on: ToInfiniteSelectionChangedEvent
+		                         do: [ self selectionChangedIn: aListElement ].
+
+	aListElement addEventHandler: secondarySelectionRemovedHandler.
+	aListElement addEventHandler: primarySelectionUpdateHandler.
+	aListElement addEventHandler: secondarySelectionAddedHandler.
+	aListElement infinite addEventHandler: selectionModelHandler.
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToListPrimarySelectionUpdater >> onUninstalledIn: aListElement [
 
 	super onUninstalledIn: aListElement.
-	aListElement infinite removeEventHandler: selectionModelHandler.
-	aListElement removeEventHandler: secondarySelectionAddedHandler.
+	aListElement removeEventHandler: secondarySelectionRemovedHandler.
 	aListElement removeEventHandler: primarySelectionUpdateHandler.
-
+	aListElement removeEventHandler: secondarySelectionAddedHandler.
+	aListElement infinite removeEventHandler: selectionModelHandler
 
 ]
 

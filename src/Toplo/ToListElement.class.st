@@ -3,9 +3,6 @@ Class {
 	#superclass : #ToElement,
 	#traits : 'TToListElementDecorator',
 	#classTraits : 'TToListElementDecorator classTrait',
-	#instVars : [
-		'primarySelectionDecorationUpdater'
-	],
 	#category : #'Toplo-Widget-List'
 }
 
@@ -43,15 +40,13 @@ ToListElement >> initialize [
 { #category : #accessing }
 ToListElement >> withSelectionDecoration [
 
-	primarySelectionDecorationUpdater ifNil: [
-		primarySelectionDecorationUpdater := ToListPrimarySelectionUpdater new.
-		primarySelectionDecorationUpdater onInstalledIn: self ]
+	| updater |
+	updater := ToListPrimarySelectionUpdater new.
+	updater onInstalledIn: self
 ]
 
 { #category : #accessing }
 ToListElement >> withoutSelectionDecoration [
 
-	primarySelectionDecorationUpdater ifNotNil: [
-		primarySelectionDecorationUpdater onUninstalledIn: self.
-		primarySelectionDecorationUpdater := nil ]
+	self dispatchEvent: ToListSelectionUpdaterStopEvent new
 ]

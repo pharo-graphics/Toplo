@@ -1,20 +1,5 @@
 Class {
 	#name : #ToListSecondarySelectionAddedEvent,
-	#superclass : #ToListSelectionRequestEvent,
-	#instVars : [
-		'node'
-	],
+	#superclass : #ToListSelectionUpdaterRequestEvent,
 	#category : #'Toplo-Widget-List'
 }
-
-{ #category : #accessing }
-ToListSecondarySelectionAddedEvent >> node [
-
-	^ node
-]
-
-{ #category : #accessing }
-ToListSecondarySelectionAddedEvent >> node: aNode [
-
-	node := aNode
-]

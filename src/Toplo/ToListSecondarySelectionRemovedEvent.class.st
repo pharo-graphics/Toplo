@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListSecondarySelectionRemovedEvent,
-	#superclass : #ToListSelectionRequestEvent,
+	#superclass : #ToListSelectionUpdaterRequestEvent,
 	#instVars : [
 		'node'
 	],

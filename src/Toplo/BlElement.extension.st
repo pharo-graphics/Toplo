@@ -13,7 +13,7 @@ BlElement >> toTheme [
 		at: #ToTheme
 		ifAbsent: [ self hasParent
 				ifTrue: [ self parent toTheme ]
-				ifFalse: [ self userData	at: #ToTheme put: ToTheme default. self toTheme ] ]
+				ifFalse: [ ToTheme default ] ]
 ]
 
 { #category : #'*Toplo' }

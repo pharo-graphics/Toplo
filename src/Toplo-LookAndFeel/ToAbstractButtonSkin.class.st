@@ -40,15 +40,40 @@ ToAbstractButtonSkin >> background [
 ]
 
 { #category : #accessing }
+ToAbstractButtonSkin >> border [
+
+	^ self tokens at: #border
+]
+
+{ #category : #built }
 ToAbstractButtonSkin >> buildTokens [
 
 	super buildTokens.
 	
 	self tokens at: #background put: self builtBackground.
+	self tokens at: #border put: self builtBorder.
 ]
 
-{ #category : #accessing }
+{ #category : #built }
 ToAbstractButtonSkin >> builtBackground [ 
 
 	^ self subclassResponsibility 
+]
+
+{ #category : #built }
+ToAbstractButtonSkin >> builtBorder [
+
+	^ (BlBorder paint: self theme colorBorder width: self theme lineWidth) "style: self builtBorderStyle"
+]
+
+{ #category : #built }
+ToAbstractButtonSkin >> builtGeometry [
+
+	^ BlRoundedRectangleGeometry cornerRadius: self theme borderRadius
+]
+
+{ #category : #accessing }
+ToAbstractButtonSkin >> geometry [
+
+	^ self tokens at: #geometry
 ]

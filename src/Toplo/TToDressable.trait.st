@@ -63,7 +63,7 @@ TToDressable >> removeDresser: aDresser [
 { #category : #'t - accessing skin' }
 TToDressable >> skin [
 
-	^ skin
+	^ skin ifNil:[ self dresser ifNotNil:[ :e | e skin ] ]
 ]
 
 { #category : #'t - accessing skin' }

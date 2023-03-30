@@ -6,6 +6,24 @@ Trait {
 	#category : #'Toplo-Widget-List'
 }
 
+{ #category : #'t - selection mode changing' }
+TToListElementDecorator >> beMultipleSelection [
+
+	self next beMultipleSelection
+]
+
+{ #category : #'t - selection mode changing' }
+TToListElementDecorator >> beSingleSelection [
+
+	self next beSingleSelection
+]
+
+{ #category : #'t - selection mode changing' }
+TToListElementDecorator >> beWithoutSelection [
+
+	self next beWithoutSelection
+]
+
 { #category : #'t - accessing context menu' }
 TToListElementDecorator >> contextMenuFactory: aValuable [
 
@@ -60,7 +78,7 @@ TToListElementDecorator >> next: aDecoratorOrInfinite [
 	next := aDecoratorOrInfinite
 ]
 
-{ #category : #accessing }
+{ #category : #'t - children - accessing' }
 TToListElementDecorator >> nodeAt: anIndex [
 
 	^ self next nodeAt: anIndex

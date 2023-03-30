@@ -79,19 +79,19 @@ ToSelectionStrategy >> atLeastMonoSelectionDo: aBlock [
 	aBlock value
 ]
 
-{ #category : #'mode testing' }
+{ #category : #'mode changing' }
 ToSelectionStrategy >> beMultipleSelection [ 
 
 	mode := #multiple
 ]
 
-{ #category : #'mode testing' }
+{ #category : #'mode changing' }
 ToSelectionStrategy >> beSingleSelection [ 
 
 	mode := #single
 ]
 
-{ #category : #'mode testing' }
+{ #category : #'mode changing' }
 ToSelectionStrategy >> beWithoutSelection [ 
 
 	self deselectAll.

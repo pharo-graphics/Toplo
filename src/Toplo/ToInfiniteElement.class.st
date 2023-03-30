@@ -13,6 +13,24 @@ Class {
 	#category : #'Toplo-Core-Infinite'
 }
 
+{ #category : #'selection mode' }
+ToInfiniteElement >> beMultipleSelection [ 
+
+	self primarySelection beMultipleSelection
+]
+
+{ #category : #'selection mode' }
+ToInfiniteElement >> beSingleSelection [ 
+
+	self primarySelection beSingleSelection
+]
+
+{ #category : #'selection mode' }
+ToInfiniteElement >> beWithoutSelection [ 
+
+	self primarySelection beWithoutSelection
+]
+
 { #category : #'selection events' }
 ToInfiniteElement >> cherryPickIndex: anIndex [
 
@@ -131,7 +149,7 @@ ToInfiniteElement >> hasClickLauncher [
 { #category : #testing }
 ToInfiniteElement >> hasSelection [
 
-	^ self primarySelection isEmpty not
+	^ self primarySelection isNotEmpty
 ]
 
 { #category : #initialization }
@@ -209,7 +227,7 @@ ToInfiniteElement >> nodeFactory: aNodeFactory [
 	nodeFactory := aNodeFactory asToDataToElementConverter
 ]
 
-{ #category : #removing }
+{ #category : #'private - commands' }
 ToInfiniteElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount [
 
 	super offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount.
@@ -225,7 +243,7 @@ ToInfiniteElement >> offsetPositionRecordsForMove: aFromPosition to: aToPosition
 	super offsetPositionRecordsForMove: aFromPosition to: aToPosition
 ]
 
-{ #category : #removing }
+{ #category : #'private - commands' }
 ToInfiniteElement >> offsetPositionRecordsForRemove: aStartPosition itemCount: anItemCount applyToPreLayout: applyToPreLayout [
 
 	super

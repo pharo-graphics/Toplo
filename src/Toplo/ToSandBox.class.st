@@ -356,7 +356,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 	               menu addItem: (ToButtonMenuItem new
 			                labelText: 'Add initial Items';
 			                whenClickedDo: [ :event :client |
-				                200 timesRepeat: [ client data add: 'AAAAAAAAAAA' ] ]).
+				                2000 timesRepeat: [ client data add: 'AAAAAAAAAAA' ] ]).
 	               widget data ifNotEmpty: [
 		               menu addItem: (ToButtonMenuItem new
 				                labelText: 'Select all';
@@ -1181,28 +1181,25 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 
 { #category : #tabs }
 ToSandBox class >> example_tabsWith2Pages [
-| aNotebook redPage greenPage redCount greenCount |
+
+	| aNotebook redPage greenPage redCount greenCount |
 	aNotebook := ToNotebook new.
 
 	redCount := 0.
-	redPage := aNotebook
-		addPageTitle: 'Red'
-		bodyFactory: [
-			redCount := redCount + 1.
-			BlTextElement new
-				text: (redCount asRopedText foreground: Color red darker);
-				yourself ].
+	redPage := aNotebook addPageTitle: 'Red' bodyFactory: [
+		           redCount := redCount + 1.
+		           BlTextElement new
+			           text: (redCount asRopedText foreground: Color red darker);
+			           yourself ].
 
 	greenCount := 0.
-	greenPage := aNotebook
-		addPageTitle: 'Green'
-		bodyFactory: [
-			greenCount := greenCount + 1.
-			BlTextElement new
-				text: (greenCount asRopedText foreground: Color green muchDarker);
-				yourself ].
-	
-	aNotebook openInOBlSpace 
+	greenPage := aNotebook addPageTitle: 'Green' bodyFactory: [
+		             greenCount := greenCount + 1.
+		             BlTextElement new
+			             text: (greenCount asRopedText foreground: Color green muchDarker);
+			             yourself ].
+
+	aNotebook openInOBlSpace
 ]
 
 { #category : #'text field' }

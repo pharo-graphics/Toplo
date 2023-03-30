@@ -37,7 +37,7 @@ ToListElement >> initialize [
 	self initializeDresser 
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 ToListElement >> withSelectionDecoration [
 
 	| updater |
@@ -45,7 +45,7 @@ ToListElement >> withSelectionDecoration [
 	updater onInstalledIn: self
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 ToListElement >> withoutSelectionDecoration [
 
 	self dispatchEvent: ToListSelectionUpdaterStopEvent new

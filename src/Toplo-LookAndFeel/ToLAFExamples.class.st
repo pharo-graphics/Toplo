@@ -8,12 +8,14 @@ Class {
 ToLAFExamples class >> example_toButtonChangeThemeOnClickChangeSkinOnRightClick [
 
 	| but space |
+	space := OBlSpace new.
+	
 	but := ToButton new.
 	but dresser: ToLAFButtonDresser new.
 	but label: (ToLabel text: 'Button').
 	
 	but whenClickedDo: [
-		but toTheme: (but toTheme class = ToClearTheme
+		space toTheme: (space toTheme class = ToClearTheme
 				 ifTrue: [ ToDarkTheme new ]
 				 ifFalse: [ ToClearTheme new ]) ].
 			
@@ -23,8 +25,6 @@ ToLAFExamples class >> example_toButtonChangeThemeOnClickChangeSkinOnRightClick 
 					 ifTrue: [ ToDefaultButtonSkin new ]
 					 ifFalse: [ ToPrimaryButtonSkin new ]) ] ].
 			
-	space := OBlSpace new.
-	"space toTheme: ToClearTheme new."
 	space addChild: but.
 	space show
 ]

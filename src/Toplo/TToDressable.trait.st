@@ -1,5 +1,8 @@
 Trait {
 	#name : #TToDressable,
+	#instVars : [
+		'skin'
+	],
 	#category : #'Toplo-Core'
 }
 
@@ -55,6 +58,36 @@ TToDressable >> removeDresser: aDresser [
 	self dresser: aDresser next.
 	aDresser next: ToNullDresser new.
 	aDresser launchUninstallationIn: self
+]
+
+{ #category : #'t - accessing skin' }
+TToDressable >> skin [
+
+	^ skin
+]
+
+{ #category : #'t - accessing skin' }
+TToDressable >> skin: aSkin [
+
+	skin = aSkin ifTrue:[ ^ self ].
+	skin := aSkin.
+	self skinChanged.
+]
+
+{ #category : #'t - accessing skin' }
+TToDressable >> skinChanged [
+
+	self dresserDo: [ :d | d launchUninstallationIn: self ].
+	self dresserDo: [ :d | d launchInstallationIn: self ]
+]
+
+{ #category : #'t - accessing theme' }
+TToDressable >> toThemeChanged [
+
+	self dresserDo: [ :d | d launchUninstallationIn: self ].
+	self dresserDo: [ :d | d launchInstallationIn: self ].
+	
+	self childrenDo: [ :c | c toThemeChanged ]
 ]
 
 { #category : #'t - accessing dresser' }

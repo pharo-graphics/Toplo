@@ -60,7 +60,7 @@ TToListElementDecorator >> next: aDecoratorOrInfinite [
 	next := aDecoratorOrInfinite
 ]
 
-{ #category : #accessing }
+{ #category : #'t - children - accessing' }
 TToListElementDecorator >> nodeAt: anIndex [
 
 	^ self next nodeAt: anIndex

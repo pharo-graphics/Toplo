@@ -1,7 +1,7 @@
 "
 This package contains :
 - Tools to design Look & Feel with Skins and Dressers
-- Default Toplo Theme (Dark and Clear) inspired by And Design, see software licence
+- Default Toplo Theme (Dark and Clear) inspired by And Design 5.3.3, see software licence
 
 Ant Design licence :
 

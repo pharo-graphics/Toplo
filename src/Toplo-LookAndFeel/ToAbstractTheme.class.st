@@ -9,3 +9,9 @@ ToAbstractTheme class >> isAbstract [
 
 	^ self = ToAbstractTheme
 ]
+
+{ #category : #colors }
+ToAbstractTheme >> backgroundColor [
+
+	^ Color white
+]

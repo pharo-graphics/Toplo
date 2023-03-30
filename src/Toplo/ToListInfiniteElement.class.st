@@ -33,3 +33,9 @@ ToListInfiniteElement >> infinite [
 
 	^ self
 ]
+
+{ #category : #initialization }
+ToListInfiniteElement >> initializeDataSource [
+
+	super initializeDataSource
+]

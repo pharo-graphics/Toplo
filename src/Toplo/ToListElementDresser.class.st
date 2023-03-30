@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'keyboardHandler',
 		'menuPopupHandler',
-		'menuCloseHandler'
+		'menuCloseHandler',
+		'structuralChangeHandler'
 	],
 	#category : #'Toplo-Widget-List'
 }
@@ -28,6 +29,13 @@ ToListElementDresser >> addSecondarySelectionDecorationOnNode: aChildNode In: an
 	anElement infinite addEventHandler: menuCloseHandler
 ]
 
+{ #category : #'list structural change' }
+ToListElementDresser >> checkEmptinessChangeIn: anElement [
+
+	anElement data ifEmpty: [ ^ self showListPlaceholderIn: anElement ].
+	self hideListPlaceholderIn: anElement
+]
+
 { #category : #initialization }
 ToListElementDresser >> defaultBackground [
 
@@ -48,14 +56,23 @@ ToListElementDresser >> defaultPadding [
 
 ]
 
+{ #category : #'list structural change' }
+ToListElementDresser >> hideListPlaceholderIn: anElement [
+
+
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToListElementDresser >> installEventListenersIn: anElement [
 
 	keyboardHandler := BlEventHandler on: BlKeyboardEvent do: [ :event | anElement infinite dispatchEvent: event ].
 	menuPopupHandler := BlEventHandler on: ToContextMenuOpenedEvent do: [ :event | self popupOpenedEvent: event in: anElement ].
+	structuralChangeHandler := BlEventHandler on: ToListDataEmptinessChangeEvent do: [ :event | self checkEmptinessChangeIn: anElement ].
 
 	anElement addEventHandler: keyboardHandler.
-	anElement infinite addEventHandler: menuPopupHandler
+	anElement infinite addEventHandler: menuPopupHandler.
+	anElement infinite dataSource addEventHandler: structuralChangeHandler
+
 	
 	
 ]
@@ -66,7 +83,8 @@ ToListElementDresser >> onInstalledIn: anElement [
 	super onInstalledIn: anElement.
 	anElement background: self defaultBackground.
 	anElement margin: self defaultMargin.
-	anElement padding: self defaultPadding
+	anElement padding: self defaultPadding.
+	self showListPlaceholderIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -95,11 +113,19 @@ ToListElementDresser >> popupOpenedEvent: anEvent in: anElement [
 			anElement secondarySelection selectIndex: childNode holder position ]
 ]
 
+{ #category : #'list structural change' }
+ToListElementDresser >> showListPlaceholderIn: anElement [
+
+
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToListElementDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: keyboardHandler.
-	anElement infinite removeEventHandler: menuPopupHandler
+	anElement infinite removeEventHandler: menuPopupHandler.
+	anElement infinite dataSource removeEventHandler: structuralChangeHandler
+
 
 ]
 

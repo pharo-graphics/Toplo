@@ -356,7 +356,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 	               menu addItem: (ToButtonMenuItem new
 			                labelText: 'Add initial Items';
 			                whenClickedDo: [ :event :client |
-				                20000 timesRepeat: [ client data add: 'AAAAAAAAAAA' ] ]).
+				                2000 timesRepeat: [ client data add: 'AAAAAAAAAAA' ] ]).
 	               widget data ifNotEmpty: [
 		               menu addItem: (ToButtonMenuItem new
 				                labelText: 'Select all';

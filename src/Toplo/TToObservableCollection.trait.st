@@ -290,23 +290,29 @@ TToObservableCollection >> noneSatisfy: aBlock [
 { #category : #'t - observable collection notifications' }
 TToObservableCollection >> notifyAddChangeAround: aBlock candidates: aCollection interval: anInterval [
 
+	| wasEmpty |
+	wasEmpty := list isEmpty.
 	self announce: (ToCollectionBeforeAddChange new
 			 interval: anInterval;
 			 candidates: aCollection;
 			 yourself).
 	aBlock value.
-	self announce: (ToCollectionAddChange new interval: anInterval)
+	self announce: (ToCollectionAddChange new interval: anInterval).
+	wasEmpty = list isEmpty ifFalse: [ self announce: ToCollectionEmptinessChanged new ]
 ]
 
 { #category : #'t - observable collection notifications' }
 TToObservableCollection >> notifyRemoveChangeAround: aBlock removed: aCollection interval: anInterval [
 
+	| wasEmpty |
+	wasEmpty := list isEmpty.
 	self announce: (ToCollectionBeforeRemoveChange new interval: anInterval).
 	aBlock value.
 	self announce: (ToCollectionRemoveChange new
 			 interval: anInterval;
 			 removed: aCollection;
-			 yourself)
+			 yourself).
+	wasEmpty = list isEmpty ifFalse: [ self announce: ToCollectionEmptinessChanged new ]
 ]
 
 { #category : #'t - observable collection notifications' }

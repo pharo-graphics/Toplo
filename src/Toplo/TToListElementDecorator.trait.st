@@ -48,6 +48,12 @@ TToListElementDecorator >> findElementHolderForDataSourcePosition: anInteger [
 	^ self next findElementHolderForDataSourcePosition: anInteger
 ]
 
+{ #category : #'t - selection testing' }
+TToListElementDecorator >> hasSelection [
+
+	^ self next hasSelection
+]
+
 { #category : #'t - infinite accessing' }
 TToListElementDecorator >> infinite [
 

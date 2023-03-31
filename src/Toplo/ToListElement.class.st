@@ -38,12 +38,6 @@ ToListElement >> defaultPlaceholder [
 		  yourself
 ]
 
-{ #category : #testing }
-ToListElement >> hasSelection [
-
-	^ self next hasSelection
-]
-
 { #category : #initialization }
 ToListElement >> initialize [
 

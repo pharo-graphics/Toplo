@@ -2535,3 +2535,7 @@ ToSandBox class >> example_verticalPaneWithDivider [
 ToSandBox class >> methodText [
 	^ self  class sourceCodeAt: #example_CodeEditorWithToAlbumModel
 ]
+
+{ #category : #'see class side' }
+ToSandBox >> seeClassSide [ 
+]

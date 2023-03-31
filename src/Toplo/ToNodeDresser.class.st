@@ -103,27 +103,34 @@ ToNodeDresser >> installEventListenersIn: anElement [
 
 { #category : #'events handling' }
 ToNodeDresser >> launchClick: aBlock event: anEvent for: anElement [
-
 	" click launcher management to allow double click to work with several selected nodes "
 
 	| launcher infinite |
-	
 	infinite := anElement holder infiniteElement.
-	
-	infinite hasOpenedContextMenu ifTrue: [ infinite terminateClickLauncher. ^ self ].
+
+	infinite hasOpenedContextMenu ifTrue: [
+		infinite terminateClickLauncher.
+		^ self ].
+
+	infinite isFocused ifFalse: [
+		infinite hasSelection ifTrue: [
+			infinite requestFocus.
+			^ self ] ].
 	
 	" do not try double click if ctrl or Cmd or shift is pressed "
-	(anElement holder isSelected not or: [anEvent modifiers isPrimaryModifier or: [ anEvent modifiers isShift ]])
-		ifTrue: [
-			infinite terminateClickLauncher.
-			^ aBlock value ].
-		
-	
+	(anElement holder isSelected not or: [
+		 anEvent modifiers isPrimaryModifier or: [
+			 anEvent modifiers isShift ] ]) ifTrue: [
+		infinite terminateClickLauncher.
+		^ aBlock value ].
+
+
 	" Already has a click launcher "
 	infinite hasClickLauncher ifTrue: [ ^ self ].
-	
+
 	" no click launcher for only one selected node "
 	infinite primarySelectionIndexes size > 1 ifFalse: [ ^ aBlock value ].
+	
 	monitor critical: [
 		launcher := [
 		            (Delay forMilliseconds: 250) wait.

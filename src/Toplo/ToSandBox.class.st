@@ -114,20 +114,20 @@ ToSandBox class >> example_ComboBoxWithHeadPlaceholder [
 { #category : #combobox }
 ToSandBox class >> example_ComboBoxWithListPlaceholder [
 
-	| win combo placeHolder lab but |
+	| win combo placeholder lab but |
 	win := ToInnerWindow new title: 'Combo box Example'.
 	combo := ToComboBox new.
-	placeHolder := ToElement new.
-	placeHolder layout: BlLinearLayout vertical.
-	placeHolder layout cellSpacing: 10.
-	placeHolder margin: (BlInsets all: 10).
-	placeHolder fitContent.
-	placeHolder addChild: (lab := ToLabel new text: ('No element - click to get data' asRopedText foreground: Color red)).
-	placeHolder addChild: (but := ToButton new labelText: 'Fetch data').
+	placeholder := ToElement new.
+	placeholder layout: BlLinearLayout vertical.
+	placeholder layout cellSpacing: 10.
+	placeholder margin: (BlInsets all: 20).
+	placeholder fitContent.
+	placeholder addChild: (lab := ToLabel new text: ('No element - click to get data' asRopedText foreground: Color red)).
+	placeholder addChild: (but := ToButton new labelText: 'Fetch data').
 	lab constraintsDo: [ :c | c linear horizontal alignCenter ].
 	but constraintsDo: [ :c | c linear horizontal alignCenter ].
 	but whenClickedDo: [ combo data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]) ].
-	combo listPlaceholder: placeHolder.
+	combo listPlaceholder: placeholder.
 	win root addChild: combo.
 	win openInWorld
 ]

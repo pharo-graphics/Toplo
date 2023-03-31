@@ -7,7 +7,6 @@ Class {
 		'#data',
 		'#selectedIndex => ObservableSlot',
 		'#listElement',
-		'#listPlaceholder',
 		'#listFrame',
 		'#headElement',
 		'#headPlaceholder',
@@ -71,12 +70,6 @@ ToComboBox >> defaultHeadPlaceholder [
 ToComboBox >> defaultListElement [
 
 	^ ToListElement new
-		  vFitContent;
-		  in: [ :e | e infinite vFitContent ];
-		  width: self defaultListElementSize x;
-		  maxHeight: self defaultListElementSize y;
-		  nodeFactory: self defaultListNodeFactory;
-		  yourself
 ]
 
 { #category : #initialization }
@@ -201,15 +194,13 @@ ToComboBox >> headPlaceholder: anElement [
 { #category : #displaying }
 ToComboBox >> hideListPlaceholder [
 
-	self listPlaceholder parentDo: [ :p |
-		self listPlaceholder removeFromParent.
-		self listFrame root addChild: self listElement]
+	self initializeListElement
 ]
 
 { #category : #displaying }
 ToComboBox >> hideOrShowListPlaceholder [
 
-	self data ifEmpty: [ ^ self showListPlaceholder ].
+	self data ifEmpty: [ ^ self ].
 	self hideListPlaceholder
 ]
 
@@ -221,16 +212,26 @@ ToComboBox >> initialize [
 	self privateData: self newDataCollection.
 	self layout: self defaultLayout.
 	self headElement: self defaultHeadElement.
-	self headPlaceholder: self defaultHeadPlaceholder.
-	self listPlaceholder: self defaultListPlaceholder.
 	self headContentFactory: self defaultHeadContentFactory.
 	self listElement: self defaultListElement.
+	self initializeListElement.
+	self headPlaceholder: self defaultHeadPlaceholder.
+	self listPlaceholder: self defaultListPlaceholder.
 	self listFrame: self defaultListFrame.
 	self whenSelectedIndexChangedDo: [ self selectedIndexChanged ].
 	self whenHeadContentFactoryChangedDo: [ self headContentFactoryChanged  ].
 	self selectIndex: 0.
-	self showListPlaceholder.
 	self initializeDresser
+]
+
+{ #category : #initialization }
+ToComboBox >> initializeListElement [
+
+	self listElement
+		vFitContent;
+		in: [ :e | e infinite vFitContent ];
+		width: self defaultListElementSize x;
+		maxHeight: self defaultListElementSize y
 ]
 
 { #category : #accessing }
@@ -266,19 +267,13 @@ ToComboBox >> listFrame: aWindow [
 { #category : #accessing }
 ToComboBox >> listPlaceholder [
 
-	^ listPlaceholder
+	^ self listElement placeholder
 ]
 
 { #category : #accessing }
 ToComboBox >> listPlaceholder: anElement [
 
-	listPlaceholder ifNotNil: [
-		listPlaceholder parentDo: [ :p |
-			listPlaceholder removeFromParent.
-			listPlaceholder := anElement.
-			self listFrame root addChild: listPlaceholder.
-			^ self ] ].
-	listPlaceholder := anElement
+	self listElement placeholder: anElement
 ]
 
 { #category : #initialization }
@@ -415,9 +410,6 @@ ToComboBox >> selectedIndexChanged [
 { #category : #displaying }
 ToComboBox >> showListPlaceholder [
 
-	self listPlaceholder parentDo: [ :p | ^ self ].
-	self listFrame root addChild: self listPlaceholder.
-	self listFrame root removeChild: self listElement
 ]
 
 { #category : #accessing }

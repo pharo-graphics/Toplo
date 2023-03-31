@@ -12,18 +12,21 @@ ToLAFExamples class >> example_toButtonChangeThemeOnClickChangeSkinOnRightClick 
 	
 	but := ToButton new.
 	but dresser: ToLAFButtonDresser new.
-	but label: (ToLabel text: 'Button').
+	but labelText: 'Default Theme'.
 	
 	but whenClickedDo: [
 		space toTheme: (space toTheme class = ToClearTheme
-				 ifTrue: [ ToDarkTheme new ]
-				 ifFalse: [ ToClearTheme new ]) ].
+			ifTrue: [but labelText: 'Dark Theme'. ToDarkTheme new.  ]
+			ifFalse: [but labelText: 'Clear Theme'. ToClearTheme new. ]) 
+	].
 			
 	but when: BlMouseDownEvent do: [ :event |
 		event secondaryButtonPressed ifTrue: [
 			but skin: (but skin class = ToPrimaryButtonSkin
 					 ifTrue: [ ToDefaultButtonSkin new ]
-					 ifFalse: [ ToPrimaryButtonSkin new ]) ] ].
+					 ifFalse: [ ToPrimaryButtonSkin new ]) 
+		].
+	].
 			
 	space addChild: but.
 	space show

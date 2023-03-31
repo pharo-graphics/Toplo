@@ -29,7 +29,28 @@ ToDarkTheme >> colorBgContainer [
 ]
 
 { #category : #colors }
+ToDarkTheme >> colorBgTextActive [
+	"https://ant.design/components/button#design-token"
+	
+	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.15 
+]
+
+{ #category : #colors }
+ToDarkTheme >> colorBorder [
+	"https://ant.design/components/button#design-token"
+	
+	^ Color fromHexString: '#d9d9d9'
+]
+
+{ #category : #colors }
 ToDarkTheme >> colorPrimary [
 	
 	^ Color fromHexString: '#1677ff'
+]
+
+{ #category : #colors }
+ToDarkTheme >> colorText [
+	"https://ant.design/components/button#design-token"
+	
+	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.88 
 ]

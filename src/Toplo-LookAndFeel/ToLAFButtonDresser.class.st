@@ -25,8 +25,9 @@ ToLAFButtonDresser >> initialState: anElement [
 
 	super initialState: anElement.
 	
-	"Create background"
-	self background: self skin background in: anElement
+	anElement geometry: self skin builtGeometry.
+	self background: self skin background in: anElement.
+	self border: self skin border in: anElement.
 ]
 
 { #category : #'events handling' }
@@ -39,9 +40,17 @@ ToLAFButtonDresser >> leaved: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToLAFButtonDresser >> onInstalledIn: anElement [
 
-	super onInstalledIn: anElement.
 	skin := anElement skin.
 	self skin theme: anElement toTheme.
+
+	super onInstalledIn: anElement.
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToLAFButtonDresser >> onUninstalledIn: anElement [
+
+	super onUninstalledIn: anElement.
+	skin := nil
 ]
 
 { #category : #accessing }

@@ -275,9 +275,9 @@ ToAlbumModel >> withEditsFeedbackLayer [
 ]
 
 { #category : #'view configuration' }
-ToAlbumModel >> withPrompt: aText [
+ToAlbumModel >> withPlaceholderText: aText [
 
-	self widgetDo: [ :album | album withPrompt: aText ]
+	self widgetDo: [ :album | album withPlaceholderText: aText ]
 ]
 
 { #category : #'view configuration' }
@@ -299,9 +299,9 @@ ToAlbumModel >> withoutEditsFeedbackLayer [
 ]
 
 { #category : #'view configuration' }
-ToAlbumModel >> withoutPrompt [
+ToAlbumModel >> withoutPlaceholder [
 
-	self widgetDo: [ :album | album withoutPrompt ]
+	self widgetDo: [ :album | album withoutPlaceholder ]
 ]
 
 { #category : #'view configuration' }

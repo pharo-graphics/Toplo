@@ -5,9 +5,9 @@ Class {
 	#classTraits : 'TToWidget classTrait + TToElement classTrait + TToWidgetWithViewModel classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithLayers classTrait + TToWidgetWithContextMenu classTrait + TAlbInfiniteDecorator classTrait',
 	#instVars : [
 		'#editsFeedbackLayer',
-		'#ghostTextLayer',
 		'#innerElement',
-		'#edited => ObservableSlot'
+		'#edited => ObservableSlot',
+		'#placeholder'
 	],
 	#category : #'Toplo-Widget-Album'
 }
@@ -162,11 +162,11 @@ ToAlbum >> withEditsFeedbackLayer [
 ]
 
 { #category : #layers }
-ToAlbum >> withPrompt: aText [
+ToAlbum >> withPlaceholderText: aText [
 
-	ghostTextLayer ifNotNil: [ ^ self ].
-	ghostTextLayer := ToAlbumPromptLayer new text: aText.
-	self addLayer: ghostTextLayer
+	placeholder ifNotNil: [ ^ self ].
+	placeholder := ToAlbumPlaceholder new text: aText.
+	self addLayer: placeholder
 ]
 
 { #category : #initialization }
@@ -195,9 +195,9 @@ ToAlbum >> withoutEditsFeedback [
 ]
 
 { #category : #layers }
-ToAlbum >> withoutPrompt [ 
+ToAlbum >> withoutPlaceholder [ 
 
-	ghostTextLayer ifNil: [ ^ self ].
-	self removeLayer: ghostTextLayer.
-	ghostTextLayer := nil
+	placeholder ifNil: [ ^ self ].
+	self removeLayer: placeholder.
+	placeholder := nil
 ]

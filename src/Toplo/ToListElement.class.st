@@ -3,6 +3,9 @@ Class {
 	#superclass : #ToElement,
 	#traits : 'TToListElementDecorator',
 	#classTraits : 'TToListElementDecorator classTrait',
+	#instVars : [
+		'placeholder'
+	],
 	#category : #'Toplo-Widget-List'
 }
 
@@ -16,6 +19,23 @@ ToListElement >> defaultDresser [
 ToListElement >> defaultLayout [
 
 	^ BlFrameLayout new
+]
+
+{ #category : #initialization }
+ToListElement >> defaultPlaceholder [
+
+	^ ToLabel new
+		  beMultiLine;
+		  text: '';
+		  foreground: Color lightGray;
+		  margin: (BlInsets all: 5);
+		  constraintsDo: [ :c |
+			  c frame vertical alignCenter.
+			  c frame horizontal alignCenter ];
+		  in: [ :lab |
+			  lab layout alignCenter.
+			  lab innerElement layout alignCenter ];
+		  yourself
 ]
 
 { #category : #testing }
@@ -34,7 +54,26 @@ ToListElement >> initialize [
 	self addChild: next.
 	self matchParent.
 	self withSelectionDecoration.
+	self placeholder: self defaultPlaceholder.
 	self initializeDresser 
+]
+
+{ #category : #accessing }
+ToListElement >> placeholder [
+
+	^ placeholder
+]
+
+{ #category : #accessing }
+ToListElement >> placeholder: anElement [
+
+	placeholder ifNotNil: [
+		placeholder parentDo: [ :p |
+			placeholder removeFromParent.
+			placeholder := anElement.
+			self addChild: placeholder.
+			^ self ] ].
+	placeholder := anElement
 ]
 
 { #category : #initialization }

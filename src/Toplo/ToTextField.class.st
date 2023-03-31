@@ -31,11 +31,11 @@ ToTextField >> withLineWrapping [
 ]
 
 { #category : #layers }
-ToTextField >> withPrompt: aText [
+ToTextField >> withPlaceholderText: aText [
 
-	ghostTextLayer ifNotNil: [ ^ self ].
-	ghostTextLayer := ToTextFieldPromptLayer new text: aText.
-	self addLayer: ghostTextLayer
+	placeholder ifNotNil: [ ^ self ].
+	placeholder := ToTextFieldPlaceholder new text: aText.
+	self addLayer: placeholder
 ]
 
 { #category : #initialization }

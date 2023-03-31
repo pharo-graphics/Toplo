@@ -59,7 +59,8 @@ ToListElementDresser >> defaultPadding [
 { #category : #'list structural change' }
 ToListElementDresser >> hideListPlaceholderIn: anElement [
 
-
+	anElement placeholder parentDo: [ :p |
+		anElement placeholder removeFromParent ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -116,7 +117,8 @@ ToListElementDresser >> popupOpenedEvent: anEvent in: anElement [
 { #category : #'list structural change' }
 ToListElementDresser >> showListPlaceholderIn: anElement [
 
-
+	anElement placeholder parentDo: [ :p | ^ self ].
+	anElement addChild: anElement placeholder
 ]
 
 { #category : #'api - install/uninstall  hook' }

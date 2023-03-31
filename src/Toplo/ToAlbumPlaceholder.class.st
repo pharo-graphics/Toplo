@@ -1,5 +1,5 @@
 Class {
-	#name : #ToAlbumPromptLayer,
+	#name : #ToAlbumPlaceholder,
 	#superclass : #ToWidgetLayer,
 	#instVars : [
 		'label'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'api - attaching / detaching' }
-ToAlbumPromptLayer >> attachTo: anEditorElement [ 
+ToAlbumPlaceholder >> attachTo: anEditorElement [ 
 
 	super attachTo: anEditorElement.
 	self checkText: anEditorElement text.
@@ -18,7 +18,7 @@ ToAlbumPromptLayer >> attachTo: anEditorElement [
 ]
 
 { #category : #'api - attaching / detaching' }
-ToAlbumPromptLayer >> checkText: aText [
+ToAlbumPlaceholder >> checkText: aText [
 
 	aText
 		ifEmpty: [ label visibility: BlVisibility visible ]
@@ -26,7 +26,7 @@ ToAlbumPromptLayer >> checkText: aText [
 ]
 
 { #category : #initialization }
-ToAlbumPromptLayer >> defaultLabel [
+ToAlbumPlaceholder >> defaultLabel [
 
 	^ ToLabel new
 		  constraintsDo: [ :c | 
@@ -39,7 +39,7 @@ ToAlbumPromptLayer >> defaultLabel [
 ]
 
 { #category : #initialization }
-ToAlbumPromptLayer >> initialize [
+ToAlbumPlaceholder >> initialize [
 
 	super initialize.
 	self
@@ -51,7 +51,7 @@ ToAlbumPromptLayer >> initialize [
 ]
 
 { #category : #accessing }
-ToAlbumPromptLayer >> text: aBlText [
+ToAlbumPlaceholder >> text: aBlText [
 
 	label text: aBlText
 ]

@@ -1,11 +1,11 @@
 Class {
-	#name : #ToTextFieldPromptLayer,
-	#superclass : #ToAlbumPromptLayer,
+	#name : #ToTextFieldPlaceholder,
+	#superclass : #ToAlbumPlaceholder,
 	#category : #'Toplo-Widget-TextField'
 }
 
 { #category : #'api - attaching / detaching' }
-ToTextFieldPromptLayer >> attachTo: anEditorElement [
+ToTextFieldPlaceholder >> attachTo: anEditorElement [
 
 	super attachTo: anEditorElement.
 	"label padding: anEditorElement padding copy.
@@ -13,7 +13,7 @@ ToTextFieldPromptLayer >> attachTo: anEditorElement [
 ]
 
 { #category : #initialization }
-ToTextFieldPromptLayer >> defaultLabel [
+ToTextFieldPlaceholder >> defaultLabel [
 
 	^ ToLabel new
 		  fitContent;

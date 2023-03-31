@@ -165,15 +165,15 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 ]
 
 { #category : #album }
-ToSandBox class >> example_EditorWithPrompt [
+ToSandBox class >> example_EditorWithPlaceholder [
 
-	| prompt view |
-	prompt := ('Here is a prompt' , String cr , 'visible only if the text is empty') asRopedText.
-	prompt foreground: Color lightGray.
-	prompt fontSize: 24.
+	| placeholderText view |
+	placeholderText := ('Here is a placeholder text' , String cr , 'visible only if the text is empty') asRopedText.
+	placeholderText foreground: Color lightGray.
+	placeholderText fontSize: 24.
 
 	view := (ToAlbumModel new
-		 withPrompt: prompt;
+		 withPlaceholderText: placeholderText;
 		 withRowNumbers;
 		 withSaveCapability;
 		 whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
@@ -183,15 +183,15 @@ ToSandBox class >> example_EditorWithPrompt [
 ]
 
 { #category : #album }
-ToSandBox class >> example_EditorWithPromptWithToAlbumModel [
+ToSandBox class >> example_EditorWithPlaceholderWithToAlbumModel [
 
-	| prompt view |
-	prompt := ('Here is a prompt' , String cr , 'visible only if the text is empty') asRopedText.
-	prompt foreground: Color lightGray.
-	prompt fontSize: 24.
+	| placeholderText view |
+	placeholderText := ('Here is a placeholder text' , String cr , 'visible only if the text is empty') asRopedText.
+	placeholderText foreground: Color lightGray.
+	placeholderText fontSize: 24.
 
 	view := (ToAlbumModel new
-		 withPrompt: prompt;
+		 withPlaceholderText: placeholderText;
 		 withRowNumbers;
 		 withSaveCapability;
 		 whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
@@ -203,13 +203,13 @@ ToSandBox class >> example_EditorWithPromptWithToAlbumModel [
 { #category : #album }
 ToSandBox class >> example_EditorWithSoftLine [
 
-	| prompt view |
-	prompt := ('Here is a prompt' , String cr , 'visible only if the text is empty') asRopedText.
-	prompt foreground: Color lightGray.
-	prompt fontSize: 24.
+	| placeholderText view |
+	placeholderText := ('Here is a placeholder text' , String cr , 'visible only if the text is empty') asRopedText.
+	placeholderText foreground: Color lightGray.
+	placeholderText fontSize: 24.
 
 	view := (ToAlbumModel new
-		 withPrompt: prompt;
+		 withPlaceholderText: placeholderText;
 		 withRowNumbers;
 		 withSaveCapability;
 		 whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
@@ -222,13 +222,13 @@ ToSandBox class >> example_EditorWithSoftLine [
 { #category : #album }
 ToSandBox class >> example_EditorWithoutSoftLine [
 
-	| prompt view |
-	prompt := ('Here is a prompt' , String cr , 'visible only if the text is empty') asRopedText.
-	prompt foreground: Color lightGray.
-	prompt fontSize: 24.
+	| placeholderText view |
+	placeholderText := ('Here is a placeholder text' , String cr , 'visible only if the text is empty') asRopedText.
+	placeholderText foreground: Color lightGray.
+	placeholderText fontSize: 24.
 
 	view := (ToAlbumModel new
-		 withPrompt: prompt;
+		 withPlaceholderText: placeholderText;
 		 withRowNumbers;
 		 withSaveCapability;
 		 whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
@@ -336,6 +336,16 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l selectionMenu menuFactory |
 	l := ToListElement new.
+	l placeholder: (l defaultPlaceholder 
+		alignCenter;
+		beMultiLine;
+		text: ((('Invoke the context menu ', String cr, 
+					'with a right-click', String cr, 
+					'to initialize the list') asRopedText 
+						foreground: Color lightGray; 
+						yourself) 
+			fontSize: 24; 
+			yourself)).
 	l nodeFactory: [ :t :holder |
 		| lab |
 		lab := ToLabel text: t.
@@ -490,7 +500,7 @@ ToSandBox class >> example_ListWithSingleSelection [
 			     columnWidth: 25;
 			     hMatchParent ].
 	l data addAll: Smalltalk globals allClasses.
-	l primarySelection beSingleSelection.
+	l beSingleSelection.
 	l openInOBlSpace
 ]
 
@@ -505,7 +515,7 @@ ToSandBox class >> example_ListWithoutSelection [
 			     columnWidth: 25;
 			     hMatchParent ].
 	l data addAll: Smalltalk globals allClasses.
-	l primarySelection beWithoutSelection.
+	l beWithoutSelection.
 	l openInOBlSpace
 ]
 
@@ -1005,7 +1015,7 @@ ToSandBox class >> example_menu6 [
 	textField := ToTextField new
 		             withLineWrapping;
 		             width: 200;
-		             withPrompt: 'Your name'.
+		             withPlaceholderText: 'Your name'.
 	menu addItem: (ToCustomMenuItem new innerElement: textField).
 
 	menu addSeparator.
@@ -1117,7 +1127,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	textField := ToTextField new
 		             withLineWrapping;
 		             width: 200;
-		             withPrompt: 'search...'.
+		             withPlaceholderText: 'search...'.
 	bar addChild: textField.
 	bar addMenu: (ToMenu new
 			 labelText: 'Help';
@@ -1236,12 +1246,12 @@ ToSandBox class >> example_textFieldWithLineWrappingWithSaveCapability [
 ]
 
 { #category : #'text field' }
-ToSandBox class >> example_textFieldWithPrompt [
+ToSandBox class >> example_textFieldWithPlaceholder [
 
 	| t text |
 	t := ToTextField new withSaveCapability.
 	text := ''.
-	t withPrompt: 'Enter to accept'.
+	t withPlaceholderText: 'Enter to accept'.
 	t text: text copy.
 	t whenSaveRequestedDo: [ :saveRequested | 
 		saveRequested client saveResult: true.

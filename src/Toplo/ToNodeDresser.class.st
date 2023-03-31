@@ -105,7 +105,7 @@ ToNodeDresser >> installEventListenersIn: anElement [
 ToNodeDresser >> launchClick: aBlock event: anEvent for: anElement [
 	" click launcher management to allow double click to work with several selected nodes "
 
-	| launcher infinite |
+	| infinite |
 	infinite := anElement holder infiniteElement.
 
 	infinite hasOpenedContextMenu ifTrue: [
@@ -132,13 +132,12 @@ ToNodeDresser >> launchClick: aBlock event: anEvent for: anElement [
 	infinite primarySelectionIndexes size > 1 ifFalse: [ ^ aBlock value ].
 	
 	monitor critical: [
-		launcher := [
+		infinite clickLauncher: ([
 		            (Delay forMilliseconds: 250) wait.
 		            aBlock value.
 		            infinite clickLauncher: nil ]
 			            forkAt: Processor highIOPriority
-			            named: 'ToNodeDresser clickLauncher'.
-		infinite clickLauncher: launcher ]
+			            named: 'ToNodeDresser clickLauncher')]
 ]
 
 { #category : #'events handling' }

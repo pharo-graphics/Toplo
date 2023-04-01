@@ -8,20 +8,49 @@ Class {
 BaselineOfToplo >> baseline: spec [
 
 	<baseline>
-	spec for: #common do: [ 
-		spec
-			baseline: 'OnBloc'
-			with: [ 
-				spec repository: 'github://plantec/OnBloc/src' ];
-			baseline: 'Album'
-			with: [ 
-				spec repository: 'github://plantec/Album/src' ].
+	spec for: #common do: [ self baselineForCommon: spec ]
+]
 
-		spec package: #Toplo with: [ 
-			spec repository: 'github://plantec/Toplo/src'.
-			spec requires: #( #OnBloc #Album) ].
+{ #category : #baselines }
+BaselineOfToplo >> baselineForCommon: spec [
+
+	self dependencies: spec.
+	self registerPackages: spec
+]
+
+{ #category : #dependencies }
+BaselineOfToplo >> dependencies: spec [
+
+	spec
+		baseline: 'OnBloc'
+		with: [ spec repository: 'github://plantec/OnBloc/src' ].
+
+	spec
+		baseline: 'Album'
+		with: [ spec repository: 'github://plantec/Album/src' ]
+]
+
+{ #category : #baselines }
+BaselineOfToplo >> registerPackages: spec [
+
+	"Core"
+	spec package: #Toplo with: [
+		spec repository: 'github://plantec/Toplo/src'.
+		spec requires: #( #OnBloc #Album ) ].
+
+	"Look and Feel"
+	spec package: #'Toplo-LookAndFeel' with: [
+		spec repository: 'github://plantec/Toplo/src'.
+		spec requires: #( #Toplo ) ].
+
+	"Tests"
+	spec package: #'Toplo-Tests' with: [
+		spec repository: 'github://plantec/Toplo/src'.
+		spec requires: #( #Toplo ) ].
 	
-		spec package: #'Toplo-Tests' with: [ 
-			spec repository: 'github://plantec/Toplo/src'.
-			spec requires: #( #Toplo ) ] ]
+	spec package: #'Toplo-LookAndFeel-Tests' with: [
+		spec repository: 'github://plantec/Toplo/src'.
+		spec requires: #( #'Toplo-LookAndFeel' ) ].
+	
+	
 ]

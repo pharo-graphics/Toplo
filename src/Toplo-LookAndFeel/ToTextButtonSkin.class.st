@@ -16,16 +16,11 @@ ToTextButtonSkin class >> type [
 { #category : #built }
 ToTextButtonSkin >> builtBackground [
 
-	^ self theme colorPrimary 
+	^ self theme colorBgContainer
 ]
 
 { #category : #built }
-ToTextButtonSkin >> builtBorderStyle [
+ToTextButtonSkin >> builtBorder [
 
-	^ BlStrokeStyle new"
-		lineCap: self lineCap;
-		lineJoin: self lineJoin;
-		miterLimit: self miterLimit;
-		dashArray: self dashArray;
-		dashOffset: self dashOffset"
+	^ nil
 ]

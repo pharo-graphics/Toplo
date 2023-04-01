@@ -16,16 +16,14 @@ ToDashedButtonSkin class >> type [
 { #category : #built }
 ToDashedButtonSkin >> builtBackground [
 
-	^ self theme colorPrimary 
+	^ self theme colorBgContainer
 ]
 
 { #category : #built }
-ToDashedButtonSkin >> builtBorderStyle [
+ToDashedButtonSkin >> builtBorderBuilder [
 
-	^ BlStrokeStyle new"
-		lineCap: self lineCap;
-		lineJoin: self lineJoin;
-		miterLimit: self miterLimit;
-		dashArray: self dashArray;
-		dashOffset: self dashOffset"
+	| builder |
+	builder := super builtBorderBuilder.
+	builder dashArray: #( 6 4.2 ).
+	^ builder
 ]

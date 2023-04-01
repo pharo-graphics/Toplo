@@ -9,6 +9,7 @@ ToLAFExamples class >> example_ButtonSkins [
 
 	| space button1 button2 button3 button4 button5 |
 	space := OBlSpace new.
+	space root layout: (BlLinearLayout horizontal cellSpacing: 10).
 	
 	button1 := ToButton skinType: #primary.
 	button1 labelText: 'Primary button'.

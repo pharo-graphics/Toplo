@@ -1,6 +1,9 @@
 Class {
 	#name : #ToAbstractTheme,
 	#superclass : #Object,
+	#instVars : [
+		'name'
+	],
 	#category : #'Toplo-LookAndFeel-Theme'
 }
 
@@ -37,4 +40,16 @@ ToAbstractTheme class >> skinFor: aToElementClass type: aType [
 ToAbstractTheme >> backgroundColor [
 
 	^ Color white
+]
+
+{ #category : #accessing }
+ToAbstractTheme >> name [
+
+	^ name ifNil:[ name := 'Theme without name' ]
+]
+
+{ #category : #accessing }
+ToAbstractTheme >> name: anObject [
+
+	name := anObject
 ]

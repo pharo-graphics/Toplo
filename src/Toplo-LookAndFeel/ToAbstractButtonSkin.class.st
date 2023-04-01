@@ -63,13 +63,43 @@ ToAbstractButtonSkin >> builtBackground [
 { #category : #built }
 ToAbstractButtonSkin >> builtBorder [
 
-	^ (BlBorder paint: self theme colorBorder width: self theme lineWidth) "style: self builtBorderStyle"
+	^ self builtBorderBuilder build
+]
+
+{ #category : #built }
+ToAbstractButtonSkin >> builtBorderBuilder [
+
+	| builder |
+	builder := BlBorderBuilder new
+		           paint: self theme colorBorder;
+		           width: self theme lineWidth;
+		           lineCap: BlStrokeLineCap butt;
+		           lineJoin: BlStrokeLineJoin miter;
+		           miterLimit: 4.0;
+		           dashOffset: 0.
+
+	self theme lineType = #solid ifTrue:[builder dashArray: #()].
+	self theme lineType = #dashed ifTrue:[builder dashArray: #( 6 4.2 )].
+
+	^ builder
 ]
 
 { #category : #built }
 ToAbstractButtonSkin >> builtGeometry [
 
 	^ BlRoundedRectangleGeometry cornerRadius: self theme borderRadius
+]
+
+{ #category : #built }
+ToAbstractButtonSkin >> builtIconSkin [
+
+	^ nil
+]
+
+{ #category : #built }
+ToAbstractButtonSkin >> builtLabelSkin [
+
+	^ ToDefaultLabelSkin new
 ]
 
 { #category : #accessing }

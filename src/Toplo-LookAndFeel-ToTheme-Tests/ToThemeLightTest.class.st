@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #tests }
+ToThemeLightTest >> testDarkTheme [
+
+	self assert: ToThemeLight new darkTheme class equals: ToThemeDark
+]
+
+{ #category : #tests }
 ToThemeLightTest >> testIsDark [
 
 	self assert: ToThemeLight new isDark not
@@ -17,4 +23,10 @@ ToThemeLightTest >> testIsDark [
 ToThemeLightTest >> testIsLight [
 
 	self assert: ToThemeLight new isLight
+]
+
+{ #category : #tests }
+ToThemeLightTest >> testLightTheme [
+
+	self assert: ToThemeLight new lightTheme class equals: ToThemeLight
 ]

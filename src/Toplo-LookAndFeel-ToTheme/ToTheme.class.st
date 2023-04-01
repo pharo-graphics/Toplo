@@ -7,16 +7,6 @@ Class {
 	#category : #'Toplo-LookAndFeel-ToTheme-Themes'
 }
 
-{ #category : #dresser }
-ToTheme class >> dresserFor: aToElementClass [
-	"return dresser which manage this theme"
-
-	aToElementClass class = ToButton ifTrue: [ ^ ToLAFButtonDresser new ].
-	aToElementClass class = ToLabel ifTrue: [ ^ ToLAFLabelDresser new ].
-
-	^ aToElementClass defaultDresser
-]
-
 { #category : #testing }
 ToTheme class >> isAbstract [
 

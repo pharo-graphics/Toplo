@@ -4,7 +4,7 @@ A ToLAFLabelDresserTest is a test class for testing the behavior of ToLAFLabelDr
 Class {
 	#name : #ToLAFLabelDresserTest,
 	#superclass : #TestCase,
-	#category : #'Toplo-LookAndFeel-Tests-Dressers'
+	#category : #'Toplo-LookAndFeel-Tests-Core'
 }
 
 { #category : #test }

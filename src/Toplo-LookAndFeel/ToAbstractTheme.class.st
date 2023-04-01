@@ -31,10 +31,16 @@ ToAbstractTheme class >> current [
 ]
 
 { #category : #dresser }
-ToAbstractTheme class >> dresserFor: aToElementClass [
+ToAbstractTheme class >> dresserFor: aToElement [
 	"return dresser which manage this theme"
 
-	^ self subclassResponsibility 
+	aToElement ifNil:[ ^ nil ].
+	(aToElement isKindOf: ToElement) ifFalse:[ ^ nil ].
+
+	aToElement class = ToButton ifTrue: [ ^ ToLAFButtonDresser new ].
+	aToElement class = ToLabel ifTrue: [ ^ ToLAFLabelDresser new ].
+
+	^ aToElement defaultDresser
 ]
 
 { #category : #testing }

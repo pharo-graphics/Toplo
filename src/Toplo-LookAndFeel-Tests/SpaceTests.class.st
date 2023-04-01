@@ -1,7 +1,7 @@
 Class {
 	#name : #SpaceTests,
 	#superclass : #TestCase,
-	#category : #'Toplo-LookAndFeel-Tests-Tests'
+	#category : #'Toplo-LookAndFeel-Tests-Extensions Tests'
 }
 
 { #category : #private }

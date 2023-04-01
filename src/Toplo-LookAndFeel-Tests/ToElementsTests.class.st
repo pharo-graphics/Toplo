@@ -4,7 +4,7 @@ A ToLAFButtonDresserTest is a test class for testing the behavior of ToLAFButton
 Class {
 	#name : #ToElementsTests,
 	#superclass : #TestCase,
-	#category : #'Toplo-LookAndFeel-Tests-Tests'
+	#category : #'Toplo-LookAndFeel-Tests-Extensions Tests'
 }
 
 { #category : #tests }

@@ -4,7 +4,7 @@ A ToAbstractSkinTest is a test class for testing the behavior of ToAbstractSkin
 Class {
 	#name : #ToAbstractSkinTest,
 	#superclass : #TestCase,
-	#category : #'Toplo-LookAndFeel-Tests-Skins'
+	#category : #'Toplo-LookAndFeel-Tests-Core'
 }
 
 { #category : #test }

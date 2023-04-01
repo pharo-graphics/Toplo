@@ -32,25 +32,23 @@ BaselineOfToplo >> dependencies: spec [
 
 { #category : #baselines }
 BaselineOfToplo >> registerPackages: spec [
-
 	"Core"
-	spec package: #Toplo with: [
-		spec repository: 'github://plantec/Toplo/src'.
-		spec requires: #( #OnBloc #Album ) ].
+
+	spec 
+		package: #Toplo 
+		with: [ spec requires: #( #OnBloc #Album ) ].
 
 	"Look and Feel"
-	spec package: #'Toplo-LookAndFeel' with: [
-		spec repository: 'github://plantec/Toplo/src'.
-		spec requires: #( #Toplo ) ].
+	spec
+		package: #'Toplo-LookAndFeel'
+		with: [ spec requires: #( #Toplo ) ].
 
 	"Tests"
-	spec package: #'Toplo-Tests' with: [
-		spec repository: 'github://plantec/Toplo/src'.
-		spec requires: #( #Toplo ) ].
-	
-	spec package: #'Toplo-LookAndFeel-Tests' with: [
-		spec repository: 'github://plantec/Toplo/src'.
-		spec requires: #( #'Toplo-LookAndFeel' ) ].
-	
-	
+	spec 
+		package: #'Toplo-Tests' 
+		with: [ spec requires: #( #Toplo ) ].
+
+	spec
+		package: #'Toplo-LookAndFeel-Tests'
+		with: [ spec requires: #( #'Toplo-LookAndFeel' ) ]
 ]

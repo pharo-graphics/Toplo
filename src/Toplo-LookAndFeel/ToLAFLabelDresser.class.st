@@ -14,27 +14,26 @@ ToLAFLabelDresser >> defaultSkin [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToLAFLabelDresser >> initialState: anElement [ 
+ToLAFLabelDresser >> initialState: aToLabel [ 
 
-	super initialState: anElement.
+	super initialState: aToLabel.
 	
-	self background: self skin background in: anElement.
-	self border: self skin border in: anElement
+	self skin foreground ifNotNil:[ :b | self foreground: b in: aToLabel ].
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToLAFLabelDresser >> onInstalledIn: anElement [
+ToLAFLabelDresser >> onInstalledIn: aToLabel [
 
-	skin := anElement skin.
-	self skin theme: anElement toTheme.
+	skin := aToLabel skin.
+	self skin theme: aToLabel toTheme.
 
-	super onInstalledIn: anElement
+	super onInstalledIn: aToLabel
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToLAFLabelDresser >> onUninstalledIn: anElement [
+ToLAFLabelDresser >> onUninstalledIn: aToLabel [
 
-	super onUninstalledIn: anElement.
+	super onUninstalledIn: aToLabel.
 	skin := nil
 ]
 

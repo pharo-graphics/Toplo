@@ -11,7 +11,7 @@ ToLinkLabelSkin class >> type [
 ]
 
 { #category : #built }
-ToLinkLabelSkin >> builtBackground [
+ToLinkLabelSkin >> builtForeground [
 
 	^ self theme colorLink
 ]

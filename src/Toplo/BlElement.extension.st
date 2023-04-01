@@ -12,7 +12,7 @@ BlElement >> toTheme [
 	^ self userData at: #ToTheme ifAbsent: [
 		  self hasParent
 			  ifTrue: [ self parent toTheme ]
-			  ifFalse: [ ToTheme default ] 
+			  ifFalse: [ ToAbstractTheme current ] 
 	]
 ]
 

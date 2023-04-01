@@ -24,3 +24,9 @@ ToLinkButtonSkin >> builtBorder [
 
 	^ nil
 ]
+
+{ #category : #built }
+ToLinkButtonSkin >> labelSkinType [
+
+	^ ToLinkLabelSkin type
+]

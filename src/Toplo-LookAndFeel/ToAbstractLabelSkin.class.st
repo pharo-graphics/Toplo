@@ -10,28 +10,22 @@ ToAbstractLabelSkin class >> isAbstract [
 	^ self = ToAbstractLabelSkin
 ]
 
-{ #category : #tokens }
-ToAbstractLabelSkin >> background [
-
-	^ self token: #background
-]
-
-{ #category : #tokens }
-ToAbstractLabelSkin >> border [
-
-	^ self token: #border
-]
-
 { #category : #built }
 ToAbstractLabelSkin >> buildTokens [
 
 	super buildTokens.
 	
-	self tokens at: #background put: self builtBackground
+	self tokens at: #foreground put: self builtForeground
 ]
 
 { #category : #built }
-ToAbstractLabelSkin >> builtBackground [ 
+ToAbstractLabelSkin >> builtForeground [
 
 	^ self subclassResponsibility
+]
+
+{ #category : #tokens }
+ToAbstractLabelSkin >> foreground [
+
+	^ self token: #foreground
 ]

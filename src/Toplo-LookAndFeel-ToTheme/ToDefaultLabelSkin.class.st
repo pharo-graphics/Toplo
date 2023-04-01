@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #built }
-ToDefaultLabelSkin >> builtBackground [
+ToDefaultLabelSkin >> builtForeground [
 
 	^ self theme colorText
 ]

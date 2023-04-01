@@ -10,7 +10,7 @@ Class {
 { #category : #accessing }
 ToPrimaryButtonSkin class >> type [
 
-	^ ToPrimaryLabelSkin type
+	^ #primary
 ]
 
 { #category : #built }
@@ -22,5 +22,5 @@ ToPrimaryButtonSkin >> builtBackground [
 { #category : #built }
 ToPrimaryButtonSkin >> labelSkinType [
 
-	^ #primary
+	^ ToPrimaryLabelSkin type
 ]

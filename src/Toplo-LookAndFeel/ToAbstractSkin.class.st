@@ -42,7 +42,7 @@ ToAbstractSkin >> initialize [
 { #category : #accessing }
 ToAbstractSkin >> theme [
 
-	^ theme ifNil:[ theme := ToTheme default ]
+	^ theme ifNil:[ theme := ToAbstractTheme current ]
 ]
 
 { #category : #accessing }

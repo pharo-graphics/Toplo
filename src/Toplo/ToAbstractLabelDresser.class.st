@@ -11,29 +11,19 @@ ToAbstractLabelDresser class >> isAbstract [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToAbstractLabelDresser >> background: aBackground in: anElement [
+ToAbstractLabelDresser >> foreground: aBlPaint in: aToLabel [
 
-	anElement
-		disableEventType: BlElementBackgroundChangedEvent 
-		while: [ anElement background: aBackground ]
+	aToLabel foreground: aBlPaint
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToAbstractLabelDresser >> border: aBorder in: anElement [
-
-	anElement
-		disableEventType: BlElementBorderChangedEvent
-		while: [ anElement border: aBorder ]
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToAbstractLabelDresser >> initialState: anElement [
+ToAbstractLabelDresser >> initialState: aToLabel [
 
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToAbstractLabelDresser >> onInstalledIn: anElement [
+ToAbstractLabelDresser >> onInstalledIn: aToLabel [
 
-	super onInstalledIn: anElement.
-	self initialState: anElement
+	super onInstalledIn: aToLabel.
+	self initialState: aToLabel
 ]

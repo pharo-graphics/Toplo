@@ -7,12 +7,6 @@ Class {
 	#category : #'Toplo-LookAndFeel-ToTheme-Themes'
 }
 
-{ #category : #testing }
-ToTheme class >> default [
-
-	^ ToThemeLight new
-]
-
 { #category : #dresser }
 ToTheme class >> dresserFor: aToElementClass [
 	"return dresser which manage this theme"

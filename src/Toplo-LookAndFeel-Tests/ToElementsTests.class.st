@@ -51,5 +51,5 @@ ToElementsTests >> testDefaultTheme [
 	| element |
 	element := ToElement new.
 	
-	self assert: element toTheme class equals: ToTheme default class.
+	self assert: element toTheme class equals: ToAbstractTheme current class.
 ]

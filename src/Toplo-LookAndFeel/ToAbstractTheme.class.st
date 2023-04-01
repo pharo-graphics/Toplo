@@ -4,8 +4,31 @@ Class {
 	#instVars : [
 		'name'
 	],
+	#classInstVars : [
+		'current'
+	],
 	#category : #'Toplo-LookAndFeel-Themes'
 }
+
+{ #category : #cleanup }
+ToAbstractTheme class >> cleanUp [
+	<script>
+
+	current := nil
+]
+
+{ #category : #cleanup }
+ToAbstractTheme class >> cleanUp: anObject [
+
+	self cleanUp
+]
+
+{ #category : #current }
+ToAbstractTheme class >> current [
+
+	current ifNil: [ current := ToThemeLight new ].
+	^ current
+]
 
 { #category : #dresser }
 ToAbstractTheme class >> dresserFor: aToElementClass [

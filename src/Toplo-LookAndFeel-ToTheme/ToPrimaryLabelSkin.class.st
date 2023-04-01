@@ -11,7 +11,7 @@ ToPrimaryLabelSkin class >> type [
 ]
 
 { #category : #built }
-ToPrimaryLabelSkin >> builtBackground [
+ToPrimaryLabelSkin >> builtForeground [
 
 	^ self theme colorTextLightSolid
 ]

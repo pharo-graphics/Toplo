@@ -63,6 +63,6 @@ SpaceTests >> testDefaultSpaceTheme [
 
 	| space |
 	space := OBlSpace new.
-	self assert: space toTheme class equals: ToTheme default class.
+	self assert: space toTheme class equals: ToAbstractTheme current class.
 	
 ]

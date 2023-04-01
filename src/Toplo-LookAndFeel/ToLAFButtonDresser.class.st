@@ -25,9 +25,9 @@ ToLAFButtonDresser >> initialState: anElement [
 
 	super initialState: anElement.
 	
-	anElement geometry: self skin builtGeometry.
-	self background: self skin background in: anElement.
-	self border: self skin border in: anElement.
+	self skin builtGeometry ifNotNil:[ :g | anElement geometry: g].
+	self skin background ifNotNil:[ :b | self background: b in: anElement ].
+	self skin border ifNotNil:[ :b | self border: b in: anElement ].
 ]
 
 { #category : #'events handling' }

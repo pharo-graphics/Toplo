@@ -10,5 +10,5 @@ Class {
 { #category : #tests }
 ToThemeTest >> testDefaultToTheme [
 
-	self assert: ToTheme default class equals: ToClearTheme
+	self assert: ToTheme default class equals: ToLightTheme
 ]

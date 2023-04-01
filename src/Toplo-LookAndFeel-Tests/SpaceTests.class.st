@@ -19,7 +19,7 @@ SpaceTests >> testChangeSpaceTheme [
 	| button space |
 	button := self createDefaultButton.
 	"test button skin tokens"
-	self assert: (button skin tokens at: #background) equals: (ToClearTheme new colorBgContainer).
+	self assert: (button skin tokens at: #background) equals: (ToLightTheme new colorBgContainer).
 	
 	space := OBlSpace new.
 	space addChild: button.
@@ -38,7 +38,7 @@ SpaceTests >> testChangeSpaceThemeAndDontTouchSpecifiedElementTheme [
 	| button1 space button2 |
 	button1 := self createDefaultButton.
 	"force a theme on a Space branch, here we want always a clear theme button"
-	button1 toTheme: ToClearTheme new.
+	button1 toTheme: ToLightTheme new.
 
 	button2 := self createDefaultButton.
 	
@@ -50,11 +50,11 @@ SpaceTests >> testChangeSpaceThemeAndDontTouchSpecifiedElementTheme [
 	space toTheme: ToDarkTheme new.
 	
 	self assert: space toTheme class equals: ToDarkTheme.
-	self assert: button1 toTheme class equals: ToClearTheme.
+	self assert: button1 toTheme class equals: ToLightTheme.
 	self assert: button2 toTheme class equals: ToDarkTheme.
 	
 	"test skin token"
-	self assert: (button1 skin tokens at: #background) equals: (ToClearTheme new colorBgContainer).
+	self assert: (button1 skin tokens at: #background) equals: (ToLightTheme new colorBgContainer).
 	self assert: (button2 skin tokens at: #background) equals: (ToDarkTheme new colorBgContainer).
 ]
 

@@ -31,9 +31,9 @@ ToElementsTests >> testChangeTheme [
 	
 	self assert: element toTheme class equals: ToDarkTheme.
 	
-	element toTheme: ToClearTheme new.
+	element toTheme: ToLightTheme new.
 	
-	self assert: element toTheme class equals: ToClearTheme.
+	self assert: element toTheme class equals: ToLightTheme.
 ]
 
 { #category : #tests }

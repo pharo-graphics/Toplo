@@ -42,6 +42,18 @@ ToAbstractTheme >> backgroundColor [
 	^ Color white
 ]
 
+{ #category : #colors }
+ToAbstractTheme >> isDark [
+
+	^ self subclassResponsibility
+]
+
+{ #category : #colors }
+ToAbstractTheme >> isLight [
+
+	^ self subclassResponsibility
+]
+
 { #category : #accessing }
 ToAbstractTheme >> name [
 

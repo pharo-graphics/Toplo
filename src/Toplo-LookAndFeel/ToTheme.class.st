@@ -10,7 +10,7 @@ Class {
 { #category : #testing }
 ToTheme class >> default [
 
-	^ ToClearTheme new
+	^ ToLightTheme new
 ]
 
 { #category : #dresser }

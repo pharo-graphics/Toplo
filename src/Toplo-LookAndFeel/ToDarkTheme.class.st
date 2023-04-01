@@ -61,3 +61,15 @@ ToDarkTheme >> initialize [
 	super initialize.
 	self name: 'Toplo dark Theme'
 ]
+
+{ #category : #colors }
+ToDarkTheme >> isDark [
+
+	^ true
+]
+
+{ #category : #colors }
+ToDarkTheme >> isLight [
+
+	^ false
+]

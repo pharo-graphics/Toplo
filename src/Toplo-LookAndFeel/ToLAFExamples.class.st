@@ -45,9 +45,9 @@ ToLAFExamples class >> example_toButtonChangeThemeOnClickChangeSkinOnRightClick 
 	but labelText: 'Default Theme'.
 	
 	but whenClickedDo: [
-		space toTheme: (space toTheme class = ToClearTheme
+		space toTheme: (space toTheme class = ToLightTheme
 			ifTrue: [but labelText: 'Dark Theme'. ToDarkTheme new.  ]
-			ifFalse: [but labelText: 'Clear Theme'. ToClearTheme new. ]) 
+			ifFalse: [but labelText: 'Clear Theme'. ToLightTheme new. ]) 
 	].
 			
 	but when: BlMouseDownEvent do: [ :event |

@@ -43,14 +43,11 @@ ToLAFButtonDresser >> onInstalledIn: anElement [
 	skin := anElement skin.
 	self skin theme: anElement toTheme.
 	
-	anElement label ifNotNil:[ :label |
-		label skin: self skin builtLabelSkin.
+	self skin labelSkinType ifNotNil:[ :labelSkinType |
+		anElement label ifNil:[ anElement label: ToLabel new ].
+		anElement label skinType: labelSkinType.
 	].
-
-	anElement icon ifNotNil:[ :icon |
-		icon skin: self skin builtIconSkin. 
-	].
-
+	
 	super onInstalledIn: anElement.
 ]
 

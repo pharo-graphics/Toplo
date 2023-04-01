@@ -11,65 +11,65 @@ When to use ?
         It works similarly to turning off the lights in a movie theater.
 "
 Class {
-	#name : #ToDarkTheme,
+	#name : #ToThemeDark,
 	#superclass : #ToTheme,
-	#category : #'Toplo-LookAndFeel-Theme'
+	#category : #'Toplo-LookAndFeel-ToTheme-Themes'
 }
 
 { #category : #colors }
-ToDarkTheme >> backgroundColor [
+ToThemeDark >> backgroundColor [
 
 	^ Color black
 ]
 
 { #category : #colors }
-ToDarkTheme >> colorBgContainer [
+ToThemeDark >> colorBgContainer [
 
 	^ Color fromHexString: '#1b1b1b'
 ]
 
 { #category : #colors }
-ToDarkTheme >> colorBgTextActive [
+ToThemeDark >> colorBgTextActive [
 	"https://ant.design/components/button#design-token"
 	
 	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.15 
 ]
 
 { #category : #colors }
-ToDarkTheme >> colorBorder [
+ToThemeDark >> colorBorder [
 	"https://ant.design/components/button#design-token"
 	
 	^ Color fromHexString: '#d9d9d9'
 ]
 
 { #category : #colors }
-ToDarkTheme >> colorPrimary [
+ToThemeDark >> colorPrimary [
 	
 	^ Color fromHexString: '#1677ff'
 ]
 
 { #category : #colors }
-ToDarkTheme >> colorText [
+ToThemeDark >> colorText [
 	"https://ant.design/components/button#design-token"
 	
 	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.88 
 ]
 
 { #category : #colors }
-ToDarkTheme >> initialize [ 
+ToThemeDark >> initialize [ 
 
 	super initialize.
 	self name: 'Toplo dark Theme'
 ]
 
 { #category : #colors }
-ToDarkTheme >> isDark [
+ToThemeDark >> isDark [
 
 	^ true
 ]
 
 { #category : #colors }
-ToDarkTheme >> isLight [
+ToThemeDark >> isLight [
 
 	^ false
 ]

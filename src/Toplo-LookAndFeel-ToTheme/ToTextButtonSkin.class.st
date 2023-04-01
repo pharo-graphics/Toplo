@@ -4,7 +4,7 @@ Text button: used for the most secondary action.
 Class {
 	#name : #ToTextButtonSkin,
 	#superclass : #ToAbstractButtonSkin,
-	#category : #'Toplo-LookAndFeel-Skins - Buttons'
+	#category : #'Toplo-LookAndFeel-ToTheme-Skins - Buttons'
 }
 
 { #category : #accessing }

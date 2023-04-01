@@ -4,7 +4,7 @@ Link button: used for external links.
 Class {
 	#name : #ToLinkButtonSkin,
 	#superclass : #ToAbstractButtonSkin,
-	#category : #'Toplo-LookAndFeel-Skins - Buttons'
+	#category : #'Toplo-LookAndFeel-ToTheme-Skins - Buttons'
 }
 
 { #category : #accessing }

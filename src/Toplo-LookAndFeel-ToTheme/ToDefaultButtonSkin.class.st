@@ -4,7 +4,7 @@ Default button: indicate a series of actions without priority.
 Class {
 	#name : #ToDefaultButtonSkin,
 	#superclass : #ToAbstractButtonSkin,
-	#category : #'Toplo-LookAndFeel-Skins - Buttons'
+	#category : #'Toplo-LookAndFeel-ToTheme-Skins - Buttons'
 }
 
 { #category : #built }

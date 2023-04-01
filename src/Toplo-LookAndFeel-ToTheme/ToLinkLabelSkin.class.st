@@ -1,7 +1,7 @@
 Class {
 	#name : #ToLinkLabelSkin,
 	#superclass : #ToAbstractLabelSkin,
-	#category : #'Toplo-LookAndFeel-Skins - Labels'
+	#category : #'Toplo-LookAndFeel-ToTheme-Skins - Label'
 }
 
 { #category : #accessing }

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToAbstractLabelSkin,
 	#superclass : #ToAbstractSkin,
-	#category : #'Toplo-LookAndFeel-Skins - Labels'
+	#category : #'Toplo-LookAndFeel-Skins'
 }
 
 { #category : #testing }
@@ -10,10 +10,16 @@ ToAbstractLabelSkin class >> isAbstract [
 	^ self = ToAbstractLabelSkin
 ]
 
-{ #category : #built }
+{ #category : #tokens }
 ToAbstractLabelSkin >> background [
 
-	^ self tokens at: #background
+	^ self token: #background
+]
+
+{ #category : #tokens }
+ToAbstractLabelSkin >> border [
+
+	^ self token: #border
 ]
 
 { #category : #built }

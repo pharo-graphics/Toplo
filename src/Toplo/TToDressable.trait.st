@@ -1,7 +1,8 @@
 Trait {
 	#name : #TToDressable,
 	#instVars : [
-		'skin'
+		'skin',
+		'skinType'
 	],
 	#category : #'Toplo-Core'
 }
@@ -84,6 +85,41 @@ TToDressable >> skinChanged [
 
 	self dresserDo: [ :d | d launchUninstallationIn: self ].
 	self dresserDo: [ :d | d launchInstallationIn: self ]
+]
+
+{ #category : #'t - accessing skin' }
+TToDressable >> skinType [
+
+	^ skinType ifNil:[ ToAbstractSkin defaultType ]
+]
+
+{ #category : #'t - accessing skin' }
+TToDressable >> skinType: aType [
+
+	self skinType ~= aType ifFalse:[ ^ self ].
+	skinType := aType.
+	
+	self toTheme ifNil:[ ^ self ].
+	
+	self dresser: (self toTheme class dresserFor: self).
+	self skin: (self toTheme class skinFor: self type: aType)
+]
+
+{ #category : #'t - accessing theme' }
+TToDressable >> toTheme [
+
+	^ self userData at: #ToTheme ifAbsent: [
+		  self hasParent
+			  ifTrue: [ self parent toTheme ]
+			  ifFalse: [ ToTheme default ] 
+	]
+]
+
+{ #category : #'t - accessing theme' }
+TToDressable >> toTheme: aTheme [
+
+	self userData at: #ToTheme put: aTheme.
+	self toThemeChanged
 ]
 
 { #category : #'t - accessing theme' }

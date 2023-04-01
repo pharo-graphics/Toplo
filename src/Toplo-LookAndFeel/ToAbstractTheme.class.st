@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'name'
 	],
-	#category : #'Toplo-LookAndFeel-Theme'
+	#category : #'Toplo-LookAndFeel-Themes'
 }
 
 { #category : #dresser }
@@ -57,7 +57,7 @@ ToAbstractTheme >> isLight [
 { #category : #accessing }
 ToAbstractTheme >> name [
 
-	^ name ifNil:[ name := 'Theme without name' ]
+	^ name ifNil:[ name := 'No name Theme' ]
 ]
 
 { #category : #accessing }

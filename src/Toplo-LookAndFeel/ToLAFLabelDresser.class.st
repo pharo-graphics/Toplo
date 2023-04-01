@@ -18,8 +18,8 @@ ToLAFLabelDresser >> initialState: anElement [
 
 	super initialState: anElement.
 	
-	anElement geometry: self skin builtGeometry.
-	anElement background: self skin background in: anElement
+	self background: self skin background in: anElement.
+	self border: self skin border in: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }

@@ -9,6 +9,12 @@ Class {
 }
 
 { #category : #testing }
+ToAbstractSkin class >> defaultType [
+
+	^ #default
+]
+
+{ #category : #testing }
 ToAbstractSkin class >> isAbstract [
 
 	^ self = ToAbstractSkin
@@ -17,10 +23,10 @@ ToAbstractSkin class >> isAbstract [
 { #category : #testing }
 ToAbstractSkin class >> type [
 
-	^ #default
+	^ self defaultType
 ]
 
-{ #category : #private }
+{ #category : #tokens }
 ToAbstractSkin >> buildTokens [
 
 	self tokens: Dictionary new.
@@ -54,13 +60,19 @@ ToAbstractSkin >> themeChanged [
 	self buildTokens. 
 ]
 
-{ #category : #accessing }
+{ #category : #tokens }
+ToAbstractSkin >> token: aSymbol [
+
+	^ self tokens at: aSymbol ifAbsent:[ nil ]
+]
+
+{ #category : #tokens }
 ToAbstractSkin >> tokens [
 
 	^ tokens ifNil: [ tokens := Dictionary new ]
 ]
 
-{ #category : #accessing }
+{ #category : #tokens }
 ToAbstractSkin >> tokens: anObject [
 
 	tokens := anObject

@@ -27,13 +27,13 @@ ToElementsTests >> testChangeTheme [
 
 	| element |
 	element := ToElement new.
-	element toTheme: ToDarkTheme new.
+	element toTheme: ToThemeDark new.
 	
-	self assert: element toTheme class equals: ToDarkTheme.
+	self assert: element toTheme class equals: ToThemeDark.
 	
-	element toTheme: ToLightTheme new.
+	element toTheme: ToThemeLight new.
 	
-	self assert: element toTheme class equals: ToLightTheme.
+	self assert: element toTheme class equals: ToThemeLight.
 ]
 
 { #category : #tests }

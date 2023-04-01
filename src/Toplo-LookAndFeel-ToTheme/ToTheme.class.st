@@ -4,13 +4,13 @@ https://ant.design/docs/spec/introduce
 Class {
 	#name : #ToTheme,
 	#superclass : #ToAbstractTheme,
-	#category : #'Toplo-LookAndFeel-Theme'
+	#category : #'Toplo-LookAndFeel-ToTheme-Themes'
 }
 
 { #category : #testing }
 ToTheme class >> default [
 
-	^ ToLightTheme new
+	^ ToThemeLight new
 ]
 
 { #category : #dresser }

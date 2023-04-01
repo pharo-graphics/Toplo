@@ -4,7 +4,7 @@ Primary button: indicate the main action, one primary button at most in one sect
 Class {
 	#name : #ToPrimaryButtonSkin,
 	#superclass : #ToAbstractButtonSkin,
-	#category : #'Toplo-LookAndFeel-Skins - Buttons'
+	#category : #'Toplo-LookAndFeel-ToTheme-Skins - Buttons'
 }
 
 { #category : #accessing }
@@ -20,7 +20,7 @@ ToPrimaryButtonSkin >> builtBackground [
 ]
 
 { #category : #built }
-ToPrimaryButtonSkin >> builtLabelSkin [
+ToPrimaryButtonSkin >> labelSkinType [
 
-	^ ToPrimaryLabelSkin new
+	^ #primary
 ]

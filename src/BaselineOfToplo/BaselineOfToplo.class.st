@@ -42,6 +42,9 @@ BaselineOfToplo >> registerPackages: spec [
 	spec
 		package: #'Toplo-LookAndFeel'
 		with: [ spec requires: #( #Toplo ) ].
+	spec
+		package: #'Toplo-LookAndFeel-ToTheme'
+		with: [ spec requires: #( #'Toplo-LookAndFeel' ) ].
 
 	"Tests"
 	spec 
@@ -50,5 +53,5 @@ BaselineOfToplo >> registerPackages: spec [
 
 	spec
 		package: #'Toplo-LookAndFeel-Tests'
-		with: [ spec requires: #( #'Toplo-LookAndFeel' ) ]
+		with: [ spec requires: #( #'Toplo-LookAndFeel-ToTheme' ) ]
 ]

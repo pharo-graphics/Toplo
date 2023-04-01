@@ -1,24 +1,24 @@
 Class {
-	#name : #ToLightTheme,
+	#name : #ToThemeLight,
 	#superclass : #ToTheme,
-	#category : #'Toplo-LookAndFeel-Theme'
+	#category : #'Toplo-LookAndFeel-ToTheme-Themes'
 }
 
 { #category : #initialization }
-ToLightTheme >> initialize [ 
+ToThemeLight >> initialize [ 
 
 	super initialize.
 	self name: 'Toplo light Theme'
 ]
 
 { #category : #colors }
-ToLightTheme >> isDark [
+ToThemeLight >> isDark [
 
 	^ false
 ]
 
 { #category : #colors }
-ToLightTheme >> isLight [
+ToThemeLight >> isLight [
 
 	^ true
 ]

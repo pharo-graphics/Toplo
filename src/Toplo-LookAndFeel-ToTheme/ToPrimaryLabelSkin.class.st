@@ -1,7 +1,7 @@
 Class {
 	#name : #ToPrimaryLabelSkin,
 	#superclass : #ToAbstractLabelSkin,
-	#category : #'Toplo-LookAndFeel-Skins - Labels'
+	#category : #'Toplo-LookAndFeel-ToTheme-Skins - Label'
 }
 
 { #category : #accessing }
@@ -13,5 +13,5 @@ ToPrimaryLabelSkin class >> type [
 { #category : #built }
 ToPrimaryLabelSkin >> builtBackground [
 
-	^ self theme colorText
+	^ self theme colorTextLightSolid
 ]

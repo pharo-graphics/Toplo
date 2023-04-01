@@ -33,6 +33,32 @@ SpaceTests >> testChangeSpaceTheme [
 ]
 
 { #category : #tests }
+SpaceTests >> testChangeSpaceThemeAndDontTouchSpecifiedElementTheme [
+
+	| button1 space button2 |
+	button1 := self createDefaultButton.
+	"force a theme on a Space branch, here we want always a clear theme button"
+	button1 toTheme: ToClearTheme new.
+
+	button2 := self createDefaultButton.
+	
+	space := OBlSpace new.
+	space addChild: button1.
+	space addChild: button2.
+	
+	"change the general theme"
+	space toTheme: ToDarkTheme new.
+	
+	self assert: space toTheme class equals: ToDarkTheme.
+	self assert: button1 toTheme class equals: ToClearTheme.
+	self assert: button2 toTheme class equals: ToDarkTheme.
+	
+	"test skin token"
+	self assert: (button1 skin tokens at: #background) equals: (ToClearTheme new colorBgContainer).
+	self assert: (button2 skin tokens at: #background) equals: (ToDarkTheme new colorBgContainer).
+]
+
+{ #category : #tests }
 SpaceTests >> testDefaultSpaceTheme [
 
 	| space |

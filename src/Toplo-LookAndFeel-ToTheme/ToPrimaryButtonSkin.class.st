@@ -20,7 +20,19 @@ ToPrimaryButtonSkin >> builtBackground [
 ]
 
 { #category : #built }
+ToPrimaryButtonSkin >> builtBackgroundHover [ 
+
+	^ self theme colorPrimaryHover
+]
+
+{ #category : #built }
 ToPrimaryButtonSkin >> builtBorder [
+
+	^ nil
+]
+
+{ #category : #built }
+ToPrimaryButtonSkin >> builtBorderHover [
 
 	^ nil
 ]

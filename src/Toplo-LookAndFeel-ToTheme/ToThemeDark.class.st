@@ -36,6 +36,13 @@ ToThemeDark >> colorBgTextActive [
 ]
 
 { #category : #colors }
+ToThemeDark >> colorBgTextHover [
+	"Control the background color of text in hover state"
+
+	^ Color r: 255 g: 255 b: 255 alpha: 0.06
+]
+
+{ #category : #colors }
 ToThemeDark >> colorBorder [
 	"https://ant.design/components/button#design-token"
 	

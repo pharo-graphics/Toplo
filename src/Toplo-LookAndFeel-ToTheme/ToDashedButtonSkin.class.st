@@ -20,10 +20,26 @@ ToDashedButtonSkin >> builtBackground [
 ]
 
 { #category : #built }
+ToDashedButtonSkin >> builtBackgroundHover [ 
+
+	^ self theme colorBgContainer
+]
+
+{ #category : #built }
 ToDashedButtonSkin >> builtBorderBuilder [
 
 	| builder |
 	builder := super builtBorderBuilder.
+	builder dashArray: self theme dashed.
+	^ builder
+]
+
+{ #category : #built }
+ToDashedButtonSkin >> builtBorderHoverBuilder [
+
+	| builder |
+	builder := super builtBorderHoverBuilder.
+	builder paint: self theme colorPrimaryHover.
 	builder dashArray: self theme dashed.
 	^ builder
 ]

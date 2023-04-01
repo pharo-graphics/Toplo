@@ -53,6 +53,13 @@ ToTheme >> colorBgTextActive [
 ]
 
 { #category : #colors }
+ToTheme >> colorBgTextHover [
+	"Control the background color of text in hover state"
+
+	^ Color r: 0 g: 0 b: 0 alpha: 0.06
+]
+
+{ #category : #colors }
 ToTheme >> colorBorder [
 	"https://ant.design/components/button#design-token"
 	
@@ -67,10 +74,24 @@ ToTheme >> colorLink [
 ]
 
 { #category : #colors }
+ToTheme >> colorLinkHover [
+	"Control the color of hyperlink when hovering"
+
+	^ Color fromHexString: '#69b1ff'
+]
+
+{ #category : #colors }
 ToTheme >> colorPrimary [
 	"https://ant.design/components/button#design-token"
 	
 	^ Color fromHexString: '#1677ff'
+]
+
+{ #category : #colors }
+ToTheme >> colorPrimaryHover [
+	"Hover state under the main color gradient"
+	
+	^ Color fromHexString: '#4096ff'
 ]
 
 { #category : #colors }

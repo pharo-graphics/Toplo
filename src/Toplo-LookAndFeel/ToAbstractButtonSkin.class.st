@@ -17,9 +17,21 @@ ToAbstractButtonSkin >> background [
 ]
 
 { #category : #tokens }
+ToAbstractButtonSkin >> backgroundHover [
+
+	^ self token: #backgroundHover
+]
+
+{ #category : #tokens }
 ToAbstractButtonSkin >> border [
 
 	^ self token: #border
+]
+
+{ #category : #tokens }
+ToAbstractButtonSkin >> borderHover [
+
+	^ self token: #borderHover
 ]
 
 { #category : #built }
@@ -31,10 +43,19 @@ ToAbstractButtonSkin >> buildTokens [
 	self tokens at: #border put: self builtBorder.
 	self tokens at: #padding put: self builtPadding.
 	self tokens at: #shadow put: self builtShadow.
+	
+	self tokens at: #backgroundHover put: self builtBackgroundHover.
+	self tokens at: #borderHover put: self builtBorderHover.
 ]
 
 { #category : #built }
 ToAbstractButtonSkin >> builtBackground [ 
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #built }
+ToAbstractButtonSkin >> builtBackgroundHover [ 
 
 	^ self subclassResponsibility 
 ]
@@ -58,7 +79,31 @@ ToAbstractButtonSkin >> builtBorderBuilder [
 		           dashOffset: 0.
 
 	self theme lineType = #solid ifTrue:[builder dashArray: #()].
-	self theme lineType = #dashed ifTrue:[builder dashArray: #( 6 4.2 )].
+	self theme lineType = #dashed ifTrue:[builder dashArray: self theme dashed].
+
+	^ builder
+]
+
+{ #category : #built }
+ToAbstractButtonSkin >> builtBorderHover [
+
+	^ self builtBorderHoverBuilder ifNotNil:[ :e | e build ]
+]
+
+{ #category : #built }
+ToAbstractButtonSkin >> builtBorderHoverBuilder [
+
+	| builder |
+	builder := BlBorderBuilder new
+		           paint: self theme colorBorder;
+		           width: self theme lineWidth;
+		           lineCap: BlStrokeLineCap butt;
+		           lineJoin: BlStrokeLineJoin miter;
+		           miterLimit: 4.0;
+		           dashOffset: 0.
+
+	self theme lineType = #solid ifTrue:[builder dashArray: #()].
+	self theme lineType = #dashed ifTrue:[builder dashArray: self theme dashed].
 
 	^ builder
 ]

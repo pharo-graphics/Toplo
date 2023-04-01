@@ -21,30 +21,27 @@ ToLAFButtonDresser >> escaped: anElement [
 ]
 
 { #category : #'events handling' }
+ToLAFButtonDresser >> hover: anElement event: anEvent [
+
+	super hover: anElement event: anEvent.
+	
+	self background: self skin backgroundHover in: anElement.
+	self border: self skin borderHover in: anElement.
+]
+
+{ #category : #'events handling' }
 ToLAFButtonDresser >> initialState: anElement [
 
 	super initialState: anElement.
 
-	anElement geometry: self skin builtGeometry.
-	
-	self skin defaultSize ifNotNil:[ :aPoint | 
-		anElement constraintsDo:[ :c | 
-			aPoint y > 0 ifTrue:[ c vertical exact: aPoint y ].
-			aPoint x > 0 ifTrue:[ c horizontal exact: aPoint x ].
-		].
-	].
-	
 	self background: self skin background in: anElement.
 	self border: self skin border in: anElement.
-	anElement padding: self skin padding.
-	anElement effect: self skin shadow
 ]
 
 { #category : #'events handling' }
 ToLAFButtonDresser >> leaved: anElement [
 
-	
-
+	self initialState: anElement.
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -59,6 +56,18 @@ ToLAFButtonDresser >> onInstalledIn: anElement [
 	].
 	
 	super onInstalledIn: anElement.
+	
+	anElement geometry: self skin builtGeometry.
+	
+	self skin defaultSize ifNotNil:[ :aPoint | 
+		anElement constraintsDo:[ :c | 
+			aPoint y > 0 ifTrue:[ c vertical exact: aPoint y ].
+			aPoint x > 0 ifTrue:[ c horizontal exact: aPoint x ].
+		].
+	].
+
+	anElement padding: self skin padding.
+	anElement effect: self skin shadow.
 ]
 
 { #category : #'api - install/uninstall  hook' }

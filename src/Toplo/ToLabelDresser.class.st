@@ -1,6 +1,6 @@
 Class {
 	#name : #ToLabelDresser,
-	#superclass : #ToDresser,
+	#superclass : #ToAbstractLabelDresser,
 	#instVars : [
 		'editorEventHandler',
 		'textReplacedHandler'

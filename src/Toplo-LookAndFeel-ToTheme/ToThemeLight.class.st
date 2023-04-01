@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-LookAndFeel-ToTheme-Themes'
 }
 
+{ #category : #colors }
+ToThemeLight >> darkTheme [
+
+	^ ToThemeDark new
+]
+
 { #category : #initialization }
 ToThemeLight >> initialize [ 
 
@@ -21,4 +27,10 @@ ToThemeLight >> isDark [
 ToThemeLight >> isLight [
 
 	^ true
+]
+
+{ #category : #colors }
+ToThemeLight >> lightTheme [
+
+	^ self
 ]

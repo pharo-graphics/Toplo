@@ -20,6 +20,12 @@ ToPrimaryButtonSkin >> builtBackground [
 ]
 
 { #category : #built }
+ToPrimaryButtonSkin >> builtBorder [
+
+	^ nil
+]
+
+{ #category : #built }
 ToPrimaryButtonSkin >> builtDefaultSize [
 
 	^ 0 @ (self theme controlHeight)
@@ -29,6 +35,15 @@ ToPrimaryButtonSkin >> builtDefaultSize [
 ToPrimaryButtonSkin >> builtPadding [ 
 
 	^ BlInsets top: (self theme paddingXS / 2) left: (self theme paddingContentHorizontal) bottom: (self theme paddingXS / 2) right: (self theme paddingContentHorizontal)
+]
+
+{ #category : #built }
+ToPrimaryButtonSkin >> builtShadow [
+
+	^ BlGaussianShadowEffect
+		  color: (self theme colorPrimary alphaMixed: 0.233 with: self theme backgroundColor)
+		  width: 2
+		  offset: 0 @ 2
 ]
 
 { #category : #built }

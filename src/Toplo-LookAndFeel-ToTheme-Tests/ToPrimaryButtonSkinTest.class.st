@@ -19,5 +19,4 @@ ToPrimaryButtonSkinTest >> testInitialize [
 	
 	self assert: button label skinType equals: #primary.
 	self assert: button label skin class equals: ToPrimaryLabelSkin.
-	self assert: button label foreground equals: ToThemeLight new colorTextLightSolid.
 ]

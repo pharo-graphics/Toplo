@@ -69,6 +69,12 @@ ToAbstractTheme >> backgroundColor [
 ]
 
 { #category : #colors }
+ToAbstractTheme >> darkTheme [
+
+	^ self subclassResponsibility
+]
+
+{ #category : #colors }
 ToAbstractTheme >> isDark [
 
 	^ self subclassResponsibility
@@ -76,6 +82,12 @@ ToAbstractTheme >> isDark [
 
 { #category : #colors }
 ToAbstractTheme >> isLight [
+
+	^ self subclassResponsibility
+]
+
+{ #category : #colors }
+ToAbstractTheme >> lightTheme [
 
 	^ self subclassResponsibility
 ]

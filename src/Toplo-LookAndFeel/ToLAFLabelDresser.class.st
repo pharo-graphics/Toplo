@@ -18,7 +18,8 @@ ToLAFLabelDresser >> initialState: aToLabel [
 
 	super initialState: aToLabel.
 	
-	self foreground: self skin foreground in: aToLabel
+	self foreground: self skin foreground in: aToLabel.
+	self textAttributes: self skin textAttributes in: aToLabel
 ]
 
 { #category : #'api - install/uninstall  hook' }

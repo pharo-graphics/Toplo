@@ -36,8 +36,8 @@ ToLAFButtonDresser >> initialState: anElement [
 	
 	self background: self skin background in: anElement.
 	self border: self skin border in: anElement.
-	
 	anElement padding: self skin padding.
+	anElement effect: self skin shadow
 ]
 
 { #category : #'events handling' }

@@ -30,6 +30,7 @@ ToAbstractButtonSkin >> buildTokens [
 	self tokens at: #background put: self builtBackground.
 	self tokens at: #border put: self builtBorder.
 	self tokens at: #padding put: self builtPadding.
+	self tokens at: #shadow put: self builtShadow.
 ]
 
 { #category : #built }
@@ -41,7 +42,7 @@ ToAbstractButtonSkin >> builtBackground [
 { #category : #built }
 ToAbstractButtonSkin >> builtBorder [
 
-	^ self builtBorderBuilder build
+	^ self builtBorderBuilder ifNotNil:[ :e | e build ]
 ]
 
 { #category : #built }
@@ -74,6 +75,12 @@ ToAbstractButtonSkin >> builtPadding [
 	^ self subclassResponsibility 
 ]
 
+{ #category : #built }
+ToAbstractButtonSkin >> builtShadow [
+
+	^ self subclassResponsibility 
+]
+
 { #category : #tokens }
 ToAbstractButtonSkin >> geometry [
 
@@ -90,4 +97,10 @@ ToAbstractButtonSkin >> labelSkinType [
 ToAbstractButtonSkin >> padding [
 
 	^ self token: #padding
+]
+
+{ #category : #tokens }
+ToAbstractButtonSkin >> shadow [
+
+	^ self token: #shadow
 ]

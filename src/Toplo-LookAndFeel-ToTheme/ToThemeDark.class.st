@@ -39,7 +39,7 @@ ToThemeDark >> colorBgTextActive [
 ToThemeDark >> colorBorder [
 	"https://ant.design/components/button#design-token"
 	
-	^ Color fromHexString: '#d9d9d9'
+	^ Color fromHexString: '#a6a6a6'
 ]
 
 { #category : #colors }
@@ -52,7 +52,13 @@ ToThemeDark >> colorPrimary [
 ToThemeDark >> colorText [
 	"https://ant.design/components/button#design-token"
 	
-	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.88 
+	^ Color r: 255 g: 255 b: 255 alpha: 0.88 
+]
+
+{ #category : #colors }
+ToThemeDark >> darkTheme [
+
+	^ self
 ]
 
 { #category : #colors }
@@ -72,4 +78,10 @@ ToThemeDark >> isDark [
 ToThemeDark >> isLight [
 
 	^ false
+]
+
+{ #category : #colors }
+ToThemeDark >> lightTheme [
+
+	^ ToThemeLight new
 ]

@@ -16,7 +16,7 @@ ToTextButtonSkin class >> type [
 { #category : #built }
 ToTextButtonSkin >> builtBackground [
 
-	^ self theme colorBgContainer
+	^ Color transparent
 ]
 
 { #category : #built }
@@ -35,4 +35,10 @@ ToTextButtonSkin >> builtDefaultSize [
 ToTextButtonSkin >> builtPadding [ 
 
 	^ BlInsets top: (self theme paddingXS / 2) left: (self theme paddingContentHorizontal) bottom: (self theme paddingXS / 2) right: (self theme paddingContentHorizontal)
+]
+
+{ #category : #built }
+ToTextButtonSkin >> builtShadow [
+
+	^ nil
 ]

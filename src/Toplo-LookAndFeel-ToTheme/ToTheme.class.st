@@ -115,7 +115,8 @@ ToTheme >> dashed [
 ToTheme >> fontFamilyCode [
 	"https://ant.design/components/typography#design-token"
 
-	^ #( 'SFMono-Regular' , Consolas , 'Liberation Mono', Menlo , Courier , monospace )
+	"^ #( 'SFMono-Regular' , Consolas , 'Liberation Mono', Menlo , Courier , monospace )"
+	^ 'SFMono-Regular'
 ]
 
 { #category : #text }
@@ -136,7 +137,7 @@ ToTheme >> fontWeightStrong [
 ToTheme >> lineHeight [
 	"https://ant.design/components/typography#design-token"
 
-	^ 1.5714285714285714
+	^ 1
 ]
 
 { #category : #border }

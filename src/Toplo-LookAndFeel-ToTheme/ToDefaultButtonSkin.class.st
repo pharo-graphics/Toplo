@@ -24,3 +24,12 @@ ToDefaultButtonSkin >> builtPadding [
 
 	^ BlInsets top: (self theme paddingXS / 2) left: (self theme paddingContentHorizontal) bottom: (self theme paddingXS / 2) right: (self theme paddingContentHorizontal)
 ]
+
+{ #category : #built }
+ToDefaultButtonSkin >> builtShadow [
+
+	^ BlGaussianShadowEffect
+		  color: (self theme colorBorder alphaMixed: 0.233 with: self theme backgroundColor)
+		  width: 2
+		  offset: 0 @ 2
+]

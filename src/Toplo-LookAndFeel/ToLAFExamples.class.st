@@ -31,7 +31,18 @@ ToLAFExamples class >> example_ButtonSkins [
 	space addChild: button3.
 	space addChild: button4.
 	space addChild: button5.
-	space show
+	space show.
+
+	^space
+]
+
+{ #category : #button }
+ToLAFExamples class >> example_ButtonSkins_Dark [
+
+	| space |
+	space := self example_ButtonSkins.
+	space toTheme: (space toTheme darkTheme).
+	^ space
 ]
 
 { #category : #'see class side' }

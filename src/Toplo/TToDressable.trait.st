@@ -29,7 +29,7 @@ TToDressable >> dresser: aDresser [
 
 	| currentDresser |
 	currentDresser := self userData at: #dresser ifAbsent:[ nil ].
-	( currentDresser ~= aDresser or:[ currentDresser class ~= aDresser class ]) ifFalse:[ ^ self ].
+	(currentDresser notNil and:[ currentDresser class = aDresser class ]) ifTrue:[ ^ self ].
 
 	self dresserDo: [ :d | d launchUninstallationIn: self ].
 	self userData at: #dresser put: aDresser.
@@ -75,7 +75,7 @@ TToDressable >> skin [
 { #category : #'t - accessing skin' }
 TToDressable >> skin: aSkin [
 
-	(skin ~= aSkin or:[skin type ~= aSkin type]) ifFalse:[ ^ self ].
+	(skin isNil or:[ skin class ~= aSkin class or:[skin type ~= aSkin type]]) ifFalse:[ ^ self ].
 	skin := aSkin.
 	self skinChanged.
 ]

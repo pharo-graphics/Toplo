@@ -3,7 +3,7 @@ A ToThemeDarkTest is a test class for testing the behavior of ToThemeDark
 "
 Class {
 	#name : #ToThemeDarkTest,
-	#superclass : #TestCase,
+	#superclass : #ToThemeTestCase,
 	#category : #'Toplo-LookAndFeel-ToTheme-Tests-Themes'
 }
 

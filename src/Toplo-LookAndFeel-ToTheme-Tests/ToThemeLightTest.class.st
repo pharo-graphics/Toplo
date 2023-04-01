@@ -3,7 +3,7 @@ A ToThemeLightTest is a test class for testing the behavior of ToThemeLight
 "
 Class {
 	#name : #ToThemeLightTest,
-	#superclass : #TestCase,
+	#superclass : #ToThemeTestCase,
 	#category : #'Toplo-LookAndFeel-ToTheme-Tests-Themes'
 }
 

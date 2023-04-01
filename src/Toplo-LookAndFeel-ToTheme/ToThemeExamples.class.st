@@ -10,9 +10,8 @@ ToThemeExamples class >> example_toButtonChangeThemeOnClickChangeSkinOnRightClic
 	| but space |
 	space := OBlSpace new.
 	
-	but := ToButton new.
-	but dresser: ToLAFButtonDresser new.
-	but labelText: 'Default Theme'.
+	but := ToButton skinType: #default.
+	but labelText: 'Button'.
 	
 	but whenClickedDo: [
 		space toTheme: (space toTheme class = ToThemeLight
@@ -22,9 +21,9 @@ ToThemeExamples class >> example_toButtonChangeThemeOnClickChangeSkinOnRightClic
 			
 	but when: BlMouseDownEvent do: [ :event |
 		event secondaryButtonPressed ifTrue: [
-			but skin: (but skin class = ToPrimaryButtonSkin
-					 ifTrue: [ ToDefaultButtonSkin new ]
-					 ifFalse: [ ToPrimaryButtonSkin new ]) 
+			but skinType: (but skinType = #primary
+					 ifTrue: [ #default ]
+					 ifFalse: [ #primary ]) 
 		].
 	].
 			

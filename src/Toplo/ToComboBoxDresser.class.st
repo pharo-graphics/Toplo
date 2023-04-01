@@ -4,10 +4,24 @@ Class {
 	#instVars : [
 		'clickOnDataHandler',
 		'crShortcut',
-		'escShortcut'
+		'escShortcut',
+		'structuralChangeHandler'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
+
+{ #category : #'api - install/uninstall  hook' }
+ToComboBoxDresser >> checkEmptinessChangeIn: anElement [
+
+	"anElement data ifEmpty: [ ^ self showListPlaceholderIn: anElement ].
+	self hideListPlaceholderIn: anElement"
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToComboBoxDresser >> hideListPlaceholderIn: anElement [
+
+	anElement prepareListElement 
+]
 
 { #category : #'api - install/uninstall  hook' }
 ToComboBoxDresser >> onInstalledIn: anElement [
@@ -17,13 +31,15 @@ ToComboBoxDresser >> onInstalledIn: anElement [
 	anElement vFitContent.
 	anElement hMatchParent.
 	anElement listElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
-
+	
+	structuralChangeHandler := BlEventHandler on: ToListDataEmptinessChangeEvent do: [ :event | self checkEmptinessChangeIn: anElement ].
 	clickOnDataHandler := BlEventHandler
 		                      on: ToInfiniteClickOnDataEvent
 		                      do: [ :event |
 		                      anElement clickOnDataEvent: event ].
 	anElement listElement infinite addEventHandler: clickOnDataHandler.
-
+	anElement listElement infinite dataSource addEventHandler: structuralChangeHandler.
+	
 	crShortcut := BlShortcutWithAction new
 		              combination:
 			              (BlKeyCombination primaryReturn or:
@@ -51,7 +67,14 @@ ToComboBoxDresser >> onInstalledIn: anElement [
 ToComboBoxDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
-	anElement listElement removeEventHandler: clickOnDataHandler.
+	anElement listElement infinite dataSource removeEventHandler: structuralChangeHandler.
+	anElement listElement infinite removeEventHandler: clickOnDataHandler.
 	anElement listElement removeShortcut: crShortcut.
 	anElement listElement removeShortcut: escShortcut
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToComboBoxDresser >> showListPlaceholderIn: anElement [
+
+	anElement prepareListPlaceHolder 
 ]

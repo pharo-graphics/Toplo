@@ -14,6 +14,12 @@ ToAbstractSkin class >> isAbstract [
 	^ self = ToAbstractSkin
 ]
 
+{ #category : #testing }
+ToAbstractSkin class >> type [
+
+	^ #default
+]
+
 { #category : #private }
 ToAbstractSkin >> buildTokens [
 
@@ -58,4 +64,10 @@ ToAbstractSkin >> tokens [
 ToAbstractSkin >> tokens: anObject [
 
 	tokens := anObject
+]
+
+{ #category : #accessing }
+ToAbstractSkin >> type [
+
+	^ self class type
 ]

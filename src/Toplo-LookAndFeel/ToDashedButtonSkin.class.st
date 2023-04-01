@@ -1,26 +1,26 @@
 "
-Primary button: indicate the main action, one primary button at most in one section.
+Dashed button: used for adding action commonly.
 "
 Class {
-	#name : #ToPrimaryButtonSkin,
+	#name : #ToDashedButtonSkin,
 	#superclass : #ToAbstractButtonSkin,
 	#category : #'Toplo-LookAndFeel-Skins - Buttons'
 }
 
-{ #category : #accessing }
-ToPrimaryButtonSkin class >> type [
+{ #category : #testing }
+ToDashedButtonSkin class >> type [
 
-	^ #primary
+	^ #dashed
 ]
 
 { #category : #built }
-ToPrimaryButtonSkin >> builtBackground [
+ToDashedButtonSkin >> builtBackground [
 
 	^ self theme colorPrimary 
 ]
 
 { #category : #built }
-ToPrimaryButtonSkin >> builtBorderStyle [
+ToDashedButtonSkin >> builtBorderStyle [
 
 	^ BlStrokeStyle new"
 		lineCap: self lineCap;

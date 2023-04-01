@@ -1,26 +1,26 @@
 "
-Primary button: indicate the main action, one primary button at most in one section.
+Link button: used for external links.
 "
 Class {
-	#name : #ToPrimaryButtonSkin,
+	#name : #ToLinkButtonSkin,
 	#superclass : #ToAbstractButtonSkin,
 	#category : #'Toplo-LookAndFeel-Skins - Buttons'
 }
 
 { #category : #accessing }
-ToPrimaryButtonSkin class >> type [
+ToLinkButtonSkin class >> type [
 
-	^ #primary
+	^ #link
 ]
 
 { #category : #built }
-ToPrimaryButtonSkin >> builtBackground [
+ToLinkButtonSkin >> builtBackground [
 
 	^ self theme colorPrimary 
 ]
 
 { #category : #built }
-ToPrimaryButtonSkin >> builtBorderStyle [
+ToLinkButtonSkin >> builtBorderStyle [
 
 	^ BlStrokeStyle new"
 		lineCap: self lineCap;

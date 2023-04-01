@@ -24,7 +24,7 @@ And 4 other properties additionally.
 Class {
 	#name : #ToAbstractButtonSkin,
 	#superclass : #ToAbstractSkin,
-	#category : #'Toplo-LookAndFeel-Skins'
+	#category : #'Toplo-LookAndFeel-Skins - Buttons'
 }
 
 { #category : #testing }

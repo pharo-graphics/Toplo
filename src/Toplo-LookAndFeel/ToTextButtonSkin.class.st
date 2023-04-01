@@ -1,26 +1,26 @@
 "
-Primary button: indicate the main action, one primary button at most in one section.
+Text button: used for the most secondary action.
 "
 Class {
-	#name : #ToPrimaryButtonSkin,
+	#name : #ToTextButtonSkin,
 	#superclass : #ToAbstractButtonSkin,
 	#category : #'Toplo-LookAndFeel-Skins - Buttons'
 }
 
 { #category : #accessing }
-ToPrimaryButtonSkin class >> type [
+ToTextButtonSkin class >> type [
 
-	^ #primary
+	^ #text
 ]
 
 { #category : #built }
-ToPrimaryButtonSkin >> builtBackground [
+ToTextButtonSkin >> builtBackground [
 
 	^ self theme colorPrimary 
 ]
 
 { #category : #built }
-ToPrimaryButtonSkin >> builtBorderStyle [
+ToTextButtonSkin >> builtBorderStyle [
 
 	^ BlStrokeStyle new"
 		lineCap: self lineCap;

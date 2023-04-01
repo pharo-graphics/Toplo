@@ -16,10 +16,9 @@ ToTheme class >> default [
 { #category : #dresser }
 ToTheme class >> dresserFor: aToElementClass [
 	"return dresser which manage this theme"
-	
-	aToElementClass class = ToButton ifTrue:[
-		^ ToLAFButtonDresser new
-	].
+
+	aToElementClass class = ToButton ifTrue: [ ^ ToLAFButtonDresser new ].
+	aToElementClass class = ToLabel ifTrue: [ ^ ToLAFLabelDresser new ].
 
 	^ aToElementClass defaultDresser
 ]
@@ -42,7 +41,7 @@ ToTheme class >> skinClassesFor: aToElementClass [
 	].
 
 	aToElementClass class = ToLabel ifTrue:[
-		^ oc add: ToDefaultLabelSkin; yourself.
+		^ oc add: ToDefaultLabelSkin; add: ToLinkLabelSkin; add: ToPrimaryLabelSkin; yourself.
 	].
 
 	^ oc

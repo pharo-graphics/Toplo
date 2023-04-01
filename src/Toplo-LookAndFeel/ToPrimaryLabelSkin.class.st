@@ -1,17 +1,17 @@
 Class {
-	#name : #ToLinkLabelSkin,
+	#name : #ToPrimaryLabelSkin,
 	#superclass : #ToAbstractLabelSkin,
 	#category : #'Toplo-LookAndFeel-Skins - Labels'
 }
 
 { #category : #accessing }
-ToLinkLabelSkin class >> type [
+ToPrimaryLabelSkin class >> type [
 
-	^ #link
+	^ #primary
 ]
 
 { #category : #built }
-ToLinkLabelSkin >> builtBackground [
+ToPrimaryLabelSkin >> builtBackground [
 
-	^ self theme colorLink
+	^ self theme colorText
 ]

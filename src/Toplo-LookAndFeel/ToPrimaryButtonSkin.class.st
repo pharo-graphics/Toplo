@@ -18,3 +18,9 @@ ToPrimaryButtonSkin >> builtBackground [
 
 	^ self theme colorPrimary 
 ]
+
+{ #category : #built }
+ToPrimaryButtonSkin >> builtLabelSkin [
+
+	^ ToPrimaryLabelSkin new
+]

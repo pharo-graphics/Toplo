@@ -60,8 +60,8 @@ ToListElementDresser >> defaultPadding [
 ToListElementDresser >> hideListPlaceholderIn: anElement [
 
 	anElement placeholder parentDo: [ :p |
-		anElement next visibility: (BlVisibility visible).
-		anElement placeholder removeFromParent ]
+		anElement placeholder removeFromParent ].
+	anElement infinite elevation: (BlRelativeElevation elevation: SmallInteger maxVal)
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -119,10 +119,10 @@ ToListElementDresser >> popupOpenedEvent: anEvent in: anElement [
 ToListElementDresser >> showListPlaceholderIn: anElement [
 
 	anElement placeholder parentDo: [ :p | ^ self ].
-	anElement next visibility: (BlVisibility hidden).
+	"anElement next visibility: (BlVisibility hidden)."
 	anElement addChild: anElement placeholder.
-	anElement placeholder elevation: (BlRelativeElevation elevation: SmallInteger maxVal)
-	
+	anElement placeholder elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
+	anElement infinite elevation: (BlRelativeElevation elevation: SmallInteger maxVal - 1)	
 ]
 
 { #category : #'api - install/uninstall  hook' }

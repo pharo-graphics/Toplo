@@ -194,13 +194,13 @@ ToComboBox >> headPlaceholder: anElement [
 { #category : #displaying }
 ToComboBox >> hideListPlaceholder [
 
-	self initializeListElement
+	self prepareListElement 
 ]
 
 { #category : #displaying }
 ToComboBox >> hideOrShowListPlaceholder [
 
-	self data ifEmpty: [ ^ self ].
+	self data ifEmpty: [ ^ self showListPlaceholder ].
 	self hideListPlaceholder
 ]
 
@@ -214,24 +214,15 @@ ToComboBox >> initialize [
 	self headElement: self defaultHeadElement.
 	self headContentFactory: self defaultHeadContentFactory.
 	self listElement: self defaultListElement.
-	self initializeListElement.
+	self listFrame: self defaultListFrame.
+	self prepareListElement.
 	self headPlaceholder: self defaultHeadPlaceholder.
 	self listPlaceholder: self defaultListPlaceholder.
-	self listFrame: self defaultListFrame.
 	self whenSelectedIndexChangedDo: [ self selectedIndexChanged ].
 	self whenHeadContentFactoryChangedDo: [ self headContentFactoryChanged  ].
 	self selectIndex: 0.
+	"self showListPlaceholder."
 	self initializeDresser
-]
-
-{ #category : #initialization }
-ToComboBox >> initializeListElement [
-
-	self listElement
-		vFitContent;
-		in: [ :e | e infinite vFitContent ];
-		width: self defaultListElementSize x;
-		maxHeight: self defaultListElementSize y
 ]
 
 { #category : #accessing }
@@ -348,6 +339,27 @@ ToComboBox >> popupOrCloseEvent: anEvent [
 		ifFalse: [ self popupEvent: anEvent ]
 ]
 
+{ #category : #initialization }
+ToComboBox >> prepareListElement [
+
+	self listElement
+		vFitContent;
+		in: [ :e | e infinite vFitContent ];
+		width: self defaultListElementSize x;
+		maxHeight: self defaultListElementSize y.
+	self listFrame 	root fitContent.
+	self listElement next elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
+
+]
+
+{ #category : #initialization }
+ToComboBox >> prepareListPlaceHolder [
+
+	self listElement next matchParent.
+	self listElement next elevation: (BlRelativeElevation elevation: 0).
+	self listElement placeholder elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
+]
+
 { #category : #accessing }
 ToComboBox >> presentedData [
 
@@ -410,6 +422,9 @@ ToComboBox >> selectedIndexChanged [
 { #category : #displaying }
 ToComboBox >> showListPlaceholder [
 
+	self listElement next matchParent.
+	self listElement next elevation: (BlRelativeElevation elevation: 0).
+	self listElement placeholder elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
 ]
 
 { #category : #accessing }

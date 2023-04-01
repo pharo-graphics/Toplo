@@ -7,7 +7,7 @@ Class {
 	#classInstVars : [
 		'current'
 	],
-	#category : #'Toplo-LookAndFeel-Themes'
+	#category : #'Toplo-LookAndFeel-Core'
 }
 
 { #category : #cleanup }
@@ -54,9 +54,12 @@ ToAbstractTheme class >> skinClassesFor: aToElementClass [
 ToAbstractTheme class >> skinFor: aToElementClass type: aType [
 	"return skin which are designed for this theme and a specified type"
 
-	| skinClasses |
+	| skinClasses type skinClass |
 	skinClasses := self skinClassesFor: aToElementClass.
-	^ (skinClasses detect: [ :e | e type = aType ] ifNone: [ nil ]) new
+	type := aType ifNil:[ ToAbstractSkin defaultType ].
+	
+	skinClass := skinClasses detect: [ :e | e type = type ] ifNone: [ skinClasses first ].
+	^ skinClass new
 ]
 
 { #category : #colors }

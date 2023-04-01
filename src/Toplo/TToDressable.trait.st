@@ -69,7 +69,7 @@ TToDressable >> removeDresser: aDresser [
 { #category : #'t - accessing skin' }
 TToDressable >> skin [
 
-	^ skin ifNil:[ self dresser ifNotNil:[ :e | e skin ] ]
+	^ skin ifNil:[ self dresser ifNotNil:[ :e | (e respondsTo: #skin) ifTrue:[ e perform: #skin ] ifFalse:[ nil ] ] ]
 ]
 
 { #category : #'t - accessing skin' }
@@ -96,13 +96,13 @@ TToDressable >> skinType [
 { #category : #'t - accessing skin' }
 TToDressable >> skinType: aType [
 
-	self skinType ~= aType ifFalse:[ ^ self ].
+	(self skinType = aType and:[ self skin notNil ]) ifTrue:[ ^ self ].
 	skinType := aType.
 	
 	self toTheme ifNil:[ ^ self ].
 	
 	self dresser: (self toTheme class dresserFor: self).
-	self skin: (self toTheme class skinFor: self type: aType)
+	self skin: (self toTheme class skinFor: (self class) type: aType)
 ]
 
 { #category : #'t - accessing theme' }

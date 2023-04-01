@@ -24,6 +24,18 @@ ToDashedButtonSkin >> builtBorderBuilder [
 
 	| builder |
 	builder := super builtBorderBuilder.
-	builder dashArray: #( 6 4.2 ).
+	builder dashArray: self theme dashed.
 	^ builder
+]
+
+{ #category : #built }
+ToDashedButtonSkin >> builtDefaultSize [
+
+	^ 0 @ (self theme controlHeight)
+]
+
+{ #category : #built }
+ToDashedButtonSkin >> builtPadding [ 
+
+	^ BlInsets top: (self theme paddingXS / 2) left: (self theme paddingContentHorizontal) bottom: (self theme paddingXS / 2) right: (self theme paddingContentHorizontal)
 ]

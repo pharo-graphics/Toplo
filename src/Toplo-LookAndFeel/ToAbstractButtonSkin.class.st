@@ -1,7 +1,7 @@
 Class {
 	#name : #ToAbstractButtonSkin,
 	#superclass : #ToAbstractSkin,
-	#category : #'Toplo-LookAndFeel-Skins'
+	#category : #'Toplo-LookAndFeel-Core'
 }
 
 { #category : #testing }
@@ -29,6 +29,7 @@ ToAbstractButtonSkin >> buildTokens [
 	
 	self tokens at: #background put: self builtBackground.
 	self tokens at: #border put: self builtBorder.
+	self tokens at: #padding put: self builtPadding.
 ]
 
 { #category : #built }
@@ -67,6 +68,12 @@ ToAbstractButtonSkin >> builtGeometry [
 	^ BlRoundedRectangleGeometry cornerRadius: self theme borderRadius
 ]
 
+{ #category : #built }
+ToAbstractButtonSkin >> builtPadding [ 
+
+	^ self subclassResponsibility 
+]
+
 { #category : #tokens }
 ToAbstractButtonSkin >> geometry [
 
@@ -77,4 +84,10 @@ ToAbstractButtonSkin >> geometry [
 ToAbstractButtonSkin >> labelSkinType [
 
 	^ ToAbstractSkin defaultType
+]
+
+{ #category : #tokens }
+ToAbstractButtonSkin >> padding [
+
+	^ self token: #padding
 ]

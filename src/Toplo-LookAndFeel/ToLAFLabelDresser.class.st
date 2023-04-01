@@ -4,13 +4,13 @@ Class {
 	#instVars : [
 		'skin'
 	],
-	#category : #'Toplo-LookAndFeel-Dressers'
+	#category : #'Toplo-LookAndFeel-Core'
 }
 
 { #category : #accessing }
 ToLAFLabelDresser >> defaultSkin [
 
-	^ ToDefaultLabelSkin new
+	^ ToAbstractTheme current class skinFor: ToLabel type: ToAbstractSkin defaultType
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -18,7 +18,7 @@ ToLAFLabelDresser >> initialState: aToLabel [
 
 	super initialState: aToLabel.
 	
-	self skin foreground ifNotNil:[ :b | self foreground: b in: aToLabel ].
+	self foreground: self skin foreground in: aToLabel
 ]
 
 { #category : #'api - install/uninstall  hook' }

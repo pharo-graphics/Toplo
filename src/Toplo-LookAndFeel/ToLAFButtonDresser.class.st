@@ -4,13 +4,13 @@ Class {
 	#instVars : [
 		'skin'
 	],
-	#category : #'Toplo-LookAndFeel-Dressers'
+	#category : #'Toplo-LookAndFeel-Core'
 }
 
 { #category : #accessing }
 ToLAFButtonDresser >> defaultSkin [
 
-	^ ToDefaultButtonSkin new
+	^ ToAbstractTheme current class skinFor: ToButton type: ToAbstractSkin defaultType
 ]
 
 { #category : #'events handling' }
@@ -21,13 +21,23 @@ ToLAFButtonDresser >> escaped: anElement [
 ]
 
 { #category : #'events handling' }
-ToLAFButtonDresser >> initialState: anElement [ 
+ToLAFButtonDresser >> initialState: anElement [
 
 	super initialState: anElement.
+
+	anElement geometry: self skin builtGeometry.
 	
-	self skin builtGeometry ifNotNil:[ :g | anElement geometry: g].
-	self skin background ifNotNil:[ :b | self background: b in: anElement ].
-	self skin border ifNotNil:[ :b | self border: b in: anElement ].
+	self skin defaultSize ifNotNil:[ :aPoint | 
+		anElement constraintsDo:[ :c | 
+			aPoint y > 0 ifTrue:[ c vertical exact: aPoint y ].
+			aPoint x > 0 ifTrue:[ c horizontal exact: aPoint x ].
+		].
+	].
+	
+	self background: self skin background in: anElement.
+	self border: self skin border in: anElement.
+	
+	anElement padding: self skin padding.
 ]
 
 { #category : #'events handling' }

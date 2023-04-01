@@ -1,7 +1,7 @@
 Class {
 	#name : #ToAbstractLabelSkin,
 	#superclass : #ToAbstractSkin,
-	#category : #'Toplo-LookAndFeel-Skins'
+	#category : #'Toplo-LookAndFeel-Core'
 }
 
 { #category : #testing }

@@ -30,11 +30,11 @@ ToTheme class >> skinClassesFor: aToElementClass [
 	| oc |
 	oc := OrderedCollection new.
 	
-	aToElementClass class = ToButton ifTrue:[
+	aToElementClass = ToButton ifTrue:[
 		^ oc add: ToDefaultButtonSkin; add: ToPrimaryButtonSkin; add: ToDashedButtonSkin; add: ToTextButtonSkin; add: ToLinkButtonSkin; yourself.
 	].
 
-	aToElementClass class = ToLabel ifTrue:[
+	aToElementClass = ToLabel ifTrue:[
 		^ oc add: ToDefaultLabelSkin; add: ToLinkLabelSkin; add: ToPrimaryLabelSkin; yourself.
 	].
 
@@ -97,6 +97,20 @@ ToTheme >> colorTextLightSolid [
 	^ Color fromHexString: '#ffffff'
 ]
 
+{ #category : #sizes }
+ToTheme >> controlHeight [
+	"The height of the basic controls such as buttons and input boxes in Ant Design"
+
+	^ 32
+]
+
+{ #category : #border }
+ToTheme >> dashed [
+	"dashed rendering equivalent in web UI"
+	
+	^ #( 3 3 )
+]
+
 { #category : #text }
 ToTheme >> fontFamilyCode [
 	"https://ant.design/components/typography#design-token"
@@ -137,4 +151,18 @@ ToTheme >> lineWidth [
 	"https://ant.design/components/button#design-token"
 	
 	^ 1
+]
+
+{ #category : #sizes }
+ToTheme >> paddingContentHorizontal [
+	"Control the horizontal padding of content element"
+
+	^ 16
+]
+
+{ #category : #sizes }
+ToTheme >> paddingXS [
+	"Control the extra small padding of the element"
+
+	^ 8
 ]

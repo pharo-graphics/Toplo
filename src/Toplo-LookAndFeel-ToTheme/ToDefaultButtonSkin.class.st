@@ -12,3 +12,15 @@ ToDefaultButtonSkin >> builtBackground [
 
 	^ self theme colorBgContainer 
 ]
+
+{ #category : #built }
+ToDefaultButtonSkin >> builtDefaultSize [
+
+	^ 0 @ (self theme controlHeight)
+]
+
+{ #category : #built }
+ToDefaultButtonSkin >> builtPadding [ 
+
+	^ BlInsets top: (self theme paddingXS / 2) left: (self theme paddingContentHorizontal) bottom: (self theme paddingXS / 2) right: (self theme paddingContentHorizontal)
+]

@@ -5,7 +5,7 @@ Class {
 		'theme',
 		'tokens'
 	],
-	#category : #'Toplo-LookAndFeel-Skins'
+	#category : #'Toplo-LookAndFeel-Core'
 }
 
 { #category : #testing }
@@ -30,6 +30,20 @@ ToAbstractSkin class >> type [
 ToAbstractSkin >> buildTokens [
 
 	self tokens: Dictionary new.
+	
+	self tokens at: #size put: self builtDefaultSize.
+]
+
+{ #category : #built }
+ToAbstractSkin >> builtDefaultSize [
+
+	^ nil
+]
+
+{ #category : #tokens }
+ToAbstractSkin >> defaultSize [
+
+	^ self token: #size
 ]
 
 { #category : #accessing }

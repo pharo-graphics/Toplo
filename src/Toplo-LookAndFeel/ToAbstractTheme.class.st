@@ -26,7 +26,7 @@ ToAbstractTheme class >> cleanUp: anObject [
 { #category : #current }
 ToAbstractTheme class >> current [
 
-	current ifNil: [ current := ToThemeLight new ].
+	current ifNil: [ current := ToTheme blue ].
 	^ current
 ]
 

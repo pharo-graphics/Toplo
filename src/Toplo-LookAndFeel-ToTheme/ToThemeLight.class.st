@@ -7,7 +7,7 @@ Class {
 { #category : #colors }
 ToThemeLight >> darkTheme [
 
-	^ ToThemeDark new
+	^ self class colorPrimaryDark: self colorPrimary
 ]
 
 { #category : #initialization }

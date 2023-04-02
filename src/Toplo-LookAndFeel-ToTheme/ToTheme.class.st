@@ -4,13 +4,70 @@ https://ant.design/docs/spec/introduce
 Class {
 	#name : #ToTheme,
 	#superclass : #ToAbstractTheme,
+	#instVars : [
+		'colorPrimary'
+	],
 	#category : #'Toplo-LookAndFeel-ToTheme-Themes'
 }
+
+{ #category : #constructor }
+ToTheme class >> blue [
+
+	^ ToThemeLight new
+]
+
+{ #category : #customization }
+ToTheme class >> colorPrimary: aColor [
+
+	| theme |
+	theme := ToThemeLight new.
+	theme colorPrimary: aColor.
+	^theme
+]
+
+{ #category : #customization }
+ToTheme class >> colorPrimaryDark: aColor [
+
+	| theme |
+	theme := ToThemeDark new.
+	theme colorPrimary: aColor.
+	^theme
+]
+
+{ #category : #constructor }
+ToTheme class >> darkBlue [
+
+	^ ToThemeDark new
+]
+
+{ #category : #constructor }
+ToTheme class >> darkGreen [
+
+	^self colorPrimaryDark: (Color fromHexString: '#00B96B')
+]
+
+{ #category : #constructor }
+ToTheme class >> darkPink [
+
+	^self colorPrimaryDark: (Color fromHexString: '#ED4192')
+]
+
+{ #category : #constructor }
+ToTheme class >> green [
+
+	^self colorPrimary: (Color fromHexString: '#00B96B')
+]
 
 { #category : #testing }
 ToTheme class >> isAbstract [
 
 	^ self = ToTheme
+]
+
+{ #category : #constructor }
+ToTheme class >> pink [
+
+	^self colorPrimary: (Color fromHexString: '#ED4192')
 ]
 
 { #category : #skins }
@@ -110,16 +167,24 @@ ToTheme >> colorLinkHover [
 
 { #category : #colors }
 ToTheme >> colorPrimary [
-	"https://ant.design/components/button#design-token"
+	"Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics"
 	
-	^ Color fromHexString: '#1677ff'
+	^ colorPrimary ifNil:[ colorPrimary := self defaultColorPrimary ]
+]
+
+{ #category : #settings }
+ToTheme >> colorPrimary: aColor [
+	"Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics"
+	
+	colorPrimary = aColor ifTrue:[ ^ self ].
+	colorPrimary := aColor
 ]
 
 { #category : #colors }
 ToTheme >> colorPrimaryHover [
 	"Hover state under the main color gradient"
 	
-	^ Color fromHexString: '#4096ff'
+	^ self colorPrimary whiter
 ]
 
 { #category : #colors }
@@ -192,6 +257,12 @@ ToTheme >> dashed [
 	^ #( 3 3 )
 ]
 
+{ #category : #settings }
+ToTheme >> defaultColorPrimary [
+
+	^ Color fromHexString: '#1677ff'
+]
+
 { #category : #text }
 ToTheme >> fontFamilyCode [
 	"https://ant.design/components/typography#design-token"
@@ -247,6 +318,12 @@ ToTheme >> fontWeightStrong [
 	"https://ant.design/components/typography#design-token"
 
 	^ 600
+]
+
+{ #category : #text }
+ToTheme >> initialize [ 
+	
+	super initialize
 ]
 
 { #category : #text }

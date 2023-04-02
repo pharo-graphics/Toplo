@@ -47,12 +47,6 @@ ToThemeDark >> colorBorder [
 ]
 
 { #category : #colors }
-ToThemeDark >> colorPrimary [
-	
-	^ Color fromHexString: '#1677ff'
-]
-
-{ #category : #colors }
 ToThemeDark >> colorText [
 	
 	^ Color r: 255 g: 255 b: 255 alpha: 0.88 
@@ -79,8 +73,7 @@ ToThemeDark >> darkTheme [
 { #category : #colors }
 ToThemeDark >> initialize [ 
 
-	super initialize.
-	self name: 'Toplo dark Theme'
+	super initialize
 ]
 
 { #category : #colors }
@@ -98,5 +91,5 @@ ToThemeDark >> isLight [
 { #category : #colors }
 ToThemeDark >> lightTheme [
 
-	^ ToThemeLight new
+	^ self class colorPrimary: self colorPrimary
 ]

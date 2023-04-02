@@ -62,9 +62,11 @@ ToAbstractTheme class >> skinFor: aToElementClass type: aType [
 
 	| skinClasses type skinClass |
 	skinClasses := self skinClassesFor: aToElementClass.
-	type := aType ifNil:[ ToAbstractSkin defaultType ].
+	skinClasses ifEmpty: [ ^ nil ].
 	
+	type := aType ifNil:[ ToAbstractSkin defaultType ].
 	skinClass := skinClasses detect: [ :e | e type = type ] ifNone: [ skinClasses first ].
+
 	^ skinClass new
 ]
 

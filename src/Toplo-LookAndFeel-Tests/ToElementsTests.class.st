@@ -53,3 +53,12 @@ ToElementsTests >> testDefaultTheme [
 	
 	self assert: element toTheme class equals: ToAbstractTheme current class.
 ]
+
+{ #category : #tests }
+ToElementsTests >> testSkinTypeConstructor [
+
+	| element |
+	element := ToElement skinType: ToAbstractSkin defaultType.
+	self assert: element skinType equals: ToAbstractSkin defaultType.
+	self assert: element skin isNil.
+]

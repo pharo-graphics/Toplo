@@ -25,7 +25,7 @@ ToTheme class >> skinClassesFor: aToElementClass [
 	].
 
 	aToElementClass = ToLabel ifTrue:[
-		^ oc add: ToDefaultLabelSkin; add: ToLinkLabelSkin; add: ToPrimaryLabelSkin; yourself.
+		^ oc add: ToDefaultLabelSkin; add: ToLinkLabelSkin; add: ToPrimaryLabelSkin; add: ToH1LabelSkin; add: ToH2LabelSkin; add: ToH3LabelSkin; add: ToH4LabelSkin; add: ToH5LabelSkin; yourself.
 	].
 
 	^ oc
@@ -138,6 +138,41 @@ ToTheme >> fontSize [
 ]
 
 { #category : #text }
+ToTheme >> fontSizeHeading1 [
+	"Font size of h1 tag"
+
+	^ 38
+]
+
+{ #category : #text }
+ToTheme >> fontSizeHeading2 [
+	"Font size of h2 tag"
+
+	^ 30
+]
+
+{ #category : #text }
+ToTheme >> fontSizeHeading3 [
+	"Font size of h3 tag"
+
+	^ 24
+]
+
+{ #category : #text }
+ToTheme >> fontSizeHeading4 [
+	"Font size of h4 tag"
+
+	^ 20
+]
+
+{ #category : #text }
+ToTheme >> fontSizeHeading5 [
+	"Font size of h5 tag"
+
+	^ 16
+]
+
+{ #category : #text }
 ToTheme >> fontWeightStrong [
 	"https://ant.design/components/typography#design-token"
 
@@ -148,7 +183,42 @@ ToTheme >> fontWeightStrong [
 ToTheme >> lineHeight [
 	"https://ant.design/components/typography#design-token"
 
-	^ 1
+	^ 1.5
+]
+
+{ #category : #text }
+ToTheme >> lineHeightHeading1 [
+	"Line height of h1 tag"
+
+	^ 1.2
+]
+
+{ #category : #text }
+ToTheme >> lineHeightHeading2 [
+	"Line height of h2 tag"
+
+	^ 1.3
+]
+
+{ #category : #text }
+ToTheme >> lineHeightHeading3 [
+	"Line height of h3 tag"
+
+	^ 1.3
+]
+
+{ #category : #text }
+ToTheme >> lineHeightHeading4 [
+	"Line height of h4 tag"
+
+	^ 1.4
+]
+
+{ #category : #text }
+ToTheme >> lineHeightHeading5 [
+	"Line height of h5 tag"
+
+	^ 1.5
 ]
 
 { #category : #border }

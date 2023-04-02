@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-LookAndFeel-Examples'
 }
 
-{ #category : #button }
+{ #category : #buttons }
 ToLAFExamples class >> example_ButtonSkins [
 
 	| space button1 button2 button3 button4 button5 |
@@ -36,7 +36,7 @@ ToLAFExamples class >> example_ButtonSkins [
 	^space
 ]
 
-{ #category : #button }
+{ #category : #buttons }
 ToLAFExamples class >> example_ButtonSkins_Dark [
 
 	| space |
@@ -45,7 +45,49 @@ ToLAFExamples class >> example_ButtonSkins_Dark [
 	^ space
 ]
 
-{ #category : #button }
+{ #category : #labels }
+ToLAFExamples class >> example_LabelsSkins [
+
+	| space label1 label2 label3 label4 label5 |
+	space := OBlSpace new.
+	space root layout: (BlLinearLayout vertical cellSpacing: 10).
+	
+	label1 := ToLabel skinType: #h1.
+	label1 text: 'h1. Toplo Theme'.
+	
+	label2 := ToLabel skinType: #h2.
+	label2 text: 'h2. Toplo Theme'.
+	
+	label3 := ToLabel skinType: #h3.
+	label3 text: 'h3. Toplo Theme'.
+	
+	label4 := ToLabel skinType: #h4.
+	label4 text: 'h4. Toplo Theme'.
+	
+	label5 := ToLabel skinType: #h5.
+	label5 text: 'h5. Toplo Theme'.
+			
+	space addChild: label1.
+	space addChild: label2.
+	space addChild: label3.
+	space addChild: label4.
+	space addChild: label5.
+	
+	space show.
+
+	^space
+]
+
+{ #category : #labels }
+ToLAFExamples class >> example_LabelsSkins_Dark [
+
+	| space |
+	space := self example_LabelsSkins.
+	space toTheme: (space toTheme darkTheme).
+	^ space
+]
+
+{ #category : #buttons }
 ToLAFExamples class >> example_MoreButtonSkins [
 
 	| space |
@@ -79,7 +121,7 @@ ToLAFExamples class >> example_MoreButtonSkins [
 	^space
 ]
 
-{ #category : #button }
+{ #category : #buttons }
 ToLAFExamples class >> example_MoreButtonSkins_Dark [
 
 	| space |

@@ -3,5 +3,8 @@ Extension { #name : #ToElement }
 { #category : #'*Toplo-LookAndFeel' }
 ToElement class >> skinType: aType [
 
-	^ self new
+	| e |
+	e := self new.
+	e skinType: aType.
+	^ e
 ]

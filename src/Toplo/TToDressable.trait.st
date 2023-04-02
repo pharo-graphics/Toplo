@@ -29,7 +29,7 @@ TToDressable >> dresser: aDresser [
 
 	| currentDresser |
 	currentDresser := self userData at: #dresser ifAbsent:[ nil ].
-	(currentDresser notNil and:[ currentDresser class = aDresser class ]) ifTrue:[ ^ self ].
+	(currentDresser notNil and:[ currentDresser = aDresser ]) ifTrue:[ ^ self ].
 
 	self dresserDo: [ :d | d launchUninstallationIn: self ].
 	self userData at: #dresser put: aDresser.

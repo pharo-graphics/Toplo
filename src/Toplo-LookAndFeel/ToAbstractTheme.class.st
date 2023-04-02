@@ -111,3 +111,12 @@ ToAbstractTheme >> name: anObject [
 
 	name := anObject
 ]
+
+{ #category : #colors }
+ToAbstractTheme >> printOn: aStream [
+
+	aStream
+		nextPutAll: (self name ifNil:[self class name]);
+		nextPutAll: ' @ ';
+		store: self identityHash
+]

@@ -53,6 +53,15 @@ ToAbstractSkin >> initialize [
 	self buildTokens.
 ]
 
+{ #category : #printing }
+ToAbstractSkin >> printOn: aStream [
+
+	aStream
+		nextPutAll: self class name;
+		nextPutAll: ' @ ';
+		store: self identityHash
+]
+
 { #category : #accessing }
 ToAbstractSkin >> theme [
 

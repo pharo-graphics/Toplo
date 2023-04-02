@@ -83,6 +83,15 @@ ToCompanion >> postponedActions [
 	^ self userData at: #postponedActions ifAbsentPut: [ OrderedCollection new ]
 ]
 
+{ #category : #printing }
+ToCompanion >> printOn: aStream [
+
+	aStream
+		nextPutAll: self class name;
+		nextPutAll: ' @ ';
+		store: self identityHash
+]
+
 { #category : #'private-postponed actions' }
 ToCompanion >> removePostponedActions [
 

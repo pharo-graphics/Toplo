@@ -25,7 +25,7 @@ ToTheme class >> skinClassesFor: aToElementClass [
 	].
 
 	aToElementClass = ToLabel ifTrue:[
-		^ oc add: ToDefaultLabelSkin; add: ToLinkLabelSkin; add: ToPrimaryLabelSkin; add: ToH1LabelSkin; add: ToH2LabelSkin; add: ToH3LabelSkin; add: ToH4LabelSkin; add: ToH5LabelSkin; yourself.
+		^ oc add: ToDefaultLabelSkin; add: ToLinkLabelSkin; add: ToPrimaryLabelSkin; add: ToH1LabelSkin; add: ToH2LabelSkin; add: ToH3LabelSkin; add: ToH4LabelSkin; add: ToH5LabelSkin; add: ToSecondaryLabelSkin; add: ToSuccessLabelSkin; add: ToWarningLabelSkin; add: ToDangerLabelSkin; yourself.
 	].
 
 	^ oc
@@ -67,10 +67,38 @@ ToTheme >> colorBorder [
 ]
 
 { #category : #colors }
+ToTheme >> colorError [
+	"Used to represent the visual elements of the operation failure, such as the error Button, error Result component, etc."
+
+	^ Color fromHexString: '#ff4d4f'
+]
+
+{ #category : #colors }
+ToTheme >> colorErrorActive [
+	"The active state of the error color"
+
+	^ Color fromHexString: '#d9363e'
+]
+
+{ #category : #colors }
+ToTheme >> colorErrorHover [
+	"The hover state of the error color"
+
+	^ Color fromHexString: '#ff7875'
+]
+
+{ #category : #colors }
 ToTheme >> colorLink [
 	"https://ant.design/components/button#design-token"
 
 	^ Color fromHexString: '#1677ff'
+]
+
+{ #category : #colors }
+ToTheme >> colorLinkActive [
+	"Control the color of hyperlink when clicked"
+
+	^ Color fromHexString: '#0958d9'
 ]
 
 { #category : #colors }
@@ -95,9 +123,37 @@ ToTheme >> colorPrimaryHover [
 ]
 
 { #category : #colors }
+ToTheme >> colorSuccess [
+	"Used to represent the token sequence of operation success, such as Result, Progress and other components will use these map tokens"
+
+	^ Color fromHexString: '#52c41a'
+]
+
+{ #category : #colors }
 ToTheme >> colorText [
-	"https://ant.design/components/button#design-token"
+	"Default text color which comply with W3C standards, and this color is also the darkest neutral color."
 	
+	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.88
+]
+
+{ #category : #colors }
+ToTheme >> colorTextDescription [
+	"Control the font color of text description"
+
+	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.45
+]
+
+{ #category : #colors }
+ToTheme >> colorTextDisabled [
+	"Control the color of text in disabled state"
+
+	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.25
+]
+
+{ #category : #colors }
+ToTheme >> colorTextHeading [
+	"Control the font color of heading"
+
 	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.88
 ]
 
@@ -106,6 +162,20 @@ ToTheme >> colorTextLightSolid [
 	"https://ant.design/components/button#design-token"
 	
 	^ Color fromHexString: '#ffffff'
+]
+
+{ #category : #colors }
+ToTheme >> colorTextSecondary [
+	"Default text color which comply with W3C standards, and this color is also the darkest neutral color."
+	
+	^ Color black alpha: 0.45
+]
+
+{ #category : #colors }
+ToTheme >> colorWarning [
+	"Used to represent the warning map token, such as Notification, Alert, etc. Alert or Control component(like Input) will use these map tokens"
+
+	^ Color fromHexString: '#faad14'
 ]
 
 { #category : #sizes }

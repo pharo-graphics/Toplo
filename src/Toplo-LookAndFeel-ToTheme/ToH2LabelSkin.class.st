@@ -13,7 +13,7 @@ ToH2LabelSkin class >> type [
 { #category : #built }
 ToH2LabelSkin >> builtForeground [
 
-	^ self theme colorText
+	^ self theme colorTextHeading
 ]
 
 { #category : #built }

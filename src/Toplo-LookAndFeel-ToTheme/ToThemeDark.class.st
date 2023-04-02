@@ -30,22 +30,19 @@ ToThemeDark >> colorBgContainer [
 
 { #category : #colors }
 ToThemeDark >> colorBgTextActive [
-	"https://ant.design/components/button#design-token"
 	
 	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.15 
 ]
 
 { #category : #colors }
 ToThemeDark >> colorBgTextHover [
-	"Control the background color of text in hover state"
 
 	^ Color r: 255 g: 255 b: 255 alpha: 0.06
 ]
 
 { #category : #colors }
 ToThemeDark >> colorBorder [
-	"https://ant.design/components/button#design-token"
-	
+
 	^ Color fromHexString: '#a6a6a6'
 ]
 
@@ -57,9 +54,20 @@ ToThemeDark >> colorPrimary [
 
 { #category : #colors }
 ToThemeDark >> colorText [
-	"https://ant.design/components/button#design-token"
 	
 	^ Color r: 255 g: 255 b: 255 alpha: 0.88 
+]
+
+{ #category : #colors }
+ToThemeDark >> colorTextHeading [
+
+	^ Color r: 255 g: 255 b: 255 alpha: 0.88
+]
+
+{ #category : #colors }
+ToThemeDark >> colorTextSecondary [
+	
+	^ Color white alpha: 0.45
 ]
 
 { #category : #colors }

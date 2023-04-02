@@ -1,28 +1,28 @@
 Class {
-	#name : #ToH4LabelSkin,
+	#name : #ToDangerLabelSkin,
 	#superclass : #ToAbstractLabelSkin,
 	#category : #'Toplo-LookAndFeel-ToTheme-Skins - Label'
 }
 
 { #category : #accessing }
-ToH4LabelSkin class >> type [
+ToDangerLabelSkin class >> type [
 
-	^ #h4
+	^ #danger
 ]
 
 { #category : #built }
-ToH4LabelSkin >> builtForeground [
+ToDangerLabelSkin >> builtForeground [
 
-	^ self theme colorTextHeading
+	^ self theme colorError
 ]
 
 { #category : #built }
-ToH4LabelSkin >> builtTextAttributes [
+ToDangerLabelSkin >> builtTextAttributes [
 
 	| ropedText |
 	ropedText := '' asRopedText.
-	ropedText lineSpacing: self theme lineHeightHeading4.
-	ropedText defaultFontSize: self theme fontSizeHeading4.
+	ropedText lineSpacing: self theme lineHeight.
+	ropedText defaultFontSize: self theme fontSize.
 	ropedText defaultFontName: self theme fontFamilyCode.
 	ropedText weight: self theme fontWeightStrong.
 

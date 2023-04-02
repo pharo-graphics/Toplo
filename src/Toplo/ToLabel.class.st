@@ -266,8 +266,15 @@ ToLabel >> text [
 { #category : #accessing }
 ToLabel >> text: aBlTextOrString [
 
+	| attributes newText |
 	text = aBlTextOrString ifTrue: [ ^ self ].
-	text := (aBlTextOrString ifNil: [ self defaultText ]) asRopedText
+	
+	text ifNotNil:[text asRopedText rope isLeaf ifFalse:[attributes := text asRopedText rope attributes]].
+
+	newText := (aBlTextOrString ifNil: [ self defaultText ]) asRopedText.
+	attributes ifNotNil:[newText attributes: attributes].
+
+	text := newText.
 ]
 
 { #category : #'event handling' }

@@ -1,30 +1,7 @@
-"
-https://ant.design/components/button
-
-To trigger an operation.
-When To Use
-
-A button means an operation (or a series of operations). Clicking a button will trigger corresponding business logic.
-
-In Ant Design we provide 5 types of button.
-
-    Primary button: indicate the main action, one primary button at most in one section.
-    Default button: indicate a series of actions without priority.
-    Dashed button: used for adding action commonly.
-    Text button: used for the most secondary action.
-    Link button: used for external links.
-
-And 4 other properties additionally.
-
-    danger: used for actions of risk, like deletion or authorization.
-    ghost: used in situations with complex background, home pages usually.
-    disabled: when actions are not available.
-    loading: add loading spinner in button, avoiding multiple submits too.
-"
 Class {
 	#name : #ToAbstractButtonSkin,
 	#superclass : #ToAbstractSkin,
-	#category : #'Toplo-LookAndFeel-Skins'
+	#category : #'Toplo-LookAndFeel-Core'
 }
 
 { #category : #testing }
@@ -33,16 +10,28 @@ ToAbstractButtonSkin class >> isAbstract [
 	^ self = ToAbstractButtonSkin
 ]
 
-{ #category : #accessing }
+{ #category : #tokens }
 ToAbstractButtonSkin >> background [
 
-	^ self tokens at: #background
+	^ self token: #background
 ]
 
-{ #category : #accessing }
+{ #category : #tokens }
+ToAbstractButtonSkin >> backgroundHover [
+
+	^ self token: #backgroundHover
+]
+
+{ #category : #tokens }
 ToAbstractButtonSkin >> border [
 
-	^ self tokens at: #border
+	^ self token: #border
+]
+
+{ #category : #tokens }
+ToAbstractButtonSkin >> borderHover [
+
+	^ self token: #borderHover
 ]
 
 { #category : #built }
@@ -52,6 +41,11 @@ ToAbstractButtonSkin >> buildTokens [
 	
 	self tokens at: #background put: self builtBackground.
 	self tokens at: #border put: self builtBorder.
+	self tokens at: #padding put: self builtPadding.
+	self tokens at: #shadow put: self builtShadow.
+	
+	self tokens at: #backgroundHover put: self builtBackgroundHover.
+	self tokens at: #borderHover put: self builtBorderHover.
 ]
 
 { #category : #built }
@@ -61,9 +55,57 @@ ToAbstractButtonSkin >> builtBackground [
 ]
 
 { #category : #built }
+ToAbstractButtonSkin >> builtBackgroundHover [ 
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #built }
 ToAbstractButtonSkin >> builtBorder [
 
-	^ (BlBorder paint: self theme colorBorder width: self theme lineWidth) "style: self builtBorderStyle"
+	^ self builtBorderBuilder ifNotNil:[ :e | e build ]
+]
+
+{ #category : #built }
+ToAbstractButtonSkin >> builtBorderBuilder [
+
+	| builder |
+	builder := BlBorderBuilder new
+		           paint: self theme colorBorder;
+		           width: self theme lineWidth;
+		           lineCap: BlStrokeLineCap butt;
+		           lineJoin: BlStrokeLineJoin miter;
+		           miterLimit: 4.0;
+		           dashOffset: 0.
+
+	self theme lineType = #solid ifTrue:[builder dashArray: #()].
+	self theme lineType = #dashed ifTrue:[builder dashArray: self theme dashed].
+
+	^ builder
+]
+
+{ #category : #built }
+ToAbstractButtonSkin >> builtBorderHover [
+
+	^ self builtBorderHoverBuilder ifNotNil:[ :e | e build ]
+]
+
+{ #category : #built }
+ToAbstractButtonSkin >> builtBorderHoverBuilder [
+
+	| builder |
+	builder := BlBorderBuilder new
+		           paint: self theme colorBorder;
+		           width: self theme lineWidth;
+		           lineCap: BlStrokeLineCap butt;
+		           lineJoin: BlStrokeLineJoin miter;
+		           miterLimit: 4.0;
+		           dashOffset: 0.
+
+	self theme lineType = #solid ifTrue:[builder dashArray: #()].
+	self theme lineType = #dashed ifTrue:[builder dashArray: self theme dashed].
+
+	^ builder
 ]
 
 { #category : #built }
@@ -72,8 +114,38 @@ ToAbstractButtonSkin >> builtGeometry [
 	^ BlRoundedRectangleGeometry cornerRadius: self theme borderRadius
 ]
 
-{ #category : #accessing }
+{ #category : #built }
+ToAbstractButtonSkin >> builtPadding [ 
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #built }
+ToAbstractButtonSkin >> builtShadow [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #tokens }
 ToAbstractButtonSkin >> geometry [
 
-	^ self tokens at: #geometry
+	^ self token: #geometry
+]
+
+{ #category : #built }
+ToAbstractButtonSkin >> labelSkinType [
+
+	^ ToAbstractSkin defaultType
+]
+
+{ #category : #tokens }
+ToAbstractButtonSkin >> padding [
+
+	^ self token: #padding
+]
+
+{ #category : #tokens }
+ToAbstractButtonSkin >> shadow [
+
+	^ self token: #shadow
 ]

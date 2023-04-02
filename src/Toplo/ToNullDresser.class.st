@@ -7,6 +7,7 @@ Class {
 { #category : #'api - install/uninstall  hook' }
 ToNullDresser >> addDresser: aDresser in: anElement [
 
+	self = aDresser ifTrue: [ ^ self ].
 	aDresser next: self.
 	anElement dresser: aDresser.
 ]

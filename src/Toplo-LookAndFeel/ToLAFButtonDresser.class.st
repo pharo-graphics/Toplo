@@ -4,13 +4,13 @@ Class {
 	#instVars : [
 		'skin'
 	],
-	#category : #'Toplo-LookAndFeel-Dressers'
+	#category : #'Toplo-LookAndFeel-Core'
 }
 
 { #category : #accessing }
 ToLAFButtonDresser >> defaultSkin [
 
-	^ ToDefaultButtonSkin new
+	^ ToAbstractTheme current class skinFor: ToButton type: ToAbstractSkin defaultType
 ]
 
 { #category : #'events handling' }
@@ -21,11 +21,19 @@ ToLAFButtonDresser >> escaped: anElement [
 ]
 
 { #category : #'events handling' }
-ToLAFButtonDresser >> initialState: anElement [ 
+ToLAFButtonDresser >> hover: anElement event: anEvent [
+
+	super hover: anElement event: anEvent.
+	
+	self background: self skin backgroundHover in: anElement.
+	self border: self skin borderHover in: anElement.
+]
+
+{ #category : #'events handling' }
+ToLAFButtonDresser >> initialState: anElement [
 
 	super initialState: anElement.
-	
-	anElement geometry: self skin builtGeometry.
+
 	self background: self skin background in: anElement.
 	self border: self skin border in: anElement.
 ]
@@ -33,8 +41,7 @@ ToLAFButtonDresser >> initialState: anElement [
 { #category : #'events handling' }
 ToLAFButtonDresser >> leaved: anElement [
 
-	
-
+	self initialState: anElement.
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -42,8 +49,25 @@ ToLAFButtonDresser >> onInstalledIn: anElement [
 
 	skin := anElement skin.
 	self skin theme: anElement toTheme.
-
+	
+	self skin labelSkinType ifNotNil:[ :labelSkinType |
+		anElement label ifNil:[ anElement label: ToLabel new ].
+		anElement label skinType: labelSkinType.
+	].
+	
 	super onInstalledIn: anElement.
+	
+	anElement geometry: self skin builtGeometry.
+	
+	self skin defaultSize ifNotNil:[ :aPoint | 
+		anElement constraintsDo:[ :c | 
+			aPoint y > 0 ifTrue:[ c vertical exact: aPoint y ].
+			aPoint x > 0 ifTrue:[ c horizontal exact: aPoint x ].
+		].
+	].
+
+	anElement padding: self skin padding.
+	anElement effect: self skin shadow.
 ]
 
 { #category : #'api - install/uninstall  hook' }

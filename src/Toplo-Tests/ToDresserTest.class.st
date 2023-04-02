@@ -53,9 +53,11 @@ ToDresserTest >> testInstalled [
 { #category : #tests }
 ToDresserTest >> testToWidgetWithNullDresser [
 	| widget d1 d2 |
+	
 	widget := ToWidget new.
 	self assert: (widget dresser isKindOf: ToNullDresser).
 	self assert: (widget dresser isInstalled).
+	
 	d1 := widget dresser.
 	d2 := ToNullDresser new.
 	widget addDresser: d2.

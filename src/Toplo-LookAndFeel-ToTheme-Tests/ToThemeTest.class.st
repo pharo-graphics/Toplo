@@ -3,12 +3,12 @@ A ToThemeTest is a test class for testing the behavior of ToTheme
 "
 Class {
 	#name : #ToThemeTest,
-	#superclass : #TestCase,
-	#category : #'Toplo-LookAndFeel-Tests-Theme'
+	#superclass : #ToThemeTestCase,
+	#category : #'Toplo-LookAndFeel-ToTheme-Tests-Themes'
 }
 
 { #category : #tests }
 ToThemeTest >> testDefaultToTheme [
 
-	self assert: ToTheme default class equals: ToClearTheme
+	self assert: ToAbstractTheme current class equals: ToThemeLight
 ]

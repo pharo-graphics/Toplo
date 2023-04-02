@@ -9,11 +9,11 @@ BlElement >> holder [
 { #category : #'*Toplo' }
 BlElement >> toTheme [
 
-	^ self userData
-		at: #ToTheme
-		ifAbsent: [ self hasParent
-				ifTrue: [ self parent toTheme ]
-				ifFalse: [ ToTheme default ] ]
+	^ self userData at: #ToTheme ifAbsent: [
+		  self hasParent
+			  ifTrue: [ self parent toTheme ]
+			  ifFalse: [ ToAbstractTheme current ] 
+	]
 ]
 
 { #category : #'*Toplo' }

@@ -39,3 +39,26 @@ TToEnableableTest >> testEnableable [
 	self assert: element isEnabled.
 	self assert: element isDisabled not.
 ]
+
+{ #category : #tests }
+TToEnableableTest >> testMultipleDisable [
+
+	| element |
+	element := ToWidget new.
+	element disable. 
+	element disable. 
+	element disable. 
+	self assert: element isDisabled.
+]
+
+{ #category : #tests }
+TToEnableableTest >> testStatement [
+
+	| element |
+	element := ToWidget new.
+	element disable. 
+	self assert: (element states hasState: BlElementState disabled).
+	
+	element enable.
+	self assert: (element states hasState: BlElementState disabled) not
+]

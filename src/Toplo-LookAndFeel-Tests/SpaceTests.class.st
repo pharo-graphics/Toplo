@@ -66,3 +66,21 @@ SpaceTests >> testDefaultSpaceTheme [
 	self assert: space toTheme class equals: ToAbstractTheme current class.
 	
 ]
+
+{ #category : #tests }
+SpaceTests >> testSwitchThemeDarkOrLight [
+
+	| space |
+	space := OBlSpace new.
+	self assert: space toTheme isLight.
+		
+	space switchThemeDarkOrLight.
+	self assert: space toTheme isDark.
+	
+	space switchThemeDarkOrLight.
+	self assert: space toTheme isLight.
+	
+	space switchThemeDarkOrLight.
+	self assert: space toTheme isDark.
+	
+]

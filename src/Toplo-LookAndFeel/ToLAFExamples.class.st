@@ -176,6 +176,34 @@ ToLAFExamples class >> example_TitleLabelsSkins_Dark [
 	^ space
 ]
 
+{ #category : #'theme and skin' }
+ToLAFExamples class >> example_toButtonChangeThemeOnClickChangeSkinOnRightClick [
+
+	| but space |
+	space := OBlSpace new.
+	
+	but := ToButton skinType: #default.
+	but labelText: 'Switch to the dark theme'.
+	
+	but whenClickedDo: [
+		space switchThemeDarkOrLight. 
+		space toTheme isDark
+			ifTrue: [but labelText: 'Dark Theme'.  ]
+			ifFalse: [but labelText: 'Light Theme' ] 
+	].
+			
+	but when: BlMouseDownEvent do: [ :event |
+		event secondaryButtonPressed ifTrue: [
+			but skinType: (but skinType = #primary
+					 ifTrue: [ #default ]
+					 ifFalse: [ #primary ]) 
+		].
+	].
+			
+	space addChild: but.
+	space show
+]
+
 { #category : #'see class side' }
 ToLAFExamples >> seeClassSide [ 
 ]

@@ -1,6 +1,16 @@
 Extension { #name : #OBlSpace }
 
 { #category : #'*Toplo' }
+OBlSpace >> switchThemeDarkOrLight [
+	"Switch to the opposite theme : dark or light (if available)"
+
+	self toTheme ifNil:[ ^ self ].
+	self toTheme: (self toTheme isLight
+			 ifTrue: [ self toTheme darkTheme ]
+			 ifFalse: [ self toTheme lightTheme ])
+]
+
+{ #category : #'*Toplo' }
 OBlSpace >> toTheme [
 
 	^ self root toTheme

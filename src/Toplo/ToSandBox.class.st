@@ -178,7 +178,7 @@ ToSandBox class >> example_EditorWithPlaceholder [
 		 withSaveCapability;
 		 whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
 		 withEditsFeedbackLayer) onWidget.
-
+	view showPlaceholder.
 	view openInOBlSpace
 ]
 
@@ -197,6 +197,7 @@ ToSandBox class >> example_EditorWithPlaceholderWithToAlbumModel [
 		 whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
 		 withEditsFeedbackLayer) onWidget.
 
+	view showPlaceholder.
 	view openInOBlSpace
 ]
 
@@ -334,18 +335,26 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 { #category : #list }
 ToSandBox class >> example_ListWithEditableAndContextMenu [
 
-	| l selectionMenu menuFactory |
+	| l selectionMenu menuFactory phlab |
 	l := ToListElement new.
-	l placeholder: (l defaultPlaceholder 
-		alignCenter;
-		beMultiLine;
-		text: ((('Invoke the context menu ', String cr, 
+	phlab :=ToLabel new
+		  beMultiLine;
+		  text: ((('Invoke the context menu ', String cr, 
 					'with a right-click', String cr, 
 					'to initialize the list') asRopedText 
 						foreground: Color lightGray; 
 						yourself) 
-			fontSize: 24; 
-			yourself)).
+			fontSize: 24; yourself);
+		  foreground: Color lightGray;
+		  margin: (BlInsets all: 5);
+		  constraintsDo: [ :c |
+			  c frame vertical alignCenter.
+			  c frame horizontal alignCenter ];
+		  yourself.
+	phlab layout alignCenter.
+	phlab innerElement layout alignCenter.
+	l placeholder: phlab.
+	l showPlaceholder.
 	l nodeFactory: [ :t :holder |
 		| lab |
 		lab := ToLabel text: t.
@@ -1252,12 +1261,12 @@ ToSandBox class >> example_textFieldWithPlaceholder [
 	t := ToTextField new withSaveCapability.
 	text := ''.
 	t withPlaceholderText: 'Enter to accept'.
-	t text: text copy.
 	t whenSaveRequestedDo: [ :saveRequested | 
 		saveRequested client saveResult: true.
 		text := saveRequested client text copy].
 	t whenCancelRequestedDo: [ :cancelRequested | 
 		cancelRequested client text: text copy ].
+	t showPlaceholder.
 	t openInOBlSpace.
 
 ]

@@ -4,14 +4,6 @@ Class {
 	#category : #'Toplo-Widget-TextField'
 }
 
-{ #category : #'api - attaching / detaching' }
-ToTextFieldPlaceholder >> attachTo: anEditorElement [
-
-	super attachTo: anEditorElement.
-	"label padding: anEditorElement padding copy.
-	label margin: anEditorElement margin copy."
-]
-
 { #category : #initialization }
 ToTextFieldPlaceholder >> defaultLabel [
 

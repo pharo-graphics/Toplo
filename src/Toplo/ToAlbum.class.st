@@ -1,13 +1,12 @@
 Class {
 	#name : #ToAlbum,
-	#superclass : #ToElement,
-	#traits : 'TToWidget + TToElement + TToWidgetWithViewModel + TToWidgetWithTooltip + TToWidgetWithLayers + TToWidgetWithContextMenu + TAlbInfiniteDecorator',
-	#classTraits : 'TToWidget classTrait + TToElement classTrait + TToWidgetWithViewModel classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithLayers classTrait + TToWidgetWithContextMenu classTrait + TAlbInfiniteDecorator classTrait',
+	#superclass : #ToPane,
+	#traits : 'TToWidget + TToElement + TToWidgetWithViewModel + TToWidgetWithTooltip + TToWidgetWithContextMenu + TAlbInfiniteDecorator + TToWidgetWithLayers + TToWidgetWithPlaceholder',
+	#classTraits : 'TToWidget classTrait + TToElement classTrait + TToWidgetWithViewModel classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithContextMenu classTrait + TAlbInfiniteDecorator classTrait + TToWidgetWithLayers classTrait + TToWidgetWithPlaceholder classTrait',
 	#instVars : [
 		'#editsFeedbackLayer',
 		'#innerElement',
-		'#edited => ObservableSlot',
-		'#placeholder'
+		'#edited => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Album'
 }
@@ -164,9 +163,7 @@ ToAlbum >> withEditsFeedbackLayer [
 { #category : #layers }
 ToAlbum >> withPlaceholderText: aText [
 
-	placeholder ifNotNil: [ ^ self ].
-	placeholder := ToAlbumPlaceholder new text: aText.
-	self addLayer: placeholder
+	self placeholderLayer: (ToAlbumPlaceholder new text: aText)
 ]
 
 { #category : #initialization }
@@ -197,7 +194,5 @@ ToAlbum >> withoutEditsFeedback [
 { #category : #layers }
 ToAlbum >> withoutPlaceholder [ 
 
-	placeholder ifNil: [ ^ self ].
-	self removeLayer: placeholder.
-	placeholder := nil
+	self hidePlaceholder 
 ]

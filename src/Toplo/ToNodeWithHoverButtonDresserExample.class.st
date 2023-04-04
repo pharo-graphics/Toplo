@@ -24,7 +24,8 @@ ToNodeWithHoverButtonDresserExample >> changeBackground: aBoolean [
 ToNodeWithHoverButtonDresserExample >> hover: anElement event: anEvent [
 
 	super hover: anElement event: anEvent.
-	self changeBackground ifTrue: [ anElement background: (Color lightGray alpha: 0.2) ].
+	self changeBackground ifTrue: [
+		anElement background: (Color lightGray alpha: 0.2) ].
 	nodeButton := ToButton new labelText: 'Do something'.
 	nodeButton whenClickedDo: [ self inform: 'CLICK' ].
 	nodeButton constraintsDo: [ :c |
@@ -33,7 +34,7 @@ ToNodeWithHoverButtonDresserExample >> hover: anElement event: anEvent [
 	nodeButton background: Color yellow.
 	anElement addChild: nodeButton.
 	nodeButton padding: (BlInsets all: 4).
-	nodeButton relocate: 0 @ -10
+	nodeButton position: 0 @ -10
 ]
 
 { #category : #'events handling' }

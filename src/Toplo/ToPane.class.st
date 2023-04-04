@@ -1,12 +1,12 @@
 Class {
 	#name : #ToPane,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TToOrientable + TToWidgetWithLayers',
-	#classTraits : 'TToWidget classTrait + TToOrientable classTrait + TToWidgetWithLayers classTrait',
+	#traits : 'TToWidget + TToOrientable + TToWidgetWithLayers + TToWidgetWithPlaceholder',
+	#classTraits : 'TToWidget classTrait + TToOrientable classTrait + TToWidgetWithLayers classTrait + TToWidgetWithPlaceholder classTrait',
 	#category : #'Toplo-Widget-Pane'
 }
 
-{ #category : #adding }
+{ #category : #dividers }
 ToPane >> addDividerBetween: aFirstElement and: aSecondElement [
 
 	| divider |
@@ -14,7 +14,7 @@ ToPane >> addDividerBetween: aFirstElement and: aSecondElement [
 	self addChild: divider
 ]
 
-{ #category : #adding }
+{ #category : #dividers }
 ToPane >> addDividers [
 
 	| lastIdx |
@@ -24,10 +24,22 @@ ToPane >> addDividers [
 			self addDividerBetween: child and: (self children at: idx + 1) ] ]
 ]
 
+{ #category : #'t - initialization dresser' }
+ToPane >> defaultDresser [ 
+
+	^ ToPaneDresser
+]
+
 { #category : #'t - initialization' }
 ToPane >> defaultLayout [
 
 	^ BlLinearLayout new 
+]
+
+{ #category : #'t - accessing layers' }
+ToPane >> layerReferentElement [
+
+	^ self
 ]
 
 { #category : #layout }

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListElementDresser,
-	#superclass : #ToDresser,
+	#superclass : #ToPaneDresser,
 	#instVars : [
 		'keyboardHandler',
 		'menuPopupHandler',
@@ -32,8 +32,8 @@ ToListElementDresser >> addSecondarySelectionDecorationOnNode: aChildNode In: an
 { #category : #'list structural change' }
 ToListElementDresser >> checkEmptinessChangeIn: anElement [
 
-	anElement data ifEmpty: [ ^ self showListPlaceholderIn: anElement ].
-	self hideListPlaceholderIn: anElement
+	anElement data ifEmpty: [ ^ anElement showPlaceholder ].
+	anElement hidePlaceholder
 ]
 
 { #category : #initialization }
@@ -56,17 +56,10 @@ ToListElementDresser >> defaultPadding [
 
 ]
 
-{ #category : #'list structural change' }
-ToListElementDresser >> hideListPlaceholderIn: anElement [
-
-	anElement placeholder parentDo: [ :p |
-		anElement placeholder removeFromParent ].
-	anElement infinite elevation: (BlRelativeElevation elevation: SmallInteger maxVal)
-]
-
 { #category : #'api - install/uninstall  hook' }
 ToListElementDresser >> installEventListenersIn: anElement [
 
+	super installEventListenersIn: anElement.
 	keyboardHandler := BlEventHandler on: BlKeyboardEvent do: [ :event | anElement infinite dispatchEvent: event ].
 	menuPopupHandler := BlEventHandler on: ToContextMenuOpenedEvent do: [ :event | self popupOpenedEvent: event in: anElement ].
 	structuralChangeHandler := BlEventHandler on: ToListDataEmptinessChangeEvent do: [ :event | self checkEmptinessChangeIn: anElement ].
@@ -86,7 +79,7 @@ ToListElementDresser >> onInstalledIn: anElement [
 	anElement background: self defaultBackground.
 	anElement margin: self defaultMargin.
 	anElement padding: self defaultPadding.
-	self showListPlaceholderIn: anElement
+
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -115,19 +108,10 @@ ToListElementDresser >> popupOpenedEvent: anEvent in: anElement [
 			anElement secondarySelection selectIndex: childNode holder position ]
 ]
 
-{ #category : #'list structural change' }
-ToListElementDresser >> showListPlaceholderIn: anElement [
-
-	anElement placeholder parentDo: [ :p | ^ self ].
-	"anElement next visibility: (BlVisibility hidden)."
-	anElement addChild: anElement placeholder.
-	anElement placeholder elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
-	anElement infinite elevation: (BlRelativeElevation elevation: SmallInteger maxVal - 1)	
-]
-
 { #category : #'api - install/uninstall  hook' }
 ToListElementDresser >> uninstallEventListenersIn: anElement [
 
+	super uninstallEventListenersIn: anElement.
 	anElement removeEventHandler: keyboardHandler.
 	anElement infinite removeEventHandler: menuPopupHandler.
 	anElement infinite dataSource removeEventHandler: structuralChangeHandler

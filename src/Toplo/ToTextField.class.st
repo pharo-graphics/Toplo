@@ -33,9 +33,7 @@ ToTextField >> withLineWrapping [
 { #category : #layers }
 ToTextField >> withPlaceholderText: aText [
 
-	placeholder ifNotNil: [ ^ self ].
-	placeholder := ToTextFieldPlaceholder new text: aText.
-	self addLayer: placeholder
+	self placeholderLayer: (ToTextFieldPlaceholder new text: aText)
 ]
 
 { #category : #initialization }

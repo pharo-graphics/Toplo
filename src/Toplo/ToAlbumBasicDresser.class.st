@@ -8,6 +8,14 @@ Class {
 	#category : #'Toplo-Widget-Album'
 }
 
+{ #category : #'api - install/uninstall  hook' }
+ToAlbumBasicDresser >> checkTextIn: anEditorElement [
+
+	anEditorElement text
+		ifEmpty: [ anEditorElement showPlaceholder ]
+		ifNotEmpty: [ anEditorElement hidePlaceholder ]
+]
+
 { #category : #initialization }
 ToAlbumBasicDresser >> defaultBackground [
 
@@ -70,6 +78,10 @@ ToAlbumBasicDresser >> onInstalledIn: anElement [
 	anElement innerElement geometry: self defaultGeometry.
 	anElement innerElement margin: self defaultMargin.
 	anElement innerElement padding: self defaultPadding.
+	
+	" add/remove placeholder according to unaccepted text size"
+	anElement whenTextEditedDo: [ self checkTextIn: anElement ].
+	anElement whenTextReplacedDo: [ self checkTextIn: anElement ].
 	
 	infiniteBlurHandler := BlEventHandler
 		on: BlBlurEvent

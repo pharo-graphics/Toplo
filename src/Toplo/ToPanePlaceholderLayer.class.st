@@ -4,17 +4,10 @@ Class {
 	#category : #'Toplo-Widget-Pane'
 }
 
-{ #category : #adding }
-ToPanePlaceholderLayer >> addInPane [
+{ #category : #converting }
+ToPanePlaceholderLayer >> asPlaceholderLayer [
 
-
-]
-
-{ #category : #'api - attaching / detaching' }
-ToPanePlaceholderLayer >> attachTo: aPane [ 
-
-	super attachTo: aPane.
-
+	^ self
 ]
 
 { #category : #initialization }
@@ -22,12 +15,6 @@ ToPanePlaceholderLayer >> initialize [
 
 	super initialize.
 	self layout: BlFrameLayout new.
-	self when: ToPanePlaceholderShowEvent do: [ :event | self addInPane ].
-	self when: ToPanePlaceholderHideEvent do: [ :event | self removePane ].
 	self preventMouseEvents.
 
-]
-
-{ #category : #adding }
-ToPanePlaceholderLayer >> removeFromPane [
 ]

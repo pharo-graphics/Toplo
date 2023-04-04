@@ -192,16 +192,16 @@ ToComboBox >> headPlaceholder: anElement [
 ]
 
 { #category : #displaying }
-ToComboBox >> hideListPlaceholder [
+ToComboBox >> hideOrShowListPlaceholder [
 
-	self prepareListElement 
+	self data ifEmpty: [ ^ self showPlaceholder ].
+	self hidePlaceholder
 ]
 
 { #category : #displaying }
-ToComboBox >> hideOrShowListPlaceholder [
+ToComboBox >> hidePlaceholder [
 
-	self data ifEmpty: [ ^ self showListPlaceholder ].
-	self hideListPlaceholder
+	self prepareListElement 
 ]
 
 { #category : #initialization }
@@ -420,7 +420,7 @@ ToComboBox >> selectedIndexChanged [
 ]
 
 { #category : #displaying }
-ToComboBox >> showListPlaceholder [
+ToComboBox >> showPlaceholder [
 
 	self listElement next matchParent.
 	self listElement next elevation: (BlRelativeElevation elevation: 0).

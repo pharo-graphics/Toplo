@@ -180,6 +180,7 @@ ToWorkspaceExample >> openInSpace: aSpace [
 	| editor frame |
 	editor := self codeEditor.
 	editor infinite requestFocus.
+	editor showPlaceholder.
 	frame := ToInnerWindow new title: 'Workspace'.
 	frame addChild: editor.
 	aSpace root addChild: frame.

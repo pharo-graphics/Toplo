@@ -24,19 +24,19 @@ ToPopupPlacementStrategy >> action: aBlock [
 ToPopupPlacementStrategy >> check: aWindow beforePopupIn: aWidget [
 
 	| gap rect |
-	" layout is done, aWindow bounds are now up-to-date"
-	" check if aWindow position is ok according to aWindow extent and the space extent"
+	" layout is done, aWindow bounds are now up-to-date"" check if aWindow position is ok according to aWindow extent and the space extent"
 	rect := aWindow bounds inSpace asRectangle.
-	gap := rect amountToTranslateWithin: (0 asPoint extent: aWindow space extent).
-	aWindow relocate: aWindow position + gap.
+	gap := rect amountToTranslateWithin:
+		       (0 asPoint extent: aWindow space extent).
+	aWindow position: aWindow position + gap.
 	super check: aWindow beforePopupIn: aWidget
-
 ]
 
 { #category : #initialization }
 ToPopupPlacementStrategy >> defaultAction [
 
-	^ [ :window :event | window relocate: (window openPositionFromEvent: event)]
+	^ [ :window :event |
+	  window position: (window openPositionFromEvent: event) ]
 ]
 
 { #category : #initialization }

@@ -1,11 +1,8 @@
-"
-I'm a container with a linear layout. (see `BlLinearLayout` comments)
-"
 Class {
 	#name : #ToPane,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TToOrientable',
-	#classTraits : 'TToWidget classTrait + TToOrientable classTrait',
+	#traits : 'TToWidget + TToOrientable + TToWidgetWithLayers',
+	#classTraits : 'TToWidget classTrait + TToOrientable classTrait + TToWidgetWithLayers classTrait',
 	#category : #'Toplo-Widget-Pane'
 }
 

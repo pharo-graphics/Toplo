@@ -14,8 +14,7 @@ ToBottomResizeGrip >> cursorSelector [
 ToBottomResizeGrip >> layoutIn: anElement [
 
 	self size: anElement width - (thickness * 2) @ thickness.
-	self relocate: thickness @ (anElement height - (thickness / 2)).
-
+	self position: thickness @ (anElement height - (thickness / 2))
 ]
 
 { #category : #initialization }

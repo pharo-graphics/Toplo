@@ -42,8 +42,7 @@ ToAlbumPlaceholder >> defaultLabel [
 ToAlbumPlaceholder >> initialize [
 
 	super initialize.
-	self
-		layout: BlFrameLayout new.
+	self layout: BlFrameLayout new.
 	label := self defaultLabel.
 	self addChild: label.
 	self preventMeAndChildrenMouseEvents.

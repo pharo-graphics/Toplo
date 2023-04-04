@@ -34,11 +34,12 @@ TToWidgetWithPlaceholder >> placeholderLayer [
 { #category : #'t - placeholder accessing' }
 TToWidgetWithPlaceholder >> placeholderLayer: aPanePlaceholderLayer [
 
-	self placeholderLayer parentDo: [ :layer |
-		self hidePlaceholder.
-		placeholderLayer := aPanePlaceholderLayer.
-		self showPlaceholder.
-		^ self ].
+	self placeholderLayer ifNotNil: [
+		self placeholderLayer parentDo: [ :layer |
+			self hidePlaceholder.
+			placeholderLayer := aPanePlaceholderLayer.
+			self showPlaceholder.
+			^ self ] ].
 	placeholderLayer := aPanePlaceholderLayer
 ]
 

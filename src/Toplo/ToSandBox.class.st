@@ -104,7 +104,8 @@ ToSandBox class >> example_ComboBoxWithHeadPlaceholder [
 	but := ToButton new labelText: ('<< Fetch data >>' asRopedText foreground: Color gray).
 	but whenClickedDo: [ combo data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]). combo headPlaceholder: nil ].
 	head := ToElement new layout: BlFrameLayout new.
-	head vFitContent.
+	head vFitContent.	
+	head hMatchParent.
 	head addChild: but.
 	combo headPlaceholder: head.
 	win root addChild: combo.
@@ -128,6 +129,7 @@ ToSandBox class >> example_ComboBoxWithListPlaceholder [
 	but constraintsDo: [ :c | c linear horizontal alignCenter ].
 	but whenClickedDo: [ combo data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]) ].
 	combo listPlaceholder: placeholder.
+	combo showListPlaceholder.
 	win root addChild: combo.
 	win openInWorld
 ]
@@ -617,13 +619,15 @@ ToSandBox class >> example_anchoredWidow1 [
 	w background: (Color gray alpha: 0.2).
 	w border: (BlBorder paint: Color black width: 2).
 	w padding: (BlInsets all: 4).
-	e := (ToElement new
-			 size: 100 @ 100;
-			 relocate: 50 @ 50;
-			 background: Color yellow;
-			 border: (BlBorder paint: Color red)).
+	e := ToElement new
+		     size: 100 @ 100;
+		     position: 50 @ 50;
+		     background: Color yellow;
+		     border: (BlBorder paint: Color red).
 	w anchor: e.
-	w root addChild: (ToAlbum new dresser: ToLabelEditorDresser new; text: 'bla bla bla').
+	w root addChild: (ToAlbum new
+			 dresser: ToLabelEditorDresser new;
+			 text: 'bla bla bla').
 	w fitContent.
 	e openInInnerWindow.
 	w popup
@@ -1081,11 +1085,11 @@ ToSandBox class >> example_overlayWidow1 [
 	w := ToOverlayWindow new.
 	w background: (Color gray alpha: 0.2).
 	w border: (BlBorder paint: Color black width: 2).
-	e := (ToElement new
-			 size: 100 @ 100;
-			 relocate: 50 @ 50;
-			 background: Color yellow;
-			 border: (BlBorder paint: Color red)).
+	e := ToElement new
+		     size: 100 @ 100;
+		     position: 50 @ 50;
+		     background: Color yellow;
+		     border: (BlBorder paint: Color red).
 	w overlayed: e.
 	e openInInnerWindow.
 	w popup

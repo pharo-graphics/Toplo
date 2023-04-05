@@ -18,10 +18,14 @@ ToAnchoredWindow >> anchor [
 ToAnchoredWindow >> anchor: aWidget [
 
 	anchor := aWidget.
-	self anchor when: BlElementPositionInSpaceChangedEvent do: [ :event | 
-		self relocate: self anchor bounds inSpace bounds topLeft ].
+	self anchor
+		when: BlElementPositionInSpaceChangedEvent
+		do: [ :event |
+		self position: self anchor bounds inSpace bounds topLeft ].
 	self anchor when: BlElementRemovedFromParentEvent do: [ self close ].
-	self anchor when: BlElementRemovedFromSceneGraphEvent do: [ self close ].
+	self anchor
+		when: BlElementRemovedFromSceneGraphEvent
+		do: [ self close ]
 ]
 
 { #category : #'t - initialization dresser' }

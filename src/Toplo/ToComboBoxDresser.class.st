@@ -5,22 +5,17 @@ Class {
 		'clickOnDataHandler',
 		'crShortcut',
 		'escShortcut',
-		'structuralChangeHandler'
+		'structuralChangeHandler',
+		'placeholderAddedHandler',
+		'placeholderRemovedHandler'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToComboBoxDresser >> checkEmptinessChangeIn: anElement [
-
-	"anElement data ifEmpty: [ ^ self showListPlaceholderIn: anElement ].
-	self hideListPlaceholderIn: anElement"
-]
-
-{ #category : #'api - install/uninstall  hook' }
 ToComboBoxDresser >> hideListPlaceholderIn: anElement [
 
-	anElement prepareListElement 
+	anElement placeholderHidden 
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -32,13 +27,16 @@ ToComboBoxDresser >> onInstalledIn: anElement [
 	anElement hMatchParent.
 	anElement listElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
 	
-	structuralChangeHandler := BlEventHandler on: ToListDataEmptinessChangeEvent do: [ :event | self checkEmptinessChangeIn: anElement ].
+	placeholderAddedHandler := BlEventHandler on: ToPlaceholderAddedEvent  do: [ :event | self showListPlaceholderIn: anElement ].
+	placeholderRemovedHandler := BlEventHandler on: ToPlaceholderRemovedEvent  do: [ :event | self hideListPlaceholderIn: anElement ].
+	
 	clickOnDataHandler := BlEventHandler
 		                      on: ToInfiniteClickOnDataEvent
 		                      do: [ :event |
 		                      anElement clickOnDataEvent: event ].
 	anElement listElement infinite addEventHandler: clickOnDataHandler.
-	anElement listElement infinite dataSource addEventHandler: structuralChangeHandler.
+	anElement listElement addEventHandler: placeholderAddedHandler.
+	anElement listElement addEventHandler: placeholderRemovedHandler.
 	
 	crShortcut := BlShortcutWithAction new
 		              combination:
@@ -67,7 +65,8 @@ ToComboBoxDresser >> onInstalledIn: anElement [
 ToComboBoxDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
-	anElement listElement infinite dataSource removeEventHandler: structuralChangeHandler.
+	anElement listElement removeEventHandler: placeholderAddedHandler.
+	anElement listElement removeEventHandler: placeholderRemovedHandler.
 	anElement listElement infinite removeEventHandler: clickOnDataHandler.
 	anElement listElement removeShortcut: crShortcut.
 	anElement listElement removeShortcut: escShortcut
@@ -76,5 +75,5 @@ ToComboBoxDresser >> onUninstalledIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToComboBoxDresser >> showListPlaceholderIn: anElement [
 
-	anElement prepareListPlaceHolder 
+	anElement placeholderShown
 ]

@@ -16,15 +16,13 @@ ToOverlayedPlacementStrategy >> check: aWindow beforePopupIn: aWidget [
 ToOverlayedPlacementStrategy >> popup: aWindow [
 
 	| spaceLayer |
-	aWindow relocate: (aWindow bounds inSpace bounds topLeft).
+	aWindow position: aWindow bounds inSpace bounds topLeft.
 	"I'm not ready to be visible because my bounds are not checked according to the popup layer extent"
 	aWindow visibility: BlVisibility hidden.
 	spaceLayer := aWindow overlayed space overlayLayer.
 	spaceLayer addChild: aWindow.
-	
+
 	"I need to finalize my position as soon as my layout is up-to-date"
-	aWindow whenLayoutedDoOnce: [ self check: aWindow beforePopupIn: spaceLayer ].
-
-	
-
+	aWindow whenLayoutedDoOnce: [
+		self check: aWindow beforePopupIn: spaceLayer ]
 ]

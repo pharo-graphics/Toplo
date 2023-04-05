@@ -19,7 +19,7 @@ ToListInfiniteElement >> defaultDresser [
 { #category : #initialization }
 ToListInfiniteElement >> defaultListNodeFactory [
 
-	^ ToActionDataToElementConverter new valuable: [ :d :h | ToLabeledNode new labelText: d ]
+	^ ToActionDataToElementConverter new valuable: [ :d :h | ToLabeledNode new labelText: d; hMatchParent; yourself ]
 ]
 
 { #category : #initialization }

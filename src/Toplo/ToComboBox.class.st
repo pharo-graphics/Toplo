@@ -9,7 +9,6 @@ Class {
 		'#listElement',
 		'#listFrame',
 		'#headElement',
-		'#headPlaceholder',
 		'#headContentFactory => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-ComboBox'
@@ -57,13 +56,13 @@ ToComboBox >> defaultHeadContentFactory [
 { #category : #initialization }
 ToComboBox >> defaultHeadElement [
 
-	^ ToComboBoxHead new matchParent
+	^ ToComboBoxHead new vFitContent; hMatchParent ; yourself
 ]
 
 { #category : #initialization }
 ToComboBox >> defaultHeadPlaceholder [
 
-	^ ToLabel new 
+	^ ToLabel new text: '<< no choice >>'
 ]
 
 { #category : #initialization }
@@ -89,21 +88,11 @@ ToComboBox >> defaultListFrame [
 ]
 
 { #category : #initialization }
-ToComboBox >> defaultListNodeFactory [
-
-	^ ToActionDataToElementConverter new valuable: [ :d :h |
-	  	ToLabeledNode new
-		  beLabelFirst;
-		  hMatchParent;
-		  labelText: d;
-		  yourself ]
-]
-
-{ #category : #initialization }
 ToComboBox >> defaultListPlaceholder [
 
 	^ ToLabel new
 		  vFitContent;
+		  text: '<< no data >>';
 		  margin: (BlInsets all: 5);
 		  width: self defaultListElementSize x;
 		  constraintsDo: [ :c | c maxHeight: self defaultListElementSize y ];
@@ -143,8 +132,9 @@ ToComboBox >> headContentFactory: aValuable [
 ToComboBox >> headContentFactoryChanged [
 
 	self selectedIndex isZero ifTrue: [
-		self useHeadPlaceholder.
+		self showHeadPlaceholder.
 		^ self ].
+	self hideHeadPlaceholder.
 	self headData: (self presentedData at: self selectedIndex).
 	self listElement selectIndex: self selectedIndex
 ]
@@ -177,31 +167,23 @@ ToComboBox >> headElementContent: anElement [
 ]
 
 { #category : #accessing }
-ToComboBox >> headPlaceholder [
+ToComboBox >> headPlaceholder: anElement [
 
-	^ headPlaceholder
+	self headElement placeholder: anElement.
+	self selectedIndex ifNil: [^ self].
+	self selectedIndex isZero ifTrue: [ self showHeadPlaceholder ]
 ]
 
 { #category : #accessing }
-ToComboBox >> headPlaceholder: anElement [
+ToComboBox >> hideHeadPlaceholder [
 
-	headPlaceholder := anElement.
-	headPlaceholder ifNil: [ headPlaceholder := self defaultHeadPlaceholder ].
-	self selectedIndex ifNil: [^ self].
-	self selectedIndex isZero ifTrue: [ self useHeadPlaceholder ]
+	self headElement hidePlaceholder
 ]
 
-{ #category : #displaying }
-ToComboBox >> hideOrShowListPlaceholder [
+{ #category : #accessing }
+ToComboBox >> hideListPlaceholder [
 
-	self data ifEmpty: [ ^ self showPlaceholder ].
-	self hidePlaceholder
-]
-
-{ #category : #displaying }
-ToComboBox >> hidePlaceholder [
-
-	self prepareListElement 
+	self listElement hidePlaceholder
 ]
 
 { #category : #initialization }
@@ -212,6 +194,7 @@ ToComboBox >> initialize [
 	self privateData: self newDataCollection.
 	self layout: self defaultLayout.
 	self headElement: self defaultHeadElement.
+	self headPlaceholder: self defaultHeadPlaceholder.
 	self headContentFactory: self defaultHeadContentFactory.
 	self listElement: self defaultListElement.
 	self listFrame: self defaultListFrame.
@@ -221,7 +204,8 @@ ToComboBox >> initialize [
 	self whenSelectedIndexChangedDo: [ self selectedIndexChanged ].
 	self whenHeadContentFactoryChangedDo: [ self headContentFactoryChanged  ].
 	self selectIndex: 0.
-	"self showListPlaceholder."
+	self showHeadPlaceholder.
+	self showListPlaceholder.
 	self initializeDresser
 ]
 
@@ -307,7 +291,6 @@ ToComboBox >> notifyDataChanged: anAnnouncement [
 ToComboBox >> notifyDataInserted: anAnnouncement [
 
 	anAnnouncement interval ifEmpty: [ ^ self ].
-	self hideOrShowListPlaceholder.
 	self presentedData addAll: (self data
 			 copyFrom: anAnnouncement interval first
 			 to: anAnnouncement interval last)
@@ -317,10 +300,24 @@ ToComboBox >> notifyDataInserted: anAnnouncement [
 ToComboBox >> notifyDataRemoved: anAnnouncement [
 
 	anAnnouncement interval ifEmpty: [ ^ self ].
-	self hideOrShowListPlaceholder.
 	self presentedData
 		removeFrom: anAnnouncement interval first
 		to: anAnnouncement interval last
+]
+
+{ #category : #displaying }
+ToComboBox >> placeholderHidden [
+
+	self prepareListElement.
+	listElement next parentDo: [ :p | ^ self ].
+	listElement addChild: listElement next
+]
+
+{ #category : #displaying }
+ToComboBox >> placeholderShown [
+
+	listElement size: self defaultListElementSize.
+	listElement next removeFromParent
 ]
 
 { #category : #displaying }
@@ -355,9 +352,8 @@ ToComboBox >> prepareListElement [
 { #category : #initialization }
 ToComboBox >> prepareListPlaceHolder [
 
-	self listElement next matchParent.
-	self listElement next elevation: (BlRelativeElevation elevation: 0).
-	self listElement placeholder elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
+	self listElement fitContent.
+
 ]
 
 { #category : #accessing }
@@ -381,8 +377,9 @@ ToComboBox >> privateData: anObservableCollection [
 ToComboBox >> selectIndex: anIndex [
 
 	anIndex isZero ifTrue: [
-		self useHeadPlaceholder.
+		self showHeadPlaceholder.
 		^ self ].
+	self hideHeadPlaceholder.
 	self headData: (self presentedData at: anIndex).
 	self listElement selectIndex: anIndex.
 	self selectedIndex: anIndex
@@ -410,7 +407,8 @@ ToComboBox >> selectedIndex [
 { #category : #accessing }
 ToComboBox >> selectedIndex: anInteger [
 
-	selectedIndex := anInteger
+	selectedIndex := anInteger.
+	anInteger isZero ifTrue: [ self listElement deselectAll ]
 ]
 
 { #category : #'change hook' }
@@ -419,20 +417,18 @@ ToComboBox >> selectedIndexChanged [
 
 ]
 
-{ #category : #displaying }
-ToComboBox >> showPlaceholder [
+{ #category : #accessing }
+ToComboBox >> showHeadPlaceholder [
 
-	self listElement next matchParent.
-	self listElement next elevation: (BlRelativeElevation elevation: 0).
-	self listElement placeholder elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
+	self headElement showPlaceholder.
+	self listElement deselectAll.
+	self selectedIndex: 0
 ]
 
 { #category : #accessing }
-ToComboBox >> useHeadPlaceholder [
+ToComboBox >> showListPlaceholder [
 
-	self headElementContent: self headPlaceholder.
-	self listElement deselectAll.
-	self selectedIndex: 0
+	self listElement showPlaceholder
 ]
 
 { #category : #'change hook' }

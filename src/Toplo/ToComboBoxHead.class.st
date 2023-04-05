@@ -1,6 +1,8 @@
 Class {
 	#name : #ToComboBoxHead,
 	#superclass : #ToGeneralButton,
+	#traits : 'TToWidgetWithLayers + TToWidgetWithPlaceholder',
+	#classTraits : 'TToWidgetWithLayers classTrait + TToWidgetWithPlaceholder classTrait',
 	#category : #'Toplo-Widget-ComboBox'
 }
 
@@ -17,4 +19,10 @@ ToComboBoxHead >> contentElement: anElement [
 ToComboBoxHead >> defaultDresser [
 
 	^ ToComboBoxHeadDresser new
+]
+
+{ #category : #'t - accessing layers' }
+ToComboBoxHead >> layerReferentElement [
+
+	^ self 
 ]

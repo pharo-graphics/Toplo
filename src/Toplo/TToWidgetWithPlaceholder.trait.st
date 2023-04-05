@@ -10,7 +10,9 @@ Trait {
 TToWidgetWithPlaceholder >> hidePlaceholder [
 
 	placeholderLayer ifNil: [ ^ self ].
-	placeholderLayer parentDo: [ :p |	self removeLayer: placeholderLayer ]
+	placeholderLayer parentDo: [ :p |
+		self removeLayer: placeholderLayer.
+		self dispatchEvent: ToPlaceholderRemovedEvent new ]
 ]
 
 { #category : #'t - placeholder accessing' }
@@ -22,7 +24,7 @@ TToWidgetWithPlaceholder >> placeholder [
 { #category : #'t - placeholder accessing' }
 TToWidgetWithPlaceholder >> placeholder: anElement [
 
-	self placeholderLayer: anElement asPlaceholderLayer
+	self placeholderLayer: (anElement ifNotNil: [:ph | ph asPlaceholderLayer ])
 ]
 
 { #category : #'t - placeholder accessing' }
@@ -48,5 +50,6 @@ TToWidgetWithPlaceholder >> showPlaceholder [
 
 	placeholderLayer ifNil: [ ^ self ].
 	placeholderLayer parentDo: [ :p | ^ self ].
-	self addLayer: placeholderLayer
+	self addLayer: placeholderLayer.
+	self dispatchEvent: (ToPlaceholderAddedEvent new)
 ]

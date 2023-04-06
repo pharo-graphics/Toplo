@@ -18,6 +18,7 @@ ToAnchoredWindow >> anchor [
 ToAnchoredWindow >> anchor: aWidget [
 
 	anchor := aWidget.
+	anchor ifNil: [ ^ self ].
 	self anchor
 		when: BlElementPositionInSpaceChangedEvent
 		do: [ :event |
@@ -26,6 +27,12 @@ ToAnchoredWindow >> anchor: aWidget [
 	self anchor
 		when: BlElementRemovedFromSceneGraphEvent
 		do: [ self close ]
+]
+
+{ #category : #start }
+ToAnchoredWindow >> attachTo: anElement [
+
+	self anchor: anElement
 ]
 
 { #category : #'t - initialization dresser' }
@@ -46,10 +53,23 @@ ToAnchoredWindow >> defaultPlacementStrategy [
 	^ ToAnchoredPlacementStrategy new
 ]
 
+{ #category : #start }
+ToAnchoredWindow >> detach [
+
+	self close.
+	self anchor: nil
+]
+
 { #category : #initialization }
 ToAnchoredWindow >> initialize [
 
 	super initialize.
 	self fitContent.
 	self initializeDresser 
+]
+
+{ #category : #start }
+ToAnchoredWindow >> isAttached [
+
+	^ self anchor notNil
 ]

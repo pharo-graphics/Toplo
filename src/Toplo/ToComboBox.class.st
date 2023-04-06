@@ -60,12 +60,6 @@ ToComboBox >> defaultHeadElement [
 ]
 
 { #category : #initialization }
-ToComboBox >> defaultHeadPlaceholder [
-
-	^ ToLabel new text: '<< no choice >>'
-]
-
-{ #category : #initialization }
 ToComboBox >> defaultListElement [
 
 	^ ToListElement new
@@ -79,12 +73,13 @@ ToComboBox >> defaultListElementSize [
 
 { #category : #initialization }
 ToComboBox >> defaultListFrame [
+
 	| win |
 	win := ToPopupWindow new widget: self.
 	win root layout: BlFrameLayout new.
 	win root fitContent.
 	win root addChild: self listElement.
-	^  win
+	^ win
 ]
 
 { #category : #initialization }
@@ -92,7 +87,6 @@ ToComboBox >> defaultListPlaceholder [
 
 	^ ToLabel new
 		  vFitContent;
-		  text: '<< no data >>';
 		  margin: (BlInsets all: 5);
 		  width: self defaultListElementSize x;
 		  constraintsDo: [ :c | c maxHeight: self defaultListElementSize y ];
@@ -132,9 +126,9 @@ ToComboBox >> headContentFactory: aValuable [
 ToComboBox >> headContentFactoryChanged [
 
 	self selectedIndex isZero ifTrue: [
-		self showHeadPlaceholder.
+		self headElement showPlaceholder.
 		^ self ].
-	self hideHeadPlaceholder.
+	self headElement hidePlaceholder.
 	self headData: (self presentedData at: self selectedIndex).
 	self listElement selectIndex: self selectedIndex
 ]
@@ -169,21 +163,10 @@ ToComboBox >> headElementContent: anElement [
 { #category : #accessing }
 ToComboBox >> headPlaceholder: anElement [
 
+	
 	self headElement placeholder: anElement.
 	self selectedIndex ifNil: [^ self].
-	self selectedIndex isZero ifTrue: [ self showHeadPlaceholder ]
-]
-
-{ #category : #accessing }
-ToComboBox >> hideHeadPlaceholder [
-
-	self headElement hidePlaceholder
-]
-
-{ #category : #accessing }
-ToComboBox >> hideListPlaceholder [
-
-	self listElement hidePlaceholder
+	self selectedIndex isZero ifTrue: [ self headElement showPlaceholder ]
 ]
 
 { #category : #initialization }
@@ -194,18 +177,14 @@ ToComboBox >> initialize [
 	self privateData: self newDataCollection.
 	self layout: self defaultLayout.
 	self headElement: self defaultHeadElement.
-	self headPlaceholder: self defaultHeadPlaceholder.
 	self headContentFactory: self defaultHeadContentFactory.
 	self listElement: self defaultListElement.
 	self listFrame: self defaultListFrame.
 	self prepareListElement.
-	self headPlaceholder: self defaultHeadPlaceholder.
 	self listPlaceholder: self defaultListPlaceholder.
-	self whenSelectedIndexChangedDo: [ self selectedIndexChanged ].
 	self whenHeadContentFactoryChangedDo: [ self headContentFactoryChanged  ].
 	self selectIndex: 0.
-	self showHeadPlaceholder.
-	self showListPlaceholder.
+	self listElement showPlaceholder.
 	self initializeDresser
 ]
 
@@ -377,9 +356,10 @@ ToComboBox >> privateData: anObservableCollection [
 ToComboBox >> selectIndex: anIndex [
 
 	anIndex isZero ifTrue: [
-		self showHeadPlaceholder.
+		self headElement showPlaceholder.
+		self selectedIndex: anIndex.
 		^ self ].
-	self hideHeadPlaceholder.
+	self headElement hidePlaceholder.
 	self headData: (self presentedData at: anIndex).
 	self listElement selectIndex: anIndex.
 	self selectedIndex: anIndex
@@ -409,26 +389,6 @@ ToComboBox >> selectedIndex: anInteger [
 
 	selectedIndex := anInteger.
 	anInteger isZero ifTrue: [ self listElement deselectAll ]
-]
-
-{ #category : #'change hook' }
-ToComboBox >> selectedIndexChanged [
-
-
-]
-
-{ #category : #accessing }
-ToComboBox >> showHeadPlaceholder [
-
-	self headElement showPlaceholder.
-	self listElement deselectAll.
-	self selectedIndex: 0
-]
-
-{ #category : #accessing }
-ToComboBox >> showListPlaceholder [
-
-	self listElement showPlaceholder
 ]
 
 { #category : #'change hook' }

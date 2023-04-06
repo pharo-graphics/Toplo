@@ -102,7 +102,7 @@ ToSandBox class >> example_ComboBoxWithHeadPlaceholder [
 	win := ToInnerWindow new title: 'Combo box Example'.
 	combo := ToComboBox new.
 	but := ToButton new labelText: ('<< Fetch data >>' asRopedText foreground: Color gray).
-	but whenClickedDo: [ combo data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]). combo headPlaceholder: nil ].
+	but whenClickedDo: [ combo data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]) ].
 	head := ToElement new layout: BlFrameLayout new.
 	head vFitContent.	
 	head hMatchParent.
@@ -129,7 +129,6 @@ ToSandBox class >> example_ComboBoxWithListPlaceholder [
 	but constraintsDo: [ :c | c linear horizontal alignCenter ].
 	but whenClickedDo: [ combo data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]) ].
 	combo listPlaceholder: placeholder.
-	combo showListPlaceholder.
 	win root addChild: combo.
 	win openInWorld
 ]

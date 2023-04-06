@@ -328,13 +328,6 @@ ToComboBox >> prepareListElement [
 
 ]
 
-{ #category : #initialization }
-ToComboBox >> prepareListPlaceHolder [
-
-	self listElement fitContent.
-
-]
-
 { #category : #accessing }
 ToComboBox >> presentedData [
 

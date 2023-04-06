@@ -163,7 +163,8 @@ ToAlbum >> withEditsFeedbackLayer [
 { #category : #layers }
 ToAlbum >> withPlaceholderText: aText [
 
-	self placeholderLayer: (ToAlbumPlaceholder new text: aText)
+	self placeholder: (ToAlbumPlaceholder new text: aText).
+	self text size isZero ifTrue: [ self showPlaceholder ]
 ]
 
 { #category : #initialization }

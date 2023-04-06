@@ -1104,11 +1104,12 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 
 	| win menu sub subsub bar textField |
 	win := ToInnerWindow new title: 'Context menu Example'.
+	win width: 600.
 	menu := ToContextMenu new.
 	menu globalColumnWidth: 22.
 	menu addItem: (ToButtonMenuItem new
 			 labelText: 'Open file';
-			 icon: (ToImage inner:  (Smalltalk ui icons iconNamed: #config))).
+			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
 	menu addItem: (ToButtonMenuItem new labelText: 'Export').
 	menu addSeparator.
 
@@ -1117,7 +1118,9 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 
 	subsub := ToMenu new
 		          labelText: 'Externally';
-		          icon: (ToImage inner:  (Smalltalk ui icons iconNamed: #solidMenu)).
+		          icon:
+			          (ToImage inner:
+					           (Smalltalk ui icons iconNamed: #solidMenu)).
 	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
 
 	sub addItem: subsub.
@@ -1138,14 +1141,15 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	bar addFiller.
 	textField := ToTextField new
 		             withLineWrapping;
-		             width: 200;
+		             width: 200; 
 		             withPlaceholderText: 'search...'.
+	bar addChild: (ToLabel new text: 'Token :').
 	bar addChild: textField.
 	bar addMenu: (ToMenu new
 			 labelText: 'Help';
 			 tooltipString: 'help stuffs').
 
-	bar relocate: 0 @ 0.
+	bar position: 0 @ 0.
 	bar border: (BlBorder paint: Color black).
 	win root addChild: bar.
 	win openInWorld
@@ -1154,7 +1158,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 { #category : #'context menu + menubar' }
 ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 
-	| win menu sub subsub bar  |
+	| win menu sub subsub bar |
 	win := ToInnerWindow new title: 'Context menu Example'.
 	menu := ToContextMenu new.
 	menu globalColumnWidth: 22.
@@ -1169,7 +1173,9 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 
 	subsub := ToMenu new
 		          labelText: 'Externally';
-		          icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+		          icon:
+			          (ToImage inner:
+					           (Smalltalk ui icons iconNamed: #solidMenu)).
 	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
 
 	sub addItem: subsub.
@@ -1193,7 +1199,7 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 			 labelText: 'Help';
 			 tooltipString: 'help stuffs').
 
-	bar relocate: 0 @ 0.
+	bar position: 0 @ 0.
 	bar beVertical.
 	bar hFitContent.
 	bar border: (BlBorder paint: Color black).
@@ -2488,24 +2494,35 @@ ToSandBox class >> example_toWidgetAsButton0 [
 ToSandBox class >> example_toggle [
 
 	| th tv win |
-	th := ToToggleButton new labelText: 'Cheesecake'; beLabelFirst; padding: (BlInsets all: 3); hMatchParent.
+	th := ToToggleButton new
+		      labelText: 'Cheesecake';
+		      beLabelFirst;
+		      padding: (BlInsets all: 3);
+		      hMatchParent.
 
-	tv := ToToggleButton new beVertical; labelText: 'Cheesecake'; beLabelFirst; padding: (BlInsets all: 3); hMatchParent.
+	tv := ToToggleButton new
+		      beVertical;
+		      labelText: 'Cheesecake';
+		      beLabelFirst;
+		      padding: (BlInsets all: 3);
+		      hMatchParent.
 	tv check.
 
 	th whenCheckedDo: [ :ann | ann traceCr ].
 	th whenUncheckedDo: [ :ann | ann traceCr ].
-	
+
 	tv whenCheckedDo: [ :ann | ann traceCr ].
 	tv whenUncheckedDo: [ :ann | ann traceCr ].
 
 	win := ToInnerWindow new
-		             relocate: 10 @ 10;
-		             size: 400 @ 200;
-		             yourself.
-	win root layout: (BlLinearLayout vertical).
-	win root addChildren: { th. tv }.
-	win openInNewSpace 
+		       position: 10 @ 10;
+		       size: 400 @ 200;
+		       yourself.
+	win root layout: BlLinearLayout vertical.
+	win root addChildren: {
+			th.
+			tv }.
+	win openInNewSpace
 ]
 
 { #category : #pane }

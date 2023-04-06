@@ -20,9 +20,9 @@ ToTextFieldDresser >> defaultGeometry [
 ToTextFieldDresser >> defaultPadding [
 
 	^ BlInsets
-		  top: (2 + self defaultBorderWidth )
+		  top: (3 + self defaultBorderWidth )
 		  left: (3 + self defaultBorderWidth )
-		  bottom: (1 + self defaultBorderWidth )
+		  bottom: (0 + self defaultBorderWidth )
 		  right: (3 + self defaultBorderWidth )
 ]
 

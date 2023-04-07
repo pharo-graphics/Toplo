@@ -60,11 +60,11 @@ Here an example of a client for a method.
 	model whenCancelRequestedDo: [ :cancelRequested | cancelRequested client text: text copy ].
 	
 	menu := ToContextMenu new.
-	menu addItem: (ToButtonMenuItem new labelText: 'Select all'; whenClickedDo: [:event :client | client widgetDo: [:w | w selecter all; apply ] ]; yourself).
-	menu addItem: (ToButtonMenuItem new labelText: 'Copy'; whenClickedDo: [:event :client | client widgetDo: [:w | w editor copySelected ] ]; yourself).
-	menu addItem: (ToButtonMenuItem new labelText: 'Paste'; whenClickedDo: [:event :client | client widgetDo: [:w | w editor paste ] ]; yourself).
+	menu addItem: (ToButtonMenuItem new labelText: 'Select all'; whenClickedDo: [:event :client | client selecter all; apply ]; yourself).
+	menu addItem: (ToButtonMenuItem new labelText: 'Copy'; whenClickedDo: [:event :client | client editor copySelected ]; yourself).
+	menu addItem: (ToButtonMenuItem new labelText: 'Paste'; whenClickedDo: [:event :client | client editor paste ]; yourself).
 	menu addSeparator.
-	menu addItem: (ToButtonMenuItem new labelText: 'Cancel'; whenClickedDo: [:event :client | client widgetDo: [:w | w requestCancel ] ]; yourself).
+	menu addItem: (ToButtonMenuItem new labelText: 'Cancel'; whenClickedDo: [:event :client | client requestCancel ]; yourself).
 	menu withoutLeftColumn.
 	menu client: model.
 	model widgetDo: [ :widget | widget contextMenuFactory: [ menu ] ].

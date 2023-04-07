@@ -1,12 +1,15 @@
 Trait {
 	#name : #TToEnableable,
+	#instVars : [
+		'enabled'
+	],
 	#category : #'Toplo-Core'
 }
 
 { #category : #'t - accessing enablement' }
 TToEnableable >> disable [
 
-	self states addState: BlElementState disabled
+	enabled := false
 ]
 
 { #category : #'t - accessing enablement' }
@@ -20,7 +23,13 @@ TToEnableable >> disabled: aBoolean [
 { #category : #'t - accessing enablement' }
 TToEnableable >> enable [
 
-	self states removeState: BlElementState disabled
+	enabled := true
+]
+
+{ #category : #'t - accessing enablement' }
+TToEnableable >> enabled [
+
+	^ enabled ifNil: [ enabled := true ]
 ]
 
 { #category : #'t - accessing enablement' }
@@ -35,11 +44,11 @@ TToEnableable >> enabled: aBoolean [
 TToEnableable >> isDisabled [
 	<return: #Boolean>
 
-	^ self states hasState: BlElementState disabled
+	^ self enabled not
 ]
 
 { #category : #'t - accessing enablement' }
 TToEnableable >> isEnabled [
 
-	^ self isDisabled not
+	^ self enabled
 ]

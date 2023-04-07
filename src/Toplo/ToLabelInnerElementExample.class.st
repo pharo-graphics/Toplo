@@ -1,6 +1,6 @@
 Class {
 	#name : #ToLabelInnerElementExample,
-	#superclass : #BlElement,
+	#superclass : #OBlElement,
 	#traits : 'TToLabelInnerElement',
 	#classTraits : 'TToLabelInnerElement classTrait',
 	#category : #'Toplo-Examples'

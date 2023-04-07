@@ -211,10 +211,10 @@ ToMiniBrowser >> initialize [
 	codeMenu addItem: (ToButtonMenuItem new labelText: 'Accept').
 	codePane contextMenuFactory: [ codeMenu ].
 
-	packages withRowNumbers.
+	"packages withRowNumbers.
 	classes withRowNumbers.
 	protocols withRowNumbers.
-	selectors withRowNumbers.
+	selectors withRowNumbers."
 
 	listsPane addChild: packages.
 	listsPane addChild: classesPane.
@@ -224,7 +224,7 @@ ToMiniBrowser >> initialize [
 
 	mainPane addChild: listsPane.
 	mainPane addChild: codePane.
-	mainPane addDividers.
+	mainPane addDividers
 ]
 
 { #category : #opening }

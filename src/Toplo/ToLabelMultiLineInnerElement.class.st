@@ -1,6 +1,6 @@
 Class {
 	#name : #ToLabelMultiLineInnerElement,
-	#superclass : #BlElement,
+	#superclass : #OBlElement,
 	#traits : 'TToLabelInnerElement + TObservable + TOBlLayoutResizable',
 	#classTraits : 'TToLabelInnerElement classTrait + TObservable classTrait + TOBlLayoutResizable classTrait',
 	#instVars : [

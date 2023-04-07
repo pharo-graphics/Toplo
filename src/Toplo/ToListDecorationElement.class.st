@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListDecorationElement,
-	#superclass : #BlElement,
+	#superclass : #OBlElement,
 	#instVars : [
 		'listElement'
 	],

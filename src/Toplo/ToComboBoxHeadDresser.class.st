@@ -24,10 +24,12 @@ ToComboBoxHeadDresser >> installEventListenersIn: anElement [
 ToComboBoxHeadDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	anElement addChild: (ToElement new
-			 hMatchParent;
-			 yourself).
-	anElement addChild: (ToImage inner: (Smalltalk ui icons iconNamed: #bottom)).
+	anElement second: ((ToImage inner: (Smalltalk ui icons iconNamed: #bottom)) hFitContent; yourself).
+	anElement second margin: (BlInsets
+			 top: 2
+			 left: 5
+			 bottom: 2
+			 right: 4).
 	anElement padding: (BlInsets
 			 top: 2
 			 left: 5

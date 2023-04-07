@@ -136,7 +136,13 @@ ToComboBox >> headContentFactoryChanged [
 { #category : #accessing }
 ToComboBox >> headData: aData [
 
-	self headElementContent: (self headContentFactory cull: aData cull: self headElement)
+	self headDataElement: (self headContentFactory cull: aData cull: self headElement)
+]
+
+{ #category : #accessing }
+ToComboBox >> headDataElement: anElement [
+
+	headElement dataElement: anElement
 ]
 
 { #category : #accessing }
@@ -152,12 +158,6 @@ ToComboBox >> headElement: anElement [
 	headElement ifNotNil: [ headElement removeFromParent ].
 	headElement := anElement.
 	self addChild: headElement
-]
-
-{ #category : #accessing }
-ToComboBox >> headElementContent: anElement [
-
-	headElement contentElement: anElement
 ]
 
 { #category : #accessing }
@@ -216,12 +216,6 @@ ToComboBox >> listFrame [
 ToComboBox >> listFrame: aWindow [
 
 	listFrame := aWindow
-]
-
-{ #category : #accessing }
-ToComboBox >> listPlaceholder [
-
-	^ self listElement placeholder
 ]
 
 { #category : #accessing }

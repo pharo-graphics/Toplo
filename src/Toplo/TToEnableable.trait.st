@@ -1,18 +1,18 @@
 Trait {
 	#name : #TToEnableable,
 	#instVars : [
-		'enabled'
+		'#enabled => ObservableSlot'
 	],
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'t - accessing enablement' }
+{ #category : #'t - enableable accessing' }
 TToEnableable >> disable [
 
 	enabled := false
 ]
 
-{ #category : #'t - accessing enablement' }
+{ #category : #'t - enableable accessing' }
 TToEnableable >> disabled: aBoolean [
 
 	aBoolean value
@@ -20,19 +20,19 @@ TToEnableable >> disabled: aBoolean [
 		ifFalse: [ self enable ]
 ]
 
-{ #category : #'t - accessing enablement' }
+{ #category : #'t - enableable accessing' }
 TToEnableable >> enable [
 
 	enabled := true
 ]
 
-{ #category : #'t - accessing enablement' }
+{ #category : #'t - enableable accessing' }
 TToEnableable >> enabled [
 
 	^ enabled ifNil: [ enabled := true ]
 ]
 
-{ #category : #'t - accessing enablement' }
+{ #category : #'t - enableable accessing' }
 TToEnableable >> enabled: aBoolean [
 
 	aBoolean value
@@ -40,15 +40,28 @@ TToEnableable >> enabled: aBoolean [
 		ifFalse: [ self disable ]
 ]
 
-{ #category : #'t - accessing enablement' }
+{ #category : #initialization }
+TToEnableable >> initialize [
+
+	self class initializeSlots: self.
+	super initialize.
+]
+
+{ #category : #'t - enableable accessing' }
 TToEnableable >> isDisabled [
 	<return: #Boolean>
 
 	^ self enabled not
 ]
 
-{ #category : #'t - accessing enablement' }
+{ #category : #'t - enableable accessing' }
 TToEnableable >> isEnabled [
 
 	^ self enabled
+]
+
+{ #category : #'t - enableable change hook' }
+TToEnableable >> whenEnabledChangedDo: aBlock [
+
+	self property: #enabled whenChangedDo: aBlock
 ]

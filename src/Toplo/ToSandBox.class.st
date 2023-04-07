@@ -33,6 +33,7 @@ ToSandBox class >> example_BasicComboBoxWith5Elements [
 	win := ToInnerWindow new title: 'Combo box Example'.
 	combo := ToComboBox new.
 	combo data addAll: ((1 to: 5) collect: [:i | '#', i asString]).
+	combo selectIndex: 3.
 	win root addChild: combo.
 	win openInWorld
 ]
@@ -102,9 +103,11 @@ ToSandBox class >> example_ComboBoxWithHeadPlaceholder [
 	win := ToInnerWindow new title: 'Combo box Example'.
 	combo := ToComboBox new.
 	but := ToButton new labelText: ('<< Fetch data >>' asRopedText foreground: Color gray).
-	but whenClickedDo: [ combo data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]) ].
+	but whenClickedDo: [
+		combo data addAll:	(Smalltalk globals allClasses collect: [ :cls | cls name ]).
+		combo headPlaceholder: nil ].
 	head := ToElement new layout: BlFrameLayout new.
-	head vFitContent.	
+	head vFitContent.
 	head hMatchParent.
 	head addChild: but.
 	combo headPlaceholder: head.
@@ -1431,7 +1434,7 @@ ToSandBox class >> example_toButtonModelWithIconOnly [
 	but icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
 	but widgetDo: [ :widget | widget padding: (BlInsets all: 3) ].
 	space := OBlSpace new.
-	space addChild: but onWidget.
+	space root addChild: but onWidget.
 	space show 
 ]
 
@@ -1451,7 +1454,7 @@ ToSandBox class >> example_toButtonModelWithTextAndIconVertical [
 	space := OBlSpace new.
 	wid := but onWidget.
 	wid layout cellSpacing: 10.
-	space addChild: wid.
+	space root addChild: wid.
 	space show 
 ]
 
@@ -1472,7 +1475,7 @@ ToSandBox class >> example_toButtonOrientationChanger [
 	but whenClickedDo: [ :ann | 
 		ann currentTarget orientation: but orientation inverted ].
 	space := OBlSpace new.
-	space addChild: but.
+	space root addChild: but.
 	space show 
 ]
 
@@ -1493,7 +1496,7 @@ ToSandBox class >> example_toButtonOrientationChanger3 [
 	but whenClickedDo: [ :ann | 
 		ann currentTarget orientation: but orientation inverted ].
 	space := OBlSpace new.
-	space addChild: but.
+	space root addChild: but.
 	space show 
 ]
 
@@ -1506,7 +1509,7 @@ ToSandBox class >> example_toButtonWithIconOnly [
 	but icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
 	container addChild: but.
 	space := OBlSpace new.
-	space addChild: container.
+	space root addChild: container.
 	space show 
 ]
 
@@ -1524,7 +1527,7 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 	but layout cellSpacing: 10.
 	but whenClickedDo: [ :ann | but icon background: Color random ].
 	space := OBlSpace new.
-	space addChild: but.
+	space root addChild: but.
 	space show 
 ]
 
@@ -1541,7 +1544,7 @@ ToSandBox class >> example_toButtonWithTextAndIconVertical [
 	but layout cellSpacing: 10.
 	but whenClickedDo: [ :ann | but icon background: Color random ].
 	space := OBlSpace new.
-	space addChild: but.
+	space root addChild: but.
 	space show 
 ]
 
@@ -1555,7 +1558,7 @@ ToSandBox class >> example_toButtonWithTextOnly [
 	but whenClickedDo: [ self inform: 'clicked' ].
 
 	space := OBlSpace new.
-	space addChild: but.
+	space root addChild: but.
 	space show 
 ]
 

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToComboBoxHead,
-	#superclass : #ToGeneralButton,
+	#superclass : #ToPairedButton,
 	#instVars : [
 		'placeholder'
 	],
@@ -8,13 +8,11 @@ Class {
 }
 
 { #category : #accessing }
-ToComboBoxHead >> contentElement: anElement [
+ToComboBoxHead >> dataElement: anElement [
 
 	anElement ifNil: [ ^ self ].
-	anElement hMatchParent.
-	self hasChildren
-		ifTrue: [ self replaceChild: self firstChild with: anElement ]
-		ifFalse: [ self addChild: anElement at: 1 ]
+	anElement vFitContent; hMatchParent.
+	self first: anElement
 ]
 
 { #category : #'t - initialization dresser' }
@@ -32,15 +30,15 @@ ToComboBoxHead >> defaultPlaceholder [
 { #category : #'t - placeholder show/hide' }
 ToComboBoxHead >> hidePlaceholder [
 
-	self placeholder parentDo: [ :p | self placeholder removeFromParent ]
+	self placeholder ifNotNil: [:ph | ph parentDo: [ :p | self placeholder removeFromParent ] ]
 ]
 
 { #category : #initialization }
 ToComboBoxHead >> initialize [ 
 
 	super initialize.
-	placeholder := self defaultPlaceholder
-
+	placeholder := self defaultPlaceholder.
+	
 ]
 
 { #category : #accessing }
@@ -55,11 +53,11 @@ ToComboBoxHead >> placeholder: anElement [
 	placeholder = anElement ifTrue: [ ^ self ].
 	placeholder ifNotNil: [
 		placeholder parentDo: [ :p | placeholder removeFromParent ] ].
-	placeholder := anElement
+	placeholder := (anElement ifNil: [ self defaultPlaceholder ])
 ]
 
 { #category : #'t - placeholder show/hide' }
 ToComboBoxHead >> showPlaceholder [
 
-	self contentElement: self placeholder
+	self dataElement: self placeholder
 ]

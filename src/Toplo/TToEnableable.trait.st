@@ -1,7 +1,7 @@
 Trait {
 	#name : #TToEnableable,
 	#instVars : [
-		'#enabled => ObservableSlot'
+		'enabled'
 	],
 	#category : #'Toplo-Core'
 }
@@ -9,7 +9,9 @@ Trait {
 { #category : #'t - enableable accessing' }
 TToEnableable >> disable [
 
-	enabled := false
+	self enabled ifFalse: [ ^ self ].
+	enabled := false.
+	self dispatchEvent: ToWidgetDisabledEvent new
 ]
 
 { #category : #'t - enableable accessing' }
@@ -23,7 +25,9 @@ TToEnableable >> disabled: aBoolean [
 { #category : #'t - enableable accessing' }
 TToEnableable >> enable [
 
-	enabled := true
+	self enabled ifTrue: [ ^ self ].
+	enabled := true.
+	self dispatchEvent: ToWidgetEnabledEvent new
 ]
 
 { #category : #'t - enableable accessing' }
@@ -40,13 +44,6 @@ TToEnableable >> enabled: aBoolean [
 		ifFalse: [ self disable ]
 ]
 
-{ #category : #initialization }
-TToEnableable >> initialize [
-
-	self class initializeSlots: self.
-	super initialize.
-]
-
 { #category : #'t - enableable accessing' }
 TToEnableable >> isDisabled [
 	<return: #Boolean>
@@ -58,10 +55,4 @@ TToEnableable >> isDisabled [
 TToEnableable >> isEnabled [
 
 	^ self enabled
-]
-
-{ #category : #'t - enableable change hook' }
-TToEnableable >> whenEnabledChangedDo: aBlock [
-
-	self property: #enabled whenChangedDo: aBlock
 ]

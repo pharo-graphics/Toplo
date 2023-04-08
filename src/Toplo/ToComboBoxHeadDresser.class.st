@@ -30,11 +30,6 @@ ToComboBoxHeadDresser >> onInstalledIn: anElement [
 			 left: 5
 			 bottom: 2
 			 right: 4).
-	anElement padding: (BlInsets
-			 top: 2
-			 left: 5
-			 bottom: 2
-			 right: 4).
 	anElement constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical fitContent ]

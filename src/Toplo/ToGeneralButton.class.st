@@ -4,7 +4,7 @@ Class {
 	#traits : 'TToWidget + TToEnableable + TToClickable + TToWidgetWithTooltip + TToWidgetWithViewModel + TToWidgetWithContextMenu',
 	#classTraits : 'TToWidget classTrait + TToEnableable classTrait + TToClickable classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithViewModel classTrait + TToWidgetWithContextMenu classTrait',
 	#instVars : [
-		'#client'
+		'client'
 	],
 	#category : #'Toplo-Widget-Button'
 }
@@ -27,7 +27,7 @@ ToGeneralButton >> defaultDresser [
 	^ ToGeneralButtonDresser new
 ]
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 ToGeneralButton >> initialize [ 
 
 	self class initializeSlots: self.

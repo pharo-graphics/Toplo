@@ -855,6 +855,14 @@ ToExperiments class >> example_mouseEvent_descending_bubbling [
 	world show
 ]
 
+{ #category : #space }
+ToExperiments class >> example_space [
+| space |
+space := OBlSpace new "extent: 50@50;" position: 1000@800; toBack; fullscreen: true ; resizable: false; borderless: true.
+space show.
+space inspect
+]
+
 { #category : #'popup strategy' }
 ToExperiments class >> example_strategy [
 

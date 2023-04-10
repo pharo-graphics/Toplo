@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuItem,
 	#superclass : #ToAbstractMenuItem,
-	#traits : 'TToWidget + TToWidgetWithTooltip + TToClickable',
-	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait + TToClickable classTrait',
+	#traits : 'TToWidget + TToWidgetWithTooltip + TToClickable + TToEnableable',
+	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait + TToClickable classTrait + TToEnableable classTrait',
 	#category : #'Toplo-Widget-Menu'
 }
 

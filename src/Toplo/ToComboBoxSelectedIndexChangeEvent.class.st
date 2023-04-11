@@ -1,5 +1,5 @@
 Class {
-	#name : #ToComboBoxChangedEvent,
+	#name : #ToComboBoxSelectedIndexChangeEvent,
 	#superclass : #ToComboBoxEvent,
 	#category : #'Toplo-Widget-ComboBox'
 }

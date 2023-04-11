@@ -8,8 +8,7 @@ Class {
 		'#selectedIndex => ObservableSlot',
 		'#listElement',
 		'#listFrame',
-		'#headElement',
-		'#headContentFactory => ObservableSlot'
+		'#headElement'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
@@ -48,15 +47,12 @@ ToComboBox >> defaultDresser [
 ]
 
 { #category : #initialization }
-ToComboBox >> defaultHeadContentFactory [
-
-	^ ToActionDataToElementConverter new valuable: [ :d | ToLabel text: d ] 
-]
-
-{ #category : #initialization }
 ToComboBox >> defaultHeadElement [
 
-	^ ToComboBoxHead new vFitContent; hMatchParent ; yourself
+	^ ToReadonlyComboBoxHead new
+		  vFitContent;
+		  hMatchParent;
+		  yourself
 ]
 
 { #category : #initialization }
@@ -109,49 +105,6 @@ ToComboBox >> hasSelectedData [
 ]
 
 { #category : #accessing }
-ToComboBox >> headContentFactory [
-	" is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
-
-	^ headContentFactory
-]
-
-{ #category : #accessing }
-ToComboBox >> headContentFactory: aValuable [
-	" is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
-
-	headContentFactory := aValuable asToDataToElementConverter 
-]
-
-{ #category : #'change hook' }
-ToComboBox >> headContentFactoryChanged [
-
-	self selectedIndex isZero ifTrue: [
-		self headElement showPlaceholder.
-		^ self ].
-	self headElement hidePlaceholder.
-	self headData: (self presentedData at: self selectedIndex).
-	self listElement selectIndex: self selectedIndex
-]
-
-{ #category : #accessing }
-ToComboBox >> headData: aData [
-
-	self headDataElement: (self headContentFactory cull: aData cull: self headElement)
-]
-
-{ #category : #accessing }
-ToComboBox >> headDataElement: anElement [
-
-	headElement dataElement: anElement
-]
-
-{ #category : #accessing }
-ToComboBox >> headElement [
-
-	^ headElement
-]
-
-{ #category : #accessing }
 ToComboBox >> headElement: anElement [
 
 	headElement = anElement ifTrue: [ ^ self ].
@@ -161,12 +114,18 @@ ToComboBox >> headElement: anElement [
 ]
 
 { #category : #accessing }
+ToComboBox >> headElementFactory: aValuable [
+	" is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
+
+	self dispatchEvent: (ToComboBoxHeadElementFactoryChangeEvent new factory: aValuable)
+]
+
+{ #category : #accessing }
 ToComboBox >> headPlaceholder: anElement [
 
-	
-	self headElement placeholder: anElement.
-	self selectedIndex ifNil: [^ self].
-	self selectedIndex isZero ifTrue: [ self headElement showPlaceholder ]
+	self dispatchEvent: (ToComboBoxHeadPlaceholderChangeEvent new
+			 placeholder: anElement;
+			 yourself)
 ]
 
 { #category : #initialization }
@@ -177,12 +136,10 @@ ToComboBox >> initialize [
 	self privateData: self newDataCollection.
 	self layout: self defaultLayout.
 	self headElement: self defaultHeadElement.
-	self headContentFactory: self defaultHeadContentFactory.
 	self listElement: self defaultListElement.
 	self listFrame: self defaultListFrame.
 	self prepareListElement.
 	self listPlaceholder: self defaultListPlaceholder.
-	self whenHeadContentFactoryChangedDo: [ self headContentFactoryChanged  ].
 	self selectIndex: 0.
 	self listElement showPlaceholder.
 	self initializeDresser
@@ -342,14 +299,11 @@ ToComboBox >> privateData: anObservableCollection [
 { #category : #accessing }
 ToComboBox >> selectIndex: anIndex [
 
-	anIndex isZero ifTrue: [
-		self headElement showPlaceholder.
-		self selectedIndex: anIndex.
-		^ self ].
-	self headElement hidePlaceholder.
-	self headData: (self presentedData at: anIndex).
+	self selectedIndex: anIndex.
+	self dispatchEvent: ToComboBoxSelectedIndexChangeEvent new.
+	anIndex isZero ifTrue: [ ^ self ].
 	self listElement selectIndex: anIndex.
-	self selectedIndex: anIndex
+	
 ]
 
 { #category : #accessing }
@@ -376,14 +330,6 @@ ToComboBox >> selectedIndex: anInteger [
 
 	selectedIndex := anInteger.
 	anInteger isZero ifTrue: [ self listElement deselectAll ]
-]
-
-{ #category : #'change hook' }
-ToComboBox >> whenHeadContentFactoryChangedDo: aBlock [
-
-	"set a block to perform after that the place holder has been changed, and its action performed"
-
-	self property: #headContentFactory whenChangedDo: aBlock
 ]
 
 { #category : #'change hook' }

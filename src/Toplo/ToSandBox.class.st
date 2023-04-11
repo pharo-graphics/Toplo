@@ -87,7 +87,7 @@ ToSandBox class >> example_ComboBoxWithColors [
 					      yourself);
 			     background: color;
 			     hMatchParent].
-	combo headContentFactory: [ :color | ToLabel new text: (color asString asRopedText
+	combo headElementFactory: [ :color | ToLabel new text: (color asString asRopedText
 					      foreground: color contrastingBlackAndWhiteColor;
 					      yourself); background: color; yourself ].
 	combo data addAll: Color indexedColors.

@@ -27,7 +27,7 @@ ToGeneralButton >> defaultDresser [
 	^ ToGeneralButtonDresser new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 ToGeneralButton >> initialize [ 
 
 	self class initializeSlots: self.

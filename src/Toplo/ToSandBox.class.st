@@ -81,15 +81,21 @@ ToSandBox class >> example_ComboBoxWithColors [
 	win := ToInnerWindow new title: 'Combo box Example'.
 	combo := ToComboBox new.
 	combo nodeFactory: [ :color |
-		     ToLabeledNode new
-			     labelText: (color asString asRopedText
-					      foreground: color contrastingBlackAndWhiteColor;
-					      yourself);
-			     background: color;
-			     hMatchParent].
-	combo headElementFactory: [ :color | ToLabel new text: (color asString asRopedText
-					      foreground: color contrastingBlackAndWhiteColor;
-					      yourself); background: color; yourself ].
+		ToLabeledNode new
+			margin: (BlInsets all: 1);
+			labelText: (color asString asRopedText
+					 foreground: color contrastingBlackAndWhiteColor;
+					 yourself);
+			background: color;
+			hMatchParent ].
+	combo headElementFactory: [ :color |
+		ToLabel new
+			margin: (BlInsets all: 1);
+			text: (color asString asRopedText
+					 foreground: color contrastingBlackAndWhiteColor;
+					 yourself);
+			background: color;
+			yourself ].
 	combo data addAll: Color indexedColors.
 	combo selectIndex: 1.
 	win root addChild: combo.

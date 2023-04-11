@@ -139,7 +139,7 @@ ToSandBox class >> example_ComboBoxWithListPlaceholder [
 { #category : #list }
 ToSandBox class >> example_EditableListWithAllClassesNames [
 
-	| l |
+	| l vscrollBar space |
 	l := ToListElement new nodeFactory: [ :assoc :holder |
 		     | lab |
 		     lab := ToLabel new
@@ -165,7 +165,18 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 			 icon := Smalltalk ui icons iconNamed: isel.
 			 icon -> cls name ]).
 	l withRowNumbers.
-	l openInInnerWindow
+	
+	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar constraintsDo: [ :c |
+			c ignoreByLayout.
+			c margin: (BlInsets right: 2).
+			c ignored horizontal alignRight.
+			c ignored vertical alignBottom]. 
+	vscrollBar attachTo: l infinite.
+	space := OBlSpace new.
+	space root addChild: l.
+	space root addChild: vscrollBar.
+	space show
 ]
 
 { #category : #album }
@@ -449,7 +460,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 { #category : #list }
 ToSandBox class >> example_ListWithIndexedColors [
 
-	| l |
+	| l vscrollBar space |
 	l := ToListElement new nodeFactory: [ :color |
 		     ToLabeledNode new
 			     dresser: (ToNodeWithHoverButtonDresserExample new changeBackground: false; yourself);
@@ -458,7 +469,18 @@ ToSandBox class >> example_ListWithIndexedColors [
 					      yourself);
 			     background: color ].
 	l data addAll: Color indexedColors.
-	l openInOBlSpace
+
+	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar constraintsDo: [ :c |
+			c ignoreByLayout.
+			c margin: (BlInsets right: 2).
+			c ignored horizontal alignRight.
+			c ignored vertical alignBottom]. 
+	vscrollBar attachTo: l infinite.
+	space := OBlSpace new.
+	space root addChild: l.
+	space root addChild: vscrollBar.
+	space show
 ]
 
 { #category : #list }

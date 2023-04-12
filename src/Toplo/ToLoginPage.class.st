@@ -51,7 +51,7 @@ ToLoginPage >> open [
 			pwLabel.
 			pwValue }.
 
-	" get the actual labels max width then reset pwLabel and loginLabel to the actual max width "
+	" get actual pwLabel and loginLabel width then reset pwLabel and loginLabel to the max "
 	passwdPanel whenLayoutedDoOnce: [
 		| w |
 		w := pwLabel width max: loginLabel width.

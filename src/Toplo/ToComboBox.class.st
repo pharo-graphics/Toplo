@@ -8,7 +8,8 @@ Class {
 		'#selectedIndex => ObservableSlot',
 		'#listElement',
 		'#listFrame',
-		'#headElement'
+		'#headElement',
+		'#mode'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
@@ -49,10 +50,7 @@ ToComboBox >> defaultDresser [
 { #category : #initialization }
 ToComboBox >> defaultHeadElement [
 
-	^ ToReadonlyComboBoxHead new
-		  vFitContent;
-		  hMatchParent;
-		  yourself
+	^ self mode defaultHeadElement
 ]
 
 { #category : #initialization }
@@ -88,6 +86,12 @@ ToComboBox >> defaultListPlaceholder [
 		  constraintsDo: [ :c | c maxHeight: self defaultListElementSize y ];
 		  alignCenter;
 		  yourself
+]
+
+{ #category : #initialization }
+ToComboBox >> defaultMode [
+
+	^ ToComboBoxReadonlyMode new
 ]
 
 { #category : #initialization }
@@ -133,6 +137,7 @@ ToComboBox >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
+	self mode: self defaultMode.
 	self privateData: self newDataCollection.
 	self layout: self defaultLayout.
 	self headElement: self defaultHeadElement.
@@ -179,6 +184,18 @@ ToComboBox >> listFrame: aWindow [
 ToComboBox >> listPlaceholder: anElement [
 
 	self listElement placeholder: anElement
+]
+
+{ #category : #accessing }
+ToComboBox >> mode [
+
+	^ mode
+]
+
+{ #category : #accessing }
+ToComboBox >> mode: aComboBoxMode [
+
+	mode := aComboBoxMode
 ]
 
 { #category : #initialization }

@@ -105,11 +105,12 @@ ToSandBox class >> example_ComboBoxWithColors [
 { #category : #combobox }
 ToSandBox class >> example_ComboBoxWithHeadPlaceholder [
 
-	| win combo but head |
+	| win combo but head t |
 	win := ToInnerWindow new title: 'Combo box Example'.
 	combo := ToComboBox new.
-	but := ToButton new labelText: ('<< Fetch data >>' asRopedText foreground: Color gray).
-	but whenClickedDo: [
+	t := 'Click to fetch data' asRopedText foreground: Color red.
+	but := ToLabel new text: t.
+	but when: BlClickEvent do: [
 		combo data addAll:	(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 		combo headPlaceholder: nil ].
 	head := ToElement new layout: BlFrameLayout new.

@@ -43,12 +43,6 @@ ToReadonlyComboBoxHead >> defaultDresser [
 	^ ToReadonlyComboBoxHeadDresser new
 ]
 
-{ #category : #initialization }
-ToReadonlyComboBoxHead >> defaultPlaceholder [
-
-	^ ToLabel new
-]
-
 { #category : #'t - placeholder show/hide' }
 ToReadonlyComboBoxHead >> hidePlaceholder [
 

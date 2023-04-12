@@ -40,7 +40,7 @@ ToPane >> defaultLayout [
 ToPane >> initialize [
 
 	self class initializeSlots: self.
-	super initialize.
+	super initialize
 ]
 
 { #category : #'t - accessing layers' }

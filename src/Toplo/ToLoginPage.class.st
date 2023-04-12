@@ -32,11 +32,10 @@ ToLoginPage >> open [
 		                  hMatchParent;
 		                  vFitContent.
 	loginLabel := ToLabel new text: 'Login :'.
-	loginLabel width: 100.
-	"loginLabel constraintsDo: [ :c | c linear  weight: 0.4 ]."
 
 	loginLabel layout alignCenterRight.
 	loginValue := ToTextField new hMatchParent.
+
 	loginNamePanel addChildren: {
 			loginLabel.
 			loginValue }.
@@ -45,13 +44,20 @@ ToLoginPage >> open [
 		               hMatchParent;
 		               vFitContent.
 	pwLabel := ToLabel new text: 'Password :'.
-	pwLabel width: 100.
-	"pwLabel constraintsDo: [ :c | c linear weight: 0.4 ]."
 	pwLabel layout alignCenterRight.
 	pwValue := ToTextField new hMatchParent.
+
 	passwdPanel addChildren: {
 			pwLabel.
 			pwValue }.
+
+	" get the actual labels max width then reset pwLabel and loginLabel to the actual max width "
+	passwdPanel whenLayoutedDoOnce: [
+		| w |
+		w := pwLabel width max: loginLabel width.
+		pwLabel width: w.
+		loginLabel width: w ].
+
 	btnPanel := ToPane new
 		            beHorizontal;
 		            hMatchParent;
@@ -71,7 +77,7 @@ ToLoginPage >> open [
 	btnPanel addChild: btnLogin.
 	sep := BlElement new constraintsDo: [ :c | c horizontal matchParent ].
 	btnPanel addChild: sep.
-	
+
 	btnCancel := ToButton new labelText: 'Cancel'.
 	btnCancel padding: (BlInsets
 			 top: 10
@@ -85,7 +91,7 @@ ToLoginPage >> open [
 			 right: 0).
 	btnCancel constraintsDo: [ :c | c linear horizontal alignCenter ].
 	btnPanel addChild: btnCancel.
-	
+
 	"add elements to panel"
 
 	groupLogin addChildren: {
@@ -100,14 +106,12 @@ ToLoginPage >> open [
 	panel addChild: groupLogin.
 	panel matchParent.
 	space := panel openInOBlSpace.
-	space extent: 450@200.
+	space extent: 450 @ 200.
 	space borderless: true.
 	space resizable: false.
 	space addEventHandlerOn: BlSpaceShownEvent do: [ space center ].
-	
+
 	btnCancel whenClickedDo: [ space close ]
-	
-	
 ]
 
 { #category : #'see class side' }

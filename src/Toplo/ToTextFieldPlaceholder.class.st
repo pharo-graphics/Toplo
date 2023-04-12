@@ -19,6 +19,5 @@ ToTextFieldPlaceholder >> defaultLabel [
 { #category : #initialization }
 ToTextFieldPlaceholder >> initialize [ 
 
-	super initialize.
-	self padding: (BlInsets left: 3)
+	super initialize
 ]

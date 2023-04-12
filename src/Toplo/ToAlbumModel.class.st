@@ -106,6 +106,12 @@ ToAlbumModel >> onUninstalledIn: anAlbum [
 		self unsubscribe: styler ]
 ]
 
+{ #category : #'view configuration' }
+ToAlbumModel >> placeholderText: aText [
+
+	self widgetDo: [ :album | album placeholderText: aText ]
+]
+
 { #category : #'private - accessing - widget' }
 ToAlbumModel >> privateWidgetClass [
 
@@ -272,12 +278,6 @@ ToAlbumModel >> whenTextStyleRequested: aToTextStyleRequested [
 ToAlbumModel >> withEditsFeedbackLayer [
 
 	self widgetDo: [ :album | album withEditsFeedbackLayer ]
-]
-
-{ #category : #'view configuration' }
-ToAlbumModel >> withPlaceholderText: aText [
-
-	self widgetDo: [ :album | album withPlaceholderText: aText ]
 ]
 
 { #category : #'view configuration' }

@@ -2,30 +2,8 @@ Class {
 	#name : #ToEditableComboBoxHead,
 	#superclass : #ToComboBoxHead,
 	#classTraits : 'TObservable classTrait',
-	#instVars : [
-		'dataToTextConverter'
-	],
 	#category : #'Toplo-Widget-ComboBox'
 }
-
-{ #category : #accessing }
-ToEditableComboBoxHead >> dataToTextConverter [
-
-	^ dataToTextConverter
-]
-
-{ #category : #accessing }
-ToEditableComboBoxHead >> dataToTextConverter: aValuable [
-
-	dataToTextConverter := aValuable
-]
-
-{ #category : #initialization }
-ToEditableComboBoxHead >> defaultDataToTextConverter [
-
-		^ [ :d | d ]
-
-]
 
 { #category : #'t - initialization dresser' }
 ToEditableComboBoxHead >> defaultDresser [
@@ -36,7 +14,7 @@ ToEditableComboBoxHead >> defaultDresser [
 { #category : #initialization }
 ToEditableComboBoxHead >> defaultPlaceholder [
 
-	^ ToLabel new text: 'Enter text'; margin: (BlInsets left: 3); yourself
+	^ ToLabel new text: 'Enter text'; yourself
 ]
 
 { #category : #initialization }
@@ -55,7 +33,6 @@ ToEditableComboBoxHead >> hidePlaceholder [
 ToEditableComboBoxHead >> initialize [ 
 
 	super initialize.
-	self dataToTextConverter: self defaultDataToTextConverter.
 	self textField: self defaultTextField.
 	self placeholder: self defaultPlaceholder 
 ]

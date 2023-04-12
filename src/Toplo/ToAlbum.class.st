@@ -1,8 +1,8 @@
 Class {
 	#name : #ToAlbum,
 	#superclass : #ToPane,
-	#traits : 'TToWidget + TToElement + TToWidgetWithViewModel + TToWidgetWithTooltip + TToWidgetWithContextMenu + TAlbInfiniteDecorator + TToWidgetWithLayers + TToWidgetWithPlaceholder',
-	#classTraits : 'TToWidget classTrait + TToElement classTrait + TToWidgetWithViewModel classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithContextMenu classTrait + TAlbInfiniteDecorator classTrait + TToWidgetWithLayers classTrait + TToWidgetWithPlaceholder classTrait',
+	#traits : 'TToWidget + TToElement + TAlbInfiniteDecorator + TToWidgetWithViewModel + TToWidgetWithTooltip + TToWidgetWithContextMenu + TToWidgetWithLayers + TToWidgetWithPlaceholder',
+	#classTraits : 'TToWidget classTrait + TToElement classTrait + TAlbInfiniteDecorator classTrait + TToWidgetWithViewModel classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithContextMenu classTrait + TToWidgetWithLayers classTrait + TToWidgetWithPlaceholder classTrait',
 	#instVars : [
 		'#editsFeedbackLayer',
 		'#innerElement',
@@ -66,6 +66,13 @@ ToAlbum >> innerElement [
 ToAlbum >> layerReferentElement [
 
 		^ self 
+]
+
+{ #category : #layers }
+ToAlbum >> placeholderText: aText [
+
+	self placeholder: (ToAlbumPlaceholder new text: aText).
+	self text size isZero ifTrue: [ self showPlaceholder ]
 ]
 
 { #category : #'transaction hook' }
@@ -158,13 +165,6 @@ ToAlbum >> withEditsFeedbackLayer [
 	editsFeedbackLayer ifNotNil: [ ^ self ].
 	editsFeedbackLayer := ToAlbumEditsFeedbackLayer new.
 	self addLayer: editsFeedbackLayer 
-]
-
-{ #category : #layers }
-ToAlbum >> withPlaceholderText: aText [
-
-	self placeholder: (ToAlbumPlaceholder new text: aText).
-	self text size isZero ifTrue: [ self showPlaceholder ]
 ]
 
 { #category : #initialization }

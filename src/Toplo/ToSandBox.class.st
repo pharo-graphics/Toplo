@@ -105,7 +105,7 @@ ToSandBox class >> example_ComboBoxWithColors [
 { #category : #combobox }
 ToSandBox class >> example_ComboBoxWithHeadPlaceholder [
 
-	| win combo but head t |
+	| win combo but t |
 	win := ToInnerWindow new title: 'Combo box Example'.
 	combo := ToComboBox new.
 	t := 'Click to fetch data' asRopedText foreground: Color red.
@@ -113,11 +113,7 @@ ToSandBox class >> example_ComboBoxWithHeadPlaceholder [
 	but when: BlClickEvent do: [
 		combo data addAll:	(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 		combo headPlaceholder: nil ].
-	head := ToElement new layout: BlFrameLayout new.
-	head vFitContent.
-	head hMatchParent.
-	head addChild: but.
-	combo headPlaceholder: head.
+	combo headPlaceholder: but.
 	win root addChild: combo.
 	win openInWorld
 ]
@@ -195,7 +191,7 @@ ToSandBox class >> example_EditorWithPlaceholder [
 	placeholderText fontSize: 24.
 
 	view := (ToAlbumModel new
-		 withPlaceholderText: placeholderText;
+		 placeholderText: placeholderText;
 		 withRowNumbers;
 		 withSaveCapability;
 		 whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
@@ -213,7 +209,7 @@ ToSandBox class >> example_EditorWithPlaceholderWithToAlbumModel [
 	placeholderText fontSize: 24.
 
 	view := (ToAlbumModel new
-		 withPlaceholderText: placeholderText;
+		 placeholderText: placeholderText;
 		 withRowNumbers;
 		 withSaveCapability;
 		 whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
@@ -232,7 +228,7 @@ ToSandBox class >> example_EditorWithSoftLine [
 	placeholderText fontSize: 24.
 
 	view := (ToAlbumModel new
-		 withPlaceholderText: placeholderText;
+		 placeholderText: placeholderText;
 		 withRowNumbers;
 		 withSaveCapability;
 		 whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
@@ -251,7 +247,7 @@ ToSandBox class >> example_EditorWithoutSoftLine [
 	placeholderText fontSize: 24.
 
 	view := (ToAlbumModel new
-		 withPlaceholderText: placeholderText;
+		 placeholderText: placeholderText;
 		 withRowNumbers;
 		 withSaveCapability;
 		 whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
@@ -1059,7 +1055,7 @@ ToSandBox class >> example_menu6 [
 	textField := ToTextField new
 		             withLineWrapping;
 		             width: 200;
-		             withPlaceholderText: 'Your name'.
+		             placeholderText: 'Your name'.
 	menu addItem: (ToCustomMenuItem new innerElement: textField).
 
 	menu addSeparator.
@@ -1174,7 +1170,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	textField := ToTextField new
 		             withLineWrapping;
 		             width: 200; 
-		             withPlaceholderText: 'search...'.
+		             placeholderText: 'search...'.
 	bar addChild: (ToLabel new text: 'Token :').
 	bar addChild: textField.
 	bar addMenu: (ToMenu new
@@ -1301,7 +1297,24 @@ ToSandBox class >> example_textFieldWithPlaceholder [
 	| t text |
 	t := ToTextField new withSaveCapability.
 	text := ''.
-	t withPlaceholderText: 'Enter to accept'.
+	t placeholderText: 'Enter to accept'.
+	t whenSaveRequestedDo: [ :saveRequested | 
+		saveRequested client saveResult: true.
+		text := saveRequested client text copy].
+	t whenCancelRequestedDo: [ :cancelRequested | 
+		cancelRequested client text: text copy ].
+	t showPlaceholder.
+	t openInOBlSpace.
+
+]
+
+{ #category : #'text field' }
+ToSandBox class >> example_textFieldWithPlaceholder2 [
+
+	| t text |
+	t := ToTextField new withSaveCapability.
+	text := ''.
+	t placeholder: (ToLabel new text: 'Enter text'; yourself).
 	t whenSaveRequestedDo: [ :saveRequested | 
 		saveRequested client saveResult: true.
 		text := saveRequested client text copy].

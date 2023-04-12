@@ -6,7 +6,8 @@ Class {
 		'removedFromParentHandler',
 		'downShortcut',
 		'selectedIndexHandler',
-		'comboBox'
+		'comboBox',
+		'headPlaceholderHandler'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
@@ -21,6 +22,15 @@ ToComboBoxHeadDresser >> installEventListenersIn: anElement [
 	anElement addEventHandler: addedToParentHandler.
 	anElement addEventHandler: removedFromParentHandler.
 
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToComboBoxHeadDresser >> newPlaceholder: aPlaceholder in: anElement [
+
+	| idx |
+	anElement placeholder: aPlaceholder.
+	(idx := comboBox selectedIndex) ifNil: [ ^ self ].
+	idx isZero ifTrue: [ anElement noDataSelected ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -77,8 +87,11 @@ ToComboBoxHeadDresser >> whenAddedToParent: anElement [
 	comboBox := anElement parent.
 	
 	selectedIndexHandler := BlEventHandler on:  ToComboBoxSelectedIndexChangeEvent do: [ :event | self selectedIndexChangedIn: anElement ].
-	comboBox addEventHandler: selectedIndexHandler.
+	headPlaceholderHandler := BlEventHandler on:  ToComboBoxHeadPlaceholderChangeEvent do: [ :event | self newPlaceholder: event placeholder in: anElement].
 
+	comboBox addEventHandler: selectedIndexHandler.
+	comboBox addEventHandler: headPlaceholderHandler.
+	
 	mouseDownHandler := (BlEventHandler
 			 on: BlMouseDownEvent
 			 do: [ :evt | comboBox requestFocus. comboBox popupOrCloseEvent: evt ]).
@@ -97,6 +110,7 @@ ToComboBoxHeadDresser >> whenRemovedFromParent: anElement [
 
 	anElement removeEventHandler: mouseDownHandler.
 	comboBox removeEventHandler: selectedIndexHandler.
+	comboBox removeEventHandler: headPlaceholderHandler.
 
 	comboBox removeShortcut: downShortcut.
 

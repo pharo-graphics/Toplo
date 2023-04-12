@@ -101,7 +101,7 @@ ToWorkspaceExample >> codeEditor [
 	| st |
 	st := textModel
 		      withRowNumbers;
-		      withPlaceholderText:
+		      placeholderText:
 			      (('Workspace example' , String cr , '- doit: Cmd-d')
 				       asRopedText
 				       fontSize: 24;

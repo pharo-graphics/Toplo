@@ -23,18 +23,27 @@ ToTextField >> initialize [
 
 ]
 
+{ #category : #layers }
+ToTextField >> placeholderText: aText [
+
+	self placeholder: (ToTextFieldPlaceholder new text: aText).
+	self text size isZero ifTrue: [ self showPlaceholder ]
+]
+
+{ #category : #'t - placeholder show/hide' }
+ToTextField >> showPlaceholder [
+
+	placeholderLayer ifNil: [ ^ self ].
+	placeholderLayer parentDo: [ :p | ^ self ].
+	placeholderLayer padding: (BlInsets left: self textLeft).
+	super showPlaceholder
+]
+
 { #category : #initialization }
 ToTextField >> withLineWrapping [
 
 	self next hMatchParent.
 	self infinite hMatchParent
-]
-
-{ #category : #layers }
-ToTextField >> withPlaceholderText: aText [
-
-	self placeholder: (ToTextFieldPlaceholder new text: aText).
-	self text size isZero ifTrue: [ self showPlaceholder ]
 ]
 
 { #category : #initialization }

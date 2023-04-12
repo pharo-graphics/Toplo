@@ -1,13 +1,13 @@
 Class {
-	#name : #ToComboBoxReadonlyMode,
+	#name : #ToComboBoxSelectOnlyMode,
 	#superclass : #ToComboBoxMode,
 	#category : #'Toplo-Widget-ComboBox'
 }
 
 { #category : #initialization }
-ToComboBoxReadonlyMode >> defaultHeadElement [
+ToComboBoxSelectOnlyMode >> defaultHeadElement [
 
-	^ ToReadonlyComboBoxHead new
+	^ ToSelectOnlyComboBoxHead new
 		  vFitContent;
 		  hMatchParent;
 		  yourself

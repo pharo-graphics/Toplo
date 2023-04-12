@@ -1,5 +1,5 @@
 Class {
-	#name : #ToReadonlyComboBoxHead,
+	#name : #ToSelectOnlyComboBoxHead,
 	#superclass : #ToComboBoxHead,
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #accessing }
-ToReadonlyComboBoxHead >> dataElement: anElement [
+ToSelectOnlyComboBoxHead >> dataElement: anElement [
 
 	anElement ifNil: [ ^ self ].
 	anElement vFitContent; hMatchParent.
@@ -18,39 +18,39 @@ ToReadonlyComboBoxHead >> dataElement: anElement [
 ]
 
 { #category : #accessing }
-ToReadonlyComboBoxHead >> dataElementFactory [
+ToSelectOnlyComboBoxHead >> dataElementFactory [
 	" is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
 
 	^ dataElementFactory
 ]
 
 { #category : #accessing }
-ToReadonlyComboBoxHead >> dataElementFactory: aValuable [
+ToSelectOnlyComboBoxHead >> dataElementFactory: aValuable [
 	" is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
 
 	dataElementFactory := aValuable asToDataToElementConverter
 ]
 
 { #category : #initialization }
-ToReadonlyComboBoxHead >> defaultDataElementFactory [
+ToSelectOnlyComboBoxHead >> defaultDataElementFactory [
 
 	^ ToActionDataToElementConverter new valuable: [ :d | ToLabel text: d ] 
 ]
 
 { #category : #'t - initialization dresser' }
-ToReadonlyComboBoxHead >> defaultDresser [
+ToSelectOnlyComboBoxHead >> defaultDresser [
 
-	^ ToReadonlyComboBoxHeadDresser new
+	^ ToSelectOnlyComboBoxHeadDresser new
 ]
 
 { #category : #'t - placeholder show/hide' }
-ToReadonlyComboBoxHead >> hidePlaceholder [
+ToSelectOnlyComboBoxHead >> hidePlaceholder [
 
 	self placeholder ifNotNil: [:ph | ph parentDo: [ :p | self placeholder removeFromParent ] ]
 ]
 
 { #category : #initialization }
-ToReadonlyComboBoxHead >> initialize [ 
+ToSelectOnlyComboBoxHead >> initialize [ 
 
 	super initialize.
 	self dataElementFactory: self defaultDataElementFactory.
@@ -58,19 +58,19 @@ ToReadonlyComboBoxHead >> initialize [
 ]
 
 { #category : #accessing }
-ToReadonlyComboBoxHead >> noDataSelected [
+ToSelectOnlyComboBoxHead >> noDataSelected [
 
 	self showPlaceholder 
 ]
 
 { #category : #accessing }
-ToReadonlyComboBoxHead >> placeholder [
+ToSelectOnlyComboBoxHead >> placeholder [
 
 	^ placeholder
 ]
 
 { #category : #accessing }
-ToReadonlyComboBoxHead >> placeholder: anElement [
+ToSelectOnlyComboBoxHead >> placeholder: anElement [
 
 	placeholder = anElement ifTrue: [ ^ self ].
 	placeholder ifNotNil: [ placeholder parentDo: [ :p | placeholder removeFromParent ] ].
@@ -78,14 +78,14 @@ ToReadonlyComboBoxHead >> placeholder: anElement [
 ]
 
 { #category : #accessing }
-ToReadonlyComboBoxHead >> selectedData: aData [
+ToSelectOnlyComboBoxHead >> selectedData: aData [
 
 	self hidePlaceholder.
 	self dataElement: (self dataElementFactory cull: aData cull: self)
 ]
 
 { #category : #'t - placeholder show/hide' }
-ToReadonlyComboBoxHead >> showPlaceholder [
+ToSelectOnlyComboBoxHead >> showPlaceholder [
 
 	self dataElement: self placeholder
 ]

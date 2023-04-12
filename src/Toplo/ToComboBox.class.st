@@ -14,6 +14,12 @@ Class {
 	#category : #'Toplo-Widget-ComboBox'
 }
 
+{ #category : #testing }
+ToComboBox >> canInsertData: aData [
+
+	^ true
+]
+
 { #category : #events }
 ToComboBox >> clickOnDataEvent: aClickOnDataEvent [
 
@@ -91,7 +97,7 @@ ToComboBox >> defaultListPlaceholder [
 { #category : #initialization }
 ToComboBox >> defaultMode [
 
-	^ ToComboBoxEditableMode new
+	^ ToComboBoxDataEditingMode new
 ]
 
 { #category : #initialization }
@@ -148,6 +154,12 @@ ToComboBox >> initialize [
 	self selectIndex: 0.
 	self listElement showPlaceholder.
 	self initializeDresser
+]
+
+{ #category : #accessing }
+ToComboBox >> insertData: aData [
+
+	self data add: aData
 ]
 
 { #category : #accessing }

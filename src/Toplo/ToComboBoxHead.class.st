@@ -10,6 +10,11 @@ ToComboBoxHead >> defaultPlaceholder [
 	^ ToLabel new
 ]
 
+{ #category : #'t - placeholder show/hide' }
+ToComboBoxHead >> hidePlaceholder [
+	^ self subclassResponsibility
+]
+
 { #category : #accessing }
 ToComboBoxHead >> noDataSelected [
 
@@ -18,6 +23,13 @@ ToComboBoxHead >> noDataSelected [
 
 { #category : #accessing }
 ToComboBoxHead >> placeholder [
+
+	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
+ToComboBoxHead >> placeholder: anElement [
+
 	^ self subclassResponsibility
 ]
 
@@ -25,4 +37,9 @@ ToComboBoxHead >> placeholder [
 ToComboBoxHead >> selectedData: aData [
 
 	self subclassResponsibility 
+]
+
+{ #category : #'t - placeholder show/hide' }
+ToComboBoxHead >> showPlaceholder [
+	^ self subclassResponsibility
 ]

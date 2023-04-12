@@ -1,6 +1,6 @@
 Class {
 	#name : #ToReadonlyComboBoxHead,
-	#superclass : #ToPairedButton,
+	#superclass : #ToComboBoxHead,
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
 		'placeholder',
@@ -8,12 +8,6 @@ Class {
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
-
-{ #category : #accessing }
-ToReadonlyComboBoxHead >> data: aData [
-
-	self dataElement: (self dataElementFactory cull: aData cull: self)
-]
 
 { #category : #accessing }
 ToReadonlyComboBoxHead >> dataElement: anElement [
@@ -70,6 +64,12 @@ ToReadonlyComboBoxHead >> initialize [
 ]
 
 { #category : #accessing }
+ToReadonlyComboBoxHead >> noDataSelected [
+
+	self showPlaceholder 
+]
+
+{ #category : #accessing }
 ToReadonlyComboBoxHead >> placeholder [
 
 	^ placeholder
@@ -81,6 +81,13 @@ ToReadonlyComboBoxHead >> placeholder: anElement [
 	placeholder = anElement ifTrue: [ ^ self ].
 	placeholder ifNotNil: [ placeholder parentDo: [ :p | placeholder removeFromParent ] ].
 	placeholder := (anElement ifNil: [ self defaultPlaceholder ])
+]
+
+{ #category : #accessing }
+ToReadonlyComboBoxHead >> selectedData: aData [
+
+	self hidePlaceholder.
+	self dataElement: (self dataElementFactory cull: aData cull: self)
 ]
 
 { #category : #'t - placeholder show/hide' }

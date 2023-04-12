@@ -196,6 +196,7 @@ ToComboBox >> nodeFactory [
 
 { #category : #accessing }
 ToComboBox >> nodeFactory: aConverter [
+
 	" is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
 	self listElement nodeFactory: aConverter
 ]

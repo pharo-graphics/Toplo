@@ -541,7 +541,7 @@ ToExperiments class >> example_Smalltalk_ui_icons_withElements [
 		          yourself.
 	container addChild: root; addChild: vscrollBar.
 	space := OBlSpace new.
-	space addChild: container.
+	space root addChild: container.
 	space show
 ]
 

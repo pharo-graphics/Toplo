@@ -11,6 +11,7 @@ Class {
 ToEditableComboBoxHeadDresser >> newPlaceholder: aPlaceholder in: anElement [
 
 	| idx |
+	aPlaceholder margin: (BlInsets left: 3).
 	anElement placeholder: aPlaceholder.
 	(idx := comboBox selectedIndex) ifNil: [ ^ self ].
 	idx isZero ifTrue: [ anElement noDataSelected ]

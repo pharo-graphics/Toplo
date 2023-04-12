@@ -36,13 +36,13 @@ ToEditableComboBoxHead >> defaultDresser [
 { #category : #initialization }
 ToEditableComboBoxHead >> defaultPlaceholder [
 
-	^ ToLabel new text: 'Enter text'
+	^ ToLabel new text: 'Enter text'; margin: (BlInsets left: 3); yourself
 ]
 
 { #category : #initialization }
 ToEditableComboBoxHead >> defaultTextField [
 
-	^ ToTextField new
+	^ ToTextField new withoutLineWrapping 
 ]
 
 { #category : #'t - placeholder show/hide' }

@@ -44,7 +44,7 @@ ToChoiceBoxTest >> testCheckUncheckWithUncheckStrategy [
 			d1.
 			d2.
 			d3 }.
-	cb selectedIndex: 1.
+	cb selectIndex: 1.
 	self assert: cb data size equals: 3.
 	self assert: cb selectedData equals: d1.
 	self assert: cb menuButton label text asString equals: d1.
@@ -86,7 +86,7 @@ ToChoiceBoxTest >> testNoSelectedDataWithPlaceholder [
 	self assert: cb selectedData isNil.
 	self assert: cb menuButton label text asString equals: 'No choice'.
 	self assert: (cb group buttons noneSatisfy: [ :b | b isChecked ]).
-	cb selectedData: nil.
+	cb selectData: nil.
 	self assert: cb selectedData isNil.
 	self assert: cb menuButton label text asString equals: 'No choice'.
 	self assert: (cb group buttons noneSatisfy: [ :b | b isChecked ])
@@ -100,10 +100,10 @@ ToChoiceBoxTest >> testNoSelectedDataWithPlaceholder2 [
 	cb placeholder: (ToLabel text: 'No choice').
 	d := { '#1'. '#2'. '#3'. '#4'. '#5' }.
 	cb data addAll: d.
-	cb selectedIndex: 1.
+	cb selectIndex: 1.
 	self assert: cb selectedData equals: '#1'.
 	self assert: cb menuButton label text asString equals: d first.
-	cb selectedData: nil.
+	cb selectData: nil.
 	self assert: cb selectedData isNil.
 	self assert: cb menuButton label text asString equals: 'No choice'.
 	self assert: (cb group buttons noneSatisfy: [ :b | b isChecked ])
@@ -153,12 +153,12 @@ ToChoiceBoxTest >> testPlaceholder3 [
 	cb data addAll: { 'A'. 'B'. }.
 	cb placeholder: (ToLabel text: 'X').
 	self assert: cb menuButton label text asString equals: 'X'.
-	cb selectedData: 'A'.
+	cb selectData: 'A'.
 	self assert: cb group buttons first isChecked.
 	self assert: cb selectedData identicalTo: cb data first.
 	self assert: cb menuButton label text asString equals: 'A'.
 	" Unchecking strategy does allow unchecking "
-	cb selectedData: nil.
+	cb selectData: nil.
 	self assert: cb group buttons first isUnchecked.
 	self assert: cb menuButton label identicalTo: cb placeholder.
 	self assert: cb selectedData isNil
@@ -171,9 +171,9 @@ ToChoiceBoxTest >> testSelectedData1 [
 	cb := ToChoiceBox new.
 	d := { '#1'. '#2'. '#3'. '#4'. '#5' }.
 	cb data addAll: d.
-	cb selectedIndex: 1.
+	cb selectIndex: 1.
 	self assert: cb selectedData equals: d first.
-	cb selectedData: d second.
+	cb selectData: d second.
 	self assert: cb menuButton label text asString equals: d second.
 	self assert: cb group buttons second isChecked
 ]
@@ -185,12 +185,12 @@ ToChoiceBoxTest >> testSelectedData2 [
 	cb := ToChoiceBox new.
 	d := { '#1'. '#2'. '#3'. '#4'. '#5' }.
 	cb data addAll: d.
-	cb selectedIndex: 1.
+	cb selectIndex: 1.
 	self assert: cb selectedData equals: '#1'.
-	cb selectedData: '#99999'.
-	self assert: cb selectedData equals: '#1'.
-	self assert: cb menuButton label text asString equals: d first.
-	self assert: cb group buttons first isChecked
+	cb selectData: '#99999'.
+	self assert: cb selectedData isNil.
+	self assert: cb menuButton label isNil.
+	self assert: cb selectedIndex isZero
 ]
 
 { #category : #tests }
@@ -200,7 +200,7 @@ ToChoiceBoxTest >> testWith5StringData [
 	cb := ToChoiceBox new.
 	d := { '#1'. '#2'. '#3'. '#4'. '#5' }.
 	cb data addAll: d.
-	cb selectedIndex: 1.
+	cb selectIndex: 1.
 	self assert: cb data size equals: 5.
 	self assert: cb selectedData equals: d first.
 	self assert: cb menuButton label text asString equals: d first.
@@ -218,7 +218,7 @@ ToChoiceBoxTest >> testWithOneStringData [
 	cb := ToChoiceBox new.
 	d := '#1'.
 	cb data add: d.
-	cb selectedIndex: 1.
+	cb selectIndex: 1.
 	self assert: cb data size equals: 1.
 	self assert: cb selectedData equals: d.
 	self assert: cb menuButton label text asString equals: d.
@@ -239,7 +239,7 @@ ToChoiceBoxTest >> testWithStrictStrategy [
 			d1.
 			d2.
 			d3 }.
-	cb selectedIndex: 1.
+	cb selectIndex: 1.
 	self assert: cb data size equals: 3.
 	self assert: cb selectedData equals: d1.
 	self assert: cb menuButton label text asString equals: d1.
@@ -267,7 +267,7 @@ ToChoiceBoxTest >> testWithUncheckStrategy [
 			d2.
 			d3 }.
 	self assert: cb data size equals: 3.
-	cb selectedData: d1.
+	cb selectData: d1.
 	self assert: cb menuButton label text asString equals: d1.
 	self assert: cb menuButton subMenuWindow root children size equals: 3.
 	self assert: cb group buttons size equals: 3.

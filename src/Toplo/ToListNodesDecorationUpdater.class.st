@@ -48,7 +48,10 @@ ToListNodesDecorationUpdater >> selectionDecorationElementsIn: aListElement [
 ToListNodesDecorationUpdater >> updateDecorationsIn: aListElement [
 	"add a ListDecorationElement for each group of adjacent selected nodes "
 
-	self resetDecorations.
-	decorations addAll: (self selectionDecorationElementsIn: aListElement).
-	aListElement addChildren: decorations
+	aListElement infinite requestLayout.
+	aListElement infinite whenLayoutedDoOnce: [
+		self resetDecorations.
+		decorations addAll:
+			(self selectionDecorationElementsIn: aListElement).
+		aListElement addChildren: decorations ]
 ]

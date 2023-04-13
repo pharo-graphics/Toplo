@@ -230,11 +230,7 @@ ToInfiniteElement >> nodeFactory: aNodeFactory [
 { #category : #'private - commands' }
 ToInfiniteElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount [
 
-	super offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount.
-	self primarySelection
-		dispatchSelectionChangedAfter: [
-			self deselectAll ]
-		to: self
+	super offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount
 ]
 
 { #category : #'private - commands' }
@@ -337,9 +333,13 @@ ToInfiniteElement >> selectAll [
 { #category : #'selection events' }
 ToInfiniteElement >> selectIndex: anIndex [
 
-	self primarySelection dispatchSelectionChangedAfter: [
-		self primarySelection selectIndex: anIndex ]
-	to: self
+self flag: 'to be revised. do not work well with editable combobox'.
+	self primarySelection
+		dispatchSelectionChangedAfter: [ " ensure that the layout is computed before updating the selection "
+			self primarySelection selectIndex: anIndex.
+			self requestLayout.
+			self whenLayoutedDoOnce: [ self scrollToIndex: anIndex ] ]
+		to: self
 ]
 
 { #category : #'selection events' }

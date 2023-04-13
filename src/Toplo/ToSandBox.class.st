@@ -97,7 +97,7 @@ ToSandBox class >> example_ComboBoxWithColors [
 			background: color;
 			yourself ].
 	combo data addAll: Color indexedColors.
-	combo selectIndex: 1.
+	combo selectIndex: 40.
 	win root addChild: combo.
 	win openInWorld
 ]
@@ -278,6 +278,16 @@ ToSandBox class >> example_ListOneClass [
 			     hMatchParent ].
 	l data addAll: { Smalltalk globals allClasses first }.
 	l openInOBlSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_ListWith20Elements [
+
+	| l |
+	l := ToListElement new.
+	l data addAll: ((1 to: 20) collect: [:i | i asString]).
+	l selectIndex: 18.
+	l openInInnerWindow
 ]
 
 { #category : #list }
@@ -684,7 +694,7 @@ ToSandBox class >> example_choiceBoxWithPlaceholderWithUncheckingStrategy [
 	t := 'No selection...' asRopedText , String cr asRopedText, ('Please choose an host from the list' asRopedText foreground: Color lightGray; fontSize: 12).
 	choicebox placeholder: (ToLabel new beMultiLine; text: t).
 	choicebox dataToTextConverter: [ :assoc | assoc key ].
-	choicebox whenSelectedDataChangedDo: [ self inform: choicebox selectedData value asString].
+	choicebox whenSelectedIndexChangedDo: [ self inform: choicebox selectedData value asString].
 	choicebox data addAll: {
 			('Morphic SDL' -> BlMorphicWindowHost).
 			('Native SDL' -> BlOSWindowSDL2Host) }.
@@ -702,7 +712,7 @@ ToSandBox class >> example_choiceBoxWithStringData [
 	choicebox data addAll: { 'OS-X'. 'Windows'. }.
 	choicebox addSeparator.
 	choicebox data add: 'Linux'.
-	choicebox selectedData: 'Windows'.
+	choicebox selectData: 'Windows'.
 
 	win root addChild: choicebox.
 	win openInWorld
@@ -722,8 +732,8 @@ ToSandBox class >> example_choiceBoxWithStructuredData [
 			('Morphic SDL' -> BlMorphicWindowHost).
 			('Native SDL' -> BlOSWindowSDL2Host) }.
 	choicebox placeholder: (ToLabel text: 'Place holder').
-	choicebox selectedIndex: 2.
-	choicebox whenSelectedDataChangedDo: [
+	choicebox selectIndex: 2.
+	choicebox whenSelectedIndexChangedDo: [
 		self inform: choicebox selectedData asString ].
 	win root addChild: choicebox.
 	win openInWorld

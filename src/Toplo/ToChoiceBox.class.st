@@ -8,8 +8,8 @@ Class {
 		'#placeholder => ObservableSlot',
 		'#menuButton',
 		'#data',
-		'#selectedData => ObservableSlot',
-		'#dataToTextConverter'
+		'#dataToTextConverter',
+		'#selectedIndex => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-ChoiceBox'
 }
@@ -41,9 +41,9 @@ ToChoiceBox >> beJustified [
 ToChoiceBox >> checked: anItem [
 
 	anItem ifNil: [
-		self selectedData: nil.
+		self selectData: nil.
 		^ self ].
-	self selectedData: (self data
+	self selectData: (self data
 			 detect: [ :c |
 				 (self dataToTextConverter value: c) asString
 				 = anItem label text asString ]
@@ -54,6 +54,12 @@ ToChoiceBox >> checked: anItem [
 ToChoiceBox >> data [
 
 	^ data 
+]
+
+{ #category : #'api - change hook' }
+ToChoiceBox >> dataIndexOf: aData [
+
+	^ self data indexOf: aData ifAbsent: [ 0 ]
 ]
 
 { #category : #accessing }
@@ -86,13 +92,14 @@ ToChoiceBox >> initialize [
 	self class initializeSlots: self.
 	super initialize.
 	dataToTextConverter := [ :i | i ].
+	selectedIndex := 0.
 	self privateData: self newDataCollection.
 	self layout: self defaultLayout.
 	self fitContent.
 	menuButton := ToChoiceBoxMenuButton new.
 	group := ToCheckableGroup new.
 	self addChild: menuButton.
-	self whenSelectedDataChangedDo: [ self selectedDataChanged ].
+	self whenSelectedIndexChangedDo: [ self selectedIndexChanged ].
 	self whenPlaceholderChangedDo: [ self placeholderChanged ].
 	group whenChangedDo: [ :ann |
 		ann checkedButtons do: [:e | self checked: e].
@@ -126,16 +133,6 @@ ToChoiceBox >> newMenuItemFromData: anObject [
 	^ ToChoiceBoxMenuItem new labelText: (self dataToTextConverter value: anObject)
 ]
 
-{ #category : #'api - change hook' }
-ToChoiceBox >> newSelectedDataToUseFrom: aNewSelectedData [
-
-	| found |
-	aNewSelectedData ifNil: [ ^ nil ].
-	found := self data detect: [ :d | aNewSelectedData = d ] ifNone: [].
-	found ifNil: [ ^ self selectedData ].
-	^ found
-]
-
 { #category : #'private - notifications' }
 ToChoiceBox >> notifyChanged [
 
@@ -152,7 +149,7 @@ ToChoiceBox >> notifyDataChanged: anInterval [
 		newItem := self newMenuItemFromData: (self data at: idx).
 		self menuButton replaceItemAt: idx with: newItem.
 		self group replace: prevItem with: newItem.
-		(self selectedData = self data at: idx) ifTrue: [ self selectedData: nil ] ]
+		(self selectedData = self data at: idx) ifTrue: [ self selectData: nil ] ]
 ]
 
 { #category : #'private - notifications' }
@@ -174,7 +171,9 @@ ToChoiceBox >> notifyDataRemoved: anInterval [
 	removed do: [ :item |
 		self menuButton removeItem: item.
 		self group remove: item ].
-	(self data includes: self selectedData) ifFalse: [ self selectedData: nil ]
+	(anInterval includes: self selectedIndex) ifTrue: [ self selectData: nil ].
+
+
 ]
 
 { #category : #accessing }
@@ -207,34 +206,59 @@ ToChoiceBox >> privateData: anObservableCollection [
 	self notifyChanged
 ]
 
+{ #category : #'private - accessing' }
+ToChoiceBox >> privateSelectedIndex: anInteger [
+
+	selectedIndex := anInteger.
+	self dispatchEvent: ToChoiceBoxSelectedIndexChangeEvent new	
+
+]
+
 { #category : #'adding / removing' }
 ToChoiceBox >> removeData: anObject [
 
 	| item |
 	item := self menuItemFromData: anObject.
+	self selectedData = anObject ifTrue: [ self selectData: nil ].
 	self data remove: anObject.
 	menuButton removeItem: item.
 	group remove: item.
-	self selectedData = anObject ifTrue: [ self selectedData: nil ]
+
+]
+
+{ #category : #accessing }
+ToChoiceBox >> selectData: aData [
+
+	| idx |
+	idx := self dataIndexOf: aData.
+	self selectedIndex = idx ifTrue: [ ^ self ].
+	self privateSelectedIndex: idx
+]
+
+{ #category : #accessing }
+ToChoiceBox >> selectIndex: anInteger [
+
+	self selectedIndex = anInteger ifTrue: [ ^ self ].
+	anInteger > self data size ifTrue: [ ^ self ].
+	self privateSelectedIndex: anInteger
 ]
 
 { #category : #accessing }
 ToChoiceBox >> selectedData [
 
-	^ selectedData
+	^ self selectedIndex isZero
+		  ifTrue: [ nil ]
+		  ifFalse: [ self data at: self selectedIndex ]
 ]
 
 { #category : #accessing }
-ToChoiceBox >> selectedData: aData [
+ToChoiceBox >> selectedIndex [
 
-	| newSelectedData |
-	newSelectedData := self newSelectedDataToUseFrom: aData.
-	newSelectedData == selectedData ifTrue: [ ^ self ].
-	selectedData := newSelectedData
+	^ selectedIndex 
 ]
 
 { #category : #'api - change hook' }
-ToChoiceBox >> selectedDataChanged [
+ToChoiceBox >> selectedIndexChanged [
 
 	| menuItem |
 	self selectedData ifNil: [
@@ -246,20 +270,11 @@ ToChoiceBox >> selectedDataChanged [
 	menuItem isChecked ifFalse: [ menuItem check ]
 ]
 
-{ #category : #accessing }
-ToChoiceBox >> selectedIndex: anInteger [
-
-	self selectedData:
-		((anInteger > 0 and: [ anInteger <= self data size ])
-			 ifTrue: [ self data at: anInteger ]
-			 ifFalse: [  ])
-]
-
 { #category : #'api - change hook' }
 ToChoiceBox >> unchecked: anItem [
 
 	self group checkedButtons ifNotEmpty: [ ^ self ].
-	self selectedData: nil
+	self selectData: nil
 ]
 
 { #category : #'api - change hook' }
@@ -278,11 +293,11 @@ ToChoiceBox >> whenPlaceholderChangedDo: aBlock [
 ]
 
 { #category : #'api - change hook' }
-ToChoiceBox >> whenSelectedDataChangedDo: aBlock [
+ToChoiceBox >> whenSelectedIndexChangedDo: aBlock [
 
 	"set a block to perform after that the selected item has been changed, and its action performed"
 
-	self property: #selectedData whenChangedDo: aBlock
+	self property: #selectedIndex whenChangedDo: aBlock
 ]
 
 { #category : #accessing }

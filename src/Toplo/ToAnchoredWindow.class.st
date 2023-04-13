@@ -2,7 +2,8 @@ Class {
 	#name : #ToAnchoredWindow,
 	#superclass : #ToBasicWindowElement,
 	#instVars : [
-		'anchor'
+		'anchor',
+		'hook'
 	],
 	#category : #'Toplo-Widget-Window'
 }
@@ -21,8 +22,8 @@ ToAnchoredWindow >> anchor: aWidget [
 	anchor ifNil: [ ^ self ].
 	self anchor
 		when: BlElementPositionInSpaceChangedEvent
-		do: [ :event |
-		self position: self anchor bounds inSpace bounds topLeft ].
+		do: [ :event | 
+		self position: (self hook value: self value: event) ].
 	self anchor when: BlElementRemovedFromParentEvent do: [ self close ].
 	self anchor
 		when: BlElementRemovedFromSceneGraphEvent
@@ -39,6 +40,12 @@ ToAnchoredWindow >> attachTo: anElement [
 ToAnchoredWindow >> defaultDresser [ 
 
 	^ ToAnchoredWindowDresser new
+]
+
+{ #category : #initialization }
+ToAnchoredWindow >> defaultHook [
+
+	^ [ :w :event | w anchor bounds inSpace bounds topLeft ]
 ]
 
 { #category : #initialization }
@@ -60,11 +67,25 @@ ToAnchoredWindow >> detach [
 	self anchor: nil
 ]
 
+{ #category : #accessing }
+ToAnchoredWindow >> hook [
+
+	^ hook
+]
+
+{ #category : #accessing }
+ToAnchoredWindow >> hook: aValuable [
+	" takes the window as argument. Computes the window position according to the given window anchor element "
+	
+	hook := aValuable
+]
+
 { #category : #initialization }
 ToAnchoredWindow >> initialize [
 
 	super initialize.
 	self fitContent.
+	hook := self defaultHook.
 	self initializeDresser 
 ]
 

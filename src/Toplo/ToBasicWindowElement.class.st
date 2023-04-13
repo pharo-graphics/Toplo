@@ -119,6 +119,12 @@ ToBasicWindowElement >> popupAnimationFactory: aValuable [
 	popupAnimationFactory := aValuable
 ]
 
+{ #category : #'api - displaying' }
+ToBasicWindowElement >> popupEvent: anEvent [
+
+	self placementStrategy popup: self event: anEvent
+]
+
 { #category : #initialization }
 ToBasicWindowElement >> withAnimation [
 

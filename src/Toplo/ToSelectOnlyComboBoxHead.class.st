@@ -78,7 +78,7 @@ ToSelectOnlyComboBoxHead >> placeholder: anElement [
 ]
 
 { #category : #accessing }
-ToSelectOnlyComboBoxHead >> selectedData: aData [
+ToSelectOnlyComboBoxHead >> selectData: aData [
 
 	self hidePlaceholder.
 	self dataElement: (self dataElementFactory cull: aData cull: self)

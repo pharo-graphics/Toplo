@@ -13,7 +13,7 @@ ToOverlayedPlacementStrategy >> check: aWindow beforePopupIn: aWidget [
 ]
 
 { #category : #'opening-closing' }
-ToOverlayedPlacementStrategy >> popup: aWindow [
+ToOverlayedPlacementStrategy >> popup: aWindow event: anEvent [
 
 	| spaceLayer |
 	aWindow position: aWindow bounds inSpace bounds topLeft.

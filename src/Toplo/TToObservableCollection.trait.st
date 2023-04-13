@@ -241,10 +241,35 @@ TToObservableCollection >> includes: anObject [
 ]
 
 { #category : #'t - observable collection accessing' }
-TToObservableCollection >> indexOf: anObject [
+TToObservableCollection >> indexOf: anElement [
+	"Answer the index of the first occurrence of anElement within the
+	receiver. If the receiver does not contain anElement, answer 0."
+	"(#(a b c d e) indexOf: #c) >>> 3"
+	"(#(a b c d e) indexOf: #x) >>> 0"
 
+	^ self indexOf: anElement ifAbsent: 0
+]
 
-	^ list indexOf: anObject
+{ #category : #'t - observable collection accessing' }
+TToObservableCollection >> indexOf: anElement ifAbsent: exceptionBlock [
+	"Answer the index of the first occurrence of anElement within the
+	receiver. If the receiver does not contain anElement, answer the
+	result of evaluating the argument, exceptionBlock."
+	"(#(a b c d e) indexOf: #c ifAbsent: 7) >>> 3"
+	"(#(a b c d e) indexOf: #x ifAbsent: 7) >>> 7"
+
+	^ self indexOf: anElement startingAt: 1 ifAbsent: exceptionBlock
+]
+
+{ #category : #'t - observable collection accessing' }
+TToObservableCollection >> indexOf: anElement startingAt: start ifAbsent: exceptionBlock [
+	"Answer the index of the first occurrence of anElement after start
+	within the receiver. If the receiver does not contain anElement,
+	answer the 	result of evaluating the argument, exceptionBlock."
+	"(#(a b c d e) indexOf: #c startingAt: 2 ifAbsent: 7) >>> 3"
+	"(#(a b c d e) indexOf: #c startingAt: 4 ifAbsent: 7) >>> 7"
+
+	^ list indexOf: anElement startingAt: start ifAbsent: exceptionBlock
 ]
 
 { #category : #'t - observable collection initialization' }

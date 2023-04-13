@@ -56,7 +56,7 @@ ToEditableComboBoxHead >> placeholder: anElement [
 ]
 
 { #category : #accessing }
-ToEditableComboBoxHead >> selectedData: aData [
+ToEditableComboBoxHead >> selectData: aData [
 
 	self hidePlaceholder.
 	self textField text: (self dataToTextConverter value: aData)

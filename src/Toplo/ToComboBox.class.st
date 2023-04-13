@@ -47,6 +47,12 @@ ToComboBox >> data: aCollection [
 	data := aCollection
 ]
 
+{ #category : #'api - change hook' }
+ToComboBox >> dataIndexOf: aData [
+
+	^ self data indexOf: aData ifAbsent: [ 0 ]
+]
+
 { #category : #'t - initialization dresser' }
 ToComboBox >> defaultDresser [
 
@@ -68,14 +74,15 @@ ToComboBox >> defaultListElement [
 { #category : #initialization }
 ToComboBox >> defaultListElementSize [
 
-		^ 250@350
+		^ 250@150
 ]
 
 { #category : #initialization }
 ToComboBox >> defaultListFrame [
 
 	| win |
-	win := ToPopupWindow new widget: self.
+	win := ToAnchoredWindow new anchor: self.
+	win hook: [ :w :event | self bounds inSpace bottomLeft ].
 	win root layout: BlFrameLayout new.
 	win root fitContent.
 	win root addChild: self listElement.
@@ -159,7 +166,14 @@ ToComboBox >> initialize [
 { #category : #accessing }
 ToComboBox >> insertData: aData [
 
-	self data add: aData
+	| idx |
+	idx := self dataIndexOf: aData.
+	idx isZero ifTrue: [
+		self data add: aData.
+		idx := self dataIndexOf: aData ].
+	self prepareListElement.
+	self selectIndex: idx.
+	'selectIndex: ' trace. idx traceCr
 ]
 
 { #category : #accessing }
@@ -326,14 +340,23 @@ ToComboBox >> privateData: anObservableCollection [
 	self notifyChanged
 ]
 
+{ #category : #'private - accessing' }
+ToComboBox >> privateSelectedIndex: anInteger [
+
+	selectedIndex := anInteger
+]
+
+{ #category : #accessing }
+ToComboBox >> scrollToIndex: anIndex [
+
+	self listElement scrollToIndex: anIndex
+]
+
 { #category : #accessing }
 ToComboBox >> selectIndex: anIndex [
 
-	self selectedIndex: anIndex.
-	self dispatchEvent: ToComboBoxSelectedIndexChangeEvent new.
-	anIndex isZero ifTrue: [ ^ self ].
-	self listElement selectIndex: anIndex.
-	
+	self privateSelectedIndex: anIndex.
+	self dispatchEvent: ToComboBoxSelectedIndexChangeEvent new	
 ]
 
 { #category : #accessing }
@@ -353,13 +376,6 @@ ToComboBox >> selectedDataDo: aBlock [
 ToComboBox >> selectedIndex [
 	
 	^ selectedIndex 
-]
-
-{ #category : #accessing }
-ToComboBox >> selectedIndex: anInteger [
-
-	selectedIndex := anInteger.
-	anInteger isZero ifTrue: [ self listElement deselectAll ]
 ]
 
 { #category : #'change hook' }

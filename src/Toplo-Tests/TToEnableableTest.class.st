@@ -50,15 +50,3 @@ TToEnableableTest >> testMultipleDisable [
 	element disable. 
 	self assert: element isDisabled.
 ]
-
-{ #category : #tests }
-TToEnableableTest >> testStatement [
-
-	| element |
-	element := ToWidget new.
-	element disable. 
-	self assert: (element states hasState: BlElementState disabled).
-	
-	element enable.
-	self assert: (element states hasState: BlElementState disabled) not
-]

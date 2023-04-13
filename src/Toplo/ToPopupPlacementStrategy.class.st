@@ -26,8 +26,7 @@ ToPopupPlacementStrategy >> check: aWindow beforePopupIn: aWidget [
 	| gap rect |
 	" layout is done, aWindow bounds are now up-to-date"" check if aWindow position is ok according to aWindow extent and the space extent"
 	rect := aWindow bounds inSpace asRectangle.
-	gap := rect amountToTranslateWithin:
-		       (0 asPoint extent: aWindow space extent).
+	gap := rect amountToTranslateWithin: (0 asPoint extent: aWindow space extent).
 	aWindow position: aWindow position + gap.
 	super check: aWindow beforePopupIn: aWidget
 ]
@@ -44,12 +43,6 @@ ToPopupPlacementStrategy >> initialize [
 
 	super initialize.
 	action := self defaultAction
-]
-
-{ #category : #'opening-closing' }
-ToPopupPlacementStrategy >> popup: aWindow [
-	
-	self popup: aWindow event: nil
 ]
 
 { #category : #'opening-closing' }

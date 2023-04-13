@@ -12,7 +12,7 @@ ToPopupWindowDresser >> installEventListenersIn: anElement [
 
 	closeHandler := BlEventHandler
 		                on: BlSpaceMouseDownOutsideEvent
-		                do: [ :event | self mouseDownOutside: event receivedIn: anElement ].
+		                do: [ :event | "self mouseDownOutside: event receivedIn: anElement" ].
 	anElement addEventHandler: closeHandler
 ]
 

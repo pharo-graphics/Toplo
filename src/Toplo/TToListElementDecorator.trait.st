@@ -114,6 +114,12 @@ TToListElementDecorator >> primarySelectionIndexes [
 	^ self next primarySelectionIndexes
 ]
 
+{ #category : #'t - infinite accessing' }
+TToListElementDecorator >> scrollToIndex: anIndex [
+
+	self next scrollToIndex: anIndex
+]
+
 { #category : #'t - accessing selection' }
 TToListElementDecorator >> secondarySelection [
 
@@ -147,7 +153,7 @@ TToListElementDecorator >> selectIndex: anInteger [
 { #category : #'t - accessing selection' }
 TToListElementDecorator >> selectedIndexes [
 
-	self next selectedIndexes
+	^ self next selectedIndexes
 ]
 
 { #category : #'t - accessing selection' }

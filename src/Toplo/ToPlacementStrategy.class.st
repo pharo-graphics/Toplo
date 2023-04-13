@@ -15,3 +15,17 @@ ToPlacementStrategy >> check: aWindow beforePopupIn: aWidget [
 	anim ifNil: [ ^ self ].
 	aWindow addAnimation: anim
 ]
+
+{ #category : #'opening-closing' }
+ToPlacementStrategy >> popup: aWindow [
+	self flag: 'Do a pass here. It seems that placement strategy is not needed '.
+
+	self popup: aWindow event: nil 
+]
+
+{ #category : #'opening-closing' }
+ToPlacementStrategy >> popup: aWindow event: anEvent [
+	self flag: 'Do a pass here. It seems that placement strategy is not needed '.
+
+	self subclassResponsibility 
+]

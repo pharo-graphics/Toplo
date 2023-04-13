@@ -34,7 +34,7 @@ ToComboBoxHead >> placeholder: anElement [
 ]
 
 { #category : #accessing }
-ToComboBoxHead >> selectedData: aData [
+ToComboBoxHead >> selectData: aData [
 
 	self subclassResponsibility 
 ]

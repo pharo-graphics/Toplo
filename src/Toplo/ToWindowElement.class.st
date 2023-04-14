@@ -7,22 +7,10 @@ Class {
 	#category : #'Toplo-Widget-Window'
 }
 
-{ #category : #'api - adding children' }
-ToWindowElement >> addChild: anElement [
-	"Add a given element as a direct child to the space root"
-	self
-		deprecated: 'Send addChild: to root.'
-		transformWith:
-			'`@receiver addChild: `@arg'
-				-> '`@receiver root addChild: `@arg'.
-
-	self root addChild: anElement
-]
-
 { #category : #'api - displaying' }
 ToWindowElement >> close [
 
-	"Delegate closing work to the Universe"
+	"Delegate closing to the Universe"
 
 	self parentDo: [ :p | 
 		[ self removeFromParent ]
@@ -99,32 +87,6 @@ ToWindowElement >> initialize [
 		fitContent.
 		
 	self addChildren: self elements.
-]
-
-{ #category : #spec2 }
-ToWindowElement >> inspectionPreview: aBuilder [
-	"<inspectorPresentationOrder: 1 title: 'Preview'>"
-
-	^ super inspectionPreview: aBuilder
-]
-
-{ #category : #spec2 }
-ToWindowElement >> inspectionTree: aBuilder [
-	<inspectorPresentationOrder: 2 title: 'Tree'>
-
-	^ super inspectionTree: aBuilder
-]
-
-{ #category : #'api - adding children' }
-ToWindowElement >> removeChild: anElement [
-	"Remove a given element from the space root"
-	self
-		deprecated: 'Send removeChild: to root.'
-		transformWith:
-			'`@receiver removeChild: `@arg'
-				-> '`@receiver root removeChild: `@arg'.
-
-	self root removeChild: anElement
 ]
 
 { #category : #accessing }

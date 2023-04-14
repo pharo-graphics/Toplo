@@ -11,10 +11,15 @@ Class {
 	#category : #'Toplo-Widget-Window'
 }
 
-{ #category : #'api - adding children' }
+{ #category : #adding }
 ToInnerWindow >> addChild: anElement [
 	"Add a given element as a direct child to the space root"
-	
+	self
+		deprecated: 'Send addChild: to root.'
+		transformWith:
+			'`@receiver addChild: `@arg'
+				-> '`@receiver root addChild: `@arg'.
+
 	self root addChild: anElement
 ]
 
@@ -158,13 +163,6 @@ ToInnerWindow >> maximize [
 	self
 		relocate: 0 @ 0;
 		size: self parent size
-]
-
-{ #category : #'api - adding children' }
-ToInnerWindow >> removeChild: anElement [
-	"Remove a given element from the space root"
-	
-	self root removeChild: anElement
 ]
 
 { #category : #'api - displaying' }

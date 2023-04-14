@@ -28,6 +28,14 @@ ToMenuWindow >> defaultDresser [
 ]
 
 { #category : #initialization }
+ToMenuWindow >> defaultHook [ 
+
+	^ [ :w :event | w widget isSubmenu
+		  ifTrue: [ w widget bounds inSpace bounds topRight ]
+		  ifFalse: [ w widget bounds inSpace bounds bottomLeft ] ]
+]
+
+{ #category : #initialization }
 ToMenuWindow >> initialize [
 
 	super initialize.
@@ -48,14 +56,6 @@ ToMenuWindow >> mouseEnterOnMenuItem: aMenuItem [
 	" ok, I can close other item submenu window"
 	self openedSubmenuWindow close.
 	self openedSubmenuWindow: nil
-]
-
-{ #category : #initialization }
-ToMenuWindow >> openPositionFromEvent: anEvent [
-
-	^ self widget isSubmenu
-		  ifTrue: [ widget bounds inSpace bounds topRight ]
-		  ifFalse: [ widget bounds inSpace bounds bottomLeft ]
 ]
 
 { #category : #'api - displaying' }

@@ -4,11 +4,12 @@ Class {
 	#traits : 'TToWidget',
 	#classTraits : 'TToWidget classTrait',
 	#instVars : [
-		'animate',
-		'deleteAnimation',
-		'deleteAnimationFactory',
-		'popupAnimationFactory',
-		'placementStrategy'
+		'#animate',
+		'#deleteAnimation',
+		'#deleteAnimationFactory',
+		'#popupAnimationFactory',
+		'#hook',
+		'#widget => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Window'
 }
@@ -23,6 +24,17 @@ ToBasicWindowElement >> animate [
 ToBasicWindowElement >> animate: aBoolean [
 
 	animate := aBoolean
+]
+
+{ #category : #'api - displaying' }
+ToBasicWindowElement >> checkBeforePopupIn: aWidget [
+
+	| anim |
+	self visibility: BlVisibility visible.
+	self animate ifFalse: [ ^ self ].
+	anim := self popupAnimationFactory value.
+	anim ifNil: [ ^ self ].
+	self addAnimation: anim
 ]
 
 { #category : #'api - displaying' }
@@ -52,7 +64,7 @@ ToBasicWindowElement >> close [
 ]
 
 { #category : #initialization }
-ToBasicWindowElement >> defaultPlacementStrategy [
+ToBasicWindowElement >> defaultHook [
 
 	^ self subclassResponsibility 
 ]
@@ -69,13 +81,27 @@ ToBasicWindowElement >> deleteAnimationFactory: aValuable [
 	deleteAnimationFactory := aValuable
 ]
 
+{ #category : #accessing }
+ToBasicWindowElement >> hook [
+
+	^ hook
+]
+
+{ #category : #accessing }
+ToBasicWindowElement >> hook: aValuable [
+	" takes the window as argument. Computes the window position according to the given window anchor element "
+	
+	hook := aValuable
+]
+
 { #category : #initialization }
 ToBasicWindowElement >> initialize [
 
+	self class initializeSlots: self.
 	super initialize.
 	self animate: true.
-	self placementStrategy: self defaultPlacementStrategy.
-
+	self hook: self defaultHook.
+	
 	deleteAnimationFactory := [ 
 	                          BlOpacityAnimation new
 		                          duration: 250 milliSeconds;
@@ -89,22 +115,10 @@ ToBasicWindowElement >> initialize [
 		                         yourself ]
 ]
 
-{ #category : #accessing }
-ToBasicWindowElement >> placementStrategy [
-
-	^ placementStrategy
-]
-
-{ #category : #accessing }
-ToBasicWindowElement >> placementStrategy: aPlacementStrategy [
-
-	placementStrategy := aPlacementStrategy
-]
-
 { #category : #'api - displaying' }
 ToBasicWindowElement >> popup [
 
-	self placementStrategy popup: self
+	self popupEvent: nil
 ]
 
 { #category : #accessing }
@@ -122,7 +136,45 @@ ToBasicWindowElement >> popupAnimationFactory: aValuable [
 { #category : #'api - displaying' }
 ToBasicWindowElement >> popupEvent: anEvent [
 
-	self placementStrategy popup: self event: anEvent
+	"I'm not ready to be visible because my bounds are not checked according to the popup layer extent"
+	self visibility: BlVisibility hidden.
+
+	" I have to set the position here "
+	self position: (self hook value: self value: anEvent).
+	self spaceLayer addChild: self.
+	
+	"I need to finalize my position as soon as my layout is up-to-date"
+	self whenLayoutedDoOnce: [
+		self checkBeforePopupIn: self spaceLayer ]
+]
+
+{ #category : #'api - displaying' }
+ToBasicWindowElement >> spaceLayer [ 
+
+	^ self widget space overlayLayer.
+
+]
+
+{ #category : #'property change hook' }
+ToBasicWindowElement >> whenWidgetChangedDo: aBlock [
+
+	"set a block to perform after that the text has been chanbed, and its action performed"
+
+	self property: #widget whenChangedDo: aBlock
+]
+
+{ #category : #accessing }
+ToBasicWindowElement >> widget [
+
+	^ widget 
+
+]
+
+{ #category : #accessing }
+ToBasicWindowElement >> widget: aWidget [
+
+	aWidget = widget ifTrue: [ ^ self ].
+	widget := aWidget
 ]
 
 { #category : #initialization }

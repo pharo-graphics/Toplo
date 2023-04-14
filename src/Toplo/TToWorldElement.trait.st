@@ -8,7 +8,7 @@ TToWorldElement >> openInInnerWindow [
 
 	| frame |
 	frame := ToInnerWindow new.
-	frame addChild: self.
+	frame root addChild: self.
 	frame openInWorld
 ]
 

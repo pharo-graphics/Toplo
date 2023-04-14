@@ -1,21 +1,27 @@
 Class {
 	#name : #ToPopupWindow,
 	#superclass : #ToBasicWindowElement,
-	#instVars : [
-		'#widget => ObservableSlot',
-		'#widgetPositionHandler'
-	],
 	#category : #'Toplo-Widget-Window'
 }
 
-{ #category : #'initialize-release' }
+{ #category : #'api - displaying' }
+ToPopupWindow >> checkBeforePopupIn: aWidget [
+
+	| gap rect |
+	" layout is done, aWindow bounds are now up-to-date"" check if aWindow position is ok according to aWindow extent and the space extent"
+	rect := self bounds inSpace asRectangle.
+	gap := rect amountToTranslateWithin: (0 asPoint extent: self space extent).
+	self position: self position + gap.
+	super checkBeforePopupIn: aWidget
+]
+
+{ #category : #'api - displaying' }
 ToPopupWindow >> close [
 
 	self widget ifNotNil: [ :w |
 		w dispatchEvent: (ToPopupWindowClosedEvent new
 				 window: self;
-				 yourself).
-		self uninstalledFromWidget: w ].
+				 yourself) ].
 	^ super close
 ]
 
@@ -26,30 +32,16 @@ ToPopupWindow >> defaultDresser [
 ]
 
 { #category : #initialization }
-ToPopupWindow >> defaultPlacementStrategy [
+ToPopupWindow >> defaultHook [
 
-	^ ToPopupPlacementStrategy new
+	^ [ :window :event |  window widget bounds inSpace bounds bottomLeft ]
 ]
 
 { #category : #initialization }
 ToPopupWindow >> initialize [
 
-	self class initializeSlots: self.
 	super initialize.
 	self initializeDresser
-]
-
-{ #category : #initialization }
-ToPopupWindow >> installedInWidget: aWidget [
-
-	widgetPositionHandler := BlEventHandler on: BlElementPositionChangedEvent do: [ :event | self close ].
-	widget addEventHandler: widgetPositionHandler
-]
-
-{ #category : #initialization }
-ToPopupWindow >> openPositionFromEvent: anEvent [
-
-	^ self widget bounds inSpace bounds bottomLeft
 ]
 
 { #category : #'api - displaying' }
@@ -61,34 +53,13 @@ ToPopupWindow >> popupEvent: anEvent [
 				 window: self;
 				 sourceEvent: anEvent;
 				 yourself) ].
-	self placementStrategy popup: self event: anEvent
+			
+	super popupEvent: anEvent
 ]
 
-{ #category : #initialization }
-ToPopupWindow >> uninstalledFromWidget: aWidget [
+{ #category : #'api - displaying' }
+ToPopupWindow >> spaceLayer [ 
 
-	aWidget ifNil: [ ^ self ].
-	aWidget removeEventHandler: widgetPositionHandler.
-	widgetPositionHandler := nil
-]
+	^ self widget space popupLayer.
 
-{ #category : #'property change hook' }
-ToPopupWindow >> whenWidgetChangedDo: aBlock [
-
-	"set a block to perform after that the text has been chanbed, and its action performed"
-
-	self property: #widget whenChangedDo: aBlock
-]
-
-{ #category : #accessing }
-ToPopupWindow >> widget [
-
-	^ widget 
-
-]
-
-{ #category : #accessing }
-ToPopupWindow >> widget: aWidget [
-
-	widget := aWidget
 ]

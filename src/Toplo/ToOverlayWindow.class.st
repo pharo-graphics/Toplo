@@ -1,11 +1,16 @@
 Class {
 	#name : #ToOverlayWindow,
 	#superclass : #ToBasicWindowElement,
-	#instVars : [
-		'overlayed'
-	],
 	#category : #'Toplo-Widget-Window'
 }
+
+{ #category : #'api - displaying' }
+ToOverlayWindow >> checkBeforePopupIn: aWidget [
+
+	" aWindow bounds are up-to-date, I can be visible "
+	self size: self widget size.
+	super checkBeforePopupIn: aWidget
+]
 
 { #category : #'t - initialization dresser' }
 ToOverlayWindow >> defaultDresser [ 
@@ -14,9 +19,9 @@ ToOverlayWindow >> defaultDresser [
 ]
 
 { #category : #initialization }
-ToOverlayWindow >> defaultPlacementStrategy [
+ToOverlayWindow >> defaultHook [
 
-	^ ToOverlayedPlacementStrategy new
+	^ [ :w :event | w widget bounds inSpace bounds topLeft ]
 ]
 
 { #category : #initialization }
@@ -24,30 +29,4 @@ ToOverlayWindow >> initialize [
 
 	super initialize.
 	self initializeDresser 
-]
-
-{ #category : #accessing }
-ToOverlayWindow >> overlayed [
-
-	^ overlayed 
-
-]
-
-{ #category : #accessing }
-ToOverlayWindow >> overlayed: aWidget [
-
-	overlayed := aWidget.
-	self overlayed
-		when: BlElementPositionInSpaceChangedEvent
-		do: [ :event |
-			self position: self overlayed bounds inSpace bounds topLeft ].
-	self overlayed
-		when: BlElementExtentChangedEvent
-		do: [ self size: self overlayed size ].
-	self overlayed
-		when: BlElementRemovedFromParentEvent
-		do: [ self close ].
-	self overlayed
-		when: BlElementRemovedFromSceneGraphEvent
-		do: [ self close ]
 ]

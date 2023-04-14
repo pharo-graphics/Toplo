@@ -226,7 +226,7 @@ ToLabel >> newEditorFrameForEditor: anEditor [
 
 	^ ToAnchoredWindow new
 		  popupAnimationFactory: nil;
-		  anchor: self innerElement;
+		  widget: self innerElement;
 		  in: [ :aw | aw root addChild: anEditor ];
 		  yourself
 ]

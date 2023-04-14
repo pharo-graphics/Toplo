@@ -403,7 +403,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 	               menu addItem: (ToButtonMenuItem new
 			                labelText: 'Add initial Items';
 			                whenClickedDo: [ :event :client |
-				                2000 timesRepeat: [ client data add: 'AAAAAAAAAAA' ] ]).
+				                client data addAll: ((1 to: 2000) collect: [:p | 'AAAAAAAAAAA'] ) ]).
 	               widget data ifNotEmpty: [
 		               menu addItem: (ToButtonMenuItem new
 				                labelText: 'Select all';
@@ -572,30 +572,34 @@ ToSandBox class >> example_Popup1 [
 
 	| e popup container but |
 	container := ToInnerWindow new
-		             relocate: 10 @ 10;
+		             position: 10 @ 10;
 		             size: 400 @ 200;
 		             yourself.
 	e := ToElement new
 		     background: Color lightGray;
 		     size: 100 @ 40;
-		     relocate: 50 @ 50.
+		     position: 50 @ 50.
 	popup := ToPopupWindow new widget: e.
-	but := ToWidget new size: 50@90.
+	but := ToWidget new size: 50 @ 90.
 	but addDresser: ToGeneralButtonDresser new.
-	but whenAnnouncement: ToClickAnnouncement do: [ self inform: 'Click'. popup close ]. 
+	but whenAnnouncement: ToClickAnnouncement do: [
+		self inform: 'Click'.
+		popup close ].
 	popup root addChild: but.
 	popup addEventHandler: (BlEventHandler
 			 on: BlSpaceMouseDownOutsideEvent
-			 do: [ :event | self inform: 'OUTSIDE']).
+			 do: [ :event | self inform: 'OUTSIDE' ]).
 	e addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
-			 do: [ :evt | 
+			 do: [ :evt |
 				 popup isAttachedToSceneGraph ifFalse: [ popup popupEvent: evt ] ]).
 	popup addEventHandler: (BlEventHandler
 			 on: BlClickEvent
-			 do: [ :evt | self inform: 'CLICK'. popup close ]).
+			 do: [ :evt |
+				 self inform: 'CLICK'.
+				 popup close ]).
 
-	container addChild: e.
+	container root addChild: e.
 	container openInOBlSpace
 ]
 
@@ -661,7 +665,7 @@ ToSandBox class >> example_anchoredWidow1 [
 		     position: 50 @ 50;
 		     background: Color yellow;
 		     border: (BlBorder paint: Color red).
-	w anchor: e.
+	w widget: e.
 	w root addChild: (ToAlbum new
 			 dresser: ToLabelEditorDresser new;
 			 text: 'bla bla bla').
@@ -796,45 +800,61 @@ ToSandBox class >> example_menu1 [
 	menu layout cellSpacing: 5.
 	menu globalColumnWidth: 22.
 	menu label: (ToLabel new text: 'File').
-	menu icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	menu icon:
+		(ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
 	menu addItem: (ToButtonMenuItem new
 			 label: (ToLabel new text: 'Open file');
-			 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #config))).
-	menu addItem: (ToButtonMenuItem new label: (ToLabel new text: 'Export')).
+			 icon:
+				 (ToImage new innerImage: (Smalltalk ui icons iconNamed: #config))).
+	menu addItem:
+		(ToButtonMenuItem new label: (ToLabel new text: 'Export')).
 	menu addSeparator.
-	
+
 	sub := ToMenu new label: (ToLabel new text: 'Save All').
-	sub addItem: (ToButtonMenuItem new label: (ToLabel new text: 'Locally')).
-	
-	subsub := ToMenu new label: (ToLabel new text: 'Externally'); icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
-	subsub addItem: (ToButtonMenuItem new label: (ToLabel new text: 'Here')).
+	sub addItem:
+		(ToButtonMenuItem new label: (ToLabel new text: 'Locally')).
+
+	subsub := ToMenu new
+		          label: (ToLabel new text: 'Externally');
+		          icon:
+			          (ToImage new innerImage:
+					           (Smalltalk ui icons iconNamed: #solidMenu)).
+	subsub addItem:
+		(ToButtonMenuItem new label: (ToLabel new text: 'Here')).
 
 	sub addItem: subsub.
-	
+
 	menu addItem: sub.
-	menu relocate: 10@10.
+	menu position: 10 @ 10.
 	menu openInInnerWindow
 ]
 
 { #category : #menu }
 ToSandBox class >> example_menu2 [
 
-	| menu  |
+	| menu |
 	menu := ToMenu new.
 	menu label: (ToLabel text: 'File').
-	menu addItem: (ToCheckMenuItem new label: (ToLabel text:'Align right'); beLabelFirst; beJustified).
-	menu addItem: (ToCheckMenuItem new label: (ToLabel text:'Other'); beLabelFirst; columnWidth: 200).
-	menu relocate: 10@10.
-	menu openInNewSpace
+	menu addItem: (ToCheckMenuItem new
+			 label: (ToLabel text: 'Align right');
+			 beLabelFirst;
+			 beJustified).
+	menu addItem: (ToCheckMenuItem new
+			 label: (ToLabel text: 'Other');
+			 beLabelFirst;
+			 columnWidth: 200).
+	menu position: 10 @ 10.
+	menu openInOBlSpace
 ]
 
 { #category : #menu }
 ToSandBox class >> example_menu2_2 [
 
-	| menu  sub |
+	| menu sub |
 	menu := ToMenu new.
-	menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
-	
+	menu icon:
+		(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+
 	sub := ToMenu new labelText: 'Save All'.
 	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
 	menu addItem: sub.
@@ -842,8 +862,8 @@ ToSandBox class >> example_menu2_2 [
 	menu addItem: (ToButtonMenuItem new labelText: 'Export').
 	menu addItem: (ToCheckMenuItem new labelText: 'Align right').
 	menu addSeparator.
-	
-	menu relocate: 10@10.
+
+	menu position: 10 @ 10.
 	menu openInInnerWindow
 ]
 
@@ -861,17 +881,21 @@ ToSandBox class >> example_menu3 [
 	menu addItem: (ToButtonMenuItem new labelText: 'Export').
 	menu addItem: (ToCheckMenuItem new labelText: 'Align right').
 	menu addSeparator.
-	
-	sub := ToMenu new labelText: 'Save All'; withoutLeftColumn.
+
+	sub := ToMenu new
+		       labelText: 'Save All';
+		       withoutLeftColumn.
 	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
-	
-	subsub := ToMenu new labelText: 'Externally'; withoutLeftColumn.
+
+	subsub := ToMenu new
+		          labelText: 'Externally';
+		          withoutLeftColumn.
 	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
 
 	sub addItem: subsub.
-	
+
 	menu addItem: sub.
-	menu relocate: 10@10.
+	menu position: 10 @ 10.
 	menu openInInnerWindow
 ]
 
@@ -881,22 +905,27 @@ ToSandBox class >> example_menu4 [
 	| menu sub subsub |
 	menu := ToMenu new.
 	menu labelText: 'File'.
-	menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+	menu icon:
+		(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
 	menu addItem: (ToButtonMenuItem new labelText: 'Open file').
 	menu addItem: (ToButtonMenuItem new labelText: 'Export').
 	menu addItem: (ToRadioMenuItem new labelText: 'Align right').
 	menu addSeparator.
-	
+
 	sub := ToMenu new labelText: 'Save All'.
 	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
-	
-	subsub := ToMenu new labelText: 'Externally'; icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+
+	subsub := ToMenu new
+		          labelText: 'Externally';
+		          icon:
+			          (ToImage inner:
+					           (Smalltalk ui icons iconNamed: #solidMenu)).
 	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
 
-	sub addItem: (subsub).
-	
+	sub addItem: subsub.
+
 	menu addItem: sub.
-	menu relocate: 10@10.
+	menu position: 10 @ 10.
 	menu openInInnerWindow
 ]
 
@@ -910,12 +939,20 @@ ToSandBox class >> example_menu5 [
 
 	menu addItem: (ToButtonMenuItem new labelText: 'Export').
 	grp := ToCheckableGroup new.
-	right := ToRadioMenuItem new labelText: 'Right'; id: #right.
-	center := ToRadioMenuItem new labelText: 'Center'; id: #center.
-	left := ToRadioMenuItem new labelText: 'Left'; id: #left.
-	grp whenChangedDo: [ :ann | ('checked: ' , ann checkedButtons asString , ' unchecked: ', ann uncheckedButtons asString) traceCr].
+	right := ToRadioMenuItem new
+		         labelText: 'Right';
+		         id: #right.
+	center := ToRadioMenuItem new
+		          labelText: 'Center';
+		          id: #center.
+	left := ToRadioMenuItem new
+		        labelText: 'Left';
+		        id: #left.
+	grp whenChangedDo: [ :ann |
+		('checked: ' , ann checkedButtons asString , ' unchecked: '
+		 , ann uncheckedButtons asString) traceCr ].
 	center startChecked.
-	
+
 	grp add: right.
 	grp add: center.
 	grp add: left.
@@ -934,7 +971,7 @@ ToSandBox class >> example_menu5 [
 	sub addItem: subsub.
 
 	menu addItem: sub.
-	menu relocate: 10 @ 10.
+	menu position: 10 @ 10.
 	menu openInInnerWindow
 ]
 
@@ -970,12 +1007,14 @@ ToSandBox class >> example_menu6 [
 		        labelText: 'Left';
 		        id: #left.
 	center startChecked.
-	grp addAll: { 
+	grp addAll: {
 			right.
 			center.
 			left }.
 
-	grp whenChangedDo: [ :ann | ('checked: ' , ann checkedButtons asString , ' unchecked: ', ann uncheckedButtons asString) traceCr].
+	grp whenChangedDo: [ :ann |
+		('checked: ' , ann checkedButtons asString , ' unchecked: '
+		 , ann uncheckedButtons asString) traceCr ].
 
 	menu addSeparator.
 
@@ -1006,11 +1045,13 @@ ToSandBox class >> example_menu6 [
 		        labelText: 'Left';
 		        id: #left.
 	center startChecked.
-	grp addAll: { 
+	grp addAll: {
 			right.
 			center.
 			left }.
-	grp whenChangedDo: [ :ann | ('checked: ' , ann checkedButtons asString , ' unchecked: ', ann uncheckedButtons asString) traceCr].
+	grp whenChangedDo: [ :ann |
+		('checked: ' , ann checkedButtons asString , ' unchecked: '
+		 , ann uncheckedButtons asString) traceCr ].
 
 	menu addSeparator.
 
@@ -1041,12 +1082,14 @@ ToSandBox class >> example_menu6 [
 		        labelText: 'Left';
 		        id: #left.
 	center startChecked.
-	grp addAll: { 
+	grp addAll: {
 			right.
 			center.
 			left }.
 
-	grp whenChangedDo: [ :ann | ('checked: ' , ann checkedButtons asString , ' unchecked: ', ann uncheckedButtons asString) traceCr].
+	grp whenChangedDo: [ :ann |
+		('checked: ' , ann checkedButtons asString , ' unchecked: '
+		 , ann uncheckedButtons asString) traceCr ].
 
 	center startChecked.
 
@@ -1076,13 +1119,13 @@ ToSandBox class >> example_menu6 [
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';
-				beLabelFirst;
+		      beLabelFirst;
 		      hMatchParent.
 	th columnWidth: 100.
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';
-				beLabelFirst;
+		      beLabelFirst;
 		      hMatchParent.
 	th layout cellSpacing: 10.
 	menu addItem: (ToCustomMenuItem new innerElement: th).
@@ -1111,7 +1154,7 @@ ToSandBox class >> example_menu6 [
 	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
 	menu addItem: sub.
 
-	menu relocate: 10 @ 10.
+	menu position: 10 @ 10.
 	menu openInInnerWindow
 ]
 
@@ -1127,7 +1170,7 @@ ToSandBox class >> example_overlayWidow1 [
 		     position: 50 @ 50;
 		     background: Color yellow;
 		     border: (BlBorder paint: Color red).
-	w overlayed: e.
+	w widget: e.
 	e openInInnerWindow.
 	w popup
 ]

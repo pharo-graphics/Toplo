@@ -26,6 +26,12 @@ ToContextMenu >> close [
 ]
 
 { #category : #initialization }
+ToContextMenu >> defaultHook [
+
+	^ [ :w :event | event position ]
+]
+
+{ #category : #initialization }
 ToContextMenu >> initialize [
 
 	self class initializeSlots: self.
@@ -48,12 +54,6 @@ ToContextMenu >> installedInWidget: aWidget [
 	aWidget addEventHandler: widgetExtentChangeHandler.
 	aWidget addEventHandler: widgetScrollHandler.
 
-]
-
-{ #category : #initialization }
-ToContextMenu >> openPositionFromEvent: anEvent [
-
-	^ anEvent position
 ]
 
 { #category : #'api - displaying' }

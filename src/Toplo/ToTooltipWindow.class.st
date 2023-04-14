@@ -35,6 +35,12 @@ ToTooltipWindow >> defaultDresser [
 ]
 
 { #category : #initialization }
+ToTooltipWindow >> defaultHook [
+
+	^ [ :w :event | event position x @ (w widget localPointToGlobal: 0 @ w widget height) y + self vgap ]
+]
+
+{ #category : #initialization }
 ToTooltipWindow >> defaultLabel [
 
 	^ ToLabel new
@@ -60,7 +66,7 @@ ToTooltipWindow >> installedInWidget: aWidget [
 	super installedInWidget: aWidget.
 	aWidget ifNil: [ ^ self ].
 	widgetWithTooltipEventHandler := ToWidgetWithTooltipEventHandler new widget: aWidget.
-	aWidget addEventFilter: widgetWithTooltipEventHandler 
+	aWidget addEventFilter: widgetWithTooltipEventHandler
 ]
 
 { #category : #accessing }
@@ -76,12 +82,6 @@ ToTooltipWindow >> label: aLabel [
 	label := aLabel.
 	self root addChild: label.
 
-]
-
-{ #category : #initialization }
-ToTooltipWindow >> openPositionFromEvent: anEvent [
-
-	^ anEvent position x @ (self widget localPointToGlobal: 0 @ self widget height) y + self vgap
 ]
 
 { #category : #initialization }

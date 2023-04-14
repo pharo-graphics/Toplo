@@ -230,7 +230,27 @@ ToInfiniteElement >> nodeFactory: aNodeFactory [
 { #category : #'private - commands' }
 ToInfiniteElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount [
 
-	super offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount
+	| selectedAfter |
+	
+	" deselect items after "
+	self primarySelection
+		dispatchSelectionChangedAfter: [
+			selectedAfter := self selectedIndexes select: [ :idx | idx >= aStartPosition ].
+			selectedAfter do: [ :idx |
+				self primarySelection deselectIndex: idx ] ]
+		to: self.
+
+	super
+		offsetPositionRecordsForInsert: aStartPosition
+		itemCount: anItemCount.
+
+	" Have to wait for the layout done to update the selection decorations (that depends on items bounds) "
+	self whenLayoutedDoOnce: [
+		self primarySelection
+			dispatchSelectionChangedAfter: [
+				selectedAfter reverseDo: [ :idx |
+					self primarySelection addToSelection: idx + anItemCount ] ]
+			to: self ]
 ]
 
 { #category : #'private - commands' }
@@ -246,6 +266,7 @@ ToInfiniteElement >> offsetPositionRecordsForRemove: aStartPosition itemCount: a
 		offsetPositionRecordsForRemove: aStartPosition
 		itemCount: anItemCount
 		applyToPreLayout: applyToPreLayout.
+
 	self primarySelection
 		dispatchSelectionChangedAfter: [
 			self primarySelection
@@ -337,8 +358,7 @@ self flag: 'to be revised. do not work well with editable combobox'.
 	self primarySelection
 		dispatchSelectionChangedAfter: [ " ensure that the layout is computed before updating the selection "
 			self primarySelection selectIndex: anIndex.
-			self requestLayout.
-			self whenLayoutedDoOnce: [ self scrollToIndex: anIndex ] ]
+			self scrollToIndex: anIndex ]
 		to: self
 ]
 

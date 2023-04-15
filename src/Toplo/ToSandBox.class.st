@@ -35,6 +35,7 @@ ToSandBox class >> example_BasicComboBoxWith5Elements [
 	combo data addAll: ((1 to: 5) collect: [:i | '#', i asString]).
 	combo selectIndex: 3.
 	win root addChild: combo.
+	"combo inspect."
 	win openInWorld
 ]
 
@@ -285,8 +286,8 @@ ToSandBox class >> example_ListWith20Elements [
 
 	| l |
 	l := ToListElement new.
-	l data addAll: ((1 to: 20) collect: [:i | i asString]).
-	l selectIndex: 18.
+	l data addAll: ((1 to: 6) collect: [:i | i asString]).
+	l selectIndex: 4.
 	l openInInnerWindow
 ]
 

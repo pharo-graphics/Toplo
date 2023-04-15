@@ -74,7 +74,7 @@ ToComboBox >> defaultListElement [
 { #category : #initialization }
 ToComboBox >> defaultListElementSize [
 
-		^ 250@150
+		^ 250@130
 ]
 
 { #category : #initialization }
@@ -172,8 +172,7 @@ ToComboBox >> insertData: aData [
 		self data add: aData.
 		idx := self dataIndexOf: aData ].
 	self prepareListElement.
-	self selectIndex: idx.
-	'selectIndex: ' trace. idx traceCr
+	self selectIndex: idx
 ]
 
 { #category : #accessing }
@@ -356,7 +355,13 @@ ToComboBox >> scrollToIndex: anIndex [
 ToComboBox >> selectIndex: anIndex [
 
 	self privateSelectedIndex: anIndex.
-	self dispatchEvent: ToComboBoxSelectedIndexChangeEvent new	
+	self dispatchEvent: ToComboBoxSelectedIndexChangeEvent new.
+	anIndex isZero ifTrue: [ ^ self ].
+	listElement whenLayoutedDoOnce: [
+		self listElement selectIndex: self selectedIndex.
+		"self listElement scrollToIndex: self selectedIndex."
+		"listElement whenLayoutedDoOnce: [
+			self listElement selectIndex: self selectedIndex ]" ]
 ]
 
 { #category : #accessing }

@@ -129,7 +129,8 @@ ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 	| prevIndexes currentIndexes |
 	prevIndexes := self primarySelectionIndexes copy.
 	aBlock value.
-	currentIndexes := self primarySelectionIndexes.			
+	currentIndexes := self primarySelectionIndexes.
+	prevIndexes = currentIndexes ifTrue: [ ^ self ].
 	self dispatchEvent: (ToInfiniteSelectionChangedEvent from: prevIndexes to: currentIndexes)
 ]
 
@@ -233,12 +234,9 @@ ToInfiniteElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: a
 	| selectedAfter |
 	
 	" deselect items after "
-	self primarySelection
-		dispatchSelectionChangedAfter: [
-			selectedAfter := self selectedIndexes select: [ :idx | idx >= aStartPosition ].
-			selectedAfter do: [ :idx |
-				self primarySelection deselectIndex: idx ] ]
-		to: self.
+	
+	selectedAfter := self selectedIndexes select: [ :idx | idx >= aStartPosition ].
+	selectedAfter do: [ :idx | self primarySelection deselectIndex: idx ].
 
 	super
 		offsetPositionRecordsForInsert: aStartPosition
@@ -358,7 +356,7 @@ self flag: 'to be revised. do not work well with editable combobox'.
 	self primarySelection
 		dispatchSelectionChangedAfter: [ " ensure that the layout is computed before updating the selection "
 			self primarySelection selectIndex: anIndex.
-			self scrollToIndex: anIndex ]
+			self whenLayoutedDoOnce: [ self scrollToIndex: anIndex ] ]
 		to: self
 ]
 

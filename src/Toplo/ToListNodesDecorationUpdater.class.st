@@ -33,6 +33,15 @@ ToListNodesDecorationUpdater >> newDecorationElement [
 	^ self subclassResponsibility 
 ]
 
+{ #category : #'infinite element changes' }
+ToListNodesDecorationUpdater >> privateUpdateDecorationsIn: aListElement [
+	"add a ListDecorationElement for each group of adjacent selected nodes "
+
+	self resetDecorations.	
+	decorations addAll: (self selectionDecorationElementsIn: aListElement).
+	aListElement addChildren: decorations
+]
+
 { #category : #private }
 ToListNodesDecorationUpdater >> selectionDecorationElementsIn: aListElement [
 	" return a collection with instances of ListSelectionDecorationElement "
@@ -48,8 +57,9 @@ ToListNodesDecorationUpdater >> selectionDecorationElementsIn: aListElement [
 ToListNodesDecorationUpdater >> updateDecorationsIn: aListElement [
 	"add a ListDecorationElement for each group of adjacent selected nodes "
 
-	self resetDecorations.
-	decorations addAll:
-		(self selectionDecorationElementsIn: aListElement).
-	aListElement addChildren: decorations
+	"aListElement infinite layout hasPendingScrollPosition ifTrue: [
+		aListElement infinite whenLayoutedDoOnce: [
+			self privateUpdateDecorationsIn: aListElement ].
+		^ self ]."
+	self privateUpdateDecorationsIn: aListElement
 ]

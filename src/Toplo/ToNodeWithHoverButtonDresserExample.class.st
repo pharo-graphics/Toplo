@@ -27,6 +27,7 @@ ToNodeWithHoverButtonDresserExample >> hover: anElement event: anEvent [
 	self changeBackground ifTrue: [
 		anElement background: (Color lightGray alpha: 0.2) ].
 	nodeButton := ToButton new labelText: 'Do something'.
+	nodeButton geometry: (BlRoundedRectangleGeometry cornerRadius: 12).
 	nodeButton whenClickedDo: [ self inform: 'CLICK' ].
 	nodeButton constraintsDo: [ :c |
 		c ignoreByLayout.
@@ -54,7 +55,7 @@ ToNodeWithHoverButtonDresserExample >> onInstalledIn: anElement [
 	anElement
 		clipChildren: false;
 		outskirts: BlOutskirts outside;
-		geometry: (BlRoundedRectangleGeometry cornerRadius: 10);
+		geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
 		margin: (BlInsets all: 6);
 		padding: (BlInsets all: 6);
 		hMatchParent;

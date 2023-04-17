@@ -5,7 +5,8 @@ Class {
 		'extentChangeHandler',
 		'scrollHandler',
 		'decorations',
-		'listElement'
+		'listElement',
+		'fillingHandler'
 	],
 	#category : #'Toplo-Widget-List'
 }
@@ -44,15 +45,20 @@ ToListDecorationUpdater >> onInstalledIn: aListElement [
 
 	extentChangeHandler := BlEventHandler
 		                       on: BlElementExtentChangedEvent
-		                       do: [ :evt | self extentChangedIn: aListElement ].
+		                       do: [ :evt |
+		                       self extentChangedIn: aListElement ].
 
 	scrollHandler := BlEventHandler
 		                 on: BlElementScrolledEvent
 		                 do: [ :evt | self scrollEventIn: aListElement ].
 
-	aListElement infinite addEventHandler: extentChangeHandler.
-	aListElement infinite addEventHandler: scrollHandler.
+	fillingHandler := BlEventHandler
+		                  on: OBlInfiniteScrolledWhileFilling
+		                  do: [ :evt | self scrollEventIn: aListElement ].
 
+	aListElement infinite addEventHandler: fillingHandler.
+	aListElement infinite addEventHandler: extentChangeHandler.
+	aListElement infinite addEventHandler: scrollHandler
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -60,6 +66,7 @@ ToListDecorationUpdater >> onUninstalledIn: aListElement [
 
 	aListElement infinite removeEventHandler: extentChangeHandler.
 	aListElement infinite removeEventHandler: scrollHandler.
+	aListElement infinite removeEventHandler: fillingHandler.
 	listElement := nil
 ]
 

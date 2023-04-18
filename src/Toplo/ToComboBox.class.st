@@ -358,10 +358,7 @@ ToComboBox >> selectIndex: anIndex [
 	self dispatchEvent: ToComboBoxSelectedIndexChangeEvent new.
 	anIndex isZero ifTrue: [ ^ self ].
 	listElement whenLayoutedDoOnce: [
-		self listElement selectIndex: self selectedIndex.
-		"self listElement scrollToIndex: self selectedIndex."
-		"listElement whenLayoutedDoOnce: [
-			self listElement selectIndex: self selectedIndex ]" ]
+		self listElement selectIndex: self selectedIndex ]
 ]
 
 { #category : #accessing }

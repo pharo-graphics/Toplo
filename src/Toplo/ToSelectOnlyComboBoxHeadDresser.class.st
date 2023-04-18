@@ -22,14 +22,25 @@ ToSelectOnlyComboBoxHeadDresser >> whenAddedToParent: anElement [
 
 	super 	whenAddedToParent: anElement.
 
-	headElementFactoryHandler := BlEventHandler on: ToComboBoxHeadElementFactoryChangeEvent do: [ :event | self newDataElementFactory: event factory in: anElement].
-	comboBox addEventHandler: headElementFactoryHandler
+	headElementFactoryHandler := BlEventHandler 
+												on: ToComboBoxHeadElementFactoryChangeEvent 
+												do: [ :event | self newDataElementFactory: event factory in: anElement].
+	comboBox addEventHandler: headElementFactoryHandler.
+
+	downShortcut := BlShortcutWithAction new
+			 combination: BlKeyCombination arrowDown ;
+			 action: [ :event | comboBox popupEvent: event ];
+			 name: 'Popup';
+			 yourself.
+	anElement addShortcut: downShortcut
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToSelectOnlyComboBoxHeadDresser >> whenRemovedFromParent: anElement [
 	
 	comboBox removeEventHandler: headElementFactoryHandler.
+	comboBox removeShortcut: downShortcut.
+
 	
 	super whenRemovedFromParent: anElement
 

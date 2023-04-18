@@ -88,31 +88,23 @@ ToComboBoxHeadDresser >> whenAddedToParent: anElement [
 	
 	selectedIndexHandler := BlEventHandler on:  ToComboBoxSelectedIndexChangeEvent do: [ :event | self selectedIndexChangedIn: anElement ].
 	headPlaceholderHandler := BlEventHandler on:  ToComboBoxHeadPlaceholderChangeEvent do: [ :event | self newPlaceholder: event placeholder in: anElement].
-
-	comboBox addEventHandler: selectedIndexHandler.
-	comboBox addEventHandler: headPlaceholderHandler.
-	
 	mouseDownHandler := (BlEventHandler
 			 on: BlMouseDownEvent
 			 do: [ :evt | comboBox requestFocus. comboBox popupOrCloseEvent: evt ]).
-	anElement addEventHandler: mouseDownHandler.
 
-	downShortcut := BlShortcutWithAction new
-			 combination: BlKeyCombination arrowDown ;
-			 action: [ :event | comboBox popupEvent: event ];
-			 name: 'Popup';
-			 yourself.
-	comboBox addShortcut: downShortcut
+	anElement addEventHandler: mouseDownHandler.
+	comboBox addEventHandler: selectedIndexHandler.
+	comboBox addEventHandler: headPlaceholderHandler.
+	
+
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToComboBoxHeadDresser >> whenRemovedFromParent: anElement [
 
-	anElement removeEventHandler: mouseDownHandler.
 	comboBox removeEventHandler: selectedIndexHandler.
 	comboBox removeEventHandler: headPlaceholderHandler.
-
-	comboBox removeShortcut: downShortcut.
+	anElement removeEventHandler: mouseDownHandler.
 
 	mouseDownHandler := nil.
 	downShortcut := nil.

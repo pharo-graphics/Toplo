@@ -55,15 +55,6 @@ ToEditableComboBoxHead >> placeholder: anElement [
 	self textField placeholder: (anElement ifNil: [ self defaultPlaceholder ])
 ]
 
-{ #category : #accessing }
-ToEditableComboBoxHead >> selectData: aData [
-
-	self hidePlaceholder.
-	self textField text: (self dataToTextConverter value: aData)
-
-
-]
-
 { #category : #'t - placeholder show/hide' }
 ToEditableComboBoxHead >> showPlaceholder [
 

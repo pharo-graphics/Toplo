@@ -59,6 +59,15 @@ ToDataEditingComboBoxHead >> initialize [
 ]
 
 { #category : #accessing }
+ToDataEditingComboBoxHead >> selectData: aData [
+
+	self hidePlaceholder.
+	self textField text: (self dataToTextConverter value: aData)
+
+
+]
+
+{ #category : #accessing }
 ToDataEditingComboBoxHead >> textToDataConverter [
 
 	^ textToDataConverter
@@ -72,6 +81,11 @@ ToDataEditingComboBoxHead >> textToDataConverter: aValuable [
 
 { #category : #'data editing' }
 ToDataEditingComboBoxHead >> whenCancelRequested: cancelRequested in: aComboBox [
+
+	aComboBox selectedIndex isZero ifTrue: [
+		self textField text: ''.
+		^ self noDataSelected ].
+	self selectData: aComboBox selectedData
 ]
 
 { #category : #'data editing' }

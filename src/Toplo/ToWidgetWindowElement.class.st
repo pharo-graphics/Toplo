@@ -1,5 +1,5 @@
 Class {
-	#name : #ToBasicWindowElement,
+	#name : #ToWidgetWindowElement,
 	#superclass : #ToWindowElement,
 	#traits : 'TToWidget',
 	#classTraits : 'TToWidget classTrait',
@@ -15,19 +15,19 @@ Class {
 }
 
 { #category : #accessing }
-ToBasicWindowElement >> animate [
+ToWidgetWindowElement >> animate [
 
 	^ animate
 ]
 
 { #category : #accessing }
-ToBasicWindowElement >> animate: aBoolean [
+ToWidgetWindowElement >> animate: aBoolean [
 
 	animate := aBoolean
 ]
 
 { #category : #'api - displaying' }
-ToBasicWindowElement >> checkBeforePopupIn: aWidget [
+ToWidgetWindowElement >> checkBeforePopupIn: aWidget [
 
 	| anim |
 	self visibility: BlVisibility visible.
@@ -38,7 +38,7 @@ ToBasicWindowElement >> checkBeforePopupIn: aWidget [
 ]
 
 { #category : #'api - displaying' }
-ToBasicWindowElement >> cleanUp [
+ToWidgetWindowElement >> cleanUp [
 
 	self flag: 'keeping track of the delete animation is required but why exactly ?'.
 	" need to remove the delate animation to avoid premature popup remove (don't know exactly why)"
@@ -48,7 +48,7 @@ ToBasicWindowElement >> cleanUp [
 ]
 
 { #category : #'api - displaying' }
-ToBasicWindowElement >> close [
+ToWidgetWindowElement >> close [
 
 	self cleanUp.
 
@@ -56,46 +56,58 @@ ToBasicWindowElement >> close [
 		deleteAnimation := deleteAnimationFactory value.
 		deleteAnimation onFinishedDo: [ 
 			super close.
+			self dispatchClosedEvent.
 			self cleanUp ].
 		self addAnimation: deleteAnimation.
 		^ self ].
 
-	super close
+	super close.
+	self dispatchClosedEvent
+
 ]
 
 { #category : #initialization }
-ToBasicWindowElement >> defaultHook [
+ToWidgetWindowElement >> defaultHook [
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }
-ToBasicWindowElement >> deleteAnimationFactory [
+ToWidgetWindowElement >> deleteAnimationFactory [
 
 	^ deleteAnimationFactory
 ]
 
 { #category : #accessing }
-ToBasicWindowElement >> deleteAnimationFactory: aValuable [
+ToWidgetWindowElement >> deleteAnimationFactory: aValuable [
 
 	deleteAnimationFactory := aValuable
 ]
 
+{ #category : #'api - displaying' }
+ToWidgetWindowElement >> dispatchClosedEvent [
+
+	self widget ifNotNil: [ :w |
+		w dispatchEvent: (ToWidgetWindowClosedEvent new
+				 window: self;
+				 yourself) ]
+]
+
 { #category : #accessing }
-ToBasicWindowElement >> hook [
+ToWidgetWindowElement >> hook [
 
 	^ hook
 ]
 
 { #category : #accessing }
-ToBasicWindowElement >> hook: aValuable [
+ToWidgetWindowElement >> hook: aValuable [
 	" takes the window as argument. Computes the window position according to the given window anchor element "
 	
 	hook := aValuable
 ]
 
 { #category : #initialization }
-ToBasicWindowElement >> initialize [
+ToWidgetWindowElement >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
@@ -116,25 +128,25 @@ ToBasicWindowElement >> initialize [
 ]
 
 { #category : #'api - displaying' }
-ToBasicWindowElement >> popup [
+ToWidgetWindowElement >> popup [
 
 	self popupEvent: nil
 ]
 
 { #category : #accessing }
-ToBasicWindowElement >> popupAnimationFactory [
+ToWidgetWindowElement >> popupAnimationFactory [
 
 	^ popupAnimationFactory
 ]
 
 { #category : #accessing }
-ToBasicWindowElement >> popupAnimationFactory: aValuable [
+ToWidgetWindowElement >> popupAnimationFactory: aValuable [
 
 	popupAnimationFactory := aValuable
 ]
 
 { #category : #'api - displaying' }
-ToBasicWindowElement >> popupEvent: anEvent [
+ToWidgetWindowElement >> popupEvent: anEvent [
 
 	"I'm not ready to be visible because my bounds are not checked according to the popup layer extent"
 	self visibility: BlVisibility hidden.
@@ -149,14 +161,14 @@ ToBasicWindowElement >> popupEvent: anEvent [
 ]
 
 { #category : #'api - displaying' }
-ToBasicWindowElement >> spaceLayer [ 
+ToWidgetWindowElement >> spaceLayer [ 
 
 	^ self widget space overlayLayer.
 
 ]
 
 { #category : #'property change hook' }
-ToBasicWindowElement >> whenWidgetChangedDo: aBlock [
+ToWidgetWindowElement >> whenWidgetChangedDo: aBlock [
 
 	"set a block to perform after that the text has been chanbed, and its action performed"
 
@@ -164,27 +176,27 @@ ToBasicWindowElement >> whenWidgetChangedDo: aBlock [
 ]
 
 { #category : #accessing }
-ToBasicWindowElement >> widget [
+ToWidgetWindowElement >> widget [
 
 	^ widget 
 
 ]
 
 { #category : #accessing }
-ToBasicWindowElement >> widget: aWidget [
+ToWidgetWindowElement >> widget: aWidget [
 
 	aWidget = widget ifTrue: [ ^ self ].
 	widget := aWidget
 ]
 
 { #category : #initialization }
-ToBasicWindowElement >> withAnimation [
+ToWidgetWindowElement >> withAnimation [
 
 	self animate: true
 ]
 
 { #category : #initialization }
-ToBasicWindowElement >> withoutAnimation [
+ToWidgetWindowElement >> withoutAnimation [
 
 	self animate: false
 ]

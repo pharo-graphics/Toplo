@@ -5,21 +5,43 @@ Class {
 }
 
 { #category : #'api - install/uninstall  hook' }
+ToDataEditingComboBoxHeadDresser >> newListClosedHandlerIn: anElement [
+
+	^ BlEventHandler
+		  on: ToWidgetWindowClosedEvent
+		  do: [ :event | anElement textField requestFocus ]
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToDataEditingComboBoxHeadDresser >> newMouseDownHandlerIn: anElement [
+
+	^ BlEventHandler
+		  on: BlMouseDownEvent
+		  do: [ :evt |
+			  comboBox popupOrCloseEvent: evt.
+			  evt target = anElement textField ifFalse: [
+				  self listElementRequestFocus ] ]
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToDataEditingComboBoxHeadDresser >> whenAddedToParent: anElement [
 
 	super whenAddedToParent: anElement.
 
 	anElement textField whenSaveRequestedDo: [ :saveRequested |
-		anElement whenSaveRequested: saveRequested in: comboBox].
+		anElement whenSaveRequested: saveRequested in: comboBox ].
 
 	anElement textField whenCancelRequestedDo: [ :cancelRequested |
-		anElement whenCancelRequested: cancelRequested in: comboBox].
+		anElement whenCancelRequested: cancelRequested in: comboBox ].
 
 	downShortcut := BlShortcutWithAction new
-			 combination: BlKeyCombination arrowDown ;
-			 action: [ :event | comboBox requestFocus.  comboBox popupOrCloseEvent: event ];
-			 name: 'Popup';
-			 yourself.
+		                combination: BlKeyCombination arrowDown;
+		                action: [ :event |
+			                comboBox isOpened 
+				                ifFalse: [ comboBox popupEvent: event ].
+			                self listElementRequestFocus ];
+		                name: 'Popup';
+		                yourself.
 	anElement textField infinite addShortcut: downShortcut
 ]
 

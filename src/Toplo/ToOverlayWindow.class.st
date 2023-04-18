@@ -1,6 +1,6 @@
 Class {
 	#name : #ToOverlayWindow,
-	#superclass : #ToBasicWindowElement,
+	#superclass : #ToWidgetWindowElement,
 	#category : #'Toplo-Widget-Window'
 }
 

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAnchoredWindow,
-	#superclass : #ToBasicWindowElement,
+	#superclass : #ToWidgetWindowElement,
 	#category : #'Toplo-Widget-Window'
 }
 

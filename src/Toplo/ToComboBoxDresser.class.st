@@ -34,6 +34,8 @@ ToComboBoxDresser >> onInstalledIn: anElement [
 		                      on: ToInfiniteClickOnDataEvent
 		                      do: [ :event |
 		                      anElement clickOnDataEvent: event ].
+	
+	
 	anElement listElement infinite addEventHandler: clickOnDataHandler.
 	anElement listElement addEventHandler: placeholderAddedHandler.
 	anElement listElement addEventHandler: placeholderRemovedHandler.

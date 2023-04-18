@@ -1,6 +1,6 @@
 Class {
 	#name : #ToPopupWindow,
-	#superclass : #ToBasicWindowElement,
+	#superclass : #ToWidgetWindowElement,
 	#category : #'Toplo-Widget-Window'
 }
 
@@ -13,16 +13,6 @@ ToPopupWindow >> checkBeforePopupIn: aWidget [
 	gap := rect amountToTranslateWithin: (0 asPoint extent: self space extent).
 	self position: self position + gap.
 	super checkBeforePopupIn: aWidget
-]
-
-{ #category : #'api - displaying' }
-ToPopupWindow >> close [
-
-	self widget ifNotNil: [ :w |
-		w dispatchEvent: (ToPopupWindowClosedEvent new
-				 window: self;
-				 yourself) ].
-	^ super close
 ]
 
 { #category : #'t - initialization dresser' }
@@ -49,7 +39,7 @@ ToPopupWindow >> popupEvent: anEvent [
 
 	self cleanUp.
 	self widget ifNotNil: [ :w |
-		w dispatchEvent: (ToPopupWindowOpenedEvent new
+		w dispatchEvent: (ToWidgetWindowOpenedEvent new
 				 window: self;
 				 sourceEvent: anEvent;
 				 yourself) ].

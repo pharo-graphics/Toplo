@@ -7,7 +7,8 @@ Class {
 		'downShortcut',
 		'selectedIndexHandler',
 		'comboBox',
-		'headPlaceholderHandler'
+		'headPlaceholderHandler',
+		'listClosedHandler'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
@@ -22,6 +23,30 @@ ToComboBoxHeadDresser >> installEventListenersIn: anElement [
 	anElement addEventHandler: addedToParentHandler.
 	anElement addEventHandler: removedFromParentHandler.
 
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToComboBoxHeadDresser >> listElementRequestFocus [
+
+	comboBox listElementRequestFocus
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToComboBoxHeadDresser >> newListClosedHandlerIn: anElement [
+
+	^ BlEventHandler
+		  on: ToWidgetWindowClosedEvent
+		  do: [ :event | anElement requestFocus ]
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToComboBoxHeadDresser >> newMouseDownHandlerIn: anElement [
+
+	^ BlEventHandler
+		  on: BlMouseDownEvent
+		  do: [ :evt |
+			  comboBox popupOrCloseEvent: evt.
+			  self listElementRequestFocus ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -88,11 +113,11 @@ ToComboBoxHeadDresser >> whenAddedToParent: anElement [
 	
 	selectedIndexHandler := BlEventHandler on:  ToComboBoxSelectedIndexChangeEvent do: [ :event | self selectedIndexChangedIn: anElement ].
 	headPlaceholderHandler := BlEventHandler on:  ToComboBoxHeadPlaceholderChangeEvent do: [ :event | self newPlaceholder: event placeholder in: anElement].
-	mouseDownHandler := (BlEventHandler
-			 on: BlMouseDownEvent
-			 do: [ :evt | comboBox requestFocus. comboBox popupOrCloseEvent: evt ]).
+	mouseDownHandler := self newMouseDownHandlerIn: anElement.
+	listClosedHandler := self newListClosedHandlerIn: anElement.		
+	comboBox addEventHandler: listClosedHandler.
 
-	anElement addEventHandler: mouseDownHandler.
+	anElement addEventFilter: mouseDownHandler.
 	comboBox addEventHandler: selectedIndexHandler.
 	comboBox addEventHandler: headPlaceholderHandler.
 	
@@ -104,9 +129,10 @@ ToComboBoxHeadDresser >> whenRemovedFromParent: anElement [
 
 	comboBox removeEventHandler: selectedIndexHandler.
 	comboBox removeEventHandler: headPlaceholderHandler.
+	comboBox removeEventHandler: listClosedHandler.
 	anElement removeEventHandler: mouseDownHandler.
-
 	mouseDownHandler := nil.
 	downShortcut := nil.
-	comboBox := nil
+	comboBox := nil.
+	listClosedHandler := nil
 ]

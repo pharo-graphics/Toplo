@@ -31,7 +31,7 @@ ToComboBox >> clickOnDataEvent: aClickOnDataEvent [
 { #category : #displaying }
 ToComboBox >> closeEvent: anEvent [
 
-	self listFrame isAttachedToSceneGraph ifFalse: [ ^ self ].
+	self isOpened ifFalse: [ ^ self ].
 	self listFrame close
 ]
 
@@ -115,19 +115,10 @@ ToComboBox >> defaultStartSelectedIndex [
 	
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 ToComboBox >> hasSelectedData [
 
 	^ self selectedIndex > 0
-]
-
-{ #category : #accessing }
-ToComboBox >> headElement: anElement [
-
-	headElement = anElement ifTrue: [ ^ self ].
-	headElement ifNotNil: [ headElement removeFromParent ].
-	headElement := anElement.
-	self addChild: headElement
 ]
 
 { #category : #accessing }
@@ -153,9 +144,9 @@ ToComboBox >> initialize [
 	self mode: self defaultMode.
 	self privateData: self newDataCollection.
 	self layout: self defaultLayout.
-	self headElement: self defaultHeadElement.
-	self listElement: self defaultListElement.
-	self listFrame: self defaultListFrame.
+	self privateHeadElement: self defaultHeadElement.
+	self privateListElement: self defaultListElement.
+	self privateListFrame: self defaultListFrame.
 	self prepareListElement.
 	self listPlaceholder: self defaultListPlaceholder.
 	self selectIndex: 0.
@@ -175,16 +166,29 @@ ToComboBox >> insertData: aData [
 	self selectIndex: idx
 ]
 
+{ #category : #testing }
+ToComboBox >> isClosed [
+
+	^ self isOpened not
+]
+
+{ #category : #testing }
+ToComboBox >> isOpened [ 
+
+	^ self listFrame isAttachedToSceneGraph
+]
+
 { #category : #accessing }
 ToComboBox >> listElement [
 
 	^ listElement
 ]
 
-{ #category : #accessing }
-ToComboBox >> listElement: aListElement [
+{ #category : #'api - install/uninstall  hook' }
+ToComboBox >> listElementRequestFocus [
 
-	listElement := aListElement
+	self isOpened ifTrue: [
+		self listElement infinite requestFocus ]
 ]
 
 { #category : #accessing }
@@ -197,12 +201,6 @@ ToComboBox >> listElementSize: aSize [
 ToComboBox >> listFrame [
 
 	^ listFrame
-]
-
-{ #category : #accessing }
-ToComboBox >> listFrame: aWindow [
-
-	listFrame := aWindow
 ]
 
 { #category : #accessing }
@@ -296,15 +294,15 @@ ToComboBox >> placeholderShown [
 { #category : #displaying }
 ToComboBox >> popupEvent: anEvent [
 
-	self listFrame isAttachedToSceneGraph ifTrue: [ ^ self ].
+	self isOpened ifTrue: [ ^ self ].
 	self listFrame popupEvent: anEvent.
-	self listElement infinite requestFocus
+	self selectIndex: self selectedIndex
 ]
 
 { #category : #displaying }
 ToComboBox >> popupOrCloseEvent: anEvent [
 
-	self listFrame isAttachedToSceneGraph
+	self isOpened
 		ifTrue: [ self closeEvent: anEvent ]
 		ifFalse: [ self popupEvent: anEvent ]
 ]
@@ -340,6 +338,27 @@ ToComboBox >> privateData: anObservableCollection [
 ]
 
 { #category : #'private - accessing' }
+ToComboBox >> privateHeadElement: anElement [
+
+	headElement = anElement ifTrue: [ ^ self ].
+	headElement ifNotNil: [ headElement removeFromParent ].
+	headElement := anElement.
+	self addChild: headElement
+]
+
+{ #category : #'private - accessing' }
+ToComboBox >> privateListElement: aListElement [
+
+	listElement := aListElement
+]
+
+{ #category : #'private - accessing' }
+ToComboBox >> privateListFrame: aWindow [
+
+	listFrame := aWindow
+]
+
+{ #category : #'private - accessing' }
 ToComboBox >> privateSelectedIndex: anInteger [
 
 	selectedIndex := anInteger
@@ -354,8 +373,11 @@ ToComboBox >> scrollToIndex: anIndex [
 { #category : #accessing }
 ToComboBox >> selectIndex: anIndex [
 
+	| prev |
+	prev := self selectedIndex.
 	self privateSelectedIndex: anIndex.
-	self dispatchEvent: ToComboBoxSelectedIndexChangeEvent new.
+	prev = anIndex ifFalse: [
+		self dispatchEvent: ToComboBoxSelectedIndexChangeEvent new ].
 	anIndex isZero ifTrue: [ ^ self ].
 	listElement whenLayoutedDoOnce: [
 		self listElement selectIndex: self selectedIndex ]

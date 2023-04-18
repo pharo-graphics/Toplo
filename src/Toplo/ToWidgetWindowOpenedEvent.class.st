@@ -1,6 +1,6 @@
 Class {
-	#name : #ToPopupWindowOpenedEvent,
-	#superclass : #ToPopupWindowEvent,
+	#name : #ToWidgetWindowOpenedEvent,
+	#superclass : #ToWidgetWindowEvent,
 	#instVars : [
 		'sourceEvent'
 	],
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-ToPopupWindowOpenedEvent >> sourceEvent [
+ToWidgetWindowOpenedEvent >> sourceEvent [
 
 	^ sourceEvent
 ]
 
 { #category : #accessing }
-ToPopupWindowOpenedEvent >> sourceEvent: anEvent [
+ToWidgetWindowOpenedEvent >> sourceEvent: anEvent [
 
 	sourceEvent := anEvent
 ]

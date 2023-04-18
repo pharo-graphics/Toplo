@@ -1,5 +1,5 @@
 Class {
-	#name : #ToPopupWindowEvent,
+	#name : #ToWidgetWindowEvent,
 	#superclass : #BlEvent,
 	#instVars : [
 		'window'
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-ToPopupWindowEvent >> window [
+ToWidgetWindowEvent >> window [
 
 	^ window
 ]
 
 { #category : #accessing }
-ToPopupWindowEvent >> window: aWindow [
+ToWidgetWindowEvent >> window: aWindow [
 
 	window := aWindow
 ]

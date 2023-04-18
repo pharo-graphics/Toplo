@@ -14,6 +14,18 @@ Class {
 	#category : #'Toplo-Widget-ComboBox'
 }
 
+{ #category : #'mode change' }
+ToComboBox >> beDataEditing [
+
+	self mode: ToComboBoxDataEditingMode new
+]
+
+{ #category : #'mode change' }
+ToComboBox >> beSelectOnly [
+
+	self mode: ToComboBoxSelectOnlyMode new
+]
+
 { #category : #testing }
 ToComboBox >> canInsertData: aData [
 
@@ -221,7 +233,7 @@ ToComboBox >> mode: aComboBoxMode [
 	mode := aComboBoxMode
 ]
 
-{ #category : #'change hook' }
+{ #category : #'mode change' }
 ToComboBox >> mode: previousMode changedWith: newMode [
 
 	self privateHeadElement: self defaultHeadElement.

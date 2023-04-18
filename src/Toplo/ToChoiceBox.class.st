@@ -56,12 +56,6 @@ ToChoiceBox >> data [
 	^ data 
 ]
 
-{ #category : #'api - change hook' }
-ToChoiceBox >> dataIndexOf: aData [
-
-	^ self data indexOf: aData ifAbsent: [ 0 ]
-]
-
 { #category : #accessing }
 ToChoiceBox >> dataToTextConverter [
 
@@ -84,6 +78,12 @@ ToChoiceBox >> defaultDresser [
 ToChoiceBox >> group [
 
 	^ group
+]
+
+{ #category : #'api - change hook' }
+ToChoiceBox >> indexOfData: aData [
+
+	^ self data indexOf: aData ifAbsent: [ 0 ]
 ]
 
 { #category : #initialization }
@@ -230,7 +230,7 @@ ToChoiceBox >> removeData: anObject [
 ToChoiceBox >> selectData: aData [
 
 	| idx |
-	idx := self dataIndexOf: aData.
+	idx := self indexOfData: aData.
 	self selectedIndex = idx ifTrue: [ ^ self ].
 	self privateSelectedIndex: idx
 ]

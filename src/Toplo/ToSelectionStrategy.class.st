@@ -115,7 +115,7 @@ ToSelectionStrategy >> clearAndSelectIndex: index [
 { #category : #accessing }
 ToSelectionStrategy >> currentIndex [
 
-	^ currentIndex ifNil: [ currentIndex := 1 ]
+	^ currentIndex 
 ]
 
 { #category : #accessing }
@@ -289,8 +289,13 @@ ToSelectionStrategy >> selectLast [
 { #category : #'selection managing' }
 ToSelectionStrategy >> selectNext [
 
-	self currentIndex < dataSource list size ifFalse: [ ^ self ].
-	self currentIndex: self currentIndex + 1.
+	self currentIndex
+		ifNil: [
+			dataSource list ifEmpty: [ ^ self ].
+			self currentIndex: 1 ]
+		ifNotNil: [
+			self currentIndex < dataSource list size ifFalse: [ ^ self ].
+			self currentIndex: self currentIndex + 1 ].
 	self selectIndex: self currentIndex
 ]
 
@@ -307,8 +312,13 @@ ToSelectionStrategy >> selectNextIn: anElement event: aShortcutEvent [
 { #category : #'selection managing' }
 ToSelectionStrategy >> selectPrevious [
 
-	self currentIndex > 1 ifFalse: [ ^ self ].
-	self currentIndex: self currentIndex - 1.
+	self currentIndex
+		ifNil: [
+			dataSource list ifEmpty: [ ^ self ].
+			self currentIndex: 1 ]
+		ifNotNil: [
+			self currentIndex > 1 ifFalse: [ ^ self ].
+			self currentIndex: self currentIndex - 1 ].
 	self selectIndex: self currentIndex
 	
 ]

@@ -9,7 +9,7 @@ Class {
 		'#listElement',
 		'#listFrame',
 		'#headElement',
-		'#mode'
+		'#mode => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
@@ -45,12 +45,6 @@ ToComboBox >> data [
 ToComboBox >> data: aCollection [
 
 	data := aCollection
-]
-
-{ #category : #'api - change hook' }
-ToComboBox >> dataIndexOf: aData [
-
-	^ self data indexOf: aData ifAbsent: [ 0 ]
 ]
 
 { #category : #'t - initialization dresser' }
@@ -104,7 +98,7 @@ ToComboBox >> defaultListPlaceholder [
 { #category : #initialization }
 ToComboBox >> defaultMode [
 
-	^ ToComboBoxDataEditingMode new
+	^ ToComboBoxSelectOnlyMode new
 ]
 
 { #category : #initialization }
@@ -136,6 +130,12 @@ ToComboBox >> headPlaceholder: anElement [
 			 yourself)
 ]
 
+{ #category : #accessing }
+ToComboBox >> indexOfData: aData [
+
+	^ self data indexOf: aData ifAbsent: [ 0 ]
+]
+
 { #category : #initialization }
 ToComboBox >> initialize [
 
@@ -144,13 +144,13 @@ ToComboBox >> initialize [
 	self mode: self defaultMode.
 	self privateData: self newDataCollection.
 	self layout: self defaultLayout.
-	self privateHeadElement: self defaultHeadElement.
 	self privateListElement: self defaultListElement.
 	self privateListFrame: self defaultListFrame.
+	self privateHeadElement: self defaultHeadElement.
 	self prepareListElement.
 	self listPlaceholder: self defaultListPlaceholder.
-	self selectIndex: 0.
 	self listElement showPlaceholder.
+	self whenModeChangedDo: [ :new :prev | self mode: prev changedWith: new ].
 	self initializeDresser
 ]
 
@@ -158,10 +158,10 @@ ToComboBox >> initialize [
 ToComboBox >> insertData: aData [
 
 	| idx |
-	idx := self dataIndexOf: aData.
+	idx := self indexOfData: aData.
 	idx isZero ifTrue: [
 		self data add: aData.
-		idx := self dataIndexOf: aData ].
+		idx := self indexOfData: aData ].
 	self prepareListElement.
 	self selectIndex: idx
 ]
@@ -219,6 +219,13 @@ ToComboBox >> mode [
 ToComboBox >> mode: aComboBoxMode [
 
 	mode := aComboBoxMode
+]
+
+{ #category : #'change hook' }
+ToComboBox >> mode: previousMode changedWith: newMode [
+
+	self privateHeadElement: self defaultHeadElement.
+	self updateHeadContent
 ]
 
 { #category : #initialization }
@@ -343,6 +350,7 @@ ToComboBox >> privateHeadElement: anElement [
 	headElement = anElement ifTrue: [ ^ self ].
 	headElement ifNotNil: [ headElement removeFromParent ].
 	headElement := anElement.
+	self selectIndex: self selectedIndex.
 	self addChild: headElement
 ]
 
@@ -376,11 +384,11 @@ ToComboBox >> selectIndex: anIndex [
 	| prev |
 	prev := self selectedIndex.
 	self privateSelectedIndex: anIndex.
-	prev = anIndex ifFalse: [
-		self dispatchEvent: ToComboBoxSelectedIndexChangeEvent new ].
-	anIndex isZero ifTrue: [ ^ self ].
+	prev = anIndex ifFalse: [ self updateHeadContent ].
+	self selectedIndex isZero ifTrue: [ ^ self ].
 	listElement whenLayoutedDoOnce: [
-		self listElement selectIndex: self selectedIndex ]
+		self listElement selectIndex: self selectedIndex ].
+	self requestLayout
 ]
 
 { #category : #accessing }
@@ -399,7 +407,21 @@ ToComboBox >> selectedDataDo: aBlock [
 { #category : #accessing }
 ToComboBox >> selectedIndex [
 	
-	^ selectedIndex 
+	^ selectedIndex ifNil: [ selectedIndex := 0 ]
+]
+
+{ #category : #'change hook' }
+ToComboBox >> updateHeadContent [
+
+	self dispatchEvent: ToComboBoxSelectedIndexChangeEvent new 
+]
+
+{ #category : #'change hook' }
+ToComboBox >> whenModeChangedDo: aBlock [
+
+	"set a block to perform after that the slot has been changed, and its action performed"
+
+	self property: #mode whenChangedDo: aBlock
 ]
 
 { #category : #'change hook' }

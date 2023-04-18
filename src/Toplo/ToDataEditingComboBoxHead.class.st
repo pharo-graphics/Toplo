@@ -1,31 +1,8 @@
 Class {
 	#name : #ToDataEditingComboBoxHead,
 	#superclass : #ToEditableComboBoxHead,
-	#instVars : [
-		'dataToTextConverter',
-		'textToDataConverter'
-	],
 	#category : #'Toplo-Widget-ComboBox'
 }
-
-{ #category : #accessing }
-ToDataEditingComboBoxHead >> dataToTextConverter [
-
-	^ dataToTextConverter
-]
-
-{ #category : #accessing }
-ToDataEditingComboBoxHead >> dataToTextConverter: aValuable [
-
-	dataToTextConverter := aValuable
-]
-
-{ #category : #initialization }
-ToDataEditingComboBoxHead >> defaultDataToTextConverter [
-
-		^ [ :d | d ]
-
-]
 
 { #category : #'t - initialization dresser' }
 ToDataEditingComboBoxHead >> defaultDresser [
@@ -43,40 +20,10 @@ ToDataEditingComboBoxHead >> defaultTextField [
 ]
 
 { #category : #initialization }
-ToDataEditingComboBoxHead >> defaultTextToDataConverter [
-
-		^ [ :d | d asString ]
-
-]
-
-{ #category : #initialization }
 ToDataEditingComboBoxHead >> initialize [ 
 
 	super initialize.
-	self dataToTextConverter: self defaultDataToTextConverter.
-	self textToDataConverter: self defaultTextToDataConverter.
 
-]
-
-{ #category : #accessing }
-ToDataEditingComboBoxHead >> selectData: aData [
-
-	self hidePlaceholder.
-	self textField text: (self dataToTextConverter value: aData)
-
-
-]
-
-{ #category : #accessing }
-ToDataEditingComboBoxHead >> textToDataConverter [
-
-	^ textToDataConverter
-]
-
-{ #category : #accessing }
-ToDataEditingComboBoxHead >> textToDataConverter: aValuable [
-
-	textToDataConverter := aValuable
 ]
 
 { #category : #'data editing' }

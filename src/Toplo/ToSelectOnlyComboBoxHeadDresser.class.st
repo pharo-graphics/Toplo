@@ -27,11 +27,7 @@ ToSelectOnlyComboBoxHeadDresser >> whenAddedToParent: anElement [
 												do: [ :event | self newDataElementFactory: event factory in: anElement].
 	comboBox addEventHandler: headElementFactoryHandler.
 
-	downShortcut := BlShortcutWithAction new
-			 combination: BlKeyCombination arrowDown ;
-			 action: [ :event | comboBox popupEvent: event ];
-			 name: 'Popup';
-			 yourself.
+	downShortcut := self newArrowDownShortcutIn: anElement.
 	anElement addShortcut: downShortcut
 ]
 

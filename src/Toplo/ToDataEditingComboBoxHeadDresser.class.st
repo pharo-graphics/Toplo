@@ -34,14 +34,7 @@ ToDataEditingComboBoxHeadDresser >> whenAddedToParent: anElement [
 	anElement textField whenCancelRequestedDo: [ :cancelRequested |
 		anElement whenCancelRequested: cancelRequested in: comboBox ].
 
-	downShortcut := BlShortcutWithAction new
-		                combination: BlKeyCombination arrowDown;
-		                action: [ :event |
-			                comboBox isOpened 
-				                ifFalse: [ comboBox popupEvent: event ].
-			                self listElementRequestFocus ];
-		                name: 'Popup';
-		                yourself.
+	downShortcut := self newArrowDownShortcutIn: anElement.
 	anElement textField infinite addShortcut: downShortcut
 ]
 

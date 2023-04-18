@@ -32,6 +32,19 @@ ToComboBoxHeadDresser >> listElementRequestFocus [
 ]
 
 { #category : #'api - install/uninstall  hook' }
+ToComboBoxHeadDresser >> newArrowDownShortcutIn: anElement [
+
+	^ BlShortcutWithAction new
+		                combination: BlKeyCombination arrowDown;
+		                action: [ :event |
+			                comboBox isOpened 
+				                ifFalse: [ comboBox popupEvent: event ].
+			                self listElementRequestFocus ];
+		                name: 'Popup';
+		                yourself.
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToComboBoxHeadDresser >> newListClosedHandlerIn: anElement [
 
 	^ BlEventHandler
@@ -110,7 +123,7 @@ ToComboBoxHeadDresser >> uninstallEventListenersIn: anElement [
 ToComboBoxHeadDresser >> whenAddedToParent: anElement [
 
 	comboBox := anElement parent.
-	
+	comboBox selectedIndex isZero ifTrue: [ anElement noDataSelected ].
 	selectedIndexHandler := BlEventHandler on:  ToComboBoxSelectedIndexChangeEvent do: [ :event | self selectedIndexChangedIn: anElement ].
 	headPlaceholderHandler := BlEventHandler on:  ToComboBoxHeadPlaceholderChangeEvent do: [ :event | self newPlaceholder: event placeholder in: anElement].
 	mouseDownHandler := self newMouseDownHandlerIn: anElement.

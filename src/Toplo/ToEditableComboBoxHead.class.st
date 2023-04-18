@@ -2,13 +2,30 @@ Class {
 	#name : #ToEditableComboBoxHead,
 	#superclass : #ToComboBoxHead,
 	#classTraits : 'TObservable classTrait',
+	#instVars : [
+		'dataToTextConverter',
+		'textToDataConverter'
+	],
 	#category : #'Toplo-Widget-ComboBox'
 }
 
-{ #category : #'t - initialization dresser' }
-ToEditableComboBoxHead >> defaultDresser [
+{ #category : #accessing }
+ToEditableComboBoxHead >> dataToTextConverter [
 
-	^ ToEditableComboBoxHeadDresser new
+	^ dataToTextConverter
+]
+
+{ #category : #accessing }
+ToEditableComboBoxHead >> dataToTextConverter: aValuable [
+
+	dataToTextConverter := aValuable
+]
+
+{ #category : #initialization }
+ToEditableComboBoxHead >> defaultDataToTextConverter [
+
+		^ [ :d | d ]
+
 ]
 
 { #category : #initialization }
@@ -23,6 +40,13 @@ ToEditableComboBoxHead >> defaultTextField [
 	^ ToTextField new withoutLineWrapping 
 ]
 
+{ #category : #initialization }
+ToEditableComboBoxHead >> defaultTextToDataConverter [
+
+		^ [ :d | d asString ]
+
+]
+
 { #category : #'t - placeholder show/hide' }
 ToEditableComboBoxHead >> hidePlaceholder [
 
@@ -34,7 +58,10 @@ ToEditableComboBoxHead >> initialize [
 
 	super initialize.
 	self textField: self defaultTextField.
-	self placeholder: self defaultPlaceholder 
+	self placeholder: self defaultPlaceholder.
+
+	self dataToTextConverter: self defaultDataToTextConverter.
+	self textToDataConverter: self defaultTextToDataConverter.
 ]
 
 { #category : #accessing }
@@ -55,6 +82,15 @@ ToEditableComboBoxHead >> placeholder: anElement [
 	self textField placeholder: (anElement ifNil: [ self defaultPlaceholder ])
 ]
 
+{ #category : #accessing }
+ToEditableComboBoxHead >> selectData: aData [
+
+	self hidePlaceholder.
+	self textField text: (self dataToTextConverter value: aData)
+
+
+]
+
 { #category : #'t - placeholder show/hide' }
 ToEditableComboBoxHead >> showPlaceholder [
 
@@ -71,4 +107,16 @@ ToEditableComboBoxHead >> textField [
 ToEditableComboBoxHead >> textField: aTextField [
 
 	self first: aTextField 
+]
+
+{ #category : #accessing }
+ToEditableComboBoxHead >> textToDataConverter [
+
+	^ textToDataConverter
+]
+
+{ #category : #accessing }
+ToEditableComboBoxHead >> textToDataConverter: aValuable [
+
+	textToDataConverter := aValuable
 ]

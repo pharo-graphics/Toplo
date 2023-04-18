@@ -9,6 +9,7 @@ Class {
 		'#listElement',
 		'#listFrame',
 		'#headElement',
+		'#listElementSize',
 		'#mode => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-ComboBox'
@@ -80,7 +81,7 @@ ToComboBox >> defaultListElement [
 { #category : #initialization }
 ToComboBox >> defaultListElementSize [
 
-		^ 250@130
+		^ 250@230
 ]
 
 { #category : #initialization }
@@ -101,8 +102,8 @@ ToComboBox >> defaultListPlaceholder [
 	^ ToLabel new
 		  vFitContent;
 		  margin: (BlInsets all: 5);
-		  width: self defaultListElementSize x;
-		  constraintsDo: [ :c | c maxHeight: self defaultListElementSize y ];
+		  width: self listElementSize x;
+		  constraintsDo: [ :c | c maxHeight: self listElementSize y ];
 		  alignCenter;
 		  yourself
 ]
@@ -159,8 +160,9 @@ ToComboBox >> initialize [
 	self privateListElement: self defaultListElement.
 	self privateListFrame: self defaultListFrame.
 	self privateHeadElement: self defaultHeadElement.
-	self prepareListElement.
+	self listElementSize: self defaultListElementSize.
 	self listPlaceholder: self defaultListPlaceholder.
+	self prepareListElement.
 	self listElement showPlaceholder.
 	self whenModeChangedDo: [ :new :prev | self mode: prev changedWith: new ].
 	self initializeDresser
@@ -204,9 +206,17 @@ ToComboBox >> listElementRequestFocus [
 ]
 
 { #category : #accessing }
+ToComboBox >> listElementSize [
+
+	^ listElementSize
+]
+
+{ #category : #accessing }
 ToComboBox >> listElementSize: aSize [
 
-	self listElement size: aSize
+	listElementSize := aSize.
+	self listPlaceholder: self defaultListPlaceholder.
+	self prepareListElement 
 ]
 
 { #category : #accessing }
@@ -306,7 +316,7 @@ ToComboBox >> placeholderHidden [
 { #category : #displaying }
 ToComboBox >> placeholderShown [
 
-	listElement size: self defaultListElementSize.
+	listElement size: self listElementSize.
 	listElement next removeFromParent
 ]
 
@@ -332,8 +342,8 @@ ToComboBox >> prepareListElement [
 	self listElement
 		vFitContent;
 		in: [ :e | e infinite vFitContent ];
-		width: self defaultListElementSize x;
-		maxHeight: self defaultListElementSize y.
+		width: self listElementSize x;
+		maxHeight: self listElementSize y.
 	self listFrame 	root fitContent.
 	self listElement next elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
 

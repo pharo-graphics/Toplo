@@ -34,9 +34,20 @@ ToListElement >> initialize [
 { #category : #initialization }
 ToListElement >> withSelectionDecoration [
 
-	| updater |
-	updater := ToListPrimarySelectionUpdater new.
-	updater onInstalledIn: self
+	self withSelectionDecorationUpdater: ToListPrimarySelectionUpdater new
+]
+
+{ #category : #initialization }
+ToListElement >> withSelectionDecorationFactory: aValuable [
+
+	self withSelectionDecorationUpdater: (ToListPrimarySelectionUpdater new decorationFactory: aValuable)
+]
+
+{ #category : #'private-initialization' }
+ToListElement >> withSelectionDecorationUpdater: aSelectionUpdater [
+
+	self dispatchEvent: ToListSelectionUpdaterStopEvent new.
+	aSelectionUpdater onInstalledIn: self
 ]
 
 { #category : #initialization }

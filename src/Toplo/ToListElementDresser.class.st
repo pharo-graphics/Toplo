@@ -15,7 +15,7 @@ ToListElementDresser >> addSecondarySelectionDecorationOnNode: aChildNode In: an
 	" update selection decoration to show the secondary selection on which the popup is opened"
 
 	| d |
-	d := ToListSecondarySelectionElement new
+	d := ToListDefaultSecondarySelectionElement new
 		     listElement: anElement;
 		     nodes: (Array with: aChildNode);
 		     yourself.

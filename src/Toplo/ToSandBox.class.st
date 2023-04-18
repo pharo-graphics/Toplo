@@ -82,23 +82,22 @@ ToSandBox class >> example_ComboBoxWithColors [
 	win := ToInnerWindow new title: 'Combo box Example'.
 	combo := ToComboBox new.
 	combo nodeFactory: [ :color |
-		ToLabeledNode new
-			margin: (BlInsets all: 1);
-			labelText: (color asString asRopedText
-					 foreground: color contrastingBlackAndWhiteColor;
-					 yourself);
-			background: color;
+		ToPairedNode new
+		
+			padding: (BlInsets all: 8);
+			"first: (ToElement new size: 25@25; yourself);"
+			second: (ToElement new height: 30; hMatchParent; background: color; yourself);
 			hMatchParent ].
 	combo headElementFactory: [ :color |
-		ToLabel new
-			margin: (BlInsets all: 1);
-			text: (color asString asRopedText
-					 foreground: color contrastingBlackAndWhiteColor;
-					 yourself);
+		ToElement new
+			margin: (BlInsets all: 4);
+			height: 25;
+			hMatchParent;
 			background: color;
 			yourself ].
 	combo data addAll: Color indexedColors.
-	combo selectIndex: 40.
+	combo selectIndex: 70.
+	combo listElementSize: 200@500.
 	win root addChild: combo.
 	win openInWorld
 ]
@@ -110,7 +109,7 @@ ToSandBox class >> example_ComboBoxWithHeadPlaceholder [
 	win := ToInnerWindow new title: 'Combo box Example'.
 	combo := ToComboBox new.
 	t := 'Click to fetch data' asRopedText foreground: Color red.
-	but := ToLabel new text: t.
+	but := ToLabel new text: t; hMatchParent.
 	but when: BlClickEvent do: [
 		combo data addAll:	(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 		combo headPlaceholder: nil ].
@@ -282,7 +281,7 @@ ToSandBox class >> example_ListOneClass [
 ]
 
 { #category : #list }
-ToSandBox class >> example_ListWith20Elements [
+ToSandBox class >> example_ListWith6Elements [
 
 	| l |
 	l := ToListElement new.
@@ -498,10 +497,43 @@ ToSandBox class >> example_ListWithIndexedColors [
 ]
 
 { #category : #list }
+ToSandBox class >> example_ListWithIndexedColors2 [
+
+	| l vscrollBar space |
+	
+	
+	l := ToListElement new nodeFactory: [ :color |
+		     ToLabeledNode new hMatchParent;
+			     labelText: color asString;
+			     background: color ].
+	
+	l withSelectionDecorationFactory: 
+			[ ToListSelectionElement new dresser: (ToListSelectionWithActionsDresser new
+					addedToParentAction: [ '>'  traceCr ];
+					removedFromParentAction: [ '<' traceCr ];
+					yourself) ].
+		
+	l data addAll: Color indexedColors.
+
+	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar constraintsDo: [ :c |
+			c ignoreByLayout.
+			c margin: (BlInsets right: 2).
+			c ignored horizontal alignRight.
+			c ignored vertical alignBottom]. 
+	vscrollBar attachTo: l infinite.
+	space := OBlSpace new.
+	space root addChild: l.
+	space root addChild: vscrollBar.
+	space show
+]
+
+{ #category : #list }
 ToSandBox class >> example_ListWithPanes [
 
 	| list |
 	list := ToListElement new 
+		withoutSelectionDecoration;
 		withRowNumbers;
 		nodeFactory: [ :collectible :holder |
 		        | title blContent |
@@ -511,7 +543,10 @@ ToSandBox class >> example_ListWithPanes [
 			                 margin: (BlInsets all: 1);
 			                 padding: (BlInsets all: 1);
 			                 yourself.
-		        blContent := ToPaneNodeExample new.
+		        	blContent := ToPaneNodeExample new.
+					blContent addDresser: ToNodeDresser new.
+					blContent when: ToNodeHolderSelectedEvent do: [ 'S' traceCr ].
+					blContent when: ToNodeHolderDeselectedEvent do: [ 'D' traceCr ].
 		        blContent addChild: title at: 1.
 		        blContent vFitContent.
 		        blContent hMatchParent.

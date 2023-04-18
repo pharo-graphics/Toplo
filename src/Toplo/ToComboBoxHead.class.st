@@ -7,7 +7,7 @@ Class {
 { #category : #initialization }
 ToComboBoxHead >> defaultPlaceholder [
 
-	^ ToLabel new
+	^ ToLabel new hMatchParent; yourself
 ]
 
 { #category : #'t - placeholder show/hide' }
@@ -41,5 +41,6 @@ ToComboBoxHead >> selectData: aData [
 
 { #category : #'t - placeholder show/hide' }
 ToComboBoxHead >> showPlaceholder [
+
 	^ self subclassResponsibility
 ]

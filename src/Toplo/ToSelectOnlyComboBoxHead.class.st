@@ -13,7 +13,6 @@ Class {
 ToSelectOnlyComboBoxHead >> dataElement: anElement [
 
 	anElement ifNil: [ ^ self ].
-	anElement vFitContent; hMatchParent.
 	self first: anElement
 ]
 
@@ -34,7 +33,7 @@ ToSelectOnlyComboBoxHead >> dataElementFactory: aValuable [
 { #category : #initialization }
 ToSelectOnlyComboBoxHead >> defaultDataElementFactory [
 
-	^ ToActionDataToElementConverter new valuable: [ :d | ToLabel text: d ] 
+	^ ToActionDataToElementConverter new valuable: [ :d | (ToLabel text: d) hMatchParent; yourself ] 
 ]
 
 { #category : #'t - initialization dresser' }

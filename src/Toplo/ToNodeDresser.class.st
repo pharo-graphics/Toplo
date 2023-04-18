@@ -94,13 +94,6 @@ ToNodeDresser >> initialize [
 	monitor := Monitor new
 ]
 
-{ #category : #'api - install/uninstall  hook' }
-ToNodeDresser >> installEventListenersIn: anElement [
-
-	super installEventListenersIn: anElement.
-
-]
-
 { #category : #'events handling' }
 ToNodeDresser >> launchClick: aBlock event: anEvent for: anElement [
 	" click launcher management to allow double click to work with several selected nodes "
@@ -165,16 +158,4 @@ ToNodeDresser >> onInstalledIn: anElement [
 	anElement background: self defaultInitialBackground.
 	anElement clipChildren: true.
 	anElement outskirts: BlOutskirts inside
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToNodeDresser >> onUninstalledIn: anElement [
-
-	super onUninstalledIn: anElement
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToNodeDresser >> uninstallEventListenersIn: anElement [
-
-	super uninstallEventListenersIn: anElement.
 ]

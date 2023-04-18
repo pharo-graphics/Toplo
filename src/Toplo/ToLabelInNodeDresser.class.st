@@ -26,15 +26,14 @@ ToLabelInNodeDresser >> decoration: aDecoration addedIn: anElement [
 	anElement background: Color transparent.
 
 	textRopeBackup := anElement text rope copy.
-
-	anElement foreground: selectionDecoration actualBackgroundColor contrastingBlackAndWhiteColor
+	aDecoration dispatchEvent: (ToListSelectionLabelInDecorationAdaptionEvent new label: anElement; yourself)
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToLabelInNodeDresser >> decoration: aDecoration changedIn: anElement [
 
-	selected ifFalse: [ ^ self ].
-	anElement foreground: aDecoration actualBackgroundColor contrastingBlackAndWhiteColor
+	selected ifFalse: [ ^ self ].	
+	aDecoration dispatchEvent: (ToListSelectionLabelInDecorationAdaptionEvent new label: anElement; yourself)
 ]
 
 { #category : #'api - install/uninstall  hook' }

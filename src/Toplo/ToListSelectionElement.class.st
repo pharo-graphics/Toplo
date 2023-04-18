@@ -1,15 +1,15 @@
 Class {
-	#name : #ToListNodesDecorationElement,
-	#superclass : #ToListDecorationElement,
+	#name : #ToListSelectionElement,
+	#superclass : #ToElement,
 	#instVars : [
-		'nodes',
-		'back'
+		'listElement',
+		'nodes'
 	],
 	#category : #'Toplo-Widget-List'
 }
 
 { #category : #private }
-ToListNodesDecorationElement >> computeBounds [
+ToListSelectionElement >> computeBounds [
 	" compute my bounds from my list of adjacent nodes. "
 
 	| first last top bottom |
@@ -23,26 +23,44 @@ ToListNodesDecorationElement >> computeBounds [
 ]
 
 { #category : #initialization }
-ToListNodesDecorationElement >> defaultGeometry [
+ToListSelectionElement >> defaultGeometry [
 
 	^ BlRoundedRectangleGeometry cornerRadius: 5
 ]
 
-{ #category : #initialization }
-ToListNodesDecorationElement >> defaultPadding [
+{ #category : #accessing }
+ToListSelectionElement >> defaultLayout [
 
-	^ BlInsets all: 0
+	^ BlFrameLayout new
 ]
 
 { #category : #initialization }
-ToListNodesDecorationElement >> initialize [ 
+ToListSelectionElement >> initialize [ 
 
 	super initialize.
-	self padding: self defaultPadding
+	self layout: self defaultLayout.
+	self geometry: self defaultGeometry.
+	self background: Color transparent.
+	self constraintsDo: [ :c | c ignoreByLayout ].
+	self outskirts: BlOutskirts inside.
+	self initializeDresser
+
+]
+
+{ #category : #accessing }
+ToListSelectionElement >> listElement [
+
+	^ listElement
+]
+
+{ #category : #accessing }
+ToListSelectionElement >> listElement: aListElement [
+
+	listElement := aListElement
 ]
 
 { #category : #private }
-ToListNodesDecorationElement >> nodeBounds: aNode [
+ToListSelectionElement >> nodeBounds: aNode [
 	" compute local node bounds "
 
 	| bnds |
@@ -50,24 +68,23 @@ ToListNodesDecorationElement >> nodeBounds: aNode [
 	aNode globalBoundsToLocal: bnds.
 	aNode localBoundsToParent: bnds.
 	^ BlBounds origin: bnds origin + listElement padding topLeft corner: bnds corner + listElement padding topLeft
-	"bnds expandBy: (BlInsets left: node margin left right: node margin right)."	
 ]
 
 { #category : #accessing }
-ToListNodesDecorationElement >> nodes [
+ToListSelectionElement >> nodes [
 
 	^ nodes
 ]
 
 { #category : #accessing }
-ToListNodesDecorationElement >> nodes: aCollection [
+ToListSelectionElement >> nodes: aCollection [
 
 	nodes := aCollection.
 	self computeBounds
 ]
 
 { #category : #private }
-ToListNodesDecorationElement >> nodesDo: aBlock [
+ToListSelectionElement >> nodesDo: aBlock [
 
 	self nodes ifNil: [ ^ self ].
 	self nodes do: aBlock

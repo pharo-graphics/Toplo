@@ -1,16 +1,10 @@
 Class {
 	#name : #ToLabeledNode,
-	#superclass : #ToPairedElement,
-	#traits : 'TToLabeledIcon + TToWidgetWithState + TToClickable',
-	#classTraits : 'TToLabeledIcon classTrait + TToWidgetWithState classTrait + TToClickable classTrait',
+	#superclass : #ToPairedNode,
+	#traits : 'TToLabeledIcon',
+	#classTraits : 'TToLabeledIcon classTrait',
 	#category : #'Toplo-Core-Node'
 }
-
-{ #category : #'t - click behavior' }
-ToLabeledNode >> client [
-
-	^ self holder infiniteElement client
-]
 
 { #category : #'t - initialization dresser' }
 ToLabeledNode >> defaultDresser [ 
@@ -23,7 +17,6 @@ ToLabeledNode >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	self initializePair
 ]
 
 { #category : #'private-change' }

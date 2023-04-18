@@ -22,12 +22,6 @@ ToNodeHolder >> data: aData [
 	self node: (infiniteElement nodeFactory cull: aData cull: self)
 ]
 
-{ #category : #initialization }
-ToNodeHolder >> initialize [ 
-
-	super initialize
-]
-
 { #category : #accessing }
 ToNodeHolder >> isSelected [
 

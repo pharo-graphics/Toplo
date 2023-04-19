@@ -34,13 +34,13 @@ ToListElement >> initialize [
 { #category : #initialization }
 ToListElement >> withSelectionDecoration [
 
-	self withSelectionDecorationUpdater: ToListSelectionUpdater new
+	self withSelectionDecorationUpdater: ToListPrimarySelectionUpdater new
 ]
 
 { #category : #'private-initialization' }
 ToListElement >> withSelectionDecorationFactory: aValuable [
 
-	self withSelectionDecorationUpdater: (ToListSelectionUpdater new decorationFactory: aValuable)
+	self withSelectionDecorationUpdater: (ToListPrimarySelectionUpdater new decorationFactory: aValuable)
 ]
 
 { #category : #'private-initialization' }

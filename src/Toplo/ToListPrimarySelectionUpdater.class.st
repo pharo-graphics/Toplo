@@ -1,5 +1,5 @@
 Class {
-	#name : #ToListSelectionUpdater,
+	#name : #ToListPrimarySelectionUpdater,
 	#superclass : #Object,
 	#instVars : [
 		'extentChangeHandler',
@@ -15,7 +15,7 @@ Class {
 }
 
 { #category : #private }
-ToListSelectionUpdater >> adjacentSelectedNodesGroupsIn: aListElement [
+ToListPrimarySelectionUpdater >> adjacentSelectedNodesGroupsIn: aListElement [
 	" return an array of collection. Each collection contains a list of adjacent selected nodes "
 
 	^ Array streamContents: [ :stream |
@@ -32,19 +32,19 @@ ToListSelectionUpdater >> adjacentSelectedNodesGroupsIn: aListElement [
 ]
 
 { #category : #accessing }
-ToListSelectionUpdater >> decorationFactory [
+ToListPrimarySelectionUpdater >> decorationFactory [
 
 	^ decorationFactory
 ]
 
 { #category : #accessing }
-ToListSelectionUpdater >> decorationFactory: aValuable [
+ToListPrimarySelectionUpdater >> decorationFactory: aValuable [
 
 	decorationFactory := aValuable
 ]
 
 { #category : #accessing }
-ToListSelectionUpdater >> decorationOn: aNode [
+ToListPrimarySelectionUpdater >> decorationOn: aNode [
 
 	self decorations do: [ :d |
 		(d nodes includes: aNode) ifTrue: [ ^ d ] ].
@@ -52,31 +52,31 @@ ToListSelectionUpdater >> decorationOn: aNode [
 ]
 
 { #category : #accessing }
-ToListSelectionUpdater >> decorations [ 
+ToListPrimarySelectionUpdater >> decorations [ 
 
 	^ decorations
 ]
 
 { #category : #initialization }
-ToListSelectionUpdater >> defaultDecorationFactory [
+ToListPrimarySelectionUpdater >> defaultDecorationFactory [
 
 	^ [ ToListPrimarySelectionElement new ]
 ]
 
 { #category : #'infinite element changes' }
-ToListSelectionUpdater >> extentChangedIn: anInfiniteElement [
+ToListPrimarySelectionUpdater >> extentChangedIn: anInfiniteElement [
 
 	self updateDecorationsIn: anInfiniteElement
 ]
 
 { #category : #testing }
-ToListSelectionUpdater >> includesNode: aNode [
+ToListPrimarySelectionUpdater >> includesNode: aNode [
 
 	^ aNode holder isSelected
 ]
 
 { #category : #initialization }
-ToListSelectionUpdater >> initialize [ 
+ToListPrimarySelectionUpdater >> initialize [ 
 
 	super initialize.
 	decorations := ToObservableCollection new.
@@ -87,25 +87,25 @@ ToListSelectionUpdater >> initialize [
 ]
 
 { #category : #'instance creation' }
-ToListSelectionUpdater >> newDecorationElement [
+ToListPrimarySelectionUpdater >> newDecorationElement [
 
 	^ self decorationFactory value
 ]
 
 { #category : #'decorations add/remove' }
-ToListSelectionUpdater >> notifyDecorationsAdded: aCollectionChangedAnnouncement [
+ToListPrimarySelectionUpdater >> notifyDecorationsAdded: aCollectionChangedAnnouncement [
 
 	self decorations do: [ :d | d dispatchEvent: ToListPrimarySelectionAddedEvent new ]
 ]
 
 { #category : #'decorations add/remove' }
-ToListSelectionUpdater >> notifyDecorationsRemoved: aCollectionChangedAnnouncement [
+ToListPrimarySelectionUpdater >> notifyDecorationsRemoved: aCollectionChangedAnnouncement [
 
 	self decorations do: [ :d | d dispatchEvent: ToListPrimarySelectionRemovedEvent new ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListSelectionUpdater >> onInstalledIn: aListElement [
+ToListPrimarySelectionUpdater >> onInstalledIn: aListElement [
 
 	listElement := aListElement.
 
@@ -139,7 +139,7 @@ ToListSelectionUpdater >> onInstalledIn: aListElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListSelectionUpdater >> onUninstalledIn: aListElement [
+ToListPrimarySelectionUpdater >> onUninstalledIn: aListElement [
 
 	aListElement infinite removeEventHandler: extentChangeHandler.
 	aListElement infinite removeEventHandler: scrollHandler.
@@ -152,26 +152,26 @@ ToListSelectionUpdater >> onUninstalledIn: aListElement [
 ]
 
 { #category : #private }
-ToListSelectionUpdater >> resetDecorations [
+ToListPrimarySelectionUpdater >> resetDecorations [
 
 	decorations do: #removeFromParent.
 	decorations removeAll
 ]
 
 { #category : #'infinite element changes' }
-ToListSelectionUpdater >> scrollEventIn: anInfiniteElement [
+ToListPrimarySelectionUpdater >> scrollEventIn: anInfiniteElement [
 
 	self updateDecorationsIn: anInfiniteElement
 ]
 
 { #category : #'infinite element changes' }
-ToListSelectionUpdater >> selectionChangedIn: anInfiniteElement [
+ToListPrimarySelectionUpdater >> selectionChangedIn: anInfiniteElement [
 
 	self updateDecorationsIn: anInfiniteElement
 ]
 
 { #category : #private }
-ToListSelectionUpdater >> selectionDecorationElementsIn: aListElement [
+ToListPrimarySelectionUpdater >> selectionDecorationElementsIn: aListElement [
 	" return a collection with instances of ListSelectionDecorationElement "
 
 	^ (self adjacentSelectedNodesGroupsIn: aListElement) collect: [ :g |
@@ -182,7 +182,7 @@ ToListSelectionUpdater >> selectionDecorationElementsIn: aListElement [
 ]
 
 { #category : #'infinite element changes' }
-ToListSelectionUpdater >> updateDecorationsIn: aListElement [
+ToListPrimarySelectionUpdater >> updateDecorationsIn: aListElement [
 	"add a ListDecorationElement for each group of adjacent selected nodes "
 
 	self resetDecorations.	

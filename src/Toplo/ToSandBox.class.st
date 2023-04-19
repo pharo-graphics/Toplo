@@ -267,6 +267,21 @@ ToSandBox class >> example_EmptyComboBox [
 ]
 
 { #category : #list }
+ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
+
+	| l pane filter |
+	pane := ToPane new beVertical; matchParent.
+	filter := ToTextField new.
+	l := ToListElement new nodeFactory: (ToClassToNodeConverterExample new).
+	l data addAll: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name]).
+	l margin: (BlInsets all: 2).
+	filter margin: (BlInsets all: 2).
+	pane addChild: l.
+	pane addChild: filter.	
+	pane openInOBlSpace
+]
+
+{ #category : #list }
 ToSandBox class >> example_ListOneClass [
 
 	| l |

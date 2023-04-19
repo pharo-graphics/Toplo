@@ -22,12 +22,6 @@ ToListSelectionElement >> computeBounds [
 	self bounds: (BlBounds origin: top origin corner: bottom corner)
 ]
 
-{ #category : #initialization }
-ToListSelectionElement >> defaultGeometry [
-
-	^ BlRoundedRectangleGeometry cornerRadius: 5
-]
-
 { #category : #accessing }
 ToListSelectionElement >> defaultLayout [
 

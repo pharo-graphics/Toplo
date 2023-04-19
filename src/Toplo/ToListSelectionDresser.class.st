@@ -3,11 +3,20 @@ Class {
 	#superclass : #ToDresser,
 	#instVars : [
 		'listElement',
-		'addedToParentHandler',
-		'removedFromParentHandler'
+		'addHandler',
+		'removeHandler'
 	],
 	#category : #'Toplo-Widget-List'
 }
+
+{ #category : #dressing }
+ToListSelectionDresser >> background: aBackground changedIn: anElement [
+
+	anElement nodesDo: [ :node |
+		node dispatchEvent: (ToListPrimarySelectionBackgroundChangedEvent new
+				 background: aBackground;
+				 yourself) ]
+]
 
 { #category : #accessing }
 ToListSelectionDresser >> borderColor [
@@ -18,7 +27,7 @@ ToListSelectionDresser >> borderColor [
 { #category : #accessing }
 ToListSelectionDresser >> borderWidth [
 
-	^ 1
+	^ 0
 ]
 
 { #category : #initialization }
@@ -37,10 +46,10 @@ ToListSelectionDresser >> defaultPadding [
 ToListSelectionDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
-	addedToParentHandler := BlEventHandler on: BlElementAddedToParentEvent do: [ self whenAddedToParent: anElement ].
-	removedFromParentHandler := BlEventHandler on: BlElementRemovedFromParentEvent do: [ self whenRemovedFromParent: anElement ].
-	anElement addEventHandler: addedToParentHandler.
-	anElement addEventHandler: removedFromParentHandler.
+	addHandler := BlEventHandler on: ToListPrimarySelectionAddedEvent do: [ self whenAdded: anElement ].
+	removeHandler := BlEventHandler on: ToListPrimarySelectionRemovedEvent do: [ self whenRemoved: anElement ].
+	anElement addEventHandler: addHandler.
+	anElement addEventHandler: removeHandler.
 
 ]
 
@@ -69,24 +78,23 @@ ToListSelectionDresser >> onInstalledIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToListSelectionDresser >> uninstallEventListenersIn: anElement [
 
-	anElement removeEventHandler: addedToParentHandler.
-	anElement removeEventHandler: removedFromParentHandler.
-	addedToParentHandler := nil.
-	removedFromParentHandler := nil.
-	
 	super uninstallEventListenersIn: anElement.
-
+	anElement removeEventHandler: addHandler.
+	anElement removeEventHandler: removeHandler.
+	addHandler := nil.
+	removeHandler := nil
 
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListSelectionDresser >> whenAddedToParent: anElement [
+ToListSelectionDresser >> whenAdded: anElement [
 
 	listElement := anElement listElement.
+
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListSelectionDresser >> whenRemovedFromParent: anElement [
+ToListSelectionDresser >> whenRemoved: anElement [
 
 	listElement := nil
 ]

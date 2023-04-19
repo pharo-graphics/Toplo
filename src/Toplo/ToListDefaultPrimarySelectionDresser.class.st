@@ -2,47 +2,25 @@ Class {
 	#name : #ToListDefaultPrimarySelectionDresser,
 	#superclass : #ToListPrimarySelectionDresser,
 	#instVars : [
-		'backgroundElement',
-		'labelAdaptionHandler'
+		'backgroundElement'
 	],
 	#category : #'Toplo-Widget-List'
 }
-
-{ #category : #accessing }
-ToListDefaultPrimarySelectionDresser >> actualBackgroundColor [
-
-	^ self listElement infinite isFocused
-		  ifTrue: [ self theme item selectedColor ]
-		  ifFalse: [ self theme item selectedBlurredColor ]
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToListDefaultPrimarySelectionDresser >> adaptLabel: aLabel in: anElement [
-
-	aLabel foreground: backgroundElement background contrastingBlackAndWhiteColor
-]
-
-{ #category : #dressing }
-ToListDefaultPrimarySelectionDresser >> backgroundChangedIn: anElement [
-
-	listElement ifNil: [ ^ self ].
-	anElement nodesDo: [ :node | node dispatchEvent: (ToListSelectionDecorationChangedEvent new decoration: anElement; yourself) ]
-]
 
 { #category : #'api - install/uninstall  hook' }
 ToListDefaultPrimarySelectionDresser >> blurEvent: anEvent in: anElement [
 
 	super blurEvent: anEvent in: anElement.
-	backgroundElement background: self actualBackgroundColor.
-	self backgroundChangedIn: anElement
+	backgroundElement background: self theme item selectedBlurredColor.
+	self background: backgroundElement background changedIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToListDefaultPrimarySelectionDresser >> focusEvent: anEvent in: anElement [
 
 	super focusEvent: anEvent in: anElement.
-	backgroundElement background: self actualBackgroundColor.
-	self backgroundChangedIn: anElement
+	backgroundElement background: self theme item selectedColor.
+	self background: backgroundElement background changedIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -60,37 +38,23 @@ ToListDefaultPrimarySelectionDresser >> secondarySelectionRemovedIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListDefaultPrimarySelectionDresser >> whenAddedToParent: anElement [
+ToListDefaultPrimarySelectionDresser >> whenAdded: anElement [
 
-	super whenAddedToParent: anElement.
+	super whenAdded: anElement.
 
 	backgroundElement := ToElement new matchParent.
+	anElement background: Color transparent.
+	backgroundElement background: self theme item selectedColor.
+	anElement addChild: backgroundElement.
+	
+	self background: backgroundElement background changedIn: anElement
 
-	labelAdaptionHandler := BlEventHandler
-		                        on: ToListSelectionLabelInDecorationAdaptionEvent
-		                        do: [ :event | self adaptLabel: event label in: anElement ].
-	anElement addEventHandler: labelAdaptionHandler.
-
-	anElement background: Color white.
-	backgroundElement background: self actualBackgroundColor.
-
-	anElement nodesDo: [ :node |
-		node dispatchEvent: (ToListSelectionDecorationChangedEvent new
-				 decoration: anElement;
-				 yourself) ].
-
-	anElement addChild: backgroundElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListDefaultPrimarySelectionDresser >> whenRemovedFromParent: anElement [
+ToListDefaultPrimarySelectionDresser >> whenRemoved: anElement [
 
-	anElement removeEventHandler: labelAdaptionHandler.
-	
 	anElement removeChild: backgroundElement.
-
-	labelAdaptionHandler := nil.
 	backgroundElement := nil.
-
-	super whenRemovedFromParent: anElement
+	super whenRemoved: anElement
 ]

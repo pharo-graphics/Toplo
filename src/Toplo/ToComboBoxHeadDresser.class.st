@@ -18,8 +18,8 @@ ToComboBoxHeadDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
 	
-	addedToParentHandler := BlEventHandler on: BlElementAddedToParentEvent do: [ self whenAddedToParent: anElement ].
-	removedFromParentHandler := BlEventHandler on: BlElementRemovedFromParentEvent do: [ self whenRemovedFromParent: anElement ].
+	addedToParentHandler := BlEventHandler on: BlElementAddedToParentEvent do: [ self whenAdded: anElement ].
+	removedFromParentHandler := BlEventHandler on: BlElementRemovedFromParentEvent do: [ self whenRemoved: anElement ].
 	anElement addEventHandler: addedToParentHandler.
 	anElement addEventHandler: removedFromParentHandler.
 
@@ -120,7 +120,7 @@ ToComboBoxHeadDresser >> uninstallEventListenersIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToComboBoxHeadDresser >> whenAddedToParent: anElement [
+ToComboBoxHeadDresser >> whenAdded: anElement [
 
 	comboBox := anElement parent.
 	comboBox selectedIndex isZero ifTrue: [ anElement noDataSelected ].
@@ -138,7 +138,7 @@ ToComboBoxHeadDresser >> whenAddedToParent: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToComboBoxHeadDresser >> whenRemovedFromParent: anElement [
+ToComboBoxHeadDresser >> whenRemoved: anElement [
 
 	comboBox removeEventHandler: selectedIndexHandler.
 	comboBox removeEventHandler: headPlaceholderHandler.

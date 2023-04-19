@@ -14,6 +14,12 @@ Class {
 ToListPrimarySelectionDresser >> blurEvent: anEvent in: anElement [
 ]
 
+{ #category : #accessing }
+ToListPrimarySelectionDresser >> borderWidth [ 
+
+	^ 1
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToListPrimarySelectionDresser >> focusEvent: anEvent in: anElement [
 
@@ -28,9 +34,9 @@ ToListPrimarySelectionDresser >> secondarySelectionRemovedIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListPrimarySelectionDresser >> whenAddedToParent: anElement [
+ToListPrimarySelectionDresser >> whenAdded: anElement [
 
-	super whenAddedToParent: anElement.
+	super whenAdded: anElement.
 	secondarySelectionAddedHandler := BlEventHandler
 		                                  on: ToListSecondarySelectionAddedEvent
 		                                  do: [ :event | self secondarySelectionAddedIn: anElement ].
@@ -49,22 +55,15 @@ ToListPrimarySelectionDresser >> whenAddedToParent: anElement [
 		                do: [ :anEvent | self focusEvent: anEvent in: anElement ].
 
 	listElement infinite addEventHandler: blurHandler.
-	listElement infinite addEventHandler: focusHandler.
-		
-	anElement nodesDo: [ :node |
-		node dispatchEvent: (ToListSelectionDecorationAddedEvent new
-				 decoration: anElement;
-				 yourself) ].
-
-
+	listElement infinite addEventHandler: focusHandler
 
 
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListPrimarySelectionDresser >> whenRemovedFromParent: anElement [
+ToListPrimarySelectionDresser >> whenRemoved: anElement [
 
-	anElement nodesDo: [ :node | node dispatchEvent: (ToListSelectionDecorationRemovedEvent new decoration: anElement; yourself) ].
+	anElement nodesDo: [ :node | node dispatchEvent: ToListPrimarySelectionRemovedEvent new ].
 
 	listElement removeEventHandler: secondarySelectionAddedHandler.
 	listElement removeEventHandler: secondarySelectionRemovedHandler.
@@ -77,7 +76,7 @@ ToListPrimarySelectionDresser >> whenRemovedFromParent: anElement [
 	blurHandler := nil.
 	focusHandler := nil.
 
-	super whenRemovedFromParent: anElement.
+	super whenRemoved: anElement.
 
 	
 

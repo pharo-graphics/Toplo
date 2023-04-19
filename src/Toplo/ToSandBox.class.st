@@ -83,7 +83,6 @@ ToSandBox class >> example_ComboBoxWithColors [
 	combo := ToComboBox new.
 	combo nodeFactory: [ :color |
 		ToPairedNode new
-		
 			padding: (BlInsets all: 8);
 			"first: (ToElement new size: 25@25; yourself);"
 			second: (ToElement new height: 30; hMatchParent; background: color; yourself);
@@ -497,38 +496,6 @@ ToSandBox class >> example_ListWithIndexedColors [
 ]
 
 { #category : #list }
-ToSandBox class >> example_ListWithIndexedColors2 [
-
-	| l vscrollBar space |
-	
-	
-	l := ToListElement new nodeFactory: [ :color |
-		     ToLabeledNode new hMatchParent;
-			     labelText: color asString;
-			     background: color ].
-	
-	l withSelectionDecorationFactory: 
-			[ ToListSelectionElement new dresser: (ToListSelectionWithActionsDresser new
-					addedToParentAction: [ '>'  traceCr ];
-					removedFromParentAction: [ '<' traceCr ];
-					yourself) ].
-		
-	l data addAll: Color indexedColors.
-
-	vscrollBar := BlVerticalScrollbarElement new.
-	vscrollBar constraintsDo: [ :c |
-			c ignoreByLayout.
-			c margin: (BlInsets right: 2).
-			c ignored horizontal alignRight.
-			c ignored vertical alignBottom]. 
-	vscrollBar attachTo: l infinite.
-	space := OBlSpace new.
-	space root addChild: l.
-	space root addChild: vscrollBar.
-	space show
-]
-
-{ #category : #list }
 ToSandBox class >> example_ListWithPanes [
 
 	| list |
@@ -586,6 +553,58 @@ ToSandBox class >> example_ListWithSingleSelection [
 	l data addAll: Smalltalk globals allClasses.
 	l beSingleSelection.
 	l openInOBlSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_ListWithSpecificSelection [
+
+	| l vscrollBar space |
+	l := ToListElement new nodeFactory: [ :color |
+		     | node |
+		     node := ToElement new
+			             hMatchParent;
+			             vFitContent;
+			             layout: BlLinearLayout horizontal;
+			             dresser: ToNodeDresser new.
+		     node addChild: (ToElement new size: 15 @ 0).
+		     node addChild: (ToLabel new
+				      text: (color asString asRopedText foreground: color contrastingBlackAndWhiteColor);
+				      background: color;
+				      hMatchParent;
+				      yourself).
+		     node addChild: (ToElement new size: 18 @ 0).
+		     node ].
+
+	l withSelectionDresserFactory: [
+		ToListActionSelectionDresser new
+			addAction: [ :dresser :selectionElement |
+				| leftBar rightBar |
+				leftBar := ToElement new background: Color gray lighter.
+				leftBar vMatchParent.
+				leftBar margin: (BlInsets left: 5).
+				leftBar hExact: 3.
+				selectionElement addChild: leftBar.
+				rightBar := ToElement new background: Color gray lighter.
+				rightBar vMatchParent.
+				rightBar margin: (BlInsets right: 8 ).
+				rightBar hExact: 3.
+				rightBar constraintsDo: [ :c | c frame horizontal alignRight ].
+				selectionElement addChild: rightBar ];
+			yourself ].
+
+	l data addAll: Color indexedColors.
+
+	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar constraintsDo: [ :c |
+		c ignoreByLayout.
+		c margin: (BlInsets right: 0).
+		c ignored horizontal alignRight.
+		c ignored vertical alignBottom ].
+	vscrollBar attachTo: l infinite.
+	space := OBlSpace new.
+	space root addChild: l.
+	space root addChild: vscrollBar.
+	space show
 ]
 
 { #category : #list }
@@ -2490,7 +2509,7 @@ ToSandBox class >> example_toPairDirectionChanger [
 		but direction: but direction inverted.
 		but requestLayout ].
 	space := OBlSpace new.
-	space addChild: but.
+	space root addChild: but.
 	space show
 ]
 

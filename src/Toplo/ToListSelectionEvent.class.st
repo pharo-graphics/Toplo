@@ -1,5 +1,5 @@
 Class {
-	#name : #ToListSelectionUpdaterRequestEvent,
+	#name : #ToListSelectionEvent,
 	#superclass : #BlEvent,
 	#category : #'Toplo-Widget-List'
 }

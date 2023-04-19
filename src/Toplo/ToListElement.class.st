@@ -34,13 +34,13 @@ ToListElement >> initialize [
 { #category : #initialization }
 ToListElement >> withSelectionDecoration [
 
-	self withSelectionDecorationUpdater: ToListPrimarySelectionUpdater new
+	self withSelectionDecorationUpdater: ToListSelectionUpdater new
 ]
 
-{ #category : #initialization }
+{ #category : #'private-initialization' }
 ToListElement >> withSelectionDecorationFactory: aValuable [
 
-	self withSelectionDecorationUpdater: (ToListPrimarySelectionUpdater new decorationFactory: aValuable)
+	self withSelectionDecorationUpdater: (ToListSelectionUpdater new decorationFactory: aValuable)
 ]
 
 { #category : #'private-initialization' }
@@ -48,6 +48,13 @@ ToListElement >> withSelectionDecorationUpdater: aSelectionUpdater [
 
 	self dispatchEvent: ToListSelectionUpdaterStopEvent new.
 	aSelectionUpdater onInstalledIn: self
+]
+
+{ #category : #initialization }
+ToListElement >> withSelectionDresserFactory: aValuable [
+	"aValuable value is a a dresser instance that can be an instance of a subclass of ToListSelectionDresser. "
+
+	self withSelectionDecorationFactory: [ ToListSelectionElement new dresser: aValuable value ]
 ]
 
 { #category : #initialization }

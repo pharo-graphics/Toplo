@@ -1,5 +1,5 @@
 Class {
-	#name : #ToListSecondarySelectionAddedEvent,
+	#name : #ToListPrimarySelectionUpdatedEvent,
 	#superclass : #ToListSelectionEvent,
 	#category : #'Toplo-Widget-List'
 }

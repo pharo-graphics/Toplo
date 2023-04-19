@@ -3,58 +3,15 @@ Class {
 	#superclass : #ToDresser,
 	#instVars : [
 		'node',
-		'selected',
 		'backgroundBackup',
 		'editorAddedHandler',
 		'editorRemovedHandler',
-		'selectionDecoration',
 		'textRopeBackup',
-		'selectionAddedHandler',
 		'selectionChangedHandler',
 		'selectionRemovedHandler'
 	],
 	#category : #'Toplo-Core-Node'
 }
-
-{ #category : #'api - install/uninstall  hook' }
-ToLabelInNodeDresser >> decoration: aDecoration addedIn: anElement [
-
-	selected := true.
-	selectionDecoration := aDecoration.
-
-	backgroundBackup := anElement background.
-	anElement background: Color transparent.
-
-	textRopeBackup := anElement text rope copy.
-	aDecoration dispatchEvent: (ToListSelectionLabelInDecorationAdaptionEvent new label: anElement; yourself)
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToLabelInNodeDresser >> decoration: aDecoration changedIn: anElement [
-
-	selected ifFalse: [ ^ self ].	
-	aDecoration dispatchEvent: (ToListSelectionLabelInDecorationAdaptionEvent new label: anElement; yourself)
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToLabelInNodeDresser >> decoration: aDecoration removedIn: anElement [
-
-	selected ifFalse: [ ^ self ].
-	selected := false.
-	selectionDecoration := nil.
-	backgroundBackup ifNotNil: [ anElement background: backgroundBackup ].
-	textRopeBackup ifNotNil: [
-		anElement text rope: textRopeBackup.
-		anElement requestLayout.
-		textRopeBackup := nil ]
-]
-
-{ #category : #initialization }
-ToLabelInNodeDresser >> initialize [ 
-
-	super initialize.
-	selected := false
-]
 
 { #category : #'api - install/uninstall  hook' }
 ToLabelInNodeDresser >> installEventListenersIn: anElement [
@@ -70,26 +27,14 @@ ToLabelInNodeDresser >> installEventListenersIn: anElement [
 	anElement addEventHandler: editorAddedHandler.
 	anElement addEventHandler: editorRemovedHandler.
 	
-	selectionAddedHandler := BlEventHandler
-		                         on: ToListSelectionDecorationAddedEvent
-		                         do: [ :event |
-		                         self
-			                         decoration: event decoration
-			                         addedIn: anElement ].
 	selectionRemovedHandler := BlEventHandler
-		                           on: ToListSelectionDecorationRemovedEvent
-		                           do: [ :event |
-		                           self
-			                           decoration: event decoration
-			                           removedIn: anElement ].
-	selectionChangedHandler := BlEventHandler
-		                           on: ToListSelectionDecorationChangedEvent
-		                           do: [ :event |
-		                           self
-			                           decoration: event decoration
-			                           changedIn: anElement ].
+		                           on: ToListPrimarySelectionRemovedEvent
+		                           do: [ :event | self selectionRemovedIn: anElement ].
 
-	node addEventHandler: selectionAddedHandler.
+	selectionChangedHandler := BlEventHandler
+		                           on: ToListPrimarySelectionBackgroundChangedEvent
+		                           do: [ :event | self selectionBackground: event background changedBehind: anElement ].
+
 	node addEventHandler: selectionRemovedHandler.
 	node addEventHandler: selectionChangedHandler
 ]
@@ -114,12 +59,11 @@ ToLabelInNodeDresser >> labelEditorRemovedIn: aLabel [
 	| infinite |
 	infinite := node parent.
 	infinite requestFocus.
-	selected ifFalse: [ ^ self ].
 	self flag: 'Do not work if the edition is accepted because a new node is created in that case (because the data is updated) '.
 	"aLabel background: selectionDecoration actualBackgroundColor contrastingBlackAndWhiteColor."
 
 	self flag: 'workaround to make the node label foreground drawn correctly according to the selection background '.
-	infinite whenLayoutedDoOnce: [ infinite parent dispatchEvent: ToListPrimarySelectionUpdateEvent new ]
+	infinite whenLayoutedDoOnce: [ infinite parent dispatchEvent: ToListPrimarySelectionUpdatedEvent new ]
 	"node holder infiniteElement selectIndex: node holder position -1.
 	node holder infiniteElement selectIndex: node holder position."
 
@@ -146,11 +90,33 @@ ToLabelInNodeDresser >> onUninstalledIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
+ToLabelInNodeDresser >> selectionBackground: aBackground changedBehind: anElement [
+	"the original background and the original rope are stored only once"
+	" (in case of blurring, the foreground should be changed without storing the original rope) "
+
+	backgroundBackup ifNil: [ backgroundBackup := anElement background ].
+	anElement background: Color transparent.
+	textRopeBackup ifNil: [ textRopeBackup := anElement text rope copy ].
+	anElement foreground: aBackground contrastingBlackAndWhiteColor
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToLabelInNodeDresser >> selectionRemovedIn: anElement [
+
+	backgroundBackup ifNotNil: [
+		anElement background: backgroundBackup.
+		backgroundBackup := nil ].
+	textRopeBackup ifNotNil: [
+		anElement text rope: textRopeBackup.
+		anElement requestLayout.
+		textRopeBackup := nil ]
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToLabelInNodeDresser >> uninstallEventListenersIn: anElement [
 
 	super uninstallEventListenersIn: anElement.
 	
-	node removeEventHandler: selectionAddedHandler.
 	node removeEventHandler: selectionRemovedHandler.
 	node removeEventHandler: selectionChangedHandler.
 	anElement removeEventHandler: editorAddedHandler.

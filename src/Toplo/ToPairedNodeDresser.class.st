@@ -3,8 +3,8 @@ Class {
 	#superclass : #ToNodeDresser,
 	#instVars : [
 		'backgroundBackup',
-		'selectionAddedHandler',
-		'selectionRemovedHandler'
+		'selectionRemovedHandler',
+		'selectionBackgroundChangedHandler'
 	],
 	#category : #'Toplo-Core-Node'
 }
@@ -13,36 +13,38 @@ Class {
 ToPairedNodeDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
-	selectionAddedHandler := BlEventHandler
-		                         on: ToListSelectionDecorationAddedEvent
-		                         do: [ :event | self selectionDecorationAddedIn: anElement ].
+	selectionBackgroundChangedHandler := BlEventHandler
+		                         on: ToListPrimarySelectionBackgroundChangedEvent
+		                         do: [ :event | self selectionBackgroundChangedIn: anElement ].
 	selectionRemovedHandler := BlEventHandler
-		                           on: ToListSelectionDecorationRemovedEvent
-		                           do: [ :event | self selectionDecorationRemovedIn: anElement ].
-	anElement addEventHandler: selectionAddedHandler.
+		                           on: ToListPrimarySelectionRemovedEvent
+		                           do: [ :event | self selectionRemovedIn: anElement ].
+	anElement addEventHandler: selectionBackgroundChangedHandler.
 	anElement addEventHandler: selectionRemovedHandler.
 
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToPairedNodeDresser >> selectionDecorationAddedIn: anElement [
+ToPairedNodeDresser >> selectionBackgroundChangedIn: anElement [
 
-	backgroundBackup := anElement background.
-	anElement background: Color transparent.
-
+	backgroundBackup ifNil: [
+		backgroundBackup := anElement background.
+		anElement background: Color transparent ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToPairedNodeDresser >> selectionDecorationRemovedIn: anElement [
+ToPairedNodeDresser >> selectionRemovedIn: anElement [
 
-	backgroundBackup ifNotNil: [ anElement background: backgroundBackup ]
+	backgroundBackup ifNotNil: [
+		anElement background: backgroundBackup.
+		backgroundBackup := nil ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToPairedNodeDresser >> uninstallEventListenersIn: anElement [
 
 	super uninstallEventListenersIn: anElement.
-	anElement removeEventHandler: selectionAddedHandler.
+	anElement removeEventHandler: selectionBackgroundChangedHandler.
 	anElement removeEventHandler: selectionRemovedHandler.
 
 ]

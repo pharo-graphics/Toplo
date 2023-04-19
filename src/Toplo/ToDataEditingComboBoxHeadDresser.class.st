@@ -24,9 +24,9 @@ ToDataEditingComboBoxHeadDresser >> newMouseDownHandlerIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToDataEditingComboBoxHeadDresser >> whenAddedToParent: anElement [
+ToDataEditingComboBoxHeadDresser >> whenAdded: anElement [
 
-	super whenAddedToParent: anElement.
+	super whenAdded: anElement.
 
 	anElement textField whenSaveRequestedDo: [ :saveRequested |
 		anElement whenSaveRequested: saveRequested in: comboBox ].
@@ -39,11 +39,11 @@ ToDataEditingComboBoxHeadDresser >> whenAddedToParent: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToDataEditingComboBoxHeadDresser >> whenRemovedFromParent: anElement [
+ToDataEditingComboBoxHeadDresser >> whenRemoved: anElement [
 	
 	anElement textField infinite removeShortcut: downShortcut.
 
-	super whenRemovedFromParent: anElement
+	super whenRemoved: anElement
 
 
 ]

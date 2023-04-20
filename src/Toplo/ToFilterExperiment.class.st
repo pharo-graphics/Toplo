@@ -91,7 +91,7 @@ ToFilterExperiment >> spawnFilterUpdateThread [
 			0.2 seconds wait.
 			"Pattern still the same? If not, just loop again and end up waiting for another 0.2 secs"
 			oldPattern = pattern
-				ifTrue: [ self filter ] ] ] repeat ] forkAt: Processor userBackgroundPriority
+				ifTrue: [ self filter ] ] ] repeat ] forkAt: Processor userBackgroundPriority named: 'Toplo filter update'
 ]
 
 { #category : #'instance creation' }

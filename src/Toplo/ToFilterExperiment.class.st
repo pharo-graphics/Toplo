@@ -18,11 +18,11 @@ ToFilterExperiment class >> open [
 ]
 
 { #category : #'instance creation' }
-ToFilterExperiment >> dataMatching: aPattern [
+ToFilterExperiment >> dataMatchingPattern [
 
-	^ aPattern ifEmpty: [ initialData ] ifNotEmpty: [
-		  initialData select: [ :d | d beginsWith: pattern.
-			  "d includesSubstring: pattern caseSensitive: false" ] ]
+	^ pattern ifEmpty: [ initialData ] ifNotEmpty: [
+		  initialData select: [ :d | "d beginsWith: pattern."
+			  d includesSubstring: pattern caseSensitive: false ] ]
 ]
 
 { #category : #'instance creation' }
@@ -30,7 +30,7 @@ ToFilterExperiment >> filter [
 
 	pattern ifNil: [ ^ self ].
 	listElement data removeAll.
-	listElement data addAll: (self dataMatching: pattern)
+	listElement data addAll: (self dataMatchingPattern)
 ]
 
 { #category : #'instance creation' }

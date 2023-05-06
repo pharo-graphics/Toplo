@@ -16,15 +16,7 @@ Class {
 { #category : #'api - install/uninstall  hook' }
 ToDataFilterDresser >> dataChangedIn: anElement [
 
-	| originalData |
-	self semaphore isSignaled ifTrue: [ ^ self ].
-	originalData := dataStack first copy.
-	dataStack := Stack new.
-	dataStack push: originalData.
-	process terminate.
-	process := self filterProcessIn: anElement.
-	self semaphore signal
-	
+	"dataStack at: 1 put: anElement data asArray"
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -90,13 +82,14 @@ ToDataFilterDresser >> filterRequestEvent: anEvent in: anElement [
 ToDataFilterDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
+
 	requestHandler := BlEventHandler
 		                  on: ToDataFilterRequestEvent
 		                  do: [ :event | self filterRequestEvent: event in: anElement ].
 
-	"anElement data 	whenAddChangeDo: [ :ann | self dataChangedIn: anElement ]."
-	"anElement data whenRemoveChangeDo: [ :ann | self dataChangedIn: anElement ].
-	anElement data  whenUpdateChangeDo: [ :ann | self dataChangedIn: anElement ]."
+	"anElement data whenAddChangeDo: [ :ann | self dataChangedIn: anElement ].
+	anElement data whenRemoveChangeDo: [ :ann | self dataChangedIn: anElement ].
+	anElement data whenUpdateChangeDo: [ :ann | self dataChangedIn: anElement ]."
 	
 	anElement addEventHandler: requestHandler
 ]
@@ -115,8 +108,6 @@ ToDataFilterDresser >> onInstalledIn: anElement [
 ToDataFilterDresser >> onUninstalledIn: anElement [
 
 	process terminate.
-	anElement data removeAll.
-	anElement data addAll: dataStack pop.
 	dataStack := nil.
 	pattern := nil.
 	semaphore := nil.

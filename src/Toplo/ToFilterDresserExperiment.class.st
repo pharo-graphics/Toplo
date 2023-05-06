@@ -17,7 +17,7 @@ ToFilterDresserExperiment class >> open [
 { #category : #'instance creation' }
 ToFilterDresserExperiment >> open [
 
-	| pane |
+	| pane filterDresser |
 	pane := ToPane new
 		        beVertical;
 		        matchParent.
@@ -28,16 +28,20 @@ ToFilterDresserExperiment >> open [
 	pane addChild: listElement.
 	pane addChild: filterField.
 	
+	filterDresser := ToDataFilterDresser new.
+	listElement addDresser: filterDresser.
+	filterField whenTextEditedDo: [ self textUpdated ].
+
 	listElement data addAll:
 		((Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ])
 			 collect: [ :c | c name ]).
 
+	listElement removeDresser: filterDresser.
+	listElement addDresser: filterDresser.
 
-	listElement addDresser: ToDataFilterDresser new.
-	filterField whenTextEditedDo: [ self textUpdated ].
 	listElement when: ToDataFilteredEvent do: [ :event |
-		listElement data removeAll.
-		listElement data addAll: event data ].
+			listElement data removeAll.
+			listElement data addAll: event data ].
 	pane openInOBlSpace
 ]
 

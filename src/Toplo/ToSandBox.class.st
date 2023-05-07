@@ -168,7 +168,7 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 			 icon -> cls name ]).
 	l withRowNumbers.
 	
-	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar := OBlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
 			c ignoreByLayout.
 			c margin: (BlInsets right: 2).
@@ -497,7 +497,7 @@ ToSandBox class >> example_ListWithIndexedColors [
 			     background: color ].
 	l data addAll: Color indexedColors.
 
-	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar := OBlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
 			c ignoreByLayout.
 			c margin: (BlInsets right: 2).
@@ -609,7 +609,7 @@ ToSandBox class >> example_ListWithSpecificSelection [
 
 	l data addAll: Color indexedColors.
 
-	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar := OBlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
 		c ignoreByLayout.
 		c margin: (BlInsets right: 0).

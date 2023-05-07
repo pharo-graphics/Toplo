@@ -706,7 +706,7 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 		column addChild: row ].
 
 	root := column asScrollableElement.
-	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar := OBlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
 			c ignoreByLayout.
 			c margin: (BlInsets right: 2).

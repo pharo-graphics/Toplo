@@ -17,11 +17,7 @@ Class {
 { #category : #'adding / removing' }
 ToChoiceBox >> addData: anObject [
 
-	| item |
-	self data add: anObject.
-	item := self newMenuItemFromData: anObject.
-	menuButton addItem: item.
-	group add: item
+	self data add: anObject
 ]
 
 { #category : #'adding / removing' }
@@ -165,15 +161,15 @@ ToChoiceBox >> notifyDataInserted: anInterval [
 { #category : #'private - notifications' }
 ToChoiceBox >> notifyDataRemoved: anInterval [
 
-	| removed |
+	| removedData |
 	anInterval ifEmpty: [ ^ self ].
-	removed := anInterval collect: [ :idx | self menuButton items at: idx ].
-	removed do: [ :item |
+	removedData := anInterval collect: [ :idx | self data at: idx ].
+	removedData do: [ :d |
+		| item |
+		item := self menuItemFromData: d.
 		self menuButton removeItem: item.
-		self group remove: item ].
-	(anInterval includes: self selectedIndex) ifTrue: [ self selectData: nil ].
-
-
+		self group remove: item.
+		self selectedData = d ifTrue: [ self selectData: nil ] ]
 ]
 
 { #category : #accessing }
@@ -200,7 +196,7 @@ ToChoiceBox >> privateData: anObservableCollection [
 
 	data := anObservableCollection.
 	data whenAddChangeDo: [ :ann | self notifyDataInserted: ann interval ].
-	data whenRemoveChangeDo: [ :ann | self notifyDataRemoved: ann interval ].
+	data whenBeforeRemoveChangeDo: [ :ann | self notifyDataRemoved: ann interval ].
 	data whenUpdateChangeDo: [ :ann | self notifyDataChanged: ann interval ].
 
 	self notifyChanged
@@ -220,10 +216,7 @@ ToChoiceBox >> removeData: anObject [
 	| item |
 	item := self menuItemFromData: anObject.
 	self selectedData = anObject ifTrue: [ self selectData: nil ].
-	self data remove: anObject.
-	menuButton removeItem: item.
-	group remove: item.
-
+	self data remove: anObject
 ]
 
 { #category : #accessing }

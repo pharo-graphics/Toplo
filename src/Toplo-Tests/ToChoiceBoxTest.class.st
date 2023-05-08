@@ -165,6 +165,128 @@ ToChoiceBoxTest >> testPlaceholder3 [
 ]
 
 { #category : #' tests' }
+ToChoiceBoxTest >> testRemove [
+
+	| cb d1 d2 d3 |
+	cb := ToChoiceBox new.
+	d1 := '#1'.
+	d2 := '#2'.
+	d3 := '#3'.
+	cb data addAll: {
+			d1.
+			d2.
+			d3 }.
+	cb selectIndex: 1.
+	self assert: cb data size equals: 3.
+	self assert: cb selectedData equals: d1.
+	self assert: cb menuButton label text asString equals: d1.
+	self assert: cb group buttons size equals: 3.
+	cb removeData: '#2'.
+	self assert: cb data first = '#1'.
+	self assert: cb data second = '#3'.
+	self assert: cb group buttons size equals: 2.
+	self assert: cb group buttons first label text asString = '#1'.
+	self assert: cb group buttons second label text asString = '#3'.
+	self assert: cb group buttons first isChecked.
+	self assert: cb group buttons second isUnchecked
+]
+
+{ #category : #' tests' }
+ToChoiceBoxTest >> testRemove2 [
+
+	| cb d1 d2 d3 |
+	cb := ToChoiceBox new.
+	d1 := '#1'.
+	d2 := '#2'.
+	d3 := '#3'.
+	cb data addAll: {
+			d1.
+			d2.
+			d3 }.
+	cb selectIndex: 2.
+	self assert: cb group buttons second isChecked.
+	self assert: cb data size equals: 3.
+	self assert: cb selectedData equals: d2.
+	self assert: cb menuButton label text asString equals: d2.
+	self assert: cb group buttons size equals: 3.
+	cb removeData: '#2'.
+	self assert: cb selectedIndex equals: 0.
+	self assert: cb menuButton label isNil.
+	self assert: cb group buttons first isUnchecked.
+	self assert: cb group buttons second isUnchecked.
+	self assert: cb data first = '#1'.
+	self assert: cb data second = '#3'.
+	self assert: cb group buttons size equals: 2.
+	self assert: cb group buttons first label text asString = '#1'.
+	self assert: cb group buttons second label text asString = '#3'.
+
+]
+
+{ #category : #' tests' }
+ToChoiceBoxTest >> testRemoveWithSeparator [
+
+	| cb d1 d2 d3 |
+	cb := ToChoiceBox new.
+	d1 := '#1'.
+	d2 := '#2'.
+	d3 := '#3'.
+	cb data add: d1.
+	cb addSeparator.
+	cb data addAll: {
+			d2.
+			d3 }.
+	cb selectIndex: 2.
+	self assert: cb group buttons second isChecked.
+	self assert: cb data size equals: 3.
+	self assert: cb selectedData equals: d2.
+	self assert: cb menuButton label text asString equals: d2.
+	self assert: cb group buttons size equals: 3.
+	cb removeData: '#2'.
+	self assert: cb selectedIndex equals: 0.
+	self assert: cb menuButton label isNil.
+	self assert: cb group buttons first isUnchecked.
+	self assert: cb group buttons second isUnchecked.
+	self assert: cb data first = '#1'.
+	self assert: cb data second = '#3'.
+	self assert: cb group buttons size equals: 2.
+	self assert: cb group buttons first label text asString = '#1'.
+	self assert: cb group buttons second label text asString = '#3'.
+
+]
+
+{ #category : #' tests' }
+ToChoiceBoxTest >> testRemoveWithSeparator2 [
+
+	| cb d1 d2 d3 |
+	cb := ToChoiceBox new.
+	d1 := '#1'.
+	d2 := '#2'.
+	d3 := '#3'.
+	cb data add: d1.
+	cb addSeparator.
+	cb data addAll: {
+			d2.
+			d3 }.
+	cb selectIndex: 2.
+	self assert: cb group buttons second isChecked.
+	self assert: cb data size equals: 3.
+	self assert: cb selectedData equals: d2.
+	self assert: cb menuButton label text asString equals: d2.
+	self assert: cb group buttons size equals: 3.
+	cb removeData: '#1'.
+	self assert: cb selectedIndex equals: 2.
+	self assert: cb menuButton label text asString equals: d2.
+	self assert: cb group buttons first isChecked.
+	self assert: cb group buttons second isUnchecked.
+	self assert: cb data first = '#2'.
+	self assert: cb data second = '#3'.
+	self assert: cb group buttons size equals: 2.
+	self assert: cb group buttons first label text asString = '#2'.
+	self assert: cb group buttons second label text asString = '#3'.
+
+]
+
+{ #category : #' tests' }
 ToChoiceBoxTest >> testSelectedData1 [
 
 	| cb d |

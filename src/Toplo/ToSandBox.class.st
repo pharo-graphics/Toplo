@@ -787,6 +787,7 @@ ToSandBox class >> example_choiceBoxWithStringData [
 	choicebox addSeparator.
 	choicebox data add: 'Linux'.
 	choicebox selectData: 'Windows'.
+	choicebox inspect.
 
 	win root addChild: choicebox.
 	win openInWorld

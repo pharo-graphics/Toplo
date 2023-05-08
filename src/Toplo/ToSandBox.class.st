@@ -1842,7 +1842,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroup2 [
 
 	| group container |
 	group := ToCheckableGroup new.
-	1 to: 4 do: [ :idx | 
+	1 to: 4 do: [ :idx |
 		| chb |
 		chb := ToRadioButton new
 			       beVertical;
@@ -1856,9 +1856,11 @@ ToSandBox class >> example_toCheckboxWithToggleGroup2 [
 	container layout: BlLinearLayout horizontal.
 	container layout cellSpacing: 2.
 	container addChildren: group buttons.
-	group whenChangedDo: [ :ann | ('checked: ' , ann checkedButtons asString , ' unchecked: ', ann uncheckedButtons asString) traceCr].
+	group whenChangedDo: [ :ann |
+		('checked: ' , ann checkedButtons asString , ' unchecked: '
+		 , ann uncheckedButtons asString) traceCr ].
 	ToInnerWindow new
-		in: [ :f | f addChild: container ];
+		in: [ :f | f root addChild: container ];
 		openInWorld
 ]
 

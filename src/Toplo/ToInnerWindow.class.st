@@ -44,7 +44,7 @@ ToInnerWindow >> bar: anElement [
 ToInnerWindow >> defaultBar [
 
 	| b close expand fill1 fill2 |
-	b := BlElement new
+	b := ToPane new beHorizontal
 		     margin: (BlInsets all: 1);
 		     border: self defaultBorder;
 		     outskirts: BlOutskirts outside;

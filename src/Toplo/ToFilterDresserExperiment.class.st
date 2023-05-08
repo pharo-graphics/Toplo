@@ -18,9 +18,7 @@ ToFilterDresserExperiment class >> open [
 ToFilterDresserExperiment >> open [
 
 	| pane filterDresser |
-	pane := ToPane new
-		        beVertical;
-		        matchParent.
+	pane := ToPane vertical hMatchParent; yourself.
 	filterField := ToTextField new.
 	listElement := ToListElement new.
 	listElement margin: (BlInsets all: 2).

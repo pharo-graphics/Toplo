@@ -830,7 +830,7 @@ ToSandBox class >> example_elementInPopupRoot [
 ToSandBox class >> example_horizontalPaneWithDivider [
 
 	| pane e1 e2 e3 btn |
-	pane := ToPane new.
+	pane := ToPane horizontal.
 	pane matchParent.
 	e1 := ToElement new
 				margin: (BlInsets all: 3);
@@ -2692,14 +2692,14 @@ ToSandBox class >> example_toggle [
 	win root addChildren: {
 			th.
 			tv }.
-	win openInNewSpace
+	win openInOBlSpace
 ]
 
 { #category : #pane }
 ToSandBox class >> example_verticalPaneWithDivider [
 
 	| pane e1 e2 e3 btn |
-	pane := ToPane new beVertical.
+	pane := ToPane vertical.
 	pane matchParent.
 	e1 := ToElement new
 		      background: (Color random alpha: 0.2);

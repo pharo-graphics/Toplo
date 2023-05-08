@@ -6,6 +6,26 @@ Class {
 	#category : #'Toplo-Widget-Pane'
 }
 
+{ #category : #factory }
+ToPane class >> horizontal [
+
+	^ self new
+		  beHorizontal;
+		  vFitContent;
+		  hMatchParent;
+		  yourself
+]
+
+{ #category : #factory }
+ToPane class >> vertical [
+
+	^ self new
+		  beVertical;
+		  hFitContent;
+		  vMatchParent;
+		  yourself
+]
+
 { #category : #dividers }
 ToPane >> addDividerBetween: aFirstElement and: aSecondElement [
 

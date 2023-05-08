@@ -44,14 +44,12 @@ ToInnerWindow >> bar: anElement [
 ToInnerWindow >> defaultBar [
 
 	| b close expand fill1 fill2 |
-	b := ToPane new beHorizontal
+	b := ToPane horizontal
 		     margin: (BlInsets all: 1);
 		     border: self defaultBorder;
 		     outskirts: BlOutskirts outside;
 		     background: self defaultBarBackground;
-		     constraintsDo: [ :c | 
-			     c vertical fitContent.
-			     c horizontal matchParent ].
+				yourself.
 
 	b layout: (BlGridLayout horizontal cellSpacing: 1).
 	b when: BlDoubleClickEvent do: [ self maximize ].

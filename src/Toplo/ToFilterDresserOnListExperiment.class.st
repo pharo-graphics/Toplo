@@ -1,5 +1,5 @@
 Class {
-	#name : #ToFilterDresserExperiment,
+	#name : #ToFilterDresserOnListExperiment,
 	#superclass : #Object,
 	#instVars : [
 		'filterField',
@@ -9,13 +9,13 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToFilterDresserExperiment class >> open [
+ToFilterDresserOnListExperiment class >> open [
 	<script>
 	self new open 
 ]
 
 { #category : #'instance creation' }
-ToFilterDresserExperiment >> filterResultPlaceholder [
+ToFilterDresserOnListExperiment >> filterResultPlaceholder [
 
 	| placeholder lab |
 	placeholder := ToPane vertical.
@@ -28,7 +28,7 @@ ToFilterDresserExperiment >> filterResultPlaceholder [
 ]
 
 { #category : #accessing }
-ToFilterDresserExperiment >> listElement [
+ToFilterDresserOnListExperiment >> listElement [
 
 	^ listElement ifNil: [
 		  listElement := ToListElement new
@@ -37,7 +37,7 @@ ToFilterDresserExperiment >> listElement [
 ]
 
 { #category : #'instance creation' }
-ToFilterDresserExperiment >> open [
+ToFilterDresserOnListExperiment >> open [
 
 	| pane filterDresser |
 	pane := ToPane vertical
@@ -65,11 +65,11 @@ ToFilterDresserExperiment >> open [
 ]
 
 { #category : #'see class side' }
-ToFilterDresserExperiment >> seeClassSide [ 
+ToFilterDresserOnListExperiment >> seeClassSide [ 
 ]
 
 { #category : #'instance creation' }
-ToFilterDresserExperiment >> startPlaceholder [
+ToFilterDresserOnListExperiment >> startPlaceholder [
 
 	| placeholder lab but |
 	placeholder := ToPane vertical.
@@ -91,7 +91,7 @@ ToFilterDresserExperiment >> startPlaceholder [
 ]
 
 { #category : #'instance creation' }
-ToFilterDresserExperiment >> textUpdated [
+ToFilterDresserOnListExperiment >> textUpdated [
 
 	listElement dispatchEvent: (ToDataFilterRequestEvent new pattern: filterField text asString)
 ]

@@ -79,7 +79,7 @@ ToDataFilterDresser >> filterProcessIn: anElement [
 		  oldPattern = self pattern ifTrue: [ self filterDataIn: anElement ] ] ]
 		  repeat ]
 		  forkAt: Processor userBackgroundPriority
-		  named: 'Toplo filter engine update'
+		  named: self class name, ' filter process'
 ]
 
 { #category : #'private filtering' }

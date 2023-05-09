@@ -436,30 +436,6 @@ ToExperiments class >> example_LinearLayoutWithLabels [
 	frame openInNewSpace
 ]
 
-{ #category : #elements }
-ToExperiments class >> example_ScaledElement [
-
-	| content scalable |
-	content := BlElement new
-		           size: 20 @ 20;
-		           background: Color red.
-
-	scalable := BlScalableElement new.
-	
-	scalable scaleStrategy: (BlScalableFixedStrategy zoom: 10). "set custom zoom level"
-	"scalable scaleStrategy: BlScalableFitWidthStrategy new." "Fit horizontally"
-	"scalable scaleStrategy: BlScalableFitHeightStrategy new. ""Fit vertically""
-	scalable scaleStrategy: BlScalableFitAllStrategy new. ""Fit vertically and horizontally at the same time"""
-	scalable constraintsDo: [ :c | 
-		c horizontal matchParent .
-		c vertical matchParent ].
-	content border: (BlBorder paint: Color blue width: 2).
-	scalable contentElement: content.
-	scalable border: (BlBorder paint: Color yellow width: 5).
-	scalable outskirts: BlOutskirts inside.
-	scalable openInOBlSpace
-]
-
 { #category : #image }
 ToExperiments class >> example_Smalltalk_all_classes [
 
@@ -477,7 +453,7 @@ ToExperiments class >> example_Smalltalk_all_classes [
 		column addChild: lab ] ].
 
 	root := column asScrollableElement.
-	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar := OBlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
 			c ignoreByLayout.
 			c margin: (BlInsets right: 2).
@@ -527,7 +503,7 @@ ToExperiments class >> example_Smalltalk_ui_icons_withElements [
 		column addChild: row ] ].
 
 	root := column asScrollableElement.
-	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar := OBlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
 			c ignoreByLayout.
 			c margin: (BlInsets right: 2).

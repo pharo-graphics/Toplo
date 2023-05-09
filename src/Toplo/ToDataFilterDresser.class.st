@@ -5,11 +5,11 @@ Class {
 		'pattern',
 		'semaphore',
 		'requestHandler',
-		'delay',
 		'process',
 		'filter',
 		'originalData',
-		'currentData'
+		'currentData',
+		'delayBeforeFilter'
 	],
 	#category : #'Toplo-Widget-List'
 }
@@ -26,6 +26,12 @@ ToDataFilterDresser >> dataChangedIn: anElement [
 ToDataFilterDresser >> defaultFilter [
 
 	^ [ :data | data includesSubstring: self pattern caseSensitive: false ]
+]
+
+{ #category : #accessing }
+ToDataFilterDresser >> delayBeforeFilter [
+
+	^ delayBeforeFilter
 ]
 
 { #category : #accessing }
@@ -68,7 +74,7 @@ ToDataFilterDresser >> filterProcessIn: anElement [
 	and we discard then till we end up waiting for filterChangeSemaphore again"
 	  oldPattern ~= self pattern ifTrue: [
 		  oldPattern := self pattern.
-		  delay wait.
+		  self delayBeforeFilter wait.
 		  "Pattern still the same? If not, just loop again and end up waiting for another x secs"
 		  oldPattern = self pattern ifTrue: [ self filterDataIn: anElement ] ] ]
 		  repeat ]
@@ -104,7 +110,7 @@ ToDataFilterDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	originalData := anElement data asArray.
-	delay := 0.1 seconds.
+	delayBeforeFilter := 150 milliSeconds.
 	process := self filterProcessIn: anElement
 ]
 

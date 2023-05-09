@@ -325,40 +325,43 @@ TToObservableCollection >> noneSatisfy: aBlock [
 { #category : #'t - observable collection notifications' }
 TToObservableCollection >> notifyAddChangeAround: aBlock candidates: aCollection interval: anInterval [
 
+	self notifyEmptinessChangeAfter: [
+		self announce: (ToCollectionBeforeAddChange new
+				 interval: anInterval;
+				 candidates: aCollection;
+				 yourself).
+		aBlock value.
+		self announce: (ToCollectionAddChange new interval: anInterval) ]
+]
+
+{ #category : #'t - observable collection notifications' }
+TToObservableCollection >> notifyEmptinessChangeAfter: aBlock [ 
+
 	| wasEmpty |
 	wasEmpty := list isEmpty.
-	self announce: (ToCollectionBeforeAddChange new
-			 interval: anInterval;
-			 candidates: aCollection;
-			 yourself).
 	aBlock value.
-	self announce: (ToCollectionAddChange new interval: anInterval).
 	wasEmpty = list isEmpty ifFalse: [ self announce: ToCollectionEmptinessChanged new ]
 ]
 
 { #category : #'t - observable collection notifications' }
 TToObservableCollection >> notifyFilterChangeAround: aBlock interval: anInterval [
 
-	| wasEmpty |
-	wasEmpty := list isEmpty.
-	self announce: (ToCollectionBeforeFilterChange new interval: (1 to: self size)).	
-	aBlock value.
-	self announce: (ToCollectionFilterChange new interval: anInterval).
-	wasEmpty = list isEmpty ifFalse: [ self announce: ToCollectionEmptinessChanged new ]
+	self notifyEmptinessChangeAfter: [
+		self announce: (ToCollectionBeforeFilterChange new interval: (1 to: self size)).
+		aBlock value.
+		self announce: (ToCollectionFilterChange new interval: anInterval) ]
 ]
 
 { #category : #'t - observable collection notifications' }
 TToObservableCollection >> notifyRemoveChangeAround: aBlock removed: aCollection interval: anInterval [
 
-	| wasEmpty |
-	wasEmpty := list isEmpty.
-	self announce: (ToCollectionBeforeRemoveChange new interval: anInterval).
-	aBlock value.
-	self announce: (ToCollectionRemoveChange new
-			 interval: anInterval;
-			 removed: aCollection;
-			 yourself).
-	wasEmpty = list isEmpty ifFalse: [ self announce: ToCollectionEmptinessChanged new ]
+	self notifyEmptinessChangeAfter: [
+		self announce: (ToCollectionBeforeRemoveChange new interval: anInterval).
+		aBlock value.
+		self announce: (ToCollectionRemoveChange new
+				 interval: anInterval;
+				 removed: aCollection;
+				 yourself) ]
 ]
 
 { #category : #'t - observable collection notifications' }

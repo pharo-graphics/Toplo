@@ -4,7 +4,6 @@ Class {
 	#traits : 'TToWidget + TToWidgetWithTooltip',
 	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait',
 	#instVars : [
-		'#data',
 		'#selectedIndex => ObservableSlot',
 		'#listElement',
 		'#listFrame',
@@ -51,13 +50,7 @@ ToComboBox >> closeEvent: anEvent [
 { #category : #accessing }
 ToComboBox >> data [
 
-	^ data
-]
-
-{ #category : #accessing }
-ToComboBox >> data: aCollection [
-
-	data := aCollection
+	^ self listElement data
 ]
 
 { #category : #'t - initialization dresser' }
@@ -155,7 +148,6 @@ ToComboBox >> initialize [
 	self class initializeSlots: self.
 	super initialize.
 	self mode: self defaultMode.
-	self privateData: self newDataCollection.
 	self layout: self defaultLayout.
 	self privateListElement: self defaultListElement.
 	self privateListFrame: self defaultListFrame.
@@ -250,12 +242,6 @@ ToComboBox >> mode: previousMode changedWith: newMode [
 	self updateHeadContent
 ]
 
-{ #category : #initialization }
-ToComboBox >> newDataCollection [
-
-	^ ToObservableCollection new
-]
-
 { #category : #accessing }
 ToComboBox >> nodeFactory [
 	" is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
@@ -274,35 +260,6 @@ ToComboBox >> nodeFactory: aConverter [
 ToComboBox >> notifyChanged [
 
 	self dispatchEvent: ToComboBoxChangedEvent new
-]
-
-{ #category : #'private - notifications' }
-ToComboBox >> notifyDataChanged: anAnnouncement [
-
-	anAnnouncement interval ifEmpty: [ ^ self ].
-	self presentedData
-		replaceFrom: anAnnouncement interval first
-		to: anAnnouncement interval last
-		with: self data list
-		startingAt: anAnnouncement interval first
-]
-
-{ #category : #'private - notifications' }
-ToComboBox >> notifyDataInserted: anAnnouncement [
-
-	anAnnouncement interval ifEmpty: [ ^ self ].
-	self presentedData addAll: (self data
-			 copyFrom: anAnnouncement interval first
-			 to: anAnnouncement interval last)
-]
-
-{ #category : #'private - notifications' }
-ToComboBox >> notifyDataRemoved: anAnnouncement [
-
-	anAnnouncement interval ifEmpty: [ ^ self ].
-	self presentedData
-		removeFrom: anAnnouncement interval first
-		to: anAnnouncement interval last
 ]
 
 { #category : #displaying }
@@ -347,23 +304,6 @@ ToComboBox >> prepareListElement [
 	self listFrame 	root fitContent.
 	self listElement next elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
 
-]
-
-{ #category : #accessing }
-ToComboBox >> presentedData [
-
-	^ listElement data
-]
-
-{ #category : #'private - accessing' }
-ToComboBox >> privateData: anObservableCollection [
-
-	anObservableCollection whenAddChangeDo: [ :ann | self notifyDataInserted: ann ].
-	anObservableCollection whenRemoveChangeDo: [ :ann | self notifyDataRemoved: ann ].
-	anObservableCollection whenUpdateChangeDo: [ :ann | self notifyDataInserted: ann ].
-	data := anObservableCollection.
-
-	self notifyChanged
 ]
 
 { #category : #'private - accessing' }
@@ -416,7 +356,7 @@ ToComboBox >> selectIndex: anIndex [
 { #category : #accessing }
 ToComboBox >> selectedData [
 	
-	^ self presentedData at: self selectedIndex 
+	^ self data at: self selectedIndex 
 ]
 
 { #category : #accessing }

@@ -8,7 +8,7 @@ Class {
 		'delay',
 		'process',
 		'filter',
-		'dataStack'
+		'originalData'
 	],
 	#category : #'Toplo-Widget-List'
 }
@@ -43,8 +43,8 @@ ToDataFilterDresser >> filterDataIn: anElement [
 	| filtered |
 	self pattern ifNil: [ ^ self ].
 	filtered := self pattern
-		            ifEmpty: [ dataStack top ]
-		            ifNotEmpty: [ dataStack top select: self filter ].
+		            ifEmpty: [ originalData ]
+		            ifNotEmpty: [ originalData select: self filter ].
 	anElement dispatchEvent: (ToDataFilteredEvent new data: filtered)
 ]
 
@@ -98,8 +98,7 @@ ToDataFilterDresser >> installEventListenersIn: anElement [
 ToDataFilterDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	dataStack := Stack new.
-	dataStack push: anElement data asArray.
+	originalData := anElement data asArray.
 	delay := 0.1 seconds.
 	process := self filterProcessIn: anElement
 ]
@@ -108,7 +107,7 @@ ToDataFilterDresser >> onInstalledIn: anElement [
 ToDataFilterDresser >> onUninstalledIn: anElement [
 
 	process terminate.
-	dataStack := nil.
+	originalData := nil.
 	pattern := nil.
 	semaphore := nil.
 	super onUninstalledIn: anElement.

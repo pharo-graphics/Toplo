@@ -15,36 +15,79 @@ ToFilterDresserExperiment class >> open [
 ]
 
 { #category : #'instance creation' }
+ToFilterDresserExperiment >> filterResultPlaceholder [
+
+	| placeholder lab |
+	placeholder := ToPane vertical.
+	placeholder matchParent.
+	lab := ToLabel new text: ('No result' asRopedText foreground: Color lightGray).
+	lab matchParent.
+	lab layout alignCenter.
+	placeholder addChild: lab.
+	^ placeholder
+]
+
+{ #category : #accessing }
+ToFilterDresserExperiment >> listElement [
+
+	^ listElement ifNil: [
+		  listElement := ToListElement new
+			                 matchParent;
+			                 yourself ]
+]
+
+{ #category : #'instance creation' }
 ToFilterDresserExperiment >> open [
 
 	| pane filterDresser |
-	pane := ToPane vertical hMatchParent; yourself.
+	pane := ToPane vertical
+		        matchParent;
+		        yourself.
 	filterField := ToTextField new.
-	listElement := ToListElement new.
+	listElement := ToListElement new matchParent.
 	listElement margin: (BlInsets all: 2).
 	filterField margin: (BlInsets all: 2).
 	pane addChild: listElement.
 	pane addChild: filterField.
-	
+
 	filterDresser := ToDataFilterDresser new.
 	listElement addDresser: filterDresser.
 	filterField whenTextEditedDo: [ self textUpdated ].
 
-	listElement data addAll:
-		((Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ])
-			 collect: [ :c | c name ]).
+	listElement placeholder: self startPlaceholder.
+	listElement placeholder elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
+	listElement showPlaceholder.
 
-	listElement removeDresser: filterDresser.
-	listElement addDresser: filterDresser.
-
-	listElement when: ToDataFilteredEvent do: [ :event |
-			listElement data removeAll.
-			listElement data addAll: event data ].
+	listElement
+		when: ToDataFilteredEvent
+		do: [ :event | listElement data filterResult: event data ].
 	pane openInOBlSpace
 ]
 
 { #category : #'see class side' }
 ToFilterDresserExperiment >> seeClassSide [ 
+]
+
+{ #category : #'instance creation' }
+ToFilterDresserExperiment >> startPlaceholder [
+
+	| placeholder lab but |
+	placeholder := ToPane vertical.
+	placeholder layout cellSpacing: 10.
+	placeholder margin: (BlInsets all: 20).
+	placeholder matchParent.
+	placeholder addChild: (lab := ToLabel new text:
+			        ('No element - click to get data' asRopedText foreground:
+				         Color red)).
+	placeholder addChild: (but := ToButton new labelText: 'Fetch data').
+	lab constraintsDo: [ :c | c linear horizontal alignCenter ].
+	but constraintsDo: [ :c | c linear horizontal alignCenter ].
+	but whenClickedDo: [
+		self listElement data addAll:
+			((Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ])
+				 collect: [ :c | c name ]).
+		self listElement placeholder: self filterResultPlaceholder ].
+	^ placeholder
 ]
 
 { #category : #'instance creation' }

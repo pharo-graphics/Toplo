@@ -8,7 +8,8 @@ Class {
 		'delay',
 		'process',
 		'filter',
-		'originalData'
+		'originalData',
+		'currentData'
 	],
 	#category : #'Toplo-Widget-List'
 }
@@ -16,7 +17,9 @@ Class {
 { #category : #'api - install/uninstall  hook' }
 ToDataFilterDresser >> dataChangedIn: anElement [
 
-	"dataStack at: 1 put: anElement data asArray"
+	originalData := anElement data asArray.
+	currentData := originalData.
+	self filterDataIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -45,7 +48,9 @@ ToDataFilterDresser >> filterDataIn: anElement [
 	filtered := self pattern
 		            ifEmpty: [ originalData ]
 		            ifNotEmpty: [ originalData select: self filter ].
-	anElement dispatchEvent: (ToDataFilteredEvent new data: filtered)
+	currentData = filtered ifTrue: [ ^ self ].
+	currentData := filtered.
+	anElement dispatchEvent: (ToDataFilteredEvent new data: currentData)
 ]
 
 { #category : #'private filtering' }
@@ -87,9 +92,9 @@ ToDataFilterDresser >> installEventListenersIn: anElement [
 		                  on: ToDataFilterRequestEvent
 		                  do: [ :event | self filterRequestEvent: event in: anElement ].
 
-	"anElement data whenAddChangeDo: [ :ann | self dataChangedIn: anElement ].
+	anElement data whenAddChangeDo: [ :ann | self dataChangedIn: anElement ].
 	anElement data whenRemoveChangeDo: [ :ann | self dataChangedIn: anElement ].
-	anElement data whenUpdateChangeDo: [ :ann | self dataChangedIn: anElement ]."
+	anElement data whenUpdateChangeDo: [ :ann | self dataChangedIn: anElement ].
 	
 	anElement addEventHandler: requestHandler
 ]

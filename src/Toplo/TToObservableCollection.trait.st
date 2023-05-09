@@ -194,6 +194,16 @@ TToObservableCollection >> fifth [
 	^ list fifth
 ]
 
+{ #category : #'t - observable collection removing' }
+TToObservableCollection >> filterResult: aCollection [
+
+	self
+		notifyFilterChangeAround: [
+			list removeAll.
+			list addAll: aCollection ]
+		interval: (1 to: aCollection size)
+]
+
 { #category : #'t - observable collection accessing' }
 TToObservableCollection >> first [
 
@@ -327,6 +337,17 @@ TToObservableCollection >> notifyAddChangeAround: aBlock candidates: aCollection
 ]
 
 { #category : #'t - observable collection notifications' }
+TToObservableCollection >> notifyFilterChangeAround: aBlock interval: anInterval [
+
+	| wasEmpty |
+	wasEmpty := list isEmpty.
+	self announce: (ToCollectionBeforeFilterChange new interval: (1 to: self size)).	
+	aBlock value.
+	self announce: (ToCollectionFilterChange new interval: anInterval).
+	wasEmpty = list isEmpty ifFalse: [ self announce: ToCollectionEmptinessChanged new ]
+]
+
+{ #category : #'t - observable collection notifications' }
 TToObservableCollection >> notifyRemoveChangeAround: aBlock removed: aCollection interval: anInterval [
 
 	| wasEmpty |
@@ -440,6 +461,16 @@ TToObservableCollection >> removeLast: n [
 		interval: (s - n + 1 to: s)
 ]
 
+{ #category : #'t - observable collection removing' }
+TToObservableCollection >> replaceAllWith: aCollection [
+
+	self
+		notifyUpdateChangeAround: [
+			list removeAll.
+			list addAll: aCollection ]
+		interval: (1 to: self size)
+]
+
 { #category : #'t - observable collection accessing' }
 TToObservableCollection >> replaceFrom: start to: stop with: replacement [ 
 
@@ -520,6 +551,12 @@ TToObservableCollection >> whenBeforeAddChangeSend: aSelector to: anObject [
 ]
 
 { #category : #'t - observable collection event management' }
+TToObservableCollection >> whenBeforeFilterChangeDo: aBlock [
+
+	self whenAnnouncement: ToCollectionBeforeFilterChange  do: [ :ann | aBlock cull: ann ] 
+]
+
+{ #category : #'t - observable collection event management' }
 TToObservableCollection >> whenBeforeRemoveChangeDo: aBlock [
 
 	self whenAnnouncement: ToCollectionBeforeRemoveChange  do: [ :ann | aBlock cull: ann ] 
@@ -541,6 +578,12 @@ TToObservableCollection >> whenBeforeUpdateChangeDo: aBlock [
 TToObservableCollection >> whenBeforeUpdateChangeSend: aSelector to: anObject [
 
 	self whenAnnouncement: ToCollectionBeforeUpdateChange  send: aSelector to: anObject
+]
+
+{ #category : #'t - observable collection event management' }
+TToObservableCollection >> whenFilterChangeDo: aBlock [
+
+	self whenAnnouncement: ToCollectionFilterChange  do: [ :ann | aBlock cull: ann ] 
 ]
 
 { #category : #'t - observable collection event management' }

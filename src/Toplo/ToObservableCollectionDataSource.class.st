@@ -28,6 +28,8 @@ ToObservableCollectionDataSource >> list: anObservableCollection [
 	list whenAddChangeDo: [ :ann | self notifyItemsInserted: ann interval ].
 	list whenRemoveChangeDo: [ :ann | self notifyItemsRemoved: ann interval ].
 	list whenUpdateChangeDo: [ :ann | self notifyItemsChanged: ann interval ].
+	list whenBeforeFilterChangeDo: [ :ann | self notifyItemsRemoved: ann interval ]. 
+	list whenFilterChangeDo: [ :ann | self notifyItemsInserted: ann interval ].
 	list whenAnnouncement: ToCollectionEmptinessChanged do: [ self dispatchEvent: ToListDataEmptinessChangeEvent new  ].
 
 	self notifyChanged

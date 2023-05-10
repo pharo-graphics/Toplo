@@ -26,11 +26,11 @@ ToLAFExamples class >> example_ButtonSkins [
 	button5 := ToButton skinType: #link.
 	button5 labelText: 'Link button'.
 			
-	space addChild: button1.
-	space addChild: button2.
-	space addChild: button3.
-	space addChild: button4.
-	space addChild: button5.
+	space root addChild: button1.
+	space root addChild: button2.
+	space root addChild: button3.
+	space root addChild: button4.
+	space root addChild: button5.
 	space show.
 
 	^space
@@ -70,12 +70,12 @@ ToLAFExamples class >> example_LabelsSkins [
 	label6 := ToLabel skinType: #default.
 	label6 text: 'Toplo Theme (disabled)'.
 			
-	space addChild: label1.
-	space addChild: label2.
-	space addChild: label3.
-	space addChild: label4.
-	space addChild: label5.
-	space addChild: label6.
+	space root addChild: label1.
+	space root addChild: label2.
+	space root addChild: label3.
+	space root addChild: label4.
+	space root addChild: label5.
+	space root addChild: label6.
 	
 	space show.
 
@@ -114,11 +114,11 @@ ToLAFExamples class >> example_MoreButtonSkins [
 		button5 := ToButton skinType: #link.
 		button5 labelText: 'Link button ', i asString.
 		
-		space addChild: button1.
-		space addChild: button2.
-		space addChild: button3.
-		space addChild: button4.
-		space addChild: button5.
+		space root addChild: button1.
+		space root addChild: button2.
+		space root addChild: button3.
+		space root addChild: button4.
+		space root addChild: button5.
 	].
 	
 	space show.
@@ -156,11 +156,11 @@ ToLAFExamples class >> example_TitleLabelsSkins [
 	label5 := ToLabel skinType: #h5.
 	label5 text: 'h5. Toplo Theme'.
 			
-	space addChild: label1.
-	space addChild: label2.
-	space addChild: label3.
-	space addChild: label4.
-	space addChild: label5.
+	space root addChild: label1.
+	space root addChild: label2.
+	space root addChild: label3.
+	space root addChild: label4.
+	space root addChild: label5.
 	
 	space show.
 
@@ -186,27 +186,27 @@ ToLAFExamples class >> example_themePrimaryColorCustomization [
 	button1 := ToButton skinType: #primary.
 	button1 labelText: 'Blue Theme'.
 	button1 whenClickedDo: [ space toTheme: (space toTheme isDark ifTrue:[ ToTheme darkBlue ] ifFalse:[ ToTheme blue ]) ].
-	space addChild: button1.
+	space root addChild: button1.
 	
 	button2 := ToButton skinType: #primary.
 	button2 labelText: 'Pink Theme'.
 	button2 whenClickedDo: [ space toTheme: (space toTheme isDark ifTrue:[ ToTheme darkPink ] ifFalse:[ ToTheme pink ]) ].
-	space addChild: button2.
+	space root addChild: button2.
 	
 	button3 := ToButton skinType: #primary.
 	button3 labelText: 'Green Theme'.
 	button3 whenClickedDo: [ space toTheme: (space toTheme isDark ifTrue:[ ToTheme darkGreen ] ifFalse:[ ToTheme green ]) ].
-	space addChild: button3.
+	space root addChild: button3.
 	
 	button4 := ToButton skinType: #primary.
 	button4 labelText: 'Random Theme'.
 	button4 whenClickedDo: [ space toTheme: (space toTheme isDark ifTrue:[ ToTheme colorPrimaryDark: Color random ] ifFalse:[ ToTheme colorPrimary: Color random ]) ].
-	space addChild: button4.
+	space root addChild: button4.
 	
 	button5 := ToButton skinType: #default.
 	button5 labelText: 'Dark/Light Switch'.
 	button5 whenClickedDo: [ space switchThemeDarkOrLight ].
-	space addChild: button5.
+	space root addChild: button5.
 	
 	space show
 ]
@@ -235,7 +235,7 @@ ToLAFExamples class >> example_toButtonChangeThemeOnClickChangeSkinOnRightClick 
 		].
 	].
 			
-	space addChild: but.
+	space root addChild: but.
 	space show
 ]
 

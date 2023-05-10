@@ -49,14 +49,24 @@ ToDataFilterDresser >> filter: aValuable [
 { #category : #'private filtering' }
 ToDataFilterDresser >> filterDataIn: anElement [
 
-	| filtered |
+	| filtered indexes |
 	self pattern ifNil: [ ^ self ].
-	filtered := self pattern
-		            ifEmpty: [ originalData ]
-		            ifNotEmpty: [ originalData select: self filter ].
+	filtered := originalData.
+	indexes := 1 to: filtered size.
+
+	self pattern ifNotEmpty: [
+		filtered := Array streamContents: [ :filteredStream |
+			            indexes := Array streamContents: [ :indexesStream |
+				                       originalData withIndexDo: [ :d :idx |
+					                       (self filter value: d) ifTrue: [
+						                       filteredStream nextPut: d.
+						                       indexesStream nextPut: idx ] ] ] ] ].
 	currentData = filtered ifTrue: [ ^ self ].
 	currentData := filtered.
-	anElement dispatchEvent: (ToDataFilteredEvent new data: currentData)
+	anElement dispatchEvent: (ToDataFilteredEvent new
+			 data: currentData;
+			 indexes: indexes;
+			 yourself)
 ]
 
 { #category : #'private filtering' }

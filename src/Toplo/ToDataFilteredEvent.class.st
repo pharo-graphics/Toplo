@@ -2,7 +2,8 @@ Class {
 	#name : #ToDataFilteredEvent,
 	#superclass : #BlEvent,
 	#instVars : [
-		'data'
+		'data',
+		'indexes'
 	],
 	#category : #'Toplo-Widget-List'
 }
@@ -17,4 +18,16 @@ ToDataFilteredEvent >> data [
 ToDataFilteredEvent >> data: aCollection [
 
 	data := aCollection
+]
+
+{ #category : #accessing }
+ToDataFilteredEvent >> indexes [
+
+	^ indexes
+]
+
+{ #category : #accessing }
+ToDataFilteredEvent >> indexes: aCollection [
+
+	indexes := aCollection
 ]

@@ -3,21 +3,21 @@ Class {
 	#superclass : #Announcement,
 	#instVars : [
 		'model',
-		'interval'
+		'indexes'
 	],
 	#category : #'Toplo-Core-Infinite'
 }
 
 { #category : #accessing }
-ToSelectionModelChanged >> interval [
+ToSelectionModelChanged >> indexes [
 
-	^ interval
+	^ indexes
 ]
 
 { #category : #accessing }
-ToSelectionModelChanged >> interval: anInterval [
+ToSelectionModelChanged >> indexes: aCollection [
 
-	interval := anInterval
+	indexes := aCollection
 ]
 
 { #category : #accessing }

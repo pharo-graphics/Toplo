@@ -9,7 +9,8 @@ Class {
 		'filter',
 		'originalData',
 		'currentData',
-		'delayBeforeFilter'
+		'delayBeforeFilter',
+		'currentIndexes'
 	],
 	#category : #'Toplo-Widget-List'
 }
@@ -52,7 +53,7 @@ ToDataFilterDresser >> filterDataIn: anElement [
 	| filtered indexes |
 	self pattern ifNil: [ ^ self ].
 	filtered := originalData.
-	indexes := 1 to: filtered size.
+	indexes := 1 to: 0.
 
 	self pattern ifNotEmpty: [
 		filtered := Array streamContents: [ :filteredStream |
@@ -61,10 +62,10 @@ ToDataFilterDresser >> filterDataIn: anElement [
 					                       (self filter value: d) ifTrue: [
 						                       filteredStream nextPut: d.
 						                       indexesStream nextPut: idx ] ] ] ] ].
-	currentData = filtered ifTrue: [ ^ self ].
-	currentData := filtered.
+	currentIndexes = indexes ifTrue: [ ^ self ].
+	currentIndexes := indexes.
 	anElement dispatchEvent: (ToDataFilteredEvent new
-			 data: currentData;
+			 data: filtered;
 			 indexes: indexes;
 			 yourself)
 ]

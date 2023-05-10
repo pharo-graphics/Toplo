@@ -85,13 +85,13 @@ ToNodeHolder >> selected: aBoolean [
 { #category : #'selection - handling' }
 ToNodeHolder >> whenDeselectAnnouncement: anAnnouncement [
 
-	(anAnnouncement interval includes: self position) ifFalse: [ ^ self ].
+	(anAnnouncement indexes includes: self position) ifFalse: [ ^ self ].
 	self selected: false
 ]
 
 { #category : #'selection - handling' }
 ToNodeHolder >> whenSelectAnnouncement: anAnnouncement [
 
-	(anAnnouncement interval includes: self position) ifFalse: [ ^ self ].
+	(anAnnouncement indexes includes: self position) ifFalse: [ ^ self ].
 	self selected: true
 ]

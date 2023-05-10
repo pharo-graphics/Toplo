@@ -154,7 +154,7 @@ ToListPrimarySelectionUpdater >> onUninstalledIn: aListElement [
 { #category : #private }
 ToListPrimarySelectionUpdater >> resetDecorations [
 
-	decorations do: #removeFromParent.
+	decorations do: [ :d | d removeFromParent ].
 	decorations removeAll
 ]
 

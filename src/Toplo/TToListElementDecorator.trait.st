@@ -151,6 +151,12 @@ TToListElementDecorator >> selectIndex: anInteger [
 ]
 
 { #category : #'t - accessing selection' }
+TToListElementDecorator >> selectIndexes: aCollection [
+
+	self next selectIndexes: aCollection
+]
+
+{ #category : #'t - accessing selection' }
 TToListElementDecorator >> selectedIndexes [
 
 	^ self next selectedIndexes

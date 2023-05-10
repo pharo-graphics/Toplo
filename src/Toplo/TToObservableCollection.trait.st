@@ -399,7 +399,7 @@ TToObservableCollection >> removeAll [
 	| s |
 	s := list size.
 	s isZero ifTrue: [ ^ self ].
-	self notifyRemoveChangeAround: [ list removeAll. ] removed: list interval: (1 to: s)
+	self notifyRemoveChangeAround: [ list removeAll ] removed: list interval: (1 to: s)
 ]
 
 { #category : #'t - observable collection removing' }

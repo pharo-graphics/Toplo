@@ -352,7 +352,6 @@ ToInfiniteElement >> selectAll [
 { #category : #'selection events' }
 ToInfiniteElement >> selectIndex: anIndex [
 
-self flag: 'to be revised. do not work well with editable combobox'.
 	self primarySelection
 		dispatchSelectionChangedAfter: [ " ensure that the layout is computed before updating the selection "
 			self primarySelection selectIndex: anIndex.

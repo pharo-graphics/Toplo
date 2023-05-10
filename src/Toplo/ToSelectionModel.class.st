@@ -17,13 +17,13 @@ ToSelectionModel class >> modelName [
 { #category : #notifying }
 ToSelectionModel >> announceDeselected: anInterval [
 
-	self announce: (ToDeselectAnnouncement new model: self; interval: anInterval)
+	self announce: (ToDeselectAnnouncement new model: self; indexes: anInterval)
 ]
 
 { #category : #notifying }
-ToSelectionModel >> announceSelected: anInterval [
+ToSelectionModel >> announceSelected: aCollection [
 
-	self announce: (ToSelectAnnouncement new model: self; interval: anInterval)
+	self announce: (ToSelectAnnouncement new model: self; indexes: aCollection)
 ]
 
 { #category : #selection }
@@ -147,12 +147,11 @@ ToSelectionModel >> selectIndex: anIndex [
 { #category : #selection }
 ToSelectionModel >> selectIndexes: aCollection [
 
-	aCollection do: [ :idx |
-		selection select: idx - 1 to: idx.
-		self announceSelected: (idx to: idx) ]
+	aCollection do: [ :idx | selection select: idx - 1 to: idx ].
+	self announceSelected: aCollection
 ]
 
-{ #category : #'api - selection' }
+{ #category : #accessing }
 ToSelectionModel >> selectedIndexes [ 
 
 	^ self indices

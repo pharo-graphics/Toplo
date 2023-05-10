@@ -22,7 +22,7 @@ SpaceTests >> testChangeSpaceTheme [
 	self assert: (button skin tokens at: #background) equals: (ToThemeLight new colorBgContainer).
 	
 	space := OBlSpace new.
-	space addChild: button.
+	space root addChild: button.
 	
 	space toTheme: ToThemeDark new.
 	self assert: space toTheme class equals: ToThemeDark.
@@ -43,8 +43,8 @@ SpaceTests >> testChangeSpaceThemeAndDontTouchSpecifiedElementTheme [
 	button2 := self createDefaultButton.
 	
 	space := OBlSpace new.
-	space addChild: button1.
-	space addChild: button2.
+	space root addChild: button1.
+	space root addChild: button2.
 	
 	"change the general theme"
 	space toTheme: ToThemeDark new.

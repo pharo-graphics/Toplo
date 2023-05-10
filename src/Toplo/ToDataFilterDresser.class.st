@@ -19,7 +19,7 @@ Class {
 ToDataFilterDresser >> dataChangedIn: anElement [
 
 	originalData := anElement data asArray.
-	currentData := originalData.
+	currentIndexes  := 1 to: 0.
 	self filterDataIn: anElement
 ]
 

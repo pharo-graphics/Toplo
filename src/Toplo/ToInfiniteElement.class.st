@@ -360,6 +360,20 @@ ToInfiniteElement >> selectIndex: anIndex [
 ]
 
 { #category : #'selection events' }
+ToInfiniteElement >> selectIndexes: aCollection [
+
+	self primarySelection
+		dispatchSelectionChangedAfter: [
+			self primarySelection
+				deselectAll;
+				selectIndexes: aCollection.
+			aCollection ifNotEmpty: [
+				self requestLayout.
+				self whenLayoutedDoOnce: [ self scrollToIndex: aCollection first ] ] ]
+		to: self
+]
+
+{ #category : #'selection events' }
 ToInfiniteElement >> selectToIndex: anIndex [
 
 	self primarySelection dispatchSelectionChangedAfter: [

@@ -55,6 +55,7 @@ ToOverlayWindowDresser >> uninstallEventListenersIn: anElement [
 ToOverlayWindowDresser >> uninstallWidget: oldWidget in: anElement [
 
 	super uninstallWidget: oldWidget in: anElement.
+	oldWidget ifNil: [ ^ self ].
 	oldWidget removeEventHandler: widgetExtentHandler.
 	oldWidget removeEventHandler: widgetPositionInSpaceHandler.
 

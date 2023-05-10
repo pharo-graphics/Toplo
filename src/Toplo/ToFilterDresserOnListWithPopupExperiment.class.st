@@ -62,35 +62,38 @@ ToFilterDresserOnListWithPopupExperiment >> open [
 		          yourself.
 	filler margin: (BlInsets all: 2).
 	listElement := ToListElement new matchParent.
-	listElement addEventHandler: (BlEventHandler on: BlTextInputEvent
-			do: [ :anEvent | self popupTextFieldWith: anEvent text on: listElement ]).
+	listElement addEventHandler: (BlEventHandler
+			 on: BlTextInputEvent
+			 do: [ :anEvent | self popupTextFieldWith: anEvent text ]).
 
 	listElement addShortcut: (BlShortcutWithAction new
-			 combination: (BlKeyCombination escape );
+			 combination: BlKeyCombination escape;
 			 action: [ self requestCancel ];
 			 description: 'Cancel edition';
 			 name: 'Cancel';
 			 yourself).
-	
+
 	listElement margin: (BlInsets all: 2).
 	pane addChild: listElement.
 	pane addChild: filler.
 
 	listElement placeholder: self startPlaceholder.
-	listElement placeholder elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
+	listElement placeholder elevation:
+		(BlRelativeElevation elevation: SmallInteger maxVal).
 	listElement showPlaceholder.
 
-	self listElement addDresser: (ToDataFilterDresser new).
+	self listElement addDresser: ToDataFilterDresser new.
 
 	listElement
 		when: ToDataFilteredEvent
 		do: [ :event | listElement data filterResult: event data ].
+
 	listElement requestFocus.
 	pane openInOBlSpace
 ]
 
 { #category : #'instance creation' }
-ToFilterDresserOnListWithPopupExperiment >> popupTextFieldWith: aString on: anElement [
+ToFilterDresserOnListWithPopupExperiment >> popupTextFieldWith: aString [
 
 	filterWin ifNotNil: [
 		filterField inserter
@@ -106,7 +109,7 @@ ToFilterDresserOnListWithPopupExperiment >> popupTextFieldWith: aString on: anEl
 		             yourself.
 
 	filterField ifNil: [
-		filterField := ToTextField new.
+		filterField := ToTextField new withLineWrapping.
 		filterField addEditorShortcut: (BlShortcutWithAction new
 				 combination: BlKeyCombination escape;
 				 action: [ self requestCancel ];
@@ -117,14 +120,20 @@ ToFilterDresserOnListWithPopupExperiment >> popupTextFieldWith: aString on: anEl
 			self textUpdated.
 			event text ifEmpty: [ self close ] ] ].
 
+	filterField width: self listElement width.
+	self listElement data whenFilterChangeDo: [ :ann |
+		ann interval
+			ifEmpty: [ filterField text foreground: Color red ]
+			ifNotEmpty: [ filterField text foreground: Color black ] ].
+
 	filterField text: aString.
 	filterField requestFocus.
 	filterField navigator
 		moveTo: aString size;
 		apply.
-	
+
 	filterWin root addChild: filterField.
-	filterWin widget: anElement.
+	filterWin widget: self listElement.
 	filterWin popup.
 	self textUpdated
 ]

@@ -15,6 +15,7 @@ ToTextField >> defaultDresser [
 ToTextField >> initialize [
 
 	super initialize.
+	self beForTextField.
 	self infinite vFitContent.
 	self next vFitContent.
 	self vFitContent.

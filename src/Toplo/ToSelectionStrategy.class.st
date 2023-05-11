@@ -14,6 +14,15 @@ Class {
 }
 
 { #category : #'selection managing' }
+ToSelectionStrategy >> addAllToSelection: aCollection [
+
+	self isMultiple ifFalse: [ self invalidOperation ].
+	aCollection ifEmpty: [ ^ self ].
+	selectionModel selectIndexes: aCollection.
+	self currentIndex: aCollection first
+]
+
+{ #category : #'selection managing' }
 ToSelectionStrategy >> addNextToSelection [
 
 	| indexes |
@@ -275,7 +284,7 @@ ToSelectionStrategy >> selectIndex: index [
 ToSelectionStrategy >> selectIndexes: indexes [
 	
 	self isMultiple ifFalse: [ self error: 'Invalid operation' ].
-	indexes do: [ :idx | self addToSelection: idx ]
+	self addAllToSelection: indexes
 ]
 
 { #category : #'selection managing' }

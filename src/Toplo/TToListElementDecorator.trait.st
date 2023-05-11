@@ -120,6 +120,12 @@ TToListElementDecorator >> scrollToIndex: anIndex [
 	self next scrollToIndex: anIndex
 ]
 
+{ #category : #'t - infinite accessing' }
+TToListElementDecorator >> scrollToIndexAtTop: anIndex [
+
+	self next scrollToIndexAtTop: anIndex
+]
+
 { #category : #'t - accessing selection' }
 TToListElementDecorator >> secondarySelection [
 

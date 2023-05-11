@@ -8,7 +8,6 @@ Class {
 		'process',
 		'filter',
 		'originalData',
-		'currentData',
 		'delayBeforeFilter',
 		'currentIndexes'
 	],
@@ -50,7 +49,7 @@ ToDataFilterDresser >> filter: aValuable [
 { #category : #'private filtering' }
 ToDataFilterDresser >> filterDataIn: anElement [
 
-	| filtered indexes |
+	| filtered indexes filterTask |
 	self pattern ifNil: [ ^ self ].
 
 	self pattern
@@ -64,12 +63,15 @@ ToDataFilterDresser >> filterDataIn: anElement [
 						                       (self filter value: d) ifTrue: [
 							                       filteredStream nextPut: d.
 							                       indexesStream nextPut: idx ] ] ] ] ].
-	currentIndexes = indexes ifTrue: [ ^ self ].
-	currentIndexes := indexes.
-	anElement dispatchEvent: (ToDataFilteredEvent new
-			 data: filtered;
-			 indexes: indexes;
-			 yourself)
+	" need to enqueue a task to manage the filter result outside the layouting step"
+	filterTask := BlTaskAction new action: [
+		              anElement dispatchEvent: (ToDataFilterResultEvent new
+				               selectionUpdated: currentIndexes ~= indexes;
+				               data: filtered;
+				               indexes: indexes; 
+				               yourself).
+		              currentIndexes := indexes ].
+	anElement enqueueTask: filterTask
 ]
 
 { #category : #'private filtering' }

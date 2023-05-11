@@ -364,12 +364,12 @@ ToInfiniteElement >> selectIndexes: aCollection [
 
 	self primarySelection
 		dispatchSelectionChangedAfter: [
+			aCollection ifNotEmpty: [
+				self whenLayoutedDoOnce: [ self scrollToIndex: aCollection first ] ].
 			self primarySelection
 				deselectAll;
 				selectIndexes: aCollection.
-			aCollection ifNotEmpty: [
-				self requestLayout.
-				self whenLayoutedDoOnce: [ self scrollToIndex: aCollection first ] ] ]
+			self requestLayout ]
 		to: self
 ]
 

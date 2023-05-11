@@ -85,7 +85,6 @@ ToFilterDresserOnListWithPopupExperiment2 >> open [
 	self listElement addDresser: ToDataFilterDresser new.
 
 	listElement when: ToDataFilteredEvent do: [ :event |
-		listElement deselectAll.
 		listElement selectIndexes: event indexes ].
 
 	listElement requestFocus.
@@ -121,7 +120,7 @@ ToFilterDresserOnListWithPopupExperiment2 >> popupTextFieldWith: aString [
 			event text ifEmpty: [ self close ] ] ].
 
 	filterField width: self listElement width.
-	self listElement data whenFilterChangeDo: [ :ann |
+	self listElement when: ToDataFilteredEvent do: [ :ann |
 		ann indexes
 			ifEmpty: [ filterField text foreground: Color red ]
 			ifNotEmpty: [ filterField text foreground: Color black ] ].

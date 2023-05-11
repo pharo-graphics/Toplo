@@ -73,7 +73,8 @@ ToThemeDark >> darkTheme [
 { #category : #colors }
 ToThemeDark >> initialize [ 
 
-	super initialize
+	super initialize.
+	self name: 'Toplo Dark'.
 ]
 
 { #category : #colors }

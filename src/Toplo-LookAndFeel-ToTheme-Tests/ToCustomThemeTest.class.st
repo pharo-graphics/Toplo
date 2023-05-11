@@ -36,6 +36,19 @@ ToCustomThemeTest >> testDefaultLabelSkin [
 ]
 
 { #category : #tests }
+ToCustomThemeTest >> testNoDarkAndNoLightTheme [
+	"Test for Theme which are not supported light/dark mode, just one usage"
+	
+	| theme |
+	theme := ToCustomNoDarkNoLightTestTheme new.
+	self assert: theme isSupportLightAndDark equals: false.
+	self assert: theme isLight equals: false.
+	self assert: theme isDark equals: false.
+	self assert: theme darkTheme isNil.
+	self assert: theme lightTheme isNil.
+]
+
+{ #category : #tests }
 ToCustomThemeTest >> testOtherThemeThanDefaultBeforeAddElement [
 
 	| space button |

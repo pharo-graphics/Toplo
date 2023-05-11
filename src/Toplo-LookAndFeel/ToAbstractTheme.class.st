@@ -79,25 +79,31 @@ ToAbstractTheme >> backgroundColor [
 { #category : #colors }
 ToAbstractTheme >> darkTheme [
 
-	^ self subclassResponsibility
+	^ nil
 ]
 
 { #category : #colors }
 ToAbstractTheme >> isDark [
 
-	^ self subclassResponsibility
+	^ false
 ]
 
 { #category : #colors }
 ToAbstractTheme >> isLight [
 
-	^ self subclassResponsibility
+	^ false
+]
+
+{ #category : #colors }
+ToAbstractTheme >> isSupportLightAndDark [
+
+	^ self isLight or: [ self isDark ]
 ]
 
 { #category : #colors }
 ToAbstractTheme >> lightTheme [
 
-	^ self subclassResponsibility
+	^ nil
 ]
 
 { #category : #accessing }

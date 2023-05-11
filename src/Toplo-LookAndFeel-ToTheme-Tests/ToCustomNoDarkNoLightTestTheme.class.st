@@ -28,6 +28,13 @@ ToCustomNoDarkNoLightTestTheme >> darkTheme [
 ]
 
 { #category : #colors }
+ToCustomNoDarkNoLightTestTheme >> initialize [ 
+
+	super initialize.
+	self name:'Custom Theme for tests (not support dark/light mode)'.
+]
+
+{ #category : #colors }
 ToCustomNoDarkNoLightTestTheme >> isDark [
 
 	^ false

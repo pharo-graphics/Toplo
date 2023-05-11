@@ -14,7 +14,7 @@ ToThemeLight >> darkTheme [
 ToThemeLight >> initialize [ 
 
 	super initialize.
-	self name: 'Toplo light Theme'
+	self name: 'Toplo Light'
 ]
 
 { #category : #colors }

@@ -78,15 +78,14 @@ ToFilterDresserOnListWithPopupExperiment >> open [
 	pane addChild: filler.
 
 	listElement placeholder: self startPlaceholder.
-	listElement placeholder elevation:
-		(BlRelativeElevation elevation: SmallInteger maxVal).
+	listElement placeholder elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
 	listElement showPlaceholder.
 
 	self listElement addDresser: ToDataFilterDresser new.
 
 	listElement
-		when: ToDataFilteredEvent
-		do: [ :event | listElement data filterResult: event data ].
+		when: ToDataFilterResultEvent
+		do: [ :event | event selectionUpdated ifTrue: [ listElement data filterResult: event data ] ].
 
 	listElement requestFocus.
 	pane openInOBlSpace

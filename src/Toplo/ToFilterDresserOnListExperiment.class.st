@@ -59,8 +59,8 @@ ToFilterDresserOnListExperiment >> open [
 	listElement showPlaceholder.
 
 	listElement
-		when: ToDataFilteredEvent
-		do: [ :event | listElement data filterResult: event data ].
+		when: ToDataFilterResultEvent
+		do: [ :event | event selectionUpdated ifTrue: [ listElement data filterResult: event data ] ].
 	pane openInOBlSpace
 ]
 

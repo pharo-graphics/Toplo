@@ -322,6 +322,15 @@ ToInfiniteElement >> scrollToIndex: anIndex [
 		ifFalse: [ self listElement scrollToPosition: aWish index ]"
 ]
 
+{ #category : #private }
+ToInfiniteElement >> scrollToIndexAtTop: anIndex [
+	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,
+	which can, for example, be a data source position or child index"
+	"As a result, item at anIndex is positionned at the top of the listElement"
+
+	self layout scrollToPosition: anIndex offset: self layout computeExtraLayoutSpace y.
+]
+
 { #category : #accessing }
 ToInfiniteElement >> secondarySelection [
 
@@ -364,11 +373,10 @@ ToInfiniteElement >> selectIndexes: aCollection [
 
 	self primarySelection
 		dispatchSelectionChangedAfter: [
+			self primarySelection deselectAll.
 			aCollection ifNotEmpty: [
-				self whenLayoutedDoOnce: [ self scrollToIndex: aCollection first ] ].
-			self primarySelection
-				deselectAll;
-				selectIndexes: aCollection.
+				self whenLayoutedDoOnce: [ self scrollToIndexAtTop:  aCollection first ] ].
+			self primarySelection selectIndexes: aCollection.
 			self requestLayout ]
 		to: self
 ]

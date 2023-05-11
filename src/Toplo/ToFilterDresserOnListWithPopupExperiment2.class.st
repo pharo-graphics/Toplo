@@ -84,8 +84,8 @@ ToFilterDresserOnListWithPopupExperiment2 >> open [
 
 	self listElement addDresser: ToDataFilterDresser new.
 
-	listElement when: ToDataFilteredEvent do: [ :event |
-		listElement selectIndexes: event indexes ].
+	listElement when: ToDataFilterResultEvent do: [ :event |
+		event selectionUpdated ifTrue: [ listElement selectIndexes: event indexes ] ].
 
 	listElement requestFocus.
 	pane openInOBlSpace
@@ -120,7 +120,7 @@ ToFilterDresserOnListWithPopupExperiment2 >> popupTextFieldWith: aString [
 			event text ifEmpty: [ self close ] ] ].
 
 	filterField width: self listElement width.
-	self listElement when: ToDataFilteredEvent do: [ :ann |
+	self listElement when: ToDataFilterResultEvent do: [ :ann |
 		ann indexes
 			ifEmpty: [ filterField text foreground: Color red ]
 			ifNotEmpty: [ filterField text foreground: Color black ] ].
@@ -165,15 +165,17 @@ ToFilterDresserOnListWithPopupExperiment2 >> startPlaceholder [
 	but constraintsDo: [ :c | c linear horizontal alignCenter ].
 	but whenClickedDo: [
 		self listElement data addAll:
-			((Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ])
-				 collect: [ :c | c name ]).
+			(((Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ])
+				 collect: [ :c | c name ]) "copyFrom: 1 to: 1000").
 		self listElement placeholder: self filterResultPlaceholder.
-		self listElement requestFocus ].
+		self listElement requestFocus.
+		self listElement whenLayoutedDoOnce: [ self textUpdated ] ].
 	^ placeholder
 ]
 
 { #category : #'instance creation' }
 ToFilterDresserOnListWithPopupExperiment2 >> textUpdated [
 
+	filterField ifNil: [ ^self ].
 	listElement dispatchEvent: (ToDataFilterRequestEvent new pattern: filterField text asString)
 ]

@@ -79,7 +79,7 @@ ToAbstractTheme class >> skins [
 	widgetClasses := ToElement allSubclasses.
 	widgetClasses do:[ :c | set addAll: (self skinClassesFor: c) ]. 
 	
-	^set
+	^set asOrderedCollection
 ]
 
 { #category : #colors }
@@ -137,4 +137,11 @@ ToAbstractTheme >> printOn: aStream [
 		nextPutAll: (self name ifNil:[self class name]);
 		nextPutAll: ' @ ';
 		store: self identityHash
+]
+
+{ #category : #skins }
+ToAbstractTheme >> skins [
+	"Return all skins supported by the Theme"
+	
+	^self class skins
 ]

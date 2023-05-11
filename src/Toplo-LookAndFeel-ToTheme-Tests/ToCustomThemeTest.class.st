@@ -28,6 +28,23 @@ ToCustomThemeTest >> testChangeSpaceTheme [
 ]
 
 { #category : #tests }
+ToCustomThemeTest >> testChangeThemeAddChildInAParentInASpace [
+
+	| space button pane |
+	space := OBlSpace new.
+	space toTheme: ToCustomNoDarkNoLightTestTheme new.
+
+	pane := ToPane horizontal.
+	button := ToButton skinType: #default.
+	pane addChild: button.
+	
+	space root addChild: pane.
+	
+	self assert: button toTheme equals: space toTheme.
+	self assert: button skin class equals: ToEmptyTestSkin.
+]
+
+{ #category : #tests }
 ToCustomThemeTest >> testDefaultButtonSkin [
 	"Test when a Theme can not provide a #default type skin for a Widget, in this case a skin is return as a default, this should be the first skin of the supported widget skin list"
 	

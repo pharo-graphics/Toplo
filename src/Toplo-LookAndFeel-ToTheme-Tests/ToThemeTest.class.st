@@ -22,6 +22,16 @@ ToThemeTest >> testSkinForType [
 ]
 
 { #category : #tests }
+ToThemeTest >> testSkins [
+
+	| theme skins |
+	theme := ToAbstractTheme current.
+	skins := theme skins.
+	self assert: skins notEmpty.
+	self assert: (skins first inheritsFrom: ToAbstractSkin).
+]
+
+{ #category : #tests }
 ToThemeTest >> testThemeBeforeAddElement [
 
 	| space button |

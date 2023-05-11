@@ -63,7 +63,7 @@ ToAbstractSkin >> isSupportedByTheme [
 { #category : #testing }
 ToAbstractSkin >> isSupportedByTheme: aTheme [
 
-	^ aTheme class skins includes: self class
+	^ aTheme skins includes: self class
 ]
 
 { #category : #printing }
@@ -93,7 +93,7 @@ ToAbstractSkin >> theme: anObject [
 ToAbstractSkin >> themeChanged [
 	"update token dictionary depending theme"
 	
-	self isSupportedByTheme ifTrue:[ ^ self ].
+	self isSupportedByTheme ifFalse:[ ^ self ].
 	self buildTokens. 
 ]
 

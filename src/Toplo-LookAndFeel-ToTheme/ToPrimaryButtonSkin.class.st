@@ -44,6 +44,12 @@ ToPrimaryButtonSkin >> builtDefaultSize [
 ]
 
 { #category : #built }
+ToPrimaryButtonSkin >> builtGeometry [
+
+	^ BlRoundedRectangleGeometry cornerRadius: self theme borderRadius
+]
+
+{ #category : #built }
 ToPrimaryButtonSkin >> builtPadding [ 
 
 	^ BlInsets top: (self theme paddingXS / 2) left: (self theme paddingContentHorizontal) bottom: (self theme paddingXS / 2) right: (self theme paddingContentHorizontal)

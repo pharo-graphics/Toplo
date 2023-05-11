@@ -11,3 +11,11 @@ ToElement >> defaultLayoutCommonConstraints [
 
 	^ OBlLayoutCommonConstraints new
 ]
+
+{ #category : #initialization }
+ToElement >> initialize [ 
+
+	super initialize.
+	self dresser: self defaultDresser 
+
+]

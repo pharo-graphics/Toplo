@@ -111,7 +111,7 @@ ToAbstractButtonSkin >> builtBorderHoverBuilder [
 { #category : #built }
 ToAbstractButtonSkin >> builtGeometry [
 
-	^ BlRoundedRectangleGeometry cornerRadius: self theme borderRadius
+	^ self subclassResponsibility 
 ]
 
 { #category : #built }

@@ -26,9 +26,10 @@ ToAbstractSkin class >> type [
 	^ self defaultType
 ]
 
-{ #category : #tokens }
+{ #category : #'private - tokens' }
 ToAbstractSkin >> buildTokens [
 
+	"Reset previous tokens"
 	self tokens: Dictionary new.
 	
 	self tokens at: #size put: self builtDefaultSize.
@@ -90,12 +91,18 @@ ToAbstractSkin >> token: aSymbol [
 ]
 
 { #category : #tokens }
+ToAbstractSkin >> token: aSymbol value: aValue [
+
+	self tokens at: aSymbol put: aValue
+]
+
+{ #category : #'private - tokens' }
 ToAbstractSkin >> tokens [
 
 	^ tokens ifNil: [ tokens := Dictionary new ]
 ]
 
-{ #category : #tokens }
+{ #category : #'private - tokens' }
 ToAbstractSkin >> tokens: anObject [
 
 	tokens := anObject

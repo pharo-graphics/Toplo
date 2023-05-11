@@ -8,6 +8,26 @@ Class {
 }
 
 { #category : #tests }
+ToCustomThemeTest >> testChangeSpaceTheme [
+	| button space |
+
+	button := ToButton skinType: #default.
+	space := OBlSpace new.
+	space root addChild: button.
+	
+	space toTheme: ToThemeDark new.
+	self assert: space toTheme class equals: ToThemeDark.
+	self assert: button toTheme class equals: ToThemeDark.
+	
+	space toTheme: ToCustomNoDarkNoLightTestTheme new.
+	self assert: space toTheme class equals: ToCustomNoDarkNoLightTestTheme.
+	self assert: button toTheme class equals: ToCustomNoDarkNoLightTestTheme.
+	
+	"test button skin tokens"
+	self assert: (button skin token: #background) equals: nil.
+]
+
+{ #category : #tests }
 ToCustomThemeTest >> testDefaultButtonSkin [
 	"Test when a Theme can not provide a #default type skin for a Widget, in this case a skin is return as a default, this should be the first skin of the supported widget skin list"
 	

@@ -8,6 +8,25 @@ Class {
 }
 
 { #category : #test }
+ToAbstractSkinTest >> testToken [
+
+	| skin |
+	skin := ToAbstractSkin new.
+	self assert: (skin token: #notDefined) equals: nil
+]
+
+{ #category : #test }
+ToAbstractSkinTest >> testTokenValue [
+
+	| skin |
+	skin := ToAbstractSkin new.
+	self assert: (skin token: #property) isNil.
+	
+	skin token: #property value: true.
+	self assert: (skin token: #property).
+]
+
+{ #category : #test }
 ToAbstractSkinTest >> testType [
 
 	| skin |

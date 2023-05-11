@@ -52,16 +52,18 @@ ToDataFilterDresser >> filterDataIn: anElement [
 
 	| filtered indexes |
 	self pattern ifNil: [ ^ self ].
-	filtered := originalData.
-	indexes := 1 to: 0.
 
-	self pattern ifNotEmpty: [
-		filtered := Array streamContents: [ :filteredStream |
-			            indexes := Array streamContents: [ :indexesStream |
-				                       originalData withIndexDo: [ :d :idx |
-					                       (self filter value: d) ifTrue: [
-						                       filteredStream nextPut: d.
-						                       indexesStream nextPut: idx ] ] ] ] ].
+	self pattern
+		ifEmpty: [
+			filtered := originalData.
+			indexes := 1 to: 0 ]
+		ifNotEmpty: [
+			filtered := Array streamContents: [ :filteredStream |
+				            indexes := Array streamContents: [ :indexesStream |
+					                       originalData withIndexDo: [ :d :idx |
+						                       (self filter value: d) ifTrue: [
+							                       filteredStream nextPut: d.
+							                       indexesStream nextPut: idx ] ] ] ] ].
 	currentIndexes = indexes ifTrue: [ ^ self ].
 	currentIndexes := indexes.
 	anElement dispatchEvent: (ToDataFilteredEvent new

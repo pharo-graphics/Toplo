@@ -14,6 +14,14 @@ ToThemeTest >> testDefaultToTheme [
 ]
 
 { #category : #tests }
+ToThemeTest >> testSkinForType [
+
+	| theme |
+	theme := ToAbstractTheme current.
+	self assert: (theme class skinFor: ToButton type: #default) class equals: ToDefaultButtonSkin.
+]
+
+{ #category : #tests }
 ToThemeTest >> testThemeBeforeAddElement [
 
 	| space button |

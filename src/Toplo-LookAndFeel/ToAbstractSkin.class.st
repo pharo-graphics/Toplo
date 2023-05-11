@@ -31,7 +31,7 @@ ToAbstractSkin >> buildTokens [
 
 	"Reset previous tokens"
 	self tokens: Dictionary new.
-	
+		
 	self tokens at: #size put: self builtDefaultSize.
 ]
 
@@ -51,7 +51,19 @@ ToAbstractSkin >> defaultSize [
 ToAbstractSkin >> initialize [ 
 
 	super initialize.
-	self buildTokens.
+	self isSupportedByTheme ifTrue:[self buildTokens].
+]
+
+{ #category : #testing }
+ToAbstractSkin >> isSupportedByTheme [
+
+	^ self isSupportedByTheme: self theme
+]
+
+{ #category : #testing }
+ToAbstractSkin >> isSupportedByTheme: aTheme [
+
+	^ aTheme class skins includes: self class
 ]
 
 { #category : #printing }
@@ -81,6 +93,7 @@ ToAbstractSkin >> theme: anObject [
 ToAbstractSkin >> themeChanged [
 	"update token dictionary depending theme"
 	
+	self isSupportedByTheme ifTrue:[ ^ self ].
 	self buildTokens. 
 ]
 

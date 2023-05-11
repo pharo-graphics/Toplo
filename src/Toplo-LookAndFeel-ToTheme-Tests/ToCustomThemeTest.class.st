@@ -83,3 +83,14 @@ ToCustomThemeTest >> testOtherThemeThanDefaultBeforeAddElement [
 	self assert: button toTheme equals: space toTheme.
 	self assert: button skin class equals: ToEmptyTestSkin.
 ]
+
+{ #category : #tests }
+ToCustomThemeTest >> testSkinForType [
+
+	| theme |
+	theme := ToCustomNoDarkNoLightTestTheme new.
+	self assert: (theme class skinFor: ToButton type: #default) class equals: ToEmptyTestSkin.
+	
+	theme := ToCustomTest2Theme new.
+	self assert: (theme class skinFor: ToButton type: #default) class equals: ToButtonTestSkin.
+]

@@ -70,6 +70,18 @@ ToAbstractTheme class >> skinFor: aToElementClass type: aType [
 	^ skinClass new
 ]
 
+{ #category : #skins }
+ToAbstractTheme class >> skins [
+	"Return the list of all supported skins for this Theme"
+	| set widgetClasses |
+	set := Set new.
+	
+	widgetClasses := ToElement allSubclasses.
+	widgetClasses do:[ :c | set addAll: (self skinClassesFor: c) ]. 
+	
+	^set
+]
+
 { #category : #colors }
 ToAbstractTheme >> backgroundColor [
 

@@ -35,8 +35,8 @@ ToAbstractButtonSkin >> borderHover [
 ]
 
 { #category : #built }
-ToAbstractButtonSkin >> buildTokens [
-
+ToAbstractButtonSkin >> buildTokens [	
+	
 	super buildTokens.
 	
 	self tokens at: #background put: self builtBackground.

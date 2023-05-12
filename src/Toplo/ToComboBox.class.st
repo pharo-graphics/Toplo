@@ -104,8 +104,8 @@ ToComboBox >> defaultListPlaceholder [
 { #category : #initialization }
 ToComboBox >> defaultMode [
 
-	"^ ToComboBoxEditableMode new"
-	^ ToComboBoxSelectOnlyMode new
+	^ ToComboBoxDataEditingMode new
+	"^ ToComboBoxSelectOnlyMode new"
 ]
 
 { #category : #initialization }

@@ -64,14 +64,14 @@ ToDataFilterDresser >> filterDataIn: anElement [
 							                       filteredStream nextPut: d.
 							                       indexesStream nextPut: idx ] ] ] ] ].
 	" need to enqueue a task to manage the filter result outside the layouting step"
-	filterTask := BlTaskAction new action: [
+	"filterTask := BlTaskAction new action: ["
 		              anElement dispatchEvent: (ToDataFilterResultEvent new
 				               selectionUpdated: currentIndexes ~= indexes;
 				               data: filtered;
 				               indexes: indexes; 
 				               yourself).
-		              currentIndexes := indexes ].
-	anElement enqueueTask: filterTask
+		              currentIndexes := indexes "]."
+	"anElement enqueueTask: filterTask"
 ]
 
 { #category : #'private filtering' }

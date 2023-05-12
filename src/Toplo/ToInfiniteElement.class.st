@@ -8,7 +8,8 @@ Class {
 		'clickLauncher',
 		'selectedNodeFactory',
 		'primarySelection',
-		'secondarySelection'
+		'secondarySelection',
+		'keepSelectionOnFocused'
 	],
 	#category : #'Toplo-Core-Infinite'
 }
@@ -37,13 +38,6 @@ ToInfiniteElement >> cherryPickIndex: anIndex [
 	self primarySelection dispatchSelectionChangedAfter: [
 		self primarySelection cherryPickIndex: anIndex ]
 		to: self
-]
-
-{ #category : #private }
-ToInfiniteElement >> clickLauncher [
-
-	^ clickLauncher
-
 ]
 
 { #category : #private }
@@ -164,6 +158,7 @@ ToInfiniteElement >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
+	self keepSelectionOnFocused: self keepSelectionOnFocusedByDefault.
 	self nodeFactory: self defaultListNodeFactory.
 	primarySelection := self defaultPrimarySelection.
 	secondarySelection := self defaultSecondarySelection.
@@ -179,6 +174,24 @@ ToInfiniteElement >> initialize [
 ToInfiniteElement >> isSelectedAtIndex: anIndex [
 
 	^ self primarySelection includes: anIndex
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> keepSelectionOnFocused [
+
+	^ keepSelectionOnFocused
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> keepSelectionOnFocused: aBoolean [
+
+	keepSelectionOnFocused := aBoolean
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> keepSelectionOnFocusedByDefault [
+
+	^ true
 ]
 
 { #category : #accessing }

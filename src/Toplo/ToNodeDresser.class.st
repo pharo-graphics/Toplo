@@ -107,9 +107,10 @@ ToNodeDresser >> launchClick: aBlock event: anEvent for: anElement [
 
 	infinite isFocused ifFalse: [
 		infinite hasSelection ifTrue: [
-			infinite requestFocus.
-			^ self ] ].
-	
+			infinite keepSelectionOnFocused ifTrue: [
+				infinite requestFocus.
+				^ self ] ] ].
+
 	" do not try double click if ctrl or Cmd or shift is pressed "
 	(anElement holder isSelected not or: [
 		 anEvent modifiers isPrimaryModifier or: [
@@ -123,14 +124,14 @@ ToNodeDresser >> launchClick: aBlock event: anEvent for: anElement [
 
 	" no click launcher for only one selected node "
 	infinite primarySelectionIndexes size > 1 ifFalse: [ ^ aBlock value ].
-	
+
 	monitor critical: [
 		infinite clickLauncher: ([
-		            (Delay forMilliseconds: 250) wait.
-		            aBlock value.
-		            infinite clickLauncher: nil ]
-			            forkAt: Processor highIOPriority
-			            named: 'ToNodeDresser clickLauncher')]
+			 (Delay forMilliseconds: 250) wait.
+			 aBlock value.
+			 infinite clickLauncher: nil ]
+				 forkAt: Processor highIOPriority
+				 named: 'ToNodeDresser clickLauncher') ]
 ]
 
 { #category : #'events handling' }

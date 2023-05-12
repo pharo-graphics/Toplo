@@ -21,6 +21,14 @@ ToComboBox >> beDataEditing [
 ]
 
 { #category : #'mode change' }
+ToComboBox >> beInlineAutocomplete [
+
+	self mode: (ToComboBoxDataEditingMode new
+			 inlineAutocomplete: true;
+			 yourself)
+]
+
+{ #category : #'mode change' }
 ToComboBox >> beSelectOnly [
 
 	self mode: ToComboBoxSelectOnlyMode new
@@ -69,6 +77,8 @@ ToComboBox >> defaultHeadElement [
 ToComboBox >> defaultListElement [
 
 	^ ToListElement new
+		  keepSelectionOnFocused: false;
+		  yourself
 ]
 
 { #category : #initialization }
@@ -116,6 +126,19 @@ ToComboBox >> defaultStartSelectedIndex [
 	
 ]
 
+{ #category : #initialization }
+ToComboBox >> fitListElementToContent [
+
+	self listElement
+		vFitContent;
+		in: [ :e | e infinite vFitContent ];
+		width: self listElementSize x;
+		maxHeight: self listElementSize y.
+	self listFrame 	root fitContent.
+	self listElement next elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
+
+]
+
 { #category : #testing }
 ToComboBox >> hasSelectedData [
 
@@ -155,7 +178,7 @@ ToComboBox >> initialize [
 	self privateHeadElement: self defaultHeadElement.
 	self listElementSize: self defaultListElementSize.
 	self listPlaceholder: self defaultListPlaceholder.
-	self prepareListElement.
+	self fitListElementToContent.
 	self listElement showPlaceholder.
 	self whenModeChangedDo: [ :new :prev | self mode: prev changedWith: new ].
 	self initializeDresser
@@ -169,7 +192,7 @@ ToComboBox >> insertData: aData [
 	idx isZero ifTrue: [
 		self data add: aData.
 		idx := self indexOfData: aData ].
-	self prepareListElement.
+	self fitListElementToContent.
 	self selectIndex: idx
 ]
 
@@ -194,8 +217,7 @@ ToComboBox >> listElement [
 { #category : #'api - install/uninstall  hook' }
 ToComboBox >> listElementRequestFocus [
 
-	self isOpened ifTrue: [
-		self listElement infinite requestFocus ]
+	self listElement infinite requestFocus
 ]
 
 { #category : #accessing }
@@ -209,7 +231,7 @@ ToComboBox >> listElementSize: aSize [
 
 	listElementSize := aSize.
 	self listPlaceholder: self defaultListPlaceholder.
-	self prepareListElement 
+	self fitListElementToContent 
 ]
 
 { #category : #accessing }
@@ -266,7 +288,7 @@ ToComboBox >> notifyChanged [
 { #category : #displaying }
 ToComboBox >> placeholderHidden [
 
-	self prepareListElement.
+	self fitListElementToContent.
 	listElement next parentDo: [ :p | ^ self ].
 	listElement addChild: listElement next
 ]
@@ -292,19 +314,6 @@ ToComboBox >> popupOrCloseEvent: anEvent [
 	self isOpened
 		ifTrue: [ self closeEvent: anEvent ]
 		ifFalse: [ self popupEvent: anEvent ]
-]
-
-{ #category : #initialization }
-ToComboBox >> prepareListElement [
-
-	self listElement
-		vFitContent;
-		in: [ :e | e infinite vFitContent ];
-		width: self listElementSize x;
-		maxHeight: self listElementSize y.
-	self listFrame 	root fitContent.
-	self listElement next elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
-
 ]
 
 { #category : #'private - accessing' }

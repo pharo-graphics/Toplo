@@ -103,7 +103,7 @@ ToDresser >> removeDresser: aDresser in: anElement [
 { #category : #accessing }
 ToDresser >> theme [
 
-	^ theme
+	^ theme ifNil:[ ^ OBlTheme default ]
 ]
 
 { #category : #'api - install/uninstall  hook' }

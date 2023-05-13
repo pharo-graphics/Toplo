@@ -26,10 +26,10 @@ BlElement >> toTheme [
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> toTheme: aTheme [
 
-	| currentTheme |
-	currentTheme := self userData at: #ToTheme ifAbsent:[ nil ].
-	currentTheme == aTheme ifTrue:[ ^ self ].
-	
+	self userData at: #ToTheme ifPresent:[ :currentTheme | 
+		currentTheme == aTheme ifTrue:[ ^ self ].
+	] ifAbsent:[ "do nothing" ].
+
 	self userData at: #ToTheme put: aTheme.
 	self toThemeChanged
 ]

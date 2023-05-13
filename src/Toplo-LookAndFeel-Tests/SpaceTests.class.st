@@ -14,6 +14,21 @@ SpaceTests >> createDefaultButton [
 ]
 
 { #category : #tests }
+SpaceTests >> testCannotSwitchThemeDarkOrLight [
+
+	| space theme |
+	space := OBlSpace new.
+	theme := ToCustomNoDarkNoLightTestTheme new.
+	space toTheme: theme.
+	self assert: space toTheme isSupportLightAndDark not.
+	
+	space switchThemeDarkOrLight.
+	self assert: space toTheme equals: theme.
+	self assert: space toTheme isLight not.
+	self assert: space toTheme isDark not.
+]
+
+{ #category : #tests }
 SpaceTests >> testChangeSpaceTheme [
 
 	| button space |

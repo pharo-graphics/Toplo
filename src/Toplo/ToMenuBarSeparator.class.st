@@ -33,10 +33,3 @@ ToMenuBarSeparator >> horizontal: aBoolean [
 		ifTrue: [ self beHorizontal ]
 		ifFalse: [ self beVertical ]
 ]
-
-{ #category : #initialization }
-ToMenuBarSeparator >> initialize [ 
-
-	super initialize.
-	self initializeDresser 
-]

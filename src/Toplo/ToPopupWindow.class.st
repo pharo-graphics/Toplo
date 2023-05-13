@@ -27,13 +27,6 @@ ToPopupWindow >> defaultHook [
 	^ [ :window :event |  window widget bounds inSpace bounds bottomLeft ]
 ]
 
-{ #category : #initialization }
-ToPopupWindow >> initialize [
-
-	super initialize.
-	self initializeDresser
-]
-
 { #category : #'api - displaying' }
 ToPopupWindow >> popupEvent: anEvent [
 

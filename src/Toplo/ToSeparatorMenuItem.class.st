@@ -9,10 +9,3 @@ ToSeparatorMenuItem >> defaultDresser [
 
 	^ ToSeparatorMenuItemDresser new
 ]
-
-{ #category : #initialization }
-ToSeparatorMenuItem >> initialize [ 
-
-	super initialize.
-	self initializeDresser 
-]

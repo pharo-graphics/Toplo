@@ -164,15 +164,11 @@ ToInfiniteElement >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	self nodeFactory: self defaultListNodeFactory.
-	primarySelection := self defaultPrimarySelection.
-	secondarySelection := self defaultSecondarySelection.
-	self privateData: ToObservableCollection new.
-	self constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical matchParent ].
-
-	self initializeDresser
+	
+	"Dresser initialization processus"
+	self preInitializeDresser.
+	self initializeDresser.
+	self postInitializeDresser.
 ]
 
 { #category : #'selection events' }
@@ -282,6 +278,18 @@ ToInfiniteElement >> onGotFocus [
 { #category : #'private - focus' }
 ToInfiniteElement >> onLostFocus [ 
 
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> preInitializeDresser [ 
+
+	self nodeFactory: self defaultListNodeFactory.
+	primarySelection := self defaultPrimarySelection.
+	secondarySelection := self defaultSecondarySelection.
+	self privateData: ToObservableCollection new.
+	self constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical matchParent]
 ]
 
 { #category : #accessing }

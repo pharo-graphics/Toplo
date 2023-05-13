@@ -33,27 +33,17 @@ BaselineOfToplo >> dependencies: spec [
 { #category : #baselines }
 BaselineOfToplo >> registerPackages: spec [
 	"Core"
-
 	spec 
 		package: #Toplo 
 		with: [ spec requires: #( #OnBloc #Album ) ].
 
-	"Look and Feel"
-	spec
-		package: #'Toplo-LookAndFeel'
+	"IDE"
+	spec 
+		package: #'Toplo-IDE' 
 		with: [ spec requires: #( #Toplo ) ].
-	spec
-		package: #'Toplo-LookAndFeel-ToTheme'
-		with: [ spec requires: #( #'Toplo-LookAndFeel' ) ].
 
 	"Tests"
 	spec 
 		package: #'Toplo-Tests' 
-		with: [ spec requires: #( #Toplo ) ].
-	spec
-		package: #'Toplo-LookAndFeel-Tests'
-		with: [ spec requires: #( #'Toplo-LookAndFeel-ToTheme' ) ].
-	spec
-		package: #'Toplo-LookAndFeel-ToTheme-Tests'
-		with: [ spec requires: #( #'Toplo-LookAndFeel-ToTheme' ) ].
+		with: [ spec requires: #( #Toplo ) ]
 ]

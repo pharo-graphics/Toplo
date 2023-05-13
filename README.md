@@ -1,5 +1,7 @@
 # Toplo
 
+![toplo](https://github.com/plantec/Toplo/assets/49183340/57963fee-ed86-4ee0-99e1-7c39e9a9cdf9)
+
 A widget framework on top of Bloc.
 
 ## Installation
@@ -13,6 +15,8 @@ Metacello new
 ```
 
 ## Look and feel features
+
+![image](https://github.com/plantec/Toplo/assets/49183340/2e61623f-5844-4294-b87a-195dd6c1c636)
 
 A look and feel management is currently in development in a dedicated branch : dev-lookandfeel.
 

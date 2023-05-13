@@ -170,18 +170,7 @@ ToComboBox >> indexOfData: aData [
 ToComboBox >> initialize [
 
 	self class initializeSlots: self.
-	super initialize.
-	self mode: self defaultMode.
-	self layout: self defaultLayout.
-	self privateListElement: self defaultListElement.
-	self privateListFrame: self defaultListFrame.
-	self privateHeadElement: self defaultHeadElement.
-	self listElementSize: self defaultListElementSize.
-	self listPlaceholder: self defaultListPlaceholder.
-	self fitListElementToContent.
-	self listElement showPlaceholder.
-	self whenModeChangedDo: [ :new :prev | self mode: prev changedWith: new ].
-	self initializeDresser
+	super initialize
 ]
 
 { #category : #accessing }
@@ -314,6 +303,23 @@ ToComboBox >> popupOrCloseEvent: anEvent [
 	self isOpened
 		ifTrue: [ self closeEvent: anEvent ]
 		ifFalse: [ self popupEvent: anEvent ]
+]
+
+{ #category : #'t - initialization dresser' }
+ToComboBox >> preInitializeDresser [ 
+
+	super preInitializeDresser.
+	
+	self mode: self defaultMode.
+	self layout: self defaultLayout.
+	self privateListElement: self defaultListElement.
+	self privateListFrame: self defaultListFrame.
+	self privateHeadElement: self defaultHeadElement.
+	self listElementSize: self defaultListElementSize.
+	self listPlaceholder: self defaultListPlaceholder.
+	self fitListElementToContent.
+	self listElement showPlaceholder.
+	self whenModeChangedDo: [ :new :prev | self mode: prev changedWith: new ].
 ]
 
 { #category : #'private - accessing' }

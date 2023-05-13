@@ -8,6 +8,14 @@ OBlSpace >> isSupportToTheme [
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
+OBlSpace >> isThemeInstalled [
+	"This method is temporary here to detect when a Theme is installed, this is dirty and a Space need to have a dresser pattern"
+	
+	self flag:'laborded : this is necessary to have this state for the first instanciation, this is temporary'.
+	^ self root userData at: #isToThemeInstalled ifAbsentPut:[ false ]
+]
+
+{ #category : #'*Toplo-LookAndFeel' }
 OBlSpace >> switchThemeDarkOrLight [
 	"Switch to the opposite theme : dark or light (if available)"
 	| newTheme |
@@ -25,16 +33,18 @@ OBlSpace >> switchThemeDarkOrLight [
 { #category : #'*Toplo-LookAndFeel' }
 OBlSpace >> toTheme [
 
-	^ self root toTheme
+	| theme |
+	theme := self root toTheme.
+
+	"Check theme installation : this is dirty and temporary"
+	(theme notNil and:[self isThemeInstalled not]) ifTrue:[ theme installOnSpace: self ].
+	
+	^ theme
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
 OBlSpace >> toTheme: aTheme [
 
-	self root toTheme: aTheme.
-	aTheme ifNil:[ ^ self ].
-	
-	"Update root background color depending theme"
-	self flag:'labordep : this code should not be here but in a dresser dedicated to root element (to be coherent with dresser pattern)'.
-	self root background: aTheme backgroundColor.
+	aTheme ifNotNil: [ aTheme installOnSpace: self ].
+	self root toTheme: aTheme
 ]

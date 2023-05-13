@@ -94,6 +94,19 @@ ToAbstractTheme >> darkTheme [
 	^ nil
 ]
 
+{ #category : #installation }
+ToAbstractTheme >> installOnSpace: aSpace [
+
+	aSpace ifNil:[ ^ self ].
+
+	"Update root background color depending theme"
+	self flag:'labordep : this code should not be here but in a dresser dedicated to root element (to be coherent with dresser pattern)'.
+	aSpace root background: self backgroundColor.
+	
+	"Tag installation complete"
+	aSpace root userData at: #isToThemeInstalled put: true
+]
+
 { #category : #colors }
 ToAbstractTheme >> isDark [
 

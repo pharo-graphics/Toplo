@@ -83,6 +83,14 @@ SpaceTests >> testDefaultSpaceTheme [
 ]
 
 { #category : #tests }
+SpaceTests >> testSpaceBackground [
+
+	| space |
+	space := OBlSpace new.
+	self assert: space root background paint color equals: space toTheme backgroundColor
+]
+
+{ #category : #tests }
 SpaceTests >> testSwitchThemeDarkOrLight [
 
 	| space |

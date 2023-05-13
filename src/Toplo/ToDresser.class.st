@@ -55,7 +55,7 @@ ToDresser >> installEventListenersIn: anElement [
 	"Notify when the element is added on a new parent to check if the parent change need to changed anything (for exemple a theme change)"
 	addedToParentHandler := BlEventHandler 
 		on: BlElementAddedToParentEvent 
-		do: [ self blElementAddedToParentEvent: anElement ].
+		do: [ :event | self blElementAddedToParentEvent: anElement ].
 	anElement addEventHandler: addedToParentHandler.
 ]
 

@@ -166,13 +166,6 @@ ToComboBox >> indexOfData: aData [
 	^ self data indexOf: aData ifAbsent: [ 0 ]
 ]
 
-{ #category : #initialization }
-ToComboBox >> initialize [
-
-	self class initializeSlots: self.
-	super initialize
-]
-
 { #category : #accessing }
 ToComboBox >> insertData: aData [
 

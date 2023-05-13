@@ -42,13 +42,6 @@ ToAlbum >> flash [
 	self announce: (ToAlbumFlashRequested new client: self)
 ]
 
-{ #category : #initialization }
-ToAlbum >> initialize [
-
-	self class initializeSlots: self.
-	super initialize.
-]
-
 { #category : #accessing }
 ToAlbum >> innerElement [
 

@@ -33,8 +33,9 @@ ToLabelMultiLineInnerElement >> editorShortcutsIn: aLabel [
 { #category : #initialization }
 ToLabelMultiLineInnerElement >> initialize [
 
-	self class initializeSlots: self.
 	super initialize.
+	self class initializeSlots: self.
+	
 	lines := OrderedCollection new.
 	self fitContent.
 	self layout: BlLinearLayout vertical.

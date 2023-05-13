@@ -56,13 +56,6 @@ ToPane >> defaultLayout [
 	^ BlLinearLayout new 
 ]
 
-{ #category : #initialization }
-ToPane >> initialize [
-
-	self class initializeSlots: self.
-	super initialize
-]
-
 { #category : #'t - accessing layers' }
 ToPane >> layerReferentElement [
 

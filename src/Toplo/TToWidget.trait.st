@@ -11,13 +11,6 @@ TToWidget >> defaultLayout [
 	^ BlLinearLayout horizontal 
 ]
 
-{ #category : #initialization }
-TToWidget >> initialize [
-
-	self class initializeSlots: self.
-	super initialize.
-]
-
 { #category : #'t - private - compagnon  events' }
 TToWidget >> whenActionRequired: anActionRequiredFromCompagnon [
 

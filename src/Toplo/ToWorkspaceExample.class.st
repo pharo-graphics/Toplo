@@ -182,9 +182,9 @@ ToWorkspaceExample >> openInSpace: aSpace [
 	editor infinite requestFocus.
 	editor showPlaceholder.
 	frame := ToInnerWindow new title: 'Workspace'.
-	frame addChild: editor.
-	aSpace root addChild: frame.
-"	aSpace addEventHandler: (BlEventHandler
+	frame root addChild: editor.
+	aSpace root addChild: frame
+	"	aSpace addEventHandler: (BlEventHandler
 			 on: BlSpaceClosedEvent
 			 do: [ :evt | self class closeTranscript ])"
 ]

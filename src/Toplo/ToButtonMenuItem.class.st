@@ -21,13 +21,6 @@ ToButtonMenuItem >> defaultDresser [
 	^ ToBasicMenuItemDresser next: (ToButtonMenuItemDresser new)
 ]
 
-{ #category : #initialization }
-ToButtonMenuItem >> initialize [
-
-	self class initializeSlots: self.
-	super initialize
-]
-
 { #category : #'t - initialization dresser' }
 ToButtonMenuItem >> preInitializeDresser [ 
 

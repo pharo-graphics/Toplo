@@ -147,13 +147,6 @@ ToLabel >> horizontalAlignment: aBlElementAlignment [
 	self layout horizontalAlignment: aBlElementAlignment
 ]
 
-{ #category : #initialization }
-ToLabel >> initialize [
-
-	self class initializeSlots: self.
-	super initialize
-]
-
 { #category : #accessing }
 ToLabel >> innerElement [
 

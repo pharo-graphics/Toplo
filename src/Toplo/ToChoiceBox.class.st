@@ -82,13 +82,6 @@ ToChoiceBox >> indexOfData: aData [
 	^ self data indexOf: aData ifAbsent: [ 0 ]
 ]
 
-{ #category : #initialization }
-ToChoiceBox >> initialize [
-
-	self class initializeSlots: self.
-	super initialize
-]
-
 { #category : #accessing }
 ToChoiceBox >> menuButton [
 

@@ -53,7 +53,6 @@ ToTooltipWindow >> defaultLabel [
 { #category : #initialization }
 ToTooltipWindow >> initialize [
 
-	self class initializeSlots: self.
 	super initialize.
 		
 	self elevation: (BlRelativeElevation elevation: SmallInteger maxVal).

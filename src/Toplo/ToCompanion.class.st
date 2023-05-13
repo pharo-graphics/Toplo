@@ -17,8 +17,10 @@ ToCompanion class >> asLook [
 
 { #category : #initialization }
 ToCompanion >> initialize [
-	self class initializeSlots: self.
+
 	super initialize.
+	self class initializeSlots: self.
+	
 	installed := false.
 	self startPostponedActionsStorage
 ]

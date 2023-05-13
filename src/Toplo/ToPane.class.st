@@ -47,7 +47,7 @@ ToPane >> addDividers [
 { #category : #'t - initialization dresser' }
 ToPane >> defaultDresser [ 
 
-	^ ToPaneDresser
+	^ ToPaneDresser new
 ]
 
 { #category : #'t - initialization' }

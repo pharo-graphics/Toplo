@@ -31,7 +31,5 @@ ToGeneralButton >> defaultDresser [
 ToGeneralButton >> initialize [ 
 
 	self class initializeSlots: self.
-	super initialize.
-	self initializeDresser 
-
+	super initialize
 ]

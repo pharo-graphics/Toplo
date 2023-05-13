@@ -1,6 +1,13 @@
 Extension { #name : #OBlSpace }
 
 { #category : #'*Toplo-LookAndFeel' }
+OBlSpace >> isSupportToTheme [
+	"Development method : to check if the Space support ToTheme management"
+
+	^ self root toTheme isNil
+]
+
+{ #category : #'*Toplo-LookAndFeel' }
 OBlSpace >> switchThemeDarkOrLight [
 	"Switch to the opposite theme : dark or light (if available)"
 	| newTheme |
@@ -25,6 +32,7 @@ OBlSpace >> toTheme [
 OBlSpace >> toTheme: aTheme [
 
 	self root toTheme: aTheme.
+	aTheme ifNil:[ ^ self ].
 	
 	"Update root background color depending theme"
 	self flag:'labordep : this code should not be here but in a dresser dedicated to root element (to be coherent with dresser pattern)'.

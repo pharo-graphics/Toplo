@@ -32,6 +32,7 @@ ToDresser >> addDresser: aDresser in: anElement previous: aPreviousDresser [
 { #category : #private }
 ToDresser >> blElementAddedToParentEvent: anElement [
 
+	anElement space ifNil:[ ^ self ].
 	anElement toThemeChanged
 ]
 

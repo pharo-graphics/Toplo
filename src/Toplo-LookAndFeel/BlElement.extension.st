@@ -1,6 +1,18 @@
 Extension { #name : #BlElement }
 
 { #category : #'*Toplo-LookAndFeel' }
+BlElement >> openInOBlSpaceWithoutToTheme [
+	"This is a development method : use this method when your Space cannot support ToTheme management"
+	| sp |
+	sp := OBlSpace new.
+	sp toTheme: nil.
+	sp root addChild: self.
+	sp show.
+	^ sp
+
+]
+
+{ #category : #'*Toplo-LookAndFeel' }
 BlElement >> toTheme [
 
 	^ self userData at: #ToTheme ifAbsent: [

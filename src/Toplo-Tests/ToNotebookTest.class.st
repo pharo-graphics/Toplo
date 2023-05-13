@@ -83,7 +83,8 @@ ToNotebookTest >> testBodyFactoryIsValuedOnSelect [
 				text: (greenCount asRopedText foreground: Color green muchDarker);
 				yourself ].
 	
-	self newTestingSpace root addChild: aNotebook; show.
+	self newTestingSpace root addChild: aNotebook.
+	self newTestingSpace show.
 	self waitTestingSpaces.
 	self assert: redCount equals: 1.
 	self assert: greenCount equals: 0.
@@ -118,7 +119,8 @@ ToNotebookTest >> testClosePage [
 			background: Color green darker;
 			yourself).
 	
-	self newTestingSpace root addChild: aNotebook; show.
+	self newTestingSpace root addChild: aNotebook.
+	self newTestingSpace show.
 	self waitTestingSpaces.
 	self assert: (aNotebook pages includes: redPage).
 
@@ -136,7 +138,8 @@ ToNotebookTest >> testDefaultBodyIsTransparent [
 	aNotebook := ToNotebook new.
 	aPage := aNotebook addPageTitle: '1'.
 
-	self newTestingSpace root addChild: aNotebook; show.
+	self newTestingSpace root addChild: aNotebook.
+	self newTestingSpace show.
 	self waitTestingSpaces.
 
 	self assert: aPage bodyElement background isTransparent
@@ -159,7 +162,8 @@ ToNotebookTest >> testSelectPage [
 			background: Color green darker;
 			yourself).
 	
-	self newTestingSpace root addChild: aNotebook; show.
+	self newTestingSpace root addChild: aNotebook.
+	self newTestingSpace show.
 	self waitTestingSpaces.
 	self assert: orangePage isSelected.
 	self deny: greenPage isSelected.

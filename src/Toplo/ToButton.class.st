@@ -12,12 +12,10 @@ ToButton >> defaultDresser [
 	^ ToButtonDresser new
 ]
 
-{ #category : #initialization }
-ToButton >> initialize [
-
-	self class initializeSlots: self.
-	super initialize.
-	self initializePair.
+{ #category : #'t - initialization dresser' }
+ToButton >> preInitializeDresser [ 
 	
-	self initializeDresser 
+	super preInitializeDresser.
+
+	self initializePair
 ]

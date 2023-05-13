@@ -82,27 +82,6 @@ ToChoiceBox >> indexOfData: aData [
 	^ self data indexOf: aData ifAbsent: [ 0 ]
 ]
 
-{ #category : #initialization }
-ToChoiceBox >> initialize [
-
-	self class initializeSlots: self.
-	super initialize.
-	dataToTextConverter := [ :i | i ].
-	selectedIndex := 0.
-	self privateData: self newDataCollection.
-	self layout: self defaultLayout.
-	self fitContent.
-	menuButton := ToChoiceBoxMenuButton new.
-	group := ToCheckableGroup new.
-	self addChild: menuButton.
-	self whenSelectedIndexChangedDo: [ self selectedIndexChanged ].
-	self whenPlaceholderChangedDo: [ self placeholderChanged ].
-	group whenChangedDo: [ :ann |
-		ann checkedButtons do: [:e | self checked: e].
-		ann uncheckedButtons do:[:e | self unchecked: e ]].
-	self initializeDresser
-]
-
 { #category : #accessing }
 ToChoiceBox >> menuButton [
 
@@ -189,6 +168,26 @@ ToChoiceBox >> placeholderChanged [
 
 	self selectedData ifNotNil: [ ^ self ].
 	self usePlaceholder
+]
+
+{ #category : #'t - initialization dresser' }
+ToChoiceBox >> preInitializeDresser [ 
+
+	super preInitializeDresser.
+	
+	dataToTextConverter := [ :i | i ].
+	selectedIndex := 0.
+	self privateData: self newDataCollection.
+	self layout: self defaultLayout.
+	self fitContent.
+	menuButton := ToChoiceBoxMenuButton new.
+	group := ToCheckableGroup new.
+	self addChild: menuButton.
+	self whenSelectedIndexChangedDo: [ self selectedIndexChanged ].
+	self whenPlaceholderChangedDo: [ self placeholderChanged ].
+	group whenChangedDo: [ :ann |
+		ann checkedButtons do: [:e | self checked: e].
+		ann uncheckedButtons do:[:e | self unchecked: e ]].
 ]
 
 { #category : #'private - accessing' }

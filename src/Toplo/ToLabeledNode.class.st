@@ -12,13 +12,6 @@ ToLabeledNode >> defaultDresser [
 	^ ToLabeledNodeDresser new
 ]
 
-{ #category : #initialization }
-ToLabeledNode >> initialize [ 
-
-	self class initializeSlots: self.
-	super initialize.
-]
-
 { #category : #'private-change' }
 ToLabeledNode >> privateBeEditable [
 

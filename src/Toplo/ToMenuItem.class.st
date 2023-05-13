@@ -15,7 +15,6 @@ ToMenuItem >> client [
 { #category : #initialization }
 ToMenuItem >> initialize [
 
-	self class initializeSlots: self.
 	super initialize.
 	self fitContent.
 

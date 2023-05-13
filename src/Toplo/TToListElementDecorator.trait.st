@@ -66,6 +66,12 @@ TToListElementDecorator >> isSelectedAtIndex: anIndex [
 	^ self next isSelectedAtIndex: anIndex
 ]
 
+{ #category : #'t - accessing selection' }
+TToListElementDecorator >> keepSelectionOnFocused: aBoolean [
+
+	self next keepSelectionOnFocused: aBoolean
+]
+
 { #category : #'t - accessing constraints' }
 TToListElementDecorator >> maxHeight: aHeight [
 

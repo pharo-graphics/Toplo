@@ -34,7 +34,6 @@ ToContextMenu >> defaultHook [
 { #category : #initialization }
 ToContextMenu >> initialize [
 
-	self class initializeSlots: self.
 	super initialize.
 	self initializeMenuItemHolder.
 

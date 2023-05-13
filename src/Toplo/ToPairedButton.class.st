@@ -9,7 +9,6 @@ Class {
 { #category : #initialization }
 ToPairedButton >> initialize [
 
-	self class initializeSlots: self.
 	super initialize.
 	self initializePair
 ]

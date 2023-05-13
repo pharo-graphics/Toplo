@@ -13,13 +13,6 @@ ToCustomMenuItem >> defaultDresser [
 	^ ToBasicMenuItemDresser new
 ]
 
-{ #category : #initialization }
-ToCustomMenuItem >> initialize [
-
-	super initialize.
-	self initializeDresser 
-]
-
 { #category : #accessing }
 ToCustomMenuItem >> innerElement [
 

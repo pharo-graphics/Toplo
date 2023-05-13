@@ -35,14 +35,6 @@ ToMenuWindow >> defaultHook [
 		  ifFalse: [ w widget bounds inSpace bounds bottomLeft ] ]
 ]
 
-{ #category : #initialization }
-ToMenuWindow >> initialize [
-
-	super initialize.
-	self initializeDresser 
-	
-]
-
 { #category : #'api - displaying' }
 ToMenuWindow >> mouseEnterOnMenuItem: aMenuItem [
 

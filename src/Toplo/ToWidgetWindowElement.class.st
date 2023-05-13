@@ -109,7 +109,6 @@ ToWidgetWindowElement >> hook: aValuable [
 { #category : #initialization }
 ToWidgetWindowElement >> initialize [
 
-	self class initializeSlots: self.
 	super initialize.
 	self animate: true.
 	self hook: self defaultHook.

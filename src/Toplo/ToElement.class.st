@@ -16,6 +16,10 @@ ToElement >> defaultLayoutCommonConstraints [
 ToElement >> initialize [ 
 
 	super initialize.
-	self dresser: self defaultDresser 
-
+	self class initializeSlots: self.
+	
+	"Dresser initialization processus"
+	self preInitializeDresser.
+	self initializeDresser.
+	self postInitializeDresser.
 ]

@@ -46,8 +46,8 @@ ToNotebookPage >> closeButton [
 { #category : #initialization }
 ToNotebookPage >> initialize [
 
-	self class initializeSlots: self.
 	super initialize.
+	self class initializeSlots: self.
 	
 	isSelected := false.
 	isCloseable := false.

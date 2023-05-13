@@ -67,21 +67,6 @@ ToNotebook >> header [
 	^ header
 ]
 
-{ #category : #initialization }
-ToNotebook >> initialize [
-
-	super initialize.
-
-	pages := OrderedCollection new.
-	"selectedPage := nil."
-
-	header := BlElement new.
-	self addChild: header as: #header.
-
-	self initializeDresser
-
-]
-
 { #category : #private }
 ToNotebook >> newPageTitle: aTitle [
 
@@ -107,6 +92,18 @@ ToNotebook >> newTitleElementFor: aPage title: aTitle [
 ToNotebook >> pages [
 
 	^ pages
+]
+
+{ #category : #'t - initialization dresser' }
+ToNotebook >> preInitializeDresser [
+
+	super preInitializeDresser.
+
+	pages := OrderedCollection new.
+	"selectedPage := nil."
+
+	header := BlElement new.
+	self addChild: header as: #header
 ]
 
 { #category : #private }

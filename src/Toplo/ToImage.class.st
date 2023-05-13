@@ -33,7 +33,6 @@ ToImage >> hasInnerImage [
 { #category : #initialization }
 ToImage >> initialize [
 
-	self class initializeSlots: self.
 	super initialize.
 	
 	self fitContent.

@@ -60,13 +60,6 @@ ToDivider >> firstTarget: anElement [
 	firstTarget := anElement
 ]
 
-{ #category : #initialization }
-ToDivider >> initialize [
-
-	super initialize.
-	self initializeDresser.
-]
-
 { #category : #testing }
 ToDivider >> isHorizontal [
 

@@ -13,6 +13,24 @@ Class {
 }
 
 { #category : #'api - install/uninstall  hook' }
+ToComboBoxHeadDresser >> arrowDownEvent: anEvent in: anElement [
+
+	self listElementRequestFocus.
+	comboBox isOpened ifTrue: [ ^ self ].
+	comboBox popupEvent: anEvent.
+	comboBox listElement data ifEmpty: [ ^ self ].
+	comboBox listElement selectedIndexes size isZero ifFalse: [ ^ self ].
+	comboBox listElement selectIndex: 1
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToComboBoxHeadDresser >> escapeEvent: anEvent in: anElement [
+
+	comboBox isOpened ifFalse: [ ^ self ].
+	comboBox closeEvent: anEvent
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToComboBoxHeadDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
@@ -35,11 +53,18 @@ ToComboBoxHeadDresser >> newArrowDownShortcutIn: anElement [
 
 	^ BlShortcutWithAction new
 		                combination: BlKeyCombination arrowDown;
-		                action: [ :event |
-			                comboBox isOpened 
-				                ifFalse: [ comboBox popupEvent: event ].
-			                self listElementRequestFocus ];
+		                action: [ :event | self arrowDownEvent: event in: anElement ];
 		                name: 'Popup';
+		                yourself.
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToComboBoxHeadDresser >> newEscapeShortcutIn: anElement [
+
+	^ BlShortcutWithAction new
+		                combination: BlKeyCombination escape;
+		                action: [ :event | self escapeEvent: event in: anElement ];
+		                name: 'Escape';
 		                yourself.
 ]
 

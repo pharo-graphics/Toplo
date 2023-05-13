@@ -53,7 +53,7 @@ ToDresser >> initialize [
 { #category : #'api - install/uninstall  hook' }
 ToDresser >> installEventListenersIn: anElement [
 
-	"Notify when the element is added on a new parent to check if the parent change need to changed anything (for exemple a theme change)"
+	"Notify when the element is added on a new parent to check if the parent change need to changed anything (for example a theme change)"
 	addedToParentHandler := BlEventHandler 
 		on: BlElementAddedToParentEvent 
 		do: [ :event | self blElementAddedToParentEvent: anElement ].

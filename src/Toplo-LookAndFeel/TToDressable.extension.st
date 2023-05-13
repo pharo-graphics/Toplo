@@ -70,6 +70,9 @@ TToDressable >> toThemeChanged [
 	self childrenDo: [ :c | c toThemeChanged ].
 	
 	"Update the skin if theme hierarchy has changed"
+	self flag:'labordep : this code should be remove when look and feel pattern was ok, here we are forcing a skin type to install all Look and Feel dedicated dressers'.
+	(skinType isNil and:[self space notNil]) ifTrue:[ self skinType: ToAbstractSkin defaultType ].
+		
 	self setSkinForType: self skinType.
 	
 	self dresserDo: [ :d | d launchInstallationIn: self ].

@@ -21,7 +21,7 @@ OBlSpace >> toTheme: aTheme [
 
 	self root toTheme: aTheme.
 	
-	"update background color depending theme"
-	self flag:'PLA : comment traiter ce cas qui nest pas un element toplo ?'.
+	"Update root background color depending theme"
+	self flag:'labordep : this code should not be here but in a dresser dedicated to root element (to be coherent with dresser pattern)'.
 	self root background: aTheme backgroundColor.
 ]

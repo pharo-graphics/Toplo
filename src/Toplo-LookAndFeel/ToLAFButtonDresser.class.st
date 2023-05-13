@@ -50,13 +50,17 @@ ToLAFButtonDresser >> onInstalledIn: anElement [
 	skin := anElement skin.
 	self skin theme: anElement toTheme.
 	
+	"Check if the skin is compatible"
+	self flag:'Labordep this is dirty, need to find a better solution, for example disable skin: with a non supported skin ?'.
+	(self skin isKindOf: ToAbstractButtonSkin) ifFalse:[^ self].	
+		
 	self skin labelSkinType ifNotNil:[ :labelSkinType |
 		anElement label ifNil:[ anElement label: ToLabel new ].
 		anElement label skinType: labelSkinType.
 	].
 	
 	super onInstalledIn: anElement.
-	
+
 	anElement geometry: self skin builtGeometry.
 	
 	self skin defaultSize ifNotNil:[ :aPoint | 

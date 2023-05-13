@@ -70,6 +70,18 @@ ToAbstractTheme class >> skinFor: aToElementClass type: aType [
 	^ skinClass new
 ]
 
+{ #category : #skins }
+ToAbstractTheme class >> skins [
+	"Return the list of all supported skins for this Theme"
+	| set widgetClasses |
+	set := Set new.
+	
+	widgetClasses := ToElement allSubclasses.
+	widgetClasses do:[ :c | set addAll: (self skinClassesFor: c) ]. 
+	
+	^set asOrderedCollection
+]
+
 { #category : #colors }
 ToAbstractTheme >> backgroundColor [
 
@@ -79,25 +91,31 @@ ToAbstractTheme >> backgroundColor [
 { #category : #colors }
 ToAbstractTheme >> darkTheme [
 
-	^ self subclassResponsibility
+	^ nil
 ]
 
 { #category : #colors }
 ToAbstractTheme >> isDark [
 
-	^ self subclassResponsibility
+	^ false
 ]
 
 { #category : #colors }
 ToAbstractTheme >> isLight [
 
-	^ self subclassResponsibility
+	^ false
+]
+
+{ #category : #colors }
+ToAbstractTheme >> isSupportLightAndDark [
+
+	^ self isLight or: [ self isDark ]
 ]
 
 { #category : #colors }
 ToAbstractTheme >> lightTheme [
 
-	^ self subclassResponsibility
+	^ nil
 ]
 
 { #category : #accessing }
@@ -119,4 +137,11 @@ ToAbstractTheme >> printOn: aStream [
 		nextPutAll: (self name ifNil:[self class name]);
 		nextPutAll: ' @ ';
 		store: self identityHash
+]
+
+{ #category : #skins }
+ToAbstractTheme >> skins [
+	"Return all skins supported by the Theme"
+	
+	^self class skins
 ]

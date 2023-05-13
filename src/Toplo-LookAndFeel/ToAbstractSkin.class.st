@@ -26,11 +26,12 @@ ToAbstractSkin class >> type [
 	^ self defaultType
 ]
 
-{ #category : #tokens }
+{ #category : #'private - tokens' }
 ToAbstractSkin >> buildTokens [
 
+	"Reset previous tokens"
 	self tokens: Dictionary new.
-	
+		
 	self tokens at: #size put: self builtDefaultSize.
 ]
 
@@ -50,7 +51,19 @@ ToAbstractSkin >> defaultSize [
 ToAbstractSkin >> initialize [ 
 
 	super initialize.
-	self buildTokens.
+	self isSupportedByTheme ifTrue:[self buildTokens].
+]
+
+{ #category : #testing }
+ToAbstractSkin >> isSupportedByTheme [
+
+	^ self isSupportedByTheme: self theme
+]
+
+{ #category : #testing }
+ToAbstractSkin >> isSupportedByTheme: aTheme [
+
+	^ aTheme skins includes: self class
 ]
 
 { #category : #printing }
@@ -80,6 +93,7 @@ ToAbstractSkin >> theme: anObject [
 ToAbstractSkin >> themeChanged [
 	"update token dictionary depending theme"
 	
+	self isSupportedByTheme ifFalse:[ ^ self ].
 	self buildTokens. 
 ]
 
@@ -90,12 +104,18 @@ ToAbstractSkin >> token: aSymbol [
 ]
 
 { #category : #tokens }
+ToAbstractSkin >> token: aSymbol value: aValue [
+
+	self tokens at: aSymbol put: aValue
+]
+
+{ #category : #'private - tokens' }
 ToAbstractSkin >> tokens [
 
 	^ tokens ifNil: [ tokens := Dictionary new ]
 ]
 
-{ #category : #tokens }
+{ #category : #'private - tokens' }
 ToAbstractSkin >> tokens: anObject [
 
 	tokens := anObject

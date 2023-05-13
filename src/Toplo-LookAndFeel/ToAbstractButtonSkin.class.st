@@ -35,8 +35,8 @@ ToAbstractButtonSkin >> borderHover [
 ]
 
 { #category : #built }
-ToAbstractButtonSkin >> buildTokens [
-
+ToAbstractButtonSkin >> buildTokens [	
+	
 	super buildTokens.
 	
 	self tokens at: #background put: self builtBackground.
@@ -111,7 +111,7 @@ ToAbstractButtonSkin >> builtBorderHoverBuilder [
 { #category : #built }
 ToAbstractButtonSkin >> builtGeometry [
 
-	^ BlRoundedRectangleGeometry cornerRadius: self theme borderRadius
+	^ self subclassResponsibility 
 ]
 
 { #category : #built }

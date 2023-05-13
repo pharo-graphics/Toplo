@@ -28,6 +28,10 @@ ToLAFLabelDresser >> onInstalledIn: aToLabel [
 	skin := aToLabel skin.
 	self skin theme: aToLabel toTheme.
 
+	"Check if the skin is compatible"
+	self flag:'Labordep this is dirty, need to find a better solution, for example disable skin: with a non supported skin ?'.
+	(self skin isKindOf: ToAbstractLabelSkin) ifFalse:[^ self].	
+
 	super onInstalledIn: aToLabel
 ]
 

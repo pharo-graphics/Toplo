@@ -78,6 +78,12 @@ TToDressable >> removeDresser: aDresser [
 	aDresser launchUninstallationIn: self
 ]
 
+{ #category : #'t - private' }
+TToDressable >> setSkinForType: aType [
+
+	self skin: (self toTheme class skinFor: (self class) type: aType)
+]
+
 { #category : #'t - accessing skin' }
 TToDressable >> skin [
 
@@ -114,7 +120,7 @@ TToDressable >> skinType: aType [
 	self toTheme ifNil:[ ^ self ].
 	
 	self dresser: (self toTheme class dresserFor: self).
-	self skin: (self toTheme class skinFor: (self class) type: aType)
+	self setSkinForType: aType.
 ]
 
 { #category : #'t - accessing theme' }
@@ -138,9 +144,13 @@ TToDressable >> toTheme: aTheme [
 TToDressable >> toThemeChanged [
 
 	self dresserDo: [ :d | d launchUninstallationIn: self ].
-	self dresserDo: [ :d | d launchInstallationIn: self ].
 	
-	self childrenDo: [ :c | c toThemeChanged ]
+	self childrenDo: [ :c | c toThemeChanged ].
+	
+	"Update the skin if theme hierarchy has changed"
+	self setSkinForType: self skinType.
+	
+	self dresserDo: [ :d | d launchInstallationIn: self ].
 ]
 
 { #category : #'t - accessing dresser' }

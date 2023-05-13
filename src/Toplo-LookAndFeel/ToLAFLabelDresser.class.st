@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'skin'
 	],
-	#category : #'Toplo-LookAndFeel-Core'
+	#category : #'Toplo-LookAndFeel-Dressers'
 }
 
 { #category : #accessing }

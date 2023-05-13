@@ -25,13 +25,17 @@ ToButtonMenuItem >> defaultDresser [
 ToButtonMenuItem >> initialize [
 
 	self class initializeSlots: self.
-	super initialize.
+	super initialize
+]
+
+{ #category : #'t - initialization dresser' }
+ToButtonMenuItem >> preInitializeDresser [ 
+
+	super preInitializeDresser.
 
 	self initializePair.
 	"horizontal matchParent required here ** after ** initializeButton ( because of the #fitContent sent)"
 	self constraintsDo: [ :c | 
 		c horizontal matchParent.
 		c vertical fitContent ].
-
-	self initializeDresser
 ]

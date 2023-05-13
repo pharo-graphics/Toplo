@@ -17,11 +17,3 @@ ToPairedNode >> defaultDresser [
 
 	^ ToPairedNodeDresser new
 ]
-
-{ #category : #initialization }
-ToPairedNode >> initialize [ 
-
-	self class initializeSlots: self.
-	super initialize.
-	self initializePair
-]

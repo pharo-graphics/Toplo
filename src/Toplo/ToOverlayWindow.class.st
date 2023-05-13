@@ -23,10 +23,3 @@ ToOverlayWindow >> defaultHook [
 
 	^ [ :w :event | w widget bounds inSpace bounds topLeft ]
 ]
-
-{ #category : #initialization }
-ToOverlayWindow >> initialize [
-
-	super initialize.
-	self initializeDresser 
-]

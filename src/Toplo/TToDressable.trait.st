@@ -55,6 +55,18 @@ TToDressable >> initializeDresser [
 	self dresser: self defaultDresser
 ]
 
+{ #category : #'t - initialization dresser' }
+TToDressable >> postInitializeDresser [
+	"Called after dresser initialization"
+	
+]
+
+{ #category : #'t - initialization dresser' }
+TToDressable >> preInitializeDresser [
+	"Called before dresser initialization"
+	
+]
+
 { #category : #'t - accessing dresser' }
 TToDressable >> removeDresser: aDresser [
 

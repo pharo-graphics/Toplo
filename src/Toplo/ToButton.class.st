@@ -16,8 +16,13 @@ ToButton >> defaultDresser [
 ToButton >> initialize [
 
 	self class initializeSlots: self.
-	super initialize.
-	self initializePair.
+	super initialize
+]
+
+{ #category : #'t - initialization dresser' }
+ToButton >> preInitializeDresser [ 
 	
-	self initializeDresser 
+	super preInitializeDresser.
+
+	self initializePair
 ]

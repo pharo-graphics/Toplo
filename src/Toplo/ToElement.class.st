@@ -11,3 +11,14 @@ ToElement >> defaultLayoutCommonConstraints [
 
 	^ OBlLayoutCommonConstraints new
 ]
+
+{ #category : #initialization }
+ToElement >> initialize [ 
+
+	super initialize.
+	
+	"Dresser initialization processus"
+	self preInitializeDresser.
+	self initializeDresser.
+	self postInitializeDresser.
+]

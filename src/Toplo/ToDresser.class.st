@@ -33,6 +33,7 @@ ToDresser >> addDresser: aDresser in: anElement previous: aPreviousDresser [
 ToDresser >> blElementAddedToParentEvent: anElement [
 
 	anElement space ifNil:[ ^ self ].
+	anElement space toTheme ifNil:[ ^ self ].
 	
 	self flag:' labordep: Check Theme installation : this is a patch for first Space instanciation and need to be remove when a bettern pattern is found'.
 	(anElement space isThemeInstalled not and:[anElement space toTheme notNil]) ifTrue:[ anElement toTheme installOnSpace: anElement space ].

@@ -39,6 +39,21 @@ ToSandBox class >> example_BasicComboBoxWith5Elements [
 	win openInWorld
 ]
 
+{ #category : #combobox }
+ToSandBox class >> example_BasicComboBoxWithStatesOfAmerica [
+
+	| win combo placeholder |
+	win := ToInnerWindow new title: 'Combo box Example'.
+	combo := ToComboBox new.
+	placeholder :=ToLabel new text: ('Choose a state' asRopedText foreground: Color lightGray); hMatchParent.
+	combo headPlaceholder: placeholder.
+	combo data addAll: self statesOfAmerica.
+	win root addChild: combo.
+	
+	"combo inspect."
+	win openInWorld
+]
+
 { #category : #album }
 ToSandBox class >> example_CodeEditorWithToAlbumModel [
 
@@ -279,6 +294,21 @@ ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
 	pane addChild: l.
 	pane addChild: filter.	
 	pane openInOBlSpace
+]
+
+{ #category : #combobox }
+ToSandBox class >> example_InlineAutocompleteComboBoxWithStatesOfAmerica [
+
+	| win combo placeholder |
+	win := ToInnerWindow new title: 'Inline autocomplete Combo box Example'.
+	combo := ToComboBox new beInlineAutocomplete.
+	placeholder :=ToLabel new text: ('Choose a state' asRopedText foreground: Color lightGray); hMatchParent.
+	combo headPlaceholder: placeholder.
+	combo data addAll: self statesOfAmerica.
+	win root addChild: combo.
+	
+	"combo inspect."
+	win openInWorld
 ]
 
 { #category : #list }
@@ -2734,6 +2764,20 @@ ToSandBox class >> example_verticalPaneWithDivider [
 { #category : #accessing }
 ToSandBox class >> methodText [
 	^ self  class sourceCodeAt: #example_CodeEditorWithToAlbumModel
+]
+
+{ #category : #combobox }
+ToSandBox class >> statesOfAmerica [
+
+	^ { #Alabama. #Alaska. #Arizona. #Arkansas. #California. #Colorado.
+		#Connecticut. #Delaware. #Florida. #Georgia. #Hawaii. #Idaho. #'Illinois Indiana'.
+		#Iowa. #Kansas. #Kentucky. #Louisiana. #Maine. #Maryland. #Massachusetts.
+		#Michigan. #Minnesota. #Mississippi. #Missouri. #Montana. #Nebraska.
+		#Nevada. #'New Hampshire'. #'New Jersey'. #'New Mexico'.
+		#'New York'. #'North Carolina'. #'North Dakota'. #Ohio. #Oklahoma.
+		#Oregon. #'Pennsylvania Rhode Island'. #'South Carolina'.
+		#'South Dakota'. #Tennessee. #Texas. #Utah. #Vermont. #Virginia.
+		#Washington. #'West Virginia'. #Wisconsin. #Wyoming }.
 ]
 
 { #category : #'see class side' }

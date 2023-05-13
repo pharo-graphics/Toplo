@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-ComboBox'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 ToComboBoxMode >> defaultHeadElement [
 	^ self subclassResponsibility
 ]

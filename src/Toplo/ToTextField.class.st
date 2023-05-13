@@ -12,10 +12,15 @@ ToTextField >> defaultDresser [
 ]
 
 { #category : #initialization }
+ToTextField >> defaultEditorElement [
+
+	^ AlbTextFieldElement new
+]
+
+{ #category : #initialization }
 ToTextField >> initialize [
 
 	super initialize.
-	self beForTextField.
 	self infinite vFitContent.
 	self next vFitContent.
 	self vFitContent.

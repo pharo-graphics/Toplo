@@ -25,7 +25,7 @@ ToDataFilterDresser >> dataChangedIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToDataFilterDresser >> defaultFilter [
 
-	^ [ :data | data includesSubstring: self pattern caseSensitive: false ]
+	^ [ :data :p | data includesSubstring: p caseSensitive: false ]
 ]
 
 { #category : #accessing }
@@ -42,14 +42,14 @@ ToDataFilterDresser >> filter [
 
 { #category : #accessing }
 ToDataFilterDresser >> filter: aValuable [
-	" filter takes a data as argument "
+	" filter takes a data and a pattern as argument "
 	filter := aValuable
 ]
 
 { #category : #'private filtering' }
 ToDataFilterDresser >> filterDataIn: anElement [
 
-	| filtered indexes filterTask |
+	| filtered indexes |
 	self pattern ifNil: [ ^ self ].
 
 	self pattern
@@ -60,18 +60,15 @@ ToDataFilterDresser >> filterDataIn: anElement [
 			filtered := Array streamContents: [ :filteredStream |
 				            indexes := Array streamContents: [ :indexesStream |
 					                       originalData withIndexDo: [ :d :idx |
-						                       (self filter value: d) ifTrue: [
+						                       (self filter value: d value: self pattern) ifTrue: [
 							                       filteredStream nextPut: d.
 							                       indexesStream nextPut: idx ] ] ] ] ].
-	" need to enqueue a task to manage the filter result outside the layouting step"
-	filterTask := BlTaskAction new action: [
-		              anElement dispatchEvent: (ToDataFilterResultEvent new
-				               selectionUpdated: currentIndexes ~= indexes;
-				               data: filtered;
-				               indexes: indexes; 
-				               yourself).
-		              currentIndexes := indexes ].
-	anElement enqueueTask: filterTask
+	anElement dispatchEvent: (ToDataFilterResultEvent new
+			 selectionUpdated: currentIndexes ~= indexes;
+			 data: filtered;
+			 indexes: indexes;
+			 yourself).
+	currentIndexes := indexes
 ]
 
 { #category : #'private filtering' }

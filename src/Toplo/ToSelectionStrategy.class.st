@@ -142,7 +142,8 @@ ToSelectionStrategy >> dataSource: aDataSource [
 { #category : #'selection managing' }
 ToSelectionStrategy >> deselectAll [
 
-	selectionModel deselectAll
+	selectionModel deselectAll.
+	currentIndex := nil
 ]
 
 { #category : #'selection managing' }
@@ -297,13 +298,15 @@ ToSelectionStrategy >> selectLast [
 
 { #category : #'selection managing' }
 ToSelectionStrategy >> selectNext [
-
+self currentIndex traceCr.
 	self currentIndex
 		ifNil: [
 			dataSource list ifEmpty: [ ^ self ].
 			self currentIndex: 1 ]
 		ifNotNil: [
-			self currentIndex < dataSource list size ifFalse: [ ^ self ].
+			self currentIndex < dataSource list size ifFalse: [
+				self currentIndex: 1.
+				^ self ].
 			self currentIndex: self currentIndex + 1 ].
 	self selectIndex: self currentIndex
 ]

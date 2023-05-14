@@ -16,12 +16,16 @@ Class {
 { #category : #'api - install/uninstall  hook' }
 ToComboBoxHeadDresser >> arrowDownEvent: anEvent in: anElement [
 
+	| wasOpened |
 	self listElementRequestFocus.
-	comboBox isOpened ifTrue: [ ^ self ].
-	comboBox popupEvent: anEvent.
+	wasOpened :=  comboBox isOpened.
+	wasOpened ifFalse: [ comboBox popupEvent: anEvent ].
 	comboBox listElement data ifEmpty: [ ^ self ].
-	comboBox listElement selectedIndexes size isZero ifFalse: [ ^ self ].
-	comboBox listElement selectIndex: 1
+	comboBox listElement selectedIndexes ifEmpty: [
+		comboBox listElement selectIndex: 1.
+		^ self ].
+	wasOpened ifFalse: [ ^ self ].
+	comboBox listElement selectIndex: (comboBox listElement selectedIndex + 1)
 ]
 
 { #category : #'api - install/uninstall  hook' }

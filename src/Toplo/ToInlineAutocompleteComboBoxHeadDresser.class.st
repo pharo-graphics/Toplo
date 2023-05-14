@@ -12,7 +12,17 @@ Class {
 ToInlineAutocompleteComboBoxHeadDresser >> filterResult: anEvent [
 
 	comboBox listElement data filterResult: anEvent data.
-	comboBox fitListElementToContent
+	comboBox fitListElementToContent.
+	comboBox popupEvent: anEvent.
+	anEvent data size = 1 ifTrue: [  comboBox selectIndex: 1 ]
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToInlineAutocompleteComboBoxHeadDresser >> selectedIndex: anIndex in: anElement [
+
+	super selectedIndex: anIndex in: anElement.
+	anIndex isZero ifTrue: [ ^ self ].
+	comboBox listElement dispatchEvent: (ToDataFilterRequestEvent new pattern: anElement textField text asString)
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -30,7 +40,7 @@ ToInlineAutocompleteComboBoxHeadDresser >> whenAdded: anElement [
 			                 beginsWith: pattern
 			                 caseSensitive: false ].
 	comboBox listElement addDresser: filterDresser.
-	anElement textField whenTextEditedDo: [ :event | comboBox popupEvent: event. self textUpdatedIn: anElement ].
+	anElement textField whenTextEditedDo: [ :event | self textUpdatedIn: anElement ].
 	filterResultHandler := BlEventHandler
 		                       on: ToDataFilterResultEvent
 		                       do: [ :event | self filterResult: event ].

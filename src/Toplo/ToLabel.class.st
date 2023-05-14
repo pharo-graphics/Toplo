@@ -147,6 +147,20 @@ ToLabel >> horizontalAlignment: aBlElementAlignment [
 	self layout horizontalAlignment: aBlElementAlignment
 ]
 
+{ #category : #initialization }
+ToLabel >> initialize [
+
+	super initialize.
+
+	" need to initialize the dresser before setting lineMode and text"
+	self lineMode: self defaultLineMode.
+	self text: self defaultText.
+
+	self initializeEditable.
+	self layout: self defaultLayout.
+	self fitContent.
+]
+
 { #category : #accessing }
 ToLabel >> innerElement [
 
@@ -210,29 +224,6 @@ ToLabel >> newEditorFrameForEditor: anEditor [
 		  widget: self innerElement;
 		  in: [ :aw | aw root addChild: anEditor ];
 		  yourself
-]
-
-{ #category : #'t - initialization dresser' }
-ToLabel >> postInitializeDresser [ 
-
-	super postInitializeDresser.
-
-	" need to initialize the dresser before setting lineMode and text"
-	self lineMode: self defaultLineMode.
-	self text: self defaultText.
-
-]
-
-{ #category : #'t - initialization dresser' }
-ToLabel >> preInitializeDresser [
-
-	super preInitializeDresser.
-
-	self initializeEditable.
-	self layout: self defaultLayout.
-	self constraintsDo: [ :c | 
-		c vertical fitContent.
-		c horizontal fitContent ]
 ]
 
 { #category : #'private-change' }

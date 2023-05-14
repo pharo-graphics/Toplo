@@ -18,17 +18,23 @@ ToListElement >> defaultLayout [
 	^ BlFrameLayout new
 ]
 
+{ #category : #initialization }
+ToListElement >> initialize [ 
+
+	super initialize.
+	self layout: self defaultLayout.
+	self next elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
+	self matchParent.
+	self withSelectionDecoration.
+]
+
 { #category : #'t - initialization dresser' }
 ToListElement >> preInitializeDresser [ 
 
 	super preInitializeDresser.
 
-	self layout: self defaultLayout.
 	self next: ToListInfiniteElement new.
-	self next elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
-	self addChild: next.
-	self matchParent.
-	self withSelectionDecoration.
+	self addChild: self next
 ]
 
 { #category : #initialization }

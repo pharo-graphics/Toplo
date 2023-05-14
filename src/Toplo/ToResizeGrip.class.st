@@ -61,6 +61,15 @@ ToResizeGrip >> initialTargetSize: aPoint [
 	initialTargetSize := aPoint
 ]
 
+{ #category : #initialization }
+ToResizeGrip >> initialize [
+
+	super initialize.
+	
+	pulled := false.
+	self layout: BlFrameLayout new
+]
+
 { #category : #'mouse processing' }
 ToResizeGrip >> layoutIn: anElement [
 
@@ -71,15 +80,6 @@ ToResizeGrip >> layoutIn: anElement [
 ToResizeGrip >> newPullHandler [
 
 	^ BlPullHandler new
-]
-
-{ #category : #'t - initialization dresser' }
-ToResizeGrip >> preInitializeDresser [
-
-	super preInitializeDresser.
-	
-	pulled := false.
-	self layout: BlFrameLayout new
 ]
 
 { #category : #'mouse processing' }

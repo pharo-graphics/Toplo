@@ -163,6 +163,10 @@ ToInfiniteElement >> initialize [
 	self preInitializeDresser.
 	self initializeDresser.
 	self postInitializeDresser.
+	
+	self preserveSelectionOnFocused: self preserveSelectionOnFocusedByDefault.
+	self nodeFactory: self defaultListNodeFactory.
+	self matchParent
 ]
 
 { #category : #'selection events' }
@@ -175,18 +179,6 @@ ToInfiniteElement >> isSelectedAtIndex: anIndex [
 ToInfiniteElement >> keepSelectionOnFocused [
 
 	^ keepSelectionOnFocused
-]
-
-{ #category : #accessing }
-ToInfiniteElement >> keepSelectionOnFocused: aBoolean [
-
-	keepSelectionOnFocused := aBoolean
-]
-
-{ #category : #initialization }
-ToInfiniteElement >> keepSelectionOnFocusedByDefault [
-
-	^ true
 ]
 
 { #category : #accessing }
@@ -295,14 +287,23 @@ ToInfiniteElement >> onLostFocus [
 { #category : #'t - initialization dresser' }
 ToInfiniteElement >> preInitializeDresser [ 
 
-	self keepSelectionOnFocused: self keepSelectionOnFocusedByDefault.
-	self nodeFactory: self defaultListNodeFactory.
 	primarySelection := self defaultPrimarySelection.
 	secondarySelection := self defaultSecondarySelection.
 	self privateData: ToObservableCollection new.
-	self constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical matchParent ].
+
+
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> preserveSelectionOnFocused: aBoolean [
+
+	keepSelectionOnFocused := aBoolean
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> preserveSelectionOnFocusedByDefault [
+
+	^ true
 ]
 
 { #category : #accessing }
@@ -408,6 +409,12 @@ ToInfiniteElement >> selectToIndex: anIndex [
 	self primarySelection dispatchSelectionChangedAfter: [
 		self primarySelection selectToIndex: anIndex ]
 	to: self
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> selectedIndex [
+
+	^ self selectedIndexes first
 ]
 
 { #category : #accessing }

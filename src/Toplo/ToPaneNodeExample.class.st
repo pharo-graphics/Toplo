@@ -10,11 +10,11 @@ ToPaneNodeExample >> defaultDresser [
 	^ ToNodeWithHoverButtonDresserExample new
 ]
 
-{ #category : #'t - initialization dresser' }
-ToPaneNodeExample >> postInitializeDresser [ 
+{ #category : #initialization }
+ToPaneNodeExample >> initialize [
 
 	| p1 p2 p3 |
-	super postInitializeDresser.
+	super initialize.
 
 	self beHorizontal.
 	p1 := ToPane vertical background: Color blue; width: 50; yourself.

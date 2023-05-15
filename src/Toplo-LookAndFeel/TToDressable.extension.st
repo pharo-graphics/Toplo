@@ -17,6 +17,7 @@ TToDressable >> skin [
 TToDressable >> skin: aSkin [
 
 	(skin isNil or:[ skin class ~= aSkin class or:[skin type ~= aSkin type]]) ifFalse:[ ^ self ].
+	(skin isNil and:[aSkin isNil]) ifTrue:[ ^ self ].
 	skin := aSkin.
 	self skinChanged.
 ]
@@ -37,12 +38,16 @@ TToDressable >> skinType [
 { #category : #'*Toplo-LookAndFeel' }
 TToDressable >> skinType: aType [
 
+	| newDresser |
 	(self skinType = aType and:[ self skin notNil ]) ifTrue:[ ^ self ].
 	skinType := aType.
 	
 	self toTheme ifNil:[ ^ self ].
 	
-	self dresser: (self toTheme class dresserFor: self).
+	"Change dresser if necessary"
+	newDresser := self toTheme class dresserFor: self.
+	(self dresser notNil and:[newDresser class ~= self dresser class]) ifTrue:[self dresser: newDresser].
+	
 	self setSkinForType: aType.
 ]
 
@@ -66,15 +71,14 @@ TToDressable >> toTheme: aTheme [
 { #category : #'*Toplo-LookAndFeel' }
 TToDressable >> toThemeChanged [
 
-	self dresserDo: [ :d | d launchUninstallationIn: self ].
-	
 	self childrenDo: [ :c | c toThemeChanged ].
-	
+	 
 	"Update the skin if theme hierarchy has changed"
 	self flag:'labordep : this code should be remove when look and feel pattern was ok, here we are forcing a skin type to install all Look and Feel dedicated dressers'.
 	(skinType isNil and:[self space notNil]) ifTrue:[ self skinType: ToAbstractSkin defaultType ].
-		
 	self setSkinForType: self skinType.
 	
+	"Force dresser rebuild"
+	self dresserDo: [ :d | d launchUninstallationIn: self ].
 	self dresserDo: [ :d | d launchInstallationIn: self ].
 ]

@@ -298,7 +298,7 @@ ToSelectionStrategy >> selectLast [
 
 { #category : #'selection managing' }
 ToSelectionStrategy >> selectNext [
-self currentIndex traceCr.
+
 	self currentIndex
 		ifNil: [
 			dataSource list ifEmpty: [ ^ self ].

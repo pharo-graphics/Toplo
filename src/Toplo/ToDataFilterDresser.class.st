@@ -9,7 +9,8 @@ Class {
 		'filter',
 		'originalData',
 		'delayBeforeFilter',
-		'currentIndexes'
+		'currentIndexes',
+		'filterResultTask'
 	],
 	#category : #'Toplo-Widget-List'
 }
@@ -63,12 +64,21 @@ ToDataFilterDresser >> filterDataIn: anElement [
 						                       (self filter value: d value: self pattern) ifTrue: [
 							                       filteredStream nextPut: d.
 							                       indexesStream nextPut: idx ] ] ] ] ].
-	anElement dispatchEvent: (ToDataFilterResultEvent new
+
+	"A task must be used here because the filtering is runned asynchronously. The task allows to re-synchronise the element response.
+	As an example, it can avoid the children updating during layouting (because during layouting children are temporarily detached)
+	(which leads to errors related to children adding and which are difficult to understand)"
+
+	filterResultTask ifNotNil: [ anElement dequeueTask: filterResultTask ].
+	filterResultTask := BlTaskAction new action: [ 
+		anElement dispatchEvent: (ToDataFilterResultEvent new
 			 selectionUpdated: currentIndexes ~= indexes;
 			 data: filtered;
 			 indexes: indexes;
 			 yourself).
-	currentIndexes := indexes
+		currentIndexes := indexes.
+		filterResultTask := nil].
+	anElement enqueueTask: filterResultTask
 ]
 
 { #category : #'private filtering' }

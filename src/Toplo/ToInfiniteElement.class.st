@@ -265,12 +265,13 @@ ToInfiniteElement >> offsetPositionRecordsForRemove: aStartPosition itemCount: a
 		itemCount: anItemCount
 		applyToPreLayout: applyToPreLayout.
 
-	self primarySelection
-		dispatchSelectionChangedAfter: [
-			self primarySelection
-				offsetPositionForRemove: aStartPosition
-				itemCount: anItemCount ]
-		to: self
+	self whenLayoutedDoOnce: [ 
+		self primarySelection
+			dispatchSelectionChangedAfter: [
+				self primarySelection
+					offsetPositionForRemove: aStartPosition
+					itemCount: anItemCount ]
+			to: self ]
 ]
 
 { #category : #'private - focus' }

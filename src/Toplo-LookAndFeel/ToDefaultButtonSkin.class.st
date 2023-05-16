@@ -3,7 +3,7 @@ Default button: indicate a series of actions without priority.
 "
 Class {
 	#name : #ToDefaultButtonSkin,
-	#superclass : #ToAbstractButtonSkin,
+	#superclass : #ToThemeButtonSkin,
 	#category : #'Toplo-LookAndFeel-Theme-Skins-Button'
 }
 

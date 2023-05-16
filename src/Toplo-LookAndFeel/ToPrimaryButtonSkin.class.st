@@ -3,7 +3,7 @@ Primary button: indicate the main action, one primary button at most in one sect
 "
 Class {
 	#name : #ToPrimaryButtonSkin,
-	#superclass : #ToAbstractButtonSkin,
+	#superclass : #ToThemeButtonSkin,
 	#category : #'Toplo-LookAndFeel-Theme-Skins-Button'
 }
 

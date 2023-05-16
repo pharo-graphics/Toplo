@@ -3,7 +3,7 @@ Dashed button: used for adding action commonly.
 "
 Class {
 	#name : #ToDashedButtonSkin,
-	#superclass : #ToAbstractButtonSkin,
+	#superclass : #ToThemeButtonSkin,
 	#category : #'Toplo-LookAndFeel-Theme-Skins-Button'
 }
 

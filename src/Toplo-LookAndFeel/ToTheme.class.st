@@ -81,11 +81,13 @@ ToTheme class >> skinClassesFor: aToElementClass [
 	oc := OrderedCollection new.
 	
 	aToElementClass = ToButton ifTrue:[
-		^ oc add: ToDefaultButtonSkin; add: ToPrimaryButtonSkin; add: ToDashedButtonSkin; add: ToTextButtonSkin; add: ToLinkButtonSkin; yourself.
+		^ ToThemeButtonSkin allSubclasses 
+		"^ oc add: ToDefaultButtonSkin; add: ToPrimaryButtonSkin; add: ToDashedButtonSkin; add: ToTextButtonSkin; add: ToLinkButtonSkin; add: ToDangerButtonSkin; add: ToDangerPrimaryButtonSkin; yourself."
 	].
 
 	aToElementClass = ToLabel ifTrue:[
-		^ oc add: ToDefaultLabelSkin; add: ToLinkLabelSkin; add: ToPrimaryLabelSkin; add: ToH1LabelSkin; add: ToH2LabelSkin; add: ToH3LabelSkin; add: ToH4LabelSkin; add: ToH5LabelSkin; add: ToSecondaryLabelSkin; add: ToSuccessLabelSkin; add: ToWarningLabelSkin; add: ToDangerLabelSkin; add: ToDefaultHoverLabelSkin; yourself.
+		^ ToThemeLabelSkin allSubclasses
+		"^ oc add: ToDefaultLabelSkin; add: ToLinkLabelSkin; add: ToPrimaryLabelSkin; add: ToH1LabelSkin; add: ToH2LabelSkin; add: ToH3LabelSkin; add: ToH4LabelSkin; add: ToH5LabelSkin; add: ToSecondaryLabelSkin; add: ToSuccessLabelSkin; add: ToWarningLabelSkin; add: ToDangerLabelSkin; add: ToDefaultHoverLabelSkin; yourself."
 	].
 
 	^ oc
@@ -138,6 +140,13 @@ ToTheme >> colorErrorActive [
 	"The active state of the error color"
 
 	^ Color fromHexString: '#d9363e'
+]
+
+{ #category : #colors }
+ToTheme >> colorErrorBg [
+	"The background color of the error state"
+
+	^ Color fromHexString: '#fff2f0'
 ]
 
 { #category : #colors }

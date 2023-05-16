@@ -1,6 +1,6 @@
 Class {
 	#name : #ToH4LabelSkin,
-	#superclass : #ToAbstractLabelSkin,
+	#superclass : #ToThemeLabelSkin,
 	#category : #'Toplo-LookAndFeel-Theme-Skins-Label'
 }
 

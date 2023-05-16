@@ -7,30 +7,44 @@ Class {
 { #category : #buttons }
 ToLAFExamples class >> example_ButtonSkins [
 
-	| space button1 button2 button3 button4 button5 |
+	| space button1 button2 button3 button4 button5 pane |
 	space := OBlSpace new.
-	space root layout: (BlLinearLayout horizontal cellSpacing: 10).
+	space root layout: (BlLinearLayout vertical cellSpacing: 10).
+	
+	pane := ToPane horizontal.
+	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
 	
 	button1 := ToButton skinType: #primary.
 	button1 labelText: 'Primary button'.
-	
 	button2 := ToButton skinType: #default.
 	button2 labelText: 'Default button'.
-	
 	button3 := ToButton skinType: #dashed.
 	button3 labelText: 'Dashed button'.
-	
 	button4 := ToButton skinType: #text.
 	button4 labelText: 'Text button'.
-	
 	button5 := ToButton skinType: #link.
 	button5 labelText: 'Link button'.
 			
-	space root addChild: button1.
-	space root addChild: button2.
-	space root addChild: button3.
-	space root addChild: button4.
-	space root addChild: button5.
+	pane addChild: button1; addChild: button2; addChild: button3; addChild: button4; addChild: button5.
+	space root addChild: pane.
+	
+	pane := ToPane horizontal.
+	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+	
+	button1 := ToButton skinType: #dangerPrimary .
+	button1 labelText: 'Danger primary'.
+	button2 := ToButton skinType: #danger.
+	button2 labelText: 'Danger default'.
+	button3 := ToButton skinType: #dangerDashed.
+	button3 labelText: 'Danger dashed'.
+	button4 := ToButton skinType: #dangerText.
+	button4 labelText: 'Danger text'.
+	button5 := ToButton skinType: #dangerLink.
+	button5 labelText: 'Danger link'.
+			
+	pane addChild: button1; addChild: button2; addChild: button3; addChild: button4; addChild: button5.
+	space root addChild: pane.
+	
 	space show.
 
 	^space

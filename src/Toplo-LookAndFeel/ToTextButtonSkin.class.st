@@ -3,7 +3,7 @@ Text button: used for the most secondary action.
 "
 Class {
 	#name : #ToTextButtonSkin,
-	#superclass : #ToAbstractButtonSkin,
+	#superclass : #ToThemeButtonSkin,
 	#category : #'Toplo-LookAndFeel-Theme-Skins-Button'
 }
 

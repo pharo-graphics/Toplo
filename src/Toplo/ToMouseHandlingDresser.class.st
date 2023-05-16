@@ -187,7 +187,14 @@ ToMouseHandlingDresser >> uninstallEventListenersIn: anElement [
 	anElement removeEventHandler: mouseClickHandler.
 	anElement removeEventHandler: mouseDoubleClickHandler.
 	anElement removeEventHandler: mouseEnterHandler.
-	anElement removeEventHandler: mouseLeaveHandler
+	anElement removeEventHandler: mouseLeaveHandler.
+	
+	mouseDownHandler := nil.
+	mouseUpHandler := nil.
+	mouseClickHandler := nil.
+	mouseDoubleClickHandler := nil.
+	mouseEnterHandler := nil.
+	mouseLeaveHandler := nil.
 ]
 
 { #category : #'events handling' }

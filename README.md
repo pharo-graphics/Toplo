@@ -18,6 +18,8 @@ Metacello new
 
 ![image](https://github.com/plantec/Toplo/assets/49183340/2e61623f-5844-4294-b87a-195dd6c1c636)
 
+![image](https://github.com/plantec/Toplo/assets/49183340/0f4e0731-e7be-41ba-b226-9ae3565bcb63)
+
 A look and feel management is currently in development in a dedicated branch : dev-lookandfeel.
 
 The evolutions from master branch are regularly integrated into this development branch.

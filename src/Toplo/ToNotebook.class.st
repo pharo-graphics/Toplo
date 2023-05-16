@@ -67,6 +67,15 @@ ToNotebook >> header [
 	^ header
 ]
 
+{ #category : #initialization }
+ToNotebook >> initialize [ 
+
+	super initialize.
+
+	pages := OrderedCollection new
+
+]
+
 { #category : #private }
 ToNotebook >> newPageTitle: aTitle [
 
@@ -98,10 +107,6 @@ ToNotebook >> pages [
 ToNotebook >> preInitializeDresser [
 
 	super preInitializeDresser.
-
-	pages := OrderedCollection new.
-	"selectedPage := nil."
-
 	header := BlElement new.
 	self addChild: header as: #header
 ]

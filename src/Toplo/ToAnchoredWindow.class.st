@@ -35,17 +35,16 @@ ToAnchoredWindow >> detach [
 	self widget: nil
 ]
 
+{ #category : #initialization }
+ToAnchoredWindow >> initialize [ 
+
+	super initialize.
+	self fitContent.
+	hook := self defaultHook.
+]
+
 { #category : #start }
 ToAnchoredWindow >> isAttached [
 
 	^ self widget notNil
-]
-
-{ #category : #'t - initialization dresser' }
-ToAnchoredWindow >> preInitializeDresser [ 
-
-	super preInitializeDresser.
-	
-	self fitContent.
-	hook := self defaultHook.
 ]

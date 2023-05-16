@@ -42,6 +42,14 @@ ToAlbum >> flash [
 	self announce: (ToAlbumFlashRequested new client: self)
 ]
 
+{ #category : #initialization }
+ToAlbum >> initialize [
+
+	super initialize.
+	self matchParent.
+	self whenTextEditedDo: [ self edited: true ].
+]
+
 { #category : #accessing }
 ToAlbum >> innerElement [
 
@@ -66,13 +74,9 @@ ToAlbum >> preInitializeDresser [
 
 	super preInitializeDresser.
 
-	self constraintsDo: [ :c | 
-		c horizontal matchParent.
-		c vertical matchParent ].
-	
 	self next: self defaultEditorElement.
 	self addChild: self next.
-	self whenTextEditedDo: [ self edited: true ].
+
 ]
 
 { #category : #'transaction hook' }

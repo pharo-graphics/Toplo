@@ -6,11 +6,9 @@ Class {
 		'scrollHandler',
 		'decorations',
 		'listElement',
-		'fillingHandler',
 		'selectionModelHandler',
 		'primarySelectionUpdateHandler',
-		'decorationFactory',
-		'updateTask'
+		'decorationFactory'
 	],
 	#category : #'Toplo-Widget-List'
 }
@@ -119,11 +117,6 @@ ToListPrimarySelectionUpdater >> onInstalledIn: aListElement [
 		                 on: BlElementScrolledEvent
 		                 do: [ :evt | self scrollEventIn: aListElement ].
 
-	fillingHandler := BlEventHandler
-		                  on: OBlInfiniteScrolledWhileFilling
-		                  do: [ :evt | self scrollEventIn: aListElement ].
-
-	aListElement infinite addEventHandler: fillingHandler.
 	aListElement infinite addEventHandler: extentChangeHandler.
 	aListElement infinite addEventHandler: scrollHandler.
 	
@@ -145,9 +138,7 @@ ToListPrimarySelectionUpdater >> onInstalledIn: aListElement [
 ToListPrimarySelectionUpdater >> onUninstalledIn: aListElement [
 
 	aListElement infinite removeEventHandler: extentChangeHandler.
-	aListElement infinite removeEventHandler: scrollHandler.
-	aListElement infinite removeEventHandler: fillingHandler.
-	
+	aListElement infinite removeEventHandler: scrollHandler.	
 	aListElement removeEventHandler: primarySelectionUpdateHandler.
 	aListElement infinite removeEventHandler: selectionModelHandler.
 
@@ -188,13 +179,8 @@ ToListPrimarySelectionUpdater >> selectionDecorationElementsIn: aListElement [
 ToListPrimarySelectionUpdater >> updateDecorationsIn: aListElement [
 	"add a ListDecorationElement for each group of adjacent selected nodes "
 
-	"A task must be used here to avoid the children updating during layouting (because during layouting children are temporarily detached)
-	(which leads to errors related to children adding and which are difficult to understand)"
-	updateTask ifNotNil: [ aListElement dequeueTask: updateTask ].
-	updateTask := BlTaskAction new action: [
-		              self resetDecorations.
-		              decorations addAll: (self selectionDecorationElementsIn: aListElement).
-		              aListElement addChildren: decorations.
-		              updateTask := nil ].
-	aListElement enqueueTask: updateTask
+	aListElement infinite assertNotInLayout.
+	self resetDecorations. 
+	decorations addAll: (self selectionDecorationElementsIn: aListElement).
+	aListElement addChildren: decorations
 ]

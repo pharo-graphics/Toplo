@@ -77,7 +77,7 @@ ToComboBox >> defaultHeadElement [
 ToComboBox >> defaultListElement [
 
 	^ ToListElement new
-		  keepSelectionOnFocused: false;
+		  preserveSelectionOnFocused: false;
 		  yourself
 ]
 
@@ -164,6 +164,18 @@ ToComboBox >> headPlaceholder: anElement [
 ToComboBox >> indexOfData: aData [
 
 	^ self data indexOf: aData ifAbsent: [ 0 ]
+]
+
+{ #category : #initialization }
+ToComboBox >> initialize [
+
+	super initialize.
+	self layout: self defaultLayout.
+	self listElementSize: self defaultListElementSize.
+	self listPlaceholder: self defaultListPlaceholder.
+	self fitListElementToContent.
+	self listElement showPlaceholder.
+	self whenModeChangedDo: [ :new :prev | self mode: prev changedWith: new ].
 ]
 
 { #category : #accessing }
@@ -302,17 +314,12 @@ ToComboBox >> popupOrCloseEvent: anEvent [
 ToComboBox >> preInitializeDresser [ 
 
 	super preInitializeDresser.
-	
 	self mode: self defaultMode.
-	self layout: self defaultLayout.
 	self privateListElement: self defaultListElement.
 	self privateListFrame: self defaultListFrame.
 	self privateHeadElement: self defaultHeadElement.
-	self listElementSize: self defaultListElementSize.
-	self listPlaceholder: self defaultListPlaceholder.
-	self fitListElementToContent.
-	self listElement showPlaceholder.
-	self whenModeChangedDo: [ :new :prev | self mode: prev changedWith: new ].
+
+
 ]
 
 { #category : #'private - accessing' }

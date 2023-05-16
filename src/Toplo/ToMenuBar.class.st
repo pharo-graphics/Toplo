@@ -56,29 +56,21 @@ ToMenuBar >> defaultDresser [
 	^ ToMenuBarDresser new
 ]
 
+{ #category : #initialize }
+ToMenuBar >> initialize [ 
+
+	super initialize.
+
+	self layout: BlLinearLayout new.
+	self beHorizontal.	
+	self whenOrientationChangedDo: [ self adaptToOrientation ].
+	menus := OrderedCollection new.
+]
+
 { #category : #accessing }
 ToMenuBar >> menus [
 
 	^ menus
-]
-
-{ #category : #'t - initialization dresser' }
-ToMenuBar >> postInitializeDresser [ 
-
-	super postInitializeDresser.
-
-	self whenOrientationChangedDo: [ self adaptToOrientation ]
-]
-
-{ #category : #'t - initialization dresser' }
-ToMenuBar >> preInitializeDresser [ 
-
-	super preInitializeDresser.
-
-	self layout: BlLinearLayout new.
-	self beHorizontal.
-	
-	menus := OrderedCollection new.
 ]
 
 { #category : #adding }

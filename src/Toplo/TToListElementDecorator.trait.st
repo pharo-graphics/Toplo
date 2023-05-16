@@ -66,12 +66,6 @@ TToListElementDecorator >> isSelectedAtIndex: anIndex [
 	^ self next isSelectedAtIndex: anIndex
 ]
 
-{ #category : #'t - accessing selection' }
-TToListElementDecorator >> keepSelectionOnFocused: aBoolean [
-
-	self next keepSelectionOnFocused: aBoolean
-]
-
 { #category : #'t - accessing constraints' }
 TToListElementDecorator >> maxHeight: aHeight [
 
@@ -100,6 +94,12 @@ TToListElementDecorator >> nodeAt: anIndex [
 TToListElementDecorator >> nodeFactory: aNodeFactory [
 
 	self next nodeFactory: aNodeFactory
+]
+
+{ #category : #'t - accessing selection' }
+TToListElementDecorator >> preserveSelectionOnFocused: aBoolean [
+
+	self next preserveSelectionOnFocused: aBoolean
 ]
 
 { #category : #'t - accessing selection' }
@@ -166,6 +166,12 @@ TToListElementDecorator >> selectIndex: anInteger [
 TToListElementDecorator >> selectIndexes: aCollection [
 
 	self next selectIndexes: aCollection
+]
+
+{ #category : #'t - accessing selection' }
+TToListElementDecorator >> selectedIndex [
+
+	^ self next selectedIndex
 ]
 
 { #category : #'t - accessing selection' }

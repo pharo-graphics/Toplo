@@ -29,6 +29,8 @@ ToTopLeftResizeGrip >> newPullHandler [
 { #category : #initialization }
 ToTopLeftResizeGrip >> pullEvent: anEvent on: anElement [
 
-	anElement relocate: (self initialTargetPosition x + anEvent delta x) @ (self initialTargetPosition y + anEvent delta y).
-	anElement size: (self initialTargetSize x - anEvent delta x) @ (self initialTargetSize y - anEvent delta y)
+	anElement position: self initialTargetPosition x + anEvent delta x
+		@ (self initialTargetPosition y + anEvent delta y).
+	anElement size: self initialTargetSize x - anEvent delta x
+		@ (self initialTargetSize y - anEvent delta y)
 ]

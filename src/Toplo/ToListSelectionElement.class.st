@@ -28,6 +28,18 @@ ToListSelectionElement >> defaultLayout [
 	^ BlFrameLayout new
 ]
 
+{ #category : #initialization }
+ToListSelectionElement >> initialize [ 
+
+	super initialize.
+	self layout: self defaultLayout.
+	self geometry: self defaultGeometry.
+	self background: Color transparent.
+	self constraintsDo: [ :c | c ignoreByLayout ].
+	self outskirts: BlOutskirts inside
+
+]
+
 { #category : #accessing }
 ToListSelectionElement >> listElement [
 
@@ -69,17 +81,4 @@ ToListSelectionElement >> nodesDo: aBlock [
 
 	self nodes ifNil: [ ^ self ].
 	self nodes do: aBlock
-]
-
-{ #category : #'t - initialization dresser' }
-ToListSelectionElement >> preInitializeDresser [ 
-
-	super preInitializeDresser. 
-
-	self layout: self defaultLayout.
-	self geometry: self defaultGeometry.
-	self background: Color transparent.
-	self constraintsDo: [ :c | c ignoreByLayout ].
-	self outskirts: BlOutskirts inside
-
 ]

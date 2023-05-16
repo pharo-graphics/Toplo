@@ -18,7 +18,7 @@ ToElement >> initialize [
 	super initialize.
 	self class initializeSlots: self.
 	
-	"Dresser initialization processus"
+	"Dresser initialization steps"
 	self preInitializeDresser.
 	self initializeDresser.
 	self postInitializeDresser.

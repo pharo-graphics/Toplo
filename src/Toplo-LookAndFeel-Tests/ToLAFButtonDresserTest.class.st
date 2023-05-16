@@ -8,9 +8,11 @@ Class {
 }
 
 { #category : #tests }
-ToLAFButtonDresserTest >> testDefaultSkin [ 
+ToLAFButtonDresserTest >> testInitialize [
 
 	| dresser |
 	dresser := ToLAFButtonDresser new.
-	self assert: dresser skin class equals: ToDefaultButtonSkin
+	self assert: dresser skin class equals: ToDefaultButtonSkin.
+	self assert: dresser haveCompatibleSkin.
+	self assert: dresser defaultToElementClass equals: ToButton.
 ]

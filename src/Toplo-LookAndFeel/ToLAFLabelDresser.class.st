@@ -1,6 +1,8 @@
 Class {
 	#name : #ToLAFLabelDresser,
 	#superclass : #ToAbstractLabelDresser,
+	#traits : 'TToSkinnableElementDresser',
+	#classTraits : 'TToSkinnableElementDresser classTrait',
 	#instVars : [
 		'skin'
 	],
@@ -8,9 +10,9 @@ Class {
 }
 
 { #category : #accessing }
-ToLAFLabelDresser >> defaultSkin [
+ToLAFLabelDresser >> defaultToElementClass [
 
-	^ ToAbstractTheme current class skinFor: ToLabel type: ToAbstractSkin defaultType
+	^ ToLabel
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -22,15 +24,20 @@ ToLAFLabelDresser >> initialState: aToLabel [
 	self textAttributes: self skin textAttributes in: aToLabel
 ]
 
+{ #category : #accessing }
+ToLAFLabelDresser >> isSkinCompatible: aSkin [
+
+	aSkin ifNil:[ ^ false ].
+	self flag:'Labordep this is dirty, need to find a better solution'.
+	^ aSkin isKindOf: ToAbstractLabelSkin
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToLAFLabelDresser >> onInstalledIn: aToLabel [
 
 	skin := aToLabel skin.
 	self skin theme: aToLabel toTheme.
-
-	"Check if the skin is compatible"
-	self flag:'Labordep this is dirty, need to find a better solution, for example disable skin: with a non supported skin ?'.
-	(self skin isKindOf: ToAbstractLabelSkin) ifFalse:[^ self].	
+	self haveCompatibleSkin ifFalse:[^ self].	
 
 	super onInstalledIn: aToLabel
 ]
@@ -40,10 +47,4 @@ ToLAFLabelDresser >> onUninstalledIn: aToLabel [
 
 	super onUninstalledIn: aToLabel.
 	skin := nil
-]
-
-{ #category : #accessing }
-ToLAFLabelDresser >> skin [
-
-	^ skin ifNil: [ skin := self defaultSkin ]
 ]

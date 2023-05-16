@@ -1,16 +1,15 @@
 Class {
 	#name : #ToLAFButtonDresser,
 	#superclass : #ToAbstractButtonDresser,
-	#instVars : [
-		'skin'
-	],
+	#traits : 'TToSkinnableElementDresser',
+	#classTraits : 'TToSkinnableElementDresser classTrait',
 	#category : #'Toplo-LookAndFeel-Dressers'
 }
 
 { #category : #accessing }
-ToLAFButtonDresser >> defaultSkin [
+ToLAFButtonDresser >> defaultToElementClass [
 
-	^ ToAbstractTheme current class skinFor: ToButton type: ToAbstractSkin defaultType
+	^ ToButton
 ]
 
 { #category : #'events handling' }
@@ -38,6 +37,14 @@ ToLAFButtonDresser >> initialState: anElement [
 	self border: self skin border in: anElement.
 ]
 
+{ #category : #accessing }
+ToLAFButtonDresser >> isSkinCompatible: aSkin [
+
+	aSkin ifNil:[ ^ false ].
+	self flag:'Labordep this is dirty, need to find a better solution'.
+	^ aSkin isKindOf: ToAbstractButtonSkin
+]
+
 { #category : #'events handling' }
 ToLAFButtonDresser >> leaved: anElement [
 
@@ -49,10 +56,7 @@ ToLAFButtonDresser >> onInstalledIn: anElement [
 
 	skin := anElement skin.
 	self skin theme: anElement toTheme.
-	
-	"Check if the skin is compatible"
-	self flag:'Labordep this is dirty, need to find a better solution, for example disable skin: with a non supported skin ?'.
-	(self skin isKindOf: ToAbstractButtonSkin) ifFalse:[^ self].	
+	self haveCompatibleSkin ifFalse:[^ self].	
 		
 	self skin labelSkinType ifNotNil:[ :labelSkinType |
 		anElement label ifNil:[ anElement label: ToLabel new ].
@@ -79,10 +83,4 @@ ToLAFButtonDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
 	skin := nil
-]
-
-{ #category : #accessing }
-ToLAFButtonDresser >> skin [
-
-	^ skin ifNil: [ skin := self defaultSkin ]
 ]

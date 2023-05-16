@@ -85,7 +85,7 @@ ToTheme class >> skinClassesFor: aToElementClass [
 	].
 
 	aToElementClass = ToLabel ifTrue:[
-		^ oc add: ToDefaultLabelSkin; add: ToLinkLabelSkin; add: ToPrimaryLabelSkin; add: ToH1LabelSkin; add: ToH2LabelSkin; add: ToH3LabelSkin; add: ToH4LabelSkin; add: ToH5LabelSkin; add: ToSecondaryLabelSkin; add: ToSuccessLabelSkin; add: ToWarningLabelSkin; add: ToDangerLabelSkin; yourself.
+		^ oc add: ToDefaultLabelSkin; add: ToLinkLabelSkin; add: ToPrimaryLabelSkin; add: ToH1LabelSkin; add: ToH2LabelSkin; add: ToH3LabelSkin; add: ToH4LabelSkin; add: ToH5LabelSkin; add: ToSecondaryLabelSkin; add: ToSuccessLabelSkin; add: ToWarningLabelSkin; add: ToDangerLabelSkin; add: ToDefaultHoverLabelSkin; yourself.
 	].
 
 	^ oc

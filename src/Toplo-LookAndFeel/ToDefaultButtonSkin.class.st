@@ -54,3 +54,9 @@ ToDefaultButtonSkin >> builtShadow [
 		  width: 2
 		  offset: 0 @ 2
 ]
+
+{ #category : #built }
+ToDefaultButtonSkin >> labelSkinType [
+
+	^ ToDefaultHoverLabelSkin type
+]

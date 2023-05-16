@@ -17,6 +17,12 @@ ToLinkLabelSkin >> builtForeground [
 ]
 
 { #category : #built }
+ToLinkLabelSkin >> builtForegroundHover [
+
+	^ self theme colorLinkHover
+]
+
+{ #category : #built }
 ToLinkLabelSkin >> builtTextAttributes [
 
 	| ropedText |

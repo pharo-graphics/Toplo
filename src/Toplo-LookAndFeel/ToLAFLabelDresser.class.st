@@ -15,6 +15,14 @@ ToLAFLabelDresser >> defaultToElementClass [
 	^ ToLabel
 ]
 
+{ #category : #'events handling' }
+ToLAFLabelDresser >> hover: anElement event: anEvent [
+
+	"update main element"
+	self foreground: self skin foregroundHover in: anElement.
+	self textAttributes: self skin textAttributesHover in: anElement
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToLAFLabelDresser >> initialState: aToLabel [ 
 

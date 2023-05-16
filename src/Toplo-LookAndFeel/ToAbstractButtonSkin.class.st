@@ -39,13 +39,13 @@ ToAbstractButtonSkin >> buildTokens [
 	
 	super buildTokens.
 	
-	self tokens at: #background put: self builtBackground.
-	self tokens at: #border put: self builtBorder.
-	self tokens at: #padding put: self builtPadding.
-	self tokens at: #shadow put: self builtShadow.
+	self token: #background value: self builtBackground.
+	self token: #border value: self builtBorder.
+	self token: #padding value: self builtPadding.
+	self token: #shadow value: self builtShadow.
 	
-	self tokens at: #backgroundHover put: self builtBackgroundHover.
-	self tokens at: #borderHover put: self builtBorderHover.
+	self token: #backgroundHover value: self builtBackgroundHover.
+	self token: #borderHover value: self builtBorderHover.
 ]
 
 { #category : #built }

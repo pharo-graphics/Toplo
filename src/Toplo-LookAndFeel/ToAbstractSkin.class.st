@@ -32,7 +32,7 @@ ToAbstractSkin >> buildTokens [
 	"Reset previous tokens"
 	self tokens: Dictionary new.
 		
-	self tokens at: #size put: self builtDefaultSize.
+	self token: #size value: self builtDefaultSize.
 ]
 
 { #category : #built }

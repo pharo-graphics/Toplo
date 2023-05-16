@@ -23,6 +23,28 @@ ToCheckableGroupTest >> testCheckableGroupBasic [
 ]
 
 { #category : #tests }
+ToCheckableGroupTest >> testCheckableGroupChangeCheckBoxDresser [
+
+	| group checkBox checkBox2 |
+	group := ToCheckableGroup new.
+	1 to: 4 do: [ :idx | | chb |
+		chb := ToCheckbox new.
+		group add: chb 
+	].
+
+	checkBox := group buttons first.
+	checkBox dresser: nil. "Simulate a dresser change"
+	checkBox dresser: checkBox defaultDresser.
+	
+	checkBox check.
+	self assert: checkBox isChecked.
+	
+	checkBox2 := group buttons at: 2.
+	checkBox2 check.
+	self deny: checkBox isChecked.
+]
+
+{ #category : #tests }
 ToCheckableGroupTest >> testCheckableGroupUpdateError [
 
 	| group buttons |

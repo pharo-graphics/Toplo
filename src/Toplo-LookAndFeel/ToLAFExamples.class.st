@@ -191,7 +191,7 @@ ToLAFExamples class >> example_TitleLabelsSkins_Dark [
 ]
 
 { #category : #'themes and skins switching' }
-ToLAFExamples class >> example_themePrimaryColorCustomization [
+ToLAFExamples class >> example_themeColorCustomization [
 
 	| button1 space button2 button3 button4 button5 |
 	space := OBlSpace new.
@@ -202,22 +202,22 @@ ToLAFExamples class >> example_themePrimaryColorCustomization [
 	button1 whenClickedDo: [ space toTheme: (space toTheme isDark ifTrue:[ ToTheme darkBlue ] ifFalse:[ ToTheme blue ]) ].
 	space root addChild: button1.
 	
-	button2 := ToButton skinType: #primary.
+	button2 := ToButton skinType: #default.
 	button2 labelText: 'Pink Theme'.
 	button2 whenClickedDo: [ space toTheme: (space toTheme isDark ifTrue:[ ToTheme darkPink ] ifFalse:[ ToTheme pink ]) ].
 	space root addChild: button2.
 	
-	button3 := ToButton skinType: #primary.
+	button3 := ToButton skinType: #dashed.
 	button3 labelText: 'Green Theme'.
 	button3 whenClickedDo: [ space toTheme: (space toTheme isDark ifTrue:[ ToTheme darkGreen ] ifFalse:[ ToTheme green ]) ].
 	space root addChild: button3.
 	
-	button4 := ToButton skinType: #primary.
+	button4 := ToButton skinType: #text.
 	button4 labelText: 'Random Theme'.
 	button4 whenClickedDo: [ space toTheme: (space toTheme isDark ifTrue:[ ToTheme colorPrimaryDark: Color random ] ifFalse:[ ToTheme colorPrimary: Color random ]) ].
 	space root addChild: button4.
 	
-	button5 := ToButton skinType: #default.
+	button5 := ToButton skinType: #link.
 	button5 labelText: 'Dark/Light Switch'.
 	button5 whenClickedDo: [ space switchThemeDarkOrLight ].
 	space root addChild: button5.

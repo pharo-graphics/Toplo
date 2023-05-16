@@ -29,6 +29,7 @@ ToCheckableGroupTest >> testCheckableGroupChangeCheckBoxDresser [
 	group := ToCheckableGroup new.
 	1 to: 4 do: [ :idx | | chb |
 		chb := ToCheckbox new.
+		idx = 1 ifTrue:[chb startChecked].
 		group add: chb 
 	].
 

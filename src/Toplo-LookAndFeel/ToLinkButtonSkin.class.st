@@ -62,6 +62,12 @@ ToLinkButtonSkin >> builtShadow [
 ]
 
 { #category : #built }
+ToLinkButtonSkin >> imageSkinType [
+
+	^ ToLinkImageSkin type
+]
+
+{ #category : #built }
 ToLinkButtonSkin >> labelSkinType [
 
 	^ ToLinkLabelSkin type

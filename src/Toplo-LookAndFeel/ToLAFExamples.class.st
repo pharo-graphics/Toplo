@@ -50,19 +50,19 @@ ToLAFExamples class >> example_ButtonSkins [
 	
 	button1 := ToButton skinType: #primary.
 	button1 labelText: 'Primary button'.
-	button1 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	button1 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #delete)).
 	button2 := ToButton skinType: #default.
 	button2 labelText: 'Default button'.
-	button2 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	button2 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #delete)).
 	button3 := ToButton skinType: #dashed.
 	button3 labelText: 'Dashed button'.
-	button3 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	button3 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #delete)).
 	button4 := ToButton skinType: #text.
 	button4 labelText: 'Text button'.
-	button4 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	button4 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #delete)).
 	button5 := ToButton skinType: #link.
 	button5 labelText: 'Link button'.
-	button5 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	button5 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #delete)).
 			
 	pane addChild: button1; addChild: button2; addChild: button3; addChild: button4; addChild: button5.
 	space root addChild: pane.
@@ -71,15 +71,15 @@ ToLAFExamples class >> example_ButtonSkins [
 	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
 	
 	button1 := ToButton skinType: #primary.
-	button1 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	button1 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #delete)).
 	button2 := ToButton skinType: #default.
-	button2 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	button2 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #delete)).
 	button3 := ToButton skinType: #dashed.
-	button3 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	button3 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #delete)).
 	button4 := ToButton skinType: #text.
-	button4 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	button4 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #delete)).
 	button5 := ToButton skinType: #link.
-	button5 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	button5 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #delete)).
 			
 	pane addChild: button1; addChild: button2; addChild: button3; addChild: button4; addChild: button5.
 	space root addChild: pane.

@@ -90,6 +90,10 @@ ToTheme class >> skinClassesFor: aToElementClass [
 		"^ oc add: ToDefaultLabelSkin; add: ToLinkLabelSkin; add: ToPrimaryLabelSkin; add: ToH1LabelSkin; add: ToH2LabelSkin; add: ToH3LabelSkin; add: ToH4LabelSkin; add: ToH5LabelSkin; add: ToSecondaryLabelSkin; add: ToSuccessLabelSkin; add: ToWarningLabelSkin; add: ToDangerLabelSkin; add: ToDefaultHoverLabelSkin; yourself."
 	].
 
+	aToElementClass = ToImage ifTrue:[
+		^ ToThemeImageSkin allSubclasses
+	].
+
 	^ oc
 ]
 
@@ -154,6 +158,20 @@ ToTheme >> colorErrorHover [
 	"The hover state of the error color"
 
 	^ Color fromHexString: '#ff7875'
+]
+
+{ #category : #colors }
+ToTheme >> colorImage [
+	"Default text color which comply with W3C standards, and this color is also the darkest neutral color."
+	
+	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.88
+]
+
+{ #category : #colors }
+ToTheme >> colorImageLightSolid [
+	"https://ant.design/components/button#design-token"
+	
+	^ Color fromHexString: '#ffffff'
 ]
 
 { #category : #colors }

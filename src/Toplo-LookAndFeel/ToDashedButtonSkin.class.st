@@ -72,6 +72,12 @@ ToDashedButtonSkin >> builtShadow [
 ]
 
 { #category : #built }
+ToDashedButtonSkin >> imageSkinType [
+
+	^ ToDefaultHoverImageSkin type
+]
+
+{ #category : #built }
 ToDashedButtonSkin >> labelSkinType [
 
 	^ ToDefaultHoverLabelSkin type

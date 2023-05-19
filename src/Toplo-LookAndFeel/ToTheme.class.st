@@ -77,24 +77,28 @@ ToTheme class >> pink [
 ToTheme class >> skinClassesFor: aToElementClass [
 	"return skins which are designed for this theme"
 
-	| oc |
-	oc := OrderedCollection new.
+	| set |
+	set := OrderedSet new.
 	
 	aToElementClass = ToButton ifTrue:[
-		^ ToThemeButtonSkin allSubclasses 
-		"^ oc add: ToDefaultButtonSkin; add: ToPrimaryButtonSkin; add: ToDashedButtonSkin; add: ToTextButtonSkin; add: ToLinkButtonSkin; add: ToDangerButtonSkin; add: ToDangerPrimaryButtonSkin; yourself."
+		"Set default skin"
+		set add: ToDefaultButtonSkin.
+		set addAll: ToThemeButtonSkin allSubclasses.
 	].
 
 	aToElementClass = ToLabel ifTrue:[
-		^ ToThemeLabelSkin allSubclasses
-		"^ oc add: ToDefaultLabelSkin; add: ToLinkLabelSkin; add: ToPrimaryLabelSkin; add: ToH1LabelSkin; add: ToH2LabelSkin; add: ToH3LabelSkin; add: ToH4LabelSkin; add: ToH5LabelSkin; add: ToSecondaryLabelSkin; add: ToSuccessLabelSkin; add: ToWarningLabelSkin; add: ToDangerLabelSkin; add: ToDefaultHoverLabelSkin; yourself."
+		"Set default skin"
+		set add: ToDefaultLabelSkin.
+		set addAll: ToThemeLabelSkin allSubclasses.
 	].
 
 	aToElementClass = ToImage ifTrue:[
-		^ ToThemeImageSkin allSubclasses
+		"Set default skin"
+		set add: ToDefaultImageSkin.
+		set addAll: ToThemeImageSkin allSubclasses.
 	].
 
-	^ oc
+	^ set asOrderedCollection
 ]
 
 { #category : #border }

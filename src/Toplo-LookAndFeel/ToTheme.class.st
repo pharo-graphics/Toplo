@@ -77,28 +77,28 @@ ToTheme class >> pink [
 ToTheme class >> skinClassesFor: aToElementClass [
 	"return skins which are designed for this theme"
 
-	| set |
-	set := OrderedSet new.
+	| coll |
+	coll := OrderedCollection new.
 	
 	aToElementClass = ToButton ifTrue:[
 		"Set default skin"
-		set add: ToDefaultButtonSkin.
-		set addAll: ToThemeButtonSkin allSubclasses.
+		coll add: ToDefaultButtonSkin.
+		coll addAll: (ToThemeButtonSkin allSubclasses select:[ :c | c ~= ToDefaultButtonSkin ]).
 	].
 
 	aToElementClass = ToLabel ifTrue:[
 		"Set default skin"
-		set add: ToDefaultLabelSkin.
-		set addAll: ToThemeLabelSkin allSubclasses.
+		coll add: ToDefaultLabelSkin.
+		coll addAll: (ToThemeLabelSkin allSubclasses select:[ :c | c ~= ToDefaultLabelSkin ]).
 	].
 
 	aToElementClass = ToImage ifTrue:[
 		"Set default skin"
-		set add: ToDefaultImageSkin.
-		set addAll: ToThemeImageSkin allSubclasses.
+		coll add: ToDefaultImageSkin.
+		coll addAll: (ToThemeImageSkin allSubclasses select:[ :c | c ~= ToDefaultImageSkin ]).
 	].
 
-	^ set asOrderedCollection
+	^ coll
 ]
 
 { #category : #border }
@@ -166,16 +166,14 @@ ToTheme >> colorErrorHover [
 
 { #category : #colors }
 ToTheme >> colorImage [
-	"Default text color which comply with W3C standards, and this color is also the darkest neutral color."
 	
-	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.88
+	^ self colorText
 ]
 
 { #category : #colors }
 ToTheme >> colorImageLightSolid [
-	"https://ant.design/components/button#design-token"
 	
-	^ Color fromHexString: '#ffffff'
+	^ self colorTextLightSolid
 ]
 
 { #category : #colors }

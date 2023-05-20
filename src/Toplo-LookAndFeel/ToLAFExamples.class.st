@@ -31,6 +31,45 @@ ToLAFExamples class >> example_ButtonSkins [
 	pane := ToPane horizontal.
 	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
 	
+	button1 := ToButton skinType: #primary.
+	button1 labelText: 'Primary button'.
+	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button2 := ToButton skinType: #default.
+	button2 labelText: 'Default button'.
+	button2 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button3 := ToButton skinType: #dashed.
+	button3 labelText: 'Dashed button'.
+	button3 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button4 := ToButton skinType: #text.
+	button4 labelText: 'Text button'.
+	button4 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button5 := ToButton skinType: #link.
+	button5 labelText: 'Link button'.
+	button5 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+			
+	pane addChild: button1; addChild: button2; addChild: button3; addChild: button4; addChild: button5.
+	space root addChild: pane.
+	
+	pane := ToPane horizontal.
+	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+	
+	button1 := ToButton skinType: #primary.
+	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button2 := ToButton skinType: #default.
+	button2 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button3 := ToButton skinType: #dashed.
+	button3 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button4 := ToButton skinType: #text.
+	button4 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button5 := ToButton skinType: #link.
+	button5 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+			
+	pane addChild: button1; addChild: button2; addChild: button3; addChild: button4; addChild: button5.
+	space root addChild: pane.
+	
+	pane := ToPane horizontal.
+	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+	
 	button1 := ToButton skinType: #dangerPrimary .
 	button1 labelText: 'Danger primary'.
 	button2 := ToButton skinType: #danger.
@@ -48,21 +87,21 @@ ToLAFExamples class >> example_ButtonSkins [
 	pane := ToPane horizontal.
 	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
 	
-	button1 := ToButton skinType: #primary.
-	button1 labelText: 'Primary button'.
-	button1 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #delete)).
-	button2 := ToButton skinType: #default.
-	button2 labelText: 'Default button'.
-	button2 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #delete)).
-	button3 := ToButton skinType: #dashed.
-	button3 labelText: 'Dashed button'.
-	button3 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #delete)).
-	button4 := ToButton skinType: #text.
-	button4 labelText: 'Text button'.
-	button4 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #delete)).
-	button5 := ToButton skinType: #link.
-	button5 labelText: 'Link button'.
-	button5 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #delete)).
+	button1 := ToButton skinType: #dangerPrimary .
+	button1 labelText: 'Danger primary'.
+	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button2 := ToButton skinType: #danger.
+	button2 labelText: 'Danger default'.
+	button2 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button3 := ToButton skinType: #dangerDashed.
+	button3 labelText: 'Danger dashed'.
+	button3 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button4 := ToButton skinType: #dangerText.
+	button4 labelText: 'Danger text'.
+	button4 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button5 := ToButton skinType: #dangerLink.
+	button5 labelText: 'Danger link'.
+	button5 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 			
 	pane addChild: button1; addChild: button2; addChild: button3; addChild: button4; addChild: button5.
 	space root addChild: pane.
@@ -70,16 +109,16 @@ ToLAFExamples class >> example_ButtonSkins [
 	pane := ToPane horizontal.
 	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
 	
-	button1 := ToButton skinType: #primary.
-	button1 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #delete)).
-	button2 := ToButton skinType: #default.
-	button2 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #delete)).
-	button3 := ToButton skinType: #dashed.
-	button3 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #delete)).
-	button4 := ToButton skinType: #text.
-	button4 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #delete)).
-	button5 := ToButton skinType: #link.
-	button5 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #delete)).
+	button1 := ToButton skinType: #dangerPrimary .
+	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button2 := ToButton skinType: #danger.
+	button2 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button3 := ToButton skinType: #dangerDashed.
+	button3 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button4 := ToButton skinType: #dangerText.
+	button4 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button5 := ToButton skinType: #dangerLink.
+	button5 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 			
 	pane addChild: button1; addChild: button2; addChild: button3; addChild: button4; addChild: button5.
 	space root addChild: pane.
@@ -232,34 +271,37 @@ ToLAFExamples class >> example_TitleLabelsSkins_Dark [
 { #category : #'themes and skins switching' }
 ToLAFExamples class >> example_themeColorCustomization [
 
-	| button1 space button2 button3 button4 button5 |
-	space := OBlSpace new.
-	space root layout: (BlLinearLayout horizontal cellSpacing: 10).
+	| button1 space button2 button3 button4 button5 pane |
+	space := self example_ButtonSkins.
+	
+	pane := ToPane horizontal.
+	pane layout cellSpacing: 10.
+	space root addChildFirst: pane.
 	
 	button1 := ToButton skinType: #primary.
 	button1 labelText: 'Blue Theme'.
 	button1 whenClickedDo: [ space toTheme: (space toTheme isDark ifTrue:[ ToTheme darkBlue ] ifFalse:[ ToTheme blue ]) ].
-	space root addChild: button1.
+	pane addChild: button1.
 	
-	button2 := ToButton skinType: #default.
+	button2 := ToButton skinType: #primary.
 	button2 labelText: 'Pink Theme'.
 	button2 whenClickedDo: [ space toTheme: (space toTheme isDark ifTrue:[ ToTheme darkPink ] ifFalse:[ ToTheme pink ]) ].
-	space root addChild: button2.
+	pane addChild: button2.
 	
-	button3 := ToButton skinType: #dashed.
+	button3 := ToButton skinType: #primary.
 	button3 labelText: 'Green Theme'.
 	button3 whenClickedDo: [ space toTheme: (space toTheme isDark ifTrue:[ ToTheme darkGreen ] ifFalse:[ ToTheme green ]) ].
-	space root addChild: button3.
+	pane addChild: button3.
 	
-	button4 := ToButton skinType: #text.
+	button4 := ToButton skinType: #primary.
 	button4 labelText: 'Random Theme'.
 	button4 whenClickedDo: [ space toTheme: (space toTheme isDark ifTrue:[ ToTheme colorPrimaryDark: Color random ] ifFalse:[ ToTheme colorPrimary: Color random ]) ].
-	space root addChild: button4.
+	pane addChild: button4.
 	
-	button5 := ToButton skinType: #link.
+	button5 := ToButton skinType: #primary.
 	button5 labelText: 'Dark/Light Switch'.
 	button5 whenClickedDo: [ space switchThemeDarkOrLight ].
-	space root addChild: button5.
+	pane addChild: button5.
 	
 	space show
 ]

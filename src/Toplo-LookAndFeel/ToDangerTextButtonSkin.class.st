@@ -17,6 +17,12 @@ ToDangerTextButtonSkin >> builtBackgroundHover [
 ]
 
 { #category : #built }
+ToDangerTextButtonSkin >> imageSkinType [
+
+	^ ToDangerHoverImageSkin type
+]
+
+{ #category : #built }
 ToDangerTextButtonSkin >> labelSkinType [
 
 	^ ToDangerHoverLabelSkin type

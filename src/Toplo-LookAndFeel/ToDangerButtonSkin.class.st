@@ -29,6 +29,12 @@ ToDangerButtonSkin >> builtBorderHoverBuilder [
 ]
 
 { #category : #built }
+ToDangerButtonSkin >> imageSkinType [
+
+	^ ToDangerHoverImageSkin type
+]
+
+{ #category : #built }
 ToDangerButtonSkin >> labelSkinType [
 
 	^ ToDangerHoverLabelSkin type

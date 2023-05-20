@@ -7,12 +7,12 @@ Class {
 { #category : #test }
 ToButtonLAFTest >> testNotSupportedSkinType [
 
-	| button |
-	button := ToButton skinType: #notExistingTypeForCurrentTheme.
-	self assert: button skinType equals: #notExistingTypeForCurrentTheme.
+	| widget |
+	widget := ToButton skinType: #notExistingTypeForCurrentTheme.
+	self assert: widget skinType equals: #notExistingTypeForCurrentTheme.
 	"If the theme does not support this skin type, a default skin is installed"
-	self assert: button skin class equals: (ToLAFButtonDresser new defaultSkin class).
-	self assert: button skin type equals: #default.
+	self assert: widget skin class equals: (ToLAFButtonDresser new defaultSkin class).
+	self assert: widget skin type equals: #default.
 ]
 
 { #category : #test }

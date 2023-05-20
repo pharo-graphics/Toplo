@@ -60,3 +60,9 @@ ToTextButtonSkin >> builtShadow [
 
 	^ nil
 ]
+
+{ #category : #built }
+ToTextButtonSkin >> imageSkinType [
+
+	^ ToDefaultImageSkin type
+]

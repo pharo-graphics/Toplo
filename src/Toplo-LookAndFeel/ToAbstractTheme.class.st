@@ -39,6 +39,7 @@ ToAbstractTheme class >> dresserFor: aToElement [
 
 	aToElement class = ToButton ifTrue: [ ^ ToLAFButtonDresser new ].
 	aToElement class = ToLabel ifTrue: [ ^ ToLAFLabelDresser new ].
+	aToElement class = ToImage ifTrue: [ ^ ToLAFImageDresser new ].
 
 	^ aToElement defaultDresser
 ]

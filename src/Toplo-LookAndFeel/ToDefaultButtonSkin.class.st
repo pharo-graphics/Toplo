@@ -56,6 +56,12 @@ ToDefaultButtonSkin >> builtShadow [
 ]
 
 { #category : #built }
+ToDefaultButtonSkin >> imageSkinType [
+
+	^ ToDefaultHoverImageSkin type
+]
+
+{ #category : #built }
 ToDefaultButtonSkin >> labelSkinType [
 
 	^ ToDefaultHoverLabelSkin type

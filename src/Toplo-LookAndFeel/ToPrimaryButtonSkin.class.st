@@ -65,6 +65,12 @@ ToPrimaryButtonSkin >> builtShadow [
 ]
 
 { #category : #built }
+ToPrimaryButtonSkin >> imageSkinType [
+
+	^ ToPrimaryImageSkin type
+]
+
+{ #category : #built }
 ToPrimaryButtonSkin >> labelSkinType [
 
 	^ ToPrimaryLabelSkin type

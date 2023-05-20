@@ -22,7 +22,7 @@ ToLAFButtonDresser >> escaped: anElement [
 { #category : #'events handling' }
 ToLAFButtonDresser >> hover: anElement event: anEvent [
 
-	| label |
+	| label image|
 	super hover: anElement event: anEvent.
 	
 	"update main element"
@@ -34,13 +34,14 @@ ToLAFButtonDresser >> hover: anElement event: anEvent [
 	(label notNil and:[label dresser notNil]) ifTrue:[ label dresser hover: label event: anEvent ].
 	
 	"icon event dispatch"
-	self flag:'labordep: todo'.
+	image := anElement icon.
+	(image notNil and:[image dresser notNil]) ifTrue:[ image dresser hover: image event: anEvent ].
 ]
 
 { #category : #'events handling' }
 ToLAFButtonDresser >> initialState: anElement [
 
-	| label |
+	| label image|
 	super initialState: anElement.
 
 	"update main element"
@@ -52,7 +53,8 @@ ToLAFButtonDresser >> initialState: anElement [
 	(label notNil and:[label dresser notNil]) ifTrue:[ label dresser initialState: label ].
 	
 	"icon event dispatch"
-	self flag:'labordep: todo'.
+	image := anElement icon.
+	(image notNil and:[image dresser notNil]) ifTrue:[ image dresser initialState: image ].
 ]
 
 { #category : #accessing }
@@ -83,7 +85,10 @@ ToLAFButtonDresser >> onInstalledIn: anElement [
 	].
 	
 	"Install target icon skin type"
-	self flag:'labordep : write icon skin management here'.
+	self skin imageSkinType ifNotNil:[ :imageSkinType |
+		anElement icon ifNil:[ anElement icon: ToImage new ].
+		anElement icon skinType: imageSkinType.
+	].
 	
 	super onInstalledIn: anElement.
 

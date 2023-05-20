@@ -133,6 +133,12 @@ ToAbstractButtonSkin >> geometry [
 ]
 
 { #category : #built }
+ToAbstractButtonSkin >> imageSkinType [
+
+	^ ToAbstractSkin defaultType
+]
+
+{ #category : #built }
 ToAbstractButtonSkin >> labelSkinType [
 
 	^ ToAbstractSkin defaultType

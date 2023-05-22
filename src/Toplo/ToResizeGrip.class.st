@@ -61,12 +61,6 @@ ToResizeGrip >> layoutIn: anElement [
 ]
 
 { #category : #initialization }
-ToResizeGrip >> newPullHandler [
-
-	^ BlPullHandler new
-]
-
-{ #category : #initialization }
 ToResizeGrip >> target: anElement [
 
 	self layoutIn: anElement.

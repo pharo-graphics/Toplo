@@ -49,6 +49,13 @@ TToPair >> first: anElement [
 	self privateUpdateChildren
 ]
 
+{ #category : #initialization }
+TToPair >> initialize [
+
+	self class initializeSlots: self.
+	super initialize.
+]
+
 { #category : #'t - pair initialization' }
 TToPair >> initializePair [
 

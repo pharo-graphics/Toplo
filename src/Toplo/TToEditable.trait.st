@@ -18,6 +18,13 @@ TToEditable >> beReadOnly [
 	self isEditable: false
 ]
 
+{ #category : #initialization }
+TToEditable >> initialize [
+
+	self class initializeSlots: self.
+	super initialize.
+]
+
 { #category : #'t - editable' }
 TToEditable >> initializeEditable [
 

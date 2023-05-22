@@ -4,20 +4,11 @@ Class {
 	#instVars : [
 		'initialTargetPosition',
 		'initialTargetSize',
-		'pulled',
-		'thickness'
+		'thickness',
+		'initialDragPosition'
 	],
 	#category : #'Toplo-Widget-Window'
 }
-
-{ #category : #'mouse processing' }
-ToResizeGrip >> applyLayoutIn: anElement [
-
-	"compute my position/size only if I'm not pulled"
-
-	pulled ifTrue: [ ^ self ].
-	self layoutIn: anElement
-]
 
 { #category : #accessing }
 ToResizeGrip >> cursor [
@@ -37,16 +28,16 @@ ToResizeGrip >> defaultDresser [
 	^ ToResizeGripDresser new
 ]
 
+{ #category : #'mouse processing' }
+ToResizeGrip >> drag: anElement by: deltaFromInitialPosition [
+
+	self subclassResponsibility 
+]
+
 { #category : #accessing }
 ToResizeGrip >> initialTargetPosition [
 
 	^ initialTargetPosition
-]
-
-{ #category : #accessing }
-ToResizeGrip >> initialTargetPosition: aPoint [
-
-	initialTargetPosition := aPoint
 ]
 
 { #category : #accessing }
@@ -55,18 +46,11 @@ ToResizeGrip >> initialTargetSize [
 	^ initialTargetSize
 ]
 
-{ #category : #accessing }
-ToResizeGrip >> initialTargetSize: aPoint [
-
-	initialTargetSize := aPoint
-]
-
 { #category : #initialization }
 ToResizeGrip >> initialize [
 
 	super initialize.
 	
-	pulled := false.
 	self layout: BlFrameLayout new
 ]
 
@@ -82,33 +66,34 @@ ToResizeGrip >> newPullHandler [
 	^ BlPullHandler new
 ]
 
-{ #category : #'mouse processing' }
-ToResizeGrip >> pullEvent: anEvent on: anElement [
-
-	self subclassResponsibility 
-]
-
 { #category : #initialization }
 ToResizeGrip >> target: anElement [
 
 	self layoutIn: anElement.
 
-	self when: BlPullStartEvent do: [ :anEvent | 
-		pulled := true.
-		self initialTargetPosition: anElement position.
-		self initialTargetSize: anElement size ].
+	self when: BlDragStartEvent do: [ :anEvent | 
+		anEvent consumed: true.
+		initialDragPosition := anEvent position.
+		initialTargetPosition := anElement position.
+		initialTargetSize := anElement size ].
 
-	self when: BlPullEvent do: [ :anEvent | 
-		self pullEvent: anEvent on: anElement].
+	self when: BlDragEvent do: [ :anEvent |
+		anEvent consumed: true.
+		self drag: anElement by: anEvent position - initialDragPosition ].
 
-	self when: BlPullEndEvent do: [ :anEvent | 
-		pulled := false.
+	self when: BlDragEndEvent do: [ :anEvent | 
+		anEvent consumed: true.
 		anEvent currentTarget mouseCursor: BlCursor default ].
 	
-	self when: BlMouseEnterEvent do: [ :event | 
-		event currentTarget mouseCursor: event currentTarget cursor ].
+	self when: BlMouseEnterEvent do: [ :anEvent | 
+		anEvent currentTarget mouseCursor: anEvent currentTarget cursor ].
 
-	self addEventHandler: self newPullHandler
+]
+
+{ #category : #initialization }
+ToResizeGrip >> thickness [
+
+	^ thickness
 ]
 
 { #category : #initialization }

@@ -11,14 +11,15 @@ ToBottomRightResizeGrip >> cursorSelector [
 ]
 
 { #category : #initialization }
+ToBottomRightResizeGrip >> drag: anElement by: deltaFromInitialPosition [
+
+	anElement size:
+		initialTargetSize + deltaFromInitialPosition
+]
+
+{ #category : #initialization }
 ToBottomRightResizeGrip >> layoutIn: anElement [
 
 	self size: thickness @ thickness.
 	self position: anElement size - (thickness / 2 @ (thickness / 2))
-]
-
-{ #category : #initialization }
-ToBottomRightResizeGrip >> pullEvent: anEvent on: anElement [
-
-	anElement size: self initialTargetSize + anEvent delta
 ]

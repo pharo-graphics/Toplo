@@ -19,14 +19,15 @@ TToWidgetWithResizeGrips >> grips: resizeGripList [
 TToWidgetWithResizeGrips >> initializeGrips [
 
 	self grips: ({ 
-			 ToBottomRightResizeGrip.
-			 ToBottomLeftResizeGrip.
-			 ToTopRightResizeGrip.
-			 ToTopLeftResizeGrip.
-			 ToRightResizeGrip.
-			 ToLeftResizeGrip.
-			 ToBottomResizeGrip.
-			 ToTopResizeGrip } collect: [ :cls | cls new target: self ]).
+		 ToBottomRightResizeGrip.
+		 ToBottomLeftResizeGrip.
+		 ToTopRightResizeGrip.
+		 ToTopLeftResizeGrip.
+		 ToRightResizeGrip.
+		 ToLeftResizeGrip.
+		 ToBottomResizeGrip.
+		 ToTopResizeGrip } collect: [ :eachClass |
+			eachClass new target: self; yourself ]).
 
 	self addChildren: self grips.
 
@@ -38,5 +39,5 @@ TToWidgetWithResizeGrips >> initializeGrips [
 { #category : #'t - layout grips' }
 TToWidgetWithResizeGrips >> layoutGrips [
 
-	self grips do: [ :g | g applyLayoutIn: self ]
+	self grips do: [ :each | each layoutIn: self ]
 ]

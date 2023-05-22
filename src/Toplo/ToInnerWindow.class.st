@@ -6,7 +6,8 @@ Class {
 	#instVars : [
 		'bar',
 		'title',
-		'titleLabel'
+		'titleLabel',
+		'barPullHandler'
 	],
 	#category : #'Toplo-Widget-Window'
 }
@@ -33,11 +34,10 @@ ToInnerWindow >> bar [
 ToInnerWindow >> bar: anElement [
 
 	bar ifNotNil: [ 
-		bar removeEventHandler: (bar userData at: #pullHandler).
+		bar removeEventHandler: barPullHandler.
 		bar removeFromParent ].
 	bar := anElement.
-	bar userData at: #pullHandler put: (BlPullHandler new pullTarget: self).
-	bar addEventHandler: (bar userData at: #pullHandler)
+	bar addEventHandler: barPullHandler
 ]
 
 { #category : #initialization }
@@ -147,6 +147,7 @@ ToInnerWindow >> elements [
 { #category : #initialization }
 ToInnerWindow >> initialize [ 
 
+	barPullHandler := BlPullHandler new target: self; yourself.
 	super initialize.
 	self size: self defaultSize.
 	self background: Color gray.

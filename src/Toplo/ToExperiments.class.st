@@ -595,17 +595,17 @@ ToExperiments class >> example_drag [
 	child := BlElement new
 		         background: Color yellow;
 		         size: 50 @ 50;
-		         relocate: 20 @ 20.
+		         position: 20 @ 20.
 
 	e addChild: child.
 
-	child when: BlDragStartEvent do: [ :evt | 
+	child when: BlDragStartEvent do: [ :evt |
 		p := evt position - child position.
 		evt consumed: true ].
 
 	child
 		when: BlDragEvent
-		do: [ :evt | child relocate: evt position - p ].
+		do: [ :evt | child position: evt position - p ].
 
 	e openInNewSpace
 ]
@@ -621,10 +621,10 @@ ToExperiments class >> example_drag2 [
 	child := BlElement new
 		         background: Color yellow;
 		         size: 50 @ 50;
-		         relocate: 20 @ 20.
+		         position: 20 @ 20.
 
 	e addChild: child.
-	child addEventHandler: (BlPullHandler new ).
+	child addEventHandler: BlPullHandler new.
 
 	e openInNewSpace
 ]
@@ -636,15 +636,20 @@ ToExperiments class >> example_drag3 [
 	e := BlElement new
 		     background: Color red;
 		     size: 50 @ 50;
-			clipChildren: false.
+		     clipChildren: false;
+		     yourself.
 
 	child := BlElement new
 		         background: Color yellow;
 		         size: 50 @ 50;
-		         relocate: 200 @ 200.
+		         position: 200 @ 200;
+		         yourself.
 
 	e addChild: child.
-	child addEventHandler: (BlPullHandler new pullTarget: e; beVertical).
+	child addEventHandler: (BlPullHandler new
+			 target: e;
+			 beVertical;
+			 yourself).
 
 	e openInNewSpace
 ]
@@ -659,9 +664,12 @@ ToExperiments class >> example_drag4 [
 		         innerImage: (BlElement new
 				          background: Color yellow;
 				          size: 50 @ 50);
-		         relocate: 200 @ 200.
+		         position: 200 @ 200;
+		         yourself.
 
-	child addEventHandler: (BlPullHandler new pullTarget: e).
+	child addEventHandler: (BlPullHandler new
+			 target: e;
+			 yourself).
 
 	e openInWorld.
 	child openInWorld
@@ -727,7 +735,7 @@ ToExperiments class >> example_frame [
 	bar layout: (BlGridLayout horizontal cellSpacing: 2).
 	bar border: (BlBorder paint: bkg width: 3).
 	bar geometry: (BlRoundedRectangleGeometry cornerRadius: 5).
-	pullHandler := BlPullHandler new pullTarget: frame.
+	pullHandler := BlPullHandler new target: frame; yourself.
 	bar addEventHandler: pullHandler.
 	
 	close := ToButton new iconImage: Smalltalk ui theme windowCloseForm; labelText: 'close'.
@@ -1002,10 +1010,9 @@ ToExperiments class >> example_twoChildrenInPolygon [
 			 color: Color black
 			 width: 15
 			 offset: 0 asPoint).
-	parent
-		constraintsDo: [ :c | 
-			c horizontal fitContent.
-			c vertical fitContent ].
+	parent constraintsDo: [ :c |
+		c horizontal fitContent.
+		c vertical fitContent ].
 	parent clipChildren: true.
 
 	parent border: (BlBorder paint: Color black width: 2).
@@ -1013,38 +1020,45 @@ ToExperiments class >> example_twoChildrenInPolygon [
 	parent background: (Color gray alpha: 0.6).
 	parent padding: (BlInsets all: 15).
 	parent margin: (BlInsets all: 10).
-	
-	child := BlElement new size: 50@30.
+
+	child := BlElement new size: 50 @ 30.
 	child layout: BlFrameLayout new.
 	child background: (Color red alpha: 0.3).
 	child margin: (BlInsets all: 3).
 	child padding: (BlInsets all: 5).
 	child border: (BlBorder paint: Color red width: 1).
-	child outskirts: (BlOutskirts inside).
-	child addChild: (BlElement new background: Color yellow; size: 40@40).
+	child outskirts: BlOutskirts inside.
+	child addChild: (BlElement new
+			 background: Color yellow;
+			 size: 40 @ 40).
 
-	child2 := BlElement new size: 250@100.
+	child2 := BlElement new size: 250 @ 100.
 	child2 layout: BlFrameLayout new.
 	child2 background: (Color blue alpha: 0.3).
 	child2 margin: (BlInsets all: 3).
 	child2 padding: (BlInsets all: 5).
 	child2 border: (BlBorder paint: Color blue width: 1).
-	child2 outskirts: (BlOutskirts inside).
-	child2 addChild: (BlElement new background: Color yellow; size: 40@40).
-	
+	child2 outskirts: BlOutskirts inside.
+	child2 addChild: (BlElement new
+			 background: Color yellow;
+			 size: 40 @ 40).
+
 	parent addChild: child.
 	parent addChild: child2.
 	parent when: BlMouseEnterEvent do: [ 'Enter' traceCr ].
 	parent when: BlMouseLeaveEvent do: [ 'Leave' traceCr ].
-	child when: BlClickEvent do: [ child2 hasParent ifTrue: [ child2 removeFromParent ] ifFalse: [ parent addChild: child2 ] ].
-	
+	child when: BlClickEvent do: [
+		child2 hasParent
+			ifTrue: [ child2 removeFromParent ]
+			ifFalse: [ parent addChild: child2 ] ].
+
 	top := ToElement new fitContent.
 	top clipChildren: true.
 	top addChild: parent.
 	top layout: BlFrameLayout new.
 	top border: (BlBorder paint: Color green width: 2).
-	top relocate: 15@15.
-	^ top openInInnerWindow 
+	top position: 15 @ 15.
+	^ top openInInnerWindow
 ]
 
 { #category : #frame }

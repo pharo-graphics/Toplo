@@ -1,63 +1,8 @@
 Class {
 	#name : #ToNotebookTest,
-	#superclass : #ParametrizedTestCase,
-	#instVars : [
-		'testingSpaces',
-		'hostClass'
-	],
+	#superclass : #OBlParameterizedTest,
 	#category : #'Toplo-Tests-Widget-Notebook'
 }
-
-{ #category : #tests }
-ToNotebookTest class >> testParameters [
-
-	^ ParametrizedTestMatrix new
-		forSelector: #hostClass
-		addOptions: {
-		   BlMockedHost.
-			BlOSWindowSDL2Host.
-		   BlMorphicWindowHost }
-]
-
-{ #category : #accessing }
-ToNotebookTest >> hostClass [
-
-	^ hostClass
-]
-
-{ #category : #accessing }
-ToNotebookTest >> hostClass: aClass [
-
-	hostClass := aClass
-]
-
-{ #category : #'instance creation' }
-ToNotebookTest >> newTestingSpace [
-
-	| aSpace |
-	aSpace := OBlSpace new.
-	aSpace host: hostClass new.
-	testingSpaces add: aSpace.
-	^ aSpace
-]
-
-{ #category : #initialization }
-ToNotebookTest >> setUp [
-	super setUp.
-
-	testingSpaces := OrderedCollection new.
-]
-
-{ #category : #running }
-ToNotebookTest >> tearDown [
-
-	self waitTestingSpaces.
-	testingSpaces do: [ :each | each close ].
-	self waitTestingSpaces.
-	
-	super tearDown.
-
-]
 
 { #category : #tests }
 ToNotebookTest >> testBodyFactoryIsValuedOnSelect [
@@ -173,13 +118,4 @@ ToNotebookTest >> testSelectPage [
 	self assert: greenPage isSelected.
 	self deny: orangePage isSelected.
 
-]
-
-{ #category : #tests }
-ToNotebookTest >> waitTestingSpaces [
-
-	testingSpaces do: [ :each |
-		self assert: (OBlSpace
-			pulseUntilEmptyTaskQueue: each
-			timeout: 200 milliSeconds) ]
 ]

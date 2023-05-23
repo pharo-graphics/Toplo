@@ -14,7 +14,7 @@ Class {
 { #category : #accessing }
 ToWidgetState >> counter [
 
-	^ counter
+	^ counter ifNil: [ counter := 0 ]
 ]
 
 { #category : #accessing }

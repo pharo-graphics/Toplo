@@ -14,7 +14,7 @@ Metacello new
 	load
 ```
 
-## Look and feel features
+# Toplo Look and Feel & Theme
 
 ![image](https://github.com/plantec/Toplo/assets/49183340/2e61623f-5844-4294-b87a-195dd6c1c636)
 

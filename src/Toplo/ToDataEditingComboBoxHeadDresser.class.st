@@ -2,7 +2,8 @@ Class {
 	#name : #ToDataEditingComboBoxHeadDresser,
 	#superclass : #ToEditableComboBoxHeadDresser,
 	#instVars : [
-		'escShortcut'
+		'escShortcut',
+		'upShortcut'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
@@ -38,8 +39,10 @@ ToDataEditingComboBoxHeadDresser >> whenAdded: anElement [
 		anElement whenCancelRequested: cancelRequested in: comboBox ].
 
 	downShortcut := self newArrowDownShortcutIn: anElement.
-	anElement textField infinite addShortcut: downShortcut.
+	upShortcut := self newArrowUpShortcutIn: anElement.
 	escShortcut := self newEscapeShortcutIn: anElement.
+	anElement textField infinite addShortcut: downShortcut.
+	anElement textField infinite addShortcut: upShortcut.	
 	anElement textField infinite addShortcut: escShortcut
 ]
 
@@ -47,8 +50,8 @@ ToDataEditingComboBoxHeadDresser >> whenAdded: anElement [
 ToDataEditingComboBoxHeadDresser >> whenRemoved: anElement [
 	
 	anElement textField infinite removeShortcut: downShortcut.
+	anElement textField infinite removeShortcut: upShortcut.
 	anElement textField infinite removeShortcut: escShortcut.
-
 	super whenRemoved: anElement
 
 

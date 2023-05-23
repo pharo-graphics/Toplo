@@ -130,7 +130,7 @@ ToSelectionStrategy >> currentIndex [
 { #category : #accessing }
 ToSelectionStrategy >> currentIndex: anInteger [
 
-	currentIndex := anInteger 
+	currentIndex := anInteger
 ]
 
 { #category : #accessing }

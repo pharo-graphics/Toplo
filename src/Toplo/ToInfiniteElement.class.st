@@ -124,7 +124,7 @@ ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 	prevIndexes := self primarySelectionIndexes copy.
 	aBlock value.
 	currentIndexes := self primarySelectionIndexes.
-	prevIndexes = currentIndexes ifTrue: [ ^ self ].
+	prevIndexes = currentIndexes ifTrue: [ 'x' traceCr. ^ self ].
 	self dispatchEvent: (ToInfiniteSelectionChangedEvent from: prevIndexes to: currentIndexes)
 ]
 
@@ -385,7 +385,8 @@ ToInfiniteElement >> selectAll [
 ToInfiniteElement >> selectIndex: anIndex [
 
 	self primarySelection
-		dispatchSelectionChangedAfter: [ " ensure that the layout is computed before updating the selection "
+		dispatchSelectionChangedAfter: [ 
+			" ensure that the layout is computed before updating the selection "
 			self primarySelection selectIndex: anIndex.
 			self whenLayoutedDoOnce: [ self scrollToIndex: anIndex ] ]
 		to: self

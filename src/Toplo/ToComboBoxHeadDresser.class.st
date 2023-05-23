@@ -19,13 +19,16 @@ ToComboBoxHeadDresser >> arrowDownEvent: anEvent in: anElement [
 	| wasOpened |
 	self listElementRequestFocus.
 	wasOpened :=  comboBox isOpened.
-	wasOpened ifFalse: [ comboBox popupEvent: anEvent ].
-	comboBox listElement data ifEmpty: [ ^ self ].
-	comboBox listElement selectedIndexes ifEmpty: [
-		comboBox listElement selectIndex: 1.
-		^ self ].
+	wasOpened ifFalse: [ comboBox popupEvent: anEvent ]
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToComboBoxHeadDresser >> arrowUpEvent: anEvent in: anElement [
+
+	| wasOpened |
+	wasOpened :=  comboBox isOpened.
 	wasOpened ifFalse: [ ^ self ].
-	comboBox listElement selectIndex: (comboBox listElement selectedIndex + 1)
+	comboBox closeEvent: anEvent
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -59,6 +62,16 @@ ToComboBoxHeadDresser >> newArrowDownShortcutIn: anElement [
 	^ BlShortcutWithAction new
 		                combination: BlKeyCombination arrowDown;
 		                action: [ :event | self arrowDownEvent: event in: anElement ];
+		                name: 'Popup';
+		                yourself.
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToComboBoxHeadDresser >> newArrowUpShortcutIn: anElement [
+
+	^ BlShortcutWithAction new
+		                combination: BlKeyCombination arrowUp;
+		                action: [ :event | self arrowUpEvent: event in: anElement ];
 		                name: 'Popup';
 		                yourself.
 ]

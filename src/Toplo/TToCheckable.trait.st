@@ -16,7 +16,9 @@ TToCheckable >> addToGroup: aToggleGroup [
 { #category : #'t - checking protocol' }
 TToCheckable >> check [
 
-	self group ifNotNil: [ :g | g checked: self. ^ self ].
+	self group ifNotNil: [ :g |
+		g checked: self.
+		^ self ].
 	self privateCheck
 ]
 
@@ -54,6 +56,7 @@ TToCheckable >> isUnchecked [
 
 { #category : #'t - checking protocol' }
 TToCheckable >> privateCheck [
+
 	self switchToStateNamed: #checked
 ]
 

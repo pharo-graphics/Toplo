@@ -23,7 +23,20 @@ ToCheckableGroupTest >> testCheckableGroupBasic [
 ]
 
 { #category : #tests }
-ToCheckableGroupTest >> testCheckableGroupChangeCheckBoxDresser [
+ToCheckableGroupTest >> testCheckableGroupUpdateError [
+
+	| group buttons |
+	group := ToCheckableGroup new.
+	buttons := (1 to: 4) collect: [ :idx | ToCheckbox new ].
+	group addAll: buttons.
+	self
+		should: [ group buttons at: 1 put: ToCheckbox new ]
+		raise: Error
+		description: 'Updating a button is not allowed'
+]
+
+{ #category : #tests }
+ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndCheckUse [
 
 	| group checkBox checkBox2 |
 	group := ToCheckableGroup new.
@@ -46,16 +59,57 @@ ToCheckableGroupTest >> testCheckableGroupChangeCheckBoxDresser [
 ]
 
 { #category : #tests }
-ToCheckableGroupTest >> testCheckableGroupUpdateError [
+ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndSwitchToNextStateUse [
 
-	| group buttons |
-	group := ToCheckableGroup new.
-	buttons := (1 to: 4) collect: [ :idx | ToCheckbox new ].
-	group addAll: buttons.
-	self
-		should: [ group buttons at: 1 put: ToCheckbox new ]
-		raise: Error
-		description: 'Updating a button is not allowed'
+	| list modelButtonsGroup pane buttons |
+	modelButtonsGroup := ToCheckableGroup new.
+	list := OrderedCollection new.
+	pane := ToPane vertical.
+	list add: 'One'.
+	list add: 'Two'.
+	list add: 'Three'.
+	buttons := list collect: [ :m |
+		           ToRadioButton new
+			           labelText: m;
+			           hMatchParent;
+			           id: m;
+			           beIconFirst ].
+	modelButtonsGroup addAll: buttons.
+	modelButtonsGroup checkingStrategy isKindOf: ToCheckableGroupStrictStrategy.
+	
+	buttons do: [ :b | pane addChild: b ].
+	
+	buttons first switchToNextState.
+	self assert: buttons first isChecked.
+	self assert: buttons second isUnchecked.
+	self assert: buttons third isUnchecked.
+	buttons second switchToNextState.
+	self assert: buttons first isUnchecked.
+	self assert: buttons second isChecked.
+	self assert: buttons third isUnchecked.
+	buttons third switchToNextState.
+	self assert: buttons first isUnchecked.
+	self assert: buttons second isUnchecked.
+	self assert: buttons third isChecked.
+
+	buttons do: [ :b |
+		b dresser: nil.
+		b dresser: b defaultDresser ].
+	
+	buttons first switchToNextState.
+	self assert: buttons first isChecked.
+	self assert: buttons second isUnchecked.
+	self assert: buttons third isUnchecked.
+	buttons second switchToNextState.
+	self assert: buttons first isUnchecked.
+	self assert: buttons second isChecked.
+	self assert: buttons third isUnchecked.
+	buttons third switchToNextState.
+	self assert: buttons first isUnchecked.
+	self assert: buttons second isUnchecked.
+	self assert: buttons third isChecked.
+
+	
 ]
 
 { #category : #tests }

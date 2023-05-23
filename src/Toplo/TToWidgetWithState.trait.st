@@ -19,7 +19,7 @@ TToWidgetWithState >> currentState [
 	^ currentState
 ]
 
-{ #category : #'t - accessing state' }
+{ #category : #'t - private state processing' }
 TToWidgetWithState >> currentState: aState [
 
 	currentState := aState
@@ -45,7 +45,8 @@ TToWidgetWithState >> setUpStatesWith: aCollectionOfStates [
 		curr next: states removeFirst.
 		curr := curr next ].
 	curr next: self currentState.
-	self switchToStartState
+	self switchToStartState.
+	self announce: 	(ToStatesSetupAnnouncement new widget: self)
 ]
 
 { #category : #'t - accessing state' }
@@ -54,7 +55,7 @@ TToWidgetWithState >> startState [
 	^ startState ifNil: [ self currentState ]
 ]
 
-{ #category : #'t - accessing state' }
+{ #category : #'t - private state processing' }
 TToWidgetWithState >> startState: aState [
 
 	startState := aState.

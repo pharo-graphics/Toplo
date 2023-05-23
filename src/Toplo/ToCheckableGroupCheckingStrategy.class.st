@@ -12,11 +12,25 @@ Class {
 }
 
 { #category : #notifications }
+ToCheckableGroupCheckingStrategy >> armCheckable: aCheckable in: aGroup [
+
+	aCheckable whenCheckedDo: [ aCheckable check ].
+	aCheckable whenUncheckedDo: [ aCheckable uncheck ].
+
+]
+
+{ #category : #notifications }
 ToCheckableGroupCheckingStrategy >> buttonInserted: aCheckable in: aGroup [
 
 	aCheckable group: aGroup.
-	aCheckable whenCheckedDo: [ aCheckable check ].
-	aCheckable whenUncheckedDo: [ aCheckable uncheck ]
+	self armCheckable: aCheckable in: aGroup.
+	
+	" In case of a dresser change, the checkable must be re-armed
+	to launch the state actions 
+	related to https://github.com/plantec/Toplo/issues/28 "
+	aCheckable
+		whenAnnouncement: ToStatesSetupAnnouncement
+		do: [ self armCheckable: aCheckable in: aGroup ]
 ]
 
 { #category : #notifications }

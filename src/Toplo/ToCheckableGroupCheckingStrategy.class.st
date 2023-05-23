@@ -22,8 +22,7 @@ ToCheckableGroupCheckingStrategy >> buttonInserted: aCheckable in: aGroup [
 { #category : #notifications }
 ToCheckableGroupCheckingStrategy >> buttonRemoved: aCheckable in: aGroup [
 
-	aCheckable group: nil.
-	aCheckable widgetStates do: [ :state | state reset ]
+	aCheckable group: nil
 ]
 
 { #category : #testing }

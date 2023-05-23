@@ -117,6 +117,11 @@ ToCheckBoxDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	self checkIndeterminateIn: anElement.
+	" In case of a dresser change, the checkable must be added here in the group 
+	to plug the state actions 
+	(see ToCheckableGroupStrategy>>#buttonInserted:in: ) 
+	related to https://github.com/plantec/Toplo/issues/28 "
+	anElement group ifNotNil: [ :grp | grp add: anElement ].
 	anElement
 		whenAnnouncement: ToStatesDefinitionChangedAnnouncement
 		do: [ self checkIndeterminateIn: anElement ]

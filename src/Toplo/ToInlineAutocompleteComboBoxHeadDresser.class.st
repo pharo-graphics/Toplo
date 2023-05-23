@@ -14,7 +14,8 @@ ToInlineAutocompleteComboBoxHeadDresser >> filterResult: anEvent [
 	comboBox listElement data filterResult: anEvent data.
 	comboBox fitListElementToContent.
 	comboBox popupEvent: anEvent.
-	anEvent data size = 1 ifTrue: [  comboBox selectIndex: 1 ]
+	comboBox listElement data size isZero ifTrue: [ ^ self ].
+	comboBox listElement whenLayoutedDoOnce: [ 	comboBox listElement selectIndex: 1 ]
 ]
 
 { #category : #'api - install/uninstall  hook' }

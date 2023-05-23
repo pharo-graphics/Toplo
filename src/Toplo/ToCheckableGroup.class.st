@@ -129,6 +129,13 @@ ToCheckableGroup >> remove: aCheckable [
 
 ]
 
+{ #category : #'adding / removing' }
+ToCheckableGroup >> removeAll [
+
+	buttons removeAll
+
+]
+
 { #category : #'check-uncheck-request' }
 ToCheckableGroup >> uncheckAll [
 

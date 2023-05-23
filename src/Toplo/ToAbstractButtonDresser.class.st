@@ -78,8 +78,7 @@ ToAbstractButtonDresser >> leftClicked: anElement event: anEvent [
 { #category : #'api - install/uninstall  hook' }
 ToAbstractButtonDresser >> onInstalledIn: anElement [
 
-	super onInstalledIn: anElement.
-	self initialState: anElement
+	super onInstalledIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }

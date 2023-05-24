@@ -89,48 +89,6 @@ ToDefaultRadioButtonSkin >> builtGeometry [
 ]
 
 { #category : #built }
-ToDefaultRadioButtonSkin >> builtIndeterminateBackground [ 
-
-	^ nil
-]
-
-{ #category : #built }
-ToDefaultRadioButtonSkin >> builtIndeterminateBackgroundHover [ 
-
-	^ nil
-]
-
-{ #category : #built }
-ToDefaultRadioButtonSkin >> builtIndeterminateBorder [ 
-
-	^ nil
-]
-
-{ #category : #built }
-ToDefaultRadioButtonSkin >> builtIndeterminateBorderHover [ 
-
-	^ nil
-]
-
-{ #category : #built }
-ToDefaultRadioButtonSkin >> builtIndeterminateGeometry [ 
-
-	^ nil
-]
-
-{ #category : #built }
-ToDefaultRadioButtonSkin >> builtIndeterminateMargin [ 
-
-	^ nil
-]
-
-{ #category : #built }
-ToDefaultRadioButtonSkin >> builtIndeterminateSize [ 
-
-	^ nil
-]
-
-{ #category : #built }
 ToDefaultRadioButtonSkin >> builtPadding [ 
 
 	^ BlInsets all: 3

@@ -248,6 +248,15 @@ ToLAFExamples class >> example_RadioButtonSkins [
 	^space
 ]
 
+{ #category : #radio }
+ToLAFExamples class >> example_RadioButtonSkins_Dark [
+
+	| space |
+	space := self example_RadioButtonSkins.
+	space toTheme: (space toTheme darkTheme).
+	^ space show
+]
+
 { #category : #labels }
 ToLAFExamples class >> example_TitleLabelsSkins [
 

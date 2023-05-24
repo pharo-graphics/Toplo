@@ -128,6 +128,15 @@ ToLAFRadioButtonDresser >> initialState: anElement [
 	"update main element"
 	self background: self skin background in: anElement.
 	self border: self skin border in: anElement.
+	
+	"update checked/unchecked icon"
+	anElement isChecked
+		ifTrue: [
+			self skin checkedBorder ifNotNil: [:e | anElement icon innerImage border: e].
+			self skin checkedBackground ifNotNil: [:e | anElement icon innerImage background: e]]
+		ifFalse: [
+			self skin uncheckedBorder ifNotNil: [:e | anElement icon innerImage border: e].
+			self skin uncheckedBackground ifNotNil: [:e | anElement icon innerImage background: e]]
 ]
 
 { #category : #accessing }
@@ -153,6 +162,7 @@ ToLAFRadioButtonDresser >> onInstalledIn: anElement [
 	self haveCompatibleSkin ifFalse:[^ self].	
 	
 	super onInstalledIn: anElement.
+	self initialState: anElement.
 
 	anElement geometry: self skin builtGeometry.
 	
@@ -162,7 +172,7 @@ ToLAFRadioButtonDresser >> onInstalledIn: anElement [
 			aPoint x > 0 ifTrue:[ c horizontal exact: aPoint x ].
 		].
 	].
-
+	anElement background: self skin background.
 	anElement padding: self skin padding.
 	anElement effect: self skin shadow.
 	

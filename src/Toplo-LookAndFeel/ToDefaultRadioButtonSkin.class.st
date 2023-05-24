@@ -1,6 +1,6 @@
 Class {
 	#name : #ToDefaultRadioButtonSkin,
-	#superclass : #ToAbstractCheckButtonSkin,
+	#superclass : #ToThemeRadioButtonSkin,
 	#category : #'Toplo-LookAndFeel-Theme-Skins-RadioButton'
 }
 

@@ -83,7 +83,7 @@ ToTheme class >> skinClassesFor: aToElementClass [
 	aToElementClass = ToRadioButton ifTrue:[
 		"Set default skin"
 		coll add: ToDefaultRadioButtonSkin.
-		coll addAll: (ToAbstractCheckButtonSkin allSubclasses select:[ :c | c ~= ToDefaultRadioButtonSkin 	]).
+		coll addAll: (ToThemeRadioButtonSkin allSubclasses select:[ :c | c ~= ToDefaultRadioButtonSkin 	]).
 	].
 	
 	aToElementClass = ToButton ifTrue:[

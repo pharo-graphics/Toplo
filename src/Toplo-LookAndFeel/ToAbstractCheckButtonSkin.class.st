@@ -1,7 +1,7 @@
 Class {
 	#name : #ToAbstractCheckButtonSkin,
 	#superclass : #ToAbstractButtonSkin,
-	#category : #'Toplo-LookAndFeel-Theme-Skins-RadioButton'
+	#category : #'Toplo-LookAndFeel-Core'
 }
 
 { #category : #'private - tokens' }

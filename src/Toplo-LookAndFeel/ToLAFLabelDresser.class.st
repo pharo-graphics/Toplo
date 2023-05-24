@@ -47,12 +47,14 @@ ToLAFLabelDresser >> onInstalledIn: aToLabel [
 	self skin theme: aToLabel toTheme.
 	self haveCompatibleSkin ifFalse:[^ self].	
 
-	super onInstalledIn: aToLabel
+	super onInstalledIn: aToLabel.
+	self skin onInstalledIn: aToLabel.
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToLAFLabelDresser >> onUninstalledIn: aToLabel [
 
+	self skin onUninstalledIn: aToLabel.
 	super onUninstalledIn: aToLabel.
 	skin := nil
 ]

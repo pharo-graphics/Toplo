@@ -226,6 +226,28 @@ ToLAFExamples class >> example_MoreButtonSkins_Dark [
 	^ space
 ]
 
+{ #category : #radio }
+ToLAFExamples class >> example_RadioButtonSkins [
+
+	| space button1 button2 pane |
+	space := OBlSpace new.
+	space root layout: (BlLinearLayout vertical cellSpacing: 10).
+	
+	pane := ToPane horizontal.
+	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+	button1 := ToRadioButton skinType: #default.
+	button2 := ToRadioButton skinType: #default.
+	pane addChild: button1.
+	pane addChild: button2.
+	
+	space root addChild: pane.
+	space show.
+	
+	button2 check.
+	
+	^space
+]
+
 { #category : #labels }
 ToLAFExamples class >> example_TitleLabelsSkins [
 

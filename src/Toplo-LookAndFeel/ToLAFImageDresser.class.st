@@ -45,12 +45,14 @@ ToLAFImageDresser >> onInstalledIn: aToImage [
 	self skin theme: aToImage toTheme.
 	self haveCompatibleSkin ifFalse:[^ self].	
 
-	super onInstalledIn: aToImage
+	super onInstalledIn: aToImage.
+	self skin onInstalledIn: aToImage.
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToLAFImageDresser >> onUninstalledIn: aToImage [
 
+	self skin onUninstalledIn: aToImage.
 	super onUninstalledIn: aToImage.
 	skin := nil
 ]

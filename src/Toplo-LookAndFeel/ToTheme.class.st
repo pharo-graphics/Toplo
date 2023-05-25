@@ -295,6 +295,20 @@ ToTheme >> controlHeight [
 	^ 32
 ]
 
+{ #category : #sizes }
+ToTheme >> controlHeightLG [
+	"The height of the basic controls such as buttons and input boxes in Ant Design"
+
+	^ 40
+]
+
+{ #category : #sizes }
+ToTheme >> controlHeightSM [
+	"The height of the basic controls such as buttons and input boxes in Ant Design"
+
+	^ 24
+]
+
 { #category : #border }
 ToTheme >> dashed [
 	"dashed rendering equivalent in web UI"
@@ -425,6 +439,13 @@ ToTheme >> lineWidth [
 	"https://ant.design/components/button#design-token"
 	
 	^ 1
+]
+
+{ #category : #border }
+ToTheme >> lineWidthFocus [
+	"https://ant.design/components/button#design-token"
+	
+	^ 4
 ]
 
 { #category : #sizes }

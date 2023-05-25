@@ -25,13 +25,13 @@ ToDefaultRadioButtonSkin >> builtBackgroundHover [
 { #category : #built }
 ToDefaultRadioButtonSkin >> builtBorder [
 
-	^nil
+	^ (BlBorder paint: self theme colorBorder width: self theme lineWidth)
 ]
 
 { #category : #built }
 ToDefaultRadioButtonSkin >> builtBorderHover [
 
-	^nil
+	^ (BlBorder paint: self theme colorPrimary width: self theme lineWidth)
 ]
 
 { #category : #built }
@@ -67,19 +67,20 @@ ToDefaultRadioButtonSkin >> builtCheckedGeometry [
 { #category : #built }
 ToDefaultRadioButtonSkin >> builtCheckedMargin [
 
-	^ BlInsets all: 1
+	^ BlInsets all: 0
+	
 ]
 
 { #category : #built }
 ToDefaultRadioButtonSkin >> builtCheckedSize [ 
 
-	^ 17 asPoint
+	^ (self theme controlHeight / 2) asPoint
 ]
 
 { #category : #built }
 ToDefaultRadioButtonSkin >> builtDefaultSize [
 
-	^ 0 @ (self theme controlHeight)
+	^ (self theme controlHeight / 2) asPoint
 ]
 
 { #category : #built }
@@ -91,7 +92,7 @@ ToDefaultRadioButtonSkin >> builtGeometry [
 { #category : #built }
 ToDefaultRadioButtonSkin >> builtPadding [ 
 
-	^ BlInsets all: 3
+	^ BlInsets all: 0
 ]
 
 { #category : #built }
@@ -106,25 +107,25 @@ ToDefaultRadioButtonSkin >> builtShadow [
 { #category : #'private - tokens' }
 ToDefaultRadioButtonSkin >> builtUncheckedBackground [
 
-	^ self theme colorBgContainer
+	^ (self theme colorBgContainer alpha: 0)
 ]
 
 { #category : #'private - tokens' }
 ToDefaultRadioButtonSkin >> builtUncheckedBackgroundHover [
 
-	^  self theme colorBgContainer
+	^ (self theme colorBgContainer alpha: 0)
 ]
 
 { #category : #'private - tokens' }
 ToDefaultRadioButtonSkin >> builtUncheckedBorder [
 
-	^ (BlBorder paint: self theme colorBorder width: 1)
+	^ (BlBorder paint: (self theme colorBgContainer alpha: 0) width: self theme lineWidth)
 ]
 
 { #category : #'private - tokens' }
 ToDefaultRadioButtonSkin >> builtUncheckedBorderHover [
 
-	^ (BlBorder paint: self theme colorPrimary width: 1)
+	^ (BlBorder paint: (self theme colorBgContainer alpha: 0) width: self theme lineWidth)
 ]
 
 { #category : #'private - tokens' }
@@ -136,13 +137,13 @@ ToDefaultRadioButtonSkin >> builtUncheckedGeometry [
 { #category : #'private - tokens' }
 ToDefaultRadioButtonSkin >> builtUncheckedMargin [
 
-	^ BlInsets all: 1
+	^ BlInsets all: 0
 ]
 
 { #category : #'private - tokens' }
 ToDefaultRadioButtonSkin >> builtUncheckedSize [
 
-	^ 17 asPoint
+	^ (self theme controlHeight / 2) asPoint
 ]
 
 { #category : #'events - handling' }

@@ -37,6 +37,7 @@ ToAbstractTheme class >> dresserFor: aToElement [
 	aToElement ifNil:[ ^ nil ].
 	(aToElement isKindOf: ToElement) ifFalse:[ ^ nil ].
 
+	aToElement class = ToRadioButton ifTrue: [ ^ ToLAFRadioButtonDresser new ].
 	aToElement class = ToButton ifTrue: [ ^ ToLAFButtonDresser new ].
 	aToElement class = ToLabel ifTrue: [ ^ ToLAFLabelDresser new ].
 	aToElement class = ToImage ifTrue: [ ^ ToLAFImageDresser new ].

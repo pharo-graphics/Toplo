@@ -103,11 +103,14 @@ ToLAFButtonDresser >> onInstalledIn: anElement [
 
 	anElement padding: self skin padding.
 	anElement effect: self skin shadow.
+	
+	self skin onInstalledIn: anElement.
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToLAFButtonDresser >> onUninstalledIn: anElement [
 
+	self skin onUninstalledIn: anElement.
 	super onUninstalledIn: anElement.
-	skin := nil
+	skin := nil.
 ]

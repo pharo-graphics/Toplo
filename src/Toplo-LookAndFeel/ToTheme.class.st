@@ -80,6 +80,12 @@ ToTheme class >> skinClassesFor: aToElementClass [
 	| coll |
 	coll := OrderedCollection new.
 	
+	aToElementClass = ToRadioButton ifTrue:[
+		"Set default skin"
+		coll add: ToDefaultRadioButtonSkin.
+		coll addAll: (ToThemeRadioButtonSkin allSubclasses select:[ :c | c ~= ToDefaultRadioButtonSkin 	]).
+	].
+	
 	aToElementClass = ToButton ifTrue:[
 		"Set default skin"
 		coll add: ToDefaultButtonSkin.

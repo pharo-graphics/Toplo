@@ -66,6 +66,16 @@ ToAbstractSkin >> isSupportedByTheme: aTheme [
 	^ aTheme skins includes: self class
 ]
 
+{ #category : #'events - handling' }
+ToAbstractSkin >> onInstalledIn: anElement [
+	"This method is a hook. Use this method to inject custom or advanced behavior"
+]
+
+{ #category : #'events - handling' }
+ToAbstractSkin >> onUninstalledIn: anElement [
+	"This method is a hook. Use this method to inject custom or advanced behavior"
+]
+
 { #category : #printing }
 ToAbstractSkin >> printOn: aStream [
 

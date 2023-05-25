@@ -13,25 +13,25 @@ ToDefaultRadioButtonSkin class >> type [
 { #category : #built }
 ToDefaultRadioButtonSkin >> builtBackground [ 
 
-	^ self theme colorRadioButtonBackground
+	^ self theme colorBgContainer
 ]
 
 { #category : #built }
 ToDefaultRadioButtonSkin >> builtBackgroundHover [ 
 
-	^ self theme colorRadioButtonBackground
+	^ self theme colorBgContainer
 ]
 
 { #category : #built }
 ToDefaultRadioButtonSkin >> builtBorder [
 
-	^ (BlBorder paint: self theme colorBorder width: 1)
+	^ (BlBorder paint: self theme colorBorder width: self theme lineWidth)
 ]
 
 { #category : #built }
 ToDefaultRadioButtonSkin >> builtBorderHover [
 
-	^ (BlBorder paint: self theme colorPrimary width: 1)
+	^ (BlBorder paint: self theme colorPrimary width: self theme lineWidth)
 ]
 
 { #category : #built }
@@ -74,13 +74,13 @@ ToDefaultRadioButtonSkin >> builtCheckedMargin [
 { #category : #built }
 ToDefaultRadioButtonSkin >> builtCheckedSize [ 
 
-	^ 20 asPoint
+	^ (self theme controlHeight / 2) asPoint
 ]
 
 { #category : #built }
 ToDefaultRadioButtonSkin >> builtDefaultSize [
 
-	^ 20 asPoint
+	^ (self theme controlHeight / 2) asPoint
 ]
 
 { #category : #built }
@@ -107,25 +107,25 @@ ToDefaultRadioButtonSkin >> builtShadow [
 { #category : #'private - tokens' }
 ToDefaultRadioButtonSkin >> builtUncheckedBackground [
 
-	^ self theme colorRadioButtonBackground
+	^ (self theme colorBgContainer alpha: 0)
 ]
 
 { #category : #'private - tokens' }
 ToDefaultRadioButtonSkin >> builtUncheckedBackgroundHover [
 
-	^ self theme colorRadioButtonBackground
+	^ (self theme colorBgContainer alpha: 0)
 ]
 
 { #category : #'private - tokens' }
 ToDefaultRadioButtonSkin >> builtUncheckedBorder [
 
-	^ (BlBorder paint: self theme colorRadioButtonBackground width: 1)
+	^ (BlBorder paint: (self theme colorBgContainer alpha: 0) width: self theme lineWidth)
 ]
 
 { #category : #'private - tokens' }
 ToDefaultRadioButtonSkin >> builtUncheckedBorderHover [
 
-	^ (BlBorder paint: self theme colorRadioButtonBackground width: 1)
+	^ (BlBorder paint: (self theme colorBgContainer alpha: 0) width: self theme lineWidth)
 ]
 
 { #category : #'private - tokens' }
@@ -137,13 +137,13 @@ ToDefaultRadioButtonSkin >> builtUncheckedGeometry [
 { #category : #'private - tokens' }
 ToDefaultRadioButtonSkin >> builtUncheckedMargin [
 
-	^ BlInsets all: 1
+	^ BlInsets all: 0
 ]
 
 { #category : #'private - tokens' }
 ToDefaultRadioButtonSkin >> builtUncheckedSize [
 
-	^ 17 asPoint
+	^ (self theme controlHeight / 2) asPoint
 ]
 
 { #category : #'events - handling' }

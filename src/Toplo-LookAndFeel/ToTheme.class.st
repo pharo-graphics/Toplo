@@ -232,13 +232,6 @@ ToTheme >> colorPrimaryPressed [
 	^ self colorPrimary darker darker
 ]
 
-{ #category : #border }
-ToTheme >> colorRadioButtonBackground [
-	"https://ant.design/components/button#design-token"
-	
-	^ Color transparent
-]
-
 { #category : #colors }
 ToTheme >> colorSuccess [
 	"Used to represent the token sequence of operation success, such as Result, Progress and other components will use these map tokens"
@@ -300,6 +293,20 @@ ToTheme >> controlHeight [
 	"The height of the basic controls such as buttons and input boxes in Ant Design"
 
 	^ 32
+]
+
+{ #category : #sizes }
+ToTheme >> controlHeightLG [
+	"The height of the basic controls such as buttons and input boxes in Ant Design"
+
+	^ 40
+]
+
+{ #category : #sizes }
+ToTheme >> controlHeightSM [
+	"The height of the basic controls such as buttons and input boxes in Ant Design"
+
+	^ 24
 ]
 
 { #category : #border }
@@ -432,6 +439,13 @@ ToTheme >> lineWidth [
 	"https://ant.design/components/button#design-token"
 	
 	^ 1
+]
+
+{ #category : #border }
+ToTheme >> lineWidthFocus [
+	"https://ant.design/components/button#design-token"
+	
+	^ 4
 ]
 
 { #category : #sizes }

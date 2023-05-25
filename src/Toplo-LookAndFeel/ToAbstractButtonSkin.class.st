@@ -23,6 +23,12 @@ ToAbstractButtonSkin >> backgroundHover [
 ]
 
 { #category : #tokens }
+ToAbstractButtonSkin >> backgroundPressed [
+
+	^ self token: #backgroundPressed
+]
+
+{ #category : #tokens }
 ToAbstractButtonSkin >> border [
 
 	^ self token: #border
@@ -34,18 +40,30 @@ ToAbstractButtonSkin >> borderHover [
 	^ self token: #borderHover
 ]
 
+{ #category : #tokens }
+ToAbstractButtonSkin >> borderPressed [
+
+	^ self token: #borderPressed
+]
+
 { #category : #built }
 ToAbstractButtonSkin >> buildTokens [	
 	
 	super buildTokens.
 	
+	"active state"
 	self token: #background value: self builtBackground.
 	self token: #border value: self builtBorder.
 	self token: #padding value: self builtPadding.
 	self token: #shadow value: self builtShadow.
 	
+	"hover state"
 	self token: #backgroundHover value: self builtBackgroundHover.
 	self token: #borderHover value: self builtBorderHover.
+	
+	"background state"
+	self token: #backgroundPressed value: self builtBackgroundPressed.
+	self token: #borderPressed value: self builtBorderPressed.
 ]
 
 { #category : #built }
@@ -58,6 +76,12 @@ ToAbstractButtonSkin >> builtBackground [
 ToAbstractButtonSkin >> builtBackgroundHover [ 
 
 	^ self subclassResponsibility 
+]
+
+{ #category : #built }
+ToAbstractButtonSkin >> builtBackgroundPressed [ 
+
+	^ self theme colorBgContainer
 ]
 
 { #category : #built }
@@ -92,6 +116,30 @@ ToAbstractButtonSkin >> builtBorderHover [
 
 { #category : #built }
 ToAbstractButtonSkin >> builtBorderHoverBuilder [
+
+	| builder |
+	builder := BlBorderBuilder new
+		           paint: self theme colorBorder;
+		           width: self theme lineWidth;
+		           lineCap: BlStrokeLineCap butt;
+		           lineJoin: BlStrokeLineJoin miter;
+		           miterLimit: 4.0;
+		           dashOffset: 0.
+
+	self theme lineType = #solid ifTrue:[builder dashArray: #()].
+	self theme lineType = #dashed ifTrue:[builder dashArray: self theme dashed].
+
+	^ builder
+]
+
+{ #category : #built }
+ToAbstractButtonSkin >> builtBorderPressed [
+
+	^ self builtBorderPressedBuilder ifNotNil:[ :e | e build ]
+]
+
+{ #category : #built }
+ToAbstractButtonSkin >> builtBorderPressedBuilder [
 
 	| builder |
 	builder := BlBorderBuilder new

@@ -16,7 +16,13 @@ ToDefaultButtonSkin >> builtBackground [
 { #category : #built }
 ToDefaultButtonSkin >> builtBackgroundHover [ 
 
-	^ self theme colorBgContainer 
+	^ self theme colorBgContainer
+]
+
+{ #category : #built }
+ToDefaultButtonSkin >> builtBackgroundPressed [ 
+
+	^ self theme colorBgContainer
 ]
 
 { #category : #built }
@@ -25,6 +31,15 @@ ToDefaultButtonSkin >> builtBorderHoverBuilder [
 	| builder |
 	builder := super builtBorderHoverBuilder.
 	builder paint: self theme colorPrimaryHover.
+	^ builder
+]
+
+{ #category : #built }
+ToDefaultButtonSkin >> builtBorderPressedBuilder [
+
+	| builder |
+	builder := super builtBorderPressedBuilder.
+	builder paint: self theme colorPrimaryPressed.
 	^ builder
 ]
 

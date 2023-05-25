@@ -26,6 +26,12 @@ ToPrimaryButtonSkin >> builtBackgroundHover [
 ]
 
 { #category : #built }
+ToPrimaryButtonSkin >> builtBackgroundPressed [ 
+
+	^ self theme colorPrimaryPressed
+]
+
+{ #category : #built }
 ToPrimaryButtonSkin >> builtBorder [
 
 	^ nil
@@ -33,6 +39,12 @@ ToPrimaryButtonSkin >> builtBorder [
 
 { #category : #built }
 ToPrimaryButtonSkin >> builtBorderHover [
+
+	^ nil
+]
+
+{ #category : #built }
+ToPrimaryButtonSkin >> builtBorderPressed [
 
 	^ nil
 ]

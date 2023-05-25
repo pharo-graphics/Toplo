@@ -45,6 +45,16 @@ ToDashedButtonSkin >> builtBorderHoverBuilder [
 ]
 
 { #category : #built }
+ToDashedButtonSkin >> builtBorderPressedBuilder [
+
+	| builder |
+	builder := super builtBorderPressedBuilder.
+	builder paint: self theme colorPrimaryPressed.
+	builder dashArray: self theme dashed.
+	^ builder
+]
+
+{ #category : #built }
 ToDashedButtonSkin >> builtDefaultSize [
 
 	^ 0 @ (self theme controlHeight)

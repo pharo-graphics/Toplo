@@ -17,6 +17,12 @@ ToDangerTextButtonSkin >> builtBackgroundHover [
 ]
 
 { #category : #built }
+ToDangerTextButtonSkin >> builtBackgroundPressed [ 
+
+	^ self theme colorErrorBg
+]
+
+{ #category : #built }
 ToDangerTextButtonSkin >> imageSkinType [
 
 	^ ToDangerHoverImageSkin type

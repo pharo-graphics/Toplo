@@ -26,6 +26,12 @@ ToTextButtonSkin >> builtBackgroundHover [
 ]
 
 { #category : #built }
+ToTextButtonSkin >> builtBackgroundPressed [ 
+
+	^ self theme colorBgTextActive
+]
+
+{ #category : #built }
 ToTextButtonSkin >> builtBorder [
 
 	^ nil
@@ -33,6 +39,12 @@ ToTextButtonSkin >> builtBorder [
 
 { #category : #built }
 ToTextButtonSkin >> builtBorderHover [
+
+	^ nil
+]
+
+{ #category : #built }
+ToTextButtonSkin >> builtBorderPressed [
 
 	^ nil
 ]

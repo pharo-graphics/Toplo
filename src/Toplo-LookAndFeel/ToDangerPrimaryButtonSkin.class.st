@@ -21,3 +21,9 @@ ToDangerPrimaryButtonSkin >> builtBackgroundHover [
 
 	^ self theme colorErrorHover
 ]
+
+{ #category : #built }
+ToDangerPrimaryButtonSkin >> builtBackgroundPressed [ 
+
+	^ self theme colorError darker
+]

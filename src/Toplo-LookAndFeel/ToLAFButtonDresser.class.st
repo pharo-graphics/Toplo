@@ -71,6 +71,34 @@ ToLAFButtonDresser >> leaved: anElement [
 	self initialState: anElement.
 ]
 
+{ #category : #'events handling' }
+ToLAFButtonDresser >> leftClicked: anElement event: anEvent [
+
+	super leftClicked: anElement event: anEvent.
+	"self restoreUnpressedState."
+	
+	self hover: anElement event: anEvent
+]
+
+{ #category : #'events handling' }
+ToLAFButtonDresser >> leftPressed: anElement event: anEvent [
+	| label image |
+
+	"self savePressedState"
+	
+	"update main element"
+	self background: self skin backgroundPressed in: anElement.
+	self border: self skin borderPressed in: anElement.
+
+	"label event dispatch"
+	label := anElement label.
+	(label notNil and:[label dresser notNil]) ifTrue:[ label dresser leftPressed: label event: anEvent ].
+	
+	"icon event dispatch"
+	image := anElement icon.
+	(image notNil and:[image dresser notNil]) ifTrue:[ image dresser leftPressed: image event: anEvent ].
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToLAFButtonDresser >> onInstalledIn: anElement [
 

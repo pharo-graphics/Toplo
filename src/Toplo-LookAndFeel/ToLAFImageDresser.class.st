@@ -38,6 +38,12 @@ ToLAFImageDresser >> isSkinCompatible: aSkin [
 	^ aSkin isKindOf: ToAbstractImageSkin
 ]
 
+{ #category : #'events handling' }
+ToLAFImageDresser >> leftPressed: aToImage event: aBlMouseDownEvent [ 
+		
+	"do nothing"
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToLAFImageDresser >> onInstalledIn: aToImage [
 

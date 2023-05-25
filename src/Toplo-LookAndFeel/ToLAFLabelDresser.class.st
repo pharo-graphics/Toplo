@@ -40,6 +40,12 @@ ToLAFLabelDresser >> isSkinCompatible: aSkin [
 	^ aSkin isKindOf: ToAbstractLabelSkin
 ]
 
+{ #category : #'events handling' }
+ToLAFLabelDresser >> leftPressed: aToLabel event: aBlMouseDownEvent [ 
+	
+	"do nothing"
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToLAFLabelDresser >> onInstalledIn: aToLabel [
 

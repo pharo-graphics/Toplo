@@ -226,6 +226,13 @@ ToTheme >> colorPrimaryHover [
 ]
 
 { #category : #colors }
+ToTheme >> colorPrimaryPressed [
+	"Hover state under the main color gradient"
+	
+	^ self colorPrimary darker
+]
+
+{ #category : #colors }
 ToTheme >> colorSuccess [
 	"Used to represent the token sequence of operation success, such as Result, Progress and other components will use these map tokens"
 

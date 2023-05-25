@@ -29,6 +29,15 @@ ToDangerButtonSkin >> builtBorderHoverBuilder [
 ]
 
 { #category : #built }
+ToDangerButtonSkin >> builtBorderPressedBuilder [
+
+	| builder |
+	builder := super builtBorderPressedBuilder.
+	builder paint: self theme colorError darker.
+	^ builder
+]
+
+{ #category : #built }
 ToDangerButtonSkin >> imageSkinType [
 
 	^ ToDangerHoverImageSkin type

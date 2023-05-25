@@ -26,6 +26,12 @@ ToLinkButtonSkin >> builtBackgroundHover [
 ]
 
 { #category : #built }
+ToLinkButtonSkin >> builtBackgroundPressed [ 
+
+	^ Color transparent
+]
+
+{ #category : #built }
 ToLinkButtonSkin >> builtBorder [
 
 	^ nil
@@ -33,6 +39,12 @@ ToLinkButtonSkin >> builtBorder [
 
 { #category : #built }
 ToLinkButtonSkin >> builtBorderHover [
+
+	^ nil
+]
+
+{ #category : #built }
+ToLinkButtonSkin >> builtBorderPressed [
 
 	^ nil
 ]

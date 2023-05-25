@@ -23,6 +23,12 @@ ToDefaultRadioButtonSkin >> builtBackgroundHover [
 ]
 
 { #category : #built }
+ToDefaultRadioButtonSkin >> builtBackgroundPressed [ 
+
+	^ nil
+]
+
+{ #category : #built }
 ToDefaultRadioButtonSkin >> builtBorder [
 
 	^ (BlBorder paint: self theme colorBorder width: self theme lineWidth)

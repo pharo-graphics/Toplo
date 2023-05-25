@@ -55,6 +55,7 @@ ToLAFExamples class >> example_ButtonSkins [
 	
 	button1 := ToButton skinType: #primary.
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button1 width: 300.
 	button2 := ToButton skinType: #default.
 	button2 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 	button3 := ToButton skinType: #dashed.

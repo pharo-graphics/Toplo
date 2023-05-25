@@ -31,5 +31,5 @@ ToDangerTextButtonSkin >> imageSkinType [
 { #category : #built }
 ToDangerTextButtonSkin >> labelSkinType [
 
-	^ ToDangerHoverLabelSkin type
+	^ ToDangerButtonLabelSkin type
 ]

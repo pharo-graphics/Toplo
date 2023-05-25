@@ -229,7 +229,7 @@ ToTheme >> colorPrimaryHover [
 ToTheme >> colorPrimaryPressed [
 	"Hover state under the main color gradient"
 	
-	^ self colorPrimary darker
+	^ self colorPrimary darker darker
 ]
 
 { #category : #colors }

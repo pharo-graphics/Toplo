@@ -90,5 +90,5 @@ ToDashedButtonSkin >> imageSkinType [
 { #category : #built }
 ToDashedButtonSkin >> labelSkinType [
 
-	^ ToDefaultHoverLabelSkin type
+	^ ToDefaultButtonLabelSkin type
 ]

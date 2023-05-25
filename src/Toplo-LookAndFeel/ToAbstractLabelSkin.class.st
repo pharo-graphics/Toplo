@@ -15,10 +15,17 @@ ToAbstractLabelSkin >> buildTokens [
 
 	super buildTokens.
 	
+	"active states"
 	self token: #foreground value: self builtForeground.
 	self token: #textAttributes value: self builtTextAttributes.
+	
+	"hover states"
 	self token: #foregroundHover value: self builtForegroundHover.
-	self token: #textAttributesHover value: self builtTextAttributesHover
+	self token: #textAttributesHover value: self builtTextAttributesHover.
+	
+	"pressed states"
+	self token: #foregroundPressed value: self builtForegroundPressed.
+	self token: #textAttributesPressed value: self builtTextAttributesPressed.
 ]
 
 { #category : #built }
@@ -34,6 +41,12 @@ ToAbstractLabelSkin >> builtForegroundHover [
 ]
 
 { #category : #built }
+ToAbstractLabelSkin >> builtForegroundPressed [
+
+	^ self builtForeground
+]
+
+{ #category : #built }
 ToAbstractLabelSkin >> builtTextAttributes [
 
 	^ self subclassResponsibility
@@ -41,6 +54,12 @@ ToAbstractLabelSkin >> builtTextAttributes [
 
 { #category : #built }
 ToAbstractLabelSkin >> builtTextAttributesHover [
+
+	^ self builtTextAttributes
+]
+
+{ #category : #built }
+ToAbstractLabelSkin >> builtTextAttributesPressed [
 
 	^ self builtTextAttributes
 ]
@@ -58,6 +77,12 @@ ToAbstractLabelSkin >> foregroundHover [
 ]
 
 { #category : #tokens }
+ToAbstractLabelSkin >> foregroundPressed [
+
+	^ self token: #foregroundPressed
+]
+
+{ #category : #tokens }
 ToAbstractLabelSkin >> textAttributes [
 
 	^ self token: #textAttributes
@@ -67,4 +92,10 @@ ToAbstractLabelSkin >> textAttributes [
 ToAbstractLabelSkin >> textAttributesHover [
 
 	^ self token: #textAttributesHover
+]
+
+{ #category : #tokens }
+ToAbstractLabelSkin >> textAttributesPressed [
+
+	^ self token: #textAttributesPressed
 ]

@@ -46,5 +46,5 @@ ToDangerDashedButtonSkin >> imageSkinType [
 { #category : #built }
 ToDangerDashedButtonSkin >> labelSkinType [
 
-	^ ToDangerHoverLabelSkin type
+	^ ToDangerButtonLabelSkin type
 ]

@@ -19,5 +19,5 @@ ToDangerLinkButtonSkin >> imageSkinType [
 { #category : #built }
 ToDangerLinkButtonSkin >> labelSkinType [
 
-	^ ToDangerHoverLabelSkin type
+	^ ToDangerButtonLabelSkin type
 ]

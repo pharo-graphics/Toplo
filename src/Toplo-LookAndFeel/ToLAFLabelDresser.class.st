@@ -41,9 +41,11 @@ ToLAFLabelDresser >> isSkinCompatible: aSkin [
 ]
 
 { #category : #'events handling' }
-ToLAFLabelDresser >> leftPressed: aToLabel event: aBlMouseDownEvent [ 
+ToLAFLabelDresser >> leftPressed: anElement event: aBlMouseDownEvent [ 
 	
-	"do nothing"
+	"update main element"
+	self foreground: self skin foregroundPressed in: anElement.
+	self textAttributes: self skin textAttributesPressed in: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }

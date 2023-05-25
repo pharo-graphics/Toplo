@@ -79,5 +79,5 @@ ToDefaultButtonSkin >> imageSkinType [
 { #category : #built }
 ToDefaultButtonSkin >> labelSkinType [
 
-	^ ToDefaultHoverLabelSkin type
+	^ ToDefaultButtonLabelSkin type
 ]

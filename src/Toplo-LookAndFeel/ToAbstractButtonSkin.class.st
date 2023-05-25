@@ -81,7 +81,7 @@ ToAbstractButtonSkin >> builtBackgroundHover [
 { #category : #built }
 ToAbstractButtonSkin >> builtBackgroundPressed [ 
 
-	^ self theme colorBgContainer
+	^ self subclassResponsibility
 ]
 
 { #category : #built }

@@ -26,6 +26,12 @@ ToDashedButtonSkin >> builtBackgroundHover [
 ]
 
 { #category : #built }
+ToDashedButtonSkin >> builtBackgroundPressed [ 
+
+	^ self theme colorBgContainer
+]
+
+{ #category : #built }
 ToDashedButtonSkin >> builtBorderBuilder [
 
 	| builder |

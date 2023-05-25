@@ -124,7 +124,7 @@ ToDefaultRadioButtonSkin >> builtUncheckedBorder [
 { #category : #'private - tokens' }
 ToDefaultRadioButtonSkin >> builtUncheckedBorderHover [
 
-	^ (BlBorder paint: self theme colorBorder width: 1)
+	^ (BlBorder paint: self theme colorPrimary width: 1)
 ]
 
 { #category : #'private - tokens' }

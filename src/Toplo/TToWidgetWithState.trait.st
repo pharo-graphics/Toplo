@@ -35,7 +35,10 @@ TToWidgetWithState >> resetWidgetStates [
 { #category : #'t - accessing state' }
 TToWidgetWithState >> setUpStatesWith: aCollectionOfStates [
 
-	| curr states |
+	| curr states previousState |
+	
+	previousState := self currentState.
+	
 	self currentState: nil.
 	aCollectionOfStates ifEmpty: [ ^self ].
 	states := aCollectionOfStates copy asOrderedCollection.
@@ -45,7 +48,12 @@ TToWidgetWithState >> setUpStatesWith: aCollectionOfStates [
 		curr next: states removeFirst.
 		curr := curr next ].
 	curr next: self currentState.
-	self switchToStartState
+	
+	(previousState isNil or:[ (self stateNamed: previousState name) isNil]) 
+		ifTrue: [ self switchToStartState ] 
+		ifFalse: [ self currentState: (self stateNamed: (previousState name))]
+	
+	
 ]
 
 { #category : #'t - accessing state' }

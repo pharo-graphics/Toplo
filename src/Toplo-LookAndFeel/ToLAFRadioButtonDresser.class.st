@@ -204,35 +204,18 @@ ToLAFRadioButtonDresser >> onUninstalledIn: anElement [
 { #category : #'events handling' }
 ToLAFRadioButtonDresser >> withIndeterminateIn: anElement [
 
-
-	"Check if the radio button is already checked or not or already undeterminate or not"
-	| isChecked isIndeterminated |
-	isChecked := (anElement currentState notNil and:[anElement currentState name = #checked]).
-	isChecked ifFalse:[
-		isIndeterminated := (anElement currentState notNil and:[anElement currentState name = #indeterminate]).
-	].
-
 	anElement setUpStatesWith: { 
 			self defaultIndeterminateState.
 			self defaultCheckedState.
 			self defaultUncheckedState }.
-			
-	isChecked ifTrue:[anElement currentState: (anElement stateNamed: #checked)] ifFalse:[
-		isIndeterminated ifTrue:[anElement currentState: (anElement stateNamed: #indeterminate)].	
-	].
 
 ]
 
 { #category : #'events handling' }
 ToLAFRadioButtonDresser >> withoutIndeterminateIn: anElement [
 
-	"Check if the radio button is already checked or not"
-	| isChecked |
-	isChecked := (anElement currentState notNil and:[anElement currentState name = #checked]).
-
 	anElement setUpStatesWith: { 
 			self defaultUncheckedState.
 			self defaultCheckedState }.
-			
-	isChecked ifTrue:[anElement currentState: (anElement stateNamed: #checked)].
+
 ]

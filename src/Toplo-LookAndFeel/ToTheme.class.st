@@ -232,6 +232,13 @@ ToTheme >> colorPrimaryPressed [
 	^ self colorPrimary darker darker
 ]
 
+{ #category : #border }
+ToTheme >> colorRadioButtonBackground [
+	"https://ant.design/components/button#design-token"
+	
+	^ Color transparent
+]
+
 { #category : #colors }
 ToTheme >> colorSuccess [
 	"Used to represent the token sequence of operation success, such as Result, Progress and other components will use these map tokens"

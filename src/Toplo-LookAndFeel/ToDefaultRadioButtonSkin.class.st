@@ -13,25 +13,25 @@ ToDefaultRadioButtonSkin class >> type [
 { #category : #built }
 ToDefaultRadioButtonSkin >> builtBackground [ 
 
-	^ self theme colorBgContainer
+	^ self theme colorRadioButtonBackground
 ]
 
 { #category : #built }
 ToDefaultRadioButtonSkin >> builtBackgroundHover [ 
 
-	^ self theme colorBgContainer
+	^ self theme colorRadioButtonBackground
 ]
 
 { #category : #built }
 ToDefaultRadioButtonSkin >> builtBorder [
 
-	^nil
+	^ (BlBorder paint: self theme colorBorder width: 1)
 ]
 
 { #category : #built }
 ToDefaultRadioButtonSkin >> builtBorderHover [
 
-	^nil
+	^ (BlBorder paint: self theme colorPrimary width: 1)
 ]
 
 { #category : #built }
@@ -67,19 +67,20 @@ ToDefaultRadioButtonSkin >> builtCheckedGeometry [
 { #category : #built }
 ToDefaultRadioButtonSkin >> builtCheckedMargin [
 
-	^ BlInsets all: 1
+	^ BlInsets all: 0
+	
 ]
 
 { #category : #built }
 ToDefaultRadioButtonSkin >> builtCheckedSize [ 
 
-	^ 17 asPoint
+	^ 20 asPoint
 ]
 
 { #category : #built }
 ToDefaultRadioButtonSkin >> builtDefaultSize [
 
-	^ 0 @ (self theme controlHeight)
+	^ 20 asPoint
 ]
 
 { #category : #built }
@@ -91,7 +92,7 @@ ToDefaultRadioButtonSkin >> builtGeometry [
 { #category : #built }
 ToDefaultRadioButtonSkin >> builtPadding [ 
 
-	^ BlInsets all: 3
+	^ BlInsets all: 0
 ]
 
 { #category : #built }
@@ -106,25 +107,25 @@ ToDefaultRadioButtonSkin >> builtShadow [
 { #category : #'private - tokens' }
 ToDefaultRadioButtonSkin >> builtUncheckedBackground [
 
-	^ self theme colorBgContainer
+	^ self theme colorRadioButtonBackground
 ]
 
 { #category : #'private - tokens' }
 ToDefaultRadioButtonSkin >> builtUncheckedBackgroundHover [
 
-	^  self theme colorBgContainer
+	^ self theme colorRadioButtonBackground
 ]
 
 { #category : #'private - tokens' }
 ToDefaultRadioButtonSkin >> builtUncheckedBorder [
 
-	^ (BlBorder paint: self theme colorBorder width: 1)
+	^ (BlBorder paint: self theme colorRadioButtonBackground width: 1)
 ]
 
 { #category : #'private - tokens' }
 ToDefaultRadioButtonSkin >> builtUncheckedBorderHover [
 
-	^ (BlBorder paint: self theme colorPrimary width: 1)
+	^ (BlBorder paint: self theme colorRadioButtonBackground width: 1)
 ]
 
 { #category : #'private - tokens' }

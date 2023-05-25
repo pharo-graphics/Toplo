@@ -13,7 +13,7 @@ ToDangerLinkButtonSkin class >> type [
 { #category : #built }
 ToDangerLinkButtonSkin >> imageSkinType [
 
-	^ ToDangerHoverImageSkin type
+	^ ToDangerButtonImageSkin type
 ]
 
 { #category : #built }

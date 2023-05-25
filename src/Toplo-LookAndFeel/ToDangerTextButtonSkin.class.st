@@ -25,7 +25,7 @@ ToDangerTextButtonSkin >> builtBackgroundPressed [
 { #category : #built }
 ToDangerTextButtonSkin >> imageSkinType [
 
-	^ ToDangerHoverImageSkin type
+	^ ToDangerButtonImageSkin type
 ]
 
 { #category : #built }

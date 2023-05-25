@@ -15,8 +15,14 @@ ToAbstractImageSkin >> buildTokens [
 
 	super buildTokens.
 	
+	"active"
 	self token: #foreground value: self builtForeground.
-	self token: #foregroundHover value: self builtForegroundHover
+	
+	"hover"
+	self token: #foregroundHover value: self builtForegroundHover.
+	
+	"pressed"
+	self token: #foregroundPressed value: self builtForegroundPressed.
 ]
 
 { #category : #built }
@@ -31,6 +37,12 @@ ToAbstractImageSkin >> builtForegroundHover [
 	^ self builtForeground
 ]
 
+{ #category : #built }
+ToAbstractImageSkin >> builtForegroundPressed [
+
+	^ self builtForeground
+]
+
 { #category : #tokens }
 ToAbstractImageSkin >> foreground [
 
@@ -41,4 +53,10 @@ ToAbstractImageSkin >> foreground [
 ToAbstractImageSkin >> foregroundHover [
 
 	^ self token: #foregroundHover
+]
+
+{ #category : #tokens }
+ToAbstractImageSkin >> foregroundPressed [
+
+	^ self token: #foregroundPressed
 ]

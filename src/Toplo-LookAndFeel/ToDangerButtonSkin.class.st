@@ -40,7 +40,7 @@ ToDangerButtonSkin >> builtBorderPressedBuilder [
 { #category : #built }
 ToDangerButtonSkin >> imageSkinType [
 
-	^ ToDangerHoverImageSkin type
+	^ ToDangerButtonImageSkin type
 ]
 
 { #category : #built }

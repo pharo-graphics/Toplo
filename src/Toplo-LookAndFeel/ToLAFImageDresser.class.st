@@ -39,9 +39,10 @@ ToLAFImageDresser >> isSkinCompatible: aSkin [
 ]
 
 { #category : #'events handling' }
-ToLAFImageDresser >> leftPressed: aToImage event: aBlMouseDownEvent [ 
-		
-	"do nothing"
+ToLAFImageDresser >> leftPressed: anElement event: aBlMouseDownEvent [ 
+	
+	"update main element"
+	self foreground: self skin foregroundPressed in: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }

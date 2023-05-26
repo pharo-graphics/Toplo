@@ -159,7 +159,7 @@ ToInnerWindow >> initialize [
 ToInnerWindow >> maximize [
 
 	self
-		relocate: 0 @ 0;
+		position: 0 @ 0;
 		size: self parent size
 ]
 

@@ -146,6 +146,12 @@ ToComboBox >> hasSelectedData [
 ]
 
 { #category : #accessing }
+ToComboBox >> headElement [
+
+	^ headElement
+]
+
+{ #category : #accessing }
 ToComboBox >> headElementFactory: aValuable [
 	" is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
 
@@ -299,7 +305,7 @@ ToComboBox >> popupEvent: anEvent [
 
 	self isOpened ifTrue: [ ^ self ].
 	self listFrame popupEvent: anEvent.
-	self selectIndex: self selectedIndex
+	"self selectIndex: self selectedIndex"
 ]
 
 { #category : #displaying }
@@ -357,12 +363,26 @@ ToComboBox >> scrollToIndex: anIndex [
 ]
 
 { #category : #accessing }
+ToComboBox >> selectData: aData [
+
+	| prev curr |
+	prev := self selectedIndex.
+	curr := self data indexOf: aData.
+	self privateSelectedIndex: curr.
+	prev = curr ifFalse: [ self updateHeadContent ].
+	self selectedIndex isZero ifTrue: [ ^ self ].
+	listElement whenLayoutedDoOnce: [
+		self listElement selectIndex: self selectedIndex ].
+	self requestLayout
+]
+
+{ #category : #accessing }
 ToComboBox >> selectIndex: anIndex [
 
 	| prev |
 	prev := self selectedIndex.
 	self privateSelectedIndex: anIndex.
-	prev = anIndex ifFalse: [ self updateHeadContent ].
+	self updateHeadContent.
 	self selectedIndex isZero ifTrue: [ ^ self ].
 	listElement whenLayoutedDoOnce: [
 		self listElement selectIndex: self selectedIndex ].

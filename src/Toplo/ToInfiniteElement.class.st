@@ -124,7 +124,7 @@ ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 	prevIndexes := self primarySelectionIndexes copy.
 	aBlock value.
 	currentIndexes := self primarySelectionIndexes.
-	prevIndexes = currentIndexes ifTrue: [ 'x' traceCr. ^ self ].
+	prevIndexes = currentIndexes ifTrue: [ ^ self ].
 	self dispatchEvent: (ToInfiniteSelectionChangedEvent from: prevIndexes to: currentIndexes)
 ]
 

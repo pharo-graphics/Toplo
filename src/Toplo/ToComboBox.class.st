@@ -114,8 +114,7 @@ ToComboBox >> defaultListPlaceholder [
 { #category : #initialization }
 ToComboBox >> defaultMode [
 
-	^ ToComboBoxDataEditingMode new
-	"^ ToComboBoxSelectOnlyMode new"
+	^ ToComboBoxSelectOnlyMode new
 ]
 
 { #category : #initialization }
@@ -143,6 +142,12 @@ ToComboBox >> fitListElementToContent [
 ToComboBox >> hasSelectedData [
 
 	^ self selectedIndex > 0
+]
+
+{ #category : #accessing }
+ToComboBox >> headElement [
+
+	^ headElement
 ]
 
 { #category : #accessing }
@@ -299,7 +304,7 @@ ToComboBox >> popupEvent: anEvent [
 
 	self isOpened ifTrue: [ ^ self ].
 	self listFrame popupEvent: anEvent.
-	self selectIndex: self selectedIndex
+	"self selectIndex: self selectedIndex"
 ]
 
 { #category : #displaying }
@@ -357,12 +362,26 @@ ToComboBox >> scrollToIndex: anIndex [
 ]
 
 { #category : #accessing }
+ToComboBox >> selectData: aData [
+
+	| prev curr |
+	prev := self selectedIndex.
+	curr := self data indexOf: aData.
+	self privateSelectedIndex: curr.
+	prev = curr ifFalse: [ self updateHeadContent ].
+	self selectedIndex isZero ifTrue: [ ^ self ].
+	listElement whenLayoutedDoOnce: [
+		self listElement selectIndex: self selectedIndex ].
+	self requestLayout
+]
+
+{ #category : #accessing }
 ToComboBox >> selectIndex: anIndex [
 
 	| prev |
 	prev := self selectedIndex.
 	self privateSelectedIndex: anIndex.
-	prev = anIndex ifFalse: [ self updateHeadContent ].
+	self updateHeadContent.
 	self selectedIndex isZero ifTrue: [ ^ self ].
 	listElement whenLayoutedDoOnce: [
 		self listElement selectIndex: self selectedIndex ].

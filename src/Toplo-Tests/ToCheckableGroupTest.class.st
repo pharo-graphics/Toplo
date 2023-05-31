@@ -75,10 +75,13 @@ ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndSwitchToNextStateU
 			           id: m;
 			           beIconFirst ].
 	modelButtonsGroup addAll: buttons.
-	modelButtonsGroup checkingStrategy isKindOf: ToCheckableGroupStrictStrategy.
-	
+	self assert: modelButtonsGroup buttons size equals: 3.
+
+	modelButtonsGroup checkingStrategy isKindOf:
+		ToCheckableGroupStrictStrategy.
+
 	buttons do: [ :b | pane addChild: b ].
-	
+
 	buttons first switchToNextState.
 	self assert: buttons first isChecked.
 	self assert: buttons second isUnchecked.
@@ -95,6 +98,7 @@ ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndSwitchToNextStateU
 	buttons do: [ :b |
 		b dresser: nil.
 		b dresser: b defaultDresser ].
+	self assert: modelButtonsGroup buttons size equals: 3.
 	
 	buttons first switchToNextState.
 	self assert: buttons first isChecked.
@@ -107,9 +111,7 @@ ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndSwitchToNextStateU
 	buttons third switchToNextState.
 	self assert: buttons first isUnchecked.
 	self assert: buttons second isUnchecked.
-	self assert: buttons third isChecked.
-
-	
+	self assert: buttons third isChecked
 ]
 
 { #category : #tests }

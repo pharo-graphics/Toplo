@@ -19,7 +19,7 @@ TToWidgetWithState >> currentState [
 	^ currentState
 ]
 
-{ #category : #'t - accessing state' }
+{ #category : #'t - private state processing' }
 TToWidgetWithState >> currentState: aState [
 
 	currentState := aState
@@ -34,7 +34,6 @@ TToWidgetWithState >> resetWidgetStates [
 
 { #category : #'t - accessing state' }
 TToWidgetWithState >> setUpStatesWith: aCollectionOfStates [
-
 	| curr states previousState |
 	
 	previousState := self currentState.
@@ -62,7 +61,7 @@ TToWidgetWithState >> startState [
 	^ startState ifNil: [ self currentState ]
 ]
 
-{ #category : #'t - accessing state' }
+{ #category : #'t - private state processing' }
 TToWidgetWithState >> startState: aState [
 
 	startState := aState.

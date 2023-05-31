@@ -11,11 +11,3 @@ ToButton >> defaultDresser [
 
 	^ ToButtonDresser new
 ]
-
-{ #category : #'t - initialization dresser' }
-ToButton >> preInitializeDresser [ 
-	
-	super preInitializeDresser.
-
-	self initializePair
-]

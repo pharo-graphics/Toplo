@@ -31,9 +31,16 @@ ToTextScissor >> itemValueType: anObject [
 	for direct comparison, therefore can be any immutable object"
 
 	<return: #Symbol>
+	"^ self privateNextCount "
 	^ anObject isSeparator
-		  ifTrue: [ privateCount := privateCount + 1 ]
+		  ifTrue: [ self privateNextCount ]
 		  ifFalse: [ #letter ]
+]
+
+{ #category : #'private - pieces computation' }
+ToTextScissor >> privateNextCount [
+
+	^ privateCount := privateCount + 1
 ]
 
 { #category : #'private - pieces computation' }

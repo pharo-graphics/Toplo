@@ -36,7 +36,10 @@ ToImage >> initialize [
 	super initialize.
 	
 	self fitContent.
-	self innerImage: self defaultInnerImage
+	self innerImage: self defaultInnerImage.
+	
+	" I ** must be ** considered as a leaf of a UI element tree. Otherwise, click may not work on me. This is why my children are not allowed to manage mouse events. Related to https://github.com/plantec/Toplo/issues/41"
+	self preventChildrenMouseEvents.
 ]
 
 { #category : #accessing }
@@ -50,9 +53,12 @@ ToImage >> innerImage: anImage [
 
 	| element |
 	anImage = innerImage ifTrue: [ ^ self ].
-	self removeChildren.
-	element := anImage ifNil: [ self defaultInnerImage ] ifNotNil: [anImage asElement].
-	self addChild: element.
+	element := anImage
+		           ifNil: [ self defaultInnerImage ]
+		           ifNotNil: [ anImage asElement ].
+	innerImage
+		ifNil: [ self addChild: element ]
+		ifNotNil: [ self replaceChild: innerImage with: element ].
 	innerImage := element
 ]
 

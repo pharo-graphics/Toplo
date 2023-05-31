@@ -2,7 +2,6 @@ Class {
 	#name : #ToComboBoxHeadDresser,
 	#superclass : #ToGeneralButtonDresser,
 	#instVars : [
-		'addedToParentHandler',
 		'removedFromParentHandler',
 		'downShortcut',
 		'selectedIndexHandler',

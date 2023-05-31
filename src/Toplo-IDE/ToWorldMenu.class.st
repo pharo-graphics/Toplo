@@ -28,6 +28,18 @@ ToWorldMenu class >> menuExamplesLoginPage: aBuilder [
 ]
 
 { #category : #'menu - toplo - examples' }
+ToWorldMenu class >> menuExamplesLookAndFeel: aBuilder [
+	<worldMenu>
+	(aBuilder item: #ToploExamplesLookAndFeel)
+		parent: #ToploExamples;
+		order: 1;
+		label: 'Look and Feel examples';
+		help: 'Browse Toplo look and feel examples';
+		icon: (self iconNamed: #glamorousGo);
+		action:[ ToLAFExamples class browse ].
+]
+
+{ #category : #'menu - toplo - examples' }
 ToWorldMenu class >> menuExamplesSandBox: aBuilder [
 	<worldMenu>
 	(aBuilder item: #ToploExamplesSandBox)

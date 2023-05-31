@@ -93,5 +93,8 @@ ToAbstractButtonDresser >> uninstallEventListenersIn: anElement [
 
 	super uninstallEventListenersIn: anElement.
 	anElement removeEventHandler: clickCandidateHandler.
-	anElement removeEventHandler: clickActionLauncher
+	anElement removeEventHandler: clickActionLauncher.
+	
+	clickCandidateHandler := nil.
+	clickActionLauncher := nil.
 ]

@@ -53,6 +53,8 @@ ToMouseHandlingDresser >> initialState: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToMouseHandlingDresser >> installEventListenersIn: anElement [
 
+	super installEventListenersIn: anElement.
+
 	mouseDownHandler := self mouseDownHandlerIn: anElement.
 	mouseUpHandler := self mouseUpHandlerIn: anElement.
 	mouseClickHandler := self mouseClickHandlerIn: anElement.
@@ -178,12 +180,21 @@ ToMouseHandlingDresser >> rightUp: anElement event: anEvent [
 { #category : #'api - install/uninstall  hook' }
 ToMouseHandlingDresser >> uninstallEventListenersIn: anElement [
 
+	super uninstallEventListenersIn: anElement.
+
 	anElement removeEventHandler: mouseDownHandler.
 	anElement removeEventHandler: mouseUpHandler.
 	anElement removeEventHandler: mouseClickHandler.
 	anElement removeEventHandler: mouseDoubleClickHandler.
 	anElement removeEventHandler: mouseEnterHandler.
-	anElement removeEventHandler: mouseLeaveHandler
+	anElement removeEventHandler: mouseLeaveHandler.
+	
+	mouseDownHandler := nil.
+	mouseUpHandler := nil.
+	mouseClickHandler := nil.
+	mouseDoubleClickHandler := nil.
+	mouseEnterHandler := nil.
+	mouseLeaveHandler := nil.
 ]
 
 { #category : #'events handling' }

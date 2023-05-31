@@ -127,7 +127,11 @@ ToCheckBoxDresser >> onInstalledIn: anElement [
 ToCheckBoxDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
-	anElement unsubscribe: self
+	anElement
+		whenAnnouncement: ToStatesDefinitionChangedAnnouncement
+		do: [].
+	"anElement resetWidgetStates."
+	
 
 ]
 

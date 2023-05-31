@@ -4,9 +4,10 @@ Class {
 	#traits : 'TOBlLayoutResizable + TToDressable + TToWorldElement + TToWidgetWithContextMenu',
 	#classTraits : 'TOBlLayoutResizable classTrait + TToDressable classTrait + TToWorldElement classTrait + TToWidgetWithContextMenu classTrait',
 	#instVars : [
+		'holderFactory',
 		'nodeFactory',
-		'clickLauncher',
 		'selectedNodeFactory',
+		'clickLauncher',
 		'primarySelection',
 		'secondarySelection',
 		'keepSelectionOnFocused'
@@ -71,6 +72,12 @@ ToInfiniteElement >> data [
 ToInfiniteElement >> defaultDataSource [
 
 	^ self subclassResponsibility 
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> defaultHolderFactory [
+
+	^ [ :infinite | self holderClass new infiniteElement: infinite ] 
 ]
 
 { #category : #initialization }
@@ -153,6 +160,20 @@ ToInfiniteElement >> holderClass [
 	^ self subclassResponsibility 
 ]
 
+{ #category : #accessing }
+ToInfiniteElement >> holderFactory [
+
+	" aHolderfactory is a valuable which implement #value:. #value takes the infinite element as unique argument "
+	^ holderFactory
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> holderFactory: aHolderFactory [
+
+	" aHolderfactory is a valuable which implement #value:. #value takes the infinite element as unique argument "
+	holderFactory := aHolderFactory 
+]
+
 { #category : #initialization }
 ToInfiniteElement >> initialize [
 
@@ -165,6 +186,7 @@ ToInfiniteElement >> initialize [
 	self postInitializeDresser.
 	
 	self preserveSelectionOnFocused: self preserveSelectionOnFocusedByDefault.
+	self holderFactory: self defaultHolderFactory.
 	self nodeFactory: self defaultListNodeFactory.
 	self matchParent
 ]
@@ -214,6 +236,12 @@ ToInfiniteElement >> nodeAt: anIndex [
 	^ (self findElementHolderForDataSourcePosition: anIndex)
 		  ifNotNil: [ :holder | holder itemElement ]
 		  ifNil: [  ]
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> nodeClass [
+
+	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }

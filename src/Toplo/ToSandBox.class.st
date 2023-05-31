@@ -667,6 +667,32 @@ ToSandBox class >> example_ListWithoutSelection [
 	l openInOBlSpace
 ]
 
+{ #category : #list }
+ToSandBox class >> example_PicsumPhotosGallery [
+
+	| space list |
+
+	list := ToListElement new matchParent; yourself.
+	list nodeFactory: [ :anImageData |
+		ToPicsumPhotosGalleryImageElement new hMatchParent; vFitContent;
+			imageData: anImageData;
+			yourself ].
+
+	[
+	| images |
+	images := (STONJSON fromString: 'https://picsum.photos/list' asUrl retrieveContents)
+		             collect: [ :aDictionary | ToPicsumPhotosGalleryImageData fromDictionary: aDictionary ].
+	images sort: [ :a :b | a id > b id ].
+	list data addAll: images ] fork.
+
+	space := OBlSpace new
+		         extent: 400 @ 650;
+		         title: 'picsum.photos Gallery'.
+
+	space root addChild: list.
+	space show
+]
+
 { #category : #window }
 ToSandBox class >> example_Popup1 [
 
@@ -2095,7 +2121,7 @@ ToSandBox class >> example_toLabel1 [
 
 	| lab |
 	lab := ToLabel text: 'Hello world'.
-	lab openInNewSpace.
+	lab openInOBlSpace.
 
 ]
 

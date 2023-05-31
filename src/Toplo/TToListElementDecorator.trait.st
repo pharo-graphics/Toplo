@@ -55,6 +55,12 @@ TToListElementDecorator >> hasSelection [
 ]
 
 { #category : #'t - infinite accessing' }
+TToListElementDecorator >> holderFactory: aHolderFactory [
+
+	self next holderFactory: aHolderFactory
+]
+
+{ #category : #'t - infinite accessing' }
 TToListElementDecorator >> infinite [
 
 	^ self next infinite

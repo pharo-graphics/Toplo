@@ -15,6 +15,12 @@ ToPicsumPhotosGalleryImageElement >> applyLayoutIn: aBounds context: aBlElementB
 	super applyLayoutIn: aBounds context: aBlElementBoundsUpdateContext
 ]
 
+{ #category : #accessing }
+ToPicsumPhotosGalleryImageElement >> attached [
+
+	self loadImage
+]
+
 { #category : #'t - initialization dresser' }
 ToPicsumPhotosGalleryImageElement >> defaultDresser [ 
 
@@ -29,6 +35,13 @@ ToPicsumPhotosGalleryImageElement >> defaultLayout [
 { #category : #initialization }
 ToPicsumPhotosGalleryImageElement >> defaultWidth [
 	^ 500
+]
+
+{ #category : #accessing }
+ToPicsumPhotosGalleryImageElement >> detached [
+
+	loader ifNotNil: #terminate.
+	loader := nil
 ]
 
 { #category : #accessing }
@@ -51,9 +64,7 @@ ToPicsumPhotosGalleryImageElement >> imageData: aGalleryImageData [
 	imageData := aGalleryImageData.
 	label text: (('Image:: ', aGalleryImageData id asString) asRopedText
 		foreground: Color white;
-		fontSize: 14).
-	
-	self loadImage
+		fontSize: 14)
 ]
 
 { #category : #initialization }
@@ -67,27 +78,27 @@ ToPicsumPhotosGalleryImageElement >> initialize [
 
 { #category : #accessing }
 ToPicsumPhotosGalleryImageElement >> loadImage [
-	| anImage aForm |
+	| aForm |
 
 	loader ifNotNil: #terminate.
-	anImage := imageData.
 	aForm := form.
 	
-	(anImage form isNotNil and: [ anImage form extent = self extent asIntegerPoint ])
+	(imageData form isNotNil and: [ imageData form extent = self extent asIntegerPoint ])
 		ifTrue: [
-			aForm = anImage form ifFalse: [ self form: anImage form ].
+			aForm = imageData form ifFalse: [ self form: imageData form ].
 			^ self ].
 
 	loader := [
 		| aNewForm timesRetry aByteArray |
 		timesRetry := 0.
-		[ (aByteArray := ([(imageData loadUrl: self extent asIntegerPoint) asUrl retrieveContents] on: Error do: [] )) isNil and: [ timesRetry < 5 ] ] 
+		30 milliSeconds wait.
+		[ (aByteArray := ([(imageData loadUrl: self extent asIntegerPoint) asUrl retrieveContents] on: Error do: [] )) isNil and: [ loader notNil and: [ timesRetry < 5 ] ] ] 
 			whileTrue: [ timesRetry := timesRetry + 1 ].
 		aByteArray ifNotNil: [
-			aNewForm := Form fromBinaryStream: aByteArray readStream.
-			anImage form: aNewForm.
-			imageData = anImage
-				ifTrue: [ self enqueueTask: (BlTaskAction new action: [ self form: aNewForm ]) ] ] ] fork
+			loader ifNotNil: [ 
+				aNewForm := Form fromBinaryStream: aByteArray readStream.
+				imageData form: aNewForm.
+				self enqueueTask: (BlTaskAction new action: [ self form: aNewForm ]) ] ] ] fork
 ]
 
 { #category : #layout }

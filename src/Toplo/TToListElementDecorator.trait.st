@@ -193,6 +193,18 @@ TToListElementDecorator >> selectionDo: aBlock [
 ]
 
 { #category : #'t - infinite accessing' }
+TToListElementDecorator >> whenChildAttachedDo: aBlock [
+
+	self next whenChildAttachedDo: aBlock
+]
+
+{ #category : #'t - infinite accessing' }
+TToListElementDecorator >> whenChildDetachedDo: aBlock [
+
+	self next whenChildDetachedDo: aBlock
+]
+
+{ #category : #'t - infinite accessing' }
 TToListElementDecorator >> withRowNumbers [ 
 
 	self next withRowNumbers 

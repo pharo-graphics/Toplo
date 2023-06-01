@@ -670,7 +670,7 @@ ToSandBox class >> example_ListWithoutSelection [
 { #category : #list }
 ToSandBox class >> example_PicsumPhotosGallery [
 
-	| space list |
+	| space list vscrollBar |
 
 	list := ToListElement new matchParent; yourself.
 	list nodeFactory: [ :anImageData |
@@ -685,11 +685,23 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	images sort: [ :a :b | a id > b id ].
 	list data addAll: images ] fork.
 
+	list whenChildDetachedDo: [ :event | event element detached ].
+	list whenChildAttachedDo: [ :event | event element attached ].
+
+	vscrollBar := OBlVerticalScrollbarElement new.
+	vscrollBar constraintsDo: [ :c |
+		c ignoreByLayout.
+		c margin: (BlInsets right: 0).
+		c ignored horizontal alignRight.
+		c ignored vertical alignBottom ].
+	vscrollBar attachTo: list infinite.
+
 	space := OBlSpace new
 		         extent: 400 @ 650;
 		         title: 'picsum.photos Gallery'.
 
 	space root addChild: list.
+	space root addChild: vscrollBar.
 	space show
 ]
 

@@ -112,18 +112,6 @@ ToInfiniteElement >> deselectAll [
 	to: self
 ]
 
-{ #category : #dispatching }
-ToInfiniteElement >> dispatchChildAttached: anElement [
-	
-	super dispatchChildAttached: anElement
-]
-
-{ #category : #dispatching }
-ToInfiniteElement >> dispatchChildDetached: anElement [
-	
-	super dispatchChildDetached: anElement
-]
-
 { #category : #'selection events' }
 ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 
@@ -465,6 +453,18 @@ ToInfiniteElement >> terminateClickLauncher [
 
 	clickLauncher ifNotNil: #terminate.
 	clickLauncher := nil.
+]
+
+{ #category : #dispatching }
+ToInfiniteElement >> whenChildAttachedDo: aBlock [
+
+	self when: OBlInfiniteElementAttachedEvent do: aBlock
+]
+
+{ #category : #dispatching }
+ToInfiniteElement >> whenChildDetachedDo: aBlock [
+
+	self when: OBlInfiniteElementDetachedEvent do: aBlock
 ]
 
 { #category : #'selection events' }

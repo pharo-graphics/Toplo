@@ -62,7 +62,7 @@ ToPicsumPhotosGalleryImageElement >> imageData: aGalleryImageData [
 		ifTrue: [ ^ self ].
 	form := nil.
 	imageData := aGalleryImageData.
-	label text: (('Image:: ', aGalleryImageData id asString) asRopedText
+	label text: ((aGalleryImageData id asString) asRopedText
 		foreground: Color white;
 		fontSize: 14)
 ]
@@ -70,7 +70,7 @@ ToPicsumPhotosGalleryImageElement >> imageData: aGalleryImageData [
 { #category : #initialization }
 ToPicsumPhotosGalleryImageElement >> initialize [
 	super initialize.
-	label := ToLabel new.
+	label := ToLabel new hFitContent; yourself.
 	label background: Color black.
 	self addChild: label.
 	self whenLayoutedDo: [ self loadImage ]

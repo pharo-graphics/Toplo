@@ -1620,6 +1620,24 @@ ToSandBox class >> example_toBasicButton3 [
 ]
 
 { #category : #button }
+ToSandBox class >> example_toBasicButton4 [
+
+	| but lab ico pane |
+	pane := ToPane new.
+	pane fitContent.
+	pane layout alignCenter.
+	lab := ToLabel new text: 'Button'.
+	ico := ToImage inner: (self iconNamed: #remove).
+	pane addChildren: { lab. ico }.
+	but := ToGeneralButton new dresser: ToGeneralButtonDresser new.
+	but matchParent.
+	but addChild: pane.
+	but layout alignCenter.
+	but whenClickedDo: [ self inform: 'clicked' ].
+	but openInOBlSpace 
+]
+
+{ #category : #button }
 ToSandBox class >> example_toBasicButtonModel0 [
 
 	| but |

@@ -80,17 +80,17 @@ ToPicsumPhotosGalleryImageElement >> loadImage [
 	(imageData form isNotNil and: [ imageData form extent = self extent asIntegerPoint ]) ifTrue: [	^ self ].
 
 	loader := [
-	          | aNewForm timesRetry aByteArray |
+	          | newForm timesRetry byteArray |
 	          timesRetry := 0.
 	          [
-	          (aByteArray := [
+	          (byteArray := [
 	                         (imageData loadUrl: self extent asIntegerPoint) asUrl retrieveContents ]
 		                         on: Error
 		                         do: [  ]) isNil and: [ timesRetry < 5 ] ]
 		          whileTrue: [ timesRetry := timesRetry + 1 ].
-	          aByteArray ifNotNil: [
-		          aNewForm := Form fromBinaryStream: aByteArray readStream.
-		          self enqueueTask: (BlTaskAction new action: [ self loadedForm: aNewForm ]) ] ] newProcess.
+	          byteArray ifNotNil: [
+		          newForm := Form fromBinaryStream: byteArray readStream.
+		          self enqueueTask: (BlTaskAction new action: [ self loadedForm: newForm ]) ] ] newProcess.
 	loader priority: Processor systemBackgroundPriority.
 	loader name: 'ToPicsum.photo Gallery element loader'.
 	loader resume

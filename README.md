@@ -18,6 +18,8 @@ Metacello new
 
 ![image](https://github.com/plantec/Toplo/assets/49183340/2e61623f-5844-4294-b87a-195dd6c1c636)
 
+<iframe src="https://giphy.com/embed/3BANEwMLZKoD0dgBrH" width="214" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/3BANEwMLZKoD0dgBrH">via GIPHY</a></p>
+
 ![image](https://github.com/plantec/Toplo/assets/49183340/a76ee5a2-1e2f-414f-8ab8-4dad71d4fc4f)
 
 A look and feel management is currently in development in a dedicated branch : dev-lookandfeel.

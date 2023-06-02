@@ -685,8 +685,8 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	images sort: [ :a :b | a id > b id ].
 	list data addAll: images ] fork.
 
-	list whenChildDetachedDo: [ :event | event element detached ].
 	list whenChildAttachedDo: [ :event | event element attached ].
+	list whenChildDetachedDo: [ :event | event element detached ].
 
 	vscrollBar := OBlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
@@ -697,7 +697,7 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	vscrollBar attachTo: list infinite.
 
 	space := OBlSpace new
-		         extent: 400 @ 650;
+		         extent: 200 @ 600;
 		         title: 'picsum.photos Gallery'.
 
 	space root addChild: list.

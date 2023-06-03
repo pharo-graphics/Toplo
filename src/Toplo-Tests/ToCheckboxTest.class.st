@@ -10,10 +10,8 @@ ToCheckboxTest >> testCheckUncheckStates [
 	| cb s |
 	cb := ToCheckbox new.
 	s := cb stateNamed: #checked.
-	self assert: s notNil.
 	self assert: s name equals: #checked.
 	s := cb stateNamed: #unchecked.
-	self assert: s notNil.
 	self assert: s name equals: #unchecked
 ]
 
@@ -25,7 +23,6 @@ ToCheckboxTest >> testIndeterminateState [
 	self should: [ s := cb stateNamed: #indeterminate ] raise: Error.
 	cb withIndeterminate.
 	s := cb stateNamed: #indeterminate.
-	self assert: s notNil.
 	self assert: s name equals: #indeterminate
 ]
 

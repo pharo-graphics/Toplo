@@ -20,5 +20,10 @@ ToListInfiniteElementTest >> testInfiniteWithOneElement [
 
 	| l |
 	l := ToListInfiniteElement new.
-	self assert: l data isEmpty
+	self assert: l data isEmpty.
+	l data add: self statesOfAmerica first.
+	self assert: l children size equals: 0.
+	l forceLayout.
+	self assert: l children size equals: 1.
+
 ]

@@ -24,7 +24,6 @@ TToCheckableWithIndeterminate >> hasIndeterminateState: aBoolean [
 { #category : #'t - checking protocol' }
 TToCheckableWithIndeterminate >> indeterminate [
 
-	self hasIndeterminateState ifFalse: [ ^ self ].
 	self switchToStateNamed: #indeterminate
 ]
 
@@ -37,8 +36,10 @@ TToCheckableWithIndeterminate >> isIndeterminate [
 { #category : #'t - checking protocol' }
 TToCheckableWithIndeterminate >> startIndeterminate [
 
+	| s |
 	self isIndeterminate ifTrue: [ ^ self ].
-	self startState: (self stateNamed: #indeterminate)
+	s := self stateNamed: #indeterminate.
+	self startState: s
 ]
 
 { #category : #'t - checking protocol' }

@@ -2458,41 +2458,42 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 
 	| but |
 	but := ToMultiStateButton new.
-	but setUpStatesWith: { 
+	but setUpStatesWith: {
 			(ToWidgetState new
-				 whenEnterDo: [ :ann | 
+				 whenEnterDo: [ :ann |
 					 ann widget
-						 icon: (ToImage inner:  (BlElement new
-								  size: 400 @ 400;
-								  background: Color blue));
+						 icon: (ToImage inner: (BlElement new
+										   size: 400 @ 400;
+										   background: Color blue));
 						 labelText: 'Big blue' ];
 				 yourself).
-			(ToWidgetState new name: #green;
-				 whenEnterDo: [ :ann | 
+			(ToWidgetState new
+				 name: #green;
+				 whenEnterDo: [ :ann |
 					 ann widget
-						 icon: (ToImage inner:  (BlElement new
-								  size: 20 @ 40;
-								  background: Color green));
+						 icon: (ToImage inner: (BlElement new
+										   size: 20 @ 40;
+										   background: Color green));
 						 labelText: 'Green' ];
 				 yourself).
 			(ToWidgetState new
-				 whenEnterDo: [ :ann | 
+				 whenEnterDo: [ :ann |
 					 ann widget
-						 icon: (ToImage inner:  (BlElement new
-								  size: 50 @ 50;
-								  background: Color black));
+						 icon: (ToImage inner: (BlElement new
+										   size: 50 @ 50;
+										   background: Color black));
 						 labelText: 'Black' ];
 				 yourself).
 			(ToWidgetState new
-				 whenEnterDo: [ :ann | 
+				 whenEnterDo: [ :ann |
 					 ann widget
-						 icon: (ToImage inner:  (BlElement new
-								  size: 100 @ 100;
-								  background: Color yellow));
+						 icon: (ToImage inner: (BlElement new
+										   size: 100 @ 100;
+										   background: Color yellow));
 						 labelText: 'Yellow' ];
 				 yourself) }.
 	but startState: (but stateNamed: #green).
-	but openInOBlSpace
+	but openInSpace
 ]
 
 { #category : #multistate }

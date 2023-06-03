@@ -464,16 +464,6 @@ TToObservableCollection >> removeLast: n [
 		interval: (s - n + 1 to: s)
 ]
 
-{ #category : #'t - observable collection removing' }
-TToObservableCollection >> replaceAllWith: aCollection [
-
-	self
-		notifyUpdateChangeAround: [
-			list removeAll.
-			list addAll: aCollection ]
-		interval: (1 to: self size)
-]
-
 { #category : #'t - observable collection accessing' }
 TToObservableCollection >> replaceFrom: start to: stop with: replacement [ 
 

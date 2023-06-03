@@ -12,7 +12,7 @@ ToObservableCollectionDataSource >> itemCount [
 	"Return the total number of items in the data set"
 	<return: #Number>
 
-	^ self list size
+	^ self list ifNil: [0] ifNotNil: [:l | l size]
 ]
 
 { #category : #accessing }

@@ -1,11 +1,22 @@
 Class {
 	#name : #ToTooltipWindowDresser,
-	#superclass : #ToDresser,
+	#superclass : #ToPopupWindowDresser,
 	#instVars : [
-		'eventHandler'
+		'eventHandler',
+		'widgetWithTooltipEventHandler'
 	],
 	#category : #'Toplo-Widget-Tooltip'
 }
+
+{ #category : #'api - install/uninstall  hook' }
+ToTooltipWindowDresser >> installWidget: newWidget in: anElement [
+
+	super installWidget: newWidget in: anElement.
+	newWidget ifNil: [ ^ self ].
+	widgetWithTooltipEventHandler := ToWidgetWithTooltipEventHandler new widget: newWidget.
+	newWidget addEventFilter: widgetWithTooltipEventHandler
+
+]
 
 { #category : #'api - install/uninstall  hook' }
 ToTooltipWindowDresser >> newEventHandler [
@@ -40,4 +51,13 @@ ToTooltipWindowDresser >> onUninstalledIn: anElement [
 	super onUninstalledIn: anElement.
 	anElement removeEventHandler: eventHandler.
 	eventHandler := nil
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToTooltipWindowDresser >> uninstallWidget: oldWidget in: anElement [
+
+	super uninstallWidget: oldWidget in: anElement.
+	oldWidget ifNil: [ ^ self ].
+	oldWidget removeEventFilter: widgetWithTooltipEventHandler
+
 ]

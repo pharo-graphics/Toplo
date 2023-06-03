@@ -321,7 +321,7 @@ ToSandBox class >> example_ListOneClass [
 			     columnWidth: 25;
 			     hMatchParent ].
 	l data addAll: { Smalltalk globals allClasses first }.
-	l openInOBlSpace
+	l openInSpace
 ]
 
 { #category : #list }
@@ -339,9 +339,8 @@ ToSandBox class >> example_ListWithAllClasses [
 
 	| l |
 	l := ToListElement new.
-	l data addAll:
-		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
-	l openInOBlSpace
+	l data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
+	l openInSpace
 ]
 
 { #category : #list }
@@ -401,7 +400,7 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 			     labelText: cls name;
 			     hMatchParent ].
 	l data addAll: Smalltalk globals allClasses.
-	l openInOBlSpace
+	l openInSpace
 ]
 
 { #category : #list }
@@ -544,31 +543,36 @@ ToSandBox class >> example_ListWithIndexedColors [
 ToSandBox class >> example_ListWithPanes [
 
 	| list |
-	list := ToListElement new 
-		withoutSelectionDecoration;
-		withRowNumbers;
-		nodeFactory: [ :collectible :holder |
-		        | title blContent |
-		        title := ToLabel new
-			                 id: #title;
-			                 text: collectible;
-			                 margin: (BlInsets all: 1);
-			                 padding: (BlInsets all: 1);
-			                 yourself.
-		        	blContent := ToPaneNodeExample new.
-					blContent addDresser: ToNodeDresser new.
-					blContent when: ToNodeHolderSelectedEvent do: [ 'S' traceCr ].
-					blContent when: ToNodeHolderDeselectedEvent do: [ 'D' traceCr ].
-		        blContent addChild: title at: 1.
-		        blContent vFitContent.
-		        blContent hMatchParent.
-		        blContent margin: (BlInsets all: 4).
-		        blContent padding: (BlInsets all: 12).
-		        blContent geometry: (BlRoundedRectangleGeometry cornerRadius: 6).
-		        blContent border: (BlBorder paint: Color lightGray).
-		        blContent ].
+	list := ToListElement new
+		        withoutSelectionDecoration;
+		        withRowNumbers;
+		        nodeFactory: [ :collectible :holder |
+			        | title blContent |
+			        title := ToLabel new
+				                 id: #title;
+				                 text: collectible;
+				                 margin: (BlInsets all: 1);
+				                 padding: (BlInsets all: 1);
+				                 yourself.
+			        blContent := ToPaneNodeExample new.
+			        blContent addDresser: ToNodeDresser new.
+			        blContent
+				        when: ToNodeHolderSelectedEvent
+				        do: [ 'S' traceCr ].
+			        blContent
+				        when: ToNodeHolderDeselectedEvent
+				        do: [ 'D' traceCr ].
+			        blContent addChild: title at: 1.
+			        blContent vFitContent.
+			        blContent hMatchParent.
+			        blContent margin: (BlInsets all: 4).
+			        blContent padding: (BlInsets all: 12).
+			        blContent geometry:
+				        (BlRoundedRectangleGeometry cornerRadius: 6).
+			        blContent border: (BlBorder paint: Color lightGray).
+			        blContent ].
 	list data addAll: (1 to: 1000).
-	list openInOBlSpace
+	list openInSpace
 ]
 
 { #category : #list }
@@ -582,22 +586,21 @@ ToSandBox class >> example_ListWithRowNumbers [
 			     hMatchParent ].
 	l data addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
-	l openInOBlSpace
+	l openInSpace
 ]
 
 { #category : #list }
 ToSandBox class >> example_ListWithSingleSelection [
 
 	| l |
-	l := ToListElement new
-		nodeFactory: [ :cls |
+	l := ToListElement new nodeFactory: [ :cls |
 		     ToCheckNode new
 			     labelText: cls name;
 			     columnWidth: 25;
 			     hMatchParent ].
 	l data addAll: Smalltalk globals allClasses.
 	l beSingleSelection.
-	l openInOBlSpace
+	l openInSpace
 ]
 
 { #category : #list }
@@ -656,15 +659,14 @@ ToSandBox class >> example_ListWithSpecificSelection [
 ToSandBox class >> example_ListWithoutSelection [
 
 	| l |
-	l := ToListElement new
-		nodeFactory: [ :cls |
+	l := ToListElement new nodeFactory: [ :cls |
 		     ToCheckNode new
 			     labelText: cls name;
 			     columnWidth: 25;
 			     hMatchParent ].
 	l data addAll: Smalltalk globals allClasses.
 	l beWithoutSelection.
-	l openInOBlSpace
+	l openInSpace
 ]
 
 { #category : #list }
@@ -2397,7 +2399,7 @@ ToSandBox class >> example_toMultiState1 [
 								  yourself) ].
 				 ann widget addAnimation: anim ] ]) }.
 	space := OBlSpace new.
-	space addChild: but.
+	space root addChild: but.
 	space show
 ]
 
@@ -2407,23 +2409,24 @@ ToSandBox class >> example_toMultiState2 [
 	| but space |
 	but := ToMultiStateButton new
 		       clipChildren: false;
-		       icon: (ToImage inner:  (BlElement new
-				        size: 100 @ 100;
-				        background: Color blue));
+		       icon: (ToImage inner: (BlElement new
+						         size: 100 @ 100;
+						         background: Color blue));
 		       labelText: ('Blue' asRopedText fontSize: 24).
-	but setUpStatesWith: { (ToWidgetState new whenExitDo: [ :ann | 
+	but setUpStatesWith: { (ToWidgetState new whenExitDo: [ :ann |
 			 | anim |
 			 anim := (BlTransformAnimation scale: 4) absolute
 				         duration: 100 milliSeconds;
 				         yourself.
-			 anim onFinishedDo: [ 
-				 ann widget addAnimation: ((BlTransformAnimation scale: 1) absolute
+			 anim onFinishedDo: [
+				 ann widget addAnimation:
+					 ((BlTransformAnimation scale: 1) absolute
 						  duration: 100 milliSeconds;
 						  yourself) ].
 			 ann widget addAnimation: anim ]) }.
 	space := OBlSpace new.
-	but relocate: 100 @ 100.
-	space addChild: but.
+	but position: 100 @ 100.
+	space root addChild: but.
 	space show
 ]
 
@@ -2433,13 +2436,13 @@ ToSandBox class >> example_toMultiState2_v2_do_not_work_well [
 	| but space |
 	but := ToMultiStateButton new
 		       clipChildren: false;
-		       element: (ToImage inner:  (BlElement new
-				        size: 100 @ 100;
-				        background: Color blue));
+		       icon: (ToImage inner: (BlElement new
+						         size: 100 @ 100;
+						         background: Color blue));
 		       labelText: ('Blue' asRopedText fontSize: 24).
-	but setUpStatesWith: { (ToWidgetState new whenExitDo: [ :ann | 
+	but setUpStatesWith: { (ToWidgetState new whenExitDo: [ :ann |
 			 | anim |
-			 anim := BlSequentialAnimation withAll: { 
+			 anim := BlSequentialAnimation withAll: {
 					         ((BlTransformAnimation scale: 4) absolute
 						          duration: 100 milliSeconds;
 						          yourself).
@@ -2448,8 +2451,8 @@ ToSandBox class >> example_toMultiState2_v2_do_not_work_well [
 						          yourself) }.
 			 ann widget addAnimation: anim ]) }.
 	space := OBlSpace new.
-	but relocate: 100 @ 100.
-	space addChild: but.
+	but position: 100 @ 100.
+	space root addChild: but.
 	space show
 ]
 
@@ -2500,75 +2503,74 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 
 	| but exitAnimation enterAnimation |
-	exitAnimation := [ 
+	exitAnimation := [
 	                 BlOpacityAnimation new
 		                 duration: 300 milliSeconds;
 		                 opacity: 0;
 		                 yourself ].
-	enterAnimation := [ 
+	enterAnimation := [
 	                  BlOpacityAnimation new
 		                  duration: 150 milliSeconds;
 		                  opacity: 1;
 		                  yourself ].
 
 	but := ToMultiStateButton new.
-	but setUpStatesWith: { 
+	but setUpStatesWith: {
 			(ToWidgetState new
-				 whenEnterDo: [ :ann | 
+				 whenEnterDo: [ :ann |
 					 | anim |
 					 anim := exitAnimation value.
-					 anim onFinishedDo: [ 
+					 anim onFinishedDo: [
 							 ann widget
-								 icon: (ToImage inner:  (BlElement new
-										  size: 100 @ 100;
-										  background: Color blue));
+								 icon: (ToImage inner: (BlElement new
+												   size: 100 @ 100;
+												   background: Color blue));
 								 labelText: ('Blue' asRopedText fontSize: 24);
 								 opacity: 0;
 								 addAnimation: enterAnimation value ].
 					 ann widget addAnimation: anim ];
 				 yourself).
 			(ToWidgetState new
-				 whenEnterDo: [ :ann | 
+				 whenEnterDo: [ :ann |
 					 | anim |
 					 anim := exitAnimation value.
-					 anim onFinishedDo: [ 
+					 anim onFinishedDo: [
 							 ann widget
-								 icon: (ToImage inner:  (BlElement new
-										  size: 100 @ 100;
-										  background: Color green));
+								 icon: (ToImage inner: (BlElement new
+												   size: 100 @ 100;
+												   background: Color green));
 								 labelText: ('Green' asRopedText fontSize: 24);
 								 opacity: 0;
 								 addAnimation: enterAnimation value ].
 					 ann widget addAnimation: anim ];
 				 yourself).
 			(ToWidgetState new
-				 whenEnterDo: [ :ann | 
+				 whenEnterDo: [ :ann |
 					 | anim |
 					 anim := exitAnimation value.
-					 anim onFinishedDo: [ 
+					 anim onFinishedDo: [
 							 ann widget
-								 icon: (ToImage inner:  (BlElement new
-										  size: 100 @ 100;
-										  background: Color black));
+								 icon: (ToImage inner: (BlElement new
+												   size: 100 @ 100;
+												   background: Color black));
 								 labelText: ('Black' asRopedText fontSize: 24);
 								 opacity: 0;
 								 addAnimation: enterAnimation value ].
 					 ann widget addAnimation: anim ];
 				 yourself).
-			(ToWidgetState new
-				 whenEnterDo: [ :ann | 
-					 | anim |
-					 anim := exitAnimation value.
-					 anim onFinishedDo: [ 
-							 ann widget
-								 icon: (ToImage inner:  (BlElement new
-										  size: 100 @ 100;
-										  background: Color yellow));
-								 labelText: ('Yellow' asRopedText fontSize: 24);
-								 opacity: 0;
-								 addAnimation: enterAnimation value ].
-					 ann widget addAnimation: anim ]) }.
-	but  openInOBlSpace
+			(ToWidgetState new whenEnterDo: [ :ann |
+				 | anim |
+				 anim := exitAnimation value.
+				 anim onFinishedDo: [
+					 ann widget
+						 icon: (ToImage inner: (BlElement new
+										   size: 100 @ 100;
+										   background: Color yellow));
+						 labelText: ('Yellow' asRopedText fontSize: 24);
+						 opacity: 0;
+						 addAnimation: enterAnimation value ].
+				 ann widget addAnimation: anim ]) }.
+	but openInSpace
 ]
 
 { #category : #multistate }
@@ -2780,7 +2782,7 @@ ToSandBox class >> example_toggle [
 	win root addChildren: {
 			th.
 			tv }.
-	win openInOBlSpace
+	win openInSpace
 ]
 
 { #category : #pane }

@@ -3,8 +3,7 @@ Class {
 	#superclass : #ToPopupWindow,
 	#instVars : [
 		'#content => ObservableSlot',
-		'#label',
-		'#widgetWithTooltipEventHandler'
+		'#label'
 	],
 	#category : #'Toplo-Widget-Tooltip'
 }
@@ -59,15 +58,6 @@ ToTooltipWindow >> initialize [
 	self whenContentChangedDo: [ self label text: self content ]
 ]
 
-{ #category : #initialization }
-ToTooltipWindow >> installedInWidget: aWidget [
-
-	super installedInWidget: aWidget.
-	aWidget ifNil: [ ^ self ].
-	widgetWithTooltipEventHandler := ToWidgetWithTooltipEventHandler new widget: aWidget.
-	aWidget addEventFilter: widgetWithTooltipEventHandler
-]
-
 { #category : #accessing }
 ToTooltipWindow >> label [
 
@@ -81,15 +71,6 @@ ToTooltipWindow >> label: aLabel [
 	label := aLabel.
 	self root addChild: label.
 
-]
-
-{ #category : #initialization }
-ToTooltipWindow >> uninstalledFromWidget: aWidget [
-
-	super uninstalledFromWidget: aWidget.
-	aWidget ifNil: [ ^ self ].
-	aWidget removeEventFilter: widgetWithTooltipEventHandler.
-	widgetWithTooltipEventHandler := nil
 ]
 
 { #category : #initialization }

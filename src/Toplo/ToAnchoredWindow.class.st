@@ -39,8 +39,7 @@ ToAnchoredWindow >> detach [
 ToAnchoredWindow >> initialize [ 
 
 	super initialize.
-	self fitContent.
-	hook := self defaultHook.
+	self fitContent
 ]
 
 { #category : #start }

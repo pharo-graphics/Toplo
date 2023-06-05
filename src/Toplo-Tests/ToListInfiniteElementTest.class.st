@@ -26,7 +26,21 @@ ToListInfiniteElementTest >> testEmptyListAddOrRemoveNext [
 	self assert: l data isEmpty.
 	l forceLayout.
 	self assert: l selectedIndexes isEmpty.
-	l primarySelection selectPrevious.
+	l primarySelection addOrRemoveNext.
+	self assert: l primarySelection currentIndex isZero.
+	self assert: l primarySelection isTowardNext
+]
+
+{ #category : #'test - select next/previous' }
+ToListInfiniteElementTest >> testEmptyListAddOrRemovePrevious [
+
+	| l |
+	l := ToListInfiniteElement new.
+	l fitContent.
+	self assert: l data isEmpty.
+	l forceLayout.
+	self assert: l selectedIndexes isEmpty.
+	l primarySelection addOrRemovePrevious.
 	self assert: l primarySelection currentIndex isZero.
 	self assert: l primarySelection isTowardNext
 ]
@@ -83,6 +97,104 @@ ToListInfiniteElementTest >> testInfiniteWithOneElement [
 ]
 
 { #category : #'test - select next/previous' }
+ToListInfiniteElementTest >> testListWithFiveElementAddPreviousInSelection [
+
+	| l |
+	l := ToListInfiniteElement new.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l data size equals: 5.
+	l forceLayout.
+	self assert: l selectedIndexes isEmpty.
+	l primarySelection selectNext.
+	l primarySelection selectNext.
+	l primarySelection addToSelection: 4.
+	self assert: l primarySelection currentIndex equals: 4.
+	self assert: l selectedIndexes asArray equals: #(2 4).
+	l primarySelection addOrRemovePrevious.
+	self assert: l primarySelection currentIndex equals: 3.
+	self assert: l selectedIndexes asArray equals: #(2 3 4).
+	l primarySelection addOrRemovePrevious.
+	self assert: l primarySelection currentIndex equals: 2.
+	self assert: l selectedIndexes asArray equals: #(3 4).
+
+]
+
+{ #category : #'test - select next/previous' }
+ToListInfiniteElementTest >> testListWithOneElementAddOrRemoveNext [
+
+	| l |
+	l := ToListInfiniteElement new.
+	l fitContent.
+	l data add: self statesOfAmerica first.
+	l forceLayout.
+	self assert: l selectedIndexes isEmpty.
+	l primarySelection addOrRemoveNext.
+	self assert: l primarySelection currentIndex equals: 1.
+	self assert: l selectedIndex equals: 1.
+	l primarySelection addOrRemoveNext.
+	self assert: l primarySelection currentIndex equals: 1.
+	self assert: l selectedIndex equals: 1.
+
+]
+
+{ #category : #'test - select next/previous' }
+ToListInfiniteElementTest >> testListWithOneElementAddOrRemoveNext2 [
+
+	| l |
+	l := ToListInfiniteElement new.
+	l fitContent.
+	l data add: self statesOfAmerica first.
+	l forceLayout.
+	self assert: l selectedIndexes isEmpty.
+	l primarySelection addOrRemoveNext.
+	self assert: l primarySelection currentIndex equals: 1.
+	self assert: l selectedIndex equals: 1.
+	l primarySelection addOrRemovePrevious.
+	self assert: l primarySelection currentIndex equals: 1.
+	self assert: l selectedIndex equals: 1.
+
+]
+
+{ #category : #'test - select next/previous' }
+ToListInfiniteElementTest >> testListWithOneElementAddOrRemovePrevious [
+
+	| l |
+	l := ToListInfiniteElement new.
+	l fitContent.
+	l data add: self statesOfAmerica first.
+	l forceLayout.
+	self assert: l selectedIndexes isEmpty.
+	l selectIndex: 1.
+	l primarySelection addOrRemovePrevious.
+	self assert: l primarySelection currentIndex equals: 1.
+	self assert: l selectedIndex equals: 1.
+	l primarySelection addOrRemovePrevious.
+	self assert: l primarySelection currentIndex equals: 1.
+	self assert: l selectedIndex equals: 1.
+
+]
+
+{ #category : #'test - select next/previous' }
+ToListInfiniteElementTest >> testListWithOneElementAddOrRemovePrevious2 [
+
+	| l |
+	l := ToListInfiniteElement new.
+	l fitContent.
+	l data add: self statesOfAmerica first.
+	l forceLayout.
+	self assert: l selectedIndexes isEmpty.
+	l selectIndex: 1.
+	l primarySelection addOrRemovePrevious.
+	self assert: l primarySelection currentIndex equals: 1.
+	self assert: l selectedIndex equals: 1.
+	l primarySelection addOrRemoveNext.
+	self assert: l primarySelection currentIndex equals: 1.
+	self assert: l selectedIndex equals: 1.
+
+]
+
+{ #category : #'test - select next/previous' }
 ToListInfiniteElementTest >> testListWithOneElementSelectNext [
 
 	| l |
@@ -115,6 +227,72 @@ ToListInfiniteElementTest >> testListWithOneElementSelectPrevious [
 	l primarySelection selectPrevious.
 	self assert: l primarySelection currentIndex equals: 1.
 	self assert: l selectedIndex equals: 1.
+]
+
+{ #category : #'test - select next/previous' }
+ToListInfiniteElementTest >> testListWithTwoElementAddNextInSelection [
+
+	| l |
+	l := ToListInfiniteElement new.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 2).
+	self assert: l data size equals: 2.
+	l forceLayout.
+	self assert: l selectedIndexes isEmpty.
+	l primarySelection addOrRemoveNext.
+	self assert: l primarySelection currentIndex equals: 1.
+	self assert: l selectedIndexes asArray equals: #(1).
+	l primarySelection addOrRemoveNext.
+	self assert: l primarySelection currentIndex equals: 2.
+	self assert: l selectedIndexes asArray equals: #(1 2).
+	l primarySelection addOrRemoveNext.
+	self assert: l primarySelection currentIndex equals: 2.
+	self assert: l selectedIndexes asArray equals: #(1 2).
+
+]
+
+{ #category : #'test - select next/previous' }
+ToListInfiniteElementTest >> testListWithTwoElementAddPreviousInSelection [
+
+	| l |
+	l := ToListInfiniteElement new.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 2).
+	self assert: l data size equals: 2.
+	l forceLayout.
+	self assert: l selectedIndexes isEmpty.
+	l primarySelection selectPrevious.
+	self assert: l primarySelection currentIndex equals: 2.
+	self assert: l selectedIndexes asArray equals: #(2).
+	l primarySelection addOrRemovePrevious.
+	self assert: l primarySelection currentIndex equals: 1.
+	self assert: l selectedIndexes asArray equals: #(1 2).
+	l primarySelection addOrRemovePrevious.
+	self assert: l primarySelection currentIndex equals: 1.
+	self assert: l selectedIndexes asArray equals: #(1 2)
+
+]
+
+{ #category : #'test - select next/previous' }
+ToListInfiniteElementTest >> testListWithTwoElementRemovePreviousFromSelection [
+
+	| l |
+	l := ToListInfiniteElement new.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 2).
+	self assert: l data size equals: 2.
+	l forceLayout.
+	self assert: l selectedIndexes isEmpty.
+	l primarySelection addOrRemoveNext.
+	self assert: l primarySelection currentIndex equals: 1.
+	self assert: l selectedIndexes asArray equals: #(1).
+	l primarySelection addOrRemoveNext.
+	self assert: l primarySelection currentIndex equals: 2.
+	self assert: l selectedIndexes asArray equals: #(1 2).
+	l primarySelection addOrRemovePrevious.
+	self assert: l primarySelection currentIndex equals: 1.
+	self assert: l selectedIndexes asArray equals: #(1).
+
 ]
 
 { #category : #'test - select next/previous' }

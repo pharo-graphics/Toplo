@@ -35,41 +35,33 @@ ToSelectionStrategy >> addNextToSelection [
 { #category : #'selection managing' }
 ToSelectionStrategy >> addOrRemoveNext [
 
-	| nextIdx|
+	| nextIdx |
 	self currentIndex = dataSource itemCount ifTrue: [ ^ self ].
-	nextIdx := self isTowardNext 
-		        ifTrue: [ self currentIndex + 1 ]
-		        ifFalse: [ self currentIndex ].
+	nextIdx := self currentIndex + 1.
 	self markAsGoingTowardNext.
 
 	(self includes: nextIdx)
 		ifTrue: [
 			self selectedIndexes size > 1
-				ifTrue: [ self deselectIndex: nextIdx ]
-				ifFalse: [
-					nextIdx := nextIdx + 1.
-					self addToSelection: nextIdx ] ]
+				ifTrue: [ self deselectIndex: nextIdx - 1 ]
+				ifFalse: [ self addToSelection: nextIdx ] ]
 		ifFalse: [ self addToSelection: nextIdx ].
-	self currentIndex:  nextIdx
+	self currentIndex: nextIdx
 ]
 
 { #category : #'selection managing' }
 ToSelectionStrategy >> addOrRemovePrevious [
 
 	| nextIdx |
-	self currentIndex = 1 ifTrue: [ ^ self ].
-	nextIdx := self isTowardPrevious
-		        ifTrue: [ self currentIndex - 1 max: 1]
-		        ifFalse: [ self currentIndex ].
+	self currentIndex <= 1 ifTrue: [ ^ self ].
+	nextIdx := self currentIndex - 1.
 	self markAsGoingTowardPrevious.
 
 	(self includes: nextIdx)
 		ifTrue: [
 			self selectedIndexes size > 1
-				ifTrue: [ self deselectIndex: nextIdx ]
-				ifFalse: [
-					nextIdx := nextIdx - 1.
-					self addToSelection: nextIdx ] ]
+				ifTrue: [ self deselectIndex: nextIdx + 1 ]
+				ifFalse: [ self addToSelection: nextIdx ] ]
 		ifFalse: [ self addToSelection: nextIdx ].
 	self currentIndex: nextIdx
 ]
@@ -184,13 +176,14 @@ ToSelectionStrategy >> goTowardNext [
 
 	self currentIndex isZero
 		ifTrue: [
-			dataSource list ifEmpty: [ ^ self ].
+			dataSource list ifEmpty: [ ^ false ].
 			self currentIndex: 1 ]
 		ifFalse: [
 			self currentIndex < dataSource list size ifFalse: [
 				self currentIndex: 1.
-				^ self ].
-			self currentIndex: self currentIndex + 1 ]
+				^ true ].
+			self currentIndex: self currentIndex + 1 ].
+	^ true
 ]
 
 { #category : #'selection managing' }
@@ -198,13 +191,14 @@ ToSelectionStrategy >> goTowardPrevious [
 
 	self currentIndex isZero
 		ifTrue: [
-			dataSource list ifEmpty: [ ^ self ].
+			dataSource list ifEmpty: [ ^ false ].
 			self currentIndex: dataSource itemCount ]
 		ifFalse: [
 			self currentIndex > 1 ifFalse: [
 				self currentIndex: dataSource itemCount.
-				^ self ].
-			self currentIndex: self currentIndex - 1 ]
+				^ true ].
+			self currentIndex: self currentIndex - 1 ].
+	^ true
 ]
 
 { #category : #'selection accessing' }
@@ -359,8 +353,7 @@ ToSelectionStrategy >> selectLast [
 { #category : #'selection managing' }
 ToSelectionStrategy >> selectNext [
 
-	self goTowardNext.
-	self selectIndex: self currentIndex
+	self goTowardNext ifTrue: [ self selectIndex: self currentIndex ]
 ]
 
 { #category : #'selection managing' }
@@ -376,8 +369,7 @@ ToSelectionStrategy >> selectNextIn: anElement event: aShortcutEvent [
 { #category : #'selection managing' }
 ToSelectionStrategy >> selectPrevious [
 
-	self goTowardPrevious.
-	self selectIndex: self currentIndex
+	self goTowardPrevious ifTrue: [ self selectIndex: self currentIndex ]
 	
 ]
 

@@ -7,8 +7,8 @@ Class {
 		'#selectionModel',
 		'#dataSource',
 		'#mode => ObservableSlot',
-		'#prevDir',
-		'#currentIndex'
+		'#currentIndex',
+		'#direction'
 	],
 	#category : #'Toplo-Core-Infinite'
 }
@@ -35,43 +35,43 @@ ToSelectionStrategy >> addNextToSelection [
 { #category : #'selection managing' }
 ToSelectionStrategy >> addOrRemoveNext [
 
-	| next |
+	| nextIdx|
 	self currentIndex = dataSource itemCount ifTrue: [ ^ self ].
-	next := prevDir = #next
+	nextIdx := self isTowardNext 
 		        ifTrue: [ self currentIndex + 1 ]
 		        ifFalse: [ self currentIndex ].
-	prevDir := #next.
+	self markAsGoingTowardNext.
 
-	(self includes: next)
+	(self includes: nextIdx)
 		ifTrue: [
 			self selectedIndexes size > 1
-				ifTrue: [ self deselectIndex: next ]
+				ifTrue: [ self deselectIndex: nextIdx ]
 				ifFalse: [
-					next := next + 1.
-					self addToSelection: next ] ]
-		ifFalse: [ self addToSelection: next ].
-	self currentIndex:  next
+					nextIdx := nextIdx + 1.
+					self addToSelection: nextIdx ] ]
+		ifFalse: [ self addToSelection: nextIdx ].
+	self currentIndex:  nextIdx
 ]
 
 { #category : #'selection managing' }
 ToSelectionStrategy >> addOrRemovePrevious [
 
-	| next |
+	| nextIdx |
 	self currentIndex = 1 ifTrue: [ ^ self ].
-	next := prevDir = #previous
+	nextIdx := self isTowardPrevious
 		        ifTrue: [ self currentIndex - 1 max: 1]
 		        ifFalse: [ self currentIndex ].
-	prevDir := #previous.
+	self markAsGoingTowardPrevious.
 
-	(self includes: next)
+	(self includes: nextIdx)
 		ifTrue: [
 			self selectedIndexes size > 1
-				ifTrue: [ self deselectIndex: next ]
+				ifTrue: [ self deselectIndex: nextIdx ]
 				ifFalse: [
-					next := next - 1.
-					self addToSelection: next ] ]
-		ifFalse: [ self addToSelection: next ].
-	self currentIndex: next
+					nextIdx := nextIdx - 1.
+					self addToSelection: nextIdx ] ]
+		ifFalse: [ self addToSelection: nextIdx ].
+	self currentIndex: nextIdx
 ]
 
 { #category : #'selection managing' }
@@ -121,13 +121,13 @@ ToSelectionStrategy >> clearAndSelectIndex: index [
 	self selectIndex: index.
 ]
 
-{ #category : #accessing }
+{ #category : #'private - accessing' }
 ToSelectionStrategy >> currentIndex [
 
 	^ currentIndex 
 ]
 
-{ #category : #accessing }
+{ #category : #'private - accessing' }
 ToSelectionStrategy >> currentIndex: anInteger [
 
 	currentIndex := anInteger
@@ -143,7 +143,7 @@ ToSelectionStrategy >> dataSource: aDataSource [
 ToSelectionStrategy >> deselectAll [
 
 	selectionModel deselectAll.
-	currentIndex := nil
+	currentIndex := 0
 ]
 
 { #category : #'selection managing' }
@@ -151,6 +151,12 @@ ToSelectionStrategy >> deselectIndex: index [
 
 	selectionModel deselectIndex: index.
 	self currentIndex: index
+]
+
+{ #category : #'private - accessing' }
+ToSelectionStrategy >> direction [
+
+	^ direction
 ]
 
 { #category : #'event management' }
@@ -173,6 +179,34 @@ ToSelectionStrategy >> first [
 	^ selectionModel first
 ]
 
+{ #category : #'selection managing' }
+ToSelectionStrategy >> goTowardNext [ 
+
+	self currentIndex isZero
+		ifTrue: [
+			dataSource list ifEmpty: [ ^ self ].
+			self currentIndex: 1 ]
+		ifFalse: [
+			self currentIndex < dataSource list size ifFalse: [
+				self currentIndex: 1.
+				^ self ].
+			self currentIndex: self currentIndex + 1 ]
+]
+
+{ #category : #'selection managing' }
+ToSelectionStrategy >> goTowardPrevious [
+
+	self currentIndex isZero
+		ifTrue: [
+			dataSource list ifEmpty: [ ^ self ].
+			self currentIndex: dataSource itemCount ]
+		ifFalse: [
+			self currentIndex > 1 ifFalse: [
+				self currentIndex: dataSource itemCount.
+				^ self ].
+			self currentIndex: self currentIndex - 1 ]
+]
+
 { #category : #'selection accessing' }
 ToSelectionStrategy >> includes: index [
 
@@ -191,7 +225,9 @@ ToSelectionStrategy >> initialize [
 	self class initializeSlots: self.
 	super initialize.
 	selectionModel := ToSelectionModel new.
-	mode := #multiple
+	mode := #multiple.
+	direction := #next.
+	currentIndex := 0
 ]
 
 { #category : #'selection managing' }
@@ -230,10 +266,34 @@ ToSelectionStrategy >> isSingle [
 	^ self isMultiple not
 ]
 
+{ #category : #'private - testing' }
+ToSelectionStrategy >> isTowardNext [
+
+	^ self direction = #next
+]
+
+{ #category : #'private - testing' }
+ToSelectionStrategy >> isTowardPrevious [
+
+	^ self isTowardNext not
+]
+
 { #category : #accessing }
 ToSelectionStrategy >> last [
 
 	^ selectionModel last
+]
+
+{ #category : #'private - selection managing' }
+ToSelectionStrategy >> markAsGoingTowardNext [
+
+	direction := #next
+]
+
+{ #category : #'private - selection managing' }
+ToSelectionStrategy >> markAsGoingTowardPrevious [
+
+	direction := #previous
 ]
 
 { #category : #'selection managing' }
@@ -299,15 +359,7 @@ ToSelectionStrategy >> selectLast [
 { #category : #'selection managing' }
 ToSelectionStrategy >> selectNext [
 
-	self currentIndex
-		ifNil: [
-			dataSource list ifEmpty: [ ^ self ].
-			self currentIndex: 1 ]
-		ifNotNil: [
-			self currentIndex < dataSource list size ifFalse: [
-				self currentIndex: 1.
-				^ self ].
-			self currentIndex: self currentIndex + 1 ].
+	self goTowardNext.
 	self selectIndex: self currentIndex
 ]
 
@@ -324,13 +376,7 @@ ToSelectionStrategy >> selectNextIn: anElement event: aShortcutEvent [
 { #category : #'selection managing' }
 ToSelectionStrategy >> selectPrevious [
 
-	self currentIndex
-		ifNil: [
-			dataSource list ifEmpty: [ ^ self ].
-			self currentIndex: 1 ]
-		ifNotNil: [
-			self currentIndex > 1 ifFalse: [ ^ self ].
-			self currentIndex: self currentIndex - 1 ].
+	self goTowardPrevious.
 	self selectIndex: self currentIndex
 	
 ]

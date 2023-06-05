@@ -364,6 +364,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 			     hMatchParent ].
 	l data addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
+	l infinite requestFocus.
 	l openInInnerWindow
 ]
 
@@ -747,13 +748,13 @@ ToSandBox class >> example_Popup1 [
 ToSandBox class >> example_Smalltalk_ui_icons [
 
 	| column root vscrollBar container |
-	column := BlElement new
+	column := OBlElement new
 		          layout: BlLinearLayout vertical;
-		          constraintsDo: [ :c | 
+		          constraintsDo: [ :c |
 			          c horizontal fitContent.
 			          c vertical fitContent ];
 		          yourself.
-	Smalltalk ui icons allIconNames do: [ :k | 
+	Smalltalk ui icons allIconNames do: [ :k |
 		| lab im row |
 		im := ToImage new innerImage: (Smalltalk ui icons iconNamed: k).
 		im constraintsDo: [ :c | c linear vertical alignCenter ].
@@ -764,7 +765,7 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 		lab constraintsDo: [ :c | c linear vertical alignCenter ].
 		row := BlElement new
 			       layout: BlLinearLayout horizontal;
-			       constraintsDo: [ :c | 
+			       constraintsDo: [ :c |
 				       c horizontal fitContent.
 				       c vertical fitContent ];
 			       border: (BlBorder paint: Color lightGray);
@@ -778,18 +779,20 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 	root := column asScrollableElement.
 	vscrollBar := OBlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
-			c ignoreByLayout.
-			c margin: (BlInsets right: 2).
-			c ignored horizontal alignRight.
-			c ignored vertical alignBottom]. 
+		c ignoreByLayout.
+		c margin: (BlInsets right: 2).
+		c ignored horizontal alignRight.
+		c ignored vertical alignBottom ].
 	vscrollBar attachTo: root.
 	container := BlElement new
-		          constraintsDo: [ :c | 
-			          c horizontal matchParent.
-			          c vertical matchParent ];
-		          yourself.
-	container addChild: root; addChild: vscrollBar.
-	container openInOBlSpace 
+		             constraintsDo: [ :c |
+			             c horizontal matchParent.
+			             c vertical matchParent ];
+		             yourself.
+	container
+		addChild: root;
+		addChild: vscrollBar.
+	container openInSpace
 ]
 
 { #category : #window }
@@ -1427,6 +1430,22 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 	bar border: (BlBorder paint: Color black).
 	win root addChild: bar.
 	win openInWorld
+]
+
+{ #category : #image }
+ToSandBox class >> example_scaledImage [
+
+	| im scale |
+	scale := 0.5.
+	im := ToImage new innerImage: (Smalltalk ui icons iconNamed: #pharoBig).
+	im when: BlClickEvent do: [ :event |
+		im transformDo: [ :t |
+			t topLeftOrigin scaleBy: scale.
+			scale := scale < 1.0
+				         ifTrue: [ 1.0 ]
+				         ifFalse: [ 0.5 ] ] ].
+	im border: (BlBorder paint: Color black width: 2).
+	im openInSpace
 ]
 
 { #category : #tabs }

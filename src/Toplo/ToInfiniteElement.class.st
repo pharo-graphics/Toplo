@@ -6,7 +6,6 @@ Class {
 	#instVars : [
 		'holderFactory',
 		'nodeFactory',
-		'selectedNodeFactory',
 		'clickLauncher',
 		'primarySelection',
 		'secondarySelection',
@@ -367,7 +366,7 @@ ToInfiniteElement >> scrollToIndexAtTop: anIndex [
 	which can, for example, be a data source position or child index"
 	"As a result, item at anIndex is positionned at the top of the listElement"
 
-	self layout scrollToPosition: anIndex offset: self layout computeExtraLayoutSpace y.
+	self scrollToPosition: anIndex offset: self layout computeExtraLayoutSpace y.
 ]
 
 { #category : #accessing }

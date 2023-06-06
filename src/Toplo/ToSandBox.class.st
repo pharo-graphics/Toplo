@@ -200,75 +200,89 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 ToSandBox class >> example_EditorWithPlaceholder [
 
 	| placeholderText view |
-	placeholderText := ('Here is a placeholder text' , String cr , 'visible only if the text is empty') asRopedText.
+	placeholderText := ('Here is a placeholder text' , String cr
+	                    , 'visible only if the text is empty')
+		                   asRopedText.
 	placeholderText foreground: Color lightGray.
 	placeholderText fontSize: 24.
 
 	view := (ToAlbumModel new
-		 placeholderText: placeholderText;
-		 withRowNumbers;
-		 withSaveCapability;
-		 whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
-		 withEditsFeedbackLayer) onWidget.
+		         placeholderText: placeholderText;
+		         withRowNumbers;
+		         withSaveCapability;
+		         whenSaveRequestedDo: [ :saveRequested |
+			         saveRequested client saveResult: true ];
+		         withEditsFeedbackLayer) onWidget.
 	view showPlaceholder.
-	view openInOBlSpace
+	view openInSpace
 ]
 
 { #category : #album }
 ToSandBox class >> example_EditorWithPlaceholderWithToAlbumModel [
 
 	| placeholderText view |
-	placeholderText := ('Here is a placeholder text' , String cr , 'visible only if the text is empty') asRopedText.
+	placeholderText := ('Here is a placeholder text' , String cr
+	                    , 'visible only if the text is empty')
+		                   asRopedText.
 	placeholderText foreground: Color lightGray.
 	placeholderText fontSize: 24.
 
 	view := (ToAlbumModel new
-		 placeholderText: placeholderText;
-		 withRowNumbers;
-		 withSaveCapability;
-		 whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
-		 withEditsFeedbackLayer) onWidget.
+		         placeholderText: placeholderText;
+		         withRowNumbers;
+		         withSaveCapability;
+		         whenSaveRequestedDo: [ :saveRequested |
+			         saveRequested client saveResult: true ];
+		         withEditsFeedbackLayer) onWidget.
 
 	view showPlaceholder.
-	view openInOBlSpace
+	view openInSpace
 ]
 
 { #category : #album }
 ToSandBox class >> example_EditorWithSoftLine [
 
 	| placeholderText view |
-	placeholderText := ('Here is a placeholder text' , String cr , 'visible only if the text is empty') asRopedText.
+	placeholderText := ('Here is a placeholder text' , String cr
+	                    , 'visible only if the text is empty')
+		                   asRopedText.
 	placeholderText foreground: Color lightGray.
 	placeholderText fontSize: 24.
 
 	view := (ToAlbumModel new
-		 placeholderText: placeholderText;
-		 withRowNumbers;
-		 withSaveCapability;
-		 whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
-		 withEditsFeedbackLayer) onWidget.
+		         placeholderText: placeholderText;
+		         withRowNumbers;
+		         withSaveCapability;
+		         whenSaveRequestedDo: [ :saveRequested |
+			         saveRequested client saveResult: true ];
+		         withEditsFeedbackLayer) onWidget.
 	view withSoftLine.
-	view text: ((String loremIpsum: 100000) asRopedText fontName: 'Source Code Pro').
-	view openInOBlSpace
+	view text:
+		((String loremIpsum: 100000) asRopedText fontName: 'Source Code Pro').
+	view openInSpace
 ]
 
 { #category : #album }
 ToSandBox class >> example_EditorWithoutSoftLine [
 
 	| placeholderText view |
-	placeholderText := ('Here is a placeholder text' , String cr , 'visible only if the text is empty') asRopedText.
+	placeholderText := ('Here is a placeholder text' , String cr
+	                    , 'visible only if the text is empty')
+		                   asRopedText.
 	placeholderText foreground: Color lightGray.
 	placeholderText fontSize: 24.
 
 	view := (ToAlbumModel new
-		 placeholderText: placeholderText;
-		 withRowNumbers;
-		 withSaveCapability;
-		 whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ];
-		 withEditsFeedbackLayer) onWidget.
+		         placeholderText: placeholderText;
+		         withRowNumbers;
+		         withSaveCapability;
+		         whenSaveRequestedDo: [ :saveRequested |
+			         saveRequested client saveResult: true ];
+		         withEditsFeedbackLayer) onWidget.
 	view withoutSoftLine.
-	view text: ((String loremIpsum: 100000) asRopedText fontName: 'Source Code Pro').
-	view openInOBlSpace
+	view text:
+		((String loremIpsum: 100000) asRopedText fontName: 'Source Code Pro').
+	view openInSpace
 ]
 
 { #category : #combobox }
@@ -285,15 +299,18 @@ ToSandBox class >> example_EmptyComboBox [
 ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
 
 	| l pane filter |
-	pane := ToPane new beVertical; matchParent.
+	pane := ToPane new
+		        beVertical;
+		        matchParent.
 	filter := ToTextField new.
-	l := ToListElement new nodeFactory: (ToClassToNodeConverterExample new).
-	l data addAll: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name]).
+	l := ToListElement new nodeFactory: ToClassToNodeConverterExample new.
+	l data addAll:
+		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
 	l margin: (BlInsets all: 2).
 	filter margin: (BlInsets all: 2).
 	pane addChild: l.
-	pane addChild: filter.	
-	pane openInOBlSpace
+	pane addChild: filter.
+	pane openInSpace
 ]
 
 { #category : #combobox }
@@ -387,9 +404,10 @@ ToSandBox class >> example_ListWithAllClasses4 [
 ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 
 	| l |
-	l := ToListElement new nodeFactory: (ToClassToNodeConverterExample new).
-	l data addAll: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name]).
-	l openInOBlSpace
+	l := ToListElement new nodeFactory: ToClassToNodeConverterExample new.
+	l data addAll:
+		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
+	l openInSpace
 ]
 
 { #category : #list }
@@ -761,7 +779,7 @@ ToSandBox class >> example_Popup1 [
 				 popup close ]).
 
 	container root addChild: e.
-	container openInOBlSpace
+	container openInSpace
 ]
 
 { #category : #image }
@@ -1008,7 +1026,7 @@ ToSandBox class >> example_menu2 [
 			 beLabelFirst;
 			 columnWidth: 200).
 	menu position: 10 @ 10.
-	menu openInOBlSpace
+	menu openInSpace
 ]
 
 { #category : #menu }
@@ -1341,7 +1359,10 @@ ToSandBox class >> example_overlayWidow1 [
 
 { #category : #window }
 ToSandBox class >> example_rootFrame1 [
-	ToInnerWindow new title: 'Internal Frame example' ; openInOBlSpace 
+
+	ToInnerWindow new
+		title: 'Internal Frame example';
+		openInSpace
 ]
 
 { #category : #'context menu + menubar' }
@@ -1478,17 +1499,20 @@ ToSandBox class >> example_tabsWith2Pages [
 	redPage := aNotebook addPageTitle: 'Red' bodyFactory: [
 		           redCount := redCount + 1.
 		           BlTextElement new
-			           text: (redCount asRopedText foreground: Color red darker);
+			           text:
+				           (redCount asRopedText foreground: Color red darker);
 			           yourself ].
 
 	greenCount := 0.
 	greenPage := aNotebook addPageTitle: 'Green' bodyFactory: [
 		             greenCount := greenCount + 1.
 		             BlTextElement new
-			             text: (greenCount asRopedText foreground: Color green muchDarker);
+			             text:
+				             (greenCount asRopedText foreground:
+						              Color green muchDarker);
 			             yourself ].
 
-	aNotebook openInOBlSpace
+	aNotebook openInSpace
 ]
 
 { #category : #'text field' }
@@ -1496,16 +1520,17 @@ ToSandBox class >> example_textField0 [
 
 	| t |
 	t := ToTextField new text: 'AAAA'.
-	t openInOBlSpace.
-	
+	t openInSpace
 ]
 
 { #category : #'text field' }
 ToSandBox class >> example_textFieldWithLineWrapping [
 
 	| t |
-	t := ToTextField new withLineWrapping; withSaveCapability.
-	t openInOBlSpace
+	t := ToTextField new
+		     withLineWrapping;
+		     withSaveCapability.
+	t openInSpace
 ]
 
 { #category : #'text field' }
@@ -1531,14 +1556,13 @@ ToSandBox class >> example_textFieldWithPlaceholder [
 	t := ToTextField new withSaveCapability.
 	text := ''.
 	t placeholderText: 'Enter to accept'.
-	t whenSaveRequestedDo: [ :saveRequested | 
+	t whenSaveRequestedDo: [ :saveRequested |
 		saveRequested client saveResult: true.
-		text := saveRequested client text copy].
-	t whenCancelRequestedDo: [ :cancelRequested | 
+		text := saveRequested client text copy ].
+	t whenCancelRequestedDo: [ :cancelRequested |
 		cancelRequested client text: text copy ].
 	t showPlaceholder.
-	t openInOBlSpace.
-
+	t openInSpace
 ]
 
 { #category : #'text field' }
@@ -1547,15 +1571,16 @@ ToSandBox class >> example_textFieldWithPlaceholder2 [
 	| t text |
 	t := ToTextField new withSaveCapability.
 	text := ''.
-	t placeholder: (ToLabel new text: 'Enter text'; yourself).
-	t whenSaveRequestedDo: [ :saveRequested | 
+	t placeholder: (ToLabel new
+			 text: 'Enter text';
+			 yourself).
+	t whenSaveRequestedDo: [ :saveRequested |
 		saveRequested client saveResult: true.
-		text := saveRequested client text copy].
-	t whenCancelRequestedDo: [ :cancelRequested | 
+		text := saveRequested client text copy ].
+	t whenCancelRequestedDo: [ :cancelRequested |
 		cancelRequested client text: text copy ].
 	t showPlaceholder.
-	t openInOBlSpace.
-
+	t openInSpace
 ]
 
 { #category : #'text field' }
@@ -1577,8 +1602,10 @@ ToSandBox class >> example_textFieldWithSaveCapability [
 ToSandBox class >> example_textFieldWithoutLineWrapping [
 
 	| t |
-	t := ToTextField new withoutLineWrapping; withSaveCapability.
-	t openInOBlSpace
+	t := ToTextField new
+		     withoutLineWrapping;
+		     withSaveCapability.
+	t openInSpace
 ]
 
 { #category : #checkbox }
@@ -1586,7 +1613,7 @@ ToSandBox class >> example_to3statesCheckbox [
 
 	| but |
 	but := ToCheckboxModel new withIndeterminate.
-	but onWidget openInOBlSpace
+	but onWidget openInSpace
 ]
 
 { #category : #checkbox }
@@ -1594,19 +1621,23 @@ ToSandBox class >> example_to3statesRadioButton [
 
 	| but |
 	but := ToRadioButtonModel new withIndeterminate.
-	but onWidget openInOBlSpace
+	but onWidget openInSpace
 ]
 
 { #category : #button }
 ToSandBox class >> example_toAlbumAsButton [
 
 	| but |
-	but := ToAlbum new text: 'Hello world'; preventChildrenMouseEvents.
+	but := ToAlbum new
+		       text: 'Hello world';
+		       preventChildrenMouseEvents.
 	but addDresser: ToGeneralButtonDresser new.
-	but whenAnnouncement: ToClickAnnouncement do: [ self inform: 'Click' ]. 
+	but
+		whenAnnouncement: ToClickAnnouncement
+		do: [ self inform: 'Click' ].
 	but background: Color blue.
-	but size: 300@100.
-	but  openInOBlSpace  
+	but size: 300 @ 100.
+	but openInSpace
 ]
 
 { #category : #button }
@@ -1615,7 +1646,7 @@ ToSandBox class >> example_toBasicButton0 [
 	| but |
 	but := ToGeneralButton new.
 	but whenClickedDo: [ self inform: 'clicked' ].
-	but openInOBlSpace 
+	but openInSpace
 ]
 
 { #category : #button }
@@ -1624,19 +1655,18 @@ ToSandBox class >> example_toBasicButton1 [
 	| but |
 	but := ToGeneralButton new dresser: ToGeneralButtonDresser new.
 	but addChild: (BlElement new
-				 size: 30 @ 30;
-				 yourself).
+			 size: 30 @ 30;
+			 yourself).
 	but fitContent.
-	but whenClickedDo: [ self inform: 'clicked' ].	
-	but openInOBlSpace  
+	but whenClickedDo: [ self inform: 'clicked' ].
+	but openInSpace
 ]
 
 { #category : #button }
 ToSandBox class >> example_toBasicButton2 [
 
 	| but lab |
-	lab := ToLabel new text:
-		       (('Button' asRopedText)
+	lab := ToLabel new text: ('Button' asRopedText
 			        fontSize: 40;
 			        yourself).
 	but := ToGeneralButton new dresser: ToGeneralButtonDresser new.
@@ -1644,20 +1674,20 @@ ToSandBox class >> example_toBasicButton2 [
 	but addChild: lab.
 	but layout alignCenter.
 	but whenClickedDo: [ self inform: 'clicked' ].
-	but openInOBlSpace 
+	but openInSpace
 ]
 
 { #category : #button }
 ToSandBox class >> example_toBasicButton3 [
 
 	| but |
-	but := ToButton new label: (ToLabel new text: (('Button' asRopedText)
-			        fontSize: 40;
-			        yourself)).
+	but := ToButton new label: (ToLabel new text: ('Button' asRopedText
+				         fontSize: 40;
+				         yourself)).
 	but matchParent.
 	but layout alignCenter.
 	but whenClickedDo: [ self inform: 'clicked' ].
-	but openInOBlSpace 
+	but openInSpace
 ]
 
 { #category : #button }
@@ -1669,13 +1699,15 @@ ToSandBox class >> example_toBasicButton4 [
 	pane layout alignCenter.
 	lab := ToLabel new text: 'Make something cool happen'.
 	ico := ToImage inner: (self iconNamed: #remove).
-	pane addChildren: { ico. lab }.
+	pane addChildren: {
+			ico.
+			lab }.
 	but := ToGeneralButton new dresser: ToGeneralButtonDresser new.
 	but matchParent.
 	but addChild: pane.
 	but layout alignCenter.
 	but whenClickedDo: [ self inform: 'clicked' ].
-	but openInOBlSpace
+	but openInSpace
 ]
 
 { #category : #button }
@@ -1684,7 +1716,7 @@ ToSandBox class >> example_toBasicButtonModel0 [
 	| but |
 	but := ToGeneralButtonModel new.
 	but whenClickedDo: [ self inform: 'clicked' ].
-	but onWidget openInOBlSpace 
+	but onWidget openInSpace
 ]
 
 { #category : #button }
@@ -1692,14 +1724,14 @@ ToSandBox class >> example_toBasicButtonModel1 [
 
 	| but |
 	but := ToGeneralButtonModel new.
-	but widgetDo: [ :widget | 
+	but widgetDo: [ :widget |
 		widget addChild: (BlElement new
 				 size: 30 @ 30;
 				 background: Color lightBlue;
 				 yourself) ].
 	but widgetDo: [ :widget | widget fitContent ].
 	but whenClickedDo: [ self inform: 'clicked' ].
-	but onWidget openInOBlSpace 
+	but onWidget openInSpace
 ]
 
 { #category : #button }
@@ -1707,7 +1739,7 @@ ToSandBox class >> example_toButton0 [
 
 	| but |
 	but := ToButton new.
-	but  openInOBlSpace  
+	but openInSpace
 ]
 
 { #category : #button }
@@ -1716,7 +1748,7 @@ ToSandBox class >> example_toButtonModel1 [
 	| but |
 	but := ToButtonModel new label: (ToLabel text: 'Button').
 	but whenClickedDo: [ self inform: 'clicked' ].
-	but  onWidget openInOBlSpace 
+	but onWidget openInSpace
 ]
 
 { #category : #button }
@@ -1872,7 +1904,7 @@ ToSandBox class >> example_toCheckbox0 [
 
 	| but |
 	but := ToCheckboxModel new.
-	but onWidget openInOBlSpace
+	but onWidget openInSpace
 ]
 
 { #category : #checkbox }
@@ -1891,13 +1923,13 @@ ToSandBox class >> example_toCheckbox1 [
 ToSandBox class >> example_toCheckbox2 [
 
 	| chb container |
-	chb := ToCheckbox new "beLabelFirst;"
+	chb := ToCheckbox new
 		       columnWidth: 50;
 		       labelText: '1';
-		       id: 1 asString.
+		       id: 1 asString. "beLabelFirst;"
 	""
 	container := BlElement new.
-	container constraintsDo: [ :c | 
+	container constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical matchParent ].
 
@@ -1905,8 +1937,7 @@ ToSandBox class >> example_toCheckbox2 [
 	container layout cellSpacing: 5.
 
 	container addChild: chb.
-	container openInOBlSpace
-	
+	container openInSpace
 ]
 
 { #category : #checkbox }
@@ -1914,15 +1945,17 @@ ToSandBox class >> example_toCheckboxModelWithLabel [
 
 	| but |
 	but := ToCheckboxModel new label: (ToLabel text: 'Check me').
-	but onWidget openInOBlSpace
+	but onWidget openInSpace
 ]
 
 { #category : #checkbox }
 ToSandBox class >> example_toCheckboxModelWithLabel2 [
 
 	| but |
-	but := ToCheckboxModel new labelText: 'Check me'; beLabelFirst.
-	but onWidget openInOBlSpace
+	but := ToCheckboxModel new
+		       labelText: 'Check me';
+		       beLabelFirst.
+	but onWidget openInSpace
 ]
 
 { #category : #checkbox }
@@ -1931,15 +1964,17 @@ ToSandBox class >> example_toCheckboxModelWithLabel3 [
 	| but |
 	but := ToCheckbox new labelText: 'Check me'.
 	but layout cellSpacing: 10.
-	but   openInOBlSpace
+	but openInSpace
 ]
 
 { #category : #checkbox }
 ToSandBox class >> example_toCheckboxModelWithLabel4 [
 
 	| but |
-	but := ToCheckboxModel new labelText: 'Check me'; beVertical.
-	but onWidget openInOBlSpace
+	but := ToCheckboxModel new
+		       labelText: 'Check me';
+		       beVertical.
+	but onWidget openInSpace
 ]
 
 { #category : #checkbox }
@@ -1951,18 +1986,21 @@ ToSandBox class >> example_toCheckboxWithLabel [
 	but whenCheckedDo: [ self inform: '+++ checked' ].
 	but whenUncheckedDo: [ self inform: '--- unchecked' ].
 
-	but openInOBlSpace.
+	but openInSpace
 ]
 
 { #category : #checkbox }
 ToSandBox class >> example_toCheckboxWithLabel2 [
 
 	| but |
-	but := ToCheckbox new labelText: 'Check me'; beLabelFirst; startChecked.
+	but := ToCheckbox new
+		       labelText: 'Check me';
+		       beLabelFirst;
+		       startChecked.
 	but whenCheckedDo: [ self inform: '+++ checked' ].
 	but whenUncheckedDo: [ self inform: '--- unchecked' ].
-	
-	but openInOBlSpace 
+
+	but openInSpace
 ]
 
 { #category : #checkbox }
@@ -1999,7 +2037,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndNoneStrategy [
 	group := ToCheckableGroup new.
 	group withoutCheckingStrategy.
 	buttons := OrderedCollection new.
-	1 to: 4 do: [ :idx | 
+	1 to: 4 do: [ :idx |
 		| chb |
 		chb := ToCheckbox new
 			       beLabelFirst;
@@ -2009,10 +2047,12 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndNoneStrategy [
 		buttons add: chb ].
 	buttons second startChecked.
 	group addAll: buttons.
-	group whenChangedDo: [ :ann | ('checked: ' , ann checkedButtons asString , ' unchecked: ', ann uncheckedButtons asString) traceCr].
+	group whenChangedDo: [ :ann |
+		('checked: ' , ann checkedButtons asString , ' unchecked: '
+		 , ann uncheckedButtons asString) traceCr ].
 
 	container := BlElement new.
-	container constraintsDo: [ :c | 
+	container constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical matchParent ].
 
@@ -2020,7 +2060,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndNoneStrategy [
 	container layout cellSpacing: 5.
 
 	container addChildren: group buttons.
-	container openInOBlSpace
+	container openInSpace
 ]
 
 { #category : #checkbox }
@@ -2029,7 +2069,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndStrictStrategy [
 	| group container buttons |
 	group := ToCheckableGroup new.
 	buttons := OrderedCollection new.
-	1 to: 4 do: [ :idx | 
+	1 to: 4 do: [ :idx |
 		| chb |
 		chb := ToCheckbox new
 			       beLabelFirst;
@@ -2039,10 +2079,12 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndStrictStrategy [
 		buttons add: chb ].
 	buttons second startChecked.
 	group addAll: buttons.
-	group whenChangedDo: [ :ann | ('checked: ' , ann checkedButtons asString , ' unchecked: ', ann uncheckedButtons asString) traceCr].
+	group whenChangedDo: [ :ann |
+		('checked: ' , ann checkedButtons asString , ' unchecked: '
+		 , ann uncheckedButtons asString) traceCr ].
 
 	container := BlElement new.
-	container constraintsDo: [ :c | 
+	container constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical matchParent ].
 
@@ -2050,7 +2092,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndStrictStrategy [
 	container layout cellSpacing: 5.
 
 	container addChildren: group buttons.
-	container openInOBlSpace
+	container openInSpace
 ]
 
 { #category : #checkbox }
@@ -2060,7 +2102,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndUnckekingStrategy [
 	group := ToCheckableGroup new.
 	group withUncheckingStrategy.
 	buttons := OrderedCollection new.
-	1 to: 4 do: [ :idx | 
+	1 to: 4 do: [ :idx |
 		| chb |
 		chb := ToCheckbox new
 			       beLabelFirst;
@@ -2070,10 +2112,12 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndUnckekingStrategy [
 		buttons add: chb ].
 	buttons second startChecked.
 	group addAll: buttons.
-	group whenChangedDo: [ :ann | ('checked: ' , ann checkedButtons asString , ' unchecked: ', ann uncheckedButtons asString) traceCr].
+	group whenChangedDo: [ :ann |
+		('checked: ' , ann checkedButtons asString , ' unchecked: '
+		 , ann uncheckedButtons asString) traceCr ].
 
 	container := BlElement new.
-	container constraintsDo: [ :c | 
+	container constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical matchParent ].
 
@@ -2081,7 +2125,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndUnckekingStrategy [
 	container layout cellSpacing: 5.
 
 	container addChildren: group buttons.
-	container openInOBlSpace
+	container openInSpace
 ]
 
 { #category : #checkbox }
@@ -2090,7 +2134,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroupJustified [
 	| group container buttons |
 	group := ToCheckableGroup new.
 	buttons := OrderedCollection new.
-	1 to: 4 do: [ :idx | 
+	1 to: 4 do: [ :idx |
 		| chb |
 		chb := ToCheckbox new
 			       beJustified;
@@ -2101,10 +2145,12 @@ ToSandBox class >> example_toCheckboxWithToggleGroupJustified [
 		buttons add: chb ].
 	buttons second startChecked.
 	group addAll: buttons.
-	group whenChangedDo: [ :ann | ('checked: ' , ann checkedButtons asString , ' unchecked: ', ann uncheckedButtons asString) traceCr].
+	group whenChangedDo: [ :ann |
+		('checked: ' , ann checkedButtons asString , ' unchecked: '
+		 , ann uncheckedButtons asString) traceCr ].
 
 	container := BlElement new.
-	container constraintsDo: [ :c | 
+	container constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical matchParent ].
 
@@ -2112,7 +2158,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroupJustified [
 	container layout cellSpacing: 5.
 
 	container addChildren: group buttons.
-	container openInOBlSpace
+	container openInSpace
 ]
 
 { #category : #image }
@@ -2121,7 +2167,7 @@ ToSandBox class >> example_toImage0 [
 	| im |
 	im := ToImage new.
 	im inspect.
-	im openInOBlSpace 
+	im openInSpace
 ]
 
 { #category : #image }
@@ -2129,11 +2175,11 @@ ToSandBox class >> example_toImage1 [
 
 	| im |
 	im := ToImage new innerImage: (BlElement new
-		  size: 16 @ 16;
-		  background: (Color green alpha: 0.5);
-		  geometry: BlCircleGeometry new ).
+			       size: 16 @ 16;
+			       background: (Color green alpha: 0.5);
+			       geometry: BlCircleGeometry new).
 	im inspect.
-	im openInOBlSpace 
+	im openInSpace
 ]
 
 { #category : #image }
@@ -2142,7 +2188,7 @@ ToSandBox class >> example_toImageViewModel0 [
 	| im |
 	im := ToImageModel new.
 	im inspect.
-	im onWidget openInOBlSpace 
+	im onWidget openInSpace
 ]
 
 { #category : #image }
@@ -2150,12 +2196,12 @@ ToSandBox class >> example_toImageViewModel1 [
 
 	| im |
 	im := ToImageModel new innerImage: (BlElement new
-		  size: 16 @ 16;
-		  border: (BlBorder paint: Color gray width: 2);
-		  background: (Color gray alpha: 0.1);
-		  geometry: BlCircleGeometry new ).
+			       size: 16 @ 16;
+			       border: (BlBorder paint: Color gray width: 2);
+			       background: (Color gray alpha: 0.1);
+			       geometry: BlCircleGeometry new).
 	im inspect.
-	im onWidget openInOBlSpace 
+	im onWidget openInSpace
 ]
 
 { #category : #image }
@@ -2164,7 +2210,7 @@ ToSandBox class >> example_toImageViewModel2 [
 	| im |
 	im := ToImageModel new innerImage: (Form dotOfSize: 40).
 	im inspect.
-	im onWidget openInOBlSpace 
+	im onWidget openInSpace
 ]
 
 { #category : #image }
@@ -2183,8 +2229,7 @@ ToSandBox class >> example_toLabel0 [
 	lab := ToLabel new.
 	lab inspect.
 	lab border: (BlBorder paint: Color black).
-	lab openInOBlSpace.
-
+	lab openInSpace
 ]
 
 { #category : #label }
@@ -2192,8 +2237,7 @@ ToSandBox class >> example_toLabel1 [
 
 	| lab |
 	lab := ToLabel text: 'Hello world'.
-	lab openInOBlSpace.
-
+	lab openInSpace
 ]
 
 { #category : #label }
@@ -2213,14 +2257,17 @@ ToSandBox class >> example_toLabel2 [
 ToSandBox class >> example_toLabel3 [
 
 	| lab |
-	lab := ToLabel new text: ('This is a bold label' asRopedText fontSize: 20; bold; foreground: Color gray; yourself).
+	lab := ToLabel new text: ('This is a bold label' asRopedText
+			        fontSize: 20;
+			        bold;
+			        foreground: Color gray;
+			        yourself).
 	lab background: Color lightBlue.
 	lab hMatchParent.
 	lab isEditable: true.
 	lab layout alignCenter.
 	lab border: (BlBorder paint: Color yellow width: 1).
-	lab openInOBlSpace.
- 
+	lab openInSpace
 ]
 
 { #category : #label }
@@ -2233,13 +2280,13 @@ ToSandBox class >> example_toLabel3_bis [
 			 bold;
 			 foreground: Color gray;
 			 yourself).
-	model widgetDo: [ :label | 
+	model widgetDo: [ :label |
 		label hMatchParent.
 		label background: Color lightBlue.
 		label layout alignCenterRight.
 		label border: (BlBorder paint: Color yellow width: 1) ].
 	model isEditable: true.
-	(widget := model onWidget) openInOBlSpace.
+	(widget := model onWidget) openInSpace.
 	widget inspect
 ]
 
@@ -2253,13 +2300,13 @@ ToSandBox class >> example_toLabel3_bis2 [
 			 bold;
 			 foreground: Color gray;
 			 yourself).
-	model widgetDo: [ :label | 
+	model widgetDo: [ :label |
 		label hMatchParent.
 		label background: Color lightBlue.
 		label layout alignCenterRight.
 		label border: (BlBorder paint: Color yellow width: 1) ].
 	model isEditable: true.
-	(widget := model onWidget) openInOBlSpace.
+	(widget := model onWidget) openInSpace.
 	widget inspect
 ]
 
@@ -2309,7 +2356,7 @@ ToSandBox class >> example_toLabel4 [
 ToSandBox class >> example_toLabel5 [
 
 	| label root model |
-	root := BlElement new constraintsDo: [ :c | 
+	root := BlElement new constraintsDo: [ :c |
 		        c vertical fitContent.
 		        c horizontal matchParent ].
 	root layout: BlLinearLayout vertical.
@@ -2317,7 +2364,7 @@ ToSandBox class >> example_toLabel5 [
 	model := ToLabelModel new.
 	model text: ('' asRopedText fontSize: 24).
 	model beMultiLine.
-	model widgetDo: [ :widget | 
+	model widgetDo: [ :widget |
 		widget vFitContent.
 		widget hMatchParent.
 		widget border: (BlBorder paint: Color red width: 1).
@@ -2325,7 +2372,7 @@ ToSandBox class >> example_toLabel5 [
 	model isEditable: true.
 	label viewModel: model.
 	root addChild: label.
-	root openInOBlSpace
+	root openInSpace
 ]
 
 { #category : #label }
@@ -2338,36 +2385,36 @@ ToSandBox class >> example_toLabelWithTime [
 			        yourself).
 	container := BlElement new
 		             layout: BlLinearLayout horizontal;
-		             constraintsDo: [ :c | 
+		             constraintsDo: [ :c |
 			             c horizontal matchParent.
 			             c vertical matchParent ].
 	container
 		border: (BlBorder paint: Color lightGray width: 3);
-		constraintsDo: [ :c | 
+		constraintsDo: [ :c |
 			c horizontal matchParent.
 			c vertical fitContent ].
 	timeLab := ToLabel new.
 	anim := BlRepeatedTaskAction new
 		        delay: 1 second;
-		        action: [ 
+		        action: [
 			        timeLab text: (DateAndTime now asString asRopedText
 						         fontSize: 20;
 						         foreground: Color gray) ].
 	timeLab enqueueTask: anim.
 
-	container addChildren: { 
+	container addChildren: {
 			lab.
 			timeLab }.
-	container openInOBlSpace
+	container openInSpace
 ]
 
 { #category : #label }
 ToSandBox class >> example_toLabel_Multiline1 [
 
 	| lab |
-	lab := ToLabel new text: ('This is a Text', String cr, 'secondLine').
+	lab := ToLabel new text: 'This is a Text' , String cr , 'secondLine'.
 	lab beMultiLine.
-	lab openInOBlSpace 
+	lab openInSpace
 ]
 
 { #category : #label }
@@ -2402,13 +2449,13 @@ ToSandBox class >> example_toLabel_Multiline2_Centered [
 	lab2 isEditable: true.
 	container := BlElement new
 		             layout: BlLinearLayout vertical;
-		             constraintsDo: [ :c | 
+		             constraintsDo: [ :c |
 			             c horizontal matchParent.
 			             c vertical fitContent ].
-	container addChildren: { 
+	container addChildren: {
 			lab1.
 			lab2 }.
-	space := container openInOBlSpace
+	space := container openInSpace
 ]
 
 { #category : #multistate }
@@ -2678,7 +2725,7 @@ ToSandBox class >> example_toPairJustified1 [
 	but hMatchParent.
 
 	space := OBlSpace new.
-	space addChild: but.
+	space root addChild: but.
 	space show
 ]
 
@@ -2701,7 +2748,7 @@ ToSandBox class >> example_toPairJustified2 [
 	but hMatchParent.
 
 	space := OBlSpace new.
-	space addChild: but.
+	space root addChild: but.
 	space show
 ]
 
@@ -2721,7 +2768,7 @@ ToSandBox class >> example_toPairOrientationChanger [
 	but second: iconImage.
 	but when: BlClickEvent do: [ but orientation: but orientation inverted ].
 	space := OBlSpace new.
-	space addChild: but.
+	space root addChild: but.
 	space show 
 ]
 
@@ -2743,7 +2790,7 @@ ToSandBox class >> example_toPairWithColumn1 [
 	but when: BlClickEvent do: [ but orientation: but orientation inverted ].	
 	but hMatchParent.
 	space := OBlSpace new.
-	space addChild: but.
+	space root addChild: but.
 	space show 
 ]
 
@@ -2765,7 +2812,7 @@ ToSandBox class >> example_toPairWithColumn2 [
 	but when: BlClickEvent do: [ but direction: but direction inverted ].
 	but hMatchParent.
 	space := OBlSpace new.
-	space addChild: but.
+	space root addChild: but.
 	space show
 ]
 
@@ -2774,7 +2821,7 @@ ToSandBox class >> example_toRadioButton0 [
 
 	| but |
 	but := ToRadioButton new.
-	but openInOBlSpace
+	but openInSpace
 ]
 
 { #category : #button }
@@ -2783,10 +2830,12 @@ ToSandBox class >> example_toWidgetAsButton0 [
 	| but |
 	but := ToWidget new.
 	but addDresser: ToGeneralButtonDresser new.
-	but whenAnnouncement: ToClickAnnouncement do: [ self inform: 'Click' ]. 
+	but
+		whenAnnouncement: ToClickAnnouncement
+		do: [ self inform: 'Click' ].
 	but background: Color blue.
-	but size: 50@50.
-	but  openInOBlSpace  
+	but size: 50 @ 50.
+	but openInSpace
 ]
 
 { #category : #'toggle button' }

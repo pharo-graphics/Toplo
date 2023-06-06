@@ -27,8 +27,7 @@ ToListInfiniteElementTest >> testEmptyListAddOrRemoveNext [
 	l forceLayout.
 	self assert: l selectedIndexes isEmpty.
 	l primarySelection addOrRemoveNext.
-	self assert: l primarySelection currentIndex isZero.
-	self assert: l primarySelection isTowardNext
+	self assert: l primarySelection currentIndex isZero
 ]
 
 { #category : #'test - select next/previous' }
@@ -41,8 +40,7 @@ ToListInfiniteElementTest >> testEmptyListAddOrRemovePrevious [
 	l forceLayout.
 	self assert: l selectedIndexes isEmpty.
 	l primarySelection addOrRemovePrevious.
-	self assert: l primarySelection currentIndex isZero.
-	self assert: l primarySelection isTowardNext
+	self assert: l primarySelection currentIndex isZero
 ]
 
 { #category : #'test - select next/previous' }
@@ -97,6 +95,29 @@ ToListInfiniteElementTest >> testInfiniteWithOneElement [
 ]
 
 { #category : #'test - select next/previous' }
+ToListInfiniteElementTest >> testListWithFiveElementAddNextInSelection [
+
+	| l |
+	l := ToListInfiniteElement new.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l data size equals: 5.
+	l forceLayout.
+	self assert: l selectedIndexes isEmpty.
+	l primarySelection addToSelection: 4.
+	l primarySelection addToSelection: 2.
+	self assert: l primarySelection currentIndex equals: 2.
+	self assert: l selectedIndexes asArray equals: #(2 4).
+	l primarySelection addOrRemoveNext.
+	self assert: l primarySelection currentIndex equals: 4.
+	self assert: l selectedIndexes asArray equals: #(2 3 4).
+	l primarySelection addOrRemoveNext.
+	self assert: l primarySelection currentIndex equals: 5.
+	self assert: l selectedIndexes asArray equals: #(2 3 4 5).
+
+]
+
+{ #category : #'test - select next/previous' }
 ToListInfiniteElementTest >> testListWithFiveElementAddPreviousInSelection [
 
 	| l |
@@ -112,11 +133,11 @@ ToListInfiniteElementTest >> testListWithFiveElementAddPreviousInSelection [
 	self assert: l primarySelection currentIndex equals: 4.
 	self assert: l selectedIndexes asArray equals: #(2 4).
 	l primarySelection addOrRemovePrevious.
-	self assert: l primarySelection currentIndex equals: 3.
+	self assert: l primarySelection currentIndex equals: 2.
 	self assert: l selectedIndexes asArray equals: #(2 3 4).
 	l primarySelection addOrRemovePrevious.
-	self assert: l primarySelection currentIndex equals: 2.
-	self assert: l selectedIndexes asArray equals: #(3 4).
+	self assert: l primarySelection currentIndex equals: 1.
+	self assert: l selectedIndexes asArray equals: #(1 2 3 4).
 
 ]
 

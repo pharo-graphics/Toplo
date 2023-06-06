@@ -372,15 +372,15 @@ ToSandBox class >> example_ListWithAllClasses3 [
 ToSandBox class >> example_ListWithAllClasses4 [
 
 	| l |
-	l := ToListElement new 
-		withoutSelectionDecoration;
-		nodeFactory: [ :cls |
-		     ToCheckNode new
-			     labelText: cls name;
-			     columnWidth: 25;
-			     hMatchParent ].
+	l := ToListElement new
+		     withoutSelectionDecoration;
+		     nodeFactory: [ :cls |
+			     ToCheckNode new
+				     labelText: cls name;
+				     columnWidth: 25;
+				     hMatchParent ].
 	l data addAll: Smalltalk globals allClasses.
-	l openInOBlSpace
+	l openInSpace
 ]
 
 { #category : #list }

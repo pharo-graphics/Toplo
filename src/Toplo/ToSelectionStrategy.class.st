@@ -54,7 +54,7 @@ ToSelectionStrategy >> addOrRemoveWithGap: aGap [
 		ifFalse: [
 			selectionModel select: nextIdx to: nextIdx.
 			[
-			nextIdx < dataSource itemCount and: [ self includes: nextIdx + aGap ] ]
+			nextIdx < dataSource itemCount and: [ nextIdx > 1 and: [ self includes: nextIdx + aGap ] ] ]
 				whileTrue: [
 					nextIdx := nextIdx + aGap.
 					distance := distance - aGap ] ].

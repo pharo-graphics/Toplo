@@ -674,26 +674,37 @@ ToSandBox class >> example_ListWithoutSelection [
 ToSandBox class >> example_PicsumPhotosGallery [
 
 	| space list vscrollBar |
-
-	list := ToListElement new matchParent; yourself.
+	list := ToListElement new
+		        matchParent;
+		        yourself.
 	list padding: (BlInsets all: 1).
 	list nodeFactory: [ :anImageData |
-		ToPicsumPhotosGalleryImageElement new hMatchParent; vFitContent;
+		ToPicsumPhotosGalleryImageElement new
+			hMatchParent;
+			vFitContent;
+			in: [ :node |
+				node addDresser: (ToActionDresser new installAction: [ :n |
+								 n margin: (BlInsets all: 5).
+								 n beOutskirtsOutside ]) ];
 			imageData: anImageData;
 			yourself ].
 
 	list withSelectionDresserFactory: [
 		ToListActionSelectionDresser new
 			addAction: [ :dresser :selectionElement |
-				selectionElement nodes do: [ :n | n border: (BlBorder paint: Color yellow width: 3) ] ];
+				selectionElement nodes do: [ :n |
+						n border: (BlBorder paint: Color yellow width: 5) ] ];
 			removeAction: [ :dresser :selectionElement |
-				selectionElement nodes do: [ :n | n border: (BlBorder empty) ] ];
+				selectionElement nodes do: [ :n | n border: BlBorder empty ] ];
 			yourself ].
 
 	[
 	| images |
-	images := (STONJSON fromString: 'https://picsum.photos/list' asUrl retrieveContents)
-		             collect: [ :aDictionary | ToPicsumPhotosGalleryImageData fromDictionary: aDictionary ].
+	images := (STONJSON fromString:
+		           'https://picsum.photos/list' asUrl retrieveContents)
+		          collect: [ :aDictionary |
+			          ToPicsumPhotosGalleryImageData fromDictionary:
+				          aDictionary ].
 	images sort: [ :a :b | a id > b id ].
 	list data addAll: images ] fork.
 

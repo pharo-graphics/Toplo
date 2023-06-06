@@ -94,6 +94,18 @@ ToListInfiniteElementTest >> testInfiniteWithOneElement [
 
 ]
 
+{ #category : #'test - selection mode' }
+ToListInfiniteElementTest >> testListWithFiveDefaultSelectionMode [
+
+	| l |
+	l := ToListInfiniteElement new.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l data size equals: 5.
+	l forceLayout.
+	self assert: l primarySelection isMultiple
+]
+
 { #category : #'test - select next/previous' }
 ToListInfiniteElementTest >> testListWithFiveElementAddNextInSelection [
 
@@ -139,6 +151,84 @@ ToListInfiniteElementTest >> testListWithFiveElementAddPreviousInSelection [
 	self assert: l primarySelection currentIndex equals: 1.
 	self assert: l selectedIndexes asArray equals: #(1 2 3 4).
 
+]
+
+{ #category : #'test - selection mode' }
+ToListInfiniteElementTest >> testListWithFiveFromMultipleToNodeSelectionMode2 [
+
+	| l |
+	l := ToListInfiniteElement new.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l data size equals: 5.
+	l forceLayout.
+	self assert: l primarySelection isMultiple.
+
+	l primarySelection beWithoutSelection.
+	self assert: l primarySelection isNone.
+	self assert: l selectedIndexes isEmpty.
+	self should: [ l selectIndexes: #(4 2) ] raise: Error.
+	self should: [ l selectIndex: 4 ] raise: Error.
+	self should: [ l selectToIndex: 4 ] raise: Error.
+	self should: [ l deselectIndex: 4 ] raise: Error.
+	self should: [ l cherryPickIndex: 4 ] raise: Error.
+	self should: [ l deselectAll ] raise: Error.
+	self should: [ l selectAll ] raise: Error.
+	self assert: l selectedIndex equals: 0
+
+	
+]
+
+{ #category : #'test - selection mode' }
+ToListInfiniteElementTest >> testListWithFiveFromMultipleToSingleSelectionMode [
+
+	| l |
+	l := ToListInfiniteElement new.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l data size equals: 5.
+	l forceLayout.
+	self assert: l primarySelection isMultiple.
+	l primarySelection beSingleSelection.
+	self assert: l primarySelection isSingle.
+	self assert: l selectedIndexes isEmpty.
+	self should: [ l selectIndexes: #(4 2) ] raise: Error.
+	l selectIndex: 4.
+	self assert: l selectedIndex equals: 4.
+	l deselectIndex: 4.
+	self assert: l selectedIndex equals: 0.
+	self should: [ l cherryPickIndex: 4 ] raise: Error.
+	self should: [ l deselectAll ] raise: Error.
+	self should: [ l selectAll ] raise: Error.
+
+]
+
+{ #category : #'test - selection mode' }
+ToListInfiniteElementTest >> testListWithFiveFromMultipleToSingleSelectionMode2 [
+
+	| l |
+	l := ToListInfiniteElement new.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l data size equals: 5.
+	l forceLayout.
+	self assert: l primarySelection isMultiple.
+	self assert: l selectedIndex equals: 0.
+
+	l selectIndexes: #(4 2).
+	self assert: l selectedIndexes asArray equals: #(2 4).
+
+	l primarySelection beSingleSelection.
+	self assert: l primarySelection isSingle.
+	self assert: l selectedIndexes isEmpty.
+	self should: [ l selectIndexes: #(4 2) ] raise: Error.
+	l selectIndex: 2.
+	self assert: l selectedIndex equals: 2.
+	l deselectIndex: 2.
+	self assert: l selectedIndex equals: 0
+
+
+	
 ]
 
 { #category : #'test - select next/previous' }

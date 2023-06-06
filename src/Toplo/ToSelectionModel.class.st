@@ -120,6 +120,14 @@ ToSelectionModel >> postCopy [
 ]
 
 { #category : #selection }
+ToSelectionModel >> select: aToIndex [
+	"Select items within a given interval"
+
+	selection select: aToIndex - 1 to: aToIndex.
+	self announceSelected: (aToIndex to: aToIndex)
+]
+
+{ #category : #selection }
 ToSelectionModel >> select: aFromIndex to: aToIndex [
 	"Select items within a given interval"
 

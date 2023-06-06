@@ -112,6 +112,16 @@ ToInfiniteElement >> deselectAll [
 ]
 
 { #category : #'selection events' }
+ToInfiniteElement >> deselectIndex: anIndex [
+
+	self primarySelection
+		dispatchSelectionChangedAfter: [ 
+			" ensure that the layout is computed before updating the selection "
+			self primarySelection deselectIndex: anIndex ]
+		to: self
+]
+
+{ #category : #'selection events' }
 ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 
 	| prevIndexes currentIndexes |
@@ -431,7 +441,7 @@ ToInfiniteElement >> selectToIndex: anIndex [
 { #category : #accessing }
 ToInfiniteElement >> selectedIndex [
 
-	^ self selectedIndexes first
+	^ self primarySelection selectedIndex
 ]
 
 { #category : #accessing }

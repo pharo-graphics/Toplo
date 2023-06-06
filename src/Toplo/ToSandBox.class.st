@@ -676,9 +676,18 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	| space list vscrollBar |
 
 	list := ToListElement new matchParent; yourself.
+	list padding: (BlInsets all: 1).
 	list nodeFactory: [ :anImageData |
 		ToPicsumPhotosGalleryImageElement new hMatchParent; vFitContent;
 			imageData: anImageData;
+			yourself ].
+
+	list withSelectionDresserFactory: [
+		ToListActionSelectionDresser new
+			addAction: [ :dresser :selectionElement |
+				selectionElement nodes do: [ :n | n border: (BlBorder paint: Color yellow width: 3) ] ];
+			removeAction: [ :dresser :selectionElement |
+				selectionElement nodes do: [ :n | n border: (BlBorder empty) ] ];
 			yourself ].
 
 	[

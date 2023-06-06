@@ -41,23 +41,22 @@ ToSelectionStrategy >> addOrRemovePrevious [
 ToSelectionStrategy >> addOrRemoveWithGap: aGap [
 
 	| nextIdx prevDistance deselect |
-
 	self checkPivot.
 
-	prevDistance := distance.
+	prevDistance := self distance.
 	nextIdx := self currentIndex + aGap.
-	distance := self pivot - nextIdx.
+	self distance: self pivot - nextIdx.
 
-	deselect := prevDistance abs - distance abs ~= -1.
+	deselect := prevDistance abs - self distance abs ~= -1.
 	deselect
 		ifTrue: [ selectionModel deselectIndex: nextIdx - aGap ]
 		ifFalse: [
-			selectionModel select: nextIdx to: nextIdx.
+			selectionModel select: nextIdx.
 			[
-			nextIdx < dataSource itemCount and: [ nextIdx > 1 and: [ self includes: nextIdx + aGap ] ] ]
-				whileTrue: [
-					nextIdx := nextIdx + aGap.
-					distance := distance - aGap ] ].
+			nextIdx < dataSource itemCount and: [
+				nextIdx > 1 and: [ self includes: nextIdx + aGap ] ] ] whileTrue: [
+				nextIdx := nextIdx + aGap.
+				self distance: self distance - aGap ] ].
 
 	self currentIndex: nextIdx
 ]
@@ -65,7 +64,7 @@ ToSelectionStrategy >> addOrRemoveWithGap: aGap [
 { #category : #'private - selection managing' }
 ToSelectionStrategy >> addToSelection: index [
 
-	self select: index to: index.
+	selectionModel select: index.
 	self markPointedPosition: index
 ]
 
@@ -85,6 +84,7 @@ ToSelectionStrategy >> beMultipleSelection [
 { #category : #'mode changing' }
 ToSelectionStrategy >> beSingleSelection [ 
 
+	self deselectAll.
 	mode := #single
 ]
 
@@ -100,12 +100,13 @@ ToSelectionStrategy >> checkPivot [
 
 	self pivot ifNil: [
 		self pivot: self currentIndex.
-		distance := 0 ]
+		self distance: 0 ]
 ]
 
 { #category : #'selection managing' }
 ToSelectionStrategy >> cherryPickIndex: index [
 
+	self isMultiple ifFalse: [ self invalidOperation ].
 	(self includes: index) ifTrue: [ ^ self deselectIndex: index ].
 	self addToSelection: index
 ]
@@ -131,6 +132,7 @@ ToSelectionStrategy >> dataSource: aDataSource [
 { #category : #'selection managing' }
 ToSelectionStrategy >> deselectAll [
 
+	self isMultiple ifFalse: [ self invalidOperation ].
 	selectionModel deselectAll.
 	self markPointedPosition: 0
 ]
@@ -138,6 +140,7 @@ ToSelectionStrategy >> deselectAll [
 { #category : #'selection managing' }
 ToSelectionStrategy >> deselectIndex: index [
 
+	self isNone ifTrue: [ self invalidOperation ].
 	selectionModel deselectIndex: index.
 	self markPointedPosition: index
 ]
@@ -145,7 +148,6 @@ ToSelectionStrategy >> deselectIndex: index [
 { #category : #'event management' }
 ToSelectionStrategy >> dispatchSelectionChangedAfter: aBlock to: anInfiniteElement [
 
-	self isNone ifTrue: [ ^ self ].
 	anInfiniteElement dispatchSelectionChangedAfter: aBlock
 ]
 
@@ -154,6 +156,12 @@ ToSelectionStrategy >> dispatchStrongSelectionChangedTo: anInfiniteElement [
 
 	self isNone ifTrue: [ ^ self ].
 	anInfiniteElement dispatchStrongSelectionChanged
+]
+
+{ #category : #'private - accessing' }
+ToSelectionStrategy >> distance [
+	
+	^ distance
 ]
 
 { #category : #'private - accessing' }
@@ -323,6 +331,7 @@ ToSelectionStrategy >> selectAll [
 { #category : #'selection managing' }
 ToSelectionStrategy >> selectIndex: index [
 
+	self isNone ifTrue: [ self invalidOperation  ].
 	selectionModel selectIndex: index.
 	self markPointedPosition: index
 ]
@@ -371,6 +380,7 @@ ToSelectionStrategy >> selectPreviousIn: anElement event: aShortcutEvent [
 ToSelectionStrategy >> selectToIndex: index [
 
 	| indexes |
+	self isNone ifTrue: [ self invalidOperation ].
 	indexes := self selectedIndexes.
 	indexes ifEmpty: [ ^ selectionModel selectIndex: index ].
 	indexes first < index ifTrue: [
@@ -384,9 +394,7 @@ ToSelectionStrategy >> selectToIndex: index [
 { #category : #'selection accessing' }
 ToSelectionStrategy >> selectedIndex [
 
-	| idx |
-	idx := self selectedIndexes.
-	^ idx first 
+	^ self selectedIndexes ifEmpty: [0] ifNotEmpty: [ :idxes | idxes first ] 
 ]
 
 { #category : #'selection accessing' }

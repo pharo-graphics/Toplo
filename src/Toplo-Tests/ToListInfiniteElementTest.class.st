@@ -94,24 +94,6 @@ ToListInfiniteElementTest >> testInfiniteWithOneElement [
 
 ]
 
-{ #category : #'test - select next/previous' }
-ToListInfiniteElementTest >> testListChangeDataResetSelection [
-
-	| l |
-	l := ToListInfiniteElement new.
-	l fitContent.
-	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
-	self assert: l data size equals: 5.
-	l forceLayout.
-	self assert: l selectedIndexes isEmpty.
-	l selectIndex: 2.
-	self assert: l primarySelection currentIndex equals: 2.
-	self assert: l primarySelection pivot isNil.
-	self assert: l primarySelection distance isNil.
-	l data removeAt: 2.
-	self assert: l selectedIndexes isEmpty
-]
-
 { #category : #'test - selection mode' }
 ToListInfiniteElementTest >> testListWithFiveDefaultSelectionMode [
 
@@ -466,4 +448,89 @@ ToListInfiniteElementTest >> testListWithTwoElementSelectPreviousInSelection [
 	self assert: l primarySelection currentIndex equals: 2.
 	self assert: l selectedIndex equals: 2.
 
+]
+
+{ #category : #'test - select next/previous' }
+ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove [
+
+	| l sp |
+	l := ToListInfiniteElement new.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l data size equals: 5.
+	l forceLayout.
+	self assert: l selectedIndexes isEmpty.
+	l selectIndex: 3.
+	self assert: l primarySelection currentIndex equals: 3.
+	l data removeAt: 2.
+	self assert: l primarySelection currentIndex equals: 3.
+	sp := l inSpace.
+	sp pulse.
+	self assert: l primarySelection currentIndex equals: 2.
+	self assert: l selectedIndex equals: 2.
+	
+]
+
+{ #category : #'test - select next/previous' }
+ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove2 [
+
+	| l sp |
+	l := ToListInfiniteElement new.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l data size equals: 5.
+	self assert: l selectedIndexes isEmpty.
+	l selectIndex: 3.
+	self assert: l primarySelection currentIndex equals: 3.
+	l data removeAt: 4.
+	self assert: l primarySelection currentIndex equals: 3.
+	sp := l inSpace.
+	sp pulse.
+	self assert: l primarySelection currentIndex equals: 3.
+	
+]
+
+{ #category : #'test - select next/previous' }
+ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove3 [
+
+	| l sp |
+	l := ToListInfiniteElement new.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l data size equals: 5.
+	l forceLayout.
+	self assert: l selectedIndexes isEmpty.
+	l selectIndexes: #(3 4).
+	self assert: l selectedIndexes equals: #(3 4).	
+	self assert: l primarySelection currentIndex equals: 3.
+	l data removeAt: 2.
+	self assert: l primarySelection currentIndex equals: 3.
+	sp := l inSpace.
+	l postChildrenUpdater.
+	sp pulse.
+	self assert: l primarySelection currentIndex equals: 2.
+	self assert: l selectedIndexes equals: #(2 3).	
+]
+
+{ #category : #'test - select next/previous' }
+ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove4 [
+
+	| l sp |
+	l := ToListInfiniteElement new.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l data size equals: 5.
+	l forceLayout.
+	self assert: l selectedIndexes isEmpty.
+	l selectIndex: 2.
+	self assert: l primarySelection currentIndex equals: 2.
+	self assert: l primarySelection pivot isNil.
+	self assert: l primarySelection distance isNil.
+	l data removeAt: 2.
+	self assert: l primarySelection currentIndex equals: 2.
+	sp := l inSpace.
+	sp pulse.
+	self assert: l selectedIndexes isEmpty.
+	self assert: l primarySelection currentIndex equals: 0
+	
 ]

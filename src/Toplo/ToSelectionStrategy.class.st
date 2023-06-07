@@ -141,8 +141,7 @@ ToSelectionStrategy >> deselectAll [
 ToSelectionStrategy >> deselectIndex: index [
 
 	self isNone ifTrue: [ self invalidOperation ].
-	selectionModel deselectIndex: index.
-	self markPointedPosition: index
+	selectionModel deselectIndex: index
 ]
 
 { #category : #'event management' }
@@ -300,8 +299,22 @@ ToSelectionStrategy >> offsetPositionForInsert: aStartPosition itemCount: anItem
 { #category : #'data source change' }
 ToSelectionStrategy >> offsetPositionForRemove: aStartPosition itemCount: anItemCount [
 
-	aStartPosition to: aStartPosition + anItemCount - 1 do: [ :idx |
-		self deselectIndex: idx ]
+	| idxs removedIdx afterIdx |
+	idxs := self selectedIndexes.
+	removedIdx := idxs select: [ :i |
+		              i
+			              between: aStartPosition
+			              and: aStartPosition + anItemCount - 1 ].
+	afterIdx := idxs select: [ :i |
+		            i > (aStartPosition + anItemCount - 1) ].
+	removedIdx do: [ :i |
+		self currentIndex = i ifTrue: [ self currentIndex: 0 ].
+		selectionModel deselectIndex: i ].
+	afterIdx do: [ :i |
+		self currentIndex = i ifTrue: [
+			self currentIndex: self currentIndex - anItemCount ].
+		selectionModel deselectIndex: i ].
+	afterIdx do: [ :i | selectionModel select: i - anItemCount ]
 ]
 
 { #category : #'private - accessing' }

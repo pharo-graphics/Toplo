@@ -291,9 +291,13 @@ ToSelectionStrategy >> multipleSelectionModeDo: aBlock [
 ToSelectionStrategy >> offsetPositionForInsert: aStartPosition itemCount: anItemCount [
 
 	| selected |
-	selected := self selectedIndexes select: [ :idx | idx >= aStartPosition ].
+	selected := self selectedIndexes select: [ :idx |
+		            idx >= aStartPosition ].
 	selected do: [ :idx | self deselectIndex: idx ].
-	selected do: [ :idx | self addToSelection: idx + anItemCount ].
+	selected do: [ :idx |
+		self currentIndex = idx ifTrue: [
+			self currentIndex: idx + anItemCount ].
+		selectionModel select: idx + anItemCount ]
 ]
 
 { #category : #'data source change' }

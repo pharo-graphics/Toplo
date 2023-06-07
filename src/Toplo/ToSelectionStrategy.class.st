@@ -273,7 +273,10 @@ ToSelectionStrategy >> last [
 { #category : #'private - accessing' }
 ToSelectionStrategy >> markPointedPosition: anInteger [
 
+	" pivot and distance are used for shift-arrow-up and down management "
 	self pivot: nil.
+	self distance: nil.
+	
 	self currentIndex: anInteger.
 
 ]

@@ -18,7 +18,7 @@ ToListInfiniteElementTest >> testEmptyInfinite [
 ]
 
 { #category : #'test - select next/previous' }
-ToListInfiniteElementTest >> testEmptyListAddOrRemoveNext [
+ToListInfiniteElementTest >> testEmptyListAddOrRemoveNextInSelection [
 
 	| l |
 	l := ToListInfiniteElement new.
@@ -31,7 +31,7 @@ ToListInfiniteElementTest >> testEmptyListAddOrRemoveNext [
 ]
 
 { #category : #'test - select next/previous' }
-ToListInfiniteElementTest >> testEmptyListAddOrRemovePrevious [
+ToListInfiniteElementTest >> testEmptyListAddOrRemovePreviousInSelection [
 
 	| l |
 	l := ToListInfiniteElement new.
@@ -44,7 +44,7 @@ ToListInfiniteElementTest >> testEmptyListAddOrRemovePrevious [
 ]
 
 { #category : #'test - select next/previous' }
-ToListInfiniteElementTest >> testEmptyListSelectNext [
+ToListInfiniteElementTest >> testEmptyListSelectNextInSelection [
 
 	| l |
 	l := ToListInfiniteElement new.
@@ -61,7 +61,7 @@ ToListInfiniteElementTest >> testEmptyListSelectNext [
 ]
 
 { #category : #'test - select next/previous' }
-ToListInfiniteElementTest >> testEmptyListSelectPrevious [
+ToListInfiniteElementTest >> testEmptyListSelectPreviousInSelection [
 
 	| l |
 	l := ToListInfiniteElement new.
@@ -92,6 +92,24 @@ ToListInfiniteElementTest >> testInfiniteWithOneElement [
 	self assert: l primarySelection currentIndex isZero
 	
 
+]
+
+{ #category : #'test - select next/previous' }
+ToListInfiniteElementTest >> testListChangeDataResetSelection [
+
+	| l |
+	l := ToListInfiniteElement new.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l data size equals: 5.
+	l forceLayout.
+	self assert: l selectedIndexes isEmpty.
+	l selectIndex: 2.
+	self assert: l primarySelection currentIndex equals: 2.
+	self assert: l primarySelection pivot isNil.
+	self assert: l primarySelection distance isNil.
+	l data removeAt: 2.
+	self assert: l selectedIndexes isEmpty
 ]
 
 { #category : #'test - selection mode' }
@@ -232,7 +250,7 @@ ToListInfiniteElementTest >> testListWithFiveFromMultipleToSingleSelectionMode2 
 ]
 
 { #category : #'test - select next/previous' }
-ToListInfiniteElementTest >> testListWithOneElementAddOrRemoveNext [
+ToListInfiniteElementTest >> testListWithOneElementAddOrRemoveNextInSelection [
 
 	| l |
 	l := ToListInfiniteElement new.
@@ -250,7 +268,7 @@ ToListInfiniteElementTest >> testListWithOneElementAddOrRemoveNext [
 ]
 
 { #category : #'test - select next/previous' }
-ToListInfiniteElementTest >> testListWithOneElementAddOrRemoveNext2 [
+ToListInfiniteElementTest >> testListWithOneElementAddOrRemoveNextInSelection2 [
 
 	| l |
 	l := ToListInfiniteElement new.
@@ -268,7 +286,7 @@ ToListInfiniteElementTest >> testListWithOneElementAddOrRemoveNext2 [
 ]
 
 { #category : #'test - select next/previous' }
-ToListInfiniteElementTest >> testListWithOneElementAddOrRemovePrevious [
+ToListInfiniteElementTest >> testListWithOneElementAddOrRemovePreviousInSelection [
 
 	| l |
 	l := ToListInfiniteElement new.
@@ -287,7 +305,7 @@ ToListInfiniteElementTest >> testListWithOneElementAddOrRemovePrevious [
 ]
 
 { #category : #'test - select next/previous' }
-ToListInfiniteElementTest >> testListWithOneElementAddOrRemovePrevious2 [
+ToListInfiniteElementTest >> testListWithOneElementAddOrRemovePreviousInSelection2 [
 
 	| l |
 	l := ToListInfiniteElement new.
@@ -306,7 +324,7 @@ ToListInfiniteElementTest >> testListWithOneElementAddOrRemovePrevious2 [
 ]
 
 { #category : #'test - select next/previous' }
-ToListInfiniteElementTest >> testListWithOneElementSelectNext [
+ToListInfiniteElementTest >> testListWithOneElementSelectNextInSelection [
 
 	| l |
 	l := ToListInfiniteElement new.
@@ -324,7 +342,7 @@ ToListInfiniteElementTest >> testListWithOneElementSelectNext [
 ]
 
 { #category : #'test - select next/previous' }
-ToListInfiniteElementTest >> testListWithOneElementSelectPrevious [
+ToListInfiniteElementTest >> testListWithOneElementSelectPreviousInSelection [
 
 	| l |
 	l := ToListInfiniteElement new.
@@ -407,7 +425,7 @@ ToListInfiniteElementTest >> testListWithTwoElementRemovePreviousFromSelection [
 ]
 
 { #category : #'test - select next/previous' }
-ToListInfiniteElementTest >> testListWithTwoElementSelectNext [
+ToListInfiniteElementTest >> testListWithTwoElementSelectNextInSelection [
 
 	| l |
 	l := ToListInfiniteElement new.
@@ -429,7 +447,7 @@ ToListInfiniteElementTest >> testListWithTwoElementSelectNext [
 ]
 
 { #category : #'test - select next/previous' }
-ToListInfiniteElementTest >> testListWithTwoElementSelectPrevious [
+ToListInfiniteElementTest >> testListWithTwoElementSelectPreviousInSelection [
 
 	| l |
 	l := ToListInfiniteElement new.

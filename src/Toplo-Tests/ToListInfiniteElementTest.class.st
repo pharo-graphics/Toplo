@@ -472,6 +472,30 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove [
 ]
 
 { #category : #'test - select next/previous' }
+ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove1 [
+
+	| l sp |
+	l := ToListInfiniteElement new.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l data size equals: 5.
+	l forceLayout.
+	self assert: l selectedIndexes isEmpty.
+	l selectIndex: 3.
+	self assert: l primarySelection currentIndex equals: 3.
+	self assert: l children size equals: 5.
+	l data removeAll.
+	self assert: l primarySelection currentIndex equals: 3.
+	sp := l inSpace.
+	sp pulse.
+	self assert: l children size equals: 0.
+	self assert: l data size equals: 0.
+	self assert: l primarySelection currentIndex equals: 0.
+	self assert: l selectedIndex equals: 0.
+	
+]
+
+{ #category : #'test - select next/previous' }
 ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove2 [
 
 	| l sp |

@@ -336,9 +336,8 @@ ToSelectionStrategy >> pivot: anIndex [
 { #category : #'private - selection managing' }
 ToSelectionStrategy >> select: aFirstIndex to: aLastIndex [
 
-	(self isMultiple not and: [ aLastIndex > aFirstIndex ]) ifTrue: [ self invalidOperation ].
-	selectionModel select: aFirstIndex to: aLastIndex.
-	aFirstIndex = aLastIndex ifTrue: [ self markPointedPosition: aFirstIndex ]
+	(self isMultiple ) ifFalse: [ self invalidOperation ].
+	selectionModel select: aFirstIndex to: aLastIndex
 ]
 
 { #category : #'selection managing' }
@@ -402,12 +401,14 @@ ToSelectionStrategy >> selectToIndex: index [
 	| indexes |
 	self isNone ifTrue: [ self invalidOperation ].
 	indexes := self selectedIndexes.
-	indexes ifEmpty: [ ^ selectionModel selectIndex: index ].
+	indexes ifEmpty: [ ^ self selectIndex: index ].
 	indexes first < index ifTrue: [
 		self deselectAll.
+		self markPointedPosition: index.
 		^ self select: indexes first to: index ].
 	indexes last >= index ifFalse: [ ^ self ].
 	self deselectAll.
+	self markPointedPosition: indexes last.
 	^ self select: index to: indexes last
 ]
 

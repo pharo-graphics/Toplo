@@ -450,7 +450,7 @@ ToListInfiniteElementTest >> testListWithTwoElementSelectPreviousInSelection [
 
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test - adding/removing' }
 ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert [
 
 	| l sp |
@@ -471,7 +471,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert [
 	
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test - adding/removing' }
 ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert1 [
 
 	| l sp |
@@ -494,7 +494,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert1 [
 	
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test - adding/removing' }
 ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert2 [
 
 	| l sp |
@@ -513,7 +513,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert2 [
 	
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test - adding/removing' }
 ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert3 [
 
 	| l sp |
@@ -534,7 +534,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert3 [
 	self assert: l selectedIndexes equals: #(4 5).	
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test - adding/removing' }
 ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove [
 
 	| l sp |
@@ -555,7 +555,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove [
 	
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test - adding/removing' }
 ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove1 [
 
 	| l sp |
@@ -579,7 +579,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove1 [
 	
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test - adding/removing' }
 ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove2 [
 
 	| l sp |
@@ -598,7 +598,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove2 [
 	
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test - adding/removing' }
 ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove3 [
 
 	| l sp |
@@ -619,7 +619,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove3 [
 	self assert: l selectedIndexes equals: #(2 3).	
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test - adding/removing' }
 ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove4 [
 
 	| l sp |

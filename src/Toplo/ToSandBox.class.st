@@ -833,6 +833,27 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 	container openInSpace
 ]
 
+{ #category : #dresser }
+ToSandBox class >> example_WithToActionDresser [
+
+	| t |
+	t := ToTextField new.
+	t addDresser: (ToActionDresser new
+			 installAction: [ :textField :dresser |
+				 | h |
+				 h := BlEventHandler
+					      on: BlMouseEnterEvent
+					      do: [ self inform: 'hep!!!' ].
+				 dresser userData at: #mouseDownHandler put: h.
+				 textField addEventHandler: h ];
+			 uninstallAction: [ :textField :dresser |
+				 | h |
+				 h := dresser userData at: #mouseDownHandler.
+				 textField removeEventHandler: h ]).
+	t text: 'Bla bla'.
+	t openInSpace
+]
+
 { #category : #window }
 ToSandBox class >> example_anchoredWidow1 [
 
@@ -1520,6 +1541,16 @@ ToSandBox class >> example_textField0 [
 
 	| t |
 	t := ToTextField new text: 'AAAA'.
+	t openInSpace
+]
+
+{ #category : #'text field' }
+ToSandBox class >> example_textFieldWithDresserToSetFontNameAndSize [
+
+	| t |
+	t := ToTextField new.
+	t addDresser: (ToActionDresser new installAction: [ :textField | textField whenTextReplacedDo: [ :event | event text fontName: 'Arial'; fontSize: 24 ] ]).
+	t text: 'AAAA'.
 	t openInSpace
 ]
 

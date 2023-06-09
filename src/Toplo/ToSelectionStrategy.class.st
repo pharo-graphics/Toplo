@@ -141,7 +141,8 @@ ToSelectionStrategy >> deselectAll [
 ToSelectionStrategy >> deselectIndex: index [
 
 	self isNone ifTrue: [ self invalidOperation ].
-	selectionModel deselectIndex: index
+	selectionModel deselectIndex: index.
+	self markPointedPosition: index
 ]
 
 { #category : #'event management' }
@@ -293,7 +294,7 @@ ToSelectionStrategy >> offsetPositionForInsert: aStartPosition itemCount: anItem
 	| selected |
 	selected := self selectedIndexes select: [ :idx |
 		            idx >= aStartPosition ].
-	selected do: [ :idx | self deselectIndex: idx ].
+	selected do: [ :idx | selectionModel deselectIndex: idx ].
 	selected do: [ :idx |
 		self currentIndex = idx ifTrue: [
 			self currentIndex: idx + anItemCount ].

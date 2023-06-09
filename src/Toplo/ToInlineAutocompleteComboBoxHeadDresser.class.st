@@ -11,10 +11,10 @@ Class {
 { #category : #'api - install/uninstall  hook' }
 ToInlineAutocompleteComboBoxHeadDresser >> filterResult: anEvent [
 
-	comboBox listElement data filterResult: anEvent data.
+	comboBox presentedData filterResult: anEvent data.
 	comboBox fitListElementToContent.
 	comboBox popupEvent: anEvent.
-	comboBox listElement data size isZero ifTrue: [ ^ self ].
+	comboBox presentedData size isZero ifTrue: [ ^ self ].
 	comboBox listElement whenLayoutedDoOnce: [ 	comboBox listElement selectIndex: 1 ]
 ]
 
@@ -36,10 +36,12 @@ ToInlineAutocompleteComboBoxHeadDresser >> textUpdatedIn: anElement [
 ToInlineAutocompleteComboBoxHeadDresser >> whenAdded: anElement [
 
 	super whenAdded: anElement.
-	filterDresser := ToDataFilterDresser new filter: [ :data :pattern |
+	filterDresser := ToDataFilterDresser new 
+							filter: [ :data :pattern |
 		                 (anElement dataToTextConverter value: data)
 			                 beginsWith: pattern
-			                 caseSensitive: false ].
+			                 caseSensitive: false ];
+							originalDataProvider: [ comboBox data asArray ].
 	comboBox listElement addDresser: filterDresser.
 	anElement textField whenTextEditedDo: [ :event | self textUpdatedIn: anElement ].
 	filterResultHandler := BlEventHandler

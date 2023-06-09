@@ -7,6 +7,7 @@ Class {
 		'requestHandler',
 		'process',
 		'filter',
+		'originalDataProvider',
 		'originalData',
 		'delayBeforeFilter',
 		'currentIndexes',
@@ -18,7 +19,7 @@ Class {
 { #category : #'api - install/uninstall  hook' }
 ToDataFilterDresser >> dataChangedIn: anElement [
 
-	originalData := anElement data asArray.
+	originalData := originalDataProvider value.
 	currentIndexes  := 1 to: 0.
 	self filterDataIn: anElement
 ]
@@ -27,6 +28,12 @@ ToDataFilterDresser >> dataChangedIn: anElement [
 ToDataFilterDresser >> defaultFilter [
 
 	^ [ :data :p | data includesSubstring: p caseSensitive: false ]
+]
+
+{ #category : #initialization }
+ToDataFilterDresser >> defaultOriginalDataProvider [
+
+	^ nil
 ]
 
 { #category : #accessing }
@@ -111,6 +118,13 @@ ToDataFilterDresser >> filterRequestEvent: anEvent in: anElement [
 	self semaphore signal
 ]
 
+{ #category : #initialization }
+ToDataFilterDresser >> initialize [ 
+
+	super initialize.
+	originalDataProvider := self defaultOriginalDataProvider
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToDataFilterDresser >> installEventListenersIn: anElement [
 
@@ -131,7 +145,8 @@ ToDataFilterDresser >> installEventListenersIn: anElement [
 ToDataFilterDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	originalData := anElement data asArray.
+	originalDataProvider ifNil: [ originalDataProvider := [ anElement data asArray ] ].
+	originalData :=  originalDataProvider value.
 	delayBeforeFilter := 150 milliSeconds.
 	process := self filterProcessIn: anElement
 ]
@@ -145,6 +160,13 @@ ToDataFilterDresser >> onUninstalledIn: anElement [
 	semaphore := nil.
 	super onUninstalledIn: anElement.
 
+]
+
+{ #category : #accessing }
+ToDataFilterDresser >> originalDataProvider: aBlock [
+
+	" returns an array "
+	originalDataProvider := aBlock
 ]
 
 { #category : #accessing }

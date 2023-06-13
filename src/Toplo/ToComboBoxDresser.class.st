@@ -46,7 +46,7 @@ ToComboBoxDresser >> onInstalledIn: anElement [
 		              action: [
 			              anElement listElement primarySelectionIndexes ifNotEmpty: [
 					              :idxes |
-					              anElement selectIndex: idxes first.
+					              anElement selectIndexInPresentedData: idxes first.
 					              anElement closeEvent: nil.
 					              anElement requestFocus ] ];
 		              name: 'Accept';

@@ -10,7 +10,8 @@ Class {
 		'#listElementSize',
 		'#mode => ObservableSlot',
 		'#data',
-		'#selectedIndexInPresentedData'
+		'#selectedIndexInPresentedData',
+		'#selectedIndex => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
@@ -44,7 +45,7 @@ ToComboBox >> canInsertData: aData [
 { #category : #events }
 ToComboBox >> clickOnDataEvent: aClickOnDataEvent [
 
-	self selectIndex: aClickOnDataEvent index.
+	self selectIndexInPresentedData: aClickOnDataEvent index.
 	self closeEvent: aClickOnDataEvent event.
 	self requestFocus
 ]
@@ -60,12 +61,6 @@ ToComboBox >> closeEvent: anEvent [
 ToComboBox >> data [
 
 	^ data
-]
-
-{ #category : #accessing }
-ToComboBox >> data: anObservableCollection [
-
-	data := anObservableCollection
 ]
 
 { #category : #'t - initialization dresser' }
@@ -148,7 +143,7 @@ ToComboBox >> fitListElementToContent [
 { #category : #testing }
 ToComboBox >> hasSelectedData [
 
-	^ self selectedIndexInPresentedData > 0
+	^ self selectedIndex > 0
 ]
 
 { #category : #accessing }
@@ -175,7 +170,7 @@ ToComboBox >> headPlaceholder: anElement [
 { #category : #accessing }
 ToComboBox >> indexOfData: aData [
 
-	^ self presentedData indexOf: aData ifAbsent: [ 0 ]
+	^ self data indexOf: aData ifAbsent: [ 0 ]
 ]
 
 { #category : #initialization }
@@ -197,10 +192,14 @@ ToComboBox >> insertData: aData [
 	| idx |
 	idx := self indexOfData: aData.
 	idx isZero ifTrue: [
-		self data add: aData.
+		| prev |
+		prev := self data copy.
+		self data removeAll.
+		prev add: aData.
+		self data addAll: prev asArray sorted.
 		idx := self indexOfData: aData ].
 	self fitListElementToContent.
-	self selectIndex: idx
+	self selectedIndex: idx
 ]
 
 { #category : #testing }
@@ -221,7 +220,7 @@ ToComboBox >> listElement [
 	^ listElement
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : #displaying }
 ToComboBox >> listElementRequestFocus [
 
 	self listElement infinite requestFocus
@@ -302,29 +301,31 @@ ToComboBox >> notifyChanged [
 ToComboBox >> notifyDataChanged: anAnnouncement [
 
 	anAnnouncement interval ifEmpty: [ ^ self ].
-	self presentedData
+	self flag: 'todo'.
+
+	"self presentedData
 		replaceFrom: anAnnouncement interval first
 		to: anAnnouncement interval last
 		with: self data list
-		startingAt: anAnnouncement interval first
+		startingAt: anAnnouncement interval first"
 ]
 
 { #category : #'private - notifications' }
 ToComboBox >> notifyDataInserted: anAnnouncement [
 
 	anAnnouncement interval ifEmpty: [ ^ self ].
-	self presentedData addAll: (self data
-			 copyFrom: anAnnouncement interval first
-			 to: anAnnouncement interval last)
+	self presentedData removeAll.
+	self presentedData addAll: (self data asArray sorted)
 ]
 
 { #category : #'private - notifications' }
 ToComboBox >> notifyDataRemoved: anAnnouncement [
 
 	anAnnouncement interval ifEmpty: [ ^ self ].
-	self presentedData
+	self flag: 'todo'.
+	"self presentedData
 		removeFrom: anAnnouncement interval first
-		to: anAnnouncement interval last
+		to: anAnnouncement interval last"
 ]
 
 { #category : #displaying }
@@ -346,8 +347,7 @@ ToComboBox >> placeholderShown [
 ToComboBox >> popupEvent: anEvent [
 
 	self isOpened ifTrue: [ ^ self ].
-	self listFrame popupEvent: anEvent.
-	"self selectIndex: self selectedIndex"
+	self listFrame popupEvent: anEvent
 ]
 
 { #category : #displaying }
@@ -379,10 +379,10 @@ ToComboBox >> presentedData [
 { #category : #'private - accessing' }
 ToComboBox >> privateData: anObservableCollection [
 
+	data := anObservableCollection.
 	anObservableCollection whenAddChangeDo: [ :ann | self notifyDataInserted: ann ].
 	anObservableCollection whenRemoveChangeDo: [ :ann | self notifyDataRemoved: ann ].
 	anObservableCollection whenUpdateChangeDo: [ :ann | self notifyDataInserted: ann ].
-	data := anObservableCollection.
 	
 	self notifyChanged
 ]
@@ -393,7 +393,7 @@ ToComboBox >> privateHeadElement: anElement [
 	headElement = anElement ifTrue: [ ^ self ].
 	headElement ifNotNil: [ headElement removeFromParent ].
 	headElement := anElement.
-	self selectIndex: self selectedIndexInPresentedData.
+	self selectIndexInPresentedData: self selectedIndexInPresentedData.
 	self addChild: headElement
 ]
 
@@ -412,34 +412,16 @@ ToComboBox >> privateListFrame: aWindow [
 { #category : #'private - accessing' }
 ToComboBox >> privateSelectedIndexInPresentedData: anInteger [
 
-	selectedIndexInPresentedData := anInteger
+	| d |
+	selectedIndexInPresentedData := anInteger.
+	anInteger isZero ifTrue: [ ^ self ].
+	d := self presentedData at: anInteger.
+	self selectedIndex: (self data indexOf: d)
 ]
 
 { #category : #accessing }
-ToComboBox >> scrollToIndex: anIndex [
+ToComboBox >> selectIndexInPresentedData: anIndex [
 
-	self listElement scrollToIndex: anIndex
-]
-
-{ #category : #accessing }
-ToComboBox >> selectData: aData [
-
-	| prev curr |
-	prev := self selectedIndexInPresentedData.
-	curr := self presentedData indexOf: aData.
-	self privateSelectedIndexInPresentedData: curr.
-	prev = curr ifFalse: [ self updateHeadContent ].
-	curr isZero ifTrue: [ ^ self ].
-	listElement whenLayoutedDoOnce: [
-		self listElement selectIndex: self selectedIndexInPresentedData ].
-	self requestLayout
-]
-
-{ #category : #accessing }
-ToComboBox >> selectIndex: anIndex [
-
-	| prev |
-	prev := self selectedIndexInPresentedData.
 	self privateSelectedIndexInPresentedData: anIndex.
 	self updateHeadContent.
 	self selectedIndexInPresentedData isZero ifTrue: [ ^ self ].
@@ -451,7 +433,7 @@ ToComboBox >> selectIndex: anIndex [
 { #category : #accessing }
 ToComboBox >> selectedData [
 
-	^ self data at: self selectedIndexInPresentedData
+	^ self data at: self selectedIndex
 ]
 
 { #category : #accessing }
@@ -459,6 +441,24 @@ ToComboBox >> selectedDataDo: aBlock [
 	
 	self hasSelectedData ifFalse: [ ^ self ].
 	aBlock value: self selectedData
+]
+
+{ #category : #accessing }
+ToComboBox >> selectedDataInPresentedData [
+
+	^ self presentedData at: self selectedIndexInPresentedData
+]
+
+{ #category : #accessing }
+ToComboBox >> selectedIndex [
+	
+	^ selectedIndex ifNil: [ selectedIndex := 0 ]
+]
+
+{ #category : #accessing }
+ToComboBox >> selectedIndex: anIndex [
+
+	selectedIndex := anIndex.
 ]
 
 { #category : #accessing }
@@ -486,5 +486,5 @@ ToComboBox >> whenSelectedIndexChangedDo: aBlock [
 
 	"set a block to perform after that the selected item has been changed, and its action performed"
 
-	self property: #selectedIndexInPresentedData whenChangedDo: aBlock
+	self property: #selectedIndex whenChangedDo: aBlock
 ]

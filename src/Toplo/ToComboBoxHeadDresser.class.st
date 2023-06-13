@@ -140,7 +140,7 @@ ToComboBoxHeadDresser >> selectedIndex: anIndex in: anElement [
 	anIndex isZero ifTrue: [
 		anElement noDataSelected.
 		^ self ].
-	anElement selectData: (comboBox data at: anIndex)
+	anElement selectData: (comboBox presentedData at: anIndex)
 ]
 
 { #category : #'api - install/uninstall  hook' }

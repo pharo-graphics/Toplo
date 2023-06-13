@@ -230,7 +230,7 @@ ToMiniBrowser >> initialize [
 { #category : #opening }
 ToMiniBrowser >> open [
 
-	mainPane openInOBlSpace title: 'Mini browser'
+	mainPane openInSpace title: 'Mini browser'
 ]
 
 { #category : #initialization }

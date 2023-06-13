@@ -478,16 +478,20 @@ ToListInfiniteElementTest >> testListWithTwoElementSelectPreviousInSelection [
 { #category : #'test selection - adding/removing' }
 ToListInfiniteElementTest >> testRemoveAll [
 
-	| l sp |
+	| l |
 	l := ToListInfiniteElement new.
 	l fitContent.
 	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l data size equals: 5.
 	l forceLayout.
 	self assert: l children size equals: 5.
+	l selectIndex: 2.
+	l forceLayout.
+	self assert: l selectedIndexes equals: #(2).
 	l data removeAll.
 	l forceLayout.	
 	self assert: l children size equals: 0.
+	self assert: l selectedIndexes isEmpty
 
 	
 ]

@@ -17,7 +17,7 @@ ToListInfiniteElementTest >> testEmptyInfinite [
 	self assert: l primarySelection isMultiple
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test selection - select next/previous' }
 ToListInfiniteElementTest >> testEmptyListAddOrRemoveNextInSelection [
 
 	| l |
@@ -30,7 +30,7 @@ ToListInfiniteElementTest >> testEmptyListAddOrRemoveNextInSelection [
 	self assert: l primarySelection currentIndex isZero
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test selection - select next/previous' }
 ToListInfiniteElementTest >> testEmptyListAddOrRemovePreviousInSelection [
 
 	| l |
@@ -43,7 +43,7 @@ ToListInfiniteElementTest >> testEmptyListAddOrRemovePreviousInSelection [
 	self assert: l primarySelection currentIndex isZero
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test selection - select next/previous' }
 ToListInfiniteElementTest >> testEmptyListSelectNextInSelection [
 
 	| l |
@@ -60,7 +60,7 @@ ToListInfiniteElementTest >> testEmptyListSelectNextInSelection [
 	self assert: l selectedIndexes isEmpty
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test selection - select next/previous' }
 ToListInfiniteElementTest >> testEmptyListSelectPreviousInSelection [
 
 	| l |
@@ -94,7 +94,7 @@ ToListInfiniteElementTest >> testInfiniteWithOneElement [
 
 ]
 
-{ #category : #'test - selection mode' }
+{ #category : #'test selection - mode' }
 ToListInfiniteElementTest >> testListWithFiveDefaultSelectionMode [
 
 	| l |
@@ -106,7 +106,7 @@ ToListInfiniteElementTest >> testListWithFiveDefaultSelectionMode [
 	self assert: l primarySelection isMultiple
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test selection - select next/previous' }
 ToListInfiniteElementTest >> testListWithFiveElementAddNextInSelection [
 
 	| l |
@@ -129,7 +129,7 @@ ToListInfiniteElementTest >> testListWithFiveElementAddNextInSelection [
 
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test selection - select next/previous' }
 ToListInfiniteElementTest >> testListWithFiveElementAddPreviousInSelection [
 
 	| l |
@@ -153,7 +153,7 @@ ToListInfiniteElementTest >> testListWithFiveElementAddPreviousInSelection [
 
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test selection - select next/previous' }
 ToListInfiniteElementTest >> testListWithFiveElementCherryPick [
 
 	| l |
@@ -178,7 +178,7 @@ ToListInfiniteElementTest >> testListWithFiveElementCherryPick [
 
 ]
 
-{ #category : #'test - selection mode' }
+{ #category : #'test selection - mode' }
 ToListInfiniteElementTest >> testListWithFiveFromMultipleToSingleSelectionMode [
 
 	| l |
@@ -202,7 +202,7 @@ ToListInfiniteElementTest >> testListWithFiveFromMultipleToSingleSelectionMode [
 
 ]
 
-{ #category : #'test - selection mode' }
+{ #category : #'test selection - mode' }
 ToListInfiniteElementTest >> testListWithFiveFromMultipleToSingleSelectionMode2 [
 
 	| l |
@@ -230,7 +230,7 @@ ToListInfiniteElementTest >> testListWithFiveFromMultipleToSingleSelectionMode2 
 	
 ]
 
-{ #category : #'test - selection mode' }
+{ #category : #'test selection - mode' }
 ToListInfiniteElementTest >> testListWithFiveFromMultipleToWithoutSelectionMode [
 
 	| l |
@@ -256,7 +256,7 @@ ToListInfiniteElementTest >> testListWithFiveFromMultipleToWithoutSelectionMode 
 	
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test selection - select next/previous' }
 ToListInfiniteElementTest >> testListWithOneElementAddOrRemoveNextInSelection [
 
 	| l |
@@ -274,7 +274,7 @@ ToListInfiniteElementTest >> testListWithOneElementAddOrRemoveNextInSelection [
 
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test selection - select next/previous' }
 ToListInfiniteElementTest >> testListWithOneElementAddOrRemoveNextInSelection2 [
 
 	| l |
@@ -292,7 +292,7 @@ ToListInfiniteElementTest >> testListWithOneElementAddOrRemoveNextInSelection2 [
 
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test selection - select next/previous' }
 ToListInfiniteElementTest >> testListWithOneElementAddOrRemovePreviousInSelection [
 
 	| l |
@@ -311,7 +311,7 @@ ToListInfiniteElementTest >> testListWithOneElementAddOrRemovePreviousInSelectio
 
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test selection - select next/previous' }
 ToListInfiniteElementTest >> testListWithOneElementAddOrRemovePreviousInSelection2 [
 
 	| l |
@@ -330,7 +330,7 @@ ToListInfiniteElementTest >> testListWithOneElementAddOrRemovePreviousInSelectio
 
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test selection - select next/previous' }
 ToListInfiniteElementTest >> testListWithOneElementSelectNextInSelection [
 
 	| l |
@@ -348,7 +348,7 @@ ToListInfiniteElementTest >> testListWithOneElementSelectNextInSelection [
 
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test selection - select next/previous' }
 ToListInfiniteElementTest >> testListWithOneElementSelectPreviousInSelection [
 
 	| l |
@@ -365,7 +365,7 @@ ToListInfiniteElementTest >> testListWithOneElementSelectPreviousInSelection [
 	self assert: l selectedIndex equals: 1.
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test selection - select next/previous' }
 ToListInfiniteElementTest >> testListWithTwoElementAddNextInSelection [
 
 	| l |
@@ -387,7 +387,7 @@ ToListInfiniteElementTest >> testListWithTwoElementAddNextInSelection [
 
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test selection - select next/previous' }
 ToListInfiniteElementTest >> testListWithTwoElementAddPreviousInSelection [
 
 	| l |
@@ -409,7 +409,7 @@ ToListInfiniteElementTest >> testListWithTwoElementAddPreviousInSelection [
 
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test selection - select next/previous' }
 ToListInfiniteElementTest >> testListWithTwoElementRemovePreviousFromSelection [
 
 	| l |
@@ -431,7 +431,7 @@ ToListInfiniteElementTest >> testListWithTwoElementRemovePreviousFromSelection [
 
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test selection - select next/previous' }
 ToListInfiniteElementTest >> testListWithTwoElementSelectNextInSelection [
 
 	| l |
@@ -453,7 +453,7 @@ ToListInfiniteElementTest >> testListWithTwoElementSelectNextInSelection [
 
 ]
 
-{ #category : #'test - select next/previous' }
+{ #category : #'test selection - select next/previous' }
 ToListInfiniteElementTest >> testListWithTwoElementSelectPreviousInSelection [
 
 	| l |
@@ -475,7 +475,24 @@ ToListInfiniteElementTest >> testListWithTwoElementSelectPreviousInSelection [
 
 ]
 
-{ #category : #'test - adding/removing' }
+{ #category : #'test selection - adding/removing' }
+ToListInfiniteElementTest >> testRemoveAll [
+
+	| l sp |
+	l := ToListInfiniteElement new.
+	l fitContent.
+	l data addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l data size equals: 5.
+	l forceLayout.
+	self assert: l children size equals: 5.
+	l data removeAll.
+	l forceLayout.	
+	self assert: l children size equals: 0.
+
+	
+]
+
+{ #category : #'test selection - adding/removing' }
 ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert [
 
 	| l sp |
@@ -496,7 +513,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert [
 	
 ]
 
-{ #category : #'test - adding/removing' }
+{ #category : #'test selection - adding/removing' }
 ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert1 [
 
 	| l sp |
@@ -519,7 +536,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert1 [
 	
 ]
 
-{ #category : #'test - adding/removing' }
+{ #category : #'test selection - adding/removing' }
 ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert2 [
 
 	| l sp |
@@ -538,7 +555,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert2 [
 	
 ]
 
-{ #category : #'test - adding/removing' }
+{ #category : #'test selection - adding/removing' }
 ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert3 [
 
 	| l sp |
@@ -559,7 +576,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterInsert3 [
 	self assert: l selectedIndexes equals: #(4 5).	
 ]
 
-{ #category : #'test - adding/removing' }
+{ #category : #'test selection - adding/removing' }
 ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove [
 
 	| l sp |
@@ -580,7 +597,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove [
 	
 ]
 
-{ #category : #'test - adding/removing' }
+{ #category : #'test selection - adding/removing' }
 ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove1 [
 
 	| l sp |
@@ -604,7 +621,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove1 [
 	
 ]
 
-{ #category : #'test - adding/removing' }
+{ #category : #'test selection - adding/removing' }
 ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove2 [
 
 	| l sp |
@@ -623,7 +640,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove2 [
 	
 ]
 
-{ #category : #'test - adding/removing' }
+{ #category : #'test selection - adding/removing' }
 ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove3 [
 
 	| l sp |
@@ -644,7 +661,7 @@ ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove3 [
 	self assert: l selectedIndexes equals: #(2 3).	
 ]
 
-{ #category : #'test - adding/removing' }
+{ #category : #'test selection - adding/removing' }
 ToListInfiniteElementTest >> testSelectionUpdatedAfterRemove4 [
 
 	| l sp |

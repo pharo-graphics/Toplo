@@ -109,7 +109,7 @@ ToComboBoxHeadDresser >> newPlaceholder: aPlaceholder in: anElement [
 
 	| idx |
 	anElement placeholder: aPlaceholder.
-	(idx := comboBox selectedIndex) ifNil: [ ^ self ].
+	(idx := comboBox selectedIndexInPresentedData) ifNil: [ ^ self ].
 	idx isZero ifTrue: [ anElement noDataSelected ]
 ]
 
@@ -140,13 +140,15 @@ ToComboBoxHeadDresser >> selectedIndex: anIndex in: anElement [
 	anIndex isZero ifTrue: [
 		anElement noDataSelected.
 		^ self ].
-	anElement selectData: (comboBox presentedData at: anIndex)
+	anElement selectData: (comboBox data at: anIndex)
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToComboBoxHeadDresser >> selectedIndexChangedIn: anElement [
 
-	self selectedIndex: comboBox selectedIndex in: anElement
+	self
+		selectedIndex: comboBox selectedIndexInPresentedData
+		in: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -165,18 +167,25 @@ ToComboBoxHeadDresser >> uninstallEventListenersIn: anElement [
 ToComboBoxHeadDresser >> whenAdded: anElement [
 
 	comboBox := anElement parent.
-	comboBox selectedIndex isZero ifTrue: [ anElement noDataSelected ].
-	selectedIndexHandler := BlEventHandler on:  ToComboBoxSelectedIndexChangeEvent do: [ :event | self selectedIndexChangedIn: anElement ].
-	headPlaceholderHandler := BlEventHandler on:  ToComboBoxHeadPlaceholderChangeEvent do: [ :event | self newPlaceholder: event placeholder in: anElement].
+	comboBox selectedIndexInPresentedData isZero ifTrue: [
+		anElement noDataSelected ].
+	selectedIndexHandler := BlEventHandler
+		                        on: ToComboBoxSelectedIndexChangeEvent
+		                        do: [ :event |
+		                        self selectedIndexChangedIn: anElement ].
+	headPlaceholderHandler := BlEventHandler
+		                          on: ToComboBoxHeadPlaceholderChangeEvent
+		                          do: [ :event |
+		                          self
+			                          newPlaceholder: event placeholder
+			                          in: anElement ].
 	mouseDownHandler := self newMouseDownHandlerIn: anElement.
-	listClosedHandler := self newListClosedHandlerIn: anElement.		
+	listClosedHandler := self newListClosedHandlerIn: anElement.
 	comboBox addEventHandler: listClosedHandler.
 
 	anElement addEventFilter: mouseDownHandler.
 	comboBox addEventHandler: selectedIndexHandler.
-	comboBox addEventHandler: headPlaceholderHandler.
-	
-
+	comboBox addEventHandler: headPlaceholderHandler
 ]
 
 { #category : #'api - install/uninstall  hook' }

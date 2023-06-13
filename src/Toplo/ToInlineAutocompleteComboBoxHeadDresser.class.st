@@ -41,7 +41,7 @@ ToInlineAutocompleteComboBoxHeadDresser >> whenAdded: anElement [
 		                 (anElement dataToTextConverter value: data)
 			                 beginsWith: pattern
 			                 caseSensitive: false ];
-							originalDataProvider: [ comboBox data asArray ].
+							originalDataProvider: [ comboBox data asArray sorted].
 	comboBox listElement addDresser: filterDresser.
 	anElement textField whenTextEditedDo: [ :event | self textUpdatedIn: anElement ].
 	filterResultHandler := BlEventHandler

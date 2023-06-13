@@ -55,13 +55,11 @@ ToFilterDresserOnListExperiment >> open [
 	filterField whenTextEditedDo: [ self textUpdated ].
 
 	listElement placeholder: self startPlaceholder.
-	listElement placeholder elevation:
-		(BlRelativeElevation elevation: SmallInteger maxVal).
+	listElement placeholder elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
 	listElement showPlaceholder.
 
 	listElement when: ToDataFilterResultEvent do: [ :event |
-		event selectionUpdated ifTrue: [
-			listElement data filterResult: event data ] ].
+		event selectionUpdated ifTrue: [ listElement data filterResult: event data ] ].
 	pane openInSpace
 ]
 

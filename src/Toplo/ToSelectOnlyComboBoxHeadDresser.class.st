@@ -12,8 +12,8 @@ ToSelectOnlyComboBoxHeadDresser >> newDataElementFactory: aFactory in: anElement
 
 	| idx |
 	anElement dataElementFactory: aFactory.
-	self selectedIndex: comboBox selectedIndex in: anElement.
-	(idx := comboBox selectedIndex) isZero ifFalse: [
+	self selectedIndex: comboBox selectedIndexInPresentedData in: anElement.
+	(idx := comboBox selectedIndexInPresentedData) isZero ifFalse: [
 		comboBox listElement selectIndex: idx ]
 ]
 

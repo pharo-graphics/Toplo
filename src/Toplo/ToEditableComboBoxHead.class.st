@@ -91,6 +91,15 @@ ToEditableComboBoxHead >> selectData: aData [
 
 ]
 
+{ #category : #accessing }
+ToEditableComboBoxHead >> selectData: aData in: aComboBox [
+
+	super selectData: aData in: aComboBox.
+	aComboBox listElement dispatchEvent: (ToDataFilterRequestEvent new pattern: self textField text asString)
+
+
+]
+
 { #category : #'t - placeholder show/hide' }
 ToEditableComboBoxHead >> showPlaceholder [
 

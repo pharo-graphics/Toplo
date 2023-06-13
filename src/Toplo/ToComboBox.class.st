@@ -104,13 +104,7 @@ ToComboBox >> defaultListFrame [
 { #category : #initialization }
 ToComboBox >> defaultListPlaceholder [
 
-	^ ToLabel new
-		  vFitContent;
-		  margin: (BlInsets all: 5);
-		  width: self listElementSize x;
-		  constraintsDo: [ :c | c maxHeight: self listElementSize y ];
-		  alignCenter;
-		  yourself
+	^ nil
 ]
 
 { #category : #initialization }
@@ -177,6 +171,9 @@ ToComboBox >> indexOfData: aData [
 ToComboBox >> initialize [
 
 	super initialize.
+	self mode: self defaultMode.
+	self privateListFrame: self defaultListFrame.
+	self privateHeadElement: self defaultHeadElement.
 	self privateData: self newDataCollection.
 	self layout: self defaultLayout.
 	self listElementSize: self defaultListElementSize.
@@ -315,7 +312,7 @@ ToComboBox >> notifyDataInserted: anAnnouncement [
 
 	anAnnouncement interval ifEmpty: [ ^ self ].
 	self presentedData removeAll.
-	self presentedData addAll: (self data asArray sorted)
+	self presentedData addAll: self data asArray
 ]
 
 { #category : #'private - notifications' }
@@ -347,6 +344,7 @@ ToComboBox >> placeholderShown [
 ToComboBox >> popupEvent: anEvent [
 
 	self isOpened ifTrue: [ ^ self ].
+	self data ifEmpty: [ self listElement placeholder ifNil: [ ^ self ]  ].
 	self listFrame popupEvent: anEvent
 ]
 
@@ -362,10 +360,8 @@ ToComboBox >> popupOrCloseEvent: anEvent [
 ToComboBox >> preInitializeDresser [ 
 
 	super preInitializeDresser.
-	self mode: self defaultMode.
 	self privateListElement: self defaultListElement.
-	self privateListFrame: self defaultListFrame.
-	self privateHeadElement: self defaultHeadElement.
+
 
 
 ]
@@ -417,6 +413,12 @@ ToComboBox >> privateSelectedIndexInPresentedData: anInteger [
 	anInteger isZero ifTrue: [ ^ self ].
 	d := self presentedData at: anInteger.
 	self selectedIndex: (self data indexOf: d)
+]
+
+{ #category : #accessing }
+ToComboBox >> selectIndex: anIndex [
+
+	self headElement selectIndex: anIndex in: self
 ]
 
 { #category : #accessing }

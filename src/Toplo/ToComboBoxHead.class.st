@@ -39,6 +39,22 @@ ToComboBoxHead >> selectData: aData [
 	self subclassResponsibility 
 ]
 
+{ #category : #accessing }
+ToComboBoxHead >> selectData: aData in: aComboBox [
+
+	self selectData: aData
+]
+
+{ #category : #accessing }
+ToComboBoxHead >> selectIndex: anIndex in: aComboBox [
+
+	anIndex isZero ifTrue: [ ^ self noDataSelected ].
+	self selectData: (aComboBox data at: anIndex) in: aComboBox
+	
+
+
+]
+
 { #category : #'t - placeholder show/hide' }
 ToComboBoxHead >> showPlaceholder [
 

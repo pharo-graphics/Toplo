@@ -21,9 +21,10 @@ ToSandBox class >> example_BasicComboBox [
 	| win combo |
 	win := ToInnerWindow new title: 'Combo box Example'.
 	combo := ToComboBox new.
-	combo data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
+	combo data addAll:
+		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	win root addChild: combo.
-	win openInWorld
+	win openInSpace
 ]
 
 { #category : #combobox }
@@ -45,13 +46,17 @@ ToSandBox class >> example_BasicComboBoxWithStatesOfAmerica [
 	| win combo placeholder |
 	win := ToInnerWindow new title: 'Combo box Example'.
 	combo := ToComboBox new.
-	placeholder :=ToLabel new text: ('Choose a state' asRopedText foreground: Color lightGray); hMatchParent.
+	placeholder := ToLabel new
+		               text:
+			               ('Choose a state' asRopedText foreground:
+					                Color lightGray);
+		               hMatchParent.
 	combo headPlaceholder: placeholder.
 	combo data addAll: self statesOfAmerica.
 	win root addChild: combo.
-	
+
 	"combo inspect."
-	win openInWorld
+	win openInSpace
 ]
 
 { #category : #album }
@@ -99,8 +104,12 @@ ToSandBox class >> example_ComboBoxWithColors [
 	combo nodeFactory: [ :color |
 		ToPairedNode new
 			padding: (BlInsets all: 8);
-			"first: (ToElement new size: 25@25; yourself);"
-			second: (ToElement new height: 30; hMatchParent; background: color; yourself);
+			"first: (ToElement new size: 25@25; yourself);"second:
+				(ToElement new
+					 height: 30;
+					 hMatchParent;
+					 background: color;
+					 yourself);
 			hMatchParent ].
 	combo headElementFactory: [ :color |
 		ToElement new
@@ -110,10 +119,10 @@ ToSandBox class >> example_ComboBoxWithColors [
 			background: color;
 			yourself ].
 	combo data addAll: Color indexedColors.
-	combo selectIndex: 70.
-	combo listElementSize: 200@500.
+	combo selectIndex: 2.
+	combo listElementSize: 200 @ 500.
 	win root addChild: combo.
-	win openInWorld
+	win openInSpace
 ]
 
 { #category : #combobox }
@@ -123,13 +132,16 @@ ToSandBox class >> example_ComboBoxWithHeadPlaceholder [
 	win := ToInnerWindow new title: 'Combo box Example'.
 	combo := ToComboBox new.
 	t := 'Click to fetch data' asRopedText foreground: Color red.
-	but := ToLabel new text: t; hMatchParent.
+	but := ToLabel new
+		       text: t;
+		       hMatchParent.
 	but when: BlClickEvent do: [
-		combo data addAll:	(Smalltalk globals allClasses collect: [ :cls | cls name ]).
+		combo data addAll:
+			(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 		combo headPlaceholder: nil ].
 	combo headPlaceholder: but.
 	win root addChild: combo.
-	win openInWorld
+	win openInSpace
 ]
 
 { #category : #combobox }
@@ -143,14 +155,18 @@ ToSandBox class >> example_ComboBoxWithListPlaceholder [
 	placeholder layout cellSpacing: 10.
 	placeholder margin: (BlInsets all: 20).
 	placeholder fitContent.
-	placeholder addChild: (lab := ToLabel new text: ('No element - click to get data' asRopedText foreground: Color red)).
+	placeholder addChild: (lab := ToLabel new text:
+			        ('No element - click to get data' asRopedText foreground:
+				         Color red)).
 	placeholder addChild: (but := ToButton new labelText: 'Fetch data').
 	lab constraintsDo: [ :c | c linear horizontal alignCenter ].
 	but constraintsDo: [ :c | c linear horizontal alignCenter ].
-	but whenClickedDo: [ combo data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]) ].
+	but whenClickedDo: [
+		combo data addAll:
+			(Smalltalk globals allClasses collect: [ :cls | cls name ]) ].
 	combo listPlaceholder: placeholder.
 	win root addChild: combo.
-	win openInWorld
+	win openInSpace
 ]
 
 { #category : #list }
@@ -292,7 +308,7 @@ ToSandBox class >> example_EmptyComboBox [
 	win := ToInnerWindow new title: 'Combo box Example'.
 	combo := ToComboBox new.
 	win root addChild: combo.
-	win openInWorld
+	win openInSpace
 ]
 
 { #category : #list }
@@ -317,15 +333,21 @@ ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
 ToSandBox class >> example_InlineAutocompleteComboBoxWithStatesOfAmerica [
 
 	| win combo placeholder |
-	win := ToInnerWindow new title: 'Inline autocomplete Combo box Example'.
+	win := ToInnerWindow new title:
+		       'Inline autocomplete Combo box Example'.
 	combo := ToComboBox new beInlineAutocomplete.
-	placeholder :=ToLabel new text: ('Choose a state' asRopedText foreground: Color lightGray); hMatchParent.
+	placeholder := ToLabel new
+		               text:
+			               ('Choose a state' asRopedText foreground:
+					                Color lightGray);
+		               hMatchParent.
 	combo headPlaceholder: placeholder.
 	combo data addAll: self statesOfAmerica.
+	combo selectIndex: 10.
 	win root addChild: combo.
-	
+
 	"combo inspect."
-	win openInWorld
+	win openInSpace
 ]
 
 { #category : #list }

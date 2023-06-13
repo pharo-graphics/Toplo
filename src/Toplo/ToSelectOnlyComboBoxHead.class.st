@@ -83,6 +83,14 @@ ToSelectOnlyComboBoxHead >> selectData: aData [
 	self dataElement: (self dataElementFactory cull: aData cull: self)
 ]
 
+{ #category : #accessing }
+ToSelectOnlyComboBoxHead >> selectIndex: anIndex in: aComboBox [
+
+	super selectIndex: anIndex in: aComboBox.
+	aComboBox selectIndexInPresentedData: anIndex
+	
+]
+
 { #category : #'t - placeholder show/hide' }
 ToSelectOnlyComboBoxHead >> showPlaceholder [
 

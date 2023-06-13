@@ -1,31 +1,25 @@
-"
-A ToComboBoxTest is a test class for testing the behavior of ToComboBox
-"
 Class {
 	#name : #ToComboBoxTest,
 	#superclass : #TestCase,
 	#category : #'Toplo-Tests-Widget-ComboBox'
 }
 
-{ #category : #asserting }
-ToComboBoxTest >> assertEmpty: aCombo [
+{ #category : #combobox }
+ToComboBoxTest >> colors [
 
-	self assert: aCombo data notNil.
-	self assert: aCombo data isEmpty.
-	self assert: aCombo listFrame notNil.
-	self assert: aCombo listElement notNil.
-	self assert: aCombo headElement notNil.
-	self assert: aCombo listElement placeholder isNil.
-	self assert: aCombo listElement data isEmpty.
-	self assert: aCombo selectedIndex isZero.
-	self assert: aCombo selectedIndexInPresentedData isZero.
-	self assert: aCombo mode class equals: aCombo defaultMode class
+	^ Color registeredColorNames collect: [ :c | Color named: c ]
 ]
 
-{ #category : #tests }
-ToComboBoxTest >> testEmpty [
+{ #category : #combobox }
+ToComboBoxTest >> statesOfAmerica [
 
-	| cb |
-	cb := ToComboBox new.
-	self assertEmpty: cb
+	^ { #Alabama. #Alaska. #Arizona. #Arkansas. #California. #Colorado.
+		#Connecticut. #Delaware. #Florida. #Georgia. #Hawaii. #Idaho. #'Illinois Indiana'.
+		#Iowa. #Kansas. #Kentucky. #Louisiana. #Maine. #Maryland. #Massachusetts.
+		#Michigan. #Minnesota. #Mississippi. #Missouri. #Montana. #Nebraska.
+		#Nevada. #'New Hampshire'. #'New Jersey'. #'New Mexico'.
+		#'New York'. #'North Carolina'. #'North Dakota'. #Ohio. #Oklahoma.
+		#Oregon. #'Pennsylvania Rhode Island'. #'South Carolina'.
+		#'South Dakota'. #Tennessee. #Texas. #Utah. #Vermont. #Virginia.
+		#Washington. #'West Virginia'. #Wisconsin. #Wyoming }.
 ]

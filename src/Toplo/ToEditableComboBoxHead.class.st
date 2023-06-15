@@ -83,18 +83,10 @@ ToEditableComboBoxHead >> placeholder: anElement [
 ]
 
 { #category : #accessing }
-ToEditableComboBoxHead >> selectData: aData [
-
-	self hidePlaceholder.
-	self textField text: (self dataToTextConverter value: aData)
-
-
-]
-
-{ #category : #accessing }
 ToEditableComboBoxHead >> selectData: aData in: aComboBox [
 
-	super selectData: aData in: aComboBox.
+	self hidePlaceholder.
+	self textField text: (self dataToTextConverter value: aData).
 	aComboBox listElement dispatchEvent: (ToDataFilterRequestEvent new pattern: self textField text asString)
 
 

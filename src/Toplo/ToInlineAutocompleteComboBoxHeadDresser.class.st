@@ -12,18 +12,7 @@ Class {
 ToInlineAutocompleteComboBoxHeadDresser >> filterResult: anEvent [
 
 	comboBox presentedData filterResult: anEvent data.
-	comboBox fitListElementToContent.
-	comboBox popupEvent: anEvent.
-	comboBox presentedData size isZero ifTrue: [ ^ self ].
-	comboBox listElement whenLayoutedDoOnce: [ 	comboBox listElement selectIndex: 1 ]
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToInlineAutocompleteComboBoxHeadDresser >> selectedIndex: anIndex in: anElement [
-
-	super selectedIndex: anIndex in: anElement.
-	anIndex isZero ifTrue: [ ^ self ].
-	comboBox listElement dispatchEvent: (ToDataFilterRequestEvent new pattern: anElement textField text asString)
+	comboBox fitListElementToContent
 ]
 
 { #category : #'api - install/uninstall  hook' }

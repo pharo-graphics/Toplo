@@ -169,6 +169,12 @@ TToListElementDecorator >> selectAll [
 ]
 
 { #category : #'t - accessing selection' }
+TToListElementDecorator >> selectAndScrollTo: anInteger [
+
+	self next selectAndScrollTo: anInteger
+]
+
+{ #category : #'t - accessing selection' }
 TToListElementDecorator >> selectIndex: anInteger [
 
 	self next selectIndex: anInteger

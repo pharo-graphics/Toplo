@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToEditableComboBoxHeadDresser,
 	#instVars : [
 		'escShortcut',
-		'upShortcut'
+		'upShortcut',
+		'mouseDownOnButtonHandler'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
@@ -32,6 +33,9 @@ ToDataEditingComboBoxHeadDresser >> whenAdded: anElement [
 
 	super whenAdded: anElement.
 
+	mouseDownOnButtonHandler := self newMouseDownHandlerIn: anElement.
+	anElement second addEventHandler: mouseDownOnButtonHandler.
+
 	anElement textField whenSaveRequestedDo: [ :saveRequested |
 		anElement whenSaveRequested: saveRequested in: comboBox ].
 
@@ -52,6 +56,8 @@ ToDataEditingComboBoxHeadDresser >> whenRemoved: anElement [
 	anElement textField infinite removeShortcut: downShortcut.
 	anElement textField infinite removeShortcut: upShortcut.
 	anElement textField infinite removeShortcut: escShortcut.
+	anElement second removeEventHandler: mouseDownOnButtonHandler.
+
 	super whenRemoved: anElement
 
 

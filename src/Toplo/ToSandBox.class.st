@@ -33,11 +33,11 @@ ToSandBox class >> example_BasicComboBoxWith5Elements [
 	| win combo |
 	win := ToInnerWindow new title: 'Combo box Example'.
 	combo := ToComboBox new.
-	combo data addAll: ((1 to: 5) collect: [:i | '#', i asString]).
+	combo data addAll: ((1 to: 5) collect: [ :i | '#' , i asString ]).
 	combo selectIndex: 3.
 	win root addChild: combo.
 	"combo inspect."
-	win openInWorld
+	win openInSpace
 ]
 
 { #category : #combobox }
@@ -96,6 +96,22 @@ Here an example of a client for a method.
 ]
 
 { #category : #combobox }
+ToSandBox class >> example_ComboBoxWithAllClasses [
+
+	| win combo |
+	win := ToInnerWindow new title: 'Pharo classes'.
+	combo := ToComboBox new.
+	combo nodeFactory: [ :cls |
+		ToLabeledNode new
+			label: (ToLabel new text: cls name; yourself);
+			hMatchParent ].
+	combo data addAll: Smalltalk globals allClasses.
+	combo listElementSize: 200 @ 500.
+	win root addChild: combo.
+	win openInSpace
+]
+
+{ #category : #combobox }
 ToSandBox class >> example_ComboBoxWithColors [
 
 	| win combo |
@@ -131,14 +147,14 @@ ToSandBox class >> example_ComboBoxWithHeadPlaceholder [
 	| win combo but t |
 	win := ToInnerWindow new title: 'Combo box Example'.
 	combo := ToComboBox new.
-	t := 'Click to fetch data' asRopedText foreground: Color red.
+	t := '<Click to fetch data>' asRopedText foreground: Color red.
 	but := ToLabel new
 		       text: t;
 		       hMatchParent.
 	but when: BlClickEvent do: [
 		combo data addAll:
 			(Smalltalk globals allClasses collect: [ :cls | cls name ]).
-		combo headPlaceholder: nil ].
+		combo headPlaceholder: (ToLabel new text: '<No selection>'; hMatchParent; yourself)].
 	combo headPlaceholder: but.
 	win root addChild: combo.
 	win openInSpace
@@ -165,6 +181,7 @@ ToSandBox class >> example_ComboBoxWithListPlaceholder [
 		combo data addAll:
 			(Smalltalk globals allClasses collect: [ :cls | cls name ]) ].
 	combo listPlaceholder: placeholder.
+	combo inspect.
 	win root addChild: combo.
 	win openInSpace
 ]
@@ -330,6 +347,22 @@ ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
 ]
 
 { #category : #combobox }
+ToSandBox class >> example_InlineAutocompleteComboBoxWithAllClasses [
+
+	| win combo placeholder |
+	win := ToInnerWindow new title: 'Inline autocomplete Combo box Example'.
+	combo := ToComboBox new beInlineAutocomplete.
+	placeholder := ToLabel new
+		               text: ('Choose a class' asRopedText foreground: Color lightGray);
+		               hMatchParent.
+	combo headPlaceholder: placeholder.
+	combo data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
+	combo selectIndex: 10.
+	win root addChild: combo.
+	win openInSpace
+]
+
+{ #category : #combobox }
 ToSandBox class >> example_InlineAutocompleteComboBoxWithStatesOfAmerica [
 
 	| win combo placeholder |
@@ -345,8 +378,6 @@ ToSandBox class >> example_InlineAutocompleteComboBoxWithStatesOfAmerica [
 	combo data addAll: self statesOfAmerica.
 	combo selectIndex: 10.
 	win root addChild: combo.
-
-	"combo inspect."
 	win openInSpace
 ]
 

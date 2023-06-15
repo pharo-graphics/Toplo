@@ -37,7 +37,8 @@ ToInfiniteElement >> cherryPickIndex: anIndex [
 
 	self primarySelection dispatchSelectionChangedAfter: [
 		self primarySelection cherryPickIndex: anIndex ]
-		to: self
+		to: self.
+	self fireEvent: (ToInfiniteNodeSelectedEvent new index: anIndex)
 ]
 
 { #category : #private }
@@ -407,14 +408,21 @@ ToInfiniteElement >> selectAll [
 ]
 
 { #category : #'selection events' }
+ToInfiniteElement >> selectAndScrollTo: anIndex [
+
+	self primarySelection selectIndex: anIndex.
+	self scrollToIndex: anIndex
+]
+
+{ #category : #'selection events' }
 ToInfiniteElement >> selectIndex: anIndex [
 
 	self primarySelection
 		dispatchSelectionChangedAfter: [ 
-			" ensure that the layout is computed before updating the selection "
 			self primarySelection selectIndex: anIndex.
 			self whenLayoutedDoOnce: [ self scrollToIndex: anIndex ] ]
-		to: self
+		to: self.
+	self fireEvent: (ToInfiniteNodeSelectedEvent new index: anIndex)
 ]
 
 { #category : #'selection events' }
@@ -435,7 +443,8 @@ ToInfiniteElement >> selectToIndex: anIndex [
 
 	self primarySelection dispatchSelectionChangedAfter: [
 		self primarySelection selectToIndex: anIndex ]
-	to: self
+	to: self.
+	self fireEvent: (ToInfiniteNodeSelectedEvent new index: anIndex)
 ]
 
 { #category : #accessing }
@@ -492,9 +501,5 @@ ToInfiniteElement >> whenClickOnNodeAnnouncement: anAnnouncement [
 			^ self cherryPickIndex: anAnnouncement holder layoutPosition ] ].
 
 	self primarySelection atLeastMonoSelectionDo: [
-		self selectIndex: anAnnouncement holder layoutPosition.
-		self dispatchEvent: (ToInfiniteClickOnDataEvent new
-				 index: anAnnouncement holder layoutPosition;
-				 event: event;
-				 yourself) ]
+		self selectIndex: anAnnouncement holder layoutPosition ]
 ]

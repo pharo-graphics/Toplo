@@ -29,12 +29,11 @@ ToDataEditingComboBoxHead >> initialize [
 { #category : #'data editing' }
 ToDataEditingComboBoxHead >> whenCancelRequested: cancelRequested in: aComboBox [
 
-	aComboBox selectedIndexInPresentedData isZero ifTrue: [
+	aComboBox selectedIndex isZero ifTrue: [
 		self textField text: ''.
 		^ self noDataSelected ].
-	self selectData: aComboBox selectedData.
-	aComboBox listElement dispatchEvent:
-		(ToDataFilterRequestEvent new pattern: self textField text asString)
+	self selectData: aComboBox selectedData in: aComboBox.
+	aComboBox listElement dispatchEvent: (ToDataFilterRequestEvent new pattern: self textField text asString)
 ]
 
 { #category : #'data editing' }

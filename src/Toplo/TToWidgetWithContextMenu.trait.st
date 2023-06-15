@@ -62,15 +62,3 @@ TToWidgetWithContextMenu >> uninstallContextMenuFactory [
 		self removeEventHandler: contextMenuEventHandler.
 		contextMenuEventHandler := nil ]
 ]
-
-{ #category : #'t - accessing context menu' }
-TToWidgetWithContextMenu >> whenContextMenuChangedDo: aBlock [
-
-	"Inform when contextMenuFactory property has changed. 
-	 `aBlock` has three optional arguments: 
-	 - new value
-	 - old value
-	 - the announcement triggering this action"
-
-	self property: #contextMenuFactory whenChangedDo: aBlock
-]

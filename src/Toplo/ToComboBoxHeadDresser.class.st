@@ -5,7 +5,6 @@ Class {
 		'addedToParentHandler',
 		'removedFromParentHandler',
 		'downShortcut',
-		'selectedIndexHandler',
 		'comboBox',
 		'headPlaceholderHandler',
 		'listClosedHandler'
@@ -28,14 +27,14 @@ ToComboBoxHeadDresser >> arrowUpEvent: anEvent in: anElement [
 	| wasOpened |
 	wasOpened :=  comboBox isOpened.
 	wasOpened ifFalse: [ ^ self ].
-	comboBox closeEvent: anEvent
+	comboBox close
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToComboBoxHeadDresser >> escapeEvent: anEvent in: anElement [
 
 	comboBox isOpened ifFalse: [ ^ self ].
-	comboBox closeEvent: anEvent
+	comboBox close
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -95,22 +94,10 @@ ToComboBoxHeadDresser >> newListClosedHandlerIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToComboBoxHeadDresser >> newMouseDownHandlerIn: anElement [
-
-	^ BlEventHandler
-		  on: BlMouseDownEvent
-		  do: [ :evt |
-			  comboBox popupOrCloseEvent: evt.
-			  self listElementRequestFocus ]
-]
-
-{ #category : #'api - install/uninstall  hook' }
 ToComboBoxHeadDresser >> newPlaceholder: aPlaceholder in: anElement [
 
-	| idx |
 	anElement placeholder: aPlaceholder.
-	(idx := comboBox selectedIndexInPresentedData) ifNil: [ ^ self ].
-	idx isZero ifTrue: [ anElement noDataSelected ]
+	comboBox selectedIndex isZero ifTrue: [ anElement noDataSelected ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -135,23 +122,6 @@ ToComboBoxHeadDresser >> onUninstalledIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToComboBoxHeadDresser >> selectedIndex: anIndex in: anElement [
-
-	anIndex isZero ifTrue: [
-		anElement noDataSelected.
-		^ self ].
-	anElement selectData: (comboBox presentedData at: anIndex)
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToComboBoxHeadDresser >> selectedIndexChangedIn: anElement [
-
-	self
-		selectedIndex: comboBox selectedIndexInPresentedData
-		in: anElement
-]
-
-{ #category : #'api - install/uninstall  hook' }
 ToComboBoxHeadDresser >> uninstallEventListenersIn: anElement [
 
 	super uninstallEventListenersIn: anElement.
@@ -167,35 +137,23 @@ ToComboBoxHeadDresser >> uninstallEventListenersIn: anElement [
 ToComboBoxHeadDresser >> whenAdded: anElement [
 
 	comboBox := anElement parent.
-	comboBox selectedIndexInPresentedData isZero ifTrue: [
-		anElement noDataSelected ].
-	selectedIndexHandler := BlEventHandler
-		                        on: ToComboBoxSelectedIndexChangeEvent
-		                        do: [ :event |
-		                        self selectedIndexChangedIn: anElement ].
+	comboBox selectedIndex isZero ifTrue: [ anElement noDataSelected ].
 	headPlaceholderHandler := BlEventHandler
 		                          on: ToComboBoxHeadPlaceholderChangeEvent
 		                          do: [ :event |
 		                          self
 			                          newPlaceholder: event placeholder
 			                          in: anElement ].
-	mouseDownHandler := self newMouseDownHandlerIn: anElement.
 	listClosedHandler := self newListClosedHandlerIn: anElement.
 	comboBox addEventHandler: listClosedHandler.
-
-	anElement addEventFilter: mouseDownHandler.
-	comboBox addEventHandler: selectedIndexHandler.
 	comboBox addEventHandler: headPlaceholderHandler
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToComboBoxHeadDresser >> whenRemoved: anElement [
 
-	comboBox removeEventHandler: selectedIndexHandler.
 	comboBox removeEventHandler: headPlaceholderHandler.
 	comboBox removeEventHandler: listClosedHandler.
-	anElement removeEventHandler: mouseDownHandler.
-	mouseDownHandler := nil.
 	downShortcut := nil.
 	comboBox := nil.
 	listClosedHandler := nil

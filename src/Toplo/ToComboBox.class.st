@@ -8,9 +8,8 @@ Class {
 		'#listFrame',
 		'#headElement',
 		'#listElementSize',
-		'#mode => ObservableSlot',
 		'#data',
-		'#selectedIndexInPresentedData',
+		'#mode => ObservableSlot',
 		'#selectedIndex => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-ComboBox'
@@ -42,19 +41,18 @@ ToComboBox >> canInsertData: aData [
 	^ true
 ]
 
-{ #category : #events }
-ToComboBox >> clickOnDataEvent: aClickOnDataEvent [
+{ #category : #displaying }
+ToComboBox >> close [
 
-	self selectIndexInPresentedData: aClickOnDataEvent index.
-	self closeEvent: aClickOnDataEvent event.
+	self isOpened ifFalse: [ ^ self ].
+	self listFrame close.
 	self requestFocus
 ]
 
 { #category : #displaying }
 ToComboBox >> closeEvent: anEvent [
 
-	self isOpened ifFalse: [ ^ self ].
-	self listFrame close
+	self close
 ]
 
 { #category : #accessing }
@@ -171,6 +169,7 @@ ToComboBox >> indexOfData: aData [
 ToComboBox >> initialize [
 
 	super initialize.
+	selectedIndex := 0.
 	self mode: self defaultMode.
 	self privateListFrame: self defaultListFrame.
 	self privateHeadElement: self defaultHeadElement.
@@ -211,6 +210,12 @@ ToComboBox >> isOpened [
 	^ self listFrame isAttachedToSceneGraph
 ]
 
+{ #category : #events }
+ToComboBox >> listClickedEvent: aClickEvent [
+
+	self close
+]
+
 { #category : #accessing }
 ToComboBox >> listElement [
 
@@ -241,6 +246,17 @@ ToComboBox >> listElementSize: aSize [
 ToComboBox >> listFrame [
 
 	^ listFrame
+]
+
+{ #category : #events }
+ToComboBox >> listNodeSelectedEvent: aClickOnDataEvent [
+
+	| idx clickIdx |
+	clickIdx := aClickOnDataEvent index.
+	idx := (self listElement selectedIndexes includes: clickIdx)
+		       ifTrue: [ clickIdx ]
+		       ifFalse: [ 0 ].
+	self selectIndexInPresentedData: idx
 ]
 
 { #category : #accessing }
@@ -389,7 +405,7 @@ ToComboBox >> privateHeadElement: anElement [
 	headElement = anElement ifTrue: [ ^ self ].
 	headElement ifNotNil: [ headElement removeFromParent ].
 	headElement := anElement.
-	self selectIndexInPresentedData: self selectedIndexInPresentedData.
+"	self selectIndexInPresentedData: self selectedIndexInPresentedData."
 	self addChild: headElement
 ]
 
@@ -405,31 +421,21 @@ ToComboBox >> privateListFrame: aWindow [
 	listFrame := aWindow
 ]
 
-{ #category : #'private - accessing' }
-ToComboBox >> privateSelectedIndexInPresentedData: anInteger [
-
-	| d |
-	selectedIndexInPresentedData := anInteger.
-	anInteger isZero ifTrue: [ ^ self ].
-	d := self presentedData at: anInteger.
-	self selectedIndex: (self data indexOf: d)
-]
-
 { #category : #accessing }
 ToComboBox >> selectIndex: anIndex [
 
-	self headElement selectIndex: anIndex in: self
+	selectedIndex := anIndex.
+	self headElement selectIndexInOriginalData: anIndex in: self
 ]
 
 { #category : #accessing }
 ToComboBox >> selectIndexInPresentedData: anIndex [
 
-	self privateSelectedIndexInPresentedData: anIndex.
-	self updateHeadContent.
-	self selectedIndexInPresentedData isZero ifTrue: [ ^ self ].
-	listElement whenLayoutedDoOnce: [
-		self listElement selectIndex: self selectedIndexInPresentedData ].
-	self requestLayout
+	| idx |
+	idx := anIndex isZero
+		       ifTrue: [ 0 ]
+		       ifFalse: [ self data indexOf: (self presentedData at: anIndex) ].
+	self selectIndex: idx
 ]
 
 { #category : #accessing }
@@ -446,12 +452,6 @@ ToComboBox >> selectedDataDo: aBlock [
 ]
 
 { #category : #accessing }
-ToComboBox >> selectedDataInPresentedData [
-
-	^ self presentedData at: self selectedIndexInPresentedData
-]
-
-{ #category : #accessing }
 ToComboBox >> selectedIndex [
 	
 	^ selectedIndex ifNil: [ selectedIndex := 0 ]
@@ -460,13 +460,8 @@ ToComboBox >> selectedIndex [
 { #category : #accessing }
 ToComboBox >> selectedIndex: anIndex [
 
+	selectedIndex = anIndex ifTrue: [ ^ self ].
 	selectedIndex := anIndex.
-]
-
-{ #category : #accessing }
-ToComboBox >> selectedIndexInPresentedData [
-	
-	^ selectedIndexInPresentedData ifNil: [ selectedIndexInPresentedData := 0 ]
 ]
 
 { #category : #'change hook' }

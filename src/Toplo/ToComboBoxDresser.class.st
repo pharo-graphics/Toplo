@@ -2,12 +2,13 @@ Class {
 	#name : #ToComboBoxDresser,
 	#superclass : #ToDresser,
 	#instVars : [
-		'clickOnDataHandler',
 		'crShortcut',
 		'escShortcut',
 		'structuralChangeHandler',
 		'placeholderAddedHandler',
-		'placeholderRemovedHandler'
+		'placeholderRemovedHandler',
+		'nodeSelectionHandler',
+		'nodeClickHandler'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
@@ -28,34 +29,27 @@ ToComboBoxDresser >> onInstalledIn: anElement [
 	anElement listElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
 	
 	placeholderAddedHandler := BlEventHandler on: ToPlaceholderAddedEvent  do: [ :event | self showListPlaceholderIn: anElement ].
-	placeholderRemovedHandler := BlEventHandler on: ToPlaceholderRemovedEvent  do: [ :event | self hideListPlaceholderIn: anElement ].
+	placeholderRemovedHandler := BlEventHandler on: ToPlaceholderRemovedEvent  do: [ :event | self hideListPlaceholderIn: anElement ].	
+	nodeSelectionHandler := BlEventHandler on: ToInfiniteNodeSelectedEvent do: [ :event | anElement listNodeSelectedEvent: event ].
+	nodeClickHandler := BlEventHandler on: BlClickEvent do: [ :event | anElement listClickedEvent: event ].
 	
-	clickOnDataHandler := BlEventHandler
-		                      on: ToInfiniteClickOnDataEvent
-		                      do: [ :event |
-		                      anElement clickOnDataEvent: event ].
-	
-	anElement listElement infinite addEventHandler: clickOnDataHandler.
+	anElement listElement infinite addEventHandler: nodeSelectionHandler.
 	anElement listElement addEventHandler: placeholderAddedHandler.
 	anElement listElement addEventHandler: placeholderRemovedHandler.
+	anElement listElement addEventHandler: nodeClickHandler.
 	
 	crShortcut := BlShortcutWithAction new
-		              combination:
-			              (BlKeyCombination primaryReturn or:
-					               BlKeyCombination return);
+		              combination: (BlKeyCombination primaryReturn or: BlKeyCombination return);
 		              action: [
 			              anElement listElement primarySelectionIndexes ifNotEmpty: [
 					              :idxes |
 					              anElement selectIndexInPresentedData: idxes first.
-					              anElement closeEvent: nil.
-					              anElement requestFocus ] ];
+					              anElement close ] ];
 		              name: 'Accept';
 		              yourself.
 	escShortcut := BlShortcutWithAction new
 		               combination: BlKeyCombination escape;
-		               action: [
-			               anElement closeEvent: nil.
-			               anElement requestFocus ];
+		               action: [ anElement close ];
 		               name: 'Escape';
 		               yourself.
 	anElement listElement addShortcut: crShortcut.
@@ -68,7 +62,8 @@ ToComboBoxDresser >> onUninstalledIn: anElement [
 	super onUninstalledIn: anElement.
 	anElement listElement removeEventHandler: placeholderAddedHandler.
 	anElement listElement removeEventHandler: placeholderRemovedHandler.
-	anElement listElement infinite removeEventHandler: clickOnDataHandler.
+	anElement listElement removeEventHandler: nodeClickHandler.
+	anElement listElement infinite removeEventHandler: nodeSelectionHandler.
 	anElement listElement removeShortcut: crShortcut.
 	anElement listElement removeShortcut: escShortcut
 ]

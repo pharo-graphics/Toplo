@@ -7,13 +7,20 @@ Class {
 	#category : #'Toplo-Widget-ComboBox'
 }
 
+{ #category : #'events handling' }
+ToSelectOnlyComboBoxHeadDresser >> leftPressed: anElement event: anEvent [
+
+	comboBox ifNil: [ ^ self ].
+	comboBox popupOrCloseEvent: anEvent.
+	self listElementRequestFocus
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToSelectOnlyComboBoxHeadDresser >> newDataElementFactory: aFactory in: anElement [
 
 	| idx |
 	anElement dataElementFactory: aFactory.
-	self selectedIndex: comboBox selectedIndexInPresentedData in: anElement.
-	(idx := comboBox selectedIndexInPresentedData) isZero ifFalse: [
+	(idx := comboBox selectedIndex) isZero ifFalse: [
 		comboBox listElement selectIndex: idx ]
 ]
 
@@ -36,7 +43,6 @@ ToSelectOnlyComboBoxHeadDresser >> whenRemoved: anElement [
 	
 	comboBox removeEventHandler: headElementFactoryHandler.
 	comboBox removeShortcut: downShortcut.
-
 	
 	super whenRemoved: anElement
 

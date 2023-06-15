@@ -34,19 +34,13 @@ ToComboBoxHead >> placeholder: anElement [
 ]
 
 { #category : #accessing }
-ToComboBoxHead >> selectData: aData [
+ToComboBoxHead >> selectData: aData in: aComboBox [
 
 	self subclassResponsibility 
 ]
 
 { #category : #accessing }
-ToComboBoxHead >> selectData: aData in: aComboBox [
-
-	self selectData: aData
-]
-
-{ #category : #accessing }
-ToComboBoxHead >> selectIndex: anIndex in: aComboBox [
+ToComboBoxHead >> selectIndexInOriginalData: anIndex in: aComboBox [
 
 	anIndex isZero ifTrue: [ ^ self noDataSelected ].
 	self selectData: (aComboBox data at: anIndex) in: aComboBox

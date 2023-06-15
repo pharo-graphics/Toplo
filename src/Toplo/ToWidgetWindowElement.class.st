@@ -148,7 +148,7 @@ ToWidgetWindowElement >> popupAnimationFactory: aValuable [
 ToWidgetWindowElement >> popupEvent: anEvent [
 
 	"I'm not ready to be visible because my bounds are not checked according to the popup layer extent"
-	self visibility: BlVisibility hidden.
+	"self visibility: BlVisibility hidden."
 
 	" I have to set the position here "
 	self position: (self hook value: self value: anEvent).
@@ -156,7 +156,8 @@ ToWidgetWindowElement >> popupEvent: anEvent [
 	
 	"I need to finalize my position as soon as my layout is up-to-date"
 	self whenLayoutedDoOnce: [
-		self checkBeforePopupIn: self spaceLayer ]
+		self checkBeforePopupIn: self spaceLayer ].
+	self requestLayout 
 ]
 
 { #category : #'api - displaying' }

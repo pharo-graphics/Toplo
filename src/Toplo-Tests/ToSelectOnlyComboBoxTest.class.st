@@ -19,7 +19,6 @@ ToSelectOnlyComboBoxTest >> assertEmpty: aCombo [
 	self assert: aCombo listElement placeholder isNil.
 	self assert: aCombo listElement data isEmpty.
 	self assert: aCombo selectedIndex isZero.
-	self assert: aCombo selectedIndexInPresentedData isZero.
 	self assert: aCombo mode class equals: aCombo defaultMode class
 ]
 
@@ -32,7 +31,38 @@ ToSelectOnlyComboBoxTest >> testEmpty [
 ]
 
 { #category : #tests }
-ToSelectOnlyComboBoxTest >> testSelectOnlyWithColors [
+ToSelectOnlyComboBoxTest >> testSelectDeselect [
+
+	| cb  |
+	cb := ToComboBox new.
+	cb data addAll: self colors.
+	cb selectIndex: 1.
+	self assert: cb selectedIndex equals: 1.
+	cb selectIndex: 0.
+	self assert: cb selectedIndex equals: 0.
+
+]
+
+{ #category : #tests }
+ToSelectOnlyComboBoxTest >> testSelectedIndexChange [
+
+	| cb count index |
+	cb := ToComboBox new.
+	cb data addAll: self colors.
+	count := 0.
+	cb whenSelectedIndexChangedDo: [ :idx |
+		count := count + 1.
+		index := idx ].
+	cb selectIndex: 1.
+	self assert: count equals: 1.
+	self assert: index equals: 1.
+	cb selectIndex: 10.
+	self assert: count equals: 2.
+	self assert: index equals: 10
+]
+
+{ #category : #tests }
+ToSelectOnlyComboBoxTest >> testWithColors [
 
 	| cb |
 	cb := ToComboBox new.
@@ -41,11 +71,9 @@ ToSelectOnlyComboBoxTest >> testSelectOnlyWithColors [
 	self assert: cb presentedData size equals: self colors size.
 	cb selectIndex: 1.
 	self assert: cb selectedIndex equals: 1.
-	self assert: cb selectedIndexInPresentedData equals: 1.
 	self assert: cb headElement first text asString equals: cb data first asString.
 	cb selectIndex: 10.
 	self assert: cb selectedIndex equals: 10.
-	self assert: cb selectedIndexInPresentedData equals: cb selectedIndex.
 	self assert: cb headElement first text asString equals: (cb data at: cb selectedIndex) asString.
 	self assert: cb selectedData equals: (cb data at: cb selectedIndex)
 
@@ -54,7 +82,7 @@ ToSelectOnlyComboBoxTest >> testSelectOnlyWithColors [
 ]
 
 { #category : #tests }
-ToSelectOnlyComboBoxTest >> testSelectOnlyWithOneElement [
+ToSelectOnlyComboBoxTest >> testWithOneElement [
 
 	| cb |
 	cb := ToComboBox new.
@@ -62,7 +90,6 @@ ToSelectOnlyComboBoxTest >> testSelectOnlyWithOneElement [
 	self assert: cb data size equals: 1.
 	self assert: cb presentedData size equals: 1.
 	self assert: cb selectedIndex isZero.
-	self assert: cb selectedIndexInPresentedData isZero.
 	cb forceLayout.
 	self assert: cb listElement children size equals: 1.
 	
@@ -70,7 +97,7 @@ ToSelectOnlyComboBoxTest >> testSelectOnlyWithOneElement [
 ]
 
 { #category : #tests }
-ToSelectOnlyComboBoxTest >> testSelectOnlyWithOneElement1 [
+ToSelectOnlyComboBoxTest >> testWithOneElement1 [
 
 	| cb |
 	cb := ToComboBox new.
@@ -79,7 +106,6 @@ ToSelectOnlyComboBoxTest >> testSelectOnlyWithOneElement1 [
 	self assert: cb presentedData size equals: 1.
 	cb selectIndex: 1.
 	self assert: cb selectedIndex equals: 1.
-	self assert: cb selectedIndexInPresentedData equals: 1.
 
 	self assert: cb headElement first text asString equals: cb data first.
 	
@@ -87,7 +113,7 @@ ToSelectOnlyComboBoxTest >> testSelectOnlyWithOneElement1 [
 ]
 
 { #category : #tests }
-ToSelectOnlyComboBoxTest >> testSelectOnlyWithStatesOfAmerica [
+ToSelectOnlyComboBoxTest >> testWithStatesOfAmerica [
 
 	| cb |
 	cb := ToComboBox new.
@@ -96,11 +122,9 @@ ToSelectOnlyComboBoxTest >> testSelectOnlyWithStatesOfAmerica [
 	self assert: cb presentedData size equals: self statesOfAmerica size.
 	cb selectIndex: 1.
 	self assert: cb selectedIndex equals: 1.
-	self assert: cb selectedIndexInPresentedData equals: 1.
 	self assert: cb headElement first text asString equals: cb data first.
 	cb selectIndex: 10.
 	self assert: cb selectedIndex equals: 10.
-	self assert: cb selectedIndexInPresentedData equals: cb selectedIndex.
 	self assert: cb headElement first text asString equals: (cb data at: cb selectedIndex).
 	self assert: cb selectedData equals: (cb data at: cb selectedIndex)
 

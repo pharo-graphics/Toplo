@@ -48,6 +48,12 @@ TToListElementDecorator >> deselectIndex: anIndex [
 	self next deselectIndex: anIndex
 ]
 
+{ #category : #'t - accessing selection' }
+TToListElementDecorator >> ensureSelectIndex: anInteger [
+
+	self next ensureSelectIndex: anInteger
+]
+
 { #category : #'t - children - accessing' }
 TToListElementDecorator >> findElementHolderForDataSourcePosition: anInteger [
 

@@ -135,7 +135,7 @@ ToSandBox class >> example_ComboBoxWithColors [
 			background: color;
 			yourself ].
 	combo data addAll: Color indexedColors.
-	combo selectIndex: 2.
+	combo selectIndex: (combo data size / 2).
 	combo listElementSize: 200 @ 500.
 	win root addChild: combo.
 	win openInSpace

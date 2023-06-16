@@ -57,12 +57,6 @@ ToSelectOnlyComboBoxHead >> initialize [
 ]
 
 { #category : #accessing }
-ToSelectOnlyComboBoxHead >> noDataSelected [
-
-	self showPlaceholder 
-]
-
-{ #category : #accessing }
 ToSelectOnlyComboBoxHead >> placeholder [
 
 	^ placeholder

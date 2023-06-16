@@ -12,3 +12,10 @@ ToComboBoxSelectOnlyMode >> defaultHeadElement [
 		  hMatchParent;
 		  yourself
 ]
+
+{ #category : #accessing }
+ToComboBoxSelectOnlyMode >> selectIndex: anIndex in: aComboBox [
+
+	super selectIndex: anIndex in: aComboBox.
+	aComboBox listElement ensureSelectIndex: anIndex
+]

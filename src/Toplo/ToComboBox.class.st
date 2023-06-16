@@ -424,8 +424,8 @@ ToComboBox >> privateListFrame: aWindow [
 { #category : #accessing }
 ToComboBox >> selectIndex: anIndex [
 
-	selectedIndex := anIndex.
-	self headElement selectIndexInOriginalData: anIndex in: self
+	self selectedIndex: anIndex.
+	self mode selectIndex: anIndex in: self
 ]
 
 { #category : #accessing }

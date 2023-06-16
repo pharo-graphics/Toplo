@@ -65,12 +65,6 @@ ToEditableComboBoxHead >> initialize [
 ]
 
 { #category : #accessing }
-ToEditableComboBoxHead >> noDataSelected [
-
-	self showPlaceholder 
-]
-
-{ #category : #accessing }
 ToEditableComboBoxHead >> placeholder [
 
 	^ self textField placeholder

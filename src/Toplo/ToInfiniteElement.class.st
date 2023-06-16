@@ -140,6 +140,12 @@ ToInfiniteElement >> dispatchStrongSelectionChanged [
 	self dispatchEvent: (ToStrongSelectionEvent indexes: self primarySelectionIndexes)
 ]
 
+{ #category : #'selection events' }
+ToInfiniteElement >> ensureSelectIndex: anIndex [
+
+	self selectedIndex = anIndex ifFalse: [ self selectIndex: anIndex ]
+]
+
 { #category : #private }
 ToInfiniteElement >> hasClickLauncher [
 

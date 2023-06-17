@@ -492,20 +492,20 @@ ToInfiniteElement >> whenChildDetachedDo: aBlock [
 ]
 
 { #category : #'selection events' }
-ToInfiniteElement >> whenClickOnNodeAnnouncement: anAnnouncement [
+ToInfiniteElement >> whenClickOnNodeEvent: anEvent [
 
-	| event |
-	event := anAnnouncement event.
+	| originalEvent |
+	originalEvent := anEvent event.
 
 	self hasFocus ifFalse: [
 		self requestFocus ].
 
 	self primarySelection multipleSelectionModeDo: [
-		event modifiers isShift ifTrue: [
-			^ self selectToIndex: anAnnouncement holder layoutPosition ].
-		event modifiers isPrimaryModifier ifTrue: [
-			^ self cherryPickIndex: anAnnouncement holder layoutPosition ] ].
+		originalEvent modifiers isShift ifTrue: [
+			^ self selectToIndex: anEvent holder layoutPosition ].
+		originalEvent modifiers isPrimaryModifier ifTrue: [
+			^ self cherryPickIndex: anEvent holder layoutPosition ] ].
 
 	self primarySelection atLeastMonoSelectionDo: [
-		self selectIndex: anAnnouncement holder layoutPosition ]
+		self selectIndex: anEvent holder layoutPosition ]
 ]

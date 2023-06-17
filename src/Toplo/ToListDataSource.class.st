@@ -33,6 +33,5 @@ ToListDataSource >> onElementAttached: anElementHolder [
 ToListDataSource >> onElementDetached: anElementHolder [
 	
 	super onElementDetached: anElementHolder.
-	anElementHolder onDetachedFromDatasource: self.
-	anElementHolder unsubscribe: self
+	anElementHolder onDetachedFromDatasource: self
 ]

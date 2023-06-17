@@ -1,6 +1,6 @@
 Class {
 	#name : #ToInlineAutocompleteComboBoxHeadDresser,
-	#superclass : #ToDataEditingComboBoxHeadDresser,
+	#superclass : #ToEditableComboBoxHeadDresser,
 	#instVars : [
 		'filterDresser',
 		'filterResultHandler'

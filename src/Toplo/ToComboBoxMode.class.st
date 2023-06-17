@@ -5,8 +5,9 @@ Class {
 }
 
 { #category : #initialization }
-ToComboBoxMode >> defaultHeadElement [
-	^ self subclassResponsibility
+ToComboBoxMode >> defaultHeadElementIn: aComboBox [
+
+	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }

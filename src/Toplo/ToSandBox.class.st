@@ -245,7 +245,7 @@ ToSandBox class >> example_EditorWithPlaceholder [
 		         withSaveCapability;
 		         whenSaveRequestedDo: [ :saveRequested |
 			         saveRequested client saveResult: true ];
-		         withEditsFeedbackLayer) onWidget.
+		         withEditsFeedback) onWidget.
 	view showPlaceholder.
 	view openInSpace
 ]
@@ -266,7 +266,7 @@ ToSandBox class >> example_EditorWithPlaceholderWithToAlbumModel [
 		         withSaveCapability;
 		         whenSaveRequestedDo: [ :saveRequested |
 			         saveRequested client saveResult: true ];
-		         withEditsFeedbackLayer) onWidget.
+		         withEditsFeedback) onWidget.
 
 	view showPlaceholder.
 	view openInSpace
@@ -288,7 +288,7 @@ ToSandBox class >> example_EditorWithSoftLine [
 		         withSaveCapability;
 		         whenSaveRequestedDo: [ :saveRequested |
 			         saveRequested client saveResult: true ];
-		         withEditsFeedbackLayer) onWidget.
+		         withEditsFeedback) onWidget.
 	view withSoftLine.
 	view text:
 		((String loremIpsum: 100000) asRopedText fontName: 'Source Code Pro').
@@ -311,7 +311,7 @@ ToSandBox class >> example_EditorWithoutSoftLine [
 		         withSaveCapability;
 		         whenSaveRequestedDo: [ :saveRequested |
 			         saveRequested client saveResult: true ];
-		         withEditsFeedbackLayer) onWidget.
+		         withEditsFeedback) onWidget.
 	view withoutSoftLine.
 	view text:
 		((String loremIpsum: 100000) asRopedText fontName: 'Source Code Pro').
@@ -324,6 +324,18 @@ ToSandBox class >> example_EmptyComboBox [
 	| win combo |
 	win := ToInnerWindow new title: 'Combo box Example'.
 	combo := ToComboBox new.
+	win root addChild: combo.
+	win openInSpace
+]
+
+{ #category : #combobox }
+ToSandBox class >> example_EmptyInlineAutocomplete [
+
+	| win combo  |
+	win := ToInnerWindow new title:
+		       'Inline autocomplete Combo box Example'.
+	combo := ToComboBox new beInlineAutocomplete; saveAllowed: true; yourself.
+	combo defaultDataProvider: [ '<null>' ].
 	win root addChild: combo.
 	win openInSpace
 ]
@@ -814,7 +826,7 @@ ToSandBox class >> example_Popup1 [
 	popup := ToPopupWindow new widget: e.
 	but := ToWidget new size: 50 @ 90.
 	but addDresser: ToGeneralButtonDresser new.
-	but whenAnnouncement: ToClickAnnouncement do: [
+	but when: ToLeftClickEvent do: [
 		self inform: 'Click'.
 		popup close ].
 	popup root addChild: but.
@@ -1717,7 +1729,7 @@ ToSandBox class >> example_toAlbumAsButton [
 		       preventChildrenMouseEvents.
 	but addDresser: ToGeneralButtonDresser new.
 	but
-		whenAnnouncement: ToClickAnnouncement
+		when: ToLeftClickEvent
 		do: [ self inform: 'Click' ].
 	but background: Color blue.
 	but size: 300 @ 100.
@@ -2111,7 +2123,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroup2 [
 		 , ann uncheckedButtons asString) traceCr ].
 	ToInnerWindow new
 		in: [ :f | f root addChild: container ];
-		openInWorld
+		openInSpace
 ]
 
 { #category : #checkbox }
@@ -2748,23 +2760,23 @@ ToSandBox class >> example_toMultiStateWithLabel [
 
 	| but |
 	but := ToMultiStateButton new size: 70 @ 35.
-	but setUpStatesWith: { 
+	but setUpStatesWith: {
 			(ToWidgetState new
 				 name: #one;
-				 whenEnterDo: [ :ann | 
+				 whenEnterDo: [ :ann |
 					 ann widget labelText: ('One' asRopedText fontSize: 24) ];
 				 yourself).
 			(ToWidgetState new
 				 name: #two;
-				 whenEnterDo: [ :ann | 
+				 whenEnterDo: [ :ann |
 					 ann widget labelText: ('Two' asRopedText fontSize: 24) ];
 				 yourself).
 			(ToWidgetState new
 				 name: #three;
-				 whenEnterDo: [ :ann | 
+				 whenEnterDo: [ :ann |
 					 ann widget labelText: ('Three' asRopedText fontSize: 24) ];
 				 yourself) }.
-	but openInWorld.
+	but openInSpace.
 	but startState: (but stateNamed: #three)
 ]
 
@@ -2915,7 +2927,7 @@ ToSandBox class >> example_toWidgetAsButton0 [
 	but := ToWidget new.
 	but addDresser: ToGeneralButtonDresser new.
 	but
-		whenAnnouncement: ToClickAnnouncement
+		when: ToLeftClickEvent
 		do: [ self inform: 'Click' ].
 	but background: Color blue.
 	but size: 50 @ 50.

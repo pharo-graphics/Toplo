@@ -37,10 +37,13 @@ ToButtonClickHandler >> clickCandidateEvent: anEvent [
 { #category : #'api - accessing' }
 ToButtonClickHandler >> clickEvent: anEvent [
 
+	| clickEvent |
 	button isDisabled ifTrue: [ ^ self ].
-	anEvent secondaryButtonPressed ifTrue: [ ^ self rightClickEvent: anEvent].
 	anEvent consumed: true.
-	button announce: (ToClickAnnouncement new widget: button)
+	clickEvent := anEvent secondaryButtonPressed
+		              ifTrue: [ ToRightClickEvent new ]
+		              ifFalse: [ ToLeftClickEvent new ].
+	button dispatchEvent: clickEvent
 ]
 
 { #category : #'api - accessing' }
@@ -73,11 +76,4 @@ ToButtonClickHandler >> mouseUpEvent: anEvent [
 	"mouse up must be consumed here so that BlClickCandidateEvent is created with the right BlMouseUpEvent"
 
 	anEvent consumed: true
-]
-
-{ #category : #'api - accessing' }
-ToButtonClickHandler >> rightClickEvent: anEvent [
-
-	anEvent consumed: true.
-	button announce: (ToRightClickAnnouncement new widget: button)
 ]

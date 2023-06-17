@@ -16,13 +16,13 @@ ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement [
 	
 	coverColor := anEditorElement selectionColor alpha: 0.1.
 	anEditorElement
-		whenAnnouncement: ToAlbumFlashRequested
+		when: ToAlbumFlashRequestedEvent
 		do: [ self flash ].
 
 	" flash if save requested with no text change "
 	anEditorElement
-		whenAnnouncement: ToAlbumSaveRequested
-		do: [ :announce | announce unacceptedEdits ifFalse: [ self flash ] ].
+		when: ToAlbumSaveRequestedEvent
+		do: [ :event | event unacceptedEdits ifFalse: [ self flash ] ].
 
 	" visual flag add/remove according to unaccepted edits or not"
 	anEditorElement whenEditedChangedDo: [ :state | 

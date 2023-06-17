@@ -9,8 +9,10 @@ Class {
 		'#headElement',
 		'#listElementSize',
 		'#data',
+		'#saveAllowed',
 		'#mode => ObservableSlot',
-		'#selectedIndex => ObservableSlot'
+		'#selectedIndex => ObservableSlot',
+		'#defaultDataProvider'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
@@ -18,13 +20,13 @@ Class {
 { #category : #'mode change' }
 ToComboBox >> beDataEditing [
 
-	self mode: ToComboBoxDataEditingMode new
+	self mode: ToComboBoxEditableMode new
 ]
 
 { #category : #'mode change' }
 ToComboBox >> beInlineAutocomplete [
 
-	self mode: (ToComboBoxDataEditingMode new
+	self mode: (ToComboBoxEditableMode new
 			 inlineAutocomplete: true;
 			 yourself)
 ]
@@ -61,6 +63,19 @@ ToComboBox >> data [
 	^ data
 ]
 
+{ #category : #accessing }
+ToComboBox >> defaultDataProvider [
+
+	^ defaultDataProvider
+]
+
+{ #category : #accessing }
+ToComboBox >> defaultDataProvider: aValuable [
+	" aValuable takes the combo-box as optional argument "
+
+	defaultDataProvider := aValuable
+]
+
 { #category : #'t - initialization dresser' }
 ToComboBox >> defaultDresser [
 
@@ -70,7 +85,7 @@ ToComboBox >> defaultDresser [
 { #category : #initialization }
 ToComboBox >> defaultHeadElement [
 
-	^ self mode defaultHeadElement
+	^ self mode defaultHeadElementIn: self
 ]
 
 { #category : #initialization }
@@ -170,6 +185,7 @@ ToComboBox >> initialize [
 
 	super initialize.
 	selectedIndex := 0.
+	saveAllowed := false.
 	self mode: self defaultMode.
 	self privateListFrame: self defaultListFrame.
 	self privateHeadElement: self defaultHeadElement.
@@ -213,6 +229,7 @@ ToComboBox >> isOpened [
 { #category : #events }
 ToComboBox >> listClickedEvent: aClickEvent [
 
+	self selectIndexInPresentedData: self listElement selectedIndex.
 	self close
 ]
 
@@ -251,12 +268,12 @@ ToComboBox >> listFrame [
 { #category : #events }
 ToComboBox >> listNodeSelectedEvent: aClickOnDataEvent [
 
-	| idx clickIdx |
+	"| idx clickIdx |
 	clickIdx := aClickOnDataEvent index.
 	idx := (self listElement selectedIndexes includes: clickIdx)
 		       ifTrue: [ clickIdx ]
 		       ifFalse: [ 0 ].
-	self selectIndexInPresentedData: idx
+	self selectIndexInPresentedData: idx"
 ]
 
 { #category : #accessing }
@@ -280,8 +297,7 @@ ToComboBox >> mode: aComboBoxMode [
 { #category : #'mode change' }
 ToComboBox >> mode: previousMode changedWith: newMode [
 
-	self privateHeadElement: self defaultHeadElement.
-	self updateHeadContent
+	self privateHeadElement: self defaultHeadElement
 ]
 
 { #category : #initialization }
@@ -405,7 +421,6 @@ ToComboBox >> privateHeadElement: anElement [
 	headElement = anElement ifTrue: [ ^ self ].
 	headElement ifNotNil: [ headElement removeFromParent ].
 	headElement := anElement.
-"	self selectIndexInPresentedData: self selectedIndexInPresentedData."
 	self addChild: headElement
 ]
 
@@ -419,6 +434,20 @@ ToComboBox >> privateListElement: aListElement [
 ToComboBox >> privateListFrame: aWindow [
 
 	listFrame := aWindow
+]
+
+{ #category : #accessing }
+ToComboBox >> saveAllowed [
+
+	^ saveAllowed
+]
+
+{ #category : #accessing }
+ToComboBox >> saveAllowed: aBoolean [
+
+	aBoolean = saveAllowed ifTrue: [ ^ self ].
+	saveAllowed := aBoolean.
+	self privateHeadElement: self defaultHeadElement
 ]
 
 { #category : #accessing }

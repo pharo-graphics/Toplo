@@ -51,7 +51,7 @@ TToWidgetWithState >> setUpStatesWith: aCollectionOfStates [
 	(previousState isNil or:[ (self stateNamed: previousState name) isNil]) 
 		ifTrue: [ self switchToStartState ] 
 		ifFalse: [ self currentState: (self stateNamed: (previousState name))].
-	self announce: (ToStatesSetupAnnouncement new widget: self)
+	self dispatchEvent: ToStatesSetupEvent new
 
 	
 	

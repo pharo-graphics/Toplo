@@ -207,33 +207,15 @@ ToAlbumModel >> whenSaveAcceptedDo: aBlock [
 ]
 
 { #category : #'transaction hook' }
-ToAlbumModel >> whenSaveAcceptedSend: aSelector to: anObject [
-
-	self widgetDo: [ :widget | widget whenSaveAcceptedSend: aSelector to: anObject ]
-]
-
-{ #category : #'transaction hook' }
 ToAlbumModel >> whenSaveDeniedDo: aBlock [
 
 	self widgetDo: [ :widget | widget whenSaveDeniedDo: aBlock ]
 ]
 
 { #category : #'transaction hook' }
-ToAlbumModel >> whenSaveDeniedSend: aSelector to: anObject [
-
-	self widgetDo: [ :widget | widget whenSaveDeniedSend: aSelector to: anObject ]
-]
-
-{ #category : #'transaction hook' }
 ToAlbumModel >> whenSaveRequestedDo: aBlock [
 
 	self widgetDo: [ :widget | widget whenSaveRequestedDo: aBlock ]
-]
-
-{ #category : #'transaction hook' }
-ToAlbumModel >> whenSaveRequestedSend: aSelector to: anObject [
-
-	self widgetDo: [ :widget | widget whenSaveRequestedSend: aSelector to: anObject ]
 ]
 
 { #category : #'styler configuration' }
@@ -275,9 +257,9 @@ ToAlbumModel >> whenTextStyleRequested: aToTextStyleRequested [
 ]
 
 { #category : #'view configuration' }
-ToAlbumModel >> withEditsFeedbackLayer [
+ToAlbumModel >> withEditsFeedback [
 
-	self widgetDo: [ :album | album withEditsFeedbackLayer ]
+	self widgetDo: [ :album | album withEditsFeedback ]
 ]
 
 { #category : #'view configuration' }

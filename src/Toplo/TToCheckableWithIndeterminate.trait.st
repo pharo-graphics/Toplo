@@ -17,7 +17,7 @@ TToCheckableWithIndeterminate >> hasIndeterminateState: aBoolean [
 
 	aBoolean = self hasIndeterminateState ifTrue: [ ^ self ].
 	hasIndeterminateState := aBoolean.
-	self announce: 	(ToStatesDefinitionChangedAnnouncement new widget: self)
+	self dispatchEvent: ToStatesDefinitionChangedEvent new
 
 ]
 

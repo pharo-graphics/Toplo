@@ -1,6 +1,6 @@
 Class {
 	#name : #ToInlineAutocompleteComboBoxHead,
-	#superclass : #ToDataEditingComboBoxHead,
+	#superclass : #ToEditableComboBoxHead,
 	#category : #'Toplo-Widget-ComboBox'
 }
 

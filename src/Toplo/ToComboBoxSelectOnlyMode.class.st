@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #initialization }
-ToComboBoxSelectOnlyMode >> defaultHeadElement [
+ToComboBoxSelectOnlyMode >> defaultHeadElementIn: aComboBox [
 
 	^ ToSelectOnlyComboBoxHead new
 		  vFitContent;

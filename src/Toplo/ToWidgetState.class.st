@@ -1,12 +1,13 @@
 Class {
 	#name : #ToWidgetState,
 	#superclass : #Object,
-	#traits : 'TBlAnnouncerProvider',
-	#classTraits : 'TBlAnnouncerProvider classTrait',
+	#traits : 'TBlEventTarget',
+	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
 		'name',
 		'next',
-		'counter'
+		'counter',
+		'eventDispatcher'
 	],
 	#category : #'Toplo-Core'
 }
@@ -26,23 +27,38 @@ ToWidgetState >> counter: aNumber [
 { #category : #processing }
 ToWidgetState >> enterOn: aWidget previousState: aPreviousState [
 
-	self announce: (ToEnterStateAnnouncement new
+	self fireEvent: (ToEnterStateEvent new
 			 widget: aWidget;
 			 state: self;
 			 previousState: aPreviousState;
 			 yourself).
 ]
 
+{ #category : #'event management accessing' }
+ToWidgetState >> eventDispatcher [
+	"Return an object responsible for event dispatching"
+	<return: #BlDirectEventDispatcher>
+
+	^ eventDispatcher
+]
+
 { #category : #processing }
 ToWidgetState >> exitOn: aWidget nextState: aState [
 
-	self announce: (ToExitStateAnnouncement new
+	self fireEvent: (ToExitStateEvent new
 			 widget: aWidget;
 			 state: self;
 			 nextState: aState;
 			 yourself).
 
 	aState enterOn: aWidget previousState: self
+]
+
+{ #category : #initialization }
+ToWidgetState >> initialize [ 
+
+	super initialize.
+	eventDispatcher := BlDirectEventDispatcher on: self
 ]
 
 { #category : #accessing }
@@ -72,17 +88,17 @@ ToWidgetState >> next: aWidgetState [
 { #category : #initialization }
 ToWidgetState >> reset [
 
-	self resetAnnouncer 
+	eventDispatcher := nil
 ]
 
 { #category : #accessing }
 ToWidgetState >> whenEnterDo: aBlock [
 
-	self whenAnnouncement: ToEnterStateAnnouncement do: [ :ann | aBlock cull: ann ]
+	self when: ToEnterStateEvent do: [ :ann | aBlock cull: ann ]
 ]
 
 { #category : #accessing }
 ToWidgetState >> whenExitDo: aBlock [
 
-	self whenAnnouncement: ToExitStateAnnouncement do: [ :ann | aBlock cull: ann ]
+	self when: ToExitStateEvent do: [ :ann | aBlock cull: ann ]
 ]

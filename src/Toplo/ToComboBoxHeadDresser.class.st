@@ -122,6 +122,12 @@ ToComboBoxHeadDresser >> onUninstalledIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
+ToComboBoxHeadDresser >> returnEvent: anEvent in: anElement [
+
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToComboBoxHeadDresser >> uninstallEventListenersIn: anElement [
 
 	super uninstallEventListenersIn: anElement.

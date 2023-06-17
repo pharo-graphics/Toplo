@@ -11,7 +11,10 @@ Class {
 		'originalData',
 		'delayBeforeFilter',
 		'currentIndexes',
-		'filterResultTask'
+		'filterResultTask',
+		'addHandler',
+		'removeHandler',
+		'updateHandler'
 	],
 	#category : #'Toplo-Widget-List'
 }
@@ -133,12 +136,16 @@ ToDataFilterDresser >> installEventListenersIn: anElement [
 	requestHandler := BlEventHandler
 		                  on: ToDataFilterRequestEvent
 		                  do: [ :event | self filterRequestEvent: event in: anElement ].
-
-	anElement data whenAddChangeDo: [ :ann | self dataChangedIn: anElement ].
-	anElement data whenRemoveChangeDo: [ :ann | self dataChangedIn: anElement ].
-	anElement data whenUpdateChangeDo: [ :ann | self dataChangedIn: anElement ].
 	
-	anElement addEventHandler: requestHandler
+	addHandler := BlEventHandler on: ToCollectionAddEvent  do: [ :event | self dataChangedIn: anElement ].
+	removeHandler := BlEventHandler on: ToCollectionRemoveEvent  do: [ :event | self dataChangedIn: anElement ].
+	updateHandler := BlEventHandler on: ToCollectionUpdateEvent  do: [ :event | self dataChangedIn: anElement ].
+		
+	anElement addEventHandler: requestHandler.
+	anElement data addEventHandler: addHandler.
+	anElement data addEventHandler: removeHandler.
+	anElement data addEventHandler: updateHandler.
+
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -185,6 +192,14 @@ ToDataFilterDresser >> semaphore [
 ToDataFilterDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: requestHandler.
+	anElement data removeEventHandler: addHandler.
+	anElement data removeEventHandler: removeHandler.
+	anElement data removeEventHandler: updateHandler.
+
 	requestHandler := nil.
+	addHandler := nil.
+	removeHandler := nil.
+	updateHandler := nil.
+	
 	super uninstallEventListenersIn: anElement
 ]

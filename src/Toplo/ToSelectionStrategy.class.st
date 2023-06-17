@@ -23,6 +23,12 @@ ToSelectionStrategy >> addAllToSelection: aCollection [
 	self markPointedPosition: aCollection first
 ]
 
+{ #category : #adding }
+ToSelectionStrategy >> addEventHandler: anEventHandler [
+
+	selectionModel addEventHandler: anEventHandler
+]
+
 { #category : #'private - shortcuts' }
 ToSelectionStrategy >> addOrRemoveNext [
 
@@ -334,6 +340,12 @@ ToSelectionStrategy >> pivot: anIndex [
 	pivot := anIndex
 ]
 
+{ #category : #adding }
+ToSelectionStrategy >> removeEventHandler: anEventHandler [
+
+	selectionModel removeEventHandler: anEventHandler
+]
+
 { #category : #'private - selection managing' }
 ToSelectionStrategy >> select: aFirstIndex to: aLastIndex [
 
@@ -476,18 +488,6 @@ ToSelectionStrategy >> shortcutsIn: aList [
 ToSelectionStrategy >> size [ 
 
 	^ self selectedIndexes size
-]
-
-{ #category : #'event management' }
-ToSelectionStrategy >> unsubscribe: anObject [
-
-	selectionModel unsubscribe: anObject
-]
-
-{ #category : #'event management' }
-ToSelectionStrategy >> whenAnnouncement: anAnnouncementClass send: aSelector to: anObject [
-
-	selectionModel whenAnnouncement: anAnnouncementClass send: aSelector to: anObject
 ]
 
 { #category : #'slot change hook' }

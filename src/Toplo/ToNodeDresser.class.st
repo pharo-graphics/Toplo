@@ -139,7 +139,7 @@ ToNodeDresser >> leftClicked: anElement event: anEvent [
 
 	self
 		launchClick: [ 
-			anElement holder announce: (ToClickOnNodeAnnouncement new
+			anElement holder fireEvent: (ToClickOnNodeEvent new
 					 holder: anElement holder;
 					 event: anEvent;
 					 yourself) ]

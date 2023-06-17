@@ -4,10 +4,8 @@ Class {
 	#instVars : [
 		'crShortcut',
 		'escShortcut',
-		'structuralChangeHandler',
 		'placeholderAddedHandler',
 		'placeholderRemovedHandler',
-		'nodeSelectionHandler',
 		'nodeClickHandler'
 	],
 	#category : #'Toplo-Widget-ComboBox'
@@ -30,10 +28,8 @@ ToComboBoxDresser >> onInstalledIn: anElement [
 	
 	placeholderAddedHandler := BlEventHandler on: ToPlaceholderAddedEvent  do: [ :event | self showListPlaceholderIn: anElement ].
 	placeholderRemovedHandler := BlEventHandler on: ToPlaceholderRemovedEvent  do: [ :event | self hideListPlaceholderIn: anElement ].	
-	nodeSelectionHandler := BlEventHandler on: ToInfiniteNodeSelectedEvent do: [ :event | anElement listNodeSelectedEvent: event ].
 	nodeClickHandler := BlEventHandler on: BlClickEvent do: [ :event | anElement listClickedEvent: event ].
 	
-	anElement listElement infinite addEventHandler: nodeSelectionHandler.
 	anElement listElement addEventHandler: placeholderAddedHandler.
 	anElement listElement addEventHandler: placeholderRemovedHandler.
 	anElement listElement addEventHandler: nodeClickHandler.
@@ -63,7 +59,6 @@ ToComboBoxDresser >> onUninstalledIn: anElement [
 	anElement listElement removeEventHandler: placeholderAddedHandler.
 	anElement listElement removeEventHandler: placeholderRemovedHandler.
 	anElement listElement removeEventHandler: nodeClickHandler.
-	anElement listElement infinite removeEventHandler: nodeSelectionHandler.
 	anElement listElement removeShortcut: crShortcut.
 	anElement listElement removeShortcut: escShortcut
 ]

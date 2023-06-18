@@ -2,7 +2,7 @@ Class {
 	#name : #ToComboBoxEditableMode,
 	#superclass : #ToComboBoxMode,
 	#instVars : [
-		'inlineAutocomplete'
+		'listAutocomplete'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
@@ -10,9 +10,7 @@ Class {
 { #category : #initialization }
 ToComboBoxEditableMode >> defaultHeadElementIn: aComboBox [
 
-	^ (inlineAutocomplete
-		   ifTrue: [ ToAutocompleteComboBoxHead new ]
-		   ifFalse: [ ToEditableComboBoxHead new ])
+	^ ToEditableComboBoxHead new
 		  vFitContent;
 		  hMatchParent;
 		  in: [ :head | head saveAllowed: aComboBox saveAllowed ];
@@ -23,17 +21,17 @@ ToComboBoxEditableMode >> defaultHeadElementIn: aComboBox [
 ToComboBoxEditableMode >> initialize [ 
 
 	super initialize.
-	inlineAutocomplete := true
+	listAutocomplete := true
 ]
 
 { #category : #accessing }
-ToComboBoxEditableMode >> inlineAutocomplete [
+ToComboBoxEditableMode >> listAutocomplete [
 
-	^ inlineAutocomplete 
+	^ listAutocomplete 
 ]
 
 { #category : #accessing }
-ToComboBoxEditableMode >> inlineAutocomplete: aBoolean [
+ToComboBoxEditableMode >> listAutocomplete: aBoolean [
 
-	inlineAutocomplete := aBoolean 
+	listAutocomplete := aBoolean 
 ]

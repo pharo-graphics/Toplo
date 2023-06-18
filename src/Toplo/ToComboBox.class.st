@@ -27,7 +27,7 @@ ToComboBox >> beDataEditing [
 ToComboBox >> beInlineAutocomplete [
 
 	self mode: (ToComboBoxEditableMode new
-			 inlineAutocomplete: true;
+			 listAutocomplete: true;
 			 yourself)
 ]
 
@@ -218,6 +218,12 @@ ToComboBox >> insertData: aData [
 ToComboBox >> isClosed [
 
 	^ self isOpened not
+]
+
+{ #category : #testing }
+ToComboBox >> isListAutocomplete [
+
+	^ self mode listAutocomplete
 ]
 
 { #category : #testing }

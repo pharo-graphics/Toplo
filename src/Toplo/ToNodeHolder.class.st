@@ -69,8 +69,7 @@ ToNodeHolder >> onAttachedFromDatasource: aDataSource [
 
 	deselectHandler := BlEventHandler
 		                   on: ToSelectionModelDeselectEvent
-		                   do: [ :event |
-		                   self whenDeselectEvent: event ].
+		                   do: [ :event | self whenDeselectEvent: event ].
 
 	selectHandler := BlEventHandler
 		                 on: ToSelectionModelSelectEvent

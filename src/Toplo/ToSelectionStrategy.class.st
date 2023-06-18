@@ -187,10 +187,10 @@ ToSelectionStrategy >> goTowardNext [
 
 	self currentIndex isZero
 		ifTrue: [
-			dataSource list ifEmpty: [ ^ false ].
+			dataSource data ifEmpty: [ ^ false ].
 			self markPointedPosition: 1 ]
 		ifFalse: [
-			self currentIndex < dataSource list size ifFalse: [
+			self currentIndex < dataSource data size ifFalse: [
 				self markPointedPosition: 1.
 				^ true ].
 			self markPointedPosition: self currentIndex + 1 ].
@@ -202,7 +202,7 @@ ToSelectionStrategy >> goTowardPrevious [
 
 	self currentIndex isZero
 		ifTrue: [
-			dataSource list ifEmpty: [ ^ false ].
+			dataSource data ifEmpty: [ ^ false ].
 			self markPointedPosition: dataSource itemCount ]
 		ifFalse: [
 			self currentIndex > 1 ifFalse: [

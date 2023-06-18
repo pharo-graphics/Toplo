@@ -11,7 +11,7 @@ Class {
 ToComboBoxEditableMode >> defaultHeadElementIn: aComboBox [
 
 	^ (inlineAutocomplete
-		   ifTrue: [ ToInlineAutocompleteComboBoxHead new ]
+		   ifTrue: [ ToAutocompleteComboBoxHead new ]
 		   ifFalse: [ ToEditableComboBoxHead new ])
 		  vFitContent;
 		  hMatchParent;

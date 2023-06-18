@@ -1,5 +1,5 @@
 Class {
-	#name : #ToInlineAutocompleteComboBoxHeadDresser,
+	#name : #ToAutocompleteComboBoxHeadDresser,
 	#superclass : #ToEditableComboBoxHeadDresser,
 	#instVars : [
 		'filterDresser',
@@ -9,20 +9,20 @@ Class {
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToInlineAutocompleteComboBoxHeadDresser >> filterResult: anEvent [
+ToAutocompleteComboBoxHeadDresser >> filterResult: anEvent [
 
 	comboBox presentedData filterResult: anEvent data.
 	comboBox fitListElementToContent
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToInlineAutocompleteComboBoxHeadDresser >> textUpdatedIn: anElement [
+ToAutocompleteComboBoxHeadDresser >> textUpdatedIn: anElement [
 
 	comboBox listElement dispatchEvent: (ToDataFilterRequestEvent new pattern: anElement textField text asString)
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToInlineAutocompleteComboBoxHeadDresser >> whenAdded: anElement [
+ToAutocompleteComboBoxHeadDresser >> whenAdded: anElement [
 
 	super whenAdded: anElement.
 	filterDresser := ToDataFilterDresser new 
@@ -40,7 +40,7 @@ ToInlineAutocompleteComboBoxHeadDresser >> whenAdded: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToInlineAutocompleteComboBoxHeadDresser >> whenRemoved: anElement [
+ToAutocompleteComboBoxHeadDresser >> whenRemoved: anElement [
 
 	comboBox listElement removeDresser: filterDresser.
 	comboBox listElement removeEventHandler: filterResultHandler.

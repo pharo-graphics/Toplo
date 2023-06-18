@@ -65,7 +65,7 @@ ToInfiniteElement >> contextMenu [
 { #category : #accessing }
 ToInfiniteElement >> data [
 
-	^ dataSource list
+	^ dataSource data
 ]
 
 { #category : #initialization }
@@ -362,7 +362,7 @@ ToInfiniteElement >> primarySelectionIndexes [
 ToInfiniteElement >> privateData: aCollection [
 
 	self primarySelection deselectAll.
-	dataSource list: aCollection
+	dataSource data: aCollection
 ]
 
 { #category : #private }

@@ -5,6 +5,18 @@ Class {
 }
 
 { #category : #accessing }
+ToListDataSource >> data [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToListDataSource >> data: aCollection [
+
+	self subclassResponsibility 
+]
+
+{ #category : #accessing }
 ToListDataSource >> list [
 
 	^ self subclassResponsibility 

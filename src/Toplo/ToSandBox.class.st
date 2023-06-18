@@ -16,6 +16,53 @@ ToSandBox class >> example_2RootFramesInOBlWorld [
 ]
 
 { #category : #combobox }
+ToSandBox class >> example_AutocompleteComboBoxEmpty [
+
+	| win combo  |
+	win := ToInnerWindow new title:
+		       'Inline autocomplete Combo box Example'.
+	combo := ToComboBox new beInlineAutocomplete; saveAllowed: true; yourself.
+	combo defaultDataProvider: [ '<null>' ].
+	win root addChild: combo.
+	win openInSpace
+]
+
+{ #category : #combobox }
+ToSandBox class >> example_AutocompleteComboBoxWithAllClasses [
+
+	| win combo placeholder |
+	win := ToInnerWindow new title: 'Inline autocomplete Combo box Example'.
+	combo := ToComboBox new beInlineAutocomplete.
+	placeholder := ToLabel new
+		               text: ('Choose a class' asRopedText foreground: Color lightGray);
+		               hMatchParent.
+	combo headPlaceholder: placeholder.
+	combo data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
+	combo selectIndex: 10.
+	win root addChild: combo.
+	win openInSpace
+]
+
+{ #category : #combobox }
+ToSandBox class >> example_AutocompleteComboBoxWithStatesOfAmerica [
+
+	| win combo placeholder |
+	win := ToInnerWindow new title:
+		       'Inline autocomplete Combo box Example'.
+	combo := ToComboBox new beInlineAutocomplete.
+	placeholder := ToLabel new
+		               text:
+			               ('Choose a state' asRopedText foreground:
+					                Color lightGray);
+		               hMatchParent.
+	combo headPlaceholder: placeholder.
+	combo data addAll: self statesOfAmerica.
+	combo selectIndex: 10.
+	win root addChild: combo.
+	win openInSpace
+]
+
+{ #category : #combobox }
 ToSandBox class >> example_BasicComboBox [
 
 	| win combo |
@@ -199,7 +246,7 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 			            padding: (BlInsets all: 1);
 			            yourself.
 		     lab whenTextReplacedDo: [
-			     holder list
+			     holder data
 				     at: holder position
 				     put: assoc key -> lab text asString ].
 		     ToLabeledNode new
@@ -328,18 +375,6 @@ ToSandBox class >> example_EmptyComboBox [
 	win openInSpace
 ]
 
-{ #category : #combobox }
-ToSandBox class >> example_EmptyInlineAutocomplete [
-
-	| win combo  |
-	win := ToInnerWindow new title:
-		       'Inline autocomplete Combo box Example'.
-	combo := ToComboBox new beInlineAutocomplete; saveAllowed: true; yourself.
-	combo defaultDataProvider: [ '<null>' ].
-	win root addChild: combo.
-	win openInSpace
-]
-
 { #category : #list }
 ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
 
@@ -356,41 +391,6 @@ ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
 	pane addChild: l.
 	pane addChild: filter.
 	pane openInSpace
-]
-
-{ #category : #combobox }
-ToSandBox class >> example_InlineAutocompleteComboBoxWithAllClasses [
-
-	| win combo placeholder |
-	win := ToInnerWindow new title: 'Inline autocomplete Combo box Example'.
-	combo := ToComboBox new beInlineAutocomplete.
-	placeholder := ToLabel new
-		               text: ('Choose a class' asRopedText foreground: Color lightGray);
-		               hMatchParent.
-	combo headPlaceholder: placeholder.
-	combo data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
-	combo selectIndex: 10.
-	win root addChild: combo.
-	win openInSpace
-]
-
-{ #category : #combobox }
-ToSandBox class >> example_InlineAutocompleteComboBoxWithStatesOfAmerica [
-
-	| win combo placeholder |
-	win := ToInnerWindow new title:
-		       'Inline autocomplete Combo box Example'.
-	combo := ToComboBox new beInlineAutocomplete.
-	placeholder := ToLabel new
-		               text:
-			               ('Choose a state' asRopedText foreground:
-					                Color lightGray);
-		               hMatchParent.
-	combo headPlaceholder: placeholder.
-	combo data addAll: self statesOfAmerica.
-	combo selectIndex: 10.
-	win root addChild: combo.
-	win openInSpace
 ]
 
 { #category : #list }

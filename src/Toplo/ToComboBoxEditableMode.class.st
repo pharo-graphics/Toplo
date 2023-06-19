@@ -2,20 +2,26 @@ Class {
 	#name : #ToComboBoxEditableMode,
 	#superclass : #ToComboBoxMode,
 	#instVars : [
-		'inlineAutocomplete'
+		'listAutocomplete',
+		'listAutocompleteDresser'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
 
+{ #category : #accessing }
+ToComboBoxEditableMode >> beListAutocompleteIn: aComboBox [
+
+	listAutocompleteDresser ifNotNil: [ ^ self ].
+	listAutocompleteDresser := ToComboBoxListAutocompleteHeadDresser new comboBox: aComboBox.
+	aComboBox headElement addDresser: listAutocompleteDresser
+]
+
 { #category : #initialization }
 ToComboBoxEditableMode >> defaultHeadElementIn: aComboBox [
 
-	^ (inlineAutocomplete
-		   ifTrue: [ ToAutocompleteComboBoxHead new ]
-		   ifFalse: [ ToEditableComboBoxHead new ])
+	^ ToEditableComboBoxHead new
 		  vFitContent;
 		  hMatchParent;
-		  in: [ :head | head saveAllowed: aComboBox saveAllowed ];
 		  yourself
 ]
 
@@ -23,17 +29,23 @@ ToComboBoxEditableMode >> defaultHeadElementIn: aComboBox [
 ToComboBoxEditableMode >> initialize [ 
 
 	super initialize.
-	inlineAutocomplete := true
+	listAutocomplete := true
 ]
 
 { #category : #accessing }
-ToComboBoxEditableMode >> inlineAutocomplete [
+ToComboBoxEditableMode >> listAutocomplete [
 
-	^ inlineAutocomplete 
+	^ listAutocomplete 
 ]
 
 { #category : #accessing }
-ToComboBoxEditableMode >> inlineAutocomplete: aBoolean [
+ToComboBoxEditableMode >> listAutocomplete: aBoolean [
 
-	inlineAutocomplete := aBoolean 
+	listAutocomplete := aBoolean 
+]
+
+{ #category : #initialization }
+ToComboBoxEditableMode >> saveEditingInList: aBoolean in: aComboBox [
+
+	^ aComboBox headElement saveEditingInList: aBoolean
 ]

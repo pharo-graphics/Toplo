@@ -98,6 +98,7 @@ ToAlbum >> requestSave [
 ToAlbum >> saveResult: aBoolean [
 
 	| event |
+	edited = aBoolean not ifTrue: [ ^ self ].
 	self edited: aBoolean not.
 	event := aBoolean
 		                ifTrue: [ ToAlbumSaveAcceptedEvent new client: self ]

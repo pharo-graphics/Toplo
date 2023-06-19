@@ -10,6 +10,13 @@ Class {
 }
 
 { #category : #'api - install/uninstall  hook' }
+ToEditableComboBoxHeadDresser >> filterResult: anEvent [
+
+	comboBox presentedData filterResult: anEvent data.
+	comboBox fitListElementToContent
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToEditableComboBoxHeadDresser >> newListClosedHandlerIn: anElement [
 
 	^ BlEventHandler
@@ -26,6 +33,12 @@ ToEditableComboBoxHeadDresser >> newMouseDownHandlerIn: anElement [
 			  comboBox popupOrCloseEvent: evt.
 			  evt target = anElement textField ifFalse: [
 				  self listElementRequestFocus ] ]
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToEditableComboBoxHeadDresser >> textUpdatedIn: anElement [
+
+	comboBox listElement dispatchEvent: (ToDataFilterRequestEvent new pattern: anElement textField text asString)
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -47,18 +60,16 @@ ToEditableComboBoxHeadDresser >> whenAdded: anElement [
 	escShortcut := self newEscapeShortcutIn: anElement.
 	anElement textField infinite addShortcut: downShortcut.
 	anElement textField infinite addShortcut: upShortcut.	
-	anElement textField infinite addShortcut: escShortcut
+	anElement textField addEditorShortcut: escShortcut
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToEditableComboBoxHeadDresser >> whenRemoved: anElement [
-	
+
 	anElement textField infinite removeShortcut: downShortcut.
 	anElement textField infinite removeShortcut: upShortcut.
 	anElement textField infinite removeShortcut: escShortcut.
 	anElement second removeEventHandler: mouseDownOnButtonHandler.
 
 	super whenRemoved: anElement
-
-
 ]

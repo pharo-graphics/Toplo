@@ -4,7 +4,8 @@ Class {
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
 		'dataToTextConverter',
-		'textToDataConverter'
+		'textToDataConverter',
+		'saveEditingInList'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
@@ -41,6 +42,12 @@ ToEditableComboBoxHead >> defaultPlaceholder [
 ]
 
 { #category : #initialization }
+ToEditableComboBoxHead >> defaultSaveEditingInList [
+
+	^ false
+]
+
+{ #category : #initialization }
 ToEditableComboBoxHead >> defaultTextField [
 
 	^ ToTextField new withoutLineWrapping; yourself
@@ -68,6 +75,8 @@ ToEditableComboBoxHead >> initialize [
 
 	self dataToTextConverter: self defaultDataToTextConverter.
 	self textToDataConverter: self defaultTextToDataConverter.
+	
+	self saveEditingInList: self defaultSaveEditingInList 
 ]
 
 { #category : #accessing }
@@ -83,8 +92,16 @@ ToEditableComboBoxHead >> placeholder: anElement [
 ]
 
 { #category : #accessing }
-ToEditableComboBoxHead >> saveAllowed: aBoolean [
+ToEditableComboBoxHead >> saveEditingInList [
 
+	^ saveEditingInList 
+]
+
+{ #category : #accessing }
+ToEditableComboBoxHead >> saveEditingInList: aBoolean [
+
+	saveEditingInList = aBoolean ifTrue: [ ^ self ]. 
+	saveEditingInList := aBoolean.
 	aBoolean
 		ifTrue: [ self textField withSaveCapability ]
 		ifFalse: [
@@ -147,6 +164,9 @@ ToEditableComboBoxHead >> whenCancelRequested: cancelRequested in: aComboBox [
 ToEditableComboBoxHead >> whenSaveRequested: aSaveRequestedAnnouncement in: aComboBox [
 
 	| data val idx |
+	
+	self saveEditingInList ifFalse: [ ^ self ].
+	
 	val := aSaveRequestedAnnouncement client text.
 	" try default value "
 	val ifEmpty: [ aComboBox defaultDataProvider
@@ -166,7 +186,7 @@ ToEditableComboBoxHead >> whenSaveRequested: aSaveRequestedAnnouncement in: aCom
 			^ self ].
 
 	" a new value has been entered "
-	aComboBox saveAllowed ifTrue: [ 
+	aComboBox headElement saveEditingInList ifTrue: [ 
 		(aComboBox canInsertData: data) ifTrue: [
 			aComboBox insertData: data.
 			aSaveRequestedAnnouncement client saveResult: true.

@@ -71,17 +71,11 @@ ToEditableComboBoxHeadDresser >> whenAdded: anElement [
 	escShortcut := self newEscapeShortcutIn: anElement.
 	anElement textField infinite addShortcut: downShortcut.
 	anElement textField infinite addShortcut: upShortcut.	
-	anElement textField infinite addShortcut: escShortcut
+	anElement textField addEditorShortcut: escShortcut
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToEditableComboBoxHeadDresser >> whenRemoved: anElement [
-
-	filterDresser ifNotNil: [
-		comboBox listElement removeDresser: filterDresser.
-		comboBox listElement removeEventHandler: filterResultHandler.
-		filterDresser := nil.
-		filterResultHandler := nil ].
 
 	anElement textField infinite removeShortcut: downShortcut.
 	anElement textField infinite removeShortcut: upShortcut.

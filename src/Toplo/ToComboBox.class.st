@@ -9,7 +9,6 @@ Class {
 		'#headElement',
 		'#listElementSize',
 		'#data',
-		'#saveAllowed',
 		'#mode => ObservableSlot',
 		'#selectedIndex => ObservableSlot',
 		'#defaultDataProvider'
@@ -18,23 +17,22 @@ Class {
 }
 
 { #category : #'mode change' }
-ToComboBox >> beDataEditing [
+ToComboBox >> beEditable [
 
 	self mode: ToComboBoxEditableMode new
 ]
 
 { #category : #'mode change' }
-ToComboBox >> beInlineAutocomplete [
+ToComboBox >> beListAutocomplete [
 
-	self mode: (ToComboBoxEditableMode new
-			 listAutocomplete: true;
-			 yourself)
+	self mode beListAutocompleteIn: self
+
 ]
 
 { #category : #'mode change' }
-ToComboBox >> beSelectOnly [
+ToComboBox >> beReadOnly [
 
-	self mode: ToComboBoxSelectOnlyMode new
+	self mode: ToComboBoxReadOnlyMode new
 ]
 
 { #category : #testing }
@@ -123,7 +121,7 @@ ToComboBox >> defaultListPlaceholder [
 { #category : #initialization }
 ToComboBox >> defaultMode [
 
-	^ ToComboBoxSelectOnlyMode new
+	^ ToComboBoxReadOnlyMode new
 ]
 
 { #category : #initialization }
@@ -185,7 +183,6 @@ ToComboBox >> initialize [
 
 	super initialize.
 	selectedIndex := 0.
-	saveAllowed := false.
 	self mode: self defaultMode.
 	self privateListFrame: self defaultListFrame.
 	self privateHeadElement: self defaultHeadElement.
@@ -442,18 +439,10 @@ ToComboBox >> privateListFrame: aWindow [
 	listFrame := aWindow
 ]
 
-{ #category : #accessing }
-ToComboBox >> saveAllowed [
+{ #category : #'mode change' }
+ToComboBox >> saveEditingInList: aBoolean [
 
-	^ saveAllowed
-]
-
-{ #category : #accessing }
-ToComboBox >> saveAllowed: aBoolean [
-
-	aBoolean = saveAllowed ifTrue: [ ^ self ].
-	saveAllowed := aBoolean.
-	self privateHeadElement: self defaultHeadElement
+	self mode saveEditingInList: aBoolean in: self
 ]
 
 { #category : #accessing }
@@ -505,6 +494,12 @@ ToComboBox >> updateHeadContent [
 	self dispatchEvent: ToComboBoxSelectedIndexChangeEvent new 
 ]
 
+{ #category : #enumerating }
+ToComboBox >> whenCancelRequestedDo: aBlock [
+
+	self headElement textField whenCancelRequestedDo: aBlock
+]
+
 { #category : #'change hook' }
 ToComboBox >> whenModeChangedDo: aBlock [
 
@@ -513,10 +508,40 @@ ToComboBox >> whenModeChangedDo: aBlock [
 	self property: #mode whenChangedDo: aBlock
 ]
 
+{ #category : #enumerating }
+ToComboBox >> whenSaveAcceptedDo: aBlock [
+
+	self headElement textField whenSaveAcceptedDo: aBlock
+]
+
+{ #category : #enumerating }
+ToComboBox >> whenSaveDeniedDo: aBlock [
+
+	self headElement textField whenSaveDeniedDo: aBlock
+]
+
+{ #category : #enumerating }
+ToComboBox >> whenSaveRequestedDo: aBlock [
+
+	self headElement textField whenSaveRequestedDo: aBlock
+]
+
 { #category : #'change hook' }
 ToComboBox >> whenSelectedIndexChangedDo: aBlock [
 
 	"set a block to perform after that the selected item has been changed, and its action performed"
 
 	self property: #selectedIndex whenChangedDo: aBlock
+]
+
+{ #category : #enumerating }
+ToComboBox >> whenTextEditedDo: aBlock [
+
+	self headElement textField whenTextEditedDo: aBlock
+]
+
+{ #category : #initialization }
+ToComboBox >> withSaveCapability [
+
+	self headElement textField withSaveCapability
 ]

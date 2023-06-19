@@ -4,10 +4,22 @@ Class {
 	#category : #'Toplo-Widget-ComboBox'
 }
 
+{ #category : #accessing }
+ToComboBoxMode >> beListAutocompleteIn: aComboBox [
+
+	self subclassResponsibility 
+]
+
 { #category : #initialization }
 ToComboBoxMode >> defaultHeadElementIn: aComboBox [
 
 	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToComboBoxMode >> saveEditingInList: aBoolean in: aComboBox [
+
+	self subclassResponsibility 
 ]
 
 { #category : #accessing }

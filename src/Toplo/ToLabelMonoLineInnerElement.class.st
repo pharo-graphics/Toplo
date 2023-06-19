@@ -17,7 +17,7 @@ ToLabelMonoLineInnerElement >> editorShortcutsIn: aLabel [
 			 yourself).
 	 (BlShortcutWithAction new
 			 combination: (BlKeyCombination escape or: BlKeyCombination primaryL);
-			 action: [  aLabel removeEditor ];
+			 action: [ :e | aLabel removeEditor ];
 			 description: 'Escape from text editing';
 			 name: 'Escape';
 			 yourself).

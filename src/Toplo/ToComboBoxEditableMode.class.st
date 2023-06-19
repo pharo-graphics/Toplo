@@ -48,4 +48,5 @@ ToComboBoxEditableMode >> listAutocomplete: aBoolean [
 ToComboBoxEditableMode >> saveEditingInList: aBoolean in: aComboBox [
 
 	^ aComboBox headElement saveEditingInList: aBoolean
+
 ]

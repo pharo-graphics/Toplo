@@ -26,6 +26,7 @@ ToComboBox >> beEditable [
 ToComboBox >> beListAutocomplete [
 
 	self mode beListAutocompleteIn: self
+
 ]
 
 { #category : #'mode change' }

@@ -4,9 +4,7 @@ Class {
 	#instVars : [
 		'escShortcut',
 		'upShortcut',
-		'mouseDownOnButtonHandler',
-		'filterDresser',
-		'filterResultHandler'
+		'mouseDownOnButtonHandler'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
@@ -48,23 +46,8 @@ ToEditableComboBoxHeadDresser >> whenAdded: anElement [
 
 	super whenAdded: anElement.
 
-	comboBox isListAutocomplete ifTrue: [  
-		filterDresser := ToDataFilterDresser new.
-		filterDresser filter: [ :data :pattern | (anElement dataToTextConverter value: data) beginsWith: pattern caseSensitive: false ].
-		filterDresser originalDataProvider: [ comboBox data asArray sorted].
-		comboBox listElement addDresser: filterDresser.
-		anElement textField whenTextEditedDo: [ :event | self textUpdatedIn: anElement ].
-		filterResultHandler := BlEventHandler on: ToDataFilterResultEvent do: [ :event | self filterResult: event ].
-		comboBox listElement addEventHandler: filterResultHandler ].
-
 	mouseDownOnButtonHandler := self newMouseDownHandlerIn: anElement.
 	anElement second addEventHandler: mouseDownOnButtonHandler.
-
-	anElement textField whenSaveRequestedDo: [ :saveRequested |
-		anElement whenSaveRequested: saveRequested in: comboBox ].
-
-	anElement textField whenCancelRequestedDo: [ :cancelRequested |
-		anElement whenCancelRequested: cancelRequested in: comboBox ].
 
 	downShortcut := self newArrowDownShortcutIn: anElement.
 	upShortcut := self newArrowUpShortcutIn: anElement.

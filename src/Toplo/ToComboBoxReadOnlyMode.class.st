@@ -20,14 +20,44 @@ ToComboBoxReadOnlyMode >> defaultHeadElementIn: aComboBox [
 ]
 
 { #category : #accessing }
-ToComboBoxReadOnlyMode >> saveEditingInList: aBoolean in: aComboBox [
-
-	self error: 'Invalid configuration'
-]
-
-{ #category : #accessing }
 ToComboBoxReadOnlyMode >> selectIndex: anIndex in: aComboBox [
 
 	super selectIndex: anIndex in: aComboBox.
 	aComboBox listElement ensureSelectIndex: anIndex
+]
+
+{ #category : #'transaction hook' }
+ToComboBoxReadOnlyMode >> whenCancelRequestedDo: aBlock in: aComboBox [
+
+	self error: 'Invalid usage'
+]
+
+{ #category : #'transaction hook' }
+ToComboBoxReadOnlyMode >> whenSaveAcceptedDo: aBlock in: aComboBox [
+
+		self error: 'Invalid usage'
+]
+
+{ #category : #'transaction hook' }
+ToComboBoxReadOnlyMode >> whenSaveDeniedDo: aBlock in: aComboBox [
+
+		self error: 'Invalid usage'
+]
+
+{ #category : #'transaction hook' }
+ToComboBoxReadOnlyMode >> whenSaveRequestedDo: aBlock in: aComboBox [
+
+		self error: 'Invalid usage'
+]
+
+{ #category : #'transaction hook' }
+ToComboBoxReadOnlyMode >> whenTextEditedDo: aBlock in: aComboBox [
+
+		self error: 'Invalid usage'
+]
+
+{ #category : #'transaction hook' }
+ToComboBoxReadOnlyMode >> withSaveCapabilityIn: aComboBox [
+
+		self error: 'Invalid usage'
 ]

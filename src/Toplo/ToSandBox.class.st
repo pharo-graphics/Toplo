@@ -201,7 +201,7 @@ ToSandBox class >> example_EditableComboBoxEmpty [
 	| win combo |
 	win := ToInnerWindow new title: 'Editable Combo box Example'.
 	combo := ToComboBox new.
-	combo beEditable; saveEditingInList: false; withSaveCapability.
+	combo beEditable; withSaveCapability.
  	combo whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ].
 	combo whenSaveAcceptedDo: [ :saveAccepted |'saved' traceCr ].
 	combo whenCancelRequestedDo: [ :cancelRequested | cancelRequested client text: '' ].
@@ -217,7 +217,7 @@ ToSandBox class >> example_EditableComboBoxWithStatesOfAmerica [
 	win := ToInnerWindow new title: 'Editable Combo box Example'.
 	combo := ToComboBox new.
 	combo data addAll: self statesOfAmerica.
-	combo beEditable; saveEditingInList: false; withSaveCapability.
+	combo beEditable; withSaveCapability.
  	combo whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ].
 	combo whenSaveAcceptedDo: [ :saveAccepted |'saved' traceCr ].
 	combo whenCancelRequestedDo: [ :cancelRequested | cancelRequested client text: '' ].
@@ -267,17 +267,6 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 	space root addChild: l.
 	space root addChild: vscrollBar.
 	space show
-]
-
-{ #category : #combobox }
-ToSandBox class >> example_EditableWithSaveInListComboBoxEmpty [
-
-	| win combo |
-	win := ToInnerWindow new title: 'Editable Combo box Example'.
-	combo := ToComboBox new.
-	combo beEditable; saveEditingInList: true.
-	win root addChild: combo.
-	win openInSpace
 ]
 
 { #category : #album }
@@ -393,7 +382,6 @@ ToSandBox class >> example_ListAutocompleteComboBoxEmpty [
 	| win combo  |
 	win := ToInnerWindow new title: 'Inline autocomplete Combo box Example'.
 	combo := ToComboBox new beEditable; beListAutocomplete; yourself.
-	combo defaultDataProvider: [ '<null>' ].
 	win root addChild: combo.
 	win openInSpace
 ]
@@ -403,7 +391,7 @@ ToSandBox class >> example_ListAutocompleteComboBoxWithAllClasses [
 
 	| win combo placeholder |
 	win := ToInnerWindow new title: 'Inline autocomplete Combo box Example'.
-	combo := ToComboBox new beListAutocomplete.
+	combo := ToComboBox new beEditable; beListAutocomplete.
 	placeholder := ToLabel new
 		               text: ('Choose a class' asRopedText foreground: Color lightGray);
 		               hMatchParent.
@@ -420,7 +408,7 @@ ToSandBox class >> example_ListAutocompleteComboBoxWithStatesOfAmerica [
 	| win combo placeholder |
 	win := ToInnerWindow new title:
 		       'Inline autocomplete Combo box Example'.
-	combo := ToComboBox new beListAutocomplete.
+	combo := ToComboBox new beEditable; beListAutocomplete.
 	placeholder := ToLabel new
 		               text:
 			               ('Choose a state' asRopedText foreground:
@@ -438,8 +426,7 @@ ToSandBox class >> example_ListAutocompleteWithSaveInListComboBoxEmpty [
 
 	| win combo  |
 	win := ToInnerWindow new title: 'Inline autocomplete Combo box Example'.
-	combo := ToComboBox new beEditable; beListAutocomplete; saveEditingInList: true; yourself.
-	combo defaultDataProvider: [ '<null>' ].
+	combo := ToComboBox new beEditable; beListAutocomplete; yourself.
 	win root addChild: combo.
 	win openInSpace
 ]

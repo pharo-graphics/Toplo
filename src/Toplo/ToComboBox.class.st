@@ -10,8 +10,7 @@ Class {
 		'#listElementSize',
 		'#data',
 		'#mode => ObservableSlot',
-		'#selectedIndex => ObservableSlot',
-		'#defaultDataProvider'
+		'#selectedIndex => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
@@ -35,12 +34,6 @@ ToComboBox >> beReadOnly [
 	self mode: ToComboBoxReadOnlyMode new
 ]
 
-{ #category : #testing }
-ToComboBox >> canInsertData: aData [
-
-	^ true
-]
-
 { #category : #displaying }
 ToComboBox >> close [
 
@@ -59,19 +52,6 @@ ToComboBox >> closeEvent: anEvent [
 ToComboBox >> data [
 
 	^ data
-]
-
-{ #category : #accessing }
-ToComboBox >> defaultDataProvider [
-
-	^ defaultDataProvider
-]
-
-{ #category : #accessing }
-ToComboBox >> defaultDataProvider: aValuable [
-	" aValuable takes the combo-box as optional argument "
-
-	defaultDataProvider := aValuable
 ]
 
 { #category : #'t - initialization dresser' }
@@ -195,32 +175,10 @@ ToComboBox >> initialize [
 	self whenModeChangedDo: [ :new :prev | self mode: prev changedWith: new ].
 ]
 
-{ #category : #accessing }
-ToComboBox >> insertData: aData [
-
-	| idx |
-	idx := self indexOfData: aData.
-	idx isZero ifTrue: [
-		| prev |
-		prev := self data copy.
-		self data removeAll.
-		prev add: aData.
-		self data addAll: prev asArray sorted.
-		idx := self indexOfData: aData ].
-	self fitListElementToContent.
-	self selectedIndex: idx
-]
-
 { #category : #testing }
 ToComboBox >> isClosed [
 
 	^ self isOpened not
-]
-
-{ #category : #testing }
-ToComboBox >> isListAutocomplete [
-
-	^ self mode listAutocomplete
 ]
 
 { #category : #testing }
@@ -266,17 +224,6 @@ ToComboBox >> listElementSize: aSize [
 ToComboBox >> listFrame [
 
 	^ listFrame
-]
-
-{ #category : #events }
-ToComboBox >> listNodeSelectedEvent: aClickOnDataEvent [
-
-	"| idx clickIdx |
-	clickIdx := aClickOnDataEvent index.
-	idx := (self listElement selectedIndexes includes: clickIdx)
-		       ifTrue: [ clickIdx ]
-		       ifFalse: [ 0 ].
-	self selectIndexInPresentedData: idx"
 ]
 
 { #category : #accessing }
@@ -439,12 +386,6 @@ ToComboBox >> privateListFrame: aWindow [
 	listFrame := aWindow
 ]
 
-{ #category : #'mode change' }
-ToComboBox >> saveEditingInList: aBoolean [
-
-	self mode saveEditingInList: aBoolean in: self
-]
-
 { #category : #accessing }
 ToComboBox >> selectIndex: anIndex [
 
@@ -494,10 +435,10 @@ ToComboBox >> updateHeadContent [
 	self dispatchEvent: ToComboBoxSelectedIndexChangeEvent new 
 ]
 
-{ #category : #enumerating }
+{ #category : #'transaction hook' }
 ToComboBox >> whenCancelRequestedDo: aBlock [
 
-	self headElement textField whenCancelRequestedDo: aBlock
+	self mode whenCancelRequestedDo: aBlock in: self
 ]
 
 { #category : #'change hook' }
@@ -508,22 +449,22 @@ ToComboBox >> whenModeChangedDo: aBlock [
 	self property: #mode whenChangedDo: aBlock
 ]
 
-{ #category : #enumerating }
+{ #category : #'transaction hook' }
 ToComboBox >> whenSaveAcceptedDo: aBlock [
 
-	self headElement textField whenSaveAcceptedDo: aBlock
+	self mode whenSaveAcceptedDo: aBlock in: self
 ]
 
-{ #category : #enumerating }
+{ #category : #'transaction hook' }
 ToComboBox >> whenSaveDeniedDo: aBlock [
 
-	self headElement textField whenSaveDeniedDo: aBlock
+	self mode whenSaveDeniedDo: aBlock in: self
 ]
 
-{ #category : #enumerating }
+{ #category : #'transaction hook' }
 ToComboBox >> whenSaveRequestedDo: aBlock [
 
-	self headElement textField whenSaveRequestedDo: aBlock
+	self mode whenSaveRequestedDo: aBlock in: self
 ]
 
 { #category : #'change hook' }
@@ -534,14 +475,14 @@ ToComboBox >> whenSelectedIndexChangedDo: aBlock [
 	self property: #selectedIndex whenChangedDo: aBlock
 ]
 
-{ #category : #enumerating }
+{ #category : #'transaction hook' }
 ToComboBox >> whenTextEditedDo: aBlock [
 
-	self headElement textField whenTextEditedDo: aBlock
+	self mode whenTextEditedDo: aBlock in: self
 ]
 
 { #category : #initialization }
 ToComboBox >> withSaveCapability [
 
-	self headElement textField withSaveCapability
+	self mode withSaveCapabilityIn: self
 ]

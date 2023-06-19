@@ -2,7 +2,6 @@ Class {
 	#name : #ToComboBoxEditableMode,
 	#superclass : #ToComboBoxMode,
 	#instVars : [
-		'listAutocomplete',
 		'listAutocompleteDresser'
 	],
 	#category : #'Toplo-Widget-ComboBox'
@@ -25,28 +24,38 @@ ToComboBoxEditableMode >> defaultHeadElementIn: aComboBox [
 		  yourself
 ]
 
-{ #category : #initialization }
-ToComboBoxEditableMode >> initialize [ 
+{ #category : #'transaction hook' }
+ToComboBoxEditableMode >> whenCancelRequestedDo: aBlock in: aComboBox [
 
-	super initialize.
-	listAutocomplete := true
+	aComboBox headElement whenCancelRequestedDo: aBlock 
 ]
 
-{ #category : #accessing }
-ToComboBoxEditableMode >> listAutocomplete [
+{ #category : #'transaction hook' }
+ToComboBoxEditableMode >> whenSaveAcceptedDo: aBlock in: aComboBox [
 
-	^ listAutocomplete 
+	aComboBox headElement whenSaveAcceptedDo: aBlock 
 ]
 
-{ #category : #accessing }
-ToComboBoxEditableMode >> listAutocomplete: aBoolean [
+{ #category : #'transaction hook' }
+ToComboBoxEditableMode >> whenSaveDeniedDo: aBlock in: aComboBox [
 
-	listAutocomplete := aBoolean 
+	aComboBox headElement whenSaveDeniedDo: aBlock 
 ]
 
-{ #category : #initialization }
-ToComboBoxEditableMode >> saveEditingInList: aBoolean in: aComboBox [
+{ #category : #'transaction hook' }
+ToComboBoxEditableMode >> whenSaveRequestedDo: aBlock in: aComboBox [
 
-	^ aComboBox headElement saveEditingInList: aBoolean
+	aComboBox headElement whenSaveRequestedDo: aBlock
+]
 
+{ #category : #'transaction hook' }
+ToComboBoxEditableMode >> whenTextEditedDo: aBlock in: aComboBox [
+
+	aComboBox headElement whenTextEditedDo: aBlock
+]
+
+{ #category : #'transaction hook' }
+ToComboBoxEditableMode >> withSaveCapabilityIn: aComboBox [
+
+	aComboBox headElement withSaveCapability
 ]

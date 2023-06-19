@@ -4,8 +4,7 @@ Class {
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
 		'dataToTextConverter',
-		'textToDataConverter',
-		'saveEditingInList'
+		'textToDataConverter'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
@@ -42,12 +41,6 @@ ToEditableComboBoxHead >> defaultPlaceholder [
 ]
 
 { #category : #initialization }
-ToEditableComboBoxHead >> defaultSaveEditingInList [
-
-	^ false
-]
-
-{ #category : #initialization }
 ToEditableComboBoxHead >> defaultTextField [
 
 	^ ToTextField new withoutLineWrapping; yourself
@@ -74,9 +67,7 @@ ToEditableComboBoxHead >> initialize [
 	self placeholder: self defaultPlaceholder.
 
 	self dataToTextConverter: self defaultDataToTextConverter.
-	self textToDataConverter: self defaultTextToDataConverter.
-	
-	self saveEditingInList: self defaultSaveEditingInList 
+	self textToDataConverter: self defaultTextToDataConverter
 ]
 
 { #category : #accessing }
@@ -89,26 +80,6 @@ ToEditableComboBoxHead >> placeholder [
 ToEditableComboBoxHead >> placeholder: anElement [
 
 	self textField placeholder: (anElement ifNil: [ self defaultPlaceholder ])
-]
-
-{ #category : #accessing }
-ToEditableComboBoxHead >> saveEditingInList [
-
-	^ saveEditingInList 
-]
-
-{ #category : #accessing }
-ToEditableComboBoxHead >> saveEditingInList: aBoolean [
-
-	saveEditingInList = aBoolean ifTrue: [ ^ self ]. 
-	saveEditingInList := aBoolean.
-	aBoolean
-		ifTrue: [ self textField withSaveCapability ]
-		ifFalse: [
-			self textField addEditorShortcut: (BlShortcutWithAction new
-					 combination: BlKeyCombination return;
-					 action: [ :event |  ];
-					 yourself) ]
 ]
 
 { #category : #accessing }
@@ -151,47 +122,38 @@ ToEditableComboBoxHead >> textToDataConverter: aValuable [
 	textToDataConverter := aValuable
 ]
 
-{ #category : #'data editing' }
-ToEditableComboBoxHead >> whenCancelRequested: cancelRequested in: aComboBox [
+{ #category : #'transaction hook' }
+ToEditableComboBoxHead >> whenCancelRequestedDo: aBlock [
 
-	aComboBox selectedIndex isZero ifTrue: [
-		self textField text: ''.
-		^ self noDataSelected ].
-	self selectData: aComboBox selectedData in: aComboBox
+	self textField whenCancelRequestedDo: aBlock
 ]
 
-{ #category : #'data editing' }
-ToEditableComboBoxHead >> whenSaveRequested: aSaveRequestedAnnouncement in: aComboBox [
+{ #category : #'transaction hook' }
+ToEditableComboBoxHead >> whenSaveAcceptedDo: aBlock [
 
-	| data val idx |
-	
-	self saveEditingInList ifFalse: [ ^ self ].
-	
-	val := aSaveRequestedAnnouncement client text.
-	" try default value "
-	val ifEmpty: [ aComboBox defaultDataProvider
-			ifNotNil: [ :dv | 
-				val := self dataToTextConverter value: (dv cull: self). 
-				self textField text: val.
-				aSaveRequestedAnnouncement client saveResult: true.
-				^ self ] ].
-	
-	" is it a data that exists in the combo-box data list "
-	data := self textToDataConverter value: val.
-	idx := aComboBox data indexOf: data.	
-	idx > 0
-		ifTrue: [
-			aComboBox selectIndex: idx.
-			aSaveRequestedAnnouncement client saveResult: true. 
-			^ self ].
+	self textField whenSaveAcceptedDo: aBlock
+]
 
-	" a new value has been entered "
-	aComboBox headElement saveEditingInList ifTrue: [ 
-		(aComboBox canInsertData: data) ifTrue: [
-			aComboBox insertData: data.
-			aSaveRequestedAnnouncement client saveResult: true.
-			^ self ] ].
+{ #category : #'transaction hook' }
+ToEditableComboBoxHead >> whenSaveDeniedDo: aBlock [
 
-	" impossible to accept the save request "
-	aSaveRequestedAnnouncement client saveResult: false
+	self textField whenSaveDeniedDo: aBlock
+]
+
+{ #category : #'transaction hook' }
+ToEditableComboBoxHead >> whenSaveRequestedDo: aBlock [
+
+	self textField whenSaveRequestedDo: aBlock
+]
+
+{ #category : #'transaction hook' }
+ToEditableComboBoxHead >> whenTextEditedDo: aBlock [
+
+	self textField whenTextEditedDo: aBlock
+]
+
+{ #category : #'transaction hook' }
+ToEditableComboBoxHead >> withSaveCapability [
+
+	self textField withSaveCapability
 ]

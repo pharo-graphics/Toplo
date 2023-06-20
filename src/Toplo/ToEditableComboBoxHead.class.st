@@ -43,7 +43,10 @@ ToEditableComboBoxHead >> defaultPlaceholder [
 { #category : #initialization }
 ToEditableComboBoxHead >> defaultTextField [
 
-	^ ToTextField new withoutLineWrapping; yourself
+	^ ToTextField new
+		  withoutLineWrapping;
+		  withoutLineBreak;
+		  yourself
 ]
 
 { #category : #initialization }

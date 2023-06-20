@@ -74,6 +74,12 @@ ToTextField >> withSaveCapability [
 ]
 
 { #category : #initialization }
+ToTextField >> withoutLineBreak [
+
+	self inputFilter: AlbTextEditorNoLineBreakInputFilter new
+]
+
+{ #category : #initialization }
 ToTextField >> withoutLineWrapping [
 
 	self infinite hFitContent.

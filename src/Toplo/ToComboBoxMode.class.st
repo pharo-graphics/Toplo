@@ -60,5 +60,5 @@ ToComboBoxMode >> whenTextEditedDo: aBlock in: aComboBox [
 { #category : #'transaction hook' }
 ToComboBoxMode >> withSaveCapabilityIn: aComboBox [
 
-	self subclassResponsibility 
+	self subclassResponsibility
 ]

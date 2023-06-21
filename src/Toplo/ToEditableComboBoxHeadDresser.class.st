@@ -5,18 +5,25 @@ Class {
 		'escShortcut',
 		'upShortcut',
 		'mouseDownOnButtonHandler',
-		'crShortcut'
+		'crShortcut',
+		'saveRequestedHandler'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToEditableComboBoxHeadDresser >> carriageReturnEvent: anEvent in: anElement [
+ToEditableComboBoxHeadDresser >> carriageReturn [
 
 	comboBox isOpened ifFalse: [ ^ self ].
 	comboBox listElement primarySelectionIndexes ifNotEmpty: [ :idxes |
 		comboBox selectIndexInPresentedData: idxes first.
 		comboBox close ]
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToEditableComboBoxHeadDresser >> carriageReturnEvent: anEvent in: anElement [
+
+	^ self carriageReturn
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -46,6 +53,17 @@ ToEditableComboBoxHeadDresser >> newListClosedHandlerIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
+ToEditableComboBoxHeadDresser >> saveRequestedInTextField: aSaveRequestedEvent [
+
+	| cbEvent |
+	self carriageReturn.
+	cbEvent := ToComboBoxSaveRequestedEvent new.
+	cbEvent copyFrom: aSaveRequestedEvent.
+	comboBox dispatchEvent: cbEvent
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToEditableComboBoxHeadDresser >> textUpdatedIn: anElement [
 
 	comboBox listElement dispatchEvent: (ToDataFilterRequestEvent new pattern: anElement textField text asString)
@@ -59,13 +77,18 @@ ToEditableComboBoxHeadDresser >> whenAdded: anElement [
 	mouseDownOnButtonHandler := self newButtonMouseDownHandlerIn: anElement.
 	anElement second addEventHandler: mouseDownOnButtonHandler.
 
+	saveRequestedHandler := BlEventHandler
+		                        on: ToAlbumSaveRequestedEvent
+		                        do: [ :saveRequested | self saveRequestedInTextField: saveRequested ].
+
 	downShortcut := self newArrowDownShortcutIn: anElement.
 	upShortcut := self newArrowUpShortcutIn: anElement.
 	escShortcut := self newEscapeShortcutIn: anElement.
 	crShortcut := self newCarriageReturnShortcutIn: anElement.
-	
+
+	anElement textField addEventHandler: saveRequestedHandler.
 	anElement textField addEditorShortcut: downShortcut.
-	anElement textField addEditorShortcut: upShortcut.	
+	anElement textField addEditorShortcut: upShortcut.
 	anElement textField addEditorShortcut: escShortcut.
 	anElement textField addEditorShortcut: crShortcut
 ]
@@ -73,6 +96,7 @@ ToEditableComboBoxHeadDresser >> whenAdded: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToEditableComboBoxHeadDresser >> whenRemoved: anElement [
 
+	anElement textField removeEventHandler: saveRequestedHandler.
 	anElement textField removeEditorShortcut: downShortcut.
 	anElement textField removeEditorShortcut: upShortcut.
 	anElement textField removeEditorShortcut: escShortcut.

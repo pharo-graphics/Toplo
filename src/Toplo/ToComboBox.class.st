@@ -463,7 +463,7 @@ ToComboBox >> whenSaveDeniedDo: aBlock [
 { #category : #'transaction hook' }
 ToComboBox >> whenSaveRequestedDo: aBlock [
 
-	self mode whenSaveRequestedDo: aBlock in: self
+	self when: ToComboBoxSaveRequestedEvent do: aBlock
 ]
 
 { #category : #'change hook' }

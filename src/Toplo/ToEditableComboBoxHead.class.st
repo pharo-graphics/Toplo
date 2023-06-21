@@ -126,12 +126,6 @@ ToEditableComboBoxHead >> textToDataConverter: aValuable [
 ]
 
 { #category : #'transaction hook' }
-ToEditableComboBoxHead >> whenCancelRequestedDo: aBlock [
-
-	self textField whenCancelRequestedDo: aBlock
-]
-
-{ #category : #'transaction hook' }
 ToEditableComboBoxHead >> whenSaveAcceptedDo: aBlock [
 
 	self textField whenSaveAcceptedDo: aBlock
@@ -141,12 +135,6 @@ ToEditableComboBoxHead >> whenSaveAcceptedDo: aBlock [
 ToEditableComboBoxHead >> whenSaveDeniedDo: aBlock [
 
 	self textField whenSaveDeniedDo: aBlock
-]
-
-{ #category : #'transaction hook' }
-ToEditableComboBoxHead >> whenSaveRequestedDo: aBlock [
-
-	self textField whenSaveRequestedDo: aBlock
 ]
 
 { #category : #'transaction hook' }

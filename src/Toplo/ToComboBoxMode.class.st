@@ -28,12 +28,6 @@ ToComboBoxMode >> selectIndex: anIndex in: aComboBox [
 ]
 
 { #category : #'transaction hook' }
-ToComboBoxMode >> whenCancelRequestedDo: aBlock in: aComboBox [
-
-	self subclassResponsibility 
-]
-
-{ #category : #'transaction hook' }
 ToComboBoxMode >> whenSaveAcceptedDo: aBlock in: aComboBox [
 
 	self subclassResponsibility 
@@ -41,12 +35,6 @@ ToComboBoxMode >> whenSaveAcceptedDo: aBlock in: aComboBox [
 
 { #category : #'transaction hook' }
 ToComboBoxMode >> whenSaveDeniedDo: aBlock in: aComboBox [
-
-	self subclassResponsibility 
-]
-
-{ #category : #'transaction hook' }
-ToComboBoxMode >> whenSaveRequestedDo: aBlock in: aComboBox [
 
 	self subclassResponsibility 
 ]

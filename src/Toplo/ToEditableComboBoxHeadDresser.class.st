@@ -6,24 +6,24 @@ Class {
 		'upShortcut',
 		'mouseDownOnButtonHandler',
 		'crShortcut',
-		'saveRequestedHandler'
+		'saveRequestedHandler',
+		'cancelRequestedHandler'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToEditableComboBoxHeadDresser >> carriageReturn [
+ToEditableComboBoxHeadDresser >> cancelRequestedInTextField: aCancelRequestedEvent [
 
-	comboBox isOpened ifFalse: [ ^ self ].
-	comboBox listElement primarySelectionIndexes ifNotEmpty: [ :idxes |
-		comboBox selectIndexInPresentedData: idxes first.
-		comboBox close ]
+	comboBox close.
+	comboBox dispatchEvent: aCancelRequestedEvent
+
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToEditableComboBoxHeadDresser >> carriageReturnEvent: anEvent in: anElement [
 
-	^ self carriageReturn
+	^ self selectIndexInPresentedData
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -31,7 +31,7 @@ ToEditableComboBoxHeadDresser >> newButtonMouseDownHandlerIn: anElement [
 
 	^ BlEventHandler
 		  on: BlMouseDownEvent
-		  do: [ :evt | comboBox popupOrCloseEvent: evt ]
+		  do: [ :evt | comboBox popupOrCloseEvent: evt]
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -45,22 +45,20 @@ ToEditableComboBoxHeadDresser >> newCarriageReturnShortcutIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToEditableComboBoxHeadDresser >> newListClosedHandlerIn: anElement [
+ToEditableComboBoxHeadDresser >> saveRequestedInTextField: aSaveRequestedEvent [
 
-	^ BlEventHandler
-		  on: ToWidgetWindowClosedEvent
-		  do: [ :event | anElement textField requestFocus ]
+	self selectIndexInPresentedData.
+	comboBox dispatchEvent: aSaveRequestedEvent
+
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToEditableComboBoxHeadDresser >> saveRequestedInTextField: aSaveRequestedEvent [
+ToEditableComboBoxHeadDresser >> selectIndexInPresentedData [
 
-	| cbEvent |
-	self carriageReturn.
-	cbEvent := ToComboBoxSaveRequestedEvent new.
-	cbEvent copyFrom: aSaveRequestedEvent.
-	comboBox dispatchEvent: cbEvent
-
+	comboBox isOpened ifFalse: [ ^ self ].
+	comboBox listElement primarySelectionIndexes ifNotEmpty: [ :idxes |
+		comboBox selectIndexInPresentedData: idxes first.
+		comboBox close ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -80,6 +78,9 @@ ToEditableComboBoxHeadDresser >> whenAdded: anElement [
 	saveRequestedHandler := BlEventHandler
 		                        on: ToAlbumSaveRequestedEvent
 		                        do: [ :saveRequested | self saveRequestedInTextField: saveRequested ].
+	cancelRequestedHandler := BlEventHandler
+		                        on: ToAlbumCancelRequestedEvent
+		                        do: [ :cancelRequested | self cancelRequestedInTextField: cancelRequested ].
 
 	downShortcut := self newArrowDownShortcutIn: anElement.
 	upShortcut := self newArrowUpShortcutIn: anElement.
@@ -87,6 +88,7 @@ ToEditableComboBoxHeadDresser >> whenAdded: anElement [
 	crShortcut := self newCarriageReturnShortcutIn: anElement.
 
 	anElement textField addEventHandler: saveRequestedHandler.
+	anElement textField addEventHandler: cancelRequestedHandler.
 	anElement textField addEditorShortcut: downShortcut.
 	anElement textField addEditorShortcut: upShortcut.
 	anElement textField addEditorShortcut: escShortcut.

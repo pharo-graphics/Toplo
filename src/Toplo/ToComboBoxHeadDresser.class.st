@@ -3,8 +3,7 @@ Class {
 	#superclass : #ToComboBoxBaseHeadDresser,
 	#instVars : [
 		'downShortcut',
-		'headPlaceholderHandler',
-		'listClosedHandler'
+		'headPlaceholderHandler'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
@@ -13,8 +12,10 @@ Class {
 ToComboBoxHeadDresser >> arrowDownEvent: anEvent in: anElement [
 
 	| wasOpened |
-	wasOpened :=  comboBox isOpened.
-	wasOpened ifFalse: [ comboBox popupEvent: anEvent ].
+	wasOpened := comboBox isOpened.
+	wasOpened ifFalse: [
+		comboBox popupEvent: anEvent.
+		comboBox listElement selectedIndexes ifNotEmpty: [ ^ self ] ].
 	anEvent consumed: false.
 	comboBox listElement infinite fireEvent: anEvent
 ]
@@ -32,9 +33,7 @@ ToComboBoxHeadDresser >> arrowUpEvent: anEvent in: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToComboBoxHeadDresser >> escapeEvent: anEvent in: anElement [
 
-	comboBox isOpened ifFalse: [ ^ self ].
-	comboBox close.
-	anEvent consumed: true
+	comboBox close
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -71,14 +70,6 @@ ToComboBoxHeadDresser >> newEscapeShortcutIn: anElement [
 		                action: [ :event | self escapeEvent: event in: anElement ];
 		                name: 'Escape';
 		                yourself.
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToComboBoxHeadDresser >> newListClosedHandlerIn: anElement [
-
-	^ BlEventHandler
-		  on: ToWidgetWindowClosedEvent
-		  do: [ :event | anElement requestFocus ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -130,8 +121,6 @@ ToComboBoxHeadDresser >> whenAdded: anElement [
 		                          self
 			                          newPlaceholder: event placeholder
 			                          in: anElement ].
-	"listClosedHandler := self newListClosedHandlerIn: anElement."
-	"comboBox addEventHandler: listClosedHandler."
 	comboBox addEventHandler: headPlaceholderHandler
 ]
 
@@ -139,9 +128,6 @@ ToComboBoxHeadDresser >> whenAdded: anElement [
 ToComboBoxHeadDresser >> whenRemoved: anElement [
 
 	comboBox removeEventHandler: headPlaceholderHandler.
-	"comboBox removeEventHandler: listClosedHandler."
 	downShortcut := nil.
-	listClosedHandler := nil.
-
 	super whenRemoved: anElement
 ]

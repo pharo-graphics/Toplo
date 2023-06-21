@@ -437,7 +437,7 @@ ToComboBox >> updateHeadContent [
 { #category : #'transaction hook' }
 ToComboBox >> whenCancelRequestedDo: aBlock [
 
-	self mode whenCancelRequestedDo: aBlock in: self
+	self when: ToAlbumCancelRequestedEvent do: aBlock
 ]
 
 { #category : #'change hook' }
@@ -463,7 +463,7 @@ ToComboBox >> whenSaveDeniedDo: aBlock [
 { #category : #'transaction hook' }
 ToComboBox >> whenSaveRequestedDo: aBlock [
 
-	self when: ToComboBoxSaveRequestedEvent do: aBlock
+	self when: ToAlbumSaveRequestedEvent do: aBlock
 ]
 
 { #category : #'change hook' }

@@ -27,12 +27,6 @@ ToComboBoxReadOnlyMode >> selectIndex: anIndex in: aComboBox [
 ]
 
 { #category : #'transaction hook' }
-ToComboBoxReadOnlyMode >> whenCancelRequestedDo: aBlock in: aComboBox [
-
-	self error: 'Invalid usage'
-]
-
-{ #category : #'transaction hook' }
 ToComboBoxReadOnlyMode >> whenSaveAcceptedDo: aBlock in: aComboBox [
 
 		self error: 'Invalid usage'
@@ -40,12 +34,6 @@ ToComboBoxReadOnlyMode >> whenSaveAcceptedDo: aBlock in: aComboBox [
 
 { #category : #'transaction hook' }
 ToComboBoxReadOnlyMode >> whenSaveDeniedDo: aBlock in: aComboBox [
-
-		self error: 'Invalid usage'
-]
-
-{ #category : #'transaction hook' }
-ToComboBoxReadOnlyMode >> whenSaveRequestedDo: aBlock in: aComboBox [
 
 		self error: 'Invalid usage'
 ]

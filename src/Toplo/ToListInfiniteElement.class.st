@@ -39,3 +39,9 @@ ToListInfiniteElement >> nodeClass [
 
 	^ ToLabeledNode
 ]
+
+{ #category : #initialization }
+ToListInfiniteElement >> requestFocus [
+
+	^ super requestFocus 
+]

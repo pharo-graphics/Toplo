@@ -25,12 +25,6 @@ ToComboBoxEditableMode >> defaultHeadElementIn: aComboBox [
 ]
 
 { #category : #'transaction hook' }
-ToComboBoxEditableMode >> whenCancelRequestedDo: aBlock in: aComboBox [
-
-	aComboBox headElement whenCancelRequestedDo: aBlock 
-]
-
-{ #category : #'transaction hook' }
 ToComboBoxEditableMode >> whenSaveAcceptedDo: aBlock in: aComboBox [
 
 	aComboBox headElement whenSaveAcceptedDo: aBlock 
@@ -40,12 +34,6 @@ ToComboBoxEditableMode >> whenSaveAcceptedDo: aBlock in: aComboBox [
 ToComboBoxEditableMode >> whenSaveDeniedDo: aBlock in: aComboBox [
 
 	aComboBox headElement whenSaveDeniedDo: aBlock 
-]
-
-{ #category : #'transaction hook' }
-ToComboBoxEditableMode >> whenSaveRequestedDo: aBlock in: aComboBox [
-
-	aComboBox headElement whenSaveRequestedDo: aBlock
 ]
 
 { #category : #'transaction hook' }

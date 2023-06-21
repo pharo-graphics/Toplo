@@ -497,8 +497,8 @@ ToInfiniteElement >> whenClickOnNodeEvent: anEvent [
 	| originalEvent |
 	originalEvent := anEvent event.
 
-	self hasFocus ifFalse: [
-		self requestFocus ].
+"	self hasFocus ifFalse: [
+		self requestFocus ]."
 
 	self primarySelection multipleSelectionModeDo: [
 		originalEvent modifiers isShift ifTrue: [

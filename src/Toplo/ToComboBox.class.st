@@ -38,8 +38,7 @@ ToComboBox >> beReadOnly [
 ToComboBox >> close [
 
 	self isOpened ifFalse: [ ^ self ].
-	self listFrame close.
-	self requestFocus
+	self listFrame close
 ]
 
 { #category : #displaying }

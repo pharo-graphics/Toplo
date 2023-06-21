@@ -198,12 +198,14 @@ ToSandBox class >> example_ComboBoxWithListPlaceholder [
 { #category : #combobox }
 ToSandBox class >> example_EditableComboBoxEmpty [
 
-	| win combo |
+	| win combo res |
+	res := true.
 	win := ToInnerWindow new title: 'Editable Combo box Example'.
 	combo := ToComboBox new.
 	combo beEditable; withSaveCapability.
- 	combo whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ].
-	combo whenSaveAcceptedDo: [ :saveAccepted |'saved' traceCr ].
+ 	combo whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: res. res := res not ].
+	combo whenSaveAcceptedDo: [ :saveAccepted | saveAccepted traceCr ].
+	combo whenSaveDeniedDo: [ :saveDenied | saveDenied traceCr ].
 	combo whenCancelRequestedDo: [ :cancelRequested | cancelRequested client text: '' ].
 
 	win root addChild: combo.
@@ -382,6 +384,7 @@ ToSandBox class >> example_ListAutocompleteComboBoxEmpty [
 	| win combo  |
 	win := ToInnerWindow new title: 'Inline autocomplete Combo box Example'.
 	combo := ToComboBox new beEditable; beListAutocomplete; yourself.
+	combo whenTextEditedDo: [ :textEditedEvent | textEditedEvent text traceCr ].
 	win root addChild: combo.
 	win openInSpace
 ]
@@ -408,7 +411,7 @@ ToSandBox class >> example_ListAutocompleteComboBoxWithStatesOfAmerica [
 	| win combo placeholder |
 	win := ToInnerWindow new title:
 		       'Inline autocomplete Combo box Example'.
-	combo := ToComboBox new beEditable; beListAutocomplete.
+	combo := ToComboBox new beEditable; beListAutocomplete; withSaveCapability.
 	placeholder := ToLabel new
 		               text:
 			               ('Choose a state' asRopedText foreground:

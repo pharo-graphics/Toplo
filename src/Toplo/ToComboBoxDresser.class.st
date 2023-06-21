@@ -32,24 +32,7 @@ ToComboBoxDresser >> onInstalledIn: anElement [
 	
 	anElement listElement addEventHandler: placeholderAddedHandler.
 	anElement listElement addEventHandler: placeholderRemovedHandler.
-	anElement listElement addEventHandler: nodeClickHandler.
-	
-	crShortcut := BlShortcutWithAction new
-		              combination: (BlKeyCombination primaryReturn or: BlKeyCombination return);
-		              action: [
-			              anElement listElement primarySelectionIndexes ifNotEmpty: [
-					              :idxes |
-					              anElement selectIndexInPresentedData: idxes first.
-					              anElement close ] ];
-		              name: 'Accept';
-		              yourself.
-	escShortcut := BlShortcutWithAction new
-		               combination: BlKeyCombination escape;
-		               action: [ anElement close ];
-		               name: 'Escape';
-		               yourself.
-	anElement listElement addShortcut: crShortcut.
-	anElement listElement addShortcut: escShortcut
+	anElement listElement addEventHandler: nodeClickHandler
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -59,8 +42,8 @@ ToComboBoxDresser >> onUninstalledIn: anElement [
 	anElement listElement removeEventHandler: placeholderAddedHandler.
 	anElement listElement removeEventHandler: placeholderRemovedHandler.
 	anElement listElement removeEventHandler: nodeClickHandler.
-	anElement listElement removeShortcut: crShortcut.
-	anElement listElement removeShortcut: escShortcut
+	"anElement listElement removeShortcut: crShortcut.
+	anElement listElement removeShortcut: escShortcut"
 ]
 
 { #category : #'api - install/uninstall  hook' }

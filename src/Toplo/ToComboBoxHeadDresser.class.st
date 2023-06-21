@@ -110,12 +110,6 @@ ToComboBoxHeadDresser >> onUninstalledIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToComboBoxHeadDresser >> returnEvent: anEvent in: anElement [
-
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
 ToComboBoxHeadDresser >> uninstallEventListenersIn: anElement [
 
 	mouseDownHandler ifNotNil: [ anElement removeEventHandler: mouseDownHandler ].
@@ -136,8 +130,8 @@ ToComboBoxHeadDresser >> whenAdded: anElement [
 		                          self
 			                          newPlaceholder: event placeholder
 			                          in: anElement ].
-	listClosedHandler := self newListClosedHandlerIn: anElement.
-	comboBox addEventHandler: listClosedHandler.
+	"listClosedHandler := self newListClosedHandlerIn: anElement."
+	"comboBox addEventHandler: listClosedHandler."
 	comboBox addEventHandler: headPlaceholderHandler
 ]
 
@@ -145,7 +139,7 @@ ToComboBoxHeadDresser >> whenAdded: anElement [
 ToComboBoxHeadDresser >> whenRemoved: anElement [
 
 	comboBox removeEventHandler: headPlaceholderHandler.
-	comboBox removeEventHandler: listClosedHandler.
+	"comboBox removeEventHandler: listClosedHandler."
 	downShortcut := nil.
 	listClosedHandler := nil.
 

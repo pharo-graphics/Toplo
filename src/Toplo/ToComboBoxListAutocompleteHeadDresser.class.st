@@ -18,6 +18,7 @@ ToComboBoxListAutocompleteHeadDresser >> comboBox: aComboBox [
 { #category : #'api - install/uninstall  hook' }
 ToComboBoxListAutocompleteHeadDresser >> filterResult: anEvent [
 
+	comboBox listElement deselectAll.
 	comboBox presentedData filterResult: anEvent data.
 	comboBox fitListElementToContent
 ]

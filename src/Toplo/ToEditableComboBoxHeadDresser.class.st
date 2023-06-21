@@ -4,16 +4,37 @@ Class {
 	#instVars : [
 		'escShortcut',
 		'upShortcut',
-		'mouseDownOnButtonHandler'
+		'mouseDownOnButtonHandler',
+		'crShortcut'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToEditableComboBoxHeadDresser >> filterResult: anEvent [
+ToEditableComboBoxHeadDresser >> carriageReturnEvent: anEvent in: anElement [
 
-	comboBox presentedData filterResult: anEvent data.
-	comboBox fitListElementToContent
+	comboBox isOpened ifFalse: [ ^ self ].
+	comboBox listElement primarySelectionIndexes ifNotEmpty: [ :idxes |
+		comboBox selectIndexInPresentedData: idxes first.
+		comboBox close ]
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToEditableComboBoxHeadDresser >> newButtonMouseDownHandlerIn: anElement [
+
+	^ BlEventHandler
+		  on: BlMouseDownEvent
+		  do: [ :evt | comboBox popupOrCloseEvent: evt ]
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToEditableComboBoxHeadDresser >> newCarriageReturnShortcutIn: anElement [
+
+	^ BlShortcutWithAction new
+		                combination: BlKeyCombination return;
+		                action: [ :event | self carriageReturnEvent: event in: anElement ];
+		                name: 'Return';
+		                yourself.
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -22,17 +43,6 @@ ToEditableComboBoxHeadDresser >> newListClosedHandlerIn: anElement [
 	^ BlEventHandler
 		  on: ToWidgetWindowClosedEvent
 		  do: [ :event | anElement textField requestFocus ]
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToEditableComboBoxHeadDresser >> newMouseDownHandlerIn: anElement [
-
-	^ BlEventHandler
-		  on: BlMouseDownEvent
-		  do: [ :evt |
-			  comboBox popupOrCloseEvent: evt.
-			  evt target = anElement textField ifFalse: [
-				  self listElementRequestFocus ] ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -46,23 +56,27 @@ ToEditableComboBoxHeadDresser >> whenAdded: anElement [
 
 	super whenAdded: anElement.
 
-	mouseDownOnButtonHandler := self newMouseDownHandlerIn: anElement.
+	mouseDownOnButtonHandler := self newButtonMouseDownHandlerIn: anElement.
 	anElement second addEventHandler: mouseDownOnButtonHandler.
 
 	downShortcut := self newArrowDownShortcutIn: anElement.
 	upShortcut := self newArrowUpShortcutIn: anElement.
 	escShortcut := self newEscapeShortcutIn: anElement.
-	anElement textField infinite addShortcut: downShortcut.
-	anElement textField infinite addShortcut: upShortcut.	
-	anElement textField addEditorShortcut: escShortcut
+	crShortcut := self newCarriageReturnShortcutIn: anElement.
+	
+	anElement textField addEditorShortcut: downShortcut.
+	anElement textField addEditorShortcut: upShortcut.	
+	anElement textField addEditorShortcut: escShortcut.
+	anElement textField addEditorShortcut: crShortcut
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToEditableComboBoxHeadDresser >> whenRemoved: anElement [
 
-	anElement textField infinite removeShortcut: downShortcut.
-	anElement textField infinite removeShortcut: upShortcut.
-	anElement textField infinite removeShortcut: escShortcut.
+	anElement textField removeEditorShortcut: downShortcut.
+	anElement textField removeEditorShortcut: upShortcut.
+	anElement textField removeEditorShortcut: escShortcut.
+	anElement textField removeEditorShortcut: crShortcut.
 	anElement second removeEventHandler: mouseDownOnButtonHandler.
 
 	super whenRemoved: anElement

@@ -445,7 +445,7 @@ ToSelectionStrategy >> shortcutsIn: aList [
 	shortcuts := {
 		             (BlShortcutWithAction new
 			              combination: BlKeyCombination builder arrowDown build;
-			              action: [ :aShortcutEvent :aShortcut |
+			              action: [ :aShortcutEvent :aShortcut | 
 				              aList primarySelection
 					              dispatchSelectionChangedAfter: [
 						              self selectNextIn: aList event: aShortcutEvent ]

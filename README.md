@@ -1,5 +1,4 @@
 # Toplo
-
 ![toplo](https://github.com/plantec/Toplo/assets/49183340/57963fee-ed86-4ee0-99e1-7c39e9a9cdf9)
 
 A widget framework on top of Bloc.

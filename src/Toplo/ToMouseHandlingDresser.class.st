@@ -94,8 +94,7 @@ ToMouseHandlingDresser >> mouseClickHandlerIn: anElement [
 
 	^ BlEventHandler
 		  on: BlClickEvent
-		  do: [ :event |
-			  self clicked: anElement event: event ]
+		  do: [ :event | self clicked: anElement event: event ]
 ]
 
 { #category : #'event handlers' }

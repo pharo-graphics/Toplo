@@ -153,6 +153,7 @@ ToWidgetWindowElement >> popupEvent: anEvent [
 
 	" I have to set the position here "
 	self position: (self hook value: self value: anEvent).
+	self hasParent ifTrue: [ ^ self ].
 	self spaceLayer addChild: self.
 	
 	"I need to finalize my position as soon as my layout is up-to-date"

@@ -18,11 +18,11 @@ ToContextMenu >> allParentMenusDo: aBlock [
 { #category : #'initialize-release' }
 ToContextMenu >> close [
 
+	self isOpened ifFalse: [ ^ self ].
 	super close.
 	self widget dispatchEvent: (ToContextMenuClosedEvent new
 			 widget: self widget;
-			 yourself).
-	self widget ifNotNil: [ :w | self widget requestFocus ]
+			 yourself)
 ]
 
 { #category : #initialization }
@@ -59,7 +59,6 @@ ToContextMenu >> installedInWidget: aWidget [
 ToContextMenu >> popupEvent: anEvent [
 
 	self widget ifNotNil: [ :w | w lastOpenedContextMenu: self ].
-	self requestFocus.
 	super popupEvent: anEvent
 ]
 

@@ -70,6 +70,7 @@ ToComboBox >> defaultListElement [
 
 	^ ToListElement new
 		  preserveSelectionOnFocused: false;
+		  in: [ :le | le infinite focusability: BlFocusability none ];
 		  yourself
 ]
 

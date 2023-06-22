@@ -590,7 +590,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 			               node := l nodeAt: idx.
 			               selectionMenu addItem: (ToButtonMenuItem new
 					                labelText: 'Edit';
-					                whenClickedDo: [ :event :client |
+					                whenClickedDo: [ :event :client | 
 						                node label addEditor ];
 					                yourself).
 			               selectionMenu addItem: (ToButtonMenuItem new
@@ -1004,15 +1004,21 @@ ToSandBox class >> example_choiceBoxWithPlaceholderWithUncheckingStrategy [
 	win := ToInnerWindow new title: 'Some host'.
 	choicebox := ToChoiceBox new hMatchParent.
 	choicebox withUncheckingStrategy.
-	t := 'No selection...' asRopedText , String cr asRopedText, ('Please choose an host from the list' asRopedText foreground: Color lightGray; fontSize: 12).
-	choicebox placeholder: (ToLabel new beMultiLine; text: t).
+	t := 'No selection...' asRopedText , String cr asRopedText
+	     , ('Please choose an host from the list' asRopedText
+			      foreground: Color lightGray;
+			      fontSize: 12).
+	choicebox placeholder: (ToLabel new
+			 beMultiLine;
+			 text: t).
 	choicebox dataToTextConverter: [ :assoc | assoc key ].
-	choicebox whenSelectedIndexChangedDo: [ self inform: choicebox selectedData value asString].
+	choicebox whenSelectedIndexChangedDo: [
+		self inform: choicebox selectedData value asString ].
 	choicebox data addAll: {
 			('Morphic SDL' -> BlMorphicWindowHost).
 			('Native SDL' -> BlOSWindowSDL2Host) }.
 	win root addChild: choicebox.
-	win openInWorld
+	win openInSpace
 ]
 
 { #category : #choicebox }
@@ -1050,7 +1056,7 @@ ToSandBox class >> example_choiceBoxWithStructuredData [
 	choicebox whenSelectedIndexChangedDo: [
 		self inform: choicebox selectedData asString ].
 	win root addChild: choicebox.
-	win openInWorld
+	win openInSpace
 ]
 
 { #category : #space }

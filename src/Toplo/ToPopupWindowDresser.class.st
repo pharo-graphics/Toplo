@@ -32,7 +32,8 @@ ToPopupWindowDresser >> installWidget: newWidget in: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToPopupWindowDresser >> mouseDownOutside: anEvent receivedIn: aMenuWindow [
 
-	anEvent currentTarget close
+	anEvent currentTarget close.
+	anEvent consumed: true
 ]
 
 { #category : #'api - install/uninstall  hook' }

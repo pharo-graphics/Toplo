@@ -45,7 +45,8 @@ ToSelectOnlyComboBoxHead >> defaultDresser [
 { #category : #'t - placeholder show/hide' }
 ToSelectOnlyComboBoxHead >> hidePlaceholder [
 
-	self placeholder ifNotNil: [:ph | ph parentDo: [ :p | self placeholder removeFromParent ] ]
+	self placeholder ifNotNil: [ :ph |
+		ph parentDo: [ :p | self placeholder removeFromParent ] ]
 ]
 
 { #category : #initialization }

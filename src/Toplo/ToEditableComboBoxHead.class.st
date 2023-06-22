@@ -37,7 +37,7 @@ ToEditableComboBoxHead >> defaultDresser [
 { #category : #initialization }
 ToEditableComboBoxHead >> defaultPlaceholder [
 
-	^ ToLabel new text: 'Enter text'; yourself
+	^ ToLabel new text: ''; yourself
 ]
 
 { #category : #initialization }

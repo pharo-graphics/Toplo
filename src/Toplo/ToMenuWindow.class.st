@@ -59,6 +59,9 @@ ToMenuWindow >> openSubmenuWindowFor: anElement event: anEvent [
 	" do not open if empty "
 	anElement hasItems ifFalse: [ ^ self ].
 	
+	" close currently opened submenu window "
+	self openedSubmenuWindow ifNotNil: [ :w | w close ].
+	
 	" ok, open the sub menu window "
 	self openedSubmenuWindow: anElement subMenuWindow.
 	anElement subMenuWindow popupEvent: anEvent

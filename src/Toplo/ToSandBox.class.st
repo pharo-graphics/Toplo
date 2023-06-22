@@ -1477,7 +1477,7 @@ ToSandBox class >> example_menu6 [
 { #category : #menu }
 ToSandBox class >> example_menu7 [
 
-	| menu |
+	| menu frame |
 	menu := ToMenu new.
 	menu layout cellSpacing: 5.
 	menu globalColumnWidth: 0.
@@ -1512,7 +1512,9 @@ ToSandBox class >> example_menu7 [
 		menu addItem: subMenu ].
 	
 	menu position: 10 @ 10.
-	menu openInInnerWindow
+	frame := ToInnerWindow new.
+	frame root addChild: menu.
+	frame openInSpace
 ]
 
 { #category : #window }
@@ -1582,7 +1584,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	bar addFiller.
 	textField := ToTextField new
 		             withLineWrapping;
-		             width: 200; 
+		             width: 200;
 		             placeholderText: 'search...'.
 	bar addChild: (ToLabel new text: 'Token :').
 	bar addChild: textField.
@@ -1593,7 +1595,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	bar position: 0 @ 0.
 	bar border: (BlBorder paint: Color black).
 	win root addChild: bar.
-	win openInWorld
+	win openInSpace
 ]
 
 { #category : #'context menu + menubar' }

@@ -59,7 +59,7 @@ ToMenuWindow >> openSubmenuWindowFor: anElement event: anEvent [
 	" do not open if empty "
 	anElement hasItems ifFalse: [ ^ self ].
 	
-	" close currently opened submenu window "
+	" close currently opened submenu window (issue #50) "
 	self openedSubmenuWindow ifNotNil: [ :w | w close ].
 	
 	" ok, open the sub menu window "
@@ -77,4 +77,12 @@ ToMenuWindow >> openedSubmenuWindow [
 ToMenuWindow >> openedSubmenuWindow: aWindow [
 
 	openedSubmenuWindow := aWindow
+]
+
+{ #category : #'api - displaying' }
+ToMenuWindow >> popupEvent: anEvent [
+
+	self widget ifNil: [ ^ self ].
+	self widget items ifEmpty: [ ^ self ].
+	^ super popupEvent: anEvent
 ]

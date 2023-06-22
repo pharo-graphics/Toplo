@@ -157,7 +157,7 @@ ToWidgetWindowElement >> popupEvent: anEvent [
 	
 	"I need to finalize my position as soon as my layout is up-to-date"
 	self whenLayoutedDoOnce: [
-		self checkBeforePopupIn: self spaceLayer ].
+		self spaceLayer ifNotNil: [ :l | self checkBeforePopupIn: l ] ].
 	self requestLayout 
 ]
 

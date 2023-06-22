@@ -43,6 +43,7 @@ ToPopupWindow >> popupEvent: anEvent [
 { #category : #'api - displaying' }
 ToPopupWindow >> spaceLayer [ 
 
+	self widget isAttachedToSceneGraph ifFalse: [ ^ nil ].
 	^ self widget space popupLayer.
-
+ 
 ]

@@ -1556,19 +1556,18 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	menu addItem: (ToButtonMenuItem new labelText: 'Export').
 	menu addSeparator.
 
-	sub := ToMenu new labelText: 'Save All'.
-	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
+	3 timesRepeat: [ 
+		sub := ToMenu new labelText: 'Save All'.
+		sub addItem: (ToButtonMenuItem new labelText: 'Locally').
 
-	subsub := ToMenu new
-		          labelText: 'Externally';
-		          icon:
-			          (ToImage inner:
-					           (Smalltalk ui icons iconNamed: #solidMenu)).
-	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
+		subsub := ToMenu new
+		          	labelText: 'Externally';
+		          	icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+		subsub addItem: (ToButtonMenuItem new labelText: 'Here').
 
-	sub addItem: subsub.
+		sub addItem: subsub.
 
-	menu addItem: sub.
+		menu addItem: sub ].
 
 	win contextMenuFactory: [ menu ].
 

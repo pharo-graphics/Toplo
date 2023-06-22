@@ -113,15 +113,16 @@ ToWidgetWindowElement >> initialize [
 	self animate: true.
 	self hook: self defaultHook.
 	
+	self flag: 'delete animation duration must be very very fast to ensure that sub-menu widows are always opened even if mouse is moving is fast (issue #51). It is so fast that it cannot be perceived at all. '.
 	deleteAnimationFactory := [ 
 	                          BlOpacityAnimation new
-		                          duration: 250 milliSeconds;
+		                          duration: 10 milliSeconds;
 		                          opacity: 0;
 		                          yourself ].
 	popupAnimationFactory := [ 
 	                         self opacity: 0.0.
 	                         BlOpacityAnimation new
-		                         duration: 200 milliSeconds;
+		                         duration: 400 milliSeconds;
 		                         opacity: 1;
 		                         yourself ]
 ]

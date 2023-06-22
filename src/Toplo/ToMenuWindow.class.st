@@ -35,6 +35,13 @@ ToMenuWindow >> defaultHook [
 		  ifFalse: [ w widget bounds inSpace bounds bottomLeft ] ]
 ]
 
+{ #category : #accessing }
+ToMenuWindow >> items [
+
+	self widget ifNil: [ ^ #() ].
+	^ self widget items
+]
+
 { #category : #'api - displaying' }
 ToMenuWindow >> mouseEnterOnMenuItem: aMenuItem [
 
@@ -83,6 +90,6 @@ ToMenuWindow >> openedSubmenuWindow: aWindow [
 ToMenuWindow >> popupEvent: anEvent [
 
 	self widget ifNil: [ ^ self ].
-	self widget items ifEmpty: [ ^ self ].
+	self items ifEmpty: [ ^ self ].
 	^ super popupEvent: anEvent
 ]

@@ -1483,43 +1483,49 @@ ToSandBox class >> example_menu6 [
 { #category : #menu }
 ToSandBox class >> example_menu7 [
 
-	| menu frame |
-	menu := ToMenu new.
-	menu layout cellSpacing: 5.
-	menu globalColumnWidth: 0.
-	menu label: (ToLabel text: 'Levels').
-	menu icon:
-		(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+	| menu frame bar |
 
-	4 to: 12 by: 2 do: [ :index |
-		| subMenu |
-		subMenu := ToMenu new label:
+	bar := ToMenuBar new
+		       hMatchParent;
+		       vFitContent.
+	frame := ToInnerWindow new.
+	
+	3 timesRepeat: [ 
+		menu := ToMenu new.
+		menu layout cellSpacing: 5.
+		menu globalColumnWidth: 0.
+		menu label: (ToLabel text: 'Levels').
+		menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+
+		4 to: 12 by: 2 do: [ :index |
+			| subMenu |
+			subMenu := ToMenu new label:
 			           (ToLabel new text: (String streamContents: [ :out |
 					             out
 						             print: index;
 						             nextPut: $x;
 						             print: index ])).
-		1 to: 5 do: [ :i |
-			| stream selector |
-			stream := String streamContents: [ :out |
+			1 to: 5 do: [ :i |
+				| stream selector |
+				stream := String streamContents: [ :out |
 				          out
 					          nextPutAll: 'Level';
 					          space;
 					          print: i ].
-			selector := String streamContents: [ :out |
+				selector := String streamContents: [ :out |
 				            out
 					            nextPutAll: 'level';
 					            print: index;
 					            nextPutAll: 'Grid';
 					            print: i ].
-			subMenu addItem: ((ToButtonMenuItem new labelText: stream) 
-				whenClickedDo: [ self inform: selector asSymbol ]) ].
-		subMenu globalColumnWidth: 0.
-		menu addItem: subMenu ].
+				subMenu addItem: ((ToButtonMenuItem new labelText: stream) 
+					whenClickedDo: [ self inform: selector asSymbol ]) ].
+			subMenu globalColumnWidth: 0.
+			menu addItem: subMenu ].
+
+		bar addMenu: menu	].
 	
-	menu position: 10 @ 10.
-	frame := ToInnerWindow new.
-	frame root addChild: menu.
+	frame root addChild: bar. 
 	frame openInSpace
 ]
 
@@ -1652,7 +1658,7 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 	bar hFitContent.
 	bar border: (BlBorder paint: Color black).
 	win root addChild: bar.
-	win openInWorld
+	win openInSpace
 ]
 
 { #category : #image }

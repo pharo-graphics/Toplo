@@ -66,6 +66,7 @@ ToAbstractButtonDresser >> leaved: anElement event: anEvent [
 { #category : #'events handling' }
 ToAbstractButtonDresser >> leftClicked: anElement [
 
+	anElement fireEvent: ToButtonClickedEvent new
 ]
 
 { #category : #'events handling' }

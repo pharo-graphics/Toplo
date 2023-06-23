@@ -12,8 +12,8 @@ ToMenuWindowDresser >> mouseDownOutside: anEvent receivedIn: aMenuWindow [
 	| win |
 	" if I'm the original event target then do nothing"
 	anEvent originalEvent currentTarget = aMenuWindow ifTrue: [ ^ self ].
-	" if one of my children is the original event target then do nothing"
 	anEvent originalEvent currentTarget ifNil: [ ^ super mouseDownOutside: anEvent receivedIn: aMenuWindow ].
+	" if one of my children is the original event target then do nothing"
 	(anEvent originalEvent currentTarget hasParent: aMenuWindow) ifTrue: [ ^ self ].
 
 	win := aMenuWindow openedSubmenuWindow.

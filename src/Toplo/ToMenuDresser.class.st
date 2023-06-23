@@ -11,6 +11,14 @@ Class {
 }
 
 { #category : #'api - install/uninstall  hook' }
+ToMenuDresser >> mouseOver: anEvent in: anElement [
+
+	| win |
+	win := anElement subMenuWindow ifNil: [ ^self ].
+	(anEvent target hasAnyInParentChain: { win. anElement }) ifFalse: [ win close ]
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToMenuDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
@@ -20,9 +28,7 @@ ToMenuDresser >> onInstalledIn: anElement [
 	anElement addEventHandler: addedToParentHandler.
 	anElement addEventHandler: removedFromParentHandler.
 
-	anElement constraintsDo: [ :c | 
-		c horizontal fitContent.
-		c vertical fitContent ]
+	anElement fitContent
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -38,15 +44,7 @@ ToMenuDresser >> whenAdded: anElement [
 	menuParent := anElement parent.
 	menuParentOverEventHandler := BlEventHandler
 		                              on: BlMouseOverEvent
-		                              do: [ :event |
-			                              anElement subMenuWindow ifNotNil: [
-				                              :smw |
-				                              ((event target hasParent: smw) or: [
-					                               event target = smw or: [
-						                               event target = anElement or: [
-							                               event target hasParent:
-								                               anElement ] ] ]) ifFalse: [
-					                              smw close ] ] ].
+		                              do: [ :event | self mouseOver: event in: anElement ].
 	menuParent addEventHandler: menuParentOverEventHandler
 ]
 

@@ -19,7 +19,7 @@ ToMenuBarDresser >> installEventListenersIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToMenuBarDresser >> menuClicked: anEvent in: anElement [
 
-	autoOpenDresser ifNotNil: [ ^ self ].
+	autoOpenDresser ifNotNil: [ ^ self removeAutoOpenDresserIn: anElement ].
 	autoOpenDresser := ToMenuBarAutoOpenDresser new menuBarDresser: self.
 	" add the dresser that makes menu opening on mouse over. 
 	This dresser will remove itself in case of a button clicked or a mouse down outside "

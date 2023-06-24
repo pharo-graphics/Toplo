@@ -12,7 +12,9 @@ Class {
 { #category : #'api - install/uninstall  hook' }
 ToMenuBarAutoOpenDresser >> installEventListenersIn: anElement [
 	
+
 	super installEventListenersIn: anElement.
+	
 	overHandler := BlEventHandler on: BlMouseOverEvent do: [ :event | self mouseOver: event in: anElement ].
 	anElement addEventHandler: overHandler.
 	autoOpenEventHandler := ToMenuBarAutoOpenEventHandler new autoOpenDresser: self; menuBar: anElement; yourself.
@@ -44,6 +46,7 @@ ToMenuBarAutoOpenDresser >> removeAutoOpenDresserIn: anElement [
 
 { #category : #'api - install/uninstall  hook' }
 ToMenuBarAutoOpenDresser >> uninstallEventListenersIn: anElement [
+
 
 	anElement removeEventHandler: overHandler.
 	anElement space layerHolder removeEventHandler: autoOpenEventHandler.

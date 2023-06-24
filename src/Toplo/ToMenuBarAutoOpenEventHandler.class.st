@@ -35,6 +35,7 @@ ToMenuBarAutoOpenEventHandler >> menuBar: aMenuBar [
 { #category : #'api - accessing' }
 ToMenuBarAutoOpenEventHandler >> mouseDownOutsideEvent: anEvent [
 
+	anEvent originalEvent currentTarget ifNotNil: [ :t | (t hasInParentChain: menuBar) ifTrue: [ ^ self ] ].
 	self removeAutoOpenDresser
 ]
 

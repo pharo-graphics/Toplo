@@ -16,7 +16,7 @@ ToMenuBarAutoOpenDresser >> installEventListenersIn: anElement [
 	overHandler := BlEventHandler on: BlMouseOverEvent do: [ :event | self mouseOver: event in: anElement ].
 	anElement addEventHandler: overHandler.
 	autoOpenEventHandler := ToMenuBarAutoOpenEventHandler new autoOpenDresser: self; menuBar: anElement; yourself.
-	anElement space layerHolder addEventHandler: autoOpenEventHandler
+	anElement space popupLayer addEventHandler: autoOpenEventHandler
 ]
 
 { #category : #accessing }
@@ -29,11 +29,10 @@ ToMenuBarAutoOpenDresser >> menuBarDresser: anInstaller [
 ToMenuBarAutoOpenDresser >> mouseOver: anEvent in: anElement [
 	" auto-open action "
 
-	| found |
-	found := anElement menus
-		         detect: [ :m | anEvent target hasInParentChain: m ]
-		         ifNone: [ ^ self ].
-	found subMenuWindow popupEvent: anEvent
+	anElement menus do: [ :m |
+		(anEvent target hasInParentChain: m)
+			ifTrue: [ m subMenuWindow popupEvent: anEvent ]
+			ifFalse: [ m subMenuWindow close ] ]
 ]
 
 { #category : #'api - install/uninstall  hook' }

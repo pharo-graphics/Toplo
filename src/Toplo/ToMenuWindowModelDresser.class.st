@@ -26,6 +26,7 @@ ToMenuWindowModelDresser >> onUninstalledIn: anElement [
 ToMenuWindowModelDresser >> popupOrClose: anElement event: anEvent [
 
 	anElement subMenuWindow isAttachedToSceneGraph ifTrue: [ 
+		anElement isSubmenu ifTrue: [ ^ anElement parentMenu subMenuWindow close ].
 		^ anElement subMenuWindow close ].
 	anElement subMenuWindow popupEvent: anEvent
 ]

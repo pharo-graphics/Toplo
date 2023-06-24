@@ -25,6 +25,12 @@ ToContextMenu >> close [
 			 yourself)
 ]
 
+{ #category : #'t - initialization dresser' }
+ToContextMenu >> defaultDresser [ 
+
+	^ ToContextMenuDresser new
+]
+
 { #category : #initialization }
 ToContextMenu >> defaultHook [
 

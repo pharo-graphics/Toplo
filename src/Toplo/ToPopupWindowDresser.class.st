@@ -32,6 +32,12 @@ ToPopupWindowDresser >> installWidget: newWidget in: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToPopupWindowDresser >> mouseDownOutside: anEvent receivedIn: aMenuWindow [
 
+	" decide  if one have to close the window "
+
+	" don't close if the clicked element is part of the menu "
+	anEvent originalEvent currentTarget ifNotNil: [ :t |
+		(t hasParent: aMenuWindow widget) ifTrue: [ ^ self ] ].
+	" ok, really outside "
 	anEvent currentTarget close
 ]
 

@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'api - displaying' }
-ToMenuWindow >> close [
+ToMenuWindow >> close [ 
 
 	openedSubmenuWindow ifNotNil: [ :w | w close ].
 	super close

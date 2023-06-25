@@ -3,6 +3,8 @@
 
 A widget framework on top of Bloc.
 
+[![Pharo 11 CI](https://github.com/plantec/Toplo/actions/workflows/Pharo11CI.yml/badge.svg?branch=master)](https://github.com/plantec/Toplo/actions/workflows/Pharo11CI.yml)
+
 ## Installation
 
 ```Smalltalk

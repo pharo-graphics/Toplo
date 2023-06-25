@@ -130,8 +130,7 @@ ToCheckBoxDresser >> onInstalledIn: anElement [
 ToCheckBoxDresser >> onUninstalledIn: anElement [
 
 	anElement removeEventHandler: statesChangedHandler.
-	super onUninstalledIn: anElement.
-
+	super onUninstalledIn: anElement
 ]
 
 { #category : #accessing }

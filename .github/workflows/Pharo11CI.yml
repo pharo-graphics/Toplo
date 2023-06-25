@@ -3,9 +3,8 @@ name: 'Pharo 11 CI'
 on:
   push:
     branches:
-      - '**'
-      - '!master'
-      - '!dev-lookandfeel'
+      - 'master'
+      - 'dev-lookandfeel'
   pull_request:
     types: [assigned, opened, synchronize, reopened]
 

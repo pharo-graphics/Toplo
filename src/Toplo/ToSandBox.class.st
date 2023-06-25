@@ -2229,28 +2229,6 @@ ToSandBox class >> example_toCheckboxWithToggleGroup2 [
 ]
 
 { #category : #checkbox }
-ToSandBox class >> example_toCheckboxWithToggleGroup3 [
-
-	| group container |
-	container := ToPane vertical.
-
-	container openInOBlSpace.
-	"Replace to make it work with :"
-	"container openInOBlSpace toTheme: nil."
-
-	group := ToCheckableGroup new.
-	1 to: 4 do: [ :idx |
-		| chb |
-		chb := ToRadioButton new
-			       labelText: idx asString;
-			       id: idx asString.
-		idx = 1 ifTrue: [ chb startChecked ].
-		group add: chb ].
-
-	group buttons do: [ :b | container addChild: b ]
-]
-
-{ #category : #checkbox }
 ToSandBox class >> example_toCheckboxWithToggleGroupAndNoneStrategy [
 
 	| group container buttons |

@@ -194,9 +194,5 @@ ToGeneralButtonDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: borderChangedHandler.
 	anElement removeEventHandler: backgroundChangedHandler.
-	
-	borderChangedHandler := nil.
-	backgroundChangedHandler := nil.
-	
-	super uninstallEventListenersIn: anElement.
+	super uninstallEventListenersIn: anElement
 ]

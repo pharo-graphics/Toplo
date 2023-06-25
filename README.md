@@ -27,6 +27,10 @@ The evolutions from master branch are regularly integrated into this development
 
 This branch contains some examples to use the default Toplot look and feel inspired by [Ant Design](https://github.com/ant-design/ant-design) or create your own themes and skins.
 
+[![Pharo 11 CI](https://github.com/plantec/Toplo/actions/workflows/Pharo11CI.yml/badge.svg?branch=dev-lookandfeel)](https://github.com/plantec/Toplo/actions/workflows/Pharo11CI.yml)
+
+## Installation
+
 ```Smalltalk
 Metacello new
          baseline: 'Toplo';

@@ -8,20 +8,21 @@ Class {
 ToMenuWindowDresser >> mouseDownOutside: anEvent receivedIn: aMenuWindow [
 	" redefined to not close the menu if the mousedown occurs inside a submenu window"
 
-	| win |
+	| win origEventTarget |
+	
+	origEventTarget := anEvent originalEvent currentTarget.
 	" if I'm the original event target then do nothing"
-	anEvent originalEvent currentTarget = aMenuWindow ifTrue: [ ^ self ].
-	anEvent originalEvent currentTarget ifNil: [
+	origEventTarget ifNil: [
 		^ super mouseDownOutside: anEvent receivedIn: aMenuWindow ].
+	origEventTarget = aMenuWindow ifTrue: [ ^ self ].
 	" if one of my children is the original event target then do nothing"
-	(anEvent originalEvent currentTarget hasParent: aMenuWindow) ifTrue: [
+	(origEventTarget hasParent: aMenuWindow) ifTrue: [
 		^ self ].
 
 	win := aMenuWindow openedSubmenuWindow.
-	[ win notNil ] whileTrue: [ " If the submenu is the original event target then do nothing"
-		win = anEvent originalEvent currentTarget ifTrue: [ ^ self ].
+	[ win notNil ] whileTrue: [
 		" If the original event target is one of the submenu child then do nothing"
-		(anEvent originalEvent currentTarget hasParent: win) ifTrue: [
+		(origEventTarget hasInParentChain: win) ifTrue: [
 			^ self ].
 		win := win openedSubmenuWindow ].
 

@@ -55,7 +55,6 @@ ToMenuAsSubmenuDresser >> onUninstalledIn: anElement [
 ToMenuAsSubmenuDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: enterHandler.
-	anElement removeEventHandler: leaveHandler.
-
+	anElement removeEventHandler: leaveHandler
 
 ]

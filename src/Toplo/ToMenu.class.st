@@ -65,8 +65,9 @@ ToMenu >> removedAsSubmenuInMenu: aMenu [
 { #category : #'t - menu item adding/removing' }
 ToMenu >> removedFromMenu: aMenu [
 
+	self removedAsSubmenuInMenu: aMenu.
 	super removedFromMenu: aMenu.
-	self removedAsSubmenuInMenu: aMenu
+
 	
 ]
 

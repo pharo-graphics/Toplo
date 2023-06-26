@@ -15,16 +15,16 @@ ToPopupWindow >> checkBeforePopupIn: aWidget [
 	super checkBeforePopupIn: aWidget
 ]
 
+{ #category : #initialization }
+ToPopupWindow >> defaulPositiontHook [
+
+	^ [ :window :event |  window widget bounds inSpace bounds bottomLeft ]
+]
+
 { #category : #'t - initialization dresser' }
 ToPopupWindow >> defaultDresser [ 
 
 	^ ToPopupWindowDresser new
-]
-
-{ #category : #initialization }
-ToPopupWindow >> defaultHook [
-
-	^ [ :window :event |  window widget bounds inSpace bounds bottomLeft ]
 ]
 
 { #category : #'api - displaying' }

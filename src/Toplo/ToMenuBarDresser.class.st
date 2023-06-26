@@ -2,8 +2,8 @@ Class {
 	#name : #ToMenuBarDresser,
 	#superclass : #ToDresser,
 	#instVars : [
-		'menuClickedHandler',
-		'autoOpenDresser'
+		'autoOpenDresser',
+		'mouseDownHandler'
 	],
 	#category : #'Toplo-Widget-MenuBar'
 }
@@ -12,20 +12,24 @@ Class {
 ToMenuBarDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
-	menuClickedHandler := BlEventHandler on: ToButtonClickedEvent do: [ :event | self menuClicked: event in: anElement ].
-	anElement addEventHandler: menuClickedHandler
+	mouseDownHandler := BlEventHandler
+		                      on: BlMouseDownEvent
+		                      do: [ :event | self mouseDown: event in: anElement ].
+	anElement addEventHandler: mouseDownHandler
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToMenuBarDresser >> menuClicked: anEvent in: anElement [
+ToMenuBarDresser >> mouseDown: anEvent in: anElement [
+	"switch auto=open dresser "
 
-	autoOpenDresser ifNotNil: [ ^ self ].
+	" mouse down on the menubar or in a menubar child while the auto open dresser is installed "
+	(anEvent target = anElement or: [ autoOpenDresser notNil ]) ifTrue: [
+		^ self removeAutoOpenDresserIn: anElement ].
+
 	autoOpenDresser := ToMenuBarAutoOpenDresser new menuBarDresser: self.
 	" add the dresser that makes menu opening on mouse over. 
-	This dresser will remove itself in case of a button clicked or a mouse down outside "
-	anEvent consumed: true.
-	anElement addDresser: autoOpenDresser.
-
+	This dresser will remove itself in case of a mouse down outside "
+	anElement addDresser: autoOpenDresser
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -47,7 +51,6 @@ ToMenuBarDresser >> onUninstalledIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToMenuBarDresser >> removeAutoOpenDresserIn: anElement [
 
-	autoOpenDresser ifNil: [ ^ self ].
 	anElement removeDresser: autoOpenDresser.
 	autoOpenDresser := nil
 ]
@@ -55,7 +58,7 @@ ToMenuBarDresser >> removeAutoOpenDresserIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToMenuBarDresser >> uninstallEventListenersIn: anElement [
 
-	anElement removeEventHandler: menuClickedHandler.
+	anElement removeEventHandler: mouseDownHandler.
 	self removeAutoOpenDresserIn: anElement.
 	super uninstallEventListenersIn: anElement
 ]

@@ -1,17 +1,17 @@
 Class {
-	#name : #ToContentMenuDresser,
+	#name : #ToContextMenuDresser,
 	#superclass : #ToMenuWindowDresser,
 	#category : #'Toplo-Widget-Menu'
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToContentMenuDresser >> installEventListenersIn: anElement [
+ToContextMenuDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToContentMenuDresser >> uninstallEventListenersIn: anElement [
+ToContextMenuDresser >> uninstallEventListenersIn: anElement [
 
 	super uninstallEventListenersIn: anElement.
 ]

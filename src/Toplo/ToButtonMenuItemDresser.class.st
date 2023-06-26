@@ -10,11 +10,3 @@ ToButtonMenuItemDresser >> leftClicked: anElement [
 	super leftClicked: anElement.
 	anElement allParentMenusDo: [ :pm | pm subMenuWindow close ]
 ]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonMenuItemDresser >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement
-
-
-]

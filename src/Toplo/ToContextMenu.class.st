@@ -26,9 +26,15 @@ ToContextMenu >> close [
 ]
 
 { #category : #initialization }
-ToContextMenu >> defaultHook [
+ToContextMenu >> defaulPositiontHook [
 
 	^ [ :w :event | event position ]
+]
+
+{ #category : #'t - initialization dresser' }
+ToContextMenu >> defaultDresser [ 
+
+	^ ToContextMenuDresser new
 ]
 
 { #category : #initialization }
@@ -58,7 +64,8 @@ ToContextMenu >> installedInWidget: aWidget [
 { #category : #'api - displaying' }
 ToContextMenu >> popupEvent: anEvent [
 
-	self widget ifNotNil: [ :w | w lastOpenedContextMenu: self ].
+	self widget ifNotNil: [ :w | w openedContextMenu: self ].
+	self requestFocus.
 	super popupEvent: anEvent
 ]
 

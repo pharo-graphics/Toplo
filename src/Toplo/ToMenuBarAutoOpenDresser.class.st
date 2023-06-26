@@ -3,20 +3,28 @@ Class {
 	#superclass : #ToDresser,
 	#instVars : [
 		'overHandler',
-		'autoOpenEventHandler',
-		'menuBarDresser'
+		'menuBarDresser',
+		'mouseDownOutsideHandler'
 	],
 	#category : #'Toplo-Widget-MenuBar'
 }
 
 { #category : #'api - install/uninstall  hook' }
 ToMenuBarAutoOpenDresser >> installEventListenersIn: anElement [
-	
+
 	super installEventListenersIn: anElement.
-	overHandler := BlEventHandler on: BlMouseOverEvent do: [ :event | self mouseOver: event in: anElement ].
+
+	overHandler := BlEventHandler
+		               on: BlMouseOverEvent
+		               do: [ :event | self mouseOver: event in: anElement ].
+	mouseDownOutsideHandler := BlEventHandler
+		                           on: BlSpaceMouseDownOutsideEvent
+		                           do: [ :event |
+		                           self
+			                           mouseDownOutside: anElement
+			                           event: event ].
 	anElement addEventHandler: overHandler.
-	autoOpenEventHandler := ToMenuBarAutoOpenEventHandler new autoOpenDresser: self; menuBar: anElement; yourself.
-	anElement space layerHolder addEventHandler: autoOpenEventHandler
+	anElement space layerHolder addEventHandler: mouseDownOutsideHandler
 ]
 
 { #category : #accessing }
@@ -25,21 +33,29 @@ ToMenuBarAutoOpenDresser >> menuBarDresser: anInstaller [
 	menuBarDresser := anInstaller 
 ]
 
+{ #category : #'api - accessing' }
+ToMenuBarAutoOpenDresser >> mouseDownOutside: aMenuBar event: anEvent [
+
+	anEvent originalEvent currentTarget ifNotNil: [ :t |
+		(t hasInParentChain: aMenuBar) ifTrue: [ ^ self ] ].
+	self removeAutoOpenDresserIn: aMenuBar
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToMenuBarAutoOpenDresser >> mouseOver: anEvent in: anElement [
 	" auto-open action "
 
-	| found |
-	found := anElement menus
-		         detect: [ :m | anEvent target hasInParentChain: m ]
-		         ifNone: [ ^ self ].
-	found subMenuWindow popupEvent: anEvent
+	anElement menus do: [ :m |
+		(anEvent target hasInParentChain: m)
+			ifTrue: [ m subMenuWindow popupEvent: anEvent ]
+			ifFalse: [ m subMenuWindow close ] ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToMenuBarAutoOpenDresser >> removeAutoOpenDresserIn: anElement [
 
 	menuBarDresser removeAutoOpenDresserIn: anElement.
+	menuBarDresser := nil
 
 ]
 
@@ -47,8 +63,8 @@ ToMenuBarAutoOpenDresser >> removeAutoOpenDresserIn: anElement [
 ToMenuBarAutoOpenDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: overHandler.
-	anElement space layerHolder removeEventHandler: autoOpenEventHandler.
+	anElement space layerHolder removeEventHandler: mouseDownOutsideHandler.
 	overHandler := nil.
-	autoOpenEventHandler := nil.
+	mouseDownOutsideHandler := nil.
 	super uninstallEventListenersIn: anElement
 ]

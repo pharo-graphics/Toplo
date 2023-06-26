@@ -36,7 +36,7 @@ ToPopupWindowDresser >> mouseDownOutside: anEvent receivedIn: aMenuWindow [
 
 	" don't close if the clicked element is part of the menu "
 	anEvent originalEvent currentTarget ifNotNil: [ :t |
-		(t hasParent: aMenuWindow widget) ifTrue: [ ^ self ] ].
+		(t hasInParentChain: aMenuWindow widget) ifTrue: [ ^ self ] ].
 	" ok, really outside "
 	anEvent currentTarget close
 ]

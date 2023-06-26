@@ -1529,6 +1529,30 @@ ToSandBox class >> example_menu7 [
 	frame openInSpace
 ]
 
+{ #category : #'context menu + menubar' }
+ToSandBox class >> example_menuBar [
+
+	| win bar fileMenu |
+	win := ToInnerWindow new title: 'Context menu Example'.
+	win width: 600.
+
+	bar := ToMenuBar new
+		       hMatchParent;
+		       vFitContent.
+	bar addMenu: (fileMenu := ToMenu new
+			 labelText: 'File').
+	fileMenu addItem: (ToButtonMenuItem new label: (ToLabel new text: 'Open')).
+	fileMenu padding: (BlInsets all: 10).
+	bar addFiller.
+	bar addMenu: (ToMenu new
+			 labelText: 'Help';
+			 tooltipString: 'help stuffs').
+	bar when: BlMouseDownEvent do: [ :event | event target traceCr ].
+	bar border: (BlBorder paint: Color red).
+	win root addChild: bar.
+	win openInSpace
+]
+
 { #category : #window }
 ToSandBox class >> example_overlayWidow1 [
 
@@ -2018,6 +2042,25 @@ ToSandBox class >> example_toButtonOrientationChanger3 [
 	but icon: iconImage.
 	but whenClickedDo: [ :ann | 
 		ann currentTarget orientation: but orientation inverted ].
+	space := OBlSpace new.
+	space root addChild: but.
+	space show 
+]
+
+{ #category : #button }
+ToSandBox class >> example_toButtonWithIconAndText [
+
+	| but space iconImage |
+	but := ToButton new.
+	but label: (ToLabel text: 'Button').
+	iconImage := BlElement new
+		             size: 20 @ 20;
+		             background: Color lightGray;
+		             yourself.
+	but icon: iconImage.
+	but padding: (BlInsets all: 4).
+	but when: BlMouseDownEvent do: [ :event | event traceCr ].
+
 	space := OBlSpace new.
 	space root addChild: but.
 	space show 

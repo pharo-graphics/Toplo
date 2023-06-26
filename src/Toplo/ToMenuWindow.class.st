@@ -16,6 +16,14 @@ ToMenuWindow >> close [
 ]
 
 { #category : #initialization }
+ToMenuWindow >> defaulPositiontHook [ 
+
+	^ [ :w :event | w widget isSubmenu
+		  ifTrue: [ w widget bounds inSpace bounds topRight ]
+		  ifFalse: [ w widget bounds inSpace bounds bottomLeft ] ]
+]
+
+{ #category : #initialization }
 ToMenuWindow >> defaultBorder [
 
 	^ BlBorder paint: Color lightGray width: 1
@@ -25,14 +33,6 @@ ToMenuWindow >> defaultBorder [
 ToMenuWindow >> defaultDresser [ 
 
 	^ ToMenuWindowDresser new
-]
-
-{ #category : #initialization }
-ToMenuWindow >> defaultHook [ 
-
-	^ [ :w :event | w widget isSubmenu
-		  ifTrue: [ w widget bounds inSpace bounds topRight ]
-		  ifFalse: [ w widget bounds inSpace bounds bottomLeft ] ]
 ]
 
 { #category : #accessing }

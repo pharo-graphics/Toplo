@@ -11,14 +11,6 @@ ToContextMenuDresser >> installEventListenersIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToContextMenuDresser >> mouseDownOutside: anEvent receivedIn: aMenuWindow [
-
-	" decide  if one have to close the window "
-
-	anEvent currentTarget close
-]
-
-{ #category : #'api - install/uninstall  hook' }
 ToContextMenuDresser >> uninstallEventListenersIn: anElement [
 
 	super uninstallEventListenersIn: anElement.

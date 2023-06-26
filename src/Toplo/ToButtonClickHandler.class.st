@@ -27,10 +27,9 @@ ToButtonClickHandler >> clickCandidateEvent: anEvent [
 	| mup |
 	anEvent consumed: true.
 	mup := anEvent mouseUpEvent.
-	mup ifNil: [ ^self ].
+	mup ifNil: [ ^ self ].
 	anEvent modifiers isEmpty ifFalse: [ ^ self ].
-	(mup currentTarget == button or: [ 
-		 mup currentTarget hasParent: button ]) ifTrue: [ 
+	(mup currentTarget hasInParentChain: button) ifTrue: [ 
 		button dispatchEvent: mup asClickEvent ]
 ]
 

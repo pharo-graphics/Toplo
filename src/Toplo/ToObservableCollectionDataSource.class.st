@@ -35,6 +35,26 @@ ToObservableCollectionDataSource >> itemCount [
 	^ self data ifNil: [0] ifNotNil: [:l | l size]
 ]
 
+{ #category : #accessing }
+ToObservableCollectionDataSource >> list [
+
+	self 
+		deprecated:  'Use #data instead' 
+		transformWith: '`@receiver list' -> '`@receiver data'.
+	^ self data	
+]
+
+{ #category : #accessing }
+ToObservableCollectionDataSource >> list: anObservableCollection [
+
+	self
+		deprecated: 'Please use data: instead.'
+		transformWith:
+			'`@receiver list: `@col'
+				-> '`@receiver data: `@col'.
+	^ self data: anObservableCollection
+]
+
 { #category : #'instance creation' }
 ToObservableCollectionDataSource >> onBindHolder: anElementHolder at: aPosition [
 

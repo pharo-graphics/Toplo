@@ -16,7 +16,6 @@ ToElement >> defaultLayoutCommonConstraints [
 ToElement >> initialize [ 
 
 	super initialize.
-	
 	self class initializeSlots: self.
 	
 	"Dresser initialization steps"

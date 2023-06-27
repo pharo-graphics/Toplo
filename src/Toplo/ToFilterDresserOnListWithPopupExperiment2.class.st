@@ -85,11 +85,11 @@ ToFilterDresserOnListWithPopupExperiment2 >> open [
 	self listElement addDresser: ToDataFilterDresser new.
 
 	listElement when: ToDataFilterResultEvent do: [ :event |
-		event selectionUpdated ifTrue: [
+		event selectionUpdated ifTrue: [ 
 			listElement selectIndexes: event indexes ] ].
 
 	listElement requestFocus.
-	pane openInSpace
+	pane openInOBlSpace
 ]
 
 { #category : #'instance creation' }

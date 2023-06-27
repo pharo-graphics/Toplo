@@ -18,7 +18,7 @@ ToComboBoxHead >> hidePlaceholder [
 { #category : #accessing }
 ToComboBoxHead >> noDataSelected [
 
-	self showPlaceholder 
+	self subclassResponsibility 
 ]
 
 { #category : #accessing }
@@ -34,7 +34,7 @@ ToComboBoxHead >> placeholder: anElement [
 ]
 
 { #category : #accessing }
-ToComboBoxHead >> selectData: aData in: aComboBox [
+ToComboBoxHead >> selectData: aData [
 
 	self subclassResponsibility 
 ]

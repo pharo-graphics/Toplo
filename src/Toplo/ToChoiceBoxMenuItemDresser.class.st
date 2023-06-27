@@ -37,6 +37,13 @@ ToChoiceBoxMenuItemDresser >> defaultUncheckedState [
 			  ann widget icon: (ToImage inner: self defaultUncheckedIconImage) ]
 ]
 
+{ #category : #'events handling' }
+ToChoiceBoxMenuItemDresser >> leftClicked: anElement [
+
+	super leftClicked: anElement.
+	anElement parentMenuWindow close
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToChoiceBoxMenuItemDresser >> onInstalledIn: anElement [
 
@@ -52,11 +59,4 @@ ToChoiceBoxMenuItemDresser >> onUninstalledIn: anElement [
 	super onUninstalledIn: anElement.
 	anElement unsubscribe: self
 
-]
-
-{ #category : #'events handling' }
-ToChoiceBoxMenuItemDresser >> up: anElement event: anEvent [
-
-	super up: anElement event: anEvent.
-	anElement parentMenuWindow close
 ]

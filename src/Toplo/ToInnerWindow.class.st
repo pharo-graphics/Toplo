@@ -43,52 +43,41 @@ ToInnerWindow >> bar: anElement [
 { #category : #initialization }
 ToInnerWindow >> defaultBar [
 
-	| b close expand fill1 fill2 fill3 fill4 |
+	| b close expand fill1 fill2 |
 	b := ToPane horizontal
-		     border: BlBorder empty;
-		     outskirts: BlOutskirts inside;
-		     yourself.
-	b layout: BlLinearLayout horizontal.
+		     margin: (BlInsets all: 1);
+		     border: self defaultBorder;
+		     outskirts: BlOutskirts outside;
+		     background: self defaultBarBackground;
+				yourself.
+
+	b layout: (BlGridLayout horizontal cellSpacing: 1).
 	b when: BlDoubleClickEvent do: [ self maximize ].
 	b when: BlMouseDownEvent do: [ self toFront ].
 	close := ToButton new icon: (ToImage new innerImage: Smalltalk ui theme windowCloseForm).
-	close constraintsDo: [ :c | c linear vertical alignCenter ].
+	close 	icon border: (BlBorder paint: Color black).
 	close whenClickedDo: [ self close ].
 	expand := ToButton new icon: (ToImage new innerImage: Smalltalk ui theme windowMaximizeForm).
 	expand whenClickedDo: [ self maximize ].
-	expand constraintsDo: [ :c | c linear vertical alignCenter ].
 
 	fill1 := BlElement new
 		         background: Color transparent;
-		         constraintsDo: [ :c |
-			         c vertical exact: 1.
-			         c horizontal exact: 3 ].
+		         constraintsDo: [ :c | 
+			         c vertical matchParent.
+			         c horizontal matchParent ].
 	fill2 := BlElement new
 		         background: Color transparent;
-		         constraintsDo: [ :c |
-			         c vertical exact: 1.
+		         constraintsDo: [ :c | 
+			         c vertical matchParent.
 			         c horizontal matchParent ].
-	fill3 := BlElement new
-		         background: Color transparent;
-		         constraintsDo: [ :c |
-			         c vertical exact: 1.
-			         c horizontal matchParent ].
-	fill4 := BlElement new
-		         background: Color transparent;
-		         constraintsDo: [ :c |
-			         c vertical exact: 1.
-			         c horizontal exact: 3 ].
 	titleLabel := ToLabel new text: self title.
-	titleLabel hMatchParent.
-
-	b addChildren: {
-			fill1.
+	
+	b addChildren: { 
 			close.
-			fill2.
+			fill1.
 			titleLabel.
-			fill3.
-			expand.
-			fill4 }.
+			fill2.
+			expand }.
 	^ b
 ]
 
@@ -120,6 +109,7 @@ ToInnerWindow >> defaultBorderWidth [
 ToInnerWindow >> defaultRoot [
 
 	^ super defaultRoot
+		  margin: (BlInsets all: 1);
 		  outskirts: BlOutskirts outside;
 		  matchParent
 ]

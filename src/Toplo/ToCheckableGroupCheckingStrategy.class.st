@@ -29,7 +29,7 @@ ToCheckableGroupCheckingStrategy >> buttonInserted: aCheckable in: aGroup [
 	to launch the state actions 
 	related to https://github.com/plantec/Toplo/issues/28 "
 	aCheckable
-		when: ToStatesSetupEvent
+		whenAnnouncement: ToStatesSetupAnnouncement
 		do: [ self armCheckable: aCheckable in: aGroup ]
 ]
 

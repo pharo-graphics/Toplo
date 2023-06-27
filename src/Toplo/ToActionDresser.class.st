@@ -32,7 +32,7 @@ ToActionDresser >> installAction: aBlock [
 ToActionDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	self installAction cull: anElement cull: self cull: self
+	self installAction cull: anElement
 
 ]
 

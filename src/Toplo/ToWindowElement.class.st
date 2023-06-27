@@ -89,12 +89,6 @@ ToWindowElement >> initialize [
 	self addChildren: self elements.
 ]
 
-{ #category : #'api - displaying' }
-ToWindowElement >> isOpened [
-
-	^ self hasParent
-]
-
 { #category : #accessing }
 ToWindowElement >> root [
 	"Return my current root element.

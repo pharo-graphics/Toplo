@@ -52,7 +52,7 @@ ToWidgetWindowElement >> close [
 
 	self cleanUp.
 
-	(animate and: [deleteAnimationFactory notNil]) ifTrue: [ 
+	animate ifTrue: [ 
 		deleteAnimation := deleteAnimationFactory value.
 		deleteAnimation onFinishedDo: [ 
 			super close.
@@ -67,7 +67,7 @@ ToWidgetWindowElement >> close [
 ]
 
 { #category : #initialization }
-ToWidgetWindowElement >> defaulPositiontHook [
+ToWidgetWindowElement >> defaultHook [
 
 	^ self subclassResponsibility 
 ]
@@ -111,14 +111,17 @@ ToWidgetWindowElement >> initialize [
 
 	super initialize.
 	self animate: true.
-	self hook: self defaulPositiontHook.
+	self hook: self defaultHook.
 	
-	self flag: 'delete animation duration must be very very fast to ensure that sub-menu widows are always opened even if mouse is moving fast (issue #51). It is so fast that it cannot be perceived at all. So for now, no delete animation is initialize'.
-	
+	deleteAnimationFactory := [ 
+	                          BlOpacityAnimation new
+		                          duration: 250 milliSeconds;
+		                          opacity: 0;
+		                          yourself ].
 	popupAnimationFactory := [ 
 	                         self opacity: 0.0.
 	                         BlOpacityAnimation new
-		                         duration: 400 milliSeconds;
+		                         duration: 200 milliSeconds;
 		                         opacity: 1;
 		                         yourself ]
 ]
@@ -145,17 +148,15 @@ ToWidgetWindowElement >> popupAnimationFactory: aValuable [
 ToWidgetWindowElement >> popupEvent: anEvent [
 
 	"I'm not ready to be visible because my bounds are not checked according to the popup layer extent"
-	"self visibility: BlVisibility hidden."
+	self visibility: BlVisibility hidden.
 
 	" I have to set the position here "
 	self position: (self hook value: self value: anEvent).
-	self hasParent ifTrue: [ ^ self ].
 	self spaceLayer addChild: self.
 	
 	"I need to finalize my position as soon as my layout is up-to-date"
 	self whenLayoutedDoOnce: [
-		self spaceLayer ifNotNil: [ :l | self checkBeforePopupIn: l ] ].
-	self requestLayout 
+		self checkBeforePopupIn: self spaceLayer ]
 ]
 
 { #category : #'api - displaying' }

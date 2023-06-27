@@ -11,8 +11,8 @@ Class {
 ToBasicMenuItemDresser >> installEventListenersIn: anElement [
 
 	enterHandler := BlEventHandler
-		                on: BlMouseEnterEvent
-		                do: [ :event | self onEnterEvent: event in: anElement ].
+		                          on: BlMouseEnterEvent
+		                          do: [ :event | self onEnterEvent: event in: anElement].
 	anElement addEventHandler: enterHandler
 ]
 

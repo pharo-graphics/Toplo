@@ -7,14 +7,10 @@ Class {
 		'requestHandler',
 		'process',
 		'filter',
-		'originalDataProvider',
 		'originalData',
 		'delayBeforeFilter',
 		'currentIndexes',
-		'filterResultTask',
-		'addHandler',
-		'removeHandler',
-		'updateHandler'
+		'filterResultTask'
 	],
 	#category : #'Toplo-Widget-List'
 }
@@ -22,7 +18,7 @@ Class {
 { #category : #'api - install/uninstall  hook' }
 ToDataFilterDresser >> dataChangedIn: anElement [
 
-	originalData := originalDataProvider value.
+	originalData := anElement data asArray.
 	currentIndexes  := 1 to: 0.
 	self filterDataIn: anElement
 ]
@@ -31,12 +27,6 @@ ToDataFilterDresser >> dataChangedIn: anElement [
 ToDataFilterDresser >> defaultFilter [
 
 	^ [ :data :p | data includesSubstring: p caseSensitive: false ]
-]
-
-{ #category : #initialization }
-ToDataFilterDresser >> defaultOriginalDataProvider [
-
-	^ nil
 ]
 
 { #category : #accessing }
@@ -121,13 +111,6 @@ ToDataFilterDresser >> filterRequestEvent: anEvent in: anElement [
 	self semaphore signal
 ]
 
-{ #category : #initialization }
-ToDataFilterDresser >> initialize [ 
-
-	super initialize.
-	originalDataProvider := self defaultOriginalDataProvider
-]
-
 { #category : #'api - install/uninstall  hook' }
 ToDataFilterDresser >> installEventListenersIn: anElement [
 
@@ -136,24 +119,19 @@ ToDataFilterDresser >> installEventListenersIn: anElement [
 	requestHandler := BlEventHandler
 		                  on: ToDataFilterRequestEvent
 		                  do: [ :event | self filterRequestEvent: event in: anElement ].
-	
-	addHandler := BlEventHandler on: ToCollectionAddEvent  do: [ :event | self dataChangedIn: anElement ].
-	removeHandler := BlEventHandler on: ToCollectionRemoveEvent  do: [ :event | self dataChangedIn: anElement ].
-	updateHandler := BlEventHandler on: ToCollectionUpdateEvent  do: [ :event | self dataChangedIn: anElement ].
-		
-	anElement addEventHandler: requestHandler.
-	anElement data addEventHandler: addHandler.
-	anElement data addEventHandler: removeHandler.
-	anElement data addEventHandler: updateHandler.
 
+	anElement data whenAddChangeDo: [ :ann | self dataChangedIn: anElement ].
+	anElement data whenRemoveChangeDo: [ :ann | self dataChangedIn: anElement ].
+	anElement data whenUpdateChangeDo: [ :ann | self dataChangedIn: anElement ].
+	
+	anElement addEventHandler: requestHandler
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToDataFilterDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	originalDataProvider ifNil: [ originalDataProvider := [ anElement data asArray ] ].
-	originalData :=  originalDataProvider value.
+	originalData := anElement data asArray.
 	delayBeforeFilter := 150 milliSeconds.
 	process := self filterProcessIn: anElement
 ]
@@ -167,13 +145,6 @@ ToDataFilterDresser >> onUninstalledIn: anElement [
 	semaphore := nil.
 	super onUninstalledIn: anElement.
 
-]
-
-{ #category : #accessing }
-ToDataFilterDresser >> originalDataProvider: aBlock [
-
-	" returns an array "
-	originalDataProvider := aBlock
 ]
 
 { #category : #accessing }
@@ -192,14 +163,6 @@ ToDataFilterDresser >> semaphore [
 ToDataFilterDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: requestHandler.
-	anElement data removeEventHandler: addHandler.
-	anElement data removeEventHandler: removeHandler.
-	anElement data removeEventHandler: updateHandler.
-
 	requestHandler := nil.
-	addHandler := nil.
-	removeHandler := nil.
-	updateHandler := nil.
-	
 	super uninstallEventListenersIn: anElement
 ]

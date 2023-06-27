@@ -4,8 +4,7 @@ Class {
 	#instVars : [
 		'checkedIcon',
 		'indeterminateIcon',
-		'uncheckedIcon',
-		'statesChangedHandler'
+		'uncheckedIcon'
 	],
 	#category : #'Toplo-Widget-Button'
 }
@@ -119,18 +118,20 @@ ToCheckBoxDresser >> onInstalledIn: anElement [
 	super onInstalledIn: anElement.
 	self checkIndeterminateIn: anElement.
 
-	statesChangedHandler := BlEventHandler 
-		on: ToStatesDefinitionChangedEvent 
-		do: [ self checkIndeterminateIn: anElement ].
-		
-	anElement addEventHandler: statesChangedHandler
+	anElement
+		whenAnnouncement: ToStatesDefinitionChangedAnnouncement
+		do: [ self checkIndeterminateIn: anElement ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToCheckBoxDresser >> onUninstalledIn: anElement [
 
-	anElement removeEventHandler: statesChangedHandler.
 	super onUninstalledIn: anElement.
+	anElement
+		whenAnnouncement: ToStatesDefinitionChangedAnnouncement
+		do: [].
+	"anElement resetWidgetStates."
+	
 
 ]
 

@@ -5,6 +5,6 @@ Class {
 }
 
 { #category : #accessing }
-ToListNodeHolder >> data [
-	^ self infiniteElement dataSource data
+ToListNodeHolder >> list [
+	^ self infiniteElement dataSource list
 ]

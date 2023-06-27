@@ -1,12 +1,11 @@
 Class {
 	#name : #ToCheckableGroup,
 	#superclass : #Object,
-	#traits : 'TBlEventTarget',
-	#classTraits : 'TBlEventTarget classTrait',
+	#traits : 'TBlAnnouncerProvider',
+	#classTraits : 'TBlAnnouncerProvider classTrait',
 	#instVars : [
 		'buttons',
-		'checkingStrategy',
-		'eventDispatcher'
+		'checkingStrategy'
 	],
 	#category : #'Toplo-Widget-Button'
 }
@@ -69,19 +68,10 @@ ToCheckableGroup >> defaultCheckStrategy [
 	^ ToCheckableGroupStrictStrategy new
 ]
 
-{ #category : #'event management accessing' }
-ToCheckableGroup >> eventDispatcher [
-	"Return an object responsible for event dispatching"
-	<return: #BlDirectEventDispatcher>
-
-	^ eventDispatcher
-]
-
 { #category : #initialization }
 ToCheckableGroup >> initialize [ 
 
 	super initialize.
-	eventDispatcher := BlDirectEventDispatcher on: self.
 	checkingStrategy := self defaultCheckStrategy.
 	buttons := ToObservableCollection new.
 	buttons whenBeforeAddChangeDo: [ :ann | self notifyBeforeButtonsInserted: ann ].
@@ -126,7 +116,7 @@ ToCheckableGroup >> notifyButtonsRemoved: aCollectionChangeAnnouncement [
 { #category : #'checking protocol' }
 ToCheckableGroup >> notifyChanged [
 
-	self fireEvent: (ToCheckableGroupChangedEvent new
+	self announce: (ToCheckableGroupChangedAnnouncement new
 			 checkedButtons: self checkedButtons;
 			 uncheckedButtons: self uncheckedButtons;
 			 yourself)
@@ -186,7 +176,14 @@ ToCheckableGroup >> whenChangedDo: aBlock [
 	"Run aBlock when one of my buttons is checked. 
 	 `aBlock` receives a ToCheckableGroupChanged announcement asArgument"
 
-	self when: ToCheckableGroupChangedEvent do: aBlock
+	self whenAnnouncement: ToCheckableGroupChangedAnnouncement do: aBlock
+]
+
+{ #category : #'checking protocol' }
+ToCheckableGroup >> whenChangedSend: aSelector to: aReceiver [
+	"Send a message to the receiver according to the argument selector (with the announcement as argument) "
+
+	self whenAnnouncement: ToCheckableGroupChangedAnnouncement send: aSelector to: aReceiver
 ]
 
 { #category : #accessing }

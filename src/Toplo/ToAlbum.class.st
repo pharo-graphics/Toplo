@@ -39,7 +39,7 @@ ToAlbum >> edited: aBoolean [
 { #category : #'client - protocol' }
 ToAlbum >> flash [
 
-	self dispatchEvent: (ToAlbumFlashRequestedEvent new client: self)
+	self announce: (ToAlbumFlashRequested new client: self)
 ]
 
 { #category : #initialization }
@@ -82,13 +82,13 @@ ToAlbum >> preInitializeDresser [
 { #category : #'transaction hook' }
 ToAlbum >> requestCancel [
 
-	self dispatchEvent: (ToAlbumCancelRequestedEvent new client: self)
+	self announce: (ToAlbumCancelRequested new client: self)
 ]
 
 { #category : #'transaction hook' }
 ToAlbum >> requestSave [
 
-	self dispatchEvent: (ToAlbumSaveRequestedEvent new
+	self announce: (ToAlbumSaveRequested new
 			 client: self;
 			 unacceptedEdits: self edited ;
 			 yourself)
@@ -97,12 +97,12 @@ ToAlbum >> requestSave [
 { #category : #'transaction hook' }
 ToAlbum >> saveResult: aBoolean [
 
-	| event |
+	| announcement |
 	self edited: aBoolean not.
-	event := aBoolean
-		                ifTrue: [ ToAlbumSaveAcceptedEvent new client: self ]
-		                ifFalse: [ ToAlbumSaveDeniedEvent new client: self ].
-	self dispatchEvent: event
+	announcement := aBoolean
+		                ifTrue: [ ToAlbumSaveAccepted new client: self ]
+		                ifFalse: [ ToAlbumSaveDenied new client: self ].
+	self announce: announcement
 ]
 
 { #category : #accessing }
@@ -116,7 +116,7 @@ ToAlbum >> text: aBlText [
 { #category : #'transaction hook' }
 ToAlbum >> whenCancelRequestedDo: aBlock [
 
-	self when: ToAlbumCancelRequestedEvent do: aBlock
+	self whenAnnouncement: ToAlbumCancelRequested do: aBlock
 ]
 
 { #category : #'property change hook' }
@@ -130,23 +130,41 @@ ToAlbum >> whenEditedChangedDo: aBlock [
 { #category : #'transaction hook' }
 ToAlbum >> whenSaveAcceptedDo: aBlock [
 
-	self when: ToAlbumSaveAcceptedEvent do: aBlock
+	self whenAnnouncement: ToAlbumSaveAccepted do: aBlock
+]
+
+{ #category : #'transaction hook' }
+ToAlbum >> whenSaveAcceptedSend: aSelector to: anObject [
+
+	self whenAnnouncement: ToAlbumSaveAccepted send: aSelector to: anObject
 ]
 
 { #category : #'transaction hook' }
 ToAlbum >> whenSaveDeniedDo: aBlock [
 
-	self when: ToAlbumSaveDeniedEvent do: aBlock
+	self whenAnnouncement: ToAlbumSaveDenied do: aBlock
+]
+
+{ #category : #'transaction hook' }
+ToAlbum >> whenSaveDeniedSend: aSelector to: anObject [
+
+	self whenAnnouncement: ToAlbumSaveDenied send: aSelector to: anObject
 ]
 
 { #category : #'transaction hook' }
 ToAlbum >> whenSaveRequestedDo: aBlock [
 
-	self when: ToAlbumSaveRequestedEvent do: aBlock
+	self whenAnnouncement: ToAlbumSaveRequested do: aBlock
+]
+
+{ #category : #'transaction hook' }
+ToAlbum >> whenSaveRequestedSend: aSelector to: anObject [
+
+	self whenAnnouncement: ToAlbumSaveRequested send: aSelector to: anObject
 ]
 
 { #category : #layers }
-ToAlbum >> withEditsFeedback [
+ToAlbum >> withEditsFeedbackLayer [
 
 	editsFeedbackLayer ifNotNil: [ ^ self ].
 	editsFeedbackLayer := ToAlbumEditsFeedbackLayer new.
@@ -156,7 +174,7 @@ ToAlbum >> withEditsFeedback [
 { #category : #initialization }
 ToAlbum >> withSaveCapability [
 
-	self withEditsFeedback.
+	self withEditsFeedbackLayer.
 
 	self addEditorShortcut: (BlShortcutWithAction new
 			 combination: BlKeyCombination primaryS;

@@ -17,13 +17,14 @@ TToCheckableWithIndeterminate >> hasIndeterminateState: aBoolean [
 
 	aBoolean = self hasIndeterminateState ifTrue: [ ^ self ].
 	hasIndeterminateState := aBoolean.
-	self dispatchEvent: ToStatesDefinitionChangedEvent new
+	self announce: 	(ToStatesDefinitionChangedAnnouncement new widget: self)
 
 ]
 
 { #category : #'t - checking protocol' }
 TToCheckableWithIndeterminate >> indeterminate [
 
+	self hasIndeterminateState ifFalse: [ ^ self ].
 	self switchToStateNamed: #indeterminate
 ]
 
@@ -36,10 +37,8 @@ TToCheckableWithIndeterminate >> isIndeterminate [
 { #category : #'t - checking protocol' }
 TToCheckableWithIndeterminate >> startIndeterminate [
 
-	| s |
 	self isIndeterminate ifTrue: [ ^ self ].
-	s := self stateNamed: #indeterminate.
-	self startState: s
+	self startState: (self stateNamed: #indeterminate)
 ]
 
 { #category : #'t - checking protocol' }

@@ -2,8 +2,7 @@ Class {
 	#name : #ToMenuAsSubmenuDresser,
 	#superclass : #ToDresser,
 	#instVars : [
-		'enterHandler',
-		'leaveHandler'
+		'popupHandler'
 	],
 	#category : #'Toplo-Widget-Menu'
 }
@@ -11,14 +10,10 @@ Class {
 { #category : #'api - install/uninstall  hook' }
 ToMenuAsSubmenuDresser >> installEventListenersIn: anElement [
 
-	enterHandler := BlEventHandler
+	popupHandler := BlEventHandler
 		                on: BlMouseEnterEvent
 		                do: [ :event | self onEnterEvent: event in: anElement].
-	leaveHandler := BlEventHandler
-		                on: BlMouseLeaveEvent
-		                do: [ :event | self onLeaveEvent: event in: anElement].
-	anElement addEventHandler: enterHandler.
-	anElement addEventHandler: leaveHandler
+	anElement addEventHandler: popupHandler
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -40,12 +35,6 @@ ToMenuAsSubmenuDresser >> onInstalledIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToMenuAsSubmenuDresser >> onLeaveEvent: anEvent in: anElement [
-		
-	" do not ask to close the menu window here because the mouse can enter the submenu window here (which should not be closed)"
-]
-
-{ #category : #'api - install/uninstall  hook' }
 ToMenuAsSubmenuDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement
@@ -54,7 +43,7 @@ ToMenuAsSubmenuDresser >> onUninstalledIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToMenuAsSubmenuDresser >> uninstallEventListenersIn: anElement [
 
-	anElement removeEventHandler: enterHandler.
-	anElement removeEventHandler: leaveHandler
+	anElement removeEventHandler: popupHandler.
+
 
 ]

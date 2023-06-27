@@ -66,7 +66,6 @@ ToAbstractButtonDresser >> leaved: anElement event: anEvent [
 { #category : #'events handling' }
 ToAbstractButtonDresser >> leftClicked: anElement [
 
-	anElement fireEvent: ToButtonClickedEvent new
 ]
 
 { #category : #'events handling' }
@@ -94,5 +93,8 @@ ToAbstractButtonDresser >> uninstallEventListenersIn: anElement [
 
 	super uninstallEventListenersIn: anElement.
 	anElement removeEventHandler: clickCandidateHandler.
-	anElement removeEventHandler: clickActionLauncher
+	anElement removeEventHandler: clickActionLauncher.
+	
+	clickCandidateHandler := nil.
+	clickActionLauncher := nil.
 ]

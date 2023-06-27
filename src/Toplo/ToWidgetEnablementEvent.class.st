@@ -1,5 +1,5 @@
 Class {
 	#name : #ToWidgetEnablementEvent,
-	#superclass : #ToWidgetEvent,
+	#superclass : #BlEvent,
 	#category : #'Toplo-Core'
 }

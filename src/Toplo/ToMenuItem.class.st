@@ -19,15 +19,3 @@ ToMenuItem >> initialize [
 	self fitContent.
 
 ]
-
-{ #category : #'t - click behavior' }
-ToMenuItem >> whenClickedDo: aBlock [
-	"Inform that the widget has been clicked (on a mouse-up for a menu item)"
-
-	self when: BlMouseUpEvent do: [ :event | 
-		aBlock
-			cull: event
-			cull: self client
-			cull: (self clickTargetFromEvent: event) ].
-
-]

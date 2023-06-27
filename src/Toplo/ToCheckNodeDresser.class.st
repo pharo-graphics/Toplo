@@ -6,8 +6,7 @@ Class {
 		'indeterminateIcon',
 		'uncheckedIcon',
 		'selectedHandler',
-		'deselectedHandler',
-		'stateDefinitionHandler'
+		'deselectedHandler'
 	],
 	#category : #'Toplo-Core-Node'
 }
@@ -119,12 +118,12 @@ ToCheckNodeDresser >> defaultUncheckedState [
 ToCheckNodeDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
-
-	stateDefinitionHandler := BlEventHandler on: ToStatesDefinitionChangedEvent do: [ self checkIndeterminateIn: anElement ].
+	anElement
+		whenAnnouncement: ToStatesDefinitionChangedAnnouncement
+		do: [ self checkIndeterminateIn: anElement ].
 	selectedHandler := BlEventHandler on: ToNodeHolderSelectedEvent do: [ :event | anElement check ].
 	deselectedHandler := BlEventHandler on: ToNodeHolderDeselectedEvent do: [ :event | anElement uncheck ].
 	
-	anElement addEventHandler: stateDefinitionHandler.
 	anElement addEventHandler: selectedHandler.
 	anElement addEventHandler: deselectedHandler.
 
@@ -147,12 +146,10 @@ ToCheckNodeDresser >> onUninstalledIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToCheckNodeDresser >> uninstallEventListenersIn: anElement [
 
+	super uninstallEventListenersIn: anElement.
+	anElement unsubscribe: self.
 	anElement removeEventHandler: selectedHandler.
 	anElement removeEventHandler: deselectedHandler.
-	anElement removeEventHandler: stateDefinitionHandler.
-	
-	super uninstallEventListenersIn: anElement.
-
 
 ]
 

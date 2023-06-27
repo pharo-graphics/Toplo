@@ -57,23 +57,20 @@ ToTextField >> withSaveCapability [
 
 	super withSaveCapability.
 	self addEditorShortcut: (BlShortcutWithAction new
-			 combination: BlKeyCombination return;
+			 combination: (BlKeyCombination return );
 			 action: [ self requestSave ];
 			 description: 'Accept edition';
 			 name: 'Accept';
-			 yourself).
+			 yourself).	
 	self addEditorShortcut: (BlShortcutWithAction new
-			 combination: BlKeyCombination escape;
+			 combination: (BlKeyCombination escape );
 			 action: [ self requestCancel ];
 			 description: 'Cancel edition';
 			 name: 'Cancel';
-			 yourself)
-]
-
-{ #category : #initialization }
-ToTextField >> withoutLineBreak [
-
-	self inputFilter: AlbTextEditorNoLineBreakInputFilter new
+			 yourself).
+	
+	
+	
 ]
 
 { #category : #initialization }

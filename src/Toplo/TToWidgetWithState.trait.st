@@ -50,9 +50,7 @@ TToWidgetWithState >> setUpStatesWith: aCollectionOfStates [
 	
 	(previousState isNil or:[ (self stateNamed: previousState name) isNil]) 
 		ifTrue: [ self switchToStartState ] 
-		ifFalse: [ self currentState: (self stateNamed: (previousState name))].
-	self dispatchEvent: ToStatesSetupEvent new
-
+		ifFalse: [ self currentState: (self stateNamed: (previousState name))]
 	
 	
 ]
@@ -78,9 +76,7 @@ TToWidgetWithState >> stateNamed: anObject [
 	[ 
 	curr name = anObject ifTrue: [ ^ curr ].
 	curr := curr next.
-	curr = self currentState ] whileFalse: [  ].
-	self error: 'No ', anObject asString, ' state exists.'.
-
+	curr = self currentState ] whileFalse: [  ]
 ]
 
 { #category : #'t - state processing' }
@@ -118,6 +114,7 @@ TToWidgetWithState >> switchToStateNamed: aStateName [
 
 	| found n |
 	found := self stateNamed: aStateName.
+	found ifNil: [ ^ self ].
 	n := self currentState ifNil: [ 0 ] ifNotNil: [ :s | s counter ].
 	found counter: n + 1.
 	self switchToState: found

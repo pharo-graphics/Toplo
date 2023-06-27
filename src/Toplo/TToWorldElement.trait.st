@@ -9,15 +9,14 @@ TToWorldElement >> openInInnerWindow [
 	| frame |
 	frame := ToInnerWindow new.
 	frame root addChild: self.
-	frame openInSpace
+	frame openInWorld
 ]
 
 { #category : #'t - world element' }
 TToWorldElement >> openInWorld [
 
-	self 
-		deprecated:  'Use #openInSpace instead' 
-		transformWith: '`@receiver openInWorld' -> '`@receiver openInSpace'.
-	^ self openInSpace
-
+	| world |
+	world := ToManager world.
+	world isOpened ifFalse: [ world show ].
+	world root addChild: self
 ]

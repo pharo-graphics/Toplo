@@ -63,6 +63,7 @@ ToLoginPage >> open [
 		            hMatchParent;
 		            vFitContent.
 	btnLogin := ToButton new labelText: 'Accept'.
+	btnLogin skinType: #primary.
 	btnLogin padding: (BlInsets
 			 top: 10
 			 left: 40
@@ -105,7 +106,7 @@ ToLoginPage >> open [
 
 	panel addChild: groupLogin.
 	panel matchParent.
-	space := panel openInSpace.
+	space := panel openInOBlSpace.
 	space extent: 450 @ 200.
 	space borderless: true.
 	space resizable: false.

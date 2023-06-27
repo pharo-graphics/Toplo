@@ -4,9 +4,17 @@ Class {
 	#category : #'Toplo-Widget-Menu'
 }
 
-{ #category : #'events handling' }
-ToButtonMenuItemDresser >> up: anElement event: anEvent [
+{ #category : #'api - install/uninstall  hook' }
+ToButtonMenuItemDresser >> leftClicked: anElement [
 
-	super up: anElement event: anEvent.
+	super leftClicked: anElement.
 	anElement allParentMenusDo: [ :pm | pm subMenuWindow close ]
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonMenuItemDresser >> onInstalledIn: anElement [
+
+	super onInstalledIn: anElement
+
+
 ]

@@ -3,7 +3,7 @@ Trait {
 	#instVars : [
 		'contextMenuFactory',
 		'contextMenuEventHandler',
-		'lastOpenedContextMenu'
+		'openedContextMenu'
 	],
 	#category : #'Toplo-Core'
 }
@@ -32,7 +32,7 @@ TToWidgetWithContextMenu >> contextMenuFactory: aValuable [
 { #category : #testing }
 TToWidgetWithContextMenu >> hasOpenedContextMenu [
 
-	^ lastOpenedContextMenu notNil and: [ lastOpenedContextMenu isAttachedToSceneGraph ]
+	^ openedContextMenu notNil and: [ openedContextMenu isAttachedToSceneGraph ]
 ]
 
 { #category : #'t - accessing context menu' }
@@ -44,15 +44,15 @@ TToWidgetWithContextMenu >> installContextMenuFactory [
 ]
 
 { #category : #'t - accessing context menu' }
-TToWidgetWithContextMenu >> lastOpenedContextMenu [
+TToWidgetWithContextMenu >> openedContextMenu [
 
-	^ lastOpenedContextMenu
+	^ openedContextMenu
 ]
 
 { #category : #'t - accessing context menu' }
-TToWidgetWithContextMenu >> lastOpenedContextMenu: aContextMenu [
+TToWidgetWithContextMenu >> openedContextMenu: aContextMenu [
 
-	lastOpenedContextMenu := aContextMenu
+	openedContextMenu := aContextMenu
 ]
 
 { #category : #'t - accessing context menu' }
@@ -61,16 +61,4 @@ TToWidgetWithContextMenu >> uninstallContextMenuFactory [
 	contextMenuFactory ifNotNil: [
 		self removeEventHandler: contextMenuEventHandler.
 		contextMenuEventHandler := nil ]
-]
-
-{ #category : #'t - accessing context menu' }
-TToWidgetWithContextMenu >> whenContextMenuChangedDo: aBlock [
-
-	"Inform when contextMenuFactory property has changed. 
-	 `aBlock` has three optional arguments: 
-	 - new value
-	 - old value
-	 - the announcement triggering this action"
-
-	self property: #contextMenuFactory whenChangedDo: aBlock
 ]

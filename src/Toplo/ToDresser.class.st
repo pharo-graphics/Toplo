@@ -3,8 +3,7 @@ Class {
 	#superclass : #ToCompanion,
 	#instVars : [
 		'next',
-		'theme',
-		'addedToParentHandler'
+		'theme'
 	],
 	#category : #'Toplo-Core'
 }
@@ -29,18 +28,6 @@ ToDresser >> addDresser: aDresser in: anElement previous: aPreviousDresser [
 	self next addDresser: aDresser in: anElement previous: self
 ]
 
-{ #category : #private }
-ToDresser >> blElementAddedToParentEvent: anElement [
-
-	anElement space ifNil:[ ^ self ].
-	anElement space toTheme ifNil:[ ^ self ].
-	
-	self flag:' labordep: Check Theme installation : this is a patch for first Space instanciation and need to be remove when a bettern pattern is found'.
-	(anElement space isThemeInstalled not and:[anElement space toTheme notNil]) ifTrue:[ anElement toTheme installOnSpace: anElement space ].
-	
-	anElement toThemeChanged
-]
-
 { #category : #'t - accessing - dresser' }
 ToDresser >> dresserSatisfying: aBlock [
 
@@ -57,12 +44,6 @@ ToDresser >> initialize [
 
 { #category : #'api - install/uninstall  hook' }
 ToDresser >> installEventListenersIn: anElement [
-
-	"Notify when the element is added on a new parent to check if the parent change need to changed anything (for example a theme change)"
-	addedToParentHandler := BlEventHandler 
-		on: BlElementAddedToParentEvent 
-		do: [ :event | self blElementAddedToParentEvent: anElement ].
-	anElement addEventHandler: addedToParentHandler.
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -109,12 +90,9 @@ ToDresser >> removeDresser: aDresser in: anElement [
 { #category : #accessing }
 ToDresser >> theme [
 
-	^ theme ifNil:[ ^ OBlTheme default ]
+	^ theme
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToDresser >> uninstallEventListenersIn: anElement [
-
-	anElement removeEventHandler: addedToParentHandler.
-	addedToParentHandler := nil.
 ]

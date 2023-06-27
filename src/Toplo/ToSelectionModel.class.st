@@ -1,10 +1,11 @@
 Class {
 	#name : #ToSelectionModel,
 	#superclass : #Object,
-	#traits : 'TBlAnnouncerProvider',
-	#classTraits : 'TBlAnnouncerProvider classTrait',
+	#traits : 'TBlEventTarget',
+	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
-		'selection'
+		'selection',
+		'eventDispatcher'
 	],
 	#category : #'Toplo-Core-Infinite'
 }
@@ -14,24 +15,12 @@ ToSelectionModel class >> modelName [
 	^ 'Selection'
 ]
 
-{ #category : #notifying }
-ToSelectionModel >> announceDeselected: anInterval [
-
-	self announce: (ToDeselectAnnouncement new model: self; indexes: anInterval)
-]
-
-{ #category : #notifying }
-ToSelectionModel >> announceSelected: aCollection [
-
-	self announce: (ToSelectAnnouncement new model: self; indexes: aCollection)
-]
-
 { #category : #selection }
 ToSelectionModel >> deselect: aFromIndex to: aToIndex [
 	"Deselect items within a given interval"
 
 	selection deselect: aFromIndex - 1 to: aToIndex.
-	self announceDeselected: (aFromIndex to: aToIndex) 
+	self dispatchDeselected: (aFromIndex to: aToIndex) 
 ]
 
 { #category : #selection }
@@ -46,6 +35,26 @@ ToSelectionModel >> deselectIndex: anIndex [
 	"Deselect items with a given index"
 
 	self deselect: anIndex to: anIndex
+]
+
+{ #category : #notifying }
+ToSelectionModel >> dispatchDeselected: anInterval [
+
+	self fireEvent: (ToSelectionModelDeselectEvent new model: self; indexes: anInterval; yourself)
+]
+
+{ #category : #notifying }
+ToSelectionModel >> dispatchSelected: aCollection [
+
+	self fireEvent: (ToSelectionModelSelectEvent new model: self; indexes: aCollection; yourself)
+]
+
+{ #category : #'event management accessing' }
+ToSelectionModel >> eventDispatcher [
+	"Return an object responsible for event dispatching"
+	<return: #BlDirectEventDispatcher>
+
+	^ eventDispatcher
 ]
 
 { #category : #accessing }
@@ -89,7 +98,8 @@ ToSelectionModel >> indices [
 ToSelectionModel >> initialize [
 	super initialize.
 
-	selection := BlCompositeSelection new
+	selection := BlCompositeSelection new.
+	eventDispatcher := BlDirectEventDispatcher on: self
 ]
 
 { #category : #testing }
@@ -120,11 +130,19 @@ ToSelectionModel >> postCopy [
 ]
 
 { #category : #selection }
+ToSelectionModel >> select: aToIndex [
+	"Select items within a given interval"
+
+	selection select: aToIndex - 1 to: aToIndex.
+	self dispatchSelected: (aToIndex to: aToIndex)
+]
+
+{ #category : #selection }
 ToSelectionModel >> select: aFromIndex to: aToIndex [
 	"Select items within a given interval"
 
 	selection select: aFromIndex - 1 to: aToIndex.
-	self announceSelected: (aFromIndex to: aToIndex)
+	self dispatchSelected: (aFromIndex to: aToIndex)
 ]
 
 { #category : #selection }
@@ -141,14 +159,14 @@ ToSelectionModel >> selectIndex: anIndex [
 		ifTrue: [ ^ self ].
 
 	selection select: anIndex - 1 to: anIndex.
-	self announceSelected: (anIndex to: anIndex)
+	self dispatchSelected: (anIndex to: anIndex)
 ]
 
 { #category : #selection }
 ToSelectionModel >> selectIndexes: aCollection [
 
 	aCollection do: [ :idx | selection select: idx - 1 to: idx ].
-	self announceSelected: aCollection
+	self dispatchSelected: aCollection
 ]
 
 { #category : #accessing }

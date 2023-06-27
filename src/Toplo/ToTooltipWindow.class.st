@@ -3,8 +3,7 @@ Class {
 	#superclass : #ToPopupWindow,
 	#instVars : [
 		'#content => ObservableSlot',
-		'#label',
-		'#widgetWithTooltipEventHandler'
+		'#label'
 	],
 	#category : #'Toplo-Widget-Tooltip'
 }
@@ -27,17 +26,17 @@ ToTooltipWindow >> contentString: aString [
 	self content: aString asRopedText
 ]
 
+{ #category : #initialization }
+ToTooltipWindow >> defaulPositiontHook [
+
+	^ [ :w :event | event position x @ (w widget localPointToGlobal: 0 @ w widget height) y + self vgap ]
+]
+
 { #category : #'t - accessing - dresser' }
 ToTooltipWindow >> defaultDresser [
 
 	^ ToTooltipWindowDresser new
 
-]
-
-{ #category : #initialization }
-ToTooltipWindow >> defaultHook [
-
-	^ [ :w :event | event position x @ (w widget localPointToGlobal: 0 @ w widget height) y + self vgap ]
 ]
 
 { #category : #initialization }
@@ -59,15 +58,6 @@ ToTooltipWindow >> initialize [
 	self whenContentChangedDo: [ self label text: self content ]
 ]
 
-{ #category : #initialization }
-ToTooltipWindow >> installedInWidget: aWidget [
-
-	super installedInWidget: aWidget.
-	aWidget ifNil: [ ^ self ].
-	widgetWithTooltipEventHandler := ToWidgetWithTooltipEventHandler new widget: aWidget.
-	aWidget addEventFilter: widgetWithTooltipEventHandler
-]
-
 { #category : #accessing }
 ToTooltipWindow >> label [
 
@@ -81,15 +71,6 @@ ToTooltipWindow >> label: aLabel [
 	label := aLabel.
 	self root addChild: label.
 
-]
-
-{ #category : #initialization }
-ToTooltipWindow >> uninstalledFromWidget: aWidget [
-
-	super uninstalledFromWidget: aWidget.
-	aWidget ifNil: [ ^ self ].
-	aWidget removeEventFilter: widgetWithTooltipEventHandler.
-	widgetWithTooltipEventHandler := nil
 ]
 
 { #category : #initialization }

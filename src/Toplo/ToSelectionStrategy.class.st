@@ -7,81 +7,74 @@ Class {
 		'#selectionModel',
 		'#dataSource',
 		'#mode => ObservableSlot',
-		'#prevDir',
-		'#currentIndex'
+		'#currentIndex',
+		'#pivot',
+		'#distance'
 	],
 	#category : #'Toplo-Core-Infinite'
 }
 
-{ #category : #'selection managing' }
+{ #category : #'private - selection managing' }
 ToSelectionStrategy >> addAllToSelection: aCollection [
 
 	self isMultiple ifFalse: [ self invalidOperation ].
 	aCollection ifEmpty: [ ^ self ].
 	selectionModel selectIndexes: aCollection.
-	self currentIndex: aCollection first
+	self markPointedPosition: aCollection first
 ]
 
-{ #category : #'selection managing' }
-ToSelectionStrategy >> addNextToSelection [
+{ #category : #adding }
+ToSelectionStrategy >> addEventHandler: anEventHandler [
 
-	| indexes |
-	indexes := self selectedIndexes.
-	indexes isEmpty ifTrue: [ ^ self selectIndex: 1 ].
-	indexes last = dataSource itemCount ifTrue: [ ^ self ].
-	^ self addToSelection: indexes last + 1
+	selectionModel addEventHandler: anEventHandler
 ]
 
-{ #category : #'selection managing' }
+{ #category : #'private - shortcuts' }
 ToSelectionStrategy >> addOrRemoveNext [
 
-	| next |
 	self currentIndex = dataSource itemCount ifTrue: [ ^ self ].
-	next := prevDir = #next
-		        ifTrue: [ self currentIndex + 1 ]
-		        ifFalse: [ self currentIndex ].
-	prevDir := #next.
-
-	(self includes: next)
-		ifTrue: [
-			self selectedIndexes size > 1
-				ifTrue: [ self deselectIndex: next ]
-				ifFalse: [
-					next := next + 1.
-					self addToSelection: next ] ]
-		ifFalse: [ self addToSelection: next ].
-	self currentIndex:  next
+	self addOrRemoveWithGap: 1
 ]
 
-{ #category : #'selection managing' }
+{ #category : #'private - shortcuts' }
 ToSelectionStrategy >> addOrRemovePrevious [
 
-	| next |
-	self currentIndex = 1 ifTrue: [ ^ self ].
-	next := prevDir = #previous
-		        ifTrue: [ self currentIndex - 1 max: 1]
-		        ifFalse: [ self currentIndex ].
-	prevDir := #previous.
-
-	(self includes: next)
-		ifTrue: [
-			self selectedIndexes size > 1
-				ifTrue: [ self deselectIndex: next ]
-				ifFalse: [
-					next := next - 1.
-					self addToSelection: next ] ]
-		ifFalse: [ self addToSelection: next ].
-	self currentIndex: next
+	self currentIndex <= 1 ifTrue: [ ^ self ].
+	self addOrRemoveWithGap: -1
 ]
 
-{ #category : #'selection managing' }
+{ #category : #'private - shortcuts' }
+ToSelectionStrategy >> addOrRemoveWithGap: aGap [
+
+	| nextIdx prevDistance deselect |
+	self checkPivot.
+
+	prevDistance := self distance.
+	nextIdx := self currentIndex + aGap.
+	self distance: self pivot - nextIdx.
+
+	deselect := prevDistance abs - self distance abs ~= -1.
+	deselect
+		ifTrue: [ selectionModel deselectIndex: nextIdx - aGap ]
+		ifFalse: [
+			selectionModel select: nextIdx.
+			[
+			nextIdx < dataSource itemCount and: [
+				nextIdx > 1 and: [ self includes: nextIdx + aGap ] ] ] whileTrue: [
+				nextIdx := nextIdx + aGap.
+				self distance: self distance - aGap ] ].
+
+	self currentIndex: nextIdx
+]
+
+{ #category : #'private - selection managing' }
 ToSelectionStrategy >> addToSelection: index [
 
-	self select: index to: index.
-	self currentIndex: index
+	selectionModel select: index.
+	self markPointedPosition: index
 ]
 
-{ #category : #'selection managing' }
+{ #category : #'mode api' }
 ToSelectionStrategy >> atLeastMonoSelectionDo: aBlock [
 
 	self isNone ifTrue: [ ^ self ].
@@ -97,6 +90,7 @@ ToSelectionStrategy >> beMultipleSelection [
 { #category : #'mode changing' }
 ToSelectionStrategy >> beSingleSelection [ 
 
+	self deselectAll.
 	mode := #single
 ]
 
@@ -107,30 +101,32 @@ ToSelectionStrategy >> beWithoutSelection [
 	mode := #none
 ]
 
+{ #category : #'private - shortcuts' }
+ToSelectionStrategy >> checkPivot [
+
+	self pivot ifNil: [
+		self pivot: self currentIndex.
+		self distance: 0 ]
+]
+
 { #category : #'selection managing' }
 ToSelectionStrategy >> cherryPickIndex: index [
 
+	self isMultiple ifFalse: [ self invalidOperation ].
 	(self includes: index) ifTrue: [ ^ self deselectIndex: index ].
-	self select: index to: index
+	self addToSelection: index
 ]
 
-{ #category : #'selection managing' }
-ToSelectionStrategy >> clearAndSelectIndex: index [
-
-	self deselectAll.
-	self selectIndex: index.
-]
-
-{ #category : #accessing }
+{ #category : #'private - accessing' }
 ToSelectionStrategy >> currentIndex [
 
 	^ currentIndex 
 ]
 
-{ #category : #accessing }
-ToSelectionStrategy >> currentIndex: anInteger [
+{ #category : #'private - accessing' }
+ToSelectionStrategy >> currentIndex: anIndex [
 
-	currentIndex := anInteger
+	currentIndex := anIndex
 ]
 
 { #category : #accessing }
@@ -142,21 +138,22 @@ ToSelectionStrategy >> dataSource: aDataSource [
 { #category : #'selection managing' }
 ToSelectionStrategy >> deselectAll [
 
+	self isMultiple ifFalse: [ self invalidOperation ].
 	selectionModel deselectAll.
-	currentIndex := nil
+	self markPointedPosition: 0
 ]
 
 { #category : #'selection managing' }
 ToSelectionStrategy >> deselectIndex: index [
 
+	self isNone ifTrue: [ self invalidOperation ].
 	selectionModel deselectIndex: index.
-	self currentIndex: index
+	self markPointedPosition: index
 ]
 
 { #category : #'event management' }
 ToSelectionStrategy >> dispatchSelectionChangedAfter: aBlock to: anInfiniteElement [
 
-	self isNone ifTrue: [ ^ self ].
 	anInfiniteElement dispatchSelectionChangedAfter: aBlock
 ]
 
@@ -167,10 +164,52 @@ ToSelectionStrategy >> dispatchStrongSelectionChangedTo: anInfiniteElement [
 	anInfiniteElement dispatchStrongSelectionChanged
 ]
 
+{ #category : #'private - accessing' }
+ToSelectionStrategy >> distance [
+	
+	^ distance
+]
+
+{ #category : #'private - accessing' }
+ToSelectionStrategy >> distance: aGap [
+	
+	distance := aGap
+]
+
 { #category : #accessing }
 ToSelectionStrategy >> first [
 
 	^ selectionModel first
+]
+
+{ #category : #'private - selection managing' }
+ToSelectionStrategy >> goTowardNext [ 
+
+	self currentIndex isZero
+		ifTrue: [
+			dataSource data ifEmpty: [ ^ false ].
+			self markPointedPosition: 1 ]
+		ifFalse: [
+			self currentIndex < dataSource data size ifFalse: [
+				self markPointedPosition: 1.
+				^ true ].
+			self markPointedPosition: self currentIndex + 1 ].
+	^ true
+]
+
+{ #category : #'private - selection managing' }
+ToSelectionStrategy >> goTowardPrevious [
+
+	self currentIndex isZero
+		ifTrue: [
+			dataSource data ifEmpty: [ ^ false ].
+			self markPointedPosition: dataSource itemCount ]
+		ifFalse: [
+			self currentIndex > 1 ifFalse: [
+				self markPointedPosition: dataSource itemCount.
+				^ true ].
+			self markPointedPosition: self currentIndex - 1 ].
+	^ true
 ]
 
 { #category : #'selection accessing' }
@@ -191,10 +230,11 @@ ToSelectionStrategy >> initialize [
 	self class initializeSlots: self.
 	super initialize.
 	selectionModel := ToSelectionModel new.
-	mode := #multiple
+	mode := #multiple.
+	currentIndex := 0
 ]
 
-{ #category : #'selection managing' }
+{ #category : #'private - selection managing' }
 ToSelectionStrategy >> invalidOperation [
 
 	^ self error: 'Invalid operation'
@@ -236,7 +276,18 @@ ToSelectionStrategy >> last [
 	^ selectionModel last
 ]
 
-{ #category : #'selection managing' }
+{ #category : #'private - accessing' }
+ToSelectionStrategy >> markPointedPosition: anInteger [
+
+	" pivot and distance are used for shift-arrow-up and down management "
+	self pivot: nil.
+	self distance: nil.
+	
+	self currentIndex: anInteger.
+
+]
+
+{ #category : #'mode api' }
 ToSelectionStrategy >> multipleSelectionModeDo: aBlock [
 
 	self isMultiple ifFalse: [ ^ self ].
@@ -247,24 +298,59 @@ ToSelectionStrategy >> multipleSelectionModeDo: aBlock [
 ToSelectionStrategy >> offsetPositionForInsert: aStartPosition itemCount: anItemCount [
 
 	| selected |
-	selected := self selectedIndexes select: [ :idx | idx >= aStartPosition ].
-	selected do: [ :idx | self deselectIndex: idx ].
-	selected do: [ :idx | self addToSelection: idx + anItemCount ].
+	selected := self selectedIndexes select: [ :idx |
+		            idx >= aStartPosition ].
+	selected do: [ :idx | selectionModel deselectIndex: idx ].
+	selected do: [ :idx |
+		self currentIndex = idx ifTrue: [
+			self currentIndex: idx + anItemCount ].
+		selectionModel select: idx + anItemCount ]
 ]
 
 { #category : #'data source change' }
 ToSelectionStrategy >> offsetPositionForRemove: aStartPosition itemCount: anItemCount [
 
-	aStartPosition to: aStartPosition + anItemCount - 1 do: [ :idx |
-		self deselectIndex: idx ]
+	| idxs removedIdx afterIdx |
+	idxs := self selectedIndexes.
+	removedIdx := idxs select: [ :i |
+		              i
+			              between: aStartPosition
+			              and: aStartPosition + anItemCount - 1 ].
+	afterIdx := idxs select: [ :i |
+		            i > (aStartPosition + anItemCount - 1) ].
+	removedIdx do: [ :i |
+		self currentIndex = i ifTrue: [ self currentIndex: 0 ].
+		selectionModel deselectIndex: i ].
+	afterIdx do: [ :i |
+		self currentIndex = i ifTrue: [
+			self currentIndex: self currentIndex - anItemCount ].
+		selectionModel deselectIndex: i ].
+	afterIdx do: [ :i | selectionModel select: i - anItemCount ]
 ]
 
-{ #category : #'selection managing' }
+{ #category : #'private - accessing' }
+ToSelectionStrategy >> pivot [
+
+	^ pivot
+]
+
+{ #category : #'private - accessing' }
+ToSelectionStrategy >> pivot: anIndex [
+
+	pivot := anIndex
+]
+
+{ #category : #adding }
+ToSelectionStrategy >> removeEventHandler: anEventHandler [
+
+	selectionModel removeEventHandler: anEventHandler
+]
+
+{ #category : #'private - selection managing' }
 ToSelectionStrategy >> select: aFirstIndex to: aLastIndex [
 
-	(self isMultiple not and: [ aLastIndex > aFirstIndex ]) ifTrue: [ self invalidOperation ].
-	selectionModel select: aFirstIndex to: aLastIndex.
-	aFirstIndex = aLastIndex ifTrue: [ self currentIndex: aFirstIndex ]
+	self isMultiple ifFalse: [ self invalidOperation ].
+	selectionModel select: aFirstIndex to: aLastIndex
 ]
 
 { #category : #'selection managing' }
@@ -277,41 +363,25 @@ ToSelectionStrategy >> selectAll [
 { #category : #'selection managing' }
 ToSelectionStrategy >> selectIndex: index [
 
+	self isNone ifTrue: [ self invalidOperation  ].
 	selectionModel selectIndex: index.
-	self currentIndex: index
+	self markPointedPosition: index
 ]
 
 { #category : #'selection managing' }
 ToSelectionStrategy >> selectIndexes: indexes [
 	
-	self isMultiple ifFalse: [ self error: 'Invalid operation' ].
+	self isMultiple ifFalse: [ self invalidOperation ].
 	self addAllToSelection: indexes
 ]
 
-{ #category : #'selection managing' }
-ToSelectionStrategy >> selectLast [
-
-	dataSource itemCount > 0 ifFalse: [ ^ self ].
-	self selectIndex: dataSource itemCount
-
-]
-
-{ #category : #'selection managing' }
+{ #category : #'private - selection managing' }
 ToSelectionStrategy >> selectNext [
 
-	self currentIndex
-		ifNil: [
-			dataSource list ifEmpty: [ ^ self ].
-			self currentIndex: 1 ]
-		ifNotNil: [
-			self currentIndex < dataSource list size ifFalse: [
-				self currentIndex: 1.
-				^ self ].
-			self currentIndex: self currentIndex + 1 ].
-	self selectIndex: self currentIndex
+	self goTowardNext ifTrue: [ self selectIndex: self currentIndex ]
 ]
 
-{ #category : #'selection managing' }
+{ #category : #shortcuts }
 ToSelectionStrategy >> selectNextIn: anElement event: aShortcutEvent [
 
 	aShortcutEvent modifiers isShift
@@ -321,21 +391,14 @@ ToSelectionStrategy >> selectNextIn: anElement event: aShortcutEvent [
 	anElement scrollToIndex: self currentIndex
 ]
 
-{ #category : #'selection managing' }
+{ #category : #'private - selection managing' }
 ToSelectionStrategy >> selectPrevious [
 
-	self currentIndex
-		ifNil: [
-			dataSource list ifEmpty: [ ^ self ].
-			self currentIndex: 1 ]
-		ifNotNil: [
-			self currentIndex > 1 ifFalse: [ ^ self ].
-			self currentIndex: self currentIndex - 1 ].
-	self selectIndex: self currentIndex
+	self goTowardPrevious ifTrue: [ self selectIndex: self currentIndex ]
 	
 ]
 
-{ #category : #'selection managing' }
+{ #category : #shortcuts }
 ToSelectionStrategy >> selectPreviousIn: anElement event: aShortcutEvent [
 
 	aShortcutEvent modifiers isShift
@@ -348,23 +411,25 @@ ToSelectionStrategy >> selectPreviousIn: anElement event: aShortcutEvent [
 { #category : #'selection managing' }
 ToSelectionStrategy >> selectToIndex: index [
 
-	| indexes |
-	indexes := self selectedIndexes.
-	indexes ifEmpty: [ ^ selectionModel selectIndex: index ].
-	indexes first < index ifTrue: [ 
-		self deselectAll.
-		^ self select: indexes first to: index ].
-	indexes last >= index ifTrue: [ 
-		self deselectAll.
-		^ self select: index to: indexes last ]
+	| curr |
+	self isNone ifTrue: [ self invalidOperation ].
+	curr := self currentIndex.
+	curr < index ifTrue: [ 
+		self markPointedPosition: index.
+		self pivot: curr.
+		self distance: index - curr.
+		^ self select: curr to: index ].
+	curr >= index ifFalse: [ ^ self ].
+	self markPointedPosition: index.
+	self pivot: curr.
+	self distance: index - curr.
+	^ self select: index to: curr
 ]
 
 { #category : #'selection accessing' }
 ToSelectionStrategy >> selectedIndex [
 
-	| idx |
-	idx := self selectedIndexes.
-	^ idx first 
+	^ self selectedIndexes ifEmpty: [0] ifNotEmpty: [ :idxes | idxes first ] 
 ]
 
 { #category : #'selection accessing' }
@@ -380,7 +445,7 @@ ToSelectionStrategy >> shortcutsIn: aList [
 	shortcuts := {
 		             (BlShortcutWithAction new
 			              combination: BlKeyCombination builder arrowDown build;
-			              action: [ :aShortcutEvent :aShortcut |
+			              action: [ :aShortcutEvent :aShortcut | 
 				              aList primarySelection
 					              dispatchSelectionChangedAfter: [
 						              self selectNextIn: aList event: aShortcutEvent ]
@@ -423,18 +488,6 @@ ToSelectionStrategy >> shortcutsIn: aList [
 ToSelectionStrategy >> size [ 
 
 	^ self selectedIndexes size
-]
-
-{ #category : #'event management' }
-ToSelectionStrategy >> unsubscribe: anObject [
-
-	selectionModel unsubscribe: anObject
-]
-
-{ #category : #'event management' }
-ToSelectionStrategy >> whenAnnouncement: anAnnouncementClass send: aSelector to: anObject [
-
-	selectionModel whenAnnouncement: anAnnouncementClass send: aSelector to: anObject
 ]
 
 { #category : #'slot change hook' }

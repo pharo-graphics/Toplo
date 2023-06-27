@@ -45,7 +45,8 @@ ToSelectOnlyComboBoxHead >> defaultDresser [
 { #category : #'t - placeholder show/hide' }
 ToSelectOnlyComboBoxHead >> hidePlaceholder [
 
-	self placeholder ifNotNil: [:ph | ph parentDo: [ :p | self placeholder removeFromParent ] ]
+	self placeholder ifNotNil: [ :ph |
+		ph parentDo: [ :p | self placeholder removeFromParent ] ]
 ]
 
 { #category : #initialization }
@@ -54,12 +55,6 @@ ToSelectOnlyComboBoxHead >> initialize [
 	super initialize.
 	self dataElementFactory: self defaultDataElementFactory.
 	placeholder := self defaultPlaceholder
-]
-
-{ #category : #accessing }
-ToSelectOnlyComboBoxHead >> noDataSelected [
-
-	self showPlaceholder 
 ]
 
 { #category : #accessing }
@@ -77,7 +72,7 @@ ToSelectOnlyComboBoxHead >> placeholder: anElement [
 ]
 
 { #category : #accessing }
-ToSelectOnlyComboBoxHead >> selectData: aData [
+ToSelectOnlyComboBoxHead >> selectData: aData in: aComboBox [
 
 	self hidePlaceholder.
 	self dataElement: (self dataElementFactory cull: aData cull: self)

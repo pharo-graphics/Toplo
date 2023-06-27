@@ -59,6 +59,62 @@ ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndCheckUse [
 ]
 
 { #category : #tests }
+ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndCheckUse2 [
+
+	| list modelButtonsGroup pane buttons |
+	modelButtonsGroup := ToCheckableGroup new.
+	list := OrderedCollection new.
+	pane := ToPane vertical.
+	list add: 'One'.
+	list add: 'Two'.
+	list add: 'Three'.
+	buttons := list collect: [ :m |
+		           ToRadioButton new
+			           labelText: m;
+			           hMatchParent;
+			           id: m;
+			           beIconFirst ].
+	modelButtonsGroup addAll: buttons.
+	self assert: modelButtonsGroup buttons size equals: 3.
+
+	modelButtonsGroup checkingStrategy isKindOf:
+		ToCheckableGroupStrictStrategy.
+
+	buttons do: [ :b | pane addChild: b ].
+
+	buttons first check.
+	self assert: buttons first isChecked.
+	self assert: buttons second isUnchecked.
+	self assert: buttons third isUnchecked.
+	buttons second check.
+	self assert: buttons first isUnchecked.
+	self assert: buttons second isChecked.
+	self assert: buttons third isUnchecked.
+	buttons third check.
+	self assert: buttons first isUnchecked.
+	self assert: buttons second isUnchecked.
+	self assert: buttons third isChecked.
+
+	buttons do: [ :b |
+		b dresser: nil.
+		b dresser: b defaultDresser ].
+	self assert: modelButtonsGroup buttons size equals: 3.
+	
+	buttons first check.
+	self assert: buttons first isChecked.
+	self assert: buttons second isUnchecked.
+	self assert: buttons third isUnchecked.
+	buttons second check.
+	self assert: buttons first isUnchecked.
+	self assert: buttons second isChecked.
+	self assert: buttons third isUnchecked.
+	buttons third check.
+	self assert: buttons first isUnchecked.
+	self assert: buttons second isUnchecked.
+	self assert: buttons third isChecked
+]
+
+{ #category : #tests }
 ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndSwitchToNextStateUse [
 
 	| list modelButtonsGroup pane buttons |

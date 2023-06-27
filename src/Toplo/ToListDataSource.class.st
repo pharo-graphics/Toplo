@@ -5,6 +5,18 @@ Class {
 }
 
 { #category : #accessing }
+ToListDataSource >> data [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToListDataSource >> data: aCollection [
+
+	self subclassResponsibility 
+]
+
+{ #category : #accessing }
 ToListDataSource >> list [
 
 	^ self subclassResponsibility 
@@ -19,7 +31,7 @@ ToListDataSource >> list: aCollection [
 { #category : #'instance creation' }
 ToListDataSource >> onCreateHolder: anInfiniteElement [ 
 
-	^ anInfiniteElement holderClass new infiniteElement: anInfiniteElement 
+	^ anInfiniteElement holderFactory value: anInfiniteElement
 ]
 
 { #category : #'instance creation' }
@@ -33,6 +45,5 @@ ToListDataSource >> onElementAttached: anElementHolder [
 ToListDataSource >> onElementDetached: anElementHolder [
 	
 	super onElementDetached: anElementHolder.
-	anElementHolder onDetachedFromDatasource: self.
-	anElementHolder unsubscribe: self
+	anElementHolder onDetachedFromDatasource: self
 ]

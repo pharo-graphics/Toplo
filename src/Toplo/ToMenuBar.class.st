@@ -38,7 +38,8 @@ ToMenuBar >> addMenu: aMenu [
 	self whenOrientationChangedDo: [ 
 		self isHorizontal
 			ifTrue: [ aMenu hFitContent ]
-			ifFalse: [ aMenu hMatchParent ] ]
+			ifFalse: [ aMenu hMatchParent ] ].
+	self dispatchEvent: (ToMenuBarMenuAddedEvent new menu: aMenu)
 ]
 
 { #category : #adding }
@@ -78,5 +79,5 @@ ToMenuBar >> removeMenu: aMenu [
 
 	self menus remove: aMenu.
 	self removeChild: aMenu.
-	aMenu removedFromMenuBar: self
+	self dispatchEvent: (ToMenuBarMenuRemovedEvent new menu: aMenu)
 ]

@@ -4,9 +4,9 @@ Class {
 	#traits : 'TOBlLayoutResizable + TToDressable + TToWorldElement + TToWidgetWithContextMenu',
 	#classTraits : 'TOBlLayoutResizable classTrait + TToDressable classTrait + TToWorldElement classTrait + TToWidgetWithContextMenu classTrait',
 	#instVars : [
+		'holderFactory',
 		'nodeFactory',
 		'clickLauncher',
-		'selectedNodeFactory',
 		'primarySelection',
 		'secondarySelection',
 		'keepSelectionOnFocused'
@@ -37,7 +37,8 @@ ToInfiniteElement >> cherryPickIndex: anIndex [
 
 	self primarySelection dispatchSelectionChangedAfter: [
 		self primarySelection cherryPickIndex: anIndex ]
-		to: self
+		to: self.
+	self fireEvent: (ToInfiniteNodeSelectedEvent new index: anIndex)
 ]
 
 { #category : #private }
@@ -64,13 +65,19 @@ ToInfiniteElement >> contextMenu [
 { #category : #accessing }
 ToInfiniteElement >> data [
 
-	^ dataSource list
+	^ dataSource data
 ]
 
 { #category : #initialization }
 ToInfiniteElement >> defaultDataSource [
 
 	^ self subclassResponsibility 
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> defaultHolderFactory [
+
+	^ [ :infinite | self holderClass new infiniteElement: infinite ] 
 ]
 
 { #category : #initialization }
@@ -105,16 +112,14 @@ ToInfiniteElement >> deselectAll [
 	to: self
 ]
 
-{ #category : #dispatching }
-ToInfiniteElement >> dispatchChildAttached: anElement [
-	
-	super dispatchChildAttached: anElement
-]
+{ #category : #'selection events' }
+ToInfiniteElement >> deselectIndex: anIndex [
 
-{ #category : #dispatching }
-ToInfiniteElement >> dispatchChildDetached: anElement [
-	
-	super dispatchChildDetached: anElement
+	self primarySelection
+		dispatchSelectionChangedAfter: [ 
+			" ensure that the layout is computed before updating the selection "
+			self primarySelection deselectIndex: anIndex ]
+		to: self
 ]
 
 { #category : #'selection events' }
@@ -135,6 +140,12 @@ ToInfiniteElement >> dispatchStrongSelectionChanged [
 	self dispatchEvent: (ToStrongSelectionEvent indexes: self primarySelectionIndexes)
 ]
 
+{ #category : #'selection events' }
+ToInfiniteElement >> ensureSelectIndex: anIndex [
+
+	self selectedIndex = anIndex ifFalse: [ self selectIndex: anIndex ]
+]
+
 { #category : #private }
 ToInfiniteElement >> hasClickLauncher [
 
@@ -153,6 +164,20 @@ ToInfiniteElement >> holderClass [
 	^ self subclassResponsibility 
 ]
 
+{ #category : #accessing }
+ToInfiniteElement >> holderFactory [
+
+	" aHolderfactory is a valuable which implement #value:. #value takes the infinite element as unique argument "
+	^ holderFactory
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> holderFactory: aHolderFactory [
+
+	" aHolderfactory is a valuable which implement #value:. #value takes the infinite element as unique argument "
+	holderFactory := aHolderFactory 
+]
+
 { #category : #initialization }
 ToInfiniteElement >> initialize [
 
@@ -165,6 +190,7 @@ ToInfiniteElement >> initialize [
 	self postInitializeDresser.
 	
 	self preserveSelectionOnFocused: self preserveSelectionOnFocusedByDefault.
+	self holderFactory: self defaultHolderFactory.
 	self nodeFactory: self defaultListNodeFactory.
 	self matchParent
 ]
@@ -214,6 +240,12 @@ ToInfiniteElement >> nodeAt: anIndex [
 	^ (self findElementHolderForDataSourcePosition: anIndex)
 		  ifNotNil: [ :holder | holder itemElement ]
 		  ifNil: [  ]
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> nodeClass [
+
+	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }
@@ -330,7 +362,7 @@ ToInfiniteElement >> primarySelectionIndexes [
 ToInfiniteElement >> privateData: aCollection [
 
 	self primarySelection deselectAll.
-	dataSource list: aCollection
+	dataSource data: aCollection
 ]
 
 { #category : #private }
@@ -351,7 +383,7 @@ ToInfiniteElement >> scrollToIndexAtTop: anIndex [
 	which can, for example, be a data source position or child index"
 	"As a result, item at anIndex is positionned at the top of the listElement"
 
-	self layout scrollToPosition: anIndex offset: self layout computeExtraLayoutSpace y.
+	self scrollToPosition: anIndex offset: self layout computeExtraLayoutSpace y.
 ]
 
 { #category : #accessing }
@@ -382,14 +414,21 @@ ToInfiniteElement >> selectAll [
 ]
 
 { #category : #'selection events' }
+ToInfiniteElement >> selectAndScrollTo: anIndex [
+
+	self primarySelection selectIndex: anIndex.
+	self scrollToIndex: anIndex
+]
+
+{ #category : #'selection events' }
 ToInfiniteElement >> selectIndex: anIndex [
 
 	self primarySelection
 		dispatchSelectionChangedAfter: [ 
-			" ensure that the layout is computed before updating the selection "
 			self primarySelection selectIndex: anIndex.
 			self whenLayoutedDoOnce: [ self scrollToIndex: anIndex ] ]
-		to: self
+		to: self.
+	self fireEvent: (ToInfiniteNodeSelectedEvent new index: anIndex)
 ]
 
 { #category : #'selection events' }
@@ -410,13 +449,14 @@ ToInfiniteElement >> selectToIndex: anIndex [
 
 	self primarySelection dispatchSelectionChangedAfter: [
 		self primarySelection selectToIndex: anIndex ]
-	to: self
+	to: self.
+	self fireEvent: (ToInfiniteNodeSelectedEvent new index: anIndex)
 ]
 
 { #category : #accessing }
 ToInfiniteElement >> selectedIndex [
 
-	^ self selectedIndexes first
+	^ self primarySelection selectedIndex
 ]
 
 { #category : #accessing }
@@ -439,25 +479,32 @@ ToInfiniteElement >> terminateClickLauncher [
 	clickLauncher := nil.
 ]
 
+{ #category : #dispatching }
+ToInfiniteElement >> whenChildAttachedDo: aBlock [
+
+	self when: OBlInfiniteElementAttachedEvent do: aBlock
+]
+
+{ #category : #dispatching }
+ToInfiniteElement >> whenChildDetachedDo: aBlock [
+
+	self when: OBlInfiniteElementDetachedEvent do: aBlock
+]
+
 { #category : #'selection events' }
-ToInfiniteElement >> whenClickOnNodeAnnouncement: anAnnouncement [
+ToInfiniteElement >> whenClickOnNodeEvent: anEvent [
 
-	| event |
-	event := anAnnouncement event.
+	| originalEvent |
+	originalEvent := anEvent event.
 
-	self hasFocus ifFalse: [
-		self requestFocus ].
+	self hasFocus ifFalse: [	self requestFocus ].
 
 	self primarySelection multipleSelectionModeDo: [
-		event modifiers isShift ifTrue: [
-			^ self selectToIndex: anAnnouncement holder layoutPosition ].
-		event modifiers isPrimaryModifier ifTrue: [
-			^ self cherryPickIndex: anAnnouncement holder layoutPosition ] ].
+		originalEvent modifiers isShift ifTrue: [
+			^ self selectToIndex: anEvent holder layoutPosition ].
+		originalEvent modifiers isPrimaryModifier ifTrue: [
+			^ self cherryPickIndex: anEvent holder layoutPosition ] ].
 
 	self primarySelection atLeastMonoSelectionDo: [
-		self selectIndex: anAnnouncement holder layoutPosition.
-		self dispatchEvent: (ToInfiniteClickOnDataEvent new
-				 index: anAnnouncement holder layoutPosition;
-				 event: event;
-				 yourself) ]
+		self selectIndex: anEvent holder layoutPosition ]
 ]

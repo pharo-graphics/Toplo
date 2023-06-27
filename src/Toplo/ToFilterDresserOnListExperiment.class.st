@@ -58,10 +58,9 @@ ToFilterDresserOnListExperiment >> open [
 	listElement placeholder elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
 	listElement showPlaceholder.
 
-	listElement
-		when: ToDataFilterResultEvent
-		do: [ :event | event selectionUpdated ifTrue: [ listElement data filterResult: event data ] ].
-	pane openInOBlSpace
+	listElement when: ToDataFilterResultEvent do: [ :event |
+		event selectionUpdated ifTrue: [ listElement data filterResult: event data ] ].
+	pane openInSpace
 ]
 
 { #category : #'see class side' }

@@ -42,6 +42,18 @@ TToListElementDecorator >> deselectAll [
 	self next deselectAll
 ]
 
+{ #category : #'t - accessing selection' }
+TToListElementDecorator >> deselectIndex: anIndex [
+
+	self next deselectIndex: anIndex
+]
+
+{ #category : #'t - accessing selection' }
+TToListElementDecorator >> ensureSelectIndex: anInteger [
+
+	self next ensureSelectIndex: anInteger
+]
+
 { #category : #'t - children - accessing' }
 TToListElementDecorator >> findElementHolderForDataSourcePosition: anInteger [
 
@@ -52,6 +64,12 @@ TToListElementDecorator >> findElementHolderForDataSourcePosition: anInteger [
 TToListElementDecorator >> hasSelection [
 
 	^ self next hasSelection
+]
+
+{ #category : #'t - infinite accessing' }
+TToListElementDecorator >> holderFactory: aHolderFactory [
+
+	self next holderFactory: aHolderFactory
 ]
 
 { #category : #'t - infinite accessing' }
@@ -157,6 +175,12 @@ TToListElementDecorator >> selectAll [
 ]
 
 { #category : #'t - accessing selection' }
+TToListElementDecorator >> selectAndScrollTo: anInteger [
+
+	self next selectAndScrollTo: anInteger
+]
+
+{ #category : #'t - accessing selection' }
 TToListElementDecorator >> selectIndex: anInteger [
 
 	self next selectIndex: anInteger
@@ -184,6 +208,18 @@ TToListElementDecorator >> selectedIndexes [
 TToListElementDecorator >> selectionDo: aBlock [
 
 	self next selectionDo: aBlock
+]
+
+{ #category : #'t - infinite accessing' }
+TToListElementDecorator >> whenChildAttachedDo: aBlock [
+
+	self next whenChildAttachedDo: aBlock
+]
+
+{ #category : #'t - infinite accessing' }
+TToListElementDecorator >> whenChildDetachedDo: aBlock [
+
+	self next whenChildDetachedDo: aBlock
 ]
 
 { #category : #'t - infinite accessing' }

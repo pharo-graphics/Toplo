@@ -8,11 +8,19 @@ Class {
 }
 
 { #category : #'api - displaying' }
-ToMenuWindow >> close [
+ToMenuWindow >> close [ 
 
 	openedSubmenuWindow ifNotNil: [ :w | w close ].
 	super close
 	
+]
+
+{ #category : #initialization }
+ToMenuWindow >> defaulPositiontHook [ 
+
+	^ [ :w :event | w widget isSubmenu
+		  ifTrue: [ w widget bounds inSpace bounds topRight ]
+		  ifFalse: [ w widget bounds inSpace bounds bottomLeft ] ]
 ]
 
 { #category : #initialization }
@@ -27,12 +35,11 @@ ToMenuWindow >> defaultDresser [
 	^ ToMenuWindowDresser new
 ]
 
-{ #category : #initialization }
-ToMenuWindow >> defaultHook [ 
+{ #category : #accessing }
+ToMenuWindow >> items [
 
-	^ [ :w :event | w widget isSubmenu
-		  ifTrue: [ w widget bounds inSpace bounds topRight ]
-		  ifFalse: [ w widget bounds inSpace bounds bottomLeft ] ]
+	self widget ifNil: [ ^ #() ].
+	^ self widget items
 ]
 
 { #category : #'api - displaying' }
@@ -59,6 +66,9 @@ ToMenuWindow >> openSubmenuWindowFor: anElement event: anEvent [
 	" do not open if empty "
 	anElement hasItems ifFalse: [ ^ self ].
 	
+	" close currently opened submenu window (issue #50) "
+	self openedSubmenuWindow ifNotNil: [ :w | w close ].
+	
 	" ok, open the sub menu window "
 	self openedSubmenuWindow: anElement subMenuWindow.
 	anElement subMenuWindow popupEvent: anEvent
@@ -74,4 +84,12 @@ ToMenuWindow >> openedSubmenuWindow [
 ToMenuWindow >> openedSubmenuWindow: aWindow [
 
 	openedSubmenuWindow := aWindow
+]
+
+{ #category : #'api - displaying' }
+ToMenuWindow >> popupEvent: anEvent [
+
+	self widget ifNil: [ ^ self ].
+	self items ifEmpty: [ ^ self ].
+	^ super popupEvent: anEvent
 ]

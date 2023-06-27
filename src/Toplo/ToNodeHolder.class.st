@@ -1,10 +1,14 @@
 Class {
 	#name : #ToNodeHolder,
 	#superclass : #OBlInfiniteHolder,
-	#traits : 'TBlAnnouncerProvider',
-	#classTraits : 'TBlAnnouncerProvider classTrait',
+	#traits : 'TBlEventTarget',
+	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
-		'data'
+		'data',
+		'eventDispatcher',
+		'clickHandler',
+		'deselectHandler',
+		'selectHandler'
 	],
 	#category : #'Toplo-Core-Node'
 }
@@ -20,6 +24,21 @@ ToNodeHolder >> data: aData [
 
 	data := aData.
 	self node: (infiniteElement nodeFactory cull: aData cull: self)
+]
+
+{ #category : #'event management accessing' }
+ToNodeHolder >> eventDispatcher [
+	"Return an object responsible for event dispatching"
+	<return: #BlDirectEventDispatcher>
+
+	^ eventDispatcher 
+]
+
+{ #category : #initialization }
+ToNodeHolder >> initialize [ 
+
+	super initialize.
+	eventDispatcher := BlDirectEventDispatcher on: self
 ]
 
 { #category : #accessing }
@@ -43,35 +62,40 @@ ToNodeHolder >> node: aNode [
 { #category : #accessing }
 ToNodeHolder >> onAttachedFromDatasource: aDataSource [
 
-	self
-		whenAnnouncement: ToClickOnNodeAnnouncement
-		send: #whenClickOnNodeAnnouncement:
-		to: infiniteElement.
+	clickHandler := BlEventHandler
+		                on: ToClickOnNodeEvent
+		                do: [ :event | infiniteElement whenClickOnNodeEvent: event ].
 
-	infiniteElement primarySelection
-		whenAnnouncement: ToDeselectAnnouncement
-		send: #whenDeselectAnnouncement:
-		to: self.
+	deselectHandler := BlEventHandler
+		                   on: ToSelectionModelDeselectEvent
+		                   do: [ :event | self whenDeselectEvent: event ].
 
-	infiniteElement primarySelection
-		whenAnnouncement: ToSelectAnnouncement
-		send: #whenSelectAnnouncement:
-		to: self.
+	selectHandler := BlEventHandler
+		                 on: ToSelectionModelSelectEvent
+		                 do: [ :event | self whenSelectEvent: event ].
+
+	self addEventHandler: clickHandler.
+	infiniteElement primarySelection addEventHandler: deselectHandler.
+	infiniteElement primarySelection addEventHandler: selectHandler.
 
 	" when holder is attached it can be already selected (as an example with a selectAll) "
 	"Selection must be preserved "
 	self isSelected ifFalse: [ ^ self ].
-	self selected: true.
-
-
+	self selected: true
 ]
 
 { #category : #accessing }
 ToNodeHolder >> onDetachedFromDatasource: aDataSource [
 
-	itemElement undress.
-	self unsubscribe: infiniteElement.
-	infiniteElement primarySelection unsubscribe: self
+	itemElement undress.	
+	self removeEventHandler: clickHandler.
+	infiniteElement primarySelection removeEventHandler: deselectHandler.
+	infiniteElement primarySelection removeEventHandler: selectHandler.
+	
+	clickHandler := nil.
+	deselectHandler := nil.
+	selectHandler := nil
+
 ]
 
 { #category : #accessing }
@@ -83,15 +107,15 @@ ToNodeHolder >> selected: aBoolean [
 ]
 
 { #category : #'selection - handling' }
-ToNodeHolder >> whenDeselectAnnouncement: anAnnouncement [
+ToNodeHolder >> whenDeselectEvent: anEvent [
 
-	(anAnnouncement indexes includes: self position) ifFalse: [ ^ self ].
+	(anEvent indexes includes: self position) ifFalse: [ ^ self ].
 	self selected: false
 ]
 
 { #category : #'selection - handling' }
-ToNodeHolder >> whenSelectAnnouncement: anAnnouncement [
+ToNodeHolder >> whenSelectEvent: anEvent [
 
-	(anAnnouncement indexes includes: self position) ifFalse: [ ^ self ].
+	(anEvent indexes includes: self position) ifFalse: [ ^ self ].
 	self selected: true
 ]

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'overHandler',
 		'menuBarDresser',
-		'mouseDownOutsideHandler'
+		'mouseEventOutsideHandler'
 	],
 	#category : #'Toplo-Widget-MenuBar'
 }
@@ -17,14 +17,14 @@ ToMenuBarAutoOpenDresser >> installEventListenersIn: anElement [
 	overHandler := BlEventHandler
 		               on: BlMouseOverEvent
 		               do: [ :event | self mouseOver: event in: anElement ].
-	mouseDownOutsideHandler := BlEventHandler
-		                           on: BlSpaceMouseDownOutsideEvent
+	mouseEventOutsideHandler := BlEventHandler
+		                           on: BlMouseUpOutsideEvent
 		                           do: [ :event |
 		                           self
-			                           mouseDownOutside: anElement
-			                           event: event ].
+			                           mouseOutside: event
+			                           in: anElement ].
 	anElement addEventHandler: overHandler.
-	anElement space layerHolder addEventHandler: mouseDownOutsideHandler
+	anElement space layerHolder addEventHandler: mouseEventOutsideHandler
 ]
 
 { #category : #accessing }
@@ -34,7 +34,7 @@ ToMenuBarAutoOpenDresser >> menuBarDresser: anInstaller [
 ]
 
 { #category : #'api - accessing' }
-ToMenuBarAutoOpenDresser >> mouseDownOutside: aMenuBar event: anEvent [
+ToMenuBarAutoOpenDresser >> mouseOutside: anEvent in: aMenuBar [ 
 
 	anEvent originalEvent currentTarget ifNotNil: [ :t |
 		(t hasInParentChain: aMenuBar) ifTrue: [ ^ self ] ].
@@ -63,8 +63,8 @@ ToMenuBarAutoOpenDresser >> removeAutoOpenDresserIn: anElement [
 ToMenuBarAutoOpenDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: overHandler.
-	anElement space layerHolder removeEventHandler: mouseDownOutsideHandler.
+	anElement space layerHolder removeEventHandler: mouseEventOutsideHandler.
 	overHandler := nil.
-	mouseDownOutsideHandler := nil.
+	mouseEventOutsideHandler := nil.
 	super uninstallEventListenersIn: anElement
 ]

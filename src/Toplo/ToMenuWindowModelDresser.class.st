@@ -11,7 +11,7 @@ Class {
 ToMenuWindowModelDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	clickHandler := BlEventHandler on: BlClickEvent do: [ :event | self popupOrClose: anElement event: event].
+	clickHandler := BlEventHandler on: BlMouseDownEvent do: [ :event | self popupOrClose: anElement event: event].
 	anElement addEventHandler: clickHandler
 ]
 

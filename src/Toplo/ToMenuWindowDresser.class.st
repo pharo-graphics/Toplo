@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToMenuWindowDresser >> mouseDownOutside: anEvent receivedIn: aMenuWindow [
+ToMenuWindowDresser >> mouseOutside: anEvent in: aMenuWindow [
 	" redefined to not close the menu if the mousedown occurs inside a submenu window"
 
 	| win origEventTarget |
@@ -13,10 +13,9 @@ ToMenuWindowDresser >> mouseDownOutside: anEvent receivedIn: aMenuWindow [
 	origEventTarget := anEvent originalEvent currentTarget.
 	" if I'm the original event target then do nothing"
 	origEventTarget ifNil: [
-		^ super mouseDownOutside: anEvent receivedIn: aMenuWindow ].
-	origEventTarget = aMenuWindow ifTrue: [ ^ self ].
+		^ super mouseOutside: anEvent in: aMenuWindow ].
 	" if one of my children is the original event target then do nothing"
-	(origEventTarget hasParent: aMenuWindow) ifTrue: [
+	(origEventTarget hasInParentChain: aMenuWindow) ifTrue: [
 		^ self ].
 
 	win := aMenuWindow openedSubmenuWindow.
@@ -27,7 +26,7 @@ ToMenuWindowDresser >> mouseDownOutside: anEvent receivedIn: aMenuWindow [
 		win := win openedSubmenuWindow ].
 
 	" ok, the event is outside of the submenu chain"
-	super mouseDownOutside: anEvent receivedIn: aMenuWindow
+	super mouseOutside: anEvent in: aMenuWindow
 ]
 
 { #category : #'api - install/uninstall  hook' }

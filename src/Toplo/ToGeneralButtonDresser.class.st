@@ -120,17 +120,6 @@ ToGeneralButtonDresser >> leaved: anElement [
 ]
 
 { #category : #'events handling' }
-ToGeneralButtonDresser >> leftClicked: anElement [
-
-	super leftClicked: anElement.
-	self restoreUnpressedState.
-	self border: self hoveredBorder in: anElement.
-	self background: self hoveredBackground in: anElement
-
-
-]
-
-{ #category : #'events handling' }
 ToGeneralButtonDresser >> leftPressed: anElement event: anEvent [
 
 	self savePressedState.
@@ -195,4 +184,15 @@ ToGeneralButtonDresser >> uninstallEventListenersIn: anElement [
 	anElement removeEventHandler: borderChangedHandler.
 	anElement removeEventHandler: backgroundChangedHandler.
 	super uninstallEventListenersIn: anElement
+]
+
+{ #category : #'events handling' }
+ToGeneralButtonDresser >> up: anElement event: anEvent [
+
+	super up: anElement event: anEvent.
+	self restoreUnpressedState.
+	self border: self hoveredBorder in: anElement.
+	self background: self hoveredBackground in: anElement
+
+
 ]

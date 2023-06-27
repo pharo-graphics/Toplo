@@ -872,8 +872,11 @@ ToSandBox class >> example_Popup1 [
 		popup close ].
 	popup root addChild: but.
 	popup addEventHandler: (BlEventHandler
-			 on: BlSpaceMouseDownOutsideEvent
-			 do: [ :event | self inform: 'OUTSIDE' ]).
+			 on: BlMouseUpOutsideEvent
+			 do: [ :event | self inform: 'UP OUTSIDE' ]).
+	popup addEventHandler: (BlEventHandler
+			 on: BlMouseDownOutsideEvent
+			 do: [ :event | self inform: 'DOWN OUTSIDE' ]).
 	e addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
 			 do: [ :evt |
@@ -1480,8 +1483,32 @@ ToSandBox class >> example_menu6 [
 	menu openInInnerWindow
 ]
 
-{ #category : #menu }
-ToSandBox class >> example_menu7 [
+{ #category : #'context menu + menubar' }
+ToSandBox class >> example_menuBar1 [
+
+	| win bar fileMenu |
+	win := ToInnerWindow new title: 'Menu bar example'.
+	win width: 600.
+
+	bar := ToMenuBar new
+		       hMatchParent;
+		       vFitContent.
+	bar addMenu: (fileMenu := ToMenu new
+			 labelText: 'File').
+	fileMenu addItem: (ToButtonMenuItem new label: (ToLabel new text: 'Open')).
+	fileMenu padding: (BlInsets all: 10).
+	bar addFiller.
+	bar addMenu: (ToMenu new
+			 labelText: 'Help';
+			 tooltipString: 'help stuffs').
+	bar when: BlMouseDownEvent do: [ :event | event target traceCr ].
+	bar border: (BlBorder paint: Color red).
+	win root addChild: bar.
+	win openInSpace
+]
+
+{ #category : #'context menu + menubar' }
+ToSandBox class >> example_menuBar2 [
 
 	| menu frame bar |
 
@@ -1527,30 +1554,6 @@ ToSandBox class >> example_menu7 [
 	
 	frame root addChild: bar. 
 	frame openInSpace
-]
-
-{ #category : #'context menu + menubar' }
-ToSandBox class >> example_menuBar [
-
-	| win bar fileMenu |
-	win := ToInnerWindow new title: 'Context menu Example'.
-	win width: 600.
-
-	bar := ToMenuBar new
-		       hMatchParent;
-		       vFitContent.
-	bar addMenu: (fileMenu := ToMenu new
-			 labelText: 'File').
-	fileMenu addItem: (ToButtonMenuItem new label: (ToLabel new text: 'Open')).
-	fileMenu padding: (BlInsets all: 10).
-	bar addFiller.
-	bar addMenu: (ToMenu new
-			 labelText: 'Help';
-			 tooltipString: 'help stuffs').
-	bar when: BlMouseDownEvent do: [ :event | event target traceCr ].
-	bar border: (BlBorder paint: Color red).
-	win root addChild: bar.
-	win openInSpace
 ]
 
 { #category : #window }

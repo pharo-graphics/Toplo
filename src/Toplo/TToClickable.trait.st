@@ -1,5 +1,8 @@
 Trait {
 	#name : #TToClickable,
+	#instVars : [
+		'clickHandler'
+	],
 	#category : #'Toplo-Core'
 }
 
@@ -16,12 +19,26 @@ TToClickable >> client [
 ]
 
 { #category : #'t - click behavior' }
+TToClickable >> removeClickHandler [
+	"remove the click action"
+
+	clickHandler ifNotNil: [
+		self removeEventHandler: clickHandler.
+		clickHandler := nil ]
+]
+
+{ #category : #'t - click behavior' }
 TToClickable >> whenClickedDo: aBlock [
 	"Inform that the widget has been clicked."
-
-	self when: BlClickEvent do: [ :event |
-		aBlock
-			cull: event
-			cull: self client
-			cull: (self clickTargetFromEvent: event) ]
+	
+	" only one official handler "
+	self removeClickHandler.
+	clickHandler := BlEventHandler
+		                on: BlClickEvent
+		                do: [ :event |
+			                aBlock
+				                cull: event
+				                cull: self client
+				                cull: (self clickTargetFromEvent: event) ].
+	self addEventHandler: clickHandler
 ]

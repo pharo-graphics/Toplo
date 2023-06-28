@@ -34,7 +34,7 @@ ToBasicMenuItemDresser >> onInstalledIn: anElement [
 	super onInstalledIn: anElement.
 	anElement background: Color transparent.
 	anElement border: BlBorder empty.
-	anElement padding: (BlInsets top: 2 left: 5 bottom: 2 right: 4 )
+	anElement padding: (BlInsets top: 0 left: 5 bottom: 0 right: 4 )
 ]
 
 { #category : #'api - install/uninstall  hook' }

@@ -11,7 +11,7 @@ Class {
 { #category : #initialization }
 ToLabelDresser >> defaultPadding [
 
-	^ BlInsets top: 4 left: 2 bottom: 2 right: 4
+	^ BlInsets top: 1 left: 2 bottom: 1 right: 4
 ]
 
 { #category : #'api - install/uninstall  hook' }

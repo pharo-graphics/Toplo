@@ -118,7 +118,7 @@ ToWidgetWindowElement >> initialize [
 	popupAnimationFactory := [ 
 	                         self opacity: 0.0.
 	                         BlOpacityAnimation new
-		                         duration: 400 milliSeconds;
+		                         duration: 250 milliSeconds;
 		                         opacity: 1;
 		                         yourself ]
 ]

@@ -21,3 +21,9 @@ ToChoiceBoxMenuButton >> initialize [
 	self initializeMenuWindowModel
 
 ]
+
+{ #category : #window }
+ToChoiceBoxMenuButton >> menuWindow [
+
+	^ menuWindow 
+]

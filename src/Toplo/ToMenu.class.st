@@ -54,6 +54,12 @@ ToMenu >> isSubmenu [
 	^ submenuDresser notNil
 ]
 
+{ #category : #window }
+ToMenu >> menuWindow [
+
+	^ menuWindow 
+]
+
 { #category : #'t - menu initialization' }
 ToMenu >> removedAsSubmenuInMenu: aMenu [
 

@@ -349,7 +349,7 @@ ToChoiceBoxTest >> testWithOneStringData [
 	self assert: cb placeholder isNil
 ]
 
-{ #category : #' tests' }
+{ #category : #tests }
 ToChoiceBoxTest >> testWithStrictStrategy [
 
 	| cb d1 d2 d3 |
@@ -365,7 +365,7 @@ ToChoiceBoxTest >> testWithStrictStrategy [
 	self assert: cb data size equals: 3.
 	self assert: cb selectedData equals: d1.
 	self assert: cb menuButton label text asString equals: d1.
-	self assert: cb menuButton subMenuWindow root children size equals: 3.
+	self assert: cb menuButton menuWindow root children size equals: 3.
 	self assert: cb group buttons size equals: 3.
 	self assert: cb group buttons first isChecked.
 	self assert: cb group buttons second isUnchecked.

@@ -18,7 +18,7 @@ TToMenuItemHolder >> addAllItems: aCollection [
 TToMenuItemHolder >> addItem: aMenuItem [
 
 	self items add: aMenuItem.
-	self subMenuWindow root addChild: aMenuItem.
+	self menuWindow root addChild: aMenuItem.
 	aMenuItem addedInMenu: self
 ]
 
@@ -87,12 +87,18 @@ TToMenuItemHolder >> items [
 	^ items
 ]
 
+{ #category : #'t - menu accessing' }
+TToMenuItemHolder >> menuWindow [
+
+	^ self explicitRequirement 
+]
+
 { #category : #'t - menu item adding/removing' }
 TToMenuItemHolder >> removeItem: aMenuItem [
 
 	aMenuItem removedFromMenu: self.
 	self items remove: aMenuItem.
-	self subMenuWindow root removeChild: aMenuItem
+	self menuWindow root removeChild: aMenuItem
 ]
 
 { #category : #'t - menu item adding/removing' }
@@ -110,14 +116,8 @@ TToMenuItemHolder >> replaceItemAt: anIndex with: anItem [
 	previous := self items at: anIndex.
 	previous removedFromMenu: self.
 	self items at: anIndex put: anItem.
-	self subMenuWindow root replaceChild: previous with: anItem
+	self menuWindow root replaceChild: previous with: anItem
 
-]
-
-{ #category : #'t - menu accessing' }
-TToMenuItemHolder >> subMenuWindow [
-
-	^ self explicitRequirement 
 ]
 
 { #category : #'t - menu accessing' }

@@ -21,9 +21,3 @@ ToChoiceBoxMenuButton >> initialize [
 	self initializeMenuWindowModel
 
 ]
-
-{ #category : #accessing }
-ToChoiceBoxMenuButton >> subMenuWindow [
-
-	^ subMenuWindow 
-]

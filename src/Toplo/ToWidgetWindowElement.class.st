@@ -9,6 +9,7 @@ Class {
 		'#deleteAnimationFactory',
 		'#popupAnimationFactory',
 		'#hook',
+		'#popupTimestamp',
 		'#widget => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Window'
@@ -24,6 +25,12 @@ ToWidgetWindowElement >> animate [
 ToWidgetWindowElement >> animate: aBoolean [
 
 	animate := aBoolean
+]
+
+{ #category : #accessing }
+ToWidgetWindowElement >> autoCloseOnMouseUpDelay [
+
+	^ 400 milliSeconds 
 ]
 
 { #category : #'api - displaying' }
@@ -67,7 +74,7 @@ ToWidgetWindowElement >> close [
 ]
 
 { #category : #initialization }
-ToWidgetWindowElement >> defaulPositiontHook [
+ToWidgetWindowElement >> defaulPositioningHook [
 
 	^ self subclassResponsibility 
 ]
@@ -93,17 +100,14 @@ ToWidgetWindowElement >> dispatchClosedEvent [
 				 yourself) ]
 ]
 
-{ #category : #accessing }
-ToWidgetWindowElement >> hook [
+{ #category : #'api - displaying' }
+ToWidgetWindowElement >> dispatchOpenedEventFrom: anEvent [
 
-	^ hook
-]
-
-{ #category : #accessing }
-ToWidgetWindowElement >> hook: aValuable [
-	" takes the window as argument. Computes the window position according to the given window anchor element "
-	
-	hook := aValuable
+	self widget ifNotNil: [ :w |
+		w dispatchEvent: (ToWidgetWindowOpenedEvent new
+				 window: self;
+				 sourceEvent: anEvent;
+				 yourself) ]
 ]
 
 { #category : #initialization }
@@ -111,7 +115,7 @@ ToWidgetWindowElement >> initialize [
 
 	super initialize.
 	self animate: true.
-	self hook: self defaulPositiontHook.
+	self positioningHook: self defaulPositioningHook.
 	
 	self flag: 'delete animation duration must be very very fast to ensure that sub-menu widows are always opened even if mouse is moving fast (issue #51). It is so fast that it cannot be perceived at all. So for now, no delete animation is initialize'.
 	
@@ -144,18 +148,38 @@ ToWidgetWindowElement >> popupAnimationFactory: aValuable [
 { #category : #'api - displaying' }
 ToWidgetWindowElement >> popupEvent: anEvent [
 
-	"I'm not ready to be visible because my bounds are not checked according to the popup layer extent"
-	"self visibility: BlVisibility hidden."
+	"I'm not ready to be visible because my bounds are not checked according to the popup layer extent. checkBeforePopupIn: make the window visible "
+	self visibility: BlVisibility hidden.
 
 	" I have to set the position here "
-	self position: (self hook value: self value: anEvent).
+	self position: (self positioningHook value: self value: anEvent).
 	self hasParent ifTrue: [ ^ self ].
 	self spaceLayer addChild: self.
-	
+	self dispatchOpenedEventFrom: anEvent.
+	popupTimestamp := DateAndTime now.
 	"I need to finalize my position as soon as my layout is up-to-date"
 	self whenLayoutedDoOnce: [
 		self spaceLayer ifNotNil: [ :l | self checkBeforePopupIn: l ] ].
 	self requestLayout 
+]
+
+{ #category : #accessing }
+ToWidgetWindowElement >> popupTimestamp [
+
+	^ popupTimestamp 
+]
+
+{ #category : #accessing }
+ToWidgetWindowElement >> positioningHook [
+
+	^ hook
+]
+
+{ #category : #accessing }
+ToWidgetWindowElement >> positioningHook: aValuable [
+	" takes the window as argument. Computes the window position according to the given window anchor element "
+	
+	hook := aValuable
 ]
 
 { #category : #'api - displaying' }

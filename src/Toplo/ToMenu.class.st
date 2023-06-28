@@ -70,9 +70,3 @@ ToMenu >> removedFromMenu: aMenu [
 
 	
 ]
-
-{ #category : #accessing }
-ToMenu >> subMenuWindow [
-
-	^ subMenuWindow 
-]

@@ -23,7 +23,7 @@ ToOverlayWindowDresser >> installWidget: newWidget in: anElement [
 		                       do: [ anElement size: anElement widget size ].
 	widgetPositionInSpaceHandler := BlEventHandler
 		                                on: BlElementPositionInSpaceChangedEvent
-		                                do: [ :event | anElement position: (anElement hook value: anElement value: event) ].
+		                                do: [ :event | anElement position: (anElement positioningHook value: anElement value: event) ].
 
 	newWidget addEventHandler: widgetPositionInSpaceHandler.
 	newWidget addEventHandler: widgetExtentHandler.

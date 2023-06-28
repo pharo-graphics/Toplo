@@ -20,7 +20,7 @@ ToAnchoredWindowDresser >> installWidget: newWidget in: anElement [
 	newWidget ifNil: [ ^ self ].
 	widgetPositionInSpaceHandler := BlEventHandler
 		                                on: BlElementPositionInSpaceChangedEvent
-		                                do: [ :event | anElement position: (anElement hook value: anElement value: event) ].
+		                                do: [ :event | anElement position: (anElement positioningHook value: anElement value: event) ].
 	newWidget addEventHandler: widgetPositionInSpaceHandler
 
 	

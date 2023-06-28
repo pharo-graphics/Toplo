@@ -16,7 +16,7 @@ ToPopupWindow >> checkBeforePopupIn: aWidget [
 ]
 
 { #category : #initialization }
-ToPopupWindow >> defaulPositiontHook [
+ToPopupWindow >> defaulPositioningHook [
 
 	^ [ :window :event |  window widget bounds inSpace bounds bottomLeft ]
 ]
@@ -30,13 +30,7 @@ ToPopupWindow >> defaultDresser [
 { #category : #'api - displaying' }
 ToPopupWindow >> popupEvent: anEvent [
 
-	self cleanUp.
-	self widget ifNotNil: [ :w |
-		w dispatchEvent: (ToWidgetWindowOpenedEvent new
-				 window: self;
-				 sourceEvent: anEvent;
-				 yourself) ].
-			
+	self cleanUp.			
 	super popupEvent: anEvent
 ]
 

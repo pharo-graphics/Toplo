@@ -47,8 +47,8 @@ ToMenuBarAutoOpenDresser >> mouseOver: anEvent in: anElement [
 
 	anElement menus do: [ :m |
 		(anEvent target hasInParentChain: m)
-			ifTrue: [ m subMenuWindow popupEvent: anEvent ]
-			ifFalse: [ m subMenuWindow close ] ]
+			ifTrue: [ m menuWindow popupEvent: anEvent ]
+			ifFalse: [ m menuWindow close ] ]
 ]
 
 { #category : #'api - install/uninstall  hook' }

@@ -26,7 +26,7 @@ ToContextMenu >> close [
 ]
 
 { #category : #initialization }
-ToContextMenu >> defaulPositiontHook [
+ToContextMenu >> defaulPositioningHook [
 
 	^ [ :w :event | event position ]
 ]
@@ -61,18 +61,18 @@ ToContextMenu >> installedInWidget: aWidget [
 
 ]
 
+{ #category : #'t - menu window accessing' }
+ToContextMenu >> menuWindow [ 
+
+	^ self
+]
+
 { #category : #'api - displaying' }
 ToContextMenu >> popupEvent: anEvent [
 
 	self widget ifNotNil: [ :w | w openedContextMenu: self ].
 	self requestFocus.
 	super popupEvent: anEvent
-]
-
-{ #category : #'t - menu window accessing' }
-ToContextMenu >> subMenuWindow [ 
-
-	^ self
 ]
 
 { #category : #initialization }

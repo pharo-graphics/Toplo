@@ -25,8 +25,8 @@ ToMenuWindowModelDresser >> onUninstalledIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToMenuWindowModelDresser >> popupOrClose: anElement event: anEvent [
 
-	anElement subMenuWindow isAttachedToSceneGraph ifTrue: [ 
-		anElement isSubmenu ifTrue: [ ^ anElement parentMenu subMenuWindow close ].
-		^ anElement subMenuWindow close ].
-	anElement subMenuWindow popupEvent: anEvent
+	anElement menuWindow isAttachedToSceneGraph ifTrue: [ 
+		anElement isSubmenu ifTrue: [ ^ anElement parentMenu menuWindow close ].
+		^ anElement menuWindow close ].
+	anElement menuWindow popupEvent: anEvent
 ]

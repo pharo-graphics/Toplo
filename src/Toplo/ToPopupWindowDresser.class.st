@@ -26,7 +26,8 @@ ToPopupWindowDresser >> installWidget: newWidget in: anElement [
 	widgetPositionHandler := BlEventHandler
 		                         on: BlElementPositionChangedEvent
 		                         do: [ :event | anElement close ].
-	newWidget addEventHandler: widgetPositionHandler
+	newWidget addEventHandler: widgetPositionHandler.
+	super installWidget: newWidget in: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -73,8 +74,8 @@ ToPopupWindowDresser >> uninstallEventListenersIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToPopupWindowDresser >> uninstallWidget: oldWidget in: anElement [
 
-	super uninstallWidget: oldWidget in: anElement.
 	oldWidget ifNil: [ ^ self ].
 	oldWidget removeEventHandler: widgetPositionHandler.
-	widgetPositionHandler := nil
+	widgetPositionHandler := nil.
+	super uninstallWidget: oldWidget in: anElement
 ]

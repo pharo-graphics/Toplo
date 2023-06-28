@@ -27,7 +27,7 @@ ToTooltipWindow >> contentString: aString [
 ]
 
 { #category : #initialization }
-ToTooltipWindow >> defaulPositiontHook [
+ToTooltipWindow >> defaulPositioningHook [
 
 	^ [ :w :event | event position x @ (w widget localPointToGlobal: 0 @ w widget height) y + self vgap ]
 ]

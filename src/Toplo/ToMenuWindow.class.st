@@ -16,7 +16,7 @@ ToMenuWindow >> close [
 ]
 
 { #category : #initialization }
-ToMenuWindow >> defaulPositiontHook [ 
+ToMenuWindow >> defaulPositioningHook [ 
 
 	^ [ :w :event | w widget isSubmenu
 		  ifTrue: [ w widget bounds inSpace bounds topRight ]
@@ -49,7 +49,7 @@ ToMenuWindow >> mouseEnterOnMenuItem: aMenuItem [
 	self openedSubmenuWindow ifNil: [ ^ self ].
 
 	" test if the submenu is not the menuItem one "
-	self openedSubmenuWindow == aMenuItem subMenuWindow 
+	self openedSubmenuWindow == aMenuItem menuWindow 
 		ifTrue: [ ^ self ].
 
 	" ok, I can close other item submenu window"
@@ -61,7 +61,7 @@ ToMenuWindow >> mouseEnterOnMenuItem: aMenuItem [
 ToMenuWindow >> openSubmenuWindowFor: anElement event: anEvent [
 
 	" the sub menu window must not be already opened "
-	anElement subMenuWindow isAttachedToSceneGraph ifTrue: [ ^ self ].
+	anElement menuWindow isAttachedToSceneGraph ifTrue: [ ^ self ].
 	
 	" do not open if empty "
 	anElement hasItems ifFalse: [ ^ self ].
@@ -70,8 +70,8 @@ ToMenuWindow >> openSubmenuWindowFor: anElement event: anEvent [
 	self openedSubmenuWindow ifNotNil: [ :w | w close ].
 	
 	" ok, open the sub menu window "
-	self openedSubmenuWindow: anElement subMenuWindow.
-	anElement subMenuWindow popupEvent: anEvent
+	self openedSubmenuWindow: anElement menuWindow.
+	anElement menuWindow popupEvent: anEvent
 ]
 
 { #category : #accessing }

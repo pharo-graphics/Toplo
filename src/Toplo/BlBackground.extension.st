@@ -5,3 +5,9 @@ BlBackground >> contrastingBlackAndWhiteColor [
 
 	^ Color black
 ]
+
+{ #category : #'*Toplo' }
+BlBackground >> formImage [
+
+	^ nil
+]

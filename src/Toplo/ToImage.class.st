@@ -42,6 +42,12 @@ ToImage >> initialize [
 	self preventChildrenMouseEvents.
 ]
 
+{ #category : #'form accessing' }
+ToImage >> innerForm [
+	"Convenience method that returns nil if the request makes no sense or if there is no form."
+	^ self innerImage background formImage
+]
+
 { #category : #accessing }
 ToImage >> innerImage [
 
@@ -68,4 +74,10 @@ ToImage >> whenInnerImageReplacedDo: aBlock [
 	"set a block to perform after that the image has been changed, and its action performed"
 
 	self property: #innerImage whenChangedDo: aBlock
+]
+
+{ #category : #'form accessing' }
+ToImage >> withInnerFormDo: aBlock [
+	" aBlock is evaluated with the form as arguments if it is not nil "
+	self innerForm ifNotNil: [ :f | aBlock value: f ]
 ]

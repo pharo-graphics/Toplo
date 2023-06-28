@@ -14,7 +14,7 @@ ToContextMenuDresser >> mouseOutside: anEvent in: aMenuWindow [
 	(origEventTarget hasInParentChain: aMenuWindow widget) ifTrue: [
 		| delay |
 		" mouse up on the context menu widget, let's close the menu 
-		if the delay between opening and mouse up is short enough"
+		if the delay between opening and mouse up greater than a given autoclose delay"
 		delay := anEvent originalEvent timestamp - aMenuWindow popupTimestamp.
 		delay > aMenuWindow autoCloseOnMouseUpDelay ifTrue: [
 			^ anEvent currentTarget close ] ].

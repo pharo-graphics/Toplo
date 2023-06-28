@@ -24,6 +24,13 @@ ToImage >> defaultInnerImage [
 		  yourself
 ]
 
+{ #category : #'form accessing' }
+ToImage >> errorInnerFormNotFound [
+	"Raise a NotFound exception."
+
+	NotFound signalFor: self
+]
+
 { #category : #testing }
 ToImage >> hasInnerImage [
 
@@ -80,7 +87,7 @@ ToImage >> whenInnerImageReplacedDo: aBlock [
 ToImage >> withInnerFormDo: aBlock [
 	" aBlock is evaluated with the form as arguments 
 	if the result of #innerForm is not nil "
-	self withInnerFormDo:  aBlock ifNone: [ ]
+	self withInnerFormDo:  aBlock ifNone: [ self errorInnerFormNotFound ]
 ]
 
 { #category : #'form accessing' }

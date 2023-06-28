@@ -17,7 +17,7 @@ ToImageTest >> testEmptyImage [
 	im forceLayout.
 	self assert: im size equals: im defaultInnerImage size.
 	passedHere := false.
-	im withInnerFormDo: [ :f | passedHere := true ].
+	self should: [ im withInnerFormDo: [ :f | passedHere := true ] ] raise: NotFound.
 	self assert: passedHere not.
 	passedHere := false.
 	found := true.

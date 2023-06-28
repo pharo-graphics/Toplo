@@ -78,6 +78,15 @@ ToImage >> whenInnerImageReplacedDo: aBlock [
 
 { #category : #'form accessing' }
 ToImage >> withInnerFormDo: aBlock [
-	" aBlock is evaluated with the form as arguments if it is not nil "
-	self innerForm ifNotNil: [ :f | aBlock value: f ]
+	" aBlock is evaluated with the form as arguments 
+	if the result of #innerForm is not nil "
+	self withInnerFormDo:  aBlock ifNone: [ ]
+]
+
+{ #category : #'form accessing' }
+ToImage >> withInnerFormDo: aBlock ifNone: aNoneBlock [
+	" aBlock is evaluated with the form as arguments 
+	if the result of #innerForm is not nil, else, aNoneBlock is evaluated "
+
+	self innerForm ifNil: aNoneBlock ifNotNil: [ :f | aBlock value: f ]
 ]

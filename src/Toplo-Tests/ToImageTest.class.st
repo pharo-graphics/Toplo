@@ -10,7 +10,7 @@ Class {
 { #category : #tests }
 ToImageTest >> testEmptyImage [
 
-	| im passedHere |
+	| im passedHere found |
 	im := ToImage new.
 	self assert: (im innerImage isKindOf: BlElement).
 	self assert: im innerForm isNil.
@@ -18,13 +18,20 @@ ToImageTest >> testEmptyImage [
 	self assert: im size equals: im defaultInnerImage size.
 	passedHere := false.
 	im withInnerFormDo: [ :f | passedHere := true ].
-	self assert: passedHere not 
+	self assert: passedHere not.
+	passedHere := false.
+	found := true.
+	im withInnerFormDo: [ :f | passedHere := true ] ifNone: [ found := false].
+	self assert: passedHere not.
+	self assert: found not
+
+
 ]
 
 { #category : #tests }
 ToImageTest >> testImageWithForm [
 
-	| im form passedHere |
+	| im form passedHere found |
 	form := (Smalltalk ui icons iconNamed: #delete).
 	im := ToImage new innerImage: form.
 	self assert: (im innerImage isKindOf: BlElement).
@@ -35,5 +42,11 @@ ToImageTest >> testImageWithForm [
 	self assert: im size equals: form extent.
 	passedHere := false.
 	im withInnerFormDo: [ :f | passedHere := true ].
-	self assert: passedHere  
+	self assert: passedHere .
+	passedHere := false.
+	found := true.
+	im withInnerFormDo: [ :f | passedHere := true ] ifNone: [ found := false].
+	self assert: passedHere .
+	self assert: found 
+
 ]

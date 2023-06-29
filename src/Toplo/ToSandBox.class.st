@@ -84,6 +84,7 @@ Here an example of a client for a method.
 	menu := ToContextMenu new.
 	menu addItem: (ToButtonMenuItem new labelText: 'Select all'; whenClickedDo: [:event :client | client selecter all; apply ]; yourself).
 	menu addItem: (ToButtonMenuItem new labelText: 'Copy'; whenClickedDo: [:event :client | client editor copySelected ]; yourself).
+	menu addItem: (ToButtonMenuItem new labelText: 'Cut'; whenClickedDo: [:event :client | client editor cutSelected ]; yourself).
 	menu addItem: (ToButtonMenuItem new labelText: 'Paste'; whenClickedDo: [:event :client | client editor paste ]; yourself).
 	menu addSeparator.
 	menu addItem: (ToButtonMenuItem new labelText: 'Cancel'; whenClickedDo: [:event :client | client requestCancel ]; yourself).

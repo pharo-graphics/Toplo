@@ -9,7 +9,7 @@ Trait {
 { #category : #'t - click behavior' }
 TToClickable >> clickEventClass [
 
-	^ ToLeftClickEvent 
+	^ BlPrimaryClickEvent 
 ]
 
 { #category : #'t - click behavior' }

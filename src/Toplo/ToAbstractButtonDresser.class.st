@@ -17,6 +17,7 @@ ToAbstractButtonDresser >> clickCandidate: anElement event: anEvent [
 
 	| mup |
 	anEvent consumed: true.
+	anEvent mouseUpEvent consumed: true.
 	mup := anEvent mouseUpEvent.
 	mup ifNil: [ ^ self ].
 	anEvent modifiers isEmpty ifFalse: [ ^ self ].
@@ -27,22 +28,9 @@ ToAbstractButtonDresser >> clickCandidate: anElement event: anEvent [
 { #category : #'event handlers' }
 ToAbstractButtonDresser >> clickCandidateHandlerIn: anElement [
 
-	^ BlEventHandler on: BlClickCandidateEvent do: [ :event | self clickCandidate: anElement event: event  ]
-]
-
-{ #category : #'events handling' }
-ToAbstractButtonDresser >> clicked: anElement event: anEvent [
-
-	| clickEvent |
-	super clicked:  anElement event: anEvent.
-	anElement isDisabled ifTrue: [ ^ self ].
-	clickEvent := anEvent secondaryButtonPressed
-		              ifTrue: [ ToRightClickEvent new ]
-		              ifFalse: [
-			              anEvent middleButtonPressed
-				              ifTrue: [ ToMiddleClickEvent new ]
-				              ifFalse: [ ToLeftClickEvent new ] ].
-	anElement dispatchEvent: clickEvent
+	^ BlEventHandler
+		  on: BlClickCandidateEvent
+		  do: [ :event | self clickCandidate: anElement event: event ]
 ]
 
 { #category : #'api - install/uninstall  hook' }

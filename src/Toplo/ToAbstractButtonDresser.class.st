@@ -2,90 +2,57 @@ Class {
 	#name : #ToAbstractButtonDresser,
 	#superclass : #ToMouseHandlingDresser,
 	#instVars : [
-		'clickCandidateHandler',
-		'clickActionLauncher'
+		'clickCandidateHandler'
 	],
 	#category : #'Toplo-Widget-Button'
 }
 
-{ #category : #'event handlers' }
-ToAbstractButtonDresser >> clickActionLauncher [
+{ #category : #'events handling' }
+ToAbstractButtonDresser >> clickCandidate: anElement event: anEvent [
 
-	^ ToButtonClickHandler new
+	"Manage possible click "
+	"Because a button may have sub-elements, a Mouse up can have a different target than the
+	corresponding mouse down. It is because a slide can occur if mouse has slided from the 
+	label to the icon as an example)"
+
+	| mup |
+	anEvent consumed: true.
+	mup := anEvent mouseUpEvent.
+	mup ifNil: [ ^ self ].
+	anEvent modifiers isEmpty ifFalse: [ ^ self ].
+	(mup currentTarget hasInParentChain: anElement) ifTrue: [ 
+		anElement dispatchEvent: mup asClickEvent ]
 ]
 
 { #category : #'event handlers' }
 ToAbstractButtonDresser >> clickCandidateHandlerIn: anElement [
 
-	^ BlEventHandler on: BlClickCandidateEvent do: [ self escaped: anElement ]
+	^ BlEventHandler on: BlClickCandidateEvent do: [ :event | self clickCandidate: anElement event: event  ]
 ]
 
 { #category : #'events handling' }
-ToAbstractButtonDresser >> doubleClicked: anElement event: anEvent [
+ToAbstractButtonDresser >> clicked: anElement event: anEvent [
 
-	super doubleClicked: anElement event: anEvent.
-	self clicked: anElement event: anEvent
-
-]
-
-{ #category : #'events handling' }
-ToAbstractButtonDresser >> escaped: anElement [
-
-	self subclassResponsibility 
-
+	| clickEvent |
+	super clicked:  anElement event: anEvent.
+	anElement isDisabled ifTrue: [ ^ self ].
+	clickEvent := anEvent secondaryButtonPressed
+		              ifTrue: [ ToRightClickEvent new ]
+		              ifFalse: [
+			              anEvent middleButtonPressed
+				              ifTrue: [ ToMiddleClickEvent new ]
+				              ifFalse: [ ToLeftClickEvent new ] ].
+	anElement dispatchEvent: clickEvent
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToAbstractButtonDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
-	clickActionLauncher := self clickActionLauncher button: anElement.
 	clickCandidateHandler := self clickCandidateHandlerIn: anElement.
 	
 	anElement addEventHandler: clickCandidateHandler.
-	anElement addEventHandler: clickActionLauncher.
 
-
-]
-
-{ #category : #'events handling' }
-ToAbstractButtonDresser >> leaved: anElement [
-
-	self subclassResponsibility 
-
-]
-
-{ #category : #'events handling' }
-ToAbstractButtonDresser >> leaved: anElement event: anEvent [
-
-	super leaved: anElement event: anEvent.
-	self leaved: anElement
-
-]
-
-{ #category : #'events handling' }
-ToAbstractButtonDresser >> leftClicked: anElement [
-
-	anElement fireEvent: ToButtonClickedEvent new
-]
-
-{ #category : #'events handling' }
-ToAbstractButtonDresser >> leftClicked: anElement event: anEvent [
-
-	super leftClicked: anElement event: anEvent.
-	self leftClicked: anElement
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToAbstractButtonDresser >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToAbstractButtonDresser >> onUninstalledIn: anElement [
-
-	super onUninstalledIn: anElement.
 
 ]
 
@@ -93,6 +60,15 @@ ToAbstractButtonDresser >> onUninstalledIn: anElement [
 ToAbstractButtonDresser >> uninstallEventListenersIn: anElement [
 
 	super uninstallEventListenersIn: anElement.
-	anElement removeEventHandler: clickCandidateHandler.
-	anElement removeEventHandler: clickActionLauncher
+	anElement removeEventHandler: clickCandidateHandler
+]
+
+{ #category : #'events handling' }
+ToAbstractButtonDresser >> up: anElement event: anEvent [
+
+	super up:  anElement event: anEvent.
+	"mouse up must be consumed here so that BlClickCandidateEvent is created 
+	with the right BlMouseUpEvent"
+	anEvent primaryButtonPressed ifFalse: [ ^ self ].
+	anEvent consumed: true 
 ]

@@ -1,24 +1,13 @@
 Class {
 	#name : #ToBasicMenuItemDresser,
-	#superclass : #ToDresser,
-	#instVars : [
-		'enterHandler'
-	],
+	#superclass : #ToMouseHandlingDresser,
 	#category : #'Toplo-Widget-Menu'
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToBasicMenuItemDresser >> installEventListenersIn: anElement [
+ToBasicMenuItemDresser >> hover: anElement event: anEvent [
 
-	enterHandler := BlEventHandler
-		                on: BlMouseEnterEvent
-		                do: [ :event | self onEnterEvent: event in: anElement ].
-	anElement addEventHandler: enterHandler
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToBasicMenuItemDresser >> onEnterEvent: anEvent in: anElement [
-
+	super hover: anElement event: anEvent.
 	" check event and current target "
 	(anEvent anyButtonPressed and: [ anEvent currentTarget ~= anElement ]) 
 		ifTrue: [ ^ self ].
@@ -41,10 +30,4 @@ ToBasicMenuItemDresser >> onInstalledIn: anElement [
 ToBasicMenuItemDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToBasicMenuItemDresser >> uninstallEventListenersIn: anElement [
-
-	anElement removeEventHandler: enterHandler
 ]

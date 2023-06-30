@@ -46,13 +46,6 @@ ToGeneralButtonDresser >> defaultInitialBorder [
 ]
 
 { #category : #'events handling' }
-ToGeneralButtonDresser >> escaped: anElement [
-
-	self restoreUnpressedState
-
-]
-
-{ #category : #'events handling' }
 ToGeneralButtonDresser >> hover: anElement event: anEvent [
 
 	self border: self hoveredBorder in: anElement.
@@ -111,7 +104,7 @@ ToGeneralButtonDresser >> installEventListenersIn: anElement [
 ]
 
 { #category : #'events handling' }
-ToGeneralButtonDresser >> leaved: anElement [
+ToGeneralButtonDresser >> leaved: anElement event: anEvent [
 
 	self border: initialBorder in: anElement.
 	self background: initialBackground in: anElement
@@ -125,6 +118,17 @@ ToGeneralButtonDresser >> leftPressed: anElement event: anEvent [
 	self savePressedState.
 	self border: savedPressedBorder in: anElement.
 	self background: savedPressedBackground in: anElement
+]
+
+{ #category : #'events handling' }
+ToGeneralButtonDresser >> leftUp: anElement event: anEvent [
+
+	super leftUp: anElement event: anEvent.
+	self restoreUnpressedState.
+	self border: self hoveredBorder in: anElement.
+	self background: self hoveredBackground in: anElement
+
+
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -184,15 +188,4 @@ ToGeneralButtonDresser >> uninstallEventListenersIn: anElement [
 	anElement removeEventHandler: borderChangedHandler.
 	anElement removeEventHandler: backgroundChangedHandler.
 	super uninstallEventListenersIn: anElement
-]
-
-{ #category : #'events handling' }
-ToGeneralButtonDresser >> up: anElement event: anEvent [
-
-	super up: anElement event: anEvent.
-	self restoreUnpressedState.
-	self border: self hoveredBorder in: anElement.
-	self background: self hoveredBackground in: anElement
-
-
 ]

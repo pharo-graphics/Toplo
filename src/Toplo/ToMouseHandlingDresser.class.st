@@ -32,6 +32,7 @@ ToMouseHandlingDresser >> border: aBorder in: anElement [
 ToMouseHandlingDresser >> clicked: anElement event: anEvent [
 
 	anEvent secondaryButtonPressed ifTrue: [ ^ self rightClicked: anElement event: anEvent ].
+	anEvent middleButtonPressed ifTrue: [ ^ self middleClicked: anElement event: anEvent ].
 	self leftClicked: anElement event: anEvent
 
 ]
@@ -86,6 +87,20 @@ ToMouseHandlingDresser >> leftPressed: anElement event: anEvent [
 
 { #category : #'events handling' }
 ToMouseHandlingDresser >> leftUp: anElement event: anEvent [
+
+]
+
+{ #category : #'events handling' }
+ToMouseHandlingDresser >> middleClicked: anElement event: anEvent [
+]
+
+{ #category : #'events handling' }
+ToMouseHandlingDresser >> middlePressed: anElement event: anEvent [
+
+]
+
+{ #category : #'events handling' }
+ToMouseHandlingDresser >> middleUp: anElement event: anEvent [
 
 ]
 
@@ -155,7 +170,8 @@ ToMouseHandlingDresser >> onUninstalledIn: anElement [
 { #category : #'events handling' }
 ToMouseHandlingDresser >> pressed: anElement event: anEvent [
 
-	anEvent secondaryButtonPressed ifFalse: [ ^ self leftPressed: anElement event: anEvent].
+	anEvent primaryButtonPressed ifTrue: [ ^ self leftPressed: anElement event: anEvent].
+	anEvent middleButtonPressed ifTrue: [ ^ self middlePressed: anElement event: anEvent].
 	self rightPressed: anElement event: anEvent
 
 ]
@@ -189,5 +205,6 @@ ToMouseHandlingDresser >> uninstallEventListenersIn: anElement [
 ToMouseHandlingDresser >> up: anElement event: anEvent [
 
 	anEvent primaryButtonPressed ifTrue: [ ^ self leftUp: anElement event: anEvent].
+	anEvent middleButtonPressed ifTrue: [ ^ self middleUp: anElement event: anEvent].
 	self rightUp: anElement event: anEvent
 ]

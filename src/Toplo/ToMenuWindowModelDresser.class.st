@@ -1,25 +1,13 @@
 Class {
 	#name : #ToMenuWindowModelDresser,
-	#superclass : #ToDresser,
-	#instVars : [
-		'clickHandler'
-	],
+	#superclass : #ToMouseHandlingDresser,
 	#category : #'Toplo-Widget-Menu'
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToMenuWindowModelDresser >> onInstalledIn: anElement [
+ToMenuWindowModelDresser >> leftPressed: anElement event: anEvent [
 
-	super onInstalledIn: anElement.
-	clickHandler := BlEventHandler on: BlMouseDownEvent do: [ :event | self popupOrClose: anElement event: event].
-	anElement addEventHandler: clickHandler
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToMenuWindowModelDresser >> onUninstalledIn: anElement [
-
-	super onUninstalledIn: anElement.
-	anElement removeEventHandler: clickHandler
+	self popupOrClose: anElement event: anEvent
 ]
 
 { #category : #'api - install/uninstall  hook' }

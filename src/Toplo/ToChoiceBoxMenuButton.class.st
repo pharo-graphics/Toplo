@@ -22,8 +22,8 @@ ToChoiceBoxMenuButton >> initialize [
 
 ]
 
-{ #category : #accessing }
-ToChoiceBoxMenuButton >> subMenuWindow [
+{ #category : #window }
+ToChoiceBoxMenuButton >> menuWindow [
 
-	^ subMenuWindow 
+	^ menuWindow 
 ]

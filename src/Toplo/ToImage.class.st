@@ -24,6 +24,13 @@ ToImage >> defaultInnerImage [
 		  yourself
 ]
 
+{ #category : #'form accessing' }
+ToImage >> errorInnerFormNotFound [
+	"Raise a NotFound exception."
+
+	NotFound signalFor: self
+]
+
 { #category : #testing }
 ToImage >> hasInnerImage [
 
@@ -40,6 +47,12 @@ ToImage >> initialize [
 	
 	" I ** must be ** considered as a leaf of a UI element tree. Otherwise, click may not work on me. This is why my children are not allowed to manage mouse events. Related to https://github.com/plantec/Toplo/issues/41"
 	self preventChildrenMouseEvents.
+]
+
+{ #category : #'form accessing' }
+ToImage >> innerForm [
+	"Convenience method that returns nil if the request makes no sense or if there is no form."
+	^ self innerImage background formImage
 ]
 
 { #category : #accessing }
@@ -68,4 +81,19 @@ ToImage >> whenInnerImageReplacedDo: aBlock [
 	"set a block to perform after that the image has been changed, and its action performed"
 
 	self property: #innerImage whenChangedDo: aBlock
+]
+
+{ #category : #'form accessing' }
+ToImage >> withInnerFormDo: aBlock [
+	" aBlock is evaluated with the form as arguments 
+	if the result of #innerForm is not nil "
+	self withInnerFormDo:  aBlock ifNone: [ self errorInnerFormNotFound ]
+]
+
+{ #category : #'form accessing' }
+ToImage >> withInnerFormDo: aBlock ifNone: aNoneBlock [
+	" aBlock is evaluated with the form as arguments 
+	if the result of #innerForm is not nil, else, aNoneBlock is evaluated "
+
+	self innerForm ifNil: aNoneBlock ifNotNil: [ :f | aBlock value: f ]
 ]

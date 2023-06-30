@@ -12,6 +12,12 @@ ToOverlayWindow >> checkBeforePopupIn: aWidget [
 	super checkBeforePopupIn: aWidget
 ]
 
+{ #category : #initialization }
+ToOverlayWindow >> defaulPositioningHook [
+
+	^ [ :w :event | w widget bounds inSpace bounds topLeft ]
+]
+
 { #category : #'t - initialization dresser' }
 ToOverlayWindow >> defaultDresser [ 
 

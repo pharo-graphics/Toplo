@@ -16,6 +16,14 @@ ToMenuWindow >> close [
 ]
 
 { #category : #initialization }
+ToMenuWindow >> defaulPositioningHook [ 
+
+	^ [ :w :event | w widget isSubmenu
+		  ifTrue: [ w widget bounds inSpace bounds topRight ]
+		  ifFalse: [ w widget bounds inSpace bounds bottomLeft ] ]
+]
+
+{ #category : #initialization }
 ToMenuWindow >> defaultBorder [
 
 	^ BlBorder paint: Color lightGray width: 1
@@ -42,7 +50,7 @@ ToMenuWindow >> mouseEnterOnMenuItem: aMenuItem [
 	self openedSubmenuWindow ifNil: [ ^ self ].
 
 	" test if the submenu is not the menuItem one "
-	self openedSubmenuWindow == aMenuItem subMenuWindow 
+	self openedSubmenuWindow == aMenuItem menuWindow 
 		ifTrue: [ ^ self ].
 
 	" ok, I can close other item submenu window"

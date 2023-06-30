@@ -10,6 +10,12 @@ ToAnchoredWindow >> attachTo: anElement [
 	self widget: anElement
 ]
 
+{ #category : #initialization }
+ToAnchoredWindow >> defaulPositioningHook [
+
+	^ [ :w :event | w widget bounds inSpace bounds topLeft ]
+]
+
 { #category : #'t - initialization dresser' }
 ToAnchoredWindow >> defaultDresser [ 
 

@@ -79,7 +79,10 @@ Here an example of a client for a method.
 	menu := ToContextMenu new.
 	menu addItem: (ToButtonMenuItem new labelText: 'Select all'; whenClickedDo: [:event :client | client selecter all; apply ]; yourself).
 	menu addItem: (ToButtonMenuItem new labelText: 'Copy'; whenClickedDo: [:event :client | client editor copySelected ]; yourself).
+	menu addItem: (ToButtonMenuItem new labelText: 'Cut'; whenClickedDo: [:event :client | client editor cutSelected ]; yourself).
 	menu addItem: (ToButtonMenuItem new labelText: 'Paste'; whenClickedDo: [:event :client | client editor paste ]; yourself).
+	menu addSeparator.
+	menu addItem: (ToButtonMenuItem new labelText: 'Accept'; whenClickedDo: [:event :client | client requestSave ]; yourself).
 	menu addSeparator.
 	menu addItem: (ToButtonMenuItem new labelText: 'Cancel'; whenClickedDo: [:event :client | client requestCancel ]; yourself).
 	menu withoutLeftColumn.
@@ -813,14 +816,14 @@ ToSandBox class >> example_choiceBoxWithStringData [
 	win := ToInnerWindow new title: 'Choice box Example'.
 
 	choicebox := ToChoiceBox new.
-	choicebox data addAll: { 'OS-X'. 'Windows'. }.
+	choicebox data addAll: { 'OS-X'. 'Windows' }.
 	choicebox addSeparator.
 	choicebox data add: 'Linux'.
 	choicebox selectData: 'Windows'.
 	choicebox inspect.
 
 	win root addChild: choicebox.
-	win openInWorld
+	win openInSpace
 ]
 
 { #category : #choicebox }
@@ -864,17 +867,17 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 	pane := ToPane horizontal.
 	pane matchParent.
 	e1 := ToElement new
-				margin: (BlInsets all: 3);
+		      margin: (BlInsets all: 3);
 		      background: (Color random alpha: 0.2);
 		      vMatchParent;
 		      width: 100.
 	e2 := ToElement new
-				margin: (BlInsets all: 3);
+		      margin: (BlInsets all: 3);
 		      background: (Color random alpha: 0.2);
 		      vMatchParent;
 		      width: 200.
 	e3 := ToElement new
-				margin: (BlInsets all: 3);
+		      margin: (BlInsets all: 3);
 		      background: (Color random alpha: 0.2);
 		      vMatchParent;
 		      width: 50.
@@ -890,7 +893,7 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 	pane addChild: btn.
 
 	pane addDividers.
-	pane openInWorld
+	pane openInSpace
 ]
 
 { #category : #menu }
@@ -1712,7 +1715,7 @@ ToSandBox class >> example_toButtonWithIconOnly [
 { #category : #button }
 ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 
-	| but space |
+	| but space count |
 	but := ToButton new "cellSpacing: 2; padding: (BlInsets all: 4)".
 	but label: (ToLabel text: 'Button').
 	but icon: (BlElement new
@@ -1721,7 +1724,9 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 			 yourself).
 	but beRightToLeft.
 	but layout cellSpacing: 10.
-	but whenClickedDo: [ :ann | but icon background: Color random ].
+	count := 0.
+	but when: BlClickEvent do: [ :event | count := count + 1. count traceCr ].
+	"but whenClickedDo: [ :ann | but icon background: Color random ]."
 	space := OBlSpace new.
 	space root addChild: but.
 	space show 

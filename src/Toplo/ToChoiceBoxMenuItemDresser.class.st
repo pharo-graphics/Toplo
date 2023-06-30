@@ -44,6 +44,13 @@ ToChoiceBoxMenuItemDresser >> leftClicked: anElement [
 	anElement parentMenuWindow close
 ]
 
+{ #category : #'events handling' }
+ToChoiceBoxMenuItemDresser >> leftUp: anElement event: anEvent [
+
+	super leftUp: anElement event: anEvent.
+	anElement parentMenuWindow close
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToChoiceBoxMenuItemDresser >> onInstalledIn: anElement [
 

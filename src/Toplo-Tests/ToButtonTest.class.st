@@ -39,3 +39,58 @@ ToButtonTest >> testButtonDresser [
 
 	self assert: button dresser class equals: ToButtonDresser
 ]
+
+{ #category : #'click handler' }
+ToButtonTest >> testClickRemovingHandler [
+
+	| but done |
+	but := ToButton new.
+	done := 0.
+	but whenClickedDo: [ done := done +1 ].
+	but dispatchEvent: BlClickEvent new.
+	self assert: done equals: 1.
+	but removeClickHandler.
+	but dispatchEvent: BlClickEvent new.
+	self assert: done equals: 1.
+
+	
+	
+]
+
+{ #category : #'click handler' }
+ToButtonTest >> testClickReplacingHandler [
+
+	| but done |
+	but := ToButton new.
+	done := 0.
+	but whenClickedDo: [ done := done + 1 ].
+	but dispatchEvent: BlClickEvent new.
+	self assert: done equals: 1.
+	but whenClickedDo: [ done := done + 10 ].
+	but dispatchEvent: BlClickEvent new.
+	self assert: done equals: 11.
+
+	
+	
+]
+
+{ #category : #'click handler' }
+ToButtonTest >> testClickWithSimpleHandler [
+
+	| but done |
+	but := ToButton new.
+	done := 0.
+	but whenClickedDo: [ done := done +1 ].
+	but dispatchEvent: BlClickEvent new.
+	self assert: done equals: 1
+	
+]
+
+{ #category : #'click handler' }
+ToButtonTest >> testClickWithoutHandler [
+
+	| but |
+	but := ToButton new.
+	but dispatchEvent: BlClickEvent new.
+	
+]

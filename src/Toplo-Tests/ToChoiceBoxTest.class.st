@@ -326,7 +326,7 @@ ToChoiceBoxTest >> testWith5StringData [
 	self assert: cb data size equals: 5.
 	self assert: cb selectedData equals: d first.
 	self assert: cb menuButton label text asString equals: d first.
-	self assert: cb menuButton subMenuWindow root children size equals: 5.
+	self assert: cb menuButton menuWindow root children size equals: 5.
 	self assert: cb group buttons size equals: 5.
 	self assert: cb placeholder isNil.
 	cb data removeAll.
@@ -344,12 +344,12 @@ ToChoiceBoxTest >> testWithOneStringData [
 	self assert: cb data size equals: 1.
 	self assert: cb selectedData equals: d.
 	self assert: cb menuButton label text asString equals: d.
-	self assert: cb menuButton subMenuWindow root children size equals: 1.
+	self assert: cb menuButton menuWindow root children size equals: 1.
 	self assert: cb group buttons size equals: 1.
 	self assert: cb placeholder isNil
 ]
 
-{ #category : #' tests' }
+{ #category : #tests }
 ToChoiceBoxTest >> testWithStrictStrategy [
 
 	| cb d1 d2 d3 |
@@ -365,7 +365,7 @@ ToChoiceBoxTest >> testWithStrictStrategy [
 	self assert: cb data size equals: 3.
 	self assert: cb selectedData equals: d1.
 	self assert: cb menuButton label text asString equals: d1.
-	self assert: cb menuButton subMenuWindow root children size equals: 3.
+	self assert: cb menuButton menuWindow root children size equals: 3.
 	self assert: cb group buttons size equals: 3.
 	self assert: cb group buttons first isChecked.
 	self assert: cb group buttons second isUnchecked.
@@ -391,7 +391,7 @@ ToChoiceBoxTest >> testWithUncheckStrategy [
 	self assert: cb data size equals: 3.
 	cb selectData: d1.
 	self assert: cb menuButton label text asString equals: d1.
-	self assert: cb menuButton subMenuWindow root children size equals: 3.
+	self assert: cb menuButton menuWindow root children size equals: 3.
 	self assert: cb group buttons size equals: 3.
 	self assert: cb group buttons first isChecked.
 	self assert: cb group buttons second isUnchecked.

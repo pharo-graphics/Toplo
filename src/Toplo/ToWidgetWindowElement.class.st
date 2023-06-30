@@ -9,6 +9,7 @@ Class {
 		'#deleteAnimationFactory',
 		'#popupAnimationFactory',
 		'#hook',
+		'#popupTimestamp',
 		'#widget => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Window'
@@ -24,6 +25,12 @@ ToWidgetWindowElement >> animate [
 ToWidgetWindowElement >> animate: aBoolean [
 
 	animate := aBoolean
+]
+
+{ #category : #accessing }
+ToWidgetWindowElement >> autoCloseOnMouseUpDelay [
+
+	^ 250 milliSeconds 
 ]
 
 { #category : #'api - displaying' }
@@ -67,6 +74,12 @@ ToWidgetWindowElement >> close [
 ]
 
 { #category : #initialization }
+ToWidgetWindowElement >> defaulPositioningHook [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #initialization }
 ToWidgetWindowElement >> defaultHook [
 
 	^ self subclassResponsibility 
@@ -93,17 +106,14 @@ ToWidgetWindowElement >> dispatchClosedEvent [
 				 yourself) ]
 ]
 
-{ #category : #accessing }
-ToWidgetWindowElement >> hook [
+{ #category : #'api - displaying' }
+ToWidgetWindowElement >> dispatchOpenedEventFrom: anEvent [
 
-	^ hook
-]
-
-{ #category : #accessing }
-ToWidgetWindowElement >> hook: aValuable [
-	" takes the window as argument. Computes the window position according to the given window anchor element "
-	
-	hook := aValuable
+	self widget ifNotNil: [ :w |
+		w dispatchEvent: (ToWidgetWindowOpenedEvent new
+				 window: self;
+				 sourceEvent: anEvent;
+				 yourself) ]
 ]
 
 { #category : #initialization }
@@ -157,6 +167,25 @@ ToWidgetWindowElement >> popupEvent: anEvent [
 	"I need to finalize my position as soon as my layout is up-to-date"
 	self whenLayoutedDoOnce: [
 		self checkBeforePopupIn: self spaceLayer ]
+]
+
+{ #category : #accessing }
+ToWidgetWindowElement >> popupTimestamp [
+
+	^ popupTimestamp 
+]
+
+{ #category : #accessing }
+ToWidgetWindowElement >> positioningHook [
+
+	^ hook
+]
+
+{ #category : #accessing }
+ToWidgetWindowElement >> positioningHook: aValuable [
+	" takes the window as argument. Computes the window position according to the given window anchor element "
+	
+	hook := aValuable
 ]
 
 { #category : #'api - displaying' }

@@ -8,16 +8,9 @@ Class {
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToMenuAsSubmenuDresser >> installEventListenersIn: anElement [
+ToMenuAsSubmenuDresser >> hover: anElement event: anEvent [
 
-	popupHandler := BlEventHandler
-		                on: BlMouseEnterEvent
-		                do: [ :event | self onEnterEvent: event in: anElement].
-	anElement addEventHandler: popupHandler
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToMenuAsSubmenuDresser >> onEnterEvent: anEvent in: anElement [
+	super hover: anElement event: anEvent. 
 
 	" check the event "
 	(anEvent anyButtonPressed and: [ anEvent currentTarget ~= anElement ]) 
@@ -28,22 +21,16 @@ ToMenuAsSubmenuDresser >> onEnterEvent: anEvent in: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
+ToMenuAsSubmenuDresser >> leaved: anElement event: anEvent [
+	" do not ask to close the menu window here because the mouse 
+	can enter the submenu window here (which should not be closed)"
+
+	super leaved: anElement event: anEvent
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToMenuAsSubmenuDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	anElement strategy: (ToPairSubmenuColumnStrategy new width: anElement columnWidth)
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToMenuAsSubmenuDresser >> onUninstalledIn: anElement [
-
-	super onUninstalledIn: anElement
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToMenuAsSubmenuDresser >> uninstallEventListenersIn: anElement [
-
-	anElement removeEventHandler: popupHandler.
-
-
 ]

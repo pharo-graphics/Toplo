@@ -101,6 +101,15 @@ ToDividerDresser >> leftPressed: anElement event: anEvent [
 	anElement background: self colorProvider pressedBackgroundColor
 ]
 
+{ #category : #'events handling' }
+ToDividerDresser >> leftUp: anElement event: anEvent [
+
+	super leftUp: anElement event: anEvent.
+	anElement border: (BlBorder paint: self colorProvider defaultBorderColor).
+	anElement background: self colorProvider defaultBackgroundColor.
+	anElement space mouseProcessor handleLastMouseMove
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToDividerDresser >> onInstalledIn: anElement [
 
@@ -145,12 +154,4 @@ ToDividerDresser >> uninstallEventListenersIn: anElement [
 
 
 
-]
-
-{ #category : #'events handling' }
-ToDividerDresser >> up: anElement event: anEvent [
-
-	anElement border: (BlBorder paint: self colorProvider defaultBorderColor).
-	anElement background: self colorProvider defaultBackgroundColor.
-	anElement space mouseProcessor handleLastMouseMove
 ]

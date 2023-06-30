@@ -27,6 +27,12 @@ ToTooltipWindow >> contentString: aString [
 	self content: aString asRopedText
 ]
 
+{ #category : #initialization }
+ToTooltipWindow >> defaulPositioningHook [
+
+	^ [ :w :event | event position x @ (w widget localPointToGlobal: 0 @ w widget height) y + self vgap ]
+]
+
 { #category : #'t - accessing - dresser' }
 ToTooltipWindow >> defaultDresser [
 

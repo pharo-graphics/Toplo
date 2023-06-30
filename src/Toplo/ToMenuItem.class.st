@@ -7,6 +7,12 @@ Class {
 }
 
 { #category : #'t - click behavior' }
+ToMenuItem >> clickEventClass [
+
+	^ BlMouseUpEvent
+]
+
+{ #category : #'t - click behavior' }
 ToMenuItem >> client [
 
 	^ self parentMenu client

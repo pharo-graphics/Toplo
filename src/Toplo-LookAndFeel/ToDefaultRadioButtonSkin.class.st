@@ -74,7 +74,6 @@ ToDefaultRadioButtonSkin >> builtCheckedGeometry [
 ToDefaultRadioButtonSkin >> builtCheckedMargin [
 
 	^ BlInsets all: 0
-	
 ]
 
 { #category : #built }

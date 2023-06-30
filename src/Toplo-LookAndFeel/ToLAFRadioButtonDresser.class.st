@@ -94,13 +94,6 @@ ToLAFRadioButtonDresser >> defaultUncheckedState [
 			  ann widget icon: (self defaultUncheckedIconImage: ann widget) ]
 ]
 
-{ #category : #'events handling' }
-ToLAFRadioButtonDresser >> escaped: anElement [
-
-	
-
-]
-
 { #category : #accessing }
 ToLAFRadioButtonDresser >> hover: anElement event: anEvent [
 
@@ -148,7 +141,7 @@ ToLAFRadioButtonDresser >> isSkinCompatible: aSkin [
 ]
 
 { #category : #'events handling' }
-ToLAFRadioButtonDresser >> leaved: anElement [
+ToLAFRadioButtonDresser >> leaved: anElement event: anEvent [
 
 	self initialState: anElement.
 
@@ -182,7 +175,7 @@ ToLAFRadioButtonDresser >> onInstalledIn: anElement [
 	related to https://github.com/plantec/Toplo/issues/28 "
 	anElement group ifNotNil: [ :grp | grp add: anElement ].
 	anElement
-		whenAnnouncement: ToStatesDefinitionChangedAnnouncement
+		when: ToStatesDefinitionChangedEvent
 		do: [ self checkIndeterminateIn: anElement ].
 		
 	self skin onInstalledIn: anElement.
@@ -195,7 +188,7 @@ ToLAFRadioButtonDresser >> onUninstalledIn: anElement [
 	super onUninstalledIn: anElement.
 	skin := nil.
 	anElement
-		whenAnnouncement: ToStatesDefinitionChangedAnnouncement
+		when: ToStatesDefinitionChangedEvent
 		do: [].
 	
 	self skin onUninstalledIn: anElement.

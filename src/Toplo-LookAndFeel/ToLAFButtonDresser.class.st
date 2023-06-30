@@ -13,13 +13,6 @@ ToLAFButtonDresser >> defaultToElementClass [
 ]
 
 { #category : #'events handling' }
-ToLAFButtonDresser >> escaped: anElement [
-
-	
-
-]
-
-{ #category : #'events handling' }
 ToLAFButtonDresser >> hover: anElement event: anEvent [
 
 	| label image|
@@ -66,7 +59,7 @@ ToLAFButtonDresser >> isSkinCompatible: aSkin [
 ]
 
 { #category : #'events handling' }
-ToLAFButtonDresser >> leaved: anElement [
+ToLAFButtonDresser >> leaved: anElement event: anEvent [
 
 	self initialState: anElement.
 ]

@@ -1,5 +1,19 @@
 Extension { #name : #BlElement }
 
+{ #category : #'*Toplo' }
+BlElement >> asPlaceholderLayer [
+
+	^ ToPanePlaceholderLayer new
+		  in: [ :placeholder | placeholder addChild: self ];
+		  yourself
+]
+
+{ #category : #'*Toplo' }
+BlElement >> holder [
+
+	^ self constraints infinite holder
+]
+
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> openInOBlSpaceWithoutToTheme [
 	"This is a development method : use this method when your Space cannot support ToTheme management"

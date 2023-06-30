@@ -69,15 +69,3 @@ ToPane >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 	self layout layoutIgnored: self context: aBlElementBoundsUpdateContext
 
 ]
-
-{ #category : #accessing }
-ToPane >> privateAnnouncer: anObject [
-
-	privateAnnouncer := anObject
-]
-
-{ #category : #accessing }
-ToPane >> privateAnnouncerIsPlugged: anObject [
-
-	privateAnnouncerIsPlugged := anObject
-]

@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToCompanion,
 	#instVars : [
 		'next',
-		'theme'
+		'theme',
+		'addedToParentHandler'
 	],
 	#category : #'Toplo-Core'
 }
@@ -44,6 +45,10 @@ ToDresser >> initialize [
 
 { #category : #'api - install/uninstall  hook' }
 ToDresser >> installEventListenersIn: anElement [
+
+	"Notify when the element is added on a new parent to check if the parent change need to changed anything (for example a theme change)"
+	addedToParentHandler := BlEventHandler on: BlElementAddedToParentEvent do: [ self whenAdded: anElement ].
+	anElement addEventHandler: addedToParentHandler.
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -95,4 +100,16 @@ ToDresser >> theme [
 
 { #category : #'api - install/uninstall  hook' }
 ToDresser >> uninstallEventListenersIn: anElement [
+
+	anElement removeEventHandler: addedToParentHandler.
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToDresser >> whenAdded: anElement [
+
+	self flag:'labordep: Check Theme installation : this is a patch for first Space instanciation and need to be remove when a better pattern is found'.
+	 anElement space ifNil:[ ^ self ].
+    anElement space toTheme ifNil:[ ^ self ].
+    (anElement space isThemeInstalled not and:[anElement space toTheme notNil]) ifTrue:[ anElement toTheme installOnSpace: anElement space ].
+    anElement toThemeChanged
 ]

@@ -102,6 +102,8 @@ ToResizeGripDresser >> initialState: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToResizeGripDresser >> installEventListenersIn: anElement [
 
+	super installEventListenersIn: anElement.
+
 	borderChangedHandler := BlEventHandler
 		                        on: BlElementBorderChangedEvent
 		                        do: [ self initialBorder: anElement border ].

@@ -1549,7 +1549,7 @@ ToSandBox class >> example_menuBar2 [
 					            nextPutAll: 'Grid';
 					            print: i ].
 				subMenu addItem: ((ToButtonMenuItem new labelText: stream) 
-					when: BlMouseUpEvent do: [ :event | event primaryButtonPressed ifTrue: [self inform: selector asSymbol ]]) ].
+					when: BlPrimaryMouseUpEvent do: [ :event | self inform: selector asSymbol ]) ].
 			subMenu globalColumnWidth: 0.
 			menu addItem: subMenu ].
 

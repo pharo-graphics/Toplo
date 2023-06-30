@@ -14,7 +14,7 @@ ToPopupWindowDresser >> installEventListenersIn: anElement [
 	super installEventListenersIn: anElement.
 	closeHandler := BlEventHandler
 		                on: BlMouseUpOutsideEvent
-		                do: [ :event | self mouseOutside: event in: anElement ].
+		                do: [ :event | self mouseUpOutside: event in: anElement ].
 	anElement addEventHandler: closeHandler
 ]
 
@@ -31,7 +31,7 @@ ToPopupWindowDresser >> installWidget: newWidget in: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToPopupWindowDresser >> mouseOutside: anEvent in: aMenuWindow [
+ToPopupWindowDresser >> mouseUpOutside: anEvent in: aMenuWindow [
 
 	" decide  if one have to close the window "
 

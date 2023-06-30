@@ -21,7 +21,7 @@ ToMenuBarAutoOpenDresser >> installEventListenersIn: anElement [
 		                           on: BlMouseUpOutsideEvent
 		                           do: [ :event |
 		                           self
-			                           mouseOutside: event
+			                           mouseUpOutside: event
 			                           in: anElement ].
 	anElement addEventHandler: overHandler.
 	anElement space layerHolder addEventHandler: mouseEventOutsideHandler
@@ -33,14 +33,6 @@ ToMenuBarAutoOpenDresser >> menuBarDresser: anInstaller [
 	menuBarDresser := anInstaller 
 ]
 
-{ #category : #'api - accessing' }
-ToMenuBarAutoOpenDresser >> mouseOutside: anEvent in: aMenuBar [ 
-
-	anEvent originalEvent currentTarget ifNotNil: [ :t |
-		(t hasInParentChain: aMenuBar) ifTrue: [ ^ self ] ].
-	self removeAutoOpenDresserIn: aMenuBar
-]
-
 { #category : #'api - install/uninstall  hook' }
 ToMenuBarAutoOpenDresser >> mouseOver: anEvent in: anElement [
 	" auto-open action "
@@ -49,6 +41,14 @@ ToMenuBarAutoOpenDresser >> mouseOver: anEvent in: anElement [
 		(anEvent target hasInParentChain: m)
 			ifTrue: [ m menuWindow popupEvent: anEvent ]
 			ifFalse: [ m menuWindow close ] ]
+]
+
+{ #category : #'api - accessing' }
+ToMenuBarAutoOpenDresser >> mouseUpOutside: anEvent in: aMenuBar [ 
+
+	anEvent originalEvent currentTarget ifNotNil: [ :t |
+		(t hasInParentChain: aMenuBar) ifTrue: [ ^ self ] ].
+	self removeAutoOpenDresserIn: aMenuBar
 ]
 
 { #category : #'api - install/uninstall  hook' }

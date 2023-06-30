@@ -1,5 +1,5 @@
 Class {
 	#name : #ToRightClickEvent,
-	#superclass : #ToWidgetEvent,
+	#superclass : #ToClickEvent,
 	#category : #'Toplo-Core'
 }

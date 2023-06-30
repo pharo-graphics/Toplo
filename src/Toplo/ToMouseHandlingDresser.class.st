@@ -31,9 +31,11 @@ ToMouseHandlingDresser >> border: aBorder in: anElement [
 { #category : #'events handling' }
 ToMouseHandlingDresser >> clicked: anElement event: anEvent [
 
-	anEvent secondaryButtonPressed ifTrue: [ ^ self rightClicked: anElement event: anEvent ].
-	self leftClicked: anElement event: anEvent
-
+	^ anEvent
+		  ifPrimary: [ self leftClicked: anElement event: anEvent ]
+		  secondary: [ self rightClicked: anElement event: anEvent ]
+		  middle: [ self middleClicked: anElement event: anEvent ]
+		  other: [ self leftClicked: anElement event: anEvent ]
 ]
 
 { #category : #'events handling' }
@@ -86,6 +88,20 @@ ToMouseHandlingDresser >> leftPressed: anElement event: anEvent [
 
 { #category : #'events handling' }
 ToMouseHandlingDresser >> leftUp: anElement event: anEvent [
+
+]
+
+{ #category : #'events handling' }
+ToMouseHandlingDresser >> middleClicked: anElement event: anEvent [
+]
+
+{ #category : #'events handling' }
+ToMouseHandlingDresser >> middlePressed: anElement event: anEvent [
+
+]
+
+{ #category : #'events handling' }
+ToMouseHandlingDresser >> middleUp: anElement event: anEvent [
 
 ]
 
@@ -155,9 +171,11 @@ ToMouseHandlingDresser >> onUninstalledIn: anElement [
 { #category : #'events handling' }
 ToMouseHandlingDresser >> pressed: anElement event: anEvent [
 
-	anEvent secondaryButtonPressed ifFalse: [ ^ self leftPressed: anElement event: anEvent].
-	self rightPressed: anElement event: anEvent
-
+	^ anEvent
+		  ifPrimary: [ self leftPressed: anElement event: anEvent ]
+		  secondary: [ self rightPressed: anElement event: anEvent ]
+		  middle: [ self middlePressed: anElement event: anEvent ]
+		  other: [ self leftPressed: anElement event: anEvent ]
 ]
 
 { #category : #'events handling' }
@@ -188,6 +206,9 @@ ToMouseHandlingDresser >> uninstallEventListenersIn: anElement [
 { #category : #'events handling' }
 ToMouseHandlingDresser >> up: anElement event: anEvent [
 
-	anEvent primaryButtonPressed ifTrue: [ ^ self leftUp: anElement event: anEvent].
-	self rightUp: anElement event: anEvent
+	^ anEvent
+		  ifPrimary: [ self leftUp: anElement event: anEvent ]
+		  secondary: [ self rightUp: anElement event: anEvent ]
+		  middle: [ self middleUp: anElement event: anEvent ]
+		  other: [ self leftUp: anElement event: anEvent ]
 ]

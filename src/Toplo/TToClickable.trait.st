@@ -7,6 +7,12 @@ Trait {
 }
 
 { #category : #'t - click behavior' }
+TToClickable >> clickEventClass [
+
+	^ ToLeftClickEvent 
+]
+
+{ #category : #'t - click behavior' }
 TToClickable >> clickTargetFromEvent: anEvent [
 
 	^ anEvent currentTarget
@@ -16,6 +22,15 @@ TToClickable >> clickTargetFromEvent: anEvent [
 TToClickable >> client [
 
 	^ self explicitRequirement 
+]
+
+{ #category : #'t - click behavior' }
+TToClickable >> manageAction: aBlock onClickEvent: anEvent [
+
+	aBlock
+		cull: anEvent
+		cull: self client
+		cull: (self clickTargetFromEvent: anEvent)
 ]
 
 { #category : #'t - click behavior' }
@@ -34,11 +49,7 @@ TToClickable >> whenClickedDo: aBlock [
 	" only one official handler "
 	self removeClickHandler.
 	clickHandler := BlEventHandler
-		                on: BlClickEvent
-		                do: [ :event |
-			                aBlock
-				                cull: event
-				                cull: self client
-				                cull: (self clickTargetFromEvent: event) ].
+		                on: self clickEventClass
+		                do: [ :event | self manageAction: aBlock onClickEvent: event ].
 	self addEventHandler: clickHandler
 ]

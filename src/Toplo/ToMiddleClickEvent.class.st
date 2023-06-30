@@ -1,5 +1,5 @@
 Class {
-	#name : #ToLeftClickEvent,
+	#name : #ToMiddleClickEvent,
 	#superclass : #ToClickEvent,
 	#category : #'Toplo-Core'
 }

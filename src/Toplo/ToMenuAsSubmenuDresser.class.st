@@ -1,28 +1,13 @@
 Class {
 	#name : #ToMenuAsSubmenuDresser,
-	#superclass : #ToDresser,
-	#instVars : [
-		'enterHandler',
-		'leaveHandler'
-	],
+	#superclass : #ToMouseHandlingDresser,
 	#category : #'Toplo-Widget-Menu'
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToMenuAsSubmenuDresser >> installEventListenersIn: anElement [
+ToMenuAsSubmenuDresser >> hover: anElement event: anEvent [
 
-	enterHandler := BlEventHandler
-		                on: BlMouseEnterEvent
-		                do: [ :event | self onEnterEvent: event in: anElement].
-	leaveHandler := BlEventHandler
-		                on: BlMouseLeaveEvent
-		                do: [ :event | self onLeaveEvent: event in: anElement].
-	anElement addEventHandler: enterHandler.
-	anElement addEventHandler: leaveHandler
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToMenuAsSubmenuDresser >> onEnterEvent: anEvent in: anElement [
+	super hover: anElement event: anEvent. 
 
 	" check the event "
 	(anEvent anyButtonPressed and: [ anEvent currentTarget ~= anElement ]) 
@@ -33,28 +18,16 @@ ToMenuAsSubmenuDresser >> onEnterEvent: anEvent in: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
+ToMenuAsSubmenuDresser >> leaved: anElement event: anEvent [
+	" do not ask to close the menu window here because the mouse 
+	can enter the submenu window here (which should not be closed)"
+
+	super leaved: anElement event: anEvent
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToMenuAsSubmenuDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	anElement strategy: (ToPairSubmenuColumnStrategy new width: anElement columnWidth)
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToMenuAsSubmenuDresser >> onLeaveEvent: anEvent in: anElement [
-		
-	" do not ask to close the menu window here because the mouse can enter the submenu window here (which should not be closed)"
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToMenuAsSubmenuDresser >> onUninstalledIn: anElement [
-
-	super onUninstalledIn: anElement
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToMenuAsSubmenuDresser >> uninstallEventListenersIn: anElement [
-
-	anElement removeEventHandler: enterHandler.
-	anElement removeEventHandler: leaveHandler
-
 ]

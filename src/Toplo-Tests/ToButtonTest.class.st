@@ -46,11 +46,11 @@ ToButtonTest >> testClickRemovingHandler [
 	| but done |
 	but := ToButton new.
 	done := 0.
-	but whenClickedDo: [ done := done +1 ].
-	but dispatchEvent: BlClickEvent new.
+	but whenClickedDo: [ done := done + 1 ].
+	but dispatchEvent: BlMouseUpEvent primary asClickEvent.
 	self assert: done equals: 1.
 	but removeClickHandler.
-	but dispatchEvent: BlClickEvent new.
+	but dispatchEvent: BlMouseUpEvent primary asClickEvent.
 	self assert: done equals: 1.
 
 	
@@ -64,10 +64,10 @@ ToButtonTest >> testClickReplacingHandler [
 	but := ToButton new.
 	done := 0.
 	but whenClickedDo: [ done := done + 1 ].
-	but dispatchEvent: BlClickEvent new.
+	but dispatchEvent: BlMouseUpEvent primary asClickEvent.
 	self assert: done equals: 1.
 	but whenClickedDo: [ done := done + 10 ].
-	but dispatchEvent: BlClickEvent new.
+	but dispatchEvent: BlMouseUpEvent primary asClickEvent.
 	self assert: done equals: 11.
 
 	
@@ -81,7 +81,7 @@ ToButtonTest >> testClickWithSimpleHandler [
 	but := ToButton new.
 	done := 0.
 	but whenClickedDo: [ done := done +1 ].
-	but dispatchEvent: BlClickEvent new.
+	but dispatchEvent: BlMouseUpEvent primary asClickEvent.
 	self assert: done equals: 1
 	
 ]
@@ -91,6 +91,6 @@ ToButtonTest >> testClickWithoutHandler [
 
 	| but |
 	but := ToButton new.
-	but dispatchEvent: BlClickEvent new.
+	but dispatchEvent: BlMouseUpEvent primary asClickEvent.
 	
 ]

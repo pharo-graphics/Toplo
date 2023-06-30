@@ -24,6 +24,8 @@ ToListInfiniteElementDresser >> defaultPadding [
 { #category : #'api - install/uninstall  hook' }
 ToListInfiniteElementDresser >> installEventListenersIn: anElement [
 
+	super installEventListenersIn: anElement.
+
 	doubleClickHandler := BlEventHandler
 		                      on: BlDoubleClickEvent
 		                      do: [ :anEvent |

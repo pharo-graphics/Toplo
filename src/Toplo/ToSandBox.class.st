@@ -870,7 +870,7 @@ ToSandBox class >> example_Popup1 [
 	popup := ToPopupWindow new widget: e.
 	but := ToWidget new size: 50 @ 90.
 	but addDresser: ToGeneralButtonDresser new.
-	but when: ToLeftClickEvent do: [
+	but when: BlPrimaryClickEvent do: [
 		self inform: 'Click'.
 		popup close ].
 	popup root addChild: but.
@@ -1861,7 +1861,7 @@ ToSandBox class >> example_toAlbumAsButton [
 		       preventChildrenMouseEvents.
 	but addDresser: ToGeneralButtonDresser new.
 	but
-		when: ToLeftClickEvent
+		when: BlPrimaryClickEvent
 		do: [ self inform: 'Click' ].
 	but background: Color blue.
 	but size: 300 @ 100.
@@ -1967,7 +1967,8 @@ ToSandBox class >> example_toButton0 [
 
 	| but |
 	but := ToButton new.
-	but openInSpace
+	but openInSpace.
+	but inspect.
 ]
 
 { #category : #button }
@@ -2014,7 +2015,7 @@ ToSandBox class >> example_toButtonModelWithTextAndIconVertical [
 { #category : #button }
 ToSandBox class >> example_toButtonOrientationChanger [
 
-	| but space iconImage |
+	| but space iconImage count |
 	but := ToButton new.
 	but layout cellSpacing: 4.
 	but padding: (BlInsets all: 3).
@@ -2025,8 +2026,8 @@ ToSandBox class >> example_toButtonOrientationChanger [
 		             background: Color lightGray;
 		             yourself.
 	but icon: iconImage.
-	but whenClickedDo: [ :ann | 
-		ann currentTarget orientation: but orientation inverted ].
+	count := 0.
+	but whenClickedDo: [ :ann | count := count + 1. count traceCr. ann currentTarget orientation: but orientation inverted ].
 	space := OBlSpace new.
 	space root addChild: but.
 	space show 
@@ -2035,7 +2036,7 @@ ToSandBox class >> example_toButtonOrientationChanger [
 { #category : #button }
 ToSandBox class >> example_toButtonOrientationChanger3 [
 
-	| but space iconImage |
+	| but space iconImage count |
 	but := ToButton new.
 	but columnWidth: 100.
 	but padding: (BlInsets all: 3).
@@ -2046,8 +2047,8 @@ ToSandBox class >> example_toButtonOrientationChanger3 [
 		             background: Color lightGray;
 		             yourself.
 	but icon: iconImage.
-	but whenClickedDo: [ :ann | 
-		ann currentTarget orientation: but orientation inverted ].
+	count := 0.
+	but whenClickedDo: [ :ann | count := count + 1. count traceCr. ann currentTarget orientation: but orientation inverted ].
 	space := OBlSpace new.
 	space root addChild: but.
 	space show 
@@ -2065,7 +2066,7 @@ ToSandBox class >> example_toButtonWithIconAndText [
 		             yourself.
 	but icon: iconImage.
 	but padding: (BlInsets all: 4).
-	but when: BlClickEvent do: [ :event | event target traceCr ].
+	but when: BlClickEvent do: [ :event | event currentTarget traceCr ].
 
 	space := OBlSpace new.
 	space root addChild: but.
@@ -3080,7 +3081,7 @@ ToSandBox class >> example_toWidgetAsButton0 [
 	but := ToWidget new.
 	but addDresser: ToGeneralButtonDresser new.
 	but
-		when: ToLeftClickEvent
+		when: BlPrimaryClickEvent
 		do: [ self inform: 'Click' ].
 	but background: Color blue.
 	but size: 50 @ 50.

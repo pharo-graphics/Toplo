@@ -89,6 +89,7 @@ ToListSelectionDresser >> uninstallEventListenersIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToListSelectionDresser >> whenAdded: anElement [
 
+	super whenAdded: anElement.
 	listElement := anElement listElement.
 
 ]

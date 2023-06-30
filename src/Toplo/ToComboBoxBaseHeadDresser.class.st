@@ -2,7 +2,6 @@ Class {
 	#name : #ToComboBoxBaseHeadDresser,
 	#superclass : #ToGeneralButtonDresser,
 	#instVars : [
-		'addedToParentHandler',
 		'removedFromParentHandler',
 		'comboBox'
 	],
@@ -13,9 +12,8 @@ Class {
 ToComboBoxBaseHeadDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
-	addedToParentHandler := BlEventHandler on: BlElementAddedToParentEvent do: [ self whenAdded: anElement ].
+	
 	removedFromParentHandler := BlEventHandler on: BlElementRemovedFromParentEvent do: [ self whenRemoved: anElement ].
-	anElement addEventHandler: addedToParentHandler.
 	anElement addEventHandler: removedFromParentHandler.
 
 ]
@@ -29,7 +27,6 @@ ToComboBoxBaseHeadDresser >> listElementRequestFocus [
 { #category : #'api - install/uninstall  hook' }
 ToComboBoxBaseHeadDresser >> uninstallEventListenersIn: anElement [
 
-	anElement removeEventHandler: addedToParentHandler.
 	anElement removeEventHandler: removedFromParentHandler.
 
 	super uninstallEventListenersIn: anElement.
@@ -39,6 +36,7 @@ ToComboBoxBaseHeadDresser >> uninstallEventListenersIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToComboBoxBaseHeadDresser >> whenAdded: anElement [
 
+	super whenAdded: anElement.
 	comboBox := anElement parent.
 
 ]

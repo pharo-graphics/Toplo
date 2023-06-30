@@ -48,8 +48,10 @@ ToGeneralButtonDresser >> defaultInitialBorder [
 { #category : #'events handling' }
 ToGeneralButtonDresser >> hover: anElement event: anEvent [
 
+	super hover: anElement event: anEvent.
+	anEvent anyButtonPressed ifFalse: [ self restoreUnpressedState ].
 	self border: self hoveredBorder in: anElement.
-	self background: self hoveredBackground in: anElement.
+	self background: self hoveredBackground in: anElement
 ]
 
 { #category : #accessing }

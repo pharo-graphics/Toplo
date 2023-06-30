@@ -6,6 +6,15 @@ Class {
 	#category : #'Toplo-Core'
 }
 
+{ #category : #'*Toplo-LookAndFeel' }
+ToElement class >> skinType: aType [
+
+	| e |
+	e := self new.
+	e skinType: aType.
+	^ e
+]
+
 { #category : #initialization }
 ToElement >> defaultLayoutCommonConstraints [
 

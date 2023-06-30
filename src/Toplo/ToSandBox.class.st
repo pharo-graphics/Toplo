@@ -1967,7 +1967,8 @@ ToSandBox class >> example_toButton0 [
 
 	| but |
 	but := ToButton new.
-	but openInSpace
+	but openInSpace.
+	but inspect.
 ]
 
 { #category : #button }

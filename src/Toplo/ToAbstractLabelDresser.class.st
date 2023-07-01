@@ -13,7 +13,10 @@ ToAbstractLabelDresser class >> isAbstract [
 { #category : #'api - install/uninstall  hook' }
 ToAbstractLabelDresser >> foreground: aBlPaint in: aToLabel [
 
-	aToLabel text foreground: aBlPaint
+	aToLabel text foreground: aBlPaint.
+	
+	"Need to notify the text modification"
+	aToLabel textChanged.
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -31,5 +34,8 @@ ToAbstractLabelDresser >> onInstalledIn: aToLabel [
 { #category : #'api - install/uninstall  hook' }
 ToAbstractLabelDresser >> textAttributes: aTextAttributeList in: aToLabel [
 
-	aToLabel text attributes: aTextAttributeList
+	aToLabel text attributes: aTextAttributeList.
+	
+	"Need to notify the text modification"
+	aToLabel textChanged.
 ]

@@ -109,7 +109,7 @@ ToDresser >> uninstallEventListenersIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToDresser >> useLookAndFeel [
 
-	^ self class useLookAndFeel
+	^ Toplo useLookAndFeel
 ]
 
 { #category : #'api - install/uninstall  hook' }

@@ -22,3 +22,5 @@ Metacello new
 ![image](https://github.com/plantec/Toplo/assets/49183340/a76ee5a2-1e2f-414f-8ab8-4dad71d4fc4f)
 
 A look and feel management is currently in development, you can activate these features by a pharo settings.
+
+![image](https://github.com/plantec/Toplo/assets/49183340/f5ec23e1-aac3-4fc1-bebe-9c085dad6fb4)

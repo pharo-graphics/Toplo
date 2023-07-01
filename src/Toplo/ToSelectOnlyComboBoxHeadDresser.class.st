@@ -27,6 +27,12 @@ ToSelectOnlyComboBoxHeadDresser >> newDataElementFactory: aFactory in: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
+ToSelectOnlyComboBoxHeadDresser >> onInstalledIn: anElement [
+
+	super onInstalledIn: anElement
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToSelectOnlyComboBoxHeadDresser >> whenAdded: anElement [
 
 	super 	whenAdded: anElement.

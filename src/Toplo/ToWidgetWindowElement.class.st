@@ -30,7 +30,7 @@ ToWidgetWindowElement >> animate: aBoolean [
 { #category : #accessing }
 ToWidgetWindowElement >> autoCloseOnMouseUpDelay [
 
-	^ 250 milliSeconds 
+	^ 300 milliSeconds 
 ]
 
 { #category : #'api - displaying' }

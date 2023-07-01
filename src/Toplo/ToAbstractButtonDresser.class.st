@@ -57,7 +57,7 @@ ToAbstractButtonDresser >> up: anElement event: anEvent [
 	super up:  anElement event: anEvent.
 	"mouse up must be consumed here so that BlClickCandidateEvent is created 
 	with the right BlMouseUpEvent"
-	anEvent consumed: true.
 	anEvent primaryButtonPressed ifFalse: [ ^ self ].
+	anEvent consumed: true.
 
 ]

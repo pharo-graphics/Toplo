@@ -1,6 +1,6 @@
 Class {
 	#name : #ToLAFButtonDresser,
-	#superclass : #ToAbstractButtonDresser,
+	#superclass : #ToGeneralButtonDresser,
 	#traits : 'TToSkinnableElementDresser',
 	#classTraits : 'TToSkinnableElementDresser classTrait',
 	#category : #'Toplo-LookAndFeel-Dressers'
@@ -90,6 +90,12 @@ ToLAFButtonDresser >> leftPressed: anElement event: anEvent [
 	"icon event dispatch"
 	image := anElement icon.
 	(image notNil and:[image dresser notNil]) ifTrue:[ image dresser leftPressed: image event: anEvent ].
+]
+
+{ #category : #'events handling' }
+ToLAFButtonDresser >> leftUp: anElement event: anEvent [
+
+	self hover: anElement event: anEvent
 ]
 
 { #category : #'api - install/uninstall  hook' }

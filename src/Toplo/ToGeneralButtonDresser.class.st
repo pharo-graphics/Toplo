@@ -108,6 +108,7 @@ ToGeneralButtonDresser >> installEventListenersIn: anElement [
 { #category : #'events handling' }
 ToGeneralButtonDresser >> leaved: anElement event: anEvent [
 
+	super leaved: anElement event: anEvent.
 	self border: initialBorder in: anElement.
 	self background: initialBackground in: anElement
 

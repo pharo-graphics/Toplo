@@ -30,7 +30,7 @@ ToPopupWindow >> defaultDresser [
 { #category : #'api - displaying' }
 ToPopupWindow >> popupEvent: anEvent [
 
-	self cleanUp.			
+	self cleanUp.	
 	super popupEvent: anEvent
 ]
 

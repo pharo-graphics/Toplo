@@ -81,8 +81,8 @@ TToDressable >> removeDresser: aDresser [
 { #category : #'*Toplo-LookAndFeel' }
 TToDressable >> setSkinForType: aType [
 
-	self toTheme ifNil:[ ^ self ].
-	self skin: (self toTheme class skinFor: (self class) type: aType)
+	self toTheme ifNil: [ ^ self ].
+	self skin: (self toTheme class skinFor: self class type: aType)
 ]
 
 { #category : #'*Toplo-LookAndFeel' }

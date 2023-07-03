@@ -876,10 +876,10 @@ ToSandBox class >> example_Popup1 [
 	popup root addChild: but.
 	popup addEventHandler: (BlEventHandler
 			 on: BlMouseUpOutsideEvent
-			 do: [ :event | self inform: 'UP OUTSIDE' ]).
+			 do: [ :event | 'UP OUTSIDE' traceCr]).
 	popup addEventHandler: (BlEventHandler
 			 on: BlMouseDownOutsideEvent
-			 do: [ :event | self inform: 'DOWN OUTSIDE' ]).
+			 do: [ :event |  'DOWN OUTSIDE' traceCr ]).
 	e addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
 			 do: [ :evt |
@@ -887,7 +887,7 @@ ToSandBox class >> example_Popup1 [
 	popup addEventHandler: (BlEventHandler
 			 on: BlClickEvent
 			 do: [ :evt |
-				 self inform: 'CLICK'.
+				 'CLICK' traceCr.
 				 popup close ]).
 
 	container root addChild: e.

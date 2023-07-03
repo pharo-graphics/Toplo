@@ -1,43 +1,38 @@
 Trait {
-	#name : #TToWidgetWithState,
+	#name : #TToElementtWithState,
 	#instVars : [
 		'currentState',
 		'startState'
 	],
-	#category : #'Toplo-Widget-Button'
+	#category : #'Toplo-Core'
 }
 
 { #category : #'t - state processing' }
-TToWidgetWithState >> canSwitchToNextState [ 
+TToElementtWithState >> canSwitchToNextState [ 
 
 	^ self currentState notNil
 ]
 
 { #category : #'t - accessing state' }
-TToWidgetWithState >> currentState [
+TToElementtWithState >> currentState [
 
 	^ currentState
 ]
 
 { #category : #'t - private state processing' }
-TToWidgetWithState >> currentState: aState [
+TToElementtWithState >> currentState: aState [
 
 	currentState := aState
 ]
 
 { #category : #'t - accessing state' }
-TToWidgetWithState >> resetWidgetStates [
-
-	self widgetStates do: [ :s | s reset ].
-	self currentState: nil
-]
-
-{ #category : #'t - accessing state' }
-TToWidgetWithState >> setUpStatesWith: aCollectionOfStates [
+TToElementtWithState >> setUpStatesWith: aCollectionOfStates [
 	| curr states previousState |
 	
 	previousState := self currentState.
-	
+
+	self widgetStatesDo: [ :s | s onUninstalledIn: self ].
+
 	self currentState: nil.
 	aCollectionOfStates ifEmpty: [ ^self ].
 	states := aCollectionOfStates copy asOrderedCollection.
@@ -47,10 +42,13 @@ TToWidgetWithState >> setUpStatesWith: aCollectionOfStates [
 		curr next: states removeFirst.
 		curr := curr next ].
 	curr next: self currentState.
-	
+
+	self widgetStatesDo: [ :s | s onInstalledIn: self ].
+
 	(previousState isNil or:[ (self stateNamed: previousState name) isNil]) 
 		ifTrue: [ self switchToStartState ] 
 		ifFalse: [ self currentState: (self stateNamed: (previousState name))].
+	
 	self dispatchEvent: ToStatesSetupEvent new
 
 	
@@ -58,20 +56,20 @@ TToWidgetWithState >> setUpStatesWith: aCollectionOfStates [
 ]
 
 { #category : #'t - accessing state' }
-TToWidgetWithState >> startState [
+TToElementtWithState >> startState [
 
 	^ startState ifNil: [ self currentState ]
 ]
 
 { #category : #'t - private state processing' }
-TToWidgetWithState >> startState: aState [
+TToElementtWithState >> startState: aState [
 
 	startState := aState.
 	self switchToStartState
 ]
 
 { #category : #'t - accessing state' }
-TToWidgetWithState >> stateNamed: anObject [
+TToElementtWithState >> stateNamed: anObject [
 
 	| curr |
 	(curr := self currentState) ifNil: [ ^ nil ].
@@ -84,7 +82,7 @@ TToWidgetWithState >> stateNamed: anObject [
 ]
 
 { #category : #'t - state processing' }
-TToWidgetWithState >> switchToNextState [
+TToElementtWithState >> switchToNextState [
 
 	self canSwitchToNextState ifFalse: [ ^ self ].
 	self currentState in: [:curr | 
@@ -93,7 +91,7 @@ TToWidgetWithState >> switchToNextState [
 ]
 
 { #category : #'t - state processing' }
-TToWidgetWithState >> switchToStartState [
+TToElementtWithState >> switchToStartState [
 
 	self startState ifNotNil: [ :curr | 
 		curr counter: 0.
@@ -102,7 +100,7 @@ TToWidgetWithState >> switchToStartState [
 ]
 
 { #category : #'t - private state processing' }
-TToWidgetWithState >> switchToState: aState [
+TToElementtWithState >> switchToState: aState [
 
 	| previous |
 	previous := self currentState.
@@ -114,7 +112,7 @@ TToWidgetWithState >> switchToState: aState [
 ]
 
 { #category : #'t - accessing state' }
-TToWidgetWithState >> switchToStateNamed: aStateName [
+TToElementtWithState >> switchToStateNamed: aStateName [
 
 	| found n |
 	found := self stateNamed: aStateName.
@@ -124,15 +122,21 @@ TToWidgetWithState >> switchToStateNamed: aStateName [
 ]
 
 { #category : #'t - accessing state' }
-TToWidgetWithState >> widgetStates [
+TToElementtWithState >> widgetStates [
 
-	self currentState ifNil: [ ^ {  } ].
 	^ Array streamContents: [ :stream |
-		  | start curr |
-		  start := self currentState.
-		  stream nextPut: start.
-		  curr := start next.
-		  [ curr = start ] whileFalse: [
-			  stream nextPut: curr.
-			  curr := curr next ] ]
+		  self widgetStatesDo: [ :s | stream nextPut: s ] ]
+]
+
+{ #category : #'t - accessing state' }
+TToElementtWithState >> widgetStatesDo: aBlock [
+
+	| start curr |
+	self currentState ifNil: [ ^ self ].
+	start := self currentState.
+	aBlock value: start.
+	curr := start next.
+	[ curr = start ] whileFalse: [
+		aBlock value: curr.
+		curr := curr next ]
 ]

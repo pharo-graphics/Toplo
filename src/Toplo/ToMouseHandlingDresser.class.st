@@ -40,6 +40,8 @@ ToMouseHandlingDresser >> clicked: anElement event: anEvent [
 
 { #category : #'events handling' }
 ToMouseHandlingDresser >> doubleClicked: anElement event: anEvent [
+
+
 ]
 
 { #category : #'events handling' }

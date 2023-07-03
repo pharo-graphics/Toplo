@@ -1,8 +1,8 @@
 Class {
 	#name : #ToButtonMenuItem,
 	#superclass : #ToMenuItem,
-	#traits : 'TToPair + TToLabeledIcon + TToOrientable + TToWidgetWithState',
-	#classTraits : 'TToPair classTrait + TToLabeledIcon classTrait + TToOrientable classTrait + TToWidgetWithState classTrait',
+	#traits : 'TToPair + TToLabeledIcon + TToOrientable',
+	#classTraits : 'TToPair classTrait + TToLabeledIcon classTrait + TToOrientable classTrait',
 	#category : #'Toplo-Widget-Menu'
 }
 

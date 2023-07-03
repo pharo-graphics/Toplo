@@ -1,8 +1,8 @@
 Class {
 	#name : #ToElement,
 	#superclass : #OBlElement,
-	#traits : 'TToElement + TOBlLayoutResizable + TToDressable + TToWorldElement',
-	#classTraits : 'TToElement classTrait + TOBlLayoutResizable classTrait + TToDressable classTrait + TToWorldElement classTrait',
+	#traits : 'TToElement + TToElementtWithState + TOBlLayoutResizable + TToDressable + TToWorldElement',
+	#classTraits : 'TToElement classTrait + TToElementtWithState classTrait + TOBlLayoutResizable classTrait + TToDressable classTrait + TToWorldElement classTrait',
 	#category : #'Toplo-Core'
 }
 

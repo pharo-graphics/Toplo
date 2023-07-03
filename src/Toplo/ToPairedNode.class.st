@@ -1,8 +1,8 @@
 Class {
 	#name : #ToPairedNode,
 	#superclass : #ToPairedElement,
-	#traits : 'TToWidgetWithState + TToClickable',
-	#classTraits : 'TToWidgetWithState classTrait + TToClickable classTrait',
+	#traits : 'TToClickable',
+	#classTraits : 'TToClickable classTrait',
 	#category : #'Toplo-Core-Node'
 }
 

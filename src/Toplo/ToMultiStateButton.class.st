@@ -1,8 +1,6 @@
 Class {
 	#name : #ToMultiStateButton,
 	#superclass : #ToButton,
-	#traits : 'TToWidgetWithState',
-	#classTraits : 'TToWidgetWithState classTrait',
 	#category : #'Toplo-Widget-Button'
 }
 

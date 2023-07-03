@@ -1,6 +1,6 @@
 Class {
 	#name : #ToWidgetState,
-	#superclass : #Object,
+	#superclass : #ToCompanion,
 	#traits : 'TBlEventTarget',
 	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
@@ -83,12 +83,6 @@ ToWidgetState >> next [
 ToWidgetState >> next: aWidgetState [
 
 	next := aWidgetState
-]
-
-{ #category : #initialization }
-ToWidgetState >> reset [
-
-	eventDispatcher := nil
 ]
 
 { #category : #accessing }

@@ -2718,7 +2718,7 @@ ToSandBox class >> example_toMultiState1 [
 				 size: 100 @ 100;
 				 background: Color blue));
 		labelText: ('Blue' asRopedText fontSize: 24).
-	but setUpStatesWith: { (ToWidgetState new whenEnterDo: [ :ann | 
+	but setUpStatesWith: { (ToElementState new whenEnterDo: [ :ann | 
 			 | anim |
 			 ann state counter traceCr.
 			 ann state counter isZero ifFalse: [ 
@@ -2749,7 +2749,7 @@ ToSandBox class >> example_toMultiState2 [
 						         size: 100 @ 100;
 						         background: Color blue));
 		       labelText: ('Blue' asRopedText fontSize: 24).
-	but setUpStatesWith: { (ToWidgetState new whenExitDo: [ :ann |
+	but setUpStatesWith: { (ToElementState new whenExitDo: [ :ann |
 			 | anim |
 			 anim := (BlTransformAnimation scale: 4) absolute
 				         duration: 100 milliSeconds;
@@ -2776,7 +2776,7 @@ ToSandBox class >> example_toMultiState2_v2_do_not_work_well [
 						         size: 100 @ 100;
 						         background: Color blue));
 		       labelText: ('Blue' asRopedText fontSize: 24).
-	but setUpStatesWith: { (ToWidgetState new whenExitDo: [ :ann |
+	but setUpStatesWith: { (ToElementState new whenExitDo: [ :ann |
 			 | anim |
 			 anim := BlSequentialAnimation withAll: {
 					         ((BlTransformAnimation scale: 4) absolute
@@ -2798,7 +2798,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 	| but |
 	but := ToMultiStateButton new.
 	but setUpStatesWith: {
-			(ToWidgetState new
+			(ToElementState new
 				 whenEnterDo: [ :ann |
 					 ann widget
 						 icon: (ToImage inner: (BlElement new
@@ -2806,7 +2806,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 										   background: Color blue));
 						 labelText: 'Big blue' ];
 				 yourself).
-			(ToWidgetState new
+			(ToElementState new
 				 name: #green;
 				 whenEnterDo: [ :ann |
 					 ann widget
@@ -2815,7 +2815,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 										   background: Color green));
 						 labelText: 'Green' ];
 				 yourself).
-			(ToWidgetState new
+			(ToElementState new
 				 whenEnterDo: [ :ann |
 					 ann widget
 						 icon: (ToImage inner: (BlElement new
@@ -2823,7 +2823,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 										   background: Color black));
 						 labelText: 'Black' ];
 				 yourself).
-			(ToWidgetState new
+			(ToElementState new
 				 whenEnterDo: [ :ann |
 					 ann widget
 						 icon: (ToImage inner: (BlElement new
@@ -2852,7 +2852,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 
 	but := ToMultiStateButton new.
 	but setUpStatesWith: {
-			(ToWidgetState new
+			(ToElementState new
 				 whenEnterDo: [ :ann |
 					 | anim |
 					 anim := exitAnimation value.
@@ -2866,7 +2866,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 								 addAnimation: enterAnimation value ].
 					 ann widget addAnimation: anim ];
 				 yourself).
-			(ToWidgetState new
+			(ToElementState new
 				 whenEnterDo: [ :ann |
 					 | anim |
 					 anim := exitAnimation value.
@@ -2880,7 +2880,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 								 addAnimation: enterAnimation value ].
 					 ann widget addAnimation: anim ];
 				 yourself).
-			(ToWidgetState new
+			(ToElementState new
 				 whenEnterDo: [ :ann |
 					 | anim |
 					 anim := exitAnimation value.
@@ -2894,7 +2894,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 								 addAnimation: enterAnimation value ].
 					 ann widget addAnimation: anim ];
 				 yourself).
-			(ToWidgetState new whenEnterDo: [ :ann |
+			(ToElementState new whenEnterDo: [ :ann |
 				 | anim |
 				 anim := exitAnimation value.
 				 anim onFinishedDo: [
@@ -2915,17 +2915,17 @@ ToSandBox class >> example_toMultiStateWithLabel [
 	| but |
 	but := ToMultiStateButton new size: 70 @ 35.
 	but setUpStatesWith: {
-			(ToWidgetState new
+			(ToElementState new
 				 name: #one;
 				 whenEnterDo: [ :ann |
 					 ann widget labelText: ('One' asRopedText fontSize: 24) ];
 				 yourself).
-			(ToWidgetState new
+			(ToElementState new
 				 name: #two;
 				 whenEnterDo: [ :ann |
 					 ann widget labelText: ('Two' asRopedText fontSize: 24) ];
 				 yourself).
-			(ToWidgetState new
+			(ToElementState new
 				 name: #three;
 				 whenEnterDo: [ :ann |
 					 ann widget labelText: ('Three' asRopedText fontSize: 24) ];

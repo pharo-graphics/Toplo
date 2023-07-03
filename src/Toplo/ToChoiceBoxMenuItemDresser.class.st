@@ -13,7 +13,7 @@ ToChoiceBoxMenuItemDresser >> defaultCheckedIconImage [
 { #category : #initialization }
 ToChoiceBoxMenuItemDresser >> defaultCheckedState [
 
-	^ ToWidgetState new
+	^ ToElementState new
 		  name: #checked;
 		  whenEnterDo: [ :ann | 
 			  ann widget icon: (ToImage inner: self defaultCheckedIconImage) ];
@@ -31,7 +31,7 @@ ToChoiceBoxMenuItemDresser >> defaultUncheckedIconImage [
 { #category : #initialization }
 ToChoiceBoxMenuItemDresser >> defaultUncheckedState [
 
-	^ ToWidgetState new
+	^ ToElementState new
 		  name: #unchecked;
 		  whenEnterDo: [ :ann | 
 			  ann widget icon: (ToImage inner: self defaultUncheckedIconImage) ]

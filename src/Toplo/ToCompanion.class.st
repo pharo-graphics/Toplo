@@ -1,11 +1,13 @@
 Class {
 	#name : #ToCompanion,
 	#superclass : #Object,
-	#traits : 'TObservable + TBlAnnouncerProvider',
-	#classTraits : 'TObservable classTrait + TBlAnnouncerProvider classTrait',
+	#traits : 'TObservable + TBlEventTarget',
+	#classTraits : 'TObservable classTrait + TBlEventTarget classTrait',
 	#instVars : [
 		'userData',
-		'installed'
+		'installed',
+		'eventDispatcher',
+		'requiredActionsHandler'
 	],
 	#category : #'Toplo-Core'
 }
@@ -15,11 +17,20 @@ ToCompanion class >> asLook [
 	^ self new asLook
 ]
 
+{ #category : #'event management accessing' }
+ToCompanion >> eventDispatcher [
+	"Return an object responsible for event dispatching"
+	<return: #BlDirectEventDispatcher>
+
+	^ eventDispatcher 
+]
+
 { #category : #initialization }
 ToCompanion >> initialize [
 
 	super initialize.
 	self class initializeSlots: self.
+	eventDispatcher := BlDirectEventDispatcher on: self.
 	
 	installed := false.
 	self startPostponedActionsStorage
@@ -52,6 +63,7 @@ ToCompanion >> launchUninstallationIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToCompanion >> onInstalledIn: anElement [
 
+
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -65,7 +77,7 @@ ToCompanion >> performOrDefer: aBlock [
 	"An action is required from an object whose I am a compagnon.
 	If I am already associated with it, then aBlock will be performed, else, it will be
 	stored and run as soon as possible (typically when onInstalledIn: is sent to myself)"
-	self announce: (ToActionRequiredFromCompagnon new
+	self dispatchEvent: (ToActionRequiredFromCompagnonEvent new
 			 valuable: aBlock;
 			 yourself)
 ]
@@ -74,7 +86,7 @@ ToCompanion >> performOrDefer: aBlock [
 ToCompanion >> performPostponedActions [
 
 	"perform stored actions in  the object whose I am a compagnon (as an announcement subscriber)"
-	self postponedActions do: [ :announcement | self announce: announcement ].
+	self postponedActions do: [ :anEvent | self dispatchEvent: anEvent ].
 	self removePostponedActions
 ]
 
@@ -102,19 +114,24 @@ ToCompanion >> removePostponedActions [
 
 { #category : #'private-postponed actions' }
 ToCompanion >> startPostponedActionsStorage [
-
 	"Since no object is associated with me, I store the actions that I need to evaluate from it"
-	self whenAnnouncement: ToActionRequiredFromCompagnon send: #storePostponedAction: to: self
+
+	requiredActionsHandler := BlEventHandler
+		                          on: ToActionRequiredFromCompagnonEvent
+		                          do: [ :event | self storePostponedAction: event ].
+	self addEventHandler: requiredActionsHandler
 ]
 
 { #category : #'private-postponed actions' }
 ToCompanion >> stopPostponedActionsStorageFor: anObject [
-
 	"anObject is associated with me (I am his compagnon). So no more storage is needed anymore,
 	actions can be performed from it"
-	self unsubscribe: self.
-	self whenAnnouncement: ToActionRequiredFromCompagnon send: #whenActionRequired: to: anObject
 
+	self removeEventHandler: requiredActionsHandler.
+	requiredActionsHandler := BlEventHandler
+		                          on: ToActionRequiredFromCompagnonEvent
+		                          do: [ :event | anObject whenActionRequired: event ].
+	self addEventHandler: requiredActionsHandler
 ]
 
 { #category : #'private-postponed actions' }

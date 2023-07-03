@@ -42,7 +42,7 @@ ToCheckNodeDresser >> defaultCheckedIconImage [
 { #category : #initialization }
 ToCheckNodeDresser >> defaultCheckedState [
 
-	^ ToWidgetState new
+	^ ToElementState new
 		  name: #checked;
 		  whenEnterDo: [ :ann | 
 			  ann widget icon: self defaultCheckedIconImage.
@@ -87,7 +87,7 @@ ToCheckNodeDresser >> defaultIndeterminateIconImage [
 { #category : #initialization }
 ToCheckNodeDresser >> defaultIndeterminateState [
 
-	^ ToWidgetState new
+	^ ToElementState new
 		  name: #indeterminate;
 		  whenEnterDo: [ :ann | 
 			  ann widget icon: self defaultIndeterminateIconImage ];
@@ -109,7 +109,7 @@ ToCheckNodeDresser >> defaultUncheckedIconImage [
 { #category : #initialization }
 ToCheckNodeDresser >> defaultUncheckedState [
 
-	^ ToWidgetState new
+	^ ToElementState new
 		  name: #unchecked;
 		  whenEnterDo: [ :ann | 
 			  ann widget icon: self defaultUncheckedIconImage ]

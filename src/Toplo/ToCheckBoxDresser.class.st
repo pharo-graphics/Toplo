@@ -40,7 +40,7 @@ ToCheckBoxDresser >> defaultCheckedIconImage [
 { #category : #initialization }
 ToCheckBoxDresser >> defaultCheckedState [
 
-	^ ToWidgetState new
+	^ ToElementState new
 		  name: #checked;
 		  whenEnterDo: [ :ann | 
 			  ann widget icon: self defaultCheckedIconImage.
@@ -85,7 +85,7 @@ ToCheckBoxDresser >> defaultIndeterminateIconImage [
 { #category : #initialization }
 ToCheckBoxDresser >> defaultIndeterminateState [
 
-	^ ToWidgetState new
+	^ ToElementState new
 		  name: #indeterminate;
 		  whenEnterDo: [ :ann | 
 			  ann widget icon: self defaultIndeterminateIconImage ];
@@ -107,7 +107,7 @@ ToCheckBoxDresser >> defaultUncheckedIconImage [
 { #category : #initialization }
 ToCheckBoxDresser >> defaultUncheckedState [
 
-	^ ToWidgetState new
+	^ ToElementState new
 		  name: #unchecked;
 		  whenEnterDo: [ :ann | 
 			  ann widget icon: self defaultUncheckedIconImage ]

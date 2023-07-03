@@ -28,7 +28,7 @@ ToToggleButtonDresser >> defaultAnimationDuration [
 { #category : #initialization }
 ToToggleButtonDresser >> defaultCheckedState [
 
-	^ ToWidgetState new
+	^ ToElementState new
 		  name: #checked;
 		  whenExitDo: [ :ann | 
 			  | anim |
@@ -70,7 +70,7 @@ ToToggleButtonDresser >> defaultIconImage [
 { #category : #initialization }
 ToToggleButtonDresser >> defaultUncheckedState [
 
-	^ ToWidgetState new
+	^ ToElementState new
 		  name: #unchecked;
 		  whenEnterDo: [ :ann | 
 			  ann widget icon background: self uncheckedStateIconBackground.

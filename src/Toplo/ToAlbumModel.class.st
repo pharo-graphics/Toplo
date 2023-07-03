@@ -23,7 +23,8 @@ client onAlbum openInOBlSpace.
 Class {
 	#name : #ToAlbumModel,
 	#superclass : #ToViewModel,
-	#classTraits : 'TObservable classTrait',
+	#traits : 'TBlAnnouncerProvider',
+	#classTraits : 'TBlAnnouncerProvider classTrait',
 	#category : #'Toplo-View Models'
 }
 

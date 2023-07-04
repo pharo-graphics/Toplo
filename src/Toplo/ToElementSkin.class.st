@@ -3,7 +3,8 @@ Class {
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'look',
-		'lastEvent'
+		'lastEvent',
+		'recursive'
 	],
 	#category : #'Toplo-Theme-Skins'
 }
@@ -24,6 +25,7 @@ ToElementSkin >> addLook: aLook [
 { #category : #dispatching }
 ToElementSkin >> dispatchToChildren: anEvent [
 
+	self recursive ifFalse: [ ^ self ].
 	anEvent target childrenDo: [ :child | child dispatchEvent: anEvent ]
 ]
 
@@ -84,6 +86,18 @@ ToElementSkin >> onUninstalledIn: anElement [
 	look := nil.
 	super onUninstalledIn: anElement
 	
+]
+
+{ #category : #accessing }
+ToElementSkin >> recursive [
+
+	^ recursive ifNil: [ recursive := false ]
+]
+
+{ #category : #accessing }
+ToElementSkin >> recursive: anObject [
+
+	recursive := anObject
 ]
 
 { #category : #accessing }

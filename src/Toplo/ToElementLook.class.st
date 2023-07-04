@@ -16,13 +16,13 @@ ToElementLook class >> next: aLook [
 { #category : #private }
 ToElementLook >> borderBuilderFromElement: anElement [
 
-	^ BlBorderBuilder new
-		  paint: anElement toTheme colorBorder;
-		  width: anElement toTheme lineWidth;
-		  lineCap: BlStrokeLineCap butt;
-		  lineJoin: BlStrokeLineJoin miter;
-		  miterLimit: 4.0;
-		  dashOffset: 0
+	^ self next borderBuilderFromElement: anElement
+]
+
+{ #category : #private }
+ToElementLook >> decoratedBorderBuilderFromElement: anElement [
+
+	^ anElement privateSkin look borderBuilderFromElement: anElement
 ]
 
 { #category : #'event handling' }
@@ -41,10 +41,17 @@ ToElementLook >> elementRemovedFromSceneGraphEvent: anEvent [
 
 ]
 
-{ #category : #'event handling' }
+{ #category : #'private event handling' }
 ToElementLook >> elementStateEvent: anEvent [
 
-	anEvent sendToLook: self
+	self next ifNotNil: [ self next elementStateEvent: anEvent ].
+	anEvent sendToLook: self.
+
+]
+
+{ #category : #'event handling' }
+ToElementLook >> installStateEvent: anEvent [
+
 ]
 
 { #category : #accessing }

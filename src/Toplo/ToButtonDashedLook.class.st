@@ -1,23 +1,19 @@
 Class {
 	#name : #ToButtonDashedLook,
-	#superclass : #ToButtonLook,
+	#superclass : #ToButtonLookDecorator,
 	#category : #'Toplo-Theme-Skins'
 }
 
 { #category : #'event handling' }
-ToButtonDashedLook >> hoverStateEvent: anEvent [
+ToButtonDashedLook >> borderBuilderFromElement: anElement [
 
-	super hoverStateEvent: anEvent
+	^ (super borderBuilderFromElement: anElement)
+		  dashArray: anElement toTheme dashed;
+		  yourself
 ]
 
-{ #category : #'event handling' }
-ToButtonDashedLook >> initialStateEvent: anEvent [
+{ #category : #testing }
+ToButtonDashedLook >> hasBackground [
 
-	super initialStateEvent: anEvent
-]
-
-{ #category : #'event handling' }
-ToButtonDashedLook >> pressedStateEvent: anEvent [
-
-	super pressedStateEvent: anEvent
+	^ false
 ]

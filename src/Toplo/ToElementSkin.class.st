@@ -30,6 +30,7 @@ ToElementSkin >> dispatchToChildren: anEvent [
 { #category : #'event handling' }
 ToElementSkin >> elementAddedToSceneGraphEvent: anEvent [
 
+	anEvent target dispatchEvent: (ToInstallStateEvent new copyFrom: anEvent).
 	look elementAddedToSceneGraphEvent: anEvent
 ]
 
@@ -48,11 +49,24 @@ ToElementSkin >> eventsToHandle [
 { #category : #'api - event managing' }
 ToElementSkin >> handleEvent: anEvent [
 
+	lastEvent class = anEvent class ifTrue: [ ^ self ].
 	lastEvent := anEvent.
 	(anEvent isKindOf: ToElementStateEvent) ifTrue: [
 		self dispatchToChildren: anEvent clone.
 		^ anEvent sendTo: look ].
 	super handleEvent: anEvent
+]
+
+{ #category : #testing }
+ToElementSkin >> hasBackground [
+
+	^ look hasBackground
+]
+
+{ #category : #accessing }
+ToElementSkin >> look [
+
+	^ look
 ]
 
 { #category : #'api - install/uninstall  hook' }

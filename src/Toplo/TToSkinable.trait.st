@@ -27,6 +27,12 @@ TToSkinable >> initializeSkin [
 ]
 
 { #category : #'t - skin accessing' }
+TToSkinable >> privateSkin [
+
+	^ privateSkin
+]
+
+{ #category : #'t - skin accessing' }
 TToSkinable >> withSkin: aSkin [
 
 	privateSkin ifNotNil: [ self removeEventHandler: privateSkin ].

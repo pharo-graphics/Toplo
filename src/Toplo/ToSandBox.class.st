@@ -2059,6 +2059,14 @@ ToSandBox class >> example_toButtonWithIconAndText [
 
 	| but space iconImage |
 	but := ToButton new.
+	"but addLook: ToButtonLinkLook new."
+	but addLook: ToButtonFixedSizeLook new.
+	but addLook: ToButtonDashedLook new.
+	"but addLook: ToButtonPrimaryLook new."
+	but addLook: ToButtonDangerLook new.
+
+	"but addLook: ToButtonLinkLook new."
+
 	but label: (ToLabel text: 'Button').
 	iconImage := BlElement new
 		             size: 20 @ 20;

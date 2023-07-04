@@ -58,9 +58,10 @@ ToElementSkin >> handleEvent: anEvent [
 { #category : #'api - install/uninstall  hook' }
 ToElementSkin >> onInstalledIn: anElement [
 
-	look := anElement defaultLook.
-	super onInstalledIn: anElement.
-
+	self flag: 'For first version compatibility for now '.
+	look := ToNullElementLook new.
+	Toplo useLookAndFeel ifFalse: [ look := anElement defaultLook ].
+	super onInstalledIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }

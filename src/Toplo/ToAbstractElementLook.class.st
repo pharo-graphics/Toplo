@@ -11,3 +11,7 @@ ToAbstractElementLook >> elementAddedToSceneGraphEvent: anEvent [
 { #category : #'event handling' }
 ToAbstractElementLook >> elementRemovedFromSceneGraphEvent: anEvent [
 ]
+
+{ #category : #'event handling' }
+ToAbstractElementLook >> elementStateEvent: anEvent [
+]

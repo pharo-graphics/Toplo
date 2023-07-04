@@ -7,5 +7,5 @@ Class {
 { #category : #testing }
 ToButtonLookDecorator >> hasBackground [
 
-	^ next hasBackground
+	^ self next hasBackground
 ]

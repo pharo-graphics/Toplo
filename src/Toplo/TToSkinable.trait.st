@@ -33,6 +33,14 @@ TToSkinable >> privateSkin [
 ]
 
 { #category : #'t - skin accessing' }
+TToSkinable >> setLook: aLook [
+
+	privateSkin ifNil: [ ^ self ].
+	privateSkin setLook: aLook
+	
+]
+
+{ #category : #'t - skin accessing' }
 TToSkinable >> withSkin: aSkin [
 
 	privateSkin ifNotNil: [ self removeEventHandler: privateSkin ].

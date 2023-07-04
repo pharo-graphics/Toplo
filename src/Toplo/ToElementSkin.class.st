@@ -85,3 +85,9 @@ ToElementSkin >> onUninstalledIn: anElement [
 	super onUninstalledIn: anElement
 	
 ]
+
+{ #category : #accessing }
+ToElementSkin >> setLook: aLook [
+
+	look := aLook
+]

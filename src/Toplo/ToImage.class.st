@@ -24,6 +24,12 @@ ToImage >> defaultInnerImage [
 		  yourself
 ]
 
+{ #category : #'t - skin accessing' }
+ToImage >> defaultLook [ 
+
+	^ ToImageLook new
+]
+
 { #category : #'form accessing' }
 ToImage >> errorInnerFormNotFound [
 	"Raise a NotFound exception."

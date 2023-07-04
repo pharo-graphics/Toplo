@@ -2057,22 +2057,19 @@ ToSandBox class >> example_toButtonOrientationChanger3 [
 { #category : #button }
 ToSandBox class >> example_toButtonWithIconAndText [
 
-	| but space iconImage |
+	| but space  icon |
 	but := ToButton new.
 	"but addLook: ToButtonLinkLook new."
 	but addLook: ToButtonFixedSizeLook new.
 	but addLook: ToButtonDashedLook new.
 	"but addLook: ToButtonPrimaryLook new."
 	but addLook: ToButtonDangerLook new.
-
 	"but addLook: ToButtonLinkLook new."
 
 	but label: (ToLabel text: 'Button').
-	iconImage := BlElement new
-		             size: 20 @ 20;
-		             background: Color lightGray;
-		             yourself.
-	but icon: iconImage.
+	icon := ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16).
+	icon setLook: ToButtonImageDangerLook new.
+	but icon: icon.
 	but when: BlPrimaryClickEvent do: [ :event | event currentTarget traceCr ].
 
 	space := OBlSpace new.

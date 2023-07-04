@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'next',
 		'theme',
-		'addedToParentHandler'
+		'addedToParentHandler',
+		'removedFromParentHandler'
 	],
 	#category : #'Toplo-Core'
 }
@@ -46,11 +47,14 @@ ToDresser >> initialize [
 { #category : #'api - install/uninstall  hook' }
 ToDresser >> installEventListenersIn: anElement [
 
-	self useLookAndFeel ifFalse: [ ^ self ].
 	addedToParentHandler := BlEventHandler
 		                        on: BlElementAddedToParentEvent
 		                        do: [ self whenAdded: anElement ].
-	anElement addEventHandler: addedToParentHandler
+	removedFromParentHandler := BlEventHandler
+		                        on: BlElementRemovedFromParentEvent
+		                        do: [ self whenRemoved: anElement ].
+	anElement addEventHandler: addedToParentHandler.
+	anElement addEventHandler: removedFromParentHandler
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -104,6 +108,7 @@ ToDresser >> theme [
 ToDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: addedToParentHandler.
+	anElement removeEventHandler: removedFromParentHandler
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -115,9 +120,18 @@ ToDresser >> useLookAndFeel [
 { #category : #'api - install/uninstall  hook' }
 ToDresser >> whenAdded: anElement [
 
-	self flag:'labordep: Check Theme installation : this is a patch for first Space instanciation and need to be remove when a better pattern is found'.
-	 anElement space ifNil:[ ^ self ].
-    anElement space toTheme ifNil:[ ^ self ].
-    (anElement space isThemeInstalled not and:[anElement space toTheme notNil]) ifTrue:[ anElement toTheme installOnSpace: anElement space ].
-    anElement toThemeChanged
+	self flag:
+		'labordep: Check Theme installation : this is a patch for first Space instanciation and need to be remove when a better pattern is found'.
+	self useLookAndFeel ifFalse: [ ^ self ].
+	anElement space ifNil: [ ^ self ].
+	anElement space toTheme ifNil: [ ^ self ].
+	(anElement space isThemeInstalled not and: [
+		 anElement space toTheme notNil ]) ifTrue: [
+		anElement toTheme installOnSpace: anElement space ].
+	anElement toThemeChanged
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToDresser >> whenRemoved: anElement [
+
 ]

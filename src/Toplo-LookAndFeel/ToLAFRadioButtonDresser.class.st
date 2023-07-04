@@ -1,6 +1,6 @@
 Class {
 	#name : #ToLAFRadioButtonDresser,
-	#superclass : #ToAbstractButtonDresser,
+	#superclass : #ToMouseHandlingDresser,
 	#traits : 'TToSkinnableElementDresser',
 	#classTraits : 'TToSkinnableElementDresser classTrait',
 	#instVars : [

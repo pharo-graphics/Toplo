@@ -2065,7 +2065,6 @@ ToSandBox class >> example_toButtonWithIconAndText [
 		             background: Color lightGray;
 		             yourself.
 	but icon: iconImage.
-	but padding: (BlInsets all: 4).
 	but when: BlPrimaryClickEvent do: [ :event | event currentTarget traceCr ].
 
 	space := OBlSpace new.

@@ -12,17 +12,12 @@ Class {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #converting }
-ToCompanion class >> asLook [
-	^ self new asLook
-]
-
 { #category : #'event management accessing' }
 ToCompanion >> eventDispatcher [
 	"Return an object responsible for event dispatching"
 	<return: #BlDirectEventDispatcher>
 
-	^ eventDispatcher 
+	^ eventDispatcher ifNil: [ eventDispatcher := BlDirectEventDispatcher on: self ].
 ]
 
 { #category : #initialization }
@@ -30,7 +25,6 @@ ToCompanion >> initialize [
 
 	super initialize.
 	self class initializeSlots: self.
-	eventDispatcher := BlDirectEventDispatcher on: self.
 	
 	installed := false.
 	self startPostponedActionsStorage
@@ -77,7 +71,7 @@ ToCompanion >> performOrDefer: aBlock [
 	"An action is required from an object whose I am a compagnon.
 	If I am already associated with it, then aBlock will be performed, else, it will be
 	stored and run as soon as possible (typically when onInstalledIn: is sent to myself)"
-	self dispatchEvent: (ToActionRequiredFromCompagnonEvent new
+	self dispatchEvent: (ToActionRequiredEvent new
 			 valuable: aBlock;
 			 yourself)
 ]
@@ -117,7 +111,7 @@ ToCompanion >> startPostponedActionsStorage [
 	"Since no object is associated with me, I store the actions that I need to evaluate from it"
 
 	requiredActionsHandler := BlEventHandler
-		                          on: ToActionRequiredFromCompagnonEvent
+		                          on: ToActionRequiredEvent
 		                          do: [ :event | self storePostponedAction: event ].
 	self addEventHandler: requiredActionsHandler
 ]
@@ -129,7 +123,7 @@ ToCompanion >> stopPostponedActionsStorageFor: anObject [
 
 	self removeEventHandler: requiredActionsHandler.
 	requiredActionsHandler := BlEventHandler
-		                          on: ToActionRequiredFromCompagnonEvent
+		                          on: ToActionRequiredEvent
 		                          do: [ :event | anObject whenActionRequired: event ].
 	self addEventHandler: requiredActionsHandler
 ]

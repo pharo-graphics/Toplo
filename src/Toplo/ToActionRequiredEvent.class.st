@@ -1,5 +1,5 @@
 Class {
-	#name : #ToActionRequiredFromCompagnonEvent,
+	#name : #ToActionRequiredEvent,
 	#superclass : #BlEvent,
 	#instVars : [
 		'valuable'
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-ToActionRequiredFromCompagnonEvent >> valuable: aValuable [
+ToActionRequiredEvent >> valuable: aValuable [
 
 	valuable := aValuable
 ]
 
 { #category : #accessing }
-ToActionRequiredFromCompagnonEvent >> value: anObject [
+ToActionRequiredEvent >> value: anObject [
 
 	^ valuable value: anObject
 ]

@@ -2,9 +2,7 @@ Class {
 	#name : #ToListSelectionDresser,
 	#superclass : #ToDresser,
 	#instVars : [
-		'listElement',
-		'addHandler',
-		'removeHandler'
+		'listElement'
 	],
 	#category : #'Toplo-Widget-List'
 }
@@ -45,12 +43,7 @@ ToListSelectionDresser >> defaultPadding [
 { #category : #'api - install/uninstall  hook' }
 ToListSelectionDresser >> installEventListenersIn: anElement [
 
-	super installEventListenersIn: anElement.
-	addHandler := BlEventHandler on: ToListPrimarySelectionAddedEvent do: [ self whenAdded: anElement ].
-	removeHandler := BlEventHandler on: ToListPrimarySelectionRemovedEvent do: [ self whenRemoved: anElement ].
-	anElement addEventHandler: addHandler.
-	anElement addEventHandler: removeHandler.
-
+	super installEventListenersIn: anElement
 ]
 
 { #category : #accessing }
@@ -79,10 +72,6 @@ ToListSelectionDresser >> onInstalledIn: anElement [
 ToListSelectionDresser >> uninstallEventListenersIn: anElement [
 
 	super uninstallEventListenersIn: anElement.
-	anElement removeEventHandler: addHandler.
-	anElement removeEventHandler: removeHandler.
-	addHandler := nil.
-	removeHandler := nil
 
 ]
 
@@ -97,5 +86,7 @@ ToListSelectionDresser >> whenAdded: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToListSelectionDresser >> whenRemoved: anElement [
 
-	listElement := nil
+	listElement := nil.
+	super whenRemoved: anElement.
+
 ]

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'foreColor'
 	],
-	#category : #'Toplo-Theme-Skins'
+	#category : #'Toplo-Theme-Skins-Looks'
 }
 
 { #category : #'event handling' }
@@ -21,21 +21,21 @@ ToImageLook >> adaptForegroundIn: anElement withColor: aColor [
 ]
 
 { #category : #accessing }
-ToImageLook >> foregroundFromElement: anElement [
+ToImageLook >> foregroundHoverFromElement: anElement [
+
+	^ self foregroundInitialFromElement: anElement
+]
+
+{ #category : #accessing }
+ToImageLook >> foregroundInitialFromElement: anElement [
 
 	^ anElement toTheme colorImage
 ]
 
 { #category : #accessing }
-ToImageLook >> foregroundHoverFromElement: anElement [
-
-	^ self foregroundFromElement: anElement
-]
-
-{ #category : #accessing }
 ToImageLook >> foregroundPressedFromElement: anElement [
 
-	^ self foregroundFromElement: anElement
+	^ self foregroundInitialFromElement: anElement
 ]
 
 { #category : #'event handling' }
@@ -46,20 +46,13 @@ ToImageLook >> hoverStateEvent: anEvent [
 { #category : #'event handling' }
 ToImageLook >> initialStateEvent: anEvent [
 
-	anEvent elementDo: [ :e |
-		| c |
-		c := self foregroundFromElement: e.
-		self adaptForegroundIn: e withColor: c ]
+
 ]
 
 { #category : #'event handling' }
 ToImageLook >> installStateEvent: anEvent [
 
-	super installStateEvent: anEvent.
-	anEvent elementDo: [ :e |
-		| c |
-		c := self foregroundFromElement: e.
-		self adaptForegroundIn: e withColor: c ]
+
 ]
 
 { #category : #'event handling' }

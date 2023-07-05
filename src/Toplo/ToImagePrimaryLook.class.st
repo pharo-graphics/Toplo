@@ -1,11 +1,21 @@
 Class {
 	#name : #ToImagePrimaryLook,
-	#superclass : #ToImageLook,
-	#category : #'Toplo-Theme-Skins'
+	#superclass : #ToImageLookDecorator,
+	#category : #'Toplo-Theme-Skins-Looks'
 }
 
 { #category : #accessing }
-ToImagePrimaryLook >> foregroundFromElement: anElement [
+ToImagePrimaryLook >> foregroundInitialFromElement: anElement [
 
 	^ anElement toTheme colorImageLightSolid
+]
+
+{ #category : #accessing }
+ToImagePrimaryLook >> installStateEvent: anEvent [
+
+	super installStateEvent: anEvent.
+	anEvent elementDo: [ :e |
+		| c |
+		c := self foregroundInitialFromElement: e.
+		self adaptForegroundIn: e withColor: c ]
 ]

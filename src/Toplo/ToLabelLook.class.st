@@ -1,25 +1,25 @@
 Class {
 	#name : #ToLabelLook,
 	#superclass : #ToElementLook,
-	#category : #'Toplo-Theme-Skins'
+	#category : #'Toplo-Theme-Skins-Looks'
 }
 
 { #category : #accessing }
-ToLabelLook >> foregroundFromElement: anElement [
+ToLabelLook >> foregroundHoverFromElement: anElement [
+
+	^ self foregroundInitialFromElement: anElement
+]
+
+{ #category : #accessing }
+ToLabelLook >> foregroundInitialFromElement: anElement [
 
 	^ anElement toTheme colorText
 ]
 
 { #category : #accessing }
-ToLabelLook >> foregroundHoverFromElement: anElement [
-
-	^ self foregroundFromElement: anElement
-]
-
-{ #category : #accessing }
 ToLabelLook >> foregroundPressedFromElement: anElement [
 
-	^ self foregroundFromElement: anElement
+	^ self foregroundInitialFromElement: anElement
 ]
 
 { #category : #accessing }

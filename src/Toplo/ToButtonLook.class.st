@@ -1,7 +1,7 @@
 Class {
 	#name : #ToButtonLook,
 	#superclass : #ToElementLook,
-	#category : #'Toplo-Theme-Skins'
+	#category : #'Toplo-Theme-Skins-Looks'
 }
 
 { #category : #'event handling' }

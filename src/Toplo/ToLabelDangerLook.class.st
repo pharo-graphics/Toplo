@@ -1,11 +1,11 @@
 Class {
 	#name : #ToLabelDangerLook,
-	#superclass : #ToLabelLook,
-	#category : #'Toplo-Theme-Skins'
+	#superclass : #ToLabelLookDecorator,
+	#category : #'Toplo-Theme-Skins-Looks'
 }
 
 { #category : #accessing }
-ToLabelDangerLook >> foregroundFromElement: anElement [
+ToLabelDangerLook >> foregroundInitialFromElement: anElement [
 
 	^ anElement toTheme colorError
 ]

@@ -1,5 +1,5 @@
 Class {
 	#name : #ToButtonLabelLook,
-	#superclass : #ToLabelLook,
-	#category : #'Toplo-Theme-Skins'
+	#superclass : #ToLabelLookDecorator,
+	#category : #'Toplo-Theme-Skins-Looks'
 }

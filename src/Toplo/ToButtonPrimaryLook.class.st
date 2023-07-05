@@ -1,7 +1,7 @@
 Class {
 	#name : #ToButtonPrimaryLook,
 	#superclass : #ToButtonLookDecorator,
-	#category : #'Toplo-Theme-Skins'
+	#category : #'Toplo-Theme-Skins-Looks'
 }
 
 { #category : #private }

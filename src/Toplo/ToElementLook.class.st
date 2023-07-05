@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'next'
 	],
-	#category : #'Toplo-Theme-Skins'
+	#category : #'Toplo-Theme-Skins-Looks'
 }
 
 { #category : #accessing }
@@ -25,20 +25,10 @@ ToElementLook >> decoratedBorderBuilderFromElement: anElement [
 	^ anElement privateSkin look borderBuilderFromElement: anElement
 ]
 
-{ #category : #'event handling' }
-ToElementLook >> elementAddedToSceneGraphEvent: anEvent [
+{ #category : #private }
+ToElementLook >> decoratedTextAttributeBuilderFromElement: anElement [
 
-	self next ifNil: [ ^ self ].
-	self next elementAddedToSceneGraphEvent: anEvent
-	
-]
-
-{ #category : #'event handling' }
-ToElementLook >> elementRemovedFromSceneGraphEvent: anEvent [
-
-	self next ifNil: [ ^ self ].
-	self next elementRemovedFromSceneGraphEvent: anEvent
-
+	^ anElement privateSkin look textAttributeBuilderFromElement: anElement
 ]
 
 { #category : #'private event handling' }
@@ -64,4 +54,15 @@ ToElementLook >> next [
 ToElementLook >> next: aLook [
 
 	next := aLook
+]
+
+{ #category : #private }
+ToElementLook >> textAttributeBuilderFromElement: anElement [
+
+	^ self next textAttributeBuilderFromElement: anElement
+]
+
+{ #category : #'event handling' }
+ToElementLook >> uninstallStateEvent: anEvent [
+
 ]

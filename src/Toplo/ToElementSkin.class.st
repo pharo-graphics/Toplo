@@ -32,14 +32,13 @@ ToElementSkin >> dispatchToChildren: anEvent [
 { #category : #'event handling' }
 ToElementSkin >> elementAddedToSceneGraphEvent: anEvent [
 
-	anEvent target dispatchEvent: (ToInstallStateEvent new copyFrom: anEvent).
-	look elementAddedToSceneGraphEvent: anEvent
+	anEvent target dispatchEvent: (ToInstallStateEvent new copyFrom: anEvent)
 ]
 
 { #category : #'event handling' }
 ToElementSkin >> elementRemovedFromSceneGraphEvent: anEvent [
 
-	look elementRemovedFromSceneGraphEvent: anEvent
+	anEvent currentTarget dispatchEvent: (ToUninstallStateEvent new copyFrom: anEvent)
 ]
 
 { #category : #'api - accessing' }

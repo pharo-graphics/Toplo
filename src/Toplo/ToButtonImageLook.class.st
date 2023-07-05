@@ -1,7 +1,7 @@
 Class {
 	#name : #ToButtonImageLook,
-	#superclass : #ToImageLook,
-	#category : #'Toplo-Theme-Skins'
+	#superclass : #ToImageLookDecorator,
+	#category : #'Toplo-Theme-Skins-Looks'
 }
 
 { #category : #accessing }

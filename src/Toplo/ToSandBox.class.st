@@ -2068,7 +2068,7 @@ ToSandBox class >> example_toButtonWithIconAndText [
 
 	but label: (ToLabel text: 'Button').
 	icon := ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16).
-	icon setLook: ToButtonImageDangerLook new.
+	icon addLook: ToButtonImageDangerLook new.
 	but icon: icon.
 	but when: BlPrimaryClickEvent do: [ :event | event currentTarget traceCr ].
 

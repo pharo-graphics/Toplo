@@ -1,7 +1,7 @@
 Class {
 	#name : #ToButtonDefaultLook,
 	#superclass : #ToButtonLook,
-	#category : #'Toplo-Theme-Skins'
+	#category : #'Toplo-Theme-Skins-Looks'
 }
 
 { #category : #private }
@@ -26,7 +26,9 @@ ToButtonDefaultLook >> hasBackground [
 ToButtonDefaultLook >> hoverStateEvent: anEvent [
 
 	anEvent elementDo: [ :e |
-		e border: ((self decoratedBorderBuilderFromElement: e)  paint: e toTheme colorPrimaryHover; build) ]
+		e border: ((self decoratedBorderBuilderFromElement: e)
+				 paint: e toTheme colorPrimaryHover;
+				 build) ]
 ]
 
 { #category : #'event handling' }

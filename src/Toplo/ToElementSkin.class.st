@@ -22,6 +22,12 @@ ToElementSkin >> addLook: aLook [
 	look := aLook
 ]
 
+{ #category : #'private - accessing' }
+ToElementSkin >> borderBuilderFromElement: anElement [
+
+	^ self look borderBuilderFromElement: anElement
+]
+
 { #category : #dispatching }
 ToElementSkin >> dispatchToChildren: anEvent [
 
@@ -58,7 +64,7 @@ ToElementSkin >> handleEvent: anEvent [
 	super handleEvent: anEvent
 ]
 
-{ #category : #testing }
+{ #category : #'private testing' }
 ToElementSkin >> hasBackground [
 
 	^ look hasBackground
@@ -103,4 +109,10 @@ ToElementSkin >> recursive: anObject [
 ToElementSkin >> setLook: aLook [
 
 	look := aLook
+]
+
+{ #category : #'private - accessing' }
+ToElementSkin >> textAttributeBuilderFromElement: anElement [
+
+	^ self look textAttributeBuilderFromElement: anElement
 ]

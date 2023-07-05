@@ -2917,7 +2917,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 ToSandBox class >> example_toMultiStateWithLabel [
 
 	| but |
-	but := ToMultiStateButton new size: 70 @ 35.
+	but := ToMultiStateButton new size: 90 @ 35.
 	but setUpStatesWith: {
 			(ToElementState new
 				 name: #one;

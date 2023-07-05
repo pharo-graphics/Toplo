@@ -22,13 +22,13 @@ ToElementLook >> borderBuilderFromElement: anElement [
 { #category : #private }
 ToElementLook >> decoratedBorderBuilderFromElement: anElement [
 
-	^ anElement privateSkin look borderBuilderFromElement: anElement
+	^ anElement privateSkin borderBuilderFromElement: anElement
 ]
 
 { #category : #private }
 ToElementLook >> decoratedTextAttributeBuilderFromElement: anElement [
 
-	^ anElement privateSkin look textAttributeBuilderFromElement: anElement
+	^ anElement privateSkin textAttributeBuilderFromElement: anElement
 ]
 
 { #category : #'private event handling' }

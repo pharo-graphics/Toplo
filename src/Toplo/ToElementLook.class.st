@@ -39,9 +39,40 @@ ToElementLook >> elementStateEvent: anEvent [
 
 ]
 
+{ #category : #testing }
+ToElementLook >> hasBackground [ 
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #'event handling' }
+ToElementLook >> hoverStateEvent: anEvent [
+
+
+]
+
+{ #category : #testing }
+ToElementLook >> ifBackgoundUpdated: aBlock [
+
+	self isBackgoundUpdater ifFalse: [ ^ self ].
+	aBlock value
+]
+
+{ #category : #'event handling' }
+ToElementLook >> initialStateEvent: anEvent [
+
+
+]
+
 { #category : #'event handling' }
 ToElementLook >> installStateEvent: anEvent [
 
+]
+
+{ #category : #testing }
+ToElementLook >> isBackgoundUpdater [
+
+	^ self first hasBackground 
 ]
 
 { #category : #accessing }
@@ -54,6 +85,12 @@ ToElementLook >> next [
 ToElementLook >> next: aLook [
 
 	next := aLook
+]
+
+{ #category : #'event handling' }
+ToElementLook >> pressedStateEvent: anEvent [
+
+
 ]
 
 { #category : #private }

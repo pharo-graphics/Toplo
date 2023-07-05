@@ -36,8 +36,7 @@ ToButtonDefaultLook >> initialStateEvent: anEvent [
 
 	anEvent elementDo: [ :e |
 		e border: (self decoratedBorderBuilderFromElement: e) build.
-		self ifBackgoundUpdated: [ 
-			e background: e toTheme colorBgContainer ] ]
+		self ifBackgoundUpdated: [ e background: e toTheme colorBgContainer ] ]
 ]
 
 { #category : #'event handling' }

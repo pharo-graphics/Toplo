@@ -36,7 +36,7 @@ ToButtonDefaultLook >> initialStateEvent: anEvent [
 
 	anEvent elementDo: [ :e |
 		e border: (self decoratedBorderBuilderFromElement: e) build.
-		e privateSkin hasBackground ifTrue: [ 
+		self ifBackgoundUpdated: [ 
 			e background: e toTheme colorBgContainer ] ]
 ]
 
@@ -45,7 +45,7 @@ ToButtonDefaultLook >> installStateEvent: anEvent [
 
 	anEvent elementDo: [ :e |
 		e border: (self decoratedBorderBuilderFromElement: e) build.
-		e privateSkin hasBackground ifTrue: [ 
+		self ifBackgoundUpdated: [ 
 			e background: e toTheme colorBgContainer ].
 		e geometry: (BlRoundedRectangleGeometry cornerRadius: e toTheme borderRadius).
 		e padding: (BlInsets

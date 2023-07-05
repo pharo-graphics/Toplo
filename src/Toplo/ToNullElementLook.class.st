@@ -12,6 +12,10 @@ ToNullElementLook >> elementStateEvent: anEvent [
 ToNullElementLook >> installStateEvent: anEvent [
 ]
 
+{ #category : #accessing }
+ToNullElementLook >> next: aLook [
+]
+
 { #category : #'event handling' }
 ToNullElementLook >> uninstallStateEvent: anEvent [
 ]

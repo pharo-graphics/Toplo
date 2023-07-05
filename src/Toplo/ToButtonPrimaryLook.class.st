@@ -17,7 +17,7 @@ ToButtonPrimaryLook >> hoverStateEvent: anEvent [
 
 	super hoverStateEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e privateSkin hasBackground ifTrue: [ 
+		self ifBackgoundUpdated: [ 
 			e background: e toTheme colorPrimaryHover ] ]
 ]
 
@@ -27,7 +27,7 @@ ToButtonPrimaryLook >> initialStateEvent: anEvent [
 	super initialStateEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (self decoratedBorderBuilderFromElement: e) build.
-		e privateSkin hasBackground ifTrue: [ 
+		self ifBackgoundUpdated: [ 
 			e background: e toTheme colorPrimary ] ]
 ]
 
@@ -37,7 +37,7 @@ ToButtonPrimaryLook >> installStateEvent: anEvent [
 	super installStateEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (self decoratedBorderBuilderFromElement: e) build.
-		e privateSkin hasBackground ifTrue: [ 
+		self ifBackgoundUpdated: [ 
 			e background: e toTheme colorPrimary ] ]
 ]
 
@@ -46,6 +46,6 @@ ToButtonPrimaryLook >> pressedStateEvent: anEvent [
 
 	super pressedStateEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e privateSkin hasBackground ifTrue: [ 
+		self ifBackgoundUpdated: [ 
 			e background: e toTheme colorPrimaryPressed ] ]
 ]

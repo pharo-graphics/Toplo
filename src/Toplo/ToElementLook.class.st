@@ -22,13 +22,13 @@ ToElementLook >> borderBuilderFromElement: anElement [
 { #category : #private }
 ToElementLook >> decoratedBorderBuilderFromElement: anElement [
 
-	^ anElement privateSkin borderBuilderFromElement: anElement
+	^ self first borderBuilderFromElement: anElement
 ]
 
 { #category : #private }
 ToElementLook >> decoratedTextAttributeBuilderFromElement: anElement [
 
-	^ anElement privateSkin textAttributeBuilderFromElement: anElement
+	^ self first textAttributeBuilderFromElement: anElement
 ]
 
 { #category : #'private event handling' }
@@ -65,4 +65,11 @@ ToElementLook >> textAttributeBuilderFromElement: anElement [
 { #category : #'event handling' }
 ToElementLook >> uninstallStateEvent: anEvent [
 
+]
+
+{ #category : #accessing }
+ToElementLook >> updateFirstWith: aLook [
+
+	super updateFirstWith: aLook.
+	self next updateFirstWith: aLook
 ]

@@ -33,19 +33,18 @@ TToSkinable >> privateSkin [
 ]
 
 { #category : #'t - skin accessing' }
-TToSkinable >> setLook: aLook [
+TToSkinable >> withSkin: aSkin [
 
-	privateSkin ifNil: [ ^ self ].
-	privateSkin setLook: aLook
+	self withoutSkin.
+	privateSkin := aSkin.
+	privateSkin ifNotNil: [ self addEventHandler: privateSkin ].
+
 	
 ]
 
 { #category : #'t - skin accessing' }
-TToSkinable >> withSkin: aSkin [
+TToSkinable >> withoutSkin [
 
-	privateSkin ifNotNil: [ self removeEventHandler: privateSkin ].
-	privateSkin := aSkin.
-	privateSkin ifNotNil: [ self addEventHandler: privateSkin ].
-
+	privateSkin ifNotNil: [ self removeEventHandler: privateSkin ]
 	
 ]

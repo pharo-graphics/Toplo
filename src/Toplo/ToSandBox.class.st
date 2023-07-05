@@ -2061,8 +2061,8 @@ ToSandBox class >> example_toButtonWithIconAndText [
 	but := ToButton new.
 	"but addLook: ToButtonLinkLook new."
 	but addLook: ToButtonFixedSizeLook new.
-	but addLook: ToButtonDashedLook new.
-	"but addLook: ToButtonPrimaryLook new."
+	"but addLook: ToButtonDashedLook new."
+	but addLook: ToButtonPrimaryLook new.
 	but addLook: ToButtonDangerLook new.
 	"but addLook: ToButtonLinkLook new."
 
@@ -2083,7 +2083,16 @@ ToSandBox class >> example_toButtonWithIconOnly [
 	| but space container |
 	container := BlElement new size: 200@200; border: (BlBorder paint: Color gray); background: (Color gray alpha: 0.1).
 	but := ToButton new.
+	"but addLook: ToButtonLinkLook new."
+	but addLook: ToButtonFixedSizeLook new.
+	but addLook: ToButtonWithoutBackgroundLook new.
+	but addLook: ToButtonDashedLook new.
+	"but addLook: ToButtonPrimaryLook new."
+	but addLook: ToButtonDangerLook new.
+	"but addLook: ToButtonLinkLook new."
+
 	but icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	but icon addLook: ToButtonImageDangerLook new.
 	container addChild: but.
 	space := OBlSpace new.
 	space root addChild: container.

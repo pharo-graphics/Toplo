@@ -19,13 +19,7 @@ ToElementSkin >> addAllLooks: aCollection [
 ToElementSkin >> addLook: aLook [
 
 	aLook next: look.
-	look := aLook
-]
-
-{ #category : #'private - accessing' }
-ToElementSkin >> borderBuilderFromElement: anElement [
-
-	^ self look borderBuilderFromElement: anElement
+	self privateLook: aLook	
 ]
 
 { #category : #dispatching }
@@ -64,10 +58,11 @@ ToElementSkin >> handleEvent: anEvent [
 	super handleEvent: anEvent
 ]
 
-{ #category : #'private testing' }
-ToElementSkin >> hasBackground [
+{ #category : #initialization }
+ToElementSkin >> initialize [
 
-	^ look hasBackground
+	super initialize.
+	self privateLook: ToNullElementLook new
 ]
 
 { #category : #accessing }
@@ -80,8 +75,8 @@ ToElementSkin >> look [
 ToElementSkin >> onInstalledIn: anElement [
 
 	self flag: 'For first version compatibility for now '.
-	look := ToNullElementLook new.
-	Toplo useLookAndFeel ifFalse: [ look := anElement defaultLook ].
+	self privateLook: ToNullElementLook new.
+	Toplo useLookAndFeel ifFalse: [ self addLook: anElement defaultLook ].
 	super onInstalledIn: anElement
 ]
 
@@ -91,6 +86,13 @@ ToElementSkin >> onUninstalledIn: anElement [
 	look := nil.
 	super onUninstalledIn: anElement
 	
+]
+
+{ #category : #'private - accessing' }
+ToElementSkin >> privateLook: aLook [
+
+	look := aLook.
+	look updateFirstWith: look.
 ]
 
 { #category : #accessing }
@@ -103,16 +105,4 @@ ToElementSkin >> recursive [
 ToElementSkin >> recursive: anObject [
 
 	recursive := anObject
-]
-
-{ #category : #accessing }
-ToElementSkin >> setLook: aLook [
-
-	look := aLook
-]
-
-{ #category : #'private - accessing' }
-ToElementSkin >> textAttributeBuilderFromElement: anElement [
-
-	^ self look textAttributeBuilderFromElement: anElement
 ]

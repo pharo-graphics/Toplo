@@ -17,7 +17,7 @@ ToButtonDangerLook >> hoverStateEvent: anEvent [
 
 	super hoverStateEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e privateSkin hasBackground ifTrue: [
+		self ifBackgoundUpdated: [ 
 			e background: e toTheme colorErrorHover ].
 		e border: ((self decoratedBorderBuilderFromElement: e)
 				 paint: e toTheme colorErrorHover;
@@ -29,7 +29,7 @@ ToButtonDangerLook >> initialStateEvent: anEvent [
 
 	super initialStateEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e privateSkin hasBackground ifTrue: [
+		self ifBackgoundUpdated: [ 
 			e background: e toTheme colorError ].
 		e border: ((self decoratedBorderBuilderFromElement: e)
 				 paint: e toTheme colorError;
@@ -41,7 +41,7 @@ ToButtonDangerLook >> installStateEvent: anEvent [
 
 	super installStateEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e privateSkin hasBackground ifTrue: [
+		self ifBackgoundUpdated: [ 
 			e background: e toTheme colorError ].
 		e border: ((self decoratedBorderBuilderFromElement: e)
 				 paint: e toTheme colorError;
@@ -53,7 +53,7 @@ ToButtonDangerLook >> pressedStateEvent: anEvent [
 
 	super pressedStateEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e privateSkin hasBackground ifTrue: [
+		self ifBackgoundUpdated: [ 
 			e background: e toTheme colorError darker ].
 		e border: ((self decoratedBorderBuilderFromElement: e)
 				 paint: e toTheme colorError darker;

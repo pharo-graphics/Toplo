@@ -1,6 +1,9 @@
 Class {
 	#name : #ToAbstractElementLook,
 	#superclass : #Object,
+	#instVars : [
+		'first'
+	],
 	#category : #'Toplo-Theme-Skins-Looks'
 }
 
@@ -8,6 +11,18 @@ Class {
 ToAbstractElementLook >> elementStateEvent: anEvent [
 
 	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToAbstractElementLook >> first [
+
+	^ first
+]
+
+{ #category : #accessing }
+ToAbstractElementLook >> first: aLook [
+
+	first := aLook
 ]
 
 { #category : #'event handling' }
@@ -20,4 +35,10 @@ ToAbstractElementLook >> installStateEvent: anEvent [
 ToAbstractElementLook >> uninstallStateEvent: anEvent [
 
 	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToAbstractElementLook >> updateFirstWith: aLook [
+
+	first := aLook
 ]

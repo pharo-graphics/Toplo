@@ -11,3 +11,11 @@ ToButtonFixedSizeLook >> initialStateEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e height: e toTheme controlHeight]
 ]
+
+{ #category : #'event handling' }
+ToButtonFixedSizeLook >> installStateEvent: anEvent [
+
+	super installStateEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e height: e toTheme controlHeight]
+]

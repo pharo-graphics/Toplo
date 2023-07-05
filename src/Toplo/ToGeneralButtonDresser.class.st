@@ -1,9 +1,6 @@
 Class {
 	#name : #ToGeneralButtonDresser,
 	#superclass : #ToMouseHandlingDresser,
-	#instVars : [
-		'bskin'
-	],
 	#category : #'Toplo-Widget-Button'
 }
 

@@ -40,9 +40,9 @@ ToElementLook >> elementStateEvent: anEvent [
 ]
 
 { #category : #testing }
-ToElementLook >> hasBackground [ 
+ToElementLook >> hasBackground [
 
-	^ self subclassResponsibility 
+	^ self next hasBackground
 ]
 
 { #category : #'event handling' }

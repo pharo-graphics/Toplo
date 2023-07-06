@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Theme-Skins'
 }
 
-{ #category : #accessing }
+{ #category : #sending }
 ToUninstallLookEvent >> sendToLook: aLook [
 
 	aLook uninstallLookEvent: self

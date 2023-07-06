@@ -32,13 +32,13 @@ ToElementLookEvent >> ifBackgoundUpdated: aBlock [
 	aBlock value
 ]
 
-{ #category : #accessing }
+{ #category : #sending }
 ToElementLookEvent >> sendTo: anObject [
 
 	anObject elementLookEvent: self
 ]
 
-{ #category : #accessing }
+{ #category : #sending }
 ToElementLookEvent >> sendToLook: aLook [
 
 	self subclassResponsibility 

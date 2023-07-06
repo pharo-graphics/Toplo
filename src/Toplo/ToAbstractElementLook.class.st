@@ -7,7 +7,7 @@ Class {
 	#category : #'Toplo-Theme-Skins'
 }
 
-{ #category : #'event handling' }
+{ #category : #'private event handling' }
 ToAbstractElementLook >> elementLookEvent: anEvent [
 
 	^ self subclassResponsibility 
@@ -29,6 +29,12 @@ ToAbstractElementLook >> first: aLook [
 ToAbstractElementLook >> installLookEvent: anEvent [
 
 	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToAbstractElementLook >> next: aLook [
+
+	self subclassResponsibility 
 ]
 
 { #category : #'event handling' }

@@ -2062,7 +2062,7 @@ ToSandBox class >> example_toButtonWithIconAndText [
 	"but addLook: ToButtonLinkLook new."
 	"but addLook: ToButtonFixedSizeLook new."
 	"but addLook: ToButtonDashedLook new."
-	but addLook: ToButtonPrimaryLook new.
+	"but addLook: ToButtonPrimaryLook new."
 	but addLook: ToButtonDangerLook new.
 	"but addLook: ToButtonLinkLook new."
 

@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Theme-Skins'
 }
 
-{ #category : #'event handling' }
+{ #category : #'private event handling' }
 ToNullElementLook >> elementLookEvent: anEvent [
 ]
 

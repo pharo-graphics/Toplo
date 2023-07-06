@@ -16,12 +16,6 @@ ToButtonDefaultLook >> borderBuilderFromElement: anElement [
 		  dashOffset: 0
 ]
 
-{ #category : #testing }
-ToButtonDefaultLook >> hasBackground [
-
-	^ true
-]
-
 { #category : #'event handling' }
 ToButtonDefaultLook >> hoverLookEvent: anEvent [
 
@@ -36,7 +30,7 @@ ToButtonDefaultLook >> initialLookEvent: anEvent [
 
 	anEvent elementDo: [ :e |
 		e border: (self decoratedBorderBuilderFromElement: e) build.
-		self ifBackgoundUpdated: [ e background: e toTheme colorBgContainer ] ]
+		anEvent ifBackgoundUpdated: [ e background: e toTheme colorBgContainer ] ]
 ]
 
 { #category : #'event handling' }
@@ -44,7 +38,7 @@ ToButtonDefaultLook >> installLookEvent: anEvent [
 
 	anEvent elementDo: [ :e |
 		e border: (self decoratedBorderBuilderFromElement: e) build.
-		self ifBackgoundUpdated: [ 
+		anEvent ifBackgoundUpdated: [ 
 			e background: e toTheme colorBgContainer ].
 		e geometry: (BlRoundedRectangleGeometry cornerRadius: e toTheme borderRadius).
 		e padding: (BlInsets

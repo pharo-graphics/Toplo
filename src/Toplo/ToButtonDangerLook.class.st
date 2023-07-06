@@ -17,7 +17,7 @@ ToButtonDangerLook >> hoverLookEvent: anEvent [
 
 	super hoverLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self ifBackgoundUpdated: [ 
+		anEvent ifBackgoundUpdated: [ 
 			e background: e toTheme colorErrorHover ].
 		e border: ((self decoratedBorderBuilderFromElement: e)
 				 paint: e toTheme colorErrorHover;
@@ -29,7 +29,7 @@ ToButtonDangerLook >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self ifBackgoundUpdated: [ 
+		anEvent ifBackgoundUpdated: [ 
 			e background: e toTheme colorError ].
 		e border: ((self decoratedBorderBuilderFromElement: e)
 				 paint: e toTheme colorError;
@@ -41,7 +41,7 @@ ToButtonDangerLook >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self ifBackgoundUpdated: [ 
+		anEvent ifBackgoundUpdated: [ 
 			e background: e toTheme colorError ].
 		e border: ((self decoratedBorderBuilderFromElement: e)
 				 paint: e toTheme colorError;
@@ -53,7 +53,7 @@ ToButtonDangerLook >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self ifBackgoundUpdated: [ 
+		anEvent ifBackgoundUpdated: [ 
 			e background: e toTheme colorError darker ].
 		e border: ((self decoratedBorderBuilderFromElement: e)
 				 paint: e toTheme colorError darker;

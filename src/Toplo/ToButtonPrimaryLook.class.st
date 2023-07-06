@@ -17,7 +17,7 @@ ToButtonPrimaryLook >> hoverLookEvent: anEvent [
 
 	super hoverLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self ifBackgoundUpdated: [ 
+		anEvent ifBackgoundUpdated: [ 
 			e background: e toTheme colorPrimaryHover ] ]
 ]
 
@@ -27,7 +27,7 @@ ToButtonPrimaryLook >> initialLookEvent: anEvent [
 	super initialLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (self decoratedBorderBuilderFromElement: e) build.
-		self ifBackgoundUpdated: [ 
+		anEvent ifBackgoundUpdated: [ 
 			e background: e toTheme colorPrimary ] ]
 ]
 
@@ -37,7 +37,7 @@ ToButtonPrimaryLook >> installLookEvent: anEvent [
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (self decoratedBorderBuilderFromElement: e) build.
-		self ifBackgoundUpdated: [ 
+		anEvent ifBackgoundUpdated: [ 
 			e background: e toTheme colorPrimary ] ]
 ]
 
@@ -46,6 +46,6 @@ ToButtonPrimaryLook >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self ifBackgoundUpdated: [ 
+		anEvent ifBackgoundUpdated: [ 
 			e background: e toTheme colorPrimaryPressed ] ]
 ]

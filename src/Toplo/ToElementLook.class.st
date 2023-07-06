@@ -34,6 +34,7 @@ ToElementLook >> decoratedTextAttributesBuilderFromElement: anElement [
 { #category : #'private event handling' }
 ToElementLook >> elementLookEvent: anEvent [
 
+	anEvent backgoundUpdater: self hasBackground.
 	self next ifNotNil: [ self next elementLookEvent: anEvent ].
 	anEvent sendToLook: self.
 
@@ -42,20 +43,13 @@ ToElementLook >> elementLookEvent: anEvent [
 { #category : #testing }
 ToElementLook >> hasBackground [
 
-	^ self next hasBackground
+	^ true
 ]
 
 { #category : #'event handling' }
 ToElementLook >> hoverLookEvent: anEvent [
 
 
-]
-
-{ #category : #testing }
-ToElementLook >> ifBackgoundUpdated: aBlock [
-
-	self isBackgoundUpdater ifFalse: [ ^ self ].
-	aBlock value
 ]
 
 { #category : #'event handling' }
@@ -67,12 +61,6 @@ ToElementLook >> initialLookEvent: anEvent [
 { #category : #'event handling' }
 ToElementLook >> installLookEvent: anEvent [
 
-]
-
-{ #category : #testing }
-ToElementLook >> isBackgoundUpdater [
-
-	^ self first hasBackground 
 ]
 
 { #category : #accessing }

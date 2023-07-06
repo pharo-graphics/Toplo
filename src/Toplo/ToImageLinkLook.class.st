@@ -4,34 +4,42 @@ Class {
 	#category : #'Toplo-Theme-Skins-Looks'
 }
 
-{ #category : #accessing }
-ToImageLinkLook >> foregroundHoverFromElement: anElement [
-
-	^ anElement toTheme colorLinkHover
-]
-
-{ #category : #accessing }
-ToImageLinkLook >> foregroundInitialFromElement: anElement [
-
-	^ anElement toTheme colorLink
-]
-
 { #category : #'event handling' }
-ToImageLinkLook >> hoverStateEvent: anEvent [
+ToImageLinkLook >> hoverLookEvent: anEvent [
 
-	super hoverStateEvent: anEvent.
+	super hoverLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| c |
-		c := self foregroundHoverFromElement: e.
+		c := e toTheme colorLinkHover.
 		self adaptForegroundIn: e withColor: c ]
 ]
 
 { #category : #'event handling' }
-ToImageLinkLook >> pressedStateEvent: anEvent [
+ToImageLinkLook >> initialLookEvent: anEvent [
 
-	super pressedStateEvent: anEvent.
+	super initialLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| c |
-		c := self foregroundPressedFromElement: e.
+		c := e toTheme colorLink.
+		self adaptForegroundIn: e withColor: c ]
+]
+
+{ #category : #'event handling' }
+ToImageLinkLook >> installLookEvent: anEvent [
+
+	super installLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		| c |
+		c := e toTheme colorLink.
+		self adaptForegroundIn: e withColor: c ]
+]
+
+{ #category : #'event handling' }
+ToImageLinkLook >> pressedLookEvent: anEvent [
+
+	super pressedLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		| c |
+		c := e toTheme colorImage.
 		self adaptForegroundIn: e withColor: c ]
 ]

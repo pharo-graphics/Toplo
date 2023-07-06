@@ -4,11 +4,11 @@ Class {
 	#instVars : [
 		'first'
 	],
-	#category : #'Toplo-Theme-Skins-Looks'
+	#category : #'Toplo-Theme-Skins'
 }
 
 { #category : #'event handling' }
-ToAbstractElementLook >> elementStateEvent: anEvent [
+ToAbstractElementLook >> elementLookEvent: anEvent [
 
 	^ self subclassResponsibility 
 ]
@@ -26,13 +26,13 @@ ToAbstractElementLook >> first: aLook [
 ]
 
 { #category : #'event handling' }
-ToAbstractElementLook >> installStateEvent: anEvent [
+ToAbstractElementLook >> installLookEvent: anEvent [
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #'event handling' }
-ToAbstractElementLook >> uninstallStateEvent: anEvent [
+ToAbstractElementLook >> uninstallLookEvent: anEvent [
 
 	^ self subclassResponsibility 
 ]

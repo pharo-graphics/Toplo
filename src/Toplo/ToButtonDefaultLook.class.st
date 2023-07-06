@@ -23,7 +23,7 @@ ToButtonDefaultLook >> hasBackground [
 ]
 
 { #category : #'event handling' }
-ToButtonDefaultLook >> hoverStateEvent: anEvent [
+ToButtonDefaultLook >> hoverLookEvent: anEvent [
 
 	anEvent elementDo: [ :e |
 		e border: ((self decoratedBorderBuilderFromElement: e)
@@ -32,7 +32,7 @@ ToButtonDefaultLook >> hoverStateEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToButtonDefaultLook >> initialStateEvent: anEvent [
+ToButtonDefaultLook >> initialLookEvent: anEvent [
 
 	anEvent elementDo: [ :e |
 		e border: (self decoratedBorderBuilderFromElement: e) build.
@@ -40,7 +40,7 @@ ToButtonDefaultLook >> initialStateEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToButtonDefaultLook >> installStateEvent: anEvent [
+ToButtonDefaultLook >> installLookEvent: anEvent [
 
 	anEvent elementDo: [ :e |
 		e border: (self decoratedBorderBuilderFromElement: e) build.
@@ -61,7 +61,7 @@ ToButtonDefaultLook >> installStateEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToButtonDefaultLook >> pressedStateEvent: anEvent [
+ToButtonDefaultLook >> pressedLookEvent: anEvent [
 
 	anEvent elementDo: [ :e |
 		e border:

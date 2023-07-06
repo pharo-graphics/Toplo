@@ -5,17 +5,11 @@ Class {
 }
 
 { #category : #accessing }
-ToImagePrimaryLook >> foregroundInitialFromElement: anElement [
+ToImagePrimaryLook >> installLookEvent: anEvent [
 
-	^ anElement toTheme colorImageLightSolid
-]
-
-{ #category : #accessing }
-ToImagePrimaryLook >> installStateEvent: anEvent [
-
-	super installStateEvent: anEvent.
+	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| c |
-		c := self foregroundInitialFromElement: e.
+		c := e toTheme colorImageLightSolid.
 		self adaptForegroundIn: e withColor: c ]
 ]

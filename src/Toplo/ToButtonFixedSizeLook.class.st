@@ -5,17 +5,17 @@ Class {
 }
 
 { #category : #'event handling' }
-ToButtonFixedSizeLook >> initialStateEvent: anEvent [
+ToButtonFixedSizeLook >> initialLookEvent: anEvent [
 
-	super initialStateEvent: anEvent.
+	super initialLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e height: e toTheme controlHeight]
 ]
 
 { #category : #'event handling' }
-ToButtonFixedSizeLook >> installStateEvent: anEvent [
+ToButtonFixedSizeLook >> installLookEvent: anEvent [
 
-	super installStateEvent: anEvent.
+	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e height: e toTheme controlHeight]
 ]

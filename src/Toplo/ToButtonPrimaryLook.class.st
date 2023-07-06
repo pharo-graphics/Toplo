@@ -13,18 +13,18 @@ ToButtonPrimaryLook >> borderBuilderFromElement: anElement [
 ]
 
 { #category : #'event handling' }
-ToButtonPrimaryLook >> hoverStateEvent: anEvent [
+ToButtonPrimaryLook >> hoverLookEvent: anEvent [
 
-	super hoverStateEvent: anEvent.
+	super hoverLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		self ifBackgoundUpdated: [ 
 			e background: e toTheme colorPrimaryHover ] ]
 ]
 
 { #category : #'event handling' }
-ToButtonPrimaryLook >> initialStateEvent: anEvent [
+ToButtonPrimaryLook >> initialLookEvent: anEvent [
 
-	super initialStateEvent: anEvent.
+	super initialLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (self decoratedBorderBuilderFromElement: e) build.
 		self ifBackgoundUpdated: [ 
@@ -32,9 +32,9 @@ ToButtonPrimaryLook >> initialStateEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToButtonPrimaryLook >> installStateEvent: anEvent [
+ToButtonPrimaryLook >> installLookEvent: anEvent [
 
-	super installStateEvent: anEvent.
+	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: (self decoratedBorderBuilderFromElement: e) build.
 		self ifBackgoundUpdated: [ 
@@ -42,9 +42,9 @@ ToButtonPrimaryLook >> installStateEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToButtonPrimaryLook >> pressedStateEvent: anEvent [
+ToButtonPrimaryLook >> pressedLookEvent: anEvent [
 
-	super pressedStateEvent: anEvent.
+	super pressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		self ifBackgoundUpdated: [ 
 			e background: e toTheme colorPrimaryPressed ] ]

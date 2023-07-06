@@ -1,15 +1,15 @@
 Class {
-	#name : #ToLabelDangerLook,
+	#name : #ToLabelPrimaryLook,
 	#superclass : #ToLabelLookDecorator,
 	#category : #'Toplo-Theme-Skins-Looks'
 }
 
-{ #category : #accessing }
-ToLabelDangerLook >> textAttributesBuilderFromElement: anElement [
+{ #category : #private }
+ToLabelPrimaryLook >> textAttributesBuilderFromElement: anElement [
 
 	| builder |
 	builder  := super textAttributesBuilderFromElement: anElement.
 	builder weight: anElement toTheme fontWeightStrong.
-	builder foreground: anElement toTheme colorError.
+	builder foreground: anElement toTheme colorTextLightSolid.
 	^ builder
 ]

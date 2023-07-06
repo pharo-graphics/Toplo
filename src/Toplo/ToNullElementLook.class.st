@@ -1,15 +1,15 @@
 Class {
 	#name : #ToNullElementLook,
 	#superclass : #ToAbstractElementLook,
-	#category : #'Toplo-Theme-Skins-Looks'
+	#category : #'Toplo-Theme-Skins'
 }
 
 { #category : #'event handling' }
-ToNullElementLook >> elementStateEvent: anEvent [
+ToNullElementLook >> elementLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToNullElementLook >> installStateEvent: anEvent [
+ToNullElementLook >> installLookEvent: anEvent [
 ]
 
 { #category : #accessing }
@@ -17,5 +17,5 @@ ToNullElementLook >> next: aLook [
 ]
 
 { #category : #'event handling' }
-ToNullElementLook >> uninstallStateEvent: anEvent [
+ToNullElementLook >> uninstallLookEvent: anEvent [
 ]

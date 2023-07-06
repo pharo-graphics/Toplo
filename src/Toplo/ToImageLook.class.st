@@ -20,43 +20,25 @@ ToImageLook >> adaptForegroundIn: anElement withColor: aColor [
 		ifNone: [  ]
 ]
 
-{ #category : #accessing }
-ToImageLook >> foregroundHoverFromElement: anElement [
-
-	^ self foregroundInitialFromElement: anElement
-]
-
-{ #category : #accessing }
-ToImageLook >> foregroundInitialFromElement: anElement [
-
-	^ anElement toTheme colorImage
-]
-
-{ #category : #accessing }
-ToImageLook >> foregroundPressedFromElement: anElement [
-
-	^ self foregroundInitialFromElement: anElement
-]
-
 { #category : #'event handling' }
-ToImageLook >> hoverStateEvent: anEvent [
+ToImageLook >> hoverLookEvent: anEvent [
 
 ]
 
 { #category : #'event handling' }
-ToImageLook >> initialStateEvent: anEvent [
+ToImageLook >> initialLookEvent: anEvent [
 
 
 ]
 
 { #category : #'event handling' }
-ToImageLook >> installStateEvent: anEvent [
+ToImageLook >> installLookEvent: anEvent [
 
 
 ]
 
 { #category : #'event handling' }
-ToImageLook >> pressedStateEvent: anEvent [
+ToImageLook >> pressedLookEvent: anEvent [
 
 
 ]

@@ -4,34 +4,22 @@ Class {
 	#category : #'Toplo-Theme-Skins-Looks'
 }
 
-{ #category : #accessing }
-ToButtonImageLook >> foregroundHoverFromElement: anElement [
-
-	^ anElement toTheme colorPrimary
-]
-
-{ #category : #accessing }
-ToButtonImageLook >> foregroundPressedFromElement: anElement [
-
-	^ anElement toTheme colorPrimaryPressed
-]
-
 { #category : #'event handling' }
-ToButtonImageLook >> hoverStateEvent: anEvent [
+ToButtonImageLook >> hoverLookEvent: anEvent [
 
-	super hoverStateEvent: anEvent.
+	super hoverLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| c |
-		c := self foregroundHoverFromElement: e.
+		c := e toTheme colorPrimary.
 		self adaptForegroundIn: e withColor: c ]
 ]
 
 { #category : #'event handling' }
-ToButtonImageLook >> pressedStateEvent: anEvent [
+ToButtonImageLook >> pressedLookEvent: anEvent [
 
-	super pressedStateEvent: anEvent.
+	super pressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| c |
-		c := self foregroundPressedFromElement: e.
+		c := e toTheme colorPrimaryPressed.
 		self adaptForegroundIn: e withColor: c ]
 ]

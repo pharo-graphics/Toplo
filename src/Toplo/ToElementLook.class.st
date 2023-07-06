@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'next'
 	],
-	#category : #'Toplo-Theme-Skins-Looks'
+	#category : #'Toplo-Theme-Skins'
 }
 
 { #category : #accessing }
@@ -26,15 +26,15 @@ ToElementLook >> decoratedBorderBuilderFromElement: anElement [
 ]
 
 { #category : #private }
-ToElementLook >> decoratedTextAttributeBuilderFromElement: anElement [
+ToElementLook >> decoratedTextAttributesBuilderFromElement: anElement [
 
-	^ self first textAttributeBuilderFromElement: anElement
+	^ self first textAttributesBuilderFromElement: anElement
 ]
 
 { #category : #'private event handling' }
-ToElementLook >> elementStateEvent: anEvent [
+ToElementLook >> elementLookEvent: anEvent [
 
-	self next ifNotNil: [ self next elementStateEvent: anEvent ].
+	self next ifNotNil: [ self next elementLookEvent: anEvent ].
 	anEvent sendToLook: self.
 
 ]
@@ -46,7 +46,7 @@ ToElementLook >> hasBackground [
 ]
 
 { #category : #'event handling' }
-ToElementLook >> hoverStateEvent: anEvent [
+ToElementLook >> hoverLookEvent: anEvent [
 
 
 ]
@@ -59,13 +59,13 @@ ToElementLook >> ifBackgoundUpdated: aBlock [
 ]
 
 { #category : #'event handling' }
-ToElementLook >> initialStateEvent: anEvent [
+ToElementLook >> initialLookEvent: anEvent [
 
 
 ]
 
 { #category : #'event handling' }
-ToElementLook >> installStateEvent: anEvent [
+ToElementLook >> installLookEvent: anEvent [
 
 ]
 
@@ -88,19 +88,19 @@ ToElementLook >> next: aLook [
 ]
 
 { #category : #'event handling' }
-ToElementLook >> pressedStateEvent: anEvent [
+ToElementLook >> pressedLookEvent: anEvent [
 
 
 ]
 
 { #category : #private }
-ToElementLook >> textAttributeBuilderFromElement: anElement [
+ToElementLook >> textAttributesBuilderFromElement: anElement [
 
-	^ self next textAttributeBuilderFromElement: anElement
+	^ self next textAttributesBuilderFromElement: anElement
 ]
 
 { #category : #'event handling' }
-ToElementLook >> uninstallStateEvent: anEvent [
+ToElementLook >> uninstallLookEvent: anEvent [
 
 ]
 

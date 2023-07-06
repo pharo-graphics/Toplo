@@ -5,59 +5,41 @@ Class {
 }
 
 { #category : #accessing }
-ToButtonImageDangerLook >> foregroundHoverFromElement: anElement [
+ToButtonImageDangerLook >> hoverLookEvent: anEvent [
 
-	^ anElement toTheme colorErrorHover
-]
-
-{ #category : #accessing }
-ToButtonImageDangerLook >> foregroundInitialFromElement: anElement [
-
-	^ anElement toTheme colorError
-]
-
-{ #category : #accessing }
-ToButtonImageDangerLook >> foregroundPressedFromElement: anElement [
-
-	^ anElement toTheme colorError darker
-]
-
-{ #category : #accessing }
-ToButtonImageDangerLook >> hoverStateEvent: anEvent [
-
-	super hoverStateEvent: anEvent.
+	super hoverLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| c |
-		c := self foregroundHoverFromElement: e.
+		c := e toTheme colorErrorHover.
 		self adaptForegroundIn: e withColor: c ]
 ]
 
 { #category : #accessing }
-ToButtonImageDangerLook >> initialStateEvent: anEvent [
+ToButtonImageDangerLook >> initialLookEvent: anEvent [
 
-	super initialStateEvent: anEvent.
+	super initialLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| c |
-		c := self foregroundInitialFromElement: e.
+		c := e toTheme colorError.
 		self adaptForegroundIn: e withColor: c ]
 ]
 
 { #category : #accessing }
-ToButtonImageDangerLook >> installStateEvent: anEvent [
+ToButtonImageDangerLook >> installLookEvent: anEvent [
 
-	super installStateEvent: anEvent.
+	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| c |
-		c := self foregroundInitialFromElement: e.
+		c := e toTheme colorError.
 		self adaptForegroundIn: e withColor: c ]
 ]
 
 { #category : #accessing }
-ToButtonImageDangerLook >> pressedStateEvent: anEvent [
+ToButtonImageDangerLook >> pressedLookEvent: anEvent [
 
-	super pressedStateEvent: anEvent.
+	super pressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| c |
-		c := self foregroundPressedFromElement: e.
+		c := e toTheme colorError darker.
 		self adaptForegroundIn: e withColor: c ]
 ]

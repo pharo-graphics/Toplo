@@ -32,19 +32,19 @@ ToElementSkin >> dispatchToChildren: anEvent [
 { #category : #'event handling' }
 ToElementSkin >> elementAddedToSceneGraphEvent: anEvent [
 
-	anEvent target dispatchEvent: (ToInstallStateEvent new copyFrom: anEvent)
+	anEvent target dispatchEvent: (ToInstallLookEvent new copyFrom: anEvent)
 ]
 
 { #category : #'event handling' }
 ToElementSkin >> elementRemovedFromSceneGraphEvent: anEvent [
 
-	anEvent currentTarget dispatchEvent: (ToUninstallStateEvent new copyFrom: anEvent)
+	anEvent currentTarget dispatchEvent: (ToUninstallLookEvent new copyFrom: anEvent)
 ]
 
 { #category : #'api - accessing' }
 ToElementSkin >> eventsToHandle [
 
-	^ { BlElementAddedToSceneGraphEvent. BlElementRemovedFromSceneGraphEvent. ToElementStateEvent }
+	^ { BlElementAddedToSceneGraphEvent. BlElementRemovedFromSceneGraphEvent. ToElementLookEvent }
 ]
 
 { #category : #'api - event managing' }
@@ -52,7 +52,7 @@ ToElementSkin >> handleEvent: anEvent [
 
 	lastEvent class = anEvent class ifTrue: [ ^ self ].
 	lastEvent := anEvent.
-	(anEvent isKindOf: ToElementStateEvent) ifTrue: [
+	(anEvent isKindOf: ToElementLookEvent) ifTrue: [
 		self dispatchToChildren: anEvent clone.
 		^ anEvent sendTo: look ].
 	super handleEvent: anEvent

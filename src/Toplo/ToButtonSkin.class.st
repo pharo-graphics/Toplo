@@ -1,7 +1,7 @@
 Class {
 	#name : #ToButtonSkin,
 	#superclass : #ToElementSkin,
-	#category : #'Toplo-Theme-Skins'
+	#category : #'Toplo-Theme-Skins-Looks'
 }
 
 { #category : #initialization }

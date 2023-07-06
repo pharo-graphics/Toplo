@@ -1,23 +1,23 @@
 Class {
-	#name : #ToElementStateEvent,
+	#name : #ToElementLookEvent,
 	#superclass : #BlEvent,
 	#category : #'Toplo-Theme-Skins'
 }
 
 { #category : #accessing }
-ToElementStateEvent >> elementDo: aBlock [
+ToElementLookEvent >> elementDo: aBlock [
 
 	aBlock value: self target
 ]
 
 { #category : #accessing }
-ToElementStateEvent >> sendTo: anObject [
+ToElementLookEvent >> sendTo: anObject [
 
-	anObject elementStateEvent: self
+	anObject elementLookEvent: self
 ]
 
 { #category : #accessing }
-ToElementStateEvent >> sendToLook: aLook [
+ToElementLookEvent >> sendToLook: aLook [
 
 	self subclassResponsibility 
 ]

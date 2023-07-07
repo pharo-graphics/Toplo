@@ -40,6 +40,6 @@ ToImageLinkLook >> pressedLookEvent: anEvent [
 	super pressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| c |
-		c := e toTheme colorImage.
+		c := e toTheme colorPrimaryPressed.
 		self adaptForegroundIn: e withColor: c ]
 ]

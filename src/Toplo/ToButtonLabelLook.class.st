@@ -27,3 +27,13 @@ ToButtonLabelLook >> pressedLookEvent: anEvent [
 		e text attributes: builder attributes.
 		e textChanged ]
 ]
+
+{ #category : #private }
+ToButtonLabelLook >> textAttributesBuilderFromElement: anElement [
+
+	| builder |
+	builder  := super textAttributesBuilderFromElement: anElement.
+	builder weight: anElement toTheme fontWeightStrong.
+	builder foreground: anElement toTheme colorText.
+	^ builder
+]

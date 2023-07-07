@@ -122,7 +122,6 @@ ToDresser >> whenAdded: anElement [
 
 	self flag:
 		'labordep: Check Theme installation : this is a patch for first Space instanciation and need to be remove when a better pattern is found'.
-	self useLookAndFeel ifFalse: [ ^ self ].
 	anElement space ifNil: [ ^ self ].
 	anElement space toTheme ifNil: [ ^ self ].
 	(anElement space isThemeInstalled not and: [

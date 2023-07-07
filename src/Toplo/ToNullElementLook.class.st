@@ -28,12 +28,6 @@ ToNullElementLook >> isNull [
 ToNullElementLook >> next: aLook [
 ]
 
-{ #category : #initialization }
-ToNullElementLook >> setMainLook: aLook [
-
-	Error signal: 'Should not be sent to me'.
-]
-
 { #category : #'event handling' }
 ToNullElementLook >> uninstallLookEvent: anEvent [
 ]

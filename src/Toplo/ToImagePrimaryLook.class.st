@@ -1,6 +1,6 @@
 Class {
 	#name : #ToImagePrimaryLook,
-	#superclass : #ToImageLookDecorator,
+	#superclass : #ToImageMainLook,
 	#category : #'Toplo-Theme-Skins-Looks'
 }
 

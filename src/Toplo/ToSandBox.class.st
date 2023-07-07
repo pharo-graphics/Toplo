@@ -946,7 +946,7 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 ]
 
 { #category : #button }
-ToSandBox class >> example_ToButtonSkins [
+ToSandBox class >> example_ToButtonLooks [
 
 	| space button1 button2 button3 button4 button5 pane |
 	space := OBlSpace new.
@@ -977,6 +977,7 @@ ToSandBox class >> example_ToButtonSkins [
 	button5 := ToButton new.
 	button5 addLook: ToButtonLinkLook new.
 	button5 labelText: 'Link button'.
+	button5 label addLook: ToLabelLinkLook new.
 			
 	pane addChildren: { button1. button2. button3. button4. button5 }.
 	space root addChild: pane.
@@ -1013,7 +1014,9 @@ ToSandBox class >> example_ToButtonSkins [
 	button5 := ToButton new.
 	button5 addLook: ToButtonLinkLook new.
 	button5 labelText: 'Link button'.
+	button5 label addLook: ToLabelLinkLook new.
 	button5 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button5 icon addLook: ToImageLinkLook new.
 
 	pane addChildren: { button1. button2. button3. button4. button5 }.
 	space root addChild: pane.
@@ -1043,7 +1046,8 @@ ToSandBox class >> example_ToButtonSkins [
 	button5 := ToButton new.
 	button5 addLook: ToButtonLinkLook new.
 	button5 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-			
+	button5 icon addLook: ToImageLinkLook new.
+	
 	pane addChildren: { button1. button2. button3. button4. button5 }.
 	space root addChild: pane.
 
@@ -1070,13 +1074,12 @@ ToSandBox class >> example_ToButtonSkins [
 
 	button4 := ToButton new.
 	button4 addLook: ToButtonTextLook new.
-	button4 addLook: ToButtonDangerLook new.
+	button4 addLook: ToButtonTextDangerLook new.
 	button4 labelText: 'Text button'.
 	button4 label addLook: ToLabelDangerLook new.
 	
 	button5 := ToButton new.
 	button5 addLook: ToButtonLinkLook new.
-	button5 addLook: ToButtonDangerLook new.
 	button5 labelText: 'Link button'.
 	button5 label addLook: ToLabelDangerLook new.
 			
@@ -1112,7 +1115,7 @@ ToSandBox class >> example_ToButtonSkins [
 
 	button4 := ToButton new.
 	button4 addLook: ToButtonTextLook new.
-	button4 addLook: ToButtonDangerLook new.
+	button4 addLook: ToButtonTextDangerLook new.
 	button4 labelText: 'Text button'.
 	button4 label addLook: ToLabelDangerLook new.
 	button4 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
@@ -1152,7 +1155,7 @@ ToSandBox class >> example_ToButtonSkins [
 
 	button4 := ToButton new.
 	button4 addLook: ToButtonTextLook new.
-	button4 addLook: ToButtonDangerLook new.
+	button4 addLook: ToButtonTextDangerLook new.
 	button4 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 	button4 icon addLook: ToImageDangerLook new.
 

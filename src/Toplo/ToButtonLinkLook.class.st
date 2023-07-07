@@ -1,6 +1,6 @@
 Class {
 	#name : #ToButtonLinkLook,
-	#superclass : #ToButtonMainLook,
+	#superclass : #ToButtonLookDecorator,
 	#category : #'Toplo-Theme-Skins-Looks'
 }
 

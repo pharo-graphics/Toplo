@@ -949,7 +949,9 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 ToSandBox class >> example_ToButtonLooks [
 
 	| space button1 button2 button3 button4 button5 pane |
+	
 	space := OBlSpace new.
+	"space switchThemeDarkOrLight."
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 	
 	" Line 1 "

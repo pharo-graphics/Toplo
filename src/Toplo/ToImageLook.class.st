@@ -10,7 +10,6 @@ Class {
 { #category : #'event handling' }
 ToImageLook >> adaptForegroundIn: anElement withColor: aColor [
 
-	foreColor = aColor ifTrue: [ ^ self ].
 	foreColor := aColor.
 	anElement
 		withInnerFormDo: [ :form |

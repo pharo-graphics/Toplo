@@ -1,38 +1,38 @@
 Class {
-	#name : #ToButtonPrimaryLook,
+	#name : #ToButtonTextLook,
 	#superclass : #ToButtonMainLook,
 	#category : #'Toplo-Theme-Skins-Looks'
 }
 
 { #category : #testing }
-ToButtonPrimaryLook >> hasBackground [
+ToButtonTextLook >> hasBackground [
 
 	^ true
 ]
 
 { #category : #'event handling' }
-ToButtonPrimaryLook >> hoverLookEvent: anEvent [
+ToButtonTextLook >> hoverLookEvent: anEvent [
 
 	super hoverLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		anEvent ifBackgoundUpdated: [ 
-			e background: e toTheme colorPrimaryHover ] ]
+			e background: e toTheme colorBgTextHover ] ]
 ]
 
 { #category : #'event handling' }
-ToButtonPrimaryLook >> initialLookEvent: anEvent [
+ToButtonTextLook >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		anEvent ifBackgoundUpdated: [ 
-			e background: e toTheme colorPrimary ] ]
+			e background: Color transparent ] ]
 ]
 
 { #category : #'event handling' }
-ToButtonPrimaryLook >> pressedLookEvent: anEvent [
+ToButtonTextLook >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		anEvent ifBackgoundUpdated: [ 
-			e background: e toTheme colorPrimaryPressed ] ]
+			e background: e toTheme colorBgTextActive ] ]
 ]

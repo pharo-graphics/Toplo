@@ -1,0 +1,29 @@
+Class {
+	#name : #ToButtonLabelNeutralLook,
+	#superclass : #ToLabelLookDecorator,
+	#category : #'Toplo-Theme-Skins-Looks'
+}
+
+{ #category : #'event handling' }
+ToButtonLabelNeutralLook >> hoverLookEvent: anEvent [
+
+	super hoverLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		| builder |
+		builder := self decoratedTextAttributesBuilderFromElement: e.
+		builder foreground: e toTheme colorPrimary.
+		e text attributes: builder attributes.
+		e textChanged ]
+]
+
+{ #category : #'event handling' }
+ToButtonLabelNeutralLook >> pressedLookEvent: anEvent [
+
+	super pressedLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		| builder |
+		builder := self decoratedTextAttributesBuilderFromElement: e.
+		builder foreground: e toTheme colorPrimaryPressed.
+		e text attributes: builder attributes.
+		e textChanged ]
+]

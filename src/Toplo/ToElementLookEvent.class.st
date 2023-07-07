@@ -16,7 +16,7 @@ ToElementLookEvent >> backgoundUpdater [
 { #category : #accessing }
 ToElementLookEvent >> backgoundUpdater: aBoolean [
 
-	backgoundUpdater := self backgoundUpdater and: [ aBoolean ]
+	backgoundUpdater := aBoolean
 ]
 
 { #category : #accessing }
@@ -29,6 +29,13 @@ ToElementLookEvent >> elementDo: aBlock [
 ToElementLookEvent >> ifBackgoundUpdated: aBlock [
 
 	self backgoundUpdater ifFalse: [ ^ self ].
+	aBlock value
+]
+
+{ #category : #testing }
+ToElementLookEvent >> ifNotBackgoundUpdated: aBlock [
+
+	self backgoundUpdater ifTrue: [ ^ self ].
 	aBlock value
 ]
 

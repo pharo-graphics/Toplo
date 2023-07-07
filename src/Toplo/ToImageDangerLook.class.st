@@ -1,21 +1,21 @@
 Class {
-	#name : #ToButtonImageDangerLook,
+	#name : #ToImageDangerLook,
 	#superclass : #ToImageLookDecorator,
 	#category : #'Toplo-Theme-Skins-Looks'
 }
 
 { #category : #accessing }
-ToButtonImageDangerLook >> hoverLookEvent: anEvent [
+ToImageDangerLook >> hoverLookEvent: anEvent [
 
 	super hoverLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		| c |
-		c := e toTheme colorErrorHover.
-		self adaptForegroundIn: e withColor: c ]
+			| c |
+			c := e toTheme colorErrorHover.
+			self adaptForegroundIn: e withColor: c ]
 ]
 
 { #category : #accessing }
-ToButtonImageDangerLook >> initialLookEvent: anEvent [
+ToImageDangerLook >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -25,7 +25,7 @@ ToButtonImageDangerLook >> initialLookEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToButtonImageDangerLook >> installLookEvent: anEvent [
+ToImageDangerLook >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -35,7 +35,7 @@ ToButtonImageDangerLook >> installLookEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToButtonImageDangerLook >> pressedLookEvent: anEvent [
+ToImageDangerLook >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |

@@ -82,6 +82,8 @@ TToDressable >> removeDresser: aDresser [
 TToDressable >> setSkinForType: aType [
 
 	self toTheme ifNil: [ ^ self ].
+	Toplo useLookAndFeel ifFalse: [ ^ self ].
+
 	self skin: (self toTheme class skinFor: self class type: aType)
 ]
 
@@ -121,7 +123,8 @@ TToDressable >> skinType: aType [
 	skinType := aType.
 	
 	self toTheme ifNil:[ ^ self ].
-	
+	Toplo useLookAndFeel ifFalse: [ ^ self ].
+
 	"Change dresser if necessary"
 	newDresser := self toTheme class dresserFor: self.
 	(self dresser notNil and:[newDresser class ~= self dresser class]) ifTrue:[self dresser: newDresser].
@@ -153,6 +156,7 @@ TToDressable >> toThemeChanged [
 	 
 	"Update the skin if theme hierarchy has changed"
 	self flag:'labordep : this code should be remove when look and feel pattern was ok, here we are forcing a skin type to install all Look and Feel dedicated dressers'.
+	Toplo useLookAndFeel ifFalse: [ ^ self ].
 	(skinType isNil and:[self space notNil]) ifTrue:[ self skinType: ToAbstractSkin defaultType ].
 	self setSkinForType: self skinType.
 	

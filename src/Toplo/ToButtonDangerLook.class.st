@@ -8,7 +8,7 @@ Class {
 ToButtonDangerLook >> borderBuilderFromElement: anElement [
 
 	^ (super borderBuilderFromElement: anElement)
-		  paint: anElement toTheme colorError darker;
+		  paint: anElement toTheme colorError;
 		  yourself
 ]
 
@@ -29,23 +29,10 @@ ToButtonDangerLook >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		anEvent ifBackgoundUpdated: [ 
-			e background: e toTheme colorError ].
 		e border: ((self decoratedBorderBuilderFromElement: e)
 				 paint: e toTheme colorError;
-				 build) ]
-]
-
-{ #category : #'event handling' }
-ToButtonDangerLook >> installLookEvent: anEvent [
-
-	super installLookEvent: anEvent.
-	anEvent elementDo: [ :e |
-		anEvent ifBackgoundUpdated: [ 
-			e background: e toTheme colorError ].
-		e border: ((self decoratedBorderBuilderFromElement: e)
-				 paint: e toTheme colorError;
-				 build) ]
+				 build).
+		anEvent ifBackgoundUpdated: [ e background: e toTheme colorError ] ]
 ]
 
 { #category : #'event handling' }

@@ -12,8 +12,26 @@ ToNullElementLook >> elementLookEvent: anEvent [
 ToNullElementLook >> installLookEvent: anEvent [
 ]
 
+{ #category : #testing }
+ToNullElementLook >> isMain [
+
+	^ false
+]
+
+{ #category : #testing }
+ToNullElementLook >> isNull [
+
+	^ true
+]
+
 { #category : #accessing }
 ToNullElementLook >> next: aLook [
+]
+
+{ #category : #initialization }
+ToNullElementLook >> setMainLook: aLook [
+
+	Error signal: 'Should not be sent to me'.
 ]
 
 { #category : #'event handling' }

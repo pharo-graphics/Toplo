@@ -27,7 +27,7 @@ ToImage >> defaultInnerImage [
 { #category : #'t - skin accessing' }
 ToImage >> defaultLook [ 
 
-	^ ToImageLook new
+	^ ToImageDefaultLook new
 ]
 
 { #category : #'form accessing' }

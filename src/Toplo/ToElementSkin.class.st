@@ -10,16 +10,19 @@ Class {
 }
 
 { #category : #accessing }
-ToElementSkin >> addAllLooks: aCollection [
+ToElementSkin >> addLook: aLook [
 
-	aCollection do: [ :l | self addLook: l ]
+	aLook isNull ifTrue: [ ^ self ].
+	aLook addedInSkin: self
 ]
 
 { #category : #accessing }
-ToElementSkin >> addLook: aLook [
+ToElementSkin >> addLookDecorator: aLook [
 
 	aLook next: look.
-	self privateLook: aLook	
+	self privateLook: aLook
+	
+
 ]
 
 { #category : #dispatching }
@@ -32,7 +35,8 @@ ToElementSkin >> dispatchToChildren: anEvent [
 { #category : #'event handling' }
 ToElementSkin >> elementAddedToSceneGraphEvent: anEvent [
 
-	anEvent target dispatchEvent: (ToInstallLookEvent new copyFrom: anEvent)
+	anEvent target dispatchEvent: (ToInstallLookEvent new copyFrom: anEvent).
+	anEvent target dispatchEvent: (ToInitialLookEvent new copyFrom: anEvent)
 ]
 
 { #category : #'event handling' }
@@ -75,8 +79,7 @@ ToElementSkin >> look [
 ToElementSkin >> onInstalledIn: anElement [
 
 	self flag: 'For first version compatibility for now '.
-	self privateLook: ToNullElementLook new.
-	Toplo useLookAndFeel ifFalse: [ self addLook: anElement defaultLook ].
+	self addLook: anElement defaultLook.
 	super onInstalledIn: anElement
 ]
 
@@ -105,4 +108,13 @@ ToElementSkin >> recursive [
 ToElementSkin >> recursive: anObject [
 
 	recursive := anObject
+]
+
+{ #category : #accessing }
+ToElementSkin >> setMainLook: aLook [
+
+	self look isNull ifTrue: [
+		aLook next: self look.
+		^ self privateLook: aLook ].
+	aLook setAsMainLookIn: self current: self look previous: nil
 ]

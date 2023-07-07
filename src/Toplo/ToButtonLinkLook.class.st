@@ -1,6 +1,6 @@
 Class {
 	#name : #ToButtonLinkLook,
-	#superclass : #ToButtonLookDecorator,
+	#superclass : #ToButtonMainLook,
 	#category : #'Toplo-Theme-Skins-Looks'
 }
 
@@ -13,7 +13,7 @@ ToButtonLinkLook >> borderBuilderFromElement: anElement [
 ]
 
 { #category : #testing }
-ToButtonLinkLook >> hasBackground [
+ToButtonLinkLook >> hasBackground [ 
 
 	^ false
 ]

@@ -12,8 +12,22 @@ ToButtonDashedLook >> borderBuilderFromElement: anElement [
 		  yourself
 ]
 
-{ #category : #testing }
-ToButtonDashedLook >> hasBackground [
+{ #category : #'event handling' }
+ToButtonDashedLook >> initialLookEvent: anEvent [
 
-	^ false
+	super initialLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e border: ((self decoratedBorderBuilderFromElement: e)
+				 paint: e toTheme colorBorder;
+				 build) ]
+]
+
+{ #category : #'event handling' }
+ToButtonDashedLook >> installLookEvent: anEvent [
+
+	super installLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e border: ((self decoratedBorderBuilderFromElement: e)
+				 paint: e toTheme colorBorder;
+				 build) ]
 ]

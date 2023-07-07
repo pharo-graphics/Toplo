@@ -14,6 +14,14 @@ ToElementLook class >> next: aLook [
 ]
 
 { #category : #private }
+ToElementLook >> addedInSkin: aSkin [
+
+	self isMain
+		ifTrue: [ aSkin setMainLook: self ]
+		ifFalse: [ aSkin addLookDecorator: self ]
+]
+
+{ #category : #private }
 ToElementLook >> borderBuilderFromElement: anElement [
 
 	^ self next borderBuilderFromElement: anElement
@@ -63,6 +71,18 @@ ToElementLook >> installLookEvent: anEvent [
 
 ]
 
+{ #category : #testing }
+ToElementLook >> isMain [
+
+	^ false
+]
+
+{ #category : #testing }
+ToElementLook >> isNull [
+
+	^ false
+]
+
 { #category : #accessing }
 ToElementLook >> next [
 
@@ -79,6 +99,20 @@ ToElementLook >> next: aLook [
 ToElementLook >> pressedLookEvent: anEvent [
 
 
+]
+
+{ #category : #private }
+ToElementLook >> setAsMainLookIn: aSkin current: currentLook previous: previousLook [
+
+	currentLook isMain ifFalse: [
+		^ self
+			  setAsMainLookIn: aSkin
+			  current: currentLook next
+			  previous: currentLook ].
+	self next: currentLook next.
+	previousLook isNil
+		ifTrue: [ aSkin privateLook: self ]
+		ifFalse: [ previousLook next: self ]
 ]
 
 { #category : #private }

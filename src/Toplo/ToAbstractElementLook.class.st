@@ -31,6 +31,18 @@ ToAbstractElementLook >> installLookEvent: anEvent [
 	^ self subclassResponsibility 
 ]
 
+{ #category : #testing }
+ToAbstractElementLook >> isMain [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #testing }
+ToAbstractElementLook >> isNull [
+
+	^ false
+]
+
 { #category : #accessing }
 ToAbstractElementLook >> next: aLook [
 

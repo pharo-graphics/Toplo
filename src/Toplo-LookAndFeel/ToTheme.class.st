@@ -171,6 +171,13 @@ ToTheme >> colorErrorHover [
 ]
 
 { #category : #colors }
+ToTheme >> colorErrorPressed [
+	"The pressed state of the error color"
+
+	^ (Color fromHexString: '#ff7875') darker darker
+]
+
+{ #category : #colors }
 ToTheme >> colorImage [
 	
 	^ self colorText

@@ -963,10 +963,12 @@ ToSandBox class >> example_ToButtonSkins [
 	
 	button2 := ToButton new.
 	button2 labelText: 'Default button'.
+	button2 label addLook: ToButtonLabelLook new.
 		
 	button3 := ToButton new.
 	button3 addLook: ToButtonDashedLook new.
 	button3 labelText: 'Dashed button'.
+	button3 label addLook: ToButtonLabelLook new.
 
 	button4 := ToButton new.
 	button4 addLook: ToButtonTextLook new.
@@ -993,11 +995,15 @@ ToSandBox class >> example_ToButtonSkins [
 	button2 := ToButton new.
 	button2 labelText: 'Default button'.	
 	button2 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button2 label addLook: ToButtonLabelLook new.
+	button2 icon addLook: ToButtonImageLook new.
 	
 	button3 := ToButton new.
 	button3 addLook: ToButtonDashedLook new.
 	button3 labelText: 'Dashed button'.
 	button3 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button3 label addLook: ToButtonLabelLook new.
+	button3 icon addLook: ToButtonImageLook new.
 
 	button4 := ToButton new.
 	button4 addLook: ToButtonTextLook new.
@@ -1023,10 +1029,12 @@ ToSandBox class >> example_ToButtonSkins [
 
 	button2 := ToButton new.
 	button2 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button2 icon addLook: ToButtonImageLook new.
 
 	button3 := ToButton new.
 	button3 addLook: ToButtonDashedLook new.
 	button3 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button3 icon addLook: ToButtonImageLook new.
 
 	button4 := ToButton new.
 	button4 addLook: ToButtonTextLook new.

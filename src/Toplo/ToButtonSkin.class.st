@@ -7,6 +7,5 @@ Class {
 { #category : #initialization }
 ToButtonSkin >> initialize [ 
 
-	super initialize.
-	self recursive: true
+	super initialize
 ]

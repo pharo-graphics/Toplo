@@ -2,7 +2,8 @@ Class {
 	#name : #ToElementLookEvent,
 	#superclass : #BlEvent,
 	#instVars : [
-		'backgoundUpdater'
+		'backgoundUpdater',
+		'selector'
 	],
 	#category : #'Toplo-Theme-Skins'
 }
@@ -37,6 +38,18 @@ ToElementLookEvent >> ifNotBackgoundUpdated: aBlock [
 
 	self backgoundUpdater ifTrue: [ ^ self ].
 	aBlock value
+]
+
+{ #category : #accessing }
+ToElementLookEvent >> selector [
+
+	^ selector
+]
+
+{ #category : #accessing }
+ToElementLookEvent >> selector: aValuable [
+
+	selector := aValuable
 ]
 
 { #category : #sending }

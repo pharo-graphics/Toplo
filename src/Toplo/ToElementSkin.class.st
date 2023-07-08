@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'look',
 		'lastEvent',
-		'recursive'
+		'target',
+		'subSkins'
 	],
 	#category : #'Toplo-Theme-Skins'
 }
@@ -26,10 +27,11 @@ ToElementSkin >> addLookDecorator: aLook [
 ]
 
 { #category : #dispatching }
-ToElementSkin >> dispatchToChildren: anEvent [
+ToElementSkin >> dispatchToSubSkins: anEvent [
 
-	self recursive ifFalse: [ ^ self ].
-	anEvent target childrenDo: [ :child | child dispatchEvent: anEvent ]
+	self subSkins do: [ :skin | | evt |
+		evt := anEvent clone.
+		(skin target value: evt) dispatchEvent: evt]
 ]
 
 { #category : #'event handling' }
@@ -57,7 +59,7 @@ ToElementSkin >> handleEvent: anEvent [
 	lastEvent class = anEvent class ifTrue: [ ^ self ].
 	lastEvent := anEvent.
 	(anEvent isKindOf: ToElementLookEvent) ifTrue: [
-		self dispatchToChildren: anEvent clone.
+		self dispatchToSubSkins: anEvent.
 		^ anEvent sendTo: look ].
 	super handleEvent: anEvent
 ]
@@ -99,22 +101,34 @@ ToElementSkin >> privateLook: aLook [
 ]
 
 { #category : #accessing }
-ToElementSkin >> recursive [
-
-	^ recursive ifNil: [ recursive := false ]
-]
-
-{ #category : #accessing }
-ToElementSkin >> recursive: anObject [
-
-	recursive := anObject
-]
-
-{ #category : #accessing }
 ToElementSkin >> setMainLook: aLook [
 
 	self look isNull ifTrue: [
 		aLook next: self look.
 		^ self privateLook: aLook ].
 	aLook setAsMainLookIn: self current: self look previous: nil
+]
+
+{ #category : #accessing }
+ToElementSkin >> subSkins [
+
+	^ subSkins ifNil: [ subSkins := OrderedCollection new ]
+]
+
+{ #category : #accessing }
+ToElementSkin >> subSkins: aCollection [
+
+	subSkins := aCollection
+]
+
+{ #category : #accessing }
+ToElementSkin >> target [
+
+	^ target ifNil: [ target := [ :evt | evt target ] ]
+]
+
+{ #category : #accessing }
+ToElementSkin >> target: aValuable [
+
+	target := aValuable
 ]

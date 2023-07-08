@@ -948,7 +948,7 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 { #category : #button }
 ToSandBox class >> example_ToButtonLooks [
 
-	| space button1 button2 button3 button4 button5 pane |
+	| space button1 button2 button3 button4 button5 pane skin subSkin |
 	
 	space := OBlSpace new.
 	"space switchThemeDarkOrLight."
@@ -959,10 +959,17 @@ ToSandBox class >> example_ToButtonLooks [
 	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
 	
 	button1 := ToButton new.
-	button1 addLook: ToButtonPrimaryLook new.
+	"button1 addLook: ToButtonPrimaryLook new."
 	button1 labelText: 'Primary button'.
-	button1 label addLook: ToLabelPrimaryLook new.
-	
+	"button1 label addLook: ToLabelPrimaryLook new."
+	skin := ToButtonSkin new.
+	skin addLook: ToButtonPrimaryLook new.
+	subSkin := ToElementSkin new.
+	"subSkin addLook:  ToLabelPrimaryLook new."
+	subSkin target: [ :e | e target label ].
+	skin subSkins add: subSkin.
+	button1 withSkin: skin.
+
 	button2 := ToButton new.
 	button2 labelText: 'Default button'.
 	button2 label addLook: ToButtonLabelLook new.

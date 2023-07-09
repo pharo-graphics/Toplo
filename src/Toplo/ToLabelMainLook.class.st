@@ -4,17 +4,6 @@ Class {
 	#category : #'Toplo-Theme-Skins-Looks'
 }
 
-{ #category : #'event handling' }
-ToLabelMainLook >> hoverLookEvent: anEvent [
-
-	super hoverLookEvent: anEvent.
-	anEvent elementDo: [ :e |
-		| builder |
-		builder := self decoratedTextAttributesBuilderFromElement: e.
-		e text attributes: builder attributes.
-		e textChanged ]
-]
-
 { #category : #accessing }
 ToLabelMainLook >> initialLookEvent: anEvent [
 
@@ -44,9 +33,20 @@ ToLabelMainLook >> isMain [
 ]
 
 { #category : #'event handling' }
-ToLabelMainLook >> pressedLookEvent: anEvent [
+ToLabelMainLook >> mouseHoverLookEvent: anEvent [
 
-	super pressedLookEvent: anEvent.
+	super mouseHoverLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		| builder |
+		builder := self decoratedTextAttributesBuilderFromElement: e.
+		e text attributes: builder attributes.
+		e textChanged ]
+]
+
+{ #category : #'event handling' }
+ToLabelMainLook >> mousePressedLookEvent: anEvent [
+
+	super mousePressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| builder |
 		builder := self decoratedTextAttributesBuilderFromElement: e.

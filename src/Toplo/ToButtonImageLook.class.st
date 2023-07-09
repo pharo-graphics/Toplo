@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #'event handling' }
-ToButtonImageLook >> hoverLookEvent: anEvent [
+ToButtonImageLook >> mouseHoverLookEvent: anEvent [
 
-	super hoverLookEvent: anEvent.
+	super mouseHoverLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| c |
 		c := e toTheme colorPrimary.
@@ -15,9 +15,9 @@ ToButtonImageLook >> hoverLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToButtonImageLook >> pressedLookEvent: anEvent [
+ToButtonImageLook >> mousePressedLookEvent: anEvent [
 
-	super pressedLookEvent: anEvent.
+	super mousePressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| c |
 		c := e toTheme colorPrimaryPressed.

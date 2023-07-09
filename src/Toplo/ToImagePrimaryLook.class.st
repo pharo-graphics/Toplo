@@ -5,16 +5,6 @@ Class {
 }
 
 { #category : #accessing }
-ToImagePrimaryLook >> hoverLookEvent: anEvent [
-
-	super hoverLookEvent: anEvent.
-	anEvent elementDo: [ :e |
-		| c |
-		c := e toTheme colorImageLightSolid.
-		self adaptForegroundIn: e withColor: c ]
-]
-
-{ #category : #accessing }
 ToImagePrimaryLook >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
@@ -35,9 +25,19 @@ ToImagePrimaryLook >> installLookEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToImagePrimaryLook >> pressedLookEvent: anEvent [
+ToImagePrimaryLook >> mouseHoverLookEvent: anEvent [
 
-	super pressedLookEvent: anEvent.
+	super mouseHoverLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		| c |
+		c := e toTheme colorImageLightSolid.
+		self adaptForegroundIn: e withColor: c ]
+]
+
+{ #category : #accessing }
+ToImagePrimaryLook >> mousePressedLookEvent: anEvent [
+
+	super mousePressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| c |
 		c := e toTheme colorImageLightSolid.

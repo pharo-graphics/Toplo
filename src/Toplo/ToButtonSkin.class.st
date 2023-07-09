@@ -3,9 +3,3 @@ Class {
 	#superclass : #ToElementSkin,
 	#category : #'Toplo-Theme-Skins'
 }
-
-{ #category : #initialization }
-ToButtonSkin >> initialize [ 
-
-	super initialize
-]

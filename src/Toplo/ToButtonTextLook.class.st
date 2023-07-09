@@ -11,15 +11,6 @@ ToButtonTextLook >> hasBackground [
 ]
 
 { #category : #'event handling' }
-ToButtonTextLook >> hoverLookEvent: anEvent [
-
-	super hoverLookEvent: anEvent.
-	anEvent elementDo: [ :e |
-		anEvent ifBackgoundUpdated: [ 
-			e background: e toTheme colorBgTextHover ] ]
-]
-
-{ #category : #'event handling' }
 ToButtonTextLook >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
@@ -29,9 +20,18 @@ ToButtonTextLook >> initialLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToButtonTextLook >> pressedLookEvent: anEvent [
+ToButtonTextLook >> mouseHoverLookEvent: anEvent [
 
-	super pressedLookEvent: anEvent.
+	super mouseHoverLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		anEvent ifBackgoundUpdated: [ 
+			e background: e toTheme colorBgTextHover ] ]
+]
+
+{ #category : #'event handling' }
+ToButtonTextLook >> mousePressedLookEvent: anEvent [
+
+	super mousePressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		anEvent ifBackgoundUpdated: [ 
 			e background: e toTheme colorBgTextActive ] ]

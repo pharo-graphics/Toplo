@@ -5,18 +5,18 @@ Class {
 }
 
 { #category : #'event handling' }
-ToButtonTextDangerLook >> hoverLookEvent: anEvent [
+ToButtonTextDangerLook >> mouseHoverLookEvent: anEvent [
 
-	super hoverLookEvent: anEvent.
+	super mouseHoverLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		anEvent ifBackgoundUpdated: [ 
 			e background: e toTheme colorErrorBg ] ]
 ]
 
 { #category : #'event handling' }
-ToButtonTextDangerLook >> pressedLookEvent: anEvent [
+ToButtonTextDangerLook >> mousePressedLookEvent: anEvent [
 
-	super pressedLookEvent: anEvent.
+	super mousePressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		anEvent ifBackgoundUpdated: [ 
 			e background: e toTheme colorErrorBg ] ]

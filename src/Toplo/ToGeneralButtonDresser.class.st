@@ -15,7 +15,7 @@ ToGeneralButtonDresser >> hover: anElement event: anEvent [
 { #category : #'events handling' }
 ToGeneralButtonDresser >> hoverState: anElement [
 
-	anElement dispatchEvent: ToHoverLookEvent new
+	anElement dispatchEvent: ToMouseHoverLookEvent new
 
 
 ]
@@ -32,8 +32,16 @@ ToGeneralButtonDresser >> leaved: anElement event: anEvent [
 
 	super leaved: anElement event: anEvent.
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
-	self initialState: anElement
+	self leavedState: anElement
 
+
+
+]
+
+{ #category : #'events handling' }
+ToGeneralButtonDresser >> leavedState: anElement [
+
+	anElement dispatchEvent: ToMouseLeavedLookEvent new
 
 
 ]
@@ -56,7 +64,7 @@ ToGeneralButtonDresser >> leftUp: anElement event: anEvent [
 { #category : #'events handling' }
 ToGeneralButtonDresser >> pressedState: anElement [
 
-	anElement dispatchEvent: ToPressedLookEvent new
+	anElement dispatchEvent: ToMousePressedLookEvent new
 ]
 
 { #category : #'events handling' }

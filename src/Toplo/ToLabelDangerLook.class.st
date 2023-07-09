@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #'event handling' }
-ToLabelDangerLook >> hoverLookEvent: anEvent [
+ToLabelDangerLook >> mouseHoverLookEvent: anEvent [
 
-	super hoverLookEvent: anEvent.
+	super mouseHoverLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| builder |
 		builder := self decoratedTextAttributesBuilderFromElement: e.
@@ -17,9 +17,9 @@ ToLabelDangerLook >> hoverLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToLabelDangerLook >> pressedLookEvent: anEvent [
+ToLabelDangerLook >> mousePressedLookEvent: anEvent [
 
-	super pressedLookEvent: anEvent.
+	super mousePressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| builder |
 		builder := self decoratedTextAttributesBuilderFromElement: e.

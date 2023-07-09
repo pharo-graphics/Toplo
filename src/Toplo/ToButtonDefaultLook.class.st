@@ -11,16 +11,6 @@ ToButtonDefaultLook >> hasBackground [
 ]
 
 { #category : #'event handling' }
-ToButtonDefaultLook >> hoverLookEvent: anEvent [
-
-	super hoverLookEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e border: ((self decoratedBorderBuilderFromElement: e)
-				 paint: e toTheme colorPrimaryHover;
-				 build) ]
-]
-
-{ #category : #'event handling' }
 ToButtonDefaultLook >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
@@ -33,9 +23,19 @@ ToButtonDefaultLook >> initialLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToButtonDefaultLook >> pressedLookEvent: anEvent [
+ToButtonDefaultLook >> mouseHoverLookEvent: anEvent [
 
-	super pressedLookEvent: anEvent.
+	super mouseHoverLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e border: ((self decoratedBorderBuilderFromElement: e)
+				 paint: e toTheme colorPrimaryHover;
+				 build) ]
+]
+
+{ #category : #'event handling' }
+ToButtonDefaultLook >> mousePressedLookEvent: anEvent [
+
+	super mousePressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border:
 			((self decoratedBorderBuilderFromElement: e) paint:

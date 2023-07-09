@@ -20,11 +20,6 @@ ToImageLook >> adaptForegroundIn: anElement withColor: aColor [
 ]
 
 { #category : #'event handling' }
-ToImageLook >> hoverLookEvent: anEvent [
-
-]
-
-{ #category : #'event handling' }
 ToImageLook >> initialLookEvent: anEvent [
 
 
@@ -37,7 +32,12 @@ ToImageLook >> installLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToImageLook >> pressedLookEvent: anEvent [
+ToImageLook >> mouseHoverLookEvent: anEvent [
+
+]
+
+{ #category : #'event handling' }
+ToImageLook >> mousePressedLookEvent: anEvent [
 
 
 ]

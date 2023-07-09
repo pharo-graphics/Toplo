@@ -11,15 +11,6 @@ ToButtonPrimaryLook >> hasBackground [
 ]
 
 { #category : #'event handling' }
-ToButtonPrimaryLook >> hoverLookEvent: anEvent [
-
-	super hoverLookEvent: anEvent.
-	anEvent elementDo: [ :e |
-		anEvent ifBackgoundUpdated: [ 
-			e background: e toTheme colorPrimaryHover ] ]
-]
-
-{ #category : #'event handling' }
 ToButtonPrimaryLook >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
@@ -29,9 +20,18 @@ ToButtonPrimaryLook >> initialLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToButtonPrimaryLook >> pressedLookEvent: anEvent [
+ToButtonPrimaryLook >> mouseHoverLookEvent: anEvent [
 
-	super pressedLookEvent: anEvent.
+	super mouseHoverLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		anEvent ifBackgoundUpdated: [ 
+			e background: e toTheme colorPrimaryHover ] ]
+]
+
+{ #category : #'event handling' }
+ToButtonPrimaryLook >> mousePressedLookEvent: anEvent [
+
+	super mousePressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		anEvent ifBackgoundUpdated: [ 
 			e background: e toTheme colorPrimaryPressed ] ]

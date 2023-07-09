@@ -1,0 +1,14 @@
+Class {
+	#name : #ToElementMouseRelatedLookEvent,
+	#superclass : #ToElementLookEvent,
+	#category : #'Toplo-Theme-Skins'
+}
+
+{ #category : #sending }
+ToElementMouseRelatedLookEvent >> sendTo: anObject [
+
+	self target shouldChildrenHandleMouseEvents ifFalse: [
+		self target allChildrenDepthFirstDo: [ :child |
+			  child dispatchEvent: self clone ] ].
+	super sendTo: anObject
+]

@@ -5,16 +5,6 @@ Class {
 }
 
 { #category : #accessing }
-ToImageDangerLook >> hoverLookEvent: anEvent [
-
-	super hoverLookEvent: anEvent.
-	anEvent elementDo: [ :e |
-			| c |
-			c := e toTheme colorErrorHover.
-			self adaptForegroundIn: e withColor: c ]
-]
-
-{ #category : #accessing }
 ToImageDangerLook >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
@@ -35,9 +25,19 @@ ToImageDangerLook >> installLookEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToImageDangerLook >> pressedLookEvent: anEvent [
+ToImageDangerLook >> mouseHoverLookEvent: anEvent [
 
-	super pressedLookEvent: anEvent.
+	super mouseHoverLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+			| c |
+			c := e toTheme colorErrorHover.
+			self adaptForegroundIn: e withColor: c ]
+]
+
+{ #category : #accessing }
+ToImageDangerLook >> mousePressedLookEvent: anEvent [
+
+	super mousePressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| c |
 		c := e toTheme colorError darker.

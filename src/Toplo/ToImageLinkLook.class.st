@@ -5,16 +5,6 @@ Class {
 }
 
 { #category : #'event handling' }
-ToImageLinkLook >> hoverLookEvent: anEvent [
-
-	super hoverLookEvent: anEvent.
-	anEvent elementDo: [ :e |
-		| c |
-		c := e toTheme colorLinkHover.
-		self adaptForegroundIn: e withColor: c ]
-]
-
-{ #category : #'event handling' }
 ToImageLinkLook >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
@@ -35,9 +25,19 @@ ToImageLinkLook >> installLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToImageLinkLook >> pressedLookEvent: anEvent [
+ToImageLinkLook >> mouseHoverLookEvent: anEvent [
 
-	super pressedLookEvent: anEvent.
+	super mouseHoverLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		| c |
+		c := e toTheme colorLinkHover.
+		self adaptForegroundIn: e withColor: c ]
+]
+
+{ #category : #'event handling' }
+ToImageLinkLook >> mousePressedLookEvent: anEvent [
+
+	super mousePressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| c |
 		c := e toTheme colorPrimaryPressed.

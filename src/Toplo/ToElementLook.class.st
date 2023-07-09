@@ -55,12 +55,6 @@ ToElementLook >> hasBackground [
 ]
 
 { #category : #'event handling' }
-ToElementLook >> hoverLookEvent: anEvent [
-
-
-]
-
-{ #category : #'event handling' }
 ToElementLook >> initialLookEvent: anEvent [
 
 
@@ -83,6 +77,26 @@ ToElementLook >> isNull [
 	^ false
 ]
 
+{ #category : #'event handling' }
+ToElementLook >> mouseHoverLookEvent: anEvent [
+
+
+]
+
+{ #category : #'event handling' }
+ToElementLook >> mouseLeavedLookEvent: anEvent [
+
+	anEvent target dispatchEvent: (ToInitialLookEvent new copyFrom: anEvent)
+
+
+]
+
+{ #category : #'event handling' }
+ToElementLook >> mousePressedLookEvent: anEvent [
+
+
+]
+
 { #category : #accessing }
 ToElementLook >> next [
 
@@ -93,12 +107,6 @@ ToElementLook >> next [
 ToElementLook >> next: aLook [
 
 	next := aLook
-]
-
-{ #category : #'event handling' }
-ToElementLook >> pressedLookEvent: anEvent [
-
-
 ]
 
 { #category : #private }

@@ -3,9 +3,7 @@ Class {
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'look',
-		'lastEvent',
-		'target',
-		'subSkins'
+		'lastEvent'
 	],
 	#category : #'Toplo-Theme-Skins'
 }
@@ -59,7 +57,6 @@ ToElementSkin >> handleEvent: anEvent [
 	lastEvent class = anEvent class ifTrue: [ ^ self ].
 	lastEvent := anEvent.
 	(anEvent isKindOf: ToElementLookEvent) ifTrue: [
-		self dispatchToSubSkins: anEvent.
 		^ anEvent sendTo: look ].
 	super handleEvent: anEvent
 ]
@@ -107,28 +104,4 @@ ToElementSkin >> setMainLook: aLook [
 		aLook next: self look.
 		^ self privateLook: aLook ].
 	aLook setAsMainLookIn: self current: self look previous: nil
-]
-
-{ #category : #accessing }
-ToElementSkin >> subSkins [
-
-	^ subSkins ifNil: [ subSkins := OrderedCollection new ]
-]
-
-{ #category : #accessing }
-ToElementSkin >> subSkins: aCollection [
-
-	subSkins := aCollection
-]
-
-{ #category : #accessing }
-ToElementSkin >> target [
-
-	^ target ifNil: [ target := [ :evt | evt target ] ]
-]
-
-{ #category : #accessing }
-ToElementSkin >> target: aValuable [
-
-	target := aValuable
 ]

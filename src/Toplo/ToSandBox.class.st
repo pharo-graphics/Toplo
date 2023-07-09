@@ -2476,10 +2476,10 @@ ToSandBox class >> example_toButtonModelWithTextAndIconVertical [
 	but := ToButtonModel new
 		       beVertical.
 	but label: (ToLabel text: 'Button').
-	but icon: (BlElement new
+	but icon: (ToImage inner: (BlElement new
 			 size: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
-			 yourself).
+			 yourself)).
 	but whenClickedDo: [ :ann | 
 		ann currentTarget horizontal: ann currentTarget horizontal not ].
 	space := OBlSpace new.
@@ -2502,7 +2502,7 @@ ToSandBox class >> example_toButtonOrientationChanger [
 		             size: 20 @ 20;
 		             background: Color lightGray;
 		             yourself.
-	but icon: iconImage.
+	but iconImage: iconImage.
 	count := 0.
 	but whenClickedDo: [ :ann | count := count + 1. count traceCr. ann currentTarget orientation: but orientation inverted ].
 	space := OBlSpace new.
@@ -2523,7 +2523,7 @@ ToSandBox class >> example_toButtonOrientationChanger3 [
 		             size: 20 @ 20;
 		             background: Color lightGray;
 		             yourself.
-	but icon: iconImage.
+	but iconImage: iconImage.
 	count := 0.
 	but whenClickedDo: [ :ann | count := count + 1. count traceCr. ann currentTarget orientation: but orientation inverted ].
 	space := OBlSpace new.
@@ -2583,7 +2583,7 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 	| but space count |
 	but := ToButton new "cellSpacing: 2; padding: (BlInsets all: 4)".
 	but label: (ToLabel text: 'Button').
-	but icon: (BlElement new
+	but iconImage: (BlElement new
 			 size: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).
@@ -2603,7 +2603,7 @@ ToSandBox class >> example_toButtonWithTextAndIconVertical [
 	| but space |
 	but := ToButton new padding: (BlInsets all: 4); beVertical.
 	but label: (ToLabel text: 'Button').
-	but icon: (BlElement new
+	but iconImage: (BlElement new
 			 size: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).

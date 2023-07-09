@@ -9,7 +9,7 @@ Trait {
 { #category : #'t - skin accessing' }
 TToSkinable >> addLook: aLook [
 
-	privateSkin ifNil: [ ^ self ].
+	privateSkin ifNil: [ self initializeSkin ].
 	privateSkin addLook: aLook
 	
 ]

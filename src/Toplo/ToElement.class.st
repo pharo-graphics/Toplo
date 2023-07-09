@@ -31,5 +31,6 @@ ToElement >> initialize [
 	"Dresser initialization steps"
 	self preInitializeDresser.
 	self initializeDresser.
-	self postInitializeDresser
+	self postInitializeDresser.
+	self initializeSkin
 ]

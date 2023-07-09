@@ -9,9 +9,14 @@ Trait {
 { #category : #'t - skin accessing' }
 TToSkinable >> addLook: aLook [
 
-	privateSkin ifNil: [ self initializeSkin ].
+	self checkSkin.
 	privateSkin addLook: aLook
-	
+]
+
+{ #category : #'t - skin accessing' }
+TToSkinable >> checkSkin [
+
+	privateSkin ifNil: [ self initializeSkin ]
 ]
 
 { #category : #'t - skin accessing' }
@@ -21,9 +26,15 @@ TToSkinable >> defaultLook [
 ]
 
 { #category : #'t - skin accessing' }
+TToSkinable >> defaultSkin [
+
+	^  ToWidgetSkin new
+]
+
+{ #category : #'t - skin accessing' }
 TToSkinable >> initializeSkin [
 
-	self withSkin: ToElementSkin new
+	self withSkin: self defaultSkin
 ]
 
 { #category : #'t - skin accessing' }
@@ -37,7 +48,8 @@ TToSkinable >> withSkin: aSkin [
 
 	self withoutSkin.
 	privateSkin := aSkin.
-	privateSkin ifNotNil: [ self addEventHandler: privateSkin ].
+	Toplo useLookAndFeel ifTrue: [ ^ self ].
+	privateSkin ifNotNil: [ privateSkin onInstalledIn: self ].
 
 	
 ]
@@ -45,6 +57,7 @@ TToSkinable >> withSkin: aSkin [
 { #category : #'t - skin accessing' }
 TToSkinable >> withoutSkin [
 
-	privateSkin ifNotNil: [ self removeEventHandler: privateSkin ]
-	
+	privateSkin ifNotNil: [
+		privateSkin onUninstalledIn: self.
+		privateSkin := nil ]
 ]

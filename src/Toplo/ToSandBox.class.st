@@ -1175,6 +1175,253 @@ ToSandBox class >> example_ToButtonLooks [
 	^space
 ]
 
+{ #category : #button }
+ToSandBox class >> example_ToButtonSkins [
+
+	| space button1 button2 button3 button4 button5 pane |
+	
+	space := OBlSpace new.
+	"space switchThemeDarkOrLight."
+	space root layout: (BlLinearLayout vertical cellSpacing: 10).
+	
+	" Line 1 "
+	pane := ToPane horizontal.
+	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+	
+	button1 := ToButton new withSkin: (ToButtonPrimarySkin new).
+	button1 labelText: 'Primary button'.
+
+	button2 := ToButton new.
+	button2 labelText: 'Default button'.
+		
+	button3 := ToButton new withSkin: (ToButtonDefaultSkin new  dashed: true; yourself).
+	button3 addLook: ToButtonDashedLook new.
+	button3 labelText: 'Dashed button'.
+
+	button4 := ToButton new.
+	button4 addLook: ToButtonTextLook new.
+	button4 labelText: 'Text button'.
+	
+	button5 := ToButton new.
+	button5 addLook: ToButtonLinkLook new.
+	button5 labelText: 'Link button'.
+	button5 label addLook: ToLabelLinkLook new.
+			
+	pane addChildren: { button1. button2. button3. button4. button5 }.
+	space root addChild: pane.
+	
+	" line 2 "	
+	pane := ToPane horizontal.
+	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+	
+	button1 := ToButton new withSkin: (ToButtonPrimarySkin new).
+	button1 labelText: 'Primary button'.
+	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	
+	button2 := ToButton new.
+	button2 labelText: 'Default button'.
+	
+	button3 := ToButton new withSkin: (ToButtonDefaultSkin new  dashed: true; yourself).
+	button3 labelText: 'Dashed button'.
+	button3 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+
+	button4 := ToButton new.
+	button4 addLook: ToButtonTextLook new.
+	button4 labelText: 'Text button'.
+	button4 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	
+	button5 := ToButton new.
+	button5 addLook: ToButtonLinkLook new.
+	button5 labelText: 'Link button'.
+	button5 label addLook: ToLabelLinkLook new.
+	button5 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button5 icon addLook: ToImageLinkLook new.
+
+	pane addChildren: { button1. button2. button3. button4. button5 }.
+	space root addChild: pane.
+
+	" line 3 "	
+	pane := ToPane horizontal.
+	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+	
+	button1 := ToButton new withSkin: (ToButtonPrimarySkin new).
+	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+
+	button2 := ToButton new.
+	button2 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+
+	button3 := ToButton new withSkin: (ToButtonDefaultSkin new  dashed: true; yourself).
+	button3 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+
+	button4 := ToButton new.
+	button4 addLook: ToButtonTextLook new.
+	button4 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+
+	button5 := ToButton new.
+	button5 addLook: ToButtonLinkLook new.
+	button5 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button5 icon addLook: ToImageLinkLook new.
+	
+	pane addChildren: { button1. button2. button3. button4. button5 }.
+	space root addChild: pane.
+
+	" line 4 "	
+	pane := ToPane horizontal.
+	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+	
+	button1 := ToButton new.
+	button1 addLook: ToButtonPrimaryLook new.
+	button1 addLook: ToButtonDangerLook new.
+	button1 labelText: 'Primary button'.
+	button1 label addLook: ToLabelPrimaryLook new.
+	
+	button2 := ToButton new.
+	button2 addLook: ToButtonDangerLook new.
+	button2 labelText: 'Default button'.
+	button2 label addLook: ToLabelDangerLook new.
+		
+	button3 := ToButton new.
+	button3 addLook: ToButtonDashedLook new.
+	button3 addLook: ToButtonDangerLook new.
+	button3 labelText: 'Dashed button'.
+	button3 label addLook: ToLabelDangerLook new.
+
+	button4 := ToButton new.
+	button4 addLook: ToButtonTextLook new.
+	button4 addLook: ToButtonTextDangerLook new.
+	button4 labelText: 'Text button'.
+	button4 label addLook: ToLabelDangerLook new.
+	
+	button5 := ToButton new.
+	button5 addLook: ToButtonLinkLook new.
+	button5 labelText: 'Link button'.
+	button5 label addLook: ToLabelDangerLook new.
+			
+	pane addChildren: { button1. button2. button3. button4. button5 }.
+	space root addChild: pane.
+	
+	" line 5 "	
+	pane := ToPane horizontal.
+	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+	
+	button1 := ToButton new.
+	button1 addLook: ToButtonPrimaryLook new.
+	button1 addLook: ToButtonDangerLook new.
+	button1 labelText: 'Primary button'.
+	button1 label addLook: ToLabelPrimaryLook new.
+	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button1 icon addLook: ToImagePrimaryLook new.
+	
+	button2 := ToButton new.
+	button2 addLook: ToButtonDangerLook new.
+	button2 labelText: 'Default button'.	
+	button2 label addLook: ToLabelDangerLook new.
+	button2 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button2 icon addLook: ToImageDangerLook new.
+	
+	button3 := ToButton new.
+	button3 addLook: ToButtonDashedLook new.
+	button3 addLook: ToButtonDangerLook new.
+	button3 labelText: 'Dashed button'.
+	button3 label addLook: ToLabelDangerLook new.
+	button3 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button3 icon addLook: ToImageDangerLook new.
+
+	button4 := ToButton new.
+	button4 addLook: ToButtonTextLook new.
+	button4 addLook: ToButtonTextDangerLook new.
+	button4 labelText: 'Text button'.
+	button4 label addLook: ToLabelDangerLook new.
+	button4 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button4 icon addLook: ToImageDangerLook new.
+	
+	button5 := ToButton new.
+	button5 addLook: ToButtonLinkLook new.
+	button5 addLook: ToButtonDangerLook new.
+	button5 labelText: 'Link button'.
+	button5 label addLook: ToLabelDangerLook new.
+	button5 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button5 icon addLook: ToImageDangerLook new.
+
+	pane addChildren: { button1. button2. button3. button4. button5 }.
+	space root addChild: pane.
+
+	" line 6 "	
+	pane := ToPane horizontal.
+	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+	
+	button1 := ToButton new.
+	button1 addLook: ToButtonPrimaryLook new.
+	button1 addLook: ToButtonDangerLook new.
+	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button1 icon addLook: ToImagePrimaryLook new.
+
+	button2 := ToButton new.
+	button2 addLook: ToButtonDangerLook new.
+	button2 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button2 icon addLook: ToImageDangerLook new.
+
+	button3 := ToButton new.
+	button3 addLook: ToButtonDashedLook new.
+	button3 addLook: ToButtonDangerLook new.
+	button3 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button3 icon addLook: ToImageDangerLook new.
+
+	button4 := ToButton new.
+	button4 addLook: ToButtonTextLook new.
+	button4 addLook: ToButtonTextDangerLook new.
+	button4 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button4 icon addLook: ToImageDangerLook new.
+
+	button5 := ToButton new.
+	button5 addLook: ToButtonLinkLook new.
+	button5 addLook: ToButtonDangerLook new.
+	button5 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button5 icon addLook: ToImageDangerLook new.
+			
+	pane addChildren: { button1. button2. button3. button4. button5 }.
+	space root addChild: pane.
+	
+	space show.
+
+	^space
+]
+
+{ #category : #button }
+ToSandBox class >> example_ToButtonWithDashedSkin [
+
+	| space button1 |
+	
+	space := OBlSpace new.
+
+	button1 := ToButton new withSkin: (ToButtonDefaultSkin new dashed: true; yourself).
+	button1 labelText: 'Primary button'.
+	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	
+	space root addChild: button1.
+	
+	space show.
+
+	^space
+]
+
+{ #category : #button }
+ToSandBox class >> example_ToButtonWithPrimarySkin [
+
+
+	| space button1 |
+	
+	space := OBlSpace new.
+
+	button1 := ToButton new withSkin: (ToButtonPrimarySkin new).
+	button1 labelText: 'Primary button'.
+	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	space root addChild: button1.
+	button1 inspect.
+	
+	space show.
+]
+
 { #category : #dresser }
 ToSandBox class >> example_WithToActionDresser [
 
@@ -2316,7 +2563,7 @@ ToSandBox class >> example_toButtonWithIconOnly [
 	but := ToButton new.
 	"but addLook: ToButtonLinkLook new."
 	"but addLook: ToButtonDashedLook new."
-	but addLook: ToButtonFixedSizeLook new.
+	"but addLook: ToButtonFixedSizeLook new."
 	"but addLook: ToButtonPrimaryLook new."
 	"but addLook: ToButtonDangerLook new."
 	"but addLook: ToButtonLinkLook new."

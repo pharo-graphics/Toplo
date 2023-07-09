@@ -97,6 +97,12 @@ ToLabel >> defaultTextElement [
 	^ self lineMode newTextElementIn: self
 ]
 
+{ #category : #initialization }
+ToLabel >> dresser: aDresser [
+
+	super dresser: aDresser
+]
+
 { #category : #'private-editing' }
 ToLabel >> editor [
 

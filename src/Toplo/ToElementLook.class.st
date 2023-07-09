@@ -109,6 +109,16 @@ ToElementLook >> next: aLook [
 	next := aLook
 ]
 
+{ #category : #removing }
+ToElementLook >> removeLook: aLook previous: previousLook [
+
+	previousLook ifNotNil: [
+		self = aLook ifTrue: [
+			previousLook next: self next.
+			^ self ] ].
+	self next removeLook: aLook previous: self
+]
+
 { #category : #private }
 ToElementLook >> setAsMainLookIn: aSkin current: currentLook previous: previousLook [
 

@@ -28,6 +28,12 @@ ToNullElementLook >> isNull [
 ToNullElementLook >> next: aLook [
 ]
 
+{ #category : #removing }
+ToNullElementLook >> removeLook: aLook previous: previousLook [
+
+	
+]
+
 { #category : #'event handling' }
 ToNullElementLook >> uninstallLookEvent: anEvent [
 ]

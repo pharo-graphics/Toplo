@@ -1,5 +1,5 @@
 Class {
-	#name : #ToElementSkin,
+	#name : #ToElementLookEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'look',
@@ -9,14 +9,15 @@ Class {
 }
 
 { #category : #accessing }
-ToElementSkin >> addLook: aLook [
+ToElementLookEventHandler >> addLook: aLook [
 
 	aLook isNull ifTrue: [ ^ self ].
-	aLook addedInSkin: self
+	aLook addedInSkin: self.
+	look updateFirstWith: look.
 ]
 
 { #category : #accessing }
-ToElementSkin >> addLookDecorator: aLook [
+ToElementLookEventHandler >> addLookDecorator: aLook [
 
 	aLook next: look.
 	self privateLook: aLook
@@ -25,7 +26,7 @@ ToElementSkin >> addLookDecorator: aLook [
 ]
 
 { #category : #dispatching }
-ToElementSkin >> dispatchToSubSkins: anEvent [
+ToElementLookEventHandler >> dispatchToSubSkins: anEvent [
 
 	self subSkins do: [ :skin | | evt |
 		evt := anEvent clone.
@@ -33,26 +34,25 @@ ToElementSkin >> dispatchToSubSkins: anEvent [
 ]
 
 { #category : #'event handling' }
-ToElementSkin >> elementAddedToSceneGraphEvent: anEvent [
-
+ToElementLookEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 	anEvent target dispatchEvent: (ToInstallLookEvent new copyFrom: anEvent).
 	anEvent target dispatchEvent: (ToInitialLookEvent new copyFrom: anEvent)
 ]
 
 { #category : #'event handling' }
-ToElementSkin >> elementRemovedFromSceneGraphEvent: anEvent [
+ToElementLookEventHandler >> elementRemovedFromSceneGraphEvent: anEvent [
 
 	anEvent currentTarget dispatchEvent: (ToUninstallLookEvent new copyFrom: anEvent)
 ]
 
 { #category : #'api - accessing' }
-ToElementSkin >> eventsToHandle [
+ToElementLookEventHandler >> eventsToHandle [
 
 	^ { BlElementAddedToSceneGraphEvent. BlElementRemovedFromSceneGraphEvent. ToElementLookEvent }
 ]
 
 { #category : #'api - event managing' }
-ToElementSkin >> handleEvent: anEvent [
+ToElementLookEventHandler >> handleEvent: anEvent [
 
 	lastEvent class = anEvent class ifTrue: [ ^ self ].
 	lastEvent := anEvent.
@@ -62,28 +62,27 @@ ToElementSkin >> handleEvent: anEvent [
 ]
 
 { #category : #initialization }
-ToElementSkin >> initialize [
+ToElementLookEventHandler >> initialize [
 
 	super initialize.
 	self privateLook: ToNullElementLook new
 ]
 
 { #category : #accessing }
-ToElementSkin >> look [
+ToElementLookEventHandler >> look [
 
 	^ look
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToElementSkin >> onInstalledIn: anElement [
+ToElementLookEventHandler >> onInstalledIn: anElement [
 
 	self flag: 'For first version compatibility for now '.
-	self addLook: anElement defaultLook.
 	super onInstalledIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToElementSkin >> onUninstalledIn: anElement [
+ToElementLookEventHandler >> onUninstalledIn: anElement [
 
 	look := nil.
 	super onUninstalledIn: anElement
@@ -91,14 +90,22 @@ ToElementSkin >> onUninstalledIn: anElement [
 ]
 
 { #category : #'private - accessing' }
-ToElementSkin >> privateLook: aLook [
+ToElementLookEventHandler >> privateLook: aLook [
 
-	look := aLook.
+	look := aLook
+]
+
+{ #category : #accessing }
+ToElementLookEventHandler >> removeLook: aLook [
+
+	look = aLook 
+		ifTrue: [ look := look next ]
+		ifFalse: [ look removeLook: aLook previous: nil ].
 	look updateFirstWith: look.
 ]
 
 { #category : #accessing }
-ToElementSkin >> setMainLook: aLook [
+ToElementLookEventHandler >> setMainLook: aLook [
 
 	self look isNull ifTrue: [
 		aLook next: self look.

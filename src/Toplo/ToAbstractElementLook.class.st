@@ -49,6 +49,12 @@ ToAbstractElementLook >> next: aLook [
 	self subclassResponsibility 
 ]
 
+{ #category : #removing }
+ToAbstractElementLook >> removeLook: aLook previous: previousLook [
+
+	self subclassResponsibility 
+]
+
 { #category : #'event handling' }
 ToAbstractElementLook >> uninstallLookEvent: anEvent [
 

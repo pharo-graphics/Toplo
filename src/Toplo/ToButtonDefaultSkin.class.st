@@ -1,14 +1,22 @@
 Class {
 	#name : #ToButtonDefaultSkin,
 	#superclass : #ToButtonSkin,
-	#traits : 'TObservable',
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
 		'#dashed => ObservableSlot',
-		'#dashedLook'
+		'#dashedLook',
+		'#labelDangerLook',
+		'#iconDangerLook'
 	],
 	#category : #'Toplo-Theme-Skins-Looks'
 }
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonDefaultSkin >> dangerChanged [
+
+	super dangerChanged.
+
+]
 
 { #category : #accessing }
 ToButtonDefaultSkin >> dashed [
@@ -36,13 +44,16 @@ ToButtonDefaultSkin >> dashedChanged [
 { #category : #'api - install/uninstall  hook' }
 ToButtonDefaultSkin >> iconChanged: aToButtonIconChangedEvent [
 
-	aToButtonIconChangedEvent current addLook: ToButtonImageLook new
+	aToButtonIconChangedEvent current addLook: ToButtonImageLook new.
+	self flag: 'danger off to manage here'.
+	self danger ifFalse: [ ^ self ].
+	iconDangerLook := ToImageDangerLook new.
+	aToButtonIconChangedEvent current addLook: iconDangerLook
 ]
 
 { #category : #initialization }
 ToButtonDefaultSkin >> initialize [
 
-	self class initializeSlots: self.
 	super initialize.
 	self whenDashedChangedDo: [ :current :previous |
 		self dashedChanged ]
@@ -51,7 +62,11 @@ ToButtonDefaultSkin >> initialize [
 { #category : #'api - install/uninstall  hook' }
 ToButtonDefaultSkin >> labelChanged: aToButtonLabelChangedEvent [
 
-	aToButtonLabelChangedEvent current addLook: ToButtonLabelLook new
+	aToButtonLabelChangedEvent current addLook: ToButtonLabelLook new.
+	self flag: 'danger off to manage here'.
+	self danger ifFalse: [ ^ self ].
+	labelDangerLook := ToLabelDangerLook new.
+	aToButtonLabelChangedEvent current addLook: labelDangerLook
 ]
 
 { #category : #'api - install/uninstall  hook' }

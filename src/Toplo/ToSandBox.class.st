@@ -948,12 +948,19 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 { #category : #button }
 ToSandBox class >> example_ToButtonLooks [
 
-	| space button1 button2 button3 button4 button5 pane |
+	| space button1 button2 button3 button4 button5 pane themeSwitcher |
 	
 	space := OBlSpace new.
 	"space switchThemeDarkOrLight."
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
+
+	themeSwitcher := ToChoiceBox new.
+	themeSwitcher data addAll: {ToThemeLight. ToThemeDark }.
+	themeSwitcher whenSelectedIndexChangedDo: [ space toTheme: themeSwitcher selectedData new ].
+	themeSwitcher selectData: space toTheme class.
+	space root addChild: themeSwitcher.
 	
+
 	" Line 1 "
 	pane := ToPane horizontal.
 	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
@@ -1178,12 +1185,18 @@ ToSandBox class >> example_ToButtonLooks [
 { #category : #button }
 ToSandBox class >> example_ToButtonSkins [
 
-	| space button1 button2 button3 button4 button5 pane |
+	| space button1 button2 button3 button4 button5 pane themeSwitcher |
 	
 	space := OBlSpace new.
 	"space switchThemeDarkOrLight."
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 	
+	themeSwitcher := ToChoiceBox new.
+	themeSwitcher data addAll: {ToThemeLight. ToThemeDark }.
+	themeSwitcher whenSelectedIndexChangedDo: [ space toTheme: themeSwitcher selectedData new ].
+	themeSwitcher selectData: space toTheme class.
+	space root addChild: themeSwitcher.
+		
 	" Line 1 "
 	pane := ToPane horizontal.
 	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
@@ -1268,23 +1281,15 @@ ToSandBox class >> example_ToButtonSkins [
 	" line 4 "	
 	pane := ToPane horizontal.
 	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
-	
-	button1 := ToButton new.
-	button1 addLook: ToButtonPrimaryLook new.
-	button1 addLook: ToButtonDangerLook new.
+
+	button1 := ToButton new withSkin: (ToButtonPrimarySkin new danger: true).
 	button1 labelText: 'Primary button'.
-	button1 label addLook: ToLabelPrimaryLook new.
 	
-	button2 := ToButton new.
-	button2 addLook: ToButtonDangerLook new.
+	button2 := ToButton new withSkin: (ToButtonDefaultSkin new danger: true).
 	button2 labelText: 'Default button'.
-	button2 label addLook: ToLabelDangerLook new.
 		
-	button3 := ToButton new.
-	button3 addLook: ToButtonDashedLook new.
-	button3 addLook: ToButtonDangerLook new.
+	button3 := ToButton new withSkin: (ToButtonDefaultSkin new danger: true; dashed: true; yourself).
 	button3 labelText: 'Dashed button'.
-	button3 label addLook: ToLabelDangerLook new.
 
 	button4 := ToButton new.
 	button4 addLook: ToButtonTextLook new.
@@ -1304,28 +1309,18 @@ ToSandBox class >> example_ToButtonSkins [
 	pane := ToPane horizontal.
 	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
 	
-	button1 := ToButton new.
-	button1 addLook: ToButtonPrimaryLook new.
-	button1 addLook: ToButtonDangerLook new.
+	button1 := ToButton new withSkin: (ToButtonPrimarySkin new danger: true).
 	button1 labelText: 'Primary button'.
-	button1 label addLook: ToLabelPrimaryLook new.
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 	button1 icon addLook: ToImagePrimaryLook new.
 	
-	button2 := ToButton new.
-	button2 addLook: ToButtonDangerLook new.
+	button2 := ToButton new withSkin: (ToButtonDefaultSkin new danger: true).
 	button2 labelText: 'Default button'.	
-	button2 label addLook: ToLabelDangerLook new.
 	button2 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-	button2 icon addLook: ToImageDangerLook new.
 	
-	button3 := ToButton new.
-	button3 addLook: ToButtonDashedLook new.
-	button3 addLook: ToButtonDangerLook new.
+	button3 := ToButton new withSkin: (ToButtonDefaultSkin new danger: true; dashed: true; yourself).
 	button3 labelText: 'Dashed button'.
-	button3 label addLook: ToLabelDangerLook new.
 	button3 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-	button3 icon addLook: ToImageDangerLook new.
 
 	button4 := ToButton new.
 	button4 addLook: ToButtonTextLook new.
@@ -1350,22 +1345,14 @@ ToSandBox class >> example_ToButtonSkins [
 	pane := ToPane horizontal.
 	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
 	
-	button1 := ToButton new.
-	button1 addLook: ToButtonPrimaryLook new.
-	button1 addLook: ToButtonDangerLook new.
+	button1 := ToButton new withSkin: (ToButtonPrimarySkin new danger: true).
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-	button1 icon addLook: ToImagePrimaryLook new.
 
-	button2 := ToButton new.
-	button2 addLook: ToButtonDangerLook new.
+	button2 := ToButton new withSkin: (ToButtonDefaultSkin new danger: true).
 	button2 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-	button2 icon addLook: ToImageDangerLook new.
 
-	button3 := ToButton new.
-	button3 addLook: ToButtonDashedLook new.
-	button3 addLook: ToButtonDangerLook new.
+	button3 := ToButton new withSkin: (ToButtonDefaultSkin new danger: true; dashed: true; yourself).
 	button3 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-	button3 icon addLook: ToImageDangerLook new.
 
 	button4 := ToButton new.
 	button4 addLook: ToButtonTextLook new.

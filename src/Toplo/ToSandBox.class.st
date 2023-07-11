@@ -948,163 +948,109 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 { #category : #button }
 ToSandBox class >> example_ToButtonSkins [
 
-	| space button1 button2 button3 button4 button5 pane themeSwitcher |
-	
+	| space pane themeSwitcher butBuilder buttonSpecsBuilder |
 	space := OBlSpace new.
 	"space switchThemeDarkOrLight."
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
-	
+
 	themeSwitcher := ToChoiceBox new.
-	themeSwitcher data addAll: {ToThemeLight. ToThemeDark }.
+	themeSwitcher data addAll: { ToThemeLight. ToThemeDark }.
+			
 	themeSwitcher whenSelectedIndexChangedDo: [ space toTheme: themeSwitcher selectedData new ].
 	themeSwitcher selectData: space toTheme class.
 	space root addChild: themeSwitcher.
+
+	butBuilder := [ ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16 ].
+	buttonSpecsBuilder := [ {
+		{ 'Primary'. ToButtonPrimarySkin new }.
+		{ 'Default'. nil }.
+		{ 'Dashed'. (ToButtonDefaultSkin new dashed: true; yourself) }.
+		{ 'Text'. ToButtonTextSkin new }.
+		{ 'Link'. ToButtonLinkSkin new } } ].
 		
 	" Line 1 "
 	pane := ToPane horizontal.
 	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
-	
-	button1 := ToButton new withSkin: (ToButtonPrimarySkin new).
-	button1 labelText: 'Primary button'.
 
-	button2 := ToButton new.
-	button2 labelText: 'Default button'.
+	buttonSpecsBuilder value do: [ :arr |
+		| but |
+		but := ToButton new.
+		arr second ifNotNil: [ :skin | but withSkin: skin ].
+		but labelText: arr first.
+		pane addChild: but ].
+	
+	space root addChild: pane.
+
+	" line 2 "
+	pane := ToPane horizontal.
+	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
 		
-	button3 := ToButton new withSkin: (ToButtonDefaultSkin new  dashed: true; yourself).
-	button3 labelText: 'Dashed button'.
+	buttonSpecsBuilder value do: [ :arr |
+		| but |
+		but := ToButton new.
+		arr second ifNotNil: [ :skin | but withSkin: skin ].
+		but labelText: arr first.
+		but icon: butBuilder value.
+		pane addChild: but ].
 
-	button4 := ToButton new withSkin: (ToButtonTextSkin new).
-	button4 labelText: 'Text button'.
-	
-	button5 := ToButton new withSkin: (ToButtonLinkSkin new ).
-	button5 labelText: 'Link button'.
-			
-	pane addChildren: { button1. button2. button3. button4. button5 }.
-	space root addChild: pane.
-	
-	" line 2 "	
-	pane := ToPane horizontal.
-	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
-	
-	button1 := ToButton new withSkin: (ToButtonPrimarySkin new).
-	button1 labelText: 'Primary button'.
-	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-	
-	button2 := ToButton new.
-	button2 labelText: 'Default button'.
-	
-	button3 := ToButton new withSkin: (ToButtonDefaultSkin new  dashed: true; yourself).
-	button3 labelText: 'Dashed button'.
-	button3 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-
-	button4 := ToButton new withSkin: (ToButtonTextSkin new).
-	button4 labelText: 'Text button'.
-	button4 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-	
-	button5 := ToButton new withSkin: (ToButtonLinkSkin new ).
-	button5 labelText: 'Link button'.
-	button5 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-
-	pane addChildren: { button1. button2. button3. button4. button5 }.
 	space root addChild: pane.
 
-	" line 3 "	
-	pane := ToPane horizontal.
-	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
-	
-	button1 := ToButton new withSkin: (ToButtonPrimarySkin new).
-	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-
-	button2 := ToButton new.
-	button2 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-
-	button3 := ToButton new withSkin: (ToButtonDefaultSkin new  dashed: true; yourself).
-	button3 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-
-	button4 := ToButton new withSkin: (ToButtonTextSkin new).
-	button4 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-
-	button5 := ToButton new withSkin: (ToButtonLinkSkin new ).
-	button5 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-	
-	pane addChildren: { button1. button2. button3. button4. button5 }.
-	space root addChild: pane.
-
-	" line 4 "	
+	" line 3 "
 	pane := ToPane horizontal.
 	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
 
-	button1 := ToButton new withSkin: (ToButtonPrimarySkin new danger: true).
-	button1 labelText: 'Primary button'.
-	
-	button2 := ToButton new withSkin: (ToButtonDefaultSkin new danger: true).
-	button2 labelText: 'Default button'.
-		
-	button3 := ToButton new withSkin: (ToButtonDefaultSkin new  dashed: true; danger: true; yourself).
-	button3 labelText: 'Dashed button'.
+	buttonSpecsBuilder value do: [ :arr |
+		| but |
+		but := ToButton new.
+		arr second ifNotNil: [ :skin | but withSkin: skin ].
+		but icon: butBuilder value.
+		pane addChild: but ].
 
-	button4 := ToButton new withSkin: (ToButtonTextSkin new danger: true; yourself).
-	button4 labelText: 'Text button'.
-	
-	button5 := ToButton new withSkin: (ToButtonLinkSkin new danger: true; yourself).
-	button5 labelText: 'Link button'.
-			
-	pane addChildren: { button1. button2. button3. button4. button5 }.
 	space root addChild: pane.
-	
-	" line 5 "	
+
+	" line 4 "
 	pane := ToPane horizontal.
 	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
-	
-	button1 := ToButton new withSkin: (ToButtonPrimarySkin new danger: true).
-	button1 labelText: 'Primary button'.
-	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-	
-	button2 := ToButton new withSkin: (ToButtonDefaultSkin new danger: true).
-	button2 labelText: 'Default button'.	
-	button2 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-	
-	button3 := ToButton new withSkin: (ToButtonDefaultSkin new  dashed: true; danger: true; yourself).
-	button3 labelText: 'Dashed button'.
-	button3 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 
-	button4 := ToButton new withSkin: (ToButtonTextSkin new danger: true; yourself).
-	button4 labelText: 'Text button'.
-	button4 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-	
-	button5 := ToButton new withSkin: (ToButtonLinkSkin new danger: true; yourself).
-	button5 labelText: 'Link button'.
-	button5 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	buttonSpecsBuilder value do: [ :arr |
+		| but |
+		but := ToButton new.
+		arr second ifNotNil: [ :skin | but withSkin: (skin danger: true; yourself)].
+		but labelText: arr first.
+		pane addChild: but ].
 
-
-	pane addChildren: { button1. button2. button3. button4. button5 }.
 	space root addChild: pane.
 
-	" line 6 "	
+	" line 5 "
 	pane := ToPane horizontal.
 	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+
+	buttonSpecsBuilder value do: [ :arr |
+		| but |
+		but := ToButton new.
+		arr second ifNotNil: [ :skin | but withSkin: (skin danger: true; yourself)].
+		but labelText: arr first.
+		but icon: butBuilder value.
+		pane addChild: but ].
 	
-	button1 := ToButton new withSkin: (ToButtonPrimarySkin new danger: true).
-	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-
-	button2 := ToButton new withSkin: (ToButtonDefaultSkin new danger: true).
-	button2 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-
-	button3 := ToButton new withSkin: (ToButtonDefaultSkin new  dashed: true; danger: true; yourself).
-	button3 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-
-	button4 := ToButton new withSkin: (ToButtonTextSkin new danger: true; yourself).
-	button4 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-
-	button5 := ToButton new withSkin: (ToButtonLinkSkin new danger: true; yourself).
-	button5 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-			
-	pane addChildren: { button1. button2. button3. button4. button5 }.
 	space root addChild: pane.
-	
+
+	" line 6 "
+	pane := ToPane horizontal.
+	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+
+	buttonSpecsBuilder value do: [ :arr |
+		| but |
+		but := ToButton new.
+		arr second ifNotNil: [ :skin | but withSkin: (skin danger: true; yourself)].
+		but icon: butBuilder value.
+		pane addChild: but ].
+
+	space root addChild: pane.
+
 	space show.
 
-	^space
+	^ space
 ]
 
 { #category : #button }

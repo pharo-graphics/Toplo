@@ -1,7 +1,7 @@
 Class {
 	#name : #ToButtonImageLook,
 	#superclass : #ToImageLookDecorator,
-	#category : #'Toplo-Theme-Skins-Looks'
+	#category : #'Toplo-Widget-Image-Look'
 }
 
 { #category : #'event handling' }

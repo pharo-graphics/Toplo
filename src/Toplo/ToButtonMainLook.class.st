@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'borderBuilder'
 	],
-	#category : #'Toplo-Theme-Skins-Looks'
+	#category : #'Toplo-Widget-Button-Look'
 }
 
 { #category : #private }

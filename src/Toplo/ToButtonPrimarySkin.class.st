@@ -1,19 +1,13 @@
 Class {
 	#name : #ToButtonPrimarySkin,
 	#superclass : #ToButtonSkin,
-	#category : #'Toplo-Theme-Skins-Looks'
+	#category : #'Toplo-Widget-Button-Skin'
 }
 
-{ #category : #'api - install/uninstall  hook' }
-ToButtonPrimarySkin >> iconChanged: aToButtonIconChangedEvent [
+{ #category : #testing }
+ToButtonPrimarySkin >> hasBackground [ 
 
-	aToButtonIconChangedEvent current addLook: ToImagePrimaryLook new
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonPrimarySkin >> labelChanged: aToButtonLabelChangedEvent [
-
-	aToButtonLabelChangedEvent current addLook: ToLabelPrimaryLook new
+	^ true
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -23,13 +17,19 @@ ToButtonPrimarySkin >> mainLookIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonPrimarySkin >> onInstalledIn: anElement [
+ToButtonPrimarySkin >> onInstalledIconIn: anElement [
 
-	super onInstalledIn: anElement
+	super onInstalledIconIn: anElement.
+	anElement icon ifNil: [ ^ self ].
+	anElement icon withSkin: ToWidgetSkin new.
+	anElement icon addLook: ToImagePrimaryLook new
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonPrimarySkin >> onUninstalledIn: anElement [
+ToButtonPrimarySkin >> onInstalledLabelIn: anElement [
 
-	super onUninstalledIn: anElement
+	super onInstalledLabelIn: anElement.
+	anElement label ifNil: [ ^ self ].
+	anElement label withSkin: ToWidgetSkin new.
+	anElement label addLook: ToLabelPrimaryLook new
 ]

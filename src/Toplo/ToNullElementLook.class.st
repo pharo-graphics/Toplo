@@ -1,7 +1,7 @@
 Class {
 	#name : #ToNullElementLook,
 	#superclass : #ToAbstractElementLook,
-	#category : #'Toplo-Theme-Skins'
+	#category : #'Toplo-Core-Theme-Skins'
 }
 
 { #category : #'private event handling' }

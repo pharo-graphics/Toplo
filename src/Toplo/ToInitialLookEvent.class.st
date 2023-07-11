@@ -1,7 +1,7 @@
 Class {
 	#name : #ToInitialLookEvent,
 	#superclass : #ToElementLookEvent,
-	#category : #'Toplo-Theme-Skins'
+	#category : #'Toplo-Core-Theme-Skins'
 }
 
 { #category : #sending }

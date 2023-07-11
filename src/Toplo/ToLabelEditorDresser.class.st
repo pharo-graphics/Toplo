@@ -6,7 +6,6 @@ Class {
 		'label',
 		'editorFrameFocusedHandler',
 		'editorFrameBlurHandler',
-		'editorPlugPositionCheckHandler',
 		'editorPositionCheckHandler'
 	],
 	#category : #'Toplo-Widget-Label'
@@ -76,11 +75,7 @@ ToLabelEditorDresser >> onInstalledIn: anElement [
 	anElement infinite addEventHandler: editorFrameFocusedHandler.
 	anElement infinite addEventHandler: editorFrameBlurHandler.
 
-	" Record start position "
-	editorPlugPositionCheckHandler := BlEventHandler
-		                                  on: BlElementAddedToSceneGraphEvent
-		                                  do: [ " need to wait for the layout to get the actual position "
-			                                  anElement whenLayoutedDoOnce: [ editorPosition := anElement positionInSpace ] ].
+	" see start position record in wgenAddedInSpace:"
 	" remove the editor in case the position of the editor change "
 	" This prevents undesired behavior when a label is in an infinite element"
 	editorPositionCheckHandler := BlEventHandler
@@ -90,7 +85,6 @@ ToLabelEditorDresser >> onInstalledIn: anElement [
 				                              editorPosition ~= anElement positionInSpace
 					                              ifTrue: [	anElement dispatchEvent: ToLabelEditorRemoveRequestEvent new ] ] ].
 
-	anElement addEventHandler: editorPlugPositionCheckHandler.
 	anElement addEventHandler: editorPositionCheckHandler
 ]
 
@@ -100,6 +94,13 @@ ToLabelEditorDresser >> onUninstalledIn: anElement [
 	super onUninstalledIn: anElement.
 	anElement infinite removeEventHandler: editorFrameFocusedHandler.
 	anElement infinite removeEventHandler: editorFrameBlurHandler.
-	anElement removeEventHandler: editorPlugPositionCheckHandler.
 	anElement removeEventHandler: editorPositionCheckHandler
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToLabelEditorDresser >> whenAddedToSpace: anEvent in: anElement [ 
+
+	super whenAddedToSpace: anEvent in: anElement.
+	" Record start position "
+	anElement whenLayoutedDoOnce: [ editorPosition := anElement positionInSpace ] 
 ]

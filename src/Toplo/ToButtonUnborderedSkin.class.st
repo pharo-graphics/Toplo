@@ -1,27 +1,12 @@
 Class {
-	#name : #ToButtonDefaultSkin,
+	#name : #ToButtonUnborderedSkin,
 	#superclass : #ToButtonSkin,
 	#classTraits : 'TObservable classTrait',
-	#instVars : [
-		'dashed'
-	],
 	#category : #'Toplo-Widget-Button-Skin'
 }
 
-{ #category : #accessing }
-ToButtonDefaultSkin >> dashed [
-
-	^ dashed ifNil: [ dashed := false ]
-]
-
-{ #category : #accessing }
-ToButtonDefaultSkin >> dashed: aBoolean [
-
-	dashed := aBoolean
-]
-
 { #category : #'api - install/uninstall  hook' }
-ToButtonDefaultSkin >> onInstalledIconIn: anElement [
+ToButtonUnborderedSkin >> onInstalledIconIn: anElement [
 
 	super onInstalledIconIn: anElement.
 	anElement icon ifNil: [ ^ self ].
@@ -31,7 +16,7 @@ ToButtonDefaultSkin >> onInstalledIconIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonDefaultSkin >> onInstalledLabelIn: anElement [
+ToButtonUnborderedSkin >> onInstalledLabelIn: anElement [
 
 	super onInstalledLabelIn: anElement.
 	anElement label ifNil: [ ^ self ].
@@ -41,9 +26,8 @@ ToButtonDefaultSkin >> onInstalledLabelIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonDefaultSkin >> whenAddedToSpace: anEvent in: anElement [
+ToButtonUnborderedSkin >> whenAddedToSpace: anEvent in: anElement [
 
 	super whenAddedToSpace: anEvent in: anElement.
-	self dashed ifFalse: [ ^ self ].
-	self addLook: ToButtonDashedLook new
+	self addLook: ToButtonUnborderedLook new
 ]

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToLabelLinkLook,
 	#superclass : #ToLabelLookDecorator,
-	#category : #'Toplo-Theme-Skins-Looks'
+	#category : #'Toplo-Widget-Label-Look'
 }
 
 { #category : #'event handling' }

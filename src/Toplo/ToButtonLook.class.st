@@ -1,5 +1,5 @@
 Class {
 	#name : #ToButtonLook,
 	#superclass : #ToElementLook,
-	#category : #'Toplo-Theme-Skins-Looks'
+	#category : #'Toplo-Widget-Button-Look'
 }

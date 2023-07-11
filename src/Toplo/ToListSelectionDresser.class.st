@@ -76,17 +76,17 @@ ToListSelectionDresser >> uninstallEventListenersIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListSelectionDresser >> whenAdded: anElement [
+ToListSelectionDresser >> whenAddedToParent: anElement [
 
-	super whenAdded: anElement.
+	super whenAddedToParent: anElement.
 	listElement := anElement listElement.
 
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListSelectionDresser >> whenRemoved: anElement [
+ToListSelectionDresser >> whenRemovedFromParent: anElement [
 
 	listElement := nil.
-	super whenRemoved: anElement.
+	super whenRemovedFromParent: anElement.
 
 ]

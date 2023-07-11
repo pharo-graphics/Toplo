@@ -1,15 +1,13 @@
 Class {
 	#name : #ToButtonSkin,
 	#superclass : #ToWidgetSkin,
-	#traits : 'TObservable',
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
-		'#iconChangeHandler',
-		'#labelChangeHandler',
-		'#danger => ObservableSlot',
-		'#dangerLook'
+		'iconChangeHandler',
+		'labelChangeHandler',
+		'danger'
 	],
-	#category : #'Toplo-Theme-Skins-Looks'
+	#category : #'Toplo-Widget-Button-Skin'
 }
 
 { #category : #accessing }
@@ -24,69 +22,61 @@ ToButtonSkin >> danger: aBoolean [
 	danger := aBoolean
 ]
 
-{ #category : #'instance creation' }
-ToButtonSkin >> dangerChanged [
+{ #category : #testing }
+ToButtonSkin >> hasBackground [ 
 
-	lookEventHandler ifNil: [ ^ self ].
-	danger ifTrue: [
-		dangerLook := ToButtonDangerLook new.
-		^ self addLook: dangerLook ].
-	self removeLook: dangerLook.
-	dangerLook := nil
-]
-
-{ #category : #'instance creation' }
-ToButtonSkin >> iconChanged: aToButtonIconChangedEvent [
-
-	self subclassResponsibility 
-]
-
-{ #category : #initialization }
-ToButtonSkin >> initialize [ 
-
-	self class initializeSlots: self.
-	super initialize.
-	self whenDangerChangedDo: [ :current :previous |
-		self dangerChanged ]
-	
-]
-
-{ #category : #'instance creation' }
-ToButtonSkin >> labelChanged: aToButtonLabelChangedEvent [
-
-	self subclassResponsibility 
+	^ false
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonSkin >> onInstalledIn: anElement [
+ToButtonSkin >> installEventListenersIn: anElement [
 
-	super onInstalledIn: anElement.
+	super installEventListenersIn: anElement.
 	iconChangeHandler := BlEventHandler
 		                     on: ToButtonIconChanged
-		                     do: [ :evt | self iconChanged: evt ].
+		                     do: [ :evt | self onInstalledIconIn: anElement. ].
 	labelChangeHandler := BlEventHandler
 		                      on: ToButtonLabelChanged
-		                      do: [ :evt | self labelChanged: evt ].
+		                      do: [ :evt | self onInstalledLabelIn: anElement ].
 	anElement addEventHandler: iconChangeHandler.
 	anElement addEventHandler: labelChangeHandler.
-	self danger ifFalse: [ ^ self ].
-	dangerLook := ToButtonDangerLook new.
-	self addLook: dangerLook
+
+
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonSkin >> onUninstalledIn: anElement [
+ToButtonSkin >> mainLookIn: anElement [
 
-	super onUninstalledIn: anElement.
-	anElement removeEventHandler: iconChangeHandler.
-	anElement removeEventHandler: labelChangeHandler
+	^ ToButtonDefaultLook new
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonSkin >> onInstalledIconIn: anElement [
+
 
 ]
 
-{ #category : #enumerating }
-ToButtonSkin >> whenDangerChangedDo: aBlock [
+{ #category : #'api - install/uninstall  hook' }
+ToButtonSkin >> onInstalledLabelIn: anElement [
 
-	"set a block to perform after that the slot has been changed, and its action performed"
 
-	self property: #danger whenChangedDo: aBlock
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonSkin >> uninstallEventListenersIn: anElement [
+
+	anElement removeEventHandler: iconChangeHandler.
+	anElement removeEventHandler: labelChangeHandler.
+	super uninstallEventListenersIn: anElement
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonSkin >> whenAddedToSpace: anEvent in: anElement [
+
+	super whenAddedToSpace: anEvent in: anElement.
+	self onInstalledLabelIn: anElement.
+	self onInstalledIconIn: anElement.
+	self danger ifFalse: [ ^ self ].
+	self addLook: (ToButtonDangerLook new background: self hasBackground; yourself)
 ]

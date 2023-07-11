@@ -1,7 +1,7 @@
 Class {
 	#name : #ToButtonFixedSizeLook,
 	#superclass : #ToButtonLookDecorator,
-	#category : #'Toplo-Theme-Skins-Looks'
+	#category : #'Toplo-Widget-Button-Look'
 }
 
 { #category : #'event handling' }

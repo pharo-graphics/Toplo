@@ -28,18 +28,18 @@ ToComboBoxBaseHeadDresser >> uninstallEventListenersIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToComboBoxBaseHeadDresser >> whenAdded: anElement [
+ToComboBoxBaseHeadDresser >> whenAddedToParent: anElement [
 
-	super whenAdded: anElement.
+	super whenAddedToParent: anElement.
 	comboBox := anElement parent.
 
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToComboBoxBaseHeadDresser >> whenRemoved: anElement [
+ToComboBoxBaseHeadDresser >> whenRemovedFromParent: anElement [
 
 	comboBox := nil.
-	super whenRemoved: anElement.
+	super whenRemovedFromParent: anElement.
 
 
 ]

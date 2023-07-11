@@ -1,45 +1,45 @@
 Class {
-	#name : #ToImageLinkLook,
+	#name : #ToImageTextLook,
 	#superclass : #ToImageLookDecorator,
 	#category : #'Toplo-Widget-Image-Look'
 }
 
 { #category : #'event handling' }
-ToImageLinkLook >> initialLookEvent: anEvent [
+ToImageTextLook >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| c |
-		c := e toTheme colorLink.
+		c := e toTheme colorText.
 		self adaptForegroundIn: e withColor: c ]
 ]
 
 { #category : #'event handling' }
-ToImageLinkLook >> installLookEvent: anEvent [
+ToImageTextLook >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| c |
-		c := e toTheme colorLink.
+		c := e toTheme colorText.
 		self adaptForegroundIn: e withColor: c ]
 ]
 
 { #category : #'event handling' }
-ToImageLinkLook >> mouseHoverLookEvent: anEvent [
+ToImageTextLook >> mouseHoverLookEvent: anEvent [
 
 	super mouseHoverLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| c |
-		c := e toTheme colorLinkHover.
+		c := e toTheme colorText.
 		self adaptForegroundIn: e withColor: c ]
 ]
 
 { #category : #'event handling' }
-ToImageLinkLook >> mousePressedLookEvent: anEvent [
+ToImageTextLook >> mousePressedLookEvent: anEvent [
 
 	super mousePressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| c |
-		c := e toTheme colorPrimaryPressed.
+		c := e toTheme colorText.
 		self adaptForegroundIn: e withColor: c ]
 ]

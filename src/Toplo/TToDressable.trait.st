@@ -150,6 +150,8 @@ TToDressable >> toTheme: aTheme [
 { #category : #'*Toplo-LookAndFeel' }
 TToDressable >> toThemeChanged [
 
+
+	Toplo useLookAndFeel ifFalse: [ ^ self ].
 	self childrenDo: [ :c | c toThemeChanged ].
 	 
 	"Update the skin if theme hierarchy has changed"

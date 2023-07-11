@@ -5,7 +5,7 @@ Class {
 		'look',
 		'lastEvent'
 	],
-	#category : #'Toplo-Theme-Skins'
+	#category : #'Toplo-Core-Theme-Skins'
 }
 
 { #category : #accessing }
@@ -35,6 +35,7 @@ ToElementLookEventHandler >> dispatchToSubSkins: anEvent [
 
 { #category : #'event handling' }
 ToElementLookEventHandler >> elementAddedToSceneGraphEvent: anEvent [
+
 	anEvent target dispatchEvent: (ToInstallLookEvent new copyFrom: anEvent).
 	anEvent target dispatchEvent: (ToInitialLookEvent new copyFrom: anEvent)
 ]

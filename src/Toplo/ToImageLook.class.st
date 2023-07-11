@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'foreColor'
 	],
-	#category : #'Toplo-Theme-Skins-Looks'
+	#category : #'Toplo-Widget-Image-Look'
 }
 
 { #category : #'event handling' }

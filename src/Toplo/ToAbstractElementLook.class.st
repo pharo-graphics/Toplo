@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'first'
 	],
-	#category : #'Toplo-Theme-Skins'
+	#category : #'Toplo-Core-Theme-Skins'
 }
 
 { #category : #'private event handling' }

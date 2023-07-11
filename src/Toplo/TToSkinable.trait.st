@@ -10,6 +10,7 @@ Trait {
 TToSkinable >> addLook: aLook [
 
 	self checkSkin.
+	privateSkin ifNil: [ ^ self ].
 	privateSkin addLook: aLook
 ]
 
@@ -28,7 +29,7 @@ TToSkinable >> defaultLook [
 { #category : #'t - skin accessing' }
 TToSkinable >> defaultSkin [
 
-	^  ToWidgetSkin new
+	^  nil
 ]
 
 { #category : #'t - skin accessing' }
@@ -49,7 +50,7 @@ TToSkinable >> withSkin: aSkin [
 	self withoutSkin.
 	privateSkin := aSkin.
 	Toplo useLookAndFeel ifTrue: [ ^ self ].
-	privateSkin ifNotNil: [ privateSkin onInstalledIn: self ].
+	privateSkin ifNotNil: [ privateSkin onInstalledIn: self].
 
 	
 ]

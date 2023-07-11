@@ -33,9 +33,9 @@ ToSelectOnlyComboBoxHeadDresser >> onInstalledIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToSelectOnlyComboBoxHeadDresser >> whenAdded: anElement [
+ToSelectOnlyComboBoxHeadDresser >> whenAddedToParent: anElement [
 
-	super 	whenAdded: anElement.
+	super 	whenAddedToParent: anElement.
 
 	headElementFactoryHandler := BlEventHandler 
 												on: ToComboBoxHeadElementFactoryChangeEvent 
@@ -67,14 +67,14 @@ ToSelectOnlyComboBoxHeadDresser >> whenAdded: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToSelectOnlyComboBoxHeadDresser >> whenRemoved: anElement [
+ToSelectOnlyComboBoxHeadDresser >> whenRemovedFromParent: anElement [
 	
 	comboBox removeEventHandler: headElementFactoryHandler.
 	anElement removeShortcut: crShortcut.
 	anElement removeShortcut: escShortcut.
 	anElement removeShortcut: downShortcut.
 	anElement removeShortcut: upShortcut.
-	super whenRemoved: anElement
+	super whenRemovedFromParent: anElement
 
 
 ]

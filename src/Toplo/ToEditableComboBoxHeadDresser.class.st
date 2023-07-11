@@ -68,9 +68,9 @@ ToEditableComboBoxHeadDresser >> textUpdatedIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToEditableComboBoxHeadDresser >> whenAdded: anElement [
+ToEditableComboBoxHeadDresser >> whenAddedToParent: anElement [
 
-	super whenAdded: anElement.
+	super whenAddedToParent: anElement.
 
 	mouseDownOnButtonHandler := self newButtonMouseDownHandlerIn: anElement.
 	anElement second addEventHandler: mouseDownOnButtonHandler.
@@ -96,7 +96,7 @@ ToEditableComboBoxHeadDresser >> whenAdded: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToEditableComboBoxHeadDresser >> whenRemoved: anElement [
+ToEditableComboBoxHeadDresser >> whenRemovedFromParent: anElement [
 
 	anElement textField removeEventHandler: saveRequestedHandler.
 	anElement textField removeEditorShortcut: downShortcut.
@@ -105,5 +105,5 @@ ToEditableComboBoxHeadDresser >> whenRemoved: anElement [
 	anElement textField removeEditorShortcut: crShortcut.
 	anElement second removeEventHandler: mouseDownOnButtonHandler.
 
-	super whenRemoved: anElement
+	super whenRemovedFromParent: anElement
 ]

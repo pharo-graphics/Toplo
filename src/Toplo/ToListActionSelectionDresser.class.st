@@ -53,16 +53,16 @@ ToListActionSelectionDresser >> removeAction: aValuable [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListActionSelectionDresser >> whenAdded: anElement [
+ToListActionSelectionDresser >> whenAddedToParent: anElement [
 
-	super whenAdded: anElement.
+	super whenAddedToParent: anElement.
 	self addAction cull: self cull: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListActionSelectionDresser >> whenRemoved: anElement [
+ToListActionSelectionDresser >> whenRemovedFromParent: anElement [
 
 	self removeAction cull: self cull: anElement.
-	super whenRemoved: anElement.
+	super whenRemovedFromParent: anElement.
 
 ]

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToMouseLeavedLookEvent,
 	#superclass : #ToElementMouseRelatedLookEvent,
-	#category : #'Toplo-Theme-Skins'
+	#category : #'Toplo-Core-Theme-Skins'
 }
 
 { #category : #sending }

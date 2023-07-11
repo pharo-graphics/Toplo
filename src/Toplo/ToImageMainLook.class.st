@@ -1,7 +1,7 @@
 Class {
 	#name : #ToImageMainLook,
 	#superclass : #ToImageLook,
-	#category : #'Toplo-Theme-Skins-Looks'
+	#category : #'Toplo-Widget-Image-Look'
 }
 
 { #category : #testing }

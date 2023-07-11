@@ -1,8 +1,23 @@
 Class {
 	#name : #ToButtonDangerLook,
 	#superclass : #ToButtonLookDecorator,
-	#category : #'Toplo-Theme-Skins-Looks'
+	#instVars : [
+		'background'
+	],
+	#category : #'Toplo-Widget-Button-Look'
 }
+
+{ #category : #accessing }
+ToButtonDangerLook >> background [
+
+	^ background ifNil: [ background := false ]
+]
+
+{ #category : #accessing }
+ToButtonDangerLook >> background: anObject [
+
+	background := anObject
+]
 
 { #category : #private }
 ToButtonDangerLook >> borderBuilderFromElement: anElement [
@@ -20,7 +35,7 @@ ToButtonDangerLook >> initialLookEvent: anEvent [
 		e border: ((self decoratedBorderBuilderFromElement: e)
 				 paint: e toTheme colorError;
 				 build).
-		anEvent ifBackgoundUpdated: [ e background: e toTheme colorError ] ]
+		self background ifTrue: [ e background: e toTheme colorError ] ]
 ]
 
 { #category : #'event handling' }
@@ -28,8 +43,7 @@ ToButtonDangerLook >> mouseHoverLookEvent: anEvent [
 
 	super mouseHoverLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		anEvent ifBackgoundUpdated: [ 
-			e background: e toTheme colorErrorHover ].
+		self background ifTrue: [ e background: e toTheme colorErrorHover ].
 		e border: ((self decoratedBorderBuilderFromElement: e)
 				 paint: e toTheme colorErrorHover;
 				 build) ]
@@ -40,8 +54,7 @@ ToButtonDangerLook >> mousePressedLookEvent: anEvent [
 
 	super mousePressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		anEvent ifBackgoundUpdated: [ 
-			e background: e toTheme colorError darker ].
+		self background ifTrue: [ e background: e toTheme colorError darker ].
 		e border: ((self decoratedBorderBuilderFromElement: e)
 				 paint: e toTheme colorError darker;
 				 build) ]

@@ -1,5 +1,5 @@
 Class {
 	#name : #ToLabelDefaultLook,
 	#superclass : #ToLabelMainLook,
-	#category : #'Toplo-Theme-Skins-Looks'
+	#category : #'Toplo-Widget-Label-Look'
 }

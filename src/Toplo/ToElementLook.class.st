@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'next'
 	],
-	#category : #'Toplo-Theme-Skins'
+	#category : #'Toplo-Core-Theme-Skins'
 }
 
 { #category : #accessing }
@@ -42,16 +42,10 @@ ToElementLook >> decoratedTextAttributesBuilderFromElement: anElement [
 { #category : #'private event handling' }
 ToElementLook >> elementLookEvent: anEvent [
 
-	anEvent backgoundUpdater: self hasBackground.
+	"anEvent backgoundUpdater: self hasBackground."
 	self next ifNotNil: [ self next elementLookEvent: anEvent ].
 	anEvent sendToLook: self.
 
-]
-
-{ #category : #testing }
-ToElementLook >> hasBackground [
-
-	^ true
 ]
 
 { #category : #'event handling' }

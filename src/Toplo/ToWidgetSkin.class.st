@@ -1,16 +1,43 @@
 Class {
 	#name : #ToWidgetSkin,
-	#superclass : #ToCompanion,
+	#superclass : #Object,
 	#instVars : [
-		'lookEventHandler'
+		'lookEventHandler',
+		'addedToSpaceHandler',
+		'removedFromSpaceHandler',
+		'addedToSpace'
 	],
-	#category : #'Toplo-Theme-Skins'
+	#category : #'Toplo-Core-Theme-Skins'
 }
 
 { #category : #adding }
 ToWidgetSkin >> addLook: aLook [
 
 	self lookEventHandler addLook: aLook
+]
+
+{ #category : #accessing }
+ToWidgetSkin >> addedToSpace [
+
+	^ addedToSpace ifNil: [ addedToSpace := false ]
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToWidgetSkin >> installEventListenersIn: anElement [
+
+	anElement isAttachedToSceneGraph 
+		ifTrue: [ self sendWhenAddedToSpace: nil in: anElement ]
+		ifFalse: [ self sendWhenRemovedFromSpace: nil in: anElement ].
+
+	addedToSpaceHandler := BlEventHandler
+		                        on: BlElementAddedToSceneGraphEvent 
+		                        do: [ :event | self sendWhenAddedToSpace: event in: anElement ].
+	removedFromSpaceHandler := BlEventHandler
+		                        on: BlElementRemovedFromSceneGraphEvent
+		                        do: [  :event | self sendWhenRemovedFromSpace: event in: anElement ].
+
+	anElement addEventHandler: addedToSpaceHandler.
+	anElement addEventHandler: removedFromSpaceHandler
 ]
 
 { #category : #accessing }
@@ -29,20 +56,23 @@ ToWidgetSkin >> mainLookIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> onInstalledIn: anElement [
 
-	super onInstalledIn: anElement.
+	addedToSpace := false.
+	
 	lookEventHandler := ToElementLookEventHandler new.
 	anElement addEventHandler: lookEventHandler.
 	
 	self addLook: (self mainLookIn: anElement).
+	self installEventListenersIn: anElement
 
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> onUninstalledIn: anElement [
 
-	super onUninstalledIn: anElement.
 	anElement removeEventHandler: lookEventHandler.
 	lookEventHandler := nil.
+	self uninstallEventListenersIn: anElement
+
 
 ]
 
@@ -50,4 +80,39 @@ ToWidgetSkin >> onUninstalledIn: anElement [
 ToWidgetSkin >> removeLook: aLook [
 
 	self lookEventHandler removeLook: aLook
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToWidgetSkin >> sendWhenAddedToSpace: anEvent in: anElement [
+
+	self addedToSpace ifTrue: [ ^ self ].
+	addedToSpace := true.
+	self whenAddedToSpace: anEvent in: anElement
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToWidgetSkin >> sendWhenRemovedFromSpace: anEvent in: anElement [
+
+	self addedToSpace ifFalse: [ ^ self ].
+	addedToSpace := false.
+	self whenRemovedFromSpace: anEvent in: anElement
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToWidgetSkin >> uninstallEventListenersIn: anElement [
+
+	anElement removeEventHandler: addedToSpaceHandler.
+	anElement removeEventHandler: removedFromSpaceHandler
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToWidgetSkin >> whenAddedToSpace: anEvent in: anElement [ 
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToWidgetSkin >> whenRemovedFromSpace: anEvent in: anElement [
+
+
 ]

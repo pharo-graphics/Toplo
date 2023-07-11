@@ -1,14 +1,8 @@
 Class {
 	#name : #ToButtonDefaultLook,
 	#superclass : #ToButtonMainLook,
-	#category : #'Toplo-Theme-Skins-Looks'
+	#category : #'Toplo-Widget-Button-Look'
 }
-
-{ #category : #testing }
-ToButtonDefaultLook >> hasBackground [
-
-	^ false
-]
 
 { #category : #'event handling' }
 ToButtonDefaultLook >> initialLookEvent: anEvent [
@@ -18,8 +12,8 @@ ToButtonDefaultLook >> initialLookEvent: anEvent [
 		e border: ((self decoratedBorderBuilderFromElement: e)
 				 paint: e toTheme colorBorder;
 				 build).
-		anEvent ifBackgoundUpdated: [
-			e background: e toTheme colorBgContainer ] ]
+		
+			e background: e toTheme colorBgContainer ] 
 ]
 
 { #category : #'event handling' }

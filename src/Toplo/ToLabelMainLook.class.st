@@ -1,7 +1,7 @@
 Class {
 	#name : #ToLabelMainLook,
 	#superclass : #ToLabelLook,
-	#category : #'Toplo-Theme-Skins-Looks'
+	#category : #'Toplo-Widget-Label-Look'
 }
 
 { #category : #accessing }

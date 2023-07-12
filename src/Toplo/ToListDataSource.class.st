@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListDataSource,
-	#superclass : #OBlInfiniteDataSource,
+	#superclass : #BlInfiniteDataSource,
 	#category : #'Toplo-Widget-List'
 }
 

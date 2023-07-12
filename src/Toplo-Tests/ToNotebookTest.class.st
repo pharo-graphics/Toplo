@@ -1,6 +1,6 @@
 Class {
 	#name : #ToNotebookTest,
-	#superclass : #OBlParameterizedTest,
+	#superclass : #BlParameterizedTest,
 	#category : #'Toplo-Tests-Widget-Notebook'
 }
 
@@ -34,12 +34,12 @@ ToNotebookTest >> testBodyFactoryIsValuedOnSelect [
 	self assert: redCount equals: 1.
 	self assert: greenCount equals: 0.
 	
-	OBlSpace simulateClickOn: greenPage titleElement.
+	BlSpace simulateClickOn: greenPage titleElement.
 	self waitTestingSpaces.
 	self assert: redCount equals: 1.
 	self assert: greenCount equals: 1.
 
-	OBlSpace simulateClickOn: redPage titleElement.
+	BlSpace simulateClickOn: redPage titleElement.
 	self waitTestingSpaces.
 	self assert: redCount equals: 2.
 	self assert: greenCount equals: 1
@@ -69,7 +69,7 @@ ToNotebookTest >> testClosePage [
 	self waitTestingSpaces.
 	self assert: (aNotebook pages includes: redPage).
 
-	OBlSpace simulateClickOn: redPage closeButton.
+	BlSpace simulateClickOn: redPage closeButton.
 	self waitTestingSpaces.
 	self deny: (aNotebook pages includes: redPage).
 	self assert: greenPage isSelected.
@@ -113,7 +113,7 @@ ToNotebookTest >> testSelectPage [
 	self assert: orangePage isSelected.
 	self deny: greenPage isSelected.
 
-	OBlSpace simulateClickOn: greenPage titleElement.
+	BlSpace simulateClickOn: greenPage titleElement.
 	self waitTestingSpaces.
 	self assert: greenPage isSelected.
 	self deny: orangePage isSelected.

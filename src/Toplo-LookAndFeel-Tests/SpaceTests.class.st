@@ -17,7 +17,7 @@ SpaceTests >> createDefaultButton [
 SpaceTests >> testCannotSwitchThemeDarkOrLight [
 
 	| space theme |
-	space := OBlSpace new.
+	space := BlSpace new.
 	theme := ToCustomNoDarkNoLightTestTheme new.
 	space toTheme: theme.
 	self assert: space toTheme isSupportLightAndDark not.
@@ -36,7 +36,7 @@ SpaceTests >> testChangeSpaceTheme [
 	"test button skin tokens"
 	self assert: (button skin token: #background) equals: (ToThemeLight new colorBgContainer).
 	
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root addChild: button.
 	
 	space toTheme: ToThemeDark new.
@@ -57,7 +57,7 @@ SpaceTests >> testChangeSpaceThemeAndDontTouchSpecifiedElementTheme [
 
 	button2 := self createDefaultButton.
 	
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root addChild: button1.
 	space root addChild: button2.
 	
@@ -77,7 +77,7 @@ SpaceTests >> testChangeSpaceThemeAndDontTouchSpecifiedElementTheme [
 SpaceTests >> testDefaultSpaceTheme [
 
 	| space |
-	space := OBlSpace new.
+	space := BlSpace new.
 	self assert: space toTheme class equals: ToAbstractTheme current class.
 	
 ]
@@ -86,7 +86,7 @@ SpaceTests >> testDefaultSpaceTheme [
 SpaceTests >> testSpaceBackground [
 
 	| space |
-	space := OBlSpace new.
+	space := BlSpace new.
 	self assert: space root background paint color equals: space toTheme backgroundColor
 ]
 
@@ -94,7 +94,7 @@ SpaceTests >> testSpaceBackground [
 SpaceTests >> testSwitchThemeDarkOrLight [
 
 	| space |
-	space := OBlSpace new.
+	space := BlSpace new.
 	self assert: space toTheme isLight.
 		
 	space switchThemeDarkOrLight.

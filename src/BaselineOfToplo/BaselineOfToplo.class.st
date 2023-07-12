@@ -22,12 +22,12 @@ BaselineOfToplo >> baselineForCommon: spec [
 BaselineOfToplo >> dependencies: spec [
 
 	spec
-		baseline: 'OnBloc'
-		with: [ spec repository: 'github://plantec/OnBloc/src' ].
+		baseline: 'Bloc'
+		with: [ spec repository: 'github://pharo-graphics/bloc:OnBloc-removal/src' ].
 
 	spec
 		baseline: 'Album'
-		with: [ spec repository: 'github://plantec/Album/src' ]
+		with: [ spec repository: 'github://plantec/Album:OnBloc-removal/src' ]
 ]
 
 { #category : #baselines }
@@ -35,7 +35,7 @@ BaselineOfToplo >> registerPackages: spec [
 	"Core"
 	spec 
 		package: #Toplo 
-		with: [ spec requires: #( #OnBloc #Album ) ].
+		with: [ spec requires: #( #Bloc #Album ) ].
 
 	"IDE"
 	spec 

@@ -73,12 +73,6 @@ ToLabel >> defaultLineMode [
 ]
 
 { #category : #initialization }
-ToLabel >> defaultLook [ 
-
-	^ ToLabelDefaultLook new
-]
-
-{ #category : #initialization }
 ToLabel >> defaultPadding [
 
 	^ BlInsets empty

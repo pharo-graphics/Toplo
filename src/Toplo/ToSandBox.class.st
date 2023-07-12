@@ -950,7 +950,7 @@ ToSandBox class >> example_ToButtonSkins [
 
 	| space pane themeSwitcher butBuilder buttonSpecsBuilder |
 	space := OBlSpace new.
-	"space switchThemeDarkOrLight."
+	
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 
 	themeSwitcher := ToChoiceBox new.
@@ -960,10 +960,12 @@ ToSandBox class >> example_ToButtonSkins [
 	themeSwitcher selectData: space toTheme class.
 	space root addChild: themeSwitcher.
 
+"space switchThemeDarkOrLight."
+
 	butBuilder := [ ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16 ].
 	buttonSpecsBuilder := [ {
 		{ 'Primary'. ToButtonPrimarySkin new }.
-		{ 'Default'. nil }.
+		{ 'Default'. ToButtonDefaultSkin new}.
 		{ 'Dashed'. (ToButtonDefaultSkin new dashed: true; yourself) }.
 		{ 'Text'. ToButtonTextSkin new }.
 		{ 'Link'. ToButtonLinkSkin new } } ].
@@ -1071,6 +1073,24 @@ ToSandBox class >> example_ToButtonWithDashedSkin [
 	space show.
 
 	^space
+]
+
+{ #category : #button }
+ToSandBox class >> example_ToButtonWithDefaultDangerSkin [
+
+
+	| space button1 |
+	
+	space := OBlSpace new.
+
+	button1 := ToButton new withSkin: (ToButtonDefaultSkin new danger: true; yourself).
+	button1 label: (ToLabel text: 'Default danger button').
+	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	space root addChild: button1.	
+	space root when: BlElementAddedToSceneGraphEvent do: [  
+		button1 labelText: 'Primary button 3'.
+		button1 iconImage: (ToThemeIcons iconSearchOutlined16x16) ].
+	space show.
 ]
 
 { #category : #button }

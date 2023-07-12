@@ -21,12 +21,6 @@ TToSkinable >> checkSkin [
 ]
 
 { #category : #'t - skin accessing' }
-TToSkinable >> defaultLook [
-
-	^ ToNullElementLook new
-]
-
-{ #category : #'t - skin accessing' }
 TToSkinable >> defaultSkin [
 
 	^  nil

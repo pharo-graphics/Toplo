@@ -28,12 +28,6 @@ ToGeneralButton >> defaultDresser [
 ]
 
 { #category : #initialization }
-ToGeneralButton >> defaultLook [ 
-
-	^ ToButtonDefaultLook new
-]
-
-{ #category : #initialization }
 ToGeneralButton >> initialize [
 
 	super initialize.

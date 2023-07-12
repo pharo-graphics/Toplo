@@ -22,12 +22,6 @@ ToButtonSkin >> danger: aBoolean [
 	danger := aBoolean
 ]
 
-{ #category : #testing }
-ToButtonSkin >> hasBackground [ 
-
-	^ false
-]
-
 { #category : #'api - install/uninstall  hook' }
 ToButtonSkin >> installEventListenersIn: anElement [
 
@@ -45,12 +39,6 @@ ToButtonSkin >> installEventListenersIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonSkin >> mainLookIn: anElement [
-
-	^ ToButtonDefaultLook new
-]
-
-{ #category : #'api - install/uninstall  hook' }
 ToButtonSkin >> onInstalledIconIn: anElement [
 
 
@@ -60,6 +48,20 @@ ToButtonSkin >> onInstalledIconIn: anElement [
 ToButtonSkin >> onInstalledLabelIn: anElement [
 
 
+]
+
+{ #category : #accessing }
+ToButtonSkin >> textAttributesBuilderFromElement: anElement [
+
+	| builder |
+	builder  := BlTextAttributesBuilder new.
+	builder lineSpacing: anElement toTheme lineHeight.
+	builder weight: anElement toTheme fontWeightStrong.
+	builder defaultFontSize: anElement toTheme fontSize.
+	builder defaultFontName: anElement toTheme fontFamilyCode.
+	builder foreground: anElement toTheme colorText.
+
+	^ builder 
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -75,8 +77,15 @@ ToButtonSkin >> uninstallEventListenersIn: anElement [
 ToButtonSkin >> whenAddedToSpace: anEvent in: anElement [
 
 	super whenAddedToSpace: anEvent in: anElement.
+
+	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: anElement toTheme borderRadius).
+
+	anElement padding: (BlInsets
+			 top: anElement toTheme paddingXS / 2
+			 left: anElement toTheme paddingContentHorizontal
+			 bottom: anElement toTheme paddingXS / 2
+			 right: anElement toTheme paddingContentHorizontal).
+
 	self onInstalledLabelIn: anElement.
-	self onInstalledIconIn: anElement.
-	self danger ifFalse: [ ^ self ].
-	self addLook: (ToButtonDangerLook new background: self hasBackground; yourself)
+	self onInstalledIconIn: anElement
 ]

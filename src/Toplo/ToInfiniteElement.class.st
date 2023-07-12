@@ -54,7 +54,7 @@ ToInfiniteElement >> client [
 	^ self
 ]
 
-{ #category : #'t - accessing context menu' }
+{ #category : #'t - context menu accessing' }
 ToInfiniteElement >> contextMenu [
 
 	" specific version to pass the secondary selection as 2de argument "

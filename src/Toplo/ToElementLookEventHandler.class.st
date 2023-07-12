@@ -12,25 +12,9 @@ Class {
 ToElementLookEventHandler >> addLook: aLook [
 
 	aLook isNull ifTrue: [ ^ self ].
-	aLook addedInSkin: self.
-	look updateFirstWith: look.
-]
-
-{ #category : #accessing }
-ToElementLookEventHandler >> addLookDecorator: aLook [
-
 	aLook next: look.
-	self privateLook: aLook
-	
-
-]
-
-{ #category : #dispatching }
-ToElementLookEventHandler >> dispatchToSubSkins: anEvent [
-
-	self subSkins do: [ :skin | | evt |
-		evt := anEvent clone.
-		(skin target value: evt) dispatchEvent: evt]
+	self privateLook: aLook.
+	look updateFirstWith: look.
 ]
 
 { #category : #'event handling' }
@@ -103,13 +87,4 @@ ToElementLookEventHandler >> removeLook: aLook [
 		ifTrue: [ look := look next ]
 		ifFalse: [ look removeLook: aLook previous: nil ].
 	look updateFirstWith: look.
-]
-
-{ #category : #accessing }
-ToElementLookEventHandler >> setMainLook: aLook [
-
-	self look isNull ifTrue: [
-		aLook next: self look.
-		^ self privateLook: aLook ].
-	aLook setAsMainLookIn: self current: self look previous: nil
 ]

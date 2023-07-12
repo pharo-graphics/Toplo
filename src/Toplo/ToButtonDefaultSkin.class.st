@@ -23,27 +23,68 @@ ToButtonDefaultSkin >> dashed: aBoolean [
 { #category : #'api - install/uninstall  hook' }
 ToButtonDefaultSkin >> onInstalledIconIn: anElement [
 
+	| formLook |
 	super onInstalledIconIn: anElement.
 	anElement icon ifNil: [ ^ self ].
 	anElement icon withSkin: ToWidgetSkin new.
-	anElement icon addLook: ToButtonImageLook new.
-	self danger ifTrue: [ anElement icon addLook: ToImageDangerLook new ]
+	formLook := ToImageFormLook new.
+	self danger
+		ifTrue: [
+			formLook
+				initialColor: anElement toTheme colorError;
+				hoverColor: anElement toTheme colorErrorHover;
+				pressedColor: anElement toTheme colorError darker ]
+		ifFalse: [
+			formLook
+				initialColor: anElement toTheme colorText;
+				hoverColor: anElement toTheme colorPrimary;
+				pressedColor: anElement toTheme colorPrimaryPressed ].
+	anElement icon addLook: formLook
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToButtonDefaultSkin >> onInstalledLabelIn: anElement [
 
+	| labelLook attrBuilder |
 	super onInstalledLabelIn: anElement.
 	anElement label ifNil: [ ^ self ].
 	anElement label withSkin: ToWidgetSkin new.
-	anElement label addLook: ToButtonLabelLook new.
-	self danger ifTrue: [ anElement label addLook: ToLabelDangerLook new ]
+	attrBuilder := self textAttributesBuilderFromElement: anElement.
+	labelLook := ToLabelLook new.
+	labelLook attrBuilder: attrBuilder.
+	self danger
+		ifTrue: [
+			labelLook
+				initialColor: anElement toTheme colorError;
+				hoverColor: anElement toTheme colorErrorHover;
+				pressedColor: anElement toTheme colorErrorPressed ]
+		ifFalse: [
+			labelLook
+				initialColor: anElement toTheme colorText;
+				hoverColor: anElement toTheme colorPrimary;
+				pressedColor: anElement toTheme colorPrimaryPressed ].
+
+	anElement label addLook: labelLook
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToButtonDefaultSkin >> whenAddedToSpace: anEvent in: anElement [
 
+	| borderLook |
 	super whenAddedToSpace: anEvent in: anElement.
-	self dashed ifFalse: [ ^ self ].
-	self addLook: ToButtonDashedLook new
+	borderLook := ToBorderLook new.
+	self dashed ifTrue: [ borderLook dashArray: anElement toTheme dashed ].
+	self danger
+		ifTrue: [
+			borderLook
+				initialPaint: anElement toTheme colorError;
+				hoverPaint: anElement toTheme colorErrorHover;
+				pressedPaint: anElement toTheme colorErrorHover darker ]
+		ifFalse: [
+			borderLook
+				initialPaint: anElement toTheme colorBorder;
+				hoverPaint: anElement toTheme colorPrimaryHover;
+				pressedPaint: anElement toTheme colorPrimaryPressed ].
+	borderLook width: anElement toTheme lineWidth.
+	self addLook: borderLook
 ]

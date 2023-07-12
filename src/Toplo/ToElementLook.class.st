@@ -14,26 +14,6 @@ ToElementLook class >> next: aLook [
 ]
 
 { #category : #private }
-ToElementLook >> addedInSkin: aSkin [
-
-	self isMain
-		ifTrue: [ aSkin setMainLook: self ]
-		ifFalse: [ aSkin addLookDecorator: self ]
-]
-
-{ #category : #private }
-ToElementLook >> borderBuilderFromElement: anElement [
-
-	^ self next borderBuilderFromElement: anElement
-]
-
-{ #category : #private }
-ToElementLook >> decoratedBorderBuilderFromElement: anElement [
-
-	^ self first borderBuilderFromElement: anElement
-]
-
-{ #category : #private }
 ToElementLook >> decoratedTextAttributesBuilderFromElement: anElement [
 
 	^ self first textAttributesBuilderFromElement: anElement
@@ -111,20 +91,6 @@ ToElementLook >> removeLook: aLook previous: previousLook [
 			previousLook next: self next.
 			^ self ] ].
 	self next removeLook: aLook previous: self
-]
-
-{ #category : #private }
-ToElementLook >> setAsMainLookIn: aSkin current: currentLook previous: previousLook [
-
-	currentLook isMain ifFalse: [
-		^ self
-			  setAsMainLookIn: aSkin
-			  current: currentLook next
-			  previous: currentLook ].
-	self next: currentLook next.
-	previousLook isNil
-		ifTrue: [ aSkin privateLook: self ]
-		ifFalse: [ previousLook next: self ]
 ]
 
 { #category : #private }

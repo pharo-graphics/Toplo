@@ -25,10 +25,6 @@ ToWidgetSkin >> addedToSpace [
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> installEventListenersIn: anElement [
 
-	anElement isAttachedToSceneGraph 
-		ifTrue: [ self sendWhenAddedToSpace: nil in: anElement ]
-		ifFalse: [ self sendWhenRemovedFromSpace: nil in: anElement ].
-
 	addedToSpaceHandler := BlEventHandler
 		                        on: BlElementAddedToSceneGraphEvent 
 		                        do: [ :event | self sendWhenAddedToSpace: event in: anElement ].
@@ -47,22 +43,15 @@ ToWidgetSkin >> lookEventHandler [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToWidgetSkin >> mainLookIn: anElement [
-
-	^ anElement defaultLook.
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> onInstalledIn: anElement [
 
-	addedToSpace := false.
-	
 	lookEventHandler := ToElementLookEventHandler new.
 	anElement addEventHandler: lookEventHandler.
-	
-	self addLook: (self mainLookIn: anElement).
-	self installEventListenersIn: anElement
+	self installEventListenersIn: anElement.
+	anElement isAttachedToSceneGraph 
+		ifTrue: [ self sendWhenAddedToSpace: nil in: anElement ]
+		ifFalse: [ self sendWhenRemovedFromSpace: nil in: anElement ].
+
 
 ]
 

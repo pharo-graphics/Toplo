@@ -1,11 +1,11 @@
 Class {
-	#name : #ToButtonFixedSizeLook,
-	#superclass : #ToButtonLookDecorator,
-	#category : #'Toplo-Widget-Button-Look'
+	#name : #ToExactSizeLook,
+	#superclass : #ToElementLook,
+	#category : #'Toplo-Core-Theme-Skins'
 }
 
 { #category : #'event handling' }
-ToButtonFixedSizeLook >> initialLookEvent: anEvent [
+ToExactSizeLook >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -13,7 +13,7 @@ ToButtonFixedSizeLook >> initialLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToButtonFixedSizeLook >> installLookEvent: anEvent [
+ToExactSizeLook >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |

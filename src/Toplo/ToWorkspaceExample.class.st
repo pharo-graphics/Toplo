@@ -16,7 +16,7 @@ ToWorkspaceExample class >> openInHost: aBlOSWindowHost [
 
 	<script>
 	| space |
-	space := OBlSpace new.
+	space := BlSpace new.
 	space host: aBlOSWindowHost.
 	self new openInSpace: space.
 	space show

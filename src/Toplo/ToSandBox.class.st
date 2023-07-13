@@ -949,7 +949,7 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 ToSandBox class >> example_ToButtonSkins [
 
 	| space pane themeSwitcher butBuilder buttonSpecsBuilder |
-	space := OBlSpace new.
+	space := BlSpace new.
 	
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 
@@ -1060,7 +1060,7 @@ ToSandBox class >> example_ToButtonWithDashedSkin [
 
 	| space button1 |
 	
-	space := OBlSpace new.
+	space := BlSpace new.
 
 	button1 := ToButton new withSkin: (ToButtonDefaultSkin new dashed: true; yourself).
 	button1 labelText: 'Dashed button'.
@@ -1081,7 +1081,7 @@ ToSandBox class >> example_ToButtonWithDefaultDangerSkin [
 
 	| space button1 |
 	
-	space := OBlSpace new.
+	space := BlSpace new.
 
 	button1 := ToButton new withSkin: (ToButtonDefaultSkin new danger: true; yourself).
 	button1 label: (ToLabel text: 'Default danger button').
@@ -1099,7 +1099,7 @@ ToSandBox class >> example_ToButtonWithDefaultSkin [
 
 	| space button1 |
 	
-	space := OBlSpace new.
+	space := BlSpace new.
 
 	button1 := ToButton new.
 	button1 label: (ToLabel text: 'Primary button').
@@ -1117,7 +1117,7 @@ ToSandBox class >> example_ToButtonWithPrimarySkin [
 
 	| space button1 |
 	
-	space := OBlSpace new.
+	space := BlSpace new.
 
 	button1 := ToButton new withSkin: (ToButtonPrimarySkin new).
 	button1 label: (ToLabel text: 'Primary button').
@@ -1133,7 +1133,7 @@ ToSandBox class >> example_ToButtonWithPrimarySkin [
 ToSandBox class >> example_ToButtonWithPrimarySkin2 [
 
 	| space button1 |
-	space := OBlSpace new.
+	space := BlSpace new.
 
 	button1 := ToButton new
 		           label: (ToLabel text: 'Primary button');
@@ -1149,7 +1149,7 @@ ToSandBox class >> example_ToButtonWithTextSkin [
 
 	| space button1 |
 	
-	space := OBlSpace new.
+	space := BlSpace new.
 
 	button1 := ToButton new withSkin: (ToButtonTextSkin new ).
 	button1 labelText: 'Text button'.

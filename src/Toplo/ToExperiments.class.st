@@ -78,44 +78,51 @@ ToExperiments class >> example_ExperimentForMultilineLabel [
 
 	element := BlElement new
 		           layout: AlbLineFlowLayout new;
-		           constraintsDo: [ :c | 
+		           constraintsDo: [ :c |
 			           c horizontal matchParent.
 			           c vertical fitContent ];
-		           addChildren: (l collect: [ :w | w asElement editorMeasurement ]).
-	element openInOBlSpace
+		           addChildren:
+			           (l collect: [ :w | w asElement editorMeasurement ]).
+	element openInSpace
 ]
 
 { #category : #elements }
 ToExperiments class >> example_ExperimentForMultilineLabel0 [
 
 	| element l |
-	l := ToTextScissor new cut: ('This is a text' asRopedText fontSize: 20).
+	l := ToTextScissor new cut:
+		     ('This is a text' asRopedText fontSize: 20).
 
 	element := BlElement new
 		           layout: AlbLineFlowLayout new;
-		           constraintsDo: [ :c | 
+		           constraintsDo: [ :c |
 			           c horizontal matchParent.
 			           c vertical fitContent ];
-		           addChildren: (l collect: [ :w | w asElement editorMeasurement ]).
+		           addChildren:
+			           (l collect: [ :w | w asElement editorMeasurement ]).
 	element border: (BlBorder paint: Color gray width: 1).
 	element inspect.
-	element openInOBlSpace
+	element openInSpace
 ]
 
 { #category : #elements }
 ToExperiments class >> example_ExperimentForMultilineLabel2 [
 
 	| element l |
-	l := ToTextScissor new cut: (('Default font and size' asRopedText, ('Source code pro 40 bold' asRopedText fontSize: 40; fontName: 'Source code pro'; bold) 
-	 , (' Default font 30' asRopedText fontSize: 30))).
+	l := ToTextScissor new cut: 'Default font and size' asRopedText
+		     , ('Source code pro 40 bold' asRopedText
+				      fontSize: 40;
+				      fontName: 'Source code pro';
+				      bold) , (' Default font 30' asRopedText fontSize: 30).
 
 	element := BlElement new
 		           layout: AlbLineFlowLayout new;
-		           constraintsDo: [ :c | 
+		           constraintsDo: [ :c |
 			           c horizontal matchParent.
 			           c vertical fitContent ];
-		           addChildren: (l collect: [ :w | w asElement editorMeasurement ]).
-	element openInOBlSpace
+		           addChildren:
+			           (l collect: [ :w | w asElement editorMeasurement ]).
+	element openInSpace
 ]
 
 { #category : #elements }

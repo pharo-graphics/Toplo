@@ -8,7 +8,8 @@ Class {
 		'mouseClickHandler',
 		'mouseDoubleClickHandler',
 		'mouseUpHandler',
-		'mouseUpOutsideHandler'
+		'mouseUpOutsideHandler',
+		'mouseClickAvortedHandler'
 	],
 	#category : #'Toplo-Core'
 }
@@ -40,6 +41,16 @@ ToMouseHandlingDresser >> clicked: anElement event: anEvent [
 ]
 
 { #category : #'events handling' }
+ToMouseHandlingDresser >> clickedAvorted: anElement event: anEvent [
+
+	" if mouse up is on anElement or on in one of anElement children then it means that a click is done "
+
+	(anEvent upTarget ~= anElement and: [ (anElement findMouseEventTargetAt: anEvent upTarget position) isNil ])
+		ifTrue: [ ^ self ].
+	anEvent processor fireClickEventFrom: anEvent
+]
+
+{ #category : #'events handling' }
 ToMouseHandlingDresser >> doubleClicked: anElement event: anEvent [
 
 
@@ -64,6 +75,7 @@ ToMouseHandlingDresser >> installEventListenersIn: anElement [
 	mouseUpHandler := self mouseUpHandlerIn: anElement.
 	mouseUpOutsideHandler := self mouseUpOutsideHandlerIn: anElement.
 	mouseClickHandler := self mouseClickHandlerIn: anElement.
+	mouseClickAvortedHandler := self mouseClickAvortedHandlerIn: anElement.
 	mouseDoubleClickHandler := self mouseDoubleClickHandlerIn: anElement.
 	mouseEnterHandler := self mouseEnterHandlerIn: anElement.
 	mouseLeaveHandler := self mouseLeaveHandlerIn: anElement.
@@ -72,6 +84,7 @@ ToMouseHandlingDresser >> installEventListenersIn: anElement [
 	anElement addEventHandler: mouseUpHandler.
 	anElement addEventHandler: mouseUpOutsideHandler.
 	anElement addEventHandler: mouseClickHandler.
+	anElement addEventHandler: mouseClickAvortedHandler.
 	anElement addEventHandler: mouseDoubleClickHandler.
 	anElement addEventHandler: mouseEnterHandler.
 	anElement addEventHandler: mouseLeaveHandler.
@@ -110,6 +123,14 @@ ToMouseHandlingDresser >> middlePressed: anElement event: anEvent [
 { #category : #'events handling' }
 ToMouseHandlingDresser >> middleUp: anElement event: anEvent [
 
+]
+
+{ #category : #'event handlers' }
+ToMouseHandlingDresser >> mouseClickAvortedHandlerIn: anElement [
+
+	^ BlEventHandler
+		  on: BlClickAvortedEvent
+		  do: [ :event | self clickedAvorted: anElement event: event ]
 ]
 
 { #category : #'event handlers' }
@@ -214,6 +235,7 @@ ToMouseHandlingDresser >> uninstallEventListenersIn: anElement [
 	anElement removeEventHandler: mouseUpHandler.
 	anElement removeEventHandler: mouseUpOutsideHandler.
 	anElement removeEventHandler: mouseClickHandler.
+	anElement removeEventHandler: mouseClickAvortedHandler.
 	anElement removeEventHandler: mouseDoubleClickHandler.
 	anElement removeEventHandler: mouseEnterHandler.
 	anElement removeEventHandler: mouseLeaveHandler

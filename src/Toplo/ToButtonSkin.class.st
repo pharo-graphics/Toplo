@@ -22,6 +22,16 @@ ToButtonSkin >> danger: aBoolean [
 	danger := aBoolean
 ]
 
+{ #category : #'event handling' }
+ToButtonSkin >> handleLookEvent: aLookEvent [
+
+	aLookEvent target icon ifNotNil: [ :ico | ico dispatchEvent: aLookEvent copy ].
+	aLookEvent target label ifNotNil: [ :lab | lab dispatchEvent: aLookEvent copy ].
+	super handleLookEvent: aLookEvent.
+
+	
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToButtonSkin >> installEventListenersIn: anElement [
 

@@ -23,6 +23,12 @@ ToWidgetSkin >> addedToSpace [
 	^ addedToSpace ifNil: [ addedToSpace := false ]
 ]
 
+{ #category : #'event handling' }
+ToWidgetSkin >> handleLookEvent: anEvent [
+
+	^ anEvent sendTo: self lookEventHandler look 
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> installEventListenersIn: anElement [
 

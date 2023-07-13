@@ -40,7 +40,9 @@ ToElementLookEventHandler >> handleEvent: anEvent [
 
 	lastEvent := anEvent.
 	(anEvent isKindOf: ToElementLookEvent) ifTrue: [
-		^ anEvent sendTo: look ].
+		" ask the skin instead of directly sending to look to let a chance to the skin 
+		to redirect to its element children"
+		^ anEvent currentTarget privateSkin handleLookEvent: anEvent ].
 	super handleEvent: anEvent
 ]
 

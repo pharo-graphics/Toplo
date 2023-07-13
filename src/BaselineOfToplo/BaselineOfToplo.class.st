@@ -23,11 +23,11 @@ BaselineOfToplo >> dependencies: spec [
 
 	spec
 		baseline: 'Bloc'
-		with: [ spec repository: 'github://pharo-graphics/bloc:OnBloc-removal/src' ].
+		with: [ spec repository: 'github://pharo-graphics/bloc/src' ].
 
 	spec
 		baseline: 'Album'
-		with: [ spec repository: 'github://plantec/Album:OnBloc-removal/src' ]
+		with: [ spec repository: 'github://plantec/Album/src' ]
 ]
 
 { #category : #baselines }

@@ -945,6 +945,222 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 	container openInSpace
 ]
 
+{ #category : #button }
+ToSandBox class >> example_ToButtonSkins [
+
+	| space pane themeSwitcher butBuilder buttonSpecsBuilder |
+	space := OBlSpace new.
+	
+	space root layout: (BlLinearLayout vertical cellSpacing: 10).
+
+	themeSwitcher := ToChoiceBox new.
+	themeSwitcher data addAll: { ToThemeLight. ToThemeDark }.
+			
+	themeSwitcher whenSelectedIndexChangedDo: [ space toTheme: themeSwitcher selectedData new ].
+	themeSwitcher selectData: space toTheme class.
+	space root addChild: themeSwitcher.
+
+"space switchThemeDarkOrLight."
+
+	butBuilder := [ ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16 ].
+	buttonSpecsBuilder := [ {
+		{ 'Primary'. ToButtonPrimarySkin new }.
+		{ 'Default'. ToButtonDefaultSkin new}.
+		{ 'Dashed'. (ToButtonDefaultSkin new dashed: true; yourself) }.
+		{ 'Text'. ToButtonTextSkin new }.
+		{ 'Link'. ToButtonLinkSkin new } } ].
+		
+	" Line 1 "
+	pane := ToPane horizontal.
+	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+
+	buttonSpecsBuilder value do: [ :arr |
+		| but |
+		but := ToButton new.
+		arr second ifNotNil: [ :skin | but withSkin: skin ].
+		but labelText: arr first.
+		pane addChild: but ].
+	
+	space root addChild: pane.
+
+	" line 2 "
+	pane := ToPane horizontal.
+	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+		
+	buttonSpecsBuilder value do: [ :arr |
+		| but |
+		but := ToButton new.
+		arr second ifNotNil: [ :skin | but withSkin: skin ].
+		but labelText: arr first.
+		but icon: butBuilder value.
+		pane addChild: but ].
+
+	space root addChild: pane.
+
+	" line 3 "
+	pane := ToPane horizontal.
+	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+
+	buttonSpecsBuilder value do: [ :arr |
+		| but |
+		but := ToButton new.
+		arr second ifNotNil: [ :skin | but withSkin: skin ].
+		but icon: butBuilder value.
+		pane addChild: but ].
+
+	space root addChild: pane.
+
+	" line 4 "
+	pane := ToPane horizontal.
+	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+
+	buttonSpecsBuilder value do: [ :arr |
+		| but |
+		but := ToButton new.
+		arr second ifNotNil: [ :skin | but withSkin: (skin danger: true; yourself)].
+		but labelText: arr first.
+		pane addChild: but ].
+
+	space root addChild: pane.
+
+	" line 5 "
+	pane := ToPane horizontal.
+	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+
+	buttonSpecsBuilder value do: [ :arr |
+		| but |
+		but := ToButton new.
+		arr second ifNotNil: [ :skin | but withSkin: (skin danger: true; yourself)].
+		but labelText: arr first.
+		but icon: butBuilder value.
+		pane addChild: but ].
+	
+	space root addChild: pane.
+
+	" line 6 "
+	pane := ToPane horizontal.
+	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+
+	buttonSpecsBuilder value do: [ :arr |
+		| but |
+		but := ToButton new.
+		arr second ifNotNil: [ :skin | but withSkin: (skin danger: true; yourself)].
+		but icon: butBuilder value.
+		pane addChild: but ].
+
+	space root addChild: pane.
+
+	space show.
+
+	^ space
+]
+
+{ #category : #button }
+ToSandBox class >> example_ToButtonWithDashedSkin [
+
+	| space button1 |
+	
+	space := OBlSpace new.
+
+	button1 := ToButton new withSkin: (ToButtonDefaultSkin new dashed: true; yourself).
+	button1 labelText: 'Dashed button'.
+	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	
+	space root addChild: button1.
+	
+	button1 labelText: 'Dashed button **'.
+	
+	space show.
+
+	^space
+]
+
+{ #category : #button }
+ToSandBox class >> example_ToButtonWithDefaultDangerSkin [
+
+
+	| space button1 |
+	
+	space := OBlSpace new.
+
+	button1 := ToButton new withSkin: (ToButtonDefaultSkin new danger: true; yourself).
+	button1 label: (ToLabel text: 'Default danger button').
+	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	space root addChild: button1.	
+	space root when: BlElementAddedToSceneGraphEvent do: [  
+		button1 labelText: 'Primary button 3'.
+		button1 iconImage: (ToThemeIcons iconSearchOutlined16x16) ].
+	space show.
+]
+
+{ #category : #button }
+ToSandBox class >> example_ToButtonWithDefaultSkin [
+
+
+	| space button1 |
+	
+	space := OBlSpace new.
+
+	button1 := ToButton new.
+	button1 label: (ToLabel text: 'Primary button').
+	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	space root addChild: button1.	
+	space root when: BlElementAddedToSceneGraphEvent do: [  
+		button1 labelText: 'Primary button 3'.
+		button1 iconImage: (ToThemeIcons iconSearchOutlined16x16) ].
+	space show.
+]
+
+{ #category : #button }
+ToSandBox class >> example_ToButtonWithPrimarySkin [
+
+
+	| space button1 |
+	
+	space := OBlSpace new.
+
+	button1 := ToButton new withSkin: (ToButtonPrimarySkin new).
+	button1 label: (ToLabel text: 'Primary button').
+	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	space root addChild: button1.	
+	space root when: BlElementAddedToSceneGraphEvent do: [  
+		button1 labelText: 'Primary button 3'.
+		button1 iconImage: (ToThemeIcons iconSearchOutlined16x16) ].
+	space show.
+]
+
+{ #category : #button }
+ToSandBox class >> example_ToButtonWithPrimarySkin2 [
+
+	| space button1 |
+	space := OBlSpace new.
+
+	button1 := ToButton new
+		           label: (ToLabel text: 'Primary button');
+		           icon: (ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16);
+		           withSkin: ToButtonPrimarySkin new;
+					  yourself.
+	space root addChild: button1.
+	space show
+]
+
+{ #category : #button }
+ToSandBox class >> example_ToButtonWithTextSkin [
+
+	| space button1 |
+	
+	space := OBlSpace new.
+
+	button1 := ToButton new withSkin: (ToButtonTextSkin new ).
+	button1 labelText: 'Text button'.
+	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).	
+		
+	space root addChild: button1.	
+	space show.
+
+	^space
+]
+
 { #category : #dresser }
 ToSandBox class >> example_WithToActionDresser [
 
@@ -1999,10 +2215,10 @@ ToSandBox class >> example_toButtonModelWithTextAndIconVertical [
 	but := ToButtonModel new
 		       beVertical.
 	but label: (ToLabel text: 'Button').
-	but icon: (BlElement new
+	but icon: (ToImage inner: (BlElement new
 			 size: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
-			 yourself).
+			 yourself)).
 	but whenClickedDo: [ :ann | 
 		ann currentTarget horizontal: ann currentTarget horizontal not ].
 	space := BlSpace new.
@@ -2025,7 +2241,7 @@ ToSandBox class >> example_toButtonOrientationChanger [
 		             size: 20 @ 20;
 		             background: Color lightGray;
 		             yourself.
-	but icon: iconImage.
+	but iconImage: iconImage.
 	count := 0.
 	but whenClickedDo: [ :ann | count := count + 1. count traceCr. ann currentTarget orientation: but orientation inverted ].
 	space := BlSpace new.
@@ -2046,7 +2262,7 @@ ToSandBox class >> example_toButtonOrientationChanger3 [
 		             size: 20 @ 20;
 		             background: Color lightGray;
 		             yourself.
-	but icon: iconImage.
+	but iconImage: iconImage.
 	count := 0.
 	but whenClickedDo: [ :ann | count := count + 1. count traceCr. ann currentTarget orientation: but orientation inverted ].
 	space := BlSpace new.
@@ -2057,15 +2273,12 @@ ToSandBox class >> example_toButtonOrientationChanger3 [
 { #category : #button }
 ToSandBox class >> example_toButtonWithIconAndText [
 
-	| but space iconImage |
+	| but space  icon |
 	but := ToButton new.
+
 	but label: (ToLabel text: 'Button').
-	iconImage := BlElement new
-		             size: 20 @ 20;
-		             background: Color lightGray;
-		             yourself.
-	but icon: iconImage.
-	but padding: (BlInsets all: 4).
+	icon := ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16).
+	but icon: icon.
 	but when: BlPrimaryClickEvent do: [ :event | event currentTarget traceCr ].
 
 	space := BlSpace new.
@@ -2079,7 +2292,16 @@ ToSandBox class >> example_toButtonWithIconOnly [
 	| but space container |
 	container := BlElement new size: 200@200; border: (BlBorder paint: Color gray); background: (Color gray alpha: 0.1).
 	but := ToButton new.
+	"but addLook: ToButtonLinkLook new."
+	"but addLook: ToButtonDashedLook new."
+	"but addLook: ToButtonFixedSizeLook new."
+	"but addLook: ToButtonPrimaryLook new."
+	"but addLook: ToButtonDangerLook new."
+	"but addLook: ToButtonLinkLook new."
+
 	but icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	"but icon addLook: ToImagePrimaryLook new."
+	"but icon addLook: ToImageDangerLook new."
 	container addChild: but.
 	space := BlSpace new.
 	space root addChild: container.
@@ -2092,7 +2314,7 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 	| but space count |
 	but := ToButton new "cellSpacing: 2; padding: (BlInsets all: 4)".
 	but label: (ToLabel text: 'Button').
-	but icon: (BlElement new
+	but iconImage: (BlElement new
 			 size: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).
@@ -2112,7 +2334,7 @@ ToSandBox class >> example_toButtonWithTextAndIconVertical [
 	| but space |
 	but := ToButton new padding: (BlInsets all: 4); beVertical.
 	but label: (ToLabel text: 'Button').
-	but icon: (BlElement new
+	but iconImage: (BlElement new
 			 size: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).
@@ -2913,7 +3135,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 ToSandBox class >> example_toMultiStateWithLabel [
 
 	| but |
-	but := ToMultiStateButton new size: 70 @ 35.
+	but := ToMultiStateButton new size: 90 @ 35.
 	but setUpStatesWith: {
 			(ToElementState new
 				 name: #one;

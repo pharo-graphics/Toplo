@@ -8,28 +8,18 @@ Class {
 		'textModel',
 		'bindings'
 	],
-	#classVars : [
-		'MyTranscript'
-	],
 	#category : #'Toplo-Examples'
 }
-
-{ #category : #'instance creation' }
-ToWorkspaceExample class >> closeTranscript [
-
-	MyTranscript ifNotNil: [ MyTranscript close ]
-]
 
 { #category : #'instance creation' }
 ToWorkspaceExample class >> openInHost: aBlOSWindowHost [
 
 	<script>
 	| space |
-	self transcriptAlreadyOpened ifFalse: [ self openTranscript ].
-
-	space := aBlOSWindowHost oblWorld.
-	space isOpened ifFalse: [ space show ].
-	self new openInSpace: space
+	space := OBlSpace new.
+	space host: aBlOSWindowHost.
+	self new openInSpace: space.
+	space show
 ]
 
 { #category : #'instance creation' }
@@ -44,36 +34,6 @@ ToWorkspaceExample class >> openInSDL [
 
 	<script>
 	self openInHost: BlOSWindowSDL2Host new
-]
-
-{ #category : #'instance creation' }
-ToWorkspaceExample class >> openTranscript [
-
-	MyTranscript := Transcript openLabel: self class instanceSide name , ' Transcript'.
-	MyTranscript
-		onAnnouncement: MorphDeleted
-		send: #transcriptClosed
-		to: self
-]
-
-{ #category : #initialization }
-ToWorkspaceExample class >> resetTranscript [
-
-	" self resetTranscript "
-	MyTranscript := nil
-]
-
-{ #category : #'instance creation' }
-ToWorkspaceExample class >> transcriptAlreadyOpened [
-
-	^ MyTranscript notNil
-]
-
-{ #category : #'instance creation' }
-ToWorkspaceExample class >> transcriptClosed [
-
-	MyTranscript announcer unsubscribe: self.
-	self resetTranscript 
 ]
 
 { #category : #binding }
@@ -171,7 +131,7 @@ ToWorkspaceExample >> notify: aString at: anInteger in: aString3 [
 { #category : #'user interface' }
 ToWorkspaceExample >> open [
 
-	self openInSpace: ToManager world
+	self openInSpace: BlSpace new
 ]
 
 { #category : #'user interface' }
@@ -184,9 +144,6 @@ ToWorkspaceExample >> openInSpace: aSpace [
 	frame := ToInnerWindow new title: 'Workspace'.
 	frame root addChild: editor.
 	aSpace root addChild: frame
-	"	aSpace addEventHandler: (BlEventHandler
-			 on: BlSpaceClosedEvent
-			 do: [ :evt | self class closeTranscript ])"
 ]
 
 { #category : #accessing }

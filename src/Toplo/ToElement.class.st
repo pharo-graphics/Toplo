@@ -1,8 +1,8 @@
 Class {
 	#name : #ToElement,
 	#superclass : #BlElement,
-	#traits : 'TToElement + TToElementtWithState + TBlLayoutResizable + TToDressable + TToWorldElement',
-	#classTraits : 'TToElement classTrait + TToElementtWithState classTrait + TBlLayoutResizable classTrait + TToDressable classTrait + TToWorldElement classTrait',
+	#traits : 'TToElement + TToElementtWithState + TBlLayoutResizable + TToDressable + TToSkinable + TToWorldElement',
+	#classTraits : 'TToElement classTrait + TToElementtWithState classTrait + TBlLayoutResizable classTrait + TToDressable classTrait + TToSkinable classTrait + TToWorldElement classTrait',
 	#category : #'Toplo-Core'
 }
 
@@ -32,4 +32,5 @@ ToElement >> initialize [
 	self preInitializeDresser.
 	self initializeDresser.
 	self postInitializeDresser.
+	self initializeSkin
 ]

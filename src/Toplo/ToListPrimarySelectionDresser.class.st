@@ -34,9 +34,9 @@ ToListPrimarySelectionDresser >> secondarySelectionRemovedIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListPrimarySelectionDresser >> whenAdded: anElement [
+ToListPrimarySelectionDresser >> whenAddedToParent: anElement [
 
-	super whenAdded: anElement.
+	super whenAddedToParent: anElement.
 	secondarySelectionAddedHandler := BlEventHandler
 		                                  on: ToListSecondarySelectionAddedEvent
 		                                  do: [ :event | self secondarySelectionAddedIn: anElement ].
@@ -61,7 +61,7 @@ ToListPrimarySelectionDresser >> whenAdded: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListPrimarySelectionDresser >> whenRemoved: anElement [
+ToListPrimarySelectionDresser >> whenRemovedFromParent: anElement [
 
 	anElement nodesDo: [ :node | node dispatchEvent: ToListPrimarySelectionRemovedEvent new ].
 
@@ -76,7 +76,7 @@ ToListPrimarySelectionDresser >> whenRemoved: anElement [
 	blurHandler := nil.
 	focusHandler := nil.
 
-	super whenRemoved: anElement.
+	super whenRemovedFromParent: anElement.
 
 	
 

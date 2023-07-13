@@ -19,12 +19,12 @@ ToDangerLabelSkin >> builtForeground [
 { #category : #built }
 ToDangerLabelSkin >> builtTextAttributes [
 
-	| ropedText |
-	ropedText := '' asRopedText.
-	ropedText lineSpacing: self theme lineHeight.
-	ropedText defaultFontSize: self theme fontSize.
-	ropedText defaultFontName: self theme fontFamilyCode.
-	ropedText weight: self theme fontWeightStrong.
+	| builder |
+	builder  := BlTextAttributesBuilder new..
+	builder lineSpacing: self theme lineHeight.
+	builder defaultFontSize: self theme fontSize.
+	builder defaultFontName: self theme fontFamilyCode.
+	builder weight: self theme fontWeightStrong.
 
-	^ ropedText rope attributes
+	^ builder attributes
 ]

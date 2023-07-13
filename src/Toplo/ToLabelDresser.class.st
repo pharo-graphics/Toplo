@@ -40,7 +40,7 @@ ToLabelDresser >> lineModeChangedIn: anElement [
 ToLabelDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	anElement padding: self defaultPadding.
+	"anElement padding: self defaultPadding."
 	anElement whenLineModeChangedDo: [ self lineModeChangedIn: anElement ].
 	anElement whenTextReplacedDo: [ anElement privateText: anElement text ].
 	anElement whenEditableChangedDo: [

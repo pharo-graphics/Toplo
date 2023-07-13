@@ -57,6 +57,6 @@ ToChoiceBoxMenuItemDresser >> onInstalledIn: anElement [
 ToChoiceBoxMenuItemDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
-	anElement unsubscribe: self
+
 
 ]

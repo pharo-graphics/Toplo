@@ -3,25 +3,10 @@ Class {
 	#superclass : #ToBasicWindowDresser,
 	#instVars : [
 		'closeHandler',
-		'widgetPositionHandler',
-		'openedInSpaceHandler',
-		'removedFromSpaceHandler'
+		'widgetPositionHandler'
 	],
 	#category : #'Toplo-Widget-Window'
 }
-
-{ #category : #'api - install/uninstall  hook' }
-ToPopupWindowDresser >> installEventListenersIn: anElement [
-
-	super installEventListenersIn: anElement.
-	openedInSpaceHandler := BlEventHandler on: BlElementAddedToSceneGraphEvent do: [ :event | 
-		self openedInSpace: event in: anElement	].
-	removedFromSpaceHandler := BlEventHandler on: BlElementRemovedFromSceneGraphEvent do: [ :event | 
-		self removedFromSpace: event in: anElement	].
-	anElement addEventHandler: openedInSpaceHandler.
-	anElement addEventHandler: removedFromSpaceHandler
-	
-]
 
 { #category : #'api - install/uninstall  hook' }
 ToPopupWindowDresser >> installWidget: newWidget in: anElement [
@@ -87,14 +72,9 @@ ToPopupWindowDresser >> removedFromSpace: anEvent in: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToPopupWindowDresser >> uninstallEventListenersIn: anElement [
 
-	super installEventListenersIn: anElement.
-	anElement removeEventHandler: openedInSpaceHandler.
-	anElement removeEventHandler: removedFromSpaceHandler.
+	super uninstallEventListenersIn: anElement.
 	closeHandler ifNotNil: [ anElement removeEventHandler: closeHandler ].
-	closeHandler := nil.
-	openedInSpaceHandler := nil.
-	removedFromSpaceHandler := nil
-	
+	closeHandler := nil	
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -104,4 +84,18 @@ ToPopupWindowDresser >> uninstallWidget: oldWidget in: anElement [
 	oldWidget removeEventHandler: widgetPositionHandler.
 	widgetPositionHandler := nil.
 	super uninstallWidget: oldWidget in: anElement
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToPopupWindowDresser >> whenAddedToSpace: anvent in: anElement [
+
+	super whenAddedToSpace: anvent in: anElement.
+	self openedInSpace: anvent in: anElement
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToPopupWindowDresser >> whenRemovedFromSpace: anEvent in: anElement [
+
+	super whenRemovedFromSpace: anEvent in: anElement.
+	self removedFromSpace: anEvent in: anElement
 ]

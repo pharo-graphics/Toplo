@@ -7,7 +7,8 @@ Class {
 		'mouseLeaveHandler',
 		'mouseClickHandler',
 		'mouseDoubleClickHandler',
-		'mouseUpHandler'
+		'mouseUpHandler',
+		'mouseUpOutsideHandler'
 	],
 	#category : #'Toplo-Core'
 }
@@ -61,6 +62,7 @@ ToMouseHandlingDresser >> installEventListenersIn: anElement [
 
 	mouseDownHandler := self mouseDownHandlerIn: anElement.
 	mouseUpHandler := self mouseUpHandlerIn: anElement.
+	mouseUpOutsideHandler := self mouseUpOutsideHandlerIn: anElement.
 	mouseClickHandler := self mouseClickHandlerIn: anElement.
 	mouseDoubleClickHandler := self mouseDoubleClickHandlerIn: anElement.
 	mouseEnterHandler := self mouseEnterHandlerIn: anElement.
@@ -68,6 +70,7 @@ ToMouseHandlingDresser >> installEventListenersIn: anElement [
 	
 	anElement addEventHandler: mouseDownHandler.
 	anElement addEventHandler: mouseUpHandler.
+	anElement addEventHandler: mouseUpOutsideHandler.
 	anElement addEventHandler: mouseClickHandler.
 	anElement addEventHandler: mouseDoubleClickHandler.
 	anElement addEventHandler: mouseEnterHandler.
@@ -158,6 +161,14 @@ ToMouseHandlingDresser >> mouseUpHandlerIn: anElement [
 		  do: [ :event | self up: anElement event: event ]
 ]
 
+{ #category : #'event handlers' }
+ToMouseHandlingDresser >> mouseUpOutsideHandlerIn: anElement [
+
+	^ BlEventHandler
+		  on: BlMouseUpOutsideEvent
+		  do: [ :event | self upOutside: anElement event: event ]
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToMouseHandlingDresser >> onInstalledIn: anElement [
 
@@ -201,6 +212,7 @@ ToMouseHandlingDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: mouseDownHandler.
 	anElement removeEventHandler: mouseUpHandler.
+	anElement removeEventHandler: mouseUpOutsideHandler.
 	anElement removeEventHandler: mouseClickHandler.
 	anElement removeEventHandler: mouseDoubleClickHandler.
 	anElement removeEventHandler: mouseEnterHandler.
@@ -215,4 +227,10 @@ ToMouseHandlingDresser >> up: anElement event: anEvent [
 		  secondary: [ self rightUp: anElement event: anEvent ]
 		  middle: [ self middleUp: anElement event: anEvent ]
 		  other: [ self leftUp: anElement event: anEvent ]
+]
+
+{ #category : #'events handling' }
+ToMouseHandlingDresser >> upOutside: anElement event: anEvent [
+
+	
 ]

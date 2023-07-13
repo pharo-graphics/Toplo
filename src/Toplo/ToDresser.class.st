@@ -4,7 +4,11 @@ Class {
 	#instVars : [
 		'next',
 		'theme',
-		'addedToParentHandler'
+		'addedToParentHandler',
+		'removedFromParentHandler',
+		'addedToSpaceHandler',
+		'removedFromSpaceHandler',
+		'addedToSpace'
 	],
 	#category : #'Toplo-Core'
 }
@@ -29,6 +33,12 @@ ToDresser >> addDresser: aDresser in: anElement previous: aPreviousDresser [
 	self next addDresser: aDresser in: anElement previous: self
 ]
 
+{ #category : #accessing }
+ToDresser >> addedToSpace [
+
+	^ addedToSpace ifNil: [ addedToSpace := false ]
+]
+
 { #category : #'t - accessing - dresser' }
 ToDresser >> dresserSatisfying: aBlock [
 
@@ -46,11 +56,27 @@ ToDresser >> initialize [
 { #category : #'api - install/uninstall  hook' }
 ToDresser >> installEventListenersIn: anElement [
 
-	self useLookAndFeel ifFalse: [ ^ self ].
 	addedToParentHandler := BlEventHandler
 		                        on: BlElementAddedToParentEvent
-		                        do: [ self whenAdded: anElement ].
-	anElement addEventHandler: addedToParentHandler
+		                        do: [ self whenAddedToParent: anElement ].
+	removedFromParentHandler := BlEventHandler
+		                        on: BlElementRemovedFromParentEvent
+		                        do: [ self whenRemovedFromParent: anElement ].
+	
+	anElement isAttachedToSceneGraph 
+		ifTrue: [ self sendWhenAddedToSpace: nil in: anElement ]
+		ifFalse: [ self sendWhenRemovedFromSpace: nil in: anElement ].
+	
+	addedToSpaceHandler := BlEventHandler
+		                        on: BlElementAddedToSceneGraphEvent 
+		                        do: [ :event | self sendWhenAddedToSpace: event in: anElement ].
+	removedFromSpaceHandler := BlEventHandler
+		                        on: BlElementRemovedFromSceneGraphEvent 
+		                        do: [ :event | self sendWhenRemovedFromSpace: event in: anElement ].
+	anElement addEventHandler: addedToParentHandler.
+	anElement addEventHandler: removedFromParentHandler.
+	anElement addEventHandler: addedToSpaceHandler.
+	anElement addEventHandler: removedFromSpaceHandler
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -94,6 +120,25 @@ ToDresser >> removeDresser: aDresser in: anElement [
 	aDresser launchUninstallationIn: anElement
 ]
 
+{ #category : #'api - install/uninstall  hook' }
+ToDresser >> sendWhenAddedToSpace: anEvent in: anElement [
+
+	self addedToSpace ifTrue: [ ^ self ].
+	addedToSpace := true.
+	self whenAddedToSpace: anEvent in: anElement
+
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToDresser >> sendWhenRemovedFromSpace: anEvent in: anElement [
+
+	self addedToSpace ifFalse: [ ^ self ].
+	addedToSpace := false.
+	self whenRemovedFromSpace: anEvent in: anElement
+
+]
+
 { #category : #accessing }
 ToDresser >> theme [
 
@@ -104,6 +149,9 @@ ToDresser >> theme [
 ToDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: addedToParentHandler.
+	anElement removeEventHandler: removedFromParentHandler.
+	anElement removeEventHandler: addedToSpaceHandler.
+	anElement removeEventHandler: removedFromSpaceHandler
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -113,11 +161,30 @@ ToDresser >> useLookAndFeel [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToDresser >> whenAdded: anElement [
+ToDresser >> whenAddedToParent: anElement [
 
-	self flag:'labordep: Check Theme installation : this is a patch for first Space instanciation and need to be remove when a better pattern is found'.
-	 anElement space ifNil:[ ^ self ].
-    anElement space toTheme ifNil:[ ^ self ].
-    (anElement space isThemeInstalled not and:[anElement space toTheme notNil]) ifTrue:[ anElement toTheme installOnSpace: anElement space ].
-    anElement toThemeChanged
+	self flag:
+		'labordep: Check Theme installation : this is a patch for first Space instanciation and need to be remove when a better pattern is found'.
+	anElement space ifNil: [ ^ self ].
+	anElement space toTheme ifNil: [ ^ self ].
+	(anElement space isThemeInstalled not and: [
+		 anElement space toTheme notNil ]) ifTrue: [
+		anElement toTheme installOnSpace: anElement space ].
+	anElement toThemeChanged
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToDresser >> whenAddedToSpace: anEvent in: anElement [ 
+
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToDresser >> whenRemovedFromParent: anElement [
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToDresser >> whenRemovedFromSpace: anEvent in: anElement [
+
 ]

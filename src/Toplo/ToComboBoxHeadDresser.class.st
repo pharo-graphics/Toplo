@@ -111,9 +111,9 @@ ToComboBoxHeadDresser >> uninstallEventListenersIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToComboBoxHeadDresser >> whenAdded: anElement [
+ToComboBoxHeadDresser >> whenAddedToParent: anElement [
 
-	super whenAdded: anElement.
+	super whenAddedToParent: anElement.
 	comboBox selectedIndex isZero ifTrue: [ anElement noDataSelected ].
 	headPlaceholderHandler := BlEventHandler
 		                          on: ToComboBoxHeadPlaceholderChangeEvent
@@ -125,9 +125,9 @@ ToComboBoxHeadDresser >> whenAdded: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToComboBoxHeadDresser >> whenRemoved: anElement [
+ToComboBoxHeadDresser >> whenRemovedFromParent: anElement [
 
 	comboBox removeEventHandler: headPlaceholderHandler.
 	downShortcut := nil.
-	super whenRemoved: anElement
+	super whenRemovedFromParent: anElement
 ]

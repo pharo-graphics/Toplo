@@ -77,7 +77,7 @@ ToNodeDresser >> defaultPadding [
 { #category : #accessing }
 ToNodeDresser >> hoveredBackground [
 
-	^ self defaultHoveredBackground
+	^ Color white
 ]
 
 { #category : #accessing }

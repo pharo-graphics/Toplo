@@ -38,9 +38,9 @@ ToListDefaultPrimarySelectionDresser >> secondarySelectionRemovedIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListDefaultPrimarySelectionDresser >> whenAdded: anElement [
+ToListDefaultPrimarySelectionDresser >> whenAddedToParent: anElement [
 
-	super whenAdded: anElement.
+	super whenAddedToParent: anElement.
 
 	backgroundElement := ToElement new matchParent.
 	anElement background: Color transparent.
@@ -52,9 +52,9 @@ ToListDefaultPrimarySelectionDresser >> whenAdded: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListDefaultPrimarySelectionDresser >> whenRemoved: anElement [
+ToListDefaultPrimarySelectionDresser >> whenRemovedFromParent: anElement [
 
 	anElement removeChild: backgroundElement.
 	backgroundElement := nil.
-	super whenRemoved: anElement
+	super whenRemovedFromParent: anElement
 ]

@@ -35,7 +35,7 @@ ToThemeTest >> testSkins [
 ToThemeTest >> testThemeBeforeAddElement [
 
 	| space button |
-	space := OBlSpace new.
+	space := BlSpace new.
 	space toTheme: ToThemeDark new.
 	
 	button := ToButton skinType: #default.

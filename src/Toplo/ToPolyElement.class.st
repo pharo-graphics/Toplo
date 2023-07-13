@@ -8,6 +8,6 @@ Class {
 ToPolyElement >> initialize [
 
 	super initialize.
-	self geometry: OBlAjacentRectanglesGeometry new.
+	self geometry: ToAjacentRectanglesGeometry new.
 
 ]

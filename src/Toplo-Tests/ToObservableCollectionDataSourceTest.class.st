@@ -13,7 +13,7 @@ ToObservableCollectionDataSourceTest >> testRangeChangedNotification [
 	| datasource rangeEvent |
 	datasource := ToObservableCollectionDataSource new.
 	datasource
-		when: OBlInfiniteDataSourceItemRangeChanged
+		when: BlInfiniteDataSourceItemRangeChanged
 		do: [ :event | rangeEvent := event ].
 	datasource data: ToObservableCollection new.
 	datasource data addAll: self statesOfAmerica.
@@ -41,7 +41,7 @@ ToObservableCollectionDataSourceTest >> testRangeInsertedNotification [
 	| datasource rangeEvent |
 	datasource := ToObservableCollectionDataSource new.
 	datasource
-		when: OBlInfiniteDataSourceItemRangeInserted
+		when: BlInfiniteDataSourceItemRangeInserted
 		do: [ :event | rangeEvent := event ].
 	datasource data: ToObservableCollection new.
 	datasource data addAll: self statesOfAmerica.
@@ -60,7 +60,7 @@ ToObservableCollectionDataSourceTest >> testRangeRemovedNotification [
 	| datasource rangeEvent |
 	datasource := ToObservableCollectionDataSource new.
 	datasource
-		when: OBlInfiniteDataSourceItemRangeRemoved
+		when: BlInfiniteDataSourceItemRangeRemoved
 		do: [ :event | rangeEvent := event ].
 	datasource data: ToObservableCollection new.
 	datasource data addAll: self statesOfAmerica.
@@ -92,7 +92,7 @@ ToObservableCollectionDataSourceTest >> testWithData [
 	| datasource changedEvent |
 	datasource := ToObservableCollectionDataSource new.
 	datasource
-		when: OBlInfiniteDataSourceChanged
+		when: BlInfiniteDataSourceChanged
 		do: [ :event | changedEvent := event ].
 	datasource data:
 		(ToObservableCollection newFrom: self statesOfAmerica).

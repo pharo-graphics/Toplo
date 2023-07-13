@@ -1,8 +1,8 @@
 Class {
 	#name : #ToInfiniteElement,
-	#superclass : #OBlInfiniteElement,
-	#traits : 'TOBlLayoutResizable + TToDressable + TToWorldElement + TToWidgetWithContextMenu',
-	#classTraits : 'TOBlLayoutResizable classTrait + TToDressable classTrait + TToWorldElement classTrait + TToWidgetWithContextMenu classTrait',
+	#superclass : #BlInfiniteElement,
+	#traits : 'TBlLayoutResizable + TToDressable + TToWorldElement + TToWidgetWithContextMenu',
+	#classTraits : 'TBlLayoutResizable classTrait + TToDressable classTrait + TToWorldElement classTrait + TToWidgetWithContextMenu classTrait',
 	#instVars : [
 		'holderFactory',
 		'nodeFactory',
@@ -83,7 +83,7 @@ ToInfiniteElement >> defaultHolderFactory [
 { #category : #initialization }
 ToInfiniteElement >> defaultLayout [
 
-	^ OBlInfiniteLinearLayout new
+	^ BlInfiniteLinearLayout new
 ]
 
 { #category : #initialization }
@@ -482,13 +482,13 @@ ToInfiniteElement >> terminateClickLauncher [
 { #category : #dispatching }
 ToInfiniteElement >> whenChildAttachedDo: aBlock [
 
-	self when: OBlInfiniteElementAttachedEvent do: aBlock
+	self when: BlInfiniteElementAttachedEvent do: aBlock
 ]
 
 { #category : #dispatching }
 ToInfiniteElement >> whenChildDetachedDo: aBlock [
 
-	self when: OBlInfiniteElementDetachedEvent do: aBlock
+	self when: BlInfiniteElementDetachedEvent do: aBlock
 ]
 
 { #category : #'selection events' }

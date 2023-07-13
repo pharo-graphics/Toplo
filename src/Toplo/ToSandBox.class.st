@@ -261,14 +261,14 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 			 icon -> cls name ]).
 	l withRowNumbers.
 	
-	vscrollBar := OBlVerticalScrollbarElement new.
+	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
 			c ignoreByLayout.
 			c margin: (BlInsets right: 2).
 			c ignored horizontal alignRight.
 			c ignored vertical alignBottom]. 
 	vscrollBar attachTo: l infinite.
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root addChild: l.
 	space root addChild: vscrollBar.
 	space show
@@ -654,14 +654,14 @@ ToSandBox class >> example_ListWithIndexedColors [
 			     background: color ].
 	l data addAll: Color indexedColors.
 
-	vscrollBar := OBlVerticalScrollbarElement new.
+	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
 			c ignoreByLayout.
 			c margin: (BlInsets right: 2).
 			c ignored horizontal alignRight.
 			c ignored vertical alignBottom]. 
 	vscrollBar attachTo: l infinite.
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root addChild: l.
 	space root addChild: vscrollBar.
 	space show
@@ -770,14 +770,14 @@ ToSandBox class >> example_ListWithSpecificSelection [
 
 	l data addAll: Color indexedColors.
 
-	vscrollBar := OBlVerticalScrollbarElement new.
+	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
 		c ignoreByLayout.
 		c margin: (BlInsets right: 0).
 		c ignored horizontal alignRight.
 		c ignored vertical alignBottom ].
 	vscrollBar attachTo: l infinite.
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root addChild: l.
 	space root addChild: vscrollBar.
 	space show
@@ -838,7 +838,7 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	list whenChildAttachedDo: [ :event | event element attached ].
 	list whenChildDetachedDo: [ :event | event element detached ].
 
-	vscrollBar := OBlVerticalScrollbarElement new.
+	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
 		c ignoreByLayout.
 		c margin: (BlInsets right: 0).
@@ -846,7 +846,7 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		c ignored vertical alignBottom ].
 	vscrollBar attachTo: list infinite.
 
-	space := OBlSpace new
+	space := BlSpace new
 		         extent: 200 @ 600;
 		         title: 'picsum.photos Gallery'.
 
@@ -898,7 +898,7 @@ ToSandBox class >> example_Popup1 [
 ToSandBox class >> example_Smalltalk_ui_icons [
 
 	| column root vscrollBar container |
-	column := OBlElement new
+	column := BlElement new
 		          layout: BlLinearLayout vertical;
 		          constraintsDo: [ :c |
 			          c horizontal fitContent.
@@ -927,7 +927,7 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 		column addChild: row ].
 
 	root := column asScrollableElement.
-	vscrollBar := OBlVerticalScrollbarElement new.
+	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
 		c ignoreByLayout.
 		c margin: (BlInsets right: 2).
@@ -1285,7 +1285,7 @@ ToSandBox class >> example_choiceBoxWithStructuredData [
 ToSandBox class >> example_elementInPopupRoot [
 
 	| e space |
-	space := OBlSpace new.
+	space := BlSpace new.
 	e := BlElement new background: Color blue; size: 50@50; yourself.
 	space popupLayer addChild: e.
 	e addEventHandler: (BlEventHandler
@@ -2203,7 +2203,7 @@ ToSandBox class >> example_toButtonModelWithIconOnly [
 	but := ToButtonModel new.
 	but icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
 	but widgetDo: [ :widget | widget padding: (BlInsets all: 3) ].
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root addChild: but onWidget.
 	space show 
 ]
@@ -2221,7 +2221,7 @@ ToSandBox class >> example_toButtonModelWithTextAndIconVertical [
 			 yourself)).
 	but whenClickedDo: [ :ann | 
 		ann currentTarget horizontal: ann currentTarget horizontal not ].
-	space := OBlSpace new.
+	space := BlSpace new.
 	wid := but onWidget.
 	wid layout cellSpacing: 10.
 	space root addChild: wid.
@@ -2244,7 +2244,7 @@ ToSandBox class >> example_toButtonOrientationChanger [
 	but iconImage: iconImage.
 	count := 0.
 	but whenClickedDo: [ :ann | count := count + 1. count traceCr. ann currentTarget orientation: but orientation inverted ].
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root addChild: but.
 	space show 
 ]
@@ -2265,7 +2265,7 @@ ToSandBox class >> example_toButtonOrientationChanger3 [
 	but iconImage: iconImage.
 	count := 0.
 	but whenClickedDo: [ :ann | count := count + 1. count traceCr. ann currentTarget orientation: but orientation inverted ].
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root addChild: but.
 	space show 
 ]
@@ -2281,7 +2281,7 @@ ToSandBox class >> example_toButtonWithIconAndText [
 	but icon: icon.
 	but when: BlPrimaryClickEvent do: [ :event | event currentTarget traceCr ].
 
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root addChild: but.
 	space show 
 ]
@@ -2303,7 +2303,7 @@ ToSandBox class >> example_toButtonWithIconOnly [
 	"but icon addLook: ToImagePrimaryLook new."
 	"but icon addLook: ToImageDangerLook new."
 	container addChild: but.
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root addChild: container.
 	space show 
 ]
@@ -2323,7 +2323,7 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 	count := 0.
 	but when: BlClickEvent do: [ :event | count := count + 1. count traceCr ].
 	"but whenClickedDo: [ :ann | but icon background: Color random ]."
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root addChild: but.
 	space show 
 ]
@@ -2340,7 +2340,7 @@ ToSandBox class >> example_toButtonWithTextAndIconVertical [
 			 yourself).
 	but layout cellSpacing: 10.
 	but whenClickedDo: [ :ann | but icon background: Color random ].
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root addChild: but.
 	space show 
 ]
@@ -2354,7 +2354,7 @@ ToSandBox class >> example_toButtonWithTextOnly [
 	but padding: (BlInsets all: 4).
 	but whenClickedDo: [ self inform: 'clicked' ].
 
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root addChild: but.
 	space show 
 ]
@@ -2956,7 +2956,7 @@ ToSandBox class >> example_toMultiState1 [
 								  opacity: 1;
 								  yourself) ].
 				 ann widget addAnimation: anim ] ]) }.
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root addChild: but.
 	space show
 ]
@@ -2982,7 +2982,7 @@ ToSandBox class >> example_toMultiState2 [
 						  duration: 100 milliSeconds;
 						  yourself) ].
 			 ann widget addAnimation: anim ]) }.
-	space := OBlSpace new.
+	space := BlSpace new.
 	but position: 100 @ 100.
 	space root addChild: but.
 	space show
@@ -3008,7 +3008,7 @@ ToSandBox class >> example_toMultiState2_v2_do_not_work_well [
 						          duration: 100 milliSeconds;
 						          yourself) }.
 			 ann widget addAnimation: anim ]) }.
-	space := OBlSpace new.
+	space := BlSpace new.
 	but position: 100 @ 100.
 	space root addChild: but.
 	space show
@@ -3173,7 +3173,7 @@ ToSandBox class >> example_toPairDirectionChanger [
 	but when: BlClickEvent do: [ 
 		but direction: but direction inverted.
 		but requestLayout ].
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root addChild: but.
 	space show
 ]
@@ -3196,7 +3196,7 @@ ToSandBox class >> example_toPairJustified1 [
 	but beJustified.
 	but hMatchParent.
 
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root addChild: but.
 	space show
 ]
@@ -3219,7 +3219,7 @@ ToSandBox class >> example_toPairJustified2 [
 	but beJustified.
 	but hMatchParent.
 
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root addChild: but.
 	space show
 ]
@@ -3239,7 +3239,7 @@ ToSandBox class >> example_toPairOrientationChanger [
 		             yourself.
 	but second: iconImage.
 	but when: BlClickEvent do: [ but orientation: but orientation inverted ].
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root addChild: but.
 	space show 
 ]
@@ -3261,7 +3261,7 @@ ToSandBox class >> example_toPairWithColumn1 [
 	but columnWidth: 50.
 	but when: BlClickEvent do: [ but orientation: but orientation inverted ].	
 	but hMatchParent.
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root addChild: but.
 	space show 
 ]
@@ -3283,7 +3283,7 @@ ToSandBox class >> example_toPairWithColumn2 [
 	but columnWidth: 100.
 	but when: BlClickEvent do: [ but direction: but direction inverted ].
 	but hMatchParent.
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root addChild: but.
 	space show
 ]

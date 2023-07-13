@@ -1,7 +1,7 @@
 Class {
 	#name : #ToElementLookEvent,
 	#superclass : #BlEvent,
-	#category : #'Toplo-Core-Theme-Skins'
+	#category : #'Toplo-Core-Theme'
 }
 
 { #category : #accessing }

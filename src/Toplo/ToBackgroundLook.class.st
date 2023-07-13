@@ -6,7 +6,7 @@ Class {
 		'hoverBg',
 		'pressedBg'
 	],
-	#category : #'Toplo-Core-Theme-Skins'
+	#category : #'Toplo-Core-Theme-Looks'
 }
 
 { #category : #accessing }

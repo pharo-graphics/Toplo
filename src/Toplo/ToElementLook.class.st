@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'next'
 	],
-	#category : #'Toplo-Core-Theme-Skins'
+	#category : #'Toplo-Core-Theme-Looks'
 }
 
 { #category : #accessing }
@@ -22,8 +22,7 @@ ToElementLook >> decoratedTextAttributesBuilderFromElement: anElement [
 { #category : #'private event handling' }
 ToElementLook >> elementLookEvent: anEvent [
 
-	"anEvent backgoundUpdater: self hasBackground."
-	self next ifNotNil: [ self next elementLookEvent: anEvent ].
+	self next elementLookEvent: anEvent.
 	anEvent sendToLook: self.
 
 ]
@@ -37,12 +36,6 @@ ToElementLook >> initialLookEvent: anEvent [
 { #category : #'event handling' }
 ToElementLook >> installLookEvent: anEvent [
 
-]
-
-{ #category : #testing }
-ToElementLook >> isMain [
-
-	^ false
 ]
 
 { #category : #testing }
@@ -102,11 +95,4 @@ ToElementLook >> textAttributesBuilderFromElement: anElement [
 { #category : #'event handling' }
 ToElementLook >> uninstallLookEvent: anEvent [
 
-]
-
-{ #category : #accessing }
-ToElementLook >> updateFirstWith: aLook [
-
-	super updateFirstWith: aLook.
-	self next updateFirstWith: aLook
 ]

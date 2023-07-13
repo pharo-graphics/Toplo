@@ -3,7 +3,7 @@ Trait {
 	#instVars : [
 		'privateSkin'
 	],
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Core-Theme'
 }
 
 { #category : #'t - skin accessing' }

@@ -35,7 +35,7 @@ ToButtonTextSkin >> onInstalledLabelIn: anElement [
 	anElement label ifNil: [ ^ self ].
 	anElement label withSkin: ToWidgetSkin new.
 	attrBuilder := self textAttributesBuilderFromElement: anElement.
-	labelLook := ToLabelLook new.
+	labelLook := ToLabelTextLook new.
 	labelLook attrBuilder: attrBuilder.
 	self danger
 		ifTrue: [

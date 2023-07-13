@@ -50,6 +50,20 @@ ToButtonSkin >> onInstalledLabelIn: anElement [
 
 ]
 
+{ #category : #'api - install/uninstall  hook' }
+ToButtonSkin >> onUninstalledIconIn: anElement [
+
+	anElement icon ifNil: [ ^ self ].
+	anElement icon withoutSkin
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonSkin >> onUninstalledLabelIn: anElement [
+
+	anElement label ifNil: [ ^ self ].
+	anElement label withoutSkin
+]
+
 { #category : #accessing }
 ToButtonSkin >> textAttributesBuilderFromElement: anElement [
 
@@ -88,4 +102,12 @@ ToButtonSkin >> whenAddedToSpace: anEvent in: anElement [
 
 	self onInstalledLabelIn: anElement.
 	self onInstalledIconIn: anElement
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonSkin >> whenRemovedFromSpace: anEvent in: anElement [
+
+	super whenRemovedFromSpace: anEvent in: anElement.
+	self onUninstalledLabelIn: anElement.
+	self onUninstalledIconIn: anElement
 ]

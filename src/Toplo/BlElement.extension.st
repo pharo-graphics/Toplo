@@ -48,19 +48,18 @@ BlElement >> openInSpaceWithoutToTheme [
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> toTheme [
 
-	^ self userData at: #ToTheme ifAbsent: [
-		  self hasParent
-			  ifTrue: [ self parent toTheme ]
-			  ifFalse: [ ToAbstractTheme current ] 
-	]
+	self userData at: #ToTheme ifPresent: [ :th | ^ th ] ifAbsent: [
+		self parentDo: [ :p | ^ p toTheme ].
+		^ ToAbstractTheme current ]
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> toTheme: aTheme [
 
-	self userData at: #ToTheme ifPresent:[ :currentTheme | 
-		currentTheme == aTheme ifTrue:[ ^ self ].
-	] ifAbsent:[ "do nothing" ].
+	self userData
+		at: #ToTheme
+		ifPresent: [ :currentTheme |
+		currentTheme = aTheme ifTrue: [ ^ self ] ].
 
 	self userData at: #ToTheme put: aTheme.
 	self toThemeChanged
@@ -69,5 +68,6 @@ BlElement >> toTheme: aTheme [
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> toThemeChanged [
 
+	self dispatchEvent: ToThemeChangedEvent new.
 	self childrenDo: [ :c | c toThemeChanged ]
 ]

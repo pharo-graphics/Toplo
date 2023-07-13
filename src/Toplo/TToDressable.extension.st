@@ -72,12 +72,13 @@ TToDressable >> toTheme: aTheme [
 { #category : #'*Toplo-LookAndFeel' }
 TToDressable >> toThemeChanged [
 
-
-	Toplo useLookAndFeel ifFalse: [ ^ self ].
+	self dispatchEvent: ToThemeChangedEvent new.
 	self childrenDo: [ :c | c toThemeChanged ].
+	Toplo useLookAndFeel ifFalse: [ ^ self ].
+	
+	self flag:'labordep : this code should be remove when look and feel pattern was ok, here we are forcing a skin type to install all Look and Feel dedicated dressers'.
 	 
 	"Update the skin if theme hierarchy has changed"
-	self flag:'labordep : this code should be remove when look and feel pattern was ok, here we are forcing a skin type to install all Look and Feel dedicated dressers'.
 	(skinType isNil and:[self space notNil]) ifTrue:[ self skinType: ToAbstractSkin defaultType ].
 	self setSkinForType: self skinType.
 	

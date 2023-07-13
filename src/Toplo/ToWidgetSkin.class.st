@@ -5,9 +5,10 @@ Class {
 		'lookEventHandler',
 		'addedToSpaceHandler',
 		'removedFromSpaceHandler',
-		'addedToSpace'
+		'addedToSpace',
+		'themeChangeHandler'
 	],
-	#category : #'Toplo-Core-Theme-Skins'
+	#category : #'Toplo-Core-Theme'
 }
 
 { #category : #adding }
@@ -25,13 +26,25 @@ ToWidgetSkin >> addedToSpace [
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> installEventListenersIn: anElement [
 
-	addedToSpaceHandler := BlEventHandler
-		                        on: BlElementAddedToSceneGraphEvent 
-		                        do: [ :event | self sendWhenAddedToSpace: event in: anElement ].
-	removedFromSpaceHandler := BlEventHandler
-		                        on: BlElementRemovedFromSceneGraphEvent
-		                        do: [  :event | self sendWhenRemovedFromSpace: event in: anElement ].
+	themeChangeHandler := BlEventHandler
+		                      on: ToThemeChangedEvent
+		                      do: [ :event |
+		                      self themeChanged: event in: anElement ].
 
+	addedToSpaceHandler := BlEventHandler
+		                       on: BlElementAddedToSceneGraphEvent
+		                       do: [ :event |
+		                       self
+			                       sendWhenAddedToSpace: event
+			                       in: anElement ].
+	removedFromSpaceHandler := BlEventHandler
+		                           on: BlElementRemovedFromSceneGraphEvent
+		                           do: [ :event |
+		                           self
+			                           sendWhenRemovedFromSpace: event
+			                           in: anElement ].
+
+	anElement addEventHandler: themeChangeHandler.
 	anElement addEventHandler: addedToSpaceHandler.
 	anElement addEventHandler: removedFromSpaceHandler
 ]
@@ -89,10 +102,18 @@ ToWidgetSkin >> sendWhenRemovedFromSpace: anEvent in: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
+ToWidgetSkin >> themeChanged: anEvent in: anElement [
+
+	self whenRemovedFromSpace: anEvent in: anElement.
+	self whenAddedToSpace: anEvent in: anElement
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: addedToSpaceHandler.
-	anElement removeEventHandler: removedFromSpaceHandler
+	anElement removeEventHandler: removedFromSpaceHandler.
+	anElement removeEventHandler: themeChangeHandler
 ]
 
 { #category : #'api - install/uninstall  hook' }

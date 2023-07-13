@@ -7,7 +7,7 @@ Class {
 		'hoverPaint',
 		'initialPaint'
 	],
-	#category : #'Toplo-Core-Theme-Skins'
+	#category : #'Toplo-Core-Theme-Looks'
 }
 
 { #category : #accessing }
@@ -79,17 +79,6 @@ ToBorderLook >> initialize [
 	
 	super initialize.
 	builder := self defaultBuilder
-]
-
-{ #category : #'event handling' }
-ToBorderLook >> installLookEvent: anEvent [
-
-	super installLookEvent: anEvent.
-	self initialPaint ifNil: [ ^ self ].
-	anEvent elementDo: [ :e |
-		e border: (self builder
-				 paint: self initialPaint;
-				 build) ]
 ]
 
 { #category : #'event handling' }

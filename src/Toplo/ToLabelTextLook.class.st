@@ -1,5 +1,5 @@
 Class {
-	#name : #ToLabelLook,
+	#name : #ToLabelTextLook,
 	#superclass : #ToElementLook,
 	#instVars : [
 		'attrBuilder',
@@ -7,77 +7,77 @@ Class {
 		'hoverColor',
 		'initialColor'
 	],
-	#category : #'Toplo-Core-Theme-Skins'
+	#category : #'Toplo-Core-Theme-Looks'
 }
 
 { #category : #accessing }
-ToLabelLook >> attrBuilder [
+ToLabelTextLook >> attrBuilder [
 
 	^ attrBuilder 
 ]
 
 { #category : #accessing }
-ToLabelLook >> attrBuilder: aTextAttributesBuilder [
+ToLabelTextLook >> attrBuilder: aTextAttributesBuilder [
 
 	attrBuilder := aTextAttributesBuilder
 ]
 
 { #category : #accessing }
-ToLabelLook >> attributes [
+ToLabelTextLook >> attributes [
 
 	^ self attrBuilder attributes
 ]
 
 { #category : #initialization }
-ToLabelLook >> defaultAttrBuilder [
+ToLabelTextLook >> defaultAttrBuilder [
 
 	^ BlTextAttributesBuilder new
 ]
 
 { #category : #accessing }
-ToLabelLook >> defaultFontName: aString [
+ToLabelTextLook >> defaultFontName: aString [
 
 	self attrBuilder defaultFontName: aString
 ]
 
 { #category : #accessing }
-ToLabelLook >> defaultFontSize: aNumber [
+ToLabelTextLook >> defaultFontSize: aNumber [
 
 	self attrBuilder defaultFontSize: aNumber
 ]
 
 { #category : #accessing }
-ToLabelLook >> foreground: aColor [
+ToLabelTextLook >> foreground: aColor [
 
 	self attrBuilder foreground: aColor
 ]
 
 { #category : #accessing }
-ToLabelLook >> hoverColor [
+ToLabelTextLook >> hoverColor [
 
 	^ hoverColor
 ]
 
 { #category : #accessing }
-ToLabelLook >> hoverColor: anObject [
+ToLabelTextLook >> hoverColor: anObject [
 
 	hoverColor := anObject
 ]
 
 { #category : #accessing }
-ToLabelLook >> initialColor [
+ToLabelTextLook >> initialColor [
 
 	^ initialColor
 ]
 
 { #category : #accessing }
-ToLabelLook >> initialColor: aColor [
+ToLabelTextLook >> initialColor: aColor [
 
 	initialColor := aColor
 ]
 
 { #category : #'event handling' }
-ToLabelLook >> initialLookEvent: anEvent [
+ToLabelTextLook >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
 	self initialColor ifNil: [ ^ self ].
@@ -87,20 +87,20 @@ ToLabelLook >> initialLookEvent: anEvent [
 ]
 
 { #category : #initialization }
-ToLabelLook >> initialize [ 
+ToLabelTextLook >> initialize [ 
 
 	super initialize.
 	attrBuilder := self defaultAttrBuilder
 ]
 
 { #category : #accessing }
-ToLabelLook >> lineSpacing: aNumber [
+ToLabelTextLook >> lineSpacing: aNumber [
 
 	self attrBuilder lineSpacing: aNumber
 ]
 
 { #category : #'event handling' }
-ToLabelLook >> mouseHoverLookEvent: anEvent [
+ToLabelTextLook >> mouseHoverLookEvent: anEvent [
 
 	super mouseHoverLookEvent: anEvent.
 	self hoverColor ifNil: [ ^ self ].
@@ -110,7 +110,7 @@ ToLabelLook >> mouseHoverLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToLabelLook >> mousePressedLookEvent: anEvent [
+ToLabelTextLook >> mousePressedLookEvent: anEvent [
 
 	super mousePressedLookEvent: anEvent.
 	self pressedColor ifNil: [ ^ self ].
@@ -120,19 +120,19 @@ ToLabelLook >> mousePressedLookEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToLabelLook >> pressedColor [
+ToLabelTextLook >> pressedColor [
 
 	^ pressedColor
 ]
 
 { #category : #accessing }
-ToLabelLook >> pressedColor: anObject [
+ToLabelTextLook >> pressedColor: anObject [
 
 	pressedColor := anObject
 ]
 
 { #category : #private }
-ToLabelLook >> textAttributesBuilderFromElement: anElement [
+ToLabelTextLook >> textAttributesBuilderFromElement: anElement [
 
 	| builder |
 	builder  := BlTextAttributesBuilder new.

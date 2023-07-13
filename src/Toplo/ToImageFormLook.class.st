@@ -6,7 +6,7 @@ Class {
 		'hoverColor',
 		'pressedColor'
 	],
-	#category : #'Toplo-Core-Theme-Skins'
+	#category : #'Toplo-Core-Theme-Looks'
 }
 
 { #category : #'event handling' }

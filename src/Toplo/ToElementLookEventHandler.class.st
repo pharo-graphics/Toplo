@@ -5,7 +5,7 @@ Class {
 		'look',
 		'lastEvent'
 	],
-	#category : #'Toplo-Core-Theme-Skins'
+	#category : #'Toplo-Core-Theme'
 }
 
 { #category : #accessing }
@@ -13,8 +13,7 @@ ToElementLookEventHandler >> addLook: aLook [
 
 	aLook isNull ifTrue: [ ^ self ].
 	aLook next: look.
-	self privateLook: aLook.
-	look updateFirstWith: look.
+	self privateLook: aLook
 ]
 
 { #category : #'event handling' }
@@ -39,18 +38,10 @@ ToElementLookEventHandler >> eventsToHandle [
 { #category : #'api - event managing' }
 ToElementLookEventHandler >> handleEvent: anEvent [
 
-	lastEvent class = anEvent class ifTrue: [ ^ self ].
 	lastEvent := anEvent.
 	(anEvent isKindOf: ToElementLookEvent) ifTrue: [
 		^ anEvent sendTo: look ].
 	super handleEvent: anEvent
-]
-
-{ #category : #initialization }
-ToElementLookEventHandler >> initialize [
-
-	super initialize.
-	self privateLook: ToNullElementLook new
 ]
 
 { #category : #accessing }
@@ -62,8 +53,8 @@ ToElementLookEventHandler >> look [
 { #category : #'api - install/uninstall  hook' }
 ToElementLookEventHandler >> onInstalledIn: anElement [
 
-	self flag: 'For first version compatibility for now '.
-	super onInstalledIn: anElement
+	super onInstalledIn: anElement.
+	self privateLook: ToNullElementLook new
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -85,6 +76,5 @@ ToElementLookEventHandler >> removeLook: aLook [
 
 	look = aLook 
 		ifTrue: [ look := look next ]
-		ifFalse: [ look removeLook: aLook previous: nil ].
-	look updateFirstWith: look.
+		ifFalse: [ look removeLook: aLook previous: nil ]
 ]

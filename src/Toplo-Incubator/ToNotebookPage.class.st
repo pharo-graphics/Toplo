@@ -9,7 +9,7 @@ Class {
 		'#titleElement',
 		'#bodyFactory => ObservableSlot'
 	],
-	#category : #'Toplo-Widget-Notebook'
+	#category : #'Toplo-Incubator'
 }
 
 { #category : #accessing }

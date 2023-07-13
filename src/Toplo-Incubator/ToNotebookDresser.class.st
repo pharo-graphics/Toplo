@@ -1,7 +1,7 @@
 Class {
 	#name : #ToNotebookDresser,
 	#superclass : #ToDresser,
-	#category : #'Toplo-Widget-Notebook'
+	#category : #'Toplo-Incubator'
 }
 
 { #category : #accessing }

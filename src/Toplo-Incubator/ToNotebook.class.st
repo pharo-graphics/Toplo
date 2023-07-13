@@ -6,7 +6,7 @@ Class {
 		'header',
 		'selectedPage'
 	],
-	#category : #'Toplo-Widget-Notebook'
+	#category : #'Toplo-Incubator'
 }
 
 { #category : #api }

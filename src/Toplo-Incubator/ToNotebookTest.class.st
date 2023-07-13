@@ -1,7 +1,7 @@
 Class {
 	#name : #ToNotebookTest,
 	#superclass : #BlParameterizedTest,
-	#category : #'Toplo-Tests-Widget-Notebook'
+	#category : #'Toplo-Incubator'
 }
 
 { #category : #tests }

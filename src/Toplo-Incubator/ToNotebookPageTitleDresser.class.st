@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'notebookDresser'
 	],
-	#category : #'Toplo-Widget-Notebook'
+	#category : #'Toplo-Incubator'
 }
 
 { #category : #'api - install/uninstall  hook' }

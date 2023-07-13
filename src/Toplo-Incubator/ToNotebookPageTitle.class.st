@@ -5,7 +5,7 @@ Class {
 		'page',
 		'labelElement'
 	],
-	#category : #'Toplo-Widget-Notebook'
+	#category : #'Toplo-Incubator'
 }
 
 { #category : #initialization }

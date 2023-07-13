@@ -26,6 +26,7 @@ ToWidgetSkin >> addedToSpace [
 { #category : #'event handling' }
 ToWidgetSkin >> handleLookEvent: anEvent [
 
+	" has to be redefined in subclasses to manage element children (to dispatch look event to them)"
 	^ anEvent sendTo: self lookEventHandler look 
 ]
 

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToElement,
-	#superclass : #OBlElement,
-	#traits : 'TToElement + TToElementtWithState + TOBlLayoutResizable + TToDressable + TToWorldElement',
-	#classTraits : 'TToElement classTrait + TToElementtWithState classTrait + TOBlLayoutResizable classTrait + TToDressable classTrait + TToWorldElement classTrait',
+	#superclass : #BlElement,
+	#traits : 'TToElement + TToElementtWithState + TBlLayoutResizable + TToDressable + TToWorldElement',
+	#classTraits : 'TToElement classTrait + TToElementtWithState classTrait + TBlLayoutResizable classTrait + TToDressable classTrait + TToWorldElement classTrait',
 	#category : #'Toplo-Core'
 }
 
@@ -18,7 +18,7 @@ ToElement class >> skinType: aType [
 { #category : #initialization }
 ToElement >> defaultLayoutCommonConstraints [
 
-	^ OBlLayoutCommonConstraints new
+	^ BlLayoutCommonConstraints new
 ]
 
 { #category : #initialization }

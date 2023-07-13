@@ -23,7 +23,7 @@ BlElement >> openInOBlSpaceWithoutToTheme [
 		deprecated:  'Use #openInSpaceWithoutToTheme instead' 
 		transformWith: '`@receiver openInOBlSpaceWithoutToTheme' -> '`@receiver openInSpaceWithoutToTheme	'.
 	
-	sp := OBlSpace new.
+	sp := BlSpace new.
 	self flag:'labordep : temporary set a nil toTheme setup, this methods should be removed when Look&Feel management will be ok'.
 	sp toTheme: nil.
 	sp root addChild: self.
@@ -36,7 +36,7 @@ BlElement >> openInOBlSpaceWithoutToTheme [
 BlElement >> openInSpaceWithoutToTheme [
 	"This is a development method : use this method when your Space cannot support ToTheme management"
 	| sp |
-	sp := OBlSpace new.
+	sp := BlSpace new.
 	self flag:'labordep : temporary set a nil toTheme setup, this methods should be removed when Look&Feel management will be ok'.
 	sp toTheme: nil.
 	sp root addChild: self.

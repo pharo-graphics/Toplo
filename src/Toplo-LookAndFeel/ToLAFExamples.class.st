@@ -8,7 +8,7 @@ Class {
 ToLAFExamples class >> example_ButtonSkins [
 
 	| space button1 button2 button3 button4 button5 pane |
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 	
 	pane := ToPane horizontal.
@@ -142,7 +142,7 @@ ToLAFExamples class >> example_ButtonSkins_Dark [
 ToLAFExamples class >> example_LabelsSkins [
 
 	| space label1 label2 label3 label4 label5 label6 |
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 	
 	label1 := ToLabel skinType: #default.
@@ -188,7 +188,7 @@ ToLAFExamples class >> example_LabelsSkins_Dark [
 ToLAFExamples class >> example_MoreButtonSkins [
 
 	| space |
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root layout: (BlFlowLayout horizontal).
 	
 	1 to: 100 do:[ :i | | button1 button2 button3 button4 button5 |
@@ -231,7 +231,7 @@ ToLAFExamples class >> example_MoreButtonSkins_Dark [
 ToLAFExamples class >> example_RadioButtonSkins [
 
 	| space button1 button2 pane |
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 	
 	pane := ToPane horizontal.
@@ -262,7 +262,7 @@ ToLAFExamples class >> example_RadioButtonSkins_Dark [
 ToLAFExamples class >> example_TitleLabelsSkins [
 
 	| space label1 label2 label3 label4 label5 |
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 	
 	label1 := ToLabel skinType: #h1.
@@ -342,7 +342,7 @@ ToLAFExamples class >> example_themeColorCustomization [
 ToLAFExamples class >> example_toButtonChangeThemeOnClickChangeSkinOnRightClick [
 
 	| but space |
-	space := OBlSpace new.
+	space := BlSpace new.
 	
 	but := ToButton skinType: #default.
 	but labelText: 'Switch to the dark theme'.

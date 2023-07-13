@@ -32,7 +32,7 @@ ToCustomThemeTest >> testChangeSpaceTheme [
 	| button space |
 
 	button := ToButton skinType: #default.
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root addChild: button.
 	
 	space toTheme: ToThemeDark new.
@@ -51,7 +51,7 @@ ToCustomThemeTest >> testChangeSpaceTheme [
 ToCustomThemeTest >> testChangeThemeAddChildInAParentInASpace [
 
 	| space button pane |
-	space := OBlSpace new.
+	space := BlSpace new.
 	space toTheme: ToCustomNoDarkNoLightTestTheme new.
 
 	pane := ToPane horizontal.
@@ -109,7 +109,7 @@ ToCustomThemeTest >> testNoDarkAndNoLightTheme [
 ToCustomThemeTest >> testOtherThemeThanDefaultBeforeAddElement [
 
 	| space button |
-	space := OBlSpace new.
+	space := BlSpace new.
 	space toTheme: ToCustomNoDarkNoLightTestTheme new.
 	
 	button := ToButton skinType: #default.

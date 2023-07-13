@@ -1,7 +1,7 @@
-Extension { #name : #OBlSpace }
+Extension { #name : #BlSpace }
 
 { #category : #'*Toplo-Tests' }
-OBlSpace class >> pulseUntilEmptyTaskQueue: aSpace timeout: aDuration [
+BlSpace class >> pulseUntilEmptyTaskQueue: aSpace timeout: aDuration [
 	"Wait until a BlSpace doesn't have available tasks to execute. 
 	
 	Inspired on BlDevScripterWaitStep>>#forEmptySpaceTaskQueueTimeout:"

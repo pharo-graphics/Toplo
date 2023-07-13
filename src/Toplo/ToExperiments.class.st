@@ -453,7 +453,7 @@ ToExperiments class >> example_Smalltalk_all_classes [
 		column addChild: lab ] ].
 
 	root := column asScrollableElement.
-	vscrollBar := OBlVerticalScrollbarElement new.
+	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
 			c ignoreByLayout.
 			c margin: (BlInsets right: 2).
@@ -466,7 +466,7 @@ ToExperiments class >> example_Smalltalk_all_classes [
 			          c vertical matchParent ];
 		          yourself.
 	container addChild: root; addChild: vscrollBar.
-	space := OBlSpace new.
+	space := BlSpace new.
 	space addChild: container.
 	space show
 ]
@@ -503,7 +503,7 @@ ToExperiments class >> example_Smalltalk_ui_icons_withElements [
 		column addChild: row ] ].
 
 	root := column asScrollableElement.
-	vscrollBar := OBlVerticalScrollbarElement new.
+	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
 			c ignoreByLayout.
 			c margin: (BlInsets right: 2).
@@ -516,7 +516,7 @@ ToExperiments class >> example_Smalltalk_ui_icons_withElements [
 			          c vertical matchParent ];
 		          yourself.
 	container addChild: root; addChild: vscrollBar.
-	space := OBlSpace new.
+	space := BlSpace new.
 	space root addChild: container.
 	space show
 ]
@@ -688,7 +688,7 @@ ToExperiments class >> example_elements_sandbox [
 	root constraintsDo: [ :c |
 			c horizontal fitContent .
 			c vertical fitContent ].
-	sp := OBlSpace new.
+	sp := BlSpace new.
 	sp addChild: root.
 	sp show
 ]
@@ -701,7 +701,7 @@ ToExperiments class >> example_enterLeave [
 	e2 := BlElement new background: Color blue; preventMouseEvents.
 	e1 when: BlMouseEnterEvent do: [ :event | e2 relocate: e1 bounds bottomRight. e1 space addChild: e2 ].
 	e1 when: BlMouseLeaveEvent do: [ :event | e1 space removeChild: e2 ].
-	space := OBlSpace new.
+	space := BlSpace new.
 	space addChild: e1.
 	space show
 ]
@@ -783,7 +783,7 @@ ToExperiments class >> example_mouseEvent_descending_bubbling [
 		        in: [ :w | w root background: Color gray ];
 		        size: 100 @ 100;
 		        position: 50 @ 50.
-	world := OBlSpace new.
+	world := BlSpace new.
 
 	world root addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
@@ -842,7 +842,7 @@ ToExperiments class >> example_mouseEvent_descending_bubbling [
 { #category : #space }
 ToExperiments class >> example_space [
 | space |
-space := OBlSpace new "extent: 50@50;" position: 1000@800; toBack; fullscreen: true ; resizable: false; borderless: true.
+space := BlSpace new "extent: 50@50;" position: 1000@800; toBack; fullscreen: true ; resizable: false; borderless: true.
 space show.
 space inspect
 ]
@@ -961,7 +961,7 @@ ToExperiments class >> example_toScaling [
 				 d
 					 topLeftOrigin;
 					 scaleBy: 2.0 ])  .
-	space := OBlSpace new.
+	space := BlSpace new.
 	container relocate: 100 @ 100.
 	space addChild: container.
 	space show

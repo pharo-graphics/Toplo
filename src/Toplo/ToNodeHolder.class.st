@@ -1,6 +1,6 @@
 Class {
 	#name : #ToNodeHolder,
-	#superclass : #OBlInfiniteHolder,
+	#superclass : #BlInfiniteHolder,
 	#traits : 'TBlEventTarget',
 	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [

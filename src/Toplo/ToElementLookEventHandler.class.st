@@ -78,3 +78,12 @@ ToElementLookEventHandler >> removeLook: aLook [
 		ifTrue: [ look := look next ]
 		ifFalse: [ look removeLook: aLook previous: nil ]
 ]
+
+{ #category : #'event handling' }
+ToElementLookEventHandler >> themeChanged: anEvent in: anElement [
+
+	anEvent target dispatchEvent: (ToUninstallLookEvent new copyFrom: anEvent).
+	anEvent target dispatchEvent: (ToInstallLookEvent new copyFrom: anEvent).
+	anEvent target dispatchEvent: (ToInitialLookEvent new copyFrom: anEvent).
+	anEvent target dispatchEvent: lastEvent clone
+]

@@ -13,12 +13,6 @@ ToElementLook class >> next: aLook [
 	^ self new next: aLook
 ]
 
-{ #category : #private }
-ToElementLook >> decoratedTextAttributesBuilderFromElement: anElement [
-
-	^ self first textAttributesBuilderFromElement: anElement
-]
-
 { #category : #'private event handling' }
 ToElementLook >> elementLookEvent: anEvent [
 
@@ -84,12 +78,6 @@ ToElementLook >> removeLook: aLook previous: previousLook [
 			previousLook next: self next.
 			^ self ] ].
 	self next removeLook: aLook previous: self
-]
-
-{ #category : #private }
-ToElementLook >> textAttributesBuilderFromElement: anElement [
-
-	^ self next textAttributesBuilderFromElement: anElement
 ]
 
 { #category : #'event handling' }

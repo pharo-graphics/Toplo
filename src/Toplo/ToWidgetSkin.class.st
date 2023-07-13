@@ -105,7 +105,8 @@ ToWidgetSkin >> sendWhenRemovedFromSpace: anEvent in: anElement [
 ToWidgetSkin >> themeChanged: anEvent in: anElement [
 
 	self whenRemovedFromSpace: anEvent in: anElement.
-	self whenAddedToSpace: anEvent in: anElement
+	self whenAddedToSpace: anEvent in: anElement.
+	self lookEventHandler themeChanged: anEvent in: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }

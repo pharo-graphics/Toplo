@@ -130,16 +130,3 @@ ToLabelTextLook >> pressedColor: anObject [
 
 	pressedColor := anObject
 ]
-
-{ #category : #private }
-ToLabelTextLook >> textAttributesBuilderFromElement: anElement [
-
-	| builder |
-	builder  := BlTextAttributesBuilder new.
-	builder lineSpacing: anElement toTheme lineHeight.
-	builder defaultFontSize: anElement toTheme fontSize.
-	builder defaultFontName: anElement toTheme fontFamilyCode.
-	builder foreground: anElement toTheme colorText.
-
-	^ builder 
-]

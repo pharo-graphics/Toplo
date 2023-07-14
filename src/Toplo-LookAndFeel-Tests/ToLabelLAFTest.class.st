@@ -1,6 +1,6 @@
 Class {
 	#name : #ToLabelLAFTest,
-	#superclass : #TestCase,
+	#superclass : #ToLookAndFeelTestCase,
 	#category : #'Toplo-LookAndFeel-Tests-ToWidgets'
 }
 

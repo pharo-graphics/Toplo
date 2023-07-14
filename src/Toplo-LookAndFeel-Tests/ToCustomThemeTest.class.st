@@ -4,28 +4,8 @@ This class contains tests for custom Theme (writed by another team that Toplo) a
 Class {
 	#name : #ToCustomThemeTest,
 	#superclass : #ToThemeTestCase,
-	#instVars : [
-		'useLookAndFeel'
-	],
 	#category : #'Toplo-LookAndFeel-Tests-Theme'
 }
-
-{ #category : #tests }
-ToCustomThemeTest >> setUp [ 
-
-	super setUp.
-
-	useLookAndFeel := Toplo useLookAndFeel.
-	useLookAndFeel ifFalse:[Toplo useLookAndFeel: true].
-]
-
-{ #category : #tests }
-ToCustomThemeTest >> tearDown [  
-
-	useLookAndFeel ifFalse:[Toplo useLookAndFeel: false].
-
-	super tearDown.
-]
 
 { #category : #tests }
 ToCustomThemeTest >> testChangeSpaceTheme [

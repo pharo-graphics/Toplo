@@ -15,26 +15,27 @@ ToLAFButtonDresser >> defaultToElementClass [
 { #category : #deprecated }
 ToLAFButtonDresser >> hover: anElement event: anEvent [
 
-	| label image|
+	| label image |
 	self
 		deprecated: 'Please use mouseEnterEvent:in: instead.'
-		transformWith:
-			'`@receiver hover: `@anElement event: `@anEvent'
-				-> '`@receiver mouseEnterEvent: `@anEvent in: `@anElement'.
+		transformWith: '`@receiver hover: `@anElement event: `@anEvent'
+			-> '`@receiver mouseEnterEvent: `@anEvent in: `@anElement'.
 
-	super hover: anElement event: anEvent.
-	
+	super mouseEnterEvent: anEvent in: anElement.
+
 	"update main element"
 	self background: self skin backgroundHover in: anElement.
 	self border: self skin borderHover in: anElement.
 
 	"label event dispatch"
 	label := anElement label.
-	(label notNil and:[label dresser notNil]) ifTrue:[ label dresser hover: label event: anEvent ].
-	
+	(label notNil and: [ label dresser notNil ]) ifTrue: [
+		label dresser hover: label event: anEvent ].
+
 	"icon event dispatch"
 	image := anElement icon.
-	(image notNil and:[image dresser notNil]) ifTrue:[ image dresser hover: image event: anEvent ].
+	(image notNil and: [ image dresser notNil ]) ifTrue: [
+		image dresser hover: image event: anEvent ]
 ]
 
 { #category : #'events handling' }
@@ -119,7 +120,7 @@ ToLAFButtonDresser >> leftMouseDownEvent: anEvent in: anElement [
 { #category : #'events handling' }
 ToLAFButtonDresser >> leftMouseUpEvent: anEvent in: anElement [
 
-	self hover: anElement event: anEvent
+	self mouseEnterEvent: anEvent in: anElement
 ]
 
 { #category : #deprecated }

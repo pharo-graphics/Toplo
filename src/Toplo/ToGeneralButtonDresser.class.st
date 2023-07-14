@@ -17,10 +17,9 @@ ToGeneralButtonDresser >> hover: anElement event: anEvent [
 
 	self
 		deprecated: 'Please use mouseEnterEvent:in: instead.'
-		transformWith:
-			'`@receiver hover: `@anElement event: `@anEvent'
-				-> '`@receiver mouseEnterEvent: `@anEvent in: `@anElement'.
-	super hover: anElement event: anEvent.
+		transformWith: '`@receiver hover: `@anElement event: `@anEvent'
+			-> '`@receiver mouseEnterEvent: `@anEvent in: `@anElement'.
+	super mouseEnterEvent: anEvent in: anElement.
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
 	self hoverState: anElement
 ]

@@ -10,13 +10,17 @@ Class {
 { #category : #settings }
 Toplo class >> settingsOn: aBuilder [
 	<systemsettings>
-	(aBuilder group: #Toplo).
+	(aBuilder group: #Toplo) 
+		label: 'Toplo';
+		description: 'Toplo settings';
+		parent: #appearance.
+		
 	(aBuilder setting: #useLookAndFeel)
 		target: self;
 		parent: #Toplo;
 		default: false;
 		description: 'Set to true to use the look and feel features (Experimental for now)';
-		label: 'Use look&Feel features'
+		label: 'Look & Feel features (experimental)'
 ]
 
 { #category : #settings }

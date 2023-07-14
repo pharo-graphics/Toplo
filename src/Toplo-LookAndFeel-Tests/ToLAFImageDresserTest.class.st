@@ -1,6 +1,6 @@
 Class {
 	#name : #ToLAFImageDresserTest,
-	#superclass : #TestCase,
+	#superclass : #ToLookAndFeelTestCase,
 	#category : #'Toplo-LookAndFeel-Tests-Core'
 }
 

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToRadioButtonLAFTest,
-	#superclass : #TestCase,
+	#superclass : #ToLookAndFeelTestCase,
 	#category : #'Toplo-LookAndFeel-Tests-ToWidgets'
 }
 

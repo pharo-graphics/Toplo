@@ -3,7 +3,7 @@ A ToAbstractThemeTest is a test class for testing the behavior of ToAbstractThem
 "
 Class {
 	#name : #ToAbstractThemeTest,
-	#superclass : #TestCase,
+	#superclass : #ToLookAndFeelTestCase,
 	#category : #'Toplo-LookAndFeel-Tests-Core'
 }
 

@@ -1,6 +1,6 @@
 Class {
 	#name : #SpaceTests,
-	#superclass : #TestCase,
+	#superclass : #ToLookAndFeelTestCase,
 	#category : #'Toplo-LookAndFeel-Tests-Extensions Tests'
 }
 

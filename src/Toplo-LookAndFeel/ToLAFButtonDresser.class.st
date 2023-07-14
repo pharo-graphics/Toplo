@@ -12,10 +12,16 @@ ToLAFButtonDresser >> defaultToElementClass [
 	^ ToButton
 ]
 
-{ #category : #'events handling' }
+{ #category : #deprecated }
 ToLAFButtonDresser >> hover: anElement event: anEvent [
 
 	| label image|
+	self
+		deprecated: 'Please use mouseEnterEvent:in: instead.'
+		transformWith:
+			'`@receiver hover: `@anElement event: `@anEvent'
+				-> '`@receiver mouseEnterEvent: `@anEvent in: `@anElement'.
+
 	super hover: anElement event: anEvent.
 	
 	"update main element"
@@ -58,15 +64,33 @@ ToLAFButtonDresser >> isSkinCompatible: aSkin [
 	^ aSkin isKindOf: ToAbstractButtonSkin
 ]
 
-{ #category : #'events handling' }
+{ #category : #deprecated }
 ToLAFButtonDresser >> leaved: anElement event: anEvent [
 
-	self initialState: anElement.
+	self
+		deprecated: 'Please use mouseLeavedEvent:in: instead.'
+		transformWith:
+			'`@receiver leaved: `@anElement event: `@anEvent'
+				-> '`@receiver mouseLeavedEvent: `@anEvent in: `@anElement'.	self initialState: anElement.
 ]
 
 { #category : #'events handling' }
+ToLAFButtonDresser >> leftClickEvent: anEvent in: anElement [
+
+	super leftClickEvent: anEvent in: anElement.
+	"self restoreUnpressedState."
+	
+	self hover: anElement event: anEvent
+]
+
+{ #category : #deprecated }
 ToLAFButtonDresser >> leftClicked: anElement event: anEvent [
 
+	self
+		deprecated: 'Please use leftClickEvent:in: instead.'
+		transformWith:
+			'`@receiver leftClicked: `@anElement event: `@anEvent'
+				-> '`@receiver leftClickEvent: `@anEvent in: `@anElement'.
 	super leftClicked: anElement event: anEvent.
 	"self restoreUnpressedState."
 	
@@ -74,8 +98,39 @@ ToLAFButtonDresser >> leftClicked: anElement event: anEvent [
 ]
 
 { #category : #'events handling' }
+ToLAFButtonDresser >> leftMouseDownEvent: anEvent in: anElement [
+	| label image |
+
+	"self savePressedState"
+	
+	"update main element"
+	self background: self skin backgroundPressed in: anElement.
+	self border: self skin borderPressed in: anElement.
+
+	"label event dispatch"
+	label := anElement label.
+	(label notNil and:[label dresser notNil]) ifTrue:[ label dresser leftMouseDownEvent: anEvent in: label ].
+	
+	"icon event dispatch"
+	image := anElement icon.
+	(image notNil and:[image dresser notNil]) ifTrue:[ image dresser leftMouseDownEvent: anEvent in: image ].
+]
+
+{ #category : #'events handling' }
+ToLAFButtonDresser >> leftMouseUpEvent: anEvent in: anElement [
+
+	self hover: anElement event: anEvent
+]
+
+{ #category : #deprecated }
 ToLAFButtonDresser >> leftPressed: anElement event: anEvent [
 	| label image |
+
+	self
+		deprecated: 'Please use leftMouseDownEvent:in: instead.'
+		transformWith:
+			'`@receiver leftPressed: `@anElement event: `@anEvent'
+				-> '`@receiver leftMouseDownEvent: `@anEvent in: `@anElement'.
 
 	"self savePressedState"
 	
@@ -92,10 +147,41 @@ ToLAFButtonDresser >> leftPressed: anElement event: anEvent [
 	(image notNil and:[image dresser notNil]) ifTrue:[ image dresser leftPressed: image event: anEvent ].
 ]
 
-{ #category : #'events handling' }
+{ #category : #deprecated }
 ToLAFButtonDresser >> leftUp: anElement event: anEvent [
 
+	self
+		deprecated: 'Please use leftMouseUpEvent:in: instead.'
+		transformWith:
+			'`@receiver leftUp: `@anElement event: `@anEvent'
+				-> '`@receiver leftMouseUpEvent: `@anEvent in: `@anElement'.
 	self hover: anElement event: anEvent
+]
+
+{ #category : #'events handling' }
+ToLAFButtonDresser >> mouseEnterEvent: anEvent in: anElement [
+
+
+	| label image|
+	super mouseEnterEvent: anEvent in: anElement.
+	
+	"update main element"
+	self background: self skin backgroundHover in: anElement.
+	self border: self skin borderHover in: anElement.
+
+	"label event dispatch"
+	label := anElement label.
+	(label notNil and:[label dresser notNil]) ifTrue:[ label dresser hover: label event: anEvent ].
+	
+	"icon event dispatch"
+	image := anElement icon.
+	(image notNil and:[image dresser notNil]) ifTrue:[ image dresser hover: image event: anEvent ].
+]
+
+{ #category : #'events handling' }
+ToLAFButtonDresser >> mouseLeaveEvent: anEvent in: anElement [
+
+	self initialState: anElement.
 ]
 
 { #category : #'api - install/uninstall  hook' }

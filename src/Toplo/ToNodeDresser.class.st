@@ -135,8 +135,26 @@ ToNodeDresser >> launchClick: aBlock event: anEvent for: anElement [
 ]
 
 { #category : #'events handling' }
+ToNodeDresser >> leftClickEvent: anEvent in: anElement [
+
+	self
+		launchClick: [ 
+			anElement holder fireEvent: (ToClickOnNodeEvent new
+					 holder: anElement holder;
+					 event: anEvent;
+					 yourself) ]
+		event: anEvent
+		for: anElement
+]
+
+{ #category : #'events handling' }
 ToNodeDresser >> leftClicked: anElement event: anEvent [
 
+	self
+		deprecated: 'Please use leftClickEvent:in: instead.'
+		transformWith:
+			'`@receiver leftClicked: `@anElement event: `@anEvent'
+				-> '`@receiver leftClickEvent: `@anEvent in: `@anElement'.
 	self
 		launchClick: [ 
 			anElement holder fireEvent: (ToClickOnNodeEvent new

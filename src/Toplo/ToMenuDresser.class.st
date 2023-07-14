@@ -10,10 +10,3 @@ ToMenuDresser >> onInstalledIn: anElement [
 	super onInstalledIn: anElement.
 	anElement fitContent
 ]
-
-{ #category : #'api - install/uninstall  hook' }
-ToMenuDresser >> onUninstalledIn: anElement [
-
-	super onUninstalledIn: anElement
-
-]

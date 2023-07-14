@@ -8,23 +8,9 @@ Class {
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToComboBoxBaseHeadDresser >> installEventListenersIn: anElement [
-
-	super installEventListenersIn: anElement.
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
 ToComboBoxBaseHeadDresser >> listElementRequestFocus [
 
 	comboBox listElementRequestFocus
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToComboBoxBaseHeadDresser >> uninstallEventListenersIn: anElement [
-
-	super uninstallEventListenersIn: anElement.
-
 ]
 
 { #category : #'api - install/uninstall  hook' }

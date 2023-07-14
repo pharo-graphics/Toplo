@@ -13,6 +13,12 @@ ToElementLook class >> next: aLook [
 	^ self new next: aLook
 ]
 
+{ #category : #'event handling' }
+ToElementLook >> clickLookEvent: anEvent [
+
+
+]
+
 { #category : #'private event handling' }
 ToElementLook >> elementLookEvent: anEvent [
 

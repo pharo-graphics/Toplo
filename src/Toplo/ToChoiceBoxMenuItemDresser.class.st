@@ -38,8 +38,20 @@ ToChoiceBoxMenuItemDresser >> defaultUncheckedState [
 ]
 
 { #category : #'events handling' }
+ToChoiceBoxMenuItemDresser >> leftMouseUpEvent: anEvent in: anElement [
+
+	super leftMouseUpEvent: anEvent in: anElement.
+	anElement parentMenuWindow close
+]
+
+{ #category : #deprecated }
 ToChoiceBoxMenuItemDresser >> leftUp: anElement event: anEvent [
 
+	self
+		deprecated: 'Please use leftMouseUpEvent:in: instead.'
+		transformWith:
+			'`@receiver leftUp: `@anElement event: `@anEvent'
+				-> '`@receiver leftMouseUpEvent: `@anEvent in: `@anElement'.
 	super leftUp: anElement event: anEvent.
 	anElement parentMenuWindow close
 ]

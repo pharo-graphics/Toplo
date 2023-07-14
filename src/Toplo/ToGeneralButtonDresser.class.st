@@ -5,8 +5,21 @@ Class {
 }
 
 { #category : #'events handling' }
+ToGeneralButtonDresser >> clickState: anElement [
+
+	anElement dispatchEvent: ToClickLookEvent new
+
+
+]
+
+{ #category : #deprecated }
 ToGeneralButtonDresser >> hover: anElement event: anEvent [
 
+	self
+		deprecated: 'Please use mouseEnterEvent:in: instead.'
+		transformWith:
+			'`@receiver hover: `@anElement event: `@anEvent'
+				-> '`@receiver mouseEnterEvent: `@anEvent in: `@anElement'.
 	super hover: anElement event: anEvent.
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
 	self hoverState: anElement
@@ -27,15 +40,16 @@ ToGeneralButtonDresser >> initialState: anElement [
 
 ]
 
-{ #category : #'events handling' }
+{ #category : #deprecated }
 ToGeneralButtonDresser >> leaved: anElement event: anEvent [
 
-	super leaved: anElement event: anEvent.
+	self
+		deprecated: 'Please use mouseLeavedEvent:in: instead.'
+		transformWith: '`@receiver leaved: `@anElement event: `@anEvent'
+			-> '`@receiver mouseLeavedEvent: `@anEvent in: `@anElement'.
+
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
 	self leavedState: anElement
-
-
-
 ]
 
 { #category : #'events handling' }
@@ -47,17 +61,76 @@ ToGeneralButtonDresser >> leavedState: anElement [
 ]
 
 { #category : #'events handling' }
-ToGeneralButtonDresser >> leftPressed: anElement event: anEvent [
+ToGeneralButtonDresser >> leftClickEvent: anEvent in: anElement [
 
+	super leftClickEvent: anEvent in: anElement.
+	self clickState: anElement
+]
+
+{ #category : #'events handling' }
+ToGeneralButtonDresser >> leftMouseDownEvent: anEvent in: anElement [
+
+	super leftMouseDownEvent: anEvent in: anElement.
 	self pressedState: anElement
 ]
 
 { #category : #'events handling' }
-ToGeneralButtonDresser >> leftUp: anElement event: anEvent [
+ToGeneralButtonDresser >> leftMouseUpEvent: anEvent in: anElement [
 
-	super leftUp: anElement event: anEvent.
+	super leftMouseUpEvent: anEvent in: anElement.
 	self hoverState: anElement 
 
+
+]
+
+{ #category : #deprecated }
+ToGeneralButtonDresser >> leftPressed: anElement event: anEvent [
+
+	self
+		deprecated: 'Please use leftMouseDownEvent:in: instead.'
+		transformWith:
+			'`@receiver leftPressed: `@anElement event: `@anEvent'
+				-> '`@receiver leftMouseDownEvent: `@anEvent in: `@anElement'.
+
+	self pressedState: anElement
+]
+
+{ #category : #deprecated }
+ToGeneralButtonDresser >> leftUp: anElement event: anEvent [
+
+	self
+		deprecated: 'Please use leftMouseUpEvent:in: instead.'
+		transformWith: '`@receiver leftUp: `@anElement event: `@anEvent'
+			-> '`@receiver leftMouseUpEvent: `@anEvent in: `@anElement'.
+
+	self leftMouseUpEvent: anEvent in: anElement.
+
+]
+
+{ #category : #'events handling' }
+ToGeneralButtonDresser >> mouseEnterEvent: anEvent in: anElement [
+
+	super mouseEnterEvent: anEvent in: anElement.
+	anEvent anyButtonPressed ifTrue: [ ^ self ].
+	self hoverState: anElement
+]
+
+{ #category : #'events handling' }
+ToGeneralButtonDresser >> mouseLeaveEvent: anEvent in: anElement [
+
+	super mouseLeaveEvent: anEvent in: anElement.
+	anEvent anyButtonPressed ifTrue: [ ^ self ].
+	self leavedState: anElement
+
+
+
+]
+
+{ #category : #'events handling' }
+ToGeneralButtonDresser >> mouseUpOutside: anElement event: anEvent [
+
+	super mouseUpOutside: anElement event: anEvent.
+	self initialState: anElement
 
 ]
 
@@ -65,12 +138,4 @@ ToGeneralButtonDresser >> leftUp: anElement event: anEvent [
 ToGeneralButtonDresser >> pressedState: anElement [
 
 	anElement dispatchEvent: ToMousePressedLookEvent new
-]
-
-{ #category : #'events handling' }
-ToGeneralButtonDresser >> upOutside: anElement event: anEvent [
-
-	super upOutside: anElement event: anEvent.
-	self initialState: anElement
-
 ]

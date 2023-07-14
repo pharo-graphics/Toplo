@@ -11,8 +11,21 @@ Class {
 }
 
 { #category : #'events handling' }
+ToSelectOnlyComboBoxHeadDresser >> leftMouseDownEvent: anEvent in: anElement [
+
+	super leftMouseDownEvent: anEvent in: anElement.
+	comboBox popupOrCloseEvent: anEvent.
+	comboBox headElement requestFocus
+]
+
+{ #category : #deprecated }
 ToSelectOnlyComboBoxHeadDresser >> leftPressed: anElement event: anEvent [
 
+	self
+		deprecated: 'Please use leftMouseDownEvent:in: instead.'
+		transformWith:
+			'`@receiver leftPressed: `@anElement event: `@anEvent'
+				-> '`@receiver leftMouseDownEvent: `@anEvent in: `@anElement'.
 	comboBox popupOrCloseEvent: anEvent.
 	comboBox headElement requestFocus
 ]
@@ -24,12 +37,6 @@ ToSelectOnlyComboBoxHeadDresser >> newDataElementFactory: aFactory in: anElement
 	anElement dataElementFactory: aFactory.
 	(idx := comboBox selectedIndex) isZero ifFalse: [
 		comboBox listElement selectIndex: idx ]
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToSelectOnlyComboBoxHeadDresser >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }

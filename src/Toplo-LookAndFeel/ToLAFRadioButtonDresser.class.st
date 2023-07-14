@@ -97,6 +97,11 @@ ToLAFRadioButtonDresser >> defaultUncheckedState [
 { #category : #accessing }
 ToLAFRadioButtonDresser >> hover: anElement event: anEvent [
 
+	self
+		deprecated: 'Please use mouseEnterEvent:in: instead.'
+		transformWith:
+			'`@receiver hover: `@anElement event: `@anEvent'
+				-> '`@receiver mouseEnterEvent: `@anEvent in: `@anElement'.
 	super hover: anElement event: anEvent.
 
 	"update main element"
@@ -142,6 +147,38 @@ ToLAFRadioButtonDresser >> isSkinCompatible: aSkin [
 
 { #category : #'events handling' }
 ToLAFRadioButtonDresser >> leaved: anElement event: anEvent [
+
+	self
+		deprecated: 'Please use mouseLeavedEvent:in: instead.'
+		transformWith:
+			'`@receiver leaved: `@anElement event: `@anEvent'
+				-> '`@receiver mouseLeavedEvent: `@anEvent in: `@anElement'.
+	self initialState: anElement.
+
+]
+
+{ #category : #'events handling' }
+ToLAFRadioButtonDresser >> mouseEnterEvent: anEvent in: anElement [.
+
+
+	super mouseEnterEvent: anEvent in: anElement.
+
+	"update main element"
+	self background: self skin backgroundHover in: anElement.
+	self border: self skin borderHover in: anElement.
+
+	"update checked/unchecked icon"
+	anElement isChecked
+		ifTrue: [
+			self skin checkedBorderHover ifNotNil: [:e | anElement icon innerImage border: e].
+			self skin checkedBackgroundHover ifNotNil: [:e | anElement icon innerImage background: e]]
+		ifFalse: [
+			self skin uncheckedBorderHover ifNotNil: [:e | anElement icon innerImage border: e].
+			self skin uncheckedBackgroundHover ifNotNil: [:e | anElement icon innerImage background: e]]
+]
+
+{ #category : #'events handling' }
+ToLAFRadioButtonDresser >> mouseLeaveEvent: anEvent in: anElement [
 
 	self initialState: anElement.
 

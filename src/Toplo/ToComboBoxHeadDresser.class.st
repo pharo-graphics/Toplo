@@ -37,12 +37,6 @@ ToComboBoxHeadDresser >> escapeEvent: anEvent in: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToComboBoxHeadDresser >> installEventListenersIn: anElement [
-
-	super installEventListenersIn: anElement.
-]
-
-{ #category : #'api - install/uninstall  hook' }
 ToComboBoxHeadDresser >> newArrowDownShortcutIn: anElement [
 
 	^ BlShortcutWithAction new
@@ -98,16 +92,6 @@ ToComboBoxHeadDresser >> onInstalledIn: anElement [
 ToComboBoxHeadDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToComboBoxHeadDresser >> uninstallEventListenersIn: anElement [
-
-	mouseDownHandler ifNotNil: [ anElement removeEventHandler: mouseDownHandler ].
-	mouseDownHandler := nil.
-
-	super uninstallEventListenersIn: anElement
-
 ]
 
 { #category : #'api - install/uninstall  hook' }

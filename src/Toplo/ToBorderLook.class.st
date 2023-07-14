@@ -22,6 +22,23 @@ ToBorderLook >> builder: aBuilder [
 	builder := aBuilder
 ]
 
+{ #category : #'event handling' }
+ToBorderLook >> clickLookEvent: anEvent [
+
+	super clickLookEvent: anEvent.
+	self pressedPaint ifNil: [ ^ self ].
+	anEvent elementDo: [ :e |
+		| anim |
+		anim := ToGaussianEffectAnimation new
+			        color: self pressedPaint;
+			        width: 4;
+			        opacity: 0;
+			        duration: 500 milliSeconds;
+			        yourself.
+		anim onFinishedDo: [ e effect: BlNullEffect new].
+		e addAnimation: anim ]
+]
+
 { #category : #accessing }
 ToBorderLook >> dashArray: anArray [
 

@@ -2279,6 +2279,11 @@ ToSandBox class >> example_toButtonWithIconAndText [
 	but label: (ToLabel text: 'Button').
 	icon := ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16).
 	but icon: icon.
+	"but effect: (BlGaussianShadowEffect
+					color: Color green
+					width: 4.5
+					offset: 0 @ 0)."
+	but effect: (BlBlurAboveEffect new radius: 20).
 	but when: BlPrimaryClickEvent do: [ :event | event currentTarget traceCr ].
 
 	space := BlSpace new.

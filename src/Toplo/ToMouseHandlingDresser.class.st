@@ -2,14 +2,7 @@ Class {
 	#name : #ToMouseHandlingDresser,
 	#superclass : #ToDresser,
 	#instVars : [
-		'mouseDownHandler',
-		'mouseEnterHandler',
-		'mouseLeaveHandler',
-		'mouseClickHandler',
-		'mouseDoubleClickHandler',
-		'mouseUpHandler',
-		'mouseUpOutsideHandler',
-		'mouseClickAvortedHandler'
+		'mouseEventListener'
 	],
 	#category : #'Toplo-Core'
 }
@@ -31,17 +24,45 @@ ToMouseHandlingDresser >> border: aBorder in: anElement [
 ]
 
 { #category : #'events handling' }
-ToMouseHandlingDresser >> clicked: anElement event: anEvent [
+ToMouseHandlingDresser >> clickEvent: anEvent in: anElement [
 
 	^ anEvent
-		  ifPrimary: [ self leftClicked: anElement event: anEvent ]
-		  secondary: [ self rightClicked: anElement event: anEvent ]
-		  middle: [ self middleClicked: anElement event: anEvent ]
-		  other: [ self leftClicked: anElement event: anEvent ]
+		  ifPrimary: [ self leftClickEvent: anEvent in: anElement ]
+		  secondary: [ self rightClickEvent: anEvent in: anElement ]
+		  middle: [ self middleClickEvent: anEvent in: anElement ]
+		  other: [ self leftClickEvent: anEvent in: anElement ]
+]
+
+{ #category : #deprecated }
+ToMouseHandlingDresser >> clicked: anElement event: anEvent [
+
+
+	self
+		deprecated: 'Please use clickEvent:in: instead.'
+		transformWith:
+			'`@receiver clicked: `@anElement event: `@anEvent'
+				-> '`@receiver clickEvent: `@anEvent in: `@anElement'.
+
+	^ self  clickEvent: anEvent in: anElement
+]
+
+{ #category : #deprecated }
+ToMouseHandlingDresser >> clickedAvorted: anElement event: anEvent [
+
+	" if mouse up is on anElement or on in one of anElement children then it means that a click is done "
+	self
+		deprecated: 'Please use clickedAvortedEvent:in: instead.'
+		transformWith:
+			'`@receiver clickedAvorted: `@anElement event: `@anEvent'
+				-> '`@receiver clickedAvortedEvent: `@anEvent in: `@anElement'.
+
+	(anEvent upTarget ~= anElement and: [ (anElement findMouseEventTargetAt: anEvent upTarget position) isNil ])
+		ifTrue: [ ^ self ].
+	anEvent processor fireClickEventFrom: anEvent
 ]
 
 { #category : #'events handling' }
-ToMouseHandlingDresser >> clickedAvorted: anElement event: anEvent [
+ToMouseHandlingDresser >> clickedAvortedEvent: anEvent in: anElement [
 
 	" if mouse up is on anElement or on in one of anElement children then it means that a click is done "
 
@@ -51,143 +72,194 @@ ToMouseHandlingDresser >> clickedAvorted: anElement event: anEvent [
 ]
 
 { #category : #'events handling' }
+ToMouseHandlingDresser >> doubleClickEvent: anEvent in: anElement [
+
+
+]
+
+{ #category : #deprecated }
 ToMouseHandlingDresser >> doubleClicked: anElement event: anEvent [
 
-
+	self
+		deprecated: 'Please use clickedAvortedEvent:in: instead.'
+		transformWith:
+			'`@receiver doubleClicked: `@anElement event: `@anEvent'
+				-> '`@receiver doubleClickedEvent: `@anEvent in: `@anElement'.
 ]
 
-{ #category : #'events handling' }
+{ #category : #deprecated }
 ToMouseHandlingDresser >> hover: anElement event: anEvent [
 
+	self
+		deprecated: 'Please use mouseEnterEvent:in: instead.'
+		transformWith:
+			'`@receiver hover: `@anElement event: `@anEvent'
+				-> '`@receiver mouseEnterEvent: `@anEvent in: `@anElement'.
 ]
 
-{ #category : #'events handling' }
+{ #category : #'api - install/uninstall  hook' }
 ToMouseHandlingDresser >> initialState: anElement [
-
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToMouseHandlingDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
-
-	mouseDownHandler := self mouseDownHandlerIn: anElement.
-	mouseUpHandler := self mouseUpHandlerIn: anElement.
-	mouseUpOutsideHandler := self mouseUpOutsideHandlerIn: anElement.
-	mouseClickHandler := self mouseClickHandlerIn: anElement.
-	mouseClickAvortedHandler := self mouseClickAvortedHandlerIn: anElement.
-	mouseDoubleClickHandler := self mouseDoubleClickHandlerIn: anElement.
-	mouseEnterHandler := self mouseEnterHandlerIn: anElement.
-	mouseLeaveHandler := self mouseLeaveHandlerIn: anElement.
 	
-	anElement addEventHandler: mouseDownHandler.
-	anElement addEventHandler: mouseUpHandler.
-	anElement addEventHandler: mouseUpOutsideHandler.
-	anElement addEventHandler: mouseClickHandler.
-	anElement addEventHandler: mouseClickAvortedHandler.
-	anElement addEventHandler: mouseDoubleClickHandler.
-	anElement addEventHandler: mouseEnterHandler.
-	anElement addEventHandler: mouseLeaveHandler.
+	mouseEventListener := ToDresserMouseEventListener new target: anElement; dresser: self; yourself.
+	anElement addEventHandler: mouseEventListener
 
 ]
 
-{ #category : #'events handling' }
+{ #category : #deprecated }
 ToMouseHandlingDresser >> leaved: anElement event: anEvent [
-
+	self
+		deprecated: 'Please use mouseLeavedEvent:in: instead.'
+		transformWith:
+			'`@receiver leaved: `@anElement event: `@anEvent'
+				-> '`@receiver mouseLeavedEvent: `@anEvent in: `@anElement'.
 ]
 
 { #category : #'events handling' }
+ToMouseHandlingDresser >> leftClickEvent: anEvent in: anElement [
+
+]
+
+{ #category : #deprecated }
 ToMouseHandlingDresser >> leftClicked: anElement event: anEvent [
 
+	self
+		deprecated: 'Please use leftClickEvent:in: instead.'
+		transformWith:
+			'`@receiver leftClicked: `@anElement event: `@anEvent'
+				-> '`@receiver leftClickEvent: `@anEvent in: `@anElement'.
 ]
 
 { #category : #'events handling' }
+ToMouseHandlingDresser >> leftMouseDownEvent: anEvent in: anElement [
+
+]
+
+{ #category : #'events handling' }
+ToMouseHandlingDresser >> leftMouseUpEvent: anEvent in: anElement [
+
+]
+
+{ #category : #deprecated }
 ToMouseHandlingDresser >> leftPressed: anElement event: anEvent [
 
+	self
+		deprecated: 'Please use leftMouseDownEvent:in: instead.'
+		transformWith:
+			'`@receiver leftPressed: `@anElement event: `@anEvent'
+				-> '`@receiver leftMouseDownEvent: `@anEvent in: `@anElement'.
 ]
 
-{ #category : #'events handling' }
+{ #category : #deprecated }
 ToMouseHandlingDresser >> leftUp: anElement event: anEvent [
 
+	self
+		deprecated: 'Please use leftMouseUpEvent:in: instead.'
+		transformWith:
+			'`@receiver leftUp: `@anElement event: `@anEvent'
+				-> '`@receiver leftMouseUpEvent: `@anEvent in: `@anElement'.
+
 ]
 
 { #category : #'events handling' }
+ToMouseHandlingDresser >> middleClickEvent: anEvent in: anElement [
+
+
+]
+
+{ #category : #deprecated }
 ToMouseHandlingDresser >> middleClicked: anElement event: anEvent [
+
+	self
+		deprecated: 'Please use middleClickEvent:in: instead.'
+		transformWith:
+			'`@receiver middleClicked: `@anElement event: `@anEvent'
+				-> '`@receiver middleClickEvent: `@anEvent in: `@anElement'.
 ]
 
 { #category : #'events handling' }
+ToMouseHandlingDresser >> middleMouseDownEvent: anEvent in: anElement [
+
+]
+
+{ #category : #'events handling' }
+ToMouseHandlingDresser >> middleMouseUpEvent: anEvent in: anElement [
+
+]
+
+{ #category : #deprecated }
 ToMouseHandlingDresser >> middlePressed: anElement event: anEvent [
 
+	self
+		deprecated: 'Please use middleMouseDownEvent:in: instead.'
+		transformWith:
+			'`@receiver middlePressed: `@anElement event: `@anEvent'
+				-> '`@receiver middleMouseDownEvent: `@anEvent in: `@anElement'.
+
+]
+
+{ #category : #deprecated }
+ToMouseHandlingDresser >> middleUp: anElement event: anEvent [
+
+	self
+		deprecated: 'Please use middleMouseUpEvent:in: instead.'
+		transformWith:
+			'`@receiver middleUp: `@anElement event: `@anEvent'
+				-> '`@receiver middleMouseUpEvent: `@anEvent in: `@anElement'.
+
 ]
 
 { #category : #'events handling' }
-ToMouseHandlingDresser >> middleUp: anElement event: anEvent [
+ToMouseHandlingDresser >> mouseDownEvent: anEvent in: anElement [
 
+	^ anEvent
+		  ifPrimary: [ self leftMouseDownEvent: anEvent in: anElement ]
+		  secondary: [ self rightMouseDownEvent: anEvent in: anElement ]
+		  middle: [ self middleMouseDownEvent: anEvent in: anElement ]
+		  other: [ self leftMouseDownEvent: anEvent in: anElement ]
 ]
 
-{ #category : #'event handlers' }
-ToMouseHandlingDresser >> mouseClickAvortedHandlerIn: anElement [
+{ #category : #'events handling' }
+ToMouseHandlingDresser >> mouseDownOutside: anElement event: anEvent [
 
-	^ BlEventHandler
-		  on: BlClickAvortedEvent
-		  do: [ :event | self clickedAvorted: anElement event: event ]
+	
 ]
 
-{ #category : #'event handlers' }
-ToMouseHandlingDresser >> mouseClickHandlerIn: anElement [
-
-	^ BlEventHandler
-		  on: BlClickEvent
-		  do: [ :event | self clicked: anElement event: event ]
+{ #category : #'events handling' }
+ToMouseHandlingDresser >> mouseEnterEvent: anEvent in: anElement [
 ]
 
-{ #category : #'event handlers' }
-ToMouseHandlingDresser >> mouseDoubleClickHandlerIn: anElement [
+{ #category : #'events handling' }
+ToMouseHandlingDresser >> mouseLeaveEvent: anEvent in: anElement [
 
-	^ BlEventHandler
-		  on: BlDoubleClickEvent
-		  do: [ :event | self doubleClicked: anElement event: event ]
+	
 ]
 
-{ #category : #'event handlers' }
-ToMouseHandlingDresser >> mouseDownHandlerIn: anElement [
+{ #category : #'events handling' }
+ToMouseHandlingDresser >> mousePickOutsideEvent: anEvent in: anElement [
 
-	^ BlEventHandler
-		  on: BlMouseDownEvent
-		  do: [ :event | self pressed: anElement event: event ]
+	
 ]
 
-{ #category : #'event handlers' }
-ToMouseHandlingDresser >> mouseEnterHandlerIn: anElement [
+{ #category : #'events handling' }
+ToMouseHandlingDresser >> mouseUpEvent: anEvent in: anElement [
 
-	^ BlEventHandler on: BlMouseEnterEvent 
-		do: [ :event | 
-			(event anyButtonPressed and: [event currentTarget ~= anElement ] )
-				ifFalse: [self hover: anElement event: event] ]
+	^ anEvent
+		  ifPrimary: [ self leftMouseUpEvent: anEvent in: anElement ]
+		  secondary: [ self rightMouseUpEvent: anEvent in: anElement ]
+		  middle: [ self middleMouseUpEvent: anEvent in: anElement ]
+		  other: [ self leftMouseUpEvent: anEvent in: anElement ]
 ]
 
-{ #category : #'event handlers' }
-ToMouseHandlingDresser >> mouseLeaveHandlerIn: anElement [
+{ #category : #'events handling' }
+ToMouseHandlingDresser >> mouseUpOutside: anElement event: anEvent [
 
-	^ BlEventHandler
-		  on: BlMouseLeaveEvent
-		  do: [ :event | self leaved: anElement event: event ]
-]
-
-{ #category : #'event handlers' }
-ToMouseHandlingDresser >> mouseUpHandlerIn: anElement [
-
-	^ BlEventHandler
-		  on: BlMouseUpEvent
-		  do: [ :event | self up: anElement event: event ]
-]
-
-{ #category : #'event handlers' }
-ToMouseHandlingDresser >> mouseUpOutsideHandlerIn: anElement [
-
-	^ BlEventHandler
-		  on: BlMouseUpOutsideEvent
-		  do: [ :event | self upOutside: anElement event: event ]
+	
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -197,15 +269,14 @@ ToMouseHandlingDresser >> onInstalledIn: anElement [
 	self initialState: anElement
 ]
 
-{ #category : #'api - install/uninstall  hook' }
-ToMouseHandlingDresser >> onUninstalledIn: anElement [
-
-	super onUninstalledIn: anElement.
-
-]
-
-{ #category : #'events handling' }
+{ #category : #deprecated }
 ToMouseHandlingDresser >> pressed: anElement event: anEvent [
+
+	self
+		deprecated: 'Please use mouseDownEvent:in: instead.'
+		transformWith:
+			'`@receiver pressed: `@anElement event: `@anEvent'
+				-> '`@receiver mouseDownEvent: `@anEvent in: `@anElement'.
 
 	^ anEvent
 		  ifPrimary: [ self leftPressed: anElement event: anEvent ]
@@ -215,44 +286,33 @@ ToMouseHandlingDresser >> pressed: anElement event: anEvent [
 ]
 
 { #category : #'events handling' }
+ToMouseHandlingDresser >> rightClickEvent: anEvent in: anElement [
+]
+
+{ #category : #deprecated }
 ToMouseHandlingDresser >> rightClicked: anElement event: anEvent [
+
+	self
+		deprecated: 'Please use rightClickEvent:in: instead.'
+		transformWith:
+			'`@receiver rightClicked: `@anElement event: `@anEvent'
+				-> '`@receiver rightClickEvent: `@anEvent in: `@anElement'.
 ]
 
 { #category : #'events handling' }
-ToMouseHandlingDresser >> rightPressed: anElement event: anEvent [
+ToMouseHandlingDresser >> rightMouseDownEvent: anEvent in: anElement [
 
 ]
 
 { #category : #'events handling' }
-ToMouseHandlingDresser >> rightUp: anElement event: anEvent [
+ToMouseHandlingDresser >> rightMouseUpEvent: anEvent in: anElement [
 
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToMouseHandlingDresser >> uninstallEventListenersIn: anElement [
 
-	anElement removeEventHandler: mouseDownHandler.
-	anElement removeEventHandler: mouseUpHandler.
-	anElement removeEventHandler: mouseUpOutsideHandler.
-	anElement removeEventHandler: mouseClickHandler.
-	anElement removeEventHandler: mouseClickAvortedHandler.
-	anElement removeEventHandler: mouseDoubleClickHandler.
-	anElement removeEventHandler: mouseEnterHandler.
-	anElement removeEventHandler: mouseLeaveHandler
-]
+	anElement removeEventHandler: mouseEventListener.
+	super uninstallEventListenersIn: anElement.
 
-{ #category : #'events handling' }
-ToMouseHandlingDresser >> up: anElement event: anEvent [
-
-	^ anEvent
-		  ifPrimary: [ self leftUp: anElement event: anEvent ]
-		  secondary: [ self rightUp: anElement event: anEvent ]
-		  middle: [ self middleUp: anElement event: anEvent ]
-		  other: [ self leftUp: anElement event: anEvent ]
-]
-
-{ #category : #'events handling' }
-ToMouseHandlingDresser >> upOutside: anElement event: anEvent [
-
-	
 ]

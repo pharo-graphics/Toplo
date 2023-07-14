@@ -5,10 +5,10 @@ Class {
 }
 
 { #category : #'events handling' }
-ToButtonMenuItemDresser >> up: anElement event: anEvent [
+ToButtonMenuItemDresser >> mouseUpEvent: anEvent in: anElement [
 
 	| delay |
-	super up: anElement event: anEvent.
+	super mouseUpEvent: anEvent in: anElement.
 	" check a minimal delay between opening and closing because 
 	the mouse up can occur immediately if the menu is opened with 
 	a button menu item placed under the mouse. This can be the case 

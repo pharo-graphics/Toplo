@@ -1,8 +1,8 @@
 Trait {
 	#name : #TToColumned,
 	#instVars : [
-		'#elements => ObservableSlot',
-		'#strategy => ObservableSlot'
+		'elements',
+		'strategy'
 	],
 	#category : #'Toplo-Core-Pair'
 }
@@ -91,20 +91,4 @@ TToColumned >> strategy: aPairStrategy [
 
 	strategy := aPairStrategy.
 	self privateUpdateChildren
-]
-
-{ #category : #'t - columned slot - change hook' }
-TToColumned >> whenElementsChangedDo: aBlock [
-
-	"set a block to perform after that the slot has been changed, and its action performed"
-
-	self property: #elements whenChangedDo: aBlock
-]
-
-{ #category : #'t - columned slot - change hook' }
-TToColumned >> whenStrategyChangedDo: aBlock [
-
-	"set a block to perform after that the slot has been changed, and its action performed"
-
-	self property: #strategy whenChangedDo: aBlock
 ]

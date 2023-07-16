@@ -76,11 +76,10 @@ ToDresserMouseEventListener >> middleMouseUpEvent: anEvent [
 ]
 
 { #category : #'mouse handlers' }
-ToDresserMouseEventListener >> mouseDownOutsideEvent: anEvent [
+ToDresserMouseEventListener >> mouseDownEvent: anEvent [
 
-	super mouseDownOutsideEvent: anEvent.
-	self dresser mouseDownOutside: privateTarget event: anEvent
-
+	super mouseDownEvent: anEvent.
+	self dresser mouseDownEvent: anEvent in: privateTarget
 ]
 
 { #category : #'mouse handlers' }
@@ -98,14 +97,6 @@ ToDresserMouseEventListener >> mouseLeaveEvent: anEvent [
 ]
 
 { #category : #'mouse handlers' }
-ToDresserMouseEventListener >> mousePickOutsideEvent: anEvent [
-
-	super mousePickOutsideEvent: anEvent.
-	self dresser mousePickOutsideEvent: anEvent in: privateTarget
-
-]
-
-{ #category : #'mouse handlers' }
 ToDresserMouseEventListener >> mouseUpEvent: anEvent [
 
 	super mouseUpEvent: anEvent.
@@ -113,11 +104,24 @@ ToDresserMouseEventListener >> mouseUpEvent: anEvent [
 ]
 
 { #category : #'mouse handlers' }
-ToDresserMouseEventListener >> mouseUpOutsideEvent: anEvent [
+ToDresserMouseEventListener >> otherClickEvent: anEvent [
 
-	super mouseUpOutsideEvent: anEvent.
-	self dresser mouseUpOutside: privateTarget event: anEvent
+	super otherClickEvent: anEvent.
+	self dresser otherClickEvent: anEvent in: privateTarget
+]
 
+{ #category : #'mouse handlers' }
+ToDresserMouseEventListener >> otherMouseDownEvent: anEvent [
+
+	super otherMouseDownEvent: anEvent.
+	self dresser otherMouseDownEvent: anEvent in: privateTarget
+]
+
+{ #category : #'mouse handlers' }
+ToDresserMouseEventListener >> otherMouseUpEvent: anEvent [
+
+	super otherMouseUpEvent: anEvent.
+	self dresser otherMouseUpEvent: anEvent in: privateTarget
 ]
 
 { #category : #'mouse handlers' }

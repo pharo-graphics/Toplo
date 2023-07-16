@@ -24,21 +24,13 @@ ToMouseEventListener >> clickEvent: anEvent [
 		  ifPrimary: [ self leftClickEvent: anEvent ]
 		  secondary: [ self rightClickEvent: anEvent ]
 		  middle: [ self middleClickEvent: anEvent ]
-		  other: [ self leftClickEvent: anEvent ]
+		  other: [ self otherClickEvent: anEvent ]
 ]
 
 { #category : #'mouse handlers' }
 ToMouseEventListener >> doubleClickEvent: anEvent [
 
 	super doubleClickEvent: anEvent
-]
-
-{ #category : #'api - accessing' }
-ToMouseEventListener >> eventsToHandle [
-
-	^ {
-		  BlUIEvent.
-		  BlMousePickOutsideEvent }
 ]
 
 { #category : #'mouse handlers' }
@@ -81,11 +73,7 @@ ToMouseEventListener >> mouseDownEvent: anEvent [
 		  ifPrimary: [ self leftMouseDownEvent: anEvent ]
 		  secondary: [ self rightMouseDownEvent: anEvent ]
 		  middle: [ self middleMouseDownEvent: anEvent ]
-		  other: [ self leftMouseDownEvent: anEvent ]
-]
-
-{ #category : #'mouse handlers' }
-ToMouseEventListener >> mouseDownOutsideEvent: anEvent [
+		  other: [ self otherMouseDownEvent: anEvent ]
 ]
 
 { #category : #'mouse handlers' }
@@ -102,10 +90,6 @@ ToMouseEventListener >> mouseLeaveEvent: anEvent [
 ]
 
 { #category : #'mouse handlers' }
-ToMouseEventListener >> mousePickOutsideEvent: anEvent [
-]
-
-{ #category : #'mouse handlers' }
 ToMouseEventListener >> mouseUpEvent: anEvent [
 
 	super mouseUpEvent: anEvent.
@@ -113,11 +97,23 @@ ToMouseEventListener >> mouseUpEvent: anEvent [
 		  ifPrimary: [ self leftMouseUpEvent: anEvent ]
 		  secondary: [ self rightMouseUpEvent: anEvent ]
 		  middle: [ self middleMouseUpEvent: anEvent ]
-		  other: [ self leftMouseUpEvent: anEvent ]
+		  other: [ self otherMouseUpEvent: anEvent ]
 ]
 
 { #category : #'mouse handlers' }
-ToMouseEventListener >> mouseUpOutsideEvent: anEvent [
+ToMouseEventListener >> otherClickEvent: anEvent [
+
+]
+
+{ #category : #'mouse handlers' }
+ToMouseEventListener >> otherMouseDownEvent: anEvent [
+
+
+]
+
+{ #category : #'mouse handlers' }
+ToMouseEventListener >> otherMouseUpEvent: anEvent [
+
 ]
 
 { #category : #'mouse handlers' }

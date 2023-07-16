@@ -35,10 +35,10 @@ ToPairColumnStrategy >> onMeasure: anExtentMeasurementSpec in: aPair [
 
 	lw := first ifNil: [ 0 ] ifNotNil: [ first measuredWidth ].
 	" now measure the gap according to leftColumnWidth "
-	w := self width - lw max: 0 - aPair padding left.
+	w := self width - lw max: aPair padding left negated.
 
 	interspace measuredWidth = w ifTrue: [ ^ true ].
-	interspace size: w @ 5.
+	interspace size: w @ 0.
 	^ false
 ]
 

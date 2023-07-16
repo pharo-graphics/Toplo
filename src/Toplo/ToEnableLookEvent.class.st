@@ -1,11 +1,11 @@
 Class {
-	#name : #ToMouseHoverLookEvent,
+	#name : #ToEnableLookEvent,
 	#superclass : #ToElementLookEvent,
 	#category : #'Toplo-Core-Theme-Look-Events'
 }
 
 { #category : #sending }
-ToMouseHoverLookEvent >> sendToLook: aLook [
+ToEnableLookEvent >> sendToLook: aLook [
 
-	aLook mouseHoverLookEvent: self
+	aLook enableLookEvent: self
 ]

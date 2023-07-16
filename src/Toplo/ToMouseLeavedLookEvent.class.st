@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMouseLeavedLookEvent,
-	#superclass : #ToElementMouseRelatedLookEvent,
+	#superclass : #ToElementLookEvent,
 	#category : #'Toplo-Core-Theme-Look-Events'
 }
 

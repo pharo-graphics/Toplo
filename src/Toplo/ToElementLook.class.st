@@ -53,8 +53,6 @@ ToElementLook >> mouseHoverLookEvent: anEvent [
 { #category : #'event handling' }
 ToElementLook >> mouseLeavedLookEvent: anEvent [
 
-	anEvent target dispatchEvent: (ToInitialLookEvent new copyFrom: anEvent)
-
 
 ]
 

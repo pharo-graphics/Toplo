@@ -26,11 +26,7 @@ ToMouseHandlingDresser >> border: aBorder in: anElement [
 { #category : #'events handling' }
 ToMouseHandlingDresser >> clickEvent: anEvent in: anElement [
 
-	^ anEvent
-		  ifPrimary: [ self leftClickEvent: anEvent in: anElement ]
-		  secondary: [ self rightClickEvent: anEvent in: anElement ]
-		  middle: [ self middleClickEvent: anEvent in: anElement ]
-		  other: [ self leftClickEvent: anEvent in: anElement ]
+
 ]
 
 { #category : #deprecated }
@@ -217,17 +213,6 @@ ToMouseHandlingDresser >> middleUp: anElement event: anEvent [
 { #category : #'events handling' }
 ToMouseHandlingDresser >> mouseDownEvent: anEvent in: anElement [
 
-	^ anEvent
-		  ifPrimary: [ self leftMouseDownEvent: anEvent in: anElement ]
-		  secondary: [ self rightMouseDownEvent: anEvent in: anElement ]
-		  middle: [ self middleMouseDownEvent: anEvent in: anElement ]
-		  other: [ self leftMouseDownEvent: anEvent in: anElement ]
-]
-
-{ #category : #'events handling' }
-ToMouseHandlingDresser >> mouseDownOutside: anElement event: anEvent [
-
-	
 ]
 
 { #category : #'events handling' }
@@ -241,25 +226,9 @@ ToMouseHandlingDresser >> mouseLeaveEvent: anEvent in: anElement [
 ]
 
 { #category : #'events handling' }
-ToMouseHandlingDresser >> mousePickOutsideEvent: anEvent in: anElement [
-
-	
-]
-
-{ #category : #'events handling' }
 ToMouseHandlingDresser >> mouseUpEvent: anEvent in: anElement [
 
-	^ anEvent
-		  ifPrimary: [ self leftMouseUpEvent: anEvent in: anElement ]
-		  secondary: [ self rightMouseUpEvent: anEvent in: anElement ]
-		  middle: [ self middleMouseUpEvent: anEvent in: anElement ]
-		  other: [ self leftMouseUpEvent: anEvent in: anElement ]
-]
 
-{ #category : #'events handling' }
-ToMouseHandlingDresser >> mouseUpOutside: anElement event: anEvent [
-
-	
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -267,6 +236,21 @@ ToMouseHandlingDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	self initialState: anElement
+]
+
+{ #category : #'events handling' }
+ToMouseHandlingDresser >> otherClickEvent: anEvent in: anElement [
+
+]
+
+{ #category : #'events handling' }
+ToMouseHandlingDresser >> otherMouseDownEvent: anEvent in: anElement [
+
+]
+
+{ #category : #'events handling' }
+ToMouseHandlingDresser >> otherMouseUpEvent: anEvent in: anElement [
+
 ]
 
 { #category : #deprecated }
@@ -278,11 +262,7 @@ ToMouseHandlingDresser >> pressed: anElement event: anEvent [
 			'`@receiver pressed: `@anElement event: `@anEvent'
 				-> '`@receiver mouseDownEvent: `@anEvent in: `@anElement'.
 
-	^ anEvent
-		  ifPrimary: [ self leftPressed: anElement event: anEvent ]
-		  secondary: [ self rightPressed: anElement event: anEvent ]
-		  middle: [ self middlePressed: anElement event: anEvent ]
-		  other: [ self leftPressed: anElement event: anEvent ]
+	^ self mouseDownEvent: anEvent in: anElement
 ]
 
 { #category : #'events handling' }
@@ -307,6 +287,16 @@ ToMouseHandlingDresser >> rightMouseDownEvent: anEvent in: anElement [
 { #category : #'events handling' }
 ToMouseHandlingDresser >> rightMouseUpEvent: anEvent in: anElement [
 
+]
+
+{ #category : #deprecated }
+ToMouseHandlingDresser >> rightPressed: anElement event: anEvent [
+
+	self
+		deprecated: 'Please use rightMouseDownEvent:in: instead.'
+		transformWith:
+			'`@receiver rightPressed: `@anElement event: `@anEvent'
+				-> '`@receiver rightMouseDownEvent: `@anEvent in: `@anElement'.
 ]
 
 { #category : #'api - install/uninstall  hook' }

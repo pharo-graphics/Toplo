@@ -83,13 +83,13 @@ TToOrientable >> isVertical [
 	^ self isHorizontal not
 ]
 
-{ #category : #'t - orientable orientation' }
+{ #category : #accessing }
 TToOrientable >> orientation [
 
 	^ self layout orientation
 ]
 
-{ #category : #'t - orientable orientation' }
+{ #category : #accessing }
 TToOrientable >> orientation: aBlLayoutOrientation [
 
 	self layout orientation: aBlLayoutOrientation.

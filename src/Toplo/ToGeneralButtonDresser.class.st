@@ -1,6 +1,10 @@
 Class {
 	#name : #ToGeneralButtonDresser,
 	#superclass : #ToMouseHandlingDresser,
+	#instVars : [
+		'mouseUpOutsideHandler',
+		'lastLookEvent'
+	],
 	#category : #'Toplo-Widget-Button'
 }
 
@@ -8,6 +12,13 @@ Class {
 ToGeneralButtonDresser >> clickState: anElement [
 
 	anElement dispatchEvent: ToClickLookEvent new
+]
+
+{ #category : #'events handling' }
+ToGeneralButtonDresser >> dispatchEvent: aLookEvent to: anElement [
+
+	anElement dispatchEvent: aLookEvent.
+	lastLookEvent := aLookEvent
 
 
 ]
@@ -27,16 +38,26 @@ ToGeneralButtonDresser >> hover: anElement event: anEvent [
 { #category : #'events handling' }
 ToGeneralButtonDresser >> hoverState: anElement [
 
-	anElement dispatchEvent: ToMouseHoverLookEvent new
-
+	self switchToLook: ToMouseHoverLookEvent in: anElement
 
 ]
 
 { #category : #'events handling' }
 ToGeneralButtonDresser >> initialState: anElement [
 
-	anElement dispatchEvent: ToInitialLookEvent new
+	self switchToLook: ToInitialLookEvent in: anElement
+]
 
+{ #category : #'api - install/uninstall  hook' }
+ToGeneralButtonDresser >> installEventListenersIn: anElement [
+
+	super installEventListenersIn: anElement.
+	" since BlMousePickOutsideEvent is not a BlUIEvent, it is not handled by a BlEventListener"
+	" and it should not because normally, a BlMousePickOutsideEvent is managed through a filter "
+	mouseUpOutsideHandler := BlEventHandler
+		                         on: BlMouseUpOutsideEvent
+		                         do: [ :event | self mouseUpOutsideEvent: event in: anElement ].
+	anElement addEventFilter: mouseUpOutsideHandler
 ]
 
 { #category : #deprecated }
@@ -55,8 +76,6 @@ ToGeneralButtonDresser >> leaved: anElement event: anEvent [
 ToGeneralButtonDresser >> leavedState: anElement [
 
 	anElement dispatchEvent: ToMouseLeavedLookEvent new
-
-
 ]
 
 { #category : #'events handling' }
@@ -119,22 +138,45 @@ ToGeneralButtonDresser >> mouseLeaveEvent: anEvent in: anElement [
 
 	super mouseLeaveEvent: anEvent in: anElement.
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
-	self leavedState: anElement
+	self leavedState: anElement.
+	self initialState: anElement
 
 
 
 ]
 
 { #category : #'events handling' }
-ToGeneralButtonDresser >> mouseUpOutside: anElement event: anEvent [
+ToGeneralButtonDresser >> mouseUpOutsideEvent: anEvent in: anElement [
 
-	super mouseUpOutside: anElement event: anEvent.
+	"Outside event can have a button element as target. 
+	In that case, no action is triggered "
+	anEvent consumed: true.
+	(anEvent originalEvent target hasParent: anElement) ifTrue: [
+		^ self ].
 	self initialState: anElement
-
 ]
 
 { #category : #'events handling' }
 ToGeneralButtonDresser >> pressedState: anElement [
 
-	anElement dispatchEvent: ToMousePressedLookEvent new
+	self switchToLook: ToMousePressedLookEvent in: anElement
+]
+
+{ #category : #'events handling' }
+ToGeneralButtonDresser >> switchToLook: aLookEventClass in: anElement [
+
+	lastLookEvent class = aLookEventClass ifTrue: [ ^ self ].
+	aLookEventClass traceCr.
+	self dispatchEvent: aLookEventClass new to: anElement
+
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToGeneralButtonDresser >> uninstallEventListenersIn: anElement [
+
+	anElement removeEventFilter: mouseUpOutsideHandler.
+	super uninstallEventListenersIn: anElement.
+
+
 ]

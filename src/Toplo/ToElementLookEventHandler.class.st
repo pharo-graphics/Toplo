@@ -20,7 +20,7 @@ ToElementLookEventHandler >> addLook: aLook [
 ToElementLookEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
 	anEvent target dispatchEvent: (ToInstallLookEvent new copyFrom: anEvent).
-	anEvent target dispatchEvent: (ToInitialLookEvent new copyFrom: anEvent)
+	anEvent target dispatchEvent: ((ToElementStateChangedEvent new state: ToInitialState new) copyFrom: anEvent)
 ]
 
 { #category : #'event handling' }
@@ -86,6 +86,6 @@ ToElementLookEventHandler >> themeChanged: anEvent in: anElement [
 
 	anEvent target dispatchEvent: (ToUninstallLookEvent new copyFrom: anEvent).
 	anEvent target dispatchEvent: (ToInstallLookEvent new copyFrom: anEvent).
-	anEvent target dispatchEvent: (ToInitialLookEvent new copyFrom: anEvent).
+	anEvent target dispatchEvent: ((ToElementStateChangedEvent new state: ToInitialState new) copyFrom: anEvent).
 	anEvent target dispatchEvent: lastEvent clone
 ]

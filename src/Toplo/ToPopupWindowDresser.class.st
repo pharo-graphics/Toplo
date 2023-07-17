@@ -26,9 +26,10 @@ ToPopupWindowDresser >> mouseUpOutside: anEvent in: aMenuWindow [
 	" decide  if one have to close the window "
 
 	" don't close if the clicked element is part of the menu "
-	anEvent originalEvent currentTarget ifNotNil: [ :t |
+	anEvent originalEvent target ifNotNil: [ :t |
 		(t hasInParentChain: aMenuWindow widget) ifTrue: [ ^ self ] ].
 	" ok, really outside "
+	anEvent consumed: true.
 	anEvent currentTarget close
 ]
 
@@ -59,13 +60,13 @@ ToPopupWindowDresser >> openedInSpace: anEvent in: anElement [
 	closeHandler := BlEventHandler
 		                on: BlMouseUpOutsideEvent
 		                do: [ :event | self mouseUpOutside: event in: anElement ].
-	anElement addEventHandler: closeHandler
+	anElement addEventFilter: closeHandler
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToPopupWindowDresser >> removedFromSpace: anEvent in: anElement [
 
-	anElement removeEventHandler: closeHandler.
+	anElement removeEventFilter: closeHandler.
 	closeHandler := nil
 ]
 
@@ -73,7 +74,7 @@ ToPopupWindowDresser >> removedFromSpace: anEvent in: anElement [
 ToPopupWindowDresser >> uninstallEventListenersIn: anElement [
 
 	super uninstallEventListenersIn: anElement.
-	closeHandler ifNotNil: [ anElement removeEventHandler: closeHandler ].
+	closeHandler ifNotNil: [ anElement removeEventFilter: closeHandler ].
 	closeHandler := nil	
 ]
 

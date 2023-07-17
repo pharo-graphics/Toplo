@@ -3,24 +3,15 @@ Class {
 	#superclass : #ToMouseHandlingDresser,
 	#instVars : [
 		'mouseUpOutsideHandler',
-		'lastLookEvent'
+		'currentState'
 	],
 	#category : #'Toplo-Widget-Button'
 }
 
 { #category : #'events handling' }
-ToGeneralButtonDresser >> clickState: anElement [
+ToGeneralButtonDresser >> clicked: anElement [
 
 	anElement dispatchEvent: ToClickLookEvent new
-]
-
-{ #category : #'events handling' }
-ToGeneralButtonDresser >> dispatchEvent: aLookEvent to: anElement [
-
-	anElement dispatchEvent: aLookEvent.
-	lastLookEvent := aLookEvent
-
-
 ]
 
 { #category : #deprecated }
@@ -32,20 +23,20 @@ ToGeneralButtonDresser >> hover: anElement event: anEvent [
 			-> '`@receiver mouseEnterEvent: `@anEvent in: `@anElement'.
 	super mouseEnterEvent: anEvent in: anElement.
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
-	self hoverState: anElement
+	self hoveredState: anElement
 ]
 
 { #category : #'events handling' }
-ToGeneralButtonDresser >> hoverState: anElement [
+ToGeneralButtonDresser >> hoveredState: anElement [
 
-	self switchToLook: ToMouseHoverLookEvent in: anElement
+	self switchToState: ToHoveredState new in: anElement
 
 ]
 
 { #category : #'events handling' }
 ToGeneralButtonDresser >> initialState: anElement [
 
-	self switchToLook: ToInitialLookEvent in: anElement
+	self switchToState: ToInitialState new in: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -53,11 +44,18 @@ ToGeneralButtonDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
 	" since BlMousePickOutsideEvent is not a BlUIEvent, it is not handled by a BlEventListener"
-	" and it should not because normally, a BlMousePickOutsideEvent is managed through a filter "
+	" and it should not because normally, a BlMousePickOutsideEvent is managed through a filter 
+	to stop dispatching as soon as possible "
 	mouseUpOutsideHandler := BlEventHandler
 		                         on: BlMouseUpOutsideEvent
 		                         do: [ :event | self mouseUpOutsideEvent: event in: anElement ].
 	anElement addEventFilter: mouseUpOutsideHandler
+]
+
+{ #category : #'events handling' }
+ToGeneralButtonDresser >> leaved: anElement [
+
+	anElement dispatchEvent: ToLeavedLookEvent new
 ]
 
 { #category : #deprecated }
@@ -69,20 +67,14 @@ ToGeneralButtonDresser >> leaved: anElement event: anEvent [
 			-> '`@receiver mouseLeavedEvent: `@anEvent in: `@anElement'.
 
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
-	self leavedState: anElement
-]
-
-{ #category : #'events handling' }
-ToGeneralButtonDresser >> leavedState: anElement [
-
-	anElement dispatchEvent: ToMouseLeavedLookEvent new
+	self leaved: anElement
 ]
 
 { #category : #'events handling' }
 ToGeneralButtonDresser >> leftClickEvent: anEvent in: anElement [
 
 	super leftClickEvent: anEvent in: anElement.
-	self clickState: anElement
+	self clicked: anElement
 ]
 
 { #category : #'events handling' }
@@ -96,7 +88,7 @@ ToGeneralButtonDresser >> leftMouseDownEvent: anEvent in: anElement [
 ToGeneralButtonDresser >> leftMouseUpEvent: anEvent in: anElement [
 
 	super leftMouseUpEvent: anEvent in: anElement.
-	self hoverState: anElement 
+	self hoveredState: anElement 
 
 
 ]
@@ -130,7 +122,7 @@ ToGeneralButtonDresser >> mouseEnterEvent: anEvent in: anElement [
 
 	super mouseEnterEvent: anEvent in: anElement.
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
-	self hoverState: anElement
+	self hoveredState: anElement
 ]
 
 { #category : #'events handling' }
@@ -138,7 +130,7 @@ ToGeneralButtonDresser >> mouseLeaveEvent: anEvent in: anElement [
 
 	super mouseLeaveEvent: anEvent in: anElement.
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
-	self leavedState: anElement.
+	self leaved: anElement.
 	self initialState: anElement
 
 
@@ -159,17 +151,15 @@ ToGeneralButtonDresser >> mouseUpOutsideEvent: anEvent in: anElement [
 { #category : #'events handling' }
 ToGeneralButtonDresser >> pressedState: anElement [
 
-	self switchToLook: ToMousePressedLookEvent in: anElement
+	self switchToState: ToPressedState new in: anElement
 ]
 
 { #category : #'events handling' }
-ToGeneralButtonDresser >> switchToLook: aLookEventClass in: anElement [
+ToGeneralButtonDresser >> switchToState: aState in: anElement [
 
-	lastLookEvent class = aLookEventClass ifTrue: [ ^ self ].
-	aLookEventClass traceCr.
-	self dispatchEvent: aLookEventClass new to: anElement
-
-
+	currentState = aState ifTrue: [ ^ self ].
+	currentState := aState.
+	anElement dispatchEvent: (ToElementStateChangedEvent new state: currentState; yourself)
 ]
 
 { #category : #'api - install/uninstall  hook' }

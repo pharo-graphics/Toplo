@@ -874,10 +874,10 @@ ToSandBox class >> example_Popup1 [
 		self inform: 'Click'.
 		popup close ].
 	popup root addChild: but.
-	popup addEventHandler: (BlEventHandler
+	popup addEventFilter: (BlEventHandler
 			 on: BlMouseUpOutsideEvent
 			 do: [ :event | 'UP OUTSIDE' traceCr]).
-	popup addEventHandler: (BlEventHandler
+	popup addEventFilter: (BlEventHandler
 			 on: BlMouseDownOutsideEvent
 			 do: [ :event |  'DOWN OUTSIDE' traceCr ]).
 	e addEventHandler: (BlEventHandler
@@ -1923,32 +1923,6 @@ ToSandBox class >> example_scaledImage [
 	im openInSpace
 ]
 
-{ #category : #tabs }
-ToSandBox class >> example_tabsWith2Pages [
-
-	| aNotebook redPage greenPage redCount greenCount |
-	aNotebook := ToNotebook new.
-
-	redCount := 0.
-	redPage := aNotebook addPageTitle: 'Red' bodyFactory: [
-		           redCount := redCount + 1.
-		           BlTextElement new
-			           text:
-				           (redCount asRopedText foreground: Color red darker);
-			           yourself ].
-
-	greenCount := 0.
-	greenPage := aNotebook addPageTitle: 'Green' bodyFactory: [
-		             greenCount := greenCount + 1.
-		             BlTextElement new
-			             text:
-				             (greenCount asRopedText foreground:
-						              Color green muchDarker);
-			             yourself ].
-
-	aNotebook openInSpace
-]
-
 { #category : #'text field' }
 ToSandBox class >> example_textField0 [
 
@@ -2945,7 +2919,7 @@ ToSandBox class >> example_toMultiState1 [
 				 size: 100 @ 100;
 				 background: Color blue));
 		labelText: ('Blue' asRopedText fontSize: 24).
-	but setUpStatesWith: { (ToElementState new whenEnterDo: [ :ann | 
+	but setUpStatesWith: { (ToElementStateDep new whenEnterDo: [ :ann | 
 			 | anim |
 			 ann state counter traceCr.
 			 ann state counter isZero ifFalse: [ 
@@ -2976,7 +2950,7 @@ ToSandBox class >> example_toMultiState2 [
 						         size: 100 @ 100;
 						         background: Color blue));
 		       labelText: ('Blue' asRopedText fontSize: 24).
-	but setUpStatesWith: { (ToElementState new whenExitDo: [ :ann |
+	but setUpStatesWith: { (ToElementStateDep new whenExitDo: [ :ann |
 			 | anim |
 			 anim := (BlTransformAnimation scale: 4) absolute
 				         duration: 100 milliSeconds;
@@ -3003,7 +2977,7 @@ ToSandBox class >> example_toMultiState2_v2_do_not_work_well [
 						         size: 100 @ 100;
 						         background: Color blue));
 		       labelText: ('Blue' asRopedText fontSize: 24).
-	but setUpStatesWith: { (ToElementState new whenExitDo: [ :ann |
+	but setUpStatesWith: { (ToElementStateDep new whenExitDo: [ :ann |
 			 | anim |
 			 anim := BlSequentialAnimation withAll: {
 					         ((BlTransformAnimation scale: 4) absolute
@@ -3025,7 +2999,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 	| but |
 	but := ToMultiStateButton new.
 	but setUpStatesWith: {
-			(ToElementState new
+			(ToElementStateDep new
 				 whenEnterDo: [ :ann |
 					 ann widget
 						 icon: (ToImage inner: (BlElement new
@@ -3033,7 +3007,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 										   background: Color blue));
 						 labelText: 'Big blue' ];
 				 yourself).
-			(ToElementState new
+			(ToElementStateDep new
 				 name: #green;
 				 whenEnterDo: [ :ann |
 					 ann widget
@@ -3042,7 +3016,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 										   background: Color green));
 						 labelText: 'Green' ];
 				 yourself).
-			(ToElementState new
+			(ToElementStateDep new
 				 whenEnterDo: [ :ann |
 					 ann widget
 						 icon: (ToImage inner: (BlElement new
@@ -3050,7 +3024,7 @@ ToSandBox class >> example_toMultiStateWithBigBlue [
 										   background: Color black));
 						 labelText: 'Black' ];
 				 yourself).
-			(ToElementState new
+			(ToElementStateDep new
 				 whenEnterDo: [ :ann |
 					 ann widget
 						 icon: (ToImage inner: (BlElement new
@@ -3079,7 +3053,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 
 	but := ToMultiStateButton new.
 	but setUpStatesWith: {
-			(ToElementState new
+			(ToElementStateDep new
 				 whenEnterDo: [ :ann |
 					 | anim |
 					 anim := exitAnimation value.
@@ -3093,7 +3067,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 								 addAnimation: enterAnimation value ].
 					 ann widget addAnimation: anim ];
 				 yourself).
-			(ToElementState new
+			(ToElementStateDep new
 				 whenEnterDo: [ :ann |
 					 | anim |
 					 anim := exitAnimation value.
@@ -3107,7 +3081,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 								 addAnimation: enterAnimation value ].
 					 ann widget addAnimation: anim ];
 				 yourself).
-			(ToElementState new
+			(ToElementStateDep new
 				 whenEnterDo: [ :ann |
 					 | anim |
 					 anim := exitAnimation value.
@@ -3121,7 +3095,7 @@ ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
 								 addAnimation: enterAnimation value ].
 					 ann widget addAnimation: anim ];
 				 yourself).
-			(ToElementState new whenEnterDo: [ :ann |
+			(ToElementStateDep new whenEnterDo: [ :ann |
 				 | anim |
 				 anim := exitAnimation value.
 				 anim onFinishedDo: [
@@ -3142,17 +3116,17 @@ ToSandBox class >> example_toMultiStateWithLabel [
 	| but |
 	but := ToMultiStateButton new size: 90 @ 35.
 	but setUpStatesWith: {
-			(ToElementState new
+			(ToElementStateDep new
 				 name: #one;
 				 whenEnterDo: [ :ann |
 					 ann widget labelText: ('One' asRopedText fontSize: 24) ];
 				 yourself).
-			(ToElementState new
+			(ToElementStateDep new
 				 name: #two;
 				 whenEnterDo: [ :ann |
 					 ann widget labelText: ('Two' asRopedText fontSize: 24) ];
 				 yourself).
-			(ToElementState new
+			(ToElementStateDep new
 				 name: #three;
 				 whenEnterDo: [ :ann |
 					 ann widget labelText: ('Three' asRopedText fontSize: 24) ];

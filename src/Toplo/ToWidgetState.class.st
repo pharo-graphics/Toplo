@@ -1,5 +1,5 @@
 Class {
 	#name : #ToWidgetState,
-	#superclass : #ToElementState,
+	#superclass : #ToElementStateDep,
 	#category : #'Toplo-Core'
 }

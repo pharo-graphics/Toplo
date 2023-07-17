@@ -28,6 +28,12 @@ ToElementLook >> elementLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToElementLook >> hoveredLookEvent: anEvent [
+
+
+]
+
+{ #category : #'event handling' }
 ToElementLook >> initialLookEvent: anEvent [
 
 
@@ -45,19 +51,7 @@ ToElementLook >> isNull [
 ]
 
 { #category : #'event handling' }
-ToElementLook >> mouseHoverLookEvent: anEvent [
-
-
-]
-
-{ #category : #'event handling' }
-ToElementLook >> mouseLeavedLookEvent: anEvent [
-
-
-]
-
-{ #category : #'event handling' }
-ToElementLook >> mousePressedLookEvent: anEvent [
+ToElementLook >> leavedLookEvent: anEvent [
 
 
 ]
@@ -72,6 +66,12 @@ ToElementLook >> next [
 ToElementLook >> next: aLook [
 
 	next := aLook
+]
+
+{ #category : #'event handling' }
+ToElementLook >> pressedLookEvent: anEvent [
+
+
 ]
 
 { #category : #removing }

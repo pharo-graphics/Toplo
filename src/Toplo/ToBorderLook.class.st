@@ -69,6 +69,17 @@ ToBorderLook >> hoverPaint: aPaint [
 ]
 
 { #category : #'event handling' }
+ToBorderLook >> hoveredLookEvent: anEvent [
+
+	super hoveredLookEvent: anEvent.
+	self hoverPaint ifNil: [ ^ self ].
+	anEvent elementDo: [ :e |
+		e border: (self builder
+				 paint: self hoverPaint;
+				 build) ]
+]
+
+{ #category : #'event handling' }
 ToBorderLook >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
@@ -99,20 +110,9 @@ ToBorderLook >> initialize [
 ]
 
 { #category : #'event handling' }
-ToBorderLook >> mouseHoverLookEvent: anEvent [
+ToBorderLook >> pressedLookEvent: anEvent [
 
-	super mouseHoverLookEvent: anEvent.
-	self hoverPaint ifNil: [ ^ self ].
-	anEvent elementDo: [ :e |
-		e border: (self builder
-				 paint: self hoverPaint;
-				 build) ]
-]
-
-{ #category : #'event handling' }
-ToBorderLook >> mousePressedLookEvent: anEvent [
-
-	super mousePressedLookEvent: anEvent.
+	super pressedLookEvent: anEvent.
 	self pressedPaint ifNil: [ ^ self ].
 	anEvent elementDo: [ :e |
 		e border: (self builder

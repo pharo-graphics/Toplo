@@ -90,6 +90,12 @@ ToWindowElement >> initialize [
 ]
 
 { #category : #'api - displaying' }
+ToWindowElement >> isClosed [
+
+	^ self isOpened not
+]
+
+{ #category : #'api - displaying' }
 ToWindowElement >> isOpened [
 
 	^ self hasParent

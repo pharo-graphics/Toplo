@@ -8,7 +8,7 @@ Class {
 ToContextMenuDresser >> mouseUpOutside: anEvent in: aMenuWindow [
 
 	| origEventTarget |
-	origEventTarget := anEvent originalEvent currentTarget.
+	origEventTarget := anEvent originalEvent target.
 	origEventTarget ifNil: [
 		^ super mouseUpOutside: anEvent in: aMenuWindow ].
 	(origEventTarget hasInParentChain: aMenuWindow widget) ifTrue: [

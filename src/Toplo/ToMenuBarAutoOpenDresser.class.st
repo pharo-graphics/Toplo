@@ -24,7 +24,7 @@ ToMenuBarAutoOpenDresser >> installEventListenersIn: anElement [
 			                           mouseUpOutside: event
 			                           in: anElement ].
 	anElement addEventHandler: overHandler.
-	anElement addEventHandler: mouseEventOutsideHandler
+	anElement addEventFilter: mouseEventOutsideHandler
 ]
 
 { #category : #accessing }
@@ -46,8 +46,9 @@ ToMenuBarAutoOpenDresser >> mouseOver: anEvent in: anElement [
 { #category : #'api - accessing' }
 ToMenuBarAutoOpenDresser >> mouseUpOutside: anEvent in: aMenuBar [
 
-	(anEvent originalEvent currentTarget hasInParentChain: aMenuBar)
+	(anEvent originalEvent target hasInParentChain: aMenuBar)
 		ifTrue: [ ^ self ].
+	anEvent consumed: true.
 	self removeAutoOpenDresserIn: aMenuBar
 ]
 
@@ -63,7 +64,7 @@ ToMenuBarAutoOpenDresser >> removeAutoOpenDresserIn: anElement [
 ToMenuBarAutoOpenDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: overHandler.
-	anElement removeEventHandler: mouseEventOutsideHandler.
+	anElement removeEventFilter: mouseEventOutsideHandler.
 	overHandler := nil.
 	mouseEventOutsideHandler := nil.
 	super uninstallEventListenersIn: anElement

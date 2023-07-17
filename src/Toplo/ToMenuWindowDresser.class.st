@@ -10,7 +10,7 @@ ToMenuWindowDresser >> mouseUpOutside: anEvent in: aMenuWindow [
 
 	| win origEventTarget |
 	
-	origEventTarget := anEvent originalEvent currentTarget.
+	origEventTarget := anEvent originalEvent target.
 	" if I'm the original event target then do nothing"
 	origEventTarget ifNil: [
 		^ super mouseUpOutside: anEvent in: aMenuWindow ].

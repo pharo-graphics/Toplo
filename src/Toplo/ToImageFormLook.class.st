@@ -32,6 +32,15 @@ ToImageFormLook >> hoverColor: aColor [
 	hoverColor := aColor
 ]
 
+{ #category : #'event handling' }
+ToImageFormLook >> hoveredLookEvent: anEvent [
+
+	super hoveredLookEvent: anEvent.
+	self hoverColor ifNil: [ ^ self ].
+	anEvent elementDo: [ :e |
+		self adaptForegroundIn: e withColor: self hoverColor ]
+]
+
 { #category : #accessing }
 ToImageFormLook >> initialColor [
 
@@ -53,24 +62,6 @@ ToImageFormLook >> initialLookEvent: anEvent [
 		self adaptForegroundIn: e withColor: self initialColor ]
 ]
 
-{ #category : #'event handling' }
-ToImageFormLook >> mouseHoverLookEvent: anEvent [
-
-	super mouseHoverLookEvent: anEvent.
-	self hoverColor ifNil: [ ^ self ].
-	anEvent elementDo: [ :e |
-		self adaptForegroundIn: e withColor: self hoverColor ]
-]
-
-{ #category : #'event handling' }
-ToImageFormLook >> mousePressedLookEvent: anEvent [
-
-	super mousePressedLookEvent: anEvent.
-	self pressedColor ifNil: [ ^ self ].
-	anEvent elementDo: [ :e |
-		self adaptForegroundIn: e withColor: self pressedColor ]
-]
-
 { #category : #accessing }
 ToImageFormLook >> pressedColor [
 
@@ -81,4 +72,13 @@ ToImageFormLook >> pressedColor [
 ToImageFormLook >> pressedColor: aColor [
 
 	pressedColor := aColor
+]
+
+{ #category : #'event handling' }
+ToImageFormLook >> pressedLookEvent: anEvent [
+
+	super pressedLookEvent: anEvent.
+	self pressedColor ifNil: [ ^ self ].
+	anEvent elementDo: [ :e |
+		self adaptForegroundIn: e withColor: self pressedColor ]
 ]

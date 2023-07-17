@@ -64,6 +64,16 @@ ToLabelTextLook >> hoverColor: anObject [
 	hoverColor := anObject
 ]
 
+{ #category : #'event handling' }
+ToLabelTextLook >> hoveredLookEvent: anEvent [
+
+	super hoveredLookEvent: anEvent.
+	self hoverColor ifNil: [ ^ self ].
+	self foreground: self hoverColor.
+	anEvent target text attributes: self attributes.
+	anEvent target textChanged
+]
+
 { #category : #accessing }
 ToLabelTextLook >> initialColor [
 
@@ -99,26 +109,6 @@ ToLabelTextLook >> lineSpacing: aNumber [
 	self attrBuilder lineSpacing: aNumber
 ]
 
-{ #category : #'event handling' }
-ToLabelTextLook >> mouseHoverLookEvent: anEvent [
-
-	super mouseHoverLookEvent: anEvent.
-	self hoverColor ifNil: [ ^ self ].
-	self foreground: self hoverColor.
-	anEvent target text attributes: self attributes.
-	anEvent target textChanged
-]
-
-{ #category : #'event handling' }
-ToLabelTextLook >> mousePressedLookEvent: anEvent [
-
-	super mousePressedLookEvent: anEvent.
-	self pressedColor ifNil: [ ^ self ].
-	self foreground: self pressedColor.
-	anEvent target text attributes: self attributes.
-	anEvent target textChanged
-]
-
 { #category : #accessing }
 ToLabelTextLook >> pressedColor [
 
@@ -129,4 +119,14 @@ ToLabelTextLook >> pressedColor [
 ToLabelTextLook >> pressedColor: anObject [
 
 	pressedColor := anObject
+]
+
+{ #category : #'event handling' }
+ToLabelTextLook >> pressedLookEvent: anEvent [
+
+	super pressedLookEvent: anEvent.
+	self pressedColor ifNil: [ ^ self ].
+	self foreground: self pressedColor.
+	anEvent target text attributes: self attributes.
+	anEvent target textChanged
 ]

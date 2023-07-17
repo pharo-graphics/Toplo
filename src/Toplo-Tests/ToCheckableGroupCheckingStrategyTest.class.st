@@ -19,18 +19,18 @@ ToCheckableGroupCheckingStrategyTest >> testNoneStrategy [
 	group checkingStrategy: ToCheckableGroupNoneStrategy new.
 	self assert: (group checkingStrategy isKindOf: ToCheckableGroupNoneStrategy).
 	group buttons first check.
-	self assert: group buttons first isChecked.
-	self assert: ((group buttons copyFrom: 2 to: 4) allSatisfy: [ :btn | btn isUnchecked ]).
+	self assert: group buttons first checked.
+	self assert: ((group buttons copyFrom: 2 to: 4) allSatisfy: [ :btn | btn checked not ]).
 	group buttons first check.
-	self assert: ((group buttons copyFrom: 2 to: 4) allSatisfy: [ :btn | btn isUnchecked ]).
+	self assert: ((group buttons copyFrom: 2 to: 4) allSatisfy: [ :btn | btn checked not ]).
 	group buttons first uncheck.
-	self assert: group buttons first isUnchecked.
-	self assert: (group buttons allSatisfy: [ :btn | btn isUnchecked ]).
+	self assert: group buttons first checked not.
+	self assert: (group buttons allSatisfy: [ :btn | btn checked not ]).
 	group buttons first check.
 	group buttons second check.
-	self assert: group buttons second isChecked.
-	self assert: group buttons first isChecked.
-	self assert: ((group buttons copyFrom: 3 to: 4) allSatisfy: [ :btn | btn isUnchecked ])
+	self assert: group buttons second checked.
+	self assert: group buttons first checked.
+	self assert: ((group buttons copyFrom: 3 to: 4) allSatisfy: [ :btn | btn checked not ])
 ]
 
 { #category : #tests }
@@ -44,18 +44,18 @@ ToCheckableGroupCheckingStrategyTest >> testStrictStrategy [
 		group add: chb ].
 	self assert: (group checkingStrategy isKindOf: ToCheckableGroupStrictStrategy).
 	group buttons first check.
-	self assert: group buttons first isChecked.
-	self assert: ((group buttons copyFrom: 2 to: 4) allSatisfy: [ :btn | btn isUnchecked ]).
+	self assert: group buttons first checked.
+	self assert: ((group buttons copyFrom: 2 to: 4) allSatisfy: [ :btn | btn checked not ]).
 	group buttons first check.
-	self assert: group buttons first isChecked.
-	self assert: ((group buttons copyFrom: 2 to: 4) allSatisfy: [ :btn | btn isUnchecked ]).
+	self assert: group buttons first checked.
+	self assert: ((group buttons copyFrom: 2 to: 4) allSatisfy: [ :btn | btn checked not ]).
 	group buttons first uncheck.
-	self assert: group buttons first isChecked.
-	self assert: ((group buttons copyFrom: 2 to: 4) allSatisfy: [ :btn | btn isUnchecked ]).
+	self assert: group buttons first checked.
+	self assert: ((group buttons copyFrom: 2 to: 4) allSatisfy: [ :btn | btn checked not ]).
 	group buttons second check.
-	self assert: group buttons second isChecked.
-	self assert: group buttons first isUnchecked.
-	self assert: ((group buttons copyFrom: 3 to: 4) allSatisfy: [ :btn | btn isUnchecked ])
+	self assert: group buttons second checked.
+	self assert: group buttons first checked not.
+	self assert: ((group buttons copyFrom: 3 to: 4) allSatisfy: [ :btn | btn checked not ])
 ]
 
 { #category : #tests }
@@ -70,21 +70,21 @@ ToCheckableGroupCheckingStrategyTest >> testWithUncheckStrategy [
 	group checkingStrategy: ToCheckableGroupWithUncheckStrategy new.
 	self assert: (group checkingStrategy isKindOf: ToCheckableGroupWithUncheckStrategy).
 	group buttons first check.
-	self assert: group buttons first isChecked.
-	self assert: ((group buttons copyFrom: 2 to: 4) allSatisfy: [ :btn | btn isUnchecked ]).
+	self assert: group buttons first checked.
+	self assert: ((group buttons copyFrom: 2 to: 4) allSatisfy: [ :btn | btn checked not ]).
 	group buttons first check.
-	self assert: group buttons first isChecked.
-	self assert: ((group buttons copyFrom: 2 to: 4) allSatisfy: [ :btn | btn isUnchecked ]).
+	self assert: group buttons first checked.
+	self assert: ((group buttons copyFrom: 2 to: 4) allSatisfy: [ :btn | btn checked not ]).
 	group buttons first uncheck.
-	self assert: (group buttons allSatisfy: [ :btn | btn isUnchecked ]).
+	self assert: (group buttons allSatisfy: [ :btn | btn checked not ]).
 	group buttons second check.
-	self assert: group buttons second isChecked.
-	self assert: group buttons first isUnchecked.
-	self assert: ((group buttons copyFrom: 3 to: 4) allSatisfy: [ :btn | btn isUnchecked ]).
+	self assert: group buttons second checked.
+	self assert: group buttons first checked not.
+	self assert: ((group buttons copyFrom: 3 to: 4) allSatisfy: [ :btn | btn checked not ]).
 	group buttons third check.
 	group buttons fourth check.
-	self assert: group buttons first isUnchecked.
-	self assert: group buttons second isUnchecked.
-	self assert: group buttons third isUnchecked.
-	self assert: group buttons fourth isChecked
+	self assert: group buttons first checked not.
+	self assert: group buttons second checked not.
+	self assert: group buttons third checked not.
+	self assert: group buttons fourth checked
 ]

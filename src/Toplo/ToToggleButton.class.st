@@ -12,7 +12,7 @@ ToToggleButton >> defaultDresser [
 	^ ToToggleButtonDresser new
 ]
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 ToToggleButton >> initialize [ 
 
 	super initialize.

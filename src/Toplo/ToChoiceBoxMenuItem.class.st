@@ -19,7 +19,7 @@ ToChoiceBoxMenuItem >> defaultDresser [
 	^ ToBasicMenuItemDresser next: (ToChoiceBoxMenuItemDresser new)
 ]
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 ToChoiceBoxMenuItem >> initialize [
 
 	super initialize.

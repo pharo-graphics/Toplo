@@ -29,21 +29,9 @@ ToCheckboxModel >> uncheck [
 ]
 
 { #category : #'api - checkbox' }
-ToCheckboxModel >> whenCheckedDo: aBlock [
-
-	self widgetDo: [ :widget | widget whenCheckedDo: aBlock ]
-]
-
-{ #category : #'api - checkbox' }
 ToCheckboxModel >> whenInderterminateDo: aBlock [
 
 	self widgetDo: [ :widget | widget whenInderterminateDo: aBlock ]
-]
-
-{ #category : #'api - checkbox' }
-ToCheckboxModel >> whenUncheckedDo: aBlock [
-
-	self widgetDo: [ :widget | widget whenUncheckedDo: aBlock ]
 ]
 
 { #category : #'api - checked change hook' }

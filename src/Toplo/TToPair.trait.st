@@ -108,6 +108,18 @@ TToPair >> second: anElement [
 	self privateUpdateChildren
 ]
 
+{ #category : #'t - pair presentation' }
+TToPair >> spacingHeight: anInteger [
+
+	self strategy: (ToPairWithSpacingStrategy new height: anInteger)
+]
+
+{ #category : #'t - pair presentation' }
+TToPair >> spacingWidth: anInteger [
+
+	self strategy: (ToPairWithSpacingStrategy new width: anInteger)
+]
+
 { #category : #'t - pair accessing' }
 TToPair >> strategy [
 

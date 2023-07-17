@@ -18,11 +18,11 @@ ToElementTest >> testRadioButtonChangeTheme [
 
 	button1 check.
 
-	self assert: button1 isChecked.
-	self deny: button2 isChecked.
+	self assert: button1 checked.
+	self deny: button2 checked.
 
 	pane toTheme: pane toTheme darkTheme.
 
-	self assert: button1 isChecked.
-	self deny: button2 isChecked
+	self assert: button1 checked.
+	self deny: button2 checked
 ]

@@ -15,7 +15,7 @@ ToButton >> defaultDresser [
 { #category : #'t - skin accessing' }
 ToButton >> defaultSkin [ 
 
-	^ ToButtonDefaultSkin new
+	^ ToButtonSkin new
 ]
 
 { #category : #initialization }

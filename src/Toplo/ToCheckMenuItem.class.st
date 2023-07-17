@@ -19,7 +19,7 @@ ToCheckMenuItem >> defaultDresser [
 	^ ToBasicMenuItemDresser next: (ToCheckBoxDresser new)
 ]
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 ToCheckMenuItem >> initialize [
 
 	super initialize.

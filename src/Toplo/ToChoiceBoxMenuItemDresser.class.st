@@ -59,10 +59,7 @@ ToChoiceBoxMenuItemDresser >> leftUp: anElement event: anEvent [
 { #category : #'api - install/uninstall  hook' }
 ToChoiceBoxMenuItemDresser >> onInstalledIn: anElement [
 
-	super onInstalledIn: anElement.
-	anElement setUpStatesWith: { 
-			self defaultUncheckedState.
-			self defaultCheckedState }
+	super onInstalledIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }

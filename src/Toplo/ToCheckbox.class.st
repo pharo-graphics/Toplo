@@ -1,20 +1,26 @@
 Class {
 	#name : #ToCheckbox,
 	#superclass : #ToMultiStateButton,
-	#traits : 'TToCheckable + TToCheckableWithIndeterminate',
-	#classTraits : 'TToCheckable classTrait + TToCheckableWithIndeterminate classTrait',
+	#traits : 'TToCheckable',
+	#classTraits : 'TToCheckable classTrait',
 	#category : #'Toplo-Widget-Button'
 }
-
-{ #category : #testing }
-ToCheckbox >> canSwitchToNextState [
-
-	^ super canSwitchToNextState and: [ 
-		  self group isNil or: [ self group canSwitchToNextState: self  ] ]
-]
 
 { #category : #'t - initialization dresser' }
 ToCheckbox >> defaultDresser [
 
 	^ ToCheckBoxDresser new
+]
+
+{ #category : #'t - skin accessing' }
+ToCheckbox >> defaultSkin [ 
+
+	^ ToCheckboxSkin new
+]
+
+{ #category : #initialization }
+ToCheckbox >> initialize [
+
+	super initialize.
+	self initializeCheckable 
 ]

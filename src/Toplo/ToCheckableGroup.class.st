@@ -48,7 +48,7 @@ ToCheckableGroup >> checked: aCheckable [
 ToCheckableGroup >> checkedButtons [
 
 
-	^ buttons select: [ :b | b isChecked ]
+	^ buttons select: [ :b | b checked ]
 ]
 
 { #category : #accessing }
@@ -162,7 +162,7 @@ ToCheckableGroup >> uncheckAllExcept: aButton [
 { #category : #'check-uncheck-request' }
 ToCheckableGroup >> uncheckAllExcept: aButton ifFoundDo: aBlock [
 
-	(self buttons select: [ :b | b ~= aButton and: [ b isChecked ] ])
+	(self buttons select: [ :b | b ~= aButton and: [ b checked ] ])
 		ifNotEmpty: [ :uncheckedBtns |
 			uncheckedBtns do: [ :b | b privateUncheck ].
 			aBlock value ]
@@ -178,7 +178,7 @@ ToCheckableGroup >> unchecked: aCheckable [
 { #category : #accessing }
 ToCheckableGroup >> uncheckedButtons [
 
-	^ buttons reject: [ :b | b isChecked ]
+	^ buttons reject: [ :b | b checked ]
 ]
 
 { #category : #'checking protocol' }

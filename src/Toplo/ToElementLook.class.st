@@ -14,6 +14,12 @@ ToElementLook class >> next: aLook [
 ]
 
 { #category : #'event handling' }
+ToElementLook >> checkedLookEvent: anEvent [
+
+
+]
+
+{ #category : #'event handling' }
 ToElementLook >> clickLookEvent: anEvent [
 
 
@@ -82,6 +88,12 @@ ToElementLook >> removeLook: aLook previous: previousLook [
 			previousLook next: self next.
 			^ self ] ].
 	self next removeLook: aLook previous: self
+]
+
+{ #category : #'event handling' }
+ToElementLook >> uncheckedLookEvent: anEvent [
+
+
 ]
 
 { #category : #'event handling' }

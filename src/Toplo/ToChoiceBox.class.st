@@ -258,7 +258,7 @@ ToChoiceBox >> selectedIndexChanged [
 	menuItem := self menuItemFromData: self selectedData.
 	menuItem ifNil: [ ^ self error: 'A menu item should exist for the current selectedData' ].
 	menuButton label: (ToLabel text: (self dataToTextConverter value: self selectedData) copy).
-	menuItem isChecked ifFalse: [ menuItem check ]
+	menuItem checked ifFalse: [ menuItem check ]
 ]
 
 { #category : #'api - change hook' }

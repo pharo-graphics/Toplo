@@ -1,12 +1,9 @@
 Class {
 	#name : #ToWidgetSkin,
-	#superclass : #Object,
+	#superclass : #BlCustomEventHandler,
 	#instVars : [
-		'lookEventHandler',
-		'addedToSpaceHandler',
-		'removedFromSpaceHandler',
 		'addedToSpace',
-		'themeChangeHandler'
+		'look'
 	],
 	#category : #'Toplo-Core-Theme'
 }
@@ -14,123 +11,108 @@ Class {
 { #category : #adding }
 ToWidgetSkin >> addLook: aLook [
 
-	self lookEventHandler addLook: aLook
+	aLook isNull ifTrue: [ ^ self ].
+	aLook next: look.
+	self privateLook: aLook
 ]
 
 { #category : #accessing }
 ToWidgetSkin >> addedToSpace [
 
-	^ addedToSpace ifNil: [ addedToSpace := false ]
+	^ addedToSpace 
 ]
 
 { #category : #'event handling' }
-ToWidgetSkin >> handleLookEvent: anEvent [
+ToWidgetSkin >> elementAddedToSceneGraphEvent: anEvent [
 
-	" has to be redefined in subclasses to manage element children (to dispatch look event to them)"
-	^ anEvent sendTo: self lookEventHandler look 
+	addedToSpace ifTrue: [ ^ self ].
+	self whenAddedToSpace: anEvent in: anEvent currentTarget.
+	addedToSpace := true
 ]
 
-{ #category : #'api - install/uninstall  hook' }
-ToWidgetSkin >> installEventListenersIn: anElement [
+{ #category : #'event handling' }
+ToWidgetSkin >> elementLookEvent: anEvent [
 
-	themeChangeHandler := BlEventHandler
-		                      on: ToThemeChangedEvent
-		                      do: [ :event |
-		                      self themeChanged: event in: anElement ].
+	" has to be redefined in subclasses to manage element children (to dispatch look event to them)"
+	^ anEvent sendTo: self look 
+	
+]
 
-	addedToSpaceHandler := BlEventHandler
-		                       on: BlElementAddedToSceneGraphEvent
-		                       do: [ :event |
-		                       self
-			                       sendWhenAddedToSpace: event
-			                       in: anElement ].
-	removedFromSpaceHandler := BlEventHandler
-		                           on: BlElementRemovedFromSceneGraphEvent
-		                           do: [ :event |
-		                           self
-			                           sendWhenRemovedFromSpace: event
-			                           in: anElement ].
+{ #category : #'event handling' }
+ToWidgetSkin >> elementRemovedFromSceneGraphEvent: anEvent [
 
-	anElement addEventHandler: themeChangeHandler.
-	anElement addEventHandler: addedToSpaceHandler.
-	anElement addEventHandler: removedFromSpaceHandler
+	addedToSpace ifFalse: [ ^ self ].
+	self whenRemovedFromSpace:  anEvent in: anEvent currentTarget.
+	addedToSpace := false
+]
+
+{ #category : #'api - accessing' }
+ToWidgetSkin >> eventsToHandle [
+
+	^ { BlElementAddedToSceneGraphEvent. BlElementRemovedFromSceneGraphEvent. ToElementLookEvent }
+]
+
+{ #category : #initialization }
+ToWidgetSkin >> initialize [ 
+
+	super initialize.
+	addedToSpace := false.
 ]
 
 { #category : #accessing }
-ToWidgetSkin >> lookEventHandler [
+ToWidgetSkin >> look [
 
-	^ lookEventHandler
+	^ look
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> onInstalledIn: anElement [
 
-	lookEventHandler := ToElementLookEventHandler new.
-	anElement addEventHandler: lookEventHandler.
-	self installEventListenersIn: anElement.
-	anElement isAttachedToSceneGraph 
-		ifTrue: [ self sendWhenAddedToSpace: nil in: anElement ]
-		ifFalse: [ self sendWhenRemovedFromSpace: nil in: anElement ].
-
-
+	super onInstalledIn: anElement.
+	self privateLook: ToNullElementLook new.
+	"addedToSpace := anElement isAttachedToSceneGraph."
+	"addedToSpace
+		ifTrue: [ self whenAddedToSpace: nil in: anElement ]
+		ifFalse: [ self whenRemovedFromSpace: nil in: anElement ]"
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> onUninstalledIn: anElement [
 
-	anElement removeEventHandler: lookEventHandler.
-	lookEventHandler := nil.
-	self uninstallEventListenersIn: anElement
-
-
+	look := nil.
+	super onUninstalledIn: anElement
 ]
 
-{ #category : #adding }
+{ #category : #'private - accessing' }
+ToWidgetSkin >> privateLook: aLook [
+
+	look := aLook
+]
+
+{ #category : #removing }
 ToWidgetSkin >> removeLook: aLook [
 
-	self lookEventHandler removeLook: aLook
+	look = aLook 
+		ifTrue: [ look := look next ]
+		ifFalse: [ look removeLook: aLook previous: nil ]
+]
+
+{ #category : #'event handling' }
+ToWidgetSkin >> themeChangedEvent: anEvent [
+
+	self whenRemovedFromSpace: anEvent in: anEvent currentTarget.
+	self whenAddedToSpace: anEvent in: anEvent currentTarget
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToWidgetSkin >> sendWhenAddedToSpace: anEvent in: anElement [
+ToWidgetSkin >> whenAddedToSpace: anEvent in: anElement [
 
-	self addedToSpace ifTrue: [ ^ self ].
-	addedToSpace := true.
-	self whenAddedToSpace: anEvent in: anElement
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToWidgetSkin >> sendWhenRemovedFromSpace: anEvent in: anElement [
-
-	self addedToSpace ifFalse: [ ^ self ].
-	addedToSpace := false.
-	self whenRemovedFromSpace: anEvent in: anElement
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToWidgetSkin >> themeChanged: anEvent in: anElement [
-
-	self whenRemovedFromSpace: anEvent in: anElement.
-	self whenAddedToSpace: anEvent in: anElement.
-	self lookEventHandler themeChanged: anEvent in: anElement
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToWidgetSkin >> uninstallEventListenersIn: anElement [
-
-	anElement removeEventHandler: addedToSpaceHandler.
-	anElement removeEventHandler: removedFromSpaceHandler.
-	anElement removeEventHandler: themeChangeHandler
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToWidgetSkin >> whenAddedToSpace: anEvent in: anElement [ 
-
+	anElement dispatchEvent: (ToInstallLookEvent new copyFrom: anEvent).
+	anElement dispatchEvent: ((ToElementStateChangedEvent new state: ToInitialState new) copyFrom: anEvent)
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> whenRemovedFromSpace: anEvent in: anElement [
 
-
+	anElement dispatchEvent: (ToUninstallLookEvent new copyFrom: anEvent)
 ]

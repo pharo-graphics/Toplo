@@ -11,7 +11,7 @@ Class {
 ToMouseEventListener >> clickAvortedEvent: anEvent [
 
 	super clickAvortedEvent: anEvent.
-	(anEvent upTarget ~= privateTarget and: [ (privateTarget findMouseEventTargetAt: anEvent upTarget position) isNil ])
+	(anEvent upEvent target ~= privateTarget and: [ (privateTarget findMouseEventTargetAt: anEvent upEvent position) isNil ])
 		ifTrue: [ ^ self ].
 	anEvent processor fireClickEventFrom: anEvent
 ]

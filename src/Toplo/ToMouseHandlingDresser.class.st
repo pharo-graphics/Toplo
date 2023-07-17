@@ -52,17 +52,7 @@ ToMouseHandlingDresser >> clickedAvorted: anElement event: anEvent [
 			'`@receiver clickedAvorted: `@anElement event: `@anEvent'
 				-> '`@receiver clickedAvortedEvent: `@anEvent in: `@anElement'.
 
-	(anEvent upTarget ~= anElement and: [ (anElement findMouseEventTargetAt: anEvent upTarget position) isNil ])
-		ifTrue: [ ^ self ].
-	anEvent processor fireClickEventFrom: anEvent
-]
-
-{ #category : #'events handling' }
-ToMouseHandlingDresser >> clickedAvortedEvent: anEvent in: anElement [
-
-	" if mouse up is on anElement or on in one of anElement children then it means that a click is done "
-
-	(anEvent upTarget ~= anElement and: [ (anElement findMouseEventTargetAt: anEvent upTarget position) isNil ])
+	(anEvent upEvent target ~= anElement and: [ (anElement findMouseEventTargetAt: anEvent upEvent position) isNil ])
 		ifTrue: [ ^ self ].
 	anEvent processor fireClickEventFrom: anEvent
 ]

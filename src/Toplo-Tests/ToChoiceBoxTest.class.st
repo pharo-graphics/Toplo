@@ -50,9 +50,9 @@ ToChoiceBoxTest >> testCheckUncheckWithUncheckStrategy [
 	self assert: cb menuButton label text asString equals: d1.
 	self assert: cb group buttons size equals: 3.
 	cb group buttons first uncheck.
-	self assert: cb group buttons first isUnchecked.
-	self assert: cb group buttons second isUnchecked.
-	self assert: cb group buttons third isUnchecked
+	self assert: cb group buttons first checked not.
+	self assert: cb group buttons second checked not.
+	self assert: cb group buttons third checked not
 ]
 
 { #category : #' tests' }
@@ -74,7 +74,7 @@ ToChoiceBoxTest >> testNoSelectedData [
 	cb data addAll: d.
 	self assert: cb selectedData isNil.
 	self assert: cb menuButton label isNil.
-	self assert: (cb group buttons noneSatisfy: [ :b | b isChecked ])
+	self assert: (cb group buttons noneSatisfy: [ :b | b checked ])
 ]
 
 { #category : #tests }
@@ -85,11 +85,11 @@ ToChoiceBoxTest >> testNoSelectedDataWithPlaceholder [
 	cb placeholder: (ToLabel text: 'No choice').
 	self assert: cb selectedData isNil.
 	self assert: cb menuButton label text asString equals: 'No choice'.
-	self assert: (cb group buttons noneSatisfy: [ :b | b isChecked ]).
+	self assert: (cb group buttons noneSatisfy: [ :b | b checked ]).
 	cb selectData: nil.
 	self assert: cb selectedData isNil.
 	self assert: cb menuButton label text asString equals: 'No choice'.
-	self assert: (cb group buttons noneSatisfy: [ :b | b isChecked ])
+	self assert: (cb group buttons noneSatisfy: [ :b | b checked ])
 ]
 
 { #category : #tests }
@@ -106,7 +106,7 @@ ToChoiceBoxTest >> testNoSelectedDataWithPlaceholder2 [
 	cb selectData: nil.
 	self assert: cb selectedData isNil.
 	self assert: cb menuButton label text asString equals: 'No choice'.
-	self assert: (cb group buttons noneSatisfy: [ :b | b isChecked ])
+	self assert: (cb group buttons noneSatisfy: [ :b | b checked ])
 ]
 
 { #category : #' tests' }
@@ -154,12 +154,12 @@ ToChoiceBoxTest >> testPlaceholder3 [
 	cb placeholder: (ToLabel text: 'X').
 	self assert: cb menuButton label text asString equals: 'X'.
 	cb selectData: 'A'.
-	self assert: cb group buttons first isChecked.
+	self assert: cb group buttons first checked.
 	self assert: cb selectedData identicalTo: cb data first.
 	self assert: cb menuButton label text asString equals: 'A'.
 	" Unchecking strategy does allow unchecking "
 	cb selectData: nil.
-	self assert: cb group buttons first isUnchecked.
+	self assert: cb group buttons first checked not.
 	self assert: cb menuButton label identicalTo: cb placeholder.
 	self assert: cb selectedData isNil
 ]
@@ -187,8 +187,8 @@ ToChoiceBoxTest >> testRemove [
 	self assert: cb group buttons size equals: 2.
 	self assert: cb group buttons first label text asString = '#1'.
 	self assert: cb group buttons second label text asString = '#3'.
-	self assert: cb group buttons first isChecked.
-	self assert: cb group buttons second isUnchecked
+	self assert: cb group buttons first checked.
+	self assert: cb group buttons second checked not
 ]
 
 { #category : #' tests' }
@@ -204,7 +204,7 @@ ToChoiceBoxTest >> testRemove2 [
 			d2.
 			d3 }.
 	cb selectIndex: 2.
-	self assert: cb group buttons second isChecked.
+	self assert: cb group buttons second checked.
 	self assert: cb data size equals: 3.
 	self assert: cb selectedData equals: d2.
 	self assert: cb menuButton label text asString equals: d2.
@@ -212,8 +212,8 @@ ToChoiceBoxTest >> testRemove2 [
 	cb removeData: '#2'.
 	self assert: cb selectedIndex equals: 0.
 	self assert: cb menuButton label isNil.
-	self assert: cb group buttons first isUnchecked.
-	self assert: cb group buttons second isUnchecked.
+	self assert: cb group buttons first checked not.
+	self assert: cb group buttons second checked not.
 	self assert: cb data first = '#1'.
 	self assert: cb data second = '#3'.
 	self assert: cb group buttons size equals: 2.
@@ -236,7 +236,7 @@ ToChoiceBoxTest >> testRemoveWithSeparator [
 			d2.
 			d3 }.
 	cb selectIndex: 2.
-	self assert: cb group buttons second isChecked.
+	self assert: cb group buttons second checked.
 	self assert: cb data size equals: 3.
 	self assert: cb selectedData equals: d2.
 	self assert: cb menuButton label text asString equals: d2.
@@ -244,8 +244,8 @@ ToChoiceBoxTest >> testRemoveWithSeparator [
 	cb removeData: '#2'.
 	self assert: cb selectedIndex equals: 0.
 	self assert: cb menuButton label isNil.
-	self assert: cb group buttons first isUnchecked.
-	self assert: cb group buttons second isUnchecked.
+	self assert: cb group buttons first checked not.
+	self assert: cb group buttons second checked not.
 	self assert: cb data first = '#1'.
 	self assert: cb data second = '#3'.
 	self assert: cb group buttons size equals: 2.
@@ -268,7 +268,7 @@ ToChoiceBoxTest >> testRemoveWithSeparator2 [
 			d2.
 			d3 }.
 	cb selectIndex: 2.
-	self assert: cb group buttons second isChecked.
+	self assert: cb group buttons second checked.
 	self assert: cb data size equals: 3.
 	self assert: cb selectedData equals: d2.
 	self assert: cb menuButton label text asString equals: d2.
@@ -276,8 +276,8 @@ ToChoiceBoxTest >> testRemoveWithSeparator2 [
 	cb removeData: '#1'.
 	self assert: cb selectedIndex equals: 2.
 	self assert: cb menuButton label text asString equals: d2.
-	self assert: cb group buttons first isChecked.
-	self assert: cb group buttons second isUnchecked.
+	self assert: cb group buttons first checked.
+	self assert: cb group buttons second checked not.
 	self assert: cb data first = '#2'.
 	self assert: cb data second = '#3'.
 	self assert: cb group buttons size equals: 2.
@@ -297,7 +297,7 @@ ToChoiceBoxTest >> testSelectedData1 [
 	self assert: cb selectedData equals: d first.
 	cb selectData: d second.
 	self assert: cb menuButton label text asString equals: d second.
-	self assert: cb group buttons second isChecked
+	self assert: cb group buttons second checked
 ]
 
 { #category : #' tests' }
@@ -367,12 +367,12 @@ ToChoiceBoxTest >> testWithStrictStrategy [
 	self assert: cb menuButton label text asString equals: d1.
 	self assert: cb menuButton menuWindow root children size equals: 3.
 	self assert: cb group buttons size equals: 3.
-	self assert: cb group buttons first isChecked.
-	self assert: cb group buttons second isUnchecked.
-	self assert: cb group buttons third isUnchecked.
+	self assert: cb group buttons first checked.
+	self assert: cb group buttons second checked not.
+	self assert: cb group buttons third checked not.
 	self assert: cb placeholder isNil.
 	cb group buttons first uncheck.
-	self assert: cb group buttons first isChecked
+	self assert: cb group buttons first checked
 ]
 
 { #category : #tests }
@@ -393,9 +393,9 @@ ToChoiceBoxTest >> testWithUncheckStrategy [
 	self assert: cb menuButton label text asString equals: d1.
 	self assert: cb menuButton menuWindow root children size equals: 3.
 	self assert: cb group buttons size equals: 3.
-	self assert: cb group buttons first isChecked.
-	self assert: cb group buttons second isUnchecked.
-	self assert: cb group buttons third isUnchecked.
+	self assert: cb group buttons first checked.
+	self assert: cb group buttons second checked not.
+	self assert: cb group buttons third checked not.
 	self assert: cb placeholder isNil.
 	cb group buttons first uncheck.
 	self assert: cb menuButton label isNil

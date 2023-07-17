@@ -42,7 +42,7 @@ ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndCheckUse [
 	group := ToCheckableGroup new.
 	1 to: 4 do: [ :idx | | chb |
 		chb := ToCheckbox new.
-		idx = 1 ifTrue:[chb startChecked].
+		idx = 1 ifTrue:[chb checked: true].
 		group add: chb 
 	].
 
@@ -51,11 +51,11 @@ ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndCheckUse [
 	checkBox dresser: checkBox defaultDresser.
 	
 	checkBox check.
-	self assert: checkBox isChecked.
+	self assert: checkBox checked.
 	
 	checkBox2 := group buttons at: 2.
 	checkBox2 check.
-	self deny: checkBox isChecked.
+	self deny: checkBox checked.
 ]
 
 { #category : #tests }
@@ -83,17 +83,17 @@ ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndCheckUse2 [
 	buttons do: [ :b | pane addChild: b ].
 
 	buttons first check.
-	self assert: buttons first isChecked.
-	self assert: buttons second isUnchecked.
-	self assert: buttons third isUnchecked.
+	self assert: buttons first checked.
+	self assert: buttons second checked not.
+	self assert: buttons third checked not.
 	buttons second check.
-	self assert: buttons first isUnchecked.
-	self assert: buttons second isChecked.
-	self assert: buttons third isUnchecked.
+	self assert: buttons first checked not.
+	self assert: buttons second checked.
+	self assert: buttons third checked not.
 	buttons third check.
-	self assert: buttons first isUnchecked.
-	self assert: buttons second isUnchecked.
-	self assert: buttons third isChecked.
+	self assert: buttons first checked not.
+	self assert: buttons second checked not.
+	self assert: buttons third checked.
 
 	buttons do: [ :b |
 		b dresser: nil.
@@ -101,17 +101,17 @@ ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndCheckUse2 [
 	self assert: modelButtonsGroup buttons size equals: 3.
 	
 	buttons first check.
-	self assert: buttons first isChecked.
-	self assert: buttons second isUnchecked.
-	self assert: buttons third isUnchecked.
+	self assert: buttons first checked.
+	self assert: buttons second checked not.
+	self assert: buttons third checked not.
 	buttons second check.
-	self assert: buttons first isUnchecked.
-	self assert: buttons second isChecked.
-	self assert: buttons third isUnchecked.
+	self assert: buttons first checked not.
+	self assert: buttons second checked.
+	self assert: buttons third checked not.
 	buttons third check.
-	self assert: buttons first isUnchecked.
-	self assert: buttons second isUnchecked.
-	self assert: buttons third isChecked
+	self assert: buttons first checked not.
+	self assert: buttons second checked not.
+	self assert: buttons third checked
 ]
 
 { #category : #tests }
@@ -139,17 +139,17 @@ ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndSwitchToNextStateU
 	buttons do: [ :b | pane addChild: b ].
 
 	buttons first switchToNextState.
-	self assert: buttons first isChecked.
-	self assert: buttons second isUnchecked.
-	self assert: buttons third isUnchecked.
+	self assert: buttons first checked.
+	self assert: buttons second checked not.
+	self assert: buttons third checked not.
 	buttons second switchToNextState.
-	self assert: buttons first isUnchecked.
-	self assert: buttons second isChecked.
-	self assert: buttons third isUnchecked.
+	self assert: buttons first checked not.
+	self assert: buttons second checked.
+	self assert: buttons third checked not.
 	buttons third switchToNextState.
-	self assert: buttons first isUnchecked.
-	self assert: buttons second isUnchecked.
-	self assert: buttons third isChecked.
+	self assert: buttons first checked not.
+	self assert: buttons second checked not.
+	self assert: buttons third checked.
 
 	buttons do: [ :b |
 		b dresser: nil.
@@ -157,17 +157,17 @@ ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndSwitchToNextStateU
 	self assert: modelButtonsGroup buttons size equals: 3.
 	
 	buttons first switchToNextState.
-	self assert: buttons first isChecked.
-	self assert: buttons second isUnchecked.
-	self assert: buttons third isUnchecked.
+	self assert: buttons first checked.
+	self assert: buttons second checked not.
+	self assert: buttons third checked not.
 	buttons second switchToNextState.
-	self assert: buttons first isUnchecked.
-	self assert: buttons second isChecked.
-	self assert: buttons third isUnchecked.
+	self assert: buttons first checked not.
+	self assert: buttons second checked.
+	self assert: buttons third checked not.
 	buttons third switchToNextState.
-	self assert: buttons first isUnchecked.
-	self assert: buttons second isUnchecked.
-	self assert: buttons third isChecked
+	self assert: buttons first checked not.
+	self assert: buttons second checked not.
+	self assert: buttons third checked
 ]
 
 { #category : #tests }
@@ -181,7 +181,7 @@ ToCheckableGroupTest >> testCheckableGroupWithOnePreCheckedButton [
 		group add: chb ].
 	group buttons second check.
 	self assert: group checkedButtons size equals: 1.
-	self assert: group buttons second isChecked.
+	self assert: group buttons second checked.
 	self assert: group uncheckedButtons size equals: group buttons size - 1
 ]
 
@@ -194,9 +194,9 @@ ToCheckableGroupTest >> testCheckableGroupWithStartDefault [
 		| chb |
 		chb := ToCheckbox new.
 		group add: chb ].
-	group buttons second startChecked.
+	group buttons second checked: true.
 	self assert: group checkedButtons size equals: 1.
-	self assert: group buttons second isChecked.
+	self assert: group buttons second checked.
 	self assert: group uncheckedButtons size equals: group buttons size - 1
 ]
 
@@ -211,7 +211,7 @@ ToCheckableGroupTest >> testCheckableGroupWithTwoPreCheckedButtons0 [
 		group add: chb ].
 	group buttons second check.
 	self assert: group checkedButtons size equals: 1.
-	self assert: group buttons second isChecked.
+	self assert: group buttons second checked.
 	self assert: group uncheckedButtons size equals: group buttons size - 1
 ]
 
@@ -227,7 +227,7 @@ ToCheckableGroupTest >> testCheckableGroupWithTwoPreCheckedButtons1 [
 	group buttons second check.
 	group buttons first check.
 	self assert: group checkedButtons size equals: 1.
-	self assert: group buttons first isChecked.
+	self assert: group buttons first checked.
 	self assert: group uncheckedButtons size equals: group buttons size - 1
 ]
 
@@ -247,7 +247,7 @@ ToCheckableGroupTest >> testCheckableGroupWithTwoPreCheckedButtons2 [
 		chb := ToCheckbox new.
 		group add: chb ].
 	self assert: group checkedButtons size equals: 1.
-	self assert: group buttons first isChecked.
+	self assert: group buttons first checked.
 	self assert: group uncheckedButtons size equals: group buttons size - 1
 ]
 
@@ -262,7 +262,7 @@ ToCheckableGroupTest >> testCheckableGroupWithTwoPreCheckedButtons3 [
 		chb check.
 		group add: chb ].
 	self assert: group checkedButtons size equals: 1.
-	self assert: group buttons fourth isChecked.
+	self assert: group buttons fourth checked.
 	self assert: group uncheckedButtons size equals: group buttons size - 1
 ]
 
@@ -274,10 +274,10 @@ ToCheckableGroupTest >> testCheckableGroupWithTwoPreCheckedButtons4 [
 	buttons := (1 to: 4) collect: [ :idx | ToCheckbox new check ].
 	group addAll: buttons.
 	self assert: group checkedButtons size equals: 1.
-	self assert: group buttons first isChecked.
-	self assert: group buttons second isUnchecked.
-	self assert: group buttons third isUnchecked.
-	self assert: group buttons fourth isUnchecked
+	self assert: group buttons first checked.
+	self assert: group buttons second checked not.
+	self assert: group buttons third checked not.
+	self assert: group buttons fourth checked not
 ]
 
 { #category : #tests }
@@ -288,7 +288,7 @@ ToCheckableGroupTest >> testRemoveCheckableInCheckableGroup [
 	buttons := (1 to: 4) collect: [ :idx | ToCheckbox new check ].
 	group addAll: buttons.
 	self assert: group checkedButtons size equals: 1.
-	self assert: group buttons first isChecked.
+	self assert: group buttons first checked.
 	group remove: buttons second.
 	self assert: group buttons size equals: 3.
 	group remove: buttons first.

@@ -1,7 +1,8 @@
 Trait {
 	#name : #TToCheckable,
 	#instVars : [
-		'group'
+		'#group',
+		'#checked => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Button'
 }
@@ -13,7 +14,7 @@ TToCheckable >> addToGroup: aToggleGroup [
 	self group: aToggleGroup 
 ]
 
-{ #category : #'t - checking protocol' }
+{ #category : #'t - checkable  protocol' }
 TToCheckable >> check [
 
 	self group ifNotNil: [ :g |
@@ -22,12 +23,25 @@ TToCheckable >> check [
 	self privateCheck
 ]
 
-{ #category : #'t - checking protocol' }
+{ #category : #'t - checkable  protocol' }
 TToCheckable >> check: aBoolean [
 
 	aBoolean
 		ifTrue: [ self check ]
 		ifFalse: [ self uncheck ]
+]
+
+{ #category : #'t - checkable  protocol' }
+TToCheckable >> checked [
+
+	^ checked 
+]
+
+{ #category : #'t - checkable  protocol' }
+TToCheckable >> checked: aBoolean [
+
+	checked = aBoolean ifTrue: [ ^ self ].
+	checked := aBoolean
 ]
 
 { #category : #'t - toggle group' }
@@ -42,28 +56,24 @@ TToCheckable >> group: aToggleGroup [
 	group := aToggleGroup
 ]
 
-{ #category : #'t - checking protocol' }
-TToCheckable >> isChecked [
+{ #category : #'t - checkable initializing' }
+TToCheckable >> initializeCheckable [
 
-	^ self currentState notNil and: [ self currentState name = #checked ]
+	checked := false.
+	self whenCheckedChangedDo: [ :new :prev | self dispatchEvent: (ToCheckableCheckEvent current: new previous: prev) ]
+
 ]
 
-{ #category : #'t - checking protocol' }
-TToCheckable >> isUnchecked [
-
-	^ self currentState notNil and: [ self currentState name = #unchecked ]
-]
-
-{ #category : #'t - checking protocol' }
+{ #category : #'t - checkable  protocol' }
 TToCheckable >> privateCheck [
 
-	self switchToStateNamed: #checked
+	checked := true
 ]
 
-{ #category : #'t - checking protocol' }
+{ #category : #'t - checkable  protocol' }
 TToCheckable >> privateUncheck [
 
-	self switchToStateNamed: #unchecked
+	checked := false
 ]
 
 { #category : #'t - toggle group' }
@@ -72,35 +82,17 @@ TToCheckable >> removeFromGroup [
 	self group remove: self
 ]
 
-{ #category : #'t - checking protocol' }
-TToCheckable >> startChecked [
-
-	self isChecked ifTrue: [ ^ self ].
-	self startState: (self stateNamed: #checked)
-]
-
-{ #category : #'t - checking protocol' }
-TToCheckable >> startUnchecked [
-
-	self isChecked ifFalse: [ ^ self ].
-	self startState: (self stateNamed: #unchecked)
-]
-
-{ #category : #'t - checking protocol' }
+{ #category : #'t - checkable  protocol' }
 TToCheckable >> uncheck [
 
 	self group ifNotNil: [ :g | g unchecked: self. ^ self ].
 	self privateUncheck
 ]
 
-{ #category : #'t - checking protocol' }
-TToCheckable >> whenCheckedDo: aBlock [
+{ #category : #'t - change hook' }
+TToCheckable >> whenCheckedChangedDo: aBlock [
 
-	(self stateNamed: #checked) whenEnterDo: [:ann | aBlock cull: ann widget ]
-]
+	"set a block to perform after that the slot has been changed, and its action performed"
 
-{ #category : #'t - checking protocol' }
-TToCheckable >> whenUncheckedDo: aBlock [
-
-	(self stateNamed: #unchecked ) whenEnterDo: [:ann | aBlock cull: ann widget ]
+	self property: #checked whenChangedDo: aBlock
 ]

@@ -7,8 +7,8 @@ Class {
 { #category : #notifications }
 ToCheckableGroupStrictStrategy >> buttonInserted: aCheckable in: aGroup [
 
-	aCheckable isChecked ifTrue: [
-		(aGroup buttons select: [ :b | b ~= aCheckable and: [ b isChecked ] ])
+	aCheckable checked ifTrue: [
+		(aGroup buttons select: [ :b | b ~= aCheckable and: [ b checked ] ])
 			do: [ :b | b privateUncheck ] ].
 	super buttonInserted: aCheckable in: aGroup
 ]
@@ -16,5 +16,5 @@ ToCheckableGroupStrictStrategy >> buttonInserted: aCheckable in: aGroup [
 { #category : #testing }
 ToCheckableGroupStrictStrategy >> canSwitchToNextState: aCheckable [
 
-	^ aCheckable isUnchecked
+	^ aCheckable checked not
 ]

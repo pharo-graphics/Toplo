@@ -1,123 +1,95 @@
 Class {
 	#name : #ToButtonSkin,
 	#superclass : #ToWidgetSkin,
-	#classTraits : 'TObservable classTrait',
 	#instVars : [
-		'iconChangeHandler',
-		'labelChangeHandler',
-		'danger'
+		'type'
 	],
-	#category : #'Toplo-Widget-Button-Skin'
+	#category : #'Toplo-Widget-Button-Skins'
 }
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonSkin >> buttonIconChanged: anEvent [
+
+	anEvent currentTarget icon ifNil: [ ^ self ].
+	anEvent currentTarget icon withSkin: (ToButtonImageSkin new buttonType: self type)	
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonSkin >> buttonLabelChanged: anEvent [
+
+	anEvent currentTarget label ifNil: [ ^ self ].
+	anEvent currentTarget label withSkin: (ToButtonLabelSkin new buttonType: self type).
+
+]
 
 { #category : #accessing }
 ToButtonSkin >> danger [
 
-	^ danger ifNil: [ danger := false ]
+	^ self type danger
 ]
 
 { #category : #accessing }
 ToButtonSkin >> danger: aBoolean [
 
-	danger := aBoolean
+	self type danger: aBoolean
+]
+
+{ #category : #accessing }
+ToButtonSkin >> dashed [
+
+	^ self type dashed
+]
+
+{ #category : #accessing }
+ToButtonSkin >> dashed: aBoolean [
+
+	self type dashed: aBoolean
 ]
 
 { #category : #'event handling' }
-ToButtonSkin >> handleLookEvent: aLookEvent [
+ToButtonSkin >> elementLookEvent: anEvent [
 
-	aLookEvent target icon ifNotNil: [ :ico | ico dispatchEvent: aLookEvent copy ].
-	aLookEvent target label ifNotNil: [ :lab | lab dispatchEvent: aLookEvent copy ].
-	super handleLookEvent: aLookEvent.
+	anEvent currentTarget icon ifNotNil: [ :ico | ico dispatchEvent: anEvent copy ].
+	anEvent currentTarget label ifNotNil: [ :lab | lab dispatchEvent: anEvent copy ].
+	super elementLookEvent: anEvent
 
 	
 ]
 
-{ #category : #'api - install/uninstall  hook' }
-ToButtonSkin >> installEventListenersIn: anElement [
+{ #category : #'api - accessing' }
+ToButtonSkin >> eventsToHandle [ 
 
-	super installEventListenersIn: anElement.
-	iconChangeHandler := BlEventHandler
-		                     on: ToButtonIconChanged
-		                     do: [ :evt | self onInstalledIconIn: anElement. ].
-	labelChangeHandler := BlEventHandler
-		                      on: ToButtonLabelChanged
-		                      do: [ :evt | self onInstalledLabelIn: anElement ].
-	anElement addEventHandler: iconChangeHandler.
-	anElement addEventHandler: labelChangeHandler.
-
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonSkin >> onInstalledIconIn: anElement [
-
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonSkin >> onInstalledLabelIn: anElement [
-
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonSkin >> onUninstalledIconIn: anElement [
-
-	anElement icon ifNil: [ ^ self ].
-	anElement icon withoutSkin
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonSkin >> onUninstalledLabelIn: anElement [
-
-	anElement label ifNil: [ ^ self ].
-	anElement label withoutSkin
+	^ super eventsToHandle, { ToButtonIconChanged. ToButtonLabelChanged }
 ]
 
 { #category : #accessing }
-ToButtonSkin >> textAttributesBuilderFromElement: anElement [
+ToButtonSkin >> type [
 
-	| builder |
-	builder  := BlTextAttributesBuilder new.
-	builder lineSpacing: anElement toTheme lineHeight.
-	builder weight: anElement toTheme fontWeightStrong.
-	builder defaultFontSize: anElement toTheme fontSize.
-	builder defaultFontName: anElement toTheme fontFamilyCode.
-	builder foreground: anElement toTheme colorText.
+	"#default, #primary, #link or #text"
 
-	^ builder 
+	^ type ifNil: [ type := ToButtonDefaultType new ]
 ]
 
-{ #category : #'api - install/uninstall  hook' }
-ToButtonSkin >> uninstallEventListenersIn: anElement [
+{ #category : #accessing }
+ToButtonSkin >> type: aSkinType [
 
-	anElement removeEventHandler: iconChangeHandler.
-	anElement removeEventHandler: labelChangeHandler.
-	super uninstallEventListenersIn: anElement
-
+	"#default, #primary, #link or #text"
+	type := aSkinType
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToButtonSkin >> whenAddedToSpace: anEvent in: anElement [
 
+	" must send to super ** after ** the look is initialize from type "
+	self type whenAddedToSpace: anEvent in: anElement fromSkin: self.
 	super whenAddedToSpace: anEvent in: anElement.
 
-	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: anElement toTheme borderRadius).
-
-	anElement padding: (BlInsets
-			 top: anElement toTheme paddingXS / 2
-			 left: anElement toTheme paddingContentHorizontal
-			 bottom: anElement toTheme paddingXS / 2
-			 right: anElement toTheme paddingContentHorizontal).
-
-	self onInstalledLabelIn: anElement.
-	self onInstalledIconIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToButtonSkin >> whenRemovedFromSpace: anEvent in: anElement [
 
+	self type whenRemovedFromSpace: anEvent in: anElement fromSkin: self.
 	super whenRemovedFromSpace: anEvent in: anElement.
-	self onUninstalledLabelIn: anElement.
-	self onUninstalledIconIn: anElement
+
 ]

@@ -953,22 +953,22 @@ ToSandBox class >> example_ToButtonSkins [
 	
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 
-	themeSwitcher := ToChoiceBox new.
+	"themeSwitcher := ToChoiceBox new.
 	themeSwitcher data addAll: { ToThemeLight. ToThemeDark }.
 			
 	themeSwitcher whenSelectedIndexChangedDo: [ space toTheme: themeSwitcher selectedData new ].
 	themeSwitcher selectData: space toTheme class.
-	space root addChild: themeSwitcher.
+	space root addChild: themeSwitcher."
 
-"space switchThemeDarkOrLight."
+space switchThemeDarkOrLight.
 
 	butBuilder := [ ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16 ].
 	buttonSpecsBuilder := [ {
-		{ 'Primary'. ToButtonPrimarySkin new }.
-		{ 'Default'. ToButtonDefaultSkin new}.
-		{ 'Dashed'. (ToButtonDefaultSkin new dashed: true; yourself) }.
-		{ 'Text'. ToButtonTextSkin new }.
-		{ 'Link'. ToButtonLinkSkin new } } ].
+		{ 'Primary'. ToButtonSkin new type: ToButtonPrimaryType new}.
+		{ 'Default'. ToButtonSkin new type: ToButtonDefaultType new}.
+		{ 'Dashed'. (ToButtonSkin new dashed: true; yourself) }.
+		{ 'Text'. ToButtonSkin new type: ToButtonTextType new }.
+		{ 'Link'. ToButtonSkin new type:  ToButtonLinkType new} } ].
 		
 	" Line 1 "
 	pane := ToPane horizontal.
@@ -1062,7 +1062,7 @@ ToSandBox class >> example_ToButtonWithDashedSkin [
 	
 	space := BlSpace new.
 
-	button1 := ToButton new withSkin: (ToButtonDefaultSkin new dashed: true; yourself).
+	button1 := ToButton new withSkin: (ToButtonSkin new dashed: true; yourself).
 	button1 labelText: 'Dashed button'.
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 	
@@ -1083,12 +1083,12 @@ ToSandBox class >> example_ToButtonWithDefaultDangerSkin [
 	
 	space := BlSpace new.
 
-	button1 := ToButton new withSkin: (ToButtonDefaultSkin new danger: true; yourself).
+	button1 := ToButton new withSkin: (ToButtonSkin new danger: true; yourself).
 	button1 label: (ToLabel text: 'Default danger button').
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 	space root addChild: button1.	
 	space root when: BlElementAddedToSceneGraphEvent do: [  
-		button1 labelText: 'Primary button 3'.
+		button1 labelText: 'Default danger button 3'.
 		button1 iconImage: (ToThemeIcons iconSearchOutlined16x16) ].
 	space show.
 ]
@@ -1119,7 +1119,7 @@ ToSandBox class >> example_ToButtonWithPrimarySkin [
 	
 	space := BlSpace new.
 
-	button1 := ToButton new withSkin: (ToButtonPrimarySkin new).
+	button1 := ToButton new withSkin: (ToButtonSkin new type: ToButtonPrimaryType new).
 	button1 label: (ToLabel text: 'Primary button').
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 	space root addChild: button1.	
@@ -1136,10 +1136,10 @@ ToSandBox class >> example_ToButtonWithPrimarySkin2 [
 	space := BlSpace new.
 
 	button1 := ToButton new
+		           withSkin: (ToButtonSkin new type: ToButtonPrimaryType new);
 		           label: (ToLabel text: 'Primary button');
 		           icon: (ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16);
-		           withSkin: ToButtonPrimarySkin new;
-					  yourself.
+		           yourself.
 	space root addChild: button1.
 	space show
 ]
@@ -1151,7 +1151,7 @@ ToSandBox class >> example_ToButtonWithTextSkin [
 	
 	space := BlSpace new.
 
-	button1 := ToButton new withSkin: (ToButtonTextSkin new ).
+	button1 := ToButton new withSkin: (ToButtonSkin new type: ToButtonTextType new).
 	button1 labelText: 'Text button'.
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).	
 		
@@ -1495,7 +1495,7 @@ ToSandBox class >> example_menu5 [
 	grp whenChangedDo: [ :ann |
 		('checked: ' , ann checkedButtons asString , ' unchecked: '
 		 , ann uncheckedButtons asString) traceCr ].
-	center startChecked.
+	center checked: true.
 
 	grp add: right.
 	grp add: center.
@@ -1550,7 +1550,7 @@ ToSandBox class >> example_menu6 [
 	left := ToRadioMenuItem new
 		        labelText: 'Left';
 		        id: #left.
-	center startChecked.
+	center checked: true.
 	grp addAll: {
 			right.
 			center.
@@ -1588,7 +1588,7 @@ ToSandBox class >> example_menu6 [
 		        columnWidth: 50;
 		        labelText: 'Left';
 		        id: #left.
-	center startChecked.
+	center checked: true.
 	grp addAll: {
 			right.
 			center.
@@ -1625,7 +1625,7 @@ ToSandBox class >> example_menu6 [
 		        beJustified;
 		        labelText: 'Left';
 		        id: #left.
-	center startChecked.
+	center checked: true.
 	grp addAll: {
 			right.
 			center.
@@ -1635,7 +1635,7 @@ ToSandBox class >> example_menu6 [
 		('checked: ' , ann checkedButtons asString , ' unchecked: '
 		 , ann uncheckedButtons asString) traceCr ].
 
-	center startChecked.
+	center checked: true.
 
 	menu addSeparator.
 	lbl := ToLabel new text:
@@ -2414,7 +2414,6 @@ ToSandBox class >> example_toCheckboxModelWithLabel3 [
 
 	| but |
 	but := ToCheckbox new labelText: 'Check me'.
-	but layout cellSpacing: 10.
 	but openInSpace
 ]
 
@@ -2433,10 +2432,7 @@ ToSandBox class >> example_toCheckboxWithLabel [
 
 	| but |
 	but := ToCheckbox new labelText: 'Check me'.
-	but layout cellSpacing: 25.
-	but whenCheckedDo: [ self inform: '+++ checked' ].
-	but whenUncheckedDo: [ self inform: '--- unchecked' ].
-
+	but when: ToCheckableCheckEvent do: [ :event | self inform: 'checked ', event current asString ].
 	but openInSpace
 ]
 
@@ -2447,9 +2443,8 @@ ToSandBox class >> example_toCheckboxWithLabel2 [
 	but := ToCheckbox new
 		       labelText: 'Check me';
 		       beLabelFirst;
-		       startChecked.
-	but whenCheckedDo: [ self inform: '+++ checked' ].
-	but whenUncheckedDo: [ self inform: '--- unchecked' ].
+		       checked: true.
+	but when: ToCheckableCheckEvent do: [ :event | self inform: 'checked ', event current asString ].
 
 	but openInSpace
 ]
@@ -2467,7 +2462,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroup2 [
 			       id: idx asString.
 		chb beIconFirst.
 		group add: chb ].
-	group buttons second startChecked.
+	group buttons second checked: true.
 	container := ToElement new.
 	container matchParent.
 	container layout: BlLinearLayout horizontal.
@@ -2496,7 +2491,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndNoneStrategy [
 			       labelText: idx asString;
 			       id: idx asString.
 		buttons add: chb ].
-	buttons second startChecked.
+	buttons second checked: true.
 	group addAll: buttons.
 	group whenChangedDo: [ :ann |
 		('checked: ' , ann checkedButtons asString , ' unchecked: '
@@ -2528,7 +2523,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndStrictStrategy [
 			       labelText: idx asString;
 			       id: idx asString.
 		buttons add: chb ].
-	buttons second startChecked.
+	buttons second checked: true.
 	group addAll: buttons.
 	group whenChangedDo: [ :ann |
 		('checked: ' , ann checkedButtons asString , ' unchecked: '
@@ -2561,7 +2556,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndUnckekingStrategy [
 			       labelText: idx asString;
 			       id: idx asString.
 		buttons add: chb ].
-	buttons second startChecked.
+	buttons second checked: true.
 	group addAll: buttons.
 	group whenChangedDo: [ :ann |
 		('checked: ' , ann checkedButtons asString , ' unchecked: '
@@ -2594,7 +2589,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroupJustified [
 			       labelText: idx asString;
 			       id: idx asString.
 		buttons add: chb ].
-	buttons second startChecked.
+	buttons second checked: true.
 	group addAll: buttons.
 	group whenChangedDo: [ :ann |
 		('checked: ' , ann checkedButtons asString , ' unchecked: '
@@ -3307,11 +3302,8 @@ ToSandBox class >> example_toggle [
 		      hMatchParent.
 	tv check.
 
-	th whenCheckedDo: [ :ann | ann traceCr ].
-	th whenUncheckedDo: [ :ann | ann traceCr ].
-
-	tv whenCheckedDo: [ :ann | ann traceCr ].
-	tv whenUncheckedDo: [ :ann | ann traceCr ].
+	th 	when: ToCheckableCheckEvent do: [ :event | event traceCr ].
+	tv 	when: ToCheckableCheckEvent do: [ :event | event traceCr ].
 
 	win := ToInnerWindow new
 		       position: 10 @ 10;

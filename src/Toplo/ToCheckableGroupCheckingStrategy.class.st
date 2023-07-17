@@ -14,8 +14,8 @@ Class {
 { #category : #notifications }
 ToCheckableGroupCheckingStrategy >> armCheckable: aCheckable in: aGroup [
 
-	aCheckable whenCheckedDo: [ aCheckable check ].
-	aCheckable whenUncheckedDo: [ aCheckable uncheck ].
+	"aCheckable whenCheckedDo: [ aCheckable check ].
+	aCheckable whenUncheckedDo: [ aCheckable uncheck ]."
 
 ]
 

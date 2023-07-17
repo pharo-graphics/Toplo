@@ -2,8 +2,7 @@ Class {
 	#name : #ToGeneralButtonDresser,
 	#superclass : #ToMouseHandlingDresser,
 	#instVars : [
-		'mouseUpOutsideHandler',
-		'currentState'
+		'mouseUpOutsideHandler'
 	],
 	#category : #'Toplo-Widget-Button'
 }
@@ -157,9 +156,7 @@ ToGeneralButtonDresser >> pressedState: anElement [
 { #category : #'events handling' }
 ToGeneralButtonDresser >> switchToState: aState in: anElement [
 
-	currentState = aState ifTrue: [ ^ self ].
-	currentState := aState.
-	anElement dispatchEvent: (ToElementStateChangedEvent new state: currentState; yourself)
+	anElement switchToState: aState
 ]
 
 { #category : #'api - install/uninstall  hook' }

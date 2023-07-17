@@ -44,7 +44,7 @@ TToSkinable >> withSkin: aSkin [
 	self withoutSkin.
 	privateSkin := aSkin.
 	Toplo useLookAndFeel ifTrue: [ ^ self ].
-	privateSkin ifNotNil: [ privateSkin onInstalledIn: self].
+	privateSkin ifNotNil: [ self addEventHandler: privateSkin ].
 
 	
 ]
@@ -53,6 +53,6 @@ TToSkinable >> withSkin: aSkin [
 TToSkinable >> withoutSkin [
 
 	privateSkin ifNotNil: [
-		privateSkin onUninstalledIn: self.
+		self removeEventHandler: privateSkin.
 		privateSkin := nil ]
 ]

@@ -109,7 +109,7 @@ ToLAFRadioButtonDresser >> hover: anElement event: anEvent [
 	self border: self skin borderHover in: anElement.
 
 	"update checked/unchecked icon"
-	anElement isChecked
+	anElement checked
 		ifTrue: [
 			self skin checkedBorderHover ifNotNil: [:e | anElement icon innerImage border: e].
 			self skin checkedBackgroundHover ifNotNil: [:e | anElement icon innerImage background: e]]
@@ -128,7 +128,7 @@ ToLAFRadioButtonDresser >> initialState: anElement [
 	self border: self skin border in: anElement.
 	
 	"update checked/unchecked icon"
-	anElement isChecked
+	anElement checked
 		ifTrue: [
 			self skin checkedBorder ifNotNil: [:e | anElement icon innerImage border: e].
 			self skin checkedBackground ifNotNil: [:e | anElement icon innerImage background: e]]
@@ -168,7 +168,7 @@ ToLAFRadioButtonDresser >> mouseEnterEvent: anEvent in: anElement [.
 	self border: self skin borderHover in: anElement.
 
 	"update checked/unchecked icon"
-	anElement isChecked
+	anElement checked
 		ifTrue: [
 			self skin checkedBorderHover ifNotNil: [:e | anElement icon innerImage border: e].
 			self skin checkedBackgroundHover ifNotNil: [:e | anElement icon innerImage background: e]]

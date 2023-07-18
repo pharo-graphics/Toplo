@@ -7,14 +7,14 @@ Class {
 { #category : #testing }
 ToCheckableGroupNoneStrategy >> checked: aCheckable in: aGroup [
 
-	aCheckable privateCheck.
+	aCheckable privateChecked: true.
 	aGroup notifyChanged
 ]
 
 { #category : #testing }
 ToCheckableGroupNoneStrategy >> unchecked: aCheckable in: aGroup [
 
-	aCheckable privateUncheck.
+	aCheckable privateChecked: false.
 	aGroup notifyChanged
 
 ]

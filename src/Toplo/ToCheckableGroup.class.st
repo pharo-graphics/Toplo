@@ -31,12 +31,6 @@ ToCheckableGroup >> buttons [
 	^ buttons
 ]
 
-{ #category : #testing }
-ToCheckableGroup >> canSwitchToNextState: aCheckable [
-
-	^ checkingStrategy canSwitchToNextState: aCheckable
-]
-
 { #category : #'check-uncheck-request' }
 ToCheckableGroup >> checked: aCheckable [
 
@@ -126,7 +120,7 @@ ToCheckableGroup >> notifyButtonsRemoved: aCollectionChangeAnnouncement [
 { #category : #'checking protocol' }
 ToCheckableGroup >> notifyChanged [
 
-	self fireEvent: (ToCheckableGroupChangedEvent new
+	self dispatchEvent: (ToCheckableGroupChangedEvent new
 			 checkedButtons: self checkedButtons;
 			 uncheckedButtons: self uncheckedButtons;
 			 yourself)
@@ -150,7 +144,7 @@ ToCheckableGroup >> removeAll [
 ToCheckableGroup >> uncheckAll [
 
 	self checkedButtons ifNotEmpty: [ :found |
-		found do: [ :b | b privateUncheck ] ]
+		found do: [ :b | b privateChecked: false ] ]
 ]
 
 { #category : #'check-uncheck-request' }
@@ -164,14 +158,14 @@ ToCheckableGroup >> uncheckAllExcept: aButton ifFoundDo: aBlock [
 
 	(self buttons select: [ :b | b ~= aButton and: [ b checked ] ])
 		ifNotEmpty: [ :uncheckedBtns |
-			uncheckedBtns do: [ :b | b privateUncheck ].
+			uncheckedBtns do: [ :b | b privateChecked: false ].
 			aBlock value ]
 ]
 
 { #category : #'check-uncheck-request' }
 ToCheckableGroup >> unchecked: aCheckable [
 
-	checkingStrategy unchecked: aCheckable in: self
+	checkingStrategy unchecked: aCheckable in: self.
 
 ]
 
@@ -179,14 +173,6 @@ ToCheckableGroup >> unchecked: aCheckable [
 ToCheckableGroup >> uncheckedButtons [
 
 	^ buttons reject: [ :b | b checked ]
-]
-
-{ #category : #'checking protocol' }
-ToCheckableGroup >> whenChangedDo: aBlock [
-	"Run aBlock when one of my buttons is checked. 
-	 `aBlock` receives a ToCheckableGroupChanged announcement asArgument"
-
-	self when: ToCheckableGroupChangedEvent do: aBlock
 ]
 
 { #category : #accessing }

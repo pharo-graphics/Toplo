@@ -1492,9 +1492,9 @@ ToSandBox class >> example_menu5 [
 	left := ToRadioMenuItem new
 		        labelText: 'Left';
 		        id: #left.
-	grp whenChangedDo: [ :ann |
-		('checked: ' , ann checkedButtons asString , ' unchecked: '
-		 , ann uncheckedButtons asString) traceCr ].
+	grp when: ToCheckableGroupChangedEvent do: [ :event |
+		('checked: ' , event checkedButtons asString , ' unchecked: '
+		 , event uncheckedButtons asString) traceCr ].
 	center checked: true.
 
 	grp add: right.
@@ -1556,9 +1556,9 @@ ToSandBox class >> example_menu6 [
 			center.
 			left }.
 
-	grp whenChangedDo: [ :ann |
-		('checked: ' , ann checkedButtons asString , ' unchecked: '
-		 , ann uncheckedButtons asString) traceCr ].
+	grp when: ToCheckableGroupChangedEvent do: [ :event |
+		('checked: ' , event checkedButtons asString , ' unchecked: '
+		 , event uncheckedButtons asString) traceCr ].
 
 	menu addSeparator.
 
@@ -1593,9 +1593,9 @@ ToSandBox class >> example_menu6 [
 			right.
 			center.
 			left }.
-	grp whenChangedDo: [ :ann |
-		('checked: ' , ann checkedButtons asString , ' unchecked: '
-		 , ann uncheckedButtons asString) traceCr ].
+	grp when: ToCheckableGroupChangedEvent do: [ :event |
+		('checked: ' , event checkedButtons asString , ' unchecked: '
+		 , event uncheckedButtons asString) traceCr ].
 
 	menu addSeparator.
 
@@ -1631,9 +1631,9 @@ ToSandBox class >> example_menu6 [
 			center.
 			left }.
 
-	grp whenChangedDo: [ :ann |
-		('checked: ' , ann checkedButtons asString , ' unchecked: '
-		 , ann uncheckedButtons asString) traceCr ].
+	grp when: ToCheckableGroupChangedEvent do: [ :event |
+		('checked: ' , event checkedButtons asString , ' unchecked: '
+		 , event uncheckedButtons asString) traceCr ].
 
 	center checked: true.
 
@@ -2428,6 +2428,18 @@ ToSandBox class >> example_toCheckboxModelWithLabel4 [
 ]
 
 { #category : #checkbox }
+ToSandBox class >> example_toCheckboxWithIndeterminate1 [
+
+	| chb |
+	chb := ToCheckbox new
+		       columnWidth: 50;
+		       label: (ToLabel text: '1');
+		       id: 1 asString.
+	chb withIndeterminate: true.	
+	chb openInInnerWindow
+]
+
+{ #category : #checkbox }
 ToSandBox class >> example_toCheckboxWithLabel [
 
 	| but |
@@ -2468,9 +2480,9 @@ ToSandBox class >> example_toCheckboxWithToggleGroup2 [
 	container layout: BlLinearLayout horizontal.
 	container layout cellSpacing: 2.
 	container addChildren: group buttons.
-	group whenChangedDo: [ :ann |
-		('checked: ' , ann checkedButtons asString , ' unchecked: '
-		 , ann uncheckedButtons asString) traceCr ].
+	group when: ToCheckableGroupChangedEvent do: [ :event |
+		('checked: ' , event checkedButtons asString , ' unchecked: '
+		 , event uncheckedButtons asString) traceCr ].
 	ToInnerWindow new
 		in: [ :f | f root addChild: container ];
 		openInSpace
@@ -2493,9 +2505,9 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndNoneStrategy [
 		buttons add: chb ].
 	buttons second checked: true.
 	group addAll: buttons.
-	group whenChangedDo: [ :ann |
-		('checked: ' , ann checkedButtons asString , ' unchecked: '
-		 , ann uncheckedButtons asString) traceCr ].
+	group when: ToCheckableGroupChangedEvent do: [ :event |
+		('checked: ' , event checkedButtons asString , ' unchecked: '
+		 , event uncheckedButtons asString) traceCr ].
 
 	container := BlElement new.
 	container constraintsDo: [ :c |
@@ -2525,9 +2537,9 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndStrictStrategy [
 		buttons add: chb ].
 	buttons second checked: true.
 	group addAll: buttons.
-	group whenChangedDo: [ :ann |
-		('checked: ' , ann checkedButtons asString , ' unchecked: '
-		 , ann uncheckedButtons asString) traceCr ].
+	group when: ToCheckableGroupChangedEvent do: [ :event |
+		('checked: ' , event checkedButtons asString , ' unchecked: '
+		 , event uncheckedButtons asString) traceCr ].
 
 	container := BlElement new.
 	container constraintsDo: [ :c |
@@ -2558,9 +2570,9 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndUnckekingStrategy [
 		buttons add: chb ].
 	buttons second checked: true.
 	group addAll: buttons.
-	group whenChangedDo: [ :ann |
-		('checked: ' , ann checkedButtons asString , ' unchecked: '
-		 , ann uncheckedButtons asString) traceCr ].
+	group when: ToCheckableGroupChangedEvent do: [ :event |
+		('checked: ' , event checkedButtons asString , ' unchecked: '
+		 , event uncheckedButtons asString) traceCr ].
 
 	container := BlElement new.
 	container constraintsDo: [ :c |
@@ -2591,9 +2603,9 @@ ToSandBox class >> example_toCheckboxWithToggleGroupJustified [
 		buttons add: chb ].
 	buttons second checked: true.
 	group addAll: buttons.
-	group whenChangedDo: [ :ann |
-		('checked: ' , ann checkedButtons asString , ' unchecked: '
-		 , ann uncheckedButtons asString) traceCr ].
+	group when: ToCheckableGroupChangedEvent do: [ :event |
+		('checked: ' , event checkedButtons asString , ' unchecked: '
+		 , event uncheckedButtons asString) traceCr ].
 
 	container := BlElement new.
 	container constraintsDo: [ :c |
@@ -3270,6 +3282,14 @@ ToSandBox class >> example_toRadioButton0 [
 	but openInSpace
 ]
 
+{ #category : #checkbox }
+ToSandBox class >> example_toRadioButtonWithIndeterminate [
+
+	| but |
+	but := ToRadioButton new withIndeterminate: true.
+	but openInSpace
+]
+
 { #category : #button }
 ToSandBox class >> example_toWidgetAsButton0 [
 
@@ -3349,6 +3369,33 @@ ToSandBox class >> example_verticalPaneWithDivider [
 	pane addChild: btn.
 	pane addDividers.
 	pane openInInnerWindow 
+]
+
+{ #category : #checkbox }
+ToSandBox class >> group [ 
+
+	| group container |
+	group := ToCheckableGroup new.
+	1 to: 4 do: [ :idx |
+		| chb |
+		chb := ToRadioButton new
+			       beVertical;
+			       labelText: idx asString;
+			       id: idx asString.
+		chb beIconFirst.
+		group add: chb ].
+	group buttons second checked: true.
+	container := ToElement new.
+	container matchParent.
+	container layout: BlLinearLayout horizontal.
+	container layout cellSpacing: 2.
+	container addChildren: group buttons.
+	group when: ToCheckableGroupChangedEvent do: [ :event |
+		('checked: ' , event checkedButtons asString , ' unchecked: '
+		 , event uncheckedButtons asString) traceCr ].
+	ToInnerWindow new
+		in: [ :f | f root addChild: container ];
+		openInSpace
 ]
 
 { #category : #accessing }

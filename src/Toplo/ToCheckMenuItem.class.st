@@ -6,22 +6,8 @@ Class {
 	#category : #'Toplo-Widget-Menu'
 }
 
-{ #category : #testing }
-ToCheckMenuItem >> canSwitchToNextState [
-
-	^ super canSwitchToNextState and: [ 
-		  self group isNil or: [ self group canSwitchToNextState: self  ] ]
-]
-
 { #category : #'t - initialization dresser' }
 ToCheckMenuItem >> defaultDresser [
 
 	^ ToBasicMenuItemDresser next: (ToCheckBoxDresser new)
-]
-
-{ #category : #'as yet unclassified' }
-ToCheckMenuItem >> initialize [
-
-	super initialize.
-	self whenClickedDo: [ self switchToNextState ]
 ]

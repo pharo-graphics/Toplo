@@ -26,9 +26,12 @@ ToCheckLook >> clickLookEvent: anEvent [
 
 	anEvent elementDo: [ :e |
 		| im |
-		im := e checked
+		im := e isChecked
 			      ifTrue: [ self checkedImage ]
-			      ifFalse: [ self uncheckedImage ].
+			      ifFalse: [
+				      e isUnchecked
+					      ifTrue: [ self uncheckedImage ]
+					      ifFalse: [ self indeterminateImage ] ].
 		e iconImage: im ]
 ]
 

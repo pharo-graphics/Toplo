@@ -7,23 +7,20 @@ Class {
 { #category : #tests }
 ToCheckboxTest >> testCheckUncheckStates [
 
-	| cb s |
+	| cb |
 	cb := ToCheckbox new.
-	s := cb stateNamed: #checked.
-	self assert: s name equals: #checked.
-	s := cb stateNamed: #unchecked.
-	self assert: s name equals: #unchecked
+	self assert: cb checked not.
+	cb checked: true.
+	self assert: cb checked
 ]
 
 { #category : #tests }
 ToCheckboxTest >> testIndeterminateState [
 
-	| cb s |
+	| cb |
 	cb := ToCheckbox new.
-	self should: [ s := cb stateNamed: #indeterminate ] raise: Error.
-	cb withIndeterminate.
-	s := cb stateNamed: #indeterminate.
-	self assert: s name equals: #indeterminate
+	cb checked: nil.
+	self assert: cb isIndeterminate
 ]
 
 { #category : #tests }
@@ -36,19 +33,6 @@ ToCheckboxTest >> testStartChecked [
 	self assert: cb checked.
 	cb when: BlElementAddedToSceneGraphEvent do: [ space close ].
 
-]
-
-{ #category : #tests }
-ToCheckboxTest >> testStartIndeterminate [
-
-	| cb space |
-	cb := ToCheckbox new.
-	self should: [ cb startIndeterminate ] raise: Error.
-	cb withIndeterminate.
-	cb startIndeterminate.
-	space := cb openInSpace.
-	self assert: cb isIndeterminate.
-	cb when: BlElementAddedToSceneGraphEvent do: [ space close ]
 ]
 
 { #category : #tests }

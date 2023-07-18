@@ -2,12 +2,13 @@ Trait {
 	#name : #TToCheckable,
 	#instVars : [
 		'#group',
-		'#checked => ObservableSlot'
+		'#checked => ObservableSlot',
+		'#withIndeterminate'
 	],
 	#category : #'Toplo-Widget-Button'
 }
 
-{ #category : #'t - toggle group' }
+{ #category : #'t - checkable group' }
 TToCheckable >> addToGroup: aToggleGroup [
 
 	aToggleGroup add: self.
@@ -17,18 +18,7 @@ TToCheckable >> addToGroup: aToggleGroup [
 { #category : #'t - checkable  protocol' }
 TToCheckable >> check [
 
-	self group ifNotNil: [ :g |
-		g checked: self.
-		^ self ].
-	self privateCheck
-]
-
-{ #category : #'t - checkable  protocol' }
-TToCheckable >> check: aBoolean [
-
-	aBoolean
-		ifTrue: [ self check ]
-		ifFalse: [ self uncheck ]
+	self checked: true
 ]
 
 { #category : #'t - checkable  protocol' }
@@ -38,55 +28,85 @@ TToCheckable >> checked [
 ]
 
 { #category : #'t - checkable  protocol' }
-TToCheckable >> checked: aBoolean [
+TToCheckable >> checked: aBooleanOrNil [
+	" change the checkable state. nil means indeterminate. "
 
-	checked = aBoolean ifTrue: [ ^ self ].
-	checked := aBoolean
+	checked = aBooleanOrNil ifTrue: [ ^ self ].
+	" aBoolean can be nil for indeterminate "
+	(aBooleanOrNil notNil and: [ self group notNil ]) ifTrue: [ " ask the group for checking/unchecking "
+		^ aBooleanOrNil
+			  ifTrue: [ self group checked: self ]
+			  ifFalse: [ self group unchecked: self ] ].
+	self privateChecked: aBooleanOrNil
 ]
 
-{ #category : #'t - toggle group' }
+{ #category : #'t - checkable group' }
 TToCheckable >> group [
 
 	^ group
 ]
 
-{ #category : #'t - toggle group' }
-TToCheckable >> group: aToggleGroup [
+{ #category : #'t - checkable group' }
+TToCheckable >> group: aCheckableGroup [
 
-	group := aToggleGroup
+	self withIndeterminate ifTrue: [
+		Error signal:
+			'Invalid checkable use: indeterminate state is not allowed with a checkable group' ].
+
+	group := aCheckableGroup
 ]
 
 { #category : #'t - checkable initializing' }
 TToCheckable >> initializeCheckable [
 
 	checked := false.
-	self whenCheckedChangedDo: [ :new :prev | self dispatchEvent: (ToCheckableCheckEvent current: new previous: prev) ]
-
+	withIndeterminate := false.
+	self whenCheckedChangedDo: [ :new :prev |
+		self dispatchEvent: (ToCheckableCheckEvent current: new previous: prev) ]
 ]
 
 { #category : #'t - checkable  protocol' }
-TToCheckable >> privateCheck [
+TToCheckable >> isChecked [
 
-	checked := true
+	^ checked = true
 ]
 
 { #category : #'t - checkable  protocol' }
-TToCheckable >> privateUncheck [
+TToCheckable >> isIndeterminate [
 
-	checked := false
+	^ checked isNil
 ]
 
-{ #category : #'t - toggle group' }
+{ #category : #'t - checkable  protocol' }
+TToCheckable >> isUnchecked [
+
+	^ checked = false
+]
+
+{ #category : #'t - checkable  protocol' }
+TToCheckable >> privateChecked: aBooleanOrNil [
+
+	checked := aBooleanOrNil
+]
+
+{ #category : #'t - checkable group' }
 TToCheckable >> removeFromGroup [
 
 	self group remove: self
 ]
 
 { #category : #'t - checkable  protocol' }
+TToCheckable >> switchToNextState [
+
+	(self withIndeterminate and: [ self isUnchecked  ]) ifTrue: [ ^ self checked: nil ].
+	self isIndeterminate ifTrue: [ ^ self checked: true ].
+	self checked: self checked not
+]
+
+{ #category : #'t - checkable  protocol' }
 TToCheckable >> uncheck [
 
-	self group ifNotNil: [ :g | g unchecked: self. ^ self ].
-	self privateUncheck
+	self checked: false
 ]
 
 { #category : #'t - change hook' }
@@ -95,4 +115,19 @@ TToCheckable >> whenCheckedChangedDo: aBlock [
 	"set a block to perform after that the slot has been changed, and its action performed"
 
 	self property: #checked whenChangedDo: aBlock
+]
+
+{ #category : #'t - checkable  protocol' }
+TToCheckable >> withIndeterminate [
+
+	^ withIndeterminate 
+]
+
+{ #category : #'t - checkable  protocol' }
+TToCheckable >> withIndeterminate: aBoolean [
+
+	self group ifNotNil: [
+		Error signal:
+			'Invalid checkable use: indeterminate state is not allowed with a checkable group' ].
+	withIndeterminate := aBoolean
 ]

@@ -1,11 +1,11 @@
 Class {
-	#name : #ToRadioButtonDresser,
+	#name : #ToRadioButtonDresserDep,
 	#superclass : #ToCheckBoxDresser,
 	#category : #'Toplo-Widget-Button'
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToRadioButtonDresser >> defaultCheckedIconImage [
+ToRadioButtonDresserDep >> defaultCheckedIconImage [
 
 	^ super defaultCheckedIconImage
 		  in: [ :im | im innerImage geometry: BlEllipseGeometry new ];
@@ -13,7 +13,7 @@ ToRadioButtonDresser >> defaultCheckedIconImage [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToRadioButtonDresser >> defaultIndeterminateIconImage [
+ToRadioButtonDresserDep >> defaultIndeterminateIconImage [
 
 	^ super defaultIndeterminateIconImage
 		  in: [ :im | im innerImage geometry: BlEllipseGeometry new ];
@@ -21,7 +21,7 @@ ToRadioButtonDresser >> defaultIndeterminateIconImage [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToRadioButtonDresser >> defaultUncheckedIconImage [
+ToRadioButtonDresserDep >> defaultUncheckedIconImage [
 
 	^ super defaultUncheckedIconImage
 		  in: [ :im | im innerImage geometry: BlEllipseGeometry new ];

@@ -4,148 +4,30 @@ Class {
 	#instVars : [
 		'checkedIcon',
 		'indeterminateIcon',
-		'uncheckedIcon'
+		'uncheckedIcon',
+		'checkableHandler'
 	],
 	#category : #'Toplo-Widget-Button'
 }
 
-{ #category : #accessing }
-ToCheckBoxDresser >> checkIndeterminateIn: anElement [
-
-	anElement hasIndeterminateState
-		ifTrue: [ self withIndeterminateIn: anElement ]
-		ifFalse: [ self withoutIndeterminateIn: anElement ].
-
-]
-
 { #category : #'events handling' }
 ToCheckBoxDresser >> clicked: anElement [
 
-	anElement checked: anElement checked not.
-	super clicked: anElement
-]
-
-{ #category : #initialization }
-ToCheckBoxDresser >> defaultAnimationDuration [
-
-	^ 300 milliSeconds
-]
-
-{ #category : #initialization }
-ToCheckBoxDresser >> defaultCheckedIconImage [
-
-	^ checkedIcon ifNil: [
-		  checkedIcon := ToImage inner: (BlElement new
-				                  size: 12 @ 12;
-				                  border: (BlBorder paint: Color lightGray width: 1);
-				                  margin: (BlInsets all: 2);
-				                  background: theme button hoveredBorderColor;
-				                  yourself) ]
-]
-
-{ #category : #initialization }
-ToCheckBoxDresser >> defaultCheckedState [
-
-	^ ToElementStateDep new
-		  name: #checked;
-		  whenEnterDo: [ :ann | 
-			  ann widget icon: self defaultCheckedIconImage.
-			  ann widget isAttachedToSceneGraph ifTrue: [ 
-					  | op |
-					  op := ann widget icon innerImage opacity.
-					  ann widget icon innerImage opacity: 0.1.
-					  ann widget icon innerImage addAnimation:
-							  (BlOpacityAnimation new
-								   duration: (ann state counter isZero
-										    ifTrue: [ 0 milliSecond ]
-										    ifFalse: [ self defaultAnimationDuration ]);
-								   opacity: op;
-								   yourself) ] ];
-		  yourself
-]
-
-{ #category : #initialization }
-ToCheckBoxDresser >> defaultIndeterminateIconImage [
-
-	| bar im |
-	indeterminateIcon ifNotNil: [ ^ indeterminateIcon ].
-
-	bar := BlElement new
-		       size: 10 @ 2;
-		       border: (BlBorder paint: Color black width: 1);
-		       background: Color gray.
-	bar constraintsDo: [ :c | 
-		c frame horizontal alignCenter.
-		c frame vertical alignCenter ].
-	im := BlElement new
-		      size: 12 @ 12;
-		      margin: (BlInsets all: 2);
-		      border: (BlBorder paint: Color lightGray width: 1);
-		      yourself.
-	im layout: BlFrameLayout new.
-	im addChild: bar.
-	indeterminateIcon := ToImage inner: im.
-	^ indeterminateIcon
-]
-
-{ #category : #initialization }
-ToCheckBoxDresser >> defaultIndeterminateState [
-
-	^ ToElementStateDep new
-		  name: #indeterminate;
-		  whenEnterDo: [ :ann | 
-			  ann widget icon: self defaultIndeterminateIconImage ];
-		  yourself
-]
-
-{ #category : #initialization }
-ToCheckBoxDresser >> defaultUncheckedIconImage [
-
-	^ uncheckedIcon ifNil: [ 
-		  uncheckedIcon := ToImage inner: (BlElement new
-				                    size: 12 @ 12;
-				                    margin: (BlInsets all: 2);
-				                    border: (BlBorder paint: Color gray width: 1);
-				                    background: (Color gray alpha: 0.2);
-				                    yourself) ]
-]
-
-{ #category : #initialization }
-ToCheckBoxDresser >> defaultUncheckedState [
-
-	^ ToElementStateDep new
-		  name: #unchecked;
-		  whenEnterDo: [ :ann | 
-			  ann widget icon: self defaultUncheckedIconImage ]
+	" ask the button, my checkableHandler (see onInstalledIn:) with send the look event so don't send to super to avoid unnecessary change "
+	anElement switchToNextState
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToCheckBoxDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	
+	checkableHandler := BlEventHandler on: ToCheckableCheckEvent do: [ :event | anElement dispatchEvent: ToClickLookEvent new ].
+	anElement addEventHandler: checkableHandler
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToCheckBoxDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
-
-]
-
-{ #category : #accessing }
-ToCheckBoxDresser >> withIndeterminateIn: anElement [
-
-	anElement setUpStatesWith: { 
-			self defaultIndeterminateState.
-			self defaultCheckedState.
-			self defaultUncheckedState }
-]
-
-{ #category : #accessing }
-ToCheckBoxDresser >> withoutIndeterminateIn: anElement [
-
-	anElement setUpStatesWith: { 
-			self defaultUncheckedState.
-			self defaultCheckedState }
+	anElement removeEventHandler: checkableHandler
 ]

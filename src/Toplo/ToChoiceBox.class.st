@@ -96,9 +96,9 @@ ToChoiceBox >> initialize [
 	self addChild: menuButton.
 	self whenSelectedIndexChangedDo: [ self selectedIndexChanged ].
 	self whenPlaceholderChangedDo: [ self placeholderChanged ].
-	group whenChangedDo: [ :ann |
-		ann checkedButtons do: [:e | self checked: e].
-		ann uncheckedButtons do:[:e | self unchecked: e ]].
+	group when: ToCheckableGroupChangedEvent do: [ :event |
+		event checkedButtons do: [:e | self checked: e].
+		event uncheckedButtons do:[:e | self unchecked: e ]].
 ]
 
 { #category : #accessing }

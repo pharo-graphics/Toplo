@@ -171,6 +171,29 @@ ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndSwitchToNextStateU
 ]
 
 { #category : #tests }
+ToCheckableGroupTest >> testCheckableGroupWithIndeterminateRaiseError [
+
+	| group |
+	group := ToCheckableGroup new.
+	1 to: 4 do: [ :idx |
+		| chb |
+		chb := ToCheckbox new.
+		group add: chb ].
+	self should: [ group buttons first withIndeterminate: true ] raise: Error
+]
+
+{ #category : #tests }
+ToCheckableGroupTest >> testCheckableGroupWithIndeterminateRaiseError2 [
+
+	| group btn |
+	btn := ToCheckbox new.
+	btn withIndeterminate: true.
+	group := ToCheckableGroup new.
+	self should: [ group add: btn ] raise: Error
+	
+]
+
+{ #category : #tests }
 ToCheckableGroupTest >> testCheckableGroupWithOnePreCheckedButton [
 
 	| group |
@@ -196,7 +219,10 @@ ToCheckableGroupTest >> testCheckableGroupWithStartDefault [
 		group add: chb ].
 	group buttons second checked: true.
 	self assert: group checkedButtons size equals: 1.
-	self assert: group buttons second checked.
+	self assert: group buttons second isChecked.
+	self assert: group buttons first isUnchecked.
+	self assert: group buttons third isUnchecked.
+	self assert: group buttons fourth isUnchecked.
 	self assert: group uncheckedButtons size equals: group buttons size - 1
 ]
 

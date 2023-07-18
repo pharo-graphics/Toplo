@@ -7,5 +7,11 @@ Class {
 { #category : #'t - initialization dresser' }
 ToRadioButton >> defaultDresser [
 
-	^ ToRadioButtonDresser new
+	^ ToCheckBoxDresser new
+]
+
+{ #category : #'t - skin accessing' }
+ToRadioButton >> defaultSkin [ 
+
+	^ ToRadioSkin new
 ]

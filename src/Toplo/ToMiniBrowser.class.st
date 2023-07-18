@@ -173,7 +173,7 @@ ToMiniBrowser >> initialize [
 	sideToggle layout cellSpacing: 5.
 	classesPane addChild: classesButtonPane.
 
-	sideToggle check: self classSide.
+	sideToggle checked: self classSide.
 	sideToggle when: ToCheckableCheckEvent do: [ :event |
 		classes infinite dispatchSelectionChangedAfter: [ classSide := event current ] ].
 

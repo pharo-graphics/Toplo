@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCheckboxSkin,
-	#superclass : #ToWidgetSkin,
+	#superclass : #ToCheckableSkin,
 	#category : #'Toplo-Widget-Button-Skins'
 }
 
@@ -15,16 +15,32 @@ ToCheckboxSkin >> checkedImageIn: anElement [
 			   yourself)
 ]
 
-{ #category : #'event handling' }
-ToCheckboxSkin >> elementLookEvent: anEvent [
+{ #category : #accessing }
+ToCheckboxSkin >> iconSkin [
 
-	super elementLookEvent: anEvent.
-	" redirect the event to the icon skin that should have a border look 
-	which react itself on event such as hovered/pressed/initial "
-	anEvent elementDo: [ :e |
-		e icon ifNotNil: [	 
-			anEvent target: e icon.
-			e icon privateSkin elementLookEvent: anEvent ] ]
+	^ ToCheckboxImageSkin new.
+]
+
+{ #category : #accessing }
+ToCheckboxSkin >> indeterminateImageIn: anElement [
+
+	| bar im |
+	bar := BlElement new
+		       constraintsDo: [ :c |
+			       c horizontal matchParent.
+			       c vertical exact: 4.
+			       c frame horizontal alignCenter.
+			       c frame vertical alignCenter ];
+		       border: BlBorder empty;
+		       background: anElement toTheme colorPrimary.
+	im := BlElement new
+		      size: 12 @ 12;
+		      margin: (BlInsets all: 2);
+				background: (anElement toTheme colorBgContainer alpha: 0);
+		      yourself.
+	im layout: BlFrameLayout new.
+	im addChild: bar.
+	^ ToImage inner: im
 ]
 
 { #category : #accessing }
@@ -35,15 +51,4 @@ ToCheckboxSkin >> uncheckedImageIn: anElement [
 			   margin: (BlInsets all: 0);
 			   background: (anElement toTheme colorBgContainer alpha: 0);
 			   yourself)
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToCheckboxSkin >> whenAddedToSpace: anEvent in: anElement [
-
-	super whenAddedToSpace: anEvent in: anElement.
-	anElement spacingWidth: anElement toTheme paddingContentHorizontal / 2.
-	anElement icon: (ToImage inner: (anElement checked ifTrue: [self checkedImageIn: anElement] ifFalse: [self uncheckedImageIn: anElement] )).
-	anElement icon withSkin: ToCheckboxImageSkin new.
-	self addLook: (ToCheckLook new checkedImage: (self checkedImageIn: anElement); uncheckedImage: (self uncheckedImageIn: anElement); yourself).
-
 ]

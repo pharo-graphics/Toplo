@@ -7,7 +7,7 @@ Class {
 { #category : #testing }
 ToCheckableGroupWithUncheckStrategy >> checked: aCheckable in: aGroup [
 
-	aCheckable privateCheck.
+	aCheckable privateChecked: true.
 	aGroup uncheckAllExcept: aCheckable ifFoundDo: [ ^ self ].
 	aGroup notifyChanged
 ]
@@ -15,7 +15,7 @@ ToCheckableGroupWithUncheckStrategy >> checked: aCheckable in: aGroup [
 { #category : #testing }
 ToCheckableGroupWithUncheckStrategy >> unchecked: aCheckable in: aGroup [
 
-	aCheckable privateUncheck.
+	aCheckable privateChecked: false.
 	aGroup notifyChanged
 
 ]

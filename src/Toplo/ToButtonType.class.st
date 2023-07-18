@@ -8,6 +8,18 @@ Class {
 }
 
 { #category : #accessing }
+ToButtonType >> backgroundLookIn: anElement [
+
+	^ nil
+]
+
+{ #category : #accessing }
+ToButtonType >> borderLookIn: anElement [
+
+	^ nil
+]
+
+{ #category : #accessing }
 ToButtonType >> danger [
 
 	^ danger ifNil: [ danger := false ]
@@ -80,6 +92,7 @@ ToButtonType >> regularLabelLookIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToButtonType >> whenAddedToSpace: anEvent in: anElement fromSkin: aSkin [
 
+	| borderLook backgroundLook |
 	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: anElement toTheme borderRadius).
 	anElement spacingWidth: anElement toTheme paddingContentHorizontal / 2.
 	anElement padding: (BlInsets
@@ -87,6 +100,11 @@ ToButtonType >> whenAddedToSpace: anEvent in: anElement fromSkin: aSkin [
 			 left: anElement toTheme paddingContentHorizontal
 			 bottom: anElement toTheme paddingXS / 2
 			 right: anElement toTheme paddingContentHorizontal).
+	backgroundLook := self backgroundLookIn: anElement.
+	backgroundLook ifNotNil: [ aSkin addLook: backgroundLook ].
+	borderLook := self borderLookIn: anElement.
+	borderLook ifNil: [ ^ self ].
+	aSkin addLook: borderLook
 ]
 
 { #category : #'api - install/uninstall  hook' }

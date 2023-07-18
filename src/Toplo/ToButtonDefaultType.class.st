@@ -8,6 +8,27 @@ Class {
 }
 
 { #category : #accessing }
+ToButtonDefaultType >> borderLookIn: anElement [
+
+	| borderLook |
+	borderLook := ToBorderLook new.
+	self dashed ifTrue: [ borderLook dashArray: anElement toTheme dashed ].
+	self danger
+		ifTrue: [
+			borderLook
+				initialPaint: anElement toTheme colorError;
+				hoverPaint: anElement toTheme colorErrorHover;
+				pressedPaint: anElement toTheme colorErrorHover darker ]
+		ifFalse: [
+			borderLook
+				initialPaint: anElement toTheme colorBorder;
+				hoverPaint: anElement toTheme colorPrimaryHover;
+				pressedPaint: anElement toTheme colorPrimaryPressed ].
+	borderLook width: anElement toTheme lineWidth.
+	^ borderLook
+]
+
+{ #category : #accessing }
 ToButtonDefaultType >> dashed [
 
 	^ dashed ifNil: [ dashed := false ]
@@ -41,26 +62,4 @@ ToButtonDefaultType >> regularLabelLookIn: anElement [
 		hoverColor: anElement toTheme colorPrimary;
 		pressedColor: anElement toTheme colorPrimaryPressed.
 	^ labelLook
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonDefaultType >> whenAddedToSpace: anEvent in: anElement fromSkin: aSkin [
-
-	| borderLook |
-	super whenAddedToSpace: anEvent in: anElement fromSkin: aSkin.
-	borderLook := ToBorderLook new.
-	self dashed ifTrue: [ borderLook dashArray: anElement toTheme dashed ].
-	self danger
-		ifTrue: [
-			borderLook
-				initialPaint: anElement toTheme colorError;
-				hoverPaint: anElement toTheme colorErrorHover;
-				pressedPaint: anElement toTheme colorErrorHover darker ]
-		ifFalse: [
-			borderLook
-				initialPaint: anElement toTheme colorBorder;
-				hoverPaint: anElement toTheme colorPrimaryHover;
-				pressedPaint: anElement toTheme colorPrimaryPressed ].
-	borderLook width: anElement toTheme lineWidth.
-	aSkin addLook: borderLook
 ]

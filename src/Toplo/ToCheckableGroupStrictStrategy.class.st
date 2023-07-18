@@ -7,7 +7,7 @@ Class {
 { #category : #notifications }
 ToCheckableGroupStrictStrategy >> buttonInserted: aCheckable in: aGroup [
 
-	aCheckable checked ifTrue: [
+	aCheckable isChecked ifTrue: [
 		(aGroup buttons select: [ :b | b ~= aCheckable and: [ b checked ] ])
 			do: [ :b | b privateChecked: false ] ].
 	super buttonInserted: aCheckable in: aGroup

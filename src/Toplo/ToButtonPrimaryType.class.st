@@ -5,6 +5,24 @@ Class {
 }
 
 { #category : #'api - install/uninstall  hook' }
+ToButtonPrimaryType >> backgroundLookIn: anElement [
+
+	^ self danger
+		  ifTrue: [
+			  ToBackgroundLook new
+				  initialBg: [:e | e toTheme colorError];
+				  pressedBg: [:e | e toTheme colorErrorHover darker];
+				  hoverBg: [:e | e toTheme colorErrorHover];
+				  yourself ]
+		  ifFalse: [
+			  ToBackgroundLook new
+				  initialBg: [:e | e toTheme colorPrimary];
+				  pressedBg: [:e | e toTheme colorPrimaryPressed];
+				  hoverBg: [:e | e toTheme colorPrimaryHover];
+				  yourself ]
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToButtonPrimaryType >> iconLookIn: anElement [
 
 	^ self regularFormLookIn: anElement
@@ -31,23 +49,4 @@ ToButtonPrimaryType >> regularLabelLookIn: anElement [
 	labelLook := ToLabelTextLook new.
 	labelLook initialColor: anElement toTheme colorTextLightSolid.
 	^ labelLook
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonPrimaryType >> whenAddedToSpace: anEvent in: anElement fromSkin: aSkin [
-
-	super whenAddedToSpace: anEvent in: anElement fromSkin: aSkin.
-	self danger
-		ifTrue: [
-			aSkin addLook: (ToBackgroundLook new
-					 initialBg: anElement toTheme colorError;
-					 pressedBg: anElement toTheme colorErrorHover darker;
-					 hoverBg: anElement toTheme colorErrorHover;
-					 yourself) ]
-		ifFalse: [
-			aSkin addLook: (ToBackgroundLook new
-					 initialBg: anElement toTheme colorPrimary;
-					 pressedBg: anElement toTheme colorPrimaryPressed;
-					 hoverBg: anElement toTheme colorPrimaryHover;
-					 yourself) ]
 ]

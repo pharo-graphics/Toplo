@@ -26,7 +26,7 @@ ToBackgroundLook >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self hoverBg ifNotNil: [ :bg | e background: bg ] ]
+		self hoverBg ifNotNil: [ :bg | e background: (bg value: e)] ]
 ]
 
 { #category : #accessing }
@@ -46,7 +46,7 @@ ToBackgroundLook >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self initialBg ifNotNil: [ :bg | e background: bg ] ]
+		self initialBg ifNotNil: [ :bg | e background: (bg value: e)] ]
 ]
 
 { #category : #accessing }
@@ -66,5 +66,5 @@ ToBackgroundLook >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self pressedBg ifNotNil: [ :bg | e background: bg ] ]
+		self pressedBg ifNotNil: [ :bg | e background: (bg value: e)] ]
 ]

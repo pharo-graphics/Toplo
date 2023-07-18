@@ -46,20 +46,17 @@ ToButtonSkin >> dashed: aBoolean [
 	self type dashed: aBoolean
 ]
 
-{ #category : #'event handling' }
-ToButtonSkin >> elementLookEvent: anEvent [
-
-	anEvent currentTarget icon ifNotNil: [ :ico | ico dispatchEvent: anEvent copy ].
-	anEvent currentTarget label ifNotNil: [ :lab | lab dispatchEvent: anEvent copy ].
-	super elementLookEvent: anEvent
-
-	
-]
-
 { #category : #'api - accessing' }
 ToButtonSkin >> eventsToHandle [ 
 
 	^ super eventsToHandle, { ToButtonIconChanged. ToButtonLabelChanged }
+]
+
+{ #category : #'event handling' }
+ToButtonSkin >> subElementsIn: anElement [
+
+	^ ((super subElementsIn: anElement), {  anElement icon. anElement label }) reject: [ :e | e isNil ]
+	
 ]
 
 { #category : #accessing }

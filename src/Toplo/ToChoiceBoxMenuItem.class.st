@@ -12,9 +12,10 @@ ToChoiceBoxMenuItem >> defaultDresser [
 	^ ToBasicMenuItemDresser next: (ToChoiceBoxMenuItemDresser new)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 ToChoiceBoxMenuItem >> initialize [
 
 	super initialize.
+	self initializeCheckable.
 	self whenClickedDo: [ self switchToNextState ] 
 ]

@@ -5,6 +5,24 @@ Class {
 }
 
 { #category : #'api - install/uninstall  hook' }
+ToButtonTextType >> backgroundLookIn: anElement [
+
+	^ self danger
+		  ifTrue: [
+			  ToBackgroundLook new
+				  initialBg: [:e | Color transparent];
+				  pressedBg: [:e | e toTheme colorErrorBg];
+				  hoverBg: [:e | e toTheme colorErrorBg];
+				  yourself ]
+		  ifFalse: [
+			  ToBackgroundLook new
+				  initialBg: [:e | Color transparent];
+				  pressedBg: [:e | e toTheme colorBgTextActive];
+				  hoverBg: [:e | e toTheme colorBgTextHover];
+				  yourself ]
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToButtonTextType >> regularFormLookIn: anElement [
 
 	| formLook |
@@ -23,23 +41,4 @@ ToButtonTextType >> regularLabelLookIn: anElement [
 	labelLook := ToLabelTextLook new.
 	labelLook initialColor: anElement toTheme colorText.
 	^ labelLook
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonTextType >> whenAddedToSpace: anEvent in: anElement fromSkin: aSkin [
-
-	super whenAddedToSpace: anEvent in: anElement fromSkin: aSkin.
-	self danger
-		ifTrue: [
-			aSkin addLook: (ToBackgroundLook new
-					 initialBg: Color transparent;
-					 pressedBg: anElement toTheme colorErrorBg;
-					 hoverBg: anElement toTheme colorErrorBg;
-					 yourself) ]
-		ifFalse: [
-			aSkin addLook: (ToBackgroundLook new
-					 initialBg: Color transparent;
-					 pressedBg: anElement toTheme colorBgTextActive;
-					 hoverBg: anElement toTheme colorBgTextHover;
-					 yourself) ]
 ]

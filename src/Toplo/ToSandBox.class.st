@@ -2428,41 +2428,7 @@ ToSandBox class >> example_toCheckboxModelWithLabel4 [
 ]
 
 { #category : #checkbox }
-ToSandBox class >> example_toCheckboxWithIndeterminate1 [
-
-	| chb |
-	chb := ToCheckbox new
-		       columnWidth: 50;
-		       label: (ToLabel text: '1');
-		       id: 1 asString.
-	chb withIndeterminate: true.	
-	chb openInInnerWindow
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_toCheckboxWithLabel [
-
-	| but |
-	but := ToCheckbox new labelText: 'Check me'.
-	but when: ToCheckableCheckEvent do: [ :event | self inform: 'checked ', event current asString ].
-	but openInSpace
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_toCheckboxWithLabel2 [
-
-	| but |
-	but := ToCheckbox new
-		       labelText: 'Check me';
-		       beLabelFirst;
-		       checked: true.
-	but when: ToCheckableCheckEvent do: [ :event | self inform: 'checked ', event current asString ].
-
-	but openInSpace
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_toCheckboxWithToggleGroup2 [
+ToSandBox class >> example_toCheckboxWithGroup2 [
 
 	| group container |
 	group := ToCheckableGroup new.
@@ -2489,7 +2455,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroup2 [
 ]
 
 { #category : #checkbox }
-ToSandBox class >> example_toCheckboxWithToggleGroupAndNoneStrategy [
+ToSandBox class >> example_toCheckboxWithGroupAndNoneStrategy [
 
 	| group container buttons |
 	group := ToCheckableGroup new.
@@ -2522,7 +2488,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndNoneStrategy [
 ]
 
 { #category : #checkbox }
-ToSandBox class >> example_toCheckboxWithToggleGroupAndStrictStrategy [
+ToSandBox class >> example_toCheckboxWithGroupAndStrictStrategy [
 
 	| group container buttons |
 	group := ToCheckableGroup new.
@@ -2554,7 +2520,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndStrictStrategy [
 ]
 
 { #category : #checkbox }
-ToSandBox class >> example_toCheckboxWithToggleGroupAndUnckekingStrategy [
+ToSandBox class >> example_toCheckboxWithGroupAndUnckekingStrategy [
 
 	| group container buttons |
 	group := ToCheckableGroup new.
@@ -2587,7 +2553,7 @@ ToSandBox class >> example_toCheckboxWithToggleGroupAndUnckekingStrategy [
 ]
 
 { #category : #checkbox }
-ToSandBox class >> example_toCheckboxWithToggleGroupJustified [
+ToSandBox class >> example_toCheckboxWithGroupJustified [
 
 	| group container buttons |
 	group := ToCheckableGroup new.
@@ -2617,6 +2583,40 @@ ToSandBox class >> example_toCheckboxWithToggleGroupJustified [
 
 	container addChildren: group buttons.
 	container openInSpace
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_toCheckboxWithIndeterminate1 [
+
+	| chb |
+	chb := ToCheckbox new
+		       columnWidth: 50;
+		       label: (ToLabel text: '1');
+		       id: 1 asString.
+	chb withIndeterminate: true.	
+	chb openInInnerWindow
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_toCheckboxWithLabel [
+
+	| but |
+	but := ToCheckbox new labelText: 'Check me'.
+	but when: ToCheckableCheckEvent do: [ :event | self inform: 'checked ', event current asString ].
+	but openInSpace
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_toCheckboxWithLabel2 [
+
+	| but |
+	but := ToCheckbox new
+		       labelText: 'Check me';
+		       beLabelFirst;
+		       checked: true.
+	but when: ToCheckableCheckEvent do: [ :event | self inform: 'checked ', event current asString ].
+
+	but openInSpace
 ]
 
 { #category : #image }
@@ -3310,21 +3310,14 @@ ToSandBox class >> example_toggle [
 	| th tv win |
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';
-		      beLabelFirst;
-		      padding: (BlInsets all: 3);
-		      hMatchParent.
+		      beLabelFirst.
+	th checked: true.
 
 	tv := ToToggleButton new
 		      beVertical;
 		      labelText: 'Cheesecake';
 		      beLabelFirst;
-		      padding: (BlInsets all: 3);
 		      hMatchParent.
-	tv check.
-
-	th 	when: ToCheckableCheckEvent do: [ :event | event traceCr ].
-	tv 	when: ToCheckableCheckEvent do: [ :event | event traceCr ].
-
 	win := ToInnerWindow new
 		       position: 10 @ 10;
 		       size: 400 @ 200;
@@ -3333,6 +3326,25 @@ ToSandBox class >> example_toggle [
 	win root addChildren: {
 			th.
 			tv }.
+	win openInSpace
+]
+
+{ #category : #'toggle button' }
+ToSandBox class >> example_toggle2 [
+
+	| th win |
+	th := ToToggleButton new
+		      labelText: 'Cheesecake';
+		      beLabelFirst.
+	th onElement: (ToLabel text: 'ON').
+	th offElement: (ToLabel text: 'OFF').
+	th checked: true.
+	win := ToInnerWindow new
+		       position: 10 @ 10;
+		       size: 400 @ 200;
+		       yourself.
+	win root layout: BlLinearLayout vertical.
+	win root addChild: th.
 	win openInSpace
 ]
 

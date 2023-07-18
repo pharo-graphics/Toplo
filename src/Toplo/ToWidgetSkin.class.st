@@ -32,10 +32,11 @@ ToWidgetSkin >> elementAddedToSceneGraphEvent: anEvent [
 
 { #category : #'event handling' }
 ToWidgetSkin >> elementLookEvent: anEvent [
-
 	" has to be redefined in subclasses to manage element children (to dispatch look event to them)"
-	^ anEvent sendTo: self look 
-	
+
+	anEvent sendTo: self look.
+	(self subElementsIn: anEvent target) do: [ :e |
+		e dispatchEvent: anEvent clone ]
 ]
 
 { #category : #'event handling' }
@@ -97,6 +98,12 @@ ToWidgetSkin >> removeLook: aLook [
 		ifFalse: [ look removeLook: aLook previous: nil ]
 ]
 
+{ #category : #accessing }
+ToWidgetSkin >> subElementsIn: anElement [
+
+	^ {  }
+]
+
 { #category : #'event handling' }
 ToWidgetSkin >> themeChangedEvent: anEvent [
 
@@ -107,8 +114,10 @@ ToWidgetSkin >> themeChangedEvent: anEvent [
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> whenAddedToSpace: anEvent in: anElement [
 
-	anElement dispatchEvent: (ToInstallLookEvent new copyFrom: anEvent).
-	anElement dispatchEvent: ((ToElementStateChangedEvent new state: ToInitialState new) copyFrom: anEvent)
+	anElement whenLayoutedDoOnce: [
+		anElement dispatchEvent: (ToInstallLookEvent new copyFrom: anEvent).
+		anElement dispatchEvent:	((ToElementStateChangedEvent new state: ToInitialState new)
+				 copyFrom: anEvent) ]
 ]
 
 { #category : #'api - install/uninstall  hook' }

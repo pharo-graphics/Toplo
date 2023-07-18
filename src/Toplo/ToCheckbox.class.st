@@ -18,7 +18,7 @@ ToCheckbox >> defaultSkin [
 	^ ToCheckboxSkin new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 ToCheckbox >> initialize [
 
 	super initialize.

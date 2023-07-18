@@ -1,6 +1,6 @@
 Class {
-	#name : #ToToggleButtonDresser,
-	#superclass : #ToCheckBoxDresser,
+	#name : #ToToggleButtonDresserDep,
+	#superclass : #ToGeneralButtonDresser,
 	#instVars : [
 		'icon'
 	],
@@ -8,25 +8,25 @@ Class {
 }
 
 { #category : #initialization }
-ToToggleButtonDresser >> checkedStateIconBackground [
+ToToggleButtonDresserDep >> checkedStateIconBackground [
 
 	^ Color black
 ]
 
 { #category : #initialization }
-ToToggleButtonDresser >> checkedStateIconImageBackground [
+ToToggleButtonDresserDep >> checkedStateIconImageBackground [
 
 	^ Color white
 ]
 
 { #category : #initialization }
-ToToggleButtonDresser >> defaultAnimationDuration [
+ToToggleButtonDresserDep >> defaultAnimationDuration [
 
 	^ 200 milliSeconds
 ]
 
 { #category : #initialization }
-ToToggleButtonDresser >> defaultCheckedState [
+ToToggleButtonDresserDep >> defaultCheckedState [
 
 	^ ToElementStateDep new
 		  name: #checked;
@@ -55,7 +55,7 @@ ToToggleButtonDresser >> defaultCheckedState [
 ]
 
 { #category : #initialization }
-ToToggleButtonDresser >> defaultIconImage [
+ToToggleButtonDresserDep >> defaultIconImage [
 
 	^ icon ifNil: [ 
 		  icon := ToImage inner: (ToElement new
@@ -68,7 +68,7 @@ ToToggleButtonDresser >> defaultIconImage [
 ]
 
 { #category : #initialization }
-ToToggleButtonDresser >> defaultUncheckedState [
+ToToggleButtonDresserDep >> defaultUncheckedState [
 
 	^ ToElementStateDep new
 		  name: #unchecked;
@@ -100,25 +100,43 @@ ToToggleButtonDresser >> defaultUncheckedState [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToToggleButtonDresser >> onInstalledIn: anElement [
+ToToggleButtonDresserDep >> onInstalledIn: anElement [
 
-	super onInstalledIn: anElement
+	super onInstalledIn: anElement.
+	
+	anElement icon: self defaultIconImage.
+	anElement icon layout: BlLinearLayout horizontal.
+	anElement icon constraintsDo: [ :c | 
+		c horizontal exact: 30.
+		c vertical fitContent. ].
+	anElement icon geometry: (BlRoundedRectangleGeometry  cornerRadius: 12).
+	
+	anElement setUpStatesWith: { 
+			self defaultUncheckedState.
+			self defaultCheckedState }
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToToggleButtonDresserDep >> onUninstalledIn: anElement [
+
+	super onUninstalledIn: anElement.
+
 ]
 
 { #category : #private }
-ToToggleButtonDresser >> slideLength [
+ToToggleButtonDresserDep >> slideLength [
 
 	^ 13
 ]
 
 { #category : #initialization }
-ToToggleButtonDresser >> uncheckedStateIconBackground [
+ToToggleButtonDresserDep >> uncheckedStateIconBackground [
 
 	^ Color veryLightGray alpha: 0.4
 ]
 
 { #category : #initialization }
-ToToggleButtonDresser >> uncheckedStateIconImageBackground [
+ToToggleButtonDresserDep >> uncheckedStateIconImageBackground [
 
 	^ Color veryLightGray
 ]

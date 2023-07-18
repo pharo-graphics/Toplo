@@ -1,8 +1,12 @@
 Class {
 	#name : #ToToggleButton,
-	#superclass : #ToMultiStateButton,
+	#superclass : #ToButton,
 	#traits : 'TToCheckable',
 	#classTraits : 'TToCheckable classTrait',
+	#instVars : [
+		'#onElement',
+		'#offElement'
+	],
 	#category : #'Toplo-Widget-Button'
 }
 
@@ -12,10 +16,60 @@ ToToggleButton >> defaultDresser [
 	^ ToToggleButtonDresser new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'t - initialization dresser' }
+ToToggleButton >> defaultSkin [
+
+	^ ToToggleSkin new
+]
+
+{ #category : #initialization }
 ToToggleButton >> initialize [ 
 
 	super initialize.
-	self beJustified.
+	self initializeCheckable
+]
 
+{ #category : #accessing }
+ToToggleButton >> newTrackElement [
+
+	^ ToToggleTrackElement new
+		  onElement: self onElement;
+		  offElement: self offElement;
+		  yourself
+]
+
+{ #category : #accessing }
+ToToggleButton >> offElement [
+
+	^ offElement
+]
+
+{ #category : #accessing }
+ToToggleButton >> offElement: anElement [
+
+	offElement := anElement
+]
+
+{ #category : #accessing }
+ToToggleButton >> onElement [
+
+	^ onElement
+]
+
+{ #category : #accessing }
+ToToggleButton >> onElement: anElement [
+
+	onElement := anElement
+]
+
+{ #category : #accessing }
+ToToggleButton >> track [
+
+	^ self icon
+]
+
+{ #category : #accessing }
+ToToggleButton >> track: anElement [
+
+	self icon: anElement
 ]

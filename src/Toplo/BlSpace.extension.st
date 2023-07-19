@@ -1,5 +1,11 @@
 Extension { #name : #BlSpace }
 
+{ #category : #'*Toplo' }
+BlSpace >> defaultPopupElevation [
+
+	^ BlRelativeElevation elevation: SmallInteger maxVal
+]
+
 { #category : #'*Toplo-LookAndFeel' }
 BlSpace >> isSupportToTheme [
 	"Development method : to check if the Space support ToTheme management"
@@ -13,6 +19,13 @@ BlSpace >> isThemeInstalled [
 	
 	self flag:'laborded : this is necessary to have this state for the first instanciation, this is temporary'.
 	^ self root userData at: #isToThemeInstalled ifAbsentPut:[ false ]
+]
+
+{ #category : #'*Toplo' }
+BlSpace >> openInPopupLayer: anElement [
+
+	anElement elevation: self defaultPopupElevation.
+	self root addChild: anElement
 ]
 
 { #category : #'*Toplo-LookAndFeel' }

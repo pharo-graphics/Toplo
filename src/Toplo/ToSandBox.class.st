@@ -4,17 +4,6 @@ Class {
 	#category : #'Toplo-Examples'
 }
 
-{ #category : #window }
-ToSandBox class >> example_2RootFramesInOBlWorld [
-
-	ToInnerWindow new
-		title: 'Frame 1';
-		openInWorld.
-	ToInnerWindow new
-		title: 'Frame 2';
-		openInWorld
-]
-
 { #category : #combobox }
 ToSandBox class >> example_BasicComboBox [
 
@@ -1287,7 +1276,7 @@ ToSandBox class >> example_elementInPopupRoot [
 	| e space |
 	space := BlSpace new.
 	e := BlElement new background: Color blue; size: 50@50; yourself.
-	space popupLayer addChild: e.
+	space openInPopupLayer: e.
 	e addEventHandler: (BlEventHandler
 				on: BlClickEvent
 				do: [ :evt | self inform: 'Clicked'  ]).

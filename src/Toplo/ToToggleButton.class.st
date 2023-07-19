@@ -3,17 +3,13 @@ Class {
 	#superclass : #ToButton,
 	#traits : 'TToCheckable',
 	#classTraits : 'TToCheckable classTrait',
-	#instVars : [
-		'#onElement',
-		'#offElement'
-	],
-	#category : #'Toplo-Widget-Button'
+	#category : #'Toplo-Widget-Button-Toggle'
 }
 
 { #category : #'t - initialization dresser' }
 ToToggleButton >> defaultDresser [
 
-	^ ToToggleButtonDresser new
+	^ ToCheckableButtonDresser new
 ]
 
 { #category : #'t - initialization dresser' }
@@ -26,40 +22,57 @@ ToToggleButton >> defaultSkin [
 ToToggleButton >> initialize [ 
 
 	super initialize.
-	self initializeCheckable
+	self initializeCheckable.
+	self track: ToToggleTrackElement new
+	
 ]
 
 { #category : #accessing }
-ToToggleButton >> newTrackElement [
+ToToggleButton >> switchBarOffElement [
 
-	^ ToToggleTrackElement new
-		  onElement: self onElement;
-		  offElement: self offElement;
-		  yourself
+	^ self track switchBarOffElement
 ]
 
 { #category : #accessing }
-ToToggleButton >> offElement [
+ToToggleButton >> switchBarOffElement: anElement [
 
-	^ offElement
+	self track switchBarOffElement: anElement
 ]
 
 { #category : #accessing }
-ToToggleButton >> offElement: anElement [
+ToToggleButton >> switchBarOnElement [
 
-	offElement := anElement
+	^ self track switchBarOnElement
 ]
 
 { #category : #accessing }
-ToToggleButton >> onElement [
+ToToggleButton >> switchBarOnElement: anElement [
 
-	^ onElement
+	self track switchBarOnElement: anElement
 ]
 
 { #category : #accessing }
-ToToggleButton >> onElement: anElement [
+ToToggleButton >> switchButton [
 
-	onElement := anElement
+	^ self track switchButton
+]
+
+{ #category : #accessing }
+ToToggleButton >> switchButtonOffElement [
+
+	^ self track switchButtonOffElement
+]
+
+{ #category : #accessing }
+ToToggleButton >> switchButtonOffElement: anElement [
+
+	^ self track switchButtonOffElement: anElement
+]
+
+{ #category : #accessing }
+ToToggleButton >> switchButtonOnElement: anElement [
+
+	self track switchButtonOnElement: anElement
 ]
 
 { #category : #accessing }

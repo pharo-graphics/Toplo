@@ -2,23 +2,24 @@ Class {
 	#name : #ToToggleTrackElement,
 	#superclass : #ToElement,
 	#instVars : [
-		'onElement',
-		'offElement',
-		'bulletElement'
+		'switchBar'
 	],
-	#category : #'Toplo-Widget-Button-Skins'
+	#category : #'Toplo-Widget-Button-Toggle'
 }
 
-{ #category : #accessing }
-ToToggleTrackElement >> bulletElement [
+{ #category : #sliding }
+ToToggleTrackElement >> deltaToLeft [
 
-	^ bulletElement
+	^ (self switchButton localPointToParent: 0@0) x + self switchBar margin left
+	
 ]
 
-{ #category : #accessing }
-ToToggleTrackElement >> bulletElement: anElement [
+{ #category : #sliding }
+ToToggleTrackElement >> deltaToRight [
 
-	bulletElement := anElement
+	^ self width - self switchButton position - self switchButton width - self padding right - self padding left - self switchBar margin right
+	
+
 ]
 
 { #category : #initialization }
@@ -26,38 +27,92 @@ ToToggleTrackElement >> initialize [
 
 	super initialize.
 	self layout: BlLinearLayout horizontal.
-	self constraints minWidth: 35.
-	self vFitContent
+	switchBar := ToToggleSwitchBarElement new.
+	self addChild: switchBar.
+	self fitContent.
+	
+]
+
+{ #category : #sliding }
+ToToggleTrackElement >> slideToLeft [
+
+	| p |
+	p := self deltaToLeft.
+	self switchBar transformDo: [ :aTransform |
+		aTransform translateBy: p negated @ 0 ]
+]
+
+{ #category : #sliding }
+ToToggleTrackElement >> slideToRight [
+
+	| p |
+	p := self deltaToRight.
+	self switchBar transformDo: [ :aTransform |
+		aTransform translateBy: p x  @ 0 ]
 ]
 
 { #category : #accessing }
-ToToggleTrackElement >> offElement [
+ToToggleTrackElement >> switchBar [
 
-	^ offElement
+	^ switchBar
 ]
 
 { #category : #accessing }
-ToToggleTrackElement >> offElement: anElement [
+ToToggleTrackElement >> switchBar: anElement [
 
-	offElement := anElement
+	switchBar := anElement.
 ]
 
 { #category : #accessing }
-ToToggleTrackElement >> onElement [
+ToToggleTrackElement >> switchBarOffElement [
 
-	^ onElement
+	^ self switchBar offElement
 ]
 
 { #category : #accessing }
-ToToggleTrackElement >> onElement: anElement [
+ToToggleTrackElement >> switchBarOffElement: anElement [
 
-	onElement := anElement
+	self switchBar offElement: anElement
 ]
 
 { #category : #accessing }
-ToToggleTrackElement >> pusher [
+ToToggleTrackElement >> switchBarOnElement [
 
-	^ self onElement
-		  ifNil: [ self bulletElement childAt: 1 ]
-		  ifNotNil: [ self bulletElement childAt: 2 ]
+	^ self switchBar onElement
+]
+
+{ #category : #accessing }
+ToToggleTrackElement >> switchBarOnElement: anElement [
+
+	self switchBar onElement: anElement
+]
+
+{ #category : #accessing }
+ToToggleTrackElement >> switchButton [
+
+	^ self switchBar button
+]
+
+{ #category : #accessing }
+ToToggleTrackElement >> switchButtonOffElement [
+
+	^ self switchButton offElement
+]
+
+{ #category : #accessing }
+ToToggleTrackElement >> switchButtonOffElement: anElement [
+
+	self switchButton offElement: anElement
+]
+
+{ #category : #accessing }
+ToToggleTrackElement >> switchButtonOnElement [
+
+	^ self switchButton onElement
+]
+
+{ #category : #accessing }
+ToToggleTrackElement >> switchButtonOnElement: anElement [
+
+	self switchButton onElement: anElement
 ]

@@ -18,61 +18,48 @@ ToToggleSkin >> buttonLabelChanged: anEvent [
 
 ]
 
+{ #category : #'api - install/uninstall  hook' }
+ToToggleSkin >> setupTrackElementIn: anElement [
+
+	" setup the track "
+
+	anElement switchButton size: (self switchButtonSizeIn: anElement).
+	anElement switchButton background: Color white.
+	anElement switchButton margin: (BlInsets top: 2 left: 3 bottom: 2 right: 3).
+	anElement track geometry: (BlRoundedRectangleGeometry cornerRadius: (self trackBorderRadiusIn: anElement)).
+	anElement track padding: (BlInsets all: 2).
+	anElement track withSkin: (ToToggleTrackSkin new toggleButton: anElement)
+
+]
+
 { #category : #accessing }
 ToToggleSkin >> subElementsIn: anElement [
 
 	^ ((super subElementsIn: anElement), {  anElement track. anElement label }) reject: [ :e | e isNil ]
 ]
 
-{ #category : #initialization }
-ToToggleSkin >> trackElementIn: anElement [
+{ #category : #accessing }
+ToToggleSkin >> switchButtonSizeIn: anElement [
 
-	| bullet track pusher pWidth onWidth offWidth |
-	pusher := ToElement new
-			           background: Color white;
-			           geometry: BlEllipseGeometry new;
-			           vExact: 14;
-			           hExact: 14;
-			           yourself.
-	pWidth := pusher width.
-	bullet := ToElement new fitContent; layout: BlLinearLayout horizontal.
-	track := anElement newTrackElement.
-	track bulletElement: bullet.
-	
-	track onElement ifNotNil: [ :o |
-		bullet addChild: o.
-		onWidth := o width.
-		o constraintsDo: [ :c | c linear vertical alignCenter ] ].
+	^ 16 asPoint
+]
 
-	bullet addChild: pusher.
-	pusher constraintsDo: [ :c | c linear vertical alignCenter ].	
-		
-	track offElement ifNotNil: [ :o |
-		bullet addChild: o.
-		offWidth := o width.
-		o constraintsDo: [ :c | c linear vertical alignCenter ] ].
+{ #category : #accessing }
+ToToggleSkin >> trackBorderRadiusIn: anElement [
 
-	bullet constraintsDo: [ :c | c linear vertical alignCenter ].	
-
-	track geometry: (BlRoundedRectangleGeometry cornerRadius: anElement toTheme borderRadius).
-	track withSkin: (ToToggleTrackSkin new toggleButton: anElement).
-	track padding: (BlInsets all: 1).
-	track addChild: bullet.
-
-	^ track
+	^ 12
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToToggleSkin >> whenAddedToSpace: anEvent in: anElement [
 
 	anElement spacingWidth: anElement toTheme paddingContentHorizontal / 2.
-	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: anElement toTheme borderRadius).
+	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: (self trackBorderRadiusIn: anElement)).
 	anElement padding: (BlInsets
 			 top: anElement toTheme paddingXS / 2
 			 left: anElement toTheme paddingContentHorizontal
 			 bottom: anElement toTheme paddingXS / 2
 			 right: anElement toTheme paddingContentHorizontal).
-	anElement track: (self trackElementIn: anElement).
-	self addLook: ToToogleLook new.
+	self setupTrackElementIn: anElement.
 	super whenAddedToSpace: anEvent in: anElement
 ]

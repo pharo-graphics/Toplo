@@ -116,8 +116,7 @@ ToWidgetSkin >> whenAddedToSpace: anEvent in: anElement [
 
 	anElement whenLayoutedDoOnce: [
 		anElement dispatchEvent: (ToInstallLookEvent new copyFrom: anEvent).
-		anElement dispatchEvent:	((ToElementStateChangedEvent new state: ToInitialState new)
-				 copyFrom: anEvent) ]
+		anElement dispatchEvent:	((ToElementStateChangedEvent new state: ToInitialState new) copyFrom: anEvent) ]
 ]
 
 { #category : #'api - install/uninstall  hook' }

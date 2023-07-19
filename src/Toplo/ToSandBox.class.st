@@ -3332,20 +3332,29 @@ ToSandBox class >> example_toggle [
 { #category : #'toggle button' }
 ToSandBox class >> example_toggle2 [
 
-	| th win |
+	| th |
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';
 		      beLabelFirst.
-	th onElement: (ToLabel text: 'ON').
-	th offElement: (ToLabel text: 'OFF').
+	th switchBarOnElement: (ToLabel text: ('Yes!' asRopedText foreground: Color white; bold)).
+	th switchBarOffElement: (ToLabel text: ('No :('asRopedText bold) ).
+	th when: ToCheckableCheckEvent do: [ :event | event current traceCr ].
 	th checked: true.
-	win := ToInnerWindow new
-		       position: 10 @ 10;
-		       size: 400 @ 200;
-		       yourself.
-	win root layout: BlLinearLayout vertical.
-	win root addChild: th.
-	win openInSpace
+	th openInSpace
+]
+
+{ #category : #'toggle button' }
+ToSandBox class >> example_toggle3 [
+
+	| th |
+	th := ToToggleButton new
+		      labelText: 'Cheesecake';
+		      beLabelFirst.
+	th switchButtonOnElement: (ToImage inner: (Smalltalk ui icons iconNamed: #glamorousAccept)).
+	th switchButtonOffElement: (ToImage inner: (Smalltalk ui icons iconNamed: #glamorousClose)).
+	th when: ToCheckableCheckEvent do: [ :event | event current traceCr ].
+	th checked: true.
+	th openInSpace
 ]
 
 { #category : #pane }

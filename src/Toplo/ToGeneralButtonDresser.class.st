@@ -10,7 +10,9 @@ Class {
 { #category : #'events handling' }
 ToGeneralButtonDresser >> clicked: anElement [
 
-	anElement dispatchEvent: ToClickLookEvent new
+	anElement dispatchEvent: ToClickLookEvent new.
+	self hoveredState: anElement 
+
 ]
 
 { #category : #deprecated }
@@ -142,7 +144,7 @@ ToGeneralButtonDresser >> mouseUpOutsideEvent: anEvent in: anElement [
 	"Outside event can have a button element as target. 
 	In that case, no action is triggered "
 	anEvent consumed: true.
-	(anEvent originalEvent target hasParent: anElement) ifTrue: [
+	(anEvent originalEvent target notNil and: [anEvent originalEvent target hasParent: anElement]) ifTrue: [
 		^ self ].
 	self initialState: anElement
 ]

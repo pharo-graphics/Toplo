@@ -9,7 +9,7 @@ Class {
 { #category : #'t - initialization dresser' }
 ToCheckMenuItem >> defaultDresser [
 
-	^ ToBasicMenuItemDresser next: (ToCheckBoxDresser new)
+	^ ToBasicMenuItemDresser next: (ToCheckableButtonDresser new)
 ]
 
 { #category : #initialization }

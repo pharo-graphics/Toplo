@@ -9,7 +9,7 @@ Class {
 { #category : #'t - initialization dresser' }
 ToCheckbox >> defaultDresser [
 
-	^ ToCheckBoxDresser new
+	^ ToCheckableButtonDresser new
 ]
 
 { #category : #'t - skin accessing' }

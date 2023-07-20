@@ -7,6 +7,7 @@ Class {
 		'#isSelected => ObservableSlot',
 		'#isCloseable => ObservableSlot',
 		'#titleElement',
+		'#title',
 		'#bodyFactory => ObservableSlot'
 	],
 	#category : #'Toplo-Incubator'
@@ -76,6 +77,18 @@ ToNotebookPage >> isSelected [
 ToNotebookPage >> isSelected: aBoolean [
 
 	isSelected := aBoolean
+]
+
+{ #category : #accessing }
+ToNotebookPage >> title [
+
+	^ title
+]
+
+{ #category : #accessing }
+ToNotebookPage >> title: aString [
+
+	title := aString
 ]
 
 { #category : #accessing }

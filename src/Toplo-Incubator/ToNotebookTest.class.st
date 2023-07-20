@@ -91,6 +91,15 @@ ToNotebookTest >> testDefaultBodyIsTransparent [
 ]
 
 { #category : #tests }
+ToNotebookTest >> testPageTitled [
+
+	| notebook page |
+	notebook := ToNotebook new.
+	page := notebook addPageTitle: 'test'.
+	self assert: (notebook pageTitled: 'test') equals: page
+]
+
+{ #category : #tests }
 ToNotebookTest >> testSelectPage [
 
 	| aNotebook orangePage greenPage |

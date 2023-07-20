@@ -80,7 +80,7 @@ ToNotebook >> initialize [
 ToNotebook >> newPageTitle: aTitle [
 
 	| aPage titleElement |
-	aPage := ToNotebookPage new.
+	aPage := ToNotebookPage new title: aTitle.
 	titleElement := self newTitleElementFor: aPage title: aTitle.
 	aPage titleElement: titleElement.
 	^ aPage
@@ -95,6 +95,12 @@ ToNotebook >> newTitleElementFor: aPage title: aTitle [
 		whenClickedDo: [ aPage isSelected: true ];
 		dresser: self dresser newPageTitleDresser;
 		yourself
+]
+
+{ #category : #'as yet unclassified' }
+ToNotebook >> pageTitled: aTitle [ 
+
+	^ pages detect: [ :each | each titleElement labelElement text asString = aTitle ]
 ]
 
 { #category : #accessing }

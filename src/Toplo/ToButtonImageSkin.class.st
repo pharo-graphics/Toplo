@@ -20,11 +20,11 @@ ToButtonImageSkin >> buttonType: aButtonType [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonImageSkin >> whenAddedToSpace: anEvent in: anElement [ 
+ToButtonImageSkin >> onSkinInstalledIn: anElement [
 
 	| iconLook |
 	iconLook := self buttonType iconLookIn: anElement.
 	self addLook: iconLook.
-	super whenAddedToSpace: anEvent in: anElement.
+	super onSkinInstalledIn: anElement
 
 ]

@@ -2,7 +2,6 @@ Class {
 	#name : #ToWidgetSkin,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
-		'addedToSpace',
 		'look'
 	],
 	#category : #'Toplo-Core-Theme'
@@ -16,18 +15,10 @@ ToWidgetSkin >> addLook: aLook [
 	self privateLook: aLook
 ]
 
-{ #category : #accessing }
-ToWidgetSkin >> addedToSpace [
-
-	^ addedToSpace 
-]
-
-{ #category : #'event handling' }
+{ #category : #'as yet unclassified' }
 ToWidgetSkin >> elementAddedToSceneGraphEvent: anEvent [
 
-	addedToSpace ifTrue: [ ^ self ].
-	self whenAddedToSpace: anEvent in: anEvent currentTarget.
-	addedToSpace := true
+	self whenAddedToSpace: anEvent in: anEvent currentTarget
 ]
 
 { #category : #'event handling' }
@@ -36,25 +27,22 @@ ToWidgetSkin >> elementLookEvent: anEvent [
 	anEvent sendTo: self look
 ]
 
-{ #category : #'event handling' }
+{ #category : #'as yet unclassified' }
 ToWidgetSkin >> elementRemovedFromSceneGraphEvent: anEvent [
 
-	addedToSpace ifFalse: [ ^ self ].
-	self whenRemovedFromSpace:  anEvent in: anEvent currentTarget.
-	addedToSpace := false
+	self whenRemovedFromSpace: anEvent in: anEvent currentTarget
+]
+
+{ #category : #'event handling' }
+ToWidgetSkin >> elementSkinChangedEvent: anEvent [
+
+	
 ]
 
 { #category : #'api - accessing' }
 ToWidgetSkin >> eventsToHandle [
 
-	^ { BlElementAddedToSceneGraphEvent. BlElementRemovedFromSceneGraphEvent. ToElementLookEvent }
-]
-
-{ #category : #initialization }
-ToWidgetSkin >> initialize [ 
-
-	super initialize.
-	addedToSpace := false.
+	^ { BlElementAddedToSceneGraphEvent. BlElementRemovedFromSceneGraphEvent . ToElementLookEvent }
 ]
 
 { #category : #accessing }
@@ -68,10 +56,20 @@ ToWidgetSkin >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	self privateLook: ToNullElementLook new.
-	addedToSpace := anElement isAttachedToSceneGraph.
-	addedToSpace
-		ifTrue: [ self whenAddedToSpace: nil in: anElement ]
-		ifFalse: [ self whenRemovedFromSpace: nil in: anElement ]
+	
+	
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToWidgetSkin >> onSkinInstalledIn: anElement [
+
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToWidgetSkin >> onSkinUninstalledIn: anElement [
+
+
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -98,20 +96,24 @@ ToWidgetSkin >> removeLook: aLook [
 { #category : #'event handling' }
 ToWidgetSkin >> themeChangedEvent: anEvent [
 
-	self whenRemovedFromSpace: anEvent in: anEvent currentTarget.
-	self whenAddedToSpace: anEvent in: anEvent currentTarget
+	self onSkinUninstalledIn: anEvent currentTarget.
+	self onSkinInstalledIn: anEvent currentTarget.
+	anEvent currentTarget dispatchLookEvent: ToInstallLookEvent new.
+	anEvent currentTarget whenLayoutedDoOnce: [ anEvent currentTarget switchToState: ToInitialState new ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> whenAddedToSpace: anEvent in: anElement [
 
-	anElement whenLayoutedDoOnce: [
-		anElement dispatchLookEvent: (ToInstallLookEvent new copyFrom: anEvent).
-		anElement dispatchLookEvent:	((ToElementStateChangedEvent new state: ToInitialState new) copyFrom: anEvent) ]
+	self onSkinInstalledIn: anElement.
+	anElement dispatchLookEvent: ToInstallLookEvent new.
+	anElement whenLayoutedDoOnce: [ anElement switchToState: ToInitialState new ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> whenRemovedFromSpace: anEvent in: anElement [
 
-	anElement dispatchLookEvent: (ToUninstallLookEvent new copyFrom: anEvent)
+	anElement dispatchLookEvent: ToUninstallLookEvent new.
+	self onSkinUninstalledIn: anElement.
+
 ]

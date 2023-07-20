@@ -7,14 +7,8 @@ Class {
 	#category : #'Toplo-Widget-Button-Toggle-Skins'
 }
 
-{ #category : #accessing }
-ToToggleTrackSkin >> toggleButton: aToggleButton [
-
-	toggleButton := aToggleButton
-]
-
 { #category : #'api - install/uninstall  hook' }
-ToToggleTrackSkin >> whenAddedToSpace: anEvent in: anElement [
+ToToggleTrackSkin >> onSkinInstalledIn: anElement [
 
 	toggleButton := anElement parent.
 	self addLook: (ToBackgroundLook new
@@ -35,5 +29,11 @@ ToToggleTrackSkin >> whenAddedToSpace: anEvent in: anElement [
 			 animate: true;
 			 toggleButton: toggleButton;
 			 yourself).
-	super whenAddedToSpace: anEvent in: anElement
+	super onSkinInstalledIn: anElement
+]
+
+{ #category : #accessing }
+ToToggleTrackSkin >> toggleButton: aToggleButton [
+
+	toggleButton := aToggleButton
 ]

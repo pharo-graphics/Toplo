@@ -78,19 +78,7 @@ ToButtonType >> labelLookIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonType >> regularFormLookIn: anElement [
-
-	self subclassResponsibility 
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonType >> regularLabelLookIn: anElement [
-
-	self subclassResponsibility 
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonType >> whenAddedToSpace: anEvent in: anElement fromSkin: aSkin [
+ToButtonType >> onSkinInstalled: aSkin in: anElement [
 
 	| borderLook backgroundLook |
 	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: anElement toTheme borderRadius).
@@ -108,7 +96,19 @@ ToButtonType >> whenAddedToSpace: anEvent in: anElement fromSkin: aSkin [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonType >> whenRemovedFromSpace: anEvent in: anElement fromSkin: aSkin [
+ToButtonType >> onSkinUninstalled: aSkin in: anElement [
 
 
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonType >> regularFormLookIn: anElement [
+
+	self subclassResponsibility 
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonType >> regularLabelLookIn: anElement [
+
+	self subclassResponsibility 
 ]

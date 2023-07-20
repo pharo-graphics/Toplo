@@ -44,9 +44,9 @@ TToSkinable >> withSkin: aSkin [
 	self withoutSkin.
 	privateSkin := aSkin.
 	Toplo useLookAndFeel ifTrue: [ ^ self ].
-	privateSkin ifNotNil: [ self addEventHandler: privateSkin ].
-
-	
+	privateSkin ifNotNil: [
+		self addEventHandler: privateSkin.
+		self dispatchSkinChangedEvent ]
 ]
 
 { #category : #'t - skin accessing' }

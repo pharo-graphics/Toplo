@@ -52,6 +52,24 @@ ToButtonSkin >> eventsToHandle [
 	^ super eventsToHandle, { ToButtonIconChanged. ToButtonLabelChanged }
 ]
 
+{ #category : #'api - install/uninstall  hook' }
+ToButtonSkin >> onSkinInstalledIn: anElement [
+
+	" must send to super ** after ** the look is initialize from type "
+	self type onSkinInstalled: self in: anElement.
+	super onSkinInstalledIn: anElement
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonSkin >> onSkinUninstalledIn: anElement [
+
+	self type onSkinUninstalled: self in: anElement.
+	super onSkinUninstalledIn: anElement
+
+
+]
+
 { #category : #accessing }
 ToButtonSkin >> type [
 
@@ -65,21 +83,4 @@ ToButtonSkin >> type: aSkinType [
 
 	"#default, #primary, #link or #text"
 	type := aSkinType
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonSkin >> whenAddedToSpace: anEvent in: anElement [
-
-	" must send to super ** after ** the look is initialize from type "
-	self type whenAddedToSpace: anEvent in: anElement fromSkin: self.
-	super whenAddedToSpace: anEvent in: anElement.
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonSkin >> whenRemovedFromSpace: anEvent in: anElement [
-
-	self type whenRemovedFromSpace: anEvent in: anElement fromSkin: self.
-	super whenRemovedFromSpace: anEvent in: anElement.
-
 ]

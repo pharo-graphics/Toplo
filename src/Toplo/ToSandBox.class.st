@@ -943,14 +943,14 @@ ToSandBox class >> example_ToButtonSkins [
 	
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 
-	"themeSwitcher := ToChoiceBox new.
+	themeSwitcher := ToChoiceBox new.
 	themeSwitcher data addAll: { ToThemeLight. ToThemeDark }.
 			
 	themeSwitcher whenSelectedIndexChangedDo: [ space toTheme: themeSwitcher selectedData new ].
 	themeSwitcher selectData: space toTheme class.
-	space root addChild: themeSwitcher."
+	space root addChild: themeSwitcher.
 
-space switchThemeDarkOrLight.
+"space switchThemeDarkOrLight."
 
 	butBuilder := [ ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16 ].
 	buttonSpecsBuilder := [ {
@@ -1115,8 +1115,9 @@ ToSandBox class >> example_ToButtonWithPrimarySkin [
 	space root addChild: button1.	
 	space root when: BlElementAddedToSceneGraphEvent do: [  
 		button1 labelText: 'Primary button 3'.
-		button1 iconImage: (ToThemeIcons iconSearchOutlined16x16) ].
+		button1 icon: (ToImage inner: (ToThemeIcons iconSearchOutlined16x16)) ].
 	space show.
+	
 ]
 
 { #category : #button }

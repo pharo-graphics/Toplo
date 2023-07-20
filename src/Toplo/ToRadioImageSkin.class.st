@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToRadioImageSkin >> whenAddedToSpace: anEvent in: anElement [ 
+ToRadioImageSkin >> onSkinInstalledIn: anElement [
 
 	| borderLook |
 		
@@ -17,6 +17,6 @@ ToRadioImageSkin >> whenAddedToSpace: anEvent in: anElement [
 				width: 1.
 	self addLook: borderLook.
 
-	super whenAddedToSpace: anEvent in: anElement.
+	super onSkinInstalledIn: anElement
 
 ]

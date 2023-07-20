@@ -17,9 +17,9 @@ ToImageModel >> privateWidgetClass [
 ]
 
 { #category : #'api - change hook' }
-ToImageModel >> whenInnerImageReplacedDo: aBlock [
+ToImageModel >> whenInnerImageChangedDo: aBlock [
 
 	"set a block to perform after that the image has been changed, and its action performed"
 
-	self widgetDo: [ :widget | widget whenInnerImageReplacedDo: aBlock ]
+	self widgetDo: [ :widget | widget whenInnerImageChangedDo: aBlock ]
 ]

@@ -16,6 +16,14 @@ BlElement >> dispatchLookEvent: anEvent [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> dispatchSkinChangedEvent [
+
+	self dispatchEvent: ToElementSkinChangedEvent new.
+	self childrenDo: [ :child | child dispatchSkinChangedEvent ]
+
+]
+
+{ #category : #'*Toplo' }
 BlElement >> holder [
 
 	^ self constraints infinite holder
@@ -76,5 +84,7 @@ BlElement >> toTheme: aTheme [
 BlElement >> toThemeChanged [
 
 	self dispatchEvent: ToThemeChangedEvent new.
-	self childrenDo: [ :c | c toThemeChanged ]
+	self childrenDo: [ :c | c toThemeChanged ].
+
+
 ]

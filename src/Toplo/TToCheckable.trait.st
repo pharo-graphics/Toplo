@@ -56,6 +56,13 @@ TToCheckable >> group: aCheckableGroup [
 	group := aCheckableGroup
 ]
 
+{ #category : #initialization }
+TToCheckable >> initialize [
+
+	self class initializeSlots: self.
+	super initialize.
+]
+
 { #category : #'t - checkable initializing' }
 TToCheckable >> initializeCheckable [
 

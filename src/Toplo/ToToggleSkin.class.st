@@ -33,6 +33,20 @@ ToToggleSkin >> buttonLabelChanged: anEvent [
 ]
 
 { #category : #'api - install/uninstall  hook' }
+ToToggleSkin >> onSkinInstalledIn: anElement [
+
+	anElement spacingWidth: anElement toTheme paddingContentHorizontal / 2.
+	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: (self trackBorderRadiusIn: anElement)).
+	anElement padding: (BlInsets
+			 top: anElement toTheme paddingXS / 2
+			 left: anElement toTheme paddingContentHorizontal
+			 bottom: anElement toTheme paddingXS / 2
+			 right: anElement toTheme paddingContentHorizontal).
+	self setupTrackElementIn: anElement.
+	super onSkinInstalledIn: anElement
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToToggleSkin >> setupTrackElementIn: anElement [
 
 	" setup the track "
@@ -57,18 +71,4 @@ ToToggleSkin >> switchButtonSizeIn: anElement [
 ToToggleSkin >> trackBorderRadiusIn: anElement [
 
 	^ 26
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToToggleSkin >> whenAddedToSpace: anEvent in: anElement [
-
-	anElement spacingWidth: anElement toTheme paddingContentHorizontal / 2.
-	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: (self trackBorderRadiusIn: anElement)).
-	anElement padding: (BlInsets
-			 top: anElement toTheme paddingXS / 2
-			 left: anElement toTheme paddingContentHorizontal
-			 bottom: anElement toTheme paddingXS / 2
-			 right: anElement toTheme paddingContentHorizontal).
-	self setupTrackElementIn: anElement.
-	super whenAddedToSpace: anEvent in: anElement
 ]

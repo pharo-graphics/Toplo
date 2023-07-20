@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToCheckboxImageSkin >> whenAddedToSpace: anEvent in: anElement [ 
+ToCheckboxImageSkin >> onSkinInstalledIn: anElement [
 
 	| borderLook |
 		
@@ -17,6 +17,6 @@ ToCheckboxImageSkin >> whenAddedToSpace: anEvent in: anElement [
 				width: 1.
 	self addLook: borderLook.
 
-	super whenAddedToSpace: anEvent in: anElement.
+	super onSkinInstalledIn: anElement
 
 ]

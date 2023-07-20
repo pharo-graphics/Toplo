@@ -85,6 +85,7 @@ ToWindowElement >> initialize [
 		geometry: self defaultGeometry;
 		clipChildren: false;
 		fitContent.
+	self constraintsDo: [ :c | c ignoreByLayout ].
 		
 	self addChildren: self elements.
 ]

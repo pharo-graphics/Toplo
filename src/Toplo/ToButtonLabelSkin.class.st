@@ -19,6 +19,20 @@ ToButtonLabelSkin >> buttonType: aButtonType [
 	buttonType := aButtonType
 ]
 
+{ #category : #'api - install/uninstall  hook' }
+ToButtonLabelSkin >> onSkinInstalledIn: anElement [
+
+	| labelLook attrBuilder |
+
+	attrBuilder := self textAttributesBuilderFromElement: anElement.
+	labelLook := self buttonType labelLookIn: anElement.
+	labelLook attrBuilder: attrBuilder.
+	self addLook: labelLook.
+
+	super onSkinInstalledIn: anElement
+
+]
+
 { #category : #accessing }
 ToButtonLabelSkin >> textAttributesBuilderFromElement: anElement [
 
@@ -31,18 +45,4 @@ ToButtonLabelSkin >> textAttributesBuilderFromElement: anElement [
 	builder foreground: anElement toTheme colorText.
 
 	^ builder 
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonLabelSkin >> whenAddedToSpace: anEvent in: anElement [ 
-
-	| labelLook attrBuilder |
-
-	attrBuilder := self textAttributesBuilderFromElement: anElement.
-	labelLook := self buttonType labelLookIn: anElement.
-	labelLook attrBuilder: attrBuilder.
-	self addLook: labelLook.
-
-	super whenAddedToSpace: anEvent in: anElement.
-
 ]

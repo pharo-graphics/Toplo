@@ -22,18 +22,10 @@ ToCheckableSkin >> indeterminateImageIn: anElement [
 	^ self subclassResponsibility 
 ]
 
-{ #category : #accessing }
-ToCheckableSkin >> uncheckedImageIn: anElement [
-
-	^ self subclassResponsibility 
-]
-
 { #category : #'api - install/uninstall  hook' }
-ToCheckableSkin >> whenAddedToSpace: anEvent in: anElement [
+ToCheckableSkin >> onSkinInstalledIn: anElement [
 
-	super whenAddedToSpace: anEvent in: anElement.
-	anElement spacingWidth:
-		anElement toTheme paddingContentHorizontal / 2.
+	anElement spacingWidth: anElement toTheme paddingContentHorizontal / 2.
 	anElement icon: (ToImage inner: (anElement isChecked
 				  ifTrue: [ self checkedImageIn: anElement ]
 				  ifFalse: [ self uncheckedImageIn: anElement ])).
@@ -42,5 +34,12 @@ ToCheckableSkin >> whenAddedToSpace: anEvent in: anElement [
 			 checkedImage: (self checkedImageIn: anElement);
 			 uncheckedImage: (self uncheckedImageIn: anElement);
 			 indeterminateImage: (self indeterminateImageIn: anElement);
-			 yourself)
+			 yourself).
+	super onSkinInstalledIn: anElement
+]
+
+{ #category : #accessing }
+ToCheckableSkin >> uncheckedImageIn: anElement [
+
+	^ self subclassResponsibility 
 ]

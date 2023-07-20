@@ -10,17 +10,6 @@ ToCheckableSkin >> checkedImageIn: anElement [
 	^ self subclassResponsibility 
 ]
 
-{ #category : #'event handling' }
-ToCheckableSkin >> elementLookEvent: anEvent [
-
-	super elementLookEvent: anEvent.
-	" redirect the event to the icon skin that should have a border look 
-	which react itself on event such as hovered/pressed/initial "
-	anEvent elementDo: [ :e |
-		e icon ifNotNil: [	 
-			e icon dispatchEvent: anEvent clone ] ]
-]
-
 { #category : #accessing }
 ToCheckableSkin >> iconSkin [
 

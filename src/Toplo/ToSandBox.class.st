@@ -4,17 +4,6 @@ Class {
 	#category : #'Toplo-Examples'
 }
 
-{ #category : #window }
-ToSandBox class >> example_2RootFramesInOBlWorld [
-
-	ToInnerWindow new
-		title: 'Frame 1';
-		openInWorld.
-	ToInnerWindow new
-		title: 'Frame 2';
-		openInWorld
-]
-
 { #category : #combobox }
 ToSandBox class >> example_BasicComboBox [
 
@@ -863,6 +852,7 @@ ToSandBox class >> example_Popup1 [
 		             position: 10 @ 10;
 		             size: 400 @ 200;
 		             yourself.
+
 	e := ToElement new
 		     background: Color lightGray;
 		     size: 100 @ 40;
@@ -1287,7 +1277,7 @@ ToSandBox class >> example_elementInPopupRoot [
 	| e space |
 	space := BlSpace new.
 	e := BlElement new background: Color blue; size: 50@50; yourself.
-	space popupLayer addChild: e.
+	space openInPopupLayer: e.
 	e addEventHandler: (BlEventHandler
 				on: BlClickEvent
 				do: [ :evt | self inform: 'Clicked'  ]).
@@ -1335,7 +1325,7 @@ ToSandBox class >> example_menu1 [
 
 	| menu sub subsub |
 	menu := ToMenu new.
-	menu layout cellSpacing: 5.
+	menu spacingWidth: 5.
 	menu globalColumnWidth: 22.
 	menu label: (ToLabel new text: 'File').
 	menu icon:
@@ -2305,6 +2295,46 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 	space := BlSpace new.
 	space root addChild: but.
 	space show 
+]
+
+{ #category : #button }
+ToSandBox class >> example_toButtonWithTextAndIconHorizontal2 [
+
+	| but count |
+	but := ToButton new "cellSpacing: 2; padding: (BlInsets all: 4)".
+	but label: (ToLabel text: 'Button').
+	but iconImage: (BlElement new
+			 size: 60 @ 20;
+			 background: (Color blue alpha: 0.2);
+			 yourself).
+	but beRightToLeft.
+	but layout cellSpacing: 10.
+	count := 0.
+	but when: BlClickEvent do: [ :event | count := count + 1. count traceCr ].
+	"but whenClickedDo: [ :ann | but icon background: Color random ]."
+	but openInInnerWindow 
+]
+
+{ #category : #button }
+ToSandBox class >> example_toButtonWithTextAndIconHorizontal3 [
+
+	| but count pane |
+	but := ToButton new "cellSpacing: 2; padding: (BlInsets all: 4)".
+	but label: (ToLabel text: 'Button').
+	but iconImage: (BlElement new
+			 size: 60 @ 20;
+			 background: (Color blue alpha: 0.2);
+			 yourself).
+	but beRightToLeft.
+	but layout cellSpacing: 10.
+	count := 0.
+	but when: BlClickEvent do: [ :event | count := count + 1. count traceCr ].
+	"but whenClickedDo: [ :ann | but icon background: Color random ]."
+	pane := ToPane new size: 400@400.
+	pane border: (BlBorder paint: Color red).
+	pane addChild: but.
+	pane openInSpace.
+	but id: 'BUT'
 ]
 
 { #category : #button }

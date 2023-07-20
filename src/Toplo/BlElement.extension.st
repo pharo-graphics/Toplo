@@ -9,6 +9,13 @@ BlElement >> asPlaceholderLayer [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> dispatchLookEvent: anEvent [
+
+	self dispatchEvent: anEvent.
+	self childrenDo: [ :child | child dispatchLookEvent: anEvent ]
+]
+
+{ #category : #'*Toplo' }
 BlElement >> holder [
 
 	^ self constraints infinite holder

@@ -151,12 +151,12 @@ ToWidgetWindowElement >> popupEvent: anEvent [
 	" I have to set the position here "
 	self position: (self positioningHook value: self value: anEvent).
 	self hasParent ifTrue: [ ^ self ].
-	self spaceLayer addChild: self.
+	self widget space openInPopupLayer: self.
 	self dispatchOpenedEventFrom: anEvent.
 	popupTimestamp := DateAndTime now.
 	"I need to finalize my position as soon as my layout is up-to-date"
 	self whenLayoutedDoOnce: [
-		self spaceLayer ifNotNil: [ :l | self checkBeforePopupIn: l ] ].
+		self widget isAttachedToSceneGraph ifTrue: [ self checkBeforePopupIn: self widget ] ].
 	self requestLayout
 ]
 
@@ -177,13 +177,6 @@ ToWidgetWindowElement >> positioningHook: aValuable [
 	" takes the window as argument. Computes the window position according to the given window anchor element "
 	
 	hook := aValuable
-]
-
-{ #category : #'api - displaying' }
-ToWidgetWindowElement >> spaceLayer [ 
-
-	^ self widget space overlayLayer.
-
 ]
 
 { #category : #'property change hook' }

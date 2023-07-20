@@ -9,11 +9,17 @@ Class {
 
 { #category : #layout }
 ToPairWithInterspaceStrategy >> childrenIn: aPair [
-
-	^ { 
+ 	
+	^ {
 		  aPair first.
-		  self interspace.
+		  self interspaceIn: aPair.
 		  aPair second } select: #notNil
+]
+
+{ #category : #accessing }
+ToPairWithInterspaceStrategy >> hasInterspaceIn: anElement [
+
+	^ anElement first notNil and: [ anElement second notNil ]
 ]
 
 { #category : #initialization }
@@ -31,4 +37,12 @@ ToPairWithInterspaceStrategy >> initialize [
 ToPairWithInterspaceStrategy >> interspace [
 
 	^ interspace
+]
+
+{ #category : #accessing }
+ToPairWithInterspaceStrategy >> interspaceIn: anElement [
+
+	^ (self hasInterspaceIn: anElement)
+		  ifTrue: [ self interspace ]
+		  ifFalse: [ nil ]
 ]

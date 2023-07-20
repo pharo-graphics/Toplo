@@ -5,6 +5,20 @@ Class {
 }
 
 { #category : #'api - install/uninstall  hook' }
+ToToggleSkin >> barWidthFromTrack: aToggleTrack [
+
+	| but onw offw bw |
+	
+	onw := 0.
+	offw := 0.
+	but := aToggleTrack switchButton.
+	bw := but width + but margin left + but margin right.
+	aToggleTrack switchBarOnElement ifNotNil: [ :o | onw := o width ].
+	aToggleTrack switchBarOffElement ifNotNil: [ :o | offw := o width ].
+	^ bw + (onw max: offw) max: bw * 1.6
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToToggleSkin >> buttonIconChanged: anEvent [
 
 	anEvent currentTarget icon ifNil: [ ^ self ].
@@ -22,13 +36,14 @@ ToToggleSkin >> buttonLabelChanged: anEvent [
 ToToggleSkin >> setupTrackElementIn: anElement [
 
 	" setup the track "
-
 	anElement switchButton size: (self switchButtonSizeIn: anElement).
 	anElement switchButton background: Color white.
-	anElement switchButton margin: (BlInsets top: 2 left: 3 bottom: 2 right: 3).
+	anElement switchButton margin: (BlInsets top: 1 left: 3 bottom: 1 right: 3).
 	anElement track geometry: (BlRoundedRectangleGeometry cornerRadius: (self trackBorderRadiusIn: anElement)).
-	anElement track padding: (BlInsets all: 2).
-	anElement track withSkin: (ToToggleTrackSkin new toggleButton: anElement)
+	anElement track padding: (BlInsets all: 1).
+	anElement track withSkin: (ToToggleTrackSkin new toggleButton: anElement).
+	anElement whenLayoutedDoOnce: [ 
+		anElement track width: (self barWidthFromTrack: anElement track)].
 
 ]
 
@@ -41,13 +56,13 @@ ToToggleSkin >> subElementsIn: anElement [
 { #category : #accessing }
 ToToggleSkin >> switchButtonSizeIn: anElement [
 
-	^ 16 asPoint
+	^ 14 asPoint
 ]
 
 { #category : #accessing }
 ToToggleSkin >> trackBorderRadiusIn: anElement [
 
-	^ 12
+	^ 26
 ]
 
 { #category : #'api - install/uninstall  hook' }

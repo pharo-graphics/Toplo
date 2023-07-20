@@ -37,6 +37,7 @@ ToGeneralButtonDresser >> hoveredState: anElement [
 { #category : #'events handling' }
 ToGeneralButtonDresser >> initialState: anElement [
 
+	anElement currentState class = ToInitialState ifTrue: [ ^ self  ].
 	self switchToState: ToInitialState new in: anElement
 ]
 
@@ -50,7 +51,7 @@ ToGeneralButtonDresser >> installEventListenersIn: anElement [
 	mouseUpOutsideHandler := BlEventHandler
 		                         on: BlMouseUpOutsideEvent
 		                         do: [ :event | self mouseUpOutsideEvent: event in: anElement ].
-	anElement addEventFilter: mouseUpOutsideHandler
+	anElement addEventHandler: mouseUpOutsideHandler
 ]
 
 { #category : #'events handling' }
@@ -140,13 +141,14 @@ ToGeneralButtonDresser >> mouseLeaveEvent: anEvent in: anElement [
 
 { #category : #'events handling' }
 ToGeneralButtonDresser >> mouseUpOutsideEvent: anEvent in: anElement [
-
 	"Outside event can have a button element as target. 
 	In that case, no action is triggered "
-	anEvent consumed: true.
-	(anEvent originalEvent target notNil and: [anEvent originalEvent target hasParent: anElement]) ifTrue: [
+
+	(anEvent originalEvent target notNil and: [
+		 anEvent originalEvent target hasParent: anElement ]) ifTrue: [
 		^ self ].
-	self initialState: anElement
+	self initialState: anElement.
+	
 ]
 
 { #category : #'events handling' }
@@ -164,7 +166,7 @@ ToGeneralButtonDresser >> switchToState: aState in: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToGeneralButtonDresser >> uninstallEventListenersIn: anElement [
 
-	anElement removeEventFilter: mouseUpOutsideHandler.
+	anElement removeEventHandler: mouseUpOutsideHandler.
 	super uninstallEventListenersIn: anElement.
 
 

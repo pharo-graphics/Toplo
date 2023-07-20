@@ -28,7 +28,7 @@ ToElementLook >> clickLookEvent: anEvent [
 { #category : #'private event handling' }
 ToElementLook >> elementLookEvent: anEvent [
 
-	self next elementLookEvent: anEvent.
+	self next elementLookEvent: anEvent clone.
 	anEvent sendToLook: self.
 
 ]

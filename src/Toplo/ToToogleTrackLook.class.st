@@ -49,6 +49,13 @@ ToToogleTrackLook >> initialize [
 ]
 
 { #category : #'event handling' }
+ToToogleTrackLook >> installAppearanceIn: anElement [
+
+	toggleButton track slideToLeft.
+	self withoutAnimationWhile: [ self syncAppearanceIn: anElement ]
+]
+
+{ #category : #'event handling' }
 ToToogleTrackLook >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
@@ -56,17 +63,8 @@ ToToogleTrackLook >> installLookEvent: anEvent [
 	installed := true.
 
 	anEvent elementDo: [ :e |
-		| onWidth offWidth pWidth w |
-		onWidth := 0.
-		offWidth := 0.
-		pWidth := e switchButton width.
-		e switchBarOnElement ifNotNil: [ :o | onWidth := o width ].
-		e switchBarOffElement ifNotNil: [ :o | offWidth := o width ].
-		w := (pWidth + (onWidth max: offWidth) max: pWidth * 2).
-		e width: w + e switchButton margin left + e switchButton margin right.
-		" Since I've just initialized the track width, I have to wait 
-		for the next layouting to setup the switch state "
-		toggleButton whenLayoutedDoOnce: [ toggleButton track slideToLeft. self syncAppearanceIn: e ] ]
+		" Have to wait for the next layout to install the appearance  "
+		toggleButton whenLayoutedDoOnce: [ self installAppearanceIn: e ] ]
 ]
 
 { #category : #sliding }
@@ -121,4 +119,13 @@ ToToogleTrackLook >> syncAppearanceIn: anElement [
 ToToogleTrackLook >> toggleButton: aToggleButton [
 
 	toggleButton := aToggleButton
+]
+
+{ #category : #'event handling' }
+ToToogleTrackLook >> withoutAnimationWhile: aBlock [
+
+	| prev |
+	prev := animate.
+	animate := false.
+	aBlock ensure: [ animate := prev ]
 ]

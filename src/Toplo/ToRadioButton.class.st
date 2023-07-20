@@ -4,12 +4,6 @@ Class {
 	#category : #'Toplo-Widget-Button'
 }
 
-{ #category : #'t - initialization dresser' }
-ToRadioButton >> defaultDresser [
-
-	^ ToCheckableButtonDresser new
-]
-
 { #category : #'t - skin accessing' }
 ToRadioButton >> defaultSkin [ 
 

@@ -2297,6 +2297,24 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 ]
 
 { #category : #button }
+ToSandBox class >> example_toButtonWithTextAndIconHorizontal2 [
+
+	| but space count |
+	but := ToButton new "cellSpacing: 2; padding: (BlInsets all: 4)".
+	but label: (ToLabel text: 'Button').
+	but iconImage: (BlElement new
+			 size: 60 @ 20;
+			 background: (Color blue alpha: 0.2);
+			 yourself).
+	but beRightToLeft.
+	but layout cellSpacing: 10.
+	count := 0.
+	but when: BlClickEvent do: [ :event | count := count + 1. count traceCr ].
+	"but whenClickedDo: [ :ann | but icon background: Color random ]."
+	but openInInnerWindow 
+]
+
+{ #category : #button }
 ToSandBox class >> example_toButtonWithTextAndIconVertical [
 
 	| but space |

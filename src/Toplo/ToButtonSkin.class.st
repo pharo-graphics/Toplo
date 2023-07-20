@@ -52,13 +52,6 @@ ToButtonSkin >> eventsToHandle [
 	^ super eventsToHandle, { ToButtonIconChanged. ToButtonLabelChanged }
 ]
 
-{ #category : #'event handling' }
-ToButtonSkin >> subElementsIn: anElement [
-
-	^ ((super subElementsIn: anElement), {  anElement icon. anElement label }) reject: [ :e | e isNil ]
-	
-]
-
 { #category : #accessing }
 ToButtonSkin >> type [
 

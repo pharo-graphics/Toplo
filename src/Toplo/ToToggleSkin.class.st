@@ -1,7 +1,7 @@
 Class {
 	#name : #ToToggleSkin,
 	#superclass : #ToWidgetSkin,
-	#category : #'Toplo-Widget-Button-Skins'
+	#category : #'Toplo-Widget-Button-Toggle-Skins'
 }
 
 { #category : #'api - install/uninstall  hook' }
@@ -45,12 +45,6 @@ ToToggleSkin >> setupTrackElementIn: anElement [
 	anElement whenLayoutedDoOnce: [ 
 		anElement track width: (self barWidthFromTrack: anElement track)].
 
-]
-
-{ #category : #accessing }
-ToToggleSkin >> subElementsIn: anElement [
-
-	^ ((super subElementsIn: anElement), {  anElement track. anElement label }) reject: [ :e | e isNil ]
 ]
 
 { #category : #accessing }

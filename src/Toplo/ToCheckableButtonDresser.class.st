@@ -10,7 +10,9 @@ Class {
 { #category : #'api - install/uninstall  hook' }
 ToCheckableButtonDresser >> checkEvent: anEvent in: anElement [
 self flag: 'issue here, because checkEvent:in: can be send either because of a click or because the checkable as been checked programmatically'.
-	anElement dispatchEvent: ToClickLookEvent new
+
+	anElement dispatchLookEvent: ToClickLookEvent new.
+	self hoveredState: anElement 
 ]
 
 { #category : #'events handling' }
@@ -18,7 +20,7 @@ ToCheckableButtonDresser >> clicked: anElement [
 
 	" ask the button, my checkableHandler (see onInstalledIn:) with send the click look event so don't send to super to avoid unnecessary change "
 	anElement switchToNextState.
-	self hoveredState: anElement 
+	
 
 ]
 

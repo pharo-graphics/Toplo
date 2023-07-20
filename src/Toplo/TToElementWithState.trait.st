@@ -30,7 +30,7 @@ TToElementWithState >> switchToState: aState [
 
 	"self currentState class = aState class ifTrue: [ ^ self ]."
 	self currentState: aState.
-	self dispatchEvent: (ToElementStateChangedEvent new state: aState; yourself)
+	self dispatchLookEvent: (ToElementStateChangedEvent new state: aState; yourself)
 ]
 
 { #category : #enumerating }

@@ -7,7 +7,7 @@ Class {
 		'installed',
 		'animate'
 	],
-	#category : #'Toplo-Widget-Button-Skins'
+	#category : #'Toplo-Widget-Button-Toggle-Skins'
 }
 
 { #category : #accessing }

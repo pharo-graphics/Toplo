@@ -10,7 +10,7 @@ Class {
 { #category : #'events handling' }
 ToGeneralButtonDresser >> clicked: anElement [
 
-	anElement dispatchEvent: ToClickLookEvent new.
+	anElement dispatchLookEvent: ToClickLookEvent new.
 	self hoveredState: anElement 
 
 ]
@@ -37,7 +37,6 @@ ToGeneralButtonDresser >> hoveredState: anElement [
 { #category : #'events handling' }
 ToGeneralButtonDresser >> initialState: anElement [
 
-	anElement currentState class = ToInitialState ifTrue: [ ^ self  ].
 	self switchToState: ToInitialState new in: anElement
 ]
 
@@ -57,7 +56,7 @@ ToGeneralButtonDresser >> installEventListenersIn: anElement [
 { #category : #'events handling' }
 ToGeneralButtonDresser >> leaved: anElement [
 
-	anElement dispatchEvent: ToLeavedLookEvent new
+	anElement dispatchLookEvent: ToLeavedLookEvent new
 ]
 
 { #category : #deprecated }
@@ -167,7 +166,7 @@ ToGeneralButtonDresser >> switchToState: aState in: anElement [
 ToGeneralButtonDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: mouseUpOutsideHandler.
-	super uninstallEventListenersIn: anElement.
+	super uninstallEventListenersIn: anElement
 
 
 ]

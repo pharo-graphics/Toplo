@@ -22,16 +22,18 @@ ToPairColumnStrategy >> initialize [
 
 { #category : #layout }
 ToPairColumnStrategy >> onMeasure: anExtentMeasurementSpec in: aPair [
-
 	" return true if the measure is up-to-date "
 
 	" note that cell spacing is not compatible with left column sizing "
+
 	" get the left side element and then its width "
+
 	| first lw w |
-	
+	(self hasInterspaceIn: aPair) ifFalse: [ ^ true ].
+
 	first := aPair direction isLeftToRight
-		        ifTrue: [ aPair first ]
-		        ifFalse: [ aPair second ].
+		         ifTrue: [ aPair first ]
+		         ifFalse: [ aPair second ].
 
 	lw := first ifNil: [ 0 ] ifNotNil: [ first measuredWidth ].
 	" now measure the gap according to leftColumnWidth "

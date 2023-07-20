@@ -852,6 +852,7 @@ ToSandBox class >> example_Popup1 [
 		             position: 10 @ 10;
 		             size: 400 @ 200;
 		             yourself.
+
 	e := ToElement new
 		     background: Color lightGray;
 		     size: 100 @ 40;
@@ -1324,7 +1325,7 @@ ToSandBox class >> example_menu1 [
 
 	| menu sub subsub |
 	menu := ToMenu new.
-	menu layout cellSpacing: 5.
+	menu spacingWidth: 5.
 	menu globalColumnWidth: 22.
 	menu label: (ToLabel new text: 'File').
 	menu icon:

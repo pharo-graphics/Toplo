@@ -1087,10 +1087,18 @@ ToSandBox class >> example_ToButtonWithDefaultDangerSkin [
 ToSandBox class >> example_ToButtonWithDefaultSkin [
 
 
-	| space button1 |
+	| space button1 themeSwitcher |
 	
 	space := BlSpace new.
-
+	space root layout: (BlLinearLayout vertical cellSpacing: 10).
+	themeSwitcher := ToChoiceBox new.
+	themeSwitcher data addAll: { ToThemeLight. ToThemeDark }.
+			
+	themeSwitcher whenSelectedIndexChangedDo: [ space toTheme: themeSwitcher selectedData new ].
+	themeSwitcher selectData: space toTheme class.
+	
+	space root addChild: themeSwitcher.
+	
 	button1 := ToButton new.
 	button1 label: (ToLabel text: 'Primary button').
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).

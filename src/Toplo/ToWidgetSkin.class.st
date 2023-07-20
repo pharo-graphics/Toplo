@@ -15,7 +15,7 @@ ToWidgetSkin >> addLook: aLook [
 	self privateLook: aLook
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 ToWidgetSkin >> elementAddedToSceneGraphEvent: anEvent [
 
 	self whenAddedToSpace: anEvent in: anEvent currentTarget
@@ -27,7 +27,7 @@ ToWidgetSkin >> elementLookEvent: anEvent [
 	anEvent sendTo: self look
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 ToWidgetSkin >> elementRemovedFromSceneGraphEvent: anEvent [
 
 	self whenRemovedFromSpace: anEvent in: anEvent currentTarget
@@ -42,7 +42,7 @@ ToWidgetSkin >> elementSkinChangedEvent: anEvent [
 { #category : #'api - accessing' }
 ToWidgetSkin >> eventsToHandle [
 
-	^ { BlElementAddedToSceneGraphEvent. BlElementRemovedFromSceneGraphEvent . ToElementLookEvent }
+	^ { ToThemeChangedEvent. BlElementAddedToSceneGraphEvent. BlElementRemovedFromSceneGraphEvent . ToElementLookEvent }
 ]
 
 { #category : #accessing }

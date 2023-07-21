@@ -23,7 +23,6 @@ ToButtonLabelSkin >> buttonType: aButtonType [
 ToButtonLabelSkin >> onSkinInstalledIn: anElement [
 
 	| labelLook attrBuilder |
-
 	super onSkinInstalledIn: anElement.
 	attrBuilder := self textAttributesBuilderFromElement: anElement.
 	labelLook := self buttonType labelLookIn: anElement.

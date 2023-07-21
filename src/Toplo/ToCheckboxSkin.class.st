@@ -9,7 +9,7 @@ ToCheckboxSkin >> checkedImageIn: anElement [
 
 	^ ToImage inner: (BlElement new
 			   size: (anElement toTheme controlHeight / 2) asPoint;
-			   border: (BlBorder paint: anElement toTheme colorPrimary width: 5);
+			   border: (BlBorder paint: anElement toTheme colorPrimary width: 6);
 			   margin: (BlInsets all: 0);
 			   background: anElement toTheme colorBgContainer;
 			   yourself)

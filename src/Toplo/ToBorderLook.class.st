@@ -27,6 +27,7 @@ ToBorderLook >> clickLookEvent: anEvent [
 
 	super clickLookEvent: anEvent.
 	self pressedPaint ifNil: [ ^ self ].
+
 	anEvent elementDo: [ :e |
 		| anim |
 		anim := ToGaussianEffectAnimation new

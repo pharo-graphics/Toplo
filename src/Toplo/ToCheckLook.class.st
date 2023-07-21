@@ -32,6 +32,7 @@ ToCheckLook >> clickLookEvent: anEvent [
 				      e isUnchecked
 					      ifTrue: [ self uncheckedImage ]
 					      ifFalse: [ self indeterminateImage ] ].
+		im removeFromParent.
 		e iconImage: im ]
 ]
 

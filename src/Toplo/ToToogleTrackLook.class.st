@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'toggleButton',
 		'animationDuration',
-		'installed',
 		'animate'
 	],
 	#category : #'Toplo-Widget-Button-Toggle-Skins'
@@ -37,15 +36,19 @@ ToToogleTrackLook >> animationDuration [
 { #category : #'event handling' }
 ToToogleTrackLook >> barWidthFromTrack: aToggleTrack [
 
+
 	| but onw offw bw |
 	
-	onw := 0.
+	self flag: 'The commented version should work and it does not. Have to understand whyl!'.
+
+ 	"onw := 0.
 	offw := 0.
 	but := aToggleTrack switchButton.
 	bw := but width + but margin left + but margin right.
 	aToggleTrack switchBarOnElement ifNotNil: [ :o | onw := o width ].
 	aToggleTrack switchBarOffElement ifNotNil: [ :o | offw := o width ].
-	^ bw + (onw max: offw) max: bw * 1.6
+	^ bw + (onw max: offw) max: bw * 1.6"
+	^ 35
 ]
 
 { #category : #'event handling' }
@@ -55,42 +58,37 @@ ToToogleTrackLook >> clickLookEvent: anEvent [
 	anEvent elementDo: [ :e | self syncAppearanceIn: e ]
 ]
 
+{ #category : #'event handling' }
+ToToogleTrackLook >> initialLookEvent: anEvent [
+
+	super initialLookEvent: anEvent.
+	anEvent elementDo: [ :e | 
+		self withoutAnimationWhile: [
+			e slideToLeft.
+			self syncAppearanceIn: e ] ]
+]
+
 { #category : #initialization }
 ToToogleTrackLook >> initialize [ 
 
-	super initialize.
-	installed := false.
-]
-
-{ #category : #'event handling' }
-ToToogleTrackLook >> installAppearanceIn: anElement [
-
-	self withoutAnimationWhile: [
-		anElement slideToLeft.
-		self syncAppearanceIn: anElement ]
+	super initialize
 ]
 
 { #category : #'event handling' }
 ToToogleTrackLook >> installLookEvent: anEvent [
 
-	self flag: 'The mutiple #whenLayoutedDoOnce: sends demonstrate that we need a skin specific space phase that will occur after layout phase'.
-
 	super installLookEvent: anEvent.
-	installed ifTrue: [ ^ self ].
-	installed := true.
-
 	anEvent elementDo: [ :e |
-		e whenLayoutedDoOnce: [
-			e switchButton size: (self switchButtonSizeIn: e).
-			e switchButton background: Color white.
-			e switchButton margin: (BlInsets top: 1 left: 3 bottom: 1 right: 3).
-			e geometry: (BlRoundedRectangleGeometry cornerRadius: (self trackBorderRadiusIn: e)).
-			e padding: (BlInsets all: 1).
-
-			" Have to wait for the next layout to install the appearance  "
-			e whenLayoutedDoOnce: [
-				e width: (self barWidthFromTrack: e).
-				e whenLayoutedDoOnce: [ self installAppearanceIn: e ] ] ] ]
+		e switchButton size: (self switchButtonSizeIn: e).
+		e switchButton background: Color white.
+		e switchButton margin: (BlInsets
+				 top: 1
+				 left: 3
+				 bottom: 1
+				 right: 3).
+		e geometry: (BlRoundedRectangleGeometry cornerRadius: (self trackBorderRadiusIn: e)).
+		e padding: (BlInsets all: 1).
+		e width: (self barWidthFromTrack: e) ]
 ]
 
 { #category : #sliding }

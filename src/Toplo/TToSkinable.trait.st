@@ -33,6 +33,18 @@ TToSkinable >> initializeSkin [
 ]
 
 { #category : #'t - skin accessing' }
+TToSkinable >> launchSkinInitialization [
+
+	self privateSkin ifNotNil: [ :s | s launchSkinInitializationIn: self ]
+]
+
+{ #category : #'t - skin accessing' }
+TToSkinable >> launchSkinInstallation [
+
+	self privateSkin ifNotNil: [ :s | s launchSkinInstallationIn: self ]
+]
+
+{ #category : #'t - skin accessing' }
 TToSkinable >> privateSkin [
 
 	^ privateSkin
@@ -46,7 +58,6 @@ TToSkinable >> withSkin: aSkin [
 	Toplo useLookAndFeel ifTrue: [ ^ self ].
 	privateSkin ifNotNil: [
 		self addEventHandler: privateSkin.
-		self requestLayout.
 		self dispatchSkinChangedEvent ]
 ]
 

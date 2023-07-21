@@ -30,7 +30,6 @@ TToLabeledIcon >> icon: anElement [
 { #category : #'t - labeled icon' }
 TToLabeledIcon >> iconImage: anElement [
 
-	self icon ifNotNil: [ :ico | ^ ico innerImage: anElement ].
 	self icon: (ToImage inner: anElement)
 ]
 

@@ -26,5 +26,6 @@ ToButtonImageSkin >> onSkinInstalledIn: anElement [
 	super onSkinInstalledIn: anElement.
 	iconLook := self buttonType iconLookIn: anElement.
 	self addLook: iconLook.
+	anElement invalidate
 
 ]

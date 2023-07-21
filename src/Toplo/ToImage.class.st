@@ -67,14 +67,14 @@ ToImage >> innerImage [
 ToImage >> innerImage: anImage [
 
 	| element |
-	anImage = innerImage ifTrue: [ ^ self ].
 	element := anImage
 		           ifNil: [ self defaultInnerImage ]
 		           ifNotNil: [ anImage asElement ].
-	innerImage
-		ifNil: [ self addChild: element ]
-		ifNotNil: [ self replaceChild: innerImage with: element ].
-	innerImage := element
+	anImage = innerImage ifTrue: [ ^ self ].
+	self removeChildren.
+	innerImage := element.
+	self addChild: element.
+
 ]
 
 { #category : #'api - change hook' }

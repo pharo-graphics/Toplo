@@ -1066,6 +1066,25 @@ ToSandBox class >> example_ToButtonWithDashedSkin [
 ]
 
 { #category : #button }
+ToSandBox class >> example_ToButtonWithDefaultDangerDashedSkin [
+
+
+	| space button1 |
+	
+	space := BlSpace new.
+
+	button1 := ToButton new withSkin: (ToButtonSkin new danger: true; dashed: true; yourself).
+	button1 label: (ToLabel text: 'Default danger button').
+	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	space root addChild: button1.	
+	space root when: BlElementAddedToSceneGraphEvent do: [  
+		button1 labelText: 'Default danger button 3'.
+		button1 iconImage: (ToThemeIcons iconSearchOutlined16x16) ].
+	"button1 inspect."
+	space show.
+]
+
+{ #category : #button }
 ToSandBox class >> example_ToButtonWithDefaultDangerSkin [
 
 
@@ -1077,10 +1096,10 @@ ToSandBox class >> example_ToButtonWithDefaultDangerSkin [
 	button1 label: (ToLabel text: 'Default danger button').
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 	space root addChild: button1.	
-	space root when: BlElementAddedToSceneGraphEvent do: [  
+"	space root when: BlElementAddedToSceneGraphEvent do: [  
 		button1 labelText: 'Default danger button 3'.
 		button1 iconImage: (ToThemeIcons iconSearchOutlined16x16) ].
-	"button1 inspect."
+"	"button1 inspect."
 	space show.
 ]
 

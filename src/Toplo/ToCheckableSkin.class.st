@@ -4,10 +4,27 @@ Class {
 	#category : #'Toplo-Widget-Button-Skins'
 }
 
+{ #category : #'api - install/uninstall  hook' }
+ToCheckableSkin >> buttonIconChanged: anEvent [
+
+	anEvent currentTarget icon ifNil: [ ^ self ].
+	anEvent currentTarget icon withSkin: (self iconSkin)	
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToCheckableSkin >> buttonLabelChanged: anEvent [
+]
+
 { #category : #accessing }
 ToCheckableSkin >> checkedImageIn: anElement [
 
 	^ self subclassResponsibility 
+]
+
+{ #category : #'api - accessing' }
+ToCheckableSkin >> eventsToHandle [ 
+
+	^ super eventsToHandle, { ToButtonIconChanged. ToButtonLabelChanged }
 ]
 
 { #category : #accessing }
@@ -30,13 +47,11 @@ ToCheckableSkin >> onSkinInstalledIn: anElement [
 	anElement icon: (ToImage inner: (anElement isChecked
 				  ifTrue: [ self checkedImageIn: anElement ]
 				  ifFalse: [ self uncheckedImageIn: anElement ])).
-	anElement icon withSkin: self iconSkin.
 	self addLook: (ToCheckLook new
 			 checkedImage: (self checkedImageIn: anElement);
 			 uncheckedImage: (self uncheckedImageIn: anElement);
 			 indeterminateImage: (self indeterminateImageIn: anElement);
-			 yourself).
-	
+			 yourself)
 ]
 
 { #category : #accessing }

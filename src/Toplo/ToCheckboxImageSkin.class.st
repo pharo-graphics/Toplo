@@ -6,9 +6,8 @@ Class {
 
 { #category : #'api - install/uninstall  hook' }
 ToCheckboxImageSkin >> onSkinInstalledIn: anElement [
-
-	| borderLook |
 		
+	| borderLook |
 	super onSkinInstalledIn: anElement.
 	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 3).
 	borderLook := ToBorderLook new
@@ -17,6 +16,8 @@ ToCheckboxImageSkin >> onSkinInstalledIn: anElement [
 				pressedPaint: anElement toTheme colorPrimaryPressed;
 				width: 1.
 	self addLook: borderLook.
+
+	
 
 
 

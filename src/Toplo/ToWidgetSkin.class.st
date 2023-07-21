@@ -37,6 +37,7 @@ ToWidgetSkin >> elementRemovedFromSceneGraphEvent: anEvent [
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> elementSkinChangedEvent: anEvent [
 
+	installed ifFalse: [ ^ self ].
 	self launchSkinUninstallationIn: anEvent target.
 	self launchSkinInstallationIn: anEvent target
 ]

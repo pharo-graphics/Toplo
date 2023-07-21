@@ -31,7 +31,21 @@ ToToogleTrackLook >> animationDeltaIn: anElement [
 { #category : #accessing }
 ToToogleTrackLook >> animationDuration [
 
-	^ 250 milliSeconds 
+	^ 150 milliSeconds 
+]
+
+{ #category : #'event handling' }
+ToToogleTrackLook >> barWidthFromTrack: aToggleTrack [
+
+	| but onw offw bw |
+	
+	onw := 0.
+	offw := 0.
+	but := aToggleTrack switchButton.
+	bw := but width + but margin left + but margin right.
+	aToggleTrack switchBarOnElement ifNotNil: [ :o | onw := o width ].
+	aToggleTrack switchBarOffElement ifNotNil: [ :o | offw := o width ].
+	^ bw + (onw max: offw) max: bw * 1.6
 ]
 
 { #category : #'event handling' }
@@ -51,20 +65,32 @@ ToToogleTrackLook >> initialize [
 { #category : #'event handling' }
 ToToogleTrackLook >> installAppearanceIn: anElement [
 
-	toggleButton track slideToLeft.
-	self withoutAnimationWhile: [ self syncAppearanceIn: anElement ]
+	self withoutAnimationWhile: [
+		anElement slideToLeft.
+		self syncAppearanceIn: anElement ]
 ]
 
 { #category : #'event handling' }
 ToToogleTrackLook >> installLookEvent: anEvent [
+
+	self flag: 'The mutiple #whenLayoutedDoOnce: sends demonstrate that we need a skin specific space phase that will occur after layout phase'.
 
 	super installLookEvent: anEvent.
 	installed ifTrue: [ ^ self ].
 	installed := true.
 
 	anEvent elementDo: [ :e |
-		" Have to wait for the next layout to install the appearance  "
-		toggleButton whenLayoutedDoOnce: [ self installAppearanceIn: e ] ]
+		e whenLayoutedDoOnce: [
+			e switchButton size: (self switchButtonSizeIn: e).
+			e switchButton background: Color white.
+			e switchButton margin: (BlInsets top: 1 left: 3 bottom: 1 right: 3).
+			e geometry: (BlRoundedRectangleGeometry cornerRadius: (self trackBorderRadiusIn: e)).
+			e padding: (BlInsets all: 1).
+
+			" Have to wait for the next layout to install the appearance  "
+			e whenLayoutedDoOnce: [
+				e width: (self barWidthFromTrack: e).
+				e whenLayoutedDoOnce: [ self installAppearanceIn: e ] ] ] ]
 ]
 
 { #category : #sliding }
@@ -89,6 +115,12 @@ ToToogleTrackLook >> slideToRightWithAnimationIn: anElement [
 		        transformDo: [ :b | b translateBy: x @ 0 ].
 	anim onFinishedDo: [anElement slideToRight].
 	anElement switchBar addAnimation: anim
+]
+
+{ #category : #'event handling' }
+ToToogleTrackLook >> switchButtonSizeIn: anElement [
+
+	^ 14 asPoint
 ]
 
 { #category : #sliding }
@@ -119,6 +151,12 @@ ToToogleTrackLook >> syncAppearanceIn: anElement [
 ToToogleTrackLook >> toggleButton: aToggleButton [
 
 	toggleButton := aToggleButton
+]
+
+{ #category : #'event handling' }
+ToToogleTrackLook >> trackBorderRadiusIn: anElement [
+
+	^ 26
 ]
 
 { #category : #'event handling' }

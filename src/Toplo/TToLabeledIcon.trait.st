@@ -69,7 +69,6 @@ TToLabeledIcon >> labelFirst: aBoolean [
 { #category : #'t - labeled icon' }
 TToLabeledIcon >> labelText: aText [
 
-	self label ifNotNil: [ :lab | ^ lab text: aText ].
 	self label: (ToLabel text: aText)
 ]
 

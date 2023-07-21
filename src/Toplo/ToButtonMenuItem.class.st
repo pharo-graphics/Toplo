@@ -21,6 +21,12 @@ ToButtonMenuItem >> defaultDresser [
 	^ ToBasicMenuItemDresser next: (ToButtonMenuItemDresser new)
 ]
 
+{ #category : #'t - skin accessing' }
+ToButtonMenuItem >> defaultSkin [ 
+
+	^ ToButtonSkin new
+]
+
 { #category : #initialization }
 ToButtonMenuItem >> initialize [ 
 

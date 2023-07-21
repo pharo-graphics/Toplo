@@ -1059,7 +1059,7 @@ ToSandBox class >> example_ToButtonWithDashedSkin [
 	space root addChild: button1.
 	
 	button1 labelText: 'Dashed button **'.
-	
+
 	space show.
 
 	^space
@@ -1080,6 +1080,7 @@ ToSandBox class >> example_ToButtonWithDefaultDangerSkin [
 	space root when: BlElementAddedToSceneGraphEvent do: [  
 		button1 labelText: 'Default danger button 3'.
 		button1 iconImage: (ToThemeIcons iconSearchOutlined16x16) ].
+	"button1 inspect."
 	space show.
 ]
 
@@ -1087,25 +1088,37 @@ ToSandBox class >> example_ToButtonWithDefaultDangerSkin [
 ToSandBox class >> example_ToButtonWithDefaultSkin [
 
 
-	| space button1 themeSwitcher |
+	| space button1 themeSwitcher skinSwitcher pane |
 	
 	space := BlSpace new.
+	pane := ToPane horizontal.
+	pane layout cellSpacing: 10.
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
+
+	button1 := ToButton new.
+	button1 label: (ToLabel text: 'Primary button').
+	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	space root when: BlElementAddedToSceneGraphEvent do: [  
+		button1 labelText: 'Primary button 3'.
+		button1 iconImage: (ToThemeIcons iconSearchOutlined16x16) ].
+
+	skinSwitcher := ToChoiceBox new.
+	skinSwitcher data addAll: { ToButtonDefaultType. ToButtonLinkType. ToButtonPrimaryType. ToButtonTextType }.
+			
+	skinSwitcher whenSelectedIndexChangedDo: [ button1 withSkin: (ToButtonSkin type: skinSwitcher selectedData new) ].
+	skinSwitcher selectData: button1 privateSkin type class.
+	
 	themeSwitcher := ToChoiceBox new.
 	themeSwitcher data addAll: { ToThemeLight. ToThemeDark }.
 			
 	themeSwitcher whenSelectedIndexChangedDo: [ space toTheme: themeSwitcher selectedData new ].
 	themeSwitcher selectData: space toTheme class.
-	
-	space root addChild: themeSwitcher.
-	
-	button1 := ToButton new.
-	button1 label: (ToLabel text: 'Primary button').
-	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-	space root addChild: button1.	
-	space root when: BlElementAddedToSceneGraphEvent do: [  
-		button1 labelText: 'Primary button 3'.
-		button1 iconImage: (ToThemeIcons iconSearchOutlined16x16) ].
+
+	pane addChild: themeSwitcher.
+	pane addChild: skinSwitcher.
+	space root addChild: pane.
+	space root addChild: button1.
+
 	space show.
 ]
 
@@ -2206,9 +2219,6 @@ ToSandBox class >> example_toButtonOrientationChanger [
 
 	| but space iconImage count |
 	but := ToButton new.
-	but layout cellSpacing: 4.
-	but padding: (BlInsets all: 3).
-	but border: (BlBorder paint: Color lightGray).
 	but label: (ToLabel text:'Button' asRopedText bold).
 	iconImage := BlElement new
 		             size: 20 @ 20;
@@ -2227,9 +2237,6 @@ ToSandBox class >> example_toButtonOrientationChanger3 [
 
 	| but space iconImage count |
 	but := ToButton new.
-	but columnWidth: 100.
-	but padding: (BlInsets all: 3).
-	but border: (BlBorder paint: Color lightGray).
 	but label: (ToLabel text:'Button' asRopedText bold).
 	iconImage := BlElement new
 		             size: 20 @ 20;
@@ -2290,7 +2297,7 @@ ToSandBox class >> example_toButtonWithIconOnly [
 ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 
 	| but space count |
-	but := ToButton new "cellSpacing: 2; padding: (BlInsets all: 4)".
+	but := ToButton new.
 	but label: (ToLabel text: 'Button').
 	but iconImage: (BlElement new
 			 size: 60 @ 20;
@@ -2300,9 +2307,10 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 	but layout cellSpacing: 10.
 	count := 0.
 	but when: BlClickEvent do: [ :event | count := count + 1. count traceCr ].
-	"but whenClickedDo: [ :ann | but icon background: Color random ]."
+	but whenClickedDo: [ :ann | but icon background: Color random ].
 	space := BlSpace new.
 	space root addChild: but.
+	but inspect.
 	space show 
 ]
 
@@ -2310,7 +2318,7 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 ToSandBox class >> example_toButtonWithTextAndIconHorizontal2 [
 
 	| but count |
-	but := ToButton new "cellSpacing: 2; padding: (BlInsets all: 4)".
+	but := ToButton new.
 	but label: (ToLabel text: 'Button').
 	but iconImage: (BlElement new
 			 size: 60 @ 20;
@@ -2320,7 +2328,6 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal2 [
 	but layout cellSpacing: 10.
 	count := 0.
 	but when: BlClickEvent do: [ :event | count := count + 1. count traceCr ].
-	"but whenClickedDo: [ :ann | but icon background: Color random ]."
 	but openInInnerWindow 
 ]
 

@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Widget-Button-Skins'
 }
 
+{ #category : #'accessing - structure variables' }
+ToButtonSkin class >> type: aButtonType [
+
+	^ self new type: aButtonType 
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToButtonSkin >> buttonIconChanged: anEvent [
 
@@ -56,8 +62,8 @@ ToButtonSkin >> eventsToHandle [
 ToButtonSkin >> onSkinInstalledIn: anElement [
 
 	" must send to super ** after ** the look is initialize from type "
+	super onSkinInstalledIn: anElement.
 	self type onSkinInstalled: self in: anElement.
-	super onSkinInstalledIn: anElement
 
 ]
 

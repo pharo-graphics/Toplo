@@ -19,7 +19,8 @@ BlElement >> dispatchLookEvent: anEvent [
 BlElement >> dispatchSkinChangedEvent [
 
 	self dispatchEvent: ToElementSkinChangedEvent new.
-	self childrenDo: [ :child | child dispatchSkinChangedEvent ]
+	self childrenDo: [ :child | child dispatchSkinChangedEvent ].
+
 
 ]
 

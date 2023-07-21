@@ -46,6 +46,7 @@ TToSkinable >> withSkin: aSkin [
 	Toplo useLookAndFeel ifTrue: [ ^ self ].
 	privateSkin ifNotNil: [
 		self addEventHandler: privateSkin.
+		self requestLayout.
 		self dispatchSkinChangedEvent ]
 ]
 

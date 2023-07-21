@@ -9,6 +9,7 @@ ToRadioImageSkin >> onSkinInstalledIn: anElement [
 
 	| borderLook |
 		
+	super onSkinInstalledIn: anElement.
 	anElement geometry: (BlCircleGeometry new).
 	borderLook := ToBorderLook new
 				initialPaint: anElement toTheme colorBorder;
@@ -17,6 +18,6 @@ ToRadioImageSkin >> onSkinInstalledIn: anElement [
 				width: 1.
 	self addLook: borderLook.
 
-	super onSkinInstalledIn: anElement
+
 
 ]

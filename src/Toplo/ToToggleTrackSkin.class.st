@@ -10,7 +10,7 @@ Class {
 { #category : #'api - install/uninstall  hook' }
 ToToggleTrackSkin >> onSkinInstalledIn: anElement [
 
-	toggleButton := anElement parent.
+	super onSkinInstalledIn: anElement.
 	self addLook: (ToBackgroundLook new
 			 initialBg: [ :e |
 				 toggleButton isChecked
@@ -29,7 +29,7 @@ ToToggleTrackSkin >> onSkinInstalledIn: anElement [
 			 animate: true;
 			 toggleButton: toggleButton;
 			 yourself).
-	super onSkinInstalledIn: anElement
+
 ]
 
 { #category : #accessing }

@@ -25,6 +25,7 @@ ToCheckableSkin >> indeterminateImageIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToCheckableSkin >> onSkinInstalledIn: anElement [
 
+	super onSkinInstalledIn: anElement.
 	anElement spacingWidth: anElement toTheme paddingContentHorizontal / 2.
 	anElement icon: (ToImage inner: (anElement isChecked
 				  ifTrue: [ self checkedImageIn: anElement ]
@@ -35,7 +36,7 @@ ToCheckableSkin >> onSkinInstalledIn: anElement [
 			 uncheckedImage: (self uncheckedImageIn: anElement);
 			 indeterminateImage: (self indeterminateImageIn: anElement);
 			 yourself).
-	super onSkinInstalledIn: anElement
+	
 ]
 
 { #category : #accessing }

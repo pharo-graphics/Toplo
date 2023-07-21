@@ -23,8 +23,8 @@ ToButtonImageSkin >> buttonType: aButtonType [
 ToButtonImageSkin >> onSkinInstalledIn: anElement [
 
 	| iconLook |
+	super onSkinInstalledIn: anElement.
 	iconLook := self buttonType iconLookIn: anElement.
 	self addLook: iconLook.
-	super onSkinInstalledIn: anElement
 
 ]

@@ -9,6 +9,7 @@ ToCheckboxImageSkin >> onSkinInstalledIn: anElement [
 
 	| borderLook |
 		
+	super onSkinInstalledIn: anElement.
 	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 3).
 	borderLook := ToBorderLook new
 				initialPaint: anElement toTheme colorBorder;
@@ -17,6 +18,6 @@ ToCheckboxImageSkin >> onSkinInstalledIn: anElement [
 				width: 1.
 	self addLook: borderLook.
 
-	super onSkinInstalledIn: anElement
+
 
 ]

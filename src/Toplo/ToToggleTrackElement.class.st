@@ -10,14 +10,13 @@ Class {
 { #category : #sliding }
 ToToggleTrackElement >> deltaToLeft [
 
-	^ (self switchButton localPointToParent: 0@0) x + self switchBar margin left
-	
+	^ self width - self deltaToRight - self switchButton width - self padding left - self padding right - self switchBar margin right
 ]
 
 { #category : #sliding }
 ToToggleTrackElement >> deltaToRight [
 
-	^ self width - self switchButton position - self switchButton width - self padding right - self padding left - self switchBar margin right
+	^ self width - self switchButton position x - self switchButton width - self padding right - self padding left - self switchBar margin right
 	
 
 ]
@@ -48,7 +47,7 @@ ToToggleTrackElement >> slideToRight [
 	| p |
 	p := self deltaToRight.
 	self switchBar transformDo: [ :aTransform |
-		aTransform translateBy: p x  @ 0 ]
+		aTransform translateBy: p @ 0 ]
 ]
 
 { #category : #accessing }

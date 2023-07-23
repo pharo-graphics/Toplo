@@ -39,16 +39,14 @@ ToToogleTrackLook >> barWidthFromTrack: aToggleTrack [
 
 	| but onw offw bw |
 	
-	self flag: 'The commented version should work and it does not. Have to understand whyl!'.
-
- 	"onw := 0.
+ 	onw := 0.
 	offw := 0.
 	but := aToggleTrack switchButton.
-	bw := but width + but margin left + but margin right.
+	bw := but requestedWidth + but margin left + but margin right.
 	aToggleTrack switchBarOnElement ifNotNil: [ :o | onw := o width ].
 	aToggleTrack switchBarOffElement ifNotNil: [ :o | offw := o width ].
-	^ bw + (onw max: offw) max: bw * 1.6"
-	^ 35
+	^ bw + (onw max: offw) max: bw * 1.6
+
 ]
 
 { #category : #'event handling' }

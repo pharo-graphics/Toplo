@@ -37,9 +37,9 @@ ToButtonType >> dangerFormLookIn: anElement [
 	| formLook |
 	formLook := ToImageFormLook new.
 	formLook
-		initialColor: anElement toTheme colorError;
-		hoverColor: anElement toTheme colorErrorHover;
-		pressedColor: anElement toTheme colorError darker.
+		initialColor: [ :e | e toTheme colorError];
+		hoverColor: [ :e | e toTheme colorErrorHover];
+		pressedColor: [ :e | e toTheme colorError darker].
 	^ formLook
 ]
 

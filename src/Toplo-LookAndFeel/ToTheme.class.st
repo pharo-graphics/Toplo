@@ -317,10 +317,23 @@ ToTheme >> controlHeightSM [
 ]
 
 { #category : #border }
-ToTheme >> dashed [
+ToTheme >> dashArray [
 	"dashed rendering equivalent in web UI"
 	
 	^ #( 3 3 )
+]
+
+{ #category : #border }
+ToTheme >> dashed [
+	"dashed rendering equivalent in web UI"
+	
+	
+	self
+		deprecated: 'Please use dashArray instead.'
+		transformWith: '`@receiver dashed'
+			-> '`@receiver dashArray'.
+
+	^ self dashArray
 ]
 
 { #category : #settings }

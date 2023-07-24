@@ -5,7 +5,9 @@ Class {
 		'builder',
 		'pressedPaint',
 		'hoverPaint',
-		'initialPaint'
+		'initialPaint',
+		'width',
+		'dashArray'
 	],
 	#category : #'Toplo-Core-Theme-Looks'
 }
@@ -41,9 +43,15 @@ ToBorderLook >> clickLookEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToBorderLook >> dashArray: anArray [
+ToBorderLook >> dashArray [
 
-	self builder dashArray: anArray
+	^ dashArray
+]
+
+{ #category : #accessing }
+ToBorderLook >> dashArray: aValuable [
+
+	dashArray := aValuable
 ]
 
 { #category : #initialization }
@@ -64,9 +72,9 @@ ToBorderLook >> hoverPaint [
 ]
 
 { #category : #accessing }
-ToBorderLook >> hoverPaint: aPaint [
+ToBorderLook >> hoverPaint: aValuable [
 
-	hoverPaint := aPaint
+	hoverPaint := aValuable
 ]
 
 { #category : #'event handling' }
@@ -76,6 +84,8 @@ ToBorderLook >> hoveredLookEvent: anEvent [
 	self hoverPaint ifNil: [ ^ self ].
 	anEvent elementDo: [ :e |
 		e border: (self builder
+				 dashArray: (self dashArray value: e);
+				 width: (self width value: e);
 				 paint: (self hoverPaint value: e);
 				 build) ]
 ]
@@ -87,6 +97,8 @@ ToBorderLook >> initialLookEvent: anEvent [
 	self initialPaint ifNil: [ ^ self ].
 	anEvent elementDo: [ :e |
 		e border: (self builder
+				 dashArray: (self dashArray value: e);
+				 width: (self width value: e);
 				 paint: (self initialPaint value: e);
 				 build) ]
 ]
@@ -98,16 +110,18 @@ ToBorderLook >> initialPaint [
 ]
 
 { #category : #accessing }
-ToBorderLook >> initialPaint: aPaint [
+ToBorderLook >> initialPaint: aValuable [
 
-	initialPaint := aPaint
+	initialPaint := aValuable
 ]
 
 { #category : #initialization }
 ToBorderLook >> initialize [ 
 	
 	super initialize.
-	builder := self defaultBuilder
+	builder := self defaultBuilder.
+	dashArray := [ :e | #() ].
+	width := [ :e | 0 ]
 ]
 
 { #category : #'event handling' }
@@ -117,6 +131,8 @@ ToBorderLook >> pressedLookEvent: anEvent [
 	self pressedPaint ifNil: [ ^ self ].
 	anEvent elementDo: [ :e |
 		e border: (self builder
+				 dashArray: (self dashArray value: e);
+				 width: (self width value: e);
 				 paint: (self pressedPaint value: e);
 				 build) ]
 ]
@@ -128,13 +144,19 @@ ToBorderLook >> pressedPaint [
 ]
 
 { #category : #accessing }
-ToBorderLook >> pressedPaint: aPaint [
+ToBorderLook >> pressedPaint: aValuable [
 
-	pressedPaint := aPaint
+	pressedPaint := aValuable
 ]
 
 { #category : #accessing }
-ToBorderLook >> width: aNumber [
+ToBorderLook >> width [
 
-	self builder width: aNumber
+	^ width
+]
+
+{ #category : #accessing }
+ToBorderLook >> width: aValuable [
+	
+	width := aValuable
 ]

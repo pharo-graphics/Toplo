@@ -10,9 +10,9 @@ ToButtonLinkType >> regularFormLookIn: anElement [
 	| formLook |
 	formLook := ToImageFormLook new.
 	formLook
-		initialColor: anElement toTheme colorLink;
-		hoverColor: anElement toTheme colorLinkHover;
-		pressedColor: anElement toTheme colorPrimaryPressed.
+		initialColor: [ :e | e  toTheme colorLink];
+		hoverColor: [ :e | e  toTheme colorLinkHover];
+		pressedColor: [ :e | e  toTheme colorPrimaryPressed].
 	^ formLook
 ]
 

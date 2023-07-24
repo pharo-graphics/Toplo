@@ -14,7 +14,7 @@ ToCheckboxImageSkin >> onSkinInstalledIn: anElement [
 				initialPaint: [ :e | e toTheme colorBorder];
 				hoverPaint: [ :e | e toTheme colorPrimaryHover];
 				pressedPaint: [ :e | e toTheme colorPrimaryPressed];
-				width: 1.
+				width: [ :e | e toTheme lineWidth ].
 	self addLook: borderLook.
 
 	

@@ -38,7 +38,7 @@ ToButtonPrimaryType >> labelLookIn: anElement [
 ToButtonPrimaryType >> regularFormLookIn: anElement [
 
 	^ ToImageFormLook new
-		  initialColor: anElement toTheme colorImageLightSolid;
+		  initialColor: [ :e | e toTheme colorImageLightSolid ];
 		  yourself
 ]
 

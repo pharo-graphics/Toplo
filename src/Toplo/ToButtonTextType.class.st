@@ -28,9 +28,9 @@ ToButtonTextType >> regularFormLookIn: anElement [
 	| formLook |
 	formLook := ToImageFormLook new.
 	formLook
-		initialColor: anElement toTheme colorText;
-		hoverColor: anElement toTheme colorText;
-		pressedColor: anElement toTheme colorText.
+		initialColor: [ :e | e toTheme colorText];
+		hoverColor: [ :e | e  toTheme colorText];
+		pressedColor: [ :e | e  toTheme colorText].
 	^ formLook
 ]
 

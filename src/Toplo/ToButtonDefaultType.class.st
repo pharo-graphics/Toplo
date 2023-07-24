@@ -12,19 +12,20 @@ ToButtonDefaultType >> borderLookIn: anElement [
 
 	| borderLook |
 	borderLook := ToBorderLook new.
-	self dashed ifTrue: [ borderLook dashArray: anElement toTheme dashed ].
+	self dashed ifTrue: [
+		borderLook dashArray: [ :e | e toTheme dashArray ] ].
 	self danger
 		ifTrue: [
 			borderLook
-				initialPaint: [ :e | e toTheme colorError];
-				hoverPaint: [ :e | e toTheme colorErrorHover];
-				pressedPaint: [ :e | e toTheme colorErrorHover darker] ]
+				initialPaint: [ :e | e toTheme colorError ];
+				hoverPaint: [ :e | e toTheme colorErrorHover ];
+				pressedPaint: [ :e | e toTheme colorErrorHover darker ] ]
 		ifFalse: [
 			borderLook
-				initialPaint: [ :e | e toTheme colorBorder];
-				hoverPaint: [ :e | e toTheme colorPrimaryHover];
+				initialPaint: [ :e | e toTheme colorBorder ];
+				hoverPaint: [ :e | e toTheme colorPrimaryHover ];
 				pressedPaint: [ :e | e toTheme colorPrimaryPressed ] ].
-	borderLook width: anElement toTheme lineWidth.
+	borderLook width: [ :e | e toTheme lineWidth ].
 	^ borderLook
 ]
 
@@ -46,9 +47,9 @@ ToButtonDefaultType >> regularFormLookIn: anElement [
 	| formLook |
 	formLook := ToImageFormLook new.
 	formLook
-		initialColor: anElement toTheme colorText;
-		hoverColor: anElement toTheme colorPrimary;
-		pressedColor: anElement toTheme colorPrimaryPressed.
+		initialColor: [ :e | e toTheme colorText];
+		hoverColor: [ :e | e  toTheme colorPrimary];
+		pressedColor: [ :e | e toTheme colorPrimaryPressed].
 	^ formLook
 ]
 

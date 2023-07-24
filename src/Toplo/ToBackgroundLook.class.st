@@ -16,9 +16,9 @@ ToBackgroundLook >> hoverBg [
 ]
 
 { #category : #accessing }
-ToBackgroundLook >> hoverBg: aBackground [
+ToBackgroundLook >> hoverBg: aValuable [
 
-	hoverBg := aBackground
+	hoverBg := aValuable
 ]
 
 { #category : #'event handling' }
@@ -36,9 +36,9 @@ ToBackgroundLook >> initialBg [
 ]
 
 { #category : #accessing }
-ToBackgroundLook >> initialBg: anObject [
+ToBackgroundLook >> initialBg: aValuable [
 
-	initialBg := anObject
+	initialBg := aValuable
 ]
 
 { #category : #'event handling' }
@@ -56,9 +56,9 @@ ToBackgroundLook >> pressedBg [
 ]
 
 { #category : #accessing }
-ToBackgroundLook >> pressedBg: aBackground [
+ToBackgroundLook >> pressedBg: aValuable [
 
-	pressedBg := aBackground
+	pressedBg := aValuable
 ]
 
 { #category : #'event handling' }

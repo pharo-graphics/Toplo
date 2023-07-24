@@ -16,14 +16,14 @@ ToButtonDefaultType >> borderLookIn: anElement [
 	self danger
 		ifTrue: [
 			borderLook
-				initialPaint: anElement toTheme colorError;
-				hoverPaint: anElement toTheme colorErrorHover;
-				pressedPaint: anElement toTheme colorErrorHover darker ]
+				initialPaint: [ :e | e toTheme colorError];
+				hoverPaint: [ :e | e toTheme colorErrorHover];
+				pressedPaint: [ :e | e toTheme colorErrorHover darker] ]
 		ifFalse: [
 			borderLook
-				initialPaint: anElement toTheme colorBorder;
-				hoverPaint: anElement toTheme colorPrimaryHover;
-				pressedPaint: anElement toTheme colorPrimaryPressed ].
+				initialPaint: [ :e | e toTheme colorBorder];
+				hoverPaint: [ :e | e toTheme colorPrimaryHover];
+				pressedPaint: [ :e | e toTheme colorPrimaryPressed ] ].
 	borderLook width: anElement toTheme lineWidth.
 	^ borderLook
 ]

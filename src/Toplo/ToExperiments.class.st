@@ -974,27 +974,114 @@ ToExperiments class >> example_toScaling [
 	space show
 ]
 
-{ #category : #'animate toogle button' }
+{ #category : #'toogle button' }
+ToExperiments class >> example_toggle_sliding [
+
+	|  toggle track but left right slideB slide |
+
+	toggle := ToElement new
+		          vFitContent;
+					background: Color lightBlue;
+					"padding: (BlInsets all: 2);"
+					border: (BlBorder paint: Color blue);
+					geometry: (BlRoundedRectangleGeometry cornerRadius: 14);
+		          layout: BlLinearLayout horizontal.
+	track := ToElement new
+		         fitContent;
+		         layout: BlLinearLayout horizontal.
+	left := BlElement new size: 17 @ 14; background: Color gray; margin: (BlInsets left: 5 right: 5).
+	but := BlElement new
+		       size: 14 @ 14;
+				geometry: (BlCircleGeometry new);
+		       background: Color green.
+	right := BlElement new size: 17 @ 14; background: Color gray; margin: (BlInsets left: 5 right: 5).
+	track addChildren: { left. but. right }.
+
+	toggle width: toggle padding left + toggle padding right + but requestedWidth + ((left requestedWidth + left margin left + left margin right) max: (right requestedWidth + right margin left + right margin right)).
+	toggle addChild: track.
+
+	slide := 0.
+	slideB :=  [ ((left requestedWidth max: right requestedWidth) - toggle padding left - toggle padding right) + left margin right + left margin left "+ right margin left + right margin right"].
+	slide := slideB value.
+	track transformDo: [ :aTransform | aTransform translateBy: slide negated @ 0 ].
+	
+	toggle when: BlClickEvent do: [
+		slide := slide isZero ifTrue: [slideB value] ifFalse: [0].
+		slide traceCr.
+		track transformDo: [ :aTransform | aTransform translateBy: slide negated @ 0 ] ].
+
+	toggle openInSpace
+]
+
+{ #category : #'toogle button' }
+ToExperiments class >> example_toggle_sliding_with_animation1 [
+
+	| root toggle track but left right slide |
+	root := ToElement new
+		          fitContent;
+		          border: (BlBorder paint: Color black);
+					padding: (BlInsets all: 2);
+		          layout: BlFrameLayout new.
+	toggle := ToElement new
+		          vFitContent;
+		          layout: BlLinearLayout horizontal.
+	track := ToElement new
+		         fitContent;
+		         border: (BlBorder paint: Color black);
+		         layout: BlLinearLayout horizontal.
+	left := BlElement new size: 30 @ 14; background: Color veryLightGray; margin: (BlInsets left: 5 right: 5).
+	but := BlElement new
+		       size: 14 @ 14;
+				 position: left requestedWidth @ 0;
+		       background: Color green;
+		       border: (BlBorder paint: Color black).
+	right := BlElement new size: 20 @ 14; background: Color pink.
+	track addChildren: { left. but. right }.
+
+	toggle width: but requestedWidth + ((left requestedWidth + left margin left + left margin right) max: (right requestedWidth + right margin left + right margin right)).
+	toggle addChild: track.
+
+	"slide := ((left requestedWidth max: right requestedWidth) - toggle padding left - toggle padding right) ."
+	"track transformDo: [ :aTransform | aTransform translateBy: slide  @ 0 ]."
+	slide := 0.
+	slide := ((left requestedWidth max: right requestedWidth) - toggle padding left - toggle padding right).
+	track transformDo: [ :aTransform | aTransform translateBy: slide negated @ 0 ].
+		slide := slide isZero ifTrue: [((left requestedWidth max: right requestedWidth) - toggle padding left - toggle padding right) ] ifFalse: [0].
+		slide := ((left requestedWidth "+ left margin left + left margin right") - toggle padding left - toggle padding right).
+	
+	toggle when: BlClickEvent do: [
+		slide traceCr.
+		track addAnimation: (BlTransformAnimation new
+					  duration: 200 milliSeconds;
+					  transformDo: [ :b | b translateBy: slide  @ 0 ]).
+		slide := slide * -1.
+		].
+	root addChild: toggle.
+	root openInSpace
+]
+
+{ #category : #'toogle button' }
 ToExperiments class >> example_toggle_with_animation [
 
 	| btn track lab |
 	track := ToElement new
 		         geometry: (BlRoundedRectangleGeometry cornerRadius: 10);
 		         border: (BlBorder paint: Color veryLightGray);
-					layout: BlLinearLayout horizontal;
-					padding: (BlInsets all: 3);
-		         vFitContent; hExact: 40.
+		         layout: BlLinearLayout horizontal;
+		         padding: (BlInsets all: 3);
+		         vFitContent;
+		         hExact: 40.
 	track layout alignCenterLeft.
 	lab := ToLabel new text: 'Off'.
 	btn := ToElement new
 		       geometry: BlEllipseGeometry new;
 		       background: Color veryLightGray;
 		       size: 16 @ 16;
-		       relocate: 3 @ 3.
+		       position: 3 @ 3.
 	track addChild: btn.
 	track addChild: lab.
-	track openInOBlSpace.
-	btn addAnimation: (BlParallelAnimation withAll: { 
+	track openInSpace.
+	btn addAnimation: (BlParallelAnimation withAll: {
 				 (BlTransformAnimation new
 					  duration: 3000 milliSeconds;
 					  transformDo: [ :b | b translateBy: 18 @ 0 ]).
@@ -1002,7 +1089,7 @@ ToExperiments class >> example_toggle_with_animation [
 					  duration: 3000 milliSeconds;
 					  from: Color veryLightGray;
 					  to: Color black;
-					  onStepDo: [ :aColor :anElement | 
+					  onStepDo: [ :aColor :anElement |
 						  anElement background: aColor.
 						  anElement parent border: (BlBorder paint: aColor) ]) })
 ]

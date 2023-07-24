@@ -12,9 +12,9 @@ ToRadioImageSkin >> onSkinInstalledIn: anElement [
 	super onSkinInstalledIn: anElement.
 	anElement geometry: (BlCircleGeometry new).
 	borderLook := ToBorderLook new
-				initialPaint: anElement toTheme colorBorder;
-				hoverPaint: anElement toTheme colorPrimaryHover;
-				pressedPaint: anElement toTheme colorPrimaryPressed;
+				initialPaint: [ :e | e toTheme colorBorder];
+				hoverPaint: [ :e | e toTheme colorPrimaryHover];
+				pressedPaint: [ :e | e toTheme colorPrimaryPressed];
 				width: 1.
 	self addLook: borderLook.
 

@@ -3411,7 +3411,7 @@ ToSandBox class >> example_toggle2 [
 { #category : #'toggle button' }
 ToSandBox class >> example_toggle3 [
 
-	| th |
+	| th sp |
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';
 		      beLabelFirst.
@@ -3419,7 +3419,8 @@ ToSandBox class >> example_toggle3 [
 	th switchButtonOffElement: (ToImage inner: (Smalltalk ui icons iconNamed: #glamorousClose)).
 	th when: ToCheckableCheckEvent do: [ :event | event current traceCr ].
 	th checked: true.
-	th openInSpace
+	sp := th openInSpace.
+	sp root background: Color veryLightGray
 ]
 
 { #category : #pane }

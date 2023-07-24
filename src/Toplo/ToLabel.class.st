@@ -250,13 +250,6 @@ ToLabel >> removeEditor [
 
 ]
 
-{ #category : #layout }
-ToLabel >> requestLayout [
-
-	self innerElement ifNotNil: [:ie | ie requestLayout ].
-	super requestLayout
-]
-
 { #category : #accessing }
 ToLabel >> text [
 	<return: #BlText>
@@ -281,7 +274,8 @@ ToLabel >> text: aBlTextOrString [
 { #category : #'event handling' }
 ToLabel >> textChanged [
 
-	self innerElement textChanged
+	self innerElement textChanged.
+	self forceLocalLayout
 ]
 
 { #category : #accessing }

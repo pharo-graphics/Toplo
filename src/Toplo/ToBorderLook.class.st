@@ -31,7 +31,7 @@ ToBorderLook >> clickLookEvent: anEvent [
 	anEvent elementDo: [ :e |
 		| anim |
 		anim := ToGaussianEffectAnimation new
-			        color: self pressedPaint;
+			        color: (self pressedPaint value: e);
 			        width: 4;
 			        opacity: 0;
 			        duration: 500 milliSeconds;
@@ -76,7 +76,7 @@ ToBorderLook >> hoveredLookEvent: anEvent [
 	self hoverPaint ifNil: [ ^ self ].
 	anEvent elementDo: [ :e |
 		e border: (self builder
-				 paint: self hoverPaint;
+				 paint: (self hoverPaint value: e);
 				 build) ]
 ]
 
@@ -87,7 +87,7 @@ ToBorderLook >> initialLookEvent: anEvent [
 	self initialPaint ifNil: [ ^ self ].
 	anEvent elementDo: [ :e |
 		e border: (self builder
-				 paint: self initialPaint;
+				 paint: (self initialPaint value: e);
 				 build) ]
 ]
 
@@ -117,7 +117,7 @@ ToBorderLook >> pressedLookEvent: anEvent [
 	self pressedPaint ifNil: [ ^ self ].
 	anEvent elementDo: [ :e |
 		e border: (self builder
-				 paint: self pressedPaint;
+				 paint: (self pressedPaint value: e);
 				 build) ]
 ]
 

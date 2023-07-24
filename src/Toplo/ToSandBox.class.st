@@ -2741,8 +2741,8 @@ ToSandBox class >> example_toImageViewModel3 [
 
 	| im |
 	im := ToImageModel new innerImage: (Smalltalk ui icons iconNamed: #classIcon).
-	im widgetDo: [:w | w border: (BlBorder paint: Color black width: 2)].
-	im onWidget openInWorld
+	im widgetDo: [ :w | w border: (BlBorder paint: Color black width: 2) ].
+	im onWidget openInSpace
 ]
 
 { #category : #label }

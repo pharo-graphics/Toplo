@@ -129,32 +129,36 @@ ToExperiments class >> example_ExperimentForMultilineLabel2 [
 ToExperiments class >> example_ExperimentForMultilineLabel3 [
 
 	| root text itor |
-	text := 'Default font and size' asRopedText , String cr asRopedText , ('Source code pro 40 bold' asRopedText
-		         fontSize: 40;
-		         fontName: 'Source code pro';
-		         bold) , String cr asRopedText , (' Default font 30' asRopedText fontSize: 30).
+	text := 'Default font and size' asRopedText , String cr asRopedText
+	        , ('Source code pro 40 bold' asRopedText
+			         fontSize: 40;
+			         fontName: 'Source code pro';
+			         bold) , String cr asRopedText
+	        , (' Default font 30' asRopedText fontSize: 30).
 
 	root := BlElement new
-		        constraintsDo: [ :c | 
+		        constraintsDo: [ :c |
 			        c vertical matchParent.
 			        c horizontal matchParent ];
 		        layout: BlLinearLayout vertical.
 
 	itor := text iterator.
-	[ itor hasNext ] whileTrue: [ 
-		itor nextLineIndicesDo: [ :aLineStart :aLineEnd :aLineDelimiterEnd | 
+	[ itor hasNext ] whileTrue: [
+		itor nextLineIndicesDo: [ :aLineStart :aLineEnd :aLineDelimiterEnd |
 			| sub cutted lineElement |
 			sub := text from: aLineStart to: aLineEnd.
 			cutted := ToTextScissor new cut: sub.
 			lineElement := BlElement new
 				               layout: AlbLineFlowLayout new;
-				               constraintsDo: [ :c | 
+				               constraintsDo: [ :c |
 					               c horizontal matchParent.
 					               c vertical fitContent ];
-				               addChildren: (cutted collect: [ :w | w asElement editorMeasurement ]).
+				               addChildren:
+					               (cutted collect: [ :w |
+							                w asElement editorMeasurement ]).
 			root addChild: lineElement ] ].
 
-	root openInOBlSpace
+	root openInSpace
 ]
 
 { #category : #elements }
@@ -164,30 +168,30 @@ ToExperiments class >> example_ExperimentForMultilineLabel4 [
 	text := self embeddedFontsText.
 
 	root := BlElement new
-		        constraintsDo: [ :c | 
+		        constraintsDo: [ :c |
 			        c vertical fitContent.
 			        c horizontal fitContent ];
 		        layout: BlLinearLayout vertical.
 	itor := text iterator.
-	[ itor hasNext ] whileTrue: [ 
-		itor nextLineIndicesDo: [ :aLineStart :aLineEnd :aLineDelimiterEnd | 
+	[ itor hasNext ] whileTrue: [
+		itor nextLineIndicesDo: [ :aLineStart :aLineEnd :aLineDelimiterEnd |
 			| sub cutted lineElement |
 			sub := text from: aLineStart to: aLineEnd.
 			cutted := ToTextScissor new cut: sub.
-			cutted ifEmpty: [ 
+			cutted ifEmpty: [
 				cutted := Array with:
 					          (BlText empty attributes: sub iterator attributes) ].
 			lineElement := BlElement new
 				               layout: AlbLineFlowLayout new;
-				               constraintsDo: [ :c | 
+				               constraintsDo: [ :c |
 					               c horizontal matchParent.
 					               c vertical fitContent ];
 				               addChildren:
-					               (cutted collect: [ :w | 
+					               (cutted collect: [ :w |
 							                w asElement editorMeasurement ]).
 			root addChild: lineElement ] ].
 
-	root openInOBlSpace
+	root openInSpace
 ]
 
 { #category : #elements }
@@ -197,28 +201,30 @@ ToExperiments class >> example_ExperimentForMultilineLabel5 [
 	text := self embeddedFontsText.
 
 	root := BlElement new
-		        constraintsDo: [ :c | 
+		        constraintsDo: [ :c |
 			        c vertical fitContent.
 			        c horizontal fitContent ];
 		        layout: BlLinearLayout vertical alignCenter.
 	itor := text iterator.
-	[ itor hasNext ] whileTrue: [ 
-		itor nextLineIndicesDo: [ :aLineStart :aLineEnd :aLineDelimiterEnd | 
+	[ itor hasNext ] whileTrue: [
+		itor nextLineIndicesDo: [ :aLineStart :aLineEnd :aLineDelimiterEnd |
 			| sub cutted lineElement |
 			sub := text from: aLineStart to: aLineEnd.
 			cutted := ToTextScissor new cut: sub.
-			cutted ifEmpty: [ 
+			cutted ifEmpty: [
 				cutted := Array with:
 					          (BlText empty attributes: sub iterator attributes) ].
 			lineElement := BlElement new
 				               layout: BlFlowLayout new;
-				               constraintsDo: [ :c | 
+				               constraintsDo: [ :c |
 					               c horizontal fitContent.
 					               c vertical fitContent ];
-				               addChildren: (cutted collect: [ :w | w asElement editorMeasurement ]).
+				               addChildren:
+					               (cutted collect: [ :w |
+							                w asElement editorMeasurement ]).
 			root addChild: lineElement ] ].
 
-	root openInOBlSpace
+	root openInSpace
 ]
 
 { #category : #frame }
@@ -331,16 +337,16 @@ ToExperiments class >> example_LinearLayoutFillWithFitContent [
 		         background: Color lightGray;
 		         layout: (BlLinearLayout vertical cellSpacing: 2);
 		         border: (BlBorder paint: Color gray);
-		         constraintsDo: [ :c | 
+		         constraintsDo: [ :c |
 			         c horizontal fitContent.
 			         c vertical fitContent ].
 	cpt := 0.
-	3 timesRepeat: [ 
+	3 timesRepeat: [
 		| left middle right fill1 fill2 node |
 		cpt := cpt + 20.
 		node := BlElement new
 			        layout: (BlLinearLayout horizontal cellSpacing: 2);
-			        constraintsDo: [ :c | 
+			        constraintsDo: [ :c |
 				        c horizontal matchParent.
 				        c vertical fitContent ].
 		left := BlElement new
@@ -348,42 +354,43 @@ ToExperiments class >> example_LinearLayoutFillWithFitContent [
 			        background: Color blue;
 			        width: 10.
 		middle := BlElement new
-			        id: #left;
-			        background: Color yellow;
-			        width: 10 + cpt.
+			          id: #left;
+			          background: Color yellow;
+			          width: 10 + cpt.
 		fill1 := BlElement new
-			        id: #fill;
-			        background: Color white;
-			        height: 15;
-			        constraintsDo: [ :c | 
-				        c horizontal matchParent.
-				        c vertical matchParent ].
+			         id: #fill;
+			         background: Color white;
+			         height: 15;
+			         constraintsDo: [ :c |
+				         c horizontal matchParent.
+				         c vertical matchParent ].
 		fill2 := BlElement new
-			        id: #fill;
-			        background: Color white;
-			        height: 15;
-			        constraintsDo: [ :c | 
-				        c horizontal matchParent.
-				        c vertical matchParent ].
+			         id: #fill;
+			         background: Color white;
+			         height: 15;
+			         constraintsDo: [ :c |
+				         c horizontal matchParent.
+				         c vertical matchParent ].
 		right := BlElement new
 			         id: #right;
 			         background: Color red;
 			         width: 14.
 		node addChild: left.
-"		node addChild: fill1.
-"		node addChild: middle.
+		"		node addChild: fill1.
+"
+		node addChild: middle.
 		node addChild: fill2.
 		node addChild: right.
 		frame addChild: (BlElement new
-		background: (Color pink);
-			        constraintsDo: [ :c | 
-				        c horizontal matchParent.
-				        c vertical exact: 5 ]).
+				 background: Color pink;
+				 constraintsDo: [ :c |
+					 c horizontal matchParent.
+					 c vertical exact: 5 ]).
 
 		frame addChild: node ].
-	
 
-	frame openInOBlSpace
+
+	frame openInSpace
 ]
 
 { #category : #frame }
@@ -474,7 +481,7 @@ ToExperiments class >> example_Smalltalk_all_classes [
 		          yourself.
 	container addChild: root; addChild: vscrollBar.
 	space := BlSpace new.
-	space addChild: container.
+	space root addChild: container.
 	space show
 ]
 
@@ -534,11 +541,11 @@ ToExperiments class >> example_TextFlowWithBlElements [
 	| element |
 	element := BlElement new
 		           layout: (AlbLineFlowLayout new lineSpacing: 10);
-		           constraintsDo: [ :c | 
-							c minWidth: 50.
+		           constraintsDo: [ :c |
+			           c minWidth: 50.
 			           c horizontal matchParent.
 			           c vertical matchParent ];
-		           addChildren: (20 timesCollect: [ 
+		           addChildren: (20 timesCollect: [
 					            | anAnimation |
 					            anAnimation := BlSequentialAnimation new.
 					            anAnimation add:
@@ -551,7 +558,7 @@ ToExperiments class >> example_TextFlowWithBlElements [
 						            margin: (BlInsets all: 4);
 						            background: (Color random alpha: 0.5);
 						            addAnimation: anAnimation ]).
-	element openInOBlSpace
+	element openInSpace
 ]
 
 { #category : #elements }
@@ -678,8 +685,8 @@ ToExperiments class >> example_drag4 [
 			 target: e;
 			 yourself).
 
-	e openInWorld.
-	child openInWorld
+	e openInSpace.
+	child openInSpace
 ]
 
 { #category : #elements }
@@ -696,7 +703,7 @@ ToExperiments class >> example_elements_sandbox [
 			c horizontal fitContent .
 			c vertical fitContent ].
 	sp := BlSpace new.
-	sp addChild: root.
+	sp root addChild: root.
 	sp show
 ]
 
@@ -706,10 +713,13 @@ ToExperiments class >> example_enterLeave [
 	| e1 e2 space |
 	e1 := BlElement new background: Color yellow; size: 100@60.
 	e2 := BlElement new background: Color blue; preventMouseEvents.
-	e1 when: BlMouseEnterEvent do: [ :event | e2 relocate: e1 bounds bottomRight. e1 space addChild: e2 ].
-	e1 when: BlMouseLeaveEvent do: [ :event | e1 space removeChild: e2 ].
+	e1 when: BlMouseEnterEvent do: [ :event |
+		e2 relocate: e1 bounds bottomRight.
+		e1 space root addChild: e2 ].
+	e1 when: BlMouseLeaveEvent do: [ :event |
+		e1 space root removeChild: e2 ].
 	space := BlSpace new.
-	space addChild: e1.
+	space root addChild: e1.
 	space show
 ]
 
@@ -734,7 +744,7 @@ ToExperiments class >> example_frame [
 		         constraintsDo: [ :c | c horizontal matchParent ].
 	bar := BlElement new
 		       background: Color white;
-		       constraintsDo: [ :c | 
+		       constraintsDo: [ :c |
 			       c vertical fitContent.
 			       c horizontal matchParent ].
 	bar padding: (BlInsets all: 3).
@@ -742,17 +752,22 @@ ToExperiments class >> example_frame [
 	bar layout: (BlGridLayout horizontal cellSpacing: 2).
 	bar border: (BlBorder paint: bkg width: 3).
 	bar geometry: (BlRoundedRectangleGeometry cornerRadius: 5).
-	pullHandler := BlPullHandler new target: frame; yourself.
+	pullHandler := BlPullHandler new
+		               target: frame;
+		               yourself.
 	bar addEventHandler: pullHandler.
-	
-	close := ToButton new iconImage: Smalltalk ui theme windowCloseForm; labelText: 'close'.
+
+	close := ToButton new
+		         iconImage: Smalltalk ui theme windowCloseForm;
+		         labelText: 'close'.
 	close whenClickedDo: [ frame removeFromParent ].
 	close background: Color transparent.
-	expand := ToButton new iconImage: Smalltalk ui theme windowMaximizeForm.
-	expand whenClickedDo: [ 
-		frame 
-			relocate: 0@0; 
-			size: frame parent size ].	
+	expand := ToButton new iconImage:
+		          Smalltalk ui theme windowMaximizeForm.
+	expand whenClickedDo: [
+		frame
+			position: 0 @ 0;
+			size: frame parent size ].
 
 	title := ToLabel new
 		         text: 'Frame';
@@ -763,9 +778,11 @@ ToExperiments class >> example_frame [
 	bar addChild: fill2.
 	bar addChild: expand.
 
-	root := BlElement new background: Color transparent; constraintsDo: [ :c | 
-			       c vertical matchParent.
-			       c horizontal matchParent ].
+	root := BlElement new
+		        background: Color transparent;
+		        constraintsDo: [ :c |
+			        c vertical matchParent.
+			        c horizontal matchParent ].
 
 	frame layout: BlLinearLayout vertical.
 	frame addChild: bar.
@@ -857,120 +874,117 @@ space inspect
 { #category : #'popup strategy' }
 ToExperiments class >> example_strategy [
 
-	| win blue red  |
+	| win blue red |
+	win := ToInnerWindow new
+		       id: #win;
+		       background: Color gray;
+		       size: 500 @ 400;
+		       position: 100 @ 100.
 
-	win := ToInnerWindow new id: #win; 
-		         background: Color gray;
-		         size: 500 @ 400;
-					relocate: 100@100.
-
-	blue := ToElement new id: #blue;
+	blue := ToElement new
+		        id: #blue;
 		        background: Color blue;
-		        size: 50@50.
-		
-	red := ToElement new id: #red;
-		        background: Color red;
-				relocate: 100@75;
-		        size: 50@50.
+		        size: 50 @ 50.
 
-	win addChild: red.
-	win addChild: blue. 
-	blue constraintsDo: [ :c | c ignoreByLayout  ].
+	red := ToElement new
+		       id: #red;
+		       background: Color red;
+		       position: 100 @ 75;
+		       size: 50 @ 50.
+
+	win root addChild: red.
+	win root addChild: blue.
+	blue constraintsDo: [ :c | c ignoreByLayout ].
 	blue anchorLeft: red leftAnchor + 10.
 	blue anchorTop: red topAnchor + 10.
 	blue anchorBottom: red bottomAnchor - 10.
 	blue anchorRight: red rightAnchor - 10.
 
 	win openInOBlSpace.
-	win relocate: 100@30.
-	
-
+	win relocate: 100 @ 30
 ]
 
 { #category : #frame }
 ToExperiments class >> example_testTwoChildrenOnOppositeSidesWithSpan [
+
 	<gtExample>
 	| parent left span right |
 	parent := BlElement new.
 	parent background: (Color gray alpha: 0.3).
 	parent layout: BlLinearLayout horizontal.
-	parent
-		constraintsDo: [ :c | 
-			c horizontal matchParent.
-			c vertical fitContent ].
+	parent constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical fitContent ].
 	left := BlElement new.
 	left background: (Color red alpha: 0.3).
 	left border: (BlBorder paint: Color red width: 1).
 	left margin: (BlInsets all: 5).
-	left
-		constraintsDo: [ :c | 
-			c horizontal exact: 200.
-			c vertical exact: 50.
-			c grid vertical alignCenter.
-			c grid horizontal alignLeft ].
+	left constraintsDo: [ :c |
+		c horizontal exact: 200.
+		c vertical exact: 50.
+		c grid vertical alignCenter.
+		c grid horizontal alignLeft ].
 	span := BlElement new.
-	span
-		border:
-			(BlBorder builder dashed
-				width: 1;
-				paint: Color gray;
-				build).
+	span border: (BlBorder builder dashed
+			 width: 1;
+			 paint: Color gray;
+			 build).
 	span margin: (BlInsets all: 5).
-	span
-		constraintsDo: [ :c | 
-			c horizontal matchParent.
-			c vertical matchParent ].
+	span constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical matchParent ].
 	right := BlElement new.
 	right margin: (BlInsets all: 5).
 	right background: (Color blue alpha: 0.3).
 	right border: (BlBorder paint: Color blue width: 1).
-	right
-		constraintsDo: [ :c | 
-			c horizontal exact: 300.
-			c vertical exact: 30.
-			c linear vertical alignCenter ].
-	parent
-		addChildren:
-			{left.
+	right constraintsDo: [ :c |
+		c horizontal exact: 300.
+		c vertical exact: 30.
+		c linear vertical alignCenter ].
+	parent addChildren: {
+			left.
 			span.
-			right}.
-	^ parent openInOBlSpace 
+			right }.
+	^ parent openInSpace
 ]
 
 { #category : #multistate }
 ToExperiments class >> example_toScaling [
 
 	| space container |
-	container := ToElement new constraintsDo: [ :c | c accountTransformation ];
+	container := ToElement new
+		             constraintsDo: [ :c | c accountTransformation ];
 		             layout: BlLinearLayout vertical;
 		             border: (BlBorder paint: Color black);
 		             fitContent;
 		             clipChildren: false.
 	container layout cellSpacing: 5.
-	container addChild: ((ToButton new
-	constraintsDo: [ :c | c accountTransformation ];
+	container addChild: (ToButton new
+			 constraintsDo: [ :c | c accountTransformation ];
 			 clipChildren: false;
 			 iconImage: (BlElement new
 					  size: 100 @ 100;
 					  background: Color blue);
 			 labelText: ('Blue' asRopedText fontSize: 24);
-			 transformDo: [ :d | 
+			 transformDo: [ :d |
 				 d
 					 topLeftOrigin;
-					 scaleBy: 3.0 ]))  .
-	container addChild: (ToButton new constraintsDo: [ :c | c accountTransformation ];
+					 scaleBy: 3.0 ]).
+	container addChild: (ToButton new
+			 constraintsDo: [ :c | c accountTransformation ];
 			 clipChildren: false;
-			 iconImage: (BlElement new constraintsDo: [ :c | c accountTransformation ];
+			 iconImage: (BlElement new
+					  constraintsDo: [ :c | c accountTransformation ];
 					  size: 100 @ 100;
 					  background: Color red);
 			 labelText: ('red' asRopedText fontSize: 24);
-			 transformDo: [ :d | 
+			 transformDo: [ :d |
 				 d
 					 topLeftOrigin;
-					 scaleBy: 2.0 ])  .
+					 scaleBy: 2.0 ]).
 	space := BlSpace new.
-	container relocate: 100 @ 100.
-	space addChild: container.
+	container position: 100 @ 100.
+	space root addChild: container.
 	space show
 ]
 
@@ -1157,46 +1171,42 @@ ToExperiments class >> example_twoChildrenInPolygon [
 
 { #category : #frame }
 ToExperiments class >> example_twoChildrenMatchParentInFitContent [
+
 	| parent child child2 |
 	parent := BlElement new.
 	parent layout: BlLinearLayout vertical.
 	parent background: (Color gray alpha: 0.3).
 	parent padding: (BlInsets all: 25).
-	parent
-		constraintsDo: [ :c | 
-			c horizontal fitContent.
-			c vertical fitContent ].
+	parent constraintsDo: [ :c |
+		c horizontal fitContent.
+		c vertical fitContent ].
 	child := BlTextElement new.
 	child text: ('Hello world haba' asRopedText fontSize: 40).
 	child background: (Color red alpha: 0.3).
 	child margin: (BlInsets all: 5).
 	child border: (BlBorder paint: Color red width: 1).
-	child
-		constraintsDo: [ :c | 
-			c horizontal matchParent.
-			c vertical matchParent ].
+	child constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical matchParent ].
 	child2 := BlTextElement new.
 	child2 text: ('Hello' asRopedText fontSize: 15).
 	child2 background: (Color blue alpha: 0.3).
 	child2 margin: (BlInsets all: 5).
 	child2 border: (BlBorder paint: Color blue width: 1).
-	child2
-		constraintsDo: [ :c | 
-			c horizontal matchParent.
-			c vertical matchParent ].
+	child2 constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical matchParent ].
 	parent addChild: child.
 	parent addChild: child2.
 	parent forceLayout.
-	^ parent openInOBlSpace 
+	^ parent openInSpace
 ]
 
 { #category : #'rotated text' }
 ToExperiments class >> example_verticalLabel [
 
-((ToLabel new text: 'AAAA') 
-	transformDo: [ :t | 
-		"t normalizedOrigin: 0 @ 1."
-		t rotateBy: 270 ]) 
-	border: (BlBorder paint: Color gray); 
-	openInOBlSpace 
+	((ToLabel new text: 'AAAA') transformDo: [ :t | "t normalizedOrigin: 0 @ 1."
+			 t rotateBy: 270 ])
+		border: (BlBorder paint: Color gray);
+		openInSpace
 ]

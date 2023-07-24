@@ -24,8 +24,7 @@ ToToggleSwitchBarElement >> button [
 { #category : #accessing }
 ToToggleSwitchBarElement >> button: anElement [
 
-	anElement ifNotNil: [
-		anElement constraintsDo: [ :c | c linear vertical alignCenter ] ].
+	anElement ifNotNil: [ anElement constraintsDo: [ :c | c linear vertical alignCenter ] ].
 	button := anElement.
 	self updateChildren 
 ]

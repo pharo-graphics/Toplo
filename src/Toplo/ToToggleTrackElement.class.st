@@ -10,15 +10,15 @@ Class {
 { #category : #sliding }
 ToToggleTrackElement >> deltaToLeft [
 
+	self flag: 'Uggly computation...Please fix my implementation'.
 	^ self width - self deltaToRight - self switchButton width - self padding left - self padding right - self switchBar margin right
 ]
 
 { #category : #sliding }
 ToToggleTrackElement >> deltaToRight [
 
-	^ self width - self switchButton position x - self switchButton width - self padding right - self padding left - self switchBar margin right
-	
-
+	self flag: 'Uggly computation... Please fix my implementation'.
+	^ self requestedWidth - self switchButton position x - self switchButton requestedWidth - self padding right - self padding left - self switchBar margin right
 ]
 
 { #category : #initialization }

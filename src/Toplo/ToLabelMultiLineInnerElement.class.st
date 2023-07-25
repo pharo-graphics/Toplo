@@ -114,7 +114,9 @@ ToLabelMultiLineInnerElement >> text [
 ToLabelMultiLineInnerElement >> text: aBlText [
 
 	text = aBlText ifTrue: [ ^ self ].
-	text := aBlText
+	text := aBlText.
+	self textChanged.
+	self forceLocalLayout
 ]
 
 { #category : #'event handling' }

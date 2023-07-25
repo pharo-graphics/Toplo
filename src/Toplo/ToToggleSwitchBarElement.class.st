@@ -2,18 +2,15 @@ Class {
 	#name : #ToToggleSwitchBarElement,
 	#superclass : #ToElement,
 	#instVars : [
+		'sideWidth',
+		'offContainer',
+		'onContainer',
 		'offElement',
 		'onElement',
 		'button'
 	],
 	#category : #'Toplo-Widget-Button-Toggle'
 }
-
-{ #category : #initialization }
-ToToggleSwitchBarElement >> actualChildren [
-
-	^ { self onElement. self button. self offElement } reject: [ :e | e isNil ]
-]
 
 { #category : #accessing }
 ToToggleSwitchBarElement >> button [
@@ -24,9 +21,16 @@ ToToggleSwitchBarElement >> button [
 { #category : #accessing }
 ToToggleSwitchBarElement >> button: anElement [
 
-	anElement ifNotNil: [ anElement constraintsDo: [ :c | c linear vertical alignCenter ] ].
+	anElement ifNotNil: [
+		anElement constraintsDo: [ :c | c linear vertical alignCenter ] ].
 	button := anElement.
-	self updateChildren 
+	self updateChildren
+]
+
+{ #category : #initialization }
+ToToggleSwitchBarElement >> defaultSideWidth [
+
+	^ 8
 ]
 
 { #category : #initialization }
@@ -34,8 +38,21 @@ ToToggleSwitchBarElement >> initialize [
 
 	super initialize.
 	self layout: BlLinearLayout horizontal.
+	self fitContent.
+	sideWidth := self defaultSideWidth.
+	offContainer := ToElement new vFitContent; width: self sideWidth; layout: BlFrameLayout new; yourself.
+	offContainer constraintsDo: [ :c | c linear vertical alignCenter ].
+	onContainer := ToElement new vFitContent; width: self sideWidth; layout: BlFrameLayout new; yourself.
+	onContainer constraintsDo: [ :c | c linear vertical alignCenter ].
 	self button: ToToggleSwitchButtonElement new.
-	self fitContent
+	self addChildren: { onContainer. button. offContainer }
+
+]
+
+{ #category : #accessing }
+ToToggleSwitchBarElement >> offContainer [
+
+	^ offContainer
 ]
 
 { #category : #accessing }
@@ -48,9 +65,17 @@ ToToggleSwitchBarElement >> offElement [
 ToToggleSwitchBarElement >> offElement: anElement [
 
 	anElement ifNotNil: [
-		anElement constraintsDo: [ :c | c linear vertical alignCenter ] ].
+		anElement constraintsDo: [ :c |
+			c frame vertical alignCenter.
+			c frame horizontal alignCenter ] ].
 	offElement := anElement.
 	self updateChildren
+]
+
+{ #category : #accessing }
+ToToggleSwitchBarElement >> onContainer [
+
+	^ onContainer
 ]
 
 { #category : #accessing }
@@ -63,30 +88,56 @@ ToToggleSwitchBarElement >> onElement [
 ToToggleSwitchBarElement >> onElement: anElement [
 
 	anElement ifNotNil: [
-		anElement constraintsDo: [ :c | c linear vertical alignCenter ] ].
+		anElement constraintsDo: [ :c |
+			c frame vertical alignCenter.
+			c frame horizontal alignCenter ] ].
 	onElement := anElement.
 	self updateChildren
+]
+
+{ #category : #accessing }
+ToToggleSwitchBarElement >> sideWidth [
+
+	^ sideWidth
+]
+
+{ #category : #accessing }
+ToToggleSwitchBarElement >> sideWidth: anInteger [
+
+	sideWidth := anInteger
 ]
 
 { #category : #requirements }
 ToToggleSwitchBarElement >> switchOff [
 
 	self button switchOff.
-	self onElement ifNotNil: [ :e | e visibility: BlVisibility hidden  ].
-	self offElement ifNotNil: [ :e | e visibility: BlVisibility visible ]
+	onContainer visibility: BlVisibility hidden.
+	offContainer visibility: BlVisibility visible
 ]
 
 { #category : #requirements }
 ToToggleSwitchBarElement >> switchOn [ 
 
 	self button switchOn.
-	self offElement ifNotNil: [ :e | e visibility: BlVisibility hidden  ].
-	self onElement ifNotNil: [ :e | e visibility: BlVisibility visible ]
+	offContainer visibility: BlVisibility hidden.
+	onContainer visibility: BlVisibility visible
 ]
 
 { #category : #accessing }
 ToToggleSwitchBarElement >> updateChildren [
 
-	self removeChildren.
-	self addChildren: self actualChildren 
+	| offw onw |
+	onContainer removeChildren.
+	offContainer removeChildren.
+	onw := 0.
+	offw := 0.
+	onElement ifNotNil: [ :e |
+		onContainer addChild: e.
+		onw := e requestedWidth ].
+	offElement ifNotNil: [ :e |
+		offContainer addChild: e.
+		offw := e requestedWidth ].
+	sideWidth := (onw max: offw) max: self defaultSideWidth.
+	onContainer width: sideWidth.
+	offContainer width: sideWidth
 ]

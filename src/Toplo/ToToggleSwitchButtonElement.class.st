@@ -8,6 +8,12 @@ Class {
 	#category : #'Toplo-Widget-Button-Toggle'
 }
 
+{ #category : #initialization }
+ToToggleSwitchButtonElement >> defaultWidth [
+
+	^ 14
+]
+
 { #category : #requirements }
 ToToggleSwitchButtonElement >> empty [
 
@@ -20,7 +26,7 @@ ToToggleSwitchButtonElement >> initialize [
 	super initialize.
 	self layout: BlFrameLayout new.
 	self geometry: BlCircleGeometry new.
-	self fitContent
+	self width: self defaultWidth
 ]
 
 { #category : #accessing }

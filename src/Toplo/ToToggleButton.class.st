@@ -24,13 +24,12 @@ ToToggleButton >> initialize [
 	super initialize.
 	self initializeCheckable.
 	self track: ToToggleTrackElement new
-	
 ]
 
 { #category : #accessing }
-ToToggleButton >> switchBarOffElement [
+ToToggleButton >> switchBarOffContainer [
 
-	^ self track switchBarOffElement
+	^ self track switchBarOffContainer
 ]
 
 { #category : #accessing }
@@ -40,9 +39,9 @@ ToToggleButton >> switchBarOffElement: anElement [
 ]
 
 { #category : #accessing }
-ToToggleButton >> switchBarOnElement [
+ToToggleButton >> switchBarOnContainer [
 
-	^ self track switchBarOnElement
+	^ self track switchBarOnContainer
 ]
 
 { #category : #accessing }
@@ -67,6 +66,12 @@ ToToggleButton >> switchButtonOffElement [
 ToToggleButton >> switchButtonOffElement: anElement [
 
 	^ self track switchButtonOffElement: anElement
+]
+
+{ #category : #accessing }
+ToToggleButton >> switchButtonOnElement [
+
+	^ self track switchButtonOnElement
 ]
 
 { #category : #accessing }

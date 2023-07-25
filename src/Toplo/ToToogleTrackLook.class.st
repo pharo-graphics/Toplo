@@ -24,29 +24,13 @@ ToToogleTrackLook >> animate: aBoolean [
 { #category : #sliding }
 ToToogleTrackLook >> animationDeltaIn: anElement [
 
-	^ anElement width - anElement switchButton width - anElement padding left - anElement padding right
+	^ anElement deltaToLeft negated
 ]
 
 { #category : #accessing }
 ToToogleTrackLook >> animationDuration [
 
-	^ 150 milliSeconds 
-]
-
-{ #category : #'event handling' }
-ToToogleTrackLook >> barWidthFromTrack: aToggleTrack [
-
-
-	| but onw offw bw |
-	
- 	onw := 0.
-	offw := 0.
-	but := aToggleTrack switchButton.
-	bw := but requestedWidth + but margin left + but margin right.
-	aToggleTrack switchBarOnElement ifNotNil: [ :o | onw := o width ].
-	aToggleTrack switchBarOffElement ifNotNil: [ :o | offw := o width ].
-	^ bw + (onw max: offw) max: bw * 1.6
-
+	^ 200 milliSeconds 
 ]
 
 { #category : #'event handling' }
@@ -60,16 +44,7 @@ ToToogleTrackLook >> clickLookEvent: anEvent [
 ToToogleTrackLook >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
-	anEvent elementDo: [ :e | 
-		self withoutAnimationWhile: [
-			e slideToLeft.
-			self syncAppearanceIn: e ] ]
-]
-
-{ #category : #initialization }
-ToToogleTrackLook >> initialize [ 
-
-	super initialize
+	anEvent elementDo: [ :e |  ]
 ]
 
 { #category : #'event handling' }
@@ -81,12 +56,17 @@ ToToogleTrackLook >> installLookEvent: anEvent [
 		e switchButton background: Color white.
 		e switchButton margin: (BlInsets
 				 top: 1
-				 left: 3
+				 left: 2
 				 bottom: 1
-				 right: 3).
+				 right: 2).		
 		e geometry: (BlRoundedRectangleGeometry cornerRadius: (self trackBorderRadiusIn: e)).
-		e padding: (BlInsets all: 1).
-		e width: (self barWidthFromTrack: e) ]
+		e padding: (BlInsets top: 2
+				 left: 2
+				 bottom: 2
+				 right: 2).
+		e updateWidth.
+		self withoutAnimationWhile: [
+			self syncAppearanceIn: e ]  ]
 ]
 
 { #category : #sliding }
@@ -123,6 +103,7 @@ ToToogleTrackLook >> switchButtonSizeIn: anElement [
 ToToogleTrackLook >> switchOffIn: anElement [
 
 	anElement switchBar switchOff.
+	anElement switchButton border: (BlBorder paint: Color gray).
 	self animate ifTrue: [ ^ self slideToLeftWithAnimationIn: anElement ].
 	anElement slideToLeft 
 ]
@@ -131,6 +112,7 @@ ToToogleTrackLook >> switchOffIn: anElement [
 ToToogleTrackLook >> switchOnIn: anElement [
 
 	anElement switchBar switchOn.
+	anElement switchButton border: (BlBorder empty).
 	self animate ifTrue: [ ^ self slideToRightWithAnimationIn: anElement ].
 	anElement slideToRight 
 ]

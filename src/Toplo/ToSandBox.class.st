@@ -3376,6 +3376,7 @@ ToSandBox class >> example_toggle [
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';
 		      beLabelFirst.
+
 	th checked: true.
 
 	tv := ToToggleButton new
@@ -3383,6 +3384,7 @@ ToSandBox class >> example_toggle [
 		      labelText: 'Cheesecake';
 		      beLabelFirst;
 		      hMatchParent.
+
 	win := ToInnerWindow new
 		       position: 10 @ 10;
 		       size: 400 @ 200;
@@ -3401,8 +3403,8 @@ ToSandBox class >> example_toggle2 [
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';
 		      beLabelFirst.
-	th switchBarOnElement: (ToLabel text: ('Yes!' asRopedText foreground: Color white; bold)).
-	th switchBarOffElement: (ToLabel text: ('No :('asRopedText bold) ).
+	th switchBarOnElement: (ToLabel text: ('Yesssss' asRopedText foreground: Color white; bold)).
+	th switchBarOffElement: (ToLabel text: ('No' asRopedText bold) ).
 	th when: ToCheckableCheckEvent do: [ :event | event current traceCr ].
 	th checked: true.
 	th openInSpace
@@ -3417,6 +3419,7 @@ ToSandBox class >> example_toggle3 [
 		      beLabelFirst.
 	th switchButtonOnElement: (ToImage inner: (Smalltalk ui icons iconNamed: #glamorousAccept)).
 	th switchButtonOffElement: (ToImage inner: (Smalltalk ui icons iconNamed: #glamorousClose)).
+
 	th when: ToCheckableCheckEvent do: [ :event | event current traceCr ].
 	th checked: true.
 	sp := th openInSpace.

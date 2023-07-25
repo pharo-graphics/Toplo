@@ -42,6 +42,19 @@ ToLabelMonoLineInnerElement >> newEditorIn: aLabel [
 	^ ed
 ]
 
+{ #category : #'api - text accessing' }
+ToLabelMonoLineInnerElement >> text [
+
+	^ super text
+]
+
+{ #category : #'api - text accessing' }
+ToLabelMonoLineInnerElement >> text: aText [
+
+	super text: aText.
+	self forceLocalLayout 
+]
+
 { #category : #'event handling' }
 ToLabelMonoLineInnerElement >> textChanged [
 

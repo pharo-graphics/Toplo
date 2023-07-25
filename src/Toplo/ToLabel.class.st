@@ -268,7 +268,7 @@ ToLabel >> text: aBlTextOrString [
 	newText := (aBlTextOrString ifNil: [ self defaultText ]) asRopedText.
 	attributes ifNotNil:[newText attributes: attributes].
 
-	text := newText.
+	text := newText
 ]
 
 { #category : #'event handling' }

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToNotebookTest,
-	#superclass : #BlParameterizedTest,
+	#superclass : #BlParameterizedHostTest,
 	#category : #'Toplo-Incubator'
 }
 

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToGeneralButtonDresser,
-	#superclass : #ToMouseHandlingDresser,
+	#superclass : #ToWidgetDresser,
 	#instVars : [
 		'mouseUpOutsideHandler'
 	],
@@ -45,8 +45,6 @@ ToGeneralButtonDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
 	" since BlMousePickOutsideEvent is not a BlUIEvent, it is not handled by a BlEventListener"
-	" and it should not because normally, a BlMousePickOutsideEvent is managed through a filter 
-	to stop dispatching as soon as possible "
 	mouseUpOutsideHandler := BlEventHandler
 		                         on: BlMouseUpOutsideEvent
 		                         do: [ :event | self mouseUpOutsideEvent: event in: anElement ].
@@ -74,21 +72,18 @@ ToGeneralButtonDresser >> leaved: anElement event: anEvent [
 { #category : #'events handling' }
 ToGeneralButtonDresser >> leftClickEvent: anEvent in: anElement [
 
-	super leftClickEvent: anEvent in: anElement.
 	self clicked: anElement
 ]
 
 { #category : #'events handling' }
 ToGeneralButtonDresser >> leftMouseDownEvent: anEvent in: anElement [
 
-	super leftMouseDownEvent: anEvent in: anElement.
 	self pressedState: anElement
 ]
 
 { #category : #'events handling' }
 ToGeneralButtonDresser >> leftMouseUpEvent: anEvent in: anElement [
 
-	super leftMouseUpEvent: anEvent in: anElement.
 	self hoveredState: anElement 
 
 
@@ -121,7 +116,6 @@ ToGeneralButtonDresser >> leftUp: anElement event: anEvent [
 { #category : #'events handling' }
 ToGeneralButtonDresser >> mouseEnterEvent: anEvent in: anElement [
 
-	super mouseEnterEvent: anEvent in: anElement.
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
 	self hoveredState: anElement
 ]
@@ -129,7 +123,6 @@ ToGeneralButtonDresser >> mouseEnterEvent: anEvent in: anElement [
 { #category : #'events handling' }
 ToGeneralButtonDresser >> mouseLeaveEvent: anEvent in: anElement [
 
-	super mouseLeaveEvent: anEvent in: anElement.
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
 	self leaved: anElement.
 	self initialState: anElement

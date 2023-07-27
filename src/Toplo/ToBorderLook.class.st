@@ -1,6 +1,6 @@
 Class {
 	#name : #ToBorderLook,
-	#superclass : #ToElementLook,
+	#superclass : #ToDefaultElementLook,
 	#instVars : [
 		'builder',
 		'pressedPaint',

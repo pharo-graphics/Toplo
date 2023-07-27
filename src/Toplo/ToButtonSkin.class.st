@@ -2,7 +2,8 @@ Class {
 	#name : #ToButtonSkin,
 	#superclass : #ToWidgetSkin,
 	#instVars : [
-		'type'
+		'type',
+		'cursorLook'
 	],
 	#category : #'Toplo-Widget-Button-Skins'
 }
@@ -64,6 +65,10 @@ ToButtonSkin >> onSkinInstalledIn: anElement [
 	" must send to super ** after ** the look is initialize from type "
 	super onSkinInstalledIn: anElement.
 	self type onSkinInstalled: self in: anElement.
+	cursorLook := ToMouseCursorLook new.
+	cursorLook hoverCursor: [ :but | but isEnabled ifTrue: [ BlCursor hand ] ifFalse: []].
+	self addLook: cursorLook.
+
 
 ]
 
@@ -71,9 +76,8 @@ ToButtonSkin >> onSkinInstalledIn: anElement [
 ToButtonSkin >> onSkinUninstalledIn: anElement [
 
 	self type onSkinUninstalled: self in: anElement.
+	self removeLook: cursorLook.
 	super onSkinUninstalledIn: anElement
-
-
 ]
 
 { #category : #accessing }

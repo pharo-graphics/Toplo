@@ -1,6 +1,6 @@
 Class {
 	#name : #ToNodeDresser,
-	#superclass : #ToMouseHandlingDresser,
+	#superclass : #ToWidgetDresser,
 	#instVars : [
 		'monitor'
 	],

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCheckLook,
-	#superclass : #ToElementLook,
+	#superclass : #ToDefaultElementLook,
 	#instVars : [
 		'checkedImage',
 		'indeterminateImage',

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToBasicMenuItemDresser,
-	#superclass : #ToMouseHandlingDresser,
+	#superclass : #ToWidgetDresser,
 	#category : #'Toplo-Widget-Menu'
 }
 
@@ -43,10 +43,4 @@ ToBasicMenuItemDresser >> onInstalledIn: anElement [
 	anElement background: Color transparent.
 	anElement border: BlBorder empty.
 	anElement padding: (BlInsets top: 0 left: 5 bottom: 0 right: 4 )
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToBasicMenuItemDresser >> onUninstalledIn: anElement [
-
-	super onUninstalledIn: anElement
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMenuAsSubmenuDresser,
-	#superclass : #ToMouseHandlingDresser,
+	#superclass : #ToWidgetDresser,
 	#category : #'Toplo-Widget-Menu'
 }
 

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToLAFRadioButtonDresser,
-	#superclass : #ToMouseHandlingDresser,
+	#superclass : #ToWidgetDresser,
 	#traits : 'TToSkinnableElementDresser',
 	#classTraits : 'TToSkinnableElementDresser classTrait',
 	#instVars : [
@@ -36,7 +36,7 @@ ToLAFRadioButtonDresser >> defaultCheckedIconImage: anElement [
 { #category : #accessing }
 ToLAFRadioButtonDresser >> defaultCheckedState [
 
-	^ ToWidgetState new
+	^ ToWidgetStateDep new
 		  name: #checked;
 		  whenEnterDo: [ :ann |
 			  ann widget icon: (self defaultCheckedIconImage: ann widget) ];
@@ -59,7 +59,7 @@ ToLAFRadioButtonDresser >> defaultIndeterminateIconImage: anElement [
 { #category : #accessing }
 ToLAFRadioButtonDresser >> defaultIndeterminateState [
 
-	^ ToWidgetState new
+	^ ToWidgetStateDep new
 		  name: #indeterminate;
 		  whenEnterDo: [ :ann | 
 			  ann widget icon: (self defaultIndeterminateIconImage: ann widget) ];
@@ -88,7 +88,7 @@ ToLAFRadioButtonDresser >> defaultUncheckedIconImage: anElement [
 { #category : #accessing }
 ToLAFRadioButtonDresser >> defaultUncheckedState [
 
-	^ ToWidgetState new
+	^ ToWidgetStateDep new
 		  name: #unchecked;
 		  whenEnterDo: [ :ann | 
 			  ann widget icon: (self defaultUncheckedIconImage: ann widget) ]
@@ -120,8 +120,6 @@ ToLAFRadioButtonDresser >> hover: anElement event: anEvent [
 
 { #category : #accessing }
 ToLAFRadioButtonDresser >> initialState: anElement [
-
-	super initialState: anElement.
 
 	"update main element"
 	self background: self skin background in: anElement.

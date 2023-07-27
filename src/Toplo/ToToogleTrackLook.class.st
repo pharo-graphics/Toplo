@@ -1,6 +1,6 @@
 Class {
 	#name : #ToToogleTrackLook,
-	#superclass : #ToElementLook,
+	#superclass : #ToDefaultElementLook,
 	#instVars : [
 		'toggleButton',
 		'animationDuration',

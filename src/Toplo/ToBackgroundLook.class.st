@@ -1,6 +1,6 @@
 Class {
 	#name : #ToBackgroundLook,
-	#superclass : #ToElementLook,
+	#superclass : #ToDefaultElementLook,
 	#instVars : [
 		'initialBg',
 		'hoverBg',

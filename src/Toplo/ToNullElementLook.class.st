@@ -1,6 +1,6 @@
 Class {
 	#name : #ToNullElementLook,
-	#superclass : #ToAbstractElementLook,
+	#superclass : #ToAbstractLook,
 	#category : #'Toplo-Core-Theme'
 }
 

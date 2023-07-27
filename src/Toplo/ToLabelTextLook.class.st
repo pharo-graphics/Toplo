@@ -1,6 +1,6 @@
 Class {
 	#name : #ToLabelTextLook,
-	#superclass : #ToElementLook,
+	#superclass : #ToDefaultElementLook,
 	#instVars : [
 		'attrBuilder',
 		'pressedColor',

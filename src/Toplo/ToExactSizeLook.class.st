@@ -1,6 +1,6 @@
 Class {
 	#name : #ToExactSizeLook,
-	#superclass : #ToElementLook,
+	#superclass : #ToDefaultElementLook,
 	#category : #'Toplo-Core-Theme-Looks'
 }
 

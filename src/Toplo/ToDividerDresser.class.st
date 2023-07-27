@@ -1,6 +1,6 @@
 Class {
 	#name : #ToDividerDresser,
-	#superclass : #ToMouseHandlingDresser,
+	#superclass : #ToWidgetDresser,
 	#instVars : [
 		'dividerHandler',
 		'firstTargetPositionChangeHandler',
@@ -52,7 +52,6 @@ ToDividerDresser >> hover: anElement event: anEvent [
 { #category : #'api - install/uninstall  hook' }
 ToDividerDresser >> initialState: anElement [
 
-	super initialState: anElement.
 	anElement thickness: 4.
 	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
 	anElement border: (BlBorder paint: self colorProvider defaultBorderColor).

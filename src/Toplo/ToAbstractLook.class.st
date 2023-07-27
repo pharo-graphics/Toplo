@@ -1,35 +1,35 @@
 Class {
-	#name : #ToAbstractElementLook,
+	#name : #ToAbstractLook,
 	#superclass : #Object,
 	#category : #'Toplo-Core-Theme'
 }
 
 { #category : #'private event handling' }
-ToAbstractElementLook >> elementLookEvent: anEvent [
+ToAbstractLook >> elementLookEvent: anEvent [
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #'event handling' }
-ToAbstractElementLook >> installLookEvent: anEvent [
+ToAbstractLook >> installLookEvent: anEvent [
 
 
 ]
 
 { #category : #testing }
-ToAbstractElementLook >> isNull [
+ToAbstractLook >> isNull [
 
 	^ false
 ]
 
 { #category : #removing }
-ToAbstractElementLook >> removeLook: aLook previous: previousLook [
+ToAbstractLook >> removeLook: aLook previous: previousLook [
 
 	self subclassResponsibility 
 ]
 
 { #category : #'event handling' }
-ToAbstractElementLook >> uninstallLookEvent: anEvent [
+ToAbstractLook >> uninstallLookEvent: anEvent [
 
 
 ]

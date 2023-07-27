@@ -9,6 +9,11 @@ Class {
 	#category : #'Toplo-Core'
 }
 
+{ #category : #testing }
+ToElementStateDep class >> isDeprecated [
+		^ true
+]
+
 { #category : #accessing }
 ToElementStateDep >> counter [
 

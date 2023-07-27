@@ -1,6 +1,6 @@
 Class {
 	#name : #ToImageFormLook,
-	#superclass : #ToElementLook,
+	#superclass : #ToDefaultElementLook,
 	#instVars : [
 		'initialColor',
 		'hoverColor',

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToNodeWithHoverButtonDresserExample,
-	#superclass : #ToMouseHandlingDresser,
+	#superclass : #ToWidgetDresser,
 	#instVars : [
 		'nodeButton',
 		'changeBackground'

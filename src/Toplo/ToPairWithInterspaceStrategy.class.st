@@ -9,11 +9,12 @@ Class {
 
 { #category : #layout }
 ToPairWithInterspaceStrategy >> childrenIn: aPair [
- 	
+
 	^ {
 		  aPair first.
-		  self interspaceIn: aPair.
-		  aPair second } select: #notNil
+		  (self interspaceIn: aPair).
+		  aPair second.
+		  aPair extra } select: #notNil
 ]
 
 { #category : #accessing }

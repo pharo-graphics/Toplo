@@ -72,9 +72,11 @@ ToWidgetSkin >> installed [
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> launchSkinInitializationIn: anElement [
 
+	| state |
 	anElement isLayoutRequested ifTrue: [ ^ self ].
 	initialized ifTrue: [ ^ self ].
-	anElement switchToState: ToInitialState new.
+	state := anElement currentState ifNil: [ ToInitialState new ].
+	anElement switchToState: state.
 	initialized := true.
 
 ]

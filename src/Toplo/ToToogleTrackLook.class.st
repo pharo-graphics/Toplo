@@ -56,9 +56,9 @@ ToToogleTrackLook >> installLookEvent: anEvent [
 		e switchButton background: Color white.
 		e switchButton margin: (BlInsets
 				 top: 1
-				 left: 2
+				 left: 4
 				 bottom: 1
-				 right: 2).		
+				 right: 4).		
 		e geometry: (BlRoundedRectangleGeometry cornerRadius: (self trackBorderRadiusIn: e)).
 		e padding: (BlInsets top: 2
 				 left: 2
@@ -96,7 +96,7 @@ ToToogleTrackLook >> slideToRightWithAnimationIn: anElement [
 { #category : #'event handling' }
 ToToogleTrackLook >> switchButtonSizeIn: anElement [
 
-	^ 14 asPoint
+	^ 16 asPoint
 ]
 
 { #category : #sliding }

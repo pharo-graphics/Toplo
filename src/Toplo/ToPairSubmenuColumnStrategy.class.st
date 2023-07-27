@@ -47,10 +47,5 @@ ToPairSubmenuColumnStrategy >> rightIcon [
 { #category : #accessing }
 ToPairSubmenuColumnStrategy >> rightIconImage [
 
-	| ic |
-	ic := BlTextElement new text: '>' asRopedText bold.
-	ic constraintsDo: [ :c |
-			c linear vertical alignCenter.
-			c linear horizontal alignCenter ].
-	^ ic
+	^ ToThemeIcons iconPlainTriangle5x9
 ]

@@ -1369,17 +1369,16 @@ ToSandBox class >> example_menu1 [
 	menu spacingWidth: 5.
 	menu globalColumnWidth: 22.
 	menu label: (ToLabel new text: 'File').
-	menu icon:
-		(ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	menu icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
 	menu addItem: (ToButtonMenuItem new
 			 label: (ToLabel new text: 'Open file');
-			 icon:
-				 (ToImage new innerImage: (Smalltalk ui icons iconNamed: #config))).
-	menu addItem:
-		(ToButtonMenuItem new label: (ToLabel new text: 'Export')).
+			 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #config));
+			 withExtra: ((ToLabel text: 'Cmd-f') margin: (BlInsets left: 5); matchParent; yourself)).
+	menu addItem: (ToButtonMenuItem new label: (ToLabel new text: 'Export'); withExtra: ((ToLabel text: 'Cmd-e') margin: (BlInsets left: 5); yourself)).
 	menu addSeparator.
 
 	sub := ToMenu new label: (ToLabel new text: 'Save All').
+	sub withSkin: nil.
 	sub addItem:
 		(ToButtonMenuItem new label: (ToLabel new text: 'Locally')).
 
@@ -2284,6 +2283,24 @@ ToSandBox class >> example_toButtonWithIconAndText [
 					offset: 0 @ 0)."
 	but effect: (BlBlurAboveEffect new radius: 20).
 	but when: BlPrimaryClickEvent do: [ :event | event currentTarget traceCr ].
+
+	space := BlSpace new.
+	space root addChild: but.
+	space show 
+]
+
+{ #category : #button }
+ToSandBox class >> example_toButtonWithIconAndTextAndExtra [
+
+	| but space  icon |
+	but := ToButton new.
+
+	but label: (ToLabel text: 'Button').
+	icon := ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16).
+	but icon: icon.
+	but effect: (BlBlurAboveEffect new radius: 20).
+	but when: BlPrimaryClickEvent do: [ :event | event currentTarget traceCr ].
+	but withExtra: ((ToLabel text: 'extra') margin: (BlInsets left: 5)).
 
 	space := BlSpace new.
 	space root addChild: but.
@@ -3401,10 +3418,10 @@ ToSandBox class >> example_toggle2 [
 
 	| th |
 	th := ToToggleButton new
-		      labelText: 'Cheesecake';
+		      labelText: 'Theme';
 		      beLabelFirst.
-	th switchBarOnElement: (ToLabel text: ('Yesssss' asRopedText foreground: Color white; bold)).
-	th switchBarOffElement: (ToLabel text: ('No' asRopedText bold) ).
+	th switchBarOnElement: ((ToLabel text: ('Dark' asRopedText foreground: Color white)) ).
+	th switchBarOffElement: ((ToLabel text: ('Light' asRopedText foreground: Color black)) ).
 	th when: ToCheckableCheckEvent do: [ :event | event current traceCr ].
 	th checked: true.
 	th openInSpace

@@ -7,7 +7,10 @@ Class {
 { #category : #layout }
 ToPairStrategy >> childrenIn: aPair [
 
-	^ self subclassResponsibility 
+	^ {
+		  aPair first.
+		  aPair second.
+		  aPair extra } select: #notNil
 ]
 
 { #category : #accessing }
@@ -29,14 +32,12 @@ ToPairStrategy >> onMeasure: anExtentMeasurementSpec in: aPair [
 ]
 
 { #category : #layout }
-ToPairStrategy >> updateChildrenIn: aPair [
+ToPairStrategy >> updateChildrenIn: anElement [
 
 	| subs |
 	
-	subs := self childrenIn: aPair.
-	aPair children asArray = subs ifTrue: [ ^ self ].
-	aPair eventDispatcher disableLayoutChanged.
-	aPair removeChildren.
-	aPair eventDispatcher enableLayoutChanged.
-	aPair addChildren: subs
+	subs := self childrenIn: anElement.
+	anElement children asArray = subs ifTrue: [ ^ self ].
+	anElement removeChildren.
+	anElement addChildren: subs
 ]

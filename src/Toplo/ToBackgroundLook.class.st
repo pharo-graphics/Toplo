@@ -9,6 +9,14 @@ Class {
 	#category : #'Toplo-Core-Theme-Looks'
 }
 
+{ #category : #'event handling' }
+ToBackgroundLook >> clickLookEvent: anEvent [ 
+
+	super clickLookEvent: anEvent .
+	anEvent elementDo: [ :e |
+		self hoverBg ifNotNil: [ :bg | e background: (bg value: e)] ]
+]
+
 { #category : #accessing }
 ToBackgroundLook >> hoverBg [
 

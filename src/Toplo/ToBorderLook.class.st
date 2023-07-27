@@ -82,7 +82,8 @@ ToBorderLook >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	self hoverPaint ifNil: [ ^ self ].
-	anEvent elementDo: [ :e |
+
+	anEvent elementDo: [ :e | 
 		e border: (self builder
 				 dashArray: (self dashArray value: e);
 				 width: (self width value: e);

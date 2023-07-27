@@ -24,7 +24,7 @@ ToButtonMenuItem >> defaultDresser [
 { #category : #'t - skin accessing' }
 ToButtonMenuItem >> defaultSkin [ 
 
-	^ ToButtonSkin new
+	^ nil
 ]
 
 { #category : #initialization }

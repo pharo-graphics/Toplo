@@ -3,6 +3,7 @@ Trait {
 	#instVars : [
 		'#first => ObservableSlot',
 		'#second => ObservableSlot',
+		'#extra',
 		'#strategy => ObservableSlot'
 	],
 	#category : #'Toplo-Core-Pair'
@@ -27,6 +28,12 @@ TToPair >> columnWidth [
 TToPair >> columnWidth: anInteger [
 
 	self strategy: (ToPairColumnStrategy new width: anInteger)
+]
+
+{ #category : #'t - pair accessing' }
+TToPair >> extra [
+
+	^ extra
 ]
 
 { #category : #'t - pair accessing' }
@@ -155,4 +162,22 @@ TToPair >> whenStrategyChangedDo: aBlock [
 	"set a block to perform after that the slot has been changed, and its action performed"
 
 	self property: #strategy whenChangedDo: aBlock
+]
+
+{ #category : #'t - pair presentation' }
+TToPair >> withExtra: anElement [
+
+	extra = anElement ifTrue: [ ^ self ].
+	self withoutExtra.
+	extra := anElement.
+	self privateUpdateChildren 
+]
+
+{ #category : #'t - pair presentation' }
+TToPair >> withoutExtra [
+
+	extra isNil ifTrue: [ ^ self ].
+	extra removeFromParent.
+	extra := nil.
+	self privateUpdateChildren 
 ]

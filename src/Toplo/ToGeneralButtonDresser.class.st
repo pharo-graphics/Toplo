@@ -146,8 +146,10 @@ ToGeneralButtonDresser >> mouseUpOutsideEvent: anEvent in: anElement [
 	(anEvent originalEvent target notNil and: [
 		 anEvent originalEvent target hasParent: anElement ]) ifTrue: [
 		^ self ].
-	self initialState: anElement.
-	
+	"MouseUpOutside for a button is managed if a MouseDown (inside) has occured before (with a consequent pressed state).
+	So, do not change the state if the button is not in pressed state"
+	anElement currentState isPressedState ifFalse: [ ^ self ].
+	self initialState: anElement
 ]
 
 { #category : #'events handling' }

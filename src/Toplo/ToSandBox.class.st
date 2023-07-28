@@ -2060,7 +2060,7 @@ ToSandBox class >> example_textFieldWithoutLineWrapping [
 ToSandBox class >> example_to3statesCheckbox [
 
 	| but |
-	but := ToCheckboxModel new withIndeterminate.
+	but := ToCheckboxModel new widgetDo: [:w | w withIndeterminate: true ].
 	but onWidget openInSpace
 ]
 

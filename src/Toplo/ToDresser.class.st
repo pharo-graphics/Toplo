@@ -176,7 +176,8 @@ ToDresser >> whenAddedToParent: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToDresser >> whenAddedToSpace: anEvent in: anElement [ 
 
-
+	self flag: 'Leads to ToSpaceFrameSkinInstallationPhase installation in space frame. Should be revised to avoid this kind of workaround'.
+	anElement space checkSpaceFrameSkinInstallationPhase
 ]
 
 { #category : #'api - install/uninstall  hook' }

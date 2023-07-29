@@ -11,19 +11,19 @@ BlSpace >> checkRootSkinInstallation [
 ]
 
 { #category : #'*Toplo' }
-BlSpace >> checkSkinFrameInstallation [
-
-	(self frame phases anySatisfy: [ :p |
-		 p isKindOf: ToSpaceFrameSkinInstallationPhase ]) ifTrue: [ ^ self ].
-	self frame addPhase: ToSpaceFrameSkinInstallationPhase new
-]
-
-{ #category : #'*Toplo' }
 BlSpace >> checkSkinInstallation [
 
 	
 	self checkRootSkinInstallation.
 	self root checkSkinInstallation
+]
+
+{ #category : #'*Toplo' }
+BlSpace >> checkSpaceFrameSkinInstallationPhase [
+
+	(self frame phases anySatisfy: [ :p |
+		 p isKindOf: ToSpaceFrameSkinInstallationPhase ]) ifTrue: [ ^ self ].
+	self frame addPhase: ToSpaceFrameSkinInstallationPhase new
 ]
 
 { #category : #'*Toplo' }
@@ -72,7 +72,6 @@ BlSpace >> switchThemeDarkOrLight [
 { #category : #'*Toplo-LookAndFeel' }
 BlSpace >> toTheme [
 
-	self checkSkinFrameInstallation.
 	^ self root toTheme
 ]
 

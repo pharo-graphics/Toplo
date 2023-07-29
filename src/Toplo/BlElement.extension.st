@@ -15,6 +15,7 @@ BlElement >> checkSkinInitialization [
 { #category : #'*Toplo' }
 BlElement >> checkSkinInstallation [
 
+	self isVisibleInSpace ifFalse: [ ^ self ].
 	self launchSkinInstallation.
 	self childrenDo: [ :child | child checkSkinInstallation ]
 ]

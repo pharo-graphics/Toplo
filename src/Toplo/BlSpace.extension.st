@@ -21,9 +21,12 @@ BlSpace >> checkSkinInstallation [
 { #category : #'*Toplo' }
 BlSpace >> checkSpaceFrameSkinInstallationPhase [
 
+	| layoutPhase |
 	(self frame phases anySatisfy: [ :p |
 		 p isKindOf: ToSpaceFrameSkinInstallationPhase ]) ifTrue: [ ^ self ].
-	self frame addPhase: ToSpaceFrameSkinInstallationPhase new
+	" The skin phase must be inserted before the layout phase "
+	layoutPhase := self frame detectPhase: [ :f | f class = BlSpaceFrameLayoutPhase ].
+	self frame addPhase: ToSpaceFrameSkinInstallationPhase new before: layoutPhase
 ]
 
 { #category : #'*Toplo' }

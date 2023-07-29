@@ -73,9 +73,7 @@ ToWidgetSkin >> installed [
 ToWidgetSkin >> launchSkinInitializationIn: anElement [
 
 	| state |
-	anElement isLayoutRequested ifTrue: [ ^ self ].
 	initialized ifTrue: [ ^ self ].
-
 	state := anElement currentSkinState ifNil: [ ToInitialState new ].
 	anElement switchToSkinState: state.
 	initialized := true.
@@ -86,7 +84,6 @@ ToWidgetSkin >> launchSkinInitializationIn: anElement [
 ToWidgetSkin >> launchSkinInstallationIn: anElement [
 
 	installed ifTrue: [ ^ self launchSkinInitializationIn: anElement ].
-	anElement requestLayout.
 	installed := true.
 	self privateLook: ToNullElementLook new.
 	self onSkinInstalledIn: anElement.

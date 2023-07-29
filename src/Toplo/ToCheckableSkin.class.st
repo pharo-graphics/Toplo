@@ -11,7 +11,7 @@ ToCheckableSkin >> buttonIconChanged: anEvent [
 	" have to change the state of the new icon so that its skin is initialized with the right state.
 	As an example in case of click, a CheckBoxButton turns into HoverState and change its icon which 
 	itself must be initialized into an HoverState (the same as its CheckBoxButton) "
-	anEvent currentTarget icon currentSkinState: anEvent currentTarget currentState.
+	anEvent currentTarget icon currentSkinState: anEvent currentTarget currentSkinState.
 	anEvent currentTarget icon withSkin: self iconSkin.
 	
 ]

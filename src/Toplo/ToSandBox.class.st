@@ -1318,7 +1318,7 @@ ToSandBox class >> example_elementInPopupRoot [
 	| e space |
 	space := BlSpace new.
 	e := BlElement new background: Color blue; size: 50@50; yourself.
-	space openInPopupLayer: e.
+	space openAsPopup: e.
 	e addEventHandler: (BlEventHandler
 				on: BlClickEvent
 				do: [ :evt | self inform: 'Clicked'  ]).

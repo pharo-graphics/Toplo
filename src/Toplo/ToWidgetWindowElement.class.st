@@ -151,7 +151,7 @@ ToWidgetWindowElement >> popupEvent: anEvent [
 	" I have to set the position here "
 	self position: (self positioningHook value: self value: anEvent).
 	self hasParent ifTrue: [ ^ self ].
-	self widget space openInPopupLayer: self.
+	self widget space openAsPopup: self.
 	self dispatchOpenedEventFrom: anEvent.
 	popupTimestamp := DateAndTime now.
 	"I need to finalize my position as soon as my layout is up-to-date"

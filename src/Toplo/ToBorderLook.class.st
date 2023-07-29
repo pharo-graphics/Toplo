@@ -32,7 +32,7 @@ ToBorderLook >> clickLookEvent: anEvent [
 
 	anEvent elementDo: [ :e |
 		| anim |
-		anim := ToGaussianEffectAnimation new
+		anim := BlGaussianEffectOpacityAnimation new
 			        color: (self pressedPaint value: e);
 			        width: 4;
 			        opacity: 0;

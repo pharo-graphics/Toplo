@@ -22,7 +22,7 @@ BlSpace >> isThemeInstalled [
 ]
 
 { #category : #'*Toplo' }
-BlSpace >> openInPopupLayer: anElement [
+BlSpace >> openAsPopup: anElement [
 
 	anElement elevation: self defaultPopupElevation.
 	self root addChild: anElement

@@ -1,6 +1,9 @@
 Class {
 	#name : #BaselineOfToplo,
 	#superclass : #BaselineOf,
+	#classVars : [
+		'Initialized'
+	],
 	#category : #BaselineOfToplo
 }
 
@@ -14,6 +17,8 @@ BaselineOfToplo >> baseline: spec [
 { #category : #baselines }
 BaselineOfToplo >> baselineForCommon: spec [
 
+
+	spec postLoadDoIt: #'postload:package:'.
 	self dependencies: spec.
 	self registerPackages: spec
 ]
@@ -28,6 +33,17 @@ BaselineOfToplo >> dependencies: spec [
 	spec
 		baseline: 'Album'
 		with: [ spec repository: 'github://plantec/Album/src' ]
+]
+
+{ #category : #baselines }
+BaselineOfToplo >> postload: loader package: packageSpec [
+
+	"Ignore pre and post loads if already executed"
+	Initialized = true ifTrue: [ ^ self ].
+	" Install additional space phases "
+	
+	
+	Initialized := true
 ]
 
 { #category : #baselines }

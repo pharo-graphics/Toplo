@@ -1,12 +1,38 @@
 Extension { #name : #BlSpace }
 
 { #category : #'*Toplo' }
+BlSpace >> checkRootSkinInstallation [
+
+	self root privateSkin ifNil: [ 
+		self root withSkin: ToSpaceRootSkin new].
+	" To preserve efficiency, #launchSkinInstallation does nothing by default at BlElement level."
+	" Thus, the installation for root is directly launched here "
+	self root privateSkin launchSkinInstallationIn: self root
+]
+
+{ #category : #'*Toplo' }
+BlSpace >> checkSkinFrameInstallation [
+
+	(self frame phases anySatisfy: [ :p |
+		 p isKindOf: ToSpaceFrameSkinInstallationPhase ]) ifTrue: [ ^ self ].
+	self frame addPhase: ToSpaceFrameSkinInstallationPhase new
+]
+
+{ #category : #'*Toplo' }
+BlSpace >> checkSkinInstallation [
+
+	
+	self checkRootSkinInstallation.
+	self root checkSkinInstallation
+]
+
+{ #category : #'*Toplo' }
 BlSpace >> defaultPopupElevation [
 
 	^ BlRelativeElevation elevation: SmallInteger maxVal
 ]
 
-{ #category : #'*Toplo-LookAndFeel' }
+{ #category : #'*Toplo' }
 BlSpace >> isSupportToTheme [
 	"Development method : to check if the Space support ToTheme management"
 
@@ -32,7 +58,7 @@ BlSpace >> openAsPopup: anElement [
 BlSpace >> switchThemeDarkOrLight [
 	"Switch to the opposite theme : dark or light (if available)"
 	| newTheme |
-
+	Toplo useLookAndFeel ifFalse: [ ^ self ].
 	(self toTheme isNil or:[self toTheme isSupportLightAndDark not]) ifTrue:[ ^ self ].
 
 	newTheme := self toTheme isLight
@@ -46,18 +72,14 @@ BlSpace >> switchThemeDarkOrLight [
 { #category : #'*Toplo-LookAndFeel' }
 BlSpace >> toTheme [
 
-	| theme |
-	theme := self root toTheme.
-
-	"Check theme installation : this is dirty and temporary"
-	(theme notNil and:[self isThemeInstalled not]) ifTrue:[ theme installOnSpace: self ].
-	
-	^ theme
+	self checkSkinFrameInstallation.
+	^ self root toTheme
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
 BlSpace >> toTheme: aTheme [
 
-	aTheme ifNotNil: [ aTheme installOnSpace: self ].
-	self root toTheme: aTheme
+	self root toTheme: aTheme.
+	Toplo useLookAndFeel ifFalse: [ ^ self ].
+	aTheme installOnSpace: self.
 ]

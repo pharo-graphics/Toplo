@@ -940,6 +940,7 @@ ToSandBox class >> example_ToButtonSkins [
 
 	| space pane themeSwitcher butBuilder buttonSpecsBuilder |
 	space := BlSpace new.
+	space inspect.
 	
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 
@@ -1148,7 +1149,7 @@ ToSandBox class >> example_ToButtonWithPrimarySkin [
 	| space button1 |
 	
 	space := BlSpace new.
-
+	space inspect.
 	button1 := ToButton new withSkin: (ToButtonSkin new type: ToButtonPrimaryType new).
 	button1 label: (ToLabel text: 'Primary button').
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
@@ -1951,6 +1952,22 @@ ToSandBox class >> example_scaledImage [
 				         ifFalse: [ 0.5 ] ] ].
 	im border: (BlBorder paint: Color black width: 2).
 	im openInSpace
+]
+
+{ #category : #space }
+ToSandBox class >> example_spaceRootSkin [
+
+	| space themeSwitcher |
+	space := BlSpace new.
+	space inspect.
+	themeSwitcher := ToToggleButton new
+		      labelText: 'Theme';
+		      beLabelFirst.
+	themeSwitcher switchBarOnElement: ((ToLabel text: ('Dark' asRopedText foreground: Color white)) ).
+	themeSwitcher switchBarOffElement: ((ToLabel text: ('Light' asRopedText foreground: Color black)) ).
+	themeSwitcher when: ToCheckableCheckEvent do: [ :event | space toTheme: ( event current ifTrue: [ToThemeDark new] ifFalse: [ ToThemeLight new]) ].
+	space root addChild: themeSwitcher.
+	space show
 ]
 
 { #category : #'text field' }

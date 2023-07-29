@@ -36,7 +36,7 @@ ToDashedButtonSkin >> builtBorderBuilder [
 
 	| builder |
 	builder := super builtBorderBuilder.
-	builder dashArray: self theme dashed.
+	builder dashArray: self theme dashArray.
 	^ builder
 ]
 
@@ -46,7 +46,7 @@ ToDashedButtonSkin >> builtBorderHoverBuilder [
 	| builder |
 	builder := super builtBorderHoverBuilder.
 	builder paint: self theme colorPrimaryHover.
-	builder dashArray: self theme dashed.
+	builder dashArray: self theme dashArray.
 	^ builder
 ]
 
@@ -56,7 +56,7 @@ ToDashedButtonSkin >> builtBorderPressedBuilder [
 	| builder |
 	builder := super builtBorderPressedBuilder.
 	builder paint: self theme colorPrimaryPressed.
-	builder dashArray: self theme dashed.
+	builder dashArray: self theme dashArray.
 	^ builder
 ]
 

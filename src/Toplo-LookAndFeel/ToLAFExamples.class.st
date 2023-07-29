@@ -9,11 +9,11 @@ ToLAFExamples class >> example_ButtonSkins [
 
 	| space button1 button2 button3 button4 button5 pane |
 	space := BlSpace new.
-	space root layout: (BlLinearLayout vertical cellSpacing: 10).
-	
+
+	space root layout: (BlLinearLayout vertical).
+
 	pane := ToPane horizontal.
-	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
-	
+	pane background: Color random.
 	button1 := ToButton skinType: #primary.
 	button1 labelText: 'Primary button'.
 	button2 := ToButton skinType: #default.
@@ -28,8 +28,8 @@ ToLAFExamples class >> example_ButtonSkins [
 	pane addChild: button1; addChild: button2; addChild: button3; addChild: button4; addChild: button5.
 	space root addChild: pane.
 	
-	pane := ToPane horizontal.
-	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+	pane := ToPane horizontal.	
+	pane background: Color random.
 	
 	button1 := ToButton skinType: #primary.
 	button1 labelText: 'Primary button'.
@@ -50,8 +50,8 @@ ToLAFExamples class >> example_ButtonSkins [
 	pane addChild: button1; addChild: button2; addChild: button3; addChild: button4; addChild: button5.
 	space root addChild: pane.
 	
-	pane := ToPane horizontal.
-	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+	pane := ToPane horizontal.	
+	pane background: Color random.
 	
 	button1 := ToButton skinType: #primary.
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
@@ -68,8 +68,8 @@ ToLAFExamples class >> example_ButtonSkins [
 	pane addChild: button1; addChild: button2; addChild: button3; addChild: button4; addChild: button5.
 	space root addChild: pane.
 	
-	pane := ToPane horizontal.
-	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+	pane := ToPane horizontal.	
+	pane background: Color random.
 	
 	button1 := ToButton skinType: #dangerPrimary .
 	button1 labelText: 'Danger primary'.
@@ -85,8 +85,8 @@ ToLAFExamples class >> example_ButtonSkins [
 	pane addChild: button1; addChild: button2; addChild: button3; addChild: button4; addChild: button5.
 	space root addChild: pane.
 	
-	pane := ToPane horizontal.
-	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+	pane := ToPane horizontal.	
+	pane background: Color random.
 	
 	button1 := ToButton skinType: #dangerPrimary .
 	button1 labelText: 'Danger primary'.
@@ -107,8 +107,8 @@ ToLAFExamples class >> example_ButtonSkins [
 	pane addChild: button1; addChild: button2; addChild: button3; addChild: button4; addChild: button5.
 	space root addChild: pane.
 	
-	pane := ToPane horizontal.
-	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+	pane := ToPane horizontal.	
+	pane background: Color random.
 	
 	button1 := ToButton skinType: #dangerPrimary .
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
@@ -125,8 +125,9 @@ ToLAFExamples class >> example_ButtonSkins [
 	space root addChild: pane.
 	
 	space show.
+	space root inspect.
 
-	^space
+	^space 
 ]
 
 { #category : #buttons }

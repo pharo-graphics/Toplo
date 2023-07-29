@@ -39,6 +39,12 @@ ToLAFImageDresser >> isSkinCompatible: aSkin [
 ]
 
 { #category : #'events handling' }
+ToLAFImageDresser >> leftMouseDownEvent: anEvent in: anElement [
+	
+	self leftPressed: anElement event: anEvent
+]
+
+{ #category : #'events handling' }
 ToLAFImageDresser >> leftPressed: anElement event: aBlMouseDownEvent [ 
 	
 	"update main element"

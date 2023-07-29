@@ -9,7 +9,10 @@ Class {
 { #category : #'deprecated private' }
 ToWidgetDresser >> background: aBackground in: anElement [
 
-	self deprecated: 'Look is managed by skins'.
+	self
+		deprecated: 'Please send #background: to the element instead.'
+		transformWith: '`@receiver background: `@aBackground in: `@anElement'
+			-> '`@anElement background: `@aBackground'.
 	anElement
 		disableEventType: BlElementBackgroundChangedEvent 
 		while: [ anElement background: aBackground ]
@@ -18,7 +21,10 @@ ToWidgetDresser >> background: aBackground in: anElement [
 { #category : #'deprecated private' }
 ToWidgetDresser >> border: aBorder in: anElement [
 
-	self deprecated: 'Look is managed by skins'.
+	self
+		deprecated: 'Please send #border: to the element instead.'
+		transformWith: '`@receiver border: `@aBorder in: `@anElement'
+			-> '`@anElement border: `@aBorder'.
 	anElement
 		disableEventType: BlElementBorderChangedEvent
 		while: [ anElement border: aBorder ]

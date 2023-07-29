@@ -75,8 +75,9 @@ ToWidgetSkin >> launchSkinInitializationIn: anElement [
 	| state |
 	anElement isLayoutRequested ifTrue: [ ^ self ].
 	initialized ifTrue: [ ^ self ].
-	state := anElement currentState ifNil: [ ToInitialState new ].
-	anElement switchToState: state.
+
+	state := anElement currentSkinState ifNil: [ ToInitialState new ].
+	anElement switchToSkinState: state.
 	initialized := true.
 
 ]
@@ -84,7 +85,7 @@ ToWidgetSkin >> launchSkinInitializationIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> launchSkinInstallationIn: anElement [
 
-	installed ifTrue: [ ^ self ].
+	installed ifTrue: [ ^ self launchSkinInitializationIn: anElement ].
 	anElement requestLayout.
 	installed := true.
 	self privateLook: ToNullElementLook new.
@@ -94,7 +95,6 @@ ToWidgetSkin >> launchSkinInstallationIn: anElement [
 
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> launchSkinUninstallationIn: anElement [
-
 	installed ifFalse: [ ^ self ].
 	anElement dispatchLookEvent: ToUninstallLookEvent new.
 	self onSkinUninstalledIn: anElement.

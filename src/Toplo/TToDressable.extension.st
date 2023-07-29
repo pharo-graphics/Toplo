@@ -53,23 +53,6 @@ TToDressable >> skinType: aType [
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
-TToDressable >> toTheme [
-
-	^ self userData at: #ToTheme ifAbsent: [
-		  self hasParent
-			  ifTrue: [ self parent toTheme ]
-			  ifFalse: [ ToAbstractTheme current ] 
-	]
-]
-
-{ #category : #'*Toplo-LookAndFeel' }
-TToDressable >> toTheme: aTheme [
-
-	self userData at: #ToTheme put: aTheme.
-	self toThemeChanged
-]
-
-{ #category : #'*Toplo-LookAndFeel' }
 TToDressable >> toThemeChanged [
 
 	self dispatchEvent: ToThemeChangedEvent new.

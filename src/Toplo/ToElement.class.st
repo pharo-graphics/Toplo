@@ -21,7 +21,7 @@ ToElement >> defaultLayoutCommonConstraints [
 	^ BlLayoutCommonConstraints new
 ]
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 ToElement >> initialize [ 
 
 	super initialize.

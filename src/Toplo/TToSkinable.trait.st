@@ -7,14 +7,6 @@ Trait {
 }
 
 { #category : #'t - skin accessing' }
-TToSkinable >> addLook: aLook [
-
-	self checkSkin.
-	privateSkin ifNil: [ ^ self ].
-	privateSkin addLook: aLook
-]
-
-{ #category : #'t - skin accessing' }
 TToSkinable >> checkSkin [
 
 	privateSkin ifNil: [ self initializeSkin ]
@@ -33,12 +25,6 @@ TToSkinable >> initializeSkin [
 ]
 
 { #category : #'t - skin accessing' }
-TToSkinable >> launchSkinInitialization [
-
-	self privateSkin ifNotNil: [ :s | s launchSkinInitializationIn: self ]
-]
-
-{ #category : #'t - skin accessing' }
 TToSkinable >> launchSkinInstallation [
 
 	self privateSkin ifNotNil: [ :s | s launchSkinInstallationIn: self ]
@@ -51,20 +37,8 @@ TToSkinable >> privateSkin [
 ]
 
 { #category : #'t - skin accessing' }
-TToSkinable >> withSkin: aSkin [
+TToSkinable >> privateSkin: aSkin [
 
-	self withoutSkin.
-	privateSkin := aSkin.
-	Toplo useLookAndFeel ifTrue: [ ^ self ].
-	privateSkin ifNotNil: [
-		self addEventHandler: privateSkin.
-		self dispatchSkinChangedEvent ]
-]
-
-{ #category : #'t - skin accessing' }
-TToSkinable >> withoutSkin [
-
-	privateSkin ifNotNil: [
-		self removeEventHandler: privateSkin.
-		privateSkin := nil ]
+	privateSkin = aSkin ifTrue: [ ^ self ].
+	privateSkin := aSkin
 ]

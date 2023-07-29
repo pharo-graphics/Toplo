@@ -120,19 +120,23 @@ ToLAFRadioButtonDresser >> hover: anElement event: anEvent [
 
 { #category : #accessing }
 ToLAFRadioButtonDresser >> initialState: anElement [
-
 	"update main element"
-	self background: self skin background in: anElement.
-	self border: self skin border in: anElement.
-	
+
+	anElement background: self skin background.
+	anElement border: self skin border.
+
 	"update checked/unchecked icon"
 	anElement checked
 		ifTrue: [
-			self skin checkedBorder ifNotNil: [:e | anElement icon innerImage border: e].
-			self skin checkedBackground ifNotNil: [:e | anElement icon innerImage background: e]]
+			self skin checkedBorder ifNotNil: [ :e |
+				anElement icon innerImage border: e ].
+			self skin checkedBackground ifNotNil: [ :e |
+				anElement icon innerImage background: e ] ]
 		ifFalse: [
-			self skin uncheckedBorder ifNotNil: [:e | anElement icon innerImage border: e].
-			self skin uncheckedBackground ifNotNil: [:e | anElement icon innerImage background: e]]
+			self skin uncheckedBorder ifNotNil: [ :e |
+				anElement icon innerImage border: e ].
+			self skin uncheckedBackground ifNotNil: [ :e |
+				anElement icon innerImage background: e ] ]
 ]
 
 { #category : #accessing }

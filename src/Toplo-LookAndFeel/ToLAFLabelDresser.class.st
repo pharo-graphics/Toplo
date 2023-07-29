@@ -41,6 +41,12 @@ ToLAFLabelDresser >> isSkinCompatible: aSkin [
 ]
 
 { #category : #'events handling' }
+ToLAFLabelDresser >> leftMouseDownEvent: anEvent in: anElement [
+
+	self leftPressed: anElement event: anEvent
+]
+
+{ #category : #'events handling' }
 ToLAFLabelDresser >> leftPressed: anElement event: aBlMouseDownEvent [ 
 	
 	"update main element"

@@ -26,8 +26,7 @@ ToAbstractTheme class >> cleanUp: anObject [
 { #category : #current }
 ToAbstractTheme class >> current [
 
-	current ifNil: [ current := ToTheme blue ].
-	^ current
+	^ current ifNil: [ current := ToTheme blue ]
 ]
 
 { #category : #dresser }
@@ -101,12 +100,15 @@ ToAbstractTheme >> installOnSpace: aSpace [
 
 	aSpace ifNil:[ ^ self ].
 
+	"Tag installation complete"
+	aSpace root userData at: #isToThemeInstalled put: true.
+	Toplo useLookAndFeel ifFalse: [ ^ self ].
+	
 	"Update root background color depending theme"
 	self flag:'labordep : this code should not be here but in a dresser dedicated to root element (to be coherent with dresser pattern)'.
 	aSpace root background: self backgroundColor.
 	
-	"Tag installation complete"
-	aSpace root userData at: #isToThemeInstalled put: true
+
 ]
 
 { #category : #colors }

@@ -7,6 +7,12 @@ Trait {
 	#category : #'Toplo-Core'
 }
 
+{ #category : #testing }
+TToElementtWithStateDep classSide >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #'t - state processing' }
 TToElementtWithStateDep >> canSwitchToNextState [ 
 

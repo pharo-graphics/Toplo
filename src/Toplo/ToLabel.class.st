@@ -79,6 +79,12 @@ ToLabel >> defaultPadding [
 		  
 ]
 
+{ #category : #'t - skin accessing' }
+ToLabel >> defaultSkin [ 
+
+	^ ToLabelSkin new type: ToLabelDefaultType new 
+]
+
 { #category : #initialization }
 ToLabel >> defaultText [
 

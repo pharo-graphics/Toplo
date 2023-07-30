@@ -1,16 +1,21 @@
 Class {
-	#name : #ToRadioImageSkin,
+	#name : #ToCheckableButtonIconSkin,
 	#superclass : #ToWidgetSkin,
 	#category : #'Toplo-Widget-Image-Skins'
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToRadioImageSkin >> onSkinInstalledIn: anElement [
+ToCheckableButtonIconSkin >> geometryIn: anElement [
 
-	| borderLook |
+	^ self subclassResponsibility 
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToCheckableButtonIconSkin >> onSkinInstalledIn: anElement [
 		
+	| borderLook |
 	super onSkinInstalledIn: anElement.
-	anElement geometry: (BlCircleGeometry new).
+	anElement geometry: (self geometryIn: anElement).
 	borderLook := ToBorderLook new
 				initialPaint: [ :e | e toTheme colorBorder];
 				hoverPaint: [ :e | e toTheme colorPrimaryHover];
@@ -18,6 +23,6 @@ ToRadioImageSkin >> onSkinInstalledIn: anElement [
 				width: [ :e | e toTheme lineWidth ].
 	self addLook: borderLook.
 
-
+	
 
 ]

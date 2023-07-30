@@ -1097,10 +1097,10 @@ ToSandBox class >> example_ToButtonWithDefaultDangerSkin [
 	button1 label: (ToLabel text: 'Default danger button').
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 	space root addChild: button1.	
-"	space root when: BlElementAddedToSceneGraphEvent do: [  
+	space root when: BlElementAddedToSceneGraphEvent do: [  
 		button1 labelText: 'Default danger button 3'.
 		button1 iconImage: (ToThemeIcons iconSearchOutlined16x16) ].
-"	"button1 inspect."
+	"button1 inspect."
 	space show.
 ]
 
@@ -1138,6 +1138,29 @@ ToSandBox class >> example_ToButtonWithDefaultSkin [
 	pane addChild: skinSwitcher.
 	space root addChild: pane.
 	space root addChild: button1.
+	button1 inspect.
+
+	space show.
+]
+
+{ #category : #button }
+ToSandBox class >> example_ToButtonWithDefaultSkin0 [
+
+
+	| space button1 pane |
+	
+	space := BlSpace new.
+	pane := ToPane horizontal.
+	pane layout cellSpacing: 10.
+	space root layout: (BlLinearLayout vertical cellSpacing: 10).
+
+	button1 := ToButton new.
+	button1 label: (ToLabel text: 'Primary button').
+	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+
+	space root addChild: pane.
+	space root addChild: button1.
+	button1 inspect.
 
 	space show.
 ]
@@ -1191,6 +1214,54 @@ ToSandBox class >> example_ToButtonWithTextSkin [
 	space show.
 
 	^space
+]
+
+{ #category : #label }
+ToSandBox class >> example_ToLabelWithHeadingSkin [
+
+	|  typeArr headingArr listElement themeSwitcher space |
+
+	space := BlSpace new.
+	space root layout: (BlLinearLayout vertical cellSpacing: 10).
+	themeSwitcher := ToToggleButton new
+		      labelText: 'Theme';
+		      beLabelFirst.
+	themeSwitcher switchBarOnElement: ((ToLabel text: ('Dark' asRopedText foreground: Color white)) ).
+	themeSwitcher switchBarOffElement: ((ToLabel text: ('Light' asRopedText foreground: Color black)) ).
+	themeSwitcher when: ToCheckableCheckEvent do: [ :event | space toTheme: ( event current ifTrue: [ToThemeDark new] ifFalse: [ ToThemeLight new]) ].
+	
+	space root addChild: themeSwitcher.
+
+	listElement := ToListElement new nodeFactory: [ :lab |
+		     lab hMatchParent; yourself].
+	listElement background: Color transparent.
+	typeArr := {
+		           ('Default' -> ToLabelDefaultType).
+		           ('Danger' -> ToLabelDangerType).
+		           ('Disabled' -> ToLabelDisabledType).
+		           ('Secondary' -> ToLabelSecondaryType).
+		           ('Success' -> ToLabelSuccessType).
+		           ('Warning' -> ToLabelWarningType) }.
+	headingArr := {
+		              ('H0' -> ToTextH0).
+		              ('H1' -> ToTextH1).
+		              ('H2' -> ToTextH2).
+		              ('H3' -> ToTextH3).
+		              ('H4' -> ToTextH4).
+		              ('H5' -> ToTextH5) }.
+
+	typeArr do: [ :typeAssoc |
+		headingArr do: [ :headingAssoc |
+			| lab skin |
+			skin := ToLabelSkin new
+				        type: typeAssoc value new;
+				        heading: headingAssoc value new;
+				        yourself.
+			lab := ToLabel new withSkin: skin.
+			lab text: typeAssoc key , ' ' , headingAssoc key.
+			listElement data add: lab ] ].
+	space root addChild: listElement.
+	space show
 ]
 
 { #category : #dresser }

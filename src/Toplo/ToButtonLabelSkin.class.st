@@ -1,22 +1,22 @@
 Class {
 	#name : #ToButtonLabelSkin,
-	#superclass : #ToWidgetSkin,
+	#superclass : #ToBasicLabelSkin,
 	#instVars : [
-		'buttonType'
+		'buttonSkin'
 	],
 	#category : #'Toplo-Widget-Label-Skins'
 }
 
 { #category : #accessing }
-ToButtonLabelSkin >> buttonType [
+ToButtonLabelSkin >> buttonSkin [
 
-	^ buttonType
+	^ buttonSkin
 ]
 
 { #category : #accessing }
-ToButtonLabelSkin >> buttonType: aButtonType [
+ToButtonLabelSkin >> buttonSkin: aButtonSkin [
 
-	buttonType := aButtonType
+	buttonSkin := aButtonSkin
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -25,24 +25,8 @@ ToButtonLabelSkin >> onSkinInstalledIn: anElement [
 	| labelLook attrBuilder |
 	super onSkinInstalledIn: anElement.
 	attrBuilder := self textAttributesBuilderFromElement: anElement.
-	labelLook := self buttonType labelLookIn: anElement.
+	labelLook := self buttonSkin labelLookIn: anElement.
 	labelLook attrBuilder: attrBuilder.
-	self addLook: labelLook.
+	self addLook: labelLook
 
-
-
-]
-
-{ #category : #accessing }
-ToButtonLabelSkin >> textAttributesBuilderFromElement: anElement [
-
-	| builder |
-	builder  := BlTextAttributesBuilder new.
-	builder lineSpacing: anElement toTheme lineHeight.
-	builder weight: anElement toTheme fontWeightStrong.
-	builder defaultFontSize: anElement toTheme fontSize.
-	builder defaultFontName: anElement toTheme fontFamilyCode.
-	builder foreground: anElement toTheme colorText.
-
-	^ builder 
 ]

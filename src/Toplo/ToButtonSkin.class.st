@@ -18,14 +18,14 @@ ToButtonSkin class >> type: aButtonType [
 ToButtonSkin >> buttonIconChanged: anEvent [
 
 	anEvent currentTarget icon ifNil: [ ^ self ].
-	anEvent currentTarget icon withSkin: (ToButtonImageSkin new buttonType: self type)	
+	anEvent currentTarget icon withSkin: (ToButtonIconSkin new buttonSkin: self)
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToButtonSkin >> buttonLabelChanged: anEvent [
 
 	anEvent currentTarget label ifNil: [ ^ self ].
-	anEvent currentTarget label withSkin: (ToButtonLabelSkin new buttonType: self type).
+	anEvent currentTarget label withSkin: (ToButtonLabelSkin new buttonSkin: self).
 
 ]
 
@@ -57,6 +57,18 @@ ToButtonSkin >> dashed: aBoolean [
 ToButtonSkin >> eventsToHandle [ 
 
 	^ super eventsToHandle, { ToButtonIconChanged. ToButtonLabelChanged }
+]
+
+{ #category : #accessing }
+ToButtonSkin >> iconLookIn: anElement [
+
+	^ self type iconLookIn: anElement
+]
+
+{ #category : #accessing }
+ToButtonSkin >> labelLookIn: anElement [
+
+	^ self type labelLookIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }

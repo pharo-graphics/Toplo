@@ -7,5 +7,5 @@ Class {
 { #category : #'t - skin accessing' }
 ToRadioButton >> defaultSkin [ 
 
-	^ ToRadioSkin new
+	^ ToRadioButtonSkin new
 ]

@@ -31,6 +31,12 @@ TToSkinable >> launchSkinInstallation [
 ]
 
 { #category : #'t - skin accessing' }
+TToSkinable >> launchSkinUninstallation [
+
+	self privateSkin ifNotNil: [ :s | s launchSkinUninstallationIn: self ]
+]
+
+{ #category : #'t - skin accessing' }
 TToSkinable >> privateSkin [
 
 	^ privateSkin

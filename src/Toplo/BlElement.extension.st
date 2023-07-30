@@ -15,7 +15,6 @@ BlElement >> checkSkinInitialization [
 { #category : #'*Toplo' }
 BlElement >> checkSkinInstallation [
 
-	self isVisibleInSpace ifFalse: [ ^ self ].
 	self launchSkinInstallation.
 	self childrenDo: [ :child | child checkSkinInstallation ]
 ]
@@ -56,6 +55,13 @@ BlElement >> holder [
 
 { #category : #'*Toplo' }
 BlElement >> launchSkinInstallation [
+
+	"Nothing to do at BlElement level to preserve efficienty"
+
+]
+
+{ #category : #'*Toplo' }
+BlElement >> launchSkinUninstallation [
 
 	"Nothing to do at BlElement level to preserve efficienty"
 

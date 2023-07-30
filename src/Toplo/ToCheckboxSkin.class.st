@@ -18,7 +18,7 @@ ToCheckboxSkin >> checkedImageIn: anElement [
 { #category : #accessing }
 ToCheckboxSkin >> iconSkin [
 
-	^ ToCheckboxImageSkin new.
+	^ ToCheckboxIconSkin new.
 ]
 
 { #category : #accessing }

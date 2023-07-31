@@ -3,8 +3,7 @@ Class {
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'look',
-		'installed',
-		'initialized'
+		'installStep'
 	],
 	#category : #'Toplo-Core-Theme'
 }
@@ -51,40 +50,53 @@ ToWidgetSkin >> eventsToHandle [
 ToWidgetSkin >> initialize [
 
 	super initialize.
-	installed := false.
-	initialized := false.
+	self markAsNotInstalled.
 	self privateLook: ToNullElementLook new.
 	
 ]
 
-{ #category : #accessing }
-ToWidgetSkin >> initialized [
+{ #category : #'api - install/uninstall  hook' }
+ToWidgetSkin >> initializedLevel [
 
-	^ initialized 
+	^ 2
+
 ]
 
-{ #category : #accessing }
-ToWidgetSkin >> installed [
+{ #category : #'api - install/uninstall  hook' }
+ToWidgetSkin >> installedLevel [
 
-	^ installed
+	^ 1
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToWidgetSkin >> isInitialized [
+
+	^ installStep >= self initializedLevel 
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToWidgetSkin >> isInstalled [
+
+	^ installStep >= self installedLevel 
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> launchSkinInitializationIn: anElement [
 
 	| state |
-	initialized ifTrue: [ ^ self ].
+	self isInitialized ifTrue: [ ^ self ].
+	self markAsInitialized.
 	state := anElement currentSkinState ifNil: [ ToInitialState new ].
 	anElement switchToSkinState: state.
-	initialized := true.
 
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> launchSkinInstallationIn: anElement [
 
-	installed ifTrue: [ ^ self launchSkinInitializationIn: anElement ].
-	installed := true.
+	self isInitialized ifTrue: [ ^ self ].
+	self isInstalled ifTrue: [ ^ self launchSkinInitializationIn: anElement ].
+	self markAsInstalled.
 	self privateLook: ToNullElementLook new.
 	self onSkinInstalledIn: anElement.
 	anElement dispatchLookEvent: ToInstallLookEvent new
@@ -92,19 +104,43 @@ ToWidgetSkin >> launchSkinInstallationIn: anElement [
 
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> launchSkinUninstallationIn: anElement [
-	installed ifFalse: [ ^ self ].
+
+	self isInstalled ifFalse: [ ^ self ].
 	anElement dispatchLookEvent: ToUninstallLookEvent new.
 	self onSkinUninstalledIn: anElement.
 	self privateLook: ToNullElementLook new.
-	installed := false.
-	initialized := false
-
+	self markAsNotInstalled 
 ]
 
 { #category : #accessing }
 ToWidgetSkin >> look [
 
 	^ look
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToWidgetSkin >> markAsInitialized [
+
+	installStep := self initializedLevel
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToWidgetSkin >> markAsInstalled [
+
+	installStep := self installedLevel 
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToWidgetSkin >> markAsNotInstalled [
+
+	installStep := 0
+]
+
+{ #category : #initialization }
+ToWidgetSkin >> notInstalledMark [
+
+	^ #notInstalled
 ]
 
 { #category : #'api - install/uninstall  hook' }

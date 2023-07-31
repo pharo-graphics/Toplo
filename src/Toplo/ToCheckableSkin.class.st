@@ -29,7 +29,7 @@ ToCheckableSkin >> checkedImageIn: anElement [
 { #category : #'api - accessing' }
 ToCheckableSkin >> eventsToHandle [ 
 
-	^ super eventsToHandle, { ToButtonIconChanged. ToButtonLabelChanged }
+	^ super eventsToHandle, { ToButtonIconChangedEvent. ToButtonLabelChangedEvent }
 ]
 
 { #category : #accessing }

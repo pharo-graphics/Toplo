@@ -56,7 +56,7 @@ ToButtonSkin >> dashed: aBoolean [
 { #category : #'api - accessing' }
 ToButtonSkin >> eventsToHandle [ 
 
-	^ super eventsToHandle, { ToButtonIconChanged. ToButtonLabelChanged }
+	^ super eventsToHandle, { ToButtonIconChangedEvent. ToButtonLabelChangedEvent }
 ]
 
 { #category : #accessing }

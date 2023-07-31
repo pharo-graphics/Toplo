@@ -2,6 +2,7 @@ Class {
 	#name : #ToWidgetSkin,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
+		'element',
 		'look',
 		'installStep'
 	],
@@ -146,7 +147,8 @@ ToWidgetSkin >> notInstalledMark [
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> onInstalledIn: anElement [
 
-	super onInstalledIn: anElement
+	super onInstalledIn: anElement.
+	element := anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -166,6 +168,7 @@ ToWidgetSkin >> onSkinUninstalledIn: anElement [
 ToWidgetSkin >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
+	element := nil.
 	look := nil
 ]
 

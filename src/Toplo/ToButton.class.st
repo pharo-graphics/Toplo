@@ -17,7 +17,7 @@ ToButton >> initialize [
 
 	super initialize.
 	self whenIconChangedDo: [ :new :prev |
-		self dispatchEvent: (ToButtonIconChanged current: new previous: prev) ].
+		self dispatchEvent: (ToButtonIconChangedEvent current: new previous: prev) ].
 	self whenLabelChangedDo: [ :new :prev |
-		self dispatchEvent: (ToButtonLabelChanged current: new previous: prev) ]
+		self dispatchEvent: (ToButtonLabelChangedEvent current: new previous: prev) ]
 ]

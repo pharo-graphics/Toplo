@@ -1,5 +1,5 @@
 Class {
-	#name : #ToElementPropertyChanged,
+	#name : #ToElementPropertyChangedEvent,
 	#superclass : #BlEvent,
 	#instVars : [
 		'previous',
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToElementPropertyChanged class >> current: anObject previous: aPreviousObject [
+ToElementPropertyChangedEvent class >> current: anObject previous: aPreviousObject [
 
 	^ self new
 		  current: anObject;
@@ -18,25 +18,25 @@ ToElementPropertyChanged class >> current: anObject previous: aPreviousObject [
 ]
 
 { #category : #accessing }
-ToElementPropertyChanged >> current [
+ToElementPropertyChangedEvent >> current [
 
 	^ current
 ]
 
 { #category : #accessing }
-ToElementPropertyChanged >> current: anObject [
+ToElementPropertyChangedEvent >> current: anObject [
 
 	current := anObject
 ]
 
 { #category : #accessing }
-ToElementPropertyChanged >> previous [
+ToElementPropertyChangedEvent >> previous [
 
 	^ previous
 ]
 
 { #category : #accessing }
-ToElementPropertyChanged >> previous: anObject [
+ToElementPropertyChangedEvent >> previous: anObject [
 
 	previous := anObject
 ]

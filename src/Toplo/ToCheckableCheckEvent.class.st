@@ -1,5 +1,5 @@
 Class {
 	#name : #ToCheckableCheckEvent,
-	#superclass : #ToElementPropertyChanged,
+	#superclass : #ToElementPropertyChangedEvent,
 	#category : #'Toplo-Widget-Button'
 }

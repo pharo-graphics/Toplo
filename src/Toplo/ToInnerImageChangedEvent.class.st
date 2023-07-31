@@ -1,6 +1,6 @@
 Class {
 	#name : #ToInnerImageChangedEvent,
-	#superclass : #ToElementPropertyChanged,
+	#superclass : #ToElementPropertyChangedEvent,
 	#category : #'Toplo-Widget-Image'
 }
 

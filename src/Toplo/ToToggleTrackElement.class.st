@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'switchBar'
 	],
-	#category : #'Toplo-Widget-Button-Toggle'
+	#category : #'Toplo-Widget-Toggle'
 }
 
 { #category : #sliding }

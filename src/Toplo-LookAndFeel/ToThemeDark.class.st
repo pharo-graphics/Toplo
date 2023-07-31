@@ -56,7 +56,7 @@ ToThemeDark >> colorErrorBg [
 { #category : #colors }
 ToThemeDark >> colorText [
 	
-	^ Color r: 255 g: 255 b: 255 alpha: 0.88 
+	^ Color r: 255 g: 255 b: 255 "alpha: 0.88 "
 ]
 
 { #category : #colors }

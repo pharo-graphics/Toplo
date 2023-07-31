@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToButton,
 	#traits : 'TToCheckable',
 	#classTraits : 'TToCheckable classTrait',
-	#category : #'Toplo-Widget-Button-Toggle'
+	#category : #'Toplo-Widget-Toggle'
 }
 
 { #category : #'t - initialization dresser' }

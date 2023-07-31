@@ -1,8 +1,17 @@
 Class {
 	#name : #ToToggleSkin,
 	#superclass : #ToWidgetSkin,
-	#category : #'Toplo-Widget-Button-Toggle-Skins'
+	#category : #'Toplo-Widget-Toggle-Skins'
 }
+
+{ #category : #accessing }
+ToToggleSkin >> labelLookIn: anElement [
+
+	| labelLook |
+	labelLook := ToLabelTextLook new.
+	labelLook initialColor: anElement toTheme colorTextLightSolid.
+	^ labelLook
+]
 
 { #category : #'api - install/uninstall  hook' }
 ToToggleSkin >> onSkinInstalledIn: anElement [

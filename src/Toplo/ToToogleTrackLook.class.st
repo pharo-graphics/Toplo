@@ -6,7 +6,7 @@ Class {
 		'animationDuration',
 		'animate'
 	],
-	#category : #'Toplo-Widget-Button-Toggle-Skins'
+	#category : #'Toplo-Widget-Toggle-Skins'
 }
 
 { #category : #accessing }

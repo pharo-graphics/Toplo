@@ -7,12 +7,6 @@ Trait {
 }
 
 { #category : #'t - skin accessing' }
-TToSkinable >> checkSkin [
-
-	privateSkin ifNil: [ self initializeSkin ]
-]
-
-{ #category : #'t - skin accessing' }
 TToSkinable >> defaultSkin [
 
 	^  nil

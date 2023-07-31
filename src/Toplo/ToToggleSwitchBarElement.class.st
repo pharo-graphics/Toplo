@@ -9,7 +9,7 @@ Class {
 		'onElement',
 		'button'
 	],
-	#category : #'Toplo-Widget-Button-Toggle'
+	#category : #'Toplo-Widget-Toggle'
 }
 
 { #category : #accessing }

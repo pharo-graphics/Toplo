@@ -16,12 +16,6 @@ ToElement class >> skinType: aType [
 ]
 
 { #category : #initialization }
-ToElement >> defaultLayoutCommonConstraints [
-
-	^ BlLayoutCommonConstraints new
-]
-
-{ #category : #'as yet unclassified' }
 ToElement >> initialize [ 
 
 	super initialize.

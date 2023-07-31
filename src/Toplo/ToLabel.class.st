@@ -82,7 +82,7 @@ ToLabel >> defaultPadding [
 { #category : #'t - skin accessing' }
 ToLabel >> defaultSkin [ 
 
-	^ ToLabelSkin new type: ToLabelDefaultType new 
+	^ ToLabelSkin new
 ]
 
 { #category : #initialization }

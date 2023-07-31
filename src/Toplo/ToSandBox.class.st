@@ -3508,8 +3508,8 @@ ToSandBox class >> example_toggle2 [
 	th := ToToggleButton new
 		      labelText: 'Theme';
 		      beLabelFirst.
-	th switchBarOnElement: ((ToLabel text: ('Dark' asRopedText foreground: Color white)) ).
-	th switchBarOffElement: ((ToLabel text: ('Light' asRopedText foreground: Color black)) ).
+	th switchBarOnElement: ((ToLabel text: 'Dark') withSkin: (ToButtonLabelSkin new buttonSkin: th privateSkin)).
+	th switchBarOffElement: ((ToLabel text: 'Light') "withSkin: (ToButtonLabelSkin new buttonSkin: th privateSkin)").
 	th when: ToCheckableCheckEvent do: [ :event | event current traceCr ].
 	th checked: true.
 	th openInSpace

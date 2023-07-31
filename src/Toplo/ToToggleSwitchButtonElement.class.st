@@ -5,7 +5,7 @@ Class {
 		'offElement',
 		'onElement'
 	],
-	#category : #'Toplo-Widget-Button-Toggle'
+	#category : #'Toplo-Widget-Toggle'
 }
 
 { #category : #initialization }

@@ -1,17 +1,29 @@
 Class {
 	#name : #ToNotebookTest,
 	#superclass : #BlParameterizedHostTest,
+	#instVars : [
+		'notebook'
+	],
 	#category : #'Toplo-Incubator'
 }
+
+{ #category : #running }
+ToNotebookTest >> setUp [
+
+	| space |
+	super setUp.
+
+	space := self newTestingSpace.
+	notebook := ToNotebook new.
+	space root addChild: notebook.
+]
 
 { #category : #tests }
 ToNotebookTest >> testBodyFactoryIsValuedOnSelect [
 
-	| aNotebook redPage greenPage redCount greenCount |
-	aNotebook := ToNotebook new.
-
+	| redPage greenPage redCount greenCount |
 	redCount := 0.
-	redPage := aNotebook
+	redPage := notebook
 		addPageTitle: 'Red'
 		bodyFactory: [
 			redCount := redCount + 1.
@@ -20,7 +32,7 @@ ToNotebookTest >> testBodyFactoryIsValuedOnSelect [
 				yourself ].
 
 	greenCount := 0.
-	greenPage := aNotebook
+	greenPage := notebook
 		addPageTitle: 'Green'
 		bodyFactory: [
 			greenCount := greenCount + 1.
@@ -28,8 +40,6 @@ ToNotebookTest >> testBodyFactoryIsValuedOnSelect [
 				text: (greenCount asRopedText foreground: Color green muchDarker);
 				yourself ].
 	
-	self newTestingSpace root addChild: aNotebook.
-	self newTestingSpace show.
 	self waitTestingSpaces.
 	self assert: redCount equals: 1.
 	self assert: greenCount equals: 0.
@@ -48,30 +58,26 @@ ToNotebookTest >> testBodyFactoryIsValuedOnSelect [
 { #category : #tests }
 ToNotebookTest >> testClosePage [
 
-	| aNotebook redPage greenPage |
-	aNotebook := ToNotebook new.
-	
-	redPage := aNotebook
+	| redPage greenPage |
+	redPage := notebook
 		addPageTitle: 'Red'
 		body: (BlElement new
-			background: Color red darker;
+			background: Color red;
 			yourself).
 	redPage isCloseable: true.
 
-	greenPage := aNotebook
+	greenPage := notebook
 		addPageTitle: 'Green'
 		body: (BlElement new
-			background: Color green darker;
+			background: Color green;
 			yourself).
 	
-	self newTestingSpace root addChild: aNotebook.
-	self newTestingSpace show.
 	self waitTestingSpaces.
-	self assert: (aNotebook pages includes: redPage).
+	self assert: (notebook pages includes: redPage).
 
 	BlSpace simulateClickOn: redPage closeButton.
 	self waitTestingSpaces.
-	self deny: (aNotebook pages includes: redPage).
+	self deny: (notebook pages includes: redPage).
 	self assert: greenPage isSelected.
 
 ]
@@ -79,36 +85,28 @@ ToNotebookTest >> testClosePage [
 { #category : #tests }
 ToNotebookTest >> testDefaultBodyIsTransparent [
 
-	| aNotebook aPage |
-	aNotebook := ToNotebook new.
-	aPage := aNotebook addPageTitle: '1'.
+	| aPage |
+	aPage := notebook addPageTitle: '1'.
 
-	self newTestingSpace root addChild: aNotebook.
-	self newTestingSpace show.
 	self waitTestingSpaces.
-
 	self assert: aPage bodyElement background isTransparent
 ]
 
 { #category : #tests }
 ToNotebookTest >> testSelectPage [
 
-	| aNotebook orangePage greenPage |
-	aNotebook := ToNotebook new.
-	
-	orangePage := aNotebook
+	| orangePage greenPage |
+	orangePage := notebook
 		addPageTitle: 'Orange'
 		body: (BlElement new
-			background: Color orange darker;
+			background: Color orange;
 			yourself).
-	greenPage := aNotebook
+	greenPage := notebook
 		addPageTitle: 'Green'
 		body: (BlElement new
-			background: Color green darker;
+			background: Color green;
 			yourself).
 	
-	self newTestingSpace root addChild: aNotebook.
-	self newTestingSpace show.
 	self waitTestingSpaces.
 	self assert: orangePage isSelected.
 	self deny: greenPage isSelected.

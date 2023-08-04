@@ -5,25 +5,22 @@ Class {
 }
 
 { #category : #tabs }
-ToNotebookExamples class >> example_closeableTab [
+ToNotebookExamples class >> example_closeableTabs [
 
-	| space notebook redPage greenPage |
+	| space notebook |
 	space := BlSpace new.
 	notebook := ToNotebook new.
 	space root addChild: notebook.
-	redPage := notebook
-		addPageTitle: 'Red'
-		body: (BlElement new
-			background: Color red;
-			yourself).
-	redPage isCloseable: true.
 
-	greenPage := notebook
-		addPageTitle: 'Green'
-		body: (BlElement new
-			background: Color green;
-			yourself).
-	greenPage isCloseable: true.
+	(Color wheel: 5) withIndexDo: [ :eachColor :index |
+		| aPage |
+		aPage := notebook
+			addPageTitle: 'Page ', index asString
+			body: (BlElement new
+				background: eachColor;
+				yourself).
+		aPage isCloseable: true ].
+
 
 	space show
 ]

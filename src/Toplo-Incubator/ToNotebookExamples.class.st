@@ -5,6 +5,30 @@ Class {
 }
 
 { #category : #tabs }
+ToNotebookExamples class >> example_closeableTab [
+
+	| space notebook redPage greenPage |
+	space := BlSpace new.
+	notebook := ToNotebook new.
+	space root addChild: notebook.
+	redPage := notebook
+		addPageTitle: 'Red'
+		body: (BlElement new
+			background: Color red;
+			yourself).
+	redPage isCloseable: true.
+
+	greenPage := notebook
+		addPageTitle: 'Green'
+		body: (BlElement new
+			background: Color green;
+			yourself).
+	greenPage isCloseable: true.
+
+	space show
+]
+
+{ #category : #tabs }
 ToNotebookExamples class >> example_tabsWith2Pages [
 
 	| aNotebook redPage greenPage redCount greenCount |

@@ -129,7 +129,9 @@ ToNotebook >> refreshOnPageIsCloseableChange: aPage [
 			| but |
 			but := ToButton new.
 			but icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #windowClose)).
-			but whenClickedDo: [ self removePage: aPage ].
+			but whenClickedDo: [ :evt |
+				evt consumed: true.
+				self removePage: aPage ].
 			aPage titleElement addChild: but as: #closeButton ]
 		ifFalse: [
 			aPage titleElement removeChildNamed: #closeButton ]
@@ -157,17 +159,20 @@ ToNotebook >> removeBodyElement [
 { #category : #api }
 ToNotebook >> removePage: aPage [
 
-	aPage isSelected ifTrue: [
-		aPage isSelected: false ].
-
+	| pageIndex |
+	aPage isSelected ifTrue: [ 
+		pageIndex := pages indexOf: aPage ].
 	header removeChild: aPage titleElement.
-	
-	self flag: #todo. "Unsubscribe from aPage"
-
+	aPage isSelected: false.
 	pages remove: aPage.
+	self flag: #todo. "Unsubscribe from aPage"
+	
+	pageIndex ifNil: [ ^self ].
+	pages ifEmpty: [ ^self ].
 
-	(selectedPage isNil and: [ pages isNotEmpty ])
-		ifTrue: [ pages last isSelected: true ]
+	((pages size < pageIndex)
+		ifTrue: [ pages last ]
+		ifFalse: [ pages at: pageIndex ]) isSelected: true
 ]
 
 { #category : #api }

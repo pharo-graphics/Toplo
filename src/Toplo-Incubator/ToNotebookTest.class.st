@@ -56,7 +56,28 @@ ToNotebookTest >> testBodyFactoryIsValuedOnSelect [
 ]
 
 { #category : #tests }
-ToNotebookTest >> testClosePage [
+ToNotebookTest >> testCloseLastPage [
+
+	| redPage |
+	redPage := notebook
+		addPageTitle: 'Red'
+		body: (BlElement new
+			background: Color red;
+			yourself).
+	redPage isCloseable: true.
+	
+	self waitTestingSpaces.
+	self assert: (notebook pages includes: redPage).
+	self assert: redPage isSelected.
+
+	BlSpace simulateClickOn: redPage closeButton.
+	self waitTestingSpaces.
+	self assert: notebook pages isEmpty.
+
+]
+
+{ #category : #tests }
+ToNotebookTest >> testCloseSelectedPage [
 
 	| redPage greenPage |
 	redPage := notebook
@@ -74,11 +95,41 @@ ToNotebookTest >> testClosePage [
 	
 	self waitTestingSpaces.
 	self assert: (notebook pages includes: redPage).
+	self assert: redPage isSelected.
 
 	BlSpace simulateClickOn: redPage closeButton.
 	self waitTestingSpaces.
 	self deny: (notebook pages includes: redPage).
 	self assert: greenPage isSelected.
+
+]
+
+{ #category : #tests }
+ToNotebookTest >> testCloseUnselectedPage [
+
+	| redPage greenPage |
+	redPage := notebook
+		addPageTitle: 'Red'
+		body: (BlElement new
+			background: Color red;
+			yourself).
+	redPage isCloseable: true.
+
+	greenPage := notebook
+		addPageTitle: 'Green'
+		body: (BlElement new
+			background: Color green;
+			yourself).
+	greenPage isCloseable: true.
+	
+	self waitTestingSpaces.
+	self assert: (notebook pages includes: redPage).
+	self assert: redPage isSelected.
+
+	BlSpace simulateClickOn: greenPage closeButton.
+	self waitTestingSpaces.
+	self deny: (notebook pages includes: greenPage).
+	self assert: redPage isSelected.
 
 ]
 

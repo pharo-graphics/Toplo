@@ -1,6 +1,6 @@
 Class {
-	#name : #ToPairSubmenuColumnStrategy,
-	#superclass : #ToPairColumnStrategy,
+	#name : #ToTripletSubmenuColumnStrategy,
+	#superclass : #ToTripletColumnStrategy,
 	#instVars : [
 		'rightIcon',
 		'fill'
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #layout }
-ToPairSubmenuColumnStrategy >> childrenIn: aSubmenu [
+ToTripletSubmenuColumnStrategy >> childrenIn: aSubmenu [
 
 	^ (super childrenIn: aSubmenu) , { 
 		  self privateJustificationFill.
@@ -17,7 +17,7 @@ ToPairSubmenuColumnStrategy >> childrenIn: aSubmenu [
 ]
 
 { #category : #accessing }
-ToPairSubmenuColumnStrategy >> privateJustificationFill [
+ToTripletSubmenuColumnStrategy >> privateJustificationFill [
 
 	^ fill ifNil: [ 
 		  fill := ToElement new
@@ -26,13 +26,13 @@ ToPairSubmenuColumnStrategy >> privateJustificationFill [
 ]
 
 { #category : #accessing }
-ToPairSubmenuColumnStrategy >> privateJustificationFillId [
+ToTripletSubmenuColumnStrategy >> privateJustificationFillId [
 
 	^ #'justification'
 ]
 
 { #category : #accessing }
-ToPairSubmenuColumnStrategy >> rightIcon [
+ToTripletSubmenuColumnStrategy >> rightIcon [
 
 	^ rightIcon ifNil: [ 
 		  rightIcon := (ToImage inner: self rightIconImage)
@@ -45,7 +45,7 @@ ToPairSubmenuColumnStrategy >> rightIcon [
 ]
 
 { #category : #accessing }
-ToPairSubmenuColumnStrategy >> rightIconImage [
+ToTripletSubmenuColumnStrategy >> rightIconImage [
 
 	^ ToThemeIcons iconPlainTriangle5x9
 ]

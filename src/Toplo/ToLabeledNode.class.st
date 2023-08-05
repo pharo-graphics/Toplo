@@ -1,15 +1,29 @@
 Class {
 	#name : #ToLabeledNode,
-	#superclass : #ToPairedNode,
-	#traits : 'TToLabeledIcon',
-	#classTraits : 'TToLabeledIcon classTrait',
+	#superclass : #ToWidget,
+	#traits : 'TToLabelAndIconWithSkinHolder + TToClickable',
+	#classTraits : 'TToLabelAndIconWithSkinHolder classTrait + TToClickable classTrait',
 	#category : #'Toplo-Core-Node'
 }
+
+{ #category : #'t - click behavior' }
+ToLabeledNode >> client [
+
+	^ self  
+]
 
 { #category : #'t - initialization dresser' }
 ToLabeledNode >> defaultDresser [ 
 
 	^ ToLabeledNodeDresser new
+]
+
+{ #category : #initialization }
+ToLabeledNode >> initialize [
+
+	self class initializeSlots: self.
+	super initialize.
+	self initializeLabeledIconWithSkin
 ]
 
 { #category : #'private-change' }

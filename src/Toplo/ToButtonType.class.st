@@ -88,6 +88,9 @@ ToButtonType >> onSkinInstalled: aSkin in: anElement [
 			 left: anElement toTheme paddingContentHorizontal
 			 bottom: anElement toTheme paddingXS / 2
 			 right: anElement toTheme paddingContentHorizontal).
+	" remove the background and the border in case the button type is changing "
+	anElement background: Color transparent.
+	anElement border: BlBorder empty.
 	backgroundLook := self backgroundLookIn: anElement.
 	backgroundLook ifNotNil: [ aSkin addLook: backgroundLook ].
 	borderLook := self borderLookIn: anElement.

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToComboBoxHead,
-	#superclass : #ToPairedButton,
+	#superclass : #ToTripletButton,
 	#category : #'Toplo-Widget-ComboBox'
 }
 

@@ -120,9 +120,9 @@ ToSandBox class >> example_ComboBoxWithColors [
 	win := ToInnerWindow new title: 'Combo box Example'.
 	combo := ToComboBox new.
 	combo nodeFactory: [ :color |
-		ToPairedNode new
+		ToTripletNode new
 			padding: (BlInsets all: 8);
-			"first: (ToElement new size: 25@25; yourself);"second:
+			replaceSecondWith: 
 				(ToElement new
 					 height: 30;
 					 hMatchParent;
@@ -940,7 +940,6 @@ ToSandBox class >> example_ToButtonSkins [
 
 	| space pane themeSwitcher butBuilder buttonSpecsBuilder |
 	space := BlSpace new.
-	space inspect.
 	
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 
@@ -1138,7 +1137,6 @@ ToSandBox class >> example_ToButtonWithDefaultSkin [
 	pane addChild: skinSwitcher.
 	space root addChild: pane.
 	space root addChild: button1.
-	button1 inspect.
 
 	space show.
 ]
@@ -1160,7 +1158,6 @@ ToSandBox class >> example_ToButtonWithDefaultSkin0 [
 
 	space root addChild: pane.
 	space root addChild: button1.
-	button1 inspect.
 
 	space show.
 ]
@@ -1172,7 +1169,6 @@ ToSandBox class >> example_ToButtonWithPrimarySkin [
 	| space button1 |
 	
 	space := BlSpace new.
-	space inspect.
 	button1 := ToButton new withSkin: (ToButtonSkin new type: ToButtonPrimaryType new).
 	button1 label: (ToLabel text: 'Primary button').
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
@@ -1445,8 +1441,8 @@ ToSandBox class >> example_menu1 [
 	menu addItem: (ToButtonMenuItem new
 			 label: (ToLabel new text: 'Open file');
 			 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #config));
-			 withExtra: ((ToLabel text: 'Cmd-f') margin: (BlInsets left: 5); matchParent; yourself)).
-	menu addItem: (ToButtonMenuItem new label: (ToLabel new text: 'Export'); withExtra: ((ToLabel text: 'Cmd-e') margin: (BlInsets left: 5); yourself)).
+			 third: ((ToLabel text: 'Cmd-f') margin: (BlInsets left: 5); matchParent; yourself)).
+	menu addItem: (ToButtonMenuItem new label: (ToLabel new text: 'Export'); third: ((ToLabel text: 'Cmd-e') margin: (BlInsets left: 5); yourself)).
 	menu addSeparator.
 
 	sub := ToMenu new label: (ToLabel new text: 'Save All').
@@ -2388,7 +2384,7 @@ ToSandBox class >> example_toButtonWithIconAndTextAndExtra [
 	but icon: icon.
 	but effect: (BlBlurAboveEffect new radius: 20).
 	but when: BlPrimaryClickEvent do: [ :event | event currentTarget traceCr ].
-	but withExtra: ((ToLabel text: 'extra') margin: (BlInsets left: 5)).
+	but third: ((ToLabel text: 'extra') margin: (BlInsets left: 5)).
 
 	space := BlSpace new.
 	space root addChild: but.
@@ -3316,7 +3312,7 @@ ToSandBox class >> example_toMultiStateWithLabel [
 ToSandBox class >> example_toPairDirectionChanger [
 
 	| but space iconImage |
-	but := ToPairedElement new.
+	but := ToTripletElement new.
 	but layout cellSpacing: 4.
 	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).
@@ -3325,7 +3321,7 @@ ToSandBox class >> example_toPairDirectionChanger [
 		             size: 20 @ 20;
 		             background: Color lightGray;
 		             yourself.
-	but second: iconImage.
+	but replaceSecondWith: iconImage.
 	but when: BlClickEvent do: [ 
 		but direction: but direction inverted.
 		but requestLayout ].
@@ -3338,7 +3334,7 @@ ToSandBox class >> example_toPairDirectionChanger [
 ToSandBox class >> example_toPairJustified1 [
 
 	| but space iconImage |
-	but := ToPairedElement new.
+	but := ToTripletElement new.
 	but layout cellSpacing: 4.
 	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).
@@ -3361,7 +3357,7 @@ ToSandBox class >> example_toPairJustified1 [
 ToSandBox class >> example_toPairJustified2 [
 
 	| but space iconImage |
-	but := ToPairedElement new.
+	but := ToTripletElement new.
 	but layout cellSpacing: 4.
 	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).
@@ -3384,7 +3380,7 @@ ToSandBox class >> example_toPairJustified2 [
 ToSandBox class >> example_toPairOrientationChanger [
 
 	| but space iconImage |
-	but := ToPairedElement new.
+	but := ToTripletElement new.
 	but layout cellSpacing: 4.
 	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).
@@ -3393,7 +3389,7 @@ ToSandBox class >> example_toPairOrientationChanger [
 		             size: 20 @ 20;
 		             background: Color lightGray;
 		             yourself.
-	but second: iconImage.
+	but replaceSecondWith: iconImage.
 	but when: BlClickEvent do: [ but orientation: but orientation inverted ].
 	space := BlSpace new.
 	space root addChild: but.
@@ -3404,7 +3400,7 @@ ToSandBox class >> example_toPairOrientationChanger [
 ToSandBox class >> example_toPairWithColumn1 [
 
 	| but space iconImage |
-	but := ToPairedElement new.
+	but := ToTripletElement new.
 	but layout cellSpacing: 4.
 	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).
@@ -3426,7 +3422,7 @@ ToSandBox class >> example_toPairWithColumn1 [
 ToSandBox class >> example_toPairWithColumn2 [
 
 	| but space iconImage |
-	but := ToPairedElement new.
+	but := ToTripletElement new.
 	but layout cellSpacing: 4.
 	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).

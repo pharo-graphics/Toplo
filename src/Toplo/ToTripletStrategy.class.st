@@ -1,38 +1,38 @@
 Class {
-	#name : #ToPairStrategy,
+	#name : #ToTripletStrategy,
 	#superclass : #Object,
-	#category : #'Toplo-Core-Pair'
+	#category : #'Toplo-Core-Triplet'
 }
 
 { #category : #layout }
-ToPairStrategy >> childrenIn: aPair [
+ToTripletStrategy >> childrenIn: aPair [
 
 	^ {
 		  aPair first.
 		  aPair second.
-		  aPair extra } select: #notNil
+		  aPair third } select: #notNil
 ]
 
 { #category : #accessing }
-ToPairStrategy >> columnWidth [
+ToTripletStrategy >> columnWidth [
 
 	^ 0
 ]
 
 { #category : #accessing }
-ToPairStrategy >> isJustified [
+ToTripletStrategy >> isJustified [
 
 	^ false
 ]
 
 { #category : #layout }
-ToPairStrategy >> onMeasure: anExtentMeasurementSpec in: aPair [
+ToTripletStrategy >> onMeasure: anExtentMeasurementSpec in: aPair [
 
 	self subclassResponsibility 
 ]
 
 { #category : #layout }
-ToPairStrategy >> updateChildrenIn: anElement [
+ToTripletStrategy >> updateChildrenIn: anElement [
 
 	| subs |
 	

@@ -18,33 +18,26 @@ ToWidgetSkin >> addLook: aLook [
 ]
 
 { #category : #'event handling' }
-ToWidgetSkin >> elementAddedToSceneGraphEvent: anEvent [
-
-	self whenAddedToSpace: anEvent in: anEvent currentTarget
-]
-
-{ #category : #'event handling' }
 ToWidgetSkin >> elementLookEvent: anEvent [
 
 	anEvent sendTo: self look
 ]
 
 { #category : #'event handling' }
-ToWidgetSkin >> elementRemovedFromSceneGraphEvent: anEvent [
-
-	self whenRemovedFromSpace: anEvent in: anEvent currentTarget
-]
-
-{ #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> elementSkinChangedEvent: anEvent [
 
-	self launchSkinUninstallationIn: anEvent target
+	"self launchSkinInstallationIn: anEvent currentTarget"
 ]
 
 { #category : #'api - accessing' }
 ToWidgetSkin >> eventsToHandle [
 
-	^ { ToThemeChangedEvent. ToElementSkinChangedEvent. BlElementAddedToSceneGraphEvent. BlElementRemovedFromSceneGraphEvent . ToElementLookEvent }
+	^ {
+		  ToThemeChangedEvent.
+		  ToElementSkinChangedEvent.
+		  ToPropertyValueChangedEvent.
+		  ToPropertySkinChangedEvent.
+		  ToElementLookEvent }
 ]
 
 { #category : #initialization }
@@ -138,17 +131,10 @@ ToWidgetSkin >> markAsNotInstalled [
 	installStep := 0
 ]
 
-{ #category : #initialization }
-ToWidgetSkin >> notInstalledMark [
-
-	^ #notInstalled
-]
-
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> onInstalledIn: anElement [
 
-	super onInstalledIn: anElement.
-	element := anElement
+	super onInstalledIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -168,7 +154,6 @@ ToWidgetSkin >> onSkinUninstalledIn: anElement [
 ToWidgetSkin >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
-	element := nil.
 	look := nil
 ]
 
@@ -176,6 +161,18 @@ ToWidgetSkin >> onUninstalledIn: anElement [
 ToWidgetSkin >> privateLook: aLook [
 
 	look := aLook
+]
+
+{ #category : #'event handling' }
+ToWidgetSkin >> propertySkinChangedEvent: anEvent [
+
+	self updateSkinInProperty: anEvent current named: anEvent propertyName
+]
+
+{ #category : #'event handling' }
+ToWidgetSkin >> propertyValueChangedEvent: anEvent [
+
+	self updateSkinInProperty: anEvent current named: anEvent propertyName
 ]
 
 { #category : #removing }
@@ -192,18 +189,12 @@ ToWidgetSkin >> themeChangedEvent: anEvent [
 	self launchSkinUninstallationIn: anEvent currentTarget
 ]
 
-{ #category : #'api - install/uninstall  hook' }
-ToWidgetSkin >> whenAddedToSpace: anEvent in: anElement [
+{ #category : #'event handling' }
+ToWidgetSkin >> updateSkinInProperty: aSkinable named: aString [
 
-	"self launchSkinInstallationIn: anElement"
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToWidgetSkin >> whenRemovedFromSpace: anEvent in: anElement [
-
-	"self launchSkinUninstallationIn: anElement.
-	installed := false.
-	initialized := false"
-
+	| skinSelector |
+	skinSelector := String streamContents: [ :s |
+		                s nextPutAll: aString.
+		                s nextPutAll: 'Skin' ].
+	aSkinable withSkin: (self perform: skinSelector asSymbol)
 ]

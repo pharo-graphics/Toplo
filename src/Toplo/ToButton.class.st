@@ -1,8 +1,8 @@
 Class {
 	#name : #ToButton,
-	#superclass : #ToPairedButton,
-	#traits : 'TToLabeledIcon',
-	#classTraits : 'TToLabeledIcon classTrait',
+	#superclass : #ToGeneralButton,
+	#traits : 'TToLabelAndIconWithSkinHolder',
+	#classTraits : 'TToLabelAndIconWithSkinHolder classTrait',
 	#category : #'Toplo-Widget-Button'
 }
 
@@ -16,8 +16,7 @@ ToButton >> defaultSkin [
 ToButton >> initialize [
 
 	super initialize.
-	self whenIconChangedDo: [ :new :prev |
-		self dispatchEvent: (ToButtonIconChangedEvent current: new previous: prev) ].
-	self whenLabelChangedDo: [ :new :prev |
-		self dispatchEvent: (ToButtonLabelChangedEvent current: new previous: prev) ]
+	self initializeLabeledIconWithSkin.
+
+
 ]

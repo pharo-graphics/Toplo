@@ -14,21 +14,6 @@ ToButtonSkin class >> type: aButtonType [
 	^ self new type: aButtonType 
 ]
 
-{ #category : #'api - install/uninstall  hook' }
-ToButtonSkin >> buttonIconChanged: anEvent [
-
-	anEvent currentTarget icon ifNil: [ ^ self ].
-	anEvent currentTarget icon withSkin: (ToButtonIconSkin new buttonSkin: self)
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonSkin >> buttonLabelChanged: anEvent [
-
-	anEvent currentTarget label ifNil: [ ^ self ].
-	anEvent currentTarget label withSkin: (ToButtonLabelSkin new buttonSkin: self).
-
-]
-
 { #category : #accessing }
 ToButtonSkin >> danger [
 
@@ -53,16 +38,17 @@ ToButtonSkin >> dashed: aBoolean [
 	self type dashed: aBoolean
 ]
 
-{ #category : #'api - accessing' }
-ToButtonSkin >> eventsToHandle [ 
-
-	^ super eventsToHandle, { ToButtonIconChangedEvent. ToButtonLabelChangedEvent }
-]
-
 { #category : #accessing }
 ToButtonSkin >> iconLookIn: anElement [
 
 	^ self type iconLookIn: anElement
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonSkin >> iconSkin [
+
+	^ ToButtonIconSkin new buttonSkin: self.
+
 ]
 
 { #category : #accessing }
@@ -72,9 +58,15 @@ ToButtonSkin >> labelLookIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
+ToButtonSkin >> labelSkin [
+
+	^ ToButtonLabelSkin new buttonSkin: self.
+
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToButtonSkin >> onSkinInstalledIn: anElement [
 
-	" must send to super ** after ** the look is initialize from type "
 	super onSkinInstalledIn: anElement.
 	self type onSkinInstalled: self in: anElement.
 	cursorLook := ToMouseCursorLook new.

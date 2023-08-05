@@ -1,27 +1,27 @@
 Class {
-	#name : #ToPairColumnStrategy,
-	#superclass : #ToPairWithInterspaceStrategy,
+	#name : #ToTripletColumnStrategy,
+	#superclass : #ToTripletWithInterspaceStrategy,
 	#instVars : [
 		'width'
 	],
-	#category : #'Toplo-Core-Pair'
+	#category : #'Toplo-Core-Triplet'
 }
 
 { #category : #'t - labeled presentation' }
-ToPairColumnStrategy >> columnWidth [
+ToTripletColumnStrategy >> columnWidth [
 
 	^ self width
 ]
 
 { #category : #initialization }
-ToPairColumnStrategy >> initialize [ 
+ToTripletColumnStrategy >> initialize [ 
 
 	super initialize.
 	width := 0
 ]
 
 { #category : #layout }
-ToPairColumnStrategy >> onMeasure: anExtentMeasurementSpec in: aPair [
+ToTripletColumnStrategy >> onMeasure: anExtentMeasurementSpec in: aPair [
 	" return true if the measure is up-to-date "
 
 	" note that cell spacing is not compatible with left column sizing "
@@ -45,13 +45,13 @@ ToPairColumnStrategy >> onMeasure: anExtentMeasurementSpec in: aPair [
 ]
 
 { #category : #accessing }
-ToPairColumnStrategy >> width [
+ToTripletColumnStrategy >> width [
 
 	^ width
 ]
 
 { #category : #accessing }
-ToPairColumnStrategy >> width: anInteger [
+ToTripletColumnStrategy >> width: anInteger [
 
 	width := anInteger
 ]

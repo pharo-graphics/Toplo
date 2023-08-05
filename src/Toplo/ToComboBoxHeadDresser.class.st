@@ -77,7 +77,7 @@ ToComboBoxHeadDresser >> newPlaceholder: aPlaceholder in: anElement [
 ToComboBoxHeadDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	anElement second: ((ToImage inner: (Smalltalk ui icons iconNamed: #bottom)) hFitContent; yourself).
+	anElement replaceSecondWith: ((ToImage inner: (Smalltalk ui icons iconNamed: #bottom)) hFitContent; yourself).
 	anElement second margin: (BlInsets
 			 top: 2
 			 left: 5

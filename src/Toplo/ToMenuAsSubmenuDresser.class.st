@@ -61,5 +61,5 @@ ToMenuAsSubmenuDresser >> mouseLeaveEvent: anEvent in: anElement [
 ToMenuAsSubmenuDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	anElement strategy: (ToPairSubmenuColumnStrategy new width: anElement columnWidth)
+	anElement strategy: (ToTripletSubmenuColumnStrategy new width: anElement columnWidth)
 ]

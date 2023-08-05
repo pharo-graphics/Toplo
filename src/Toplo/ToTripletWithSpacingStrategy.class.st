@@ -1,11 +1,11 @@
 Class {
-	#name : #ToPairWithSpacingStrategy,
-	#superclass : #ToPairWithInterspaceStrategy,
-	#category : #'Toplo-Core-Pair'
+	#name : #ToTripletWithSpacingStrategy,
+	#superclass : #ToTripletWithInterspaceStrategy,
+	#category : #'Toplo-Core-Triplet'
 }
 
 { #category : #accessing }
-ToPairWithSpacingStrategy >> height: anInteger [
+ToTripletWithSpacingStrategy >> height: anInteger [
 
 	interspace constraintsDo: [ :c |
 		c horizontal exact: 0.
@@ -13,7 +13,7 @@ ToPairWithSpacingStrategy >> height: anInteger [
 ]
 
 { #category : #layout }
-ToPairWithSpacingStrategy >> onMeasure: anExtentMeasurementSpec in: aLabeled [
+ToTripletWithSpacingStrategy >> onMeasure: anExtentMeasurementSpec in: aLabeled [
 
 	" nothing to do, interspace is with exact size "
 
@@ -21,7 +21,7 @@ ToPairWithSpacingStrategy >> onMeasure: anExtentMeasurementSpec in: aLabeled [
 ]
 
 { #category : #accessing }
-ToPairWithSpacingStrategy >> width: anInteger [
+ToTripletWithSpacingStrategy >> width: anInteger [
 
 	interspace constraintsDo: [ :c |
 		c horizontal exact: anInteger.

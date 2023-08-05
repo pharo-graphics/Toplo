@@ -1,19 +1,19 @@
 Class {
-	#name : #ToPairedNode,
-	#superclass : #ToPairedElement,
+	#name : #ToTripletNode,
+	#superclass : #ToTripletElement,
 	#traits : 'TToClickable',
 	#classTraits : 'TToClickable classTrait',
 	#category : #'Toplo-Core-Node'
 }
 
 { #category : #'t - click behavior' }
-ToPairedNode >> client [
+ToTripletNode >> client [
 
 	^ self holder infiniteElement client
 ]
 
 { #category : #'t - initialization dresser' }
-ToPairedNode >> defaultDresser [ 
+ToTripletNode >> defaultDresser [ 
 
 	^ ToPairedNodeDresser new
 ]

@@ -44,6 +44,13 @@ ToCheckboxSkin >> indeterminateImageIn: anElement [
 ]
 
 { #category : #accessing }
+ToCheckboxSkin >> labelSkin [
+
+	^ ToLabelSkin new type: ToLabelDefaultType new.
+
+]
+
+{ #category : #accessing }
 ToCheckboxSkin >> uncheckedImageIn: anElement [
 
 	^ ToImage inner: (BlElement new

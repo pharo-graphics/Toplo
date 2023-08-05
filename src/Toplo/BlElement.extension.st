@@ -167,7 +167,8 @@ BlElement >> toThemeChanged [
 { #category : #'*Toplo' }
 BlElement >> withSkin: aSkin [
 
-	self withoutSkin.
+	self privateSkin ifNotNil: [ :s |
+		self removeEventHandler: s ].
 	self privateSkin: aSkin.
 	Toplo useLookAndFeel ifTrue: [ ^ self ].
 	self privateSkin ifNotNil: [ :s |

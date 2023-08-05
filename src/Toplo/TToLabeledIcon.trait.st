@@ -1,6 +1,8 @@
 Trait {
 	#name : #TToLabeledIcon,
-	#category : #'Toplo-Widget-Button'
+	#traits : 'TToTriplet + TToOrientable',
+	#classTraits : 'TToTriplet classTrait + TToOrientable classTrait',
+	#category : #'Toplo-Core-Triplet'
 }
 
 { #category : #'t - labeled icon' }
@@ -16,6 +18,18 @@ TToLabeledIcon >> beLabelFirst [
 ]
 
 { #category : #'t - labeled icon' }
+TToLabeledIcon >> extra [
+
+	^ self third
+]
+
+{ #category : #'t - labeled icon' }
+TToLabeledIcon >> extra: anElement [
+
+	self replaceThirdWith: anElement
+]
+
+{ #category : #'t - labeled icon' }
 TToLabeledIcon >> icon [
 
 	^ self first
@@ -24,7 +38,7 @@ TToLabeledIcon >> icon [
 { #category : #'t - labeled icon' }
 TToLabeledIcon >> icon: anElement [
 
-	self first: anElement
+	self replaceFirstWith: anElement
 ]
 
 { #category : #'t - labeled icon' }
@@ -54,7 +68,7 @@ TToLabeledIcon >> label [
 { #category : #'t - labeled icon' }
 TToLabeledIcon >> label: aLabel [
 
-	self second: aLabel
+	self replaceSecondWith: aLabel
 ]
 
 { #category : #'t - labeled icon' }
@@ -69,16 +83,4 @@ TToLabeledIcon >> labelFirst: aBoolean [
 TToLabeledIcon >> labelText: aText [
 
 	self label: (ToLabel text: aText)
-]
-
-{ #category : #'t - change hook' }
-TToLabeledIcon >> whenIconChangedDo: aBlock [
-
-	self whenFirstChangedDo: aBlock
-]
-
-{ #category : #'t - change hook' }
-TToLabeledIcon >> whenLabelChangedDo:  aBlock [
-
-	self whenSecondChangedDo: aBlock
 ]

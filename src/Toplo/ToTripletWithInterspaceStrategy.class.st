@@ -1,30 +1,30 @@
 Class {
-	#name : #ToPairWithInterspaceStrategy,
-	#superclass : #ToPairStrategy,
+	#name : #ToTripletWithInterspaceStrategy,
+	#superclass : #ToTripletStrategy,
 	#instVars : [
 		'interspace'
 	],
-	#category : #'Toplo-Core-Pair'
+	#category : #'Toplo-Core-Triplet'
 }
 
 { #category : #layout }
-ToPairWithInterspaceStrategy >> childrenIn: aPair [
+ToTripletWithInterspaceStrategy >> childrenIn: aPair [
 
 	^ {
 		  aPair first.
 		  (self interspaceIn: aPair).
 		  aPair second.
-		  aPair extra } select: #notNil
+		  aPair third } select: #notNil
 ]
 
 { #category : #accessing }
-ToPairWithInterspaceStrategy >> hasInterspaceIn: anElement [
+ToTripletWithInterspaceStrategy >> hasInterspaceIn: anElement [
 
 	^ anElement first notNil and: [ anElement second notNil ]
 ]
 
 { #category : #initialization }
-ToPairWithInterspaceStrategy >> initialize [
+ToTripletWithInterspaceStrategy >> initialize [
 
 	super initialize.
 	interspace := BlElement new
@@ -35,13 +35,13 @@ ToPairWithInterspaceStrategy >> initialize [
 ]
 
 { #category : #accessing }
-ToPairWithInterspaceStrategy >> interspace [
+ToTripletWithInterspaceStrategy >> interspace [
 
 	^ interspace
 ]
 
 { #category : #accessing }
-ToPairWithInterspaceStrategy >> interspaceIn: anElement [
+ToTripletWithInterspaceStrategy >> interspaceIn: anElement [
 
 	^ (self hasInterspaceIn: anElement)
 		  ifTrue: [ self interspace ]

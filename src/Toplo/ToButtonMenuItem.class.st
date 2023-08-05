@@ -1,8 +1,8 @@
 Class {
 	#name : #ToButtonMenuItem,
 	#superclass : #ToMenuItem,
-	#traits : 'TToPair + TToLabeledIcon + TToOrientable',
-	#classTraits : 'TToPair classTrait + TToLabeledIcon classTrait + TToOrientable classTrait',
+	#traits : 'TToLabelAndIconWithSkinHolder',
+	#classTraits : 'TToLabelAndIconWithSkinHolder classTrait',
 	#category : #'Toplo-Widget-Menu'
 }
 
@@ -31,6 +31,7 @@ ToButtonMenuItem >> defaultSkin [
 ToButtonMenuItem >> initialize [ 
 
 	super initialize.
+	self initializeLabeledIconWithSkin
 
 ]
 
@@ -39,7 +40,7 @@ ToButtonMenuItem >> preInitializeDresser [
 
 	super preInitializeDresser.
 
-	self initializePair.
+	self initializeTriplet.
 	self constraintsDo: [ :c | 
 		c horizontal matchParent.
 		c vertical fitContent ].

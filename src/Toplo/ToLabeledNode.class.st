@@ -1,8 +1,13 @@
 Class {
 	#name : #ToLabeledNode,
 	#superclass : #ToWidget,
-	#traits : 'TToLabelAndIconWithSkinHolder + TToClickable',
-	#classTraits : 'TToLabelAndIconWithSkinHolder classTrait + TToClickable classTrait',
+	#traits : 'TToLabeledIcon + TToClickable',
+	#classTraits : 'TToLabeledIcon classTrait + TToClickable classTrait',
+	#instVars : [
+		'#icon => ToPropertyWithSkinSlot',
+		'#label => ToPropertyWithSkinSlot',
+		'#extra => ToPropertyWithSkinSlot'
+	],
 	#category : #'Toplo-Core-Node'
 }
 
@@ -18,12 +23,24 @@ ToLabeledNode >> defaultDresser [
 	^ ToLabeledNodeDresser new
 ]
 
+{ #category : #'t - triplet accessing' }
+ToLabeledNode >> first [
+
+	^ icon
+]
+
+{ #category : #'t - triplet accessing' }
+ToLabeledNode >> first: anElement [
+
+	icon := anElement
+]
+
 { #category : #initialization }
 ToLabeledNode >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	self initializeLabeledIconWithSkin
+	self initializeTriplet
 ]
 
 { #category : #'private-change' }
@@ -36,4 +53,29 @@ ToLabeledNode >> privateBeEditable [
 ToLabeledNode >> privateBeReadOnly [ 
 
 	self label ifNotNil: [ :l | l beReadOnly ]
+]
+
+{ #category : #'t - triplet accessing' }
+ToLabeledNode >> second [
+
+	^ label
+]
+
+{ #category : #'t - triplet accessing' }
+ToLabeledNode >> second: anElement [
+
+	label := anElement
+]
+
+{ #category : #'t - triplet accessing' }
+ToLabeledNode >> third [
+
+	^ extra
+]
+
+{ #category : #'t - triplet accessing' }
+ToLabeledNode >> third: anElement [
+
+	extra := anElement
+
 ]

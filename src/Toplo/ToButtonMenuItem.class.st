@@ -1,8 +1,13 @@
 Class {
 	#name : #ToButtonMenuItem,
 	#superclass : #ToMenuItem,
-	#traits : 'TToLabelAndIconWithSkinHolder',
-	#classTraits : 'TToLabelAndIconWithSkinHolder classTrait',
+	#traits : 'TToLabeledIcon',
+	#classTraits : 'TToLabeledIcon classTrait',
+	#instVars : [
+		'#icon => ToPropertyWithSkinSlot',
+		'#label => ToPropertyWithSkinSlot',
+		'#extra => ToPropertyWithSkinSlot'
+	],
 	#category : #'Toplo-Widget-Menu'
 }
 
@@ -27,12 +32,23 @@ ToButtonMenuItem >> defaultSkin [
 	^ nil
 ]
 
+{ #category : #'t - triplet accessing' }
+ToButtonMenuItem >> first [
+
+	^ icon
+]
+
+{ #category : #'t - triplet accessing' }
+ToButtonMenuItem >> first: anElement [
+
+	icon := anElement
+]
+
 { #category : #initialization }
 ToButtonMenuItem >> initialize [ 
 
 	super initialize.
-	self initializeLabeledIconWithSkin
-
+	self initializeTriplet
 ]
 
 { #category : #'t - initialization dresser' }
@@ -44,5 +60,30 @@ ToButtonMenuItem >> preInitializeDresser [
 	self constraintsDo: [ :c | 
 		c horizontal matchParent.
 		c vertical fitContent ].
+
+]
+
+{ #category : #'t - triplet accessing' }
+ToButtonMenuItem >> second [
+
+	^ label
+]
+
+{ #category : #'t - triplet accessing' }
+ToButtonMenuItem >> second: anElement [
+
+	label := anElement
+]
+
+{ #category : #'t - triplet accessing' }
+ToButtonMenuItem >> third [
+
+	^ extra
+]
+
+{ #category : #'t - triplet accessing' }
+ToButtonMenuItem >> third: anElement [
+
+	extra := anElement
 
 ]

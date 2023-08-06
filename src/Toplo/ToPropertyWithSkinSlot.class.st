@@ -29,7 +29,8 @@ ToPropertyWithSkinSlot >> write: aValue to: anObject [
 			 previous: prev;
 			 yourself).
 
-	" prepare and install the handler for the property skin change ( dispatched from the parent )"
+	" The parent skin can be changed dynamically. "
+	" Prepare and install the handler for the property skin change ( dispatched from the parent )"
 	widgetSkinHandler := BlEventHandler
 		                     on: ToElementSkinChangedEvent
 		                     do: [ :evt |

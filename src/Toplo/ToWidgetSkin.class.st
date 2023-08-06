@@ -166,13 +166,19 @@ ToWidgetSkin >> privateLook: aLook [
 { #category : #'event handling' }
 ToWidgetSkin >> propertySkinChangedEvent: anEvent [
 
-	self updateSkinInProperty: anEvent current named: anEvent propertyName
+	self
+		updateSkinIn: anEvent holder
+		property: anEvent current
+		named: anEvent propertyName
 ]
 
 { #category : #'event handling' }
 ToWidgetSkin >> propertyValueChangedEvent: anEvent [
 
-	self updateSkinInProperty: anEvent current named: anEvent propertyName
+	self
+		updateSkinIn: anEvent holder
+		property: anEvent current
+		named: anEvent propertyName
 ]
 
 { #category : #removing }
@@ -190,11 +196,11 @@ ToWidgetSkin >> themeChangedEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToWidgetSkin >> updateSkinInProperty: aSkinable named: aString [
+ToWidgetSkin >> updateSkinIn: anObject property: aSkinable named: aString [
 
 	| skinSelector |
 	skinSelector := String streamContents: [ :s |
 		                s nextPutAll: aString.
-		                s nextPutAll: 'Skin' ].
-	aSkinable withSkin: (self perform: skinSelector asSymbol)
+		                s nextPutAll: 'SkinIn:' ].
+	aSkinable withSkin: (self perform: skinSelector asSymbol with: anObject)
 ]

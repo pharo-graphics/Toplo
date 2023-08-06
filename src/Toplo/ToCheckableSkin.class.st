@@ -11,7 +11,7 @@ ToCheckableSkin >> checkedImageIn: anElement [
 ]
 
 { #category : #accessing }
-ToCheckableSkin >> iconSkin [
+ToCheckableSkin >> iconSkinIn: aButton [
 
 	self subclassResponsibility 
 ]
@@ -23,7 +23,7 @@ ToCheckableSkin >> indeterminateImageIn: anElement [
 ]
 
 { #category : #accessing }
-ToCheckableSkin >> labelSkin [
+ToCheckableSkin >> labelSkinIn: aButton [
 
 	self subclassResponsibility 
 ]

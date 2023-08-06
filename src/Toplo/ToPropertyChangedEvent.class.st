@@ -2,6 +2,7 @@ Class {
 	#name : #ToPropertyChangedEvent,
 	#superclass : #BlEvent,
 	#instVars : [
+		'holder',
 		'propertyName',
 		'previous',
 		'current'
@@ -28,6 +29,18 @@ ToPropertyChangedEvent >> current [
 ToPropertyChangedEvent >> current: anObject [
 
 	current := anObject
+]
+
+{ #category : #accessing }
+ToPropertyChangedEvent >> holder [
+
+	^ holder
+]
+
+{ #category : #accessing }
+ToPropertyChangedEvent >> holder: anObject [
+
+	holder := anObject
 ]
 
 { #category : #accessing }

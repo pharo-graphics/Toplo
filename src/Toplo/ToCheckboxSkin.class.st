@@ -16,7 +16,7 @@ ToCheckboxSkin >> checkedImageIn: anElement [
 ]
 
 { #category : #accessing }
-ToCheckboxSkin >> iconSkin [
+ToCheckboxSkin >> iconSkinIn: aButton [
 
 	^ ToCheckboxIconSkin new.
 ]
@@ -44,7 +44,7 @@ ToCheckboxSkin >> indeterminateImageIn: anElement [
 ]
 
 { #category : #accessing }
-ToCheckboxSkin >> labelSkin [
+ToCheckboxSkin >> labelSkinIn: aButton [
 
 	^ ToLabelSkin new type: ToLabelDefaultType new.
 

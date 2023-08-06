@@ -13,7 +13,7 @@ ToRadioButtonSkin >> checkedImageIn: anElement [
 ]
 
 { #category : #accessing }
-ToRadioButtonSkin >> iconSkin [
+ToRadioButtonSkin >> iconSkinIn: aButton [
 
 	^ ToRadioButtonIconSkin new.
 ]

@@ -45,7 +45,7 @@ ToButtonSkin >> iconLookIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonSkin >> iconSkin [
+ToButtonSkin >> iconSkinIn: aButton [
 
 	^ ToButtonIconSkin new buttonSkin: self.
 
@@ -58,7 +58,7 @@ ToButtonSkin >> labelLookIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonSkin >> labelSkin [
+ToButtonSkin >> labelSkinIn: aButton [
 
 	^ ToButtonLabelSkin new buttonSkin: self.
 

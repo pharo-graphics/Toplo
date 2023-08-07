@@ -139,7 +139,7 @@ ToComboBox >> headElement [
 
 { #category : #accessing }
 ToComboBox >> headElementFactory: aValuable [
-	" is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
+	" aValuable is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
 
 	self dispatchEvent: (ToComboBoxHeadElementFactoryChangeEvent new factory: aValuable)
 ]

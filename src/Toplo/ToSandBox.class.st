@@ -938,28 +938,65 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 { #category : #button }
 ToSandBox class >> example_ToButtonSkins [
 
-	| space pane themeSwitcher butBuilder buttonSpecsBuilder |
+	| space pane themeSwitcher butBuilder buttonSpecsBuilder enablementSwitcher allButtons |
 	space := BlSpace new.
+	allButtons := OrderedCollection new.
 	
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
+	pane := ToPane horizontal.
+	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
 
 	themeSwitcher := ToChoiceBox new.
-	themeSwitcher data addAll: { ToThemeLight. ToThemeDark }.
-			
-	themeSwitcher whenSelectedIndexChangedDo: [ space toTheme: themeSwitcher selectedData new ].
+	themeSwitcher data addAll: {
+			ToThemeLight.
+			ToThemeDark }.
+
+	themeSwitcher whenSelectedIndexChangedDo: [
+		space toTheme: themeSwitcher selectedData new ].
 	themeSwitcher selectData: space toTheme class.
-	space root addChild: themeSwitcher.
+	themeSwitcher constraintsDo: [ :c | c linear vertical alignCenter ].
+	pane addChild: themeSwitcher.
 
-"space switchThemeDarkOrLight."
+	enablementSwitcher := ToToggleButton new.
+	enablementSwitcher switchBarOnElement:
+		((ToLabel text: 'Enabled') withSkin:
+			 (ToButtonLabelSkin new buttonSkin: enablementSwitcher privateSkin)).
+	enablementSwitcher switchBarOffElement:
+		((ToLabel text: 'Disabled') withSkin:
+			 (ToButtonLabelSkin new buttonSkin: enablementSwitcher privateSkin)).
+	enablementSwitcher check.
+	enablementSwitcher when: ToCheckableCheckEvent do: [ :event | allButtons do: [ :b | b enabled: event target isChecked ] ].
+	enablementSwitcher constraintsDo: [ :c |
+		c linear vertical alignCenter ].
 
-	butBuilder := [ ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16 ].
-	buttonSpecsBuilder := [ {
-		{ 'Primary'. ToButtonSkin new type: ToButtonPrimaryType new}.
-		{ 'Default'. ToButtonSkin new type: ToButtonDefaultType new}.
-		{ 'Dashed'. (ToButtonSkin new dashed: true; yourself) }.
-		{ 'Text'. ToButtonSkin new type: ToButtonTextType new }.
-		{ 'Link'. ToButtonSkin new type:  ToButtonLinkType new} } ].
-		
+	pane addChild: enablementSwitcher.
+	space root addChild: pane.
+
+	butBuilder := [
+	              ToImage new innerImage:
+		              ToThemeIcons iconSearchOutlined16x16 ].
+	buttonSpecsBuilder := [
+	                      {
+		                      {
+			                      'Primary'.
+			                      (ToButtonSkin new type:
+				                       ToButtonPrimaryType new) }.
+		                      {
+			                      'Default'.
+			                      (ToButtonSkin new type:
+				                       ToButtonDefaultType new) }.
+		                      {
+			                      'Dashed'.
+			                      (ToButtonSkin new
+				                       dashed: true;
+				                       yourself) }.
+		                      {
+			                      'Text'.
+			                      (ToButtonSkin new type: ToButtonTextType new) }.
+		                      {
+			                      'Link'.
+			                      (ToButtonSkin new type: ToButtonLinkType new) } } ].
+
 	" Line 1 "
 	pane := ToPane horizontal.
 	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
@@ -967,19 +1004,21 @@ ToSandBox class >> example_ToButtonSkins [
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
 		but := ToButton new.
+		allButtons add: but.
 		arr second ifNotNil: [ :skin | but withSkin: skin ].
 		but labelText: arr first.
 		pane addChild: but ].
-	
+
 	space root addChild: pane.
 
 	" line 2 "
 	pane := ToPane horizontal.
 	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
-		
+
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
 		but := ToButton new.
+		allButtons add: but.
 		arr second ifNotNil: [ :skin | but withSkin: skin ].
 		but labelText: arr first.
 		but icon: butBuilder value.
@@ -994,6 +1033,7 @@ ToSandBox class >> example_ToButtonSkins [
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
 		but := ToButton new.
+		allButtons add: but.
 		arr second ifNotNil: [ :skin | but withSkin: skin ].
 		but icon: butBuilder value.
 		pane addChild: but ].
@@ -1007,7 +1047,11 @@ ToSandBox class >> example_ToButtonSkins [
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
 		but := ToButton new.
-		arr second ifNotNil: [ :skin | but withSkin: (skin danger: true; yourself)].
+		allButtons add: but.
+		arr second ifNotNil: [ :skin |
+			but withSkin: (skin
+					 danger: true;
+					 yourself) ].
 		but labelText: arr first.
 		pane addChild: but ].
 
@@ -1020,11 +1064,15 @@ ToSandBox class >> example_ToButtonSkins [
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
 		but := ToButton new.
-		arr second ifNotNil: [ :skin | but withSkin: (skin danger: true; yourself)].
+		allButtons add: but.
+		arr second ifNotNil: [ :skin |
+			but withSkin: (skin
+					 danger: true;
+					 yourself) ].
 		but labelText: arr first.
 		but icon: butBuilder value.
 		pane addChild: but ].
-	
+
 	space root addChild: pane.
 
 	" line 6 "
@@ -1034,7 +1082,11 @@ ToSandBox class >> example_ToButtonSkins [
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
 		but := ToButton new.
-		arr second ifNotNil: [ :skin | but withSkin: (skin danger: true; yourself)].
+		allButtons add: but.
+		arr second ifNotNil: [ :skin |
+			but withSkin: (skin
+					 danger: true;
+					 yourself) ].
 		but icon: butBuilder value.
 		pane addChild: but ].
 
@@ -1114,7 +1166,7 @@ ToSandBox class >> example_ToButtonWithDefaultSkin [
 	pane layout cellSpacing: 10.
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 
-	button1 := ToButton new.
+	button1 := ToButton new withSkin: (ToButtonSkin new type: ToButtonDefaultType new).
 	button1 label: (ToLabel text: 'Primary button').
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 	space root when: BlElementAddedToSceneGraphEvent do: [  
@@ -3505,7 +3557,7 @@ ToSandBox class >> example_toggle2 [
 		      labelText: 'Theme';
 		      beLabelFirst.
 	th switchBarOnElement: ((ToLabel text: 'Dark') withSkin: (ToButtonLabelSkin new buttonSkin: th privateSkin)).
-	th switchBarOffElement: ((ToLabel text: 'Light') "withSkin: (ToButtonLabelSkin new buttonSkin: th privateSkin)").
+	th switchBarOffElement: ((ToLabel text: 'Light') withSkin: (ToButtonLabelSkin new buttonSkin: th privateSkin)).
 	th when: ToCheckableCheckEvent do: [ :event | event current traceCr ].
 	th checked: true.
 	th openInSpace

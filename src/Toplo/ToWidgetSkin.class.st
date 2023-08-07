@@ -199,6 +199,7 @@ ToWidgetSkin >> themeChangedEvent: anEvent [
 ToWidgetSkin >> updateSkinIn: anObject property: aSkinable named: aString [
 
 	| skinSelector |
+	aSkinable ifNil: [ ^ self ].
 	skinSelector := String streamContents: [ :s |
 		                s nextPutAll: aString.
 		                s nextPutAll: 'SkinIn:' ].

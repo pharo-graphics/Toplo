@@ -10,13 +10,20 @@ Class {
 { #category : #accessing }
 ToButtonType >> backgroundLookIn: anElement [
 
-	^ nil
+	^ anElement isDisabled
+		  ifTrue: [ self disabledBackgroundLookIn: anElement ]
+		  ifFalse: [
+			  self danger
+				  ifTrue: [ self enabledDangerBackgroundLookIn: anElement ]
+				  ifFalse: [ self enabledRegularBackgroundLookIn: anElement ] ]
 ]
 
 { #category : #accessing }
 ToButtonType >> borderLookIn: anElement [
 
-	^ nil
+	^ anElement isDisabled
+		  ifTrue: [ self disabledBorderLookIn: anElement ]
+		  ifFalse: [ nil ]
 ]
 
 { #category : #accessing }
@@ -61,20 +68,71 @@ ToButtonType >> dashed: aBoolean [
 	Error signal: 'Invalid property'.
 ]
 
+{ #category : #accessing }
+ToButtonType >> disabledBackgroundLookIn: anElement [
+
+	^ ToBackgroundLook new
+		  initialBg: [ :e | e toTheme colorBgContainerDisabled ];
+		  yourself
+]
+
+{ #category : #accessing }
+ToButtonType >> disabledBorderLookIn: anElement [
+
+	^ ToBorderLook new
+		  initialPaint: [ :e | e toTheme colorBorderDisabled ];
+		  width: [ :e | e toTheme lineWidth ];
+		  yourself
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonType >> disabledFormLookIn: anElement [
+
+	^ ToImageFormLook new
+		  initialColor: [ :e | e toTheme colorBorderDisabled ];
+		  yourself
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonType >> disabledLabelLookIn: anElement [
+
+	^ ToLabelTextLook new
+		  initialColor: anElement toTheme colorTextDisabled;
+		  yourself
+]
+
+{ #category : #accessing }
+ToButtonType >> enabledDangerBackgroundLookIn: anElement [
+
+	^ nil
+]
+
+{ #category : #accessing }
+ToButtonType >> enabledRegularBackgroundLookIn: anElement [
+
+	^ self subclassResponsibility 
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToButtonType >> iconLookIn: anElement [
 
-	^ self danger
-		  ifTrue: [ self dangerFormLookIn: anElement ]
-		  ifFalse: [ self regularFormLookIn: anElement ]
+	^ anElement isDisabled
+		  ifTrue: [ self disabledFormLookIn: anElement ]
+		  ifFalse: [
+			  self danger
+				  ifTrue: [ self dangerFormLookIn: anElement ]
+				  ifFalse: [ self regularFormLookIn: anElement ] ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToButtonType >> labelLookIn: anElement [
 
-	^ self danger
-		  ifTrue: [ self dangerLabelLookIn: anElement ]
-		  ifFalse: [ self regularLabelLookIn: anElement ]
+	^ anElement isDisabled
+		  ifTrue: [ self disabledLabelLookIn: anElement ]
+		  ifFalse: [
+			  self danger
+				  ifTrue: [ self dangerLabelLookIn: anElement ]
+				  ifFalse: [ self regularLabelLookIn: anElement ] ]
 ]
 
 { #category : #'api - install/uninstall  hook' }

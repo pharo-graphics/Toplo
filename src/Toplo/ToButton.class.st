@@ -14,7 +14,8 @@ Class {
 { #category : #'t - skin accessing' }
 ToButton >> defaultSkin [ 
 
-	^ ToButtonSkin new
+	"^ ToButtonSkin new"
+	^ nil
 ]
 
 { #category : #'t - triplet accessing' }

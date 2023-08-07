@@ -167,6 +167,13 @@ ToTheme >> colorBgContainer [
 ]
 
 { #category : #colors }
+ToTheme >> colorBgContainerDisabled [
+	"https://ant.design/components/button#design-token"
+	
+	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.04 
+]
+
+{ #category : #colors }
 ToTheme >> colorBgTextActive [
 	"https://ant.design/components/button#design-token"
 	
@@ -185,6 +192,13 @@ ToTheme >> colorBorder [
 	"https://ant.design/components/button#design-token"
 	
 	^ Color fromHexString: '#d9d9d9'
+]
+
+{ #category : #colors }
+ToTheme >> colorBorderDisabled [
+	"https://ant.design/components/button#design-token"
+	
+	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.2 
 ]
 
 { #category : #colors }
@@ -295,7 +309,7 @@ ToTheme >> colorSuccess [
 ToTheme >> colorText [
 	"Default text color which comply with W3C standards, and this color is also the darkest neutral color."
 	
-	^ Color r: 0.0 g: 0.0 b: 0.0 "alpha: 0.88"
+	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.88
 ]
 
 { #category : #colors }

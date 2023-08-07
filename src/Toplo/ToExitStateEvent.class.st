@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Core'
 }
 
+{ #category : #testing }
+ToExitStateEvent class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #accessing }
 ToExitStateEvent >> nextState [
 

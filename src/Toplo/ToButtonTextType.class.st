@@ -4,8 +4,30 @@ Class {
 	#category : #'Toplo-Widget-Button-Skins'
 }
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : #accessing }
 ToButtonTextType >> backgroundLookIn: anElement [
+
+	^ nil
+]
+
+{ #category : #accessing }
+ToButtonTextType >> borderLookIn: anElement [
+
+	^ nil
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonTextType >> enabledDangerBackgroundLookIn: anElement [
+
+	^ ToBackgroundLook new
+		  initialBg: [ :e | Color transparent ];
+		  pressedBg: [ :e | e toTheme colorErrorBg ];
+		  hoverBg: [ :e | e toTheme colorErrorBg ];
+		  yourself
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonTextType >> enabledRegularBackgroundLookIn: anElement [
 
 	^ self danger
 		  ifTrue: [
@@ -37,8 +59,7 @@ ToButtonTextType >> regularFormLookIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToButtonTextType >> regularLabelLookIn: anElement [
 
-	| labelLook |
-	labelLook := ToLabelTextLook new.
-	labelLook initialColor: anElement toTheme colorText.
-	^ labelLook
+	^ ToLabelTextLook new
+		  initialColor: anElement toTheme colorText;
+		  yourself
 ]

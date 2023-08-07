@@ -13,7 +13,7 @@ Class {
 ToSelectOnlyComboBoxHead >> dataElement: anElement [
 
 	anElement ifNil: [ ^ self ].
-	self first: anElement
+	self replaceFirstWith:  anElement
 ]
 
 { #category : #accessing }

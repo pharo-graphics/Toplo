@@ -41,7 +41,7 @@ BlElement >> dispatchLookEvent: anEvent [
 { #category : #'*Toplo' }
 BlElement >> dispatchSkinChangedEvent [
 
-	self dispatchEvent: ToElementSkinChangedEvent new.
+	self dispatchEvent: ToSkinChangedEvent new.
 	self childrenDo: [ :child | child dispatchSkinChangedEvent ].
 
 

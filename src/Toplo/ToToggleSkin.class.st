@@ -4,10 +4,18 @@ Class {
 	#category : #'Toplo-Widget-Toggle-Skins'
 }
 
-{ #category : #'api - install/uninstall  hook' }
-ToToggleSkin >> iconSkinIn: aButton [
+{ #category : #'api - accessing' }
+ToToggleSkin >> childSkinsToHandle [
 
-	^ ToToggleTrackSkin new toggleButton: aButton
+	^ {
+		  (ToChildSkin new
+			   slotName: #icon;
+			   skinBuilder: [ :e | self trackSkinIn: e ];
+			   yourself).
+		  (ToChildSkin new
+			   slotName: #label;
+			   skinBuilder: [ :e | self labelSkinIn: e ];
+			   yourself) }
 ]
 
 { #category : #accessing }
@@ -38,4 +46,10 @@ ToToggleSkin >> onSkinInstalledIn: anElement [
 			 right: anElement toTheme paddingContentHorizontal).
 	" setup the track "
 	"anElement track withSkin: (ToToggleTrackSkin new toggleButton: anElement)"
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToToggleSkin >> trackSkinIn: aButton [
+
+	^ ToToggleTrackSkin new toggleButton: aButton
 ]

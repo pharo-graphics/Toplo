@@ -2,28 +2,28 @@ Class {
 	#name : #ToButtonIconSkin,
 	#superclass : #ToWidgetSkin,
 	#instVars : [
-		'buttonSkin'
+		'buttonType'
 	],
 	#category : #'Toplo-Widget-Image-Skins'
 }
 
 { #category : #accessing }
-ToButtonIconSkin >> buttonSkin [
+ToButtonIconSkin >> buttonType [
 
-	^ buttonSkin
+	^ buttonType
 ]
 
 { #category : #accessing }
-ToButtonIconSkin >> buttonSkin: aButtonSkin [
+ToButtonIconSkin >> buttonType: aButtonType [
 
-	buttonSkin := aButtonSkin
+	buttonType := aButtonType
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToButtonIconSkin >> onSkinInstalledIn: anElement [
 		
 	super onSkinInstalledIn: anElement.
-	self addLook: (self buttonSkin iconLookIn: anElement)
+	self addLook: (self buttonType iconLookIn: anElement)
 
 	
 

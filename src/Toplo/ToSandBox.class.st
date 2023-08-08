@@ -960,12 +960,14 @@ ToSandBox class >> example_ToButtonSkins [
 	enablementSwitcher := ToToggleButton new.
 	enablementSwitcher switchBarOnElement:
 		((ToLabel text: 'Enabled') withSkin:
-			 (ToButtonLabelSkin new buttonSkin: enablementSwitcher privateSkin)).
+			 (ToButtonLabelSkin new buttonType: enablementSwitcher privateSkin)).
 	enablementSwitcher switchBarOffElement:
 		((ToLabel text: 'Disabled') withSkin:
-			 (ToButtonLabelSkin new buttonSkin: enablementSwitcher privateSkin)).
+			 (ToButtonLabelSkin new buttonType: enablementSwitcher privateSkin)).
 	enablementSwitcher check.
-	enablementSwitcher when: ToCheckableCheckEvent do: [ :event | allButtons do: [ :b | b enabled: event target isChecked ] ].
+	enablementSwitcher 
+		when: ToCheckableCheckEvent 
+		do: [ :event | allButtons do: [ :b | b enabled: event target isChecked ] ].
 	enablementSwitcher constraintsDo: [ :c |
 		c linear vertical alignCenter ].
 
@@ -1276,7 +1278,9 @@ ToSandBox class >> example_ToLabelWithHeadingSkin [
 		      beLabelFirst.
 	themeSwitcher switchBarOnElement: ((ToLabel text: ('Dark' asRopedText foreground: Color white)) ).
 	themeSwitcher switchBarOffElement: ((ToLabel text: ('Light' asRopedText foreground: Color black)) ).
-	themeSwitcher when: ToCheckableCheckEvent do: [ :event | space toTheme: ( event current ifTrue: [ToThemeDark new] ifFalse: [ ToThemeLight new]) ].
+	themeSwitcher 
+		when: ToCheckableCheckEvent 
+		do: [ :event | space toTheme: ( event current ifTrue: [ToThemeDark new] ifFalse: [ ToThemeLight new]) ].
 	
 	space root addChild: themeSwitcher.
 
@@ -3556,8 +3560,8 @@ ToSandBox class >> example_toggle2 [
 	th := ToToggleButton new
 		      labelText: 'Theme';
 		      beLabelFirst.
-	th switchBarOnElement: ((ToLabel text: 'Dark') withSkin: (ToButtonLabelSkin new buttonSkin: th privateSkin)).
-	th switchBarOffElement: ((ToLabel text: 'Light') withSkin: (ToButtonLabelSkin new buttonSkin: th privateSkin)).
+	th switchBarOnElement: ((ToLabel text: 'Dark') withSkin: (ToButtonLabelSkin new buttonType: th privateSkin)).
+	th switchBarOffElement: ((ToLabel text: 'Light') withSkin: (ToButtonLabelSkin new buttonType: th privateSkin)).
 	th when: ToCheckableCheckEvent do: [ :event | event current traceCr ].
 	th checked: true.
 	th openInSpace

@@ -14,6 +14,20 @@ ToButtonSkin class >> type: aButtonType [
 	^ self new type: aButtonType 
 ]
 
+{ #category : #'api - accessing' }
+ToButtonSkin >> childSkinsToHandle [
+
+	^ {
+		  (ToChildSkin new
+			   slotName: #icon;
+			   skinBuilder: [ :e | self iconSkinIn: e ];
+			   yourself).
+		  (ToChildSkin new
+			   slotName: #label;
+			   skinBuilder: [ :e | self labelSkinIn: e ];
+			   yourself) }
+]
+
 { #category : #accessing }
 ToButtonSkin >> danger [
 
@@ -47,7 +61,7 @@ ToButtonSkin >> iconLookIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToButtonSkin >> iconSkinIn: aButton [
 
-	^ ToButtonIconSkin new buttonSkin: self.
+	^ ToButtonIconSkin new buttonType: self type.
 
 ]
 
@@ -60,7 +74,7 @@ ToButtonSkin >> labelLookIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToButtonSkin >> labelSkinIn: aButton [
 
-	^ ToButtonLabelSkin new buttonSkin: self.
+	^ ToButtonLabelSkin new buttonType: self type.
 
 ]
 

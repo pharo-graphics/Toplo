@@ -2,21 +2,21 @@ Class {
 	#name : #ToButtonLabelSkin,
 	#superclass : #ToBasicLabelSkin,
 	#instVars : [
-		'buttonSkin'
+		'buttonType'
 	],
 	#category : #'Toplo-Widget-Label-Skins'
 }
 
 { #category : #accessing }
-ToButtonLabelSkin >> buttonSkin [
+ToButtonLabelSkin >> buttonType [
 
-	^ buttonSkin
+	^ buttonType
 ]
 
 { #category : #accessing }
-ToButtonLabelSkin >> buttonSkin: aButtonSkin [
+ToButtonLabelSkin >> buttonType: aButtonType [
 
-	buttonSkin := aButtonSkin
+	buttonType := aButtonType
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -25,7 +25,7 @@ ToButtonLabelSkin >> onSkinInstalledIn: anElement [
 	| labelLook attrBuilder |
 	super onSkinInstalledIn: anElement.
 	attrBuilder := self textAttributesBuilderFromElement: anElement.
-	labelLook := self buttonSkin labelLookIn: anElement.
+	labelLook := self buttonType labelLookIn: anElement.
 	labelLook attrBuilder: attrBuilder.
 	self addLook: labelLook
 

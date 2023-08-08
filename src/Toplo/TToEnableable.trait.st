@@ -11,9 +11,7 @@ TToEnableable >> disable [
 
 	self enabled ifFalse: [ ^ self ].
 	enabled := false.
-	self dispatchEvent: (ToElementEnablementEvent new
-			 enabled: false;
-			 yourself)
+	self dispatchEvent: ToEnablementChangedEvent new
 ]
 
 { #category : #'t - enableable accessing' }
@@ -29,9 +27,7 @@ TToEnableable >> enable [
 
 	self enabled ifTrue: [ ^ self ].
 	enabled := true.
-	self dispatchEvent: (ToElementEnablementEvent new
-			 enabled: true;
-			 yourself)
+	self dispatchEvent: ToEnablementChangedEvent new
 ]
 
 { #category : #'t - enableable accessing' }

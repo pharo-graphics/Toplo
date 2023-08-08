@@ -4,9 +4,9 @@ Class {
 	#traits : 'TToLabeledIcon',
 	#classTraits : 'TToLabeledIcon classTrait',
 	#instVars : [
-		'#icon => ToPropertyWithSkinSlot',
-		'#label => ToPropertyWithSkinSlot',
-		'#extra => ToPropertyWithSkinSlot'
+		'#icon => ToSkinnableSlot',
+		'#label => ToSkinnableSlot',
+		'#extra => ToSkinnableSlot'
 	],
 	#category : #'Toplo-Widget-Menu'
 }

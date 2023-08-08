@@ -2,12 +2,10 @@ Class {
 	#name : #ToPropertyChangedEvent,
 	#superclass : #BlEvent,
 	#instVars : [
-		'holder',
-		'propertyName',
 		'previous',
 		'current'
 	],
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Core-Slots'
 }
 
 { #category : #'instance creation' }
@@ -32,18 +30,6 @@ ToPropertyChangedEvent >> current: anObject [
 ]
 
 { #category : #accessing }
-ToPropertyChangedEvent >> holder [
-
-	^ holder
-]
-
-{ #category : #accessing }
-ToPropertyChangedEvent >> holder: anObject [
-
-	holder := anObject
-]
-
-{ #category : #accessing }
 ToPropertyChangedEvent >> previous [
 
 	^ previous
@@ -53,16 +39,4 @@ ToPropertyChangedEvent >> previous [
 ToPropertyChangedEvent >> previous: anObject [
 
 	previous := anObject
-]
-
-{ #category : #accessing }
-ToPropertyChangedEvent >> propertyName [
-
-	^ propertyName
-]
-
-{ #category : #accessing }
-ToPropertyChangedEvent >> propertyName: aString [
-
-	propertyName := aString
 ]

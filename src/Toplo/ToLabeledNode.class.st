@@ -4,9 +4,9 @@ Class {
 	#traits : 'TToLabeledIcon + TToClickable',
 	#classTraits : 'TToLabeledIcon classTrait + TToClickable classTrait',
 	#instVars : [
-		'#icon => ToPropertyWithSkinSlot',
-		'#label => ToPropertyWithSkinSlot',
-		'#extra => ToPropertyWithSkinSlot'
+		'#icon => ToSkinnableSlot',
+		'#label => ToSkinnableSlot',
+		'#extra => ToSkinnableSlot'
 	],
 	#category : #'Toplo-Core-Node'
 }

@@ -100,12 +100,10 @@ ToWidgetSkin >> isInstalled [
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> launchSkinInitializationIn: anElement [
 
-	| state |
 	self isInitialized ifTrue: [ ^ self ].
 	self markAsInitialized.
 	anElement isDisabled ifTrue: [ ^ anElement switchToSkinState: ToDisabledState new ].
-	state := anElement currentSkinState ifNil: [ ToInitialState new ].
-	anElement switchToSkinState: state.
+	anElement switchToSkinState: ToInitialState new.
 
 ]
 
@@ -222,7 +220,8 @@ ToWidgetSkin >> skinnablePropertyChangedEvent: anEvent [
 ToWidgetSkin >> themeChangedEvent: anEvent [
 
 	self launchSkinUninstallationIn: anEvent currentTarget.
-	"self launchSkinInstallationIn: anEvent currentTarget."
+	self launchSkinInstallationIn: anEvent currentTarget.	
+	self launchSkinInitializationIn:  anEvent currentTarget.
 ]
 
 { #category : #'api - accessing' }

@@ -1211,7 +1211,7 @@ ToSandBox class >> example_ToButtonWithDefaultSkin [
 
 	space root addChild: pane.
 	space root addChild: button1.
-button1 inspect.
+
 	space show.
 ]
 

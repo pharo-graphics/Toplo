@@ -1,8 +1,6 @@
 Trait {
 	#name : #TToEnableableHandler,
 	#instVars : [
-		'enabledHandler',
-		'disabledHandler',
 		'enablementHandler'
 	],
 	#category : #'Toplo-Core'

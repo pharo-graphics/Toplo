@@ -17,7 +17,7 @@ ToButtonLinkType >> borderLookIn: anElement [
 ]
 
 { #category : #accessing }
-ToButtonLinkType >> enabledRegularBackgroundLookIn: anElement [
+ToButtonLinkType >> regularBackgroundLookIn: anElement [
 
 	^ nil
 ]
@@ -26,6 +26,7 @@ ToButtonLinkType >> enabledRegularBackgroundLookIn: anElement [
 ToButtonLinkType >> regularFormLookIn: anElement [
 
 	^ ToImageFormLook new
+		  disabledColor: [ :e | e toTheme colorImageDisabled ];
 		  initialColor: [ :e | e toTheme colorLink ];
 		  hoverColor: [ :e | e toTheme colorLinkHover ];
 		  pressedColor: [ :e | e toTheme colorPrimaryPressed ];
@@ -36,8 +37,9 @@ ToButtonLinkType >> regularFormLookIn: anElement [
 ToButtonLinkType >> regularLabelLookIn: anElement [
 
 	^ ToLabelTextLook new
-		  initialColor: anElement toTheme colorLink;
-		  hoverColor: anElement toTheme colorLinkHover;
-		  pressedColor: anElement toTheme colorPrimaryPressed;
+		  disabledColor: [ :e | e toTheme colorTextDisabled ];
+		  initialColor: [ :e | e toTheme colorLink ];
+		  hoverColor: [ :e | e toTheme colorLinkHover ];
+		  pressedColor: [ :e | e toTheme colorPrimaryPressed ];
 		  yourself
 ]

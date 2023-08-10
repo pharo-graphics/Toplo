@@ -7,7 +7,8 @@ Class {
 		'hoverPaint',
 		'initialPaint',
 		'width',
-		'dashArray'
+		'dashArray',
+		'disabledPaint'
 	],
 	#category : #'Toplo-Core-Theme-Looks'
 }
@@ -63,6 +64,31 @@ ToBorderLook >> defaultBuilder [
 		  miterLimit: 4.0;
 		  dashOffset: 0;
 		  yourself
+]
+
+{ #category : #'event handling' }
+ToBorderLook >> disabledLookEvent: anEvent [
+
+	super disabledLookEvent: anEvent.
+	self disabledPaint ifNil: [ ^ self ].
+	anEvent elementDo: [ :e |
+		e border: (self builder
+				 dashArray: (self dashArray value: e);
+				 width: (self width value: e);
+				 paint: (self disabledPaint value: e);
+				 build) ]
+]
+
+{ #category : #accessing }
+ToBorderLook >> disabledPaint [
+
+	^ disabledPaint
+]
+
+{ #category : #accessing }
+ToBorderLook >> disabledPaint: aValuable [
+
+	disabledPaint := aValuable
 ]
 
 { #category : #accessing }

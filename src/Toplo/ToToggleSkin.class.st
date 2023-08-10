@@ -21,10 +21,10 @@ ToToggleSkin >> childSkinsToHandle [
 { #category : #accessing }
 ToToggleSkin >> labelLookIn: anElement [
 
-	| labelLook |
-	labelLook := ToLabelTextLook new.
-	labelLook initialColor: anElement toTheme colorTextLightSolid.
-	^ labelLook
+	^ ToLabelTextLook new
+		  disabledColor: [ :e | e toTheme colorTextDisabled ];
+		  initialColor: [ :e | e toTheme colorTextLightSolid ];
+		  yourself
 ]
 
 { #category : #'api - install/uninstall  hook' }

@@ -10,20 +10,19 @@ Class {
 { #category : #accessing }
 ToButtonType >> backgroundLookIn: anElement [
 
-	^ anElement isDisabled
-		  ifTrue: [ self disabledBackgroundLookIn: anElement ]
-		  ifFalse: [
-			  self danger
-				  ifTrue: [ self enabledDangerBackgroundLookIn: anElement ]
-				  ifFalse: [ self enabledRegularBackgroundLookIn: anElement ] ]
+	^ self danger
+		  ifTrue: [ self dangerBackgroundLookIn: anElement ]
+		  ifFalse: [ self regularBackgroundLookIn: anElement ]
 ]
 
 { #category : #accessing }
 ToButtonType >> borderLookIn: anElement [
 
-	^ anElement isDisabled
-		  ifTrue: [ self disabledBorderLookIn: anElement ]
-		  ifFalse: [ nil ]
+	^ ToBorderLook new
+		  disabledPaint: [ :e | e toTheme colorBorderDisabled ];
+		  initialPaint: [ :e | Color transparent ];
+		  width: [ :e | e toTheme lineWidth ];
+		  yourself
 ]
 
 { #category : #accessing }
@@ -38,28 +37,35 @@ ToButtonType >> danger: aBoolean [
 	danger := aBoolean
 ]
 
+{ #category : #accessing }
+ToButtonType >> dangerBackgroundLookIn: anElement [
+
+	^ ToBackgroundLook new
+		  disabledBg: [ :e | e toTheme colorBgContainerDisabled ];
+		  initialBg: [ :e | Color transparent ];
+		  yourself
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToButtonType >> dangerFormLookIn: anElement [
 
-	| formLook |
-	formLook := ToImageFormLook new.
-	formLook
+	^ ToImageFormLook new
+		disabledColor: [ :e | e toTheme colorImageDisabled ];
 		initialColor: [ :e | e toTheme colorError];
 		hoverColor: [ :e | e toTheme colorErrorHover];
-		pressedColor: [ :e | e toTheme colorError darker].
-	^ formLook
+		pressedColor: [ :e | e toTheme colorError darker];
+		yourself
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToButtonType >> dangerLabelLookIn: anElement [
 
-	| labelLook |
-	labelLook := ToLabelTextLook new.
-	labelLook
-		initialColor: anElement toTheme colorError;
-		hoverColor: anElement toTheme colorErrorHover;
-		pressedColor: anElement toTheme colorError darker.
-	^ labelLook
+	^ ToLabelTextLook new
+		  disabledColor: [ :e | e toTheme colorTextDisabled ];
+		  initialColor: [ :e | e toTheme colorError ];
+		  hoverColor: [ :e | e toTheme colorErrorHover ];
+		  pressedColor: [ :e | e toTheme colorError darker ];
+		  yourself
 ]
 
 { #category : #accessing }
@@ -68,71 +74,20 @@ ToButtonType >> dashed: aBoolean [
 	Error signal: 'Invalid property'.
 ]
 
-{ #category : #accessing }
-ToButtonType >> disabledBackgroundLookIn: anElement [
-
-	^ ToBackgroundLook new
-		  initialBg: [ :e | e toTheme colorBgContainerDisabled ];
-		  yourself
-]
-
-{ #category : #accessing }
-ToButtonType >> disabledBorderLookIn: anElement [
-
-	^ ToBorderLook new
-		  initialPaint: [ :e | e toTheme colorBorderDisabled ];
-		  width: [ :e | e toTheme lineWidth ];
-		  yourself
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonType >> disabledFormLookIn: anElement [
-
-	^ ToImageFormLook new
-		  initialColor: [ :e | e toTheme colorBorderDisabled ];
-		  yourself
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonType >> disabledLabelLookIn: anElement [
-
-	^ ToLabelTextLook new
-		  initialColor: anElement toTheme colorTextDisabled;
-		  yourself
-]
-
-{ #category : #accessing }
-ToButtonType >> enabledDangerBackgroundLookIn: anElement [
-
-	^ nil
-]
-
-{ #category : #accessing }
-ToButtonType >> enabledRegularBackgroundLookIn: anElement [
-
-	^ self subclassResponsibility 
-]
-
 { #category : #'api - install/uninstall  hook' }
 ToButtonType >> iconLookIn: anElement [
 
-	^ anElement isDisabled
-		  ifTrue: [ self disabledFormLookIn: anElement ]
-		  ifFalse: [
-			  self danger
-				  ifTrue: [ self dangerFormLookIn: anElement ]
-				  ifFalse: [ self regularFormLookIn: anElement ] ]
+	^ self danger
+		  ifTrue: [ self dangerFormLookIn: anElement ]
+		  ifFalse: [ self regularFormLookIn: anElement ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToButtonType >> labelLookIn: anElement [
 
-	^ anElement isDisabled
-		  ifTrue: [ self disabledLabelLookIn: anElement ]
-		  ifFalse: [
-			  self danger
-				  ifTrue: [ self dangerLabelLookIn: anElement ]
-				  ifFalse: [ self regularLabelLookIn: anElement ] ]
+	^ self danger
+		  ifTrue: [ self dangerLabelLookIn: anElement ]
+		  ifFalse: [ self regularLabelLookIn: anElement ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -160,6 +115,12 @@ ToButtonType >> onSkinInstalled: aSkin in: anElement [
 ToButtonType >> onSkinUninstalled: aSkin in: anElement [
 
 
+]
+
+{ #category : #accessing }
+ToButtonType >> regularBackgroundLookIn: anElement [
+
+	^ self subclassResponsibility 
 ]
 
 { #category : #'api - install/uninstall  hook' }

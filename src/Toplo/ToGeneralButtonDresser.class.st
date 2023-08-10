@@ -15,6 +15,21 @@ ToGeneralButtonDresser >> clicked: anElement [
 
 ]
 
+{ #category : #'events handling' }
+ToGeneralButtonDresser >> disabledState: anElement [
+
+	super disabledState: anElement.
+	self switchToState: ToDisabledState new in: anElement
+
+]
+
+{ #category : #'t - enableable handler - events handling' }
+ToGeneralButtonDresser >> enablementEvent: anEvent in: anElement [
+
+	anElement isEnabled ifTrue: [ ^ self initialState: anElement ].
+	self disabledState: anElement
+]
+
 { #category : #deprecated }
 ToGeneralButtonDresser >> hover: anElement event: anEvent [
 
@@ -37,6 +52,7 @@ ToGeneralButtonDresser >> hoveredState: anElement [
 { #category : #'events handling' }
 ToGeneralButtonDresser >> initialState: anElement [
 
+	super initialState: anElement.
 	self switchToState: ToInitialState new in: anElement
 ]
 

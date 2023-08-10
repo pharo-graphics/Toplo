@@ -16,7 +16,7 @@ TToEnableableHandler >> enablementEvent: anEvent in: anElement [
 TToEnableableHandler >> onInstalledEnableableHandlingIn: anElement [
 
 	enablementHandler := BlEventHandler
-		                     on: ToElementEnablementEvent
+		                     on: ToEnablementChangedEvent
 		                     do: [ :event | self enablementEvent: event in: anElement ].
 	anElement addEventHandler: enablementHandler
 ]

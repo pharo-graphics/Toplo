@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'initialColor',
 		'hoverColor',
-		'pressedColor'
+		'pressedColor',
+		'disabledColor'
 	],
 	#category : #'Toplo-Core-Theme-Looks'
 }
@@ -18,6 +19,27 @@ ToImageFormLook >> adaptForegroundIn: anElement withColor: aColor [
 			newForm := form collectColors: [ :color | aColor alpha: color alpha ].
 			anElement innerImage: newForm ]
 		ifNone: [  ]
+]
+
+{ #category : #accessing }
+ToImageFormLook >> disabledColor [
+
+	^ disabledColor
+]
+
+{ #category : #accessing }
+ToImageFormLook >> disabledColor: aValuable [
+
+	disabledColor := aValuable
+]
+
+{ #category : #'event handling' }
+ToImageFormLook >> disabledLookEvent: anEvent [
+
+	super disabledLookEvent: anEvent.
+	self disabledColor ifNil: [ ^ self ].
+	anEvent elementDo: [ :e |
+		self adaptForegroundIn: e withColor: (self disabledColor value: e) ]
 ]
 
 { #category : #accessing }

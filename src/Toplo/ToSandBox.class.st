@@ -1161,7 +1161,7 @@ ToSandBox class >> example_ToButtonWithDefaultDangerSkin [
 ToSandBox class >> example_ToButtonWithDefaultSkin [
 
 
-	| space button1 themeSwitcher skinSwitcher pane |
+	| space button1 themeSwitcher skinSwitcher pane enablementSwitcher |
 	
 	space := BlSpace new.
 	pane := ToPane horizontal.
@@ -1186,12 +1186,32 @@ ToSandBox class >> example_ToButtonWithDefaultSkin [
 			
 	themeSwitcher whenSelectedIndexChangedDo: [ space toTheme: themeSwitcher selectedData new ].
 	themeSwitcher selectData: space toTheme class.
+	
+	enablementSwitcher := ToToggleButton new.
+	enablementSwitcher switchBarOnElement:
+		((ToLabel text: 'Enabled') withSkin:
+			 (ToButtonLabelSkin new buttonType: enablementSwitcher privateSkin)).
+	enablementSwitcher switchBarOffElement:
+		((ToLabel text: 'Disabled') withSkin:
+			 (ToButtonLabelSkin new buttonType: enablementSwitcher privateSkin)).
+	enablementSwitcher check.
+	enablementSwitcher 
+		when: ToCheckableCheckEvent 
+		do: [ :event | button1 enabled: event target isChecked  ].
+	enablementSwitcher constraintsDo: [ :c |
+		c linear vertical alignCenter ].
+
 
 	pane addChild: themeSwitcher.
 	pane addChild: skinSwitcher.
+	pane addChild: enablementSwitcher.
+	
+	pane childrenDo: [ :child | child constraintsDo: [ :c |
+		c linear vertical alignCenter ] ].
+
 	space root addChild: pane.
 	space root addChild: button1.
-
+button1 inspect.
 	space show.
 ]
 

@@ -5,22 +5,13 @@ Class {
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonPrimaryType >> enabledDangerBackgroundLookIn: anElement [
+ToButtonPrimaryType >> dangerBackgroundLookIn: anElement [
 
 	^ ToBackgroundLook new
 		  initialBg: [ :e | e toTheme colorError ];
+		  disabledBg: [ :e | e toTheme colorBgContainerDisabled ];
 		  pressedBg: [ :e | e toTheme colorErrorPressed ];
 		  hoverBg: [ :e | e toTheme colorErrorHover ];
-		  yourself
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonPrimaryType >> enabledRegularBackgroundLookIn: anElement [
-
-	^ ToBackgroundLook new
-		  initialBg: [ :e | e toTheme colorPrimary ];
-		  pressedBg: [ :e | e toTheme colorPrimaryPressed ];
-		  hoverBg: [ :e | e toTheme colorPrimaryHover ];
 		  yourself
 ]
 
@@ -37,9 +28,21 @@ ToButtonPrimaryType >> labelLookIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
+ToButtonPrimaryType >> regularBackgroundLookIn: anElement [
+
+	^ ToBackgroundLook new
+		  initialBg: [ :e | e toTheme colorPrimary ];
+		  disabledBg: [ :e | e toTheme colorBgContainerDisabled ];
+		  pressedBg: [ :e | e toTheme colorPrimaryPressed ];
+		  hoverBg: [ :e | e toTheme colorPrimaryHover ];
+		  yourself
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToButtonPrimaryType >> regularFormLookIn: anElement [
 
 	^ ToImageFormLook new
+		  disabledColor: [ :e | e toTheme colorImageDisabled ];
 		  initialColor: [ :e | e toTheme colorImageLightSolid ];
 		  yourself
 ]
@@ -48,6 +51,7 @@ ToButtonPrimaryType >> regularFormLookIn: anElement [
 ToButtonPrimaryType >> regularLabelLookIn: anElement [
 
 	^ ToLabelTextLook new
-		  initialColor: anElement toTheme colorTextLightSolid;
+		  disabledColor: [ :e | e  toTheme colorTextDisabled];
+		  initialColor: [ :e | e  toTheme colorTextLightSolid];
 		  yourself
 ]

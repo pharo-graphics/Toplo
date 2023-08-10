@@ -32,6 +32,21 @@ BlElement >> currentSkinState: aState [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> disable [
+
+	self isFlaggedAsDisabled ifFalse: [
+		self flagAsDisabled.
+		self dispatchEnablementChangedEvent  ].
+	self childrenDo: [ :child | child disable ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> dispatchEnablementChangedEvent [
+
+	self dispatchEvent: ToEnablementChangedEvent new
+]
+
+{ #category : #'*Toplo' }
 BlElement >> dispatchLookEvent: anEvent [
 
 	self dispatchEvent: anEvent.
@@ -48,9 +63,54 @@ BlElement >> dispatchSkinChangedEvent [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> enable [
+
+	self isFlaggedAsEnabled ifFalse: [
+		self flagAsEnabled.
+		self dispatchEnablementChangedEvent ].
+	self childrenDo: [ :child | child enable ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> flagAsDisabled [
+
+	self userData at: #enabled put: false
+]
+
+{ #category : #'*Toplo' }
+BlElement >> flagAsEnabled [
+
+	self userData at: #enabled put: true
+]
+
+{ #category : #'*Toplo' }
 BlElement >> holder [
 
 	^ self constraints infinite holder
+]
+
+{ #category : #'*Toplo' }
+BlElement >> isDisabled [
+
+	^ self isFlaggedAsDisabled
+]
+
+{ #category : #'*Toplo' }
+BlElement >> isEnabled [
+
+	^ self isFlaggedAsEnabled 
+]
+
+{ #category : #'*Toplo' }
+BlElement >> isFlaggedAsDisabled [
+
+	^ self isFlaggedAsEnabled not
+]
+
+{ #category : #'*Toplo' }
+BlElement >> isFlaggedAsEnabled [
+
+	^ self userData at: #enabled ifAbsentPut: [ true ]
 ]
 
 { #category : #'*Toplo' }
@@ -126,7 +186,6 @@ BlElement >> privateToTheme: aTheme [
 { #category : #'*Toplo' }
 BlElement >> switchToSkinState: aState [
 
-	"self currentState class = aState class ifTrue: [ ^ self ]."
 	self currentSkinState: aState.
 	self dispatchLookEvent: (ToElementStateChangedEvent new state: aState; yourself)
 ]

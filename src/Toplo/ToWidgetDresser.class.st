@@ -58,6 +58,12 @@ ToWidgetDresser >> clickedAvorted: anElement event: anEvent [
 	anEvent processor fireClickEventFrom: anEvent
 ]
 
+{ #category : #'api - install/uninstall  hook' }
+ToWidgetDresser >> disabledState: anElement [
+
+	mouseEventListener ifNotNil: [ :l | anElement removeEventHandler: l ]
+]
+
 { #category : #'deprecated events handling' }
 ToWidgetDresser >> doubleClicked: anElement event: anEvent [
 
@@ -80,6 +86,9 @@ ToWidgetDresser >> hover: anElement event: anEvent [
 
 { #category : #'api - install/uninstall  hook' }
 ToWidgetDresser >> initialState: anElement [
+
+	(anElement eventDispatcher hasHandler: mouseEventListener) ifFalse: [
+		anElement addEventHandler: mouseEventListener ]
 ]
 
 { #category : #'deprecated events handling' }

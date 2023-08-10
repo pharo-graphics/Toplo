@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'initialBg',
 		'hoverBg',
-		'pressedBg'
+		'pressedBg',
+		'disabledBg'
 	],
 	#category : #'Toplo-Core-Theme-Looks'
 }
@@ -15,6 +16,26 @@ ToBackgroundLook >> clickLookEvent: anEvent [
 	super clickLookEvent: anEvent .
 	anEvent elementDo: [ :e |
 		self hoverBg ifNotNil: [ :bg | e background: (bg value: e)] ]
+]
+
+{ #category : #accessing }
+ToBackgroundLook >> disabledBg [
+
+	^ disabledBg
+]
+
+{ #category : #accessing }
+ToBackgroundLook >> disabledBg: aValuable [
+
+	disabledBg := aValuable
+]
+
+{ #category : #'event handling' }
+ToBackgroundLook >> disabledLookEvent: anEvent [
+
+	super disabledLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		self disabledBg ifNotNil: [ :bg | e background: (bg value: e)] ]
 ]
 
 { #category : #accessing }

@@ -1,55 +1,58 @@
 Class {
 	#name : #ToLabelTextLook,
 	#superclass : #ToDefaultElementLook,
+	#traits : 'TBlTextStyleable',
+	#classTraits : 'TBlTextStyleable classTrait',
 	#instVars : [
 		'attrBuilder',
 		'pressedColor',
 		'hoverColor',
-		'initialColor'
+		'initialColor',
+		'disabledColor'
 	],
 	#category : #'Toplo-Core-Theme-Looks'
 }
 
 { #category : #accessing }
-ToLabelTextLook >> attrBuilder [
-
-	^ attrBuilder 
-]
-
-{ #category : #accessing }
-ToLabelTextLook >> attrBuilder: aTextAttributesBuilder [
-
-	attrBuilder := aTextAttributesBuilder
-]
-
-{ #category : #accessing }
 ToLabelTextLook >> attributes [
 
-	^ self attrBuilder attributes
+	^ self attributesBuilder attributes
+]
+
+{ #category : #accessing }
+ToLabelTextLook >> attributesBuilder [
+	<return: #BlTextAttributesBuilder>
+	
+	^  attrBuilder 
 ]
 
 { #category : #initialization }
-ToLabelTextLook >> defaultAttrBuilder [
+ToLabelTextLook >> defaultAttributeBuilder [
 
 	^ BlTextAttributesBuilder new
 ]
 
 { #category : #accessing }
-ToLabelTextLook >> defaultFontName: aString [
+ToLabelTextLook >> disabledColor [
 
-	self attrBuilder defaultFontName: aString
+	^ disabledColor
 ]
 
 { #category : #accessing }
-ToLabelTextLook >> defaultFontSize: aNumber [
+ToLabelTextLook >> disabledColor: aValuable [
 
-	self attrBuilder defaultFontSize: aNumber
+	disabledColor := aValuable
 ]
 
-{ #category : #accessing }
-ToLabelTextLook >> foreground: aColor [
+{ #category : #'event handling' }
+ToLabelTextLook >> disabledLookEvent: anEvent [
 
-	self attrBuilder foreground: aColor
+	super disabledLookEvent: anEvent.
+	self disabledColor ifNil: [ ^ self ].
+	anEvent elementDo: [ :e |
+		self foreground: (self disabledColor value: e) ].
+	anEvent target text attributes: self attributes.
+	anEvent target textChanged
 ]
 
 { #category : #accessing }
@@ -59,9 +62,9 @@ ToLabelTextLook >> hoverColor [
 ]
 
 { #category : #accessing }
-ToLabelTextLook >> hoverColor: anObject [
+ToLabelTextLook >> hoverColor: aValuable [
 
-	hoverColor := anObject
+	hoverColor := aValuable
 ]
 
 { #category : #'event handling' }
@@ -69,7 +72,8 @@ ToLabelTextLook >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	self hoverColor ifNil: [ ^ self ].
-	self foreground: self hoverColor.
+	anEvent elementDo: [ :e |
+		self foreground: (self hoverColor value: e) ].
 	anEvent target text attributes: self attributes.
 	anEvent target textChanged
 ]
@@ -81,9 +85,9 @@ ToLabelTextLook >> initialColor [
 ]
 
 { #category : #accessing }
-ToLabelTextLook >> initialColor: aColor [
+ToLabelTextLook >> initialColor: aValuable [
 
-	initialColor := aColor
+	initialColor := aValuable
 ]
 
 { #category : #'event handling' }
@@ -91,7 +95,8 @@ ToLabelTextLook >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
 	self initialColor ifNil: [ ^ self ].
-	self foreground: self initialColor.
+	anEvent elementDo: [ :e |
+		self foreground: (self initialColor value: e) ].
 	anEvent target text attributes: self attributes.
 	anEvent target textChanged
 ]
@@ -100,13 +105,7 @@ ToLabelTextLook >> initialLookEvent: anEvent [
 ToLabelTextLook >> initialize [ 
 
 	super initialize.
-	attrBuilder := self defaultAttrBuilder
-]
-
-{ #category : #accessing }
-ToLabelTextLook >> lineSpacing: aNumber [
-
-	self attrBuilder lineSpacing: aNumber
+	attrBuilder := self defaultAttributeBuilder
 ]
 
 { #category : #accessing }
@@ -116,9 +115,9 @@ ToLabelTextLook >> pressedColor [
 ]
 
 { #category : #accessing }
-ToLabelTextLook >> pressedColor: anObject [
+ToLabelTextLook >> pressedColor: aValuable [
 
-	pressedColor := anObject
+	pressedColor := aValuable
 ]
 
 { #category : #'event handling' }
@@ -126,7 +125,8 @@ ToLabelTextLook >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
 	self pressedColor ifNil: [ ^ self ].
-	self foreground: self pressedColor.
+	anEvent elementDo: [ :e |
+		self foreground: (self pressedColor value: e) ].
 	anEvent target text attributes: self attributes.
 	anEvent target textChanged
 ]

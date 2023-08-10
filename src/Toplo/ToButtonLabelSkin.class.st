@@ -19,14 +19,18 @@ ToButtonLabelSkin >> buttonType: aButtonType [
 	buttonType := aButtonType
 ]
 
+{ #category : #accessing }
+ToButtonLabelSkin >> labelLookIn: anElement [
+
+	^ (self buttonType labelLookIn: anElement)
+		  weight: anElement toTheme fontWeightStrong;
+		  defaultFontName: anElement toTheme fontFamilyCode;
+		  yourself
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToButtonLabelSkin >> onSkinInstalledIn: anElement [
 
-	| labelLook attrBuilder |
 	super onSkinInstalledIn: anElement.
-	attrBuilder := self textAttributesBuilderFromElement: anElement.
-	labelLook := self buttonType labelLookIn: anElement.
-	labelLook attrBuilder: attrBuilder.
-	self addLook: labelLook
-
+	self addLook: (self labelLookIn: anElement)
 ]

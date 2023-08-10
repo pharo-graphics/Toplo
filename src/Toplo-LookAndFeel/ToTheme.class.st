@@ -243,6 +243,12 @@ ToTheme >> colorImage [
 ]
 
 { #category : #colors }
+ToTheme >> colorImageDisabled [
+	
+	^ Color r: 0.7 g: 0.7 b: 0.7 alpha: 1.0
+]
+
+{ #category : #colors }
 ToTheme >> colorImageLightSolid [
 	
 	^ self colorTextLightSolid

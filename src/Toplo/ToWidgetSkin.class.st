@@ -103,6 +103,7 @@ ToWidgetSkin >> launchSkinInitializationIn: anElement [
 	| state |
 	self isInitialized ifTrue: [ ^ self ].
 	self markAsInitialized.
+	anElement isDisabled ifTrue: [ ^ anElement switchToSkinState: ToDisabledState new ].
 	state := anElement currentSkinState ifNil: [ ToInitialState new ].
 	anElement switchToSkinState: state.
 
@@ -220,7 +221,8 @@ ToWidgetSkin >> skinnablePropertyChangedEvent: anEvent [
 { #category : #'event handling' }
 ToWidgetSkin >> themeChangedEvent: anEvent [
 
-	self launchSkinUninstallationIn: anEvent currentTarget
+	self launchSkinUninstallationIn: anEvent currentTarget.
+	"self launchSkinInstallationIn: anEvent currentTarget."
 ]
 
 { #category : #'api - accessing' }

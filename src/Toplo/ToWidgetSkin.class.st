@@ -103,8 +103,7 @@ ToWidgetSkin >> launchSkinInitializationIn: anElement [
 	self isInitialized ifTrue: [ ^ self ].
 	self markAsInitialized.
 	anElement isDisabled ifTrue: [ ^ anElement switchToSkinState: ToDisabledState new ].
-	anElement switchToSkinState: ToInitialState new.
-
+	anElement switchToSkinState: ToInitialState new
 ]
 
 { #category : #'api - install/uninstall  hook' }

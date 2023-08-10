@@ -1,34 +1,8 @@
 Class {
 	#name : #ToGeneralButtonDresser,
 	#superclass : #ToWidgetDresser,
-	#instVars : [
-		'mouseUpOutsideHandler'
-	],
 	#category : #'Toplo-Widget-Button'
 }
-
-{ #category : #'events handling' }
-ToGeneralButtonDresser >> clicked: anElement [
-
-	anElement dispatchLookEvent: ToClickLookEvent new.
-	self hoveredState: anElement 
-
-]
-
-{ #category : #'events handling' }
-ToGeneralButtonDresser >> disabledState: anElement [
-
-	super disabledState: anElement.
-	self switchToState: ToDisabledState new in: anElement
-
-]
-
-{ #category : #'t - enableable handler - events handling' }
-ToGeneralButtonDresser >> enablementEvent: anEvent in: anElement [
-
-	anElement isEnabled ifTrue: [ ^ self initialState: anElement ].
-	self disabledState: anElement
-]
 
 { #category : #deprecated }
 ToGeneralButtonDresser >> hover: anElement event: anEvent [
@@ -42,37 +16,6 @@ ToGeneralButtonDresser >> hover: anElement event: anEvent [
 	self hoveredState: anElement
 ]
 
-{ #category : #'events handling' }
-ToGeneralButtonDresser >> hoveredState: anElement [
-
-	self switchToState: ToHoveredState new in: anElement
-
-]
-
-{ #category : #'events handling' }
-ToGeneralButtonDresser >> initialState: anElement [
-
-	super initialState: anElement.
-	self switchToState: ToInitialState new in: anElement
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToGeneralButtonDresser >> installEventListenersIn: anElement [
-
-	super installEventListenersIn: anElement.
-	" since BlMousePickOutsideEvent is not a BlUIEvent, it is not handled by a BlEventListener"
-	mouseUpOutsideHandler := BlEventHandler
-		                         on: BlMouseUpOutsideEvent
-		                         do: [ :event | self mouseUpOutsideEvent: event in: anElement ].
-	anElement addEventHandler: mouseUpOutsideHandler
-]
-
-{ #category : #'events handling' }
-ToGeneralButtonDresser >> leaved: anElement [
-
-	anElement dispatchLookEvent: ToLeavedLookEvent new
-]
-
 { #category : #deprecated }
 ToGeneralButtonDresser >> leaved: anElement event: anEvent [
 
@@ -83,26 +26,6 @@ ToGeneralButtonDresser >> leaved: anElement event: anEvent [
 
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
 	self leaved: anElement
-]
-
-{ #category : #'events handling' }
-ToGeneralButtonDresser >> leftClickEvent: anEvent in: anElement [
-
-	self clicked: anElement
-]
-
-{ #category : #'events handling' }
-ToGeneralButtonDresser >> leftMouseDownEvent: anEvent in: anElement [
-
-	self pressedState: anElement
-]
-
-{ #category : #'events handling' }
-ToGeneralButtonDresser >> leftMouseUpEvent: anEvent in: anElement [
-
-	self hoveredState: anElement 
-
-
 ]
 
 { #category : #deprecated }
@@ -126,58 +49,5 @@ ToGeneralButtonDresser >> leftUp: anElement event: anEvent [
 			-> '`@receiver leftMouseUpEvent: `@anEvent in: `@anElement'.
 
 	self leftMouseUpEvent: anEvent in: anElement.
-
-]
-
-{ #category : #'events handling' }
-ToGeneralButtonDresser >> mouseEnterEvent: anEvent in: anElement [
-
-	anEvent anyButtonPressed ifTrue: [ ^ self ].
-	self hoveredState: anElement
-]
-
-{ #category : #'events handling' }
-ToGeneralButtonDresser >> mouseLeaveEvent: anEvent in: anElement [
-
-	anEvent anyButtonPressed ifTrue: [ ^ self ].
-	self leaved: anElement.
-	self initialState: anElement
-
-
-
-]
-
-{ #category : #'events handling' }
-ToGeneralButtonDresser >> mouseUpOutsideEvent: anEvent in: anElement [
-	"Outside event can have a button element as target. 
-	In that case, no action is triggered "
-
-	(anEvent originalEvent target notNil and: [
-		 anEvent originalEvent target hasParent: anElement ]) ifTrue: [
-		^ self ].
-	"MouseUpOutside for a button is managed if a MouseDown (inside) has occured before (with a consequent pressed state).
-	So, do not change the state if the button is not in pressed state"
-	anElement currentSkinState isPressedState ifFalse: [ ^ self ].
-	self initialState: anElement
-]
-
-{ #category : #'events handling' }
-ToGeneralButtonDresser >> pressedState: anElement [
-
-	self switchToState: ToPressedState new in: anElement
-]
-
-{ #category : #'events handling' }
-ToGeneralButtonDresser >> switchToState: aState in: anElement [
-
-	anElement switchToSkinState: aState
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToGeneralButtonDresser >> uninstallEventListenersIn: anElement [
-
-	anElement removeEventHandler: mouseUpOutsideHandler.
-	super uninstallEventListenersIn: anElement
-
 
 ]

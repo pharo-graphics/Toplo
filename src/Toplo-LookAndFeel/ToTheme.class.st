@@ -159,6 +159,20 @@ ToTheme >> borderRadius [
 	^ 6
 ]
 
+{ #category : #border }
+ToTheme >> borderRadiusLG [
+	"https://ant.design/components/button#design-token"
+	
+	^ 8
+]
+
+{ #category : #border }
+ToTheme >> borderRadiusSM [
+	"https://ant.design/components/button#design-token"
+	
+	^ 4
+]
+
 { #category : #colors }
 ToTheme >> colorBgContainer [
 	"https://ant.design/components/button#design-token"

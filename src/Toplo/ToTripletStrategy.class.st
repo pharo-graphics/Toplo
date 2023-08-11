@@ -35,9 +35,13 @@ ToTripletStrategy >> onMeasure: anExtentMeasurementSpec in: aPair [
 ToTripletStrategy >> updateChildrenIn: anElement [
 
 	| subs |
-	
 	subs := self childrenIn: anElement.
 	anElement children asArray = subs ifTrue: [ ^ self ].
 	anElement removeChildren.
+	self flag: 'workaround - skin related: frame layout can be used in case ToCircleShaping is applied by skin'.
+	subs do: [ :child |
+		child constraintsDo: [ :c |
+			c frame horizontal alignCenter.
+			c frame vertical alignCenter ] ].
 	anElement addChildren: subs
 ]

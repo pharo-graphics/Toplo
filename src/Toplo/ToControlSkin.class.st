@@ -3,26 +3,24 @@ Class {
 	#superclass : #ToWidgetSkin,
 	#instVars : [
 		'cursorLook',
-		'sizing'
+		'sizing',
+		'shaping'
 	],
 	#category : #'Toplo-Core-Theme'
 }
 
 { #category : #accessing }
-ToControlSkin >> changeSizingWith: aSymbol in: anElement [
+ToControlSkin >> changeShapingWith: aControlShaping in: anElement [
 
-	self sizing: aSymbol.
+	self shaping: aControlShaping.
 	self dispatchChangedEventIn: anElement
 ]
 
-{ #category : #'api - install/uninstall  hook' }
-ToControlSkin >> initializeSizeIn: anElement [
+{ #category : #accessing }
+ToControlSkin >> changeSizingWith: aControlSizing in: anElement [
 
-	self sizing = #middle ifTrue: [
-		^ anElement height: anElement toTheme controlHeight ].
-	self sizing = #large ifTrue: [
-		^ anElement height: anElement toTheme controlHeightLG ].
-	anElement height: anElement toTheme controlHeightSM
+	self sizing: aControlSizing.
+	self dispatchChangedEventIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -32,8 +30,9 @@ ToControlSkin >> onSkinInstalledIn: anElement [
 	cursorLook := ToMouseCursorLook new.
 	cursorLook hoverCursor: [ :but | but isEnabled ifTrue: [ BlCursor hand ] ifFalse: []].
 	self addLook: cursorLook.
-	self initializeSizeIn: anElement.
-
+	" shape depends on the size so sizing is applied first "
+	self sizing applyOn: anElement.
+	self shaping applyOn: anElement
 
 ]
 
@@ -45,15 +44,29 @@ ToControlSkin >> onSkinUninstalledIn: anElement [
 ]
 
 { #category : #accessing }
-ToControlSkin >> sizing [
+ToControlSkin >> shaping [
+	" CircleShaping | RoundShaping | DefaultShaping "
 
-	" large | middle (default) | small "
-	^ sizing ifNil: [ sizing := #middle ]
+	^ shaping ifNil: [ shaping := ToDefaultShaping new ]
 ]
 
 { #category : #accessing }
-ToControlSkin >> sizing: aSymbol [
+ToControlSkin >> shaping: aControlShaping [
 
-	" large | middle (default) | small "
-	sizing := aSymbol
+	" CircleShaping | RoundShaping | DefaultShaping "
+	shaping := aControlShaping
+]
+
+{ #category : #accessing }
+ToControlSkin >> sizing [
+	" LargeSizing | MiddleSizing (default) | SmallSizing "
+
+	^ sizing ifNil: [ sizing := ToMiddleSizing new ]
+]
+
+{ #category : #accessing }
+ToControlSkin >> sizing: aControlSizing [
+
+	" LargeSizing | MiddleSizing (default) | SmallSizing "
+	sizing := aControlSizing
 ]

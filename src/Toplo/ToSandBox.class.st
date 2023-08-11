@@ -938,13 +938,12 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 { #category : #button }
 ToSandBox class >> example_ToButtonSkins [
 
-	| space pane themeSwitcher butBuilder buttonSpecsBuilder enablementSwitcher allButtons sizingGroup smallSizingRadio middleSizingRadio largeSizingRadio |
+	| space pane themeSwitcher butBuilder buttonSpecsBuilder enablementSwitcher allButtons sizingGroup smallSizingRadio middleSizingRadio largeSizingRadio shapingGroup circleShapingRadio defaultShapingRadio roundShapingRadio topBar buttonBar |
 	space := BlSpace new.
 	allButtons := OrderedCollection new.
 
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
-	pane := ToPane horizontal.
-	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+	topBar := ToMenuBar new beHorizontal; hMatchParent.
 
 	themeSwitcher := ToChoiceBox new.
 	themeSwitcher data addAll: {
@@ -954,7 +953,7 @@ ToSandBox class >> example_ToButtonSkins [
 	themeSwitcher whenSelectedIndexChangedDo: [
 		space toTheme: themeSwitcher selectedData new ].
 	themeSwitcher selectData: space toTheme class.
-	pane addChild: themeSwitcher.
+	topBar addChild: themeSwitcher.
 
 	enablementSwitcher := ToToggleButton new.
 	enablementSwitcher switchBarOnElement:
@@ -969,41 +968,66 @@ ToSandBox class >> example_ToButtonSkins [
 		do: [ :event |
 		allButtons do: [ :b | b enabled: event target isChecked ] ].
 
-	pane addChild: enablementSwitcher.
+	topBar addChild: enablementSwitcher.
 
+	buttonBar := ToPane horizontal hFitContent.
+	buttonBar layout cellSpacing: 10.
+	 
 	sizingGroup := ToCheckableGroup new.
 	smallSizingRadio := ToRadioButton new labelText: 'Small'.
+	smallSizingRadio userData at: #sizing put: ToSmallSizing new.
 	middleSizingRadio := ToRadioButton new labelText: 'Middle'.
+	middleSizingRadio userData at: #sizing put: ToMiddleSizing new.
 	largeSizingRadio := ToRadioButton new labelText: 'Large'.
+	largeSizingRadio userData at: #sizing put: ToLargeSizing new.
 	middleSizingRadio checked: true.
 	sizingGroup addAll: {
 			smallSizingRadio.
 			middleSizingRadio.
 			largeSizingRadio }.
 	sizingGroup when: ToCheckableGroupChangedEvent do: [ :event |
-		| choice |
+		| choice sizing |
 		choice := event checkedButtons anyOne.
-		choice = smallSizingRadio
-			ifTrue: [
-				allButtons do: [ :but |
-					but skinDo: [ :s | s changeSizingWith: #small in: but ] ] ]
-			ifFalse: [
-				choice = middleSizingRadio
-					ifTrue: [
-						allButtons do: [ :but |
-							but skinDo: [ :s | s changeSizingWith: #middle in: but ] ] ]
-					ifFalse: [
-						allButtons do: [ :but |
-							but skinDo: [ :s | s changeSizingWith: #large in: but ] ] ] ] ].
+		sizing := choice userData at: #sizing.
+		allButtons do: [ :but | but skinDo: [ :s | s changeSizingWith: sizing in: but ] ] ].
 
-	pane addChildren: {
+	buttonBar addChildren: {
 			smallSizingRadio.
 			middleSizingRadio.
 			largeSizingRadio }.
-	pane childrenDo: [ :child |
+	topBar addChild: buttonBar.
+	
+	buttonBar := ToPane horizontal hFitContent.
+	buttonBar layout cellSpacing: 10.
+
+	shapingGroup := ToCheckableGroup new.
+	circleShapingRadio := ToRadioButton new labelText: 'Circle'.
+	circleShapingRadio userData at: #shaping put: ToCircleShaping new.
+	defaultShapingRadio := ToRadioButton new labelText: 'Default shape'.
+	defaultShapingRadio userData at: #shaping put: ToDefaultShaping new.
+	roundShapingRadio := ToRadioButton new labelText: 'Round'.
+	roundShapingRadio userData at: #shaping put: ToRoundShaping new.
+	defaultShapingRadio checked: true.
+	shapingGroup addAll: {
+			circleShapingRadio.
+			defaultShapingRadio.
+			roundShapingRadio }.
+	shapingGroup when: ToCheckableGroupChangedEvent do: [ :event |
+		| choice shaping |
+		choice := event checkedButtons anyOne.
+		shaping := choice userData at: #shaping.
+		allButtons do: [ :but | but skinDo: [ :s | s changeShapingWith: shaping in: but ] ] ].
+
+	buttonBar addChildren: {
+			circleShapingRadio.
+			defaultShapingRadio.
+			roundShapingRadio }.
+	topBar addChild: buttonBar.
+	
+	topBar childrenDo: [ :child |
 		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
 
-	space root addChild: pane.
+	space root addChild: topBar.
 
 	butBuilder := [
 	              ToImage new innerImage:

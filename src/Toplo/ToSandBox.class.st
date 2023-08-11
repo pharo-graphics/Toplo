@@ -938,10 +938,10 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 { #category : #button }
 ToSandBox class >> example_ToButtonSkins [
 
-	| space pane themeSwitcher butBuilder buttonSpecsBuilder enablementSwitcher allButtons |
+	| space pane themeSwitcher butBuilder buttonSpecsBuilder enablementSwitcher allButtons sizingGroup smallSizingRadio middleSizingRadio largeSizingRadio |
 	space := BlSpace new.
 	allButtons := OrderedCollection new.
-	
+
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 	pane := ToPane horizontal.
 	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
@@ -954,7 +954,6 @@ ToSandBox class >> example_ToButtonSkins [
 	themeSwitcher whenSelectedIndexChangedDo: [
 		space toTheme: themeSwitcher selectedData new ].
 	themeSwitcher selectData: space toTheme class.
-	themeSwitcher constraintsDo: [ :c | c linear vertical alignCenter ].
 	pane addChild: themeSwitcher.
 
 	enablementSwitcher := ToToggleButton new.
@@ -965,13 +964,45 @@ ToSandBox class >> example_ToButtonSkins [
 		((ToLabel text: 'Disabled') withSkin:
 			 (ToButtonLabelSkin new buttonType: enablementSwitcher privateSkin)).
 	enablementSwitcher check.
-	enablementSwitcher 
-		when: ToCheckableCheckEvent 
-		do: [ :event | allButtons do: [ :b | b enabled: event target isChecked ] ].
-	enablementSwitcher constraintsDo: [ :c |
-		c linear vertical alignCenter ].
+	enablementSwitcher
+		when: ToCheckableCheckEvent
+		do: [ :event |
+		allButtons do: [ :b | b enabled: event target isChecked ] ].
 
 	pane addChild: enablementSwitcher.
+
+	sizingGroup := ToCheckableGroup new.
+	smallSizingRadio := ToRadioButton new labelText: 'Small'.
+	middleSizingRadio := ToRadioButton new labelText: 'Middle'.
+	largeSizingRadio := ToRadioButton new labelText: 'Large'.
+	middleSizingRadio checked: true.
+	sizingGroup addAll: {
+			smallSizingRadio.
+			middleSizingRadio.
+			largeSizingRadio }.
+	sizingGroup when: ToCheckableGroupChangedEvent do: [ :event |
+		| choice |
+		choice := event checkedButtons anyOne.
+		choice = smallSizingRadio
+			ifTrue: [
+				allButtons do: [ :but |
+					but skinDo: [ :s | s changeSizingWith: #small in: but ] ] ]
+			ifFalse: [
+				choice = middleSizingRadio
+					ifTrue: [
+						allButtons do: [ :but |
+							but skinDo: [ :s | s changeSizingWith: #middle in: but ] ] ]
+					ifFalse: [
+						allButtons do: [ :but |
+							but skinDo: [ :s | s changeSizingWith: #large in: but ] ] ] ] ].
+
+	pane addChildren: {
+			smallSizingRadio.
+			middleSizingRadio.
+			largeSizingRadio }.
+	pane childrenDo: [ :child |
+		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
+
 	space root addChild: pane.
 
 	butBuilder := [
@@ -1178,7 +1209,8 @@ ToSandBox class >> example_ToButtonWithDefaultSkin [
 	skinSwitcher := ToChoiceBox new.
 	skinSwitcher data addAll: { ToButtonDefaultType. ToButtonLinkType. ToButtonPrimaryType. ToButtonTextType }.
 			
-	skinSwitcher whenSelectedIndexChangedDo: [ button1 withSkin: (ToButtonSkin type: skinSwitcher selectedData new) ].
+	skinSwitcher whenSelectedIndexChangedDo: [ 
+		button1 skinDo: [ :s | s changeTypeWith: skinSwitcher selectedData new in: button1 ] ].
 	skinSwitcher selectData: button1 privateSkin type class.
 	
 	themeSwitcher := ToChoiceBox new.

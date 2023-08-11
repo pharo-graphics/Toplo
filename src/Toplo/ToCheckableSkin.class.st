@@ -10,6 +10,20 @@ ToCheckableSkin >> checkedImageIn: anElement [
 	^ self subclassResponsibility 
 ]
 
+{ #category : #'api - accessing' }
+ToCheckableSkin >> childSkinsToHandle [
+
+	^ {
+		  (ToChildSkin new
+			   slotName: #icon;
+			   skinBuilder: [ :e | self iconSkinIn: e ];
+			   yourself).
+		  (ToChildSkin new
+			   slotName: #label;
+			   skinBuilder: [ :e | self labelSkinIn: e ];
+			   yourself) }
+]
+
 { #category : #accessing }
 ToCheckableSkin >> iconSkinIn: aButton [
 

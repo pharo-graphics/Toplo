@@ -1,9 +1,8 @@
 Class {
 	#name : #ToButtonSkin,
-	#superclass : #ToWidgetSkin,
+	#superclass : #ToControlSkin,
 	#instVars : [
-		'type',
-		'cursorLook'
+		'type'
 	],
 	#category : #'Toplo-Widget-Button-Skins'
 }
@@ -12,6 +11,14 @@ Class {
 ToButtonSkin class >> type: aButtonType [
 
 	^ self new type: aButtonType 
+]
+
+{ #category : #accessing }
+ToButtonSkin >> changeTypeWith: aSkinType in: anElement [
+
+	"DefaultType, PrimaryType, LinkType or TextType "
+	self type: aSkinType.
+	self dispatchChangedEventIn: anElement
 ]
 
 { #category : #'api - accessing' }
@@ -82,11 +89,7 @@ ToButtonSkin >> labelSkinIn: aButton [
 ToButtonSkin >> onSkinInstalledIn: anElement [
 
 	super onSkinInstalledIn: anElement.
-	self type onSkinInstalled: self in: anElement.
-	cursorLook := ToMouseCursorLook new.
-	cursorLook hoverCursor: [ :but | but isEnabled ifTrue: [ BlCursor hand ] ifFalse: []].
-	self addLook: cursorLook.
-
+	self type onSkinInstalled: self in: anElement
 
 ]
 
@@ -94,7 +97,6 @@ ToButtonSkin >> onSkinInstalledIn: anElement [
 ToButtonSkin >> onSkinUninstalledIn: anElement [
 
 	self type onSkinUninstalled: self in: anElement.
-	self removeLook: cursorLook.
 	super onSkinUninstalledIn: anElement
 ]
 
@@ -109,6 +111,6 @@ ToButtonSkin >> type [
 { #category : #accessing }
 ToButtonSkin >> type: aSkinType [
 
-	"#default, #primary, #link or #text"
+	"DefaultType, PrimaryType, LinkType or TextType "
 	type := aSkinType
 ]

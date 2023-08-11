@@ -38,6 +38,14 @@ ToWidgetSkin >> childSkinsToHandle [
 	^ { }
 ]
 
+{ #category : #accessing }
+ToWidgetSkin >> dispatchChangedEventIn: anElement [
+
+	"DefaultType, PrimaryType, LinkType or TextType "
+	self markAsNotInstalled.
+	anElement dispatchSkinChangedEvent
+]
+
 { #category : #'event handling' }
 ToWidgetSkin >> elementLookEvent: anEvent [
 

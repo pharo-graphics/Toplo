@@ -184,6 +184,13 @@ BlElement >> privateToTheme: aTheme [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> skinDo: aBlock [
+
+	self privateSkin ifNil: [ ^ self ].
+	aBlock value: self privateSkin
+]
+
+{ #category : #'*Toplo' }
 BlElement >> switchToSkinState: aState [
 
 	self currentSkinState: aState.

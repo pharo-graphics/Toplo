@@ -9,13 +9,13 @@ Class {
 { #category : #'t - initialization dresser' }
 ToToggleButton >> defaultDresser [
 
-	^ ToCheckableButtonDresser new
+	^ ToToggleButtonDresser new
 ]
 
 { #category : #'t - initialization dresser' }
 ToToggleButton >> defaultSkin [
 
-	^ ToToggleSkin new
+	^ ToToggleButtonSkin new
 ]
 
 { #category : #initialization }
@@ -23,7 +23,7 @@ ToToggleButton >> initialize [
 
 	super initialize.
 	self initializeCheckable.
-	self track: ToToggleTrackElement new
+	self track: (ToToggleTrackElement new checked: self isChecked; yourself)
 ]
 
 { #category : #accessing }

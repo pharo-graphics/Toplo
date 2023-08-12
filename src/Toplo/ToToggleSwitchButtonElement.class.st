@@ -3,10 +3,23 @@ Class {
 	#superclass : #ToElement,
 	#instVars : [
 		'offElement',
-		'onElement'
+		'onElement',
+		'checked'
 	],
 	#category : #'Toplo-Widget-Toggle'
 }
+
+{ #category : #accessing }
+ToToggleSwitchButtonElement >> checked [
+
+	^ checked
+]
+
+{ #category : #accessing }
+ToToggleSwitchButtonElement >> checked: aBoolean [
+
+	checked := aBoolean
+]
 
 { #category : #initialization }
 ToToggleSwitchButtonElement >> defaultWidth [
@@ -27,6 +40,12 @@ ToToggleSwitchButtonElement >> initialize [
 	self layout: BlFrameLayout new.
 	self geometry: BlCircleGeometry new.
 	self width: self defaultWidth
+]
+
+{ #category : #testing }
+ToToggleSwitchButtonElement >> isChecked [ 
+
+	^ self checked
 ]
 
 { #category : #accessing }

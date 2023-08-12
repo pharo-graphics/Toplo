@@ -7,7 +7,8 @@ Class {
 		'onContainer',
 		'offElement',
 		'onElement',
-		'button'
+		'button',
+		'checked'
 	],
 	#category : #'Toplo-Widget-Toggle'
 }
@@ -25,6 +26,19 @@ ToToggleSwitchBarElement >> button: anElement [
 		anElement constraintsDo: [ :c | c linear vertical alignCenter ] ].
 	button := anElement.
 	self updateChildren
+]
+
+{ #category : #accessing }
+ToToggleSwitchBarElement >> checked [
+
+	^ checked
+]
+
+{ #category : #accessing }
+ToToggleSwitchBarElement >> checked: aBoolean [
+
+	checked := aBoolean.
+	self button checked: aBoolean
 ]
 
 { #category : #initialization }
@@ -47,6 +61,12 @@ ToToggleSwitchBarElement >> initialize [
 	self button: ToToggleSwitchButtonElement new.
 	self addChildren: { onContainer. button. offContainer }
 
+]
+
+{ #category : #testing }
+ToToggleSwitchBarElement >> isChecked [ 
+
+	^ self checked
 ]
 
 { #category : #accessing }

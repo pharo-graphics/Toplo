@@ -2,8 +2,6 @@ Class {
 	#name : #ToToogleTrackLook,
 	#superclass : #ToDefaultElementLook,
 	#instVars : [
-		'toggleButton',
-		'animationDuration',
 		'animate'
 	],
 	#category : #'Toplo-Widget-Toggle-Skins'
@@ -120,15 +118,9 @@ ToToogleTrackLook >> switchOnIn: anElement [
 { #category : #sliding }
 ToToogleTrackLook >> syncAppearanceIn: anElement [
 
-	toggleButton isChecked
+	anElement isChecked
 		ifTrue: [ self switchOnIn: anElement ]
 		ifFalse: [ self switchOffIn: anElement ]
-]
-
-{ #category : #accessing }
-ToToogleTrackLook >> toggleButton: aToggleButton [
-
-	toggleButton := aToggleButton
 ]
 
 { #category : #'event handling' }

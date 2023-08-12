@@ -257,7 +257,8 @@ ToWidgetDresser >> mouseUpOutsideEvent: anEvent in: anElement [
 		^ self ].
 	"MouseUpOutside for a button is managed if a MouseDown (inside) has occured before (with a consequent pressed state).
 	So, do not change the state if the button is not in pressed state"
-	anElement currentSkinState isPressedState ifFalse: [ ^ self ].
+	anElement currentSkinState ifNotNil: [ :s | 
+		s isPressedState ifFalse: [ ^ self ] ].
 	self initialState: anElement
 ]
 

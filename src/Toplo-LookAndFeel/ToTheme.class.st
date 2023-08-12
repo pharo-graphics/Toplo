@@ -181,10 +181,34 @@ ToTheme >> colorBgContainer [
 ]
 
 { #category : #colors }
+ToTheme >> colorBgContainerChecked [
+	
+	^ self colorPrimary
+]
+
+{ #category : #colors }
+ToTheme >> colorBgContainerCheckedHover [
+	
+	^ self colorPrimary lighter
+]
+
+{ #category : #colors }
+ToTheme >> colorBgContainerCheckedPressed [
+	
+	^ self colorPrimary darker
+]
+
+{ #category : #colors }
 ToTheme >> colorBgContainerDisabled [
 	"https://ant.design/components/button#design-token"
 	
 	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.04 
+]
+
+{ #category : #colors }
+ToTheme >> colorBgContainerUnchecked [
+	
+	^ Color gray alpha: 0.6
 ]
 
 { #category : #colors }
@@ -198,7 +222,7 @@ ToTheme >> colorBgTextActive [
 ToTheme >> colorBgTextHover [
 	"Control the background color of text in hover state"
 
-	^ Color r: 0 g: 0 b: 0 alpha: 0.06
+	^ (Color r: 0 g: 0 b: 0 alpha: 0.06) 
 ]
 
 { #category : #colors }

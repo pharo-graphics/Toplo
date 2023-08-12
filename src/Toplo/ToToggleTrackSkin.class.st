@@ -1,9 +1,6 @@
 Class {
 	#name : #ToToggleTrackSkin,
 	#superclass : #ToWidgetSkin,
-	#instVars : [
-		'toggleButton'
-	],
 	#category : #'Toplo-Widget-Toggle-Skins'
 }
 
@@ -13,27 +10,20 @@ ToToggleTrackSkin >> onSkinInstalledIn: anElement [
 	super onSkinInstalledIn: anElement.
 	self addLook: (ToBackgroundLook new
 			 initialBg: [ :e |
-				 toggleButton isChecked
-					 ifTrue: [ e toTheme colorPrimary ]
-					 ifFalse: [ e toTheme colorBgTextActive  ] ];
+				 anElement isChecked
+					 ifTrue: [ e toTheme colorBgContainerChecked ]
+					 ifFalse: [ e toTheme colorBgContainerUnchecked  ] ];
 			 pressedBg: [ :e |
-				 toggleButton isChecked
-					 ifTrue: [ e toTheme colorPrimaryPressed ]
-					 ifFalse: [ e toTheme colorBgTextActive ] ];
+				 anElement isChecked
+					 ifTrue: [ e toTheme colorBgContainerCheckedPressed ]
+					 ifFalse: [ e toTheme colorBgContainerUnchecked ] ];
 			 hoverBg: [ :e |
-				 toggleButton isChecked
-					 ifTrue: [ e toTheme colorPrimaryHover ]
-					 ifFalse: [ e toTheme colorBgTextActive ] ];
+				 anElement isChecked
+					 ifTrue: [ e toTheme colorBgContainerCheckedHover ]
+					 ifFalse: [ e toTheme colorBgContainerUnchecked ] ];
 			 yourself).
 	self addLook: (ToToogleTrackLook new
 			 animate: true;
-			 toggleButton: toggleButton;
 			 yourself).
 
-]
-
-{ #category : #accessing }
-ToToggleTrackSkin >> toggleButton: aToggleButton [
-
-	toggleButton := aToggleButton
 ]

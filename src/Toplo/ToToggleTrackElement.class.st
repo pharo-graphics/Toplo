@@ -2,10 +2,24 @@ Class {
 	#name : #ToToggleTrackElement,
 	#superclass : #ToElement,
 	#instVars : [
-		'switchBar'
+		'switchBar',
+		'checked'
 	],
 	#category : #'Toplo-Widget-Toggle'
 }
+
+{ #category : #accessing }
+ToToggleTrackElement >> checked [
+
+	^ checked
+]
+
+{ #category : #accessing }
+ToToggleTrackElement >> checked: aBoolean [
+
+	checked := aBoolean.
+	self switchBar checked: aBoolean
+]
 
 { #category : #sliding }
 ToToggleTrackElement >> deltaToLeft [
@@ -28,6 +42,12 @@ ToToggleTrackElement >> initialize [
 	self addChild: switchBar.
 	self updateWidth.
 	self vFitContent
+]
+
+{ #category : #testing }
+ToToggleTrackElement >> isChecked [ 
+
+	^ self checked
 ]
 
 { #category : #sliding }

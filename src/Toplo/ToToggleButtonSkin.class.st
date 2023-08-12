@@ -1,11 +1,11 @@
 Class {
-	#name : #ToToggleSkin,
+	#name : #ToToggleButtonSkin,
 	#superclass : #ToWidgetSkin,
 	#category : #'Toplo-Widget-Toggle-Skins'
 }
 
 { #category : #'api - accessing' }
-ToToggleSkin >> childSkinsToHandle [
+ToToggleButtonSkin >> childSkinsToHandle [
 
 	^ {
 		  (ToChildSkin new
@@ -19,7 +19,7 @@ ToToggleSkin >> childSkinsToHandle [
 ]
 
 { #category : #accessing }
-ToToggleSkin >> labelLookIn: anElement [
+ToToggleButtonSkin >> labelLookIn: anElement [
 
 	^ ToLabelTextLook new
 		  disabledColor: [ :e | e toTheme colorTextDisabled ];
@@ -28,14 +28,14 @@ ToToggleSkin >> labelLookIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToToggleSkin >> labelSkinIn: aButton [
+ToToggleButtonSkin >> labelSkinIn: aButton [
 
 	^ ToLabelSkin new type: ToLabelDefaultType new.
 
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToToggleSkin >> onSkinInstalledIn: anElement [
+ToToggleButtonSkin >> onSkinInstalledIn: anElement [
 
 	super onSkinInstalledIn: anElement.
 	anElement spacingWidth: anElement toTheme paddingContentHorizontal / 2.
@@ -49,7 +49,7 @@ ToToggleSkin >> onSkinInstalledIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToToggleSkin >> trackSkinIn: aButton [
+ToToggleButtonSkin >> trackSkinIn: aButton [
 
-	^ ToToggleTrackSkin new toggleButton: aButton
+	^ ToToggleTrackSkin new
 ]

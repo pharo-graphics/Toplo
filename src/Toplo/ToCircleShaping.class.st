@@ -7,5 +7,5 @@ Class {
 { #category : #hook }
 ToCircleShaping >> applyOn: anElement [
 
-	anElement skinDo: [ :s | s applyCircleShapingOn: anElement ]
+	anElement skinDo: [ :s | s applyCircleShaping: self on: anElement ]
 ]

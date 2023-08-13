@@ -1,6 +1,8 @@
 Class {
 	#name : #ToButtonSkin,
 	#superclass : #ToClickableSkin,
+	#traits : 'TToReshapeableWidgetSkin',
+	#classTraits : 'TToReshapeableWidgetSkin classTrait',
 	#instVars : [
 		'type'
 	],
@@ -11,6 +13,52 @@ Class {
 ToButtonSkin class >> type: aButtonType [
 
 	^ self new type: aButtonType 
+]
+
+{ #category : #'t - reshapeable - private - shaping/sizing' }
+ToButtonSkin >> applyCircleShaping: aShaping on: anElement [
+
+	anElement spacingWidth: 0.
+	anElement padding: BlInsets empty.
+	anElement size: (aShaping sizing heightOn: anElement) asPoint.
+	anElement geometry: BlCircleGeometry new.
+	anElement layout: BlFrameLayout new.
+]
+
+{ #category : #'t - reshapeable - private - shaping/sizing' }
+ToButtonSkin >> applyDefaultShaping: aShaping on: anElement [
+
+	| radius |
+	self applyRectShaping: aShaping on: anElement.
+	radius := aShaping sizing shapingRadiusIn: anElement.
+	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: radius)
+]
+
+{ #category : #'t - reshapeable - private - shaping/sizing' }
+ToButtonSkin >> applyLargeSizing: aSizing on: anElement [
+
+	self applySizing: aSizing on: anElement
+]
+
+{ #category : #'t - reshapeable - private - shaping/sizing' }
+ToButtonSkin >> applyMiddleSizing: aSizing on: anElement [
+
+	self applySizing: aSizing on: anElement
+]
+
+{ #category : #'t - reshapeable - private - shaping/sizing' }
+ToButtonSkin >> applyRoundShaping: aShaping on: anElement [
+
+	| radius |
+	self applyRectShaping: aShaping on: anElement.	
+	radius := anElement requestedHeight / 2.
+	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: radius)
+]
+
+{ #category : #'t - reshapeable - private - shaping/sizing' }
+ToButtonSkin >> applySmallSizing: aSizing on: anElement [
+
+	self applySizing: aSizing on: anElement
 ]
 
 { #category : #accessing }
@@ -72,6 +120,13 @@ ToButtonSkin >> iconSkinIn: aButton [
 
 ]
 
+{ #category : #initialization }
+ToButtonSkin >> initialize [ 
+
+	super initialize.
+	self intializeShapingSkin
+]
+
 { #category : #accessing }
 ToButtonSkin >> labelLookIn: anElement [
 
@@ -89,7 +144,9 @@ ToButtonSkin >> labelSkinIn: aButton [
 ToButtonSkin >> onSkinInstalledIn: anElement [
 
 	super onSkinInstalledIn: anElement.
-	self type onSkinInstalled: self in: anElement
+	self onShapingSkinInstalledIn: anElement.
+	self type onSkinInstalled: self in: anElement.
+
 
 ]
 
@@ -97,6 +154,7 @@ ToButtonSkin >> onSkinInstalledIn: anElement [
 ToButtonSkin >> onSkinUninstalledIn: anElement [
 
 	self type onSkinUninstalled: self in: anElement.
+	self onShapingSkinUninstalledIn: anElement.
 	super onSkinUninstalledIn: anElement
 ]
 

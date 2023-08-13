@@ -7,7 +7,7 @@ Class {
 { #category : #hook }
 ToControlSizing >> applyOn: anElement [
 
-	anElement height: (self heightOn: anElement)
+	self subclassResponsibility 
 ]
 
 { #category : #hook }

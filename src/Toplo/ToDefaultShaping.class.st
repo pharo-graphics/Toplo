@@ -7,5 +7,5 @@ Class {
 { #category : #hook }
 ToDefaultShaping >> applyOn: anElement [
 
-	anElement skinDo: [ :s | s applyDefaultShapingOn: anElement ]
+	anElement skinDo: [ :s | s applyDefaultShaping: self on: anElement ]
 ]

@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #'private geometry' }
+ToSmallSizing >> applyOn: anElement [
+
+	anElement skinDo: [ :s | s applySmallSizing: self on: anElement ]
+]
+
+{ #category : #'private geometry' }
 ToSmallSizing >> heightOn: anElement [
 
 	^ anElement toTheme controlHeightSM

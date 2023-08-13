@@ -1,6 +1,6 @@
 Class {
 	#name : #ToButtonSkin,
-	#superclass : #ToControlSkin,
+	#superclass : #ToClickableSkin,
 	#instVars : [
 		'type'
 	],

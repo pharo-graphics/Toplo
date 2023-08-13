@@ -27,6 +27,12 @@ ToToggleButton >> initialize [
 ]
 
 { #category : #accessing }
+ToToggleButton >> innerButton [
+
+	^ self track innerButton
+]
+
+{ #category : #accessing }
 ToToggleButton >> switchBarOffContainer [
 
 	^ self track switchBarOffContainer
@@ -48,12 +54,6 @@ ToToggleButton >> switchBarOnContainer [
 ToToggleButton >> switchBarOnElement: anElement [
 
 	self track switchBarOnElement: anElement
-]
-
-{ #category : #accessing }
-ToToggleButton >> switchButton [
-
-	^ self track switchButton
 ]
 
 { #category : #accessing }

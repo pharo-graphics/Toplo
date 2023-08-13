@@ -7,26 +7,11 @@ Class {
 		'onContainer',
 		'offElement',
 		'onElement',
-		'button',
-		'checked'
+		'checked',
+		'innerButton'
 	],
 	#category : #'Toplo-Widget-Toggle'
 }
-
-{ #category : #accessing }
-ToToggleSwitchBarElement >> button [
-
-	^ button
-]
-
-{ #category : #accessing }
-ToToggleSwitchBarElement >> button: anElement [
-
-	anElement ifNotNil: [
-		anElement constraintsDo: [ :c | c linear vertical alignCenter ] ].
-	button := anElement.
-	self updateChildren
-]
 
 { #category : #accessing }
 ToToggleSwitchBarElement >> checked [
@@ -38,7 +23,7 @@ ToToggleSwitchBarElement >> checked [
 ToToggleSwitchBarElement >> checked: aBoolean [
 
 	checked := aBoolean.
-	self button checked: aBoolean
+	self innerButton checked: aBoolean
 ]
 
 { #category : #initialization }
@@ -58,9 +43,24 @@ ToToggleSwitchBarElement >> initialize [
 	offContainer constraintsDo: [ :c | c linear vertical alignCenter ].
 	onContainer := ToElement new vFitContent; width: self sideWidth; layout: BlFrameLayout new; yourself.
 	onContainer constraintsDo: [ :c | c linear vertical alignCenter ].
-	self button: ToToggleSwitchButtonElement new.
-	self addChildren: { onContainer. button. offContainer }
+	self innerButton: ToToggleSwitchInnerButtonElement new.
+	self addChildren: { onContainer. innerButton. offContainer }
 
+]
+
+{ #category : #accessing }
+ToToggleSwitchBarElement >> innerButton [
+
+	^ innerButton
+]
+
+{ #category : #accessing }
+ToToggleSwitchBarElement >> innerButton: anElement [
+
+	anElement ifNotNil: [
+		anElement constraintsDo: [ :c | c linear vertical alignCenter ] ].
+	innerButton := anElement.
+	self updateChildren
 ]
 
 { #category : #testing }
@@ -130,7 +130,7 @@ ToToggleSwitchBarElement >> sideWidth: anInteger [
 { #category : #requirements }
 ToToggleSwitchBarElement >> switchOff [
 
-	self button switchOff.
+	self innerButton switchOff.
 	onContainer visibility: BlVisibility hidden.
 	offContainer visibility: BlVisibility visible
 ]
@@ -138,7 +138,7 @@ ToToggleSwitchBarElement >> switchOff [
 { #category : #requirements }
 ToToggleSwitchBarElement >> switchOn [ 
 
-	self button switchOn.
+	self innerButton switchOn.
 	offContainer visibility: BlVisibility hidden.
 	onContainer visibility: BlVisibility visible
 ]

@@ -7,10 +7,5 @@ Class {
 { #category : #hook }
 ToCircleShaping >> applyOn: anElement [
 
-	anElement spacingWidth: 0.
-	anElement padding: BlInsets empty.
-	anElement skinDo: [ :s |
-		anElement size: (s sizing heightOn: anElement) asPoint ].
-	anElement geometry: BlCircleGeometry new.
-	anElement layout: BlFrameLayout new.
+	anElement skinDo: [ :s | s applyCircleShapingOn: anElement ]
 ]

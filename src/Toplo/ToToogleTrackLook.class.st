@@ -46,13 +46,19 @@ ToToogleTrackLook >> initialLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToToogleTrackLook >> innerButtonSizeIn: anElement [
+
+	^ 16 asPoint
+]
+
+{ #category : #'event handling' }
 ToToogleTrackLook >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e switchButton size: (self switchButtonSizeIn: e).
-		e switchButton background: Color white.
-		e switchButton margin: (BlInsets
+		e innerButton size: (self innerButtonSizeIn: e).
+		e innerButton background: Color white.
+		e innerButton margin: (BlInsets
 				 top: 1
 				 left: 4
 				 bottom: 1
@@ -91,17 +97,11 @@ ToToogleTrackLook >> slideToRightWithAnimationIn: anElement [
 	anElement switchBar addAnimation: anim
 ]
 
-{ #category : #'event handling' }
-ToToogleTrackLook >> switchButtonSizeIn: anElement [
-
-	^ 16 asPoint
-]
-
 { #category : #sliding }
 ToToogleTrackLook >> switchOffIn: anElement [
 
 	anElement switchBar switchOff.
-	anElement switchButton border: (BlBorder paint: Color gray).
+	anElement innerButton border: (BlBorder paint: Color gray).
 	self animate ifTrue: [ ^ self slideToLeftWithAnimationIn: anElement ].
 	anElement slideToLeft 
 ]
@@ -110,7 +110,7 @@ ToToogleTrackLook >> switchOffIn: anElement [
 ToToogleTrackLook >> switchOnIn: anElement [
 
 	anElement switchBar switchOn.
-	anElement switchButton border: (BlBorder empty).
+	anElement innerButton border: (BlBorder empty).
 	self animate ifTrue: [ ^ self slideToRightWithAnimationIn: anElement ].
 	anElement slideToRight 
 ]

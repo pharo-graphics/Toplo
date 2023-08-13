@@ -1,6 +1,6 @@
 Class {
 	#name : #ToToggleButtonSkin,
-	#superclass : #ToWidgetSkin,
+	#superclass : #ToClickableSkin,
 	#category : #'Toplo-Widget-Toggle-Skins'
 }
 
@@ -38,12 +38,7 @@ ToToggleButtonSkin >> labelSkinIn: aButton [
 ToToggleButtonSkin >> onSkinInstalledIn: anElement [
 
 	super onSkinInstalledIn: anElement.
-	anElement spacingWidth: anElement toTheme paddingContentHorizontal / 2.
-	anElement padding: (BlInsets
-			 top: anElement toTheme paddingXS / 2
-			 left: anElement toTheme paddingContentHorizontal
-			 bottom: anElement toTheme paddingXS / 2
-			 right: anElement toTheme paddingContentHorizontal).
+	
 	" setup the track "
 	"anElement track withSkin: (ToToggleTrackSkin new toggleButton: anElement)"
 ]

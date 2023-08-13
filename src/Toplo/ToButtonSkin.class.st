@@ -107,6 +107,18 @@ ToButtonSkin >> dashed: aBoolean [
 	self type dashed: aBoolean
 ]
 
+{ #category : #'t - reshapeable - initialization' }
+ToButtonSkin >> defaultShaping [
+
+	^ ToDefaultShaping new 
+]
+
+{ #category : #'t - reshapeable - initialization' }
+ToButtonSkin >> defaultSizing [
+
+	^ ToMiddleSizing new
+]
+
 { #category : #accessing }
 ToButtonSkin >> iconLookIn: anElement [
 

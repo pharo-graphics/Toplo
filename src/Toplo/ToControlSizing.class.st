@@ -4,13 +4,13 @@ Class {
 	#category : #'Toplo-Core-Theme'
 }
 
-{ #category : #hook }
+{ #category : #'private geometry' }
 ToControlSizing >> applyOn: anElement [
 
 	self subclassResponsibility 
 ]
 
-{ #category : #hook }
+{ #category : #'private geometry' }
 ToControlSizing >> heightOn: anElement [ 
 
 	self subclassResponsibility 

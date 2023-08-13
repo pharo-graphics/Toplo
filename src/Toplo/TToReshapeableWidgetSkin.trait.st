@@ -60,13 +60,15 @@ TToReshapeableWidgetSkin >> changeSizingWith: aControlSizing in: anElement [
 { #category : #'t - reshapeable - initialization' }
 TToReshapeableWidgetSkin >> defaultShaping [
 
-	^ ToDefaultShaping new 
+	" as an example: ToDefaultShaping new "
+	self explicitRequirement 
 ]
 
 { #category : #'t - reshapeable - initialization' }
 TToReshapeableWidgetSkin >> defaultSizing [
 
-	^ ToMiddleSizing new
+	" as an example: ToMiddleSizing new"
+	^ self explicitRequirement 
 ]
 
 { #category : #'t - reshapeable - initialization' }

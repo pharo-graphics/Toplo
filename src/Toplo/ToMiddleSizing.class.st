@@ -13,7 +13,7 @@ ToMiddleSizing >> applyOn: anElement [
 { #category : #'private geometry' }
 ToMiddleSizing >> heightOn: anElement [
 
-	^ anElement toTheme controlHeight
+	^ anElement middleHeight
 ]
 
 { #category : #'private geometry' }

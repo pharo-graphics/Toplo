@@ -56,6 +56,18 @@ ToToggleTrackElement >> isChecked [
 	^ self checked
 ]
 
+{ #category : #'accessing sizing' }
+ToToggleTrackElement >> largeHeight [ 
+
+	^ 26
+]
+
+{ #category : #'accessing sizing' }
+ToToggleTrackElement >> middleHeight [ 
+
+	^ 16
+]
+
 { #category : #sliding }
 ToToggleTrackElement >> slideToLeft [
 
@@ -72,6 +84,12 @@ ToToggleTrackElement >> slideToRight [
 	p := self deltaToRight.
 	self switchBar transformDo: [ :aTransform |
 		aTransform translateBy: p @ 0 ]
+]
+
+{ #category : #'accessing sizing' }
+ToToggleTrackElement >> smallHeight [ 
+
+	^ 10
 ]
 
 { #category : #accessing }

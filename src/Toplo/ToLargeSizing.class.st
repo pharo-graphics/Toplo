@@ -13,11 +13,11 @@ ToLargeSizing >> applyOn: anElement [
 { #category : #'private geometry' }
 ToLargeSizing >> heightOn: anElement [
 
-	^ anElement toTheme controlHeightLG
+	^ anElement largeHeight
 ]
 
 { #category : #'private geometry' }
 ToLargeSizing >> shapingRadiusIn: anElement [
 
-		^ anElement toTheme borderRadiusLG
+	^ anElement toTheme borderRadiusLG
 ]

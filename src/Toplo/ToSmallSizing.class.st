@@ -13,7 +13,7 @@ ToSmallSizing >> applyOn: anElement [
 { #category : #'private geometry' }
 ToSmallSizing >> heightOn: anElement [
 
-	^ anElement toTheme controlHeightSM
+	^ anElement smallHeight
 ]
 
 { #category : #'private geometry' }

@@ -39,36 +39,10 @@ ToToogleTrackLook >> clickLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToToogleTrackLook >> initialLookEvent: anEvent [
-
-	super initialLookEvent: anEvent.
-	anEvent elementDo: [ :e |  ]
-]
-
-{ #category : #'event handling' }
-ToToogleTrackLook >> innerButtonSizeIn: anElement [
-
-	^ 16 asPoint
-]
-
-{ #category : #'event handling' }
 ToToogleTrackLook >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e innerButton size: (self innerButtonSizeIn: e).
-		e innerButton background: Color white.
-		e innerButton margin: (BlInsets
-				 top: 1
-				 left: 4
-				 bottom: 1
-				 right: 4).		
-		e geometry: (BlRoundedRectangleGeometry cornerRadius: (self trackBorderRadiusIn: e)).
-		e padding: (BlInsets top: 2
-				 left: 2
-				 bottom: 2
-				 right: 2).
-		e updateWidth.
 		self withoutAnimationWhile: [
 			self syncAppearanceIn: e ]  ]
 ]
@@ -121,12 +95,6 @@ ToToogleTrackLook >> syncAppearanceIn: anElement [
 	anElement isChecked
 		ifTrue: [ self switchOnIn: anElement ]
 		ifFalse: [ self switchOffIn: anElement ]
-]
-
-{ #category : #'event handling' }
-ToToogleTrackLook >> trackBorderRadiusIn: anElement [
-
-	^ 26
 ]
 
 { #category : #'event handling' }

@@ -5,12 +5,12 @@ Class {
 }
 
 { #category : #layout }
-ToTripletStrategy >> childrenIn: aPair [
+ToTripletStrategy >> childrenIn: aTriplet [
 
 	^ {
-		  aPair first.
-		  aPair second.
-		  aPair third } select: #notNil
+		  aTriplet first.
+		  aTriplet second.
+		  aTriplet third } select: #notNil
 ]
 
 { #category : #accessing }
@@ -25,23 +25,16 @@ ToTripletStrategy >> isJustified [
 	^ false
 ]
 
+{ #category : #'api - install/uninstall  hook' }
+ToTripletStrategy >> onInstalledIn: aTriplet [
+]
+
 { #category : #layout }
-ToTripletStrategy >> onMeasure: anExtentMeasurementSpec in: aPair [
+ToTripletStrategy >> onMeasure: anExtentMeasurementSpec in: aTriplet [
 
 	self subclassResponsibility 
 ]
 
-{ #category : #layout }
-ToTripletStrategy >> updateChildrenIn: anElement [
-
-	| subs |
-	subs := self childrenIn: anElement.
-	anElement children asArray = subs ifTrue: [ ^ self ].
-	anElement removeChildren.
-	self flag: 'workaround - skin related: frame layout can be used in case ToCircleShaping is applied by skin'.
-	subs do: [ :child |
-		child constraintsDo: [ :c |
-			c frame horizontal alignCenter.
-			c frame vertical alignCenter ] ].
-	anElement addChildren: subs
+{ #category : #'api - install/uninstall  hook' }
+ToTripletStrategy >> onUninstalledIn: aTriplet [
 ]

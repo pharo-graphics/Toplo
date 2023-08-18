@@ -938,12 +938,13 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 { #category : #button }
 ToSandBox class >> example_ToButtonSkins [
 
-	| space pane themeSwitcher butBuilder buttonSpecsBuilder enablementSwitcher allButtons sizingGroup smallSizingRadio middleSizingRadio largeSizingRadio shapingGroup circleShapingRadio defaultShapingRadio roundShapingRadio topBar buttonBar |
+	| space pane themeSwitcher butBuilder buttonSpecsBuilder enablementSwitcher allButtons sizingGroup smallSizingRadio middleSizingRadio largeSizingRadio shapingGroup circleShapingRadio defaultShapingRadio roundShapingRadio topBar buttonBar directionSwitcher orientationSwitcher |
 	space := BlSpace new.
 	allButtons := OrderedCollection new.
 
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
-	topBar := ToMenuBar new beHorizontal; hMatchParent.
+	topBar := ToMenuBar new beHorizontal; hMatchParent; vFitContent.
+	topBar layout cellSpacing: 10.
 
 	themeSwitcher := ToChoiceBox new.
 	themeSwitcher data addAll: {
@@ -970,7 +971,7 @@ ToSandBox class >> example_ToButtonSkins [
 
 	topBar addChild: enablementSwitcher.
 
-	buttonBar := ToPane horizontal hFitContent.
+	buttonBar := ToPane vertical vFitContent.
 	buttonBar layout cellSpacing: 10.
 	 
 	sizingGroup := ToCheckableGroup new.
@@ -997,7 +998,7 @@ ToSandBox class >> example_ToButtonSkins [
 			largeSizingRadio }.
 	topBar addChild: buttonBar.
 	
-	buttonBar := ToPane horizontal hFitContent.
+	buttonBar := ToPane vertical vFitContent.
 	buttonBar layout cellSpacing: 10.
 
 	shapingGroup := ToCheckableGroup new.
@@ -1022,10 +1023,45 @@ ToSandBox class >> example_ToButtonSkins [
 			circleShapingRadio.
 			defaultShapingRadio.
 			roundShapingRadio }.
+	
 	topBar addChild: buttonBar.
+	
+	directionSwitcher := ToToggleButton new.
+	directionSwitcher switchBarOnElement:
+		((ToLabel text: 'Icon first') withSkin:
+			 (ToButtonLabelSkin new buttonType: directionSwitcher privateSkin)).
+	directionSwitcher switchBarOffElement:
+		((ToLabel text: 'Label first') withSkin:
+			 (ToButtonLabelSkin new buttonType: directionSwitcher privateSkin)).
+	directionSwitcher check.
+	directionSwitcher
+		when: ToCheckableCheckEvent
+		do: [ :event | allButtons do: [ :b | b iconFirst: event target isChecked ] ].
+	topBar addChild: directionSwitcher.
+	
+	orientationSwitcher := ToToggleButton new.
+	orientationSwitcher switchBarOnElement:
+		((ToLabel text: 'Horizontal') withSkin:
+			 (ToButtonLabelSkin new buttonType: orientationSwitcher privateSkin)).
+	orientationSwitcher switchBarOffElement:
+		((ToLabel text: 'Vertical') withSkin:
+			 (ToButtonLabelSkin new buttonType: orientationSwitcher privateSkin)).
+	orientationSwitcher check.
+	orientationSwitcher
+		when: ToCheckableCheckEvent
+		do: [ :event | allButtons do: [ :b | b horizontal: event target isChecked ].
+				sizingGroup buttons do: [:b | b enabled: event target isChecked] ].
+	topBar addChild: orientationSwitcher.
 	
 	topBar childrenDo: [ :child |
 		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
+
+	circleShapingRadio 
+		when: ToCheckableCheckEvent 
+		do: [ :event | 
+			event current 
+				ifTrue: [ directionSwitcher enabled: false. orientationSwitcher  enabled: false] 
+				ifFalse: [ directionSwitcher enabled: true. orientationSwitcher  enabled: true ] ].	
 
 	space root addChild: topBar.
 
@@ -1158,20 +1194,26 @@ ToSandBox class >> example_ToButtonSkins [
 ToSandBox class >> example_ToButtonWithDashedSkin [
 
 	| space button1 |
-	
 	space := BlSpace new.
 
-	button1 := ToButton new withSkin: (ToButtonSkin new dashed: true; yourself).
+	button1 := ToButton new beVertical;
+		           withSkin: (ToButtonSkin new
+				            dashed: true;
+				            yourself);
+		           yourself.
+	button1 inspect.
 	button1 labelText: 'Dashed button'.
-	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-	
+	button1 icon: (ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16).
+	button1 beLabelFirst.
+	button1 beVertical.
+
 	space root addChild: button1.
-	
+
 	button1 labelText: 'Dashed button **'.
 
 	space show.
 
-	^space
+	^ space
 ]
 
 { #category : #button }
@@ -1567,7 +1609,7 @@ ToSandBox class >> example_menu1 [
 	| menu sub subsub |
 	menu := ToMenu new.
 	menu spacingWidth: 5.
-	menu globalColumnWidth: 22.
+	menu defaultColumnWidth: 22.
 	menu label: (ToLabel new text: 'File').
 	menu icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
 	menu addItem: (ToButtonMenuItem new
@@ -1754,7 +1796,7 @@ ToSandBox class >> example_menu6 [
 
 	| menu grp right center left textField sub th lbl |
 	menu := ToMenu new.
-	menu globalColumnWidth: 22.
+	menu defaultColumnWidth: 22.
 
 	menu labelText: 'File'.
 	menu addItem: (ToButtonMenuItem new
@@ -1969,7 +2011,7 @@ ToSandBox class >> example_menuBar2 [
 	3 timesRepeat: [ 
 		menu := ToMenu new.
 		menu layout cellSpacing: 5.
-		menu globalColumnWidth: 0.
+		menu defaultColumnWidth: 0.
 		menu label: (ToLabel text: 'Levels').
 		menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
 
@@ -1996,7 +2038,7 @@ ToSandBox class >> example_menuBar2 [
 					            print: i ].
 				subMenu addItem: ((ToButtonMenuItem new labelText: stream) 
 					when: BlPrimaryMouseUpEvent do: [ :event | self inform: selector asSymbol ]) ].
-			subMenu globalColumnWidth: 0.
+			subMenu defaultColumnWidth: 0.
 			menu addItem: subMenu ].
 
 		bar addMenu: menu	].
@@ -2037,7 +2079,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	win := ToInnerWindow new title: 'Context menu Example'.
 	win width: 600.
 	menu := ToContextMenu new.
-	menu globalColumnWidth: 22.
+	menu defaultColumnWidth: 22.
 	menu addItem: (ToButtonMenuItem new
 			 labelText: 'Open file';
 			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
@@ -2091,7 +2133,7 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 	| win menu sub subsub bar |
 	win := ToInnerWindow new title: 'Context menu Example'.
 	menu := ToContextMenu new.
-	menu globalColumnWidth: 22.
+	menu defaultColumnWidth: 22.
 	menu addItem: (ToButtonMenuItem new
 			 labelText: 'Open file';
 			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).

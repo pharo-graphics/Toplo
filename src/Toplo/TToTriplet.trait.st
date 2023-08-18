@@ -49,8 +49,6 @@ TToTriplet >> initialize [
 { #category : #'t - triplet initialization' }
 TToTriplet >> initializeTriplet [
 
-	self layout: BlLinearLayout horizontal.
-	self strategy: ToTripletWithoutInterspaceStrategy new.
 	self fitContent
 ]
 
@@ -72,19 +70,16 @@ TToTriplet >> onMeasure: anExtentMeasurementSpec [
 ]
 
 { #category : #'t - triplet private' }
-TToTriplet >> prepareChild: aChild [
-
-	aChild ifNil: [ ^ self ].
-	aChild constraintsDo: [ :c |
-		c linear vertical alignCenter.
-		c linear horizontal alignCenter ]
-]
-
-{ #category : #'t - triplet private' }
 TToTriplet >> privateUpdateChildren [
 
+	| subs |
 	strategy ifNil: [ ^ self ].
-	strategy updateChildrenIn: self
+	subs := self strategy childrenIn: self.
+	self skinDo: [ :s | subs := s adaptNextChildrenArray: subs in: self].
+	self children asArray = subs ifTrue: [ ^ self ].
+	self removeChildren.
+	self addChildren: subs.
+
 ]
 
 { #category : #'t - triplet accessing' }
@@ -93,7 +88,6 @@ TToTriplet >> replaceFirstWith: anElement [
 	self first = anElement ifTrue: [ ^ self ].
 	self first ifNotNil: [ self first removeFromParent ].
 	self first: anElement.
-	self prepareChild: self first.
 	self privateUpdateChildren
 ]
 
@@ -103,7 +97,6 @@ TToTriplet >> replaceSecondWith: anElement [
 	self second = anElement ifTrue: [ ^ self ].
 	self second ifNotNil: [ self second removeFromParent ].
 	self second: anElement.
-	self prepareChild: self second.
 	self privateUpdateChildren
 ]
 
@@ -113,7 +106,6 @@ TToTriplet >> replaceThirdWith: anElement [
 	self third = anElement ifTrue: [ ^ self ].
 	self third ifNotNil: [ self third removeFromParent ].
 	self third: anElement.
-	self prepareChild: self third.
 	self privateUpdateChildren
 ]
 
@@ -132,13 +124,13 @@ TToTriplet >> second: anElement [
 { #category : #'t - triplet presentation' }
 TToTriplet >> spacingHeight: anInteger [
 
-	self strategy: (ToTripletWithSpacingStrategy new height: anInteger)
+	self strategy: (ToTripletWithExactInterspaceStrategy new height: anInteger)
 ]
 
 { #category : #'t - triplet presentation' }
 TToTriplet >> spacingWidth: anInteger [
 
-	self strategy: (ToTripletWithSpacingStrategy new width: anInteger)
+	self strategy: (ToTripletWithExactInterspaceStrategy new width: anInteger)
 ]
 
 { #category : #'t - triplet accessing' }
@@ -150,7 +142,9 @@ TToTriplet >> strategy [
 { #category : #'t - triplet accessing' }
 TToTriplet >> strategy: aPairStrategy [
 
+	strategy ifNotNil: [ :s | s onUninstalledIn: self ].
 	strategy := aPairStrategy.
+	strategy ifNotNil: [ :s | s onInstalledIn: self ].
 	self privateUpdateChildren
 ]
 

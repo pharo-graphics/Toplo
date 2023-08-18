@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #layout }
-ToTripletWithoutInterspaceStrategy >> onMeasure: anExtentMeasurementSpec in: aLabeled [
+ToTripletWithoutInterspaceStrategy >> onMeasure: anExtentMeasurementSpec in: aTriplet [
 
 	" Nothing to do "
 	^ true

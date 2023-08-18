@@ -579,6 +579,13 @@ ToTheme >> paddingContentHorizontal [
 ]
 
 { #category : #sizes }
+ToTheme >> paddingContentVertical [
+	"Control the vertical padding of content element"
+
+	^ 8
+]
+
+{ #category : #sizes }
 ToTheme >> paddingXS [
 	"Control the extra small padding of the element"
 

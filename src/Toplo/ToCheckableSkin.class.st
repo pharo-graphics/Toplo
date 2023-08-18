@@ -25,6 +25,12 @@ ToCheckableSkin >> childSkinsToHandle [
 ]
 
 { #category : #accessing }
+ToCheckableSkin >> disabledImageIn: anElement [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
 ToCheckableSkin >> iconSkinIn: aButton [
 
 	self subclassResponsibility 
@@ -50,7 +56,11 @@ ToCheckableSkin >> onSkinInstalledIn: anElement [
 	anElement icon: (ToImage inner: (anElement isChecked
 				  ifTrue: [ self checkedImageIn: anElement ]
 				  ifFalse: [ self uncheckedImageIn: anElement ])).
+	anElement checkDirection.
+	anElement checkOrientation.
+
 	self addLook: (ToCheckLook new
+			disabledImage: (self disabledImageIn: anElement);
 			 checkedImage: (self checkedImageIn: anElement);
 			 uncheckedImage: (self uncheckedImageIn: anElement);
 			 indeterminateImage: (self indeterminateImageIn: anElement);

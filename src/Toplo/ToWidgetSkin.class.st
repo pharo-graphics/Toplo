@@ -9,6 +9,15 @@ Class {
 	#category : #'Toplo-Core-Theme'
 }
 
+{ #category : #'private children updating' }
+ToWidgetSkin >> adaptNextChildrenArray: anArray in: anElement [
+
+	" the skin can setup future children here "
+	
+	"by default do nothing"
+	^ anArray
+]
+
 { #category : #adding }
 ToWidgetSkin >> addLook: aLook [
 
@@ -21,6 +30,14 @@ ToWidgetSkin >> addLook: aLook [
 ToWidgetSkin >> childSkinForSlotNamed: aSymbol [
 
 	^ childSkinsIndex at: aSymbol ifAbsent: [  ]
+]
+
+{ #category : #'event handling' }
+ToWidgetSkin >> childSkinsDirtyEvent: anEvent [
+	""
+
+	self childSkinsIndex keysAndValuesDo: [ :k :subSkin |
+		subSkin updateIn: anEvent target ]
 ]
 
 { #category : #'api - accessing' }
@@ -43,7 +60,7 @@ ToWidgetSkin >> dispatchChangedEventIn: anElement [
 
 	"DefaultType, PrimaryType, LinkType or TextType "
 	self markAsNotInstalled.
-	anElement dispatchSkinChangedEvent
+	anElement dispatchChildSkinsDirtyEvent
 ]
 
 { #category : #'event handling' }
@@ -57,9 +74,11 @@ ToWidgetSkin >> eventsToHandle [
 
 	^ {
 		  ToThemeChangedEvent.
-		  ToSkinChangedEvent.
+		  ToChildSkinsDirtyEvent.
 		  ToSkinnablePropertyChangedEvent.
-		  ToElementLookEvent }
+		  ToElementLookEvent.
+		  ToLayoutOrientationChangedEvent.
+		  ToLayoutDirectionChangedEvent }
 ]
 
 { #category : #initialization }
@@ -135,6 +154,14 @@ ToWidgetSkin >> launchSkinUninstallationIn: anElement [
 	self markAsNotInstalled 
 ]
 
+{ #category : #'event handling' }
+ToWidgetSkin >> layoutDirectionChangedEvent: anEvent [
+]
+
+{ #category : #'event handling' }
+ToWidgetSkin >> layoutOrientationChangedEvent: anEvent [
+]
+
 { #category : #accessing }
 ToWidgetSkin >> look [
 
@@ -204,14 +231,6 @@ ToWidgetSkin >> removeLook: aLook [
 	look = aLook 
 		ifTrue: [ look := look next ]
 		ifFalse: [ look removeLook: aLook previous: nil ]
-]
-
-{ #category : #'event handling' }
-ToWidgetSkin >> skinChangedEvent: anEvent [
-	""
-
-	self childSkinsIndex keysAndValuesDo: [ :k :subSkin |
-		subSkin updateIn: anEvent target ]
 ]
 
 { #category : #'event handling' }

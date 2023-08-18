@@ -37,6 +37,16 @@ TToReshapeableWidgetSkin >> applyRoundShaping: aShaping on: anElement [
 	self explicitRequirement 
 ]
 
+{ #category : #'t - reshapeable - api - install/uninstall  hook' }
+TToReshapeableWidgetSkin >> applySizingAndShapingOn: anElement [
+
+	" shape depends on the size so sizing is applied first "
+
+	self sizing applyOn: anElement.
+	self shaping applyOn: anElement
+
+]
+
 { #category : #'t - reshapeable - private - shaping/sizing' }
 TToReshapeableWidgetSkin >> applySmallSizing: aSizing on: anElement [
 
@@ -82,9 +92,7 @@ TToReshapeableWidgetSkin >> intializeShapingSkin [
 { #category : #'t - reshapeable - api - install/uninstall  hook' }
 TToReshapeableWidgetSkin >> onShapingSkinInstalledIn: anElement [
 
-	" shape depends on the size so sizing is applied first "
-	self sizing applyOn: anElement.
-	self shaping applyOn: anElement
+	self applySizingAndShapingOn: anElement
 
 ]
 

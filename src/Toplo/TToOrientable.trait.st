@@ -1,34 +1,41 @@
 Trait {
 	#name : #TToOrientable,
+	#instVars : [
+		'verticalRequested'
+	],
 	#category : #'Toplo-Core'
 }
 
 { #category : #'t - orientable orientation' }
 TToOrientable >> beHorizontal [
 
+	verticalRequested := false.
 	self isHorizontal ifTrue: [ ^ self ].
-	self horizontal: true
+	self orientation: BlLinearLayoutHorizontalOrientation new.
+	self requestLayout 
 ]
 
 { #category : #'t - orientable direction' }
 TToOrientable >> beLeftToRight [
 
 	self isLeftToRight ifTrue: [ ^ self ].
-	self layout leftToRight
+	self direction: BlLayoutDirection leftToRight
 ]
 
 { #category : #'t - orientable direction' }
 TToOrientable >> beRightToLeft [
 
 	self isRightToLeft ifTrue: [ ^ self ].
-	self layout rightToLeft
+	self direction: BlLayoutDirection rightToLeft
 ]
 
 { #category : #'t - orientable orientation' }
 TToOrientable >> beVertical [
 
+	verticalRequested := true.
 	self isVertical ifTrue: [ ^ self ].
-	self horizontal: false
+	self orientation: BlLinearLayoutVerticalOrientation new.
+	self requestLayout 
 ]
 
 { #category : #accessing }
@@ -40,7 +47,9 @@ TToOrientable >> direction [
 { #category : #accessing }
 TToOrientable >> direction: aDirection [
 
+	self layout direction = aDirection ifTrue: [ ^ self ].
 	self layout direction: aDirection.
+	self dispatchEvent: ToLayoutDirectionChangedEvent new.
 	self requestLayout
 ]
 
@@ -54,9 +63,8 @@ TToOrientable >> horizontal [
 TToOrientable >> horizontal: aBoolean [
 
 	aBoolean
-		ifTrue: [ self layout beHorizontal ]
-		ifFalse: [ self layout beVertical ].
-	self requestLayout
+		ifTrue: [ self beHorizontal ]
+		ifFalse: [ self beVertical ]
 ]
 
 { #category : #'t - orientable orientation' }
@@ -92,18 +100,15 @@ TToOrientable >> orientation [
 { #category : #accessing }
 TToOrientable >> orientation: aBlLayoutOrientation [
 
+	self layout orientation = aBlLayoutOrientation ifTrue: [ ^ self ].
 	self layout orientation: aBlLayoutOrientation.
+	self dispatchEvent: ToLayoutOrientationChangedEvent new.
 	self requestLayout
 ]
 
-{ #category : #'t - orientable direction' }
-TToOrientable >> whenDirectionChangedDo: aBlock [
+{ #category : #'t - labeled icon' }
+TToOrientable >> verticalRequested [
 
-	self layout whenDirectionChangedDo: aBlock
-]
-
-{ #category : #'t - orientable orientation' }
-TToOrientable >> whenOrientationChangedDo: aBlock [
-
-	self layout whenOrientationChangedDo: aBlock
+	" useful in case the layout is changed to set the right direction"
+	^ verticalRequested ifNil: [ verticalRequested := self isVertical ]
 ]

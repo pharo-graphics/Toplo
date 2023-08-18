@@ -2,8 +2,8 @@ Trait {
 	#name : #TToMenuItemHolder,
 	#instVars : [
 		'items',
-		'globalColumnWidth',
-		'client'
+		'client',
+		'columnWidth'
 	],
 	#category : #'Toplo-Widget-Menu'
 }
@@ -49,22 +49,16 @@ TToMenuItemHolder >> client: anObject [
 ]
 
 { #category : #'t - menu accessing' }
-TToMenuItemHolder >> defaultGlobalColumnWidth [
+TToMenuItemHolder >> defaultColumnWidth [
 
-	^ 22 
+	^ columnWidth ifNil: [ columnWidth := 22 ] 
 ]
 
 { #category : #'t - menu accessing' }
-TToMenuItemHolder >> globalColumnWidth [
+TToMenuItemHolder >> defaultColumnWidth: anInteger [
 
-	^ globalColumnWidth ifNil: [ self defaultGlobalColumnWidth ] 
-]
-
-{ #category : #'t - menu accessing' }
-TToMenuItemHolder >> globalColumnWidth: anInteger [
-
-	self globalColumnWidth = anInteger ifTrue: [ ^ self ].
-	globalColumnWidth := anInteger.
+	self defaultColumnWidth = anInteger ifTrue: [ ^ self ].
+	columnWidth := anInteger.
 	self items do: [ :item | item 	columnWidth: anInteger ]
 	
 ]
@@ -123,5 +117,5 @@ TToMenuItemHolder >> replaceItemAt: anIndex with: anItem [
 { #category : #'t - menu accessing' }
 TToMenuItemHolder >> withoutLeftColumn [
 
-	self globalColumnWidth: 0
+	self defaultColumnWidth: 0
 ]

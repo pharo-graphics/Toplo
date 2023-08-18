@@ -94,14 +94,6 @@ ToButtonType >> labelLookIn: anElement [
 ToButtonType >> onSkinInstalled: aSkin in: anElement [
 
 	| borderLook backgroundLook |
-
-"	anElement spacingWidth: anElement toTheme paddingContentHorizontal / 2.
-	anElement padding: (BlInsets
-			 top: anElement toTheme paddingXS / 2
-			 left: anElement toTheme paddingContentHorizontal
-			 bottom: anElement toTheme paddingXS / 2
-			 right: anElement toTheme paddingContentHorizontal)."
-
 	" remove the background and the border in case the button type is changing "
 	anElement background: Color transparent.
 	anElement border: BlBorder empty.

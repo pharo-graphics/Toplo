@@ -1,5 +1,8 @@
 Trait {
 	#name : #TToLabeledIcon,
+	#instVars : [
+		'labelFirstRequested'
+	],
 	#traits : 'TToTriplet + TToOrientable',
 	#classTraits : 'TToTriplet classTrait + TToOrientable classTrait',
 	#category : #'Toplo-Core-Triplet'
@@ -8,13 +11,34 @@ Trait {
 { #category : #'t - labeled icon' }
 TToLabeledIcon >> beIconFirst [
 
-	self beLeftToRight 
+	labelFirstRequested := false.
+	self beLeftToRight.
+	self privateUpdateChildren
 ]
 
 { #category : #'t - labeled icon' }
 TToLabeledIcon >> beLabelFirst [
 
-	self beRightToLeft
+	labelFirstRequested := true.
+	self beRightToLeft.
+	self privateUpdateChildren
+]
+
+{ #category : #'t - triplet presentation' }
+TToLabeledIcon >> checkDirection [
+
+	self labelFirstRequested
+		ifTrue: [ self beLabelFirst ]
+		ifFalse: [ self beIconFirst ].
+
+]
+
+{ #category : #'t - triplet presentation' }
+TToLabeledIcon >> checkOrientation [
+
+	self verticalRequested
+		ifTrue: [ self beVertical ]
+		ifFalse: [ self beHorizontal ].
 ]
 
 { #category : #'t - labeled icon' }
@@ -42,9 +66,24 @@ TToLabeledIcon >> icon: anElement [
 ]
 
 { #category : #'t - labeled icon' }
+TToLabeledIcon >> iconFirst: aBoolean [
+
+	aBoolean
+		ifTrue: [ self beIconFirst ]
+		ifFalse: [ self beLabelFirst ]
+]
+
+{ #category : #'t - labeled icon' }
 TToLabeledIcon >> iconImage: anElement [
 
 	self icon: (ToImage inner: anElement)
+]
+
+{ #category : #'t - triplet initialization' }
+TToLabeledIcon >> initializeTriplet [
+
+	self strategy: ToTripletWithoutInterspaceStrategy new.
+	self fitContent
 ]
 
 { #category : #'t - labeled icon' }
@@ -77,6 +116,13 @@ TToLabeledIcon >> labelFirst: aBoolean [
 	aBoolean
 		ifTrue: [ self beLabelFirst ]
 		ifFalse: [ self beIconFirst ]
+]
+
+{ #category : #'t - labeled icon' }
+TToLabeledIcon >> labelFirstRequested [
+
+	" useful in case the layout is changed to set the right direction"
+	^ labelFirstRequested ifNil: [ labelFirstRequested := self isLabelFirst ]
 ]
 
 { #category : #'t - labeled icon' }

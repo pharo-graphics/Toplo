@@ -7,20 +7,20 @@ Class {
 	#category : #'Toplo-Core-Triplet'
 }
 
-{ #category : #layout }
-ToTripletWithInterspaceStrategy >> childrenIn: aPair [
+{ #category : #accessing }
+ToTripletWithInterspaceStrategy >> canHaveInterspaceAsChildIn: aTriplet [
 
-	^ {
-		  aPair first.
-		  (self interspaceIn: aPair).
-		  aPair second.
-		  aPair third } select: #notNil
+	^ aTriplet first notNil and: [ aTriplet second notNil ]
 ]
 
-{ #category : #accessing }
-ToTripletWithInterspaceStrategy >> hasInterspaceIn: anElement [
+{ #category : #layout }
+ToTripletWithInterspaceStrategy >> childrenIn: aTriplet [
 
-	^ anElement first notNil and: [ anElement second notNil ]
+	^ {
+		  aTriplet first.
+		  (self interspaceIn: aTriplet).
+		  aTriplet second.
+		  aTriplet third } select: #notNil
 ]
 
 { #category : #initialization }
@@ -28,7 +28,7 @@ ToTripletWithInterspaceStrategy >> initialize [
 
 	super initialize.
 	interspace := BlElement new
-		              constraintsDo: [ :c | 
+		              constraintsDo: [ :c |
 			              c horizontal exact: 0.
 			              c vertical exact: 0 ];
 		              yourself
@@ -41,9 +41,23 @@ ToTripletWithInterspaceStrategy >> interspace [
 ]
 
 { #category : #accessing }
-ToTripletWithInterspaceStrategy >> interspaceIn: anElement [
+ToTripletWithInterspaceStrategy >> interspaceIn: aTriplet [
 
-	^ (self hasInterspaceIn: anElement)
+	^ (self canHaveInterspaceAsChildIn: aTriplet)
 		  ifTrue: [ self interspace ]
 		  ifFalse: [ nil ]
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToTripletWithInterspaceStrategy >> onInstalledIn: aTriplet [
+
+	super onInstalledIn: aTriplet.
+	" be careful to decide here about vertical/horizontal to avoid infinite recursion due to the orientation checking "
+	aTriplet layout: (aTriplet verticalRequested
+		ifTrue: [ BlLinearLayout vertical ]
+		ifFalse: [ BlLinearLayout horizontal ] ).
+	aTriplet checkDirection.
+	aTriplet checkOrientation
+
+
 ]

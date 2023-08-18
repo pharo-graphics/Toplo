@@ -41,6 +41,15 @@ BlElement >> disable [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> dispatchChildSkinsDirtyEvent [
+
+	self dispatchEvent: ToChildSkinsDirtyEvent new.
+	self childrenDo: [ :child | child dispatchChildSkinsDirtyEvent ].
+
+
+]
+
+{ #category : #'*Toplo' }
 BlElement >> dispatchEnablementChangedEvent [
 
 	self dispatchEvent: ToEnablementChangedEvent new
@@ -51,15 +60,6 @@ BlElement >> dispatchLookEvent: anEvent [
 
 	self dispatchEvent: anEvent.
 	self childrenDo: [ :child | child dispatchLookEvent: anEvent ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> dispatchSkinChangedEvent [
-
-	self dispatchEvent: ToSkinChangedEvent new.
-	self childrenDo: [ :child | child dispatchSkinChangedEvent ].
-
-
 ]
 
 { #category : #'*Toplo' }
@@ -239,7 +239,7 @@ BlElement >> withSkin: aSkin [
 	Toplo useLookAndFeel ifTrue: [ ^ self ].
 	self privateSkin ifNotNil: [ :s |
 		self addEventHandler: s.
-		self dispatchSkinChangedEvent ]
+		self dispatchChildSkinsDirtyEvent ]
 ]
 
 { #category : #'*Toplo' }

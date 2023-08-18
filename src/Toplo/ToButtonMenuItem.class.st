@@ -17,7 +17,7 @@ ToButtonMenuItem >> addedInMenu: aMenu [
 	super addedInMenu: aMenu.
 	self isJustified ifFalse: [ 
 		self columnWidth > 0 ifFalse: [ 
-			self columnWidth: aMenu globalColumnWidth ] ]
+			self columnWidth: aMenu defaultColumnWidth ] ]
 ]
 
 { #category : #'t - initialization dresser' }

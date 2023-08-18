@@ -4,7 +4,8 @@ Class {
 	#traits : 'TToReshapeableWidgetSkin',
 	#classTraits : 'TToReshapeableWidgetSkin classTrait',
 	#instVars : [
-		'type'
+		'type',
+		'labelFirst'
 	],
 	#category : #'Toplo-Widget-Button-Skins'
 }
@@ -15,14 +16,28 @@ ToButtonSkin class >> type: aButtonType [
 	^ self new type: aButtonType 
 ]
 
+{ #category : #'private children updating' }
+ToButtonSkin >> adaptNextChildrenArray: anArray in: anElement [
+	" the skin can setup future children here "
+
+	" in a button, children are centered whatever the layout (Linear or Frame)"
+	anArray do: [ :child |
+		child constraintsDo: [ :c |
+			c linear vertical alignCenter.
+			c linear horizontal alignCenter.
+			c frame vertical alignCenter.
+			c frame horizontal alignCenter ] ].
+
+	^ self shaping adaptNextChildrenArray: anArray in: anElement
+]
+
 { #category : #'t - reshapeable - private - shaping/sizing' }
 ToButtonSkin >> applyCircleShaping: aShaping on: anElement [
 
-	anElement spacingWidth: 0.
+	anElement strategy: ToTripletCenterStrategy new.
 	anElement padding: BlInsets empty.
 	anElement size: (aShaping sizing heightOn: anElement) asPoint.
-	anElement geometry: BlCircleGeometry new.
-	anElement layout: BlFrameLayout new.
+	anElement geometry: BlCircleGeometry new
 ]
 
 { #category : #'t - reshapeable - private - shaping/sizing' }
@@ -53,6 +68,16 @@ ToButtonSkin >> applyRoundShaping: aShaping on: anElement [
 	self applyRectShaping: aShaping on: anElement.	
 	radius := anElement requestedHeight / 2.
 	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: radius)
+]
+
+{ #category : #'private - shaping/sizing' }
+ToButtonSkin >> applySizing: aSizing on: anElement [
+
+	anElement hFitContent.
+	anElement layout isOrientable ifTrue: [
+		anElement isHorizontal ifFalse: [ ^ anElement vFitContent ] ].
+	anElement height: (aSizing heightOn: anElement).
+
 ]
 
 { #category : #'t - reshapeable - private - shaping/sizing' }
@@ -136,6 +161,7 @@ ToButtonSkin >> iconSkinIn: aButton [
 ToButtonSkin >> initialize [ 
 
 	super initialize.
+	labelFirst := false.
 	self intializeShapingSkin
 ]
 
@@ -152,14 +178,19 @@ ToButtonSkin >> labelSkinIn: aButton [
 
 ]
 
+{ #category : #'event handling' }
+ToButtonSkin >> layoutOrientationChangedEvent: anEvent [
+
+	super layoutOrientationChangedEvent: anEvent.
+	self applySizingAndShapingOn: anEvent target
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToButtonSkin >> onSkinInstalledIn: anElement [
 
 	super onSkinInstalledIn: anElement.
 	self onShapingSkinInstalledIn: anElement.
-	self type onSkinInstalled: self in: anElement.
-
-
+	self type onSkinInstalled: self in: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }

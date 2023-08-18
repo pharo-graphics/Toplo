@@ -21,7 +21,7 @@ ToTripletJustifiedStrategy >> isJustified [
 ]
 
 { #category : #layout }
-ToTripletJustifiedStrategy >> onMeasure: anExtentMeasurementSpec in: aLabeled [
+ToTripletJustifiedStrategy >> onMeasure: anExtentMeasurementSpec in: aTriplet [
 
 	" nothing to do, interspace is setup in #initialize "
 

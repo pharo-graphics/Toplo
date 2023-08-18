@@ -163,6 +163,7 @@ ToDresser >> useLookAndFeel [
 { #category : #'api - install/uninstall  hook' }
 ToDresser >> whenAddedToParent: anElement [
 
+	Toplo useLookAndFeel ifFalse: [ ^ self ].
 	self flag:
 		'labordep: Check Theme installation : this is a patch for first Space instanciation and need to be remove when a better pattern is found'.
 	anElement checkSkinInstallation.

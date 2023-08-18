@@ -101,6 +101,7 @@ ToToggleTrackSkin >> onSkinInstalledIn: anElement [
 	super onSkinInstalledIn: anElement.
 	self onShapingSkinInstalledIn: anElement.
 	self addLook: (ToBackgroundLook new
+			 disabledBg: [ :e | e toTheme colorBgContainerDisabled ];
 			 initialBg: [ :e |
 				 anElement isChecked
 					 ifTrue: [ e toTheme colorBgContainerChecked ]

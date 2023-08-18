@@ -12,19 +12,19 @@ Class {
 ToClickableSkin >> applyRectShaping: aShaping on: anElement [
 
 	anElement layout: BlLinearLayout new.
-	anElement hFitContent.
-	anElement spacingWidth: anElement toTheme paddingContentHorizontal / 2.
+	anElement verticalRequested
+		ifTrue: [
+			anElement vFitContent.
+			anElement spacingHeight: anElement toTheme paddingContentVertical / 2 ]
+		ifFalse: [
+			anElement hFitContent.
+			anElement spacingWidth: anElement toTheme paddingContentHorizontal / 2 ].
+		
 	anElement padding: (BlInsets
 			 top: anElement toTheme paddingXS / 2
 			 left: anElement toTheme paddingContentHorizontal
 			 bottom: anElement toTheme paddingXS / 2
-			 right: anElement toTheme paddingContentHorizontal).
-]
-
-{ #category : #'private - shaping/sizing' }
-ToClickableSkin >> applySizing: aSizing on: anElement [
-
-	anElement height: (aSizing heightOn: anElement)
+			 right: anElement toTheme paddingContentHorizontal)
 ]
 
 { #category : #'api - install/uninstall  hook' }

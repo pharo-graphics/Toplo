@@ -21,7 +21,7 @@ ToTripletColumnStrategy >> initialize [
 ]
 
 { #category : #layout }
-ToTripletColumnStrategy >> onMeasure: anExtentMeasurementSpec in: aPair [
+ToTripletColumnStrategy >> onMeasure: anExtentMeasurementSpec in: aTriplet [
 	" return true if the measure is up-to-date "
 
 	" note that cell spacing is not compatible with left column sizing "
@@ -29,15 +29,15 @@ ToTripletColumnStrategy >> onMeasure: anExtentMeasurementSpec in: aPair [
 	" get the left side element and then its width "
 
 	| first lw w |
-	(self hasInterspaceIn: aPair) ifFalse: [ ^ true ].
+	(self canHaveInterspaceAsChildIn: aTriplet) ifFalse: [ ^ true ].
 
-	first := aPair direction isLeftToRight
-		         ifTrue: [ aPair first ]
-		         ifFalse: [ aPair second ].
+	first := aTriplet direction isLeftToRight
+		         ifTrue: [ aTriplet first ]
+		         ifFalse: [ aTriplet second ].
 
 	lw := first ifNil: [ 0 ] ifNotNil: [ first measuredWidth ].
 	" now measure the gap according to leftColumnWidth "
-	w := self width - lw max: aPair padding left negated.
+	w := self width - lw max: aTriplet padding left negated.
 
 	interspace measuredWidth = w ifTrue: [ ^ true ].
 	interspace size: w @ 0.

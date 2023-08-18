@@ -13,6 +13,14 @@ ToRadioButtonSkin >> checkedImageIn: anElement [
 ]
 
 { #category : #accessing }
+ToRadioButtonSkin >> disabledImageIn: anElement [
+
+	^ (super disabledImageIn: anElement)
+		  geometry: BlCircleGeometry new;
+		  yourself
+]
+
+{ #category : #accessing }
 ToRadioButtonSkin >> iconSkinIn: aButton [
 
 	^ ToRadioButtonIconSkin new.

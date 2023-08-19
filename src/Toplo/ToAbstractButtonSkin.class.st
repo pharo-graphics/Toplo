@@ -111,6 +111,7 @@ ToAbstractButtonSkin >> childSkinsToHandle [
 { #category : #accessing }
 ToAbstractButtonSkin >> danger [
 
+
 	^ self type danger
 ]
 

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToButtonSkin,
-	#superclass : #ToAbstractButtonSkin,
+	#superclass : #ToAbstractButtonSkinNew,
 	#category : #'Toplo-Widget-Button-Skins'
 }
 

@@ -1,5 +1,5 @@
 Class {
-	#name : #ToAbstractButtonSkin,
+	#name : #ToAbstractButtonSkinNew,
 	#superclass : #ToClickableSkin,
 	#traits : 'TToReshapeableWidgetSkin',
 	#classTraits : 'TToReshapeableWidgetSkin classTrait',
@@ -12,13 +12,13 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToAbstractButtonSkin class >> type: aButtonType [
+ToAbstractButtonSkinNew class >> type: aButtonType [
 
 	^ self new type: aButtonType 
 ]
 
 { #category : #'private children updating' }
-ToAbstractButtonSkin >> adaptNextChildrenArray: anArray in: anElement [
+ToAbstractButtonSkinNew >> adaptNextChildrenArray: anArray in: anElement [
 	" the skin can setup future children here "
  
 	" in a button, children are centered whatever the layout (Linear or Frame)"
@@ -33,7 +33,7 @@ ToAbstractButtonSkin >> adaptNextChildrenArray: anArray in: anElement [
 ]
 
 { #category : #'t - reshapeable - private - shaping/sizing' }
-ToAbstractButtonSkin >> applyCircleShaping: aShaping on: anElement [
+ToAbstractButtonSkinNew >> applyCircleShaping: aShaping on: anElement [
  
 	anElement strategy: ToTripletCenterStrategy new.
 	anElement padding: BlInsets empty.
@@ -42,7 +42,7 @@ ToAbstractButtonSkin >> applyCircleShaping: aShaping on: anElement [
 ]
 
 { #category : #'t - reshapeable - private - shaping/sizing' }
-ToAbstractButtonSkin >> applyDefaultShaping: aShaping on: anElement [
+ToAbstractButtonSkinNew >> applyDefaultShaping: aShaping on: anElement [
  
 	| radius |
 	self applyRectShaping: aShaping on: anElement.
@@ -51,19 +51,19 @@ ToAbstractButtonSkin >> applyDefaultShaping: aShaping on: anElement [
 ]
 
 { #category : #'t - reshapeable - private - shaping/sizing' }
-ToAbstractButtonSkin >> applyLargeSizing: aSizing on: anElement [
+ToAbstractButtonSkinNew >> applyLargeSizing: aSizing on: anElement [
  
 	self applySizing: aSizing on: anElement
 ]
 
 { #category : #'t - reshapeable - private - shaping/sizing' }
-ToAbstractButtonSkin >> applyMiddleSizing: aSizing on: anElement [
+ToAbstractButtonSkinNew >> applyMiddleSizing: aSizing on: anElement [
  
 	self applySizing: aSizing on: anElement
 ]
 
 { #category : #'t - reshapeable - private - shaping/sizing' }
-ToAbstractButtonSkin >> applyRoundShaping: aShaping on: anElement [
+ToAbstractButtonSkinNew >> applyRoundShaping: aShaping on: anElement [
  
 	| radius |
 	self applyRectShaping: aShaping on: anElement.	
@@ -72,7 +72,7 @@ ToAbstractButtonSkin >> applyRoundShaping: aShaping on: anElement [
 ]
 
 { #category : #'private - shaping/sizing' }
-ToAbstractButtonSkin >> applySizing: aSizing on: anElement [
+ToAbstractButtonSkinNew >> applySizing: aSizing on: anElement [
  
 	anElement hFitContent.
 	anElement layout isOrientable ifTrue: [
@@ -82,13 +82,13 @@ ToAbstractButtonSkin >> applySizing: aSizing on: anElement [
 ]
 
 { #category : #'t - reshapeable - private - shaping/sizing' }
-ToAbstractButtonSkin >> applySmallSizing: aSizing on: anElement [
+ToAbstractButtonSkinNew >> applySmallSizing: aSizing on: anElement [
  
 	self applySizing: aSizing on: anElement
 ]
 
 { #category : #accessing }
-ToAbstractButtonSkin >> changeTypeWith: aSkinType in: anElement [
+ToAbstractButtonSkinNew >> changeTypeWith: aSkinType in: anElement [
  
 	"DefaultType, PrimaryType, LinkType or TextType "
 	self type: aSkinType.
@@ -96,7 +96,7 @@ ToAbstractButtonSkin >> changeTypeWith: aSkinType in: anElement [
 ]
 
 { #category : #'api - accessing' }
-ToAbstractButtonSkin >> childSkinsToHandle [
+ToAbstractButtonSkinNew >> childSkinsToHandle [
  
 	^ {
 		  (ToChildSkin new
@@ -110,68 +110,68 @@ ToAbstractButtonSkin >> childSkinsToHandle [
 ]
 
 { #category : #accessing }
-ToAbstractButtonSkin >> danger [
+ToAbstractButtonSkinNew >> danger [
 
 	^ self type danger
 ]
 
 { #category : #accessing }
-ToAbstractButtonSkin >> danger: aBoolean [
+ToAbstractButtonSkinNew >> danger: aBoolean [
  
 	self type danger: aBoolean
 ]
 
 { #category : #accessing }
-ToAbstractButtonSkin >> dashed [
+ToAbstractButtonSkinNew >> dashed [
  
 	^ self type dashed
 ]
 
 { #category : #accessing }
-ToAbstractButtonSkin >> dashed: aBoolean [
+ToAbstractButtonSkinNew >> dashed: aBoolean [
  
 	self type dashed: aBoolean
 ]
 
 { #category : #'t - reshapeable - initialization' }
-ToAbstractButtonSkin >> defaultSizing [
+ToAbstractButtonSkinNew >> defaultSizing [
  
 	^ ToMiddleSizing new
 ]
 
 { #category : #accessing }
-ToAbstractButtonSkin >> defaultType [
+ToAbstractButtonSkinNew >> defaultType [
  
 	^ self subclassResponsibility 
 ]
 
 { #category : #'event handling' }
-ToAbstractButtonSkin >> elementLayoutChangedEvent: anEvent [
+ToAbstractButtonSkinNew >> elementLayoutChangedEvent: anEvent [
  
 	anEvent currentTarget checkOrientableLayout
 	
 ]
 
 { #category : #'api - accessing' }
-ToAbstractButtonSkin >> eventsToHandle [
+ToAbstractButtonSkinNew >> eventsToHandle [
  
 	^ super eventsToHandle , { BlElementLayoutChangedEvent }
 ]
 
 { #category : #accessing }
-ToAbstractButtonSkin >> iconLookIn: anElement [
+ToAbstractButtonSkinNew >> iconLookIn: anElement [
  
 	^ self type iconLookIn: anElement
 ]
 
 { #category : #accessing }
-ToAbstractButtonSkin >> iconSkinIn: aButton [
+ToAbstractButtonSkinNew >> iconSkinIn: aButton [
  
 	^ self subclassResponsibility 
 ]
 
 { #category : #initialization }
-ToAbstractButtonSkin >> initialize [ 
+ToAbstractButtonSkinNew >> initialize [ 
  
 	super initialize.
 	labelFirst := false.
@@ -179,26 +179,26 @@ ToAbstractButtonSkin >> initialize [
 ]
 
 { #category : #accessing }
-ToAbstractButtonSkin >> labelLookIn: anElement [
+ToAbstractButtonSkinNew >> labelLookIn: anElement [
  
 	^ self type labelLookIn: anElement
 ]
 
 { #category : #accessing }
-ToAbstractButtonSkin >> labelSkinIn: aButton [
+ToAbstractButtonSkinNew >> labelSkinIn: aButton [
  
 	^ self subclassResponsibility 
 ]
 
 { #category : #'event handling' }
-ToAbstractButtonSkin >> layoutOrientationChangedEvent: anEvent [
+ToAbstractButtonSkinNew >> layoutOrientationChangedEvent: anEvent [
  
 	super layoutOrientationChangedEvent: anEvent.
 	self applySizingAndShapingOn: anEvent target
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToAbstractButtonSkin >> onSkinInstalledIn: anElement [
+ToAbstractButtonSkinNew >> onSkinInstalledIn: anElement [
  
 	super onSkinInstalledIn: anElement.
 	self onShapingSkinInstalledIn: anElement.
@@ -206,7 +206,7 @@ ToAbstractButtonSkin >> onSkinInstalledIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToAbstractButtonSkin >> onSkinUninstalledIn: anElement [
+ToAbstractButtonSkinNew >> onSkinUninstalledIn: anElement [
  
 	self type onSkinUninstalled: self in: anElement.
 	self onShapingSkinUninstalledIn: anElement.
@@ -214,14 +214,14 @@ ToAbstractButtonSkin >> onSkinUninstalledIn: anElement [
 ]
 
 { #category : #accessing }
-ToAbstractButtonSkin >> type [
+ToAbstractButtonSkinNew >> type [
 
 	"#default, #primary, #link or #text"
 	^ type ifNil: [ type := self defaultType ]
 ]
 
 { #category : #accessing }
-ToAbstractButtonSkin >> type: aSkinType [
+ToAbstractButtonSkinNew >> type: aSkinType [
  
 	"DefaultType, PrimaryType, LinkType or TextType "
 	type := aSkinType

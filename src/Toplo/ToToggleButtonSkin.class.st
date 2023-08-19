@@ -1,6 +1,6 @@
 Class {
 	#name : #ToToggleButtonSkin,
-	#superclass : #ToAbstractButtonSkin,
+	#superclass : #ToAbstractButtonSkinNew,
 	#category : #'Toplo-Widget-Toggle-Skins'
 }
 

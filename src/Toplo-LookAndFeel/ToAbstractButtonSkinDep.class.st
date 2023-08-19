@@ -1,53 +1,59 @@
 Class {
-	#name : #ToAbstractButtonSkin,
+	#name : #ToAbstractButtonSkinDep,
 	#superclass : #ToAbstractSkin,
-	#category : #'Toplo-LookAndFeel-Core'
+	#category : #'Toplo-LookAndFeel-Theme-Skins-Button'
 }
 
 { #category : #testing }
-ToAbstractButtonSkin class >> isAbstract [
+ToAbstractButtonSkinDep class >> isAbstract [
 
-	^ self = ToAbstractButtonSkin
+	^ self = ToAbstractButtonSkinDep
+]
+
+{ #category : #testing }
+ToAbstractButtonSkinDep class >> isDeprecated [ 
+
+	^ true
 ]
 
 { #category : #tokens }
-ToAbstractButtonSkin >> background [
+ToAbstractButtonSkinDep >> background [
 
 	^ self token: #background
 ]
 
 { #category : #tokens }
-ToAbstractButtonSkin >> backgroundHover [
+ToAbstractButtonSkinDep >> backgroundHover [
 
 	^ self token: #backgroundHover
 ]
 
 { #category : #tokens }
-ToAbstractButtonSkin >> backgroundPressed [
+ToAbstractButtonSkinDep >> backgroundPressed [
 
 	^ self token: #backgroundPressed
 ]
 
 { #category : #tokens }
-ToAbstractButtonSkin >> border [
+ToAbstractButtonSkinDep >> border [
 
 	^ self token: #border
 ]
 
 { #category : #tokens }
-ToAbstractButtonSkin >> borderHover [
+ToAbstractButtonSkinDep >> borderHover [
 
 	^ self token: #borderHover
 ]
 
 { #category : #tokens }
-ToAbstractButtonSkin >> borderPressed [
+ToAbstractButtonSkinDep >> borderPressed [
 
 	^ self token: #borderPressed
 ]
 
 { #category : #built }
-ToAbstractButtonSkin >> buildTokens [	
+ToAbstractButtonSkinDep >> buildTokens [	
 	
 	super buildTokens.
 	
@@ -67,31 +73,31 @@ ToAbstractButtonSkin >> buildTokens [
 ]
 
 { #category : #built }
-ToAbstractButtonSkin >> builtBackground [ 
+ToAbstractButtonSkinDep >> builtBackground [ 
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #built }
-ToAbstractButtonSkin >> builtBackgroundHover [ 
+ToAbstractButtonSkinDep >> builtBackgroundHover [ 
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #built }
-ToAbstractButtonSkin >> builtBackgroundPressed [ 
+ToAbstractButtonSkinDep >> builtBackgroundPressed [ 
 
 	^ self subclassResponsibility
 ]
 
 { #category : #built }
-ToAbstractButtonSkin >> builtBorder [
+ToAbstractButtonSkinDep >> builtBorder [
 
 	^ self builtBorderBuilder ifNotNil:[ :e | e build ]
 ]
 
 { #category : #built }
-ToAbstractButtonSkin >> builtBorderBuilder [
+ToAbstractButtonSkinDep >> builtBorderBuilder [
 
 	| builder |
 	builder := BlBorderBuilder new
@@ -109,13 +115,13 @@ ToAbstractButtonSkin >> builtBorderBuilder [
 ]
 
 { #category : #built }
-ToAbstractButtonSkin >> builtBorderHover [
+ToAbstractButtonSkinDep >> builtBorderHover [
 
 	^ self builtBorderHoverBuilder ifNotNil:[ :e | e build ]
 ]
 
 { #category : #built }
-ToAbstractButtonSkin >> builtBorderHoverBuilder [
+ToAbstractButtonSkinDep >> builtBorderHoverBuilder [
 
 	| builder |
 	builder := BlBorderBuilder new
@@ -133,13 +139,13 @@ ToAbstractButtonSkin >> builtBorderHoverBuilder [
 ]
 
 { #category : #built }
-ToAbstractButtonSkin >> builtBorderPressed [
+ToAbstractButtonSkinDep >> builtBorderPressed [
 
 	^ self builtBorderPressedBuilder ifNotNil:[ :e | e build ]
 ]
 
 { #category : #built }
-ToAbstractButtonSkin >> builtBorderPressedBuilder [
+ToAbstractButtonSkinDep >> builtBorderPressedBuilder [
 
 	| builder |
 	builder := BlBorderBuilder new
@@ -157,49 +163,49 @@ ToAbstractButtonSkin >> builtBorderPressedBuilder [
 ]
 
 { #category : #built }
-ToAbstractButtonSkin >> builtGeometry [
+ToAbstractButtonSkinDep >> builtGeometry [
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #built }
-ToAbstractButtonSkin >> builtPadding [ 
+ToAbstractButtonSkinDep >> builtPadding [ 
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #built }
-ToAbstractButtonSkin >> builtShadow [
+ToAbstractButtonSkinDep >> builtShadow [
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #tokens }
-ToAbstractButtonSkin >> geometry [
+ToAbstractButtonSkinDep >> geometry [
 
 	^ self token: #geometry
 ]
 
 { #category : #built }
-ToAbstractButtonSkin >> imageSkinType [
+ToAbstractButtonSkinDep >> imageSkinType [
 
 	^ ToAbstractSkin defaultType
 ]
 
 { #category : #built }
-ToAbstractButtonSkin >> labelSkinType [
+ToAbstractButtonSkinDep >> labelSkinType [
 
 	^ ToAbstractSkin defaultType
 ]
 
 { #category : #tokens }
-ToAbstractButtonSkin >> padding [
+ToAbstractButtonSkinDep >> padding [
 
 	^ self token: #padding
 ]
 
 { #category : #tokens }
-ToAbstractButtonSkin >> shadow [
+ToAbstractButtonSkinDep >> shadow [
 
 	^ self token: #shadow
 ]

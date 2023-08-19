@@ -34,6 +34,14 @@ TToLabeledIcon >> checkDirection [
 ]
 
 { #category : #'t - triplet presentation' }
+TToLabeledIcon >> checkOrientableLayout [
+
+	self layout isOrientable ifFalse: [ ^ self ].
+	self checkDirection.
+	self checkOrientation 
+]
+
+{ #category : #'t - triplet presentation' }
 TToLabeledIcon >> checkOrientation [
 
 	self verticalRequested

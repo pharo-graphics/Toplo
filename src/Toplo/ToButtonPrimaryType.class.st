@@ -5,6 +5,16 @@ Class {
 }
 
 { #category : #'api - install/uninstall  hook' }
+ToButtonPrimaryType >> borderLookIn: anElement [
+
+	^ ToBorderLook new
+		  disabledPaint: [ :e | e toTheme colorBorderDisabled ];
+		  initialPaint: [ :e | Color transparent ];
+		  width: [ :e | e toTheme lineWidth ];
+		  yourself
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToButtonPrimaryType >> dangerBackgroundLookIn: anElement [
 
 	^ ToBackgroundLook new

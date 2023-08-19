@@ -10,12 +10,6 @@ ToButtonTextType >> backgroundLookIn: anElement [
 	^ nil
 ]
 
-{ #category : #accessing }
-ToButtonTextType >> borderLookIn: anElement [
-
-	^ nil
-]
-
 { #category : #'api - install/uninstall  hook' }
 ToButtonTextType >> dangerBackgroundLookIn: anElement [
 

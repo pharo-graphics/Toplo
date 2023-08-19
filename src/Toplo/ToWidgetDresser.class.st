@@ -267,7 +267,7 @@ ToWidgetDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	self onInstalledMouseHandlingIn: anElement.
-	self onInstalledEnableableHandlingIn: anElement.
+	self onInstalledEnableableHandlingIn: anElement.	
 	self initialState: anElement
 ]
 

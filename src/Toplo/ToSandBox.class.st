@@ -1026,26 +1026,14 @@ ToSandBox class >> example_ToButtonSkins [
 	
 	topBar addChild: buttonBar.
 	
-	directionSwitcher := ToToggleButton new.
-	directionSwitcher switchBarOnElement:
-		((ToLabel text: 'Icon first') withSkin:
-			 (ToButtonLabelSkin new buttonType: directionSwitcher privateSkin)).
-	directionSwitcher switchBarOffElement:
-		((ToLabel text: 'Label first') withSkin:
-			 (ToButtonLabelSkin new buttonType: directionSwitcher privateSkin)).
+	directionSwitcher := ToToggleButton new labelText: 'Icon first'; beLabelFirst; yourself.
 	directionSwitcher check.
 	directionSwitcher
 		when: ToCheckableCheckEvent
 		do: [ :event | allButtons do: [ :b | b iconFirst: event target isChecked ] ].
 	topBar addChild: directionSwitcher.
 	
-	orientationSwitcher := ToToggleButton new.
-	orientationSwitcher switchBarOnElement:
-		((ToLabel text: 'Horizontal') withSkin:
-			 (ToButtonLabelSkin new buttonType: orientationSwitcher privateSkin)).
-	orientationSwitcher switchBarOffElement:
-		((ToLabel text: 'Vertical') withSkin:
-			 (ToButtonLabelSkin new buttonType: orientationSwitcher privateSkin)).
+	orientationSwitcher := ToToggleButton new labelText: 'Horizontal'; beLabelFirst; yourself.
 	orientationSwitcher check.
 	orientationSwitcher
 		when: ToCheckableCheckEvent
@@ -1072,12 +1060,10 @@ ToSandBox class >> example_ToButtonSkins [
 	                      {
 		                      {
 			                      'Primary'.
-			                      (ToButtonSkin new type:
-				                       ToButtonPrimaryType new) }.
+			                      ToButtonSkin primaryType }.
 		                      {
 			                      'Default'.
-			                      (ToButtonSkin new type:
-				                       ToButtonDefaultType new) }.
+			                      ToButtonSkin defaultType }.
 		                      {
 			                      'Dashed'.
 			                      (ToButtonSkin new
@@ -1085,10 +1071,10 @@ ToSandBox class >> example_ToButtonSkins [
 				                       yourself) }.
 		                      {
 			                      'Text'.
-			                      (ToButtonSkin new type: ToButtonTextType new) }.
+			                      ToButtonSkin textType }.
 		                      {
 			                      'Link'.
-			                      (ToButtonSkin new type: ToButtonLinkType new) } } ].
+			                      ToButtonSkin linkType } } ].
 
 	" Line 1 "
 	pane := ToPane horizontal.
@@ -1196,17 +1182,16 @@ ToSandBox class >> example_ToButtonWithDashedSkin [
 	| space button1 |
 	space := BlSpace new.
 
-	button1 := ToButton new beVertical;
+	button1 := ToButton new 
 		           withSkin: (ToButtonSkin new
 				            dashed: true;
 				            yourself);
 		           yourself.
-	button1 inspect.
 	button1 labelText: 'Dashed button'.
 	button1 icon: (ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16).
 	button1 beLabelFirst.
-	button1 beVertical.
-
+	"button1 beVertical."
+button1 inspect.
 	space root addChild: button1.
 
 	button1 labelText: 'Dashed button **'.

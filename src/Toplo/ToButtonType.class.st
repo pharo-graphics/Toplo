@@ -18,11 +18,7 @@ ToButtonType >> backgroundLookIn: anElement [
 { #category : #accessing }
 ToButtonType >> borderLookIn: anElement [
 
-	^ ToBorderLook new
-		  disabledPaint: [ :e | e toTheme colorBorderDisabled ];
-		  initialPaint: [ :e | Color transparent ];
-		  width: [ :e | e toTheme lineWidth ];
-		  yourself
+	^ nil
 ]
 
 { #category : #accessing }

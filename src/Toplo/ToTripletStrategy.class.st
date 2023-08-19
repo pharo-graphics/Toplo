@@ -38,3 +38,15 @@ ToTripletStrategy >> onMeasure: anExtentMeasurementSpec in: aTriplet [
 { #category : #'api - install/uninstall  hook' }
 ToTripletStrategy >> onUninstalledIn: aTriplet [
 ]
+
+{ #category : #accessing }
+ToTripletStrategy >> spacingHeight [ 
+
+	^ 0
+]
+
+{ #category : #accessing }
+ToTripletStrategy >> spacingWidth [
+
+	^ 0
+]

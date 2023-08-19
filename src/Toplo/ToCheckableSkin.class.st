@@ -56,8 +56,7 @@ ToCheckableSkin >> onSkinInstalledIn: anElement [
 	anElement icon: (ToImage inner: (anElement isChecked
 				  ifTrue: [ self checkedImageIn: anElement ]
 				  ifFalse: [ self uncheckedImageIn: anElement ])).
-	anElement checkDirection.
-	anElement checkOrientation.
+	anElement checkOrientableLayout.
 
 	self addLook: (ToCheckLook new
 			disabledImage: (self disabledImageIn: anElement);

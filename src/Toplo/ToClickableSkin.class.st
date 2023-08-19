@@ -11,7 +11,8 @@ Class {
 { #category : #'private - shaping/sizing' }
 ToClickableSkin >> applyRectShaping: aShaping on: anElement [
 
-	anElement layout: BlLinearLayout new.
+	(anElement layout isKindOf: BlLinearLayout) ifFalse: [ 
+		anElement layout: BlLinearLayout new]. 
 	anElement verticalRequested
 		ifTrue: [
 			anElement vFitContent.

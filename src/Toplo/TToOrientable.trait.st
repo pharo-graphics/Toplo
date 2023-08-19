@@ -47,16 +47,10 @@ TToOrientable >> direction [
 { #category : #accessing }
 TToOrientable >> direction: aDirection [
 
-	self layout direction = aDirection ifTrue: [ ^ self ].
+	(self layout direction isLeftToRight and: [ aDirection isLeftToRight]) ifTrue: [ ^ self ].
 	self layout direction: aDirection.
 	self dispatchEvent: ToLayoutDirectionChangedEvent new.
 	self requestLayout
-]
-
-{ #category : #'t - orientable orientation' }
-TToOrientable >> horizontal [
-
-	^ self layout isHorizontal
 ]
 
 { #category : #'t - orientable orientation' }
@@ -70,7 +64,7 @@ TToOrientable >> horizontal: aBoolean [
 { #category : #'t - orientable orientation' }
 TToOrientable >> isHorizontal [
 
-	^ self horizontal
+	^ self layout isHorizontal
 ]
 
 { #category : #'t - orientable direction' }
@@ -100,7 +94,7 @@ TToOrientable >> orientation [
 { #category : #accessing }
 TToOrientable >> orientation: aBlLayoutOrientation [
 
-	self layout orientation = aBlLayoutOrientation ifTrue: [ ^ self ].
+	(self layout orientation isHorizontal and: [ aBlLayoutOrientation isHorizontal]) ifTrue: [ ^ self ].
 	self layout orientation: aBlLayoutOrientation.
 	self dispatchEvent: ToLayoutOrientationChangedEvent new.
 	self requestLayout

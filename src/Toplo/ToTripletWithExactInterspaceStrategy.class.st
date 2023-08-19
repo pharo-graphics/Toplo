@@ -21,6 +21,18 @@ ToTripletWithExactInterspaceStrategy >> onMeasure: anExtentMeasurementSpec in: a
 ]
 
 { #category : #accessing }
+ToTripletWithExactInterspaceStrategy >> spacingHeight [
+
+	^ interspace requestedHeight 
+]
+
+{ #category : #accessing }
+ToTripletWithExactInterspaceStrategy >> spacingWidth [
+
+	^ interspace requestedWidth
+]
+
+{ #category : #accessing }
 ToTripletWithExactInterspaceStrategy >> width: anInteger [
 
 	interspace constraintsDo: [ :c |

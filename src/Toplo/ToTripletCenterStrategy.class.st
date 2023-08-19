@@ -8,5 +8,6 @@ Class {
 ToTripletCenterStrategy >> onInstalledIn: aTriplet [
 
 	super onInstalledIn: aTriplet.
+	(aTriplet layout isKindOf: BlFrameLayout) ifTrue: [ ^ self ].
 	aTriplet layout: BlFrameLayout new.
 ]

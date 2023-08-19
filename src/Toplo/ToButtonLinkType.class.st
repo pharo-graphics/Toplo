@@ -11,12 +11,6 @@ ToButtonLinkType >> backgroundLookIn: anElement [
 ]
 
 { #category : #accessing }
-ToButtonLinkType >> borderLookIn: anElement [
-
-	^ nil
-]
-
-{ #category : #accessing }
 ToButtonLinkType >> regularBackgroundLookIn: anElement [
 
 	^ nil

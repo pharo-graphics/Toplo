@@ -124,12 +124,14 @@ TToTriplet >> second: anElement [
 { #category : #'t - triplet presentation' }
 TToTriplet >> spacingHeight: anInteger [
 
+	self strategy spacingHeight = anInteger ifTrue: [ ^ self ].
 	self strategy: (ToTripletWithExactInterspaceStrategy new height: anInteger)
 ]
 
 { #category : #'t - triplet presentation' }
 TToTriplet >> spacingWidth: anInteger [
 
+	self strategy spacingWidth = anInteger ifTrue: [ ^ self ].
 	self strategy: (ToTripletWithExactInterspaceStrategy new width: anInteger)
 ]
 

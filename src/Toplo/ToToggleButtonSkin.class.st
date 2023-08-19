@@ -1,56 +1,81 @@
 Class {
 	#name : #ToToggleButtonSkin,
-	#superclass : #ToClickableSkin,
+	#superclass : #ToAbstractButtonSkin,
+	#classTraits : 'TToReshapeableWidgetSkin classTrait',
 	#category : #'Toplo-Widget-Toggle-Skins'
 }
 
-{ #category : #'api - accessing' }
-ToToggleButtonSkin >> childSkinsToHandle [
+{ #category : #'t - reshapeable - private - shaping/sizing' }
+ToToggleButtonSkin >> applyCircleShaping: aShaping on: anElement [
 
-	^ {
-		  (ToChildSkin new
-			   slotName: #icon;
-			   skinBuilder: [ :e | self trackSkinIn: e ];
-			   yourself).
-		  (ToChildSkin new
-			   slotName: #label;
-			   skinBuilder: [ :e | self labelSkinIn: e ];
-			   yourself) }
+	Error signal: 'Circle shaping is not useable for a toggle button '
+]
+
+{ #category : #'t - reshapeable - private - shaping/sizing' }
+ToToggleButtonSkin >> applyDefaultShaping: aShaping on: anElement [
+
+	super applyDefaultShaping: aShaping on: anElement.
+	aShaping applyOn: anElement track
+]
+
+{ #category : #'t - reshapeable - private - shaping/sizing' }
+ToToggleButtonSkin >> applyLargeSizing: aSizing on: anElement [
+
+	super applyLargeSizing: aSizing on: anElement.
+	aSizing applyOn: anElement track
+]
+
+{ #category : #'t - reshapeable - private - shaping/sizing' }
+ToToggleButtonSkin >> applyMiddleSizing: aSizing on: anElement [
+
+	super applyMiddleSizing: aSizing on: anElement.
+	aSizing applyOn: anElement track
+]
+
+{ #category : #'t - reshapeable - private - shaping/sizing' }
+ToToggleButtonSkin >> applyRoundShaping: aShaping on: anElement [
+
+	super applyRoundShaping: aShaping on: anElement.
+	aShaping applyOn: anElement track
+]
+
+{ #category : #'t - reshapeable - private - shaping/sizing' }
+ToToggleButtonSkin >> applySmallSizing: aSizing on: anElement [
+
+	super applySmallSizing: aSizing on: anElement.
+	aSizing applyOn: anElement track
+]
+
+{ #category : #'t - reshapeable - initialization' }
+ToToggleButtonSkin >> defaultShaping [
+
+	^ ToRoundShaping new 
+]
+
+{ #category : #accessing }
+ToToggleButtonSkin >> defaultType [
+
+	^ ToToggleButtonDefaultType new
+]
+
+{ #category : #accessing }
+ToToggleButtonSkin >> iconSkinIn: aButton [
+
+	^ ToToggleTrackSkin new
 ]
 
 { #category : #accessing }
 ToToggleButtonSkin >> labelLookIn: anElement [
 
-	^ ToLabelTextLook new
-		  disabledColor: [ :e | e toTheme colorTextDisabled ];
+	^ (super labelLookIn: anElement)
 		  initialColor: [ :e | e toTheme colorTextLightSolid ];
+		  hoverColor: [ :e | e toTheme colorTextLightSolid ];
+		  pressedColor: [ :e | e toTheme colorTextLightSolid ];
 		  yourself
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : #accessing }
 ToToggleButtonSkin >> labelSkinIn: aButton [
 
 	^ ToLabelSkin new type: ToLabelDefaultType new.
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToToggleButtonSkin >> onSkinInstalledIn: anElement [
-
-	super onSkinInstalledIn: anElement.
-	anElement hFitContent.
-	anElement spacingWidth: anElement toTheme paddingContentHorizontal / 2.
-	anElement padding: (BlInsets
-			 top: anElement toTheme paddingXS / 2
-			 left: anElement toTheme paddingContentHorizontal
-			 bottom: anElement toTheme paddingXS / 2
-			 right: anElement toTheme paddingContentHorizontal)
-	" setup the track "
-	"anElement track withSkin: (ToToggleTrackSkin new toggleButton: anElement)"
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToToggleButtonSkin >> trackSkinIn: aButton [
-
-	^ ToToggleTrackSkin new
 ]

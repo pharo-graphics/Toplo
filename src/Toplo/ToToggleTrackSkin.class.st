@@ -1,16 +1,8 @@
 Class {
 	#name : #ToToggleTrackSkin,
 	#superclass : #ToWidgetSkin,
-	#traits : 'TToReshapeableWidgetSkin',
-	#classTraits : 'TToReshapeableWidgetSkin classTrait',
 	#category : #'Toplo-Widget-Toggle-Skins'
 }
-
-{ #category : #'t - reshapeable - private - shaping/sizing' }
-ToToggleTrackSkin >> applyCircleShaping: aShaping on: anElement [
-
-	Error signal: 'Circle shaping is not useable for a toggle track '
-]
 
 { #category : #'t - reshapeable - private - shaping/sizing' }
 ToToggleTrackSkin >> applyDefaultShaping: aShaping on: anElement [
@@ -68,27 +60,6 @@ ToToggleTrackSkin >> applySmallSizing: aSizing on: anElement [
 	
 ]
 
-{ #category : #'t - reshapeable - initialization' }
-ToToggleTrackSkin >> defaultShaping [
-
-	^ ToRoundShaping new 
-]
-
-{ #category : #'t - reshapeable - initialization' }
-ToToggleTrackSkin >> defaultSizing [
-	"^ ToSmallSizing new"
-	"^ ToLargeSizing new"
-
-	^ ToMiddleSizing new
-]
-
-{ #category : #initialization }
-ToToggleTrackSkin >> initialize [
-
-	super initialize.
-	self intializeShapingSkin
-]
-
 { #category : #'event handling' }
 ToToggleTrackSkin >> innerButtonSizeIn: anElement [
 
@@ -99,7 +70,6 @@ ToToggleTrackSkin >> innerButtonSizeIn: anElement [
 ToToggleTrackSkin >> onSkinInstalledIn: anElement [
 
 	super onSkinInstalledIn: anElement.
-	self onShapingSkinInstalledIn: anElement.
 	self addLook: (ToBackgroundLook new
 			 disabledBg: [ :e | e toTheme colorBgContainerDisabled ];
 			 initialBg: [ :e |
@@ -119,11 +89,4 @@ ToToggleTrackSkin >> onSkinInstalledIn: anElement [
 			 animate: true;
 			 yourself).
 
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToToggleTrackSkin >> onSkinUninstalledIn: anElement [
-
-	self onShapingSkinUninstalledIn: anElement.
-	super onSkinUninstalledIn: anElement
 ]

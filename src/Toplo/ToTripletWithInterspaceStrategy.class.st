@@ -47,17 +47,3 @@ ToTripletWithInterspaceStrategy >> interspaceIn: aTriplet [
 		  ifTrue: [ self interspace ]
 		  ifFalse: [ nil ]
 ]
-
-{ #category : #'api - install/uninstall  hook' }
-ToTripletWithInterspaceStrategy >> onInstalledIn: aTriplet [
-
-	super onInstalledIn: aTriplet.
-	" be careful to decide here about vertical/horizontal to avoid infinite recursion due to the orientation checking "
-	aTriplet layout: (aTriplet verticalRequested
-		ifTrue: [ BlLinearLayout vertical ]
-		ifFalse: [ BlLinearLayout horizontal ] ).
-	aTriplet checkDirection.
-	aTriplet checkOrientation
-
-
-]

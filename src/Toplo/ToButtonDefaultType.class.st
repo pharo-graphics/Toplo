@@ -14,9 +14,10 @@ ToButtonDefaultType >> borderLookIn: anElement [
 	borderLook := self danger
 		              ifTrue: [ self dangerBorderLookIn: anElement ]
 		              ifFalse: [ self regularBorderLookIn: anElement ].
-	borderLook width: [ :e | e toTheme lineWidth ].
-	self dashed ifTrue: [
-		borderLook dashArray: [ :e | e toTheme dashArray ] ].
+	borderLook ifNotNil: [ 
+		borderLook width: [ :e | e toTheme lineWidth ].
+		self dashed ifTrue: [
+			borderLook dashArray: [ :e | e toTheme dashArray ] ] ].
 	^ borderLook
 ]
 

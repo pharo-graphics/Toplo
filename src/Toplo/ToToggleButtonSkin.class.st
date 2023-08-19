@@ -1,7 +1,6 @@
 Class {
 	#name : #ToToggleButtonSkin,
 	#superclass : #ToAbstractButtonSkin,
-	#classTraits : 'TToReshapeableWidgetSkin classTrait',
 	#category : #'Toplo-Widget-Toggle-Skins'
 }
 

@@ -83,7 +83,7 @@ ToToggleTrackSkin >> onSkinInstalledIn: anElement [
 			 hoverBg: [ :e |
 				 anElement isChecked
 					 ifTrue: [ e toTheme colorBgContainerCheckedHover ]
-					 ifFalse: [ e toTheme colorBgContainerUnchecked ] ];
+					 ifFalse: [ e toTheme colorBgContainerUncheckedHover ] ];
 			 yourself).
 	self addLook: (ToToogleTrackLook new
 			 animate: true;

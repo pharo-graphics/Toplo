@@ -189,7 +189,7 @@ ToTheme >> colorBgContainerChecked [
 { #category : #colors }
 ToTheme >> colorBgContainerCheckedHover [
 	
-	^ self colorPrimary lighter
+	^ self colorPrimaryHover
 ]
 
 { #category : #colors }
@@ -209,6 +209,12 @@ ToTheme >> colorBgContainerDisabled [
 ToTheme >> colorBgContainerUnchecked [
 	
 	^ Color gray alpha: 0.6
+]
+
+{ #category : #colors }
+ToTheme >> colorBgContainerUncheckedHover [
+	
+	^ Color gray alpha: 0.4
 ]
 
 { #category : #colors }

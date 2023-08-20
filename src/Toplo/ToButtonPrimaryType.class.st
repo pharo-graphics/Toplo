@@ -4,6 +4,16 @@ Class {
 	#category : #'Toplo-Widget-Button-Skins'
 }
 
+{ #category : #'api - install/uninstall  hook' }
+ToButtonPrimaryType >> basicButtonBorderLookIn: anElement [
+
+	^ ToBorderLook new
+		  disabledPaint: [ :e | e toTheme colorBorderDisabled ];
+		  initialPaint: [ :e | Color transparent ];
+		  width: [ :e | e toTheme lineWidth ];
+		  yourself
+]
+
 { #category : #'basic button' }
 ToButtonPrimaryType >> basicButtonIconSkinIn: anElement [
 
@@ -14,16 +24,6 @@ ToButtonPrimaryType >> basicButtonIconSkinIn: anElement [
 ToButtonPrimaryType >> basicButtonLabelSkinIn: anElement [
 
 	^ self regularLabelSkinIn: anElement
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonPrimaryType >> borderLookIn: anElement [
-
-	^ ToBorderLook new
-		  disabledPaint: [ :e | e toTheme colorBorderDisabled ];
-		  initialPaint: [ :e | Color transparent ];
-		  width: [ :e | e toTheme lineWidth ];
-		  yourself
 ]
 
 { #category : #'api - install/uninstall  hook' }

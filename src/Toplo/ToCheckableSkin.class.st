@@ -7,13 +7,13 @@ Class {
 { #category : #'api - install/uninstall  hook' }
 ToCheckableSkin >> backgroundLookIn: anElement [
 
-	^ nil
+	^ self type checkableButtonBackgroundLookIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToCheckableSkin >> borderLookIn: anElement [
 
-	^ nil
+	^ self type checkableButtonBorderLookIn: anElement
 ]
 
 { #category : #accessing }

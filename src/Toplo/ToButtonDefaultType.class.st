@@ -7,14 +7,8 @@ Class {
 	#category : #'Toplo-Widget-Button-Skins'
 }
 
-{ #category : #'basic button' }
-ToButtonDefaultType >> basicButtonIconSkinIn: anElement [
-
-	^ ToButtonDefaultIconSkin new danger: self danger
-]
-
 { #category : #'api - install/uninstall  hook' }
-ToButtonDefaultType >> borderLookIn: anElement [
+ToButtonDefaultType >> basicButtonBorderLookIn: anElement [
 
 	| borderLook |
 	borderLook := self danger
@@ -25,6 +19,12 @@ ToButtonDefaultType >> borderLookIn: anElement [
 		self dashed ifTrue: [
 			borderLook dashArray: [ :e | e toTheme dashArray ] ] ].
 	^ borderLook
+]
+
+{ #category : #'basic button' }
+ToButtonDefaultType >> basicButtonIconSkinIn: anElement [
+
+	^ ToButtonDefaultIconSkin new danger: self danger
 ]
 
 { #category : #'api - install/uninstall  hook' }

@@ -7,12 +7,18 @@ Class {
 	#category : #'Toplo-Widget-Button-Skins'
 }
 
-{ #category : #'api - install/uninstall  hook' }
-ToButtonType >> backgroundLookIn: anElement [
+{ #category : #'basic button' }
+ToButtonType >> basicButtonBackgroundLookIn: anElement [
 
 	^ self danger
 		  ifTrue: [ self dangerBackgroundLookIn: anElement ]
 		  ifFalse: [ self regularBackgroundLookIn: anElement ]
+]
+
+{ #category : #'basic button' }
+ToButtonType >> basicButtonBorderLookIn: anElement [
+
+	^ nil
 ]
 
 { #category : #'basic button' }
@@ -29,13 +35,19 @@ ToButtonType >> basicButtonLabelSkinIn: anElement [
 		ifFalse: [ self regularLabelSkinIn: anElement ]
 ]
 
-{ #category : #'api - install/uninstall  hook' }
-ToButtonType >> borderLookIn: anElement [
+{ #category : #'checkable button' }
+ToButtonType >> checkableButtonBackgroundLookIn: anElement [
 
 	^ nil
 ]
 
-{ #category : #checkbox }
+{ #category : #'checkable button' }
+ToButtonType >> checkableButtonBorderLookIn: anElement [
+
+	^ nil
+]
+
+{ #category : #'checkable button' }
 ToButtonType >> checkboxIconSkinIn: aButton [
 
 	^ ToCheckboxIconSkin new
@@ -74,7 +86,7 @@ ToButtonType >> dashed: aBoolean [
 	Error signal: 'Invalid property'.
 ]
 
-{ #category : #'radio button' }
+{ #category : #'checkable button' }
 ToButtonType >> radioButtonIconSkinIn: aButton [
 
 	^ ToRadioButtonIconSkin new
@@ -90,6 +102,18 @@ ToButtonType >> regularBackgroundLookIn: anElement [
 ToButtonType >> regularLabelSkinIn: anElement [
 
 	^ self subclassResponsibility 
+]
+
+{ #category : #'toggle button' }
+ToButtonType >> toggleButtonBackgroundLookIn: anElement [
+
+	^ nil
+]
+
+{ #category : #'toggle button' }
+ToButtonType >> toggleButtonBorderLookIn: anElement [
+
+	^ nil
 ]
 
 { #category : #'toggle button' }

@@ -28,6 +28,18 @@ ToBasicButtonSkin class >> textType [
 	^ self type: ToButtonTextType new
 ]
 
+{ #category : #'api - install/uninstall  hook' }
+ToBasicButtonSkin >> backgroundLookIn: anElement [
+
+	^ self type basicButtonBackgroundLookIn: anElement
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToBasicButtonSkin >> borderLookIn: anElement [
+
+	^ self type basicButtonBorderLookIn: anElement
+]
+
 { #category : #accessing }
 ToBasicButtonSkin >> iconSkinIn: aButton [
 

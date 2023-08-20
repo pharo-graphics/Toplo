@@ -89,13 +89,13 @@ ToAbstractButtonSkinNew >> applySmallSizing: aSizing on: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToAbstractButtonSkinNew >> backgroundLookIn: anElement [
 
-	^ self type backgroundLookIn: anElement
+	^ self subclassResponsibility 
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToAbstractButtonSkinNew >> borderLookIn: anElement [
 
-	^ self type borderLookIn: anElement
+	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }

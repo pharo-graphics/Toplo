@@ -46,9 +46,15 @@ ToToggleButtonSkin >> applySmallSizing: aSizing on: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
+ToToggleButtonSkin >> backgroundLookIn: anElement [
+
+	^ self type toggleButtonBackgroundLookIn: anElement
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToToggleButtonSkin >> borderLookIn: anElement [
 
-	^ nil
+	^ self type toggleButtonBorderLookIn: anElement
 ]
 
 { #category : #'t - reshapeable - initialization' }

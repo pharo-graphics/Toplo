@@ -1915,18 +1915,21 @@ ToSandBox class >> example_menu6 [
 		      labelText: 'Cheesecake';
 		      beLabelFirst;
 		      hMatchParent.
+	th skinDo: [ :s | s sizing: ToSmallSizing new ].
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';
 		      beLabelFirst;
 		      hMatchParent.
 	th columnWidth: 100.
+	th skinDo: [ :s | s sizing: ToSmallSizing new ].
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';
 		      beLabelFirst;
 		      hMatchParent.
 	th layout cellSpacing: 10.
+	th skinDo: [ :s | s sizing: ToSmallSizing new ].
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';

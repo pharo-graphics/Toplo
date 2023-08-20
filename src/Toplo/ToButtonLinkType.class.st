@@ -4,12 +4,6 @@ Class {
 	#category : #'Toplo-Widget-Button-Skins'
 }
 
-{ #category : #'api - install/uninstall  hook' }
-ToButtonLinkType >> backgroundLookIn: anElement [
-
-	^ nil
-]
-
 { #category : #'basic button' }
 ToButtonLinkType >> basicButtonIconSkinIn: anElement [
 

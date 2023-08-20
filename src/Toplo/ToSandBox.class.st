@@ -959,10 +959,10 @@ ToSandBox class >> example_ToButtonSkins [
 	enablementSwitcher := ToToggleButton new.
 	enablementSwitcher switchBarOnElement:
 		((ToLabel text: 'Enabled') withSkin:
-			 (ToButtonLabelSkin new type: ToLabelPrimaryType new)).
+			 (ToLabelSkin new type: ToLabelPrimaryType new)).
 	enablementSwitcher switchBarOffElement:
 		((ToLabel text: 'Disabled') withSkin:
-			 (ToButtonLabelSkin new type: ToLabelPrimaryType new)).
+			 (ToLabelSkin new type: ToLabelPrimaryType new)).
 	enablementSwitcher check.
 	enablementSwitcher
 		when: ToCheckableCheckEvent
@@ -1271,10 +1271,10 @@ ToSandBox class >> example_ToButtonWithDefaultSkin [
 	enablementSwitcher := ToToggleButton new.
 	enablementSwitcher switchBarOnElement:
 		((ToLabel text: 'Enabled') withSkin:
-			 (ToButtonLabelSkin new type: ToButtonPrimaryType new)).
+			 (ToLabelSkin new type: ToLabelPrimaryType new)).
 	enablementSwitcher switchBarOffElement:
 		((ToLabel text: 'Disabled') withSkin:
-			 (ToButtonLabelSkin new type: ToButtonPrimaryType new)).
+			 (ToLabelSkin new type: ToLabelPrimaryType new)).
 	enablementSwitcher check.
 	enablementSwitcher 
 		when: ToCheckableCheckEvent 
@@ -3663,8 +3663,8 @@ ToSandBox class >> example_toggle2 [
 	th := ToToggleButton new
 		      labelText: 'Theme';
 		      beLabelFirst.
-	th switchBarOnElement: ((ToLabel text: 'Dark') withSkin: (ToButtonLabelSkin new type: ToButtonPrimaryType new)).
-	th switchBarOffElement: ((ToLabel text: 'Light') withSkin: (ToButtonLabelSkin new type: ToButtonPrimaryType new)).
+	th switchBarOnElement: ((ToLabel text: 'Dark') withSkin: (ToLabelSkin new type: ToLabelPrimaryType new)).
+	th switchBarOffElement: ((ToLabel text: 'Light') withSkin: (ToLabelSkin new type: ToLabelPrimaryType new)).
 	th when: ToCheckableCheckEvent do: [ :event | event current traceCr ].
 	th checked: true.
 	th openInSpace

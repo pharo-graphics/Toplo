@@ -1,22 +1,22 @@
 Class {
-	#name : #ToLabelType,
-	#superclass : #Object,
+	#name : #ToLabelLinkType,
+	#superclass : #ToLabelType,
 	#category : #'Toplo-Widget-Label-Skins'
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToLabelType >> buttonLabelLookIn: anElement [
+ToLabelLinkType >> buttonLabelLookIn: anElement [
 
 	^ ToLabelTextLook new
 		  disabledColor: [ :e | e toTheme colorTextDisabled ];
-		  initialColor: [ :e | e toTheme colorText ];
-		  hoverColor: [ :e | e toTheme colorPrimary ];
+		  initialColor: [ :e | e toTheme colorLink ];
+		  hoverColor: [ :e | e toTheme colorLinkHover ];
 		  pressedColor: [ :e | e toTheme colorPrimaryPressed ];
 		  yourself
 ]
 
 { #category : #accessing }
-ToLabelType >> textColorIn: anElement [
+ToLabelLinkType >> textColorIn: anElement [
 
-	^ self subclassResponsibility 
+	^ anElement toTheme colorLink
 ]

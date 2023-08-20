@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-Label-Skins'
 }
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : #accessing }
 ToLabelSecondaryType >> textColorIn: anElement [
 
 	^ anElement toTheme colorTextSecondary

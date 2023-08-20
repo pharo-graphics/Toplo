@@ -959,10 +959,10 @@ ToSandBox class >> example_ToButtonSkins [
 	enablementSwitcher := ToToggleButton new.
 	enablementSwitcher switchBarOnElement:
 		((ToLabel text: 'Enabled') withSkin:
-			 (ToButtonLabelSkin new buttonType: enablementSwitcher privateSkin)).
+			 (ToButtonLabelSkin new type: ToLabelPrimaryType new)).
 	enablementSwitcher switchBarOffElement:
 		((ToLabel text: 'Disabled') withSkin:
-			 (ToButtonLabelSkin new buttonType: enablementSwitcher privateSkin)).
+			 (ToButtonLabelSkin new type: ToLabelPrimaryType new)).
 	enablementSwitcher check.
 	enablementSwitcher
 		when: ToCheckableCheckEvent
@@ -972,7 +972,6 @@ ToSandBox class >> example_ToButtonSkins [
 	topBar addChild: enablementSwitcher.
 
 	buttonBar := ToPane vertical vFitContent.
-	buttonBar layout cellSpacing: 10.
 	 
 	sizingGroup := ToCheckableGroup new.
 	smallSizingRadio := ToRadioButton new labelText: 'Small'.
@@ -999,7 +998,6 @@ ToSandBox class >> example_ToButtonSkins [
 	topBar addChild: buttonBar.
 	
 	buttonBar := ToPane vertical vFitContent.
-	buttonBar layout cellSpacing: 10.
 
 	shapingGroup := ToCheckableGroup new.
 	circleShapingRadio := ToRadioButton new labelText: 'Circle'.
@@ -1060,21 +1058,21 @@ ToSandBox class >> example_ToButtonSkins [
 	                      {
 		                      {
 			                      'Primary'.
-			                      ToButtonSkin primaryType }.
+			                      ToBasicButtonSkin primaryType }.
 		                      {
 			                      'Default'.
-			                      ToButtonSkin defaultType }.
+			                      ToBasicButtonSkin defaultType }.
 		                      {
 			                      'Dashed'.
-			                      (ToButtonSkin new
+			                      (ToBasicButtonSkin new
 				                       dashed: true;
 				                       yourself) }.
 		                      {
 			                      'Text'.
-			                      ToButtonSkin textType }.
+			                      ToBasicButtonSkin textType }.
 		                      {
 			                      'Link'.
-			                      ToButtonSkin linkType } } ].
+			                      ToBasicButtonSkin linkType } } ].
 
 	" Line 1 "
 	pane := ToPane horizontal.
@@ -1183,7 +1181,7 @@ ToSandBox class >> example_ToButtonWithDashedSkin [
 	space := BlSpace new.
 
 	button1 := ToButton new 
-		           withSkin: (ToButtonSkin new
+		           withSkin: (ToBasicButtonSkin new
 				            dashed: true;
 				            yourself);
 		           yourself.
@@ -1209,7 +1207,7 @@ ToSandBox class >> example_ToButtonWithDefaultDangerDashedSkin [
 	
 	space := BlSpace new.
 
-	button1 := ToButton new withSkin: (ToButtonSkin new danger: true; dashed: true; yourself).
+	button1 := ToButton new withSkin: (ToBasicButtonSkin new danger: true; dashed: true; yourself).
 	button1 label: (ToLabel text: 'Default danger button').
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 	space root addChild: button1.	
@@ -1228,7 +1226,7 @@ ToSandBox class >> example_ToButtonWithDefaultDangerSkin [
 	
 	space := BlSpace new.
 
-	button1 := ToButton new withSkin: (ToButtonSkin new danger: true; yourself).
+	button1 := ToButton new withSkin: (ToBasicButtonSkin new danger: true; yourself).
 	button1 label: (ToLabel text: 'Default danger button').
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 	space root addChild: button1.	
@@ -1250,7 +1248,7 @@ ToSandBox class >> example_ToButtonWithDefaultSkin [
 	pane layout cellSpacing: 10.
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 
-	button1 := ToButton new withSkin: (ToButtonSkin new type: ToButtonDefaultType new).
+	button1 := ToButton new withSkin: (ToBasicButtonSkin new type: ToButtonDefaultType new).
 	button1 label: (ToLabel text: 'Primary button').
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 	space root when: BlElementAddedToSceneGraphEvent do: [  
@@ -1273,10 +1271,10 @@ ToSandBox class >> example_ToButtonWithDefaultSkin [
 	enablementSwitcher := ToToggleButton new.
 	enablementSwitcher switchBarOnElement:
 		((ToLabel text: 'Enabled') withSkin:
-			 (ToButtonLabelSkin new buttonType: enablementSwitcher privateSkin)).
+			 (ToButtonLabelSkin new type: ToButtonPrimaryType new)).
 	enablementSwitcher switchBarOffElement:
 		((ToLabel text: 'Disabled') withSkin:
-			 (ToButtonLabelSkin new buttonType: enablementSwitcher privateSkin)).
+			 (ToButtonLabelSkin new type: ToButtonPrimaryType new)).
 	enablementSwitcher check.
 	enablementSwitcher 
 		when: ToCheckableCheckEvent 
@@ -1326,7 +1324,7 @@ ToSandBox class >> example_ToButtonWithPrimarySkin [
 	| space button1 |
 	
 	space := BlSpace new.
-	button1 := ToButton new withSkin: (ToButtonSkin new type: ToButtonPrimaryType new).
+	button1 := ToButton new withSkin: (ToBasicButtonSkin new type: ToButtonPrimaryType new).
 	button1 label: (ToLabel text: 'Primary button').
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 	space root addChild: button1.	
@@ -1344,7 +1342,7 @@ ToSandBox class >> example_ToButtonWithPrimarySkin2 [
 	space := BlSpace new.
 
 	button1 := ToButton new
-		           withSkin: (ToButtonSkin new type: ToButtonPrimaryType new);
+		           withSkin: (ToBasicButtonSkin new type: ToButtonPrimaryType new);
 		           label: (ToLabel text: 'Primary button');
 		           icon: (ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16);
 		           yourself.
@@ -1359,7 +1357,7 @@ ToSandBox class >> example_ToButtonWithTextSkin [
 	
 	space := BlSpace new.
 
-	button1 := ToButton new withSkin: (ToButtonSkin new type: ToButtonTextType new).
+	button1 := ToButton new withSkin: (ToBasicButtonSkin new type: ToButtonTextType new).
 	button1 labelText: 'Text button'.
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).	
 		
@@ -2702,7 +2700,9 @@ ToSandBox class >> example_toCheckbox2 [
 	chb := ToCheckbox new
 		       columnWidth: 50;
 		       labelText: '1';
-		       id: 1 asString. "beLabelFirst;"
+		       id: 1 asString;
+				 beLabelFirst.
+	chb skinDo: [ :s | s "dashed: true;" danger: true].
 	""
 	container := BlElement new.
 	container constraintsDo: [ :c |
@@ -3663,8 +3663,8 @@ ToSandBox class >> example_toggle2 [
 	th := ToToggleButton new
 		      labelText: 'Theme';
 		      beLabelFirst.
-	th switchBarOnElement: ((ToLabel text: 'Dark') withSkin: (ToButtonLabelSkin new buttonType: th privateSkin)).
-	th switchBarOffElement: ((ToLabel text: 'Light') withSkin: (ToButtonLabelSkin new buttonType: th privateSkin)).
+	th switchBarOnElement: ((ToLabel text: 'Dark') withSkin: (ToButtonLabelSkin new type: ToButtonPrimaryType new)).
+	th switchBarOffElement: ((ToLabel text: 'Light') withSkin: (ToButtonLabelSkin new type: ToButtonPrimaryType new)).
 	th when: ToCheckableCheckEvent do: [ :event | event current traceCr ].
 	th checked: true.
 	th openInSpace

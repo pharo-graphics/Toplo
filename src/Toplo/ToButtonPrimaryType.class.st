@@ -4,6 +4,18 @@ Class {
 	#category : #'Toplo-Widget-Button-Skins'
 }
 
+{ #category : #'basic button' }
+ToButtonPrimaryType >> basicButtonIconSkinIn: anElement [
+
+	^ ToButtonPrimaryIconSkin new danger: self danger
+]
+
+{ #category : #'basic button' }
+ToButtonPrimaryType >> basicButtonLabelSkinIn: anElement [
+
+	^ self regularLabelSkinIn: anElement
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToButtonPrimaryType >> borderLookIn: anElement [
 
@@ -26,18 +38,6 @@ ToButtonPrimaryType >> dangerBackgroundLookIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonPrimaryType >> iconLookIn: anElement [
-
-	^ self regularFormLookIn: anElement
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonPrimaryType >> labelLookIn: anElement [
-
-	^ self regularLabelLookIn: anElement
-]
-
-{ #category : #'api - install/uninstall  hook' }
 ToButtonPrimaryType >> regularBackgroundLookIn: anElement [
 
 	^ ToBackgroundLook new
@@ -49,19 +49,7 @@ ToButtonPrimaryType >> regularBackgroundLookIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonPrimaryType >> regularFormLookIn: anElement [
+ToButtonPrimaryType >> regularLabelSkinIn: anElement [
 
-	^ ToImageFormLook new
-		  disabledColor: [ :e | e toTheme colorImageDisabled ];
-		  initialColor: [ :e | e toTheme colorImageLightSolid ];
-		  yourself
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonPrimaryType >> regularLabelLookIn: anElement [
-
-	^ ToLabelTextLook new
-		  disabledColor: [ :e | e  toTheme colorTextDisabled];
-		  initialColor: [ :e | e  toTheme colorTextLightSolid];
-		  yourself
+	^ ToButtonLabelSkin new type: ToLabelPrimaryType new
 ]

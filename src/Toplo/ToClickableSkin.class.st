@@ -16,16 +16,22 @@ ToClickableSkin >> applyRectShaping: aShaping on: anElement [
 	anElement verticalRequested
 		ifTrue: [
 			anElement vFitContent.
-			anElement spacingHeight: anElement toTheme paddingContentVertical / 2 ]
+			anElement spacingHeight: anElement toTheme paddingContentVertical / 3 ]
 		ifFalse: [
 			anElement hFitContent.
-			anElement spacingWidth: anElement toTheme paddingContentHorizontal / 2 ].
+			anElement spacingWidth: anElement toTheme paddingContentHorizontal / 3 ].
 		
-	anElement padding: (BlInsets
+	anElement padding: (self defaultPaddingIn: anElement)
+]
+
+{ #category : #'private - shaping/sizing' }
+ToClickableSkin >> defaultPaddingIn: anElement [ 
+
+	^ (BlInsets
 			 top: anElement toTheme paddingXS / 2
-			 left: anElement toTheme paddingContentHorizontal
+			 left: anElement toTheme paddingContentHorizontal / 2
 			 bottom: anElement toTheme paddingXS / 2
-			 right: anElement toTheme paddingContentHorizontal)
+			 right: anElement toTheme paddingContentHorizontal / 2)
 ]
 
 { #category : #'api - install/uninstall  hook' }

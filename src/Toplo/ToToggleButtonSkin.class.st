@@ -54,27 +54,19 @@ ToToggleButtonSkin >> defaultShaping [
 { #category : #accessing }
 ToToggleButtonSkin >> defaultType [
 
-	^ ToToggleButtonDefaultType new
+	^ ToButtonDefaultType new
+		  showBorder: false;
+		  yourself
 ]
 
 { #category : #accessing }
 ToToggleButtonSkin >> iconSkinIn: aButton [
 
-	^ ToToggleTrackSkin new
-]
-
-{ #category : #accessing }
-ToToggleButtonSkin >> labelLookIn: anElement [
-
-	^ (super labelLookIn: anElement)
-		  initialColor: [ :e | e toTheme colorTextLightSolid ];
-		  hoverColor: [ :e | e toTheme colorTextLightSolid ];
-		  pressedColor: [ :e | e toTheme colorTextLightSolid ];
-		  yourself
+	^ self type toggleButtonIconSkinIn: aButton
 ]
 
 { #category : #accessing }
 ToToggleButtonSkin >> labelSkinIn: aButton [
 
-	^ ToLabelSkin new type: ToLabelDefaultType new.
+	^ self type toggleButtonLabelSkinIn: aButton
 ]

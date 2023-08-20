@@ -5,8 +5,7 @@ Class {
 	#classTraits : 'TToReshapeableWidgetSkin classTrait',
 	#instVars : [
 		'type',
-		'labelFirst',
-		'trux'
+		'labelFirst'
 	],
 	#category : #'Toplo-Widget-Button-Skins'
 }
@@ -134,6 +133,12 @@ ToAbstractButtonSkinNew >> dashed: aBoolean [
 ]
 
 { #category : #'t - reshapeable - initialization' }
+ToAbstractButtonSkinNew >> defaultShaping [
+
+	^ ToDefaultShaping new 
+]
+
+{ #category : #'t - reshapeable - initialization' }
 ToAbstractButtonSkinNew >> defaultSizing [
  
 	^ ToMiddleSizing new
@@ -141,8 +146,8 @@ ToAbstractButtonSkinNew >> defaultSizing [
 
 { #category : #accessing }
 ToAbstractButtonSkinNew >> defaultType [
- 
-	^ self subclassResponsibility 
+
+	^ ToButtonDefaultType new
 ]
 
 { #category : #'event handling' }
@@ -159,12 +164,6 @@ ToAbstractButtonSkinNew >> eventsToHandle [
 ]
 
 { #category : #accessing }
-ToAbstractButtonSkinNew >> iconLookIn: anElement [
- 
-	^ self type iconLookIn: anElement
-]
-
-{ #category : #accessing }
 ToAbstractButtonSkinNew >> iconSkinIn: aButton [
  
 	^ self subclassResponsibility 
@@ -176,12 +175,6 @@ ToAbstractButtonSkinNew >> initialize [
 	super initialize.
 	labelFirst := false.
 	self intializeShapingSkin
-]
-
-{ #category : #accessing }
-ToAbstractButtonSkinNew >> labelLookIn: anElement [
- 
-	^ self type labelLookIn: anElement
 ]
 
 { #category : #accessing }
@@ -200,15 +193,22 @@ ToAbstractButtonSkinNew >> layoutOrientationChangedEvent: anEvent [
 { #category : #'api - install/uninstall  hook' }
 ToAbstractButtonSkinNew >> onSkinInstalledIn: anElement [
  
+	| borderLook backgroundLook |
 	super onSkinInstalledIn: anElement.
 	self onShapingSkinInstalledIn: anElement.
-	self type onSkinInstalled: self in: anElement
+	" remove the background and the border in case the button type is changing "
+	anElement background: Color transparent.
+	anElement border: BlBorder empty.
+	backgroundLook := self type backgroundLookIn: anElement.
+	backgroundLook ifNotNil: [ self addLook: backgroundLook ].
+	borderLook := self type borderLookIn: anElement.
+	borderLook ifNil: [ ^ self ].
+	self addLook: borderLook
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToAbstractButtonSkinNew >> onSkinUninstalledIn: anElement [
  
-	self type onSkinUninstalled: self in: anElement.
 	self onShapingSkinUninstalledIn: anElement.
 	super onSkinUninstalledIn: anElement
 ]

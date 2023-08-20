@@ -4,10 +4,10 @@ Class {
 	#category : #'Toplo-Widget-Button-Skins'
 }
 
-{ #category : #accessing }
-ToButtonTextType >> backgroundLookIn: anElement [
+{ #category : #'basic button' }
+ToButtonTextType >> basicButtonIconSkinIn: anElement [
 
-	^ nil
+	^ ToButtonTextIconSkin new danger: self danger
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -33,21 +33,7 @@ ToButtonTextType >> regularBackgroundLookIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonTextType >> regularFormLookIn: anElement [
+ToButtonTextType >> regularLabelSkinIn: anElement [
 
-	^ ToImageFormLook new
-		  disabledColor: [ :e | e toTheme colorImageDisabled ];
-		  initialColor: [ :e | e toTheme colorText ];
-		  hoverColor: [ :e | e toTheme colorText ];
-		  pressedColor: [ :e | e toTheme colorText ];
-		  yourself
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonTextType >> regularLabelLookIn: anElement [
-
-	^ ToLabelTextLook new
-		  disabledColor: [ :e | e toTheme colorTextDisabled ];
-		  initialColor: [ :e | e toTheme colorText ];
-		  yourself
+	^ ToButtonLabelSkin new type: ToLabelTextType new
 ]

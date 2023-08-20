@@ -4,36 +4,26 @@ Class {
 	#category : #'Toplo-Widget-Button-Skins'
 }
 
-{ #category : #accessing }
+{ #category : #'api - install/uninstall  hook' }
 ToButtonLinkType >> backgroundLookIn: anElement [
 
 	^ nil
 ]
 
-{ #category : #accessing }
+{ #category : #'basic button' }
+ToButtonLinkType >> basicButtonIconSkinIn: anElement [
+
+	^ ToButtonLinkIconSkin new danger: self danger
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToButtonLinkType >> regularBackgroundLookIn: anElement [
 
 	^ nil
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonLinkType >> regularFormLookIn: anElement [
+ToButtonLinkType >> regularLabelSkinIn: anElement [
 
-	^ ToImageFormLook new
-		  disabledColor: [ :e | e toTheme colorImageDisabled ];
-		  initialColor: [ :e | e toTheme colorLink ];
-		  hoverColor: [ :e | e toTheme colorLinkHover ];
-		  pressedColor: [ :e | e toTheme colorPrimaryPressed ];
-		  yourself
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonLinkType >> regularLabelLookIn: anElement [
-
-	^ ToLabelTextLook new
-		  disabledColor: [ :e | e toTheme colorTextDisabled ];
-		  initialColor: [ :e | e toTheme colorLink ];
-		  hoverColor: [ :e | e toTheme colorLinkHover ];
-		  pressedColor: [ :e | e toTheme colorPrimaryPressed ];
-		  yourself
+	^ ToButtonLabelSkin new type: ToLabelLinkType new
 ]

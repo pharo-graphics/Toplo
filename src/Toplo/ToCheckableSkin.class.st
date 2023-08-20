@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCheckableSkin,
-	#superclass : #ToClickableSkin,
+	#superclass : #ToAbstractButtonSkinNew,
 	#category : #'Toplo-Widget-Button-Skins'
 }
 
@@ -10,18 +10,12 @@ ToCheckableSkin >> checkedImageIn: anElement [
 	^ self subclassResponsibility 
 ]
 
-{ #category : #'api - accessing' }
-ToCheckableSkin >> childSkinsToHandle [
+{ #category : #accessing }
+ToCheckableSkin >> defaultType [
 
-	^ {
-		  (ToChildSkin new
-			   slotName: #icon;
-			   skinBuilder: [ :e | self iconSkinIn: e ];
-			   yourself).
-		  (ToChildSkin new
-			   slotName: #label;
-			   skinBuilder: [ :e | self labelSkinIn: e ];
-			   yourself) }
+	^ ToButtonDefaultType new
+		  showBorder: false;
+		  yourself
 ]
 
 { #category : #accessing }
@@ -31,28 +25,15 @@ ToCheckableSkin >> disabledImageIn: anElement [
 ]
 
 { #category : #accessing }
-ToCheckableSkin >> iconSkinIn: aButton [
-
-	self subclassResponsibility 
-]
-
-{ #category : #accessing }
 ToCheckableSkin >> indeterminateImageIn: anElement [
 
 	^ self subclassResponsibility 
-]
-
-{ #category : #accessing }
-ToCheckableSkin >> labelSkinIn: aButton [
-
-	self subclassResponsibility 
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToCheckableSkin >> onSkinInstalledIn: anElement [
 
 	super onSkinInstalledIn: anElement.
-	anElement spacingWidth: anElement toTheme paddingContentHorizontal / 2.
 	anElement icon: (ToImage inner: (anElement isChecked
 				  ifTrue: [ self checkedImageIn: anElement ]
 				  ifFalse: [ self uncheckedImageIn: anElement ])).

@@ -24,3 +24,21 @@ ToCheckbox >> initialize [
 	super initialize.
 	self initializeCheckable 
 ]
+
+{ #category : #'accessing sizing' }
+ToCheckbox >> largeHeight [ 
+
+	^ 26
+]
+
+{ #category : #'accessing sizing' }
+ToCheckbox >> middleHeight [ 
+
+	^ 22
+]
+
+{ #category : #'accessing sizing' }
+ToCheckbox >> smallHeight [ 
+
+	^ 18
+]

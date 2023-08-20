@@ -75,7 +75,6 @@ ToToogleTrackLook >> slideToRightWithAnimationIn: anElement [
 ToToogleTrackLook >> switchOffIn: anElement [
 
 	anElement switchBar switchOff.
-	anElement innerButton border: (BlBorder paint: Color gray).
 	self animate ifTrue: [ ^ self slideToLeftWithAnimationIn: anElement ].
 	anElement slideToLeft 
 ]
@@ -84,7 +83,6 @@ ToToogleTrackLook >> switchOffIn: anElement [
 ToToogleTrackLook >> switchOnIn: anElement [
 
 	anElement switchBar switchOn.
-	anElement innerButton border: (BlBorder empty).
 	self animate ifTrue: [ ^ self slideToRightWithAnimationIn: anElement ].
 	anElement slideToRight 
 ]

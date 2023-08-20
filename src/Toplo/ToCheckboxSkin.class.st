@@ -15,6 +15,16 @@ ToCheckboxSkin >> checkedImageIn: anElement [
 			   yourself)
 ]
 
+{ #category : #'private - shaping/sizing' }
+ToCheckboxSkin >> defaultPaddingIn: anElement [ 
+
+	^ (BlInsets
+			 top: anElement toTheme paddingXS / 2
+			 left: anElement toTheme paddingContentHorizontal / 4
+			 bottom: anElement toTheme paddingXS / 2
+			 right: anElement toTheme paddingContentHorizontal / 4)
+]
+
 { #category : #accessing }
 ToCheckboxSkin >> disabledImageIn: anElement [
 
@@ -29,7 +39,7 @@ ToCheckboxSkin >> disabledImageIn: anElement [
 { #category : #accessing }
 ToCheckboxSkin >> iconSkinIn: aButton [
 
-	^ ToCheckboxIconSkin new.
+	^ self type checkboxIconSkinIn: aButton
 ]
 
 { #category : #accessing }

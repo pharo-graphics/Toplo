@@ -23,7 +23,7 @@ ToRadioButtonSkin >> disabledImageIn: anElement [
 { #category : #accessing }
 ToRadioButtonSkin >> iconSkinIn: aButton [
 
-	^ ToRadioButtonIconSkin new.
+	^ self type radioButtonIconSkinIn: aButton
 ]
 
 { #category : #accessing }

@@ -7,7 +7,7 @@ Class {
 	#category : #'Toplo-Widget-Button-Skins'
 }
 
-{ #category : #accessing }
+{ #category : #'api - install/uninstall  hook' }
 ToButtonType >> backgroundLookIn: anElement [
 
 	^ self danger
@@ -15,10 +15,30 @@ ToButtonType >> backgroundLookIn: anElement [
 		  ifFalse: [ self regularBackgroundLookIn: anElement ]
 ]
 
-{ #category : #accessing }
+{ #category : #'basic button' }
+ToButtonType >> basicButtonIconSkinIn: anElement [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #'basic button' }
+ToButtonType >> basicButtonLabelSkinIn: anElement [
+
+	^ self danger 
+		ifTrue: [ self dangerLabelSkinIn: anElement ]
+		ifFalse: [ self regularLabelSkinIn: anElement ]
+]
+
+{ #category : #'api - install/uninstall  hook' }
 ToButtonType >> borderLookIn: anElement [
 
 	^ nil
+]
+
+{ #category : #checkbox }
+ToButtonType >> checkboxIconSkinIn: aButton [
+
+	^ ToCheckboxIconSkin new
 ]
 
 { #category : #accessing }
@@ -33,7 +53,7 @@ ToButtonType >> danger: aBoolean [
 	danger := aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : #'api - install/uninstall  hook' }
 ToButtonType >> dangerBackgroundLookIn: anElement [
 
 	^ ToBackgroundLook new
@@ -43,25 +63,9 @@ ToButtonType >> dangerBackgroundLookIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonType >> dangerFormLookIn: anElement [
+ToButtonType >> dangerLabelSkinIn: anElement [
 
-	^ ToImageFormLook new
-		disabledColor: [ :e | e toTheme colorImageDisabled ];
-		initialColor: [ :e | e toTheme colorError];
-		hoverColor: [ :e | e toTheme colorErrorHover];
-		pressedColor: [ :e | e toTheme colorError darker];
-		yourself
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonType >> dangerLabelLookIn: anElement [
-
-	^ ToLabelTextLook new
-		  disabledColor: [ :e | e toTheme colorTextDisabled ];
-		  initialColor: [ :e | e toTheme colorError ];
-		  hoverColor: [ :e | e toTheme colorErrorHover ];
-		  pressedColor: [ :e | e toTheme colorError darker ];
-		  yourself
+	^ ToButtonLabelSkin new type: ToLabelDangerType new 
 ]
 
 { #category : #accessing }
@@ -70,56 +74,32 @@ ToButtonType >> dashed: aBoolean [
 	Error signal: 'Invalid property'.
 ]
 
-{ #category : #'api - install/uninstall  hook' }
-ToButtonType >> iconLookIn: anElement [
+{ #category : #'radio button' }
+ToButtonType >> radioButtonIconSkinIn: aButton [
 
-	^ self danger
-		  ifTrue: [ self dangerFormLookIn: anElement ]
-		  ifFalse: [ self regularFormLookIn: anElement ]
+	^ ToRadioButtonIconSkin new
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonType >> labelLookIn: anElement [
-
-	^ self danger
-		  ifTrue: [ self dangerLabelLookIn: anElement ]
-		  ifFalse: [ self regularLabelLookIn: anElement ]
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonType >> onSkinInstalled: aSkin in: anElement [
-
-	| borderLook backgroundLook |
-	" remove the background and the border in case the button type is changing "
-	anElement background: Color transparent.
-	anElement border: BlBorder empty.
-	backgroundLook := self backgroundLookIn: anElement.
-	backgroundLook ifNotNil: [ aSkin addLook: backgroundLook ].
-	borderLook := self borderLookIn: anElement.
-	borderLook ifNil: [ ^ self ].
-	aSkin addLook: borderLook
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonType >> onSkinUninstalled: aSkin in: anElement [
-
-
-]
-
-{ #category : #accessing }
 ToButtonType >> regularBackgroundLookIn: anElement [
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonType >> regularFormLookIn: anElement [
+ToButtonType >> regularLabelSkinIn: anElement [
 
-	self subclassResponsibility 
+	^ self subclassResponsibility 
 ]
 
-{ #category : #'api - install/uninstall  hook' }
-ToButtonType >> regularLabelLookIn: anElement [
+{ #category : #'toggle button' }
+ToButtonType >> toggleButtonIconSkinIn: aButton [
 
-	self subclassResponsibility 
+	^ ToToggleTrackSkin new
+]
+
+{ #category : #'toggle button' }
+ToButtonType >> toggleButtonLabelSkinIn: aButton [
+
+	^ ToLabelSkin new type: ToLabelDefaultType new
 ]

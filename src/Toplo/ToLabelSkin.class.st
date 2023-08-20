@@ -1,9 +1,9 @@
 Class {
 	#name : #ToLabelSkin,
-	#superclass : #ToBasicLabelSkin,
+	#superclass : #ToWidgetSkin,
 	#instVars : [
-		'type',
-		'heading'
+		'heading',
+		'type'
 	],
 	#category : #'Toplo-Widget-Label-Skins'
 }
@@ -45,10 +45,8 @@ ToLabelSkin >> labelLookIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToLabelSkin >> onSkinInstalledIn: anElement [
 
-	| labelLook  |
 	super onSkinInstalledIn: anElement.
-	labelLook := self labelLookIn: anElement.
-	self addLook: labelLook.
+	self addLook: (self labelLookIn: anElement).
 
 
 

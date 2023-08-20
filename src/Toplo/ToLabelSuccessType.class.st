@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-Label-Skins'
 }
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : #accessing }
 ToLabelSuccessType >> textColorIn: anElement [
 
 	^ anElement toTheme colorSuccess

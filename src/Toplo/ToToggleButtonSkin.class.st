@@ -7,7 +7,7 @@ Class {
 { #category : #'t - reshapeable - private - shaping/sizing' }
 ToToggleButtonSkin >> applyCircleShaping: aShaping on: anElement [
 
-	Error signal: 'Circle shaping is not useable for a toggle button '
+	Error signal: 'Circle shaping makes no sense for a toggle button '
 ]
 
 { #category : #'t - reshapeable - private - shaping/sizing' }
@@ -45,18 +45,16 @@ ToToggleButtonSkin >> applySmallSizing: aSizing on: anElement [
 	aSizing applyOn: anElement track
 ]
 
+{ #category : #'api - install/uninstall  hook' }
+ToToggleButtonSkin >> borderLookIn: anElement [
+
+	^ nil
+]
+
 { #category : #'t - reshapeable - initialization' }
 ToToggleButtonSkin >> defaultShaping [
 
 	^ ToRoundShaping new 
-]
-
-{ #category : #accessing }
-ToToggleButtonSkin >> defaultType [
-
-	^ ToButtonDefaultType new
-		  showBorder: false;
-		  yourself
 ]
 
 { #category : #accessing }

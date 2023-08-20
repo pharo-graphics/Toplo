@@ -2,8 +2,7 @@ Class {
 	#name : #ToButtonDefaultType,
 	#superclass : #ToButtonType,
 	#instVars : [
-		'dashed',
-		'showBorder'
+		'dashed'
 	],
 	#category : #'Toplo-Widget-Button-Skins'
 }
@@ -51,13 +50,6 @@ ToButtonDefaultType >> dashed: aBoolean [
 	dashed := aBoolean
 ]
 
-{ #category : #accessing }
-ToButtonDefaultType >> initialize [
-
-	super initialize.
-	showBorder := true
-]
-
 { #category : #'api - install/uninstall  hook' }
 ToButtonDefaultType >> regularBackgroundLookIn: anElement [
 
@@ -70,33 +62,16 @@ ToButtonDefaultType >> regularBackgroundLookIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToButtonDefaultType >> regularBorderLookIn: anElement [
 
-	^ self showBorder
-		  ifTrue: [
-			  ToBorderLook new
-				  disabledPaint: [ :e | e toTheme colorBorderDisabled ];
-				  initialPaint: [ :e | e toTheme colorBorder ];
-				  hoverPaint: [ :e | e toTheme colorPrimaryHover ];
-				  pressedPaint: [ :e | e toTheme colorPrimaryPressed ];
-				  yourself ]
-		  ifFalse: [ nil ]
+	^ ToBorderLook new
+		  disabledPaint: [ :e | e toTheme colorBorderDisabled ];
+		  initialPaint: [ :e | e toTheme colorBorder ];
+		  hoverPaint: [ :e | e toTheme colorPrimaryHover ];
+		  pressedPaint: [ :e | e toTheme colorPrimaryPressed ];
+		  yourself
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToButtonDefaultType >> regularLabelSkinIn: anElement [
 
 	^ ToButtonLabelSkin new type: ToLabelDefaultType new
-]
-
-{ #category : #accessing }
-ToButtonDefaultType >> showBorder [
-
-	^ showBorder
-	
-]
-
-{ #category : #accessing }
-ToButtonDefaultType >> showBorder: aBoolean [
-
-	showBorder := aBoolean
-	
 ]

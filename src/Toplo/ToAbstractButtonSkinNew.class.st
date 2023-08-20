@@ -86,6 +86,18 @@ ToAbstractButtonSkinNew >> applySmallSizing: aSizing on: anElement [
 	self applySizing: aSizing on: anElement
 ]
 
+{ #category : #'api - install/uninstall  hook' }
+ToAbstractButtonSkinNew >> backgroundLookIn: anElement [
+
+	^ self type backgroundLookIn: anElement
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToAbstractButtonSkinNew >> borderLookIn: anElement [
+
+	^ self type borderLookIn: anElement
+]
+
 { #category : #accessing }
 ToAbstractButtonSkinNew >> changeTypeWith: aSkinType in: anElement [
  
@@ -199,9 +211,9 @@ ToAbstractButtonSkinNew >> onSkinInstalledIn: anElement [
 	" remove the background and the border in case the button type is changing "
 	anElement background: Color transparent.
 	anElement border: BlBorder empty.
-	backgroundLook := self type backgroundLookIn: anElement.
+	backgroundLook := self backgroundLookIn: anElement.
 	backgroundLook ifNotNil: [ self addLook: backgroundLook ].
-	borderLook := self type borderLookIn: anElement.
+	borderLook := self borderLookIn: anElement.
 	borderLook ifNil: [ ^ self ].
 	self addLook: borderLook
 ]

@@ -4,18 +4,22 @@ Class {
 	#category : #'Toplo-Widget-Button-Skins'
 }
 
+{ #category : #'api - install/uninstall  hook' }
+ToCheckableSkin >> backgroundLookIn: anElement [
+
+	^ nil
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToCheckableSkin >> borderLookIn: anElement [
+
+	^ nil
+]
+
 { #category : #accessing }
 ToCheckableSkin >> checkedImageIn: anElement [
 
 	^ self subclassResponsibility 
-]
-
-{ #category : #accessing }
-ToCheckableSkin >> defaultType [
-
-	^ ToButtonDefaultType new
-		  showBorder: false;
-		  yourself
 ]
 
 { #category : #accessing }
@@ -34,13 +38,8 @@ ToCheckableSkin >> indeterminateImageIn: anElement [
 ToCheckableSkin >> onSkinInstalledIn: anElement [
 
 	super onSkinInstalledIn: anElement.
-	anElement icon: (ToImage inner: (anElement isChecked
-				  ifTrue: [ self checkedImageIn: anElement ]
-				  ifFalse: [ self uncheckedImageIn: anElement ])).
-	anElement checkOrientableLayout.
-
 	self addLook: (ToCheckLook new
-			disabledImage: (self disabledImageIn: anElement);
+			 disabledImage: (self disabledImageIn: anElement);
 			 checkedImage: (self checkedImageIn: anElement);
 			 uncheckedImage: (self uncheckedImageIn: anElement);
 			 indeterminateImage: (self indeterminateImageIn: anElement);

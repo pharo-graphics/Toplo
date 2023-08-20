@@ -1,5 +1,5 @@
 Trait {
-	#name : #TToReshapeableWidgetSkin,
+	#name : #TToShapeableWidgetSkin,
 	#instVars : [
 		'sizing',
 		'shaping'
@@ -8,37 +8,37 @@ Trait {
 }
 
 { #category : #'t - reshapeable - private - shaping/sizing' }
-TToReshapeableWidgetSkin >> applyCircleShaping: aShaping on: anElement [
+TToShapeableWidgetSkin >> applyCircleShaping: aShaping on: anElement [
 
 	self explicitRequirement 
 ]
 
 { #category : #'t - reshapeable - private - shaping/sizing' }
-TToReshapeableWidgetSkin >> applyDefaultShaping: aShaping on: anElement [
+TToShapeableWidgetSkin >> applyDefaultShaping: aShaping on: anElement [
 
 	self explicitRequirement 
 ]
 
 { #category : #'t - reshapeable - private - shaping/sizing' }
-TToReshapeableWidgetSkin >> applyLargeSizing: aSizing on: anElement [
+TToShapeableWidgetSkin >> applyLargeSizing: aSizing on: anElement [
 
 	self explicitRequirement 
 ]
 
 { #category : #'t - reshapeable - private - shaping/sizing' }
-TToReshapeableWidgetSkin >> applyMiddleSizing: aSizing on: anElement [
+TToShapeableWidgetSkin >> applyMiddleSizing: aSizing on: anElement [
 
 	self explicitRequirement 
 ]
 
 { #category : #'t - reshapeable - private - shaping/sizing' }
-TToReshapeableWidgetSkin >> applyRoundShaping: aShaping on: anElement [
+TToShapeableWidgetSkin >> applyRoundShaping: aShaping on: anElement [
 
 	self explicitRequirement 
 ]
 
 { #category : #'t - reshapeable - api - install/uninstall  hook' }
-TToReshapeableWidgetSkin >> applySizingAndShapingOn: anElement [
+TToShapeableWidgetSkin >> applySizingAndShapingOn: anElement [
 
 	" shape depends on the size so sizing is applied first "
 
@@ -48,41 +48,41 @@ TToReshapeableWidgetSkin >> applySizingAndShapingOn: anElement [
 ]
 
 { #category : #'t - reshapeable - private - shaping/sizing' }
-TToReshapeableWidgetSkin >> applySmallSizing: aSizing on: anElement [
+TToShapeableWidgetSkin >> applySmallSizing: aSizing on: anElement [
 
 	self explicitRequirement 
 ]
 
 { #category : #'t - reshapeable  - accessing' }
-TToReshapeableWidgetSkin >> changeShapingWith: aControlShaping in: anElement [
+TToShapeableWidgetSkin >> changeShapingWith: aControlShaping in: anElement [
 
 	self shaping: aControlShaping.
 	self dispatchChangedEventIn: anElement
 ]
 
 { #category : #'t - reshapeable  - accessing' }
-TToReshapeableWidgetSkin >> changeSizingWith: aControlSizing in: anElement [
+TToShapeableWidgetSkin >> changeSizingWith: aControlSizing in: anElement [
 
 	self sizing: aControlSizing.
 	self dispatchChangedEventIn: anElement
 ]
 
 { #category : #'t - reshapeable - initialization' }
-TToReshapeableWidgetSkin >> defaultShaping [
+TToShapeableWidgetSkin >> defaultShaping [
 
 	" as an example: ToDefaultShaping new "
 	self explicitRequirement 
 ]
 
 { #category : #'t - reshapeable - initialization' }
-TToReshapeableWidgetSkin >> defaultSizing [
+TToShapeableWidgetSkin >> defaultSizing [
 
 	" as an example: ToMiddleSizing new"
 	^ self explicitRequirement 
 ]
 
 { #category : #'t - reshapeable - initialization' }
-TToReshapeableWidgetSkin >> intializeShapingSkin [
+TToShapeableWidgetSkin >> intializeShapingSkin [
 
 	" initialize sizing first since shaping depends on sizing "
 	self sizing: self defaultSizing.
@@ -90,27 +90,27 @@ TToReshapeableWidgetSkin >> intializeShapingSkin [
 ]
 
 { #category : #'t - reshapeable - api - install/uninstall  hook' }
-TToReshapeableWidgetSkin >> onShapingSkinInstalledIn: anElement [
+TToShapeableWidgetSkin >> onShapingSkinInstalledIn: anElement [
 
 	self applySizingAndShapingOn: anElement
 
 ]
 
 { #category : #'t - reshapeable - api - install/uninstall  hook' }
-TToReshapeableWidgetSkin >> onShapingSkinUninstalledIn: anElement [
+TToShapeableWidgetSkin >> onShapingSkinUninstalledIn: anElement [
 
 
 ]
 
 { #category : #'t - reshapeable  - accessing' }
-TToReshapeableWidgetSkin >> shaping [
+TToShapeableWidgetSkin >> shaping [
 	" CircleShaping | RoundShaping | DefaultShaping "
 
 	^ shaping 
 ]
 
 { #category : #'t - reshapeable  - accessing' }
-TToReshapeableWidgetSkin >> shaping: aControlShaping [
+TToShapeableWidgetSkin >> shaping: aControlShaping [
 
 	" CircleShaping | RoundShaping | DefaultShaping "
 	shaping := aControlShaping.
@@ -118,14 +118,14 @@ TToReshapeableWidgetSkin >> shaping: aControlShaping [
 ]
 
 { #category : #'t - reshapeable  - accessing' }
-TToReshapeableWidgetSkin >> sizing [
+TToShapeableWidgetSkin >> sizing [
 	" LargeSizing | MiddleSizing (default) | SmallSizing "
 
 	^ sizing 
 ]
 
 { #category : #'t - reshapeable  - accessing' }
-TToReshapeableWidgetSkin >> sizing: aSizing [
+TToShapeableWidgetSkin >> sizing: aSizing [
 
 	" LargeSizing | MiddleSizing (default) | SmallSizing "
 	sizing := aSizing.

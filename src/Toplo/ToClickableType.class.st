@@ -1,5 +1,5 @@
 Class {
-	#name : #ToButtonType,
+	#name : #ToClickableType,
 	#superclass : #Object,
 	#instVars : [
 		'danger'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'basic button' }
-ToButtonType >> basicButtonBackgroundLookIn: anElement [
+ToClickableType >> basicButtonBackgroundLookIn: anElement [
 
 	^ self danger
 		  ifTrue: [ self dangerBackgroundLookIn: anElement ]
@@ -16,19 +16,19 @@ ToButtonType >> basicButtonBackgroundLookIn: anElement [
 ]
 
 { #category : #'basic button' }
-ToButtonType >> basicButtonBorderLookIn: anElement [
+ToClickableType >> basicButtonBorderLookIn: anElement [
 
 	^ nil
 ]
 
 { #category : #'basic button' }
-ToButtonType >> basicButtonIconSkinIn: anElement [
+ToClickableType >> basicButtonIconSkinIn: anElement [
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #'basic button' }
-ToButtonType >> basicButtonLabelSkinIn: anElement [
+ToClickableType >> basicButtonLabelSkinIn: anElement [
 
 	^ self danger 
 		ifTrue: [ self dangerLabelSkinIn: anElement ]
@@ -36,37 +36,37 @@ ToButtonType >> basicButtonLabelSkinIn: anElement [
 ]
 
 { #category : #'checkable button' }
-ToButtonType >> checkableButtonBackgroundLookIn: anElement [
+ToClickableType >> checkableButtonBackgroundLookIn: anElement [
 
 	^ nil
 ]
 
 { #category : #'checkable button' }
-ToButtonType >> checkableButtonBorderLookIn: anElement [
+ToClickableType >> checkableButtonBorderLookIn: anElement [
 
 	^ nil
 ]
 
 { #category : #'checkable button' }
-ToButtonType >> checkboxIconSkinIn: aButton [
+ToClickableType >> checkboxIconSkinIn: aButton [
 
 	^ ToCheckboxIconSkin new
 ]
 
 { #category : #accessing }
-ToButtonType >> danger [
+ToClickableType >> danger [
 
 	^ danger ifNil: [ danger := false ]
 ]
 
 { #category : #accessing }
-ToButtonType >> danger: aBoolean [
+ToClickableType >> danger: aBoolean [
 
 	danger := aBoolean
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonType >> dangerBackgroundLookIn: anElement [
+ToClickableType >> dangerBackgroundLookIn: anElement [
 
 	^ ToBackgroundLook new
 		  disabledBg: [ :e | e toTheme colorBgContainerDisabled ];
@@ -75,55 +75,55 @@ ToButtonType >> dangerBackgroundLookIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonType >> dangerLabelSkinIn: anElement [
+ToClickableType >> dangerLabelSkinIn: anElement [
 
 	^ ToButtonLabelSkin new type: ToLabelDangerType new 
 ]
 
 { #category : #accessing }
-ToButtonType >> dashed: aBoolean [
+ToClickableType >> dashed: aBoolean [
 
 	Error signal: 'Invalid property'.
 ]
 
 { #category : #'checkable button' }
-ToButtonType >> radioButtonIconSkinIn: aButton [
+ToClickableType >> radioButtonIconSkinIn: aButton [
 
 	^ ToRadioButtonIconSkin new
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonType >> regularBackgroundLookIn: anElement [
+ToClickableType >> regularBackgroundLookIn: anElement [
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonType >> regularLabelSkinIn: anElement [
+ToClickableType >> regularLabelSkinIn: anElement [
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #'toggle button' }
-ToButtonType >> toggleButtonBackgroundLookIn: anElement [
+ToClickableType >> toggleButtonBackgroundLookIn: anElement [
 
 	^ nil
 ]
 
 { #category : #'toggle button' }
-ToButtonType >> toggleButtonBorderLookIn: anElement [
+ToClickableType >> toggleButtonBorderLookIn: anElement [
 
 	^ nil
 ]
 
 { #category : #'toggle button' }
-ToButtonType >> toggleButtonIconSkinIn: aButton [
+ToClickableType >> toggleButtonIconSkinIn: aButton [
 
 	^ ToToggleTrackSkin new
 ]
 
 { #category : #'toggle button' }
-ToButtonType >> toggleButtonLabelSkinIn: aButton [
+ToClickableType >> toggleButtonLabelSkinIn: aButton [
 
 	^ ToLabelSkin new type: ToLabelDefaultType new
 ]

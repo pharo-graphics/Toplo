@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMenu,
-	#superclass : #ToButtonMenuItem,
+	#superclass : #ToMenuItem,
 	#traits : 'TToMenuItemHolder + TToMenuWindowModel',
 	#classTraits : 'TToMenuItemHolder classTrait + TToMenuWindowModel classTrait',
 	#instVars : [

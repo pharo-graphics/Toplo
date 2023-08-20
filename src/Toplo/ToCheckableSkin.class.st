@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCheckableSkin,
-	#superclass : #ToAbstractButtonSkinNew,
+	#superclass : #ToClickableSkin,
 	#category : #'Toplo-Widget-Button-Skins'
 }
 
@@ -20,6 +20,12 @@ ToCheckableSkin >> borderLookIn: anElement [
 ToCheckableSkin >> checkedImageIn: anElement [
 
 	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToCheckableSkin >> defaultType [
+
+	^ ToButtonDefaultType new
 ]
 
 { #category : #accessing }

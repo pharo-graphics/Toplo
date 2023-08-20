@@ -38,11 +38,23 @@ ToAbstractMenuItem >> initialize [
 
 ]
 
+{ #category : #'accessing sizing' }
+ToAbstractMenuItem >> largeHeight [
+
+	^ self toTheme controlHeightLG
+]
+
 { #category : #window }
 ToAbstractMenuItem >> menuWindow [
 
 	" by default, a menuItem do not open a submenu "
 	^ nil
+]
+
+{ #category : #'accessing sizing' }
+ToAbstractMenuItem >> middleHeight [
+
+	^ self toTheme controlHeight
 ]
 
 { #category : #'t - menu window' }
@@ -67,4 +79,10 @@ ToAbstractMenuItem >> privateParentMenu: aMenu [
 ToAbstractMenuItem >> removedFromMenu: aMenu [
 
 	self privateParentMenu: nil
+]
+
+{ #category : #'accessing sizing' }
+ToAbstractMenuItem >> smallHeight [
+
+	^ self toTheme controlHeightSM
 ]

@@ -66,7 +66,7 @@ ToNodeWithHoverButtonDresserExample >> mouseEnterEvent: anEvent in: anElement [
 		anElement background: (Color lightGray alpha: 0.2) ].
 	nodeButton := ToButton new
 		              labelText: 'Do something';
-		              withSkin: (ToBasicButtonSkin new type: ToButtonPrimaryType new).
+		              withSkin: (ToButtonSkin new type: ToButtonPrimaryType new).
 	nodeButton geometry: (BlRoundedRectangleGeometry cornerRadius: 12).
 	nodeButton whenClickedDo: [ self inform: 'CLICK' ].
 	nodeButton constraintsDo: [ :c |

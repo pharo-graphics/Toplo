@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCheckableButtonDresser,
-	#superclass : #ToGeneralButtonDresser,
+	#superclass : #ToWidgetDresser,
 	#instVars : [
 		'checkableHandler'
 	],

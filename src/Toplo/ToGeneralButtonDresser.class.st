@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-Button'
 }
 
+{ #category : #testing }
+ToGeneralButtonDresser class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #deprecated }
 ToGeneralButtonDresser >> hover: anElement event: anEvent [
 

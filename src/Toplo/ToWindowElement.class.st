@@ -56,7 +56,7 @@ ToWindowElement >> defaultRootBackground [
 
 { #category : #initialization }
 ToWindowElement >> defaultRootLabel [
-	^ 'Frame root'
+	^ 'ToWindow root'
 ]
 
 { #category : #initialization }

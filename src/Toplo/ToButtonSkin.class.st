@@ -1,54 +1,60 @@
 Class {
-	#name : #ToBasicButtonSkin,
-	#superclass : #ToAbstractButtonSkinNew,
+	#name : #ToButtonSkin,
+	#superclass : #ToClickableSkin,
 	#category : #'Toplo-Widget-Button-Skins'
 }
 
 { #category : #'instance creation' }
-ToBasicButtonSkin class >> defaultType [
+ToButtonSkin class >> defaultType [
 
 	^ self type: ToButtonDefaultType new
 ]
 
 { #category : #'instance creation' }
-ToBasicButtonSkin class >> linkType [
+ToButtonSkin class >> linkType [
 
 	^ self type: ToButtonLinkType new
 ]
 
 { #category : #'instance creation' }
-ToBasicButtonSkin class >> primaryType [
+ToButtonSkin class >> primaryType [
 
 	^ self type: ToButtonPrimaryType new
 ]
 
 { #category : #'instance creation' }
-ToBasicButtonSkin class >> textType [
+ToButtonSkin class >> textType [
 
 	^ self type: ToButtonTextType new
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToBasicButtonSkin >> backgroundLookIn: anElement [
+ToButtonSkin >> backgroundLookIn: anElement [
 
 	^ self type basicButtonBackgroundLookIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToBasicButtonSkin >> borderLookIn: anElement [
+ToButtonSkin >> borderLookIn: anElement [
 
 	^ self type basicButtonBorderLookIn: anElement
 ]
 
 { #category : #accessing }
-ToBasicButtonSkin >> iconSkinIn: aButton [
+ToButtonSkin >> defaultType [
+
+	^ ToButtonDefaultType new
+]
+
+{ #category : #accessing }
+ToButtonSkin >> iconSkinIn: aButton [
 
 	^ self type basicButtonIconSkinIn: aButton
 
 ]
 
 { #category : #accessing }
-ToBasicButtonSkin >> labelSkinIn: aButton [
+ToButtonSkin >> labelSkinIn: aButton [
 
 	^ self type basicButtonLabelSkinIn: aButton
 

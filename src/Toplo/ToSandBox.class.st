@@ -71,14 +71,14 @@ Here an example of a client for a method.
 	model whenCancelRequestedDo: [ :cancelRequested | cancelRequested client text: text copy ].
 	
 	menu := ToContextMenu new.
-	menu addItem: (ToButtonMenuItem new labelText: 'Select all'; whenClickedDo: [:event :client | client selecter all; apply ]; yourself).
-	menu addItem: (ToButtonMenuItem new labelText: 'Copy'; whenClickedDo: [:event :client | client editor copySelected ]; yourself).
-	menu addItem: (ToButtonMenuItem new labelText: 'Cut'; whenClickedDo: [:event :client | client editor cutSelected ]; yourself).
-	menu addItem: (ToButtonMenuItem new labelText: 'Paste'; whenClickedDo: [:event :client | client editor paste ]; yourself).
+	menu addItem: (ToMenuItem new labelText: 'Select all'; whenClickedDo: [:event :client | client selecter all; apply ]; yourself).
+	menu addItem: (ToMenuItem new labelText: 'Copy'; whenClickedDo: [:event :client | client editor copySelected ]; yourself).
+	menu addItem: (ToMenuItem new labelText: 'Cut'; whenClickedDo: [:event :client | client editor cutSelected ]; yourself).
+	menu addItem: (ToMenuItem new labelText: 'Paste'; whenClickedDo: [:event :client | client editor paste ]; yourself).
 	menu addSeparator.
-	menu addItem: (ToButtonMenuItem new labelText: 'Accept'; whenClickedDo: [:event :client | client requestSave ]; yourself).
+	menu addItem: (ToMenuItem new labelText: 'Accept'; whenClickedDo: [:event :client | client requestSave ]; yourself).
 	menu addSeparator.
-	menu addItem: (ToButtonMenuItem new labelText: 'Cancel'; whenClickedDo: [:event :client | client requestCancel ]; yourself).
+	menu addItem: (ToMenuItem new labelText: 'Cancel'; whenClickedDo: [:event :client | client requestCancel ]; yourself).
 	menu withoutLeftColumn.
 	menu client: model.
 	model widgetDo: [ :widget | widget contextMenuFactory: [ menu ] ].
@@ -560,15 +560,15 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 	menuFactory := [ :widget :selection |
 	               | menu |
 	               menu := ToContextMenu new withoutLeftColumn.
-	               menu addItem: (ToButtonMenuItem new
+	               menu addItem: (ToMenuItem new
 			                labelText: 'Add initial Items';
 			                whenClickedDo: [ :event :client |
 				                client data addAll: ((1 to: 2000) collect: [:p | 'AAAAAAAAAAA'] ) ]).
 	               widget data ifNotEmpty: [
-		               menu addItem: (ToButtonMenuItem new
+		               menu addItem: (ToMenuItem new
 				                labelText: 'Select all';
 				                whenClickedDo: [ :event :client | client selectAll ]).
-			            menu addItem: (ToButtonMenuItem new
+			            menu addItem: (ToMenuItem new
 				                labelText: 'Remove all';
 				                whenClickedDo: [ :event :client |
 					                client data removeAll ];
@@ -580,25 +580,25 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 			               | node idx |
 			               idx := selection first.
 			               node := l nodeAt: idx.
-			               selectionMenu addItem: (ToButtonMenuItem new
+			               selectionMenu addItem: (ToMenuItem new
 					                labelText: 'Edit';
 					                whenClickedDo: [ :event :client | 
 						                node label addEditor ];
 					                yourself).
-			               selectionMenu addItem: (ToButtonMenuItem new
+			               selectionMenu addItem: (ToMenuItem new
 					                labelText: (node label isMonoLine
 							                 ifTrue: [ 'Be multiline' ]
 							                 ifFalse: [ 'Be monoline' ]);
 					                whenClickedDo: [ :event :client |
 						                node label monoLine: node label isMonoLine not ];
 					                yourself).			               
-								selectionMenu addItem: (ToButtonMenuItem new
+								selectionMenu addItem: (ToMenuItem new
 					                labelText: 'Inspect';
 					                whenClickedDo: [ :event :client |
 						                node inspect ];
 					                yourself).
 			               selectionMenu addSeparator ].
-		               selectionMenu addItem: (ToButtonMenuItem new
+		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert before';
 				                whenClickedDo: [ :event :client |
 					                selection selectedIndexes do: [ :idx |
@@ -606,7 +606,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 								                add: idx asString , ':XXXXXX'
 								                beforeIndex: idx ] ];
 				                yourself).
-		               selectionMenu addItem: (ToButtonMenuItem new
+		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert after';
 				                whenClickedDo: [ :event :client |
 					                | nb |
@@ -617,7 +617,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 								                afterIndex: idx + nb - 1 ] ];
 				                yourself).
 		               selectionMenu addSeparator.
-		               selectionMenu addItem: (ToButtonMenuItem new
+		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Remove';
 				                whenClickedDo: [ :event :client |
 					                selection ifNotEmpty: [client data removeFrom: selection first to: selection last ] ];
@@ -1058,21 +1058,21 @@ ToSandBox class >> example_ToButtonSkins [
 	                      {
 		                      {
 			                      'Primary'.
-			                      ToBasicButtonSkin primaryType }.
+			                      ToButtonSkin primaryType }.
 		                      {
 			                      'Default'.
-			                      ToBasicButtonSkin defaultType }.
+			                      ToButtonSkin defaultType }.
 		                      {
 			                      'Dashed'.
-			                      (ToBasicButtonSkin new
+			                      (ToButtonSkin new
 				                       dashed: true;
 				                       yourself) }.
 		                      {
 			                      'Text'.
-			                      ToBasicButtonSkin textType }.
+			                      ToButtonSkin textType }.
 		                      {
 			                      'Link'.
-			                      ToBasicButtonSkin linkType } } ].
+			                      ToButtonSkin linkType } } ].
 
 	" Line 1 "
 	pane := ToPane horizontal.
@@ -1181,7 +1181,7 @@ ToSandBox class >> example_ToButtonWithDashedSkin [
 	space := BlSpace new.
 
 	button1 := ToButton new 
-		           withSkin: (ToBasicButtonSkin new
+		           withSkin: (ToButtonSkin new
 				            dashed: true;
 				            yourself);
 		           yourself.
@@ -1207,7 +1207,7 @@ ToSandBox class >> example_ToButtonWithDefaultDangerDashedSkin [
 	
 	space := BlSpace new.
 
-	button1 := ToButton new withSkin: (ToBasicButtonSkin new danger: true; dashed: true; yourself).
+	button1 := ToButton new withSkin: (ToButtonSkin new danger: true; dashed: true; yourself).
 	button1 label: (ToLabel text: 'Default danger button').
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 	space root addChild: button1.	
@@ -1226,7 +1226,7 @@ ToSandBox class >> example_ToButtonWithDefaultDangerSkin [
 	
 	space := BlSpace new.
 
-	button1 := ToButton new withSkin: (ToBasicButtonSkin new danger: true; yourself).
+	button1 := ToButton new withSkin: (ToButtonSkin new danger: true; yourself).
 	button1 label: (ToLabel text: 'Default danger button').
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 	space root addChild: button1.	
@@ -1248,7 +1248,7 @@ ToSandBox class >> example_ToButtonWithDefaultSkin [
 	pane layout cellSpacing: 10.
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 
-	button1 := ToButton new withSkin: (ToBasicButtonSkin new type: ToButtonDefaultType new).
+	button1 := ToButton new withSkin: (ToButtonSkin new type: ToButtonDefaultType new).
 	button1 label: (ToLabel text: 'Primary button').
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 	space root when: BlElementAddedToSceneGraphEvent do: [  
@@ -1324,7 +1324,7 @@ ToSandBox class >> example_ToButtonWithPrimarySkin [
 	| space button1 |
 	
 	space := BlSpace new.
-	button1 := ToButton new withSkin: (ToBasicButtonSkin new type: ToButtonPrimaryType new).
+	button1 := ToButton new withSkin: (ToButtonSkin new type: ToButtonPrimaryType new).
 	button1 label: (ToLabel text: 'Primary button').
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 	space root addChild: button1.	
@@ -1342,7 +1342,7 @@ ToSandBox class >> example_ToButtonWithPrimarySkin2 [
 	space := BlSpace new.
 
 	button1 := ToButton new
-		           withSkin: (ToBasicButtonSkin new type: ToButtonPrimaryType new);
+		           withSkin: (ToButtonSkin new type: ToButtonPrimaryType new);
 		           label: (ToLabel text: 'Primary button');
 		           icon: (ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16);
 		           yourself.
@@ -1357,7 +1357,7 @@ ToSandBox class >> example_ToButtonWithTextSkin [
 	
 	space := BlSpace new.
 
-	button1 := ToButton new withSkin: (ToBasicButtonSkin new type: ToButtonTextType new).
+	button1 := ToButton new withSkin: (ToButtonSkin new type: ToButtonTextType new).
 	button1 labelText: 'Text button'.
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).	
 		
@@ -1595,17 +1595,17 @@ ToSandBox class >> example_menu1 [
 	menu defaultColumnWidth: 22.
 	menu label: (ToLabel new text: 'File').
 	menu icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
-	menu addItem: (ToButtonMenuItem new
+	menu addItem: (ToMenuItem new
 			 label: (ToLabel new text: 'Open file');
 			 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #config));
 			 third: ((ToLabel text: 'Cmd-f') margin: (BlInsets left: 5); matchParent; yourself)).
-	menu addItem: (ToButtonMenuItem new label: (ToLabel new text: 'Export'); third: ((ToLabel text: 'Cmd-e') margin: (BlInsets left: 5); yourself)).
+	menu addItem: (ToMenuItem new label: (ToLabel new text: 'Export'); third: ((ToLabel text: 'Cmd-e') margin: (BlInsets left: 5); yourself)).
 	menu addSeparator.
 
 	sub := ToMenu new label: (ToLabel new text: 'Save All').
 	sub withSkin: nil.
 	sub addItem:
-		(ToButtonMenuItem new label: (ToLabel new text: 'Locally')).
+		(ToMenuItem new label: (ToLabel new text: 'Locally')).
 
 	subsub := ToMenu new
 		          label: (ToLabel new text: 'Externally');
@@ -1613,14 +1613,14 @@ ToSandBox class >> example_menu1 [
 			          (ToImage new innerImage:
 					           (Smalltalk ui icons iconNamed: #solidMenu)).
 	subsub addItem:
-		(ToButtonMenuItem new label: (ToLabel new text: 'Here')).
+		(ToMenuItem new label: (ToLabel new text: 'Here')).
 
 	sub addItem: subsub.
 
 	menu addItem: sub.
 	
 	sub := ToMenu new label: (ToLabel new text: 'Save All 2').
-	sub addItem: (ToButtonMenuItem new label: (ToLabel new text: 'Locally 2')).
+	sub addItem: (ToMenuItem new label: (ToLabel new text: 'Locally 2')).
 
 	menu addItem: sub.
 	
@@ -1655,10 +1655,10 @@ ToSandBox class >> example_menu2_2 [
 		(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
 
 	sub := ToMenu new labelText: 'Save All'.
-	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
+	sub addItem: (ToMenuItem new labelText: 'Locally').
 	menu addItem: sub.
 
-	menu addItem: (ToButtonMenuItem new labelText: 'Export').
+	menu addItem: (ToMenuItem new labelText: 'Export').
 	menu addItem: (ToCheckMenuItem new labelText: 'Align right').
 	menu addSeparator.
 
@@ -1674,22 +1674,22 @@ ToSandBox class >> example_menu3 [
 	menu label: (ToLabel new text: 'File').
 	menu columnWidth: 0.
 
-	menu addItem: (ToButtonMenuItem new
+	menu addItem: (ToMenuItem new
 			 labelText: 'Open file';
 			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
-	menu addItem: (ToButtonMenuItem new labelText: 'Export').
+	menu addItem: (ToMenuItem new labelText: 'Export').
 	menu addItem: (ToCheckMenuItem new labelText: 'Align right').
 	menu addSeparator.
 
 	sub := ToMenu new
 		       labelText: 'Save All';
 		       withoutLeftColumn.
-	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
+	sub addItem: (ToMenuItem new labelText: 'Locally').
 
 	subsub := ToMenu new
 		          labelText: 'Externally';
 		          withoutLeftColumn.
-	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
+	subsub addItem: (ToMenuItem new labelText: 'Here').
 
 	sub addItem: subsub.
 
@@ -1706,20 +1706,20 @@ ToSandBox class >> example_menu4 [
 	menu labelText: 'File'.
 	menu icon:
 		(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
-	menu addItem: (ToButtonMenuItem new labelText: 'Open file').
-	menu addItem: (ToButtonMenuItem new labelText: 'Export').
+	menu addItem: (ToMenuItem new labelText: 'Open file').
+	menu addItem: (ToMenuItem new labelText: 'Export').
 	menu addItem: (ToRadioMenuItem new labelText: 'Align right').
 	menu addSeparator.
 
 	sub := ToMenu new labelText: 'Save All'.
-	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
+	sub addItem: (ToMenuItem new labelText: 'Locally').
 
 	subsub := ToMenu new
 		          labelText: 'Externally';
 		          icon:
 			          (ToImage inner:
 					           (Smalltalk ui icons iconNamed: #solidMenu)).
-	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
+	subsub addItem: (ToMenuItem new labelText: 'Here').
 
 	sub addItem: subsub.
 
@@ -1734,9 +1734,9 @@ ToSandBox class >> example_menu5 [
 	| menu sub subsub grp right center left |
 	menu := ToMenu new.
 	menu labelText: 'File'.
-	menu addItem: (ToButtonMenuItem new labelText: 'Open file').
+	menu addItem: (ToMenuItem new labelText: 'Open file').
 
-	menu addItem: (ToButtonMenuItem new labelText: 'Export').
+	menu addItem: (ToMenuItem new labelText: 'Export').
 	grp := ToCheckableGroup new.
 	right := ToRadioMenuItem new
 		         labelText: 'Right';
@@ -1762,10 +1762,10 @@ ToSandBox class >> example_menu5 [
 	menu addSeparator.
 
 	sub := ToMenu new labelText: 'Save All'.
-	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
+	sub addItem: (ToMenuItem new labelText: 'Locally').
 
 	subsub := ToMenu new labelText: 'Externally'.
-	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
+	subsub addItem: (ToMenuItem new labelText: 'Here').
 
 	sub addItem: subsub.
 
@@ -1782,15 +1782,15 @@ ToSandBox class >> example_menu6 [
 	menu defaultColumnWidth: 22.
 
 	menu labelText: 'File'.
-	menu addItem: (ToButtonMenuItem new
+	menu addItem: (ToMenuItem new
 			 labelText: 'Open file';
 			 whenClickedDo: [ self inform: 'Open file' ];
 			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
 
-	menu addItem: (ToButtonMenuItem new
+	menu addItem: (ToMenuItem new
 			 labelText: 'Export';
 			 whenClickedDo: [ self inform: 'Export' ]).
-	menu addItem: (ToButtonMenuItem new
+	menu addItem: (ToMenuItem new
 			 labelText: 'Export';
 			 columnWidth: 0;
 			 whenClickedDo: [ self inform: 'Export' ]).
@@ -1953,7 +1953,7 @@ ToSandBox class >> example_menu6 [
 					  bottom: 4)).
 	sub := ToMenu new labelText: 'Save All'.
 	sub columnWidth: 0.
-	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
+	sub addItem: (ToMenuItem new labelText: 'Locally').
 	menu addItem: sub.
 
 	menu position: 10 @ 10.
@@ -1972,7 +1972,7 @@ ToSandBox class >> example_menuBar1 [
 		       vFitContent.
 	bar addMenu: (fileMenu := ToMenu new
 			 labelText: 'File').
-	fileMenu addItem: (ToButtonMenuItem new label: (ToLabel new text: 'Open')).
+	fileMenu addItem: (ToMenuItem new label: (ToLabel new text: 'Open')).
 	fileMenu padding: (BlInsets all: 10).
 	bar addFiller.
 	bar addMenu: (ToMenu new
@@ -2022,7 +2022,7 @@ ToSandBox class >> example_menuBar2 [
 					            print: index;
 					            nextPutAll: 'Grid';
 					            print: i ].
-				subMenu addItem: ((ToButtonMenuItem new labelText: stream) 
+				subMenu addItem: ((ToMenuItem new labelText: stream) 
 					when: BlPrimaryMouseUpEvent do: [ :event | self inform: selector asSymbol ]) ].
 			subMenu defaultColumnWidth: 0.
 			menu addItem: subMenu ].
@@ -2066,20 +2066,20 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	win width: 600.
 	menu := ToContextMenu new.
 	menu defaultColumnWidth: 22.
-	menu addItem: (ToButtonMenuItem new
+	menu addItem: (ToMenuItem new
 			 labelText: 'Open file';
 			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
-	menu addItem: (ToButtonMenuItem new labelText: 'Export').
+	menu addItem: (ToMenuItem new labelText: 'Export').
 	menu addSeparator.
 
 	3 timesRepeat: [ 
 		sub := ToMenu new labelText: 'Save All'.
-		sub addItem: (ToButtonMenuItem new labelText: 'Locally').
+		sub addItem: (ToMenuItem new labelText: 'Locally').
 
 		subsub := ToMenu new
 		          	labelText: 'Externally';
 		          	icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
-		subsub addItem: (ToButtonMenuItem new labelText: 'Here').
+		subsub addItem: (ToMenuItem new labelText: 'Here').
 
 		sub addItem: subsub.
 
@@ -2120,21 +2120,21 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 	win := ToInnerWindow new title: 'Context menu Example'.
 	menu := ToContextMenu new.
 	menu defaultColumnWidth: 22.
-	menu addItem: (ToButtonMenuItem new
+	menu addItem: (ToMenuItem new
 			 labelText: 'Open file';
 			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
-	menu addItem: (ToButtonMenuItem new labelText: 'Export').
+	menu addItem: (ToMenuItem new labelText: 'Export').
 	menu addSeparator.
 
 	sub := ToMenu new labelText: 'Save All'.
-	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
+	sub addItem: (ToMenuItem new labelText: 'Locally').
 
 	subsub := ToMenu new
 		          labelText: 'Externally';
 		          icon:
 			          (ToImage inner:
 					           (Smalltalk ui icons iconNamed: #solidMenu)).
-	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
+	subsub addItem: (ToMenuItem new labelText: 'Here').
 
 	sub addItem: subsub.
 

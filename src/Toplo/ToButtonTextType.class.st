@@ -1,6 +1,6 @@
 Class {
 	#name : #ToButtonTextType,
-	#superclass : #ToButtonType,
+	#superclass : #ToClickableType,
 	#category : #'Toplo-Widget-Button-Skins'
 }
 

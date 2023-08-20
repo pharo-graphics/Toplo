@@ -1,6 +1,6 @@
 Class {
 	#name : #ToToggleButtonSkin,
-	#superclass : #ToAbstractButtonSkinNew,
+	#superclass : #ToClickableSkin,
 	#category : #'Toplo-Widget-Toggle-Skins'
 }
 
@@ -61,6 +61,12 @@ ToToggleButtonSkin >> borderLookIn: anElement [
 ToToggleButtonSkin >> defaultShaping [
 
 	^ ToRoundShaping new 
+]
+
+{ #category : #accessing }
+ToToggleButtonSkin >> defaultType [
+
+	^ ToButtonDefaultType new
 ]
 
 { #category : #accessing }

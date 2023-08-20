@@ -62,7 +62,7 @@ ToLoginPage >> open [
 		            beHorizontal;
 		            hMatchParent;
 		            vFitContent.
-	btnLogin := ToButton new withSkin: (ToBasicButtonSkin new type: ToButtonPrimaryType new); labelText: 'Accept'; yourself.
+	btnLogin := ToButton new withSkin: (ToButtonSkin new type: ToButtonPrimaryType new); labelText: 'Accept'; yourself.
 	btnLogin padding: (BlInsets
 			 top: 10
 			 left: 40

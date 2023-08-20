@@ -13,12 +13,6 @@ TToClickable >> clickEventClass [
 ]
 
 { #category : #'t - click behavior' }
-TToClickable >> clickTargetFromEvent: anEvent [
-
-	^ anEvent currentTarget
-]
-
-{ #category : #'t - click behavior' }
 TToClickable >> client [
 
 	^ self explicitRequirement 
@@ -30,7 +24,7 @@ TToClickable >> manageAction: aBlock onClickEvent: anEvent [
 	aBlock
 		cull: anEvent
 		cull: self client
-		cull: (self clickTargetFromEvent: anEvent)
+		cull: anEvent currentTarget
 ]
 
 { #category : #'t - click behavior' }

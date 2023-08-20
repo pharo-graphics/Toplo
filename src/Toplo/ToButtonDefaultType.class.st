@@ -1,6 +1,6 @@
 Class {
 	#name : #ToButtonDefaultType,
-	#superclass : #ToButtonType,
+	#superclass : #ToClickableType,
 	#instVars : [
 		'dashed'
 	],

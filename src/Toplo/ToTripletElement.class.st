@@ -11,13 +11,13 @@ Class {
 	#category : #'Toplo-Core-Triplet'
 }
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 ToTripletElement >> first [
 
 	^ first
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 ToTripletElement >> first: anElement [
 
 	first := anElement
@@ -30,25 +30,25 @@ ToTripletElement >> initialize [
 	self initializeTriplet 
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 ToTripletElement >> second [
 
 	^ second 
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 ToTripletElement >> second: anElement [
 
 	second := anElement
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 ToTripletElement >> third [
 
 	^ third
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 ToTripletElement >> third: anElement [
 
 	third := anElement

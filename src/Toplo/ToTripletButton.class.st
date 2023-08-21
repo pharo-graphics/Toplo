@@ -11,13 +11,13 @@ Class {
 	#category : #'Toplo-Widget-Button'
 }
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 ToTripletButton >> first [
 
 	^ first
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 ToTripletButton >> first: anElement [
 
 	first := anElement
@@ -30,25 +30,25 @@ ToTripletButton >> initialize [
 	self initializeTriplet
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 ToTripletButton >> second [
 
 	^ second
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 ToTripletButton >> second: anElement [
 
 	second := anElement
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 ToTripletButton >> third [
 
 	^ third
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 ToTripletButton >> third: anElement [
 
 	third := anElement

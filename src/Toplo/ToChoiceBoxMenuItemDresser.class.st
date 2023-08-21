@@ -41,7 +41,7 @@ ToChoiceBoxMenuItemDresser >> defaultUncheckedState [
 ToChoiceBoxMenuItemDresser >> leftMouseUpEvent: anEvent in: anElement [
 
 	super leftMouseUpEvent: anEvent in: anElement.
-	anElement parentMenuWindow close
+	anElement parentMenuWindow widget close
 ]
 
 { #category : #deprecated }

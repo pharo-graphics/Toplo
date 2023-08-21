@@ -3,13 +3,13 @@ Trait {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'t - converting' }
+{ #category : #'t - data to element converter - converting' }
 TToDataToElementConverter >> asToDataToElementConverter [
 
 	^ self
 ]
 
-{ #category : #evaluating }
+{ #category : #'t - data to element converter - evaluating' }
 TToDataToElementConverter >> cull: aData cull: anObject [
 
 	" A conerter creates an element from a data and another object "

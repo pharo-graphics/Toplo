@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-Menu'
 }
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : #'events handling' }
 ToMenuWindowModelDresser >> leftMouseDownEvent: anEvent in: anElement [
 
 	super leftMouseDownEvent: anEvent in: anElement.
@@ -25,8 +25,8 @@ ToMenuWindowModelDresser >> leftPressed: anElement event: anEvent [
 { #category : #'api - install/uninstall  hook' }
 ToMenuWindowModelDresser >> popupOrClose: anElement event: anEvent [
 
-	anElement menuWindow isAttachedToSceneGraph ifTrue: [ 
-		anElement isSubmenu ifTrue: [ ^ anElement parentMenu menuWindow close ].
-		^ anElement menuWindow close ].
-	anElement menuWindow popupEvent: anEvent
+	anElement menuWindow isAttachedToSceneGraph ifTrue: [
+		anElement isSubmenu ifTrue: [ ^ anElement parentMenu close ].
+		^ anElement close ].
+	anElement popupEvent: anEvent
 ]

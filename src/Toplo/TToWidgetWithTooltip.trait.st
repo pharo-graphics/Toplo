@@ -3,19 +3,19 @@ Trait {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'t - tooltip private' }
+{ #category : #'t - widget with tooltip - private' }
 TToWidgetWithTooltip >> checkTooltip [
 
 	self tooltip ifNil: [ self installTooltip ]
 ]
 
-{ #category : #'t - tooltip private' }
+{ #category : #'t - widget with tooltip - private' }
 TToWidgetWithTooltip >> installTooltip [
 
 	self tooltip: self newTooltipWindow
 ]
 
-{ #category : #'t - tooltip private' }
+{ #category : #'t - widget with tooltip - private' }
 TToWidgetWithTooltip >> newTooltipWindow [
 
 	^ self tooltipWindowClass new
@@ -23,32 +23,32 @@ TToWidgetWithTooltip >> newTooltipWindow [
 		  yourself
 ]
 
-{ #category : #'t - tooltip private' }
+{ #category : #'t - widget with tooltip - private' }
 TToWidgetWithTooltip >> removeTooltip [
 
 	self tooltip ifNotNil: [ :tooltip | tooltip close ]
 ]
 
-{ #category : #'t - accessing tooltip' }
+{ #category : #'t - widget with tooltip - accessing' }
 TToWidgetWithTooltip >> tooltip [
 
 	^ self userData at: #tooltip ifAbsent: [  ]
 ]
 
-{ #category : #'t - accessing tooltip' }
+{ #category : #'t - widget with tooltip - accessing' }
 TToWidgetWithTooltip >> tooltip: aTooltip [
 
 	self flag:'PLA : How to uninstall a tooltip ? How to change a tooltip with content reuse ?'.
 	self userData at: #tooltip put: aTooltip
 ]
 
-{ #category : #'t - accessing tooltip' }
+{ #category : #'t - widget with tooltip - accessing' }
 TToWidgetWithTooltip >> tooltipContent [
 
 	^ self tooltip ifNotNil: [ :tooltip | tooltip content ifNotNil:[ :e | e asString ] ]
 ]
 
-{ #category : #'t - accessing tooltip' }
+{ #category : #'t - widget with tooltip - accessing' }
 TToWidgetWithTooltip >> tooltipContent: aString [
 
 	self tooltipContent = aString ifTrue: [ ^ self ].
@@ -57,7 +57,7 @@ TToWidgetWithTooltip >> tooltipContent: aString [
 	self tooltip content: aString asRopedText
 ]
 
-{ #category : #'t - accessing tooltip' }
+{ #category : #'t - widget with tooltip - accessing' }
 TToWidgetWithTooltip >> tooltipDo: aBlock [
 
 	self tooltip
@@ -65,7 +65,7 @@ TToWidgetWithTooltip >> tooltipDo: aBlock [
 		ifNotNil: [ :tooltip | aBlock value: tooltip ]
 ]
 
-{ #category : #'t - accessing tooltip' }
+{ #category : #'t - widget with tooltip - accessing' }
 TToWidgetWithTooltip >> tooltipString: aString [
 
 	"Set a help string to display to the user if he let the mouse over the widget (a tooltip)."
@@ -73,13 +73,13 @@ TToWidgetWithTooltip >> tooltipString: aString [
 	self tooltipContent: aString asRopedText
 ]
 
-{ #category : #'t - tooltip private' }
+{ #category : #'t - widget with tooltip - accessing' }
 TToWidgetWithTooltip >> tooltipWindowClass [
 
 	^ ToTooltipWindow 
 ]
 
-{ #category : #'t - tooltip change hook' }
+{ #category : #'t - widget with tooltip - change hook' }
 TToWidgetWithTooltip >> whenTooltipChangedDo: aBlock [
 	"Inform when tooltip property has changed. 
 	 `aBlock` has three optional arguments: 

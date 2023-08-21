@@ -18,6 +18,6 @@ ToButtonMenuItemDresser >> mouseUpEvent: anEvent in: anElement [
 	"
 	delay := anEvent timestamp - anElement parentMenuWindow popupTimestamp.
 	delay > anElement parentMenuWindow autoCloseOnMouseUpDelay
-		ifTrue: [ anElement allParentMenusDo: [ :pm | pm menuWindow close ] ]
+		ifTrue: [ anElement allParentMenusDo: [ :pm | pm close ] ]
 		ifFalse: [ anEvent consumed: true ]
 ]

@@ -42,7 +42,7 @@ ToDivider >> defaultDresser [
 	^ ToDividerDresser new
 ]
 
-{ #category : #'t - initialization' }
+{ #category : #'t - widget - initialization' }
 ToDivider >> defaultLayout [
 
 	^ BlBasicLayout new 

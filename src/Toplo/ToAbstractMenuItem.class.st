@@ -7,7 +7,7 @@ Class {
 	#category : #'Toplo-Widget-Menu'
 }
 
-{ #category : #initialization }
+{ #category : #'adding/removing' }
 ToAbstractMenuItem >> addedInMenu: aMenu [
 
 	self privateParentMenu: aMenu.
@@ -16,7 +16,7 @@ ToAbstractMenuItem >> addedInMenu: aMenu [
 		c vertical fitContent ]
 ]
 
-{ #category : #'t - menu window' }
+{ #category : #'parent menu' }
 ToAbstractMenuItem >> allParentMenusDo: aBlock [
 	
 	| pm |
@@ -57,25 +57,25 @@ ToAbstractMenuItem >> middleHeight [
 	^ self toTheme controlHeight
 ]
 
-{ #category : #'t - menu window' }
+{ #category : #'parent menu' }
 ToAbstractMenuItem >> parentMenu [
 
 	 ^ parentMenu
 ]
 
-{ #category : #'t - menu window' }
+{ #category : #'parent menu' }
 ToAbstractMenuItem >> parentMenuWindow [
 
 	^ parentMenu ifNotNil: [:m | m menuWindow ] 
 ]
 
-{ #category : #'t - menu window' }
+{ #category : #'parent menu' }
 ToAbstractMenuItem >> privateParentMenu: aMenu [
 
 	parentMenu := aMenu
 ]
 
-{ #category : #initialization }
+{ #category : #'adding/removing' }
 ToAbstractMenuItem >> removedFromMenu: aMenu [
 
 	self privateParentMenu: nil

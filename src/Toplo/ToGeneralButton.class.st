@@ -9,7 +9,7 @@ Class {
 	#category : #'Toplo-Widget-Button'
 }
 
-{ #category : #'t - click behavior' }
+{ #category : #'t - clickable - click behavior' }
 ToGeneralButton >> client [
 
 	^ client

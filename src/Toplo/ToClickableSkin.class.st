@@ -31,7 +31,7 @@ ToClickableSkin >> adaptNextChildrenArray: anArray in: anElement [
 	^ self shaping adaptNextChildrenArray: anArray in: anElement
 ]
 
-{ #category : #'t - reshapeable - private - shaping/sizing' }
+{ #category : #'t - shapeable - private - shaping/sizing' }
 ToClickableSkin >> applyCircleShaping: aShaping on: anElement [
  
 	anElement strategy: ToTripletCenterStrategy new.
@@ -40,7 +40,7 @@ ToClickableSkin >> applyCircleShaping: aShaping on: anElement [
 	anElement geometry: BlCircleGeometry new
 ]
 
-{ #category : #'t - reshapeable - private - shaping/sizing' }
+{ #category : #'t - shapeable - private - shaping/sizing' }
 ToClickableSkin >> applyDefaultShaping: aShaping on: anElement [
  
 	| radius |
@@ -49,13 +49,13 @@ ToClickableSkin >> applyDefaultShaping: aShaping on: anElement [
 	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: radius)
 ]
 
-{ #category : #'t - reshapeable - private - shaping/sizing' }
+{ #category : #'t - shapeable - private - shaping/sizing' }
 ToClickableSkin >> applyLargeSizing: aSizing on: anElement [
  
 	self applySizing: aSizing on: anElement
 ]
 
-{ #category : #'t - reshapeable - private - shaping/sizing' }
+{ #category : #'t - shapeable - private - shaping/sizing' }
 ToClickableSkin >> applyMiddleSizing: aSizing on: anElement [
  
 	self applySizing: aSizing on: anElement
@@ -77,7 +77,7 @@ ToClickableSkin >> applyRectShaping: aShaping on: anElement [
 	anElement padding: (self defaultPaddingIn: anElement)
 ]
 
-{ #category : #'t - reshapeable - private - shaping/sizing' }
+{ #category : #'t - shapeable - private - shaping/sizing' }
 ToClickableSkin >> applyRoundShaping: aShaping on: anElement [
  
 	| radius |
@@ -95,7 +95,7 @@ ToClickableSkin >> applySizing: aSizing on: anElement [
 
 ]
 
-{ #category : #'t - reshapeable - private - shaping/sizing' }
+{ #category : #'t - shapeable - private - shaping/sizing' }
 ToClickableSkin >> applySmallSizing: aSizing on: anElement [
  
 	self applySizing: aSizing on: anElement
@@ -169,13 +169,13 @@ ToClickableSkin >> defaultPaddingIn: anElement [
 		  right: anElement toTheme paddingContentHorizontal / 2
 ]
 
-{ #category : #'t - reshapeable - initialization' }
+{ #category : #'t - shapeable - initialization' }
 ToClickableSkin >> defaultShaping [
 
 	^ ToDefaultShaping new 
 ]
 
-{ #category : #'t - reshapeable - initialization' }
+{ #category : #'t - shapeable - initialization' }
 ToClickableSkin >> defaultSizing [
  
 	^ ToMiddleSizing new

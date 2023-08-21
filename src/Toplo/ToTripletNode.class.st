@@ -6,7 +6,7 @@ Class {
 	#category : #'Toplo-Core-Node'
 }
 
-{ #category : #'t - click behavior' }
+{ #category : #'t - clickable - click behavior' }
 ToTripletNode >> client [
 
 	^ self holder infiniteElement client

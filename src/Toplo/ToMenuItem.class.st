@@ -20,13 +20,13 @@ ToMenuItem >> addedInMenu: aMenu [
 			self columnWidth: aMenu defaultColumnWidth ] ]
 ]
 
-{ #category : #'t - click behavior' }
+{ #category : #'t - clickable - click behavior' }
 ToMenuItem >> clickEventClass [
 
 	^ BlMouseUpEvent
 ]
 
-{ #category : #'t - click behavior' }
+{ #category : #'t - clickable - click behavior' }
 ToMenuItem >> client [
 
 	^ self parentMenu client
@@ -44,13 +44,13 @@ ToMenuItem >> defaultSkin [
 	^ ToButtonSkin new
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 ToMenuItem >> first [
 
 	^ icon
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 ToMenuItem >> first: anElement [
 
 	icon := anElement
@@ -76,25 +76,25 @@ ToMenuItem >> preInitializeDresser [
 
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 ToMenuItem >> second [
 
 	^ label
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 ToMenuItem >> second: anElement [
 
 	label := anElement
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 ToMenuItem >> third [
 
 	^ extra
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 ToMenuItem >> third: anElement [
 
 	extra := anElement

@@ -6,13 +6,13 @@ Trait {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'t - editable' }
+{ #category : #'t - editable - configuration' }
 TToEditable >> beEditable [
 
 	self isEditable: true
 ]
 
-{ #category : #'t - editable' }
+{ #category : #'t - editable - configuration' }
 TToEditable >> beReadOnly [
 
 	self isEditable: false
@@ -25,26 +25,26 @@ TToEditable >> initialize [
 	super initialize.
 ]
 
-{ #category : #'t - editable' }
+{ #category : #'t - editable - initialize' }
 TToEditable >> initializeEditable [
 
 	isEditable := false
 ]
 
-{ #category : #'t - editable' }
+{ #category : #'t - editable - configuration' }
 TToEditable >> isEditable [
 
 	^ isEditable 
 ]
 
-{ #category : #'t - editable' }
+{ #category : #'t - editable - configuration' }
 TToEditable >> isEditable: aBoolean [
 
 	isEditable = aBoolean ifTrue: [ ^ self ].
 	isEditable := aBoolean
 ]
 
-{ #category : #'change hook' }
+{ #category : #'t - editable - change hook' }
 TToEditable >> whenEditableChangedDo: aBlock [
 
 	"Inform when editable property has changed. 

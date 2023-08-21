@@ -8,7 +8,7 @@ Trait {
 	#category : #'Toplo-Core-Triplet'
 }
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> beIconFirst [
 
 	labelFirstRequested := false.
@@ -16,7 +16,7 @@ TToLabeledIcon >> beIconFirst [
 	self privateUpdateChildren
 ]
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> beLabelFirst [
 
 	labelFirstRequested := true.
@@ -24,7 +24,7 @@ TToLabeledIcon >> beLabelFirst [
 	self privateUpdateChildren
 ]
 
-{ #category : #'t - triplet presentation' }
+{ #category : #'t - labeled icon - direction' }
 TToLabeledIcon >> checkDirection [
 
 	self labelFirstRequested
@@ -33,7 +33,7 @@ TToLabeledIcon >> checkDirection [
 
 ]
 
-{ #category : #'t - triplet presentation' }
+{ #category : #'t - labeled icon - orientation' }
 TToLabeledIcon >> checkOrientableLayout [
 
 	self layout isOrientable ifFalse: [ ^ self ].
@@ -41,7 +41,7 @@ TToLabeledIcon >> checkOrientableLayout [
 	self checkOrientation 
 ]
 
-{ #category : #'t - triplet presentation' }
+{ #category : #'t - labeled icon - orientation' }
 TToLabeledIcon >> checkOrientation [
 
 	self verticalRequested
@@ -49,31 +49,31 @@ TToLabeledIcon >> checkOrientation [
 		ifFalse: [ self beHorizontal ].
 ]
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> extra [
 
 	^ self third
 ]
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> extra: anElement [
 
 	self replaceThirdWith: anElement
 ]
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> icon [
 
 	^ self first
 ]
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> icon: anElement [
 
 	self replaceFirstWith: anElement
 ]
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> iconFirst: aBoolean [
 
 	aBoolean
@@ -81,44 +81,44 @@ TToLabeledIcon >> iconFirst: aBoolean [
 		ifFalse: [ self beLabelFirst ]
 ]
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> iconImage: anElement [
 
 	self icon: (ToImage inner: anElement)
 ]
 
-{ #category : #'t - triplet initialization' }
+{ #category : #'t - triplet - initialization' }
 TToLabeledIcon >> initializeTriplet [
 
 	self strategy: ToTripletWithoutInterspaceStrategy new.
 	self fitContent
 ]
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> isIconFirst [
 
 	^ self isLeftToRight 
 ]
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> isLabelFirst [
 
 	^ self isRightToLeft 
 ]
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> label [
 
 	^ self second
 ]
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> label: aLabel [
 
 	self replaceSecondWith: aLabel
 ]
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> labelFirst: aBoolean [
 
 	aBoolean
@@ -126,14 +126,14 @@ TToLabeledIcon >> labelFirst: aBoolean [
 		ifFalse: [ self beIconFirst ]
 ]
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> labelFirstRequested [
 
 	" useful in case the layout is changed to set the right direction"
 	^ labelFirstRequested ifNil: [ labelFirstRequested := self isLabelFirst ]
 ]
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> labelText: aText [
 
 	self label: (ToLabel text: aText)

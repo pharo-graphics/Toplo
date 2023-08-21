@@ -6,19 +6,19 @@ Trait {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'t - click behavior' }
+{ #category : #'t - clickable - click behavior' }
 TToClickable >> clickEventClass [
 
 	^ BlPrimaryClickEvent 
 ]
 
-{ #category : #'t - click behavior' }
+{ #category : #'t - clickable - click behavior' }
 TToClickable >> client [
 
 	^ self explicitRequirement 
 ]
 
-{ #category : #'t - click behavior' }
+{ #category : #'t - clickable - click behavior' }
 TToClickable >> manageAction: aBlock onClickEvent: anEvent [
 
 	aBlock
@@ -27,7 +27,7 @@ TToClickable >> manageAction: aBlock onClickEvent: anEvent [
 		cull: anEvent currentTarget
 ]
 
-{ #category : #'t - click behavior' }
+{ #category : #'t - clickable - click behavior' }
 TToClickable >> removeClickHandler [
 	"remove the click action"
 
@@ -36,7 +36,7 @@ TToClickable >> removeClickHandler [
 		clickHandler := nil ]
 ]
 
-{ #category : #'t - click behavior' }
+{ #category : #'t - clickable - click behavior' }
 TToClickable >> whenClickedDo: aBlock [
 	"Inform that the widget has been clicked."
 	

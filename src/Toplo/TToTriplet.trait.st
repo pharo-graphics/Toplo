@@ -6,14 +6,14 @@ Trait {
 	#category : #'Toplo-Core-Triplet'
 }
 
-{ #category : #'t - triplet presentation' }
+{ #category : #'t - triplet - configuration' }
 TToTriplet >> beJustified [
 
 	self strategy: ToTripletJustifiedStrategy new
  
 ]
 
-{ #category : #'t - triplet presentation' }
+{ #category : #'t - triplet - configuration' }
 TToTriplet >> columnWidth [
 
 	^ strategy
@@ -21,19 +21,19 @@ TToTriplet >> columnWidth [
 		  ifNotNil: [ :strat | strat columnWidth ]
 ]
 
-{ #category : #'t - triplet presentation' }
+{ #category : #'t - triplet - configuration' }
 TToTriplet >> columnWidth: anInteger [
 
 	self strategy: (ToTripletColumnStrategy new width: anInteger)
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 TToTriplet >> first [
 
 	^ self explicitRequirement 
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 TToTriplet >> first: anElement [
 
 	self explicitRequirement 
@@ -46,19 +46,19 @@ TToTriplet >> initialize [
 	super initialize.
 ]
 
-{ #category : #'t - triplet initialization' }
+{ #category : #'t - triplet - initialization' }
 TToTriplet >> initializeTriplet [
 
 	self fitContent
 ]
 
-{ #category : #'t - triplet presentation' }
+{ #category : #'t - triplet - testing' }
 TToTriplet >> isJustified [
 
 	^ strategy ifNil: [ false ] ifNotNil: [ :strat | strat isJustified ]
 ]
 
-{ #category : #layout }
+{ #category : #'t - triplet - layout' }
 TToTriplet >> onMeasure: anExtentMeasurementSpec [
 
 	" send to super before to ensure the children are already measured "
@@ -69,7 +69,7 @@ TToTriplet >> onMeasure: anExtentMeasurementSpec [
 			self onMeasure: anExtentMeasurementSpec ]
 ]
 
-{ #category : #'t - triplet private' }
+{ #category : #'t - triplet - private' }
 TToTriplet >> privateUpdateChildren [
 
 	| subs |
@@ -82,7 +82,7 @@ TToTriplet >> privateUpdateChildren [
 
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 TToTriplet >> replaceFirstWith: anElement [
 
 	self first = anElement ifTrue: [ ^ self ].
@@ -91,7 +91,7 @@ TToTriplet >> replaceFirstWith: anElement [
 	self privateUpdateChildren
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 TToTriplet >> replaceSecondWith: anElement [
 
 	self second = anElement ifTrue: [ ^ self ].
@@ -100,7 +100,7 @@ TToTriplet >> replaceSecondWith: anElement [
 	self privateUpdateChildren
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 TToTriplet >> replaceThirdWith: anElement [
 
 	self third = anElement ifTrue: [ ^ self ].
@@ -109,39 +109,39 @@ TToTriplet >> replaceThirdWith: anElement [
 	self privateUpdateChildren
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 TToTriplet >> second [
 
 	^ self explicitRequirement 
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 TToTriplet >> second: anElement [
 
 	self explicitRequirement 
 ]
 
-{ #category : #'t - triplet presentation' }
+{ #category : #'t - triplet - configuration' }
 TToTriplet >> spacingHeight: anInteger [
 
 	self strategy spacingHeight = anInteger ifTrue: [ ^ self ].
 	self strategy: (ToTripletWithExactInterspaceStrategy new height: anInteger)
 ]
 
-{ #category : #'t - triplet presentation' }
+{ #category : #'t - triplet - configuration' }
 TToTriplet >> spacingWidth: anInteger [
 
 	self strategy spacingWidth = anInteger ifTrue: [ ^ self ].
 	self strategy: (ToTripletWithExactInterspaceStrategy new width: anInteger)
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 TToTriplet >> strategy [
 
 	^ strategy ifNil: [ strategy := ToTripletWithoutInterspaceStrategy new]
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 TToTriplet >> strategy: aPairStrategy [
 
 	strategy ifNotNil: [ :s | s onUninstalledIn: self ].
@@ -150,13 +150,13 @@ TToTriplet >> strategy: aPairStrategy [
 	self privateUpdateChildren
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 TToTriplet >> third [
 
 	^ self explicitRequirement 
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 TToTriplet >> third: anElement [
 
 	self explicitRequirement 

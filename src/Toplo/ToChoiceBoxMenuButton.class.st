@@ -1,10 +1,19 @@
 Class {
 	#name : #ToChoiceBoxMenuButton,
-	#superclass : #ToButtonMenuItem,
+	#superclass : #ToMenuItem,
 	#traits : 'TToMenuItemHolder + TToMenuWindowModel',
 	#classTraits : 'TToMenuItemHolder classTrait + TToMenuWindowModel classTrait',
+	#instVars : [
+		'menuWindow'
+	],
 	#category : #'Toplo-Widget-ChoiceBox'
 }
+
+{ #category : #'t - menu window model - window opening/closing' }
+ToChoiceBoxMenuButton >> close [
+
+	^ self menuWindow close
+]
 
 { #category : #'t - initialization dresser' }
 ToChoiceBoxMenuButton >> defaultDresser [
@@ -17,13 +26,20 @@ ToChoiceBoxMenuButton >> initialize [
 
 	super initialize.
 
-	self initializeMenuItemHolder.
-	self initializeMenuWindowModel
-
+	self initializeMenuItemHolder
 ]
 
-{ #category : #window }
+{ #category : #'t - menu window model - accessing' }
 ToChoiceBoxMenuButton >> menuWindow [
 
-	^ menuWindow 
+	^ menuWindow ifNil: [
+		  menuWindow := ToMenuWindow new
+			                widget: self;
+			                yourself ]
+]
+
+{ #category : #'t - menu window model - window opening/closing' }
+ToChoiceBoxMenuButton >> popupEvent: anEvent [
+
+	^ self menuWindow popupEvent: anEvent
 ]

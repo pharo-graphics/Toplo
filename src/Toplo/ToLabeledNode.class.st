@@ -11,7 +11,7 @@ Class {
 	#category : #'Toplo-Core-Node'
 }
 
-{ #category : #'t - click behavior' }
+{ #category : #'t - clickable - click behavior' }
 ToLabeledNode >> client [
 
 	^ self  
@@ -23,13 +23,13 @@ ToLabeledNode >> defaultDresser [
 	^ ToLabeledNodeDresser new
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 ToLabeledNode >> first [
 
 	^ icon
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 ToLabeledNode >> first: anElement [
 
 	icon := anElement
@@ -55,25 +55,25 @@ ToLabeledNode >> privateBeReadOnly [
 	self label ifNotNil: [ :l | l beReadOnly ]
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 ToLabeledNode >> second [
 
 	^ label
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 ToLabeledNode >> second: anElement [
 
 	label := anElement
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 ToLabeledNode >> third [
 
 	^ extra
 ]
 
-{ #category : #'t - triplet accessing' }
+{ #category : #'t - triplet - accessing' }
 ToLabeledNode >> third: anElement [
 
 	extra := anElement

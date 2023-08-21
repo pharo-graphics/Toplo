@@ -127,6 +127,15 @@ BlElement >> launchSkinUninstallation [
 
 ]
 
+{ #category : #'*Toplo' }
+BlElement >> openInInnerWindow [
+
+	| frame |
+	frame := ToInnerWindow new.
+	frame root addChild: self.
+	frame openInSpace
+]
+
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> openInOBlSpaceWithoutToTheme [
 	"This is a development method : use this method when your Space cannot support ToTheme management"

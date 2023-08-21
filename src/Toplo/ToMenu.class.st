@@ -4,38 +4,39 @@ Class {
 	#traits : 'TToMenuItemHolder + TToMenuWindowModel',
 	#classTraits : 'TToMenuItemHolder classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
-		'submenuDresser'
+		'submenuDresser',
+		'menuWindow'
 	],
 	#category : #'Toplo-Widget-Menu'
 }
 
-{ #category : #'t - menu initialization' }
-ToMenu >> addedAsSubmenuInMenu: aMenu [
+{ #category : #'adding/removing' }
+ToMenu >> addedInMenu: aMenu [
 
+	super addedInMenu: aMenu.
 	submenuDresser ifNil: [ 
 		submenuDresser := ToMenuAsSubmenuDresser new.
 		self addDresser: submenuDresser ]
 
 ]
 
-{ #category : #'t - menu initialization' }
-ToMenu >> addedInMenu: aMenu [
-
-	super addedInMenu: aMenu.
-	self addedAsSubmenuInMenu: aMenu
-]
-
-{ #category : #'t - menu accessing' }
+{ #category : #'t - menu item holder - accessing' }
 ToMenu >> client [
 
 	" get parent menu client if none is declared locally "
 	^ client ifNil: [ self parentMenu ifNotNil: [ :pm | pm client ] ]
 ]
 
+{ #category : #'t - menu window model - window opening/closing' }
+ToMenu >> close [
+
+	^ self menuWindow close
+]
+
 { #category : #'t - initialization dresser' }
 ToMenu >> defaultDresser [
 
-	^ ToBasicMenuItemDresser next: (ToMenuWindowModelDresser next: ToMenuDresser new)
+	^ ToBasicMenuItemDresser next: ToMenuWindowModelDresser new
 ]
 
 { #category : #initialization }
@@ -43,35 +44,36 @@ ToMenu >> initialize [
 
 	super initialize.
 
-	self initializeMenuItemHolder.
-	self initializeMenuWindowModel
-
+	self initializeMenuItemHolder
 ]
 
-{ #category : #'t - menu testing' }
+{ #category : #'t - menu window model - testing' }
 ToMenu >> isSubmenu [
 
 	^ submenuDresser notNil
 ]
 
-{ #category : #window }
+{ #category : #'t - menu window model - accessing' }
 ToMenu >> menuWindow [
 
-	^ menuWindow 
+	^ menuWindow ifNil: [
+		  menuWindow := ToMenuWindow new
+			                widget: self;
+			                yourself ]
 ]
 
-{ #category : #'t - menu initialization' }
-ToMenu >> removedAsSubmenuInMenu: aMenu [
+{ #category : #'t - menu window model - window opening/closing' }
+ToMenu >> popupEvent: anEvent [
+
+	^ self menuWindow popupEvent: anEvent
+]
+
+{ #category : #'adding/removing' }
+ToMenu >> removedFromMenu: aMenu [
 
 	submenuDresser ifNotNil: [ 
 		self removeDresser: submenuDresser.
-		submenuDresser := nil ]
-]
-
-{ #category : #'t - menu item adding/removing' }
-ToMenu >> removedFromMenu: aMenu [
-
-	self removedAsSubmenuInMenu: aMenu.
+		submenuDresser := nil ].
 	super removedFromMenu: aMenu.
 
 	

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToInfiniteElement,
 	#superclass : #BlInfiniteElement,
-	#traits : 'TBlLayoutResizable + TToDressable + TToWorldElement + TToWidgetWithContextMenu',
-	#classTraits : 'TBlLayoutResizable classTrait + TToDressable classTrait + TToWorldElement classTrait + TToWidgetWithContextMenu classTrait',
+	#traits : 'TBlLayoutResizable + TToDressable + TToWidgetWithContextMenu',
+	#classTraits : 'TBlLayoutResizable classTrait + TToDressable classTrait + TToWidgetWithContextMenu classTrait',
 	#instVars : [
 		'holderFactory',
 		'nodeFactory',
@@ -54,7 +54,7 @@ ToInfiniteElement >> client [
 	^ self
 ]
 
-{ #category : #'t - context menu accessing' }
+{ #category : #'t - widget with context menu - accessing' }
 ToInfiniteElement >> contextMenu [
 
 	" specific version to pass the secondary selection as 2de argument "
@@ -317,7 +317,7 @@ ToInfiniteElement >> onLostFocus [
 
 ]
 
-{ #category : #'t - initialization dresser' }
+{ #category : #'t - dressable -  initialization' }
 ToInfiniteElement >> preInitializeDresser [ 
 
 	primarySelection := self defaultPrimarySelection.

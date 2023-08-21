@@ -5,13 +5,13 @@ Trait {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'t - initialization' }
+{ #category : #'t - widget - initialization' }
 TToWidget >> defaultLayout [
 
 	^ BlLinearLayout horizontal 
 ]
 
-{ #category : #'t - private - compagnon  events' }
+{ #category : #'t - widget - private - compagnon  events' }
 TToWidget >> whenActionRequired: anActionRequiredFromCompagnon [
 
 	anActionRequiredFromCompagnon value: self

@@ -1591,7 +1591,6 @@ ToSandBox class >> example_menu1 [
 
 	| menu sub subsub |
 	menu := ToMenu new.
-	menu spacingWidth: 5.
 	menu defaultColumnWidth: 22.
 	menu label: (ToLabel new text: 'File').
 	menu icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
@@ -1652,8 +1651,7 @@ ToSandBox class >> example_menu2_2 [
 
 	| menu sub |
 	menu := ToMenu new.
-	menu icon:
-		(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+	menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
 
 	sub := ToMenu new labelText: 'Save All'.
 	sub addItem: (ToMenuItem new labelText: 'Locally').
@@ -1705,8 +1703,7 @@ ToSandBox class >> example_menu4 [
 	| menu sub subsub |
 	menu := ToMenu new.
 	menu labelText: 'File'.
-	menu icon:
-		(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+	menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
 	menu addItem: (ToMenuItem new labelText: 'Open file').
 	menu addItem: (ToMenuItem new labelText: 'Export').
 	menu addItem: (ToRadioMenuItem new labelText: 'Align right').
@@ -1717,9 +1714,7 @@ ToSandBox class >> example_menu4 [
 
 	subsub := ToMenu new
 		          labelText: 'Externally';
-		          icon:
-			          (ToImage inner:
-					           (Smalltalk ui icons iconNamed: #solidMenu)).
+		          icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
 	subsub addItem: (ToMenuItem new labelText: 'Here').
 
 	sub addItem: subsub.

@@ -11,6 +11,7 @@ ToMenuItemSkin >> applyQuadShaping: aShaping on: anElement [
 	anElement padding: (self defaultPaddingIn: anElement).
 	(anElement isSubmenu or: [ anElement isTopMenu not ]) ifTrue: [
 		anElement hMatchParent ].
+	anElement isTopMenu ifTrue: [ anElement spacingWidth: 5 ].
 	anElement isSubmenu ifTrue: [
 		anElement tripletStrategy: (ToTripletSubmenuColumnStrategy new width: anElement defaultColumnWidth) ]
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToRoundShaping,
-	#superclass : #ToRectShaping,
+	#superclass : #ToQuadShaping,
 	#category : #'Toplo-Core-Theme'
 }
 

@@ -35,6 +35,7 @@ ToButtonDefaultType >> dangerBorderLookIn: anElement [
 		  initialPaint: [ :e | e toTheme colorError ];
 		  hoverPaint: [ :e | e toTheme colorErrorHover ];
 		  pressedPaint: [ :e | e toTheme colorErrorHover darker ];
+		  width: [ :e | e toTheme lineWidth ];
 		  yourself
 ]
 
@@ -67,6 +68,7 @@ ToButtonDefaultType >> regularBorderLookIn: anElement [
 		  initialPaint: [ :e | e toTheme colorBorder ];
 		  hoverPaint: [ :e | e toTheme colorPrimaryHover ];
 		  pressedPaint: [ :e | e toTheme colorPrimaryPressed ];
+		  width: [ :e | e toTheme lineWidth ];
 		  yourself
 ]
 

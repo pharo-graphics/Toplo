@@ -1,7 +1,7 @@
 Trait {
 	#name : #TToTriplet,
 	#instVars : [
-		'strategy'
+		'tripletStrategy'
 	],
 	#category : #'Toplo-Core-Triplet'
 }
@@ -9,14 +9,14 @@ Trait {
 { #category : #'t - triplet - configuration' }
 TToTriplet >> beJustified [
 
-	self strategy: ToTripletJustifiedStrategy new
+	self tripletStrategy: ToTripletJustifiedStrategy new
  
 ]
 
 { #category : #'t - triplet - configuration' }
 TToTriplet >> columnWidth [
 
-	^ strategy
+	^ tripletStrategy
 		  ifNil: [ 0 ]
 		  ifNotNil: [ :strat | strat columnWidth ]
 ]
@@ -24,7 +24,7 @@ TToTriplet >> columnWidth [
 { #category : #'t - triplet - configuration' }
 TToTriplet >> columnWidth: anInteger [
 
-	self strategy: (ToTripletColumnStrategy new width: anInteger)
+	self tripletStrategy: (ToTripletColumnStrategy new width: anInteger)
 ]
 
 { #category : #'t - triplet - accessing' }
@@ -39,23 +39,17 @@ TToTriplet >> first: anElement [
 	self explicitRequirement 
 ]
 
-{ #category : #initialization }
-TToTriplet >> initialize [
-
-	self class initializeSlots: self.
-	super initialize.
-]
-
 { #category : #'t - triplet - initialization' }
 TToTriplet >> initializeTriplet [
 
+	self tripletStrategy: ToTripletWithoutInterspaceStrategy new.
 	self fitContent
 ]
 
 { #category : #'t - triplet - testing' }
 TToTriplet >> isJustified [
 
-	^ strategy ifNil: [ false ] ifNotNil: [ :strat | strat isJustified ]
+	^ tripletStrategy ifNil: [ false ] ifNotNil: [ :strat | strat isJustified ]
 ]
 
 { #category : #'t - triplet - layout' }
@@ -64,7 +58,7 @@ TToTriplet >> onMeasure: anExtentMeasurementSpec [
 	" send to super before to ensure the children are already measured "
 
 	super onMeasure: anExtentMeasurementSpec.
-	(self strategy onMeasure: anExtentMeasurementSpec in: self) 
+	(self tripletStrategy onMeasure: anExtentMeasurementSpec in: self) 
 		ifFalse: [ " re-launch measuring if necessary" 
 			self onMeasure: anExtentMeasurementSpec ]
 ]
@@ -73,8 +67,8 @@ TToTriplet >> onMeasure: anExtentMeasurementSpec [
 TToTriplet >> privateUpdateChildren [
 
 	| subs |
-	strategy ifNil: [ ^ self ].
-	subs := self strategy childrenIn: self.
+	tripletStrategy ifNil: [ ^ self ].
+	subs := self tripletStrategy childrenIn: self.
 	self skinDo: [ :s | subs := s adaptNextChildrenArray: subs in: self].
 	self children asArray = subs ifTrue: [ ^ self ].
 	self removeChildren.
@@ -124,30 +118,15 @@ TToTriplet >> second: anElement [
 { #category : #'t - triplet - configuration' }
 TToTriplet >> spacingHeight: anInteger [
 
-	self strategy spacingHeight = anInteger ifTrue: [ ^ self ].
-	self strategy: (ToTripletWithExactInterspaceStrategy new height: anInteger)
+	self tripletStrategy spacingHeight = anInteger ifTrue: [ ^ self ].
+	self tripletStrategy: (ToTripletWithExactInterspaceStrategy new height: anInteger)
 ]
 
 { #category : #'t - triplet - configuration' }
 TToTriplet >> spacingWidth: anInteger [
 
-	self strategy spacingWidth = anInteger ifTrue: [ ^ self ].
-	self strategy: (ToTripletWithExactInterspaceStrategy new width: anInteger)
-]
-
-{ #category : #'t - triplet - accessing' }
-TToTriplet >> strategy [
-
-	^ strategy ifNil: [ strategy := ToTripletWithoutInterspaceStrategy new]
-]
-
-{ #category : #'t - triplet - accessing' }
-TToTriplet >> strategy: aPairStrategy [
-
-	strategy ifNotNil: [ :s | s onUninstalledIn: self ].
-	strategy := aPairStrategy.
-	strategy ifNotNil: [ :s | s onInstalledIn: self ].
-	self privateUpdateChildren
+	self tripletStrategy spacingWidth = anInteger ifTrue: [ ^ self ].
+	self tripletStrategy: (ToTripletWithExactInterspaceStrategy new width: anInteger)
 ]
 
 { #category : #'t - triplet - accessing' }
@@ -161,4 +140,19 @@ TToTriplet >> third: anElement [
 
 	self explicitRequirement 
 
+]
+
+{ #category : #'t - triplet - accessing' }
+TToTriplet >> tripletStrategy [
+
+	^ tripletStrategy ifNil: [ tripletStrategy := ToTripletWithoutInterspaceStrategy new]
+]
+
+{ #category : #'t - triplet - accessing' }
+TToTriplet >> tripletStrategy: aPairStrategy [
+
+	tripletStrategy ifNotNil: [ :s | s onUninstalledIn: self ].
+	tripletStrategy := aPairStrategy.
+	tripletStrategy ifNotNil: [ :s | s onInstalledIn: self ].
+	self privateUpdateChildren
 ]

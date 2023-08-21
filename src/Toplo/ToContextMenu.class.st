@@ -61,6 +61,18 @@ ToContextMenu >> installedInWidget: aWidget [
 
 ]
 
+{ #category : #testing }
+ToContextMenu >> isSubmenu [ 
+
+	^ false
+]
+
+{ #category : #testing }
+ToContextMenu >> isTopMenu [
+
+	^ true
+]
+
 { #category : #'t - menu window model - accessing' }
 ToContextMenu >> menuWindow [
 

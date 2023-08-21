@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuItem,
 	#superclass : #ToAbstractMenuItem,
-	#traits : 'TToWidget + TToWidgetWithTooltip + TToClickable + TToLabeledIcon',
-	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait + TToClickable classTrait + TToLabeledIcon classTrait',
+	#traits : 'TToWidget + TToWidgetWithTooltip + TToClickable + TToLabeledIcon + TToTriplet + TToOrientable',
+	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait + TToClickable classTrait + TToLabeledIcon classTrait + TToTriplet classTrait + TToOrientable classTrait',
 	#instVars : [
 		'#icon => ToSkinnableSlot',
 		'#label => ToSkinnableSlot',
@@ -15,7 +15,7 @@ Class {
 ToMenuItem >> addedInMenu: aMenu [
 
 	super addedInMenu: aMenu.
-	self isJustified ifFalse: [ 
+	self isJustified ifFalse: [
 		self columnWidth > 0 ifFalse: [ 
 			self columnWidth: aMenu defaultColumnWidth ] ]
 ]
@@ -38,10 +38,10 @@ ToMenuItem >> defaultDresser [
 	^ ToBasicMenuItemDresser next: (ToButtonMenuItemDresser new)
 ]
 
-{ #category : #'t - skin accessing' }
+{ #category : #'t - skinable - initialization' }
 ToMenuItem >> defaultSkin [ 
 
-	^ ToButtonSkin new
+	^ ToMenuItemSkin new
 ]
 
 { #category : #'t - triplet - accessing' }
@@ -62,7 +62,6 @@ ToMenuItem >> initialize [
 	super initialize.
 	self fitContent.
 	self initializeTriplet
-
 ]
 
 { #category : #'t - initialization dresser' }

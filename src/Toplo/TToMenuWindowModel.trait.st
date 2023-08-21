@@ -9,12 +9,6 @@ TToMenuWindowModel >> close [
 	^ self explicitRequirement
 ]
 
-{ #category : #'t - menu window model - testing' }
-TToMenuWindowModel >> isSubmenu [
-
-	^ false
-]
-
 { #category : #'t - menu window model - accessing' }
 TToMenuWindowModel >> menuWindow [
 

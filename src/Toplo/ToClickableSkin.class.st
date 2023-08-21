@@ -34,19 +34,10 @@ ToClickableSkin >> adaptNextChildrenArray: anArray in: anElement [
 { #category : #'t - shapeable - private - shaping/sizing' }
 ToClickableSkin >> applyCircleShaping: aShaping on: anElement [
  
-	anElement strategy: ToTripletCenterStrategy new.
+	anElement tripletStrategy: ToTripletCenterStrategy new.
 	anElement padding: BlInsets empty.
 	anElement size: (aShaping sizing heightOn: anElement) asPoint.
 	anElement geometry: BlCircleGeometry new
-]
-
-{ #category : #'t - shapeable - private - shaping/sizing' }
-ToClickableSkin >> applyDefaultShaping: aShaping on: anElement [
- 
-	| radius |
-	self applyRectShaping: aShaping on: anElement.
-	radius := aShaping sizing shapingRadiusIn: anElement.
-	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: radius)
 ]
 
 { #category : #'t - shapeable - private - shaping/sizing' }
@@ -62,7 +53,7 @@ ToClickableSkin >> applyMiddleSizing: aSizing on: anElement [
 ]
 
 { #category : #'private - shaping/sizing' }
-ToClickableSkin >> applyRectShaping: aShaping on: anElement [
+ToClickableSkin >> applyQuadShaping: aShaping on: anElement [
 
 	(anElement layout isKindOf: BlLinearLayout) ifFalse: [ 
 		anElement layout: BlLinearLayout new]. 
@@ -78,10 +69,21 @@ ToClickableSkin >> applyRectShaping: aShaping on: anElement [
 ]
 
 { #category : #'t - shapeable - private - shaping/sizing' }
+ToClickableSkin >> applyRectangleShaping: aShaping on: anElement [
+ 
+	| radius |
+	self applyQuadShaping: aShaping on: anElement.
+	radius := aShaping radius ifNil: [ aShaping sizing shapingRadiusIn: anElement ].
+	radius > 0 ifTrue: [ 
+		^ anElement geometry: (BlRoundedRectangleGeometry cornerRadius: radius) ].
+	anElement geometry: BlRectangleGeometry new
+]
+
+{ #category : #'t - shapeable - private - shaping/sizing' }
 ToClickableSkin >> applyRoundShaping: aShaping on: anElement [
  
 	| radius |
-	self applyRectShaping: aShaping on: anElement.	
+	self applyQuadShaping: aShaping on: anElement.	
 	radius := anElement requestedHeight / 2.
 	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: radius)
 ]
@@ -172,7 +174,7 @@ ToClickableSkin >> defaultPaddingIn: anElement [
 { #category : #'t - shapeable - initialization' }
 ToClickableSkin >> defaultShaping [
 
-	^ ToDefaultShaping new 
+	^ ToRectangleShaping new 
 ]
 
 { #category : #'t - shapeable - initialization' }

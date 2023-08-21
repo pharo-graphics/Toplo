@@ -1,11 +1,14 @@
 Class {
-	#name : #ToRectShaping,
+	#name : #ToQuadShaping,
 	#superclass : #ToControlShaping,
+	#instVars : [
+		'radius'
+	],
 	#category : #'Toplo-Core-Theme'
 }
 
 { #category : #'private children updating' }
-ToRectShaping >> adaptNextChildrenArray: anArray in: anElement [
+ToQuadShaping >> adaptNextChildrenArray: anArray in: anElement [
 
 	| subs |
 	subs := super adaptNextChildrenArray: anArray in: anElement.
@@ -13,4 +16,16 @@ ToRectShaping >> adaptNextChildrenArray: anArray in: anElement [
 		ifTrue: [ ^ subs reversed ].
 	^ subs
 
+]
+
+{ #category : #accessing }
+ToQuadShaping >> radius [
+
+	^ radius
+]
+
+{ #category : #accessing }
+ToQuadShaping >> radius: anObject [
+
+	radius := anObject
 ]

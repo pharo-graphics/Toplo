@@ -86,6 +86,34 @@ ToClickableType >> dashed: aBoolean [
 	Error signal: 'Invalid property'.
 ]
 
+{ #category : #'menu item' }
+ToClickableType >> menuItemBackgroundLookIn: anElement [
+
+	^ self danger
+		  ifTrue: [ self dangerBackgroundLookIn: anElement ]
+		  ifFalse: [ self regularMenuItemBackgroundLookIn: anElement ]
+]
+
+{ #category : #'menu item' }
+ToClickableType >> menuItemBorderLookIn: anElement [
+
+	^ nil
+]
+
+{ #category : #'menu item' }
+ToClickableType >> menuItemIconSkinIn: anElement [
+
+	^ ToButtonDefaultIconSkin new danger: self danger
+]
+
+{ #category : #'menu item' }
+ToClickableType >> menuItemLabelSkinIn: anElement [
+
+	^ self danger 
+		ifTrue: [ self dangerLabelSkinIn: anElement ]
+		ifFalse: [ self regularLabelSkinIn: anElement ]
+]
+
 { #category : #'checkable button' }
 ToClickableType >> radioButtonIconSkinIn: aButton [
 
@@ -102,6 +130,15 @@ ToClickableType >> regularBackgroundLookIn: anElement [
 ToClickableType >> regularLabelSkinIn: anElement [
 
 	^ self subclassResponsibility 
+]
+
+{ #category : #'menu item' }
+ToClickableType >> regularMenuItemBackgroundLookIn: anElement [
+
+	^ ToBackgroundLook new
+		  disabledBg: [ :e | e toTheme colorBgContainerDisabled ];
+		  initialBg: [ :e | Color transparent ];
+		  yourself
 ]
 
 { #category : #'toggle button' }

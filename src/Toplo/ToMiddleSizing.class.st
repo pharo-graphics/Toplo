@@ -19,5 +19,5 @@ ToMiddleSizing >> heightOn: anElement [
 { #category : #'private geometry' }
 ToMiddleSizing >> shapingRadiusIn: anElement [
 
-		^ anElement toTheme borderRadius
+	^ anElement toTheme borderRadius
 ]

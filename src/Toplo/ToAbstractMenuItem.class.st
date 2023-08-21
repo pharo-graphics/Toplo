@@ -38,10 +38,22 @@ ToAbstractMenuItem >> initialize [
 
 ]
 
-{ #category : #'accessing sizing' }
-ToAbstractMenuItem >> largeHeight [
+{ #category : #testing }
+ToAbstractMenuItem >> isSubmenu [ 
 
-	^ self toTheme controlHeightLG
+	^ false
+]
+
+{ #category : #testing }
+ToAbstractMenuItem >> isTopMenu [
+
+	^ false
+]
+
+{ #category : #'accessing sizing' }
+ToAbstractMenuItem >> largeHeight [ 
+
+	^ 26
 ]
 
 { #category : #window }
@@ -54,7 +66,7 @@ ToAbstractMenuItem >> menuWindow [
 { #category : #'accessing sizing' }
 ToAbstractMenuItem >> middleHeight [
 
-	^ self toTheme controlHeight
+	^ 22
 ]
 
 { #category : #'parent menu' }
@@ -82,7 +94,7 @@ ToAbstractMenuItem >> removedFromMenu: aMenu [
 ]
 
 { #category : #'accessing sizing' }
-ToAbstractMenuItem >> smallHeight [
+ToAbstractMenuItem >> smallHeight [ 
 
-	^ self toTheme controlHeightSM
+	^ 18
 ]

@@ -43,14 +43,19 @@ ToMenu >> defaultDresser [
 ToMenu >> initialize [
 
 	super initialize.
-
 	self initializeMenuItemHolder
 ]
 
-{ #category : #'t - menu window model - testing' }
+{ #category : #testing }
 ToMenu >> isSubmenu [
 
 	^ submenuDresser notNil
+]
+
+{ #category : #testing }
+ToMenu >> isTopMenu [
+
+	^ self parentMenu isNil
 ]
 
 { #category : #'t - menu window model - accessing' }

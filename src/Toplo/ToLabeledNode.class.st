@@ -1,8 +1,8 @@
 Class {
 	#name : #ToLabeledNode,
 	#superclass : #ToWidget,
-	#traits : 'TToLabeledIcon + TToClickable',
-	#classTraits : 'TToLabeledIcon classTrait + TToClickable classTrait',
+	#traits : 'TToTriplet + TToLabeledIcon + TToOrientable + TToClickable',
+	#classTraits : 'TToTriplet classTrait + TToLabeledIcon classTrait + TToOrientable classTrait + TToClickable classTrait',
 	#instVars : [
 		'#icon => ToSkinnableSlot',
 		'#label => ToSkinnableSlot',

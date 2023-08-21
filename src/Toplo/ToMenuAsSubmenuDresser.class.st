@@ -56,10 +56,3 @@ ToMenuAsSubmenuDresser >> mouseLeaveEvent: anEvent in: anElement [
 
 	super mouseLeaveEvent: anEvent in: anElement
 ]
-
-{ #category : #'api - install/uninstall  hook' }
-ToMenuAsSubmenuDresser >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement.
-	anElement strategy: (ToTripletSubmenuColumnStrategy new width: anElement columnWidth)
-]

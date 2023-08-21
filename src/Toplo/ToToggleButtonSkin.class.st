@@ -11,13 +11,6 @@ ToToggleButtonSkin >> applyCircleShaping: aShaping on: anElement [
 ]
 
 { #category : #'t - reshapeable - private - shaping/sizing' }
-ToToggleButtonSkin >> applyDefaultShaping: aShaping on: anElement [
-
-	super applyDefaultShaping: aShaping on: anElement.
-	aShaping applyOn: anElement track
-]
-
-{ #category : #'t - reshapeable - private - shaping/sizing' }
 ToToggleButtonSkin >> applyLargeSizing: aSizing on: anElement [
 
 	super applyLargeSizing: aSizing on: anElement.
@@ -29,6 +22,13 @@ ToToggleButtonSkin >> applyMiddleSizing: aSizing on: anElement [
 
 	super applyMiddleSizing: aSizing on: anElement.
 	aSizing applyOn: anElement track
+]
+
+{ #category : #'t - reshapeable - private - shaping/sizing' }
+ToToggleButtonSkin >> applyRectangleShaping: aShaping on: anElement [
+
+	super applyRectangleShaping: aShaping on: anElement.
+	aShaping applyOn: anElement track
 ]
 
 { #category : #'t - reshapeable - private - shaping/sizing' }

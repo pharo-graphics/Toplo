@@ -5,15 +5,6 @@ Class {
 }
 
 { #category : #'t - reshapeable - private - shaping/sizing' }
-ToToggleTrackSkin >> applyDefaultShaping: aShaping on: anElement [
-
-	| radius |
-	self applyRectShaping: aShaping on: anElement.
-	radius := aShaping sizing shapingRadiusIn: anElement.
-	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: radius)
-]
-
-{ #category : #'t - reshapeable - private - shaping/sizing' }
 ToToggleTrackSkin >> applyLargeSizing: aSizing on: anElement [
 
 	
@@ -26,7 +17,7 @@ ToToggleTrackSkin >> applyMiddleSizing: aSizing on: anElement [
 ]
 
 { #category : #'private - shaping/sizing' }
-ToToggleTrackSkin >> applyRectShaping: aShaping on: anElement [
+ToToggleTrackSkin >> applyQuadShaping: aShaping on: anElement [
 
 	anElement layout: BlLinearLayout new.
 	anElement hFitContent.
@@ -46,10 +37,19 @@ ToToggleTrackSkin >> applyRectShaping: aShaping on: anElement [
 ]
 
 { #category : #'t - reshapeable - private - shaping/sizing' }
+ToToggleTrackSkin >> applyRectangleShaping: aShaping on: anElement [
+
+	| radius |
+	self applyQuadShaping: aShaping on: anElement.
+	radius := aShaping sizing shapingRadiusIn: anElement.
+	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: radius)
+]
+
+{ #category : #'t - reshapeable - private - shaping/sizing' }
 ToToggleTrackSkin >> applyRoundShaping: aShaping on: anElement [
 
 	| radius |
-	self applyRectShaping: aShaping on: anElement.	
+	self applyQuadShaping: aShaping on: anElement.	
 	radius := anElement requestedHeight / 2.
 	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: radius)
 ]

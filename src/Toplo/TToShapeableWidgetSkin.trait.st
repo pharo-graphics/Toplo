@@ -14,12 +14,6 @@ TToShapeableWidgetSkin >> applyCircleShaping: aShaping on: anElement [
 ]
 
 { #category : #'t - shapeable - private - shaping/sizing' }
-TToShapeableWidgetSkin >> applyDefaultShaping: aShaping on: anElement [
-
-	self explicitRequirement 
-]
-
-{ #category : #'t - shapeable - private - shaping/sizing' }
 TToShapeableWidgetSkin >> applyLargeSizing: aSizing on: anElement [
 
 	self explicitRequirement 
@@ -27,6 +21,12 @@ TToShapeableWidgetSkin >> applyLargeSizing: aSizing on: anElement [
 
 { #category : #'t - shapeable - private - shaping/sizing' }
 TToShapeableWidgetSkin >> applyMiddleSizing: aSizing on: anElement [
+
+	self explicitRequirement 
+]
+
+{ #category : #'t - shapeable - private - shaping/sizing' }
+TToShapeableWidgetSkin >> applyRectangleShaping: aShaping on: anElement [
 
 	self explicitRequirement 
 ]

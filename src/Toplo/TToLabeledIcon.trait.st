@@ -3,8 +3,6 @@ Trait {
 	#instVars : [
 		'labelFirstRequested'
 	],
-	#traits : 'TToTriplet + TToOrientable',
-	#classTraits : 'TToTriplet classTrait + TToOrientable classTrait',
 	#category : #'Toplo-Core-Triplet'
 }
 
@@ -85,13 +83,6 @@ TToLabeledIcon >> iconFirst: aBoolean [
 TToLabeledIcon >> iconImage: anElement [
 
 	self icon: (ToImage inner: anElement)
-]
-
-{ #category : #'t - triplet - initialization' }
-TToLabeledIcon >> initializeTriplet [
-
-	self strategy: ToTripletWithoutInterspaceStrategy new.
-	self fitContent
 ]
 
 { #category : #'t - labeled icon - accessing' }

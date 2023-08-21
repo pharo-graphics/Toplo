@@ -1003,7 +1003,7 @@ ToSandBox class >> example_ToButtonSkins [
 	circleShapingRadio := ToRadioButton new labelText: 'Circle'.
 	circleShapingRadio userData at: #shaping put: ToCircleShaping new.
 	defaultShapingRadio := ToRadioButton new labelText: 'Default shape'.
-	defaultShapingRadio userData at: #shaping put: ToDefaultShaping new.
+	defaultShapingRadio userData at: #shaping put: ToRectangleShaping new.
 	roundShapingRadio := ToRadioButton new labelText: 'Round'.
 	roundShapingRadio userData at: #shaping put: ToRoundShaping new.
 	defaultShapingRadio checked: true.
@@ -1598,12 +1598,13 @@ ToSandBox class >> example_menu1 [
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel new text: 'Open file');
 			 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #config));
-			 third: ((ToLabel text: 'Cmd-f') margin: (BlInsets left: 5); matchParent; yourself)).
-	menu addItem: (ToMenuItem new label: (ToLabel new text: 'Export'); third: ((ToLabel text: 'Cmd-e') margin: (BlInsets left: 5); yourself)).
+			 third: ((ToLabel text: 'Cmd-f') margin: (BlInsets left: 5); yourself)).
+	menu addItem: (ToMenuItem new 
+			label: (ToLabel new text: 'Export'); 
+			third: ((ToLabel text: 'Cmd-e') margin: (BlInsets left: 5); yourself)).
 	menu addSeparator.
 
 	sub := ToMenu new label: (ToLabel new text: 'Save All').
-	sub withSkin: nil.
 	sub addItem:
 		(ToMenuItem new label: (ToLabel new text: 'Locally')).
 
@@ -1642,7 +1643,7 @@ ToSandBox class >> example_menu2 [
 			 label: (ToLabel text: 'Other');
 			 beLabelFirst;
 			 columnWidth: 200).
-	menu position: 10 @ 10.
+
 	menu openInSpace
 ]
 

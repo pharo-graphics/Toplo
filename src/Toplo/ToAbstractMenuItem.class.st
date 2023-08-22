@@ -53,7 +53,7 @@ ToAbstractMenuItem >> isTopMenu [
 { #category : #'accessing sizing' }
 ToAbstractMenuItem >> largeHeight [ 
 
-	^ 42
+	^ 32
 ]
 
 { #category : #window }
@@ -66,7 +66,7 @@ ToAbstractMenuItem >> menuWindow [
 { #category : #'accessing sizing' }
 ToAbstractMenuItem >> middleHeight [
 
-	^ 34
+	^ 24
 ]
 
 { #category : #'parent menu' }
@@ -96,5 +96,5 @@ ToAbstractMenuItem >> removedFromMenu: aMenu [
 { #category : #'accessing sizing' }
 ToAbstractMenuItem >> smallHeight [ 
 
-	^ 24
+	^ 18
 ]

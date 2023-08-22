@@ -9,3 +9,9 @@ ToRadioMenuItem >> defaultDresser [
 
 	^ ToBasicMenuItemDresser next: ToCheckableButtonDresser new
 ]
+
+{ #category : #'t - skinable - initialization' }
+ToRadioMenuItem >> defaultSkin [ 
+
+	^ ToRadioButtonItemSkin new
+]

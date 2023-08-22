@@ -1,13 +1,13 @@
 Class {
-	#name : #ToRadioButtonSkin,
-	#superclass : #ToCheckableSkin,
+	#name : #ToRadioButtonItemSkin,
+	#superclass : #ToCheckableMenuItemSkin,
 	#traits : 'TToRadioButtonSkin',
 	#classTraits : 'TToRadioButtonSkin classTrait',
-	#category : #'Toplo-Widget-Button-Skins'
+	#category : #'Toplo-Widget-Menu-Skins'
 }
 
 { #category : #accessing }
-ToRadioButtonSkin >> iconSkinIn: aButton [ 
+ToRadioButtonItemSkin >> iconSkinIn: aButton [ 
 
 	^ self type radioButtonIconSkinIn: aButton
 

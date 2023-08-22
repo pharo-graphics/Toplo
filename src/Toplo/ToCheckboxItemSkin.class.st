@@ -1,13 +1,13 @@
 Class {
-	#name : #ToCheckboxSkin,
-	#superclass : #ToCheckableSkin,
+	#name : #ToCheckboxItemSkin,
+	#superclass : #ToCheckableMenuItemSkin,
 	#traits : 'TToCheckboxSkin',
 	#classTraits : 'TToCheckboxSkin classTrait',
-	#category : #'Toplo-Widget-Button-Skins'
+	#category : #'Toplo-Widget-Menu-Skins'
 }
 
 { #category : #accessing }
-ToCheckboxSkin >> iconSkinIn: aButton [ 
+ToCheckboxItemSkin >> iconSkinIn: aButton [ 
 
 	^ self type checkboxIconSkinIn: aButton
 

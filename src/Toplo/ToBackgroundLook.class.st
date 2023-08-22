@@ -148,9 +148,9 @@ ToBackgroundLook >> switchToBackground: aBackground in: anElement [
 	| currentColor newColor currentBackground |
 	
 	self cleanUpIn: anElement.
-	anElement isDisabled ifTrue: [ ^ anElement switchToSkinState: ToDisabledState new ]. 
 	(self duration isZero or: [ aBackground isColorBackground not ])
 		ifTrue: [ ^ anElement background: aBackground ].
+	anElement isDisabled ifTrue: [ ^ anElement switchToSkinState: ToDisabledState new ]. 
 	currentBackground := anElement background.
 	currentBackground isColorBackground ifFalse: [ ^ anElement background: aBackground ].
 	currentColor := currentBackground paint color.

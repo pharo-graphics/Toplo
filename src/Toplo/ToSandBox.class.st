@@ -1480,7 +1480,7 @@ ToSandBox class >> example_choiceBoxWithPlaceholderWithUncheckingStrategy [
 
 	| win choicebox t |
 	win := ToInnerWindow new title: 'Some host'.
-	choicebox := ToChoiceBox new hMatchParent.
+	choicebox := ToChoiceBox new hMatchParent; vFitContent.
 	choicebox withUncheckingStrategy.
 	t := 'No selection...' asRopedText , String cr asRopedText
 	     , ('Please choose an host from the list' asRopedText

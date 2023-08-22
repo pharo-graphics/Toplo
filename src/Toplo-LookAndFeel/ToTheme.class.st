@@ -228,7 +228,7 @@ ToTheme >> colorBgTextActive [
 ToTheme >> colorBgTextHover [
 	"Control the background color of text in hover state"
 
-	^ (Color r: 0 g: 0 b: 0 alpha: 0.06) 
+	^ (Color r: 0 g: 0 b: 0 alpha: 0.2) 
 ]
 
 { #category : #colors }
@@ -359,7 +359,7 @@ ToTheme >> colorSuccess [
 ToTheme >> colorText [
 	"Default text color which comply with W3C standards, and this color is also the darkest neutral color."
 	
-	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.88
+	^ Color r: 0.0 g: 0.0 b: 0.0 "alpha: 0.88"
 ]
 
 { #category : #colors }

@@ -43,7 +43,7 @@ ToThemeDark >> colorBgTextActive [
 { #category : #colors }
 ToThemeDark >> colorBgTextHover [
 
-	^ Color r: 255 g: 255 b: 255 alpha: 0.3
+	^ Color r: 255 g: 255 b: 255 alpha: 0.30
 ]
 
 { #category : #colors }

@@ -141,7 +141,6 @@ ToBackgroundLook >> switchToBackground: aBackground in: anElement [
 	animation ifNotNil: [ 
 		anElement dequeueTask: animation. 
 		animation := nil].
-
 	(self duration isZero or: [ aBackground isColorBackground not ])
 		ifTrue: [ ^ anElement background: aBackground ].
 	currentBackground := anElement background.

@@ -43,3 +43,10 @@ ToChoiceBoxMenuButton >> popupEvent: anEvent [
 
 	^ self menuWindow popupEvent: anEvent
 ]
+
+{ #category : #'theme event handling' }
+ToChoiceBoxMenuButton >> toThemeChanged [ 
+
+	super toThemeChanged.
+	self menuWindow ifNotNil: [ :mw | mw toThemeChanged ]
+]

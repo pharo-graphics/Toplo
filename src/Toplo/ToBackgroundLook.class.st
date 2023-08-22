@@ -13,6 +13,14 @@ Class {
 	#category : #'Toplo-Core-Theme-Looks'
 }
 
+{ #category : #private }
+ToBackgroundLook >> cleanUpIn: anElement [
+
+	animation ifNotNil: [
+		anElement dequeueTask: animation.
+		animation := nil ]
+]
+
 { #category : #'event handling' }
 ToBackgroundLook >> clickLookEvent: anEvent [ 
 
@@ -36,8 +44,9 @@ ToBackgroundLook >> disabledBg: aValuable [
 { #category : #'event handling' }
 ToBackgroundLook >> disabledLookEvent: anEvent [
 
-	super disabledLookEvent: anEvent.
+	super disabledLookEvent: anEvent.		
 	anEvent elementDo: [ :e |
+		self cleanUpIn: e.
 		self disabledBg ifNotNil: [ :bg | e background: (bg value: e)] ]
 ]
 
@@ -90,7 +99,7 @@ ToBackgroundLook >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self initialBg ifNotNil: [ :bg |  self switchToBackground: (bg value: e) asBlBackground in: e] ]
+		self initialBg ifNotNil: [ :bg | self switchToBackground: (bg value: e) asBlBackground in: e ] ]
 ]
 
 { #category : #accessing }
@@ -133,14 +142,13 @@ ToBackgroundLook >> selectedLookEvent: anEvent [
 		self selectedBg ifNotNil: [ :bg | e background: (bg value: e)] ]
 ]
 
-{ #category : #'event handling' }
+{ #category : #private }
 ToBackgroundLook >> switchToBackground: aBackground in: anElement [
 
 	| currentColor newColor currentBackground |
 	
-	animation ifNotNil: [ 
-		anElement dequeueTask: animation. 
-		animation := nil].
+	self cleanUpIn: anElement.
+	anElement isDisabled ifTrue: [ ^ anElement switchToSkinState: ToDisabledState new ]. 
 	(self duration isZero or: [ aBackground isColorBackground not ])
 		ifTrue: [ ^ anElement background: aBackground ].
 	currentBackground := anElement background.

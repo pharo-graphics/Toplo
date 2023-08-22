@@ -48,6 +48,12 @@ ToClickableType >> checkableButtonBorderLookIn: anElement [
 ]
 
 { #category : #'checkable button' }
+ToClickableType >> checkableLabelSkinIn: aButton [
+
+	^ ToLabelSkin new type: ToLabelDefaultType new.
+]
+
+{ #category : #'checkable button' }
 ToClickableType >> checkboxIconSkinIn: aButton [
 
 	^ ToCheckboxIconSkin new

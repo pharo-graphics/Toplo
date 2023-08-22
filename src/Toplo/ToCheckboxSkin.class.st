@@ -1,6 +1,8 @@
 Class {
 	#name : #ToCheckboxSkin,
-	#superclass : #ToCheckableSkin,
+	#superclass : #ToClickableSkin,
+	#traits : 'TToCheckableSkin',
+	#classTraits : 'TToCheckableSkin classTrait',
 	#category : #'Toplo-Widget-Button-Skins'
 }
 
@@ -23,6 +25,12 @@ ToCheckboxSkin >> defaultPaddingIn: anElement [
 			 left: anElement toTheme paddingContentHorizontal / 4
 			 bottom: anElement toTheme paddingXS / 2
 			 right: anElement toTheme paddingContentHorizontal / 4)
+]
+
+{ #category : #accessing }
+ToCheckboxSkin >> defaultType [
+
+	^ ToButtonDefaultType new
 ]
 
 { #category : #accessing }
@@ -62,13 +70,6 @@ ToCheckboxSkin >> indeterminateImageIn: anElement [
 	im layout: BlFrameLayout new.
 	im addChild: bar.
 	^ ToImage inner: im
-]
-
-{ #category : #accessing }
-ToCheckboxSkin >> labelSkinIn: aButton [
-
-	^ ToLabelSkin new type: ToLabelDefaultType new.
-
 ]
 
 { #category : #accessing }

@@ -23,7 +23,7 @@ ToTripletButton >> first: anElement [
 	first := anElement
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 ToTripletButton >> initialize [
 
 	super initialize.

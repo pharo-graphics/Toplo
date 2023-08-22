@@ -45,6 +45,7 @@ ToButtonPrimaryType >> regularBackgroundLookIn: anElement [
 		  disabledBg: [ :e | e toTheme colorBgContainerDisabled ];
 		  pressedBg: [ :e | e toTheme colorPrimaryPressed ];
 		  hoverBg: [ :e | e toTheme colorPrimaryHover ];
+		duration: 200 milliSeconds;
 		  yourself
 ]
 

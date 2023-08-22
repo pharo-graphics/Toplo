@@ -136,7 +136,7 @@ ToBackgroundLook >> selectedLookEvent: anEvent [
 { #category : #'event handling' }
 ToBackgroundLook >> switchToBackground: aBackground in: anElement [
 
-	| color |
+	| currentColor newColor currentBackground |
 	
 	animation ifNotNil: [ 
 		anElement dequeueTask: animation. 
@@ -144,11 +144,14 @@ ToBackgroundLook >> switchToBackground: aBackground in: anElement [
 
 	(self duration isZero or: [ aBackground isColorBackground not ])
 		ifTrue: [ ^ anElement background: aBackground ].
-	color := aBackground paint color.
+	currentBackground := anElement background.
+	currentBackground isColorBackground ifFalse: [ ^ anElement background: aBackground ].
+	currentColor := currentBackground paint color.
+	newColor := aBackground paint color.
 	animation := BlColorTransition new
 		             duration: self duration;
-		             from: Color transparent;
-		             to: color;
+		             from: currentColor;
+		             to: newColor;
 		             onStepDo: [ :aColor :e | e background: aColor ].
 	animation onFinishedDo: [
 		anElement background: aBackground.

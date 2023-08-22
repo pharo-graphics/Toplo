@@ -5,7 +5,8 @@ Class {
 		'initialColor',
 		'hoverColor',
 		'pressedColor',
-		'disabledColor'
+		'disabledColor',
+		'selectedColor'
 	],
 	#category : #'Toplo-Core-Theme-Looks'
 }
@@ -103,4 +104,25 @@ ToImageFormLook >> pressedLookEvent: anEvent [
 	self pressedColor ifNil: [ ^ self ].
 	anEvent elementDo: [ :e |
 		self adaptForegroundIn: e withColor: (self pressedColor value: e)]
+]
+
+{ #category : #accessing }
+ToImageFormLook >> selectedColor [
+
+	^ selectedColor
+]
+
+{ #category : #accessing }
+ToImageFormLook >> selectedColor: aValuable [
+
+	selectedColor := aValuable
+]
+
+{ #category : #'event handling' }
+ToImageFormLook >> selectedLookEvent: anEvent [
+
+	super selectedLookEvent: anEvent.
+	self selectedColor ifNil: [ ^ self ].
+	anEvent elementDo: [ :e |
+		self adaptForegroundIn: e withColor: (self selectedColor value: e) ]
 ]

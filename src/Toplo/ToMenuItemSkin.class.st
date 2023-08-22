@@ -1,7 +1,7 @@
 Class {
 	#name : #ToMenuItemSkin,
 	#superclass : #ToClickableSkin,
-	#category : #'Toplo-Widget-Button-Skins'
+	#category : #'Toplo-Widget-Menu-Skins'
 }
 
 { #category : #'private - shaping/sizing' }
@@ -19,7 +19,9 @@ ToMenuItemSkin >> applyQuadShaping: aShaping on: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToMenuItemSkin >> backgroundLookIn: anElement [
 
-	^ self type menuItemBackgroundLookIn: anElement
+	^ (self type menuItemBackgroundLookIn: anElement)
+		  duration: 200 milliSeconds;
+		  yourself
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -32,14 +34,13 @@ ToMenuItemSkin >> borderLookIn: anElement [
 ToMenuItemSkin >> defaultShaping [
 
 	^ ToRectangleShaping new
-		  radius: 0;
 		  yourself
 ]
 
 { #category : #accessing }
 ToMenuItemSkin >> defaultType [
 
-	^ ToButtonDefaultType new
+	^ ToButtonTextType new
 ]
 
 { #category : #accessing }

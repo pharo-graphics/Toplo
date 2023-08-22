@@ -59,6 +59,11 @@ ToDefaultElementLook >> pressedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToDefaultElementLook >> selectedLookEvent: anEvent [
+
+]
+
+{ #category : #'event handling' }
 ToDefaultElementLook >> uninstallLookEvent: anEvent [
 
 	super uninstallLookEvent: anEvent

@@ -8,7 +8,8 @@ Class {
 		'pressedColor',
 		'hoverColor',
 		'initialColor',
-		'disabledColor'
+		'disabledColor',
+		'selectedColor'
 	],
 	#category : #'Toplo-Core-Theme-Looks'
 }
@@ -127,6 +128,29 @@ ToLabelTextLook >> pressedLookEvent: anEvent [
 	self pressedColor ifNil: [ ^ self ].
 	anEvent elementDo: [ :e |
 		self foreground: (self pressedColor value: e) ].
+	anEvent target text attributes: self attributes.
+	anEvent target textChanged
+]
+
+{ #category : #accessing }
+ToLabelTextLook >> selectedColor [
+
+	^ selectedColor
+]
+
+{ #category : #accessing }
+ToLabelTextLook >> selectedColor: aValuable [
+
+	selectedColor := aValuable
+]
+
+{ #category : #'event handling' }
+ToLabelTextLook >> selectedLookEvent: anEvent [
+
+	super selectedLookEvent: anEvent.
+	self selectedColor ifNil: [ ^ self ].
+	anEvent elementDo: [ :e |
+		self foreground: (self selectedColor value: e) ].
 	anEvent target text attributes: self attributes.
 	anEvent target textChanged
 ]

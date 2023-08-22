@@ -5,7 +5,10 @@ Class {
 		'initialBg',
 		'hoverBg',
 		'pressedBg',
-		'disabledBg'
+		'disabledBg',
+		'selectedBg',
+		'duration',
+		'animation'
 	],
 	#category : #'Toplo-Core-Theme-Looks'
 }
@@ -39,6 +42,18 @@ ToBackgroundLook >> disabledLookEvent: anEvent [
 ]
 
 { #category : #accessing }
+ToBackgroundLook >> duration [
+
+	^ duration ifNil: [ duration := 0 milliSeconds ]
+]
+
+{ #category : #accessing }
+ToBackgroundLook >> duration: aDuration [
+
+	duration := aDuration
+]
+
+{ #category : #accessing }
 ToBackgroundLook >> hoverBg [
 
 	^ hoverBg
@@ -55,7 +70,7 @@ ToBackgroundLook >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self hoverBg ifNotNil: [ :bg | e background: (bg value: e)] ]
+		self hoverBg ifNotNil: [ :bg | self switchToBackground: (bg value: e) asBlBackground in: e] ]
 ]
 
 { #category : #accessing }
@@ -75,7 +90,7 @@ ToBackgroundLook >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self initialBg ifNotNil: [ :bg | e background: (bg value: e)] ]
+		self initialBg ifNotNil: [ :bg |  self switchToBackground: (bg value: e) asBlBackground in: e] ]
 ]
 
 { #category : #accessing }
@@ -96,4 +111,47 @@ ToBackgroundLook >> pressedLookEvent: anEvent [
 	super pressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		self pressedBg ifNotNil: [ :bg | e background: (bg value: e)] ]
+]
+
+{ #category : #accessing }
+ToBackgroundLook >> selectedBg [
+
+	^ selectedBg
+]
+
+{ #category : #accessing }
+ToBackgroundLook >> selectedBg: aValuable [
+
+	selectedBg := aValuable
+]
+
+{ #category : #'event handling' }
+ToBackgroundLook >> selectedLookEvent: anEvent [
+
+	super selectedLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		self selectedBg ifNotNil: [ :bg | e background: (bg value: e)] ]
+]
+
+{ #category : #'event handling' }
+ToBackgroundLook >> switchToBackground: aBackground in: anElement [
+
+	| color |
+	
+	animation ifNotNil: [ 
+		anElement dequeueTask: animation. 
+		animation := nil].
+
+	(self duration isZero or: [ aBackground isColorBackground not ])
+		ifTrue: [ ^ anElement background: aBackground ].
+	color := aBackground paint color.
+	animation := BlColorTransition new
+		             duration: self duration;
+		             from: Color transparent;
+		             to: color;
+		             onStepDo: [ :aColor :e | e background: aColor ].
+	animation onFinishedDo: [
+		anElement background: aBackground.
+		animation := nil ].
+	anElement addAnimation: animation
 ]

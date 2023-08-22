@@ -1589,7 +1589,22 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 { #category : #menu }
 ToSandBox class >> example_menu1 [
 
-	| menu sub subsub |
+	| menu sub subsub space themeSwitcher |
+	
+	space := BlSpace new.
+	space root layout: (BlLinearLayout vertical cellSpacing: 10).
+	themeSwitcher := ToToggleButton new
+		      labelText: 'Theme';
+		      beLabelFirst.
+	themeSwitcher switchBarOnElement: ((ToLabel text: ('Dark' asRopedText foreground: Color white)) ).
+	themeSwitcher switchBarOffElement: ((ToLabel text: ('Light' asRopedText foreground: Color black)) ).
+	themeSwitcher 
+		when: ToCheckableCheckEvent 
+		do: [ :event | space toTheme: ( event current ifTrue: [ToThemeDark new] ifFalse: [ ToThemeLight new]) ].
+	
+	themeSwitcher checked: true.
+	space root addChild: themeSwitcher.
+	
 	menu := ToMenu new.
 	menu defaultColumnWidth: 22.
 	menu label: (ToLabel new text: 'File').
@@ -1625,7 +1640,8 @@ ToSandBox class >> example_menu1 [
 	menu addItem: sub.
 	
 	menu position: 10 @ 10.
-	menu openInInnerWindow
+	space root addChild: menu.
+	space show
 ]
 
 { #category : #menu }

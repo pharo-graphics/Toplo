@@ -83,3 +83,11 @@ ToMenu >> removedFromMenu: aMenu [
 
 	
 ]
+
+{ #category : #'theme event handling' }
+ToMenu >> toThemeChanged [ 
+
+	super toThemeChanged.
+	self menuWindow ifNotNil: [ :mw | mw toThemeChanged ]
+	
+]

@@ -179,6 +179,14 @@ ToWidgetWindowElement >> positioningHook: aValuable [
 	hook := aValuable
 ]
 
+{ #category : #'theme accessing' }
+ToWidgetWindowElement >> toTheme [
+
+	" try to take the parent widget theme first "
+	self widget ifNotNil: [ :w | ^ w toTheme ].
+	^ super toTheme
+]
+
 { #category : #'property change hook' }
 ToWidgetWindowElement >> whenWidgetChangedDo: aBlock [
 

@@ -4,6 +4,7 @@ Class {
 	#instVars : [
 		'builder',
 		'pressedPaint',
+		'selectedPaint',
 		'hoverPaint',
 		'initialPaint',
 		'width',
@@ -174,6 +175,32 @@ ToBorderLook >> pressedPaint [
 ToBorderLook >> pressedPaint: aValuable [
 
 	pressedPaint := aValuable
+]
+
+{ #category : #'event handling' }
+ToBorderLook >> selectedLookEvent: anEvent [
+
+	super selectedLookEvent: anEvent.
+	self selectedPaint ifNil: [ ^ self ].
+
+	anEvent elementDo: [ :e | 
+		e border: (self builder
+				 dashArray: (self dashArray value: e);
+				 width: (self width value: e);
+				 paint: (self selectedPaint value: e);
+				 build) ]
+]
+
+{ #category : #accessing }
+ToBorderLook >> selectedPaint [
+
+	^ selectedPaint
+]
+
+{ #category : #accessing }
+ToBorderLook >> selectedPaint: aValuable [
+
+	selectedPaint := aValuable
 ]
 
 { #category : #accessing }

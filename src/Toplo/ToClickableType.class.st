@@ -91,7 +91,7 @@ ToClickableType >> menuItemBackgroundLookIn: anElement [
 
 	^ self danger
 		  ifTrue: [ self dangerBackgroundLookIn: anElement ]
-		  ifFalse: [ self regularMenuItemBackgroundLookIn: anElement ]
+		  ifFalse: [ self regularBackgroundLookIn: anElement ]
 ]
 
 { #category : #'menu item' }
@@ -103,15 +103,13 @@ ToClickableType >> menuItemBorderLookIn: anElement [
 { #category : #'menu item' }
 ToClickableType >> menuItemIconSkinIn: anElement [
 
-	^ ToButtonDefaultIconSkin new danger: self danger
+	^ self basicButtonIconSkinIn: anElement
 ]
 
 { #category : #'menu item' }
 ToClickableType >> menuItemLabelSkinIn: anElement [
 
-	^ self danger 
-		ifTrue: [ self dangerLabelSkinIn: anElement ]
-		ifFalse: [ self regularLabelSkinIn: anElement ]
+	^ self basicButtonLabelSkinIn: anElement
 ]
 
 { #category : #'checkable button' }
@@ -130,15 +128,6 @@ ToClickableType >> regularBackgroundLookIn: anElement [
 ToClickableType >> regularLabelSkinIn: anElement [
 
 	^ self subclassResponsibility 
-]
-
-{ #category : #'menu item' }
-ToClickableType >> regularMenuItemBackgroundLookIn: anElement [
-
-	^ ToBackgroundLook new
-		  disabledBg: [ :e | e toTheme colorBgContainerDisabled ];
-		  initialBg: [ :e | Color transparent ];
-		  yourself
 ]
 
 { #category : #'toggle button' }

@@ -19,8 +19,8 @@ ToToggleTrackSkin >> applyMiddleSizing: aSizing on: anElement [
 { #category : #'private - shaping/sizing' }
 ToToggleTrackSkin >> applyQuadShaping: aShaping on: anElement [
 
-	anElement layout: BlLinearLayout new.
-	anElement hFitContent.
+	(anElement layout isKindOf: BlLinearLayout) ifFalse: [ 
+		anElement layout: BlLinearLayout new]. 
 	anElement padding: (BlInsets
 			 top: 2
 			 left: 2

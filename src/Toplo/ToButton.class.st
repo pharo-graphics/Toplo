@@ -30,13 +30,11 @@ ToButton >> first: anElement [
 	icon := anElement
 ]
 
-{ #category : #initialization }
-ToButton >> initialize [
+{ #category : #'t - dressable -  initialization' }
+ToButton >> preInitializeDresser [ 
 
-	super initialize.
-	self initializeTriplet
-
-
+	super preInitializeDresser.
+	self initializeTriplet 
 ]
 
 { #category : #'t - triplet - accessing' }

@@ -18,7 +18,7 @@ ToCheckMenuItem >> defaultSkin [
 	^ ToCheckboxItemSkin new
 ]
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 ToCheckMenuItem >> initialize [
 
 	super initialize.

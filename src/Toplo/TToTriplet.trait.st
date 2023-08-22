@@ -42,8 +42,7 @@ TToTriplet >> first: anElement [
 { #category : #'t - triplet - initialization' }
 TToTriplet >> initializeTriplet [
 
-	self tripletStrategy: ToTripletWithoutInterspaceStrategy new.
-	self fitContent
+	self tripletStrategy: ToTripletWithoutInterspaceStrategy new
 ]
 
 { #category : #'t - triplet - testing' }
@@ -119,6 +118,7 @@ TToTriplet >> second: anElement [
 TToTriplet >> spacingHeight: anInteger [
 
 	self tripletStrategy spacingHeight = anInteger ifTrue: [ ^ self ].
+	self hFitContent.
 	self tripletStrategy: (ToTripletWithExactInterspaceStrategy new height: anInteger)
 ]
 
@@ -126,6 +126,7 @@ TToTriplet >> spacingHeight: anInteger [
 TToTriplet >> spacingWidth: anInteger [
 
 	self tripletStrategy spacingWidth = anInteger ifTrue: [ ^ self ].
+	self hFitContent.
 	self tripletStrategy: (ToTripletWithExactInterspaceStrategy new width: anInteger)
 ]
 

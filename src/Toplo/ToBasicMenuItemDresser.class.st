@@ -44,12 +44,3 @@ ToBasicMenuItemDresser >> mouseLeaveEvent: anEvent in: anElement [
 	self leaved: anElement.
 	self initialState: anElement
 ]
-
-{ #category : #'api - install/uninstall  hook' }
-ToBasicMenuItemDresser >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement.
-	anElement background: Color transparent.
-	anElement border: BlBorder empty.
-	anElement padding: (BlInsets top: 0 left: 5 bottom: 0 right: 4 )
-]

@@ -12,7 +12,7 @@ ToCheckNode >> defaultDresser [
 	^ ToCheckNodeDresser new
 ]
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 ToCheckNode >> initialize [
 
 	super initialize.

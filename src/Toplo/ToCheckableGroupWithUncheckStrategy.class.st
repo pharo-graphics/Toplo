@@ -8,7 +8,7 @@ Class {
 ToCheckableGroupWithUncheckStrategy >> checked: aCheckable in: aGroup [
 
 	aCheckable privateChecked: true.
-	aGroup uncheckAllExcept: aCheckable ifFoundDo: [ ^ self ].
+	aGroup uncheckAllExcept: aCheckable ifFoundDo: [ ].
 	aGroup notifyChanged
 ]
 

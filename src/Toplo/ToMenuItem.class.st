@@ -11,7 +11,7 @@ Class {
 	#category : #'Toplo-Widget-Menu'
 }
 
-{ #category : #initialization }
+{ #category : #'adding/removing' }
 ToMenuItem >> addedInMenu: aMenu [
 
 	super addedInMenu: aMenu.
@@ -60,19 +60,14 @@ ToMenuItem >> first: anElement [
 ToMenuItem >> initialize [
 
 	super initialize.
-	self fitContent.
-	self initializeTriplet
+	self fitContent
 ]
 
-{ #category : #'t - initialization dresser' }
-ToMenuItem >> preInitializeDresser [ 
+{ #category : #'t - dressable -  initialization' }
+ToMenuItem >> preInitializeDresser [
 
 	super preInitializeDresser.
-
-	self constraintsDo: [ :c | 
-		c horizontal matchParent.
-		c vertical fitContent ].
-
+	self initializeTriplet
 ]
 
 { #category : #'t - triplet - accessing' }

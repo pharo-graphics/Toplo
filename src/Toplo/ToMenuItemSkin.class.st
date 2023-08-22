@@ -7,7 +7,8 @@ Class {
 { #category : #'private - shaping/sizing' }
 ToMenuItemSkin >> applyQuadShaping: aShaping on: anElement [
 
-	anElement layout: BlLinearLayout new.
+	(anElement layout isKindOf: BlLinearLayout) ifFalse: [ 
+		anElement layout: BlLinearLayout new]. 
 	anElement padding: (self defaultPaddingIn: anElement).
 	(anElement isSubmenu or: [ anElement isTopMenu not ]) ifTrue: [
 		anElement hMatchParent ].

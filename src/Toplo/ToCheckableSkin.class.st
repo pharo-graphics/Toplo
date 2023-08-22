@@ -22,16 +22,6 @@ ToCheckableSkin >> checkedImageIn: anElement [
 	^ self subclassResponsibility 
 ]
 
-{ #category : #'private - shaping/sizing' }
-ToCheckableSkin >> defaultPaddingIn: anElement [ 
-
-	^ (BlInsets
-			 top: anElement toTheme paddingXS / 2
-			 left: anElement toTheme paddingContentHorizontal / 4
-			 bottom: anElement toTheme paddingXS / 2
-			 right: anElement toTheme paddingContentHorizontal / 4)
-]
-
 { #category : #'t - shapeable - initialization' }
 ToCheckableSkin >> defaultShaping [
 

@@ -1,5 +1,5 @@
 Class {
-	#name : #ToChoiceBoxMenuButton,
+	#name : #ToChoiceBoxButton,
 	#superclass : #ToMenuItem,
 	#traits : 'TToMenuItemHolder + TToMenuWindowModel',
 	#classTraits : 'TToMenuItemHolder classTrait + TToMenuWindowModel classTrait',
@@ -10,19 +10,19 @@ Class {
 }
 
 { #category : #'t - menu window model - window opening/closing' }
-ToChoiceBoxMenuButton >> close [
+ToChoiceBoxButton >> close [
 
 	^ self menuWindow close
 ]
 
 { #category : #'t - initialization dresser' }
-ToChoiceBoxMenuButton >> defaultDresser [
+ToChoiceBoxButton >> defaultDresser [
 
-	^ ToBasicMenuItemDresser next: (ToMenuWindowModelDresser next: (ToChoiceBoxMenuButtonDresser new))
+	^ ToBasicMenuItemDresser next: (ToMenuWindowModelDresser next: (ToChoiceBoxButtonDresser new))
 ]
 
 { #category : #initialization }
-ToChoiceBoxMenuButton >> initialize [
+ToChoiceBoxButton >> initialize [
 
 	super initialize.
 
@@ -30,7 +30,7 @@ ToChoiceBoxMenuButton >> initialize [
 ]
 
 { #category : #'t - menu window model - accessing' }
-ToChoiceBoxMenuButton >> menuWindow [
+ToChoiceBoxButton >> menuWindow [
 
 	^ menuWindow ifNil: [
 		  menuWindow := ToMenuWindow new
@@ -39,13 +39,13 @@ ToChoiceBoxMenuButton >> menuWindow [
 ]
 
 { #category : #'t - menu window model - window opening/closing' }
-ToChoiceBoxMenuButton >> popupEvent: anEvent [
+ToChoiceBoxButton >> popupEvent: anEvent [
 
 	^ self menuWindow popupEvent: anEvent
 ]
 
 { #category : #'theme event handling' }
-ToChoiceBoxMenuButton >> toThemeChanged [ 
+ToChoiceBoxButton >> toThemeChanged [ 
 
 	super toThemeChanged.
 	self menuWindow ifNotNil: [ :mw | mw toThemeChanged ]

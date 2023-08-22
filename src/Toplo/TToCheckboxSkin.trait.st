@@ -6,23 +6,23 @@ Trait {
 { #category : #'t - checkable skin - accessing images' }
 TToCheckboxSkin >> checkedImageIn: anElement [
 
-	^ anElement toTheme checkboxCheckedImageIn: anElement
+	^ anElement checkedImage ifNil: [ anElement toTheme checkboxCheckedImageIn: anElement ]
 ]
 
 { #category : #'t - checkable skin - accessing images' }
 TToCheckboxSkin >> disabledImageIn: anElement [
 
-	^ anElement toTheme checkboxDisabledImageIn: anElement
+	^ anElement disabledImage ifNil: [ anElement toTheme checkboxDisabledImageIn: anElement ]
 ]
 
 { #category : #'t - checkable skin - accessing images' }
 TToCheckboxSkin >> indeterminateImageIn: anElement [
 
-	^ anElement toTheme checkboxIndeterminateImageIn: anElement
+	^ anElement indeterminateImage ifNil: [anElement toTheme checkboxIndeterminateImageIn: anElement ]
 ]
 
 { #category : #'t - checkable skin - accessing images' }
 TToCheckboxSkin >> uncheckedImageIn: anElement [
 
-	^ anElement toTheme checkboxUncheckedImageIn: anElement
+	^ anElement uncheckedImage ifNil: [ anElement toTheme checkboxUncheckedImageIn: anElement ]
 ]

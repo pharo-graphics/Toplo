@@ -947,6 +947,7 @@ ToSandBox class >> example_ToButtonSkins [
 	topBar layout cellSpacing: 10.
 
 	themeSwitcher := ToChoiceBox new.
+	themeSwitcher width: 150.
 	themeSwitcher data addAll: {
 			ToThemeLight.
 			ToThemeDark }.
@@ -1185,6 +1186,7 @@ ToSandBox class >> example_ToButtonWithDashedSkin [
 				            dashed: true;
 				            yourself);
 		           yourself.
+	button1 hMatchParent.
 	button1 labelText: 'Dashed button'.
 	button1 icon: (ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16).
 	button1 beLabelFirst.
@@ -1467,9 +1469,10 @@ ToSandBox class >> example_choiceBoxWithPlaceholder [
 	win := ToInnerWindow new title: 'Choice box Example'.
 
 	choicebox := ToChoiceBox new.
+	choicebox width: 150.
+	"choicebox withUncheckingStrategy."
 	choicebox data addAll: { 'OS-X'. 'Windows' }.
-	choicebox placeholder:
-		(ToLabel text: ('Invalid choice' asRopedText foreground: Color red)).
+	choicebox placeholder: (ToLabel text: ('Invalid choice' asRopedText foreground: Color red)).
 
 	win root addChild: choicebox.
 	win openInSpace
@@ -1480,7 +1483,8 @@ ToSandBox class >> example_choiceBoxWithPlaceholderWithUncheckingStrategy [
 
 	| win choicebox t |
 	win := ToInnerWindow new title: 'Some host'.
-	choicebox := ToChoiceBox new hMatchParent; vFitContent.
+	choicebox := ToChoiceBox new hMatchParent.
+	choicebox beVertical.
 	choicebox withUncheckingStrategy.
 	t := 'No selection...' asRopedText , String cr asRopedText
 	     , ('Please choose an host from the list' asRopedText
@@ -1506,11 +1510,12 @@ ToSandBox class >> example_choiceBoxWithStringData [
 	win := ToInnerWindow new title: 'Choice box Example'.
 
 	choicebox := ToChoiceBox new.
+	choicebox hMatchParent.
+	"choicebox withUncheckingStrategy."
 	choicebox data addAll: { 'OS-X'. 'Windows' }.
 	choicebox addSeparator.
 	choicebox data add: 'Linux'.
-	choicebox selectData: 'Windows'.
-	choicebox inspect.
+	"choicebox selectData: 'Windows'."
 
 	win root addChild: choicebox.
 	win openInSpace
@@ -3465,7 +3470,9 @@ ToSandBox class >> example_toggle3 [
 	| th sp |
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';
-		      beLabelFirst.
+		      beLabelFirst;
+				beJustified;
+				hMatchParent.
 	th switchButtonOnElement: (ToImage inner: (Smalltalk ui icons iconNamed: #glamorousAccept)).
 	th switchButtonOffElement: (ToImage inner: (Smalltalk ui icons iconNamed: #glamorousClose)).
 

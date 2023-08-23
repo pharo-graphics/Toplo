@@ -5,12 +5,6 @@ Class {
 }
 
 { #category : #accessing }
-ToTripletWithExactInterspaceStrategy >> canHaveInterspaceAsChildIn: aTriplet [
-
-	^ true
-]
-
-{ #category : #accessing }
 ToTripletWithExactInterspaceStrategy >> height: anInteger [
 
 	interspace constraintsDo: [ :c |

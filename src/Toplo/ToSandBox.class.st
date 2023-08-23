@@ -1470,7 +1470,7 @@ ToSandBox class >> example_choiceBoxWithPlaceholder [
 
 	choicebox := ToChoiceBox new.
 	choicebox width: 150.
-	"choicebox withUncheckingStrategy."
+	choicebox withUncheckingStrategy.
 	choicebox data addAll: { 'OS-X'. 'Windows' }.
 	choicebox placeholder: (ToLabel text: ('Invalid choice' asRopedText foreground: Color red)).
 
@@ -1516,7 +1516,7 @@ ToSandBox class >> example_choiceBoxWithStringData [
 	choicebox data addAll: { 'OS-X'. 'Windows' }.
 	choicebox addSeparator.
 	choicebox data add: 'Linux'.
-	"choicebox selectData: 'Windows'."
+	choicebox selectData: 'Windows'.
 
 	win root addChild: choicebox.
 	win openInSpace
@@ -1655,14 +1655,16 @@ ToSandBox class >> example_menu2 [
 
 	| menu |
 	menu := ToMenu new.
+	menu inspect.
 	menu label: (ToLabel text: 'File').
+	menu defaultColumnWidth: 100.
 	
 	menu addItem: (ToCheckMenuItem new
 			 label: (ToLabel text: 'Other');
-			 columnWidth: 50).
+			 yourself).
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'item');
-			 columnWidth: 50).
+			 yourself).
 
 	menu openInSpace
 ]

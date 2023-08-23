@@ -16,9 +16,7 @@ TToTriplet >> beJustified [
 { #category : #'t - triplet - configuration' }
 TToTriplet >> columnWidth [
 
-	^ tripletStrategy
-		  ifNil: [ 0 ]
-		  ifNotNil: [ :strat | strat columnWidth ]
+	^ self tripletStrategy columnWidth
 ]
 
 { #category : #'t - triplet - configuration' }
@@ -45,10 +43,26 @@ TToTriplet >> initializeTriplet [
 	self tripletStrategy: ToTripletWithoutInterspaceStrategy new
 ]
 
+{ #category : #'t - triplet - configuration' }
+TToTriplet >> interspaceHeight: anInteger [
+
+	self tripletStrategy interspaceHeight = anInteger ifTrue: [ ^ self ].
+	self hFitContent.
+	self tripletStrategy: (ToTripletWithExactInterspaceStrategy new height: anInteger)
+]
+
+{ #category : #'t - triplet - configuration' }
+TToTriplet >> interspaceWidth: anInteger [
+
+	self tripletStrategy interspaceWidth = anInteger ifTrue: [ ^ self ].
+	self hFitContent.
+	self tripletStrategy: (ToTripletWithExactInterspaceStrategy new width: anInteger)
+]
+
 { #category : #'t - triplet - testing' }
 TToTriplet >> isJustified [
 
-	^ tripletStrategy ifNil: [ false ] ifNotNil: [ :strat | strat isJustified ]
+	^ self tripletStrategy isJustified
 ]
 
 { #category : #'t - triplet - layout' }
@@ -66,7 +80,6 @@ TToTriplet >> onMeasure: anExtentMeasurementSpec [
 TToTriplet >> privateUpdateChildren [
 
 	| subs |
-	tripletStrategy ifNil: [ ^ self ].
 	subs := self tripletStrategy childrenIn: self.
 	self skinDo: [ :s | subs := s adaptNextChildrenArray: subs in: self].
 	self children asArray = subs ifTrue: [ ^ self ].
@@ -112,22 +125,6 @@ TToTriplet >> second [
 TToTriplet >> second: anElement [
 
 	self explicitRequirement 
-]
-
-{ #category : #'t - triplet - configuration' }
-TToTriplet >> spacingHeight: anInteger [
-
-	self tripletStrategy spacingHeight = anInteger ifTrue: [ ^ self ].
-	self hFitContent.
-	self tripletStrategy: (ToTripletWithExactInterspaceStrategy new height: anInteger)
-]
-
-{ #category : #'t - triplet - configuration' }
-TToTriplet >> spacingWidth: anInteger [
-
-	self tripletStrategy spacingWidth = anInteger ifTrue: [ ^ self ].
-	self hFitContent.
-	self tripletStrategy: (ToTripletWithExactInterspaceStrategy new width: anInteger)
 ]
 
 { #category : #'t - triplet - accessing' }

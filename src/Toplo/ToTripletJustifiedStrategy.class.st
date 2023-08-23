@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Core-Triplet'
 }
 
+{ #category : #accessing }
+ToTripletJustifiedStrategy >> canHaveInterspaceAsChildIn: aTriplet [
+
+	^ true
+]
+
 { #category : #initialization }
 ToTripletJustifiedStrategy >> initialize [
 

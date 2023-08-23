@@ -1,8 +1,8 @@
 Class {
 	#name : #ToChoiceBoxItem,
 	#superclass : #ToMenuItem,
-	#traits : 'TToCheckable',
-	#classTraits : 'TToCheckable classTrait',
+	#traits : 'TToCheckable + TToCheckbox',
+	#classTraits : 'TToCheckable classTrait + TToCheckbox classTrait',
 	#category : #'Toplo-Widget-ChoiceBox'
 }
 
@@ -12,7 +12,7 @@ ToChoiceBoxItem >> defaultDresser [
 	^ ToBasicMenuItemDresser next: (ToChoiceBoxItemDresser new)
 ]
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 ToChoiceBoxItem >> initialize [
 
 	super initialize.

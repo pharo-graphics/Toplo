@@ -1,23 +1,11 @@
 Trait {
 	#name : #TToCheckable,
 	#instVars : [
-		'#group',
 		'#checked => ObservableSlot',
-		'#withIndeterminate',
-		'#checkedImage',
-		'#uncheckedImage',
-		'#indeterminateImage',
-		'#disabledImage'
+		'#withIndeterminate'
 	],
 	#category : #'Toplo-Widget-Button'
 }
-
-{ #category : #'t - checkable - group' }
-TToCheckable >> addToGroup: aToggleGroup [
-
-	aToggleGroup add: self.
-	self group: aToggleGroup 
-]
 
 { #category : #'t - checkable  - protocol' }
 TToCheckable >> check [
@@ -35,72 +23,14 @@ TToCheckable >> checked [
 TToCheckable >> checked: aBooleanOrNil [
 	" change the checkable state. nil means indeterminate. "
 
+	| request |
 	checked = aBooleanOrNil ifTrue: [ ^ self ].
-	" aBoolean can be nil for indeterminate "
-	(aBooleanOrNil notNil and: [ self group notNil ]) ifTrue: [ " ask the group for checking/unchecking "
-		^ aBooleanOrNil
-			  ifTrue: [ self group checked: self ]
-			  ifFalse: [ self group unchecked: self ] ].
-	self privateChecked: aBooleanOrNil
-]
-
-{ #category : #'t - checkable - accessing' }
-TToCheckable >> checkedImage [
-
-	^ checkedImage
-]
-
-{ #category : #'t - checkable - accessing' }
-TToCheckable >> checkedImage: anImage [
-
-	checkedImage := anImage
-]
-
-{ #category : #'t - checkable - accessing' }
-TToCheckable >> disabledImage [
-
-	^ disabledImage
-]
-
-{ #category : #'t - checkable - accessing' }
-TToCheckable >> disabledImage: anImage [
-
-	disabledImage := anImage
-]
-
-{ #category : #'t - checkable - group' }
-TToCheckable >> group [
-
-	^ group
-]
-
-{ #category : #'t - checkable - group' }
-TToCheckable >> group: aCheckableGroup [
-
-	self withIndeterminate ifTrue: [
-		Error signal:
-			'Invalid checkable use: indeterminate state is not allowed with a checkable group' ].
-
-	group := aCheckableGroup
-]
-
-{ #category : #'t - checkable - accessing' }
-TToCheckable >> indeterminateImage [
-
-	^ indeterminateImage
-]
-
-{ #category : #'t - checkable - accessing' }
-TToCheckable >> indeterminateImage: anImage [
-
-	indeterminateImage := anImage
-]
-
-{ #category : #initialization }
-TToCheckable >> initialize [
-
-	self class initializeSlots: self.
-	super initialize.
+	request := ToCheckableCheckRequest new
+		           checked: aBooleanOrNil;
+		           yourself.
+	self dispatchEvent: request.
+	request processed ifTrue: [ ^ self ].
+	self privateChecked: request checked
 ]
 
 { #category : #'t - checkable - initializing' }
@@ -136,12 +66,6 @@ TToCheckable >> privateChecked: aBooleanOrNil [
 	checked := aBooleanOrNil
 ]
 
-{ #category : #'t - checkable - group' }
-TToCheckable >> removeFromGroup [
-
-	self group remove: self
-]
-
 { #category : #'t - checkable - private protocol' }
 TToCheckable >> switchToNextState [
 
@@ -154,18 +78,6 @@ TToCheckable >> switchToNextState [
 TToCheckable >> uncheck [
 
 	self checked: false
-]
-
-{ #category : #'t - checkable - accessing' }
-TToCheckable >> uncheckedImage [
-
-	^ uncheckedImage
-]
-
-{ #category : #'t - checkable - accessing' }
-TToCheckable >> uncheckedImage: anImage [
-
-	uncheckedImage := anImage
 ]
 
 { #category : #'t - checkable - change hook' }
@@ -185,7 +97,5 @@ TToCheckable >> withIndeterminate [
 { #category : #'t - checkable  - protocol' }
 TToCheckable >> withIndeterminate: aBoolean [
 
-	self group ifNotNil: [
-		Error signal: 'Indeterminate state is not allowed with a checkable group' ].
 	withIndeterminate := aBoolean
 ]

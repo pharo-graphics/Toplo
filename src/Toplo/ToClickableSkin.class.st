@@ -55,14 +55,17 @@ ToClickableSkin >> applyMiddleSizing: aSizing on: anElement [
 { #category : #'private - shaping/sizing' }
 ToClickableSkin >> applyQuadShaping: aShaping on: anElement [
 
-	(anElement layout isKindOf: BlLinearLayout) ifFalse: [ 
-		anElement layout: BlLinearLayout new].
+	(anElement layout isKindOf: BlLinearLayout) ifFalse: [
+		anElement layout: BlLinearLayout new ].
+
 	anElement verticalRequested
 		ifTrue: [
-			anElement spacingHeight: anElement toTheme paddingContentVertical / 3 ]
+			anElement interspaceHeight:
+				anElement toTheme paddingContentVertical / 3 ]
 		ifFalse: [
-			anElement spacingWidth: anElement toTheme paddingContentHorizontal / 3 ].
-		
+			(anElement isJustified or: [anElement columnWidth > 0]) ifFalse: [
+				anElement interspaceWidth: anElement toTheme paddingContentHorizontal / 3 ] ].
+
 	anElement padding: (self defaultPaddingIn: anElement)
 ]
 

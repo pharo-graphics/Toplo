@@ -8,13 +8,14 @@ Class {
 ToMenuItemSkin >> applyQuadShaping: aShaping on: anElement [
 
 	(anElement layout isKindOf: BlLinearLayout) ifFalse: [ 
-		anElement layout: BlLinearLayout new]. 
+		anElement layout: BlLinearLayout new].
+
 	anElement padding: (self defaultPaddingIn: anElement).
 	(anElement isSubmenu or: [ anElement isTopMenu not ]) ifTrue: [
 		anElement hMatchParent ].
-	anElement isTopMenu ifTrue: [ anElement spacingWidth: 5 ].
+	anElement isTopMenu ifTrue: [ anElement interspaceWidth: anElement toTheme paddingXS ].
 	anElement isSubmenu ifTrue: [
-		anElement tripletStrategy: (ToTripletSubmenuColumnStrategy new width: anElement defaultColumnWidth) ]
+		anElement tripletStrategy: (ToTripletSubmenuColumnStrategy new width: anElement columnWidth) ]
 ]
 
 { #category : #'api - install/uninstall  hook' }

@@ -20,6 +20,18 @@ ToTripletStrategy >> columnWidth [
 ]
 
 { #category : #accessing }
+ToTripletStrategy >> interspaceHeight [ 
+
+	^ 0
+]
+
+{ #category : #accessing }
+ToTripletStrategy >> interspaceWidth [
+
+	^ 0
+]
+
+{ #category : #accessing }
 ToTripletStrategy >> isJustified [
 
 	^ false
@@ -37,16 +49,4 @@ ToTripletStrategy >> onMeasure: anExtentMeasurementSpec in: aTriplet [
 
 { #category : #'api - install/uninstall  hook' }
 ToTripletStrategy >> onUninstalledIn: aTriplet [
-]
-
-{ #category : #accessing }
-ToTripletStrategy >> spacingHeight [ 
-
-	^ 0
-]
-
-{ #category : #accessing }
-ToTripletStrategy >> spacingWidth [
-
-	^ 0
 ]

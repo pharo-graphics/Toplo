@@ -24,13 +24,9 @@ ToCheckableGroupCheckingStrategy >> buttonRemoved: aCheckable in: aGroup [
 ]
 
 { #category : #testing }
-ToCheckableGroupCheckingStrategy >> checked: aCheckable in: aGroup [
+ToCheckableGroupCheckingStrategy >> checkRequestEvent: aCheckRequest in: aGroup [
 
-	aCheckable privateChecked: true.
-	aGroup
-		uncheckAllExcept: aCheckable
-		ifFoundDo: [  ].
-	aGroup notifyChanged
+	self subclassResponsibility 
 ]
 
 { #category : #notifications }
@@ -58,10 +54,4 @@ ToCheckableGroupCheckingStrategy >> notifyButtonsRemoved: aCollectionChangeAnnou
 
 	aCollectionChangeAnnouncement removed do: [ :checkable |
 		self buttonRemoved: checkable in: aGroup ]
-]
-
-{ #category : #testing }
-ToCheckableGroupCheckingStrategy >> unchecked: aCheckable in: aGroup [
-
-
 ]

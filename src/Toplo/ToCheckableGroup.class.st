@@ -32,9 +32,10 @@ ToCheckableGroup >> buttons [
 ]
 
 { #category : #'check-uncheck-request' }
-ToCheckableGroup >> checked: aCheckable [
+ToCheckableGroup >> checkRequestEvent: aCheckRequest [
 
-	checkingStrategy checked: aCheckable in: self.
+	aCheckRequest checked ifNil: [ ^ self ].
+	checkingStrategy checkRequestEvent: aCheckRequest in: self.
 
 ]
 
@@ -160,13 +161,6 @@ ToCheckableGroup >> uncheckAllExcept: aButton ifFoundDo: aBlock [
 		ifNotEmpty: [ :uncheckedBtns |
 			uncheckedBtns do: [ :b | b privateChecked: false ].
 			aBlock value ]
-]
-
-{ #category : #'check-uncheck-request' }
-ToCheckableGroup >> unchecked: aCheckable [
-
-	checkingStrategy unchecked: aCheckable in: self.
-
 ]
 
 { #category : #accessing }

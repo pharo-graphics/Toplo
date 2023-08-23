@@ -1511,6 +1511,7 @@ ToSandBox class >> example_choiceBoxWithStringData [
 
 	choicebox := ToChoiceBox new.
 	choicebox hMatchParent.
+
 	"choicebox withUncheckingStrategy."
 	choicebox data addAll: { 'OS-X'. 'Windows' }.
 	choicebox addSeparator.
@@ -1655,14 +1656,13 @@ ToSandBox class >> example_menu2 [
 	| menu |
 	menu := ToMenu new.
 	menu label: (ToLabel text: 'File').
-	menu addItem: (ToCheckMenuItem new
-			 label: (ToLabel text: 'Align right');
-			 beLabelFirst;
-			 beJustified).
+	
 	menu addItem: (ToCheckMenuItem new
 			 label: (ToLabel text: 'Other');
-			 beLabelFirst;
-			 columnWidth: 200).
+			 columnWidth: 50).
+	menu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'item');
+			 columnWidth: 50).
 
 	menu openInSpace
 ]
@@ -1935,17 +1935,16 @@ ToSandBox class >> example_menu6 [
 	th skinDo: [ :s | s sizing: ToSmallSizing new ].
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	th := ToToggleButton new
-		      labelText: 'Cheesecake';
-		      beLabelFirst;
-		      hMatchParent.
+		      labelText: 'Column';
+		      beLabelFirst.
 	th columnWidth: 100.
 	th skinDo: [ :s | s sizing: ToSmallSizing new ].
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	th := ToToggleButton new
-		      labelText: 'Cheesecake';
+		      labelText: 'Cheesecake justified';
 		      beLabelFirst;
+				beJustified;
 		      hMatchParent.
-	th layout cellSpacing: 10.
 	th skinDo: [ :s | s sizing: ToSmallSizing new ].
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	th := ToToggleButton new
@@ -2041,7 +2040,7 @@ ToSandBox class >> example_menuBar2 [
 					            print: i ].
 				subMenu addItem: ((ToMenuItem new labelText: stream) 
 					when: BlPrimaryMouseUpEvent do: [ :event | self inform: selector asSymbol ]) ].
-			subMenu defaultColumnWidth: 0.
+			"subMenu defaultColumnWidth: 0."
 			menu addItem: subMenu ].
 
 		bar addMenu: menu	].
@@ -3437,6 +3436,7 @@ ToSandBox class >> example_toggle [
 		      beVertical;
 		      labelText: 'Cheesecake';
 		      beLabelFirst;
+				beJustified;
 		      hMatchParent.
 
 	win := ToInnerWindow new
@@ -3457,6 +3457,7 @@ ToSandBox class >> example_toggle2 [
 	th := ToToggleButton new
 		      labelText: 'Theme';
 		      beLabelFirst.
+	th columnWidth: 100.
 	th switchBarOnElement: ((ToLabel text: 'Dark') withSkin: (ToLabelSkin new type: ToLabelPrimaryType new)).
 	th switchBarOffElement: ((ToLabel text: 'Light') withSkin: (ToLabelSkin new type: ToLabelPrimaryType new)).
 	th when: ToCheckableCheckEvent do: [ :event | event current traceCr ].

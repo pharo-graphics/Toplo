@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Core-Triplet'
 }
 
+{ #category : #accessing }
+ToTripletColumnStrategy >> canHaveInterspaceAsChildIn: aTriplet [
+
+	^ true
+]
+
 { #category : #'t - labeled presentation' }
 ToTripletColumnStrategy >> columnWidth [
 

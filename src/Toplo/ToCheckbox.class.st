@@ -1,8 +1,8 @@
 Class {
 	#name : #ToCheckbox,
 	#superclass : #ToButton,
-	#traits : 'TToCheckable',
-	#classTraits : 'TToCheckable classTrait',
+	#traits : 'TToCheckable + TToCheckbox',
+	#classTraits : 'TToCheckable classTrait + TToCheckbox classTrait',
 	#category : #'Toplo-Widget-Button'
 }
 
@@ -18,7 +18,7 @@ ToCheckbox >> defaultSkin [
 	^ ToCheckboxSkin new
 ]
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 ToCheckbox >> initialize [
 
 	super initialize.

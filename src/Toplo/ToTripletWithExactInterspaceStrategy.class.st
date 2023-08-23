@@ -5,11 +5,29 @@ Class {
 }
 
 { #category : #accessing }
+ToTripletWithExactInterspaceStrategy >> canHaveInterspaceAsChildIn: aTriplet [
+
+	^ true
+]
+
+{ #category : #accessing }
 ToTripletWithExactInterspaceStrategy >> height: anInteger [
 
 	interspace constraintsDo: [ :c |
 		c horizontal exact: 0.
 		c vertical exact: anInteger ]
+]
+
+{ #category : #accessing }
+ToTripletWithExactInterspaceStrategy >> interspaceHeight [
+
+	^ interspace requestedHeight 
+]
+
+{ #category : #accessing }
+ToTripletWithExactInterspaceStrategy >> interspaceWidth [
+
+	^ interspace requestedWidth
 ]
 
 { #category : #layout }
@@ -18,18 +36,6 @@ ToTripletWithExactInterspaceStrategy >> onMeasure: anExtentMeasurementSpec in: a
 	" nothing to do, interspace is with exact size "
 
 	^ true 
-]
-
-{ #category : #accessing }
-ToTripletWithExactInterspaceStrategy >> spacingHeight [
-
-	^ interspace requestedHeight 
-]
-
-{ #category : #accessing }
-ToTripletWithExactInterspaceStrategy >> spacingWidth [
-
-	^ interspace requestedWidth
 ]
 
 { #category : #accessing }

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToCheckNode,
 	#superclass : #ToLabeledNode,
-	#traits : 'TToCheckable',
-	#classTraits : 'TToCheckable classTrait',
+	#traits : 'TToCheckable + TToCheckbox',
+	#classTraits : 'TToCheckable classTrait + TToCheckbox classTrait',
 	#category : #'Toplo-Core-Node'
 }
 
@@ -12,7 +12,7 @@ ToCheckNode >> defaultDresser [
 	^ ToCheckNodeDresser new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 ToCheckNode >> initialize [
 
 	super initialize.

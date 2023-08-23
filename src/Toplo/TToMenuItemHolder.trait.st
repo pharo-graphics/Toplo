@@ -49,7 +49,7 @@ TToMenuItemHolder >> defaultColumnWidth [
 { #category : #'t - menu item holder - accessing' }
 TToMenuItemHolder >> defaultColumnWidth: anInteger [
 
-	self defaultColumnWidth = anInteger ifTrue: [ ^ self ].
+	columnWidth = anInteger ifTrue: [ ^ self ].
 	columnWidth := anInteger.
 	self items do: [ :item | item 	columnWidth: anInteger ]
 	

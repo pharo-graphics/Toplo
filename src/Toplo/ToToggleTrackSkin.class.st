@@ -21,18 +21,12 @@ ToToggleTrackSkin >> applyQuadShaping: aShaping on: anElement [
 
 	(anElement layout isKindOf: BlLinearLayout) ifFalse: [ 
 		anElement layout: BlLinearLayout new]. 
-	anElement padding: (BlInsets
-			 top: 2
-			 left: 2
-			 bottom: 2
-			 right: 2).
+	anElement padding: (self defaultPaddingIn: anElement).
 	anElement innerButton size: (aShaping sizing heightOn: anElement) asPoint.
 	anElement innerButton background: Color white.
 	anElement innerButton margin: (BlInsets
-			 top: 1
-			 left: 4
-			 bottom: 1
-			 right: 4).
+			 left: anElement toTheme paddingXS
+			 right: anElement toTheme paddingXS).
 	anElement updateWidth
 ]
 
@@ -58,6 +52,16 @@ ToToggleTrackSkin >> applyRoundShaping: aShaping on: anElement [
 ToToggleTrackSkin >> applySmallSizing: aSizing on: anElement [
 
 	
+]
+
+{ #category : #'private - shaping/sizing' }
+ToToggleTrackSkin >> defaultPaddingIn: anElement [
+
+	^ BlInsets
+		  top: 2
+		  left: 2
+		  bottom: 2
+		  right: 2
 ]
 
 { #category : #'event handling' }

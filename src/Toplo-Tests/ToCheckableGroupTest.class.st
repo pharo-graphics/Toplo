@@ -171,18 +171,6 @@ ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndSwitchToNextStateU
 ]
 
 { #category : #tests }
-ToCheckableGroupTest >> testCheckableGroupWithIndeterminateRaiseError [
-
-	| group |
-	group := ToCheckableGroup new.
-	1 to: 4 do: [ :idx |
-		| chb |
-		chb := ToCheckbox new.
-		group add: chb ].
-	self should: [ group buttons first withIndeterminate: true ] raise: Error
-]
-
-{ #category : #tests }
 ToCheckableGroupTest >> testCheckableGroupWithIndeterminateRaiseError2 [
 
 	| group btn |

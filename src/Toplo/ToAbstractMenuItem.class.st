@@ -26,7 +26,7 @@ ToAbstractMenuItem >> allParentMenusDo: aBlock [
 	pm allParentMenusDo: aBlock
 ]
 
-{ #category : #'t - pair presentation' }
+{ #category : #'t - triplet - configuration' }
 ToAbstractMenuItem >> columnWidth: anInteger [
 ]
 

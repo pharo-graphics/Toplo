@@ -1,15 +1,15 @@
 Class {
 	#name : #ToCheckMenuItem,
 	#superclass : #ToMenuItem,
-	#traits : 'TToCheckable',
-	#classTraits : 'TToCheckable classTrait',
+	#traits : 'TToCheckable + TToCheckbox',
+	#classTraits : 'TToCheckable classTrait + TToCheckbox classTrait',
 	#category : #'Toplo-Widget-Menu'
 }
 
 { #category : #'t - initialization dresser' }
 ToCheckMenuItem >> defaultDresser [
 
-	^ ToBasicMenuItemDresser next: (ToCheckableButtonDresser new)
+	^ ToBasicMenuItemDresser next: ToCheckableButtonDresser new
 ]
 
 { #category : #'t - skinable - initialization' }
@@ -18,7 +18,7 @@ ToCheckMenuItem >> defaultSkin [
 	^ ToCheckboxItemSkin new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 ToCheckMenuItem >> initialize [
 
 	super initialize.

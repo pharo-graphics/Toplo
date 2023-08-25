@@ -175,7 +175,7 @@ ToMiniBrowser >> initialize [
 
 	sideToggle checked: self classSide.
 	sideToggle when: ToCheckableCheckEvent do: [ :event |
-		classes infinite dispatchSelectionChangedAfter: [ classSide := event current ] ].
+		classes infinite dispatchSelectionChangedAfter: [ classSide := event current. classes deselectAll. ] ].
 
 	protocols := ToListElement new id: #protocols; nodeFactory: [ :assoc |
 		             ToLabeledNode new

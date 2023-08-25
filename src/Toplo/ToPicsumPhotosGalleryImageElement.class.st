@@ -9,11 +9,6 @@ Class {
 	#category : #'Toplo-Examples'
 }
 
-{ #category : #layout }
-ToPicsumPhotosGalleryImageElement >> applyLayoutIn: aBounds context: aBlElementBoundsUpdateContext [
-	super applyLayoutIn: aBounds context: aBlElementBoundsUpdateContext
-]
-
 { #category : #accessing }
 ToPicsumPhotosGalleryImageElement >> attached [
 
@@ -68,7 +63,7 @@ ToPicsumPhotosGalleryImageElement >> imageData: anImageData [
 ToPicsumPhotosGalleryImageElement >> initialize [
 	super initialize.
 	label := ToLabel new hFitContent; yourself.
-	label background: Color black.
+	label background: Color yellow.
 	self addChild: label.
 	self whenLayoutedDo: [ self loadImage ]
 ]

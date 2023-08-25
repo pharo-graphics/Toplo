@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCheckableButtonDresser,
-	#superclass : #ToGeneralButtonDresser,
+	#superclass : #ToWidgetDresser,
 	#instVars : [
 		'checkableHandler'
 	],
@@ -28,7 +28,9 @@ ToCheckableButtonDresser >> clicked: anElement [
 ToCheckableButtonDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	checkableHandler := BlEventHandler on: ToCheckableCheckEvent do: [ :event | self checkEvent: event in: anElement ].
+	checkableHandler := BlEventHandler
+		                    on: ToCheckableCheckEvent
+		                    do: [ :event | self checkEvent: event in: anElement ].
 	anElement addEventHandler: checkableHandler
 ]
 

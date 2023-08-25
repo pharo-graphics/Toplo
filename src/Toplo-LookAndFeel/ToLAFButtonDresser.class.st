@@ -64,7 +64,7 @@ ToLAFButtonDresser >> isSkinCompatible: aSkin [
 
 	aSkin ifNil:[ ^ false ].
 	self flag:'Labordep this is dirty, need to find a better solution'.
-	^ aSkin isKindOf: ToAbstractButtonSkin
+	^ aSkin isKindOf: ToAbstractButtonSkinDep
 ]
 
 { #category : #deprecated }

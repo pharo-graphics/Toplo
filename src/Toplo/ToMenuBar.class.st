@@ -35,7 +35,7 @@ ToMenuBar >> addMenu: aMenu [
 	aMenu constraintsDo: [ :c | c linear vertical alignCenter ].
 	aMenu constraintsDo: [ :c | c linear horizontal alignCenter ].
 	self addChild: aMenu.
-	self whenOrientationChangedDo: [ 
+	self when: ToLayoutOrientationChangedEvent do: [ 
 		self isHorizontal
 			ifTrue: [ aMenu hFitContent ]
 			ifFalse: [ aMenu hMatchParent ] ].
@@ -47,7 +47,7 @@ ToMenuBar >> addSeparator [
 
 	| sep |
 	self addChild: (sep := ToMenuBarSeparator new).
-	self whenOrientationChangedDo: [ sep horizontal: self isHorizontal not ].
+	self when: ToLayoutOrientationChangedEvent do: [ sep horizontal: self isHorizontal not ].
 	sep horizontal: self isHorizontal not
 ]
 
@@ -64,7 +64,7 @@ ToMenuBar >> initialize [
 
 	self layout: BlLinearLayout new.
 	self beHorizontal.	
-	self whenOrientationChangedDo: [ self adaptToOrientation ].
+	self when: ToLayoutOrientationChangedEvent do: [ self adaptToOrientation ].
 	menus := OrderedCollection new.
 ]
 

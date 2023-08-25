@@ -2,19 +2,19 @@ Trait {
 	#name : #TToMenuItemHolder,
 	#instVars : [
 		'items',
-		'globalColumnWidth',
-		'client'
+		'client',
+		'columnWidth'
 	],
 	#category : #'Toplo-Widget-Menu'
 }
 
-{ #category : #'t - menu item adding/removing' }
+{ #category : #'t - menu item holder - adding/removing' }
 TToMenuItemHolder >> addAllItems: aCollection [
 
 	aCollection do: [ :item | self addItem: item ]
 ]
 
-{ #category : #'t - menu item adding/removing' }
+{ #category : #'t - menu item holder - adding/removing' }
 TToMenuItemHolder >> addItem: aMenuItem [
 
 	self items add: aMenuItem.
@@ -22,78 +22,58 @@ TToMenuItemHolder >> addItem: aMenuItem [
 	aMenuItem addedInMenu: self
 ]
 
-{ #category : #'t - menu item adding/removing' }
+{ #category : #'t - menu item holder - adding/removing' }
 TToMenuItemHolder >> addSeparator [
 
 	self addItem: ToSeparatorMenuItem new
 ]
 
-{ #category : #'t - menu item adding/removing' }
-TToMenuItemHolder >> changeItemAt: anIndex with: anItem [
-
-	| item |
-	item := self items at: anIndex.
-	self removeItem: item
-]
-
-{ #category : #'t - menu accessing' }
+{ #category : #'t - menu item holder - accessing' }
 TToMenuItemHolder >> client [
 
 	^ client 
 ]
 
-{ #category : #'t - menu accessing' }
+{ #category : #'t - menu item holder - accessing' }
 TToMenuItemHolder >> client: anObject [
 
 	client := anObject
 ]
 
-{ #category : #'t - menu accessing' }
-TToMenuItemHolder >> defaultGlobalColumnWidth [
+{ #category : #'t - menu item holder - accessing' }
+TToMenuItemHolder >> defaultColumnWidth [
 
-	^ 22 
+	^ columnWidth ifNil: [ columnWidth := 22 ] 
 ]
 
-{ #category : #'t - menu accessing' }
-TToMenuItemHolder >> globalColumnWidth [
+{ #category : #'t - menu item holder - accessing' }
+TToMenuItemHolder >> defaultColumnWidth: anInteger [
 
-	^ globalColumnWidth ifNil: [ self defaultGlobalColumnWidth ] 
-]
-
-{ #category : #'t - menu accessing' }
-TToMenuItemHolder >> globalColumnWidth: anInteger [
-
-	self globalColumnWidth = anInteger ifTrue: [ ^ self ].
-	globalColumnWidth := anInteger.
+	columnWidth = anInteger ifTrue: [ ^ self ].
+	columnWidth := anInteger.
 	self items do: [ :item | item 	columnWidth: anInteger ]
 	
 ]
 
-{ #category : #'t - menu testing' }
+{ #category : #'t - menu item holder - testing' }
 TToMenuItemHolder >> hasItems [ 
 
 	^ self items notEmpty
 ]
 
-{ #category : #'t - menu initialization' }
+{ #category : #'t - menu item holder -  initialization' }
 TToMenuItemHolder >> initializeMenuItemHolder [
 
 	items := OrderedCollection new
 ]
 
-{ #category : #'t - menu item  accessing' }
+{ #category : #'t - menu item holder - accessing' }
 TToMenuItemHolder >> items [
 
 	^ items
 ]
 
-{ #category : #'t - menu accessing' }
-TToMenuItemHolder >> menuWindow [
-
-	^ self explicitRequirement 
-]
-
-{ #category : #'t - menu item adding/removing' }
+{ #category : #'t - menu item holder - adding/removing' }
 TToMenuItemHolder >> removeItem: aMenuItem [
 
 	aMenuItem removedFromMenu: self.
@@ -101,7 +81,7 @@ TToMenuItemHolder >> removeItem: aMenuItem [
 	self menuWindow root removeChild: aMenuItem
 ]
 
-{ #category : #'t - menu item adding/removing' }
+{ #category : #'t - menu item holder - adding/removing' }
 TToMenuItemHolder >> removeItemAt: anIndex [
 
 	| item |
@@ -109,7 +89,7 @@ TToMenuItemHolder >> removeItemAt: anIndex [
 	self removeItem: item
 ]
 
-{ #category : #'t - menu item adding/removing' }
+{ #category : #'t - menu item holder - adding/removing' }
 TToMenuItemHolder >> replaceItemAt: anIndex with: anItem [
 
 	| previous |
@@ -120,8 +100,8 @@ TToMenuItemHolder >> replaceItemAt: anIndex with: anItem [
 
 ]
 
-{ #category : #'t - menu accessing' }
+{ #category : #'t - menu item holder - accessing' }
 TToMenuItemHolder >> withoutLeftColumn [
 
-	self globalColumnWidth: 0
+	self defaultColumnWidth: 0
 ]

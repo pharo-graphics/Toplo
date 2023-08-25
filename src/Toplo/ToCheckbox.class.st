@@ -1,8 +1,8 @@
 Class {
 	#name : #ToCheckbox,
 	#superclass : #ToButton,
-	#traits : 'TToCheckable',
-	#classTraits : 'TToCheckable classTrait',
+	#traits : 'TToCheckable + TToCheckbox',
+	#classTraits : 'TToCheckable classTrait + TToCheckbox classTrait',
 	#category : #'Toplo-Widget-Button'
 }
 
@@ -18,9 +18,27 @@ ToCheckbox >> defaultSkin [
 	^ ToCheckboxSkin new
 ]
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 ToCheckbox >> initialize [
 
 	super initialize.
 	self initializeCheckable 
+]
+
+{ #category : #'accessing sizing' }
+ToCheckbox >> largeHeight [ 
+
+	^ 26
+]
+
+{ #category : #'accessing sizing' }
+ToCheckbox >> middleHeight [ 
+
+	^ 22
+]
+
+{ #category : #'accessing sizing' }
+ToCheckbox >> smallHeight [ 
+
+	^ 18
 ]

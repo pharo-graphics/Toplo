@@ -4,8 +4,8 @@ Class {
 	#category : #'Toplo-Widget-Menu'
 }
 
-{ #category : #'t - initialization dresser' }
-ToRadioMenuItem >> defaultDresser [
+{ #category : #'t - skinable - initialization' }
+ToRadioMenuItem >> defaultSkin [ 
 
-	^ ToBasicMenuItemDresser next: ToCheckableButtonDresser new
+	^ ToRadioButtonItemSkin new
 ]

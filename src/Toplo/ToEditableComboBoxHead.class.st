@@ -110,7 +110,7 @@ ToEditableComboBoxHead >> textField [
 { #category : #accessing }
 ToEditableComboBoxHead >> textField: aTextField [
 
-	self first: aTextField 
+	self replaceFirstWith: aTextField 
 ]
 
 { #category : #accessing }

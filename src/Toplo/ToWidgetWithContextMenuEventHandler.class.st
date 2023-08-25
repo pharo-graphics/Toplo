@@ -10,8 +10,8 @@ Class {
 
 { #category : #'api - accessing' }
 ToWidgetWithContextMenuEventHandler >> eventsToHandle [
-	^ { 
-		  BlMouseDownEvent }
+
+	^ { BlMouseDownEvent }
 ]
 
 { #category : #private }

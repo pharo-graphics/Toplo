@@ -1,8 +1,8 @@
 Class {
 	#name : #ToCheckNode,
 	#superclass : #ToLabeledNode,
-	#traits : 'TToCheckable',
-	#classTraits : 'TToCheckable classTrait',
+	#traits : 'TToCheckable + TToCheckbox',
+	#classTraits : 'TToCheckable classTrait + TToCheckbox classTrait',
 	#category : #'Toplo-Core-Node'
 }
 

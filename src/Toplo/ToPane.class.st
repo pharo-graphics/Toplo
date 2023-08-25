@@ -50,13 +50,13 @@ ToPane >> defaultDresser [
 	^ ToPaneDresser new
 ]
 
-{ #category : #'t - initialization' }
+{ #category : #'t - widget - initialization' }
 ToPane >> defaultLayout [
 
 	^ BlLinearLayout new 
 ]
 
-{ #category : #'t - accessing layers' }
+{ #category : #'t - widget with layers - accessing' }
 ToPane >> layerReferentElement [
 
 	^ self

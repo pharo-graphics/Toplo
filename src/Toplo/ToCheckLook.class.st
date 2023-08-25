@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'checkedImage',
 		'indeterminateImage',
-		'uncheckedImage'
+		'uncheckedImage',
+		'disabledImage'
 	],
 	#category : #'Toplo-Core-Theme-Looks'
 }
@@ -24,14 +25,27 @@ ToCheckLook >> checkedImage: anImage [
 { #category : #accessing }
 ToCheckLook >> clickLookEvent: anEvent [
 
+	anEvent elementDo: [ :e | self syncImageIn: e ]
+]
+
+{ #category : #accessing }
+ToCheckLook >> disabledImage [
+
+	^ disabledImage
+]
+
+{ #category : #accessing }
+ToCheckLook >> disabledImage: anImage [
+
+	disabledImage := anImage
+]
+
+{ #category : #accessing }
+ToCheckLook >> disabledLookEvent: anEvent [
+
 	anEvent elementDo: [ :e |
 		| im |
-		im := e isChecked
-			      ifTrue: [ self checkedImage ]
-			      ifFalse: [
-				      e isUnchecked
-					      ifTrue: [ self uncheckedImage ]
-					      ifFalse: [ self indeterminateImage ] ].
+		im := self disabledImage.
 		im removeFromParent.
 		e iconImage: im ]
 ]
@@ -46,6 +60,26 @@ ToCheckLook >> indeterminateImage [
 ToCheckLook >> indeterminateImage: anImage [
 
 	indeterminateImage := anImage
+]
+
+{ #category : #accessing }
+ToCheckLook >> initialLookEvent: anEvent [
+
+	anEvent elementDo: [ :e | self syncImageIn: e ]
+]
+
+{ #category : #accessing }
+ToCheckLook >> syncImageIn: anElement [
+
+	| im |
+	im := anElement isChecked
+		      ifTrue: [ self checkedImage ]
+		      ifFalse: [
+			      anElement isUnchecked
+				      ifTrue: [ self uncheckedImage ]
+				      ifFalse: [ self indeterminateImage ] ].
+	im removeFromParent.
+	anElement iconImage: im
 ]
 
 { #category : #accessing }

@@ -1,108 +1,61 @@
 Class {
 	#name : #ToButtonSkin,
-	#superclass : #ToWidgetSkin,
-	#instVars : [
-		'type',
-		'cursorLook'
-	],
+	#superclass : #ToClickableSkin,
 	#category : #'Toplo-Widget-Button-Skins'
 }
 
-{ #category : #'accessing - structure variables' }
-ToButtonSkin class >> type: aButtonType [
+{ #category : #'instance creation' }
+ToButtonSkin class >> defaultType [
 
-	^ self new type: aButtonType 
+	^ self type: ToButtonDefaultType new
+]
+
+{ #category : #'instance creation' }
+ToButtonSkin class >> linkType [
+
+	^ self type: ToButtonLinkType new
+]
+
+{ #category : #'instance creation' }
+ToButtonSkin class >> primaryType [
+
+	^ self type: ToButtonPrimaryType new
+]
+
+{ #category : #'instance creation' }
+ToButtonSkin class >> textType [
+
+	^ self type: ToButtonTextType new
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonSkin >> buttonIconChanged: anEvent [
+ToButtonSkin >> backgroundLookIn: anElement [
 
-	anEvent currentTarget icon ifNil: [ ^ self ].
-	anEvent currentTarget icon withSkin: (ToButtonIconSkin new buttonSkin: self)
+	^ self type basicButtonBackgroundLookIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonSkin >> buttonLabelChanged: anEvent [
+ToButtonSkin >> borderLookIn: anElement [
 
-	anEvent currentTarget label ifNil: [ ^ self ].
-	anEvent currentTarget label withSkin: (ToButtonLabelSkin new buttonSkin: self).
+	^ self type basicButtonBorderLookIn: anElement
+]
+
+{ #category : #accessing }
+ToButtonSkin >> defaultType [
+
+	^ ToButtonDefaultType new
+]
+
+{ #category : #accessing }
+ToButtonSkin >> iconSkinIn: aButton [
+
+	^ self type basicButtonIconSkinIn: aButton
 
 ]
 
 { #category : #accessing }
-ToButtonSkin >> danger [
+ToButtonSkin >> labelSkinIn: aButton [
 
-	^ self type danger
-]
+	^ self type basicButtonLabelSkinIn: aButton
 
-{ #category : #accessing }
-ToButtonSkin >> danger: aBoolean [
-
-	self type danger: aBoolean
-]
-
-{ #category : #accessing }
-ToButtonSkin >> dashed [
-
-	^ self type dashed
-]
-
-{ #category : #accessing }
-ToButtonSkin >> dashed: aBoolean [
-
-	self type dashed: aBoolean
-]
-
-{ #category : #'api - accessing' }
-ToButtonSkin >> eventsToHandle [ 
-
-	^ super eventsToHandle, { ToButtonIconChangedEvent. ToButtonLabelChangedEvent }
-]
-
-{ #category : #accessing }
-ToButtonSkin >> iconLookIn: anElement [
-
-	^ self type iconLookIn: anElement
-]
-
-{ #category : #accessing }
-ToButtonSkin >> labelLookIn: anElement [
-
-	^ self type labelLookIn: anElement
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonSkin >> onSkinInstalledIn: anElement [
-
-	" must send to super ** after ** the look is initialize from type "
-	super onSkinInstalledIn: anElement.
-	self type onSkinInstalled: self in: anElement.
-	cursorLook := ToMouseCursorLook new.
-	cursorLook hoverCursor: [ :but | but isEnabled ifTrue: [ BlCursor hand ] ifFalse: []].
-	self addLook: cursorLook.
-
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonSkin >> onSkinUninstalledIn: anElement [
-
-	self type onSkinUninstalled: self in: anElement.
-	self removeLook: cursorLook.
-	super onSkinUninstalledIn: anElement
-]
-
-{ #category : #accessing }
-ToButtonSkin >> type [
-
-	"#default, #primary, #link or #text"
-
-	^ type ifNil: [ type := ToButtonDefaultType new ]
-]
-
-{ #category : #accessing }
-ToButtonSkin >> type: aSkinType [
-
-	"#default, #primary, #link or #text"
-	type := aSkinType
 ]

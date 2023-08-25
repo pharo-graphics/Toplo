@@ -7,7 +7,7 @@ Class {
 	#category : #'Toplo-Widget-Menu'
 }
 
-{ #category : #initialization }
+{ #category : #'adding/removing' }
 ToAbstractMenuItem >> addedInMenu: aMenu [
 
 	self privateParentMenu: aMenu.
@@ -16,7 +16,7 @@ ToAbstractMenuItem >> addedInMenu: aMenu [
 		c vertical fitContent ]
 ]
 
-{ #category : #'t - menu window' }
+{ #category : #'parent menu' }
 ToAbstractMenuItem >> allParentMenusDo: aBlock [
 	
 	| pm |
@@ -26,7 +26,7 @@ ToAbstractMenuItem >> allParentMenusDo: aBlock [
 	pm allParentMenusDo: aBlock
 ]
 
-{ #category : #'t - pair presentation' }
+{ #category : #'t - triplet - configuration' }
 ToAbstractMenuItem >> columnWidth: anInteger [
 ]
 
@@ -38,6 +38,24 @@ ToAbstractMenuItem >> initialize [
 
 ]
 
+{ #category : #testing }
+ToAbstractMenuItem >> isSubmenu [ 
+
+	^ false
+]
+
+{ #category : #testing }
+ToAbstractMenuItem >> isTopMenu [
+
+	^ false
+]
+
+{ #category : #'accessing sizing' }
+ToAbstractMenuItem >> largeHeight [ 
+
+	^ 32
+]
+
 { #category : #window }
 ToAbstractMenuItem >> menuWindow [
 
@@ -45,26 +63,38 @@ ToAbstractMenuItem >> menuWindow [
 	^ nil
 ]
 
-{ #category : #'t - menu window' }
+{ #category : #'accessing sizing' }
+ToAbstractMenuItem >> middleHeight [
+
+	^ 24
+]
+
+{ #category : #'parent menu' }
 ToAbstractMenuItem >> parentMenu [
 
 	 ^ parentMenu
 ]
 
-{ #category : #'t - menu window' }
+{ #category : #'parent menu' }
 ToAbstractMenuItem >> parentMenuWindow [
 
 	^ parentMenu ifNotNil: [:m | m menuWindow ] 
 ]
 
-{ #category : #'t - menu window' }
+{ #category : #'parent menu' }
 ToAbstractMenuItem >> privateParentMenu: aMenu [
 
 	parentMenu := aMenu
 ]
 
-{ #category : #initialization }
+{ #category : #'adding/removing' }
 ToAbstractMenuItem >> removedFromMenu: aMenu [
 
 	self privateParentMenu: nil
+]
+
+{ #category : #'accessing sizing' }
+ToAbstractMenuItem >> smallHeight [ 
+
+	^ 18
 ]

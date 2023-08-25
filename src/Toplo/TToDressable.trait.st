@@ -7,24 +7,24 @@ Trait {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'t - accessing dresser' }
+{ #category : #'t - dressable - accessing' }
 TToDressable >> addDresser: aDresser [
 
 	self dresser addDresser: aDresser in: self
 ]
 
-{ #category : #'t - initialization dresser' }
+{ #category : #'t - dressable -  initialization' }
 TToDressable >> defaultDresser [
 
 	^ ToNullDresser new
 ]
 
-{ #category : #'t - accessing dresser' }
+{ #category : #'t - dressable - accessing' }
 TToDressable >> dresser [
 	^ self userData at: #dresser ifAbsent: nil
 ]
 
-{ #category : #'t - accessing dresser' }
+{ #category : #'t - dressable - accessing' }
 TToDressable >> dresser: aDresser [
 
 	| currentDresser |
@@ -37,37 +37,37 @@ TToDressable >> dresser: aDresser [
 	
 ]
 
-{ #category : #'t - accessing dresser' }
+{ #category : #'t - dressable - accessing' }
 TToDressable >> dresserDo: aBlock [
 
 	self dresser ifNotNil: [ :d | aBlock cull: d ]
 ]
 
-{ #category : #'t - accessing dresser' }
+{ #category : #'t - dressable - accessing' }
 TToDressable >> dresserSatisfying: aBlock [
 
 	^ self dresser dresserSatisfying: aBlock
 ]
 
-{ #category : #'t - initialization dresser' }
+{ #category : #'t - dressable -  initialization' }
 TToDressable >> initializeDresser [
 
 	self dresser: self defaultDresser
 ]
 
-{ #category : #'t - initialization dresser' }
+{ #category : #'t - dressable -  initialization' }
 TToDressable >> postInitializeDresser [
 	"Called after dresser initialization"
 	
 ]
 
-{ #category : #'t - initialization dresser' }
+{ #category : #'t - dressable -  initialization' }
 TToDressable >> preInitializeDresser [
 	"Called before dresser initialization"
 	
 ]
 
-{ #category : #'t - accessing dresser' }
+{ #category : #'t - dressable - accessing' }
 TToDressable >> removeDresser: aDresser [
 
 	self dresser = aDresser ifFalse: [ 
@@ -148,7 +148,7 @@ TToDressable >> toThemeChanged [
 	self dresserDo: [ :d | d launchInstallationIn: self ].
 ]
 
-{ #category : #'t - accessing dresser' }
+{ #category : #'t - dressable - accessing' }
 TToDressable >> undress [
 
 	self dresserDo: [ :d | d launchUninstallationIn: self ].

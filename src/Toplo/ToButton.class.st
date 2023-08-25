@@ -1,23 +1,63 @@
 Class {
 	#name : #ToButton,
-	#superclass : #ToPairedButton,
-	#traits : 'TToLabeledIcon',
-	#classTraits : 'TToLabeledIcon classTrait',
+	#superclass : #ToGeneralButton,
+	#traits : 'TToTriplet + TToLabeledIcon + TToOrientable',
+	#classTraits : 'TToTriplet classTrait + TToLabeledIcon classTrait + TToOrientable classTrait',
+	#instVars : [
+		'#icon => ToSkinnableSlot',
+		'#label => ToSkinnableSlot',
+		'#extra => ToSkinnableSlot'
+	],
 	#category : #'Toplo-Widget-Button'
 }
 
 { #category : #'t - skin accessing' }
 ToButton >> defaultSkin [ 
 
-	^ ToButtonSkin new
+	"^ ToButtonSkin new"
+	^ nil
 ]
 
-{ #category : #initialization }
-ToButton >> initialize [
+{ #category : #'t - triplet - accessing' }
+ToButton >> first [
 
-	super initialize.
-	self whenIconChangedDo: [ :new :prev |
-		self dispatchEvent: (ToButtonIconChangedEvent current: new previous: prev) ].
-	self whenLabelChangedDo: [ :new :prev |
-		self dispatchEvent: (ToButtonLabelChangedEvent current: new previous: prev) ]
+	^ icon
+]
+
+{ #category : #'t - triplet - accessing' }
+ToButton >> first: anElement [
+
+	icon := anElement
+]
+
+{ #category : #'t - dressable -  initialization' }
+ToButton >> preInitializeDresser [ 
+
+	super preInitializeDresser.
+	self initializeTriplet 
+]
+
+{ #category : #'t - triplet - accessing' }
+ToButton >> second [
+
+	^ label
+]
+
+{ #category : #'t - triplet - accessing' }
+ToButton >> second: anElement [
+
+	label := anElement
+]
+
+{ #category : #'t - triplet - accessing' }
+ToButton >> third [
+
+	^ extra 
+]
+
+{ #category : #'t - triplet - accessing' }
+ToButton >> third: anElement [
+
+	extra := anElement
+
 ]

@@ -46,6 +46,7 @@ ToInnerWindow >> defaultBar [
 	| b close expand fill1 fill2 fill3 fill4 |
 	b := ToPane horizontal
 		     border: BlBorder empty;
+			vFitContent;
 		     outskirts: BlOutskirts inside;
 		     yourself.
 	b layout: BlLinearLayout horizontal.

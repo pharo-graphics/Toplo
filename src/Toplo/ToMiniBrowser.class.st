@@ -175,7 +175,7 @@ ToMiniBrowser >> initialize [
 
 	sideToggle checked: self classSide.
 	sideToggle when: ToCheckableCheckEvent do: [ :event |
-		classes infinite dispatchSelectionChangedAfter: [ classSide := event current ] ].
+		classes infinite dispatchSelectionChangedAfter: [ classSide := event current. classes deselectAll. ] ].
 
 	protocols := ToListElement new id: #protocols; nodeFactory: [ :assoc |
 		             ToLabeledNode new
@@ -205,8 +205,8 @@ ToMiniBrowser >> initialize [
 	codeModel styler: BlRBTextStyler new.
 	codePane := codeModel onWidget margin: (BlInsets top: 8 left: 3 bottom: 3 right: 3).
 
-	codeMenu := ToContextMenu new globalColumnWidth: 0.
-	codeMenu addItem: (ToButtonMenuItem new labelText: 'Accept').
+	codeMenu := ToContextMenu new defaultColumnWidth: 0.
+	codeMenu addItem: (ToMenuItem new labelText: 'Accept').
 	codePane contextMenuFactory: [ codeMenu ].
 
 	"packages withRowNumbers.

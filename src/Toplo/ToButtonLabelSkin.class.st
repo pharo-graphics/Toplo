@@ -1,32 +1,14 @@
 Class {
 	#name : #ToButtonLabelSkin,
-	#superclass : #ToBasicLabelSkin,
-	#instVars : [
-		'buttonSkin'
-	],
+	#superclass : #ToLabelSkin,
 	#category : #'Toplo-Widget-Label-Skins'
 }
 
 { #category : #accessing }
-ToButtonLabelSkin >> buttonSkin [
+ToButtonLabelSkin >> labelLookIn: anElement [
 
-	^ buttonSkin
-]
-
-{ #category : #accessing }
-ToButtonLabelSkin >> buttonSkin: aButtonSkin [
-
-	buttonSkin := aButtonSkin
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonLabelSkin >> onSkinInstalledIn: anElement [
-
-	| labelLook attrBuilder |
-	super onSkinInstalledIn: anElement.
-	attrBuilder := self textAttributesBuilderFromElement: anElement.
-	labelLook := self buttonSkin labelLookIn: anElement.
-	labelLook attrBuilder: attrBuilder.
-	self addLook: labelLook
-
+	^ (self type buttonLabelLookIn: anElement)
+		  weight: anElement toTheme fontWeightStrong;
+		  defaultFontName: anElement toTheme fontFamilyCode;
+		  yourself
 ]

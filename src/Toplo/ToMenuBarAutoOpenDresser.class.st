@@ -39,13 +39,14 @@ ToMenuBarAutoOpenDresser >> mouseOver: anEvent in: anElement [
 
 	anElement menus do: [ :m |
 		(anEvent target hasInParentChain: m)
-			ifTrue: [ m menuWindow popupEvent: anEvent ]
-			ifFalse: [ m menuWindow close ] ]
+			ifTrue: [ m popupEvent: anEvent ]
+			ifFalse: [ m close ] ]
 ]
 
 { #category : #'api - accessing' }
 ToMenuBarAutoOpenDresser >> mouseUpOutside: anEvent in: aMenuBar [
 
+	anEvent originalEvent target ifNil: [ ^ self ].
 	(anEvent originalEvent target hasInParentChain: aMenuBar)
 		ifTrue: [ ^ self ].
 	anEvent consumed: true.

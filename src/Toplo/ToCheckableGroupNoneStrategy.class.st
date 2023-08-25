@@ -5,16 +5,7 @@ Class {
 }
 
 { #category : #testing }
-ToCheckableGroupNoneStrategy >> checked: aCheckable in: aGroup [
+ToCheckableGroupNoneStrategy >> checkRequestEvent: aCheckRequest in: aGroup [
 
-	aCheckable privateChecked: true.
 	aGroup notifyChanged
-]
-
-{ #category : #testing }
-ToCheckableGroupNoneStrategy >> unchecked: aCheckable in: aGroup [
-
-	aCheckable privateChecked: false.
-	aGroup notifyChanged
-
 ]

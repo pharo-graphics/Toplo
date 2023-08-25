@@ -1,6 +1,6 @@
 Class {
 	#name : #ToButtonTestSkin,
-	#superclass : #ToAbstractButtonSkin,
+	#superclass : #ToAbstractButtonSkinDep,
 	#category : #'Toplo-LookAndFeel-Tests-Utils'
 }
 

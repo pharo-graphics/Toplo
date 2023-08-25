@@ -1,26 +1,22 @@
 Trait {
 	#name : #TToMenuWindowModel,
-	#instVars : [
-		'menuWindow'
-	],
 	#category : #'Toplo-Widget-Menu'
 }
 
-{ #category : #initialization }
-TToMenuWindowModel >> initializeMenuWindowModel [
+{ #category : #'t - menu window model - window opening/closing' }
+TToMenuWindowModel >> close [
 
-	menuWindow := ToMenuWindow new.
-	menuWindow widget: self
+	^ self explicitRequirement
 ]
 
-{ #category : #'t - menu window testing' }
-TToMenuWindowModel >> isSubmenu [
-
-	^ false
-]
-
-{ #category : #'t - menu window accessing' }
+{ #category : #'t - menu window model - accessing' }
 TToMenuWindowModel >> menuWindow [
 
-	^ menuWindow 
+	^ self explicitRequirement 
+]
+
+{ #category : #'t - menu window model - window opening/closing' }
+TToMenuWindowModel >> popupEvent: anEvent [
+
+	^ self explicitRequirement
 ]

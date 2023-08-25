@@ -2,21 +2,35 @@ Class {
 	#name : #ToToggleTrackElement,
 	#superclass : #ToElement,
 	#instVars : [
-		'switchBar'
+		'switchBar',
+		'checked'
 	],
 	#category : #'Toplo-Widget-Toggle'
 }
 
+{ #category : #accessing }
+ToToggleTrackElement >> checked [
+
+	^ checked
+]
+
+{ #category : #accessing }
+ToToggleTrackElement >> checked: aBoolean [
+
+	checked := aBoolean.
+	self switchBar checked: aBoolean
+]
+
 { #category : #sliding }
 ToToggleTrackElement >> deltaToLeft [
 	
-	^ (self requestedWidth - self padding width - self switchButton requestedWidth - self switchButton margin left ) negated
+	^ (self requestedWidth - self padding width - self innerButton requestedWidth - self innerButton margin left ) negated
 ]
 
 { #category : #sliding }
 ToToggleTrackElement >> deltaToRight [
 
-	^ self switchButton margin right 
+	^ self innerButton margin right 
 ]
 
 { #category : #initialization }
@@ -28,6 +42,30 @@ ToToggleTrackElement >> initialize [
 	self addChild: switchBar.
 	self updateWidth.
 	self vFitContent
+]
+
+{ #category : #accessing }
+ToToggleTrackElement >> innerButton [
+
+	^ self switchBar innerButton
+]
+
+{ #category : #testing }
+ToToggleTrackElement >> isChecked [ 
+
+	^ self checked
+]
+
+{ #category : #'accessing sizing' }
+ToToggleTrackElement >> largeHeight [ 
+
+	^ 26
+]
+
+{ #category : #'accessing sizing' }
+ToToggleTrackElement >> middleHeight [ 
+
+	^ 16
 ]
 
 { #category : #sliding }
@@ -46,6 +84,12 @@ ToToggleTrackElement >> slideToRight [
 	p := self deltaToRight.
 	self switchBar transformDo: [ :aTransform |
 		aTransform translateBy: p @ 0 ]
+]
+
+{ #category : #'accessing sizing' }
+ToToggleTrackElement >> smallHeight [ 
+
+	^ 10
 ]
 
 { #category : #accessing }
@@ -87,39 +131,33 @@ ToToggleTrackElement >> switchBarOnElement: anElement [
 ]
 
 { #category : #accessing }
-ToToggleTrackElement >> switchButton [
-
-	^ self switchBar button
-]
-
-{ #category : #accessing }
 ToToggleTrackElement >> switchButtonOffElement [
 
-	^ self switchButton offElement
+	^ self innerButton offElement
 ]
 
 { #category : #accessing }
 ToToggleTrackElement >> switchButtonOffElement: anElement [
 
-	self switchButton offElement: anElement
+	self innerButton offElement: anElement
 ]
 
 { #category : #accessing }
 ToToggleTrackElement >> switchButtonOnElement [
 
-	^ self switchButton onElement
+	^ self innerButton onElement
 ]
 
 { #category : #accessing }
 ToToggleTrackElement >> switchButtonOnElement: anElement [
 
-	self switchButton onElement: anElement
+	self innerButton onElement: anElement
 ]
 
 { #category : #accessing }
 ToToggleTrackElement >> switchButtonWidth: anInteger [
 
-	self switchButton width: anInteger.
+	self innerButton width: anInteger.
 	self updateWidth
 ]
 
@@ -127,18 +165,18 @@ ToToggleTrackElement >> switchButtonWidth: anInteger [
 ToToggleTrackElement >> switchOff [
 
 	self slideToLeft.
-	self switchButton switchOff
+	self innerButton switchOff
 ]
 
 { #category : #sliding }
 ToToggleTrackElement >> switchOn [
 
 	self slideToRight.
-	self switchButton switchOn
+	self innerButton switchOn
 ]
 
 { #category : #initialization }
 ToToggleTrackElement >> updateWidth [
 
-	self width: (self switchBar sideWidth + self switchButton requestedWidth + self switchButton margin width + self padding width)
+	self width: (self switchBar sideWidth + self innerButton requestedWidth + self innerButton margin width + self padding width)
 ]

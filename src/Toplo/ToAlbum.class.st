@@ -56,7 +56,7 @@ ToAlbum >> innerElement [
 	^ self next
 ]
 
-{ #category : #'t - accessing layers' }
+{ #category : #'t - widget with layers - accessing' }
 ToAlbum >> layerReferentElement [
 
 		^ self 

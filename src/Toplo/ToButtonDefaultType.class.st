@@ -1,32 +1,42 @@
 Class {
 	#name : #ToButtonDefaultType,
-	#superclass : #ToButtonType,
+	#superclass : #ToClickableType,
 	#instVars : [
 		'dashed'
 	],
 	#category : #'Toplo-Widget-Button-Skins'
 }
 
-{ #category : #accessing }
-ToButtonDefaultType >> borderLookIn: anElement [
+{ #category : #'api - install/uninstall  hook' }
+ToButtonDefaultType >> basicButtonBorderLookIn: anElement [
 
 	| borderLook |
-	borderLook := ToBorderLook new.
-	self dashed ifTrue: [
-		borderLook dashArray: [ :e | e toTheme dashArray ] ].
-	self danger
-		ifTrue: [
-			borderLook
-				initialPaint: [ :e | e toTheme colorError ];
-				hoverPaint: [ :e | e toTheme colorErrorHover ];
-				pressedPaint: [ :e | e toTheme colorErrorHover darker ] ]
-		ifFalse: [
-			borderLook
-				initialPaint: [ :e | e toTheme colorBorder ];
-				hoverPaint: [ :e | e toTheme colorPrimaryHover ];
-				pressedPaint: [ :e | e toTheme colorPrimaryPressed ] ].
-	borderLook width: [ :e | e toTheme lineWidth ].
+	borderLook := self danger
+		              ifTrue: [ self dangerBorderLookIn: anElement ]
+		              ifFalse: [ self regularBorderLookIn: anElement ].
+	borderLook ifNotNil: [ 
+		borderLook width: [ :e | e toTheme lineWidth ].
+		self dashed ifTrue: [
+			borderLook dashArray: [ :e | e toTheme dashArray ] ] ].
 	^ borderLook
+]
+
+{ #category : #'basic button' }
+ToButtonDefaultType >> basicButtonIconSkinIn: anElement [
+
+	^ ToButtonDefaultIconSkin new danger: self danger
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonDefaultType >> dangerBorderLookIn: anElement [
+
+	^ ToBorderLook new
+		  disabledPaint: [ :e | e toTheme colorBorderDisabled ];
+		  initialPaint: [ :e | e toTheme colorError ];
+		  hoverPaint: [ :e | e toTheme colorErrorHover ];
+		  pressedPaint: [ :e | e toTheme colorErrorHover darker ];
+		  width: [ :e | e toTheme lineWidth ];
+		  yourself
 ]
 
 { #category : #accessing }
@@ -42,25 +52,28 @@ ToButtonDefaultType >> dashed: aBoolean [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonDefaultType >> regularFormLookIn: anElement [
+ToButtonDefaultType >> regularBackgroundLookIn: anElement [
 
-	| formLook |
-	formLook := ToImageFormLook new.
-	formLook
-		initialColor: [ :e | e toTheme colorText];
-		hoverColor: [ :e | e  toTheme colorPrimary];
-		pressedColor: [ :e | e toTheme colorPrimaryPressed].
-	^ formLook
+	^ ToBackgroundLook new
+		  disabledBg: [ :e | e toTheme colorBgContainerDisabled ];
+		  initialBg: [ :e | Color transparent ];
+		  yourself
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonDefaultType >> regularLabelLookIn: anElement [
+ToButtonDefaultType >> regularBorderLookIn: anElement [
 
-	| labelLook |
-	labelLook := ToLabelTextLook new.
-	labelLook
-		initialColor: anElement toTheme colorText;
-		hoverColor: anElement toTheme colorPrimary;
-		pressedColor: anElement toTheme colorPrimaryPressed.
-	^ labelLook
+	^ ToBorderLook new
+		  disabledPaint: [ :e | e toTheme colorBorderDisabled ];
+		  initialPaint: [ :e | e toTheme colorBorder ];
+		  hoverPaint: [ :e | e toTheme colorPrimaryHover ];
+		  pressedPaint: [ :e | e toTheme colorPrimaryPressed ];
+		  width: [ :e | e toTheme lineWidth ];
+		  yourself
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonDefaultType >> regularLabelSkinIn: anElement [
+
+	^ ToButtonLabelSkin new type: ToLabelDefaultType new
 ]

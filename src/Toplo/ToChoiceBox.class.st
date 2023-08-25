@@ -33,6 +33,12 @@ ToChoiceBox >> beJustified [
 	menuButton beJustified
 ]
 
+{ #category : #'t - orientable - orientation' }
+ToChoiceBox >> beVertical [ 
+
+	self menuButton beVertical
+]
+
 { #category : #'api - change hook' }
 ToChoiceBox >> checked: anItem [
 
@@ -64,12 +70,6 @@ ToChoiceBox >> dataToTextConverter: aValuable [
 	dataToTextConverter := aValuable
 ]
 
-{ #category : #'t - initialization dresser' }
-ToChoiceBox >> defaultDresser [
-
-	^ ToChoiceBoxDresser new
-]
-
 { #category : #accessing }
 ToChoiceBox >> group [
 
@@ -91,7 +91,7 @@ ToChoiceBox >> initialize [
 	self privateData: self newDataCollection.
 	self layout: self defaultLayout.
 	self fitContent.
-	menuButton := ToChoiceBoxMenuButton new.
+	menuButton := ToChoiceBoxButton new.
 	group := ToCheckableGroup new.
 	self addChild: menuButton.
 	self whenSelectedIndexChangedDo: [ self selectedIndexChanged ].
@@ -124,7 +124,7 @@ ToChoiceBox >> newDataCollection [
 { #category : #'private - accessing' }
 ToChoiceBox >> newMenuItemFromData: anObject [
 
-	^ ToChoiceBoxMenuItem new labelText: (self dataToTextConverter value: anObject)
+	^ ToChoiceBoxItem new labelText: (self dataToTextConverter value: anObject)
 ]
 
 { #category : #'private - notifications' }
@@ -219,7 +219,6 @@ ToChoiceBox >> removeData: anObject [
 
 { #category : #accessing }
 ToChoiceBox >> selectData: aData [
-
 	| idx |
 	idx := self indexOfData: aData.
 	self selectedIndex = idx ifTrue: [ ^ self ].

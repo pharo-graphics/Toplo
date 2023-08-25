@@ -65,10 +65,7 @@ ToDividerDresser >> initialState: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToDividerDresser >> installEventListenersIn: anElement [
 
-	super installEventListenersIn: anElement.
-	anElement pane whenOrientationChangedDo: [ anElement requestLayout ].
-	anElement pane whenDirectionChangedDo: [ anElement requestLayout ].
-	
+	super installEventListenersIn: anElement.	
 	dragEndHandler := self dragEndHandlerIn: anElement.
 
 	dividerHandler := ToDividerEventHandler new divider: anElement.

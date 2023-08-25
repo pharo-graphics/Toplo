@@ -1,63 +1,115 @@
 Trait {
 	#name : #TToLabeledIcon,
-	#category : #'Toplo-Widget-Button'
+	#instVars : [
+		'labelFirstRequested'
+	],
+	#category : #'Toplo-Core-Triplet'
 }
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> beIconFirst [
 
-	self beLeftToRight 
+	labelFirstRequested := false.
+	self beLeftToRight.
+	self privateUpdateChildren
 ]
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> beLabelFirst [
 
-	self beRightToLeft
+	labelFirstRequested := true.
+	self beRightToLeft.
+	self privateUpdateChildren
 ]
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - direction' }
+TToLabeledIcon >> checkDirection [
+
+	self labelFirstRequested
+		ifTrue: [ self beLabelFirst ]
+		ifFalse: [ self beIconFirst ].
+
+]
+
+{ #category : #'t - labeled icon - orientation' }
+TToLabeledIcon >> checkOrientableLayout [
+
+	self layout isOrientable ifFalse: [ ^ self ].
+	self checkDirection.
+	self checkOrientation 
+]
+
+{ #category : #'t - labeled icon - orientation' }
+TToLabeledIcon >> checkOrientation [
+
+	self verticalRequested
+		ifTrue: [ self beVertical ]
+		ifFalse: [ self beHorizontal ].
+]
+
+{ #category : #'t - labeled icon - accessing' }
+TToLabeledIcon >> extra [
+
+	^ self third
+]
+
+{ #category : #'t - labeled icon - accessing' }
+TToLabeledIcon >> extra: anElement [
+
+	self replaceThirdWith: anElement
+]
+
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> icon [
 
 	^ self first
 ]
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> icon: anElement [
 
-	self first: anElement
+	self replaceFirstWith: anElement
 ]
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
+TToLabeledIcon >> iconFirst: aBoolean [
+
+	aBoolean
+		ifTrue: [ self beIconFirst ]
+		ifFalse: [ self beLabelFirst ]
+]
+
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> iconImage: anElement [
 
 	self icon: (ToImage inner: anElement)
 ]
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> isIconFirst [
 
 	^ self isLeftToRight 
 ]
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> isLabelFirst [
 
 	^ self isRightToLeft 
 ]
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> label [
 
 	^ self second
 ]
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> label: aLabel [
 
-	self second: aLabel
+	self replaceSecondWith: aLabel
 ]
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> labelFirst: aBoolean [
 
 	aBoolean
@@ -65,20 +117,15 @@ TToLabeledIcon >> labelFirst: aBoolean [
 		ifFalse: [ self beIconFirst ]
 ]
 
-{ #category : #'t - labeled icon' }
+{ #category : #'t - labeled icon - accessing' }
+TToLabeledIcon >> labelFirstRequested [
+
+	" useful in case the layout is changed to set the right direction"
+	^ labelFirstRequested ifNil: [ labelFirstRequested := self isLabelFirst ]
+]
+
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> labelText: aText [
 
 	self label: (ToLabel text: aText)
-]
-
-{ #category : #'t - change hook' }
-TToLabeledIcon >> whenIconChangedDo: aBlock [
-
-	self whenFirstChangedDo: aBlock
-]
-
-{ #category : #'t - change hook' }
-TToLabeledIcon >> whenLabelChangedDo:  aBlock [
-
-	self whenSecondChangedDo: aBlock
 ]

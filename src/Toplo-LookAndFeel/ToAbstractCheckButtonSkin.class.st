@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAbstractCheckButtonSkin,
-	#superclass : #ToAbstractButtonSkin,
+	#superclass : #ToAbstractButtonSkinDep,
 	#category : #'Toplo-LookAndFeel-Core'
 }
 

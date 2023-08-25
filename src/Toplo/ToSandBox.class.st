@@ -71,14 +71,14 @@ Here an example of a client for a method.
 	model whenCancelRequestedDo: [ :cancelRequested | cancelRequested client text: text copy ].
 	
 	menu := ToContextMenu new.
-	menu addItem: (ToButtonMenuItem new labelText: 'Select all'; whenClickedDo: [:event :client | client selecter all; apply ]; yourself).
-	menu addItem: (ToButtonMenuItem new labelText: 'Copy'; whenClickedDo: [:event :client | client editor copySelected ]; yourself).
-	menu addItem: (ToButtonMenuItem new labelText: 'Cut'; whenClickedDo: [:event :client | client editor cutSelected ]; yourself).
-	menu addItem: (ToButtonMenuItem new labelText: 'Paste'; whenClickedDo: [:event :client | client editor paste ]; yourself).
+	menu addItem: (ToMenuItem new labelText: 'Select all'; whenClickedDo: [:event :client | client selecter all; apply ]; yourself).
+	menu addItem: (ToMenuItem new labelText: 'Copy'; whenClickedDo: [:event :client | client editor copySelected ]; yourself).
+	menu addItem: (ToMenuItem new labelText: 'Cut'; whenClickedDo: [:event :client | client editor cutSelected ]; yourself).
+	menu addItem: (ToMenuItem new labelText: 'Paste'; whenClickedDo: [:event :client | client editor paste ]; yourself).
 	menu addSeparator.
-	menu addItem: (ToButtonMenuItem new labelText: 'Accept'; whenClickedDo: [:event :client | client requestSave ]; yourself).
+	menu addItem: (ToMenuItem new labelText: 'Accept'; whenClickedDo: [:event :client | client requestSave ]; yourself).
 	menu addSeparator.
-	menu addItem: (ToButtonMenuItem new labelText: 'Cancel'; whenClickedDo: [:event :client | client requestCancel ]; yourself).
+	menu addItem: (ToMenuItem new labelText: 'Cancel'; whenClickedDo: [:event :client | client requestCancel ]; yourself).
 	menu withoutLeftColumn.
 	menu client: model.
 	model widgetDo: [ :widget | widget contextMenuFactory: [ menu ] ].
@@ -120,9 +120,9 @@ ToSandBox class >> example_ComboBoxWithColors [
 	win := ToInnerWindow new title: 'Combo box Example'.
 	combo := ToComboBox new.
 	combo nodeFactory: [ :color |
-		ToPairedNode new
+		ToTripletNode new
 			padding: (BlInsets all: 8);
-			"first: (ToElement new size: 25@25; yourself);"second:
+			replaceSecondWith: 
 				(ToElement new
 					 height: 30;
 					 hMatchParent;
@@ -560,15 +560,15 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 	menuFactory := [ :widget :selection |
 	               | menu |
 	               menu := ToContextMenu new withoutLeftColumn.
-	               menu addItem: (ToButtonMenuItem new
+	               menu addItem: (ToMenuItem new
 			                labelText: 'Add initial Items';
 			                whenClickedDo: [ :event :client |
 				                client data addAll: ((1 to: 2000) collect: [:p | 'AAAAAAAAAAA'] ) ]).
 	               widget data ifNotEmpty: [
-		               menu addItem: (ToButtonMenuItem new
+		               menu addItem: (ToMenuItem new
 				                labelText: 'Select all';
 				                whenClickedDo: [ :event :client | client selectAll ]).
-			            menu addItem: (ToButtonMenuItem new
+			            menu addItem: (ToMenuItem new
 				                labelText: 'Remove all';
 				                whenClickedDo: [ :event :client |
 					                client data removeAll ];
@@ -580,25 +580,25 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 			               | node idx |
 			               idx := selection first.
 			               node := l nodeAt: idx.
-			               selectionMenu addItem: (ToButtonMenuItem new
+			               selectionMenu addItem: (ToMenuItem new
 					                labelText: 'Edit';
 					                whenClickedDo: [ :event :client | 
 						                node label addEditor ];
 					                yourself).
-			               selectionMenu addItem: (ToButtonMenuItem new
+			               selectionMenu addItem: (ToMenuItem new
 					                labelText: (node label isMonoLine
 							                 ifTrue: [ 'Be multiline' ]
 							                 ifFalse: [ 'Be monoline' ]);
 					                whenClickedDo: [ :event :client |
 						                node label monoLine: node label isMonoLine not ];
 					                yourself).			               
-								selectionMenu addItem: (ToButtonMenuItem new
+								selectionMenu addItem: (ToMenuItem new
 					                labelText: 'Inspect';
 					                whenClickedDo: [ :event :client |
 						                node inspect ];
 					                yourself).
 			               selectionMenu addSeparator ].
-		               selectionMenu addItem: (ToButtonMenuItem new
+		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert before';
 				                whenClickedDo: [ :event :client |
 					                selection selectedIndexes do: [ :idx |
@@ -606,7 +606,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 								                add: idx asString , ':XXXXXX'
 								                beforeIndex: idx ] ];
 				                yourself).
-		               selectionMenu addItem: (ToButtonMenuItem new
+		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert after';
 				                whenClickedDo: [ :event :client |
 					                | nb |
@@ -617,7 +617,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 								                afterIndex: idx + nb - 1 ] ];
 				                yourself).
 		               selectionMenu addSeparator.
-		               selectionMenu addItem: (ToButtonMenuItem new
+		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Remove';
 				                whenClickedDo: [ :event :client |
 					                selection ifNotEmpty: [client data removeFrom: selection first to: selection last ] ];
@@ -938,29 +938,143 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 { #category : #button }
 ToSandBox class >> example_ToButtonSkins [
 
-	| space pane themeSwitcher butBuilder buttonSpecsBuilder |
+	| space pane themeSwitcher butBuilder buttonSpecsBuilder enablementSwitcher allButtons sizingGroup smallSizingRadio middleSizingRadio largeSizingRadio shapingGroup circleShapingRadio defaultShapingRadio roundShapingRadio topBar buttonBar directionSwitcher orientationSwitcher |
 	space := BlSpace new.
-	space inspect.
-	
+	allButtons := OrderedCollection new.
+
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
+	topBar := ToMenuBar new beHorizontal; hMatchParent; vFitContent.
+	topBar layout cellSpacing: 10.
 
 	themeSwitcher := ToChoiceBox new.
-	themeSwitcher data addAll: { ToThemeLight. ToThemeDark }.
-			
-	themeSwitcher whenSelectedIndexChangedDo: [ space toTheme: themeSwitcher selectedData new ].
+	themeSwitcher width: 150.
+	themeSwitcher data addAll: {
+			ToThemeLight.
+			ToThemeDark }.
+
+	themeSwitcher whenSelectedIndexChangedDo: [
+		space toTheme: themeSwitcher selectedData new ].
 	themeSwitcher selectData: space toTheme class.
-	space root addChild: themeSwitcher.
+	topBar addChild: themeSwitcher.
 
-"space switchThemeDarkOrLight."
+	enablementSwitcher := ToToggleButton new.
+	enablementSwitcher switchBarOnElement:
+		((ToLabel text: 'Enabled') withSkin:
+			 (ToLabelSkin new type: ToLabelPrimaryType new)).
+	enablementSwitcher switchBarOffElement:
+		((ToLabel text: 'Disabled') withSkin:
+			 (ToLabelSkin new type: ToLabelPrimaryType new)).
+	enablementSwitcher check.
+	enablementSwitcher
+		when: ToCheckableCheckEvent
+		do: [ :event |
+		allButtons do: [ :b | b enabled: event target isChecked ] ].
 
-	butBuilder := [ ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16 ].
-	buttonSpecsBuilder := [ {
-		{ 'Primary'. ToButtonSkin new type: ToButtonPrimaryType new}.
-		{ 'Default'. ToButtonSkin new type: ToButtonDefaultType new}.
-		{ 'Dashed'. (ToButtonSkin new dashed: true; yourself) }.
-		{ 'Text'. ToButtonSkin new type: ToButtonTextType new }.
-		{ 'Link'. ToButtonSkin new type:  ToButtonLinkType new} } ].
-		
+	topBar addChild: enablementSwitcher.
+
+	buttonBar := ToPane vertical vFitContent.
+	 
+	sizingGroup := ToCheckableGroup new.
+	smallSizingRadio := ToRadioButton new labelText: 'Small'.
+	smallSizingRadio userData at: #sizing put: ToSmallSizing new.
+	middleSizingRadio := ToRadioButton new labelText: 'Middle'.
+	middleSizingRadio userData at: #sizing put: ToMiddleSizing new.
+	largeSizingRadio := ToRadioButton new labelText: 'Large'.
+	largeSizingRadio userData at: #sizing put: ToLargeSizing new.
+	middleSizingRadio checked: true.
+	sizingGroup addAll: {
+			smallSizingRadio.
+			middleSizingRadio.
+			largeSizingRadio }.
+	sizingGroup when: ToCheckableGroupChangedEvent do: [ :event |
+		| choice sizing |
+		choice := event checkedButtons anyOne.
+		sizing := choice userData at: #sizing.
+		allButtons do: [ :but | but skinDo: [ :s | s changeSizingWith: sizing in: but ] ] ].
+
+	buttonBar addChildren: {
+			smallSizingRadio.
+			middleSizingRadio.
+			largeSizingRadio }.
+	topBar addChild: buttonBar.
+	
+	buttonBar := ToPane vertical vFitContent.
+
+	shapingGroup := ToCheckableGroup new.
+	circleShapingRadio := ToRadioButton new labelText: 'Circle'.
+	circleShapingRadio userData at: #shaping put: ToCircleShaping new.
+	defaultShapingRadio := ToRadioButton new labelText: 'Default shape'.
+	defaultShapingRadio userData at: #shaping put: ToRectangleShaping new.
+	roundShapingRadio := ToRadioButton new labelText: 'Round'.
+	roundShapingRadio userData at: #shaping put: ToRoundShaping new.
+	defaultShapingRadio checked: true.
+	shapingGroup addAll: {
+			circleShapingRadio.
+			defaultShapingRadio.
+			roundShapingRadio }.
+	shapingGroup when: ToCheckableGroupChangedEvent do: [ :event |
+		| choice shaping |
+		choice := event checkedButtons anyOne.
+		shaping := choice userData at: #shaping.
+		allButtons do: [ :but | but skinDo: [ :s | s changeShapingWith: shaping in: but ] ] ].
+
+	buttonBar addChildren: {
+			circleShapingRadio.
+			defaultShapingRadio.
+			roundShapingRadio }.
+	
+	topBar addChild: buttonBar.
+	
+	directionSwitcher := ToToggleButton new labelText: 'Icon first'; beLabelFirst; yourself.
+	directionSwitcher check.
+	directionSwitcher
+		when: ToCheckableCheckEvent
+		do: [ :event | allButtons do: [ :b | b iconFirst: event target isChecked ] ].
+	topBar addChild: directionSwitcher.
+	
+	orientationSwitcher := ToToggleButton new labelText: 'Horizontal'; beLabelFirst; yourself.
+	orientationSwitcher check.
+	orientationSwitcher
+		when: ToCheckableCheckEvent
+		do: [ :event | allButtons do: [ :b | b horizontal: event target isChecked ].
+				sizingGroup buttons do: [:b | b enabled: event target isChecked] ].
+	topBar addChild: orientationSwitcher.
+	
+	topBar childrenDo: [ :child |
+		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
+
+	circleShapingRadio 
+		when: ToCheckableCheckEvent 
+		do: [ :event | 
+			event current 
+				ifTrue: [ directionSwitcher enabled: false. orientationSwitcher  enabled: false] 
+				ifFalse: [ directionSwitcher enabled: true. orientationSwitcher  enabled: true ] ].	
+
+	space root addChild: topBar.
+
+	butBuilder := [
+	              ToImage new innerImage:
+		              ToThemeIcons iconSearchOutlined16x16 ].
+	buttonSpecsBuilder := [
+	                      {
+		                      {
+			                      'Primary'.
+			                      ToButtonSkin primaryType }.
+		                      {
+			                      'Default'.
+			                      ToButtonSkin defaultType }.
+		                      {
+			                      'Dashed'.
+			                      (ToButtonSkin new
+				                       dashed: true;
+				                       yourself) }.
+		                      {
+			                      'Text'.
+			                      ToButtonSkin textType }.
+		                      {
+			                      'Link'.
+			                      ToButtonSkin linkType } } ].
+
 	" Line 1 "
 	pane := ToPane horizontal.
 	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
@@ -968,19 +1082,21 @@ ToSandBox class >> example_ToButtonSkins [
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
 		but := ToButton new.
+		allButtons add: but.
 		arr second ifNotNil: [ :skin | but withSkin: skin ].
 		but labelText: arr first.
 		pane addChild: but ].
-	
+
 	space root addChild: pane.
 
 	" line 2 "
 	pane := ToPane horizontal.
 	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
-		
+
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
 		but := ToButton new.
+		allButtons add: but.
 		arr second ifNotNil: [ :skin | but withSkin: skin ].
 		but labelText: arr first.
 		but icon: butBuilder value.
@@ -995,6 +1111,7 @@ ToSandBox class >> example_ToButtonSkins [
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
 		but := ToButton new.
+		allButtons add: but.
 		arr second ifNotNil: [ :skin | but withSkin: skin ].
 		but icon: butBuilder value.
 		pane addChild: but ].
@@ -1008,7 +1125,11 @@ ToSandBox class >> example_ToButtonSkins [
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
 		but := ToButton new.
-		arr second ifNotNil: [ :skin | but withSkin: (skin danger: true; yourself)].
+		allButtons add: but.
+		arr second ifNotNil: [ :skin |
+			but withSkin: (skin
+					 danger: true;
+					 yourself) ].
 		but labelText: arr first.
 		pane addChild: but ].
 
@@ -1021,11 +1142,15 @@ ToSandBox class >> example_ToButtonSkins [
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
 		but := ToButton new.
-		arr second ifNotNil: [ :skin | but withSkin: (skin danger: true; yourself)].
+		allButtons add: but.
+		arr second ifNotNil: [ :skin |
+			but withSkin: (skin
+					 danger: true;
+					 yourself) ].
 		but labelText: arr first.
 		but icon: butBuilder value.
 		pane addChild: but ].
-	
+
 	space root addChild: pane.
 
 	" line 6 "
@@ -1035,7 +1160,11 @@ ToSandBox class >> example_ToButtonSkins [
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
 		but := ToButton new.
-		arr second ifNotNil: [ :skin | but withSkin: (skin danger: true; yourself)].
+		allButtons add: but.
+		arr second ifNotNil: [ :skin |
+			but withSkin: (skin
+					 danger: true;
+					 yourself) ].
 		but icon: butBuilder value.
 		pane addChild: but ].
 
@@ -1050,20 +1179,26 @@ ToSandBox class >> example_ToButtonSkins [
 ToSandBox class >> example_ToButtonWithDashedSkin [
 
 	| space button1 |
-	
 	space := BlSpace new.
 
-	button1 := ToButton new withSkin: (ToButtonSkin new dashed: true; yourself).
+	button1 := ToButton new 
+		           withSkin: (ToButtonSkin new
+				            dashed: true;
+				            yourself);
+		           yourself.
+	button1 hMatchParent.
 	button1 labelText: 'Dashed button'.
-	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-	
+	button1 icon: (ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16).
+	button1 beLabelFirst.
+	"button1 beVertical."
+button1 inspect.
 	space root addChild: button1.
-	
+
 	button1 labelText: 'Dashed button **'.
 
 	space show.
 
-	^space
+	^ space
 ]
 
 { #category : #button }
@@ -1108,14 +1243,14 @@ ToSandBox class >> example_ToButtonWithDefaultDangerSkin [
 ToSandBox class >> example_ToButtonWithDefaultSkin [
 
 
-	| space button1 themeSwitcher skinSwitcher pane |
+	| space button1 themeSwitcher skinSwitcher pane enablementSwitcher |
 	
 	space := BlSpace new.
 	pane := ToPane horizontal.
 	pane layout cellSpacing: 10.
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 
-	button1 := ToButton new.
+	button1 := ToButton new withSkin: (ToButtonSkin new type: ToButtonDefaultType new).
 	button1 label: (ToLabel text: 'Primary button').
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 	space root when: BlElementAddedToSceneGraphEvent do: [  
@@ -1125,7 +1260,8 @@ ToSandBox class >> example_ToButtonWithDefaultSkin [
 	skinSwitcher := ToChoiceBox new.
 	skinSwitcher data addAll: { ToButtonDefaultType. ToButtonLinkType. ToButtonPrimaryType. ToButtonTextType }.
 			
-	skinSwitcher whenSelectedIndexChangedDo: [ button1 withSkin: (ToButtonSkin type: skinSwitcher selectedData new) ].
+	skinSwitcher whenSelectedIndexChangedDo: [ 
+		button1 skinDo: [ :s | s changeTypeWith: skinSwitcher selectedData new in: button1 ] ].
 	skinSwitcher selectData: button1 privateSkin type class.
 	
 	themeSwitcher := ToChoiceBox new.
@@ -1133,12 +1269,31 @@ ToSandBox class >> example_ToButtonWithDefaultSkin [
 			
 	themeSwitcher whenSelectedIndexChangedDo: [ space toTheme: themeSwitcher selectedData new ].
 	themeSwitcher selectData: space toTheme class.
+	
+	enablementSwitcher := ToToggleButton new.
+	enablementSwitcher switchBarOnElement:
+		((ToLabel text: 'Enabled') withSkin:
+			 (ToLabelSkin new type: ToLabelPrimaryType new)).
+	enablementSwitcher switchBarOffElement:
+		((ToLabel text: 'Disabled') withSkin:
+			 (ToLabelSkin new type: ToLabelPrimaryType new)).
+	enablementSwitcher check.
+	enablementSwitcher 
+		when: ToCheckableCheckEvent 
+		do: [ :event | button1 enabled: event target isChecked  ].
+	enablementSwitcher constraintsDo: [ :c |
+		c linear vertical alignCenter ].
+
 
 	pane addChild: themeSwitcher.
 	pane addChild: skinSwitcher.
+	pane addChild: enablementSwitcher.
+	
+	pane childrenDo: [ :child | child constraintsDo: [ :c |
+		c linear vertical alignCenter ] ].
+
 	space root addChild: pane.
 	space root addChild: button1.
-	button1 inspect.
 
 	space show.
 ]
@@ -1160,7 +1315,6 @@ ToSandBox class >> example_ToButtonWithDefaultSkin0 [
 
 	space root addChild: pane.
 	space root addChild: button1.
-	button1 inspect.
 
 	space show.
 ]
@@ -1172,7 +1326,6 @@ ToSandBox class >> example_ToButtonWithPrimarySkin [
 	| space button1 |
 	
 	space := BlSpace new.
-	space inspect.
 	button1 := ToButton new withSkin: (ToButtonSkin new type: ToButtonPrimaryType new).
 	button1 label: (ToLabel text: 'Primary button').
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
@@ -1228,7 +1381,9 @@ ToSandBox class >> example_ToLabelWithHeadingSkin [
 		      beLabelFirst.
 	themeSwitcher switchBarOnElement: ((ToLabel text: ('Dark' asRopedText foreground: Color white)) ).
 	themeSwitcher switchBarOffElement: ((ToLabel text: ('Light' asRopedText foreground: Color black)) ).
-	themeSwitcher when: ToCheckableCheckEvent do: [ :event | space toTheme: ( event current ifTrue: [ToThemeDark new] ifFalse: [ ToThemeLight new]) ].
+	themeSwitcher 
+		when: ToCheckableCheckEvent 
+		do: [ :event | space toTheme: ( event current ifTrue: [ToThemeDark new] ifFalse: [ ToThemeLight new]) ].
 	
 	space root addChild: themeSwitcher.
 
@@ -1314,9 +1469,10 @@ ToSandBox class >> example_choiceBoxWithPlaceholder [
 	win := ToInnerWindow new title: 'Choice box Example'.
 
 	choicebox := ToChoiceBox new.
+	choicebox width: 150.
+	choicebox withUncheckingStrategy.
 	choicebox data addAll: { 'OS-X'. 'Windows' }.
-	choicebox placeholder:
-		(ToLabel text: ('Invalid choice' asRopedText foreground: Color red)).
+	choicebox placeholder: (ToLabel text: ('Invalid choice' asRopedText foreground: Color red)).
 
 	win root addChild: choicebox.
 	win openInSpace
@@ -1328,6 +1484,7 @@ ToSandBox class >> example_choiceBoxWithPlaceholderWithUncheckingStrategy [
 	| win choicebox t |
 	win := ToInnerWindow new title: 'Some host'.
 	choicebox := ToChoiceBox new hMatchParent.
+	choicebox beVertical.
 	choicebox withUncheckingStrategy.
 	t := 'No selection...' asRopedText , String cr asRopedText
 	     , ('Please choose an host from the list' asRopedText
@@ -1353,11 +1510,13 @@ ToSandBox class >> example_choiceBoxWithStringData [
 	win := ToInnerWindow new title: 'Choice box Example'.
 
 	choicebox := ToChoiceBox new.
+	choicebox hMatchParent.
+
+	"choicebox withUncheckingStrategy."
 	choicebox data addAll: { 'OS-X'. 'Windows' }.
 	choicebox addSeparator.
 	choicebox data add: 'Linux'.
 	choicebox selectData: 'Windows'.
-	choicebox inspect.
 
 	win root addChild: choicebox.
 	win openInSpace
@@ -1436,23 +1595,38 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 { #category : #menu }
 ToSandBox class >> example_menu1 [
 
-	| menu sub subsub |
+	| menu sub subsub space themeSwitcher |
+	
+	space := BlSpace new.
+	space root layout: (BlLinearLayout vertical cellSpacing: 10).
+	themeSwitcher := ToToggleButton new
+		      labelText: 'Theme';
+		      beLabelFirst.
+	themeSwitcher switchBarOnElement: ((ToLabel text: ('Dark' asRopedText foreground: Color white)) ).
+	themeSwitcher switchBarOffElement: ((ToLabel text: ('Light' asRopedText foreground: Color black)) ).
+	themeSwitcher 
+		when: ToCheckableCheckEvent 
+		do: [ :event | space toTheme: ( event current ifTrue: [ToThemeDark new] ifFalse: [ ToThemeLight new]) ].
+	
+	themeSwitcher checked: true.
+	space root addChild: themeSwitcher.
+	
 	menu := ToMenu new.
-	menu spacingWidth: 5.
-	menu globalColumnWidth: 22.
+	menu defaultColumnWidth: 22.
 	menu label: (ToLabel new text: 'File').
 	menu icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
-	menu addItem: (ToButtonMenuItem new
+	menu addItem: (ToMenuItem new
 			 label: (ToLabel new text: 'Open file');
 			 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #config));
-			 withExtra: ((ToLabel text: 'Cmd-f') margin: (BlInsets left: 5); matchParent; yourself)).
-	menu addItem: (ToButtonMenuItem new label: (ToLabel new text: 'Export'); withExtra: ((ToLabel text: 'Cmd-e') margin: (BlInsets left: 5); yourself)).
+			 third: ((ToLabel text: 'Cmd-f') margin: (BlInsets left: 5); yourself)).
+	menu addItem: (ToMenuItem new 
+			label: (ToLabel new text: 'Export'); 
+			third: ((ToLabel text: 'Cmd-e') margin: (BlInsets left: 5); yourself)).
 	menu addSeparator.
 
 	sub := ToMenu new label: (ToLabel new text: 'Save All').
-	sub withSkin: nil.
 	sub addItem:
-		(ToButtonMenuItem new label: (ToLabel new text: 'Locally')).
+		(ToMenuItem new label: (ToLabel new text: 'Locally')).
 
 	subsub := ToMenu new
 		          label: (ToLabel new text: 'Externally');
@@ -1460,19 +1634,20 @@ ToSandBox class >> example_menu1 [
 			          (ToImage new innerImage:
 					           (Smalltalk ui icons iconNamed: #solidMenu)).
 	subsub addItem:
-		(ToButtonMenuItem new label: (ToLabel new text: 'Here')).
+		(ToMenuItem new label: (ToLabel new text: 'Here')).
 
 	sub addItem: subsub.
 
 	menu addItem: sub.
 	
 	sub := ToMenu new label: (ToLabel new text: 'Save All 2').
-	sub addItem: (ToButtonMenuItem new label: (ToLabel new text: 'Locally 2')).
+	sub addItem: (ToMenuItem new label: (ToLabel new text: 'Locally 2')).
 
 	menu addItem: sub.
 	
 	menu position: 10 @ 10.
-	menu openInInnerWindow
+	space root addChild: menu.
+	space show
 ]
 
 { #category : #menu }
@@ -1480,16 +1655,17 @@ ToSandBox class >> example_menu2 [
 
 	| menu |
 	menu := ToMenu new.
+	menu inspect.
 	menu label: (ToLabel text: 'File').
-	menu addItem: (ToCheckMenuItem new
-			 label: (ToLabel text: 'Align right');
-			 beLabelFirst;
-			 beJustified).
+	menu defaultColumnWidth: 100.
+	
 	menu addItem: (ToCheckMenuItem new
 			 label: (ToLabel text: 'Other');
-			 beLabelFirst;
-			 columnWidth: 200).
-	menu position: 10 @ 10.
+			 yourself).
+	menu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'item');
+			 yourself).
+
 	menu openInSpace
 ]
 
@@ -1498,14 +1674,13 @@ ToSandBox class >> example_menu2_2 [
 
 	| menu sub |
 	menu := ToMenu new.
-	menu icon:
-		(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+	menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
 
 	sub := ToMenu new labelText: 'Save All'.
-	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
+	sub addItem: (ToMenuItem new labelText: 'Locally').
 	menu addItem: sub.
 
-	menu addItem: (ToButtonMenuItem new labelText: 'Export').
+	menu addItem: (ToMenuItem new labelText: 'Export').
 	menu addItem: (ToCheckMenuItem new labelText: 'Align right').
 	menu addSeparator.
 
@@ -1521,22 +1696,22 @@ ToSandBox class >> example_menu3 [
 	menu label: (ToLabel new text: 'File').
 	menu columnWidth: 0.
 
-	menu addItem: (ToButtonMenuItem new
+	menu addItem: (ToMenuItem new
 			 labelText: 'Open file';
 			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
-	menu addItem: (ToButtonMenuItem new labelText: 'Export').
+	menu addItem: (ToMenuItem new labelText: 'Export').
 	menu addItem: (ToCheckMenuItem new labelText: 'Align right').
 	menu addSeparator.
 
 	sub := ToMenu new
 		       labelText: 'Save All';
 		       withoutLeftColumn.
-	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
+	sub addItem: (ToMenuItem new labelText: 'Locally').
 
 	subsub := ToMenu new
 		          labelText: 'Externally';
 		          withoutLeftColumn.
-	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
+	subsub addItem: (ToMenuItem new labelText: 'Here').
 
 	sub addItem: subsub.
 
@@ -1551,22 +1726,19 @@ ToSandBox class >> example_menu4 [
 	| menu sub subsub |
 	menu := ToMenu new.
 	menu labelText: 'File'.
-	menu icon:
-		(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
-	menu addItem: (ToButtonMenuItem new labelText: 'Open file').
-	menu addItem: (ToButtonMenuItem new labelText: 'Export').
+	menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+	menu addItem: (ToMenuItem new labelText: 'Open file').
+	menu addItem: (ToMenuItem new labelText: 'Export').
 	menu addItem: (ToRadioMenuItem new labelText: 'Align right').
 	menu addSeparator.
 
 	sub := ToMenu new labelText: 'Save All'.
-	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
+	sub addItem: (ToMenuItem new labelText: 'Locally').
 
 	subsub := ToMenu new
 		          labelText: 'Externally';
-		          icon:
-			          (ToImage inner:
-					           (Smalltalk ui icons iconNamed: #solidMenu)).
-	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
+		          icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+	subsub addItem: (ToMenuItem new labelText: 'Here').
 
 	sub addItem: subsub.
 
@@ -1581,9 +1753,9 @@ ToSandBox class >> example_menu5 [
 	| menu sub subsub grp right center left |
 	menu := ToMenu new.
 	menu labelText: 'File'.
-	menu addItem: (ToButtonMenuItem new labelText: 'Open file').
+	menu addItem: (ToMenuItem new labelText: 'Open file').
 
-	menu addItem: (ToButtonMenuItem new labelText: 'Export').
+	menu addItem: (ToMenuItem new labelText: 'Export').
 	grp := ToCheckableGroup new.
 	right := ToRadioMenuItem new
 		         labelText: 'Right';
@@ -1609,10 +1781,10 @@ ToSandBox class >> example_menu5 [
 	menu addSeparator.
 
 	sub := ToMenu new labelText: 'Save All'.
-	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
+	sub addItem: (ToMenuItem new labelText: 'Locally').
 
 	subsub := ToMenu new labelText: 'Externally'.
-	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
+	subsub addItem: (ToMenuItem new labelText: 'Here').
 
 	sub addItem: subsub.
 
@@ -1626,18 +1798,18 @@ ToSandBox class >> example_menu6 [
 
 	| menu grp right center left textField sub th lbl |
 	menu := ToMenu new.
-	menu globalColumnWidth: 22.
+	menu defaultColumnWidth: 22.
 
 	menu labelText: 'File'.
-	menu addItem: (ToButtonMenuItem new
+	menu addItem: (ToMenuItem new
 			 labelText: 'Open file';
 			 whenClickedDo: [ self inform: 'Open file' ];
 			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
 
-	menu addItem: (ToButtonMenuItem new
+	menu addItem: (ToMenuItem new
 			 labelText: 'Export';
 			 whenClickedDo: [ self inform: 'Export' ]).
-	menu addItem: (ToButtonMenuItem new
+	menu addItem: (ToMenuItem new
 			 labelText: 'Export';
 			 columnWidth: 0;
 			 whenClickedDo: [ self inform: 'Export' ]).
@@ -1762,18 +1934,20 @@ ToSandBox class >> example_menu6 [
 		      labelText: 'Cheesecake';
 		      beLabelFirst;
 		      hMatchParent.
+	th skinDo: [ :s | s sizing: ToSmallSizing new ].
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	th := ToToggleButton new
-		      labelText: 'Cheesecake';
-		      beLabelFirst;
-		      hMatchParent.
+		      labelText: 'Column';
+		      beLabelFirst.
 	th columnWidth: 100.
+	th skinDo: [ :s | s sizing: ToSmallSizing new ].
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	th := ToToggleButton new
-		      labelText: 'Cheesecake';
+		      labelText: 'Cheesecake justified';
 		      beLabelFirst;
+				beJustified;
 		      hMatchParent.
-	th layout cellSpacing: 10.
+	th skinDo: [ :s | s sizing: ToSmallSizing new ].
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';
@@ -1797,7 +1971,7 @@ ToSandBox class >> example_menu6 [
 					  bottom: 4)).
 	sub := ToMenu new labelText: 'Save All'.
 	sub columnWidth: 0.
-	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
+	sub addItem: (ToMenuItem new labelText: 'Locally').
 	menu addItem: sub.
 
 	menu position: 10 @ 10.
@@ -1816,7 +1990,7 @@ ToSandBox class >> example_menuBar1 [
 		       vFitContent.
 	bar addMenu: (fileMenu := ToMenu new
 			 labelText: 'File').
-	fileMenu addItem: (ToButtonMenuItem new label: (ToLabel new text: 'Open')).
+	fileMenu addItem: (ToMenuItem new label: (ToLabel new text: 'Open')).
 	fileMenu padding: (BlInsets all: 10).
 	bar addFiller.
 	bar addMenu: (ToMenu new
@@ -1841,7 +2015,7 @@ ToSandBox class >> example_menuBar2 [
 	3 timesRepeat: [ 
 		menu := ToMenu new.
 		menu layout cellSpacing: 5.
-		menu globalColumnWidth: 0.
+		menu defaultColumnWidth: 0.
 		menu label: (ToLabel text: 'Levels').
 		menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
 
@@ -1866,9 +2040,9 @@ ToSandBox class >> example_menuBar2 [
 					            print: index;
 					            nextPutAll: 'Grid';
 					            print: i ].
-				subMenu addItem: ((ToButtonMenuItem new labelText: stream) 
+				subMenu addItem: ((ToMenuItem new labelText: stream) 
 					when: BlPrimaryMouseUpEvent do: [ :event | self inform: selector asSymbol ]) ].
-			subMenu globalColumnWidth: 0.
+			"subMenu defaultColumnWidth: 0."
 			menu addItem: subMenu ].
 
 		bar addMenu: menu	].
@@ -1909,21 +2083,21 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	win := ToInnerWindow new title: 'Context menu Example'.
 	win width: 600.
 	menu := ToContextMenu new.
-	menu globalColumnWidth: 22.
-	menu addItem: (ToButtonMenuItem new
+	menu defaultColumnWidth: 22.
+	menu addItem: (ToMenuItem new
 			 labelText: 'Open file';
 			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
-	menu addItem: (ToButtonMenuItem new labelText: 'Export').
+	menu addItem: (ToMenuItem new labelText: 'Export').
 	menu addSeparator.
 
 	3 timesRepeat: [ 
 		sub := ToMenu new labelText: 'Save All'.
-		sub addItem: (ToButtonMenuItem new labelText: 'Locally').
+		sub addItem: (ToMenuItem new labelText: 'Locally').
 
 		subsub := ToMenu new
 		          	labelText: 'Externally';
 		          	icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
-		subsub addItem: (ToButtonMenuItem new labelText: 'Here').
+		subsub addItem: (ToMenuItem new labelText: 'Here').
 
 		sub addItem: subsub.
 
@@ -1963,22 +2137,22 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 	| win menu sub subsub bar |
 	win := ToInnerWindow new title: 'Context menu Example'.
 	menu := ToContextMenu new.
-	menu globalColumnWidth: 22.
-	menu addItem: (ToButtonMenuItem new
+	menu defaultColumnWidth: 22.
+	menu addItem: (ToMenuItem new
 			 labelText: 'Open file';
 			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
-	menu addItem: (ToButtonMenuItem new labelText: 'Export').
+	menu addItem: (ToMenuItem new labelText: 'Export').
 	menu addSeparator.
 
 	sub := ToMenu new labelText: 'Save All'.
-	sub addItem: (ToButtonMenuItem new labelText: 'Locally').
+	sub addItem: (ToMenuItem new labelText: 'Locally').
 
 	subsub := ToMenu new
 		          labelText: 'Externally';
 		          icon:
 			          (ToImage inner:
 					           (Smalltalk ui icons iconNamed: #solidMenu)).
-	subsub addItem: (ToButtonMenuItem new labelText: 'Here').
+	subsub addItem: (ToMenuItem new labelText: 'Here').
 
 	sub addItem: subsub.
 
@@ -2388,7 +2562,7 @@ ToSandBox class >> example_toButtonWithIconAndTextAndExtra [
 	but icon: icon.
 	but effect: (BlBlurAboveEffect new radius: 20).
 	but when: BlPrimaryClickEvent do: [ :event | event currentTarget traceCr ].
-	but withExtra: ((ToLabel text: 'extra') margin: (BlInsets left: 5)).
+	but third: ((ToLabel text: 'extra') margin: (BlInsets left: 5)).
 
 	space := BlSpace new.
 	space root addChild: but.
@@ -2547,7 +2721,9 @@ ToSandBox class >> example_toCheckbox2 [
 	chb := ToCheckbox new
 		       columnWidth: 50;
 		       labelText: '1';
-		       id: 1 asString. "beLabelFirst;"
+		       id: 1 asString;
+				 beLabelFirst.
+	chb skinDo: [ :s | s "dashed: true;" danger: true].
 	""
 	container := BlElement new.
 	container constraintsDo: [ :c |
@@ -3086,237 +3262,11 @@ ToSandBox class >> example_toLabel_Multiline2_Centered [
 	space := container openInSpace
 ]
 
-{ #category : #multistate }
-ToSandBox class >> example_toMultiState1 [
-
-	| but space |
-	but := ToMultiStateButton new.
-	but
-		icon: (ToImage inner: (BlElement new
-				 size: 100 @ 100;
-				 background: Color blue));
-		labelText: ('Blue' asRopedText fontSize: 24).
-	but setUpStatesWith: { (ToElementStateDep new whenEnterDo: [ :ann | 
-			 | anim |
-			 ann state counter traceCr.
-			 ann state counter isZero ifFalse: [ 
-				 anim := BlOpacityAnimation new
-					         duration: 500 milliSeconds;
-					         opacity: 0;
-					         yourself.
-				 anim onFinishedDo: [ 
-					 ann widget
-						 opacity: 0;
-						 addAnimation: (BlOpacityAnimation new
-								  duration: 300 milliSeconds;
-								  opacity: 1;
-								  yourself) ].
-				 ann widget addAnimation: anim ] ]) }.
-	space := BlSpace new.
-	space root addChild: but.
-	space show
-]
-
-{ #category : #multistate }
-ToSandBox class >> example_toMultiState2 [
-
-	| but space |
-	but := ToMultiStateButton new
-		       clipChildren: false;
-		       icon: (ToImage inner: (BlElement new
-						         size: 100 @ 100;
-						         background: Color blue));
-		       labelText: ('Blue' asRopedText fontSize: 24).
-	but setUpStatesWith: { (ToElementStateDep new whenExitDo: [ :ann |
-			 | anim |
-			 anim := (BlTransformAnimation scale: 4) absolute
-				         duration: 100 milliSeconds;
-				         yourself.
-			 anim onFinishedDo: [
-				 ann widget addAnimation:
-					 ((BlTransformAnimation scale: 1) absolute
-						  duration: 100 milliSeconds;
-						  yourself) ].
-			 ann widget addAnimation: anim ]) }.
-	space := BlSpace new.
-	but position: 100 @ 100.
-	space root addChild: but.
-	space show
-]
-
-{ #category : #multistate }
-ToSandBox class >> example_toMultiState2_v2_do_not_work_well [
-
-	| but space |
-	but := ToMultiStateButton new
-		       clipChildren: false;
-		       icon: (ToImage inner: (BlElement new
-						         size: 100 @ 100;
-						         background: Color blue));
-		       labelText: ('Blue' asRopedText fontSize: 24).
-	but setUpStatesWith: { (ToElementStateDep new whenExitDo: [ :ann |
-			 | anim |
-			 anim := BlSequentialAnimation withAll: {
-					         ((BlTransformAnimation scale: 4) absolute
-						          duration: 100 milliSeconds;
-						          yourself).
-					         ((BlTransformAnimation scale: 1) absolute
-						          duration: 100 milliSeconds;
-						          yourself) }.
-			 ann widget addAnimation: anim ]) }.
-	space := BlSpace new.
-	but position: 100 @ 100.
-	space root addChild: but.
-	space show
-]
-
-{ #category : #multistate }
-ToSandBox class >> example_toMultiStateWithBigBlue [
-
-	| but |
-	but := ToMultiStateButton new.
-	but setUpStatesWith: {
-			(ToElementStateDep new
-				 whenEnterDo: [ :ann |
-					 ann widget
-						 icon: (ToImage inner: (BlElement new
-										   size: 400 @ 400;
-										   background: Color blue));
-						 labelText: 'Big blue' ];
-				 yourself).
-			(ToElementStateDep new
-				 name: #green;
-				 whenEnterDo: [ :ann |
-					 ann widget
-						 icon: (ToImage inner: (BlElement new
-										   size: 20 @ 40;
-										   background: Color green));
-						 labelText: 'Green' ];
-				 yourself).
-			(ToElementStateDep new
-				 whenEnterDo: [ :ann |
-					 ann widget
-						 icon: (ToImage inner: (BlElement new
-										   size: 50 @ 50;
-										   background: Color black));
-						 labelText: 'Black' ];
-				 yourself).
-			(ToElementStateDep new
-				 whenEnterDo: [ :ann |
-					 ann widget
-						 icon: (ToImage inner: (BlElement new
-										   size: 100 @ 100;
-										   background: Color yellow));
-						 labelText: 'Yellow' ];
-				 yourself) }.
-	but startState: (but stateNamed: #green).
-	but openInSpace
-]
-
-{ #category : #multistate }
-ToSandBox class >> example_toMultiStateWithBigBlueWithAnimation [
-
-	| but exitAnimation enterAnimation |
-	exitAnimation := [
-	                 BlOpacityAnimation new
-		                 duration: 300 milliSeconds;
-		                 opacity: 0;
-		                 yourself ].
-	enterAnimation := [
-	                  BlOpacityAnimation new
-		                  duration: 150 milliSeconds;
-		                  opacity: 1;
-		                  yourself ].
-
-	but := ToMultiStateButton new.
-	but setUpStatesWith: {
-			(ToElementStateDep new
-				 whenEnterDo: [ :ann |
-					 | anim |
-					 anim := exitAnimation value.
-					 anim onFinishedDo: [
-							 ann widget
-								 icon: (ToImage inner: (BlElement new
-												   size: 100 @ 100;
-												   background: Color blue));
-								 labelText: ('Blue' asRopedText fontSize: 24);
-								 opacity: 0;
-								 addAnimation: enterAnimation value ].
-					 ann widget addAnimation: anim ];
-				 yourself).
-			(ToElementStateDep new
-				 whenEnterDo: [ :ann |
-					 | anim |
-					 anim := exitAnimation value.
-					 anim onFinishedDo: [
-							 ann widget
-								 icon: (ToImage inner: (BlElement new
-												   size: 100 @ 100;
-												   background: Color green));
-								 labelText: ('Green' asRopedText fontSize: 24);
-								 opacity: 0;
-								 addAnimation: enterAnimation value ].
-					 ann widget addAnimation: anim ];
-				 yourself).
-			(ToElementStateDep new
-				 whenEnterDo: [ :ann |
-					 | anim |
-					 anim := exitAnimation value.
-					 anim onFinishedDo: [
-							 ann widget
-								 icon: (ToImage inner: (BlElement new
-												   size: 100 @ 100;
-												   background: Color black));
-								 labelText: ('Black' asRopedText fontSize: 24);
-								 opacity: 0;
-								 addAnimation: enterAnimation value ].
-					 ann widget addAnimation: anim ];
-				 yourself).
-			(ToElementStateDep new whenEnterDo: [ :ann |
-				 | anim |
-				 anim := exitAnimation value.
-				 anim onFinishedDo: [
-					 ann widget
-						 icon: (ToImage inner: (BlElement new
-										   size: 100 @ 100;
-										   background: Color yellow));
-						 labelText: ('Yellow' asRopedText fontSize: 24);
-						 opacity: 0;
-						 addAnimation: enterAnimation value ].
-				 ann widget addAnimation: anim ]) }.
-	but openInSpace
-]
-
-{ #category : #multistate }
-ToSandBox class >> example_toMultiStateWithLabel [
-
-	| but |
-	but := ToMultiStateButton new size: 90 @ 35.
-	but setUpStatesWith: {
-			(ToElementStateDep new
-				 name: #one;
-				 whenEnterDo: [ :ann |
-					 ann widget labelText: ('One' asRopedText fontSize: 24) ];
-				 yourself).
-			(ToElementStateDep new
-				 name: #two;
-				 whenEnterDo: [ :ann |
-					 ann widget labelText: ('Two' asRopedText fontSize: 24) ];
-				 yourself).
-			(ToElementStateDep new
-				 name: #three;
-				 whenEnterDo: [ :ann |
-					 ann widget labelText: ('Three' asRopedText fontSize: 24) ];
-				 yourself) }.
-	but openInSpace.
-	but startState: (but stateNamed: #three)
-]
-
 { #category : #pair }
 ToSandBox class >> example_toPairDirectionChanger [
 
 	| but space iconImage |
-	but := ToPairedElement new.
+	but := ToTripletElement new.
 	but layout cellSpacing: 4.
 	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).
@@ -3325,7 +3275,7 @@ ToSandBox class >> example_toPairDirectionChanger [
 		             size: 20 @ 20;
 		             background: Color lightGray;
 		             yourself.
-	but second: iconImage.
+	but replaceSecondWith: iconImage.
 	but when: BlClickEvent do: [ 
 		but direction: but direction inverted.
 		but requestLayout ].
@@ -3338,7 +3288,7 @@ ToSandBox class >> example_toPairDirectionChanger [
 ToSandBox class >> example_toPairJustified1 [
 
 	| but space iconImage |
-	but := ToPairedElement new.
+	but := ToTripletElement new.
 	but layout cellSpacing: 4.
 	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).
@@ -3361,7 +3311,7 @@ ToSandBox class >> example_toPairJustified1 [
 ToSandBox class >> example_toPairJustified2 [
 
 	| but space iconImage |
-	but := ToPairedElement new.
+	but := ToTripletElement new.
 	but layout cellSpacing: 4.
 	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).
@@ -3384,7 +3334,7 @@ ToSandBox class >> example_toPairJustified2 [
 ToSandBox class >> example_toPairOrientationChanger [
 
 	| but space iconImage |
-	but := ToPairedElement new.
+	but := ToTripletElement new.
 	but layout cellSpacing: 4.
 	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).
@@ -3393,7 +3343,7 @@ ToSandBox class >> example_toPairOrientationChanger [
 		             size: 20 @ 20;
 		             background: Color lightGray;
 		             yourself.
-	but second: iconImage.
+	but replaceSecondWith: iconImage.
 	but when: BlClickEvent do: [ but orientation: but orientation inverted ].
 	space := BlSpace new.
 	space root addChild: but.
@@ -3404,7 +3354,7 @@ ToSandBox class >> example_toPairOrientationChanger [
 ToSandBox class >> example_toPairWithColumn1 [
 
 	| but space iconImage |
-	but := ToPairedElement new.
+	but := ToTripletElement new.
 	but layout cellSpacing: 4.
 	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).
@@ -3426,7 +3376,7 @@ ToSandBox class >> example_toPairWithColumn1 [
 ToSandBox class >> example_toPairWithColumn2 [
 
 	| but space iconImage |
-	but := ToPairedElement new.
+	but := ToTripletElement new.
 	but layout cellSpacing: 4.
 	but padding: (BlInsets all: 3).
 	but border: (BlBorder paint: Color lightGray).
@@ -3488,6 +3438,7 @@ ToSandBox class >> example_toggle [
 		      beVertical;
 		      labelText: 'Cheesecake';
 		      beLabelFirst;
+				beJustified;
 		      hMatchParent.
 
 	win := ToInnerWindow new
@@ -3508,8 +3459,9 @@ ToSandBox class >> example_toggle2 [
 	th := ToToggleButton new
 		      labelText: 'Theme';
 		      beLabelFirst.
-	th switchBarOnElement: ((ToLabel text: 'Dark') withSkin: (ToButtonLabelSkin new buttonSkin: th privateSkin)).
-	th switchBarOffElement: ((ToLabel text: 'Light') "withSkin: (ToButtonLabelSkin new buttonSkin: th privateSkin)").
+	th columnWidth: 100.
+	th switchBarOnElement: ((ToLabel text: 'Dark') withSkin: (ToLabelSkin new type: ToLabelPrimaryType new)).
+	th switchBarOffElement: ((ToLabel text: 'Light') withSkin: (ToLabelSkin new type: ToLabelPrimaryType new)).
 	th when: ToCheckableCheckEvent do: [ :event | event current traceCr ].
 	th checked: true.
 	th openInSpace
@@ -3521,7 +3473,9 @@ ToSandBox class >> example_toggle3 [
 	| th sp |
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';
-		      beLabelFirst.
+		      beLabelFirst;
+				beJustified;
+				hMatchParent.
 	th switchButtonOnElement: (ToImage inner: (Smalltalk ui icons iconNamed: #glamorousAccept)).
 	th switchButtonOffElement: (ToImage inner: (Smalltalk ui icons iconNamed: #glamorousClose)).
 

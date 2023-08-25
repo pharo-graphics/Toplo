@@ -31,7 +31,6 @@ ToMouseCursorLook >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	self hoverCursor ifNil: [ ^ self ].
-
 	anEvent elementDo: [ :e | 
 		(self hoverCursor value: e) ifNotNil: [ :c |		
 			previousCursor := e mouseCursor.
@@ -42,8 +41,6 @@ ToMouseCursorLook >> hoveredLookEvent: anEvent [
 ToMouseCursorLook >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
-	previousCursor ifNil: [ ^ self ].
-
 	anEvent elementDo: [ :e | 
 		e mouseCursor: previousCursor.
 		previousCursor := nil ]

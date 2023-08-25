@@ -40,6 +40,12 @@ ToElementState >> isPressedState [
 	^ false
 ]
 
+{ #category : #testing }
+ToElementState >> isSelectedState [
+
+	^ false
+]
+
 { #category : #'look event sending' }
 ToElementState >> sendEvent: anEvent toLook: aLook [
 

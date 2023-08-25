@@ -2,31 +2,45 @@ Class {
 	#name : #ToButtonIconSkin,
 	#superclass : #ToWidgetSkin,
 	#instVars : [
-		'buttonSkin'
+		'danger'
 	],
 	#category : #'Toplo-Widget-Image-Skins'
 }
 
 { #category : #accessing }
-ToButtonIconSkin >> buttonSkin [
+ToButtonIconSkin >> danger [
 
-	^ buttonSkin
+	^ danger ifNil: [ danger := false ]
 ]
 
 { #category : #accessing }
-ToButtonIconSkin >> buttonSkin: aButtonSkin [
+ToButtonIconSkin >> danger: aBoolean [
 
-	buttonSkin := aButtonSkin
+	danger := aBoolean
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonIconSkin >> dangerFormLookIn: anElement [
+
+	^ ToImageFormLook new
+		disabledColor: [ :e | e toTheme colorImageDisabled ];
+		initialColor: [ :e | e toTheme colorError];
+		hoverColor: [ :e | e toTheme colorErrorHover];
+		pressedColor: [ :e | e toTheme colorError darker];
+		yourself
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToButtonIconSkin >> onSkinInstalledIn: anElement [
-		
+
 	super onSkinInstalledIn: anElement.
-	self addLook: (self buttonSkin iconLookIn: anElement)
+	self addLook: (self danger
+			 ifTrue: [ self dangerFormLookIn: anElement ]
+			 ifFalse: [ self regularFormLookIn: anElement ])
+]
 
-	
+{ #category : #'api - install/uninstall  hook' }
+ToButtonIconSkin >> regularFormLookIn: anElement [
 
-
-
+	^ self subclassResponsibility 
 ]

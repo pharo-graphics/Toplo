@@ -1,7 +1,7 @@
 Class {
 	#name : #ToWidget,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TToEnableable',
-	#classTraits : 'TToWidget classTrait + TToEnableable classTrait',
+	#traits : 'TToWidget',
+	#classTraits : 'TToWidget classTrait',
 	#category : #'Toplo-Core'
 }

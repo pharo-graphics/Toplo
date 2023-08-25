@@ -1,52 +1,56 @@
 Class {
 	#name : #ToButtonPrimaryType,
-	#superclass : #ToButtonType,
+	#superclass : #ToClickableType,
 	#category : #'Toplo-Widget-Button-Skins'
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonPrimaryType >> backgroundLookIn: anElement [
+ToButtonPrimaryType >> basicButtonBorderLookIn: anElement [
 
-	^ self danger
-		  ifTrue: [
-			  ToBackgroundLook new
-				  initialBg: [:e | e toTheme colorError];
-				  pressedBg: [:e | e toTheme colorErrorHover darker];
-				  hoverBg: [:e | e toTheme colorErrorHover];
-				  yourself ]
-		  ifFalse: [
-			  ToBackgroundLook new
-				  initialBg: [:e | e toTheme colorPrimary];
-				  pressedBg: [:e | e toTheme colorPrimaryPressed];
-				  hoverBg: [:e | e toTheme colorPrimaryHover];
-				  yourself ]
+	^ ToBorderLook new
+		  disabledPaint: [ :e | e toTheme colorBorderDisabled ];
+		  initialPaint: [ :e | Color transparent ];
+		  width: [ :e | e toTheme lineWidth ];
+		  yourself
+]
+
+{ #category : #'basic button' }
+ToButtonPrimaryType >> basicButtonIconSkinIn: anElement [
+
+	^ ToButtonPrimaryIconSkin new danger: self danger
+]
+
+{ #category : #'basic button' }
+ToButtonPrimaryType >> basicButtonLabelSkinIn: anElement [
+
+	^ self regularLabelSkinIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonPrimaryType >> iconLookIn: anElement [
+ToButtonPrimaryType >> dangerBackgroundLookIn: anElement [
 
-	^ self regularFormLookIn: anElement
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonPrimaryType >> labelLookIn: anElement [
-
-	^ self regularLabelLookIn: anElement
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToButtonPrimaryType >> regularFormLookIn: anElement [
-
-	^ ToImageFormLook new
-		  initialColor: [ :e | e toTheme colorImageLightSolid ];
+	^ ToBackgroundLook new
+		  initialBg: [ :e | e toTheme colorError ];
+		  disabledBg: [ :e | e toTheme colorBgContainerDisabled ];
+		  pressedBg: [ :e | e toTheme colorErrorPressed ];
+		  hoverBg: [ :e | e toTheme colorErrorHover ];
 		  yourself
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonPrimaryType >> regularLabelLookIn: anElement [
+ToButtonPrimaryType >> regularBackgroundLookIn: anElement [
 
-	| labelLook |
-	labelLook := ToLabelTextLook new.
-	labelLook initialColor: anElement toTheme colorTextLightSolid.
-	^ labelLook
+	^ ToBackgroundLook new
+		  initialBg: [ :e | e toTheme colorPrimary ];
+		  disabledBg: [ :e | e toTheme colorBgContainerDisabled ];
+		  pressedBg: [ :e | e toTheme colorPrimaryPressed ];
+		  hoverBg: [ :e | e toTheme colorPrimaryHover ];
+		duration: 200 milliSeconds;
+		  yourself
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonPrimaryType >> regularLabelSkinIn: anElement [
+
+	^ ToButtonLabelSkin new type: ToLabelPrimaryType new
 ]

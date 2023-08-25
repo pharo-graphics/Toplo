@@ -7,24 +7,23 @@ Class {
 		'onContainer',
 		'offElement',
 		'onElement',
-		'button'
+		'checked',
+		'innerButton'
 	],
 	#category : #'Toplo-Widget-Toggle'
 }
 
 { #category : #accessing }
-ToToggleSwitchBarElement >> button [
+ToToggleSwitchBarElement >> checked [
 
-	^ button
+	^ checked
 ]
 
 { #category : #accessing }
-ToToggleSwitchBarElement >> button: anElement [
+ToToggleSwitchBarElement >> checked: aBoolean [
 
-	anElement ifNotNil: [
-		anElement constraintsDo: [ :c | c linear vertical alignCenter ] ].
-	button := anElement.
-	self updateChildren
+	checked := aBoolean.
+	self innerButton checked: aBoolean
 ]
 
 { #category : #initialization }
@@ -44,9 +43,30 @@ ToToggleSwitchBarElement >> initialize [
 	offContainer constraintsDo: [ :c | c linear vertical alignCenter ].
 	onContainer := ToElement new vFitContent; width: self sideWidth; layout: BlFrameLayout new; yourself.
 	onContainer constraintsDo: [ :c | c linear vertical alignCenter ].
-	self button: ToToggleSwitchButtonElement new.
-	self addChildren: { onContainer. button. offContainer }
+	self innerButton: ToToggleSwitchInnerButtonElement new.
+	self addChildren: { onContainer. innerButton. offContainer }
 
+]
+
+{ #category : #accessing }
+ToToggleSwitchBarElement >> innerButton [
+
+	^ innerButton
+]
+
+{ #category : #accessing }
+ToToggleSwitchBarElement >> innerButton: anElement [
+
+	anElement ifNotNil: [
+		anElement constraintsDo: [ :c | c linear vertical alignCenter ] ].
+	innerButton := anElement.
+	self updateChildren
+]
+
+{ #category : #testing }
+ToToggleSwitchBarElement >> isChecked [ 
+
+	^ self checked
 ]
 
 { #category : #accessing }
@@ -110,7 +130,7 @@ ToToggleSwitchBarElement >> sideWidth: anInteger [
 { #category : #requirements }
 ToToggleSwitchBarElement >> switchOff [
 
-	self button switchOff.
+	self innerButton switchOff.
 	onContainer visibility: BlVisibility hidden.
 	offContainer visibility: BlVisibility visible
 ]
@@ -118,7 +138,7 @@ ToToggleSwitchBarElement >> switchOff [
 { #category : #requirements }
 ToToggleSwitchBarElement >> switchOn [ 
 
-	self button switchOn.
+	self innerButton switchOn.
 	offContainer visibility: BlVisibility hidden.
 	onContainer visibility: BlVisibility visible
 ]

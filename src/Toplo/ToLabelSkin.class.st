@@ -1,9 +1,9 @@
 Class {
 	#name : #ToLabelSkin,
-	#superclass : #ToBasicLabelSkin,
+	#superclass : #ToWidgetSkin,
 	#instVars : [
-		'type',
-		'heading'
+		'heading',
+		'type'
 	],
 	#category : #'Toplo-Widget-Label-Skins'
 }
@@ -31,37 +31,25 @@ ToLabelSkin >> initialize [
 { #category : #accessing }
 ToLabelSkin >> labelLookIn: anElement [
 
-	| labelLook |
-	labelLook := ToLabelTextLook new.
-	labelLook
-		initialColor: (self type textColorIn: anElement).
-	^ labelLook
+	^ ToLabelTextLook new
+		  weight: anElement toTheme fontWeightStrong;
+		  defaultFontName: anElement toTheme fontFamilyCode;
+		  defaultFontSize: (self heading fontSizeIn: anElement);
+		  lineSpacing: (self heading lineHeightIn: anElement);
+		  foreground: (self type textColorIn: anElement);
+		  disabledColor: [ :e | e toTheme colorTextDisabled ];
+		  initialColor: [:e | self type textColorIn: anElement ];
+		  yourself
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToLabelSkin >> onSkinInstalledIn: anElement [
 
-	| labelLook attrBuilder |
 	super onSkinInstalledIn: anElement.
-	attrBuilder := self textAttributesBuilderFromElement: anElement.
-	labelLook := self labelLookIn: anElement.
-	labelLook attrBuilder: attrBuilder.
-	self addLook: labelLook.
+	self addLook: (self labelLookIn: anElement).
 
 
 
-]
-
-{ #category : #accessing }
-ToLabelSkin >> textAttributesBuilderFromElement: anElement [
-
-	| builder |
-	builder  := super textAttributesBuilderFromElement: anElement.
-	builder lineSpacing: (self heading lineHeightIn: anElement).
-	builder defaultFontSize: (self heading fontSizeIn: anElement).
-	builder foreground: (self type textColorIn: anElement).
-
-	^ builder 
 ]
 
 { #category : #accessing }

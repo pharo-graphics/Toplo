@@ -4,7 +4,7 @@ Class {
 	#traits : 'TToWidget + TToWidgetWithTooltip + TToWidgetWithViewModel',
 	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithViewModel classTrait',
 	#instVars : [
-		'#innerImage => ObservableSlot'
+		'innerImage'
 	],
 	#category : #'Toplo-Widget-Image'
 }
@@ -46,9 +46,7 @@ ToImage >> initialize [
 	innerImage := self defaultInnerImage.
 	self addChild: innerImage.
 	" I ** must be ** considered as a leaf of a UI element tree. Otherwise, click may not work on me. This is why my children are not allowed to manage mouse events. Related to https://github.com/plantec/Toplo/issues/41"
-	self preventChildrenMouseEvents.
-	self whenInnerImageChangedDo: [ :new :prev |
-		self dispatchEvent: (ToInnerImageChangedEvent current: new previous: prev) ]
+	self preventChildrenMouseEvents
 ]
 
 { #category : #'form accessing' }
@@ -75,14 +73,6 @@ ToImage >> innerImage: anImage [
 	innerImage := element.
 	self addChild: element.
 
-]
-
-{ #category : #'api - change hook' }
-ToImage >> whenInnerImageChangedDo: aBlock [
-
-	"set a block to perform after that the image has been changed, and its action performed"
-
-	self property: #innerImage whenChangedDo: aBlock
 ]
 
 { #category : #'form accessing' }

@@ -159,11 +159,116 @@ ToTheme >> borderRadius [
 	^ 6
 ]
 
+{ #category : #border }
+ToTheme >> borderRadiusLG [
+	"https://ant.design/components/button#design-token"
+	
+	^ 8
+]
+
+{ #category : #border }
+ToTheme >> borderRadiusSM [
+	"https://ant.design/components/button#design-token"
+	
+	^ 4
+]
+
+{ #category : #images }
+ToTheme >> checkboxCheckedImageIn: anElement [
+
+	^ ToImage inner: (BlElement new
+			   size: (anElement toTheme controlHeight / 2) asPoint;
+			   border: (BlBorder paint: anElement toTheme colorPrimary width: 6);
+			   margin: (BlInsets all: 0);
+			   background: anElement toTheme colorBgContainer;
+			   yourself)
+]
+
+{ #category : #images }
+ToTheme >> checkboxDisabledImageIn: anElement [
+
+	^ ToImage inner: (BlElement new
+			   size: (anElement toTheme controlHeight / 2) asPoint;
+			   border: (BlBorder paint: anElement toTheme colorBorderDisabled width: 6);
+			   margin: (BlInsets all: 0);
+			   background: anElement toTheme colorBgContainer;
+			   yourself)
+]
+
+{ #category : #images }
+ToTheme >> checkboxIndeterminateImageIn: anElement [
+
+	| bar im |
+	bar := BlElement new
+		       constraintsDo: [ :c |
+			       c horizontal matchParent.
+			       c vertical exact: 4.
+			       c frame horizontal alignCenter.
+			       c frame vertical alignCenter ];
+		       border: BlBorder empty;
+		       background: anElement toTheme colorPrimary.
+	im := BlElement new
+		      size: 12 @ 12;
+		      margin: (BlInsets all: 2);
+				background: (anElement toTheme colorBgContainer alpha: 0);
+		      yourself.
+	im layout: BlFrameLayout new.
+	im addChild: bar.
+	^ ToImage inner: im
+]
+
+{ #category : #images }
+ToTheme >> checkboxUncheckedImageIn: anElement [
+
+	^ ToImage inner: (BlElement new
+			   size: (anElement toTheme controlHeight / 2) asPoint;
+			   margin: (BlInsets all: 0);
+			   background: (anElement toTheme colorBgContainer alpha: 0);
+			   yourself)
+]
+
 { #category : #colors }
 ToTheme >> colorBgContainer [
 	"https://ant.design/components/button#design-token"
 	
 	^ Color fromHexString: '#ffffff'
+]
+
+{ #category : #colors }
+ToTheme >> colorBgContainerChecked [
+	
+	^ self colorPrimary
+]
+
+{ #category : #colors }
+ToTheme >> colorBgContainerCheckedHover [
+	
+	^ self colorPrimaryHover
+]
+
+{ #category : #colors }
+ToTheme >> colorBgContainerCheckedPressed [
+	
+	^ self colorPrimary darker
+]
+
+{ #category : #colors }
+ToTheme >> colorBgContainerDisabled [
+	"https://ant.design/components/button#design-token"
+	
+	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.04 
+]
+
+{ #category : #colors }
+ToTheme >> colorBgContainerUnchecked [
+	
+	^ Color gray alpha: 0.6
+]
+
+{ #category : #colors }
+ToTheme >> colorBgContainerUncheckedHover [
+	
+	^ Color gray alpha: 0.4
 ]
 
 { #category : #colors }
@@ -177,7 +282,7 @@ ToTheme >> colorBgTextActive [
 ToTheme >> colorBgTextHover [
 	"Control the background color of text in hover state"
 
-	^ Color r: 0 g: 0 b: 0 alpha: 0.06
+	^ (Color r: 0 g: 0 b: 0 alpha: 0.2) 
 ]
 
 { #category : #colors }
@@ -185,6 +290,13 @@ ToTheme >> colorBorder [
 	"https://ant.design/components/button#design-token"
 	
 	^ Color fromHexString: '#d9d9d9'
+]
+
+{ #category : #colors }
+ToTheme >> colorBorderDisabled [
+	"https://ant.design/components/button#design-token"
+	
+	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.2 
 ]
 
 { #category : #colors }
@@ -226,6 +338,12 @@ ToTheme >> colorErrorPressed [
 ToTheme >> colorImage [
 	
 	^ self colorText
+]
+
+{ #category : #colors }
+ToTheme >> colorImageDisabled [
+	
+	^ Color r: 0.7 g: 0.7 b: 0.7 alpha: 1.0
 ]
 
 { #category : #colors }
@@ -521,8 +639,47 @@ ToTheme >> paddingContentHorizontal [
 ]
 
 { #category : #sizes }
+ToTheme >> paddingContentVertical [
+	"Control the vertical padding of content element"
+
+	^ 8
+]
+
+{ #category : #sizes }
 ToTheme >> paddingXS [
 	"Control the extra small padding of the element"
 
 	^ 8
+]
+
+{ #category : #images }
+ToTheme >> radioCheckedImageIn: anElement [
+
+	^ (self checkboxCheckedImageIn: anElement)
+		  geometry: BlCircleGeometry new;
+		  yourself
+]
+
+{ #category : #images }
+ToTheme >> radioDisabledImageIn: anElement [
+
+	^ (self checkboxDisabledImageIn: anElement)
+		  geometry: BlCircleGeometry new;
+		  yourself
+]
+
+{ #category : #images }
+ToTheme >> radioIndeterminateImageIn: anElement [
+
+	^ (self checkboxIndeterminateImageIn: anElement)
+		  geometry: BlCircleGeometry new;
+		  yourself
+]
+
+{ #category : #images }
+ToTheme >> radioUncheckedImageIn: anElement [
+
+	^ (self checkboxUncheckedImageIn: anElement)
+		  geometry: BlCircleGeometry new;
+		  yourself
 ]

@@ -35,6 +35,12 @@ ToMenuWindow >> defaultDresser [
 	^ ToMenuWindowDresser new
 ]
 
+{ #category : #'t - skinable - initialization' }
+ToMenuWindow >> defaultSkin [ 
+
+	^ ToMenuWindowSkin new
+]
+
 { #category : #accessing }
 ToMenuWindow >> items [
 

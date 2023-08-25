@@ -1,44 +1,39 @@
 Class {
 	#name : #ToButtonTextType,
-	#superclass : #ToButtonType,
+	#superclass : #ToClickableType,
 	#category : #'Toplo-Widget-Button-Skins'
 }
 
-{ #category : #'api - install/uninstall  hook' }
-ToButtonTextType >> backgroundLookIn: anElement [
+{ #category : #'basic button' }
+ToButtonTextType >> basicButtonIconSkinIn: anElement [
 
-	^ self danger
-		  ifTrue: [
-			  ToBackgroundLook new
-				  initialBg: [:e | Color transparent];
-				  pressedBg: [:e | e toTheme colorErrorBg];
-				  hoverBg: [:e | e toTheme colorErrorBg];
-				  yourself ]
-		  ifFalse: [
-			  ToBackgroundLook new
-				  initialBg: [:e | Color transparent];
-				  pressedBg: [:e | e toTheme colorBgTextActive];
-				  hoverBg: [:e | e toTheme colorBgTextHover];
-				  yourself ]
+	^ ToButtonTextIconSkin new danger: self danger
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonTextType >> regularFormLookIn: anElement [
+ToButtonTextType >> dangerBackgroundLookIn: anElement [
 
-	| formLook |
-	formLook := ToImageFormLook new.
-	formLook
-		initialColor: [ :e | e toTheme colorText];
-		hoverColor: [ :e | e  toTheme colorText];
-		pressedColor: [ :e | e  toTheme colorText].
-	^ formLook
+	^ ToBackgroundLook new
+		  disabledBg: [ :e | e toTheme colorBgContainerDisabled ];
+		  initialBg: [ :e | Color transparent ];
+		  pressedBg: [ :e | e toTheme colorErrorBg ];
+		  hoverBg: [ :e | e toTheme colorErrorBg ];
+		  yourself
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToButtonTextType >> regularLabelLookIn: anElement [
+ToButtonTextType >> regularBackgroundLookIn: anElement [
 
-	| labelLook |
-	labelLook := ToLabelTextLook new.
-	labelLook initialColor: anElement toTheme colorText.
-	^ labelLook
+	^ ToBackgroundLook new
+		  disabledBg: [ :e | e toTheme colorBgContainerDisabled ];
+		  initialBg: [ :e | Color transparent ];
+		  pressedBg: [ :e | e toTheme colorBgTextActive ];
+		  hoverBg: [ :e | e toTheme colorBgTextHover ];
+		  yourself
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToButtonTextType >> regularLabelSkinIn: anElement [
+
+	^ ToButtonLabelSkin new type: ToLabelTextType new
 ]

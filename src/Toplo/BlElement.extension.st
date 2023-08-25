@@ -32,6 +32,30 @@ BlElement >> currentSkinState: aState [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> disable [
+
+	self isFlaggedAsDisabled ifFalse: [
+		self flagAsDisabled.
+		self dispatchEnablementChangedEvent  ].
+	self childrenDo: [ :child | child disable ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> dispatchChildSkinsDirtyEvent [
+
+	self dispatchEvent: ToChildSkinsDirtyEvent new.
+	self childrenDo: [ :child | child dispatchChildSkinsDirtyEvent ].
+
+
+]
+
+{ #category : #'*Toplo' }
+BlElement >> dispatchEnablementChangedEvent [
+
+	self dispatchEvent: ToEnablementChangedEvent new
+]
+
+{ #category : #'*Toplo' }
 BlElement >> dispatchLookEvent: anEvent [
 
 	self dispatchEvent: anEvent.
@@ -39,18 +63,54 @@ BlElement >> dispatchLookEvent: anEvent [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> dispatchSkinChangedEvent [
+BlElement >> enable [
 
-	self dispatchEvent: ToElementSkinChangedEvent new.
-	self childrenDo: [ :child | child dispatchSkinChangedEvent ].
+	self isFlaggedAsEnabled ifFalse: [
+		self flagAsEnabled.
+		self dispatchEnablementChangedEvent ].
+	self childrenDo: [ :child | child enable ]
+]
 
+{ #category : #'*Toplo' }
+BlElement >> flagAsDisabled [
 
+	self userData at: #enabled put: false
+]
+
+{ #category : #'*Toplo' }
+BlElement >> flagAsEnabled [
+
+	self userData at: #enabled put: true
 ]
 
 { #category : #'*Toplo' }
 BlElement >> holder [
 
 	^ self constraints infinite holder
+]
+
+{ #category : #'*Toplo' }
+BlElement >> isDisabled [
+
+	^ self isFlaggedAsDisabled
+]
+
+{ #category : #'*Toplo' }
+BlElement >> isEnabled [
+
+	^ self isFlaggedAsEnabled 
+]
+
+{ #category : #'*Toplo' }
+BlElement >> isFlaggedAsDisabled [
+
+	^ self isFlaggedAsEnabled not
+]
+
+{ #category : #'*Toplo' }
+BlElement >> isFlaggedAsEnabled [
+
+	^ self userData at: #enabled ifAbsentPut: [ true ]
 ]
 
 { #category : #'*Toplo' }
@@ -65,6 +125,15 @@ BlElement >> launchSkinUninstallation [
 
 	"Nothing to do at BlElement level to preserve efficienty"
 
+]
+
+{ #category : #'*Toplo' }
+BlElement >> openInInnerWindow [
+
+	| frame |
+	frame := ToInnerWindow new.
+	frame root addChild: self.
+	frame openInSpace
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
@@ -124,9 +193,15 @@ BlElement >> privateToTheme: aTheme [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> skinDo: aBlock [
+
+	self privateSkin ifNil: [ ^ self ].
+	aBlock value: self privateSkin
+]
+
+{ #category : #'*Toplo' }
 BlElement >> switchToSkinState: aState [
 
-	"self currentState class = aState class ifTrue: [ ^ self ]."
 	self currentSkinState: aState.
 	self dispatchLookEvent: (ToElementStateChangedEvent new state: aState; yourself)
 ]
@@ -167,12 +242,13 @@ BlElement >> toThemeChanged [
 { #category : #'*Toplo' }
 BlElement >> withSkin: aSkin [
 
-	self withoutSkin.
+	self privateSkin ifNotNil: [ :s |
+		self removeEventHandler: s ].
 	self privateSkin: aSkin.
 	Toplo useLookAndFeel ifTrue: [ ^ self ].
 	self privateSkin ifNotNil: [ :s |
 		self addEventHandler: s.
-		self dispatchSkinChangedEvent ]
+		self dispatchChildSkinsDirtyEvent ]
 ]
 
 { #category : #'*Toplo' }

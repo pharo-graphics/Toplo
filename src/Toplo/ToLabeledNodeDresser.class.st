@@ -7,8 +7,7 @@ Class {
 { #category : #'api - install/uninstall  hook' }
 ToLabeledNodeDresser >> installEventListenersIn: anElement [
 
-	super installEventListenersIn: anElement.
-	anElement whenLabelChangedDo: [ :curr :prev | self installNewLabel: curr previous: prev in: anElement]
+	super installEventListenersIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }

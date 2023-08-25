@@ -1,65 +1,79 @@
 Class {
 	#name : #ToCheckableSkin,
-	#superclass : #ToWidgetSkin,
+	#superclass : #ToClickableSkin,
 	#category : #'Toplo-Widget-Button-Skins'
 }
 
 { #category : #'api - install/uninstall  hook' }
-ToCheckableSkin >> buttonIconChanged: anEvent [
+ToCheckableSkin >> backgroundLookIn: anElement [
 
-	anEvent currentTarget icon ifNil: [ ^ self ].
-	" have to change the state of the new icon so that its skin is initialized with the right state.
-	As an example in case of click, a CheckBoxButton turns into HoverState and change its icon which 
-	itself must be initialized into an HoverState (the same as its CheckBoxButton) "
-	anEvent currentTarget icon currentSkinState: anEvent currentTarget currentSkinState.
-	anEvent currentTarget icon withSkin: self iconSkin.
-	
+	^ self type checkableButtonBackgroundLookIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToCheckableSkin >> buttonLabelChanged: anEvent [
+ToCheckableSkin >> borderLookIn: anElement [
+
+	^ self type checkableButtonBorderLookIn: anElement
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing images' }
 ToCheckableSkin >> checkedImageIn: anElement [
 
 	^ self subclassResponsibility 
 ]
 
-{ #category : #'api - accessing' }
-ToCheckableSkin >> eventsToHandle [ 
+{ #category : #'t - shapeable - initialization' }
+ToCheckableSkin >> defaultShaping [
 
-	^ super eventsToHandle, { ToButtonIconChangedEvent. ToButtonLabelChangedEvent }
+	^ ToRectangleShaping new
+		  yourself
 ]
 
 { #category : #accessing }
-ToCheckableSkin >> iconSkin [
+ToCheckableSkin >> defaultType [
 
-	self subclassResponsibility 
+	^ ToButtonTextType new
+]
+
+{ #category : #'accessing images' }
+ToCheckableSkin >> disabledImageIn: anElement [
+
+	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }
+ToCheckableSkin >> iconSkinIn: aButton [ 
+
+	^ self subclassResponsibility 
+
+]
+
+{ #category : #'accessing images' }
 ToCheckableSkin >> indeterminateImageIn: anElement [
 
 	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToCheckableSkin >> labelSkinIn: aButton [
+
+	^ self type checkableLabelSkinIn: aButton
+
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToCheckableSkin >> onSkinInstalledIn: anElement [
 
 	super onSkinInstalledIn: anElement.
-	anElement spacingWidth: anElement toTheme paddingContentHorizontal / 2.
-	anElement icon: (ToImage inner: (anElement isChecked
-				  ifTrue: [ self checkedImageIn: anElement ]
-				  ifFalse: [ self uncheckedImageIn: anElement ])).
 	self addLook: (ToCheckLook new
+			 disabledImage: (self disabledImageIn: anElement);
 			 checkedImage: (self checkedImageIn: anElement);
 			 uncheckedImage: (self uncheckedImageIn: anElement);
 			 indeterminateImage: (self indeterminateImageIn: anElement);
 			 yourself)
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing images' }
 ToCheckableSkin >> uncheckedImageIn: anElement [
 
 	^ self subclassResponsibility 

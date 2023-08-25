@@ -17,6 +17,18 @@ ToDefaultElementLook >> clickLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToDefaultElementLook >> disabledLookEvent: anEvent [
+
+
+]
+
+{ #category : #'event handling' }
+ToDefaultElementLook >> focusedLookEvent: anEvent [
+
+
+]
+
+{ #category : #'event handling' }
 ToDefaultElementLook >> hoveredLookEvent: anEvent [
 
 
@@ -43,6 +55,11 @@ ToDefaultElementLook >> leavedLookEvent: anEvent [
 { #category : #'event handling' }
 ToDefaultElementLook >> pressedLookEvent: anEvent [
 
+
+]
+
+{ #category : #'event handling' }
+ToDefaultElementLook >> selectedLookEvent: anEvent [
 
 ]
 

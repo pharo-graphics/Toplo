@@ -15,14 +15,15 @@ ToTextFieldPopupExperiment class >> open [
 ToTextFieldPopupExperiment >> open [
 
 	| e |
-	e :=BlElement new
-		size: 200@200;
-		background: Color red;
-		yourself.
-	e addEventHandler: (BlEventHandler on: BlTextInputEvent
-			do: [ :anEvent | self popupTextFieldWith: anEvent text on: e ]).
+	e := BlElement new
+		     size: 200 @ 200;
+		     background: Color red;
+		     yourself.
+	e addEventHandler: (BlEventHandler
+			 on: BlTextInputEvent
+			 do: [ :anEvent | self popupTextFieldWith: anEvent text on: e ]).
 	e requestFocus.
-	e openInOBlSpace
+	e openInSpace
 ]
 
 { #category : #'instance creation' }

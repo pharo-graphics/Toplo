@@ -1,8 +1,8 @@
 Class {
 	#name : #ToContextMenu,
 	#superclass : #ToMenuWindow,
-	#traits : 'TToMenuItemHolder',
-	#classTraits : 'TToMenuItemHolder classTrait',
+	#traits : 'TToMenuItemHolder + TToMenuWindowModel',
+	#classTraits : 'TToMenuItemHolder classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
 		'widgetWithContextMenuEventHandler',
 		'widgetExtentChangeHandler',
@@ -11,11 +11,11 @@ Class {
 	#category : #'Toplo-Widget-Menu'
 }
 
-{ #category : #'t - menu window accessing' }
+{ #category : #'parent menu' }
 ToContextMenu >> allParentMenusDo: aBlock [
 ]
 
-{ #category : #'initialize-release' }
+{ #category : #'t - menu window model - window opening/closing' }
 ToContextMenu >> close [
 
 	self isOpened ifFalse: [ ^ self ].
@@ -61,13 +61,25 @@ ToContextMenu >> installedInWidget: aWidget [
 
 ]
 
-{ #category : #'t - menu window accessing' }
-ToContextMenu >> menuWindow [ 
+{ #category : #testing }
+ToContextMenu >> isSubmenu [ 
 
-	^ self
+	^ false
 ]
 
-{ #category : #'api - displaying' }
+{ #category : #testing }
+ToContextMenu >> isTopMenu [
+
+	^ true
+]
+
+{ #category : #'t - menu window model - accessing' }
+ToContextMenu >> menuWindow [
+
+	^ self 
+]
+
+{ #category : #'t - menu window model - window opening/closing' }
 ToContextMenu >> popupEvent: anEvent [
 
 	self widget ifNotNil: [ :w | w openedContextMenu: self ].

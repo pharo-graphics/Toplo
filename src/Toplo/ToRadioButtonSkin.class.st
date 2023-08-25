@@ -1,35 +1,14 @@
 Class {
 	#name : #ToRadioButtonSkin,
-	#superclass : #ToCheckboxSkin,
+	#superclass : #ToCheckableSkin,
+	#traits : 'TToRadioButtonSkin',
+	#classTraits : 'TToRadioButtonSkin classTrait',
 	#category : #'Toplo-Widget-Button-Skins'
 }
 
 { #category : #accessing }
-ToRadioButtonSkin >> checkedImageIn: anElement [
+ToRadioButtonSkin >> iconSkinIn: aButton [ 
 
-	^ (super checkedImageIn: anElement)
-		  geometry: BlCircleGeometry new;
-		  yourself
-]
+	^ self type radioButtonIconSkinIn: aButton
 
-{ #category : #accessing }
-ToRadioButtonSkin >> iconSkin [
-
-	^ ToRadioButtonIconSkin new.
-]
-
-{ #category : #accessing }
-ToRadioButtonSkin >> indeterminateImageIn: anElement [
-
-	^ (super indeterminateImageIn: anElement)
-		  geometry: BlCircleGeometry new;
-		  yourself
-]
-
-{ #category : #accessing }
-ToRadioButtonSkin >> uncheckedImageIn: anElement [
-
-	^ (super uncheckedImageIn: anElement)
-		  geometry: BlCircleGeometry new;
-		  yourself
 ]

@@ -1,5 +1,5 @@
 Class {
-	#name : #ToChildSkin,
+	#name : #ToChildSkinBuilder,
 	#superclass : #Object,
 	#instVars : [
 		'skinBuilder',
@@ -9,36 +9,36 @@ Class {
 }
 
 { #category : #accessing }
-ToChildSkin >> skinBuilder [
+ToChildSkinBuilder >> builder [
 
 	^ skinBuilder
 ]
 
 { #category : #accessing }
-ToChildSkin >> skinBuilder: aValuable [
+ToChildSkinBuilder >> builder: aValuable [
 
 	skinBuilder := aValuable
 ]
 
 { #category : #accessing }
-ToChildSkin >> slotName [
+ToChildSkinBuilder >> slotName [
 
 	^ slotName
 ]
 
 { #category : #accessing }
-ToChildSkin >> slotName: aSymbol [
+ToChildSkinBuilder >> slotName: aSymbol [
 
 	slotName := aSymbol
 ]
 
 { #category : #'skin updating' }
-ToChildSkin >> updateIn: anElement [
+ToChildSkinBuilder >> updateIn: anElement [
 
 	| childElement skin |
 	childElement := anElement instVarNamed: self slotName.
 	childElement ifNil: [ ^ self ].
-	skin := self skinBuilder value: anElement.
+	skin := self builder value: anElement.
 	childElement withSkin: skin
 
 ]

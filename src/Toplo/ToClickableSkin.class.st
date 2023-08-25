@@ -128,13 +128,13 @@ ToClickableSkin >> changeTypeWith: aSkinType in: anElement [
 ToClickableSkin >> childSkinsToHandle [
  
 	^ {
-		  (ToChildSkin new
+		  (ToChildSkinBuilder new
 			   slotName: #icon;
-			   skinBuilder: [ :e | self iconSkinIn: e ];
+			   builder: [ :e | self iconSkinIn: e ];
 			   yourself).
-		  (ToChildSkin new
+		  (ToChildSkinBuilder new
 			   slotName: #label;
-			   skinBuilder: [ :e | self labelSkinIn: e ];
+			   builder: [ :e | self labelSkinIn: e ];
 			   yourself) }
 ]
 

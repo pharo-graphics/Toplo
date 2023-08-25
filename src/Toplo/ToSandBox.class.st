@@ -788,7 +788,7 @@ ToSandBox class >> example_ListWithoutSelection [
 
 { #category : #list }
 ToSandBox class >> example_PicsumPhotosGallery [
-
+	"cool example adapted from the feenk Glamorous Toolkit version BlInfiniteExample>>exampleGallery"
 	| space list vscrollBar |
 	list := ToListElement new
 		        matchParent;

@@ -33,6 +33,13 @@ TToCheckable >> checked: aBooleanOrNil [
 	self privateChecked: request checked
 ]
 
+{ #category : #initialization }
+TToCheckable >> initialize [
+
+	self class initializeSlots: self.
+	super initialize.
+]
+
 { #category : #'t - checkable - initializing' }
 TToCheckable >> initializeCheckable [
 

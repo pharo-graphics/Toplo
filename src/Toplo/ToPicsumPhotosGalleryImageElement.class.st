@@ -63,7 +63,8 @@ ToPicsumPhotosGalleryImageElement >> imageData: anImageData [
 ToPicsumPhotosGalleryImageElement >> initialize [
 	super initialize.
 	label := ToLabel new hFitContent; yourself.
-	label background: Color yellow.
+	label background: Color black.
+	label withSkin: nil.
 	self addChild: label.
 	self whenLayoutedDo: [ self loadImage ]
 ]

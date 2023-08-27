@@ -44,7 +44,7 @@ ToTripletStrategy >> onInstalledIn: aTriplet [
 { #category : #layout }
 ToTripletStrategy >> onMeasure: anExtentMeasurementSpec in: aTriplet [
 
-	self subclassResponsibility 
+	^ true
 ]
 
 { #category : #'api - install/uninstall  hook' }

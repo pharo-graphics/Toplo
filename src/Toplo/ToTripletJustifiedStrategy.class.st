@@ -25,11 +25,3 @@ ToTripletJustifiedStrategy >> isJustified [
 
 	^ true
 ]
-
-{ #category : #layout }
-ToTripletJustifiedStrategy >> onMeasure: anExtentMeasurementSpec in: aTriplet [
-
-	" nothing to do, interspace is setup in #initialize "
-
-	^ true 
-]

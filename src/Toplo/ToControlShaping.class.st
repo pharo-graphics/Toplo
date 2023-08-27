@@ -7,12 +7,6 @@ Class {
 	#category : #'Toplo-Core-Theme'
 }
 
-{ #category : #'private children updating' }
-ToControlShaping >> adaptNextChildrenArray: anArray in: anElement [
-
-	^ anArray
-]
-
 { #category : #hook }
 ToControlShaping >> applyOn: anElement [
 

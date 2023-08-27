@@ -24,14 +24,6 @@ ToTripletWithExactInterspaceStrategy >> interspaceWidth [
 	^ interspace requestedWidth
 ]
 
-{ #category : #layout }
-ToTripletWithExactInterspaceStrategy >> onMeasure: anExtentMeasurementSpec in: aTriplet [
-
-	" nothing to do, interspace is with exact size "
-
-	^ true 
-]
-
 { #category : #accessing }
 ToTripletWithExactInterspaceStrategy >> width: anInteger [
 

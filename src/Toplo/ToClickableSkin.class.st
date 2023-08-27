@@ -27,8 +27,7 @@ ToClickableSkin >> adaptNextChildrenArray: anArray in: anElement [
 			c linear horizontal alignCenter.
 			c frame vertical alignCenter.
 			c frame horizontal alignCenter ] ].
-
-	^ self shaping adaptNextChildrenArray: anArray in: anElement
+	^ anArray
 ]
 
 { #category : #'t - shapeable - private - shaping/sizing' }

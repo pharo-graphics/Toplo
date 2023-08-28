@@ -11,7 +11,7 @@ TToOrientable >> beHorizontal [
 
 	verticalRequested := false.
 	self isHorizontal ifTrue: [ ^ self ].
-	self orientation: BlLinearLayoutHorizontalOrientation new.
+	self layout beHorizontal.
 	self requestLayout 
 ]
 
@@ -34,7 +34,7 @@ TToOrientable >> beVertical [
 
 	verticalRequested := true.
 	self isVertical ifTrue: [ ^ self ].
-	self orientation: BlLinearLayoutVerticalOrientation new.
+	self layout beVertical.
 	self requestLayout 
 ]
 

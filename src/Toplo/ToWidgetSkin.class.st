@@ -9,21 +9,16 @@ Class {
 	#category : #'Toplo-Core-Theme'
 }
 
-{ #category : #'private children updating' }
-ToWidgetSkin >> adaptNextChildrenArray: anArray in: anElement [
-
-	" the skin can setup future children here "
-	
-	"by default do nothing"
-	^ anArray
-]
-
 { #category : #adding }
 ToWidgetSkin >> addLook: aLook [
 
 	aLook isNull ifTrue: [ ^ self ].
 	aLook next: look.
 	self privateLook: aLook
+]
+
+{ #category : #'private children updating' }
+ToWidgetSkin >> childAdded: aChild in: anElement [
 ]
 
 { #category : #'api - accessing' }
@@ -64,6 +59,12 @@ ToWidgetSkin >> dispatchChangedEventIn: anElement [
 ]
 
 { #category : #'event handling' }
+ToWidgetSkin >> elementAddedToParentEvent: anEvent [
+
+	anEvent currentTarget parent skinDo: [:s | s childAdded: anEvent currentTarget in: anEvent currentTarget parent]
+]
+
+{ #category : #'event handling' }
 ToWidgetSkin >> elementLookEvent: anEvent [
 
 	anEvent sendTo: self look
@@ -75,6 +76,7 @@ ToWidgetSkin >> eventsToHandle [
 	^ {
 		  ToThemeChangedEvent.
 		  ToChildSkinsDirtyEvent.
+		BlElementAddedToParentEvent.
 		  ToSkinnablePropertyChangedEvent.
 		  ToElementLookEvent.
 		  ToLayoutOrientationChangedEvent.

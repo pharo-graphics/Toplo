@@ -20,18 +20,6 @@ ToTripletStrategy >> columnWidth [
 ]
 
 { #category : #accessing }
-ToTripletStrategy >> interspaceHeight [ 
-
-	^ 0
-]
-
-{ #category : #accessing }
-ToTripletStrategy >> interspaceWidth [
-
-	^ 0
-]
-
-{ #category : #accessing }
 ToTripletStrategy >> isJustified [
 
 	^ false

@@ -13,9 +13,9 @@ ToMenuItemSkin >> applyQuadShaping: aShaping on: anElement [
 	anElement padding: (self defaultPaddingIn: anElement).
 	(anElement isSubmenu or: [ anElement isTopMenu not ]) ifTrue: [
 		anElement hMatchParent ].
-	anElement isTopMenu ifTrue: [ anElement interspaceWidth: anElement toTheme paddingXS ].
-	anElement isSubmenu ifTrue: [
-		anElement tripletStrategy: (ToTripletSubmenuColumnStrategy new width: anElement columnWidth) ]
+	anElement isTopMenu ifTrue: [ anElement interspace: anElement toTheme paddingXS ].
+	"anElement isSubmenu ifTrue: [
+		anElement tripletStrategy: (ToTripletSubmenuColumnStrategy new width: anElement columnWidth) ]"
 ]
 
 { #category : #'api - install/uninstall  hook' }

@@ -16,20 +16,6 @@ ToClickableSkin class >> type: aButtonType [
 	^ self new type: aButtonType 
 ]
 
-{ #category : #'private children updating' }
-ToClickableSkin >> adaptNextChildrenArray: anArray in: anElement [
-	" the skin can setup future children here "
- 
-	" in a button, children are centered whatever the layout (Linear or Frame)"
-	anArray do: [ :child |
-		child constraintsDo: [ :c |
-			c linear vertical alignCenter.
-			c linear horizontal alignCenter.
-			c frame vertical alignCenter.
-			c frame horizontal alignCenter ] ].
-	^ anArray
-]
-
 { #category : #'t - shapeable - private - shaping/sizing' }
 ToClickableSkin >> applyCircleShaping: aShaping on: anElement [
  
@@ -59,11 +45,10 @@ ToClickableSkin >> applyQuadShaping: aShaping on: anElement [
 
 	anElement verticalRequested
 		ifTrue: [
-			anElement interspaceHeight:
-				anElement toTheme paddingContentVertical / 3 ]
+			anElement interspace: anElement toTheme paddingContentVertical / 3 ]
 		ifFalse: [
 			(anElement isJustified or: [anElement columnWidth > 0]) ifFalse: [
-				anElement interspaceWidth: anElement toTheme paddingContentHorizontal / 3 ] ].
+				anElement interspace: anElement toTheme paddingContentHorizontal / 3 ] ].
 
 	anElement padding: (self defaultPaddingIn: anElement)
 ]
@@ -121,6 +106,17 @@ ToClickableSkin >> changeTypeWith: aSkinType in: anElement [
 	"DefaultType, PrimaryType, LinkType or TextType "
 	self type: aSkinType.
 	self dispatchChangedEventIn: anElement
+]
+
+{ #category : #'private children updating' }
+ToClickableSkin >> childAdded: aChild in: anElement [
+	" in a button, children are centered whatever the layout (Linear or Frame)"
+
+	aChild constraintsDo: [ :c |
+		c linear vertical alignCenter.
+		c linear horizontal alignCenter.
+		c frame vertical alignCenter.
+		c frame horizontal alignCenter ]
 ]
 
 { #category : #'api - accessing' }

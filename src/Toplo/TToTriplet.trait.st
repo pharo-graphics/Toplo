@@ -1,7 +1,8 @@
 Trait {
 	#name : #TToTriplet,
 	#instVars : [
-		'tripletStrategy'
+		'tripletStrategy',
+		'columnWidth'
 	],
 	#category : #'Toplo-Core-Triplet'
 }
@@ -16,13 +17,16 @@ TToTriplet >> beJustified [
 { #category : #'t - triplet - configuration' }
 TToTriplet >> columnWidth [
 
-	^ self tripletStrategy columnWidth
+	^ columnWidth
 ]
 
 { #category : #'t - triplet - configuration' }
 TToTriplet >> columnWidth: anInteger [
 
-	self tripletStrategy: (ToTripletColumnStrategy new width: anInteger)
+	columnWidth := anInteger.
+	(self layout isKindOf: ToTripletLinearLayout) ifFalse: [
+		self layout: ToTripletLinearLayout new ].
+	self layout frontAlignmentSpacing: anInteger
 ]
 
 { #category : #'t - triplet - accessing' }
@@ -40,23 +44,16 @@ TToTriplet >> first: anElement [
 { #category : #'t - triplet - initialization' }
 TToTriplet >> initializeTriplet [
 
-	self tripletStrategy: ToTripletWithoutInterspaceStrategy new
+	self tripletStrategy: ToTripletLinearStrategy new.
+	columnWidth := 0
 ]
 
 { #category : #'t - triplet - configuration' }
-TToTriplet >> interspaceHeight: anInteger [
+TToTriplet >> interspace: anInteger [
 
-	self tripletStrategy interspaceHeight = anInteger ifTrue: [ ^ self ].
-	self hFitContent.
-	self tripletStrategy: (ToTripletWithExactInterspaceStrategy new height: anInteger)
-]
-
-{ #category : #'t - triplet - configuration' }
-TToTriplet >> interspaceWidth: anInteger [
-
-	self tripletStrategy interspaceWidth = anInteger ifTrue: [ ^ self ].
-	self hFitContent.
-	self tripletStrategy: (ToTripletWithExactInterspaceStrategy new width: anInteger)
+	self tripletStrategy: ToTripletLinearStrategy new.
+	self layout interspace: anInteger.
+	self requestLayout
 ]
 
 { #category : #'t - triplet - testing' }
@@ -81,7 +78,6 @@ TToTriplet >> privateUpdateChildren [
 
 	| subs |
 	subs := self tripletStrategy childrenIn: self.
-	self skinDo: [ :s | subs := s adaptNextChildrenArray: subs in: self].
 	self children asArray = subs ifTrue: [ ^ self ].
 	self removeChildren.
 	self addChildren: subs.
@@ -143,7 +139,7 @@ TToTriplet >> third: anElement [
 { #category : #'t - triplet - accessing' }
 TToTriplet >> tripletStrategy [
 
-	^ tripletStrategy ifNil: [ tripletStrategy := ToTripletWithoutInterspaceStrategy new]
+	^ tripletStrategy ifNil: [ tripletStrategy := ToTripletLinearStrategy new]
 ]
 
 { #category : #'t - triplet - accessing' }
@@ -151,6 +147,5 @@ TToTriplet >> tripletStrategy: aPairStrategy [
 
 	tripletStrategy ifNotNil: [ :s | s onUninstalledIn: self ].
 	tripletStrategy := aPairStrategy.
-	tripletStrategy ifNotNil: [ :s | s onInstalledIn: self ].
-	self privateUpdateChildren
+	tripletStrategy ifNotNil: [ :s | s onInstalledIn: self. self privateUpdateChildren ]
 ]

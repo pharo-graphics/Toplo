@@ -30,6 +30,12 @@ ToElement >> initialize [
 ]
 
 { #category : #'t  - layout resizeable' }
+ToElement >> innerElement [ 
+
+	^ nil
+]
+
+{ #category : #'t  - layout resizeable' }
 ToElement >> resizableConstraintsDo: aBlock [
 	"Perform aBlock with my constraints as argument.
 	Note: After evaluation I request a layout update!

@@ -41,8 +41,9 @@ ToTripletDresser >> installEventListenersIn: anElement [
 { #category : #'event handling' }
 ToTripletDresser >> layoutConstraintsChangedEvent: anEvent in: anElement [
 
-	anElement innerElement constraints horizontal resizer: anElement constraints horizontal resizer.
-	anElement innerElement constraints vertical resizer: anElement constraints vertical resizer.
+	anElement innerElement ifNotNil: [ :in |
+		in constraints horizontal resizer: anElement constraints horizontal resizer.
+		in constraints vertical resizer: anElement constraints vertical resizer].
 ]
 
 { #category : #'event handling' }

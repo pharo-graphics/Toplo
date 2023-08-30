@@ -1,8 +1,8 @@
 Class {
 	#name : #ToInfiniteElement,
 	#superclass : #BlInfiniteElement,
-	#traits : 'TBlLayoutResizable + TToDressable + TToWidgetWithContextMenu',
-	#classTraits : 'TBlLayoutResizable classTrait + TToDressable classTrait + TToWidgetWithContextMenu classTrait',
+	#traits : 'TToResizable + TToDressable + TToWidgetWithContextMenu',
+	#classTraits : 'TToResizable classTrait + TToDressable classTrait + TToWidgetWithContextMenu classTrait',
 	#instVars : [
 		'holderFactory',
 		'nodeFactory',
@@ -365,7 +365,7 @@ ToInfiniteElement >> privateData: aCollection [
 	dataSource data: aCollection
 ]
 
-{ #category : #'t  - layout resizeable' }
+{ #category : #'t - layout resizeable' }
 ToInfiniteElement >> resizableConstraintsDo: aBlock [
 	"Perform aBlock with my constraints as argument.
 	Note: After evaluation I request a layout update!

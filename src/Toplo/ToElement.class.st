@@ -1,8 +1,8 @@
 Class {
 	#name : #ToElement,
 	#superclass : #BlElement,
-	#traits : 'TToElement + TToEnableable + TBlLayoutResizable + TToDressable + TToSkinable + TObservable',
-	#classTraits : 'TToElement classTrait + TToEnableable classTrait + TBlLayoutResizable classTrait + TToDressable classTrait + TToSkinable classTrait + TObservable classTrait',
+	#traits : 'TToElement + TToResizable + TToEnableable + TToDressable + TToSkinable + TObservable',
+	#classTraits : 'TToElement classTrait + TToResizable classTrait + TToEnableable classTrait + TToDressable classTrait + TToSkinable classTrait + TObservable classTrait',
 	#category : #'Toplo-Core'
 }
 
@@ -29,13 +29,13 @@ ToElement >> initialize [
 	self initializeSkin
 ]
 
-{ #category : #'t  - layout resizeable' }
+{ #category : #accessing }
 ToElement >> innerElement [ 
 
 	^ nil
 ]
 
-{ #category : #'t  - layout resizeable' }
+{ #category : #'t - layout resizeable' }
 ToElement >> resizableConstraintsDo: aBlock [
 	"Perform aBlock with my constraints as argument.
 	Note: After evaluation I request a layout update!

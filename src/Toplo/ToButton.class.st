@@ -20,8 +20,8 @@ ToButton >> defaultDresser [
 { #category : #'t - skin accessing' }
 ToButton >> defaultSkin [ 
 
-	"^ ToButtonSkin new"
-	^ nil
+	^ ToButtonSkin new
+
 ]
 
 { #category : #'t - triplet - accessing' }

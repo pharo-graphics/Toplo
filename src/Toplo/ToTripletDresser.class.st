@@ -3,8 +3,7 @@ Class {
 	#superclass : #ToDresser,
 	#instVars : [
 		'propertyChangedEventHandler',
-		'interspace',
-		'layoutConstraintsChangedEventHandler'
+		'interspace'
 	],
 	#category : #'Toplo-Core-Triplet'
 }
@@ -12,14 +11,11 @@ Class {
 { #category : #'event handling' }
 ToTripletDresser >> checkJustificationin: anElement [
 
-	anElement isJustified ifFalse: [ ^ self ].
-	(anElement first isNil or: [ anElement second isNil ]) ifTrue: [ 
-		interspace ifNil: [ ^ self ].
-		interspace removeFromParent.
+	anElement isJustified ifFalse: [
 		interspace := nil.
 		^ self ].
-	interspace ifNil: [ interspace := self newInterspace ]
-
+	interspace ifNil: [ interspace := self newInterspace ].
+	anElement innerElement hMatchParent
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -29,21 +25,8 @@ ToTripletDresser >> installEventListenersIn: anElement [
 	propertyChangedEventHandler := BlEventHandler 
 		on: ToPropertyChangedEvent 
 		do: [ :event | self propertyChangedEvent: event in: anElement ].
-	layoutConstraintsChangedEventHandler := BlEventHandler 
-		on: ToLayoutConstraintsChangedEvent  
-		do: [ :event | self layoutConstraintsChangedEvent: event in: anElement ].
-	anElement addEventHandler: propertyChangedEventHandler.
-	anElement addEventHandler: layoutConstraintsChangedEventHandler.
+	anElement addEventHandler: propertyChangedEventHandler
 
-
-]
-
-{ #category : #'event handling' }
-ToTripletDresser >> layoutConstraintsChangedEvent: anEvent in: anElement [
-
-	anElement innerElement ifNotNil: [ :in |
-		in constraints horizontal resizer: anElement constraints horizontal resizer.
-		in constraints vertical resizer: anElement constraints vertical resizer].
 ]
 
 { #category : #'event handling' }
@@ -77,9 +60,7 @@ ToTripletDresser >> propertyChangedEvent: anEvent in: anElement [
 ToTripletDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: propertyChangedEventHandler.
-	anElement removeEventHandler: layoutConstraintsChangedEventHandler.
 	propertyChangedEventHandler := nil.
-	layoutConstraintsChangedEventHandler := nil.
 	super uninstallEventListenersIn: anElement
 
 ]

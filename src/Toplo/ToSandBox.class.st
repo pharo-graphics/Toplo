@@ -896,26 +896,13 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 			          c vertical fitContent ];
 		          yourself.
 	Smalltalk ui icons allIconNames do: [ :k |
-		| lab im row |
+		| lab im node |
 		im := ToImage new innerImage: (Smalltalk ui icons iconNamed: k).
-		im constraintsDo: [ :c | c linear vertical alignCenter ].
-		im border: (BlBorder paint: Color lightGray).
 		lab := ToLabel new text: k asString.
-		lab padding: (BlInsets all: 6).
-		lab border: (BlBorder paint: Color lightGray).
-		lab constraintsDo: [ :c | c linear vertical alignCenter ].
-		row := BlElement new
-			       layout: BlLinearLayout horizontal;
-			       constraintsDo: [ :c |
-				       c horizontal fitContent.
-				       c vertical fitContent ];
-			       border: (BlBorder paint: Color lightGray);
-			       outskirts: BlOutskirts outside;
-			       yourself.
-		row
-			addChild: lab;
-			addChild: im.
-		column addChild: row ].
+		node := ToButton new icon: im; label: lab; yourself.
+		node width: 600.
+		node beJustified.
+		column addChild: node ].
 
 	root := column asScrollableElement.
 	vscrollBar := BlVerticalScrollbarElement new.
@@ -1037,8 +1024,7 @@ ToSandBox class >> example_ToButtonSkins [
 	orientationSwitcher check.
 	orientationSwitcher
 		when: ToCheckableCheckEvent
-		do: [ :event | allButtons do: [ :b | b horizontal: event target isChecked ].
-				sizingGroup buttons do: [:b | b enabled: event target isChecked] ].
+		do: [ :event | allButtons do: [ :b | b horizontal: event target isChecked ] ].
 	topBar addChild: orientationSwitcher.
 	
 	topBar childrenDo: [ :child |
@@ -1344,7 +1330,7 @@ ToSandBox class >> example_ToButtonWithDashedSkin [
 
 	
 	"button1 beLabelFirst."
-	button1 beVertical.
+	"button1 beVertical."
 
 	space root addChild: button1.
 
@@ -1623,7 +1609,7 @@ ToSandBox class >> example_choiceBoxWithPlaceholder [
 	win := ToInnerWindow new title: 'Choice box Example'.
 
 	choicebox := ToChoiceBox new.
-	choicebox width: 150.
+	choicebox width: 250.
 	choicebox withUncheckingStrategy.
 	choicebox data addAll: { 'OS-X'. 'Windows' }.
 	choicebox placeholder: (ToLabel text: ('Invalid choice' asRopedText foreground: Color red)).

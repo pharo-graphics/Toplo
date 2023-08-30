@@ -1,8 +1,8 @@
 Class {
 	#name : #ToLabelMonoLineInnerElement,
 	#superclass : #BlAttributedTextElement,
-	#traits : 'TToLabelInnerElement + TBlLayoutResizable',
-	#classTraits : 'TToLabelInnerElement classTrait + TBlLayoutResizable classTrait',
+	#traits : 'TToLabelInnerElement + TToResizable',
+	#classTraits : 'TToLabelInnerElement classTrait + TToResizable classTrait',
 	#category : #'Toplo-Widget-Label'
 }
 
@@ -42,7 +42,7 @@ ToLabelMonoLineInnerElement >> newEditorIn: aLabel [
 	^ ed
 ]
 
-{ #category : #'t  - layout resizeable' }
+{ #category : #'t - layout resizeable' }
 ToLabelMonoLineInnerElement >> resizableConstraintsDo: aBlock [
 	"Perform aBlock with my constraints as argument.
 	Note: After evaluation I request a layout update!

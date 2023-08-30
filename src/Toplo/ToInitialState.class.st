@@ -4,14 +4,14 @@ Class {
 	#category : #'Toplo-Core-Theme-States'
 }
 
+{ #category : #'look event sending' }
+ToInitialState >> applyOn: anElement [
+
+	anElement dispatchLookEvent: ToInitialLookEvent new
+]
+
 { #category : #testing }
 ToInitialState >> isInitialState [
 
 	^ true
-]
-
-{ #category : #'look event sending' }
-ToInitialState >> sendEvent: anEvent toLook: aLook [
-
-	aLook initialLookEvent: anEvent
 ]

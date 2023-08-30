@@ -1,8 +1,8 @@
 Trait {
 	#name : #TToCheckable,
 	#instVars : [
-		'#checked => ObservableSlot',
-		'#withIndeterminate'
+		'checked',
+		'withIndeterminate'
 	],
 	#category : #'Toplo-Widget-Button'
 }
@@ -43,10 +43,8 @@ TToCheckable >> initialize [
 { #category : #'t - checkable - initializing' }
 TToCheckable >> initializeCheckable [
 
-	checked := false.
 	withIndeterminate := false.
-	self whenCheckedChangedDo: [ :new :prev |
-		self dispatchEvent: (ToCheckableCheckEvent current: new previous: prev) ]
+	checked := false
 ]
 
 { #category : #'t - checkable - testing' }
@@ -70,7 +68,11 @@ TToCheckable >> isUnchecked [
 { #category : #'t - checkable - private protocol' }
 TToCheckable >> privateChecked: aBooleanOrNil [
 
-	checked := aBooleanOrNil
+	| prev |
+	checked = aBooleanOrNil ifTrue: [ ^ self ].
+	prev := checked.
+	checked := aBooleanOrNil.
+	self dispatchEvent: (ToCheckableCheckEvent current: checked previous: prev)
 ]
 
 { #category : #'t - checkable - private protocol' }

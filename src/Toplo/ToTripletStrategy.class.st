@@ -14,12 +14,6 @@ ToTripletStrategy >> childrenIn: aTriplet [
 ]
 
 { #category : #accessing }
-ToTripletStrategy >> columnWidth [
-
-	^ 0
-]
-
-{ #category : #accessing }
 ToTripletStrategy >> isJustified [
 
 	^ false

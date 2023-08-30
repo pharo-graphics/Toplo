@@ -62,6 +62,14 @@ ToPane >> layerReferentElement [
 	^ self
 ]
 
+{ #category : #'t - orientable - accessing' }
+ToPane >> layoutStrategy [
+
+	^ self layout
+
+
+]
+
 { #category : #layout }
 ToPane >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 

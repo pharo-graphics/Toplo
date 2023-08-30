@@ -68,6 +68,14 @@ ToMenuBar >> initialize [
 	menus := OrderedCollection new.
 ]
 
+{ #category : #'t - orientable - accessing' }
+ToMenuBar >> layoutStrategy [
+
+	^ self layout
+
+
+]
+
 { #category : #accessing }
 ToMenuBar >> menus [
 

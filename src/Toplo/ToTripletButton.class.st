@@ -11,6 +11,12 @@ Class {
 	#category : #'Toplo-Widget-Button'
 }
 
+{ #category : #'t - initialization dresser' }
+ToTripletButton >> defaultDresser [ 
+
+	^ super defaultDresser next: ToTripletDresser new
+]
+
 { #category : #'t - triplet - accessing' }
 ToTripletButton >> first [
 

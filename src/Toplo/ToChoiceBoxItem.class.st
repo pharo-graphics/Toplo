@@ -9,7 +9,7 @@ Class {
 { #category : #'t - initialization dresser' }
 ToChoiceBoxItem >> defaultDresser [
 
-	^ ToBasicMenuItemDresser next: (ToChoiceBoxItemDresser new)
+	^ ToBasicMenuItemDresser next: (ToChoiceBoxItemDresser next: ToTripletDresser new)
 ]
 
 { #category : #'as yet unclassified' }

@@ -17,10 +17,6 @@ ToWidgetSkin >> addLook: aLook [
 	self privateLook: aLook
 ]
 
-{ #category : #'private children updating' }
-ToWidgetSkin >> childAdded: aChild in: anElement [
-]
-
 { #category : #'api - accessing' }
 ToWidgetSkin >> childSkinForSlotNamed: aSymbol [
 
@@ -59,12 +55,6 @@ ToWidgetSkin >> dispatchChangedEventIn: anElement [
 ]
 
 { #category : #'event handling' }
-ToWidgetSkin >> elementAddedToParentEvent: anEvent [
-
-	anEvent currentTarget parent skinDo: [:s | s childAdded: anEvent currentTarget in: anEvent currentTarget parent]
-]
-
-{ #category : #'event handling' }
 ToWidgetSkin >> elementLookEvent: anEvent [
 
 	anEvent sendTo: self look
@@ -76,7 +66,6 @@ ToWidgetSkin >> eventsToHandle [
 	^ {
 		  ToThemeChangedEvent.
 		  ToChildSkinsDirtyEvent.
-		BlElementAddedToParentEvent.
 		  ToSkinnablePropertyChangedEvent.
 		  ToElementLookEvent.
 		  ToLayoutOrientationChangedEvent.

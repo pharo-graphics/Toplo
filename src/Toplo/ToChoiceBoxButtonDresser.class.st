@@ -10,7 +10,9 @@ ToChoiceBoxButtonDresser >> onInstalledIn: anElement [
 	super onInstalledIn: anElement.
 	anElement beLabelFirst.
 	anElement beJustified.
-	anElement icon: (ToImage inner: (Smalltalk ui icons iconNamed: #bottom))
+	anElement icon: (ToImage inner: (Smalltalk ui icons iconNamed: #bottom)).
+	anElement innerElement hMatchParent.
+
 ]
 
 { #category : #'api - install/uninstall  hook' }

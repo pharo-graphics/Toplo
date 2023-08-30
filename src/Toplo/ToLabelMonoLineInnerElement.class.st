@@ -42,6 +42,22 @@ ToLabelMonoLineInnerElement >> newEditorIn: aLabel [
 	^ ed
 ]
 
+{ #category : #'t  - layout resizeable' }
+ToLabelMonoLineInnerElement >> resizableConstraintsDo: aBlock [
+	"Perform aBlock with my constraints as argument.
+	Note: After evaluation I request a layout update!
+	aBlock must not be nil.
+	aBlock must accept exactly one argument
+	
+	Can be basically defined with #constraintsDo: aBlock.
+	
+	Introduced a an explicit requirement to let user
+	implement additional actions when resizing is changed
+	
+	"
+	self constraintsDo: aBlock
+]
+
 { #category : #'api - text accessing' }
 ToLabelMonoLineInnerElement >> text [
 

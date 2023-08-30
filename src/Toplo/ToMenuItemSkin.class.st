@@ -7,15 +7,10 @@ Class {
 { #category : #'private - shaping/sizing' }
 ToMenuItemSkin >> applyQuadShaping: aShaping on: anElement [
 
-	(anElement layout isKindOf: BlLinearLayout) ifFalse: [ 
-		anElement layout: BlLinearLayout new].
-
 	anElement padding: (self defaultPaddingIn: anElement).
-	(anElement isSubmenu or: [ anElement isTopMenu not ]) ifTrue: [
-		anElement hMatchParent ].
-	anElement isTopMenu ifTrue: [ anElement interspace: anElement toTheme paddingXS ].
-	"anElement isSubmenu ifTrue: [
-		anElement tripletStrategy: (ToTripletSubmenuColumnStrategy new width: anElement columnWidth) ]"
+	anElement interspace: anElement toTheme paddingXS.
+	anElement isTopMenu ifTrue: [ ^ self ].
+	anElement hMatchParent
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -30,6 +25,10 @@ ToMenuItemSkin >> backgroundLookIn: anElement [
 ToMenuItemSkin >> borderLookIn: anElement [
 
 	^ self type menuItemBorderLookIn: anElement
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToMenuItemSkin >> checkItem: aMenuItem [
 ]
 
 { #category : #'t - shapeable - initialization' }
@@ -56,4 +55,12 @@ ToMenuItemSkin >> iconSkinIn: aButton [
 ToMenuItemSkin >> labelSkinIn: aButton [
  
 	^ self type menuItemLabelSkinIn: aButton
+]
+
+{ #category : #'api - install/uninstall  hook' }
+ToMenuItemSkin >> onSkinInstalledIn: anElement [
+
+	super onSkinInstalledIn: anElement.
+	self addLook: (ToWindowLook new 
+		openAction: [ :e | self checkItem: e ])
 ]

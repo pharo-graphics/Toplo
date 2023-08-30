@@ -331,16 +331,16 @@ ToExperiments class >> example_LinearLayoutFillWithFitContent [
 		         background: Color lightGray;
 		         layout: (BlLinearLayout vertical cellSpacing: 2);
 		         border: (BlBorder paint: Color gray);
-		         constraintsDo: [ :c | 
+		         constraintsDo: [ :c |
 			         c horizontal fitContent.
 			         c vertical fitContent ].
 	cpt := 0.
-	3 timesRepeat: [ 
+	3 timesRepeat: [
 		| left middle right fill1 fill2 node |
 		cpt := cpt + 20.
 		node := BlElement new
 			        layout: (BlLinearLayout horizontal cellSpacing: 2);
-			        constraintsDo: [ :c | 
+			        constraintsDo: [ :c |
 				        c horizontal matchParent.
 				        c vertical fitContent ].
 		left := BlElement new
@@ -348,42 +348,43 @@ ToExperiments class >> example_LinearLayoutFillWithFitContent [
 			        background: Color blue;
 			        width: 10.
 		middle := BlElement new
-			        id: #left;
-			        background: Color yellow;
-			        width: 10 + cpt.
+			          id: #left;
+			          background: Color yellow;
+			          width: 10 + cpt.
 		fill1 := BlElement new
-			        id: #fill;
-			        background: Color white;
-			        height: 15;
-			        constraintsDo: [ :c | 
-				        c horizontal matchParent.
-				        c vertical matchParent ].
+			         id: #fill;
+			         background: Color white;
+			         height: 15;
+			         constraintsDo: [ :c |
+				         c horizontal matchParent.
+				         c vertical matchParent ].
 		fill2 := BlElement new
-			        id: #fill;
-			        background: Color white;
-			        height: 15;
-			        constraintsDo: [ :c | 
-				        c horizontal matchParent.
-				        c vertical matchParent ].
+			         id: #fill;
+			         background: Color white;
+			         height: 15;
+			         constraintsDo: [ :c |
+				         c horizontal matchParent.
+				         c vertical matchParent ].
 		right := BlElement new
 			         id: #right;
 			         background: Color red;
 			         width: 14.
 		node addChild: left.
-"		node addChild: fill1.
-"		node addChild: middle.
+		"		node addChild: fill1.
+"
+		node addChild: middle.
 		node addChild: fill2.
 		node addChild: right.
 		frame addChild: (BlElement new
-		background: (Color pink);
-			        constraintsDo: [ :c | 
-				        c horizontal matchParent.
-				        c vertical exact: 5 ]).
+				 background: Color pink;
+				 constraintsDo: [ :c |
+					 c horizontal matchParent.
+					 c vertical exact: 5 ]).
 
 		frame addChild: node ].
-	
 
-	frame openInOBlSpace
+
+	frame openInSpace
 ]
 
 { #category : #frame }

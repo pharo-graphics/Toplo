@@ -11,8 +11,9 @@ TToOrientable >> beHorizontal [
 
 	verticalRequested := false.
 	self isHorizontal ifTrue: [ ^ self ].
-	self layout beHorizontal.
-	self requestLayout 
+	self layoutStrategy beHorizontal.
+	self dispatchEvent: ToLayoutOrientationChangedEvent new.
+	self launchRequestLayout 
 ]
 
 { #category : #'t - orientable - direction' }
@@ -34,23 +35,24 @@ TToOrientable >> beVertical [
 
 	verticalRequested := true.
 	self isVertical ifTrue: [ ^ self ].
-	self layout beVertical.
-	self requestLayout 
+	self layoutStrategy beVertical.
+	self dispatchEvent: ToLayoutOrientationChangedEvent new.
+	self launchRequestLayout	
 ]
 
 { #category : #'t - orientable - accessing' }
 TToOrientable >> direction [
 
-	^ self layout direction
+	^ self layoutStrategy direction
 ]
 
 { #category : #'t - orientable - accessing' }
 TToOrientable >> direction: aDirection [
 
-	(self layout direction isLeftToRight and: [ aDirection isLeftToRight]) ifTrue: [ ^ self ].
-	self layout direction: aDirection.
+	(self layoutStrategy direction isLeftToRight and: [ aDirection isLeftToRight]) ifTrue: [ ^ self ].
+	self layoutStrategy direction: aDirection.
 	self dispatchEvent: ToLayoutDirectionChangedEvent new.
-	self requestLayout
+	self launchRequestLayout
 ]
 
 { #category : #'t - orientable - orientation' }
@@ -64,7 +66,7 @@ TToOrientable >> horizontal: aBoolean [
 { #category : #'t - orientable - orientation' }
 TToOrientable >> isHorizontal [
 
-	^ self layout isHorizontal
+	^ self layoutStrategy isHorizontal
 ]
 
 { #category : #'t - orientable - direction' }
@@ -85,19 +87,34 @@ TToOrientable >> isVertical [
 	^ self isHorizontal not
 ]
 
+{ #category : #'t - orientable - private' }
+TToOrientable >> launchRequestLayout [
+
+	self childrenDo: [ :child | child requestLayout ].
+	self requestLayout
+]
+
+{ #category : #'t - orientable - accessing' }
+TToOrientable >> layoutStrategy [
+
+	^ self explicitRequirement 
+
+	
+]
+
 { #category : #'t - orientable - accessing' }
 TToOrientable >> orientation [
 
-	^ self layout orientation
+	^ self layoutStrategy orientation
 ]
 
 { #category : #'t - orientable - accessing' }
 TToOrientable >> orientation: aBlLayoutOrientation [
 
-	(self layout orientation isHorizontal and: [ aBlLayoutOrientation isHorizontal]) ifTrue: [ ^ self ].
-	self layout orientation: aBlLayoutOrientation.
+	(self layoutStrategy orientation isHorizontal and: [ aBlLayoutOrientation isHorizontal]) ifTrue: [ ^ self ].
+	self layoutStrategy orientation: aBlLayoutOrientation.
 	self dispatchEvent: ToLayoutOrientationChangedEvent new.
-	self requestLayout
+	self launchRequestLayout
 ]
 
 { #category : #'t - orientable - accessing' }

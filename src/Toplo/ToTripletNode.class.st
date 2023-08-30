@@ -15,5 +15,5 @@ ToTripletNode >> client [
 { #category : #'t - initialization dresser' }
 ToTripletNode >> defaultDresser [ 
 
-	^ ToPairedNodeDresser new
+	^ super defaultDresser next: ToPairedNodeDresser new
 ]

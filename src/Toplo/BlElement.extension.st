@@ -44,7 +44,7 @@ BlElement >> disable [
 BlElement >> dispatchChildSkinsDirtyEvent [
 
 	self dispatchEvent: ToChildSkinsDirtyEvent new.
-	self childrenDo: [ :child | child dispatchChildSkinsDirtyEvent ].
+	"self childrenDo: [ :child | child dispatchChildSkinsDirtyEvent ]."
 
 
 ]
@@ -203,7 +203,7 @@ BlElement >> skinDo: aBlock [
 BlElement >> switchToSkinState: aState [
 
 	self currentSkinState: aState.
-	self dispatchLookEvent: (ToElementStateChangedEvent new state: aState; yourself)
+	aState applyOn: self
 ]
 
 { #category : #'*Toplo-LookAndFeel' }

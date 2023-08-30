@@ -1,8 +1,8 @@
 Class {
 	#name : #ToButton,
 	#superclass : #ToGeneralButton,
-	#traits : 'TToTriplet + TToLabeledIcon + TToOrientable',
-	#classTraits : 'TToTriplet classTrait + TToLabeledIcon classTrait + TToOrientable classTrait',
+	#traits : 'TToTriplet + TToLabeledIcon + TToOrientable + TToShapeableWidget',
+	#classTraits : 'TToTriplet classTrait + TToLabeledIcon classTrait + TToOrientable classTrait + TToShapeableWidget classTrait',
 	#instVars : [
 		'#icon => ToSkinnableSlot',
 		'#label => ToSkinnableSlot',
@@ -10,6 +10,12 @@ Class {
 	],
 	#category : #'Toplo-Widget-Button'
 }
+
+{ #category : #'t - initialization dresser' }
+ToButton >> defaultDresser [ 
+
+	^ super defaultDresser next: ToTripletDresser new
+]
 
 { #category : #'t - skin accessing' }
 ToButton >> defaultSkin [ 
@@ -30,11 +36,19 @@ ToButton >> first: anElement [
 	icon := anElement
 ]
 
+{ #category : #'t - orientable - accessing' }
+ToButton >> layoutStrategy [
+
+	^ self innerElement layout
+
+	
+]
+
 { #category : #'t - dressable -  initialization' }
 ToButton >> preInitializeDresser [ 
 
 	super preInitializeDresser.
-	self initializeTriplet 
+	self initializeTriplet
 ]
 
 { #category : #'t - triplet - accessing' }

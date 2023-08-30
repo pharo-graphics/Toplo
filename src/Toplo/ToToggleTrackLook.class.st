@@ -1,5 +1,5 @@
 Class {
-	#name : #ToToogleTrackLook,
+	#name : #ToToggleTrackLook,
 	#superclass : #ToDefaultElementLook,
 	#instVars : [
 		'animate'
@@ -8,38 +8,38 @@ Class {
 }
 
 { #category : #accessing }
-ToToogleTrackLook >> animate [
+ToToggleTrackLook >> animate [
 
 	^ animate 
 ]
 
 { #category : #accessing }
-ToToogleTrackLook >> animate: aBoolean [
+ToToggleTrackLook >> animate: aBoolean [
 
 	animate := aBoolean
 ]
 
 { #category : #sliding }
-ToToogleTrackLook >> animationDeltaIn: anElement [
+ToToggleTrackLook >> animationDeltaIn: anElement [
 
 	^ anElement deltaToLeft negated
 ]
 
 { #category : #accessing }
-ToToogleTrackLook >> animationDuration [
+ToToggleTrackLook >> animationDuration [
 
 	^ 200 milliSeconds 
 ]
 
 { #category : #'event handling' }
-ToToogleTrackLook >> clickLookEvent: anEvent [
+ToToggleTrackLook >> clickLookEvent: anEvent [
 
 	super clickLookEvent: anEvent.
 	anEvent elementDo: [ :e | self syncAppearanceIn: e ]
 ]
 
 { #category : #'event handling' }
-ToToogleTrackLook >> installLookEvent: anEvent [
+ToToggleTrackLook >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -48,7 +48,7 @@ ToToogleTrackLook >> installLookEvent: anEvent [
 ]
 
 { #category : #sliding }
-ToToogleTrackLook >> slideToLeftWithAnimationIn: anElement [
+ToToggleTrackLook >> slideToLeftWithAnimationIn: anElement [
 	
 	| anim x |
 	x := self animationDeltaIn: anElement.
@@ -60,7 +60,7 @@ ToToogleTrackLook >> slideToLeftWithAnimationIn: anElement [
 ]
 
 { #category : #sliding }
-ToToogleTrackLook >> slideToRightWithAnimationIn: anElement [
+ToToggleTrackLook >> slideToRightWithAnimationIn: anElement [
 	
 	| anim x |
 	x := self animationDeltaIn: anElement.
@@ -72,7 +72,7 @@ ToToogleTrackLook >> slideToRightWithAnimationIn: anElement [
 ]
 
 { #category : #sliding }
-ToToogleTrackLook >> switchOffIn: anElement [
+ToToggleTrackLook >> switchOffIn: anElement [
 
 	anElement switchBar switchOff.
 	self animate ifTrue: [ ^ self slideToLeftWithAnimationIn: anElement ].
@@ -80,7 +80,7 @@ ToToogleTrackLook >> switchOffIn: anElement [
 ]
 
 { #category : #sliding }
-ToToogleTrackLook >> switchOnIn: anElement [
+ToToggleTrackLook >> switchOnIn: anElement [
 
 	anElement switchBar switchOn.
 	self animate ifTrue: [ ^ self slideToRightWithAnimationIn: anElement ].
@@ -88,7 +88,7 @@ ToToogleTrackLook >> switchOnIn: anElement [
 ]
 
 { #category : #sliding }
-ToToogleTrackLook >> syncAppearanceIn: anElement [
+ToToggleTrackLook >> syncAppearanceIn: anElement [
 
 	anElement isChecked
 		ifTrue: [ self switchOnIn: anElement ]
@@ -96,7 +96,7 @@ ToToogleTrackLook >> syncAppearanceIn: anElement [
 ]
 
 { #category : #'event handling' }
-ToToogleTrackLook >> withoutAnimationWhile: aBlock [
+ToToggleTrackLook >> withoutAnimationWhile: aBlock [
 
 	| prev |
 	prev := animate.

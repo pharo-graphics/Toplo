@@ -20,7 +20,7 @@ ToLabeledNode >> client [
 { #category : #'t - initialization dresser' }
 ToLabeledNode >> defaultDresser [ 
 
-	^ ToLabeledNodeDresser new
+	^ ToLabeledNodeDresser next: ToTripletDresser new
 ]
 
 { #category : #'t - triplet - accessing' }
@@ -41,6 +41,12 @@ ToLabeledNode >> initialize [
 	self class initializeSlots: self.
 	super initialize.
 	self initializeTriplet
+]
+
+{ #category : #'t - orientable - accessing' }
+ToLabeledNode >> layoutStrategy [
+
+	^ self innerElement layout
 ]
 
 { #category : #'private-change' }

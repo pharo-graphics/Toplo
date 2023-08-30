@@ -89,7 +89,7 @@ ToToggleTrackSkin >> onSkinInstalledIn: anElement [
 					 ifTrue: [ e toTheme colorBgContainerCheckedHover ]
 					 ifFalse: [ e toTheme colorBgContainerUncheckedHover ] ];
 			 yourself).
-	self addLook: (ToToogleTrackLook new
+	self addLook: (ToToggleTrackLook new
 			 animate: true;
 			 yourself).
 

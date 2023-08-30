@@ -365,6 +365,22 @@ ToInfiniteElement >> privateData: aCollection [
 	dataSource data: aCollection
 ]
 
+{ #category : #'t  - layout resizeable' }
+ToInfiniteElement >> resizableConstraintsDo: aBlock [
+	"Perform aBlock with my constraints as argument.
+	Note: After evaluation I request a layout update!
+	aBlock must not be nil.
+	aBlock must accept exactly one argument
+	
+	Can be basically defined with #constraintsDo: aBlock.
+	
+	Introduced a an explicit requirement to let user
+	implement additional actions when resizing is changed
+	
+	"
+	self constraintsDo: aBlock
+]
+
 { #category : #private }
 ToInfiniteElement >> scrollToIndex: anIndex [
 	"Request a scrollable widget to scroll to an item (logical or physical) at a given index,

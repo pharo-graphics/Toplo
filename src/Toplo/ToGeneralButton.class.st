@@ -24,7 +24,7 @@ ToGeneralButton >> client: anObject [
 { #category : #'t - initialization dresser' }
 ToGeneralButton >> defaultDresser [
 
-	^ ToGeneralButtonDresser new
+	^ ToWidgetDresser new
 ]
 
 { #category : #'accessing sizing' }

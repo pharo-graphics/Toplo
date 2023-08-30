@@ -10,16 +10,14 @@ Trait {
 TToLabeledIcon >> beIconFirst [
 
 	labelFirstRequested := false.
-	self beLeftToRight.
-	self privateUpdateChildren
+	self beLeftToRight
 ]
 
 { #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> beLabelFirst [
 
 	labelFirstRequested := true.
-	self beRightToLeft.
-	self privateUpdateChildren
+	self beRightToLeft
 ]
 
 { #category : #'t - labeled icon - direction' }
@@ -34,7 +32,7 @@ TToLabeledIcon >> checkDirection [
 { #category : #'t - labeled icon - orientation' }
 TToLabeledIcon >> checkOrientableLayout [
 
-	self layout isOrientable ifFalse: [ ^ self ].
+	self innerElement layout isOrientable ifFalse: [ ^ self ].
 	self checkDirection.
 	self checkOrientation 
 ]
@@ -57,6 +55,12 @@ TToLabeledIcon >> extra [
 TToLabeledIcon >> extra: anElement [
 
 	self replaceThirdWith: anElement
+]
+
+{ #category : #'t - labeled icon - testing' }
+TToLabeledIcon >> hasIcon [
+
+	^ self icon notNil
 ]
 
 { #category : #'t - labeled icon - accessing' }

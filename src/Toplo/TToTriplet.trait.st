@@ -1,8 +1,8 @@
 Trait {
 	#name : #TToTriplet,
 	#instVars : [
-		'tripletStrategy',
-		'columnWidth'
+		'justified',
+		'innerElement'
 	],
 	#category : #'Toplo-Core-Triplet'
 }
@@ -10,23 +10,10 @@ Trait {
 { #category : #'t - triplet - configuration' }
 TToTriplet >> beJustified [
 
-	self tripletStrategy: ToTripletJustifiedStrategy new
- 
-]
+	justified ifTrue: [ ^ self ].
+	justified := true.
+	self dispatchEvent: (ToPropertyChangedEvent new slotName: #justified; holder: self; previous: false; current: true; yourself)
 
-{ #category : #'t - triplet - configuration' }
-TToTriplet >> columnWidth [
-
-	^ columnWidth
-]
-
-{ #category : #'t - triplet - configuration' }
-TToTriplet >> columnWidth: anInteger [
-
-	columnWidth := anInteger.
-	(self layout isKindOf: ToTripletLinearLayout) ifFalse: [
-		self layout: ToTripletLinearLayout new ].
-	self layout frontAlignmentSpacing: anInteger
 ]
 
 { #category : #'t - triplet - accessing' }
@@ -44,44 +31,31 @@ TToTriplet >> first: anElement [
 { #category : #'t - triplet - initialization' }
 TToTriplet >> initializeTriplet [
 
-	self tripletStrategy: ToTripletLinearStrategy new.
-	columnWidth := 0
+	justified := false.
+	innerElement := ToElement new layout: BlLinearLayout horizontal; fitContent.
+	self layout: BlLinearLayout horizontal.
+	self addChild: innerElement.
+	self fitContent 
+
+]
+
+{ #category : #'t - triplet - accessing' }
+TToTriplet >> innerElement [
+
+	^ innerElement
 ]
 
 { #category : #'t - triplet - configuration' }
 TToTriplet >> interspace: anInteger [
 
-	self tripletStrategy: ToTripletLinearStrategy new.
-	self layout interspace: anInteger.
+	self innerElement layout interspace: anInteger.
 	self requestLayout
 ]
 
 { #category : #'t - triplet - testing' }
 TToTriplet >> isJustified [
 
-	^ self tripletStrategy isJustified
-]
-
-{ #category : #'t - triplet - layout' }
-TToTriplet >> onMeasure: anExtentMeasurementSpec [
-
-	" send to super before to ensure the children are already measured "
-
-	super onMeasure: anExtentMeasurementSpec.
-	(self tripletStrategy onMeasure: anExtentMeasurementSpec in: self) 
-		ifFalse: [ " re-launch measuring if necessary" 
-			self onMeasure: anExtentMeasurementSpec ]
-]
-
-{ #category : #'t - triplet - private' }
-TToTriplet >> privateUpdateChildren [
-
-	| subs |
-	subs := self tripletStrategy childrenIn: self.
-	self children asArray = subs ifTrue: [ ^ self ].
-	self removeChildren.
-	self addChildren: subs.
-
+	^ justified ifNil: [ justified := false ]
 ]
 
 { #category : #'t - triplet - accessing' }
@@ -90,7 +64,6 @@ TToTriplet >> replaceFirstWith: anElement [
 	self first = anElement ifTrue: [ ^ self ].
 	self first ifNotNil: [ self first removeFromParent ].
 	self first: anElement.
-	self privateUpdateChildren
 ]
 
 { #category : #'t - triplet - accessing' }
@@ -98,8 +71,7 @@ TToTriplet >> replaceSecondWith: anElement [
 
 	self second = anElement ifTrue: [ ^ self ].
 	self second ifNotNil: [ self second removeFromParent ].
-	self second: anElement.
-	self privateUpdateChildren
+	self second: anElement
 ]
 
 { #category : #'t - triplet - accessing' }
@@ -107,8 +79,7 @@ TToTriplet >> replaceThirdWith: anElement [
 
 	self third = anElement ifTrue: [ ^ self ].
 	self third ifNotNil: [ self third removeFromParent ].
-	self third: anElement.
-	self privateUpdateChildren
+	self third: anElement
 ]
 
 { #category : #'t - triplet - accessing' }
@@ -134,18 +105,4 @@ TToTriplet >> third: anElement [
 
 	self explicitRequirement 
 
-]
-
-{ #category : #'t - triplet - accessing' }
-TToTriplet >> tripletStrategy [
-
-	^ tripletStrategy ifNil: [ tripletStrategy := ToTripletLinearStrategy new]
-]
-
-{ #category : #'t - triplet - accessing' }
-TToTriplet >> tripletStrategy: aPairStrategy [
-
-	tripletStrategy ifNotNil: [ :s | s onUninstalledIn: self ].
-	tripletStrategy := aPairStrategy.
-	tripletStrategy ifNotNil: [ :s | s onInstalledIn: self. self privateUpdateChildren ]
 ]

@@ -4,14 +4,14 @@ Class {
 	#category : #'Toplo-Core-Theme-States'
 }
 
+{ #category : #'look event sending' }
+ToDisabledState >> applyOn: anElement [
+
+	anElement dispatchLookEvent: ToDisabledLookEvent new
+]
+
 { #category : #testing }
 ToDisabledState >> isDisabledState [
 
 	^ true
-]
-
-{ #category : #'look event sending' }
-ToDisabledState >> sendEvent: anEvent toLook: aLook [
-
-	aLook disabledLookEvent: anEvent
 ]

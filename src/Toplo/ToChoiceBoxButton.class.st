@@ -18,7 +18,7 @@ ToChoiceBoxButton >> close [
 { #category : #'t - initialization dresser' }
 ToChoiceBoxButton >> defaultDresser [
 
-	^ ToBasicMenuItemDresser next: (ToMenuWindowModelDresser next: (ToChoiceBoxButtonDresser new))
+	^ ToBasicMenuItemDresser next: (ToMenuWindowModelDresser next: (ToChoiceBoxButtonDresser next: ToTripletDresser new))
 ]
 
 { #category : #initialization }

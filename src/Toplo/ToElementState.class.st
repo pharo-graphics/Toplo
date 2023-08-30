@@ -4,14 +4,20 @@ Class {
 	#category : #'Toplo-Core-Theme-States'
 }
 
+{ #category : #'look event sending' }
+ToElementState >> applyOn: anElement [
+
+	self subclassResponsibility 
+]
+
 { #category : #testing }
-ToElementState >> isDisabledState [
+ToElementState >> isCloseState [
 
 	^ false
 ]
 
 { #category : #testing }
-ToElementState >> isEnabledState [
+ToElementState >> isDisabledState [
 
 	^ false
 ]
@@ -35,6 +41,12 @@ ToElementState >> isInitialState [
 ]
 
 { #category : #testing }
+ToElementState >> isOpenState [
+
+	^ false
+]
+
+{ #category : #testing }
 ToElementState >> isPressedState [
 
 	^ false
@@ -44,10 +56,4 @@ ToElementState >> isPressedState [
 ToElementState >> isSelectedState [
 
 	^ false
-]
-
-{ #category : #'look event sending' }
-ToElementState >> sendEvent: anEvent toLook: aLook [
-
-	self subclassResponsibility 
 ]

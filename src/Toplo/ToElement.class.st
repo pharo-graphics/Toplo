@@ -1,8 +1,8 @@
 Class {
 	#name : #ToElement,
 	#superclass : #BlElement,
-	#traits : 'TToElement + TBlLayoutResizable + TToDressable + TToSkinable + TObservable',
-	#classTraits : 'TToElement classTrait + TBlLayoutResizable classTrait + TToDressable classTrait + TToSkinable classTrait + TObservable classTrait',
+	#traits : 'TToElement + TToEnableable + TBlLayoutResizable + TToDressable + TToSkinable + TObservable',
+	#classTraits : 'TToElement classTrait + TToEnableable classTrait + TBlLayoutResizable classTrait + TToDressable classTrait + TToSkinable classTrait + TObservable classTrait',
 	#category : #'Toplo-Core'
 }
 
@@ -27,4 +27,22 @@ ToElement >> initialize [
 	self initializeDresser.
 	self postInitializeDresser.
 	self initializeSkin
+]
+
+{ #category : #'t  - layout resizeable' }
+ToElement >> resizableConstraintsDo: aBlock [
+	"Perform aBlock with my constraints as argument.
+	Note: After evaluation I request a layout update!
+	aBlock must not be nil.
+	aBlock must accept exactly one argument
+	
+	Can be basically defined with #constraintsDo: aBlock.
+	
+	Introduced a an explicit requirement to let user
+	implement additional actions when resizing is changed
+	
+	"
+	self constraintsDo: aBlock.
+	self dispatchEvent: ToLayoutConstraintsChangedEvent new
+	
 ]

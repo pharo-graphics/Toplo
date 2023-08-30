@@ -35,7 +35,7 @@ ToWindowElement >> defaultGeometry [
 { #category : #initialization }
 ToWindowElement >> defaultLayout [
 
-	^ BlLinearLayout vertical
+	^ BlFrameLayout new
 ]
 
 { #category : #initialization }
@@ -56,7 +56,7 @@ ToWindowElement >> defaultRootBackground [
 
 { #category : #initialization }
 ToWindowElement >> defaultRootLabel [
-	^ 'ToWindow root'
+	^ 'ToWindowElement root'
 ]
 
 { #category : #initialization }
@@ -77,16 +77,13 @@ ToWindowElement >> initialize [
 
 	super initialize.
 	self
-		background: (Color white alpha: 0.7);
 		elevation: (BlRelativeElevation elevation: SmallInteger maxVal);
 		border: self defaultBorder;
 		layout: self defaultLayout;
 		outskirts: BlOutskirts outside;
 		geometry: self defaultGeometry;
-		clipChildren: false;
 		fitContent.
-	self constraintsDo: [ :c | c ignoreByLayout ].
-		
+	self constraintsDo: [ :c | c ignoreByLayout ].	
 	self addChildren: self elements.
 ]
 

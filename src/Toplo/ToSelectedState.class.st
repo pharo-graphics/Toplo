@@ -4,14 +4,14 @@ Class {
 	#category : #'Toplo-Core-Theme-States'
 }
 
+{ #category : #'look event sending' }
+ToSelectedState >> applyOn: anElement [
+
+	anElement dispatchLookEvent: ToSelectedLookEvent new
+]
+
 { #category : #testing }
 ToSelectedState >> isSelectedState [
 
 	^ true
-]
-
-{ #category : #'look event sending' }
-ToSelectedState >> sendEvent: anEvent toLook: aLook [
-
-	aLook selectedLookEvent: anEvent
 ]

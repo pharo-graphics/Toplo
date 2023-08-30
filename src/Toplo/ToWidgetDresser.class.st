@@ -73,7 +73,7 @@ ToWidgetDresser >> clickedAvorted: anElement event: anEvent [
 ToWidgetDresser >> disabledState: anElement [
 
 	mouseEventListener ifNotNil: [ :l | anElement removeEventHandler: l ].
-	self switchToState: ToDisabledState new in: anElement
+	anElement switchToSkinState: ToDisabledState new
 ]
 
 { #category : #'deprecated events handling' }
@@ -106,8 +106,7 @@ ToWidgetDresser >> hover: anElement event: anEvent [
 { #category : #'events handling' }
 ToWidgetDresser >> hoveredState: anElement [
 
-	self switchToState: ToHoveredState new in: anElement
-
+	anElement switchToSkinState: ToHoveredState new
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -116,7 +115,7 @@ ToWidgetDresser >> initialState: anElement [
 	" when switch back to enabled state, one have to reinstall mouseListener"
 	(anElement eventDispatcher hasHandler: mouseEventListener) ifFalse: [
 		anElement addEventHandler: mouseEventListener ].
-	self switchToState: ToInitialState new in: anElement
+	anElement switchToSkinState: ToInitialState new
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -295,7 +294,7 @@ ToWidgetDresser >> pressed: anElement event: anEvent [
 { #category : #'events handling' }
 ToWidgetDresser >> pressedState: anElement [
 
-	self switchToState: ToPressedState new in: anElement
+	anElement switchToSkinState: ToPressedState new
 ]
 
 { #category : #'deprecated events handling' }
@@ -316,12 +315,6 @@ ToWidgetDresser >> rightPressed: anElement event: anEvent [
 		transformWith:
 			'`@receiver rightPressed: `@anElement event: `@anEvent'
 				-> '`@receiver rightMouseDownEvent: `@anEvent in: `@anElement'.
-]
-
-{ #category : #'events handling' }
-ToWidgetDresser >> switchToState: aState in: anElement [
-
-	anElement switchToSkinState: aState
 ]
 
 { #category : #'api - install/uninstall  hook' }

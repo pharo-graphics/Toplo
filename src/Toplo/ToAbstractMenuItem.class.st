@@ -11,9 +11,7 @@ Class {
 ToAbstractMenuItem >> addedInMenu: aMenu [
 
 	self privateParentMenu: aMenu.
-	self constraintsDo: [ :c | 
-		c horizontal matchParent.
-		c vertical fitContent ]
+	self fitContent.
 ]
 
 { #category : #'parent menu' }
@@ -26,8 +24,20 @@ ToAbstractMenuItem >> allParentMenusDo: aBlock [
 	pm allParentMenusDo: aBlock
 ]
 
-{ #category : #'t - triplet - configuration' }
-ToAbstractMenuItem >> columnWidth: anInteger [
+{ #category : #accessing }
+ToAbstractMenuItem >> columnWidth [
+
+	^ self parentMenu ifNil: [ 0 ] ifNotNil: [:pm | pm columnWidth ]
+]
+
+{ #category : #testing }
+ToAbstractMenuItem >> hasIcon [
+
+	^ false
+]
+
+{ #category : #accessing }
+ToAbstractMenuItem >> icon: anElement [
 ]
 
 { #category : #initialization }

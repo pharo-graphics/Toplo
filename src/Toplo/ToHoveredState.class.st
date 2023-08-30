@@ -4,14 +4,14 @@ Class {
 	#category : #'Toplo-Core-Theme-States'
 }
 
+{ #category : #'look event sending' }
+ToHoveredState >> applyOn: anElement [
+
+	anElement dispatchLookEvent: ToHoveredLookEvent new
+]
+
 { #category : #testing }
 ToHoveredState >> isHoveredState [
 
 	^ true
-]
-
-{ #category : #'look event sending' }
-ToHoveredState >> sendEvent: anEvent toLook: aLook [
-
-	aLook hoveredLookEvent: anEvent
 ]

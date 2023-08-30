@@ -35,7 +35,7 @@ ToMenuAsSubmenuDresser >> leaved: anElement event: anEvent [
 	super leaved: anElement event: anEvent
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : #'event handling' }
 ToMenuAsSubmenuDresser >> mouseEnterEvent: anEvent in: anElement [
 
 
@@ -49,7 +49,7 @@ ToMenuAsSubmenuDresser >> mouseEnterEvent: anEvent in: anElement [
 	anElement parentMenuWindow openSubmenuWindowFor: anElement event: anEvent
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : #'event handling' }
 ToMenuAsSubmenuDresser >> mouseLeaveEvent: anEvent in: anElement [
 	" do not ask to close the menu window here because the mouse 
 	can enter the submenu window here (which should not be closed)"

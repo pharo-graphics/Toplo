@@ -11,6 +11,12 @@ Class {
 	#category : #'Toplo-Core-Triplet'
 }
 
+{ #category : #'t - dressable -  initialization' }
+ToTripletElement >> defaultDresser [ 
+
+	^ ToTripletDresser new
+]
+
 { #category : #'t - triplet - accessing' }
 ToTripletElement >> first [
 
@@ -28,6 +34,12 @@ ToTripletElement >> initialize [
 
 	super initialize.
 	self initializeTriplet 
+]
+
+{ #category : #'t - orientable - accessing' }
+ToTripletElement >> layoutStrategy [
+
+	^ self innerElement layout
 ]
 
 { #category : #'t - triplet - accessing' }

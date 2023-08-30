@@ -17,6 +17,10 @@ ToDefaultElementLook >> clickLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToDefaultElementLook >> closeLookEvent: anEvent [
+]
+
+{ #category : #'event handling' }
 ToDefaultElementLook >> disabledLookEvent: anEvent [
 
 
@@ -50,6 +54,10 @@ ToDefaultElementLook >> installLookEvent: anEvent [
 ToDefaultElementLook >> leavedLookEvent: anEvent [
 
 
+]
+
+{ #category : #'event handling' }
+ToDefaultElementLook >> openLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }

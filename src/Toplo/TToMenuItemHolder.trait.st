@@ -41,18 +41,16 @@ TToMenuItemHolder >> client: anObject [
 ]
 
 { #category : #'t - menu item holder - accessing' }
-TToMenuItemHolder >> defaultColumnWidth [
+TToMenuItemHolder >> columnWidth [
 
-	^ columnWidth ifNil: [ columnWidth := 22 ] 
+	^ columnWidth ifNil: [ columnWidth := 35 ] 
 ]
 
 { #category : #'t - menu item holder - accessing' }
-TToMenuItemHolder >> defaultColumnWidth: anInteger [
+TToMenuItemHolder >> columnWidth: anInteger [
 
 	columnWidth = anInteger ifTrue: [ ^ self ].
-	columnWidth := anInteger.
-	self items do: [ :item | item 	columnWidth: anInteger ]
-	
+	columnWidth := anInteger
 ]
 
 { #category : #'t - menu item holder - testing' }
@@ -103,5 +101,5 @@ TToMenuItemHolder >> replaceItemAt: anIndex with: anItem [
 { #category : #'t - menu item holder - accessing' }
 TToMenuItemHolder >> withoutLeftColumn [
 
-	self defaultColumnWidth: 0
+	self columnWidth: 0
 ]

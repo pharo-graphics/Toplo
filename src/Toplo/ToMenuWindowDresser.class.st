@@ -28,13 +28,3 @@ ToMenuWindowDresser >> mouseUpOutside: anEvent in: aMenuWindow [
 	" ok, the event is outside of the submenu chain"
 	super mouseUpOutside: anEvent in: aMenuWindow
 ]
-
-{ #category : #'api - install/uninstall  hook' }
-ToMenuWindowDresser >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement.
-	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
-	anElement padding: (BlInsets top: 5 left: 5 bottom: 5 right: 5 ).
-	anElement background: (Color veryLightGray muchLighter)
-
-]

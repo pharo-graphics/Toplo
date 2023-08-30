@@ -81,7 +81,7 @@ Here an example of a client for a method.
 	menu addItem: (ToMenuItem new labelText: 'Cancel'; whenClickedDo: [:event :client | client requestCancel ]; yourself).
 	menu withoutLeftColumn.
 	menu client: model.
-	model widgetDo: [ :widget | widget contextMenuFactory: [ menu ] ].
+	model widgetDo: [ :widget | widget contextMenuFactory: [ menu ]. widget cursorColor: Color black].
 	model onWidget openInInnerWindow 
 
 
@@ -239,7 +239,7 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 		     ToLabeledNode new
 			     label: lab;
 			     icon: (ToImage inner: assoc key);
-			     columnWidth: 20;
+			     interspace: 20;
 			     hMatchParent ].
 	l data addAll: (Smalltalk globals allClasses collect: [ :cls |
 			 | icon isel |
@@ -433,7 +433,7 @@ ToSandBox class >> example_ListOneClass [
 	l := ToListElement new nodeFactory: [ :cls |
 		     ToCheckNode new
 			     labelText: cls name;
-			     columnWidth: 25;
+			     interspace: 10;
 			     hMatchParent ].
 	l data addAll: { Smalltalk globals allClasses first }.
 	l openInSpace
@@ -475,7 +475,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 		     ToLabeledNode new
 			     label: lab;
 			     icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
-			     columnWidth: 20;
+			     interspace: 10;
 			     hMatchParent ].
 	l data addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
@@ -492,7 +492,7 @@ ToSandBox class >> example_ListWithAllClasses4 [
 		     nodeFactory: [ :cls |
 			     ToCheckNode new
 				     labelText: cls name;
-				     columnWidth: 25;
+				     interspace: 10;
 				     hMatchParent ].
 	l data addAll: Smalltalk globals allClasses.
 	l openInSpace
@@ -559,7 +559,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		r do: [ :e | l data addFirst: e ] ].
 	menuFactory := [ :widget :selection |
 	               | menu |
-	               menu := ToContextMenu new withoutLeftColumn.
+	               menu := ToContextMenu new.
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Add initial Items';
 			                whenClickedDo: [ :event :client |
@@ -574,7 +574,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 					                client data removeAll ];
 				                yourself) ].
 	               selection ifNotEmpty: [ 
-				         selectionMenu := ToMenu new withoutLeftColumn.
+				         selectionMenu := ToMenu new .
 		               selectionMenu label: (ToLabel new text: 'Selection').
 		               selection size = 1 ifTrue: [
 			               | node idx |
@@ -699,7 +699,7 @@ ToSandBox class >> example_ListWithRowNumbers [
 	l := ToListElement new nodeFactory: [ :cls |
 		     ToCheckNode new
 			     labelText: cls name;
-			     columnWidth: 25;
+			     interspace: 25;
 			     hMatchParent ].
 	l data addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
@@ -713,7 +713,7 @@ ToSandBox class >> example_ListWithSingleSelection [
 	l := ToListElement new nodeFactory: [ :cls |
 		     ToCheckNode new
 			     labelText: cls name;
-			     columnWidth: 25;
+			     interspace: 25;
 			     hMatchParent ].
 	l data addAll: Smalltalk globals allClasses.
 	l beSingleSelection.
@@ -779,7 +779,7 @@ ToSandBox class >> example_ListWithoutSelection [
 	l := ToListElement new nodeFactory: [ :cls |
 		     ToCheckNode new
 			     labelText: cls name;
-			     columnWidth: 25;
+			     interspace: 25;
 			     hMatchParent ].
 	l data addAll: Smalltalk globals allClasses.
 	l beWithoutSelection.
@@ -991,7 +991,7 @@ ToSandBox class >> example_ToButtonSkins [
 		| choice sizing |
 		choice := event checkedButtons anyOne.
 		sizing := choice userData at: #sizing.
-		allButtons do: [ :but | but skinDo: [ :s | s changeSizingWith: sizing in: but ] ] ].
+		allButtons do: [ :but | but sizing: sizing ] ].
 
 	buttonBar addChildren: {
 			smallSizingRadio.
@@ -1017,7 +1017,7 @@ ToSandBox class >> example_ToButtonSkins [
 		| choice shaping |
 		choice := event checkedButtons anyOne.
 		shaping := choice userData at: #shaping.
-		allButtons do: [ :but | but skinDo: [ :s | s changeShapingWith: shaping in: but ] ] ].
+		allButtons do: [ :but | but shaping: shaping ] ].
 
 	buttonBar addChildren: {
 			circleShapingRadio.
@@ -1177,6 +1177,153 @@ ToSandBox class >> example_ToButtonSkins [
 ]
 
 { #category : #button }
+ToSandBox class >> example_ToButtonSkinsOnOneButton [
+
+	| space pane themeSwitcher butBuilder buttonSpecsBuilder enablementSwitcher allButtons sizingGroup smallSizingRadio middleSizingRadio largeSizingRadio shapingGroup circleShapingRadio defaultShapingRadio roundShapingRadio topBar buttonBar directionSwitcher orientationSwitcher |
+	space := BlSpace new.
+	allButtons := OrderedCollection new.
+
+	space root layout: (BlLinearLayout vertical cellSpacing: 10).
+	topBar := ToMenuBar new beHorizontal; hMatchParent; vFitContent.
+	topBar layout cellSpacing: 10.
+
+	themeSwitcher := ToChoiceBox new.
+	themeSwitcher width: 150.
+	themeSwitcher data addAll: {
+			ToThemeLight.
+			ToThemeDark }.
+
+	themeSwitcher whenSelectedIndexChangedDo: [
+		space toTheme: themeSwitcher selectedData new ].
+	themeSwitcher selectData: space toTheme class.
+	topBar addChild: themeSwitcher.
+
+	enablementSwitcher := ToToggleButton new.
+	enablementSwitcher switchBarOnElement:
+		((ToLabel text: 'Enabled') withSkin:
+			 (ToLabelSkin new type: ToLabelPrimaryType new)).
+	enablementSwitcher switchBarOffElement:
+		((ToLabel text: 'Disabled') withSkin:
+			 (ToLabelSkin new type: ToLabelPrimaryType new)).
+	enablementSwitcher check.
+	enablementSwitcher
+		when: ToCheckableCheckEvent
+		do: [ :event |
+		allButtons do: [ :b | b enabled: event target isChecked ] ].
+
+	topBar addChild: enablementSwitcher.
+
+	buttonBar := ToPane vertical vFitContent.
+	 
+	sizingGroup := ToCheckableGroup new.
+	smallSizingRadio := ToRadioButton new labelText: 'Small'.
+	smallSizingRadio userData at: #sizing put: ToSmallSizing new.
+	middleSizingRadio := ToRadioButton new labelText: 'Middle'.
+	middleSizingRadio userData at: #sizing put: ToMiddleSizing new.
+	largeSizingRadio := ToRadioButton new labelText: 'Large'.
+	largeSizingRadio userData at: #sizing put: ToLargeSizing new.
+	middleSizingRadio checked: true.
+	sizingGroup addAll: {
+			smallSizingRadio.
+			middleSizingRadio.
+			largeSizingRadio }.
+	sizingGroup when: ToCheckableGroupChangedEvent do: [ :event |
+		| choice sizing |
+		choice := event checkedButtons anyOne.
+		sizing := choice userData at: #sizing.
+		allButtons do: [ :but | but sizing: sizing ] ].
+
+	buttonBar addChildren: {
+			smallSizingRadio.
+			middleSizingRadio.
+			largeSizingRadio }.
+	topBar addChild: buttonBar.
+	
+	buttonBar := ToPane vertical vFitContent.
+
+	shapingGroup := ToCheckableGroup new.
+	circleShapingRadio := ToRadioButton new labelText: 'Circle'.
+	circleShapingRadio userData at: #shaping put: ToCircleShaping new.
+	defaultShapingRadio := ToRadioButton new labelText: 'Default shape'.
+	defaultShapingRadio userData at: #shaping put: ToRectangleShaping new.
+	roundShapingRadio := ToRadioButton new labelText: 'Round'.
+	roundShapingRadio userData at: #shaping put: ToRoundShaping new.
+	defaultShapingRadio checked: true.
+	shapingGroup addAll: {
+			circleShapingRadio.
+			defaultShapingRadio.
+			roundShapingRadio }.
+	shapingGroup when: ToCheckableGroupChangedEvent do: [ :event |
+		| choice shaping |
+		choice := event checkedButtons anyOne.
+		shaping := choice userData at: #shaping.
+		allButtons do: [ :but | but shaping: shaping ] ].
+
+	buttonBar addChildren: {
+			circleShapingRadio.
+			defaultShapingRadio.
+			roundShapingRadio }.
+	
+	topBar addChild: buttonBar.
+	
+	directionSwitcher := ToToggleButton new labelText: 'Icon first'; beLabelFirst; yourself.
+	directionSwitcher check.
+	directionSwitcher
+		when: ToCheckableCheckEvent
+		do: [ :event | allButtons do: [ :b | b iconFirst: event target isChecked ] ].
+	topBar addChild: directionSwitcher.
+	
+	orientationSwitcher := ToToggleButton new labelText: 'Horizontal'; beLabelFirst; yourself.
+	orientationSwitcher check.
+	orientationSwitcher
+		when: ToCheckableCheckEvent
+		do: [ :event | allButtons do: [ :b | b horizontal: event target isChecked ].
+				sizingGroup buttons do: [:b | b enabled: event target isChecked] ].
+	topBar addChild: orientationSwitcher.
+	
+	topBar childrenDo: [ :child |
+		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
+
+	circleShapingRadio 
+		when: ToCheckableCheckEvent 
+		do: [ :event | 
+			event current 
+				ifTrue: [ directionSwitcher enabled: false. orientationSwitcher  enabled: false] 
+				ifFalse: [ directionSwitcher enabled: true. orientationSwitcher  enabled: true ] ].	
+
+	space root addChild: topBar.
+
+	butBuilder := [
+	              ToImage new innerImage:
+		              ToThemeIcons iconSearchOutlined16x16 ].
+	buttonSpecsBuilder := [
+	                      {
+		                      {
+			                      'Default'.
+			                      ToButtonSkin defaultType } } ].
+
+	" line 2 "
+	pane := ToPane horizontal.
+	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
+
+	buttonSpecsBuilder value do: [ :arr |
+		| but |
+		but := ToButton new.
+		but inspect.
+		allButtons add: but.
+		arr second ifNotNil: [ :skin | but withSkin: skin ].
+		but labelText: arr first.
+		but icon: butBuilder value.
+		pane addChild: but ].
+
+	space root addChild: pane.
+
+	space show.
+
+	^ space
+]
+
+{ #category : #button }
 ToSandBox class >> example_ToButtonWithDashedSkin [
 
 	| space button1 |
@@ -1187,12 +1334,18 @@ ToSandBox class >> example_ToButtonWithDashedSkin [
 				            dashed: true;
 				            yourself);
 		           yourself.
-	button1 hMatchParent.
+
 	button1 labelText: 'Dashed button'.
 	button1 icon: (ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16).
-	button1 beLabelFirst.
-	"button1 beVertical."
-button1 inspect.
+	button1 beJustified.
+	button1 hMatchParent.
+	"button1 innerElement hMatchParent."
+
+
+	
+	"button1 beLabelFirst."
+	button1 beVertical.
+
 	space root addChild: button1.
 
 	button1 labelText: 'Dashed button **'.
@@ -1310,7 +1463,7 @@ ToSandBox class >> example_ToButtonWithDefaultSkin0 [
 	pane layout cellSpacing: 10.
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 
-	button1 := ToButton new.
+	button1 := ToButton new withSkin: (ToButtonSkin new type: ToButtonDefaultType new).
 	button1 label: (ToLabel text: 'Primary button').
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 
@@ -1594,7 +1747,7 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 ]
 
 { #category : #menu }
-ToSandBox class >> example_menu1 [
+ToSandBox class >> example_menu0 [
 
 	| menu sub subsub space themeSwitcher |
 	
@@ -1613,17 +1766,38 @@ ToSandBox class >> example_menu1 [
 	space root addChild: themeSwitcher.
 	
 	menu := ToMenu new.
-	menu defaultColumnWidth: 22.
+	menu label: (ToLabel new text: 'File').
+	menu icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	menu addItem: (ToMenuItem new 
+		label: (ToLabel new text: 'Openfile'; id: #open; yourself); 
+		icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #config))).
+	menu addItem: (ToMenuItem new 
+		label: (ToLabel new text: 'Openfile'; id: #open2; yourself)"; 
+		icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #config))").
+	"menu inspect."
+	space root addChild: menu.
+	space show
+]
+
+{ #category : #menu }
+ToSandBox class >> example_menu1 [
+
+	| menu sub subsub space |
+	
+	space := BlSpace new.
+	space root layout: (BlLinearLayout vertical cellSpacing: 10).
+	
+	menu := ToMenu new.
+	menu columnWidth: 35.
 	menu label: (ToLabel new text: 'File').
 	menu icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel new text: 'Open file');
-			 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #config));
-			 third: ((ToLabel text: 'Cmd-f') margin: (BlInsets left: 5); yourself)).
-	menu addItem: (ToMenuItem new 
-			label: (ToLabel new text: 'Export'); 
-			third: ((ToLabel text: 'Cmd-e') margin: (BlInsets left: 5); yourself)).
+			 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #config))).
 	menu addSeparator.
+	menu addItem: (ToMenuItem new 
+			label: (ToLabel new text: 'Export'); yourself).
+
 
 	sub := ToMenu new label: (ToLabel new text: 'Save All').
 	sub addItem:
@@ -1634,20 +1808,22 @@ ToSandBox class >> example_menu1 [
 		          icon:
 			          (ToImage new innerImage:
 					           (Smalltalk ui icons iconNamed: #solidMenu)).
-	subsub addItem:
-		(ToMenuItem new label: (ToLabel new text: 'Here')).
+	subsub addItem: (ToMenuItem new label: (ToLabel new text: 'Here')).
 
 	sub addItem: subsub.
 
 	menu addItem: sub.
 	
-	sub := ToMenu new label: (ToLabel new text: 'Save All 2').
+	"sub := ToMenu new label: (ToLabel new text: 'Save All 2').
 	sub addItem: (ToMenuItem new label: (ToLabel new text: 'Locally 2')).
+	sub addItem: (ToMenuItem new label: (ToLabel new text: 'sub sub Locally 2'); icon:
+			          (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu))).
 
-	menu addItem: sub.
+	menu addItem: sub."
 	
 	menu position: 10 @ 10.
 	space root addChild: menu.
+	"menu inspect."
 	space show
 ]
 
@@ -1656,12 +1832,9 @@ ToSandBox class >> example_menu2 [
 
 	| menu |
 	menu := ToMenu new.
-	menu inspect.
-	menu label: (ToLabel text: 'File').
-	menu defaultColumnWidth: 100.
-	
-	menu addItem: (ToCheckMenuItem new
-			 label: (ToLabel text: 'Other');
+	menu label: (ToLabel text: 'File').	
+	menu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'Otherrrrr');
 			 yourself).
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'item');
@@ -1694,9 +1867,8 @@ ToSandBox class >> example_menu3 [
 
 	| menu sub subsub |
 	menu := ToMenu new.
+	menu columnWidth: 35.
 	menu label: (ToLabel new text: 'File').
-	menu columnWidth: 0.
-
 	menu addItem: (ToMenuItem new
 			 labelText: 'Open file';
 			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
@@ -1704,14 +1876,10 @@ ToSandBox class >> example_menu3 [
 	menu addItem: (ToCheckMenuItem new labelText: 'Align right').
 	menu addSeparator.
 
-	sub := ToMenu new
-		       labelText: 'Save All';
-		       withoutLeftColumn.
+	sub := ToMenu new labelText: 'Save All'.
 	sub addItem: (ToMenuItem new labelText: 'Locally').
 
-	subsub := ToMenu new
-		          labelText: 'Externally';
-		          withoutLeftColumn.
+	subsub := ToMenu new labelText: 'Externally'.
 	subsub addItem: (ToMenuItem new labelText: 'Here').
 
 	sub addItem: subsub.
@@ -1799,7 +1967,7 @@ ToSandBox class >> example_menu6 [
 
 	| menu grp right center left textField sub th lbl |
 	menu := ToMenu new.
-	menu defaultColumnWidth: 22.
+	menu columnWidth: 35.
 
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
@@ -1812,7 +1980,6 @@ ToSandBox class >> example_menu6 [
 			 whenClickedDo: [ self inform: 'Export' ]).
 	menu addItem: (ToMenuItem new
 			 labelText: 'Export';
-			 columnWidth: 0;
 			 whenClickedDo: [ self inform: 'Export' ]).
 
 	grp := ToCheckableGroup new.
@@ -1850,17 +2017,14 @@ ToSandBox class >> example_menu6 [
 	grp := ToCheckableGroup new.
 	right := ToRadioMenuItem new
 		         beLabelFirst;
-		         columnWidth: 50;
 		         labelText: 'Right';
 		         id: #right.
 	center := ToRadioMenuItem new
 		          beLabelFirst;
-		          columnWidth: 50;
 		          labelText: 'Center';
 		          id: #center.
 	left := ToRadioMenuItem new
 		        beLabelFirst;
-		        columnWidth: 50;
 		        labelText: 'Left';
 		        id: #left.
 	center checked: true.
@@ -1940,7 +2104,6 @@ ToSandBox class >> example_menu6 [
 	th := ToToggleButton new
 		      labelText: 'Column';
 		      beLabelFirst.
-	th columnWidth: 100.
 	th skinDo: [ :s | s sizing: ToSmallSizing new ].
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	th := ToToggleButton new
@@ -1971,7 +2134,6 @@ ToSandBox class >> example_menu6 [
 					  top: 2;
 					  bottom: 4)).
 	sub := ToMenu new labelText: 'Save All'.
-	sub columnWidth: 0.
 	sub addItem: (ToMenuItem new labelText: 'Locally').
 	menu addItem: sub.
 
@@ -2016,7 +2178,7 @@ ToSandBox class >> example_menuBar2 [
 	3 timesRepeat: [ 
 		menu := ToMenu new.
 		menu layout cellSpacing: 5.
-		menu defaultColumnWidth: 0.
+		menu columnWidth: 0.
 		menu label: (ToLabel text: 'Levels').
 		menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
 
@@ -2084,7 +2246,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	win := ToInnerWindow new title: 'Context menu Example'.
 	win width: 600.
 	menu := ToContextMenu new.
-	menu defaultColumnWidth: 22.
+	menu columnWidth: 22.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Open file';
 			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
@@ -2138,7 +2300,7 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 	| win menu sub subsub bar |
 	win := ToInnerWindow new title: 'Context menu Example'.
 	menu := ToContextMenu new.
-	menu defaultColumnWidth: 22.
+	menu columnWidth: 22.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Open file';
 			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
@@ -2708,10 +2870,11 @@ ToSandBox class >> example_toCheckbox1 [
 
 	| chb |
 	chb := ToCheckbox new
-		       columnWidth: 50;
+				interspace: 10;
 		       label: (ToLabel text: '1');
 		       id: 1 asString.
-	chb beRightToLeft.
+	"chb beRightToLeft."
+	chb inspect.
 	chb openInInnerWindow
 ]
 
@@ -2720,7 +2883,6 @@ ToSandBox class >> example_toCheckbox2 [
 
 	| chb container |
 	chb := ToCheckbox new
-		       columnWidth: 50;
 		       labelText: '1';
 		       id: 1 asString;
 				 beLabelFirst.
@@ -2791,7 +2953,6 @@ ToSandBox class >> example_toCheckboxWithGroup2 [
 	container := ToElement new.
 	container matchParent.
 	container layout: BlLinearLayout horizontal.
-	container layout cellSpacing: 2.
 	container addChildren: group buttons.
 	group when: ToCheckableGroupChangedEvent do: [ :event |
 		('checked: ' , event checkedButtons asString , ' unchecked: '
@@ -2812,7 +2973,6 @@ ToSandBox class >> example_toCheckboxWithGroupAndNoneStrategy [
 		| chb |
 		chb := ToCheckbox new
 			       beLabelFirst;
-			       columnWidth: 50;
 			       labelText: idx asString;
 			       id: idx asString.
 		buttons add: chb ].
@@ -2844,7 +3004,6 @@ ToSandBox class >> example_toCheckboxWithGroupAndStrictStrategy [
 		| chb |
 		chb := ToCheckbox new
 			       beLabelFirst;
-			       columnWidth: 50;
 			       labelText: idx asString;
 			       id: idx asString.
 		buttons add: chb ].
@@ -2877,7 +3036,6 @@ ToSandBox class >> example_toCheckboxWithGroupAndUnckekingStrategy [
 		| chb |
 		chb := ToCheckbox new
 			       beLabelFirst;
-			       columnWidth: 50;
 			       labelText: idx asString;
 			       id: idx asString.
 		buttons add: chb ].
@@ -2913,6 +3071,7 @@ ToSandBox class >> example_toCheckboxWithGroupJustified [
 			       beLabelFirst;
 			       labelText: idx asString;
 			       id: idx asString.
+		chb innerElement hMatchParent.
 		buttons add: chb ].
 	buttons second checked: true.
 	group addAll: buttons.
@@ -2937,7 +3096,7 @@ ToSandBox class >> example_toCheckboxWithIndeterminate1 [
 
 	| chb |
 	chb := ToCheckbox new
-		       columnWidth: 50;
+		       interspace: 50;
 		       label: (ToLabel text: '1');
 		       id: 1 asString.
 	chb withIndeterminate: true.	
@@ -3301,6 +3460,7 @@ ToSandBox class >> example_toPairJustified1 [
 	but second: iconImage.
 	but when: BlClickEvent do: [ but orientation: but orientation inverted ].
 	but beJustified.
+	but innerElement hMatchParent.
 	but hMatchParent.
 
 	space := BlSpace new.
@@ -3324,6 +3484,7 @@ ToSandBox class >> example_toPairJustified2 [
 	but second: iconImage.
 	but when: BlClickEvent do: [ but direction: but direction inverted ].
 	but beJustified.
+	but innerElement hMatchParent.
 	but hMatchParent.
 
 	space := BlSpace new.
@@ -3365,7 +3526,7 @@ ToSandBox class >> example_toPairWithColumn1 [
 		             background: Color lightGray;
 		             yourself.
 	but second: iconImage.
-	but columnWidth: 50.
+	but interspace: 50.
 	but when: BlClickEvent do: [ but orientation: but orientation inverted ].	
 	but hMatchParent.
 	space := BlSpace new.
@@ -3387,7 +3548,7 @@ ToSandBox class >> example_toPairWithColumn2 [
 		             background: Color lightGray;
 		             yourself.
 	but second: iconImage.
-	but columnWidth: 100.
+	but interspace: 100.
 	but when: BlClickEvent do: [ but direction: but direction inverted ].
 	but hMatchParent.
 	space := BlSpace new.
@@ -3431,8 +3592,10 @@ ToSandBox class >> example_toggle [
 	| th tv win |
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';
-		      beLabelFirst.
-
+		      beLabelFirst;
+				beJustified;
+		      hMatchParent.
+	th innerElement hMatchParent.
 	th checked: true.
 
 	tv := ToToggleButton new
@@ -3441,7 +3604,8 @@ ToSandBox class >> example_toggle [
 		      beLabelFirst;
 				beJustified;
 		      hMatchParent.
-
+	tv innerElement hMatchParent.
+	
 	win := ToInnerWindow new
 		       position: 10 @ 10;
 		       size: 400 @ 200;
@@ -3450,6 +3614,7 @@ ToSandBox class >> example_toggle [
 	win root addChildren: {
 			th.
 			tv }.
+
 	win openInSpace
 ]
 
@@ -3460,7 +3625,7 @@ ToSandBox class >> example_toggle2 [
 	th := ToToggleButton new
 		      labelText: 'Theme';
 		      beLabelFirst.
-	th columnWidth: 100.
+	th interspace: 150.
 	th switchBarOnElement: ((ToLabel text: 'Dark') withSkin: (ToLabelSkin new type: ToLabelPrimaryType new)).
 	th switchBarOffElement: ((ToLabel text: 'Light') withSkin: (ToLabelSkin new type: ToLabelPrimaryType new)).
 	th when: ToCheckableCheckEvent do: [ :event | event current traceCr ].

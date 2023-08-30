@@ -11,15 +11,6 @@ Class {
 	#category : #'Toplo-Widget-Menu'
 }
 
-{ #category : #'adding/removing' }
-ToMenuItem >> addedInMenu: aMenu [
-
-	super addedInMenu: aMenu.
-	self isJustified ifFalse: [
-		self columnWidth > 0 ifFalse: [ 
-			self columnWidth: aMenu defaultColumnWidth ] ]
-]
-
 { #category : #'t - clickable - click behavior' }
 ToMenuItem >> clickEventClass [
 
@@ -35,7 +26,7 @@ ToMenuItem >> client [
 { #category : #'t - initialization dresser' }
 ToMenuItem >> defaultDresser [ 
 
-	^ ToBasicMenuItemDresser next: (ToButtonMenuItemDresser new)
+	^ ToBasicMenuItemDresser next: (ToButtonMenuItemDresser next: ToTripletDresser new)
 ]
 
 { #category : #'t - skinable - initialization' }
@@ -61,6 +52,12 @@ ToMenuItem >> initialize [
 
 	super initialize.
 	self fitContent
+]
+
+{ #category : #'t - orientable - accessing' }
+ToMenuItem >> layoutStrategy [
+
+	^ self innerElement layout
 ]
 
 { #category : #'t - dressable -  initialization' }

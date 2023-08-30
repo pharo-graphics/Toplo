@@ -8,6 +8,6 @@ Class {
 ToTripletLinearStrategy >> onInstalledIn: aTriplet [
 
 	super onInstalledIn: aTriplet.
-	(aTriplet layout isKindOf: BlLinearLayout) ifTrue: [ ^ self ].
-	aTriplet layout: BlLinearLayout new.
+	(aTriplet innerElement layout isKindOf: BlLinearLayout) ifTrue: [ ^ self ].
+	aTriplet innerElement layout: BlLinearLayout new.
 ]

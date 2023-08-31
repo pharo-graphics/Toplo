@@ -1,9 +1,10 @@
 Class {
 	#name : #ToLabel,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TToWidgetWithTooltip + TToWidgetWithViewModel + TToEditable + TBlAlignable',
-	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithViewModel classTrait + TToEditable classTrait + TBlAlignable classTrait',
+	#traits : 'TToWidget + TToWidgetWithTooltip + TToWidgetWithViewModel + TBlAlignable',
+	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithViewModel classTrait + TBlAlignable classTrait',
 	#instVars : [
+		'#isEditable => ObservableSlot',
 		'#innerElement',
 		'#text => ObservableSlot',
 		'#lineMode => ObservableSlot'
@@ -41,6 +42,12 @@ ToLabel >> addEditor: anEditor [
 		apply
 ]
 
+{ #category : #accessing }
+ToLabel >> beEditable [
+
+	self isEditable: true
+]
+
 { #category : #initialization }
 ToLabel >> beMonoLine [
 
@@ -51,6 +58,12 @@ ToLabel >> beMonoLine [
 ToLabel >> beMultiLine [
 
 	self lineMode: ToLabelMultiLineMode new
+]
+
+{ #category : #accessing }
+ToLabel >> beReadOnly [
+
+	self isEditable: false
 ]
 
 { #category : #'private-editing' }
@@ -162,7 +175,7 @@ ToLabel >> initialize [
 	self lineMode: self defaultLineMode.
 	self text: self defaultText.
 
-	self initializeEditable.
+	isEditable := false.
 	self layout: self defaultLayout.
 	self fitContent.
 ]
@@ -177,6 +190,19 @@ ToLabel >> innerElement [
 ToLabel >> innerElement: anInnerElement [
 
 	innerElement := anInnerElement 
+]
+
+{ #category : #accessing }
+ToLabel >> isEditable [
+
+	^ isEditable 
+]
+
+{ #category : #accessing }
+ToLabel >> isEditable: aBoolean [
+
+	isEditable = aBoolean ifTrue: [ ^ self ].
+	isEditable := aBoolean
 ]
 
 { #category : #accessing }
@@ -289,6 +315,18 @@ ToLabel >> verticalAlignment [
 ToLabel >> verticalAlignment: aBlElementAlignment [
 
 	self layout verticalAlignment: aBlElementAlignment
+]
+
+{ #category : #'change hook' }
+ToLabel >> whenEditableChangedDo: aBlock [
+
+	"Inform when editable property has changed. 
+	 `aBlock` has three optional arguments: 
+	 - new value
+	 - old value
+	 - the announcement triggering this action"
+
+	self property: #isEditable whenChangedDo: aBlock
 ]
 
 { #category : #'change hook' }

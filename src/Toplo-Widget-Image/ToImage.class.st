@@ -16,11 +16,7 @@ ToImage >> errorInnerFormNotFound [
 	NotFound signalFor: self
 ]
 
-{ #category : #testing }
-ToImage >> hasInnerImage [ ^ self innerImage id asSymbol ~= #emptyImage
-]
-
-{ #category : #initialization }
+{#category : #initialization }
 ToImage >> initialize [
 
 	super initialize.

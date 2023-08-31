@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTextHeading,
 	#superclass : #Object,
-	#category : #'Toplo-Widget-Album-Skin-Label'
+	#category : #'Toplo-Widget-Album-Skin'
 }
 
 { #category : #'instance creation' }

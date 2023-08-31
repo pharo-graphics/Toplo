@@ -2,7 +2,7 @@ Class {
 	#name : #ToImage,
 	#superclass : #ToElement,
 	#traits : 'TToWidget + TToWidgetWithViewModel',
-	#classTraits : 'TToWidget classTrait  + TToWidgetWithViewModel classTrait',
+	#classTraits : 'TToWidget classTrait + TToWidgetWithViewModel classTrait',
 	#instVars : [
 		'innerImage'
 	],
@@ -15,7 +15,7 @@ ToImage class >> inner: anImage [
 ]
 
 { #category : #initialization }
-ToImage >> defaultInnerImage[ 
+ToImage >> defaultInnerImage [ 
 	^ BlElement new
 		  id: #emptyImage;
 		  size: 0 @ 0;

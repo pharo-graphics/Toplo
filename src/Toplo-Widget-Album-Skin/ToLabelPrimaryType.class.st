@@ -1,7 +1,7 @@
 Class {
 	#name : #ToLabelPrimaryType,
 	#superclass : #ToLabelType,
-	#category : #'Toplo-Widget-Album-Skin-Label'
+	#category : #'Toplo-Widget-Album-Skin'
 }
 
 { #category : #'api - install/uninstall  hook' }

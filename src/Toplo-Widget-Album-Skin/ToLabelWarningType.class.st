@@ -1,7 +1,7 @@
 Class {
 	#name : #ToLabelWarningType,
 	#superclass : #ToLabelType,
-	#category : #'Toplo-Widget-Album-Skin-Label'
+	#category : #'Toplo-Widget-Album-Skin'
 }
 
 { #category : #accessing }

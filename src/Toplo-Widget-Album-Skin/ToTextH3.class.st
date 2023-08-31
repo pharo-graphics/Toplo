@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTextH3,
 	#superclass : #ToTextHeading,
-	#category : #'Toplo-Widget-Album-Skin-Label'
+	#category : #'Toplo-Widget-Album-Skin'
 }
 
 { #category : #accessing }

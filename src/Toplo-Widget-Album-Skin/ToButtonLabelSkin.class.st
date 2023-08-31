@@ -1,7 +1,7 @@
 Class {
 	#name : #ToButtonLabelSkin,
 	#superclass : #ToLabelSkin,
-	#category : #'Toplo-Widget-Album-Skin-Label'
+	#category : #'Toplo-Widget-Album-Skin'
 }
 
 { #category : #accessing }

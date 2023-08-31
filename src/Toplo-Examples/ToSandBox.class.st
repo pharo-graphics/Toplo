@@ -2373,6 +2373,14 @@ ToSandBox class >> example_textField0 [
 ]
 
 { #category : #'text field' }
+ToSandBox class >> example_textFieldOnlyDigits [
+
+	| t |
+	t := ToTextField new inputFilter: AlbTextEditorDigitInputFilter new.
+	t openInSpace
+]
+
+{ #category : #'text field' }
 ToSandBox class >> example_textFieldWithDresserToSetFontNameAndSize [
 
 	| t |

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToChildSkinsDirtyEvent,
 	#superclass : #BlEvent,
-	#category : #'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Theme-skins'
 }
 
 { #category : #sending }

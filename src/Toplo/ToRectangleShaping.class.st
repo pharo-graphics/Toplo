@@ -1,7 +1,7 @@
 Class {
 	#name : #ToRectangleShaping,
 	#superclass : #ToQuadShaping,
-	#category : #'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Theme-skins'
 }
 
 { #category : #hook }

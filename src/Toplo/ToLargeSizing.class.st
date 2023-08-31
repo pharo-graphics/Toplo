@@ -1,7 +1,7 @@
 Class {
 	#name : #ToLargeSizing,
 	#superclass : #ToControlSizing,
-	#category : #'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Theme-skins'
 }
 
 { #category : #hook }

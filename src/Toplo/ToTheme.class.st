@@ -55,7 +55,7 @@ Class {
 	#instVars : [
 		'colorPrimary'
 	],
-	#category : #'Toplo-LookAndFeel-Theme'
+	#category : #'Toplo-Core-Theme'
 }
 
 { #category : #constructor }
@@ -486,19 +486,6 @@ ToTheme >> dashArray [
 	^ #( 3 3 )
 ]
 
-{ #category : #border }
-ToTheme >> dashed [
-	"dashed rendering equivalent in web UI"
-	
-	
-	self
-		deprecated: 'Please use dashArray instead.'
-		transformWith: '`@receiver dashed'
-			-> '`@receiver dashArray'.
-
-	^ self dashArray
-]
-
 { #category : #settings }
 ToTheme >> defaultColorPrimary [
 
@@ -560,12 +547,6 @@ ToTheme >> fontWeightStrong [
 	"https://ant.design/components/typography#design-token"
 
 	^ 600
-]
-
-{ #category : #text }
-ToTheme >> initialize [ 
-	
-	super initialize
 ]
 
 { #category : #text }

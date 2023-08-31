@@ -6,7 +6,7 @@ Class {
 		'installStep',
 		'childSkinsIndex'
 	],
-	#category : #'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Theme-skins'
 }
 
 { #category : #adding }

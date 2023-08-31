@@ -58,7 +58,7 @@ ToElementsTests >> testDefaultTheme [
 ToElementsTests >> testSkinTypeConstructor [
 
 	| element |
-	element := ToElement skinType: ToAbstractSkin defaultType.
-	self assert: element skinType equals: ToAbstractSkin defaultType.
+	element := ToElement skinType: ToLAFAbstractSkin defaultType.
+	self assert: element skinType equals: ToLAFAbstractSkin defaultType.
 	self assert: element skin isNil.
 ]

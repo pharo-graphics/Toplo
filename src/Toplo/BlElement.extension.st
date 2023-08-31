@@ -43,10 +43,7 @@ BlElement >> disable [
 { #category : #'*Toplo' }
 BlElement >> dispatchChildSkinsDirtyEvent [
 
-	self dispatchEvent: ToChildSkinsDirtyEvent new.
-	"self childrenDo: [ :child | child dispatchChildSkinsDirtyEvent ]."
-
-
+	self dispatchEvent: ToChildSkinsDirtyEvent new
 ]
 
 { #category : #'*Toplo' }
@@ -136,37 +133,6 @@ BlElement >> openInInnerWindow [
 	frame openInSpace
 ]
 
-{ #category : #'*Toplo-LookAndFeel' }
-BlElement >> openInOBlSpaceWithoutToTheme [
-	"This is a development method : use this method when your Space cannot support ToTheme management"
-	| sp |
-	
-	self 
-		deprecated:  'Use #openInSpaceWithoutToTheme instead' 
-		transformWith: '`@receiver openInOBlSpaceWithoutToTheme' -> '`@receiver openInSpaceWithoutToTheme	'.
-	
-	sp := BlSpace new.
-	self flag:'labordep : temporary set a nil toTheme setup, this methods should be removed when Look&Feel management will be ok'.
-	sp toTheme: nil.
-	sp root addChild: self.
-	sp show.
-	^ sp
-
-]
-
-{ #category : #'*Toplo-LookAndFeel' }
-BlElement >> openInSpaceWithoutToTheme [
-	"This is a development method : use this method when your Space cannot support ToTheme management"
-	| sp |
-	sp := BlSpace new.
-	self flag:'labordep : temporary set a nil toTheme setup, this methods should be removed when Look&Feel management will be ok'.
-	sp toTheme: nil.
-	sp root addChild: self.
-	sp show.
-	^ sp
-
-]
-
 { #category : #'*Toplo' }
 BlElement >> privateSkin [
 
@@ -245,7 +211,6 @@ BlElement >> withSkin: aSkin [
 	self privateSkin ifNotNil: [ :s |
 		self removeEventHandler: s ].
 	self privateSkin: aSkin.
-	Toplo useLookAndFeel ifTrue: [ ^ self ].
 	self privateSkin ifNotNil: [ :s |
 		self addEventHandler: s.
 		self dispatchChildSkinsDirtyEvent ]

@@ -1,5 +1,5 @@
 Class {
-	#name : #ToAbstractSkin,
+	#name : #ToLAFAbstractSkin,
 	#superclass : #Object,
 	#instVars : [
 		'theme',
@@ -9,25 +9,25 @@ Class {
 }
 
 { #category : #testing }
-ToAbstractSkin class >> defaultType [
+ToLAFAbstractSkin class >> defaultType [
 
 	^ #default
 ]
 
 { #category : #testing }
-ToAbstractSkin class >> isAbstract [
+ToLAFAbstractSkin class >> isAbstract [
 
-	^ self = ToAbstractSkin
+	^ self = ToLAFAbstractSkin
 ]
 
 { #category : #testing }
-ToAbstractSkin class >> type [
+ToLAFAbstractSkin class >> type [
 
 	^ self defaultType
 ]
 
 { #category : #'private - tokens' }
-ToAbstractSkin >> buildTokens [
+ToLAFAbstractSkin >> buildTokens [
 
 	"Reset previous tokens"
 	self tokens: Dictionary new.
@@ -36,48 +36,48 @@ ToAbstractSkin >> buildTokens [
 ]
 
 { #category : #built }
-ToAbstractSkin >> builtDefaultSize [
+ToLAFAbstractSkin >> builtDefaultSize [
 
 	^ nil
 ]
 
 { #category : #tokens }
-ToAbstractSkin >> defaultSize [
+ToLAFAbstractSkin >> defaultSize [
 
 	^ self token: #size
 ]
 
 { #category : #accessing }
-ToAbstractSkin >> initialize [ 
+ToLAFAbstractSkin >> initialize [ 
 
 	super initialize.
 	self isSupportedByTheme ifTrue:[self buildTokens].
 ]
 
 { #category : #testing }
-ToAbstractSkin >> isSupportedByTheme [
+ToLAFAbstractSkin >> isSupportedByTheme [
 
 	^ self isSupportedByTheme: self theme
 ]
 
 { #category : #testing }
-ToAbstractSkin >> isSupportedByTheme: aTheme [
+ToLAFAbstractSkin >> isSupportedByTheme: aTheme [
 
 	^ aTheme skins includes: self class
 ]
 
 { #category : #'events - handling' }
-ToAbstractSkin >> onInstalledIn: anElement [
+ToLAFAbstractSkin >> onInstalledIn: anElement [
 	"This method is a hook. Use this method to inject custom or advanced behavior"
 ]
 
 { #category : #'events - handling' }
-ToAbstractSkin >> onUninstalledIn: anElement [
+ToLAFAbstractSkin >> onUninstalledIn: anElement [
 	"This method is a hook. Use this method to inject custom or advanced behavior"
 ]
 
 { #category : #printing }
-ToAbstractSkin >> printOn: aStream [
+ToLAFAbstractSkin >> printOn: aStream [
 
 	aStream
 		nextPutAll: self class name;
@@ -86,13 +86,13 @@ ToAbstractSkin >> printOn: aStream [
 ]
 
 { #category : #accessing }
-ToAbstractSkin >> theme [
+ToLAFAbstractSkin >> theme [
 
 	^ theme ifNil:[ theme := ToAbstractTheme current ]
 ]
 
 { #category : #accessing }
-ToAbstractSkin >> theme: anObject [
+ToLAFAbstractSkin >> theme: anObject [
 
 	theme ~= anObject ifFalse:[ ^ self ].
 	theme := anObject.
@@ -100,7 +100,7 @@ ToAbstractSkin >> theme: anObject [
 ]
 
 { #category : #theme }
-ToAbstractSkin >> themeChanged [
+ToLAFAbstractSkin >> themeChanged [
 	"update token dictionary depending theme"
 	
 	self isSupportedByTheme ifFalse:[ ^ self ].
@@ -108,31 +108,31 @@ ToAbstractSkin >> themeChanged [
 ]
 
 { #category : #tokens }
-ToAbstractSkin >> token: aSymbol [
+ToLAFAbstractSkin >> token: aSymbol [
 
 	^ self tokens at: aSymbol ifAbsent:[ nil ]
 ]
 
 { #category : #tokens }
-ToAbstractSkin >> token: aSymbol value: aValue [
+ToLAFAbstractSkin >> token: aSymbol value: aValue [
 
 	self tokens at: aSymbol put: aValue
 ]
 
 { #category : #'private - tokens' }
-ToAbstractSkin >> tokens [
+ToLAFAbstractSkin >> tokens [
 
 	^ tokens ifNil: [ tokens := Dictionary new ]
 ]
 
 { #category : #'private - tokens' }
-ToAbstractSkin >> tokens: anObject [
+ToLAFAbstractSkin >> tokens: anObject [
 
 	tokens := anObject
 ]
 
 { #category : #accessing }
-ToAbstractSkin >> type [
+ToLAFAbstractSkin >> type [
 
 	^ self class type
 ]

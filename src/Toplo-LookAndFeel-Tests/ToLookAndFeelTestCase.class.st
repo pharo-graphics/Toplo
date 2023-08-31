@@ -10,16 +10,12 @@ Class {
 { #category : #running }
 ToLookAndFeelTestCase >> setUp [
 
-	super setUp.
-
-	useLookAndFeel := Toplo useLookAndFeel.
-	Toplo useLookAndFeel: true
+	super setUp
 ]
 
 { #category : #running }
 ToLookAndFeelTestCase >> tearDown [
 
-	Toplo useLookAndFeel: useLookAndFeel.
 
 	super tearDown
 ]

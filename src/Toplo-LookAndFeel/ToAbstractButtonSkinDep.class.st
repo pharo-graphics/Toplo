@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAbstractButtonSkinDep,
-	#superclass : #ToAbstractSkin,
+	#superclass : #ToLAFAbstractSkin,
 	#category : #'Toplo-LookAndFeel-Theme-Skins-Button'
 }
 
@@ -189,13 +189,13 @@ ToAbstractButtonSkinDep >> geometry [
 { #category : #built }
 ToAbstractButtonSkinDep >> imageSkinType [
 
-	^ ToAbstractSkin defaultType
+	^ ToLAFAbstractSkin defaultType
 ]
 
 { #category : #built }
 ToAbstractButtonSkinDep >> labelSkinType [
 
-	^ ToAbstractSkin defaultType
+	^ ToLAFAbstractSkin defaultType
 ]
 
 { #category : #tokens }

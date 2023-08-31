@@ -15,7 +15,7 @@ TToSkinnableElementDresser >> defaultSkin [
 { #category : #accessing }
 TToSkinnableElementDresser >> defaultSkinType [
 
-	^ ToAbstractSkin defaultType
+	^ ToLAFAbstractSkin defaultType
 ]
 
 { #category : #accessing }

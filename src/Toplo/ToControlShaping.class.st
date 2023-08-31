@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'sizing'
 	],
-	#category : #'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Theme-skins'
 }
 
 { #category : #hook }

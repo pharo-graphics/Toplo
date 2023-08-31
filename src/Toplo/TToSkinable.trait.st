@@ -4,7 +4,7 @@ Trait {
 		'privateSkin',
 		'currentSkinState'
 	],
-	#category : #'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Theme-skins'
 }
 
 { #category : #'t - skinable - accessing' }

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAbstractLabelSkin,
-	#superclass : #ToAbstractSkin,
+	#superclass : #ToLAFAbstractSkin,
 	#category : #'Toplo-LookAndFeel-Core'
 }
 

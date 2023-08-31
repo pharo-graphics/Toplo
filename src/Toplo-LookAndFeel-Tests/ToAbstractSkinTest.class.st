@@ -11,7 +11,7 @@ Class {
 ToAbstractSkinTest >> testToken [
 
 	| skin |
-	skin := ToAbstractSkin new.
+	skin := ToLAFAbstractSkin new.
 	self assert: (skin token: #notDefined) equals: nil
 ]
 
@@ -19,7 +19,7 @@ ToAbstractSkinTest >> testToken [
 ToAbstractSkinTest >> testTokenValue [
 
 	| skin |
-	skin := ToAbstractSkin new.
+	skin := ToLAFAbstractSkin new.
 	self assert: (skin token: #property) isNil.
 	
 	skin token: #property value: true.
@@ -30,7 +30,7 @@ ToAbstractSkinTest >> testTokenValue [
 ToAbstractSkinTest >> testType [
 
 	| skin |
-	skin := ToAbstractSkin new.
+	skin := ToLAFAbstractSkin new.
 	self assert: skin type equals: #default.
-	self assert: skin type equals: ToAbstractSkin type.
+	self assert: skin type equals: ToLAFAbstractSkin type.
 ]

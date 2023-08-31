@@ -1,7 +1,7 @@
 Class {
 	#name : #ToControlSizing,
 	#superclass : #Object,
-	#category : #'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Theme-skins'
 }
 
 { #category : #'private geometry' }

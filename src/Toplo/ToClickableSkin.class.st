@@ -7,7 +7,7 @@ Class {
 		'cursorLook',
 		'type'
 	],
-	#category : #'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Theme-skins'
 }
 
 { #category : #'instance creation' }

@@ -3,7 +3,7 @@ I'm an empty skin for testing custom skin without standard tokens
 "
 Class {
 	#name : #ToEmptyTestSkin,
-	#superclass : #ToAbstractSkin,
+	#superclass : #ToLAFAbstractSkin,
 	#category : #'Toplo-LookAndFeel-Tests-Utils'
 }
 

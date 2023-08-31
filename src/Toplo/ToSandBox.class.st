@@ -1322,14 +1322,14 @@ ToSandBox class >> example_ToButtonWithDashedSkin [
 		           yourself.
 
 	button1 labelText: 'Dashed button'.
-	button1 icon: (ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16).
+	"button1 icon: (ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16)."
 	button1 beJustified.
 	button1 hMatchParent.
 	"button1 innerElement hMatchParent."
 
 
 	
-	"button1 beLabelFirst."
+	button1 beLabelFirst.
 	"button1 beVertical."
 
 	space root addChild: button1.

@@ -28,7 +28,7 @@ ToThemeTest >> testSkins [
 	theme := ToAbstractTheme current.
 	skins := theme skins.
 	self assert: skins notEmpty.
-	self assert: (skins first inheritsFrom: ToAbstractSkin).
+	self assert: (skins first inheritsFrom: ToLAFAbstractSkin).
 ]
 
 { #category : #tests }

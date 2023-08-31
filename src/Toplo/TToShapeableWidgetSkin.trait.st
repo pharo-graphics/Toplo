@@ -4,7 +4,7 @@ Trait {
 		'sizing',
 		'shaping'
 	],
-	#category : #'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Theme-skins'
 }
 
 { #category : #'t - shapeable - private - shaping/sizing' }

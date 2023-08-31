@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToShapeableWidget,
-	#category : #'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Theme-skins'
 }
 
 { #category : #'t - shapeable  - accessing' }

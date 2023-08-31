@@ -5,7 +5,7 @@ Class {
 		'skinBuilder',
 		'slotName'
 	],
-	#category : #'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Theme-skins'
 }
 
 { #category : #accessing }

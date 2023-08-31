@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'radius'
 	],
-	#category : #'Toplo-Core-Theme'
+	#category : #'Toplo-Core-Theme-skins'
 }
 
 { #category : #accessing }

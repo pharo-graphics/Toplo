@@ -127,7 +127,7 @@ ToNotebook >> refreshOnPageIsCloseableChange: aPage [
 	aPage isCloseable
 		ifTrue: [
 			| but |
-			but := ToButton new.
+			but := ToButton new withSkin: nil.
 			but icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #windowClose)).
 			but whenClickedDo: [ :evt |
 				evt consumed: true.
@@ -153,7 +153,7 @@ ToNotebook >> refreshOnPageIsSelectedChange: aPage [
 { #category : #private }
 ToNotebook >> removeBodyElement [
 
-	self removeChildNamed: #body
+	self removeChildWithId: #body
 ]
 
 { #category : #api }

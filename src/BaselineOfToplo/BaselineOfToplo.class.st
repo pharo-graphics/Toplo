@@ -55,7 +55,7 @@ BaselineOfToplo >> registerPackages: spec [
 		
 	spec 
 		package: #'Toplo-Widget-Album' 
-		with: [ spec requires: #( #Toplo #'Album #Toplo-Widget-List' #'Toplo-Widget-Window' #'Toplo-Widget-Pane' ) ].
+		with: [ spec requires: #( #Toplo #Album #'Toplo-Widget-List' #'Toplo-Widget-Window' #'Toplo-Widget-Pane' ) ].
 	spec 
 		package: #'Toplo-Widget-Album-Skin' 
 		with: [ spec requires: #( #Toplo #'Toplo-Widget-Album') ].

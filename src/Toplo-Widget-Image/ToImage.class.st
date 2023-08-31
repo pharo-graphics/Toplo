@@ -28,12 +28,6 @@ ToImage >> initialize [
 ]
 
 { #category : #accessing }
-ToImage >> innerImage [
-
-	^ innerImage
-]
-
-{ #category : #accessing }
 ToImage >> innerImage: anImage [
 
 	| element |

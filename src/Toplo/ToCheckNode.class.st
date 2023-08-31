@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : #'t - initialization dresser' }
-ToCheckNode >> defaultDresser [ 
+ToCheckNode >> defaultDresser [
 
 	^ ToCheckNodeDresser new
 ]

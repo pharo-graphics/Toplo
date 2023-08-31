@@ -10,6 +10,7 @@ Class {
 ToCheckNode >> defaultDresser [
 ^ToCheckNodeDresser new
 ]
+
 { #category : #initialization }
 ToCheckNode >> initialize [
 

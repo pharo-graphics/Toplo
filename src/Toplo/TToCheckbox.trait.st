@@ -7,7 +7,7 @@ Trait {
 		'indeterminateImage',
 		'disabledImage'
 	],
-	#category : #'Toplo-Widget-Button-Checkable'
+	#category : #'Toplo-Core'
 }
 
 { #category : #'t - checkable - group' }

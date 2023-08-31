@@ -4,7 +4,7 @@ Trait {
 		'checked',
 		'withIndeterminate'
 	],
-	#category : #'Toplo-Widget-Button-Core'
+	#category : #'Toplo-Core'
 }
 
 { #category : #'t - checkable  - protocol' }

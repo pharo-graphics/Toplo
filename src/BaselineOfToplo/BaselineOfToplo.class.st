@@ -60,9 +60,9 @@ BaselineOfToplo >> registerPackages: spec [
 		package: #'Toplo-Widget-Album-Skin'
 		with: [ spec requires: #( #Toplo #'Toplo-Widget-Album' ) ].
 
-	spec
-		package: #'Toplo-Widget-Button'
-		with: [ spec requires: #( #Toplo #'Toplo-Widget-Window' #'Toplo-Widget-Image' ) ].
+	spec package: #'Toplo-Widget-Button' with: [
+		spec requires:
+			#( #Toplo #'Toplo-Widget-Window' #'Toplo-Widget-Image' #'Toplo-Widget-Tooltip') ].
 	spec package: #'Toplo-Widget-Button-Skin' with: [
 		spec requires:
 			#( #Toplo #'Toplo-Widget-Album-Skin' #'Toplo-Widget-Image-Skin' ) ].
@@ -83,9 +83,9 @@ BaselineOfToplo >> registerPackages: spec [
 			#( #Toplo #'Toplo-Widget-Album' #'Toplo-Widget-Button'
 			   #'Toplo-Widget-Image' #'Toplo-Widget-List' #'Toplo-Widget-Pane'
 			   #'Toplo-Widget-Window' ) ].
-	spec
-		package: #'Toplo-Widget-List'
-		with: [ spec requires: #( #Toplo #'Toplo-Widget-Pane' #'Toplo-Widget-Button') ].
+	spec package: #'Toplo-Widget-List' with: [
+		spec requires:
+			#( #Toplo #'Toplo-Widget-Pane' #'Toplo-Widget-Button' ) ].
 	spec package: #'Toplo-Widget-Menu' with: [
 		spec requires:
 			#( #Toplo #'Toplo-Widget-Button' #'Toplo-Widget-Window' ) ].

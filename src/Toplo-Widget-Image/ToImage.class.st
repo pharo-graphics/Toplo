@@ -1,7 +1,7 @@
 Class {
 	#name : #ToImage,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TToWidgetWithTooltip + TToWidgetWithViewModel',
+	#traits : 'TToWidget + TToWidgetWithViewModel',
 	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithViewModel classTrait',
 	#instVars : [
 		'innerImage'

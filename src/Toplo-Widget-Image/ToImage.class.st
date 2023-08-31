@@ -16,9 +16,7 @@ ToImage class >> inner: anImage [
 ]
 
 { #category : #initialization }
-ToImage >> defaultInnerImage [
-
-	^ BlElement new
+ToImage >> defaultInnerImage^ [ BlElement new
 		  id: #emptyImage;
 		  size: 0 @ 0;
 		  yourself
@@ -32,9 +30,7 @@ ToImage >> errorInnerFormNotFound [
 ]
 
 { #category : #testing }
-ToImage >> hasInnerImage [
-
-	^ self innerImage id asSymbol ~= #emptyImage
+ToImage >> hasInnerImage^ [ self innerImage id asSymbol ~= #emptyImage
 ]
 
 { #category : #initialization }

@@ -27,19 +27,6 @@ ToImage >> initialize [
 	self preventChildrenMouseEvents
 ]
 
-{ #category : #accessing }
-ToImage >> innerImage: anImage [
-
-	| element |
-	element := anImage
-		           ifNil: [ self defaultInnerImage ]
-		           ifNotNil: [ anImage asElement ].
-	anImage = innerImage ifTrue: [ ^ self ].
-	self removeChildren.
-	innerImage := element.
-	self addChild: element
-]
-
 { #category : #'form accessing' }
 ToImage >> withInnerFormDo: aBlock [
 	" aBlock is evaluated with the form as arguments 

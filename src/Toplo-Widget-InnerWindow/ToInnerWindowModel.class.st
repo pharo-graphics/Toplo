@@ -1,7 +1,7 @@
 Class {
 	#name : #ToInnerWindowModel,
 	#superclass : #ToViewModel,
-	#category : #'Toplo-Widget-InnerWindow-Model'
+	#category : #'Toplo-Widget-InnerWindow'
 }
 
 { #category : #'private - accessing - widget' }

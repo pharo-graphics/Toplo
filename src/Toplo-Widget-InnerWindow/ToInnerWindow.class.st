@@ -9,7 +9,7 @@ Class {
 		'titleLabel',
 		'barPullHandler'
 	],
-	#category : #'Toplo-Widget-InnerWindow-Core'
+	#category : #'Toplo-Widget-InnerWindow'
 }
 
 { #category : #adding }

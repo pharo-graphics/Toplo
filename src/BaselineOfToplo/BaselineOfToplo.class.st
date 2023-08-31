@@ -119,6 +119,10 @@ BaselineOfToplo >> registerPackages: spec [
 		package: #'Toplo-Incubator'
 		with: [ spec requires: #( #Toplo ) ].
 		
+	spec
+		package: #'Toplo-Examples'
+		with: [ spec requires: #( #Toplo ) ].
+		
 	
 
 

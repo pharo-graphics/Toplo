@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTooltipModel,
 	#superclass : #ToViewModel,
-	#category : #'Toplo-tooltip'
+	#category : #'Toplo-Core-Tooltip'
 }
 
 { #category : #accessing }

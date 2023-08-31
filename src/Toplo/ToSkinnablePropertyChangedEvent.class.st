@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSkinnablePropertyChangedEvent,
 	#superclass : #ToPropertyChangedEvent,
-	#category : #'Toplo-Core-Slots'
+	#category : #'Toplo-Core-Theme-skins'
 }
 
 { #category : #sending }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'root'
 	],
-	#category : #'Toplo-window'
+	#category : #'Toplo-Core-Window'
 }
 
 { #category : #'api - displaying' }

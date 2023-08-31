@@ -1,7 +1,7 @@
 Class {
 	#name : #ToPopupWindow,
 	#superclass : #ToWidgetWindowElement,
-	#category : #'Toplo-window'
+	#category : #'Toplo-Core-Window'
 }
 
 { #category : #'api - displaying' }

@@ -5,7 +5,7 @@ Class {
 		'widgetRemovedHandler',
 		'widgetRemovedFromSpaceHandler'
 	],
-	#category : #'Toplo-window'
+	#category : #'Toplo-Core-Window'
 }
 
 { #category : #'api - install/uninstall  hook' }

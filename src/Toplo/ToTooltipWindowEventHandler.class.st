@@ -5,7 +5,7 @@ Class {
 		'tooltipElement',
 		'openTask'
 	],
-	#category : #'Toplo-tooltip'
+	#category : #'Toplo-Core-Tooltip'
 }
 
 { #category : #'api - accessing' }

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToOverlayWindow,
 	#superclass : #ToWidgetWindowElement,
-	#category : #'Toplo-window'
+	#category : #'Toplo-Core-Window'
 }
 
 { #category : #'api - displaying' }

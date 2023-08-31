@@ -5,7 +5,7 @@ Class {
 		'eventHandler',
 		'widgetWithTooltipEventHandler'
 	],
-	#category : #'Toplo-tooltip'
+	#category : #'Toplo-Core-Tooltip'
 }
 
 { #category : #'api - install/uninstall  hook' }

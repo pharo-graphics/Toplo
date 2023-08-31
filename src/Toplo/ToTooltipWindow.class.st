@@ -5,7 +5,7 @@ Class {
 		'#content => ObservableSlot',
 		'#label'
 	],
-	#category : #'Toplo-tooltip'
+	#category : #'Toplo-Core-Tooltip'
 }
 
 { #category : #accessing }

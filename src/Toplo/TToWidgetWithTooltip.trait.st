@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToWidgetWithTooltip,
-	#category : #'Toplo-tooltip'
+	#category : #'Toplo-Core-Tooltip'
 }
 
 { #category : #'t - widget with tooltip - private' }

@@ -5,7 +5,7 @@ Trait {
 		'contextMenuEventHandler',
 		'openedContextMenu'
 	],
-	#category : #'Toplo-window'
+	#category : #'Toplo-Core-Window'
 }
 
 { #category : #'t - widget with context menu - accessing' }

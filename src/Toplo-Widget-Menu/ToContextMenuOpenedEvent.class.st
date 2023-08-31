@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'sourceEvent'
 	],
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Widget-Menu'
 }
 
 { #category : #accessing }

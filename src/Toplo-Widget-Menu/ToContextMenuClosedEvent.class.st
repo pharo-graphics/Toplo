@@ -1,5 +1,5 @@
 Class {
 	#name : #ToContextMenuClosedEvent,
 	#superclass : #ToContextMenuEvent,
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Widget-Menu'
 }

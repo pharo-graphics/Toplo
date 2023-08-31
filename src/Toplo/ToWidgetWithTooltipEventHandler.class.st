@@ -5,7 +5,7 @@ Class {
 		'openTooltipTask',
 		'widget'
 	],
-	#category : #'Toplo-tooltip'
+	#category : #'Toplo-Core-Tooltip'
 }
 
 { #category : #'element handlers' }

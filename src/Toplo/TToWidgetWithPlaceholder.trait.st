@@ -3,7 +3,7 @@ Trait {
 	#instVars : [
 		'placeholderLayer'
 	],
-	#category : #'Toplo-Widget-Pane'
+	#category : #'Toplo-Core'
 }
 
 { #category : #'t - placeholder show/hide' }

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToOpenLookEvent,
 	#superclass : #ToElementLookEvent,
-	#category : #'Toplo-Core-Theme-Look-Events'
+	#category : #'Toplo-Core-Theme-LookEvents'
 }
 
 { #category : #sending }

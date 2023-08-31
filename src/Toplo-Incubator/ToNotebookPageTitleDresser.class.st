@@ -1,6 +1,6 @@
 Class {
 	#name : #ToNotebookPageTitleDresser,
-	#superclass : #ToGeneralButtonDresser,
+	#superclass : #ToWidgetDresser,
 	#instVars : [
 		'notebookDresser'
 	],

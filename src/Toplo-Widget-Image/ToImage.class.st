@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToImage class >> inner: anImage [
+ToImage class>>inner: anImage [
 
 	^ self new innerImage: anImage
 ]

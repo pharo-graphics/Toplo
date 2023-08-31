@@ -67,13 +67,4 @@ BaselineOfToplo >> registerPackages: spec [
 	spec
 		package: #'Toplo-Incubator'
 		with: [ spec requires: #( #Toplo ) ].
-
-	"Look and feel"
-	spec
-		package: #'Toplo-LookAndFeel'
-		with: [ spec requires: #( #Toplo ) ].
-		
-	spec
-		package: #'Toplo-LookAndFeel-Tests'
-		with: [ spec requires: #( #'Toplo-LookAndFeel' ) ].
 ]

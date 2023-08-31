@@ -9,14 +9,6 @@ Class {
 	#category : #'Toplo-Widget-Image-Core'
 }
 
-{ #category : #initialization }
-ToImage >> defaultInnerImage[ 
-	^ BlElement new
-		  id: #emptyImage;
-		  size: 0 @ 0;
-		  yourself
-]
-
 { #category : #'form accessing' }
 ToImage >> errorInnerFormNotFound [
 	"Raise a NotFound exception."

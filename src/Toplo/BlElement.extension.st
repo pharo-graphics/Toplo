@@ -3,7 +3,7 @@ Extension { #name : #BlElement }
 { #category : #'*Toplo' }
 BlElement >> asPlaceholderLayer [
 
-	^ ToPanePlaceholderLayer new
+	^ ToPlaceholderLayer new
 		  in: [ :placeholder | placeholder addChild: self ];
 		  yourself
 ]
@@ -122,15 +122,6 @@ BlElement >> launchSkinUninstallation [
 
 	"Nothing to do at BlElement level to preserve efficienty"
 
-]
-
-{ #category : #'*Toplo' }
-BlElement >> openInInnerWindow [
-
-	| frame |
-	frame := ToInnerWindow new.
-	frame root addChild: self.
-	frame openInSpace
 ]
 
 { #category : #'*Toplo' }

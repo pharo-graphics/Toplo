@@ -12,12 +12,6 @@ ToCheckbox >> defaultDresser [
 	^ ToCheckableButtonDresser next: ToTripletDresser new
 ]
 
-{ #category : #'t - skin accessing' }
-ToCheckbox >> defaultSkin [ 
-
-	^ ToCheckboxSkin new
-]
-
 { #category : #'as yet unclassified' }
 ToCheckbox >> initialize [
 

@@ -4,7 +4,7 @@ Extension { #name : #BlSpace }
 BlSpace >> checkRootSkinInstallation [
 
 	self root privateSkin ifNil: [ 
-		self root withSkin: ToSpaceRootSkin new].
+		self root withSkin: self root spaceRootSkin ].
 	" To preserve efficiency, #launchSkinInstallation does nothing by default at BlElement level."
 	" Thus, the installation for root is directly launched here "
 	self root privateSkin launchSkinInstallationIn: self root

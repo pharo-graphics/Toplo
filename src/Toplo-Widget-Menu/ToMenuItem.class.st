@@ -29,12 +29,6 @@ ToMenuItem >> defaultDresser [
 	^ ToBasicMenuItemDresser next: (ToButtonMenuItemDresser next: ToTripletDresser new)
 ]
 
-{ #category : #'t - skinable - initialization' }
-ToMenuItem >> defaultSkin [ 
-
-	^ ToMenuItemSkin new
-]
-
 { #category : #'t - triplet - accessing' }
 ToMenuItem >> first [
 

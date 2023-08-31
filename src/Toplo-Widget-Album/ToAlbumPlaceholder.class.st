@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAlbumPlaceholder,
-	#superclass : #ToPanePlaceholderLayer,
+	#superclass : #ToPlaceholderLayer,
 	#instVars : [
 		'label'
 	],

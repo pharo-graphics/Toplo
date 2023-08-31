@@ -17,13 +17,6 @@ ToButton >> defaultDresser [
 	^ super defaultDresser next: ToTripletDresser new
 ]
 
-{ #category : #'t - skin accessing' }
-ToButton >> defaultSkin [ 
-
-	^ ToButtonSkin new
-
-]
-
 { #category : #'t - triplet - accessing' }
 ToButton >> first [
 

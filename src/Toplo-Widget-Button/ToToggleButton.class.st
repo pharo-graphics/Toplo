@@ -12,12 +12,6 @@ ToToggleButton >> defaultDresser [
 	^ ToToggleButtonDresser next: ToTripletDresser new
 ]
 
-{ #category : #'t - initialization dresser' }
-ToToggleButton >> defaultSkin [
-
-	^ ToToggleButtonSkin new
-]
-
 { #category : #initialization }
 ToToggleButton >> initialize [ 
 

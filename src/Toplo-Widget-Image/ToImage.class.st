@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'innerImage'
 	],
-	#category : #'Toplo-Widget-Image'
+	#category : #'Toplo-Widget-Image-Core'
 }
 
 { #category : #'instance creation' }

@@ -8,10 +8,8 @@ Class {
 
 { #category : #'t - initialization dresser' }
 ToCheckNode >> defaultDresser [
-
-	^ ToCheckNodeDresser new
+^ToCheckNodeDresser new
 ]
-
 { #category : #initialization }
 ToCheckNode >> initialize [
 

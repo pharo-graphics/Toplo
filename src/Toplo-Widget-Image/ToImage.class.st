@@ -1,36 +1,36 @@
 Class {
 	#name : #ToImage,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TToWidgetWithTooltip + TToWidgetWithViewModel',
-	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithViewModel classTrait',
+	#traits : 'TToWidget + TToWidgetWithViewModel',
+	#classTraits : 'TToWidget classTrait + TToWidgetWithViewModel classTrait',
 	#instVars : [
 		'innerImage'
 	],
 	#category : #'Toplo-Widget-Image-Core'
 }
 
-{ #category : #'instance creation' }
+{ #category : #accessing }
 ToImage class >> inner: anImage [
-
 	^ self new innerImage: anImage
 ]
 
 { #category : #initialization }
-ToImage >> defaultInnerImage^ [ BlElement new
+ToImage >> defaultInnerImage [
+	^ BlElement new
 		  id: #emptyImage;
 		  size: 0 @ 0;
 		  yourself
 ]
 
 { #category : #'form accessing' }
-ToImage >> errorInnerFormNotFound [
+ToImage >> errorInnerFormNotFound [ 
 	"Raise a NotFound exception."
 
 	NotFound signalFor: self
 ]
 
-{ #category : #testing }
-ToImage >> hasInnerImage^ [ self innerImage id asSymbol ~= #emptyImage
+{ #category : #'form accessing' }
+ToImage >> hasInnerImage [  ^ self innerImage id asSymbol ~= #emptyImage
 ]
 
 { #category : #initialization }

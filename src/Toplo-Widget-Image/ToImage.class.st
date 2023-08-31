@@ -11,12 +11,12 @@ Class {
 
 { #category : #'instance creation' }
 ToImage class >> inner: anImage [
-
 	^ self new innerImage: anImage
 ]
 
 { #category : #initialization }
-ToImage >> defaultInnerImage^ [ BlElement new
+ToImage >> defaultInnerImage[ 
+	^ BlElement new
 		  id: #emptyImage;
 		  size: 0 @ 0;
 		  yourself

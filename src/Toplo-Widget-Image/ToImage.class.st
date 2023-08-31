@@ -27,13 +27,6 @@ ToImage >> initialize [
 	self preventChildrenMouseEvents
 ]
 
-{ #category : #'form accessing' }
-ToImage >> innerForm [
-	"Convenience method that returns nil if the request makes no sense or if there is no form."
-
-	^ self innerImage background formImage
-]
-
 { #category : #accessing }
 ToImage >> innerImage [
 

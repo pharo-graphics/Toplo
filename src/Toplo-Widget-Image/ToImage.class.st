@@ -30,7 +30,7 @@ ToImage >> errorInnerFormNotFound [
 ]
 
 { #category : #testing }
-ToImage >> hasInnerImage^ [ self innerImage id asSymbol ~= #emptyImage
+ToImage >> hasInnerImage [ ^ self innerImage id asSymbol ~= #emptyImage
 ]
 
 { #category : #initialization }

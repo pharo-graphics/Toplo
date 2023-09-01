@@ -2,28 +2,28 @@
 A ToChoiceBoxTest is a test class for testing the behavior of ToChoiceBox
 "
 Class {
-	#name : #ToChoiceBoxTest,
+	#name : #ToSelectTest,
 	#superclass : #TestCase,
 	#category : #'Toplo-Tests-Widget-ChoiceBox'
 }
 
 { #category : #asserting }
-ToChoiceBoxTest >> assertEmpty: aChoiceBox [
+ToSelectTest >> assertEmpty: select [
 
-	self assert: aChoiceBox group buttons isEmpty.
-	self assert: aChoiceBox placeholder isNil.
-	self assert: aChoiceBox menuButton label isNil.
-	self assert: aChoiceBox menuButton icon notNil.
-	self assert: aChoiceBox data isEmpty.
-	self assert: aChoiceBox selectedData isNil.
-	self assert: aChoiceBox dataToTextConverter notNil
+	self assert: select group buttons isEmpty.
+	self assert: select placeholder isNil.
+	self assert: select menuButton label isNil.
+	self assert: select menuButton icon notNil.
+	self assert: select data isEmpty.
+	self assert: select selectedData isNil.
+	self assert: select dataToTextConverter notNil
 ]
 
 { #category : #' tests' }
-ToChoiceBoxTest >> testAddRemoveOneStringData [
+ToSelectTest >> testAddRemoveOneStringData [
 
 	| cb d |
-	cb := ToChoiceBox new.
+	cb := ToSelect new.
 	d := '#1'.
 	cb data add: d.
 	cb data remove: d.
@@ -32,10 +32,10 @@ ToChoiceBoxTest >> testAddRemoveOneStringData [
 ]
 
 { #category : #' tests' }
-ToChoiceBoxTest >> testCheckUncheckWithUncheckStrategy [
+ToSelectTest >> testCheckUncheckWithUncheckStrategy [
 
 	| cb d1 d2 d3 |
-	cb := ToChoiceBox new.
+	cb := ToSelect new.
 	cb withUncheckingStrategy.
 	d1 := '#1'.
 	d2 := '#2'.
@@ -56,20 +56,20 @@ ToChoiceBoxTest >> testCheckUncheckWithUncheckStrategy [
 ]
 
 { #category : #' tests' }
-ToChoiceBoxTest >> testEmpty [
+ToSelectTest >> testEmpty [
 
 	| cb d |
-	cb := ToChoiceBox new.
+	cb := ToSelect new.
 	self assertEmpty: cb.
 	d := 'Some text' asRopedText.
 	self assert: (cb dataToTextConverter value: d) equals: d.
 ]
 
 { #category : #' tests' }
-ToChoiceBoxTest >> testNoSelectedData [
+ToSelectTest >> testNoSelectedData [
 
 	| cb d |
-	cb := ToChoiceBox new.
+	cb := ToSelect new.
 	d := { '#1'. '#2'. '#3'. '#4'. '#5' }.
 	cb data addAll: d.
 	self assert: cb selectedData isNil.
@@ -78,10 +78,10 @@ ToChoiceBoxTest >> testNoSelectedData [
 ]
 
 { #category : #tests }
-ToChoiceBoxTest >> testNoSelectedDataWithPlaceholder [
+ToSelectTest >> testNoSelectedDataWithPlaceholder [
 
 	| cb |
-	cb := ToChoiceBox new.
+	cb := ToSelect new.
 	cb placeholder: (ToLabel text: 'No choice').
 	self assert: cb selectedData isNil.
 	self assert: cb menuButton label text asString equals: 'No choice'.
@@ -93,10 +93,10 @@ ToChoiceBoxTest >> testNoSelectedDataWithPlaceholder [
 ]
 
 { #category : #tests }
-ToChoiceBoxTest >> testNoSelectedDataWithPlaceholder2 [
+ToSelectTest >> testNoSelectedDataWithPlaceholder2 [
 
 	| cb d |
-	cb := ToChoiceBox new.
+	cb := ToSelect new.
 	cb placeholder: (ToLabel text: 'No choice').
 	d := { '#1'. '#2'. '#3'. '#4'. '#5' }.
 	cb data addAll: d.
@@ -110,10 +110,10 @@ ToChoiceBoxTest >> testNoSelectedDataWithPlaceholder2 [
 ]
 
 { #category : #' tests' }
-ToChoiceBoxTest >> testPlaceholder [
+ToSelectTest >> testPlaceholder [
 
 	| cb |
-	cb := ToChoiceBox new.
+	cb := ToSelect new.
 	cb data addAll: { 'A'. 'B'. }.
 	cb placeholder: (ToLabel text: 'X').
 	self assert: cb menuButton label text asString equals: 'X'.
@@ -127,10 +127,10 @@ ToChoiceBoxTest >> testPlaceholder [
 ]
 
 { #category : #tests }
-ToChoiceBoxTest >> testPlaceholder2 [
+ToSelectTest >> testPlaceholder2 [
 
 	| cb |
-	cb := ToChoiceBox new.
+	cb := ToSelect new.
 	cb withUncheckingStrategy.
 	cb data addAll: { 'A'. 'B'. }.
 	cb placeholder: (ToLabel text: 'X').
@@ -145,10 +145,10 @@ ToChoiceBoxTest >> testPlaceholder2 [
 ]
 
 { #category : #tests }
-ToChoiceBoxTest >> testPlaceholder3 [
+ToSelectTest >> testPlaceholder3 [
 
 	| cb |
-	cb := ToChoiceBox new.
+	cb := ToSelect new.
 	cb withUncheckingStrategy.
 	cb data addAll: { 'A'. 'B'. }.
 	cb placeholder: (ToLabel text: 'X').
@@ -165,10 +165,10 @@ ToChoiceBoxTest >> testPlaceholder3 [
 ]
 
 { #category : #' tests' }
-ToChoiceBoxTest >> testRemove [
+ToSelectTest >> testRemove [
 
 	| cb d1 d2 d3 |
-	cb := ToChoiceBox new.
+	cb := ToSelect new.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
@@ -192,10 +192,10 @@ ToChoiceBoxTest >> testRemove [
 ]
 
 { #category : #' tests' }
-ToChoiceBoxTest >> testRemove2 [
+ToSelectTest >> testRemove2 [
 
 	| cb d1 d2 d3 |
-	cb := ToChoiceBox new.
+	cb := ToSelect new.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
@@ -223,10 +223,10 @@ ToChoiceBoxTest >> testRemove2 [
 ]
 
 { #category : #' tests' }
-ToChoiceBoxTest >> testRemoveWithSeparator [
+ToSelectTest >> testRemoveWithSeparator [
 
 	| cb d1 d2 d3 |
-	cb := ToChoiceBox new.
+	cb := ToSelect new.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
@@ -255,10 +255,10 @@ ToChoiceBoxTest >> testRemoveWithSeparator [
 ]
 
 { #category : #' tests' }
-ToChoiceBoxTest >> testRemoveWithSeparator2 [
+ToSelectTest >> testRemoveWithSeparator2 [
 
 	| cb d1 d2 d3 |
-	cb := ToChoiceBox new.
+	cb := ToSelect new.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
@@ -287,10 +287,10 @@ ToChoiceBoxTest >> testRemoveWithSeparator2 [
 ]
 
 { #category : #' tests' }
-ToChoiceBoxTest >> testSelectedData1 [
+ToSelectTest >> testSelectedData1 [
 
 	| cb d |
-	cb := ToChoiceBox new.
+	cb := ToSelect new.
 	d := { '#1'. '#2'. '#3'. '#4'. '#5' }.
 	cb data addAll: d.
 	cb selectIndex: 1.
@@ -301,10 +301,10 @@ ToChoiceBoxTest >> testSelectedData1 [
 ]
 
 { #category : #' tests' }
-ToChoiceBoxTest >> testSelectedData2 [
+ToSelectTest >> testSelectedData2 [
 
 	| cb d |
-	cb := ToChoiceBox new.
+	cb := ToSelect new.
 	d := { '#1'. '#2'. '#3'. '#4'. '#5' }.
 	cb data addAll: d.
 	cb selectIndex: 1.
@@ -316,10 +316,10 @@ ToChoiceBoxTest >> testSelectedData2 [
 ]
 
 { #category : #tests }
-ToChoiceBoxTest >> testWith5StringData [
+ToSelectTest >> testWith5StringData [
 
 	| cb d |
-	cb := ToChoiceBox new.
+	cb := ToSelect new.
 	d := { '#1'. '#2'. '#3'. '#4'. '#5' }.
 	cb data addAll: d.
 	cb selectIndex: 1.
@@ -334,10 +334,10 @@ ToChoiceBoxTest >> testWith5StringData [
 ]
 
 { #category : #tests }
-ToChoiceBoxTest >> testWithOneStringData [
+ToSelectTest >> testWithOneStringData [
 
 	| cb d |
-	cb := ToChoiceBox new.
+	cb := ToSelect new.
 	d := '#1'.
 	cb data add: d.
 	cb selectIndex: 1.
@@ -350,10 +350,10 @@ ToChoiceBoxTest >> testWithOneStringData [
 ]
 
 { #category : #tests }
-ToChoiceBoxTest >> testWithStrictStrategy [
+ToSelectTest >> testWithStrictStrategy [
 
 	| cb d1 d2 d3 |
-	cb := ToChoiceBox new.
+	cb := ToSelect new.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
@@ -376,10 +376,10 @@ ToChoiceBoxTest >> testWithStrictStrategy [
 ]
 
 { #category : #tests }
-ToChoiceBoxTest >> testWithUncheckStrategy [
+ToSelectTest >> testWithUncheckStrategy [
 
 	| cb d1 d2 d3 |
-	cb := ToChoiceBox new.
+	cb := ToSelect new.
 	cb withUncheckingStrategy.
 	d1 := '#1'.
 	d2 := '#2'.

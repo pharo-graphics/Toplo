@@ -8,7 +8,8 @@ Class {
 ToMenuItemSkin >> applyQuadShaping: aShaping on: anElement [
 
 	anElement padding: (self defaultPaddingIn: anElement).
-	anElement interspace: anElement toTheme paddingXS.
+	anElement isJustified ifFalse: [
+		anElement interspace: anElement toTheme paddingXS ].
 	anElement isTopMenu ifTrue: [ ^ self ].
 	anElement hMatchParent
 ]

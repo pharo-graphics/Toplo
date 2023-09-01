@@ -50,7 +50,8 @@ ToClickableSkin >> applyQuadShaping: aShaping on: anElement [
 			anElement interspace: anElement toTheme paddingContentVertical / 3 ]
 		ifFalse: [
 			anElement beHorizontal.
-			anElement interspace: anElement toTheme paddingContentHorizontal / 3 ].
+			anElement isJustified ifFalse: [
+				anElement interspace: anElement toTheme paddingContentHorizontal / 3 ] ].
 
 	anElement padding: (self defaultPaddingIn: anElement).
 	anElement innerElement requestLayout

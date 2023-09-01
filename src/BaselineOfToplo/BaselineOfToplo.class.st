@@ -54,15 +54,16 @@ BaselineOfToplo >> registerPackages: spec [
 
 	spec package: #'Toplo-Widget-Album' with: [
 		spec requires:
-			#( #Toplo #Album #'Toplo-Widget-List' 
-			   #'Toplo-Widget-Pane' ) ].
+			#( #Toplo #Album #'Toplo-Widget-List' #'Toplo-Widget-Pane' ) ].
+
 	spec
 		package: #'Toplo-Widget-Album-Skin'
 		with: [ spec requires: #( #Toplo #'Toplo-Widget-Album' ) ].
 
-	spec package: #'Toplo-Widget-Button' with: [
-		spec requires:
-			#( #Toplo  #'Toplo-Widget-Image' ) ].
+	spec
+		package: #'Toplo-Widget-Button'
+		with: [ spec requires: #( #Toplo #'Toplo-Widget-Image' ) ].
+
 	spec package: #'Toplo-Widget-Button-Skin' with: [
 		spec requires:
 			#( #Toplo #'Toplo-Widget-Album-Skin' #'Toplo-Widget-Image-Skin' ) ].
@@ -70,25 +71,29 @@ BaselineOfToplo >> registerPackages: spec [
 	spec
 		package: #'Toplo-Widget-Image'
 		with: [ spec requires: #( #Toplo ) ].
+
 	spec
 		package: #'Toplo-Widget-Image-Skin'
 		with: [ spec requires: #( #Toplo #'Toplo-Widget-Image' ) ].
 
-	spec package: #'Toplo-Widget-ChoiceBox' with: [
+	spec package: #'Toplo-Widget-Select' with: [
 		spec requires:
 			#( #Toplo #'Toplo-Widget-Album' #'Toplo-Widget-Button'
 			   #'Toplo-Widget-Image' #'Toplo-Widget-Menu' ) ].
+
 	spec package: #'Toplo-Widget-ComboBox' with: [
 		spec requires:
 			#( #Toplo #'Toplo-Widget-Album' #'Toplo-Widget-Button'
-			   #'Toplo-Widget-Image' #'Toplo-Widget-List' #'Toplo-Widget-Pane'
-			    ) ].
+			   #'Toplo-Widget-Image' #'Toplo-Widget-List' #'Toplo-Widget-Pane' ) ].
+
 	spec package: #'Toplo-Widget-List' with: [
 		spec requires:
 			#( #Toplo #'Toplo-Widget-Pane' #'Toplo-Widget-Button' ) ].
-	spec package: #'Toplo-Widget-Menu' with: [
-		spec requires:
-			#( #Toplo #'Toplo-Widget-Button'  ) ].
+
+	spec
+		package: #'Toplo-Widget-Menu'
+		with: [ spec requires: #( #Toplo #'Toplo-Widget-Button' ) ].
+
 	spec package: #'Toplo-Widget-Menu-Skin' with: [
 		spec requires:
 			#( #Toplo #'Toplo-Widget-Button-Skin' #'Toplo-Widget-Image'
@@ -96,19 +101,21 @@ BaselineOfToplo >> registerPackages: spec [
 	spec
 		package: #'Toplo-Widget-Pane'
 		with: [ spec requires: #( #Toplo ) ].
+
 	spec
 		package: #'Toplo-Widget-Pane-Skin'
 		with: [ spec requires: #( #Toplo #'Toplo-Widget-Pane' ) ].
+
 	spec package: #'Toplo-Widget-InnerWindow' with: [
 		spec requires:
 			#( #Toplo #'Toplo-Widget-Album' #'Toplo-Widget-Button'
-			   #'Toplo-Widget-Image' #'Toplo-Widget-Pane'  ) ].
+			   #'Toplo-Widget-Image' #'Toplo-Widget-Pane' ) ].
 
 	"Tests"
 	spec package: #'Toplo-Tests' with: [
 		spec requires:
 			#( #Toplo #'Toplo-Widget-Album' #'Toplo-Widget-Button'
-			   #'Toplo-Widget-ChoiceBox' #'Toplo-Widget-ComboBox'
+			   #'Toplo-Widget-Select' #'Toplo-Widget-ComboBox'
 			   #'Toplo-Widget-Image' #'Toplo-Widget-List' #'Toplo-Widget-Pane' ) ].
 
 	"Incubator"
@@ -121,10 +128,9 @@ BaselineOfToplo >> registerPackages: spec [
 		spec requires:
 			#( #Toplo #'Toplo-Widget-Album' #'Toplo-Widget-Album-Skin'
 			   #'Toplo-Widget-Button' #'Toplo-Widget-Button-Skin'
-			   #'Toplo-Widget-ChoiceBox' #'Toplo-Widget-ComboBox'
+			   #'Toplo-Widget-Select' #'Toplo-Widget-ComboBox'
 			   #'Toplo-Widget-Image' #'Toplo-Widget-InnerWindow'
-			   #'Toplo-Widget-List' #'Toplo-Widget-Menu' #'Toplo-Widget-Pane'
-			   ) ].
+			   #'Toplo-Widget-List' #'Toplo-Widget-Menu' #'Toplo-Widget-Pane' ) ].
 
 	spec
 		package: #'Toplo-IDE'

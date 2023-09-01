@@ -885,6 +885,87 @@ ToSandBox class >> example_Popup1 [
 	container openInSpace
 ]
 
+{ #category : #select }
+ToSandBox class >> example_SelectWithPlaceholder [
+
+	| win select |
+	win := ToInnerWindow new title: 'Choice box Example'.
+
+	select := ToSelect new.
+	select width: 250.
+	select withUncheckingStrategy.
+	select data addAll: { 'OS-X'. 'Windows' }.
+	select placeholder: (ToLabel text: ('Invalid choice' asRopedText foreground: Color red)).
+
+	win root addChild: select.
+	win openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectWithPlaceholderWithUncheckingStrategy [
+
+	| win select t |
+	win := ToInnerWindow new title: 'Some host'.
+	select := ToSelect new hMatchParent.
+	select beVertical.
+	select withUncheckingStrategy.
+	t := 'No selection...' asRopedText , String cr asRopedText
+	     , ('Please choose an host from the list' asRopedText
+			      foreground: Color lightGray;
+			      fontSize: 12).
+	select placeholder: (ToLabel new
+			 beMultiLine;
+			 text: t).
+	select dataToTextConverter: [ :assoc | assoc key ].
+	select whenSelectedIndexChangedDo: [
+		self inform: select selectedData value asString ].
+	select data addAll: {
+			('Morphic SDL' -> BlMorphicWindowHost).
+			('Native SDL' -> BlOSWindowSDL2Host) }.
+	win root addChild: select.
+	win openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectWithStringData [
+
+	| win select |
+	win := ToInnerWindow new title: 'Choice box Example'.
+
+	select := ToSelect new.
+	select hMatchParent.
+
+	"select withUncheckingStrategy."
+	select data addAll: { 'OS-X'. 'Windows' }.
+	select addSeparator.
+	select data add: 'Linux'.
+	select selectData: 'Windows'.
+
+	win root addChild: select.
+	win openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectWithStructuredData [
+
+	| win select |
+	win := ToInnerWindow new title: 'Alexandrie host'.
+
+	select := ToSelect new
+		             hMatchParent;
+		             beJustified.
+	select dataToTextConverter: [ :assoc | assoc key ].
+	select data addAll: {
+			('Morphic SDL' -> BlMorphicWindowHost).
+			('Native SDL' -> BlOSWindowSDL2Host) }.
+	select placeholder: (ToLabel text: 'Place holder').
+	select selectIndex: 2.
+	select whenSelectedIndexChangedDo: [
+		self inform: select selectedData asString ].
+	win root addChild: select.
+	win openInSpace
+]
+
 { #category : #image }
 ToSandBox class >> example_Smalltalk_ui_icons [
 
@@ -934,7 +1015,7 @@ ToSandBox class >> example_ToButtonSkins [
 	topBar := ToMenuBar new beHorizontal; hMatchParent; vFitContent.
 	topBar layout cellSpacing: 10.
 
-	themeSwitcher := ToChoiceBox new.
+	themeSwitcher := ToSelect new.
 	themeSwitcher width: 150.
 	themeSwitcher data addAll: {
 			ToThemeLight.
@@ -1173,7 +1254,7 @@ ToSandBox class >> example_ToButtonSkinsOnOneButton [
 	topBar := ToMenuBar new beHorizontal; hMatchParent; vFitContent.
 	topBar layout cellSpacing: 10.
 
-	themeSwitcher := ToChoiceBox new.
+	themeSwitcher := ToSelect new.
 	themeSwitcher width: 150.
 	themeSwitcher data addAll: {
 			ToThemeLight.
@@ -1396,14 +1477,14 @@ ToSandBox class >> example_ToButtonWithDefaultSkin [
 		button1 labelText: 'Primary button 3'.
 		button1 iconImage: (ToThemeIcons iconSearchOutlined16x16) ].
 
-	skinSwitcher := ToChoiceBox new.
+	skinSwitcher := ToSelect new.
 	skinSwitcher data addAll: { ToButtonDefaultType. ToButtonLinkType. ToButtonPrimaryType. ToButtonTextType }.
 			
 	skinSwitcher whenSelectedIndexChangedDo: [ 
 		button1 skinDo: [ :s | s changeTypeWith: skinSwitcher selectedData new in: button1 ] ].
 	skinSwitcher selectData: button1 privateSkin type class.
 	
-	themeSwitcher := ToChoiceBox new.
+	themeSwitcher := ToSelect new.
 	themeSwitcher data addAll: { ToThemeLight. ToThemeDark }.
 			
 	themeSwitcher whenSelectedIndexChangedDo: [ space toTheme: themeSwitcher selectedData new ].
@@ -1599,87 +1680,6 @@ ToSandBox class >> example_anchoredWidow1 [
 	w fitContent.
 	e openInInnerWindow.
 	w popup
-]
-
-{ #category : #choicebox }
-ToSandBox class >> example_choiceBoxWithPlaceholder [
-
-	| win choicebox |
-	win := ToInnerWindow new title: 'Choice box Example'.
-
-	choicebox := ToChoiceBox new.
-	choicebox width: 250.
-	choicebox withUncheckingStrategy.
-	choicebox data addAll: { 'OS-X'. 'Windows' }.
-	choicebox placeholder: (ToLabel text: ('Invalid choice' asRopedText foreground: Color red)).
-
-	win root addChild: choicebox.
-	win openInSpace
-]
-
-{ #category : #choicebox }
-ToSandBox class >> example_choiceBoxWithPlaceholderWithUncheckingStrategy [
-
-	| win choicebox t |
-	win := ToInnerWindow new title: 'Some host'.
-	choicebox := ToChoiceBox new hMatchParent.
-	choicebox beVertical.
-	choicebox withUncheckingStrategy.
-	t := 'No selection...' asRopedText , String cr asRopedText
-	     , ('Please choose an host from the list' asRopedText
-			      foreground: Color lightGray;
-			      fontSize: 12).
-	choicebox placeholder: (ToLabel new
-			 beMultiLine;
-			 text: t).
-	choicebox dataToTextConverter: [ :assoc | assoc key ].
-	choicebox whenSelectedIndexChangedDo: [
-		self inform: choicebox selectedData value asString ].
-	choicebox data addAll: {
-			('Morphic SDL' -> BlMorphicWindowHost).
-			('Native SDL' -> BlOSWindowSDL2Host) }.
-	win root addChild: choicebox.
-	win openInSpace
-]
-
-{ #category : #choicebox }
-ToSandBox class >> example_choiceBoxWithStringData [
-
-	| win choicebox |
-	win := ToInnerWindow new title: 'Choice box Example'.
-
-	choicebox := ToChoiceBox new.
-	choicebox hMatchParent.
-
-	"choicebox withUncheckingStrategy."
-	choicebox data addAll: { 'OS-X'. 'Windows' }.
-	choicebox addSeparator.
-	choicebox data add: 'Linux'.
-	choicebox selectData: 'Windows'.
-
-	win root addChild: choicebox.
-	win openInSpace
-]
-
-{ #category : #choicebox }
-ToSandBox class >> example_choiceBoxWithStructuredData [
-
-	| win choicebox |
-	win := ToInnerWindow new title: 'Alexandrie host'.
-
-	choicebox := ToChoiceBox new
-		             hMatchParent;
-		             beJustified.
-	choicebox dataToTextConverter: [ :assoc | assoc key ].
-	choicebox data addAll: {
-			('Morphic SDL' -> BlMorphicWindowHost).
-			('Native SDL' -> BlOSWindowSDL2Host) }.
-	choicebox placeholder: (ToLabel text: 'Place holder').
-	choicebox selectIndex: 2.
-	choicebox whenSelectedIndexChangedDo: [
-		self inform: choicebox selectedData asString ].
-	win root addChild: choicebox.
-	win openInSpace
 ]
 
 { #category : #space }

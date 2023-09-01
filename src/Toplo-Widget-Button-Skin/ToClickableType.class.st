@@ -136,6 +136,18 @@ ToClickableType >> regularLabelSkinIn: anElement [
 	^ self subclassResponsibility 
 ]
 
+{ #category : #'choice box button' }
+ToClickableType >> selectInnerButtonBorderLookIn: anElement [
+
+	^ self basicButtonBorderLookIn: anElement
+]
+
+{ #category : #'choice box button' }
+ToClickableType >> selectInnerButtonIconSkinIn: anElement [
+
+	^ self basicButtonIconSkinIn: anElement
+]
+
 { #category : #'toggle button' }
 ToClickableType >> toggleButtonBackgroundLookIn: anElement [
 

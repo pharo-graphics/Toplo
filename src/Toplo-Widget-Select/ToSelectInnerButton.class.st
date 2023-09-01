@@ -21,12 +21,6 @@ ToSelectInnerButton >> defaultDresser [
 	^ ToBasicMenuItemDresser next: (ToMenuWindowModelDresser next: (ToSelectInnerButtonDresser next: ToTripletDresser new))
 ]
 
-{ #category : #'t - skinable - initialization' }
-ToSelectInnerButton >> defaultSkin [ 
-
-	^ ToSelectInnerButtonSkin new
-]
-
 { #category : #initialization }
 ToSelectInnerButton >> initialize [
 

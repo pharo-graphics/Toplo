@@ -1263,8 +1263,7 @@ ToSandBox class >> example_ToButtonSkinsOnOneButton [
 	orientationSwitcher check.
 	orientationSwitcher
 		when: ToCheckableCheckEvent
-		do: [ :event | allButtons do: [ :b | b horizontal: event target isChecked ].
-				sizingGroup buttons do: [:b | b enabled: event target isChecked] ].
+		do: [ :event | allButtons do: [ :b | b horizontal: event target isChecked ] ].
 	topBar addChild: orientationSwitcher.
 	
 	topBar childrenDo: [ :child |

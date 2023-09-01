@@ -83,7 +83,7 @@ BaselineOfToplo >> registerPackages: spec [
 
 	spec
 		package: #'Toplo-Widget-Select-Skin'
-		with: [ spec requires: #( #Toplo #'Toplo-Widget-Select' ) ].
+		with: [ spec requires: #( #Toplo #'Toplo-Widget-Select' #'Toplo-Widget-Menu-Skin' ) ].
 
 	spec package: #'Toplo-Widget-ComboBox' with: [
 		spec requires:

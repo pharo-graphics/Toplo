@@ -13,7 +13,7 @@ ToButtonLinkType >> basicButtonIconSkinIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToButtonLinkType >> regularBackgroundLookIn: anElement [
 
-	^ nil
+	^ ToBackgroundLook new
 ]
 
 { #category : #'api - install/uninstall  hook' }

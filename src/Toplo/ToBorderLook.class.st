@@ -134,7 +134,7 @@ ToBorderLook >> initialLookEvent: anEvent [
 { #category : #accessing }
 ToBorderLook >> initialPaint [
 
-	^ initialPaint
+	^ initialPaint ifNil: [ initialPaint := [ :e | Color transparent ] ]
 ]
 
 { #category : #accessing }

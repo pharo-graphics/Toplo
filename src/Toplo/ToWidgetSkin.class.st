@@ -46,6 +46,12 @@ ToWidgetSkin >> childSkinsToHandle [
 	^ { }
 ]
 
+{ #category : #'api - install/uninstall  hook' }
+ToWidgetSkin >> defaultCursorLookIn: anElement [
+
+	^ ToMouseCursorLook new
+]
+
 { #category : #accessing }
 ToWidgetSkin >> dispatchChangedEventIn: anElement [
 
@@ -187,8 +193,7 @@ ToWidgetSkin >> onInstalledIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> onSkinInstalledIn: anElement [
 
-
-
+	self addLook: (self defaultCursorLookIn: anElement)
 ]
 
 { #category : #'api - install/uninstall  hook' }

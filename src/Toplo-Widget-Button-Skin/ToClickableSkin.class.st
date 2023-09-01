@@ -4,7 +4,6 @@ Class {
 	#traits : 'TToShapeableWidgetSkin',
 	#classTraits : 'TToShapeableWidgetSkin classTrait',
 	#instVars : [
-		'cursorLook',
 		'type'
 	],
 	#category : #'Toplo-Widget-Button-Skin'
@@ -155,6 +154,17 @@ ToClickableSkin >> dashed: aBoolean [
 	self type dashed: aBoolean
 ]
 
+{ #category : #'api - install/uninstall  hook' }
+ToClickableSkin >> defaultCursorLookIn: anElement [
+
+	^ ToMouseCursorLook new
+		  hoverCursor: [ :but |
+			  but isEnabled
+				  ifTrue: [ BlCursor hand ]
+				  ifFalse: [  ] ];
+		  yourself
+]
+
 { #category : #'private - shaping/sizing' }
 ToClickableSkin >> defaultPaddingIn: anElement [
 
@@ -225,27 +235,16 @@ ToClickableSkin >> layoutOrientationChangedEvent: anEvent [
 { #category : #'api - install/uninstall  hook' }
 ToClickableSkin >> onSkinInstalledIn: anElement [
 
-	| backgroundLook borderLook |
 	super onSkinInstalledIn: anElement.
-	cursorLook := ToMouseCursorLook new.
-	cursorLook hoverCursor: [ :but | but isEnabled ifTrue: [ BlCursor hand ] ifFalse: []].
-	self addLook: cursorLook.
 
 	self onShapingSkinInstalledIn: anElement.
-	" remove the background and the border in case the button type is changing "
-	anElement background: Color transparent.
-	anElement border: BlBorder empty.
-	backgroundLook := self backgroundLookIn: anElement.
-	backgroundLook ifNotNil: [ self addLook: backgroundLook ].
-	borderLook := self borderLookIn: anElement.
-	borderLook ifNil: [ ^ self ].
-	self addLook: borderLook
+	self addLook: (self backgroundLookIn: anElement).
+	self addLook: (self borderLookIn: anElement)
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToClickableSkin >> onSkinUninstalledIn: anElement [
 
-	self removeLook: cursorLook.
 	self onShapingSkinUninstalledIn: anElement.
 	super onSkinUninstalledIn: anElement
 ]

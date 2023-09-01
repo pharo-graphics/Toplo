@@ -85,7 +85,7 @@ ToBackgroundLook >> hoveredLookEvent: anEvent [
 { #category : #accessing }
 ToBackgroundLook >> initialBg [
 
-	^ initialBg
+	^ initialBg ifNil: [ initialBg := [ :e | Color transparent ] ]
 ]
 
 { #category : #accessing }

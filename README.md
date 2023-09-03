@@ -9,11 +9,17 @@ A widget framework on top of Bloc.
 ## Installation
 
 ```Smalltalk
-Metacello new
-	baseline: 'Toplo';
-	repository: 'github://plantec/Toplo/src';
-	onConflictUseIncoming;
-	load
+EpMonitor disableDuring: [
+  Author useAuthor: 'Load' during: [
+    [    Metacello new
+        baseline: 'Toplo';
+        repository: 'github://plantec/toplo/src';
+        onConflictUseIncoming;
+        ignoreImage;
+        load.
+    ]    on: MCMergeOrLoadWarning
+      do: [ :warning | warning load ] ] ].
+
 ```
 
 ## Look and Feel features (work in progress)

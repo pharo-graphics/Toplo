@@ -14,14 +14,14 @@ ToToggleButtonSkin >> applyCircleShaping: aShaping on: anElement [
 ToToggleButtonSkin >> applyLargeSizing: aSizing on: anElement [
 
 	super applyLargeSizing: aSizing on: anElement.
-	aSizing applyOn: anElement track
+	"aSizing applyOn: anElement track"
 ]
 
 { #category : #'t - reshapeable - private - shaping/sizing' }
 ToToggleButtonSkin >> applyMiddleSizing: aSizing on: anElement [
 
 	super applyMiddleSizing: aSizing on: anElement.
-	aSizing applyOn: anElement track
+	"aSizing applyOn: anElement track"
 ]
 
 { #category : #'t - reshapeable - private - shaping/sizing' }
@@ -42,7 +42,7 @@ ToToggleButtonSkin >> applyRoundShaping: aShaping on: anElement [
 ToToggleButtonSkin >> applySmallSizing: aSizing on: anElement [
 
 	super applySmallSizing: aSizing on: anElement.
-	aSizing applyOn: anElement track
+	"aSizing applyOn: anElement track"
 ]
 
 { #category : #'api - install/uninstall  hook' }

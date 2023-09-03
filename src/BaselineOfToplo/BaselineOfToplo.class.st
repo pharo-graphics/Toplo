@@ -32,7 +32,11 @@ BaselineOfToplo >> dependencies: spec [
 
 	spec
 		baseline: 'Album'
-		with: [ spec repository: 'github://plantec/Album/src' ]
+		with: [ spec repository: 'github://plantec/Album/src' ].
+		
+	spec 
+   		baseline: 'ContainersPropertyEnvironment' 
+   		with: [ spec repository: 'github://plantec/Containers-PropertyEnvironment' ]
 ]
 
 { #category : #baselines }
@@ -50,7 +54,7 @@ BaselineOfToplo >> postload: loader package: packageSpec [
 BaselineOfToplo >> registerPackages: spec [
 	"Core"
 
-	spec package: #Toplo with: [ spec requires: #( #Bloc ) ].
+	spec package: #Toplo with: [ spec requires: #( #Bloc #ContainersPropertyEnvironment ) ].
 
 	spec package: #'Toplo-Widget-Album' with: [
 		spec requires:

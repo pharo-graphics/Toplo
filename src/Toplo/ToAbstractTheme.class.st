@@ -2,7 +2,8 @@ Class {
 	#name : #ToAbstractTheme,
 	#superclass : #Object,
 	#instVars : [
-		'name'
+		'name',
+		'styleSheet'
 	],
 	#classInstVars : [
 		'current'
@@ -26,7 +27,7 @@ ToAbstractTheme class >> cleanUp: anObject [
 { #category : #current }
 ToAbstractTheme class >> current [
 
-	^ current ifNil: [ current := ToTheme blue ]
+	^ current ifNil: [ current := ToDefaultTheme blue ]
 ]
 
 { #category : #accessing }
@@ -46,4 +47,22 @@ ToAbstractTheme >> printOn: aStream [
 
 	aStream nextPutAll: '[Theme named: '; nextPutAll: self name; nextPutAll: ' ]'.
 	super printOn: aStream
+]
+
+{ #category : #'accessing-skin' }
+ToAbstractTheme >> skinFor: anElement [
+
+	^ self styleSheet skinFor: anElement
+]
+
+{ #category : #accessing }
+ToAbstractTheme >> styleSheet [
+
+	^ styleSheet
+]
+
+{ #category : #accessing }
+ToAbstractTheme >> styleSheet: aStyleSheet [
+
+	styleSheet := aStyleSheet
 ]

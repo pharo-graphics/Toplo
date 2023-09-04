@@ -1,5 +1,5 @@
 Class {
-	#name : #ToBackgroundLook,
+	#name : #ToBackgroundColorLook,
 	#superclass : #ToDefaultElementLook,
 	#instVars : [
 		'initialBg',
@@ -14,7 +14,7 @@ Class {
 }
 
 { #category : #private }
-ToBackgroundLook >> cleanUpIn: anElement [
+ToBackgroundColorLook >> cleanUpIn: anElement [
 
 	animation ifNotNil: [
 		anElement dequeueTask: animation.
@@ -22,128 +22,128 @@ ToBackgroundLook >> cleanUpIn: anElement [
 ]
 
 { #category : #'event handling' }
-ToBackgroundLook >> clickLookEvent: anEvent [ 
+ToBackgroundColorLook >> clickLookEvent: anEvent [ 
 
 	super clickLookEvent: anEvent .
 	anEvent elementDo: [ :e |
-		self hoverBg ifNotNil: [ :bg | e background: (bg value: e)] ]
+		self hoverColor ifNotNil: [ :bg | e background: (bg value: e)] ]
 ]
 
 { #category : #accessing }
-ToBackgroundLook >> disabledBg [
+ToBackgroundColorLook >> disabledColor [
 
 	^ disabledBg
 ]
 
 { #category : #accessing }
-ToBackgroundLook >> disabledBg: aValuable [
+ToBackgroundColorLook >> disabledColor: aValuable [
 
 	disabledBg := aValuable
 ]
 
 { #category : #'event handling' }
-ToBackgroundLook >> disabledLookEvent: anEvent [
+ToBackgroundColorLook >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.		
 	anEvent elementDo: [ :e |
 		self cleanUpIn: e.
-		self disabledBg ifNotNil: [ :bg | e background: (bg value: e)] ]
+		self disabledColor ifNotNil: [ :bg | e background: (bg value: e)] ]
 ]
 
 { #category : #accessing }
-ToBackgroundLook >> duration [
+ToBackgroundColorLook >> duration [
 
 	^ duration ifNil: [ duration := 0 milliSeconds ]
 ]
 
 { #category : #accessing }
-ToBackgroundLook >> duration: aDuration [
+ToBackgroundColorLook >> duration: aDuration [
 
 	duration := aDuration
 ]
 
 { #category : #accessing }
-ToBackgroundLook >> hoverBg [
+ToBackgroundColorLook >> hoverColor [
 
 	^ hoverBg
 ]
 
 { #category : #accessing }
-ToBackgroundLook >> hoverBg: aValuable [
+ToBackgroundColorLook >> hoverColor: aValuable [
 
 	hoverBg := aValuable
 ]
 
 { #category : #'event handling' }
-ToBackgroundLook >> hoveredLookEvent: anEvent [
+ToBackgroundColorLook >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self hoverBg ifNotNil: [ :bg | self switchToBackground: (bg value: e) asBlBackground in: e] ]
+		self hoverColor ifNotNil: [ :bg | self switchToBackground: (bg value: e) asBlBackground in: e] ]
 ]
 
 { #category : #accessing }
-ToBackgroundLook >> initialBg [
+ToBackgroundColorLook >> initialColor [
 
 	^ initialBg ifNil: [ initialBg := [ :e | Color transparent ] ]
 ]
 
 { #category : #accessing }
-ToBackgroundLook >> initialBg: aValuable [
+ToBackgroundColorLook >> initialColor: aValuable [
 
 	initialBg := aValuable
 ]
 
 { #category : #'event handling' }
-ToBackgroundLook >> initialLookEvent: anEvent [
+ToBackgroundColorLook >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self initialBg ifNotNil: [ :bg | self switchToBackground: (bg value: e) asBlBackground in: e ] ]
+		self initialColor ifNotNil: [ :bg | self switchToBackground: (bg value: e) asBlBackground in: e ] ]
 ]
 
 { #category : #accessing }
-ToBackgroundLook >> pressedBg [
+ToBackgroundColorLook >> pressedColor [
 
 	^ pressedBg
 ]
 
 { #category : #accessing }
-ToBackgroundLook >> pressedBg: aValuable [
+ToBackgroundColorLook >> pressedColor: aValuable [
 
 	pressedBg := aValuable
 ]
 
 { #category : #'event handling' }
-ToBackgroundLook >> pressedLookEvent: anEvent [
+ToBackgroundColorLook >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self pressedBg ifNotNil: [ :bg | e background: (bg value: e)] ]
+		self pressedColor ifNotNil: [ :bg | e background: (bg value: e)] ]
 ]
 
 { #category : #accessing }
-ToBackgroundLook >> selectedBg [
+ToBackgroundColorLook >> selectedColor [
 
 	^ selectedBg
 ]
 
 { #category : #accessing }
-ToBackgroundLook >> selectedBg: aValuable [
+ToBackgroundColorLook >> selectedColor: aValuable [
 
 	selectedBg := aValuable
 ]
 
 { #category : #'event handling' }
-ToBackgroundLook >> selectedLookEvent: anEvent [
+ToBackgroundColorLook >> selectedLookEvent: anEvent [
 
 	super selectedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self selectedBg ifNotNil: [ :bg | e background: (bg value: e)] ]
+		self selectedColor ifNotNil: [ :bg | e background: (bg value: e)] ]
 ]
 
 { #category : #private }
-ToBackgroundLook >> switchToBackground: aBackground in: anElement [
+ToBackgroundColorLook >> switchToBackground: aBackground in: anElement [
 
 	| currentColor newColor currentBackground |
 	

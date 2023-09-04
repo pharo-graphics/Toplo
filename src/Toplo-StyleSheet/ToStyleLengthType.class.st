@@ -1,5 +1,5 @@
 Class {
-	#name : #ToStyleColorValueType,
+	#name : #ToStyleLengthType,
 	#superclass : #ToStyleValueType,
 	#category : #'Toplo-StyleSheet-Model'
 }

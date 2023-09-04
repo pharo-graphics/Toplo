@@ -29,22 +29,22 @@ ToButtonPrimaryType >> basicButtonLabelSkinIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToButtonPrimaryType >> dangerBackgroundLookIn: anElement [
 
-	^ ToBackgroundLook new
-		  initialBg: [ :e | e toTheme colorError ];
-		  disabledBg: [ :e | e toTheme colorBgContainerDisabled ];
-		  pressedBg: [ :e | e toTheme colorErrorPressed ];
-		  hoverBg: [ :e | e toTheme colorErrorHover ];
+	^ ToBackgroundColorLook new
+		  initialColor: [ :e | e toTheme colorError ];
+		  disabledColor: [ :e | e toTheme colorBgContainerDisabled ];
+		  pressedColor: [ :e | e toTheme colorErrorPressed ];
+		  hoverColor: [ :e | e toTheme colorErrorHover ];
 		  yourself
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToButtonPrimaryType >> regularBackgroundLookIn: anElement [
 
-	^ ToBackgroundLook new
-		  initialBg: [ :e | e toTheme colorPrimary ];
-		  disabledBg: [ :e | e toTheme colorBgContainerDisabled ];
-		  pressedBg: [ :e | e toTheme colorPrimaryPressed ];
-		  hoverBg: [ :e | e toTheme colorPrimaryHover ];
+	^ ToBackgroundColorLook new
+		  initialColor: [ :e | e toTheme colorPrimary ];
+		  disabledColor: [ :e | e toTheme colorBgContainerDisabled ];
+		  pressedColor: [ :e | e toTheme colorPrimaryPressed ];
+		  hoverColor: [ :e | e toTheme colorPrimaryHover ];
 		  duration: 200 milliSeconds;
 		  yourself
 ]

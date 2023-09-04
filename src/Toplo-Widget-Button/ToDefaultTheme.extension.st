@@ -1,7 +1,7 @@
-Extension { #name : #ToTheme }
+Extension { #name : #ToDefaultTheme }
 
 { #category : #'*Toplo-Widget-Button' }
-ToTheme >> checkboxCheckedImageIn: anElement [
+ToDefaultTheme >> checkboxCheckedImageIn: anElement [
 
 	^ ToImage inner: (BlElement new
 			   size: (anElement toTheme controlHeight / 2) asPoint;
@@ -12,7 +12,7 @@ ToTheme >> checkboxCheckedImageIn: anElement [
 ]
 
 { #category : #'*Toplo-Widget-Button' }
-ToTheme >> checkboxDisabledImageIn: anElement [
+ToDefaultTheme >> checkboxDisabledImageIn: anElement [
 
 	^ ToImage inner: (BlElement new
 			   size: (anElement toTheme controlHeight / 2) asPoint;
@@ -23,7 +23,7 @@ ToTheme >> checkboxDisabledImageIn: anElement [
 ]
 
 { #category : #'*Toplo-Widget-Button' }
-ToTheme >> checkboxIndeterminateImageIn: anElement [
+ToDefaultTheme >> checkboxIndeterminateImageIn: anElement [
 
 	| bar im |
 	bar := BlElement new
@@ -45,7 +45,7 @@ ToTheme >> checkboxIndeterminateImageIn: anElement [
 ]
 
 { #category : #'*Toplo-Widget-Button' }
-ToTheme >> checkboxUncheckedImageIn: anElement [
+ToDefaultTheme >> checkboxUncheckedImageIn: anElement [
 
 	^ ToImage inner: (BlElement new
 			   size: (anElement toTheme controlHeight / 2) asPoint;

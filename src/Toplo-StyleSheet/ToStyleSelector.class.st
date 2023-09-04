@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #accessing }
+ToStyleSelector >> and: aStyleSelector [
+
+	self next: aStyleSelector
+]
+
+{ #category : #accessing }
 ToStyleSelector >> next [
 
 	^ next

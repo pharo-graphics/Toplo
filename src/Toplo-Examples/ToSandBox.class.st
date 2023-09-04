@@ -1018,8 +1018,8 @@ ToSandBox class >> example_ToButtonSkins [
 	themeSwitcher := ToSelect new.
 	themeSwitcher width: 150.
 	themeSwitcher data addAll: {
-			ToThemeLight.
-			ToThemeDark }.
+			ToDefaultThemeLight.
+			ToDefaultThemeDark }.
 
 	themeSwitcher whenSelectedIndexChangedDo: [
 		space toTheme: themeSwitcher selectedData new ].
@@ -1257,8 +1257,8 @@ ToSandBox class >> example_ToButtonSkinsOnOneButton [
 	themeSwitcher := ToSelect new.
 	themeSwitcher width: 150.
 	themeSwitcher data addAll: {
-			ToThemeLight.
-			ToThemeDark }.
+			ToDefaultThemeLight.
+			ToDefaultThemeDark }.
 
 	themeSwitcher whenSelectedIndexChangedDo: [
 		space toTheme: themeSwitcher selectedData new ].
@@ -1374,8 +1374,7 @@ ToSandBox class >> example_ToButtonSkinsOnOneButton [
 
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
-		but := ToButton new.
-		but inspect.
+		but := ToButton2 new.
 		allButtons add: but.
 		arr second ifNotNil: [ :skin | but withSkin: skin ].
 		but labelText: arr first.
@@ -1485,7 +1484,7 @@ ToSandBox class >> example_ToButtonWithDefaultSkin [
 	skinSwitcher selectData: button1 privateSkin type class.
 	
 	themeSwitcher := ToSelect new.
-	themeSwitcher data addAll: { ToThemeLight. ToThemeDark }.
+	themeSwitcher data addAll: { ToDefaultThemeLight. ToDefaultThemeDark }.
 			
 	themeSwitcher whenSelectedIndexChangedDo: [ space toTheme: themeSwitcher selectedData new ].
 	themeSwitcher selectData: space toTheme class.
@@ -1603,7 +1602,7 @@ ToSandBox class >> example_ToLabelWithHeadingSkin [
 	themeSwitcher switchBarOffElement: ((ToLabel text: ('Light' asRopedText foreground: Color black)) ).
 	themeSwitcher 
 		when: ToCheckableCheckEvent 
-		do: [ :event | space toTheme: ( event current ifTrue: [ToThemeDark new] ifFalse: [ ToThemeLight new]) ].
+		do: [ :event | space toTheme: ( event current ifTrue: [ToDefaultThemeDark new] ifFalse: [ ToDefaultThemeLight new]) ].
 	
 	space root addChild: themeSwitcher.
 
@@ -1745,7 +1744,7 @@ ToSandBox class >> example_menu0 [
 	themeSwitcher switchBarOffElement: ((ToLabel text: ('Light' asRopedText foreground: Color black)) ).
 	themeSwitcher 
 		when: ToCheckableCheckEvent 
-		do: [ :event | space toTheme: ( event current ifTrue: [ToThemeDark new] ifFalse: [ ToThemeLight new]) ].
+		do: [ :event | space toTheme: ( event current ifTrue: [ToDefaultThemeDark new] ifFalse: [ ToDefaultThemeLight new]) ].
 	
 	themeSwitcher checked: true.
 	space root addChild: themeSwitcher.
@@ -2358,7 +2357,7 @@ ToSandBox class >> example_spaceRootSkin [
 		      beLabelFirst.
 	themeSwitcher switchBarOnElement: ((ToLabel text: ('Dark' asRopedText foreground: Color white)) ).
 	themeSwitcher switchBarOffElement: ((ToLabel text: ('Light' asRopedText foreground: Color black)) ).
-	themeSwitcher when: ToCheckableCheckEvent do: [ :event | space toTheme: ( event current ifTrue: [ToThemeDark new] ifFalse: [ ToThemeLight new]) ].
+	themeSwitcher when: ToCheckableCheckEvent do: [ :event | space toTheme: ( event current ifTrue: [ToDefaultThemeDark new] ifFalse: [ ToDefaultThemeLight new]) ].
 	space root addChild: themeSwitcher.
 	space show
 ]

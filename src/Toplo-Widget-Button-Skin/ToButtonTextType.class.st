@@ -13,22 +13,22 @@ ToButtonTextType >> basicButtonIconSkinIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToButtonTextType >> dangerBackgroundLookIn: anElement [
 
-	^ ToBackgroundLook new
-		  disabledBg: [ :e | e toTheme colorBgContainerDisabled ];
-		  initialBg: [ :e | Color transparent ];
-		  pressedBg: [ :e | e toTheme colorErrorBg ];
-		  hoverBg: [ :e | e toTheme colorErrorBg ];
+	^ ToBackgroundColorLook new
+		  disabledColor: [ :e | e toTheme colorBgContainerDisabled ];
+		  initialColor: [ :e | Color transparent ];
+		  pressedColor: [ :e | e toTheme colorErrorBg ];
+		  hoverColor: [ :e | e toTheme colorErrorBg ];
 		  yourself
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToButtonTextType >> regularBackgroundLookIn: anElement [
 
-	^ ToBackgroundLook new
-		  disabledBg: [ :e | e toTheme colorBgContainerDisabled ];
-		  initialBg: [ :e | Color transparent ];
-		  pressedBg: [ :e | e toTheme colorBgTextActive ];
-		  hoverBg: [ :e | e toTheme colorBgTextHover ];
+	^ ToBackgroundColorLook new
+		  disabledColor: [ :e | e toTheme colorBgContainerDisabled ];
+		  initialColor: [ :e | Color transparent ];
+		  pressedColor: [ :e | e toTheme colorBgTextActive ];
+		  hoverColor: [ :e | e toTheme colorBgTextHover ];
 		  yourself
 ]
 

@@ -26,8 +26,8 @@ ToMenuWindowSkin >> onSkinInstalledIn: anElement [
 	super onSkinInstalledIn: anElement.
 	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
 	anElement padding: (BlInsets top: 5 left: 5 bottom: 5 right: 5 ).
-	self addLook: (ToBackgroundLook new
-			 initialBg: [ :e | e toTheme backgroundColor ];
+	self addLook: (ToBackgroundColorLook new
+			 initialColor: [ :e | e toTheme backgroundColor ];
 			 yourself).
 	self addLook: (ToWindowLook new 
 			openAction: [ :e | self checkItemsIn: e ])

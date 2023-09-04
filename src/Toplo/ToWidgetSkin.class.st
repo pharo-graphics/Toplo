@@ -2,6 +2,7 @@ Class {
 	#name : #ToWidgetSkin,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
+		'styleSheet',
 		'look',
 		'installStep',
 		'childSkinsIndex'
@@ -236,6 +237,12 @@ ToWidgetSkin >> skinnablePropertyChangedEvent: anEvent [
 		updateSkinIn: anEvent holder
 		slotNamed: anEvent slotName
 		value: anEvent current
+]
+
+{ #category : #accessing }
+ToWidgetSkin >> styleSheet: aStyleSheet [
+
+	styleSheet := aStyleSheet
 ]
 
 { #category : #'event handling' }

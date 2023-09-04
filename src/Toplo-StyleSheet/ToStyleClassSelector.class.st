@@ -2,19 +2,32 @@ Class {
 	#name : #ToStyleClassSelector,
 	#superclass : #ToStyleSelector,
 	#instVars : [
-		'elementClass'
+		'elementClasses'
 	],
 	#category : #'Toplo-StyleSheet-Model'
 }
 
 { #category : #accessing }
-ToStyleClassSelector >> elementClass [
+ToStyleClassSelector >> elementClass: aSymbol [
 
-	^ elementClass
+	elementClasses add: aSymbol
 ]
 
 { #category : #accessing }
-ToStyleClassSelector >> elementClass: aSymbol [
+ToStyleClassSelector >> elementClasses [
 
-	elementClass := aSymbol
+	^ elementClasses
+]
+
+{ #category : #accessing }
+ToStyleClassSelector >> elementClasses: aCollectionOfSymbols [
+
+	elementClasses addAll: aCollectionOfSymbols
+]
+
+{ #category : #initialization }
+ToStyleClassSelector >> initialize [ 
+
+	super initialize.
+	elementClasses := OrderedCollection new
 ]

@@ -14,10 +14,8 @@ ToButtonDefaultType >> basicButtonBorderLookIn: anElement [
 	borderLook := self danger
 		              ifTrue: [ self dangerBorderLookIn: anElement ]
 		              ifFalse: [ self regularBorderLookIn: anElement ].
-	borderLook ifNotNil: [ 
-		borderLook width: [ :e | e toTheme lineWidth ].
-		self dashed ifTrue: [
-			borderLook dashArray: [ :e | e toTheme dashArray ] ] ].
+	self dashed ifTrue: [
+		borderLook dashArray: [ :e | e toTheme dashArray ] ].
 	^ borderLook
 ]
 
@@ -54,9 +52,9 @@ ToButtonDefaultType >> dashed: aBoolean [
 { #category : #'api - install/uninstall  hook' }
 ToButtonDefaultType >> regularBackgroundLookIn: anElement [
 
-	^ ToBackgroundLook new
-		  disabledBg: [ :e | e toTheme colorBgContainerDisabled ];
-		  initialBg: [ :e | Color transparent ];
+	^ ToBackgroundColorLook new
+		  disabledColor: [ :e | e toTheme colorBgContainerDisabled ];
+		  initialColor: [ :e | Color transparent ];
 		  yourself
 ]
 

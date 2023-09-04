@@ -50,7 +50,7 @@ paddingXS	Control the extra small padding of the element.	number	8
 
 "
 Class {
-	#name : #ToTheme,
+	#name : #ToDefaultTheme,
 	#superclass : #ToAbstractTheme,
 	#instVars : [
 		'colorPrimary'
@@ -59,247 +59,247 @@ Class {
 }
 
 { #category : #constructor }
-ToTheme class >> blue [
+ToDefaultTheme class >> blue [
 
-	^ ToThemeLight new
+	^ ToDefaultThemeLight new
 ]
 
 { #category : #customization }
-ToTheme class >> colorPrimary: aColor [
+ToDefaultTheme class >> colorPrimary: aColor [
 
 	| theme |
-	theme := ToThemeLight new.
+	theme := ToDefaultThemeLight new.
 	theme colorPrimary: aColor.
 	^theme
 ]
 
 { #category : #customization }
-ToTheme class >> colorPrimaryDark: aColor [
+ToDefaultTheme class >> colorPrimaryDark: aColor [
 
 	| theme |
-	theme := ToThemeDark new.
+	theme := ToDefaultThemeDark new.
 	theme colorPrimary: aColor.
 	^theme
 ]
 
 { #category : #constructor }
-ToTheme class >> darkBlue [
+ToDefaultTheme class >> darkBlue [
 
-	^ ToThemeDark new
+	^ ToDefaultThemeDark new
 ]
 
 { #category : #constructor }
-ToTheme class >> darkGreen [
+ToDefaultTheme class >> darkGreen [
 
 	^self colorPrimaryDark: (Color fromHexString: '#00B96B')
 ]
 
 { #category : #constructor }
-ToTheme class >> darkPink [
+ToDefaultTheme class >> darkPink [
 
 	^self colorPrimaryDark: (Color fromHexString: '#ED4192')
 ]
 
 { #category : #constructor }
-ToTheme class >> green [
+ToDefaultTheme class >> green [
 
 	^self colorPrimary: (Color fromHexString: '#00B96B')
 ]
 
 { #category : #testing }
-ToTheme class >> isAbstract [
+ToDefaultTheme class >> isAbstract [
 
-	^ self = ToTheme
+	^ self = ToDefaultTheme
 ]
 
 { #category : #constructor }
-ToTheme class >> pink [
+ToDefaultTheme class >> pink [
 
 	^self colorPrimary: (Color fromHexString: '#ED4192')
 ]
 
 { #category : #colors }
-ToTheme >> backgroundColor [
+ToDefaultTheme >> backgroundColor [
 
 	^ Color white
 ]
 
 { #category : #border }
-ToTheme >> borderRadius [
+ToDefaultTheme >> borderRadius [
 	"https://ant.design/components/button#design-token"
 	
 	^ 6
 ]
 
 { #category : #border }
-ToTheme >> borderRadiusLG [
+ToDefaultTheme >> borderRadiusLG [
 	"https://ant.design/components/button#design-token"
 	
 	^ 8
 ]
 
 { #category : #border }
-ToTheme >> borderRadiusSM [
+ToDefaultTheme >> borderRadiusSM [
 	"https://ant.design/components/button#design-token"
 	
 	^ 4
 ]
 
 { #category : #colors }
-ToTheme >> colorBgContainer [
+ToDefaultTheme >> colorBgContainer [
 	"https://ant.design/components/button#design-token"
 	
 	^ Color fromHexString: '#ffffff'
 ]
 
 { #category : #colors }
-ToTheme >> colorBgContainerChecked [
+ToDefaultTheme >> colorBgContainerChecked [
 	
 	^ self colorPrimary
 ]
 
 { #category : #colors }
-ToTheme >> colorBgContainerCheckedHover [
+ToDefaultTheme >> colorBgContainerCheckedHover [
 	
 	^ self colorPrimaryHover
 ]
 
 { #category : #colors }
-ToTheme >> colorBgContainerCheckedPressed [
+ToDefaultTheme >> colorBgContainerCheckedPressed [
 	
 	^ self colorPrimary darker
 ]
 
 { #category : #colors }
-ToTheme >> colorBgContainerDisabled [
+ToDefaultTheme >> colorBgContainerDisabled [
 	"https://ant.design/components/button#design-token"
 	
 	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.04 
 ]
 
 { #category : #colors }
-ToTheme >> colorBgContainerUnchecked [
+ToDefaultTheme >> colorBgContainerUnchecked [
 	
 	^ Color gray alpha: 0.6
 ]
 
 { #category : #colors }
-ToTheme >> colorBgContainerUncheckedHover [
+ToDefaultTheme >> colorBgContainerUncheckedHover [
 	
 	^ Color gray alpha: 0.4
 ]
 
 { #category : #colors }
-ToTheme >> colorBgTextActive [
+ToDefaultTheme >> colorBgTextActive [
 	"https://ant.design/components/button#design-token"
 	
 	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.15 
 ]
 
 { #category : #colors }
-ToTheme >> colorBgTextHover [
+ToDefaultTheme >> colorBgTextHover [
 	"Control the background color of text in hover state"
 
 	^ (Color r: 0 g: 0 b: 0 alpha: 0.2) 
 ]
 
 { #category : #colors }
-ToTheme >> colorBorder [
+ToDefaultTheme >> colorBorder [
 	"https://ant.design/components/button#design-token"
 	
 	^ Color fromHexString: '#d9d9d9'
 ]
 
 { #category : #colors }
-ToTheme >> colorBorderDisabled [
+ToDefaultTheme >> colorBorderDisabled [
 	"https://ant.design/components/button#design-token"
 	
 	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.2 
 ]
 
 { #category : #colors }
-ToTheme >> colorError [
+ToDefaultTheme >> colorError [
 	"Used to represent the visual elements of the operation failure, such as the error Button, error Result component, etc."
 
 	^ Color fromHexString: '#ff4d4f'
 ]
 
 { #category : #colors }
-ToTheme >> colorErrorActive [
+ToDefaultTheme >> colorErrorActive [
 	"The active state of the error color"
 
 	^ Color fromHexString: '#d9363e'
 ]
 
 { #category : #colors }
-ToTheme >> colorErrorBg [
+ToDefaultTheme >> colorErrorBg [
 	"The background color of the error state"
 
 	^ Color fromHexString: '#fff2f0'
 ]
 
 { #category : #colors }
-ToTheme >> colorErrorHover [
+ToDefaultTheme >> colorErrorHover [
 	"The hover state of the error color"
 
 	^ Color fromHexString: '#ff7875'
 ]
 
 { #category : #colors }
-ToTheme >> colorErrorPressed [
+ToDefaultTheme >> colorErrorPressed [
 	"The pressed state of the error color"
 
 	^ (Color fromHexString: '#ff7875') darker darker
 ]
 
 { #category : #colors }
-ToTheme >> colorImage [
+ToDefaultTheme >> colorImage [
 	
 	^ self colorText
 ]
 
 { #category : #colors }
-ToTheme >> colorImageDisabled [
+ToDefaultTheme >> colorImageDisabled [
 	
 	^ Color r: 0.7 g: 0.7 b: 0.7 alpha: 1.0
 ]
 
 { #category : #colors }
-ToTheme >> colorImageLightSolid [
+ToDefaultTheme >> colorImageLightSolid [
 	
 	^ self colorTextLightSolid
 ]
 
 { #category : #colors }
-ToTheme >> colorLink [
+ToDefaultTheme >> colorLink [
 	"https://ant.design/components/button#design-token"
 
 	^ Color fromHexString: '#1677ff'
 ]
 
 { #category : #colors }
-ToTheme >> colorLinkActive [
+ToDefaultTheme >> colorLinkActive [
 	"Control the color of hyperlink when clicked"
 
 	^ Color fromHexString: '#0958d9'
 ]
 
 { #category : #colors }
-ToTheme >> colorLinkHover [
+ToDefaultTheme >> colorLinkHover [
 	"Control the color of hyperlink when hovering"
 
 	^ Color fromHexString: '#69b1ff'
 ]
 
 { #category : #colors }
-ToTheme >> colorPrimary [
+ToDefaultTheme >> colorPrimary [
 	"Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics"
 	
 	^ colorPrimary ifNil:[ colorPrimary := self defaultColorPrimary ]
 ]
 
 { #category : #settings }
-ToTheme >> colorPrimary: aColor [
+ToDefaultTheme >> colorPrimary: aColor [
 	"Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics"
 	
 	colorPrimary = aColor ifTrue:[ ^ self ].
@@ -307,117 +307,117 @@ ToTheme >> colorPrimary: aColor [
 ]
 
 { #category : #colors }
-ToTheme >> colorPrimaryHover [
+ToDefaultTheme >> colorPrimaryHover [
 	"Hover state under the main color gradient"
 	
 	^ self colorPrimary whiter
 ]
 
 { #category : #colors }
-ToTheme >> colorPrimaryPressed [
+ToDefaultTheme >> colorPrimaryPressed [
 	"Hover state under the main color gradient"
 	
 	^ self colorPrimary darker darker
 ]
 
 { #category : #colors }
-ToTheme >> colorSuccess [
+ToDefaultTheme >> colorSuccess [
 	"Used to represent the token sequence of operation success, such as Result, Progress and other components will use these map tokens"
 
 	^ Color fromHexString: '#52c41a'
 ]
 
 { #category : #colors }
-ToTheme >> colorText [
+ToDefaultTheme >> colorText [
 	"Default text color which comply with W3C standards, and this color is also the darkest neutral color."
 	
 	^ Color r: 0.0 g: 0.0 b: 0.0 "alpha: 0.88"
 ]
 
 { #category : #colors }
-ToTheme >> colorTextDescription [
+ToDefaultTheme >> colorTextDescription [
 	"Control the font color of text description"
 
 	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.45
 ]
 
 { #category : #colors }
-ToTheme >> colorTextDisabled [
+ToDefaultTheme >> colorTextDisabled [
 	"Control the color of text in disabled state"
 
 	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.25
 ]
 
 { #category : #colors }
-ToTheme >> colorTextHeading [
+ToDefaultTheme >> colorTextHeading [
 	"Control the font color of heading"
 
 	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.88
 ]
 
 { #category : #colors }
-ToTheme >> colorTextLightSolid [
+ToDefaultTheme >> colorTextLightSolid [
 	"https://ant.design/components/button#design-token"
 	
 	^ Color fromHexString: '#ffffff'
 ]
 
 { #category : #colors }
-ToTheme >> colorTextSecondary [
+ToDefaultTheme >> colorTextSecondary [
 	"Default text color which comply with W3C standards, and this color is also the darkest neutral color."
 	
 	^ Color black alpha: 0.45
 ]
 
 { #category : #colors }
-ToTheme >> colorWarning [
+ToDefaultTheme >> colorWarning [
 	"Used to represent the warning map token, such as Notification, Alert, etc. Alert or Control component(like Input) will use these map tokens"
 
 	^ Color fromHexString: '#faad14'
 ]
 
 { #category : #sizes }
-ToTheme >> controlHeight [
+ToDefaultTheme >> controlHeight [
 	"The height of the basic controls such as buttons and input boxes in Ant Design"
 
 	^ 32
 ]
 
 { #category : #sizes }
-ToTheme >> controlHeightLG [
+ToDefaultTheme >> controlHeightLG [
 	"The height of the basic controls such as buttons and input boxes in Ant Design"
 
 	^ 40
 ]
 
 { #category : #sizes }
-ToTheme >> controlHeightSM [
+ToDefaultTheme >> controlHeightSM [
 	"The height of the basic controls such as buttons and input boxes in Ant Design"
 
 	^ 24
 ]
 
 { #category : #colors }
-ToTheme >> darkTheme [
+ToDefaultTheme >> darkTheme [
 
 	^ nil
 ]
 
 { #category : #border }
-ToTheme >> dashArray [
+ToDefaultTheme >> dashArray [
 	"dashed rendering equivalent in web UI"
 	
 	^ #( 3 3 )
 ]
 
 { #category : #settings }
-ToTheme >> defaultColorPrimary [
+ToDefaultTheme >> defaultColorPrimary [
 
 	^ Color fromHexString: '#1677ff'
 ]
 
 { #category : #text }
-ToTheme >> fontFamilyCode [
+ToDefaultTheme >> fontFamilyCode [
 	"https://ant.design/components/typography#design-token"
 
 	"^ #( 'SFMono-Regular' , Consolas , 'Liberation Mono', Menlo , Courier , monospace )"
@@ -425,158 +425,158 @@ ToTheme >> fontFamilyCode [
 ]
 
 { #category : #text }
-ToTheme >> fontSize [
+ToDefaultTheme >> fontSize [
 	"https://ant.design/components/typography#design-token"
 
 	^ 14
 ]
 
 { #category : #text }
-ToTheme >> fontSizeHeading1 [
+ToDefaultTheme >> fontSizeHeading1 [
 	"Font size of h1 tag"
 
 	^ 38
 ]
 
 { #category : #text }
-ToTheme >> fontSizeHeading2 [
+ToDefaultTheme >> fontSizeHeading2 [
 	"Font size of h2 tag"
 
 	^ 30
 ]
 
 { #category : #text }
-ToTheme >> fontSizeHeading3 [
+ToDefaultTheme >> fontSizeHeading3 [
 	"Font size of h3 tag"
 
 	^ 24
 ]
 
 { #category : #text }
-ToTheme >> fontSizeHeading4 [
+ToDefaultTheme >> fontSizeHeading4 [
 	"Font size of h4 tag"
 
 	^ 20
 ]
 
 { #category : #text }
-ToTheme >> fontSizeHeading5 [
+ToDefaultTheme >> fontSizeHeading5 [
 	"Font size of h5 tag"
 
 	^ 16
 ]
 
 { #category : #text }
-ToTheme >> fontWeightStrong [
+ToDefaultTheme >> fontWeightStrong [
 	"https://ant.design/components/typography#design-token"
 
 	^ 600
 ]
 
 { #category : #colors }
-ToTheme >> isDark [
+ToDefaultTheme >> isDark [
 
 	^ false
 ]
 
 { #category : #colors }
-ToTheme >> isLight [
+ToDefaultTheme >> isLight [
 
 	^ false
 ]
 
 { #category : #colors }
-ToTheme >> lightTheme [
+ToDefaultTheme >> lightTheme [
 
 	^ nil
 ]
 
 { #category : #text }
-ToTheme >> lineHeight [
+ToDefaultTheme >> lineHeight [
 	"https://ant.design/components/typography#design-token"
 
 	^ 1.5
 ]
 
 { #category : #text }
-ToTheme >> lineHeightHeading1 [
+ToDefaultTheme >> lineHeightHeading1 [
 	"Line height of h1 tag"
 
 	^ 1.2
 ]
 
 { #category : #text }
-ToTheme >> lineHeightHeading2 [
+ToDefaultTheme >> lineHeightHeading2 [
 	"Line height of h2 tag"
 
 	^ 1.3
 ]
 
 { #category : #text }
-ToTheme >> lineHeightHeading3 [
+ToDefaultTheme >> lineHeightHeading3 [
 	"Line height of h3 tag"
 
 	^ 1.3
 ]
 
 { #category : #text }
-ToTheme >> lineHeightHeading4 [
+ToDefaultTheme >> lineHeightHeading4 [
 	"Line height of h4 tag"
 
 	^ 1.4
 ]
 
 { #category : #text }
-ToTheme >> lineHeightHeading5 [
+ToDefaultTheme >> lineHeightHeading5 [
 	"Line height of h5 tag"
 
 	^ 1.5
 ]
 
 { #category : #border }
-ToTheme >> lineType [
+ToDefaultTheme >> lineType [
 	"https://ant.design/components/button#design-token"
 	
 	^ #solid
 ]
 
 { #category : #border }
-ToTheme >> lineWidth [
+ToDefaultTheme >> lineWidth [
 	"https://ant.design/components/button#design-token"
 	
 	^ 1
 ]
 
 { #category : #border }
-ToTheme >> lineWidthFocus [
+ToDefaultTheme >> lineWidthFocus [
 	"https://ant.design/components/button#design-token"
 	
 	^ 4
 ]
 
 { #category : #sizes }
-ToTheme >> paddingContentHorizontal [
+ToDefaultTheme >> paddingContentHorizontal [
 	"Control the horizontal padding of content element"
 
 	^ 16
 ]
 
 { #category : #sizes }
-ToTheme >> paddingContentVertical [
+ToDefaultTheme >> paddingContentVertical [
 	"Control the vertical padding of content element"
 
 	^ 8
 ]
 
 { #category : #sizes }
-ToTheme >> paddingXS [
+ToDefaultTheme >> paddingXS [
 	"Control the extra small padding of the element"
 
 	^ 8
 ]
 
 { #category : #images }
-ToTheme >> radioCheckedImageIn: anElement [
+ToDefaultTheme >> radioCheckedImageIn: anElement [
 
 	^ (self checkboxCheckedImageIn: anElement)
 		  geometry: BlCircleGeometry new;
@@ -584,7 +584,7 @@ ToTheme >> radioCheckedImageIn: anElement [
 ]
 
 { #category : #images }
-ToTheme >> radioDisabledImageIn: anElement [
+ToDefaultTheme >> radioDisabledImageIn: anElement [
 
 	^ (self checkboxDisabledImageIn: anElement)
 		  geometry: BlCircleGeometry new;
@@ -592,7 +592,7 @@ ToTheme >> radioDisabledImageIn: anElement [
 ]
 
 { #category : #images }
-ToTheme >> radioIndeterminateImageIn: anElement [
+ToDefaultTheme >> radioIndeterminateImageIn: anElement [
 
 	^ (self checkboxIndeterminateImageIn: anElement)
 		  geometry: BlCircleGeometry new;
@@ -600,7 +600,7 @@ ToTheme >> radioIndeterminateImageIn: anElement [
 ]
 
 { #category : #images }
-ToTheme >> radioUncheckedImageIn: anElement [
+ToDefaultTheme >> radioUncheckedImageIn: anElement [
 
 	^ (self checkboxUncheckedImageIn: anElement)
 		  geometry: BlCircleGeometry new;

@@ -8,7 +8,7 @@ Class {
 ToSpaceRootSkin >> onSkinInstalledIn: anElement [
 
 	super onSkinInstalledIn: anElement.
-	self addLook: (ToBackgroundLook new
-			 initialBg: [ :e | e toTheme backgroundColor ];
+	self addLook: (ToBackgroundColorLook new
+			 initialColor: [ :e | e toTheme backgroundColor ];
 			 yourself)
 ]

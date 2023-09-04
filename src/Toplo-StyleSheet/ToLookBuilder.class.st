@@ -1,9 +1,5 @@
 Class {
-	#name : #ToStyleProperty,
+	#name : #ToLookBuilder,
 	#superclass : #Object,
-	#instVars : [
-		'name',
-		'type'
-	],
 	#category : #'Toplo-StyleSheet-Model'
 }

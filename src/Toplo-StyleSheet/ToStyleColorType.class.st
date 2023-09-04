@@ -1,8 +1,5 @@
 Class {
-	#name : #ToStyleSymbolicValueType,
+	#name : #ToStyleColorType,
 	#superclass : #ToStyleValueType,
-	#instVars : [
-		'domain'
-	],
 	#category : #'Toplo-StyleSheet-Model'
 }

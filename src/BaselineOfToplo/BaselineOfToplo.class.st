@@ -67,6 +67,10 @@ BaselineOfToplo >> registerPackages: spec [
 	spec
 		package: #'Toplo-Widget-Button'
 		with: [ spec requires: #( #Toplo #'Toplo-Widget-Image' ) ].
+		
+	spec
+		package: #'Toplo-StyleSheet'
+		with: [ spec requires: #( #Toplo ) ].
 
 	spec package: #'Toplo-Widget-Button-Skin' with: [
 		spec requires:

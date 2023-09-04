@@ -118,6 +118,12 @@ ToTheme class >> pink [
 	^self colorPrimary: (Color fromHexString: '#ED4192')
 ]
 
+{ #category : #colors }
+ToTheme >> backgroundColor [
+
+	^ Color white
+]
+
 { #category : #border }
 ToTheme >> borderRadius [
 	"https://ant.design/components/button#design-token"
@@ -391,6 +397,12 @@ ToTheme >> controlHeightSM [
 	^ 24
 ]
 
+{ #category : #colors }
+ToTheme >> darkTheme [
+
+	^ nil
+]
+
 { #category : #border }
 ToTheme >> dashArray [
 	"dashed rendering equivalent in web UI"
@@ -459,6 +471,24 @@ ToTheme >> fontWeightStrong [
 	"https://ant.design/components/typography#design-token"
 
 	^ 600
+]
+
+{ #category : #colors }
+ToTheme >> isDark [
+
+	^ false
+]
+
+{ #category : #colors }
+ToTheme >> isLight [
+
+	^ false
+]
+
+{ #category : #colors }
+ToTheme >> lightTheme [
+
+	^ nil
 ]
 
 { #category : #text }

@@ -29,42 +29,6 @@ ToAbstractTheme class >> current [
 	^ current ifNil: [ current := ToTheme blue ]
 ]
 
-{ #category : #colors }
-ToAbstractTheme >> backgroundColor [
-
-	^ Color white
-]
-
-{ #category : #colors }
-ToAbstractTheme >> darkTheme [
-
-	^ nil
-]
-
-{ #category : #colors }
-ToAbstractTheme >> isDark [
-
-	^ false
-]
-
-{ #category : #colors }
-ToAbstractTheme >> isLight [
-
-	^ false
-]
-
-{ #category : #colors }
-ToAbstractTheme >> isSupportLightAndDark [
-
-	^ self isLight or: [ self isDark ]
-]
-
-{ #category : #colors }
-ToAbstractTheme >> lightTheme [
-
-	^ nil
-]
-
 { #category : #accessing }
 ToAbstractTheme >> name [
 
@@ -80,8 +44,6 @@ ToAbstractTheme >> name: anObject [
 { #category : #colors }
 ToAbstractTheme >> printOn: aStream [
 
-	aStream
-		nextPutAll: (self name ifNil:[self class name]);
-		nextPutAll: ' @ ';
-		store: self identityHash
+	aStream nextPutAll: '[Theme named: '; nextPutAll: self name; nextPutAll: ' ]'.
+	super printOn: aStream
 ]

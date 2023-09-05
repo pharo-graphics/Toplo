@@ -69,11 +69,11 @@ BaselineOfToplo >> registerPackages: spec [
 		with: [ spec requires: #( #Toplo #'Toplo-Widget-Image' ) ].
 		
 	spec
-		package: #'Toplo-StyleSheet'
+		package: #'Toplo-Theme'
 		with: [ spec requires: #( #Toplo ) ].
 	spec
-		package: #'Toplo-StyleSheet-Tests'
-		with: [ spec requires: #( #Toplo #'Toplo-StyleSheet') ].
+		package: #'Toplo-Theme-Tests'
+		with: [ spec requires: #( #Toplo #'Toplo-Theme') ].
 
 	spec package: #'Toplo-Widget-Button-Skin' with: [
 		spec requires:

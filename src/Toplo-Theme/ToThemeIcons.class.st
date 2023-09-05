@@ -1,0 +1,37 @@
+"
+This class contains all icons used by the default Toplo Theme.
+
+To generate new icons used this way (you need to have the Iconography project loaded - https://github.com/OpenSmock/Iconography) : 
+
+iconDescription := AntDesignIconsLibrary new name: #checkCircle.
+iconDescription serializeAsForm: ToThemeIcons maxWidth: 32 maxHeight: 32.
+"
+Class {
+	#name : #ToThemeIcons,
+	#superclass : #Object,
+	#category : #'Toplo-Theme-Core'
+}
+
+{ #category : #icons }
+ToThemeIcons class >> iconPlainTriangle5x9 [
+	<script: 'self iconPlainTriangle5x9 inspect'>
+	
+
+	^ (Form
+		extent: 5@9
+		fromArray: #(2147483648 3221225472 3758096384 4026531840 4160749568 4026531840 3758096384 3221225472 2147483648)
+		offset: 0@0)
+]
+
+{ #category : #icons }
+ToThemeIcons class >> iconSearchOutlined16x16 [
+	<script: 'self iconSearchOutlined16x16 inspect'>
+	"This method was generated with the Iconography project (https://github.com/OpenSmock/Iconography)."
+	"This icon come from Ant Design icons"
+
+	^ (Form
+	extent: (15@16)
+	depth: 32
+	fromArray: #( 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 452984832 0 0 0 0 0 0 0 0 0 0 0 520093696 3019898880 4278190080 4278190080 4009754624 2399141888 251658240 0 0 0 0 0 0 0 553648128 4009754624 2936012800 788529152 0 1325400064 3472883712 3472883712 0 0 0 0 0 0 0 3204448256 2936012800 0 0 0 0 251658240 3741319168 1744830464 0 0 0 0 0 218103808 4278190080 520093696 0 0 0 0 0 1627389952 3204448256 0 0 0 0 0 1056964608 4278190080 0 0 0 0 0 0 1056964608 4194304000 0 0 0 0 0 251658240 4278190080 402653184 0 0 0 0 0 1593835520 3204448256 0 0 0 0 0 0 3204448256 2147483648 0 0 0 0 0 3472883712 2130706432 0 0 0 0 0 0 788529152 4009754624 2130706432 251658240 0 520093696 3070230528 4278190080 1056964608 0 0 0 0 0 0 0 788529152 3741319168 4278190080 4278190080 4278190080 3154116608 2667577344 3959422976 520093696 0 0 0 0 0 0 0 0 788529152 1056964608 520093696 0 0 2667577344 3489660928 251658240 0 0 0 0 0 0 0 0 0 0 0 0 0 2667577344 3472883712 251658240 0 0 0 0 0 0 0 0 0 0 0 0 134217728 3338665984 3204448256 0 0 0 0 0 0 0 0 0 0 0 0 0 251658240 704643072 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0)
+	offset: (0@0))
+]

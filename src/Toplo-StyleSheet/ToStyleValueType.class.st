@@ -1,5 +1,5 @@
 Class {
 	#name : #ToStyleValueType,
 	#superclass : #Object,
-	#category : #'Toplo-StyleSheet-Model'
+	#category : #'Toplo-StyleSheet-StaticModel'
 }

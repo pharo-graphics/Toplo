@@ -4,5 +4,5 @@ Class {
 	#instVars : [
 		'domain'
 	],
-	#category : #'Toplo-StyleSheet-Model'
+	#category : #'Toplo-StyleSheet-StaticModel'
 }

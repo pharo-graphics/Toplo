@@ -1,5 +1,5 @@
 Class {
 	#name : #ToLookBuilder,
 	#superclass : #Object,
-	#category : #'Toplo-StyleSheet-Model'
+	#category : #'Toplo-StyleSheet-StaticModel'
 }

@@ -5,8 +5,18 @@ Class {
 		'selectors',
 		'looks'
 	],
-	#category : #'Toplo-StyleSheet-Model'
+	#category : #'Toplo-StyleSheet'
 }
+
+{ #category : #operating }
+ToStyleRule >> canBeAppliedTo: anElement [
+
+	| engine |
+	engine := ToElementSelectorEngine new.
+	^ self selectors anySatisfy: [ :s |
+		  engine check: s on: anElement.
+		  engine result ]
+]
 
 { #category : #initialization }
 ToStyleRule >> initialize [ 
@@ -17,8 +27,20 @@ ToStyleRule >> initialize [
 ]
 
 { #category : #accessing }
-ToStyleRule >> selectors: aCollectionOfStyleSelectors looks: aCollectionOfLooks [
+ToStyleRule >> looks [
 
-	selectors addAll: aCollectionOfStyleSelectors.
+	^ looks
+]
+
+{ #category : #accessing }
+ToStyleRule >> selectors [
+
+	^ selectors 
+]
+
+{ #category : #accessing }
+ToStyleRule >> selectors: aCollectionOfSelectors looks: aCollectionOfLooks [
+
+	selectors addAll: aCollectionOfSelectors.
 	looks addAll: aCollectionOfLooks
 ]

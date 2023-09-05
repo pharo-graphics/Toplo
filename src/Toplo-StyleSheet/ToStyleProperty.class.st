@@ -5,5 +5,5 @@ Class {
 		'name',
 		'type'
 	],
-	#category : #'Toplo-StyleSheet-Model'
+	#category : #'Toplo-StyleSheet-StaticModel'
 }

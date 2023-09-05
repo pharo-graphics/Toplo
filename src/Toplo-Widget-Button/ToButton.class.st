@@ -29,6 +29,13 @@ ToButton >> first: anElement [
 	icon := anElement
 ]
 
+{ #category : #initialization }
+ToButton >> initialize [
+
+	super initialize.
+	self addStyleClass: #button
+]
+
 { #category : #'t - orientable - accessing' }
 ToButton >> layoutStrategy [
 

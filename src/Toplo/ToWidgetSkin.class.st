@@ -11,6 +11,12 @@ Class {
 }
 
 { #category : #adding }
+ToWidgetSkin >> addAllLooks: aCollectionOfLook [
+
+	aCollectionOfLook do: [ :l | self addLook: l ]
+]
+
+{ #category : #adding }
 ToWidgetSkin >> addLook: aLook [
 
 	aLook isNull ifTrue: [ ^ self ].
@@ -137,9 +143,10 @@ ToWidgetSkin >> launchSkinInstallationIn: anElement [
 	self isInitialized ifTrue: [ ^ self ].
 	self isInstalled ifTrue: [ ^ self launchSkinInitializationIn: anElement ].
 	self markAsInstalled.
-	self privateLook: ToNullElementLook new.
 	self onSkinInstalledIn: anElement.
-	anElement dispatchLookEvent: ToInstallLookEvent new
+	anElement dispatchLookEvent: ToInstallLookEvent new.
+	self launchSkinInitializationIn: anElement.
+
 ]
 
 { #category : #'api - install/uninstall  hook' }

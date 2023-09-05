@@ -1,6 +1,13 @@
 Extension { #name : #BlElement }
 
 { #category : #'*Toplo' }
+BlElement >> addStyleClass: aSymbol [
+
+	self userData at: #styleClasses ifAbsentPut: (OrderedCollection new).
+	(self userData at: #styleClasses) add: aSymbol
+]
+
+{ #category : #'*Toplo' }
 BlElement >> asPlaceholderLayer [
 
 	^ ToPlaceholderLayer new
@@ -154,6 +161,18 @@ BlElement >> skinDo: aBlock [
 
 	self privateSkin ifNil: [ ^ self ].
 	aBlock value: self privateSkin
+]
+
+{ #category : #'*Toplo' }
+BlElement >> styleClass: aSymbol [
+
+	self addStyleClass: aSymbol
+]
+
+{ #category : #'*Toplo' }
+BlElement >> styleClasses [
+
+	^ self userData at: #styleClasses ifAbsent: [ #() ]
 ]
 
 { #category : #'*Toplo' }

@@ -4,13 +4,26 @@ Class {
 	#traits : 'TToTriplet + TToLabeledIcon + TToOrientable',
 	#classTraits : 'TToTriplet classTrait + TToLabeledIcon classTrait + TToOrientable classTrait',
 	#instVars : [
-		'#visualType',
 		'#icon => ToSkinnableSlot',
 		'#label => ToSkinnableSlot',
 		'#extra => ToSkinnableSlot'
 	],
 	#category : #'Toplo-Widget-Button-BasicButton'
 }
+
+{ #category : #'api - accessing' }
+ToButton2 >> childSkinsToHandle [
+ 
+	^ {
+		  (ToChildSkinBuilder new
+			   slotName: #icon;
+			   builder: [ :e |  e privateSkin ];
+			   yourself).
+		  (ToChildSkinBuilder new
+			   slotName: #label;
+			   builder: [ :e | e privateSkin ];
+			   yourself) }
+]
 
 { #category : #'t - initialization dresser' }
 ToButton2 >> defaultDresser [ 
@@ -42,7 +55,7 @@ ToButton2 >> first: anElement [
 ToButton2 >> initialize [
 
 	super initialize.
-	self visualType: self defaultVisualType
+	self addStyleClass: #button
 ]
 
 { #category : #'t - orientable - accessing' }
@@ -83,16 +96,4 @@ ToButton2 >> third: anElement [
 
 	extra := anElement
 
-]
-
-{ #category : #accessing }
-ToButton2 >> visualType [
-
-	^ visualType
-]
-
-{ #category : #accessing }
-ToButton2 >> visualType: anObject [
-
-	visualType := anObject
 ]

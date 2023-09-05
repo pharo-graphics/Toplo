@@ -1,7 +1,7 @@
 Class {
 	#name : #ToBackgroundLookBuilder,
 	#superclass : #ToLookBuilder,
-	#category : #'Toplo-StyleSheet-Model'
+	#category : #'Toplo-StyleSheet-StaticModel'
 }
 
 { #category : #accessing }

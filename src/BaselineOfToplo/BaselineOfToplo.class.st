@@ -71,6 +71,9 @@ BaselineOfToplo >> registerPackages: spec [
 	spec
 		package: #'Toplo-StyleSheet'
 		with: [ spec requires: #( #Toplo ) ].
+	spec
+		package: #'Toplo-StyleSheet-Tests'
+		with: [ spec requires: #( #Toplo #'Toplo-StyleSheet') ].
 
 	spec package: #'Toplo-Widget-Button-Skin' with: [
 		spec requires:

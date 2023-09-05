@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'index'
 	],
-	#category : #'Toplo-StyleSheet-Model'
+	#category : #'Toplo-StyleSheet-StaticModel'
 }
 
 { #category : #initialization }
@@ -12,5 +12,5 @@ ToStyleDictionary >> initialize [
 
 	super initialize.
 	index := CTEnvironment new.
-	self initializeComputedValues
+	self initializeDefaultThemeRules
 ]

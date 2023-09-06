@@ -1,7 +1,7 @@
 Class {
 	#name : #ToDefaultStyleSheet,
 	#superclass : #ToStyleSheet,
-	#category : #'Toplo-Theme-StyleSheet'
+	#category : #'Toplo-Theme-DefaultTheme'
 }
 
 { #category : #'initialization-button' }

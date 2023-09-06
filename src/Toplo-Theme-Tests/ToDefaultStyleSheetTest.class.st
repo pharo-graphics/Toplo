@@ -4,7 +4,7 @@ A ToDefaultStyleSheetTest is a test class for testing the behavior of ToDefaultS
 Class {
 	#name : #ToDefaultStyleSheetTest,
 	#superclass : #TestCase,
-	#category : #'Toplo-Theme-Tests'
+	#category : #'Toplo-Theme-Tests-DefaultTheme'
 }
 
 { #category : #tests }

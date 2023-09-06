@@ -1,7 +1,7 @@
 Class {
 	#name : #ToDefaultThemeLight,
 	#superclass : #ToDefaultTheme,
-	#category : #'Toplo-Theme-Core'
+	#category : #'Toplo-Theme-DefaultTheme'
 }
 
 { #category : #colors }

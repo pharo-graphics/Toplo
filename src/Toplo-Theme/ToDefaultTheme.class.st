@@ -55,7 +55,7 @@ Class {
 	#instVars : [
 		'colorPrimary'
 	],
-	#category : #'Toplo-Theme-Core'
+	#category : #'Toplo-Theme-DefaultTheme'
 }
 
 { #category : #constructor }

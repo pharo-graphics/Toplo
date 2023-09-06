@@ -4,7 +4,7 @@ A ToStyleSheetTest is a test class for testing the behavior of ToStyleSheet
 Class {
 	#name : #ToStyleSheetTest,
 	#superclass : #TestCase,
-	#category : #'Toplo-Theme-Tests'
+	#category : #'Toplo-Theme-Tests-StyleSheet'
 }
 
 { #category : #'button skin building' }

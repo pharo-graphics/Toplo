@@ -13,6 +13,22 @@ ToElementLook class >> next: aLook [
 	^ self new next: aLook
 ]
 
+{ #category : #'event handling' }
+ToElementLook >> clickLookEvent: anEvent [
+
+
+]
+
+{ #category : #'event handling' }
+ToElementLook >> closeLookEvent: anEvent [
+]
+
+{ #category : #'event handling' }
+ToElementLook >> disabledLookEvent: anEvent [
+
+
+]
+
 { #category : #'private event handling' }
 ToElementLook >> elementLookEvent: anEvent [
 
@@ -21,10 +37,40 @@ ToElementLook >> elementLookEvent: anEvent [
 
 ]
 
+{ #category : #'event handling' }
+ToElementLook >> focusedLookEvent: anEvent [
+
+
+]
+
+{ #category : #'event handling' }
+ToElementLook >> hoveredLookEvent: anEvent [
+
+
+]
+
+{ #category : #'event handling' }
+ToElementLook >> initialLookEvent: anEvent [
+
+
+]
+
+{ #category : #'event handling' }
+ToElementLook >> installLookEvent: anEvent [
+
+	super installLookEvent: anEvent
+]
+
 { #category : #testing }
 ToElementLook >> isNull [
 
 	^ false
+]
+
+{ #category : #'event handling' }
+ToElementLook >> leavedLookEvent: anEvent [
+
+
 ]
 
 { #category : #accessing }
@@ -39,6 +85,16 @@ ToElementLook >> next: aLook [
 	next := aLook
 ]
 
+{ #category : #'event handling' }
+ToElementLook >> openLookEvent: anEvent [
+]
+
+{ #category : #'event handling' }
+ToElementLook >> pressedLookEvent: anEvent [
+
+
+]
+
 { #category : #removing }
 ToElementLook >> removeLook: aLook previous: previousLook [
 
@@ -47,4 +103,15 @@ ToElementLook >> removeLook: aLook previous: previousLook [
 			previousLook next: self next.
 			^ self ] ].
 	self next removeLook: aLook previous: self
+]
+
+{ #category : #'event handling' }
+ToElementLook >> selectedLookEvent: anEvent [
+
+]
+
+{ #category : #'event handling' }
+ToElementLook >> uninstallLookEvent: anEvent [
+
+	super uninstallLookEvent: anEvent
 ]

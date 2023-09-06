@@ -10,63 +10,63 @@ Trait {
 	#category : #'Toplo-Widget-Button-Core'
 }
 
-{ #category : #'t - checkable - group' }
+{ #category : #'t - checkbox - group' }
 TToCheckbox >> addToGroup: aToggleGroup [
 
 	aToggleGroup add: self.
 	self group: aToggleGroup 
 ]
 
-{ #category : #'t - checkable  - protocol' }
+{ #category : #'t - checkbox  - protocol' }
 TToCheckbox >> check [
 
 	self explicitRequirement 
 ]
 
-{ #category : #'t - checkable - accessing' }
+{ #category : #'t - checkbox - accessing' }
 TToCheckbox >> checked [
 
 	^ self explicitRequirement  
 ]
 
-{ #category : #'t - checkable - accessing' }
+{ #category : #'t - checkbox - accessing' }
 TToCheckbox >> checked: aBooleanOrNil [
 	" change the checkable state. nil means indeterminate. "
 
 	self explicitRequirement 
 ]
 
-{ #category : #'t - checkable - accessing' }
+{ #category : #'t - checkbox - accessing' }
 TToCheckbox >> checkedImage [
 
 	^ checkedImage
 ]
 
-{ #category : #'t - checkable - accessing' }
+{ #category : #'t - checkbox - accessing' }
 TToCheckbox >> checkedImage: anImage [
 
 	checkedImage := anImage
 ]
 
-{ #category : #'t - checkable - accessing' }
+{ #category : #'t - checkbox - accessing' }
 TToCheckbox >> disabledImage [
 
 	^ disabledImage
 ]
 
-{ #category : #'t - checkable - accessing' }
+{ #category : #'t - checkbox - accessing' }
 TToCheckbox >> disabledImage: anImage [
 
 	disabledImage := anImage
 ]
 
-{ #category : #'t - checkable - group' }
+{ #category : #'t - checkbox - group' }
 TToCheckbox >> group [
 
 	^ group
 ]
 
-{ #category : #'t - checkable - group' }
+{ #category : #'t - checkbox - group' }
 TToCheckbox >> group: aCheckableGroup [
 
 	self withIndeterminate ifTrue: [
@@ -77,73 +77,73 @@ TToCheckbox >> group: aCheckableGroup [
 	group := aCheckableGroup
 ]
 
-{ #category : #'t - checkable - accessing' }
+{ #category : #'t - checkbox - accessing' }
 TToCheckbox >> indeterminateImage [
 
 	^ indeterminateImage
 ]
 
-{ #category : #'t - checkable - accessing' }
+{ #category : #'t - checkbox - accessing' }
 TToCheckbox >> indeterminateImage: anImage [
 
 	indeterminateImage := anImage
 ]
 
-{ #category : #'t - checkable - testing' }
+{ #category : #'t - checkbox - testing' }
 TToCheckbox >> isChecked [
 
 	^ self explicitRequirement 
 ]
 
-{ #category : #'t - checkable - testing' }
+{ #category : #'t - checkbox - testing' }
 TToCheckbox >> isIndeterminate [
 
 	^ self explicitRequirement 
 ]
 
-{ #category : #'t - checkable - testing' }
+{ #category : #'t - checkbox - testing' }
 TToCheckbox >> isUnchecked [
 
 	^ self explicitRequirement 
 ]
 
-{ #category : #'t - checkable - group' }
+{ #category : #'t - checkbox - group' }
 TToCheckbox >> removeFromGroup [
 
 	self group remove: self
 ]
 
-{ #category : #'t - checkable - private protocol' }
+{ #category : #'t - checkbox - private protocol' }
 TToCheckbox >> switchToNextState [
 
 	self explicitRequirement 
 ]
 
-{ #category : #'t - checkable  - protocol' }
+{ #category : #'t - checkbox  - protocol' }
 TToCheckbox >> uncheck [
 
 	self explicitRequirement 
 ]
 
-{ #category : #'t - checkable - accessing' }
+{ #category : #'t - checkbox - accessing' }
 TToCheckbox >> uncheckedImage [
 
 	^ uncheckedImage
 ]
 
-{ #category : #'t - checkable - accessing' }
+{ #category : #'t - checkbox - accessing' }
 TToCheckbox >> uncheckedImage: anImage [
 
 	uncheckedImage := anImage
 ]
 
-{ #category : #'t - checkable  - protocol' }
+{ #category : #'t - checkbox  - protocol' }
 TToCheckbox >> withIndeterminate [
 
 	self explicitRequirement 
 ]
 
-{ #category : #'t - checkable  - protocol' }
+{ #category : #'t - checkbox  - protocol' }
 TToCheckbox >> withIndeterminate: aBoolean [
 
 	self explicitRequirement 

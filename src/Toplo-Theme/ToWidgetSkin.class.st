@@ -144,7 +144,7 @@ ToWidgetSkin >> launchSkinInstallationIn: anElement [
 	self isInstalled ifTrue: [ ^ self launchSkinInitializationIn: anElement ].
 	self markAsInstalled.
 	self onSkinInstalledIn: anElement.
-	anElement dispatchLookEvent: ToInstallLookEvent new.
+	anElement switchToSkinState: ToInstallState new.
 	self launchSkinInitializationIn: anElement.
 
 ]

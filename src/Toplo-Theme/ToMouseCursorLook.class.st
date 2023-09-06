@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMouseCursorLook,
-	#superclass : #ToDefaultElementLook,
+	#superclass : #ToElementLook,
 	#instVars : [
 		'previousCursor',
 		'hoverCursor'

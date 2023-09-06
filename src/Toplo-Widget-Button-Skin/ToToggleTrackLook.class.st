@@ -1,6 +1,6 @@
 Class {
 	#name : #ToToggleTrackLook,
-	#superclass : #ToDefaultElementLook,
+	#superclass : #ToElementLook,
 	#instVars : [
 		'animate'
 	],

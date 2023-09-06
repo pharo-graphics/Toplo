@@ -1,6 +1,6 @@
 Class {
 	#name : #ToLabelTextLook,
-	#superclass : #ToDefaultElementLook,
+	#superclass : #ToElementLook,
 	#traits : 'TBlTextStyleable',
 	#classTraits : 'TBlTextStyleable classTrait',
 	#instVars : [

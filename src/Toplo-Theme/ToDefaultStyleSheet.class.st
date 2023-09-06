@@ -51,7 +51,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 	self addRule: (ToStyleRule new
 			 selectors: { ((ToClassSelector new elementClass: #'form-icon')
 					  parent: (ToClassSelector new elementClass: #button) level: 2) }
-			 looks: { (ToImageFormLook new
+			 looks: { (ToMonoColorFlatImageFormLook new
 					  disabledColor: [ :e | e toTheme colorImageDisabled ];
 					  initialColor: [ :e | e toTheme colorText ];
 					  hoverColor: [ :e | e toTheme colorPrimary ];
@@ -127,7 +127,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 	self addRule: (ToStyleRule new
 			 selectors: { ((ToClassSelector new elementClass: #'form-icon')
 					  parent: (ToClassSelector new elementClasses: #( #button #danger )) level: 2) }
-			 looks: { (ToImageFormLook new
+			 looks: { (ToMonoColorFlatImageFormLook new
 					  disabledColor: [ :e | e toTheme colorImageDisabled ];
 					  initialColor: [ :e | e toTheme colorError ];
 					  hoverColor: [ :e | e toTheme colorErrorHover ];

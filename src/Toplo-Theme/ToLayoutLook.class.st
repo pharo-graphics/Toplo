@@ -1,11 +1,11 @@
 Class {
-	#name : #ToBoundsLook,
-	#superclass : #ToDefaultElementLook,
+	#name : #ToLayoutLook,
+	#superclass : #ToElementLook,
 	#category : #'Toplo-Theme-Look'
 }
 
 { #category : #'event handling' }
-ToBoundsLook >> installLookEvent: anEvent [
+ToLayoutLook >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |

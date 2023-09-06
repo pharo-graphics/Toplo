@@ -1,6 +1,6 @@
 Class {
 	#name : #ToWindowLook,
-	#superclass : #ToDefaultElementLook,
+	#superclass : #ToElementLook,
 	#instVars : [
 		'installAction',
 		'openAction',

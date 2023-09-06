@@ -1,6 +1,6 @@
 Class {
-	#name : #ToImageFormLook,
-	#superclass : #ToDefaultElementLook,
+	#name : #ToMonoColorFlatImageFormLook,
+	#superclass : #ToElementLook,
 	#instVars : [
 		'initialColor',
 		'hoverColor',
@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : #'event handling' }
-ToImageFormLook >> adaptForegroundIn: anElement withColor: aColor [
+ToMonoColorFlatImageFormLook >> adaptForegroundIn: anElement withColor: aColor [
 
 	anElement
 		withInnerFormDo: [ :form |
@@ -23,19 +23,19 @@ ToImageFormLook >> adaptForegroundIn: anElement withColor: aColor [
 ]
 
 { #category : #accessing }
-ToImageFormLook >> disabledColor [
+ToMonoColorFlatImageFormLook >> disabledColor [
 
 	^ disabledColor
 ]
 
 { #category : #accessing }
-ToImageFormLook >> disabledColor: aValuable [
+ToMonoColorFlatImageFormLook >> disabledColor: aValuable [
 
 	disabledColor := aValuable
 ]
 
 { #category : #'event handling' }
-ToImageFormLook >> disabledLookEvent: anEvent [
+ToMonoColorFlatImageFormLook >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
 	self disabledColor ifNil: [ ^ self ].
@@ -44,19 +44,19 @@ ToImageFormLook >> disabledLookEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToImageFormLook >> hoverColor [
+ToMonoColorFlatImageFormLook >> hoverColor [
 
 	^ hoverColor
 ]
 
 { #category : #accessing }
-ToImageFormLook >> hoverColor: aValuable [
+ToMonoColorFlatImageFormLook >> hoverColor: aValuable [
 
 	hoverColor := aValuable
 ]
 
 { #category : #'event handling' }
-ToImageFormLook >> hoveredLookEvent: anEvent [
+ToMonoColorFlatImageFormLook >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	self hoverColor ifNil: [ ^ self ].
@@ -65,19 +65,19 @@ ToImageFormLook >> hoveredLookEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToImageFormLook >> initialColor [
+ToMonoColorFlatImageFormLook >> initialColor [
 
 	^ initialColor
 ]
 
 { #category : #accessing }
-ToImageFormLook >> initialColor: aValuable [
+ToMonoColorFlatImageFormLook >> initialColor: aValuable [
 
 	initialColor := aValuable
 ]
 
 { #category : #'event handling' }
-ToImageFormLook >> initialLookEvent: anEvent [
+ToMonoColorFlatImageFormLook >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
 	self initialColor ifNil: [ ^ self ].
@@ -86,19 +86,19 @@ ToImageFormLook >> initialLookEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToImageFormLook >> pressedColor [
+ToMonoColorFlatImageFormLook >> pressedColor [
 
 	^ pressedColor
 ]
 
 { #category : #accessing }
-ToImageFormLook >> pressedColor: aValuable [
+ToMonoColorFlatImageFormLook >> pressedColor: aValuable [
 
 	pressedColor := aValuable
 ]
 
 { #category : #'event handling' }
-ToImageFormLook >> pressedLookEvent: anEvent [
+ToMonoColorFlatImageFormLook >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
 	self pressedColor ifNil: [ ^ self ].
@@ -107,19 +107,19 @@ ToImageFormLook >> pressedLookEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToImageFormLook >> selectedColor [
+ToMonoColorFlatImageFormLook >> selectedColor [
 
 	^ selectedColor
 ]
 
 { #category : #accessing }
-ToImageFormLook >> selectedColor: aValuable [
+ToMonoColorFlatImageFormLook >> selectedColor: aValuable [
 
 	selectedColor := aValuable
 ]
 
 { #category : #'event handling' }
-ToImageFormLook >> selectedLookEvent: anEvent [
+ToMonoColorFlatImageFormLook >> selectedLookEvent: anEvent [
 
 	super selectedLookEvent: anEvent.
 	self selectedColor ifNil: [ ^ self ].

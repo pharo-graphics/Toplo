@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCheckLook,
-	#superclass : #ToDefaultElementLook,
+	#superclass : #ToElementLook,
 	#instVars : [
 		'checkedImage',
 		'indeterminateImage',
@@ -46,8 +46,9 @@ ToCheckLook >> disabledLookEvent: anEvent [
 	anEvent elementDo: [ :e |
 		| im |
 		im := self disabledImage.
-		im removeFromParent.
-		e iconImage: im ]
+		im ifNotNil: [ 
+			im removeFromParent.
+			e iconImage: im ] ]
 ]
 
 { #category : #accessing }
@@ -65,6 +66,14 @@ ToCheckLook >> indeterminateImage: anImage [
 { #category : #accessing }
 ToCheckLook >> initialLookEvent: anEvent [
 
+	super initialLookEvent: anEvent.
+	anEvent elementDo: [ :e | self syncImageIn: e ]
+]
+
+{ #category : #accessing }
+ToCheckLook >> installLookEvent:  anEvent [
+
+	super installLookEvent:  anEvent.
 	anEvent elementDo: [ :e | self syncImageIn: e ]
 ]
 
@@ -78,6 +87,7 @@ ToCheckLook >> syncImageIn: anElement [
 			      anElement isUnchecked
 				      ifTrue: [ self uncheckedImage ]
 				      ifFalse: [ self indeterminateImage ] ].
+	im ifNil: [ ^ self ].
 	im removeFromParent.
 	anElement iconImage: im
 ]

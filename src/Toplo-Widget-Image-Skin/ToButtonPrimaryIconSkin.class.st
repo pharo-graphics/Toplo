@@ -13,7 +13,7 @@ ToButtonPrimaryIconSkin >> dangerFormLookIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToButtonPrimaryIconSkin >> regularFormLookIn: anElement [
 
-	^ ToImageFormLook new
+	^ ToMonoColorFlatImageFormLook new
 		  disabledColor: [ :e | e toTheme colorImageDisabled ];
 		  initialColor: [ :e | e toTheme colorImageLightSolid ];
 		  yourself

@@ -3,8 +3,11 @@ Extension { #name : #BlElement }
 { #category : #'*Toplo' }
 BlElement >> addStyleClass: aSymbol [
 
-	self userData at: #styleClasses ifAbsentPut: (OrderedCollection new).
-	(self userData at: #styleClasses) add: aSymbol
+	| cls |
+	self userData at: #styleClasses ifAbsentPut: OrderedCollection new.
+	cls := self userData at: #styleClasses.
+	(cls includes: aSymbol) ifTrue: [ ^ self ].
+	cls add: aSymbol
 ]
 
 { #category : #'*Toplo' }
@@ -173,6 +176,12 @@ BlElement >> styleClass: aSymbol [
 BlElement >> styleClasses [
 
 	^ self userData at: #styleClasses ifAbsent: [ #() ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> styleClasses: aCollectionOfSymbol [
+
+	aCollectionOfSymbol do: [ :s | self addStyleClass: s ]
 ]
 
 { #category : #'*Toplo' }

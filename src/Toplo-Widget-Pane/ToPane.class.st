@@ -56,6 +56,12 @@ ToPane >> defaultLayout [
 	^ BlLinearLayout new 
 ]
 
+{ #category : #'t - skinable - initialization' }
+ToPane >> defaultStyleClasses [
+
+	^ #( #pane )
+]
+
 { #category : #'t - widget with layers - accessing' }
 ToPane >> layerReferentElement [
 

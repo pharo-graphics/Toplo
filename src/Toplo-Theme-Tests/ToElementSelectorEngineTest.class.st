@@ -7,7 +7,7 @@ Class {
 	#category : #'Toplo-Theme-Tests'
 }
 
-{ #category : #'test - several selector' }
+{ #category : #'tests - child selector' }
 ToElementSelectorEngineTest >> testChildSelectorWithElementWithAParent0 [
 
 	" selector: an element with a parent of type Object "
@@ -31,7 +31,7 @@ ToElementSelectorEngineTest >> testChildSelectorWithElementWithAParent0 [
 	
 ]
 
-{ #category : #'test - several selector' }
+{ #category : #'tests - child selector' }
 ToElementSelectorEngineTest >> testChildSelectorWithElementWithAParent1 [
 
 	" selector: an element with a parent of type Object "
@@ -50,6 +50,27 @@ ToElementSelectorEngineTest >> testChildSelectorWithElementWithAParent1 [
 	engine check: selector on: e.
 	self assert: engine result.
 	
+]
+
+{ #category : #'tests - child selector' }
+ToElementSelectorEngineTest >> testChildSelectorWithElementWithAParent2 [
+
+	| engine parent directParentSelector1 directParentSelector2 parentParentSelector sub subsub |
+	directParentSelector1 := ToUniversalSelector new parent: (ToTypeSelector new type: ToElement).
+	directParentSelector2 := ToUniversalSelector new parent: (ToTypeSelector new type: ToElement) level: 1.
+	parentParentSelector := ToUniversalSelector new parent: (ToTypeSelector new type: ToElement) level: 2.
+	sub := ToElement new.
+	subsub := ToElement new.
+	parent := ToElement new.
+	parent addChild: subsub.
+	subsub addChild: sub.
+	self assert: subsub parent == parent.
+	engine := ToElementSelectorEngine new.
+	engine check: directParentSelector1 on: subsub.
+	self assert: engine result.
+	engine check: directParentSelector2 on: subsub.
+	self assert: engine result.
+	engine check: parentParentSelector on: subsub
 ]
 
 { #category : #'tests - with single selector' }

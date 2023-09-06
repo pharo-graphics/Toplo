@@ -33,7 +33,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 	ss addRule: (ToStyleRule new
 			 selectors:
 				 { ((ToClassSelector new elementClass: #'button-label') parent:
-					  (ToClassSelector new elementClasses: #( #button #danger ))) }
+					  (ToClassSelector new elementClasses: #( #button #danger )) level: 2) }
 			 looks: { (ToLabelTextLook new
 					  disabledColor: [ :e | e toTheme colorTextDisabled ];
 					  initialColor: [ :e | e toTheme colorError ];
@@ -85,6 +85,80 @@ ToStyleSheetTest >> testButtonSkin0 [
 	self
 		assert: foregroundAttr paint
 		equals: button label toTheme colorError
+]
+
+{ #category : #'button skin building' }
+ToStyleSheetTest >> testButtonSkin1 [
+
+	| ss button looks skin labelSkin attributes foregroundAttr |
+	ss := ToStyleSheet new.
+	
+	" default button rule "
+	ss addRule: (ToStyleRule new
+			 selectors: { (ToClassSelector new elementClass: #button) }
+			 looks: {
+					 (ToBackgroundColorLook new
+						  disabledColor: [ :e | e toTheme colorBgContainerDisabled ];
+						  initialColor: [ :e | Color gray ];
+						  yourself) } ).
+
+	ss addRule: (ToStyleRule new
+			 selectors: { ((ToClassSelector new elementClass: #label)
+					  parent: (ToClassSelector new elementClass: #'triplet-inner-element') level: 1) }
+			 looks: { (ToLabelTextLook new
+					  disabledColor: [ :e | e toTheme colorTextDisabled ];
+					  initialColor: [ :e | e toTheme colorText ];
+					  hoverColor: [ :e | e toTheme colorPrimary ];
+					  pressedColor: [ :e | e toTheme colorPrimaryPressed ];
+					  yourself) }).
+
+
+	button := ToButton new.
+	looks := ss looksFor: button.
+	self assert: looks size equals: 1.
+	self assert: looks first class equals: ToBackgroundColorLook.
+
+	button labelText: 'Default'.
+	looks := ss looksFor: button label.
+	self assert: looks size equals: 1.
+	self assert: looks first class equals: ToLabelTextLook
+]
+
+{ #category : #'button skin building' }
+ToStyleSheetTest >> testButtonSkin2 [
+
+	| ss button looks skin labelSkin attributes foregroundAttr |
+	ss := ToStyleSheet new.
+	
+	" default button rule "
+	ss addRule: (ToStyleRule new
+			 selectors: { (ToClassSelector new elementClass: #button) }
+			 looks: {
+					 (ToBackgroundColorLook new
+						  disabledColor: [ :e | e toTheme colorBgContainerDisabled ];
+						  initialColor: [ :e | Color gray ];
+						  yourself) } ).
+
+	ss addRule: (ToStyleRule new
+			 selectors: { ((ToClassSelector new elementClass: #label)
+					  parent: (ToClassSelector new elementClass: #'button') level: 2) }
+			 looks: { (ToLabelTextLook new
+					  disabledColor: [ :e | e toTheme colorTextDisabled ];
+					  initialColor: [ :e | e toTheme colorText ];
+					  hoverColor: [ :e | e toTheme colorPrimary ];
+					  pressedColor: [ :e | e toTheme colorPrimaryPressed ];
+					  yourself) }).
+
+
+	button := ToButton new.
+	looks := ss looksFor: button.
+	self assert: looks size equals: 1.
+	self assert: looks first class equals: ToBackgroundColorLook.
+
+	button labelText: 'Default'.
+	looks := ss looksFor: button label.
+	self assert: looks size equals: 1.
+	self assert: looks first class equals: ToLabelTextLook
 ]
 
 { #category : #basic }
@@ -156,7 +230,7 @@ ToStyleSheetTest >> testSkinWithChildRule2 [
 	ss := ToStyleSheet new.
 	ss addRule: (ToStyleRule new
 			 selectors: { ((ToIdSelector new id: #child) parent:
-					  (ToClassSelector new elementClass: #parent)) }
+					  (ToClassSelector new elementClass: #parent) level: 2) }
 			 looks: { (ToBorderLook new
 					  initialPaint: [ :e | Color red ];
 					  width: [ :e | 3 ];

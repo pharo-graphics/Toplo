@@ -27,18 +27,29 @@ ToElementSelectorEngine >> result [
 { #category : #visiting }
 ToElementSelectorEngine >> visitChildSelector: aSelector [
 
-	| current |
+	| current l |
 	current := targetStack top parent.
-	current ifNil: [
+	l := aSelector parentLevel - 1.
+	(current isNil or: [ l < 0 ]) ifTrue: [
 		result := false.
 		^ self ].
 	result := false.
-	[ current isNil or: [ result ]] whileFalse: [
+
+	[ current isNil or: [ result ] ] whileFalse: [
 		targetStack push: current.
 		aSelector parentSelector accept: self.
 		targetStack pop.
+		(result and: [l > 0]) ifTrue: [
+			result := false.
+			^ self ].
+		(result not and: [l  = 0]) ifTrue: [ 
+			result := false.
+			^ self ].
+		l := l - 1.
 		current := current parent ].
+
 	result ifFalse: [ ^ self ].
+	l isZero ifFalse: [ ^ self ].
 	aSelector nextDo: [ :n | n accept: self ]
 ]
 

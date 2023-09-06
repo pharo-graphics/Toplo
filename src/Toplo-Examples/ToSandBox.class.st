@@ -1401,7 +1401,7 @@ ToSandBox class >> example_ToButtonWithDashedSkin [
 		           yourself.
 
 	button1 labelText: 'Dashed button'.
-	"button1 icon: (ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16)."
+	button1 icon: (ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16).
 	button1 beJustified.
 	button1 hMatchParent.
 	"button1 innerElement hMatchParent."
@@ -1528,9 +1528,11 @@ ToSandBox class >> example_ToButtonWithDefaultSkin0 [
 	pane layout cellSpacing: 10.
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 
-	button1 := ToButton new withSkin: (ToButtonSkin new type: ToButtonDefaultType new).
+	button1 := ToButton2 new.
 	button1 label: (ToLabel text: 'Primary button').
+	button1 label withSkin: (button1 toTheme skinFor: button1 label).
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
+	button1 icon withSkin: (button1 toTheme skinFor: button1 icon).
 
 	space root addChild: pane.
 	space root addChild: button1.

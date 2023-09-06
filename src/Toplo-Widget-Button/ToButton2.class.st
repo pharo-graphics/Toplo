@@ -17,11 +17,11 @@ ToButton2 >> childSkinsToHandle [
 	^ {
 		  (ToChildSkinBuilder new
 			   slotName: #icon;
-			   builder: [ :e |  e privateSkin ];
+			   builder: [ :e | self toTheme skinFor: e ];
 			   yourself).
 		  (ToChildSkinBuilder new
 			   slotName: #label;
-			   builder: [ :e | e privateSkin ];
+			   builder: [ :e | self toTheme skinFor: e ];
 			   yourself) }
 ]
 
@@ -29,6 +29,12 @@ ToButton2 >> childSkinsToHandle [
 ToButton2 >> defaultDresser [ 
 
 	^ super defaultDresser next: ToTripletDresser new
+]
+
+{ #category : #'t - skinable - initialization' }
+ToButton2 >> defaultStyleClasses [
+
+	^ #( #button )
 ]
 
 { #category : #initialization }
@@ -53,9 +59,10 @@ ToButton2 >> first: anElement [
 
 { #category : #initialization }
 ToButton2 >> initialize [
-
 	super initialize.
-	self addStyleClass: #button
+	self addStyleClass: #button.
+
+	
 ]
 
 { #category : #'t - orientable - accessing' }

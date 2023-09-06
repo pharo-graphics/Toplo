@@ -41,5 +41,16 @@ ToElementSelector >> nextDo: aBlock [
 { #category : #accessing }
 ToElementSelector >> parent: aSelector [
 
-	self next: (ToChildSelector new parentSelector: aSelector)
+	self next: (ToChildSelector new
+			 parentSelector: aSelector;
+			 yourself)
+]
+
+{ #category : #accessing }
+ToElementSelector >> parent: aSelector level: anInteger [
+
+	self next: (ToChildSelector new
+			 parentSelector: aSelector;
+			 parentLevel: anInteger;
+			 yourself)
 ]

@@ -145,7 +145,7 @@ ToDefaultTheme >> borderRadiusSM [
 	^ 4
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #images }
 ToDefaultTheme >> checkboxCheckedImageIn: anElement [
 
 	^ ToImage inner: (BlElement new
@@ -156,7 +156,7 @@ ToDefaultTheme >> checkboxCheckedImageIn: anElement [
 			   yourself)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #images }
 ToDefaultTheme >> checkboxDisabledImageIn: anElement [
 
 	^ ToImage inner: (BlElement new
@@ -167,7 +167,7 @@ ToDefaultTheme >> checkboxDisabledImageIn: anElement [
 			   yourself)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #images }
 ToDefaultTheme >> checkboxIndeterminateImageIn: anElement [
 
 	| bar im |
@@ -189,7 +189,7 @@ ToDefaultTheme >> checkboxIndeterminateImageIn: anElement [
 	^ ToImage inner: im
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #images }
 ToDefaultTheme >> checkboxUncheckedImageIn: anElement [
 
 	^ ToImage inner: (BlElement new
@@ -470,6 +470,12 @@ ToDefaultTheme >> defaultColorPrimary [
 	^ Color fromHexString: '#1677ff'
 ]
 
+{ #category : #initialization }
+ToDefaultTheme >> defaultStyleSheet [ 
+
+	^ ToDefaultStyleSheet new
+]
+
 { #category : #text }
 ToDefaultTheme >> fontFamilyCode [
 	"https://ant.design/components/typography#design-token"
@@ -525,6 +531,13 @@ ToDefaultTheme >> fontWeightStrong [
 	"https://ant.design/components/typography#design-token"
 
 	^ 600
+]
+
+{ #category : #initialization }
+ToDefaultTheme >> initialize [ 
+
+	super initialize.
+	self styleSheet: self defaultStyleSheet 
 ]
 
 { #category : #colors }

@@ -6,6 +6,12 @@ Class {
 	#category : #'Toplo-Core'
 }
 
+{ #category : #'t - skinable - initialization' }
+ToElement >> defaultStyleClasses [
+
+	^ #( )
+]
+
 { #category : #initialization }
 ToElement >> initialize [ 
 

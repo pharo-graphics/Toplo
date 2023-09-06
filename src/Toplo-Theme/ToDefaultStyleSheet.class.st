@@ -49,9 +49,8 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 
 	" default button form icon "
 	self addRule: (ToStyleRule new
-			 selectors:
-				 { ((ToClassSelector new elementClass: #'button-form-icon')
-					  parent: (ToClassSelector new elementClass: #button)) }
+			 selectors: { ((ToClassSelector new elementClass: #'form-icon')
+					  parent: (ToClassSelector new elementClass: #button) level: 2) }
 			 looks: { (ToImageFormLook new
 					  disabledColor: [ :e | e toTheme colorImageDisabled ];
 					  initialColor: [ :e | e toTheme colorText ];
@@ -61,9 +60,8 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 
 	" default button label "
 	self addRule: (ToStyleRule new
-			 selectors:
-				 { ((ToClassSelector new elementClass: #'button-label')
-					  parent: (ToClassSelector new elementClass: #button)) }
+			 selectors: { ((ToClassSelector new elementClass: #label)
+					  parent: (ToClassSelector new elementClass: #button) level: 2) }
 			 looks: { (ToLabelTextLook new
 					  disabledColor: [ :e | e toTheme colorTextDisabled ];
 					  initialColor: [ :e | e toTheme colorText ];
@@ -108,8 +106,9 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 
 	" ToButton default danger dashed"
 	self addRule: (ToStyleRule new
-			 selectors: { (ToClassSelector new elementClasses:
-					  #( #button #danger #dashed )) }
+			 selectors:
+			 { (ToClassSelector new elementClasses:
+				  #( #button #danger #dashed )) }
 			 looks: {
 					 (ToBackgroundColorLook new
 						  disabledColor: [ :e | e toTheme colorBgContainerDisabled ];
@@ -126,10 +125,8 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 
 	" danger button form icon "
 	self addRule: (ToStyleRule new
-			 selectors:
-				 { ((ToClassSelector new elementClass: #'button-form-icon')
-					  parent:
-					  (ToClassSelector new elementClasses: #( #button #danger ))) }
+			 selectors: { ((ToClassSelector new elementClass: #'form-icon')
+					  parent: (ToClassSelector new elementClasses: #( #button #danger )) level: 2) }
 			 looks: { (ToImageFormLook new
 					  disabledColor: [ :e | e toTheme colorImageDisabled ];
 					  initialColor: [ :e | e toTheme colorError ];
@@ -139,10 +136,11 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 
 	" danger button label "
 	self addRule: (ToStyleRule new
-			 selectors:
-				 { ((ToClassSelector new elementClass: #'button-label')
+			 selectors: { (((ToClassSelector new elementClass: #label)
+					   
 					  parent:
-					  (ToClassSelector new elementClasses: #( #button #danger ))) }
+					  (ToClassSelector new elementClasses: #( #button #danger ))
+					  level: 2)) }
 			 looks: { (ToLabelTextLook new
 					  disabledColor: [ :e | e toTheme colorTextDisabled ];
 					  initialColor: [ :e | e toTheme colorError ];

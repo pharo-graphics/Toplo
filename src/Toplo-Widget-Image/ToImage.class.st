@@ -22,6 +22,12 @@ ToImage >> defaultInnerImage [
 		  yourself
 ]
 
+{ #category : #'t - skinable - initialization' }
+ToImage >> defaultStyleClasses [ 
+
+	^ #( #'form-icon' )
+]
+
 { #category : #'form accessing' }
 ToImage >> errorInnerFormNotFound [
 	"Raise a NotFound exception."

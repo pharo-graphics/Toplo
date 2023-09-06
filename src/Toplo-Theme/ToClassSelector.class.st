@@ -1,6 +1,6 @@
 Class {
 	#name : #ToClassSelector,
-	#superclass : #ToElementSelector,
+	#superclass : #ToUnarySelector,
 	#instVars : [
 		'elementClasses'
 	],

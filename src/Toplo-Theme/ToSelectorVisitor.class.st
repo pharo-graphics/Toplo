@@ -5,6 +5,10 @@ Class {
 }
 
 { #category : #visiting }
+ToSelectorVisitor >> visitAndSelector: aSelector [
+]
+
+{ #category : #visiting }
 ToSelectorVisitor >> visitChildSelector: aSelector [
 ]
 

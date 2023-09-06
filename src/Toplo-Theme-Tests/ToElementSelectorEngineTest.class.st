@@ -12,7 +12,7 @@ ToElementSelectorEngineTest >> testChildSelectorWithElementWithAParent0 [
 
 	" selector: an element with a parent of type Object "
 	| selector e engine parent |
-	selector := ToChildSelector new parentSelector: (ToTypeSelector new type: Object).
+	selector := ToChildSelector new right: (ToTypeSelector new type: Object).
 	e := ToElement new.
 	parent := ToElement new.
 	parent addChild: e.
@@ -21,7 +21,7 @@ ToElementSelectorEngineTest >> testChildSelectorWithElementWithAParent0 [
 	engine check: selector on: e.
 	" ko, the element e has a parent which is a ToElement, not an Object "
 	self assert: engine result not.
-	selector parentSelector exact: false.
+	selector right exact: false.
 	engine check: selector on: e.
 	" ok, the element e has a parent which is a kind of Object "
 	self assert: engine result
@@ -46,7 +46,7 @@ ToElementSelectorEngineTest >> testChildSelectorWithElementWithAParent1 [
 	engine check: selector on: e.
 	self assert: engine result not.
 	" now allow isKindOf: "
-	selector next parentSelector exact: false.
+	selector right exact: false.
 	engine check: selector on: e.
 	self assert: engine result.
 	
@@ -77,7 +77,7 @@ ToElementSelectorEngineTest >> testChildSelectorWithElementWithAParent2 [
 ToElementSelectorEngineTest >> testChildSelectorWithElementWithNoParent [
 
 	| selector e engine |
-	selector := ToChildSelector new parentSelector: (ToTypeSelector new type: Object).
+	selector := ToChildSelector new right: (ToTypeSelector new type: Object).
 	e := ToElement new.
 	engine := ToElementSelectorEngine new.
 	engine check: selector on: e.
@@ -107,7 +107,7 @@ ToElementSelectorEngineTest >> testClassSelectorWithElementWithoutClass1 [
 	e := ToElement new addStyleClass: #a.
 	engine := ToElementSelectorEngine new.
 	engine check: selector on: e.
-	self assert: engine result 
+	self assert: engine result not
 ]
 
 { #category : #'tests - with single selector' }

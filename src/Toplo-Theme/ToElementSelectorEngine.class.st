@@ -25,19 +25,29 @@ ToElementSelectorEngine >> result [
 ]
 
 { #category : #visiting }
+ToElementSelectorEngine >> visitAndSelector: aSelector [
+
+	aSelector left accept: self.
+	result ifFalse: [ ^ self ].
+	aSelector right accept: self.
+]
+
+{ #category : #visiting }
 ToElementSelectorEngine >> visitChildSelector: aSelector [
 
 	| current l |
+	aSelector left accept: self.
+	result ifFalse: [ ^ self ].
+
+	result := false.
 	current := targetStack top parent.
 	l := aSelector parentLevel - 1.
 	(current isNil or: [ l < 0 ]) ifTrue: [
-		result := false.
 		^ self ].
-	result := false.
-
+	
 	[ current isNil or: [ result ] ] whileFalse: [
 		targetStack push: current.
-		aSelector parentSelector accept: self.
+		aSelector right accept: self.
 		targetStack pop.
 		(result and: [l > 0]) ifTrue: [
 			result := false.
@@ -45,49 +55,33 @@ ToElementSelectorEngine >> visitChildSelector: aSelector [
 		(result not and: [l  = 0]) ifTrue: [ 
 			result := false.
 			^ self ].
-		l := l - 1.
+		result ifFalse: [ l := l - 1 ].
 		current := current parent ].
 
-	result ifFalse: [ ^ self ].
-	l isZero ifFalse: [ ^ self ].
-	aSelector nextDo: [ :n | n accept: self ]
+	result := result and: [ l isZero ]
 ]
 
 { #category : #visiting }
 ToElementSelectorEngine >> visitClassSelector: aSelector [
 
-	(aSelector elementClasses allSatisfy: [ :c |
-		 targetStack top styleClasses includes: c ])
-		ifTrue: [ result := true ]
-		ifFalse: [
-			result := false.
-			^ self ].
-	aSelector nextDo: [ :n | n accept: self ]
+	result := targetStack top styleClasses asSet
+	          = aSelector elementClasses asSet
 ]
 
 { #category : #visiting }
 ToElementSelectorEngine >> visitIdSelector: aSelector [
 
-	aSelector id = targetStack top id ifFalse: [
-		result := false.
-		^ self ].
-	result := true.
-	aSelector nextDo: [ :n | n accept: self ]
+	result := aSelector id = targetStack top id
 ]
 
 { #category : #visiting }
 ToElementSelectorEngine >> visitTypeSelector: aSelector [
 
-	(aSelector selectType: targetStack top class) ifFalse: [
-		result := false.
-		^ self ].
-	result := true.
-	aSelector nextDo: [ :n | n accept: self ]
+	result := (aSelector selectType: targetStack top class)
 ]
 
 { #category : #visiting }
 ToElementSelectorEngine >> visitUniversalSelector: aSelector [
 
-	result := true.
-	aSelector nextDo: [ :n | n accept: self ]
+	result := true
 ]

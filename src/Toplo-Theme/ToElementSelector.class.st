@@ -1,9 +1,6 @@
 Class {
 	#name : #ToElementSelector,
 	#superclass : #Object,
-	#instVars : [
-		'next'
-	],
 	#category : #'Toplo-Theme-StyleSheet'
 }
 
@@ -16,41 +13,27 @@ ToElementSelector >> accept: aVisitor [
 { #category : #accessing }
 ToElementSelector >> and: aStyleSelector [
 
-	self next: aStyleSelector
-]
-
-{ #category : #accessing }
-ToElementSelector >> next [
-
-	^ next
-]
-
-{ #category : #accessing }
-ToElementSelector >> next: aStyleSelector [
-
-	next := aStyleSelector
-]
-
-{ #category : #operating }
-ToElementSelector >> nextDo: aBlock [
-
-	self next ifNil: [ ^ self ].
-	aBlock value: self next
+	^ ToAndSelector new
+		  left: self;
+		  right: aStyleSelector;
+		  yourself
 ]
 
 { #category : #accessing }
 ToElementSelector >> parent: aSelector [
 
-	self next: (ToChildSelector new
-			 parentSelector: aSelector;
-			 yourself)
+	^ ToChildSelector new
+		  left: self;
+		  right: aSelector;
+		  yourself
 ]
 
 { #category : #accessing }
 ToElementSelector >> parent: aSelector level: anInteger [
 
-	self next: (ToChildSelector new
-			 parentSelector: aSelector;
-			 parentLevel: anInteger;
-			 yourself)
+	^ ToChildSelector new
+		  left: self;
+		  right: aSelector;
+		  parentLevel: anInteger;
+		  yourself
 ]

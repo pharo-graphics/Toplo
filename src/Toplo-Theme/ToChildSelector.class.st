@@ -1,8 +1,7 @@
 Class {
 	#name : #ToChildSelector,
-	#superclass : #ToElementSelector,
+	#superclass : #ToBinarySelector,
 	#instVars : [
-		'parentSelector',
 		'parentLevel'
 	],
 	#category : #'Toplo-Theme-StyleSheet'
@@ -18,13 +17,8 @@ ToChildSelector >> accept: aVisitor [
 ToChildSelector >> initialize [ 
 
 	super initialize.
+	self left: ToUniversalSelector new.
 	parentLevel := 1 
-]
-
-{ #category : #accessing }
-ToChildSelector >> parent: aSelector [
-
-	Error signal: 'Usage error: I can''t have a child selector'
 ]
 
 { #category : #accessing }
@@ -37,16 +31,4 @@ ToChildSelector >> parentLevel [
 ToChildSelector >> parentLevel: anInteger [
 
 	parentLevel := anInteger
-]
-
-{ #category : #accessing }
-ToChildSelector >> parentSelector [
-
-	^ parentSelector
-]
-
-{ #category : #accessing }
-ToChildSelector >> parentSelector: aSelector [
-
-	parentSelector := aSelector
 ]

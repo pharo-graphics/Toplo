@@ -4,10 +4,10 @@ Extension { #name : #BlElement }
 BlElement >> addStyleClass: aSymbol [
 
 	| cls |
-	self userData at: #styleClasses ifAbsentPut: OrderedCollection new.
+	self userData at: #styleClasses ifAbsentPut: #().
 	cls := self userData at: #styleClasses.
 	(cls includes: aSymbol) ifTrue: [ ^ self ].
-	cls add: aSymbol
+	self userData at: #styleClasses put: (cls copyWith: aSymbol)
 ]
 
 { #category : #'*Toplo' }
@@ -169,7 +169,7 @@ BlElement >> skinDo: aBlock [
 { #category : #'*Toplo' }
 BlElement >> styleClass: aSymbol [
 
-	self addStyleClass: aSymbol
+	self userData at: #styleClasses put: (Array with: aSymbol)
 ]
 
 { #category : #'*Toplo' }
@@ -181,6 +181,7 @@ BlElement >> styleClasses [
 { #category : #'*Toplo' }
 BlElement >> styleClasses: aCollectionOfSymbol [
 
+	self userData at: #styleClasses put: #().
 	aCollectionOfSymbol do: [ :s | self addStyleClass: s ]
 ]
 

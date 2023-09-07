@@ -184,7 +184,6 @@ ToDefaultStyleSheet >> addPrimaryButtonRules [
 					 (ToBorderLook new
 						  initialStateValue: [ :e | Color transparent ];
 						  disabledStateValue: [ :e | e toTheme colorBorderDisabled ];
-						  width: [ :e | e toTheme lineWidth ];
 						  yourself) }).
 
 	" ToButton primary danger "
@@ -206,7 +205,6 @@ ToDefaultStyleSheet >> addPrimaryButtonRules [
 					 (ToBorderLook new
 						  initialStateValue: [ :e | Color transparent ];
 						  disabledStateValue: [ :e | e toTheme colorBorderDisabled ];
-						  width: [ :e | e toTheme lineWidth ];
 						  yourself) })
 ]
 

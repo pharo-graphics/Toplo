@@ -20,8 +20,7 @@ ToCheckableButtonIconSkin >> onSkinInstalledIn: anElement [
 				disabledPaint: [ :e | e toTheme colorBorderDisabled ];
 				initialPaint: [ :e | e toTheme colorBorder];
 				hoverPaint: [ :e | e toTheme colorPrimaryHover];
-				pressedPaint: [ :e | e toTheme colorPrimaryPressed];
-				width: [ :e | e toTheme lineWidth ].
+				pressedPaint: [ :e | e toTheme colorPrimaryPressed].
 	self addLook: borderLook.
 
 	

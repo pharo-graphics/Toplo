@@ -7,16 +7,12 @@ Class {
 	#category : #'Toplo-Widget-Button-Skin'
 }
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : #'basic button' }
 ToButtonDefaultType >> basicButtonBorderLookIn: anElement [
 
-	| borderLook |
-	borderLook := self danger
-		              ifTrue: [ self dangerBorderLookIn: anElement ]
-		              ifFalse: [ self regularBorderLookIn: anElement ].
-	self dashed ifTrue: [
-		borderLook dashArray: [ :e | e toTheme dashArray ] ].
-	^ borderLook
+	^ self danger
+		  ifTrue: [ self dangerBorderLookIn: anElement ]
+		  ifFalse: [ self regularBorderLookIn: anElement ]
 ]
 
 { #category : #'basic button' }
@@ -29,11 +25,22 @@ ToButtonDefaultType >> basicButtonIconSkinIn: anElement [
 ToButtonDefaultType >> dangerBorderLookIn: anElement [
 
 	^ ToBorderLook new
-		  disabledStateValue: [ :e | e toTheme colorBorderDisabled ];
-		  initialStateValue: [ :e | e toTheme colorError ];
-		  hoverStateValue: [ :e | e toTheme colorErrorHover ];
-		  pressedStateValue: [ :e | e toTheme colorErrorHover darker ];
-		  width: [ :e | e toTheme lineWidth ];
+		  disabledStateValue: [ :e |
+			  (self borderBuilderIn: anElement)
+				  paint: e toTheme colorBorderDisabled;
+				  build ];
+		  initialStateValue: [ :e |
+			  (self borderBuilderIn: anElement)
+				  paint: e toTheme colorError;
+				  build ];
+		  hoverStateValue: [ :e |
+			  (self borderBuilderIn: anElement)
+				  paint: e toTheme colorErrorHover;
+				  build ];
+		  pressedStateValue: [ :e |
+			  (self borderBuilderIn: anElement)
+				  paint: e toTheme colorErrorHover darker;
+				  build ];
 		  yourself
 ]
 
@@ -62,11 +69,22 @@ ToButtonDefaultType >> regularBackgroundLookIn: anElement [
 ToButtonDefaultType >> regularBorderLookIn: anElement [
 
 	^ ToBorderLook new
-		  disabledStateValue: [ :e | e toTheme colorBorderDisabled ];
-		  initialStateValue: [ :e | e toTheme colorBorder ];
-		  hoverStateValue: [ :e | e toTheme colorPrimaryHover ];
-		  pressedStateValue: [ :e | e toTheme colorPrimaryPressed ];
-		  width: [ :e | e toTheme lineWidth ];
+		  disabledStateValue: [ :e |
+			  (self borderBuilderIn: anElement)
+				  paint: e toTheme colorBorderDisabled;
+				  build ];
+		  initialStateValue: [ :e |
+			  (self borderBuilderIn: anElement)
+				  paint: e toTheme colorBorder;
+				  build ];
+		  hoverStateValue: [ :e |
+			  (self borderBuilderIn: anElement)
+				  paint: e toTheme colorPrimaryHover;
+				  build ];
+		  pressedStateValue: [ :e |
+			  (self borderBuilderIn: anElement)
+				  paint: e toTheme colorPrimaryPressed;
+				  build ];
 		  yourself
 ]
 

@@ -22,12 +22,11 @@ ToStyleSheetTest >> testButtonSkin0 [
 						  initialStateValue: [ :e | Color transparent ];
 						  yourself).
 					 (ToBorderLook new
-						  disabledPaint: [ :e | e toTheme colorBorderDisabled ];
-						  initialPaint: [ :e | e toTheme colorBorder ];
-						  hoverPaint: [ :e | e toTheme colorPrimaryHover ];
-						  pressedPaint: [ :e | e toTheme colorPrimaryPressed ];
-						  width: [ :e | e toTheme lineWidth ];
-						  yourself) }).
+						  disabledStateValue: [ :e | e toTheme colorBorderDisabled ];
+						  initialStateValue: [ :e | e toTheme colorBorder ];
+						  hoverStateValue: [ :e | e toTheme colorPrimaryHover ];
+						  pressedStateValue:
+							  [ :e | e toTheme colorPrimaryPressed ] yourself) }).
 
 	" danger button label rule "
 	ss addRule: (ToStyleRule new
@@ -261,10 +260,7 @@ ToStyleSheetTest >> testSkinWithAnUniversalRule [
 	ss := ToStyleSheet new.
 	ss addRule: (ToStyleRule new
 			 selectors: { ToUniversalSelector new }
-			 looks: { (ToBorderLook new
-					  initialPaint: [ :e | Color red ];
-					  width: [ :e | 3 ];
-					  yourself) }).
+			 looks: { ToBorderLook new initialStateValue: (BlBorderBuilder new paint: Color red;  width: 3; build) }).
 	elem := ToElement new.
 	looks := ss looksFor: elem.
 	self assert: looks size equals: 1.
@@ -286,10 +282,7 @@ ToStyleSheetTest >> testSkinWithChildRule [
 	ss addRule: (ToStyleRule new
 			 selectors: { ((ToIdSelector new id: #child) parent:
 					  (ToClassSelector new elementClass: #parent)) }
-			 looks: { (ToBorderLook new
-					  initialPaint: [ :e | Color red ];
-					  width: [ :e | 3 ];
-					  yourself) }).
+			 looks: { ToBorderLook new initialStateValue: (BlBorderBuilder new paint: Color red;  width: 3; build) }).
 	parent := ToElement new styleClass: #parent.
 	child := ToElement new id: #child.
 	looks := ss looksFor: child.
@@ -316,10 +309,7 @@ ToStyleSheetTest >> testSkinWithChildRule2 [
 	ss addRule: (ToStyleRule new
 			 selectors: { ((ToIdSelector new id: #child) parent:
 					  (ToClassSelector new elementClass: #parent) level: 2) }
-			 looks: { (ToBorderLook new
-					  initialPaint: [ :e | Color red ];
-					  width: [ :e | 3 ];
-					  yourself) }).
+			 looks: { ToBorderLook new initialStateValue: (BlBorderBuilder new paint: Color red;  width: 3; build) }).
 	parent := ToElement new styleClass: #parent.
 	subParent := ToElement new.
 	child := ToElement new id: #child.
@@ -346,10 +336,7 @@ ToStyleSheetTest >> testSkinWithIdRule [
 	ss := ToStyleSheet new.
 	ss addRule: (ToStyleRule new
 			 selectors: { (ToIdSelector new id: #a) }
-			 looks: { (ToBorderLook new
-					  initialPaint: [ :e | Color red ];
-					  width: [ :e | 3 ];
-					  yourself) }).
+			 looks: { ( ToBorderLook new initialStateValue: (BlBorderBuilder new paint: Color red;  width: 3; build) ) }).
 	elem := ToElement new.
 	looks := ss looksFor: elem.
 	self assert: looks size equals: 0.

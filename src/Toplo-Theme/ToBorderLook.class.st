@@ -94,7 +94,7 @@ ToBorderLook >> selectedPaint: aValuable [
 ToBorderLook >> switchToNewValue: aStateValue in: anElement [
 
 	| border |
-	border := (aStateValue valueIn: anElement).
+	border := (aStateValue valueIn: anElement) asBlBorder.
 	^ anElement border: border
 ]
 

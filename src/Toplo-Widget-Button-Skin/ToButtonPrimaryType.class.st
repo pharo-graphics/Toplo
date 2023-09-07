@@ -4,13 +4,12 @@ Class {
 	#category : #'Toplo-Widget-Button-Skin'
 }
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : #'basic button' }
 ToButtonPrimaryType >> basicButtonBorderLookIn: anElement [
 
 	^ ToBorderLook new
 		  disabledStateValue: [ :e | e toTheme colorBorderDisabled ];
 		  initialStateValue: [ :e | Color transparent ];
-		  width: [ :e | e toTheme lineWidth ];
 		  yourself
 ]
 

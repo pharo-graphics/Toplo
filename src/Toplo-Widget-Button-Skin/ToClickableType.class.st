@@ -35,6 +35,16 @@ ToClickableType >> basicButtonLabelSkinIn: anElement [
 		ifFalse: [ self regularLabelSkinIn: anElement ]
 ]
 
+{ #category : #accessing }
+ToClickableType >> borderBuilderIn: anElement [
+
+	^ BlBorderBuilder new
+				  width: anElement toTheme lineWidth;
+				  dashArray: (self dashed
+						   ifTrue: [ anElement toTheme dashArray ]
+						   ifFalse: [ #(  ) ])
+]
+
 { #category : #'checkable button' }
 ToClickableType >> checkableButtonBackgroundLookIn: anElement [
 
@@ -84,6 +94,12 @@ ToClickableType >> dangerBackgroundLookIn: anElement [
 ToClickableType >> dangerLabelSkinIn: anElement [
 
 	^ ToButtonLabelSkin new type: ToLabelDangerType new 
+]
+
+{ #category : #accessing }
+ToClickableType >> dashed [
+
+	^ false
 ]
 
 { #category : #accessing }

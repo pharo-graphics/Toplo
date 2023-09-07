@@ -1,8 +1,32 @@
 Class {
 	#name : #ToBackgroundLook,
-	#superclass : #ToSinglePropertyLook,
+	#superclass : #ToMultiStateLook,
 	#category : #'Toplo-Theme-Look'
 }
+
+{ #category : #private }
+ToBackgroundLook >> apply: aStateValue on: anElement [
+
+	| currentColor newColor currentBackground bg |
+	
+	bg := (aStateValue valueIn: anElement) asBlBackground.
+	(aStateValue animationDuration isZero or: [ bg isColorBackground not ])
+		ifTrue: [ ^ anElement background: bg ].
+	anElement isDisabled ifTrue: [ ^ anElement switchToSkinState: ToDisabledState new ]. 
+	currentBackground := anElement background.
+	currentBackground isColorBackground ifFalse: [ ^ anElement background: bg ].
+	currentColor := currentBackground paint color.
+	newColor := bg paint color.
+	animation := BlColorTransition new
+		             duration: aStateValue animationDuration;
+		             from: currentColor;
+		             to: newColor;
+		             onStepDo: [ :aColor :e | e background: aColor ].
+	animation onFinishedDo: [
+		anElement background: bg.
+		animation := nil ].
+	anElement addAnimation: animation
+]
 
 { #category : #initialization }
 ToBackgroundLook >> defaultInitialValue [
@@ -33,16 +57,16 @@ ToBackgroundLook >> duration: aNumber [
 { #category : #'deprecated accessing' }
 ToBackgroundLook >> hoverColor [
 
-	self deprecatedInsteadOf: 'hoverColor' use: 'hoverStateValue'.
+	self deprecatedInsteadOf: 'hoverColor' use: 'hoveredStateValue'.
 
-	^ self hoverStateValue
+	^ self hoveredStateValue
 ]
 
 { #category : #'deprecated accessing' }
 ToBackgroundLook >> hoverColor: aValuable [
 
-	self deprecatedInsteadOf: 'hoverColor:' use: 'hoverStateValue:'.
-	self hoverStateValue: aValuable
+	self deprecatedInsteadOf: 'hoverColor:' use: 'hoveredStateValue:'.
+	self hoveredStateValue: aValuable
 ]
 
 { #category : #'deprecated accessing' }
@@ -85,28 +109,4 @@ ToBackgroundLook >> selectedColor: anObject [
 
 	self deprecatedInsteadOf: 'selectedColor:' use: 'selectedStateValue:'.
 	self selectedStateValue: anObject
-]
-
-{ #category : #private }
-ToBackgroundLook >> switchToNewValue: aStateValue in: anElement [
-
-	| currentColor newColor currentBackground bg |
-	
-	bg := (aStateValue valueIn: anElement) asBlBackground.
-	(aStateValue animationDuration isZero or: [ bg isColorBackground not ])
-		ifTrue: [ ^ anElement background: bg ].
-	anElement isDisabled ifTrue: [ ^ anElement switchToSkinState: ToDisabledState new ]. 
-	currentBackground := anElement background.
-	currentBackground isColorBackground ifFalse: [ ^ anElement background: bg ].
-	currentColor := currentBackground paint color.
-	newColor := bg paint color.
-	animation := BlColorTransition new
-		             duration: aStateValue animationDuration;
-		             from: currentColor;
-		             to: newColor;
-		             onStepDo: [ :aColor :e | e background: aColor ].
-	animation onFinishedDo: [
-		anElement background: bg.
-		animation := nil ].
-	anElement addAnimation: animation
 ]

@@ -22,12 +22,12 @@ ToButtonIconSkin >> danger: aBoolean [
 { #category : #'api - install/uninstall  hook' }
 ToButtonIconSkin >> dangerFormLookIn: anElement [
 
-	^ ToMonoColorFlatImageFormLook new
-		disabledColor: [ :e | e toTheme colorImageDisabled ];
-		initialColor: [ :e | e toTheme colorError];
-		hoverColor: [ :e | e toTheme colorErrorHover];
-		pressedColor: [ :e | e toTheme colorError darker];
-		yourself
+	^ ToImageFormLook new
+		  disabledStateValue: [ :e | e toTheme colorImageDisabled ];
+		  initialStateValue: [ :e | e toTheme colorError ];
+		  hoveredStateValue: [ :e | e toTheme colorErrorHover ];
+		  pressedStateValue: [ :e | e toTheme colorError darker ];
+		  yourself
 ]
 
 { #category : #'api - install/uninstall  hook' }

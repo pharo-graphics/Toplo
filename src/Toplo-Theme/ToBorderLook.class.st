@@ -1,8 +1,16 @@
 Class {
 	#name : #ToBorderLook,
-	#superclass : #ToSinglePropertyLook,
+	#superclass : #ToMultiStateLook,
 	#category : #'Toplo-Theme-Look'
 }
+
+{ #category : #private }
+ToBorderLook >> apply: aStateValue on: anElement [
+
+	| border |
+	border := (aStateValue valueIn: anElement) asBlBorder.
+	anElement border: border
+]
 
 { #category : #'depecated accessing' }
 ToBorderLook >> dashArray: anArray [
@@ -34,15 +42,15 @@ ToBorderLook >> disabledPaint: aValuable [
 { #category : #'depecated accessing' }
 ToBorderLook >> hoverPaint [
 
-	self deprecatedInsteadOf: 'hoverPaint' use: 'hoverStateValue'.
-	^ self hoverStateValue
+	self deprecatedInsteadOf: 'hoverPaint' use: 'hoveredStateValue'.
+	^ self hoveredStateValue
 ]
 
 { #category : #'depecated accessing' }
 ToBorderLook >> hoverPaint: aValuable [
 
-	self deprecatedInsteadOf: 'hoverPaint:' use: 'hoverStateValue:'.
-	self hoverStateValue: aValuable
+	self deprecatedInsteadOf: 'hoverPaint:' use: 'hoveredStateValue:'.
+	self hoveredStateValue: aValuable
 
 ]
 
@@ -88,14 +96,6 @@ ToBorderLook >> selectedPaint: aValuable [
 	self deprecatedInsteadOf: 'selectedPaint:' use: 'selectedStateValue:'.
 	self selectedStateValue: aValuable
 
-]
-
-{ #category : #private }
-ToBorderLook >> switchToNewValue: aStateValue in: anElement [
-
-	| border |
-	border := (aStateValue valueIn: anElement) asBlBorder.
-	^ anElement border: border
 ]
 
 { #category : #'depecated accessing' }

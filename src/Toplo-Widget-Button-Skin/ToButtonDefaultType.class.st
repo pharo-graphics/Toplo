@@ -33,7 +33,7 @@ ToButtonDefaultType >> dangerBorderLookIn: anElement [
 			  (self borderBuilderIn: anElement)
 				  paint: e toTheme colorError;
 				  build ];
-		  hoverStateValue: [ :e |
+		  hoveredStateValue: [ :e |
 			  (self borderBuilderIn: anElement)
 				  paint: e toTheme colorErrorHover;
 				  build ];
@@ -77,7 +77,7 @@ ToButtonDefaultType >> regularBorderLookIn: anElement [
 			  (self borderBuilderIn: anElement)
 				  paint: e toTheme colorBorder;
 				  build ];
-		  hoverStateValue: [ :e |
+		  hoveredStateValue: [ :e |
 			  (self borderBuilderIn: anElement)
 				  paint: e toTheme colorPrimaryHover;
 				  build ];

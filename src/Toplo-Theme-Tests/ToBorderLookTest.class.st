@@ -28,7 +28,7 @@ ToBorderLookTest >> testWithBorder [
 	skin addLook: (ToBorderLook new
 				disabledStateValue:  (BlBorder paint: Color red);
 				initialStateValue: (BlBorder paint: Color gray);
-				hoverStateValue: (BlBorder paint: Color blue);
+				hoveredStateValue: (BlBorder paint: Color blue);
 				pressedStateValue: (BlBorder paint: Color white)).
 	w withSkin: skin.
 	w switchToSkinState: ToInitialState new.

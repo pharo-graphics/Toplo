@@ -43,7 +43,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 						  disabledStateValue: [ :e |
 							  e toTheme colorBorderDisabled asBlBorder ];
 						  initialStateValue: [ :e | e toTheme colorBorder asBlBorder ];
-						  hoverStateValue: [ :e |
+						  hoveredStateValue: [ :e |
 							  e toTheme colorPrimaryHover asBlBorder ];
 						  pressedStateValue: [ :e |
 							  e toTheme colorPrimaryPressed asBlBorder ];
@@ -54,11 +54,11 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 			 selectors: { ((ToClassSelector new elementClass: #'form-icon')
 					  parent: (ToClassSelector new elementClass: #button)
 					  level: 2) }
-			 looks: { (ToMonoColorFlatImageFormLook new
-					  disabledColor: [ :e | e toTheme colorImageDisabled ];
-					  initialColor: [ :e | e toTheme colorText ];
-					  hoverColor: [ :e | e toTheme colorPrimary ];
-					  pressedColor: [ :e | e toTheme colorPrimaryPressed ];
+			 looks: { (ToImageFormLook new
+					  disabledStateValue: [ :e | e toTheme colorImageDisabled ];
+					  initialStateValue: [ :e | e toTheme colorText ];
+					  hoveredStateValue: [ :e | e toTheme colorPrimary ];
+					  pressedStateValue: [ :e | e toTheme colorPrimaryPressed ];
 					  yourself) }).
 
 	" default button label "
@@ -86,7 +86,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 						  disabledStateValue: [ :e |
 							  e toTheme colorBorderDisabled asBlBorder ];
 						  initialStateValue: [ :e | e toTheme colorBorder asBlBorder ];
-						  hoverStateValue: [ :e |
+						  hoveredStateValue: [ :e |
 							  e toTheme colorPrimaryHover asBlBorder ];
 						  pressedStateValue: [ :e |
 							  e toTheme colorPrimaryPressed asBlBorder ];
@@ -105,7 +105,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 						  disabledStateValue: [ :e |
 							  e toTheme colorBorderDisabled asBlBorder ];
 						  initialStateValue: [ :e | e toTheme colorError asBlBorder ];
-						  hoverStateValue: [ :e | e toTheme colorErrorHover asBlBorder ];
+						  hoveredStateValue: [ :e | e toTheme colorErrorHover asBlBorder ];
 						  pressedStateValue: [ :e |
 							  e toTheme colorErrorHover darker asBlBorder ];
 						  yourself) }).
@@ -124,7 +124,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 						  disabledStateValue: [ :e |
 							  e toTheme colorBorderDisabled asBlBorder ];
 						  initialStateValue: [ :e | e toTheme colorError asBlBorder ];
-						  hoverStateValue: [ :e | e toTheme colorErrorHover asBlBorder ];
+						  hoveredStateValue: [ :e | e toTheme colorErrorHover asBlBorder ];
 						  pressedStateValue: [ :e |
 							  e toTheme colorErrorHover darker asBlBorder ];
 						  yourself) }).
@@ -135,11 +135,11 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 					  parent:
 					  (ToClassSelector new elementClasses: #( #button #danger ))
 					  level: 2) }
-			 looks: { (ToMonoColorFlatImageFormLook new
-					  disabledColor: [ :e | e toTheme colorImageDisabled ];
-					  initialColor: [ :e | e toTheme colorError ];
-					  hoverColor: [ :e | e toTheme colorErrorHover ];
-					  pressedColor: [ :e | e toTheme colorError darker ];
+			 looks: { (ToImageFormLook new
+					  disabledStateValue: [ :e | e toTheme colorImageDisabled ];
+					  initialStateValue: [ :e | e toTheme colorError ];
+					  hoveredStateValue: [ :e | e toTheme colorErrorHover ];
+					  pressedStateValue: [ :e | e toTheme colorError darker ];
 					  yourself) }).
 
 	" danger button label "
@@ -177,7 +177,7 @@ ToDefaultStyleSheet >> addPrimaryButtonRules [
 						  pressedStateValue:
 							  ([ :e | e toTheme colorPrimaryPressed ] asStateValue
 								   duration: 200 milliSeconds);
-						  hoverStateValue:
+						  hoveredStateValue:
 							  ([ :e | e toTheme colorPrimaryHover ] asStateValue duration:
 									   200 milliSeconds);
 						  yourself).
@@ -198,7 +198,7 @@ ToDefaultStyleSheet >> addPrimaryButtonRules [
 						  pressedStateValue:
 							  ([ :e | e toTheme colorErrorPressed ] asStateValue duration:
 									   200 milliSeconds);
-						  hoverStateValue:
+						  hoveredStateValue:
 							  ([ :e | e toTheme colorErrorHover ] asStateValue duration:
 									   200 milliSeconds);
 						  yourself).
@@ -219,7 +219,7 @@ ToDefaultStyleSheet >> addTextButtonRules [
 					  disabledStateValue: [ :e | e toTheme colorBgContainerDisabled ];
 					  initialStateValue: [ :e | Color transparent ];
 					  pressedStateValue: [ :e | e toTheme colorBgTextActive ];
-					  hoverStateValue: [ :e | e toTheme colorBgTextHover ];
+					  hoveredStateValue: [ :e | e toTheme colorBgTextHover ];
 					  yourself) }).
 
 	" ToButton text danger "
@@ -231,7 +231,7 @@ ToDefaultStyleSheet >> addTextButtonRules [
 					  disabledStateValue: [ :e | e toTheme colorBgContainerDisabled ];
 					  initialStateValue: [ :e | Color transparent ];
 					  pressedStateValue: [ :e | e toTheme colorErrorBg ];
-					  hoverStateValue: [ :e | e toTheme colorErrorBg ];
+					  hoveredStateValue: [ :e | e toTheme colorErrorBg ];
 					  yourself) })
 ]
 

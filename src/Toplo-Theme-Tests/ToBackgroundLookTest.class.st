@@ -30,7 +30,7 @@ ToBackgroundLookTest >> testWithBackground [
 			 initialStateValue: (BlBackground paint: Color red);
 			 disabledStateValue: (BlBackground paint:Color gray);
 			 pressedStateValue: (BlBackground paint:Color blue);
-			 hoverStateValue: (BlBackground paint:Color white);
+			 hoveredStateValue: (BlBackground paint:Color white);
 			 yourself).
 	w withSkin: skin.
 	w switchToSkinState: ToInitialState new.
@@ -53,7 +53,7 @@ ToBackgroundLookTest >> testWithClosure [
 			 initialStateValue: [ :e | Color red ];
 			 disabledStateValue: [ :e | Color gray ];
 			 pressedStateValue: [ :e | Color blue ];
-			 hoverStateValue: [ :e | Color white ];
+			 hoveredStateValue: [ :e | Color white ];
 			 yourself).
 	w withSkin: skin.
 	w switchToSkinState: ToInitialState new.
@@ -76,7 +76,7 @@ ToBackgroundLookTest >> testWithColors [
 			 initialStateValue: Color red;
 			 disabledStateValue: Color gray;
 			 pressedStateValue: Color blue;
-			 hoverStateValue: Color white;
+			 hoveredStateValue: Color white;
 			 yourself).
 	w withSkin: skin.
 	w switchToSkinState: ToInitialState new.

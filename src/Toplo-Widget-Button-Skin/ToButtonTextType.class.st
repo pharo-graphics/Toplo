@@ -17,7 +17,7 @@ ToButtonTextType >> dangerBackgroundLookIn: anElement [
 		  disabledStateValue: anElement toTheme colorBgContainerDisabled;
 		  initialStateValue: Color transparent;
 		  pressedStateValue: anElement toTheme colorErrorBg;
-		  hoverStateValue: anElement toTheme colorErrorBg;
+		  hoveredStateValue: anElement toTheme colorErrorBg;
 		  yourself
 ]
 
@@ -28,7 +28,7 @@ ToButtonTextType >> regularBackgroundLookIn: anElement [
 		  disabledStateValue: anElement toTheme colorBgContainerDisabled;
 		  initialStateValue: Color transparent;
 		  pressedStateValue: anElement toTheme colorBgTextActive;
-		  hoverStateValue: anElement toTheme colorBgTextHover;
+		  hoveredStateValue: anElement toTheme colorBgTextHover;
 		  yourself
 ]
 

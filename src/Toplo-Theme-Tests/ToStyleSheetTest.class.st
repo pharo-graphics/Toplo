@@ -24,7 +24,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 					 (ToBorderLook new
 						  disabledStateValue: [ :e | e toTheme colorBorderDisabled ];
 						  initialStateValue: [ :e | e toTheme colorBorder ];
-						  hoverStateValue: [ :e | e toTheme colorPrimaryHover ];
+						  hoveredStateValue: [ :e | e toTheme colorPrimaryHover ];
 						  pressedStateValue:
 							  [ :e | e toTheme colorPrimaryPressed ] yourself) }).
 

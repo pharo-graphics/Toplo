@@ -1,9 +1,8 @@
 Class {
 	#name : #ToMouseCursorLook,
-	#superclass : #ToElementLook,
+	#superclass : #ToMultiStateLook,
 	#instVars : [
-		'previousCursor',
-		'hoverCursor'
+		'previousCursor'
 	],
 	#category : #'Toplo-Theme-Look'
 }
@@ -14,34 +13,14 @@ ToMouseCursorLook class >> next: aLook [
 	^ self new next: aLook
 ]
 
-{ #category : #accessing }
-ToMouseCursorLook >> hoverCursor [
+{ #category : #private }
+ToMouseCursorLook >> apply: aStateValue on: anElement [
 
-	^ hoverCursor
+	anElement mouseCursor: (aStateValue valueIn: anElement)
 ]
 
-{ #category : #accessing }
-ToMouseCursorLook >> hoverCursor: aValuable [
+{ #category : #initialization }
+ToMouseCursorLook >> defaultInitialValue [
 
-	hoverCursor := aValuable
-]
-
-{ #category : #'event handling' }
-ToMouseCursorLook >> hoveredLookEvent: anEvent [
-
-	super hoveredLookEvent: anEvent.
-	self hoverCursor ifNil: [ ^ self ].
-	anEvent elementDo: [ :e | 
-		(self hoverCursor value: e) ifNotNil: [ :c |		
-			previousCursor := e mouseCursor.
-			e mouseCursor: (self hoverCursor value: e) ] ]
-]
-
-{ #category : #'event handling' }
-ToMouseCursorLook >> leavedLookEvent: anEvent [
-
-	super leavedLookEvent: anEvent.
-	anEvent elementDo: [ :e | 
-		e mouseCursor: previousCursor.
-		previousCursor := nil ]
+	^ nil asStateValue
 ]

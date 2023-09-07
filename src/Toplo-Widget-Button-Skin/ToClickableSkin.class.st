@@ -158,10 +158,11 @@ ToClickableSkin >> dashed: aBoolean [
 ToClickableSkin >> defaultCursorLookIn: anElement [
 
 	^ ToMouseCursorLook new
-		  hoverCursor: [ :but |
+		  hoveredStateValue: [ :but |
 			  but isEnabled
 				  ifTrue: [ BlCursor hand ]
 				  ifFalse: [  ] ];
+		  leavedStateValue: nil;
 		  yourself
 ]
 

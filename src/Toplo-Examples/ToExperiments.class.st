@@ -679,8 +679,8 @@ ToExperiments class >> example_drag4 [
 			 target: e;
 			 yourself).
 
-	e openInWorld.
-	child openInWorld
+	e openInInnerWindow.
+	child openInInnerWindow
 ]
 
 { #category : #elements }

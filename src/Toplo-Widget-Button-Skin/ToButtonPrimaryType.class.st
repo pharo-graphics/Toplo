@@ -32,7 +32,7 @@ ToButtonPrimaryType >> dangerBackgroundLookIn: anElement [
 		  initialStateValue: anElement toTheme colorError;
 		  disabledStateValue: anElement toTheme colorBgContainerDisabled;
 		  pressedStateValue: (anElement toTheme colorErrorPressed asStateValue duration: 200 milliSeconds; yourself);
-		  hoverStateValue: (anElement toTheme colorErrorHover asStateValue duration: 200 milliSeconds; yourself);
+		  hoveredStateValue: (anElement toTheme colorErrorHover asStateValue duration: 200 milliSeconds; yourself);
 		  yourself
 ]
 
@@ -43,7 +43,7 @@ ToButtonPrimaryType >> regularBackgroundLookIn: anElement [
 		  initialStateValue: anElement toTheme colorPrimary;
 		  disabledStateValue: anElement toTheme colorBgContainerDisabled;
 		  pressedStateValue: (ToStateValue new value: anElement toTheme colorPrimaryPressed; duration: 200 milliSeconds; yourself);
-		  hoverStateValue: (ToStateValue new value: anElement toTheme colorPrimaryHover; duration: 200 milliSeconds; yourself);
+		  hoveredStateValue: (ToStateValue new value: anElement toTheme colorPrimaryHover; duration: 200 milliSeconds; yourself);
 		  yourself
 ]
 

@@ -31,6 +31,12 @@ ToSinglePropertyLook >> clickLookEvent: anEvent [
 			self switchToNewValue: bg in: e ] ]
 ]
 
+{ #category : #initialization }
+ToSinglePropertyLook >> defaultInitialValue [
+
+	^ self subclassResponsibility 
+]
+
 { #category : #'event handling' }
 ToSinglePropertyLook >> disabledLookEvent: anEvent [
 
@@ -87,7 +93,7 @@ ToSinglePropertyLook >> initialLookEvent: anEvent [
 { #category : #accessing }
 ToSinglePropertyLook >> initialStateValue [
 
-	^ initialValue ifNil: [ initialValue := Color transparent asStateValue ]
+	^ initialValue ifNil: [ initialValue := self defaultInitialValue ]
 ]
 
 { #category : #accessing }

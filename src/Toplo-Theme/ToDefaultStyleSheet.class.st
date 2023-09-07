@@ -40,11 +40,13 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 						  initialStateValue: [ :e | Color transparent ];
 						  yourself).
 					 (ToBorderLook new
-						  disabledPaint: [ :e | e toTheme colorBorderDisabled ];
-						  initialPaint: [ :e | e toTheme colorBorder ];
-						  hoverPaint: [ :e | e toTheme colorPrimaryHover ];
-						  pressedPaint: [ :e | e toTheme colorPrimaryPressed ];
-						  width: [ :e | e toTheme lineWidth ];
+						  disabledStateValue: [ :e |
+							  e toTheme colorBorderDisabled asBlBorder ];
+						  initialStateValue: [ :e | e toTheme colorBorder asBlBorder ];
+						  hoverStateValue: [ :e |
+							  e toTheme colorPrimaryHover asBlBorder ];
+						  pressedStateValue: [ :e |
+							  e toTheme colorPrimaryPressed asBlBorder ];
 						  yourself) }).
 
 	" default button form icon "
@@ -81,12 +83,13 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 						  initialStateValue: [ :e | Color transparent ];
 						  yourself).
 					 (ToBorderLook new
-						  disabledPaint: [ :e | e toTheme colorBorderDisabled ];
-						  initialPaint: [ :e | e toTheme colorBorder ];
-						  hoverPaint: [ :e | e toTheme colorPrimaryHover ];
-						  pressedPaint: [ :e | e toTheme colorPrimaryPressed ];
-						  dashArray: [ :e | e toTheme dashArray ];
-						  width: [ :e | e toTheme lineWidth ];
+						  disabledStateValue: [ :e |
+							  e toTheme colorBorderDisabled asBlBorder ];
+						  initialStateValue: [ :e | e toTheme colorBorder asBlBorder ];
+						  hoverStateValue: [ :e |
+							  e toTheme colorPrimaryHover asBlBorder ];
+						  pressedStateValue: [ :e |
+							  e toTheme colorPrimaryPressed asBlBorder ];
 						  yourself) }).
 
 	" ToButton default danger"
@@ -99,11 +102,12 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 						  initialStateValue: [ :e | Color transparent ];
 						  yourself).
 					 (ToBorderLook new
-						  disabledPaint: [ :e | e toTheme colorBorderDisabled ];
-						  initialPaint: [ :e | e toTheme colorError ];
-						  hoverPaint: [ :e | e toTheme colorErrorHover ];
-						  pressedPaint: [ :e | e toTheme colorErrorHover darker ];
-						  width: [ :e | e toTheme lineWidth ];
+						  disabledStateValue: [ :e |
+							  e toTheme colorBorderDisabled asBlBorder ];
+						  initialStateValue: [ :e | e toTheme colorError asBlBorder ];
+						  hoverStateValue: [ :e | e toTheme colorErrorHover asBlBorder ];
+						  pressedStateValue: [ :e |
+							  e toTheme colorErrorHover darker asBlBorder ];
 						  yourself) }).
 
 	" ToButton default danger dashed"
@@ -117,12 +121,12 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 						  initialStateValue: [ :e | Color transparent ];
 						  yourself).
 					 (ToBorderLook new
-						  disabledPaint: [ :e | e toTheme colorBorderDisabled ];
-						  initialPaint: [ :e | e toTheme colorError ];
-						  hoverPaint: [ :e | e toTheme colorErrorHover ];
-						  dashArray: [ :e | e toTheme dashArray ];
-						  pressedPaint: [ :e | e toTheme colorErrorHover darker ];
-						  width: [ :e | e toTheme lineWidth ];
+						  disabledStateValue: [ :e |
+							  e toTheme colorBorderDisabled asBlBorder ];
+						  initialStateValue: [ :e | e toTheme colorError asBlBorder ];
+						  hoverStateValue: [ :e | e toTheme colorErrorHover asBlBorder ];
+						  pressedStateValue: [ :e |
+							  e toTheme colorErrorHover darker asBlBorder ];
 						  yourself) }).
 
 	" danger button form icon "
@@ -170,12 +174,16 @@ ToDefaultStyleSheet >> addPrimaryButtonRules [
 					 (ToBackgroundLook new
 						  initialStateValue: [ :e | e toTheme colorPrimary ];
 						  disabledStateValue: [ :e | e toTheme colorBgContainerDisabled ];
-						  pressedStateValue: ([ :e | e toTheme colorPrimaryPressed ] asStateValue duration: 200 milliSeconds);
-						  hoverStateValue: ([ :e | e toTheme colorPrimaryHover ] asStateValue duration: 200 milliSeconds);
+						  pressedStateValue:
+							  ([ :e | e toTheme colorPrimaryPressed ] asStateValue
+								   duration: 200 milliSeconds);
+						  hoverStateValue:
+							  ([ :e | e toTheme colorPrimaryHover ] asStateValue duration:
+									   200 milliSeconds);
 						  yourself).
 					 (ToBorderLook new
-						  initialPaint: [ :e | Color transparent ];
-						  disabledPaint: [ :e | e toTheme colorBorderDisabled ];
+						  initialStateValue: [ :e | Color transparent ];
+						  disabledStateValue: [ :e | e toTheme colorBorderDisabled ];
 						  width: [ :e | e toTheme lineWidth ];
 						  yourself) }).
 
@@ -188,12 +196,16 @@ ToDefaultStyleSheet >> addPrimaryButtonRules [
 					 (ToBackgroundLook new
 						  initialStateValue: [ :e | e toTheme colorError ];
 						  disabledStateValue: [ :e | e toTheme colorBgContainerDisabled ];
-						  pressedStateValue: ([ :e | e toTheme colorErrorPressed ] asStateValue duration: 200 milliSeconds);
-						  hoverStateValue: ([ :e | e toTheme colorErrorHover ] asStateValue duration: 200 milliSeconds);
+						  pressedStateValue:
+							  ([ :e | e toTheme colorErrorPressed ] asStateValue duration:
+									   200 milliSeconds);
+						  hoverStateValue:
+							  ([ :e | e toTheme colorErrorHover ] asStateValue duration:
+									   200 milliSeconds);
 						  yourself).
 					 (ToBorderLook new
-						  initialPaint: [ :e | Color transparent ];
-						  disabledPaint: [ :e | e toTheme colorBorderDisabled ];
+						  initialStateValue: [ :e | Color transparent ];
+						  disabledStateValue: [ :e | e toTheme colorBorderDisabled ];
 						  width: [ :e | e toTheme lineWidth ];
 						  yourself) })
 ]

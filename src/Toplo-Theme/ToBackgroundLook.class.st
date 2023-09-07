@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Theme-Look'
 }
 
+{ #category : #initialization }
+ToBackgroundLook >> defaultInitialValue [
+
+	^ Color transparent asStateValue
+]
+
 { #category : #'deprecated accessing' }
 ToBackgroundLook >> disabledColor [
 

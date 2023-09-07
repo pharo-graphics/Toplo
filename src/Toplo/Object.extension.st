@@ -1,6 +1,12 @@
 Extension { #name : #Object }
 
 { #category : #'*Toplo' }
+Object >> asStateValue [
+
+	^ ToStateValue new value: self
+]
+
+{ #category : #'*Toplo' }
 Object >> deprecatedInsteadOf: aString use: aStringToUse [
 	"Automatically tranform the deprecated call"
 

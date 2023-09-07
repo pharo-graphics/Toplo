@@ -8,8 +8,8 @@ Class {
 ToButtonPrimaryType >> basicButtonBorderLookIn: anElement [
 
 	^ ToBorderLook new
-		  disabledPaint: [ :e | e toTheme colorBorderDisabled ];
-		  initialPaint: [ :e | Color transparent ];
+		  disabledStateValue: [ :e | e toTheme colorBorderDisabled ];
+		  initialStateValue: [ :e | Color transparent ];
 		  width: [ :e | e toTheme lineWidth ];
 		  yourself
 ]

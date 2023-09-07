@@ -26,16 +26,13 @@ ToBorderLookTest >> testWithBorder [
 	w := ToElement new.
 	skin := ToWidgetSkin new.
 	skin addLook: (ToBorderLook new
-				disabledPaint: [ :e | Color red ];
-				initialPaint: [ :e | Color gray];
-				hoverPaint: [ :e | Color blue];
-				pressedPaint: [ :e | Color white ];
-				width: [ :e | e toTheme lineWidth ];
-				dashArray: [ :e | #(0 5) ]).
+				disabledStateValue:  (BlBorder paint: Color red);
+				initialStateValue: (BlBorder paint: Color gray);
+				hoverStateValue: (BlBorder paint: Color blue);
+				pressedStateValue: (BlBorder paint: Color white)).
 	w withSkin: skin.
 	w switchToSkinState: ToInitialState new.
 	self assert: w border width equals: 1.
-	self assert: w border style dashArray equals: #(0 5).
 	self assert: w border paint color equals: Color gray.
 	w switchToSkinState: ToDisabledState new.
 	self assert: w border paint color equals: Color red.

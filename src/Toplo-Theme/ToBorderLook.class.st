@@ -1,6 +1,6 @@
 Class {
 	#name : #ToBorderLook,
-	#superclass : #ToElementLook,
+	#superclass : #ToSinglePropertyLook,
 	#instVars : [
 		'builder',
 		'pressedPaint',
@@ -14,13 +14,13 @@ Class {
 	#category : #'Toplo-Theme-Look'
 }
 
-{ #category : #accessing }
+{ #category : #'depecated accessing' }
 ToBorderLook >> builder [
 
 	^ builder
 ]
 
-{ #category : #accessing }
+{ #category : #'depecated accessing' }
 ToBorderLook >> builder: aBuilder [
 
 	builder := aBuilder
@@ -44,13 +44,13 @@ ToBorderLook >> clickLookEvent: anEvent [
 		e addAnimation: anim ]
 ]
 
-{ #category : #accessing }
+{ #category : #'depecated accessing' }
 ToBorderLook >> dashArray [
 
 	^ dashArray
 ]
 
-{ #category : #accessing }
+{ #category : #'depecated accessing' }
 ToBorderLook >> dashArray: aValuable [
 
 	dashArray := aValuable
@@ -80,25 +80,25 @@ ToBorderLook >> disabledLookEvent: anEvent [
 				 build) ]
 ]
 
-{ #category : #accessing }
+{ #category : #'depecated accessing' }
 ToBorderLook >> disabledPaint [
 
 	^ disabledPaint
 ]
 
-{ #category : #accessing }
+{ #category : #'depecated accessing' }
 ToBorderLook >> disabledPaint: aValuable [
 
 	disabledPaint := aValuable
 ]
 
-{ #category : #accessing }
+{ #category : #'depecated accessing' }
 ToBorderLook >> hoverPaint [
 
 	^ hoverPaint
 ]
 
-{ #category : #accessing }
+{ #category : #'depecated accessing' }
 ToBorderLook >> hoverPaint: aValuable [
 
 	hoverPaint := aValuable
@@ -131,13 +131,13 @@ ToBorderLook >> initialLookEvent: anEvent [
 				 build) ]
 ]
 
-{ #category : #accessing }
+{ #category : #'depecated accessing' }
 ToBorderLook >> initialPaint [
 
 	^ initialPaint ifNil: [ initialPaint := [ :e | Color transparent ] ]
 ]
 
-{ #category : #accessing }
+{ #category : #'depecated accessing' }
 ToBorderLook >> initialPaint: aValuable [
 
 	initialPaint := aValuable
@@ -165,13 +165,13 @@ ToBorderLook >> pressedLookEvent: anEvent [
 				 build) ]
 ]
 
-{ #category : #accessing }
+{ #category : #'depecated accessing' }
 ToBorderLook >> pressedPaint [
 
 	^ pressedPaint
 ]
 
-{ #category : #accessing }
+{ #category : #'depecated accessing' }
 ToBorderLook >> pressedPaint: aValuable [
 
 	pressedPaint := aValuable
@@ -191,25 +191,25 @@ ToBorderLook >> selectedLookEvent: anEvent [
 				 build) ]
 ]
 
-{ #category : #accessing }
+{ #category : #'depecated accessing' }
 ToBorderLook >> selectedPaint [
 
 	^ selectedPaint
 ]
 
-{ #category : #accessing }
+{ #category : #'depecated accessing' }
 ToBorderLook >> selectedPaint: aValuable [
 
 	selectedPaint := aValuable
 ]
 
-{ #category : #accessing }
+{ #category : #'depecated accessing' }
 ToBorderLook >> width [
 
 	^ width
 ]
 
-{ #category : #accessing }
+{ #category : #'depecated accessing' }
 ToBorderLook >> width: aValuable [
 	
 	width := aValuable

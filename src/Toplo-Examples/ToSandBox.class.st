@@ -1529,6 +1529,9 @@ ToSandBox class >> example_ToButtonWithDefaultSkin0 [
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 
 	button1 := ToButton2 new.
+	button1 addStyleClass: #primary.
+	button1 addStyleClass: #danger.
+	button1 withSkin: (button1 toTheme skinFor: button1).
 	button1 label: (ToLabel text: 'Primary button').
 	button1 label withSkin: (button1 toTheme skinFor: button1 label).
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).

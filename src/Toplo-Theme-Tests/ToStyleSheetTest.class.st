@@ -17,9 +17,9 @@ ToStyleSheetTest >> testButtonSkin0 [
 	ss addRule: (ToStyleRule new
 			 selectors: { (ToClassSelector new elementClass: #button) }
 			 looks: {
-					 (ToBackgroundColorLook new
-						  disabledColor: [ :e | e toTheme colorBgContainerDisabled ];
-						  initialColor: [ :e | Color transparent ];
+					 (ToBackgroundLook new
+						  disabledStateValue: [ :e | e toTheme colorBgContainerDisabled ];
+						  initialStateValue: [ :e | Color transparent ];
 						  yourself).
 					 (ToBorderLook new
 						  disabledPaint: [ :e | e toTheme colorBorderDisabled ];
@@ -31,9 +31,10 @@ ToStyleSheetTest >> testButtonSkin0 [
 
 	" danger button label rule "
 	ss addRule: (ToStyleRule new
-			 selectors:
-				 { ((ToClassSelector new elementClass: #'button-label') parent:
-					  (ToClassSelector new elementClasses: #( #button #danger )) level: 2) }
+			 selectors: { ((ToClassSelector new elementClass: #'button-label')
+					  parent:
+					  (ToClassSelector new elementClasses: #( #button #danger ))
+					  level: 2) }
 			 looks: { (ToLabelTextLook new
 					  disabledColor: [ :e | e toTheme colorTextDisabled ];
 					  initialColor: [ :e | e toTheme colorError ];
@@ -67,7 +68,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 	looks := ss looksFor: button label.
 	" should be empty since the label rule expect the button to be of class #danger "
 	self assert: looks isEmpty.
-	button styleClasses: #( #button #danger).
+	button styleClasses: #( #button #danger ).
 	looks := ss looksFor: button label.
 	self assert: looks size equals: 1.
 
@@ -92,19 +93,20 @@ ToStyleSheetTest >> testButtonSkin1 [
 
 	| ss button looks skin labelSkin attributes foregroundAttr |
 	ss := ToStyleSheet new.
-	
+
 	" default button rule "
 	ss addRule: (ToStyleRule new
 			 selectors: { (ToClassSelector new elementClass: #button) }
-			 looks: {
-					 (ToBackgroundColorLook new
-						  disabledColor: [ :e | e toTheme colorBgContainerDisabled ];
-						  initialColor: [ :e | Color gray ];
-						  yourself) } ).
+			 looks: { (ToBackgroundLook new
+					  disabledStateValue: [ :e | e toTheme colorBgContainerDisabled ];
+					  initialStateValue: [ :e | Color gray ];
+					  yourself) }).
 
 	ss addRule: (ToStyleRule new
 			 selectors: { ((ToClassSelector new elementClass: #label)
-					  parent: (ToClassSelector new elementClass: #'triplet-inner-element') level: 1) }
+					  parent:
+					  (ToClassSelector new elementClass: #'triplet-inner-element')
+					  level: 1) }
 			 looks: { (ToLabelTextLook new
 					  disabledColor: [ :e | e toTheme colorTextDisabled ];
 					  initialColor: [ :e | e toTheme colorText ];
@@ -116,7 +118,7 @@ ToStyleSheetTest >> testButtonSkin1 [
 	button := ToButton new.
 	looks := ss looksFor: button.
 	self assert: looks size equals: 1.
-	self assert: looks first class equals: ToBackgroundColorLook.
+	self assert: looks first class equals: ToBackgroundLook.
 
 	button labelText: 'Default'.
 	looks := ss looksFor: button label.
@@ -129,19 +131,19 @@ ToStyleSheetTest >> testButtonSkin2 [
 
 	| ss button looks skin labelSkin attributes foregroundAttr |
 	ss := ToStyleSheet new.
-	
+
 	" default button rule "
 	ss addRule: (ToStyleRule new
 			 selectors: { (ToClassSelector new elementClass: #button) }
-			 looks: {
-					 (ToBackgroundColorLook new
-						  disabledColor: [ :e | e toTheme colorBgContainerDisabled ];
-						  initialColor: [ :e | Color gray ];
-						  yourself) } ).
+			 looks: { (ToBackgroundLook new
+					  disabledStateValue: [ :e | e toTheme colorBgContainerDisabled ];
+					  initialStateValue: [ :e | Color gray ];
+					  yourself) }).
 
 	ss addRule: (ToStyleRule new
 			 selectors: { ((ToClassSelector new elementClass: #label)
-					  parent: (ToClassSelector new elementClass: #'button') level: 2) }
+					  parent: (ToClassSelector new elementClass: #button)
+					  level: 2) }
 			 looks: { (ToLabelTextLook new
 					  disabledColor: [ :e | e toTheme colorTextDisabled ];
 					  initialColor: [ :e | e toTheme colorText ];
@@ -153,7 +155,7 @@ ToStyleSheetTest >> testButtonSkin2 [
 	button := ToButton new.
 	looks := ss looksFor: button.
 	self assert: looks size equals: 1.
-	self assert: looks first class equals: ToBackgroundColorLook.
+	self assert: looks first class equals: ToBackgroundLook.
 
 	button labelText: 'Default'.
 	looks := ss looksFor: button label.
@@ -170,26 +172,30 @@ ToStyleSheetTest >> testButtonSkin3 [
 	" default button rule "
 	ss addRule: (ToStyleRule new
 			 selectors: { (ToClassSelector new elementClass: #button) }
-			 looks: { (ToBackgroundColorLook new
-					  initialColor: [ :e | Color gray ];
+			 looks: { (ToBackgroundLook new
+					  initialStateValue: Color gray;
 					  yourself) }).
 	ss addRule: (ToStyleRule new
 			 selectors:
 			 { (ToClassSelector new elementClasses: #( #button #danger )) }
-			 looks: { (ToBackgroundColorLook new
-					  initialColor: [ :e | Color red ];
+			 looks: { (ToBackgroundLook new
+					  initialStateValue: Color red;
 					  yourself) }).
 
 	button := ToButton new.
 	looks := ss looksFor: button.
 	self assert: looks size equals: 1.
-	self assert: looks first class equals: ToBackgroundColorLook.
-	self assert: (looks first initialColor value: nil) equals: Color gray.
+	self assert: looks first class equals: ToBackgroundLook.
+	self
+		assert: (looks first initialStateValue valueIn: nil)
+		equals: Color gray.
 	button addStyleClass: #danger.
 	looks := ss looksFor: button.
 	self assert: looks size equals: 1.
-	self assert: looks first class equals: ToBackgroundColorLook.
-	self assert: (looks first initialColor value: nil) equals: Color red
+	self assert: looks first class equals: ToBackgroundLook.
+	self
+		assert: (looks first initialStateValue valueIn: nil)
+		equals: Color red
 ]
 
 { #category : #'button skin building' }
@@ -197,24 +203,23 @@ ToStyleSheetTest >> testButtonSkin4 [
 
 	| ss button looks |
 	ss := ToStyleSheet new.
-	
+
 	" default button rule "
 	ss addRule: (ToStyleRule new
-			 selectors: { (ToClassSelector new elementClasses: #(#button #danger) ) }
-			 looks: {
-					 (ToBackgroundColorLook new
-						  initialColor: [ :e | Color red ];
-						  yourself) } ).
-						
+			 selectors:
+			 { (ToClassSelector new elementClasses: #( #button #danger )) }
+			 looks: { (ToBackgroundLook new
+					  initialStateValue: [ :e | Color red ];
+					  yourself) }).
+
 	button := ToButton new.
 	looks := ss looksFor: button.
 	self assert: looks size equals: 0.
 	button addStyleClass: #danger.
 	looks := ss looksFor: button.
 	self assert: looks size equals: 1.
-	self assert: looks first class equals: ToBackgroundColorLook.
-	self assert: (looks first initialColor value: nil) = Color red.
-
+	self assert: looks first class equals: ToBackgroundLook.
+	self assert: (looks first initialStateValue valueIn: nil) = Color red
 ]
 
 { #category : #'button skin building' }
@@ -222,25 +227,23 @@ ToStyleSheetTest >> testButtonSkin5 [
 
 	| ss button looks |
 	ss := ToStyleSheet new.
-	
+
 	" default button rule "
 	ss addRule: (ToStyleRule new
-			 selectors: { (ToClassSelector new elementClasses: #(#button ) ) }
-			 looks: {
-					 (ToBackgroundColorLook new
-						  initialColor: [ :e | Color red ];
-						  yourself) } ).
-						
+			 selectors: { (ToClassSelector new elementClasses: #( #button )) }
+			 looks: { (ToBackgroundLook new
+					  initialStateValue: [ :e | Color red ];
+					  yourself) }).
+
 	button := ToButton new.
 	looks := ss looksFor: button.
 	self assert: looks size equals: 1.
-	self assert: looks first class equals: ToBackgroundColorLook.
-	self assert: (looks first initialColor value: nil) = Color red.
+	self assert: looks first class equals: ToBackgroundLook.
+	self assert: (looks first initialStateValue valueIn: nil) = Color red.
 
 	button addStyleClass: #danger.
 	looks := ss looksFor: button.
-	self assert: looks size equals: 0.
-
+	self assert: looks size equals: 0
 ]
 
 { #category : #basic }

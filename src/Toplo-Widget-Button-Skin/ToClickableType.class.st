@@ -38,7 +38,7 @@ ToClickableType >> basicButtonLabelSkinIn: anElement [
 { #category : #'checkable button' }
 ToClickableType >> checkableButtonBackgroundLookIn: anElement [
 
-	^ ToBackgroundColorLook new
+	^ ToBackgroundLook new
 ]
 
 { #category : #'checkable button' }
@@ -74,9 +74,9 @@ ToClickableType >> danger: aBoolean [
 { #category : #'api - install/uninstall  hook' }
 ToClickableType >> dangerBackgroundLookIn: anElement [
 
-	^ ToBackgroundColorLook new
-		  disabledColor: [ :e | e toTheme colorBgContainerDisabled ];
-		  initialColor: [ :e | Color transparent ];
+	^ ToBackgroundLook new
+		  disabledStateValue: anElement toTheme colorBgContainerDisabled;
+		  initialStateValue: Color transparent;
 		  yourself
 ]
 
@@ -151,7 +151,7 @@ ToClickableType >> selectInnerButtonIconSkinIn: anElement [
 { #category : #'toggle button' }
 ToClickableType >> toggleButtonBackgroundLookIn: anElement [
 
-	^ ToBackgroundColorLook new
+	^ ToBackgroundLook new
 ]
 
 { #category : #'toggle button' }

@@ -52,9 +52,9 @@ ToButtonDefaultType >> dashed: aBoolean [
 { #category : #'api - install/uninstall  hook' }
 ToButtonDefaultType >> regularBackgroundLookIn: anElement [
 
-	^ ToBackgroundColorLook new
-		  disabledColor: [ :e | e toTheme colorBgContainerDisabled ];
-		  initialColor: [ :e | Color transparent ];
+	^ ToBackgroundLook new
+		  disabledStateValue: anElement toTheme colorBgContainerDisabled;
+		  initialStateValue: Color transparent;
 		  yourself
 ]
 

@@ -1,6 +1,7 @@
 Class {
 	#name : #ToElementLook,
 	#superclass : #ToAbstractLook,
+	#classTraits : 'TBlAnnounceable classTrait',
 	#instVars : [
 		'next'
 	],
@@ -111,7 +112,19 @@ ToElementLook >> selectedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToElementLook >> stateValueChangeLookEvent: anEvent [
+]
+
+{ #category : #'event handling' }
 ToElementLook >> uninstallLookEvent: anEvent [
 
 	super uninstallLookEvent: anEvent
+]
+
+{ #category : #'property value change' }
+ToElementLook >> valueOf: anObject in: anElement [
+
+	^ anObject isClosure
+		  ifTrue: [ anObject value: anElement ]
+		  ifFalse: [ anObject ]
 ]

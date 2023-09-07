@@ -1,9 +1,6 @@
 Class {
 	#name : #ToSkinnableSlot,
 	#superclass : #IndexedSlot,
-	#instVars : [
-		'widgetSkinHandler'
-	],
 	#category : #'Toplo-Core-Slots'
 }
 

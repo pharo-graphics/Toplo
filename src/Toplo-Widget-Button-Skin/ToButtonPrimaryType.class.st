@@ -29,23 +29,22 @@ ToButtonPrimaryType >> basicButtonLabelSkinIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToButtonPrimaryType >> dangerBackgroundLookIn: anElement [
 
-	^ ToBackgroundColorLook new
-		  initialColor: [ :e | e toTheme colorError ];
-		  disabledColor: [ :e | e toTheme colorBgContainerDisabled ];
-		  pressedColor: [ :e | e toTheme colorErrorPressed ];
-		  hoverColor: [ :e | e toTheme colorErrorHover ];
+	^ ToBackgroundLook new
+		  initialStateValue: anElement toTheme colorError;
+		  disabledStateValue: anElement toTheme colorBgContainerDisabled;
+		  pressedStateValue: (anElement toTheme colorErrorPressed asStateValue duration: 200 milliSeconds; yourself);
+		  hoverStateValue: (anElement toTheme colorErrorHover asStateValue duration: 200 milliSeconds; yourself);
 		  yourself
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToButtonPrimaryType >> regularBackgroundLookIn: anElement [
 
-	^ ToBackgroundColorLook new
-		  initialColor: [ :e | e toTheme colorPrimary ];
-		  disabledColor: [ :e | e toTheme colorBgContainerDisabled ];
-		  pressedColor: [ :e | e toTheme colorPrimaryPressed ];
-		  hoverColor: [ :e | e toTheme colorPrimaryHover ];
-		  duration: 200 milliSeconds;
+	^ ToBackgroundLook new
+		  initialStateValue: anElement toTheme colorPrimary;
+		  disabledStateValue: anElement toTheme colorBgContainerDisabled;
+		  pressedStateValue: (ToStateValue new value: anElement toTheme colorPrimaryPressed; duration: 200 milliSeconds; yourself);
+		  hoverStateValue: (ToStateValue new value: anElement toTheme colorPrimaryHover; duration: 200 milliSeconds; yourself);
 		  yourself
 ]
 

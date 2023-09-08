@@ -9,9 +9,3 @@ ToSelectedState >> applyOn: anElement [
 
 	anElement dispatchLookEvent: ToSelectedLookEvent new
 ]
-
-{ #category : #testing }
-ToSelectedState >> isSelectedState [
-
-	^ true
-]

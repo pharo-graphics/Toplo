@@ -14,6 +14,12 @@ Class {
 	#category : #'Toplo-Theme-Look'
 }
 
+{ #category : #testing }
+ToLabelTextLook class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #accessing }
 ToLabelTextLook >> attributes [
 

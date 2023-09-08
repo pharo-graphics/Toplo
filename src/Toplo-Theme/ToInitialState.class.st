@@ -9,9 +9,3 @@ ToInitialState >> applyOn: anElement [
 
 	anElement dispatchLookEvent: ToInitialLookEvent new
 ]
-
-{ #category : #testing }
-ToInitialState >> isInitialState [
-
-	^ true
-]

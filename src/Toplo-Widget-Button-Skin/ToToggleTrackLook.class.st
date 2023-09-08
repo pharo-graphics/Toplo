@@ -32,9 +32,9 @@ ToToggleTrackLook >> animationDuration [
 ]
 
 { #category : #'event handling' }
-ToToggleTrackLook >> clickLookEvent: anEvent [
+ToToggleTrackLook >> clickedLookEvent: anEvent [
 
-	super clickLookEvent: anEvent.
+	super clickedLookEvent: anEvent.
 	anEvent elementDo: [ :e | self syncAppearanceIn: e ]
 ]
 

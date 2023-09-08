@@ -15,13 +15,13 @@ ToElementLook class >> next: aLook [
 ]
 
 { #category : #'event handling' }
-ToElementLook >> clickLookEvent: anEvent [
+ToElementLook >> clickedLookEvent: anEvent [
 
 
 ]
 
 { #category : #'event handling' }
-ToElementLook >> closeLookEvent: anEvent [
+ToElementLook >> closedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
@@ -87,7 +87,7 @@ ToElementLook >> next: aLook [
 ]
 
 { #category : #'event handling' }
-ToElementLook >> openLookEvent: anEvent [
+ToElementLook >> openedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
@@ -109,10 +109,6 @@ ToElementLook >> removeLook: aLook previous: previousLook [
 { #category : #'event handling' }
 ToElementLook >> selectedLookEvent: anEvent [
 
-]
-
-{ #category : #'event handling' }
-ToElementLook >> stateValueChangeLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }

@@ -4,11 +4,19 @@ Class {
 	#category : #'Toplo-Theme-Look'
 }
 
+{ #category : #testing }
+ToBackgroundLook class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #private }
 ToBackgroundLook >> apply: aStateValue on: anElement [
 
-	| currentColor newColor currentBackground bg |
+	| currentColor newColor currentBackground bg bgv |
 	
+	bgv := aStateValue valueIn: anElement.
+	bgv ifNil: [ ^ self ].
 	bg := (aStateValue valueIn: anElement) asBlBackground.
 	(aStateValue animationDuration isZero or: [ bg isColorBackground not ])
 		ifTrue: [ ^ anElement background: bg ].
@@ -28,24 +36,18 @@ ToBackgroundLook >> apply: aStateValue on: anElement [
 	anElement addAnimation: animation
 ]
 
-{ #category : #initialization }
-ToBackgroundLook >> defaultInitialValue [
-
-	^ Color transparent asStateValue
-]
-
 { #category : #'deprecated accessing' }
 ToBackgroundLook >> disabledColor [
 
 	self deprecatedInsteadOf: 'disabledColor' use: 'disabledStateValue'.
-	^ self disabledStateValue
+	^ self disabledValue
 ]
 
 { #category : #'deprecated accessing' }
 ToBackgroundLook >> disabledColor: aValuable [
 
 	self deprecatedInsteadOf: 'disabledColor:' use: 'disabledStateValue:'.
-	self disabledStateValue: aValuable
+	self disabledValue: aValuable
 ]
 
 { #category : #'deprecated accessing' }
@@ -59,54 +61,54 @@ ToBackgroundLook >> hoverColor [
 
 	self deprecatedInsteadOf: 'hoverColor' use: 'hoveredStateValue'.
 
-	^ self hoveredStateValue
+	^ self hoveredValue
 ]
 
 { #category : #'deprecated accessing' }
 ToBackgroundLook >> hoverColor: aValuable [
 
 	self deprecatedInsteadOf: 'hoverColor:' use: 'hoveredStateValue:'.
-	self hoveredStateValue: aValuable
+	self hoveredValue: aValuable
 ]
 
 { #category : #'deprecated accessing' }
 ToBackgroundLook >> initialColor [
 
 	self deprecatedInsteadOf: 'initialColor' use: 'initialStateValue'.
-	^ self initialStateValue
+	^ self initialValue
 ]
 
 { #category : #'deprecated accessing' }
 ToBackgroundLook >> initialColor: aValuable [
 
 	self deprecatedInsteadOf: 'initialColor:' use: 'initialStateValue:'.
-	self initialStateValue: aValuable
+	self initialValue: aValuable
 ]
 
 { #category : #'deprecated accessing' }
 ToBackgroundLook >> pressedColor [
 
 	self deprecatedInsteadOf: 'pressedColor' use: 'pressedStateValue'.
-	^ self pressedStateValue
+	^ self pressedValue
 ]
 
 { #category : #'deprecated accessing' }
 ToBackgroundLook >> pressedColor: aValuable [
 
 	self deprecatedInsteadOf: 'pressedColor:' use: 'pressedStateValue:'.
-	self pressedStateValue: aValuable
+	self pressedValue: aValuable
 ]
 
 { #category : #'deprecated accessing' }
 ToBackgroundLook >> selectedColor [
 
 	self deprecatedInsteadOf: 'selectedColor' use: 'selectedStateValue'.
-	^ self selectedStateValue
+	^ self selectedValue
 ]
 
 { #category : #'deprecated accessing' }
 ToBackgroundLook >> selectedColor: anObject [
 
 	self deprecatedInsteadOf: 'selectedColor:' use: 'selectedStateValue:'.
-	self selectedStateValue: anObject
+	self selectedValue: anObject
 ]

@@ -14,14 +14,16 @@ ToCheckableButtonIconSkin >> geometryIn: anElement [
 ToCheckableButtonIconSkin >> onSkinInstalledIn: anElement [
 
 	| borderLook |
+
 	super onSkinInstalledIn: anElement.
 	anElement geometry: (self geometryIn: anElement).
-	borderLook := ToBorderLook new
-		              disabledStateValue: [ :e |
+	borderLook := ToLook new
+		              applyWith: [ :e :v | e border: v asBlBorder ];
+		              disabledValue: [ :e |
 			              e toTheme colorBorderDisabled ];
-		              initialStateValue: [ :e | e toTheme colorBorder ];
-		              hoveredStateValue: [ :e | e toTheme colorPrimaryHover ];
-		              pressedStateValue: [ :e |
+		              initialValue: [ :e | e toTheme colorBorder ];
+		              hoveredValue: [ :e | e toTheme colorPrimaryHover ];
+		              pressedValue: [ :e |
 			              e toTheme colorPrimaryPressed ].
 	self addLook: borderLook
 ]

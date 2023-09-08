@@ -4,20 +4,14 @@ Class {
 	#category : #'Toplo-Theme-Look'
 }
 
-{ #category : #accessing }
-ToMouseCursorLook class >> next: aLook [
+{ #category : #testing }
+ToMouseCursorLook class >> isDeprecated [ 
 
-	^ self new next: aLook
+	^ true
 ]
 
 { #category : #private }
 ToMouseCursorLook >> apply: aStateValue on: anElement [
 
 	anElement mouseCursor: (aStateValue valueIn: anElement)
-]
-
-{ #category : #initialization }
-ToMouseCursorLook >> defaultInitialValue [
-
-	^ nil asStateValue
 ]

@@ -11,6 +11,12 @@ Class {
 	#category : #'Toplo-Theme-Look'
 }
 
+{ #category : #testing }
+ToWindowLook class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #accessing }
 ToWindowLook >> closeAction [
 
@@ -24,9 +30,9 @@ ToWindowLook >> closeAction: aValuable [
 ]
 
 { #category : #'event handling' }
-ToWindowLook >> closeLookEvent: anEvent [
+ToWindowLook >> closedLookEvent: anEvent [
 
-	super closeLookEvent: anEvent.		
+	super closedLookEvent: anEvent.		
 	anEvent elementDo: [ :e |
 		self closeAction ifNotNil: [ :a | a value: e ] ]
 ]
@@ -104,9 +110,9 @@ ToWindowLook >> openAction: aValuable [
 ]
 
 { #category : #'event handling' }
-ToWindowLook >> openLookEvent: anEvent [
+ToWindowLook >> openedLookEvent: anEvent [
 
-	super openLookEvent: anEvent.		
+	super openedLookEvent: anEvent.		
 	anEvent elementDo: [ :e |
 		self openAction ifNotNil: [ :a | a value: e ] ]
 ]

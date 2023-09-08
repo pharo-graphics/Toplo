@@ -1,11 +1,11 @@
 Class {
-	#name : #ToCloseLookEvent,
+	#name : #ToClickedLookEvent,
 	#superclass : #ToElementLookEvent,
 	#category : #'Toplo-Theme-Look-Event'
 }
 
 { #category : #sending }
-ToCloseLookEvent >> sendToLook: aLook [
+ToClickedLookEvent >> sendToLook: aLook [
 
-	aLook closeLookEvent: self
+	aLook clickedLookEvent: self
 ]

@@ -18,14 +18,14 @@ ToStyleSheetTest >> testButtonSkin0 [
 			 selectors: { (ToClassSelector new elementClass: #button) }
 			 looks: {
 					 (ToBackgroundLook new
-						  disabledStateValue: [ :e | e toTheme colorBgContainerDisabled ];
-						  initialStateValue: [ :e | Color transparent ];
+						  disabledValue: [ :e | e toTheme colorBgContainerDisabled ];
+						  initialValue: [ :e | Color transparent ];
 						  yourself).
 					 (ToBorderLook new
-						  disabledStateValue: [ :e | e toTheme colorBorderDisabled ];
-						  initialStateValue: [ :e | e toTheme colorBorder ];
-						  hoveredStateValue: [ :e | e toTheme colorPrimaryHover ];
-						  pressedStateValue:
+						  disabledValue: [ :e | e toTheme colorBorderDisabled ];
+						  initialValue: [ :e | e toTheme colorBorder ];
+						  hoveredValue: [ :e | e toTheme colorPrimaryHover ];
+						  pressedValue:
 							  [ :e | e toTheme colorPrimaryPressed ] yourself) }).
 
 	" danger button label rule "
@@ -97,8 +97,8 @@ ToStyleSheetTest >> testButtonSkin1 [
 	ss addRule: (ToStyleRule new
 			 selectors: { (ToClassSelector new elementClass: #button) }
 			 looks: { (ToBackgroundLook new
-					  disabledStateValue: [ :e | e toTheme colorBgContainerDisabled ];
-					  initialStateValue: [ :e | Color gray ];
+					  disabledValue: [ :e | e toTheme colorBgContainerDisabled ];
+					  initialValue: [ :e | Color gray ];
 					  yourself) }).
 
 	ss addRule: (ToStyleRule new
@@ -135,8 +135,8 @@ ToStyleSheetTest >> testButtonSkin2 [
 	ss addRule: (ToStyleRule new
 			 selectors: { (ToClassSelector new elementClass: #button) }
 			 looks: { (ToBackgroundLook new
-					  disabledStateValue: [ :e | e toTheme colorBgContainerDisabled ];
-					  initialStateValue: [ :e | Color gray ];
+					  disabledValue: [ :e | e toTheme colorBgContainerDisabled ];
+					  initialValue: [ :e | Color gray ];
 					  yourself) }).
 
 	ss addRule: (ToStyleRule new
@@ -172,13 +172,13 @@ ToStyleSheetTest >> testButtonSkin3 [
 	ss addRule: (ToStyleRule new
 			 selectors: { (ToClassSelector new elementClass: #button) }
 			 looks: { (ToBackgroundLook new
-					  initialStateValue: Color gray;
+					  initialValue: Color gray;
 					  yourself) }).
 	ss addRule: (ToStyleRule new
 			 selectors:
 			 { (ToClassSelector new elementClasses: #( #button #danger )) }
 			 looks: { (ToBackgroundLook new
-					  initialStateValue: Color red;
+					  initialValue: Color red;
 					  yourself) }).
 
 	button := ToButton new.
@@ -186,14 +186,14 @@ ToStyleSheetTest >> testButtonSkin3 [
 	self assert: looks size equals: 1.
 	self assert: looks first class equals: ToBackgroundLook.
 	self
-		assert: (looks first initialStateValue valueIn: nil)
+		assert: (looks first initialValue valueIn: nil)
 		equals: Color gray.
 	button addStyleClass: #danger.
 	looks := ss looksFor: button.
 	self assert: looks size equals: 1.
 	self assert: looks first class equals: ToBackgroundLook.
 	self
-		assert: (looks first initialStateValue valueIn: nil)
+		assert: (looks first initialValue valueIn: nil)
 		equals: Color red
 ]
 
@@ -208,7 +208,7 @@ ToStyleSheetTest >> testButtonSkin4 [
 			 selectors:
 			 { (ToClassSelector new elementClasses: #( #button #danger )) }
 			 looks: { (ToBackgroundLook new
-					  initialStateValue: [ :e | Color red ];
+					  initialValue: [ :e | Color red ];
 					  yourself) }).
 
 	button := ToButton new.
@@ -218,7 +218,7 @@ ToStyleSheetTest >> testButtonSkin4 [
 	looks := ss looksFor: button.
 	self assert: looks size equals: 1.
 	self assert: looks first class equals: ToBackgroundLook.
-	self assert: (looks first initialStateValue valueIn: nil) = Color red
+	self assert: (looks first initialValue valueIn: nil) = Color red
 ]
 
 { #category : #'button skin building' }
@@ -231,14 +231,14 @@ ToStyleSheetTest >> testButtonSkin5 [
 	ss addRule: (ToStyleRule new
 			 selectors: { (ToClassSelector new elementClasses: #( #button )) }
 			 looks: { (ToBackgroundLook new
-					  initialStateValue: [ :e | Color red ];
+					  initialValue: [ :e | Color red ];
 					  yourself) }).
 
 	button := ToButton new.
 	looks := ss looksFor: button.
 	self assert: looks size equals: 1.
 	self assert: looks first class equals: ToBackgroundLook.
-	self assert: (looks first initialStateValue valueIn: nil) = Color red.
+	self assert: (looks first initialValue valueIn: nil) = Color red.
 
 	button addStyleClass: #danger.
 	looks := ss looksFor: button.
@@ -260,7 +260,7 @@ ToStyleSheetTest >> testSkinWithAnUniversalRule [
 	ss := ToStyleSheet new.
 	ss addRule: (ToStyleRule new
 			 selectors: { ToUniversalSelector new }
-			 looks: { ToBorderLook new initialStateValue: (BlBorderBuilder new paint: Color red;  width: 3; build) }).
+			 looks: { ToBorderLook new initialValue: (BlBorderBuilder new paint: Color red;  width: 3; build) }).
 	elem := ToElement new.
 	looks := ss looksFor: elem.
 	self assert: looks size equals: 1.
@@ -282,7 +282,7 @@ ToStyleSheetTest >> testSkinWithChildRule [
 	ss addRule: (ToStyleRule new
 			 selectors: { ((ToIdSelector new id: #child) parent:
 					  (ToClassSelector new elementClass: #parent)) }
-			 looks: { ToBorderLook new initialStateValue: (BlBorderBuilder new paint: Color red;  width: 3; build) }).
+			 looks: { ToBorderLook new initialValue: (BlBorderBuilder new paint: Color red;  width: 3; build) }).
 	parent := ToElement new styleClass: #parent.
 	child := ToElement new id: #child.
 	looks := ss looksFor: child.
@@ -309,7 +309,7 @@ ToStyleSheetTest >> testSkinWithChildRule2 [
 	ss addRule: (ToStyleRule new
 			 selectors: { ((ToIdSelector new id: #child) parent:
 					  (ToClassSelector new elementClass: #parent) level: 2) }
-			 looks: { ToBorderLook new initialStateValue: (BlBorderBuilder new paint: Color red;  width: 3; build) }).
+			 looks: { ToBorderLook new initialValue: (BlBorderBuilder new paint: Color red;  width: 3; build) }).
 	parent := ToElement new styleClass: #parent.
 	subParent := ToElement new.
 	child := ToElement new id: #child.
@@ -336,7 +336,7 @@ ToStyleSheetTest >> testSkinWithIdRule [
 	ss := ToStyleSheet new.
 	ss addRule: (ToStyleRule new
 			 selectors: { (ToIdSelector new id: #a) }
-			 looks: { ( ToBorderLook new initialStateValue: (BlBorderBuilder new paint: Color red;  width: 3; build) ) }).
+			 looks: { ( ToBorderLook new initialValue: (BlBorderBuilder new paint: Color red;  width: 3; build) ) }).
 	elem := ToElement new.
 	looks := ss looksFor: elem.
 	self assert: looks size equals: 0.

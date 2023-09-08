@@ -9,6 +9,6 @@ Class {
 { #category : #accessing }
 ToCheckboxSkin >> iconSkinIn: aButton [ 
 
-	^ self type checkboxIconSkinIn: aButton
+	^ self type checkboxIconSkinIn: aButton 
 
 ]

@@ -36,7 +36,7 @@ ToWidgetDresser >> border: aBorder in: anElement [
 { #category : #'events handling' }
 ToWidgetDresser >> clicked: anElement [
 
-	anElement dispatchLookEvent: ToClickLookEvent new.
+	anElement dispatchLookEvent: ToClickedLookEvent new.
 	self hoveredState: anElement 
 
 ]
@@ -132,7 +132,7 @@ ToWidgetDresser >> installEventListenersIn: anElement [
 { #category : #'events handling' }
 ToWidgetDresser >> leaved: anElement [
 
-	anElement dispatchLookEvent: ToLeavedLookEvent new
+	anElement switchToSkinState:  ToLeavedState new
 ]
 
 { #category : #'deprecated events handling' }

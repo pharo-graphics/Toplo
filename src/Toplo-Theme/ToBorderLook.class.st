@@ -4,11 +4,17 @@ Class {
 	#category : #'Toplo-Theme-Look'
 }
 
+{ #category : #testing }
+ToBorderLook class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #private }
 ToBorderLook >> apply: aStateValue on: anElement [
 
 	| border |
-	border := (aStateValue valueIn: anElement) asBlBorder.
+	border := aStateValue valueIn: anElement.
 	anElement border: border
 ]
 
@@ -18,24 +24,18 @@ ToBorderLook >> dashArray: anArray [
 	self deprecated: ''
 ]
 
-{ #category : #initialization }
-ToBorderLook >> defaultInitialValue [
-
-	^ BlBorder empty asStateValue 
-]
-
 { #category : #'depecated accessing' }
 ToBorderLook >> disabledPaint [
 
 	self deprecatedInsteadOf: 'disabledPaint' use: 'disabledStateValue'.
-	^ self disabledStateValue
+	^ self disabledValue
 ]
 
 { #category : #'depecated accessing' }
 ToBorderLook >> disabledPaint: aValuable [
 
 	self deprecatedInsteadOf: 'disabledPaint:' use: 'disabledStateValue:'.
-	self disabledStateValue: aValuable
+	self disabledValue: aValuable
 
 ]
 
@@ -43,14 +43,14 @@ ToBorderLook >> disabledPaint: aValuable [
 ToBorderLook >> hoverPaint [
 
 	self deprecatedInsteadOf: 'hoverPaint' use: 'hoveredStateValue'.
-	^ self hoveredStateValue
+	^ self hoveredValue
 ]
 
 { #category : #'depecated accessing' }
 ToBorderLook >> hoverPaint: aValuable [
 
 	self deprecatedInsteadOf: 'hoverPaint:' use: 'hoveredStateValue:'.
-	self hoveredStateValue: aValuable
+	self hoveredValue: aValuable
 
 ]
 
@@ -58,21 +58,21 @@ ToBorderLook >> hoverPaint: aValuable [
 ToBorderLook >> initialPaint [
 
 	self deprecatedInsteadOf: 'initialPaint' use: 'initialStateValue'.
-	^ self initialStateValue
+	^ self initialValue
 ]
 
 { #category : #'depecated accessing' }
 ToBorderLook >> initialPaint: aValuable [
 
 	self deprecatedInsteadOf: 'initialPaint:' use: 'initialStateValue:'.
-	self initialStateValue: aValuable
+	self initialValue: aValuable
 ]
 
 { #category : #'depecated accessing' }
 ToBorderLook >> pressedPaint [
 
 	self deprecatedInsteadOf: 'pressedPaint' use: 'pressedStateValue'.
-	^ self pressedStateValue
+	^ self pressedValue
 
 ]
 
@@ -80,21 +80,21 @@ ToBorderLook >> pressedPaint [
 ToBorderLook >> pressedPaint: aValuable [
 
 	self deprecatedInsteadOf: 'pressedPaint:' use: 'pressedStateValue:'.
-	self pressedStateValue: aValuable
+	self pressedValue: aValuable
 ]
 
 { #category : #'depecated accessing' }
 ToBorderLook >> selectedPaint [
 
 	self deprecatedInsteadOf: 'selectedPaint' use: 'selectedStateValue'.
-	^ self selectedStateValue
+	^ self selectedValue
 ]
 
 { #category : #'depecated accessing' }
 ToBorderLook >> selectedPaint: aValuable [
 
 	self deprecatedInsteadOf: 'selectedPaint:' use: 'selectedStateValue:'.
-	self selectedStateValue: aValuable
+	self selectedValue: aValuable
 
 ]
 

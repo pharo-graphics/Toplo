@@ -7,6 +7,17 @@ Class {
 	#category : #'Toplo-Widget-Image-Skin'
 }
 
+{ #category : #private }
+ToButtonIconSkin >> adaptForegroundIn: aToImage withColor: aColor [
+
+	aToImage
+		withInnerFormDo: [ :form |
+			| newForm |
+			newForm := form collectColors: [ :color | aColor alpha: color alpha ].
+			aToImage innerImage: newForm ]
+		ifNone: [  ]
+]
+
 { #category : #accessing }
 ToButtonIconSkin >> danger [
 
@@ -22,11 +33,12 @@ ToButtonIconSkin >> danger: aBoolean [
 { #category : #'api - install/uninstall  hook' }
 ToButtonIconSkin >> dangerFormLookIn: anElement [
 
-	^ ToImageFormLook new
-		  disabledStateValue: [ :e | e toTheme colorImageDisabled ];
-		  initialStateValue: [ :e | e toTheme colorError ];
-		  hoveredStateValue: [ :e | e toTheme colorErrorHover ];
-		  pressedStateValue: [ :e | e toTheme colorError darker ];
+	^ ToLook new
+		  applyWith: [ :e :v | self adaptForegroundIn: e withColor: v ];
+		  disabledValue: [ :e | e toTheme colorImageDisabled ];
+		  initialValue: [ :e | e toTheme colorError ];
+		  hoveredValue: [ :e | e toTheme colorErrorHover ];
+		  pressedValue: [ :e | e toTheme colorError darker ];
 		  yourself
 ]
 

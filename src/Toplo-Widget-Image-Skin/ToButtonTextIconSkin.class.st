@@ -7,10 +7,11 @@ Class {
 { #category : #'api - install/uninstall  hook' }
 ToButtonTextIconSkin >> regularFormLookIn: anElement [
 
-	^ ToImageFormLook new
-		  disabledStateValue: [ :e | e toTheme colorImageDisabled ];
-		  initialStateValue: [ :e | e toTheme colorText ];
-		  hoveredStateValue: [ :e | e toTheme colorText ];
-		  pressedStateValue: [ :e | e toTheme colorText ];
+	^ ToLook new
+		  applyWith: [ :e :v | self adaptForegroundIn: e withColor: v ];
+		  disabledValue: [ :e | e toTheme colorImageDisabled ];
+		  initialValue: [ :e | e toTheme colorText ];
+		  hoveredValue: [ :e | e toTheme colorText ];
+		  pressedValue: [ :e | e toTheme colorText ];
 		  yourself
 ]

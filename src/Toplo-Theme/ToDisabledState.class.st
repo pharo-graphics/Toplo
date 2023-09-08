@@ -9,9 +9,3 @@ ToDisabledState >> applyOn: anElement [
 
 	anElement dispatchLookEvent: ToDisabledLookEvent new
 ]
-
-{ #category : #testing }
-ToDisabledState >> isDisabledState [
-
-	^ true
-]

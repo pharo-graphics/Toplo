@@ -61,7 +61,7 @@ ToPopupWindowDresser >> openedInSpace: anEvent in: anElement [
 		                on: BlMouseUpOutsideEvent
 		                do: [ :event | self mouseUpOutside: event in: anElement ].
 	anElement addEventFilter: closeHandler.
-	anElement switchToSkinState: ToOpenState new
+	anElement switchToSkinState: ToOpenedState new
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -69,7 +69,7 @@ ToPopupWindowDresser >> removedFromSpace: anEvent in: anElement [
 
 	anElement removeEventFilter: closeHandler.
 	closeHandler := nil.
-	anElement switchToSkinState: ToCloseState new
+	anElement switchToSkinState: ToClosedState new
 ]
 
 { #category : #'api - install/uninstall  hook' }

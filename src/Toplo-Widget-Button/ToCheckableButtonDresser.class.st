@@ -11,7 +11,7 @@ Class {
 ToCheckableButtonDresser >> checkEvent: anEvent in: anElement [
 
 	"checkEvent:in: can be send either because of a click or because the checkable as been checked programmatically"
-	anElement dispatchLookEvent: ToClickLookEvent new
+	anElement dispatchLookEvent: ToClickedLookEvent new
 ]
 
 { #category : #'events handling' }

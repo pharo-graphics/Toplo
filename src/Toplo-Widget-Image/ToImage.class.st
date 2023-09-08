@@ -15,7 +15,8 @@ ToImage class >> inner: anImage [
 ]
 
 { #category : #initialization }
-ToImage >> defaultInnerImage [ 
+ToImage >> defaultInnerImage [
+
 	^ BlElement new
 		  id: #emptyImage;
 		  size: 0 @ 0;

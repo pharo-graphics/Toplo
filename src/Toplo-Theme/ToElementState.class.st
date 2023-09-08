@@ -11,49 +11,7 @@ ToElementState >> applyOn: anElement [
 ]
 
 { #category : #testing }
-ToElementState >> isCloseState [
-
-	^ false
-]
-
-{ #category : #testing }
-ToElementState >> isDisabledState [
-
-	^ false
-]
-
-{ #category : #testing }
-ToElementState >> isFocusedState [
-
-	^ false
-]
-
-{ #category : #testing }
-ToElementState >> isHoveredState [
-
-	^ false
-]
-
-{ #category : #testing }
-ToElementState >> isInitialState [
-
-	^ false
-]
-
-{ #category : #testing }
-ToElementState >> isOpenState [
-
-	^ false
-]
-
-{ #category : #testing }
 ToElementState >> isPressedState [
-
-	^ false
-]
-
-{ #category : #testing }
-ToElementState >> isSelectedState [
 
 	^ false
 ]

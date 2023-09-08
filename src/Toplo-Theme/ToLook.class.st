@@ -1,7 +1,8 @@
 Class {
-	#name : #ToMultiStateLook,
+	#name : #ToLook,
 	#superclass : #ToElementLook,
 	#instVars : [
+		'applyBlock',
 		'animation',
 		'disabledValue',
 		'leavedValue',
@@ -15,20 +16,21 @@ Class {
 	#category : #'Toplo-Theme-Look'
 }
 
-{ #category : #testing }
-ToMultiStateLook class >> isDeprecated [ 
+{ #category : #private }
+ToLook >> apply: aStateValue on: anElement [
 
-	^ true
+	applyBlock value: anElement value: (aStateValue valueIn: anElement)
+]
+
+{ #category : #accessing }
+ToLook >> applyWith: aBlock [
+
+	" aBlock takes 2 args: the element and the property value "
+	applyBlock := aBlock
 ]
 
 { #category : #private }
-ToMultiStateLook >> apply: aStateValue on: anElement [
-
-	self subclassResponsibility 
-]
-
-{ #category : #private }
-ToMultiStateLook >> cleanUpIn: anElement [
+ToLook >> cleanUpIn: anElement [
 
 	animation ifNotNil: [
 		animation isRunning ifTrue: [ animation stop ].
@@ -37,7 +39,7 @@ ToMultiStateLook >> cleanUpIn: anElement [
 ]
 
 { #category : #'event handling' }
-ToMultiStateLook >> clickedLookEvent: anEvent [
+ToLook >> clickedLookEvent: anEvent [
 
 	super clickedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -47,19 +49,19 @@ ToMultiStateLook >> clickedLookEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToMultiStateLook >> clickedValue [
+ToLook >> clickedValue [
 
 	^ clickedValue
 ]
 
 { #category : #accessing }
-ToMultiStateLook >> clickedValue: anObject [
+ToLook >> clickedValue: anObject [
 
 	clickedValue := anObject asStateValue 
 ]
 
 { #category : #'event handling' }
-ToMultiStateLook >> disabledLookEvent: anEvent [
+ToLook >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -69,19 +71,19 @@ ToMultiStateLook >> disabledLookEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToMultiStateLook >> disabledValue [
+ToLook >> disabledValue [
 
 	^ disabledValue
 ]
 
 { #category : #accessing }
-ToMultiStateLook >> disabledValue: anObject [
+ToLook >> disabledValue: anObject [
 
 	disabledValue := anObject asStateValue 
 ]
 
 { #category : #'event handling' }
-ToMultiStateLook >> hoveredLookEvent: anEvent [
+ToLook >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -90,19 +92,19 @@ ToMultiStateLook >> hoveredLookEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToMultiStateLook >> hoveredValue [
+ToLook >> hoveredValue [
 
 	^ hoveredValue 
 ]
 
 { #category : #accessing }
-ToMultiStateLook >> hoveredValue: anObject [
+ToLook >> hoveredValue: anObject [
 
 	hoveredValue := anObject asStateValue
 ]
 
 { #category : #'event handling' }
-ToMultiStateLook >> initialLookEvent: anEvent [
+ToLook >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -112,19 +114,19 @@ ToMultiStateLook >> initialLookEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToMultiStateLook >> initialValue [
+ToLook >> initialValue [
 
 	^ initialValue 
 ]
 
 { #category : #accessing }
-ToMultiStateLook >> initialValue: anObject [
+ToLook >> initialValue: anObject [
 
 	initialValue := anObject asStateValue
 ]
 
 { #category : #'event handling' }
-ToMultiStateLook >> installLookEvent: anEvent [
+ToLook >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -134,19 +136,19 @@ ToMultiStateLook >> installLookEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToMultiStateLook >> installValue [
+ToLook >> installValue [
 
 	^ installValue 
 ]
 
 { #category : #accessing }
-ToMultiStateLook >> installValue: anObject [
+ToLook >> installValue: anObject [
 
 	installValue := anObject asStateValue
 ]
 
 { #category : #'event handling' }
-ToMultiStateLook >> leavedLookEvent: anEvent [
+ToLook >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -156,19 +158,19 @@ ToMultiStateLook >> leavedLookEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToMultiStateLook >> leavedValue [
+ToLook >> leavedValue [
 
 	^ leavedValue
 ]
 
 { #category : #accessing }
-ToMultiStateLook >> leavedValue: anObject [ 
+ToLook >> leavedValue: anObject [ 
 
 	leavedValue := anObject asStateValue
 ]
 
 { #category : #'event handling' }
-ToMultiStateLook >> pressedLookEvent: anEvent [
+ToLook >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -177,19 +179,19 @@ ToMultiStateLook >> pressedLookEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToMultiStateLook >> pressedValue [
+ToLook >> pressedValue [
 
 	^ pressedvalue
 ]
 
 { #category : #accessing }
-ToMultiStateLook >> pressedValue: anObject [ 
+ToLook >> pressedValue: anObject [ 
 
 	pressedvalue := anObject asStateValue
 ]
 
 { #category : #'event handling' }
-ToMultiStateLook >> selectedLookEvent: anEvent [
+ToLook >> selectedLookEvent: anEvent [
 
 	super selectedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -198,13 +200,13 @@ ToMultiStateLook >> selectedLookEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToMultiStateLook >> selectedValue [
+ToLook >> selectedValue [
 
 	^ selectedValue
 ]
 
 { #category : #accessing }
-ToMultiStateLook >> selectedValue: anObject [
+ToLook >> selectedValue: anObject [
 
 	selectedValue := anObject asStateValue
 ]

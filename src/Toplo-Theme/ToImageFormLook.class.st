@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Theme-Look'
 }
 
+{ #category : #testing }
+ToImageFormLook class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #private }
 ToImageFormLook >> adaptForegroundIn: aToImage withColor: aColor [
 
@@ -32,17 +38,11 @@ ToImageFormLook >> changeFormBlock: aBlock [
 	changeFormBlock := aBlock
 ]
 
-{ #category : #initialization }
-ToImageFormLook >> defaultInitialValue [
-
-	^ Color transparent asStateValue 
-]
-
 { #category : #'deprecated accessing' }
 ToImageFormLook >> disabledColor [
 
 	self deprecatedInsteadOf: 'disabledColor' use: 'disabledStateValue'.
-	^ self disabledStateValue
+	^ self disabledValue
 
 ]
 
@@ -50,35 +50,35 @@ ToImageFormLook >> disabledColor [
 ToImageFormLook >> disabledColor: aValuable [
 
 	self deprecatedInsteadOf: 'disabledColor:' use: 'disabledStateValue:'.
-	self disabledStateValue: aValuable
+	self disabledValue: aValuable
 ]
 
 { #category : #'deprecated accessing' }
 ToImageFormLook >> hoverColor [
 
 	self deprecatedInsteadOf: 'hoverColor' use: 'hoveredStateValue'.
-	^ self hoveredStateValue
+	^ self hoveredValue
 ]
 
 { #category : #'deprecated accessing' }
 ToImageFormLook >> hoverColor: aColor [
 
 	self deprecatedInsteadOf: 'hoverColor:' use: 'hoveredStateValue:'.
-	self hoveredStateValue: aColor
+	self hoveredValue: aColor
 ]
 
 { #category : #'deprecated accessing' }
 ToImageFormLook >> initialColor [
 
 	self deprecatedInsteadOf: 'initialColor' use: 'initialStateValue'.
-	^ self initialStateValue
+	^ self initialValue
 ]
 
 { #category : #'deprecated accessing' }
 ToImageFormLook >> initialColor: aValuable [
 
 	self deprecatedInsteadOf: 'initialColor:' use: 'initialStateValue:'.
-	self initialStateValue: aValuable
+	self initialValue: aValuable
 ]
 
 { #category : #initialization }
@@ -92,26 +92,26 @@ ToImageFormLook >> initialize [
 ToImageFormLook >> pressedColor [
 
 	self deprecatedInsteadOf: 'pressedColor' use: 'pressedStateValue'.
-	^ self pressedStateValue
+	^ self pressedValue
 ]
 
 { #category : #'deprecated accessing' }
 ToImageFormLook >> pressedColor: aColor [
 
 	self deprecatedInsteadOf: 'pressedColor:' use: 'pressedStateValue:'.
-	self pressedStateValue: aColor
+	self pressedValue: aColor
 ]
 
 { #category : #'deprecated accessing' }
 ToImageFormLook >> selectedColor [
 
 	self deprecatedInsteadOf: 'selectedColor' use: 'selectedStateValue'.
-	^ self selectedStateValue
+	^ self selectedValue
 ]
 
 { #category : #'deprecated accessing' }
 ToImageFormLook >> selectedColor: aValuable [
 
 	self deprecatedInsteadOf: 'selectedColor:' use: 'selectedStateValue:'.
-	self selectedStateValue: aValuable
+	self selectedValue: aValuable
 ]

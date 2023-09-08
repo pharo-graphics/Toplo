@@ -12,17 +12,16 @@ ToCheckableButtonIconSkin >> geometryIn: anElement [
 
 { #category : #'api - install/uninstall  hook' }
 ToCheckableButtonIconSkin >> onSkinInstalledIn: anElement [
-		
+
 	| borderLook |
 	super onSkinInstalledIn: anElement.
 	anElement geometry: (self geometryIn: anElement).
 	borderLook := ToBorderLook new
-				disabledPaint: [ :e | e toTheme colorBorderDisabled ];
-				initialPaint: [ :e | e toTheme colorBorder];
-				hoverPaint: [ :e | e toTheme colorPrimaryHover];
-				pressedPaint: [ :e | e toTheme colorPrimaryPressed].
-	self addLook: borderLook.
-
-	
-
+		              disabledStateValue: [ :e |
+			              e toTheme colorBorderDisabled ];
+		              initialStateValue: [ :e | e toTheme colorBorder ];
+		              hoveredStateValue: [ :e | e toTheme colorPrimaryHover ];
+		              pressedStateValue: [ :e |
+			              e toTheme colorPrimaryPressed ].
+	self addLook: borderLook
 ]

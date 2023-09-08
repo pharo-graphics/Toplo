@@ -1045,10 +1045,13 @@ ToSandBox class >> example_ToButtonSkins [
 	 
 	sizingGroup := ToCheckableGroup new.
 	smallSizingRadio := ToRadioButton new labelText: 'Small'.
+	smallSizingRadio withSkin: ToCheckboxSkin new.
 	smallSizingRadio userData at: #sizing put: ToSmallSizing new.
 	middleSizingRadio := ToRadioButton new labelText: 'Middle'.
+	middleSizingRadio withSkin: ToCheckboxSkin new.
 	middleSizingRadio userData at: #sizing put: ToMiddleSizing new.
 	largeSizingRadio := ToRadioButton new labelText: 'Large'.
+	largeSizingRadio withSkin: ToCheckboxSkin new.
 	largeSizingRadio userData at: #sizing put: ToLargeSizing new.
 	middleSizingRadio checked: true.
 	sizingGroup addAll: {

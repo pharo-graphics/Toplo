@@ -1,9 +1,6 @@
 Class {
 	#name : #ToMouseCursorLook,
 	#superclass : #ToMultiStateLook,
-	#instVars : [
-		'previousCursor'
-	],
 	#category : #'Toplo-Theme-Look'
 }
 

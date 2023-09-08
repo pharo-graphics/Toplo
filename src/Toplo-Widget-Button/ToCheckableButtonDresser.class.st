@@ -31,7 +31,8 @@ ToCheckableButtonDresser >> onInstalledIn: anElement [
 	checkableHandler := BlEventHandler
 		                    on: ToCheckableCheckEvent
 		                    do: [ :event | self checkEvent: event in: anElement ].
-	anElement addEventHandler: checkableHandler
+	anElement addEventHandler: checkableHandler.
+	"anElement innerElement preventChildrenMouseEvents"
 ]
 
 { #category : #'api - install/uninstall  hook' }

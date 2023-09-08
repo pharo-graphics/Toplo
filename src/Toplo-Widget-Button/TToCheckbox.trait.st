@@ -39,7 +39,7 @@ TToCheckbox >> checked: aBooleanOrNil [
 { #category : #'t - checkbox - accessing' }
 TToCheckbox >> checkedImage [
 
-	^ checkedImage
+	^ checkedImage ifNil: [ self toTheme checkboxCheckedImageIn: self ]
 ]
 
 { #category : #'t - checkbox - accessing' }
@@ -51,7 +51,7 @@ TToCheckbox >> checkedImage: anImage [
 { #category : #'t - checkbox - accessing' }
 TToCheckbox >> disabledImage [
 
-	^ disabledImage
+	^ disabledImage ifNil: [ self toTheme checkboxDisabledImageIn: self ]
 ]
 
 { #category : #'t - checkbox - accessing' }
@@ -80,7 +80,7 @@ TToCheckbox >> group: aCheckableGroup [
 { #category : #'t - checkbox - accessing' }
 TToCheckbox >> indeterminateImage [
 
-	^ indeterminateImage
+	^ indeterminateImage ifNil: [ self toTheme checkboxIndeterminateImageIn: self ]
 ]
 
 { #category : #'t - checkbox - accessing' }
@@ -128,7 +128,7 @@ TToCheckbox >> uncheck [
 { #category : #'t - checkbox - accessing' }
 TToCheckbox >> uncheckedImage [
 
-	^ uncheckedImage
+	^ uncheckedImage ifNil: [ self toTheme checkboxUncheckedImageIn: self ]
 ]
 
 { #category : #'t - checkbox - accessing' }

@@ -1,105 +1,21 @@
 Class {
 	#name : #ToCheckLook,
-	#superclass : #ToElementLook,
-	#instVars : [
-		'checkedImage',
-		'indeterminateImage',
-		'uncheckedImage',
-		'disabledImage'
-	],
+	#superclass : #ToMultiStateLook,
 	#category : #'Toplo-Theme-Look'
 }
 
-{ #category : #accessing }
-ToCheckLook >> checkedImage [
-
-	^ checkedImage
-]
-
-{ #category : #accessing }
-ToCheckLook >> checkedImage: anImage [
-
-	checkedImage := anImage
-]
-
-{ #category : #accessing }
-ToCheckLook >> clickLookEvent: anEvent [
-
-	anEvent elementDo: [ :e | self syncImageIn: e ]
-]
-
-{ #category : #accessing }
-ToCheckLook >> disabledImage [
-
-	^ disabledImage
-]
-
-{ #category : #accessing }
-ToCheckLook >> disabledImage: anImage [
-
-	disabledImage := anImage
-]
-
-{ #category : #accessing }
-ToCheckLook >> disabledLookEvent: anEvent [
-
-	anEvent elementDo: [ :e |
-		| im |
-		im := self disabledImage.
-		im ifNotNil: [ 
-			im removeFromParent.
-			e iconImage: im ] ]
-]
-
-{ #category : #accessing }
-ToCheckLook >> indeterminateImage [
-
-	^ indeterminateImage
-]
-
-{ #category : #accessing }
-ToCheckLook >> indeterminateImage: anImage [
-
-	indeterminateImage := anImage
-]
-
-{ #category : #accessing }
-ToCheckLook >> initialLookEvent: anEvent [
-
-	super initialLookEvent: anEvent.
-	anEvent elementDo: [ :e | self syncImageIn: e ]
-]
-
-{ #category : #accessing }
-ToCheckLook >> installLookEvent:  anEvent [
-
-	super installLookEvent:  anEvent.
-	anEvent elementDo: [ :e | self syncImageIn: e ]
-]
-
-{ #category : #accessing }
-ToCheckLook >> syncImageIn: anElement [
+{ #category : #private }
+ToCheckLook >> apply: aStateValue on: anElement [
 
 	| im |
-	im := anElement isChecked
-		      ifTrue: [ self checkedImage ]
-		      ifFalse: [
-			      anElement isUnchecked
-				      ifTrue: [ self uncheckedImage ]
-				      ifFalse: [ self indeterminateImage ] ].
+	im := (aStateValue valueIn: anElement).
 	im ifNil: [ ^ self ].
-	im removeFromParent.
+	anElement icon ifNotNil: [ :ic | ic innerImage = im ifTrue: [ ^ self ] ].
 	anElement iconImage: im
 ]
 
-{ #category : #accessing }
-ToCheckLook >> uncheckedImage [
+{ #category : #initialization }
+ToCheckLook >> defaultInitialValue [
 
-	^ uncheckedImage
-]
-
-{ #category : #accessing }
-ToCheckLook >> uncheckedImage: anImage [
-
-	uncheckedImage := anImage
+	^ (BlElement new size: 16 asPoint; yourself) asStateValue 
 ]

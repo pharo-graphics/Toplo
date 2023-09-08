@@ -64,12 +64,23 @@ ToCheckableSkin >> labelSkinIn: aButton [
 { #category : #'api - install/uninstall  hook' }
 ToCheckableSkin >> onSkinInstalledIn: anElement [
 
+	| switch |
+	switch := [ :e | e checked traceCr.
+	          e isDisabled
+		          ifTrue: [ e disabledImage ]
+		          ifFalse: [
+			          e isChecked
+				          ifTrue: [ e checkedImage ]
+				          ifFalse: [
+					          e isUnchecked
+						          ifTrue: [ e uncheckedImage ]
+						          ifFalse: [ e indeterminateImage ] ] ] ].
+
 	super onSkinInstalledIn: anElement.
 	self addLook: (ToCheckLook new
-			 disabledImage: (self disabledImageIn: anElement);
-			 checkedImage: (self checkedImageIn: anElement);
-			 uncheckedImage: (self uncheckedImageIn: anElement);
-			 indeterminateImage: (self indeterminateImageIn: anElement);
+			 disabledStateValue: switch;
+			 initialStateValue: switch;
+			 hoveredStateValue: switch;
 			 yourself)
 ]
 

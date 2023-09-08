@@ -31,11 +31,13 @@ ToCheckLookTest >> testNoImage [
 { #category : #tests }
 ToCheckLookTest >> testWithImages [
 
-	| w skin disabledImage checkedImage uncheckedImage indeterminateImage |
+	| w skin disabledImage checkedImage uncheckedImage indeterminateImage switch |
 	w := ToCheckLookTestElement new.
+	w initializeCheckable.
 	w initializeDresser.
 	w addDresser: ToCheckableButtonDresser new.
 	skin := ToWidgetSkin new.
+	
 	disabledImage := BlElement new
 		                 id: #disabled;
 		                 yourself.
@@ -48,29 +50,29 @@ ToCheckLookTest >> testWithImages [
 	indeterminateImage := BlElement new
 		                      id: #indeterminate;
 		                      yourself.
+	switch := [ :e | e checked traceCr.
+	          e isDisabled
+		          ifTrue: [ disabledImage ]
+		          ifFalse: [
+			          e isChecked
+				          ifTrue: [ checkedImage ]
+				          ifFalse: [
+					          e isUnchecked
+						          ifTrue: [ uncheckedImage ]
+						          ifFalse: [ indeterminateImage ] ] ] ].
 
 	skin addLook: (ToCheckLook new
-			 disabledImage: disabledImage;
-			 checkedImage: checkedImage;
-			 uncheckedImage: uncheckedImage;
-			 indeterminateImage: indeterminateImage;
+			 disabledStateValue: switch;
+			 initialStateValue: switch;
+			 hoveredStateValue: switch;
 			 yourself).
 	w withSkin: skin.
-	w switchToSkinState: ToInstallState new.
-	self assert: w icon innerImage identicalTo: indeterminateImage.
 	w switchToSkinState: ToInitialState new.
-	self assert: w icon innerImage identicalTo: indeterminateImage.
-
-	w switchToSkinState: ToDisabledState new.
+	self assert: w icon innerImage identicalTo: uncheckedImage.
+	w disable.
 	self assert: w icon innerImage identicalTo: disabledImage.
-
-	w switchToSkinState: ToFocusedState new.
-	w switchToSkinState: ToHoveredState new.
-	w switchToSkinState: ToOpenState new.
-	w switchToSkinState: ToPressedState new.
-	w switchToSkinState: ToSelectedState new.
-	self assert: w icon innerImage identicalTo: disabledImage.
-	
+	w enable.
+	self assert: w icon innerImage identicalTo: uncheckedImage.
 	w checked: true.
 	self assert: w icon innerImage identicalTo: checkedImage.
 	w checked: false.

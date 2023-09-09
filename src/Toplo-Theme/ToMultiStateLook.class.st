@@ -52,12 +52,6 @@ ToMultiStateLook >> clickedValue [
 	^ clickedValue
 ]
 
-{ #category : #accessing }
-ToMultiStateLook >> clickedValue: anObject [
-
-	clickedValue := anObject asStateValue 
-]
-
 { #category : #'event handling' }
 ToMultiStateLook >> disabledLookEvent: anEvent [
 
@@ -74,12 +68,6 @@ ToMultiStateLook >> disabledValue [
 	^ disabledValue
 ]
 
-{ #category : #accessing }
-ToMultiStateLook >> disabledValue: anObject [
-
-	disabledValue := anObject asStateValue 
-]
-
 { #category : #'event handling' }
 ToMultiStateLook >> hoveredLookEvent: anEvent [
 
@@ -93,12 +81,6 @@ ToMultiStateLook >> hoveredLookEvent: anEvent [
 ToMultiStateLook >> hoveredValue [
 
 	^ hoveredValue 
-]
-
-{ #category : #accessing }
-ToMultiStateLook >> hoveredValue: anObject [
-
-	hoveredValue := anObject asStateValue
 ]
 
 { #category : #'event handling' }
@@ -117,12 +99,6 @@ ToMultiStateLook >> initialValue [
 	^ initialValue 
 ]
 
-{ #category : #accessing }
-ToMultiStateLook >> initialValue: anObject [
-
-	initialValue := anObject asStateValue
-]
-
 { #category : #'event handling' }
 ToMultiStateLook >> installLookEvent: anEvent [
 
@@ -137,12 +113,6 @@ ToMultiStateLook >> installLookEvent: anEvent [
 ToMultiStateLook >> installValue [
 
 	^ installValue 
-]
-
-{ #category : #accessing }
-ToMultiStateLook >> installValue: anObject [
-
-	installValue := anObject asStateValue
 ]
 
 { #category : #'event handling' }
@@ -161,12 +131,6 @@ ToMultiStateLook >> leavedValue [
 	^ leavedValue
 ]
 
-{ #category : #accessing }
-ToMultiStateLook >> leavedValue: anObject [ 
-
-	leavedValue := anObject asStateValue
-]
-
 { #category : #'event handling' }
 ToMultiStateLook >> pressedLookEvent: anEvent [
 
@@ -180,12 +144,6 @@ ToMultiStateLook >> pressedLookEvent: anEvent [
 ToMultiStateLook >> pressedValue [
 
 	^ pressedvalue
-]
-
-{ #category : #accessing }
-ToMultiStateLook >> pressedValue: anObject [ 
-
-	pressedvalue := anObject asStateValue
 ]
 
 { #category : #'event handling' }
@@ -204,7 +162,49 @@ ToMultiStateLook >> selectedValue [
 ]
 
 { #category : #accessing }
-ToMultiStateLook >> selectedValue: anObject [
+ToMultiStateLook >> whenClicked: anObject [
+
+	clickedValue := anObject asStateValue 
+]
+
+{ #category : #accessing }
+ToMultiStateLook >> whenDisabled: anObject [
+
+	disabledValue := anObject asStateValue 
+]
+
+{ #category : #accessing }
+ToMultiStateLook >> whenHovered: anObject [
+
+	hoveredValue := anObject asStateValue
+]
+
+{ #category : #accessing }
+ToMultiStateLook >> whenInitialized: anObject [
+
+	initialValue := anObject asStateValue
+]
+
+{ #category : #accessing }
+ToMultiStateLook >> whenInstalled: anObject [
+
+	installValue := anObject asStateValue
+]
+
+{ #category : #accessing }
+ToMultiStateLook >> whenLeaved: anObject [ 
+
+	leavedValue := anObject asStateValue
+]
+
+{ #category : #accessing }
+ToMultiStateLook >> whenPressed: anObject [ 
+
+	pressedvalue := anObject asStateValue
+]
+
+{ #category : #accessing }
+ToMultiStateLook >> whenSelected: anObject [
 
 	selectedValue := anObject asStateValue
 ]

@@ -25,19 +25,19 @@ ToButtonDefaultType >> basicButtonIconSkinIn: anElement [
 ToButtonDefaultType >> dangerBorderLookIn: anElement [
 
 	^ ToBorderLook new
-		  disabledValue: [ :e |
+		  whenDisabled: [ :e |
 			  (self borderBuilderIn: anElement)
 				  paint: e toTheme colorBorderDisabled;
 				  build ];
-		  initialValue: [ :e |
+		  whenInitialized: [ :e |
 			  (self borderBuilderIn: anElement)
 				  paint: e toTheme colorError;
 				  build ];
-		  hoveredValue: [ :e |
+		  whenHovered: [ :e |
 			  (self borderBuilderIn: anElement)
 				  paint: e toTheme colorErrorHover;
 				  build ];
-		  pressedValue: [ :e |
+		  whenPressed: [ :e |
 			  (self borderBuilderIn: anElement)
 				  paint: e toTheme colorErrorHover darker;
 				  build ];
@@ -60,8 +60,8 @@ ToButtonDefaultType >> dashed: aBoolean [
 ToButtonDefaultType >> regularBackgroundLookIn: anElement [
 
 	^ ToBackgroundLook new
-		  disabledValue: anElement toTheme colorBgContainerDisabled;
-		  initialValue: Color transparent;
+		  whenDisabled: anElement toTheme colorBgContainerDisabled;
+		  whenInitialized: Color transparent;
 		  yourself
 ]
 
@@ -69,19 +69,19 @@ ToButtonDefaultType >> regularBackgroundLookIn: anElement [
 ToButtonDefaultType >> regularBorderLookIn: anElement [
 
 	^ ToBorderLook new
-		  disabledValue: [ :e |
+		  whenDisabled: [ :e |
 			  (self borderBuilderIn: anElement)
 				  paint: e toTheme colorBorderDisabled;
 				  build ];
-		  initialValue: [ :e |
+		  whenInitialized: [ :e |
 			  (self borderBuilderIn: anElement)
 				  paint: e toTheme colorBorder;
 				  build ];
-		  hoveredValue: [ :e |
+		  whenHovered: [ :e |
 			  (self borderBuilderIn: anElement)
 				  paint: e toTheme colorPrimaryHover;
 				  build ];
-		  pressedValue: [ :e |
+		  whenPressed: [ :e |
 			  (self borderBuilderIn: anElement)
 				  paint: e toTheme colorPrimaryPressed;
 				  build ];

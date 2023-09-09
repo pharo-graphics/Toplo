@@ -8,8 +8,8 @@ Class {
 ToButtonPrimaryType >> basicButtonBorderLookIn: anElement [
 
 	^ ToBorderLook new
-		  disabledValue: [ :e | e toTheme colorBorderDisabled ];
-		  initialValue: [ :e | Color transparent ];
+		  whenDisabled: [ :e | e toTheme colorBorderDisabled ];
+		  whenInitialized: [ :e | Color transparent ];
 		  yourself
 ]
 
@@ -29,10 +29,10 @@ ToButtonPrimaryType >> basicButtonLabelSkinIn: anElement [
 ToButtonPrimaryType >> dangerBackgroundLookIn: anElement [
 
 	^ ToBackgroundLook new
-		  initialValue: anElement toTheme colorError;
-		  disabledValue: anElement toTheme colorBgContainerDisabled;
-		  pressedValue: (anElement toTheme colorErrorPressed asStateValue duration: 200 milliSeconds; yourself);
-		  hoveredValue: (anElement toTheme colorErrorHover asStateValue duration: 200 milliSeconds; yourself);
+		  whenInitialized: anElement toTheme colorError;
+		  whenDisabled: anElement toTheme colorBgContainerDisabled;
+		  whenPressed: (anElement toTheme colorErrorPressed  );
+		  whenHovered: (anElement toTheme colorErrorHover  );
 		  yourself
 ]
 
@@ -40,10 +40,10 @@ ToButtonPrimaryType >> dangerBackgroundLookIn: anElement [
 ToButtonPrimaryType >> regularBackgroundLookIn: anElement [
 
 	^ ToBackgroundLook new
-		  initialValue: anElement toTheme colorPrimary;
-		  disabledValue: anElement toTheme colorBgContainerDisabled;
-		  pressedValue: (ToStateValue new value: anElement toTheme colorPrimaryPressed; duration: 200 milliSeconds; yourself);
-		  hoveredValue: (ToStateValue new value: anElement toTheme colorPrimaryHover; duration: 200 milliSeconds; yourself);
+		  whenInitialized: anElement toTheme colorPrimary;
+		  whenDisabled: anElement toTheme colorBgContainerDisabled;
+		  whenPressed: (ToStateUpdater new value: anElement toTheme colorPrimaryPressed; duration: 200 milliSeconds; yourself);
+		  whenHovered: (ToStateUpdater new value: anElement toTheme colorPrimaryHover; duration: 200 milliSeconds; yourself);
 		  yourself
 ]
 

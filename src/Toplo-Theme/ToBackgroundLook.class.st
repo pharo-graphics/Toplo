@@ -47,13 +47,13 @@ ToBackgroundLook >> disabledColor [
 ToBackgroundLook >> disabledColor: aValuable [
 
 	self deprecatedInsteadOf: 'disabledColor:' use: 'disabledStateValue:'.
-	self disabledValue: aValuable
+	self whenDisabled: aValuable
 ]
 
 { #category : #'deprecated accessing' }
 ToBackgroundLook >> duration: aNumber [
 
-	self deprecated: 'Set duration with a ' , ToStateValue name , ' instead '
+	self deprecated: 'Set duration with a ' , ToStateUpdater name , ' instead '
 ]
 
 { #category : #'deprecated accessing' }
@@ -68,7 +68,7 @@ ToBackgroundLook >> hoverColor [
 ToBackgroundLook >> hoverColor: aValuable [
 
 	self deprecatedInsteadOf: 'hoverColor:' use: 'hoveredStateValue:'.
-	self hoveredValue: aValuable
+	self whenHovered: aValuable
 ]
 
 { #category : #'deprecated accessing' }
@@ -82,7 +82,7 @@ ToBackgroundLook >> initialColor [
 ToBackgroundLook >> initialColor: aValuable [
 
 	self deprecatedInsteadOf: 'initialColor:' use: 'initialStateValue:'.
-	self initialValue: aValuable
+	self whenInitialized: aValuable
 ]
 
 { #category : #'deprecated accessing' }
@@ -96,7 +96,7 @@ ToBackgroundLook >> pressedColor [
 ToBackgroundLook >> pressedColor: aValuable [
 
 	self deprecatedInsteadOf: 'pressedColor:' use: 'pressedStateValue:'.
-	self pressedValue: aValuable
+	self whenPressed: aValuable
 ]
 
 { #category : #'deprecated accessing' }
@@ -110,5 +110,5 @@ ToBackgroundLook >> selectedColor [
 ToBackgroundLook >> selectedColor: anObject [
 
 	self deprecatedInsteadOf: 'selectedColor:' use: 'selectedStateValue:'.
-	self selectedValue: anObject
+	self whenSelected: anObject
 ]

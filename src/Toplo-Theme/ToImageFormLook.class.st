@@ -50,7 +50,7 @@ ToImageFormLook >> disabledColor [
 ToImageFormLook >> disabledColor: aValuable [
 
 	self deprecatedInsteadOf: 'disabledColor:' use: 'disabledStateValue:'.
-	self disabledValue: aValuable
+	self whenDisabled: aValuable
 ]
 
 { #category : #'deprecated accessing' }
@@ -64,7 +64,7 @@ ToImageFormLook >> hoverColor [
 ToImageFormLook >> hoverColor: aColor [
 
 	self deprecatedInsteadOf: 'hoverColor:' use: 'hoveredStateValue:'.
-	self hoveredValue: aColor
+	self whenHovered: aColor
 ]
 
 { #category : #'deprecated accessing' }
@@ -78,7 +78,7 @@ ToImageFormLook >> initialColor [
 ToImageFormLook >> initialColor: aValuable [
 
 	self deprecatedInsteadOf: 'initialColor:' use: 'initialStateValue:'.
-	self initialValue: aValuable
+	self whenInitialized: aValuable
 ]
 
 { #category : #initialization }
@@ -99,7 +99,7 @@ ToImageFormLook >> pressedColor [
 ToImageFormLook >> pressedColor: aColor [
 
 	self deprecatedInsteadOf: 'pressedColor:' use: 'pressedStateValue:'.
-	self pressedValue: aColor
+	self whenPressed: aColor
 ]
 
 { #category : #'deprecated accessing' }
@@ -113,5 +113,5 @@ ToImageFormLook >> selectedColor [
 ToImageFormLook >> selectedColor: aValuable [
 
 	self deprecatedInsteadOf: 'selectedColor:' use: 'selectedStateValue:'.
-	self selectedValue: aValuable
+	self whenSelected: aValuable
 ]

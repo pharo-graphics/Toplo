@@ -14,10 +14,10 @@ ToButtonTextType >> basicButtonIconSkinIn: anElement [
 ToButtonTextType >> dangerBackgroundLookIn: anElement [
 
 	^ ToBackgroundLook new
-		  disabledValue: anElement toTheme colorBgContainerDisabled;
-		  initialValue: Color transparent;
-		  pressedValue: anElement toTheme colorErrorBg;
-		  hoveredValue: anElement toTheme colorErrorBg;
+		  whenDisabled: anElement toTheme colorBgContainerDisabled;
+		  whenInitialized: Color transparent;
+		  whenPressed: anElement toTheme colorErrorBg;
+		  whenHovered: anElement toTheme colorErrorBg;
 		  yourself
 ]
 
@@ -25,10 +25,10 @@ ToButtonTextType >> dangerBackgroundLookIn: anElement [
 ToButtonTextType >> regularBackgroundLookIn: anElement [
 
 	^ ToBackgroundLook new
-		  disabledValue: anElement toTheme colorBgContainerDisabled;
-		  initialValue: Color transparent;
-		  pressedValue: anElement toTheme colorBgTextActive;
-		  hoveredValue: anElement toTheme colorBgTextHover;
+		  whenDisabled: anElement toTheme colorBgContainerDisabled;
+		  whenInitialized: Color transparent;
+		  whenPressed: anElement toTheme colorBgTextActive;
+		  whenHovered: anElement toTheme colorBgTextHover;
 		  yourself
 ]
 

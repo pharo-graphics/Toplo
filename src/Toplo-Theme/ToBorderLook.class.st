@@ -35,7 +35,7 @@ ToBorderLook >> disabledPaint [
 ToBorderLook >> disabledPaint: aValuable [
 
 	self deprecatedInsteadOf: 'disabledPaint:' use: 'disabledStateValue:'.
-	self disabledValue: aValuable
+	self whenDisabled: aValuable
 
 ]
 
@@ -50,7 +50,7 @@ ToBorderLook >> hoverPaint [
 ToBorderLook >> hoverPaint: aValuable [
 
 	self deprecatedInsteadOf: 'hoverPaint:' use: 'hoveredStateValue:'.
-	self hoveredValue: aValuable
+	self whenHovered: aValuable
 
 ]
 
@@ -65,7 +65,7 @@ ToBorderLook >> initialPaint [
 ToBorderLook >> initialPaint: aValuable [
 
 	self deprecatedInsteadOf: 'initialPaint:' use: 'initialStateValue:'.
-	self initialValue: aValuable
+	self whenInitialized: aValuable
 ]
 
 { #category : #'depecated accessing' }
@@ -80,7 +80,7 @@ ToBorderLook >> pressedPaint [
 ToBorderLook >> pressedPaint: aValuable [
 
 	self deprecatedInsteadOf: 'pressedPaint:' use: 'pressedStateValue:'.
-	self pressedValue: aValuable
+	self whenPressed: aValuable
 ]
 
 { #category : #'depecated accessing' }
@@ -94,7 +94,7 @@ ToBorderLook >> selectedPaint [
 ToBorderLook >> selectedPaint: aValuable [
 
 	self deprecatedInsteadOf: 'selectedPaint:' use: 'selectedStateValue:'.
-	self selectedValue: aValuable
+	self whenSelected: aValuable
 
 ]
 

@@ -9,9 +9,9 @@ ToButtonDefaultIconSkin >> regularFormLookIn: anElement [
 
 	^ ToLook new
 		  applyWith: [ :e :v | self adaptForegroundIn: e withColor: v ];
-		  disabledValue: [ :e | e toTheme colorImageDisabled ];
-		  initialValue: [ :e | e toTheme colorText ];
-		  hoveredValue: [ :e | e toTheme colorPrimary ];
-		  pressedValue: [ :e | e toTheme colorPrimaryPressed ];
+		  whenDisabled: [ :e | e toTheme colorImageDisabled ];
+		  whenInitialized: [ :e | e toTheme colorText ];
+		  whenHovered: [ :e | e toTheme colorPrimary ];
+		  whenPressed: [ :e | e toTheme colorPrimaryPressed ];
 		  yourself
 ]

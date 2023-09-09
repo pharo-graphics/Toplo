@@ -1,6 +1,12 @@
 Extension { #name : #Object }
 
 { #category : #'*Toplo' }
+Object >> asStateUpdater [
+
+	^ ToStateUpdater new value: self
+]
+
+{ #category : #'*Toplo' }
 Object >> asStateValue [
 
 	^ ToStateValue new value: self

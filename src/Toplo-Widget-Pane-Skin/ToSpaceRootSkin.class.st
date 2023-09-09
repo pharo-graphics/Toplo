@@ -9,6 +9,6 @@ ToSpaceRootSkin >> onSkinInstalledIn: anElement [
 
 	super onSkinInstalledIn: anElement.
 	self addLook: (ToLook new applyWith: [ :e :v | e background: v asBlBackground ];
-			 initialValue: anElement toTheme backgroundColor;
+			 whenInitialized: anElement toTheme backgroundColor;
 			 yourself)
 ]

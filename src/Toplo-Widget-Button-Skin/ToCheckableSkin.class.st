@@ -87,9 +87,9 @@ ToCheckableSkin >> onSkinInstalledIn: anElement [
 			 applyWith: [ :e :v |
 				 v removeFromParent.
 				 e iconImage: v ];
-			 initialValue: switch;
-			 disabledValue: switch;
-			 clickedValue: switch;
+			 whenInitialized: switch;
+			 whenDisabled: switch;
+			 whenClicked: switch;
 			 yourself)
 ]
 

@@ -85,8 +85,8 @@ ToClickableType >> danger: aBoolean [
 ToClickableType >> dangerBackgroundLookIn: anElement [
 
 	^ ToBackgroundLook new
-		  disabledValue: anElement toTheme colorBgContainerDisabled;
-		  initialValue: Color transparent;
+		  whenDisabled: anElement toTheme colorBgContainerDisabled;
+		  whenInitialized: Color transparent;
 		  yourself
 ]
 

@@ -159,11 +159,11 @@ ToClickableSkin >> defaultCursorLookIn: anElement [
 
 	^ ToLook new
 		  applyWith: [ :e :v | e mouseCursor: v ];
-		  hoveredValue: [ :but |
+		  whenHovered: [ :but |
 			  but isEnabled
 				  ifTrue: [ BlCursor hand ]
 				  ifFalse: [  ] ];
-		  leavedValue: nil;
+		  whenLeaved: nil;
 		  yourself
 ]
 

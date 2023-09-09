@@ -35,10 +35,10 @@ ToButtonIconSkin >> dangerFormLookIn: anElement [
 
 	^ ToLook new
 		  applyWith: [ :e :v | self adaptForegroundIn: e withColor: v ];
-		  disabledValue: [ :e | e toTheme colorImageDisabled ];
-		  initialValue: [ :e | e toTheme colorError ];
-		  hoveredValue: [ :e | e toTheme colorErrorHover ];
-		  pressedValue: [ :e | e toTheme colorError darker ];
+		  whenDisabled: [ :e | e toTheme colorImageDisabled ];
+		  whenInitialized: [ :e | e toTheme colorError ];
+		  whenHovered: [ :e | e toTheme colorErrorHover ];
+		  whenPressed: [ :e | e toTheme colorError darker ];
 		  yourself
 ]
 

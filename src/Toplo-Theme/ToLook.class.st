@@ -3,12 +3,11 @@ Class {
 	#superclass : #ToElementLook,
 	#instVars : [
 		'applyBlock',
-		'animation',
 		'disabledValue',
 		'leavedValue',
 		'installValue',
 		'initialValue',
-		'pressedvalue',
+		'pressedValue',
 		'selectedValue',
 		'clickedValue',
 		'hoveredValue'
@@ -16,10 +15,47 @@ Class {
 	#category : #'Toplo-Theme-Look'
 }
 
+{ #category : #'instance creation' }
+ToLook class >> forBackground [
+
+	^ self new applyWith: [ :e :b | e background: b ]; yourself
+]
+
+{ #category : #'instance creation' }
+ToLook class >> forBorder [
+
+	^ self new applyWith: [ :e :b | e border: b ]; yourself
+]
+
+{ #category : #'instance creation' }
+ToLook class >> forTextAttributes [
+
+	^ self new 
+			 applyWith: [ :e :v |
+				 e text attributes: v attributes.
+				 e textChanged ]
+]
+
+{ #category : #'instance creation' }
+ToLook class >> forTextForegroundWithBuilder: aTextAttributesBuilder [
+
+	^ self new applyWith: [ :e :v |
+		  aTextAttributesBuilder foreground: v.
+		  e text attributes: aTextAttributesBuilder attributes.
+		  e textChanged ]
+]
+
 { #category : #private }
 ToLook >> apply: aStateValue on: anElement [
 
-	applyBlock value: anElement value: (aStateValue valueIn: anElement)
+	aStateValue applyOn: anElement fromLook: self
+]
+
+{ #category : #accessing }
+ToLook >> applyBlock [
+
+	" applyBlock takes 2 args: the element and the property value "
+	^ applyBlock
 ]
 
 { #category : #accessing }
@@ -57,7 +93,7 @@ ToLook >> clickedValue [
 { #category : #accessing }
 ToLook >> clickedValue: anObject [
 
-	clickedValue := anObject asStateValue 
+	clickedValue := anObject asStateValue
 ]
 
 { #category : #'event handling' }
@@ -79,7 +115,7 @@ ToLook >> disabledValue [
 { #category : #accessing }
 ToLook >> disabledValue: anObject [
 
-	disabledValue := anObject asStateValue 
+	disabledValue := anObject asStateValue
 ]
 
 { #category : #'event handling' }
@@ -100,7 +136,7 @@ ToLook >> hoveredValue [
 { #category : #accessing }
 ToLook >> hoveredValue: anObject [
 
-	hoveredValue := anObject asStateValue
+	hoveredValue := anObject  asStateValue
 ]
 
 { #category : #'event handling' }
@@ -122,7 +158,7 @@ ToLook >> initialValue [
 { #category : #accessing }
 ToLook >> initialValue: anObject [
 
-	initialValue := anObject asStateValue
+	initialValue := anObject  asStateValue
 ]
 
 { #category : #'event handling' }
@@ -164,9 +200,9 @@ ToLook >> leavedValue [
 ]
 
 { #category : #accessing }
-ToLook >> leavedValue: anObject [ 
+ToLook >> leavedValue: anObject [
 
-	leavedValue := anObject asStateValue
+	leavedValue := anObject  asStateValue
 ]
 
 { #category : #'event handling' }
@@ -181,13 +217,13 @@ ToLook >> pressedLookEvent: anEvent [
 { #category : #accessing }
 ToLook >> pressedValue [
 
-	^ pressedvalue
+	^ pressedValue
 ]
 
 { #category : #accessing }
-ToLook >> pressedValue: anObject [ 
+ToLook >> pressedValue: anObject [
 
-	pressedvalue := anObject asStateValue
+	pressedValue := anObject  asStateValue
 ]
 
 { #category : #'event handling' }
@@ -208,5 +244,53 @@ ToLook >> selectedValue [
 { #category : #accessing }
 ToLook >> selectedValue: anObject [
 
-	selectedValue := anObject asStateValue
+	selectedValue := anObject  asStateValue
+]
+
+{ #category : #accessing }
+ToLook >> whenClicked: anObject [
+
+	clickedValue := anObject asStateUpdater
+]
+
+{ #category : #accessing }
+ToLook >> whenDisabled: anObject [
+
+	disabledValue := anObject asStateUpdater
+]
+
+{ #category : #accessing }
+ToLook >> whenHovered: anObject [
+
+	hoveredValue := anObject asStateUpdater
+]
+
+{ #category : #accessing }
+ToLook >> whenInitialized: anObject [
+
+	initialValue := anObject asStateUpdater
+]
+
+{ #category : #accessing }
+ToLook >> whenInstalled: anObject [
+
+	installValue := anObject asStateUpdater
+]
+
+{ #category : #accessing }
+ToLook >> whenLeaved: anObject [
+
+	leavedValue := anObject asStateUpdater
+]
+
+{ #category : #accessing }
+ToLook >> whenPressed: anObject [
+
+	pressedvalue := anObject asStateUpdater
+]
+
+{ #category : #accessing }
+ToLook >> whenSelected: anObject [
+
+	selectedValue := anObject asStateUpdater
 ]

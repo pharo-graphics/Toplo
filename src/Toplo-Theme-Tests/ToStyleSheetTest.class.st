@@ -18,14 +18,14 @@ ToStyleSheetTest >> testButtonSkin0 [
 			 selectors: { (ToClassSelector new elementClass: #button) }
 			 looks: {
 					 (ToLook forBackground 
-						  whenDisabled: [ :e | e toTheme colorBgContainerDisabled ];
-						  whenInitialized: [ :e | Color transparent ];
+						  disabledValue: [ :e | e toTheme colorBgContainerDisabled ];
+						  initialValue: [ :e | Color transparent ];
 						  yourself).
 					 (ToLook forBorder
-						  whenDisabled: [ :e | e toTheme colorBorderDisabled ];
-						  whenInitialized: [ :e | e toTheme colorBorder ];
-						  whenHovered: [ :e | e toTheme colorPrimaryHover ];
-						  whenPressed: [ :e | e toTheme colorPrimaryPressed ] yourself) }).
+						  disabledValue: [ :e | e toTheme colorBorderDisabled ];
+						  initialValue: [ :e | e toTheme colorBorder ];
+						  hoveredValue: [ :e | e toTheme colorPrimaryHover ];
+						  pressedValue: [ :e | e toTheme colorPrimaryPressed ] yourself) }).
 
 	" danger button label rule "
 	ss addRule: (ToStyleRule new
@@ -33,12 +33,12 @@ ToStyleSheetTest >> testButtonSkin0 [
 					  parent:
 					  (ToClassSelector new elementClasses: #( #button #danger ))
 					  level: 2) }
-			 looks: { (ToLabelTextLook new
-					  disabledColor: [ :e | e toTheme colorTextDisabled ];
-					  initialColor: [ :e | e toTheme colorError ];
-					  hoverColor: [ :e | e toTheme colorErrorHover ];
-					  pressedColor: [ :e | e toTheme colorError darker ];
-					  yourself) }).
+			 looks: { (ToLook forTextForegroundWithBuilder: BlTextAttributesBuilder new)
+					  disabledValue: [ :e | e toTheme colorTextDisabled ];
+					  initialValue: [ :e | e toTheme colorError ];
+					  hoveredValue: [ :e | e toTheme colorErrorHover ];
+					  pressedValue: [ :e | e toTheme colorError darker ];
+					  yourself }).
 
 
 	button := ToButton new.
@@ -96,8 +96,8 @@ ToStyleSheetTest >> testButtonSkin1 [
 	ss addRule: (ToStyleRule new
 			 selectors: { (ToClassSelector new elementClass: #button) }
 			 looks: { (ToLook forBackground
-					  whenDisabled: [ :e | e toTheme colorBgContainerDisabled ];
-					  whenInitialized: [ :e | Color gray ];
+					  disabledValue: [ :e | e toTheme colorBgContainerDisabled ];
+					  initialValue: [ :e | Color gray ];
 					  yourself) }).
 
 	ss addRule: (ToStyleRule new
@@ -106,10 +106,10 @@ ToStyleSheetTest >> testButtonSkin1 [
 					  (ToClassSelector new elementClass: #'triplet-inner-element')
 					  level: 1) }
 			 looks: { (ToLook forTextAttributes 
-					  whenDisabled: [ :e | BlTextAttributesBuilder new foreground: e toTheme colorTextDisabled ];
-					  whenInitialized: [ :e | BlTextAttributesBuilder new foreground: (initC := e toTheme colorText) ];
-					  whenHovered: [ :e | BlTextAttributesBuilder new foreground: e toTheme colorPrimary ];
-					  whenPressed: [ :e | BlTextAttributesBuilder new foreground: e toTheme colorPrimaryPressed ];
+					  disabledValue: [ :e | BlTextAttributesBuilder new foreground: e toTheme colorTextDisabled ];
+					  initialValue: [ :e | BlTextAttributesBuilder new foreground: (initC := e toTheme colorText) ];
+					  hoveredValue: [ :e | BlTextAttributesBuilder new foreground: e toTheme colorPrimary ];
+					  pressedValue: [ :e | BlTextAttributesBuilder new foreground: e toTheme colorPrimaryPressed ];
 					  yourself) }).
 
 
@@ -179,13 +179,13 @@ ToStyleSheetTest >> testButtonSkin3 [
 	ss addRule: (ToStyleRule new
 			 selectors: { (ToClassSelector new elementClass: #button) }
 			 looks: { (ToLook forBackground
-					  whenInitialized: Color gray;
+					  initialValue: Color gray;
 					  yourself) }).
 	ss addRule: (ToStyleRule new
 			 selectors:
 			 { (ToClassSelector new elementClasses: #( #button #danger )) }
 			 looks: { (ToLook forBackground
-					  whenInitialized: Color red;
+					  initialValue: Color red;
 					  yourself) }).
 
 	button := ToButton new.
@@ -215,7 +215,7 @@ ToStyleSheetTest >> testButtonSkin4 [
 			 selectors:
 			 { (ToClassSelector new elementClasses: #( #button #danger )) }
 			 looks: { (ToLook forBackground 
-					  whenInitialized: [ :e | Color red ];
+					  initialValue: [ :e | Color red ];
 					  yourself) }).
 
 	button := ToButton new.
@@ -238,7 +238,7 @@ ToStyleSheetTest >> testButtonSkin5 [
 	ss addRule: (ToStyleRule new
 			 selectors: { (ToClassSelector new elementClasses: #( #button )) }
 			 looks: { (ToLook forBackground 
-					  whenInitialized: [ :e | Color red ];
+					  initialValue: [ :e | Color red ];
 					  yourself) }).
 
 	button := ToButton new.
@@ -267,7 +267,7 @@ ToStyleSheetTest >> testSkinWithAnUniversalRule [
 	ss := ToStyleSheet new.
 	ss addRule: (ToStyleRule new
 			 selectors: { ToUniversalSelector new }
-			 looks: { ToLook forBorder whenInitialized: (BlBorderBuilder new paint: Color red;  width: 3; build) }).
+			 looks: { ToLook forBorder initialValue: (BlBorderBuilder new paint: Color red;  width: 3; build) }).
 	elem := ToElement new.
 	looks := ss looksFor: elem.
 	self assert: looks size equals: 1.
@@ -289,7 +289,7 @@ ToStyleSheetTest >> testSkinWithChildRule [
 	ss addRule: (ToStyleRule new
 			 selectors: { ((ToIdSelector new id: #child) parent:
 					  (ToClassSelector new elementClass: #parent)) }
-			 looks: { ToLook forBorder whenInitialized: (BlBorderBuilder new paint: Color red;  width: 3; build) }).
+			 looks: { ToLook forBorder initialValue: (BlBorderBuilder new paint: Color red;  width: 3; build) }).
 	parent := ToElement new styleClass: #parent.
 	child := ToElement new id: #child.
 	looks := ss looksFor: child.
@@ -316,7 +316,7 @@ ToStyleSheetTest >> testSkinWithChildRule2 [
 	ss addRule: (ToStyleRule new
 			 selectors: { ((ToIdSelector new id: #child) parent:
 					  (ToClassSelector new elementClass: #parent) level: 2) }
-			 looks: { ToLook forBorder whenInitialized: (BlBorderBuilder new paint: Color red;  width: 3; build) }).
+			 looks: { ToLook forBorder initialValue: (BlBorderBuilder new paint: Color red;  width: 3; build) }).
 	parent := ToElement new styleClass: #parent.
 	subParent := ToElement new.
 	child := ToElement new id: #child.
@@ -343,7 +343,7 @@ ToStyleSheetTest >> testSkinWithIdRule [
 	ss := ToStyleSheet new.
 	ss addRule: (ToStyleRule new
 			 selectors: { (ToIdSelector new id: #a) }
-			 looks: { ( ToLook forBorder whenInitialized: (BlBorderBuilder new paint: Color red;  width: 3; build) ) }).
+			 looks: { ( ToLook forBorder initialValue: (BlBorderBuilder new paint: Color red;  width: 3; build) ) }).
 	elem := ToElement new.
 	looks := ss looksFor: elem.
 	self assert: looks size equals: 0.

@@ -65,21 +65,11 @@ ToLook >> applyWith: aBlock [
 	applyBlock := aBlock
 ]
 
-{ #category : #private }
-ToLook >> cleanUpIn: anElement [
-
-	animation ifNotNil: [
-		animation isRunning ifTrue: [ animation stop ].
-		anElement dequeueTask: animation.
-		animation := nil ]
-]
-
 { #category : #'event handling' }
 ToLook >> clickedLookEvent: anEvent [
 
 	super clickedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self cleanUpIn: e.
 		self clickedValue ifNotNil: [ :bg |
 			self apply: bg on: e ] ]
 ]
@@ -101,7 +91,6 @@ ToLook >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self cleanUpIn: e.
 		self disabledValue ifNotNil: [ :bg |
 			self apply: bg on: e ] ]
 ]
@@ -123,7 +112,6 @@ ToLook >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self cleanUpIn: e.
 		self hoveredValue ifNotNil: [ :bg | self apply: bg on: e ] ]
 ]
 
@@ -144,7 +132,6 @@ ToLook >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self cleanUpIn: e.
 		self initialValue ifNotNil: [ :bg |
 			self apply: bg on: e ] ]
 ]
@@ -166,7 +153,6 @@ ToLook >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self cleanUpIn: e.
 		self installValue ifNotNil: [ :bg |
 			self apply: bg on: e ] ]
 ]
@@ -188,7 +174,6 @@ ToLook >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self cleanUpIn: e.
 		self leavedValue ifNotNil: [ :bg |
 			self apply: bg on: e ] ]
 ]
@@ -210,7 +195,6 @@ ToLook >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self cleanUpIn: e.
 		self pressedValue ifNotNil: [ :bg | self apply: bg on: e ] ]
 ]
 
@@ -286,7 +270,7 @@ ToLook >> whenLeaved: anObject [
 { #category : #accessing }
 ToLook >> whenPressed: anObject [
 
-	pressedvalue := anObject asStateUpdater
+	pressedValue := anObject asStateUpdater
 ]
 
 { #category : #accessing }

@@ -35,18 +35,16 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 	self addRule: (ToStyleRule new
 			 selectors: { (ToClassSelector new elementClass: #button) }
 			 looks: {
-					 (ToBackgroundLook new
-						  whenDisabled: [ :e | e toTheme colorBgContainerDisabled ];
-						  whenInitialized: [ :e | Color transparent ];
+					 (ToLook forBackground
+						  whenInitialized: [ :e | e background: Color transparent ];
+						  disabledValue: [ :e | e toTheme colorBgContainerDisabled ];
 						  yourself).
-					 (ToBorderLook new
-						  whenDisabled: [ :e |
+					 (ToLook forBorder
+						  whenInitialized: [ :e | e border: e toTheme colorBorder ];
+						  disabledValue: [ :e |
 							  e toTheme colorBorderDisabled asBlBorder ];
-						  whenInitialized: [ :e | e toTheme colorBorder asBlBorder ];
-						  whenHovered: [ :e |
-							  e toTheme colorPrimaryHover asBlBorder ];
-						  whenPressed: [ :e |
-							  e toTheme colorPrimaryPressed asBlBorder ];
+						  hoveredValue: [ :e | e toTheme colorPrimaryHover asBlBorder ];
+						  pressedValue: [ :e | e toTheme colorPrimaryPressed asBlBorder ];
 						  yourself) }).
 
 	" default button form icon "
@@ -54,12 +52,13 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 			 selectors: { ((ToClassSelector new elementClass: #'form-icon')
 					  parent: (ToClassSelector new elementClass: #button)
 					  level: 2) }
-			 looks: { (ToLook new
-		  				applyWith: [ :e :v | self adaptForegroundIn: e withColor: v ];
-					  whenDisabled: [ :e | e toTheme colorImageDisabled ];
-					  whenInitialized: [ :e | e toTheme colorText ];
-					  whenHovered: [ :e | e toTheme colorPrimary ];
-					  whenPressed: [ :e | e toTheme colorPrimaryPressed ];
+			 looks:
+				 { ((ToLook forTextForegroundWithBuilder:
+						   BlTextAttributesBuilder new)
+					  initialValue: [ :e | e toTheme colorText ];
+					  disabledValue: [ :e | e toTheme colorBgContainerDisabled ];
+					  hoveredValue: [ :e | e toTheme colorPrimary ];
+					  pressedValue: [ :e | e toTheme colorPrimaryPressed ];
 					  yourself) }).
 
 	" default button label "
@@ -67,12 +66,13 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 			 selectors: { ((ToClassSelector new elementClass: #label)
 					  parent: (ToClassSelector new elementClass: #button)
 					  level: 2) }
-			 looks: { (ToLabelTextLook new
-					  disabledColor: [ :e | e toTheme colorTextDisabled ];
-					  initialColor: [ :e | e toTheme colorText ];
-					  hoverColor: [ :e | e toTheme colorPrimary ];
-					  pressedColor: [ :e | e toTheme colorPrimaryPressed ];
-					  yourself) }).
+			 looks: { (ToLook forTextForegroundWithBuilder:
+						   BlTextAttributesBuilder new)
+					  initialValue: [ :e | e toTheme colorText ];
+					  disabledValue: [ :e | e toTheme colorBgContainerDisabled ];
+					  hoveredValue: [ :e | e toTheme colorPrimary ];
+					  pressedValue: [ :e | e toTheme colorPrimaryPressed ];
+					  yourself }).
 
 	" default button dashed "
 	self addRule: (ToStyleRule new
@@ -84,13 +84,10 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 						  whenInitialized: [ :e | Color transparent ];
 						  yourself).
 					 (ToBorderLook new
-						  whenDisabled: [ :e |
-							  e toTheme colorBorderDisabled asBlBorder ];
+						  whenDisabled: [ :e | e toTheme colorBorderDisabled asBlBorder ];
 						  whenInitialized: [ :e | e toTheme colorBorder asBlBorder ];
-						  whenHovered: [ :e |
-							  e toTheme colorPrimaryHover asBlBorder ];
-						  whenPressed: [ :e |
-							  e toTheme colorPrimaryPressed asBlBorder ];
+						  whenHovered: [ :e | e toTheme colorPrimaryHover asBlBorder ];
+						  whenPressed: [ :e | e toTheme colorPrimaryPressed asBlBorder ];
 						  yourself) }).
 
 	" ToButton default danger"
@@ -103,8 +100,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 						  whenInitialized: [ :e | Color transparent ];
 						  yourself).
 					 (ToBorderLook new
-						  whenDisabled: [ :e |
-							  e toTheme colorBorderDisabled asBlBorder ];
+						  whenDisabled: [ :e | e toTheme colorBorderDisabled asBlBorder ];
 						  whenInitialized: [ :e | e toTheme colorError asBlBorder ];
 						  whenHovered: [ :e | e toTheme colorErrorHover asBlBorder ];
 						  whenPressed: [ :e |
@@ -122,8 +118,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 						  whenInitialized: [ :e | Color transparent ];
 						  yourself).
 					 (ToBorderLook new
-						  whenDisabled: [ :e |
-							  e toTheme colorBorderDisabled asBlBorder ];
+						  whenDisabled: [ :e | e toTheme colorBorderDisabled asBlBorder ];
 						  whenInitialized: [ :e | e toTheme colorError asBlBorder ];
 						  whenHovered: [ :e | e toTheme colorErrorHover asBlBorder ];
 						  whenPressed: [ :e |
@@ -137,7 +132,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 					  (ToClassSelector new elementClasses: #( #button #danger ))
 					  level: 2) }
 			 looks: { (ToLook new
-		  				applyWith: [ :e :v | self adaptForegroundIn: e withColor: v ];
+					  applyWith: [ :e :v | self adaptForegroundIn: e withColor: v ];
 					  whenDisabled: [ :e | e toTheme colorImageDisabled ];
 					  whenInitialized: [ :e | e toTheme colorError ];
 					  whenHovered: [ :e | e toTheme colorErrorHover ];

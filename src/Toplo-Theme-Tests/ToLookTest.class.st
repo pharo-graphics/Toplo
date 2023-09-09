@@ -150,10 +150,10 @@ ToLookTest >> testChangeBackgroundWithColors [
 	skin := ToWidgetSkin new.
 	skin addLook: (ToLook new
 			 applyWith: [ :e :v | e background: v ];
-			 whenInitialized: Color red;
-			 whenDisabled: Color gray;
-			 whenPressed: Color blue;
-			 whenHovered: Color white;
+			 initialValue: Color red;
+			 disabledValue: Color gray;
+			 pressedValue: Color blue;
+			 hoveredValue: Color white;
 			 yourself).
 	w withSkin: skin.
 	w switchToSkinState: ToInitialState new.
@@ -174,10 +174,10 @@ ToLookTest >> testChangeBorder [
 	skin := ToWidgetSkin new.
 	skin addLook: (ToLook new
 			 applyWith: [ :e :v | e border: v asBlBorder ];
-			 whenDisabled: (BlBorder paint: Color red);
-			 whenInitialized: (BlBorder paint: Color gray);
-			 whenHovered: (BlBorder paint: Color blue);
-			 whenPressed: (BlBorder paint: Color white);
+			 disabledValue: (BlBorder paint: Color red);
+			 initialValue: (BlBorder paint: Color gray);
+			 hoveredValue: (BlBorder paint: Color blue);
+			 pressedValue: (BlBorder paint: Color white);
 			 yourself).
 	w withSkin: skin.
 	w switchToSkinState: ToInitialState new.
@@ -225,11 +225,11 @@ ToLookTest >> testChangeCheckableIcon [
 						          ifFalse: [ indeterminateImage ] ] ] ].
 
 	skin addLook: (ToLook new
-		        applyWith: [ :e :v | v removeFromParent. e iconImage: v ];
-			 whenInstalled: (ToStateUpdater new value: switch);
-			 whenInitialized: (ToStateUpdater new value: switch);
-			 whenDisabled: (ToStateUpdater new value: switch);
-			 whenClicked: (ToStateUpdater new value: switch);
+		        applyWith: [ :e :v | v removeFromParent. e iconImage: v];
+			 installValue:  switch;
+			 initialValue:  switch;
+			 disabledValue:  switch;
+			 clickedValue:  switch;
 			 yourself).
 	w withSkin: skin.
 	w switchToSkinState: ToInstallState new.
@@ -267,10 +267,10 @@ ToLookTest >> testChangeImage [
 
 	look := ToLook new
 		        applyWith: [ :e :v | e innerImage: v ];
-		        whenDisabled: (newForm value mapColor: colorToMap to: Color gray);
-		        whenInitialized: (newForm value mapColor: colorToMap to: Color blue);
-		        whenHovered: (newForm value mapColor: colorToMap to: Color red);
-		        whenPressed: (newForm value mapColor: colorToMap to: Color yellow);
+		        disabledValue: (newForm value mapColor: colorToMap to: Color gray);
+		        initialValue:  (newForm value mapColor: colorToMap to: Color blue);
+		        hoveredValue: (newForm value mapColor: colorToMap to: Color red);
+		        pressedValue: (newForm value mapColor: colorToMap to: Color yellow);
 		        yourself.
 
 	skin addLook: look.
@@ -302,13 +302,20 @@ ToLookTest >> testChangeImageForm [
 	skin := ToWidgetSkin new.
 
 	look := ToLook new
-		        applyWith: [ :e :v | c := v. e withInnerFormDo: [ :form | e innerImage: (form collectColors: [ :color | v alpha: color alpha ]) ] ifNone: [  ] ];
-		        whenInstalled: Color white;
-		        whenDisabled: Color gray;
-		        whenInitialized: Color black;
-		        whenHovered: Color blue;
-		        whenPressed: Color red;
+		        applyWith: [ :e :v |
+			        c := v.
+			        e
+				        withInnerFormDo: [ :form |
+					        e innerImage:
+							        (form collectColors: [ :color | v alpha: color alpha ]) ]
+				        ifNone: [  ] ];
+		        installValue: Color white;
+		        disabledValue: Color gray;
+		        initialValue: Color black;
+		        hoveredValue: Color blue;
+		        pressedValue: Color red;
 		        yourself.
+
 	skin addLook: look.
 	w withSkin: skin.
 	self assert: w privateSkin look equals: look.
@@ -339,10 +346,11 @@ ToLookTest >> testChangeImageFormWithMapColor [
 
 	look := ToLook new
 		        applyWith: [ :e :v | c := v. e withInnerFormDo: [ :f | e innerImage: (f collectColors: [ :color | v alpha: color alpha ]) ] ifNone: [  ] ];
-		        whenDisabled: Color gray;
-		        whenInitialized: Color black;
-		        whenHovered: Color blue;
-		        whenPressed: Color red;
+		        installValue: Color white;
+		        disabledValue: Color gray;
+		        initialValue: Color black;
+		        hoveredValue: Color blue;
+		        pressedValue: Color red;
 		        yourself.
 	skin addLook: look.
 	w withSkin: skin.
@@ -408,13 +416,13 @@ ToLookTest >> testChangeSizePaddingMargin [
 	w := ToElement new.
 	skin := ToWidgetSkin new.
 	sizeLook := ToLook new applyWith: [ :e :s | e size: s ];
-			whenInitialized: 10 @ 20;
+			initialValue: 10 @ 20;
 			yourself.
 	marginLook := ToLook new applyWith: [ :e :s | e margin: s ];
-			whenInitialized: (BlInsets all: 3);
+			initialValue: (BlInsets all: 3);
 			yourself.
 	paddingLook := ToLook new applyWith: [ :e :s | e padding: s ];
-			whenInitialized: (BlInsets all: 4);
+			initialValue: (BlInsets all: 4);
 			yourself.
 	skin addLook: sizeLook.
 	skin addLook: marginLook.
@@ -473,10 +481,10 @@ ToLookTest >> testChangeTextAttributesWithAtributeBuilder [
 			 applyWith: [ :e :v |
 				 e text attributes: v attributes.
 				 e textChanged ];
-			 whenDisabled: (BlTextAttributesBuilder new background: Color gray; yourself);
-			 whenInitialized: (BlTextAttributesBuilder new background: Color white; yourself);
-			 whenHovered: (BlTextAttributesBuilder new background: Color yellow; yourself);
-			 whenPressed: (BlTextAttributesBuilder new background: Color red; yourself);
+			 disabledValue: (BlTextAttributesBuilder new background: Color gray; yourself);
+			 initialValue: (BlTextAttributesBuilder new background: Color white; yourself);
+			 hoveredValue: (BlTextAttributesBuilder new background: Color yellow; yourself);
+			 pressedValue: (BlTextAttributesBuilder new background: Color red; yourself);
 			 yourself).
 	w withSkin: skin.
 	
@@ -508,10 +516,10 @@ ToLookTest >> testChangeTextAttributesWithAtributeBuilder1 [
 	w := ToLabel new text: 'A'.
 	skin := ToWidgetSkin new.
 	skin addLook: (ToLook forTextAttributes 
-			 whenDisabled: (BlTextAttributesBuilder new background: Color gray; yourself);
-			 whenInitialized: (BlTextAttributesBuilder new background: Color white; yourself);
-			 whenHovered: (BlTextAttributesBuilder new background: Color yellow; yourself);
-			 whenPressed: (BlTextAttributesBuilder new background: Color red; yourself);
+			 disabledValue: (BlTextAttributesBuilder new background: Color gray; yourself);
+			 initialValue: (BlTextAttributesBuilder new background: Color white; yourself);
+			 hoveredValue: (BlTextAttributesBuilder new background: Color yellow; yourself);
+			 pressedValue: (BlTextAttributesBuilder new background: Color red; yourself);
 			 yourself).
 	w withSkin: skin.
 	
@@ -544,10 +552,10 @@ ToLookTest >> testChangeTextAttributesWithAtributeBuilder2 [
 	w := ToLabel new text: 'A'.
 	skin := ToWidgetSkin new.
 	skin addLook: ((ToLook forTextForegroundWithBuilder: attrBuilder)
-			 whenDisabled: Color gray;
-			 whenInitialized: Color white;
-			 whenHovered: Color yellow;
-			 whenPressed: Color red;
+			 disabledValue: Color gray;
+			 whenInitialized: [:e | e text attributes: (attrBuilder foreground: Color white) attributes];
+			 hoveredValue: Color yellow;
+			 pressedValue: Color red;
 			 yourself).
 	w withSkin: skin.
 

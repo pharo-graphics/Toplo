@@ -18,7 +18,7 @@ ToStateValue >> applyOn: anElement fromLook: aLook [
 { #category : #converting }
 ToStateValue >> asStateUpdater [ 
 
-	Error signal: 'A value can''t be converted as an updater'
+	Error signal: 'Only valuable can be converted as an updater'
 ]
 
 { #category : #converting }

@@ -1,9 +1,9 @@
 Extension { #name : #Object }
 
 { #category : #'*Toplo' }
-Object >> asStateUpdater [
+Object >> asStateUpdater [ 
 
-	^ ToStateUpdater new value: self
+	Error signal: 'Only valuable can be converted as an updater'
 ]
 
 { #category : #'*Toplo' }

@@ -1,6 +1,6 @@
 Class {
-	#name : #ToPropertyAdapter,
-	#superclass : #ToLookAdapter,
+	#name : #ToPropertyUpdater,
+	#superclass : #ToValueUpdater,
 	#instVars : [
 		'value',
 		'property',
@@ -10,24 +10,24 @@ Class {
 }
 
 { #category : #accessing }
-ToPropertyAdapter >> animation [
+ToPropertyUpdater >> animation [
 
 	^ animation
 ]
 
 { #category : #accessing }
-ToPropertyAdapter >> animation: aPropertyAnimation [
+ToPropertyUpdater >> animation: aPropertyAnimation [
 
 	animation := aPropertyAnimation.
 	animation property: self property
 ]
 
 { #category : #operating }
-ToPropertyAdapter >> announceLookEvent: aLookEvent [
+ToPropertyUpdater >> announceLookEvent: aLookEvent [
 
 	| target rawValue |
 	target := aLookEvent currentTarget.
-	aLookEvent currentUpdater currentAnimation: self animation.
+	aLookEvent currentUpdater ifNotNil: [:u | u currentAnimation: self animation].
 	rawValue := (self valueIn: target).
 	self animation ifNil: [ ^ self property write: rawValue to: target].
 	self animation write: rawValue to: target 
@@ -35,7 +35,7 @@ ToPropertyAdapter >> announceLookEvent: aLookEvent [
 ]
 
 { #category : #converting }
-ToPropertyAdapter >> asPropertyAdapterFor: aPropertyDefinition [
+ToPropertyUpdater >> asPropertyUpdaterFor: aPropertyDefinition [
 
 	^ self
 		  property: aPropertyDefinition;
@@ -43,13 +43,13 @@ ToPropertyAdapter >> asPropertyAdapterFor: aPropertyDefinition [
 ]
 
 { #category : #accessing }
-ToPropertyAdapter >> property [
+ToPropertyUpdater >> property [
 
 	^ property
 ]
 
 { #category : #accessing }
-ToPropertyAdapter >> property: aPropertyDefinition [
+ToPropertyUpdater >> property: aPropertyDefinition [
 
 	property := aPropertyDefinition.
 	self animation ifNotNil: [ :a |
@@ -57,19 +57,19 @@ ToPropertyAdapter >> property: aPropertyDefinition [
 ]
 
 { #category : #accessing }
-ToPropertyAdapter >> value [
+ToPropertyUpdater >> value [
 
 	^ value
 ]
 
 { #category : #accessing }
-ToPropertyAdapter >> value: anObject [
+ToPropertyUpdater >> value: anObject [
 
 	value := anObject
 ]
 
 { #category : #operating }
-ToPropertyAdapter >> valueIn: anElement [
+ToPropertyUpdater >> valueIn: anElement [
 
 	^ value isClosure
 		  ifTrue: [ value value: anElement ]

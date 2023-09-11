@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #tests }
-ToLookUpdaterTest >> testElementAdaption1 [
+ToLookUpdaterTest >> testElementUpdate1 [
 
 	| w updater installEvent |
 	w := ToElement new.
@@ -19,12 +19,12 @@ ToLookUpdaterTest >> testElementAdaption1 [
 ]
 
 { #category : #tests }
-ToLookUpdaterTest >> testPropertyAdaption1 [
+ToLookUpdaterTest >> testPropertyUpdate1 [
 
 	| w updater installEvent prop |
 
 	w := ToElement new.
-	prop := ToPropertyDefinition new.
+	prop := ToExplicitPropertyDefinition new.
 	prop writer: [ :e :v | e background: v ].
 
 	updater := ToLookUpdater new property: prop.
@@ -37,12 +37,12 @@ ToLookUpdaterTest >> testPropertyAdaption1 [
 ]
 
 { #category : #tests }
-ToLookUpdaterTest >> testPropertyAdaption2 [
+ToLookUpdaterTest >> testPropertyUpdate2 [
 
 	| w updater installEvent prop hoveredEvent leavedEvent |
 
 	w := ToElement new.
-	prop := ToPropertyDefinition new.
+	prop := ToExplicitPropertyDefinition new.
 	prop writer: [ :e :v | e background: v ].
 
 	updater := ToLookUpdater new property: prop.
@@ -67,12 +67,12 @@ ToLookUpdaterTest >> testPropertyAdaption2 [
 ]
 
 { #category : #tests }
-ToLookUpdaterTest >> testPropertyAdaption3 [
+ToLookUpdaterTest >> testPropertyUpdate3 [
 
 	| w updater installEvent prop hoveredEvent leavedEvent |
 
 	w := ToElement new.
-	prop := ToPropertyDefinition new.
+	prop := ToExplicitPropertyDefinition new.
 	prop writer: [ :e :v | e background: v ].
 
 	updater := ToLookUpdater new property: prop.

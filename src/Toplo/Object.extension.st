@@ -1,15 +1,15 @@
 Extension { #name : #Object }
 
 { #category : #'*Toplo' }
-Object >> asElementAdapter [ 
+Object >> asElementUpdater [ 
 
 	Error signal: 'Only valuable can be converted as an element adapter'
 ]
 
 { #category : #'*Toplo' }
-Object >> asPropertyAdapterFor: aPropertyDefinition [
+Object >> asPropertyUpdaterFor: aPropertyDefinition [
 
-	^ ToPropertyAdapter new
+	^ ToPropertyUpdater new
 		  value: self;
 		  property: aPropertyDefinition;
 		  yourself

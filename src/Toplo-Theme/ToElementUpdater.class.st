@@ -1,6 +1,6 @@
 Class {
-	#name : #ToElementAdapter,
-	#superclass : #ToLookAdapter,
+	#name : #ToElementUpdater,
+	#superclass : #ToValueUpdater,
 	#instVars : [
 		'valuable'
 	],
@@ -8,25 +8,25 @@ Class {
 }
 
 { #category : #operating }
-ToElementAdapter >> announceLookEvent: aLookEvent [
+ToElementUpdater >> announceLookEvent: aLookEvent [
 
 	self valuable value: aLookEvent currentTarget
 ]
 
 { #category : #converting }
-ToElementAdapter >> asElementAdapter [
+ToElementUpdater >> asElementUpdater [
 
 	^ self
 ]
 
 { #category : #accessing }
-ToElementAdapter >> valuable [
+ToElementUpdater >> valuable [
 
 	^ valuable
 ]
 
 { #category : #accessing }
-ToElementAdapter >> valuable: aValuable [
+ToElementUpdater >> valuable: aValuable [
 
 	valuable := aValuable  
 ]

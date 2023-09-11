@@ -31,14 +31,25 @@ ToLabelSkin >> initialize [
 { #category : #accessing }
 ToLabelSkin >> labelLookIn: anElement [
 
-	^ ToLabelTextLook new
-		  weight: anElement toTheme fontWeightStrong;
-		  defaultFontName: anElement toTheme fontFamilyCode;
-		  defaultFontSize: (self heading fontSizeIn: anElement);
-		  lineSpacing: (self heading lineHeightIn: anElement);
-		  foreground: (self type textColorIn: anElement);
-		  disabledColor: [ :e | e toTheme colorTextDisabled ];
-		  initialColor: [:e | self type textColorIn: anElement ];
+	| prop attrBuilder |
+	prop := ToExplicitPropertyDefinition new name: #'text-attributes'.
+	prop writer: [ :e :v |
+		e text attributes: v attributes.
+		e textChanged ].
+	attrBuilder := BlTextAttributesBuilder new
+		               weight: anElement toTheme fontWeightStrong;
+		               defaultFontName: anElement toTheme fontFamilyCode;
+		               defaultFontSize: (self heading fontSizeIn: anElement);
+		               lineSpacing: (self heading lineHeightIn: anElement);
+		               foreground: (self type textColorIn: anElement);
+		               yourself.
+	^ (ToLookUpdater new property: prop)
+		  when: ToDisabledLookEvent value: (attrBuilder
+				   foreground: anElement toTheme colorTextDisabled;
+				   yourself);
+		  when: ToInitialLookEvent value: (attrBuilder
+			   foreground: (self type textColorIn: anElement);
+			   yourself);
 		  yourself
 ]
 

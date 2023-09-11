@@ -19,7 +19,7 @@ ToLookUpdater class >> forProperty: aPropertyDefinition [
 { #category : #'instance creation' }
 ToLookUpdater class >> forPropertyNamed: aName [
 
-	^ self forProperty: (ToPropertyDefinition propertyNamed: aName)
+	^ self forProperty: (ToExplicitPropertyDefinition propertyNamed: aName)
 ]
 
 { #category : #operating }
@@ -72,6 +72,12 @@ ToLookUpdater >> property: aPropertyDefinition [
 	property := aPropertyDefinition 
 ]
 
+{ #category : #initialization }
+ToLookUpdater >> propertyNamed: aName [
+
+	^ self property: (self propertyDefinitionMap propertyNamed: aName)
+]
+
 { #category : #accessing }
 ToLookUpdater >> subUpdaters [
 
@@ -90,17 +96,21 @@ ToLookUpdater >> when: aLookEventClass do: aStateUpdater [
 	self announcer weak
 		when: aLookEventClass
 		send: #announceLookEvent:
-		to: aStateUpdater asElementAdapter
+		to: aStateUpdater asElementUpdater
 ]
 
 { #category : #declaring }
 ToLookUpdater >> when: aLookEventClass value: aPropertyAdapter [
 
+	| existing |
 	self property ifNil: [ Error signal: 'Invalid use: property is nil ' ].
-	self announcer 
+	" only one subscription is allowed per look event class "
+	existing := self announcer subscriptions subscriptions detect: [:s | s announcementClass = aLookEventClass] ifNone: [].
+	existing ifNotNil: [ self announcer removeSubscription: existing ].
+	self announcer
 		when: aLookEventClass
 		send: #announceLookEvent:
-		to: (aPropertyAdapter asPropertyAdapterFor: self property)
+		to: (aPropertyAdapter asPropertyUpdaterFor: self property)
 ]
 
 { #category : #declaring }
@@ -110,7 +120,7 @@ ToLookUpdater >> when: aLookEventClass value: aPropertyAdapter animation: anAnim
 	self announcer 
 		when: aLookEventClass
 		send: #announceLookEvent:
-		to: ((aPropertyAdapter asPropertyAdapterFor: self property) animation: anAnimation)
+		to: ((aPropertyAdapter asPropertyUpdaterFor: self property) animation: anAnimation)
 ]
 
 { #category : #accessing }

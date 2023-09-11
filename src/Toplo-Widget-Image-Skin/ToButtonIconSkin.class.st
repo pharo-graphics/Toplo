@@ -33,7 +33,7 @@ ToButtonIconSkin >> danger: aBoolean [
 { #category : #'api - install/uninstall  hook' }
 ToButtonIconSkin >> dangerFormLookIn: anElement [
 
-	^ ToLook new
+	^ ToLookDep new
 		  applyWith: [ :e :v | self adaptForegroundIn: e withColor: v ];
 		  whenDisabled: [ :e | e toTheme colorImageDisabled ];
 		  whenInitialized: [ :e | e toTheme colorError ];

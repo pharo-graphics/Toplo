@@ -157,7 +157,7 @@ ToClickableSkin >> dashed: aBoolean [
 { #category : #'api - install/uninstall  hook' }
 ToClickableSkin >> defaultCursorLookIn: anElement [
 
-	^ ToLook new
+	^ ToLookDep new
 		  applyWith: [ :e :v | e mouseCursor: v ];
 		  whenHovered: [ :but |
 			  but isEnabled

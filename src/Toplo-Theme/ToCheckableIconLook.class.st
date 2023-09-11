@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCheckableIconLook,
 	#superclass : #ToMultiStateLook,
-	#category : #'Toplo-Theme-Look'
+	#category : #'Toplo-Theme-Look-Dep'
 }
 
 { #category : #testing }

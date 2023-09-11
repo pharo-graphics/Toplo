@@ -11,7 +11,7 @@ Class {
 		'disabledColor',
 		'selectedColor'
 	],
-	#category : #'Toplo-Theme-Look'
+	#category : #'Toplo-Theme-Look-Dep'
 }
 
 { #category : #testing }

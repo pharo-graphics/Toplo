@@ -1,9 +1,17 @@
 Extension { #name : #BlockClosure }
 
 { #category : #'*Toplo' }
+BlockClosure >> asElementAdapter [
+
+	^ ToElementAdapter new
+		  valuable: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
 BlockClosure >> asStateUpdater [
 
-	^ ToStateUpdater new
+	^ ToStateUpdaterDep new
 		  applyWith: self;
 		  yourself
 ]

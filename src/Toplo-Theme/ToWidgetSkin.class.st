@@ -56,7 +56,7 @@ ToWidgetSkin >> childSkinsToHandle [
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> defaultCursorLookIn: anElement [
 
-	^ ToLook new
+	^ ToLookUpdater new 
 ]
 
 { #category : #accessing }

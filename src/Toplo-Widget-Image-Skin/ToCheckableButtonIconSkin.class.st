@@ -17,7 +17,7 @@ ToCheckableButtonIconSkin >> onSkinInstalledIn: anElement [
 
 	super onSkinInstalledIn: anElement.
 	anElement geometry: (self geometryIn: anElement).
-	borderLook := ToLook new
+	borderLook := ToLookDep new
 		              applyWith: [ :e :v | e border: v asBlBorder ];
 		              whenDisabled: [ :e |
 			              e toTheme colorBorderDisabled ];

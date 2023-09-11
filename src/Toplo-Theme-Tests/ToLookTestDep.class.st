@@ -2,13 +2,13 @@
 A ToLookTest is a test class for testing the behavior of ToLook
 "
 Class {
-	#name : #ToLookTest,
+	#name : #ToLookTestDep,
 	#superclass : #TestCase,
-	#category : #'Toplo-Theme-Tests-Look'
+	#category : #'Toplo-Theme-Tests-Look-Dep'
 }
 
 { #category : #background }
-ToLookTest >> changeBackgroundWithAnimation: anAnimation on: anElement with: aBackground [
+ToLookTestDep >> changeBackgroundWithAnimation: anAnimation on: anElement with: aBackground [
 
 	anElement isDisabled ifTrue: [
 		^ anElement switchToSkinState: ToDisabledState new ].
@@ -18,7 +18,7 @@ ToLookTest >> changeBackgroundWithAnimation: anAnimation on: anElement with: aBa
 ]
 
 { #category : #background }
-ToLookTest >> changeBackgroundWithColorTransitionOn: anElement from: aFirstColor to: aSecondColor [
+ToLookTestDep >> changeBackgroundWithColorTransitionOn: anElement from: aFirstColor to: aSecondColor [
 
 	| animation |
 
@@ -33,7 +33,7 @@ ToLookTest >> changeBackgroundWithColorTransitionOn: anElement from: aFirstColor
 ]
 
 { #category : #background }
-ToLookTest >> changeBackgroundWithColorTransitionOn: anElement with: aColor [
+ToLookTestDep >> changeBackgroundWithColorTransitionOn: anElement with: aColor [
 
 	| currentBackground currentColor animation |
 	aColor ifNil: [^ self ].
@@ -52,12 +52,12 @@ ToLookTest >> changeBackgroundWithColorTransitionOn: anElement with: aColor [
 ]
 
 { #category : #background }
-ToLookTest >> testChangeBackground [
+ToLookTestDep >> testChangeBackground [
 
 	| w skin look |
 	w := ToElement new.
 	skin := ToWidgetSkin new.
-	look := ToLook forBackground 
+	look := ToLookDep forBackground 
 		        installValue: (BlBackground paint: Color yellow);
 		        initialValue: (BlBackground paint: Color red);
 		        disabledValue: (BlBackground paint: Color gray);
@@ -79,12 +79,12 @@ ToLookTest >> testChangeBackground [
 ]
 
 { #category : #background }
-ToLookTest >> testChangeBackgroundWithAnimation [
+ToLookTestDep >> testChangeBackgroundWithAnimation [
 
 	| w skin look animation |
 	w := ToElement new.
 	skin := ToWidgetSkin new.
-	look := ToLook new
+	look := ToLookDep new
 		        applyWith: [ :e :v |
 			        animation := self
 				                     changeBackgroundWithColorTransitionOn: e
@@ -120,12 +120,12 @@ ToLookTest >> testChangeBackgroundWithAnimation [
 ]
 
 { #category : #background }
-ToLookTest >> testChangeBackgroundWithClosure [
+ToLookTestDep >> testChangeBackgroundWithClosure [
 
 	| w skin |
 	w := ToElement new.
 	skin := ToWidgetSkin new.
-	skin addLook: (ToLook forBackground 
+	skin addLook: (ToLookDep forBackground 
 			 whenInitialized: [ :e | e background: Color red ];
 			 disabledValue: Color gray ;
 			 pressedValue: Color blue ;
@@ -143,12 +143,12 @@ ToLookTest >> testChangeBackgroundWithClosure [
 ]
 
 { #category : #background }
-ToLookTest >> testChangeBackgroundWithColors [
+ToLookTestDep >> testChangeBackgroundWithColors [
 
 	| w skin |
 	w := ToElement new.
 	skin := ToWidgetSkin new.
-	skin addLook: (ToLook new
+	skin addLook: (ToLookDep new
 			 applyWith: [ :e :v | e background: v ];
 			 initialValue: Color red;
 			 disabledValue: Color gray;
@@ -167,12 +167,12 @@ ToLookTest >> testChangeBackgroundWithColors [
 ]
 
 { #category : #border }
-ToLookTest >> testChangeBorder [
+ToLookTestDep >> testChangeBorder [
 
 	| w skin |
 	w := ToElement new.
 	skin := ToWidgetSkin new.
-	skin addLook: (ToLook new
+	skin addLook: (ToLookDep new
 			 applyWith: [ :e :v | e border: v asBlBorder ];
 			 disabledValue: (BlBorder paint: Color red);
 			 initialValue: (BlBorder paint: Color gray);
@@ -192,7 +192,7 @@ ToLookTest >> testChangeBorder [
 ]
 
 { #category : #'checkable icon' }
-ToLookTest >> testChangeCheckableIcon [
+ToLookTestDep >> testChangeCheckableIcon [
 
 	| w skin disabledImage checkedImage uncheckedImage indeterminateImage switch |
 	w := ToCheckLookTestElement new.
@@ -224,7 +224,7 @@ ToLookTest >> testChangeCheckableIcon [
 						          ifTrue: [ uncheckedImage ]
 						          ifFalse: [ indeterminateImage ] ] ] ].
 
-	skin addLook: (ToLook new
+	skin addLook: (ToLookDep new
 		        applyWith: [ :e :v | v removeFromParent. e iconImage: v];
 			 installValue:  switch;
 			 initialValue:  switch;
@@ -257,7 +257,7 @@ ToLookTest >> testChangeCheckableIcon [
 ]
 
 { #category : #'image form' }
-ToLookTest >> testChangeImage [
+ToLookTestDep >> testChangeImage [
 
 	| w skin look colorToMap newForm |
 	newForm := [ ColorForm extent: 16 asPoint ].
@@ -265,7 +265,7 @@ ToLookTest >> testChangeImage [
 	w := ToImage new.
 	skin := ToWidgetSkin new.
 
-	look := ToLook new
+	look := ToLookDep new
 		        applyWith: [ :e :v | e innerImage: v ];
 		        disabledValue: (newForm value mapColor: colorToMap to: Color gray);
 		        initialValue:  (newForm value mapColor: colorToMap to: Color blue);
@@ -295,13 +295,13 @@ ToLookTest >> testChangeImage [
 ]
 
 { #category : #'image form' }
-ToLookTest >> testChangeImageForm [
+ToLookTestDep >> testChangeImageForm [
 
 	| w skin look c |
 	w := ToImage new.
 	skin := ToWidgetSkin new.
 
-	look := ToLook new
+	look := ToLookDep new
 		        applyWith: [ :e :v |
 			        c := v.
 			        e
@@ -337,14 +337,14 @@ ToLookTest >> testChangeImageForm [
 ]
 
 { #category : #'image form' }
-ToLookTest >> testChangeImageFormWithMapColor [
+ToLookTestDep >> testChangeImageFormWithMapColor [
 
 	| w skin look form c |
 	form := ColorForm extent: 16 asPoint depth: 32.
 	w := ToImage new innerImage: form.
 	skin := ToWidgetSkin new.
 
-	look := ToLook new
+	look := ToLookDep new
 		        applyWith: [ :e :v | c := v. e withInnerFormDo: [ :f | e innerImage: (f collectColors: [ :color | v alpha: color alpha ]) ] ifNone: [  ] ];
 		        installValue: Color white;
 		        disabledValue: Color gray;
@@ -371,12 +371,12 @@ ToLookTest >> testChangeImageFormWithMapColor [
 ]
 
 { #category : #layout }
-ToLookTest >> testChangeLinearLayout [
+ToLookTestDep >> testChangeLinearLayout [
 
 	| w skin look |
 	w := ToElement new.
 	skin := ToWidgetSkin new.
-	look := ToLook new
+	look := ToLookDep new
 		        whenInstalled: [ :e |
 			        e layout: BlLinearLayout new.
 			        e layout leftToRight.
@@ -410,18 +410,18 @@ ToLookTest >> testChangeLinearLayout [
 ]
 
 { #category : #'size - margin - padding' }
-ToLookTest >> testChangeSizePaddingMargin [
+ToLookTestDep >> testChangeSizePaddingMargin [
 
 	| w skin sizeLook marginLook paddingLook |
 	w := ToElement new.
 	skin := ToWidgetSkin new.
-	sizeLook := ToLook new applyWith: [ :e :s | e size: s ];
+	sizeLook := ToLookDep new applyWith: [ :e :s | e size: s ];
 			initialValue: 10 @ 20;
 			yourself.
-	marginLook := ToLook new applyWith: [ :e :s | e margin: s ];
+	marginLook := ToLookDep new applyWith: [ :e :s | e margin: s ];
 			initialValue: (BlInsets all: 3);
 			yourself.
-	paddingLook := ToLook new applyWith: [ :e :s | e padding: s ];
+	paddingLook := ToLookDep new applyWith: [ :e :s | e padding: s ];
 			initialValue: (BlInsets all: 4);
 			yourself.
 	skin addLook: sizeLook.
@@ -441,18 +441,18 @@ ToLookTest >> testChangeSizePaddingMargin [
 ]
 
 { #category : #'size - margin - padding' }
-ToLookTest >> testChangeSizePaddingMargin2 [
+ToLookTestDep >> testChangeSizePaddingMargin2 [
 
 	| w skin sizeLook marginLook paddingLook |
 	w := ToElement new.
 	skin := ToWidgetSkin new.
-	sizeLook := ToLook new
+	sizeLook := ToLookDep new
 			whenInitialized: [:e | e size: 10 @ 20];
 			yourself.
-	marginLook := ToLook new
+	marginLook := ToLookDep new
 			whenInitialized: [:e | e margin: (BlInsets all: 3) ];
 			yourself.
-	paddingLook := ToLook new 
+	paddingLook := ToLookDep new 
 			whenInitialized: [:e | e padding: (BlInsets all: 4)];
 			yourself.
 	skin addLook: sizeLook.
@@ -472,12 +472,12 @@ ToLookTest >> testChangeSizePaddingMargin2 [
 ]
 
 { #category : #'label text attributes' }
-ToLookTest >> testChangeTextAttributesWithAtributeBuilder [
+ToLookTestDep >> testChangeTextAttributesWithAtributeBuilder [
 
 	| w skin firstCharFirstAttr |
 	w := ToLabel new text: 'A'.
 	skin := ToWidgetSkin new.
-	skin addLook: (ToLook new
+	skin addLook: (ToLookDep new
 			 applyWith: [ :e :v |
 				 e text attributes: v attributes.
 				 e textChanged ];
@@ -510,12 +510,12 @@ ToLookTest >> testChangeTextAttributesWithAtributeBuilder [
 ]
 
 { #category : #'label text attributes' }
-ToLookTest >> testChangeTextAttributesWithAtributeBuilder1 [
+ToLookTestDep >> testChangeTextAttributesWithAtributeBuilder1 [
 
 	| w skin firstCharFirstAttr |
 	w := ToLabel new text: 'A'.
 	skin := ToWidgetSkin new.
-	skin addLook: (ToLook forTextAttributes 
+	skin addLook: (ToLookDep forTextAttributes 
 			 disabledValue: (BlTextAttributesBuilder new background: Color gray; yourself);
 			 initialValue: (BlTextAttributesBuilder new background: Color white; yourself);
 			 hoveredValue: (BlTextAttributesBuilder new background: Color yellow; yourself);
@@ -545,13 +545,13 @@ ToLookTest >> testChangeTextAttributesWithAtributeBuilder1 [
 ]
 
 { #category : #'label text attributes' }
-ToLookTest >> testChangeTextAttributesWithAtributeBuilder2 [
+ToLookTestDep >> testChangeTextAttributesWithAtributeBuilder2 [
 
 	| w skin firstCharFirstAttr attrBuilder |
 	attrBuilder := BlTextAttributesBuilder new.
 	w := ToLabel new text: 'A'.
 	skin := ToWidgetSkin new.
-	skin addLook: ((ToLook forTextForegroundWithBuilder: attrBuilder)
+	skin addLook: ((ToLookDep forTextForegroundWithBuilder: attrBuilder)
 			 disabledValue: Color gray;
 			 whenInitialized: [:e | e text attributes: (attrBuilder foreground: Color white) attributes];
 			 hoveredValue: Color yellow;
@@ -581,12 +581,12 @@ ToLookTest >> testChangeTextAttributesWithAtributeBuilder2 [
 ]
 
 { #category : #background }
-ToLookTest >> testNoBackgroundColor [
+ToLookTestDep >> testNoBackgroundColor [
 
 	| w skin |
 	w := ToElement new.
 	skin := ToWidgetSkin new.
-	skin addLook: (ToLook new
+	skin addLook: (ToLookDep new
 			 applyWith: [ :e :v | e background: v ];
 			 yourself).
 	w withSkin: skin.
@@ -595,12 +595,12 @@ ToLookTest >> testNoBackgroundColor [
 ]
 
 { #category : #border }
-ToLookTest >> testNoBorder [
+ToLookTestDep >> testNoBorder [
 
 	| w skin |
 	w := ToElement new.
 	skin := ToWidgetSkin new.
-	skin addLook: (ToLook new
+	skin addLook: (ToLookDep new
 			 applyWith: [ :e :v | e border: v asBlBorder ];
 			 yourself).
 	w withSkin: skin.

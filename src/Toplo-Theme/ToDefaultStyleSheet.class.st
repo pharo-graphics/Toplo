@@ -12,13 +12,13 @@ ToDefaultStyleSheet >> addButtonRules [
 			 selectors:
 			 { (ToClassSelector new elementClasses:
 				  #( #button #'no-border' )) }
-			 looks: { ToLook forBorder}).
+			 looks: { ToLookDep forBorder}).
 
 	" no background for #link ( which elementClass includes #'no-background' ) "
 	self addRule: (ToStyleRule new
 			 selectors: { (ToClassSelector new elementClasses:
 					  #( #button #'no-background' )) }
-			 looks: { ToLook forBackground }).
+			 looks: { ToLookDep forBackground }).
 
 	self addDefaultButtonRules.
 	self addPrimaryButtonRules.
@@ -35,11 +35,11 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 	self addRule: (ToStyleRule new
 			 selectors: { (ToClassSelector new elementClass: #button) }
 			 looks: {
-					 (ToLook forBackground
+					 (ToLookDep forBackground
 						  whenInitialized: [ :e | e background: Color transparent ];
 						  disabledValue: [ :e | e toTheme colorBgContainerDisabled ];
 						  yourself).
-					 (ToLook forBorder
+					 (ToLookDep forBorder
 						  whenInitialized: [ :e | e border: e toTheme colorBorder ];
 						  disabledValue: [ :e |
 							  e toTheme colorBorderDisabled asBlBorder ];
@@ -53,7 +53,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 					  parent: (ToClassSelector new elementClass: #button)
 					  level: 2) }
 			 looks:
-				 { ((ToLook forTextForegroundWithBuilder:
+				 { ((ToLookDep forTextForegroundWithBuilder:
 						   BlTextAttributesBuilder new)
 					  initialValue: [ :e | e toTheme colorText ];
 					  disabledValue: [ :e | e toTheme colorBgContainerDisabled ];
@@ -66,7 +66,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 			 selectors: { ((ToClassSelector new elementClass: #label)
 					  parent: (ToClassSelector new elementClass: #button)
 					  level: 2) }
-			 looks: { (ToLook forTextForegroundWithBuilder:
+			 looks: { (ToLookDep forTextForegroundWithBuilder:
 						   BlTextAttributesBuilder new)
 					  initialValue: [ :e | e toTheme colorText ];
 					  disabledValue: [ :e | e toTheme colorBgContainerDisabled ];
@@ -131,7 +131,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 					  parent:
 					  (ToClassSelector new elementClasses: #( #button #danger ))
 					  level: 2) }
-			 looks: { (ToLook new
+			 looks: { (ToLookDep new
 					  applyWith: [ :e :v | self adaptForegroundIn: e withColor: v ];
 					  whenDisabled: [ :e | e toTheme colorImageDisabled ];
 					  whenInitialized: [ :e | e toTheme colorError ];

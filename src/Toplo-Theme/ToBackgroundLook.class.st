@@ -1,7 +1,7 @@
 Class {
 	#name : #ToBackgroundLook,
 	#superclass : #ToMultiStateLook,
-	#category : #'Toplo-Theme-Look'
+	#category : #'Toplo-Theme-Look-Dep'
 }
 
 { #category : #testing }
@@ -53,7 +53,7 @@ ToBackgroundLook >> disabledColor: aValuable [
 { #category : #'deprecated accessing' }
 ToBackgroundLook >> duration: aNumber [
 
-	self deprecated: 'Set duration with a ' , ToStateUpdater name , ' instead '
+	self deprecated: 'Set duration with a ' , ToStateUpdaterDep name , ' instead '
 ]
 
 { #category : #'deprecated accessing' }

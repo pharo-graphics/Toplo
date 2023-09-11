@@ -8,7 +8,7 @@ Class {
 		'disabledAction',
 		'initialAction'
 	],
-	#category : #'Toplo-Theme-Look'
+	#category : #'Toplo-Theme-Look-Dep'
 }
 
 { #category : #testing }

@@ -42,8 +42,8 @@ ToButtonPrimaryType >> regularBackgroundLookIn: anElement [
 	^ ToBackgroundLook new
 		  whenInitialized: anElement toTheme colorPrimary;
 		  whenDisabled: anElement toTheme colorBgContainerDisabled;
-		  whenPressed: (ToStateUpdater new value: anElement toTheme colorPrimaryPressed; duration: 200 milliSeconds; yourself);
-		  whenHovered: (ToStateUpdater new value: anElement toTheme colorPrimaryHover; duration: 200 milliSeconds; yourself);
+		  whenPressed: (ToStateUpdaterDep new value: anElement toTheme colorPrimaryPressed; duration: 200 milliSeconds; yourself);
+		  whenHovered: (ToStateUpdaterDep new value: anElement toTheme colorPrimaryHover; duration: 200 milliSeconds; yourself);
 		  yourself
 ]
 

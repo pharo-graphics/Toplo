@@ -1,8 +1,23 @@
 Class {
 	#name : #ToElementLookEvent,
 	#superclass : #BlEvent,
+	#instVars : [
+		'currentUpdater'
+	],
 	#category : #'Toplo-Theme-Core'
 }
+
+{ #category : #accessing }
+ToElementLookEvent >> currentUpdater [
+
+	^ currentUpdater
+]
+
+{ #category : #accessing }
+ToElementLookEvent >> currentUpdater: anObject [
+
+	currentUpdater := anObject
+]
 
 { #category : #accessing }
 ToElementLookEvent >> elementDo: aBlock [
@@ -19,5 +34,5 @@ ToElementLookEvent >> sendTo: anObject [
 { #category : #sending }
 ToElementLookEvent >> sendToLook: aLook [
 
-	self subclassResponsibility 
+	aLook announceLookEvent: self
 ]

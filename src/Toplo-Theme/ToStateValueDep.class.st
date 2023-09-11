@@ -1,14 +1,14 @@
 Class {
-	#name : #ToStateValue,
-	#superclass : #ToStateUpdater,
+	#name : #ToStateValueDep,
+	#superclass : #ToStateUpdaterDep,
 	#instVars : [
 		'value'
 	],
-	#category : #'Toplo-Theme-Look'
+	#category : #'Toplo-Theme-Look-Dep'
 }
 
 { #category : #operating }
-ToStateValue >> applyOn: anElement fromLook: aLook [
+ToStateValueDep >> applyOn: anElement fromLook: aLook [
 
 	| doer |
 	doer := self applyBlock ifNil: [ aLook applyBlock ].
@@ -16,25 +16,25 @@ ToStateValue >> applyOn: anElement fromLook: aLook [
 ]
 
 { #category : #converting }
-ToStateValue >> asStateUpdater [ 
+ToStateValueDep >> asStateUpdater [ 
 
 	Error signal: 'Only valuable can be converted as an updater'
 ]
 
 { #category : #converting }
-ToStateValue >> asStateValue [
+ToStateValueDep >> asStateValue [
 
 	^ self
 ]
 
 { #category : #accessing }
-ToStateValue >> value: anObject [
+ToStateValueDep >> value: anObject [
 
 	value := anObject
 ]
 
 { #category : #accessing }
-ToStateValue >> valueIn: anElement [
+ToStateValueDep >> valueIn: anElement [
 
 	^ value isClosure
 		  ifTrue: [ value value: anElement ]

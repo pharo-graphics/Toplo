@@ -10,35 +10,35 @@ Class {
 { #category : #'button skin building' }
 ToStyleSheetTest >> testButtonSkin0 [
 
-	| ss button looks skin labelSkin attributes foregroundAttr |
+	| ss button looks skin labelSkin attributes foregroundAttr prop |
 	ss := ToStyleSheet new.
 
 	" default button rule "
-	ss addRule: (ToStyleRule new
-			 selectors: { (ToClassSelector new elementClass: #button) }
-			 looks: {
-					 (ToLookDep forBackground 
-						  disabledValue: [ :e | e toTheme colorBgContainerDisabled ];
-						  initialValue: [ :e | Color transparent ];
-						  yourself).
-					 (ToLookDep forBorder
-						  disabledValue: [ :e | e toTheme colorBorderDisabled ];
-						  initialValue: [ :e | e toTheme colorBorder ];
-						  hoveredValue: [ :e | e toTheme colorPrimaryHover ];
-						  pressedValue: [ :e | e toTheme colorPrimaryPressed ] yourself) }).
+	ss addRule: (ToStyleRule new selectors: { (ToClassSelector new elementClass: #button) } looks: {
+				 ((ToLookUpdater new property: (ToInstVarPropertyDefinition new name: #background))
+					  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
+					  when: ToInitialLookEvent value: [ :e | Color transparent ];
+					  yourself).
+				 ((ToLookUpdater new property: (ToInstVarPropertyDefinition new name: #border))
+					  when: ToDisabledLookEvent value: [ :e | e toTheme colorBorderDisabled ];
+					  when: ToInitialLookEvent value: [ :e | e toTheme colorBorder ];
+					  when: ToHoveredLookEvent value: [ :e | e toTheme colorPrimaryHover ];
+					  when: ToPressedLookEvent value: [ :e | e toTheme colorPrimaryPressed ];
+					  yourself) }).
 
 	" danger button label rule "
+	prop := ToExplicitPropertyDefinition new name: #'text-attributes'.
+	prop writer: [ :e :v |
+		e text attributes: (BlTextAttributesBuilder new foreground: v) attributes.
+		e textChanged ].
 	ss addRule: (ToStyleRule new
-			 selectors: { ((ToClassSelector new elementClass: #'button-label')
-					  parent:
-					  (ToClassSelector new elementClasses: #( #button #danger ))
-					  level: 2) }
-			 looks: { (ToLookDep forTextForegroundWithBuilder: BlTextAttributesBuilder new)
-					  disabledValue: [ :e | e toTheme colorTextDisabled ];
-					  initialValue: [ :e | e toTheme colorError ];
-					  hoveredValue: [ :e | e toTheme colorErrorHover ];
-					  pressedValue: [ :e | e toTheme colorError darker ];
-					  yourself }).
+			 selectors: { ((ToClassSelector new elementClass: #'button-label') parent: (ToClassSelector new elementClasses: #( #button #danger )) level: 2) }
+			 looks: { ((ToLookUpdater new property: prop)
+					  when: ToDisabledLookEvent value: [ :e | e toTheme colorTextDisabled ];
+					  when: ToInitialLookEvent value: [ :e | e toTheme colorError ];
+					  when: ToHoveredLookEvent value: [ :e | e toTheme colorErrorHover ];
+					  when: ToPressedLookEvent value: [ :e | e toTheme colorError darker ];
+					  yourself) }).
 
 
 	button := ToButton new.
@@ -52,9 +52,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 	button checkSkinInstallation.
 	self assert: button border width equals: 1.
 	self assert: button border paint isColorPaint.
-	self
-		assert: button border paint color
-		equals: button toTheme colorBorder.
+	self assert: button border paint color equals: button toTheme colorBorder.
 
 	button labelText: 'Default'.
 	button label withSkin: nil.
@@ -76,60 +74,48 @@ ToStyleSheetTest >> testButtonSkin0 [
 	attributes := button label text attributesAt: 1.
 	self assert: attributes notEmpty.
 	foregroundAttr := attributes
-		                  detect: [ :eachAttribute |
-		                  eachAttribute isKindOf: BlTextForegroundAttribute ]
-		                  ifNone: [
-			                  self fail:
-				                  'should have a foreground attribute (toTheme colorError)' ].
-	self
-		assert: foregroundAttr paint
-		equals: button label toTheme colorError
+		                  detect: [ :eachAttribute | eachAttribute isKindOf: BlTextForegroundAttribute ]
+		                  ifNone: [ self fail: 'should have a foreground attribute (toTheme colorError)' ].
+	self assert: foregroundAttr paint equals: button label toTheme colorError
 ]
 
 { #category : #'button skin building' }
 ToStyleSheetTest >> testButtonSkin1 [
 
-	| ss button looks initC |
+	| ss button looks initC prop |
 	ss := ToStyleSheet new.
 
 	" default button rule "
+	ss addRule:
+		(ToStyleRule new selectors: { (ToClassSelector new elementClass: #button) } looks: { ((ToLookUpdater new property: (ToInstVarPropertyDefinition new name: #background))
+				  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
+				  when: ToInitialLookEvent value: [ :e | Color gray ];
+				  yourself) }).
+	prop := ToExplicitPropertyDefinition new name: #'text-attributes'.
+	prop writer: [ :e :v |
+		e text attributes: (BlTextAttributesBuilder new foreground: v) attributes.
+		e textChanged ].
 	ss addRule: (ToStyleRule new
-			 selectors: { (ToClassSelector new elementClass: #button) }
-			 looks: { (ToLookDep forBackground
-					  disabledValue: [ :e | e toTheme colorBgContainerDisabled ];
-					  initialValue: [ :e | Color gray ];
-					  yourself) }).
-
-	ss addRule: (ToStyleRule new
-			 selectors: { ((ToClassSelector new elementClass: #label)
-					  parent:
-					  (ToClassSelector new elementClass: #'triplet-inner-element')
-					  level: 1) }
-			 looks: { (ToLookDep forTextAttributes 
-					  disabledValue: [ :e | BlTextAttributesBuilder new foreground: e toTheme colorTextDisabled ];
-					  initialValue: [ :e | BlTextAttributesBuilder new foreground: (initC := e toTheme colorText) ];
-					  hoveredValue: [ :e | BlTextAttributesBuilder new foreground: e toTheme colorPrimary ];
-					  pressedValue: [ :e | BlTextAttributesBuilder new foreground: e toTheme colorPrimaryPressed ];
+			 selectors: { ((ToClassSelector new elementClass: #label) parent: (ToClassSelector new elementClass: #'triplet-inner-element') level: 1) }
+			 looks: { ((ToLookUpdater new property: prop)
+					  when: ToDisabledLookEvent value: [ :e | e toTheme colorTextDisabled ];
+					  when: ToInitialLookEvent value: [ :e | initC := e toTheme colorText ];
+					  when: ToHoveredLookEvent value: [ :e | e toTheme colorPrimary ];
+					  when: ToPressedLookEvent value: [ :e | e toTheme colorPrimaryPressed ];
 					  yourself) }).
 
 
 	button := ToButton new.
 	looks := ss looksFor: button.
 	self assert: looks size equals: 1.
-	self assert: looks first class equals: ToLookDep.
-	self
-		assert: (looks first initialValue valueIn: nil)
-		equals: Color gray.
+	self assert: looks first class equals: ToLookUpdater.
 
 	button labelText: 'Default'.
 	looks := ss looksFor: button label.
 	self assert: looks size equals: 1.
-	self assert: looks first class equals: ToLookDep.
-	looks first initialValue valueIn: button.
-	self
-		assert: initC
-		equals: button toTheme colorText.
-
+	self assert: looks first class equals: ToLookUpdater.
+	looks first announceLookEvent: (ToInitialLookEvent new currentTarget: button label).
+	self assert: initC equals: button toTheme colorText
 ]
 
 { #category : #'button skin building' }

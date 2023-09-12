@@ -1,5 +1,5 @@
 Class {
 	#name : #ToValueUpdater,
 	#superclass : #Object,
-	#category : #'Toplo-Theme-Look'
+	#category : #'Toplo-Theme-LookUpdater'
 }

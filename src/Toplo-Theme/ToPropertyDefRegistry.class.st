@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'map'
 	],
-	#category : #'Toplo-Theme-Look'
+	#category : #'Toplo-Theme-LookUpdater'
 }
 
 { #category : #initialization }
@@ -18,6 +18,12 @@ ToPropertyDefRegistry >> initialize [
 ToPropertyDefRegistry >> map [
 
 	^ map
+]
+
+{ #category : #accessing }
+ToPropertyDefRegistry >> newPropertyUpdaterFromName: aName [
+
+	^ (self propertyNamed: aName) ifNotNil: [ :p | ToLookUpdater new property: p ]
 ]
 
 { #category : #accessing }
@@ -36,10 +42,4 @@ ToPropertyDefRegistry >> record: aPropertyDefinition [
 ToPropertyDefRegistry >> recordAll: aCollectionOfPropertyDefinition [
 
 	aCollectionOfPropertyDefinition do: [ :d | self record: d ]
-]
-
-{ #category : #accessing }
-ToPropertyDefRegistry >> updaterForPropertyNamed: aName [
-
-	^ (self propertyNamed: aName) ifNotNil: [ :p | ToLookUpdater new property: p ]
 ]

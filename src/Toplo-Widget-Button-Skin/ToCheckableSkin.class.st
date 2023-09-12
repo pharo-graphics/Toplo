@@ -83,7 +83,7 @@ ToCheckableSkin >> onSkinInstalledIn: anElement [
 						          ifFalse: [  e indeterminateImage   ] ] ] ].
 
 	super onSkinInstalledIn: anElement.
-	self addLook: (ToLookDep new
+	self addLookUpdater: (ToLookDep new
 			 applyWith: [ :e :v |
 				 v removeFromParent.
 				 e iconImage: v ];

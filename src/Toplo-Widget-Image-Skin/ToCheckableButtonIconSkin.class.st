@@ -25,5 +25,5 @@ ToCheckableButtonIconSkin >> onSkinInstalledIn: anElement [
 		              whenHovered: [ :e | e toTheme colorPrimaryHover ];
 		              whenPressed: [ :e |
 			              e toTheme colorPrimaryPressed ].
-	self addLook: borderLook
+	self addLookUpdater: borderLook
 ]

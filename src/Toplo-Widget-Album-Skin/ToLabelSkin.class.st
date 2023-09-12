@@ -57,7 +57,7 @@ ToLabelSkin >> labelLookIn: anElement [
 ToLabelSkin >> onSkinInstalledIn: anElement [
 
 	super onSkinInstalledIn: anElement.
-	self addLook: (self labelLookIn: anElement).
+	self addLookUpdater: (self labelLookIn: anElement).
 
 
 

@@ -5,19 +5,13 @@ Class {
 		'announcer',
 		'property'
 	],
-	#category : #'Toplo-Theme-Look'
+	#category : #'Toplo-Theme-LookUpdater'
 }
 
 { #category : #'instance creation' }
 ToLookUpdater class >> forProperty: aPropertyDefinition [
 
 	^ self new property: aPropertyDefinition
-]
-
-{ #category : #'instance creation' }
-ToLookUpdater class >> forPropertyNamed: aName [
-
-	^ self forProperty: (ToExplicitPropertyDef propertyNamed: aName)
 ]
 
 { #category : #operating }
@@ -34,6 +28,13 @@ ToLookUpdater >> announceLookEvent: aLookEvent [
 ToLookUpdater >> announcer [
 
 	^ announcer
+]
+
+{ #category : #'api - accessing' }
+ToLookUpdater >> findSkinPropertyNamed: name [
+
+	self property name = name ifTrue: [ ^ self property ].
+	^ super findSkinPropertyNamed: name
 ]
 
 { #category : #initialization }
@@ -53,12 +54,6 @@ ToLookUpdater >> property [
 ToLookUpdater >> property: aPropertyDefinition [
 
 	property := aPropertyDefinition 
-]
-
-{ #category : #initialization }
-ToLookUpdater >> propertyNamed: aName [
-
-	^ self property: (self propertyDefMap propertyNamed: aName)
 ]
 
 { #category : #declaring }

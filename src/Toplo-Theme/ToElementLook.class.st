@@ -38,6 +38,12 @@ ToElementLook >> elementLookEvent: anEvent [
 
 ]
 
+{ #category : #'api - accessing' }
+ToElementLook >> findSkinPropertyNamed: name [
+
+	^ self next findSkinPropertyNamed: name
+]
+
 { #category : #'event handling' }
 ToElementLook >> focusedLookEvent: anEvent [
 

@@ -46,7 +46,7 @@ ToButtonIconSkin >> dangerFormLookIn: anElement [
 ToButtonIconSkin >> onSkinInstalledIn: anElement [
 
 	super onSkinInstalledIn: anElement.
-	self addLook: (self danger
+	self addLookUpdater: (self danger
 			 ifTrue: [ self dangerFormLookIn: anElement ]
 			 ifFalse: [ self regularFormLookIn: anElement ])
 ]

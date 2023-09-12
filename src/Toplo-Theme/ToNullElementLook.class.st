@@ -8,6 +8,12 @@ Class {
 ToNullElementLook >> elementLookEvent: anEvent [
 ]
 
+{ #category : #'api - accessing' }
+ToNullElementLook >> findSkinPropertyNamed: aName [
+
+	^ nil
+]
+
 { #category : #testing }
 ToNullElementLook >> isNull [
 

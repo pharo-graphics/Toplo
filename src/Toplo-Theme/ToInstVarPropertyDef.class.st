@@ -1,7 +1,7 @@
 Class {
 	#name : #ToInstVarPropertyDef,
 	#superclass : #ToPropertyDef,
-	#category : #'Toplo-Theme-Look'
+	#category : #'Toplo-Theme-LookUpdater'
 }
 
 { #category : #'instance creation' }

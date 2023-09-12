@@ -240,8 +240,8 @@ ToClickableSkin >> onSkinInstalledIn: anElement [
 	super onSkinInstalledIn: anElement.
 
 	self onShapingSkinInstalledIn: anElement.
-	self addLook: (self backgroundLookIn: anElement).
-	self addLook: (self borderLookIn: anElement)
+	self addLookUpdater: (self backgroundLookIn: anElement).
+	self addLookUpdater: (self borderLookIn: anElement)
 ]
 
 { #category : #'api - install/uninstall  hook' }

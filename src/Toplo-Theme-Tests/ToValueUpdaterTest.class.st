@@ -4,7 +4,7 @@ A ToPropertyAdapterTest is a test class for testing the behavior of ToPropertyAd
 Class {
 	#name : #ToValueUpdaterTest,
 	#superclass : #TestCase,
-	#category : #'Toplo-Theme-Tests-Look'
+	#category : #'Toplo-Theme-Tests-LookUpdater'
 }
 
 { #category : #tests }

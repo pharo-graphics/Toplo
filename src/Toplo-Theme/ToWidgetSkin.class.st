@@ -2,26 +2,25 @@ Class {
 	#name : #ToWidgetSkin,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
-		'styleSheet',
-		'look',
 		'installStep',
-		'childSkinsIndex'
+		'childSkinsIndex',
+		'firstLookUpdater'
 	],
 	#category : #'Toplo-Theme-Skin'
 }
 
 { #category : #adding }
-ToWidgetSkin >> addAllLooks: aCollectionOfLook [
+ToWidgetSkin >> addAllLookUpdaters: aCollectionOfLook [
 
-	aCollectionOfLook do: [ :l | self addLook: l ]
+	aCollectionOfLook do: [ :l | self addLookUpdater: l ]
 ]
 
 { #category : #adding }
-ToWidgetSkin >> addLook: aLook [
+ToWidgetSkin >> addLookUpdater: aLook [
 
 	aLook isNull ifTrue: [ ^ self ].
-	aLook next: look.
-	self privateLook: aLook
+	aLook next: firstLookUpdater.
+	self privateLookUpdater: aLook
 ]
 
 { #category : #'api - accessing' }
@@ -70,7 +69,7 @@ ToWidgetSkin >> dispatchChangedEventIn: anElement [
 { #category : #'event handling' }
 ToWidgetSkin >> elementLookEvent: anEvent [
 
-	anEvent sendTo: self look
+	anEvent sendTo: self firstLookUpdater
 ]
 
 { #category : #'api - accessing' }
@@ -85,12 +84,24 @@ ToWidgetSkin >> eventsToHandle [
 		  ToLayoutDirectionChangedEvent }
 ]
 
+{ #category : #'api - accessing' }
+ToWidgetSkin >> findSkinPropertyNamed: aName [
+
+	^ self firstLookUpdater findSkinPropertyNamed: aName
+]
+
+{ #category : #accessing }
+ToWidgetSkin >> firstLookUpdater [
+
+	^ firstLookUpdater
+]
+
 { #category : #initialization }
 ToWidgetSkin >> initialize [
 
 	super initialize.
 	self markAsNotInstalled.
-	self privateLook: ToNullElementLook new.
+	self privateLookUpdater: ToNullElementLook new.
 	self initializeChildSkinsIndex 
 	
 ]
@@ -155,7 +166,7 @@ ToWidgetSkin >> launchSkinUninstallationIn: anElement [
 	self isInstalled ifFalse: [ ^ self ].
 	anElement dispatchLookEvent: ToUninstallLookEvent new.
 	self onSkinUninstalledIn: anElement.
-	self privateLook: ToNullElementLook new.
+	self privateLookUpdater: ToNullElementLook new.
 	self markAsNotInstalled 
 ]
 
@@ -165,12 +176,6 @@ ToWidgetSkin >> layoutDirectionChangedEvent: anEvent [
 
 { #category : #'event handling' }
 ToWidgetSkin >> layoutOrientationChangedEvent: anEvent [
-]
-
-{ #category : #accessing }
-ToWidgetSkin >> look [
-
-	^ look
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -201,7 +206,7 @@ ToWidgetSkin >> onInstalledIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> onSkinInstalledIn: anElement [
 
-	self addLook: (self defaultCursorLookIn: anElement)
+	self addLookUpdater: (self defaultCursorLookIn: anElement)
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -214,13 +219,13 @@ ToWidgetSkin >> onSkinUninstalledIn: anElement [
 ToWidgetSkin >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
-	look := nil
+	firstLookUpdater := nil
 ]
 
 { #category : #'private - accessing' }
-ToWidgetSkin >> privateLook: aLook [
+ToWidgetSkin >> privateLookUpdater: aLook [
 
-	look := aLook
+	firstLookUpdater := aLook
 ]
 
 { #category : #'api - accessing' }
@@ -230,11 +235,11 @@ ToWidgetSkin >> registerChildSkin: aChildSkin [
 ]
 
 { #category : #removing }
-ToWidgetSkin >> removeLook: aLook [
+ToWidgetSkin >> removeLookUpdater: aLook [
 
-	look = aLook 
-		ifTrue: [ look := look next ]
-		ifFalse: [ look removeLook: aLook previous: nil ]
+	firstLookUpdater = aLook 
+		ifTrue: [ firstLookUpdater := firstLookUpdater next ]
+		ifFalse: [ firstLookUpdater removeLook: aLook previous: nil ]
 ]
 
 { #category : #'event handling' }
@@ -244,12 +249,6 @@ ToWidgetSkin >> skinnablePropertyChangedEvent: anEvent [
 		updateSkinIn: anEvent holder
 		slotNamed: anEvent slotName
 		value: anEvent current
-]
-
-{ #category : #accessing }
-ToWidgetSkin >> styleSheet: aStyleSheet [
-
-	styleSheet := aStyleSheet
 ]
 
 { #category : #'event handling' }

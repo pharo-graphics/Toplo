@@ -46,6 +46,6 @@ ToStyleSheet >> skinFor: anElement [
 	| looks skin |
 	looks := self looksFor: anElement.
 	skin := ToWidgetSkin new.
-	skin addAllLooks: looks.
+	skin addAllLookUpdaters: looks.
 	^ skin
 ]

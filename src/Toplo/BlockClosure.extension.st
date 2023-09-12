@@ -1,14 +1,6 @@
 Extension { #name : #BlockClosure }
 
 { #category : #'*Toplo' }
-BlockClosure >> asElementUpdater [
-
-	^ ToElementUpdater new
-		  valuable: self;
-		  yourself
-]
-
-{ #category : #'*Toplo' }
 BlockClosure >> asStateUpdater [
 
 	^ ToStateUpdaterDep new

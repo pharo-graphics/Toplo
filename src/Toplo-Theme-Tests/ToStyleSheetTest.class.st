@@ -45,7 +45,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 	looks := ss looksFor: button.
 	self assert: looks size equals: 2.
 	skin := ToWidgetSkin new.
-	skin addAllLooks: looks.
+	skin addAllLookUpdaters: looks.
 	button withSkin: nil.
 	self assert: button privateSkin isNil.
 	button withSkin: skin.
@@ -68,7 +68,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 	looks := ss looksFor: button label.
 	self assert: looks size equals: 1.
 
-	labelSkin addAllLooks: looks.
+	labelSkin addAllLookUpdaters: looks.
 	button label withSkin: labelSkin.
 	button label checkSkinInstallation.
 	attributes := button label text attributesAt: 1.
@@ -259,7 +259,7 @@ ToStyleSheetTest >> testSkinWithAnUniversalRule [
 	looks := ss looksFor: elem.
 	self assert: looks size equals: 1.
 	skin := ToWidgetSkin new.
-	skin addAllLooks: looks.
+	skin addAllLookUpdaters: looks.
 	elem withSkin: skin.
 	elem checkSkinInstallation.
 	self assert: elem background paint color equals: Color red
@@ -286,7 +286,7 @@ ToStyleSheetTest >> testSkinWithChildRule [
 	looks := ss looksFor: child.
 	self assert: looks size equals: 1.
 	skin := ToWidgetSkin new.
-	skin addAllLooks: looks.
+	skin addAllLookUpdaters: looks.
 	child withSkin: skin.
 	parent checkSkinInstallation.
 	self assert: child border width equals: 3.
@@ -317,7 +317,7 @@ ToStyleSheetTest >> testSkinWithChildRule2 [
 	looks := ss looksFor: child.
 	self assert: looks size equals: 1.
 	skin := ToWidgetSkin new.
-	skin addAllLooks: looks.
+	skin addAllLookUpdaters: looks.
 	child withSkin: skin.
 	parent checkSkinInstallation.
 	self assert: child border width equals: 3.
@@ -342,7 +342,7 @@ ToStyleSheetTest >> testSkinWithIdRule [
 	looks := ss looksFor: elem.
 	self assert: looks size equals: 1.
 	skin := ToWidgetSkin new.
-	skin addAllLooks: looks.
+	skin addAllLookUpdaters: looks.
 	elem withSkin: skin.
 	elem checkSkinInstallation.
 	self assert: elem border width equals: 3.

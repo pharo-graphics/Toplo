@@ -1,21 +1,6 @@
 Extension { #name : #Object }
 
 { #category : #'*Toplo' }
-Object >> asElementUpdater [ 
-
-	Error signal: 'Only valuable can be converted as an element adapter'
-]
-
-{ #category : #'*Toplo' }
-Object >> asPropertyUpdaterFor: aPropertyDefinition [
-
-	^ ToPropertyUpdater new
-		  value: self;
-		  property: aPropertyDefinition;
-		  yourself
-]
-
-{ #category : #'*Toplo' }
 Object >> asStateUpdater [ 
 
 	Error signal: 'Only valuable can be converted as an updater'

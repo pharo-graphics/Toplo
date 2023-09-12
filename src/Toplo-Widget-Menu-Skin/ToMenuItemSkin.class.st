@@ -62,6 +62,6 @@ ToMenuItemSkin >> labelSkinIn: aButton [
 ToMenuItemSkin >> onSkinInstalledIn: anElement [
 
 	super onSkinInstalledIn: anElement.
-	self addLook: (ToWindowLook new 
+	self addLookUpdater: (ToWindowLook new 
 		openAction: [ :e | self checkItem: e ])
 ]

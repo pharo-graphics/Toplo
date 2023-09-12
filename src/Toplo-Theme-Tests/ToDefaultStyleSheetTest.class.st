@@ -16,7 +16,7 @@ ToDefaultStyleSheetTest >> testDefaultButtonSkin [
 	looks := ss looksFor: button.
 	self assert: looks notEmpty.
 	skin := ToWidgetSkin new.
-	skin addAllLooks: looks.
+	skin addAllLookUpdaters: looks.
 	button withSkin: nil.
 	self assert: button privateSkin isNil.
 	button withSkin: skin.
@@ -30,7 +30,7 @@ ToDefaultStyleSheetTest >> testDefaultButtonSkin [
 	
 	labelSkin := ToWidgetSkin new.
 	looks := ss looksFor: button label.
-	labelSkin addAllLooks: looks.
+	labelSkin addAllLookUpdaters: looks.
 	button label withSkin: labelSkin.
 	button checkSkinInstallation.
 	
@@ -46,7 +46,7 @@ ToDefaultStyleSheetTest >> testDefaultButtonSkin0 [
 	looks := ss looksFor: button.
 	self assert: looks notEmpty.
 	skin := ToWidgetSkin new.
-	skin addAllLooks: looks.
+	skin addAllLookUpdaters: looks.
 	button withSkin: nil.
 	self assert: button privateSkin isNil.
 	button withSkin: skin.
@@ -60,7 +60,7 @@ ToDefaultStyleSheetTest >> testDefaultButtonSkin0 [
 	
 	labelSkin := ToWidgetSkin new.
 	looks := ss looksFor: button label.
-	labelSkin addAllLooks: looks.
+	labelSkin addAllLookUpdaters: looks.
 	button label privateSkin: labelSkin.
 	button checkSkinInstallation.
 	

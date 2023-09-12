@@ -10,13 +10,13 @@ ToDefaultStyleSheet >> addButtonRules [
 
 	self addRule: (ToStyleRule new
 			 selectors:
-			 { (ToClassSelector new elementClasses:
+			 { (ToStyleClassSelector new styleClasses:
 				  #( #button #'no-border' )) }
 			 looks: { ToLookDep forBorder}).
 
 	" no background for #link ( which elementClass includes #'no-background' ) "
 	self addRule: (ToStyleRule new
-			 selectors: { (ToClassSelector new elementClasses:
+			 selectors: { (ToStyleClassSelector new styleClasses:
 					  #( #button #'no-background' )) }
 			 looks: { ToLookDep forBackground }).
 
@@ -33,7 +33,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 	" default button (class #button) "
 
 	self addRule: (ToStyleRule new
-			 selectors: { (ToClassSelector new elementClass: #button) }
+			 selectors: { (ToStyleClassSelector new elementClass: #button) }
 			 looks: {
 					 (ToLookDep forBackground
 						  whenInitialized: [ :e | e background: Color transparent ];
@@ -49,8 +49,8 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 
 	" default button form icon "
 	self addRule: (ToStyleRule new
-			 selectors: { ((ToClassSelector new elementClass: #'form-icon')
-					  parent: (ToClassSelector new elementClass: #button)
+			 selectors: { ((ToStyleClassSelector new elementClass: #'form-icon')
+					  parent: (ToStyleClassSelector new elementClass: #button)
 					  level: 2) }
 			 looks:
 				 { ((ToLookDep forTextForegroundWithBuilder:
@@ -63,8 +63,8 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 
 	" default button label "
 	self addRule: (ToStyleRule new
-			 selectors: { ((ToClassSelector new elementClass: #label)
-					  parent: (ToClassSelector new elementClass: #button)
+			 selectors: { ((ToStyleClassSelector new elementClass: #label)
+					  parent: (ToStyleClassSelector new elementClass: #button)
 					  level: 2) }
 			 looks: { (ToLookDep forTextForegroundWithBuilder:
 						   BlTextAttributesBuilder new)
@@ -77,7 +77,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 	" default button dashed "
 	self addRule: (ToStyleRule new
 			 selectors:
-			 { (ToClassSelector new elementClasses: #( #button #dashed )) }
+			 { (ToStyleClassSelector new styleClasses: #( #button #dashed )) }
 			 looks: {
 					 (ToBackgroundLook new
 						  whenDisabled: [ :e | e toTheme colorBgContainerDisabled ];
@@ -93,7 +93,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 	" ToButton default danger"
 	self addRule: (ToStyleRule new
 			 selectors:
-			 { (ToClassSelector new elementClasses: #( #button #danger )) }
+			 { (ToStyleClassSelector new styleClasses: #( #button #danger )) }
 			 looks: {
 					 (ToBackgroundLook new
 						  whenDisabled: [ :e | e toTheme colorBgContainerDisabled ];
@@ -110,7 +110,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 	" ToButton default danger dashed"
 	self addRule: (ToStyleRule new
 			 selectors:
-			 { (ToClassSelector new elementClasses:
+			 { (ToStyleClassSelector new styleClasses:
 				  #( #button #danger #dashed )) }
 			 looks: {
 					 (ToBackgroundLook new
@@ -127,9 +127,9 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 
 	" danger button form icon "
 	self addRule: (ToStyleRule new
-			 selectors: { ((ToClassSelector new elementClass: #'form-icon')
+			 selectors: { ((ToStyleClassSelector new elementClass: #'form-icon')
 					  parent:
-					  (ToClassSelector new elementClasses: #( #button #danger ))
+					  (ToStyleClassSelector new styleClasses: #( #button #danger ))
 					  level: 2) }
 			 looks: { (ToLookDep new
 					  applyWith: [ :e :v | self adaptForegroundIn: e withColor: v ];
@@ -141,9 +141,9 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 
 	" danger button label "
 	self addRule: (ToStyleRule new
-			 selectors: { ((ToClassSelector new elementClass: #label)
+			 selectors: { ((ToStyleClassSelector new elementClass: #label)
 					  parent:
-					  (ToClassSelector new elementClasses: #( #button #danger ))
+					  (ToStyleClassSelector new styleClasses: #( #button #danger ))
 					  level: 2) }
 			 looks: { (ToLabelTextLook new
 					  disabledColor: [ :e | e toTheme colorTextDisabled ];
@@ -165,8 +165,8 @@ ToDefaultStyleSheet >> addPrimaryButtonRules [
 	" ToButton primary "
 
 	self addRule: (ToStyleRule new
-			 selectors: { ((ToClassSelector new elementClass: #button) and:
-					  (ToClassSelector new elementClass: #primary)) }
+			 selectors: { ((ToStyleClassSelector new elementClass: #button) and:
+					  (ToStyleClassSelector new elementClass: #primary)) }
 			 looks: {
 					 (ToBackgroundLook new
 						  whenInitialized: [ :e | e toTheme colorPrimary ];
@@ -184,9 +184,9 @@ ToDefaultStyleSheet >> addPrimaryButtonRules [
 
 	" ToButton primary danger "
 	self addRule: (ToStyleRule new
-			 selectors: { ((ToClassSelector new elementClass: #button) and:
-					  ((ToClassSelector new elementClass: #primary) and:
-						   (ToClassSelector new elementClass: #danger))) }
+			 selectors: { ((ToStyleClassSelector new elementClass: #button) and:
+					  ((ToStyleClassSelector new elementClass: #primary) and:
+						   (ToStyleClassSelector new elementClass: #danger))) }
 			 looks: {
 					 (ToBackgroundLook new
 						  whenInitialized: [ :e | e toTheme colorError ];
@@ -207,8 +207,8 @@ ToDefaultStyleSheet >> addTextButtonRules [
 	" ToButton text "
 
 	self addRule: (ToStyleRule new
-			 selectors: { ((ToClassSelector new elementClass: #button) and:
-					  (ToClassSelector new elementClass: #text)) }
+			 selectors: { ((ToStyleClassSelector new elementClass: #button) and:
+					  (ToStyleClassSelector new elementClass: #text)) }
 			 looks: { (ToBackgroundLook new
 					  whenDisabled: [ :e | e toTheme colorBgContainerDisabled ];
 					  whenInitialized: [ :e | Color transparent ];
@@ -218,9 +218,9 @@ ToDefaultStyleSheet >> addTextButtonRules [
 
 	" ToButton text danger "
 	self addRule: (ToStyleRule new
-			 selectors: { ((ToClassSelector new elementClass: #button) and:
-					  ((ToClassSelector new elementClass: #text) and:
-						   (ToClassSelector new elementClass: #danger))) }
+			 selectors: { ((ToStyleClassSelector new elementClass: #button) and:
+					  ((ToStyleClassSelector new elementClass: #text) and:
+						   (ToStyleClassSelector new elementClass: #danger))) }
 			 looks: { (ToBackgroundLook new
 					  whenDisabled: [ :e | e toTheme colorBgContainerDisabled ];
 					  whenInitialized: [ :e | Color transparent ];

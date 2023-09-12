@@ -1,6 +1,6 @@
 Class {
-	#name : #ToExplicitPropertyDefinition,
-	#superclass : #ToPropertyDefinition,
+	#name : #ToExplicitPropertyDef,
+	#superclass : #ToPropertyDef,
 	#instVars : [
 		'writer',
 		'reader'
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToExplicitPropertyDefinition class >> name: aName reader: aReadValuable writer: aWriteValuable [
+ToExplicitPropertyDef class >> name: aName reader: aReadValuable writer: aWriteValuable [
 
 	^ self new
 		  name: aName;
@@ -19,37 +19,37 @@ ToExplicitPropertyDefinition class >> name: aName reader: aReadValuable writer: 
 ]
 
 { #category : #operating }
-ToExplicitPropertyDefinition >> read: anObject [
+ToExplicitPropertyDef >> read: anObject [
 
 	^ self reader value: anObject
 ]
 
 { #category : #accessing }
-ToExplicitPropertyDefinition >> reader [
+ToExplicitPropertyDef >> reader [
 
 	^ reader
 ]
 
 { #category : #accessing }
-ToExplicitPropertyDefinition >> reader: aValuable [
+ToExplicitPropertyDef >> reader: aValuable [
 
 	reader := aValuable
 ]
 
 { #category : #operating }
-ToExplicitPropertyDefinition >> write: anPropertyValue to: anObject [
+ToExplicitPropertyDef >> write: anPropertyValue to: anObject [
 
 	self writer value: anObject value: anPropertyValue
 ]
 
 { #category : #accessing }
-ToExplicitPropertyDefinition >> writer [
+ToExplicitPropertyDef >> writer [
 
 	^ writer
 ]
 
 { #category : #accessing }
-ToExplicitPropertyDefinition >> writer: aValuable [
+ToExplicitPropertyDef >> writer: aValuable [
 
 	writer := aValuable
 ]

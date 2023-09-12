@@ -90,7 +90,7 @@ ToElementSelectorEngineTest >> testClassSelectorWithElementWithoutClass0 [
 	" element with no class, selector without class "
 
 	| selector e engine |
-	selector := ToClassSelector new.
+	selector := ToStyleClassSelector new.
 	e := ToElement new.
 	engine := ToElementSelectorEngine new.
 	engine check: selector on: e.
@@ -103,7 +103,7 @@ ToElementSelectorEngineTest >> testClassSelectorWithElementWithoutClass1 [
 	" element with a class, selector without class "
 
 	| selector e engine |
-	selector := ToClassSelector new.
+	selector := ToStyleClassSelector new.
 	e := ToElement new addStyleClass: #a.
 	engine := ToElementSelectorEngine new.
 	engine check: selector on: e.
@@ -116,7 +116,7 @@ ToElementSelectorEngineTest >> testClassSelectorWithElementWithoutClass2 [
 	" element with a class, selector with the same class "
 
 	| selector e engine |
-	selector := ToClassSelector new elementClass: #a.
+	selector := ToStyleClassSelector new elementClass: #a.
 	e := ToElement new addStyleClass: #a.
 	engine := ToElementSelectorEngine new.
 	engine check: selector on: e.
@@ -129,12 +129,12 @@ ToElementSelectorEngineTest >> testClassSelectorWithElementWithoutClass3 [
 	" element with a class, selector with the a different class "
 
 	| selector e engine |
-	selector := ToClassSelector new elementClass: #b.
+	selector := ToStyleClassSelector new elementClass: #b.
 	e := ToElement new addStyleClass: #a.
 	engine := ToElementSelectorEngine new.
 	engine check: selector on: e.
 	self assert: engine result not.
-	selector := ToClassSelector new elementClasses: #(#b).
+	selector := ToStyleClassSelector new styleClasses: #(#b).
 	e := ToElement new addStyleClass: #a.
 	self assert: engine result not.
 
@@ -146,15 +146,15 @@ ToElementSelectorEngineTest >> testClassSelectorWithElementWithoutClass4 [
 	" element with multiple classes "
 
 	| selector e engine |
-	selector := ToClassSelector new elementClasses: #( #a #b #c ).
+	selector := ToStyleClassSelector new styleClasses: #( #a #b #c ).
 	e := ToElement new addStyleClass: #a.
 	engine := ToElementSelectorEngine new.
 	engine check: selector on: e.
-	self assert: engine result not.
+	self assert: engine result.
 	e addStyleClass: #c.
-	self assert: engine result not.
+	self assert: engine result.
 	engine check: selector on: e.
-	self assert: engine result not.
+	self assert: engine result.
 	e addStyleClass: #b.
 	engine check: selector on: e.
 	self assert: engine result

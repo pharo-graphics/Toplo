@@ -8,7 +8,7 @@ Class {
 ToLabelTextType >> buttonLabelLookIn: anElement [
 
 	| prop attrBuilder |
-	prop := ToExplicitPropertyDefinition new name: #'text-attributes'.
+	prop := ToExplicitPropertyDef new name: #'text-attributes'.
 	prop writer: [ :e :v |
 		e text attributes: v attributes.
 		e textChanged ].

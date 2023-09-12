@@ -62,16 +62,15 @@ ToElementSelectorEngine >> visitChildSelector: aSelector [
 ]
 
 { #category : #visiting }
-ToElementSelectorEngine >> visitClassSelector: aSelector [
-
-	result := targetStack top styleClasses asSet
-	          = aSelector elementClasses asSet
-]
-
-{ #category : #visiting }
 ToElementSelectorEngine >> visitIdSelector: aSelector [
 
 	result := aSelector id = targetStack top id
+]
+
+{ #category : #visiting }
+ToElementSelectorEngine >> visitStyleClassSelector: aSelector [
+
+	result := aSelector styleClasses includesAll: targetStack top styleClasses
 ]
 
 { #category : #visiting }

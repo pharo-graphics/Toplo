@@ -25,12 +25,11 @@ ToPropertyUpdater >> animation: aPropertyAnimation [
 { #category : #operating }
 ToPropertyUpdater >> announceLookEvent: aLookEvent [
 
-	| target rawValue |
+	| target rawValue writer |
 	target := aLookEvent currentTarget.
-	aLookEvent currentUpdater ifNotNil: [:u | u currentAnimation: self animation].
 	rawValue := (self valueIn: target).
-	self animation ifNil: [ ^ self property write: rawValue to: target].
-	self animation write: rawValue to: target 
+	writer := self animation ifNil: [ self property ].
+	writer write: rawValue to: target 
 
 ]
 

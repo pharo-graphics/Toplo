@@ -2,7 +2,7 @@
 A ToPropertyDefinitionTest is a test class for testing the behavior of ToPropertyDefinition
 "
 Class {
-	#name : #ToPropertyDefinitionTest,
+	#name : #ToPropertyDefTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'reader'
@@ -11,11 +11,11 @@ Class {
 }
 
 { #category : #tests }
-ToPropertyDefinitionTest >> testExplicitPropertyDefinition [
+ToPropertyDefTest >> testExplicitPropertyDefinition [
 
 	| w prop  writer |
 	w := ToElement new.
-	prop := ToExplicitPropertyDefinition new.
+	prop := ToExplicitPropertyDef new.
 	writer := [ :e :v | e background: v ].
 	reader := [ :e | e background ].
 	prop writer: writer.
@@ -31,11 +31,11 @@ ToPropertyDefinitionTest >> testExplicitPropertyDefinition [
 ]
 
 { #category : #tests }
-ToPropertyDefinitionTest >> testInstVarPropertyDefinition [
+ToPropertyDefTest >> testInstVarPropertyDefinition [
 
 	| w prop |
 	w := ToElement new.
-	prop := ToInstVarPropertyDefinition new.
+	prop := ToInstVarPropertyDef new.
 	prop name: #background.
 	self assert: prop name equals: #background.
 	prop write: Color blue to: w.
@@ -45,11 +45,11 @@ ToPropertyDefinitionTest >> testInstVarPropertyDefinition [
 ]
 
 { #category : #tests }
-ToPropertyDefinitionTest >> testSlotPropertyDefinition [
+ToPropertyDefTest >> testSlotPropertyDefinition [
 
 	| w prop first |
 	w := ToCheckLookTestElement new.
-	prop := ToSlotPropertyDefinition new.
+	prop := ToSlotPropertyDef new.
 	prop name: #first.
 	self assert: prop name equals: #first.
 	first := BlElement new.

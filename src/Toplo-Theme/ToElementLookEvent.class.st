@@ -20,6 +20,12 @@ ToElementLookEvent >> currentUpdater: anObject [
 ]
 
 { #category : #accessing }
+ToElementLookEvent >> currentUpdaterDo: aBlock [
+
+	^ currentUpdater ifNotNil: [ :u | aBlock value: u ]
+]
+
+{ #category : #accessing }
 ToElementLookEvent >> elementDo: aBlock [
 
 	aBlock value: self target

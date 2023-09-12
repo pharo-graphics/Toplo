@@ -5,26 +5,24 @@ Class {
 }
 
 { #category : #tests }
-ToLookUpdaterTest >> testElementUpdate1 [
+ToLookUpdaterTest >> testLookUpdaterNeedPropertyForValueUpdating [
 
-	| w updater installEvent |
+	| w updater  |
+
 	w := ToElement new.
-	updater := ToLookUpdater new.
-	updater when: ToInstallLookEvent do: [ :e | e background: Color white ].
 
-	installEvent := ToInstallLookEvent new currentTarget: w..
-	updater announceLookEvent: installEvent.
-	self assert: (w background isKindOf: BlPaintBackground).
-	self assert: w background paint color equals: Color white
+	updater := ToLookUpdater new property: nil.
+	updater when: ToInstallLookEvent do: [ :e | e background: Color white ].
+	self should: [ updater when: ToInstallLookEvent value: Color white ] raise: Error
 ]
 
 { #category : #tests }
-ToLookUpdaterTest >> testPropertyUpdate1 [
+ToLookUpdaterTest >> testLookUpdaterWithExplicitProperty [
 
 	| w updater installEvent prop |
 
 	w := ToElement new.
-	prop := ToExplicitPropertyDefinition new.
+	prop := ToExplicitPropertyDef new.
 	prop writer: [ :e :v | e background: v ].
 
 	updater := ToLookUpdater new property: prop.
@@ -37,12 +35,12 @@ ToLookUpdaterTest >> testPropertyUpdate1 [
 ]
 
 { #category : #tests }
-ToLookUpdaterTest >> testPropertyUpdate2 [
+ToLookUpdaterTest >> testLookUpdaterWithExplicitPropertyFor3StatesWithRawValue [
 
 	| w updater installEvent prop hoveredEvent leavedEvent |
 
 	w := ToElement new.
-	prop := ToExplicitPropertyDefinition new.
+	prop := ToExplicitPropertyDef new.
 	prop writer: [ :e :v | e background: v ].
 
 	updater := ToLookUpdater new property: prop.
@@ -67,12 +65,12 @@ ToLookUpdaterTest >> testPropertyUpdate2 [
 ]
 
 { #category : #tests }
-ToLookUpdaterTest >> testPropertyUpdate3 [
+ToLookUpdaterTest >> testLookUpdaterWithExplicitPropertyFor3StatesWithValuable [
 
 	| w updater installEvent prop hoveredEvent leavedEvent |
 
 	w := ToElement new.
-	prop := ToExplicitPropertyDefinition new.
+	prop := ToExplicitPropertyDef new.
 	prop writer: [ :e :v | e background: v ].
 
 	updater := ToLookUpdater new property: prop.
@@ -94,4 +92,18 @@ ToLookUpdaterTest >> testPropertyUpdate3 [
 	updater announceLookEvent: leavedEvent.
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color gray
+]
+
+{ #category : #tests }
+ToLookUpdaterTest >> testLookUpdaterWithoutProperty [
+
+	| w updater installEvent |
+	w := ToElement new.
+	updater := ToLookUpdater new.
+	updater when: ToInstallLookEvent do: [ :e | e background: Color white ].
+
+	installEvent := ToInstallLookEvent new currentTarget: w.
+	updater announceLookEvent: installEvent.
+	self assert: (w background isKindOf: BlPaintBackground).
+	self assert: w background paint color equals: Color white
 ]

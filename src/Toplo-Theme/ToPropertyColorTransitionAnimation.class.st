@@ -1,14 +1,13 @@
 Class {
-	#name : #ToColorTransitionAnimation,
+	#name : #ToPropertyColorTransitionAnimation,
 	#superclass : #ToPropertyAnimation,
 	#category : #'Toplo-Theme-Look'
 }
 
 { #category : #writing }
-ToColorTransitionAnimation >> write: aColor to: anElement [
+ToPropertyColorTransitionAnimation >> write: aColor to: anElement [
 
 	| currentColor |
-	rawAnimation ifNotNil: [ rawAnimation isRunning ifTrue: [rawAnimation stop ]].
 	currentColor := self property read: anElement.
 	rawAnimation := BlColorTransition new
 		             duration: self duration asDuration;

@@ -13,11 +13,11 @@ ToSelectorVisitor >> visitChildSelector: aSelector [
 ]
 
 { #category : #visiting }
-ToSelectorVisitor >> visitClassSelector: aSelector [
+ToSelectorVisitor >> visitIdSelector: aSelector [
 ]
 
 { #category : #visiting }
-ToSelectorVisitor >> visitIdSelector: aSelector [
+ToSelectorVisitor >> visitStyleClassSelector: aSelector [
 ]
 
 { #category : #visiting }

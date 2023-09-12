@@ -3,9 +3,7 @@ Class {
 	#superclass : #ToElementLook,
 	#instVars : [
 		'announcer',
-		'property',
-		'subUpdaters',
-		'currentAnimation'
+		'property'
 	],
 	#category : #'Toplo-Theme-Look'
 }
@@ -19,7 +17,7 @@ ToLookUpdater class >> forProperty: aPropertyDefinition [
 { #category : #'instance creation' }
 ToLookUpdater class >> forPropertyNamed: aName [
 
-	^ self forProperty: (ToExplicitPropertyDefinition propertyNamed: aName)
+	^ self forProperty: (ToExplicitPropertyDef propertyNamed: aName)
 ]
 
 { #category : #operating }
@@ -29,7 +27,6 @@ ToLookUpdater >> announceLookEvent: aLookEvent [
 	prevUpdater := aLookEvent currentUpdater.
 	aLookEvent currentUpdater: self.
 	self announcer announce: aLookEvent.
-	self subUpdaters do: [ :u | u announceLookEvent: aLookEvent ].
 	aLookEvent currentUpdater: prevUpdater
 ]
 
@@ -39,25 +36,11 @@ ToLookUpdater >> announcer [
 	^ announcer
 ]
 
-{ #category : #accessing }
-ToLookUpdater >> currentAnimation [
-
-	^ currentAnimation
-]
-
-{ #category : #accessing }
-ToLookUpdater >> currentAnimation: aPropertyAnimation [
-
-	currentAnimation ifNotNil: [ :cura | cura stop ].
-	currentAnimation := aPropertyAnimation
-]
-
 { #category : #initialization }
 ToLookUpdater >> initialize [ 
 
 	super initialize.
-	announcer := Announcer new.
-	subUpdaters := #()
+	announcer := Announcer new
 ]
 
 { #category : #accessing }
@@ -75,19 +58,7 @@ ToLookUpdater >> property: aPropertyDefinition [
 { #category : #initialization }
 ToLookUpdater >> propertyNamed: aName [
 
-	^ self property: (self propertyDefinitionMap propertyNamed: aName)
-]
-
-{ #category : #accessing }
-ToLookUpdater >> subUpdaters [
-
-	^ subUpdaters
-]
-
-{ #category : #accessing }
-ToLookUpdater >> subUpdaters: aCollection [
-
-	subUpdaters := aCollection
+	^ self property: (self propertyDefMap propertyNamed: aName)
 ]
 
 { #category : #declaring }
@@ -121,10 +92,4 @@ ToLookUpdater >> when: aLookEventClass value: aPropertyAdapter animation: anAnim
 		when: aLookEventClass
 		send: #announceLookEvent:
 		to: ((aPropertyAdapter asPropertyUpdaterFor: self property) animation: anAnimation)
-]
-
-{ #category : #accessing }
-ToLookUpdater >> with: anArrayOfUpdaters [
-
-	self subUpdaters: anArrayOfUpdaters
 ]

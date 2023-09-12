@@ -85,9 +85,9 @@ ToWidgetSkin >> eventsToHandle [
 ]
 
 { #category : #'api - accessing' }
-ToWidgetSkin >> findSkinPropertyNamed: aName [
+ToWidgetSkin >> findLookUpdaterForPropertyNamed: aName [
 
-	^ self firstLookUpdater findSkinPropertyNamed: aName
+	^ self firstLookUpdater findLookUpdaterForPropertyNamed: aName
 ]
 
 { #category : #accessing }

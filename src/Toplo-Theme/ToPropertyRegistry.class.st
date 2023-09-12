@@ -1,5 +1,5 @@
 Class {
-	#name : #ToPropertyDefRegistry,
+	#name : #ToPropertyRegistry,
 	#superclass : #Object,
 	#instVars : [
 		'map'
@@ -8,38 +8,38 @@ Class {
 }
 
 { #category : #initialization }
-ToPropertyDefRegistry >> initialize [ 
+ToPropertyRegistry >> initialize [ 
 
 	super initialize.
 	map := IdentityDictionary new
 ]
 
 { #category : #accessing }
-ToPropertyDefRegistry >> map [
+ToPropertyRegistry >> map [
 
 	^ map
 ]
 
 { #category : #accessing }
-ToPropertyDefRegistry >> newPropertyUpdaterFromName: aName [
+ToPropertyRegistry >> newLookUpdaterFromPropertyName: aName [
 
 	^ (self propertyNamed: aName) ifNotNil: [ :p | ToLookUpdater new property: p ]
 ]
 
 { #category : #accessing }
-ToPropertyDefRegistry >> propertyNamed: aName [
+ToPropertyRegistry >> propertyNamed: aName [
 
 	^ self map at: aName ifAbsent: [  ] 
 ]
 
 { #category : #initialization }
-ToPropertyDefRegistry >> record: aPropertyDefinition [
+ToPropertyRegistry >> record: aPropertyDefinition [
 
 	self map at: aPropertyDefinition name put: aPropertyDefinition
 ]
 
 { #category : #initialization }
-ToPropertyDefRegistry >> recordAll: aCollectionOfPropertyDefinition [
+ToPropertyRegistry >> recordAll: aCollectionOfPropertyDefinition [
 
 	aCollectionOfPropertyDefinition do: [ :d | self record: d ]
 ]

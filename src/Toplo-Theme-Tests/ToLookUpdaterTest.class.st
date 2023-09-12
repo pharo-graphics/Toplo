@@ -16,7 +16,7 @@ ToLookUpdaterTest >> testLookUpdaterFailsWithExplicitPropertyWithWrongWriter [
 
 	| w updater installEvent prop |
 	w := ToElement new.
-	prop := ToExplicitPropertyDef new name: #'font-name'.
+	prop := ToPseudoProperty new name: #'font-name'.
 	prop writer: [ :e :v | e fontName: v ].
 
 	updater := ToLookUpdater new property: prop.
@@ -44,7 +44,7 @@ ToLookUpdaterTest >> testLookUpdaterWithExplicitProperty [
 	| w updater installEvent prop |
 
 	w := ToElement new.
-	prop := ToExplicitPropertyDef new.
+	prop := ToPseudoProperty new.
 	prop writer: [ :e :v | e background: v ].
 
 	updater := ToLookUpdater new property: prop.
@@ -62,7 +62,7 @@ ToLookUpdaterTest >> testLookUpdaterWithExplicitPropertyFor3StatesWithRawValue [
 	| w updater installEvent prop hoveredEvent leavedEvent |
 
 	w := ToElement new.
-	prop := ToExplicitPropertyDef new.
+	prop := ToPseudoProperty new.
 	prop writer: [ :e :v | e background: v ].
 
 	updater := ToLookUpdater new property: prop.
@@ -92,7 +92,7 @@ ToLookUpdaterTest >> testLookUpdaterWithExplicitPropertyFor3StatesWithValuable [
 	| w updater installEvent prop hoveredEvent leavedEvent |
 
 	w := ToElement new.
-	prop := ToExplicitPropertyDef new.
+	prop := ToPseudoProperty new.
 	prop writer: [ :e :v | e background: v ].
 
 	updater := ToLookUpdater new property: prop.
@@ -114,51 +114,6 @@ ToLookUpdaterTest >> testLookUpdaterWithExplicitPropertyFor3StatesWithValuable [
 	updater announceLookEvent: leavedEvent.
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color gray
-]
-
-{ #category : #tests }
-ToLookUpdaterTest >> testLookUpdaterWithInheritedProperty [
-
-	| w updater installEvent prop |
-
-	w := ToElement new.
-	prop := ToInheritedPropertyDef new name: #background.
-
-	updater := ToLookUpdater new property: prop.
-	updater when: ToInstallLookEvent value: Color white.
-
-	installEvent := ToInstallLookEvent new currentTarget: w..
-	updater announceLookEvent: installEvent.
-	" no parent -> inherited property def lookup fails -> no write"
-	self assert: (w background isKindOf: BlTransparentBackground)
-]
-
-{ #category : #tests }
-ToLookUpdaterTest >> testLookUpdaterWithInheritedProperty2 [
-
-	| child parentUpdater installEvent parent parentSkin childSkin childUpdater parentProp childProp |
-
-	parent := ToElement new.
-	parentProp := ToInstVarPropertyDef new name: #background.
-	parentUpdater := ToLookUpdater new property: parentProp.
-	parentUpdater when: ToInstallLookEvent value: Color white.
-	parentSkin := ToWidgetSkin new.
-	parentSkin addLookUpdater: parentUpdater.
-	parent withSkin: parentSkin.
-	
-	child := ToElement new.
-	childProp := ToInheritedPropertyDef new name: #background.
-	childUpdater := ToLookUpdater new property: childProp.
-	parentUpdater when: ToInstallLookEvent value: Color white.
-	childSkin := ToWidgetSkin new.
-	childSkin addLookUpdater: childUpdater.
-	child withSkin: childSkin.
-
-	parent addChild: child.
-
-	installEvent := ToInstallLookEvent new currentTarget: child.
-	childUpdater announceLookEvent: installEvent.
-	self assert: (child background isKindOf: BlPaintBackground)
 ]
 
 { #category : #tests }

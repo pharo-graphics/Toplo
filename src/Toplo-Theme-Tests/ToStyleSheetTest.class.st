@@ -15,11 +15,11 @@ ToStyleSheetTest >> testButtonSkin0 [
 
 	" default button rule "
 	ss addRule: (ToStyleRule new selectors: { (ToStyleClassSelector new elementClass: #button) } looks: {
-				 ((ToLookUpdater new property: (ToInstVarPropertyDef new name: #background))
+				 ((ToLookUpdater new property: (ToInstVarProperty new name: #background))
 					  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
 					  when: ToInitialLookEvent value: [ :e | Color transparent ];
 					  yourself).
-				 ((ToLookUpdater new property: (ToInstVarPropertyDef new name: #border))
+				 ((ToLookUpdater new property: (ToInstVarProperty new name: #border))
 					  when: ToDisabledLookEvent value: [ :e | e toTheme colorBorderDisabled ];
 					  when: ToInitialLookEvent value: [ :e | e toTheme colorBorder ];
 					  when: ToHoveredLookEvent value: [ :e | e toTheme colorPrimaryHover ];
@@ -27,7 +27,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 					  yourself) }).
 
 	" danger button label rule "
-	prop := ToExplicitPropertyDef new name: #'text-attributes'.
+	prop := ToPseudoProperty new name: #'text-attributes'.
 	prop writer: [ :e :v |
 		e text attributes: (BlTextAttributesBuilder new foreground: v) attributes.
 		e textChanged ].
@@ -87,11 +87,11 @@ ToStyleSheetTest >> testButtonSkin1 [
 
 	" default button rule "
 	ss addRule:
-		(ToStyleRule new selectors: { (ToStyleClassSelector new elementClass: #button) } looks: { ((ToLookUpdater new property: (ToInstVarPropertyDef new name: #background))
+		(ToStyleRule new selectors: { (ToStyleClassSelector new elementClass: #button) } looks: { ((ToLookUpdater new property: (ToInstVarProperty new name: #background))
 				  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
 				  when: ToInitialLookEvent value: [ :e | Color gray ];
 				  yourself) }).
-	prop := ToExplicitPropertyDef new name: #'text-attributes'.
+	prop := ToPseudoProperty new name: #'text-attributes'.
 	prop writer: [ :e :v |
 		e text attributes: (BlTextAttributesBuilder new foreground: v) attributes.
 		e textChanged ].
@@ -127,12 +127,12 @@ ToStyleSheetTest >> testButtonSkin2 [
 	" default button rule "
 	ss addRule: (ToStyleRule new
 			 selectors: { (ToStyleClassSelector new elementClass: #button) }
-			 looks: { ((ToLookUpdater new property: (ToInstVarPropertyDef new name: #background))
+			 looks: { ((ToLookUpdater new property: (ToInstVarProperty new name: #background))
 					  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
 				  when: ToInitialLookEvent value: [ :e | Color gray ];
 					  yourself) }).
 
-		prop := ToExplicitPropertyDef new name: #'text-attributes'.
+		prop := ToPseudoProperty new name: #'text-attributes'.
 		prop writer: [ :e :v |
 		e text attributes: (BlTextAttributesBuilder new foreground: v) attributes.
 		e textChanged ].	
@@ -166,13 +166,13 @@ ToStyleSheetTest >> testButtonSkin3 [
 	" default button rule "
 	ss addRule: (ToStyleRule new
 			 selectors: { (ToStyleClassSelector new elementClass: #button) }
-			 looks: { ((ToLookUpdater new property: (ToInstVarPropertyDef new name: #background))
+			 looks: { ((ToLookUpdater new property: (ToInstVarProperty new name: #background))
 				  when: ToInitialLookEvent value: Color gray;
 					  yourself) }).
 	ss addRule: (ToStyleRule new
 			 selectors:
 			 { (ToStyleClassSelector new styleClasses: #( #button #danger )) }
-			 looks: { ((ToLookUpdater new property: (ToInstVarPropertyDef new name: #background))
+			 looks: { ((ToLookUpdater new property: (ToInstVarProperty new name: #background))
 				  when: ToInitialLookEvent value: Color red;
 					  yourself) }).
 
@@ -202,7 +202,7 @@ ToStyleSheetTest >> testButtonSkin4 [
 	ss addRule: (ToStyleRule new
 			 selectors:
 			 { (ToStyleClassSelector new styleClasses: #( #button #danger )) }
-			 looks: { ((ToLookUpdater new property: (ToInstVarPropertyDef new name: #background))
+			 looks: { ((ToLookUpdater new property: (ToInstVarProperty new name: #background))
 				  when: ToInitialLookEvent value: Color red;
 					  yourself) }).
 
@@ -224,7 +224,7 @@ ToStyleSheetTest >> testButtonSkin5 [
 	" default button rule "
 	ss addRule: (ToStyleRule new
 			 selectors: { (ToStyleClassSelector new styleClasses: #( #button )) }
-			 looks: { ((ToLookUpdater new property: (ToInstVarPropertyDef new name: #background))
+			 looks: { ((ToLookUpdater new property: (ToInstVarProperty new name: #background))
 				  when: ToInitialLookEvent value: Color red;
 					  yourself) }).
 
@@ -252,7 +252,7 @@ ToStyleSheetTest >> testSkinWithAnUniversalRule [
 	ss := ToStyleSheet new.
 	ss addRule: (ToStyleRule new
 			 selectors: { ToUniversalSelector new }
-			 looks: { ((ToLookUpdater new property: (ToInstVarPropertyDef new name: #background))
+			 looks: { ((ToLookUpdater new property: (ToInstVarProperty new name: #background))
 				  when: ToInitialLookEvent value: Color red;
 					  yourself) }).
 	elem := ToElement new.
@@ -274,7 +274,7 @@ ToStyleSheetTest >> testSkinWithChildRule [
 	ss addRule: (ToStyleRule new
 			 selectors: { ((ToIdSelector new id: #child) parent:
 					  (ToStyleClassSelector new elementClass: #parent)) }
-			 looks: { ((ToLookUpdater new property: (ToInstVarPropertyDef new name: #border))
+			 looks: { ((ToLookUpdater new property: (ToInstVarProperty new name: #border))
 				  when: ToInitialLookEvent value: (BlBorder paint: Color red width: 3);
 					  yourself) }).
 	parent := ToElement new styleClass: #parent.
@@ -303,7 +303,7 @@ ToStyleSheetTest >> testSkinWithChildRule2 [
 	ss addRule: (ToStyleRule new
 			 selectors: { ((ToIdSelector new id: #child) parent:
 					  (ToStyleClassSelector new elementClass: #parent) level: 2) }
-			 looks: { ((ToLookUpdater new property: (ToInstVarPropertyDef new name: #border))
+			 looks: { ((ToLookUpdater new property: (ToInstVarProperty new name: #border))
 				  when: ToInitialLookEvent value: (BlBorder paint: Color red width: 3);
 					  yourself) }).
 	parent := ToElement new styleClass: #parent.
@@ -332,7 +332,7 @@ ToStyleSheetTest >> testSkinWithIdRule [
 	ss := ToStyleSheet new.
 	ss addRule: (ToStyleRule new
 			 selectors: { (ToIdSelector new id: #a) }
-			 looks: { ((ToLookUpdater new property: (ToInstVarPropertyDef new name: #border))
+			 looks: { ((ToLookUpdater new property: (ToInstVarProperty new name: #border))
 				  when: ToInitialLookEvent value: (BlBorder paint: Color red width: 3);
 					  yourself) }).
 	elem := ToElement new.

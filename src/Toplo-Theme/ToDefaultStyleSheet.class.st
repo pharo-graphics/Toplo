@@ -35,17 +35,16 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 	self addRule: (ToStyleRule new
 			 selectors: { (ToStyleClassSelector new elementClass: #button) }
 			 looks: {
-					 (ToLookDep forBackground
-						  whenInitialized: [ :e | e background: Color transparent ];
-						  disabledValue: [ :e | e toTheme colorBgContainerDisabled ];
-						  yourself).
-					 (ToLookDep forBorder
-						  whenInitialized: [ :e | e border: e toTheme colorBorder ];
-						  disabledValue: [ :e |
-							  e toTheme colorBorderDisabled asBlBorder ];
-						  hoveredValue: [ :e | e toTheme colorPrimaryHover asBlBorder ];
-						  pressedValue: [ :e | e toTheme colorPrimaryPressed asBlBorder ];
-						  yourself) }).
+					 (ToLookUpdater forProperty: (ToInstVarProperty new name: #background))
+						  when: ToInitialLookEvent value: [ :e | Color transparent ];
+						  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
+						  yourself.
+					 (ToLookUpdater forProperty: (ToInstVarProperty new name: #border))
+						  when: ToInitialLookEvent value: [ :e | e toTheme colorBorder ];
+						  when: ToDisabledLookEvent value: [ :e | e toTheme colorBorderDisabled ];
+						  when: ToHoveredLookEvent value: [ :e | e toTheme colorPrimaryHover ];
+						  when: ToPressedLookEvent value: [ :e | e toTheme colorPrimaryPressed ];
+						  yourself }).
 
 	" default button form icon "
 	self addRule: (ToStyleRule new
@@ -53,25 +52,23 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 					  parent: (ToStyleClassSelector new elementClass: #button)
 					  level: 2) }
 			 looks:
-				 { ((ToLookDep forTextForegroundWithBuilder:
-						   BlTextAttributesBuilder new)
-					  initialValue: [ :e | e toTheme colorText ];
-					  disabledValue: [ :e | e toTheme colorBgContainerDisabled ];
-					  hoveredValue: [ :e | e toTheme colorPrimary ];
-					  pressedValue: [ :e | e toTheme colorPrimaryPressed ];
-					  yourself) }).
+				 { (ToLookUpdater forProperty: self imageInnerFormAttributesProperty)
+					  when: ToInitialLookEvent value: [ :e | e toTheme colorText ];
+					  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
+					  when: ToHoveredLookEvent value: [ :e | e toTheme colorPrimary ];
+					  when: ToPressedLookEvent value: [ :e | e toTheme colorPrimaryPressed ];
+					  yourself }).
 
 	" default button label "
 	self addRule: (ToStyleRule new
 			 selectors: { ((ToStyleClassSelector new elementClass: #label)
 					  parent: (ToStyleClassSelector new elementClass: #button)
 					  level: 2) }
-			 looks: { (ToLookDep forTextForegroundWithBuilder:
-						   BlTextAttributesBuilder new)
-					  initialValue: [ :e | e toTheme colorText ];
-					  disabledValue: [ :e | e toTheme colorBgContainerDisabled ];
-					  hoveredValue: [ :e | e toTheme colorPrimary ];
-					  pressedValue: [ :e | e toTheme colorPrimaryPressed ];
+			 looks: { (ToLookUpdater forProperty: self textAttributesProperty)
+					  when: ToInitialLookEvent value: [ :e | e toTheme colorText ];
+					  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
+					  when: ToHoveredLookEvent value: [ :e | e toTheme colorPrimary ];
+					  when: ToPressedLookEvent value: [ :e | e toTheme colorPrimaryPressed ];
 					  yourself }).
 
 	" default button dashed "
@@ -79,33 +76,32 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 			 selectors:
 			 { (ToStyleClassSelector new styleClasses: #( #button #dashed )) }
 			 looks: {
-					 (ToBackgroundLook new
-						  whenDisabled: [ :e | e toTheme colorBgContainerDisabled ];
-						  whenInitialized: [ :e | Color transparent ];
-						  yourself).
-					 (ToBorderLook new
-						  whenDisabled: [ :e | e toTheme colorBorderDisabled asBlBorder ];
-						  whenInitialized: [ :e | e toTheme colorBorder asBlBorder ];
-						  whenHovered: [ :e | e toTheme colorPrimaryHover asBlBorder ];
-						  whenPressed: [ :e | e toTheme colorPrimaryPressed asBlBorder ];
-						  yourself) }).
+					 (ToLookUpdater forProperty: (ToInstVarProperty new name: #background))
+						  when: ToInitialLookEvent value: [ :e | Color transparent ];
+						  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
+						  yourself.
+					 (ToLookUpdater forProperty: (ToInstVarProperty new name: #border))
+						  when: ToInitialLookEvent value: [ :e | e toTheme colorBorder ];
+						  when: ToDisabledLookEvent value: [ :e | e toTheme colorBorderDisabled ];
+						  when: ToHoveredLookEvent value: [ :e | e toTheme colorPrimaryHover ];
+						  when: ToPressedLookEvent value: [ :e | e toTheme colorPrimaryPressed ];
+						  yourself }).
 
 	" ToButton default danger"
 	self addRule: (ToStyleRule new
 			 selectors:
 			 { (ToStyleClassSelector new styleClasses: #( #button #danger )) }
 			 looks: {
-					 (ToBackgroundLook new
-						  whenDisabled: [ :e | e toTheme colorBgContainerDisabled ];
-						  whenInitialized: [ :e | Color transparent ];
-						  yourself).
-					 (ToBorderLook new
-						  whenDisabled: [ :e | e toTheme colorBorderDisabled asBlBorder ];
-						  whenInitialized: [ :e | e toTheme colorError asBlBorder ];
-						  whenHovered: [ :e | e toTheme colorErrorHover asBlBorder ];
-						  whenPressed: [ :e |
-							  e toTheme colorErrorHover darker asBlBorder ];
-						  yourself) }).
+					 (ToLookUpdater forProperty: (ToInstVarProperty new name: #background))
+						  when: ToInitialLookEvent value: [ :e | Color transparent ];
+						  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
+						  yourself.
+					 (ToLookUpdater forProperty: (ToInstVarProperty new name: #border))
+						  when: ToInitialLookEvent value: [ :e | e toTheme colorError ];
+						  when: ToDisabledLookEvent value: [ :e | e toTheme colorBorderDisabled ];
+						  when: ToHoveredLookEvent value: [ :e | e toTheme colorErrorHover ];
+						  when: ToPressedLookEvent value: [ :e | e toTheme colorErrorHover darker ];
+						  yourself }).
 
 	" ToButton default danger dashed"
 	self addRule: (ToStyleRule new
@@ -113,17 +109,16 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 			 { (ToStyleClassSelector new styleClasses:
 				  #( #button #danger #dashed )) }
 			 looks: {
-					 (ToBackgroundLook new
-						  whenDisabled: [ :e | e toTheme colorBgContainerDisabled ];
-						  whenInitialized: [ :e | Color transparent ];
-						  yourself).
-					 (ToBorderLook new
-						  whenDisabled: [ :e | e toTheme colorBorderDisabled asBlBorder ];
-						  whenInitialized: [ :e | e toTheme colorError asBlBorder ];
-						  whenHovered: [ :e | e toTheme colorErrorHover asBlBorder ];
-						  whenPressed: [ :e |
-							  e toTheme colorErrorHover darker asBlBorder ];
-						  yourself) }).
+					 (ToLookUpdater forProperty: (ToInstVarProperty new name: #background))
+						  when: ToInitialLookEvent value: [ :e | Color transparent ];
+						  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
+						  yourself.
+					 (ToLookUpdater forProperty: (ToInstVarProperty new name: #border))
+						  when: ToInitialLookEvent value: [ :e | e toTheme colorError ];
+						  when: ToDisabledLookEvent value: [ :e | e toTheme colorBorderDisabled ];
+						  when: ToHoveredLookEvent value: [ :e | e toTheme colorErrorHover ];
+						  when: ToPressedLookEvent value: [ :e | e toTheme colorErrorHover darker ];
+						  yourself }).
 
 	" danger button form icon "
 	self addRule: (ToStyleRule new
@@ -131,13 +126,12 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 					  parent:
 					  (ToStyleClassSelector new styleClasses: #( #button #danger ))
 					  level: 2) }
-			 looks: { (ToLookDep new
-					  applyWith: [ :e :v | self adaptForegroundIn: e withColor: v ];
-					  whenDisabled: [ :e | e toTheme colorImageDisabled ];
-					  whenInitialized: [ :e | e toTheme colorError ];
-					  whenHovered: [ :e | e toTheme colorErrorHover ];
-					  whenPressed: [ :e | e toTheme colorError darker ];
-					  yourself) }).
+			 looks: { (ToLookUpdater forProperty: self imageInnerFormAttributesProperty)
+						  when: ToInitialLookEvent value: [ :e | e toTheme colorError ];
+						  when: ToDisabledLookEvent value: [ :e | e toTheme colorImageDisabled ];
+						  when: ToHoveredLookEvent value: [ :e | e toTheme colorErrorHover ];
+						  when: ToPressedLookEvent value: [ :e | e toTheme colorErrorHover darker ];
+						  yourself }).
 
 	" danger button label "
 	self addRule: (ToStyleRule new
@@ -145,12 +139,12 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 					  parent:
 					  (ToStyleClassSelector new styleClasses: #( #button #danger ))
 					  level: 2) }
-			 looks: { (ToLabelTextLook new
-					  disabledColor: [ :e | e toTheme colorTextDisabled ];
-					  initialColor: [ :e | e toTheme colorError ];
-					  hoverColor: [ :e | e toTheme colorErrorHover ];
-					  pressedColor: [ :e | e toTheme colorError darker ];
-					  yourself) })
+			 looks: { (ToLookUpdater forProperty: (ToLookUpdater forProperty: self textAttributesProperty))
+						  when: ToInitialLookEvent value: [ :e | e toTheme colorError ];
+						  when: ToDisabledLookEvent value: [ :e | e toTheme colorTextDisabled ];
+						  when: ToHoveredLookEvent value: [ :e | e toTheme colorErrorHover ];
+						  when: ToPressedLookEvent value: [ :e | e toTheme colorErrorHover darker ];
+					     yourself })
 ]
 
 { #category : #'initialization-button' }
@@ -229,6 +223,20 @@ ToDefaultStyleSheet >> addTextButtonRules [
 					  yourself) })
 ]
 
+{ #category : #accessing }
+ToDefaultStyleSheet >> imageInnerFormAttributesProperty [
+
+	^ ToPseudoProperty new
+		        name: #'inner-form';
+		        reader: [ :e | e innerForm ];
+		        writer: [ :e :v |
+			        e
+				        withInnerFormDo: [ :form |
+					        e innerImage:
+							        (form collectColors: [ :color | v alpha: color alpha ]) ]
+				        ifNone: [  ] ].
+]
+
 { #category : #initialization }
 ToDefaultStyleSheet >> initialize [ 
 
@@ -248,4 +256,14 @@ ToDefaultStyleSheet >> initializeDefaultThemeRules [
 					 ToBorderLook new })."
 
 	self addButtonRules
+]
+
+{ #category : #accessing }
+ToDefaultStyleSheet >> textAttributesProperty [
+
+	^ (ToPseudoProperty new name: #'text-attributes')
+		  writer: [ :e :v |
+			  e text attributes: v attributes.
+			  e textChanged ];
+		  yourself
 ]

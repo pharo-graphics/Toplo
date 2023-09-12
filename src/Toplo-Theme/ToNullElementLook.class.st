@@ -9,7 +9,7 @@ ToNullElementLook >> elementLookEvent: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToNullElementLook >> findSkinPropertyNamed: aName [
+ToNullElementLook >> findLookUpdaterForPropertyNamed: aName [
 
 	^ nil
 ]

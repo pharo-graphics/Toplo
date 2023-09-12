@@ -1,11 +1,11 @@
 Class {
-	#name : #ToInstVarPropertyDef,
-	#superclass : #ToPropertyDef,
+	#name : #ToInstVarProperty,
+	#superclass : #ToPropertyType,
 	#category : #'Toplo-Theme-LookUpdater'
 }
 
 { #category : #'instance creation' }
-ToInstVarPropertyDef class >> name: aName [ 
+ToInstVarProperty class >> name: aName [ 
 
 	^ self new
 		  name: aName;
@@ -13,13 +13,13 @@ ToInstVarPropertyDef class >> name: aName [
 ]
 
 { #category : #operating }
-ToInstVarPropertyDef >> read: anObject [
+ToInstVarProperty >> read: anObject [
 
 	^ anObject perform: self name asSymbol
 ]
 
 { #category : #operating }
-ToInstVarPropertyDef >> write: aPropertyValue to: anObject [
+ToInstVarProperty >> write: aPropertyValue to: anObject [
 
 	anObject perform: self name asSymbol asMutator with: aPropertyValue
 ]

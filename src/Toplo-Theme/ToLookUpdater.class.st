@@ -2,8 +2,8 @@ Class {
 	#name : #ToLookUpdater,
 	#superclass : #ToElementLook,
 	#instVars : [
-		'announcer',
-		'property'
+		'property',
+		'subscriptions'
 	],
 	#category : #'Toplo-Theme-LookUpdater'
 }
@@ -20,28 +20,22 @@ ToLookUpdater >> announceLookEvent: aLookEvent [
 	| prevUpdater |
 	prevUpdater := aLookEvent currentUpdater.
 	aLookEvent currentUpdater: self.
-	self announcer announce: aLookEvent.
+	self subscriptions do: [ :u | u announceLookEvent: aLookEvent ].
 	aLookEvent currentUpdater: prevUpdater
 ]
 
-{ #category : #accessing }
-ToLookUpdater >> announcer [
-
-	^ announcer
-]
-
 { #category : #'api - accessing' }
-ToLookUpdater >> findSkinPropertyNamed: name [
+ToLookUpdater >> findLookUpdaterForPropertyNamed: name [
 
-	self property name = name ifTrue: [ ^ self property ].
-	^ super findSkinPropertyNamed: name
+	self property name = name ifTrue: [ ^ self ].
+	^ super findLookUpdaterForPropertyNamed: name
 ]
 
 { #category : #initialization }
 ToLookUpdater >> initialize [ 
 
 	super initialize.
-	announcer := Announcer new
+	subscriptions := OrderedCollection new
 ]
 
 { #category : #accessing }
@@ -56,35 +50,38 @@ ToLookUpdater >> property: aPropertyDefinition [
 	property := aPropertyDefinition 
 ]
 
-{ #category : #declaring }
-ToLookUpdater >> when: aLookEventClass do: aStateUpdater [
+{ #category : #accessing }
+ToLookUpdater >> subscriptions [
 
-	self announcer weak
-		when: aLookEventClass
-		send: #announceLookEvent:
-		to: aStateUpdater asElementUpdater
+	^ subscriptions 
 ]
 
 { #category : #declaring }
-ToLookUpdater >> when: aLookEventClass value: aPropertyAdapter [
+ToLookUpdater >> when: aLookEventClass do: aSubscription [
 
-	| existing |
-	self property ifNil: [ Error signal: 'Invalid use: property is nil ' ].
-	" only one subscription is allowed per look event class "
-	existing := self announcer subscriptions subscriptions detect: [:s | s announcementClass = aLookEventClass] ifNone: [].
-	existing ifNotNil: [ self announcer removeSubscription: existing ].
-	self announcer
-		when: aLookEventClass
-		send: #announceLookEvent:
-		to: (aPropertyAdapter asPropertyUpdaterFor: self property)
+	| v |
+	v := aSubscription asElementSubscription
+		     lookEventClass: aLookEventClass;
+		     yourself.
+	subscriptions add: v
+]
+
+{ #category : #declaring }
+ToLookUpdater >> when: aLookEventClass value: aPropertySubscription [
+
+	self when: aLookEventClass value: aPropertySubscription animation: nil
 ]
 
 { #category : #declaring }
 ToLookUpdater >> when: aLookEventClass value: aPropertyAdapter animation: anAnimation [
 
+	| existing |
 	self property ifNil: [ Error signal: 'Invalid use: property is nil ' ].
-	self announcer 
-		when: aLookEventClass
-		send: #announceLookEvent:
-		to: ((aPropertyAdapter asPropertyUpdaterFor: self property) animation: anAnimation)
+	" only one subscription is allowed per look event class "
+	existing := self subscriptions detect: [ :u | u isPropertyBased and: [ u lookEventClass = aLookEventClass ] ] ifNone: [  ].
+	existing ifNotNil: [ self subscriptions remove: existing ].
+	self subscriptions add: ((aPropertyAdapter asPropertySubscriptionFor: self property)
+			 lookEventClass: aLookEventClass;
+			 animation: anAnimation;
+			 yourself)
 ]

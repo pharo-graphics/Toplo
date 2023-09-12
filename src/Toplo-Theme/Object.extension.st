@@ -1,7 +1,7 @@
 Extension { #name : #Object }
 
 { #category : #'*Toplo-Theme' }
-Object >> asElementUpdater [ 
+Object >> asElementSubscription [ 
 
 	Error signal: 'Only valuable can be converted as an element adapter'
 ]
@@ -9,15 +9,15 @@ Object >> asElementUpdater [
 { #category : #'*Toplo-Theme' }
 Object >> asInstVarPropertyDef [
 
-	^ ToInstVarPropertyDef new
+	^ ToInstVarProperty new
 		  name: self;
 		  yourself
 ]
 
 { #category : #'*Toplo-Theme' }
-Object >> asPropertyUpdaterFor: aPropertyDefinition [
+Object >> asPropertySubscriptionFor: aPropertyDefinition [
 
-	^ ToPropertyUpdater new
+	^ ToPropertySubscription new
 		  value: self;
 		  property: aPropertyDefinition;
 		  yourself
@@ -26,7 +26,7 @@ Object >> asPropertyUpdaterFor: aPropertyDefinition [
 { #category : #'*Toplo-Theme' }
 Object >> asSlotPropertyDef [
 
-	^ ToSlotPropertyDef new
+	^ ToSlotProperty new
 		  name: self;
 		  yourself
 ]

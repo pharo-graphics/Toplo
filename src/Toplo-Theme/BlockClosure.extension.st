@@ -1,9 +1,9 @@
 Extension { #name : #BlockClosure }
 
 { #category : #'*Toplo-Theme' }
-BlockClosure >> asElementUpdater [
+BlockClosure >> asElementSubscription [
 
-	^ ToElementUpdater new
+	^ ToElementSubscription new
 		  valuable: self;
 		  yourself
 ]

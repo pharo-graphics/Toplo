@@ -1,11 +1,11 @@
 Class {
-	#name : #ToSlotPropertyDef,
-	#superclass : #ToPropertyDef,
+	#name : #ToSlotProperty,
+	#superclass : #ToPropertyType,
 	#category : #'Toplo-Theme-LookUpdater'
 }
 
 { #category : #accessing }
-ToSlotPropertyDef class >> name: aName [ 
+ToSlotProperty class >> name: aName [ 
 
 	^ self new
 		  name: aName;
@@ -13,13 +13,13 @@ ToSlotPropertyDef class >> name: aName [
 ]
 
 { #category : #operating }
-ToSlotPropertyDef >> read: anObject [
+ToSlotProperty >> read: anObject [
 
 	^ anObject readSlotNamed: self name
 ]
 
 { #category : #operating }
-ToSlotPropertyDef >> write: aPropertyValue to: anObject [
+ToSlotProperty >> write: aPropertyValue to: anObject [
 
 	anObject writeSlotNamed: self name value: aPropertyValue
 ]

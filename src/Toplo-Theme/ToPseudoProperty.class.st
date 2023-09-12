@@ -1,6 +1,6 @@
 Class {
-	#name : #ToExplicitPropertyDef,
-	#superclass : #ToPropertyDef,
+	#name : #ToPseudoProperty,
+	#superclass : #ToPropertyType,
 	#instVars : [
 		'writer',
 		'reader'
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToExplicitPropertyDef class >> name: aName reader: aReadValuable writer: aWriteValuable [
+ToPseudoProperty class >> name: aName reader: aReadValuable writer: aWriteValuable [
 
 	^ self new
 		  name: aName;
@@ -19,37 +19,37 @@ ToExplicitPropertyDef class >> name: aName reader: aReadValuable writer: aWriteV
 ]
 
 { #category : #operating }
-ToExplicitPropertyDef >> read: anObject [
+ToPseudoProperty >> read: anObject [
 
 	^ self reader value: anObject
 ]
 
 { #category : #accessing }
-ToExplicitPropertyDef >> reader [
+ToPseudoProperty >> reader [
 
 	^ reader
 ]
 
 { #category : #accessing }
-ToExplicitPropertyDef >> reader: aValuable [
+ToPseudoProperty >> reader: aValuable [
 
 	reader := aValuable
 ]
 
 { #category : #operating }
-ToExplicitPropertyDef >> write: anPropertyValue to: anObject [
+ToPseudoProperty >> write: anPropertyValue to: anObject [
 
 	self writer value: anObject value: anPropertyValue
 ]
 
 { #category : #accessing }
-ToExplicitPropertyDef >> writer [
+ToPseudoProperty >> writer [
 
 	^ writer
 ]
 
 { #category : #accessing }
-ToExplicitPropertyDef >> writer: aValuable [
+ToPseudoProperty >> writer: aValuable [
 
 	writer := aValuable
 ]

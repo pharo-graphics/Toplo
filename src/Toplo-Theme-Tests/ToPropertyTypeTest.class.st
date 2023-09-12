@@ -2,7 +2,7 @@
 A ToPropertyDefinitionTest is a test class for testing the behavior of ToPropertyDefinition
 "
 Class {
-	#name : #ToPropertyDefTest,
+	#name : #ToPropertyTypeTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'reader'
@@ -11,11 +11,11 @@ Class {
 }
 
 { #category : #tests }
-ToPropertyDefTest >> testExplicitPropertyDefinition [
+ToPropertyTypeTest >> testExplicitPropertyDefinition [
 
 	| w prop  writer |
 	w := ToElement new.
-	prop := ToExplicitPropertyDef new.
+	prop := ToPseudoProperty new.
 	writer := [ :e :v | e background: v ].
 	reader := [ :e | e background ].
 	prop writer: writer.
@@ -31,11 +31,11 @@ ToPropertyDefTest >> testExplicitPropertyDefinition [
 ]
 
 { #category : #tests }
-ToPropertyDefTest >> testInstVarPropertyDefinition [
+ToPropertyTypeTest >> testInstVarPropertyDefinition [
 
 	| w prop |
 	w := ToElement new.
-	prop := ToInstVarPropertyDef new.
+	prop := ToInstVarProperty new.
 	prop name: #background.
 	self assert: prop name equals: #background.
 	prop write: Color blue to: w.
@@ -45,7 +45,7 @@ ToPropertyDefTest >> testInstVarPropertyDefinition [
 ]
 
 { #category : #tests }
-ToPropertyDefTest >> testInstVarPropertyDefinition2 [
+ToPropertyTypeTest >> testInstVarPropertyDefinition2 [
 
 	| w prop |
 	w := ToElement new.
@@ -58,11 +58,11 @@ ToPropertyDefTest >> testInstVarPropertyDefinition2 [
 ]
 
 { #category : #tests }
-ToPropertyDefTest >> testSlotPropertyDefinition [
+ToPropertyTypeTest >> testSlotPropertyDefinition [
 
 	| w prop first |
 	w := ToCheckLookTestElement new.
-	prop := ToSlotPropertyDef new.
+	prop := ToSlotProperty new.
 	prop name: #first.
 	self assert: prop name equals: #first.
 	first := BlElement new.
@@ -72,7 +72,7 @@ ToPropertyDefTest >> testSlotPropertyDefinition [
 ]
 
 { #category : #tests }
-ToPropertyDefTest >> testSlotPropertyDefinition2 [
+ToPropertyTypeTest >> testSlotPropertyDefinition2 [
 
 	| w prop first |
 	w := ToCheckLookTestElement new.

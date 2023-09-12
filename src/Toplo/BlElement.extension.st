@@ -135,11 +135,11 @@ BlElement >> launchSkinUninstallation [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> lookUpSkinPropertyNamed: aName [
+BlElement >> lookUpLookUpdaterForPropertyNamed: aName [
 
-	self privateSkin ifNotNil: [ :ps | (ps findSkinPropertyNamed: aName) ifNotNil: [ :found | ^ found ] ].
+	self privateSkin ifNotNil: [ :ps | (ps findLookUpdaterForPropertyNamed: aName) ifNotNil: [ :found | ^ found ] ].
 	self hasParent ifFalse: [ ^ nil ].
-	self parent lookUpSkinPropertyNamed: aName
+	self parent lookUpLookUpdaterForPropertyNamed: aName
 ]
 
 { #category : #'*Toplo' }

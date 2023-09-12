@@ -2,17 +2,18 @@
 A ToPropertyAdapterTest is a test class for testing the behavior of ToPropertyAdapter
 "
 Class {
-	#name : #ToValueUpdaterTest,
+	#name : #ToLookEventSubscriptionTest,
 	#superclass : #TestCase,
 	#category : #'Toplo-Theme-Tests-LookUpdater'
 }
 
 { #category : #tests }
-ToValueUpdaterTest >> testElementUpdater [
+ToLookEventSubscriptionTest >> testElementSubscription [
 
 	| w adapter |
 	w := ToElement new.
-	adapter := ToElementUpdater new valuable: [:e | e background: Color blue ].
+	adapter := ToElementSubscription new valuable: [:e | e background: Color blue ].
+	adapter lookEventClass: ToInitialLookEvent.
 	" whatever the LookEvent, the result should be the same "
 	adapter announceLookEvent: (ToInitialLookEvent new currentTarget: w).
 	self assert: (w background isKindOf: BlPaintBackground).
@@ -20,7 +21,7 @@ ToValueUpdaterTest >> testElementUpdater [
 ]
 
 { #category : #tests }
-ToValueUpdaterTest >> testElementUpdaterWithNonTrivialValuableConvertedASElementUpdater [
+ToLookEventSubscriptionTest >> testElementSubscriptionWithNonTrivialValuableConvertedASElementUpdater [
 
 	| w adapter disabledImage checkedImage uncheckedImage indeterminateImage switch |
 	w := ToCheckLookTestElement new.
@@ -59,7 +60,8 @@ ToValueUpdaterTest >> testElementUpdaterWithNonTrivialValuableConvertedASElement
 							          indeterminateImage removeFromParent.
 							          e iconImage: indeterminateImage ] ] ] ].
 
-	adapter := switch asElementUpdater.
+	adapter := switch asElementSubscription.
+	adapter lookEventClass: ToInitialLookEvent.
 	" whatever the LookEvent, the result should be the same "
 	adapter announceLookEvent: (ToInitialLookEvent new currentTarget: w).
 	" since the checkable is unchecked by default "
@@ -84,11 +86,12 @@ ToValueUpdaterTest >> testElementUpdaterWithNonTrivialValuableConvertedASElement
 ]
 
 { #category : #tests }
-ToValueUpdaterTest >> testElementUpdaterWithValuableConvertedASElementUpdater [
+ToLookEventSubscriptionTest >> testElementSubscriptionWithValuableConvertedASElementUpdater [
 
 	| w adapter |
 	w := ToElement new.
-	adapter := ToElementUpdater new valuable: [:e | e background: Color blue ].
+	adapter := ToElementSubscription new valuable: [:e | e background: Color blue ].
+	adapter lookEventClass: ToInitialLookEvent.
 	" whatever the LookEvent, the result should be the same "
 	adapter announceLookEvent: (ToInitialLookEvent new currentTarget: w).
 	self assert: (w background isKindOf: BlPaintBackground).
@@ -96,13 +99,14 @@ ToValueUpdaterTest >> testElementUpdaterWithValuableConvertedASElementUpdater [
 ]
 
 { #category : #tests }
-ToValueUpdaterTest >> testPropertyUpdater [
+ToLookEventSubscriptionTest >> testPropertySubscription [
 
 	| w prop adapter |
 	w := ToElement new.
-	prop := ToExplicitPropertyDef new.
+	prop := ToPseudoProperty new.
 	prop writer: [ :e :v | e background: v ].
-	adapter := Color blue asPropertyUpdaterFor: prop.
+	adapter := Color blue asPropertySubscriptionFor: prop.
+	adapter lookEventClass: ToInitialLookEvent.
 	self assert: adapter property equals: prop.
 	" whatever the LookEvent, the result should be the same "
 	adapter announceLookEvent: (ToInitialLookEvent new currentTarget: w).
@@ -111,7 +115,7 @@ ToValueUpdaterTest >> testPropertyUpdater [
 ]
 
 { #category : #tests }
-ToValueUpdaterTest >> testPropertyUpdaterWithNonTrivialValuable [
+ToLookEventSubscriptionTest >> testPropertySubscriptionWithNonTrivialValuable [
 
 	| w adapter disabledImage checkedImage uncheckedImage indeterminateImage switch prop |
 	w := ToCheckLookTestElement new.
@@ -146,12 +150,13 @@ ToValueUpdaterTest >> testPropertyUpdaterWithNonTrivialValuable [
 						          ifFalse: [
 							          indeterminateImage ] ] ] ].
 
-	prop := ToExplicitPropertyDef new.
+	prop := ToPseudoProperty new.
 	prop writer: [ :e :v | v removeFromParent. e iconImage: v ].
 	
-	adapter := ToPropertyUpdater new
+	adapter := ToPropertySubscription new
 		  value: switch;
 		  property: prop;
+		  lookEventClass: ToInitialLookEvent;
 		  yourself.
 
 	" whatever the LookEvent, the result should be the same "

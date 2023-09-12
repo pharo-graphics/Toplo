@@ -1,6 +1,6 @@
 Class {
-	#name : #ToPropertyUpdater,
-	#superclass : #ToValueUpdater,
+	#name : #ToPropertySubscription,
+	#superclass : #ToLookEventSubscription,
 	#instVars : [
 		'value',
 		'property',
@@ -10,22 +10,24 @@ Class {
 }
 
 { #category : #accessing }
-ToPropertyUpdater >> animation [
+ToPropertySubscription >> animation [
 
 	^ animation
 ]
 
 { #category : #accessing }
-ToPropertyUpdater >> animation: aPropertyAnimation [
+ToPropertySubscription >> animation: aPropertyAnimation [
 
 	animation := aPropertyAnimation.
+	animation ifNil: [ ^self ].
 	animation property: self property
 ]
 
 { #category : #operating }
-ToPropertyUpdater >> announceLookEvent: aLookEvent [
+ToPropertySubscription >> announceLookEvent: aLookEvent [
 
 	| target rawValue writer |
+	(self canReceiveEvent: aLookEvent) ifFalse: [  ^ self ].
 	target := aLookEvent currentTarget.
 	rawValue := (self valueIn: target).
 	writer := self animation ifNil: [ self property ].
@@ -34,21 +36,27 @@ ToPropertyUpdater >> announceLookEvent: aLookEvent [
 ]
 
 { #category : #converting }
-ToPropertyUpdater >> asPropertyUpdaterFor: aPropertyDefinition [
+ToPropertySubscription >> asPropertySubscriptionFor: aPropertyDef [
 
 	^ self
-		  property: aPropertyDefinition;
+		  property: aPropertyDef;
 		  yourself
 ]
 
+{ #category : #testing }
+ToPropertySubscription >> isPropertyBased [
+
+	^ false
+]
+
 { #category : #accessing }
-ToPropertyUpdater >> property [
+ToPropertySubscription >> property [
 
 	^ property
 ]
 
 { #category : #accessing }
-ToPropertyUpdater >> property: aPropertyDefinition [
+ToPropertySubscription >> property: aPropertyDefinition [
 
 	property := aPropertyDefinition.
 	self animation ifNotNil: [ :a |
@@ -56,19 +64,19 @@ ToPropertyUpdater >> property: aPropertyDefinition [
 ]
 
 { #category : #accessing }
-ToPropertyUpdater >> value [
+ToPropertySubscription >> value [
 
 	^ value
 ]
 
 { #category : #accessing }
-ToPropertyUpdater >> value: anObject [
+ToPropertySubscription >> value: anObject [
 
 	value := anObject
 ]
 
 { #category : #operating }
-ToPropertyUpdater >> valueIn: anElement [
+ToPropertySubscription >> valueIn: anElement [
 
 	^ value isClosure
 		  ifTrue: [ value value: anElement ]

@@ -39,9 +39,9 @@ ToElementLook >> elementLookEvent: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToElementLook >> findSkinPropertyNamed: name [
+ToElementLook >> findLookUpdaterForPropertyNamed: name [
 
-	^ self next findSkinPropertyNamed: name
+	^ self next findLookUpdaterForPropertyNamed: name
 ]
 
 { #category : #'event handling' }

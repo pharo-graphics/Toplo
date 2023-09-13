@@ -18,7 +18,7 @@ ToClickableType >> basicButtonBackgroundLookIn: anElement [
 { #category : #'basic button' }
 ToClickableType >> basicButtonBorderLookIn: anElement [
 
-	^ ToBorderLook new
+	^ ToLookUpdater new
 ]
 
 { #category : #'basic button' }
@@ -48,13 +48,13 @@ ToClickableType >> borderBuilderIn: anElement [
 { #category : #'checkable button' }
 ToClickableType >> checkableButtonBackgroundLookIn: anElement [
 
-	^ ToBackgroundLook new
+	^ ToLookUpdater new
 ]
 
 { #category : #'checkable button' }
 ToClickableType >> checkableButtonBorderLookIn: anElement [
 
-	^ ToBorderLook new
+	^ ToLookUpdater new
 ]
 
 { #category : #'checkable button' }
@@ -84,10 +84,11 @@ ToClickableType >> danger: aBoolean [
 { #category : #'api - install/uninstall  hook' }
 ToClickableType >> dangerBackgroundLookIn: anElement [
 
-	^ ToBackgroundLook new
-		  whenDisabled: anElement toTheme colorBgContainerDisabled;
-		  whenInitialized: Color transparent;
-		  yourself
+	^ 
+		(ToLookUpdater forProperty: (ToInstVarProperty new name: #background; yourself))
+			when: ToInitialLookEvent value: [ :e | Color transparent ];
+			when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
+			yourself
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -119,7 +120,7 @@ ToClickableType >> menuItemBackgroundLookIn: anElement [
 { #category : #'menu item' }
 ToClickableType >> menuItemBorderLookIn: anElement [
 
-	^ ToBorderLook new
+	^ ToLookUpdater new
 ]
 
 { #category : #'menu item' }
@@ -167,13 +168,13 @@ ToClickableType >> selectInnerButtonIconSkinIn: anElement [
 { #category : #'toggle button' }
 ToClickableType >> toggleButtonBackgroundLookIn: anElement [
 
-	^ ToBackgroundLook new
+	^ ToLookUpdater new
 ]
 
 { #category : #'toggle button' }
 ToClickableType >> toggleButtonBorderLookIn: anElement [
 
-	^ ToBorderLook new
+	^ ToLookUpdater new
 ]
 
 { #category : #'toggle button' }

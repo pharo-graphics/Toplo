@@ -24,24 +24,12 @@ ToButtonDefaultType >> basicButtonIconSkinIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToButtonDefaultType >> dangerBorderLookIn: anElement [
 
-	^ ToBorderLook new
-		  whenDisabled: [ :e |
-			  (self borderBuilderIn: anElement)
-				  paint: e toTheme colorBorderDisabled;
-				  build ];
-		  whenInitialized: [ :e |
-			  (self borderBuilderIn: anElement)
-				  paint: e toTheme colorError;
-				  build ];
-		  whenHovered: [ :e |
-			  (self borderBuilderIn: anElement)
-				  paint: e toTheme colorErrorHover;
-				  build ];
-		  whenPressed: [ :e |
-			  (self borderBuilderIn: anElement)
-				  paint: e toTheme colorErrorHover darker;
-				  build ];
-		  yourself
+	^ (ToLookUpdater forProperty: (ToInstVarProperty new name: #border; yourself))
+			when: ToInitialLookEvent value: [ :e | e toTheme colorError ]; 
+			when: ToDisabledLookEvent value: [ :e | e toTheme colorBorderDisabled ]; 
+			when: ToHoveredLookEvent value: [ :e | e toTheme colorErrorHover ]; 
+			when: ToPressedLookEvent value: [ :e | e toTheme colorErrorHover darker ];
+			yourself
 ]
 
 { #category : #accessing }
@@ -59,33 +47,23 @@ ToButtonDefaultType >> dashed: aBoolean [
 { #category : #'api - install/uninstall  hook' }
 ToButtonDefaultType >> regularBackgroundLookIn: anElement [
 
-	^ ToBackgroundLook new
-		  whenDisabled: anElement toTheme colorBgContainerDisabled;
-		  whenInitialized: Color transparent;
-		  yourself
+	^ 
+		(ToLookUpdater forProperty: (ToInstVarProperty new name: #background; yourself))
+			when: ToInitialLookEvent value: [ :e | Color transparent ];
+			when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
+			yourself
+
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToButtonDefaultType >> regularBorderLookIn: anElement [
 
-	^ ToBorderLook new
-		  whenDisabled: [ :e |
-			  (self borderBuilderIn: anElement)
-				  paint: e toTheme colorBorderDisabled;
-				  build ];
-		  whenInitialized: [ :e |
-			  (self borderBuilderIn: anElement)
-				  paint: e toTheme colorBorder;
-				  build ];
-		  whenHovered: [ :e |
-			  (self borderBuilderIn: anElement)
-				  paint: e toTheme colorPrimaryHover;
-				  build ];
-		  whenPressed: [ :e |
-			  (self borderBuilderIn: anElement)
-				  paint: e toTheme colorPrimaryPressed;
-				  build ];
-		  yourself
+	^ (ToLookUpdater forProperty: (ToInstVarProperty new name: #border; yourself))
+			when: ToInitialLookEvent value: [ :e | e toTheme colorBorder ]; 
+			when: ToDisabledLookEvent value: [ :e | e toTheme colorBorderDisabled ]; 
+			when: ToHoveredLookEvent value: [ :e | e toTheme colorPrimaryHover ]; 
+			when: ToPressedLookEvent value: [ :e | e toTheme colorPrimaryPressed ];
+			yourself
 ]
 
 { #category : #'api - install/uninstall  hook' }

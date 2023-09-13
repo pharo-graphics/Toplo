@@ -61,7 +61,5 @@ ToMenuItemSkin >> labelSkinIn: aButton [
 { #category : #'api - install/uninstall  hook' }
 ToMenuItemSkin >> onSkinInstalledIn: anElement [
 
-	super onSkinInstalledIn: anElement.
-	self addLookUpdater: (ToWindowLook new 
-		openAction: [ :e | self checkItem: e ])
+	super onSkinInstalledIn: anElement
 ]

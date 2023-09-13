@@ -87,7 +87,8 @@ ToStyleSheetTest >> testButtonSkin1 [
 
 	" default button rule "
 	ss addRule:
-		(ToStyleRule new selectors: { (ToStyleClassSelector new elementClass: #button) } looks: { ((ToLookUpdater new property: (ToInstVarProperty new name: #background))
+		(ToStyleRule new selectors: { (ToStyleClassSelector new elementClass: #button) } 
+			looks: { ((ToLookUpdater new property: (ToInstVarProperty new name: #background))
 				  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
 				  when: ToInitialLookEvent value: [ :e | Color gray ];
 				  yourself) }).

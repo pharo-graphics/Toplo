@@ -26,10 +26,12 @@ ToMenuWindowSkin >> onSkinInstalledIn: anElement [
 	super onSkinInstalledIn: anElement.
 	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
 	anElement padding: (BlInsets top: 5 left: 5 bottom: 5 right: 5 ).
-	self addLookUpdater: (ToBackgroundLook new
-			 initialColor: anElement toTheme backgroundColor;
+	self addLookUpdater: (
+		(ToLookUpdater forProperty: (ToInstVarProperty new name: #background; yourself))
+			when: ToInitialLookEvent value: [ :e | e toTheme backgroundColor ];
 			 yourself).
-	self addLookUpdater: (ToWindowLook new 
-			openAction: [ :e | self checkItemsIn: e ])
+	self addLookUpdater: (ToLookUpdater new 
+			when: ToOpenedLookEvent do: [ :e | self checkItemsIn: e ];
+			yourself)
 		
 ]

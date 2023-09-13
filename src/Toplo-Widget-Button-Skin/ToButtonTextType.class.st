@@ -13,23 +13,24 @@ ToButtonTextType >> basicButtonIconSkinIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToButtonTextType >> dangerBackgroundLookIn: anElement [
 
-	^ ToBackgroundLook new
-		  whenDisabled: anElement toTheme colorBgContainerDisabled;
-		  whenInitialized: Color transparent;
-		  whenPressed: anElement toTheme colorErrorBg;
-		  whenHovered: anElement toTheme colorErrorBg;
-		  yourself
+	^ (ToLookUpdater forProperty: (ToInstVarProperty new name: #background; yourself))
+			when: ToInitialLookEvent value: [ :e | Color transparent ];
+			when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
+			when: ToPressedLookEvent value: [ :e | e toTheme colorErrorBg ];
+			when: ToHoveredLookEvent value: [ :e | e toTheme colorErrorBg ];
+			yourself
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToButtonTextType >> regularBackgroundLookIn: anElement [
 
-	^ ToBackgroundLook new
-		  whenDisabled: anElement toTheme colorBgContainerDisabled;
-		  whenInitialized: Color transparent;
-		  whenPressed: anElement toTheme colorBgTextActive;
-		  whenHovered: anElement toTheme colorBgTextHover;
-		  yourself
+	^ 
+		(ToLookUpdater forProperty: (ToInstVarProperty new name: #background; yourself))
+			when: ToInitialLookEvent value: [ :e | Color transparent ];
+			when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
+			when: ToPressedLookEvent value: [ :e | e toTheme colorBgTextActive ];
+			when: ToHoveredLookEvent value: [ :e | e toTheme colorBgTextActive ];
+			yourself
 ]
 
 { #category : #'api - install/uninstall  hook' }

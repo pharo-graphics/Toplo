@@ -74,21 +74,17 @@ ToToggleTrackSkin >> innerButtonSizeIn: anElement [
 ToToggleTrackSkin >> onSkinInstalledIn: anElement [
 
 	super onSkinInstalledIn: anElement.
-	self addLookUpdater: (ToBackgroundLook new
-			 disabledColor: [ :e | e toTheme colorBgContainerDisabled ];
-			 initialColor: [ :e | 
-				 anElement isChecked
+	self addLookUpdater: ((ToLookUpdater forProperty: (ToInstVarProperty new name: #background; yourself))
+			when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled  ];
+			when: ToInitialLookEvent value: [  :e | e isChecked
 					 ifTrue: [ e toTheme colorBgContainerChecked ]
 					 ifFalse: [ e toTheme colorBgContainerUnchecked  ] ];
-			 pressedColor: [ :e |
-				 anElement isChecked
+			when: ToPressedLookEvent value: [ :e | e isChecked
 					 ifTrue: [ e toTheme colorBgContainerCheckedPressed ]
 					 ifFalse: [ e toTheme colorBgContainerUnchecked ] ];
-			 hoverColor: [ :e |
-				 anElement isChecked
+			when: ToHoveredLookEvent value: [ :e | e isChecked
 					 ifTrue: [ e toTheme colorBgContainerCheckedHover ]
-					 ifFalse: [ e toTheme colorBgContainerUncheckedHover ] ];
-			 yourself).
+					 ifFalse: [ e toTheme colorBgContainerUncheckedHover ] ] ).
 	self addLookUpdater: (ToToggleTrackLook new
 			 animate: true;
 			 yourself).

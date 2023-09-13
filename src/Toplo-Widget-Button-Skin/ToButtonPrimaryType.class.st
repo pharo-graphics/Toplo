@@ -7,10 +7,10 @@ Class {
 { #category : #'basic button' }
 ToButtonPrimaryType >> basicButtonBorderLookIn: anElement [
 
-	^ ToBorderLook new
-		  whenDisabled: [ :e | e toTheme colorBorderDisabled ];
-		  whenInitialized: [ :e | Color transparent ];
-		  yourself
+	^ (ToLookUpdater forProperty: (ToInstVarProperty new name: #border; yourself))
+			when: ToInitialLookEvent value: [ :e | Color transparent ]; 
+			when: ToDisabledLookEvent value: [ :e | e toTheme colorBorderDisabled ]; 
+			yourself
 ]
 
 { #category : #'basic button' }
@@ -28,23 +28,24 @@ ToButtonPrimaryType >> basicButtonLabelSkinIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToButtonPrimaryType >> dangerBackgroundLookIn: anElement [
 
-	^ ToBackgroundLook new
-		  whenInitialized: anElement toTheme colorError;
-		  whenDisabled: anElement toTheme colorBgContainerDisabled;
-		  whenPressed: (anElement toTheme colorErrorPressed  );
-		  whenHovered: (anElement toTheme colorErrorHover  );
-		  yourself
+	^ 
+		(ToLookUpdater forProperty: (ToInstVarProperty new name: #background; yourself))
+			when: ToInitialLookEvent value: [ :e | e toTheme colorError ];
+			when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
+			when: ToPressedLookEvent value: [ :e | e toTheme colorErrorPressed ];
+			when: ToHoveredLookEvent value: [ :e | e toTheme colorErrorHover ];
+			yourself
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToButtonPrimaryType >> regularBackgroundLookIn: anElement [
 
-	^ ToBackgroundLook new
-		  whenInitialized: anElement toTheme colorPrimary;
-		  whenDisabled: anElement toTheme colorBgContainerDisabled;
-		  whenPressed: (ToStateUpdaterDep new value: anElement toTheme colorPrimaryPressed; duration: 200 milliSeconds; yourself);
-		  whenHovered: (ToStateUpdaterDep new value: anElement toTheme colorPrimaryHover; duration: 200 milliSeconds; yourself);
-		  yourself
+	^ (ToLookUpdater forProperty: (ToInstVarProperty new name: #background; yourself))
+			when: ToInitialLookEvent value: [ :e | e toTheme colorPrimary ];
+			when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
+			when: ToPressedLookEvent value: [ :e | e toTheme colorPrimaryPressed ];
+			when: ToHoveredLookEvent value: [ :e | e toTheme colorPrimaryHover ];
+			yourself
 ]
 
 { #category : #'api - install/uninstall  hook' }

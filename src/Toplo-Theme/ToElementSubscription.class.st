@@ -7,17 +7,17 @@ Class {
 	#category : #'Toplo-Theme-LookUpdater'
 }
 
-{ #category : #operating }
-ToElementSubscription >> announceLookEvent: aLookEvent [
-
-	(self canReceiveEvent: aLookEvent) ifFalse: [  ^ self ].
-	self valuable value: aLookEvent currentTarget
-]
-
 { #category : #converting }
 ToElementSubscription >> asElementSubscription [
 
 	^ self
+]
+
+{ #category : #operating }
+ToElementSubscription >> receiveLookEvent: aLookEvent [
+
+	(self canReceiveEvent: aLookEvent) ifFalse: [  ^ self ].
+	self valuable value: aLookEvent currentTarget
 ]
 
 { #category : #accessing }

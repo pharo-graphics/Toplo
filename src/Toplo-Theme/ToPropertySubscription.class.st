@@ -23,18 +23,6 @@ ToPropertySubscription >> animation: aPropertyAnimation [
 	animation property: self property
 ]
 
-{ #category : #operating }
-ToPropertySubscription >> announceLookEvent: aLookEvent [
-
-	| target rawValue writer |
-	(self canReceiveEvent: aLookEvent) ifFalse: [  ^ self ].
-	target := aLookEvent currentTarget.
-	rawValue := (self valueIn: target).
-	writer := self animation ifNil: [ self property ].
-	writer write: rawValue to: target 
-
-]
-
 { #category : #converting }
 ToPropertySubscription >> asPropertySubscriptionFor: aPropertyDef [
 
@@ -61,6 +49,18 @@ ToPropertySubscription >> property: aPropertyDefinition [
 	property := aPropertyDefinition.
 	self animation ifNotNil: [ :a |
 		animation property: aPropertyDefinition ]
+]
+
+{ #category : #operating }
+ToPropertySubscription >> receiveLookEvent: aLookEvent [
+
+	| target rawValue writer |
+	(self canReceiveEvent: aLookEvent) ifFalse: [  ^ self ].
+	target := aLookEvent currentTarget.
+	rawValue := (self valueIn: target).
+	writer := self animation ifNil: [ self property ].
+	writer write: rawValue to: target 
+
 ]
 
 { #category : #accessing }

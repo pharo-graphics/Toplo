@@ -1,6 +1,6 @@
 Class {
 	#name : #ToBinarySelector,
-	#superclass : #ToElementSelector,
+	#superclass : #ToStyleSelector,
 	#instVars : [
 		'left',
 		'right'

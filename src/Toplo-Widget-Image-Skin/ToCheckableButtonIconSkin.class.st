@@ -17,13 +17,12 @@ ToCheckableButtonIconSkin >> onSkinInstalledIn: anElement [
 
 	super onSkinInstalledIn: anElement.
 	anElement geometry: (self geometryIn: anElement).
-	borderLook := ToLookDep new
-		              applyWith: [ :e :v | e border: v asBlBorder ];
-		              whenDisabled: [ :e |
-			              e toTheme colorBorderDisabled ];
-		              whenInitialized: [ :e | e toTheme colorBorder ];
-		              whenHovered: [ :e | e toTheme colorPrimaryHover ];
-		              whenPressed: [ :e |
-			              e toTheme colorPrimaryPressed ].
+	borderLook := ToLookUpdater new 
+		property: (ToInstVarProperty new name: #border);
+		when: ToDisabledLookEvent value: [ :e | e toTheme colorBorderDisabled ];
+		when: ToInitialLookEvent value: [ :e | e toTheme colorBorder ];
+		when: ToHoveredLookEvent value: [ :e | e toTheme colorPrimaryHover ];
+		when: ToPressedLookEvent value: [ :e | e toTheme colorPrimaryPressed ];
+		yourself.
 	self addLookUpdater: borderLook
 ]

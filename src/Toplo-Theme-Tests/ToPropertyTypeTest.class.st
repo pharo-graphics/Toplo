@@ -11,26 +11,6 @@ Class {
 }
 
 { #category : #tests }
-ToPropertyTypeTest >> testExplicitPropertyDefinition [
-
-	| w prop  writer |
-	w := ToElement new.
-	prop := ToPseudoProperty new.
-	writer := [ :e :v | e background: v ].
-	reader := [ :e | e background ].
-	prop writer: writer.
-	prop reader: reader.
-	prop name: #background.
-	self assert: prop writer equals: writer.
-	self assert: prop reader equals: reader.
-	self assert: prop name equals: #background.
-	prop write: Color blue to: w.
-	self assert: (w background isKindOf: BlPaintBackground).
-	self assert: w background paint color equals: Color blue.
-	self assert: (prop read: w) equals: w background
-]
-
-{ #category : #tests }
 ToPropertyTypeTest >> testInstVarPropertyDefinition [
 
 	| w prop |
@@ -50,6 +30,26 @@ ToPropertyTypeTest >> testInstVarPropertyDefinition2 [
 	| w prop |
 	w := ToElement new.
 	prop := #background asInstVarPropertyDef.
+	self assert: prop name equals: #background.
+	prop write: Color blue to: w.
+	self assert: (w background isKindOf: BlPaintBackground).
+	self assert: w background paint color equals: Color blue.
+	self assert: (prop read: w) equals: w background
+]
+
+{ #category : #tests }
+ToPropertyTypeTest >> testPseudoPropertyDefinition [
+
+	| w prop  writer |
+	w := ToElement new.
+	prop := ToPseudoProperty new.
+	writer := [ :e :v | e background: v ].
+	reader := [ :e | e background ].
+	prop writer: writer.
+	prop reader: reader.
+	prop name: #background.
+	self assert: prop writer equals: writer.
+	self assert: prop reader equals: reader.
 	self assert: prop name equals: #background.
 	prop write: Color blue to: w.
 	self assert: (w background isKindOf: BlPaintBackground).

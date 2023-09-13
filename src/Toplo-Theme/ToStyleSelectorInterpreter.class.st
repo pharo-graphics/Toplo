@@ -1,6 +1,6 @@
 Class {
-	#name : #ToElementSelectorEngine,
-	#superclass : #ToSelectorVisitor,
+	#name : #ToStyleSelectorInterpreter,
+	#superclass : #ToStyleSelectorVisitor,
 	#instVars : [
 		'targetStack',
 		'result'
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #operating }
-ToElementSelectorEngine >> check: aSelector on: anElement [
+ToStyleSelectorInterpreter >> check: aSelector on: anElement [
 
 	targetStack := Stack new.
 	targetStack push: anElement.
@@ -19,13 +19,13 @@ ToElementSelectorEngine >> check: aSelector on: anElement [
 ]
 
 { #category : #accessing }
-ToElementSelectorEngine >> result [
+ToStyleSelectorInterpreter >> result [
 
 	^ result
 ]
 
 { #category : #visiting }
-ToElementSelectorEngine >> visitAndSelector: aSelector [
+ToStyleSelectorInterpreter >> visitAndSelector: aSelector [
 
 	aSelector left accept: self.
 	result ifFalse: [ ^ self ].
@@ -33,7 +33,7 @@ ToElementSelectorEngine >> visitAndSelector: aSelector [
 ]
 
 { #category : #visiting }
-ToElementSelectorEngine >> visitChildSelector: aSelector [
+ToStyleSelectorInterpreter >> visitChildSelector: aSelector [
 
 	| current l |
 	aSelector left accept: self.
@@ -62,25 +62,33 @@ ToElementSelectorEngine >> visitChildSelector: aSelector [
 ]
 
 { #category : #visiting }
-ToElementSelectorEngine >> visitIdSelector: aSelector [
+ToStyleSelectorInterpreter >> visitIdSelector: aSelector [
 
 	result := aSelector id = targetStack top id
 ]
 
 { #category : #visiting }
-ToElementSelectorEngine >> visitStyleClassSelector: aSelector [
+ToStyleSelectorInterpreter >> visitOrSelector: aSelector [
 
-	result := aSelector styleClasses includesAll: targetStack top styleClasses
+	aSelector left accept: self.
+	result ifTrue: [ ^ self ].
+	aSelector right accept: self.
 ]
 
 { #category : #visiting }
-ToElementSelectorEngine >> visitTypeSelector: aSelector [
+ToStyleSelectorInterpreter >> visitStyleClassSelector: aSelector [
+
+	result := targetStack top styleClasses includesAll: aSelector styleClasses  
+]
+
+{ #category : #visiting }
+ToStyleSelectorInterpreter >> visitTypeSelector: aSelector [
 
 	result := (aSelector selectType: targetStack top class)
 ]
 
 { #category : #visiting }
-ToElementSelectorEngine >> visitUniversalSelector: aSelector [
+ToStyleSelectorInterpreter >> visitUniversalSelector: aSelector [
 
 	result := true
 ]

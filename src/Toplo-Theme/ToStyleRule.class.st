@@ -12,7 +12,7 @@ Class {
 ToStyleRule >> canBeAppliedTo: anElement [
 
 	| engine |
-	engine := ToElementSelectorEngine new.
+	engine := ToStyleSelectorInterpreter new.
 	^ self selectors anySatisfy: [ :s |
 		  engine check: s on: anElement.
 		  engine result ]

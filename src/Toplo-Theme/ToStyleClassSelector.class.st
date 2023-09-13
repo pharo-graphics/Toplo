@@ -13,17 +13,17 @@ ToStyleClassSelector >> accept: aVisitor [
 	aVisitor visitStyleClassSelector: self
 ]
 
-{ #category : #accessing }
-ToStyleClassSelector >> elementClass: aSymbol [
-
-	elementClasses add: aSymbol
-]
-
 { #category : #initialization }
 ToStyleClassSelector >> initialize [ 
 
 	super initialize.
 	elementClasses := OrderedCollection new
+]
+
+{ #category : #accessing }
+ToStyleClassSelector >> styleClass: aSymbol [
+
+	elementClasses add: aSymbol
 ]
 
 { #category : #accessing }

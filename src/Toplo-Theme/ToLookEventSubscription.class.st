@@ -7,12 +7,6 @@ Class {
 	#category : #'Toplo-Theme-LookUpdater'
 }
 
-{ #category : #operating }
-ToLookEventSubscription >> announceLookEvent: aLookEvent [
-
-	self subclassResponsibility 
-]
-
 { #category : #testing }
 ToLookEventSubscription >> canReceiveEvent: aLookEvent [ 
 
@@ -35,4 +29,10 @@ ToLookEventSubscription >> lookEventClass [
 ToLookEventSubscription >> lookEventClass: aLookEventClass [
 
 	lookEventClass := aLookEventClass
+]
+
+{ #category : #operating }
+ToLookEventSubscription >> receiveLookEvent: aLookEvent [
+
+	self subclassResponsibility 
 ]

@@ -15,7 +15,7 @@ ToLookEventSubscriptionTest >> testElementSubscription [
 	adapter := ToElementSubscription new valuable: [:e | e background: Color blue ].
 	adapter lookEventClass: ToInitialLookEvent.
 	" whatever the LookEvent, the result should be the same "
-	adapter announceLookEvent: (ToInitialLookEvent new currentTarget: w).
+	adapter receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color blue
 ]
@@ -63,23 +63,23 @@ ToLookEventSubscriptionTest >> testElementSubscriptionWithNonTrivialValuableConv
 	adapter := switch asElementSubscription.
 	adapter lookEventClass: ToInitialLookEvent.
 	" whatever the LookEvent, the result should be the same "
-	adapter announceLookEvent: (ToInitialLookEvent new currentTarget: w).
+	adapter receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
 	" since the checkable is unchecked by default "
 	self assert: w icon innerImage equals: uncheckedImage.
 	
 	w checked: true.
 	" whatever the LookEvent, the result should be the same "
-	adapter announceLookEvent: (ToInitialLookEvent new currentTarget: w).
+	adapter receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
 	self assert: w icon innerImage equals: checkedImage.
 	
 	w checked: nil.
 	" whatever the LookEvent, the result should be the same "
-	adapter announceLookEvent: (ToInitialLookEvent new currentTarget: w).
+	adapter receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
 	self assert: w icon innerImage equals: indeterminateImage.
 	
 	w disable.
 	" whatever the LookEvent, the result should be the same "
-	adapter announceLookEvent: (ToInitialLookEvent new currentTarget: w).
+	adapter receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
 	self assert: w icon innerImage equals: disabledImage.
 
 
@@ -93,7 +93,7 @@ ToLookEventSubscriptionTest >> testElementSubscriptionWithValuableConvertedASEle
 	adapter := ToElementSubscription new valuable: [:e | e background: Color blue ].
 	adapter lookEventClass: ToInitialLookEvent.
 	" whatever the LookEvent, the result should be the same "
-	adapter announceLookEvent: (ToInitialLookEvent new currentTarget: w).
+	adapter receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color blue
 ]
@@ -109,7 +109,7 @@ ToLookEventSubscriptionTest >> testPropertySubscription [
 	adapter lookEventClass: ToInitialLookEvent.
 	self assert: adapter property equals: prop.
 	" whatever the LookEvent, the result should be the same "
-	adapter announceLookEvent: (ToInitialLookEvent new currentTarget: w).
+	adapter receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color blue
 ]
@@ -160,23 +160,23 @@ ToLookEventSubscriptionTest >> testPropertySubscriptionWithNonTrivialValuable [
 		  yourself.
 
 	" whatever the LookEvent, the result should be the same "
-	adapter announceLookEvent: (ToInitialLookEvent new currentTarget: w).
+	adapter receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
 	" since the checkable is unchecked by default "
 	self assert: w icon innerImage equals: uncheckedImage.
 	
 	w checked: true.
 	" whatever the LookEvent, the result should be the same "
-	adapter announceLookEvent: (ToInitialLookEvent new currentTarget: w).
+	adapter receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
 	self assert: w icon innerImage equals: checkedImage.
 	
 	w checked: nil.
 	" whatever the LookEvent, the result should be the same "
-	adapter announceLookEvent: (ToInitialLookEvent new currentTarget: w).
+	adapter receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
 	self assert: w icon innerImage equals: indeterminateImage.
 	
 	w disable.
 	" whatever the LookEvent, the result should be the same "
-	adapter announceLookEvent: (ToInitialLookEvent new currentTarget: w).
+	adapter receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
 	self assert: w icon innerImage equals: disabledImage.
 
 

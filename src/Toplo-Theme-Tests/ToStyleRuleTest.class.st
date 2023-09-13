@@ -8,13 +8,68 @@ Class {
 }
 
 { #category : #tests }
+ToStyleRuleTest >> testRuleWithAndSelector [
+	" a rule with an And operator  "
+	| rule e |
+	rule := ToStyleRule new
+			 selectors: { 
+				(ToStyleClassSelector new styleClasses: #( #button )) }
+			 looks: {}.
+
+	e := ToElement new styleClass: #something.
+	self assert: (rule canBeAppliedTo: e) not.
+	
+	e styleClass: #button.
+	self assert: (rule canBeAppliedTo: e).
+	
+	rule := ToStyleRule new
+			 selectors: { 
+				((ToStyleClassSelector new styleClasses: #( #button )) 
+				and: (ToStyleClassSelector new styleClasses: #( #danger ))) }
+			 looks: {}.
+	self assert: (rule canBeAppliedTo: e) not.
+	
+	e addStyleClass: #danger.
+	self assert: (rule canBeAppliedTo: e).
+	
+	rule := ToStyleRule new
+			 selectors: { 
+				(ToStyleClassSelector new styleClasses: #( #button #danger)) }
+			 looks: {}.
+
+	self assert: (rule canBeAppliedTo: e).
+	e addStyleClass: #something.
+	
+	self assert: (rule canBeAppliedTo: e).
+
+]
+
+{ #category : #tests }
+ToStyleRuleTest >> testRuleWithAndWithChildSelector [
+	" a rule with an And operator  "
+	| rule e child |
+	rule := ToStyleRule new
+			 selectors: { (ToStyleClassSelector new styleClass: #'button-label') 
+				parent: (((ToStyleClassSelector new styleClasses: #( #button )) and: (ToStyleClassSelector new styleClasses: #( #danger )))) level: 1 }
+			 looks: {}.
+	e := ToElement new styleClass: #button.
+	self assert: (rule canBeAppliedTo: e) not.
+	e addStyleClass: #danger.
+	" ko since no child "
+	self assert: (rule canBeAppliedTo: e) not.
+	e addChild: (child := ToElement new styleClass: #'button-label').
+	" ko since no child "
+	self assert: (rule canBeAppliedTo: child)
+]
+
+{ #category : #tests }
 ToStyleRuleTest >> testRuleWithChildSelector1 [
 	" a rule with a universal selector among others accept any element "
 
 	| rule parent child |
 	rule := ToStyleRule new
-			 selectors: { ((ToStyleClassSelector new elementClass: #child)
-					  parent: (ToStyleClassSelector new elementClass: #'direct-parent')
+			 selectors: { ((ToStyleClassSelector new styleClass: #child)
+					  parent: (ToStyleClassSelector new styleClass: #'direct-parent')
 					  level: 1) }
 			 looks: { }.
 	child := ToElement new.
@@ -31,7 +86,7 @@ ToStyleRuleTest >> testRuleWithChildSelector2 [
 
 	| rule child childchild |
 	rule := ToStyleRule new
-			 selectors: { ((ToStyleClassSelector new elementClass: #childchild) parent: (ToStyleClassSelector new elementClass: #child) level: 1) }
+			 selectors: { ((ToStyleClassSelector new styleClass: #childchild) parent: (ToStyleClassSelector new styleClass: #child) level: 1) }
 			 looks: { }.
 	childchild := ToElement new.
 	childchild styleClass: #childchild.
@@ -49,7 +104,7 @@ ToStyleRuleTest >> testRuleWithChildSelector3 [
 	| rule parent child childchild |
 
 	rule := ToStyleRule new
-			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new elementClass: #parent) level: 2) }
+			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new styleClass: #parent) level: 2) }
 			 looks: { }.
 	childchild := BlElement new.
 	childchild styleClass: #childchild.
@@ -71,13 +126,13 @@ ToStyleRuleTest >> testRuleWithChildSelector4 [
 	| parent child childchild childchildchild childRule childchildRule childchildchildRule |
 
 	childRule := ToStyleRule new
-			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new elementClass: #parent) level: 1) }
+			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new styleClass: #parent) level: 1) }
 			 looks: { }.
 	childchildRule := ToStyleRule new
-			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new elementClass: #parent) level: 2) }
+			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new styleClass: #parent) level: 2) }
 			 looks: { }.
 	childchildchildRule := ToStyleRule new
-			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new elementClass: #parent) level: 3) }
+			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new styleClass: #parent) level: 3) }
 			 looks: { }.
 	childchildchild := BlElement new.
 	childchildchild styleClass: #childchildchild.
@@ -121,13 +176,13 @@ ToStyleRuleTest >> testRuleWithChildSelector5 [
 	self assert: child parent == parent.
 	
 	childRule := ToStyleRule new
-			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new elementClass: #parent) level: 0) }
+			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new styleClass: #parent) level: 0) }
 			 looks: { }.
 	childchildRule := ToStyleRule new
-			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new elementClass: #parent) level: 1) }
+			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new styleClass: #parent) level: 1) }
 			 looks: { }.
 	childchildchildRule := ToStyleRule new
-			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new elementClass: #parent) level: 2) }
+			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new styleClass: #parent) level: 2) }
 			 looks: { }.
 	
 	self assert: (childRule canBeAppliedTo: child) not.
@@ -135,13 +190,13 @@ ToStyleRuleTest >> testRuleWithChildSelector5 [
 	self assert: (childchildchildRule canBeAppliedTo: childchildchild) not.
 	
 	childRule := ToStyleRule new
-			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new elementClass: #parent) level: 2) }
+			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new styleClass: #parent) level: 2) }
 			 looks: { }.
 	childchildRule := ToStyleRule new
-			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new elementClass: #parent) level: 3) }
+			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new styleClass: #parent) level: 3) }
 			 looks: { }.
 	childchildchildRule := ToStyleRule new
-			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new elementClass: #parent) level: 4) }
+			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new styleClass: #parent) level: 4) }
 			 looks: { }.
 	
 	self assert: (childRule canBeAppliedTo: child) not.
@@ -149,13 +204,13 @@ ToStyleRuleTest >> testRuleWithChildSelector5 [
 	self assert: (childchildchildRule canBeAppliedTo: childchildchild) not.
 
 	childRule := ToStyleRule new
-			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new elementClass: #parent) level: 1) }
+			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new styleClass: #parent) level: 1) }
 			 looks: { }.
 	childchildRule := ToStyleRule new
-			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new elementClass: #parent) level: 2) }
+			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new styleClass: #parent) level: 2) }
 			 looks: { }.
 	childchildchildRule := ToStyleRule new
-			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new elementClass: #parent) level: 3) }
+			 selectors: { ((ToUniversalSelector new) parent: (ToStyleClassSelector new styleClass: #parent) level: 3) }
 			 looks: { }.
 	
 	self assert: (childRule canBeAppliedTo: child) .

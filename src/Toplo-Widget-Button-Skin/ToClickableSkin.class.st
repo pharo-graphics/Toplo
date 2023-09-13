@@ -157,14 +157,13 @@ ToClickableSkin >> dashed: aBoolean [
 { #category : #'api - install/uninstall  hook' }
 ToClickableSkin >> defaultCursorLookIn: anElement [
 
-	^ ToLookDep new
-		  applyWith: [ :e :v | e mouseCursor: v ];
-		  whenHovered: [ :but |
-			  but isEnabled
+	^ ToLookUpdater new property: (ToInstVarProperty new name: #mouseCursor);
+		when: ToHoveredLookEvent value: [ :e | 
+			  e isEnabled
 				  ifTrue: [ BlCursor hand ]
 				  ifFalse: [  ] ];
-		  whenLeaved: nil;
-		  yourself
+		when: ToLeavedLookEvent value: nil;
+		yourself
 ]
 
 { #category : #'private - shaping/sizing' }

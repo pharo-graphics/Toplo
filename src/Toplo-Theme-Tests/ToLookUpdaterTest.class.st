@@ -11,7 +11,7 @@ ToLookUpdaterTest >> monospacedFontFamilyName [
 ]
 
 { #category : #tests }
-ToLookUpdaterTest >> testLookUpdaterFailsWithExplicitPropertyWithWrongWriter [
+ToLookUpdaterTest >> testLookUpdaterFailsWithPseudoPropertyWithWrongWriter [
 	" a ToElement DNU #fontName: "
 
 	| w updater installEvent prop |
@@ -23,7 +23,7 @@ ToLookUpdaterTest >> testLookUpdaterFailsWithExplicitPropertyWithWrongWriter [
 	updater when: ToInstallLookEvent value: Color white.
 
 	installEvent := ToInstallLookEvent new currentTarget: w.
-	self should: [ updater announceLookEvent: installEvent ] raise: MessageNotUnderstood
+	self should: [ updater receiveLookEvent: installEvent ] raise: MessageNotUnderstood
 ]
 
 { #category : #tests }
@@ -39,7 +39,7 @@ ToLookUpdaterTest >> testLookUpdaterNeedPropertyForValueUpdating [
 ]
 
 { #category : #tests }
-ToLookUpdaterTest >> testLookUpdaterWithExplicitProperty [
+ToLookUpdaterTest >> testLookUpdaterWithPseudoProperty [
 
 	| w updater installEvent prop |
 
@@ -51,13 +51,13 @@ ToLookUpdaterTest >> testLookUpdaterWithExplicitProperty [
 	updater when: ToInstallLookEvent value: Color white.
 
 	installEvent := ToInstallLookEvent new currentTarget: w..
-	updater announceLookEvent: installEvent.
+	updater receiveLookEvent: installEvent.
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color white
 ]
 
 { #category : #tests }
-ToLookUpdaterTest >> testLookUpdaterWithExplicitPropertyFor3StatesWithRawValue [
+ToLookUpdaterTest >> testLookUpdaterWithPseudoPropertyFor3StatesWithRawValue [
 
 	| w updater installEvent prop hoveredEvent leavedEvent |
 
@@ -71,23 +71,23 @@ ToLookUpdaterTest >> testLookUpdaterWithExplicitPropertyFor3StatesWithRawValue [
 	updater when: ToLeavedLookEvent value: Color gray.
 
 	installEvent := ToInstallLookEvent new currentTarget: w.
-	updater announceLookEvent: installEvent.
+	updater receiveLookEvent: installEvent.
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color white.
 	
 	hoveredEvent := ToHoveredLookEvent new currentTarget: w.
-	updater announceLookEvent: hoveredEvent.
+	updater receiveLookEvent: hoveredEvent.
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color red.
 	
 	leavedEvent := ToLeavedLookEvent new currentTarget: w.
-	updater announceLookEvent: leavedEvent.
+	updater receiveLookEvent: leavedEvent.
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color gray
 ]
 
 { #category : #tests }
-ToLookUpdaterTest >> testLookUpdaterWithExplicitPropertyFor3StatesWithValuable [
+ToLookUpdaterTest >> testLookUpdaterWithPseudoPropertyFor3StatesWithValuable [
 
 	| w updater installEvent prop hoveredEvent leavedEvent |
 
@@ -101,17 +101,17 @@ ToLookUpdaterTest >> testLookUpdaterWithExplicitPropertyFor3StatesWithValuable [
 	updater when: ToLeavedLookEvent value: [:e | Color gray].
 
 	installEvent := ToInstallLookEvent new currentTarget: w.
-	updater announceLookEvent: installEvent.
+	updater receiveLookEvent: installEvent.
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color white.
 	
 	hoveredEvent := ToHoveredLookEvent new currentTarget: w.
-	updater announceLookEvent: hoveredEvent.
+	updater receiveLookEvent: hoveredEvent.
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color red.
 	
 	leavedEvent := ToLeavedLookEvent new currentTarget: w.
-	updater announceLookEvent: leavedEvent.
+	updater receiveLookEvent: leavedEvent.
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color gray
 ]
@@ -125,7 +125,7 @@ ToLookUpdaterTest >> testLookUpdaterWithoutProperty [
 	updater when: ToInstallLookEvent do: [ :e | e background: Color white ].
 
 	installEvent := ToInstallLookEvent new currentTarget: w.
-	updater announceLookEvent: installEvent.
+	updater receiveLookEvent: installEvent.
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color white
 ]

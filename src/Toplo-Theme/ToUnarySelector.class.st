@@ -1,5 +1,5 @@
 Class {
 	#name : #ToUnarySelector,
-	#superclass : #ToElementSelector,
+	#superclass : #ToStyleSelector,
 	#category : #'Toplo-Theme-StyleSheet'
 }

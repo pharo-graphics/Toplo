@@ -33,13 +33,15 @@ ToButtonIconSkin >> danger: aBoolean [
 { #category : #'api - install/uninstall  hook' }
 ToButtonIconSkin >> dangerFormLookIn: anElement [
 
-	^ ToLookDep new
-		  applyWith: [ :e :v | self adaptForegroundIn: e withColor: v ];
-		  whenDisabled: [ :e | e toTheme colorImageDisabled ];
-		  whenInitialized: [ :e | e toTheme colorError ];
-		  whenHovered: [ :e | e toTheme colorErrorHover ];
-		  whenPressed: [ :e | e toTheme colorError darker ];
-		  yourself
+	^ ToLookUpdater new 
+		property: (ToPseudoProperty new 
+			name: #'form-foreground'; 
+			writer: [ :e :v | self adaptForegroundIn: e withColor: v] );
+		when: ToDisabledLookEvent value: [ :e | e toTheme colorImageDisabled ];
+		when: ToInitialLookEvent value: [ :e | e toTheme colorError ];
+		when: ToHoveredLookEvent value: [ :e | e toTheme colorErrorHover ];
+		when: ToPressedLookEvent value: [ :e | e toTheme colorError darker ];
+		yourself
 ]
 
 { #category : #'api - install/uninstall  hook' }

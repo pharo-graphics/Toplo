@@ -8,13 +8,61 @@ Class {
 }
 
 { #category : #'button skin building' }
+ToStyleSheetTest >> testButtonLabelSkin0 [
+
+	| ss button looks labelSkin attributes foregroundAttr prop |
+	ss := ToStyleSheet new.
+
+	" danger button label rule "
+	prop := ToPseudoProperty new name: #'text-attributes'.
+	prop writer: [ :e :v |
+		e text attributes: (BlTextAttributesBuilder new foreground: v) attributes.
+		e textChanged ].
+	ss addRule: (ToStyleRule new
+			 selectors: { 
+				(((ToStyleClassSelector new styleClasses: #( #button )) and: (ToStyleClassSelector new styleClasses: #( #button #danger )))
+					child: (ToStyleClassSelector new styleClass: #'button-label')  level: 2) }
+			 looks: { ((ToLookUpdater new property: prop)
+					  when: ToDisabledLookEvent value: [ :e | e toTheme colorTextDisabled ];
+					  when: ToInitialLookEvent value: [ :e | e toTheme colorError ];
+					  when: ToHoveredLookEvent value: [ :e | e toTheme colorErrorHover ];
+					  when: ToPressedLookEvent value: [ :e | e toTheme colorError darker ];
+					  yourself) }).
+
+
+	button := ToButton new.
+	button labelText: 'Default'.
+	button label withSkin: nil.
+	labelSkin := ToWidgetSkin new.
+	looks := ss looksFor: button label.
+	self assert: looks isEmpty.
+	button label styleClass: #'button-label'.
+	looks := ss looksFor: button label.
+	" should be empty since the label rule expect the button to be of class #danger "
+	self assert: looks isEmpty.
+	button styleClasses: #( #button #danger ).
+	looks := ss looksFor: button label.
+	self assert: looks size equals: 1.
+
+	labelSkin addAllLookUpdaters: looks.
+	button label withSkin: labelSkin.
+	button label checkSkinInstallation.
+	attributes := button label text attributesAt: 1.
+	self assert: attributes notEmpty.
+	foregroundAttr := attributes
+		                  detect: [ :eachAttribute | eachAttribute isKindOf: BlTextForegroundAttribute ]
+		                  ifNone: [ self fail: 'should have a foreground attribute (toTheme colorError)' ].
+	self assert: foregroundAttr paint equals: button label toTheme colorError
+]
+
+{ #category : #'button skin building' }
 ToStyleSheetTest >> testButtonSkin0 [
 
 	| ss button looks skin labelSkin attributes foregroundAttr prop |
 	ss := ToStyleSheet new.
 
 	" default button rule "
-	ss addRule: (ToStyleRule new selectors: { (ToStyleClassSelector new elementClass: #button) } looks: {
+	ss addRule: (ToStyleRule new selectors: { (ToStyleClassSelector new styleClass: #button) } looks: {
 				 ((ToLookUpdater new property: (ToInstVarProperty new name: #background))
 					  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
 					  when: ToInitialLookEvent value: [ :e | Color transparent ];
@@ -32,7 +80,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 		e text attributes: (BlTextAttributesBuilder new foreground: v) attributes.
 		e textChanged ].
 	ss addRule: (ToStyleRule new
-			 selectors: { ((ToStyleClassSelector new elementClass: #'button-label') parent: (ToStyleClassSelector new styleClasses: #( #button #danger )) level: 2) }
+			 selectors: { ((ToStyleClassSelector new styleClass: #'button-label') parent: (ToStyleClassSelector new styleClasses: #( #button #danger )) level: 2) }
 			 looks: { ((ToLookUpdater new property: prop)
 					  when: ToDisabledLookEvent value: [ :e | e toTheme colorTextDisabled ];
 					  when: ToInitialLookEvent value: [ :e | e toTheme colorError ];
@@ -87,7 +135,7 @@ ToStyleSheetTest >> testButtonSkin1 [
 
 	" default button rule "
 	ss addRule:
-		(ToStyleRule new selectors: { (ToStyleClassSelector new elementClass: #button) } 
+		(ToStyleRule new selectors: { (ToStyleClassSelector new styleClass: #button) } 
 			looks: { ((ToLookUpdater new property: (ToInstVarProperty new name: #background))
 				  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
 				  when: ToInitialLookEvent value: [ :e | Color gray ];
@@ -97,7 +145,7 @@ ToStyleSheetTest >> testButtonSkin1 [
 		e text attributes: (BlTextAttributesBuilder new foreground: v) attributes.
 		e textChanged ].
 	ss addRule: (ToStyleRule new
-			 selectors: { ((ToStyleClassSelector new elementClass: #label) parent: (ToStyleClassSelector new elementClass: #'triplet-inner-element') level: 1) }
+			 selectors: { ((ToStyleClassSelector new styleClass: #label) parent: (ToStyleClassSelector new styleClass: #'triplet-inner-element') level: 1) }
 			 looks: { ((ToLookUpdater new property: prop)
 					  when: ToDisabledLookEvent value: [ :e | e toTheme colorTextDisabled ];
 					  when: ToInitialLookEvent value: [ :e | initC := e toTheme colorText ];
@@ -115,7 +163,7 @@ ToStyleSheetTest >> testButtonSkin1 [
 	looks := ss looksFor: button label.
 	self assert: looks size equals: 1.
 	self assert: looks first class equals: ToLookUpdater.
-	looks first announceLookEvent: (ToInitialLookEvent new currentTarget: button label).
+	looks first receiveLookEvent: (ToInitialLookEvent new currentTarget: button label).
 	self assert: initC equals: button toTheme colorText
 ]
 
@@ -127,7 +175,7 @@ ToStyleSheetTest >> testButtonSkin2 [
 
 	" default button rule "
 	ss addRule: (ToStyleRule new
-			 selectors: { (ToStyleClassSelector new elementClass: #button) }
+			 selectors: { (ToStyleClassSelector new styleClass: #button) }
 			 looks: { ((ToLookUpdater new property: (ToInstVarProperty new name: #background))
 					  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
 				  when: ToInitialLookEvent value: [ :e | Color gray ];
@@ -138,8 +186,8 @@ ToStyleSheetTest >> testButtonSkin2 [
 		e text attributes: (BlTextAttributesBuilder new foreground: v) attributes.
 		e textChanged ].	
 		ss addRule: (ToStyleRule new
-			 selectors: { ((ToStyleClassSelector new elementClass: #label)
-					  parent: (ToStyleClassSelector new elementClass: #button)
+			 selectors: { ((ToStyleClassSelector new styleClass: #label)
+					  parent: (ToStyleClassSelector new styleClass: #button)
 					  level: 2) }
 			 looks: { (ToLookUpdater new property: prop)
 					  when: ToDisabledLookEvent value: [ :e | e toTheme colorTextDisabled ];
@@ -166,7 +214,7 @@ ToStyleSheetTest >> testButtonSkin3 [
 
 	" default button rule "
 	ss addRule: (ToStyleRule new
-			 selectors: { (ToStyleClassSelector new elementClass: #button) }
+			 selectors: { (ToStyleClassSelector new styleClass: #button) }
 			 looks: { ((ToLookUpdater new property: (ToInstVarProperty new name: #background))
 				  when: ToInitialLookEvent value: Color gray;
 					  yourself) }).
@@ -181,14 +229,14 @@ ToStyleSheetTest >> testButtonSkin3 [
 	button := ToButton new.
 	looks := ss looksFor: button.
 	self assert: looks size equals: 1.
-	looks first announceLookEvent: (ToInitialLookEvent new currentTarget: button).
+	looks first receiveLookEvent: (ToInitialLookEvent new currentTarget: button).
 	self
 		assert: button background paint color
 		equals: Color gray.
 	button addStyleClass: #danger.
 	looks := ss looksFor: button.
 	self assert: looks size equals: 1.
-	looks first announceLookEvent: (ToInitialLookEvent new currentTarget: button).
+	looks first receiveLookEvent: (ToInitialLookEvent new currentTarget: button).
 	self
 		assert: button background paint color
 		equals: Color red
@@ -275,7 +323,7 @@ ToStyleSheetTest >> testSkinWithChildRule [
 	ss := ToStyleSheet new.
 	ss addRule: (ToStyleRule new
 			 selectors: { ((ToIdSelector new id: #child) parent:
-					  (ToStyleClassSelector new elementClass: #parent)) }
+					  (ToStyleClassSelector new styleClass: #parent)) }
 			 looks: { ((ToLookUpdater new property: (ToInstVarProperty new name: #border))
 				  when: ToInitialLookEvent value: (BlBorder paint: Color red width: 3);
 					  yourself) }).
@@ -304,7 +352,7 @@ ToStyleSheetTest >> testSkinWithChildRule2 [
 	ss := ToStyleSheet new.
 	ss addRule: (ToStyleRule new
 			 selectors: { ((ToIdSelector new id: #child) parent:
-					  (ToStyleClassSelector new elementClass: #parent) level: 2) }
+					  (ToStyleClassSelector new styleClass: #parent) level: 2) }
 			 looks: { ((ToLookUpdater new property: (ToInstVarProperty new name: #border))
 				  when: ToInitialLookEvent value: (BlBorder paint: Color red width: 3);
 					  yourself) }).
@@ -357,6 +405,6 @@ ToStyleSheetTest >> testStyleSheetWithAnUniversalRule [
 
 	| ss |
 	ss := ToStyleSheet new.
-	ss addRule: (ToStyleRule new selectors: { (ToUniversalSelector new) } looks: { ToLookDep new }).
+	ss addRule: (ToStyleRule new selectors: { (ToUniversalSelector new) } looks: { }).
 	self assert: (ss rulesFor: (ToElement new)) size equals: 1
 ]

@@ -83,14 +83,13 @@ ToCheckableSkin >> onSkinInstalledIn: anElement [
 						          ifFalse: [  e indeterminateImage   ] ] ] ].
 
 	super onSkinInstalledIn: anElement.
-	self addLookUpdater: (ToLookDep new
-			 applyWith: [ :e :v |
+	self addLookUpdater: (ToLookUpdater new property: (ToPseudoProperty new writer: [ :e :v |
 				 v removeFromParent.
-				 e iconImage: v ];
-			 whenInitialized: switch;
-			 whenDisabled: switch;
-			 whenClicked: switch;
-			 yourself)
+				 e iconImage: v ]);
+			when: ToInitialLookEvent value: switch;
+			when: ToDisabledLookEvent value: switch;
+			when: ToClickedLookEvent value: switch;
+			yourself)
 ]
 
 { #category : #'accessing images' }

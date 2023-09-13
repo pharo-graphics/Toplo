@@ -33,7 +33,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 	" default button (class #button) "
 
 	self addRule: (ToStyleRule new
-			 selectors: { (ToStyleClassSelector new elementClass: #button) }
+			 selectors: { (ToStyleClassSelector new styleClass: #button) }
 			 looks: {
 					 self backgroundUpdater
 						  when: ToInitialLookEvent value: [ :e | Color transparent ];
@@ -48,8 +48,8 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 
 	" default button form icon "
 	self addRule: (ToStyleRule new
-			 selectors: { ((ToStyleClassSelector new elementClass: #'form-icon')
-					  parent: (ToStyleClassSelector new elementClass: #button)
+			 selectors: { ((ToStyleClassSelector new styleClass: #'form-icon')
+					  parent: (ToStyleClassSelector new styleClass: #button)
 					  level: 2) }
 			 looks:
 				 { self imageInnerFormUpdater
@@ -61,8 +61,8 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 
 	" default button label "
 	self addRule: (ToStyleRule new
-			 selectors: { ((ToStyleClassSelector new elementClass: #label)
-					  parent: (ToStyleClassSelector new elementClass: #button)
+			 selectors: { ((ToStyleClassSelector new styleClass: #label)
+					  parent: (ToStyleClassSelector new styleClass: #button)
 					  level: 2) }
 			 looks: { self labelTextAttributesUpdater
 					  when: ToInitialLookEvent value: [ :e | e toTheme colorText ];
@@ -122,7 +122,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 
 	" danger button form icon "
 	self addRule: (ToStyleRule new
-			 selectors: { ((ToStyleClassSelector new elementClass: #'form-icon')
+			 selectors: { ((ToStyleClassSelector new styleClass: #'form-icon')
 					  parent:
 					  (ToStyleClassSelector new styleClasses: #( #button #danger ))
 					  level: 2) } 
@@ -135,7 +135,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 
 	" danger button label "
 	self addRule: (ToStyleRule new
-			 selectors: { ((ToStyleClassSelector new elementClass: #label)
+			 selectors: { ((ToStyleClassSelector new styleClass: #label)
 					  parent:
 					  (ToStyleClassSelector new styleClasses: #( #button #danger ))
 					  level: 2) }
@@ -160,8 +160,8 @@ ToDefaultStyleSheet >> addPrimaryButtonRules [
 
 
 	self addRule: (ToStyleRule new
-			 selectors: { ((ToStyleClassSelector new elementClass: #button) and:
-					  (ToStyleClassSelector new elementClass: #primary)) }
+			 selectors: { ((ToStyleClassSelector new styleClass: #button) and:
+					  (ToStyleClassSelector new styleClass: #primary)) }
 			 looks: {			
 					 self backgroundUpdater
 						  when: ToInitialLookEvent value: [ :e | e toTheme colorPrimary ];
@@ -176,9 +176,9 @@ ToDefaultStyleSheet >> addPrimaryButtonRules [
 
 	" ToButton primary danger "
 	self addRule: (ToStyleRule new
-			 selectors: { ((ToStyleClassSelector new elementClass: #button) and:
-					  ((ToStyleClassSelector new elementClass: #primary) and:
-						   (ToStyleClassSelector new elementClass: #danger))) }
+			 selectors: { ((ToStyleClassSelector new styleClass: #button) and:
+					  ((ToStyleClassSelector new styleClass: #primary) and:
+						   (ToStyleClassSelector new styleClass: #danger))) }
 			 looks: {	 
 					self backgroundUpdater
 						  when: ToInitialLookEvent value: [ :e | e toTheme colorError ];
@@ -197,8 +197,8 @@ ToDefaultStyleSheet >> addTextButtonRules [
 	" ToButton text "
 
 	self addRule: (ToStyleRule new
-			 selectors: { ((ToStyleClassSelector new elementClass: #button) and:
-					  (ToStyleClassSelector new elementClass: #text)) }
+			 selectors: { ((ToStyleClassSelector new styleClass: #button) and:
+					  (ToStyleClassSelector new styleClass: #text)) }
 			 looks: { 
 					self backgroundUpdater
 						  when: ToInitialLookEvent value: [ :e | Color transparent ];
@@ -209,9 +209,9 @@ ToDefaultStyleSheet >> addTextButtonRules [
 
 	" ToButton text danger "
 	self addRule: (ToStyleRule new
-			 selectors: { ((ToStyleClassSelector new elementClass: #button) and:
-					  ((ToStyleClassSelector new elementClass: #text) and:
-						   (ToStyleClassSelector new elementClass: #danger))) }
+			 selectors: { ((ToStyleClassSelector new styleClass: #button) and:
+					  ((ToStyleClassSelector new styleClass: #text) and:
+						   (ToStyleClassSelector new styleClass: #danger))) }
 			 looks: {
 					self backgroundUpdater
 						  when: ToInitialLookEvent value: [ :e | Color transparent ];

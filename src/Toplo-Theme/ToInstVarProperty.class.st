@@ -1,6 +1,6 @@
 Class {
 	#name : #ToInstVarProperty,
-	#superclass : #ToPropertyType,
+	#superclass : #ToLookProperty,
 	#category : #'Toplo-Theme-LookUpdater'
 }
 

@@ -1,5 +1,5 @@
 Class {
-	#name : #ToPropertyType,
+	#name : #ToLookProperty,
 	#superclass : #Object,
 	#instVars : [
 		'name'
@@ -8,25 +8,25 @@ Class {
 }
 
 { #category : #accessing }
-ToPropertyType >> name [
+ToLookProperty >> name [
 
 	^ name
 ]
 
 { #category : #accessing }
-ToPropertyType >> name: anObject [
+ToLookProperty >> name: anObject [
 
 	name := anObject
 ]
 
 { #category : #operating }
-ToPropertyType >> read: anObject [
+ToLookProperty >> read: anObject [
 
 	self subclassResponsibility 
 ]
 
 { #category : #operating }
-ToPropertyType >> write: anPropertyValue to: anObject [
+ToLookProperty >> write: anPropertyValue to: anObject [
 
 	self subclassResponsibility 
 ]

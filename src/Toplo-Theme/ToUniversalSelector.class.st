@@ -1,6 +1,6 @@
 Class {
 	#name : #ToUniversalSelector,
-	#superclass : #ToUnarySelector,
+	#superclass : #ToSimpleSelector,
 	#category : #'Toplo-Theme-StyleSheet'
 }
 

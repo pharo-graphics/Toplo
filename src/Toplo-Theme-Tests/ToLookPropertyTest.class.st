@@ -2,7 +2,7 @@
 A ToPropertyDefinitionTest is a test class for testing the behavior of ToPropertyDefinition
 "
 Class {
-	#name : #ToPropertyTypeTest,
+	#name : #ToLookPropertyTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'reader'
@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : #tests }
-ToPropertyTypeTest >> testInstVarPropertyDefinition [
+ToLookPropertyTest >> testInstVarPropertyDefinition [
 
 	| w prop |
 	w := ToElement new.
@@ -25,7 +25,7 @@ ToPropertyTypeTest >> testInstVarPropertyDefinition [
 ]
 
 { #category : #tests }
-ToPropertyTypeTest >> testInstVarPropertyDefinition2 [
+ToLookPropertyTest >> testInstVarPropertyDefinition2 [
 
 	| w prop |
 	w := ToElement new.
@@ -38,7 +38,7 @@ ToPropertyTypeTest >> testInstVarPropertyDefinition2 [
 ]
 
 { #category : #tests }
-ToPropertyTypeTest >> testPseudoPropertyDefinition [
+ToLookPropertyTest >> testPseudoPropertyDefinition [
 
 	| w prop  writer |
 	w := ToElement new.
@@ -58,7 +58,7 @@ ToPropertyTypeTest >> testPseudoPropertyDefinition [
 ]
 
 { #category : #tests }
-ToPropertyTypeTest >> testSlotPropertyDefinition [
+ToLookPropertyTest >> testSlotPropertyDefinition [
 
 	| w prop first |
 	w := ToCheckLookTestElement new.
@@ -72,7 +72,7 @@ ToPropertyTypeTest >> testSlotPropertyDefinition [
 ]
 
 { #category : #tests }
-ToPropertyTypeTest >> testSlotPropertyDefinition2 [
+ToLookPropertyTest >> testSlotPropertyDefinition2 [
 
 	| w prop first |
 	w := ToCheckLookTestElement new.

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTypeSelector,
-	#superclass : #ToUnarySelector,
+	#superclass : #ToSimpleSelector,
 	#instVars : [
 		'type',
 		'exact'

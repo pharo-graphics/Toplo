@@ -34,14 +34,14 @@ ToStyleSheetTest >> testButtonLabelSkin0 [
 	button labelText: 'Default'.
 	button label withSkin: nil.
 	labelSkin := ToWidgetSkin new.
-	looks := ss looksFor: button label.
+	looks := ss lookUpdatersFor: button label.
 	self assert: looks isEmpty.
 	button label styleClass: #'button-label'.
-	looks := ss looksFor: button label.
+	looks := ss lookUpdatersFor: button label.
 	" should be empty since the label rule expect the button to be of class #danger "
 	self assert: looks isEmpty.
 	button styleClasses: #( #button #danger ).
-	looks := ss looksFor: button label.
+	looks := ss lookUpdatersFor: button label.
 	self assert: looks size equals: 1.
 
 	labelSkin addAllLookUpdaters: looks.
@@ -90,7 +90,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 
 
 	button := ToButton new.
-	looks := ss looksFor: button.
+	looks := ss lookUpdatersFor: button.
 	self assert: looks size equals: 2.
 	skin := ToWidgetSkin new.
 	skin addAllLookUpdaters: looks.
@@ -106,14 +106,14 @@ ToStyleSheetTest >> testButtonSkin0 [
 	button label withSkin: nil.
 
 	labelSkin := ToWidgetSkin new.
-	looks := ss looksFor: button label.
+	looks := ss lookUpdatersFor: button label.
 	self assert: looks isEmpty.
 	button label styleClass: #'button-label'.
-	looks := ss looksFor: button label.
+	looks := ss lookUpdatersFor: button label.
 	" should be empty since the label rule expect the button to be of class #danger "
 	self assert: looks isEmpty.
 	button styleClasses: #( #button #danger ).
-	looks := ss looksFor: button label.
+	looks := ss lookUpdatersFor: button label.
 	self assert: looks size equals: 1.
 
 	labelSkin addAllLookUpdaters: looks.
@@ -155,12 +155,12 @@ ToStyleSheetTest >> testButtonSkin1 [
 
 
 	button := ToButton new.
-	looks := ss looksFor: button.
+	looks := ss lookUpdatersFor: button.
 	self assert: looks size equals: 1.
 	self assert: looks first class equals: ToLookUpdater.
 
 	button labelText: 'Default'.
-	looks := ss looksFor: button label.
+	looks := ss lookUpdatersFor: button label.
 	self assert: looks size equals: 1.
 	self assert: looks first class equals: ToLookUpdater.
 	looks first receiveLookEvent: (ToInitialLookEvent new currentTarget: button label).
@@ -198,10 +198,10 @@ ToStyleSheetTest >> testButtonSkin2 [
 
 
 	button := ToButton new.
-	looks := ss looksFor: button.
+	looks := ss lookUpdatersFor: button.
 	self assert: looks size equals: 1.
 	button labelText: 'Default'.
-	looks := ss looksFor: button label.
+	looks := ss lookUpdatersFor: button label.
 	self assert: looks size equals: 1.
 
 ]
@@ -215,26 +215,26 @@ ToStyleSheetTest >> testButtonSkin3 [
 	" default button rule "
 	ss addRule: (ToStyleRule new
 			 selectors: { (ToStyleClassSelector new styleClass: #button) }
-			 looks: { ((ToLookUpdater new property: (ToInstVarProperty new name: #background))
+			 looks: { (ss newLookUpdaterFromPropertyName: #background)
 				  when: ToInitialLookEvent value: Color gray;
-					  yourself) }).
+					  yourself }).
 
 	ss addRule: (ToStyleRule new
 			 selectors:
-			 { (ToStyleClassSelector new styleClasses: #( #button )) and: (ToStyleClassSelector new styleClasses: #(#danger )) }
-			 looks: { ((ToLookUpdater new property: (ToInstVarProperty new name: #background))
+			 	{ (ToStyleClassSelector new styleClasses: #( #button )) and: (ToStyleClassSelector new styleClasses: #(#danger )) }
+			 looks: { (ss newLookUpdaterFromPropertyName: #background)
 				  when: ToInitialLookEvent value: Color red;
-					  yourself) }).
+					  yourself }).
 
 	button := ToButton new.
-	looks := ss looksFor: button.
+	looks := ss lookUpdatersFor: button.
 	self assert: looks size equals: 1.
 	looks first receiveLookEvent: (ToInitialLookEvent new currentTarget: button).
 	self
 		assert: button background paint color
 		equals: Color gray.
 	button addStyleClass: #danger.
-	looks := ss looksFor: button.
+	looks := ss lookUpdatersFor: button.
 	self assert: looks size equals: 1.
 	looks first receiveLookEvent: (ToInitialLookEvent new currentTarget: button).
 	self
@@ -257,10 +257,10 @@ ToStyleSheetTest >> testButtonSkin4 [
 					  yourself) }).
 
 	button := ToButton new.
-	looks := ss looksFor: button.
+	looks := ss lookUpdatersFor: button.
 	self assert: looks size equals: 0.
 	button addStyleClass: #danger.
-	looks := ss looksFor: button.
+	looks := ss lookUpdatersFor: button.
 	self assert: looks size equals: 1.
 
 ]
@@ -279,12 +279,12 @@ ToStyleSheetTest >> testButtonSkin5 [
 					  yourself) }).
 
 	button := ToButton new.
-	looks := ss looksFor: button.
+	looks := ss lookUpdatersFor: button.
 	self assert: looks size equals: 1.
 
 	button addStyleClass: #danger.
-	looks := ss looksFor: button.
-	self assert: looks size equals: 0
+	looks := ss lookUpdatersFor: button.
+	self assert: looks size equals: 1
 ]
 
 { #category : #basic }
@@ -306,7 +306,7 @@ ToStyleSheetTest >> testSkinWithAnUniversalRule [
 				  when: ToInitialLookEvent value: Color red;
 					  yourself) }).
 	elem := ToElement new.
-	looks := ss looksFor: elem.
+	looks := ss lookUpdatersFor: elem.
 	self assert: looks size equals: 1.
 	skin := ToWidgetSkin new.
 	skin addAllLookUpdaters: looks.
@@ -329,11 +329,11 @@ ToStyleSheetTest >> testSkinWithChildRule [
 					  yourself) }).
 	parent := ToElement new styleClass: #parent.
 	child := ToElement new id: #child.
-	looks := ss looksFor: child.
+	looks := ss lookUpdatersFor: child.
 	self assert: looks size equals: 0.
 
 	parent addChild: child.
-	looks := ss looksFor: child.
+	looks := ss lookUpdatersFor: child.
 	self assert: looks size equals: 1.
 	skin := ToWidgetSkin new.
 	skin addAllLookUpdaters: looks.
@@ -359,12 +359,12 @@ ToStyleSheetTest >> testSkinWithChildRule2 [
 	parent := ToElement new styleClass: #parent.
 	subParent := ToElement new.
 	child := ToElement new id: #child.
-	looks := ss looksFor: child.
+	looks := ss lookUpdatersFor: child.
 	self assert: looks size equals: 0.
 
 	parent addChild: subParent.
 	subParent addChild: child.
-	looks := ss looksFor: child.
+	looks := ss lookUpdatersFor: child.
 	self assert: looks size equals: 1.
 	skin := ToWidgetSkin new.
 	skin addAllLookUpdaters: looks.
@@ -386,10 +386,10 @@ ToStyleSheetTest >> testSkinWithIdRule [
 				  when: ToInitialLookEvent value: (BlBorder paint: Color red width: 3);
 					  yourself) }).
 	elem := ToElement new.
-	looks := ss looksFor: elem.
+	looks := ss lookUpdatersFor: elem.
 	self assert: looks size equals: 0.
 	elem id: #a.
-	looks := ss looksFor: elem.
+	looks := ss lookUpdatersFor: elem.
 	self assert: looks size equals: 1.
 	skin := ToWidgetSkin new.
 	skin addAllLookUpdaters: looks.

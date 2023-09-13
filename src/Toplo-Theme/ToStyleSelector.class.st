@@ -30,6 +30,14 @@ ToStyleSelector >> child: aSelector level: anInteger [
 ]
 
 { #category : #accessing }
+ToStyleSelector >> not [
+
+	^ ToNotSelector new
+		  left: self;
+		  yourself
+]
+
+{ #category : #accessing }
 ToStyleSelector >> or: aStyleSelector [
 
 	^ ToOrSelector new

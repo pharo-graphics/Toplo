@@ -7,13 +7,13 @@ Class {
 	#category : #'Toplo-Theme-Tests-DefaultTheme'
 }
 
-{ #category : #tests }
+{ #category : #skin }
 ToDefaultStyleSheetTest >> testDefaultButtonSkin [
 
 	| ss button looks skin labelSkin |
 	ss := ToDefaultStyleSheet new.
 	button := ToButton new.
-	looks := ss looksFor: button.
+	looks := ss lookUpdatersFor: button.
 	self assert: looks notEmpty.
 	skin := ToWidgetSkin new.
 	skin addAllLookUpdaters: looks.
@@ -29,7 +29,7 @@ ToDefaultStyleSheetTest >> testDefaultButtonSkin [
 	button label privateSkin: nil.
 	
 	labelSkin := ToWidgetSkin new.
-	looks := ss looksFor: button label.
+	looks := ss lookUpdatersFor: button label.
 	labelSkin addAllLookUpdaters: looks.
 	button label withSkin: labelSkin.
 	button checkSkinInstallation.
@@ -37,13 +37,13 @@ ToDefaultStyleSheetTest >> testDefaultButtonSkin [
 	
 ]
 
-{ #category : #tests }
+{ #category : #skin }
 ToDefaultStyleSheetTest >> testDefaultButtonSkin0 [
 
 	| ss button looks skin labelSkin |
 	ss := ToDefaultStyleSheet new.
 	button := ToButton new.
-	looks := ss looksFor: button.
+	looks := ss lookUpdatersFor: button.
 	self assert: looks notEmpty.
 	skin := ToWidgetSkin new.
 	skin addAllLookUpdaters: looks.
@@ -59,7 +59,7 @@ ToDefaultStyleSheetTest >> testDefaultButtonSkin0 [
 	button label privateSkin: nil.
 	
 	labelSkin := ToWidgetSkin new.
-	looks := ss looksFor: button label.
+	looks := ss lookUpdatersFor: button label.
 	labelSkin addAllLookUpdaters: looks.
 	button label privateSkin: labelSkin.
 	button checkSkinInstallation.
@@ -67,7 +67,7 @@ ToDefaultStyleSheetTest >> testDefaultButtonSkin0 [
 	
 ]
 
-{ #category : #tests }
+{ #category : #skin }
 ToDefaultStyleSheetTest >> testDefaultButtonSkin1 [
 
 	| ss button skin labelSkin |
@@ -87,4 +87,18 @@ ToDefaultStyleSheetTest >> testDefaultButtonSkin1 [
 	self assert: button border paint isColorPaint.
 	self assert: button border paint color equals: button toTheme colorBorder.
 	
+]
+
+{ #category : #'look updaters' }
+ToDefaultStyleSheetTest >> testPropertyList [
+
+	| ss index count |
+	ss := ToDefaultStyleSheet new.
+	index := IdentityDictionary new.
+	ss propertyList do: [ :p |
+		index at: p name ifAbsentPut: [ 0 ].
+		count := (index at: p name) + 1.
+		index at: p name put: count ].
+	index keysAndValuesDo: [ :k :v | self assert: v identicalTo: 1 ].
+	ss propertyList do: [ :p | self assert: (ss newLookUpdaterFromPropertyName: p name) notNil ]
 ]

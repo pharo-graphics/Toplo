@@ -68,6 +68,13 @@ ToStyleSelectorInterpreter >> visitIdSelector: aSelector [
 ]
 
 { #category : #visiting }
+ToStyleSelectorInterpreter >> visitNotSelector: aSelector [
+
+	aSelector left accept: self.
+	result := result not
+]
+
+{ #category : #visiting }
 ToStyleSelectorInterpreter >> visitOrSelector: aSelector [
 
 	aSelector left accept: self.

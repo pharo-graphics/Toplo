@@ -5,62 +5,28 @@ Class {
 	#name : #ToWidgetSkinTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'propertyDefinitionMap'
+		'propertyIndex'
 	],
 	#category : #'Toplo-Theme-Tests-Skin'
 }
 
-{ #category : #running }
-ToWidgetSkinTest >> newPropertyRegistry [
+{ #category : #accessing }
+ToWidgetSkinTest >> propertyIndex [
 
-	^ ToPropertyRegistry new recordAll: self propertyList; yourself
+	^ propertyIndex
 ]
 
-{ #category : #running }
+{ #category : #accessing }
 ToWidgetSkinTest >> propertyList [
 
-	^ {
-		  (ToInstVarProperty name: #background).
-		  (ToInstVarProperty name: #border).
-		  (ToInstVarProperty name: #size).
-		  (ToInstVarProperty name: #margin).
-		  (ToInstVarProperty name: #padding).
-		  (ToPseudoProperty
-			   name: #'background-color'
-			   reader: [ :e | e background paint color ]
-			   writer: [ :e :v | e background: v ]).
-		  (ToPseudoProperty
-			   name: #'checkable-icon-image'
-			   reader: [ :e | e icon innerImage ]
-			   writer: [ :e :v |
-				   v removeFromParent.
-				   e iconImage: v ]).
-		  (ToInstVarProperty name: #layout).
-		  (ToPseudoProperty
-			   name: #'layout-direction'
-			   reader: [ :e | e layout direction ]
-			   writer: [ :e :v | e layout direction: v ]).
-		  (ToPseudoProperty
-			   name: #'layout-orientation'
-			   reader: [ :e | e layout orientation ]
-			   writer: [ :e :v | e layout orientation: v ]).
-		  (ToPseudoProperty
-			   name: #'layout-interspace'
-			   reader: [ :e | e layout interspace ]
-			   writer: [ :e :v | e layout interspace: v ]) }
-]
-
-{ #category : #tests }
-ToWidgetSkinTest >> propertyRegistry [
-
-	^ propertyDefinitionMap
+	^ ToStyleSheet propertyList
 ]
 
 { #category : #running }
 ToWidgetSkinTest >> setUp [ 
 
 	super setUp.
-	propertyDefinitionMap := self newPropertyRegistry
+	propertyIndex := ToStyleSheet newPropertyByNameIndex
 ]
 
 { #category : #tests }
@@ -69,7 +35,7 @@ ToWidgetSkinTest >> testChangeBackground [
 	| w skin look |
 	w := ToElement new.
 	skin := ToWidgetSkin new.
-	look := (self propertyRegistry newLookUpdaterFromPropertyName: #background)
+	look := (self propertyIndex newLookUpdaterFromPropertyName: #background)
 		when: ToInstallLookEvent value: (BlBackground paint: Color yellow);
 		when: ToInitialLookEvent value: (BlBackground paint: Color red);
 		when: ToDisabledLookEvent value: (BlBackground paint: Color gray);
@@ -96,7 +62,7 @@ ToWidgetSkinTest >> testChangeBorder [
 	| w skin |
 	w := ToElement new.
 	skin := ToWidgetSkin new.
-	skin addLookUpdater: ((self propertyRegistry newLookUpdaterFromPropertyName: #border )
+	skin addLookUpdater: ((self propertyIndex newLookUpdaterFromPropertyName: #border )
 			 when: ToDisabledLookEvent value: (BlBorder paint: Color red);
 			 when: ToInitialLookEvent value: (BlBorder paint: Color gray);
 			 when: ToHoveredLookEvent value: (BlBorder paint: Color blue);
@@ -147,7 +113,7 @@ ToWidgetSkinTest >> testChangeCheckableIcon [
 						          ifTrue: [ uncheckedImage ]
 						          ifFalse: [ indeterminateImage ] ] ] ].
 
-	skin addLookUpdater: ((self propertyRegistry newLookUpdaterFromPropertyName: #'checkable-icon-image')
+	skin addLookUpdater: ((self propertyIndex newLookUpdaterFromPropertyName: #'checkable-icon-image')
 			 when: ToInstallLookEvent value:  switch;
 			when: ToInitialLookEvent value:  switch;
 			when: ToDisabledLookEvent value:  switch;
@@ -188,7 +154,7 @@ ToWidgetSkinTest >> testChangeImage [
 	w := ToImage new.
 	skin := ToWidgetSkin new.
 
-	look := (ToLookUpdater new property: (ToInstVarProperty new name: #innerImage))
+	look := ((self propertyIndex newLookUpdaterFromPropertyName: #'innerImage'))
 			 when: ToDisabledLookEvent value: (newForm value mapColor: colorToMap to: Color gray);
 			 when: ToInitialLookEvent value: (newForm value mapColor: colorToMap to: Color blue);
 			 when: ToHoveredLookEvent value: (newForm value mapColor: colorToMap to: Color red);
@@ -219,25 +185,15 @@ ToWidgetSkinTest >> testChangeImage [
 { #category : #tests }
 ToWidgetSkinTest >> testChangeImageForm [
 
-	| w skin look c prop |
+	| w skin look c |
 	w := ToImage new.
 	skin := ToWidgetSkin new.
-	prop := ToPseudoProperty new
-		        name: #'inner-form';
-		        reader: [ :e | e innerForm ];
-		        writer: [ :e :v |
-			        c := v.
-			        e
-				        withInnerFormDo: [ :form |
-					        e innerImage:
-							        (form collectColors: [ :color | v alpha: color alpha ]) ]
-				        ifNone: [  ] ].
-	look := (ToLookUpdater new property: prop)
-		        when: ToInstallLookEvent value: Color white;
-		        when: ToDisabledLookEvent value: Color gray;
-		        when: ToInitialLookEvent value: Color black;
-		        when: ToHoveredLookEvent value: Color blue;
-		        when: ToPressedLookEvent value: Color red;
+	look := ((self propertyIndex newLookUpdaterFromPropertyName: #'image-inner-form-color'))
+		        when: ToInstallLookEvent value: [ :e | c := Color white];
+		        when: ToDisabledLookEvent value: [ :e |  c := Color gray];
+		        when: ToInitialLookEvent value: [ :e | c := Color black];
+		        when: ToHoveredLookEvent value: [ :e | c := Color blue];
+		        when: ToPressedLookEvent value: [ :e | c := Color red];
 		        yourself.
 
 	skin addLookUpdater: look.
@@ -305,18 +261,18 @@ ToWidgetSkinTest >> testChangeLinearLayoutWithPropertyUpdater [
 	| w skin look |
 	w := ToElement new.
 	skin := ToWidgetSkin new.
-	look := self propertyRegistry newLookUpdaterFromPropertyName: #layout.
+	look := self propertyIndex newLookUpdaterFromPropertyName: #layout.
 	look when: ToInstallLookEvent value: BlLinearLayout new.
 	skin addLookUpdater: look.
-	look := (self propertyRegistry newLookUpdaterFromPropertyName: #'layout-direction')
+	look := (self propertyIndex newLookUpdaterFromPropertyName: #'layout-direction')
 		        when: ToInstallLookEvent value: BlLayoutDirection leftToRight;
 		        when: ToHoveredLookEvent value: BlLayoutDirection rightToLeft;
 		        when: ToLeavedLookEvent value: BlLayoutDirection leftToRight.
 	skin addLookUpdater: look.
-	look := (self propertyRegistry newLookUpdaterFromPropertyName: #'layout-orientation') 
+	look := (self propertyIndex newLookUpdaterFromPropertyName: #'layout-orientation') 
 				  when: ToInstallLookEvent value: BlLinearLayoutHorizontalOrientation new.
 	skin addLookUpdater: look.
-	look := (self propertyRegistry newLookUpdaterFromPropertyName: #'layout-interspace')
+	look := (self propertyIndex newLookUpdaterFromPropertyName: #'layout-interspace')
 		        when: ToInstallLookEvent value: 5;
 		        when: ToHoveredLookEvent value: 10;
 		        when: ToLeavedLookEvent value: 5.
@@ -378,13 +334,13 @@ ToWidgetSkinTest >> testChangeSizePaddingMarginWithProperty [
 	| w skin sizeLook marginLook paddingLook |
 	w := ToElement new.
 	skin := ToWidgetSkin new.
-	sizeLook := (self propertyRegistry newLookUpdaterFromPropertyName: #size)
+	sizeLook := (self propertyIndex newLookUpdaterFromPropertyName: #size)
 			when: ToInitialLookEvent value: 10 @ 20;
 			yourself.
-	marginLook := (self propertyRegistry newLookUpdaterFromPropertyName: #margin)
+	marginLook := (self propertyIndex newLookUpdaterFromPropertyName: #margin)
 			when: ToInitialLookEvent value: (BlInsets all: 3);
 			yourself.
-	paddingLook := (self propertyRegistry newLookUpdaterFromPropertyName: #padding)
+	paddingLook := (self propertyIndex newLookUpdaterFromPropertyName: #padding)
 			when: ToInitialLookEvent value: (BlInsets all: 4);
 			yourself.
 	skin addLookUpdater: sizeLook.
@@ -406,14 +362,10 @@ ToWidgetSkinTest >> testChangeSizePaddingMarginWithProperty [
 { #category : #tests }
 ToWidgetSkinTest >> testChangeTextAttributesWithAtributeBuilder [
 
-	| w skin firstCharFirstAttr prop |
+	| w skin firstCharFirstAttr |
 	w := ToLabel new text: 'A'.
 	skin := ToWidgetSkin new.
-	prop := ToPseudoProperty new name: #'text-attributes'.
-	prop writer: [ :e :v |
-		e text attributes: v attributes.
-		e textChanged ].
-	skin addLookUpdater: ((ToLookUpdater new property: prop)
+	skin addLookUpdater: ((self propertyIndex newLookUpdaterFromPropertyName: #'text-attributes-with-builder')
 			 when: ToDisabledLookEvent value: (BlTextAttributesBuilder new
 					  background: Color gray;
 					  yourself);
@@ -457,8 +409,7 @@ ToWidgetSkinTest >> testNoBackgroundColor [
 	w := ToElement new.
 	skin := ToWidgetSkin new.
 	skin addLookUpdater: (ToLookUpdater new
-			 when: ToInstallLookEvent
-			 do: [ :e | e background: BlBackground transparent ];
+			 when: ToInstallLookEvent do: [ :e | e background: BlBackground transparent ];
 			 yourself).
 	w withSkin: skin.
 	w switchToSkinState: ToInitialState new.
@@ -486,7 +437,7 @@ ToWidgetSkinTest >> testOnlyOnePropertyUpdaterPerLookEventClass [
 	w := ToElement new.
 	skin := ToWidgetSkin new.
 	passedThroughtElementUpdater := false.
-	look := (self propertyRegistry newLookUpdaterFromPropertyName: #background)
+	look := (self propertyIndex newLookUpdaterFromPropertyName: #background)
 		when: ToHoveredLookEvent do: [ :e | passedThroughtElementUpdater := true ];
 		when: ToInstallLookEvent value: (BlBackground paint: Color yellow);
 		when: ToInitialLookEvent value: (BlBackground paint: Color red);
@@ -512,6 +463,31 @@ ToWidgetSkinTest >> testOnlyOnePropertyUpdaterPerLookEventClass [
 ]
 
 { #category : #tests }
+ToWidgetSkinTest >> testPropertyAnimation [
+
+	| w skin look animation prop |
+	w := ToElement new size: 100@100.
+	skin := ToWidgetSkin new.
+	animation := ToPropertyColorTransitionAnimation new.
+	prop := ToPseudoProperty
+			   name: #'background-color'
+			   reader: nil
+			   writer: [ :e :v | e background: v ].
+	look := self propertyIndex newLookUpdaterFromPropertyName: #'background-color'.
+	look
+		when: ToInstallLookEvent value: Color white;
+		when: ToHoveredLookEvent value: Color black animation: animation;
+		when: ToLeavedLookEvent value: Color white animation: animation.
+
+	skin addLookUpdater: look.
+	w withSkin: skin.
+
+	w switchToSkinState: ToInstallState new.
+	self assert: w background paint color equals: Color white.
+	
+]
+
+{ #category : #tests }
 ToWidgetSkinTest >> testPropertyAnimationNeedReadableProperty [
 
 	| w skin look animation prop |
@@ -522,7 +498,8 @@ ToWidgetSkinTest >> testPropertyAnimationNeedReadableProperty [
 			   name: #'background-color'
 			   reader: nil
 			   writer: [ :e :v | e background: v ].
-	look := ToLookUpdater new property: prop.
+	look := self propertyIndex newLookUpdaterFromPropertyName: #'background-color'.
+	look property: prop.
 	look
 		when: ToInstallLookEvent value: Color white;
 		when: ToHoveredLookEvent value: Color black animation: animation;
@@ -548,10 +525,10 @@ ToWidgetSkinTest >> testPropertyUpdaterOrderKO [
 	w := ToElement new.
 	w layout: BlBasicLayout new.
 	skin := ToWidgetSkin new.
-	look := (self propertyRegistry newLookUpdaterFromPropertyName: #'layout-direction')
+	look := (self propertyIndex newLookUpdaterFromPropertyName: #'layout-direction')
 		        when: ToInstallLookEvent value: BlLayoutDirection leftToRight.
 	skin addLookUpdater: look.
-	look := self propertyRegistry newLookUpdaterFromPropertyName: #layout.
+	look := self propertyIndex newLookUpdaterFromPropertyName: #layout.
 	look when: ToInstallLookEvent value: BlLinearLayout new.
 	skin addLookUpdater: look.
 
@@ -569,18 +546,18 @@ ToWidgetSkinTest >> testPropertyUpdaterOrderOK [
 	w := ToElement new.
 	w layout: BlBasicLayout new.
 	skin := ToWidgetSkin new.
-	look := self propertyRegistry newLookUpdaterFromPropertyName: #layout.
+	look := self propertyIndex newLookUpdaterFromPropertyName: #layout.
 	look when: ToInstallLookEvent value: BlLinearLayout new.
 	skin addLookUpdater: look.
-	look := (self propertyRegistry newLookUpdaterFromPropertyName: #'layout-direction')
+	look := (self propertyIndex newLookUpdaterFromPropertyName: #'layout-direction')
 		        when: ToInstallLookEvent value: BlLayoutDirection leftToRight;
 		        when: ToHoveredLookEvent value: BlLayoutDirection rightToLeft;
 		        when: ToLeavedLookEvent value: BlLayoutDirection leftToRight.
 	skin addLookUpdater: look.
-	look := (self propertyRegistry newLookUpdaterFromPropertyName: #'layout-orientation') 
+	look := (self propertyIndex newLookUpdaterFromPropertyName: #'layout-orientation') 
 				  when: ToInstallLookEvent value: BlLinearLayoutHorizontalOrientation new.
 	skin addLookUpdater: look.
-	look := (self propertyRegistry newLookUpdaterFromPropertyName: #'layout-interspace')
+	look := (self propertyIndex newLookUpdaterFromPropertyName: #'layout-interspace')
 		        when: ToInstallLookEvent value: 5;
 		        when: ToHoveredLookEvent value: 10;
 		        when: ToLeavedLookEvent value: 5.
@@ -612,7 +589,7 @@ ToWidgetSkinTest >> testWithBackgroundColorAnimation [
 	w := ToElement new.
 	skin := ToWidgetSkin new.
 	animation := ToPropertyColorTransitionAnimation new.
-	look := self propertyRegistry newLookUpdaterFromPropertyName: #'background-color'.
+	look := self propertyIndex newLookUpdaterFromPropertyName: #'background-color'.
 	look
 		when: ToInstallLookEvent value: Color white;
 		when: ToHoveredLookEvent value: Color black animation: animation;

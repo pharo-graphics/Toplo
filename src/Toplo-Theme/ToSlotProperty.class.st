@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSlotProperty,
-	#superclass : #ToPropertyType,
+	#superclass : #ToLookProperty,
 	#category : #'Toplo-Theme-LookUpdater'
 }
 

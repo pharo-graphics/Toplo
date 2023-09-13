@@ -17,6 +17,10 @@ ToStyleSelectorVisitor >> visitIdSelector: aSelector [
 ]
 
 { #category : #visiting }
+ToStyleSelectorVisitor >> visitNotSelector: aSelector [
+]
+
+{ #category : #visiting }
 ToStyleSelectorVisitor >> visitOrSelector: aSelector [
 ]
 

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToIdSelector,
-	#superclass : #ToUnarySelector,
+	#superclass : #ToSimpleSelector,
 	#instVars : [
 		'id'
 	],

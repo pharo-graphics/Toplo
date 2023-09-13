@@ -168,6 +168,16 @@ BlElement >> privateToTheme: aTheme [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> removeStyleClass: aSymbol [
+
+	| cls |
+	self userData at: #styleClasses ifAbsentPut: #().
+	cls := self userData at: #styleClasses.
+	(cls includes: aSymbol) ifFalse: [ ^ self ].
+	self userData at: #styleClasses put: (cls copyWithout: aSymbol)
+]
+
+{ #category : #'*Toplo' }
 BlElement >> skinDo: aBlock [
 
 	self privateSkin ifNil: [ ^ self ].

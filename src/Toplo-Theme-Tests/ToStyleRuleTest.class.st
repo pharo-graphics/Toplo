@@ -220,6 +220,25 @@ ToStyleRuleTest >> testRuleWithChildSelector5 [
 ]
 
 { #category : #tests }
+ToStyleRuleTest >> testRuleWithClassSelector [
+	" a rule with an And operator  "
+	| rule e |
+
+	rule := ToStyleRule new
+			 selectors: { 
+				(ToStyleClassSelector new styleClasses: #( #button )) }
+			 looks: {}.
+
+	e := ToElement new styleClass: #something.
+	self assert: (rule canBeAppliedTo: e) not.
+	
+	e styleClass: #button.
+	self assert: (rule canBeAppliedTo: e).
+	e addStyleClass: #danger.
+	self assert: (rule canBeAppliedTo: e)
+]
+
+{ #category : #tests }
 ToStyleRuleTest >> testRuleWithNoSelector [
 	" a rule with no selector accept nothing "
 	| rule e |

@@ -160,6 +160,45 @@ ToStyleSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass4 [
 	self assert: engine result
 ]
 
+{ #category : #'tests - with single selector' }
+ToStyleSelectorInterpreterTest >> testNotSelector [
+
+	| selector e engine |
+	engine := ToStyleSelectorInterpreter new.
+	selector := ToTypeSelector new type: ToElement.
+	e := ToElement new.
+	engine check: selector on: e.
+	self assert: engine result.
+	
+	selector := (ToTypeSelector new type: ToElement) not.
+	engine check: selector on: e.
+	self assert: engine result not.
+
+
+]
+
+{ #category : #'tests - child selector' }
+ToStyleSelectorInterpreterTest >> testRuleWithAndSelector [
+	" a rule with an And operator  "
+	| selector e engine  |
+	selector :=  (ToStyleClassSelector new styleClasses: #( #button )) and: (ToStyleClassSelector new styleClasses: #( #danger )).
+
+	e := ToElement new styleClass: #button.
+	engine := ToStyleSelectorInterpreter new.
+	engine check: selector on: e.
+	self assert: engine result not.
+	e addStyleClass: #danger.
+	" ko since no child "
+	engine check: selector on: e.
+	self assert: engine result.
+	
+	selector := selector not.
+	engine check: selector on: e.
+	self assert: engine result not.
+	
+
+]
+
 { #category : #'tests - child selector' }
 ToStyleSelectorInterpreterTest >> testRuleWithAndWithChildSelector [
 	" a rule with an And operator  "

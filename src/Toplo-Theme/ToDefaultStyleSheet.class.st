@@ -12,13 +12,13 @@ ToDefaultStyleSheet >> addButtonRules [
 			 selectors:
 			 { (ToStyleClassSelector new styleClasses:
 				  #( #button #'no-border' )) }
-			 looks: { ToLookDep forBorder}).
+			 looks: { self borderUpdater }).
 
 	" no background for #link ( which elementClass includes #'no-background' ) "
 	self addRule: (ToStyleRule new
 			 selectors: { (ToStyleClassSelector new styleClasses:
 					  #( #button #'no-background' )) }
-			 looks: { ToLookDep forBackground }).
+			 looks: { self backgroundUpdater }).
 
 	self addDefaultButtonRules.
 	self addPrimaryButtonRules.

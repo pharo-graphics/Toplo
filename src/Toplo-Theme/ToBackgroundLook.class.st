@@ -51,12 +51,6 @@ ToBackgroundLook >> disabledColor: aValuable [
 ]
 
 { #category : #'deprecated accessing' }
-ToBackgroundLook >> duration: aNumber [
-
-	self deprecated: 'Set duration with a ' , ToStateUpdaterDep name , ' instead '
-]
-
-{ #category : #'deprecated accessing' }
 ToBackgroundLook >> hoverColor [
 
 	self deprecatedInsteadOf: 'hoverColor' use: 'hoveredStateValue'.

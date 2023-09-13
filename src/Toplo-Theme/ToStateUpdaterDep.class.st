@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Theme-Look-Dep'
 }
 
+{ #category : #testing }
+ToStateUpdaterDep class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #accessing }
 ToStateUpdaterDep >> applyBlock [
 

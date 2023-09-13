@@ -8,34 +8,10 @@ Class {
 	#category : #'Toplo-Theme-Look-Dep'
 }
 
-{ #category : #'instance creation' }
-ToLookDep class >> forBackground [
+{ #category : #testing }
+ToLookDep class >> isDeprecated [ 
 
-	^ self new applyWith: [ :e :b | e background: b ]; yourself
-]
-
-{ #category : #'instance creation' }
-ToLookDep class >> forBorder [
-
-	^ self new applyWith: [ :e :b | e border: b ]; yourself
-]
-
-{ #category : #'instance creation' }
-ToLookDep class >> forTextAttributes [
-
-	^ self new 
-			 applyWith: [ :e :v |
-				 e text attributes: v attributes.
-				 e textChanged ]
-]
-
-{ #category : #'instance creation' }
-ToLookDep class >> forTextForegroundWithBuilder: aTextAttributesBuilder [
-
-	^ self new applyWith: [ :e :v |
-		  aTextAttributesBuilder foreground: v.
-		  e text attributes: aTextAttributesBuilder attributes.
-		  e textChanged ]
+	^ true
 ]
 
 { #category : #private }
@@ -76,7 +52,7 @@ ToLookDep >> clickedValue [
 { #category : #accessing }
 ToLookDep >> clickedValue: anObject [
 
-	updaterIndex at: ToClickedLookEvent put: anObject asStateValue 
+	updaterIndex at: ToClickedLookEvent put: anObject  
 ]
 
 { #category : #'event handling' }
@@ -97,7 +73,7 @@ ToLookDep >> disabledValue [
 { #category : #accessing }
 ToLookDep >> disabledValue: anObject [
 
-	updaterIndex at: ToDisabledLookEvent put: anObject asStateValue 
+	updaterIndex at: ToDisabledLookEvent put: anObject  
 ]
 
 { #category : #'event handling' }
@@ -117,7 +93,7 @@ ToLookDep >> hoveredValue [
 { #category : #accessing }
 ToLookDep >> hoveredValue: anObject [
 
-	updaterIndex at: ToHoveredLookEvent put: anObject asStateValue 
+	updaterIndex at: ToHoveredLookEvent put: anObject  
 ]
 
 { #category : #'event handling' }
@@ -138,7 +114,7 @@ ToLookDep >> initialValue [
 { #category : #accessing }
 ToLookDep >> initialValue: anObject [
 
-	updaterIndex at: ToInitialLookEvent put: anObject asStateValue 
+	updaterIndex at: ToInitialLookEvent put: anObject  
 ]
 
 { #category : #initialization }
@@ -166,7 +142,7 @@ ToLookDep >> installValue [
 { #category : #accessing }
 ToLookDep >> installValue: anObject [
 
-	updaterIndex at: ToInstallLookEvent put: anObject asStateValue 
+	updaterIndex at: ToInstallLookEvent put: anObject  
 ]
 
 { #category : #'event handling' }
@@ -187,7 +163,7 @@ ToLookDep >> leavedValue [
 { #category : #accessing }
 ToLookDep >> leavedValue: anObject [
 
-	updaterIndex at: ToLeavedLookEvent put: anObject asStateValue 
+	updaterIndex at: ToLeavedLookEvent put: anObject  
 ]
 
 { #category : #'event handling' }
@@ -207,7 +183,7 @@ ToLookDep >> pressedValue [
 { #category : #accessing }
 ToLookDep >> pressedValue: anObject [
 
-	updaterIndex at: ToPressedLookEvent put: anObject asStateValue 
+	updaterIndex at: ToPressedLookEvent put: anObject  
 ]
 
 { #category : #'event handling' }
@@ -228,53 +204,53 @@ ToLookDep >> selectedValue [
 { #category : #accessing }
 ToLookDep >> selectedValue: anObject [
 
-	updaterIndex at: ToSelectedLookEvent put: anObject asStateValue 
+	updaterIndex at: ToSelectedLookEvent put: anObject  
 ]
 
 { #category : #accessing }
 ToLookDep >> whenClicked: anObject [
 
-	updaterIndex at: ToClickedLookEvent put: anObject asStateUpdater  
+	updaterIndex at: ToClickedLookEvent put: anObject   
 ]
 
 { #category : #accessing }
 ToLookDep >> whenDisabled: anObject [
 
-	updaterIndex at: ToDisabledLookEvent put: anObject asStateUpdater
+	updaterIndex at: ToDisabledLookEvent put: anObject 
 ]
 
 { #category : #accessing }
 ToLookDep >> whenHovered: anObject [
 
-	updaterIndex at: ToHoveredLookEvent put: anObject asStateUpdater
+	updaterIndex at: ToHoveredLookEvent put: anObject 
 ]
 
 { #category : #accessing }
 ToLookDep >> whenInitialized: anObject [
 
-	updaterIndex at: ToInitialLookEvent put: anObject asStateUpdater
+	updaterIndex at: ToInitialLookEvent put: anObject 
 ]
 
 { #category : #accessing }
 ToLookDep >> whenInstalled: anObject [
 
-	updaterIndex at: ToInstallLookEvent put: anObject asStateUpdater
+	updaterIndex at: ToInstallLookEvent put: anObject 
 ]
 
 { #category : #accessing }
 ToLookDep >> whenLeaved: anObject [
 
-	updaterIndex at: ToLeavedLookEvent put: anObject asStateUpdater
+	updaterIndex at: ToLeavedLookEvent put: anObject 
 ]
 
 { #category : #accessing }
 ToLookDep >> whenPressed: anObject [
 
-	updaterIndex at: ToPressedLookEvent put: anObject asStateUpdater
+	updaterIndex at: ToPressedLookEvent put: anObject 
 ]
 
 { #category : #accessing }
 ToLookDep >> whenSelected: anObject [
 
-	updaterIndex at: ToSelectedLookEvent put: anObject asStateUpdater
+	updaterIndex at: ToSelectedLookEvent put: anObject 
 ]

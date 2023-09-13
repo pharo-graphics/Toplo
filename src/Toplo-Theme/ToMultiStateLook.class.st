@@ -164,47 +164,47 @@ ToMultiStateLook >> selectedValue [
 { #category : #accessing }
 ToMultiStateLook >> whenClicked: anObject [
 
-	clickedValue := anObject asStateValue 
+	clickedValue := anObject  
 ]
 
 { #category : #accessing }
 ToMultiStateLook >> whenDisabled: anObject [
 
-	disabledValue := anObject asStateValue 
+	disabledValue := anObject  
 ]
 
 { #category : #accessing }
 ToMultiStateLook >> whenHovered: anObject [
 
-	hoveredValue := anObject asStateValue
+	hoveredValue := anObject 
 ]
 
 { #category : #accessing }
 ToMultiStateLook >> whenInitialized: anObject [
 
-	initialValue := anObject asStateValue
+	initialValue := anObject 
 ]
 
 { #category : #accessing }
 ToMultiStateLook >> whenInstalled: anObject [
 
-	installValue := anObject asStateValue
+	installValue := anObject 
 ]
 
 { #category : #accessing }
 ToMultiStateLook >> whenLeaved: anObject [ 
 
-	leavedValue := anObject asStateValue
+	leavedValue := anObject 
 ]
 
 { #category : #accessing }
 ToMultiStateLook >> whenPressed: anObject [ 
 
-	pressedvalue := anObject asStateValue
+	pressedvalue := anObject 
 ]
 
 { #category : #accessing }
 ToMultiStateLook >> whenSelected: anObject [
 
-	selectedValue := anObject asStateValue
+	selectedValue := anObject 
 ]

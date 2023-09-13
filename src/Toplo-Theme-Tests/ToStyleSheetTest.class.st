@@ -170,9 +170,10 @@ ToStyleSheetTest >> testButtonSkin3 [
 			 looks: { ((ToLookUpdater new property: (ToInstVarProperty new name: #background))
 				  when: ToInitialLookEvent value: Color gray;
 					  yourself) }).
+
 	ss addRule: (ToStyleRule new
 			 selectors:
-			 { (ToStyleClassSelector new styleClasses: #( #button #danger )) }
+			 { (ToStyleClassSelector new styleClasses: #( #button )) and: (ToStyleClassSelector new styleClasses: #(#danger )) }
 			 looks: { ((ToLookUpdater new property: (ToInstVarProperty new name: #background))
 				  when: ToInitialLookEvent value: Color red;
 					  yourself) }).
@@ -202,8 +203,8 @@ ToStyleSheetTest >> testButtonSkin4 [
 	" default button rule "
 	ss addRule: (ToStyleRule new
 			 selectors:
-			 { (ToStyleClassSelector new styleClasses: #( #button #danger )) }
-			 looks: { ((ToLookUpdater new property: (ToInstVarProperty new name: #background))
+			 { (ToStyleClassSelector new styleClasses: #( #button )) and: (ToStyleClassSelector new styleClasses: #(#danger )) }
+			 looks: { ((ToLookUpdater new property: (ToInstVarProperty new name: #background)) 
 				  when: ToInitialLookEvent value: Color red;
 					  yourself) }).
 

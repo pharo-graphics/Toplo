@@ -35,7 +35,7 @@ TToSkinable >> defaultStyleClasses [
 TToSkinable >> initializeSkin [
 
 	self styleClasses ifEmpty: [ self styleClasses: self defaultStyleClasses].
-	self withSkin: (self toTheme skinFor: self)
+	self withSkin: nil "(self toTheme skinFor: self)"
 ]
 
 { #category : #'t - skinable - install/uninstall  hook' }

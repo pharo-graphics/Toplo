@@ -7,12 +7,6 @@ Object >> asStateUpdater [
 ]
 
 { #category : #'*Toplo' }
-Object >> asStateValue [
-
-	^ ToStateValueDep new value: self
-]
-
-{ #category : #'*Toplo' }
 Object >> deprecatedInsteadOf: aString use: aStringToUse [
 	"Automatically tranform the deprecated call"
 

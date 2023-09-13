@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Theme-Look-Dep'
 }
 
+{ #category : #testing }
+ToStateValueDep class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #operating }
 ToStateValueDep >> applyOn: anElement fromLook: aLook [
 

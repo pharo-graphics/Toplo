@@ -7,7 +7,7 @@ Class {
 { #category : #'basic button' }
 ToButtonPrimaryType >> basicButtonBorderLookIn: anElement [
 
-	^ (ToLookUpdater forProperty: (ToInstVarProperty new name: #border; yourself))
+	^ (anElement styleSheet newLookUpdaterForPropertyName: #border )
 			when: ToInitialLookEvent value: [ :e | Color transparent ]; 
 			when: ToDisabledLookEvent value: [ :e | e toTheme colorBorderDisabled ]; 
 			yourself
@@ -29,7 +29,7 @@ ToButtonPrimaryType >> basicButtonLabelSkinIn: anElement [
 ToButtonPrimaryType >> dangerBackgroundLookIn: anElement [
 
 	^ 
-		(ToLookUpdater forProperty: (ToInstVarProperty new name: #background; yourself))
+		(anElement styleSheet newLookUpdaterForPropertyName: #background )
 			when: ToInitialLookEvent value: [ :e | e toTheme colorError ];
 			when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
 			when: ToPressedLookEvent value: [ :e | e toTheme colorErrorPressed ];
@@ -40,7 +40,7 @@ ToButtonPrimaryType >> dangerBackgroundLookIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToButtonPrimaryType >> regularBackgroundLookIn: anElement [
 
-	^ (ToLookUpdater forProperty: (ToInstVarProperty new name: #background; yourself))
+	^ (anElement styleSheet newLookUpdaterForPropertyName: #background )
 			when: ToInitialLookEvent value: [ :e | e toTheme colorPrimary ];
 			when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
 			when: ToPressedLookEvent value: [ :e | e toTheme colorPrimaryPressed ];

@@ -1045,13 +1045,10 @@ ToSandBox class >> example_ToButtonSkins [
 	 
 	sizingGroup := ToCheckableGroup new.
 	smallSizingRadio := ToRadioButton new labelText: 'Small'.
-	smallSizingRadio withSkin: ToCheckboxSkin new.
 	smallSizingRadio userData at: #sizing put: ToSmallSizing new.
 	middleSizingRadio := ToRadioButton new labelText: 'Middle'.
-	middleSizingRadio withSkin: ToCheckboxSkin new.
 	middleSizingRadio userData at: #sizing put: ToMiddleSizing new.
 	largeSizingRadio := ToRadioButton new labelText: 'Large'.
-	largeSizingRadio withSkin: ToCheckboxSkin new.
 	largeSizingRadio userData at: #sizing put: ToLargeSizing new.
 	middleSizingRadio checked: true.
 	sizingGroup addAll: {
@@ -1377,7 +1374,7 @@ ToSandBox class >> example_ToButtonSkinsOnOneButton [
 
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
-		but := ToButton2 new.
+		but := ToButton new.
 		allButtons add: but.
 		arr second ifNotNil: [ :skin | but withSkin: skin ].
 		but labelText: arr first.
@@ -1531,7 +1528,7 @@ ToSandBox class >> example_ToButtonWithDefaultSkin0 [
 	pane layout cellSpacing: 10.
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 
-	button1 := ToButton2 new.
+	button1 := ToButton new.
 	"button1 addStyleClass: #primary.
 	button1 addStyleClass: #danger."
 	button1 withSkin: (button1 toTheme skinFor: button1).
@@ -2905,6 +2902,7 @@ ToSandBox class >> example_toCheckboxModelWithLabel [
 
 	| but |
 	but := ToCheckboxModel new label: (ToLabel text: 'Check me').
+	but inspect.
 	but onWidget openInSpace
 ]
 

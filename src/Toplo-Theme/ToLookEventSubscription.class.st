@@ -10,7 +10,7 @@ Class {
 { #category : #testing }
 ToLookEventSubscription >> canReceiveEvent: aLookEvent [ 
 
-	^ self lookEventClass == aLookEvent class 
+	^ self lookEventClass = aLookEvent class 
 ]
 
 { #category : #testing }

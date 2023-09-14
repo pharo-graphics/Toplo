@@ -157,7 +157,7 @@ ToClickableSkin >> dashed: aBoolean [
 { #category : #'api - install/uninstall  hook' }
 ToClickableSkin >> defaultCursorLookIn: anElement [
 
-	^ ToLookUpdater new property: (ToInstVarProperty new name: #mouseCursor);
+	^ (anElement styleSheet newLookUpdaterForPropertyName: #mouseCursor)
 		when: ToHoveredLookEvent value: [ :e | 
 			  e isEnabled
 				  ifTrue: [ BlCursor hand ]

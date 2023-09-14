@@ -7,10 +7,7 @@ Class {
 { #category : #'api - install/uninstall  hook' }
 ToButtonTextIconSkin >> regularFormLookIn: anElement [
 
-	^ ToLookUpdater new 
-		property: (ToPseudoProperty new 
-			name: #'form-foreground'; 
-			writer: [ :e :v | self adaptForegroundIn: e withColor: v] );
+	^ (super regularFormLookIn: anElement)
 		when: ToDisabledLookEvent value: [ :e | e toTheme colorImageDisabled ];
 		when: ToInitialLookEvent value: [ :e | e toTheme colorText ];
 		when: ToHoveredLookEvent value: [ :e | e toTheme colorText ];

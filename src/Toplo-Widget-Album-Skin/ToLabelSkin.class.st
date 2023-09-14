@@ -31,25 +31,19 @@ ToLabelSkin >> initialize [
 { #category : #accessing }
 ToLabelSkin >> labelLookIn: anElement [
 
-	| prop attrBuilder |
-	prop := ToPseudoProperty new name: #'text-attributes'.
-	prop writer: [ :e :v |
-		e text attributes: v attributes.
-		e textChanged ].
-	attrBuilder := BlTextAttributesBuilder new
-		               weight: anElement toTheme fontWeightStrong;
-		               defaultFontName: anElement toTheme fontFamilyCode;
-		               defaultFontSize: (self heading fontSizeIn: anElement);
-		               lineSpacing: (self heading lineHeightIn: anElement);
-		               foreground: (self type textColorIn: anElement);
-		               yourself.
-	^ (ToLookUpdater new property: prop)
-		  when: ToDisabledLookEvent value: (attrBuilder
-				   foreground: anElement toTheme colorTextDisabled;
-				   yourself);
-		  when: ToInitialLookEvent value: (attrBuilder
-			   foreground: (self type textColorIn: anElement);
-			   yourself);
+	^ (anElement toTheme styleSheet newLookUpdaterForPropertyName: #'text-attributes-with-builder')
+		  when: ToInstallLookEvent value: (BlTextAttributesBuilder new
+					weight: anElement toTheme fontWeightStrong;
+		         defaultFontName: anElement toTheme fontFamilyCode;
+					defaultFontSize: (self heading fontSizeIn: anElement);
+					lineSpacing: (self heading lineHeightIn: anElement);
+			   		yourself);		  
+			when: ToDisabledLookEvent value: [:e | BlTextAttributesBuilder new
+				   foreground: anElement toTheme colorTextDisabled ];
+				   yourself;
+		  when: ToInitialLookEvent value: [:e | BlTextAttributesBuilder new
+			   foreground: (self type textColorIn: anElement)];
+			   yourself;
 		  yourself
 ]
 

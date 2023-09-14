@@ -7,5 +7,5 @@ Class {
 { #category : #accessing }
 ToLabelDisabledType >> textColorIn: anElement [
 
-	^ anElement toTheme colorText
+	^ anElement toTheme colorTextDisabled
 ]

@@ -215,14 +215,14 @@ ToStyleSheetTest >> testButtonSkin3 [
 	" default button rule "
 	ss addRule: (ToStyleRule new
 			 selectors: { (ToStyleClassSelector new styleClass: #button) }
-			 looks: { (ss newLookUpdaterFromPropertyName: #background)
+			 looks: { (ss newLookUpdaterForPropertyName: #background)
 				  when: ToInitialLookEvent value: Color gray;
 					  yourself }).
 
 	ss addRule: (ToStyleRule new
 			 selectors:
 			 	{ (ToStyleClassSelector new styleClasses: #( #button )) and: (ToStyleClassSelector new styleClasses: #(#danger )) }
-			 looks: { (ss newLookUpdaterFromPropertyName: #background)
+			 looks: { (ss newLookUpdaterForPropertyName: #background)
 				  when: ToInitialLookEvent value: Color red;
 					  yourself }).
 

@@ -21,7 +21,7 @@ ToPropertyIndex >> initialize [
 ]
 
 { #category : #accessing }
-ToPropertyIndex >> newLookUpdaterFromPropertyName: aName [
+ToPropertyIndex >> newLookUpdaterForPropertyName: aName [
 
 	^ (self propertyNamed: aName) ifNotNil: [ :p | ToLookUpdater new property: p ]
 ]

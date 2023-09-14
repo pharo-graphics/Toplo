@@ -7,28 +7,23 @@ Class {
 { #category : #'api - install/uninstall  hook' }
 ToLabelType >> buttonLabelLookIn: anElement [
 
-	| prop attrBuilder |
-	prop := ToPseudoProperty new name: #'text-attributes'.
-	prop writer: [ :e :v |
-		e text attributes: v attributes.
-		e textChanged ].
-	attrBuilder := BlTextAttributesBuilder new
-		               weight: anElement toTheme fontWeightStrong;
-		               defaultFontName: anElement toTheme fontFamilyCode;
-		               defaultFontSize: anElement toTheme fontSize;
-		               lineSpacing: anElement toTheme lineHeight;
-		               yourself.
-	^ (ToLookUpdater new property: prop)
-		  when: ToDisabledLookEvent value: (attrBuilder
+	^ (anElement toTheme styleSheet newLookUpdaterForPropertyName: #'text-attributes-with-builder')
+		  when: ToDisabledLookEvent value: (BlTextAttributesBuilder new
 				   foreground: anElement toTheme colorTextDisabled;
 				   yourself);
-		  when: ToInitialLookEvent value: (attrBuilder
+		  when: ToInstallLookEvent value: (BlTextAttributesBuilder new
+					weight: anElement toTheme fontWeightStrong;
+		         defaultFontName: anElement toTheme fontFamilyCode;
+		         defaultFontSize: anElement toTheme fontSize;
+		         lineSpacing: anElement toTheme lineHeight;
+			   yourself);
+		  when: ToInitialLookEvent value: (BlTextAttributesBuilder new
 			   foreground: anElement toTheme colorText;
 			   yourself);
-		  when: ToHoveredLookEvent value: (attrBuilder
+		  when: ToHoveredLookEvent value: (BlTextAttributesBuilder new
 			   foreground: anElement toTheme colorPrimary;
 			   yourself);
-		  when: ToPressedLookEvent value: (attrBuilder
+		  when: ToPressedLookEvent value: (BlTextAttributesBuilder new
 			   foreground: anElement toTheme colorPrimaryPressed;
 			   yourself);
 		  yourself

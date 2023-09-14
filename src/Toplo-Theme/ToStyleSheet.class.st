@@ -19,6 +19,7 @@ ToStyleSheet class >> propertyList [
 
 	" skin managing need a list of unique property. See ToStyleSheet>>lookUpdatersFor: where properties are used in an IdentityDictionary"
 	^ {
+		  (ToInstVarProperty name: #mouseCursor).
 		  (ToInstVarProperty name: #background).
 		  (ToInstVarProperty name: #border).
 		  (ToInstVarProperty name: #size).
@@ -54,9 +55,24 @@ ToStyleSheet class >> propertyList [
 		  (ToPseudoProperty
 			   name: #'checkable-icon-image'
 			   reader: [ :e | e icon innerImage ]
-			   writer: [ :e :v |
-				   v removeFromParent.
+				writer: [ :e :v | 
+					v removeFromParent.
 				   e iconImage: v ]).
+			(ToAutoProperty
+			   name: #'checkable-auto-icon-image'
+			   reader: [ :e | e icon innerImage ]
+				writer: [ :e :v | 
+					v removeFromParent.
+				   e iconImage: v ])
+				valueProvider: [ :e | e isDisabled
+		          ifTrue: [  e disabledImage   ]
+		          ifFalse: [
+			          e isChecked
+				          ifTrue: [  e checkedImage  ]
+				          ifFalse: [
+					          e isUnchecked
+						          ifTrue: [ e uncheckedImage   ]
+						          ifFalse: [  e indeterminateImage ] ] ] ].
 		  (ToInstVarProperty name: #layout).
 		  (ToPseudoProperty
 			   name: #'layout-direction'
@@ -104,9 +120,9 @@ ToStyleSheet >> lookUpdatersFor: anElement [
 ]
 
 { #category : #'accessing updaters' }
-ToStyleSheet >> newLookUpdaterFromPropertyName: aPropertyName [
+ToStyleSheet >> newLookUpdaterForPropertyName: aPropertyName [
 
-	^ self propertyIndex newLookUpdaterFromPropertyName: aPropertyName
+	^ self propertyIndex newLookUpdaterForPropertyName: aPropertyName
 ]
 
 { #category : #initialization }

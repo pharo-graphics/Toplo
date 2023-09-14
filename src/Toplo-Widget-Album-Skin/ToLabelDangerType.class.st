@@ -7,28 +7,14 @@ Class {
 { #category : #'api - install/uninstall  hook' }
 ToLabelDangerType >> buttonLabelLookIn: anElement [
 
-	| prop attrBuilder |
-	prop := ToPseudoProperty new name: #'text-attributes'.
-	prop writer: [ :e :v |
-		e text attributes: v attributes.
-		e textChanged ].
-	attrBuilder := BlTextAttributesBuilder new
-		               weight: anElement toTheme fontWeightStrong;
-		               defaultFontName: anElement toTheme fontFamilyCode;
-		               defaultFontSize: anElement toTheme fontSize;
-		               lineSpacing: anElement toTheme lineHeight;
-		               yourself.
-	^ (ToLookUpdater new property: prop)
-		  when: ToDisabledLookEvent value: (attrBuilder
-				   foreground: anElement toTheme colorTextDisabled;
-				   yourself);
-		  when: ToInitialLookEvent value: (attrBuilder
+	^ (super buttonLabelLookIn: anElement)
+		  when: ToInitialLookEvent value: (BlTextAttributesBuilder new
 			   foreground: anElement toTheme colorError;
 			   yourself);
-		  when: ToHoveredLookEvent value: (attrBuilder
+		  when: ToHoveredLookEvent value: (BlTextAttributesBuilder new
 			   foreground: anElement toTheme colorErrorHover;
 			   yourself);
-		  when: ToPressedLookEvent value: (attrBuilder
+		  when: ToPressedLookEvent value: (BlTextAttributesBuilder new
 			   foreground: anElement toTheme colorError darker;
 			   yourself);
 		  yourself

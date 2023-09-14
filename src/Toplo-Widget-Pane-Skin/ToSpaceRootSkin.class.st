@@ -7,8 +7,8 @@ Class {
 { #category : #'api - install/uninstall  hook' }
 ToSpaceRootSkin >> onSkinInstalledIn: anElement [
 
-	super onSkinInstalledIn: anElement".
-	self addLook: (ToLookDep new applyWith: [ :e :v | e background: v asBlBackground ];
-			 whenInitialized: anElement toTheme backgroundColor;
-			 yourself)"
+	super onSkinInstalledIn: anElement.
+	self addLookUpdater: ((anElement toTheme styleSheet newLookUpdaterForPropertyName: #background)
+			 when: ToInstallLookEvent value: anElement toTheme backgroundColor;
+			 yourself)
 ]

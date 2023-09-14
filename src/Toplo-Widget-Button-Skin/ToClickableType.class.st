@@ -84,8 +84,7 @@ ToClickableType >> danger: aBoolean [
 { #category : #'api - install/uninstall  hook' }
 ToClickableType >> dangerBackgroundLookIn: anElement [
 
-	^ 
-		(ToLookUpdater forProperty: (ToInstVarProperty new name: #background; yourself))
+	^ (anElement styleSheet newLookUpdaterForPropertyName: #background )
 			when: ToInitialLookEvent value: [ :e | Color transparent ];
 			when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
 			yourself

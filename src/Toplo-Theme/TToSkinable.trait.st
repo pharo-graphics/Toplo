@@ -22,7 +22,7 @@ TToSkinable >> currentSkinState: aState [
 { #category : #'t - skinable - initialization' }
 TToSkinable >> defaultSkin [
 
-	^  nil
+	^  self toTheme skinFor: self
 ]
 
 { #category : #'t - skinable - initialization' }
@@ -35,7 +35,7 @@ TToSkinable >> defaultStyleClasses [
 TToSkinable >> initializeSkin [
 
 	self styleClasses ifEmpty: [ self styleClasses: self defaultStyleClasses].
-	self withSkin: nil "(self toTheme skinFor: self)"
+	self withSkin: self defaultSkin
 ]
 
 { #category : #'t - skinable - install/uninstall  hook' }

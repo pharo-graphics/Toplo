@@ -14,6 +14,12 @@ ToLookUpdater class >> forProperty: aPropertyDefinition [
 	^ self new property: aPropertyDefinition
 ]
 
+{ #category : #accessing }
+ToLookUpdater >> addSubscription: aSubscription [
+
+	self subscriptions add: aSubscription
+]
+
 { #category : #'api - accessing' }
 ToLookUpdater >> findLookUpdaterForPropertyNamed: name [
 
@@ -35,9 +41,11 @@ ToLookUpdater >> property [
 ]
 
 { #category : #accessing }
-ToLookUpdater >> property: aPropertyDef [
+ToLookUpdater >> property: aLookProperty [
 
-	property := aPropertyDef
+	property ifNotNil: [ ^ Error signal: 'The property can be set only once' ].
+	property  := aLookProperty.
+	property ifNotNil: [ :p | p setAsPropertyIn: self ]
 ]
 
 { #category : #operating }
@@ -46,6 +54,7 @@ ToLookUpdater >> receiveLookEvent: aLookEvent [
 	| prevUpdater |
 	prevUpdater := aLookEvent currentUpdater.
 	aLookEvent currentUpdater: self.
+	" now continue with subscriptions "
 	self subscriptions do: [ :u | u receiveLookEvent: aLookEvent ].
 	aLookEvent currentUpdater: prevUpdater
 ]
@@ -78,10 +87,16 @@ ToLookUpdater >> when: aLookEventClass value: aBlockOrValue animation: anAnimati
 	| existing |
 	self property ifNil: [ Error signal: 'Invalid use: property is nil ' ].
 	" only one subscription is allowed per look event class "
-	existing := self subscriptions detect: [ :u | u isPropertyBased and: [ u lookEventClass = aLookEventClass ] ] ifNone: [  ].
+	existing := self subscriptions detect: [ :subscr | subscr isPropertyBased and: [ subscr lookEventClass = aLookEventClass ] ] ifNone: [  ].
 	existing ifNotNil: [ self subscriptions remove: existing ].
-	self subscriptions add: ((aBlockOrValue asPropertySubscriptionFor: self property)
+	self addSubscription: ((aBlockOrValue asPropertySubscriptionFor: self property)
 			 lookEventClass: aLookEventClass;
 			 animation: anAnimation;
 			 yourself)
+]
+
+{ #category : #declaring }
+ToLookUpdater >> whenAll: aLookEventClassCollection value: aBlockOrValue [
+
+	aLookEventClassCollection do: [ :e | self when: e value: aBlockOrValue]
 ]

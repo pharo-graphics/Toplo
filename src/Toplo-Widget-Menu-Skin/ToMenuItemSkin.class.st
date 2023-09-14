@@ -18,7 +18,6 @@ ToMenuItemSkin >> applyQuadShaping: aShaping on: anElement [
 ToMenuItemSkin >> backgroundLookIn: anElement [
 
 	^ (self type menuItemBackgroundLookIn: anElement)
-		  duration: 200 milliSeconds;
 		  yourself
 ]
 

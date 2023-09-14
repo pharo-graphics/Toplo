@@ -26,6 +26,22 @@ ToLookProperty >> read: anObject [
 ]
 
 { #category : #operating }
+ToLookProperty >> receiveLookEvent: aLookEvent from: aPropertySubscription [
+	
+	| target rawValue valueWriter |
+	target := aLookEvent currentTarget.
+	rawValue := (aPropertySubscription valueIn: target).
+	valueWriter := aPropertySubscription valueWriter.
+	valueWriter write: rawValue to: target
+]
+
+{ #category : #operating }
+ToLookProperty >> setAsPropertyIn: aLookUpdater [
+
+	" do nothing by default (auto property will)"
+]
+
+{ #category : #operating }
 ToLookProperty >> write: anPropertyValue to: anObject [
 
 	self subclassResponsibility 

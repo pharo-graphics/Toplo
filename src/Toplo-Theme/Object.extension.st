@@ -17,7 +17,7 @@ Object >> asInstVarPropertyDef [
 { #category : #'*Toplo-Theme' }
 Object >> asPropertySubscriptionFor: aPropertyDefinition [
 
-	^ ToPropertySubscription new
+	^ ToExplicitPropertySubscription new
 		  value: self;
 		  property: aPropertyDefinition;
 		  yourself

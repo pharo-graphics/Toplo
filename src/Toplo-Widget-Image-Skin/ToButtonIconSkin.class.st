@@ -33,10 +33,7 @@ ToButtonIconSkin >> danger: aBoolean [
 { #category : #'api - install/uninstall  hook' }
 ToButtonIconSkin >> dangerFormLookIn: anElement [
 
-	^ ToLookUpdater new 
-		property: (ToPseudoProperty new 
-			name: #'form-foreground'; 
-			writer: [ :e :v | self adaptForegroundIn: e withColor: v] );
+	^ (anElement toTheme styleSheet newLookUpdaterForPropertyName: #'image-inner-form-color')
 		when: ToDisabledLookEvent value: [ :e | e toTheme colorImageDisabled ];
 		when: ToInitialLookEvent value: [ :e | e toTheme colorError ];
 		when: ToHoveredLookEvent value: [ :e | e toTheme colorErrorHover ];
@@ -56,5 +53,5 @@ ToButtonIconSkin >> onSkinInstalledIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToButtonIconSkin >> regularFormLookIn: anElement [
 
-	^ self subclassResponsibility 
+	^ (anElement toTheme styleSheet newLookUpdaterForPropertyName: #'image-inner-form-color')
 ]

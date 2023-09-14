@@ -153,7 +153,7 @@ ToLookEventSubscriptionTest >> testPropertySubscriptionWithNonTrivialValuable [
 	prop := ToPseudoProperty new.
 	prop writer: [ :e :v | v removeFromParent. e iconImage: v ].
 	
-	adapter := ToPropertySubscription new
+	adapter := ToExplicitPropertySubscription new
 		  value: switch;
 		  property: prop;
 		  lookEventClass: ToInitialLookEvent;

@@ -100,5 +100,5 @@ ToDefaultStyleSheetTest >> testPropertyList [
 		count := (index at: p name) + 1.
 		index at: p name put: count ].
 	index keysAndValuesDo: [ :k :v | self assert: v identicalTo: 1 ].
-	ss propertyList do: [ :p | self assert: (ss newLookUpdaterFromPropertyName: p name) notNil ]
+	ss propertyList do: [ :p | self assert: (ss newLookUpdaterForPropertyName: p name) notNil ]
 ]

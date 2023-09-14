@@ -156,6 +156,18 @@ BlElement >> privateSkin: aSkin [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> privateStyleSheet [
+
+	^ self userData at: #privateStyleSheet ifAbsent: [  ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> privateStyleSheet: aStyleSheet [
+
+	self userData at: #privateStyleSheet put: aStyleSheet
+]
+
+{ #category : #'*Toplo' }
 BlElement >> privateToTheme [
 
 	^ self userData at: #privateToTheme ifAbsent: [  ]
@@ -201,6 +213,24 @@ BlElement >> styleClasses: aCollectionOfSymbol [
 
 	self userData at: #styleClasses put: #().
 	aCollectionOfSymbol do: [ :s | self addStyleClass: s ]
+]
+
+{ #category : #'*Toplo-LookAndFeel' }
+BlElement >> styleSheet [
+
+	^ self privateStyleSheet ifNil: [
+		  self hasParent
+			  ifTrue: [ self parent styleSheet ]
+			  ifFalse: [ self toTheme styleSheet ] ]
+]
+
+{ #category : #'*Toplo-LookAndFeel' }
+BlElement >> styleSheet: aStyleSheet [
+
+	self privateStyleSheet = aStyleSheet ifTrue: [ ^ self ].
+	self privateStyleSheet: aStyleSheet.
+	self toThemeChanged.
+
 ]
 
 { #category : #'*Toplo' }

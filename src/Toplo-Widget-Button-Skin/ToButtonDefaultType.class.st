@@ -24,7 +24,7 @@ ToButtonDefaultType >> basicButtonIconSkinIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToButtonDefaultType >> dangerBorderLookIn: anElement [
 
-	^ (ToLookUpdater forProperty: (ToInstVarProperty new name: #border; yourself))
+	^ (anElement styleSheet newLookUpdaterForPropertyName: #border)
 			when: ToInitialLookEvent value: [ :e | e toTheme colorError ]; 
 			when: ToDisabledLookEvent value: [ :e | e toTheme colorBorderDisabled ]; 
 			when: ToHoveredLookEvent value: [ :e | e toTheme colorErrorHover ]; 
@@ -48,7 +48,7 @@ ToButtonDefaultType >> dashed: aBoolean [
 ToButtonDefaultType >> regularBackgroundLookIn: anElement [
 
 	^ 
-		(ToLookUpdater forProperty: (ToInstVarProperty new name: #background; yourself))
+		(anElement styleSheet newLookUpdaterForPropertyName: #background )
 			when: ToInitialLookEvent value: [ :e | Color transparent ];
 			when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
 			yourself
@@ -58,7 +58,7 @@ ToButtonDefaultType >> regularBackgroundLookIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToButtonDefaultType >> regularBorderLookIn: anElement [
 
-	^ (ToLookUpdater forProperty: (ToInstVarProperty new name: #border; yourself))
+	^ (anElement styleSheet newLookUpdaterForPropertyName: #border )
 			when: ToInitialLookEvent value: [ :e | e toTheme colorBorder ]; 
 			when: ToDisabledLookEvent value: [ :e | e toTheme colorBorderDisabled ]; 
 			when: ToHoveredLookEvent value: [ :e | e toTheme colorPrimaryHover ]; 

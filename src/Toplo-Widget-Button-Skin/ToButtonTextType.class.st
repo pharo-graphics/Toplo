@@ -13,7 +13,7 @@ ToButtonTextType >> basicButtonIconSkinIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToButtonTextType >> dangerBackgroundLookIn: anElement [
 
-	^ (ToLookUpdater forProperty: (ToInstVarProperty new name: #background; yourself))
+	^ (anElement styleSheet newLookUpdaterForPropertyName: #background )
 			when: ToInitialLookEvent value: [ :e | Color transparent ];
 			when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
 			when: ToPressedLookEvent value: [ :e | e toTheme colorErrorBg ];
@@ -25,7 +25,7 @@ ToButtonTextType >> dangerBackgroundLookIn: anElement [
 ToButtonTextType >> regularBackgroundLookIn: anElement [
 
 	^ 
-		(ToLookUpdater forProperty: (ToInstVarProperty new name: #background; yourself))
+		(anElement styleSheet newLookUpdaterForPropertyName: #background )
 			when: ToInitialLookEvent value: [ :e | Color transparent ];
 			when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
 			when: ToPressedLookEvent value: [ :e | e toTheme colorBgTextActive ];

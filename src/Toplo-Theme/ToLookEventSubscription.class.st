@@ -2,7 +2,7 @@ Class {
 	#name : #ToLookEventSubscription,
 	#superclass : #Object,
 	#instVars : [
-		'lookEventClass'
+		'lookEventClasses'
 	],
 	#category : #'Toplo-Theme-LookUpdater'
 }
@@ -10,7 +10,7 @@ Class {
 { #category : #testing }
 ToLookEventSubscription >> canReceiveEvent: aLookEvent [ 
 
-	^ self lookEventClass = aLookEvent class 
+	^ self lookEventClasses includes: aLookEvent class 
 ]
 
 { #category : #testing }
@@ -20,15 +20,15 @@ ToLookEventSubscription >> isPropertyBased [
 ]
 
 { #category : #accessing }
-ToLookEventSubscription >> lookEventClass [
+ToLookEventSubscription >> lookEventClasses [
 
-	^ lookEventClass
+	^ lookEventClasses
 ]
 
 { #category : #accessing }
-ToLookEventSubscription >> lookEventClass: aLookEventClass [
+ToLookEventSubscription >> lookEventClasses: aLookEventClassCollection [
 
-	lookEventClass := aLookEventClass
+	lookEventClasses := aLookEventClassCollection
 ]
 
 { #category : #operating }

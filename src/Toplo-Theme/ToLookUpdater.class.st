@@ -70,7 +70,7 @@ ToLookUpdater >> when: aLookEventClass do: aBlock [
 
 	| v |
 	v := aBlock asElementSubscription
-		     lookEventClass: aLookEventClass;
+		     lookEventClasses: { aLookEventClass };
 		     yourself.
 	subscriptions add: v
 ]
@@ -87,10 +87,13 @@ ToLookUpdater >> when: aLookEventClass value: aBlockOrValue animation: anAnimati
 	| existing |
 	self property ifNil: [ Error signal: 'Invalid use: property is nil ' ].
 	" only one subscription is allowed per look event class "
-	existing := self subscriptions detect: [ :subscr | subscr isPropertyBased and: [ subscr lookEventClass = aLookEventClass ] ] ifNone: [  ].
+	existing := self subscriptions 
+		detect: [ :subscr | 
+			subscr isPropertyBased and: [ subscr lookEventClasses includes: aLookEventClass ] ] 
+		ifNone: [  ].
 	existing ifNotNil: [ self subscriptions remove: existing ].
 	self addSubscription: ((aBlockOrValue asPropertySubscriptionFor: self property)
-			 lookEventClass: aLookEventClass;
+			 lookEventClasses: { aLookEventClass };
 			 animation: anAnimation;
 			 yourself)
 ]

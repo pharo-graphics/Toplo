@@ -43,11 +43,11 @@ ToAbstractPropertySubscription >> property [
 ]
 
 { #category : #accessing }
-ToAbstractPropertySubscription >> property: aPropertyDefinition [
+ToAbstractPropertySubscription >> property: aLookProperty [
 
-	property := aPropertyDefinition.
+	property := aLookProperty.
 	self animation ifNotNil: [ :a |
-		animation property: aPropertyDefinition ]
+		animation property: aLookProperty ]
 ]
 
 { #category : #operating }

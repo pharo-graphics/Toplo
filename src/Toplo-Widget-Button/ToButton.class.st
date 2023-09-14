@@ -11,10 +11,30 @@ Class {
 	#category : #'Toplo-Widget-Button-BasicButton'
 }
 
+{ #category : #'t - skinable - accessing' }
+ToButton >> childSkinsToHandle [
+		
+	^ { 
+		  (ToChildSkinBuilder new
+			   slotName: #icon;
+			   builder: [ :e | self icon defaultSkin ];
+			   yourself).
+		  (ToChildSkinBuilder new
+			   slotName: #label;
+			   builder: [ :e | self label defaultSkin ];
+			   yourself) }
+]
+
 { #category : #'t - initialization dresser' }
 ToButton >> defaultDresser [ 
 
 	^ super defaultDresser next: ToTripletDresser new
+]
+
+{ #category : #'t - skinable - initialization' }
+ToButton >> defaultStyleClasses [
+
+	^ { #button }
 ]
 
 { #category : #'t - triplet - accessing' }

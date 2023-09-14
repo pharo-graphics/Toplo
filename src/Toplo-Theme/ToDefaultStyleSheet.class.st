@@ -46,7 +46,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 	" default button form icon "
 	self addRule: (ToStyleRule new
 			 selectors: { 
-				((ToStyleClassSelector new styleClass: #'form-icon')
+				((ToStyleClassSelector new styleClass: #'image')
 					parent: (ToStyleClassSelector new styleClass: #button)
 					level: 2) }
 			 looks:
@@ -187,7 +187,34 @@ ToDefaultStyleSheet >> addPrimaryButtonRules [
 					 (self newLookUpdaterForPropertyName: #border)
 						  when: ToInitialLookEvent value: [ :e | Color transparent ];
 						  when: ToDisabledLookEvent value: [ :e | e toTheme colorBorderDisabled ];
-						  yourself })
+						  yourself }).
+						
+	" primary button form icon "
+	self addRule: (ToStyleRule new
+			 selectors: { 
+				((ToStyleClassSelector new styleClass: #'form-icon')
+					parent: ((ToStyleClassSelector new styleClass: #button) 
+									and: (ToStyleClassSelector new styleClass: #primary))
+					level: 2) }
+			 looks:
+				 { ((self newLookUpdaterForPropertyName: #'image-inner-form-color'))
+					  	when: ToDisabledLookEvent value: [ :e | e toTheme colorImageDisabled ];
+						when: ToInitialLookEvent value: [ :e | e toTheme colorImageLightSolid ];
+						yourself }).
+
+	" primary button label "
+	self addRule: (ToStyleRule new
+			 selectors: { 
+				((ToStyleClassSelector new styleClass: #label)
+					  parent: ((ToStyleClassSelector new styleClass: #button) 
+									and: (ToStyleClassSelector new styleClass: #primary))
+					  level: 2) }
+			 looks: { (self newLookUpdaterForPropertyName: #'label-text-foreground')
+					  when: ToInitialLookEvent value: [ :e | e toTheme colorTextLightSolid ];
+					  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
+					  when: ToHoveredLookEvent value: [ :e | e toTheme colorTextLightSolid ];
+					  when: ToPressedLookEvent value: [ :e | e toTheme colorTextLightSolid ];
+					  yourself }).
 ]
 
 { #category : #'initialization-button' }

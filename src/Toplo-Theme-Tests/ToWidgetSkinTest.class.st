@@ -146,6 +146,74 @@ ToWidgetSkinTest >> testChangeCheckableIcon [
 ]
 
 { #category : #tests }
+ToWidgetSkinTest >> testChangeCheckableIconWithAutoProperty [
+
+	| w skin disabledImage checkedImage uncheckedImage indeterminateImage autoProp |
+	w := ToCheckLookTestElement new.
+	w initializeCheckable.
+	w initializeDresser.
+	w addDresser: ToCheckableButtonDresser new.
+	skin := ToWidgetSkin new.
+	
+	disabledImage := BlElement new
+		                 id: #disabled;
+		                 yourself.
+	checkedImage := BlElement new
+		                id: #checked;
+		                yourself.
+	uncheckedImage := BlElement new
+		                  id: #unchecked;
+		                  yourself.
+	indeterminateImage := BlElement new
+		                      id: #indeterminate;
+		                      yourself.
+			
+	autoProp := ToAutoProperty
+			   name: #'checkable-auto-icon-image'
+			   reader: [ :e | e icon innerImage ]
+				writer: [ :e :v | 
+					v removeFromParent.
+				   e iconImage: v ]
+				value: [ :e :event | 
+					e isDisabled
+		          ifTrue: [  disabledImage   ]
+		          ifFalse: [
+			          e isChecked
+				          ifTrue: [  checkedImage  ]
+				          ifFalse: [
+					          e isUnchecked
+						          ifTrue: [ uncheckedImage   ]
+						          ifFalse: [  indeterminateImage ] ] ] ]
+				events: {ToInstallLookEvent. ToDisabledLookEvent. ToInitialLookEvent. ToClickedLookEvent }.
+
+	skin addLookUpdater: (ToLookUpdater new property: autoProp; yourself).
+	w withSkin: skin.
+	
+	w switchToSkinState: ToInstallState new.
+	self assert: w icon innerImage identicalTo: uncheckedImage.
+	w switchToSkinState: ToInitialState new.
+	self assert: w icon innerImage identicalTo: uncheckedImage.
+	w disable.
+	self assert: w icon innerImage identicalTo: disabledImage.
+	w enable.
+	self assert: w icon innerImage identicalTo: uncheckedImage.
+	w checked: true.
+	self assert: w icon innerImage identicalTo: checkedImage.
+	w checked: false.
+	self assert: w icon innerImage identicalTo: uncheckedImage.
+	w checked: nil.
+	self assert: w icon innerImage identicalTo: indeterminateImage.
+
+
+
+
+	
+	
+	
+
+]
+
+{ #category : #tests }
 ToWidgetSkinTest >> testChangeImage [
 
 	| w skin look colorToMap newForm |

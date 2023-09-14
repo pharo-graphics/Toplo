@@ -26,7 +26,7 @@ ToImage >> defaultInnerImage [
 { #category : #'t - skinable - initialization' }
 ToImage >> defaultStyleClasses [ 
 
-	^ #( #'form-icon' )
+	^ #( #image )
 ]
 
 { #category : #'form accessing' }

@@ -4,8 +4,9 @@ Class {
 	#category : #'Toplo-Theme-LookUpdater'
 }
 
-{ #category : #testing }
-ToAutoPropertySubscription >> canReceiveEvent: aLookEvent [ 
+{ #category : #accessing }
+ToAutoPropertySubscription >> property: aLookProperty [
 
-	^ true
+	super property: aLookProperty.
+	self lookEventClasses: aLookProperty lookEventClasses
 ]

@@ -116,20 +116,6 @@ ToClickableSkin >> changeTypeWith: aSkinType in: anElement [
 	self dispatchChangedEventIn: anElement
 ]
 
-{ #category : #'api - accessing' }
-ToClickableSkin >> childSkinsToHandle [
- 
-	^ {
-		  (ToChildSkinBuilder new
-			   slotName: #icon;
-			   builder: [ :e | self iconSkinIn: e ];
-			   yourself).
-		  (ToChildSkinBuilder new
-			   slotName: #label;
-			   builder: [ :e | self labelSkinIn: e ];
-			   yourself) }
-]
-
 { #category : #accessing }
 ToClickableSkin >> danger [
 

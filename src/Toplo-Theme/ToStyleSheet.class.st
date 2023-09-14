@@ -63,8 +63,9 @@ ToStyleSheet class >> propertyList [
 			   reader: [ :e | e icon innerImage ]
 				writer: [ :e :v | 
 					v removeFromParent.
-				   e iconImage: v ])
-				valueProvider: [ :e | e isDisabled
+				   e iconImage: v ]
+				value: [ :e :event | 
+					e isDisabled
 		          ifTrue: [  e disabledImage   ]
 		          ifFalse: [
 			          e isChecked
@@ -72,7 +73,8 @@ ToStyleSheet class >> propertyList [
 				          ifFalse: [
 					          e isUnchecked
 						          ifTrue: [ e uncheckedImage   ]
-						          ifFalse: [  e indeterminateImage ] ] ] ].
+						          ifFalse: [  e indeterminateImage ] ] ] ]
+				events: {ToInitialLookEvent. ToClickedLookEvent }).
 		  (ToInstVarProperty name: #layout).
 		  (ToPseudoProperty
 			   name: #'layout-direction'

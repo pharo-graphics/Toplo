@@ -31,7 +31,6 @@ ToWidgetSkin >> childSkinForSlotNamed: aSymbol [
 
 { #category : #'event handling' }
 ToWidgetSkin >> childSkinsDirtyEvent: anEvent [
-	""
 
 	self childSkinsIndex keysAndValuesDo: [ :k :subSkin |
 		subSkin updateIn: anEvent target ]
@@ -42,14 +41,6 @@ ToWidgetSkin >> childSkinsIndex [
 
 	" built in #initializePropertiesIndex "
 	^ childSkinsIndex 
-]
-
-{ #category : #'api - accessing' }
-ToWidgetSkin >> childSkinsToHandle [
-
-	" to be redefined by subclasses to declare how to manage the element properties skins "
-	" each element is ToSubSkin "
-	^ { }
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -109,9 +100,8 @@ ToWidgetSkin >> initialize [
 { #category : #initialization }
 ToWidgetSkin >> initializeChildSkinsIndex [
 
-	childSkinsIndex := IdentityDictionary new.
-	self childSkinsToHandle do: [ :childSkin |
-		self registerChildSkin: childSkin ]
+	childSkinsIndex := IdentityDictionary new
+
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -206,7 +196,11 @@ ToWidgetSkin >> onInstalledIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> onSkinInstalledIn: anElement [
 
-	self addLookUpdater: (self defaultCursorLookIn: anElement)
+	anElement childSkinsToHandle do: [ :childSkin |
+		self registerChildSkin: childSkin ].
+	self addLookUpdater: (self defaultCursorLookIn: anElement).
+	self childSkinsIndex keysAndValuesDo: [ :k :subSkin |
+		subSkin updateIn: anElement ]
 ]
 
 { #category : #'api - install/uninstall  hook' }

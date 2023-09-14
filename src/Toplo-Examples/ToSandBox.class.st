@@ -1529,13 +1529,10 @@ ToSandBox class >> example_ToButtonWithDefaultSkin0 [
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 
 	button1 := ToButton new.
-	"button1 addStyleClass: #primary.
-	button1 addStyleClass: #danger."
-	button1 withSkin: (button1 toTheme skinFor: button1).
+	"button1 addStyleClass: #primary."
+	"button1 addStyleClass: #danger."
 	button1 label: (ToLabel text: 'Primary button').
-	button1 label withSkin: (button1 toTheme skinFor: button1 label).
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-	button1 icon withSkin: (button1 toTheme skinFor: button1 icon).
 
 	space root addChild: pane.
 	space root addChild: button1.
@@ -2871,7 +2868,7 @@ ToSandBox class >> example_toCheckbox1 [
 		       label: (ToLabel text: '1');
 		       id: 1 asString.
 	"chb beRightToLeft."
-	chb inspect.
+	"chb inspect."
 	chb openInInnerWindow
 ]
 

@@ -4,9 +4,9 @@ Class {
 	#traits : 'TToTriplet + TToLabeledIcon + TToOrientable',
 	#classTraits : 'TToTriplet classTrait + TToLabeledIcon classTrait + TToOrientable classTrait',
 	#instVars : [
-		'icon => ToSkinnableSlot ',
-		'label => ToSkinnableSlot ',
-		'extra => ToSkinnableSlot '
+		'icon',
+		'label',
+		'extra'
 	],
 	#category : #'Toplo-Widget-Button-BasicButton'
 }

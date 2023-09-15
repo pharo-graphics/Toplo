@@ -4,9 +4,9 @@ Class {
 	#traits : 'TToTriplet',
 	#classTraits : 'TToTriplet classTrait',
 	#instVars : [
-		'#first => ToSkinnableSlot propertyName: nil',
-		'#second => ToSkinnableSlot propertyName: nil',
-		'#third => ToSkinnableSlot propertyName: nil'
+		'first',
+		'second',
+		'third'
 	],
 	#category : #'Toplo-Widget-Button-Core'
 }

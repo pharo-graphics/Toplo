@@ -3,8 +3,7 @@ Class {
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'installStep',
-		'firstLookUpdater',
-		'childSkinsIndex'
+		'firstLookUpdater'
 	],
 	#category : #'Toplo-Theme-Skin'
 }
@@ -23,32 +22,6 @@ ToWidgetSkin >> addLookUpdater: aLook [
 	self privateLookUpdater: aLook
 ]
 
-{ #category : #'api - accessing' }
-ToWidgetSkin >> childSkinForSlotNamed: aSymbol [
-
-	^ childSkinsIndex at: aSymbol ifAbsent: [  ] 
-]
-
-{ #category : #'api - accessing' }
-ToWidgetSkin >> childSkinIn: anElement forSlotNamed: aSymbol [
-
-	^ anElement skinableSlots detect: [ :s | s name = aSymbol  ]
-]
-
-{ #category : #'event handling' }
-ToWidgetSkin >> childSkinsDirtyEvent: anEvent [
-
-	self childSkinsIndex keysAndValuesDo: [ :k :subSkin |
-		subSkin updateIn: anEvent target ]
-]
-
-{ #category : #'api - accessing' }
-ToWidgetSkin >> childSkinsIndex [
-
-	" built in #initializePropertiesIndex "
-	^ childSkinsIndex 
-]
-
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> defaultCursorLookIn: anElement [
 
@@ -58,9 +31,8 @@ ToWidgetSkin >> defaultCursorLookIn: anElement [
 { #category : #accessing }
 ToWidgetSkin >> dispatchChangedEventIn: anElement [
 
-	"DefaultType, PrimaryType, LinkType or TextType "
 	self markAsNotInstalled.
-	anElement dispatchChildSkinsDirtyEvent
+	anElement dispatchSkinChangedEvent
 ]
 
 { #category : #'event handling' }
@@ -74,8 +46,8 @@ ToWidgetSkin >> eventsToHandle [
 
 	^ {
 		  ToThemeChangedEvent.
-		  ToChildSkinsDirtyEvent.
-		  ToSkinnablePropertyChangedEvent.
+		  ToSkinChangedEvent.
+		  ToPropertyChangedEvent.
 		  ToElementLookEvent.
 		  ToLayoutOrientationChangedEvent.
 		  ToLayoutDirectionChangedEvent }
@@ -93,21 +65,19 @@ ToWidgetSkin >> firstLookUpdater [
 	^ firstLookUpdater
 ]
 
+{ #category : #accessing }
+ToWidgetSkin >> forceInstallationIn: anElement [
+
+	self markAsNotInstalled.
+	anElement dispatchSkinChangedEvent
+]
+
 { #category : #initialization }
 ToWidgetSkin >> initialize [
 
 	super initialize.
 	self markAsNotInstalled.
-	self privateLookUpdater: ToNullElementLook new.
-	self initializeChildSkinsIndex 
-	
-]
-
-{ #category : #initialization }
-ToWidgetSkin >> initializeChildSkinsIndex [
-
-	childSkinsIndex := IdentityDictionary new
-
+	self privateLookUpdater: ToNullElementLook new
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -194,31 +164,13 @@ ToWidgetSkin >> markAsNotInstalled [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToWidgetSkin >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement
-]
-
-{ #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> onSkinInstalledIn: anElement [
 
-	anElement childSkinsToHandle do: [ :childSkin |
-		self registerChildSkin: childSkin ].
-	self addLookUpdater: (self defaultCursorLookIn: anElement).
-	self childSkinsIndex keysAndValuesDo: [ :k :subSkin |
-		subSkin updateIn: anElement ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkin >> onSkinUninstalledIn: anElement [
 
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToWidgetSkin >> onUninstalledIn: anElement [
-
-	super onUninstalledIn: anElement.
 	firstLookUpdater := nil
 ]
 
@@ -228,10 +180,9 @@ ToWidgetSkin >> privateLookUpdater: aLook [
 	firstLookUpdater := aLook
 ]
 
-{ #category : #'api - accessing' }
-ToWidgetSkin >> registerChildSkin: aChildSkin [ 
+{ #category : #'event handling' }
+ToWidgetSkin >> propertyChangedEvent: anEvent [
 
-	childSkinsIndex at: aChildSkin slotName put: aChildSkin
 ]
 
 { #category : #removing }
@@ -243,12 +194,9 @@ ToWidgetSkin >> removeLookUpdater: aLook [
 ]
 
 { #category : #'event handling' }
-ToWidgetSkin >> skinnablePropertyChangedEvent: anEvent [
+ToWidgetSkin >> skinChangedEvent: anEvent [
 
-	self
-		updateSkinIn: anEvent holder
-		slotNamed: anEvent slotName
-		value: anEvent current
+	anEvent target childrenDo: [ :child | child updateSkin ]
 ]
 
 { #category : #'event handling' }
@@ -257,24 +205,4 @@ ToWidgetSkin >> themeChangedEvent: anEvent [
 	self launchSkinUninstallationIn: anEvent currentTarget.
 	self launchSkinInstallationIn: anEvent currentTarget.	
 	self launchSkinInitializationIn:  anEvent currentTarget.
-]
-
-{ #category : #'api - accessing' }
-ToWidgetSkin >> unregisterChildSkinForSlotNamed: aSymbol [
-
-	childSkinsIndex removeKey: aSymbol ifAbsent: [  ]
-]
-
-{ #category : #'event handling' }
-ToWidgetSkin >> updateSkinIn: anElement slotNamed: aSlotName value: aSkinable [
-
-	" update the child skin :  
-	- anElement is the element which has myself as its current skin.
-	- aValuable is the declared builder (see #initializeSubSkinsIndex).
-	- aSkinable is the current value (an element) of the property"
-	| subSkin |
-	aSkinable ifNil: [ ^ self ].
-	subSkin := self childSkinForSlotNamed: aSlotName.
-	subSkin ifNil: [ ^ self ].
-	subSkin updateIn: anElement
 ]

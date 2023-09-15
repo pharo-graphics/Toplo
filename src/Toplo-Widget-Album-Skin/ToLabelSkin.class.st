@@ -31,7 +31,7 @@ ToLabelSkin >> initialize [
 { #category : #accessing }
 ToLabelSkin >> labelLookIn: anElement [
 
-	^ (anElement toTheme styleSheet newLookUpdaterForPropertyName: #'text-attributes-with-builder')
+	^ (anElement styleSheet newLookUpdaterForPropertyName: #'text-attributes-with-builder')
 		  when: ToInstallLookEvent value: (BlTextAttributesBuilder new
 					weight: anElement toTheme fontWeightStrong;
 		         defaultFontName: anElement toTheme fontFamilyCode;

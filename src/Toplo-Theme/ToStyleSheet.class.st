@@ -2,19 +2,39 @@ Class {
 	#name : #ToStyleSheet,
 	#superclass : #Object,
 	#instVars : [
-		'rules',
-		'propertyByNameIndex'
+		'rules'
+	],
+	#classVars : [
+		'PropertyIndex'
 	],
 	#category : #'Toplo-Theme-StyleSheet'
 }
 
-{ #category : #initialization }
-ToStyleSheet class >> newPropertyByNameIndex [
+{ #category : #'class initialization' }
+ToStyleSheet class >> initialize [ 
+
+	PropertyIndex := self newPropertyIndex.
+]
+
+{ #category : #accessing }
+ToStyleSheet class >> newLookUpdaterForPropertyName: aPropertyName [
+
+	^ self propertyIndex newLookUpdaterForPropertyName: aPropertyName
+]
+
+{ #category : #'class initialization' }
+ToStyleSheet class >> newPropertyIndex [
 
 	^ ToPropertyIndex new recordAll: self propertyList; yourself
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
+ToStyleSheet class >> propertyIndex [
+
+	^ PropertyIndex ifNil: [ PropertyIndex := self newPropertyIndex ]
+]
+
+{ #category : #accessing }
 ToStyleSheet class >> propertyList [
 
 	" skin managing need a list of unique property. See ToStyleSheet>>lookUpdatersFor: where properties are used in an IdentityDictionary"
@@ -25,6 +45,10 @@ ToStyleSheet class >> propertyList [
 		  (ToInstVarProperty name: #size).
 		  (ToInstVarProperty name: #margin).
 		  (ToInstVarProperty name: #padding).
+		 	(ToInstVarProperty name: #icon).
+		  (ToInstVarProperty name: #label).
+		  (ToInstVarProperty name: #extra).
+
 		  (ToPseudoProperty
 			   name: #'background-color'
 			   reader: [ :e | e background paint color ]
@@ -73,6 +97,12 @@ ToStyleSheet class >> propertyList [
 			   writer: [ :e :v | e layout interspace: v ]) }
 ]
 
+{ #category : #accessing }
+ToStyleSheet class >> propertyNamed: aName [
+
+	^ self propertyIndex propertyNamed: aName
+]
+
 { #category : #adding }
 ToStyleSheet >> addRule: aStyleRule [
 
@@ -83,7 +113,6 @@ ToStyleSheet >> addRule: aStyleRule [
 ToStyleSheet >> initialize [ 
 
 	super initialize.
-	propertyByNameIndex := self newPropertyByNameIndex.
 	rules := OrderedCollection new.
 
 ]
@@ -107,25 +136,31 @@ ToStyleSheet >> lookUpdatersFor: anElement [
 { #category : #'accessing updaters' }
 ToStyleSheet >> newLookUpdaterForPropertyName: aPropertyName [
 
-	^ self propertyIndex newLookUpdaterForPropertyName: aPropertyName
+	^ self class newLookUpdaterForPropertyName: aPropertyName
 ]
 
 { #category : #initialization }
-ToStyleSheet >> newPropertyByNameIndex [
+ToStyleSheet >> newPropertyIndex [
 
-	^ self class newPropertyByNameIndex
+	^ self class newPropertyIndex
 ]
 
 { #category : #accessing }
 ToStyleSheet >> propertyIndex [
 
-	^ propertyByNameIndex
+	^ self class propertyIndex
 ]
 
 { #category : #initialization }
 ToStyleSheet >> propertyList [
 
 	^ self class propertyList
+]
+
+{ #category : #'accessing updaters' }
+ToStyleSheet >> propertyNamed: aName [
+
+	^ self class propertyNamed: aName
 ]
 
 { #category : #operating }

@@ -4,26 +4,12 @@ Class {
 	#traits : 'TToTriplet + TToLabeledIcon + TToOrientable',
 	#classTraits : 'TToTriplet classTrait + TToLabeledIcon classTrait + TToOrientable classTrait',
 	#instVars : [
-		'#icon => ToSkinnableSlot',
-		'#label => ToSkinnableSlot',
-		'#extra => ToSkinnableSlot'
+		'#icon => ToSkinnableSlot propertyName: #\'button-icon\'',
+		'#label => ToSkinnableSlot propertyName: #\'button-label\'',
+		'#extra => ToSkinnableSlot propertyName: nil'
 	],
 	#category : #'Toplo-Widget-Button-BasicButton'
 }
-
-{ #category : #'t - skinable - accessing' }
-ToButton >> childSkinsToHandle [
-		
-	^ { 
-		  (ToChildSkinBuilder new
-			   slotName: #icon;
-			   builder: [ :e | self icon defaultSkin ];
-			   yourself).
-		  (ToChildSkinBuilder new
-			   slotName: #label;
-			   builder: [ :e | self label defaultSkin ];
-			   yourself) }
-]
 
 { #category : #'t - initialization dresser' }
 ToButton >> defaultDresser [ 

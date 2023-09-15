@@ -26,7 +26,7 @@ ToWidgetSkinTest >> propertyList [
 ToWidgetSkinTest >> setUp [ 
 
 	super setUp.
-	propertyIndex := ToStyleSheet newPropertyByNameIndex
+	propertyIndex := ToStyleSheet newPropertyIndex
 ]
 
 { #category : #tests }

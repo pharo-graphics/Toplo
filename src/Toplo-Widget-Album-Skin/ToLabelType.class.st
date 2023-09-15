@@ -7,7 +7,7 @@ Class {
 { #category : #'api - install/uninstall  hook' }
 ToLabelType >> buttonLabelLookIn: anElement [
 
-	^ (anElement toTheme styleSheet newLookUpdaterForPropertyName: #'text-attributes-with-builder')
+	^ (anElement styleSheet newLookUpdaterForPropertyName: #'text-attributes-with-builder')
 		  when: ToDisabledLookEvent value: (BlTextAttributesBuilder new
 				   foreground: anElement toTheme colorTextDisabled;
 				   yourself);

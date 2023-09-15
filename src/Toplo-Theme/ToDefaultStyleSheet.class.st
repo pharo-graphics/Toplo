@@ -8,6 +8,18 @@ Class {
 ToDefaultStyleSheet >> addButtonRules [
 	" no border for #text and #link ( which elementClass includes #'no-border' ) "
 
+
+	self addRule: (ToStyleRule new
+			selectors: { (ToStyleClassSelector new styleClasses: #( #button )) }
+			looks: { 
+				(self newLookUpdaterForPropertyName: #mouseCursor)
+					when: ToHoveredLookEvent value: [ :e | 
+						e isEnabled
+				  			ifTrue: [ BlCursor hand ]
+				  			ifFalse: [  ] ];
+					when: ToLeavedLookEvent value: nil;
+					yourself  }).
+
 	self addRule: (ToStyleRule new
 			 selectors: { (ToStyleClassSelector new styleClasses: #( #button #'no-border' )) }
 			 looks: { self newLookUpdaterForPropertyName: #border }).
@@ -192,7 +204,7 @@ ToDefaultStyleSheet >> addPrimaryButtonRules [
 	" primary button form icon "
 	self addRule: (ToStyleRule new
 			 selectors: { 
-				((ToStyleClassSelector new styleClass: #'form-icon')
+				((ToStyleClassSelector new styleClass: #image)
 					parent: ((ToStyleClassSelector new styleClass: #button) 
 									and: (ToStyleClassSelector new styleClass: #primary))
 					level: 2) }

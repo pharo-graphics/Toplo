@@ -52,7 +52,7 @@ ToAbstractTheme >> printOn: aStream [
 { #category : #'accessing-skin' }
 ToAbstractTheme >> skinFor: anElement [
 
-	^ self styleSheet skinFor: anElement
+	^ anElement styleSheet skinFor: anElement
 ]
 
 { #category : #accessing }

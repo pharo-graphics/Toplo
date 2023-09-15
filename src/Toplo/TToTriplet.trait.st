@@ -12,8 +12,12 @@ TToTriplet >> beJustified [
 
 	justified ifTrue: [ ^ self ].
 	justified := true.
-	self dispatchEvent: (ToPropertyChangedEvent new slotName: #justified; holder: self; previous: false; current: true; yourself)
-
+	self dispatchEvent: (ToPropertyChangedEvent new
+			 slotName: #justified;
+			 holder: self;
+			 previous: false;
+			 current: true;
+			 yourself)
 ]
 
 { #category : #'t - triplet - accessing' }

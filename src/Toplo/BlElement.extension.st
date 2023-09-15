@@ -51,12 +51,6 @@ BlElement >> disable [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> dispatchChildSkinsDirtyEvent [
-
-	self dispatchEvent: ToChildSkinsDirtyEvent new
-]
-
-{ #category : #'*Toplo' }
 BlElement >> dispatchEnablementChangedEvent [
 
 	self dispatchEvent: ToEnablementChangedEvent new
@@ -67,6 +61,12 @@ BlElement >> dispatchLookEvent: anEvent [
 
 	self dispatchEvent: anEvent.
 	self childrenDo: [ :child | child dispatchLookEvent: anEvent ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> dispatchSkinChangedEvent [
+
+	self dispatchEvent: ToSkinChangedEvent new
 ]
 
 { #category : #'*Toplo' }
@@ -180,6 +180,12 @@ BlElement >> privateToTheme: aTheme [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> propertyNamed: aName [
+
+	^ self styleSheet propertyNamed: aName
+]
+
+{ #category : #'*Toplo' }
 BlElement >> removeStyleClass: aSymbol [
 
 	| cls |
@@ -274,6 +280,12 @@ BlElement >> toThemeChanged [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> updateSkin [
+
+
+]
+
+{ #category : #'*Toplo' }
 BlElement >> withSkin: aSkin [
 
 	self privateSkin ifNotNil: [ :s |
@@ -281,7 +293,7 @@ BlElement >> withSkin: aSkin [
 	self privateSkin: aSkin.
 	self privateSkin ifNotNil: [ :s |
 		self addEventHandler: s.
-		self dispatchChildSkinsDirtyEvent ]
+		self dispatchSkinChangedEvent ]
 ]
 
 { #category : #'*Toplo' }

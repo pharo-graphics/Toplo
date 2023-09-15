@@ -62,3 +62,9 @@ TToSkinable >> privateSkin: aSkin [
 	privateSkin = aSkin ifTrue: [ ^ self ].
 	privateSkin := aSkin
 ]
+
+{ #category : #'t - skinable - initialization' }
+TToSkinable >> updateSkin [
+
+	self withSkin: self defaultSkin
+]

@@ -113,7 +113,7 @@ ToClickableSkin >> changeTypeWith: aSkinType in: anElement [
  
 	"DefaultType, PrimaryType, LinkType or TextType "
 	self type: aSkinType.
-	self dispatchChangedEventIn: anElement
+	self forceInstallationIn: anElement
 ]
 
 { #category : #accessing }

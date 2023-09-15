@@ -57,14 +57,14 @@ TToShapeableWidgetSkin >> applySmallSizing: aSizing on: anElement [
 TToShapeableWidgetSkin >> changeShapingWith: aControlShaping in: anElement [
 
 	self shaping: aControlShaping.
-	self dispatchChangedEventIn: anElement
+	self forceInstallationIn: anElement
 ]
 
 { #category : #'t - shapeable  - accessing' }
 TToShapeableWidgetSkin >> changeSizingWith: aControlSizing in: anElement [
 
 	self sizing: aControlSizing.
-	self dispatchChangedEventIn: anElement
+	self forceInstallationIn: anElement
 ]
 
 { #category : #'t - shapeable - initialization' }

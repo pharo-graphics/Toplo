@@ -2,32 +2,10 @@ Class {
 	#name : #ToSkinnableSlot,
 	#superclass : #IndexedSlot,
 	#instVars : [
-		'propertyName'
+		''
 	],
 	#category : #'Toplo-Core-Slot'
 }
-
-{ #category : #printing }
-ToSkinnableSlot >> printOn: aStream [
-	aStream
-		store: self name;
-		nextPutAll: ' => ';
-		nextPutAll: self class name;
-		nextPutAll: ' propertyName: ';
-		store: self propertyName
-]
-
-{ #category : #accessing }
-ToSkinnableSlot >> propertyName [
-
-	^ propertyName
-]
-
-{ #category : #accessing }
-ToSkinnableSlot >> propertyName: aName [
-
-	propertyName := aName
-]
 
 { #category : #'meta-object-protocol' }
 ToSkinnableSlot >> write: aValue to: anObject [

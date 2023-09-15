@@ -48,11 +48,11 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 						  when: ToInitialLookEvent value: [ :e | Color transparent ];
 						  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
 						  yourself.
-					 (self newLookUpdaterForPropertyName: #border)
-						  when: ToInitialLookEvent value: [ :e | e toTheme colorBorder ];
-						  when: ToDisabledLookEvent value: [ :e | e toTheme colorBorderDisabled ];
-						  when: ToHoveredLookEvent value: [ :e | e toTheme colorPrimaryHover ];
-						  when: ToPressedLookEvent value: [ :e | e toTheme colorPrimaryPressed ];
+					 (self newLookUpdaterForPropertyName: #'border-with-builder')
+						  when: ToInitialLookEvent value: [ :e | e borderBuilder paint: e toTheme colorBorder; yourself ];
+						  when: ToDisabledLookEvent value: [ :e | e borderBuilder paint: e toTheme colorBorderDisabled ];
+						  when: ToHoveredLookEvent value: [ :e | e borderBuilder paint: e toTheme colorPrimaryHover ];
+						  when: ToPressedLookEvent value: [ :e | e borderBuilder paint: e toTheme colorPrimaryPressed ];
 						  yourself }).
 
 	" default button form icon "
@@ -82,21 +82,6 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 					  when: ToPressedLookEvent value: [ :e | e toTheme colorPrimaryPressed ];
 					  yourself }).
 
-	" default button dashed "
-	self addRule: (ToStyleRule new
-			 selectors: { (ToStyleClassSelector new styleClasses: #( #button #dashed )) }
-			 looks: {
-					 (self newLookUpdaterForPropertyName: #background)
-						  when: ToInitialLookEvent value: [ :e | Color transparent ];
-						  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
-						  yourself.
-					 (self newLookUpdaterForPropertyName: #border)
-						  when: ToInitialLookEvent value: [ :e | e toTheme colorBorder ];
-						  when: ToDisabledLookEvent value: [ :e | e toTheme colorBorderDisabled ];
-						  when: ToHoveredLookEvent value: [ :e | e toTheme colorPrimaryHover ];
-						  when: ToPressedLookEvent value: [ :e | e toTheme colorPrimaryPressed ];
-						  yourself }).
-
 	" ToButton default danger"
 	self addRule: (ToStyleRule new
 			 selectors: { (ToStyleClassSelector new styleClasses: #( #button #danger )) }
@@ -105,32 +90,17 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 						  when: ToInitialLookEvent value: [ :e | Color transparent ];
 						  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
 						  yourself.
-					 (self newLookUpdaterForPropertyName: #border)
-						  when: ToInitialLookEvent value: [ :e | e toTheme colorError ];
-						  when: ToDisabledLookEvent value: [ :e | e toTheme colorBorderDisabled ];
-						  when: ToHoveredLookEvent value: [ :e | e toTheme colorErrorHover ];
-						  when: ToPressedLookEvent value: [ :e | e toTheme colorErrorHover darker ];
-						  yourself }).
-
-	" ToButton default danger dashed"
-	self addRule: (ToStyleRule new
-			 selectors: { (ToStyleClassSelector new styleClasses: #( #button #danger #dashed )) }
-			 looks: {
-					 (self newLookUpdaterForPropertyName: #background)
-						  when: ToInitialLookEvent value: [ :e | Color transparent ];
-						  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
-						  yourself.
-					 (self newLookUpdaterForPropertyName: #border)
-						  when: ToInitialLookEvent value: [ :e | e toTheme colorError ];
-						  when: ToDisabledLookEvent value: [ :e | e toTheme colorBorderDisabled ];
-						  when: ToHoveredLookEvent value: [ :e | e toTheme colorErrorHover ];
-						  when: ToPressedLookEvent value: [ :e | e toTheme colorErrorHover darker ];
+					 (self newLookUpdaterForPropertyName: #'border-with-builder')
+						  when: ToInitialLookEvent value: [ :e | e borderBuilder paint: e toTheme colorError ];
+						  when: ToDisabledLookEvent value: [ :e | e borderBuilder paint:e toTheme colorBorderDisabled ];
+						  when: ToHoveredLookEvent value: [ :e | e borderBuilder paint:e toTheme colorErrorHover ];
+						  when: ToPressedLookEvent value: [ :e | e borderBuilder paint:e toTheme colorErrorHover darker ];
 						  yourself }).
 
 	" danger button form icon "
 	self addRule: (ToStyleRule new
 			 selectors: { 
-				((ToStyleClassSelector new styleClass: #'form-icon')
+				((ToStyleClassSelector new styleClass: #image)
 					  parent: (ToStyleClassSelector new styleClasses: #( #button #danger ))
 					  level: 2) } 
 			 looks: { 
@@ -153,14 +123,96 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 						  when: ToDisabledLookEvent value: [ :e | e toTheme colorTextDisabled ];
 						  when: ToHoveredLookEvent value: [ :e | e toTheme colorErrorHover ];
 						  when: ToPressedLookEvent value: [ :e | e toTheme colorErrorHover darker ];
-					     yourself })
+					     yourself }).
+					
+	" default button dashed "
+	self addRule: (ToStyleRule new
+			 selectors: { (ToStyleClassSelector new styleClasses: #( #dashed )) }
+			 looks: {
+					 (self newLookUpdaterForPropertyName: #'border-with-builder')
+							supplement: true;
+							when: ToInstallLookEvent value: [ :e | e borderBuilder dashArray: e toTheme dashArray ];
+							yourself }).
 ]
 
 { #category : #'initialization-button' }
 ToDefaultStyleSheet >> addLinkButtonRules [
 	" ToButton link "
 
+	self addRule: (ToStyleRule new
+			 selectors: { 
+					(ToStyleClassSelector new styleClasses: #(#button #link)) }
+			 looks: { 
+					(self newLookUpdaterForPropertyName: #background)
+						  when: ToInstallLookEvent value: [ :e | Color transparent ];
+						  yourself.
+					(self newLookUpdaterForPropertyName: #'border-with-builder')
+						  when: ToInstallLookEvent value: [ :e | e borderBuilder width: 0; yourself ] }).
 
+	" ToButton text danger "
+	self addRule: (ToStyleRule new
+			 selectors: { 
+					(ToStyleClassSelector new styleClasses: #(#button #link #danger)) }
+			 looks: {
+					(self newLookUpdaterForPropertyName: #background)
+						  when: ToInstallLookEvent value: [ :e | Color transparent ];
+						  yourself.
+					(self newLookUpdaterForPropertyName: #'border-with-builder')
+						  when: ToInstallLookEvent value: [ :e | e borderBuilder width: 0; yourself ] }).
+						
+	" button text form icon "
+	self addRule: (ToStyleRule new
+			 selectors: { 
+				((ToStyleClassSelector new styleClass: #'image')
+					parent: (ToStyleClassSelector new styleClasses: #(#button #link))
+					level: 2) }
+			 looks:
+				 { (self newLookUpdaterForPropertyName: #'image-inner-form-color')
+					  	when: ToInitialLookEvent value: [ :e | e toTheme colorLink ];
+					 	when: ToDisabledLookEvent value: [ :e | e toTheme colorTextDisabled ];
+						when: ToHoveredLookEvent value: [ :e | e toTheme colorLinkHover ];
+						when: ToPressedLookEvent value: [ :e | e toTheme colorPrimaryPressed ]
+					  yourself }).
+
+	" button test label "
+	self addRule: (ToStyleRule new
+			 selectors: { 
+				((ToStyleClassSelector new styleClass: #label)
+					  parent: (ToStyleClassSelector new styleClasses: #(#button #link))
+					  level: 2) }
+			 looks: { (self newLookUpdaterForPropertyName: #'label-text-foreground')
+					  	when: ToInitialLookEvent value: [ :e | e toTheme colorLink ];
+					 	when: ToDisabledLookEvent value: [ :e | e toTheme colorTextDisabled ];
+						when: ToHoveredLookEvent value: [ :e | e toTheme colorLinkHover ];
+						when: ToPressedLookEvent value: [ :e | e toTheme colorPrimaryPressed ]
+					  yourself }).
+
+	" button text danger form icon "
+	self addRule: (ToStyleRule new
+			 selectors: { 
+				((ToStyleClassSelector new styleClass: #'image')
+					parent: (ToStyleClassSelector new styleClasses: #(#button #link #danger))
+					level: 2) }
+			 looks:
+				 { (self newLookUpdaterForPropertyName: #'image-inner-form-color')
+					  	when: ToInitialLookEvent value: [ :e | e toTheme colorError ];
+					 	when: ToDisabledLookEvent value: [ :e | e toTheme colorTextDisabled ];
+						when: ToHoveredLookEvent value: [ :e | e toTheme colorErrorHover ];
+						when: ToPressedLookEvent value: [ :e | e toTheme colorError darker ]
+					  yourself }).
+
+	" button text danger label "
+	self addRule: (ToStyleRule new
+			 selectors: { 
+				((ToStyleClassSelector new styleClass: #label)
+					  parent: (ToStyleClassSelector new styleClasses: #(#button #link #danger))
+					  level: 2) }
+			 looks: { (self newLookUpdaterForPropertyName: #'label-text-foreground')
+					  	when: ToInitialLookEvent value: [ :e | e toTheme colorError ];
+					 	when: ToDisabledLookEvent value: [ :e | e toTheme colorTextDisabled ];
+						when: ToHoveredLookEvent value: [ :e | e toTheme colorErrorHover ];
+						when: ToPressedLookEvent value: [ :e | e toTheme colorError darker ]
+					  yourself })
 ]
 
 { #category : #'initialization-button' }
@@ -178,9 +230,9 @@ ToDefaultStyleSheet >> addPrimaryButtonRules [
 						  when: ToHoveredLookEvent value: [ :e | e toTheme colorPrimaryHover ];
 						  when: ToPressedLookEvent value: [ :e | e toTheme colorPrimaryPressed ];
 						  yourself.
-					 (self newLookUpdaterForPropertyName: #border)
-						  when: ToInitialLookEvent value: [ :e | Color transparent ];
-						  when: ToDisabledLookEvent value: [ :e | e toTheme colorBorderDisabled ];
+					 (self newLookUpdaterForPropertyName: #'border-with-builder')
+						  when: ToInitialLookEvent value: [ :e | e borderBuilder paint: Color transparent ];
+						  when: ToDisabledLookEvent value: [ :e | e borderBuilder paint: e toTheme colorBorderDisabled ];
 						  yourself }).
 
 	" ToButton primary danger "
@@ -196,9 +248,9 @@ ToDefaultStyleSheet >> addPrimaryButtonRules [
 						  when: ToHoveredLookEvent value: [ :e | e toTheme colorErrorHover ];
 						  when: ToPressedLookEvent value: [ :e | e toTheme colorErrorPressed ];
 						  yourself.
-					 (self newLookUpdaterForPropertyName: #border)
-						  when: ToInitialLookEvent value: [ :e | Color transparent ];
-						  when: ToDisabledLookEvent value: [ :e | e toTheme colorBorderDisabled ];
+					 (self newLookUpdaterForPropertyName: #'border-with-builder')
+						  when: ToInitialLookEvent value: [ :e | e borderBuilder paint: Color transparent ];
+						  when: ToDisabledLookEvent value: [ :e | e borderBuilder paint: e toTheme colorBorderDisabled ];
 						  yourself }).
 						
 	" primary button form icon "
@@ -235,29 +287,77 @@ ToDefaultStyleSheet >> addTextButtonRules [
 
 	self addRule: (ToStyleRule new
 			 selectors: { 
-					((ToStyleClassSelector new styleClass: #button) and:
-					  (ToStyleClassSelector new styleClass: #text)) }
+					(ToStyleClassSelector new styleClasses: #(#button #text)) }
 			 looks: { 
 					(self newLookUpdaterForPropertyName: #background)
 						  when: ToInitialLookEvent value: [ :e | Color transparent ];
 						  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
 						  when: ToHoveredLookEvent value: [ :e | e toTheme colorBgTextHover ];
 						  when: ToPressedLookEvent value: [ :e | e toTheme colorBgTextActive ];
-						  yourself }).
+						  yourself.
+					(self newLookUpdaterForPropertyName: #'border-with-builder')
+						  when: ToInstallLookEvent value: [ :e | e borderBuilder width: 0; yourself ] }).
 
 	" ToButton text danger "
 	self addRule: (ToStyleRule new
 			 selectors: { 
-					((ToStyleClassSelector new styleClass: #button) and:
-					  ((ToStyleClassSelector new styleClass: #text) and:
-						   (ToStyleClassSelector new styleClass: #danger))) }
+					(ToStyleClassSelector new styleClasses: #(#button #text #danger)) }
 			 looks: {
 					(self newLookUpdaterForPropertyName: #background)
 						  when: ToInitialLookEvent value: [ :e | Color transparent ];
 						  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
 						  when: ToHoveredLookEvent value: [ :e | e toTheme colorErrorBg ];
 						  when: ToPressedLookEvent value: [ :e | e toTheme colorErrorBg ];
-						  yourself })
+						  yourself.
+					(self newLookUpdaterForPropertyName: #'border-with-builder')
+						  when: ToInstallLookEvent value: [ :e | e borderBuilder width: 0; yourself ] }).
+						
+	" button text form icon "
+	self addRule: (ToStyleRule new
+			 selectors: { 
+				((ToStyleClassSelector new styleClass: #'image')
+					parent: (ToStyleClassSelector new styleClasses: #(#button #text))
+					level: 2) }
+			 looks:
+				 { (self newLookUpdaterForPropertyName: #'image-inner-form-color')
+					  when: ToInitialLookEvent value: [ :e | e toTheme colorText ];
+					  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
+					  yourself }).
+
+	" button test label "
+	self addRule: (ToStyleRule new
+			 selectors: { 
+				((ToStyleClassSelector new styleClass: #label)
+					  parent: (ToStyleClassSelector new styleClasses: #(#button #text))
+					  level: 2) }
+			 looks: { (self newLookUpdaterForPropertyName: #'label-text-foreground')
+					  when: ToInitialLookEvent value: [ :e | e toTheme colorText ];
+					  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
+					  yourself }).
+
+	" button text danger form icon "
+	self addRule: (ToStyleRule new
+			 selectors: { 
+				((ToStyleClassSelector new styleClass: #'image')
+					parent: (ToStyleClassSelector new styleClasses: #(#button #text #danger))
+					level: 2) }
+			 looks:
+				 { (self newLookUpdaterForPropertyName: #'image-inner-form-color')
+					  when: ToInitialLookEvent value: [ :e | e toTheme colorError ];
+					  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
+					  yourself }).
+
+	" button test danger label "
+	self addRule: (ToStyleRule new
+			 selectors: { 
+				((ToStyleClassSelector new styleClass: #label)
+					  parent: (ToStyleClassSelector new styleClasses: #(#button #text #danger))
+					  level: 2) }
+			 looks: { (self newLookUpdaterForPropertyName: #'label-text-foreground')
+					  when: ToInitialLookEvent value: [ :e | e toTheme colorError ];
+					  when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled ];
+					  yourself }).
+
 ]
 
 { #category : #initialization }

@@ -53,6 +53,10 @@ ToStyleSheet class >> propertyList [
 			   name: #'background-color'
 			   reader: [ :e | e background paint color ]
 			   writer: [ :e :v | e background: v ]).
+		  (ToPseudoProperty 
+				name: #'border-with-builder'
+				reader: [ :e | e border ]
+				writer: [ :e :v | e border: v build]).
 		  (ToPseudoProperty new 
 				name: #'text-attributes-with-builder';
 				writer: [ :e :v |
@@ -123,14 +127,15 @@ ToStyleSheet >> lookUpdatersFor: anElement [
 	" for an element, several LookUpdater instances can be found. These LookUpdater instances 
 	are found with #rawLookUpdatersFor:. After, for each property only the last LookUpdater is kept"
 
-	| rawLooks selecter |
+	| rawLooks selecter supplement |
 	" get all LookUpdater instances for anElement "
 	rawLooks := self rawLookUpdatersFor: anElement.
 	" keep only the last for each property "
 	selecter := IdentityDictionary new.
+	supplement := OrderedCollection new.
 	rawLooks do: [ :l | 
-		selecter at: l property put: l ].
-	^ selecter values
+		l supplement ifTrue: [supplement add: l] ifFalse: [ selecter at: l property put: l ] ].
+	^ selecter values, supplement
 ]
 
 { #category : #'accessing updaters' }

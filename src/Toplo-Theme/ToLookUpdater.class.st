@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToElementLook,
 	#instVars : [
 		'property',
-		'subscriptions'
+		'subscriptions',
+		'supplement'
 	],
 	#category : #'Toplo-Theme-LookUpdater'
 }
@@ -31,7 +32,8 @@ ToLookUpdater >> findLookUpdaterForPropertyNamed: name [
 ToLookUpdater >> initialize [ 
 
 	super initialize.
-	subscriptions := #()
+	subscriptions := #().
+	supplement := false
 ]
 
 { #category : #accessing }
@@ -68,6 +70,18 @@ ToLookUpdater >> removeSubscription: aSubscription [
 ToLookUpdater >> subscriptions [
 
 	^ subscriptions 
+]
+
+{ #category : #accessing }
+ToLookUpdater >> supplement [
+
+	^ supplement 
+]
+
+{ #category : #accessing }
+ToLookUpdater >> supplement: aBoolean [
+
+	supplement := aBoolean
 ]
 
 { #category : #declaring }

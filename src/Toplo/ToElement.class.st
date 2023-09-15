@@ -3,8 +3,17 @@ Class {
 	#superclass : #BlElement,
 	#traits : 'TToElement + TToResizable + TToEnableable + TToDressable + TToSkinable + TObservable',
 	#classTraits : 'TToElement classTrait + TToResizable classTrait + TToEnableable classTrait + TToDressable classTrait + TToSkinable classTrait + TObservable classTrait',
+	#instVars : [
+		'borderBuilder'
+	],
 	#category : #'Toplo-Core'
 }
+
+{ #category : #accessing }
+ToElement >> borderBuilder [
+
+	^ borderBuilder ifNil: [ borderBuilder := BlBorderBuilder new ]
+]
 
 { #category : #'t - skinable - initialization' }
 ToElement >> defaultStyleClasses [

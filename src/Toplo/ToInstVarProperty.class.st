@@ -1,6 +1,6 @@
 Class {
 	#name : #ToInstVarProperty,
-	#superclass : #ToLookProperty,
+	#superclass : #ToElementProperty,
 	#category : #'Toplo-Core-Properties'
 }
 

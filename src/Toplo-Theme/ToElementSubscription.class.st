@@ -7,6 +7,13 @@ Class {
 	#category : #'Toplo-Theme-LookUpdater'
 }
 
+{ #category : #testing }
+ToElementSubscription >> canReplace: anotherSubscription [
+
+	^ (self isKindOf: anotherSubscription class) and: [
+		  self eventClass = anotherSubscription eventClass ]
+]
+
 { #category : #operating }
 ToElementSubscription >> receiveLookEvent: aLookEvent [
 

@@ -7,7 +7,7 @@ Class {
 		'previous',
 		'current'
 	],
-	#category : #'Toplo-Core-Properties'
+	#category : #'Toplo-Core-Slot'
 }
 
 { #category : #'instance creation' }

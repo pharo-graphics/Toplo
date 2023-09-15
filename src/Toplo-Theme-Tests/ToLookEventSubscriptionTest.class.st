@@ -13,7 +13,7 @@ ToLookEventSubscriptionTest >> testElementSubscription [
 	| w adapter |
 	w := ToElement new.
 	adapter := ToElementSubscription new valuable: [:e | e background: Color blue ].
-	adapter lookEventClasses: { ToInitialLookEvent }.
+	adapter eventClass: ToInitialLookEvent.
 	" whatever the LookEvent, the result should be the same "
 	adapter receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
 	self assert: (w background isKindOf: BlPaintBackground).
@@ -62,7 +62,7 @@ ToLookEventSubscriptionTest >> testElementSubscriptionWithNonTrivialValuableConv
 
 	subscr := ToElementSubscription new
 		          valuable: switch;
-		          lookEventClasses: { ToInitialLookEvent };
+		          eventClass: ToInitialLookEvent;
 		          yourself.
 	" whatever the LookEvent, the result should be the same "
 	subscr receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
@@ -93,7 +93,7 @@ ToLookEventSubscriptionTest >> testElementSubscriptionWithValuableConvertedASEle
 	| w adapter |
 	w := ToElement new.
 	adapter := ToElementSubscription new valuable: [:e | e background: Color blue ].
-	adapter lookEventClasses: { ToInitialLookEvent }.
+	adapter eventClass: ToInitialLookEvent.
 	" whatever the LookEvent, the result should be the same "
 	adapter receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
 	self assert: (w background isKindOf: BlPaintBackground).
@@ -110,7 +110,7 @@ ToLookEventSubscriptionTest >> testPropertySubscription [
 	subscription := ToPropertySubscription new
 		  value: Color blue;
 		  property: prop;
-			lookEventClasses: { ToInitialLookEvent }.
+			eventClass: ToInitialLookEvent.
 	self assert: subscription property equals: prop.
 	" whatever the LookEvent, the result should be the same "
 	subscription receiveLookEvent: (ToInitialLookEvent new currentTarget: w).

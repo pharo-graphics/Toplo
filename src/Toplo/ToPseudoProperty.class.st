@@ -1,6 +1,6 @@
 Class {
 	#name : #ToPseudoProperty,
-	#superclass : #ToLookProperty,
+	#superclass : #ToElementProperty,
 	#instVars : [
 		'writer',
 		'reader'

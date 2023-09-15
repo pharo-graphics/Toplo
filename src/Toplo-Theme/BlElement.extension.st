@@ -7,3 +7,9 @@ BlElement >> childSkinsToHandle [
  
 	^ { }
 ]
+
+{ #category : #'*Toplo-Theme' }
+BlElement >> skinableSlots [
+
+	^ self class slots select: [ :s | s isKindOf: ToSkinnableSlot ]
+]

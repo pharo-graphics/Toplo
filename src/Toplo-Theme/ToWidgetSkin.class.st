@@ -3,8 +3,8 @@ Class {
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'installStep',
-		'childSkinsIndex',
-		'firstLookUpdater'
+		'firstLookUpdater',
+		'childSkinsIndex'
 	],
 	#category : #'Toplo-Theme-Skin'
 }
@@ -26,7 +26,13 @@ ToWidgetSkin >> addLookUpdater: aLook [
 { #category : #'api - accessing' }
 ToWidgetSkin >> childSkinForSlotNamed: aSymbol [
 
-	^ childSkinsIndex at: aSymbol ifAbsent: [  ]
+	^ childSkinsIndex at: aSymbol ifAbsent: [  ] 
+]
+
+{ #category : #'api - accessing' }
+ToWidgetSkin >> childSkinIn: anElement forSlotNamed: aSymbol [
+
+	^ anElement skinableSlots detect: [ :s | s name = aSymbol  ]
 ]
 
 { #category : #'event handling' }

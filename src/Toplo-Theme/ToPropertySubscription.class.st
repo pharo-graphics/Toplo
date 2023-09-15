@@ -24,9 +24,11 @@ ToPropertySubscription >> animation: aPropertyAnimation [
 ]
 
 { #category : #testing }
-ToPropertySubscription >> isPropertyBased [
+ToPropertySubscription >> canReplace: anotherSubscription [
 
-	^ true
+	^ (self isKindOf: anotherSubscription class) and: [
+		  self property = anotherSubscription property and: [
+			  self eventClass = anotherSubscription eventClass ] ]
 ]
 
 { #category : #accessing }
@@ -54,7 +56,7 @@ ToPropertySubscription >> receiveLookEvent: aLookEvent [
 	valueWriter write: rawValue to: target
 ]
 
-{ #category : #accessing }
+{ #category : #evaluating }
 ToPropertySubscription >> value [
 
 	^ value

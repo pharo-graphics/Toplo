@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSkinnableSlot,
 	#superclass : #IndexedSlot,
-	#category : #'Toplo-Core-Properties'
+	#category : #'Toplo-Core-Slot'
 }
 
 { #category : #'meta-object-protocol' }
@@ -13,6 +13,7 @@ ToSkinnableSlot >> write: aValue to: anObject [
 	" change the property value actually "
 	r := super write: aValue to: anObject.
 
+	r ifNotNil: [ r withSkin: (anObject toTheme skinFor: r) ].
 	" value has changed, dispath to the property parent to update the property skin"
 	anObject dispatchEvent: (ToSkinnablePropertyChangedEvent new
 			 holder: anObject;

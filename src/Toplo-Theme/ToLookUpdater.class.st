@@ -17,7 +17,7 @@ ToLookUpdater class >> forProperty: aPropertyDefinition [
 { #category : #accessing }
 ToLookUpdater >> addSubscription: aSubscription [
 
-	self subscriptions add: aSubscription
+	subscriptions := subscriptions copyWith: aSubscription
 ]
 
 { #category : #'api - accessing' }
@@ -31,7 +31,7 @@ ToLookUpdater >> findLookUpdaterForPropertyNamed: name [
 ToLookUpdater >> initialize [ 
 
 	super initialize.
-	subscriptions := OrderedCollection new
+	subscriptions := #()
 ]
 
 { #category : #accessing }
@@ -59,6 +59,12 @@ ToLookUpdater >> receiveLookEvent: aLookEvent [
 ]
 
 { #category : #accessing }
+ToLookUpdater >> removeSubscription: aSubscription [
+
+	subscriptions := subscriptions copyWithout: aSubscription
+]
+
+{ #category : #accessing }
 ToLookUpdater >> subscriptions [
 
 	^ subscriptions 
@@ -70,9 +76,9 @@ ToLookUpdater >> when: aLookEventClass do: aBlock [
 	| subscr |
 	subscr := ToElementSubscription new
 		          valuable: aBlock;
-		          lookEventClasses: { aLookEventClass };
+		          eventClass: aLookEventClass;
 		          yourself.
-	subscriptions add: subscr
+	self addSubscription:subscr
 ]
 
 { #category : #declaring }
@@ -84,20 +90,15 @@ ToLookUpdater >> when: aLookEventClass value: aBlockOrValue [
 { #category : #declaring }
 ToLookUpdater >> when: aLookEventClass value: aBlockOrValue animation: anAnimation [
 
-	| existing subscr |
+	| subscr |
 	self property ifNil: [ Error signal: 'Invalid use: property is nil ' ].
-	" only one subscription is allowed per look event class "
-	existing := self subscriptions
-		            detect: [ :s |
-			            s isPropertyBased and: [
-				            s lookEventClasses includes: aLookEventClass ] ]
-		            ifNone: [  ].
-	existing ifNotNil: [ self subscriptions remove: existing ].
 	subscr := ToPropertySubscription new
 		          value: aBlockOrValue;
 		          property: self property;
 		          animation: anAnimation;
-		          lookEventClasses: { aLookEventClass }.
+		          eventClass: aLookEventClass.
+	" only one subscription is allowed per look event class and for the same property "
+	self subscriptions removeAllSuchThat: [ :s | subscr canReplace: s ].
 	self addSubscription: subscr
 ]
 

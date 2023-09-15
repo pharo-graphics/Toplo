@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSlotProperty,
-	#superclass : #ToLookProperty,
+	#superclass : #ToElementProperty,
 	#category : #'Toplo-Core-Properties'
 }
 

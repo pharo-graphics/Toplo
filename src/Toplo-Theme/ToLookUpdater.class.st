@@ -44,8 +44,7 @@ ToLookUpdater >> property [
 ToLookUpdater >> property: aLookProperty [
 
 	property ifNotNil: [ ^ Error signal: 'The property can be set only once' ].
-	property  := aLookProperty.
-	property ifNotNil: [ :p | p setAsPropertyIn: self ]
+	property  := aLookProperty
 ]
 
 { #category : #operating }
@@ -68,11 +67,12 @@ ToLookUpdater >> subscriptions [
 { #category : #declaring }
 ToLookUpdater >> when: aLookEventClass do: aBlock [
 
-	| v |
-	v := aBlock asElementSubscription
-		     lookEventClasses: { aLookEventClass };
-		     yourself.
-	subscriptions add: v
+	| subscr |
+	subscr := ToElementSubscription new
+		          valuable: aBlock;
+		          lookEventClasses: { aLookEventClass };
+		          yourself.
+	subscriptions add: subscr
 ]
 
 { #category : #declaring }
@@ -84,18 +84,21 @@ ToLookUpdater >> when: aLookEventClass value: aBlockOrValue [
 { #category : #declaring }
 ToLookUpdater >> when: aLookEventClass value: aBlockOrValue animation: anAnimation [
 
-	| existing |
+	| existing subscr |
 	self property ifNil: [ Error signal: 'Invalid use: property is nil ' ].
 	" only one subscription is allowed per look event class "
-	existing := self subscriptions 
-		detect: [ :subscr | 
-			subscr isPropertyBased and: [ subscr lookEventClasses includes: aLookEventClass ] ] 
-		ifNone: [  ].
+	existing := self subscriptions
+		            detect: [ :s |
+			            s isPropertyBased and: [
+				            s lookEventClasses includes: aLookEventClass ] ]
+		            ifNone: [  ].
 	existing ifNotNil: [ self subscriptions remove: existing ].
-	self addSubscription: ((aBlockOrValue asPropertySubscriptionFor: self property)
-			 lookEventClasses: { aLookEventClass };
-			 animation: anAnimation;
-			 yourself)
+	subscr := ToPropertySubscription new
+		          value: aBlockOrValue;
+		          property: self property;
+		          animation: anAnimation;
+		          lookEventClasses: { aLookEventClass }.
+	self addSubscription: subscr
 ]
 
 { #category : #declaring }

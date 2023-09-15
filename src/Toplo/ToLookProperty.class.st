@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'name'
 	],
-	#category : #'Toplo-Theme-LookUpdater'
+	#category : #'Toplo-Core-Properties'
 }
 
 { #category : #accessing }
@@ -33,12 +33,6 @@ ToLookProperty >> receiveLookEvent: aLookEvent from: aPropertySubscription [
 	rawValue := (aPropertySubscription valueIn: target).
 	valueWriter := aPropertySubscription valueWriter.
 	valueWriter write: rawValue to: target
-]
-
-{ #category : #operating }
-ToLookProperty >> setAsPropertyIn: aLookUpdater [
-
-	" do nothing by default (auto property will)"
 ]
 
 { #category : #operating }

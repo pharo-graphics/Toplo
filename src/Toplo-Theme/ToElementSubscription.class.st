@@ -7,12 +7,6 @@ Class {
 	#category : #'Toplo-Theme-LookUpdater'
 }
 
-{ #category : #converting }
-ToElementSubscription >> asElementSubscription [
-
-	^ self
-]
-
 { #category : #operating }
 ToElementSubscription >> receiveLookEvent: aLookEvent [
 

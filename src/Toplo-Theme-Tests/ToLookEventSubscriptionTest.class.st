@@ -13,7 +13,7 @@ ToLookEventSubscriptionTest >> testElementSubscription [
 	| w adapter |
 	w := ToElement new.
 	adapter := ToElementSubscription new valuable: [:e | e background: Color blue ].
-	adapter lookEventClass: ToInitialLookEvent.
+	adapter lookEventClasses: { ToInitialLookEvent }.
 	" whatever the LookEvent, the result should be the same "
 	adapter receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
 	self assert: (w background isKindOf: BlPaintBackground).
@@ -23,7 +23,7 @@ ToLookEventSubscriptionTest >> testElementSubscription [
 { #category : #tests }
 ToLookEventSubscriptionTest >> testElementSubscriptionWithNonTrivialValuableConvertedASElementUpdater [
 
-	| w adapter disabledImage checkedImage uncheckedImage indeterminateImage switch |
+	| w subscr disabledImage checkedImage uncheckedImage indeterminateImage switch |
 	w := ToCheckLookTestElement new.
 	w initializeCheckable.
 	w initializeDresser.
@@ -60,26 +60,28 @@ ToLookEventSubscriptionTest >> testElementSubscriptionWithNonTrivialValuableConv
 							          indeterminateImage removeFromParent.
 							          e iconImage: indeterminateImage ] ] ] ].
 
-	adapter := switch asElementSubscription.
-	adapter lookEventClass: ToInitialLookEvent.
+	subscr := ToElementSubscription new
+		          valuable: switch;
+		          lookEventClasses: { ToInitialLookEvent };
+		          yourself.
 	" whatever the LookEvent, the result should be the same "
-	adapter receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
+	subscr receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
 	" since the checkable is unchecked by default "
 	self assert: w icon innerImage equals: uncheckedImage.
 	
 	w checked: true.
 	" whatever the LookEvent, the result should be the same "
-	adapter receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
+	subscr receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
 	self assert: w icon innerImage equals: checkedImage.
 	
 	w checked: nil.
 	" whatever the LookEvent, the result should be the same "
-	adapter receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
+	subscr receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
 	self assert: w icon innerImage equals: indeterminateImage.
 	
 	w disable.
 	" whatever the LookEvent, the result should be the same "
-	adapter receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
+	subscr receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
 	self assert: w icon innerImage equals: disabledImage.
 
 
@@ -91,7 +93,7 @@ ToLookEventSubscriptionTest >> testElementSubscriptionWithValuableConvertedASEle
 	| w adapter |
 	w := ToElement new.
 	adapter := ToElementSubscription new valuable: [:e | e background: Color blue ].
-	adapter lookEventClass: ToInitialLookEvent.
+	adapter lookEventClasses: { ToInitialLookEvent }.
 	" whatever the LookEvent, the result should be the same "
 	adapter receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
 	self assert: (w background isKindOf: BlPaintBackground).
@@ -101,15 +103,17 @@ ToLookEventSubscriptionTest >> testElementSubscriptionWithValuableConvertedASEle
 { #category : #tests }
 ToLookEventSubscriptionTest >> testPropertySubscription [
 
-	| w prop adapter |
+	| w prop subscription |
 	w := ToElement new.
 	prop := ToPseudoProperty new.
 	prop writer: [ :e :v | e background: v ].
-	adapter := Color blue asPropertySubscriptionFor: prop.
-	adapter lookEventClass: ToInitialLookEvent.
-	self assert: adapter property equals: prop.
+	subscription := ToPropertySubscription new
+		  value: Color blue;
+		  property: prop;
+			lookEventClasses: { ToInitialLookEvent }.
+	self assert: subscription property equals: prop.
 	" whatever the LookEvent, the result should be the same "
-	adapter receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
+	subscription receiveLookEvent: (ToInitialLookEvent new currentTarget: w).
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color blue
 ]
@@ -153,10 +157,9 @@ ToLookEventSubscriptionTest >> testPropertySubscriptionWithNonTrivialValuable [
 	prop := ToPseudoProperty new.
 	prop writer: [ :e :v | v removeFromParent. e iconImage: v ].
 	
-	adapter := ToExplicitPropertySubscription new
+	adapter := ToPropertySubscription new
 		  value: switch;
 		  property: prop;
-		  lookEventClass: ToInitialLookEvent;
 		  yourself.
 
 	" whatever the LookEvent, the result should be the same "

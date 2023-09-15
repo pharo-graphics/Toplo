@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSlotProperty,
 	#superclass : #ToLookProperty,
-	#category : #'Toplo-Theme-LookUpdater'
+	#category : #'Toplo-Core-Properties'
 }
 
 { #category : #accessing }

@@ -5,7 +5,7 @@ Class {
 		'writer',
 		'reader'
 	],
-	#category : #'Toplo-Theme-LookUpdater'
+	#category : #'Toplo-Core-Properties'
 }
 
 { #category : #'instance creation' }

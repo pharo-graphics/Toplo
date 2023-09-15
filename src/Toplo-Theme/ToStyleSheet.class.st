@@ -58,23 +58,6 @@ ToStyleSheet class >> propertyList [
 				writer: [ :e :v | 
 					v removeFromParent.
 				   e iconImage: v ]).
-			(ToAutoProperty
-			   name: #'checkable-auto-icon-image'
-			   reader: [ :e | e icon innerImage ]
-				writer: [ :e :v | 
-					v removeFromParent.
-				   e iconImage: v ]
-				value: [ :e :event | 
-					e isDisabled
-		          ifTrue: [  e disabledImage   ]
-		          ifFalse: [
-			          e isChecked
-				          ifTrue: [  e checkedImage  ]
-				          ifFalse: [
-					          e isUnchecked
-						          ifTrue: [ e uncheckedImage   ]
-						          ifFalse: [  e indeterminateImage ] ] ] ]
-				events: {ToInitialLookEvent. ToClickedLookEvent }).
 		  (ToInstVarProperty name: #layout).
 		  (ToPseudoProperty
 			   name: #'layout-direction'

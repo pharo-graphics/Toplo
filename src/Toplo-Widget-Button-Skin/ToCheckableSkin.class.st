@@ -64,15 +64,25 @@ ToCheckableSkin >> labelSkinIn: aButton [
 { #category : #'api - install/uninstall  hook' }
 ToCheckableSkin >> onSkinInstalledIn: anElement [
 
-	super onSkinInstalledIn: anElement.
-	self addLookUpdater: (anElement styleSheet newLookUpdaterForPropertyName: #'checkable-auto-icon-image')
-]
+	| switch |
+	
+	switch := [ :e |
+	          e isDisabled
+		          ifTrue: [  e disabledImage   ]
+		          ifFalse: [
+			          e isChecked
+				          ifTrue: [  e checkedImage  ]
+				          ifFalse: [
+					          e isUnchecked
+						          ifTrue: [ e uncheckedImage   ]
+						          ifFalse: [  e indeterminateImage   ] ] ] ].
 
-{ #category : #'api - install/uninstall  hook' }
-ToCheckableSkin >> onSkinInstalledInNew: anElement [
-
 	super onSkinInstalledIn: anElement.
-	self addLookUpdater: (anElement styleSheet newLookUpdaterForPropertyName: #'checkable-auto-icon-image')
+	self addLookUpdater: ((anElement styleSheet newLookUpdaterForPropertyName: #'checkable-icon-image')
+			when: ToInitialLookEvent value: switch;
+			when: ToDisabledLookEvent value: switch;
+			when: ToClickedLookEvent value: switch;
+			yourself)
 ]
 
 { #category : #'accessing images' }

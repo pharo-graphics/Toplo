@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSkinnableSlot,
 	#superclass : #IndexedSlot,
-	#category : #'Toplo-Core-Slots'
+	#category : #'Toplo-Core-Properties'
 }
 
 { #category : #'meta-object-protocol' }

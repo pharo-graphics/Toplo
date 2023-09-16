@@ -72,14 +72,15 @@ TToTriplet >> justified [
 { #category : #'t - triplet - configuration' }
 TToTriplet >> justified: aBoolean [
 
+	| prev |
 	justified = aBoolean ifTrue: [ ^ self ].
-	justified traceCr.
+	prev := justified.
 	justified := aBoolean.
 	self dispatchEvent: (ToPropertyChangedEvent new
 			 slotName: #justified;
 			 holder: self;
-			 previous: false;
-			 current: true;
+			 previous: prev;
+			 current: justified;
 			 yourself)
 ]
 

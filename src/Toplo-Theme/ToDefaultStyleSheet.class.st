@@ -52,6 +52,18 @@ ToDefaultStyleSheet >> addCommonButtonRules [
 							yourself
 						}
 					).
+	self addRule: (ToStyleRule new
+			 selectors: { 
+				((ToStyleClassSelector new styleClass: #'inner-element')
+					parent: ((ToStyleClassSelector new styleClasses: #(#button #horizontal #justified)) 
+						or: (ToStyleClassSelector new styleClasses: #(#button #justified)))
+					level: 1) }
+			 looks: {
+					(self newLookUpdaterForPropertyName: #'layout') 
+							when: ToInstallLookEvent value: [:e | BlLinearLayout horizontal] ;
+							yourself
+						}
+					).
 		
 	self addRule: (ToStyleRule new
 			 selectors: { 
@@ -74,15 +86,8 @@ ToDefaultStyleSheet >> addCommonButtonRules [
 							yourself
 						}
 					).
-	"self addRule: (ToStyleRule new
-			 selectors: { 
-				(ToStyleClassSelector new styleClasses: #(#button ""#horizontal"" #justified)) }
-			 looks: {
-					(self newLookUpdaterForPropertyName: #justified) 
-							when: ToInstallLookEvent value: true;
-							yourself
-						}
-					)."
+
+					
 	self addRule: (ToStyleRule new
 			 selectors: { 
 				(ToStyleClassSelector new styleClasses: #(#button #vertical))  }
@@ -94,7 +99,7 @@ ToDefaultStyleSheet >> addCommonButtonRules [
 					).
 					
 	self addRule: (ToStyleRule new
-			 selectors: { (ToStyleClassSelector new styleClass: #button) or: (ToStyleClassSelector new styleClasses: #(#button horizontal))}
+			 selectors: { (ToStyleClassSelector new styleClass: #button) or: (ToStyleClassSelector new styleClasses: #(#button #horizontal))}
 			 looks: {
 					(self newLookUpdaterForPropertyName: #'layout-interspace')
 						  when: ToInstallLookEvent value: [ :e | e toTheme paddingContentHorizontal / 3 ];
@@ -119,8 +124,17 @@ ToDefaultStyleSheet >> addCommonButtonRules [
 					  when: ToInstallLookEvent value: [ :e | 
 						(BlRoundedRectangleGeometry cornerRadius: e requestedHeight / 2)  ]
 					}
-				)
+				).
 
+	self addRule: (ToStyleRule new
+			 selectors: { 
+				(ToStyleClassSelector new styleClasses: #(#button #horizontal #justified)) or: (ToStyleClassSelector new styleClasses: #(#button #justified)) }
+			 looks: {
+					(self newLookUpdaterForPropertyName: #justified) 
+							when: ToInstallLookEvent value: true;
+							yourself
+						}
+					).
 
 ]
 

@@ -11,7 +11,7 @@ Class {
 { #category : #'event handling' }
 ToTripletDresser >> checkJustificationin: anElement [
 
-	anElement isJustified ifFalse: [
+	(anElement isJustified and: [anElement isHorizontal]) ifFalse: [
 		interspace := nil.
 		^ self ].
 	interspace ifNil: [ interspace := self newInterspace ].

@@ -33,13 +33,6 @@ ToLookUpdater >> disabledValue: anObjectOrBlock [
 	^ self when: ToDisabledLookEvent value: anObjectOrBlock
 ]
 
-{ #category : #'api - accessing' }
-ToLookUpdater >> findLookUpdaterForPropertyNamed: name [
-
-	self property name = name ifTrue: [ ^ self ].
-	^ super findLookUpdaterForPropertyNamed: name
-]
-
 { #category : #'syntactic sugar' }
 ToLookUpdater >> focusedValue: anObjectOrBlock [
 

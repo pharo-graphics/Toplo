@@ -22,12 +22,6 @@ ToElementLook >> elementLookEvent: anEvent [
 
 ]
 
-{ #category : #'api - accessing' }
-ToElementLook >> findLookUpdaterForPropertyNamed: name [
-
-	^ self next findLookUpdaterForPropertyNamed: name
-]
-
 { #category : #testing }
 ToElementLook >> isNull [
 

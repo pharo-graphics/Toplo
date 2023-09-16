@@ -53,12 +53,6 @@ ToWidgetSkin >> eventsToHandle [
 		  ToLayoutDirectionChangedEvent }
 ]
 
-{ #category : #'api - accessing' }
-ToWidgetSkin >> findLookUpdaterForPropertyNamed: aName [
-
-	^ self firstLookUpdater findLookUpdaterForPropertyNamed: aName
-]
-
 { #category : #accessing }
 ToWidgetSkin >> firstLookUpdater [
 

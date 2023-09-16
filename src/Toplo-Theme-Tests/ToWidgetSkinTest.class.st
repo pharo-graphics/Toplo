@@ -443,7 +443,7 @@ ToWidgetSkinTest >> testOnlyOnePropertyUpdaterPerLookEventClass [
 		when: ToInitialLookEvent value: (BlBackground paint: Color red);
 		when: ToDisabledLookEvent value: (BlBackground paint: Color gray);
 		when: ToPressedLookEvent value: (BlBackground paint: Color blue);
-		" ToHoveredLookEvent used 2 times -> only the last remaains "
+		" ToHoveredLookEvent used 2 times -> only the last remains "
 		when: ToHoveredLookEvent value: (BlBackground paint: Color white);
 		when: ToHoveredLookEvent value: (BlBackground paint: Color brown);
 		yourself.

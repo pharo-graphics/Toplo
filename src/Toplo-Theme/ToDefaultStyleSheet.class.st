@@ -22,7 +22,7 @@ ToDefaultStyleSheet >> addCommonButtonRules [
 
 	"  for the record: thinking about a concise syntax 
 
-	'button:hover' rule: [ :e | e mouseCursor: BlCursor hand ].
+	'button:hover' rule: [ :e | e mouseCursor: BlCursor hand. e background: Color gray. e font-size: 18 ].
 	'button:leave' rule: [ :e | e mouseCursor: nil ].
 
 	'button' rule: [ :e | e background: Color white ].
@@ -30,9 +30,7 @@ ToDefaultStyleSheet >> addCommonButtonRules [
 	'button:leave' rule: [ :e | e background: Color white ].
 	'button:hover, button:leave' rule: [ :e | e background: Color gray ].
 	'button:leave' rule: [ :e | e background: Color white ].
-
 	"
-
 
 	self addRule: (ToStyleRule new
 			selectors: { (self classes: #( #button )) }

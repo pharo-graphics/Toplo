@@ -149,7 +149,7 @@ ToDefaultStyleSheetTest >> testJustifiedButtonSkin3 [
 	button addStyleClass: #justified.
 	button switchToSkinState: ToInstallState new.
 	button switchToSkinState: ToInitialState new.
-	button openInSpace.
+	"button openInSpace."
 	self assert: button privateSkin class identicalTo: ToWidgetSkin.
 	self assert: button label privateSkin class identicalTo: ToWidgetSkin.
 	self assert: button border width equals: 1.

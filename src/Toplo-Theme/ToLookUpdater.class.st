@@ -115,6 +115,12 @@ ToLookUpdater >> receiveLookEvent: aLookEvent [
 ]
 
 { #category : #accessing }
+ToLookUpdater >> removeAllSubscriptions: aSubscriptionCollection [
+
+	subscriptions := subscriptions copyWithoutAll: aSubscriptionCollection
+]
+
+{ #category : #accessing }
 ToLookUpdater >> removeSubscription: aSubscription [
 
 	subscriptions := subscriptions copyWithout: aSubscription
@@ -170,7 +176,7 @@ ToLookUpdater >> when: aLookEventClass value: aBlockOrValue [
 { #category : #declaring }
 ToLookUpdater >> when: aLookEventClass value: aBlockOrValue animation: anAnimation [
 
-	| subscr |
+	| subscr replacedSubscriptions |
 	self property ifNil: [ Error signal: 'Invalid use: property is nil ' ].
 	subscr := ToPropertySubscription new
 		          value: aBlockOrValue;
@@ -178,7 +184,8 @@ ToLookUpdater >> when: aLookEventClass value: aBlockOrValue animation: anAnimati
 		          animation: anAnimation;
 		          eventClass: aLookEventClass.
 	" only one subscription is allowed per look event class and for the same property "
-	self subscriptions removeAllSuchThat: [ :s | subscr canReplace: s ].
+	replacedSubscriptions := self subscriptions select: [ :s | subscr canReplace: s ].
+	self removeAllSubscriptions: replacedSubscriptions.
 	self addSubscription: subscr
 ]
 

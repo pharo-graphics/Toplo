@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCircleShaping,
 	#superclass : #ToControlShaping,
-	#category : #'Toplo-Theme-Skin'
+	#category : #'Toplo-Theme-Skin-dep'
 }
 
 { #category : #hook }

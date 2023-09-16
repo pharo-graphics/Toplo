@@ -3,7 +3,8 @@ Class {
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'installStep',
-		'firstLookUpdater'
+		'firstLookUpdater',
+		'subscriptions'
 	],
 	#category : #'Toplo-Theme-Skin'
 }
@@ -20,6 +21,12 @@ ToWidgetSkin >> addLookUpdater: aLook [
 	aLook isNull ifTrue: [ ^ self ].
 	aLook next: firstLookUpdater.
 	self privateLookUpdater: aLook
+]
+
+{ #category : #accessing }
+ToWidgetSkin >> addSubscription: aSubscription [
+
+	subscriptions := subscriptions copyWith: aSubscription
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -71,6 +78,7 @@ ToWidgetSkin >> initialize [
 
 	super initialize.
 	self markAsNotInstalled.
+	subscriptions := #().
 	self privateLookUpdater: ToNullElementLook new
 ]
 
@@ -179,6 +187,12 @@ ToWidgetSkin >> propertyChangedEvent: anEvent [
 
 ]
 
+{ #category : #accessing }
+ToWidgetSkin >> removeAllSubscriptions: aSubscriptionCollection [
+
+	subscriptions := subscriptions copyWithoutAll: aSubscriptionCollection
+]
+
 { #category : #removing }
 ToWidgetSkin >> removeLookUpdater: aLook [
 
@@ -187,10 +201,22 @@ ToWidgetSkin >> removeLookUpdater: aLook [
 		ifFalse: [ firstLookUpdater removeLook: aLook previous: nil ]
 ]
 
+{ #category : #accessing }
+ToWidgetSkin >> removeSubscription: aSubscription [
+
+	subscriptions := subscriptions copyWithout: aSubscription
+]
+
 { #category : #'event handling' }
 ToWidgetSkin >> skinChangedEvent: anEvent [
 
 	anEvent target childrenDo: [ :child | child updateSkin ]
+]
+
+{ #category : #accessing }
+ToWidgetSkin >> subscriptions [
+
+	^ subscriptions 
 ]
 
 { #category : #'event handling' }

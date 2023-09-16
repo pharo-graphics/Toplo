@@ -6,7 +6,7 @@ Class {
 		'property',
 		'duration'
 	],
-	#category : #'Toplo-Theme-LookUpdater'
+	#category : #'Toplo-Theme-Skin'
 }
 
 { #category : #accessing }

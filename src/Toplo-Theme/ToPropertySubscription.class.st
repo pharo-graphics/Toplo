@@ -6,7 +6,7 @@ Class {
 		'property',
 		'animation'
 	],
-	#category : #'Toplo-Theme-LookUpdater'
+	#category : #'Toplo-Theme-Skin'
 }
 
 { #category : #accessing }

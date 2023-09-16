@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'valuable'
 	],
-	#category : #'Toplo-Theme-LookUpdater'
+	#category : #'Toplo-Theme-Skin'
 }
 
 { #category : #testing }

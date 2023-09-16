@@ -1,7 +1,7 @@
 Class {
 	#name : #ToPropertyColorTransitionAnimation,
 	#superclass : #ToPropertyAnimation,
-	#category : #'Toplo-Theme-LookUpdater'
+	#category : #'Toplo-Theme-Skin'
 }
 
 { #category : #writing }

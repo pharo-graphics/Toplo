@@ -172,12 +172,6 @@ BlElement >> privateToTheme: aTheme [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> propertyNamed: aName [
-
-	^ self styleSheet propertyNamed: aName
-]
-
-{ #category : #'*Toplo' }
 BlElement >> removeStyleClass: aSymbol [
 
 	| cls |

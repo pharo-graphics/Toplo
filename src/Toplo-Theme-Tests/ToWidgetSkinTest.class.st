@@ -26,7 +26,7 @@ ToWidgetSkinTest >> propertyList [
 ToWidgetSkinTest >> setUp [ 
 
 	super setUp.
-	propertyIndex := ToStyleSheet newPropertyIndex
+	propertyIndex := ToPropertyIndex new recordAll: self propertyList; yourself
 ]
 
 { #category : #tests }
@@ -499,7 +499,7 @@ ToWidgetSkinTest >> testPropertyAnimationNeedReadableProperty [
 			   reader: nil
 			   writer: [ :e :v | e background: v ].
 	look := self propertyIndex newLookUpdaterForPropertyName: #'background-color'.
-	look property: prop.
+	self should: [ look property: prop ] raise: Error.
 	look
 		when: ToInstallLookEvent value: Color white;
 		when: ToHoveredLookEvent value: Color black animation: animation;
@@ -511,7 +511,7 @@ ToWidgetSkinTest >> testPropertyAnimationNeedReadableProperty [
 	w switchToSkinState: ToInstallState new.
 	self assert: w background paint color equals: Color white.
 
-	self should: [w switchToSkinState: ToHoveredState new] raise: MessageNotUnderstood 
+	w switchToSkinState: ToHoveredState new
 	
 ]
 

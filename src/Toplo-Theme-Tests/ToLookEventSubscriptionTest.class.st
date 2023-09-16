@@ -160,6 +160,7 @@ ToLookEventSubscriptionTest >> testPropertySubscriptionWithNonTrivialValuable [
 	adapter := ToPropertySubscription new
 		  value: switch;
 		  property: prop;
+		  eventClass: ToInitialLookEvent;
 		  yourself.
 
 	" whatever the LookEvent, the result should be the same "

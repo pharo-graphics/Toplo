@@ -21,11 +21,41 @@ ToLookUpdater >> addSubscription: aSubscription [
 	subscriptions := subscriptions copyWith: aSubscription
 ]
 
+{ #category : #'syntactic sugar' }
+ToLookUpdater >> clickedValue: anObjectOrBlock [
+
+	^ self when: ToClickedLookEvent value: anObjectOrBlock
+]
+
+{ #category : #'syntactic sugar' }
+ToLookUpdater >> disabledValue: anObjectOrBlock [
+
+	^ self when: ToDisabledLookEvent value: anObjectOrBlock
+]
+
 { #category : #'api - accessing' }
 ToLookUpdater >> findLookUpdaterForPropertyNamed: name [
 
 	self property name = name ifTrue: [ ^ self ].
 	^ super findLookUpdaterForPropertyNamed: name
+]
+
+{ #category : #'syntactic sugar' }
+ToLookUpdater >> focusedValue: anObjectOrBlock [
+
+	^ self when: ToFocusedLookEvent value: anObjectOrBlock
+]
+
+{ #category : #'syntactic sugar' }
+ToLookUpdater >> hoveredValue: anObjectOrBlock [
+
+	^ self when: ToHoveredLookEvent value: anObjectOrBlock
+]
+
+{ #category : #'syntactic sugar' }
+ToLookUpdater >> initialValue: anObjectOrBlock [
+
+	^ self when: ToInitialLookEvent value: anObjectOrBlock
 ]
 
 { #category : #initialization }
@@ -34,6 +64,30 @@ ToLookUpdater >> initialize [
 	super initialize.
 	subscriptions := #().
 	supplement := false
+]
+
+{ #category : #'syntactic sugar' }
+ToLookUpdater >> installValue: anObjectOrBlock [
+
+	^ self when: ToInstallLookEvent value: anObjectOrBlock
+]
+
+{ #category : #'syntactic sugar' }
+ToLookUpdater >> leavedValue: anObjectOrBlock [
+
+	^ self when: ToLeavedLookEvent value: anObjectOrBlock
+]
+
+{ #category : #'syntactic sugar' }
+ToLookUpdater >> openedValue: anObjectOrBlock [
+
+	^ self when: ToOpenedLookEvent value: anObjectOrBlock
+]
+
+{ #category : #'syntactic sugar' }
+ToLookUpdater >> pressedValue: anObjectOrBlock [
+
+	^ self when: ToPressedLookEvent value: anObjectOrBlock
 ]
 
 { #category : #accessing }
@@ -66,6 +120,12 @@ ToLookUpdater >> removeSubscription: aSubscription [
 	subscriptions := subscriptions copyWithout: aSubscription
 ]
 
+{ #category : #'syntactic sugar' }
+ToLookUpdater >> selectedValue: anObjectOrBlock [
+
+	^ self when: ToSelectedLookEvent value: anObjectOrBlock
+]
+
 { #category : #accessing }
 ToLookUpdater >> subscriptions [
 
@@ -82,6 +142,12 @@ ToLookUpdater >> supplement [
 ToLookUpdater >> supplement: aBoolean [
 
 	supplement := aBoolean
+]
+
+{ #category : #'syntactic sugar' }
+ToLookUpdater >> uninstallValue: anObjectOrBlock [
+
+	^ self when: ToUninstallLookEvent value: anObjectOrBlock
 ]
 
 { #category : #declaring }

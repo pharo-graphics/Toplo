@@ -8,6 +8,17 @@ Class {
 ToDefaultStyleSheet >> addButtonRules [
 	" no border for #text and #link ( which elementClass includes #'no-border' ) "
 
+	self addCommonButtonRules.
+
+	self addDefaultButtonRules.
+	self addPrimaryButtonRules.
+	self addTextButtonRules.
+	self addLinkButtonRules
+]
+
+{ #category : #'initialization-button' }
+ToDefaultStyleSheet >> addCommonButtonRules [
+	" ToButton common rule for layout "
 
 	self addRule: (ToStyleRule new
 			selectors: { (ToStyleClassSelector new styleClasses: #( #button )) }
@@ -19,7 +30,7 @@ ToDefaultStyleSheet >> addButtonRules [
 				  			ifFalse: [  ] ];
 					when: ToLeavedLookEvent value: nil;
 					yourself  }).
-
+""
 	self addRule: (ToStyleRule new
 			 selectors: { (ToStyleClassSelector new styleClasses: #( #button #'no-border' )) }
 			 looks: { self newLookUpdaterForPropertyName: #border }).
@@ -29,10 +40,88 @@ ToDefaultStyleSheet >> addButtonRules [
 			 selectors: { (ToStyleClassSelector new styleClasses: #( #button #'no-background' )) }
 			 looks: { self newLookUpdaterForPropertyName: #background }).
 
-	self addDefaultButtonRules.
-	self addPrimaryButtonRules.
-	self addTextButtonRules.
-	self addLinkButtonRules
+					
+	self addRule: (ToStyleRule new
+			 selectors: { 
+				((ToStyleClassSelector new styleClass: #'inner-element')
+					parent: ((ToStyleClassSelector new styleClasses: #(#button #horizontal)) or: (ToStyleClassSelector new styleClasses: #(#button )))
+					level: 1) }
+			 looks: {
+					(self newLookUpdaterForPropertyName: #'layout') 
+							when: ToInstallLookEvent value: BlLinearLayout horizontal;
+							yourself
+						}
+					).
+		
+	self addRule: (ToStyleRule new
+			 selectors: { 
+				((ToStyleClassSelector new styleClass: #'inner-element')
+					parent: (ToStyleClassSelector new styleClasses: #(#button #vertical))
+					level: 1) }
+			 looks: {
+					(self newLookUpdaterForPropertyName: #'layout') 
+							when: ToInstallLookEvent value: BlLinearLayout vertical;
+							yourself
+						}
+					).	
+						
+	self addRule: (ToStyleRule new
+			 selectors: { 
+				((ToStyleClassSelector new styleClasses: #(#button #horizontal)) or: (ToStyleClassSelector new styleClasses: #(#button ))) }
+			 looks: {
+					(self newLookUpdaterForPropertyName: #'layout') 
+							when: ToInstallLookEvent value: BlLinearLayout horizontal;
+							yourself
+						}
+					).
+	"self addRule: (ToStyleRule new
+			 selectors: { 
+				(ToStyleClassSelector new styleClasses: #(#button ""#horizontal"" #justified)) }
+			 looks: {
+					(self newLookUpdaterForPropertyName: #justified) 
+							when: ToInstallLookEvent value: true;
+							yourself
+						}
+					)."
+	self addRule: (ToStyleRule new
+			 selectors: { 
+				(ToStyleClassSelector new styleClasses: #(#button #vertical))  }
+			 looks: {
+					(self newLookUpdaterForPropertyName: #'layout') 
+							when: ToInstallLookEvent value: BlLinearLayout vertical;
+							yourself
+						}
+					).
+					
+	self addRule: (ToStyleRule new
+			 selectors: { (ToStyleClassSelector new styleClass: #button) or: (ToStyleClassSelector new styleClasses: #(#button horizontal))}
+			 looks: {
+					(self newLookUpdaterForPropertyName: #'layout-interspace')
+						  when: ToInstallLookEvent value: [ :e | e toTheme paddingContentHorizontal / 3 ];
+						  yourself.
+					(self newLookUpdaterForPropertyName: #'padding')
+						  when: ToInstallLookEvent value: [ :e | 
+							BlInsets
+		  						top: e toTheme paddingXS / 2
+		  						left: e toTheme paddingContentHorizontal / 2
+		  						bottom: e toTheme paddingXS / 2
+		 						right: e toTheme paddingContentHorizontal / 2 ];
+						  yourself.
+					(self newLookUpdaterForPropertyName: #'geometry')
+						  when: ToInstallLookEvent value: [ :e | (BlRoundedRectangleGeometry cornerRadius: e toTheme borderRadius)  ] 
+						}
+					).
+	
+	self addRule: (ToStyleRule new
+		 selectors: { (ToStyleClassSelector new styleClasses: #(#button #round)) }
+		 looks: {
+				(self newLookUpdaterForPropertyName: #'geometry')
+					  when: ToInstallLookEvent value: [ :e | 
+						(BlRoundedRectangleGeometry cornerRadius: e requestedHeight / 2)  ]
+					}
+				)
+
+
 ]
 
 { #category : #'initialization-button' }
@@ -144,23 +233,25 @@ ToDefaultStyleSheet >> addLinkButtonRules [
 					(ToStyleClassSelector new styleClasses: #(#button #link)) }
 			 looks: { 
 					(self newLookUpdaterForPropertyName: #background)
-						  when: ToInstallLookEvent value: [ :e | Color transparent ];
-						  yourself.
+						  	when: ToInstallLookEvent value: [ :e | Color transparent ];
+						  	yourself.
 					(self newLookUpdaterForPropertyName: #'border-with-builder')
-						  when: ToInstallLookEvent value: [ :e | e borderBuilder width: 0; yourself ] }).
+						  	when: ToInstallLookEvent value: [ :e | e borderBuilder width: 0; 
+							yourself ] }).
 
-	" ToButton text danger "
+	" ToButton link danger "
 	self addRule: (ToStyleRule new
 			 selectors: { 
 					(ToStyleClassSelector new styleClasses: #(#button #link #danger)) }
 			 looks: {
 					(self newLookUpdaterForPropertyName: #background)
-						  when: ToInstallLookEvent value: [ :e | Color transparent ];
-						  yourself.
+						  	when: ToInstallLookEvent value: [ :e | Color transparent ];
+						  	yourself.
 					(self newLookUpdaterForPropertyName: #'border-with-builder')
-						  when: ToInstallLookEvent value: [ :e | e borderBuilder width: 0; yourself ] }).
+						  	when: ToInstallLookEvent value: [ :e | e borderBuilder width: 0; 
+							yourself ] }).
 						
-	" button text form icon "
+	" button link form icon "
 	self addRule: (ToStyleRule new
 			 selectors: { 
 				((ToStyleClassSelector new styleClass: #'image')
@@ -174,7 +265,7 @@ ToDefaultStyleSheet >> addLinkButtonRules [
 						when: ToPressedLookEvent value: [ :e | e toTheme colorPrimaryPressed ]
 					  yourself }).
 
-	" button test label "
+	" button link label "
 	self addRule: (ToStyleRule new
 			 selectors: { 
 				((ToStyleClassSelector new styleClass: #label)
@@ -187,7 +278,7 @@ ToDefaultStyleSheet >> addLinkButtonRules [
 						when: ToPressedLookEvent value: [ :e | e toTheme colorPrimaryPressed ]
 					  yourself }).
 
-	" button text danger form icon "
+	" button link danger form icon "
 	self addRule: (ToStyleRule new
 			 selectors: { 
 				((ToStyleClassSelector new styleClass: #'image')
@@ -201,7 +292,7 @@ ToDefaultStyleSheet >> addLinkButtonRules [
 						when: ToPressedLookEvent value: [ :e | e toTheme colorError darker ]
 					  yourself }).
 
-	" button text danger label "
+	" button link danger label "
 	self addRule: (ToStyleRule new
 			 selectors: { 
 				((ToStyleClassSelector new styleClass: #label)

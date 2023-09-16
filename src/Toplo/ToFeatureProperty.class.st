@@ -1,11 +1,11 @@
 Class {
-	#name : #ToInstVarProperty,
+	#name : #ToFeatureProperty,
 	#superclass : #ToElementProperty,
 	#category : #'Toplo-Core-Properties'
 }
 
 { #category : #'instance creation' }
-ToInstVarProperty class >> name: aName [ 
+ToFeatureProperty class >> name: aName [ 
 
 	^ self new
 		  name: aName;
@@ -13,13 +13,13 @@ ToInstVarProperty class >> name: aName [
 ]
 
 { #category : #operating }
-ToInstVarProperty >> read: anObject [
+ToFeatureProperty >> read: anObject [
 
 	^ anObject perform: self name asSymbol
 ]
 
 { #category : #operating }
-ToInstVarProperty >> write: aPropertyValue to: anObject [
+ToFeatureProperty >> write: aPropertyValue to: anObject [
 
 	anObject perform: self name asSymbol asMutator with: aPropertyValue
 ]

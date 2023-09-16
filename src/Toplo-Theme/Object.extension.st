@@ -3,7 +3,7 @@ Extension { #name : #Object }
 { #category : #'*Toplo-Theme' }
 Object >> asInstVarPropertyDef [
 
-	^ ToInstVarProperty new
+	^ ToFeatureProperty new
 		  name: self;
 		  yourself
 ]

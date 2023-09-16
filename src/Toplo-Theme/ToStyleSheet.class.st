@@ -2,52 +2,28 @@ Class {
 	#name : #ToStyleSheet,
 	#superclass : #Object,
 	#instVars : [
-		'rules'
-	],
-	#classVars : [
-		'PropertyIndex'
+		'rules',
+		'propertyIndex'
 	],
 	#category : #'Toplo-Theme-StyleSheet'
 }
-
-{ #category : #'class initialization' }
-ToStyleSheet class >> initialize [ 
-
-	PropertyIndex := self newPropertyIndex.
-]
-
-{ #category : #accessing }
-ToStyleSheet class >> newLookUpdaterForPropertyName: aPropertyName [
-
-	^ self propertyIndex newLookUpdaterForPropertyName: aPropertyName
-]
-
-{ #category : #'class initialization' }
-ToStyleSheet class >> newPropertyIndex [
-
-	^ ToPropertyIndex new recordAll: self propertyList; yourself
-]
-
-{ #category : #accessing }
-ToStyleSheet class >> propertyIndex [
-
-	^ PropertyIndex ifNil: [ PropertyIndex := self newPropertyIndex ]
-]
 
 { #category : #accessing }
 ToStyleSheet class >> propertyList [
 
 	" skin managing need a list of unique property. See ToStyleSheet>>lookUpdatersFor: where properties are used in an IdentityDictionary"
 	^ {
-		  (ToInstVarProperty name: #mouseCursor).
-		  (ToInstVarProperty name: #background).
-		  (ToInstVarProperty name: #border).
-		  (ToInstVarProperty name: #size).
-		  (ToInstVarProperty name: #margin).
-		  (ToInstVarProperty name: #padding).
-		 	(ToInstVarProperty name: #icon).
-		  (ToInstVarProperty name: #label).
-		  (ToInstVarProperty name: #extra).
+		  (ToFeatureProperty name: #mouseCursor).
+		  (ToFeatureProperty name: #background).
+		  (ToFeatureProperty name: #geometry).
+		  (ToFeatureProperty name: #border).
+		  (ToFeatureProperty name: #size).
+		  (ToFeatureProperty name: #margin).
+		  (ToFeatureProperty name: #padding).
+		  (ToFeatureProperty name: #icon).
+		  (ToFeatureProperty name: #label).
+		  (ToFeatureProperty name: #extra).
+		  (ToFeatureProperty name: #justified).
 
 		  (ToPseudoProperty
 			   name: #'background-color'
@@ -72,7 +48,7 @@ ToStyleSheet class >> propertyList [
 		  		writer: [ :e :v |
 			  		e text attributes: { (BlTextForegroundAttribute paint: v) }.
 			  		e textChanged ] ).
-		  (ToInstVarProperty new name: #innerImage).
+		  (ToFeatureProperty new name: #innerImage).
 		  (ToPseudoProperty new
 		        name: #'image-inner-form-color';
 		        writer: [ :e :v |
@@ -86,7 +62,7 @@ ToStyleSheet class >> propertyList [
 				writer: [ :e :v | 
 					v removeFromParent.
 				   e iconImage: v ]).
-		  (ToInstVarProperty name: #layout).
+		  (ToFeatureProperty name: #layout).
 		  (ToPseudoProperty
 			   name: #'layout-direction'
 			   reader: [ :e | e layout direction ]
@@ -101,12 +77,6 @@ ToStyleSheet class >> propertyList [
 			   writer: [ :e :v | e layout interspace: v ]) }
 ]
 
-{ #category : #accessing }
-ToStyleSheet class >> propertyNamed: aName [
-
-	^ self propertyIndex propertyNamed: aName
-]
-
 { #category : #adding }
 ToStyleSheet >> addRule: aStyleRule [
 
@@ -118,6 +88,7 @@ ToStyleSheet >> initialize [
 
 	super initialize.
 	rules := OrderedCollection new.
+	propertyIndex := self newPropertyIndex.
 
 ]
 
@@ -141,19 +112,19 @@ ToStyleSheet >> lookUpdatersFor: anElement [
 { #category : #'accessing updaters' }
 ToStyleSheet >> newLookUpdaterForPropertyName: aPropertyName [
 
-	^ self class newLookUpdaterForPropertyName: aPropertyName
+	^ self propertyIndex newLookUpdaterForPropertyName: aPropertyName
 ]
 
 { #category : #initialization }
 ToStyleSheet >> newPropertyIndex [
 
-	^ self class newPropertyIndex
+	^ ToPropertyIndex new recordAll: self propertyList; yourself
 ]
 
 { #category : #accessing }
 ToStyleSheet >> propertyIndex [
 
-	^ self class propertyIndex
+	^ propertyIndex
 ]
 
 { #category : #initialization }
@@ -165,7 +136,7 @@ ToStyleSheet >> propertyList [
 { #category : #'accessing updaters' }
 ToStyleSheet >> propertyNamed: aName [
 
-	^ self class propertyNamed: aName
+	^ self propertyIndex propertyNamed: aName
 ]
 
 { #category : #operating }

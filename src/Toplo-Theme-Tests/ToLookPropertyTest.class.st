@@ -15,7 +15,7 @@ ToLookPropertyTest >> testInstVarPropertyDefinition [
 
 	| w prop |
 	w := ToElement new.
-	prop := ToInstVarProperty new.
+	prop := ToFeatureProperty new.
 	prop name: #background.
 	self assert: prop name equals: #background.
 	prop write: Color blue to: w.

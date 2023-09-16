@@ -37,7 +37,7 @@ TToTriplet >> initializeTriplet [
 
 	justified := false.
 	innerElement := ToElement new layout: BlLinearLayout horizontal; fitContent.
-	innerElement styleClass: #'triplet-inner-element'.
+	innerElement styleClass: #'inner-element'.
 	self layout: BlLinearLayout horizontal.
 	self addChild: innerElement.
 	self fitContent 
@@ -61,6 +61,26 @@ TToTriplet >> interspace: anInteger [
 TToTriplet >> isJustified [
 
 	^ justified ifNil: [ justified := false ]
+]
+
+{ #category : #'t - triplet - configuration' }
+TToTriplet >> justified [
+
+	^ justified
+]
+
+{ #category : #'t - triplet - configuration' }
+TToTriplet >> justified: aBoolean [
+
+	justified = aBoolean ifTrue: [ ^ self ].
+	justified traceCr.
+	justified := aBoolean.
+	self dispatchEvent: (ToPropertyChangedEvent new
+			 slotName: #justified;
+			 holder: self;
+			 previous: false;
+			 current: true;
+			 yourself)
 ]
 
 { #category : #'t - triplet - accessing' }

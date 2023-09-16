@@ -1,12 +1,6 @@
 Extension { #name : #Object }
 
 { #category : #'*Toplo' }
-Object >> asStateUpdater [ 
-
-	Error signal: 'Only valuable can be converted as an updater'
-]
-
-{ #category : #'*Toplo' }
 Object >> deprecatedInsteadOf: aString use: aStringToUse [
 	"Automatically tranform the deprecated call"
 

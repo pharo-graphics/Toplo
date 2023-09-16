@@ -25,19 +25,6 @@ ToLookPropertyTest >> testInstVarPropertyDefinition [
 ]
 
 { #category : #tests }
-ToLookPropertyTest >> testInstVarPropertyDefinition2 [
-
-	| w prop |
-	w := ToElement new.
-	prop := #background asInstVarPropertyDef.
-	self assert: prop name equals: #background.
-	prop write: Color blue to: w.
-	self assert: (w background isKindOf: BlPaintBackground).
-	self assert: w background paint color equals: Color blue.
-	self assert: (prop read: w) equals: w background
-]
-
-{ #category : #tests }
 ToLookPropertyTest >> testPseudoPropertyDefinition [
 
 	| w prop  writer |
@@ -64,19 +51,6 @@ ToLookPropertyTest >> testSlotPropertyDefinition [
 	w := ToCheckLookTestElement new.
 	prop := ToSlotProperty new.
 	prop name: #first.
-	self assert: prop name equals: #first.
-	first := BlElement new.
-	prop write: first to: w.
-	self assert: w first equals: first.
-	self assert: (prop read: w) equals: first
-]
-
-{ #category : #tests }
-ToLookPropertyTest >> testSlotPropertyDefinition2 [
-
-	| w prop first |
-	w := ToCheckLookTestElement new.
-	prop := #first asSlotPropertyDef.
 	self assert: prop name equals: #first.
 	first := BlElement new.
 	prop write: first to: w.

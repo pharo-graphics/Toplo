@@ -41,7 +41,7 @@ ToElementLook >> next: aLook [
 ]
 
 { #category : #operating }
-ToElementLook >> receiveLookEvent: aLookEvent [
+ToElementLook >> receiveEvent: aLookEvent [
 
 ]
 

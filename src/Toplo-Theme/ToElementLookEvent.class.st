@@ -40,5 +40,5 @@ ToElementLookEvent >> sendTo: anObject [
 { #category : #sending }
 ToElementLookEvent >> sendToLook: aLook [
 
-	aLook receiveLookEvent: self
+	aLook receiveEvent: self
 ]

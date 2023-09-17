@@ -1,6 +1,6 @@
 Class {
-	#name : #ToPropertySubscription,
-	#superclass : #ToLookEventSubscription,
+	#name : #ToPropertySubscriptionDep,
+	#superclass : #ToLookEventSubscriptionDep,
 	#instVars : [
 		'value',
 		'property',
@@ -10,13 +10,13 @@ Class {
 }
 
 { #category : #accessing }
-ToPropertySubscription >> animation [
+ToPropertySubscriptionDep >> animation [
 
 	^ animation
 ]
 
 { #category : #accessing }
-ToPropertySubscription >> animation: aPropertyAnimation [
+ToPropertySubscriptionDep >> animation: aPropertyAnimation [
 
 	animation := aPropertyAnimation.
 	animation ifNil: [ ^self ].
@@ -24,7 +24,7 @@ ToPropertySubscription >> animation: aPropertyAnimation [
 ]
 
 { #category : #testing }
-ToPropertySubscription >> canReplace: anotherSubscription [
+ToPropertySubscriptionDep >> canReplace: anotherSubscription [
 
 	^ (self isKindOf: anotherSubscription class) and: [
 		  self property = anotherSubscription property and: [
@@ -32,13 +32,13 @@ ToPropertySubscription >> canReplace: anotherSubscription [
 ]
 
 { #category : #accessing }
-ToPropertySubscription >> property [
+ToPropertySubscriptionDep >> property [
 
 	^ property
 ]
 
 { #category : #accessing }
-ToPropertySubscription >> property: aLookProperty [
+ToPropertySubscriptionDep >> property: aLookProperty [
 
 	property := aLookProperty.
 	self animation ifNotNil: [ :a |
@@ -46,7 +46,7 @@ ToPropertySubscription >> property: aLookProperty [
 ]
 
 { #category : #operating }
-ToPropertySubscription >> receiveLookEvent: aLookEvent [
+ToPropertySubscriptionDep >> receiveEvent: aLookEvent [
 
 	| target rawValue valueWriter |
 	(self canReceiveEvent: aLookEvent) ifFalse: [ ^ self ].
@@ -57,19 +57,19 @@ ToPropertySubscription >> receiveLookEvent: aLookEvent [
 ]
 
 { #category : #evaluating }
-ToPropertySubscription >> value [
+ToPropertySubscriptionDep >> value [
 
 	^ value
 ]
 
 { #category : #accessing }
-ToPropertySubscription >> value: anObject [
+ToPropertySubscriptionDep >> value: anObject [
 
 	value := anObject
 ]
 
 { #category : #operating }
-ToPropertySubscription >> valueIn: anElement [
+ToPropertySubscriptionDep >> valueIn: anElement [
 
 	^ value isClosure
 		  ifTrue: [ value value: anElement ]
@@ -77,7 +77,7 @@ ToPropertySubscription >> valueIn: anElement [
 ]
 
 { #category : #operating }
-ToPropertySubscription >> valueWriter [
+ToPropertySubscriptionDep >> valueWriter [
 
 	^ self animation ifNil: [ self property ].
 ]

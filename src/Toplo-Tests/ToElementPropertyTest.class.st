@@ -1,17 +1,14 @@
 "
-A ToPropertyDefinitionTest is a test class for testing the behavior of ToPropertyDefinition
+A ToElementPropertyTest is a test class for testing the behavior of ToElementProperty
 "
 Class {
-	#name : #ToLookPropertyTest,
+	#name : #ToElementPropertyTest,
 	#superclass : #TestCase,
-	#instVars : [
-		'reader'
-	],
-	#category : #'Toplo-Theme-Tests-LookUpdater'
+	#category : #'Toplo-Tests-Core-Properties'
 }
 
 { #category : #tests }
-ToLookPropertyTest >> testInstVarPropertyDefinition [
+ToElementPropertyTest >> testFeaturePropertyDefinition [
 
 	| w prop |
 	w := ToElement new.
@@ -25,9 +22,9 @@ ToLookPropertyTest >> testInstVarPropertyDefinition [
 ]
 
 { #category : #tests }
-ToLookPropertyTest >> testPseudoPropertyDefinition [
+ToElementPropertyTest >> testPseudoPropertyDefinition [
 
-	| w prop  writer |
+	| w prop  writer reader |
 	w := ToElement new.
 	prop := ToPseudoProperty new.
 	writer := [ :e :v | e background: v ].
@@ -45,7 +42,7 @@ ToLookPropertyTest >> testPseudoPropertyDefinition [
 ]
 
 { #category : #tests }
-ToLookPropertyTest >> testSlotPropertyDefinition [
+ToElementPropertyTest >> testSlotPropertyDefinition [
 
 	| w prop first |
 	w := ToCheckLookTestElement new.

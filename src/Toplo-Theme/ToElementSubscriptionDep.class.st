@@ -1,6 +1,6 @@
 Class {
-	#name : #ToElementSubscription,
-	#superclass : #ToLookEventSubscription,
+	#name : #ToElementSubscriptionDep,
+	#superclass : #ToLookEventSubscriptionDep,
 	#instVars : [
 		'valuable'
 	],
@@ -8,27 +8,27 @@ Class {
 }
 
 { #category : #testing }
-ToElementSubscription >> canReplace: anotherSubscription [
+ToElementSubscriptionDep >> canReplace: anotherSubscription [
 
 	^ (self isKindOf: anotherSubscription class) and: [
 		  self eventClass = anotherSubscription eventClass ]
 ]
 
 { #category : #operating }
-ToElementSubscription >> receiveLookEvent: aLookEvent [
+ToElementSubscriptionDep >> receiveEvent: aLookEvent [
 
 	(self canReceiveEvent: aLookEvent) ifFalse: [  ^ self ].
 	self valuable value: aLookEvent currentTarget
 ]
 
 { #category : #accessing }
-ToElementSubscription >> valuable [
+ToElementSubscriptionDep >> valuable [
 
 	^ valuable
 ]
 
 { #category : #accessing }
-ToElementSubscription >> valuable: aValuable [
+ToElementSubscriptionDep >> valuable: aValuable [
 
 	valuable := aValuable  
 ]

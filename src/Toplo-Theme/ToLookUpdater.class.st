@@ -21,66 +21,12 @@ ToLookUpdater >> addSubscription: aSubscription [
 	subscriptions := subscriptions copyWith: aSubscription
 ]
 
-{ #category : #'syntactic sugar' }
-ToLookUpdater >> clickedValue: anObjectOrBlock [
-
-	^ self when: ToClickedLookEvent value: anObjectOrBlock
-]
-
-{ #category : #'syntactic sugar' }
-ToLookUpdater >> disabledValue: anObjectOrBlock [
-
-	^ self when: ToDisabledLookEvent value: anObjectOrBlock
-]
-
-{ #category : #'syntactic sugar' }
-ToLookUpdater >> focusedValue: anObjectOrBlock [
-
-	^ self when: ToFocusedLookEvent value: anObjectOrBlock
-]
-
-{ #category : #'syntactic sugar' }
-ToLookUpdater >> hoveredValue: anObjectOrBlock [
-
-	^ self when: ToHoveredLookEvent value: anObjectOrBlock
-]
-
-{ #category : #'syntactic sugar' }
-ToLookUpdater >> initialValue: anObjectOrBlock [
-
-	^ self when: ToInitialLookEvent value: anObjectOrBlock
-]
-
 { #category : #initialization }
 ToLookUpdater >> initialize [ 
 
 	super initialize.
 	subscriptions := #().
 	supplement := false
-]
-
-{ #category : #'syntactic sugar' }
-ToLookUpdater >> installValue: anObjectOrBlock [
-
-	^ self when: ToInstallLookEvent value: anObjectOrBlock
-]
-
-{ #category : #'syntactic sugar' }
-ToLookUpdater >> leavedValue: anObjectOrBlock [
-
-	^ self when: ToLeavedLookEvent value: anObjectOrBlock
-]
-
-{ #category : #'syntactic sugar' }
-ToLookUpdater >> openedValue: anObjectOrBlock [
-
-	^ self when: ToOpenedLookEvent value: anObjectOrBlock
-]
-
-{ #category : #'syntactic sugar' }
-ToLookUpdater >> pressedValue: anObjectOrBlock [
-
-	^ self when: ToPressedLookEvent value: anObjectOrBlock
 ]
 
 { #category : #accessing }
@@ -97,13 +43,13 @@ ToLookUpdater >> property: aLookProperty [
 ]
 
 { #category : #operating }
-ToLookUpdater >> receiveLookEvent: aLookEvent [
+ToLookUpdater >> receiveEvent: aLookEvent [
 
 	| prevUpdater |
 	prevUpdater := aLookEvent currentUpdater.
 	aLookEvent currentUpdater: self.
 	" now continue with subscriptions "
-	self subscriptions do: [ :u | u receiveLookEvent: aLookEvent ].
+	self subscriptions do: [ :u | u receiveEvent: aLookEvent ].
 	aLookEvent currentUpdater: prevUpdater
 ]
 
@@ -117,12 +63,6 @@ ToLookUpdater >> removeAllSubscriptions: aSubscriptionCollection [
 ToLookUpdater >> removeSubscription: aSubscription [
 
 	subscriptions := subscriptions copyWithout: aSubscription
-]
-
-{ #category : #'syntactic sugar' }
-ToLookUpdater >> selectedValue: anObjectOrBlock [
-
-	^ self when: ToSelectedLookEvent value: anObjectOrBlock
 ]
 
 { #category : #accessing }
@@ -143,17 +83,11 @@ ToLookUpdater >> supplement: aBoolean [
 	supplement := aBoolean
 ]
 
-{ #category : #'syntactic sugar' }
-ToLookUpdater >> uninstallValue: anObjectOrBlock [
-
-	^ self when: ToUninstallLookEvent value: anObjectOrBlock
-]
-
 { #category : #declaring }
 ToLookUpdater >> when: aLookEventClass do: aBlock [
 
 	| subscr |
-	subscr := ToElementSubscription new
+	subscr := ToElementSubscriptionDep new
 		          valuable: aBlock;
 		          eventClass: aLookEventClass;
 		          yourself.
@@ -171,7 +105,7 @@ ToLookUpdater >> when: aLookEventClass value: aBlockOrValue animation: anAnimati
 
 	| subscr replacedSubscriptions |
 	self property ifNil: [ Error signal: 'Invalid use: property is nil ' ].
-	subscr := ToPropertySubscription new
+	subscr := ToPropertySubscriptionDep new
 		          value: aBlockOrValue;
 		          property: self property;
 		          animation: anAnimation;

@@ -2,7 +2,8 @@ Class {
 	#name : #ToLookEventSubscription,
 	#superclass : #Object,
 	#instVars : [
-		'lookEventClass'
+		'lookEventClass',
+		'writers'
 	],
 	#category : #'Toplo-Theme-Skin'
 }
@@ -25,14 +26,29 @@ ToLookEventSubscription >> eventClass [
 	^ lookEventClass
 ]
 
-{ #category : #accessing }
+{ #category : #'private - accessing' }
 ToLookEventSubscription >> eventClass: aLookEventClass [
 
 	lookEventClass := aLookEventClass
 ]
 
 { #category : #operating }
-ToLookEventSubscription >> receiveLookEvent: aLookEvent [
+ToLookEventSubscription >> receiveEvent: aLookEvent [
 
-	self subclassResponsibility 
+	| target |
+	(self canReceiveEvent: aLookEvent) ifFalse: [ ^ self ].
+	target := aLookEvent currentTarget.
+	self writers do: [ :w | w writeTo: target ]
+]
+
+{ #category : #accessing }
+ToLookEventSubscription >> writers [
+
+	^ writers ifNil: [ writers := #(  ) ]
+]
+
+{ #category : #accessing }
+ToLookEventSubscription >> writers: aPropertyWriterCollection [
+
+	writers := aPropertyWriterCollection asArray
 ]

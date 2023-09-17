@@ -83,6 +83,20 @@ ToStyleSheet >> addRule: aStyleRule [
 	rules add: aStyleRule 
 ]
 
+{ #category : #'syntactic sugar' }
+ToStyleSheet >> class: aSymbol [
+
+ 	^ ToStyleClassSelector new styleClass: aSymbol
+
+]
+
+{ #category : #'syntactic sugar' }
+ToStyleSheet >> classes: anArray [
+
+ 	^ ToStyleClassSelector new styleClasses: anArray
+
+]
+
 { #category : #initialization }
 ToStyleSheet >> initialize [ 
 
@@ -119,6 +133,12 @@ ToStyleSheet >> newLookUpdaterForPropertyName: aPropertyName [
 ToStyleSheet >> newPropertyIndex [
 
 	^ ToPropertyIndex new recordAll: self propertyList; yourself
+]
+
+{ #category : #'syntactic sugar' }
+ToStyleSheet >> property: aSymbol [
+
+	^ self propertyNamed: aSymbol
 ]
 
 { #category : #accessing }
@@ -164,6 +184,6 @@ ToStyleSheet >> skinFor: anElement [
 	| looks skin |
 	looks := self lookUpdatersFor: anElement.
 	skin := ToWidgetSkin new.
-	skin addAllLookUpdaters: looks.
+	skin addAllSubscriptions: looks.
 	^ skin
 ]

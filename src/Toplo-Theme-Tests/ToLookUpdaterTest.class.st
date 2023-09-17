@@ -23,7 +23,7 @@ ToLookUpdaterTest >> testLookUpdaterFailsWithPseudoPropertyWithWrongWriter [
 	updater when: ToInstallLookEvent value: Color white.
 
 	installEvent := ToInstallLookEvent new currentTarget: w.
-	self should: [ updater receiveLookEvent: installEvent ] raise: MessageNotUnderstood
+	self should: [ updater receiveEvent: installEvent ] raise: MessageNotUnderstood
 ]
 
 { #category : #tests }
@@ -51,7 +51,7 @@ ToLookUpdaterTest >> testLookUpdaterWithPseudoProperty [
 	updater when: ToInstallLookEvent value: Color white.
 
 	installEvent := ToInstallLookEvent new currentTarget: w..
-	updater receiveLookEvent: installEvent.
+	updater receiveEvent: installEvent.
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color white
 ]
@@ -71,17 +71,17 @@ ToLookUpdaterTest >> testLookUpdaterWithPseudoPropertyFor3StatesWithRawValue [
 	updater when: ToLeavedLookEvent value: Color gray.
 
 	installEvent := ToInstallLookEvent new currentTarget: w.
-	updater receiveLookEvent: installEvent.
+	updater receiveEvent: installEvent.
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color white.
 	
 	hoveredEvent := ToHoveredLookEvent new currentTarget: w.
-	updater receiveLookEvent: hoveredEvent.
+	updater receiveEvent: hoveredEvent.
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color red.
 	
 	leavedEvent := ToLeavedLookEvent new currentTarget: w.
-	updater receiveLookEvent: leavedEvent.
+	updater receiveEvent: leavedEvent.
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color gray
 ]
@@ -101,17 +101,17 @@ ToLookUpdaterTest >> testLookUpdaterWithPseudoPropertyFor3StatesWithValuable [
 	updater when: ToLeavedLookEvent value: [:e | Color gray].
 
 	installEvent := ToInstallLookEvent new currentTarget: w.
-	updater receiveLookEvent: installEvent.
+	updater receiveEvent: installEvent.
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color white.
 	
 	hoveredEvent := ToHoveredLookEvent new currentTarget: w.
-	updater receiveLookEvent: hoveredEvent.
+	updater receiveEvent: hoveredEvent.
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color red.
 	
 	leavedEvent := ToLeavedLookEvent new currentTarget: w.
-	updater receiveLookEvent: leavedEvent.
+	updater receiveEvent: leavedEvent.
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color gray
 ]
@@ -125,7 +125,7 @@ ToLookUpdaterTest >> testLookUpdaterWithoutProperty [
 	updater when: ToInstallLookEvent do: [ :e | e background: Color white ].
 
 	installEvent := ToInstallLookEvent new currentTarget: w.
-	updater receiveLookEvent: installEvent.
+	updater receiveEvent: installEvent.
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color white
 ]

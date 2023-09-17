@@ -15,6 +15,12 @@ ToWidgetSkin >> addAllLookUpdaters: aCollectionOfLook [
 	aCollectionOfLook do: [ :l | self addLookUpdater: l ]
 ]
 
+{ #category : #accessing }
+ToWidgetSkin >> addAllSubscriptions: aSubscriptionCollection [
+
+	subscriptions := subscriptions copyWithAll: aSubscriptionCollection
+]
+
 { #category : #adding }
 ToWidgetSkin >> addLookUpdater: aLook [
 
@@ -45,7 +51,8 @@ ToWidgetSkin >> dispatchChangedEventIn: anElement [
 { #category : #'event handling' }
 ToWidgetSkin >> elementLookEvent: anEvent [
 
-	anEvent sendTo: self firstLookUpdater
+	anEvent sendTo: self firstLookUpdater.
+	self subscriptions do: [ :s | s elementLookEvent: anEvent  ]
 ]
 
 { #category : #'api - accessing' }

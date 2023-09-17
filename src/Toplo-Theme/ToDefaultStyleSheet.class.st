@@ -32,7 +32,7 @@ ToDefaultStyleSheet >> addCommonButtonRules [
 	'button:leave' rule: [ :e | e background: Color white ].
 	"
 
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			selectors: { (self classes: #( #button )) }
 			looks: { 
 				(self property: #mouseCursor)
@@ -43,17 +43,17 @@ ToDefaultStyleSheet >> addCommonButtonRules [
 					leavedValue: nil;
 					yourself  }).
 ""
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { (self classes: #( #button #'no-border' )) }
 			 looks: { self property: #border }).
 
 	" no background for #link ( which elementClass includes #'no-background' ) "
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { (self classes: #( #button #'no-background' )) }
 			 looks: { self property: #background }).
 
 					
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 				((self class: #'inner-element')
 					parent: ((self classes: #(#button #horizontal)) or: (self classes: #(#button )))
@@ -64,7 +64,7 @@ ToDefaultStyleSheet >> addCommonButtonRules [
 							yourself
 						}
 					).
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 				((self class: #'inner-element')
 					parent: ((self classes: #(#button #horizontal #justified)) 
@@ -77,7 +77,7 @@ ToDefaultStyleSheet >> addCommonButtonRules [
 						}
 					).
 		
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 				((self class: #'inner-element')
 					parent: (self classes: #(#button #vertical))
@@ -89,7 +89,7 @@ ToDefaultStyleSheet >> addCommonButtonRules [
 						}
 					).	
 						
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 				((self classes: #(#button #horizontal)) or: (self classes: #(#button ))) }
 			 looks: {
@@ -100,7 +100,7 @@ ToDefaultStyleSheet >> addCommonButtonRules [
 					).
 
 					
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 				(self classes: #(#button #vertical))  }
 			 looks: {
@@ -110,7 +110,7 @@ ToDefaultStyleSheet >> addCommonButtonRules [
 						}
 					).
 					
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { (self class: #button) or: (self classes: #(#button #horizontal))}
 			 looks: {
 					(self property: #'layout-interspace')
@@ -129,7 +129,7 @@ ToDefaultStyleSheet >> addCommonButtonRules [
 						}
 					).
 	
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 		 selectors: { (self classes: #(#button #round)) }
 		 looks: {
 				(self property: #'geometry')
@@ -138,7 +138,7 @@ ToDefaultStyleSheet >> addCommonButtonRules [
 					}
 				).
 
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 				(self classes: #(#button #horizontal #justified)) or: (self classes: #(#button #justified)) }
 			 looks: {
@@ -156,7 +156,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 
 	" default button (class #button) "
 
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { (self class: #button) }
 			 looks: {
 					 (self property: #background)
@@ -171,7 +171,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 						  yourself }).
 
 	" default button form icon "
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 				((self class: #'image')
 					parent: (self class: #button)
@@ -185,7 +185,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 					  yourself }).
 
 	" default button label "
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 				((self class: #label)
 					  parent: (self class: #button)
@@ -198,7 +198,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 					  yourself }).
 
 	" ToButton default danger"
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { (ToStyleClassSelector new styleClasses: #( #button #danger )) }
 			 looks: {
 					 (self property: #background)
@@ -213,7 +213,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 						  yourself }).
 
 	" danger button form icon "
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 				((self class: #image)
 					  parent: (self classes: #( #button #danger ))
@@ -227,7 +227,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 						  yourself }).
 
 	" danger button label "
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 				((self class: #label)
 					parent: (self classes: #( #button #danger ))
@@ -241,7 +241,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 					     yourself }).
 					
 	" default button dashed "
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { (self classes: #( #dashed )) }
 			 looks: {
 					 (self property: #'border-with-builder')
@@ -254,7 +254,7 @@ ToDefaultStyleSheet >> addDefaultButtonRules [
 ToDefaultStyleSheet >> addLinkButtonRules [
 	" ToButton link "
 
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 					(self classes: #(#button #link)) }
 			 looks: { 
@@ -266,7 +266,7 @@ ToDefaultStyleSheet >> addLinkButtonRules [
 							yourself ] }).
 
 	" ToButton link danger "
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 					(self classes: #(#button #link #danger)) }
 			 looks: {
@@ -278,7 +278,7 @@ ToDefaultStyleSheet >> addLinkButtonRules [
 							yourself ] }).
 						
 	" button link form icon "
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 				((self class: #'image')
 					parent: (self classes: #(#button #link))
@@ -292,7 +292,7 @@ ToDefaultStyleSheet >> addLinkButtonRules [
 					  yourself }).
 
 	" button link label "
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 				((self class: #label)
 					  parent: (self classes: #(#button #link))
@@ -305,7 +305,7 @@ ToDefaultStyleSheet >> addLinkButtonRules [
 					  yourself }).
 
 	" button link danger form icon "
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 				((self class: #'image')
 					parent: (self classes: #(#button #link #danger))
@@ -319,7 +319,7 @@ ToDefaultStyleSheet >> addLinkButtonRules [
 					  yourself }).
 
 	" button link danger label "
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 				((self class: #label)
 					  parent: (self classes: #(#button #link #danger))
@@ -336,7 +336,7 @@ ToDefaultStyleSheet >> addLinkButtonRules [
 ToDefaultStyleSheet >> addPrimaryButtonRules [
 	" ToButton primary "
 
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 					((self class: #button) and:
 					  (self class: #primary)) }
@@ -353,7 +353,7 @@ ToDefaultStyleSheet >> addPrimaryButtonRules [
 						  yourself }).
 
 	" ToButton primary danger "
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 					((self class: #button) and:
 					  ((self class: #primary) and:
@@ -371,7 +371,7 @@ ToDefaultStyleSheet >> addPrimaryButtonRules [
 						  yourself }).
 						
 	" primary button form icon "
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 				((self class: #image)
 					parent: ((self class: #button) 
@@ -384,7 +384,7 @@ ToDefaultStyleSheet >> addPrimaryButtonRules [
 						yourself }).
 
 	" primary button label "
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 				((self class: #label)
 					  parent: ((self class: #button) 
@@ -402,7 +402,7 @@ ToDefaultStyleSheet >> addPrimaryButtonRules [
 ToDefaultStyleSheet >> addTextButtonRules [
 	" ToButton text "
 
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 					(self classes: #(#button #text)) }
 			 looks: { 
@@ -416,7 +416,7 @@ ToDefaultStyleSheet >> addTextButtonRules [
 						  installValue: [ :e | e borderBuilder width: 0; yourself ] }).
 
 	" ToButton text danger "
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 					(self classes: #(#button #text #danger)) }
 			 looks: {
@@ -430,7 +430,7 @@ ToDefaultStyleSheet >> addTextButtonRules [
 						  installValue: [ :e | e borderBuilder width: 0; yourself ] }).
 						
 	" button text form icon "
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 				((self class: #'image')
 					parent: (self classes: #(#button #text))
@@ -442,7 +442,7 @@ ToDefaultStyleSheet >> addTextButtonRules [
 					  yourself }).
 
 	" button test label "
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 				((self class: #label)
 					  parent: (self classes: #(#button #text))
@@ -453,7 +453,7 @@ ToDefaultStyleSheet >> addTextButtonRules [
 					  yourself }).
 
 	" button text danger form icon "
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 				((self class: #'image')
 					parent: (self classes: #(#button #text #danger))
@@ -465,7 +465,7 @@ ToDefaultStyleSheet >> addTextButtonRules [
 					  yourself }).
 
 	" button test danger label "
-	self addRule: (ToStyleRule new
+	self addRule: (ToStyleRuleDep new
 			 selectors: { 
 				((self class: #label)
 					  parent: (self classes: #(#button #text #danger))
@@ -474,20 +474,6 @@ ToDefaultStyleSheet >> addTextButtonRules [
 					  initialValue: [ :e | e toTheme colorError ];
 					  disabledValue: [ :e | e toTheme colorBgContainerDisabled ];
 					  yourself }).
-
-]
-
-{ #category : #'syntactic sugar' }
-ToDefaultStyleSheet >> class: aSymbol [
-
- 	^ ToStyleClassSelector new styleClass: aSymbol
-
-]
-
-{ #category : #'syntactic sugar' }
-ToDefaultStyleSheet >> classes: anArray [
-
- 	^ ToStyleClassSelector new styleClasses: anArray
 
 ]
 
@@ -510,10 +496,4 @@ ToDefaultStyleSheet >> initializeDefaultThemeRules [
 					 ToBorderLook new })."
 
 	self addButtonRules
-]
-
-{ #category : #'syntactic sugar' }
-ToDefaultStyleSheet >> property: aSymbol [
-
-	^ self newLookUpdaterForPropertyName: aSymbol
 ]

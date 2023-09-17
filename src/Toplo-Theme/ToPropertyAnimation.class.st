@@ -1,15 +1,16 @@
 Class {
 	#name : #ToPropertyAnimation,
 	#superclass : #Object,
+	#traits : 'TToPropertyAnimation',
+	#classTraits : 'TToPropertyAnimation classTrait',
 	#instVars : [
-		'rawAnimation',
 		'property',
 		'duration'
 	],
 	#category : #'Toplo-Theme-Skin'
 }
 
-{ #category : #accessing }
+{ #category : #'t - property animation - accessing' }
 ToPropertyAnimation >> duration [
 
 	^ duration ifNil: [ duration := 200 milliSeconds ]
@@ -21,32 +22,14 @@ ToPropertyAnimation >> duration: aDuration [
 	duration := aDuration
 ]
 
-{ #category : #'action handling' }
-ToPropertyAnimation >> onFinishedDo: aBlock [
-
-	rawAnimation onFinishedDo: aBlock
-]
-
-{ #category : #accessing }
+{ #category : #'t - property animation - accessing' }
 ToPropertyAnimation >> property [
 
 	^ property
 ]
 
 { #category : #accessing }
-ToPropertyAnimation >> property: aPropertyDefinition [
+ToPropertyAnimation >> property: aProperty [
 
-	property := aPropertyDefinition
-]
-
-{ #category : #accessing }
-ToPropertyAnimation >> stop [
-
-	rawAnimation ifNotNil: [ :ra | ra isRunning ifTrue: [ ra stop ] ]
-]
-
-{ #category : #writing }
-ToPropertyAnimation >> write: anObject to: anElement [
-
-	self subclassResponsibility 
+	property := aProperty
 ]

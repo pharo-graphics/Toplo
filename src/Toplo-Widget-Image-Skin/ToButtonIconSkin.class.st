@@ -1,6 +1,6 @@
 Class {
 	#name : #ToButtonIconSkin,
-	#superclass : #ToWidgetSkin,
+	#superclass : #ToWidgetSkinDep,
 	#instVars : [
 		'danger'
 	],

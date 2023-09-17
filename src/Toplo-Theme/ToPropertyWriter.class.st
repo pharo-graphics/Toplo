@@ -23,6 +23,12 @@ ToPropertyWriter >> animation: aPropertyAnimation [
 	animation := aPropertyAnimation
 ]
 
+{ #category : #testing }
+ToPropertyWriter >> canReplace: anotherWriter [
+
+	^ false
+]
+
 { #category : #accessing }
 ToPropertyWriter >> property [
 

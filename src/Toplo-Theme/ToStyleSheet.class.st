@@ -80,7 +80,13 @@ ToStyleSheet class >> propertyList [
 { #category : #adding }
 ToStyleSheet >> addRule: aStyleRule [
 
-	rules add: aStyleRule 
+	rules := rules copyWith: aStyleRule
+]
+
+{ #category : #adding }
+ToStyleSheet >> addRules: aStyleRuleCollection [
+
+	rules := rules copyWithAll: aStyleRuleCollection
 ]
 
 { #category : #'syntactic sugar' }
@@ -98,12 +104,11 @@ ToStyleSheet >> classes: anArray [
 ]
 
 { #category : #initialization }
-ToStyleSheet >> initialize [ 
+ToStyleSheet >> initialize [
 
 	super initialize.
-	rules := OrderedCollection new.
-	propertyIndex := self newPropertyIndex.
-
+	rules := #(  ).
+	propertyIndex := self newPropertyIndex
 ]
 
 { #category : #operating }
@@ -172,6 +177,12 @@ ToStyleSheet >> rules [
 	^ rules
 ]
 
+{ #category : #accessing }
+ToStyleSheet >> rules: aStyleRuleCollection [
+
+	rules := aStyleRuleCollection asArray
+]
+
 { #category : #operating }
 ToStyleSheet >> rulesFor: anElement [
 
@@ -183,7 +194,7 @@ ToStyleSheet >> skinFor: anElement [
 
 	| looks skin |
 	looks := self lookUpdatersFor: anElement.
-	skin := ToWidgetSkin new.
+	skin := ToWidgetSkinDep new.
 	skin addAllSubscriptions: looks.
 	^ skin
 ]

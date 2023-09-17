@@ -29,6 +29,16 @@ ToStyleSelector >> child: aSelector level: anInteger [
 		  yourself
 ]
 
+{ #category : #'style rule building' }
+ToStyleSelector >> event: anEventClass style: aBlock [
+
+	| styleRule |
+	styleRule := ToStyleRule new selector: self.
+	styleRule event: anEventClass.
+	aBlock value: styleRule.
+	^ styleRule
+]
+
 { #category : #accessing }
 ToStyleSelector >> not [
 
@@ -63,4 +73,13 @@ ToStyleSelector >> parent: aSelector level: anInteger [
 		  right: aSelector;
 		  parentLevel: anInteger;
 		  yourself
+]
+
+{ #category : #'style rule building' }
+ToStyleSelector >> style: aBlock [
+
+	| styleRule |
+	styleRule := ToStyleRule new selector: self.
+	aBlock value: styleRule.
+	^ styleRule
 ]

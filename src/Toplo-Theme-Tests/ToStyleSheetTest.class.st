@@ -33,7 +33,7 @@ ToStyleSheetTest >> testButtonLabelSkin0 [
 	button := ToButton new.
 	button labelText: 'Default'.
 	button label withSkin: nil.
-	labelSkin := ToWidgetSkin new.
+	labelSkin := ToWidgetSkinDep new.
 	looks := ss lookUpdatersFor: button label.
 	self assert: looks isEmpty.
 	button label styleClass: #'button-label'.
@@ -92,7 +92,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 	button := ToButton new.
 	looks := ss lookUpdatersFor: button.
 	self assert: looks size equals: 2.
-	skin := ToWidgetSkin new.
+	skin := ToWidgetSkinDep new.
 	skin addAllLookUpdaters: looks.
 	button withSkin: nil.
 	self assert: button privateSkin isNil.
@@ -105,7 +105,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 	button labelText: 'Default'.
 	button label withSkin: nil.
 
-	labelSkin := ToWidgetSkin new.
+	labelSkin := ToWidgetSkinDep new.
 	looks := ss lookUpdatersFor: button label.
 	self assert: looks isEmpty.
 	button label styleClass: #'button-label'.
@@ -308,7 +308,7 @@ ToStyleSheetTest >> testSkinWithAnUniversalRule [
 	elem := ToElement new.
 	looks := ss lookUpdatersFor: elem.
 	self assert: looks size equals: 1.
-	skin := ToWidgetSkin new.
+	skin := ToWidgetSkinDep new.
 	skin addAllLookUpdaters: looks.
 	elem withSkin: skin.
 	elem checkSkinInstallation.
@@ -335,7 +335,7 @@ ToStyleSheetTest >> testSkinWithChildRule [
 	parent addChild: child.
 	looks := ss lookUpdatersFor: child.
 	self assert: looks size equals: 1.
-	skin := ToWidgetSkin new.
+	skin := ToWidgetSkinDep new.
 	skin addAllLookUpdaters: looks.
 	child withSkin: skin.
 	parent checkSkinInstallation.
@@ -366,7 +366,7 @@ ToStyleSheetTest >> testSkinWithChildRule2 [
 	subParent addChild: child.
 	looks := ss lookUpdatersFor: child.
 	self assert: looks size equals: 1.
-	skin := ToWidgetSkin new.
+	skin := ToWidgetSkinDep new.
 	skin addAllLookUpdaters: looks.
 	child withSkin: skin.
 	parent checkSkinInstallation.
@@ -391,7 +391,7 @@ ToStyleSheetTest >> testSkinWithIdRule [
 	elem id: #a.
 	looks := ss lookUpdatersFor: elem.
 	self assert: looks size equals: 1.
-	skin := ToWidgetSkin new.
+	skin := ToWidgetSkinDep new.
 	skin addAllLookUpdaters: looks.
 	elem withSkin: skin.
 	elem checkSkinInstallation.

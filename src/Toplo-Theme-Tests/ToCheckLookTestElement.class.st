@@ -8,7 +8,7 @@ Class {
 		'second',
 		'third'
 	],
-	#category : #'Toplo-Theme-Tests-LookUpdater'
+	#category : #'Toplo-Theme-Tests-LookUpdaterDep'
 }
 
 { #category : #'t - triplet - accessing' }

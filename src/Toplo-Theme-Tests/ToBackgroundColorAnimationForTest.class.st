@@ -1,5 +1,5 @@
 Class {
-	#name : #ToBackgroundUpdateAnimationForTest,
+	#name : #ToBackgroundColorAnimationForTest,
 	#superclass : #Object,
 	#traits : 'TToPropertyAnimation',
 	#classTraits : 'TToPropertyAnimation classTrait',
@@ -11,37 +11,37 @@ Class {
 }
 
 { #category : #'t - property animation - accessing' }
-ToBackgroundUpdateAnimationForTest >> duration [
+ToBackgroundColorAnimationForTest >> duration [
 
 	^ 500 milliSeconds 
 ]
 
 { #category : #'t - property animation - action handling' }
-ToBackgroundUpdateAnimationForTest >> onFinishedDo: aBlock [
+ToBackgroundColorAnimationForTest >> onFinishedDo: aBlock [
 
 	deferred := aBlock
 ]
 
 { #category : #'t - property animation - accessing' }
-ToBackgroundUpdateAnimationForTest >> property [
+ToBackgroundColorAnimationForTest >> property [
 
 	^ property
 ]
 
 { #category : #accessing }
-ToBackgroundUpdateAnimationForTest >> property: aProperty [
+ToBackgroundColorAnimationForTest >> property: aProperty [
 
 	property := aProperty
 ]
 
 { #category : #'t - property animation - running' }
-ToBackgroundUpdateAnimationForTest >> stop [
+ToBackgroundColorAnimationForTest >> stop [
 
 
 ]
 
 { #category : #'t - property animation - writing' }
-ToBackgroundUpdateAnimationForTest >> write: anObject to: anElement [
+ToBackgroundColorAnimationForTest >> write: anObject to: anElement [
 
 	anElement enqueueTask: (BlTaskAction new action: [
 			 self duration asDelay wait.

@@ -2,20 +2,20 @@
 A ToDefaultStyleSheetTest is a test class for testing the behavior of ToDefaultStyleSheet
 "
 Class {
-	#name : #ToDefaultStyleSheetTest,
+	#name : #ToDefaultStyleSheetTestDep,
 	#superclass : #TestCase,
-	#category : #'Toplo-Theme-Tests-DefaultTheme'
+	#category : #'Toplo-Theme-Tests-DefaultThemeDep'
 }
 
 { #category : #skin }
-ToDefaultStyleSheetTest >> testDefaultButtonSkin [
+ToDefaultStyleSheetTestDep >> testDefaultButtonSkin [
 
 	| ss button looks skin labelSkin |
 	ss := ToDefaultStyleSheet new.
 	button := ToButton new.
 	looks := ss lookUpdatersFor: button.
 	self assert: looks notEmpty.
-	skin := ToWidgetSkin new.
+	skin := ToWidgetSkinDep new.
 	skin addAllLookUpdaters: looks.
 	button withSkin: nil.
 	self assert: button privateSkin isNil.
@@ -28,7 +28,7 @@ ToDefaultStyleSheetTest >> testDefaultButtonSkin [
 	button labelText: 'Default'.
 	button label privateSkin: nil.
 	
-	labelSkin := ToWidgetSkin new.
+	labelSkin := ToWidgetSkinDep new.
 	looks := ss lookUpdatersFor: button label.
 	labelSkin addAllLookUpdaters: looks.
 	button label withSkin: labelSkin.
@@ -38,14 +38,14 @@ ToDefaultStyleSheetTest >> testDefaultButtonSkin [
 ]
 
 { #category : #skin }
-ToDefaultStyleSheetTest >> testDefaultButtonSkin0 [
+ToDefaultStyleSheetTestDep >> testDefaultButtonSkin0 [
 
 	| ss button looks skin labelSkin |
 	ss := ToDefaultStyleSheet new.
 	button := ToButton new.
 	looks := ss lookUpdatersFor: button.
 	self assert: looks notEmpty.
-	skin := ToWidgetSkin new.
+	skin := ToWidgetSkinDep new.
 	skin addAllLookUpdaters: looks.
 	button withSkin: nil.
 	self assert: button privateSkin isNil.
@@ -58,7 +58,7 @@ ToDefaultStyleSheetTest >> testDefaultButtonSkin0 [
 	button labelText: 'Default'.
 	button label privateSkin: nil.
 	
-	labelSkin := ToWidgetSkin new.
+	labelSkin := ToWidgetSkinDep new.
 	looks := ss lookUpdatersFor: button label.
 	labelSkin addAllLookUpdaters: looks.
 	button label privateSkin: labelSkin.
@@ -68,7 +68,7 @@ ToDefaultStyleSheetTest >> testDefaultButtonSkin0 [
 ]
 
 { #category : #skin }
-ToDefaultStyleSheetTest >> testDefaultButtonSkin1 [
+ToDefaultStyleSheetTestDep >> testDefaultButtonSkin1 [
 
 	| ss button skin labelSkin |
 	ss := ToDefaultStyleSheet new.
@@ -81,8 +81,8 @@ ToDefaultStyleSheetTest >> testDefaultButtonSkin1 [
 	labelSkin := ss skinFor: button label.
 	button label privateSkin: labelSkin.
 	button checkSkinInstallation.
-	self assert: button privateSkin class == ToWidgetSkin.
-	self assert: button label privateSkin class == ToWidgetSkin.
+	self assert: button privateSkin class == ToWidgetSkinDep.
+	self assert: button label privateSkin class == ToWidgetSkinDep.
 	self assert: button border width equals: 1.
 	self assert: button border paint isColorPaint.
 	self assert: button border paint color equals: button toTheme colorBorder.
@@ -90,7 +90,7 @@ ToDefaultStyleSheetTest >> testDefaultButtonSkin1 [
 ]
 
 { #category : #skin }
-ToDefaultStyleSheetTest >> testJustifiedButtonSkin1 [
+ToDefaultStyleSheetTestDep >> testJustifiedButtonSkin1 [
 
 	| ss button skin |
 	ss := ToDefaultStyleSheet new.
@@ -102,8 +102,8 @@ ToDefaultStyleSheetTest >> testJustifiedButtonSkin1 [
 		labelText: 'close'.
 	button addStyleClass: #justified.
 	button checkSkinInstallation.
-	self assert: button privateSkin class identicalTo: ToWidgetSkin.
-	self assert: button label privateSkin class identicalTo: ToWidgetSkin.
+	self assert: button privateSkin class identicalTo: ToWidgetSkinDep.
+	self assert: button label privateSkin class identicalTo: ToWidgetSkinDep.
 	self assert: button border width equals: 1.
 	self assert: button border paint isColorPaint.
 	self
@@ -112,7 +112,7 @@ ToDefaultStyleSheetTest >> testJustifiedButtonSkin1 [
 ]
 
 { #category : #skin }
-ToDefaultStyleSheetTest >> testJustifiedButtonSkin2 [
+ToDefaultStyleSheetTestDep >> testJustifiedButtonSkin2 [
 
 	| ss button skin |
 	ss := ToDefaultStyleSheet new.
@@ -126,8 +126,8 @@ ToDefaultStyleSheetTest >> testJustifiedButtonSkin2 [
 	button switchToSkinState: ToInstallState new.
 	button switchToSkinState: ToInitialState new.
 	
-	self assert: button privateSkin class identicalTo: ToWidgetSkin.
-	self assert: button label privateSkin class identicalTo: ToWidgetSkin.
+	self assert: button privateSkin class identicalTo: ToWidgetSkinDep.
+	self assert: button label privateSkin class identicalTo: ToWidgetSkinDep.
 	self assert: button border width equals: 1.
 	self assert: button border paint isColorPaint.
 	self
@@ -136,7 +136,7 @@ ToDefaultStyleSheetTest >> testJustifiedButtonSkin2 [
 ]
 
 { #category : #skin }
-ToDefaultStyleSheetTest >> testJustifiedButtonSkin3 [
+ToDefaultStyleSheetTestDep >> testJustifiedButtonSkin3 [
 
 	| ss button skin |
 	ss := ToDefaultStyleSheet new.
@@ -150,8 +150,8 @@ ToDefaultStyleSheetTest >> testJustifiedButtonSkin3 [
 	button switchToSkinState: ToInstallState new.
 	button switchToSkinState: ToInitialState new.
 	"button openInSpace."
-	self assert: button privateSkin class identicalTo: ToWidgetSkin.
-	self assert: button label privateSkin class identicalTo: ToWidgetSkin.
+	self assert: button privateSkin class identicalTo: ToWidgetSkinDep.
+	self assert: button label privateSkin class identicalTo: ToWidgetSkinDep.
 	self assert: button border width equals: 1.
 	self assert: button border paint isColorPaint.
 	self
@@ -160,7 +160,7 @@ ToDefaultStyleSheetTest >> testJustifiedButtonSkin3 [
 ]
 
 { #category : #skin }
-ToDefaultStyleSheetTest >> testJustifiedButtonSkin4 [
+ToDefaultStyleSheetTestDep >> testJustifiedButtonSkin4 [
 
 | b ss space |
 ss := ToDefaultStyleSheet new.
@@ -182,7 +182,7 @@ space root forceLayout.
 ]
 
 { #category : #'look updaters' }
-ToDefaultStyleSheetTest >> testPropertyList [
+ToDefaultStyleSheetTestDep >> testPropertyList [
 
 	| ss index count |
 	ss := ToDefaultStyleSheet new.

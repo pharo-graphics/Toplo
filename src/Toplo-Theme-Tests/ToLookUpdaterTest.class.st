@@ -1,7 +1,7 @@
 Class {
 	#name : #ToLookUpdaterTest,
 	#superclass : #TestCase,
-	#category : #'Toplo-Theme-Tests-LookUpdater'
+	#category : #'Toplo-Theme-Tests-LookUpdaterDep'
 }
 
 { #category : #tests }

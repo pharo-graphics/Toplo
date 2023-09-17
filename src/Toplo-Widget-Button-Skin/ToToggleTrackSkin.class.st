@@ -1,6 +1,6 @@
 Class {
 	#name : #ToToggleTrackSkin,
-	#superclass : #ToWidgetSkin,
+	#superclass : #ToWidgetSkinDep,
 	#category : #'Toplo-Widget-Button-Skin'
 }
 

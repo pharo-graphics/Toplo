@@ -11,13 +11,13 @@ Class {
 ToPropertyWriterTest >> testWithFeaturePropertyAndAnimation [
 
 	| w prop propWriter anim |
-	w := ToElement new.
+	w := BlElement new.
 	prop := ToFeatureProperty new.
 	prop name: #background.
 	propWriter := ToPropertyWriter new.
 	propWriter property: prop.
 	propWriter value: Color blue.
-	propWriter animation: (anim := ToBackgroundUpdateAnimationForTest new property: prop).
+	propWriter animation: (anim := ToBackgroundColorAnimationForTest new property: prop).
 	anim onFinishedDo: [
 		self assert: (w background isKindOf: BlPaintBackground).
 		self assert: w background paint color equals: Color blue.
@@ -29,7 +29,7 @@ ToPropertyWriterTest >> testWithFeaturePropertyAndAnimation [
 ToPropertyWriterTest >> testWithFeaturePropertyWithRawValue [
 
 	| w prop  propWriter |
-	w := ToElement new.
+	w := BlElement new.
 	prop := ToFeatureProperty new.
 	prop name: #background.
 	propWriter := ToPropertyWriter new.
@@ -45,7 +45,7 @@ ToPropertyWriterTest >> testWithFeaturePropertyWithRawValue [
 ToPropertyWriterTest >> testWithFeaturePropertyWithValuable [
 
 	| w prop  propWriter w2 |
-	w := ToElement new.
+	w := BlElement new.
 	prop := ToFeatureProperty new.
 	prop name: #background.
 	propWriter := ToPropertyWriter new.
@@ -62,7 +62,7 @@ ToPropertyWriterTest >> testWithFeaturePropertyWithValuable [
 ToPropertyWriterTest >> testWithPseudoProperty [
 
 	| w prop  propWriter |
-	w := ToElement new.
+	w := BlElement new.
 	prop := ToPseudoProperty new.
 	prop writer:  [ :e :v | e background: v ].
 	prop reader:  [ :e | e background ].
@@ -80,7 +80,7 @@ ToPropertyWriterTest >> testWithPseudoProperty [
 ToPropertyWriterTest >> testWithPseudoPropertyAndAnimation [
 
 	| w prop propWriter anim |
-	w := ToElement new.
+	w := BlElement new.
 	prop := ToPseudoProperty new.
 	prop writer: [ :e :v | e background: v ].
 	prop reader: [ :e | e background ].
@@ -88,7 +88,7 @@ ToPropertyWriterTest >> testWithPseudoPropertyAndAnimation [
 	propWriter := ToPropertyWriter new.
 	propWriter property: prop.
 	propWriter value: Color blue.
-	propWriter animation: (anim := ToBackgroundUpdateAnimationForTest new property: prop).
+	propWriter animation: (anim := ToBackgroundColorAnimationForTest new property: prop).
 	anim onFinishedDo: [
 		self assert: (w background isKindOf: BlPaintBackground).
 		self assert: w background paint color equals: Color blue.
@@ -97,10 +97,25 @@ ToPropertyWriterTest >> testWithPseudoPropertyAndAnimation [
 ]
 
 { #category : #tests }
+ToPropertyWriterTest >> testWithPseudoPropertyWithConverterMethod [
+
+	| w prop  |
+	w := BlElement new.
+	prop := ToPseudoProperty new.
+	prop writer:  [ :e :v | e background: v ].
+	prop reader:  [ :e | e background ].
+	prop name: #background.
+	(prop newWriterForValue: Color blue) writeTo: w.
+	self assert: (w background isKindOf: BlPaintBackground).
+	self assert: w background paint color equals: Color blue.
+	self assert: (prop read: w) equals: w background
+]
+
+{ #category : #tests }
 ToPropertyWriterTest >> testWithPseudoPropertyWithValuableAndAnimation [
 
 	| w prop propWriter anim w2 |
-	w := ToElement new.
+	w := BlElement new.
 	prop := ToPseudoProperty new.
 	prop writer: [ :e :v | e background: v ].
 	prop reader: [ :e | e background ].
@@ -108,7 +123,7 @@ ToPropertyWriterTest >> testWithPseudoPropertyWithValuableAndAnimation [
 	propWriter := ToPropertyWriter new.
 	propWriter property: prop.
 	propWriter value: [:e | w2 := e. Color blue].
-	propWriter animation: (anim := ToBackgroundUpdateAnimationForTest new property: prop).
+	propWriter animation: (anim := ToBackgroundColorAnimationForTest new property: prop).
 	anim onFinishedDo: [
 		self assert: w2 identicalTo: w.
 		self assert: (w background isKindOf: BlPaintBackground).

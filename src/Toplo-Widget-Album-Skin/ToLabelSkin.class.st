@@ -1,6 +1,6 @@
 Class {
 	#name : #ToLabelSkin,
-	#superclass : #ToWidgetSkin,
+	#superclass : #ToWidgetSkinDep,
 	#instVars : [
 		'heading',
 		'type'

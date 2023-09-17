@@ -31,8 +31,7 @@ ToElement >> initialize [
 	"Dresser initialization steps"
 	self preInitializeDresser.
 	self initializeDresser.
-	self postInitializeDresser.
-	self initializeSkin
+	self postInitializeDresser
 ]
 
 { #category : #accessing }

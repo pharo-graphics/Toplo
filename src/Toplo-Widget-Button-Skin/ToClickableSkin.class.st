@@ -1,6 +1,6 @@
 Class {
 	#name : #ToClickableSkin,
-	#superclass : #ToWidgetSkin,
+	#superclass : #ToWidgetSkinDep,
 	#traits : 'TToShapeableWidgetSkin',
 	#classTraits : 'TToShapeableWidgetSkin classTrait',
 	#instVars : [

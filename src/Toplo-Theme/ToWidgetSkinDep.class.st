@@ -1,5 +1,5 @@
 Class {
-	#name : #ToWidgetSkin,
+	#name : #ToWidgetSkinDep,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'installStep',
@@ -10,19 +10,19 @@ Class {
 }
 
 { #category : #adding }
-ToWidgetSkin >> addAllLookUpdaters: aCollectionOfLook [
+ToWidgetSkinDep >> addAllLookUpdaters: aCollectionOfLook [
 
 	aCollectionOfLook do: [ :l | self addLookUpdater: l ]
 ]
 
 { #category : #accessing }
-ToWidgetSkin >> addAllSubscriptions: aSubscriptionCollection [
+ToWidgetSkinDep >> addAllSubscriptions: aSubscriptionCollection [
 
 	subscriptions := subscriptions copyWithAll: aSubscriptionCollection
 ]
 
 { #category : #adding }
-ToWidgetSkin >> addLookUpdater: aLook [
+ToWidgetSkinDep >> addLookUpdater: aLook [
 
 	aLook isNull ifTrue: [ ^ self ].
 	aLook next: firstLookUpdater.
@@ -30,33 +30,33 @@ ToWidgetSkin >> addLookUpdater: aLook [
 ]
 
 { #category : #accessing }
-ToWidgetSkin >> addSubscription: aSubscription [
+ToWidgetSkinDep >> addSubscription: aSubscription [
 
 	subscriptions := subscriptions copyWith: aSubscription
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToWidgetSkin >> defaultCursorLookIn: anElement [
+ToWidgetSkinDep >> defaultCursorLookIn: anElement [
 
 	^ ToLookUpdater new 
 ]
 
 { #category : #accessing }
-ToWidgetSkin >> dispatchChangedEventIn: anElement [
+ToWidgetSkinDep >> dispatchChangedEventIn: anElement [
 
 	self markAsNotInstalled.
 	anElement dispatchSkinChangedEvent
 ]
 
 { #category : #'event handling' }
-ToWidgetSkin >> elementLookEvent: anEvent [
+ToWidgetSkinDep >> elementLookEvent: anEvent [
 
 	anEvent sendTo: self firstLookUpdater.
 	self subscriptions do: [ :s | s elementLookEvent: anEvent  ]
 ]
 
 { #category : #'api - accessing' }
-ToWidgetSkin >> eventsToHandle [
+ToWidgetSkinDep >> eventsToHandle [
 
 	^ {
 		  ToThemeChangedEvent.
@@ -68,20 +68,20 @@ ToWidgetSkin >> eventsToHandle [
 ]
 
 { #category : #accessing }
-ToWidgetSkin >> firstLookUpdater [
+ToWidgetSkinDep >> firstLookUpdater [
 
 	^ firstLookUpdater
 ]
 
 { #category : #accessing }
-ToWidgetSkin >> forceInstallationIn: anElement [
+ToWidgetSkinDep >> forceInstallationIn: anElement [
 
 	self markAsNotInstalled.
 	anElement dispatchSkinChangedEvent
 ]
 
 { #category : #initialization }
-ToWidgetSkin >> initialize [
+ToWidgetSkinDep >> initialize [
 
 	super initialize.
 	self markAsNotInstalled.
@@ -90,32 +90,32 @@ ToWidgetSkin >> initialize [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToWidgetSkin >> initializedLevel [
+ToWidgetSkinDep >> initializedLevel [
 
 	^ 2
 
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToWidgetSkin >> installedLevel [
+ToWidgetSkinDep >> installedLevel [
 
 	^ 1
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToWidgetSkin >> isInitialized [
+ToWidgetSkinDep >> isInitialized [
 
 	^ installStep >= self initializedLevel 
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToWidgetSkin >> isInstalled [
+ToWidgetSkinDep >> isInstalled [
 
 	^ installStep >= self installedLevel 
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToWidgetSkin >> launchSkinInitializationIn: anElement [
+ToWidgetSkinDep >> launchSkinInitializationIn: anElement [
 
 	self isInitialized ifTrue: [ ^ self ].
 	self markAsInitialized.
@@ -124,7 +124,7 @@ ToWidgetSkin >> launchSkinInitializationIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToWidgetSkin >> launchSkinInstallationIn: anElement [
+ToWidgetSkinDep >> launchSkinInstallationIn: anElement [
 
 	self isInitialized ifTrue: [ ^ self ].
 	self isInstalled ifTrue: [ ^ self launchSkinInitializationIn: anElement ].
@@ -136,7 +136,7 @@ ToWidgetSkin >> launchSkinInstallationIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToWidgetSkin >> launchSkinUninstallationIn: anElement [
+ToWidgetSkinDep >> launchSkinUninstallationIn: anElement [
 
 	self isInstalled ifFalse: [ ^ self ].
 	anElement dispatchLookEvent: ToUninstallLookEvent new.
@@ -146,62 +146,62 @@ ToWidgetSkin >> launchSkinUninstallationIn: anElement [
 ]
 
 { #category : #'event handling' }
-ToWidgetSkin >> layoutDirectionChangedEvent: anEvent [
+ToWidgetSkinDep >> layoutDirectionChangedEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToWidgetSkin >> layoutOrientationChangedEvent: anEvent [
+ToWidgetSkinDep >> layoutOrientationChangedEvent: anEvent [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToWidgetSkin >> markAsInitialized [
+ToWidgetSkinDep >> markAsInitialized [
 
 	installStep := self initializedLevel
 
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToWidgetSkin >> markAsInstalled [
+ToWidgetSkinDep >> markAsInstalled [
 
 	installStep := self installedLevel 
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToWidgetSkin >> markAsNotInstalled [
+ToWidgetSkinDep >> markAsNotInstalled [
 
 	installStep := 0
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToWidgetSkin >> onSkinInstalledIn: anElement [
+ToWidgetSkinDep >> onSkinInstalledIn: anElement [
 
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToWidgetSkin >> onSkinUninstalledIn: anElement [
+ToWidgetSkinDep >> onSkinUninstalledIn: anElement [
 
 	firstLookUpdater := nil
 ]
 
 { #category : #'private - accessing' }
-ToWidgetSkin >> privateLookUpdater: aLook [
+ToWidgetSkinDep >> privateLookUpdater: aLook [
 
 	firstLookUpdater := aLook
 ]
 
 { #category : #'event handling' }
-ToWidgetSkin >> propertyChangedEvent: anEvent [
+ToWidgetSkinDep >> propertyChangedEvent: anEvent [
 
 ]
 
 { #category : #accessing }
-ToWidgetSkin >> removeAllSubscriptions: aSubscriptionCollection [
+ToWidgetSkinDep >> removeAllSubscriptions: aSubscriptionCollection [
 
 	subscriptions := subscriptions copyWithoutAll: aSubscriptionCollection
 ]
 
 { #category : #removing }
-ToWidgetSkin >> removeLookUpdater: aLook [
+ToWidgetSkinDep >> removeLookUpdater: aLook [
 
 	firstLookUpdater = aLook 
 		ifTrue: [ firstLookUpdater := firstLookUpdater next ]
@@ -209,25 +209,25 @@ ToWidgetSkin >> removeLookUpdater: aLook [
 ]
 
 { #category : #accessing }
-ToWidgetSkin >> removeSubscription: aSubscription [
+ToWidgetSkinDep >> removeSubscription: aSubscription [
 
 	subscriptions := subscriptions copyWithout: aSubscription
 ]
 
 { #category : #'event handling' }
-ToWidgetSkin >> skinChangedEvent: anEvent [
+ToWidgetSkinDep >> skinChangedEvent: anEvent [
 
 	anEvent target childrenDo: [ :child | child updateSkin ]
 ]
 
 { #category : #accessing }
-ToWidgetSkin >> subscriptions [
+ToWidgetSkinDep >> subscriptions [
 
 	^ subscriptions 
 ]
 
 { #category : #'event handling' }
-ToWidgetSkin >> themeChangedEvent: anEvent [
+ToWidgetSkinDep >> themeChangedEvent: anEvent [
 
 	self launchSkinUninstallationIn: anEvent currentTarget.
 	self launchSkinInstallationIn: anEvent currentTarget.	

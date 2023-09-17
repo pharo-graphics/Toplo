@@ -1,9 +1,11 @@
 Class {
 	#name : #ToLookEventSubscription,
 	#superclass : #Object,
+	#traits : 'TToPropertyWriterHolder',
+	#classTraits : 'TToPropertyWriterHolder classTrait',
 	#instVars : [
-		'lookEventClass',
-		'writers'
+		'writers',
+		'eventClass'
 	],
 	#category : #'Toplo-Theme-Skin'
 }
@@ -23,13 +25,32 @@ ToLookEventSubscription >> canReplace: anotherSubscription [
 { #category : #accessing }
 ToLookEventSubscription >> eventClass [
 
-	^ lookEventClass
+	^ eventClass
 ]
 
 { #category : #'private - accessing' }
 ToLookEventSubscription >> eventClass: aLookEventClass [
 
-	lookEventClass := aLookEventClass
+	eventClass := aLookEventClass
+]
+
+{ #category : #initialization }
+ToLookEventSubscription >> initialize [ 
+
+	super initialize.
+	eventClass := ToInstallLookEvent 
+]
+
+{ #category : #'t - property writer holder - accessing' }
+ToLookEventSubscription >> rawWriters [
+
+	^ writers
+]
+
+{ #category : #'t - property writer holder - accessing' }
+ToLookEventSubscription >> rawWriters: aPropertyWriterCollection [
+
+	^ writers := aPropertyWriterCollection
 ]
 
 { #category : #operating }
@@ -39,16 +60,4 @@ ToLookEventSubscription >> receiveEvent: aLookEvent [
 	(self canReceiveEvent: aLookEvent) ifFalse: [ ^ self ].
 	target := aLookEvent currentTarget.
 	self writers do: [ :w | w writeTo: target ]
-]
-
-{ #category : #accessing }
-ToLookEventSubscription >> writers [
-
-	^ writers ifNil: [ writers := #(  ) ]
-]
-
-{ #category : #accessing }
-ToLookEventSubscription >> writers: aPropertyWriterCollection [
-
-	writers := aPropertyWriterCollection asArray
 ]

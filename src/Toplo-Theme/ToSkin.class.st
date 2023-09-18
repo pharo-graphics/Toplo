@@ -1,11 +1,11 @@
 Class {
 	#name : #ToSkin,
 	#superclass : #BlCustomEventHandler,
-	#traits : 'TToLookEventSubscriptionsHolder',
-	#classTraits : 'TToLookEventSubscriptionsHolder classTrait',
+	#traits : 'TToPropertyWriterHolder',
+	#classTraits : 'TToPropertyWriterHolder classTrait',
 	#instVars : [
 		'installStep',
-		'subscriptions'
+		'writers'
 	],
 	#category : #'Toplo-Theme-Skin'
 }
@@ -20,7 +20,7 @@ ToSkin >> dispatchChangedEventIn: anElement [
 { #category : #'event handling' }
 ToSkin >> elementLookEvent: anEvent [
 
-	self subscriptions do: [ :s | s receiveEvent: anEvent  ]
+	self writers do: [ :s | s receiveEvent: anEvent  ]
 ]
 
 { #category : #'api - accessing' }
@@ -45,7 +45,7 @@ ToSkin >> initialize [
 
 	super initialize.
 	self markAsNotInstalled.
-	subscriptions := #(  )
+	writers := #(  )
 ]
 
 { #category : #'private - installation' }
@@ -138,16 +138,16 @@ ToSkin >> propertyChangedEvent: anEvent [
 
 ]
 
-{ #category : #'t - look event subscription holder - accessing' }
-ToSkin >> rawSubscriptions [
+{ #category : #'t - property writer holder - accessing' }
+ToSkin >> rawWriters [
 
-	^ subscriptions
+	^ writers
 ]
 
-{ #category : #'t - look event subscription holder - accessing' }
-ToSkin >> rawSubscriptions: anArray [
+{ #category : #'t - property writer holder - accessing' }
+ToSkin >> rawWriters: aPropertyWriterCollection [
 
-	subscriptions := anArray
+	writers := aPropertyWriterCollection asArray
 ]
 
 { #category : #'event handling' }

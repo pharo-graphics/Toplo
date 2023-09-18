@@ -7,7 +7,101 @@ Class {
 	#category : #'Toplo-Theme-Tests-Skin'
 }
 
-{ #category : #tests }
+{ #category : #'test event receiving' }
+ToPropertyWriterTest >> testReceiveDefaultEventWithFeaturePropertyWithRawValue [
+
+	| w prop  propWriter target |
+	w := BlElement new.
+	prop := ToFeatureProperty new.
+	prop name: #background.
+	propWriter := ToPropertyWriter new.
+	propWriter property: prop.
+	propWriter value: Color blue.
+	target := BlElement new.
+	propWriter receiveEvent: (ToInstallLookEvent new currentTarget: target).
+	self assert: target background paint color equals: Color blue.
+]
+
+{ #category : #'test event receiving' }
+ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithAnimationWithRawValue [
+
+	| prop propWriter target anim |
+	prop := ToFeatureProperty new.
+	prop name: #background.
+	propWriter := ToPropertyWriter new.
+	propWriter property: prop.
+	propWriter value: Color blue.
+	propWriter eventClass: ToHoveredLookEvent.
+	propWriter animation: (anim := ToBackgroundColorAnimationForTest new property: prop).
+	target := BlElement new.
+	anim onFinishedDo: [
+		self assert: (target background isKindOf: BlPaintBackground).
+		self assert: target background paint color equals: Color blue.
+		self assert: (prop read: target) equals: target background ].
+	propWriter receiveEvent: (ToHoveredLookEvent new currentTarget: target).
+	" have to wait animation termination "
+	self assert: target background paint isNil
+]
+
+{ #category : #'test event receiving' }
+ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithAnimationWithValuable [
+
+	| prop propWriter target target2 anim |
+	prop := ToFeatureProperty new.
+	prop name: #background.
+	propWriter := ToPropertyWriter new.
+	propWriter property: prop.
+	propWriter value: [ :e | target2 := e. Color blue].
+	propWriter eventClass: ToHoveredLookEvent.
+	propWriter animation: (anim := ToBackgroundColorAnimationForTest new property: prop).
+	target := BlElement new.
+	anim onFinishedDo: [
+		self assert: (target background isKindOf: BlPaintBackground).
+		self assert: target background paint color equals: Color blue.
+		self assert: (prop read: target) equals: target background. ].
+	propWriter receiveEvent: (ToHoveredLookEvent new currentTarget: target).
+	" the valuable value is interpreted ** before ** animation running "
+	self assert: target2 identicalTo: target.
+	" have to wait animation termination "
+	self assert: target background paint isNil
+]
+
+{ #category : #'test event receiving' }
+ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithRawValue [
+
+	| w prop  propWriter target |
+	w := BlElement new.
+	prop := ToFeatureProperty new.
+	prop name: #background.
+	propWriter := ToPropertyWriter new.
+	propWriter property: prop.
+	propWriter value: Color blue.
+	target := BlElement new.
+	propWriter eventClass: ToInstallLookEvent.
+	propWriter receiveEvent: (ToInstallLookEvent new currentTarget: target).
+	self assert: target background paint color equals: Color blue.
+]
+
+{ #category : #'test event receiving' }
+ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithValuable [
+
+	| prop  propWriter target target2|
+	target := BlElement new.
+	prop := ToFeatureProperty new.
+	prop name: #background.
+	propWriter := ToPropertyWriter new.
+	propWriter property: prop.
+	propWriter value: [:e | target2 := e. Color blue].
+	propWriter eventClass: ToInitialLookEvent.
+	propWriter receiveEvent: (ToInitialLookEvent new currentTarget: target).
+	self assert: target2 identicalTo: target.
+	self assert: (target background isKindOf: BlPaintBackground).
+	self assert: target background paint color equals: Color blue.
+	self assert: (prop read: target) equals: target background
+
+]
+
+{ #category : #'test writing' }
 ToPropertyWriterTest >> testWithFeaturePropertyAndAnimation [
 
 	| w prop propWriter anim |
@@ -25,7 +119,7 @@ ToPropertyWriterTest >> testWithFeaturePropertyAndAnimation [
 	propWriter writeTo: w
 ]
 
-{ #category : #tests }
+{ #category : #'test writing' }
 ToPropertyWriterTest >> testWithFeaturePropertyWithRawValue [
 
 	| w prop  propWriter |
@@ -41,7 +135,7 @@ ToPropertyWriterTest >> testWithFeaturePropertyWithRawValue [
 	self assert: (prop read: w) equals: w background
 ]
 
-{ #category : #tests }
+{ #category : #'test writing' }
 ToPropertyWriterTest >> testWithFeaturePropertyWithValuable [
 
 	| w prop  propWriter w2 |
@@ -58,7 +152,7 @@ ToPropertyWriterTest >> testWithFeaturePropertyWithValuable [
 	self assert: (prop read: w) equals: w background
 ]
 
-{ #category : #tests }
+{ #category : #'test writing' }
 ToPropertyWriterTest >> testWithPseudoProperty [
 
 	| w prop  propWriter |
@@ -76,7 +170,7 @@ ToPropertyWriterTest >> testWithPseudoProperty [
 	self assert: (prop read: w) equals: w background
 ]
 
-{ #category : #tests }
+{ #category : #'test writing' }
 ToPropertyWriterTest >> testWithPseudoPropertyAndAnimation [
 
 	| w prop propWriter anim |
@@ -96,7 +190,7 @@ ToPropertyWriterTest >> testWithPseudoPropertyAndAnimation [
 	propWriter writeTo: w
 ]
 
-{ #category : #tests }
+{ #category : #'test writing' }
 ToPropertyWriterTest >> testWithPseudoPropertyWithConverterMethod [
 
 	| w prop  |
@@ -111,7 +205,7 @@ ToPropertyWriterTest >> testWithPseudoPropertyWithConverterMethod [
 	self assert: (prop read: w) equals: w background
 ]
 
-{ #category : #tests }
+{ #category : #'test writing' }
 ToPropertyWriterTest >> testWithPseudoPropertyWithValuableAndAnimation [
 
 	| w prop propWriter anim w2 |

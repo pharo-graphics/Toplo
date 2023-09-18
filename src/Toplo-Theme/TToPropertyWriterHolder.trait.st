@@ -24,7 +24,7 @@ TToPropertyWriterHolder >> rawWriters [
 { #category : #'t - property writer holder - accessing' }
 TToPropertyWriterHolder >> rawWriters: aPropertyWriterCollection [
 
-	^ self explicitRequirement
+	self explicitRequirement
 ]
 
 { #category : #'t - property writer holder - accessing' }
@@ -42,5 +42,5 @@ TToPropertyWriterHolder >> writers [
 { #category : #'t - property writer holder - accessing' }
 TToPropertyWriterHolder >> writers: aPropertyWriterCollection [
 
-	^ self addAllWriters: aPropertyWriterCollection
+	^ self rawWriters: aPropertyWriterCollection
 ]

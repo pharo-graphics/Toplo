@@ -7,7 +7,7 @@ Class {
 		'propName',
 		'value'
 	],
-	#category : #'Toplo-Theme-Tests-Skin'
+	#category : #'Toplo-Theme-Tests-SkinDep'
 }
 
 { #category : #accessing }

@@ -6,7 +6,8 @@ Class {
 	#instVars : [
 		'selector',
 		'eventClass',
-		'writers'
+		'writers',
+		'supplement'
 	],
 	#category : #'Toplo-Theme-StyleSheet'
 }
@@ -73,4 +74,16 @@ ToStyleRule >> selector [
 ToStyleRule >> selector: aStyleSelector [
 
 	selector := aStyleSelector
+]
+
+{ #category : #accessing }
+ToStyleRule >> supplement [
+
+	^ supplement ifNil: [ supplement := false ]
+]
+
+{ #category : #accessing }
+ToStyleRule >> supplement: aBoolean [
+
+	supplement := aBoolean
 ]

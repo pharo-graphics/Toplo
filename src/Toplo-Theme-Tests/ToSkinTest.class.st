@@ -30,7 +30,7 @@ ToSkinTest >> setUp [
 ]
 
 { #category : #'test with accessors' }
-ToSkinTest >> testWithNoSubscription [
+ToSkinTest >> testWithNoWriter [
 
 	| w skin paint |
 	w := ToElement new.
@@ -42,33 +42,28 @@ ToSkinTest >> testWithNoSubscription [
 ]
 
 { #category : #'test with accessors' }
-ToSkinTest >> testWithOneSubscriptionWithOneWriter [
+ToSkinTest >> testWithOneWriter [
 
-	| w skin prop propWriter eventSubscription |
+	| w skin prop propWriter |
 	w := ToElement new.
 	skin := ToSkin new.
 	prop := self propertyIndex propertyNamed: #background.
 	propWriter := prop newWriterForValue: Color blue.
-	eventSubscription := ToLookEventSubscription new.
-	eventSubscription eventClass: ToInstallLookEvent.
-	eventSubscription writers: { propWriter }.
-	skin addSubscription: eventSubscription.
+	skin writers: { propWriter }.
 	w withSkin: skin.
 	w switchToSkinState: ToInstallState new.
 	self assert: w background paint color equals: Color blue
 ]
 
 { #category : #'test with accessors' }
-ToSkinTest >> testWithOneSubscriptionWithTwoWriters [
+ToSkinTest >> testWithTwoWriters [
 
-	| w skin eventSubscription backgroundProp borderProp |
+	| w skin backgroundProp borderProp |
 	w := ToElement new.
 	skin := ToSkin new.
 	backgroundProp := self propertyIndex propertyNamed: #background.
 	borderProp := self propertyIndex propertyNamed: #border.
-	eventSubscription := ToLookEventSubscription new.
-	eventSubscription eventClass: ToInstallLookEvent.
-	eventSubscription writers: {
+	skin writers: {
 			(ToPropertyWriter new
 				 property: backgroundProp;
 				 value: Color blue;
@@ -77,7 +72,6 @@ ToSkinTest >> testWithOneSubscriptionWithTwoWriters [
 				 property: borderProp;
 				 value: Color yellow;
 				 yourself) }.
-	skin addSubscription: eventSubscription.
 	w withSkin: skin.
 	w switchToSkinState: ToInstallState new.
 	self assert: w background paint color equals: Color blue.
@@ -85,30 +79,33 @@ ToSkinTest >> testWithOneSubscriptionWithTwoWriters [
 ]
 
 { #category : #'test with accessors' }
-ToSkinTest >> testWithTwoSubscriptions [
+ToSkinTest >> testWithTwoWritersTwoEventClasses [
 
-	| w skin backgroundProp eventSubscription1 eventSubscription2 |
+	| w skin backgroundProp borderProp |
 	w := ToElement new.
 	skin := ToSkin new.
 	backgroundProp := self propertyIndex propertyNamed: #background.
-	eventSubscription1 := ToLookEventSubscription new.
-	eventSubscription1 eventClass: ToInstallLookEvent.
-	eventSubscription1 writers: { (ToPropertyWriter new
-			 property: backgroundProp;
-			 value: Color blue;
-			 yourself) }.
-	eventSubscription2 := ToLookEventSubscription new.
-	eventSubscription2 eventClass: ToHoveredLookEvent.
-	eventSubscription2 writers: { (ToPropertyWriter new
-			 property: backgroundProp;
-			 value: Color red;
-			 yourself) }.
-	skin subscriptions: {
-			eventSubscription1.
-			eventSubscription2 }.
+	borderProp := self propertyIndex propertyNamed: #border.
+	skin writers: {
+			(ToPropertyWriter new
+				 eventClass: ToInitialLookEvent;
+				 property: backgroundProp;
+				 value: Color blue;
+				 yourself).
+			(ToPropertyWriter new
+				 property: borderProp;
+				 value: Color yellow;
+				 yourself).
+			(ToPropertyWriter new
+				 eventClass: ToInitialLookEvent;
+				 property: borderProp;
+				 value: Color red;
+				 yourself) }.
 	w withSkin: skin.
 	w switchToSkinState: ToInstallState new.
+	self assert: w background paint isNil.
+	self assert: w border paint color equals: Color yellow.
+	w switchToSkinState: ToInitialState new.
 	self assert: w background paint color equals: Color blue.
-	w switchToSkinState: ToHoveredState new.
-	self assert: w background paint color equals: Color red
+	self assert: w border paint color equals: Color red
 ]

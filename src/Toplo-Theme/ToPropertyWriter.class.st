@@ -6,7 +6,9 @@ Class {
 	#instVars : [
 		'property',
 		'value',
-		'animation'
+		'animation',
+		'eventClass',
+		'supplement'
 	],
 	#category : #'Toplo-Theme-Skin'
 }
@@ -24,9 +26,27 @@ ToPropertyWriter >> animation: aPropertyAnimation [
 ]
 
 { #category : #testing }
+ToPropertyWriter >> canReceiveEvent: aLookEvent [ 
+
+	^ self eventClass = aLookEvent class 
+]
+
+{ #category : #testing }
 ToPropertyWriter >> canReplace: anotherWriter [
 
 	^ false
+]
+
+{ #category : #accessing }
+ToPropertyWriter >> eventClass [
+
+	^ eventClass ifNil: [ eventClass := ToInstallLookEvent  ]
+]
+
+{ #category : #accessing }
+ToPropertyWriter >> eventClass: aLookEventClass [
+
+	eventClass := aLookEventClass
 ]
 
 { #category : #accessing }
@@ -39,6 +59,27 @@ ToPropertyWriter >> property [
 ToPropertyWriter >> property: anObject [
 
 	property := anObject
+]
+
+{ #category : #writing }
+ToPropertyWriter >> receiveEvent: aLookEvent [
+
+	| target |
+	(self canReceiveEvent: aLookEvent) ifFalse: [ ^ self ].
+	target := aLookEvent currentTarget.
+	self writeTo: target
+]
+
+{ #category : #accessing }
+ToPropertyWriter >> supplement [ 
+
+	^ supplement ifNil: [ supplement := false ]
+]
+
+{ #category : #accessing }
+ToPropertyWriter >> supplement: aBoolean [
+
+	supplement := aBoolean
 ]
 
 { #category : #accessing }

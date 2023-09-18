@@ -171,6 +171,32 @@ ToStyleSheet >> rawLookUpdatersFor: anElement [
 		  (self rulesFor: anElement) do: [ :r | str nextPutAll: r looks ] ]
 ]
 
+{ #category : #operating }
+ToStyleSheet >> rawSubscriptionsFor: anElement [
+
+	^ Array streamContents: [ :str |
+		  (self rulesFor: anElement) do: [ :r |
+			  str nextPut: (ToLookEventSubscription new
+					   supplement: r supplement;
+					   eventClass: r eventClass;
+					   rawWriters: (r writers collect: [ :w |
+								    w
+									    eventClass: r eventClass;
+									    yourself ]);
+					   yourself) ] ]
+]
+
+{ #category : #operating }
+ToStyleSheet >> rawWritersFor: anElement [
+
+	^ Array streamContents: [ :str |
+		  (self rulesFor: anElement) do: [ :r |
+			  str nextPutAll: (r writers collect: [ :w |
+					   w
+						   eventClass: r eventClass;
+						   yourself ]) ] ]
+]
+
 { #category : #accessing }
 ToStyleSheet >> rules [
 
@@ -192,9 +218,43 @@ ToStyleSheet >> rulesFor: anElement [
 { #category : #operating }
 ToStyleSheet >> skinFor: anElement [
 
-	| looks skin |
-	looks := self lookUpdatersFor: anElement.
+	| writers skin |
+	writers := self writersFor: anElement.
 	skin := ToWidgetSkinDep new.
-	skin addAllSubscriptions: looks.
+	skin writers: writers.
 	^ skin
+]
+
+{ #category : #operating }
+ToStyleSheet >> subscriptionsFor: anElement [
+	
+	" for an element, several rules can be found. These rules instances 
+	are found with #rawLookUpdatersFor:. After, for each property only the last LookUpdater is kept"
+
+	| rawSubscriptions selecter supplement |
+	" get all subscriptions for anElement "
+	rawSubscriptions := self rawSubscriptionsFor: anElement.
+	" keep only the last writers for each property except those which are declared as supplement"
+	selecter := IdentityDictionary new.
+	supplement := OrderedCollection new.
+	rawSubscriptions do: [ :l | 
+		l supplement ifTrue: [supplement add: l] ifFalse: [ selecter at: l property put: l ] ].
+	^ selecter values, supplement
+]
+
+{ #category : #operating }
+ToStyleSheet >> writersFor: anElement [
+	
+	" for an element, several writers can be found. These writers 
+	are found with #rawWritersFor:. After, for each property only the last writers is kept"
+
+	| rawWriters selecter supplement |
+	" get all subscriptions for anElement "
+	rawWriters := self rawWritersFor: anElement.
+	" keep only the last writers for each property except those which are declared as supplement"
+	selecter := IdentityDictionary new.
+	supplement := OrderedCollection new.
+	rawWriters do: [ :l | 
+		l supplement ifTrue: [supplement add: l] ifFalse: [ selecter at: l property put: l ] ].
+	^ selecter values, supplement
 ]

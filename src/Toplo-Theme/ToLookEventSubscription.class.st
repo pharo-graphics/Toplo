@@ -5,16 +5,11 @@ Class {
 	#classTraits : 'TToPropertyWriterHolder classTrait',
 	#instVars : [
 		'writers',
-		'eventClass'
+		'eventClass',
+		'supplement'
 	],
 	#category : #'Toplo-Theme-Skin'
 }
-
-{ #category : #testing }
-ToLookEventSubscription >> canReceiveEvent: aLookEvent [ 
-
-	^ self eventClass = aLookEvent class 
-]
 
 { #category : #testing }
 ToLookEventSubscription >> canReplace: anotherSubscription [
@@ -28,7 +23,7 @@ ToLookEventSubscription >> eventClass [
 	^ eventClass
 ]
 
-{ #category : #'private - accessing' }
+{ #category : #accessing }
 ToLookEventSubscription >> eventClass: aLookEventClass [
 
 	eventClass := aLookEventClass
@@ -50,7 +45,7 @@ ToLookEventSubscription >> rawWriters [
 { #category : #'t - property writer holder - accessing' }
 ToLookEventSubscription >> rawWriters: aPropertyWriterCollection [
 
-	^ writers := aPropertyWriterCollection
+	writers := aPropertyWriterCollection
 ]
 
 { #category : #operating }

@@ -4,7 +4,7 @@ A ToPropertySubscriptionTest is a test class for testing the behavior of ToPrope
 Class {
 	#name : #ToLookEventSubscriptionTest,
 	#superclass : #TestCase,
-	#category : #'Toplo-Theme-Tests-Skin'
+	#category : #'Toplo-Theme-Tests-SkinDep'
 }
 
 { #category : #tests }

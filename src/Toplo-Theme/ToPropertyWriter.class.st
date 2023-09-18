@@ -22,7 +22,9 @@ ToPropertyWriter >> animation [
 { #category : #accessing }
 ToPropertyWriter >> animation: aPropertyAnimation [
 
-	animation := aPropertyAnimation
+	animation := aPropertyAnimation.
+	animation ifNil: [ ^ self ].
+	animation property: self property
 ]
 
 { #category : #testing }
@@ -64,7 +66,8 @@ ToPropertyWriter >> property [
 { #category : #accessing }
 ToPropertyWriter >> property: anObject [
 
-	property := anObject
+	property := anObject.
+	self animation ifNotNil: [ :a | a property: self property ]
 ]
 
 { #category : #writing }

@@ -18,7 +18,7 @@ ToClickableType >> basicButtonBackgroundLookIn: anElement [
 { #category : #'basic button' }
 ToClickableType >> basicButtonBorderLookIn: anElement [
 
-	^ ToLookUpdater new
+	^ ToLookUpdaterDep new
 ]
 
 { #category : #'basic button' }
@@ -48,13 +48,13 @@ ToClickableType >> borderBuilderIn: anElement [
 { #category : #'checkable button' }
 ToClickableType >> checkableButtonBackgroundLookIn: anElement [
 
-	^ ToLookUpdater new
+	^ ToLookUpdaterDep new
 ]
 
 { #category : #'checkable button' }
 ToClickableType >> checkableButtonBorderLookIn: anElement [
 
-	^ ToLookUpdater new
+	^ ToLookUpdaterDep new
 ]
 
 { #category : #'checkable button' }
@@ -119,7 +119,7 @@ ToClickableType >> menuItemBackgroundLookIn: anElement [
 { #category : #'menu item' }
 ToClickableType >> menuItemBorderLookIn: anElement [
 
-	^ ToLookUpdater new
+	^ ToLookUpdaterDep new
 ]
 
 { #category : #'menu item' }
@@ -167,13 +167,13 @@ ToClickableType >> selectInnerButtonIconSkinIn: anElement [
 { #category : #'toggle button' }
 ToClickableType >> toggleButtonBackgroundLookIn: anElement [
 
-	^ ToLookUpdater new
+	^ ToLookUpdaterDep new
 ]
 
 { #category : #'toggle button' }
 ToClickableType >> toggleButtonBorderLookIn: anElement [
 
-	^ ToLookUpdater new
+	^ ToLookUpdaterDep new
 ]
 
 { #category : #'toggle button' }

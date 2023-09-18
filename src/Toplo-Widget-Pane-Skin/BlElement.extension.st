@@ -3,10 +3,5 @@ Extension { #name : #BlElement }
 { #category : #'*Toplo-Widget-Pane-Skin' }
 BlElement >> spaceRootSkin [
 
-	^ ToWidgetSkinDep new
-		  addLookUpdater:
-			  ((self styleSheet newLookUpdaterForPropertyName: #background)
-				   when: ToInstallLookEvent value: self toTheme backgroundColor;
-				   yourself);
-		  yourself
+	^ ToSkin new writers: { ToPropertyWriter new eventClass: ToInstallLookEvent; property: (ToFeatureProperty new name: #background); value: [ :e | e toTheme backgroundColor ] }
 ]

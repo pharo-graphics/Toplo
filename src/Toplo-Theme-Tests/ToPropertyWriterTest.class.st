@@ -7,6 +7,80 @@ Class {
 	#category : #'Toplo-Theme-Tests-Skin'
 }
 
+{ #category : #'test writing' }
+ToPropertyWriterTest >> testAnimationNeedPropertyWithReader [
+
+	| w prop propWriter anim |
+	w := BlElement new.
+	prop := ToPseudoProperty new.
+	prop name: #background.
+	prop writer: [ :e :v | e background: v ].
+	prop reader: nil.
+	propWriter := ToPropertyWriter new.
+	propWriter property: prop.
+	propWriter value: Color blue.
+	propWriter animation: (anim := ToPropertyColorTransitionAnimation new property: prop).
+	self should: [propWriter writeTo: w ] raise: MessageNotUnderstood.
+	
+	"now setup a reader and it should be ok "
+	prop reader: [ :e | e background ].
+	anim onFinishedDo: [
+		self assert: (w background isKindOf: BlPaintBackground).
+		self assert: w background paint color equals: Color blue.
+		self assert: (prop read: w) equals: w background ].
+	propWriter writeTo: w
+]
+
+{ #category : #'test event receiving' }
+ToPropertyWriterTest >> testCheckableUpdateWithValuable [
+
+	| w disabledImage checkedImage uncheckedImage indeterminateImage switch prop writer |
+	w := ToCheckLookTestElement new.
+
+	disabledImage := BlElement new.
+	checkedImage := BlElement new.
+	uncheckedImage := BlElement new.
+	indeterminateImage := BlElement new.
+	
+	switch := [ :e |
+	          e isDisabled
+		          ifTrue: [ disabledImage ]
+		          ifFalse: [
+			          e isChecked
+				          ifTrue: [ checkedImage ]
+				          ifFalse: [
+					          e isUnchecked
+						          ifTrue: [ uncheckedImage ]
+						          ifFalse: [ indeterminateImage ] ] ] ].
+	prop := ToPseudoProperty
+		        name: #'checkable-icon-image'
+		        reader: [ :e | e icon innerImage ]
+		        writer: [ :e :v |
+			        v removeFromParent.
+			        e iconImage: v ].
+	writer := ToPropertyWriter new
+		          property: prop;
+		          value: switch;
+		          eventClass: ToInitialLookEvent;
+		          yourself.
+
+	writer receiveEvent: (ToInitialLookEvent new currentTarget: w).
+	" since the checkable is unchecked by default "
+	self assert: w icon innerImage equals: uncheckedImage.
+
+	w checked: true.
+	writer receiveEvent: (ToInitialLookEvent new currentTarget: w).
+	self assert: w icon innerImage equals: checkedImage.
+
+	w checked: nil.
+	writer receiveEvent: (ToInitialLookEvent new currentTarget: w).
+	self assert: w icon innerImage equals: indeterminateImage.
+
+	w disable.
+	writer receiveEvent: (ToInitialLookEvent new currentTarget: w).
+	self assert: w icon innerImage equals: disabledImage
+]
+
 { #category : #'test event receiving' }
 ToPropertyWriterTest >> testReceiveDefaultEventWithFeaturePropertyWithRawValue [
 
@@ -224,4 +298,33 @@ ToPropertyWriterTest >> testWithPseudoPropertyWithValuableAndAnimation [
 		self assert: w background paint color equals: Color blue.
 		self assert: (prop read: w) equals: w background ].
 	propWriter writeTo: w
+]
+
+{ #category : #'test event receiving' }
+ToPropertyWriterTest >> testWriterFailsWithPseudoPropertyWithWrongWriter [
+
+	| w  installEvent prop propWriter |
+	w := ToElement new.
+	prop := ToPseudoProperty new name: #'font-name'.
+	prop writer: [ :e :v | e fontName: v ].
+
+	propWriter := ToPropertyWriter new property: prop.
+	propWriter eventClass: ToInstallLookEvent.
+	propWriter value: Color white.
+
+	installEvent := ToInstallLookEvent new currentTarget: w.
+	self should: [ propWriter receiveEvent: installEvent ] raise: MessageNotUnderstood
+]
+
+{ #category : #'test event receiving' }
+ToPropertyWriterTest >> testWriterNeedProperty [
+
+	| w writer event |
+
+	w := ToElement new.
+	writer := ToPropertyWriter new property: nil.
+	writer eventClass: ToInstallLookEvent.
+	writer value: [ :e | e background: Color white ].
+	event := ToInstallLookEvent new currentTarget: w.
+	self should: [ writer receiveEvent: event ] raise: MessageNotUnderstood 
 ]

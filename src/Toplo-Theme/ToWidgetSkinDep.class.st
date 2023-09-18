@@ -38,7 +38,7 @@ ToWidgetSkinDep >> addSubscription: aSubscription [
 { #category : #'api - install/uninstall  hook' }
 ToWidgetSkinDep >> defaultCursorLookIn: anElement [
 
-	^ ToLookUpdater new 
+	^ ToLookUpdaterDep new 
 ]
 
 { #category : #accessing }

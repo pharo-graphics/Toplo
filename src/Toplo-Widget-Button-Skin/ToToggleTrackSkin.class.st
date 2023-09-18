@@ -74,7 +74,7 @@ ToToggleTrackSkin >> innerButtonSizeIn: anElement [
 ToToggleTrackSkin >> onSkinInstalledIn: anElement [
 
 	super onSkinInstalledIn: anElement.
-	self addLookUpdater: ((ToLookUpdater forProperty: (ToFeatureProperty new name: #background; yourself))
+	self addLookUpdater: ((ToLookUpdaterDep forProperty: (ToFeatureProperty new name: #background; yourself))
 			when: ToDisabledLookEvent value: [ :e | e toTheme colorBgContainerDisabled  ];
 			when: ToInitialLookEvent value: [  :e | e isChecked
 					 ifTrue: [ e toTheme colorBgContainerChecked ]

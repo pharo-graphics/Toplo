@@ -7,12 +7,6 @@ Class {
 	#category : #'Toplo-Theme-Skin'
 }
 
-{ #category : #'t - property animation - action handling' }
-ToPropertyColorTransitionAnimation >> onFinishedDo: aBlock [
-
-	rawAnimation onFinishedDo: aBlock
-]
-
 { #category : #'t - property animation - running' }
 ToPropertyColorTransitionAnimation >> stop [
 
@@ -29,7 +23,8 @@ ToPropertyColorTransitionAnimation >> write: aColor to: anElement [
 		             from: currentColor;
 		             to: aColor;
 		             onStepDo: [ :c :e | self property write: c to: e ].
-	anElement addAnimation: rawAnimation.
-	rawAnimation onFinishedDo: [ self property write: aColor to: anElement ]
+	self finishedHandlers do: [ :h | rawAnimation onFinishedDo: h ].
+	rawAnimation onFinishedDo: [ self property write: aColor to: anElement ].
+	anElement addAnimation: rawAnimation
 
 ]

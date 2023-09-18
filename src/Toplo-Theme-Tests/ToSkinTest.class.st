@@ -30,6 +30,45 @@ ToSkinTest >> setUp [
 ]
 
 { #category : #'test with accessors' }
+ToSkinTest >> testPropertyWriterOrderMatter [
+
+	| w skin layoutDirectionProp layoutProp layoutWriter directionWriter |
+	w := ToElement new.
+	w layout: BlBasicLayout new.
+	skin := ToSkin new.
+	layoutDirectionProp := self propertyIndex propertyNamed:
+		                       #'layout-direction'.
+	layoutProp := self propertyIndex propertyNamed: #layout.
+	directionWriter := ToPropertyWriter new
+		                   eventClass: ToInstallLookEvent;
+		                   property: layoutDirectionProp;
+		                   value: BlLayoutDirection rightToLeft;
+		                   yourself.
+	layoutWriter := ToPropertyWriter new
+		                eventClass: ToInstallLookEvent;
+		                property: layoutProp;
+		                value: BlLinearLayout new;
+		                yourself.
+	skin writers: {
+			directionWriter.
+			layoutWriter }.
+
+	w withSkin: skin.
+	" the installation will fail because the widget layout (not a BlLinearLayout) does not understand #direction:"
+	self
+		should: [ w switchToSkinState: ToInstallState new ]
+		raise: MessageNotUnderstood.
+
+	" Now change writers order and it should be ok "
+	skin writers: {
+			layoutWriter.
+			directionWriter }.
+	w switchToSkinState: ToInstallState new.
+	self assert: (w layout isKindOf: BlLinearLayout).
+	self assert: w layout direction isRightToLeft
+]
+
+{ #category : #'test with accessors' }
 ToSkinTest >> testSupplementWriter [
 
 	| w skin backgroundProp borderProp borderBuilder |
@@ -73,6 +112,50 @@ ToSkinTest >> testSupplementWriter [
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color black.
 	self assert: w border style dashArray equals: #( 4 5 )
+]
+
+{ #category : #'test with accessors' }
+ToSkinTest >> testWithAnimationOn2EventClasses [
+
+	| w skin prop animation |
+	w := ToElement new.
+	skin := ToSkin new.
+	animation := ToPropertyColorTransitionAnimation new.
+	prop := self propertyIndex propertyNamed: #'background-color'.
+
+	skin writers: { 
+		ToPropertyWriter new
+			property: prop;
+			eventClass: ToInstallLookEvent;
+			value: Color white;
+			yourself.
+		ToPropertyWriter new
+			property: prop;
+			eventClass: ToHoveredLookEvent;
+			value: Color black;
+			animation: animation;
+			yourself.
+		ToPropertyWriter new
+			property: prop;
+			eventClass: ToLeavedLookEvent;
+			value: Color white;
+			animation: animation;
+			yourself.
+	
+	 }.
+
+	w withSkin: skin.
+
+	w switchToSkinState: ToInstallState new.
+	self assert: w background paint color equals: Color white.
+
+	w switchToSkinState: ToHoveredState new.
+	animation onFinishedDo: [
+		self assert: w background paint color equals: Color black.
+
+		w switchToSkinState: ToLeavedState new.
+		animation onFinishedDo: [
+			self assert: w background paint color equals: Color white ] ]
 ]
 
 { #category : #'test with accessors' }

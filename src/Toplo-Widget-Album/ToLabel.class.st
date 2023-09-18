@@ -93,12 +93,6 @@ ToLabel >> defaultPadding [
 ]
 
 { #category : #'t - skinable - initialization' }
-ToLabel >> defaultSkin [
-
-	^  self toTheme skinFor: self
-]
-
-{ #category : #'t - skinable - initialization' }
 ToLabel >> defaultStyleClasses [ 
 
 	^ #( #label )

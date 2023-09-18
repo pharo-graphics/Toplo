@@ -166,29 +166,50 @@ ToStyleSheet >> rulesFor: anElement [
 	^ self rules select: [ :r | r canBeAppliedTo: anElement ]
 ]
 
+{ #category : #'syntactic sugar' }
+ToStyleSheet >> selectedWith: aSelector style: aBlock [
+
+	^ ToStyleRule selectedWith: aSelector style: aBlock
+]
+
+{ #category : #'syntactic sugar' }
+ToStyleSheet >> selectedWith: aSelector when: aLookEventClass style: aBlock [
+
+	^ ToStyleRule selectedWith: aSelector when: aLookEventClass style: aBlock
+]
+
 { #category : #operating }
 ToStyleSheet >> skinFor: anElement [
 
 	| writers skin |
 	writers := self writersFor: anElement.
-	skin := ToWidgetSkinDep new.
+	skin := ToSkin new.
 	skin writers: writers.
 	^ skin
 ]
 
 { #category : #operating }
 ToStyleSheet >> writersFor: anElement [
-	
 	" for an element, several writers can be found. These writers 
 	are found with #rawWritersFor:. After, for each property only the last writers is kept"
 
-	| rawWriters selecter supplement |
+	| rawWriters supplement uniqueWriters eventClassIndex |
 	" get all subscriptions for anElement "
 	rawWriters := self rawWritersFor: anElement.
 	" keep only the last writers for each property except those which are declared as supplement"
-	selecter := IdentityDictionary new.
+	eventClassIndex := OrderPreservingIdentityDictionary new.
 	supplement := OrderedCollection new.
-	rawWriters do: [ :l | 
-		l supplement ifTrue: [supplement add: l] ifFalse: [ selecter at: l property put: l ] ].
-	^ selecter values, supplement
+	rawWriters do: [ :w |
+		w supplement
+			ifTrue: [ supplement add: w ]
+			ifFalse: [
+				| indexByProperty |
+				indexByProperty := eventClassIndex
+					                   at: w
+					                   ifAbsentPut: [ IdentityDictionary new ].
+				indexByProperty at: w property put: w ] ].
+	uniqueWriters := Array streamContents: [ :str |
+		                 eventClassIndex valuesDo: [ :indexByProperty |
+			                 str nextPutAll: indexByProperty values ] ].
+	^ uniqueWriters , supplement
 ]

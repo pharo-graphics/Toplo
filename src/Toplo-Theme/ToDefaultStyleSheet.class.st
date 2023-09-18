@@ -67,7 +67,10 @@ ToDefaultStyleSheet >> commonButtonRules [
 			   style: [ :sr |
 				   sr
 					   write: (self property: #layout)
-					   with: BlLinearLayout horizontal ]).
+					   with: BlLinearLayout horizontal.
+				   sr
+					   write: (self property: #'layout-interspace')
+					   with: [ :e | e toTheme paddingContentHorizontal / 3 ] ]).
 
 		  (self
 			   selectedWith: ((self class: #'inner-element')
@@ -114,9 +117,6 @@ ToDefaultStyleSheet >> commonButtonRules [
 				    (self classes: #( #button #horizontal )))
 			   when: ToInstallLookEvent
 			   style: [ :sr |
-				   sr
-					   write: (self property: #'layout-interspace')
-					   with: [ :e | e toTheme paddingContentHorizontal / 3 ].
 				   sr write: (self property: #padding) with: [ :e |
 					   BlInsets
 						   top: e toTheme paddingXS / 2
@@ -478,8 +478,14 @@ ToDefaultStyleSheet >> primaryButtonRules [
 					   with: [ :e | e toTheme colorBgContainerDisabled ].
 				   sr
 					   when: ToHoveredLookEvent
-					   write: (self property: #background)
-					   with: [ :e | e toTheme colorPrimaryHover ].
+					   write: (self property: #'background-color')
+					   with: [ :e | e toTheme colorPrimaryHover ]
+					   animation: ToPropertyColorTransitionAnimation new.
+				   sr
+					   when: ToLeavedLookEvent
+					   write: (self property: #'background-color')
+					   with: [ :e | e toTheme colorPrimary ]
+					   animation: ToPropertyColorTransitionAnimation new.
 				   sr
 					   when: ToPressedLookEvent
 					   write: (self property: #background)
@@ -510,8 +516,14 @@ ToDefaultStyleSheet >> primaryButtonRules [
 					   with: [ :e | e toTheme colorBgContainerDisabled ].
 				   sr
 					   when: ToHoveredLookEvent
-					   write: (self property: #background)
-					   with: [ :e | e toTheme colorErrorHover ].
+					   write: (self property: #'background-color')
+					   with: [ :e | e toTheme colorErrorHover ]
+					   animation: ToPropertyColorTransitionAnimation new.
+				   sr
+					   when: ToLeavedLookEvent
+					   write: (self property: #'background-color')
+					   with: [ :e | e toTheme colorError ]
+					   animation: ToPropertyColorTransitionAnimation new.
 				   sr
 					   when: ToPressedLookEvent
 					   write: (self property: #background)

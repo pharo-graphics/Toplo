@@ -4,7 +4,7 @@ A ToStyleSelectorEngineTest is a test class for testing the behavior of ToStyleS
 Class {
 	#name : #ToStyleSelectorInterpreterTest,
 	#superclass : #TestCase,
-	#category : #'Toplo-Theme-Tests-StyleSheet'
+	#category : #'Toplo-Theme-Tests-StyleSelector'
 }
 
 { #category : #'tests - child selector' }
@@ -223,6 +223,52 @@ ToStyleSelectorInterpreterTest >> testRuleWithAndWithChildSelector [
 	self assert: engine result.
 
 
+]
+
+{ #category : #'tests - child selector' }
+ToStyleSelectorInterpreterTest >> testRuleWithOrSelector [
+	" a rule with an And operator  "
+
+	| selector e engine |
+	selector := (ToStyleClassSelector new styleClasses: #( #button ))
+		            or: (ToStyleClassSelector new styleClasses: #( #button #horizontal )).
+
+	e := ToElement new styleClass: #button.
+	engine := ToStyleSelectorInterpreter new.
+	engine check: selector on: e.
+	self assert: engine result.
+	e addStyleClass: #horizontal.
+	engine check: selector on: e.
+	self assert: engine result.
+	e styleClasses: { #blob }.
+	engine check: selector on: e.
+	self assert: engine result not
+]
+
+{ #category : #'tests - child selector' }
+ToStyleSelectorInterpreterTest >> testRuleWithOrWithChildSelector [
+	" a rule with an Or operator with a child selector  "
+
+	| selector e engine child |
+	selector := (ToStyleClassSelector new styleClass: #'inner-element')
+		            parent: ((ToStyleClassSelector new styleClasses:
+				              #( #button #horizontal #justified )) or:
+				             (ToStyleClassSelector new styleClasses:
+					              #( #button #justified )))
+		            level: 1.
+
+	e := ToElement new styleClass: #button.
+	engine := ToStyleSelectorInterpreter new.
+	engine check: selector on: e.
+	self assert: engine result not.
+
+	e addChild: (child := ToElement new styleClass: #'inner-element').
+	engine check: selector on: child.
+	self assert: engine result not.
+
+	e addStyleClass: #justified.
+	engine check: selector on: child.
+	self assert: engine result
 ]
 
 { #category : #'tests - with single selector' }

@@ -200,6 +200,42 @@ ToStyleSheetTest >> testButtonSkin0 [
 ]
 
 { #category : #tests }
+ToStyleSheetTest >> testButtonSkinWithInterspace [
+
+	| ss elem writers skin interspaceProp layoutProp |
+	
+	interspaceProp := ToPseudoProperty
+			   name: #'layout-interspace'
+			   reader: [ :e | e layout interspace ]
+			   writer: [ :e :v | e layout interspace: v ].
+	layoutProp := ToFeatureProperty name: #layout.
+	
+	ss := ToStyleSheet new.
+	ss addRule: (ToStyleRule
+			 selectedWith: ((ToStyleClassSelector new styleClass: #button) 
+				or: (ToStyleClassSelector new styleClasses: #( #button #horizontal )))
+			 when: ToInstallLookEvent
+			 style: [ :sr |
+				 sr
+					 write: layoutProp
+					 with: BlLinearLayout horizontal.
+				 sr  write: interspaceProp with: 10]).
+
+	elem := ToElement new.
+	writers := ss writersFor: elem.
+	self assert: writers size equals: 0.
+	elem styleClass: #button.
+	writers := ss writersFor: elem.
+	self assert: writers size equals: 2.
+	skin := ToSkin new.
+	skin writers: writers.
+	elem withSkin: skin.
+	elem checkSkinInstallation.
+	self assert: (elem layout isKindOf: BlLinearLayout).
+	self assert: elem layout interspace equals: 10
+]
+
+{ #category : #tests }
 ToStyleSheetTest >> testEmptyStyleSheet [
 
 	| ss |

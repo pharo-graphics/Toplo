@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'id'
 	],
-	#category : #'Toplo-Theme-StyleSheet'
+	#category : #'Toplo-Theme-StyleSelector'
 }
 
 { #category : #visiting }

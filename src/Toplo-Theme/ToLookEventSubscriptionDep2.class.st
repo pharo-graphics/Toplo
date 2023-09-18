@@ -1,5 +1,5 @@
 Class {
-	#name : #ToLookEventSubscription,
+	#name : #ToLookEventSubscriptionDep2,
 	#superclass : #Object,
 	#traits : 'TToPropertyWriterHolder',
 	#classTraits : 'TToPropertyWriterHolder classTrait',
@@ -8,48 +8,48 @@ Class {
 		'eventClass',
 		'supplement'
 	],
-	#category : #'Toplo-Theme-Skin'
+	#category : #'Toplo-Theme-Skin-dep'
 }
 
 { #category : #testing }
-ToLookEventSubscription >> canReplace: anotherSubscription [
+ToLookEventSubscriptionDep2 >> canReplace: anotherSubscription [
 
 	^ false
 ]
 
 { #category : #accessing }
-ToLookEventSubscription >> eventClass [
+ToLookEventSubscriptionDep2 >> eventClass [
 
 	^ eventClass
 ]
 
 { #category : #accessing }
-ToLookEventSubscription >> eventClass: aLookEventClass [
+ToLookEventSubscriptionDep2 >> eventClass: aLookEventClass [
 
 	eventClass := aLookEventClass
 ]
 
 { #category : #initialization }
-ToLookEventSubscription >> initialize [ 
+ToLookEventSubscriptionDep2 >> initialize [ 
 
 	super initialize.
 	eventClass := ToInstallLookEvent 
 ]
 
 { #category : #'t - property writer holder - accessing' }
-ToLookEventSubscription >> rawWriters [
+ToLookEventSubscriptionDep2 >> rawWriters [
 
 	^ writers
 ]
 
 { #category : #'t - property writer holder - accessing' }
-ToLookEventSubscription >> rawWriters: aPropertyWriterCollection [
+ToLookEventSubscriptionDep2 >> rawWriters: aPropertyWriterCollection [
 
 	writers := aPropertyWriterCollection
 ]
 
 { #category : #operating }
-ToLookEventSubscription >> receiveEvent: aLookEvent [
+ToLookEventSubscriptionDep2 >> receiveEvent: aLookEvent [
 
 	| target |
 	(self canReceiveEvent: aLookEvent) ifFalse: [ ^ self ].

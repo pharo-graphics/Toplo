@@ -5,7 +5,7 @@ Class {
 		'selectors',
 		'looks'
 	],
-	#category : #'Toplo-Theme-StyleSheet'
+	#category : #'Toplo-Theme-StyleSheetDep'
 }
 
 { #category : #operating }

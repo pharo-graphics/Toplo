@@ -1,7 +1,7 @@
 Class {
 	#name : #ToStyleSelector,
 	#superclass : #Object,
-	#category : #'Toplo-Theme-StyleSheet'
+	#category : #'Toplo-Theme-StyleSelector'
 }
 
 { #category : #visiting }

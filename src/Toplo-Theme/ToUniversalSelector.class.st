@@ -1,7 +1,7 @@
 Class {
 	#name : #ToUniversalSelector,
 	#superclass : #ToSimpleSelector,
-	#category : #'Toplo-Theme-StyleSheet'
+	#category : #'Toplo-Theme-StyleSelector'
 }
 
 { #category : #visiting }

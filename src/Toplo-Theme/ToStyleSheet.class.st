@@ -111,29 +111,6 @@ ToStyleSheet >> initialize [
 	propertyIndex := self newPropertyIndex
 ]
 
-{ #category : #operating }
-ToStyleSheet >> lookUpdatersFor: anElement [
-	
-	" for an element, several LookUpdater instances can be found. These LookUpdater instances 
-	are found with #rawLookUpdatersFor:. After, for each property only the last LookUpdater is kept"
-
-	| rawLooks selecter supplement |
-	" get all LookUpdater instances for anElement "
-	rawLooks := self rawLookUpdatersFor: anElement.
-	" keep only the last for each property "
-	selecter := IdentityDictionary new.
-	supplement := OrderedCollection new.
-	rawLooks do: [ :l | 
-		l supplement ifTrue: [supplement add: l] ifFalse: [ selecter at: l property put: l ] ].
-	^ selecter values, supplement
-]
-
-{ #category : #'accessing updaters' }
-ToStyleSheet >> newLookUpdaterForPropertyName: aPropertyName [
-
-	^ self propertyIndex newLookUpdaterForPropertyName: aPropertyName
-]
-
 { #category : #initialization }
 ToStyleSheet >> newPropertyIndex [
 
@@ -158,43 +135,17 @@ ToStyleSheet >> propertyList [
 	^ self class propertyList
 ]
 
-{ #category : #'accessing updaters' }
+{ #category : #accessing }
 ToStyleSheet >> propertyNamed: aName [
 
 	^ self propertyIndex propertyNamed: aName
 ]
 
 { #category : #operating }
-ToStyleSheet >> rawLookUpdatersFor: anElement [
-
-	^ Array streamContents: [ :str |
-		  (self rulesFor: anElement) do: [ :r | str nextPutAll: r looks ] ]
-]
-
-{ #category : #operating }
-ToStyleSheet >> rawSubscriptionsFor: anElement [
-
-	^ Array streamContents: [ :str |
-		  (self rulesFor: anElement) do: [ :r |
-			  str nextPut: (ToLookEventSubscription new
-					   supplement: r supplement;
-					   eventClass: r eventClass;
-					   rawWriters: (r writers collect: [ :w |
-								    w
-									    eventClass: r eventClass;
-									    yourself ]);
-					   yourself) ] ]
-]
-
-{ #category : #operating }
 ToStyleSheet >> rawWritersFor: anElement [
 
 	^ Array streamContents: [ :str |
-		  (self rulesFor: anElement) do: [ :r |
-			  str nextPutAll: (r writers collect: [ :w |
-					   w
-						   eventClass: r eventClass;
-						   yourself ]) ] ]
+		  (self rulesFor: anElement) do: [ :r | str nextPutAll: r writers ] ]
 ]
 
 { #category : #accessing }
@@ -223,23 +174,6 @@ ToStyleSheet >> skinFor: anElement [
 	skin := ToWidgetSkinDep new.
 	skin writers: writers.
 	^ skin
-]
-
-{ #category : #operating }
-ToStyleSheet >> subscriptionsFor: anElement [
-	
-	" for an element, several rules can be found. These rules instances 
-	are found with #rawLookUpdatersFor:. After, for each property only the last LookUpdater is kept"
-
-	| rawSubscriptions selecter supplement |
-	" get all subscriptions for anElement "
-	rawSubscriptions := self rawSubscriptionsFor: anElement.
-	" keep only the last writers for each property except those which are declared as supplement"
-	selecter := IdentityDictionary new.
-	supplement := OrderedCollection new.
-	rawSubscriptions do: [ :l | 
-		l supplement ifTrue: [supplement add: l] ifFalse: [ selecter at: l property put: l ] ].
-	^ selecter values, supplement
 ]
 
 { #category : #operating }

@@ -11,7 +11,7 @@ Class {
 ToLookEventSubscriptionTest >> testWithNoWriters [
 
 	| eventSubscription |
-	eventSubscription := ToLookEventSubscription new.
+	eventSubscription := ToLookEventSubscriptionDep2 new.
 	eventSubscription eventClass: ToInstallLookEvent.
 	self assert: (eventSubscription canReceiveEvent: ToInstallLookEvent new).
 	self assert: (eventSubscription canReceiveEvent: ToHoveredLookEvent new) not.
@@ -24,7 +24,7 @@ ToLookEventSubscriptionTest >> testWithOneWriter [
 	| eventSubscription target propWriter |
 	propWriter := ToPropertyWriterForTest new propName: #background; value: Color blue.
 	target := BlElement new.
-	eventSubscription := ToLookEventSubscription new.
+	eventSubscription := ToLookEventSubscriptionDep2 new.
 	eventSubscription eventClass: ToInstallLookEvent.
 	eventSubscription writers: { propWriter }.
 	eventSubscription receiveEvent: (ToInstallLookEvent new currentTarget: target).
@@ -38,7 +38,7 @@ ToLookEventSubscriptionTest >> testWithTwoWriters [
 	propWriter1 := ToPropertyWriterForTest new propName: #background; value: Color blue.
 	propWriter2 := ToPropertyWriterForTest new propName: #border; value: Color red.
 	target := BlElement new.
-	eventSubscription := ToLookEventSubscription new.
+	eventSubscription := ToLookEventSubscriptionDep2 new.
 	eventSubscription eventClass: ToInstallLookEvent.
 	eventSubscription writers: { propWriter1.  propWriter2.}.
 	eventSubscription receiveEvent: (ToInstallLookEvent new currentTarget: target).
@@ -52,7 +52,7 @@ ToLookEventSubscriptionTest >> testWithWithDefaultEvent [
 	| eventSubscription target propWriter |
 	propWriter := ToPropertyWriterForTest new propName: #background; value: Color blue.
 	target := BlElement new.
-	eventSubscription := ToLookEventSubscription new.
+	eventSubscription := ToLookEventSubscriptionDep2 new.
 	eventSubscription writers: { propWriter }.
 	eventSubscription receiveEvent: (ToInstallLookEvent new currentTarget: target).
 	self assert: target background paint color equals: Color blue.

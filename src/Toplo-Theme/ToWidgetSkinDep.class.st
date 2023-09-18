@@ -6,7 +6,7 @@ Class {
 		'firstLookUpdater',
 		'subscriptions'
 	],
-	#category : #'Toplo-Theme-Skin'
+	#category : #'Toplo-Theme-Skin-dep'
 }
 
 { #category : #adding }

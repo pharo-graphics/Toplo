@@ -49,6 +49,12 @@ ToPropertyWriter >> eventClass: aLookEventClass [
 	eventClass := aLookEventClass
 ]
 
+{ #category : #testing }
+ToPropertyWriter >> isSupplement [
+
+	^ self supplement 
+]
+
 { #category : #accessing }
 ToPropertyWriter >> property [
 

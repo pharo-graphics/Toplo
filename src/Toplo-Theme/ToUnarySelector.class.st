@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'left'
 	],
-	#category : #'Toplo-Theme-StyleSheet'
+	#category : #'Toplo-Theme-StyleSelector'
 }
 
 { #category : #accessing }

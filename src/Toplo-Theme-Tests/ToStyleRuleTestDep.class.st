@@ -4,7 +4,7 @@ A ToStyleRuleTest is a test class for testing the behavior of ToStyleRule
 Class {
 	#name : #ToStyleRuleTestDep,
 	#superclass : #TestCase,
-	#category : #'Toplo-Theme-Tests-StyleSheet'
+	#category : #'Toplo-Theme-Tests-StyleSheetDep'
 }
 
 { #category : #tests }

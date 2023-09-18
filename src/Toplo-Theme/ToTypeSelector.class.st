@@ -5,7 +5,7 @@ Class {
 		'type',
 		'exact'
 	],
-	#category : #'Toplo-Theme-StyleSheet'
+	#category : #'Toplo-Theme-StyleSelector'
 }
 
 { #category : #visiting }

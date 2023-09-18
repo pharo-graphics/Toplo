@@ -30,6 +30,52 @@ ToSkinTest >> setUp [
 ]
 
 { #category : #'test with accessors' }
+ToSkinTest >> testSupplementWriter [
+
+	| w skin backgroundProp borderProp borderBuilder |
+	w := ToElement new.
+	skin := ToSkin new.
+	borderBuilder := BlBorderBuilder new.
+	backgroundProp := self propertyIndex propertyNamed: #background.
+	borderProp := self propertyIndex propertyNamed: #border.
+	skin writers: {
+			(ToPropertyWriter new
+				 eventClass: ToInitialLookEvent;
+				 property: backgroundProp;
+				 value: Color blue;
+				 yourself).
+			(ToPropertyWriter new
+				 property: borderProp;
+				 value: [ :e | Color yellow ];
+				 yourself).
+			(ToPropertyWriter new
+				 eventClass: ToInitialLookEvent;
+				 property: borderProp;
+				 value: [ :e |
+					 borderBuilder
+						 paint: Color red;
+						 build ] yourself).
+			(ToPropertyWriter new
+				 supplement: true;
+				 eventClass: ToInitialLookEvent;
+				 property: borderProp;
+				 value: [ :e |
+					 borderBuilder
+						 paint: Color black;
+						 dashArray: #( 4 5 );
+						 build ] yourself) }.
+	w withSkin: skin.
+	w switchToSkinState: ToInstallState new.
+	self assert: w background paint isNil.
+	self assert: w border paint color equals: Color yellow.
+	self assert: w border style dashArray equals: #(  ).
+	w switchToSkinState: ToInitialState new.
+	self assert: w background paint color equals: Color blue.
+	self assert: w border paint color equals: Color black.
+	self assert: w border style dashArray equals: #( 4 5 )
+]
+
+{ #category : #'test with accessors' }
 ToSkinTest >> testWithNoWriter [
 
 	| w skin paint |

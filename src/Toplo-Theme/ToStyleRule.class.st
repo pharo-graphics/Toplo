@@ -6,8 +6,7 @@ Class {
 	#instVars : [
 		'selector',
 		'eventClass',
-		'writers',
-		'supplement'
+		'writers'
 	],
 	#category : #'Toplo-Theme-StyleSheet'
 }
@@ -25,6 +24,12 @@ ToStyleRule >> canBeAppliedTo: anElement [
 ToStyleRule >> event: aLookEventClass [
 
 	eventClass := aLookEventClass
+]
+
+{ #category : #accessing }
+ToStyleRule >> eventClass [
+
+	^ eventClass
 ]
 
 { #category : #initialization }
@@ -49,6 +54,7 @@ ToStyleRule >> property: aProperty value: aValuableOrObject animation: aProperty
 			 property: aProperty;
 			 value: aValuableOrObject;
 			 animation: aPropertyAnimation;
+			 eventClass: self eventClass;
 			 yourself)
 ]
 
@@ -74,16 +80,4 @@ ToStyleRule >> selector [
 ToStyleRule >> selector: aStyleSelector [
 
 	selector := aStyleSelector
-]
-
-{ #category : #accessing }
-ToStyleRule >> supplement [
-
-	^ supplement ifNil: [ supplement := false ]
-]
-
-{ #category : #accessing }
-ToStyleRule >> supplement: aBoolean [
-
-	supplement := aBoolean
 ]

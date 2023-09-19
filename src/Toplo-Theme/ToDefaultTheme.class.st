@@ -148,43 +148,19 @@ ToDefaultTheme >> borderRadiusSM [
 { #category : #images }
 ToDefaultTheme >> checkboxCheckedImageIn: anElement [
 
-	^ (BlElement new
-			   size: (anElement toTheme controlHeight / 2) asPoint;
-			   border: (BlBorder paint: anElement toTheme colorPrimary width: 6);
-			   margin: (BlInsets all: 0);
-			   background: anElement toTheme colorBgContainer;
-			   yourself)
-]
-
-{ #category : #images }
-ToDefaultTheme >> checkboxDisabledImageIn: anElement [
-
-	^ (BlElement new
-			   size: (anElement toTheme controlHeight / 2) asPoint;
-			   border: (BlBorder paint: anElement toTheme colorBorderDisabled width: 6);
-			   margin: (BlInsets all: 0);
-			   background: anElement toTheme colorBgContainer;
-			   yourself)
+	^ ToElement new
+		  styleTags: #( #checkable #'inner-image' #checked );
+		  yourself
 ]
 
 { #category : #images }
 ToDefaultTheme >> checkboxIndeterminateImageIn: anElement [
 
 	| bar im |
-	bar := BlElement new
-		       constraintsDo: [ :c |
-			       c horizontal matchParent.
-			       c vertical exact: 4.
-			       c frame horizontal alignCenter.
-			       c frame vertical alignCenter ];
-		       border: BlBorder empty;
-		       background: anElement toTheme colorPrimary.
-	im := BlElement new
-		      size: 12 @ 12;
-		      margin: (BlInsets all: 2);
-				background: (anElement toTheme colorBgContainer alpha: 0);
-		      yourself.
-	im layout: BlFrameLayout new.
+	bar := ToElement new. 
+	bar styleTags: #( #checkable #'inner-image' #indeterminate bar ).
+	im := ToElement new.
+	im styleTags: #( #checkable #'inner-image' #indeterminate ).
 	im addChild: bar.
 	^ im
 ]
@@ -192,10 +168,8 @@ ToDefaultTheme >> checkboxIndeterminateImageIn: anElement [
 { #category : #images }
 ToDefaultTheme >> checkboxUncheckedImageIn: anElement [
 
-	^ (BlElement new
-			   size: (anElement toTheme controlHeight / 2) asPoint;
-			   margin: (BlInsets all: 0);
-			   background: (anElement toTheme colorBgContainer alpha: 0);
+	^ (ToElement new 
+				styleTags: #( #checkable #'inner-image' #unchecked );
 			   yourself)
 ]
 
@@ -262,6 +236,12 @@ ToDefaultTheme >> colorBorder [
 	"https://ant.design/components/button#design-token"
 	
 	^ Color fromHexString: '#d9d9d9'
+]
+
+{ #category : #colors }
+ToDefaultTheme >> colorBorderCheckable [
+	
+	^ Color transparent
 ]
 
 { #category : #colors }
@@ -640,36 +620,4 @@ ToDefaultTheme >> paddingXS [
 	"Control the extra small padding of the element"
 
 	^ 8
-]
-
-{ #category : #images }
-ToDefaultTheme >> radioCheckedImageIn: anElement [
-
-	^ (self checkboxCheckedImageIn: anElement)
-		  geometry: BlCircleGeometry new;
-		  yourself
-]
-
-{ #category : #images }
-ToDefaultTheme >> radioDisabledImageIn: anElement [
-
-	^ (self checkboxDisabledImageIn: anElement)
-		  geometry: BlCircleGeometry new;
-		  yourself
-]
-
-{ #category : #images }
-ToDefaultTheme >> radioIndeterminateImageIn: anElement [
-
-	^ (self checkboxIndeterminateImageIn: anElement)
-		  geometry: BlCircleGeometry new;
-		  yourself
-]
-
-{ #category : #images }
-ToDefaultTheme >> radioUncheckedImageIn: anElement [
-
-	^ (self checkboxUncheckedImageIn: anElement)
-		  geometry: BlCircleGeometry new;
-		  yourself
 ]

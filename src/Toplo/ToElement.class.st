@@ -9,14 +9,14 @@ Class {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #accessing }
-ToElement >> borderBuilder [
+{ #category : #'t - dressable -  initialization' }
+ToElement >> defaultDresser [
 
-	^ borderBuilder ifNil: [ borderBuilder := BlBorderBuilder new ]
+	^ ToDresser new
 ]
 
 { #category : #'t - skinable - initialization' }
-ToElement >> defaultStyleClasses [
+ToElement >> defaultStyleTags [
 
 	^ #( )
 ]

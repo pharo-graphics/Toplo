@@ -32,7 +32,7 @@ ToStyleRuleTest >> testNewStyleRuleFromSelector [
 	}"
 
 	ToStyleRule
-		selectedWith: (ToStyleClassSelector new styleClass: #button)
+		selectedWith: (ToStyleTagSelector new styleTag: #button)
 		when: ToInitialLookEvent
 		style: [ :sr |
 			sr
@@ -49,20 +49,20 @@ ToStyleRuleTest >> testRuleWithAndSelector [
 
 	| rule e |
 	rule := ToStyleRule
-		        selectedWith: (ToStyleClassSelector new styleClasses: #( #button ))
+		        selectedWith: (ToStyleTagSelector new styleTags: #( #button ))
 		        style: [ :sr |  ].
 
-	e := ToElement new styleClass: #something.
+	e := ToElement new styleTag: #something.
 	self assert: (rule canBeAppliedTo: e) not.
 
-	e styleClass: #button.
+	e styleTag: #button.
 	self assert: (rule canBeAppliedTo: e).
 
 	rule := ToStyleRule
 		        selectedWith:
-			        ((ToStyleClassSelector new styleClasses: #( #button ))
+			        ((ToStyleTagSelector new styleTags: #( #button ))
 				         and:
-				         (ToStyleClassSelector new styleClasses: #( #danger )))
+				         (ToStyleTagSelector new styleTags: #( #danger )))
 		        style: [ :sr |  ].
 	self assert: (rule canBeAppliedTo: e) not.
 
@@ -70,7 +70,7 @@ ToStyleRuleTest >> testRuleWithAndSelector [
 	self assert: (rule canBeAppliedTo: e).
 
 	rule := ToStyleRule
-		        selectedWith: (ToStyleClassSelector new styleClasses: #( #button #danger ))
+		        selectedWith: (ToStyleTagSelector new styleTags: #( #button #danger ))
 		        style: [ :sr |  ].
 
 	self assert: (rule canBeAppliedTo: e).
@@ -85,18 +85,18 @@ ToStyleRuleTest >> testRuleWithAndWithChildSelector [
 
 	| rule e child |
 	rule := ToStyleRule new selector:
-		        ((ToStyleClassSelector new styleClass: #'button-label')
+		        ((ToStyleTagSelector new styleTag: #'button-label')
 			         parent:
-				         ((ToStyleClassSelector new styleClasses: #( #button ))
+				         ((ToStyleTagSelector new styleTags: #( #button ))
 					          and:
-					          (ToStyleClassSelector new styleClasses: #( #danger )))
+					          (ToStyleTagSelector new styleTags: #( #danger )))
 			         level: 1).
-	e := ToElement new styleClass: #button.
+	e := ToElement new styleTag: #button.
 	self assert: (rule canBeAppliedTo: e) not.
 	e addStyleClass: #danger.
 	" ko since no child "
 	self assert: (rule canBeAppliedTo: e) not.
-	e addChild: (child := ToElement new styleClass: #'button-label').
+	e addChild: (child := ToElement new styleTag: #'button-label').
 	" ko since no child "
 	self assert: (rule canBeAppliedTo: child)
 ]
@@ -107,13 +107,13 @@ ToStyleRuleTest >> testRuleWithChildSelector1 [
 
 	| rule parent child |
 	rule := ToStyleRule new
-			 selector:  ((ToStyleClassSelector new styleClass: #child)
-					  parent: (ToStyleClassSelector new styleClass: #'direct-parent')
+			 selector:  ((ToStyleTagSelector new styleTag: #child)
+					  parent: (ToStyleTagSelector new styleTag: #'direct-parent')
 					  level: 1).
 	child := ToElement new.
-	child styleClass: #child.
+	child styleTag: #child.
 	parent := ToElement new.
-	parent styleClass: #'direct-parent'.
+	parent styleTag: #'direct-parent'.
 	parent addChild: child.
 	self assert: (rule canBeAppliedTo: child)
 ]
@@ -124,14 +124,14 @@ ToStyleRuleTest >> testRuleWithChildSelector2 [
 
 	| rule child childchild |
 	rule := ToStyleRule new selector:
-		        ((ToStyleClassSelector new styleClass: #childchild)
-			         parent: (ToStyleClassSelector new styleClass: #child)
+		        ((ToStyleTagSelector new styleTag: #childchild)
+			         parent: (ToStyleTagSelector new styleTag: #child)
 			         level: 1).
 
 	childchild := ToElement new.
-	childchild styleClass: #childchild.
+	childchild styleTag: #childchild.
 	child := ToElement new.
-	child styleClass: #child.
+	child styleTag: #child.
 	self assert: (rule canBeAppliedTo: childchild) not.
 	child addChild: childchild.
 	self assert: (rule canBeAppliedTo: childchild)
@@ -144,14 +144,14 @@ ToStyleRuleTest >> testRuleWithChildSelector3 [
 	| rule parent child childchild |
 
 	rule := ToStyleRule new
-			 selector:  ((ToUniversalSelector new) parent: (ToStyleClassSelector new styleClass: #parent) level: 2).
+			 selector:  ((ToUniversalSelector new) parent: (ToStyleTagSelector new styleTag: #parent) level: 2).
 	childchild := BlElement new.
-	childchild styleClass: #childchild.
+	childchild styleTag: #childchild.
 	child := BlElement new.
-	child styleClass: #child.
+	child styleTag: #child.
 	child addChild: childchild.
 	parent := BlElement new.
-	parent styleClass: #parent.
+	parent styleTag: #parent.
 	parent addChild: child.
 	self assert: childchild parent == child.
 	self assert: child parent == parent.
@@ -165,29 +165,29 @@ ToStyleRuleTest >> testRuleWithChildSelector4 [
 	| parent child childchild childchildchild childRule childchildRule childchildchildRule |
 	childRule := ToStyleRule new selector: (ToUniversalSelector new
 			              parent:
-			              (ToStyleClassSelector new styleClass: #parent)
+			              (ToStyleTagSelector new styleTag: #parent)
 			              level: 1).
 	childchildRule := ToStyleRule new selector: (ToUniversalSelector new
 			                   parent:
-			                   (ToStyleClassSelector new styleClass: #parent)
+			                   (ToStyleTagSelector new styleTag: #parent)
 			                   level: 2).
 	childchildchildRule := ToStyleRule new selector:
 		                       (ToUniversalSelector new
 			                        parent:
-			                        (ToStyleClassSelector new styleClass:
+			                        (ToStyleTagSelector new styleTag:
 				                         #parent)
 			                        level: 3).
 
 	childchildchild := BlElement new.
-	childchildchild styleClass: #childchildchild.
+	childchildchild styleTag: #childchildchild.
 	childchild := BlElement new.
-	childchild styleClass: #childchild.
+	childchild styleTag: #childchild.
 	child := BlElement new.
-	child styleClass: #child.
+	child styleTag: #child.
 	child addChild: childchild.
 	childchild addChild: childchildchild.
 	parent := BlElement new.
-	parent styleClass: #parent.
+	parent styleTag: #parent.
 	parent addChild: child.
 	self assert: childchildchild parent identicalTo: childchild.
 	self assert: childchild parent identicalTo: child.
@@ -203,15 +203,15 @@ ToStyleRuleTest >> testRuleWithChildSelector5 [
 
 	| parent child childchild childchildchild childRule childchildRule childchildchildRule |
 	childchildchild := BlElement new.
-	childchildchild styleClass: #childchildchild.
+	childchildchild styleTag: #childchildchild.
 	childchild := BlElement new.
-	childchild styleClass: #childchild.
+	childchild styleTag: #childchild.
 	child := BlElement new.
-	child styleClass: #child.
+	child styleTag: #child.
 	child addChild: childchild.
 	childchild addChild: childchildchild.
 	parent := BlElement new.
-	parent styleClass: #parent.
+	parent styleTag: #parent.
 	parent addChild: child.
 	self assert: childchildchild parent identicalTo: childchild.
 	self assert: childchild parent identicalTo: child.
@@ -219,17 +219,17 @@ ToStyleRuleTest >> testRuleWithChildSelector5 [
 
 	childRule := ToStyleRule new selector: (ToUniversalSelector new
 			              parent:
-			              (ToStyleClassSelector new styleClass: #parent)
+			              (ToStyleTagSelector new styleTag: #parent)
 			              level: 0).
 
 	childchildRule := ToStyleRule new selector: (ToUniversalSelector new
 			                   parent:
-			                   (ToStyleClassSelector new styleClass: #parent)
+			                   (ToStyleTagSelector new styleTag: #parent)
 			                   level: 1).
 	childchildchildRule := ToStyleRule new selector:
 		                       (ToUniversalSelector new
 			                        parent:
-			                        (ToStyleClassSelector new styleClass:
+			                        (ToStyleTagSelector new styleTag:
 				                         #parent)
 			                        level: 2).
 
@@ -240,16 +240,16 @@ ToStyleRuleTest >> testRuleWithChildSelector5 [
 
 	childRule := ToStyleRule new selector: (ToUniversalSelector new
 			              parent:
-			              (ToStyleClassSelector new styleClass: #parent)
+			              (ToStyleTagSelector new styleTag: #parent)
 			              level: 2).
 	childchildRule := ToStyleRule new selector: (ToUniversalSelector new
 			                   parent:
-			                   (ToStyleClassSelector new styleClass: #parent)
+			                   (ToStyleTagSelector new styleTag: #parent)
 			                   level: 3).
 	childchildchildRule := ToStyleRule new selector:
 		                       (ToUniversalSelector new
 			                        parent:
-			                        (ToStyleClassSelector new styleClass:
+			                        (ToStyleTagSelector new styleTag:
 				                         #parent)
 			                        level: 4).
 
@@ -260,16 +260,16 @@ ToStyleRuleTest >> testRuleWithChildSelector5 [
 
 	childRule := ToStyleRule new selector: (ToUniversalSelector new
 			              parent:
-			              (ToStyleClassSelector new styleClass: #parent)
+			              (ToStyleTagSelector new styleTag: #parent)
 			              level: 1).
 	childchildRule := ToStyleRule new selector: (ToUniversalSelector new
 			                   parent:
-			                   (ToStyleClassSelector new styleClass: #parent)
+			                   (ToStyleTagSelector new styleTag: #parent)
 			                   level: 2).
 	childchildchildRule := ToStyleRule new selector:
 		                       (ToUniversalSelector new
 			                        parent:
-			                        (ToStyleClassSelector new styleClass:
+			                        (ToStyleTagSelector new styleTag:
 				                         #parent)
 			                        level: 3).
 
@@ -283,12 +283,12 @@ ToStyleRuleTest >> testRuleWithClassSelector [
 
 	| rule e |
 	rule := ToStyleRule new selector:
-		        (ToStyleClassSelector new styleClasses: #( #button )).
+		        (ToStyleTagSelector new styleTags: #( #button )).
 
-	e := ToElement new styleClass: #something.
+	e := ToElement new styleTag: #something.
 	self assert: (rule canBeAppliedTo: e) not.
 
-	e styleClass: #button.
+	e styleTag: #button.
 	self assert: (rule canBeAppliedTo: e).
 	e addStyleClass: #danger.
 	self assert: (rule canBeAppliedTo: e)

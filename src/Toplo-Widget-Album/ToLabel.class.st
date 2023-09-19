@@ -93,7 +93,7 @@ ToLabel >> defaultPadding [
 ]
 
 { #category : #'t - skinable - initialization' }
-ToLabel >> defaultStyleClasses [ 
+ToLabel >> defaultStyleTags [ 
 
 	^ #( #label )
 ]

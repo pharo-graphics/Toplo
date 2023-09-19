@@ -10,14 +10,16 @@ Class {
 
 { #category : #accessing }
 ToStyleSheet class >> propertyList [
-
 	" skin managing need a list of unique property. See ToStyleSheet>>lookUpdatersFor: where properties are used in an IdentityDictionary"
+
 	^ {
 		  (ToFeatureProperty name: #mouseCursor).
 		  (ToFeatureProperty name: #background).
 		  (ToFeatureProperty name: #geometry).
 		  (ToFeatureProperty name: #border).
 		  (ToFeatureProperty name: #size).
+		  (ToFeatureProperty name: #height).
+		  (ToFeatureProperty name: #width).
 		  (ToFeatureProperty name: #margin).
 		  (ToFeatureProperty name: #padding).
 		  (ToFeatureProperty name: #icon).
@@ -29,38 +31,39 @@ ToStyleSheet class >> propertyList [
 			   name: #'background-color'
 			   reader: [ :e | e background paint color ]
 			   writer: [ :e :v | e background: v ]).
-		  (ToPseudoProperty 
-				name: #'border-with-builder'
-				reader: [ :e | e border ]
-				writer: [ :e :v | e border: v build]).
-		  (ToPseudoProperty new 
-				name: #'text-attributes-with-builder';
-				writer: [ :e :v |
-					e text attributes: v attributes.
-					e textChanged ]).
-		  (ToPseudoProperty new 
-				name: #'label-text-background';
-		  		writer: [ :e :v |
-			  		e text attributes: { (BlTextBackgroundAttribute paint: v) }.
-			  		e textChanged ] ).
-		  (ToPseudoProperty new 
-				name: #'label-text-foreground';
-		  		writer: [ :e :v |
-			  		e text attributes: { (BlTextForegroundAttribute paint: v) }.
-			  		e textChanged ] ).
+		  (ToPseudoProperty
+			   name: #'border-with-builder'
+			   reader: [ :e | e border ]
+			   writer: [ :e :v | e border: v build ]).
+		  (ToPseudoProperty new
+			   name: #'text-attributes-with-builder';
+			   writer: [ :e :v |
+				   e text attributes: v attributes.
+				   e textChanged ]).
+		  (ToPseudoProperty new
+			   name: #'label-text-background';
+			   writer: [ :e :v |
+				   e text attributes: { (BlTextBackgroundAttribute paint: v) }.
+				   e textChanged ]).
+		  (ToPseudoProperty new
+			   name: #'label-text-foreground';
+			   writer: [ :e :v |
+				   e text attributes: { (BlTextForegroundAttribute paint: v) }.
+				   e textChanged ]).
 		  (ToFeatureProperty new name: #innerImage).
 		  (ToPseudoProperty new
-		        name: #'image-inner-form-color';
-		        writer: [ :e :v |
-			        e
-				        withInnerFormDo: [ :form |
-					        e innerImage: (form collectColors: [ :color | v alpha: color alpha ]) ]
-				        ifNone: [  ] ]).
+			   name: #'image-inner-form-color';
+			   writer: [ :e :v |
+				   e
+					   withInnerFormDo: [ :form |
+						   e innerImage:
+								   (form collectColors: [ :color | v alpha: color alpha ]) ]
+					   ifNone: [  ] ]).
 		  (ToPseudoProperty
 			   name: #'checkable-icon-image'
 			   reader: [ :e | e icon innerImage ]
-				writer: [ :e :v | 
-					v removeFromParent.
+			   writer: [ :e :v |
+				   v removeFromParent.
 				   e iconImage: v ]).
 		  (ToFeatureProperty name: #layout).
 		  (ToPseudoProperty
@@ -74,7 +77,11 @@ ToStyleSheet class >> propertyList [
 		  (ToPseudoProperty
 			   name: #'layout-interspace'
 			   reader: [ :e | e layout interspace ]
-			   writer: [ :e :v | e layout interspace: v ]) }
+			   writer: [ :e :v | e layout interspace: v ]).
+		  (ToPseudoProperty
+			   name: #'layout-constraints'
+			   reader: [ :e | e constraints ]
+			   writer: [ :e :v | v value: e constraints ]) }
 ]
 
 { #category : #adding }
@@ -87,20 +94,6 @@ ToStyleSheet >> addRule: aStyleRule [
 ToStyleSheet >> addRules: aStyleRuleCollection [
 
 	rules := rules copyWithAll: aStyleRuleCollection
-]
-
-{ #category : #'syntactic sugar' }
-ToStyleSheet >> class: aSymbol [
-
- 	^ ToStyleClassSelector new styleClass: aSymbol
-
-]
-
-{ #category : #'syntactic sugar' }
-ToStyleSheet >> classes: anArray [
-
- 	^ ToStyleClassSelector new styleClasses: anArray
-
 ]
 
 { #category : #'syntactic sugar' }
@@ -183,6 +176,20 @@ ToStyleSheet >> skinFor: anElement [
 	^ skin
 ]
 
+{ #category : #'syntactic sugar' }
+ToStyleSheet >> tag: aSymbol [
+
+ 	^ ToStyleTagSelector new styleTag: aSymbol
+
+]
+
+{ #category : #'syntactic sugar' }
+ToStyleSheet >> tags: anArray [
+
+ 	^ ToStyleTagSelector new styleTags: anArray
+
+]
+
 { #category : #operating }
 ToStyleSheet >> writersFor: anElement [
 	" for an element, several writers can be found. These writers 
@@ -192,7 +199,7 @@ ToStyleSheet >> writersFor: anElement [
 	" get all subscriptions for anElement "
 	rawWriters := self rawWritersFor: anElement.
 	" keep only the last writers for each property except those which are declared as supplement"
-	eventClassIndex := OrderPreservingIdentityDictionary new.
+	eventClassIndex := IdentityDictionary new.
 	supplement := OrderedCollection new.
 	rawWriters do: [ :w |
 		w supplement
@@ -200,11 +207,11 @@ ToStyleSheet >> writersFor: anElement [
 			ifFalse: [
 				| indexByProperty |
 				indexByProperty := eventClassIndex
-					                   at: w
+					                   at: w eventClass
 					                   ifAbsentPut: [ IdentityDictionary new ].
 				indexByProperty at: w property put: w ] ].
 	uniqueWriters := Array streamContents: [ :str |
 		                 eventClassIndex valuesDo: [ :indexByProperty |
 			                 str nextPutAll: indexByProperty values ] ].
-	^ uniqueWriters , supplement
+	^ (uniqueWriters sort: [:a :b | a property name < b property name ]), supplement
 ]

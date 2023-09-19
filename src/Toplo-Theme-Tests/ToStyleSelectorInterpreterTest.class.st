@@ -90,7 +90,7 @@ ToStyleSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass0 [
 	" element with no class, selector without class "
 
 	| selector e engine |
-	selector := ToStyleClassSelector new.
+	selector := ToStyleTagSelector new.
 	e := ToElement new.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
@@ -103,7 +103,7 @@ ToStyleSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass1 [
 	" element with a class, selector without class "
 
 	| selector e engine |
-	selector := ToStyleClassSelector new.
+	selector := ToStyleTagSelector new.
 	e := ToElement new addStyleClass: #a.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
@@ -116,7 +116,7 @@ ToStyleSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass2 [
 	" element with a class, selector with the same class "
 
 	| selector e engine |
-	selector := ToStyleClassSelector new styleClass: #a.
+	selector := ToStyleTagSelector new styleTag: #a.
 	e := ToElement new addStyleClass: #a.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
@@ -129,12 +129,12 @@ ToStyleSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass3 [
 	" element with a class, selector with the a different class "
 
 	| selector e engine |
-	selector := ToStyleClassSelector new styleClass: #b.
+	selector := ToStyleTagSelector new styleTag: #b.
 	e := ToElement new addStyleClass: #a.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result not.
-	selector := ToStyleClassSelector new styleClasses: #(#b).
+	selector := ToStyleTagSelector new styleTags: #(#b).
 	e := ToElement new addStyleClass: #a.
 	self assert: engine result not.
 
@@ -146,7 +146,7 @@ ToStyleSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass4 [
 	" element with multiple classes "
 
 	| selector e engine |
-	selector := ToStyleClassSelector new styleClasses: #( #a ).
+	selector := ToStyleTagSelector new styleTags: #( #a ).
 	e := ToElement new addStyleClass: #a.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
@@ -181,9 +181,9 @@ ToStyleSelectorInterpreterTest >> testNotSelector [
 ToStyleSelectorInterpreterTest >> testRuleWithAndSelector [
 	" a rule with an And operator  "
 	| selector e engine  |
-	selector :=  (ToStyleClassSelector new styleClasses: #( #button )) and: (ToStyleClassSelector new styleClasses: #( #danger )).
+	selector :=  (ToStyleTagSelector new styleTags: #( #button )) and: (ToStyleTagSelector new styleTags: #( #danger )).
 
-	e := ToElement new styleClass: #button.
+	e := ToElement new styleTag: #button.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result not.
@@ -203,10 +203,10 @@ ToStyleSelectorInterpreterTest >> testRuleWithAndSelector [
 ToStyleSelectorInterpreterTest >> testRuleWithAndWithChildSelector [
 	" a rule with an And operator  "
 	| selector e engine child |
-	selector :=  (ToStyleClassSelector new styleClass: #'button-label') 
-				parent: (((ToStyleClassSelector new styleClasses: #( #button )) and: (ToStyleClassSelector new styleClasses: #( #danger )))) level: 1.
+	selector :=  (ToStyleTagSelector new styleTag: #'button-label') 
+				parent: (((ToStyleTagSelector new styleTags: #( #button )) and: (ToStyleTagSelector new styleTags: #( #danger )))) level: 1.
 
-	e := ToElement new styleClass: #button.
+	e := ToElement new styleTag: #button.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result not.
@@ -214,7 +214,7 @@ ToStyleSelectorInterpreterTest >> testRuleWithAndWithChildSelector [
 	" ko since no child "
 	engine check: selector on: e.
 	self assert: engine result not.
-	e addChild: (child := ToElement new styleClass: #'button-label').
+	e addChild: (child := ToElement new styleTag: #'button-label').
 	" ko since no child "
 	engine check: selector on: e.
 	self assert: engine result not.
@@ -230,17 +230,17 @@ ToStyleSelectorInterpreterTest >> testRuleWithOrSelector [
 	" a rule with an And operator  "
 
 	| selector e engine |
-	selector := (ToStyleClassSelector new styleClasses: #( #button ))
-		            or: (ToStyleClassSelector new styleClasses: #( #button #horizontal )).
+	selector := (ToStyleTagSelector new styleTags: #( #button ))
+		            or: (ToStyleTagSelector new styleTags: #( #button #horizontal )).
 
-	e := ToElement new styleClass: #button.
+	e := ToElement new styleTag: #button.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result.
 	e addStyleClass: #horizontal.
 	engine check: selector on: e.
 	self assert: engine result.
-	e styleClasses: { #blob }.
+	e styleTags: { #blob }.
 	engine check: selector on: e.
 	self assert: engine result not
 ]
@@ -250,19 +250,19 @@ ToStyleSelectorInterpreterTest >> testRuleWithOrWithChildSelector [
 	" a rule with an Or operator with a child selector  "
 
 	| selector e engine child |
-	selector := (ToStyleClassSelector new styleClass: #'inner-element')
-		            parent: ((ToStyleClassSelector new styleClasses:
+	selector := (ToStyleTagSelector new styleTag: #'inner-element')
+		            parent: ((ToStyleTagSelector new styleTags:
 				              #( #button #horizontal #justified )) or:
-				             (ToStyleClassSelector new styleClasses:
+				             (ToStyleTagSelector new styleTags:
 					              #( #button #justified )))
 		            level: 1.
 
-	e := ToElement new styleClass: #button.
+	e := ToElement new styleTag: #button.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result not.
 
-	e addChild: (child := ToElement new styleClass: #'inner-element').
+	e addChild: (child := ToElement new styleTag: #'inner-element').
 	engine check: selector on: child.
 	self assert: engine result not.
 

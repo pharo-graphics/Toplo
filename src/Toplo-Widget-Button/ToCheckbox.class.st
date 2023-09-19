@@ -12,6 +12,12 @@ ToCheckbox >> defaultDresser [
 	^ ToTripletDresser next: ToCheckableButtonDresser new
 ]
 
+{ #category : #'t - skinable - initialization' }
+ToCheckbox >> defaultStyleTags [
+
+	^ { #button. #checkable. #checkbox}
+]
+
 { #category : #'as yet unclassified' }
 ToCheckbox >> initialize [
 

@@ -49,12 +49,6 @@ TToCheckbox >> checkedImage: anImage [
 ]
 
 { #category : #'t - checkbox - accessing' }
-TToCheckbox >> disabledImage [
-
-	^ disabledImage ifNil: [ self toTheme checkboxDisabledImageIn: self ]
-]
-
-{ #category : #'t - checkbox - accessing' }
 TToCheckbox >> disabledImage: anImage [
 
 	disabledImage := anImage

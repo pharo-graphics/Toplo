@@ -25,13 +25,13 @@ ToStyleSelectorVisitor >> visitOrSelector: aSelector [
 ]
 
 { #category : #visiting }
-ToStyleSelectorVisitor >> visitStyleClassSelector: aSelector [
-]
-
-{ #category : #visiting }
 ToStyleSelectorVisitor >> visitStyleRule: aStyleRule [
 
 
+]
+
+{ #category : #visiting }
+ToStyleSelectorVisitor >> visitStyleTagSelector: aSelector [
 ]
 
 { #category : #visiting }

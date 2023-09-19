@@ -20,7 +20,7 @@ TToSkinable >> currentSkinState: aState [
 ]
 
 { #category : #'t - skinable - initialization' }
-TToSkinable >> defaultStyleClasses [
+TToSkinable >> defaultStyleTags [
 
 	^ self explicitRequirement 
 ]
@@ -28,8 +28,7 @@ TToSkinable >> defaultStyleClasses [
 { #category : #'t - skinable - initialization' }
 TToSkinable >> initializeSkin [
 
-	self styleClasses ifEmpty: [ self styleClasses: self defaultStyleClasses].
-	"self withSkin: self defaultSkin"
+	self styleTags ifEmpty: [ self styleTags: self defaultStyleTags]
 ]
 
 { #category : #'t - skinable - install/uninstall  hook' }

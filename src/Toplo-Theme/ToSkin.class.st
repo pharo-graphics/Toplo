@@ -79,10 +79,12 @@ ToSkin >> launchSkinInitializationIn: anElement [
 	self isInitialized ifTrue: [ ^ self ].
 	self markAsInitialized.
 	anElement isDisabled ifTrue: [ ^ anElement switchToSkinState: ToDisabledState new ].
-	anElement switchToSkinState: ToInitialState new
+	anElement switchToSkinState: ToInitialState new.
+
+
 ]
 
-{ #category : #'private - installation' }
+{ #category : #'api - install/uninstall  hook' }
 ToSkin >> launchSkinInstallationIn: anElement [
 
 	self isInitialized ifTrue: [ ^ self ].

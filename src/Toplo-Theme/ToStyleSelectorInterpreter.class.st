@@ -83,9 +83,9 @@ ToStyleSelectorInterpreter >> visitOrSelector: aSelector [
 ]
 
 { #category : #visiting }
-ToStyleSelectorInterpreter >> visitStyleClassSelector: aSelector [
+ToStyleSelectorInterpreter >> visitStyleTagSelector: aSelector [
 
-	result := targetStack top styleClasses includesAll: aSelector styleClasses  
+	result := targetStack top styleTags includesAll: aSelector styleTags  
 ]
 
 { #category : #visiting }

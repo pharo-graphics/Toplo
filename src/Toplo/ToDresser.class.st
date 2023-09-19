@@ -156,6 +156,11 @@ ToDresser >> uninstallEventListenersIn: anElement [
 
 { #category : #'api - install/uninstall  hook' }
 ToDresser >> whenAddedToParent: anElement [
+	" action needed after any ToElement is added to its parent "
+
+	" check if anElement parent is enabled to switch anElement to DisabledState if necessary "
+
+	anElement parent isDisabled ifTrue: [ anElement disable ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -163,7 +168,7 @@ ToDresser >> whenAddedToSpace: anEvent in: anElement [
 
 	self flag: 'Leads to ToSpaceFrameSkinInstallationPhase installation in space frame. Should be revised to avoid this kind of workaround'.
 	anElement space checkSpaceFrameSkinInstallationPhase.
-	anElement checkSkinInstallation 
+	anElement checkSkinInstallation
 ]
 
 { #category : #'api - install/uninstall  hook' }

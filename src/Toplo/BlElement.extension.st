@@ -4,10 +4,10 @@ Extension { #name : #BlElement }
 BlElement >> addStyleClass: aSymbol [
 
 	| cls |
-	self userData at: #styleClasses ifAbsentPut: #().
-	cls := self userData at: #styleClasses.
+	self userData at: #styleTags ifAbsentPut: #().
+	cls := self userData at: #styleTags.
 	(cls includes: aSymbol) ifTrue: [ ^ self ].
-	self userData at: #styleClasses put: (cls copyWith: aSymbol)
+	self userData at: #styleTags put: (cls copyWith: aSymbol)
 ]
 
 { #category : #'*Toplo' }
@@ -16,6 +16,12 @@ BlElement >> asPlaceholderLayer [
 	^ ToPlaceholderLayer new
 		  in: [ :placeholder | placeholder addChild: self ];
 		  yourself
+]
+
+{ #category : #'*Toplo' }
+BlElement >> borderBuilder [
+
+	^ self userData at: #borderBuilder ifAbsentPut: [ BlBorderBuilder new ]
 ]
 
 { #category : #'*Toplo' }
@@ -122,9 +128,9 @@ BlElement >> isFlaggedAsEnabled [
 
 { #category : #'*Toplo' }
 BlElement >> launchSkinInstallation [
-
 	"Nothing to do at BlElement level to preserve efficienty"
 
+	
 ]
 
 { #category : #'*Toplo' }
@@ -175,10 +181,10 @@ BlElement >> privateToTheme: aTheme [
 BlElement >> removeStyleClass: aSymbol [
 
 	| cls |
-	self userData at: #styleClasses ifAbsentPut: #().
-	cls := self userData at: #styleClasses.
+	self userData at: #styleTags ifAbsentPut: #().
+	cls := self userData at: #styleTags.
 	(cls includes: aSymbol) ifFalse: [ ^ self ].
-	self userData at: #styleClasses put: (cls copyWithout: aSymbol)
+	self userData at: #styleTags put: (cls copyWithout: aSymbol)
 ]
 
 { #category : #'*Toplo' }
@@ -186,25 +192,6 @@ BlElement >> skinDo: aBlock [
 
 	self privateSkin ifNil: [ ^ self ].
 	aBlock value: self privateSkin
-]
-
-{ #category : #'*Toplo' }
-BlElement >> styleClass: aSymbol [
-
-	self userData at: #styleClasses put: (Array with: aSymbol)
-]
-
-{ #category : #'*Toplo' }
-BlElement >> styleClasses [
-
-	^ self userData at: #styleClasses ifAbsent: [ #() ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> styleClasses: aCollectionOfSymbol [
-
-	self userData at: #styleClasses put: #().
-	aCollectionOfSymbol do: [ :s | self addStyleClass: s ]
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
@@ -226,10 +213,35 @@ BlElement >> styleSheet: aStyleSheet [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> styleTag: aSymbol [
+
+	self userData at: #styleTags put: (Array with: aSymbol)
+]
+
+{ #category : #'*Toplo' }
+BlElement >> styleTags [
+
+	^ self userData at: #styleTags ifAbsent: [ #() ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> styleTags: aCollectionOfSymbol [
+
+	self userData at: #styleTags put: #().
+	aCollectionOfSymbol do: [ :s | self addStyleClass: s ]
+]
+
+{ #category : #'*Toplo' }
 BlElement >> switchToSkinState: aState [
 
 	self currentSkinState: aState.
 	aState applyOn: self
+]
+
+{ #category : #'*Toplo' }
+BlElement >> textAttributesBuilder [
+
+	^ self userData at: #textAttributesBuilder ifAbsentPut: [ BlBorderBuilder new ]
 ]
 
 { #category : #'*Toplo-LookAndFeel' }

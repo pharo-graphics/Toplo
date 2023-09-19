@@ -18,7 +18,7 @@ ToButton >> defaultDresser [
 ]
 
 { #category : #'t - skinable - initialization' }
-ToButton >> defaultStyleClasses [
+ToButton >> defaultStyleTags [
 
 	^ { #button }
 ]

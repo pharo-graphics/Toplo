@@ -57,6 +57,18 @@ ToPropertyWriter >> isSupplement [
 	^ self supplement 
 ]
 
+{ #category : #printing }
+ToPropertyWriter >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream space.
+	self property name printOn: aStream.
+	aStream space.
+	self eventClass printOn: aStream.
+	aStream space.
+	self value printOn: aStream
+]
+
 { #category : #accessing }
 ToPropertyWriter >> property [
 

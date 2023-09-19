@@ -37,7 +37,7 @@ TToTriplet >> initializeTriplet [
 
 	justified := false.
 	innerElement := ToElement new layout: BlLinearLayout horizontal; fitContent.
-	innerElement styleClass: #'inner-element'.
+	innerElement styleTag: #'inner-element'.
 	self layout: BlLinearLayout horizontal.
 	self addChild: innerElement.
 	self fitContent 

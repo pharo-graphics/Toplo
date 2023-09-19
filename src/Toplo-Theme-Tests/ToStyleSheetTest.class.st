@@ -21,8 +21,8 @@ ToStyleSheetTest >> testButtonLabelSkin0 [
 		e textChanged ].
 
 	ss addRule: (
-				 ((ToStyleClassSelector new styleClasses: #( #button #danger ))
-					  child: (ToStyleClassSelector new styleClass: #'button-label')
+				 ((ToStyleTagSelector new styleTags: #( #button #danger ))
+					  child: (ToStyleTagSelector new styleTag: #'button-label')
 					  level: 2)
 			 style: [ :sr |
 				 sr write: prop with: [ :e | e toTheme colorError ].
@@ -47,18 +47,18 @@ ToStyleSheetTest >> testButtonLabelSkin0 [
 	label := (ToLabel text: 'Default') defaultSkin: nil.
 	button label: label.
 	labelSkin := ToSkin new.
-	self assert: (button styleClasses includes: #danger) not.
+	self assert: (button styleTags includes: #danger) not.
 	self assert:
-		(button label styleClasses includes: #'button-label') not.
+		(button label styleTags includes: #'button-label') not.
 	writers := ss writersFor: button label.
 	" writers should be empty since the label rule expect the button 
 	to be of class #danger and the label to be with style class #'button-label'"
 	self assert: writers isEmpty.
-	button label styleClass: #'button-label'.
+	button label styleTag: #'button-label'.
 	writers := ss writersFor: button label.
 	" writers should be empty since the label rule expect the button to be of class #danger "
 	self assert: writers isEmpty.
-	button styleClasses: #( #button #danger ).
+	button styleTags: #( #button #danger ).
 	writers := ss writersFor: button label.
 	self assert: writers size equals: 5.
 
@@ -85,7 +85,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 	ss := ToStyleSheet new.
 
 	" default button rule "
-	ss addRule: ((ToStyleClassSelector new styleClass: #button)
+	ss addRule: ((ToStyleTagSelector new styleTag: #button)
 			 style: [ :sr |
 				 | p |
 				 p := ToFeatureProperty new name: #background.
@@ -119,9 +119,9 @@ ToStyleSheetTest >> testButtonSkin0 [
 					 with: [ :e | e toTheme colorPrimaryPressed ] ]).
 
 	" danger button label rule "
-	ss addRule: (((ToStyleClassSelector new styleClass: #'button-label')
+	ss addRule: (((ToStyleTagSelector new styleTag: #'button-label')
 					  parent:
-					  (ToStyleClassSelector new styleClasses: #( #button #danger ))
+					  (ToStyleTagSelector new styleTags: #( #button #danger ))
 					  level: 2)
 			 style: [ :sr |
 				 | p |
@@ -172,11 +172,11 @@ ToStyleSheetTest >> testButtonSkin0 [
 	labelSkin := ToSkin new.
 	writers := ss writersFor: button label.
 	self assert: writers isEmpty.
-	button label styleClass: #'button-label'.
+	button label styleTag: #'button-label'.
 	writers := ss writersFor: button label.
 	" should be empty since the label rule expect the button to be of class #danger "
 	self assert: writers isEmpty.
-	button styleClasses: #( #button #danger ).
+	button styleTags: #( #button #danger ).
 	writers := ss writersFor: button label.
 	self assert: writers size equals: 4.
 
@@ -208,8 +208,8 @@ ToStyleSheetTest >> testButtonSkinWithInterspace [
 	layoutProp := ToFeatureProperty name: #layout.
 	
 	ss := ToStyleSheet new.
-	ss addRule: (((ToStyleClassSelector new styleClass: #button) 
-				or: (ToStyleClassSelector new styleClasses: #( #button #horizontal )))
+	ss addRule: (((ToStyleTagSelector new styleTag: #button) 
+				or: (ToStyleTagSelector new styleTags: #( #button #horizontal )))
 			 when: ToInstallLookEvent
 			 style: [ :sr |
 				 sr
@@ -220,7 +220,7 @@ ToStyleSheetTest >> testButtonSkinWithInterspace [
 	elem := ToElement new.
 	writers := ss writersFor: elem.
 	self assert: writers size equals: 0.
-	elem styleClass: #button.
+	elem styleTag: #button.
 	writers := ss writersFor: elem.
 	self assert: writers size equals: 2.
 	skin := ToSkin new.
@@ -245,7 +245,7 @@ ToStyleSheetTest >> testNewStyleSheetWith2Rules [
 	| styleSheet |
 	styleSheet := ToStyleSheet new.
 	styleSheet addRules: {
-			((ToStyleClassSelector new styleClass: #button)
+			((ToStyleTagSelector new styleTag: #button)
 				 style: [ :sr |
 					 sr
 						 write: (styleSheet propertyNamed: #background)
@@ -257,7 +257,7 @@ ToStyleSheetTest >> testNewStyleSheetWith2Rules [
 				background: blue;
 				border: red;
 			}"
-			((ToStyleClassSelector new styleClass: #button)
+			((ToStyleTagSelector new styleTag: #button)
 				 when: ToInitialLookEvent
 				 style: [ :sr |
 					 sr
@@ -300,14 +300,14 @@ ToStyleSheetTest >> testSkinWithChildRule [
 	| ss skin parent child writers |
 	ss := ToStyleSheet new.
 	ss addRule: (((ToIdSelector new id: #child) parent:
-					  (ToStyleClassSelector new styleClass: #parent))
+					  (ToStyleTagSelector new styleTag: #parent))
 			 style: [ :sr |
 				 sr
 					 when: ToInitialLookEvent
 					 write: (ToFeatureProperty new name: #border)
 					 with: (BlBorder paint: Color red width: 3) ]).
 
-	parent := ToElement new styleClass: #parent.
+	parent := ToElement new styleTag: #parent.
 	child := ToElement new id: #child.
 	writers := ss writersFor: child.
 	self assert: writers size equals: 0.
@@ -331,7 +331,7 @@ ToStyleSheetTest >> testSkinWithChildRuleLevel2 [
 	| ss skin parent child writers subParent |
 	ss := ToStyleSheet new.
 	ss addRule: (((ToIdSelector new id: #child)
-					  parent: (ToStyleClassSelector new styleClass: #parent)
+					  parent: (ToStyleTagSelector new styleTag: #parent)
 					  level: 2)
 			 style: [ :sr |
 				 sr
@@ -339,7 +339,7 @@ ToStyleSheetTest >> testSkinWithChildRuleLevel2 [
 					 write: (ToFeatureProperty new name: #border)
 					 with: (BlBorder paint: Color red width: 3) ]).
 
-	parent := ToElement new styleClass: #parent.
+	parent := ToElement new styleTag: #parent.
 	subParent := ToElement new.
 	child := ToElement new id: #child.
 	writers := ss writersFor: child.

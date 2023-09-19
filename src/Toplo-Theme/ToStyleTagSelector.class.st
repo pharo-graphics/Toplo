@@ -1,5 +1,5 @@
 Class {
-	#name : #ToStyleClassSelector,
+	#name : #ToStyleTagSelector,
 	#superclass : #ToSimpleSelector,
 	#instVars : [
 		'elementClasses'
@@ -8,32 +8,32 @@ Class {
 }
 
 { #category : #visiting }
-ToStyleClassSelector >> accept: aVisitor [
+ToStyleTagSelector >> accept: aVisitor [
 
-	aVisitor visitStyleClassSelector: self
+	aVisitor visitStyleTagSelector: self
 ]
 
 { #category : #initialization }
-ToStyleClassSelector >> initialize [ 
+ToStyleTagSelector >> initialize [ 
 
 	super initialize.
 	elementClasses := OrderedCollection new
 ]
 
 { #category : #accessing }
-ToStyleClassSelector >> styleClass: aSymbol [
+ToStyleTagSelector >> styleTag: aSymbol [
 
 	elementClasses add: aSymbol
 ]
 
 { #category : #accessing }
-ToStyleClassSelector >> styleClasses [
+ToStyleTagSelector >> styleTags [
 
 	^ elementClasses
 ]
 
 { #category : #accessing }
-ToStyleClassSelector >> styleClasses: aCollectionOfSymbols [
+ToStyleTagSelector >> styleTags: aCollectionOfSymbols [
 
 	elementClasses addAll: aCollectionOfSymbols
 ]

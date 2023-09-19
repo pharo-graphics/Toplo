@@ -53,7 +53,6 @@ ToStyleSelectorInterpreter >> visitChildSelector: aSelector [
 			result := false.
 			^ self ].
 		(result not and: [l  = 0]) ifTrue: [ 
-			result := false.
 			^ self ].
 		result ifFalse: [ l := l - 1 ].
 		current := current parent ].

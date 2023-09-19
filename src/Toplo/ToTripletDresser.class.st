@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToDresser,
 	#instVars : [
 		'propertyChangedEventHandler',
-		'interspace'
+		'filler'
 	],
 	#category : #'Toplo-Core-Triplet'
 }
@@ -11,11 +11,10 @@ Class {
 { #category : #'event handling' }
 ToTripletDresser >> checkJustificationin: anElement [
 
-	(anElement isJustified and: [anElement isHorizontal]) ifFalse: [
-		interspace := nil.
+	anElement justified ifFalse: [
+		filler := nil.
 		^ self ].
-	interspace ifNil: [ interspace := self newInterspace ].
-	anElement innerElement hMatchParent
+	filler ifNil: [ filler := self newFiller ]
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -30,13 +29,12 @@ ToTripletDresser >> installEventListenersIn: anElement [
 ]
 
 { #category : #'event handling' }
-ToTripletDresser >> newInterspace [
+ToTripletDresser >> newFiller [
 
-	^ BlElement new
-		constraintsDo: [ :c |
-			c horizontal matchParent.
-			c vertical matchParent ];
-		yourself
+	^ ToElement new
+		  matchParent;
+		  styleTag: #'triplet-filler';
+		  yourself
 ]
 
 { #category : #'event handling' }
@@ -46,7 +44,7 @@ ToTripletDresser >> propertyChangedEvent: anEvent in: anElement [
 	anElement ifNil: [ ^ self ].
 	self checkJustificationin: anElement.
 	anElement innerElement removeChildren.
-	children := { anElement first. interspace. anElement second. anElement third } select: #notNil.
+	children := { anElement first. filler. anElement second. anElement third } select: #notNil.
 	children do: [ :child | 
 		child constraintsDo: [ :c |
 			c linear vertical alignCenter.

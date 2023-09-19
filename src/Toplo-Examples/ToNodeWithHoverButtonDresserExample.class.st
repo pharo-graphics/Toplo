@@ -65,7 +65,7 @@ ToNodeWithHoverButtonDresserExample >> mouseEnterEvent: anEvent in: anElement [
 	self changeBackground ifTrue: [
 		anElement background: (Color lightGray alpha: 0.2) ].
 	nodeButton := ToButton new labelText: 'Do something'; yourself.
-	nodeButton addStyleClass: #primary.
+	nodeButton addStyleTag: #primary.
 	nodeButton whenClickedDo: [ self inform: 'CLICK' ].
 	nodeButton constraintsDo: [ :c |
 		c ignoreByLayout.

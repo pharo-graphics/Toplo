@@ -9,15 +9,21 @@ Trait {
 { #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> beIconFirst [
 
-	labelFirstRequested := false.
-	self beLeftToRight
+	(self includesStyleTag: #'icon-first') ifTrue: [ ^ self ].
+	self addStyleTag: #'icon-first'.
+	self removeStyleTag: #'label-first'.
+	self updateSkin.
+	self requestLayout
 ]
 
 { #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> beLabelFirst [
 
-	labelFirstRequested := true.
-	self beRightToLeft
+	(self includesStyleTag: #'label-first') ifTrue: [ ^ self ].
+	self removeStyleTag: #'icon-first'.
+	self addStyleTag: #'label-first'.
+	self updateSkin.
+	self requestLayout
 ]
 
 { #category : #'t - labeled icon - direction' }
@@ -27,14 +33,6 @@ TToLabeledIcon >> checkDirection [
 		ifTrue: [ self beLabelFirst ]
 		ifFalse: [ self beIconFirst ].
 
-]
-
-{ #category : #'t - labeled icon - orientation' }
-TToLabeledIcon >> checkOrientableLayout [
-
-	self innerElement layout isOrientable ifFalse: [ ^ self ].
-	self checkDirection.
-	self checkOrientation 
 ]
 
 { #category : #'t - labeled icon - orientation' }

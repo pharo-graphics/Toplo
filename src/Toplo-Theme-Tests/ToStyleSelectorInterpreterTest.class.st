@@ -104,7 +104,7 @@ ToStyleSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass1 [
 
 	| selector e engine |
 	selector := ToStyleTagSelector new.
-	e := ToElement new addStyleClass: #a.
+	e := ToElement new addStyleTag: #a.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result 
@@ -117,7 +117,7 @@ ToStyleSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass2 [
 
 	| selector e engine |
 	selector := ToStyleTagSelector new styleTag: #a.
-	e := ToElement new addStyleClass: #a.
+	e := ToElement new addStyleTag: #a.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result 
@@ -130,12 +130,12 @@ ToStyleSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass3 [
 
 	| selector e engine |
 	selector := ToStyleTagSelector new styleTag: #b.
-	e := ToElement new addStyleClass: #a.
+	e := ToElement new addStyleTag: #a.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result not.
 	selector := ToStyleTagSelector new styleTags: #(#b).
-	e := ToElement new addStyleClass: #a.
+	e := ToElement new addStyleTag: #a.
 	self assert: engine result not.
 
 
@@ -147,15 +147,15 @@ ToStyleSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass4 [
 
 	| selector e engine |
 	selector := ToStyleTagSelector new styleTags: #( #a ).
-	e := ToElement new addStyleClass: #a.
+	e := ToElement new addStyleTag: #a.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result.
-	e addStyleClass: #c.
+	e addStyleTag: #c.
 	self assert: engine result.
 	engine check: selector on: e.
 	self assert: engine result.
-	e addStyleClass: #b.
+	e addStyleTag: #b.
 	engine check: selector on: e.
 	self assert: engine result
 ]
@@ -187,7 +187,7 @@ ToStyleSelectorInterpreterTest >> testRuleWithAndSelector [
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result not.
-	e addStyleClass: #danger.
+	e addStyleTag: #danger.
 	" ko since no child "
 	engine check: selector on: e.
 	self assert: engine result.
@@ -210,7 +210,7 @@ ToStyleSelectorInterpreterTest >> testRuleWithAndWithChildSelector [
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result not.
-	e addStyleClass: #danger.
+	e addStyleTag: #danger.
 	" ko since no child "
 	engine check: selector on: e.
 	self assert: engine result not.
@@ -237,7 +237,7 @@ ToStyleSelectorInterpreterTest >> testRuleWithOrSelector [
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result.
-	e addStyleClass: #horizontal.
+	e addStyleTag: #horizontal.
 	engine check: selector on: e.
 	self assert: engine result.
 	e styleTags: { #blob }.
@@ -266,7 +266,7 @@ ToStyleSelectorInterpreterTest >> testRuleWithOrWithChildSelector [
 	engine check: selector on: child.
 	self assert: engine result not.
 
-	e addStyleClass: #justified.
+	e addStyleTag: #justified.
 	engine check: selector on: child.
 	self assert: engine result
 ]

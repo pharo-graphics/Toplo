@@ -953,7 +953,7 @@ ToSandBox class >> example_SelectWithStructuredData [
 
 	select := ToSelect new
 		             hMatchParent;
-		             beJustified.
+		             justified: true.
 	select dataToTextConverter: [ :assoc | assoc key ].
 	select data addAll: {
 			('Morphic SDL' -> BlMorphicWindowHost).
@@ -982,7 +982,7 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 		lab := ToLabel new text: k asString.
 		node := ToButton new icon: im; label: lab; yourself.
 		node width: 600.
-		node beJustified.
+		node justified: true.
 		column addChild: node ].
 
 	root := column asScrollableElement.
@@ -1402,7 +1402,7 @@ ToSandBox class >> example_ToButtonWithDashedSkin [
 
 	button1 labelText: 'Dashed button'.
 	button1 icon: (ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16).
-	button1 beJustified.
+	button1 justified: true.
 	button1 hMatchParent.
 	"button1 innerElement hMatchParent."
 
@@ -2037,17 +2037,17 @@ ToSandBox class >> example_menu6 [
 	grp := ToCheckableGroup new.
 	right := ToRadioMenuItem new
 		         beLabelFirst;
-		         beJustified;
+		         justified: true;
 		         labelText: 'Right';
 		         id: #right.
 	center := ToRadioMenuItem new
 		          beLabelFirst;
-		          beJustified;
+		          justified: true;
 		          labelText: 'Center';
 		          id: #center.
 	left := ToRadioMenuItem new
 		        beLabelFirst;
-		        beJustified;
+		        justified: true;
 		        labelText: 'Left';
 		        id: #left.
 	center checked: true.
@@ -2095,7 +2095,7 @@ ToSandBox class >> example_menu6 [
 	th := ToToggleButton new
 		      labelText: 'Cheesecake justified';
 		      beLabelFirst;
-				beJustified;
+				justified: true;
 		      hMatchParent.
 	th skinDo: [ :s | s sizing: ToSmallSizing new ].
 	menu addItem: (ToCustomMenuItem new innerElement: th).
@@ -3061,7 +3061,7 @@ ToSandBox class >> example_toCheckboxWithGroupJustified [
 	1 to: 4 do: [ :idx |
 		| chb |
 		chb := ToCheckbox new
-			       beJustified;
+			       justified: true;
 			       hMatchParent;
 			       beLabelFirst;
 			       labelText: idx asString;
@@ -3454,7 +3454,7 @@ ToSandBox class >> example_toPairJustified1 [
 		             yourself.
 	but second: iconImage.
 	but when: BlClickEvent do: [ but orientation: but orientation inverted ].
-	but beJustified.
+	but justified: true.
 	but innerElement hMatchParent.
 	but hMatchParent.
 
@@ -3478,7 +3478,7 @@ ToSandBox class >> example_toPairJustified2 [
 		             yourself.
 	but second: iconImage.
 	but when: BlClickEvent do: [ but direction: but direction inverted ].
-	but beJustified.
+	but justified: true.
 	but innerElement hMatchParent.
 	but hMatchParent.
 
@@ -3588,7 +3588,7 @@ ToSandBox class >> example_toggle [
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';
 		      beLabelFirst;
-				beJustified;
+				justified: true;
 		      hMatchParent.
 	th innerElement hMatchParent.
 	th checked: true.
@@ -3597,7 +3597,7 @@ ToSandBox class >> example_toggle [
 		      beVertical;
 		      labelText: 'Cheesecake';
 		      beLabelFirst;
-				beJustified;
+				justified: true;
 		      hMatchParent.
 	tv innerElement hMatchParent.
 	
@@ -3635,7 +3635,7 @@ ToSandBox class >> example_toggle3 [
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';
 		      beLabelFirst;
-				beJustified;
+				justified: true;
 				hMatchParent.
 	th switchButtonOnElement: (ToImage inner: (Smalltalk ui icons iconNamed: #glamorousAccept)).
 	th switchButtonOffElement: (ToImage inner: (Smalltalk ui icons iconNamed: #glamorousClose)).

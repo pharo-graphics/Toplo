@@ -39,7 +39,7 @@ ToButton >> first: anElement [
 ToButton >> initialize [
 
 	super initialize.
-	self addStyleClass: #button
+	self addStyleTag: #button
 ]
 
 { #category : #'t - orientable - accessing' }

@@ -1,24 +1,10 @@
 Trait {
 	#name : #TToTriplet,
 	#instVars : [
-		'justified',
 		'innerElement'
 	],
 	#category : #'Toplo-Core-Triplet'
 }
-
-{ #category : #'t - triplet - configuration' }
-TToTriplet >> beJustified [
-
-	justified ifTrue: [ ^ self ].
-	justified := true.
-	self dispatchEvent: (ToPropertyChangedEvent new
-			 slotName: #justified;
-			 holder: self;
-			 previous: false;
-			 current: true;
-			 yourself)
-]
 
 { #category : #'t - triplet - accessing' }
 TToTriplet >> first [
@@ -35,10 +21,10 @@ TToTriplet >> first: anElement [
 { #category : #'t - triplet - initialization' }
 TToTriplet >> initializeTriplet [
 
-	justified := false.
+	self layout: BlLinearLayout horizontal.
+	self justified: false.
 	innerElement := ToElement new layout: BlLinearLayout horizontal; fitContent.
 	innerElement styleTag: #'inner-element'.
-	self layout: BlLinearLayout horizontal.
 	self addChild: innerElement.
 	self fitContent 
 
@@ -57,31 +43,28 @@ TToTriplet >> interspace: anInteger [
 	self requestLayout
 ]
 
-{ #category : #'t - triplet - testing' }
-TToTriplet >> isJustified [
-
-	^ justified ifNil: [ justified := false ]
-]
-
 { #category : #'t - triplet - configuration' }
 TToTriplet >> justified [
 
-	^ justified
+	^ self styleTags includes: #justified
 ]
 
 { #category : #'t - triplet - configuration' }
 TToTriplet >> justified: aBoolean [
 
 	| prev |
-	justified = aBoolean ifTrue: [ ^ self ].
-	prev := justified.
-	justified := aBoolean.
+	self justified = aBoolean ifTrue: [ ^ self ].
+	prev := self justified.
+	aBoolean
+		ifTrue: [ self addStyleTag: #justified ]
+		ifFalse: [ self removeStyleTag: #justified ].
 	self dispatchEvent: (ToPropertyChangedEvent new
 			 slotName: #justified;
 			 holder: self;
 			 previous: prev;
-			 current: justified;
-			 yourself)
+			 current: self justified;
+			 yourself).
+	self updateSkin
 ]
 
 { #category : #'t - triplet - accessing' }

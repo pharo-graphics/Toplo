@@ -49,7 +49,7 @@ ToClickableSkin >> applyQuadShaping: aShaping on: anElement [
 			anElement interspace: anElement toTheme paddingContentVertical / 3 ]
 		ifFalse: [
 			anElement beHorizontal.
-			anElement isJustified ifFalse: [
+			anElement justified ifFalse: [
 				anElement interspace: anElement toTheme paddingContentHorizontal / 3 ] ].
 
 	anElement padding: (self defaultPaddingIn: anElement).
@@ -87,7 +87,7 @@ ToClickableSkin >> applySizing: aSizing on: anElement [
 			^ anElement innerElement requestLayout ] ].
 	anElement vFitContent.
 	anElement innerElement height: (aSizing heightOn: anElement).
-	anElement isJustified ifFalse: [ anElement innerElement hFitContent ]
+	anElement justified ifFalse: [ anElement innerElement hFitContent ]
 ]
 
 { #category : #'t - shapeable - private - shaping/sizing' }
@@ -183,7 +183,7 @@ ToClickableSkin >> defaultType [
 { #category : #'event handling' }
 ToClickableSkin >> elementLayoutChangedEvent: anEvent [
  
-	anEvent currentTarget checkOrientableLayout
+	
 	
 ]
 

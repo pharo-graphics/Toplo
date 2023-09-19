@@ -102,6 +102,13 @@ TToOrientable >> layoutStrategy [
 	
 ]
 
+{ #category : #'t - orientable - direction' }
+TToOrientable >> leftToRight: aBoolean [
+
+	aBoolean = self isLeftToRight ifTrue: [ ^ self ].
+	aBoolean ifTrue: [ self beLeftToRight ] ifFalse: [ self beRightToLeft ]
+]
+
 { #category : #'t - orientable - accessing' }
 TToOrientable >> orientation [
 

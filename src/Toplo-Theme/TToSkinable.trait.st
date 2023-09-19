@@ -59,5 +59,6 @@ TToSkinable >> privateSkin: aSkin [
 { #category : #'t - skinable - initialization' }
 TToSkinable >> updateSkin [
 
-	self withSkin: self defaultSkin
+	self withSkin: self defaultSkin.
+	self requestLayout
 ]

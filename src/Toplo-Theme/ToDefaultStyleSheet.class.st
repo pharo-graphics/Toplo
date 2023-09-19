@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Theme-DefaultTheme'
 }
 
-{ #category : #'initialization-button' }
+{ #category : #'initialization - button' }
 ToDefaultStyleSheet >> addButtonRules [
 
 	self addRules: self commonButtonRules.
@@ -17,6 +17,12 @@ ToDefaultStyleSheet >> addButtonRules [
 ]
 
 { #category : #initialization }
+ToDefaultStyleSheet >> addLabelRules [
+
+	self addRules: self labelRules
+]
+
+{ #category : #initialization }
 ToDefaultStyleSheet >> addRootPaneRules [
 
 	self addRules:
@@ -26,7 +32,7 @@ ToDefaultStyleSheet >> addRootPaneRules [
 				 with: [ :e | e toTheme backgroundColor ] ]) }
 ]
 
-{ #category : #'initialization-button' }
+{ #category : #'initialization - button' }
 ToDefaultStyleSheet >> checkableButtonRules [
 	" checkbox family "
 
@@ -147,7 +153,7 @@ ToDefaultStyleSheet >> checkableButtonRules [
 						   yourself ] ]) }
 ]
 
-{ #category : #'initialization-button' }
+{ #category : #'initialization - button' }
 ToDefaultStyleSheet >> checkableInnerImageRules [
 	" checkbox family "
 
@@ -300,7 +306,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 						   yourself ] ]) }
 ]
 
-{ #category : #'initialization-button' }
+{ #category : #'initialization - button' }
 ToDefaultStyleSheet >> commonButtonRules [
 	" ToButton common rule for layout "
 
@@ -317,7 +323,7 @@ ToDefaultStyleSheet >> commonButtonRules [
 	"
 
 	^ {
-		  ((self tag: #button) style: [ :sr |
+		  (((self tag: #button) and: (self tag: #circle) not) style: [ :sr |
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #mouseCursor)
@@ -330,76 +336,151 @@ ToDefaultStyleSheet >> commonButtonRules [
 				   write: (self property: #mouseCursor)
 				   with: nil ]).
 
+		  (((self tags: #( #button )) and: (self tag: #vertical) not)
+			   when: ToInstallLookEvent
+			   style: [ :sr |
+				   sr
+					   write: (self property: #layout)
+					   with: BlLinearLayout horizontal alignCenter.
+
+				   sr write: (self property: #padding) with: [ :e |
+					   BlInsets
+						   top: e toTheme paddingXS / 2
+						   left: e toTheme paddingContentHorizontal / 2
+						   bottom: e toTheme paddingXS / 2
+						   right: e toTheme paddingContentHorizontal / 2 ] ]).
+
+		  (((self tags: #( #button )) and: (self tag: #vertical) not)
+			   when: ToInstallLookEvent
+			   style: [ :sr |
+				   sr
+					   write: (self property: #height)
+					   with: [ :e | e toTheme controlHeight ] ]).
+
+		  ((((self tags: #( #button )) and: (self tag: #vertical) not) and:
+			    (self tag: #'large-sizing'))
+			   when: ToInstallLookEvent
+			   style: [ :sr |
+				   sr
+					   write: (self property: #height)
+					   with: [ :e | e toTheme controlHeightLG ] ]).
+
+		 (((self tags: #( #button )) and: ((self tag: #vertical) not)) and: (self tag: #'small-sizing'))
+			   when: ToInstallLookEvent
+			   style: [ :sr |
+				   sr
+					   write: (self property: #height)
+					   with: [ :e | e toTheme controlHeightSM ] ].
+		
+		  ((self tags: #( #button #vertical ))
+			   when: ToInstallLookEvent
+			   style: [ :sr |
+				   sr
+					   write: (self property: #layout)
+					   with: BlLinearLayout vertical alignCenter.
+
+				   sr write: (self property: #padding) with: [ :e |
+					   BlInsets
+						   top: e toTheme paddingContentHorizontal / 2
+						   left: e toTheme paddingXS / 2
+						   bottom: e toTheme paddingContentHorizontal / 2
+						   right: e toTheme paddingXS / 2 ] ]).
 
 		  (((self tag: #'inner-element')
-			    parent: ((self tags: #( #button #horizontal )) or:
-					     (self tags: #( #button )))
+			    parent: (self tags: #( #button ))
 			    level: 1) when: ToInstallLookEvent style: [ :sr |
 			   sr
 				   write: (self property: #layout)
-				   with: BlLinearLayout horizontal.
-			   sr
-				   write: (self property: #'layout-interspace')
-				   with: [ :e | e toTheme paddingContentHorizontal / 3 ] ]).
-
-		  (((self tag: #'inner-element')
-			    parent:
-				    ((self tags: #( #button #horizontal #justified )) or:
-					     (self tags: #( #button #justified )))
-			    level: 1) when: ToInstallLookEvent style: [ :sr |
-			   sr
-				   write: (self property: #layout)
-				   with: [ :e | BlLinearLayout horizontal ] ]).
+				   with: BlLinearLayout horizontal ]).
 
 		  (((self tag: #'inner-element')
 			    parent: (self tags: #( #button #vertical ))
 			    level: 1) when: ToInstallLookEvent style: [ :sr |
 			   sr write: (self property: #layout) with: BlLinearLayout vertical ]).
 
-		  (((self tags: #( #button #horizontal )) or:
-			    (self tags: #( #button )))
-			   when: ToInstallLookEvent
-			   style: [ :sr |
-				   sr
-					   write: (self property: #layout)
-					   with: BlLinearLayout horizontal ]).
+		  (((self tag: #'inner-element')
+			    parent:
+			    ((self tags: #( #button )) and: (self tag: #justified) not)
+			    level: 1) when: ToInstallLookEvent style: [ :sr |
+			   sr
+				   write: (self property: #'layout-interspace')
+				   with: [ :e | e toTheme paddingContentHorizontal / 3 ] ]).
 
-		  ((self tags: #( #button #vertical ))
-			   when: ToInstallLookEvent
-			   style: [ :sr |
-				   sr
-					   write: (self property: #layout)
-					   with: BlLinearLayout vertical ]).
+		  (((self tag: #'inner-element')
+			    parent: (self tags: #( #button #justified ))
+			    level: 1) when: ToInstallLookEvent style: [ :sr |
+			   sr write: (self property: #'layout-interspace') with: [ :e | 0 ].
 
-		  (((self tag: #button) or:
-			    (self tags: #( #button #horizontal )))
-			   when: ToInstallLookEvent
-			   style: [ :sr |
-				   sr write: (self property: #padding) with: [ :e |
-					   BlInsets
-						   top: e toTheme paddingXS / 2
-						   left: e toTheme paddingContentHorizontal / 2
-						   bottom: e toTheme paddingXS / 2
-						   right: e toTheme paddingContentHorizontal / 2 ].
-				   sr write: (self property: #geometry) with: [ :e |
-					   BlRoundedRectangleGeometry cornerRadius:
-						   e toTheme borderRadius ] ]).
+			   sr write: (self property: #'layout-constraints') with: [ :e |
+				   [ :c |
+				   c horizontal matchParent.
+				   c vertical matchParent ] ] ]).
 
-		  ((self tags: #( #button #round ))
+		  (((self tag: #'inner-element')
+			    parent:
+			    ((self tags: #( #button #'icon-first' )) and:
+				     (self tag: #circle) not)
+			    level: 1) when: ToInstallLookEvent style: [ :sr |
+			   sr
+				   write: (self property: #'layout-direction')
+				   with: [ :e | BlLayoutDirection leftToRight ] ]).
+
+		  (((self tag: #'inner-element')
+			    parent: (self tags: #( #button #'label-first' ))
+			    level: 1) when: ToInstallLookEvent style: [ :sr |
+			   sr
+				   write: (self property: #'layout-direction')
+				   with: [ :e | BlLayoutDirection rightToLeft ] ]).
+
+		  (((self tag: #button) and: (self tag: #circle) not) style: [ :sr |
+			   sr write: (self property: #geometry) with: [ :e |
+				   BlRoundedRectangleGeometry cornerRadius: e toTheme borderRadius ] ]).
+
+		  (((self tags: #( #button #round )) and: (self tag: #circle) not)
 			   when: ToInstallLookEvent
 			   style: [ :sr |
 				   sr
 					   write: (self property: #geometry)
 					   with: [ :e |
-					   BlRoundedRectangleGeometry cornerRadius: e requestedHeight / 2 ] ]).
+					   BlRoundedRectangleGeometry cornerRadius: e requestedHeight ] ]).
 
-		  (((self tags: #( #button #horizontal #justified )) or:
-			    (self tags: #( #button #justified )))
+		  ((self tags: #( #button #circle ))
 			   when: ToInstallLookEvent
-			   style: [ :sr | sr write: (self property: #justified) with: true ]) }
+			   style: [ :sr |
+				   sr
+					   write: (self property: #layout)
+					   with: [ :e | BlFrameLayout new ].
+				   sr write: (self property: #padding) with: BlInsets empty.
+				   sr
+					   write: (self property: #geometry)
+					   with: [ :e | BlCircleGeometry new ] ]).
+
+		  (((self tag: #'inner-element')
+			    parent: (self tags: #( #button #circle ))
+			    level: 1) when: ToInstallLookEvent style: [ :sr |
+			   sr
+				   write: (self property: #layout)
+				   with: [ :e | BlLinearLayout new alignCenter ] ]).
+
+		  (((self tag: #'inner-element')
+			    parent: (((self tags: #( #button )) and: (self tag: #justified) not))
+			    level: 1) style: [ :sr |
+			   sr write: (self property: #'layout-constraints') with: [ :e |
+				   [ :c |
+				   c frame vertical alignCenter.
+				   c frame horizontal alignCenter.
+				   c linear vertical alignCenter.
+				   c linear horizontal alignCenter ] ] ]).
+
+		  ((self any parent: (self tags: #( #button )) level: 2) style: [
+			   :sr |
+			   sr write: (self property: #'layout-constraints') with: [ :e |
+				   [ :c |
+				   c linear vertical alignCenter.
+				   c linear horizontal alignCenter ] ] ]) }
 ]
 
-{ #category : #'initialization-button' }
+{ #category : #'initialization - button' }
 ToDefaultStyleSheet >> defaultButtonRules [
 	" ToButton default rule including icon and label "
 
@@ -572,10 +653,119 @@ ToDefaultStyleSheet >> initializeDefaultThemeRules [
 
 
 	self addRootPaneRules.
-	self addButtonRules
+	self addButtonRules.
+	self addLabelRules
 ]
 
-{ #category : #'initialization-button' }
+{ #category : #'initialization - button' }
+ToDefaultStyleSheet >> labelRules [
+	" label  rules"
+
+	^ {
+		  (((self tag: #label) or: (self tags: #( #label #H0 ))) style: [
+			   :sr |
+			   sr
+				   write: (self property: #'text-attributes-with-builder')
+				   with: [ :e |
+					   e textAttributesBuilder
+						   weight: e toTheme fontWeightStrong;
+						   defaultFontName: e toTheme fontFamilyCode;
+						   defaultFontSize: e toTheme fontSize;
+						   lineSpacing: e toTheme lineHeight;
+						   yourself ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'text-attributes-with-builder')
+				   with: [ :e |
+					   e textAttributesBuilder foreground:
+						   e toTheme colorTextDisabled ] ]).
+
+		  ((self tags: #( #label #H1 )) style: [ :sr |
+			   sr
+				   supplement: (self property: #'text-attributes-with-builder')
+				   with: [ :e |
+					   e textAttributesBuilder
+						   defaultFontSize: e toTheme fontSizeHeading1;
+						   lineSpacing: e toTheme lineHeightHeading1;
+						   yourself ] ]).
+		  ((self tags: #( #label #H2 )) style: [ :sr |
+			   sr
+				   supplement: (self property: #'text-attributes-with-builder')
+				   with: [ :e |
+					   e textAttributesBuilder
+						   defaultFontSize: e toTheme fontSizeHeading2;
+						   lineSpacing: e toTheme lineHeightHeading2;
+						   yourself ] ]).
+		  ((self tags: #( #label #H3 )) style: [ :sr |
+			   sr
+				   supplement: (self property: #'text-attributes-with-builder')
+				   with: [ :e |
+					   e textAttributesBuilder
+						   defaultFontSize: e toTheme fontSizeHeading3;
+						   lineSpacing: e toTheme lineHeightHeading3;
+						   yourself ] ]).
+		  ((self tags: #( #label #H4 )) style: [ :sr |
+			   sr
+				   supplement: (self property: #'text-attributes-with-builder')
+				   with: [ :e |
+					   e textAttributesBuilder
+						   defaultFontSize: e toTheme fontSizeHeading4;
+						   lineSpacing: e toTheme lineHeightHeading4;
+						   yourself ] ]).
+		  ((self tags: #( #label #H5 )) style: [ :sr |
+			   sr
+				   supplement: (self property: #'text-attributes-with-builder')
+				   with: [ :e |
+					   e textAttributesBuilder
+						   defaultFontSize: e toTheme fontSizeHeading5;
+						   lineSpacing: e toTheme lineHeightHeading5;
+						   yourself ] ]).
+
+		  ((self tags: #( #label #danger )) style: [ :sr |
+			   sr
+				   supplement: (self property: #'text-attributes-with-builder')
+				   with: [ :e |
+					   e textAttributesBuilder
+						   foreground: e toTheme colorError;
+						   yourself ] ]).
+		  ((self tags: #( #label #link )) style: [ :sr |
+			   sr
+				   supplement: (self property: #'text-attributes-with-builder')
+				   with: [ :e |
+					   e textAttributesBuilder
+						   foreground: e toTheme colorLink;
+						   yourself ] ]).
+		  ((self tags: #( #label #primary )) style: [ :sr |
+			   sr
+				   supplement: (self property: #'text-attributes-with-builder')
+				   with: [ :e |
+					   e textAttributesBuilder
+						   foreground: e toTheme colorTextLightSolid;
+						   yourself ] ]).
+		  ((self tags: #( #label #primary )) style: [ :sr |
+			   sr
+				   supplement: (self property: #'text-attributes-with-builder')
+				   with: [ :e |
+					   e textAttributesBuilder
+						   foreground: e toTheme colorTextSecondary;
+						   yourself ] ]).
+		  ((self tags: #( #label #success )) style: [ :sr |
+			   sr
+				   supplement: (self property: #'text-attributes-with-builder')
+				   with: [ :e |
+					   e textAttributesBuilder
+						   foreground: e toTheme colorSuccess;
+						   yourself ] ]).
+		  ((self tags: #( #label #warning )) style: [ :sr |
+			   sr
+				   supplement: (self property: #'text-attributes-with-builder')
+				   with: [ :e |
+					   e textAttributesBuilder
+						   foreground: e toTheme colorWarning;
+						   yourself ] ]) }
+]
+
+{ #category : #'initialization - button' }
 ToDefaultStyleSheet >> linkButtonRules [
 	" ToButton link "
 
@@ -686,7 +876,7 @@ ToDefaultStyleSheet >> linkButtonRules [
 				   with: [ :e | e toTheme colorError darker ] ]) }
 ]
 
-{ #category : #'initialization-button' }
+{ #category : #'initialization - button' }
 ToDefaultStyleSheet >> primaryButtonRules [
 	" ToButton primary "
 
@@ -807,7 +997,7 @@ ToDefaultStyleSheet >> primaryButtonRules [
 				   with: [ :e | e toTheme colorTextLightSolid ] ]) }
 ]
 
-{ #category : #'initialization-button' }
+{ #category : #'initialization - button' }
 ToDefaultStyleSheet >> textButtonRules [
 	" ToButton text "
 

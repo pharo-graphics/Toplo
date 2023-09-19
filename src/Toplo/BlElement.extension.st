@@ -1,13 +1,19 @@
 Extension { #name : #BlElement }
 
 { #category : #'*Toplo' }
-BlElement >> addStyleClass: aSymbol [
+BlElement >> addStyleTag: aSymbol [
 
 	| cls |
 	self userData at: #styleTags ifAbsentPut: #().
 	cls := self userData at: #styleTags.
 	(cls includes: aSymbol) ifTrue: [ ^ self ].
 	self userData at: #styleTags put: (cls copyWith: aSymbol)
+]
+
+{ #category : #'*Toplo' }
+BlElement >> addStyleTags: aCollection [
+
+	aCollection do: [:t | self addStyleTag: t]
 ]
 
 { #category : #'*Toplo' }
@@ -103,6 +109,15 @@ BlElement >> holder [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> includesStyleTag: aSymbol [
+
+	| cls |
+	self userData at: #styleTags ifAbsent: [ ^ false ].
+	cls := self userData at: #styleTags.
+	^ cls includes: aSymbol
+]
+
+{ #category : #'*Toplo' }
 BlElement >> isDisabled [
 
 	^ self isFlaggedAsDisabled
@@ -178,7 +193,7 @@ BlElement >> privateToTheme: aTheme [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> removeStyleClass: aSymbol [
+BlElement >> removeStyleTag: aSymbol [
 
 	| cls |
 	self userData at: #styleTags ifAbsentPut: #().
@@ -228,7 +243,7 @@ BlElement >> styleTags [
 BlElement >> styleTags: aCollectionOfSymbol [
 
 	self userData at: #styleTags put: #().
-	aCollectionOfSymbol do: [ :s | self addStyleClass: s ]
+	aCollectionOfSymbol do: [ :s | self addStyleTag: s ]
 ]
 
 { #category : #'*Toplo' }
@@ -241,7 +256,7 @@ BlElement >> switchToSkinState: aState [
 { #category : #'*Toplo' }
 BlElement >> textAttributesBuilder [
 
-	^ self userData at: #textAttributesBuilder ifAbsentPut: [ BlBorderBuilder new ]
+	^ self userData at: #textAttributesBuilder ifAbsentPut: [ BlTextAttributesBuilder new ]
 ]
 
 { #category : #'*Toplo-LookAndFeel' }

@@ -30,7 +30,7 @@ ToSelect >> addSeparator [
 ToSelect >> beJustified [
 
 	menuButton hMatchParent.
-	menuButton beJustified
+	menuButton justified: true
 ]
 
 { #category : #'t - orientable - orientation' }

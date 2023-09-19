@@ -9,7 +9,7 @@ ToSelectInnerButtonDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	anElement beLabelFirst.
-	anElement beJustified.
+	anElement justified: true.
 	anElement icon: (ToImage inner: (Smalltalk ui icons iconNamed: #bottom))
 ]
 

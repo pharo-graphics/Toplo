@@ -66,7 +66,7 @@ ToStyleRuleTest >> testRuleWithAndSelector [
 		        style: [ :sr |  ].
 	self assert: (rule canBeAppliedTo: e) not.
 
-	e addStyleClass: #danger.
+	e addStyleTag: #danger.
 	self assert: (rule canBeAppliedTo: e).
 
 	rule := ToStyleRule
@@ -74,7 +74,7 @@ ToStyleRuleTest >> testRuleWithAndSelector [
 		        style: [ :sr |  ].
 
 	self assert: (rule canBeAppliedTo: e).
-	e addStyleClass: #something.
+	e addStyleTag: #something.
 
 	self assert: (rule canBeAppliedTo: e)
 ]
@@ -93,7 +93,7 @@ ToStyleRuleTest >> testRuleWithAndWithChildSelector [
 			         level: 1).
 	e := ToElement new styleTag: #button.
 	self assert: (rule canBeAppliedTo: e) not.
-	e addStyleClass: #danger.
+	e addStyleTag: #danger.
 	" ko since no child "
 	self assert: (rule canBeAppliedTo: e) not.
 	e addChild: (child := ToElement new styleTag: #'button-label').
@@ -290,7 +290,7 @@ ToStyleRuleTest >> testRuleWithClassSelector [
 
 	e styleTag: #button.
 	self assert: (rule canBeAppliedTo: e).
-	e addStyleClass: #danger.
+	e addStyleTag: #danger.
 	self assert: (rule canBeAppliedTo: e)
 ]
 

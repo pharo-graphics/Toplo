@@ -45,12 +45,6 @@ ToTripletDresser >> propertyChangedEvent: anEvent in: anElement [
 	self checkJustificationin: anElement.
 	anElement innerElement removeChildren.
 	children := { anElement first. filler. anElement second. anElement third } select: #notNil.
-	children do: [ :child | 
-		child constraintsDo: [ :c |
-			c linear vertical alignCenter.
-			c linear horizontal alignCenter.
-			c frame vertical alignCenter.
-			c frame horizontal alignCenter ] ].
 	anElement innerElement addChildren: children
 ]
 

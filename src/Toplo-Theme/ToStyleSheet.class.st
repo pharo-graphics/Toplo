@@ -97,6 +97,13 @@ ToStyleSheet >> addRules: aStyleRuleCollection [
 ]
 
 { #category : #'syntactic sugar' }
+ToStyleSheet >> any [
+
+ 	^ ToUniversalSelector new
+
+]
+
+{ #category : #'syntactic sugar' }
 ToStyleSheet >> id: aSymbol [
 
  	^ ToIdSelector new id: aSymbol

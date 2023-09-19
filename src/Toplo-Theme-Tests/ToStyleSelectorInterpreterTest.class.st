@@ -292,3 +292,18 @@ ToStyleSelectorInterpreterTest >> testUniversalSelector [
 	engine check: selector on: e.
 	self assert: engine result
 ]
+
+{ #category : #'tests - with single selector' }
+ToStyleSelectorInterpreterTest >> testUniversalSelectorWithParent [
+
+	| selector button engine chilLevel3 |	
+	selector := ToUniversalSelector new parent: (ToStyleTagSelector new styleTags: #( #button #circle ) ) level: 2.	
+	button := ToElement new id: #button.
+	button styleTags: #(#button #circle).
+	button addChild: (ToElement new  id: #inner).
+	button firstChild addChild: (chilLevel3 := ToElement new).
+	chilLevel3 id: #childLevel3.
+	engine := ToStyleSelectorInterpreter new.
+	engine check: selector on: chilLevel3.
+	self assert: engine result 
+]

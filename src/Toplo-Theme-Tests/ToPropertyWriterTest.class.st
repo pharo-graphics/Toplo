@@ -273,7 +273,7 @@ ToPropertyWriterTest >> testWithPseudoPropertyWithConverterMethod [
 	prop writer:  [ :e :v | e background: v ].
 	prop reader:  [ :e | e background ].
 	prop name: #background.
-	(prop newWriterForValue: Color blue) writeTo: w.
+	(prop value: Color blue) writeTo: w.
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color blue.
 	self assert: (prop read: w) equals: w background

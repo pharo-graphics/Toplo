@@ -20,18 +20,6 @@ TToSkinable >> currentSkinState: aState [
 ]
 
 { #category : #'t - skinable - initialization' }
-TToSkinable >> defaultSkin [
-
-	^  self userData at: #defaultSkin ifAbsent: [self toTheme skinFor: self]
-]
-
-{ #category : #'t - skinable - initialization' }
-TToSkinable >> defaultSkin: aSkin [
-
-	self userData at: #defaultSkin put: aSkin
-]
-
-{ #category : #'t - skinable - initialization' }
 TToSkinable >> defaultStyleClasses [
 
 	^ self explicitRequirement 

@@ -103,6 +103,13 @@ ToStyleSheet >> classes: anArray [
 
 ]
 
+{ #category : #'syntactic sugar' }
+ToStyleSheet >> id: aSymbol [
+
+ 	^ ToIdSelector new id: aSymbol
+
+]
+
 { #category : #initialization }
 ToStyleSheet >> initialize [
 
@@ -164,18 +171,6 @@ ToStyleSheet >> rules: aStyleRuleCollection [
 ToStyleSheet >> rulesFor: anElement [
 
 	^ self rules select: [ :r | r canBeAppliedTo: anElement ]
-]
-
-{ #category : #'syntactic sugar' }
-ToStyleSheet >> selectedWith: aSelector style: aBlock [
-
-	^ ToStyleRule selectedWith: aSelector style: aBlock
-]
-
-{ #category : #'syntactic sugar' }
-ToStyleSheet >> selectedWith: aSelector when: aLookEventClass style: aBlock [
-
-	^ ToStyleRule selectedWith: aSelector when: aLookEventClass style: aBlock
 ]
 
 { #category : #operating }

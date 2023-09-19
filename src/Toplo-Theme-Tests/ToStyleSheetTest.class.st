@@ -20,8 +20,7 @@ ToStyleSheetTest >> testButtonLabelSkin0 [
 			(BlTextAttributesBuilder new foreground: v) attributes.
 		e textChanged ].
 
-	ss addRule: (ToStyleRule
-			 selectedWith:
+	ss addRule: (
 				 ((ToStyleClassSelector new styleClasses: #( #button #danger ))
 					  child: (ToStyleClassSelector new styleClass: #'button-label')
 					  level: 2)
@@ -86,8 +85,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 	ss := ToStyleSheet new.
 
 	" default button rule "
-	ss addRule: (ToStyleRule
-			 selectedWith: (ToStyleClassSelector new styleClass: #button)
+	ss addRule: ((ToStyleClassSelector new styleClass: #button)
 			 style: [ :sr |
 				 | p |
 				 p := ToFeatureProperty new name: #background.
@@ -121,8 +119,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 					 with: [ :e | e toTheme colorPrimaryPressed ] ]).
 
 	" danger button label rule "
-	ss addRule: (ToStyleRule
-			 selectedWith: ((ToStyleClassSelector new styleClass: #'button-label')
+	ss addRule: (((ToStyleClassSelector new styleClass: #'button-label')
 					  parent:
 					  (ToStyleClassSelector new styleClasses: #( #button #danger ))
 					  level: 2)
@@ -211,8 +208,7 @@ ToStyleSheetTest >> testButtonSkinWithInterspace [
 	layoutProp := ToFeatureProperty name: #layout.
 	
 	ss := ToStyleSheet new.
-	ss addRule: (ToStyleRule
-			 selectedWith: ((ToStyleClassSelector new styleClass: #button) 
+	ss addRule: (((ToStyleClassSelector new styleClass: #button) 
 				or: (ToStyleClassSelector new styleClasses: #( #button #horizontal )))
 			 when: ToInstallLookEvent
 			 style: [ :sr |
@@ -249,8 +245,7 @@ ToStyleSheetTest >> testNewStyleSheetWith2Rules [
 	| styleSheet |
 	styleSheet := ToStyleSheet new.
 	styleSheet addRules: {
-			(ToStyleRule
-				 selectedWith: (ToStyleClassSelector new styleClass: #button)
+			((ToStyleClassSelector new styleClass: #button)
 				 style: [ :sr |
 					 sr
 						 write: (styleSheet propertyNamed: #background)
@@ -262,8 +257,7 @@ ToStyleSheetTest >> testNewStyleSheetWith2Rules [
 				background: blue;
 				border: red;
 			}"
-			(ToStyleRule
-				 selectedWith: (ToStyleClassSelector new styleClass: #button)
+			((ToStyleClassSelector new styleClass: #button)
 				 when: ToInitialLookEvent
 				 style: [ :sr |
 					 sr
@@ -284,7 +278,7 @@ ToStyleSheetTest >> testSkinWithAnUniversalRule [
 	| ss elem skin writers |
 	ss := ToStyleSheet new.
 	ss addRule:
-		(ToStyleRule selectedWith: ToUniversalSelector new style: [ :sr |
+		(ToUniversalSelector new style: [ :sr |
 			 sr
 				 when: ToInitialLookEvent
 				 write: (ToFeatureProperty new name: #background)
@@ -305,8 +299,7 @@ ToStyleSheetTest >> testSkinWithChildRule [
 
 	| ss skin parent child writers |
 	ss := ToStyleSheet new.
-	ss addRule: (ToStyleRule
-			 selectedWith: ((ToIdSelector new id: #child) parent:
+	ss addRule: (((ToIdSelector new id: #child) parent:
 					  (ToStyleClassSelector new styleClass: #parent))
 			 style: [ :sr |
 				 sr
@@ -337,8 +330,7 @@ ToStyleSheetTest >> testSkinWithChildRuleLevel2 [
 
 	| ss skin parent child writers subParent |
 	ss := ToStyleSheet new.
-	ss addRule: (ToStyleRule
-			 selectedWith: ((ToIdSelector new id: #child)
+	ss addRule: (((ToIdSelector new id: #child)
 					  parent: (ToStyleClassSelector new styleClass: #parent)
 					  level: 2)
 			 style: [ :sr |
@@ -371,13 +363,11 @@ ToStyleSheetTest >> testSkinWithIdRule [
 
 	| ss elem writers skin |
 	ss := ToStyleSheet new.
-	ss addRule: (ToStyleRule
-			 selectedWith: (ToIdSelector new id: #a)
-			 when: ToInitialLookEvent
-			 style: [ :sr |
-				 sr
-					 write: (ToFeatureProperty new name: #border)
-					 with: (BlBorder paint: Color red width: 3) ]).
+	ss addRule:
+		((ToIdSelector new id: #a) when: ToInitialLookEvent style: [ :sr |
+			 sr
+				 write: (ToFeatureProperty new name: #border)
+				 with: (BlBorder paint: Color red width: 3) ]).
 	elem := ToElement new.
 	writers := ss writersFor: elem.
 	self assert: writers size equals: 0.

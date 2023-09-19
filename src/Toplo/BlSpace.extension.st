@@ -3,8 +3,9 @@ Extension { #name : #BlSpace }
 { #category : #'*Toplo' }
 BlSpace >> checkRootSkinInstallation [
 
-	self root privateSkin ifNil: [ 
-		self root withSkin: self root spaceRootSkin ].
+	self root privateSkin ifNotNil: [ ^ self ].
+	
+	self root withSkin: self root defaultSkin.
 	" To preserve efficiency, #launchSkinInstallation does nothing by default at BlElement level."
 	" Thus, the installation for root is directly launched here "
 	self root privateSkin launchSkinInstallationIn: self root

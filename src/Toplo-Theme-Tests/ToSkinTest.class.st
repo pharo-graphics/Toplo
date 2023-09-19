@@ -177,7 +177,7 @@ ToSkinTest >> testWithOneWriter [
 	w := ToElement new.
 	skin := ToSkin new.
 	prop := self propertyIndex propertyNamed: #background.
-	propWriter := prop newWriterForValue: Color blue.
+	propWriter := prop value: Color blue.
 	skin writers: { propWriter }.
 	w withSkin: skin.
 	w switchToSkinState: ToInstallState new.

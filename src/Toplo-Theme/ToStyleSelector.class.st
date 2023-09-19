@@ -64,3 +64,15 @@ ToStyleSelector >> parent: aSelector level: anInteger [
 		  parentLevel: anInteger;
 		  yourself
 ]
+
+{ #category : #'skin rule building' }
+ToStyleSelector >> style: aBlock [
+
+	^ ToStyleRule selectedWith: self style: aBlock
+]
+
+{ #category : #'skin rule building' }
+ToStyleSelector >> when: aLookEventClass style: aBlock [
+
+	^ ToStyleRule selectedWith: self when: aLookEventClass style: aBlock
+]

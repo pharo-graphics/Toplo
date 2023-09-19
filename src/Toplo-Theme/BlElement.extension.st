@@ -1,0 +1,13 @@
+Extension { #name : #BlElement }
+
+{ #category : #'*Toplo-Theme' }
+BlElement >> defaultSkin [
+
+	^  self userData at: #defaultSkin ifAbsent: [self toTheme skinFor: self]
+]
+
+{ #category : #'*Toplo-Theme' }
+BlElement >> defaultSkin: aSkin [
+
+	self userData at: #defaultSkin put: aSkin
+]

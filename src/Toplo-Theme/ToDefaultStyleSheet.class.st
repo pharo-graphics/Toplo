@@ -14,6 +14,16 @@ ToDefaultStyleSheet >> addButtonRules [
 	self addRules: self linkButtonRules
 ]
 
+{ #category : #initialization }
+ToDefaultStyleSheet >> addRootPaneRules [
+
+	self addRules:
+		{ ((self id: #'Space root') when: ToInstallLookEvent style: [ :sr |
+			 sr
+				 write: (self property: #background)
+				 with: [ :e | e toTheme backgroundColor ] ]) }
+]
+
 { #category : #'initialization-button' }
 ToDefaultStyleSheet >> commonButtonRules [
 	" ToButton common rule for layout "
@@ -31,7 +41,7 @@ ToDefaultStyleSheet >> commonButtonRules [
 	"
 
 	^ {
-		  (self selectedWith: (self class: #button) style: [ :sr |
+		  ((self class: #button) style: [ :sr |
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #mouseCursor)
@@ -44,77 +54,58 @@ ToDefaultStyleSheet >> commonButtonRules [
 				   write: (self property: #mouseCursor)
 				   with: nil ]).
 		  ""
-		  (self
-			   selectedWith: (self classes: #( #button #'no-border' ))
-			   style: [ :sr |
+		  ((self classes: #( #button #'no-border' )) style: [ :sr |
 			   sr write: (self property: #border) with: BlBorder empty ]).
 
 		  " no background for #link ( which elementClass includes #'no-background' ) "
-		  (self
-			   selectedWith: (self classes: #( #button #'no-background' ))
-			   style: [ :sr |
-				   sr
-					   write: (self property: #background)
-					   with: BlBackground transparent ]).
+		  ((self classes: #( #button #'no-background' )) style: [ :sr |
+			   sr
+				   write: (self property: #background)
+				   with: BlBackground transparent ]).
 
 
-		  (self
-			   selectedWith: ((self class: #'inner-element')
-					    parent: ((self classes: #( #button #horizontal )) or:
-							     (self classes: #( #button )))
-					    level: 1)
-			   when: ToInstallLookEvent
-			   style: [ :sr |
-				   sr
-					   write: (self property: #layout)
-					   with: BlLinearLayout horizontal.
-				   sr
-					   write: (self property: #'layout-interspace')
-					   with: [ :e | e toTheme paddingContentHorizontal / 3 ] ]).
+		  (((self class: #'inner-element')
+			    parent: ((self classes: #( #button #horizontal )) or:
+					     (self classes: #( #button )))
+			    level: 1) when: ToInstallLookEvent style: [ :sr |
+			   sr
+				   write: (self property: #layout)
+				   with: BlLinearLayout horizontal.
+			   sr
+				   write: (self property: #'layout-interspace')
+				   with: [ :e | e toTheme paddingContentHorizontal / 3 ] ]).
 
-		  (self
-			   selectedWith: ((self class: #'inner-element')
-					    parent:
-						    ((self classes: #( #button #horizontal #justified )) or:
-							     (self classes: #( #button #justified )))
-					    level: 1)
-			   when: ToInstallLookEvent
-			   style: [ :sr |
-				   sr
-					   write: (self property: #layout)
-					   with: [ :e | BlLinearLayout horizontal ] ]).
+		  (((self class: #'inner-element')
+			    parent:
+				    ((self classes: #( #button #horizontal #justified )) or:
+					     (self classes: #( #button #justified )))
+			    level: 1) when: ToInstallLookEvent style: [ :sr |
+			   sr
+				   write: (self property: #layout)
+				   with: [ :e | BlLinearLayout horizontal ] ]).
 
-		  (self
-			   selectedWith: ((self class: #'inner-element')
-					    parent: (self classes: #( #button #vertical ))
-					    level: 1)
-			   when: ToInstallLookEvent
-			   style: [ :sr |
-				   sr
-					   write: (self property: #layout)
-					   with: BlLinearLayout vertical ]).
+		  (((self class: #'inner-element')
+			    parent: (self classes: #( #button #vertical ))
+			    level: 1) when: ToInstallLookEvent style: [ :sr |
+			   sr write: (self property: #layout) with: BlLinearLayout vertical ]).
 
-		  (self
-			   selectedWith: ((self classes: #( #button #horizontal )) or:
-					    (self classes: #( #button )))
+		  (((self classes: #( #button #horizontal )) or:
+			    (self classes: #( #button )))
 			   when: ToInstallLookEvent
 			   style: [ :sr |
 				   sr
 					   write: (self property: #layout)
 					   with: BlLinearLayout horizontal ]).
 
-		  (self
-			   selectedWith: (self classes: #( #button #vertical ))
+		  ((self classes: #( #button #vertical ))
 			   when: ToInstallLookEvent
 			   style: [ :sr |
 				   sr
 					   write: (self property: #layout)
 					   with: BlLinearLayout vertical ]).
 
-		  (self
-			   selectedWith:
-			   ((self class: #button) or:
-				    (self classes: #( #button #horizontal )))
+		  (((self class: #button) or:
+			    (self classes: #( #button #horizontal )))
 			   when: ToInstallLookEvent
 			   style: [ :sr |
 				   sr write: (self property: #padding) with: [ :e |
@@ -127,8 +118,7 @@ ToDefaultStyleSheet >> commonButtonRules [
 					   BlRoundedRectangleGeometry cornerRadius:
 						   e toTheme borderRadius ] ]).
 
-		  (self
-			   selectedWith: (self classes: #( #button #round ))
+		  ((self classes: #( #button #round ))
 			   when: ToInstallLookEvent
 			   style: [ :sr |
 				   sr
@@ -136,10 +126,8 @@ ToDefaultStyleSheet >> commonButtonRules [
 					   with: [ :e |
 					   BlRoundedRectangleGeometry cornerRadius: e requestedHeight / 2 ] ]).
 
-		  (self
-			   selectedWith:
-				   ((self classes: #( #button #horizontal #justified )) or:
-					    (self classes: #( #button #justified )))
+		  (((self classes: #( #button #horizontal #justified )) or:
+			    (self classes: #( #button #justified )))
 			   when: ToInstallLookEvent
 			   style: [ :sr | sr write: (self property: #justified) with: true ]) }
 ]
@@ -151,49 +139,36 @@ ToDefaultStyleSheet >> defaultButtonRules [
 	" default button (class #button) "
 
 	^ {
-		  (self
-			   selectedWith: (self class: #button)
-			   when: ToInitialLookEvent
-			   style: [ :sr |
-				   sr
-					   write: (self property: #background)
-					   with: [ :e | Color transparent ].
-				   sr write: (self property: #'border-with-builder') with: [ :e |
-					   e borderBuilder
-						   paint: e toTheme colorBorder;
-						   yourself ] ]).
-		  (self
-			   selectedWith: (self class: #button)
-			   when: ToDisabledLookEvent
-			   style: [ :sr |
-				   sr
-					   write: (self property: #background)
-					   with: [ :e | e toTheme colorBgContainerDisabled ].
-				   sr write: (self property: #'border-with-builder') with: [ :e |
-					   e borderBuilder
-						   paint: e toTheme colorBorderDisabled;
-						   yourself ] ]).
+		  ((self class: #button) when: ToInitialLookEvent style: [ :sr |
+			   sr
+				   write: (self property: #background)
+				   with: [ :e | Color transparent ].
+			   sr write: (self property: #'border-with-builder') with: [ :e |
+				   e borderBuilder
+					   paint: e toTheme colorBorder;
+					   yourself ] ]).
+		  ((self class: #button) when: ToDisabledLookEvent style: [ :sr |
+			   sr
+				   write: (self property: #background)
+				   with: [ :e | e toTheme colorBgContainerDisabled ].
+			   sr write: (self property: #'border-with-builder') with: [ :e |
+				   e borderBuilder
+					   paint: e toTheme colorBorderDisabled;
+					   yourself ] ]).
 
-		  (self
-			   selectedWith: (self class: #button)
-			   when: ToHoveredLookEvent
-			   style: [ :sr |
-				   sr
-					   write: (self property: #'border-with-builder')
-					   with: [ :e |
-					   e borderBuilder paint: e toTheme colorPrimaryHover ] ]).
-		  (self
-			   selectedWith: (self class: #button)
-			   when: ToPressedLookEvent
-			   style: [ :sr |
-				   sr
-					   write: (self property: #'border-with-builder')
-					   with: [ :e |
-					   e borderBuilder paint: e toTheme colorPrimaryPressed ] ]).
+		  ((self class: #button) when: ToHoveredLookEvent style: [ :sr |
+			   sr
+				   write: (self property: #'border-with-builder')
+				   with: [ :e |
+				   e borderBuilder paint: e toTheme colorPrimaryHover ] ]).
+		  ((self class: #button) when: ToPressedLookEvent style: [ :sr |
+			   sr
+				   write: (self property: #'border-with-builder')
+				   with: [ :e |
+				   e borderBuilder paint: e toTheme colorPrimaryPressed ] ]).
 
 		  " default button form icon "
-		  (self
-			   selectedWith: ((self class: #image) parent: (self class: #button) level: 2)
+		  (((self class: #image) parent: (self class: #button) level: 2)
 			   style: [ :sr |
 				   sr
 					   when: ToInitialLookEvent
@@ -213,8 +188,7 @@ ToDefaultStyleSheet >> defaultButtonRules [
 					   with: [ :e | e toTheme colorPrimaryPressed ] ]).
 
 		  " default button label "
-		  (self
-			   selectedWith: ((self class: #label) parent: (self class: #button) level: 2)
+		  (((self class: #label) parent: (self class: #button) level: 2)
 			   style: [ :sr |
 				   sr
 					   when: ToInitialLookEvent
@@ -234,9 +208,7 @@ ToDefaultStyleSheet >> defaultButtonRules [
 					   with: [ :e | e toTheme colorPrimaryPressed ] ]).
 
 		  " ToButton default danger"
-		  (self
-			   selectedWith:
-			   (ToStyleClassSelector new styleClasses: #( #button #danger ))
+		  ((ToStyleClassSelector new styleClasses: #( #button #danger ))
 			   style: [ :sr |
 				   sr
 					   when: ToInitialLookEvent
@@ -253,7 +225,8 @@ ToDefaultStyleSheet >> defaultButtonRules [
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #'border-with-builder')
-					   with: [ :e | e borderBuilder paint: e toTheme colorBorderDisabled ].
+					   with: [ :e |
+					   e borderBuilder paint: e toTheme colorBorderDisabled ].
 				   sr
 					   when: ToHoveredLookEvent
 					   write: (self property: #'border-with-builder')
@@ -261,56 +234,53 @@ ToDefaultStyleSheet >> defaultButtonRules [
 				   sr
 					   when: ToPressedLookEvent
 					   write: (self property: #'border-with-builder')
-					   with: [ :e | e borderBuilder paint: e toTheme colorErrorHover darker ] ]).
+					   with: [ :e |
+					   e borderBuilder paint: e toTheme colorErrorHover darker ] ]).
 
 		  " danger button form icon "
-		  (self
-			   selectedWith: ((self class: #image)
-					    parent: (self classes: #( #button #danger ))
-					    level: 2)
-			   style: [ :sr |
-				   sr
-					   when: ToInitialLookEvent
-					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorError ].
-				   sr
-					   when: ToDisabledLookEvent
-					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorImageDisabled ].
-				   sr
-					   when: ToHoveredLookEvent
-					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorErrorHover ].
-				   sr
-					   when: ToPressedLookEvent
-					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorErrorHover darker ] ]).
+		  (((self class: #image)
+			    parent: (self classes: #( #button #danger ))
+			    level: 2) style: [ :sr |
+			   sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'image-inner-form-color')
+				   with: [ :e | e toTheme colorError ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'image-inner-form-color')
+				   with: [ :e | e toTheme colorImageDisabled ].
+			   sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #'image-inner-form-color')
+				   with: [ :e | e toTheme colorErrorHover ].
+			   sr
+				   when: ToPressedLookEvent
+				   write: (self property: #'image-inner-form-color')
+				   with: [ :e | e toTheme colorErrorHover darker ] ]).
 
 		  " danger button label "
-		  (self
-			   selectedWith: ((self class: #label)
-					    parent: (self classes: #( #button #danger ))
-					    level: 2)
-			   style: [ :sr |
-				   sr
-					   when: ToInitialLookEvent
-					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorError ].
-				   sr
-					   when: ToDisabledLookEvent
-					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorTextDisabled ].
-				   sr
-					   when: ToHoveredLookEvent
-					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorErrorHover ].
-				   sr
-					   when: ToPressedLookEvent
-					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorErrorHover darker ] ]).
+		  (((self class: #label)
+			    parent: (self classes: #( #button #danger ))
+			    level: 2) style: [ :sr |
+			   sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | e toTheme colorError ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | e toTheme colorTextDisabled ].
+			   sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | e toTheme colorErrorHover ].
+			   sr
+				   when: ToPressedLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | e toTheme colorErrorHover darker ] ]).
 
 		  " default button dashed "
-		  (self selectedWith: (self classes: #( #dashed )) style: [ :sr |
+		  ((self classes: #( #dashed )) style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   supplement: (self property: #'border-with-builder')
@@ -328,13 +298,8 @@ ToDefaultStyleSheet >> initialize [
 ToDefaultStyleSheet >> initializeDefaultThemeRules [
 	" * { background-color: #transparent; border-with: 0; border-color: #transparent} "
 
-	"self addRule:
-		(ToStyleRule new
-			 selectors: { ToUniversalSelector new }
-			 looks: {
-					 ToBackgroundColorLook new.
-					 ToBorderLook new })."
 
+	self addRootPaneRules.
 	self addButtonRules
 ]
 
@@ -343,8 +308,7 @@ ToDefaultStyleSheet >> linkButtonRules [
 	" ToButton link "
 
 	^ {
-		  (self
-			   selectedWith: (self classes: #( #button #link ))
+		  ((self classes: #( #button #link ))
 			   when: ToInstallLookEvent
 			   style: [ :sr |
 				   sr
@@ -355,8 +319,7 @@ ToDefaultStyleSheet >> linkButtonRules [
 					   with: [ :e | e borderBuilder width: 0 ] ]).
 
 		  " ToButton link danger "
-		  (self
-			   selectedWith: (self classes: #( #button #link #danger ))
+		  ((self classes: #( #button #link #danger ))
 			   when: ToInstallLookEvent
 			   style: [ :sr |
 				   sr
@@ -367,96 +330,88 @@ ToDefaultStyleSheet >> linkButtonRules [
 					   with: [ :e | e borderBuilder width: 0 ] ]).
 
 		  " button link form icon "
-		  (self
-			   selectedWith: ((self class: #image)
-					    parent: (self classes: #( #button #link ))
-					    level: 2)
-			   style: [ :sr |
-				   sr
-					   when: ToInitialLookEvent
-					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorLink ].
-				   sr
-					   when: ToDisabledLookEvent
-					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorTextDisabled ].
-				   sr
-					   when: ToHoveredLookEvent
-					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorLinkHover ].
-				   sr
-					   when: ToPressedLookEvent
-					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorPrimaryPressed ] ]).
+		  (((self class: #image)
+			    parent: (self classes: #( #button #link ))
+			    level: 2) style: [ :sr |
+			   sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'image-inner-form-color')
+				   with: [ :e | e toTheme colorLink ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'image-inner-form-color')
+				   with: [ :e | e toTheme colorTextDisabled ].
+			   sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #'image-inner-form-color')
+				   with: [ :e | e toTheme colorLinkHover ].
+			   sr
+				   when: ToPressedLookEvent
+				   write: (self property: #'image-inner-form-color')
+				   with: [ :e | e toTheme colorPrimaryPressed ] ]).
 
 		  " button link label "
-		  (self
-			   selectedWith: ((self class: #label)
-					    parent: (self classes: #( #button #link ))
-					    level: 2)
-			   style: [ :sr |
-				   sr
-					   when: ToInitialLookEvent
-					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorLink ].
-				   sr
-					   when: ToDisabledLookEvent
-					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorTextDisabled ].
-				   sr
-					   when: ToHoveredLookEvent
-					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorLinkHover ].
-				   sr
-					   when: ToPressedLookEvent
-					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorPrimaryPressed ] ]).
+		  (((self class: #label)
+			    parent: (self classes: #( #button #link ))
+			    level: 2) style: [ :sr |
+			   sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | e toTheme colorLink ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | e toTheme colorTextDisabled ].
+			   sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | e toTheme colorLinkHover ].
+			   sr
+				   when: ToPressedLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | e toTheme colorPrimaryPressed ] ]).
 
 		  " button link danger form icon "
-		  (self
-			   selectedWith: ((self class: #image)
-					    parent: (self classes: #( #button #link #danger ))
-					    level: 2)
-			   style: [ :sr |
-				   sr
-					   when: ToInitialLookEvent
-					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorError ].
-				   sr
-					   when: ToDisabledLookEvent
-					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorTextDisabled ].
-				   sr
-					   when: ToHoveredLookEvent
-					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorErrorHover ].
-				   sr
-					   when: ToPressedLookEvent
-					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorError darker ] ]).
+		  (((self class: #image)
+			    parent: (self classes: #( #button #link #danger ))
+			    level: 2) style: [ :sr |
+			   sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'image-inner-form-color')
+				   with: [ :e | e toTheme colorError ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'image-inner-form-color')
+				   with: [ :e | e toTheme colorTextDisabled ].
+			   sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #'image-inner-form-color')
+				   with: [ :e | e toTheme colorErrorHover ].
+			   sr
+				   when: ToPressedLookEvent
+				   write: (self property: #'image-inner-form-color')
+				   with: [ :e | e toTheme colorError darker ] ]).
 
 		  " button link danger label "
-		  (self
-			   selectedWith: ((self class: #label)
-					    parent: (self classes: #( #button #link #danger ))
-					    level: 2)
-			   style: [ :sr |
-				   sr
-					   when: ToInitialLookEvent
-					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorError ].
-				   sr
-					   when: ToDisabledLookEvent
-					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorTextDisabled ].
-				   sr
-					   when: ToHoveredLookEvent
-					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorErrorHover ].
-				   sr
-					   when: ToPressedLookEvent
-					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorError darker ] ]) }
+		  (((self class: #label)
+			    parent: (self classes: #( #button #link #danger ))
+			    level: 2) style: [ :sr |
+			   sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | e toTheme colorError ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | e toTheme colorTextDisabled ].
+			   sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | e toTheme colorErrorHover ].
+			   sr
+				   when: ToPressedLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | e toTheme colorError darker ] ]) }
 ]
 
 { #category : #'initialization-button' }
@@ -464,128 +419,120 @@ ToDefaultStyleSheet >> primaryButtonRules [
 	" ToButton primary "
 
 	^ {
-		  (self
-			   selectedWith:
-			   ((self class: #button) and: (self class: #primary))
-			   style: [ :sr |
-				   sr
-					   when: ToInitialLookEvent
-					   write: (self property: #background)
-					   with: [ :e | e toTheme colorPrimary ].
-				   sr
-					   when: ToDisabledLookEvent
-					   write: (self property: #background)
-					   with: [ :e | e toTheme colorBgContainerDisabled ].
-				   sr
-					   when: ToHoveredLookEvent
-					   write: (self property: #'background-color')
-					   with: [ :e | e toTheme colorPrimaryHover ]
-					   animation: ToPropertyColorTransitionAnimation new.
-				   sr
-					   when: ToLeavedLookEvent
-					   write: (self property: #'background-color')
-					   with: [ :e | e toTheme colorPrimary ]
-					   animation: ToPropertyColorTransitionAnimation new.
-				   sr
-					   when: ToPressedLookEvent
-					   write: (self property: #background)
-					   with: [ :e | e toTheme colorPrimaryPressed ].
+		  (((self class: #button) and: (self class: #primary)) style: [ :sr |
+			   sr
+				   when: ToInitialLookEvent
+				   write: (self property: #background)
+				   with: [ :e | e toTheme colorPrimary ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #background)
+				   with: [ :e | e toTheme colorBgContainerDisabled ].
+			   sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #'background-color')
+				   with: [ :e | e toTheme colorPrimaryHover ]
+				   animation: ToPropertyColorTransitionAnimation new.
+			   sr
+				   when: ToLeavedLookEvent
+				   write: (self property: #'background-color')
+				   with: [ :e | e toTheme colorPrimary ]
+				   animation: ToPropertyColorTransitionAnimation new.
+			   sr
+				   when: ToPressedLookEvent
+				   write: (self property: #background)
+				   with: [ :e | e toTheme colorPrimaryPressed ].
 
-				   sr
-					   when: ToInitialLookEvent
-					   write: (self property: #'border-with-builder')
-					   with: [ :e | e borderBuilder paint: Color transparent ].
-				   sr
-					   when: ToDisabledLookEvent
-					   write: (self property: #'border-with-builder')
-					   with: [ :e |
-					   e borderBuilder paint: e toTheme colorBorderDisabled ] ]).
+			   sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e | e borderBuilder paint: Color transparent ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e |
+				   e borderBuilder paint: e toTheme colorBorderDisabled ] ]).
 
 		  " ToButton primary danger "
-		  (self
-			   selectedWith: ((self class: #button) and:
-					    ((self class: #primary) and: (self class: #danger)))
-			   style: [ :sr |
-				   sr
-					   when: ToInitialLookEvent
-					   write: (self property: #background)
-					   with: [ :e | e toTheme colorError ].
-				   sr
-					   when: ToDisabledLookEvent
-					   write: (self property: #background)
-					   with: [ :e | e toTheme colorBgContainerDisabled ].
-				   sr
-					   when: ToHoveredLookEvent
-					   write: (self property: #'background-color')
-					   with: [ :e | e toTheme colorErrorHover ]
-					   animation: ToPropertyColorTransitionAnimation new.
-				   sr
-					   when: ToLeavedLookEvent
-					   write: (self property: #'background-color')
-					   with: [ :e | e toTheme colorError ]
-					   animation: ToPropertyColorTransitionAnimation new.
-				   sr
-					   when: ToPressedLookEvent
-					   write: (self property: #background)
-					   with: [ :e | e toTheme colorErrorPressed ].
+		  (((self class: #button) and:
+			    ((self class: #primary) and: (self class: #danger))) style: [
+			   :sr |
+			   sr
+				   when: ToInitialLookEvent
+				   write: (self property: #background)
+				   with: [ :e | e toTheme colorError ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #background)
+				   with: [ :e | e toTheme colorBgContainerDisabled ].
+			   sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #'background-color')
+				   with: [ :e | e toTheme colorErrorHover ]
+				   animation: ToPropertyColorTransitionAnimation new.
+			   sr
+				   when: ToLeavedLookEvent
+				   write: (self property: #'background-color')
+				   with: [ :e | e toTheme colorError ]
+				   animation: ToPropertyColorTransitionAnimation new.
+			   sr
+				   when: ToPressedLookEvent
+				   write: (self property: #background)
+				   with: [ :e | e toTheme colorErrorPressed ].
 
-				   sr
-					   when: ToInitialLookEvent
-					   write: (self property: #'border-with-builder')
-					   with: [ :e | e borderBuilder paint: Color transparent ].
-				   sr
-					   when: ToDisabledLookEvent
-					   write: (self property: #'border-with-builder')
-					   with: [ :e |
-					   e borderBuilder paint: e toTheme colorBorderDisabled ] ]).
+			   sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e | e borderBuilder paint: Color transparent ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e |
+				   e borderBuilder paint: e toTheme colorBorderDisabled ] ]).
 
 		  " primary button form icon "
 
-		  (self
-			   selectedWith: ((self class: #image)
-					    parent: ((self class: #button) and: (self class: #primary))
-					    level: 2)
-			   style: [ :sr |
-				   sr
-					   when: ToInitialLookEvent
-					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorImageLightSolid ].
-				   sr
-					   when: ToDisabledLookEvent
-					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorImageDisabled ].
-				   sr
-					   when: ToHoveredLookEvent
-					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorImageLightSolid ].
-				   sr
-					   when: ToPressedLookEvent
-					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorImageLightSolid ] ]).
+		  (((self class: #image)
+			    parent: ((self class: #button) and: (self class: #primary))
+			    level: 2) style: [ :sr |
+			   sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'image-inner-form-color')
+				   with: [ :e | e toTheme colorImageLightSolid ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'image-inner-form-color')
+				   with: [ :e | e toTheme colorImageDisabled ].
+			   sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #'image-inner-form-color')
+				   with: [ :e | e toTheme colorImageLightSolid ].
+			   sr
+				   when: ToPressedLookEvent
+				   write: (self property: #'image-inner-form-color')
+				   with: [ :e | e toTheme colorImageLightSolid ] ]).
 
 		  " primary button label "
 
-		  (self
-			   selectedWith: ((self class: #label)
-					    parent: ((self class: #button) and: (self class: #primary))
-					    level: 2)
-			   style: [ :sr |
-				   sr
-					   when: ToInitialLookEvent
-					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorTextLightSolid ].
-				   sr
-					   when: ToDisabledLookEvent
-					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorBgContainerDisabled ].
-				   sr
-					   when: ToHoveredLookEvent
-					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorTextLightSolid ].
-				   sr
-					   when: ToPressedLookEvent
-					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorTextLightSolid ] ]) }
+		  (((self class: #label)
+			    parent: ((self class: #button) and: (self class: #primary))
+			    level: 2) style: [ :sr |
+			   sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | e toTheme colorTextLightSolid ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | e toTheme colorBgContainerDisabled ].
+			   sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | e toTheme colorTextLightSolid ].
+			   sr
+				   when: ToPressedLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | e toTheme colorTextLightSolid ] ]) }
 ]
 
 { #category : #'initialization-button' }
@@ -593,125 +540,113 @@ ToDefaultStyleSheet >> textButtonRules [
 	" ToButton text "
 
 	^ {
-		  (self
-			   selectedWith: (self classes: #( #button #text ))
-			   style: [ :sr |
-				   sr
-					   when: ToInitialLookEvent
-					   write: (self property: #background)
-					   with: [ :e | Color transparent ].
-				   sr
-					   when: ToDisabledLookEvent
-					   write: (self property: #background)
-					   with: [ :e | e toTheme colorBgContainerDisabled ].
-				   sr
-					   when: ToHoveredLookEvent
-					   write: (self property: #background)
-					   with: [ :e | e toTheme colorBgTextHover ].
-				   sr
-					   when: ToPressedLookEvent
-					   write: (self property: #background)
-					   with: [ :e | e toTheme colorBgTextActive ].
+		  ((self classes: #( #button #text )) style: [ :sr |
+			   sr
+				   when: ToInitialLookEvent
+				   write: (self property: #background)
+				   with: [ :e | Color transparent ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #background)
+				   with: [ :e | e toTheme colorBgContainerDisabled ].
+			   sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #background)
+				   with: [ :e | e toTheme colorBgTextHover ].
+			   sr
+				   when: ToPressedLookEvent
+				   write: (self property: #background)
+				   with: [ :e | e toTheme colorBgTextActive ].
 
-				   sr
-					   when: ToInstallLookEvent
-					   write: (self property: #'border-with-builder')
-					   with: [ :e |
-						   e borderBuilder
-							   width: 0;
-							   yourself ] ]).
+			   sr
+				   when: ToInstallLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e |
+					   e borderBuilder
+						   width: 0;
+						   yourself ] ]).
 
 		  " ToButton text danger "
 
-		  (self
-			   selectedWith: (self classes: #( #button #text #danger ))
-			   style: [ :sr |
-				   sr
-					   when: ToInitialLookEvent
-					   write: (self property: #background)
-					   with: [ :e | Color transparent ].
-				   sr
-					   when: ToDisabledLookEvent
-					   write: (self property: #background)
-					   with: [ :e | e toTheme colorBgContainerDisabled ].
-				   sr
-					   when: ToHoveredLookEvent
-					   write: (self property: #background)
-					   with: [ :e | e toTheme colorErrorBg ].
-				   sr
-					   when: ToPressedLookEvent
-					   write: (self property: #background)
-					   with: [ :e | e toTheme colorErrorBg ].
+		  ((self classes: #( #button #text #danger )) style: [ :sr |
+			   sr
+				   when: ToInitialLookEvent
+				   write: (self property: #background)
+				   with: [ :e | Color transparent ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #background)
+				   with: [ :e | e toTheme colorBgContainerDisabled ].
+			   sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #background)
+				   with: [ :e | e toTheme colorErrorBg ].
+			   sr
+				   when: ToPressedLookEvent
+				   write: (self property: #background)
+				   with: [ :e | e toTheme colorErrorBg ].
 
-				   sr
-					   when: ToInstallLookEvent
-					   write: (self property: #'border-with-builder')
-					   with: [ :e |
-						   e borderBuilder
-							   width: 0;
-							   yourself ] ]).
+			   sr
+				   when: ToInstallLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e |
+					   e borderBuilder
+						   width: 0;
+						   yourself ] ]).
 
 		  " button text form icon "
 
-		  (self
-			   selectedWith: ((self class: #image)
-					    parent: (self classes: #( #button #text ))
-					    level: 2)
-			   style: [ :sr |
-				   sr
-					   when: ToInitialLookEvent
-					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorText ].
-				   sr
-					   when: ToDisabledLookEvent
-					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorBgContainerDisabled ] ]).
+		  (((self class: #image)
+			    parent: (self classes: #( #button #text ))
+			    level: 2) style: [ :sr |
+			   sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'image-inner-form-color')
+				   with: [ :e | e toTheme colorText ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'image-inner-form-color')
+				   with: [ :e | e toTheme colorBgContainerDisabled ] ]).
 
 		  " button test label "
 
-		  (self
-			   selectedWith: ((self class: #label)
-					    parent: (self classes: #( #button #text ))
-					    level: 2)
-			   style: [ :sr |
-				   sr
-					   when: ToInitialLookEvent
-					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorText ].
-				   sr
-					   when: ToDisabledLookEvent
-					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorBgContainerDisabled ] ]).
+		  (((self class: #label)
+			    parent: (self classes: #( #button #text ))
+			    level: 2) style: [ :sr |
+			   sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | e toTheme colorText ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | e toTheme colorBgContainerDisabled ] ]).
 
 		  " button text danger form icon "
 
-		  (self
-			   selectedWith: ((self class: #image)
-					    parent: (self classes: #( #button #text #danger ))
-					    level: 2)
-			   style: [ :sr |
-				   sr
-					   when: ToInitialLookEvent
-					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorError ].
-				   sr
-					   when: ToDisabledLookEvent
-					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorBgContainerDisabled ] ]).
+		  (((self class: #image)
+			    parent: (self classes: #( #button #text #danger ))
+			    level: 2) style: [ :sr |
+			   sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'image-inner-form-color')
+				   with: [ :e | e toTheme colorError ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'image-inner-form-color')
+				   with: [ :e | e toTheme colorBgContainerDisabled ] ]).
 
 		  " button test danger label "
 
-		  (self
-			   selectedWith: ((self class: #label)
-					    parent: (self classes: #( #button #text #danger ))
-					    level: 2)
-			   style: [ :sr |
-				   sr
-					   when: ToInitialLookEvent
-					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorError ].
-				   sr
-					   when: ToDisabledLookEvent
-					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorBgContainerDisabled ] ]) }
+		  (((self class: #label)
+			    parent: (self classes: #( #button #text #danger ))
+			    level: 2) style: [ :sr |
+			   sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | e toTheme colorError ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | e toTheme colorBgContainerDisabled ] ]) }
 ]

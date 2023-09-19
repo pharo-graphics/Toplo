@@ -41,23 +41,6 @@ ToStyleRule >> event: aLookEventClass [
 	self eventClass: aLookEventClass
 ]
 
-{ #category : #'property writer' }
-ToStyleRule >> event: aLookEventClass property: aProperty value: aValuableOrObject [
-
-	self event: aLookEventClass property: aProperty value: aValuableOrObject animation: nil
-]
-
-{ #category : #'property writer' }
-ToStyleRule >> event: aLookEventClass property: aProperty value: aValuableOrObject animation: aPropertyAnimation [
-
-	self addWriter: (ToPropertyWriter new
-			 property: aProperty;
-			 value: aValuableOrObject;
-			 animation: aPropertyAnimation;
-			 eventClass: aLookEventClass;
-			 yourself)
-]
-
 { #category : #accessing }
 ToStyleRule >> eventClass [
 
@@ -82,11 +65,10 @@ ToStyleRule >> initialize [
 { #category : #'property writer' }
 ToStyleRule >> property: aProperty value: aValuableOrObject animation: aPropertyAnimation [
 
-	self addWriter: (ToPropertyWriter new
-			 property: aProperty;
-			 value: aValuableOrObject;
+	self addWriter: (aProperty
+			 when: self eventClass
+			 write: aValuableOrObject
 			 animation: aPropertyAnimation;
-			 eventClass: self eventClass;
 			 yourself)
 ]
 
@@ -133,24 +115,20 @@ ToStyleRule >> selector: aStyleSelector [
 { #category : #'syntactic sugar' }
 ToStyleRule >> supplement: aProperty with: aValuableOrObject [
 
-	self addWriter: (ToPropertyWriter new
-			 property: aProperty;
-			 value: aValuableOrObject;
-			 animation: nil;
-			 eventClass: self eventClass;
-			 supplement: true;
-			 yourself)
+	self
+		when: self eventClass
+		supplement: aProperty
+		with: aValuableOrObject
 ]
 
 { #category : #'syntactic sugar' }
 ToStyleRule >> when: aLookEventClass supplement: aProperty with: aValuableOrObject [
 
-		self addWriter: (ToPropertyWriter new
-			 property: aProperty;
-			 value: aValuableOrObject;
-			 animation: nil;
-			 eventClass: aLookEventClass;
-			supplement: true;
+	self addWriter: ((aProperty
+			  when: aLookEventClass
+			  write: aValuableOrObject
+			  animation: nil)
+			 supplement: true;
 			 yourself)
 ]
 
@@ -167,12 +145,10 @@ ToStyleRule >> when: aLookEventClass write: aProperty with: aValuableOrObject [
 { #category : #'syntactic sugar' }
 ToStyleRule >> when: aLookEventClass write: aProperty with: aValuableOrObject animation: aPropertyAnimation [
 
-	self addWriter: (ToPropertyWriter new
-			 property: aProperty;
-			 value: aValuableOrObject;
-			 animation: aPropertyAnimation;
-			 eventClass: aLookEventClass;
-			 yourself)
+	self addWriter: (aProperty
+			 when: aLookEventClass
+			 write: aValuableOrObject
+			 animation: aPropertyAnimation)
 ]
 
 { #category : #'syntactic sugar' }

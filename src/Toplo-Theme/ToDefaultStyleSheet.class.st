@@ -37,7 +37,7 @@ ToDefaultStyleSheet >> checkableButtonRules [
 	" checkbox family "
 
 	^ {
-		  (#( #button #checkable ) asToTag style: [ :sr |
+		  (#( #button #checkable ) asToStyleSelector style: [ :sr |
 			   | switch |
 			   switch := [ :e |
 			             e isChecked
@@ -71,8 +71,8 @@ ToDefaultStyleSheet >> checkableButtonRules [
 						   yourself ] ]).
 
 		  " checkbox icon geometry "
-		  ((#image asToTag
-			    parent: #( #button #checkable #checkbox ) asToTag
+		  ((#image asToStyleSelector
+			    parent: #( #button #checkable #checkbox )
 			    level: 2) style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
@@ -80,47 +80,48 @@ ToDefaultStyleSheet >> checkableButtonRules [
 				   with: [ :e | BlRoundedRectangleGeometry cornerRadius: 3 ] ]).
 
 		  " radio button icon geometry "
-		  ((#image asToTag
-			    parent: #( #button #checkable #radio ) asToTag
+		  ((#image asToStyleSelector
+			    parent: #( #button #checkable #radio )
 			    level: 2) style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #geometry)
 				   with: [ :e | BlCircleGeometry new ] ]).
 
-		  ((#image asToTag parent: #( #button #checkable ) asToTag level: 2)
-			   style: [ :sr | " icon border "
-				   sr
-					   when: ToInitialLookEvent
-					   write: (self property: #'border-with-builder')
-					   with: [ :e |
-						   e borderBuilder
-							   paint: e toTheme colorBorder;
-							   yourself ].
-				   sr
-					   when: ToDisabledLookEvent
-					   write: (self property: #'border-with-builder')
-					   with: [ :e |
-						   e borderBuilder
-							   paint: e toTheme colorBorderDisabled;
-							   yourself ].
-				   sr
-					   when: ToHoveredLookEvent
-					   write: (self property: #'border-with-builder')
-					   with: [ :e |
-						   e borderBuilder
-							   paint: e toTheme colorPrimaryHover;
-							   yourself ].
-				   sr
-					   when: ToPressedLookEvent
-					   write: (self property: #'border-with-builder')
-					   with: [ :e |
-						   e borderBuilder
-							   paint: e toTheme colorPrimaryPressed;
-							   yourself ] ]).
+		  ((#image asToStyleSelector
+			    parent: #( #button #checkable )
+			    level: 2) style: [ :sr | " icon border "
+			   sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e |
+					   e borderBuilder
+						   paint: e toTheme colorBorder;
+						   yourself ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e |
+					   e borderBuilder
+						   paint: e toTheme colorBorderDisabled;
+						   yourself ].
+			   sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e |
+					   e borderBuilder
+						   paint: e toTheme colorPrimaryHover;
+						   yourself ].
+			   sr
+				   when: ToPressedLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e |
+					   e borderBuilder
+						   paint: e toTheme colorPrimaryPressed;
+						   yourself ] ]).
 
-		  ((#image asToTag
-			    parent: #( #button #checkable #danger ) asToTag
+		  ((#image asToStyleSelector
+			    parent: #( #button #checkable #danger )
 			    level: 2) style: [ :sr | " icon border "
 			   sr
 				   when: ToInitialLookEvent
@@ -157,7 +158,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 	" checkbox family "
 
 	^ {
-		  ((#( #checkable #'inner-image' ) asToTag
+		  ((#( #checkable #'inner-image' ) asToStyleSelector
 			    parent: #( #button #checkable )
 			    level: 3) style: [ :sr |
 			   sr
@@ -170,8 +171,8 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 				   write: (self property: #margin)
 				   with: [ :e | BlInsets all: 0 ] ]).
 
-		  ((#( #checkable #'inner-image' #indeterminate #bar ) asToTag
-			    parent: (#( #checkable #'inner-image' ) asToTag
+		  ((#( #checkable #'inner-image' #indeterminate #bar ) asToStyleSelector
+			    parent: (#( #checkable #'inner-image' ) asToStyleSelector
 					     parent: #( #button #checkable )
 					     level: 3)
 			    level: 1) style: [ :sr |
@@ -192,8 +193,8 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 				   write: (self property: #margin)
 				   with: [ :e | BlInsets all: 0 ] ]).
 
-		  ((#( #checkable #'inner-image' #indeterminate #bar ) asToTag
-			    parent: (#( #checkable #'inner-image' ) asToTag
+		  ((#( #checkable #'inner-image' #indeterminate #bar ) asToStyleSelector
+			    parent: (#( #checkable #'inner-image' ) asToStyleSelector
 					     parent: #( #button #checkable #danger )
 					     level: 3)
 			    level: 1) style: [ :sr |
@@ -201,7 +202,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 				   write: (self property: #background)
 				   with: [ :e | e toTheme colorError ] ]).
 
-		  ((#( #checkable #'inner-image' #indeterminate ) asToTag
+		  ((#( #checkable #'inner-image' #indeterminate ) asToStyleSelector
 			    parent: #( #button #checkable )
 			    level: 4) style: [ :sr |
 			   sr
@@ -209,7 +210,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 				   write: (self property: #margin)
 				   with: [ :e | BlInsets all: 2 ] ]).
 
-		  ((#( #checkable #'inner-image' #checked ) asToTag
+		  ((#( #checkable #'inner-image' #checked ) asToStyleSelector
 			    parent: #( #button #checkable )
 			    level: 3) style: [ :sr | " icon border "
 			   sr
@@ -245,7 +246,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 						   width: 6;
 						   yourself ] ]).
 
-		  ((#( #checkable #'inner-image' #unchecked ) asToTag
+		  ((#( #checkable #'inner-image' #unchecked ) asToStyleSelector
 			    parent: #( #button #checkable )
 			    level: 3) style: [ :sr | " icon border "
 			   sr
@@ -256,7 +257,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 						   width: 0;
 						   yourself ] ]).
 
-		  ((#( #checkable #'inner-image' #checked ) asToTag
+		  ((#( #checkable #'inner-image' #checked ) asToStyleSelector
 			    parent: #( #button #checkable #danger )
 			    level: 3) style: [ :sr | " icon border "
 			   sr
@@ -292,7 +293,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 						   width: 6;
 						   yourself ] ]).
 
-		  ((#( #checkable #'inner-image' #unchecked ) asToTag
+		  ((#( #checkable #'inner-image' #unchecked ) asToStyleSelector
 			    parent: #( #button #checkable #danger )
 			    level: 3) style: [ :sr |
 			   sr
@@ -321,7 +322,7 @@ ToDefaultStyleSheet >> commonButtonRules [
 	"
 
 	^ {
-		  (#button asToTag style: [ :sr |
+		  (#button asToStyleSelector style: [ :sr |
 			   sr
 				   write: (self property: #layout)
 				   with: BlLinearLayout vertical alignCenter.
@@ -337,7 +338,7 @@ ToDefaultStyleSheet >> commonButtonRules [
 				   write: (self property: #mouseCursor)
 				   with: nil ]).
 
-		  (#button asToTag - #vertical asToTag
+		  (#button asToStyleSelector - #vertical
 			   when: ToInstallLookEvent
 			   style: [ :sr |
 				   sr write: (self property: #padding) with: [ :e |
@@ -347,7 +348,7 @@ ToDefaultStyleSheet >> commonButtonRules [
 						   bottom: e toTheme paddingXS / 2
 						   right: e toTheme paddingContentHorizontal / 2 ] ]).
 
-		  (#( #button #vertical ) asToTag
+		  (#( #button #vertical ) asToStyleSelector
 			   when: ToInstallLookEvent
 			   style: [ :sr |
 				   sr write: (self property: #padding) with: [ :e |
@@ -357,28 +358,28 @@ ToDefaultStyleSheet >> commonButtonRules [
 						   bottom: e toTheme paddingContentHorizontal / 2
 						   right: e toTheme paddingXS / 2 ] ]).
 
-		  (#button asToTag - #vertical asToTag - #'no-sizing' asToTag
+		  (#button asToStyleSelector - #vertical - #'no-sizing'
 			   when: ToInstallLookEvent
 			   style: [ :sr |
 				   sr
 					   write: (self property: #height)
 					   with: [ :e | e toTheme controlHeight ] ]).
 
-		  (#button asToTag - #vertical asToTag + #'large-sizing' asToTag
+		  (#button asToStyleSelector - #vertical + #'large-sizing'
 			   when: ToInstallLookEvent
 			   style: [ :sr |
 				   sr
 					   write: (self property: #height)
 					   with: [ :e | e toTheme controlHeightLG ] ]).
 
-		  (#button asToTag - #vertical asToTag + #'small-sizing' asToTag
+		  (#button asToStyleSelector - #vertical + #'small-sizing'
 			   when: ToInstallLookEvent
 			   style: [ :sr |
 				   sr
 					   write: (self property: #height)
 					   with: [ :e | e toTheme controlHeightSM ] ]).
 
-		  ((#'inner-element' asToTag parent: #button asToTag level: 1)
+		  ((#'inner-element' asToStyleSelector parent: #button level: 1)
 			   when: ToInstallLookEvent
 			   style: [ :sr |
 				   sr
@@ -389,20 +390,20 @@ ToDefaultStyleSheet >> commonButtonRules [
 					   c linear vertical alignCenter.
 					   c linear horizontal alignCenter ] ] ]).
 
-		  ((#'inner-element' asToTag
-			    parent: #( #button #vertical ) asToTag
+		  ((#'inner-element' asToStyleSelector
+			    parent: #( #button #vertical )
 			    level: 1) when: ToInstallLookEvent style: [ :sr |
 			   sr write: (self property: #layout) with: BlLinearLayout vertical ]).
 
-		  ((#'inner-element' asToTag
-			    parent: #( #button ) asToTag - #justified asToTag
+		  ((#'inner-element' asToStyleSelector
+			    parent: #button asToStyleSelector - #justified
 			    level: 1) when: ToInstallLookEvent style: [ :sr |
 			   sr
 				   write: (self property: #'layout-interspace')
 				   with: [ :e | e toTheme paddingContentHorizontal / 3 ] ]).
 
-		  ((#'inner-element' asToTag
-			    parent: #( #button #justified ) asToTag
+		  ((#'inner-element' asToStyleSelector
+			    parent: #( #button #justified )
 			    level: 1) when: ToInstallLookEvent style: [ :sr |
 			   sr write: (self property: #'layout-interspace') with: [ :e | 0 ].
 			   sr write: (self property: #'layout-constraints') with: [ :e |
@@ -410,25 +411,25 @@ ToDefaultStyleSheet >> commonButtonRules [
 				   c horizontal matchParent.
 				   c vertical matchParent ] ] ]).
 
-		  ((#'inner-element' asToTag
-			    parent: #( #button #'icon-first' ) asToTag - #circle asToTag
+		  ((#'inner-element' asToStyleSelector
+			    parent: #( #button #'icon-first' ) asToStyleSelector - #circle
 			    level: 1) when: ToInstallLookEvent style: [ :sr |
 			   sr
 				   write: (self property: #'layout-direction')
 				   with: [ :e | BlLayoutDirection leftToRight ] ]).
 
-		  ((#'inner-element' asToTag
-			    parent: #( #button #'label-first' ) asToTag
+		  ((#'inner-element' asToStyleSelector
+			    parent: #( #button #'label-first' )
 			    level: 1) when: ToInstallLookEvent style: [ :sr |
 			   sr
 				   write: (self property: #'layout-direction')
 				   with: [ :e | BlLayoutDirection rightToLeft ] ]).
 
-		  (#button asToTag - #circle asToTag style: [ :sr |
+		  (#button asToStyleSelector - #circle style: [ :sr |
 			   sr write: (self property: #geometry) with: [ :e |
 				   BlRoundedRectangleGeometry cornerRadius: e toTheme borderRadius ] ]).
 
-		  (#( #button #round ) asToTag - #circle asToTag
+		  (#( #button #round ) asToStyleSelector - #circle
 			   when: ToInstallLookEvent
 			   style: [ :sr |
 				   sr
@@ -436,7 +437,7 @@ ToDefaultStyleSheet >> commonButtonRules [
 					   with: [ :e |
 					   BlRoundedRectangleGeometry cornerRadius: e requestedHeight ] ]).
 
-		  (#( #button #circle ) asToTag
+		  (#( #button #circle ) asToStyleSelector
 			   when: ToInstallLookEvent
 			   style: [ :sr |
 				   sr
@@ -447,15 +448,15 @@ ToDefaultStyleSheet >> commonButtonRules [
 					   write: (self property: #geometry)
 					   with: [ :e | BlCircleGeometry new ] ]).
 
-		  ((#'inner-element' asToTag
-			    parent: #( #button #circle ) asToTag
+		  ((#'inner-element' asToStyleSelector
+			    parent: #( #button #circle )
 			    level: 1) when: ToInstallLookEvent style: [ :sr |
 			   sr
 				   write: (self property: #layout)
 				   with: [ :e | BlLinearLayout new alignCenter ] ]).
 
-		  ((#'inner-element' asToTag
-			    parent: #( #button ) asToTag - #justified asToTag
+		  ((#'inner-element' asToStyleSelector
+			    parent: #( #button ) asToStyleSelector - #justified
 			    level: 1) style: [ :sr |
 			   sr write: (self property: #'layout-constraints') with: [ :e |
 				   [ :c |
@@ -464,7 +465,7 @@ ToDefaultStyleSheet >> commonButtonRules [
 				   c linear vertical alignCenter.
 				   c linear horizontal alignCenter ] ] ]).
 
-		  ((self any parent: #( #button ) asToTag level: 2) style: [ :sr |
+		  ((self any parent: #( #button ) level: 2) style: [ :sr |
 			   sr write: (self property: #'layout-constraints') with: [ :e |
 				   [ :c |
 				   c linear vertical alignCenter.
@@ -478,7 +479,7 @@ ToDefaultStyleSheet >> defaultButtonRules [
 	" default button (class #button) "
 
 	^ {
-		  (#button asToTag style: [ :sr |
+		  (#button asToStyleSelector style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #background)
@@ -488,7 +489,7 @@ ToDefaultStyleSheet >> defaultButtonRules [
 				   write: (self property: #background)
 				   with: [ :e | e toTheme colorBgContainerDisabled ] ]).
 
-		  (#button asToTag - #checkable  style: [ :sr |
+		  (#button asToStyleSelector - #checkable style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'border-with-builder')
@@ -519,7 +520,7 @@ ToDefaultStyleSheet >> defaultButtonRules [
 						   yourself ] ]).
 
 		  " default button form icon "
-		  ((#image asToTag parent: #button asToTag level: 2) style: [ :sr |
+		  ((#image asToStyleSelector parent: #button level: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'image-inner-form-color')
@@ -538,7 +539,7 @@ ToDefaultStyleSheet >> defaultButtonRules [
 				   with: [ :e | e toTheme colorPrimaryPressed ] ]).
 
 		  " default button label "
-		  ((#label asToTag parent: #button asToTag level: 2) style: [ :sr |
+		  ((#label asToStyleSelector parent: #button level: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'label-text-foreground')
@@ -557,7 +558,7 @@ ToDefaultStyleSheet >> defaultButtonRules [
 				   with: [ :e | e toTheme colorPrimaryPressed ] ]).
 
 		  " ToButton default danger"
-		  (#( #button #danger ) asToTag - #checkable  style: [ :sr |
+		  (#( #button #danger ) asToStyleSelector - #checkable style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'border-with-builder')
@@ -578,7 +579,7 @@ ToDefaultStyleSheet >> defaultButtonRules [
 				   e borderBuilder paint: e toTheme colorErrorHover darker ] ]).
 
 		  " danger button form icon "
-		  ((#image asToTag parent: #( #button #danger ) asToTag level: 2)
+		  ((#image asToStyleSelector parent: #( #button #danger ) level: 2)
 			   style: [ :sr |
 				   sr
 					   when: ToInitialLookEvent
@@ -598,7 +599,7 @@ ToDefaultStyleSheet >> defaultButtonRules [
 					   with: [ :e | e toTheme colorErrorHover darker ] ]).
 
 		  " danger button label "
-		  ((#label asToTag parent: #( #button #danger ) asToTag level: 2)
+		  ((#label asToStyleSelector parent: #( #button #danger ) level: 2)
 			   style: [ :sr |
 				   sr
 					   when: ToInitialLookEvent
@@ -618,7 +619,7 @@ ToDefaultStyleSheet >> defaultButtonRules [
 					   with: [ :e | e toTheme colorErrorHover darker ] ]).
 
 		  " default button dashed "
-		  (#( #dashed ) asToTag style: [ :sr |
+		  (#( #dashed ) asToStyleSelector style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   supplement: (self property: #'border-with-builder')
@@ -647,7 +648,7 @@ ToDefaultStyleSheet >> labelRules [
 	" label  rules"
 
 	^ {
-		  ((#label asToTag or: #( #label #H0 ) asToTag) style: [ :sr |
+		  ((#label asToStyleSelector or: #( #label #H0 ) ) style: [ :sr |
 			   sr
 				   write: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
@@ -664,7 +665,7 @@ ToDefaultStyleSheet >> labelRules [
 					   e textAttributesBuilder foreground:
 						   e toTheme colorTextDisabled ] ]).
 
-		  (#( #label #H1 ) asToTag style: [ :sr |
+		  (#( #label #H1 ) asToStyleSelector style: [ :sr |
 			   sr
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
@@ -672,7 +673,7 @@ ToDefaultStyleSheet >> labelRules [
 						   defaultFontSize: e toTheme fontSizeHeading1;
 						   lineSpacing: e toTheme lineHeightHeading1;
 						   yourself ] ]).
-		  (#( #label #H2 ) asToTag style: [ :sr |
+		  (#( #label #H2 ) asToStyleSelector style: [ :sr |
 			   sr
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
@@ -680,7 +681,7 @@ ToDefaultStyleSheet >> labelRules [
 						   defaultFontSize: e toTheme fontSizeHeading2;
 						   lineSpacing: e toTheme lineHeightHeading2;
 						   yourself ] ]).
-		  (#( #label #H3 ) asToTag style: [ :sr |
+		  (#( #label #H3 ) asToStyleSelector style: [ :sr |
 			   sr
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
@@ -688,7 +689,7 @@ ToDefaultStyleSheet >> labelRules [
 						   defaultFontSize: e toTheme fontSizeHeading3;
 						   lineSpacing: e toTheme lineHeightHeading3;
 						   yourself ] ]).
-		  (#( #label #H4 ) asToTag style: [ :sr |
+		  (#( #label #H4 ) asToStyleSelector style: [ :sr |
 			   sr
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
@@ -696,7 +697,7 @@ ToDefaultStyleSheet >> labelRules [
 						   defaultFontSize: e toTheme fontSizeHeading4;
 						   lineSpacing: e toTheme lineHeightHeading4;
 						   yourself ] ]).
-		  (#( #label #H5 ) asToTag style: [ :sr |
+		  (#( #label #H5 ) asToStyleSelector style: [ :sr |
 			   sr
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
@@ -705,42 +706,42 @@ ToDefaultStyleSheet >> labelRules [
 						   lineSpacing: e toTheme lineHeightHeading5;
 						   yourself ] ]).
 
-		  (#( #label #danger ) asToTag style: [ :sr |
+		  (#( #label #danger ) asToStyleSelector style: [ :sr |
 			   sr
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
 						   foreground: e toTheme colorError;
 						   yourself ] ]).
-		  (#( #label #link ) asToTag style: [ :sr |
+		  (#( #label #link ) asToStyleSelector style: [ :sr |
 			   sr
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
 						   foreground: e toTheme colorLink;
 						   yourself ] ]).
-		  (#( #label #primary ) asToTag style: [ :sr |
+		  (#( #label #primary ) asToStyleSelector style: [ :sr |
 			   sr
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
 						   foreground: e toTheme colorTextLightSolid;
 						   yourself ] ]).
-		  (#( #label #primary ) asToTag style: [ :sr |
+		  (#( #label #primary ) asToStyleSelector style: [ :sr |
 			   sr
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
 						   foreground: e toTheme colorTextSecondary;
 						   yourself ] ]).
-		  (#( #label #success ) asToTag style: [ :sr |
+		  (#( #label #success ) asToStyleSelector style: [ :sr |
 			   sr
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
 						   foreground: e toTheme colorSuccess;
 						   yourself ] ]).
-		  (#( #label #warning ) asToTag style: [ :sr |
+		  (#( #label #warning ) asToStyleSelector style: [ :sr |
 			   sr
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
@@ -754,7 +755,7 @@ ToDefaultStyleSheet >> linkButtonRules [
 	" ToButton link "
 
 	^ {
-		  (#( #button #link ) asToTag
+		  (#( #button #link ) asToStyleSelector
 			   when: ToInstallLookEvent
 			   style: [ :sr |
 				   sr
@@ -765,7 +766,7 @@ ToDefaultStyleSheet >> linkButtonRules [
 					   with: [ :e | e borderBuilder width: 0 ] ]).
 
 		  " ToButton link danger "
-		  (#( #button #link #danger ) asToTag
+		  (#( #button #link #danger ) asToStyleSelector
 			   when: ToInstallLookEvent
 			   style: [ :sr |
 				   sr
@@ -776,7 +777,7 @@ ToDefaultStyleSheet >> linkButtonRules [
 					   with: [ :e | e borderBuilder width: 0 ] ]).
 
 		  " button link form icon "
-		  ((#image asToTag parent: #( #button #link ) asToTag level: 2)
+		  ((#image asToStyleSelector parent: #( #button #link ) level: 2)
 			   style: [ :sr |
 				   sr
 					   when: ToInitialLookEvent
@@ -796,7 +797,7 @@ ToDefaultStyleSheet >> linkButtonRules [
 					   with: [ :e | e toTheme colorPrimaryPressed ] ]).
 
 		  " button link label "
-		  ((#label asToTag parent: #( #button #link ) asToTag level: 2)
+		  ((#label asToStyleSelector parent: #( #button #link ) level: 2)
 			   style: [ :sr |
 				   sr
 					   when: ToInitialLookEvent
@@ -816,8 +817,8 @@ ToDefaultStyleSheet >> linkButtonRules [
 					   with: [ :e | e toTheme colorPrimaryPressed ] ]).
 
 		  " button link danger form icon "
-		  ((#image asToTag
-			    parent: #( #button #link #danger ) asToTag
+		  ((#image asToStyleSelector
+			    parent: #( #button #link #danger )
 			    level: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
@@ -837,8 +838,8 @@ ToDefaultStyleSheet >> linkButtonRules [
 				   with: [ :e | e toTheme colorError darker ] ]).
 
 		  " button link danger label "
-		  ((#label asToTag
-			    parent: #( #button #link #danger ) asToTag
+		  ((#label asToStyleSelector
+			    parent: #( #button #link #danger )
 			    level: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
@@ -863,7 +864,7 @@ ToDefaultStyleSheet >> primaryButtonRules [
 	" ToButton primary "
 
 	^ {
-		  (#button asToTag + #primary asToTag style: [ :sr |
+		  (#button asToStyleSelector + #primary style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #background)
@@ -898,8 +899,7 @@ ToDefaultStyleSheet >> primaryButtonRules [
 				   e borderBuilder paint: e toTheme colorBorderDisabled ] ]).
 
 		  " ToButton primary danger "
-		  (#button asToTag + #primary asToTag + #danger asToTag style: [
-			   :sr |
+		  (#button asToStyleSelector + #primary + #danger style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #background)
@@ -935,8 +935,8 @@ ToDefaultStyleSheet >> primaryButtonRules [
 
 		  " primary button form icon "
 
-		  ((#image asToTag
-			    parent: #button asToTag + #primary asToTag
+		  ((#image asToStyleSelector
+			    parent: #button asToStyleSelector + #primary
 			    level: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
@@ -957,8 +957,8 @@ ToDefaultStyleSheet >> primaryButtonRules [
 
 		  " primary button label "
 
-		  ((#label asToTag
-			    parent: #button asToTag + #primary asToTag
+		  ((#label asToStyleSelector
+			    parent: #button asToStyleSelector + #primary
 			    level: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
@@ -983,7 +983,7 @@ ToDefaultStyleSheet >> textButtonRules [
 	" ToButton text "
 
 	^ {
-		  (#( #button #text ) asToTag style: [ :sr |
+		  (#( #button #text ) asToStyleSelector style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #background)
@@ -1011,7 +1011,7 @@ ToDefaultStyleSheet >> textButtonRules [
 
 		  " ToButton text danger "
 
-		  (#( #button #text #danger ) asToTag style: [ :sr |
+		  (#( #button #text #danger ) asToStyleSelector style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #background)
@@ -1039,7 +1039,7 @@ ToDefaultStyleSheet >> textButtonRules [
 
 		  " button text form icon "
 
-		  ((#image asToTag parent: #( #button #text ) asToTag level: 2)
+		  ((#image asToStyleSelector parent: #( #button #text ) level: 2)
 			   style: [ :sr |
 				   sr
 					   when: ToInitialLookEvent
@@ -1052,7 +1052,7 @@ ToDefaultStyleSheet >> textButtonRules [
 
 		  " button test label "
 
-		  ((#label asToTag parent: #( #button #text ) asToTag level: 2)
+		  ((#label asToStyleSelector parent: #( #button #text ) level: 2)
 			   style: [ :sr |
 				   sr
 					   when: ToInitialLookEvent
@@ -1065,8 +1065,8 @@ ToDefaultStyleSheet >> textButtonRules [
 
 		  " button text danger form icon "
 
-		  ((#image asToTag
-			    parent: #( #button #text #danger ) asToTag
+		  ((#image asToStyleSelector
+			    parent: #( #button #text #danger )
 			    level: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
@@ -1079,8 +1079,8 @@ ToDefaultStyleSheet >> textButtonRules [
 
 		  " button test danger label "
 
-		  ((#label asToTag
-			    parent: #( #button #text #danger ) asToTag
+		  ((#label asToStyleSelector
+			    parent: #( #button #text #danger )
 			    level: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent

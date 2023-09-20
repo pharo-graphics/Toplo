@@ -9,7 +9,7 @@ ToStyleSelector >> + aStyleSelector [
 
 	^ ToAndSelector new
 		  left: self;
-		  right: aStyleSelector value asToTag;
+		  right: aStyleSelector value asToStyleSelector;
 		  yourself
 ]
 
@@ -18,7 +18,7 @@ ToStyleSelector >> - aStyleSelector [
 
 	^ ToAndSelector new
 		  left: self;
-		  right: aStyleSelector value asToTag not;
+		  right: aStyleSelector value asToStyleSelector not;
 		  yourself
 ]
 
@@ -40,7 +40,7 @@ ToStyleSelector >> and: aStyleSelector [
 ]
 
 { #category : #converting }
-ToStyleSelector >> asToTag [ 
+ToStyleSelector >> asToStyleSelector [ 
 
 	^ self 
 ]
@@ -49,7 +49,7 @@ ToStyleSelector >> asToTag [
 ToStyleSelector >> child: aSelector level: anInteger [
 
 	^ ToChildSelector new
-		  left: aSelector value asToTag;
+		  left: aSelector value asToStyleSelector;
 		  right: self;
 		  parentLevel: anInteger;
 		  yourself
@@ -68,7 +68,7 @@ ToStyleSelector >> or: aStyleSelector [
 
 	^ ToOrSelector new
 		  left: self;
-		  right: aStyleSelector value asToTag;
+		  right: aStyleSelector value asToStyleSelector;
 		  yourself
 ]
 
@@ -77,7 +77,7 @@ ToStyleSelector >> parent: aSelector [
 
 	^ ToChildSelector new
 		  left: self;
-		  right: aSelector value asToTag;
+		  right: aSelector value asToStyleSelector;
 		  yourself
 ]
 
@@ -86,7 +86,7 @@ ToStyleSelector >> parent: aSelector level: anInteger [
 
 	^ ToChildSelector new
 		  left: self;
-		  right: aSelector value asToTag;
+		  right: aSelector value asToStyleSelector;
 		  parentLevel: anInteger;
 		  yourself
 ]

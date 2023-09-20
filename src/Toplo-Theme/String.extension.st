@@ -1,7 +1,7 @@
 Extension { #name : #String }
 
 { #category : #'*Toplo-Theme' }
-String >> asToTag [ 
+String >> asToStyleSelector [ 
 
 	^ ToStyleTagSelector new styleTag: self asSymbol
 ]

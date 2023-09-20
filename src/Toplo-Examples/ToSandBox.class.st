@@ -48,6 +48,27 @@ ToSandBox class >> example_BasicComboBoxWithStatesOfAmerica [
 	win openInSpace
 ]
 
+{ #category : #button }
+ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
+
+	| chk btn space |
+	ToAbstractTheme cleanUp.
+	chk := ToCheckbox new.
+	chk labelText: 'OK'.
+	btn := ToButton new.
+	btn labelText: 'Erase all your Pharo images?'.
+	btn addStyleTag: #primary.
+	btn addStyleTag: #danger.
+	btn addStyleTag: #'no-sizing'.
+	btn size: 300 @ 100.
+	space := BlSpace new.
+	space root layout: BlLinearLayout vertical.
+	space root addChildren: {
+			chk.
+			btn }.
+	space show
+]
+
 { #category : #album }
 ToSandBox class >> example_CodeEditorWithToAlbumModel [
 

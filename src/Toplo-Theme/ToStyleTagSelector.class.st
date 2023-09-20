@@ -2,7 +2,7 @@ Class {
 	#name : #ToStyleTagSelector,
 	#superclass : #ToSimpleSelector,
 	#instVars : [
-		'elementClasses'
+		'tags'
 	],
 	#category : #'Toplo-Theme-StyleSelector'
 }
@@ -17,23 +17,23 @@ ToStyleTagSelector >> accept: aVisitor [
 ToStyleTagSelector >> initialize [ 
 
 	super initialize.
-	elementClasses := OrderedCollection new
+	tags := Array new
 ]
 
 { #category : #accessing }
 ToStyleTagSelector >> styleTag: aSymbol [
 
-	elementClasses add: aSymbol
+	self styleTags: { aSymbol }
 ]
 
 { #category : #accessing }
 ToStyleTagSelector >> styleTags [
 
-	^ elementClasses
+	^ tags
 ]
 
 { #category : #accessing }
 ToStyleTagSelector >> styleTags: aCollectionOfSymbols [
 
-	elementClasses addAll: aCollectionOfSymbols
+	tags := (tags copyWithAll: (aCollectionOfSymbols asArray collect: [ :s | s asSymbol  ])) asSet asArray
 ]

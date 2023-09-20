@@ -7,6 +7,71 @@ Class {
 	#category : #'Toplo-Theme-Tests-StyleSelector'
 }
 
+{ #category : #'tests - asToTag' }
+ToStyleSelectorInterpreterTest >> testAsToTagOnArray [
+
+	| selector  |
+	selector := #(#'small-sizing' #x)asToStyleSelector.
+	self assert: (selector isKindOf: ToStyleTagSelector).
+	self assert: (selector styleTags includesAll: #(#'small-sizing' #x)).
+
+]
+
+{ #category : #'tests - asToTag' }
+ToStyleSelectorInterpreterTest >> testAsToTagOnArray2 [
+
+	| selector |
+	selector := { 'small-sizing'. 'x' } asToStyleSelector.
+	self assert: (selector isKindOf: ToStyleTagSelector).
+	self assert: (selector styleTags includesAll: #( #'small-sizing' #x ))
+]
+
+{ #category : #'tests - asToTag' }
+ToStyleSelectorInterpreterTest >> testAsToTagOnArray3 [
+
+	| selector |
+	selector := { 'small-sizing'. 'x' } asToStyleSelector.
+	self assert: (selector isKindOf: ToStyleTagSelector).
+	self assert: (selector styleTags includesAll: #( #'small-sizing' #x ))
+]
+
+{ #category : #'tests - asToTag' }
+ToStyleSelectorInterpreterTest >> testAsToTagOnObjectNotImplemented [
+
+	self should: [Object new asToStyleSelector] raise: MessageNotUnderstood .
+
+]
+
+{ #category : #'tests - asToTag' }
+ToStyleSelectorInterpreterTest >> testAsToTagOnSet3 [
+
+	| selector  |
+	selector := { 'small-sizing'.  'x' } asSet asToStyleSelector.
+	self assert: (selector isKindOf: ToStyleTagSelector).
+	self assert: (selector styleTags includesAll: #(#'small-sizing' #x)).
+
+]
+
+{ #category : #'tests - asToTag' }
+ToStyleSelectorInterpreterTest >> testAsToTagOnString [
+
+	| selector  |
+	selector := 'small-sizing' asToStyleSelector.
+	self assert: (selector isKindOf: ToStyleTagSelector).
+	self assert: selector styleTags equals: #(#'small-sizing').
+
+]
+
+{ #category : #'tests - asToTag' }
+ToStyleSelectorInterpreterTest >> testAsToTagOnSymbol [
+
+	| selector  |
+	selector := #'small-sizing' asToStyleSelector.
+	self assert: (selector isKindOf: ToStyleTagSelector).
+	self assert: selector styleTags equals: #(#'small-sizing').
+
+]
+
 { #category : #'tests - child selector' }
 ToStyleSelectorInterpreterTest >> testChildSelectorWithElementWithAParent0 [
 

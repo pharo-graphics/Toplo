@@ -1,40 +1,38 @@
 Class {
-	#name : 'ToStyleTagSelector',
-	#superclass : 'ToSimpleSelector',
+	#name : #ToStyleTagSelector,
+	#superclass : #ToSimpleSelector,
 	#instVars : [
 		'tags'
 	],
-	#category : 'Toplo-Theme-StyleSelector',
-	#package : 'Toplo-Theme',
-	#tag : 'StyleSelector'
+	#category : 'Toplo-Theme-StyleSelector'
 }
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToStyleTagSelector >> accept: aVisitor [
 
 	aVisitor visitStyleTagSelector: self
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToStyleTagSelector >> initialize [ 
 
 	super initialize.
 	tags := Array new
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleTagSelector >> styleTag: aSymbol [
 
 	self styleTags: { aSymbol }
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleTagSelector >> styleTags [
 
 	^ tags
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleTagSelector >> styleTags: aCollectionOfSymbols [
 
 	tags := (tags copyWithAll: (aCollectionOfSymbols asArray collect: [ :s | s asSymbol  ])) asSet asArray

@@ -1,37 +1,35 @@
 Class {
-	#name : 'ToDefaultThemeLight',
-	#superclass : 'ToDefaultTheme',
-	#category : 'Toplo-Theme-DefaultTheme',
-	#package : 'Toplo-Theme',
-	#tag : 'DefaultTheme'
+	#name : #ToDefaultThemeLight,
+	#superclass : #ToDefaultTheme,
+	#category : 'Toplo-Theme-DefaultTheme'
 }
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultThemeLight >> darkTheme [
 
 	^ self class colorPrimaryDark: self colorPrimary
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToDefaultThemeLight >> initialize [ 
 
 	super initialize.
 	self name: 'Toplo Light'
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultThemeLight >> isDark [
 
 	^ false
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultThemeLight >> isLight [
 
 	^ true
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultThemeLight >> lightTheme [
 
 	^ self

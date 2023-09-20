@@ -1,28 +1,26 @@
 Class {
-	#name : 'ToNullElementLook',
-	#superclass : 'ToAbstractLook',
-	#category : 'Toplo-Theme-Core',
-	#package : 'Toplo-Theme',
-	#tag : 'Core'
+	#name : #ToNullElementLook,
+	#superclass : #ToAbstractLook,
+	#category : 'Toplo-Theme-Core'
 }
 
-{ #category : 'private event handling' }
+{ #category : #'private event handling' }
 ToNullElementLook >> elementLookEvent: anEvent [
 ]
 
-{ #category : 'api - accessing' }
+{ #category : #'api - accessing' }
 ToNullElementLook >> findLookUpdaterForPropertyNamed: aName [
 
 	^ nil
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToNullElementLook >> isNull [
 
 	^ true
 ]
 
-{ #category : 'removing' }
+{ #category : #removing }
 ToNullElementLook >> removeLook: aLook previous: previousLook [
 
 	

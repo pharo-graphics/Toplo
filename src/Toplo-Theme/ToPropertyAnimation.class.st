@@ -1,6 +1,6 @@
 Class {
-	#name : 'ToPropertyAnimation',
-	#superclass : 'Object',
+	#name : #ToPropertyAnimation,
+	#superclass : #Object,
 	#traits : 'TToPropertyAnimation',
 	#classTraits : 'TToPropertyAnimation classTrait',
 	#instVars : [
@@ -8,55 +8,53 @@ Class {
 		'duration',
 		'finishedHandlers'
 	],
-	#category : 'Toplo-Theme-Skin',
-	#package : 'Toplo-Theme',
-	#tag : 'Skin'
+	#category : 'Toplo-Theme-Skin'
 }
 
-{ #category : 't - property animation - accessing' }
+{ #category : #'t - property animation - accessing' }
 ToPropertyAnimation >> duration [
 
 	^ duration ifNil: [ duration := 200 milliSeconds ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyAnimation >> duration: aDuration [
 
 	duration := aDuration
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyAnimation >> finishedHandlers [
 
 	^ finishedHandlers 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToPropertyAnimation >> initialize [ 
 
 	super initialize.
 	finishedHandlers := OrderedCollection new
 ]
 
-{ #category : 't - property animation - action handling' }
+{ #category : #'t - property animation - action handling' }
 ToPropertyAnimation >> onFinishedDo: aBlock [
 
 	self finishedHandlers add: aBlock
 ]
 
-{ #category : 't - property animation - accessing' }
+{ #category : #'t - property animation - accessing' }
 ToPropertyAnimation >> property [
 
 	^ property
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyAnimation >> property: aProperty [
 
 	property := aProperty
 ]
 
-{ #category : 't - property animation - writing' }
+{ #category : #'t - property animation - writing' }
 ToPropertyAnimation >> write: anObject to: anElement [
 
 	self explicitRequirement 

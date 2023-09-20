@@ -1,24 +1,22 @@
 Class {
-	#name : 'ToLargeSizing',
-	#superclass : 'ToControlSizing',
-	#category : 'Toplo-Theme-Skin-dep',
-	#package : 'Toplo-Theme',
-	#tag : 'Skin-dep'
+	#name : #ToLargeSizing,
+	#superclass : #ToControlSizing,
+	#category : 'Toplo-Theme-Skin-dep'
 }
 
-{ #category : 'hook' }
+{ #category : #hook }
 ToLargeSizing >> applyOn: anElement [
 
 	anElement skinDo: [ :s | s applyLargeSizing: self on: anElement ]
 ]
 
-{ #category : 'private geometry' }
+{ #category : #'private geometry' }
 ToLargeSizing >> heightOn: anElement [
 
 	^ anElement largeHeight
 ]
 
-{ #category : 'private geometry' }
+{ #category : #'private geometry' }
 ToLargeSizing >> shapingRadiusIn: anElement [
 
 	^ anElement toTheme borderRadiusLG

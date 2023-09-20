@@ -2,14 +2,12 @@
 A ToPropertyWriterTest is a test class for testing the behavior of ToPropertyWriter
 "
 Class {
-	#name : 'ToPropertyWriterTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Theme-Tests-Skin',
-	#package : 'Toplo-Theme-Tests',
-	#tag : 'Skin'
+	#name : #ToPropertyWriterTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Theme-Tests-Skin'
 }
 
-{ #category : 'test writing' }
+{ #category : #'test writing' }
 ToPropertyWriterTest >> testAnimationNeedPropertyWithReader [
 
 	| w prop propWriter anim |
@@ -33,7 +31,7 @@ ToPropertyWriterTest >> testAnimationNeedPropertyWithReader [
 	propWriter writeTo: w
 ]
 
-{ #category : 'test event receiving' }
+{ #category : #'test event receiving' }
 ToPropertyWriterTest >> testCheckableUpdateWithValuable [
 
 	| w disabledImage checkedImage uncheckedImage indeterminateImage switch prop writer |
@@ -83,7 +81,7 @@ ToPropertyWriterTest >> testCheckableUpdateWithValuable [
 	self assert: w icon innerImage equals: disabledImage
 ]
 
-{ #category : 'test event receiving' }
+{ #category : #'test event receiving' }
 ToPropertyWriterTest >> testReceiveDefaultEventWithFeaturePropertyWithRawValue [
 
 	| w prop  propWriter target |
@@ -98,7 +96,7 @@ ToPropertyWriterTest >> testReceiveDefaultEventWithFeaturePropertyWithRawValue [
 	self assert: target background paint color equals: Color blue.
 ]
 
-{ #category : 'test event receiving' }
+{ #category : #'test event receiving' }
 ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithAnimationWithRawValue [
 
 	| prop propWriter target anim |
@@ -119,7 +117,7 @@ ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithAnimationWithRawV
 	self assert: target background paint isNil
 ]
 
-{ #category : 'test event receiving' }
+{ #category : #'test event receiving' }
 ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithAnimationWithValuable [
 
 	| prop propWriter target target2 anim |
@@ -142,7 +140,7 @@ ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithAnimationWithValu
 	self assert: target background paint isNil
 ]
 
-{ #category : 'test event receiving' }
+{ #category : #'test event receiving' }
 ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithRawValue [
 
 	| w prop  propWriter target |
@@ -158,7 +156,7 @@ ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithRawValue [
 	self assert: target background paint color equals: Color blue.
 ]
 
-{ #category : 'test event receiving' }
+{ #category : #'test event receiving' }
 ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithValuable [
 
 	| prop  propWriter target target2|
@@ -177,7 +175,7 @@ ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithValuable [
 
 ]
 
-{ #category : 'test writing' }
+{ #category : #'test writing' }
 ToPropertyWriterTest >> testWithFeaturePropertyAndAnimation [
 
 	| w prop propWriter anim |
@@ -195,7 +193,7 @@ ToPropertyWriterTest >> testWithFeaturePropertyAndAnimation [
 	propWriter writeTo: w
 ]
 
-{ #category : 'test writing' }
+{ #category : #'test writing' }
 ToPropertyWriterTest >> testWithFeaturePropertyWithRawValue [
 
 	| w prop  propWriter |
@@ -211,7 +209,7 @@ ToPropertyWriterTest >> testWithFeaturePropertyWithRawValue [
 	self assert: (prop read: w) equals: w background
 ]
 
-{ #category : 'test writing' }
+{ #category : #'test writing' }
 ToPropertyWriterTest >> testWithFeaturePropertyWithValuable [
 
 	| w prop  propWriter w2 |
@@ -228,7 +226,7 @@ ToPropertyWriterTest >> testWithFeaturePropertyWithValuable [
 	self assert: (prop read: w) equals: w background
 ]
 
-{ #category : 'test writing' }
+{ #category : #'test writing' }
 ToPropertyWriterTest >> testWithPseudoProperty [
 
 	| w prop  propWriter |
@@ -246,7 +244,7 @@ ToPropertyWriterTest >> testWithPseudoProperty [
 	self assert: (prop read: w) equals: w background
 ]
 
-{ #category : 'test writing' }
+{ #category : #'test writing' }
 ToPropertyWriterTest >> testWithPseudoPropertyAndAnimation [
 
 	| w prop propWriter anim |
@@ -266,7 +264,7 @@ ToPropertyWriterTest >> testWithPseudoPropertyAndAnimation [
 	propWriter writeTo: w
 ]
 
-{ #category : 'test writing' }
+{ #category : #'test writing' }
 ToPropertyWriterTest >> testWithPseudoPropertyWithConverterMethod [
 
 	| w prop  |
@@ -281,7 +279,7 @@ ToPropertyWriterTest >> testWithPseudoPropertyWithConverterMethod [
 	self assert: (prop read: w) equals: w background
 ]
 
-{ #category : 'test writing' }
+{ #category : #'test writing' }
 ToPropertyWriterTest >> testWithPseudoPropertyWithValuableAndAnimation [
 
 	| w prop propWriter anim w2 |
@@ -302,7 +300,7 @@ ToPropertyWriterTest >> testWithPseudoPropertyWithValuableAndAnimation [
 	propWriter writeTo: w
 ]
 
-{ #category : 'test event receiving' }
+{ #category : #'test event receiving' }
 ToPropertyWriterTest >> testWriterFailsWithPseudoPropertyWithWrongWriter [
 
 	| w  installEvent prop propWriter |
@@ -318,7 +316,7 @@ ToPropertyWriterTest >> testWriterFailsWithPseudoPropertyWithWrongWriter [
 	self should: [ propWriter receiveEvent: installEvent ] raise: MessageNotUnderstood
 ]
 
-{ #category : 'test event receiving' }
+{ #category : #'test event receiving' }
 ToPropertyWriterTest >> testWriterNeedProperty [
 
 	| w writer event |

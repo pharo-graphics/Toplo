@@ -50,23 +50,21 @@ paddingXS	Control the extra small padding of the element.	number	8
 
 "
 Class {
-	#name : 'ToDefaultTheme',
-	#superclass : 'ToAbstractTheme',
+	#name : #ToDefaultTheme,
+	#superclass : #ToAbstractTheme,
 	#instVars : [
 		'colorPrimary'
 	],
-	#category : 'Toplo-Theme-DefaultTheme',
-	#package : 'Toplo-Theme',
-	#tag : 'DefaultTheme'
+	#category : 'Toplo-Theme-DefaultTheme'
 }
 
-{ #category : 'constructor' }
+{ #category : #constructor }
 ToDefaultTheme class >> blue [
 
 	^ ToDefaultThemeLight new
 ]
 
-{ #category : 'customization' }
+{ #category : #customization }
 ToDefaultTheme class >> colorPrimary: aColor [
 
 	| theme |
@@ -75,7 +73,7 @@ ToDefaultTheme class >> colorPrimary: aColor [
 	^theme
 ]
 
-{ #category : 'customization' }
+{ #category : #customization }
 ToDefaultTheme class >> colorPrimaryDark: aColor [
 
 	| theme |
@@ -84,70 +82,70 @@ ToDefaultTheme class >> colorPrimaryDark: aColor [
 	^theme
 ]
 
-{ #category : 'constructor' }
+{ #category : #constructor }
 ToDefaultTheme class >> darkBlue [
 
 	^ ToDefaultThemeDark new
 ]
 
-{ #category : 'constructor' }
+{ #category : #constructor }
 ToDefaultTheme class >> darkGreen [
 
 	^self colorPrimaryDark: (Color fromHexString: '#00B96B')
 ]
 
-{ #category : 'constructor' }
+{ #category : #constructor }
 ToDefaultTheme class >> darkPink [
 
 	^self colorPrimaryDark: (Color fromHexString: '#ED4192')
 ]
 
-{ #category : 'constructor' }
+{ #category : #constructor }
 ToDefaultTheme class >> green [
 
 	^self colorPrimary: (Color fromHexString: '#00B96B')
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToDefaultTheme class >> isAbstract [
 
 	^ self = ToDefaultTheme
 ]
 
-{ #category : 'constructor' }
+{ #category : #constructor }
 ToDefaultTheme class >> pink [
 
 	^self colorPrimary: (Color fromHexString: '#ED4192')
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> backgroundColor [
 
 	^ Color white
 ]
 
-{ #category : 'border' }
+{ #category : #border }
 ToDefaultTheme >> borderRadius [
 	"https://ant.design/components/button#design-token"
 	
 	^ 6
 ]
 
-{ #category : 'border' }
+{ #category : #border }
 ToDefaultTheme >> borderRadiusLG [
 	"https://ant.design/components/button#design-token"
 	
 	^ 8
 ]
 
-{ #category : 'border' }
+{ #category : #border }
 ToDefaultTheme >> borderRadiusSM [
 	"https://ant.design/components/button#design-token"
 	
 	^ 4
 ]
 
-{ #category : 'images' }
+{ #category : #images }
 ToDefaultTheme >> checkboxCheckedImageIn: anElement [
 
 	^ ToElement new
@@ -155,7 +153,7 @@ ToDefaultTheme >> checkboxCheckedImageIn: anElement [
 		  yourself
 ]
 
-{ #category : 'images' }
+{ #category : #images }
 ToDefaultTheme >> checkboxIndeterminateImageIn: anElement [
 
 	| bar im |
@@ -167,7 +165,7 @@ ToDefaultTheme >> checkboxIndeterminateImageIn: anElement [
 	^ im
 ]
 
-{ #category : 'images' }
+{ #category : #images }
 ToDefaultTheme >> checkboxUncheckedImageIn: anElement [
 
 	^ (ToElement new 
@@ -175,166 +173,166 @@ ToDefaultTheme >> checkboxUncheckedImageIn: anElement [
 			   yourself)
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorBgContainer [
 	"https://ant.design/components/button#design-token"
 	
 	^ Color fromHexString: '#ffffff'
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorBgContainerChecked [
 	
 	^ self colorPrimary
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorBgContainerCheckedHover [
 	
 	^ self colorPrimaryHover
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorBgContainerCheckedPressed [
 	
 	^ self colorPrimary darker
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorBgContainerDisabled [
 	"https://ant.design/components/button#design-token"
 	
 	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.04 
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorBgContainerUnchecked [
 	
 	^ Color gray alpha: 0.6
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorBgContainerUncheckedHover [
 	
 	^ Color gray alpha: 0.4
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorBgTextActive [
 	"https://ant.design/components/button#design-token"
 	
 	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.15 
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorBgTextHover [
 	"Control the background color of text in hover state"
 
 	^ (Color r: 0 g: 0 b: 0 alpha: 0.2) 
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorBorder [
 	"https://ant.design/components/button#design-token"
 	
 	^ Color fromHexString: '#d9d9d9'
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorBorderCheckable [
 	
 	^ Color transparent
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorBorderDisabled [
 	"https://ant.design/components/button#design-token"
 	
 	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.2 
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorError [
 	"Used to represent the visual elements of the operation failure, such as the error Button, error Result component, etc."
 
 	^ Color fromHexString: '#ff4d4f'
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorErrorActive [
 	"The active state of the error color"
 
 	^ Color fromHexString: '#d9363e'
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorErrorBg [
 	"The background color of the error state"
 
 	^ Color fromHexString: '#fff2f0'
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorErrorHover [
 	"The hover state of the error color"
 
 	^ Color fromHexString: '#ff7875'
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorErrorPressed [
 	"The pressed state of the error color"
 
 	^ (Color fromHexString: '#ff7875') darker darker
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorImage [
 	
 	^ self colorText
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorImageDisabled [
 	
 	^ Color r: 0.7 g: 0.7 b: 0.7 alpha: 1.0
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorImageLightSolid [
 	
 	^ self colorTextLightSolid
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorLink [
 	"https://ant.design/components/button#design-token"
 
 	^ Color fromHexString: '#1677ff'
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorLinkActive [
 	"Control the color of hyperlink when clicked"
 
 	^ Color fromHexString: '#0958d9'
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorLinkHover [
 	"Control the color of hyperlink when hovering"
 
 	^ Color fromHexString: '#69b1ff'
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorPrimary [
 	"Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics"
 	
 	^ colorPrimary ifNil:[ colorPrimary := self defaultColorPrimary ]
 ]
 
-{ #category : 'settings' }
+{ #category : #settings }
 ToDefaultTheme >> colorPrimary: aColor [
 	"Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics"
 	
@@ -342,123 +340,123 @@ ToDefaultTheme >> colorPrimary: aColor [
 	colorPrimary := aColor
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorPrimaryHover [
 	"Hover state under the main color gradient"
 	
 	^ self colorPrimary whiter
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorPrimaryPressed [
 	"Hover state under the main color gradient"
 	
 	^ self colorPrimary darker darker
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorSuccess [
 	"Used to represent the token sequence of operation success, such as Result, Progress and other components will use these map tokens"
 
 	^ Color fromHexString: '#52c41a'
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorText [
 	"Default text color which comply with W3C standards, and this color is also the darkest neutral color."
 	
 	^ Color r: 0.0 g: 0.0 b: 0.0 "alpha: 0.88"
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorTextDescription [
 	"Control the font color of text description"
 
 	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.45
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorTextDisabled [
 	"Control the color of text in disabled state"
 
 	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.25
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorTextHeading [
 	"Control the font color of heading"
 
 	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.88
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorTextLightSolid [
 	"https://ant.design/components/button#design-token"
 	
 	^ Color fromHexString: '#ffffff'
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorTextSecondary [
 	"Default text color which comply with W3C standards, and this color is also the darkest neutral color."
 	
 	^ Color black alpha: 0.45
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> colorWarning [
 	"Used to represent the warning map token, such as Notification, Alert, etc. Alert or Control component(like Input) will use these map tokens"
 
 	^ Color fromHexString: '#faad14'
 ]
 
-{ #category : 'sizes' }
+{ #category : #sizes }
 ToDefaultTheme >> controlHeight [
 	"The height of the basic controls such as buttons and input boxes in Ant Design"
 
 	^ 32
 ]
 
-{ #category : 'sizes' }
+{ #category : #sizes }
 ToDefaultTheme >> controlHeightLG [
 	"The height of the basic controls such as buttons and input boxes in Ant Design"
 
 	^ 40
 ]
 
-{ #category : 'sizes' }
+{ #category : #sizes }
 ToDefaultTheme >> controlHeightSM [
 	"The height of the basic controls such as buttons and input boxes in Ant Design"
 
 	^ 24
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> darkTheme [
 
 	^ nil
 ]
 
-{ #category : 'border' }
+{ #category : #border }
 ToDefaultTheme >> dashArray [
 	"dashed rendering equivalent in web UI"
 	
 	^ #( 3 3 )
 ]
 
-{ #category : 'settings' }
+{ #category : #settings }
 ToDefaultTheme >> defaultColorPrimary [
 
 	^ Color fromHexString: '#1677ff'
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToDefaultTheme >> defaultStyleSheet [ 
 
 	^ ToDefaultStyleSheet new
 ]
 
-{ #category : 'text' }
+{ #category : #text }
 ToDefaultTheme >> fontFamilyCode [
 	"https://ant.design/components/typography#design-token"
 
@@ -466,158 +464,158 @@ ToDefaultTheme >> fontFamilyCode [
 	^ 'SFMono-Regular'
 ]
 
-{ #category : 'text' }
+{ #category : #text }
 ToDefaultTheme >> fontSize [
 	"https://ant.design/components/typography#design-token"
 
 	^ 14
 ]
 
-{ #category : 'text' }
+{ #category : #text }
 ToDefaultTheme >> fontSizeHeading1 [
 	"Font size of h1 tag"
 
 	^ 38
 ]
 
-{ #category : 'text' }
+{ #category : #text }
 ToDefaultTheme >> fontSizeHeading2 [
 	"Font size of h2 tag"
 
 	^ 30
 ]
 
-{ #category : 'text' }
+{ #category : #text }
 ToDefaultTheme >> fontSizeHeading3 [
 	"Font size of h3 tag"
 
 	^ 24
 ]
 
-{ #category : 'text' }
+{ #category : #text }
 ToDefaultTheme >> fontSizeHeading4 [
 	"Font size of h4 tag"
 
 	^ 20
 ]
 
-{ #category : 'text' }
+{ #category : #text }
 ToDefaultTheme >> fontSizeHeading5 [
 	"Font size of h5 tag"
 
 	^ 16
 ]
 
-{ #category : 'text' }
+{ #category : #text }
 ToDefaultTheme >> fontWeightStrong [
 	"https://ant.design/components/typography#design-token"
 
 	^ 600
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToDefaultTheme >> initialize [ 
 
 	super initialize.
 	self styleSheet: self defaultStyleSheet 
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> isDark [
 
 	^ false
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> isLight [
 
 	^ false
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToDefaultTheme >> lightTheme [
 
 	^ nil
 ]
 
-{ #category : 'text' }
+{ #category : #text }
 ToDefaultTheme >> lineHeight [
 	"https://ant.design/components/typography#design-token"
 
 	^ 1.5
 ]
 
-{ #category : 'text' }
+{ #category : #text }
 ToDefaultTheme >> lineHeightHeading1 [
 	"Line height of h1 tag"
 
 	^ 1.2
 ]
 
-{ #category : 'text' }
+{ #category : #text }
 ToDefaultTheme >> lineHeightHeading2 [
 	"Line height of h2 tag"
 
 	^ 1.3
 ]
 
-{ #category : 'text' }
+{ #category : #text }
 ToDefaultTheme >> lineHeightHeading3 [
 	"Line height of h3 tag"
 
 	^ 1.3
 ]
 
-{ #category : 'text' }
+{ #category : #text }
 ToDefaultTheme >> lineHeightHeading4 [
 	"Line height of h4 tag"
 
 	^ 1.4
 ]
 
-{ #category : 'text' }
+{ #category : #text }
 ToDefaultTheme >> lineHeightHeading5 [
 	"Line height of h5 tag"
 
 	^ 1.5
 ]
 
-{ #category : 'border' }
+{ #category : #border }
 ToDefaultTheme >> lineType [
 	"https://ant.design/components/button#design-token"
 	
 	^ #solid
 ]
 
-{ #category : 'border' }
+{ #category : #border }
 ToDefaultTheme >> lineWidth [
 	"https://ant.design/components/button#design-token"
 	
 	^ 1
 ]
 
-{ #category : 'border' }
+{ #category : #border }
 ToDefaultTheme >> lineWidthFocus [
 	"https://ant.design/components/button#design-token"
 	
 	^ 4
 ]
 
-{ #category : 'sizes' }
+{ #category : #sizes }
 ToDefaultTheme >> paddingContentHorizontal [
 	"Control the horizontal padding of content element"
 
 	^ 16
 ]
 
-{ #category : 'sizes' }
+{ #category : #sizes }
 ToDefaultTheme >> paddingContentVertical [
 	"Control the vertical padding of content element"
 
 	^ 8
 ]
 
-{ #category : 'sizes' }
+{ #category : #sizes }
 ToDefaultTheme >> paddingXS [
 	"Control the extra small padding of the element"
 

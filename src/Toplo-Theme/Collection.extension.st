@@ -1,6 +1,6 @@
-Extension { #name : 'Collection' }
+Extension { #name : #Collection }
 
-{ #category : '*Toplo-Theme' }
+{ #category : #'*Toplo-Theme' }
 Collection >> asStyleSelector [
 
 	^ ToStyleTagSelector new styleTags: (self collect: [ :e | e asSymbol ])

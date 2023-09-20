@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToOpenedState',
-	#superclass : 'ToElementState',
-	#category : 'Toplo-Theme-State',
-	#package : 'Toplo-Theme',
-	#tag : 'State'
+	#name : #ToOpenedState,
+	#superclass : #ToElementState,
+	#category : 'Toplo-Theme-State'
 }
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToOpenedState >> applyOn: anElement [
 
 	anElement dispatchLookEvent: ToOpenedLookEvent new

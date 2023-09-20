@@ -1,16 +1,13 @@
 Class {
-	#name : 'ToStyleSheet',
-	#superclass : 'Object',
+	#name : #ToStyleSheet,
+	#superclass : #Object,
 	#instVars : [
-		'rules',
 		'propertyIndex'
 	],
-	#category : 'Toplo-Theme-StyleSheet',
-	#package : 'Toplo-Theme',
-	#tag : 'StyleSheet'
+	#category : #'Toplo-Theme-StyleSheet'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheet class >> propertyList [
 	" skin managing need a list of unique property. See ToStyleSheet>>lookUpdatersFor: where properties are used in an IdentityDictionary"
 
@@ -86,33 +83,39 @@ ToStyleSheet class >> propertyList [
 			   writer: [ :e :v | v value: e constraints ]) }
 ]
 
-{ #category : 'adding' }
-ToStyleSheet >> addRule: aStyleRule [
-
-	rules := rules copyWith: aStyleRule
-]
-
-{ #category : 'adding' }
-ToStyleSheet >> addRules: aStyleRuleCollection [
-
-	rules := rules copyWithAll: aStyleRuleCollection
-]
-
-{ #category : 'initialization' }
-ToStyleSheet >> initialize [
+{ #category : #initialization }
+ToStyleSheet >> initialize [ 
 
 	super initialize.
-	rules := #(  )
+	propertyIndex := self newPropertyIndex 
 ]
 
-{ #category : 'accessing' }
-ToStyleSheet >> rules [
+{ #category : #initialization }
+ToStyleSheet >> newPropertyIndex [
 
-	^ rules
+	^ ToPropertyIndex new recordAll: self propertyList; yourself
 ]
 
-{ #category : 'accessing' }
-ToStyleSheet >> rules: aStyleRuleCollection [
+{ #category : #accessing }
+ToStyleSheet >> propertyIndex [
 
-	rules := aStyleRuleCollection asArray
+	^ propertyIndex
+]
+
+{ #category : #initialization }
+ToStyleSheet >> propertyList [
+
+	^ self class propertyList
+]
+
+{ #category : #accessing }
+ToStyleSheet >> propertyNamed: aName [
+
+	^ self propertyIndex propertyNamed: aName
+]
+
+{ #category : #accessing }
+ToStyleSheet >> styleRules [
+
+	^ self subclassResponsibility 
 ]

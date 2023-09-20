@@ -57,10 +57,12 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
 	chk labelText: 'OK'.
 	btn := ToButton new.
 	btn labelText: 'Erase all your Pharo images?'.
+	btn iconImage: ToThemeIcons iconSearchOutlined16x16.
+	btn label addStyleTag: #H3.
 	btn addStyleTag: #primary.
 	btn addStyleTag: #danger.
-	btn addStyleTag: #'no-sizing'.
-	btn size: 300 @ 100.
+	"btn addStyleTag: #'no-sizing'."
+	"btn size: 500 @ 100."
 	space := BlSpace new.
 	space root layout: BlLinearLayout vertical.
 	space root addChildren: {

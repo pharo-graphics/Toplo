@@ -1,29 +1,27 @@
 Class {
-	#name : 'ToLookUpdaterDep',
-	#superclass : 'ToElementLook',
+	#name : #ToLookUpdaterDep,
+	#superclass : #ToElementLook,
 	#instVars : [
 		'property',
 		'subscriptions',
 		'supplement'
 	],
-	#category : 'Toplo-Theme-LookUpdaterDep',
-	#package : 'Toplo-Theme',
-	#tag : 'LookUpdaterDep'
+	#category : 'Toplo-Theme-LookUpdaterDep'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToLookUpdaterDep class >> forProperty: aPropertyDefinition [
 
 	^ self new property: aPropertyDefinition
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLookUpdaterDep >> addSubscription: aSubscription [
 
 	subscriptions := subscriptions copyWith: aSubscription
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToLookUpdaterDep >> initialize [ 
 
 	super initialize.
@@ -31,20 +29,20 @@ ToLookUpdaterDep >> initialize [
 	supplement := false
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLookUpdaterDep >> property [
 
 	^ property
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLookUpdaterDep >> property: aLookProperty [
 
 	property ifNotNil: [ ^ Error signal: 'The property can be set only once' ].
 	property  := aLookProperty
 ]
 
-{ #category : 'operating' }
+{ #category : #operating }
 ToLookUpdaterDep >> receiveEvent: aLookEvent [
 
 	| prevUpdater |
@@ -55,43 +53,43 @@ ToLookUpdaterDep >> receiveEvent: aLookEvent [
 	aLookEvent currentUpdater: prevUpdater
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLookUpdaterDep >> removeAllSubscriptions: aSubscriptionCollection [
 
 	subscriptions := subscriptions copyWithoutAll: aSubscriptionCollection
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLookUpdaterDep >> removeSubscription: aSubscription [
 
 	subscriptions := subscriptions copyWithout: aSubscription
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLookUpdaterDep >> subscriptions [
 
 	^ subscriptions 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLookUpdaterDep >> supplement [
 
 	^ supplement 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLookUpdaterDep >> supplement: aBoolean [
 
 	supplement := aBoolean
 ]
 
-{ #category : 'declaring' }
+{ #category : #declaring }
 ToLookUpdaterDep >> when: aLookEventClass value: aBlockOrValue [
 
 	self when: aLookEventClass value: aBlockOrValue animation: nil
 ]
 
-{ #category : 'declaring' }
+{ #category : #declaring }
 ToLookUpdaterDep >> when: aLookEventClass value: aBlockOrValue animation: anAnimation [
 
 	| subscr replacedSubscriptions |
@@ -107,7 +105,7 @@ ToLookUpdaterDep >> when: aLookEventClass value: aBlockOrValue animation: anAnim
 	self addSubscription: subscr
 ]
 
-{ #category : 'declaring' }
+{ #category : #declaring }
 ToLookUpdaterDep >> whenAll: aLookEventClassCollection value: aBlockOrValue [
 
 	aLookEventClassCollection do: [ :e | self when: e value: aBlockOrValue]

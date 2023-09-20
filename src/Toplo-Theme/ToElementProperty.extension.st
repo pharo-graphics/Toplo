@@ -1,6 +1,6 @@
-Extension { #name : 'ToElementProperty' }
+Extension { #name : #ToElementProperty }
 
-{ #category : '*Toplo-Theme' }
+{ #category : #'*Toplo-Theme' }
 ToElementProperty >> newWriterForValue: aBlockOrObject [
 
 	^ ToPropertyWriter new
@@ -9,13 +9,13 @@ ToElementProperty >> newWriterForValue: aBlockOrObject [
 		  yourself
 ]
 
-{ #category : '*Toplo-Theme' }
+{ #category : #'*Toplo-Theme' }
 ToElementProperty >> value: aBlockOrObject [
 
 	^ self newWriterForValue: aBlockOrObject
 ]
 
-{ #category : '*Toplo-Theme' }
+{ #category : #'*Toplo-Theme' }
 ToElementProperty >> when: aLookEventClass write: aValuableOrObject animation: aPropertyAnimation [
 
 	^ (self newWriterForValue: aValuableOrObject)
@@ -24,7 +24,7 @@ ToElementProperty >> when: aLookEventClass write: aValuableOrObject animation: a
 		  yourself
 ]
 
-{ #category : '*Toplo-Theme' }
+{ #category : #'*Toplo-Theme' }
 ToElementProperty >> write: aBlockOrObject [
 
 	^ self newWriterForValue: aBlockOrObject

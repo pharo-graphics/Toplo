@@ -2,31 +2,29 @@
 A ToStyleRuleTest is a test class for testing the behavior of ToStyleRule
 "
 Class {
-	#name : 'ToStyleRuleTest',
-	#superclass : 'TestCase',
+	#name : #ToStyleRuleTest,
+	#superclass : #TestCase,
 	#instVars : [
 		'propertyIndex'
 	],
-	#category : 'Toplo-Theme-Tests-StyleSheet',
-	#package : 'Toplo-Theme-Tests',
-	#tag : 'StyleSheet'
+	#category : #'Toplo-Theme-Tests-StyleSheet'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 ToStyleRuleTest >> propertyIndex [ 
 
 	^ propertyIndex 
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToStyleRuleTest >> setUp [ 
 
 	super setUp.
-	propertyIndex := ToPropertyIndex new recordAll: ToStyleSheetInterpreter propertyList; yourself.
+	propertyIndex := ToPropertyIndex new recordAll: ToStyleSheet propertyList; yourself.
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleRuleTest >> testNewStyleRuleFromSelector [
 	".button:initial {
 		background: blue;
@@ -45,7 +43,7 @@ ToStyleRuleTest >> testNewStyleRuleFromSelector [
 				with: Color red ]
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleRuleTest >> testRuleWithAndSelector [
 	" a rule with an And operator  "
 
@@ -82,7 +80,7 @@ ToStyleRuleTest >> testRuleWithAndSelector [
 	self assert: (rule canBeAppliedTo: e)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleRuleTest >> testRuleWithAndWithChildSelector [
 	" a rule with an And operator  "
 
@@ -102,7 +100,7 @@ ToStyleRuleTest >> testRuleWithAndWithChildSelector [
 	self assert: (rule canBeAppliedTo: child)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleRuleTest >> testRuleWithChildSelector1 [
 	" a rule with a universal selector among others accept any element "
 
@@ -119,7 +117,7 @@ ToStyleRuleTest >> testRuleWithChildSelector1 [
 	self assert: (rule canBeAppliedTo: child)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleRuleTest >> testRuleWithChildSelector2 [
 	" a rule with a universal selector among others accept any element "
 
@@ -138,7 +136,7 @@ ToStyleRuleTest >> testRuleWithChildSelector2 [
 	self assert: (rule canBeAppliedTo: childchild)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleRuleTest >> testRuleWithChildSelector3 [
 	" a rule with a universal selector among others accept any element "
 
@@ -159,7 +157,7 @@ ToStyleRuleTest >> testRuleWithChildSelector3 [
 	self assert: (rule canBeAppliedTo: childchild)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleRuleTest >> testRuleWithChildSelector4 [
 	" a rule with a universal selector among others accept any element "
 
@@ -198,7 +196,7 @@ ToStyleRuleTest >> testRuleWithChildSelector4 [
 	self assert: (childchildchildRule canBeAppliedTo: childchildchild)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleRuleTest >> testRuleWithChildSelector5 [
 	" a rule with a universal selector among others accept any element "
 
@@ -279,7 +277,7 @@ ToStyleRuleTest >> testRuleWithChildSelector5 [
 	self assert: (childchildchildRule canBeAppliedTo: childchildchild)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleRuleTest >> testRuleWithClassSelector [
 
 	| rule e |
@@ -295,7 +293,7 @@ ToStyleRuleTest >> testRuleWithClassSelector [
 	self assert: (rule canBeAppliedTo: e)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleRuleTest >> testRuleWithNoSelector [
 	" a rule with no selector accepts any alement "
 	| rule e |
@@ -304,7 +302,7 @@ ToStyleRuleTest >> testRuleWithNoSelector [
 	self assert: (rule canBeAppliedTo: e) 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleRuleTest >> testRuleWithUniversalSelector [
 	" a rule with a unique univesal selector accept any element "
 
@@ -314,7 +312,7 @@ ToStyleRuleTest >> testRuleWithUniversalSelector [
 	self assert: (rule canBeAppliedTo: e)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleRuleTest >> testRuleWithUniversalSelector2 [
 	" a rule with a universal selector among others accept any element "
 

@@ -14,7 +14,7 @@ ToStyleSelectorInterpreter >> check: aSelector on: anElement [
 	targetStack := Stack new.
 	targetStack push: anElement.
 	result := true.
-	aSelector accept: self.
+	aSelector value accept: self.
 	^ result
 ]
 

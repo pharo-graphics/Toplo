@@ -323,7 +323,10 @@ ToDefaultStyleSheet >> commonButtonRules [
 	"
 
 	^ {
-		  (((self tag: #button) and: (self tag: #circle) not) style: [ :sr |
+		  (#button asToTag style: [ :sr |
+			   sr
+				   write: (self property: #layout)
+				   with: BlLinearLayout vertical alignCenter.
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #mouseCursor)
@@ -336,13 +339,9 @@ ToDefaultStyleSheet >> commonButtonRules [
 				   write: (self property: #mouseCursor)
 				   with: nil ]).
 
-		  (((self tags: #( #button )) and: (self tag: #vertical) not)
+		  (#button asToTag - #vertical asToTag
 			   when: ToInstallLookEvent
 			   style: [ :sr |
-				   sr
-					   write: (self property: #layout)
-					   with: BlLinearLayout horizontal alignCenter.
-
 				   sr write: (self property: #padding) with: [ :e |
 					   BlInsets
 						   top: e toTheme paddingXS / 2
@@ -350,35 +349,9 @@ ToDefaultStyleSheet >> commonButtonRules [
 						   bottom: e toTheme paddingXS / 2
 						   right: e toTheme paddingContentHorizontal / 2 ] ]).
 
-		  (((self tags: #( #button )) and: (self tag: #vertical) not)
+		  (#( #button #vertical ) asToTag
 			   when: ToInstallLookEvent
 			   style: [ :sr |
-				   sr
-					   write: (self property: #height)
-					   with: [ :e | e toTheme controlHeight ] ]).
-
-		  ((((self tags: #( #button )) and: (self tag: #vertical) not) and:
-			    (self tag: #'large-sizing'))
-			   when: ToInstallLookEvent
-			   style: [ :sr |
-				   sr
-					   write: (self property: #height)
-					   with: [ :e | e toTheme controlHeightLG ] ]).
-
-		 (((self tags: #( #button )) and: ((self tag: #vertical) not)) and: (self tag: #'small-sizing'))
-			   when: ToInstallLookEvent
-			   style: [ :sr |
-				   sr
-					   write: (self property: #height)
-					   with: [ :e | e toTheme controlHeightSM ] ].
-		
-		  ((self tags: #( #button #vertical ))
-			   when: ToInstallLookEvent
-			   style: [ :sr |
-				   sr
-					   write: (self property: #layout)
-					   with: BlLinearLayout vertical alignCenter.
-
 				   sr write: (self property: #padding) with: [ :e |
 					   BlInsets
 						   top: e toTheme paddingContentHorizontal / 2
@@ -386,12 +359,37 @@ ToDefaultStyleSheet >> commonButtonRules [
 						   bottom: e toTheme paddingContentHorizontal / 2
 						   right: e toTheme paddingXS / 2 ] ]).
 
-		  (((self tag: #'inner-element')
-			    parent: (self tags: #( #button ))
-			    level: 1) when: ToInstallLookEvent style: [ :sr |
-			   sr
-				   write: (self property: #layout)
-				   with: BlLinearLayout horizontal ]).
+		  (#button asToTag + #vertical asToTag not - #'no-sizing' asToTag
+			   when: ToInstallLookEvent
+			   style: [ :sr |
+				   sr
+					   write: (self property: #height)
+					   with: [ :e | e toTheme controlHeight ] ]).
+
+		  (#button asToTag + #vertical asToTag not + #'large-sizing' asToTag
+			   when: ToInstallLookEvent
+			   style: [ :sr |
+				   sr
+					   write: (self property: #height)
+					   with: [ :e | e toTheme controlHeightLG ] ]).
+
+		  (#button asToTag + #vertical asToTag not + #'small-sizing' asToTag
+			   when: ToInstallLookEvent
+			   style: [ :sr |
+				   sr
+					   write: (self property: #height)
+					   with: [ :e | e toTheme controlHeightSM ] ]).
+
+		  ((#'inner-element' asToTag parent: #button asToTag level: 1)
+			   when: ToInstallLookEvent
+			   style: [ :sr |
+				   sr
+					   write: (self property: #layout)
+					   with: BlLinearLayout horizontal.
+				   sr write: (self property: #'layout-constraints') with: [ :e |
+					   [ :c |
+					   c linear vertical alignCenter.
+					   c linear horizontal alignCenter ] ] ]).
 
 		  (((self tag: #'inner-element')
 			    parent: (self tags: #( #button #vertical ))
@@ -410,7 +408,6 @@ ToDefaultStyleSheet >> commonButtonRules [
 			    parent: (self tags: #( #button #justified ))
 			    level: 1) when: ToInstallLookEvent style: [ :sr |
 			   sr write: (self property: #'layout-interspace') with: [ :e | 0 ].
-
 			   sr write: (self property: #'layout-constraints') with: [ :e |
 				   [ :c |
 				   c horizontal matchParent.
@@ -463,7 +460,8 @@ ToDefaultStyleSheet >> commonButtonRules [
 				   with: [ :e | BlLinearLayout new alignCenter ] ]).
 
 		  (((self tag: #'inner-element')
-			    parent: (((self tags: #( #button )) and: (self tag: #justified) not))
+			    parent:
+			    ((self tags: #( #button )) and: (self tag: #justified) not)
 			    level: 1) style: [ :sr |
 			   sr write: (self property: #'layout-constraints') with: [ :e |
 				   [ :c |

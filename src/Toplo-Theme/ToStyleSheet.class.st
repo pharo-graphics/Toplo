@@ -186,6 +186,11 @@ ToStyleSheet >> skinFor: anElement [
 { #category : #'syntactic sugar' }
 ToStyleSheet >> tag: aSymbol [
 
+	self
+		deprecated: 'Please use asToTag instead.'
+		transformWith:
+			'`@receiver tag: `@symb1'
+				-> '`@symb1 asToTag '.	
  	^ ToStyleTagSelector new styleTag: aSymbol
 
 ]
@@ -193,6 +198,12 @@ ToStyleSheet >> tag: aSymbol [
 { #category : #'syntactic sugar' }
 ToStyleSheet >> tags: anArray [
 
+	self
+		deprecated: 'Please use asToTag instead.'
+		transformWith:
+			'`@receiver tags: `@arr'
+				-> '`@arr asToTag '.	
+					
  	^ ToStyleTagSelector new styleTags: anArray
 
 ]

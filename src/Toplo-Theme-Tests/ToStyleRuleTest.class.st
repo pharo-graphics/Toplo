@@ -49,7 +49,8 @@ ToStyleRuleTest >> testRuleWithAndSelector [
 
 	| rule e |
 	rule := ToStyleRule
-		        selectedWith: (ToStyleTagSelector new styleTags: #( #button ))
+		        selectedWith:
+		        (ToStyleTagSelector new styleTags: #( #button ))
 		        style: [ :sr |  ].
 
 	e := ToElement new styleTag: #something.
@@ -60,9 +61,8 @@ ToStyleRuleTest >> testRuleWithAndSelector [
 
 	rule := ToStyleRule
 		        selectedWith:
-			        ((ToStyleTagSelector new styleTags: #( #button ))
-				         and:
-				         (ToStyleTagSelector new styleTags: #( #danger )))
+			        (ToStyleTagSelector new styleTags: #( #button ))
+			        + (ToStyleTagSelector new styleTags: #( #danger ))
 		        style: [ :sr |  ].
 	self assert: (rule canBeAppliedTo: e) not.
 
@@ -70,7 +70,8 @@ ToStyleRuleTest >> testRuleWithAndSelector [
 	self assert: (rule canBeAppliedTo: e).
 
 	rule := ToStyleRule
-		        selectedWith: (ToStyleTagSelector new styleTags: #( #button #danger ))
+		        selectedWith:
+		        (ToStyleTagSelector new styleTags: #( #button #danger ))
 		        style: [ :sr |  ].
 
 	self assert: (rule canBeAppliedTo: e).
@@ -86,10 +87,8 @@ ToStyleRuleTest >> testRuleWithAndWithChildSelector [
 	| rule e child |
 	rule := ToStyleRule new selector:
 		        ((ToStyleTagSelector new styleTag: #'button-label')
-			         parent:
-				         ((ToStyleTagSelector new styleTags: #( #button ))
-					          and:
-					          (ToStyleTagSelector new styleTags: #( #danger )))
+			         parent: (ToStyleTagSelector new styleTags: #( #button ))
+				         + (ToStyleTagSelector new styleTags: #( #danger ))
 			         level: 1).
 	e := ToElement new styleTag: #button.
 	self assert: (rule canBeAppliedTo: e) not.

@@ -9,7 +9,7 @@ ToStyleSelector >> + aStyleSelector [
 
 	^ ToAndSelector new
 		  left: self;
-		  right: aStyleSelector value;
+		  right: aStyleSelector value asToTag;
 		  yourself
 ]
 
@@ -18,7 +18,7 @@ ToStyleSelector >> - aStyleSelector [
 
 	^ ToAndSelector new
 		  left: self;
-		  right: aStyleSelector value not;
+		  right: aStyleSelector value asToTag not;
 		  yourself
 ]
 
@@ -31,17 +31,25 @@ ToStyleSelector >> accept: aVisitor [
 { #category : #'logical operator' }
 ToStyleSelector >> and: aStyleSelector [
 
-	^ ToAndSelector new
-		  left: self;
-		  right: aStyleSelector value;
-		  yourself
+	self
+		deprecated: 'Please use + instead.'
+		transformWith:
+			'`@receiver and: `@statements1'
+				-> '`@receiver + `@statements1'.	
+	^ self + aStyleSelector
+]
+
+{ #category : #converting }
+ToStyleSelector >> asToTag [ 
+
+	^ self 
 ]
 
 { #category : #'logical operator' }
 ToStyleSelector >> child: aSelector level: anInteger [
 
 	^ ToChildSelector new
-		  left: aSelector value;
+		  left: aSelector value asToTag;
 		  right: self;
 		  parentLevel: anInteger;
 		  yourself
@@ -60,7 +68,7 @@ ToStyleSelector >> or: aStyleSelector [
 
 	^ ToOrSelector new
 		  left: self;
-		  right: aStyleSelector value;
+		  right: aStyleSelector value asToTag;
 		  yourself
 ]
 
@@ -69,7 +77,7 @@ ToStyleSelector >> parent: aSelector [
 
 	^ ToChildSelector new
 		  left: self;
-		  right: aSelector value;
+		  right: aSelector value asToTag;
 		  yourself
 ]
 
@@ -78,7 +86,7 @@ ToStyleSelector >> parent: aSelector level: anInteger [
 
 	^ ToChildSelector new
 		  left: self;
-		  right: aSelector value;
+		  right: aSelector value asToTag;
 		  parentLevel: anInteger;
 		  yourself
 ]

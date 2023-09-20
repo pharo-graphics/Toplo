@@ -180,8 +180,10 @@ ToStyleSelectorInterpreterTest >> testNotSelector [
 { #category : #'tests - child selector' }
 ToStyleSelectorInterpreterTest >> testRuleWithAndSelector [
 	" a rule with an And operator  "
-	| selector e engine  |
-	selector :=  (ToStyleTagSelector new styleTags: #( #button )) and: (ToStyleTagSelector new styleTags: #( #danger )).
+
+	| selector e engine |
+	selector := (ToStyleTagSelector new styleTags: #( #button ))
+	            + (ToStyleTagSelector new styleTags: #( #danger )).
 
 	e := ToElement new styleTag: #button.
 	engine := ToStyleSelectorInterpreter new.
@@ -191,20 +193,22 @@ ToStyleSelectorInterpreterTest >> testRuleWithAndSelector [
 	" ko since no child "
 	engine check: selector on: e.
 	self assert: engine result.
-	
+
 	selector := selector not.
 	engine check: selector on: e.
-	self assert: engine result not.
-	
-
+	self assert: engine result not
 ]
 
 { #category : #'tests - child selector' }
 ToStyleSelectorInterpreterTest >> testRuleWithAndWithChildSelector [
 	" a rule with an And operator  "
+
 	| selector e engine child |
-	selector :=  (ToStyleTagSelector new styleTag: #'button-label') 
-				parent: (((ToStyleTagSelector new styleTags: #( #button )) and: (ToStyleTagSelector new styleTags: #( #danger )))) level: 1.
+	selector := (ToStyleTagSelector new styleTag: #'button-label')
+		            parent:
+			            (ToStyleTagSelector new styleTags: #( #button ))
+			            + (ToStyleTagSelector new styleTags: #( #danger ))
+		            level: 1.
 
 	e := ToElement new styleTag: #button.
 	engine := ToStyleSelectorInterpreter new.
@@ -220,9 +224,7 @@ ToStyleSelectorInterpreterTest >> testRuleWithAndWithChildSelector [
 	self assert: engine result not.
 
 	engine check: selector on: child.
-	self assert: engine result.
-
-
+	self assert: engine result
 ]
 
 { #category : #'tests - child selector' }

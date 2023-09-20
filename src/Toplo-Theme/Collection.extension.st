@@ -1,7 +1,7 @@
 Extension { #name : #Collection }
 
 { #category : #'*Toplo-Theme' }
-Collection >> asToStyleSelector [
+Collection >> asStyleSelector [
 
 	^ ToStyleTagSelector new styleTags: (self collect: [ :e | e asSymbol ])
 ]

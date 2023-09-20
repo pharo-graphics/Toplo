@@ -25,6 +25,12 @@ ToStyleSelectorInterpreter >> result [
 ]
 
 { #category : #visiting }
+ToStyleSelectorInterpreter >> visitActionSelector: aSelector [
+
+	result := aSelector action value: targetStack top
+]
+
+{ #category : #visiting }
 ToStyleSelectorInterpreter >> visitAndSelector: aSelector [
 
 	aSelector left accept: self.

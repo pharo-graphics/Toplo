@@ -11,7 +11,7 @@ Class {
 ToStyleSelectorInterpreterTest >> testAsToTagOnArray [
 
 	| selector  |
-	selector := #(#'small-sizing' #x)asToStyleSelector.
+	selector := #(#'small-sizing' #x)asStyleSelector.
 	self assert: (selector isKindOf: ToStyleTagSelector).
 	self assert: (selector styleTags includesAll: #(#'small-sizing' #x)).
 
@@ -21,7 +21,7 @@ ToStyleSelectorInterpreterTest >> testAsToTagOnArray [
 ToStyleSelectorInterpreterTest >> testAsToTagOnArray2 [
 
 	| selector |
-	selector := { 'small-sizing'. 'x' } asToStyleSelector.
+	selector := { 'small-sizing'. 'x' } asStyleSelector.
 	self assert: (selector isKindOf: ToStyleTagSelector).
 	self assert: (selector styleTags includesAll: #( #'small-sizing' #x ))
 ]
@@ -30,7 +30,7 @@ ToStyleSelectorInterpreterTest >> testAsToTagOnArray2 [
 ToStyleSelectorInterpreterTest >> testAsToTagOnArray3 [
 
 	| selector |
-	selector := { 'small-sizing'. 'x' } asToStyleSelector.
+	selector := { 'small-sizing'. 'x' } asStyleSelector.
 	self assert: (selector isKindOf: ToStyleTagSelector).
 	self assert: (selector styleTags includesAll: #( #'small-sizing' #x ))
 ]
@@ -38,7 +38,7 @@ ToStyleSelectorInterpreterTest >> testAsToTagOnArray3 [
 { #category : #'tests - asToTag' }
 ToStyleSelectorInterpreterTest >> testAsToTagOnObjectNotImplemented [
 
-	self should: [Object new asToStyleSelector] raise: MessageNotUnderstood .
+	self should: [Object new asStyleSelector] raise: MessageNotUnderstood .
 
 ]
 
@@ -46,7 +46,7 @@ ToStyleSelectorInterpreterTest >> testAsToTagOnObjectNotImplemented [
 ToStyleSelectorInterpreterTest >> testAsToTagOnSet3 [
 
 	| selector  |
-	selector := { 'small-sizing'.  'x' } asSet asToStyleSelector.
+	selector := { 'small-sizing'.  'x' } asSet asStyleSelector.
 	self assert: (selector isKindOf: ToStyleTagSelector).
 	self assert: (selector styleTags includesAll: #(#'small-sizing' #x)).
 
@@ -56,7 +56,7 @@ ToStyleSelectorInterpreterTest >> testAsToTagOnSet3 [
 ToStyleSelectorInterpreterTest >> testAsToTagOnString [
 
 	| selector  |
-	selector := 'small-sizing' asToStyleSelector.
+	selector := 'small-sizing' asStyleSelector.
 	self assert: (selector isKindOf: ToStyleTagSelector).
 	self assert: selector styleTags equals: #(#'small-sizing').
 
@@ -66,7 +66,7 @@ ToStyleSelectorInterpreterTest >> testAsToTagOnString [
 ToStyleSelectorInterpreterTest >> testAsToTagOnSymbol [
 
 	| selector  |
-	selector := #'small-sizing' asToStyleSelector.
+	selector := #'small-sizing' asStyleSelector.
 	self assert: (selector isKindOf: ToStyleTagSelector).
 	self assert: selector styleTags equals: #(#'small-sizing').
 

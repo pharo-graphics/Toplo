@@ -1,19 +1,21 @@
 Class {
-	#name : #ToAnchoredWindowDresser,
-	#superclass : #ToBasicWindowDresser,
+	#name : 'ToAnchoredWindowDresser',
+	#superclass : 'ToBasicWindowDresser',
 	#instVars : [
 		'widgetPositionInSpaceHandler'
 	],
-	#category : #'Toplo-Core-Window'
+	#category : 'Toplo-Core-Window',
+	#package : 'Toplo',
+	#tag : 'Core-Window'
 }
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToAnchoredWindowDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToAnchoredWindowDresser >> installWidget: newWidget in: anElement [
 
 	super installWidget: newWidget in: anElement.
@@ -27,27 +29,27 @@ ToAnchoredWindowDresser >> installWidget: newWidget in: anElement [
 
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToAnchoredWindowDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToAnchoredWindowDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToAnchoredWindowDresser >> uninstallEventListenersIn: anElement [
 
 	super uninstallEventListenersIn: anElement
 
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToAnchoredWindowDresser >> uninstallWidget: oldWidget in: anElement [
 
 	super uninstallWidget: oldWidget in: anElement.

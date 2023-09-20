@@ -1,43 +1,45 @@
 Class {
-	#name : #ToLookEventSubscriptionDep,
-	#superclass : #Object,
+	#name : 'ToLookEventSubscriptionDep',
+	#superclass : 'Object',
 	#instVars : [
 		'lookEventClass'
 	],
-	#category : #'Toplo-Theme-Skin-dep'
+	#category : 'Toplo-Theme-Skin-dep',
+	#package : 'Toplo-Theme',
+	#tag : 'Skin-dep'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToLookEventSubscriptionDep >> canReceiveEvent: aLookEvent [ 
 
 	^ self eventClass = aLookEvent class 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToLookEventSubscriptionDep >> canReplace: anotherSubscription [
 
 	^ false
 ]
 
-{ #category : #operating }
+{ #category : 'operating' }
 ToLookEventSubscriptionDep >> elementLookEvent: anEvent [
 
 	(self canReceiveEvent: anEvent) ifTrue: [ self receiveEvent: anEvent ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToLookEventSubscriptionDep >> eventClass [
 
 	^ lookEventClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToLookEventSubscriptionDep >> eventClass: aLookEventClass [
 
 	lookEventClass := aLookEventClass
 ]
 
-{ #category : #operating }
+{ #category : 'operating' }
 ToLookEventSubscriptionDep >> receiveEvent: aLookEvent [
 
 	self subclassResponsibility 

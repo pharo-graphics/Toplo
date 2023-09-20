@@ -1,25 +1,27 @@
 Class {
-	#name : #ToActionDataToElementConverter,
-	#superclass : #ToDataToElementConverter,
+	#name : 'ToActionDataToElementConverter',
+	#superclass : 'ToDataToElementConverter',
 	#instVars : [
 		'valuable'
 	],
-	#category : #'Toplo-Core'
+	#category : 'Toplo-Core',
+	#package : 'Toplo',
+	#tag : 'Core'
 }
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 ToActionDataToElementConverter >> cull: aData cull: anObject [
 
 	^ self valuable cull: aData cull: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToActionDataToElementConverter >> valuable [
 
 	^ valuable
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToActionDataToElementConverter >> valuable: aValuable [
 
 	valuable := aValuable

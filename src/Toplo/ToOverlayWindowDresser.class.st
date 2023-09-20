@@ -1,20 +1,22 @@
 Class {
-	#name : #ToOverlayWindowDresser,
-	#superclass : #ToBasicWindowDresser,
+	#name : 'ToOverlayWindowDresser',
+	#superclass : 'ToBasicWindowDresser',
 	#instVars : [
 		'widgetExtentHandler',
 		'widgetPositionInSpaceHandler'
 	],
-	#category : #'Toplo-Core-Window'
+	#category : 'Toplo-Core-Window',
+	#package : 'Toplo',
+	#tag : 'Core-Window'
 }
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToOverlayWindowDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToOverlayWindowDresser >> installWidget: newWidget in: anElement [
 
 	super installWidget: newWidget in: anElement.
@@ -30,7 +32,7 @@ ToOverlayWindowDresser >> installWidget: newWidget in: anElement [
 
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToOverlayWindowDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
@@ -38,20 +40,20 @@ ToOverlayWindowDresser >> onInstalledIn: anElement [
 
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToOverlayWindowDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToOverlayWindowDresser >> uninstallEventListenersIn: anElement [
 
 	super uninstallEventListenersIn: anElement
 
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToOverlayWindowDresser >> uninstallWidget: oldWidget in: anElement [
 
 	super uninstallWidget: oldWidget in: anElement.

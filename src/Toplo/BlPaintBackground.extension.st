@@ -1,6 +1,6 @@
-Extension { #name : #BlPaintBackground }
+Extension { #name : 'BlPaintBackground' }
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlPaintBackground >> contrastingBlackAndWhiteColor [
 
 	^ self paint contrastingBlackAndWhiteColor 

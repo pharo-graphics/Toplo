@@ -1,15 +1,17 @@
 Class {
-	#name : #ToWidgetDresser,
-	#superclass : #ToDresser,
+	#name : 'ToWidgetDresser',
+	#superclass : 'ToDresser',
 	#traits : 'TToMouseHandler + TToEnableableHandler',
 	#classTraits : 'TToMouseHandler classTrait + TToEnableableHandler classTrait',
 	#instVars : [
 		'mouseUpOutsideHandler'
 	],
-	#category : #'Toplo-Core'
+	#category : 'Toplo-Core',
+	#package : 'Toplo',
+	#tag : 'Core'
 }
 
-{ #category : #'deprecated private' }
+{ #category : 'deprecated private' }
 ToWidgetDresser >> background: aBackground in: anElement [
 
 	self
@@ -21,7 +23,7 @@ ToWidgetDresser >> background: aBackground in: anElement [
 		while: [ anElement background: aBackground ]
 ]
 
-{ #category : #'deprecated private' }
+{ #category : 'deprecated private' }
 ToWidgetDresser >> border: aBorder in: anElement [
 
 	self
@@ -33,7 +35,7 @@ ToWidgetDresser >> border: aBorder in: anElement [
 		while: [ anElement border: aBorder ]
 ]
 
-{ #category : #'events handling' }
+{ #category : 'events handling' }
 ToWidgetDresser >> clicked: anElement [
 
 	anElement dispatchLookEvent: ToClickedLookEvent new.
@@ -41,7 +43,7 @@ ToWidgetDresser >> clicked: anElement [
 
 ]
 
-{ #category : #'deprecated events handling' }
+{ #category : 'deprecated events handling' }
 ToWidgetDresser >> clicked: anElement event: anEvent [ 
 
 
@@ -54,7 +56,7 @@ ToWidgetDresser >> clicked: anElement event: anEvent [
 	^ self  clickEvent: anEvent in: anElement
 ]
 
-{ #category : #'deprecated events handling' }
+{ #category : 'deprecated events handling' }
 ToWidgetDresser >> clickedAvorted: anElement event: anEvent [
  
 	" if mouse up is on anElement or on in one of anElement children then it means that a click is done "
@@ -69,14 +71,14 @@ ToWidgetDresser >> clickedAvorted: anElement event: anEvent [
 	anEvent processor fireClickEventFrom: anEvent
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToWidgetDresser >> disabledState: anElement [
 
 	mouseEventListener ifNotNil: [ :l | anElement removeEventHandler: l ].
 	anElement switchToSkinState: ToDisabledState new
 ]
 
-{ #category : #'deprecated events handling' }
+{ #category : 'deprecated events handling' }
 ToWidgetDresser >> doubleClicked: anElement event: anEvent [
 
 	self
@@ -86,14 +88,14 @@ ToWidgetDresser >> doubleClicked: anElement event: anEvent [
 				-> '`@receiver doubleClickedEvent: `@anEvent in: `@anElement'.
 ]
 
-{ #category : #'t - enableable handler - events handling' }
+{ #category : 't - enableable handler - events handling' }
 ToWidgetDresser >> enablementEvent: anEvent in: anElement [
 
 	anElement isEnabled ifTrue: [ ^ self initialState: anElement ].
 	self disabledState: anElement
 ]
 
-{ #category : #'deprecated events handling' }
+{ #category : 'deprecated events handling' }
 ToWidgetDresser >> hover: anElement event: anEvent [
  
 	self
@@ -103,13 +105,13 @@ ToWidgetDresser >> hover: anElement event: anEvent [
 				-> '`@receiver mouseEnterEvent: `@anEvent in: `@anElement'.
 ]
 
-{ #category : #'events handling' }
+{ #category : 'events handling' }
 ToWidgetDresser >> hoveredState: anElement [
 
 	anElement switchToSkinState: ToHoveredState new
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToWidgetDresser >> initialState: anElement [
 
 	" when switch back to enabled state, one have to reinstall mouseListener"
@@ -118,7 +120,7 @@ ToWidgetDresser >> initialState: anElement [
 	anElement switchToSkinState: ToInitialState new
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToWidgetDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
@@ -129,13 +131,13 @@ ToWidgetDresser >> installEventListenersIn: anElement [
 	anElement addEventHandler: mouseUpOutsideHandler
 ]
 
-{ #category : #'events handling' }
+{ #category : 'events handling' }
 ToWidgetDresser >> leaved: anElement [
 
 	anElement switchToSkinState:  ToLeavedState new
 ]
 
-{ #category : #'deprecated events handling' }
+{ #category : 'deprecated events handling' }
 ToWidgetDresser >> leaved: anElement event: anEvent [
 
 	self
@@ -145,13 +147,13 @@ ToWidgetDresser >> leaved: anElement event: anEvent [
 				-> '`@receiver mouseLeavedEvent: `@anEvent in: `@anElement'.
 ]
 
-{ #category : #'events handling' }
+{ #category : 'events handling' }
 ToWidgetDresser >> leftClickEvent: anEvent in: anElement [
 
 	self clicked: anElement
 ]
 
-{ #category : #'deprecated events handling' }
+{ #category : 'deprecated events handling' }
 ToWidgetDresser >> leftClicked: anElement event: anEvent [
 
 	self
@@ -161,13 +163,13 @@ ToWidgetDresser >> leftClicked: anElement event: anEvent [
 				-> '`@receiver leftClickEvent: `@anEvent in: `@anElement'.
 ]
 
-{ #category : #'events handling' }
+{ #category : 'events handling' }
 ToWidgetDresser >> leftMouseDownEvent: anEvent in: anElement [
 
 	self pressedState: anElement
 ]
 
-{ #category : #'events handling' }
+{ #category : 'events handling' }
 ToWidgetDresser >> leftMouseUpEvent: anEvent in: anElement [
 
 	self hoveredState: anElement 
@@ -175,7 +177,7 @@ ToWidgetDresser >> leftMouseUpEvent: anEvent in: anElement [
 
 ]
 
-{ #category : #'deprecated events handling' }
+{ #category : 'deprecated events handling' }
 ToWidgetDresser >> leftPressed: anElement event: anEvent [
 
 	self
@@ -185,7 +187,7 @@ ToWidgetDresser >> leftPressed: anElement event: anEvent [
 				-> '`@receiver leftMouseDownEvent: `@anEvent in: `@anElement'.
 ]
 
-{ #category : #'deprecated events handling' }
+{ #category : 'deprecated events handling' }
 ToWidgetDresser >> leftUp: anElement event: anEvent [
 
 	self
@@ -196,7 +198,7 @@ ToWidgetDresser >> leftUp: anElement event: anEvent [
 
 ]
 
-{ #category : #'deprecated events handling' }
+{ #category : 'deprecated events handling' }
 ToWidgetDresser >> middleClicked: anElement event: anEvent [
 
 	self
@@ -206,7 +208,7 @@ ToWidgetDresser >> middleClicked: anElement event: anEvent [
 				-> '`@receiver middleClickEvent: `@anEvent in: `@anElement'.
 ]
 
-{ #category : #'deprecated events handling' }
+{ #category : 'deprecated events handling' }
 ToWidgetDresser >> middlePressed: anElement event: anEvent [
 
 	self
@@ -217,7 +219,7 @@ ToWidgetDresser >> middlePressed: anElement event: anEvent [
 
 ]
 
-{ #category : #'deprecated events handling' }
+{ #category : 'deprecated events handling' }
 ToWidgetDresser >> middleUp: anElement event: anEvent [
 
 	self
@@ -228,14 +230,14 @@ ToWidgetDresser >> middleUp: anElement event: anEvent [
 
 ]
 
-{ #category : #'events handling' }
+{ #category : 'events handling' }
 ToWidgetDresser >> mouseEnterEvent: anEvent in: anElement [
 
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
 	self hoveredState: anElement
 ]
 
-{ #category : #'events handling' }
+{ #category : 'events handling' }
 ToWidgetDresser >> mouseLeaveEvent: anEvent in: anElement [
 
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
@@ -246,7 +248,7 @@ ToWidgetDresser >> mouseLeaveEvent: anEvent in: anElement [
 
 ]
 
-{ #category : #'events handling' }
+{ #category : 'events handling' }
 ToWidgetDresser >> mouseUpOutsideEvent: anEvent in: anElement [
 
 	"Outside event can have a button label or icon as target. 
@@ -261,7 +263,7 @@ ToWidgetDresser >> mouseUpOutsideEvent: anEvent in: anElement [
 	self initialState: anElement
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToWidgetDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
@@ -270,7 +272,7 @@ ToWidgetDresser >> onInstalledIn: anElement [
 	"self initialState: anElement"
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToWidgetDresser >> onUninstalledIn: anElement [
 
 	self onUninstalledMouseHandlingIn: anElement.
@@ -279,7 +281,7 @@ ToWidgetDresser >> onUninstalledIn: anElement [
 	super onUninstalledIn: anElement
 ]
 
-{ #category : #'deprecated events handling' }
+{ #category : 'deprecated events handling' }
 ToWidgetDresser >> pressed: anElement event: anEvent [
 
 	self
@@ -291,13 +293,13 @@ ToWidgetDresser >> pressed: anElement event: anEvent [
 	^ self mouseDownEvent: anEvent in: anElement
 ]
 
-{ #category : #'events handling' }
+{ #category : 'events handling' }
 ToWidgetDresser >> pressedState: anElement [
 
 	anElement switchToSkinState: ToPressedState new
 ]
 
-{ #category : #'deprecated events handling' }
+{ #category : 'deprecated events handling' }
 ToWidgetDresser >> rightClicked: anElement event: anEvent [
 
 	self
@@ -307,7 +309,7 @@ ToWidgetDresser >> rightClicked: anElement event: anEvent [
 				-> '`@receiver rightClickEvent: `@anEvent in: `@anElement'.
 ]
 
-{ #category : #'deprecated events handling' }
+{ #category : 'deprecated events handling' }
 ToWidgetDresser >> rightPressed: anElement event: anEvent [
 
 	self
@@ -317,7 +319,7 @@ ToWidgetDresser >> rightPressed: anElement event: anEvent [
 				-> '`@receiver rightMouseDownEvent: `@anEvent in: `@anElement'.
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToWidgetDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: mouseUpOutsideHandler.

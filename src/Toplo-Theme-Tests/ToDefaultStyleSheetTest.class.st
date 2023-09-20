@@ -2,12 +2,14 @@
 A ToDefaultStyleSheetTest is a test class for testing the behavior of ToDefaultStyleSheet
 "
 Class {
-	#name : #ToDefaultStyleSheetTest,
-	#superclass : #TestCase,
-	#category : #'Toplo-Theme-Tests-DefaultTheme'
+	#name : 'ToDefaultStyleSheetTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Theme-Tests-DefaultTheme',
+	#package : 'Toplo-Theme-Tests',
+	#tag : 'DefaultTheme'
 }
 
-{ #category : #skin }
+{ #category : 'skin' }
 ToDefaultStyleSheetTest >> testDefaultButtonSkin [
 
 	| ss button writers skin labelSkin |
@@ -37,11 +39,11 @@ ToDefaultStyleSheetTest >> testDefaultButtonSkin [
 	
 ]
 
-{ #category : #'look updaters' }
+{ #category : 'look updaters' }
 ToDefaultStyleSheetTest >> testPropertyList [
 
 	| ss index count |
-	ss := ToDefaultStyleSheet new.
+	ss := ToStyleSheetInterpreter new.
 	index := IdentityDictionary new.
 	ss propertyList do: [ :p |
 		index at: p name ifAbsentPut: [ 0 ].

@@ -1,19 +1,21 @@
 Class {
-	#name : #ToWidgetWindowOpenedEvent,
-	#superclass : #ToWidgetWindowEvent,
+	#name : 'ToWidgetWindowOpenedEvent',
+	#superclass : 'ToWidgetWindowEvent',
 	#instVars : [
 		'sourceEvent'
 	],
-	#category : #'Toplo-Core-Window'
+	#category : 'Toplo-Core-Window',
+	#package : 'Toplo',
+	#tag : 'Core-Window'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToWidgetWindowOpenedEvent >> sourceEvent [
 
 	^ sourceEvent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToWidgetWindowOpenedEvent >> sourceEvent: anEvent [
 
 	sourceEvent := anEvent

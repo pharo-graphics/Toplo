@@ -2,12 +2,14 @@
 A ToStyleSheetTest is a test class for testing the behavior of ToStyleSheet
 "
 Class {
-	#name : #ToStyleSheetTest,
-	#superclass : #TestCase,
-	#category : #'Toplo-Theme-Tests-StyleSheet'
+	#name : 'ToStyleSheetTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Theme-Tests-StyleSheet',
+	#package : 'Toplo-Theme-Tests',
+	#tag : 'StyleSheet'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleSheetTest >> testButtonLabelSkin0 [
 
 	| ss button labelSkin attributes foregroundAttr prop writers label |
@@ -78,7 +80,7 @@ ToStyleSheetTest >> testButtonLabelSkin0 [
 		equals: button label toTheme colorError
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleSheetTest >> testButtonSkin0 [
 
 	| ss button skin labelSkin attributes foregroundAttr writers label |
@@ -196,7 +198,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 		equals: button label toTheme colorError
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleSheetTest >> testButtonSkinWithInterspace [
 
 	| ss elem writers skin interspaceProp layoutProp |
@@ -231,7 +233,7 @@ ToStyleSheetTest >> testButtonSkinWithInterspace [
 	self assert: elem layout interspace equals: 10
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleSheetTest >> testEmptyStyleSheet [
 
 	| ss |
@@ -239,7 +241,7 @@ ToStyleSheetTest >> testEmptyStyleSheet [
 	self assert: (ss writersFor: (ToElement new)) isEmpty
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleSheetTest >> testNewStyleSheetWith2Rules [
 
 	| styleSheet |
@@ -272,7 +274,7 @@ ToStyleSheetTest >> testNewStyleSheetWith2Rules [
 			}" }
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleSheetTest >> testSkinWithAnUniversalRule [
 
 	| ss elem skin writers |
@@ -293,7 +295,7 @@ ToStyleSheetTest >> testSkinWithAnUniversalRule [
 	self assert: elem background paint color equals: Color red
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleSheetTest >> testSkinWithChildRule [
 	" with a direct child "
 
@@ -324,7 +326,7 @@ ToStyleSheetTest >> testSkinWithChildRule [
 	self assert: child border paint color equals: Color red
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleSheetTest >> testSkinWithChildRuleLevel2 [
 	" with a direct child "
 
@@ -358,7 +360,7 @@ ToStyleSheetTest >> testSkinWithChildRuleLevel2 [
 	self assert: child border paint color equals: Color red
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleSheetTest >> testSkinWithIdRule [
 
 	| ss elem writers skin |

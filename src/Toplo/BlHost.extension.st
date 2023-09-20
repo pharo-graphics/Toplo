@@ -1,6 +1,6 @@
-Extension { #name : #BlHost }
+Extension { #name : 'BlHost' }
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlHost >> oblWorld [
 
 	^ self universe spaces

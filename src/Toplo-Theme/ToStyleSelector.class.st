@@ -1,10 +1,12 @@
 Class {
-	#name : #ToStyleSelector,
-	#superclass : #Object,
-	#category : #'Toplo-Theme-StyleSelector'
+	#name : 'ToStyleSelector',
+	#superclass : 'Object',
+	#category : 'Toplo-Theme-StyleSelector',
+	#package : 'Toplo-Theme',
+	#tag : 'StyleSelector'
 }
 
-{ #category : #'logical operator' }
+{ #category : 'logical operator' }
 ToStyleSelector >> + aStyleSelector [
 
 	^ ToAndSelector new
@@ -13,7 +15,7 @@ ToStyleSelector >> + aStyleSelector [
 		  yourself
 ]
 
-{ #category : #'logical operator' }
+{ #category : 'logical operator' }
 ToStyleSelector >> - aStyleSelector [
 
 	^ ToAndSelector new
@@ -22,13 +24,13 @@ ToStyleSelector >> - aStyleSelector [
 		  yourself
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ToStyleSelector >> accept: aVisitor [
 
 	self subclassResponsibility 
 ]
 
-{ #category : #'logical operator' }
+{ #category : 'logical operator' }
 ToStyleSelector >> and: aStyleSelector [
 
 	self
@@ -39,13 +41,13 @@ ToStyleSelector >> and: aStyleSelector [
 	^ self + aStyleSelector
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 ToStyleSelector >> asStyleSelector [ 
 
 	^ self 
 ]
 
-{ #category : #'logical operator' }
+{ #category : 'logical operator' }
 ToStyleSelector >> child: aSelector level: anInteger [
 
 	^ ToChildSelector new
@@ -55,7 +57,7 @@ ToStyleSelector >> child: aSelector level: anInteger [
 		  yourself
 ]
 
-{ #category : #'logical operator' }
+{ #category : 'logical operator' }
 ToStyleSelector >> not [
 
 	^ ToNotSelector new
@@ -63,7 +65,7 @@ ToStyleSelector >> not [
 		  yourself
 ]
 
-{ #category : #'logical operator' }
+{ #category : 'logical operator' }
 ToStyleSelector >> or: aStyleSelector [
 
 	^ ToOrSelector new
@@ -72,7 +74,7 @@ ToStyleSelector >> or: aStyleSelector [
 		  yourself
 ]
 
-{ #category : #'logical operator' }
+{ #category : 'logical operator' }
 ToStyleSelector >> parent: aSelector [
 
 	^ ToChildSelector new
@@ -81,7 +83,7 @@ ToStyleSelector >> parent: aSelector [
 		  yourself
 ]
 
-{ #category : #'logical operator' }
+{ #category : 'logical operator' }
 ToStyleSelector >> parent: aSelector level: anInteger [
 
 	^ ToChildSelector new
@@ -91,13 +93,13 @@ ToStyleSelector >> parent: aSelector level: anInteger [
 		  yourself
 ]
 
-{ #category : #'skin rule building' }
+{ #category : 'skin rule building' }
 ToStyleSelector >> style: aBlock [
 
 	^ ToStyleRule selectedWith: self style: aBlock
 ]
 
-{ #category : #'skin rule building' }
+{ #category : 'skin rule building' }
 ToStyleSelector >> when: aLookEventClass style: aBlock [
 
 	^ ToStyleRule selectedWith: self when: aLookEventClass style: aBlock

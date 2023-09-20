@@ -1,21 +1,23 @@
 Class {
-	#name : #ToPropertySubscriptionDep,
-	#superclass : #ToLookEventSubscriptionDep,
+	#name : 'ToPropertySubscriptionDep',
+	#superclass : 'ToLookEventSubscriptionDep',
 	#instVars : [
 		'value',
 		'property',
 		'animation'
 	],
-	#category : #'Toplo-Theme-Skin-dep'
+	#category : 'Toplo-Theme-Skin-dep',
+	#package : 'Toplo-Theme',
+	#tag : 'Skin-dep'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPropertySubscriptionDep >> animation [
 
 	^ animation
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPropertySubscriptionDep >> animation: aPropertyAnimation [
 
 	animation := aPropertyAnimation.
@@ -23,7 +25,7 @@ ToPropertySubscriptionDep >> animation: aPropertyAnimation [
 	animation property: self property
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToPropertySubscriptionDep >> canReplace: anotherSubscription [
 
 	^ (self isKindOf: anotherSubscription class) and: [
@@ -31,13 +33,13 @@ ToPropertySubscriptionDep >> canReplace: anotherSubscription [
 			  self eventClass = anotherSubscription eventClass ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPropertySubscriptionDep >> property [
 
 	^ property
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPropertySubscriptionDep >> property: aLookProperty [
 
 	property := aLookProperty.
@@ -45,7 +47,7 @@ ToPropertySubscriptionDep >> property: aLookProperty [
 		animation property: aLookProperty ]
 ]
 
-{ #category : #operating }
+{ #category : 'operating' }
 ToPropertySubscriptionDep >> receiveEvent: aLookEvent [
 
 	| target rawValue valueWriter |
@@ -56,19 +58,19 @@ ToPropertySubscriptionDep >> receiveEvent: aLookEvent [
 	valueWriter write: rawValue to: target
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 ToPropertySubscriptionDep >> value [
 
 	^ value
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPropertySubscriptionDep >> value: anObject [
 
 	value := anObject
 ]
 
-{ #category : #operating }
+{ #category : 'operating' }
 ToPropertySubscriptionDep >> valueIn: anElement [
 
 	^ value isClosure
@@ -76,7 +78,7 @@ ToPropertySubscriptionDep >> valueIn: anElement [
 		  ifFalse: [ value ]
 ]
 
-{ #category : #operating }
+{ #category : 'operating' }
 ToPropertySubscriptionDep >> valueWriter [
 
 	^ self animation ifNil: [ self property ].

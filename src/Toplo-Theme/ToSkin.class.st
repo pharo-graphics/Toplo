@@ -1,29 +1,31 @@
 Class {
-	#name : #ToSkin,
-	#superclass : #BlCustomEventHandler,
+	#name : 'ToSkin',
+	#superclass : 'BlCustomEventHandler',
 	#traits : 'TToPropertyWriterHolder',
 	#classTraits : 'TToPropertyWriterHolder classTrait',
 	#instVars : [
 		'installStep',
 		'writers'
 	],
-	#category : #'Toplo-Theme-Skin'
+	#category : 'Toplo-Theme-Skin',
+	#package : 'Toplo-Theme',
+	#tag : 'Skin'
 }
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToSkin >> dispatchChangedEventIn: anElement [
 
 	self markAsNotInstalled.
 	anElement dispatchSkinChangedEvent
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToSkin >> elementLookEvent: anEvent [
 
 	self writers do: [ :s | s receiveEvent: anEvent  ]
 ]
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToSkin >> eventsToHandle [
 
 	^ {
@@ -33,14 +35,14 @@ ToSkin >> eventsToHandle [
 		  ToElementLookEvent }
 ]
 
-{ #category : #'private - installation' }
+{ #category : 'private - installation' }
 ToSkin >> forceInstallationIn: anElement [
 
 	self markAsNotInstalled.
 	anElement dispatchSkinChangedEvent
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSkin >> initialize [
 
 	super initialize.
@@ -48,32 +50,32 @@ ToSkin >> initialize [
 	writers := #(  )
 ]
 
-{ #category : #'private - installation' }
+{ #category : 'private - installation' }
 ToSkin >> initializedLevel [
 
 	^ 2
 
 ]
 
-{ #category : #'private - installation' }
+{ #category : 'private - installation' }
 ToSkin >> installedLevel [
 
 	^ 1
 ]
 
-{ #category : #'private - installation' }
+{ #category : 'private - installation' }
 ToSkin >> isInitialized [
 
 	^ installStep >= self initializedLevel 
 ]
 
-{ #category : #'private - installation' }
+{ #category : 'private - installation' }
 ToSkin >> isInstalled [
 
 	^ installStep >= self installedLevel 
 ]
 
-{ #category : #'private - installation' }
+{ #category : 'private - installation' }
 ToSkin >> launchSkinInitializationIn: anElement [
 
 	self isInitialized ifTrue: [ ^ self ].
@@ -84,7 +86,7 @@ ToSkin >> launchSkinInitializationIn: anElement [
 
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToSkin >> launchSkinInstallationIn: anElement [
 
 	self isInitialized ifTrue: [ ^ self ].
@@ -96,7 +98,7 @@ ToSkin >> launchSkinInstallationIn: anElement [
 
 ]
 
-{ #category : #'private - installation' }
+{ #category : 'private - installation' }
 ToSkin >> launchSkinUninstallationIn: anElement [
 
 	self isInstalled ifFalse: [ ^ self ].
@@ -105,60 +107,60 @@ ToSkin >> launchSkinUninstallationIn: anElement [
 	self markAsNotInstalled 
 ]
 
-{ #category : #'private - installation' }
+{ #category : 'private - installation' }
 ToSkin >> markAsInitialized [
 
 	installStep := self initializedLevel
 
 ]
 
-{ #category : #'private - installation' }
+{ #category : 'private - installation' }
 ToSkin >> markAsInstalled [
 
 	installStep := self installedLevel 
 ]
 
-{ #category : #'private - installation' }
+{ #category : 'private - installation' }
 ToSkin >> markAsNotInstalled [
 
 	installStep := 0
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToSkin >> onSkinInstalledIn: anElement [
 
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToSkin >> onSkinUninstalledIn: anElement [
 
 
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToSkin >> propertyChangedEvent: anEvent [
 
 ]
 
-{ #category : #'t - property writer holder - accessing' }
+{ #category : 't - property writer holder - accessing' }
 ToSkin >> rawWriters [
 
 	^ writers
 ]
 
-{ #category : #'t - property writer holder - accessing' }
+{ #category : 't - property writer holder - accessing' }
 ToSkin >> rawWriters: aPropertyWriterCollection [
 
 	writers := aPropertyWriterCollection asArray
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToSkin >> skinChangedEvent: anEvent [
 
 	anEvent target childrenDo: [ :child | child updateSkin ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToSkin >> themeChangedEvent: anEvent [
 
 	self launchSkinUninstallationIn: anEvent currentTarget.

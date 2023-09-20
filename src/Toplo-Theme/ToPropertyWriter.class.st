@@ -1,6 +1,6 @@
 Class {
-	#name : #ToPropertyWriter,
-	#superclass : #Object,
+	#name : 'ToPropertyWriter',
+	#superclass : 'Object',
 	#traits : 'TToPropertyWriter',
 	#classTraits : 'TToPropertyWriter classTrait',
 	#instVars : [
@@ -10,16 +10,18 @@ Class {
 		'eventClass',
 		'supplement'
 	],
-	#category : #'Toplo-Theme-Skin'
+	#category : 'Toplo-Theme-Skin',
+	#package : 'Toplo-Theme',
+	#tag : 'Skin'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPropertyWriter >> animation [
 
 	^ animation
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPropertyWriter >> animation: aPropertyAnimation [
 
 	animation := aPropertyAnimation.
@@ -27,37 +29,37 @@ ToPropertyWriter >> animation: aPropertyAnimation [
 	animation property: self property
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToPropertyWriter >> canReceiveEvent: aLookEvent [ 
 
 	^ self eventClass = aLookEvent class 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToPropertyWriter >> canReplace: anotherWriter [
 
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPropertyWriter >> eventClass [
 
 	^ eventClass ifNil: [ eventClass := ToInstallLookEvent  ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPropertyWriter >> eventClass: aLookEventClass [
 
 	eventClass := aLookEventClass
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToPropertyWriter >> isSupplement [
 
 	^ self supplement 
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 ToPropertyWriter >> printOn: aStream [
 
 	super printOn: aStream.
@@ -69,20 +71,20 @@ ToPropertyWriter >> printOn: aStream [
 	self value printOn: aStream
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPropertyWriter >> property [
 
 	^ property
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPropertyWriter >> property: anObject [
 
 	property := anObject.
 	self animation ifNotNil: [ :a | a property: self property ]
 ]
 
-{ #category : #writing }
+{ #category : 'writing' }
 ToPropertyWriter >> receiveEvent: aLookEvent [
 
 	| target |
@@ -91,31 +93,31 @@ ToPropertyWriter >> receiveEvent: aLookEvent [
 	self writeTo: target
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPropertyWriter >> supplement [ 
 
 	^ supplement ifNil: [ supplement := false ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPropertyWriter >> supplement: aBoolean [
 
 	supplement := aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPropertyWriter >> value [
 
 	^ value
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPropertyWriter >> value: aBlockOrObject [
 
 	value := aBlockOrObject
 ]
 
-{ #category : #operating }
+{ #category : 'operating' }
 ToPropertyWriter >> valueIn: anElement [
 
 	^ value isClosure
@@ -123,13 +125,13 @@ ToPropertyWriter >> valueIn: anElement [
 		  ifFalse: [ value ]
 ]
 
-{ #category : #operating }
+{ #category : 'operating' }
 ToPropertyWriter >> valueWriter [
 
 	^ self animation ifNil: [ self property ].
 ]
 
-{ #category : #'t - property writer - writing' }
+{ #category : 't - property writer - writing' }
 ToPropertyWriter >> writeTo: anElement [
 
 	^ self valueWriter write: (self valueIn: anElement) to: anElement

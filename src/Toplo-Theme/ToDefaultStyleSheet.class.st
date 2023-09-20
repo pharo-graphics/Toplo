@@ -1,10 +1,12 @@
 Class {
-	#name : #ToDefaultStyleSheet,
-	#superclass : #ToStyleSheet,
-	#category : #'Toplo-Theme-DefaultTheme'
+	#name : 'ToDefaultStyleSheet',
+	#superclass : 'ToStyleSheet',
+	#category : 'Toplo-Theme-DefaultTheme',
+	#package : 'Toplo-Theme',
+	#tag : 'DefaultTheme'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToDefaultStyleSheet >> addButtonRules [
 
 	self addRules: self commonButtonRules.
@@ -16,27 +18,28 @@ ToDefaultStyleSheet >> addButtonRules [
 	self addRules: self checkableInnerImageRules
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToDefaultStyleSheet >> addLabelRules [
 
 	self addRules: self labelRules
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToDefaultStyleSheet >> addRootPaneRules [
 
-	self addRules:
-		{ ((self id: #'Space root') when: ToInstallLookEvent style: [ :sr |
+	self addRules: [ :ssi |
+		{ ((ssi id: #'Space root') when: ToInstallLookEvent style: [ :sr |
 			 sr
-				 write: (self property: #background)
-				 with: [ :e | e toTheme backgroundColor ] ]) }
+				 write: (ssi property: #background)
+				 with: [ :e | e toTheme backgroundColor ] ]) } ]
 ]
 
-{ #category : #'initialization - button' }
+{ #category : 'initialization - button' }
 ToDefaultStyleSheet >> checkableButtonRules [
 	" checkbox family "
 
-	^ {
+	^ [ :ssi |
+	  {
 		  (#( #button #checkable ) asStyleSelector style: [ :sr |
 			   | switch |
 			   switch := [ :e |
@@ -48,23 +51,23 @@ ToDefaultStyleSheet >> checkableButtonRules [
 						             ifFalse: [ e indeterminateImage ] ] ].
 			   sr
 				   when: ToInitialLookEvent
-				   write: (self property: #'checkable-icon-image')
+				   write: (ssi property: #'checkable-icon-image')
 				   with: switch.
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #'checkable-icon-image')
+				   write: (ssi property: #'checkable-icon-image')
 				   with: switch.
 			   sr
 				   when: ToClickedLookEvent
-				   write: (self property: #'checkable-icon-image')
+				   write: (ssi property: #'checkable-icon-image')
 				   with: switch.
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #background)
+				   write: (ssi property: #background)
 				   with: [ :e | Color transparent ].
 			   sr
 				   when: ToInstallLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
 						   paint: e toTheme colorBorderCheckable;
@@ -76,7 +79,7 @@ ToDefaultStyleSheet >> checkableButtonRules [
 			    level: 2) style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
-				   write: (self property: #geometry)
+				   write: (ssi property: #geometry)
 				   with: [ :e | BlRoundedRectangleGeometry cornerRadius: 3 ] ]).
 
 		  " radio button icon geometry "
@@ -85,90 +88,90 @@ ToDefaultStyleSheet >> checkableButtonRules [
 			    level: 2) style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
-				   write: (self property: #geometry)
+				   write: (ssi property: #geometry)
 				   with: [ :e | BlCircleGeometry new ] ]).
 
-		  ((#image asStyleSelector
-			    parent: #( #button #checkable )
-			    level: 2) style: [ :sr | " icon border "
-			   sr
-				   when: ToInitialLookEvent
-				   write: (self property: #'border-with-builder')
-				   with: [ :e |
-					   e borderBuilder
-						   paint: e toTheme colorBorder;
-						   yourself ].
-			   sr
-				   when: ToDisabledLookEvent
-				   write: (self property: #'border-with-builder')
-				   with: [ :e |
-					   e borderBuilder
-						   paint: e toTheme colorBorderDisabled;
-						   yourself ].
-			   sr
-				   when: ToHoveredLookEvent
-				   write: (self property: #'border-with-builder')
-				   with: [ :e |
-					   e borderBuilder
-						   paint: e toTheme colorPrimaryHover;
-						   yourself ].
-			   sr
-				   when: ToPressedLookEvent
-				   write: (self property: #'border-with-builder')
-				   with: [ :e |
-					   e borderBuilder
-						   paint: e toTheme colorPrimaryPressed;
-						   yourself ] ]).
+		  ((#image asStyleSelector parent: #( #button #checkable ) level: 2)
+			   style: [ :sr | " icon border "
+				   sr
+					   when: ToInitialLookEvent
+					   write: (ssi property: #'border-with-builder')
+					   with: [ :e |
+						   e borderBuilder
+							   paint: e toTheme colorBorder;
+							   yourself ].
+				   sr
+					   when: ToDisabledLookEvent
+					   write: (ssi property: #'border-with-builder')
+					   with: [ :e |
+						   e borderBuilder
+							   paint: e toTheme colorBorderDisabled;
+							   yourself ].
+				   sr
+					   when: ToHoveredLookEvent
+					   write: (ssi property: #'border-with-builder')
+					   with: [ :e |
+						   e borderBuilder
+							   paint: e toTheme colorPrimaryHover;
+							   yourself ].
+				   sr
+					   when: ToPressedLookEvent
+					   write: (ssi property: #'border-with-builder')
+					   with: [ :e |
+						   e borderBuilder
+							   paint: e toTheme colorPrimaryPressed;
+							   yourself ] ]).
 
 		  ((#image asStyleSelector
 			    parent: #( #button #checkable #danger )
 			    level: 2) style: [ :sr | " icon border "
 			   sr
 				   when: ToInitialLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
 						   paint: e toTheme colorError;
 						   yourself ].
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
 						   paint: e toTheme colorBorderDisabled;
 						   yourself ].
 			   sr
 				   when: ToHoveredLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
 						   paint: e toTheme colorErrorHover;
 						   yourself ].
 			   sr
 				   when: ToPressedLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
 						   paint: e toTheme colorErrorHover darker;
-						   yourself ] ]) }
+						   yourself ] ]) } ]
 ]
 
-{ #category : #'initialization - button' }
+{ #category : 'initialization - button' }
 ToDefaultStyleSheet >> checkableInnerImageRules [
 	" checkbox family "
 
-	^ {
+	^ [ :ssi | 
+		{
 		  ((#( #checkable #'inner-image' ) asStyleSelector
 			    parent: #( #button #checkable )
 			    level: 3) style: [ :sr |
 			   sr
-				   write: (self property: #layout)
+				   write: (ssi property: #layout)
 				   with: [ :e | BlFrameLayout new ].
 			   sr
-				   write: (self property: #size)
+				   write: (ssi property: #size)
 				   with: [ :e | (e toTheme controlHeight / 2) asPoint ].
 			   sr
-				   write: (self property: #margin)
+				   write: (ssi property: #margin)
 				   with: [ :e | BlInsets all: 0 ] ]).
 
 		  ((#( #checkable #'inner-image' #indeterminate #bar ) asStyleSelector
@@ -176,21 +179,21 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 					     parent: #( #button #checkable )
 					     level: 3)
 			    level: 1) style: [ :sr |
-			   sr write: (self property: #'layout-constraints') with: [ :e |
+			   sr write: (ssi property: #'layout-constraints') with: [ :e |
 				   [ :c |
 				   c horizontal matchParent.
 				   c vertical exact: 4.
 				   c frame horizontal alignCenter.
 				   c frame vertical alignCenter ] ].
 			   sr
-				   write: (self property: #background)
+				   write: (ssi property: #background)
 				   with: [ :e | e toTheme colorPrimary ].
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #background)
+				   write: (ssi property: #background)
 				   with: [ :e | e toTheme colorBgContainerDisabled ].
 			   sr
-				   write: (self property: #margin)
+				   write: (ssi property: #margin)
 				   with: [ :e | BlInsets all: 0 ] ]).
 
 		  ((#( #checkable #'inner-image' #indeterminate #bar ) asStyleSelector
@@ -199,7 +202,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 					     level: 3)
 			    level: 1) style: [ :sr |
 			   sr
-				   write: (self property: #background)
+				   write: (ssi property: #background)
 				   with: [ :e | e toTheme colorError ] ]).
 
 		  ((#( #checkable #'inner-image' #indeterminate ) asStyleSelector
@@ -207,7 +210,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 			    level: 4) style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
-				   write: (self property: #margin)
+				   write: (ssi property: #margin)
 				   with: [ :e | BlInsets all: 2 ] ]).
 
 		  ((#( #checkable #'inner-image' #checked ) asStyleSelector
@@ -215,7 +218,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 			    level: 3) style: [ :sr | " icon border "
 			   sr
 				   when: ToInitialLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
 						   paint: e toTheme colorPrimary;
@@ -223,7 +226,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 						   yourself ].
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
 						   paint: e toTheme colorBorderDisabled;
@@ -231,7 +234,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 						   yourself ].
 			   sr
 				   when: ToHoveredLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
 						   paint: e toTheme colorPrimaryHover;
@@ -239,7 +242,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 						   yourself ].
 			   sr
 				   when: ToPressedLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
 						   paint: e toTheme colorPrimaryPressed;
@@ -251,7 +254,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 			    level: 3) style: [ :sr | " icon border "
 			   sr
 				   when: ToInstallLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
 						   width: 0;
@@ -262,7 +265,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 			    level: 3) style: [ :sr | " icon border "
 			   sr
 				   when: ToInitialLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
 						   paint: e toTheme colorError;
@@ -270,7 +273,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 						   yourself ].
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
 						   paint: e toTheme colorBorderDisabled;
@@ -278,7 +281,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 						   yourself ].
 			   sr
 				   when: ToHoveredLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
 						   paint: e toTheme colorErrorHover;
@@ -286,7 +289,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 						   yourself ].
 			   sr
 				   when: ToPressedLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
 						   paint: e toTheme colorErrorHover darker;
@@ -298,19 +301,16 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 			    level: 3) style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
 						   width: 1;
-						   yourself ] ]) }
+						   yourself ] ]) } ]
 ]
 
-{ #category : #'initialization - button' }
+{ #category : 'initialization - button' }
 ToDefaultStyleSheet >> commonButtonRules [
-	" ToButton common rule for layout "
-
-	"  for the record: thinking about a concise syntax 
-
+	"  
 	'button:hover' rule: [ :e | e mouseCursor: BlCursor hand. e background: Color gray. e font-size: 18 ].
 	'button:leave' rule: [ :e | e mouseCursor: nil ].
 
@@ -321,199 +321,181 @@ ToDefaultStyleSheet >> commonButtonRules [
 	'button:leave' rule: [ :e | e background: Color white ].
 	"
 
-	^ {
+	^ [ :ssi |
+	  {
 		  (#button asStyleSelector style: [ :sr |
 			   sr
-				   write: (self property: #layout)
+				   write: (ssi property: #layout)
 				   with: BlLinearLayout vertical alignCenter.
 			   sr
 				   when: ToHoveredLookEvent
-				   write: (self property: #mouseCursor)
+				   write: (ssi property: #mouseCursor)
 				   with: [ :e |
 					   e isEnabled
 						   ifTrue: [ BlCursor hand ]
 						   ifFalse: [  ] ].
 			   sr
 				   when: ToLeavedLookEvent
-				   write: (self property: #mouseCursor)
+				   write: (ssi property: #mouseCursor)
 				   with: nil ]).
 
-		  (#button asStyleSelector - #vertical
-			   when: ToInstallLookEvent
-			   style: [ :sr |
-				   sr write: (self property: #padding) with: [ :e |
-					   BlInsets
-						   top: e toTheme paddingXS / 2
-						   left: e toTheme paddingContentHorizontal / 2
-						   bottom: e toTheme paddingXS / 2
-						   right: e toTheme paddingContentHorizontal / 2 ] ]).
+		  (#button asStyleSelector - #vertical style: [ :sr |
+			   sr write: (ssi property: #padding) with: [ :e |
+				   BlInsets
+					   top: e toTheme paddingXS / 2
+					   left: e toTheme paddingContentHorizontal / 2
+					   bottom: e toTheme paddingXS / 2
+					   right: e toTheme paddingContentHorizontal / 2 ] ]).
 
-		  (#( #button #vertical ) asStyleSelector
-			   when: ToInstallLookEvent
-			   style: [ :sr |
-				   sr write: (self property: #padding) with: [ :e |
-					   BlInsets
-						   top: e toTheme paddingContentHorizontal / 2
-						   left: e toTheme paddingXS / 2
-						   bottom: e toTheme paddingContentHorizontal / 2
-						   right: e toTheme paddingXS / 2 ] ]).
+		  (#( #button #vertical ) asStyleSelector style: [ :sr |
+			   sr write: (ssi property: #padding) with: [ :e |
+				   BlInsets
+					   top: e toTheme paddingContentHorizontal / 2
+					   left: e toTheme paddingXS / 2
+					   bottom: e toTheme paddingContentHorizontal / 2
+					   right: e toTheme paddingXS / 2 ] ]).
 
-		  (#button asStyleSelector - #vertical - #'no-sizing'
-			   when: ToInstallLookEvent
-			   style: [ :sr |
-				   sr
-					   write: (self property: #height)
-					   with: [ :e | e toTheme controlHeight ] ]).
-
-		  (#button asStyleSelector - #vertical + #'large-sizing'
-			   when: ToInstallLookEvent
-			   style: [ :sr |
-				   sr
-					   write: (self property: #height)
-					   with: [ :e | e toTheme controlHeightLG ] ]).
-
-		  (#button asStyleSelector - #vertical + #'small-sizing'
-			   when: ToInstallLookEvent
-			   style: [ :sr |
-				   sr
-					   write: (self property: #height)
-					   with: [ :e | e toTheme controlHeightSM ] ]).
-
-		  ((#'inner-element' asStyleSelector parent: #button level: 1)
-			   when: ToInstallLookEvent
-			   style: [ :sr |
-				   sr
-					   write: (self property: #layout)
-					   with: BlLinearLayout horizontal.
-				   sr write: (self property: #'layout-constraints') with: [ :e |
-					   [ :c |
-					   c linear vertical alignCenter.
-					   c linear horizontal alignCenter ] ] ]).
-
-		  ((#'inner-element' asStyleSelector
-			    parent: #( #button #vertical )
-			    level: 1) when: ToInstallLookEvent style: [ :sr |
-			   sr write: (self property: #layout) with: BlLinearLayout vertical ]).
-
-		  ((#'inner-element' asStyleSelector
-			    parent: #button asStyleSelector - #justified
-			    level: 1) when: ToInstallLookEvent style: [ :sr |
+		  (#button asStyleSelector - #vertical - #'no-sizing' style: [ :sr |
 			   sr
-				   write: (self property: #'layout-interspace')
+				   write: (ssi property: #height)
+				   with: [ :e | e toTheme controlHeight ] ]).
+
+		  (#button asStyleSelector - #vertical + #'large-sizing' style: [
+			   :sr |
+			   sr
+				   write: (ssi property: #height)
+				   with: [ :e | e toTheme controlHeightLG ] ]).
+
+		  (#button asStyleSelector - #vertical + #'small-sizing' style: [
+			   :sr |
+			   sr
+				   write: (ssi property: #height)
+				   with: [ :e | e toTheme controlHeightSM ] ]).
+
+		  ((#'inner-element' asStyleSelector parent: #button) style: [ :sr |
+			   sr
+				   write: (ssi property: #layout)
+				   with: BlLinearLayout horizontal.
+			   sr write: (ssi property: #'layout-constraints') with: [ :e |
+				   [ :c |
+				   c linear vertical alignCenter.
+				   c linear horizontal alignCenter ] ] ]).
+
+		  ((#'inner-element' asStyleSelector parent: #( #button #vertical ))
+			   style: [ :sr |
+				   sr write: (ssi property: #layout) with: BlLinearLayout vertical ]).
+
+		  ((#'inner-element' asStyleSelector parent:
+			    #button asStyleSelector - #justified) style: [ :sr |
+			   sr
+				   write: (ssi property: #'layout-interspace')
 				   with: [ :e | e toTheme paddingContentHorizontal / 3 ] ]).
 
-		  ((#'inner-element' asStyleSelector
-			    parent: #( #button #justified )
-			    level: 1) when: ToInstallLookEvent style: [ :sr |
-			   sr write: (self property: #'layout-interspace') with: [ :e | 0 ].
-			   sr write: (self property: #'layout-constraints') with: [ :e |
-				   [ :c |
-				   c horizontal matchParent.
-				   c vertical matchParent ] ] ]).
+		  ((#'inner-element' asStyleSelector parent: #( #button #justified ))
+			   style: [ :sr |
+				   sr write: (ssi property: #'layout-interspace') with: [ :e | 0 ].
+				   sr write: (ssi property: #'layout-constraints') with: [ :e |
+					   [ :c |
+					   c horizontal matchParent.
+					   c vertical matchParent ] ] ]).
 
-		  ((#'inner-element' asStyleSelector
-			    parent: #( #button #'icon-first' ) asStyleSelector - #circle
-			    level: 1) when: ToInstallLookEvent style: [ :sr |
+		  ((#'inner-element' asStyleSelector parent:
+			    #( #button #'icon-first' ) asStyleSelector - #circle) style: [
+			   :sr |
 			   sr
-				   write: (self property: #'layout-direction')
+				   write: (ssi property: #'layout-direction')
 				   with: [ :e | BlLayoutDirection leftToRight ] ]).
 
-		  ((#'inner-element' asStyleSelector
-			    parent: #( #button #'label-first' )
-			    level: 1) when: ToInstallLookEvent style: [ :sr |
+		  ((#'inner-element' asStyleSelector parent:
+			    #( #button #'label-first' )) style: [ :sr |
 			   sr
-				   write: (self property: #'layout-direction')
+				   write: (ssi property: #'layout-direction')
 				   with: [ :e | BlLayoutDirection rightToLeft ] ]).
 
 		  (#button asStyleSelector - #circle style: [ :sr |
-			   sr write: (self property: #geometry) with: [ :e |
+			   sr write: (ssi property: #geometry) with: [ :e |
 				   BlRoundedRectangleGeometry cornerRadius: e toTheme borderRadius ] ]).
 
-		  (#( #button #round ) asStyleSelector - #circle
-			   when: ToInstallLookEvent
-			   style: [ :sr |
-				   sr
-					   write: (self property: #geometry)
-					   with: [ :e |
-					   BlRoundedRectangleGeometry cornerRadius: e requestedHeight ] ]).
-
-		  (#( #button #circle ) asStyleSelector
-			   when: ToInstallLookEvent
-			   style: [ :sr |
-				   sr
-					   write: (self property: #layout)
-					   with: [ :e | BlFrameLayout new ].
-				   sr write: (self property: #padding) with: BlInsets empty.
-				   sr
-					   write: (self property: #geometry)
-					   with: [ :e | BlCircleGeometry new ] ]).
-
-		  ((#'inner-element' asStyleSelector
-			    parent: #( #button #circle )
-			    level: 1) when: ToInstallLookEvent style: [ :sr |
+		  (#( #button #round ) asStyleSelector - #circle style: [ :sr |
 			   sr
-				   write: (self property: #layout)
-				   with: [ :e | BlLinearLayout new alignCenter ] ]).
+				   write: (ssi property: #geometry)
+				   with: [ :e |
+				   BlRoundedRectangleGeometry cornerRadius: e requestedHeight ] ]).
 
-		  ((#'inner-element' asStyleSelector
-			    parent: #( #button ) asStyleSelector - #justified
-			    level: 1) style: [ :sr |
-			   sr write: (self property: #'layout-constraints') with: [ :e |
+		  (#( #button #circle ) asStyleSelector style: [ :sr |
+			   sr
+				   write: (ssi property: #layout)
+				   with: [ :e | BlFrameLayout new ].
+			   sr write: (ssi property: #padding) with: BlInsets empty.
+			   sr
+				   write: (ssi property: #geometry)
+				   with: [ :e | BlCircleGeometry new ] ]).
+
+		  ((#'inner-element' asStyleSelector parent: #( #button #circle ))
+			   style: [ :sr |
+				   sr
+					   write: (ssi property: #layout)
+					   with: [ :e | BlLinearLayout new alignCenter ] ]).
+
+		  ((#'inner-element' asStyleSelector parent:
+			    #( #button ) asStyleSelector - #justified) style: [ :sr |
+			   sr write: (ssi property: #'layout-constraints') with: [ :e |
 				   [ :c |
 				   c frame vertical alignCenter.
 				   c frame horizontal alignCenter.
 				   c linear vertical alignCenter.
 				   c linear horizontal alignCenter ] ] ]).
 
-		  ((self any parent: #( #button ) level: 2) style: [ :sr |
-			   sr write: (self property: #'layout-constraints') with: [ :e |
+		  ((ssi any parent: #( #button ) level: 2) style: [ :sr |
+			   sr write: (ssi property: #'layout-constraints') with: [ :e |
 				   [ :c |
 				   c linear vertical alignCenter.
-				   c linear horizontal alignCenter ] ] ]) }
+				   c linear horizontal alignCenter ] ] ]) } ]
 ]
 
-{ #category : #'initialization - button' }
+{ #category : 'initialization - button' }
 ToDefaultStyleSheet >> defaultButtonRules [
 	" ToButton default rule including icon and label "
 
 	" default button (class #button) "
 
-	^ {
-		  (#button asStyleSelector style: [ :sr |
+	^ [ :ssi | 
+		{ 
+			  (#button asStyleSelector style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
-				   write: (self property: #background)
+				   write: (ssi property: #background)
 				   with: [ :e | Color transparent ].
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #background)
+				   write: (ssi property: #background)
 				   with: [ :e | e toTheme colorBgContainerDisabled ] ]).
 
 		  (#button asStyleSelector - #checkable style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
 						   paint: e toTheme colorBorder;
 						   yourself ].
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
 						   paint: e toTheme colorBorderDisabled;
 						   yourself ].
 			   sr
 				   when: ToHoveredLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
 						   paint: e toTheme colorPrimaryHover;
 						   yourself ].
 			   sr
 				   when: ToPressedLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
 						   paint: e toTheme colorPrimaryPressed;
@@ -523,58 +505,58 @@ ToDefaultStyleSheet >> defaultButtonRules [
 		  ((#image asStyleSelector parent: #button level: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
-				   write: (self property: #'image-inner-form-color')
+				   write: (ssi property: #'image-inner-form-color')
 				   with: [ :e | e toTheme colorText ].
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #'image-inner-form-color')
+				   write: (ssi property: #'image-inner-form-color')
 				   with: [ :e | e toTheme colorBgContainerDisabled ].
 			   sr
 				   when: ToHoveredLookEvent
-				   write: (self property: #'image-inner-form-color')
+				   write: (ssi property: #'image-inner-form-color')
 				   with: [ :e | e toTheme colorPrimary ].
 			   sr
 				   when: ToPressedLookEvent
-				   write: (self property: #'image-inner-form-color')
+				   write: (ssi property: #'image-inner-form-color')
 				   with: [ :e | e toTheme colorPrimaryPressed ] ]).
 
 		  " default button label "
 		  ((#label asStyleSelector parent: #button level: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
-				   write: (self property: #'label-text-foreground')
+				   write: (ssi property: #'label-text-foreground')
 				   with: [ :e | e toTheme colorText ].
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #'label-text-foreground')
+				   write: (ssi property: #'label-text-foreground')
 				   with: [ :e | e toTheme colorTextDisabled ].
 			   sr
 				   when: ToHoveredLookEvent
-				   write: (self property: #'label-text-foreground')
+				   write: (ssi property: #'label-text-foreground')
 				   with: [ :e | e toTheme colorPrimary ].
 			   sr
 				   when: ToPressedLookEvent
-				   write: (self property: #'label-text-foreground')
+				   write: (ssi property: #'label-text-foreground')
 				   with: [ :e | e toTheme colorPrimaryPressed ] ]).
 
 		  " ToButton default danger"
 		  (#( #button #danger ) asStyleSelector - #checkable style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e | e borderBuilder paint: e toTheme colorError ].
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 				   e borderBuilder paint: e toTheme colorBorderDisabled ].
 			   sr
 				   when: ToHoveredLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e | e borderBuilder paint: e toTheme colorErrorHover ].
 			   sr
 				   when: ToPressedLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 				   e borderBuilder paint: e toTheme colorErrorHover darker ] ]).
 
@@ -583,19 +565,19 @@ ToDefaultStyleSheet >> defaultButtonRules [
 			   style: [ :sr |
 				   sr
 					   when: ToInitialLookEvent
-					   write: (self property: #'image-inner-form-color')
+					   write: (ssi property: #'image-inner-form-color')
 					   with: [ :e | e toTheme colorError ].
 				   sr
 					   when: ToDisabledLookEvent
-					   write: (self property: #'image-inner-form-color')
+					   write: (ssi property: #'image-inner-form-color')
 					   with: [ :e | e toTheme colorImageDisabled ].
 				   sr
 					   when: ToHoveredLookEvent
-					   write: (self property: #'image-inner-form-color')
+					   write: (ssi property: #'image-inner-form-color')
 					   with: [ :e | e toTheme colorErrorHover ].
 				   sr
 					   when: ToPressedLookEvent
-					   write: (self property: #'image-inner-form-color')
+					   write: (ssi property: #'image-inner-form-color')
 					   with: [ :e | e toTheme colorErrorHover darker ] ]).
 
 		  " danger button label "
@@ -603,37 +585,37 @@ ToDefaultStyleSheet >> defaultButtonRules [
 			   style: [ :sr |
 				   sr
 					   when: ToInitialLookEvent
-					   write: (self property: #'label-text-foreground')
+					   write: (ssi property: #'label-text-foreground')
 					   with: [ :e | e toTheme colorError ].
 				   sr
 					   when: ToDisabledLookEvent
-					   write: (self property: #'label-text-foreground')
+					   write: (ssi property: #'label-text-foreground')
 					   with: [ :e | e toTheme colorTextDisabled ].
 				   sr
 					   when: ToHoveredLookEvent
-					   write: (self property: #'label-text-foreground')
+					   write: (ssi property: #'label-text-foreground')
 					   with: [ :e | e toTheme colorErrorHover ].
 				   sr
 					   when: ToPressedLookEvent
-					   write: (self property: #'label-text-foreground')
+					   write: (ssi property: #'label-text-foreground')
 					   with: [ :e | e toTheme colorErrorHover darker ] ]).
 
 		  " default button dashed "
 		  (#( #dashed ) asStyleSelector style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
-				   supplement: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder dashArray: e toTheme dashArray ] ]) }
+				   supplement: (ssi property: #'border-with-builder')
+				   with: [ :e | e borderBuilder dashArray: e toTheme dashArray ] ]) } ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToDefaultStyleSheet >> initialize [ 
 
 	super initialize.
 	self initializeDefaultThemeRules
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToDefaultStyleSheet >> initializeDefaultThemeRules [
 	" * { background-color: #transparent; border-with: 0; border-color: #transparent} "
 
@@ -643,14 +625,14 @@ ToDefaultStyleSheet >> initializeDefaultThemeRules [
 	self addLabelRules
 ]
 
-{ #category : #'initialization  - label' }
+{ #category : 'initialization  - label' }
 ToDefaultStyleSheet >> labelRules [
 	" label  rules"
 
-	^ {
-		  ((#label asStyleSelector or: #( #label #H0 ) ) style: [ :sr |
+	^ [ :ssi |
+	  {		  ((#label asStyleSelector or: #( #label #H0 ) ) style: [ :sr |
 			   sr
-				   write: (self property: #'text-attributes-with-builder')
+				   write: (ssi property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
 						   weight: e toTheme fontWeightStrong;
@@ -660,14 +642,14 @@ ToDefaultStyleSheet >> labelRules [
 						   yourself ].
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #'text-attributes-with-builder')
+				   write: (ssi property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder foreground:
 						   e toTheme colorTextDisabled ] ]).
 
 		  (#( #label #H1 ) asStyleSelector style: [ :sr |
 			   sr
-				   supplement: (self property: #'text-attributes-with-builder')
+				   supplement: (ssi property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
 						   defaultFontSize: e toTheme fontSizeHeading1;
@@ -675,7 +657,7 @@ ToDefaultStyleSheet >> labelRules [
 						   yourself ] ]).
 		  (#( #label #H2 ) asStyleSelector style: [ :sr |
 			   sr
-				   supplement: (self property: #'text-attributes-with-builder')
+				   supplement: (ssi property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
 						   defaultFontSize: e toTheme fontSizeHeading2;
@@ -683,7 +665,7 @@ ToDefaultStyleSheet >> labelRules [
 						   yourself ] ]).
 		  (#( #label #H3 ) asStyleSelector style: [ :sr |
 			   sr
-				   supplement: (self property: #'text-attributes-with-builder')
+				   supplement: (ssi property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
 						   defaultFontSize: e toTheme fontSizeHeading3;
@@ -691,7 +673,7 @@ ToDefaultStyleSheet >> labelRules [
 						   yourself ] ]).
 		  (#( #label #H4 ) asStyleSelector style: [ :sr |
 			   sr
-				   supplement: (self property: #'text-attributes-with-builder')
+				   supplement: (ssi property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
 						   defaultFontSize: e toTheme fontSizeHeading4;
@@ -699,7 +681,7 @@ ToDefaultStyleSheet >> labelRules [
 						   yourself ] ]).
 		  (#( #label #H5 ) asStyleSelector style: [ :sr |
 			   sr
-				   supplement: (self property: #'text-attributes-with-builder')
+				   supplement: (ssi property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
 						   defaultFontSize: e toTheme fontSizeHeading5;
@@ -708,61 +690,61 @@ ToDefaultStyleSheet >> labelRules [
 
 		  (#( #label #danger ) asStyleSelector style: [ :sr |
 			   sr
-				   supplement: (self property: #'text-attributes-with-builder')
+				   supplement: (ssi property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
 						   foreground: e toTheme colorError;
 						   yourself ] ]).
 		  (#( #label #link ) asStyleSelector style: [ :sr |
 			   sr
-				   supplement: (self property: #'text-attributes-with-builder')
+				   supplement: (ssi property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
 						   foreground: e toTheme colorLink;
 						   yourself ] ]).
 		  (#( #label #primary ) asStyleSelector style: [ :sr |
 			   sr
-				   supplement: (self property: #'text-attributes-with-builder')
+				   supplement: (ssi property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
 						   foreground: e toTheme colorTextLightSolid;
 						   yourself ] ]).
 		  (#( #label #primary ) asStyleSelector style: [ :sr |
 			   sr
-				   supplement: (self property: #'text-attributes-with-builder')
+				   supplement: (ssi property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
 						   foreground: e toTheme colorTextSecondary;
 						   yourself ] ]).
 		  (#( #label #success ) asStyleSelector style: [ :sr |
 			   sr
-				   supplement: (self property: #'text-attributes-with-builder')
+				   supplement: (ssi property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
 						   foreground: e toTheme colorSuccess;
 						   yourself ] ]).
 		  (#( #label #warning ) asStyleSelector style: [ :sr |
 			   sr
-				   supplement: (self property: #'text-attributes-with-builder')
+				   supplement: (ssi property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
 						   foreground: e toTheme colorWarning;
-						   yourself ] ]) }
+						   yourself ] ]) } ]
 ]
 
-{ #category : #'initialization - button' }
+{ #category : 'initialization - button' }
 ToDefaultStyleSheet >> linkButtonRules [
 	" ToButton link "
 
-	^ {
-		  (#( #button #link ) asStyleSelector
+	^ [ :ssi |
+	  {			  (#( #button #link ) asStyleSelector
 			   when: ToInstallLookEvent
 			   style: [ :sr |
 				   sr
-					   write: (self property: #background)
+					   write: (ssi property: #background)
 					   with: [ :e | Color transparent ].
 				   sr
-					   write: (self property: #'border-with-builder')
+					   write: (ssi property: #'border-with-builder')
 					   with: [ :e | e borderBuilder width: 0 ] ]).
 
 		  " ToButton link danger "
@@ -770,10 +752,10 @@ ToDefaultStyleSheet >> linkButtonRules [
 			   when: ToInstallLookEvent
 			   style: [ :sr |
 				   sr
-					   write: (self property: #background)
+					   write: (ssi property: #background)
 					   with: [ :e | Color transparent ].
 				   sr
-					   write: (self property: #'border-with-builder')
+					   write: (ssi property: #'border-with-builder')
 					   with: [ :e | e borderBuilder width: 0 ] ]).
 
 		  " button link form icon "
@@ -781,19 +763,19 @@ ToDefaultStyleSheet >> linkButtonRules [
 			   style: [ :sr |
 				   sr
 					   when: ToInitialLookEvent
-					   write: (self property: #'image-inner-form-color')
+					   write: (ssi property: #'image-inner-form-color')
 					   with: [ :e | e toTheme colorLink ].
 				   sr
 					   when: ToDisabledLookEvent
-					   write: (self property: #'image-inner-form-color')
+					   write: (ssi property: #'image-inner-form-color')
 					   with: [ :e | e toTheme colorTextDisabled ].
 				   sr
 					   when: ToHoveredLookEvent
-					   write: (self property: #'image-inner-form-color')
+					   write: (ssi property: #'image-inner-form-color')
 					   with: [ :e | e toTheme colorLinkHover ].
 				   sr
 					   when: ToPressedLookEvent
-					   write: (self property: #'image-inner-form-color')
+					   write: (ssi property: #'image-inner-form-color')
 					   with: [ :e | e toTheme colorPrimaryPressed ] ]).
 
 		  " button link label "
@@ -801,19 +783,19 @@ ToDefaultStyleSheet >> linkButtonRules [
 			   style: [ :sr |
 				   sr
 					   when: ToInitialLookEvent
-					   write: (self property: #'label-text-foreground')
+					   write: (ssi property: #'label-text-foreground')
 					   with: [ :e | e toTheme colorLink ].
 				   sr
 					   when: ToDisabledLookEvent
-					   write: (self property: #'label-text-foreground')
+					   write: (ssi property: #'label-text-foreground')
 					   with: [ :e | e toTheme colorTextDisabled ].
 				   sr
 					   when: ToHoveredLookEvent
-					   write: (self property: #'label-text-foreground')
+					   write: (ssi property: #'label-text-foreground')
 					   with: [ :e | e toTheme colorLinkHover ].
 				   sr
 					   when: ToPressedLookEvent
-					   write: (self property: #'label-text-foreground')
+					   write: (ssi property: #'label-text-foreground')
 					   with: [ :e | e toTheme colorPrimaryPressed ] ]).
 
 		  " button link danger form icon "
@@ -822,19 +804,19 @@ ToDefaultStyleSheet >> linkButtonRules [
 			    level: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
-				   write: (self property: #'image-inner-form-color')
+				   write: (ssi property: #'image-inner-form-color')
 				   with: [ :e | e toTheme colorError ].
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #'image-inner-form-color')
+				   write: (ssi property: #'image-inner-form-color')
 				   with: [ :e | e toTheme colorTextDisabled ].
 			   sr
 				   when: ToHoveredLookEvent
-				   write: (self property: #'image-inner-form-color')
+				   write: (ssi property: #'image-inner-form-color')
 				   with: [ :e | e toTheme colorErrorHover ].
 			   sr
 				   when: ToPressedLookEvent
-				   write: (self property: #'image-inner-form-color')
+				   write: (ssi property: #'image-inner-form-color')
 				   with: [ :e | e toTheme colorError darker ] ]).
 
 		  " button link danger label "
@@ -843,58 +825,58 @@ ToDefaultStyleSheet >> linkButtonRules [
 			    level: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
-				   write: (self property: #'label-text-foreground')
+				   write: (ssi property: #'label-text-foreground')
 				   with: [ :e | e toTheme colorError ].
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #'label-text-foreground')
+				   write: (ssi property: #'label-text-foreground')
 				   with: [ :e | e toTheme colorTextDisabled ].
 			   sr
 				   when: ToHoveredLookEvent
-				   write: (self property: #'label-text-foreground')
+				   write: (ssi property: #'label-text-foreground')
 				   with: [ :e | e toTheme colorErrorHover ].
 			   sr
 				   when: ToPressedLookEvent
-				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e toTheme colorError darker ] ]) }
+				   write: (ssi property: #'label-text-foreground')
+				   with: [ :e | e toTheme colorError darker ] ]) } ]
 ]
 
-{ #category : #'initialization - button' }
+{ #category : 'initialization - button' }
 ToDefaultStyleSheet >> primaryButtonRules [
 	" ToButton primary "
 
-	^ {
-		  (#button asStyleSelector + #primary style: [ :sr |
+	^ [ :ssi |
+	  {			  (#button asStyleSelector + #primary style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
-				   write: (self property: #background)
+				   write: (ssi property: #background)
 				   with: [ :e | e toTheme colorPrimary ].
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #background)
+				   write: (ssi property: #background)
 				   with: [ :e | e toTheme colorBgContainerDisabled ].
 			   sr
 				   when: ToHoveredLookEvent
-				   write: (self property: #'background-color')
+				   write: (ssi property: #'background-color')
 				   with: [ :e | e toTheme colorPrimaryHover ]
 				   animation: ToPropertyColorTransitionAnimation new.
 			   sr
 				   when: ToLeavedLookEvent
-				   write: (self property: #'background-color')
+				   write: (ssi property: #'background-color')
 				   with: [ :e | e toTheme colorPrimary ]
 				   animation: ToPropertyColorTransitionAnimation new.
 			   sr
 				   when: ToPressedLookEvent
-				   write: (self property: #background)
+				   write: (ssi property: #background)
 				   with: [ :e | e toTheme colorPrimaryPressed ].
 
 			   sr
 				   when: ToInitialLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e | e borderBuilder paint: Color transparent ].
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 				   e borderBuilder paint: e toTheme colorBorderDisabled ] ]).
 
@@ -902,34 +884,34 @@ ToDefaultStyleSheet >> primaryButtonRules [
 		  (#button asStyleSelector + #primary + #danger style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
-				   write: (self property: #background)
+				   write: (ssi property: #background)
 				   with: [ :e | e toTheme colorError ].
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #background)
+				   write: (ssi property: #background)
 				   with: [ :e | e toTheme colorBgContainerDisabled ].
 			   sr
 				   when: ToHoveredLookEvent
-				   write: (self property: #'background-color')
+				   write: (ssi property: #'background-color')
 				   with: [ :e | e toTheme colorErrorHover ]
 				   animation: ToPropertyColorTransitionAnimation new.
 			   sr
 				   when: ToLeavedLookEvent
-				   write: (self property: #'background-color')
+				   write: (ssi property: #'background-color')
 				   with: [ :e | e toTheme colorError ]
 				   animation: ToPropertyColorTransitionAnimation new.
 			   sr
 				   when: ToPressedLookEvent
-				   write: (self property: #background)
+				   write: (ssi property: #background)
 				   with: [ :e | e toTheme colorErrorPressed ].
 
 			   sr
 				   when: ToInitialLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e | e borderBuilder paint: Color transparent ].
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 				   e borderBuilder paint: e toTheme colorBorderDisabled ] ]).
 
@@ -940,19 +922,19 @@ ToDefaultStyleSheet >> primaryButtonRules [
 			    level: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
-				   write: (self property: #'image-inner-form-color')
+				   write: (ssi property: #'image-inner-form-color')
 				   with: [ :e | e toTheme colorImageLightSolid ].
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #'image-inner-form-color')
+				   write: (ssi property: #'image-inner-form-color')
 				   with: [ :e | e toTheme colorImageDisabled ].
 			   sr
 				   when: ToHoveredLookEvent
-				   write: (self property: #'image-inner-form-color')
+				   write: (ssi property: #'image-inner-form-color')
 				   with: [ :e | e toTheme colorImageLightSolid ].
 			   sr
 				   when: ToPressedLookEvent
-				   write: (self property: #'image-inner-form-color')
+				   write: (ssi property: #'image-inner-form-color')
 				   with: [ :e | e toTheme colorImageLightSolid ] ]).
 
 		  " primary button label "
@@ -962,48 +944,48 @@ ToDefaultStyleSheet >> primaryButtonRules [
 			    level: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
-				   write: (self property: #'label-text-foreground')
+				   write: (ssi property: #'label-text-foreground')
 				   with: [ :e | e toTheme colorTextLightSolid ].
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #'label-text-foreground')
+				   write: (ssi property: #'label-text-foreground')
 				   with: [ :e | e toTheme colorBgContainerDisabled ].
 			   sr
 				   when: ToHoveredLookEvent
-				   write: (self property: #'label-text-foreground')
+				   write: (ssi property: #'label-text-foreground')
 				   with: [ :e | e toTheme colorTextLightSolid ].
 			   sr
 				   when: ToPressedLookEvent
-				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e toTheme colorTextLightSolid ] ]) }
+				   write: (ssi property: #'label-text-foreground')
+				   with: [ :e | e toTheme colorTextLightSolid ] ]) } ]
 ]
 
-{ #category : #'initialization - button' }
+{ #category : 'initialization - button' }
 ToDefaultStyleSheet >> textButtonRules [
 	" ToButton text "
 
-	^ {
-		  (#( #button #text ) asStyleSelector style: [ :sr |
+	^ [ :ssi |
+	  {			  (#( #button #text ) asStyleSelector style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
-				   write: (self property: #background)
+				   write: (ssi property: #background)
 				   with: [ :e | Color transparent ].
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #background)
+				   write: (ssi property: #background)
 				   with: [ :e | e toTheme colorBgContainerDisabled ].
 			   sr
 				   when: ToHoveredLookEvent
-				   write: (self property: #background)
+				   write: (ssi property: #background)
 				   with: [ :e | e toTheme colorBgTextHover ].
 			   sr
 				   when: ToPressedLookEvent
-				   write: (self property: #background)
+				   write: (ssi property: #background)
 				   with: [ :e | e toTheme colorBgTextActive ].
 
 			   sr
 				   when: ToInstallLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
 						   width: 0;
@@ -1014,24 +996,24 @@ ToDefaultStyleSheet >> textButtonRules [
 		  (#( #button #text #danger ) asStyleSelector style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
-				   write: (self property: #background)
+				   write: (ssi property: #background)
 				   with: [ :e | Color transparent ].
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #background)
+				   write: (ssi property: #background)
 				   with: [ :e | e toTheme colorBgContainerDisabled ].
 			   sr
 				   when: ToHoveredLookEvent
-				   write: (self property: #background)
+				   write: (ssi property: #background)
 				   with: [ :e | e toTheme colorErrorBg ].
 			   sr
 				   when: ToPressedLookEvent
-				   write: (self property: #background)
+				   write: (ssi property: #background)
 				   with: [ :e | e toTheme colorErrorBg ].
 
 			   sr
 				   when: ToInstallLookEvent
-				   write: (self property: #'border-with-builder')
+				   write: (ssi property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
 						   width: 0;
@@ -1043,11 +1025,11 @@ ToDefaultStyleSheet >> textButtonRules [
 			   style: [ :sr |
 				   sr
 					   when: ToInitialLookEvent
-					   write: (self property: #'image-inner-form-color')
+					   write: (ssi property: #'image-inner-form-color')
 					   with: [ :e | e toTheme colorText ].
 				   sr
 					   when: ToDisabledLookEvent
-					   write: (self property: #'image-inner-form-color')
+					   write: (ssi property: #'image-inner-form-color')
 					   with: [ :e | e toTheme colorBgContainerDisabled ] ]).
 
 		  " button test label "
@@ -1056,11 +1038,11 @@ ToDefaultStyleSheet >> textButtonRules [
 			   style: [ :sr |
 				   sr
 					   when: ToInitialLookEvent
-					   write: (self property: #'label-text-foreground')
+					   write: (ssi property: #'label-text-foreground')
 					   with: [ :e | e toTheme colorText ].
 				   sr
 					   when: ToDisabledLookEvent
-					   write: (self property: #'label-text-foreground')
+					   write: (ssi property: #'label-text-foreground')
 					   with: [ :e | e toTheme colorBgContainerDisabled ] ]).
 
 		  " button text danger form icon "
@@ -1070,11 +1052,11 @@ ToDefaultStyleSheet >> textButtonRules [
 			    level: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
-				   write: (self property: #'image-inner-form-color')
+				   write: (ssi property: #'image-inner-form-color')
 				   with: [ :e | e toTheme colorError ].
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #'image-inner-form-color')
+				   write: (ssi property: #'image-inner-form-color')
 				   with: [ :e | e toTheme colorBgContainerDisabled ] ]).
 
 		  " button test danger label "
@@ -1084,10 +1066,10 @@ ToDefaultStyleSheet >> textButtonRules [
 			    level: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
-				   write: (self property: #'label-text-foreground')
+				   write: (ssi property: #'label-text-foreground')
 				   with: [ :e | e toTheme colorError ].
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e toTheme colorBgContainerDisabled ] ]) }
+				   write: (ssi property: #'label-text-foreground')
+				   with: [ :e | e toTheme colorBgContainerDisabled ] ]) } ]
 ]

@@ -1,10 +1,12 @@
 Class {
-	#name : #Toplo,
-	#superclass : #Object,
-	#category : #'Toplo-Core'
+	#name : 'Toplo',
+	#superclass : 'Object',
+	#category : 'Toplo-Core',
+	#package : 'Toplo',
+	#tag : 'Core'
 }
 
-{ #category : #settings }
+{ #category : 'settings' }
 Toplo class >> settingsOn: aBuilder [
 	<systemsettings>
 	(aBuilder group: #Toplo) 

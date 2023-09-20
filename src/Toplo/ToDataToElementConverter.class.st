@@ -1,7 +1,9 @@
 Class {
-	#name : #ToDataToElementConverter,
-	#superclass : #Object,
+	#name : 'ToDataToElementConverter',
+	#superclass : 'Object',
 	#traits : 'TToDataToElementConverter',
 	#classTraits : 'TToDataToElementConverter classTrait',
-	#category : #'Toplo-Core'
+	#category : 'Toplo-Core',
+	#package : 'Toplo',
+	#tag : 'Core'
 }

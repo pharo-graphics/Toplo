@@ -1,10 +1,12 @@
 Class {
-	#name : #ToPopupWindow,
-	#superclass : #ToWidgetWindowElement,
-	#category : #'Toplo-Core-Window'
+	#name : 'ToPopupWindow',
+	#superclass : 'ToWidgetWindowElement',
+	#category : 'Toplo-Core-Window',
+	#package : 'Toplo',
+	#tag : 'Core-Window'
 }
 
-{ #category : #'api - displaying' }
+{ #category : 'api - displaying' }
 ToPopupWindow >> checkBeforePopupIn: aWidget [
 
 	| gap rect |
@@ -15,19 +17,19 @@ ToPopupWindow >> checkBeforePopupIn: aWidget [
 	super checkBeforePopupIn: aWidget
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToPopupWindow >> defaulPositioningHook [
 
 	^ [ :window :event |  window widget bounds inSpace bounds bottomLeft ]
 ]
 
-{ #category : #'t - initialization dresser' }
+{ #category : 't - initialization dresser' }
 ToPopupWindow >> defaultDresser [ 
 
 	^ ToPopupWindowDresser new
 ]
 
-{ #category : #'api - displaying' }
+{ #category : 'api - displaying' }
 ToPopupWindow >> popupEvent: anEvent [
 
 	self cleanUp.	

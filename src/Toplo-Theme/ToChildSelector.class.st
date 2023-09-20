@@ -1,19 +1,21 @@
 Class {
-	#name : #ToChildSelector,
-	#superclass : #ToBinarySelector,
+	#name : 'ToChildSelector',
+	#superclass : 'ToBinarySelector',
 	#instVars : [
 		'parentLevel'
 	],
-	#category : #'Toplo-Theme-StyleSelector'
+	#category : 'Toplo-Theme-StyleSelector',
+	#package : 'Toplo-Theme',
+	#tag : 'StyleSelector'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ToChildSelector >> accept: aVisitor [
 
 	aVisitor visitChildSelector: self
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToChildSelector >> initialize [ 
 
 	super initialize.
@@ -21,13 +23,13 @@ ToChildSelector >> initialize [
 	parentLevel := 1 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToChildSelector >> parentLevel [
 
 	^ parentLevel
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToChildSelector >> parentLevel: anInteger [
 
 	parentLevel := anInteger

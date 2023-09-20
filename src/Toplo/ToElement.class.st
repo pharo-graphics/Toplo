@@ -1,24 +1,26 @@
 Class {
-	#name : #ToElement,
-	#superclass : #BlElement,
+	#name : 'ToElement',
+	#superclass : 'BlElement',
 	#traits : 'TToElement + TToResizable + TToEnableable + TToDressable + TToSkinable + TObservable',
 	#classTraits : 'TToElement classTrait + TToResizable classTrait + TToEnableable classTrait + TToDressable classTrait + TToSkinable classTrait + TObservable classTrait',
-	#category : #'Toplo-Core'
+	#category : 'Toplo-Core',
+	#package : 'Toplo',
+	#tag : 'Core'
 }
 
-{ #category : #'t - dressable -  initialization' }
+{ #category : 't - dressable -  initialization' }
 ToElement >> defaultDresser [
 
 	^ ToDresser new
 ]
 
-{ #category : #'t - skinable - initialization' }
+{ #category : 't - skinable - initialization' }
 ToElement >> defaultStyleTags [
 
 	^ #( )
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToElement >> initialize [ 
 
 	super initialize.
@@ -32,13 +34,13 @@ ToElement >> initialize [
 	self initializeSkin
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElement >> innerElement [ 
 
 	^ nil
 ]
 
-{ #category : #'t - layout resizeable' }
+{ #category : 't - layout resizeable' }
 ToElement >> resizableConstraintsDo: aBlock [
 	"Perform aBlock with my constraints as argument.
 	Note: After evaluation I request a layout update!

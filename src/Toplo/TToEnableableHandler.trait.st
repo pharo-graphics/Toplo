@@ -1,16 +1,18 @@
 Trait {
-	#name : #TToEnableableHandler,
+	#name : 'TToEnableableHandler',
 	#instVars : [
 		'enablementHandler'
 	],
-	#category : #'Toplo-Core'
+	#category : 'Toplo-Core',
+	#package : 'Toplo',
+	#tag : 'Core'
 }
 
-{ #category : #'t - enableable handler - events handling' }
+{ #category : 't - enableable handler - events handling' }
 TToEnableableHandler >> enablementEvent: anEvent in: anElement [
 ]
 
-{ #category : #'t - enableable handler - install/uninstall hook' }
+{ #category : 't - enableable handler - install/uninstall hook' }
 TToEnableableHandler >> onInstalledEnableableHandlingIn: anElement [
 
 	enablementHandler := BlEventHandler
@@ -19,7 +21,7 @@ TToEnableableHandler >> onInstalledEnableableHandlingIn: anElement [
 	anElement addEventHandler: enablementHandler
 ]
 
-{ #category : #'t - enableable handler - install/uninstall hook' }
+{ #category : 't - enableable handler - install/uninstall hook' }
 TToEnableableHandler >> onUninstalledEnableableHandlingIn: anElement [
 
 	anElement removeEventHandler: enablementHandler.

@@ -1,19 +1,21 @@
 Class {
-	#name : #ToActionRequiredEvent,
-	#superclass : #BlEvent,
+	#name : 'ToActionRequiredEvent',
+	#superclass : 'BlEvent',
 	#instVars : [
 		'valuable'
 	],
-	#category : #'Toplo-Core'
+	#category : 'Toplo-Core',
+	#package : 'Toplo',
+	#tag : 'Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToActionRequiredEvent >> valuable: aValuable [
 
 	valuable := aValuable
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToActionRequiredEvent >> value: anObject [
 
 	^ valuable value: anObject

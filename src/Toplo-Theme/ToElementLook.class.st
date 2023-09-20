@@ -1,20 +1,22 @@
 Class {
-	#name : #ToElementLook,
-	#superclass : #ToAbstractLook,
+	#name : 'ToElementLook',
+	#superclass : 'ToAbstractLook',
 	#classTraits : 'TBlAnnounceable classTrait',
 	#instVars : [
 		'next'
 	],
-	#category : #'Toplo-Theme-Core'
+	#category : 'Toplo-Theme-Core',
+	#package : 'Toplo-Theme',
+	#tag : 'Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementLook class >> next: aLook [
 
 	^ self new next: aLook
 ]
 
-{ #category : #'private event handling' }
+{ #category : 'private event handling' }
 ToElementLook >> elementLookEvent: anEvent [
 
 	self next elementLookEvent: anEvent.
@@ -22,30 +24,30 @@ ToElementLook >> elementLookEvent: anEvent [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToElementLook >> isNull [
 
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementLook >> next [
 
 	^ next
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementLook >> next: aLook [
 
 	next := aLook
 ]
 
-{ #category : #operating }
+{ #category : 'operating' }
 ToElementLook >> receiveEvent: aLookEvent [
 
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 ToElementLook >> removeLook: aLook previous: previousLook [
 
 	previousLook ifNotNil: [

@@ -1,19 +1,21 @@
 Class {
-	#name : #ToWidgetWindowEvent,
-	#superclass : #BlEvent,
+	#name : 'ToWidgetWindowEvent',
+	#superclass : 'BlEvent',
 	#instVars : [
 		'window'
 	],
-	#category : #'Toplo-Core-Window'
+	#category : 'Toplo-Core-Window',
+	#package : 'Toplo',
+	#tag : 'Core-Window'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToWidgetWindowEvent >> window [
 
 	^ window
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToWidgetWindowEvent >> window: aWindow [
 
 	window := aWindow

@@ -1,14 +1,16 @@
 Class {
-	#name : #ToBasicWindowDresser,
-	#superclass : #ToDresser,
+	#name : 'ToBasicWindowDresser',
+	#superclass : 'ToDresser',
 	#instVars : [
 		'widgetRemovedHandler',
 		'widgetRemovedFromSpaceHandler'
 	],
-	#category : #'Toplo-Core-Window'
+	#category : 'Toplo-Core-Window',
+	#package : 'Toplo',
+	#tag : 'Core-Window'
 }
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToBasicWindowDresser >> installWidget: newWidget in: anElement [
 
 	widgetRemovedHandler := BlEventHandler
@@ -23,7 +25,7 @@ ToBasicWindowDresser >> installWidget: newWidget in: anElement [
 	newWidget addEventHandler: widgetRemovedFromSpaceHandler
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToBasicWindowDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
@@ -34,7 +36,7 @@ ToBasicWindowDresser >> onInstalledIn: anElement [
 
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToBasicWindowDresser >> uninstallWidget: oldWidget in: anElement [
 
 	oldWidget ifNil: [ ^ self ].

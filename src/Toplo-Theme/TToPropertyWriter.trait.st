@@ -1,9 +1,11 @@
 Trait {
-	#name : #TToPropertyWriter,
-	#category : #'Toplo-Theme-Skin'
+	#name : 'TToPropertyWriter',
+	#category : 'Toplo-Theme-Skin',
+	#package : 'Toplo-Theme',
+	#tag : 'Skin'
 }
 
-{ #category : #'t - property writer - writing' }
+{ #category : 't - property writer - writing' }
 TToPropertyWriter >> writeTo: anObject [
 
 	self explicitRequirement 

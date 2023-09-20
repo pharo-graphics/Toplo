@@ -1,4 +1,6 @@
 Trait {
-	#name : #TToElement,
-	#category : #'Toplo-Core'
+	#name : 'TToElement',
+	#category : 'Toplo-Core',
+	#package : 'Toplo',
+	#tag : 'Core'
 }

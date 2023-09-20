@@ -1,14 +1,16 @@
 Class {
-	#name : #ToStyleSelectorInterpreter,
-	#superclass : #ToStyleSelectorVisitor,
+	#name : 'ToStyleSelectorInterpreter',
+	#superclass : 'ToStyleSelectorVisitor',
 	#instVars : [
 		'targetStack',
 		'result'
 	],
-	#category : #'Toplo-Theme-StyleSelector'
+	#category : 'Toplo-Theme-StyleSelector',
+	#package : 'Toplo-Theme',
+	#tag : 'StyleSelector'
 }
 
-{ #category : #operating }
+{ #category : 'operating' }
 ToStyleSelectorInterpreter >> check: aSelector on: anElement [
 
 	targetStack := Stack new.
@@ -18,19 +20,19 @@ ToStyleSelectorInterpreter >> check: aSelector on: anElement [
 	^ result
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToStyleSelectorInterpreter >> result [
 
 	^ result
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ToStyleSelectorInterpreter >> visitActionSelector: aSelector [
 
 	result := aSelector action value: targetStack top
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ToStyleSelectorInterpreter >> visitAndSelector: aSelector [
 
 	aSelector left accept: self.
@@ -38,7 +40,7 @@ ToStyleSelectorInterpreter >> visitAndSelector: aSelector [
 	aSelector right accept: self.
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ToStyleSelectorInterpreter >> visitChildSelector: aSelector [
 
 	| current l |
@@ -66,20 +68,20 @@ ToStyleSelectorInterpreter >> visitChildSelector: aSelector [
 	result := result and: [ l isZero ]
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ToStyleSelectorInterpreter >> visitIdSelector: aSelector [
 
 	result := aSelector id = targetStack top id
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ToStyleSelectorInterpreter >> visitNotSelector: aSelector [
 
 	aSelector left accept: self.
 	result := result not
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ToStyleSelectorInterpreter >> visitOrSelector: aSelector [
 
 	aSelector left accept: self.
@@ -87,19 +89,19 @@ ToStyleSelectorInterpreter >> visitOrSelector: aSelector [
 	aSelector right accept: self.
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ToStyleSelectorInterpreter >> visitStyleTagSelector: aSelector [
 
 	result := targetStack top styleTags includesAll: aSelector styleTags  
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ToStyleSelectorInterpreter >> visitTypeSelector: aSelector [
 
 	result := (aSelector selectType: targetStack top class)
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ToStyleSelectorInterpreter >> visitUniversalSelector: aSelector [
 
 	result := true

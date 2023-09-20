@@ -1,14 +1,16 @@
 Class {
-	#name : #ToTooltipWindowEventHandler,
-	#superclass : #BlCustomEventHandler,
+	#name : 'ToTooltipWindowEventHandler',
+	#superclass : 'BlCustomEventHandler',
 	#instVars : [
 		'tooltipElement',
 		'openTask'
 	],
-	#category : #'Toplo-Core-Tooltip'
+	#category : 'Toplo-Core-Tooltip',
+	#package : 'Toplo',
+	#tag : 'Core-Tooltip'
 }
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToTooltipWindowEventHandler >> eventsToHandle [
 
 	^ { 
@@ -17,19 +19,19 @@ ToTooltipWindowEventHandler >> eventsToHandle [
 		  BlMouseDownEvent }
 ]
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToTooltipWindowEventHandler >> mouseDownEvent: anEvent [
 
 	anEvent currentTarget close
 ]
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToTooltipWindowEventHandler >> mouseEnterEvent: anEvent [
 
 
 ]
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToTooltipWindowEventHandler >> mouseLeaveEvent: anEvent [
 
 

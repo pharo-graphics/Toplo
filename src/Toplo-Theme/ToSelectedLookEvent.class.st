@@ -1,5 +1,7 @@
 Class {
-	#name : #ToSelectedLookEvent,
-	#superclass : #ToElementLookEvent,
-	#category : #'Toplo-Theme-Look-Event'
+	#name : 'ToSelectedLookEvent',
+	#superclass : 'ToElementLookEvent',
+	#category : 'Toplo-Theme-Look-Event',
+	#package : 'Toplo-Theme',
+	#tag : 'Look-Event'
 }

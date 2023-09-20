@@ -1,6 +1,6 @@
-Extension { #name : #BlColorPaint }
+Extension { #name : 'BlColorPaint' }
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlColorPaint >> contrastingBlackAndWhiteColor [
 
 	^ self color contrastingBlackAndWhiteColor

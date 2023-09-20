@@ -1,30 +1,32 @@
 Class {
-	#name : #ToAjacentRectanglesGeometry,
-	#superclass : #BlPolygonGeometry,
+	#name : 'ToAjacentRectanglesGeometry',
+	#superclass : 'BlPolygonGeometry',
 	#instVars : [
 		'collector'
 	],
-	#category : #'Toplo-Core'
+	#category : 'Toplo-Core',
+	#package : 'Toplo',
+	#tag : 'Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAjacentRectanglesGeometry class >> oppositeDelimiterBackgroundColor [
 	^ Color lightGray
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAjacentRectanglesGeometry >> adjacentRectangles: aCollection [
 	aCollection ifEmpty: [ ^ self ].
 	self vertices: (BlVerticesFromRectanglesOperator new verticesFromRectangles: aCollection)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAjacentRectanglesGeometry >> collector [
 
 	^ collector
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAjacentRectanglesGeometry >> collector: aValuable [
 
 	" takes the PolyElement as argument "
@@ -32,14 +34,14 @@ ToAjacentRectanglesGeometry >> collector: aValuable [
 	collector := aValuable
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToAjacentRectanglesGeometry >> initialize [ 
 
 	super initialize.
 	collector := [ :element | element children accountedByLayout ]
 ]
 
-{ #category : #geometry }
+{ #category : 'geometry' }
 ToAjacentRectanglesGeometry >> matchElement: anElement [
 
 	| bnds children |

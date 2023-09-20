@@ -1,14 +1,16 @@
 Class {
-	#name : #ToTripletDresser,
-	#superclass : #ToDresser,
+	#name : 'ToTripletDresser',
+	#superclass : 'ToDresser',
 	#instVars : [
 		'propertyChangedEventHandler',
 		'filler'
 	],
-	#category : #'Toplo-Core-Triplet'
+	#category : 'Toplo-Core-Triplet',
+	#package : 'Toplo',
+	#tag : 'Core-Triplet'
 }
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToTripletDresser >> checkJustificationin: anElement [
 
 	anElement justified ifFalse: [
@@ -17,7 +19,7 @@ ToTripletDresser >> checkJustificationin: anElement [
 	filler ifNil: [ filler := self newFiller ]
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToTripletDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
@@ -28,7 +30,7 @@ ToTripletDresser >> installEventListenersIn: anElement [
 
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToTripletDresser >> newFiller [
 
 	^ ToElement new
@@ -37,7 +39,7 @@ ToTripletDresser >> newFiller [
 		  yourself
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToTripletDresser >> propertyChangedEvent: anEvent in: anElement [
 
 	| children |
@@ -48,7 +50,7 @@ ToTripletDresser >> propertyChangedEvent: anEvent in: anElement [
 	anElement innerElement addChildren: children
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToTripletDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: propertyChangedEventHandler.

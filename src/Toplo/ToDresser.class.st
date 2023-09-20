@@ -1,6 +1,6 @@
 Class {
-	#name : #ToDresser,
-	#superclass : #ToCompanion,
+	#name : 'ToDresser',
+	#superclass : 'ToCompanion',
 	#instVars : [
 		'next',
 		'theme',
@@ -10,50 +10,52 @@ Class {
 		'removedFromSpaceHandler',
 		'addedToSpace'
 	],
-	#category : #'Toplo-Core'
+	#category : 'Toplo-Core',
+	#package : 'Toplo',
+	#tag : 'Core'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ToDresser class >> next: aDresser [
 
 	^ self new next: aDresser
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToDresser >> addDresser: aDresser in: anElement [
 
 	self = aDresser ifTrue: [ ^ self ].
 	self next addDresser: aDresser in: anElement previous: self
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToDresser >> addDresser: aDresser in: anElement previous: aPreviousDresser [
 
 	self = aDresser ifTrue: [ ^ self ].
 	self next addDresser: aDresser in: anElement previous: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDresser >> addedToSpace [
 
 	^ addedToSpace ifNil: [ addedToSpace := false ]
 ]
 
-{ #category : #'t - accessing - dresser' }
+{ #category : 't - accessing - dresser' }
 ToDresser >> dresserSatisfying: aBlock [
 
 	(aBlock value: self) ifTrue: [ ^ self ].
 	^ next dresserSatisfying: aBlock
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToDresser >> initialize [
 
 	super initialize.
 	next := ToNullDresser new.
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToDresser >> installEventListenersIn: anElement [
 
 	addedToParentHandler := BlEventHandler
@@ -79,20 +81,20 @@ ToDresser >> installEventListenersIn: anElement [
 	anElement addEventHandler: removedFromSpaceHandler
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToDresser >> next [
 
 	^ next
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToDresser >> next: aDresser [
 
 	next := aDresser.
 	
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
@@ -101,7 +103,7 @@ ToDresser >> onInstalledIn: anElement [
 	self installEventListenersIn: anElement
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
@@ -111,7 +113,7 @@ ToDresser >> onUninstalledIn: anElement [
 
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToDresser >> removeDresser: aDresser in: anElement [
 
 	next = aDresser ifFalse: [ next removeDresser: aDresser in: anElement. ^self ].
@@ -120,7 +122,7 @@ ToDresser >> removeDresser: aDresser in: anElement [
 	aDresser launchUninstallationIn: anElement
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToDresser >> sendWhenAddedToSpace: anEvent in: anElement [
 
 	self addedToSpace ifTrue: [ ^ self ].
@@ -130,7 +132,7 @@ ToDresser >> sendWhenAddedToSpace: anEvent in: anElement [
 
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToDresser >> sendWhenRemovedFromSpace: anEvent in: anElement [
 
 	self addedToSpace ifFalse: [ ^ self ].
@@ -139,13 +141,13 @@ ToDresser >> sendWhenRemovedFromSpace: anEvent in: anElement [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDresser >> theme [
 
 	^ theme
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: addedToParentHandler.
@@ -154,7 +156,7 @@ ToDresser >> uninstallEventListenersIn: anElement [
 	anElement removeEventHandler: removedFromSpaceHandler
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToDresser >> whenAddedToParent: anElement [
 	" action needed after any ToElement is added to its parent "
 
@@ -163,7 +165,7 @@ ToDresser >> whenAddedToParent: anElement [
 	anElement parent isDisabled ifTrue: [ anElement disable ]
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToDresser >> whenAddedToSpace: anEvent in: anElement [ 
 
 	self flag: 'Leads to ToSpaceFrameSkinInstallationPhase installation in space frame. Should be revised to avoid this kind of workaround'.
@@ -171,12 +173,12 @@ ToDresser >> whenAddedToSpace: anEvent in: anElement [
 	anElement checkSkinInstallation
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToDresser >> whenRemovedFromParent: anElement [
 
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToDresser >> whenRemovedFromSpace: anEvent in: anElement [
 
 ]

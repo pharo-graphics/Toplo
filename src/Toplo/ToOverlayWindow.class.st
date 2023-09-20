@@ -1,10 +1,12 @@
 Class {
-	#name : #ToOverlayWindow,
-	#superclass : #ToWidgetWindowElement,
-	#category : #'Toplo-Core-Window'
+	#name : 'ToOverlayWindow',
+	#superclass : 'ToWidgetWindowElement',
+	#category : 'Toplo-Core-Window',
+	#package : 'Toplo',
+	#tag : 'Core-Window'
 }
 
-{ #category : #'api - displaying' }
+{ #category : 'api - displaying' }
 ToOverlayWindow >> checkBeforePopupIn: aWidget [
 
 	" aWindow bounds are up-to-date, I can be visible "
@@ -12,13 +14,13 @@ ToOverlayWindow >> checkBeforePopupIn: aWidget [
 	super checkBeforePopupIn: aWidget
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToOverlayWindow >> defaulPositioningHook [
 
 	^ [ :w :event | w widget bounds inSpace bounds topLeft ]
 ]
 
-{ #category : #'t - initialization dresser' }
+{ #category : 't - initialization dresser' }
 ToOverlayWindow >> defaultDresser [ 
 
 	^ ToOverlayWindowDresser new

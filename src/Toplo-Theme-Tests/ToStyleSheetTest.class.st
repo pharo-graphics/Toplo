@@ -247,7 +247,7 @@ ToStyleSheetTest >> testNewStyleSheetWith2Rules [
 
 	| styleSheet |
 	styleSheet := ToStyleSheet new inherits: false; yourself.
-	styleSheet addStyleRules: {
+	styleSheet addAllStyleRules: {
 			((ToStyleTagSelector new styleTag: #button)
 				 style: [ :sr |
 					 sr
@@ -392,4 +392,108 @@ ToStyleSheetTest >> testSkinWithIdRule [
 	self assert: elem border width equals: 3.
 	self assert: elem border paint isColorPaint.
 	self assert: elem border paint color equals: Color red
+]
+
+{ #category : #'tests - style sheet style' }
+ToStyleSheetTest >> testStyleSheetStyle0 [
+
+	| ss button skin writers ssi rules |
+	ss := ToStyleSheet new
+		      inherits: false;
+		      yourself.
+	ssi := ToStyleSheetInterpreter new.
+
+	" default button rule "
+	rules := { (#button asStyleSelector style: [ :sr |
+		          sr write: (ss property: #background) with: Color white.
+		          sr
+			          when: ToInitialLookEvent
+			          write: (ss property: #background)
+			          with: [ :e | Color black ].
+		          sr
+			          when: ToDisabledLookEvent
+			          write: (ss property: #background)
+			          with: [ :e | e toTheme colorBgContainerDisabled ] ]) }.
+
+	ss addAllStyleRules: rules.
+	button := ToElement new.
+	button addStyleTag: #button.
+	button styleSheet: ss.
+	writers := ssi writersFor: button.
+	self assert: writers size equals: 3.
+	skin := ToSkin new.
+	skin writers: writers.
+	button withSkin: skin.
+
+	button switchToSkinState: ToInstallState new.
+	self assert: button background paint isColorPaint.
+	self assert: button background paint color equals: Color white.
+
+	button switchToSkinState: ToInitialState new.
+	self assert: button background paint isColorPaint.
+	self assert: button background paint color equals: Color black
+]
+
+{ #category : #'tests - style sheet style' }
+ToStyleSheetTest >> testStyleSheetStyleWithSubRules0 [
+
+	| ss button skin writers ssi rules |
+	ss := ToStyleSheet new
+		      inherits: false;
+		      yourself.
+	ssi := ToStyleSheetInterpreter new.
+
+	" default button rule "
+	rules := { (#button asStyleSelector style: [ :sr |
+		          sr rules: { 
+							#danger asStyleSelector style: [ :srb |
+				           	srb write: (ss property: #background) with: Color red.
+								srb
+									when: ToDisabledLookEvent
+									write: (ss property: #background)
+									with: [ :e | Color red alpha: 0.1 ] ].
+					 }.
+		          sr write: (ss property: #background) with: Color white.
+		          sr
+			          when: ToInitialLookEvent
+			          write: (ss property: #background)
+			          with: [ :e | Color black ].
+		          sr
+			          when: ToDisabledLookEvent
+			          write: (ss property: #background)
+			          with: [ :e | Color lightGray ] ]) }.
+
+	ss addAllStyleRules: rules.
+	button := ToElement new.
+	button addStyleTag: #button.
+	button styleSheet: ss.
+	writers := ssi writersFor: button.
+	self assert: writers size equals: 3.
+	skin := ToSkin new.
+	skin writers: writers.
+	button withSkin: skin.
+
+	button switchToSkinState: ToInstallState new.
+	self assert: button background paint isColorPaint.
+	self assert: button background paint color equals: Color white.
+
+	button switchToSkinState: ToInitialState new.
+	self assert: button background paint isColorPaint.
+	self assert: button background paint color equals: Color black.
+	
+	button addStyleTag: #danger.
+	button updateSkin.
+	button switchToSkinState: ToInstallState new.
+	self assert: button background paint isColorPaint.
+	self assert: button background paint color equals: Color red.
+	
+	button switchToSkinState: ToInitialState new.
+	self assert: button background paint isColorPaint.
+	self assert: button background paint color equals: Color black.
+	
+	button switchToSkinState: ToDisabledState new.
+	self assert: button background paint isColorPaint.
+	self assert: button background paint color equals: (Color red alpha: 0.1)
+
+
 ]

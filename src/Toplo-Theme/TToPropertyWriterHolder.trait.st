@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToPropertyWriterHolder,
-	#category : 'Toplo-Theme-Skin'
+	#category : #'Toplo-Theme-StyleSheet'
 }
 
 { #category : #'t - property writer holder - accessing' }

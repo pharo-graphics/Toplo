@@ -4,20 +4,6 @@ Class {
 	#category : #'Toplo-Theme-DefaultTheme'
 }
 
-{ #category : #'syntactic sugar' }
-ToDefaultStyleSheet >> action: aValuable [
-
- 	^ ToActionSelector new action: aValuable; yourself
-
-]
-
-{ #category : #'syntactic sugar' }
-ToDefaultStyleSheet >> any [
-
- 	^ ToUniversalSelector new
-
-]
-
 { #category : #'accessing rules  -button' }
 ToDefaultStyleSheet >> buttonRules [
 
@@ -370,9 +356,9 @@ ToDefaultStyleSheet >> commonButtonRules [
 
 	^ {
 		  (#button asStyleSelector style: [ :sr |
-			   sr
-				   write: (self property: #layout)
-				   with: BlLinearLayout vertical alignCenter.
+				
+				sr rules: {  }.
+			
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #mouseCursor)
@@ -383,7 +369,11 @@ ToDefaultStyleSheet >> commonButtonRules [
 			   sr
 				   when: ToLeavedLookEvent
 				   write: (self property: #mouseCursor)
-				   with: nil ]).
+				   with: nil.
+			
+			   sr
+				   write: (self property: #layout)
+				   with: BlLinearLayout vertical alignCenter ] ).
 
 		  (#button asStyleSelector - #vertical style: [ :sr |
 			   sr write: (self property: #padding) with: [ :e |
@@ -398,8 +388,6 @@ ToDefaultStyleSheet >> commonButtonRules [
 				   sr
 					   write: (self property: #height)
 					   with: [ :e | e toTheme controlHeight ] ]).
-
-
 
 		  (#button asStyleSelector - #vertical + #'large-sizing' style: [
 			   :sr |
@@ -419,6 +407,8 @@ ToDefaultStyleSheet >> commonButtonRules [
 				   with: BlLinearLayout horizontal.
 			   sr write: (self property: #'layout-constraints') with: [ :e |
 				   [ :c |
+					c horizontal fitContent.
+					c vertical fitContent.
 				   c linear vertical alignCenter.
 				   c linear horizontal alignCenter ] ] ]).
 
@@ -662,20 +652,6 @@ ToDefaultStyleSheet >> defaultStyleRules [
 		str nextPutAll: self rootPaneRules.
 		str nextPutAll: self buttonRules.
 		str nextPutAll: self labelRules ]
-]
-
-{ #category : #'syntactic sugar' }
-ToDefaultStyleSheet >> haveExactHeight [
-
-	^ self action: [ :e | e constraints vertical resizer isExact traceCr. e constraints vertical resizer isExact]
-
-]
-
-{ #category : #'syntactic sugar' }
-ToDefaultStyleSheet >> id: aSymbol [
-
- 	^ ToIdSelector new id: aSymbol
-
 ]
 
 { #category : #'accessing rules  - label' }
@@ -1011,12 +987,6 @@ ToDefaultStyleSheet >> primaryButtonRules [
 				   when: ToPressedLookEvent
 				   write: (self property: #'label-text-foreground')
 				   with: [ :e | e toTheme colorTextLightSolid ] ]) } 
-]
-
-{ #category : #'syntactic sugar' }
-ToDefaultStyleSheet >> property: aSymbol [
-
-	^ self propertyNamed: aSymbol
 ]
 
 { #category : #'accessing rules  - pane' }

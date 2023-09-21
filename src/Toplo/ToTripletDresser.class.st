@@ -8,15 +8,6 @@ Class {
 	#category : #'Toplo-Core-Triplet'
 }
 
-{ #category : #'event handling' }
-ToTripletDresser >> checkJustificationin: anElement [
-
-	filler ifNil: [ filler := self newFiller ].
-	"anElement justified
-		ifTrue: [ filler matchParent ]
-		ifFalse: [ filler size: 0 @ 0 ]"
-]
-
 { #category : #'api - install/uninstall  hook' }
 ToTripletDresser >> installEventListenersIn: anElement [
 
@@ -37,12 +28,17 @@ ToTripletDresser >> newFiller [
 		  yourself
 ]
 
+{ #category : #'api - install/uninstall  hook' }
+ToTripletDresser >> onInstalledIn: anElement [
+
+	super onInstalledIn: anElement.
+	filler := self newFiller
+]
+
 { #category : #'event handling' }
 ToTripletDresser >> propertyChangedEvent: anEvent in: anElement [
 
 	| children |
-	anElement ifNil: [ ^ self ].
-	self checkJustificationin: anElement.
 	anElement innerElement removeChildren.
 	children := { anElement first. filler. anElement second. anElement third } select: #notNil.
 	anElement innerElement addChildren: children

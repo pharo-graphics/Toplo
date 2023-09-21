@@ -10,7 +10,7 @@ ToStyleSheetInterpreter >> rawWritersFor: anElement [
 	^ Array streamContents: [ :str |
 		  (self rulesFor: anElement) do: [ :r |
 			  (r canBeAppliedTo: anElement) ifTrue: [
-				  str nextPutAll: r writers ] ] ]
+				  str nextPutAll: r writers  ] ] ]
 ]
 
 { #category : #accessing }
@@ -18,7 +18,7 @@ ToStyleSheetInterpreter >> rulesFor: anElement [
 
 	^ Array streamContents: [ :str |
 		  anElement styleSheetChain reverseDo: [ :ss |
-			  str nextPutAll: ss styleRules ] ]
+			  ss flattenStyleRules ifNotNil: [ :srs | str nextPutAll: srs ] ] ]
 ]
 
 { #category : #accessing }

@@ -24,7 +24,7 @@ ToStyleRuleTest >> setUp [
 
 ]
 
-{ #category : #tests }
+{ #category : #'tests - simple rule' }
 ToStyleRuleTest >> testNewStyleRuleFromSelector [
 	".button:initial {
 		background: blue;
@@ -43,7 +43,7 @@ ToStyleRuleTest >> testNewStyleRuleFromSelector [
 				with: Color red ]
 ]
 
-{ #category : #tests }
+{ #category : #'tests - simple rule' }
 ToStyleRuleTest >> testRuleWithAndSelector [
 	" a rule with an And operator  "
 
@@ -80,7 +80,7 @@ ToStyleRuleTest >> testRuleWithAndSelector [
 	self assert: (rule canBeAppliedTo: e)
 ]
 
-{ #category : #tests }
+{ #category : #'tests - simple rule' }
 ToStyleRuleTest >> testRuleWithAndWithParentSelector [
 	" a rule with an And operator  "
 
@@ -100,7 +100,7 @@ ToStyleRuleTest >> testRuleWithAndWithParentSelector [
 	self assert: (rule canBeAppliedTo: child)
 ]
 
-{ #category : #tests }
+{ #category : #'tests - simple rule' }
 ToStyleRuleTest >> testRuleWithChildSelector1 [
 	" a rule with a universal selector among others accept any element "
 
@@ -117,7 +117,7 @@ ToStyleRuleTest >> testRuleWithChildSelector1 [
 	self assert: (rule canBeAppliedTo: child)
 ]
 
-{ #category : #tests }
+{ #category : #'tests - simple rule' }
 ToStyleRuleTest >> testRuleWithChildSelector2 [
 	" a rule with a universal selector among others accept any element "
 
@@ -136,7 +136,7 @@ ToStyleRuleTest >> testRuleWithChildSelector2 [
 	self assert: (rule canBeAppliedTo: childchild)
 ]
 
-{ #category : #tests }
+{ #category : #'tests - simple rule' }
 ToStyleRuleTest >> testRuleWithChildSelector3 [
 	" a rule with a universal selector among others accept any element "
 
@@ -157,7 +157,7 @@ ToStyleRuleTest >> testRuleWithChildSelector3 [
 	self assert: (rule canBeAppliedTo: childchild)
 ]
 
-{ #category : #tests }
+{ #category : #'tests - simple rule' }
 ToStyleRuleTest >> testRuleWithChildSelector4 [
 	" a rule with a universal selector among others accept any element "
 
@@ -196,7 +196,7 @@ ToStyleRuleTest >> testRuleWithChildSelector4 [
 	self assert: (childchildchildRule canBeAppliedTo: childchildchild)
 ]
 
-{ #category : #tests }
+{ #category : #'tests - simple rule' }
 ToStyleRuleTest >> testRuleWithChildSelector5 [
 	" a rule with a universal selector among others accept any element "
 
@@ -277,7 +277,7 @@ ToStyleRuleTest >> testRuleWithChildSelector5 [
 	self assert: (childchildchildRule canBeAppliedTo: childchildchild)
 ]
 
-{ #category : #tests }
+{ #category : #'tests - simple rule' }
 ToStyleRuleTest >> testRuleWithClassSelector [
 
 	| rule e |
@@ -293,7 +293,7 @@ ToStyleRuleTest >> testRuleWithClassSelector [
 	self assert: (rule canBeAppliedTo: e)
 ]
 
-{ #category : #tests }
+{ #category : #'tests - simple rule' }
 ToStyleRuleTest >> testRuleWithNoSelector [
 	" a rule with no selector accepts any alement "
 	| rule e |
@@ -302,7 +302,31 @@ ToStyleRuleTest >> testRuleWithNoSelector [
 	self assert: (rule canBeAppliedTo: e) 
 ]
 
-{ #category : #tests }
+{ #category : #'test - rule hierarchy' }
+ToStyleRuleTest >> testRuleWithSubRule [
+	" a rule with an And operator  "
+
+	| rule flatten |
+	rule := ToStyleRule
+		        selectedWith:
+		        (ToStyleTagSelector new styleTags: #( #button ))
+		        style: [ :sr |
+			        sr rules: { (ToStyleRule
+					         selectedWith:
+					         (ToStyleTagSelector new styleTags: #( #checkable ))
+					         style: [ :subSr |  ]) } ].
+
+	flatten := rule flattenStyleRules.
+	self assert: flatten size equals: 2.
+	self assert: (flatten first selector isKindOf: ToStyleTagSelector).
+	self assert: flatten first selector styleTags equals: #(#button).
+	self assert: (flatten second selector isKindOf: ToAndSelector).
+	self assert: flatten second selector left equals: flatten first selector.
+	self assert: (flatten second selector right isKindOf: ToStyleTagSelector).
+	self assert: flatten second selector right styleTags equals: #(#checkable) 
+]
+
+{ #category : #'tests - simple rule' }
 ToStyleRuleTest >> testRuleWithUniversalSelector [
 	" a rule with a unique univesal selector accept any element "
 
@@ -312,7 +336,7 @@ ToStyleRuleTest >> testRuleWithUniversalSelector [
 	self assert: (rule canBeAppliedTo: e)
 ]
 
-{ #category : #tests }
+{ #category : #'tests - simple rule' }
 ToStyleRuleTest >> testRuleWithUniversalSelector2 [
 	" a rule with a universal selector among others accept any element "
 

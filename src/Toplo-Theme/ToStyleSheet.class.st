@@ -1,6 +1,8 @@
 Class {
 	#name : #ToStyleSheet,
 	#superclass : #Object,
+	#traits : 'TToStyleRuleHolder',
+	#classTraits : 'TToStyleRuleHolder classTrait',
 	#instVars : [
 		'propertyIndex',
 		'styleRules',
@@ -86,22 +88,52 @@ ToStyleSheet class >> propertyList [
 			   writer: [ :e :v | v value: e constraints ]) }
 ]
 
-{ #category : #accessing }
-ToStyleSheet >> addStyleRule: aRule [
+{ #category : #'syntactic sugar' }
+ToStyleSheet >> action: aValuable [
 
-	styleRules := styleRules copyWith: aRule
+ 	^ ToActionSelector new action: aValuable; yourself
+
 ]
 
-{ #category : #accessing }
-ToStyleSheet >> addStyleRules: aCollection [
+{ #category : #'syntactic sugar' }
+ToStyleSheet >> any [
 
-	styleRules := styleRules copyWithAll: aCollection asArray
+ 	^ ToUniversalSelector new
+
 ]
 
 { #category : #initialization }
 ToStyleSheet >> defaultStyleRules [
 
 	^ #()
+]
+
+{ #category : #accessing }
+ToStyleSheet >> flattenStyleRules [
+
+	^ Array streamContents: [ :str |
+		  self styleRules do: [ :sr | str nextPutAll: sr flattenStyleRules ] ]
+]
+
+{ #category : #'syntactic sugar' }
+ToStyleSheet >> haveExactHeight [
+
+	^ self action: [ :e | e constraints vertical resizer isExact]
+
+]
+
+{ #category : #'syntactic sugar' }
+ToStyleSheet >> haveExactWidth [
+
+	^ self action: [ :e | e constraints horizontal resizer isExact]
+
+]
+
+{ #category : #'syntactic sugar' }
+ToStyleSheet >> id: aSymbol [
+
+ 	^ ToIdSelector new id: aSymbol
+
 ]
 
 { #category : #accessing }
@@ -131,6 +163,12 @@ ToStyleSheet >> newPropertyIndex [
 	^ ToPropertyIndex new recordAll: self propertyList; yourself
 ]
 
+{ #category : #'syntactic sugar' }
+ToStyleSheet >> property: aSymbol [
+
+	^ self propertyNamed: aSymbol
+]
+
 { #category : #accessing }
 ToStyleSheet >> propertyIndex [
 
@@ -150,8 +188,14 @@ ToStyleSheet >> propertyNamed: aName [
 	^ self propertyIndex ifNotNil: [ :pi | pi propertyNamed: aName]
 ]
 
-{ #category : #accessing }
-ToStyleSheet >> styleRules [ 
+{ #category : #'t - style rule holder - accessing' }
+ToStyleSheet >> rawStyleRules [
 
-	^ styleRules
+	^ styleRules 
+]
+
+{ #category : #'t - style rule holder - accessing' }
+ToStyleSheet >> rawStyleRules: aStyleRuleCollection [
+
+	styleRules := aStyleRuleCollection
 ]

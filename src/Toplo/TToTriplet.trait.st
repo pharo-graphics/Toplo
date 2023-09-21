@@ -1,7 +1,9 @@
 Trait {
 	#name : #TToTriplet,
 	#instVars : [
-		'innerElement'
+		'innerElement',
+		'filler1',
+		'filler2'
 	],
 	#category : #'Toplo-Core-Triplet'
 }
@@ -52,9 +54,7 @@ TToTriplet >> justified [
 { #category : #'t - triplet - configuration' }
 TToTriplet >> justified: aBoolean [
 
-	| prev |
 	self justified = aBoolean ifTrue: [ ^ self ].
-	prev := self justified.
 	aBoolean
 		ifTrue: [ self addStyleTag: #justified ]
 		ifFalse: [ self removeStyleTag: #justified ].

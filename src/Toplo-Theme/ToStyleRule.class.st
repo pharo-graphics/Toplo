@@ -1,12 +1,13 @@
 Class {
 	#name : #ToStyleRule,
 	#superclass : #Object,
-	#traits : 'TToPropertyWriterHolder',
-	#classTraits : 'TToPropertyWriterHolder classTrait',
+	#traits : 'TToPropertyWriterHolder + TToStyleRuleHolder',
+	#classTraits : 'TToPropertyWriterHolder classTrait + TToStyleRuleHolder classTrait',
 	#instVars : [
 		'selector',
 		'eventClass',
-		'writers'
+		'writers',
+		'subStyleRules'
 	],
 	#category : #'Toplo-Theme-StyleSheet'
 }
@@ -35,7 +36,7 @@ ToStyleRule >> canBeAppliedTo: anElement [
 	^ engine result
 ]
 
-{ #category : #accessing }
+{ #category : #'syntactic sugar' }
 ToStyleRule >> event: aLookEventClass [
 
 	self eventClass: aLookEventClass
@@ -53,13 +54,22 @@ ToStyleRule >> eventClass: aLookEventClass [
 	eventClass := aLookEventClass
 ]
 
+{ #category : #accessing }
+ToStyleRule >> flattenStyleRules [
+
+	^ Array streamContents: [ :str |
+		  str nextPut: self.
+		  self styleRules do: [ :sr | str nextPutAll: sr flattenStyleRules ] ]
+]
+
 { #category : #initialization }
 ToStyleRule >> initialize [
 
 	super initialize.
 	selector := ToUniversalSelector new.
 	eventClass := ToInstallLookEvent.
-	writers := #(  )
+	writers := #(  ).
+	subStyleRules := #(  )
 ]
 
 { #category : #'property writer' }
@@ -70,6 +80,18 @@ ToStyleRule >> property: aProperty value: aValuableOrObject animation: aProperty
 			 write: aValuableOrObject
 			 animation: aPropertyAnimation;
 			 yourself)
+]
+
+{ #category : #'t - style rule holder - accessing' }
+ToStyleRule >> rawStyleRules [
+
+	^ subStyleRules
+]
+
+{ #category : #'t - style rule holder - accessing' }
+ToStyleRule >> rawStyleRules: aStyleRuleCollection [
+
+	subStyleRules := aStyleRuleCollection
 ]
 
 { #category : #'t - property writer holder - accessing' }
@@ -84,7 +106,13 @@ ToStyleRule >> rawWriters: aPropertyWriterCollection [
 	writers := aPropertyWriterCollection 
 ]
 
-{ #category : #accessing }
+{ #category : #declaring }
+ToStyleRule >> rules: aStyleRuleCollection [
+
+	self addAllStyleRules: (aStyleRuleCollection collect: [ :sr | sr selector: (self selector + sr selector ) ])
+]
+
+{ #category : #declaring }
 ToStyleRule >> selectedWith: aStyleSelector style: aBlock [
 
 	self selector: aStyleSelector.
@@ -92,7 +120,7 @@ ToStyleRule >> selectedWith: aStyleSelector style: aBlock [
 	
 ]
 
-{ #category : #accessing }
+{ #category : #declaring }
 ToStyleRule >> selectedWith: aStyleSelector when: anEventClass style: aBlock [
 
 	self eventClass: anEventClass.

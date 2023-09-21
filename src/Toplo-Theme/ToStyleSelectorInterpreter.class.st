@@ -109,7 +109,7 @@ ToStyleSelectorInterpreter >> visitSiblingSelector: aSelector [
 
 	result := false.
 	current := targetStack top.
-	current siblingDo: [ :sib |
+	current siblingsDo: [ :sib |
 		targetStack push: sib.
 		aSelector right accept: self.
 		targetStack pop.

@@ -1,30 +1,28 @@
 Class {
-	#name : 'ToTooltipModel',
-	#superclass : 'ToViewModel',
-	#category : 'Toplo-Core-Tooltip',
-	#package : 'Toplo',
-	#tag : 'Core-Tooltip'
+	#name : #ToTooltipModel,
+	#superclass : #ToViewModel,
+	#category : 'Toplo-Core-Tooltip'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTooltipModel >> content: aText [
 
 	self widgetDo: [ :widget | widget content: aText ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTooltipModel >> contentString: aString [
 
 	self content: aString asRopedText
 ]
 
-{ #category : 'private - accessing - widget' }
+{ #category : #'private - accessing - widget' }
 ToTooltipModel >> privateWidgetClass [
 
 	^ ToTooltipWindow
 ]
 
-{ #category : 'enumerating' }
+{ #category : #enumerating }
 ToTooltipModel >> whenContentChangedDo: aBlock [
 	"Inform when content property has changed. 
 	 `aBlock` has three optional arguments: 

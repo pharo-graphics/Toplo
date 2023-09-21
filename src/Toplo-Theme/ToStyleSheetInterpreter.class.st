@@ -1,9 +1,6 @@
 Class {
 	#name : #ToStyleSheetInterpreter,
 	#superclass : #Object,
-	#instVars : [
-		'styleSheetChain'
-	],
 	#category : #'Toplo-Theme-StyleSheet'
 }
 
@@ -20,7 +17,7 @@ ToStyleSheetInterpreter >> rawWritersFor: anElement [
 ToStyleSheetInterpreter >> rulesFor: anElement [
 
 	^ Array streamContents: [ :str |
-		  self styleSheetChain reverseDo: [ :ss |
+		  anElement styleSheetChain reverseDo: [ :ss |
 			  str nextPutAll: ss styleRules ] ]
 ]
 
@@ -28,17 +25,10 @@ ToStyleSheetInterpreter >> rulesFor: anElement [
 ToStyleSheetInterpreter >> skinFor: anElement [
 
 	| writers skin |
-	styleSheetChain := anElement styleSheetChain.
 	writers := self writersFor: anElement.
 	skin := ToSkin new.
 	skin writers: writers.
 	^ skin
-]
-
-{ #category : #accessing }
-ToStyleSheetInterpreter >> styleSheetChain [
-
-	^ styleSheetChain
 ]
 
 { #category : #accessing }

@@ -1,15 +1,13 @@
 Class {
-	#name : 'ToElementProperty',
-	#superclass : 'Object',
+	#name : #ToElementProperty,
+	#superclass : #Object,
 	#instVars : [
 		'name'
 	],
-	#category : 'Toplo-Core-Properties',
-	#package : 'Toplo',
-	#tag : 'Core-Properties'
+	#category : 'Toplo-Core-Properties'
 }
 
-{ #category : 'comparing' }
+{ #category : #comparing }
 ToElementProperty >> isConficting: anotherProperty [
 
 	" two properties with the same name are in conflict  "
@@ -17,25 +15,25 @@ ToElementProperty >> isConficting: anotherProperty [
 	^ true
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToElementProperty >> name [
 
 	^ name
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToElementProperty >> name: anObject [
 
 	name := anObject
 ]
 
-{ #category : 'operating' }
+{ #category : #operating }
 ToElementProperty >> read: anObject [
 
 	self subclassResponsibility 
 ]
 
-{ #category : 'operating' }
+{ #category : #operating }
 ToElementProperty >> write: anPropertyValue to: anObject [
 
 	self subclassResponsibility 

@@ -1,15 +1,13 @@
 Class {
-	#name : 'ToSkinnableSlot',
-	#superclass : 'IndexedSlot',
+	#name : #ToSkinnableSlot,
+	#superclass : #IndexedSlot,
 	#instVars : [
 		''
 	],
-	#category : 'Toplo-Core-Slot',
-	#package : 'Toplo',
-	#tag : 'Core-Slot'
+	#category : 'Toplo-Core-Slot'
 }
 
-{ #category : 'meta-object-protocol' }
+{ #category : #'meta-object-protocol' }
 ToSkinnableSlot >> write: aValue to: anObject [
 
 	| prev r |

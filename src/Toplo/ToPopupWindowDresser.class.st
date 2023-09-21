@@ -1,16 +1,14 @@
 Class {
-	#name : 'ToPopupWindowDresser',
-	#superclass : 'ToBasicWindowDresser',
+	#name : #ToPopupWindowDresser,
+	#superclass : #ToBasicWindowDresser,
 	#instVars : [
 		'closeHandler',
 		'widgetPositionHandler'
 	],
-	#category : 'Toplo-Core-Window',
-	#package : 'Toplo',
-	#tag : 'Core-Window'
+	#category : 'Toplo-Core-Window'
 }
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToPopupWindowDresser >> installWidget: newWidget in: anElement [
 
 	super installWidget: newWidget in: anElement.
@@ -22,7 +20,7 @@ ToPopupWindowDresser >> installWidget: newWidget in: anElement [
 	super installWidget: newWidget in: anElement
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToPopupWindowDresser >> mouseUpOutside: anEvent in: aMenuWindow [
 
 	" decide  if one have to close the window "
@@ -35,7 +33,7 @@ ToPopupWindowDresser >> mouseUpOutside: anEvent in: aMenuWindow [
 	anEvent currentTarget close
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToPopupWindowDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
@@ -50,13 +48,13 @@ ToPopupWindowDresser >> onInstalledIn: anElement [
 
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToPopupWindowDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToPopupWindowDresser >> openedInSpace: anEvent in: anElement [
 
 	closeHandler := BlEventHandler
@@ -66,7 +64,7 @@ ToPopupWindowDresser >> openedInSpace: anEvent in: anElement [
 	anElement switchToSkinState: ToOpenedState new
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToPopupWindowDresser >> removedFromSpace: anEvent in: anElement [
 
 	anElement removeEventFilter: closeHandler.
@@ -74,7 +72,7 @@ ToPopupWindowDresser >> removedFromSpace: anEvent in: anElement [
 	anElement switchToSkinState: ToClosedState new
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToPopupWindowDresser >> uninstallEventListenersIn: anElement [
 
 	super uninstallEventListenersIn: anElement.
@@ -82,7 +80,7 @@ ToPopupWindowDresser >> uninstallEventListenersIn: anElement [
 	closeHandler := nil	
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToPopupWindowDresser >> uninstallWidget: oldWidget in: anElement [
 
 	oldWidget ifNil: [ ^ self ].
@@ -91,14 +89,14 @@ ToPopupWindowDresser >> uninstallWidget: oldWidget in: anElement [
 	super uninstallWidget: oldWidget in: anElement
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToPopupWindowDresser >> whenAddedToSpace: anvent in: anElement [
 
 	super whenAddedToSpace: anvent in: anElement.
 	self openedInSpace: anvent in: anElement
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToPopupWindowDresser >> whenRemovedFromSpace: anEvent in: anElement [
 
 	super whenRemovedFromSpace: anEvent in: anElement.

@@ -1,15 +1,13 @@
 Class {
-	#name : 'ToWindowElement',
-	#superclass : 'ToElement',
+	#name : #ToWindowElement,
+	#superclass : #ToElement,
 	#instVars : [
 		'root'
 	],
-	#category : 'Toplo-Core-Window',
-	#package : 'Toplo',
-	#tag : 'Core-Window'
+	#category : 'Toplo-Core-Window'
 }
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToWindowElement >> close [
 
 	"Delegate closing to the Universe"
@@ -22,25 +20,25 @@ ToWindowElement >> close [
 				err traceCr ] ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToWindowElement >> defaultBorder [
 
 	^ BlBorder empty
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToWindowElement >> defaultGeometry [ 
 	
 	^ (BlRoundedRectangleGeometry cornerRadius: 4)
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToWindowElement >> defaultLayout [
 
 	^ BlFrameLayout new
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToWindowElement >> defaultRoot [
 
 	^ ToElement new
@@ -50,31 +48,31 @@ ToWindowElement >> defaultRoot [
 		  fitContent
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToWindowElement >> defaultRootBackground [
 
 	^ Color transparent
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToWindowElement >> defaultRootLabel [
 	^ 'ToWindowElement root'
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToWindowElement >> defaultRootLayout [
 
 	^ BlLinearLayout vertical 
 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToWindowElement >> elements [
 
 	^ { self root }
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToWindowElement >> initialize [
 
 	super initialize.
@@ -89,19 +87,19 @@ ToWindowElement >> initialize [
 	self addChildren: self elements.
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToWindowElement >> isClosed [
 
 	^ self isOpened not
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToWindowElement >> isOpened [
 
 	^ self hasParent
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToWindowElement >> root [
 	"Return my current root element.
 	root can not be nil"
@@ -109,7 +107,7 @@ ToWindowElement >> root [
 	^ root ifNil: [ root := self defaultRoot ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToWindowElement >> root: anElement [
 
 	"Make a given element my root element.
@@ -121,7 +119,7 @@ ToWindowElement >> root: anElement [
 	root := anElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToWindowElement >> rootDo: aBlock [
 	"A helper method to evaluate a given block with the root element as its argument.
 	May be useful for scripting"
@@ -129,7 +127,7 @@ ToWindowElement >> rootDo: aBlock [
 	aBlock value: self root
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToWindowElement >> toFront [
 
 	self detachFromParentWhile: [ 

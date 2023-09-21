@@ -1,16 +1,14 @@
 Class {
-	#name : 'ToTooltipWindowDresser',
-	#superclass : 'ToPopupWindowDresser',
+	#name : #ToTooltipWindowDresser,
+	#superclass : #ToPopupWindowDresser,
 	#instVars : [
 		'eventHandler',
 		'widgetWithTooltipEventHandler'
 	],
-	#category : 'Toplo-Core-Tooltip',
-	#package : 'Toplo',
-	#tag : 'Core-Tooltip'
+	#category : 'Toplo-Core-Tooltip'
 }
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToTooltipWindowDresser >> installWidget: newWidget in: anElement [
 
 	super installWidget: newWidget in: anElement.
@@ -20,13 +18,13 @@ ToTooltipWindowDresser >> installWidget: newWidget in: anElement [
 
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToTooltipWindowDresser >> newEventHandler [
 
 	^ ToTooltipWindowEventHandler new
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToTooltipWindowDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
@@ -47,7 +45,7 @@ ToTooltipWindowDresser >> onInstalledIn: anElement [
 
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToTooltipWindowDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
@@ -55,7 +53,7 @@ ToTooltipWindowDresser >> onUninstalledIn: anElement [
 	eventHandler := nil
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToTooltipWindowDresser >> uninstallWidget: oldWidget in: anElement [
 
 	super uninstallWidget: oldWidget in: anElement.

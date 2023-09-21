@@ -5,7 +5,7 @@ Class {
 		'targetStack',
 		'result'
 	],
-	#category : 'Toplo-Theme-StyleSelector'
+	#category : #'Toplo-Theme-StyleSelector'
 }
 
 { #category : #operating }
@@ -41,29 +41,19 @@ ToStyleSelectorInterpreter >> visitAndSelector: aSelector [
 { #category : #visiting }
 ToStyleSelectorInterpreter >> visitChildSelector: aSelector [
 
-	| current l |
+	| parent |
 	aSelector left accept: self.
 	result ifFalse: [ ^ self ].
 
 	result := false.
-	current := targetStack top parent.
-	l := aSelector parentLevel - 1.
-	(current isNil or: [ l < 0 ]) ifTrue: [
-		^ self ].
-	
-	[ current isNil or: [ result ] ] whileFalse: [
-		targetStack push: current.
-		aSelector right accept: self.
-		targetStack pop.
-		(result and: [l > 0]) ifTrue: [
-			result := false.
-			^ self ].
-		(result not and: [l  = 0]) ifTrue: [ 
-			^ self ].
-		result ifFalse: [ l := l - 1 ].
-		current := current parent ].
-
-	result := result and: [ l isZero ]
+	parent := targetStack top.
+	"evaluate only for children at a given depth or at any depth if selector depth is not specified "
+	parent allChildrenBreadthFirstWithDepthDo: [ :child :depth |
+		(aSelector depth isNil or: [ aSelector depth = depth ]) ifTrue: [
+			targetStack push: child.
+			aSelector right accept: self.
+			targetStack pop.
+			result ifTrue: [ ^ self ] ] ]
 ]
 
 { #category : #visiting }
@@ -85,6 +75,45 @@ ToStyleSelectorInterpreter >> visitOrSelector: aSelector [
 	aSelector left accept: self.
 	result ifTrue: [ ^ self ].
 	aSelector right accept: self.
+]
+
+{ #category : #visiting }
+ToStyleSelectorInterpreter >> visitParentSelector: aSelector [
+
+	| current depth |
+	aSelector left accept: self.
+	result ifFalse: [ ^ self ].
+
+	result := false.
+	current := targetStack top.
+	depth := aSelector depth.
+
+	[
+	current := current parent.
+	current ifNil: [ ^ self ].
+	depth := depth - 1.
+	depth < 0 ifTrue: [ ^ self ].
+	depth isZero ifTrue: [
+		targetStack push: current.
+		aSelector right accept: self.
+		targetStack pop.
+		^ self ] ] repeat
+]
+
+{ #category : #visiting }
+ToStyleSelectorInterpreter >> visitSiblingSelector: aSelector [
+
+	| current |
+	aSelector left accept: self.
+	result ifFalse: [ ^ self ].
+
+	result := false.
+	current := targetStack top.
+	current siblingDo: [ :sib |
+		targetStack push: sib.
+		aSelector right accept: self.
+		targetStack pop.
+		result ifTrue: [ ^ self ] ]
 ]
 
 { #category : #visiting }

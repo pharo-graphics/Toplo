@@ -1,7 +1,7 @@
 Class {
 	#name : #ToStyleSelector,
 	#superclass : #Object,
-	#category : 'Toplo-Theme-StyleSelector'
+	#category : #'Toplo-Theme-StyleSelector'
 }
 
 { #category : #'logical operator' }
@@ -46,12 +46,21 @@ ToStyleSelector >> asStyleSelector [
 ]
 
 { #category : #'logical operator' }
-ToStyleSelector >> child: aSelector level: anInteger [
+ToStyleSelector >> child: aSelector [ 
 
 	^ ToChildSelector new
-		  left: aSelector value asStyleSelector;
-		  right: self;
-		  parentLevel: anInteger;
+		  right: aSelector value asStyleSelector;
+		  left: self;
+		  yourself
+]
+
+{ #category : #'logical operator' }
+ToStyleSelector >> child: aSelector depth: anInteger [
+
+	^ ToChildSelector new
+		  right: aSelector value asStyleSelector;
+		  left: self;
+		  depth: anInteger;
 		  yourself
 ]
 
@@ -75,19 +84,28 @@ ToStyleSelector >> or: aStyleSelector [
 { #category : #'logical operator' }
 ToStyleSelector >> parent: aSelector [
 
-	^ ToChildSelector new
+	^ ToParentSelector new
 		  left: self;
 		  right: aSelector value asStyleSelector;
 		  yourself
 ]
 
 { #category : #'logical operator' }
-ToStyleSelector >> parent: aSelector level: anInteger [
+ToStyleSelector >> parent: aSelector depth: anInteger [
 
-	^ ToChildSelector new
+	^ ToParentSelector new
 		  left: self;
 		  right: aSelector value asStyleSelector;
-		  parentLevel: anInteger;
+		  depth: anInteger;
+		  yourself
+]
+
+{ #category : #'logical operator' }
+ToStyleSelector >> sibling: aSelector [
+
+	^ ToSiblingSelector new
+		  left: self;
+		  right: aSelector value asStyleSelector;
 		  yourself
 ]
 

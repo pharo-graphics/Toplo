@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToPolyElement',
-	#superclass : 'ToElement',
-	#category : 'Toplo-Core',
-	#package : 'Toplo',
-	#tag : 'Core'
+	#name : #ToPolyElement,
+	#superclass : #ToElement,
+	#category : 'Toplo-Core'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToPolyElement >> initialize [
 
 	super initialize.

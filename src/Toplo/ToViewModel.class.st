@@ -1,19 +1,17 @@
 Class {
-	#name : 'ToViewModel',
-	#superclass : 'ToCompanion',
-	#category : 'Toplo-Core',
-	#package : 'Toplo',
-	#tag : 'Core'
+	#name : #ToViewModel,
+	#superclass : #ToCompanion,
+	#category : 'Toplo-Core'
 }
 
-{ #category : 'api - enablement' }
+{ #category : #'api - enablement' }
 ToViewModel >> disable [
 	"Disable the view"
 	
 	self widgetDo: [ :widget | widget disable ]
 ]
 
-{ #category : 'api - enablement' }
+{ #category : #'api - enablement' }
 ToViewModel >> disabled: aBoolean [
 
 	aBoolean value
@@ -21,14 +19,14 @@ ToViewModel >> disabled: aBoolean [
 		ifFalse: [ self enable ]
 ]
 
-{ #category : 'api - enablement' }
+{ #category : #'api - enablement' }
 ToViewModel >> enable [
 	"Enable the view"
 	
 	self widgetDo: [ :widget | widget enable ]
 ]
 
-{ #category : 'api - enablement' }
+{ #category : #'api - enablement' }
 ToViewModel >> enabled: aBoolean [
 
 	aBoolean value
@@ -36,13 +34,13 @@ ToViewModel >> enabled: aBoolean [
 		ifFalse: [ self disable ]
 ]
 
-{ #category : 'accessing - widget' }
+{ #category : #'accessing - widget' }
 ToViewModel >> onWidget [
 
 	^ self privateNewWidget
 ]
 
-{ #category : 'private - accessing - widget' }
+{ #category : #'private - accessing - widget' }
 ToViewModel >> privateNewWidget [
 
 	^ self privateWidgetClass new
@@ -50,27 +48,27 @@ ToViewModel >> privateNewWidget [
 		  yourself
 ]
 
-{ #category : 'private - accessing - widget' }
+{ #category : #'private - accessing - widget' }
 ToViewModel >> privateWidgetClass [
 
 	^ self subclassResponsibility 
 ]
 
-{ #category : 'api - tooltip' }
+{ #category : #'api - tooltip' }
 ToViewModel >> tooltipContent: aText [
 	"Set a tooltip text to display to the user if he let the mouse over the widget."
 
 	self widgetDo: [ :widget | widget tooltipContent: aText ]
 ]
 
-{ #category : 'api - tooltip' }
+{ #category : #'api - tooltip' }
 ToViewModel >> tooltipString: aString [
 	"Set a tooltip string to display to the user if he let the mouse over the widget."
 
 	self tooltipContent: aString asRopedText
 ]
 
-{ #category : 'api - properties change hook' }
+{ #category : #'api - properties change hook' }
 ToViewModel >> whenTooltipChangedDo: aBlock [
 	"Inform when tooltip has changed. 
 	 `aBlock` has three optional arguments: 

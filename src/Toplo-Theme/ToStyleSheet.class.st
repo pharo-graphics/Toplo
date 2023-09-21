@@ -2,7 +2,9 @@ Class {
 	#name : #ToStyleSheet,
 	#superclass : #Object,
 	#instVars : [
-		'propertyIndex'
+		'propertyIndex',
+		'styleRules',
+		'inherits'
 	],
 	#category : #'Toplo-Theme-StyleSheet'
 }
@@ -83,11 +85,43 @@ ToStyleSheet class >> propertyList [
 			   writer: [ :e :v | v value: e constraints ]) }
 ]
 
+{ #category : #accessing }
+ToStyleSheet >> addStyleRule: aRule [
+
+	styleRules := styleRules copyWith: aRule
+]
+
+{ #category : #accessing }
+ToStyleSheet >> addStyleRules: aCollection [
+
+	styleRules := styleRules copyWithAll: aCollection asArray
+]
+
+{ #category : #initialization }
+ToStyleSheet >> defaultStyleRules [
+
+	^ #()
+]
+
+{ #category : #accessing }
+ToStyleSheet >> inherits [
+
+	^ inherits
+]
+
+{ #category : #accessing }
+ToStyleSheet >> inherits: aBoolean [
+
+	inherits := aBoolean
+]
+
 { #category : #initialization }
 ToStyleSheet >> initialize [ 
 
 	super initialize.
-	propertyIndex := self newPropertyIndex 
+	propertyIndex := self newPropertyIndex.
+	styleRules := self defaultStyleRules.
+	inherits := true
 ]
 
 { #category : #initialization }
@@ -111,11 +145,12 @@ ToStyleSheet >> propertyList [
 { #category : #accessing }
 ToStyleSheet >> propertyNamed: aName [
 
-	^ self propertyIndex propertyNamed: aName
+	
+	^ self propertyIndex ifNotNil: [ :pi | pi propertyNamed: aName]
 ]
 
 { #category : #accessing }
-ToStyleSheet >> styleRules [
+ToStyleSheet >> styleRules [ 
 
-	^ self subclassResponsibility 
+	^ styleRules
 ]

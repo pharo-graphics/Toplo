@@ -5,6 +5,13 @@ Class {
 }
 
 { #category : #'syntactic sugar' }
+ToDefaultStyleSheet >> action: aValuable [
+
+ 	^ ToActionSelector new action: aValuable; yourself
+
+]
+
+{ #category : #'syntactic sugar' }
 ToDefaultStyleSheet >> any [
 
  	^ ToUniversalSelector new
@@ -21,7 +28,10 @@ ToDefaultStyleSheet >> buttonRules [
 		  str nextPutAll: self textButtonRules.
 		  str nextPutAll: self linkButtonRules.
 		  str nextPutAll: self checkableButtonRules.
-		  str nextPutAll: self checkableInnerImageRules ]
+		  str nextPutAll: self checkableInnerImageRules.
+		  str nextPutAll: self circleButtonRules.
+		  str nextPutAll: self verticalButtonRules.
+		  str nextPutAll: self toggleButtonRules ]
 ]
 
 { #category : #'accessing rules  -button' }
@@ -66,7 +76,7 @@ ToDefaultStyleSheet >> checkableButtonRules [
 		  " checkbox icon geometry "
 		  ((#image asStyleSelector
 			    parent: #( #button #checkable #checkbox )
-			    level: 2) style: [ :sr |
+			    depth: 2) style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #geometry)
@@ -75,13 +85,13 @@ ToDefaultStyleSheet >> checkableButtonRules [
 		  " radio button icon geometry "
 		  ((#image asStyleSelector
 			    parent: #( #button #checkable #radio )
-			    level: 2) style: [ :sr |
+			    depth: 2) style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #geometry)
 				   with: [ :e | BlCircleGeometry new ] ]).
 
-		  ((#image asStyleSelector parent: #( #button #checkable ) level: 2)
+		  ((#image asStyleSelector parent: #( #button #checkable ) depth: 2)
 			   style: [ :sr | " icon border "
 				   sr
 					   when: ToInitialLookEvent
@@ -114,7 +124,7 @@ ToDefaultStyleSheet >> checkableButtonRules [
 
 		  ((#image asStyleSelector
 			    parent: #( #button #checkable #danger )
-			    level: 2) style: [ :sr | " icon border "
+			    depth: 2) style: [ :sr | " icon border "
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'border-with-builder')
@@ -153,7 +163,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 		{
 		  ((#( #checkable #'inner-image' ) asStyleSelector
 			    parent: #( #button #checkable )
-			    level: 3) style: [ :sr |
+			    depth: 3) style: [ :sr |
 			   sr
 				   write: (self property: #layout)
 				   with: [ :e | BlFrameLayout new ].
@@ -167,8 +177,8 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 		  ((#( #checkable #'inner-image' #indeterminate #bar ) asStyleSelector
 			    parent: (#( #checkable #'inner-image' ) asStyleSelector
 					     parent: #( #button #checkable )
-					     level: 3)
-			    level: 1) style: [ :sr |
+					     depth: 3)
+			    depth: 1) style: [ :sr |
 			   sr write: (self property: #'layout-constraints') with: [ :e |
 				   [ :c |
 				   c horizontal matchParent.
@@ -189,15 +199,15 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 		  ((#( #checkable #'inner-image' #indeterminate #bar ) asStyleSelector
 			    parent: (#( #checkable #'inner-image' ) asStyleSelector
 					     parent: #( #button #checkable #danger )
-					     level: 3)
-			    level: 1) style: [ :sr |
+					     depth: 3)
+			    depth: 1) style: [ :sr |
 			   sr
 				   write: (self property: #background)
 				   with: [ :e | e toTheme colorError ] ]).
 
 		  ((#( #checkable #'inner-image' #indeterminate ) asStyleSelector
 			    parent: #( #button #checkable )
-			    level: 4) style: [ :sr |
+			    depth: 4) style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #margin)
@@ -205,7 +215,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 
 		  ((#( #checkable #'inner-image' #checked ) asStyleSelector
 			    parent: #( #button #checkable )
-			    level: 3) style: [ :sr | " icon border "
+			    depth: 3) style: [ :sr | " icon border "
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'border-with-builder')
@@ -241,7 +251,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 
 		  ((#( #checkable #'inner-image' #unchecked ) asStyleSelector
 			    parent: #( #button #checkable )
-			    level: 3) style: [ :sr | " icon border "
+			    depth: 3) style: [ :sr | " icon border "
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'border-with-builder')
@@ -252,7 +262,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 
 		  ((#( #checkable #'inner-image' #checked ) asStyleSelector
 			    parent: #( #button #checkable #danger )
-			    level: 3) style: [ :sr | " icon border "
+			    depth: 3) style: [ :sr | " icon border "
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'border-with-builder')
@@ -288,7 +298,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 
 		  ((#( #checkable #'inner-image' #unchecked ) asStyleSelector
 			    parent: #( #button #checkable #danger )
-			    level: 3) style: [ :sr |
+			    depth: 3) style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'border-with-builder')
@@ -296,6 +306,54 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 					   e borderBuilder
 						   width: 1;
 						   yourself ] ]) }
+]
+
+{ #category : #'accessing rules  -button' }
+ToDefaultStyleSheet >> circleButtonRules [
+
+
+	^ {
+
+		  (#( #button #circle ) asStyleSelector style: [ :sr |
+			   sr
+				   write: (self property: #layout)
+				   with: [ :e | BlFrameLayout new ].
+			   sr write: (self property: #padding) with: BlInsets empty.
+			   sr
+				   write: (self property: #geometry)
+				   with: [ :e | BlCircleGeometry new ] ]).
+			
+		(#(#button #circle) asStyleSelector - self haveExactHeight style: [ :sr |
+			   sr
+				   write: (self property: #height)
+				   with: [ :e | e toTheme controlHeight ].
+				sr
+				   write: (self property: #width)
+				   with: [ :e | e toTheme controlHeight ]]).
+			
+		(#(#button #circle) asStyleSelector + #'small-sizing' style: [
+			   :sr |
+			   sr
+				   write: (self property: #height)
+				   with: [ :e | e toTheme controlHeightSM ].
+				sr
+				   write: (self property: #width)
+				   with: [ :e | e toTheme controlHeightSM ] ]).
+
+		(#(#button #circle) asStyleSelector + #'large-sizing' style: [
+			   :sr |
+			   sr
+				   write: (self property: #height)
+				   with: [ :e | e toTheme controlHeightLG ].
+				sr
+				   write: (self property: #width)
+				   with: [ :e | e toTheme controlHeightLG ] ]).
+			
+		((#'inner-element' asStyleSelector parent: #( #button #circle ))
+			   style: [ :sr |
+				   sr
+					   write: (self property: #layout)
+					   with: [ :e | BlLinearLayout new alignCenter ] ]) }
 ]
 
 { #category : #'accessing rules  -button' }
@@ -311,8 +369,7 @@ ToDefaultStyleSheet >> commonButtonRules [
 	'button:leave' rule: [ :e | e background: Color white ].
 	"
 
-	^ 
-	  {
+	^ {
 		  (#button asStyleSelector style: [ :sr |
 			   sr
 				   write: (self property: #layout)
@@ -337,18 +394,13 @@ ToDefaultStyleSheet >> commonButtonRules [
 					   bottom: e toTheme paddingXS / 2
 					   right: e toTheme paddingContentHorizontal / 2 ] ]).
 
-		  (#( #button #vertical ) asStyleSelector style: [ :sr |
-			   sr write: (self property: #padding) with: [ :e |
-				   BlInsets
-					   top: e toTheme paddingContentHorizontal / 2
-					   left: e toTheme paddingXS / 2
-					   bottom: e toTheme paddingContentHorizontal / 2
-					   right: e toTheme paddingXS / 2 ] ]).
+		  (#button asStyleSelector - #vertical - self haveExactHeight
+			   style: [ :sr |
+				   sr
+					   write: (self property: #height)
+					   with: [ :e | e toTheme controlHeight ] ]).
 
-		  (#button asStyleSelector - #vertical - #'no-sizing' style: [ :sr |
-			   sr
-				   write: (self property: #height)
-				   with: [ :e | e toTheme controlHeight ] ]).
+
 
 		  (#button asStyleSelector - #vertical + #'large-sizing' style: [
 			   :sr |
@@ -371,33 +423,31 @@ ToDefaultStyleSheet >> commonButtonRules [
 				   c linear vertical alignCenter.
 				   c linear horizontal alignCenter ] ] ]).
 
-		  ((#'inner-element' asStyleSelector parent: #( #button #vertical ))
+		  " innerElement layout interspace is always zero "
+		  ((#'inner-element' asStyleSelector parent: #button asStyleSelector)
 			   style: [ :sr |
-				   sr write: (self property: #layout) with: BlLinearLayout vertical ]).
+				   sr
+					   write: (self property: #'layout-interspace')
+					   with: [ :e | 0 ] ]).
+
+		  " innerElement is matchParent if it has a parent with #button and #justified and with #'button-label' and #'button-icon' at depth 2"
+		  ((#'inner-element' asStyleSelector parent:
+			    ((#( #button #justified ) asStyleSelector
+				      child: #'button-label'
+				      depth: 2) child: #'button-icon' depth: 2)) style: [ :sr |
+			   sr write: (self property: #'layout-constraints') with: [ :e |
+				   [ :c |
+				   c horizontal matchParent.
+				   c vertical matchParent ] ] ]).
 
 		  ((#'inner-element' asStyleSelector parent:
-			    #button asStyleSelector - #justified) style: [ :sr |
-			   sr
-				   write: (self property: #'layout-interspace')
-				   with: [ :e | e toTheme paddingContentHorizontal / 3 ] ]).
-
-		  ((#'inner-element' asStyleSelector parent: #( #button #justified ))
-			   style: [ :sr |
-				   sr write: (self property: #'layout-interspace') with: [ :e | 0 ].
-				   sr write: (self property: #'layout-constraints') with: [ :e |
-					   [ :c |
-					   c horizontal matchParent.
-					   c vertical matchParent ] ] ]).
-
-		  ((#'inner-element' asStyleSelector parent:
-			    #( #button #'icon-first' ) asStyleSelector - #circle) style: [
-			   :sr |
+			    #( #button #'icon-first' ) asStyleSelector) style: [ :sr |
 			   sr
 				   write: (self property: #'layout-direction')
 				   with: [ :e | BlLayoutDirection leftToRight ] ]).
 
 		  ((#'inner-element' asStyleSelector parent:
-			    #( #button #'label-first' )) style: [ :sr |
+			    #( #button #'label-first' ) asStyleSelector) style: [ :sr |
 			   sr
 				   write: (self property: #'layout-direction')
 				   with: [ :e | BlLayoutDirection rightToLeft ] ]).
@@ -412,21 +462,6 @@ ToDefaultStyleSheet >> commonButtonRules [
 				   with: [ :e |
 				   BlRoundedRectangleGeometry cornerRadius: e requestedHeight ] ]).
 
-		  (#( #button #circle ) asStyleSelector style: [ :sr |
-			   sr
-				   write: (self property: #layout)
-				   with: [ :e | BlFrameLayout new ].
-			   sr write: (self property: #padding) with: BlInsets empty.
-			   sr
-				   write: (self property: #geometry)
-				   with: [ :e | BlCircleGeometry new ] ]).
-
-		  ((#'inner-element' asStyleSelector parent: #( #button #circle ))
-			   style: [ :sr |
-				   sr
-					   write: (self property: #layout)
-					   with: [ :e | BlLinearLayout new alignCenter ] ]).
-
 		  ((#'inner-element' asStyleSelector parent:
 			    #( #button ) asStyleSelector - #justified) style: [ :sr |
 			   sr write: (self property: #'layout-constraints') with: [ :e |
@@ -436,11 +471,36 @@ ToDefaultStyleSheet >> commonButtonRules [
 				   c linear vertical alignCenter.
 				   c linear horizontal alignCenter ] ] ]).
 
-		  ((self any parent: #( #button ) level: 2) style: [ :sr |
-			   sr write: (self property: #'layout-constraints') with: [ :e |
-				   [ :c |
-				   c linear vertical alignCenter.
-				   c linear horizontal alignCenter ] ] ]) }
+		  ((((#'triplet-filler-1' asStyleSelector
+			      parent: #( #button )
+			      depth: 2) sibling: #'button-label') sibling: #'button-icon')
+			   style: [ :sr |
+					sr
+					   write: (self property: #layout)
+					   with: [ :e | BlFrameLayout new ].
+					
+				   sr write: (self property: #'layout-constraints') with: [ :e |
+					   [ :c |
+					   c horizontal exact: e toTheme paddingContentHorizontal / 3.
+					   c vertical exact: e toTheme paddingContentHorizontal / 3 ] ] ]).
+
+		  ((((#'triplet-filler-1' asStyleSelector
+			      parent: #( #button #justified )
+			      depth: 2) sibling: #'button-label') sibling: #'button-icon')
+			   style: [ :sr |
+				   sr write: (self property: #'layout-constraints') with: [ :e |
+					   [ :c |
+					   c horizontal matchParent.
+					   c vertical matchParent.
+					   c minWidth: e toTheme paddingContentHorizontal / 3.
+					   c minHeight: e toTheme paddingContentHorizontal / 3 ] ] ]).
+
+		  ((self any - #'triplet-filler-1' parent: #( #button ) depth: 2)
+			   style: [ :sr |
+				   sr write: (self property: #'layout-constraints') with: [ :e |
+					   [ :c |
+					   c linear vertical alignCenter.
+					   c linear horizontal alignCenter ] ] ]) }
 ]
 
 { #category : #'accessing rules  -button' }
@@ -492,7 +552,7 @@ ToDefaultStyleSheet >> defaultButtonRules [
 						   yourself ] ]).
 
 		  " default button form icon "
-		  ((#image asStyleSelector parent: #button level: 2) style: [ :sr |
+		  ((#image asStyleSelector parent: #button depth: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'image-inner-form-color')
@@ -511,7 +571,7 @@ ToDefaultStyleSheet >> defaultButtonRules [
 				   with: [ :e | e toTheme colorPrimaryPressed ] ]).
 
 		  " default button label "
-		  ((#label asStyleSelector parent: #button level: 2) style: [ :sr |
+		  ((#label asStyleSelector parent: #button depth: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'label-text-foreground')
@@ -551,7 +611,7 @@ ToDefaultStyleSheet >> defaultButtonRules [
 				   e borderBuilder paint: e toTheme colorErrorHover darker ] ]).
 
 		  " danger button form icon "
-		  ((#image asStyleSelector parent: #( #button #danger ) level: 2)
+		  ((#image asStyleSelector parent: #( #button #danger ) depth: 2)
 			   style: [ :sr |
 				   sr
 					   when: ToInitialLookEvent
@@ -571,7 +631,7 @@ ToDefaultStyleSheet >> defaultButtonRules [
 					   with: [ :e | e toTheme colorErrorHover darker ] ]).
 
 		  " danger button label "
-		  ((#label asStyleSelector parent: #( #button #danger ) level: 2)
+		  ((#label asStyleSelector parent: #( #button #danger ) depth: 2)
 			   style: [ :sr |
 				   sr
 					   when: ToInitialLookEvent
@@ -596,6 +656,22 @@ ToDefaultStyleSheet >> defaultButtonRules [
 				   when: ToInstallLookEvent
 				   supplement: (self property: #'border-with-builder')
 				   with: [ :e | e borderBuilder dashArray: e toTheme dashArray ] ]) } 
+]
+
+{ #category : #initialization }
+ToDefaultStyleSheet >> defaultStyleRules [
+
+	^ Array streamContents: [ :str |
+		str nextPutAll: self rootPaneRules.
+		str nextPutAll: self buttonRules.
+		str nextPutAll: self labelRules ]
+]
+
+{ #category : #'syntactic sugar' }
+ToDefaultStyleSheet >> haveExactHeight [
+
+	^ self action: [ :e | e constraints vertical resizer isExact traceCr. e constraints vertical resizer isExact]
+
 ]
 
 { #category : #'syntactic sugar' }
@@ -739,7 +815,7 @@ ToDefaultStyleSheet >> linkButtonRules [
 					   with: [ :e | e borderBuilder width: 0 ] ]).
 
 		  " button link form icon "
-		  ((#image asStyleSelector parent: #( #button #link ) level: 2)
+		  ((#image asStyleSelector parent: #( #button #link ) depth: 2)
 			   style: [ :sr |
 				   sr
 					   when: ToInitialLookEvent
@@ -759,7 +835,7 @@ ToDefaultStyleSheet >> linkButtonRules [
 					   with: [ :e | e toTheme colorPrimaryPressed ] ]).
 
 		  " button link label "
-		  ((#label asStyleSelector parent: #( #button #link ) level: 2)
+		  ((#label asStyleSelector parent: #( #button #link ) depth: 2)
 			   style: [ :sr |
 				   sr
 					   when: ToInitialLookEvent
@@ -781,7 +857,7 @@ ToDefaultStyleSheet >> linkButtonRules [
 		  " button link danger form icon "
 		  ((#image asStyleSelector
 			    parent: #( #button #link #danger )
-			    level: 2) style: [ :sr |
+			    depth: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'image-inner-form-color')
@@ -802,7 +878,7 @@ ToDefaultStyleSheet >> linkButtonRules [
 		  " button link danger label "
 		  ((#label asStyleSelector
 			    parent: #( #button #link #danger )
-			    level: 2) style: [ :sr |
+			    depth: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'label-text-foreground')
@@ -899,7 +975,7 @@ ToDefaultStyleSheet >> primaryButtonRules [
 
 		  ((#image asStyleSelector
 			    parent: #button asStyleSelector + #primary
-			    level: 2) style: [ :sr |
+			    depth: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'image-inner-form-color')
@@ -921,7 +997,7 @@ ToDefaultStyleSheet >> primaryButtonRules [
 
 		  ((#label asStyleSelector
 			    parent: #button asStyleSelector + #primary
-			    level: 2) style: [ :sr |
+			    depth: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'label-text-foreground')
@@ -955,15 +1031,6 @@ ToDefaultStyleSheet >> rootPaneRules [
 			   sr
 				   write: (self property: #background)
 				   with: [ :e | e toTheme backgroundColor ] ]) }
-]
-
-{ #category : #accessing }
-ToDefaultStyleSheet >> styleRules [
-
-	^ Array streamContents: [ :str |
-		str nextPutAll: self rootPaneRules.
-		str nextPutAll: self buttonRules.
-		str nextPutAll: self labelRules ]
 ]
 
 { #category : #'accessing rules  -button' }
@@ -1027,7 +1094,7 @@ ToDefaultStyleSheet >> textButtonRules [
 
 		  " button text form icon "
 
-		  ((#image asStyleSelector parent: #( #button #text ) level: 2)
+		  ((#image asStyleSelector parent: #( #button #text ) depth: 2)
 			   style: [ :sr |
 				   sr
 					   when: ToInitialLookEvent
@@ -1040,7 +1107,7 @@ ToDefaultStyleSheet >> textButtonRules [
 
 		  " button test label "
 
-		  ((#label asStyleSelector parent: #( #button #text ) level: 2)
+		  ((#label asStyleSelector parent: #( #button #text ) depth: 2)
 			   style: [ :sr |
 				   sr
 					   when: ToInitialLookEvent
@@ -1055,7 +1122,7 @@ ToDefaultStyleSheet >> textButtonRules [
 
 		  ((#image asStyleSelector
 			    parent: #( #button #text #danger )
-			    level: 2) style: [ :sr |
+			    depth: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'image-inner-form-color')
@@ -1069,7 +1136,7 @@ ToDefaultStyleSheet >> textButtonRules [
 
 		  ((#label asStyleSelector
 			    parent: #( #button #text #danger )
-			    level: 2) style: [ :sr |
+			    depth: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'label-text-foreground')
@@ -1078,4 +1145,56 @@ ToDefaultStyleSheet >> textButtonRules [
 				   when: ToDisabledLookEvent
 				   write: (self property: #'label-text-foreground')
 				   with: [ :e | e toTheme colorBgContainerDisabled ] ]) }
+]
+
+{ #category : #'accessing rules  -button' }
+ToDefaultStyleSheet >> toggleButtonRules [
+
+	^ { ( #(#button #'toggle-button') asStyleSelector style: [ :sr |
+		   sr
+			   write: (self property: #background)
+			   with: [ :e | Color transparent ].
+			sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e |
+					   e borderBuilder
+						   width: 0;
+						   yourself ].
+			
+		
+		
+		
+		
+				] ) }
+]
+
+{ #category : #'accessing rules  -button' }
+ToDefaultStyleSheet >> verticalButtonRules [
+	"  
+	'button:hover' rule: [ :e | e mouseCursor: BlCursor hand. e background: Color gray. e font-size: 18 ].
+	'button:leave' rule: [ :e | e mouseCursor: nil ].
+
+	'button' rule: [ :e | e background: Color white ].
+	'button:hover' rule: [ :e | e background: Color gray ].
+	'button:leave' rule: [ :e | e background: Color white ].
+	'button:hover, button:leave' rule: [ :e | e background: Color gray ].
+	'button:leave' rule: [ :e | e background: Color white ].
+	"
+
+	^ {
+
+		  (#( #button #vertical ) asStyleSelector style: [ :sr |
+			   sr write: (self property: #padding) with: [ :e |
+				   BlInsets
+					   top: e toTheme paddingContentHorizontal / 2
+					   left: e toTheme paddingXS / 2
+					   bottom: e toTheme paddingContentHorizontal / 2
+					   right: e toTheme paddingXS / 2 ] ]).
+
+		  ((#'inner-element' asStyleSelector parent: #( #button #vertical ))
+			   style: [ :sr |
+				   sr
+					   write: (self property: #layout)
+					   with: BlLinearLayout vertical ]) }
 ]

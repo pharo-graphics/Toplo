@@ -1,18 +1,16 @@
 Class {
-	#name : 'ToPropertyChangedEvent',
-	#superclass : 'BlEvent',
+	#name : #ToPropertyChangedEvent,
+	#superclass : #BlEvent,
 	#instVars : [
 		'holder',
 		'slotName',
 		'previous',
 		'current'
 	],
-	#category : 'Toplo-Core-Slot',
-	#package : 'Toplo',
-	#tag : 'Core-Slot'
+	#category : 'Toplo-Core-Slot'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToPropertyChangedEvent class >> current: anObject previous: aPreviousObject [
 
 	^ self new
@@ -21,55 +19,55 @@ ToPropertyChangedEvent class >> current: anObject previous: aPreviousObject [
 		  yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyChangedEvent >> current [
 
 	^ current
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyChangedEvent >> current: anObject [
 
 	current := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyChangedEvent >> holder [
 
 	^ holder
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyChangedEvent >> holder: anObject [
 
 	holder := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyChangedEvent >> previous [
 
 	^ previous
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyChangedEvent >> previous: anObject [
 
 	previous := anObject
 ]
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToPropertyChangedEvent >> sendTo: anObject [
 
 	anObject propertyChangedEvent: self
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyChangedEvent >> slotName [
 
 	^ slotName
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPropertyChangedEvent >> slotName: aSymbol [
 
 	slotName := aSymbol

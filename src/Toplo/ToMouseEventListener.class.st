@@ -1,15 +1,13 @@
 Class {
-	#name : 'ToMouseEventListener',
-	#superclass : 'BlEventListener',
+	#name : #ToMouseEventListener,
+	#superclass : #BlEventListener,
 	#instVars : [
 		'privateTarget'
 	],
-	#category : 'Toplo-Core',
-	#package : 'Toplo',
-	#tag : 'Core'
+	#category : 'Toplo-Core'
 }
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToMouseEventListener >> clickAvortedEvent: anEvent [
 
 	super clickAvortedEvent: anEvent.
@@ -18,7 +16,7 @@ ToMouseEventListener >> clickAvortedEvent: anEvent [
 	anEvent processor fireClickEventFrom: anEvent
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToMouseEventListener >> clickEvent: anEvent [
 
 	super clickEvent: anEvent.
@@ -29,45 +27,45 @@ ToMouseEventListener >> clickEvent: anEvent [
 		  other: [ self otherClickEvent: anEvent ]
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToMouseEventListener >> doubleClickEvent: anEvent [
 
 	super doubleClickEvent: anEvent
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToMouseEventListener >> leftClickEvent: anEvent [
 
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToMouseEventListener >> leftMouseDownEvent: anEvent [
 
 
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToMouseEventListener >> leftMouseUpEvent: anEvent [
 
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToMouseEventListener >> middleClickEvent: anEvent [
 
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToMouseEventListener >> middleMouseDownEvent: anEvent [
 
 
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToMouseEventListener >> middleMouseUpEvent: anEvent [
 
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToMouseEventListener >> mouseDownEvent: anEvent [
 
 	super mouseDownEvent: anEvent.
@@ -78,20 +76,20 @@ ToMouseEventListener >> mouseDownEvent: anEvent [
 		  other: [ self otherMouseDownEvent: anEvent ]
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToMouseEventListener >> mouseEnterEvent: anEvent [
 
 	super mouseEnterEvent: anEvent.
 
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToMouseEventListener >> mouseLeaveEvent: anEvent [
 
 	super mouseLeaveEvent: anEvent
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToMouseEventListener >> mouseUpEvent: anEvent [
 
 	super mouseUpEvent: anEvent.
@@ -102,39 +100,39 @@ ToMouseEventListener >> mouseUpEvent: anEvent [
 		  other: [ self otherMouseUpEvent: anEvent ]
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToMouseEventListener >> otherClickEvent: anEvent [
 
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToMouseEventListener >> otherMouseDownEvent: anEvent [
 
 
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToMouseEventListener >> otherMouseUpEvent: anEvent [
 
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToMouseEventListener >> rightClickEvent: anEvent [
 
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToMouseEventListener >> rightMouseDownEvent: anEvent [
 
 
 ]
 
-{ #category : 'mouse handlers' }
+{ #category : #'mouse handlers' }
 ToMouseEventListener >> rightMouseUpEvent: anEvent [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToMouseEventListener >> target: anElement [
 	" the element which has myself as an event handler, must be not nil"
 	privateTarget := anElement

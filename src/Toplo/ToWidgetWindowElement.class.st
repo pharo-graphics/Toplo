@@ -1,6 +1,6 @@
 Class {
-	#name : 'ToWidgetWindowElement',
-	#superclass : 'ToWindowElement',
+	#name : #ToWidgetWindowElement,
+	#superclass : #ToWindowElement,
 	#traits : 'TToWidget',
 	#classTraits : 'TToWidget classTrait',
 	#instVars : [
@@ -12,30 +12,28 @@ Class {
 		'#popupTimestamp',
 		'#widget => ObservableSlot'
 	],
-	#category : 'Toplo-Core-Window',
-	#package : 'Toplo',
-	#tag : 'Core-Window'
+	#category : 'Toplo-Core-Window'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToWidgetWindowElement >> animate [
 
 	^ animate
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToWidgetWindowElement >> animate: aBoolean [
 
 	animate := aBoolean
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToWidgetWindowElement >> autoCloseOnMouseUpDelay [
 
 	^ 300 milliSeconds 
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToWidgetWindowElement >> checkBeforePopupIn: aWidget [
 
 	| anim |
@@ -46,7 +44,7 @@ ToWidgetWindowElement >> checkBeforePopupIn: aWidget [
 	self addAnimation: anim
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToWidgetWindowElement >> cleanUp [
 
 	self flag: 'keeping track of the delete animation is required but why exactly ?'.
@@ -56,7 +54,7 @@ ToWidgetWindowElement >> cleanUp [
 		deleteAnimation := nil ]
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToWidgetWindowElement >> close [
 
 	self cleanUp.
@@ -75,25 +73,25 @@ ToWidgetWindowElement >> close [
 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToWidgetWindowElement >> defaulPositioningHook [
 
 	^ self subclassResponsibility 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToWidgetWindowElement >> deleteAnimationFactory [
 
 	^ deleteAnimationFactory
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToWidgetWindowElement >> deleteAnimationFactory: aValuable [
 
 	deleteAnimationFactory := aValuable
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToWidgetWindowElement >> dispatchClosedEvent [
 
 	self widget ifNotNil: [ :w |
@@ -102,7 +100,7 @@ ToWidgetWindowElement >> dispatchClosedEvent [
 				 yourself) ]
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToWidgetWindowElement >> dispatchOpenedEventFrom: anEvent [
 
 	self widget ifNotNil: [ :w |
@@ -112,7 +110,7 @@ ToWidgetWindowElement >> dispatchOpenedEventFrom: anEvent [
 				 yourself) ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToWidgetWindowElement >> initialize [
 
 	super initialize.
@@ -129,25 +127,25 @@ ToWidgetWindowElement >> initialize [
 		                         yourself ]
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToWidgetWindowElement >> popup [
 
 	self popupEvent: nil
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToWidgetWindowElement >> popupAnimationFactory [
 
 	^ popupAnimationFactory
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToWidgetWindowElement >> popupAnimationFactory: aValuable [
 
 	popupAnimationFactory := aValuable
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToWidgetWindowElement >> popupEvent: anEvent [
 
 	" I have to set the position here "
@@ -162,26 +160,26 @@ ToWidgetWindowElement >> popupEvent: anEvent [
 	self requestLayout
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToWidgetWindowElement >> popupTimestamp [
 
 	^ popupTimestamp 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToWidgetWindowElement >> positioningHook [
 
 	^ hook
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToWidgetWindowElement >> positioningHook: aValuable [
 	" takes the window as argument. Computes the window position according to the given window anchor element "
 	
 	hook := aValuable
 ]
 
-{ #category : 'theme accessing' }
+{ #category : #'theme accessing' }
 ToWidgetWindowElement >> toTheme [
 
 	" try to take the parent widget theme first "
@@ -189,7 +187,7 @@ ToWidgetWindowElement >> toTheme [
 	^ super toTheme
 ]
 
-{ #category : 'property change hook' }
+{ #category : #'property change hook' }
 ToWidgetWindowElement >> whenWidgetChangedDo: aBlock [
 
 	"set a block to perform after that the text has been chanbed, and its action performed"
@@ -197,27 +195,27 @@ ToWidgetWindowElement >> whenWidgetChangedDo: aBlock [
 	self property: #widget whenChangedDo: aBlock
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToWidgetWindowElement >> widget [
 
 	^ widget 
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToWidgetWindowElement >> widget: aWidget [
 
 	aWidget = widget ifTrue: [ ^ self ].
 	widget := aWidget
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToWidgetWindowElement >> withAnimation [
 
 	self animate: true
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToWidgetWindowElement >> withoutAnimation [
 
 	self animate: false

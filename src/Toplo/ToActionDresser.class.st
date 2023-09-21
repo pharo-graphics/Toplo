@@ -1,16 +1,14 @@
 Class {
-	#name : 'ToActionDresser',
-	#superclass : 'ToDresser',
+	#name : #ToActionDresser,
+	#superclass : #ToDresser,
 	#instVars : [
 		'installAction',
 		'uninstallAction'
 	],
-	#category : 'Toplo-Core',
-	#package : 'Toplo',
-	#tag : 'Core'
+	#category : 'Toplo-Core'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToActionDresser >> initialize [
 
 	super initialize.
@@ -18,19 +16,19 @@ ToActionDresser >> initialize [
 	uninstallAction := [ :e | ].
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToActionDresser >> installAction [
 
 	^ installAction
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToActionDresser >> installAction: aBlock [
 
 	installAction := aBlock
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToActionDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
@@ -38,7 +36,7 @@ ToActionDresser >> onInstalledIn: anElement [
 
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToActionDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
@@ -47,13 +45,13 @@ ToActionDresser >> onUninstalledIn: anElement [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToActionDresser >> uninstallAction [
 
 	^ uninstallAction
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToActionDresser >> uninstallAction: aBlock [
 
 	uninstallAction := aBlock

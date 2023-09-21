@@ -1,18 +1,16 @@
 Class {
-	#name : 'ToPlaceholderLayer',
-	#superclass : 'ToWidgetLayer',
-	#category : 'Toplo-Core',
-	#package : 'Toplo',
-	#tag : 'Core'
+	#name : #ToPlaceholderLayer,
+	#superclass : #ToWidgetLayer,
+	#category : 'Toplo-Core'
 }
 
-{ #category : 'converting' }
+{ #category : #converting }
 ToPlaceholderLayer >> asPlaceholderLayer [
 
 	^ self
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToPlaceholderLayer >> initialize [
 
 	super initialize.

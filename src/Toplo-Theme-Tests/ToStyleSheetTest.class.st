@@ -4,14 +4,16 @@ A ToStyleSheetTest is a test class for testing the behavior of ToStyleSheet
 Class {
 	#name : #ToStyleSheetTest,
 	#superclass : #TestCase,
-	#category : 'Toplo-Theme-Tests-StyleSheet'
+	#category : #'Toplo-Theme-Tests-StyleSheet'
 }
 
 { #category : #tests }
 ToStyleSheetTest >> testButtonLabelSkin0 [
 
-	| ss button labelSkin attributes foregroundAttr prop writers label |
-	ss := ToStyleSheet new.
+	| ss button labelSkin attributes foregroundAttr prop writers label ssi |
+	" declare a local only stylesheet "
+	ss := ToStyleSheet new inherits: false; yourself.
+	ssi := ToStyleSheetInterpreter new.
 
 	" danger button label rule "
 	prop := ToPseudoProperty new name: #'text-attributes'.
@@ -20,10 +22,10 @@ ToStyleSheetTest >> testButtonLabelSkin0 [
 			(BlTextAttributesBuilder new foreground: v) attributes.
 		e textChanged ].
 
-	ss addRule: (
-				 ((ToStyleTagSelector new styleTags: #( #button #danger ))
-					  child: (ToStyleTagSelector new styleTag: #'button-label')
-					  level: 2)
+	ss addStyleRule: (
+		((ToStyleTagSelector new styleTag: #'button-label') 
+			parent: (ToStyleTagSelector new styleTags: #( #button #danger ))
+			depth: 2)
 			 style: [ :sr |
 				 sr write: prop with: [ :e | e toTheme colorError ].
 				 sr
@@ -44,22 +46,18 @@ ToStyleSheetTest >> testButtonLabelSkin0 [
 					 with: [ :e | e toTheme colorError darker ] ]).
 
 	button := ToButton new.
+	button styleSheet: ss.
 	label := (ToLabel text: 'Default') defaultSkin: nil.
 	button label: label.
 	labelSkin := ToSkin new.
 	self assert: (button styleTags includes: #danger) not.
-	self assert:
-		(button label styleTags includes: #'button-label') not.
-	writers := ss writersFor: button label.
+	self assert: (button label styleTags includes: #'button-label').
+	writers := ssi writersFor: button label.
 	" writers should be empty since the label rule expect the button 
 	to be of class #danger and the label to be with style class #'button-label'"
 	self assert: writers isEmpty.
-	button label styleTag: #'button-label'.
-	writers := ss writersFor: button label.
-	" writers should be empty since the label rule expect the button to be of class #danger "
-	self assert: writers isEmpty.
 	button styleTags: #( #button #danger ).
-	writers := ss writersFor: button label.
+	writers := ssi writersFor: button label.
 	self assert: writers size equals: 5.
 
 	labelSkin writers: writers.
@@ -81,11 +79,12 @@ ToStyleSheetTest >> testButtonLabelSkin0 [
 { #category : #tests }
 ToStyleSheetTest >> testButtonSkin0 [
 
-	| ss button skin labelSkin attributes foregroundAttr writers label |
-	ss := ToStyleSheet new.
-
+	| ss button skin labelSkin attributes foregroundAttr writers label ssi |
+	ss := ToStyleSheet new inherits: false; yourself.
+	ssi := ToStyleSheetInterpreter new.
+	
 	" default button rule "
-	ss addRule: ((ToStyleTagSelector new styleTag: #button)
+	ss addStyleRule: ((ToStyleTagSelector new styleTag: #button)
 			 style: [ :sr |
 				 | p |
 				 p := ToFeatureProperty new name: #background.
@@ -119,10 +118,10 @@ ToStyleSheetTest >> testButtonSkin0 [
 					 with: [ :e | e toTheme colorPrimaryPressed ] ]).
 
 	" danger button label rule "
-	ss addRule: (((ToStyleTagSelector new styleTag: #'button-label')
+	ss addStyleRule: (((ToStyleTagSelector new styleTag: #'button-label')
 					  parent:
 					  (ToStyleTagSelector new styleTags: #( #button #danger ))
-					  level: 2)
+					  depth: 2)
 			 style: [ :sr |
 				 | p |
 				 p := ToPseudoProperty new name: #'text-attributes'.
@@ -150,7 +149,8 @@ ToStyleSheetTest >> testButtonSkin0 [
 
 
 	button := ToButton new.
-	writers := ss writersFor: button.
+	button styleSheet: ss.
+	writers := ssi writersFor: button.
 	self assert: writers size equals: 6.
 	skin := ToSkin new.
 	skin writers: writers.
@@ -170,14 +170,14 @@ ToStyleSheetTest >> testButtonSkin0 [
 	label withSkin: nil.
 	button label: label.
 	labelSkin := ToSkin new.
-	writers := ss writersFor: button label.
+	writers := ssi writersFor: button label.
 	self assert: writers isEmpty.
 	button label styleTag: #'button-label'.
-	writers := ss writersFor: button label.
+	writers := ssi writersFor: button label.
 	" should be empty since the label rule expect the button to be of class #danger "
 	self assert: writers isEmpty.
 	button styleTags: #( #button #danger ).
-	writers := ss writersFor: button label.
+	writers := ssi writersFor: button label.
 	self assert: writers size equals: 4.
 
 	labelSkin writers: writers.
@@ -199,16 +199,17 @@ ToStyleSheetTest >> testButtonSkin0 [
 { #category : #tests }
 ToStyleSheetTest >> testButtonSkinWithInterspace [
 
-	| ss elem writers skin interspaceProp layoutProp |
+	| ss elem writers skin interspaceProp layoutProp ssi |
 	
+	ssi := ToStyleSheetInterpreter new.
 	interspaceProp := ToPseudoProperty
 			   name: #'layout-interspace'
 			   reader: [ :e | e layout interspace ]
 			   writer: [ :e :v | e layout interspace: v ].
 	layoutProp := ToFeatureProperty name: #layout.
 	
-	ss := ToStyleSheet new.
-	ss addRule: (((ToStyleTagSelector new styleTag: #button) 
+	ss := ToStyleSheet new inherits: false; yourself.
+	ss addStyleRule: (((ToStyleTagSelector new styleTag: #button) 
 				or: (ToStyleTagSelector new styleTags: #( #button #horizontal )))
 			 when: ToInstallLookEvent
 			 style: [ :sr |
@@ -218,10 +219,11 @@ ToStyleSheetTest >> testButtonSkinWithInterspace [
 				 sr  write: interspaceProp with: 10]).
 
 	elem := ToElement new.
-	writers := ss writersFor: elem.
+	elem styleSheet: ss.
+	writers := ssi writersFor: elem.
 	self assert: writers size equals: 0.
 	elem styleTag: #button.
-	writers := ss writersFor: elem.
+	writers := ssi writersFor: elem.
 	self assert: writers size equals: 2.
 	skin := ToSkin new.
 	skin writers: writers.
@@ -234,17 +236,18 @@ ToStyleSheetTest >> testButtonSkinWithInterspace [
 { #category : #tests }
 ToStyleSheetTest >> testEmptyStyleSheet [
 
-	| ss |
-	ss := ToStyleSheet new.
-	self assert: (ss writersFor: (ToElement new)) isEmpty
+	| ss ssi |
+	ss := ToStyleSheet new inherits: false; yourself.
+	ssi := ToStyleSheetInterpreter new.
+	self assert: (ssi writersFor: (ToElement new)) isEmpty
 ]
 
 { #category : #tests }
 ToStyleSheetTest >> testNewStyleSheetWith2Rules [
 
 	| styleSheet |
-	styleSheet := ToStyleSheet new.
-	styleSheet addRules: {
+	styleSheet := ToStyleSheet new inherits: false; yourself.
+	styleSheet addStyleRules: {
 			((ToStyleTagSelector new styleTag: #button)
 				 style: [ :sr |
 					 sr
@@ -275,16 +278,18 @@ ToStyleSheetTest >> testNewStyleSheetWith2Rules [
 { #category : #tests }
 ToStyleSheetTest >> testSkinWithAnUniversalRule [
 
-	| ss elem skin writers |
-	ss := ToStyleSheet new.
-	ss addRule:
+	| ss elem skin writers ssi |
+	ss := ToStyleSheet new inherits: false; yourself.
+	ssi := ToStyleSheetInterpreter new.
+	ss addStyleRule:
 		(ToUniversalSelector new style: [ :sr |
 			 sr
 				 when: ToInitialLookEvent
 				 write: (ToFeatureProperty new name: #background)
 				 with: Color red ]).
 	elem := ToElement new.
-	writers := ss writersFor: elem.
+	elem styleSheet: ss.
+	writers := ssi writersFor: elem.
 	self assert: writers size equals: 1.
 	skin := ToSkin new.
 	skin writers: writers.
@@ -297,9 +302,10 @@ ToStyleSheetTest >> testSkinWithAnUniversalRule [
 ToStyleSheetTest >> testSkinWithChildRule [
 	" with a direct child "
 
-	| ss skin parent child writers |
-	ss := ToStyleSheet new.
-	ss addRule: (((ToIdSelector new id: #child) parent:
+	| ss skin parent child writers ssi |
+	ss := ToStyleSheet new inherits: false; yourself.
+	ssi := ToStyleSheetInterpreter new.
+	ss addStyleRule: (((ToIdSelector new id: #child) parent:
 					  (ToStyleTagSelector new styleTag: #parent))
 			 style: [ :sr |
 				 sr
@@ -308,12 +314,13 @@ ToStyleSheetTest >> testSkinWithChildRule [
 					 with: (BlBorder paint: Color red width: 3) ]).
 
 	parent := ToElement new styleTag: #parent.
+	parent styleSheet: ss.
 	child := ToElement new id: #child.
-	writers := ss writersFor: child.
+	writers := ssi writersFor: child.
 	self assert: writers size equals: 0.
 
 	parent addChild: child.
-	writers := ss writersFor: child.
+	writers := ssi writersFor: child.
 	self assert: writers size equals: 1.
 	skin := ToSkin new.
 	skin writers: writers.
@@ -328,11 +335,12 @@ ToStyleSheetTest >> testSkinWithChildRule [
 ToStyleSheetTest >> testSkinWithChildRuleLevel2 [
 	" with a direct child "
 
-	| ss skin parent child writers subParent |
-	ss := ToStyleSheet new.
-	ss addRule: (((ToIdSelector new id: #child)
+	| ss skin parent child writers subParent ssi |
+	ss := ToStyleSheet new inherits: false; yourself.
+	ssi := ToStyleSheetInterpreter new.
+	ss addStyleRule: (((ToIdSelector new id: #child)
 					  parent: (ToStyleTagSelector new styleTag: #parent)
-					  level: 2)
+					  depth: 2)
 			 style: [ :sr |
 				 sr
 					 when: ToInitialLookEvent
@@ -340,14 +348,15 @@ ToStyleSheetTest >> testSkinWithChildRuleLevel2 [
 					 with: (BlBorder paint: Color red width: 3) ]).
 
 	parent := ToElement new styleTag: #parent.
+	parent styleSheet: ss.
 	subParent := ToElement new.
 	child := ToElement new id: #child.
-	writers := ss writersFor: child.
+	writers := ssi writersFor: child.
 	self assert: writers size equals: 0.
 
 	parent addChild: subParent.
 	subParent addChild: child.
-	writers := ss writersFor: child.
+	writers := ssi writersFor: child.
 	self assert: writers size equals: 1.
 	skin := ToSkin new.
 	skin writers: writers.
@@ -361,18 +370,20 @@ ToStyleSheetTest >> testSkinWithChildRuleLevel2 [
 { #category : #tests }
 ToStyleSheetTest >> testSkinWithIdRule [
 
-	| ss elem writers skin |
-	ss := ToStyleSheet new.
-	ss addRule:
+	| ss elem writers skin ssi |
+	ss := ToStyleSheet new inherits: false; yourself.
+	ssi := ToStyleSheetInterpreter new.
+	ss addStyleRule:
 		((ToIdSelector new id: #a) when: ToInitialLookEvent style: [ :sr |
 			 sr
 				 write: (ToFeatureProperty new name: #border)
 				 with: (BlBorder paint: Color red width: 3) ]).
 	elem := ToElement new.
-	writers := ss writersFor: elem.
+	elem styleSheet: ss.
+	writers := ssi writersFor: elem.
 	self assert: writers size equals: 0.
 	elem id: #a.
-	writers := ss writersFor: elem.
+	writers := ssi writersFor: elem.
 	self assert: writers size equals: 1.
 	skin := ToSkin new.
 	skin writers: writers.

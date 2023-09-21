@@ -12,6 +12,12 @@ ToToggleButton >> defaultDresser [
 	^ ToToggleButtonDresser next: ToTripletDresser new
 ]
 
+{ #category : #'t - skinable - initialization' }
+ToToggleButton >> defaultStyleTags [
+
+	^ #( #button. #'toggle-button' )
+]
+
 { #category : #initialization }
 ToToggleButton >> initialize [ 
 

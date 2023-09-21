@@ -1,6 +1,6 @@
-Extension { #name : 'BlockClosure' }
+Extension { #name : #BlockClosure }
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 BlockClosure >> asToDataToElementConverter [
 
 	^ ToActionDataToElementConverter new valuable: self

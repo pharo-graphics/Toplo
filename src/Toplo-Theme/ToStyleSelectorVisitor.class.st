@@ -1,7 +1,7 @@
 Class {
 	#name : #ToStyleSelectorVisitor,
 	#superclass : #Object,
-	#category : 'Toplo-Theme-StyleSelector'
+	#category : #'Toplo-Theme-StyleSelector'
 }
 
 { #category : #visiting }
@@ -22,6 +22,10 @@ ToStyleSelectorVisitor >> visitNotSelector: aSelector [
 
 { #category : #visiting }
 ToStyleSelectorVisitor >> visitOrSelector: aSelector [
+]
+
+{ #category : #visiting }
+ToStyleSelectorVisitor >> visitParentSelector: aSelector [
 ]
 
 { #category : #visiting }

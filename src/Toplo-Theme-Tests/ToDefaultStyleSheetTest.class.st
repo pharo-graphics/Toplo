@@ -10,10 +10,11 @@ Class {
 { #category : #skin }
 ToDefaultStyleSheetTest >> testDefaultButtonSkin [
 
-	| ss button writers skin labelSkin |
+	| ss button writers skin labelSkin ssi |
 	ss := ToDefaultStyleSheet new.
+	ssi := ToStyleSheetInterpreter new.
 	button := ToButton new.
-	writers := ss writersFor: button.
+	writers := ssi writersFor: button.
 	self assert: writers notEmpty.
 	skin := ToSkin new.
 	skin writers: writers.
@@ -29,7 +30,7 @@ ToDefaultStyleSheetTest >> testDefaultButtonSkin [
 	button label privateSkin: nil.
 	
 	labelSkin := ToSkin new.
-	writers := ss writersFor: button label.
+	writers := ssi writersFor: button label.
 	labelSkin writers: writers.
 	button label withSkin: labelSkin.
 	button checkSkinInstallation.

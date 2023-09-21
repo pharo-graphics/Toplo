@@ -1,5 +1,5 @@
 Class {
-	#name : #ToChildSelector,
+	#name : #ToParentSelector,
 	#superclass : #ToBinarySelector,
 	#instVars : [
 		'depth'
@@ -8,27 +8,27 @@ Class {
 }
 
 { #category : #visiting }
-ToChildSelector >> accept: aVisitor [
+ToParentSelector >> accept: aVisitor [
 
-	aVisitor visitChildSelector: self
+	aVisitor visitParentSelector: self
 ]
 
 { #category : #accessing }
-ToChildSelector >> depth [
+ToParentSelector >> depth [
 
 	^ depth
 ]
 
 { #category : #accessing }
-ToChildSelector >> depth: anInteger [
+ToParentSelector >> depth: anInteger [
 
 	depth := anInteger
 ]
 
 { #category : #initialization }
-ToChildSelector >> initialize [ 
+ToParentSelector >> initialize [ 
 
 	super initialize.
 	self left: ToUniversalSelector new.
-	depth := nil
+	depth := 1 
 ]

@@ -1,6 +1,6 @@
-Extension { #name : 'BlSpace' }
+Extension { #name : #BlSpace }
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 BlSpace >> checkRootSkinInstallation [
 
 	self root privateSkin ifNotNil: [ ^ self ].
@@ -11,7 +11,7 @@ BlSpace >> checkRootSkinInstallation [
 	self root privateSkin launchSkinInstallationIn: self root
 ]
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 BlSpace >> checkSkinInstallation [
 
 	
@@ -19,7 +19,7 @@ BlSpace >> checkSkinInstallation [
 	self root checkSkinInstallation
 ]
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 BlSpace >> checkSpaceFrameSkinInstallationPhase [
 
 	| layoutPhase |
@@ -30,26 +30,26 @@ BlSpace >> checkSpaceFrameSkinInstallationPhase [
 	self frame addPhase: ToSpaceFrameSkinInstallationPhase new before: layoutPhase
 ]
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 BlSpace >> defaultPopupElevation [
 
 	^ BlRelativeElevation elevation: SmallInteger maxVal
 ]
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 BlSpace >> openAsPopup: anElement [
 
 	anElement elevation: self defaultPopupElevation.
 	self root addChild: anElement
 ]
 
-{ #category : '*Toplo-LookAndFeel' }
+{ #category : #'*Toplo-LookAndFeel' }
 BlSpace >> toTheme [
 
 	^ self root toTheme
 ]
 
-{ #category : '*Toplo-LookAndFeel' }
+{ #category : #'*Toplo-LookAndFeel' }
 BlSpace >> toTheme: aTheme [
 
 	self root toTheme: aTheme

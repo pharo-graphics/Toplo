@@ -8,7 +8,7 @@ Class {
 		'eventClass',
 		'writers'
 	],
-	#category : 'Toplo-Theme-StyleSheet'
+	#category : #'Toplo-Theme-StyleSheet'
 }
 
 { #category : #'instance creation' }
@@ -124,6 +124,7 @@ ToStyleRule >> supplement: aProperty with: aValuableOrObject [
 { #category : #'syntactic sugar' }
 ToStyleRule >> when: aLookEventClass supplement: aProperty with: aValuableOrObject [
 
+	aProperty ifNil: [ ^self ].
 	self addWriter: ((aProperty
 			  when: aLookEventClass
 			  write: aValuableOrObject
@@ -145,6 +146,7 @@ ToStyleRule >> when: aLookEventClass write: aProperty with: aValuableOrObject [
 { #category : #'syntactic sugar' }
 ToStyleRule >> when: aLookEventClass write: aProperty with: aValuableOrObject animation: aPropertyAnimation [
 
+	aProperty ifNil: [ ^ self ].
 	self addWriter: (aProperty
 			 when: aLookEventClass
 			 write: aValuableOrObject

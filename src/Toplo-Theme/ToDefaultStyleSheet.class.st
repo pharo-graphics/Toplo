@@ -38,8 +38,7 @@ ToDefaultStyleSheet >> buttonRules [
 ToDefaultStyleSheet >> checkableButtonRules [
 	" checkbox family "
 
-	^ 
-	  {
+	^ {
 		  (#( #button #checkable ) asStyleSelector style: [ :sr |
 			   | switch |
 			   switch := [ :e |
@@ -152,7 +151,7 @@ ToDefaultStyleSheet >> checkableButtonRules [
 				   with: [ :e |
 					   e borderBuilder
 						   paint: e toTheme colorErrorHover darker;
-						   yourself ] ]) } 
+						   yourself ] ]) }
 ]
 
 { #category : #'accessing rules  -button' }
@@ -471,16 +470,14 @@ ToDefaultStyleSheet >> commonButtonRules [
 				   c linear vertical alignCenter.
 				   c linear horizontal alignCenter ] ] ]).
 
-		  ((((#'triplet-filler-1' asStyleSelector
-			      parent: #( #button )
-			      depth: 2) sibling: #'button-label') sibling: #'button-icon')
+		  ((((#'triplet-filler-1' asStyleSelector parent: #( #button ) depth: 2) sibling: #'button-label') sibling: #'button-icon')
 			   style: [ :sr |
 					sr
 					   write: (self property: #layout)
 					   with: [ :e | BlFrameLayout new ].
 					
 				   sr write: (self property: #'layout-constraints') with: [ :e |
-					   [ :c |
+					   [ :c | 
 					   c horizontal exact: e toTheme paddingContentHorizontal / 3.
 					   c vertical exact: e toTheme paddingContentHorizontal / 3 ] ] ]).
 

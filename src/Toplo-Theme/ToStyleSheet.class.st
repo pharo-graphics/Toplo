@@ -65,7 +65,8 @@ ToStyleSheet class >> propertyList [
 			   reader: [ :e | e icon innerImage ]
 			   writer: [ :e :v |
 				   v removeFromParent.
-				   e iconImage: v ]).
+				   e iconImage: v.
+				   e updateSkin ]).
 		  (ToFeatureProperty name: #layout).
 		  (ToPseudoProperty
 			   name: #'layout-direction'

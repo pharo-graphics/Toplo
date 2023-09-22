@@ -13,7 +13,7 @@ ToStyleSheetTest >> testButtonLabelSkin0 [
 	| ss button labelSkin attributes foregroundAttr prop writers label ssi |
 	" declare a local only stylesheet "
 	ss := ToStyleSheet new inherits: false; yourself.
-	ssi := ToStyleSheetInterpreter new.
+	ssi := ToSkinBuilder new.
 
 	" danger button label rule "
 	prop := ToPseudoProperty new name: #'text-attributes'.
@@ -81,7 +81,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 
 	| ss button skin labelSkin attributes foregroundAttr writers label ssi |
 	ss := ToStyleSheet new inherits: false; yourself.
-	ssi := ToStyleSheetInterpreter new.
+	ssi := ToSkinBuilder new.
 	
 	" default button rule "
 	ss addStyleRule: ((ToStyleTagSelector new styleTag: #button)
@@ -201,7 +201,7 @@ ToStyleSheetTest >> testButtonSkinWithInterspace [
 
 	| ss elem writers skin interspaceProp layoutProp ssi |
 	
-	ssi := ToStyleSheetInterpreter new.
+	ssi := ToSkinBuilder new.
 	interspaceProp := ToPseudoProperty
 			   name: #'layout-interspace'
 			   reader: [ :e | e layout interspace ]
@@ -237,7 +237,7 @@ ToStyleSheetTest >> testEmptyStyleSheet [
 
 	| ss ssi |
 	ss := ToStyleSheet new inherits: false; yourself.
-	ssi := ToStyleSheetInterpreter new.
+	ssi := ToSkinBuilder new.
 	self assert: (ssi writersFor: (ToElement new)) isEmpty
 ]
 
@@ -278,7 +278,7 @@ ToStyleSheetTest >> testSkinWithAnUniversalRule [
 
 	| ss elem skin writers ssi |
 	ss := ToStyleSheet new inherits: false; yourself.
-	ssi := ToStyleSheetInterpreter new.
+	ssi := ToSkinBuilder new.
 	ss addStyleRule:
 		(ToUniversalSelector new style: [ :sr |
 			 sr
@@ -302,7 +302,7 @@ ToStyleSheetTest >> testSkinWithChildRule [
 
 	| ss skin parent child writers ssi |
 	ss := ToStyleSheet new inherits: false; yourself.
-	ssi := ToStyleSheetInterpreter new.
+	ssi := ToSkinBuilder new.
 	ss addStyleRule: (((ToIdSelector new id: #child) parent:
 					  (ToStyleTagSelector new styleTag: #parent))
 			 style: [ :sr |
@@ -335,7 +335,7 @@ ToStyleSheetTest >> testSkinWithChildRuleLevel2 [
 
 	| ss skin parent child writers subParent ssi |
 	ss := ToStyleSheet new inherits: false; yourself.
-	ssi := ToStyleSheetInterpreter new.
+	ssi := ToSkinBuilder new.
 	ss addStyleRule: (((ToIdSelector new id: #child)
 					  parent: (ToStyleTagSelector new styleTag: #parent)
 					  depth: 2)
@@ -370,7 +370,7 @@ ToStyleSheetTest >> testSkinWithIdRule [
 
 	| ss elem writers skin ssi |
 	ss := ToStyleSheet new inherits: false; yourself.
-	ssi := ToStyleSheetInterpreter new.
+	ssi := ToSkinBuilder new.
 	ss addStyleRule:
 		((ToIdSelector new id: #a) style: [ :sr |
 			 sr
@@ -399,7 +399,7 @@ ToStyleSheetTest >> testStyleSheetStyle0 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToStyleSheetInterpreter new.
+	ssi := ToSkinBuilder new.
 
 	" default button rule "
 	rules := { (#button asStyleSelector style: [ :sr |
@@ -439,13 +439,13 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules0 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToStyleSheetInterpreter new.
+	ssi := ToSkinBuilder new.
 
 	" default button rule "
-	rules := { (#button asStyleSelector style: [ :sr |
-		          sr select: #danger asStyleSelector style: [ :srb |
-			          srb write: (ss property: #background) with: Color red.
-			          srb
+	rules := { (#button asStyleSelector style: [ :sr | 
+		          sr select: #danger asStyleSelector style: [ 
+			          sr write: (ss property: #background) with: Color red.
+			          sr
 				          when: ToDisabledLookEvent
 				          write: (ss property: #background)
 				          with: [ :e | Color red alpha: 0.1 ] ].

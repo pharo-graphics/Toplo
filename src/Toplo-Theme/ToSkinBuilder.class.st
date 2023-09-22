@@ -1,28 +1,27 @@
 Class {
-	#name : #ToStyleSheetInterpreter,
+	#name : #ToSkinBuilder,
 	#superclass : #Object,
 	#category : #'Toplo-Theme-StyleSheet'
 }
 
-{ #category : #accessing }
-ToStyleSheetInterpreter >> rawWritersFor: anElement [
+{ #category : #'writer selecting' }
+ToSkinBuilder >> rawWritersFor: anElement [
 
-	^ Array streamContents: [ :str |
-		  (self rulesFor: anElement) do: [ :r |
-			  (r canBeAppliedTo: anElement) ifTrue: [
-				  str nextPutAll: r writers  ] ] ]
+	^ Array streamContents: [ :stream |
+		  (self rootRulesFor: anElement) do: [ :r |
+			  r putAllWritersFor: anElement in: stream ] ]
 ]
 
-{ #category : #accessing }
-ToStyleSheetInterpreter >> rulesFor: anElement [
+{ #category : #'writer selecting' }
+ToSkinBuilder >> rootRulesFor: anElement [
 
 	^ Array streamContents: [ :str |
 		  anElement styleSheetChain reverseDo: [ :ss |
-			  ss flattenStyleRules ifNotNil: [ :srs | str nextPutAll: srs ] ] ]
+			  str nextPutAll: ss styleRules ] ]
 ]
 
-{ #category : #accessing }
-ToStyleSheetInterpreter >> skinFor: anElement [
+{ #category : #'skin building' }
+ToSkinBuilder >> skinFor: anElement [
 
 	| writers skin |
 	writers := self writersFor: anElement.
@@ -31,8 +30,8 @@ ToStyleSheetInterpreter >> skinFor: anElement [
 	^ skin
 ]
 
-{ #category : #accessing }
-ToStyleSheetInterpreter >> writersFor: anElement [
+{ #category : #'writer selecting' }
+ToSkinBuilder >> writersFor: anElement [
 	" for an element, several writers can be found. These writers 
 	are found with #rawWritersFor:. After, for each property only the last writers is kept"
 

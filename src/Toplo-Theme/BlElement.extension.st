@@ -3,7 +3,7 @@ Extension { #name : #BlElement }
 { #category : #'*Toplo-Theme' }
 BlElement >> defaultSkin [
 
-	^  self userData at: #defaultSkin ifAbsent: [self styleSheetInterpreter skinFor: self]
+	^  self userData at: #defaultSkin ifAbsent: [self skinBuilder skinFor: self]
 ]
 
 { #category : #'*Toplo-Theme' }

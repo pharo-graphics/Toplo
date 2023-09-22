@@ -203,6 +203,12 @@ BlElement >> removeStyleTag: aSymbol [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> skinBuilder [
+
+	^ ToSkinBuilder new
+]
+
+{ #category : #'*Toplo' }
 BlElement >> skinDo: aBlock [
 
 	self privateSkin ifNil: [ ^ self ].
@@ -239,12 +245,6 @@ BlElement >> styleSheetChain [
 			  current := current parent ].
 		  (self toTheme notNil and: [ inherits ]) ifTrue: [
 			  str nextPut: self toTheme styleSheet ] ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> styleSheetInterpreter [
-
-	^ ToStyleSheetInterpreter new
 ]
 
 { #category : #'*Toplo' }

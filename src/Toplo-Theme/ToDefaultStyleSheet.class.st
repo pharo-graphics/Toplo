@@ -281,7 +281,6 @@ ToDefaultStyleSheet >> commonButtonRules [
 
 	^ {
 		  (#button asStyleSelector style: [ :sr |
-			
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #mouseCursor)
@@ -293,36 +292,33 @@ ToDefaultStyleSheet >> commonButtonRules [
 				   when: ToLeavedLookEvent
 				   write: (self property: #mouseCursor)
 				   with: nil.
-			
+
 			   sr
 				   write: (self property: #layout)
-				   with: BlLinearLayout vertical alignCenter ] ).
+				   with: BlLinearLayout vertical alignCenter.
 
-		  (#button asStyleSelector - #vertical style: [ :sr |
-			   sr write: (self property: #padding) with: [ :e |
-				   BlInsets
-					   top: e toTheme paddingXS / 2
-					   left: e toTheme paddingContentHorizontal / 2
-					   bottom: e toTheme paddingXS / 2
-					   right: e toTheme paddingContentHorizontal / 2 ] ]).
+			   sr select: #vertical asStyleSelector not style: [
+				   sr write: (self property: #padding) with: [ :e |
+					   BlInsets
+						   top: e toTheme paddingXS / 2
+						   left: e toTheme paddingContentHorizontal / 2
+						   bottom: e toTheme paddingXS / 2
+						   right: e toTheme paddingContentHorizontal / 2 ].
 
-		  (#button asStyleSelector - #vertical - self haveExactHeight
-			   style: [ :sr |
-				   sr
-					   write: (self property: #height)
-					   with: [ :e | e toTheme controlHeight ] ]).
+				   sr select: self haveExactHeight not style: [ 
+					   sr
+						   write: (self property: #height)
+						   with: [ :e | e toTheme controlHeight ] ].
 
-		  (#button asStyleSelector - #vertical + #'large-sizing' style: [
-			   :sr |
-			   sr
-				   write: (self property: #height)
-				   with: [ :e | e toTheme controlHeightLG ] ]).
+				   sr select: #'large-sizing' style: [
+					   sr
+						   write: (self property: #height)
+						   with: [ :e | e toTheme controlHeightLG ] ].
 
-		  (#button asStyleSelector - #vertical + #'small-sizing' style: [
-			   :sr |
-			   sr
-				   write: (self property: #height)
-				   with: [ :e | e toTheme controlHeightSM ] ]).
+				   sr select: #'small-sizing' style: [
+					   sr
+						   write: (self property: #height)
+						   with: [ :e | e toTheme controlHeightSM ] ] ] ]).
 
 		  ((#'inner-element' asStyleSelector parent: #button) style: [ :sr |
 			   sr
@@ -330,8 +326,8 @@ ToDefaultStyleSheet >> commonButtonRules [
 				   with: BlLinearLayout horizontal.
 			   sr write: (self property: #'layout-constraints') with: [ :e |
 				   [ :c |
-					c horizontal fitContent.
-					c vertical fitContent.
+				   c horizontal fitContent.
+				   c vertical fitContent.
 				   c linear vertical alignCenter.
 				   c linear horizontal alignCenter ] ] ]).
 
@@ -376,14 +372,16 @@ ToDefaultStyleSheet >> commonButtonRules [
 				   c linear vertical alignCenter.
 				   c linear horizontal alignCenter ] ] ]).
 
-		  ((((#'triplet-filler-1' asStyleSelector parent: #( #button ) depth: 2) sibling: #'button-label') sibling: #'button-icon')
+		  ((((#'triplet-filler-1' asStyleSelector
+			      parent: #( #button )
+			      depth: 2) sibling: #'button-label') sibling: #'button-icon')
 			   style: [ :sr |
-					sr
+				   sr
 					   write: (self property: #layout)
 					   with: [ :e | BlFrameLayout new ].
-					
+
 				   sr write: (self property: #'layout-constraints') with: [ :e |
-					   [ :c | 
+					   [ :c |
 					   c horizontal exact: e toTheme paddingContentHorizontal / 3.
 					   c vertical exact: e toTheme paddingContentHorizontal / 3 ] ] ]).
 

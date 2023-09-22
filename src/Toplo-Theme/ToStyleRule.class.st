@@ -5,32 +5,15 @@ Class {
 	#classTraits : 'TToPropertyWriterHolder classTrait + TToStyleRuleHolder classTrait',
 	#instVars : [
 		'selector',
-		'eventClass',
 		'writers',
-		'subStyleRules'
+		'styleRules'
 	],
 	#category : #'Toplo-Theme-StyleSheet'
 }
 
-{ #category : #'instance creation' }
-ToStyleRule class >> selectedWith: aStyleSelector style: aBlock [
-
-	^ self new selectedWith: aStyleSelector style: aBlock
-]
-
-{ #category : #'instance creation' }
-ToStyleRule class >> selectedWith: aStyleSelector when: anLookEventClass  style: aBlock [
-
-	^ self new
-		  selectedWith: aStyleSelector
-		  when: anLookEventClass
-		  style: aBlock
-]
-
 { #category : #declaring }
-ToStyleRule >> addSubRule: aStyleRule [
+ToStyleRule >> addSubStyleRule: aStyleRule [
 
-	aStyleRule selector: (self selector + aStyleRule selector).
 	self addStyleRule: aStyleRule
 ]
 
@@ -43,30 +26,10 @@ ToStyleRule >> canBeAppliedTo: anElement [
 	^ engine result
 ]
 
-{ #category : #'syntactic sugar' }
-ToStyleRule >> event: aLookEventClass [
-
-	self eventClass: aLookEventClass
-]
-
 { #category : #accessing }
 ToStyleRule >> eventClass [
 
-	^ eventClass
-]
-
-{ #category : #accessing }
-ToStyleRule >> eventClass: aLookEventClass [
-
-	eventClass := aLookEventClass
-]
-
-{ #category : #accessing }
-ToStyleRule >> flattenStyleRules [
-
-	^ Array streamContents: [ :str |
-		  str nextPut: self.
-		  self styleRules do: [ :sr | str nextPutAll: sr flattenStyleRules ] ]
+	^ ToInstallLookEvent 
 ]
 
 { #category : #initialization }
@@ -74,9 +37,8 @@ ToStyleRule >> initialize [
 
 	super initialize.
 	selector := ToUniversalSelector new.
-	eventClass := ToInstallLookEvent.
 	writers := #(  ).
-	subStyleRules := #(  )
+	styleRules := #(  )
 ]
 
 { #category : #'property writer' }
@@ -89,16 +51,24 @@ ToStyleRule >> property: aProperty value: aValuableOrObject animation: aProperty
 			 yourself)
 ]
 
+{ #category : #'writers selecting' }
+ToStyleRule >> putAllWritersFor: anElement in: aStream [
+
+	(self canBeAppliedTo: anElement) ifFalse: [ ^ self ].
+	aStream nextPutAll: self writers.
+	self styleRules do: [ :r | r putAllWritersFor: anElement in: aStream ] 
+]
+
 { #category : #'t - style rule holder - accessing' }
 ToStyleRule >> rawStyleRules [
 
-	^ subStyleRules
+	^ styleRules
 ]
 
 { #category : #'t - style rule holder - accessing' }
 ToStyleRule >> rawStyleRules: aStyleRuleCollection [
 
-	subStyleRules := aStyleRuleCollection
+	styleRules := aStyleRuleCollection
 ]
 
 { #category : #'t - property writer holder - accessing' }
@@ -113,29 +83,12 @@ ToStyleRule >> rawWriters: aPropertyWriterCollection [
 	writers := aPropertyWriterCollection 
 ]
 
-{ #category : #'syntactic sugar' }
-ToStyleRule >> select: aSelector style: aBlock [
-
-	| sub |
-	sub := self class new selector: aSelector.
-	aBlock value: sub.
-	self addSubRule: sub 
-]
-
 { #category : #declaring }
 ToStyleRule >> selectedWith: aStyleSelector style: aBlock [
 
 	self selector: aStyleSelector.
 	aBlock value: self
 	
-]
-
-{ #category : #declaring }
-ToStyleRule >> selectedWith: aStyleSelector when: anEventClass style: aBlock [
-
-	self eventClass: anEventClass.
-	self selector: aStyleSelector.
-	aBlock value: self
 ]
 
 { #category : #accessing }

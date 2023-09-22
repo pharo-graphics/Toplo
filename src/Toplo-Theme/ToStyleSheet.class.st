@@ -101,13 +101,6 @@ ToStyleSheet >> defaultStyleRules [
 	^ #()
 ]
 
-{ #category : #accessing }
-ToStyleSheet >> flattenStyleRules [
-
-	^ Array streamContents: [ :str |
-		  self styleRules do: [ :sr | str nextPutAll: sr flattenStyleRules ] ]
-]
-
 { #category : #'syntactic sugar' }
 ToStyleSheet >> haveExactHeight [
 

@@ -31,9 +31,8 @@ ToStyleRuleTest >> testNewStyleRuleFromSelector [
 		border: red;
 	}"
 
-	ToStyleRule
+	ToStyleRule new
 		selectedWith: (ToStyleTagSelector new styleTag: #button)
-		when: ToInitialLookEvent
 		style: [ :sr |
 			sr
 				write: (self propertyIndex propertyNamed: #background)
@@ -48,9 +47,7 @@ ToStyleRuleTest >> testRuleWithAndSelector [
 	" a rule with an And operator  "
 
 	| rule e |
-	rule := ToStyleRule
-		        selectedWith:
-		        (ToStyleTagSelector new styleTags: #( #button ))
+	rule := ToStyleScript new select: (ToStyleTagSelector new styleTags: #( #button ))
 		        style: [ :sr |  ].
 
 	e := ToElement new styleTag: #something.
@@ -59,9 +56,8 @@ ToStyleRuleTest >> testRuleWithAndSelector [
 	e styleTag: #button.
 	self assert: (rule canBeAppliedTo: e).
 
-	rule := ToStyleRule
-		        selectedWith:
-			        (ToStyleTagSelector new styleTags: #( #button ))
+	rule := ToStyleScript new 
+		        select: (ToStyleTagSelector new styleTags: #( #button ))
 			        + (ToStyleTagSelector new styleTags: #( #danger ))
 		        style: [ :sr |  ].
 	self assert: (rule canBeAppliedTo: e) not.
@@ -69,9 +65,8 @@ ToStyleRuleTest >> testRuleWithAndSelector [
 	e addStyleTag: #danger.
 	self assert: (rule canBeAppliedTo: e).
 
-	rule := ToStyleRule
-		        selectedWith:
-		        (ToStyleTagSelector new styleTags: #( #button #danger ))
+	rule := ToStyleScript new
+		        select: (ToStyleTagSelector new styleTags: #( #button #danger ))
 		        style: [ :sr |  ].
 
 	self assert: (rule canBeAppliedTo: e).
@@ -306,55 +301,31 @@ ToStyleRuleTest >> testRuleWithNoSelector [
 ToStyleRuleTest >> testRuleWithSubRule [
 	" a rule with an And operator  "
 
-	| rule flatten |
-	rule := ToStyleRule
-		        selectedWith:
-		        (ToStyleTagSelector new styleTags: #( #button ))
+	| rule |
+	self flag: 'add assertions'.
+	rule := ToStyleScript new
+		        select: (ToStyleTagSelector new styleTags: #( #button ))
 		        style: [ :sr |
 			        sr
 				        select: (ToStyleTagSelector new styleTags: #( #checkable ))
 				        style: [ :sr2 |  ] ].
 
-	flatten := rule flattenStyleRules.
-	self assert: flatten size equals: 2.
-	self assert: (flatten first selector isKindOf: ToStyleTagSelector).
-	self assert: flatten first selector styleTags equals: #( #button ).
-	self assert: (flatten second selector isKindOf: ToAndSelector).
-	self
-		assert: flatten second selector left
-		equals: flatten first selector.
-	self assert:
-		(flatten second selector right isKindOf: ToStyleTagSelector).
-	self
-		assert: flatten second selector right styleTags
-		equals: #( #checkable )
 ]
 
 { #category : #'test - rule hierarchy' }
 ToStyleRuleTest >> testRuleWithSubRule2 [
 	" a rule with an And operator  "
 
-	| rule flatten |
-	rule := ToStyleRule
-		        selectedWith: #button asStyleSelector 
+	| rule  |
+	self flag: 'add assertions'.
+	rule := ToStyleScript new
+		        select: #button asStyleSelector 
 		        style: [ :sr |
 			        sr
 				        select: #checkable asStyleSelector 
 				        style: [ :sr2 |  ] ].
 
-	flatten := rule flattenStyleRules.
-	self assert: flatten size equals: 2.
-	self assert: (flatten first selector isKindOf: ToStyleTagSelector).
-	self assert: flatten first selector styleTags equals: #( #button ).
-	self assert: (flatten second selector isKindOf: ToAndSelector).
-	self
-		assert: flatten second selector left
-		equals: flatten first selector.
-	self assert:
-		(flatten second selector right isKindOf: ToStyleTagSelector).
-	self
-		assert: flatten second selector right styleTags
-		equals: #( #checkable )
+
 ]
 
 { #category : #'tests - simple rule' }

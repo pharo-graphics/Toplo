@@ -112,5 +112,5 @@ ToStyleSelector >> sibling: aSelector [
 { #category : #'skin rule building' }
 ToStyleSelector >> style: aBlock [
 
-	^ ToStyleRule selectedWith: self style: aBlock
+	^ ToStyleScript new select: self style: aBlock
 ]

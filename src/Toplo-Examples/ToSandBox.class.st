@@ -61,8 +61,7 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
 	btn label addStyleTag: #H3.
 	btn addStyleTag: #primary.
 	btn addStyleTag: #danger.
-	"btn addStyleTag: #'no-sizing'."
-	"btn size: 500 @ 100."
+	btn size: 500 @ 100.
 	space := BlSpace new.
 	space root layout: BlLinearLayout vertical.
 	space root addChildren: {

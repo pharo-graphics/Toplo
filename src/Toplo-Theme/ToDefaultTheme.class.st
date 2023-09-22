@@ -152,12 +152,6 @@ ToDefaultTheme >> checkboxCheckedImageIn: anElement [
 ]
 
 { #category : #images }
-ToDefaultTheme >> checkboxCheckedTag [
-
-	^ #checked
-]
-
-{ #category : #images }
 ToDefaultTheme >> checkboxImageIn: anElement [
 
 	| bar im |
@@ -176,21 +170,9 @@ ToDefaultTheme >> checkboxIndeterminateImageIn: anElement [
 ]
 
 { #category : #images }
-ToDefaultTheme >> checkboxIndeterminateTag [
-
-	^ #indeterminate
-]
-
-{ #category : #images }
 ToDefaultTheme >> checkboxUncheckedImageIn: anElement [
 
 	^ self checkboxImageIn: anElement
-]
-
-{ #category : #images }
-ToDefaultTheme >> checkboxUncheckedTag [
-
-	^ #unchecked
 ]
 
 { #category : #colors }

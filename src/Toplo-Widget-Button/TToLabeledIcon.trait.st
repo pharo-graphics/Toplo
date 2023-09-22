@@ -26,23 +26,6 @@ TToLabeledIcon >> beLabelFirst [
 	self requestLayout
 ]
 
-{ #category : #'t - labeled icon - direction' }
-TToLabeledIcon >> checkDirection [
-
-	self labelFirstRequested
-		ifTrue: [ self beLabelFirst ]
-		ifFalse: [ self beIconFirst ].
-
-]
-
-{ #category : #'t - labeled icon - orientation' }
-TToLabeledIcon >> checkOrientation [
-
-	self verticalRequested
-		ifTrue: [ self beVertical ]
-		ifFalse: [ self beHorizontal ].
-]
-
 { #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> extra [
 
@@ -123,13 +106,6 @@ TToLabeledIcon >> labelFirst: aBoolean [
 	aBoolean
 		ifTrue: [ self beLabelFirst ]
 		ifFalse: [ self beIconFirst ]
-]
-
-{ #category : #'t - labeled icon - accessing' }
-TToLabeledIcon >> labelFirstRequested [
-
-	" useful in case the layout is changed to set the right direction"
-	^ labelFirstRequested ifNil: [ labelFirstRequested := self isLabelFirst ]
 ]
 
 { #category : #'t - labeled icon - accessing' }

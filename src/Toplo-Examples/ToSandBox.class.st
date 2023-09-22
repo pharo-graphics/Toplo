@@ -3071,7 +3071,7 @@ ToSandBox class >> example_toCheckboxWithGroupAndStrictStrategy [
 		('checked: ' , event checkedButtons asString , ' unchecked: '
 		 , event uncheckedButtons asString) traceCr ].
 
-	container := BlElement new.
+	container := ToElement new.
 	container constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical matchParent ].
@@ -3129,7 +3129,6 @@ ToSandBox class >> example_toCheckboxWithGroupJustified [
 			       beLabelFirst;
 			       labelText: idx asString;
 			       id: idx asString.
-		chb innerElement hMatchParent.
 		buttons add: chb ].
 	buttons second checked: true.
 	group addAll: buttons.
@@ -3137,10 +3136,9 @@ ToSandBox class >> example_toCheckboxWithGroupJustified [
 		('checked: ' , event checkedButtons asString , ' unchecked: '
 		 , event uncheckedButtons asString) traceCr ].
 
-	container := BlElement new.
-	container constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical matchParent ].
+	container := ToElement new.
+	container background: Color veryLightGray.
+	container matchParent.
 
 	container layout: BlLinearLayout vertical.
 	container layout cellSpacing: 5.

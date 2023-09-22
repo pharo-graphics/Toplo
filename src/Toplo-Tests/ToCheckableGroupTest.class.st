@@ -138,15 +138,15 @@ ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndSwitchToNextStateU
 
 	buttons do: [ :b | pane addChild: b ].
 
-	buttons first switchToNextState.
+	buttons first switchCheckState.
 	self assert: buttons first checked.
 	self assert: buttons second checked not.
 	self assert: buttons third checked not.
-	buttons second switchToNextState.
+	buttons second switchCheckState.
 	self assert: buttons first checked not.
 	self assert: buttons second checked.
 	self assert: buttons third checked not.
-	buttons third switchToNextState.
+	buttons third switchCheckState.
 	self assert: buttons first checked not.
 	self assert: buttons second checked not.
 	self assert: buttons third checked.
@@ -156,15 +156,15 @@ ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndSwitchToNextStateU
 		b dresser: b defaultDresser ].
 	self assert: modelButtonsGroup buttons size equals: 3.
 	
-	buttons first switchToNextState.
+	buttons first switchCheckState.
 	self assert: buttons first checked.
 	self assert: buttons second checked not.
 	self assert: buttons third checked not.
-	buttons second switchToNextState.
+	buttons second switchCheckState.
 	self assert: buttons first checked not.
 	self assert: buttons second checked.
 	self assert: buttons third checked not.
-	buttons third switchToNextState.
+	buttons third switchCheckState.
 	self assert: buttons first checked not.
 	self assert: buttons second checked not.
 	self assert: buttons third checked

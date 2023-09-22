@@ -1,12 +1,14 @@
 Class {
 	#name : #ToWidgetDresser,
 	#superclass : #ToDresser,
-	#traits : 'TToMouseHandler + TToEnableableHandler',
-	#classTraits : 'TToMouseHandler classTrait + TToEnableableHandler classTrait',
+	#traits : 'TToMouseHandler',
+	#classTraits : 'TToMouseHandler classTrait',
 	#instVars : [
-		'mouseUpOutsideHandler'
+		'mouseUpOutsideHandler',
+		'enablementHandler',
+		'mouseEventListener'
 	],
-	#category : 'Toplo-Core'
+	#category : #'Toplo-Core'
 }
 
 { #category : #'deprecated private' }
@@ -86,7 +88,7 @@ ToWidgetDresser >> doubleClicked: anElement event: anEvent [
 				-> '`@receiver doubleClickedEvent: `@anEvent in: `@anElement'.
 ]
 
-{ #category : #'t - enableable handler - events handling' }
+{ #category : #'events handling' }
 ToWidgetDresser >> enablementEvent: anEvent in: anElement [
 
 	anElement isEnabled ifTrue: [ ^ self initialState: anElement ].
@@ -126,6 +128,13 @@ ToWidgetDresser >> installEventListenersIn: anElement [
 	mouseUpOutsideHandler := BlEventHandler
 		                         on: BlMouseUpOutsideEvent
 		                         do: [ :event | self mouseUpOutsideEvent: event in: anElement ].
+	enablementHandler := BlEventHandler
+		                     on: ToEnablementChangedEvent
+		                     do: [ :event | self enablementEvent: event in: anElement ].
+	mouseEventListener := ToDresserMouseEventListener new target: anElement; dresser: self; yourself.
+	anElement addEventHandler: mouseEventListener.
+
+	anElement addEventHandler: enablementHandler.
 	anElement addEventHandler: mouseUpOutsideHandler
 ]
 
@@ -261,24 +270,6 @@ ToWidgetDresser >> mouseUpOutsideEvent: anEvent in: anElement [
 	self initialState: anElement
 ]
 
-{ #category : #'api - install/uninstall  hook' }
-ToWidgetDresser >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement.
-	self onInstalledMouseHandlingIn: anElement.
-	self onInstalledEnableableHandlingIn: anElement.	
-	"self initialState: anElement"
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToWidgetDresser >> onUninstalledIn: anElement [
-
-	self onUninstalledMouseHandlingIn: anElement.
-	self onUninstalledEnableableHandlingIn: anElement.
-
-	super onUninstalledIn: anElement
-]
-
 { #category : #'deprecated events handling' }
 ToWidgetDresser >> pressed: anElement event: anEvent [
 
@@ -321,6 +312,10 @@ ToWidgetDresser >> rightPressed: anElement event: anEvent [
 ToWidgetDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: mouseUpOutsideHandler.
+	anElement removeEventHandler: enablementHandler.
+	anElement removeEventHandler: mouseEventListener.
+	mouseEventListener := nil.
+	enablementHandler := nil.
 	mouseUpOutsideHandler := nil.
 	super uninstallEventListenersIn: anElement
 

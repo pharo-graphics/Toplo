@@ -1,17 +1,15 @@
 Class {
 	#name : #ToPropertyAnimation,
 	#superclass : #Object,
-	#traits : 'TToPropertyAnimation',
-	#classTraits : 'TToPropertyAnimation classTrait',
 	#instVars : [
 		'property',
 		'duration',
 		'finishedHandlers'
 	],
-	#category : 'Toplo-Theme-Skin'
+	#category : #'Toplo-Theme-Skin'
 }
 
-{ #category : #'t - property animation - accessing' }
+{ #category : #accessing }
 ToPropertyAnimation >> duration [
 
 	^ duration ifNil: [ duration := 200 milliSeconds ]
@@ -36,13 +34,13 @@ ToPropertyAnimation >> initialize [
 	finishedHandlers := OrderedCollection new
 ]
 
-{ #category : #'t - property animation - action handling' }
+{ #category : #'action handling' }
 ToPropertyAnimation >> onFinishedDo: aBlock [
 
 	self finishedHandlers add: aBlock
 ]
 
-{ #category : #'t - property animation - accessing' }
+{ #category : #accessing }
 ToPropertyAnimation >> property [
 
 	^ property
@@ -54,7 +52,7 @@ ToPropertyAnimation >> property: aProperty [
 	property := aProperty
 ]
 
-{ #category : #'t - property animation - writing' }
+{ #category : #writing }
 ToPropertyAnimation >> write: anObject to: anElement [
 
 	self explicitRequirement 

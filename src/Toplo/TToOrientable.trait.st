@@ -1,15 +1,11 @@
 Trait {
 	#name : #TToOrientable,
-	#instVars : [
-		'verticalRequested'
-	],
-	#category : 'Toplo-Core-Triplet'
+	#category : #'Toplo-Core-Triplet'
 }
 
 { #category : #'t - orientable - orientation' }
 TToOrientable >> beHorizontal [
 
-	verticalRequested := false.
 	self isHorizontal ifTrue: [ ^ self ].
 	self layoutStrategy beHorizontal.
 	self dispatchEvent: ToLayoutOrientationChangedEvent new.
@@ -33,7 +29,6 @@ TToOrientable >> beRightToLeft [
 { #category : #'t - orientable - orientation' }
 TToOrientable >> beVertical [
 
-	verticalRequested := true.
 	self isVertical ifTrue: [ ^ self ].
 	self layoutStrategy beVertical.
 	self dispatchEvent: ToLayoutOrientationChangedEvent new.
@@ -122,10 +117,4 @@ TToOrientable >> orientation: aBlLayoutOrientation [
 	self layoutStrategy orientation: aBlLayoutOrientation.
 	self dispatchEvent: ToLayoutOrientationChangedEvent new.
 	self launchRequestLayout
-]
-
-{ #category : #'t - orientable - accessing' }
-TToOrientable >> verticalRequested [ 
-
-	^ verticalRequested ifNil: [ verticalRequested :=  self orientation isVertical ]
 ]

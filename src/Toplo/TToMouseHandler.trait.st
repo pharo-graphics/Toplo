@@ -1,9 +1,6 @@
 Trait {
 	#name : #TToMouseHandler,
-	#instVars : [
-		'mouseEventListener'
-	],
-	#category : 'Toplo-Core'
+	#category : #'Toplo-Core'
 }
 
 { #category : #'t - mouse handling - events handling' }
@@ -67,21 +64,6 @@ TToMouseHandler >> mouseLeaveEvent: anEvent in: anElement [
 { #category : #'t - mouse handling - events handling' }
 TToMouseHandler >> mouseUpEvent: anEvent in: anElement [
 
-
-]
-
-{ #category : #'t - mouse handling - install/uninstall  hook' }
-TToMouseHandler >> onInstalledMouseHandlingIn: anElement [
-
-	mouseEventListener := ToDresserMouseEventListener new target: anElement; dresser: self; yourself.
-	anElement addEventHandler: mouseEventListener
-]
-
-{ #category : #'t - mouse handling - install/uninstall  hook' }
-TToMouseHandler >> onUninstalledMouseHandlingIn: anElement [
-
-	anElement removeEventHandler: mouseEventListener.
-	mouseEventListener := nil
 
 ]
 

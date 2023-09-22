@@ -25,7 +25,7 @@ ToCheckableButtonDresser >> checkEvent: anEvent in: anElement [
 { #category : #'events handling' }
 ToCheckableButtonDresser >> clicked: anElement [
 
-	anElement switchToNextState.
+	anElement switchCheckState.
 	super clicked: anElement.
 
 	

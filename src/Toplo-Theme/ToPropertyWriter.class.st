@@ -1,8 +1,6 @@
 Class {
 	#name : #ToPropertyWriter,
 	#superclass : #Object,
-	#traits : 'TToPropertyWriter',
-	#classTraits : 'TToPropertyWriter classTrait',
 	#instVars : [
 		'property',
 		'value',
@@ -10,7 +8,7 @@ Class {
 		'eventClass',
 		'supplement'
 	],
-	#category : 'Toplo-Theme-Skin'
+	#category : #'Toplo-Theme-Skin'
 }
 
 { #category : #accessing }

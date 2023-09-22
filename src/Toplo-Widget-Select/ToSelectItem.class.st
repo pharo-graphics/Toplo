@@ -17,5 +17,5 @@ ToSelectItem >> initialize [
 
 	super initialize.
 	self initializeCheckable.
-	self whenClickedDo: [ self switchToNextState ] 
+	self whenClickedDo: [ self switchCheckState ] 
 ]

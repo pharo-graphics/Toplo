@@ -1,9 +1,9 @@
 Class {
 	#name : #ToElement,
 	#superclass : #BlElement,
-	#traits : 'TToElement + TToResizable + TToEnableable + TToDressable + TToSkinable + TObservable',
-	#classTraits : 'TToElement classTrait + TToResizable classTrait + TToEnableable classTrait + TToDressable classTrait + TToSkinable classTrait + TObservable classTrait',
-	#category : 'Toplo-Core'
+	#traits : 'TToResizable + TToEnableable + TToDressable + TToSkinable + TObservable',
+	#classTraits : 'TToResizable classTrait + TToEnableable classTrait + TToDressable classTrait + TToSkinable classTrait + TObservable classTrait',
+	#category : #'Toplo-Core'
 }
 
 { #category : #'t - dressable -  initialization' }

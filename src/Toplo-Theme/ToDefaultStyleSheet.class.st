@@ -94,13 +94,6 @@ ToDefaultStyleSheet >> checkableButtonRules [
 						   paint: e toTheme colorError;
 						   yourself ].
 			   sr
-				   when: ToDisabledLookEvent
-				   write: (self property: #'border-with-builder')
-				   with: [ :e |
-					   e borderBuilder
-						   paint: e toTheme colorBorderDisabled;
-						   yourself ].
-			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
@@ -120,9 +113,7 @@ ToDefaultStyleSheet >> checkableButtonRules [
 ToDefaultStyleSheet >> checkableInnerImageRules [
 	" checkbox family "
 
-	^ 
-		{ 
-		
+	^ {
 		  ((#( #'inner-image' ) asStyleSelector
 			    parent: #( #button #checkable )
 			    depth: 3) style: [ :sr |
@@ -131,151 +122,100 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 				   with: [ :e | BlFrameLayout new ].
 			   sr
 				   write: (self property: #size)
-				   with: [ :e | (e toTheme controlHeight / 2) asPoint ] ]).
+				   with: [ :e | (e toTheme controlHeight / 2) asPoint ].
 
-			(#bar  asStyleSelector
+			   sr write: (self property: #'border-with-builder') with: [ :e |
+				   e borderBuilder
+					   paint: e toTheme colorPrimary;
+					   width: 0;
+					   yourself ].
+			   sr
+				   when: ToDisabledLookEvent
+				   supplement: (self property: #'border-with-builder')
+				   with: [ :e |
+					   e borderBuilder
+						   paint: e toTheme colorBorderDisabled;
+						   yourself ].
+			   sr
+				   when: ToCheckedLookEvent
+				   supplement: (self property: #'border-with-builder')
+				   with: [ :e |
+					   e borderBuilder
+						   width: 6;
+						   yourself ].
+			   sr
+				   when: ToUncheckedLookEvent
+				   supplement: (self property: #'border-with-builder')
+				   with: [ :e |
+					   e borderBuilder
+						   width: 0;
+						   yourself ].
+			   sr
+				   when: ToIndeterminateLookEvent
+				   supplement: (self property: #'border-with-builder')
+				   with: [ :e |
+					   e borderBuilder
+						   width: 0;
+						   yourself ] ]).
+
+		  ((#( #'inner-image' ) asStyleSelector
+			    parent: #( #button #checkable #danger )
+			    depth: 3) style: [ :sr |
+			   sr
+				   supplement: (self property: #'border-with-builder')
+				   with: [ :e |
+					   e borderBuilder
+						   paint: e toTheme colorError;
+						   yourself ].
+			   sr
+				   when: ToDisabledLookEvent
+				   supplement: (self property: #'border-with-builder')
+				   with: [ :e |
+					   e borderBuilder
+						   paint: e toTheme colorBorderDisabled;
+						   yourself ] ]).
+
+		  ((#bar asStyleSelector
 			    parent: (#( #'inner-image' ) asStyleSelector
 					     parent: #( #button #checkable )
 					     depth: 3)
-			    depth: 1) style: [ :sr | 			   
-				
-				sr write: (self property: #'layout-constraints') with: [ :e |
-				   [ :c | 
+			    depth: 1) style: [ :sr |
+			   sr write: (self property: #'layout-constraints') with: [ :e |
+				   [ :c |
 				   c horizontal matchParent.
 				   c vertical exact: 4.
 				   c frame horizontal alignCenter.
 				   c frame vertical alignCenter ] ].
 			   sr
-				   write: (self property: #background)
-				   with: [ :e | Color transparent ].
-				sr
 				   write: (self property: #margin)
-				   with: [ :e | BlInsets left: 2 right: 2 ]] .
-			
-			(#bar asStyleSelector
-			    parent: (#( #'inner-image' #indeterminate ) asStyleSelector
-					     parent: #( #button #checkable )
-					     depth: 3)
-			    depth: 1) style: [ :sr |
-			   sr 
-				   write: (self property: #background)
-				   with: [ :e | e toTheme colorPrimary ].
+				   with: [ :e | BlInsets left: 2 right: 2 ].
+
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e toTheme colorBgContainerDisabled ] ].
+				   with: [ :e | e toTheme colorBgContainerDisabled ].
+			   sr
+				   when: ToIndeterminateLookEvent
+				   write: (self property: #background)
+				   with: [ :e | e toTheme colorPrimary ].
+			   sr
+				   when: ToCheckedLookEvent
+				   write: (self property: #background)
+				   with: [ :e | Color transparent ].
+			   sr
+				   when: ToUncheckedLookEvent
+				   write: (self property: #background)
+				   with: [ :e | Color transparent ] ]).
 
-		  (#bar asStyleSelector
-			    parent: (#( #'inner-image' #indeterminate ) asStyleSelector
+		  ((#bar asStyleSelector
+			    parent: (#( #'inner-image' ) asStyleSelector
 					     parent: #( #button #checkable #danger )
 					     depth: 3)
 			    depth: 1) style: [ :sr |
 			   sr
+				   when: ToIndeterminateLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e toTheme colorError ].
-				sr
-				   when: ToDisabledLookEvent
-				   write: (self property: #background)
-				   with: [ :e | e toTheme colorBgContainerDisabled ] ].
-
-		 " ((#( #'inner-image' #indeterminate ) asStyleSelector
-			    parent: #( #button #checkable )
-			    depth: 4) style: [ :sr |
-			   sr
-				   write: (self property: #margin)
-				   with: [ :e | BlInsets all: 2 ] ])."
-
-		  ((#( #'inner-image' #checked ) asStyleSelector
-			    parent: #( #button #checkable )
-			    depth: 3) style: [ :sr | " icon border "
-			   sr
-				   when: ToInitialLookEvent
-				   write: (self property: #'border-with-builder')
-				   with: [ :e |
-					   e borderBuilder
-						   paint: e toTheme colorPrimary;
-						   width: 6;
-						   yourself ].
-			   sr
-				   when: ToDisabledLookEvent
-				   write: (self property: #'border-with-builder')
-				   with: [ :e |
-					   e borderBuilder
-						   paint: e toTheme colorBorderDisabled;
-						   width: 6;
-						   yourself ].
-			   sr
-				   when: ToHoveredLookEvent
-				   write: (self property: #'border-with-builder')
-				   with: [ :e |
-					   e borderBuilder
-						   paint: e toTheme colorPrimaryHover;
-						   width: 6;
-						   yourself ].
-			   sr
-				   when: ToPressedLookEvent
-				   write: (self property: #'border-with-builder')
-				   with: [ :e |
-					   e borderBuilder
-						   paint: e toTheme colorPrimaryPressed;
-						   width: 6;
-						   yourself ] ]).
-
-		  ((#( #'inner-image' #unchecked ) asStyleSelector
-			    parent: #( #button #checkable )
-			    depth: 3) style: [ :sr | " icon border "
-			   sr
-				   write: (self property: #'border-with-builder')
-				   with: [ :e |
-					   e borderBuilder
-						   width: 0;
-						   yourself ] ]).
-
-		  ((#( #'inner-image' #checked ) asStyleSelector
-			    parent: #( #button #checkable #danger )
-			    depth: 3) style: [ :sr | " icon border "
-			   sr
-				   when: ToInitialLookEvent
-				   write: (self property: #'border-with-builder')
-				   with: [ :e |
-					   e borderBuilder
-						   paint: e toTheme colorError;
-						   width: 6;
-						   yourself ].
-			   sr
-				   when: ToDisabledLookEvent
-				   write: (self property: #'border-with-builder')
-				   with: [ :e |
-					   e borderBuilder
-						   paint: e toTheme colorBorderDisabled;
-						   width: 6;
-						   yourself ].
-			   sr
-				   when: ToHoveredLookEvent
-				   write: (self property: #'border-with-builder')
-				   with: [ :e |
-					   e borderBuilder
-						   paint: e toTheme colorErrorHover;
-						   width: 6;
-						   yourself ].
-			   sr
-				   when: ToPressedLookEvent
-				   write: (self property: #'border-with-builder')
-				   with: [ :e |
-					   e borderBuilder
-						   paint: e toTheme colorErrorHover darker;
-						   width: 6;
-						   yourself ] ]).
-
-		  ((#( #'inner-image' #unchecked ) asStyleSelector
-			    parent: #( #button #checkable #danger )
-			    depth: 3) style: [ :sr |
-			   sr
-				   write: (self property: #'border-with-builder')
-				   with: [ :e |
-					   e borderBuilder
-						   width: 0;
-						   yourself ] ]) }
+				   with: [ :e | e toTheme colorError ] ]) }
 ]
 
 { #category : #'accessing rules  -button' }

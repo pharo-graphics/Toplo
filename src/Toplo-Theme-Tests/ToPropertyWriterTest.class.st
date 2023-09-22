@@ -4,7 +4,7 @@ A ToPropertyWriterTest is a test class for testing the behavior of ToPropertyWri
 Class {
 	#name : #ToPropertyWriterTest,
 	#superclass : #TestCase,
-	#category : 'Toplo-Theme-Tests-Skin'
+	#category : #'Toplo-Theme-Tests-Skin'
 }
 
 { #category : #'test writing' }
@@ -29,56 +29,6 @@ ToPropertyWriterTest >> testAnimationNeedPropertyWithReader [
 		self assert: w background paint color equals: Color blue.
 		self assert: (prop read: w) equals: w background ].
 	propWriter writeTo: w
-]
-
-{ #category : #'test event receiving' }
-ToPropertyWriterTest >> testCheckableUpdateWithValuable [
-
-	| w disabledImage checkedImage uncheckedImage indeterminateImage switch prop writer |
-	w := ToCheckLookTestElement new.
-
-	disabledImage := BlElement new.
-	checkedImage := BlElement new.
-	uncheckedImage := BlElement new.
-	indeterminateImage := BlElement new.
-	
-	switch := [ :e |
-	          e isDisabled
-		          ifTrue: [ disabledImage ]
-		          ifFalse: [
-			          e isChecked
-				          ifTrue: [ checkedImage ]
-				          ifFalse: [
-					          e isUnchecked
-						          ifTrue: [ uncheckedImage ]
-						          ifFalse: [ indeterminateImage ] ] ] ].
-	prop := ToPseudoProperty
-		        name: #'checkable-icon-image'
-		        reader: [ :e | e icon innerImage ]
-		        writer: [ :e :v |
-			        v removeFromParent.
-			        e iconImage: v ].
-	writer := ToPropertyWriter new
-		          property: prop;
-		          value: switch;
-		          eventClass: ToInitialLookEvent;
-		          yourself.
-
-	writer receiveEvent: (ToInitialLookEvent new currentTarget: w).
-	" since the checkable is unchecked by default "
-	self assert: w icon innerImage equals: uncheckedImage.
-
-	w checked: true.
-	writer receiveEvent: (ToInitialLookEvent new currentTarget: w).
-	self assert: w icon innerImage equals: checkedImage.
-
-	w checked: nil.
-	writer receiveEvent: (ToInitialLookEvent new currentTarget: w).
-	self assert: w icon innerImage equals: indeterminateImage.
-
-	w disable.
-	writer receiveEvent: (ToInitialLookEvent new currentTarget: w).
-	self assert: w icon innerImage equals: disabledImage
 ]
 
 { #category : #'test event receiving' }

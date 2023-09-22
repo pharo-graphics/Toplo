@@ -443,14 +443,12 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules0 [
 
 	" default button rule "
 	rules := { (#button asStyleSelector style: [ :sr |
-		          sr rules: { 
-							#danger asStyleSelector style: [ :srb |
-				           	srb write: (ss property: #background) with: Color red.
-								srb
-									when: ToDisabledLookEvent
-									write: (ss property: #background)
-									with: [ :e | Color red alpha: 0.1 ] ].
-					 }.
+		          sr select: #danger asStyleSelector style: [ :srb |
+			          srb write: (ss property: #background) with: Color red.
+			          srb
+				          when: ToDisabledLookEvent
+				          write: (ss property: #background)
+				          with: [ :e | Color red alpha: 0.1 ] ].
 		          sr write: (ss property: #background) with: Color white.
 		          sr
 			          when: ToInitialLookEvent
@@ -478,20 +476,20 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules0 [
 	button switchToSkinState: ToInitialState new.
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color black.
-	
+
 	button addStyleTag: #danger.
 	button updateSkin.
 	button switchToSkinState: ToInstallState new.
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color red.
-	
+
 	button switchToSkinState: ToInitialState new.
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color black.
-	
+
 	button switchToSkinState: ToDisabledState new.
 	self assert: button background paint isColorPaint.
-	self assert: button background paint color equals: (Color red alpha: 0.1)
-
-
+	self
+		assert: button background paint color
+		equals: (Color red alpha: 0.1)
 ]

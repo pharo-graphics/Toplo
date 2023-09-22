@@ -2632,6 +2632,47 @@ ToSandBox class >> example_toButton0 [
 	but inspect.
 ]
 
+{ #category : #pair }
+ToSandBox class >> example_toButtonJustified1 [
+
+	| but space iconImage |
+	ToAbstractTheme cleanUp.
+	but := ToTripletElement new.
+	but addStyleTag: #button.
+	but replaceSecondWith:
+		((ToLabel text: 'Pair' asRopedText bold) addStyleTag:
+			 #'button-label').
+	iconImage := ToElement new
+		             size: 20 @ 20;
+		             background: Color lightGray;
+		             yourself.
+
+	but replaceFirstWith: iconImage.
+	but first addStyleTag: #'button-icon'.
+
+	but when: BlClickEvent do: [
+		but isHorizontal
+			ifTrue: [
+				but removeStyleTag: #horizontal.
+				but addStyleTag: #vertical.
+				but hFitContent.
+				but vMatchParent. ]
+			ifFalse: [
+				but removeStyleTag: #vertical.
+				but addStyleTag: #horizontal.
+				but vFitContent.
+				but hMatchParent. ].
+		but updateSkin.
+		but switchToSkinState: ToInstallState new ].
+	but justified: true.
+	but hMatchParent.
+	
+
+	space := BlSpace new.
+	space root addChild: but.
+	space show
+]
+
 { #category : #button }
 ToSandBox class >> example_toButtonModel1 [
 
@@ -3444,15 +3485,15 @@ ToSandBox class >> example_toPairDirectionChanger [
 
 	| but space iconImage |
 	but := ToTripletElement new.
-	but layout cellSpacing: 4.
-	but padding: (BlInsets all: 3).
-	but border: (BlBorder paint: Color lightGray).
-	but first: (ToLabel text: 'Pair' asRopedText bold).
+	but addStyleTag: #button.
+	but replaceSecondWith: ((ToLabel text: 'Pair' asRopedText bold) addStyleTag: #'button-label').
 	iconImage := BlElement new
 		             size: 20 @ 20;
 		             background: Color lightGray;
 		             yourself.
-	but replaceSecondWith: iconImage.
+
+	but replaceFirstWith: iconImage.
+	but first addStyleTag: #'button-icon'.
 	but when: BlClickEvent do: [ 
 		but direction: but direction inverted.
 		but requestLayout ].
@@ -3465,19 +3506,21 @@ ToSandBox class >> example_toPairDirectionChanger [
 ToSandBox class >> example_toPairJustified1 [
 
 	| but space iconImage |
-	but := ToTripletElement new.
-	but layout cellSpacing: 4.
-	but padding: (BlInsets all: 3).
-	but border: (BlBorder paint: Color lightGray).
-	but first: (ToLabel text: 'Pair' asRopedText bold).
+
+	but := ToButton new.
+	but inspect.
+	but addStyleTag: #button.
+	but replaceSecondWith: ((ToLabel text: 'Pair' asRopedText bold) addStyleTag: #'button-label').
 	iconImage := BlElement new
 		             size: 20 @ 20;
 		             background: Color lightGray;
 		             yourself.
-	but second: iconImage.
-	but when: BlClickEvent do: [ but orientation: but orientation inverted ].
+
+	but replaceFirstWith: iconImage.
+	but first addStyleTag: #'button-icon'.
+	
+	but when: BlClickEvent do: [ but addStyleTag: #vertical. but updateSkin. but innerElement layout beVertical.  ].
 	but justified: true.
-	but innerElement hMatchParent.
 	but hMatchParent.
 
 	space := BlSpace new.

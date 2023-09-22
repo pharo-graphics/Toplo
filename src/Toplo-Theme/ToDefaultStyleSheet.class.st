@@ -281,8 +281,6 @@ ToDefaultStyleSheet >> commonButtonRules [
 
 	^ {
 		  (#button asStyleSelector style: [ :sr |
-				
-				sr rules: {  }.
 			
 			   sr
 				   when: ToHoveredLookEvent
@@ -336,13 +334,6 @@ ToDefaultStyleSheet >> commonButtonRules [
 					c vertical fitContent.
 				   c linear vertical alignCenter.
 				   c linear horizontal alignCenter ] ] ]).
-
-		  " innerElement layout interspace is always zero "
-		  ((#'inner-element' asStyleSelector parent: #button asStyleSelector)
-			   style: [ :sr |
-				   sr
-					   write: (self property: #'layout-interspace')
-					   with: [ :e | 0 ] ]).
 
 		  " innerElement is matchParent if it has a parent with #button and #justified and with #'button-label' and #'button-icon' at depth 2"
 		  ((#'inner-element' asStyleSelector parent:
@@ -690,27 +681,23 @@ ToDefaultStyleSheet >> labelRules [
 ToDefaultStyleSheet >> linkButtonRules [
 	" ToButton link "
 
-	^ 
-	  {			  (#( #button #link ) asStyleSelector
-			   when: ToInstallLookEvent
-			   style: [ :sr |
-				   sr
-					   write: (self property: #background)
-					   with: [ :e | Color transparent ].
-				   sr
-					   write: (self property: #'border-with-builder')
-					   with: [ :e | e borderBuilder width: 0 ] ]).
+	^ {
+		  (#( #button #link ) asStyleSelector style: [ :sr |
+			   sr
+				   write: (self property: #background)
+				   with: [ :e | Color transparent ].
+			   sr
+				   write: (self property: #'border-with-builder')
+				   with: [ :e | e borderBuilder width: 0 ] ]).
 
 		  " ToButton link danger "
-		  (#( #button #link #danger ) asStyleSelector
-			   when: ToInstallLookEvent
-			   style: [ :sr |
-				   sr
-					   write: (self property: #background)
-					   with: [ :e | Color transparent ].
-				   sr
-					   write: (self property: #'border-with-builder')
-					   with: [ :e | e borderBuilder width: 0 ] ]).
+		  (#( #button #link #danger ) asStyleSelector style: [ :sr |
+			   sr
+				   write: (self property: #background)
+				   with: [ :e | Color transparent ].
+			   sr
+				   write: (self property: #'border-with-builder')
+				   with: [ :e | e borderBuilder width: 0 ] ]).
 
 		  " button link form icon "
 		  ((#image asStyleSelector parent: #( #button #link ) depth: 2)
@@ -792,7 +779,7 @@ ToDefaultStyleSheet >> linkButtonRules [
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e toTheme colorError darker ] ]) } 
+				   with: [ :e | e toTheme colorError darker ] ]) }
 ]
 
 { #category : #'accessing rules  -button' }
@@ -917,12 +904,10 @@ ToDefaultStyleSheet >> primaryButtonRules [
 { #category : #'accessing rules  - pane' }
 ToDefaultStyleSheet >> rootPaneRules [
 
-	^ { ((self id: #'Space root')
-		   when: ToInstallLookEvent
-		   style: [ :sr |
-			   sr
-				   write: (self property: #background)
-				   with: [ :e | e toTheme backgroundColor ] ]) }
+	^ { ((self id: #'Space root') style: [ :sr |
+		   sr
+			   write: (self property: #background)
+			   with: [ :e | e toTheme backgroundColor ] ]) }
 ]
 
 { #category : #'accessing rules  -button' }
@@ -1075,18 +1060,23 @@ ToDefaultStyleSheet >> verticalButtonRules [
 	"
 
 	^ {
-
 		  (#( #button #vertical ) asStyleSelector style: [ :sr |
 			   sr write: (self property: #padding) with: [ :e |
 				   BlInsets
 					   top: e toTheme paddingContentHorizontal / 2
 					   left: e toTheme paddingXS / 2
 					   bottom: e toTheme paddingContentHorizontal / 2
-					   right: e toTheme paddingXS / 2 ] ]).
+					   right: e toTheme paddingXS / 2 ].
+
+			   sr write: (self property: #'layout-constraints') with: [ :e |
+				   [ :c |
+				   c linear vertical alignCenter.
+				   c linear horizontal alignCenter ] ] ]).
 
 		  ((#'inner-element' asStyleSelector parent: #( #button #vertical ))
 			   style: [ :sr |
 				   sr
+					   when: ToInitialLookEvent
 					   write: (self property: #layout)
 					   with: BlLinearLayout vertical ]) }
 ]

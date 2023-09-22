@@ -211,7 +211,6 @@ ToStyleSheetTest >> testButtonSkinWithInterspace [
 	ss := ToStyleSheet new inherits: false; yourself.
 	ss addStyleRule: (((ToStyleTagSelector new styleTag: #button) 
 				or: (ToStyleTagSelector new styleTags: #( #button #horizontal )))
-			 when: ToInstallLookEvent
 			 style: [ :sr |
 				 sr
 					 write: layoutProp
@@ -261,7 +260,6 @@ ToStyleSheetTest >> testNewStyleSheetWith2Rules [
 				border: red;
 			}"
 			((ToStyleTagSelector new styleTag: #button)
-				 when: ToInitialLookEvent
 				 style: [ :sr |
 					 sr
 						 write: (styleSheet propertyNamed: #background)
@@ -374,7 +372,7 @@ ToStyleSheetTest >> testSkinWithIdRule [
 	ss := ToStyleSheet new inherits: false; yourself.
 	ssi := ToStyleSheetInterpreter new.
 	ss addStyleRule:
-		((ToIdSelector new id: #a) when: ToInitialLookEvent style: [ :sr |
+		((ToIdSelector new id: #a) style: [ :sr |
 			 sr
 				 write: (ToFeatureProperty new name: #border)
 				 with: (BlBorder paint: Color red width: 3) ]).

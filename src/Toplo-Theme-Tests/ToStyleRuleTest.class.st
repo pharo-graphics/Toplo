@@ -311,19 +311,50 @@ ToStyleRuleTest >> testRuleWithSubRule [
 		        selectedWith:
 		        (ToStyleTagSelector new styleTags: #( #button ))
 		        style: [ :sr |
-			        sr rules: { (ToStyleRule
-					         selectedWith:
-					         (ToStyleTagSelector new styleTags: #( #checkable ))
-					         style: [ :subSr |  ]) } ].
+			        sr
+				        select: (ToStyleTagSelector new styleTags: #( #checkable ))
+				        style: [ :sr2 |  ] ].
 
 	flatten := rule flattenStyleRules.
 	self assert: flatten size equals: 2.
 	self assert: (flatten first selector isKindOf: ToStyleTagSelector).
-	self assert: flatten first selector styleTags equals: #(#button).
+	self assert: flatten first selector styleTags equals: #( #button ).
 	self assert: (flatten second selector isKindOf: ToAndSelector).
-	self assert: flatten second selector left equals: flatten first selector.
-	self assert: (flatten second selector right isKindOf: ToStyleTagSelector).
-	self assert: flatten second selector right styleTags equals: #(#checkable) 
+	self
+		assert: flatten second selector left
+		equals: flatten first selector.
+	self assert:
+		(flatten second selector right isKindOf: ToStyleTagSelector).
+	self
+		assert: flatten second selector right styleTags
+		equals: #( #checkable )
+]
+
+{ #category : #'test - rule hierarchy' }
+ToStyleRuleTest >> testRuleWithSubRule2 [
+	" a rule with an And operator  "
+
+	| rule flatten |
+	rule := ToStyleRule
+		        selectedWith: #button asStyleSelector 
+		        style: [ :sr |
+			        sr
+				        select: #checkable asStyleSelector 
+				        style: [ :sr2 |  ] ].
+
+	flatten := rule flattenStyleRules.
+	self assert: flatten size equals: 2.
+	self assert: (flatten first selector isKindOf: ToStyleTagSelector).
+	self assert: flatten first selector styleTags equals: #( #button ).
+	self assert: (flatten second selector isKindOf: ToAndSelector).
+	self
+		assert: flatten second selector left
+		equals: flatten first selector.
+	self assert:
+		(flatten second selector right isKindOf: ToStyleTagSelector).
+	self
+		assert: flatten second selector right styleTags
+		equals: #( #checkable )
 ]
 
 { #category : #'tests - simple rule' }

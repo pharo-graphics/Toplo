@@ -27,6 +27,13 @@ ToStyleRule class >> selectedWith: aStyleSelector when: anLookEventClass  style:
 		  style: aBlock
 ]
 
+{ #category : #declaring }
+ToStyleRule >> addSubRule: aStyleRule [
+
+	aStyleRule selector: (self selector + aStyleRule selector).
+	self addStyleRule: aStyleRule
+]
+
 { #category : #testing }
 ToStyleRule >> canBeAppliedTo: anElement [
 
@@ -106,10 +113,13 @@ ToStyleRule >> rawWriters: aPropertyWriterCollection [
 	writers := aPropertyWriterCollection 
 ]
 
-{ #category : #declaring }
-ToStyleRule >> rules: aStyleRuleCollection [
+{ #category : #'syntactic sugar' }
+ToStyleRule >> select: aSelector style: aBlock [
 
-	self addAllStyleRules: (aStyleRuleCollection collect: [ :sr | sr selector: (self selector + sr selector ) ])
+	| sub |
+	sub := self class new selector: aSelector.
+	aBlock value: sub.
+	self addSubRule: sub 
 ]
 
 { #category : #declaring }

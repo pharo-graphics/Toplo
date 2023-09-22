@@ -1,8 +1,5 @@
 Trait {
 	#name : #TToLabeledIcon,
-	#instVars : [
-		'labelFirstRequested'
-	],
 	#category : #'Toplo-Widget-Button-Core'
 }
 

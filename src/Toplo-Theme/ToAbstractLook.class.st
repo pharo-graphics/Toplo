@@ -1,7 +1,7 @@
 Class {
 	#name : #ToAbstractLook,
 	#superclass : #Object,
-	#category : 'Toplo-Theme-Core'
+	#category : #'Toplo-Theme-LookUpdaterDep'
 }
 
 { #category : #'private event handling' }

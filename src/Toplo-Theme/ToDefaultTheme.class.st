@@ -55,7 +55,7 @@ Class {
 	#instVars : [
 		'colorPrimary'
 	],
-	#category : 'Toplo-Theme-DefaultTheme'
+	#category : #'Toplo-Theme-DefaultTheme'
 }
 
 { #category : #constructor }
@@ -148,29 +148,49 @@ ToDefaultTheme >> borderRadiusSM [
 { #category : #images }
 ToDefaultTheme >> checkboxCheckedImageIn: anElement [
 
-	^ ToElement new
-		  styleTags: #( #checkable #'inner-image' #checked );
-		  yourself
+	^ self checkboxImageIn: anElement
 ]
 
 { #category : #images }
-ToDefaultTheme >> checkboxIndeterminateImageIn: anElement [
+ToDefaultTheme >> checkboxCheckedTag [
+
+	^ #checked
+]
+
+{ #category : #images }
+ToDefaultTheme >> checkboxImageIn: anElement [
 
 	| bar im |
 	bar := ToElement new. 
-	bar styleTags: #( #checkable #'inner-image' #indeterminate bar ).
+	bar styleTags: #( #bar ).
 	im := ToElement new.
-	im styleTags: #( #checkable #'inner-image' #indeterminate ).
+	im styleTags: #( #'inner-image' #unchecked ).
 	im addChild: bar.
 	^ im
 ]
 
 { #category : #images }
+ToDefaultTheme >> checkboxIndeterminateImageIn: anElement [
+
+	^ self checkboxImageIn: anElement
+]
+
+{ #category : #images }
+ToDefaultTheme >> checkboxIndeterminateTag [
+
+	^ #indeterminate
+]
+
+{ #category : #images }
 ToDefaultTheme >> checkboxUncheckedImageIn: anElement [
 
-	^ (ToElement new 
-				styleTags: #( #checkable #'inner-image' #unchecked );
-			   yourself)
+	^ self checkboxImageIn: anElement
+]
+
+{ #category : #images }
+ToDefaultTheme >> checkboxUncheckedTag [
+
+	^ #unchecked
 ]
 
 { #category : #colors }

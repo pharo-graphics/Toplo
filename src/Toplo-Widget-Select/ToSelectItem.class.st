@@ -9,7 +9,7 @@ Class {
 { #category : #'t - initialization dresser' }
 ToSelectItem >> defaultDresser [
 
-	^ ToBasicMenuItemDresser next: (ToSelectItemDresser next: ToTripletDresser new)
+	^ ToBasicMenuItemDresser next: ToSelectItemDresser new
 ]
 
 { #category : #'as yet unclassified' }

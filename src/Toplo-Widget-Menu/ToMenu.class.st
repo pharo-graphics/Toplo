@@ -36,7 +36,7 @@ ToMenu >> close [
 { #category : #'t - initialization dresser' }
 ToMenu >> defaultDresser [
 
-	^ ToBasicMenuItemDresser next: (ToMenuWindowModelDresser next: ToTripletDresser new)
+	^ ToBasicMenuItemDresser next: ToMenuWindowModelDresser new
 ]
 
 { #category : #initialization }

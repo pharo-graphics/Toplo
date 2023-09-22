@@ -5,7 +5,7 @@ Class {
 	#instVars : [
 		'next'
 	],
-	#category : 'Toplo-Theme-Core'
+	#category : #'Toplo-Theme-LookUpdaterDep'
 }
 
 { #category : #accessing }

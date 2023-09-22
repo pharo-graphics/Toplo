@@ -9,7 +9,7 @@ Class {
 { #category : #'t - initialization dresser' }
 ToToggleButton >> defaultDresser [
 
-	^ ToToggleButtonDresser next: ToTripletDresser new
+	^ ToToggleButtonDresser new
 ]
 
 { #category : #'t - skinable - initialization' }

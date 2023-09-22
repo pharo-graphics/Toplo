@@ -25,11 +25,25 @@ TToTriplet >> initializeTriplet [
 
 	self layout: BlLinearLayout horizontal.
 	self justified: false.
-	innerElement := ToElement new layout: BlLinearLayout horizontal; fitContent.
+	innerElement := ToElement new
+		                layout: BlLinearLayout horizontal;
+		                fitContent.
 	innerElement styleTag: #'inner-element'.
 	self addChild: innerElement.
-	self fitContent 
-
+	self fitContent.
+	filler1 := ToElement new
+		           id: #filler1;
+		           styleTag: #'triplet-filler-1';
+		           size: 0 @ 0;
+		           yourself.
+	filler2 := ToElement new
+		           id: #filler2;
+		           styleTag: #'triplet-filler-2';
+		           size: 0 @ 0;
+		           yourself.
+	self innerElement addChildren: {
+			filler1.
+			filler2 }
 ]
 
 { #category : #'t - triplet - accessing' }
@@ -66,7 +80,9 @@ TToTriplet >> replaceFirstWith: anElement [
 
 	self first = anElement ifTrue: [ ^ self ].
 	self first ifNotNil: [ self first removeFromParent ].
+	anElement ifNil: [ ^ self ].
 	self first: anElement.
+	self innerElement addChild: anElement before: filler1.
 ]
 
 { #category : #'t - triplet - accessing' }
@@ -74,7 +90,9 @@ TToTriplet >> replaceSecondWith: anElement [
 
 	self second = anElement ifTrue: [ ^ self ].
 	self second ifNotNil: [ self second removeFromParent ].
-	self second: anElement
+	anElement ifNil: [ ^ self ].
+	self second: anElement.
+	self innerElement addChild: anElement before: filler2.
 ]
 
 { #category : #'t - triplet - accessing' }
@@ -82,7 +100,9 @@ TToTriplet >> replaceThirdWith: anElement [
 
 	self third = anElement ifTrue: [ ^ self ].
 	self third ifNotNil: [ self third removeFromParent ].
-	self third: anElement
+	anElement ifNil: [ ^ self ].
+	self third: anElement.
+	self innerElement addChild: anElement after: filler2.
 ]
 
 { #category : #'t - triplet - accessing' }

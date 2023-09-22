@@ -8,14 +8,8 @@ Class {
 		'second',
 		'third'
 	],
-	#category : 'Toplo-Core-Triplet'
+	#category : #'Toplo-Core-Triplet'
 }
-
-{ #category : #'t - dressable -  initialization' }
-ToTripletElement >> defaultDresser [ 
-
-	^ ToTripletDresser new
-]
 
 { #category : #'t - triplet - accessing' }
 ToTripletElement >> first [

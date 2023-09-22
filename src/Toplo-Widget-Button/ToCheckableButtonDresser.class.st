@@ -9,8 +9,33 @@ Class {
 
 { #category : #'api - install/uninstall  hook' }
 ToCheckableButtonDresser >> checkEvent: anEvent in: anElement [
-
 	"checkEvent:in: can be send either because of a click or because the checkable as been checked programmatically"
+
+	| tag th newState |
+	newState := anEvent current
+		       ifNil: [ ToIndeterminateState new]
+		       ifNotNil: [ :v |
+			       v
+				       ifTrue: [ ToCheckedState new ]
+				       ifFalse: [ ToUncheckedState new ] ].
+	anElement switchToSkinState: newState.
+	" remove previous tag "
+	th := anElement toTheme.
+	{
+		th checkboxIndeterminateTag.
+		th checkboxCheckedTag.
+		th checkboxUncheckedTag } do: [ :t |
+		anElement icon innerImage removeStyleTag: t ].
+	" compute an set the new tag "
+	tag := anEvent current
+		       ifNil: [ th checkboxIndeterminateTag ]
+		       ifNotNil: [ :v |
+			       v
+				       ifTrue: [ th checkboxCheckedTag ]
+				       ifFalse: [ th checkboxUncheckedTag ] ].
+	anElement icon innerImage addStyleTag: tag.
+	" update the skin to take the new tag into account "
+	anElement icon innerImage updateSkin.
 	anElement dispatchLookEvent: ToClickedLookEvent new
 ]
 

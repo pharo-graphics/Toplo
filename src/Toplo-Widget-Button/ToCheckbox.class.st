@@ -9,7 +9,7 @@ Class {
 { #category : #'t - initialization dresser' }
 ToCheckbox >> defaultDresser [
 
-	^ ToTripletDresser next: ToCheckableButtonDresser new
+	^ ToCheckableButtonDresser new
 ]
 
 { #category : #'t - skinable - initialization' }
@@ -18,11 +18,21 @@ ToCheckbox >> defaultStyleTags [
 	^ { #button. #checkable. #checkbox}
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 ToCheckbox >> initialize [
 
 	super initialize.
-	self initializeCheckable 
+	self initializeCheckable.
+	self initializeIconImage
+
+]
+
+{ #category : #initialization }
+ToCheckbox >> initializeIconImage [
+
+	self iconImage: self uncheckedImage.
+
+
 ]
 
 { #category : #'accessing sizing' }

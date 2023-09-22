@@ -18,7 +18,7 @@ ToSelectInnerButton >> close [
 { #category : #'t - initialization dresser' }
 ToSelectInnerButton >> defaultDresser [
 
-	^ ToBasicMenuItemDresser next: (ToMenuWindowModelDresser next: (ToSelectInnerButtonDresser next: ToTripletDresser new))
+	^ ToBasicMenuItemDresser next: (ToMenuWindowModelDresser next: ToSelectInnerButtonDresser new )
 ]
 
 { #category : #initialization }

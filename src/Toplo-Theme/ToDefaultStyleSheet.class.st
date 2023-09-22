@@ -25,32 +25,8 @@ ToDefaultStyleSheet >> checkableButtonRules [
 	" checkbox family "
 
 	^ {
-		  (#( #button #checkable ) asStyleSelector style: [ :sr |
-			   | switch |
-			   switch := [ :e |
-			             e isChecked
-				             ifTrue: [ e checkedImage ]
-				             ifFalse: [
-					             e isUnchecked
-						             ifTrue: [ e uncheckedImage ]
-						             ifFalse: [ e indeterminateImage ] ] ].
-			   sr
-				   when: ToInitialLookEvent
-				   write: (self property: #'checkable-icon-image')
-				   with: switch.
-			   sr
-				   when: ToDisabledLookEvent
-				   write: (self property: #'checkable-icon-image')
-				   with: switch.
-			   sr
-				   when: ToClickedLookEvent
-				   write: (self property: #'checkable-icon-image')
-				   with: switch.
-			   sr
-				   when: ToDisabledLookEvent
-				   write: (self property: #background)
-				   with: [ :e | Color transparent ].
-			   sr
+		  (#( #button #checkable ) asStyleSelector style: [ :sr |   
+				sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
@@ -145,8 +121,9 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 	" checkbox family "
 
 	^ 
-		{
-		  ((#( #checkable #'inner-image' ) asStyleSelector
+		{ 
+		
+		  ((#( #'inner-image' ) asStyleSelector
 			    parent: #( #button #checkable )
 			    depth: 3) style: [ :sr |
 			   sr
@@ -154,51 +131,61 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 				   with: [ :e | BlFrameLayout new ].
 			   sr
 				   write: (self property: #size)
-				   with: [ :e | (e toTheme controlHeight / 2) asPoint ].
-			   sr
-				   write: (self property: #margin)
-				   with: [ :e | BlInsets all: 0 ] ]).
+				   with: [ :e | (e toTheme controlHeight / 2) asPoint ] ]).
 
-		  ((#( #checkable #'inner-image' #indeterminate #bar ) asStyleSelector
-			    parent: (#( #checkable #'inner-image' ) asStyleSelector
+			(#bar  asStyleSelector
+			    parent: (#( #'inner-image' ) asStyleSelector
 					     parent: #( #button #checkable )
 					     depth: 3)
-			    depth: 1) style: [ :sr |
-			   sr write: (self property: #'layout-constraints') with: [ :e |
-				   [ :c |
+			    depth: 1) style: [ :sr | 			   
+				
+				sr write: (self property: #'layout-constraints') with: [ :e |
+				   [ :c | 
 				   c horizontal matchParent.
 				   c vertical exact: 4.
 				   c frame horizontal alignCenter.
 				   c frame vertical alignCenter ] ].
 			   sr
 				   write: (self property: #background)
+				   with: [ :e | Color transparent ].
+				sr
+				   write: (self property: #margin)
+				   with: [ :e | BlInsets left: 2 right: 2 ]] .
+			
+			(#bar asStyleSelector
+			    parent: (#( #'inner-image' #indeterminate ) asStyleSelector
+					     parent: #( #button #checkable )
+					     depth: 3)
+			    depth: 1) style: [ :sr |
+			   sr 
+				   write: (self property: #background)
 				   with: [ :e | e toTheme colorPrimary ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e toTheme colorBgContainerDisabled ].
-			   sr
-				   write: (self property: #margin)
-				   with: [ :e | BlInsets all: 0 ] ]).
+				   with: [ :e | e toTheme colorBgContainerDisabled ] ].
 
-		  ((#( #checkable #'inner-image' #indeterminate #bar ) asStyleSelector
-			    parent: (#( #checkable #'inner-image' ) asStyleSelector
+		  (#bar asStyleSelector
+			    parent: (#( #'inner-image' #indeterminate ) asStyleSelector
 					     parent: #( #button #checkable #danger )
 					     depth: 3)
 			    depth: 1) style: [ :sr |
 			   sr
 				   write: (self property: #background)
-				   with: [ :e | e toTheme colorError ] ]).
+				   with: [ :e | e toTheme colorError ].
+				sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #background)
+				   with: [ :e | e toTheme colorBgContainerDisabled ] ].
 
-		  ((#( #checkable #'inner-image' #indeterminate ) asStyleSelector
+		 " ((#( #'inner-image' #indeterminate ) asStyleSelector
 			    parent: #( #button #checkable )
 			    depth: 4) style: [ :sr |
 			   sr
-				   when: ToInstallLookEvent
 				   write: (self property: #margin)
-				   with: [ :e | BlInsets all: 2 ] ]).
+				   with: [ :e | BlInsets all: 2 ] ])."
 
-		  ((#( #checkable #'inner-image' #checked ) asStyleSelector
+		  ((#( #'inner-image' #checked ) asStyleSelector
 			    parent: #( #button #checkable )
 			    depth: 3) style: [ :sr | " icon border "
 			   sr
@@ -234,18 +221,17 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 						   width: 6;
 						   yourself ] ]).
 
-		  ((#( #checkable #'inner-image' #unchecked ) asStyleSelector
+		  ((#( #'inner-image' #unchecked ) asStyleSelector
 			    parent: #( #button #checkable )
 			    depth: 3) style: [ :sr | " icon border "
 			   sr
-				   when: ToInstallLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
 						   width: 0;
 						   yourself ] ]).
 
-		  ((#( #checkable #'inner-image' #checked ) asStyleSelector
+		  ((#( #'inner-image' #checked ) asStyleSelector
 			    parent: #( #button #checkable #danger )
 			    depth: 3) style: [ :sr | " icon border "
 			   sr
@@ -281,15 +267,14 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 						   width: 6;
 						   yourself ] ]).
 
-		  ((#( #checkable #'inner-image' #unchecked ) asStyleSelector
+		  ((#( #'inner-image' #unchecked ) asStyleSelector
 			    parent: #( #button #checkable #danger )
 			    depth: 3) style: [ :sr |
 			   sr
-				   when: ToInstallLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   width: 1;
+						   width: 0;
 						   yourself ] ]) }
 ]
 

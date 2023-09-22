@@ -11,12 +11,6 @@ Class {
 	#category : #'Toplo-Widget-Button-BasicButton'
 }
 
-{ #category : #'t - initialization dresser' }
-ToButton >> defaultDresser [ 
-
-	^ super defaultDresser next: ToTripletDresser new
-]
-
 { #category : #'t - skinable - initialization' }
 ToButton >> defaultStyleTags [
 

@@ -11,12 +11,6 @@ Class {
 	#category : #'Toplo-Widget-Button-Core'
 }
 
-{ #category : #'t - initialization dresser' }
-ToTripletButton >> defaultDresser [ 
-
-	^ super defaultDresser next: ToTripletDresser new
-]
-
 { #category : #'t - triplet - accessing' }
 ToTripletButton >> first [
 
@@ -34,6 +28,28 @@ ToTripletButton >> initialize [
 
 	super initialize.
 	self initializeTriplet
+]
+
+{ #category : #'t - triplet - initialization' }
+ToTripletButton >> initializeTriplet [
+
+	self layout: BlLinearLayout horizontal.
+	self justified: false.
+	innerElement := ToElement new layout: BlLinearLayout horizontal; fitContent.
+	innerElement styleTag: #'inner-element'.
+	self addChild: innerElement.
+	self fitContent.
+	filler1 := ToElement new
+		  styleTag: #'triplet-filler-1';
+		  size: 0 @ 0;
+		  yourself.
+	filler2 := ToElement new
+		  styleTag: #'triplet-filler-2';
+		  size: 0 @ 0;
+		  yourself.
+	self innerElement addChildren: { filler1. filler2 }
+
+
 ]
 
 { #category : #'t - triplet - accessing' }

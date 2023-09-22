@@ -63,12 +63,16 @@ ToStyleSheet class >> propertyList [
 								   (form collectColors: [ :color | v alpha: color alpha ]) ]
 					   ifNone: [  ] ]).
 		  (ToPseudoProperty
+			   name: #'style-tags'
+			   reader: [ :e | e styleTags ]
+			   writer: [ :e :v | e styleTags: v. e updateSkin]).
+		  (ToPseudoProperty
 			   name: #'checkable-icon-image'
 			   reader: [ :e | e icon innerImage ]
 			   writer: [ :e :v |
 				   v removeFromParent.
 				   e iconImage: v.
-				   e updateSkin ]).
+				e updateSkin]).
 		  (ToFeatureProperty name: #layout).
 		  (ToPseudoProperty
 			   name: #'layout-direction'

@@ -26,7 +26,7 @@ ToMenuItem >> client [
 { #category : #'t - initialization dresser' }
 ToMenuItem >> defaultDresser [ 
 
-	^ ToBasicMenuItemDresser next: (ToButtonMenuItemDresser next: ToTripletDresser new)
+	^ ToBasicMenuItemDresser next: ToButtonMenuItemDresser new
 ]
 
 { #category : #'t - triplet - accessing' }

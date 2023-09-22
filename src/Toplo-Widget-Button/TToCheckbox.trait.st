@@ -1,11 +1,7 @@
 Trait {
 	#name : #TToCheckbox,
 	#instVars : [
-		'group',
-		'checkedImage',
-		'uncheckedImage',
-		'indeterminateImage',
-		'disabledImage'
+		'group'
 	],
 	#category : #'Toplo-Widget-Button-Core'
 }
@@ -20,7 +16,7 @@ TToCheckbox >> addToGroup: aToggleGroup [
 { #category : #'t - checkbox  - protocol' }
 TToCheckbox >> check [
 
-	self explicitRequirement 
+	self explicitRequirement
 ]
 
 { #category : #'t - checkbox - accessing' }
@@ -34,24 +30,6 @@ TToCheckbox >> checked: aBooleanOrNil [
 	" change the checkable state. nil means indeterminate. "
 
 	self explicitRequirement 
-]
-
-{ #category : #'t - checkbox - accessing' }
-TToCheckbox >> checkedImage [
-
-	^ checkedImage ifNil: [ self toTheme checkboxCheckedImageIn: self ]
-]
-
-{ #category : #'t - checkbox - accessing' }
-TToCheckbox >> checkedImage: anImage [
-
-	checkedImage := anImage
-]
-
-{ #category : #'t - checkbox - accessing' }
-TToCheckbox >> disabledImage: anImage [
-
-	disabledImage := anImage
 ]
 
 { #category : #'t - checkbox - group' }
@@ -69,18 +47,6 @@ TToCheckbox >> group: aCheckableGroup [
 
 	self when: ToCheckableCheckRequest do: [ :event | aCheckableGroup checkRequestEvent: event ].
 	group := aCheckableGroup
-]
-
-{ #category : #'t - checkbox - accessing' }
-TToCheckbox >> indeterminateImage [
-
-	^ indeterminateImage ifNil: [ self toTheme checkboxIndeterminateImageIn: self ]
-]
-
-{ #category : #'t - checkbox - accessing' }
-TToCheckbox >> indeterminateImage: anImage [
-
-	indeterminateImage := anImage
 ]
 
 { #category : #'t - checkbox - testing' }
@@ -122,13 +88,7 @@ TToCheckbox >> uncheck [
 { #category : #'t - checkbox - accessing' }
 TToCheckbox >> uncheckedImage [
 
-	^ uncheckedImage ifNil: [ self toTheme checkboxUncheckedImageIn: self ]
-]
-
-{ #category : #'t - checkbox - accessing' }
-TToCheckbox >> uncheckedImage: anImage [
-
-	uncheckedImage := anImage
+	^ self toTheme checkboxImageIn: self
 ]
 
 { #category : #'t - checkbox  - protocol' }

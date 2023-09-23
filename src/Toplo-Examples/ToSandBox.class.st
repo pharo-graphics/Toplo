@@ -1027,6 +1027,46 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 ]
 
 { #category : #button }
+ToSandBox class >> example_StyleSheetSandbox [
+
+	| b |
+	ToAbstractTheme cleanUp.
+	"b := ToCheckbox new."
+	"b := ToRadioButton new."
+	b := ToButton new.
+	"b := ToToggleButton new."
+	"b addStyleTag: #primary. "
+	"b addStyleTag: #'large-sizing'."
+	"b addStyleTag: #'small-sizing'."
+
+	b addStyleTag: #vertical.
+	b addStyleTag: #'icon-first'.
+	b addStyleTag: #'label-first'.
+	b addStyleTag: #'interspace-1' -> 10.
+	"b justified: true."
+	"b addStyleTag: #circle."
+	"b addStyleTag: #round."
+	"b addStyleTag: #link. "
+	"b addStyleTag: #danger."
+	"b addStyleTag: #dashed."
+	b
+		iconImage: ToThemeIcons iconSearchOutlined16x16;
+		labelText: 'Close';
+		yourself.
+	"b labelFirst: true."
+	"b checked: nil."
+	"b withIndeterminate: true."
+	"b innerElement border: (BlBorder paint: Color black)."
+
+	b openInSpace.
+	b width: 200.
+	b size: 100 @ 100.
+
+	b inspect.
+	b matchParent
+]
+
+{ #category : #button }
 ToSandBox class >> example_ToButtonSkins [
 
 	| space pane themeSwitcher butBuilder buttonSpecsBuilder enablementSwitcher allButtons sizingGroup smallSizingRadio middleSizingRadio largeSizingRadio shapingGroup circleShapingRadio defaultShapingRadio roundShapingRadio topBar buttonBar directionSwitcher orientationSwitcher |

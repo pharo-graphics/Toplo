@@ -305,7 +305,7 @@ ToDefaultStyleSheet >> commonButtonRules [
 						   bottom: e toTheme paddingXS / 2
 						   right: e toTheme paddingContentHorizontal / 2 ].
 
-				   sr select: self haveExactHeight not style: [ 
+				   sr select: self haveExactHeight not style: [
 					   sr
 						   write: (self property: #height)
 						   with: [ :e | e toTheme controlHeight ] ].
@@ -318,7 +318,19 @@ ToDefaultStyleSheet >> commonButtonRules [
 				   sr select: #'small-sizing' style: [
 					   sr
 						   write: (self property: #height)
-						   with: [ :e | e toTheme controlHeightSM ] ] ] ]).
+						   with: [ :e | e toTheme controlHeightSM ] ].
+
+				   " non circular button corner radius"
+				   sr select: #circle asStyleSelector not style: [
+					   sr write: (self property: #geometry) with: [ :e |
+						   BlRoundedRectangleGeometry cornerRadius:
+							   e toTheme borderRadius ].
+
+					   sr select: #round asStyleSelector style: [
+						   sr
+							   write: (self property: #geometry)
+							   with: [ :e |
+							   BlRoundedRectangleGeometry cornerRadius: e requestedHeight ] ] ] ] ]).
 
 		  ((#'inner-element' asStyleSelector parent: #button) style: [ :sr |
 			   sr
@@ -329,48 +341,38 @@ ToDefaultStyleSheet >> commonButtonRules [
 				   c horizontal fitContent.
 				   c vertical fitContent.
 				   c linear vertical alignCenter.
-				   c linear horizontal alignCenter ] ] ]).
+				   c linear horizontal alignCenter ] ].
 
-		  " innerElement is matchParent if it has a parent with #button and #justified and with #'button-label' and #'button-icon' at depth 2"
-		  ((#'inner-element' asStyleSelector parent:
-			    ((#( #button #justified ) asStyleSelector
-				      child: #'button-label'
-				      depth: 2) child: #'button-icon' depth: 2)) style: [ :sr |
-			   sr write: (self property: #'layout-constraints') with: [ :e |
-				   [ :c |
-				   c horizontal matchParent.
-				   c vertical matchParent ] ] ]).
+			   " without justification "
+			   sr select: (sr parent: #justified asStyleSelector not) style: [
+				   sr write: (self property: #'layout-constraints') with: [ :e |
+					   [ :c |
+					   c frame vertical alignCenter.
+					   c frame horizontal alignCenter.
+					   c linear vertical alignCenter.
+					   c linear horizontal alignCenter ] ] ].
 
-		  ((#'inner-element' asStyleSelector parent:
-			    #( #button #'icon-first' ) asStyleSelector) style: [ :sr |
+			   " with justification: 
+					innerElement is matchParent if it has a parent with #justified and with #'button-label' and #'button-icon' at depth 1"
 			   sr
-				   write: (self property: #'layout-direction')
-				   with: [ :e | BlLayoutDirection leftToRight ] ]).
+				   select:
+					   (((sr parent: #justified) child: #'button-icon') child:
+						    #'button-label')
+				   style: [
+					   sr write: (self property: #'layout-constraints') with: [ :e |
+						   [ :c |
+						   c horizontal matchParent.
+						   c vertical matchParent ] ] ].
 
-		  ((#'inner-element' asStyleSelector parent:
-			    #( #button #'label-first' ) asStyleSelector) style: [ :sr |
-			   sr
-				   write: (self property: #'layout-direction')
-				   with: [ :e | BlLayoutDirection rightToLeft ] ]).
+			   sr select: (sr parent: #'icon-first') style: [
+				   sr
+					   write: (self property: #'layout-direction')
+					   with: [ :e | BlLayoutDirection leftToRight ] ].
 
-		  (#button asStyleSelector - #circle style: [ :sr |
-			   sr write: (self property: #geometry) with: [ :e |
-				   BlRoundedRectangleGeometry cornerRadius: e toTheme borderRadius ] ]).
-
-		  (#( #button #round ) asStyleSelector - #circle style: [ :sr |
-			   sr
-				   write: (self property: #geometry)
-				   with: [ :e |
-				   BlRoundedRectangleGeometry cornerRadius: e requestedHeight ] ]).
-
-		  ((#'inner-element' asStyleSelector parent:
-			    #( #button ) asStyleSelector - #justified) style: [ :sr |
-			   sr write: (self property: #'layout-constraints') with: [ :e |
-				   [ :c |
-				   c frame vertical alignCenter.
-				   c frame horizontal alignCenter.
-				   c linear vertical alignCenter.
-				   c linear horizontal alignCenter ] ] ]).
+			   sr select: (sr parent: #'label-first') style: [
+				   sr
+					   write: (self property: #'layout-direction')
+					   with: [ :e | BlLayoutDirection rightToLeft ] ] ]).
 
 		  ((((#'triplet-filler-1' asStyleSelector
 			      parent: #( #button )
@@ -395,6 +397,17 @@ ToDefaultStyleSheet >> commonButtonRules [
 					   c vertical matchParent.
 					   c minWidth: e toTheme paddingContentHorizontal / 3.
 					   c minHeight: e toTheme paddingContentHorizontal / 3 ] ] ]).
+		
+		  "((((#'triplet-filler-1' asStyleSelector
+			      parent: #( #button #'interspace-1' )
+			      depth: 2) sibling: #'button-label') sibling: #'button-icon')
+			   style: [ :sr |
+				   sr write: (self property: #'layout-constraints') with: [ :e |
+					   [ :c |
+					   c horizontal matchParent.
+					   c vertical matchParent.
+					   c minWidth: e toTheme paddingContentHorizontal / 3.
+					   c minHeight: e toTheme paddingContentHorizontal / 3 ] ] ])."
 
 		  ((self any - #'triplet-filler-1' parent: #( #button ) depth: 2)
 			   style: [ :sr |

@@ -8,10 +8,42 @@ Class {
 	#category : #'Toplo-Theme-StyleSheet'
 }
 
+{ #category : #'syntactic sugar' }
+ToStyleScript >> action: aValuable with: aValue [
+
+	aValuable value: aValue
+]
+
 { #category : #adding }
 ToStyleScript >> addWriter: aPropertyWriter [
 
 	self ruleStack top addWriter: aPropertyWriter
+]
+
+{ #category : #'syntactic sugar' }
+ToStyleScript >> any [
+
+ 	^ ToUniversalSelector new
+
+]
+
+{ #category : #'syntactic sugar' }
+ToStyleScript >> child: aSelector [
+
+	^ ToChildSelector new
+		  left: self any;
+		  right: aSelector value asStyleSelector;
+		  yourself
+]
+
+{ #category : #'syntactic sugar' }
+ToStyleScript >> child: aSelector depth: anInteger [
+
+	^ ToChildSelector new
+		  depth: anInteger;
+		  left: self any;
+		  right: aSelector value asStyleSelector;
+		  yourself
 ]
 
 { #category : #accessing }
@@ -25,6 +57,25 @@ ToStyleScript >> initialize [
 
 	super initialize.
 	ruleStack := Stack new
+]
+
+{ #category : #'syntactic sugar' }
+ToStyleScript >> parent: aSelector [
+
+	^ ToParentSelector new
+		  left: self any;
+		  right: aSelector value asStyleSelector;
+		  yourself
+]
+
+{ #category : #'syntactic sugar' }
+ToStyleScript >> parent: aSelector depth: anInteger [
+
+	^ ToParentSelector new
+		depth: anInteger;
+		  left: self any;
+		  right: aSelector value asStyleSelector;
+		  yourself
 ]
 
 { #category : #accessing }
@@ -44,6 +95,12 @@ ToStyleScript >> select: aStyleSelector style: aBlock [
 		ifTrue: [ ^ rule ].
 	self ruleStack top addSubStyleRule: rule
 
+]
+
+{ #category : #'syntactic sugar' }
+ToStyleScript >> selector [
+
+	^ self ruleStack top selector
 ]
 
 { #category : #'syntactic sugar' }

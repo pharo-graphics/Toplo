@@ -1,13 +1,12 @@
 Extension { #name : #BlElement }
 
 { #category : #'*Toplo' }
-BlElement >> addStyleTag: aSymbol [
+BlElement >> addStyleTag: anAssociationOrSymbol [
 
-	| cls |
-	self userData at: #styleTags ifAbsentPut: #().
-	cls := self userData at: #styleTags.
-	(cls includes: aSymbol) ifTrue: [ ^ self ].
-	self userData at: #styleTags put: (cls copyWith: aSymbol)
+	| dict |
+	self userData at: #styleTags ifAbsentPut: IdentityDictionary new.
+	dict := self userData at: #styleTags.
+	dict  add: anAssociationOrSymbol asStyleTag
 ]
 
 { #category : #'*Toplo' }
@@ -111,10 +110,10 @@ BlElement >> holder [
 { #category : #'*Toplo' }
 BlElement >> includesStyleTag: aSymbol [
 
-	| cls |
+	| dict |
 	self userData at: #styleTags ifAbsent: [ ^ false ].
-	cls := self userData at: #styleTags.
-	^ cls includes: aSymbol
+	dict := self userData at: #styleTags.
+	^ dict includesKey: aSymbol
 ]
 
 { #category : #'*Toplo' }
@@ -195,11 +194,10 @@ BlElement >> privateToTheme: aTheme [
 { #category : #'*Toplo' }
 BlElement >> removeStyleTag: aSymbol [
 
-	| cls |
-	self userData at: #styleTags ifAbsentPut: #().
-	cls := self userData at: #styleTags.
-	(cls includes: aSymbol) ifFalse: [ ^ self ].
-	self userData at: #styleTags put: (cls copyWithout: aSymbol)
+	| dict |
+	self userData at: #styleTags ifAbsent: [ ^ self ].
+	dict := self userData at: #styleTags.
+	dict removeKey: aSymbol ifAbsent: [  ]
 ]
 
 { #category : #'*Toplo' }
@@ -248,21 +246,23 @@ BlElement >> styleSheetChain [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> styleTag: aSymbol [
+BlElement >> styleTag: anAssociationOrSymbol [
 
-	self userData at: #styleTags put: (Array with: aSymbol)
+	self userData at: #styleTags put: IdentityDictionary new.
+	self addStyleTag: anAssociationOrSymbol
+	
 ]
 
 { #category : #'*Toplo' }
 BlElement >> styleTags [
 
-	^ self userData at: #styleTags ifAbsent: [ #() ]
+	^ self userData at: #styleTags ifAbsent: [ IdentityDictionary new]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> styleTags: aCollectionOfSymbol [
 
-	self userData at: #styleTags put: #().
+	self userData at: #styleTags put: IdentityDictionary new.
 	aCollectionOfSymbol do: [ :s | self addStyleTag: s ]
 ]
 

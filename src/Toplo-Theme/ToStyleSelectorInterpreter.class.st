@@ -119,7 +119,7 @@ ToStyleSelectorInterpreter >> visitSiblingSelector: aSelector [
 { #category : #visiting }
 ToStyleSelectorInterpreter >> visitStyleTagSelector: aSelector [
 
-	result := targetStack top styleTags includesAll: aSelector styleTags  
+	result := aSelector styleTags allSatisfy: [ :t | targetStack top styleTags includesKey: t ]
 ]
 
 { #category : #visiting }

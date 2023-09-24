@@ -318,19 +318,19 @@ ToDefaultStyleSheet >> commonButtonRules [
 				   sr select: #'small-sizing' style: [
 					   sr
 						   write: (self property: #height)
-						   with: [ :e | e toTheme controlHeightSM ] ].
+						   with: [ :e | e toTheme controlHeightSM ] ] ].
 
-				   " non circular button corner radius"
-				   sr select: #circle asStyleSelector not style: [
-					   sr write: (self property: #geometry) with: [ :e |
-						   BlRoundedRectangleGeometry cornerRadius:
-							   e toTheme borderRadius ].
+			   " non circular button corner radius"
+			   sr select: #circle asStyleSelector not style: [
+				   sr write: (self property: #geometry) with: [ :e |
+					   BlRoundedRectangleGeometry cornerRadius:
+						   e toTheme borderRadius ].
 
-					   sr select: #round asStyleSelector style: [
-						   sr
-							   write: (self property: #geometry)
-							   with: [ :e |
-							   BlRoundedRectangleGeometry cornerRadius: e requestedHeight ] ] ] ] ]).
+				   sr select: #round asStyleSelector style: [
+					   sr
+						   write: (self property: #geometry)
+						   with: [ :e |
+						   BlRoundedRectangleGeometry cornerRadius: e requestedHeight ] ] ] ]).
 
 		  ((#'inner-element' asStyleSelector parent: #button) style: [ :sr |
 			   sr
@@ -397,17 +397,24 @@ ToDefaultStyleSheet >> commonButtonRules [
 					   c vertical matchParent.
 					   c minWidth: e toTheme paddingContentHorizontal / 3.
 					   c minHeight: e toTheme paddingContentHorizontal / 3 ] ] ]).
-		
-		  "((((#'triplet-filler-1' asStyleSelector
-			      parent: #( #button #'interspace-1' )
+
+		  ((((#'triplet-filler-1' asStyleSelector
+			      parent: (#( #button #'interspace-1' ) asStyleSelector - #vertical)
 			      depth: 2) sibling: #'button-label') sibling: #'button-icon')
 			   style: [ :sr |
 				   sr write: (self property: #'layout-constraints') with: [ :e |
-					   [ :c |
-					   c horizontal matchParent.
-					   c vertical matchParent.
-					   c minWidth: e toTheme paddingContentHorizontal / 3.
-					   c minHeight: e toTheme paddingContentHorizontal / 3 ] ] ])."
+					   [ :c | 
+					   c horizontal exact: (e parent parent styleTags at: #'interspace-1') .
+					   c vertical matchParent ] ] ]).
+		
+		  ((((#'triplet-filler-1' asStyleSelector
+			      parent: (#( #button #'interspace-1' ) asStyleSelector + #vertical)
+			      depth: 2) sibling: #'button-label') sibling: #'button-icon')
+			   style: [ :sr |
+				   sr write: (self property: #'layout-constraints') with: [ :e |
+					   [ :c | 
+					   c vertical exact: (e parent parent styleTags at: #'interspace-1') .
+					   c horizontal matchParent ] ] ]).
 
 		  ((self any - #'triplet-filler-1' parent: #( #button ) depth: 2)
 			   style: [ :sr |

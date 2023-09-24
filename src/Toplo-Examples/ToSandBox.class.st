@@ -1042,7 +1042,7 @@ ToSandBox class >> example_StyleSheetSandbox [
 	b addStyleTag: #vertical.
 	b addStyleTag: #'icon-first'.
 	b addStyleTag: #'label-first'.
-	b addStyleTag: #'interspace-1' -> 10.
+	"b addStyleTag: #'interspace-1' -> 300."
 	"b justified: true."
 	"b addStyleTag: #circle."
 	"b addStyleTag: #round."
@@ -1059,11 +1059,11 @@ ToSandBox class >> example_StyleSheetSandbox [
 	"b innerElement border: (BlBorder paint: Color black)."
 
 	b openInSpace.
-	b width: 200.
-	b size: 100 @ 100.
+	"b width: 200.
+	b size: 100 @ 100."
 
-	b inspect.
-	b matchParent
+	"b inspect.
+	b matchParent"
 ]
 
 { #category : #button }

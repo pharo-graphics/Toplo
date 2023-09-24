@@ -1039,10 +1039,10 @@ ToSandBox class >> example_StyleSheetSandbox [
 	"b addStyleTag: #'large-sizing'."
 	"b addStyleTag: #'small-sizing'."
 
-	b addStyleTag: #vertical.
+	"b addStyleTag: #vertical."
 	b addStyleTag: #'icon-first'.
 	b addStyleTag: #'label-first'.
-	"b addStyleTag: #'interspace-1' -> 300."
+	b addStyleTag: #'interspace-1' -> 300.
 	"b justified: true."
 	"b addStyleTag: #circle."
 	"b addStyleTag: #round."
@@ -1051,16 +1051,15 @@ ToSandBox class >> example_StyleSheetSandbox [
 	"b addStyleTag: #dashed."
 	b
 		iconImage: ToThemeIcons iconSearchOutlined16x16;
-		labelText: 'Close';
-		yourself.
+		labelText: 'Close'.
 	"b labelFirst: true."
 	"b checked: nil."
 	"b withIndeterminate: true."
 	"b innerElement border: (BlBorder paint: Color black)."
 
 	b openInSpace.
-	"b width: 200.
-	b size: 100 @ 100."
+	"b width: 200."
+	"b size: 100 @ 100."
 
 	"b inspect.
 	b matchParent"

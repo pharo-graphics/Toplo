@@ -385,36 +385,42 @@ ToDefaultStyleSheet >> commonButtonRules [
 				   sr write: (self property: #'layout-constraints') with: [ :e |
 					   [ :c |
 					   c horizontal exact: e toTheme paddingContentHorizontal / 3.
-					   c vertical exact: e toTheme paddingContentHorizontal / 3 ] ] ]).
+					   c vertical exact: e toTheme paddingContentHorizontal / 3 ] ].
 
-		  ((((#'triplet-filler-1' asStyleSelector
-			      parent: #( #button #justified )
-			      depth: 2) sibling: #'button-label') sibling: #'button-icon')
-			   style: [ :sr |
-				   sr write: (self property: #'layout-constraints') with: [ :e |
-					   [ :c |
-					   c horizontal matchParent.
-					   c vertical matchParent.
-					   c minWidth: e toTheme paddingContentHorizontal / 3.
-					   c minHeight: e toTheme paddingContentHorizontal / 3 ] ] ]).
 
-		  ((((#'triplet-filler-1' asStyleSelector
-			      parent: (#( #button #'interspace-1' ) asStyleSelector - #vertical)
-			      depth: 2) sibling: #'button-label') sibling: #'button-icon')
-			   style: [ :sr |
-				   sr write: (self property: #'layout-constraints') with: [ :e |
-					   [ :c | 
-					   c horizontal exact: (e parent parent styleTags at: #'interspace-1') .
-					   c vertical matchParent ] ] ]).
-		
-		  ((((#'triplet-filler-1' asStyleSelector
-			      parent: (#( #button #'interspace-1' ) asStyleSelector + #vertical)
-			      depth: 2) sibling: #'button-label') sibling: #'button-icon')
-			   style: [ :sr |
-				   sr write: (self property: #'layout-constraints') with: [ :e |
-					   [ :c | 
-					   c vertical exact: (e parent parent styleTags at: #'interspace-1') .
-					   c horizontal matchParent ] ] ]).
+				   sr select: (sr parent: #justified depth: 2) style: [
+					   sr write: (self property: #'layout-constraints') with: [ :e |
+						   [ :c |
+						   c horizontal matchParent.
+						   c vertical matchParent.
+						   c minWidth: e toTheme paddingContentHorizontal / 3.
+						   c minHeight: e toTheme paddingContentHorizontal / 3 ] ] ].
+
+				   sr
+					   select:
+					   (sr
+						    parent: #'interspace-1' asStyleSelector - #vertical
+						    depth: 2)
+					   style: [
+						   sr
+							   write: (self property: #'layout-constraints')
+							   with: [ :e |
+								   [ :c |
+								   c horizontal exact: (e parent parent styleTags at: #'interspace-1').
+								   c vertical matchParent ] ] ].
+
+				   sr
+					   select:
+					   (sr
+						    parent: #'interspace-1' asStyleSelector + #vertical
+						    depth: 2)
+					   style: [
+						   sr
+							   write: (self property: #'layout-constraints')
+							   with: [ :e |
+								   [ :c |
+								   c vertical exact: (e parent parent styleTags at: #'interspace-1').
+								   c horizontal matchParent ] ] ] ]).
 
 		  ((self any - #'triplet-filler-1' parent: #( #button ) depth: 2)
 			   style: [ :sr |

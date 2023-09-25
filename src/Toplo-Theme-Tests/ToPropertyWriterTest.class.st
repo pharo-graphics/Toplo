@@ -215,21 +215,6 @@ ToPropertyWriterTest >> testWithPseudoPropertyAndAnimation [
 ]
 
 { #category : #'test writing' }
-ToPropertyWriterTest >> testWithPseudoPropertyWithConverterMethod [
-
-	| w prop  |
-	w := BlElement new.
-	prop := ToPseudoProperty new.
-	prop writer:  [ :e :v | e background: v ].
-	prop reader:  [ :e | e background ].
-	prop name: #background.
-	(prop value: Color blue) writeTo: w.
-	self assert: (w background isKindOf: BlPaintBackground).
-	self assert: w background paint color equals: Color blue.
-	self assert: (prop read: w) equals: w background
-]
-
-{ #category : #'test writing' }
 ToPropertyWriterTest >> testWithPseudoPropertyWithValuableAndAnimation [
 
 	| w prop propWriter anim w2 |

@@ -2692,12 +2692,12 @@ ToSandBox class >> example_toButtonJustified1 [
 	but when: BlClickEvent do: [
 		but isHorizontal
 			ifTrue: [
-				but removeStyleTag: #horizontal.
+				but removeStyleTagNamed: #horizontal.
 				but addStyleTag: #vertical.
 				but hFitContent.
 				but vMatchParent. ]
 			ifFalse: [
-				but removeStyleTag: #vertical.
+				but removeStyleTagNamed: #vertical.
 				but addStyleTag: #horizontal.
 				but vFitContent.
 				but hMatchParent. ].

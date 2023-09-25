@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSlotProperty,
-	#superclass : #ToWriteableProperty,
+	#superclass : #ToWritableProperty,
 	#category : #'Toplo-Core-Properties'
 }
 

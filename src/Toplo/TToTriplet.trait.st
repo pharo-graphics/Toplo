@@ -71,7 +71,7 @@ TToTriplet >> justified: aBoolean [
 	self justified = aBoolean ifTrue: [ ^ self ].
 	aBoolean
 		ifTrue: [ self addStyleTag: #justified ]
-		ifFalse: [ self removeStyleTag: #justified ].
+		ifFalse: [ self removeStyleTagNamed: #justified ].
 	self updateSkin
 ]
 

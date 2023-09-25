@@ -6,14 +6,14 @@ Class {
 	#instVars : [
 		'styleRules',
 		'inherits',
-		'writeablePropertyIndex',
-		'elementTagIndex'
+		'elementTagIndex',
+		'writablePropertyIndex'
 	],
 	#category : #'Toplo-Theme-StyleSheet'
 }
 
 { #category : #running }
-ToStyleSheet class >> writeablePropertyList [
+ToStyleSheet class >> defaultWritablePropertyList [
 	" skin managing need a list of unique writeable properties. "
 
 	^ {
@@ -139,15 +139,19 @@ ToStyleSheet >> inherits: aBoolean [
 ToStyleSheet >> initialize [ 
 
 	super initialize.
-	styleRules := self defaultStyleRules.	
-	writeablePropertyIndex := ToPropertyIndex new recordAll: self writeablePropertyList; yourself.
+	styleRules := self defaultStyleRules.
 	inherits := true
+]
+
+{ #category : #accessing }
+ToStyleSheet >> newWritablePropertyIndex [
+
+	^ ToPropertyIndex new recordAll: self writablePropertyList; yourself.
 ]
 
 { #category : #initialization }
 ToStyleSheet >> onInstalledIn: anElement [
 
-	writeablePropertyIndex := ToPropertyIndex new recordAll: anElement writeablePropertyList; yourself
 ]
 
 { #category : #initialization }
@@ -158,7 +162,7 @@ ToStyleSheet >> onUnInstalledIn: anElement [
 { #category : #'syntactic sugar' }
 ToStyleSheet >> property: aSymbol [
 
-	^ self writeablePropertyNamed: aSymbol
+	^ self writablePropertyNamed: aSymbol
 ]
 
 { #category : #'t - style rule holder - accessing' }
@@ -174,21 +178,26 @@ ToStyleSheet >> rawStyleRules: aStyleRuleCollection [
 ]
 
 { #category : #accessing }
-ToStyleSheet >> writeablePropertyIndex [
+ToStyleSheet >> styleTagNamed: aSymbol [
 
-	^ writeablePropertyIndex
+	^ nil
 ]
 
 { #category : #accessing }
-ToStyleSheet >> writeablePropertyList [
+ToStyleSheet >> writablePropertyIndex [
+
+	^ writablePropertyIndex ifNil: [ writablePropertyIndex := self newWritablePropertyIndex ]
+]
+
+{ #category : #accessing }
+ToStyleSheet >> writablePropertyList [
 	" skin managing need a list of unique writeable properties. "
 
-	^ self class writeablePropertyList
+	^ self class defaultWritablePropertyList
 ]
 
 { #category : #accessing }
-ToStyleSheet >> writeablePropertyNamed: aName [
+ToStyleSheet >> writablePropertyNamed: aName [
 
-	self writeablePropertyIndex ifNil: [ ToStyleSheetNotInstalledError signal ].
-	^ self writeablePropertyIndex propertyNamed: aName
+	^ self writablePropertyIndex propertyNamed: aName
 ]

@@ -80,13 +80,6 @@ ToPropertyWriter >> receiveEvent: aLookEvent [
 	self writeTo: target
 ]
 
-{ #category : #operating }
-ToPropertyWriter >> resolvedPropertyIn: anElement [
-
-	self property isClosure ifTrue: [ ^ self property value: anElement].
-	^ self property 
-]
-
 { #category : #accessing }
 ToPropertyWriter >> supplement [ 
 
@@ -122,9 +115,7 @@ ToPropertyWriter >> valueIn: anElement [
 { #category : #'t - property writer - writing' }
 ToPropertyWriter >> writeTo: anElement [
 
-	| resolvedProperty |
-	resolvedProperty := self resolvedPropertyIn: anElement.
-	self animation ifNil: [ ^ resolvedProperty write: (self valueIn: anElement) to: anElement ].
-	self animation property: resolvedProperty.
+	self animation ifNil: [ ^ self property write: (self valueIn: anElement) to: anElement ].
+	self animation property: self property.
 	self animation write: (self valueIn: anElement) to: anElement
 ]

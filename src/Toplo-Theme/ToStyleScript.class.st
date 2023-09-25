@@ -79,12 +79,6 @@ ToStyleScript >> parent: aSelector depth: anInteger [
 ]
 
 { #category : #accessing }
-ToStyleScript >> property: aSymbol [
-
-	^ [ :e | self lookUpWritablePropertyNamed: aSymbol startingFromElement: e ]
-]
-
-{ #category : #accessing }
 ToStyleScript >> ruleStack [
 
 	^ ruleStack
@@ -123,6 +117,7 @@ ToStyleScript >> when: aLookEventClass supplement: aProperty with: aValuableOrOb
 
 	aProperty ifNil: [ ^ self ].
 	self addWriter: (ToPropertyWriter new
+			 eventClass: aLookEventClass;
 			 property: aProperty;
 			 value: aValuableOrObject;
 			 supplement: true;

@@ -46,10 +46,10 @@ ToDefaultStyleSheetTest >> testWriteablePropertyList [
 	ss := ToStyleSheet new.
 	elem styleSheet: ss.
 	index := IdentityDictionary new.
-	ss writeablePropertyList do: [ :p |
+	ss writablePropertyList do: [ :p |
 		index at: p name ifAbsentPut: [ 0 ].
 		count := (index at: p name) + 1.
 		index at: p name put: count ].
 	index keysAndValuesDo: [ :k :v | self assert: v identicalTo: 1 ].
-	ss writeablePropertyList do: [ :p | self assert: (ss writeablePropertyNamed: p name) notNil ]
+	ss writablePropertyList do: [ :p | self assert: (ss writablePropertyNamed: p name) notNil ]
 ]

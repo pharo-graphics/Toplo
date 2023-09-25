@@ -252,10 +252,10 @@ ToStyleSheetTest >> testNewStyleSheetWith2Rules [
 			((ToStyleTagSelector new styleTag: #button)
 				 style: [ :sr |
 					 sr
-						 write: (styleSheet writeablePropertyNamed: #background)
+						 write: (styleSheet writablePropertyNamed: #background)
 						 with: Color blue.
 					 sr
-						 write: (styleSheet writeablePropertyNamed: #border)
+						 write: (styleSheet writablePropertyNamed: #border)
 						 with: Color red ]).
 			".button {
 				background: blue;
@@ -264,10 +264,10 @@ ToStyleSheetTest >> testNewStyleSheetWith2Rules [
 			((ToStyleTagSelector new styleTag: #button)
 				 style: [ :sr |
 					 sr
-						 write: (styleSheet writeablePropertyNamed: #background)
+						 write: (styleSheet writablePropertyNamed: #background)
 						 with: Color transparent.
 					 sr
-						 write: (styleSheet writeablePropertyNamed: #border)
+						 write: (styleSheet writablePropertyNamed: #border)
 						 with: Color blue ])
 			".button:initial {
 				background: transparent;
@@ -392,60 +392,6 @@ ToStyleSheetTest >> testSkinWithIdRule [
 	self assert: elem border width equals: 3.
 	self assert: elem border paint isColorPaint.
 	self assert: elem border paint color equals: Color red
-]
-
-{ #category : #'tests - style sheet style' }
-ToStyleSheetTest >> testStyleSheetMustBeInstalledInAnElementBeforeRulesAraDeclared [
-
-	| ss button skin writers ssi rules |
-	ss := ToStyleSheet new
-		      inherits: false;
-		      yourself.
-	ssi := ToSkinBuilder new.
-	button := ToElement new.
-
-	" default button rule "
-	self
-		should: [
-			rules := { (#button asStyleSelector style: [ :sr |
-				          sr write: (ss property: #background) with: Color white.
-				          sr
-					          when: ToInitialLookEvent
-					          write: (ss property: #background)
-					          with: [ :e | Color black ].
-				          sr
-					          when: ToDisabledLookEvent
-					          write: (ss property: #background)
-					          with: [ :e | e toTheme colorBgContainerDisabled ] ]) } ]
-		raise: ToStyleSheetNotInstalledError.
-
-	button styleSheet: ss.
-
-	rules := { (#button asStyleSelector style: [ :sr |
-		          sr write: (ss property: #background) with: Color white.
-		          sr
-			          when: ToInitialLookEvent
-			          write: (ss property: #background)
-			          with: [ :e | Color black ].
-		          sr
-			          when: ToDisabledLookEvent
-			          write: (ss property: #background)
-			          with: [ :e | e toTheme colorBgContainerDisabled ] ]) }.
-	ss addAllStyleRules: rules.
-	button addStyleTag: #button.
-	writers := ssi writersFor: button.
-	self assert: writers size equals: 3.
-	skin := ToSkin new.
-	skin writers: writers.
-	button withSkin: skin.
-
-	button switchToSkinState: ToInstallState new.
-	self assert: button background paint isColorPaint.
-	self assert: button background paint color equals: Color white.
-
-	button switchToSkinState: ToInitialState new.
-	self assert: button background paint isColorPaint.
-	self assert: button background paint color equals: Color black
 ]
 
 { #category : #'tests - style sheet style' }
@@ -985,7 +931,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules4 [
 				             child: #childchild1
 				             depth: 2) child: #childchild2 depth: 2)) style: [ :sr |
 			          sr
-				          write: (sr property: #background)
+				          write: (ss property: #background)
 				          with: [ :e | Color red ] ]).
 			
 		         ((#child asStyleSelector parent:

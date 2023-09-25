@@ -1,6 +1,6 @@
 Class {
 	#name : #ToPseudoProperty,
-	#superclass : #ToWriteableProperty,
+	#superclass : #ToWritableProperty,
 	#instVars : [
 		'writer',
 		'reader'

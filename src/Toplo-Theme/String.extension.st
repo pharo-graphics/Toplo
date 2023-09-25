@@ -9,5 +9,8 @@ String >> asStyleSelector [
 { #category : #'*Toplo-Theme' }
 String >> asStyleTag [
 
-	^ self asSymbol asStyleTag
+	^ ToElementTag new
+		  name: self asSymbol;
+		  value: true;
+		  yourself
 ]

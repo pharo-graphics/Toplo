@@ -3,10 +3,10 @@ Extension { #name : #BlElement }
 { #category : #'*Toplo' }
 BlElement >> addStyleTag: anAssociationOrSymbol [
 
-	| dict |
-	self userData at: #styleTags ifAbsentPut: IdentityDictionary new.
-	dict := self userData at: #styleTags.
-	dict  add: anAssociationOrSymbol asStyleTag
+	| dict tag |
+	dict := self userData at: #styleTags ifAbsentPut: IdentityDictionary new.
+	tag := anAssociationOrSymbol asStyleTag.
+	dict at: tag name put: tag
 ]
 
 { #category : #'*Toplo' }
@@ -108,12 +108,12 @@ BlElement >> holder [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> includesStyleTag: aSymbol [
+BlElement >> includesStyleTagNamed: aSymbol [
 
 	| dict |
 	self userData at: #styleTags ifAbsent: [ ^ false ].
 	dict := self userData at: #styleTags.
-	^ dict includesKey: aSymbol
+	^ dict includesKey: aSymbol asSymbol
 ]
 
 { #category : #'*Toplo' }
@@ -171,6 +171,26 @@ BlElement >> localStyleSheet: aStyleSheet [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> localStyleTagNamed: aSymbol [
+
+	| index |
+	index := self userData at: #styleTags ifAbsent: [ ^ nil ].
+	^ index at: aSymbol asSymbol ifAbsent: [  ]
+	
+]
+
+{ #category : #'*Toplo' }
+BlElement >> lookUpStyleTagNamed: aSymbol [
+
+	self withAllParentsDo: [ :p |
+		(p localStyleTagNamed: aSymbol) ifNotNil: [ :t | ^ t ] ].
+	self withAllParentsDo: [ :p |
+		p localStyleSheet ifNotNil: [ :ss |
+			(ss styleTagNamed: aSymbol) ifNotNil: [ :t | ^ t ] ] ].
+	^ nil
+]
+
+{ #category : #'*Toplo' }
 BlElement >> privateSkin [
 
 	^ self userData at: #privateSkin ifAbsent: [  ]
@@ -196,12 +216,12 @@ BlElement >> privateToTheme: aTheme [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> removeStyleTag: aSymbol [
+BlElement >> removeStyleTagNamed: aSymbol [
 
 	| dict |
 	self userData at: #styleTags ifAbsent: [ ^ self ].
 	dict := self userData at: #styleTags.
-	dict removeKey: aSymbol ifAbsent: [  ]
+	dict removeKey: aSymbol asSymbol ifAbsent: [  ]
 ]
 
 { #category : #'*Toplo' }
@@ -258,6 +278,12 @@ BlElement >> styleTag: anAssociationOrSymbol [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> styleTagNamed: aSymbol [
+
+	^ self lookUpStyleTagNamed: aSymbol
+]
+
+{ #category : #'*Toplo' }
 BlElement >> styleTags [
 
 	^ self userData at: #styleTags ifAbsent: [ IdentityDictionary new]
@@ -268,6 +294,13 @@ BlElement >> styleTags: aCollectionOfSymbol [
 
 	self userData at: #styleTags put: IdentityDictionary new.
 	aCollectionOfSymbol do: [ :s | self addStyleTag: s ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> styleValueNamed: aSymbol [
+
+	(self styleTagNamed: aSymbol) ifNotNil: [ :t | ^ t value ].
+	Error signal: 'Unknown style tag value ' , aSymbol asString
 ]
 
 { #category : #'*Toplo' }

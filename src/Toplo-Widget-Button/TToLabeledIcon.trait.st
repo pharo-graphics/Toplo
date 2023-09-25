@@ -6,9 +6,9 @@ Trait {
 { #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> beIconFirst [
 
-	(self includesStyleTag: #'icon-first') ifTrue: [ ^ self ].
+	(self includesStyleTagNamed: #'icon-first') ifTrue: [ ^ self ].
 	self addStyleTag: #'icon-first'.
-	self removeStyleTag: #'label-first'.
+	self removeStyleTagNamed: #'label-first'.
 	self updateSkin.
 	self requestLayout
 ]
@@ -16,8 +16,8 @@ TToLabeledIcon >> beIconFirst [
 { #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> beLabelFirst [
 
-	(self includesStyleTag: #'label-first') ifTrue: [ ^ self ].
-	self removeStyleTag: #'icon-first'.
+	(self includesStyleTagNamed: #'label-first') ifTrue: [ ^ self ].
+	self removeStyleTagNamed: #'icon-first'.
 	self addStyleTag: #'label-first'.
 	self updateSkin.
 	self requestLayout
@@ -50,7 +50,7 @@ TToLabeledIcon >> icon [
 { #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> icon: anElement [
 
-	self first ifNotNil: [ :s | s removeStyleTag: #'button-icon'].
+	self first ifNotNil: [ :s | s removeStyleTagNamed: #'button-icon'].
 	self replaceFirstWith: anElement.
 	self first ifNotNil: [ :s | s addStyleTag: #'button-icon'].
 
@@ -91,7 +91,7 @@ TToLabeledIcon >> label [
 { #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> label: aLabel [
 
-	self second ifNotNil: [ :s | s removeStyleTag: #'button-label'].
+	self second ifNotNil: [ :s | s removeStyleTagNamed: #'button-label'].
 	self replaceSecondWith: aLabel.
 	self second ifNotNil: [ :s | s addStyleTag: #'button-label'].
 

@@ -14,7 +14,7 @@ Class {
 ToSkinTest >> setUp [ 
 
 	super setUp.
-	writeablePropertyIndex := ToPropertyIndex new recordAll: self writeablePropertyList; yourself
+	writeablePropertyIndex := ToPropertyIndex new recordAll: self writablePropertyList; yourself
 ]
 
 { #category : #'test with accessors' }
@@ -24,9 +24,9 @@ ToSkinTest >> testPropertyWriterOrderMatter [
 	w := ToElement new.
 	w layout: BlBasicLayout new.
 	skin := ToSkin new.
-	layoutDirectionProp := self writeablePropertyIndex propertyNamed:
+	layoutDirectionProp := self writablePropertyIndex propertyNamed:
 		                       #'layout-direction'.
-	layoutProp := self writeablePropertyIndex propertyNamed: #layout.
+	layoutProp := self writablePropertyIndex propertyNamed: #layout.
 	directionWriter := ToPropertyWriter new
 		                   eventClass: ToInstallLookEvent;
 		                   property: layoutDirectionProp;
@@ -63,8 +63,8 @@ ToSkinTest >> testSupplementWriter [
 	w := ToElement new.
 	skin := ToSkin new.
 	borderBuilder := BlBorderBuilder new.
-	backgroundProp := self writeablePropertyIndex propertyNamed: #background.
-	borderProp := self writeablePropertyIndex propertyNamed: #border.
+	backgroundProp := self writablePropertyIndex propertyNamed: #background.
+	borderProp := self writablePropertyIndex propertyNamed: #border.
 	skin writers: {
 			(ToPropertyWriter new
 				 eventClass: ToInitialLookEvent;
@@ -109,7 +109,7 @@ ToSkinTest >> testWithAnimationOn2EventClasses [
 	w := ToElement new.
 	skin := ToSkin new.
 	animation := ToPropertyColorTransitionAnimation new.
-	prop := self writeablePropertyIndex propertyNamed: #'background-color'.
+	prop := self writablePropertyIndex propertyNamed: #'background-color'.
 
 	skin writers: { 
 		ToPropertyWriter new
@@ -164,7 +164,7 @@ ToSkinTest >> testWithOneWriter [
 	| w skin prop propWriter |
 	w := ToElement new.
 	skin := ToSkin new.
-	prop := self writeablePropertyIndex propertyNamed: #background.
+	prop := self writablePropertyIndex propertyNamed: #background.
 	propWriter := ToPropertyWriter new
 		              property: prop;
 		              value: Color blue;
@@ -181,8 +181,8 @@ ToSkinTest >> testWithTwoWriters [
 	| w skin backgroundProp borderProp |
 	w := ToElement new.
 	skin := ToSkin new.
-	backgroundProp := self writeablePropertyIndex propertyNamed: #background.
-	borderProp := self writeablePropertyIndex propertyNamed: #border.
+	backgroundProp := self writablePropertyIndex propertyNamed: #background.
+	borderProp := self writablePropertyIndex propertyNamed: #border.
 	skin writers: {
 			(ToPropertyWriter new
 				 property: backgroundProp;
@@ -204,8 +204,8 @@ ToSkinTest >> testWithTwoWritersTwoEventClasses [
 	| w skin backgroundProp borderProp |
 	w := ToElement new.
 	skin := ToSkin new.
-	backgroundProp := self writeablePropertyIndex propertyNamed: #background.
-	borderProp := self writeablePropertyIndex propertyNamed: #border.
+	backgroundProp := self writablePropertyIndex propertyNamed: #background.
+	borderProp := self writablePropertyIndex propertyNamed: #border.
 	skin writers: {
 			(ToPropertyWriter new
 				 eventClass: ToInitialLookEvent;
@@ -231,13 +231,13 @@ ToSkinTest >> testWithTwoWritersTwoEventClasses [
 ]
 
 { #category : #running }
-ToSkinTest >> writeablePropertyIndex [
+ToSkinTest >> writablePropertyIndex [
 
 	^ writeablePropertyIndex
 ]
 
 { #category : #running }
-ToSkinTest >> writeablePropertyList [
+ToSkinTest >> writablePropertyList [
 
-	^ ToStyleSheet writeablePropertyList
+	^ ToStyleSheet defaultWritablePropertyList
 ]

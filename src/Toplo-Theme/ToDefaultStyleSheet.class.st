@@ -406,7 +406,7 @@ ToDefaultStyleSheet >> commonButtonRules [
 							   write: (self property: #'layout-constraints')
 							   with: [ :e |
 								   [ :c |
-								   c horizontal exact: (e parent parent styleTags at: #'interspace-1').
+								   c horizontal exact: (e styleValueNamed: #'interspace-1').
 								   c vertical matchParent ] ] ].
 
 				   sr
@@ -418,8 +418,8 @@ ToDefaultStyleSheet >> commonButtonRules [
 						   sr
 							   write: (self property: #'layout-constraints')
 							   with: [ :e |
-								   [ :c |
-								   c vertical exact: (e parent parent styleTags at: #'interspace-1').
+								   [ :c | 
+								   c vertical exact: (e styleValueNamed: #'interspace-1').
 								   c horizontal matchParent ] ] ] ]).
 
 		  ((self any - #'triplet-filler-1' parent: #( #button ) depth: 2)

@@ -11,11 +11,12 @@ Class {
 }
 
 { #category : #running }
-ToStyleRuleTest >> setUp [ 
+ToStyleRuleTest >> setUp [
 
 	super setUp.
-	writeablePropertyIndex := ToPropertyIndex new recordAll: ToStyleSheet writeablePropertyList; yourself.
-
+	writeablePropertyIndex := ToPropertyIndex new
+		                          recordAll: ToStyleSheet defaultWritablePropertyList;
+		                          yourself
 ]
 
 { #category : #'tests - simple rule' }
@@ -29,10 +30,10 @@ ToStyleRuleTest >> testNewStyleRuleFromSelector [
 		selectedWith: (ToStyleTagSelector new styleTag: #button)
 		style: [ :sr |
 			sr
-				write: (self writeablePropertyIndex propertyNamed: #background)
+				write: (self writablePropertyIndex propertyNamed: #background)
 				with: Color blue.
 			sr
-				write: (self writeablePropertyIndex propertyNamed: #border)
+				write: (self writablePropertyIndex propertyNamed: #border)
 				with: Color red ]
 ]
 
@@ -344,7 +345,7 @@ ToStyleRuleTest >> testRuleWithUniversalSelector2 [
 ]
 
 { #category : #running }
-ToStyleRuleTest >> writeablePropertyIndex [ 
+ToStyleRuleTest >> writablePropertyIndex [ 
 
 	^ writeablePropertyIndex 
 ]

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToFeatureProperty,
-	#superclass : #ToElementProperty,
-	#category : 'Toplo-Core-Properties'
+	#superclass : #ToWriteableProperty,
+	#category : #'Toplo-Core-Properties'
 }
 
 { #category : #'instance creation' }

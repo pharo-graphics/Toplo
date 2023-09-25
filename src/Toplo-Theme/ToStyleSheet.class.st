@@ -4,16 +4,17 @@ Class {
 	#traits : 'TToStyleRuleHolder',
 	#classTraits : 'TToStyleRuleHolder classTrait',
 	#instVars : [
-		'propertyIndex',
 		'styleRules',
-		'inherits'
+		'inherits',
+		'writeablePropertyIndex',
+		'elementTagIndex'
 	],
 	#category : #'Toplo-Theme-StyleSheet'
 }
 
-{ #category : #accessing }
-ToStyleSheet class >> propertyList [
-	" skin managing need a list of unique property. See ToStyleSheet>>lookUpdatersFor: where properties are used in an IdentityDictionary"
+{ #category : #running }
+ToStyleSheet class >> writeablePropertyList [
+	" skin managing need a list of unique writeable properties. "
 
 	^ {
 		  (ToFeatureProperty name: #mouseCursor).
@@ -138,40 +139,26 @@ ToStyleSheet >> inherits: aBoolean [
 ToStyleSheet >> initialize [ 
 
 	super initialize.
-	propertyIndex := self newPropertyIndex.
-	styleRules := self defaultStyleRules.
+	styleRules := self defaultStyleRules.	
+	writeablePropertyIndex := ToPropertyIndex new recordAll: self writeablePropertyList; yourself.
 	inherits := true
 ]
 
 { #category : #initialization }
-ToStyleSheet >> newPropertyIndex [
+ToStyleSheet >> onInstalledIn: anElement [
 
-	^ ToPropertyIndex new recordAll: self propertyList; yourself
+	writeablePropertyIndex := ToPropertyIndex new recordAll: anElement writeablePropertyList; yourself
+]
+
+{ #category : #initialization }
+ToStyleSheet >> onUnInstalledIn: anElement [
+
 ]
 
 { #category : #'syntactic sugar' }
 ToStyleSheet >> property: aSymbol [
 
-	^ self propertyNamed: aSymbol
-]
-
-{ #category : #accessing }
-ToStyleSheet >> propertyIndex [
-
-	^ propertyIndex
-]
-
-{ #category : #initialization }
-ToStyleSheet >> propertyList [
-
-	^ self class propertyList
-]
-
-{ #category : #accessing }
-ToStyleSheet >> propertyNamed: aName [
-
-	
-	^ self propertyIndex ifNotNil: [ :pi | pi propertyNamed: aName]
+	^ self writeablePropertyNamed: aSymbol
 ]
 
 { #category : #'t - style rule holder - accessing' }
@@ -184,4 +171,24 @@ ToStyleSheet >> rawStyleRules [
 ToStyleSheet >> rawStyleRules: aStyleRuleCollection [
 
 	styleRules := aStyleRuleCollection
+]
+
+{ #category : #accessing }
+ToStyleSheet >> writeablePropertyIndex [
+
+	^ writeablePropertyIndex
+]
+
+{ #category : #accessing }
+ToStyleSheet >> writeablePropertyList [
+	" skin managing need a list of unique writeable properties. "
+
+	^ self class writeablePropertyList
+]
+
+{ #category : #accessing }
+ToStyleSheet >> writeablePropertyNamed: aName [
+
+	self writeablePropertyIndex ifNil: [ ToStyleSheetNotInstalledError signal ].
+	^ self writeablePropertyIndex propertyNamed: aName
 ]

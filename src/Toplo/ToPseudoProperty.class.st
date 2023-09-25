@@ -1,11 +1,11 @@
 Class {
 	#name : #ToPseudoProperty,
-	#superclass : #ToElementProperty,
+	#superclass : #ToWriteableProperty,
 	#instVars : [
 		'writer',
 		'reader'
 	],
-	#category : 'Toplo-Core-Properties'
+	#category : #'Toplo-Core-Properties'
 }
 
 { #category : #'instance creation' }

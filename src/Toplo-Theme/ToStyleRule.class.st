@@ -41,16 +41,6 @@ ToStyleRule >> initialize [
 	styleRules := #(  )
 ]
 
-{ #category : #'property writer' }
-ToStyleRule >> property: aProperty value: aValuableOrObject animation: aPropertyAnimation [
-
-	self addWriter: (aProperty
-			 when: self eventClass
-			 write: aValuableOrObject
-			 animation: aPropertyAnimation;
-			 yourself)
-]
-
 { #category : #'writers selecting' }
 ToStyleRule >> putAllWritersFor: anElement in: aStream [
 
@@ -104,62 +94,65 @@ ToStyleRule >> selector: aStyleSelector [
 ]
 
 { #category : #'syntactic sugar' }
-ToStyleRule >> supplement: aProperty with: aValuableOrObject [
+ToStyleRule >> supplement: aWriteableProperty with: aValuableOrObject [
 
 	self
 		when: self eventClass
-		supplement: aProperty
+		supplement: aWriteableProperty
 		with: aValuableOrObject
 ]
 
 { #category : #'syntactic sugar' }
-ToStyleRule >> when: aLookEventClass supplement: aProperty with: aValuableOrObject [
+ToStyleRule >> when: aLookEventClass supplement: aWriteableProperty with: aValuableOrObject [
 
-	aProperty ifNil: [ ^self ].
-	self addWriter: ((aProperty
-			  when: aLookEventClass
-			  write: aValuableOrObject
-			  animation: nil)
+	aWriteableProperty ifNil: [ ^ self ].
+	self addWriter: (ToPropertyWriter new
+			 eventClass: aLookEventClass;
+			 property: aWriteableProperty;
+			 value: aValuableOrObject;
 			 supplement: true;
 			 yourself)
 ]
 
 { #category : #'syntactic sugar' }
-ToStyleRule >> when: aLookEventClass write: aProperty with: aValuableOrObject [
+ToStyleRule >> when: aLookEventClass write: aWriteableProperty with: aValuableOrObject [
 
 	self
 		when: aLookEventClass
-		write: aProperty
+		write: aWriteableProperty
 		with: aValuableOrObject
 		animation: nil
 ]
 
 { #category : #'syntactic sugar' }
-ToStyleRule >> when: aLookEventClass write: aProperty with: aValuableOrObject animation: aPropertyAnimation [
+ToStyleRule >> when: aLookEventClass write: aWriteableProperty with: aValuableOrObject animation: aPropertyAnimation [
 
-	aProperty ifNil: [ ^ self ].
-	self addWriter: (aProperty
-			 when: aLookEventClass
-			 write: aValuableOrObject
-			 animation: aPropertyAnimation)
+	aWriteableProperty ifNil: [ ^ self ].
+	self addWriter: (ToPropertyWriter new
+			 eventClass: aLookEventClass;
+			 property: aWriteableProperty;
+			 value: aValuableOrObject;
+			 animation: aPropertyAnimation;
+			 supplement: false;
+			 yourself)
 ]
 
 { #category : #'syntactic sugar' }
-ToStyleRule >> write: aProperty with: aValue [
+ToStyleRule >> write: aWriteableProperty with: aValue [
 
 	self
 		when: self eventClass
-		write: aProperty
+		write: aWriteableProperty
 		with: aValue
 		animation: nil
 ]
 
 { #category : #'syntactic sugar' }
-ToStyleRule >> write: aProperty with: aValuableOrObject animation: aPropertyAnimation [
+ToStyleRule >> write: aWriteableProperty with: aValuableOrObject animation: aPropertyAnimation [
 
 	self
 		when: self eventClass
-		write: aProperty
+		write: aWriteableProperty
 		with: aValuableOrObject
 		animation: aPropertyAnimation
 ]

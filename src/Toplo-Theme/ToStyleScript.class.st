@@ -79,6 +79,12 @@ ToStyleScript >> parent: aSelector depth: anInteger [
 ]
 
 { #category : #accessing }
+ToStyleScript >> property: aSymbol [
+
+	^ [ :e | self lookUpWritablePropertyNamed: aSymbol startingFromElement: e ]
+]
+
+{ #category : #accessing }
 ToStyleScript >> ruleStack [
 
 	^ ruleStack
@@ -115,11 +121,10 @@ ToStyleScript >> supplement: aProperty with: aValuableOrObject [
 { #category : #'syntactic sugar' }
 ToStyleScript >> when: aLookEventClass supplement: aProperty with: aValuableOrObject [
 
-	aProperty ifNil: [ ^self ].
-	self addWriter: ((aProperty
-			  when: aLookEventClass
-			  write: aValuableOrObject
-			  animation: nil)
+	aProperty ifNil: [ ^ self ].
+	self addWriter: (ToPropertyWriter new
+			 property: aProperty;
+			 value: aValuableOrObject;
 			 supplement: true;
 			 yourself)
 ]
@@ -135,13 +140,16 @@ ToStyleScript >> when: aLookEventClass write: aProperty with: aValuableOrObject 
 ]
 
 { #category : #'syntactic sugar' }
-ToStyleScript >> when: aLookEventClass write: aProperty with: aValuableOrObject animation: aPropertyAnimation [
+ToStyleScript >> when: aLookEventClass write: aWriteableProperty with: aValuableOrObject animation: aPropertyAnimation [
 
-	aProperty ifNil: [ ^ self ].
-	self addWriter: (aProperty
-			 when: aLookEventClass
-			 write: aValuableOrObject
-			 animation: aPropertyAnimation)
+	aWriteableProperty ifNil: [ ^ self ].
+	self addWriter: (ToPropertyWriter new
+			 eventClass: aLookEventClass;
+			 property: aWriteableProperty;
+			 value: aValuableOrObject;
+			 animation: aPropertyAnimation;
+			 supplement: false;
+			 yourself)
 ]
 
 { #category : #'syntactic sugar' }

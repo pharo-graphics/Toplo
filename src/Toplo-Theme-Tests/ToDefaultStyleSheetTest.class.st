@@ -39,15 +39,17 @@ ToDefaultStyleSheetTest >> testDefaultButtonSkin [
 ]
 
 { #category : #'look updaters' }
-ToDefaultStyleSheetTest >> testPropertyList [
+ToDefaultStyleSheetTest >> testWriteablePropertyList [
 
-	| ss index count |
+	| ss index count elem |
+	elem := ToElement new.
 	ss := ToStyleSheet new.
+	elem styleSheet: ss.
 	index := IdentityDictionary new.
-	ss propertyList do: [ :p |
+	ss writeablePropertyList do: [ :p |
 		index at: p name ifAbsentPut: [ 0 ].
 		count := (index at: p name) + 1.
 		index at: p name put: count ].
 	index keysAndValuesDo: [ :k :v | self assert: v identicalTo: 1 ].
-	ss propertyList do: [ :p | self assert: (ss propertyNamed: p name) notNil ]
+	ss writeablePropertyList do: [ :p | self assert: (ss writeablePropertyNamed: p name) notNil ]
 ]

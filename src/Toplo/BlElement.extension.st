@@ -163,7 +163,11 @@ BlElement >> localStyleSheet [
 { #category : #'*Toplo' }
 BlElement >> localStyleSheet: aStyleSheet [
 
-	self userData at: #localStyleSheet put: aStyleSheet
+	| prev |
+	prev := self userData at: #localStyleSheet ifAbsent: [  ].
+	prev ifNotNil: [ prev onUnInstalledIn: self ].
+	self userData at: #localStyleSheet put: aStyleSheet.
+	aStyleSheet ifNotNil: [ aStyleSheet onInstalledIn: self ]
 ]
 
 { #category : #'*Toplo' }

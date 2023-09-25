@@ -5,22 +5,16 @@ Class {
 	#name : #ToStyleRuleTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'propertyIndex'
+		'writeablePropertyIndex'
 	],
 	#category : #'Toplo-Theme-Tests-StyleSheet'
 }
 
 { #category : #running }
-ToStyleRuleTest >> propertyIndex [ 
-
-	^ propertyIndex 
-]
-
-{ #category : #running }
 ToStyleRuleTest >> setUp [ 
 
 	super setUp.
-	propertyIndex := ToPropertyIndex new recordAll: ToStyleSheet propertyList; yourself.
+	writeablePropertyIndex := ToPropertyIndex new recordAll: ToStyleSheet writeablePropertyList; yourself.
 
 ]
 
@@ -35,10 +29,10 @@ ToStyleRuleTest >> testNewStyleRuleFromSelector [
 		selectedWith: (ToStyleTagSelector new styleTag: #button)
 		style: [ :sr |
 			sr
-				write: (self propertyIndex propertyNamed: #background)
+				write: (self writeablePropertyIndex propertyNamed: #background)
 				with: Color blue.
 			sr
-				write: (self propertyIndex propertyNamed: #border)
+				write: (self writeablePropertyIndex propertyNamed: #border)
 				with: Color red ]
 ]
 
@@ -347,4 +341,10 @@ ToStyleRuleTest >> testRuleWithUniversalSelector2 [
 		        selector: ((ToIdSelector new id: #a) or: ToUniversalSelector new).
 	e := ToElement new.
 	self assert: (rule canBeAppliedTo: e)
+]
+
+{ #category : #running }
+ToStyleRuleTest >> writeablePropertyIndex [ 
+
+	^ writeablePropertyIndex 
 ]

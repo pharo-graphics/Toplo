@@ -20,9 +20,7 @@ ToPropertyWriter >> animation [
 { #category : #accessing }
 ToPropertyWriter >> animation: aPropertyAnimation [
 
-	animation := aPropertyAnimation.
-	animation ifNil: [ ^ self ].
-	animation property: self property
+	animation := aPropertyAnimation
 ]
 
 { #category : #testing }
@@ -70,8 +68,7 @@ ToPropertyWriter >> property [
 { #category : #accessing }
 ToPropertyWriter >> property: anObject [
 
-	property := anObject.
-	self animation ifNotNil: [ :a | a property: self property ]
+	property := anObject
 ]
 
 { #category : #writing }
@@ -81,6 +78,13 @@ ToPropertyWriter >> receiveEvent: aLookEvent [
 	(self canReceiveEvent: aLookEvent) ifFalse: [ ^ self ].
 	target := aLookEvent currentTarget.
 	self writeTo: target
+]
+
+{ #category : #operating }
+ToPropertyWriter >> resolvedPropertyIn: anElement [
+
+	self property isClosure ifTrue: [ ^ self property value: anElement].
+	^ self property 
 ]
 
 { #category : #accessing }
@@ -115,14 +119,12 @@ ToPropertyWriter >> valueIn: anElement [
 		  ifFalse: [ value ]
 ]
 
-{ #category : #operating }
-ToPropertyWriter >> valueWriter [
-
-	^ self animation ifNil: [ self property ].
-]
-
 { #category : #'t - property writer - writing' }
 ToPropertyWriter >> writeTo: anElement [
 
-	^ self valueWriter write: (self valueIn: anElement) to: anElement
+	| resolvedProperty |
+	resolvedProperty := self resolvedPropertyIn: anElement.
+	self animation ifNil: [ ^ resolvedProperty write: (self valueIn: anElement) to: anElement ].
+	self animation property: resolvedProperty.
+	self animation write: (self valueIn: anElement) to: anElement
 ]

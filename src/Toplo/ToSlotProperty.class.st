@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSlotProperty,
-	#superclass : #ToElementProperty,
-	#category : 'Toplo-Core-Properties'
+	#superclass : #ToWriteableProperty,
+	#category : #'Toplo-Core-Properties'
 }
 
 { #category : #accessing }

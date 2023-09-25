@@ -244,16 +244,18 @@ ToStyleSheetTest >> testEmptyStyleSheet [
 { #category : #tests }
 ToStyleSheetTest >> testNewStyleSheetWith2Rules [
 
-	| styleSheet |
+	| styleSheet elem |
 	styleSheet := ToStyleSheet new inherits: false; yourself.
+	elem := ToElement new.
+	elem styleSheet: styleSheet.
 	styleSheet addAllStyleRules: {
 			((ToStyleTagSelector new styleTag: #button)
 				 style: [ :sr |
 					 sr
-						 write: (styleSheet propertyNamed: #background)
+						 write: (styleSheet writeablePropertyNamed: #background)
 						 with: Color blue.
 					 sr
-						 write: (styleSheet propertyNamed: #border)
+						 write: (styleSheet writeablePropertyNamed: #border)
 						 with: Color red ]).
 			".button {
 				background: blue;
@@ -262,10 +264,10 @@ ToStyleSheetTest >> testNewStyleSheetWith2Rules [
 			((ToStyleTagSelector new styleTag: #button)
 				 style: [ :sr |
 					 sr
-						 write: (styleSheet propertyNamed: #background)
+						 write: (styleSheet writeablePropertyNamed: #background)
 						 with: Color transparent.
 					 sr
-						 write: (styleSheet propertyNamed: #border)
+						 write: (styleSheet writeablePropertyNamed: #border)
 						 with: Color blue ])
 			".button:initial {
 				background: transparent;
@@ -393,6 +395,60 @@ ToStyleSheetTest >> testSkinWithIdRule [
 ]
 
 { #category : #'tests - style sheet style' }
+ToStyleSheetTest >> testStyleSheetMustBeInstalledInAnElementBeforeRulesAraDeclared [
+
+	| ss button skin writers ssi rules |
+	ss := ToStyleSheet new
+		      inherits: false;
+		      yourself.
+	ssi := ToSkinBuilder new.
+	button := ToElement new.
+
+	" default button rule "
+	self
+		should: [
+			rules := { (#button asStyleSelector style: [ :sr |
+				          sr write: (ss property: #background) with: Color white.
+				          sr
+					          when: ToInitialLookEvent
+					          write: (ss property: #background)
+					          with: [ :e | Color black ].
+				          sr
+					          when: ToDisabledLookEvent
+					          write: (ss property: #background)
+					          with: [ :e | e toTheme colorBgContainerDisabled ] ]) } ]
+		raise: ToStyleSheetNotInstalledError.
+
+	button styleSheet: ss.
+
+	rules := { (#button asStyleSelector style: [ :sr |
+		          sr write: (ss property: #background) with: Color white.
+		          sr
+			          when: ToInitialLookEvent
+			          write: (ss property: #background)
+			          with: [ :e | Color black ].
+		          sr
+			          when: ToDisabledLookEvent
+			          write: (ss property: #background)
+			          with: [ :e | e toTheme colorBgContainerDisabled ] ]) }.
+	ss addAllStyleRules: rules.
+	button addStyleTag: #button.
+	writers := ssi writersFor: button.
+	self assert: writers size equals: 3.
+	skin := ToSkin new.
+	skin writers: writers.
+	button withSkin: skin.
+
+	button switchToSkinState: ToInstallState new.
+	self assert: button background paint isColorPaint.
+	self assert: button background paint color equals: Color white.
+
+	button switchToSkinState: ToInitialState new.
+	self assert: button background paint isColorPaint.
+	self assert: button background paint color equals: Color black
+]
+
+{ #category : #'tests - style sheet style' }
 ToStyleSheetTest >> testStyleSheetStyle0 [
 
 	| ss button skin writers ssi rules |
@@ -400,6 +456,8 @@ ToStyleSheetTest >> testStyleSheetStyle0 [
 		      inherits: false;
 		      yourself.
 	ssi := ToSkinBuilder new.
+	button := ToElement new.
+	button styleSheet: ss.
 
 	" default button rule "
 	rules := { (#button asStyleSelector style: [ :sr |
@@ -414,9 +472,7 @@ ToStyleSheetTest >> testStyleSheetStyle0 [
 			          with: [ :e | e toTheme colorBgContainerDisabled ] ]) }.
 
 	ss addAllStyleRules: rules.
-	button := ToElement new.
 	button addStyleTag: #button.
-	button styleSheet: ss.
 	writers := ssi writersFor: button.
 	self assert: writers size equals: 3.
 	skin := ToSkin new.
@@ -440,6 +496,8 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules0 [
 		      inherits: false;
 		      yourself.
 	ssi := ToSkinBuilder new.
+	button := ToElement new.
+	button styleSheet: ss.
 
 	" default button rule "
 	rules := { (#button asStyleSelector style: [ :sr | 
@@ -460,9 +518,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules0 [
 			          with: [ :e | Color lightGray ] ]) }.
 
 	ss addAllStyleRules: rules.
-	button := ToElement new.
 	button addStyleTag: #button.
-	button styleSheet: ss.
 	writers := ssi writersFor: button.
 	self assert: writers size equals: 3.
 	skin := ToSkin new.
@@ -503,20 +559,20 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules1 [
 		      yourself.
 	ssi := ToSkinBuilder new.
 
-	" default button rule "
-	rules := { (#child asStyleSelector style: [ :sr |
-		          sr any style: [
-			          sr
-				          write: (ss property: #background)
-				          with: [ :e | Color red ] ] ]) }.
-
-	ss addAllStyleRules: rules.
 	elem := ToElement new styleTag: #elem.
 	child := ToElement new styleTag: #child.
 	childchild1 := ToElement new styleTag: #childchild1.
 	childchild2 := ToElement new styleTag: #childchild2.
 
-	elem styleSheet: ss.
+	child styleSheet: ss.
+	" default button rule "
+	rules := { (#child asStyleSelector style: [ :sr |
+		          sr select: sr any style: [
+			          sr
+				          write: (ss property: #background)
+				          with: [ :e | Color red ] ] ]) }.
+	ss addAllStyleRules: rules.
+
 	elem addChild: child.
 	child addChild: childchild1.
 	child addChild: childchild2.
@@ -548,14 +604,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules2 [
 		      yourself.
 	ssi := ToSkinBuilder new.
 
-	" default button rule "
-	rules := { ((#child asStyleSelector parent: #elem) style: [ :sr |
-		          sr any style: [
-			          sr
-				          write: (ss property: #background)
-				          with: [ :e | Color red ] ] ]) }.
 
-	ss addAllStyleRules: rules.
 	elem := ToElement new styleTag: #elem.
 	child := ToElement new styleTag: #child.
 	childchild1 := ToElement new styleTag: #childchild1.
@@ -565,6 +614,15 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules2 [
 	elem addChild: child.
 	child addChild: childchild1.
 	child addChild: childchild2.
+	
+		" default button rule "
+	rules := { ((#child asStyleSelector parent: #elem) style: [ :sr |
+		          sr any style: [
+			          sr
+				          write: (ss property: #background)
+				          with: [ :e | Color red ] ] ]) }.
+
+	ss addAllStyleRules: rules.
 
 	writers := ssi writersFor: elem.
 	self assert: writers size equals: 0.
@@ -593,6 +651,16 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules22 [
 		      yourself.
 	ssi := ToSkinBuilder new.
 
+	elem := ToElement new styleTags: #( elem #red ).
+	child := ToElement new styleTag: #child.
+	childchild1 := ToElement new styleTag: #childchild1.
+	childchild2 := ToElement new styleTag: #childchild2.
+
+	elem styleSheet: ss.
+	elem addChild: child.
+	child addChild: childchild1.
+	child addChild: childchild2.
+
 	" default button rule "
 	rules := { ((#child asStyleSelector parent: #elem) style: [ :sr |
 		          sr
@@ -603,15 +671,6 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules22 [
 				          with: [ :e | Color red ] ] ]) }.
 
 	ss addAllStyleRules: rules.
-	elem := ToElement new styleTags: #( elem #red ).
-	child := ToElement new styleTag: #child.
-	childchild1 := ToElement new styleTag: #childchild1.
-	childchild2 := ToElement new styleTag: #childchild2.
-
-	elem styleSheet: ss.
-	elem addChild: child.
-	child addChild: childchild1.
-	child addChild: childchild2.
 
 	writers := ssi writersFor: elem.
 	self assert: writers size equals: 0.
@@ -640,6 +699,17 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules3 [
 		      yourself.
 	ssi := ToSkinBuilder new.
 
+
+	elem := ToElement new styleTags: #( elem #red ).
+	child := ToElement new styleTag: #child.
+	childchild1 := ToElement new styleTag: #childchild1.
+	childchild2 := ToElement new styleTag: #childchild2.
+
+	elem styleSheet: ss.
+	elem addChild: child.
+	child addChild: childchild1.
+	child addChild: childchild2.
+
 	" default button rule "
 	rules := { ((#child asStyleSelector parent:
 		           ((#( #elem #red ) asStyleSelector
@@ -650,15 +720,6 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules3 [
 			          with: [ :e | Color red ] ]) }.
 
 	ss addAllStyleRules: rules.
-	elem := ToElement new styleTags: #( elem #red ).
-	child := ToElement new styleTag: #child.
-	childchild1 := ToElement new styleTag: #childchild1.
-	childchild2 := ToElement new styleTag: #childchild2.
-
-	elem styleSheet: ss.
-	elem addChild: child.
-	child addChild: childchild1.
-	child addChild: childchild2.
 
 	writers := ssi writersFor: elem.
 	self assert: writers size equals: 0.
@@ -687,6 +748,17 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules32 [
 		      yourself.
 	ssi := ToSkinBuilder new.
 
+
+	elem := ToElement new styleTags: #( elem #red ).
+	child := ToElement new styleTag: #child.
+	childchild1 := ToElement new styleTag: #childchild1.
+	childchild2 := ToElement new styleTag: #childchild2.
+
+	elem styleSheet: ss.
+	elem addChild: child.
+	child addChild: childchild1.
+	child addChild: childchild2.
+
 	rules := { ((#child asStyleSelector parent: #elem) style: [ :sr |
 		          sr
 			          select: (((sr parent: #red) child: #childchild1 depth: 1) child: #childchild2 depth: 1)
@@ -704,16 +776,6 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules32 [
 			          with: [ :e | Color red ] ]) }."
 
 	ss addAllStyleRules: rules.
-	elem := ToElement new styleTags: #( elem #red ).
-	child := ToElement new styleTag: #child.
-	childchild1 := ToElement new styleTag: #childchild1.
-	childchild2 := ToElement new styleTag: #childchild2.
-
-	elem styleSheet: ss.
-	elem addChild: child.
-	child addChild: childchild1.
-	child addChild: childchild2.
-
 	writers := ssi writersFor: elem.
 	self assert: writers size equals: 0.
 	writers := ssi writersFor: childchild1 .
@@ -741,14 +803,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules33 [
 		      yourself.
 	ssi := ToSkinBuilder new.
 
-	rules := { ((#child asStyleSelector parent: #elem) style: [ :sr |
-		          ((sr parent: #red) child: #childchild1 depth: 1) style: [
-			          (sr child: #childchild2 depth: 1) style: [
-				          sr
-					          write: (ss property: #background)
-					          with: [ :e | Color red ] ] ] ]) }.
 
-	ss addAllStyleRules: rules.
 	elem := ToElement new styleTags: #( elem #red ).
 	child := ToElement new styleTag: #child.
 	childchild1 := ToElement new styleTag: #childchild1.
@@ -759,6 +814,14 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules33 [
 	child addChild: childchild1.
 	child addChild: childchild2.
 
+	rules := { ((#child asStyleSelector parent: #elem) style: [ :sr |
+		          ((sr parent: #red) child: #childchild1 depth: 1) style: [
+			          (sr child: #childchild2 depth: 1) style: [
+				          sr
+					          write: (ss property: #background)
+					          with: [ :e | Color red ] ] ] ]) }.
+
+	ss addAllStyleRules: rules.
 	writers := ssi writersFor: elem.
 	self assert: writers size equals: 0.
 	writers := ssi writersFor: childchild1.
@@ -786,13 +849,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules1 [
 		      yourself.
 	ssi := ToSkinBuilder new.
 
-	" default button rule "
-	rules := { (#child asStyleSelector style: [ :sr |
-		          sr
-			          write: (ss property: #background)
-			          with: [ :e | Color red ] ]) }.
 
-	ss addAllStyleRules: rules.
 	elem := ToElement new styleTag: #elem.
 	child := ToElement new styleTag: #child.
 	childchild1 := ToElement new styleTag: #childchild1.
@@ -802,7 +859,14 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules1 [
 	elem addChild: child.
 	child addChild: childchild1.
 	child addChild: childchild2.
+	
+	" default button rule "
+	rules := { (#child asStyleSelector style: [ :sr |
+		          sr
+			          write: (ss property: #background)
+			          with: [ :e | Color red ] ]) }.
 
+	ss addAllStyleRules: rules.
 	writers := ssi writersFor: child.
 	self assert: writers size equals: 1.
 	skin := ToSkin new.
@@ -823,13 +887,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules2 [
 		      yourself.
 	ssi := ToSkinBuilder new.
 
-	" default button rule "
-	rules := { ((#child asStyleSelector parent: #elem) style: [ :sr |
-		          sr
-			          write: (ss property: #background)
-			          with: [ :e | Color red ] ]) }.
 
-	ss addAllStyleRules: rules.
 	elem := ToElement new styleTag: #elem.
 	child := ToElement new styleTag: #child.
 	childchild1 := ToElement new styleTag: #childchild1.
@@ -839,6 +897,14 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules2 [
 	elem addChild: child.
 	child addChild: childchild1.
 	child addChild: childchild2.
+
+	" default button rule "
+	rules := { ((#child asStyleSelector parent: #elem) style: [ :sr |
+		          sr
+			          write: (ss property: #background)
+			          with: [ :e | Color red ] ]) }.
+
+	ss addAllStyleRules: rules.
 
 	writers := ssi writersFor: child.
 	self assert: writers size equals: 1.
@@ -860,6 +926,17 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules3 [
 		      yourself.
 	ssi := ToSkinBuilder new.
 
+
+	elem := ToElement new styleTags: #( elem #red ).
+	child := ToElement new styleTag: #child.
+	childchild1 := ToElement new styleTag: #childchild1.
+	childchild2 := ToElement new styleTag: #childchild2.
+
+	elem styleSheet: ss.
+	elem addChild: child.
+	child addChild: childchild1.
+	child addChild: childchild2.
+
 	" default button rule "
 	rules := { ((#child asStyleSelector parent:
 		           ((#( #elem #red ) asStyleSelector
@@ -870,15 +947,6 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules3 [
 			          with: [ :e | Color red ] ]) }.
 
 	ss addAllStyleRules: rules.
-	elem := ToElement new styleTags: #( elem #red ).
-	child := ToElement new styleTag: #child.
-	childchild1 := ToElement new styleTag: #childchild1.
-	childchild2 := ToElement new styleTag: #childchild2.
-
-	elem styleSheet: ss.
-	elem addChild: child.
-	child addChild: childchild1.
-	child addChild: childchild2.
 
 	writers := ssi writersFor: child.
 	self assert: writers size equals: 1.
@@ -900,6 +968,16 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules4 [
 		      yourself.
 	ssi := ToSkinBuilder new.
 
+	elem := ToElement new styleTags: #( #elem #red ).
+	child := ToElement new styleTag: #child.
+	childchild1 := ToElement new styleTag: #childchild1.
+	childchild2 := ToElement new styleTag: #childchild2.
+
+	elem styleSheet: ss.
+	elem addChild: child.
+	child addChild: childchild1.
+	child addChild: childchild2.
+
 	" default button rule "
 	rules := {
 		         ((#child asStyleSelector parent:
@@ -907,7 +985,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules4 [
 				             child: #childchild1
 				             depth: 2) child: #childchild2 depth: 2)) style: [ :sr |
 			          sr
-				          write: (ss property: #background)
+				          write: (sr property: #background)
 				          with: [ :e | Color red ] ]).
 			
 		         ((#child asStyleSelector parent:
@@ -919,16 +997,6 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules4 [
 				          with: [ :e | Color blue ] ]) }.
 
 	ss addAllStyleRules: rules.
-	elem := ToElement new styleTags: #( #elem #red ).
-	child := ToElement new styleTag: #child.
-	childchild1 := ToElement new styleTag: #childchild1.
-	childchild2 := ToElement new styleTag: #childchild2.
-
-	elem styleSheet: ss.
-	elem addChild: child.
-	child addChild: childchild1.
-	child addChild: childchild2.
-
 	writers := ssi writersFor: child.
 	self assert: writers size equals: 1.
 	child updateSkin.

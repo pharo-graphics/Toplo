@@ -1,5 +1,5 @@
 Class {
-	#name : #ToElementTag,
+	#name : #ToStyleNamedValue,
 	#superclass : #ToElementProperty,
 	#instVars : [
 		'value'
@@ -8,19 +8,19 @@ Class {
 }
 
 { #category : #operating }
-ToElementTag >> read: anObject [
+ToStyleNamedValue >> read: anObject [
 
 	^ self value value: anObject
 ]
 
 { #category : #accessing }
-ToElementTag >> value [
+ToStyleNamedValue >> value [
 
 	^ value
 ]
 
 { #category : #accessing }
-ToElementTag >> value: aValuable [
+ToStyleNamedValue >> value: aValuable [
 
 	value := aValuable
 ]

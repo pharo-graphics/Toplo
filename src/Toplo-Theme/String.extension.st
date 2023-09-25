@@ -1,16 +1,16 @@
 Extension { #name : #String }
 
 { #category : #'*Toplo-Theme' }
-String >> asStyleSelector [ 
+String >> asStyleNamedValue [
 
-	^ ToStyleTagSelector new styleTag: self asSymbol
-]
-
-{ #category : #'*Toplo-Theme' }
-String >> asStyleTag [
-
-	^ ToElementTag new
+	^ ToStyleNamedValue new
 		  name: self asSymbol;
 		  value: true;
 		  yourself
+]
+
+{ #category : #'*Toplo-Theme' }
+String >> asStyleSelector [ 
+
+	^ ToStyleTagSelector new styleTag: self asSymbol
 ]

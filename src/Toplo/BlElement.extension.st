@@ -5,7 +5,7 @@ BlElement >> addStyleTag: anAssociationOrSymbol [
 
 	| dict tag |
 	dict := self userData at: #styleTags ifAbsentPut: IdentityDictionary new.
-	tag := anAssociationOrSymbol asStyleTag.
+	tag := anAssociationOrSymbol asStyleNamedValue.
 	dict at: tag name put: tag
 ]
 

@@ -810,8 +810,8 @@ ToDefaultStyleSheet >> linkButtonRules [
 ToDefaultStyleSheet >> primaryButtonRules [
 	" ToButton primary "
 
-	^
-	  {			  (#button asStyleSelector + #primary style: [ :sr |
+	^ {
+		  (#button asStyleSelector + #primary style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #background)
@@ -843,42 +843,42 @@ ToDefaultStyleSheet >> primaryButtonRules [
 				   when: ToDisabledLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
-				   e borderBuilder paint: e toTheme colorBorderDisabled ] ]).
+				   e borderBuilder paint: e toTheme colorBorderDisabled ].
 
-		  " ToButton primary danger "
-		  (#button asStyleSelector + #primary + #danger style: [ :sr |
-			   sr
-				   when: ToInitialLookEvent
-				   write: (self property: #background)
-				   with: [ :e | e toTheme colorError ].
-			   sr
-				   when: ToDisabledLookEvent
-				   write: (self property: #background)
-				   with: [ :e | e toTheme colorBgContainerDisabled ].
-			   sr
-				   when: ToHoveredLookEvent
-				   write: (self property: #'background-color')
-				   with: [ :e | e toTheme colorErrorHover ]
-				   animation: ToPropertyColorTransitionAnimation new.
-			   sr
-				   when: ToLeavedLookEvent
-				   write: (self property: #'background-color')
-				   with: [ :e | e toTheme colorError ]
-				   animation: ToPropertyColorTransitionAnimation new.
-			   sr
-				   when: ToPressedLookEvent
-				   write: (self property: #background)
-				   with: [ :e | e toTheme colorErrorPressed ].
 
-			   sr
-				   when: ToInitialLookEvent
-				   write: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder paint: Color transparent ].
-			   sr
-				   when: ToDisabledLookEvent
-				   write: (self property: #'border-with-builder')
-				   with: [ :e |
-				   e borderBuilder paint: e toTheme colorBorderDisabled ] ]).
+			   sr select: #danger style: [
+				   sr
+					   when: ToInitialLookEvent
+					   write: (self property: #background)
+					   with: [ :e | e toTheme colorError ].
+				   sr
+					   when: ToDisabledLookEvent
+					   write: (self property: #background)
+					   with: [ :e | e toTheme colorBgContainerDisabled ].
+				   sr
+					   when: ToHoveredLookEvent
+					   write: (self property: #'background-color')
+					   with: [ :e | e toTheme colorErrorHover ]
+					   animation: ToPropertyColorTransitionAnimation new.
+				   sr
+					   when: ToLeavedLookEvent
+					   write: (self property: #'background-color')
+					   with: [ :e | e toTheme colorError ]
+					   animation: ToPropertyColorTransitionAnimation new.
+				   sr
+					   when: ToPressedLookEvent
+					   write: (self property: #background)
+					   with: [ :e | e toTheme colorErrorPressed ].
+
+				   sr
+					   when: ToInitialLookEvent
+					   write: (self property: #'border-with-builder')
+					   with: [ :e | e borderBuilder paint: Color transparent ].
+				   sr
+					   when: ToDisabledLookEvent
+					   write: (self property: #'border-with-builder')
+					   with: [ :e |
+					   e borderBuilder paint: e toTheme colorBorderDisabled ] ] ]).
 
 		  " primary button form icon "
 
@@ -922,7 +922,7 @@ ToDefaultStyleSheet >> primaryButtonRules [
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e toTheme colorTextLightSolid ] ]) } 
+				   with: [ :e | e toTheme colorTextLightSolid ] ]) }
 ]
 
 { #category : #'accessing rules  - pane' }

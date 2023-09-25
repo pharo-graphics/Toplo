@@ -6,7 +6,7 @@ Class {
 		'subscriptions',
 		'supplement'
 	],
-	#category : 'Toplo-Theme-LookUpdaterDep'
+	#category : #'Toplo-Theme-LookUpdaterDep'
 }
 
 { #category : #'instance creation' }
@@ -92,16 +92,13 @@ ToLookUpdaterDep >> when: aLookEventClass value: aBlockOrValue [
 { #category : #declaring }
 ToLookUpdaterDep >> when: aLookEventClass value: aBlockOrValue animation: anAnimation [
 
-	| subscr replacedSubscriptions |
+	| subscr |
 	self property ifNil: [ Error signal: 'Invalid use: property is nil ' ].
 	subscr := ToPropertySubscriptionDep new
 		          value: aBlockOrValue;
 		          property: self property;
 		          animation: anAnimation;
 		          eventClass: aLookEventClass.
-	" only one subscription is allowed per look event class and for the same property "
-	replacedSubscriptions := self subscriptions select: [ :s | subscr canReplace: s ].
-	self removeAllSubscriptions: replacedSubscriptions.
 	self addSubscription: subscr
 ]
 

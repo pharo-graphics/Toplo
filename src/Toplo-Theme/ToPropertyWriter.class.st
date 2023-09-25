@@ -31,12 +31,6 @@ ToPropertyWriter >> canReceiveEvent: aLookEvent [
 	^ self eventClass = aLookEvent class 
 ]
 
-{ #category : #testing }
-ToPropertyWriter >> canReplace: anotherWriter [
-
-	^ false
-]
-
 { #category : #accessing }
 ToPropertyWriter >> eventClass [
 

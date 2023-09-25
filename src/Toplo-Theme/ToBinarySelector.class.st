@@ -5,7 +5,7 @@ Class {
 		'left',
 		'right'
 	],
-	#category : #'Toplo-Theme-StyleOperator'
+	#category : #'Toplo-Theme-StyleSelector'
 }
 
 { #category : #accessing }

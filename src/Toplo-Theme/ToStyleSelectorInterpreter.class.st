@@ -5,7 +5,7 @@ Class {
 		'targetStack',
 		'result'
 	],
-	#category : #'Toplo-Theme-StyleOperator'
+	#category : #'Toplo-Theme-StyleSelector'
 }
 
 { #category : #operating }

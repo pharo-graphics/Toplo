@@ -1,7 +1,7 @@
 Class {
 	#name : #ToStyleSelectorVisitor,
 	#superclass : #Object,
-	#category : #'Toplo-Theme-StyleOperator'
+	#category : #'Toplo-Theme-StyleSelector'
 }
 
 { #category : #visiting }

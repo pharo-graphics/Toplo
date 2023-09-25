@@ -1,7 +1,7 @@
 Class {
 	#name : #ToStyleSelector,
 	#superclass : #Object,
-	#category : #'Toplo-Theme-StyleOperator'
+	#category : #'Toplo-Theme-StyleSelector'
 }
 
 { #category : #'logical operator' }

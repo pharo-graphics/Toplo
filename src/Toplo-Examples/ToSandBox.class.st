@@ -92,6 +92,21 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheetDarkTheme [
 	space show
 ]
 
+{ #category : #button }
+ToSandBox class >> example_CheckBoxWithDefaultStyleSheetDarkTheme [
+
+	| chk  space |
+	ToAbstractTheme cleanUp.
+	chk := ToCheckbox new.
+	chk labelText: 'OK'.
+	space := BlSpace new toTheme: ToDefaultThemeDark new; yourself.
+	space root layout: BlLinearLayout vertical.
+	space root addChildren: {
+			chk }.
+	chk disabled: false.
+	space show
+]
+
 { #category : #album }
 ToSandBox class >> example_CodeEditorWithToAlbumModel [
 

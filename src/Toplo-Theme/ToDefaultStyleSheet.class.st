@@ -25,21 +25,22 @@ ToDefaultStyleSheet >> checkableButtonRules [
 	" checkbox family "
 
 	^ {
-		  (#( #button #checkable ) asStyleSelector style: [ :sr |   
-				sr
-				   when: ToInstallLookEvent
-				   write: (self property: #'border-with-builder')
-				   with: [ :e |
-					   e borderBuilder
-						   paint: e toTheme colorBorderCheckable;
-						   yourself ] ]).
+		  (#( #button #checkable ) asStyleSelector style: [ :sr |
+			   sr write: (self property: #'border-with-builder') with: [ :e |
+				   e borderBuilder
+					   paint: e toTheme colorBorderCheckable;
+					   yourself ].
+
+			   sr select: (sr child: #'inner-image' depth: 3) not style: [
+				   sr
+					   write: (self property: #iconImage)
+					   with: [ :e | (e stampValue: #'checkbox-image-builder') value ] ] ]).
 
 		  " checkbox icon geometry "
 		  ((#image asStyleSelector
 			    parent: #( #button #checkable #checkbox )
 			    depth: 2) style: [ :sr |
 			   sr
-				   when: ToInstallLookEvent
 				   write: (self property: #geometry)
 				   with: [ :e | BlRoundedRectangleGeometry cornerRadius: 3 ] ]).
 
@@ -48,7 +49,6 @@ ToDefaultStyleSheet >> checkableButtonRules [
 			    parent: #( #button #checkable #radio )
 			    depth: 2) style: [ :sr |
 			   sr
-				   when: ToInstallLookEvent
 				   write: (self property: #geometry)
 				   with: [ :e | BlCircleGeometry new ] ]).
 
@@ -106,7 +106,49 @@ ToDefaultStyleSheet >> checkableButtonRules [
 				   with: [ :e |
 					   e borderBuilder
 						   paint: e toTheme colorErrorHover darker;
-						   yourself ] ]) }
+						   yourself ] ]).
+
+		  (((#'triplet-filler-1' asStyleSelector
+			     parent: #( #button #checkable )
+			     depth: 2) sibling: #'button-label') style: [ :sr |
+			   sr
+				   write: (self property: #layout)
+				   with: [ :e | BlFrameLayout new ].
+
+			   sr write: (self property: #'layout-constraints') with: [ :e |
+				   [ :c |
+				   c horizontal exact: e toTheme paddingContentHorizontal / 3.
+				   c vertical exact: e toTheme paddingContentHorizontal / 3 ] ].
+
+			   sr select: (sr parent: #justified depth: 2) style: [
+				   sr write: (self property: #'layout-constraints') with: [ :e |
+					   [ :c |
+					   c horizontal matchParent.
+					   c vertical matchParent.
+					   c minWidth: e toTheme paddingContentHorizontal / 3.
+					   c minHeight: e toTheme paddingContentHorizontal / 3 ] ] ].
+
+			   sr
+				   select:
+				   (sr
+					    parent: #'interspace-1' asStyleSelector - #vertical
+					    depth: 2)
+				   style: [
+					   sr write: (self property: #'layout-constraints') with: [ :e |
+						   [ :c |
+						   c horizontal exact: (e stampNamed: #'interspace-1') value.
+						   c vertical matchParent ] ] ].
+
+			   sr
+				   select:
+				   (sr
+					    parent: #'interspace-1' asStyleSelector + #vertical
+					    depth: 2)
+				   style: [
+					   sr write: (self property: #'layout-constraints') with: [ :e |
+						   [ :c |
+						   c vertical exact: (e stampNamed: #'interspace-1') value.
+						   c horizontal matchParent ] ] ] ]) }
 ]
 
 { #category : #'accessing rules  -button' }
@@ -193,7 +235,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e toTheme colorBgContainerDisabled ].
+				   with: [ :e | (e stampValue: #'color-bg-container-disabled') ].
 			   sr
 				   when: ToIndeterminateLookEvent
 				   write: (self property: #background)
@@ -382,10 +424,12 @@ ToDefaultStyleSheet >> commonButtonRules [
 					   write: (self property: #layout)
 					   with: [ :e | BlFrameLayout new ].
 
-				   sr write: (self property: #'layout-constraints') with: [ :e |
-					   [ :c |
-					   c horizontal exact: e toTheme paddingContentHorizontal / 3.
-					   c vertical exact: e toTheme paddingContentHorizontal / 3 ] ].
+				   sr
+					   write: (self property: #'layout-constraints')
+					   with: [ :e | 
+						   [ :c |
+						   c horizontal exact: e toTheme paddingContentHorizontal / 3.
+						   c vertical exact: e toTheme paddingContentHorizontal / 3 ] ].
 
 
 				   sr select: (sr parent: #justified depth: 2) style: [
@@ -418,7 +462,7 @@ ToDefaultStyleSheet >> commonButtonRules [
 						   sr
 							   write: (self property: #'layout-constraints')
 							   with: [ :e |
-								   [ :c | 
+								   [ :c |
 								   c vertical exact: (e stampNamed: #'interspace-1') value.
 								   c horizontal matchParent ] ] ] ]).
 
@@ -446,7 +490,7 @@ ToDefaultStyleSheet >> defaultButtonRules [
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e toTheme colorBgContainerDisabled ] ]).
+				   with: [ :e | e stampValue: #'color-bg-container-disabled' ] ]).
 
 		  (#button asStyleSelector - #checkable style: [ :sr |
 			   sr
@@ -487,7 +531,7 @@ ToDefaultStyleSheet >> defaultButtonRules [
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | e toTheme colorBgContainerDisabled ].
+				   with: [ :e | e stampValue: #'color-bg-container-disabled' ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'image-inner-form-color')
@@ -819,7 +863,7 @@ ToDefaultStyleSheet >> primaryButtonRules [
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e toTheme colorBgContainerDisabled ].
+				   with: [ :e | e stampValue: #'color-bg-container-disabled' ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'background-color')
@@ -854,7 +898,7 @@ ToDefaultStyleSheet >> primaryButtonRules [
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #background)
-					   with: [ :e | e toTheme colorBgContainerDisabled ].
+					   with: [ :e | e stampValue: #'color-bg-container-disabled' ].
 				   sr
 					   when: ToHoveredLookEvent
 					   write: (self property: #'background-color')
@@ -914,7 +958,7 @@ ToDefaultStyleSheet >> primaryButtonRules [
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e toTheme colorBgContainerDisabled ].
+				   with: [ :e | e stampValue: #'color-bg-container-disabled' ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'label-text-foreground')
@@ -947,7 +991,7 @@ ToDefaultStyleSheet >> textButtonRules [
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e toTheme colorBgContainerDisabled ].
+				   with: [ :e | e stampValue: #'color-bg-container-disabled' ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #background)
@@ -975,7 +1019,7 @@ ToDefaultStyleSheet >> textButtonRules [
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e toTheme colorBgContainerDisabled ].
+				   with: [ :e | e stampValue: #'color-bg-container-disabled' ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #background)
@@ -1004,7 +1048,7 @@ ToDefaultStyleSheet >> textButtonRules [
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorBgContainerDisabled ] ]).
+					   with: [ :e | e stampValue: #'color-bg-container-disabled' ] ]).
 
 		  " button test label "
 
@@ -1017,7 +1061,7 @@ ToDefaultStyleSheet >> textButtonRules [
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorBgContainerDisabled ] ]).
+					   with: [ :e | e stampValue: #'color-bg-container-disabled' ] ]).
 
 		  " button text danger form icon "
 
@@ -1031,7 +1075,7 @@ ToDefaultStyleSheet >> textButtonRules [
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | e toTheme colorBgContainerDisabled ] ]).
+				   with: [ :e | e stampValue: #'color-bg-container-disabled' ] ]).
 
 		  " button test danger label "
 
@@ -1045,7 +1089,7 @@ ToDefaultStyleSheet >> textButtonRules [
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e toTheme colorBgContainerDisabled ] ]) }
+				   with: [ :e | e stampValue: #'color-bg-container-disabled' ] ]) }
 ]
 
 { #category : #'accessing rules  -button' }

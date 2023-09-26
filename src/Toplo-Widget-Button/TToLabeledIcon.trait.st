@@ -52,8 +52,7 @@ TToLabeledIcon >> icon: anElement [
 
 	self first ifNotNil: [ :s | s removeStyleStampNamed: #'button-icon'].
 	self replaceFirstWith: anElement.
-	self first ifNotNil: [ :s | s stampWith: #'button-icon'].
-
+	self first ifNotNil: [ :s | s stampWith: #'button-icon']
 ]
 
 { #category : #'t - labeled icon - accessing' }

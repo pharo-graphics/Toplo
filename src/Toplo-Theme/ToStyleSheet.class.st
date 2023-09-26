@@ -55,6 +55,7 @@ ToStyleSheet class >> defaultWritablePropertyList [
 				   e text attributes: { (BlTextForegroundAttribute paint: v) }.
 				   e textChanged ]).
 		  (ToFeatureProperty new name: #innerImage).
+		  (ToFeatureProperty new name: #iconImage).
 		  (ToPseudoProperty new
 			   name: #'image-inner-form-color';
 			   writer: [ :e :v |

@@ -85,12 +85,6 @@ TToCheckbox >> uncheck [
 	self explicitRequirement 
 ]
 
-{ #category : #'t - checkbox - accessing' }
-TToCheckbox >> uncheckedImage [
-
-	^ self toTheme checkboxImageIn: self
-]
-
 { #category : #'t - checkbox  - protocol' }
 TToCheckbox >> withIndeterminate [
 

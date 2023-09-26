@@ -81,8 +81,8 @@ TToTriplet >> replaceFirstWith: anElement [
 	self first = anElement ifTrue: [ ^ self ].
 	self first ifNotNil: [ self first removeFromParent ].
 	anElement ifNil: [ ^ self ].
-	self first: anElement.
 	self innerElement addChild: anElement before: filler1.
+	self first: anElement
 ]
 
 { #category : #'t - triplet - accessing' }
@@ -91,8 +91,10 @@ TToTriplet >> replaceSecondWith: anElement [
 	self second = anElement ifTrue: [ ^ self ].
 	self second ifNotNil: [ self second removeFromParent ].
 	anElement ifNil: [ ^ self ].
-	self second: anElement.
 	self innerElement addChild: anElement before: filler2.
+	self second: anElement.
+	filler2 updateSkin 
+
 ]
 
 { #category : #'t - triplet - accessing' }
@@ -101,8 +103,9 @@ TToTriplet >> replaceThirdWith: anElement [
 	self third = anElement ifTrue: [ ^ self ].
 	self third ifNotNil: [ self third removeFromParent ].
 	anElement ifNil: [ ^ self ].
-	self third: anElement.
 	self innerElement addChild: anElement after: filler2.
+	self third: anElement.
+	filler2 updateSkin 
 ]
 
 { #category : #'t - triplet - accessing' }

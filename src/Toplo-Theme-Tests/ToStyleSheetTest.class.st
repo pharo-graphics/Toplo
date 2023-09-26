@@ -92,7 +92,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 				 sr
 					 when: ToDisabledLookEvent
 					 write: p
-					 with: [ :e | e toTheme colorBgContainerDisabled ].
+					 with: [ :e | e stampValue: #'color-bg-container-disabled' ].
 				 sr
 					 when: ToInitialLookEvent
 					 write: p
@@ -415,7 +415,7 @@ ToStyleSheetTest >> testStyleSheetStyle0 [
 		          sr
 			          when: ToDisabledLookEvent
 			          write: (ss property: #background)
-			          with: [ :e | e toTheme colorBgContainerDisabled ] ]) }.
+			          with: [ :e | e stampValue: #'color-bg-container-disabled' ] ]) }.
 
 	ss addAllStyleRules: rules.
 	button stampWith: #button.

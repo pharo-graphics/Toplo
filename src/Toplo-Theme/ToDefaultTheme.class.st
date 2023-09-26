@@ -64,6 +64,18 @@ ToDefaultTheme class >> blue [
 	^ ToDefaultThemeLight new
 ]
 
+{ #category : #accessing }
+ToDefaultTheme class >> checkboxUncheckedImage [
+
+	| bar im |
+	bar := ToElement new.
+	bar stampWithAll: #( #bar ).
+	im := ToElement new.
+	im stampWithAll: #( #'inner-image' #unchecked ).
+	im addChild: bar.
+	^ im
+]
+
 { #category : #customization }
 ToDefaultTheme class >> colorPrimary: aColor [
 
@@ -107,9 +119,16 @@ ToDefaultTheme class >> defaultStampList [
 	^ {
 		  (ToStyleStamp name: #'background-color' value: Color white).
 		  (ToStyleStamp name: #'border-radius' value: 6).
-		
-		
-		 }
+		  (ToStyleStamp name: #'border-radius-LG' value: 8).
+		  (ToStyleStamp name: #'border-radius-SM' value: 4).
+		  (ToStyleStamp
+			   name: #'checkbox-image-builder'
+			   value: [ self checkboxUncheckedImage ]).
+		  (ToStyleStamp name: #'color-bg-container-disabled' value: (Color
+				    r: 0.0
+				    g: 0.0
+				    b: 0.0
+				    alpha: 0.04)) }
 ]
 
 { #category : #constructor }
@@ -128,50 +147,6 @@ ToDefaultTheme class >> isAbstract [
 ToDefaultTheme class >> pink [
 
 	^self colorPrimary: (Color fromHexString: '#ED4192')
-]
-
-{ #category : #border }
-ToDefaultTheme >> borderRadiusLG [
-	"https://ant.design/components/button#design-token"
-	
-	^ 8
-]
-
-{ #category : #border }
-ToDefaultTheme >> borderRadiusSM [
-	"https://ant.design/components/button#design-token"
-	
-	^ 4
-]
-
-{ #category : #images }
-ToDefaultTheme >> checkboxCheckedImageIn: anElement [
-
-	^ self checkboxImageIn: anElement
-]
-
-{ #category : #images }
-ToDefaultTheme >> checkboxImageIn: anElement [
-
-	| bar im |
-	bar := ToElement new. 
-	bar stampWithAll: #( #bar ).
-	im := ToElement new.
-	im stampWithAll: #( #'inner-image' #unchecked ).
-	im addChild: bar.
-	^ im
-]
-
-{ #category : #images }
-ToDefaultTheme >> checkboxIndeterminateImageIn: anElement [
-
-	^ self checkboxImageIn: anElement
-]
-
-{ #category : #images }
-ToDefaultTheme >> checkboxUncheckedImageIn: anElement [
-
-	^ self checkboxImageIn: anElement
 ]
 
 { #category : #colors }
@@ -197,13 +172,6 @@ ToDefaultTheme >> colorBgContainerCheckedHover [
 ToDefaultTheme >> colorBgContainerCheckedPressed [
 	
 	^ self colorPrimary darker
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorBgContainerDisabled [
-	"https://ant.design/components/button#design-token"
-	
-	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.04 
 ]
 
 { #category : #colors }

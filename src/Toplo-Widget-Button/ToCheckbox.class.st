@@ -22,17 +22,7 @@ ToCheckbox >> defaultStyleTags [
 ToCheckbox >> initialize [
 
 	super initialize.
-	self initializeCheckable.
-	self initializeIconImage
-
-]
-
-{ #category : #initialization }
-ToCheckbox >> initializeIconImage [
-
-	self iconImage: self uncheckedImage.
-
-
+	self initializeCheckable
 ]
 
 { #category : #'accessing sizing' }

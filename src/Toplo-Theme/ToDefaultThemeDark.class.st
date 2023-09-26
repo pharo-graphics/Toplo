@@ -22,12 +22,11 @@ ToDefaultThemeDark class >> defaultStampList [
 
 	^ Array streamContents: [ :str |
 		  str nextPutAll: super defaultStampList.
-		  str nextPutAll:
-			  { (ToStyleStamp name: #'background-color' value: Color black).
-			
-			
-			
-			 } ]
+		  str nextPutAll: {
+				  (ToStyleStamp name: #'background-color' value: Color black).
+				  (ToStyleStamp
+					   name: #'color-bg-container-disabled'
+					   value: (Color white alpha: 0.15)) } ]
 ]
 
 { #category : #colors }
@@ -40,12 +39,6 @@ ToDefaultThemeDark >> backgroundColor [
 ToDefaultThemeDark >> colorBgContainer [
 
 	^ Color fromHexString: '#1b1b1b'
-]
-
-{ #category : #colors }
-ToDefaultThemeDark >> colorBgContainerDisabled [
-
-	^ Color white alpha: 0.15
 ]
 
 { #category : #colors }

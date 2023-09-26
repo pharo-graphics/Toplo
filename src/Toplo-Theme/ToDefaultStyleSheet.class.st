@@ -117,16 +117,16 @@ ToDefaultStyleSheet >> checkableButtonRules [
 
 			   sr write: (self property: #'layout-constraints') with: [ :e |
 				   [ :c |
-				   c horizontal exact: e toTheme paddingContentHorizontal / 3.
-				   c vertical exact: e toTheme paddingContentHorizontal / 3 ] ].
+				   c horizontal exact: (e stampValue: #'padding-content-H') / 3.
+				   c vertical exact: (e stampValue: #'padding-content-H') / 3 ] ].
 
 			   sr select: (sr parent: #justified depth: 2) style: [
 				   sr write: (self property: #'layout-constraints') with: [ :e |
 					   [ :c |
 					   c horizontal matchParent.
 					   c vertical matchParent.
-					   c minWidth: e toTheme paddingContentHorizontal / 3.
-					   c minHeight: e toTheme paddingContentHorizontal / 3 ] ] ].
+					   c minWidth: (e stampValue: #'padding-content-H') / 3.
+					   c minHeight: (e stampValue: #'padding-content-H') / 3 ] ] ].
 
 			   sr
 				   select:
@@ -164,7 +164,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 				   with: [ :e | BlFrameLayout new ].
 			   sr
 				   write: (self property: #size)
-				   with: [ :e | (e toTheme controlHeight / 2) asPoint ].
+				   with: [ :e | ((e stampValue: #'control-height')/2) asPoint ].
 
 			   sr write: (self property: #'border-with-builder') with: [ :e |
 				   e borderBuilder
@@ -278,28 +278,28 @@ ToDefaultStyleSheet >> circleButtonRules [
 		(#(#button #circle) asStyleSelector - self haveExactHeight style: [ :sr |
 			   sr
 				   write: (self property: #height)
-				   with: [ :e | e toTheme controlHeight ].
+				   with: [ :e | (e stampValue: #'control-height') ].
 				sr
 				   write: (self property: #width)
-				   with: [ :e | e toTheme controlHeight ]]).
+				   with: [ :e | (e stampValue: #'control-height') ]]).
 			
 		(#(#button #circle) asStyleSelector + #'small-sizing' style: [
 			   :sr |
 			   sr
 				   write: (self property: #height)
-				   with: [ :e | e toTheme controlHeightSM ].
+				   with: [ :e | (e stampValue: #'control-height-SM') ].
 				sr
 				   write: (self property: #width)
-				   with: [ :e | e toTheme controlHeightSM ] ]).
+				   with: [ :e | (e stampValue: #'control-height-SM') ] ]).
 
 		(#(#button #circle) asStyleSelector + #'large-sizing' style: [
 			   :sr |
 			   sr
 				   write: (self property: #height)
-				   with: [ :e | e toTheme controlHeightLG ].
+				   with: [ :e | (e stampValue: #'control-height-LG') ].
 				sr
 				   write: (self property: #width)
-				   with: [ :e | e toTheme controlHeightLG ] ]).
+				   with: [ :e | (e stampValue: #'control-height-LG') ] ]).
 			
 		((#'inner-element' asStyleSelector parent: #( #button #circle ))
 			   style: [ :sr |
@@ -342,25 +342,25 @@ ToDefaultStyleSheet >> commonButtonRules [
 			   sr select: #vertical asStyleSelector not style: [
 				   sr write: (self property: #padding) with: [ :e |
 					   BlInsets
-						   top: e toTheme paddingXS / 2
-						   left: e toTheme paddingContentHorizontal / 2
-						   bottom: e toTheme paddingXS / 2
-						   right: e toTheme paddingContentHorizontal / 2 ].
+						   top: (e stampValue: #'padding-XS') / 2
+						   left: (e stampValue: #'padding-content-H') / 2
+						   bottom: (e stampValue: #'padding-XS') / 2
+						   right: (e stampValue: #'padding-content-H') / 2 ].
 
 				   sr select: self haveExactHeight not style: [
 					   sr
 						   write: (self property: #height)
-						   with: [ :e | e toTheme controlHeight ] ].
+						   with: [ :e | (e stampValue: #'control-height') ] ].
 
 				   sr select: #'large-sizing' style: [
 					   sr
 						   write: (self property: #height)
-						   with: [ :e | e toTheme controlHeightLG ] ].
+						   with: [ :e | (e stampValue: #'control-height-LG') ] ].
 
 				   sr select: #'small-sizing' style: [
 					   sr
 						   write: (self property: #height)
-						   with: [ :e | e toTheme controlHeightSM ] ] ].
+						   with: [ :e | (e stampValue: #'control-height-SM') ] ] ].
 
 			   " non circular button corner radius"
 			   sr select: #circle asStyleSelector not style: [
@@ -428,8 +428,8 @@ ToDefaultStyleSheet >> commonButtonRules [
 					   write: (self property: #'layout-constraints')
 					   with: [ :e | 
 						   [ :c |
-						   c horizontal exact: e toTheme paddingContentHorizontal / 3.
-						   c vertical exact: e toTheme paddingContentHorizontal / 3 ] ].
+						   c horizontal exact: (e stampValue: #'padding-content-H') / 3.
+						   c vertical exact: (e stampValue: #'padding-content-H') / 3 ] ].
 
 
 				   sr select: (sr parent: #justified depth: 2) style: [
@@ -437,8 +437,8 @@ ToDefaultStyleSheet >> commonButtonRules [
 						   [ :c |
 						   c horizontal matchParent.
 						   c vertical matchParent.
-						   c minWidth: e toTheme paddingContentHorizontal / 3.
-						   c minHeight: e toTheme paddingContentHorizontal / 3 ] ] ].
+						   c minWidth: (e stampValue: #'padding-content-H') / 3.
+						   c minHeight: (e stampValue: #'padding-content-H') / 3 ] ] ].
 
 				   sr
 					   select:
@@ -550,7 +550,7 @@ ToDefaultStyleSheet >> defaultButtonRules [
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e toTheme colorTextDisabled ].
+				   with: [ :e | e stampValue: #'color-text-disabled' ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'label-text-foreground')
@@ -611,7 +611,7 @@ ToDefaultStyleSheet >> defaultButtonRules [
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorTextDisabled ].
+					   with: [ :e | e stampValue: #'color-text-disabled' ].
 				   sr
 					   when: ToHoveredLookEvent
 					   write: (self property: #'label-text-foreground')
@@ -626,7 +626,7 @@ ToDefaultStyleSheet >> defaultButtonRules [
 			   sr
 				   when: ToInstallLookEvent
 				   supplement: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder dashArray: e toTheme dashArray ] ]) } 
+				   with: [ :e | e borderBuilder dashArray: (e stampValue: #'dash-array') ] ]) } 
 ]
 
 { #category : #initialization }
@@ -648,57 +648,57 @@ ToDefaultStyleSheet >> labelRules [
 				   write: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
-						   weight: e toTheme fontWeightStrong;
-						   defaultFontName: e toTheme fontFamilyCode;
-						   defaultFontSize: e toTheme fontSize;
-						   lineSpacing: e toTheme lineHeight;
+						   weight: (e stampValue: #'font-weight-strong');
+						   defaultFontName: (e stampValue: #'font-family-code');
+						   defaultFontSize: (e stampValue: #'font-size');
+						   lineSpacing: (e stampValue: #'line-height');
 						   yourself ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder foreground:
-						   e toTheme colorTextDisabled ] ]).
+						   (e stampValue: #'color-text-disabled') ] ]).
 
 		  (#( #label #H1 ) asStyleSelector style: [ :sr |
 			   sr
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
-						   defaultFontSize: e toTheme fontSizeHeading1;
-						   lineSpacing: e toTheme lineHeightHeading1;
+						   defaultFontSize: (e stampValue: #'font-size-H1');
+						   lineSpacing: (e stampValue: #'line-height-H1');
 						   yourself ] ]).
 		  (#( #label #H2 ) asStyleSelector style: [ :sr |
 			   sr
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
-						   defaultFontSize: e toTheme fontSizeHeading2;
-						   lineSpacing: e toTheme lineHeightHeading2;
+						   defaultFontSize: (e stampValue: #'font-size-H2');
+						   lineSpacing: (e stampValue: #'line-height-H2');
 						   yourself ] ]).
 		  (#( #label #H3 ) asStyleSelector style: [ :sr |
 			   sr
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
-						   defaultFontSize: e toTheme fontSizeHeading3;
-						   lineSpacing: e toTheme lineHeightHeading3;
+						   defaultFontSize: (e stampValue: #'font-size-H3');
+						   lineSpacing: (e stampValue: #'line-height-H3');
 						   yourself ] ]).
 		  (#( #label #H4 ) asStyleSelector style: [ :sr |
 			   sr
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
-						   defaultFontSize: e toTheme fontSizeHeading4;
-						   lineSpacing: e toTheme lineHeightHeading4;
+						   defaultFontSize: (e stampValue: #'font-size-H4');
+						   lineSpacing: (e stampValue: #'line-height-H4');
 						   yourself ] ]).
 		  (#( #label #H5 ) asStyleSelector style: [ :sr |
 			   sr
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
-						   defaultFontSize: e toTheme fontSizeHeading5;
-						   lineSpacing: e toTheme lineHeightHeading5;
+						   defaultFontSize: (e stampValue: #'font-size-H5');
+						   lineSpacing: (e stampValue: #'line-height-H5');
 						   yourself ] ]).
 
 		  (#( #label #danger ) asStyleSelector style: [ :sr |
@@ -720,14 +720,14 @@ ToDefaultStyleSheet >> labelRules [
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
-						   foreground: e toTheme colorTextLightSolid;
+						   foreground: (e stampValue: #'color-text-light-solid');
 						   yourself ] ]).
 		  (#( #label #primary ) asStyleSelector style: [ :sr |
 			   sr
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
-						   foreground: e toTheme colorTextSecondary;
+						   foreground: (e stampValue: #'color-text-secondary');
 						   yourself ] ]).
 		  (#( #label #success ) asStyleSelector style: [ :sr |
 			   sr
@@ -777,7 +777,7 @@ ToDefaultStyleSheet >> linkButtonRules [
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorTextDisabled ].
+					   with: [ :e | e stampValue: #'color-text-disabled' ].
 				   sr
 					   when: ToHoveredLookEvent
 					   write: (self property: #'image-inner-form-color')
@@ -797,7 +797,7 @@ ToDefaultStyleSheet >> linkButtonRules [
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorTextDisabled ].
+					   with: [ :e | e stampValue: #'color-text-disabled' ].
 				   sr
 					   when: ToHoveredLookEvent
 					   write: (self property: #'label-text-foreground')
@@ -818,7 +818,7 @@ ToDefaultStyleSheet >> linkButtonRules [
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | e toTheme colorTextDisabled ].
+				   with: [ :e | e stampValue: #'color-text-disabled' ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'image-inner-form-color')
@@ -839,7 +839,7 @@ ToDefaultStyleSheet >> linkButtonRules [
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e toTheme colorTextDisabled ].
+				   with: [ :e | e stampValue: #'color-text-disabled' ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'label-text-foreground')
@@ -954,7 +954,7 @@ ToDefaultStyleSheet >> primaryButtonRules [
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e toTheme colorTextLightSolid ].
+				   with: [ :e | (e stampValue: #'color-text-light-solid') ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'label-text-foreground')
@@ -962,11 +962,11 @@ ToDefaultStyleSheet >> primaryButtonRules [
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e toTheme colorTextLightSolid ].
+				   with: [ :e | (e stampValue: #'color-text-light-solid') ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e toTheme colorTextLightSolid ] ]) }
+				   with: [ :e | (e stampValue: #'color-text-light-solid') ] ]) }
 ]
 
 { #category : #'accessing rules  - pane' }
@@ -1131,10 +1131,10 @@ ToDefaultStyleSheet >> verticalButtonRules [
 		  (#( #button #vertical ) asStyleSelector style: [ :sr |
 			   sr write: (self property: #padding) with: [ :e |
 				   BlInsets
-					   top: e toTheme paddingContentHorizontal / 2
-					   left: e toTheme paddingXS / 2
-					   bottom: e toTheme paddingContentHorizontal / 2
-					   right: e toTheme paddingXS / 2 ].
+					   top: (e stampValue: #'padding-content-H') / 2
+					   left: (e stampValue: #'padding-XS') / 2
+					   bottom: (e stampValue: #'padding-content-H') / 2
+					   right: (e stampValue: #'padding-XS') / 2 ].
 
 			   sr write: (self property: #'layout-constraints') with: [ :e |
 				   [ :c |

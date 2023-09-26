@@ -26,21 +26,3 @@ ToGeneralButton >> defaultDresser [
 
 	^ ToWidgetDresser new
 ]
-
-{ #category : #'accessing sizing' }
-ToGeneralButton >> largeHeight [
-
-	^ self toTheme controlHeightLG
-]
-
-{ #category : #'accessing sizing' }
-ToGeneralButton >> middleHeight [
-
-	^ self toTheme controlHeight
-]
-
-{ #category : #'accessing sizing' }
-ToGeneralButton >> smallHeight [
-
-	^ self toTheme controlHeightSM
-]

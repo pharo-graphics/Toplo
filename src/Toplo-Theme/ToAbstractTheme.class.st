@@ -30,7 +30,7 @@ ToAbstractTheme class >> current [
 	^ current ifNil: [ current := ToDefaultTheme blue ]
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 ToAbstractTheme >> defaultStampList [
 	" skin managing need a list of unique stamps . "
 

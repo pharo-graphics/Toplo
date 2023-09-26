@@ -31,7 +31,7 @@ ToStyleSheetTest >> testButtonLabelSkin0 [
 				 sr
 					 when: ToDisabledLookEvent
 					 write: prop
-					 with: [ :e | e toTheme colorTextDisabled ].
+					 with: [ :e | e stampValue: #'color-text-disabled' ].
 				 sr
 					 when: ToInitialLookEvent
 					 write: prop
@@ -133,7 +133,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 				 sr
 					 when: ToDisabledLookEvent
 					 write: p
-					 with: [ :e | e toTheme colorTextDisabled ].
+					 with: [ :e | e stampValue: #'color-text-disabled' ].
 				 sr
 					 when: ToInitialLookEvent
 					 write: p

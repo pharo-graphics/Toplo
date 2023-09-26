@@ -121,7 +121,7 @@ ToDefaultTheme class >> pink [
 ]
 
 { #category : #accessing }
-ToDefaultTheme >> checkboxUncheckedImage [
+ToDefaultTheme >> checkboxBlankImage [
 
 	| bar im |
 	bar := ToElement new.
@@ -160,82 +160,6 @@ ToDefaultTheme >> colorPrimaryPressed [
 	^ colorPrimaryPressed
 ]
 
-{ #category : #colors }
-ToDefaultTheme >> colorTextDescription [
-	"Control the font color of text description"
-
-	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.45
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorTextDisabled [
-	"Control the color of text in disabled state"
-
-	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.25
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorTextHeading [
-	"Control the font color of heading"
-
-	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.88
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorTextLightSolid [
-	"https://ant.design/components/button#design-token"
-	
-	^ Color fromHexString: '#ffffff'
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorTextSecondary [
-	"Default text color which comply with W3C standards, and this color is also the darkest neutral color."
-	
-	^ Color black alpha: 0.45
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorWarning [
-	"Used to represent the warning map token, such as Notification, Alert, etc. Alert or Control component(like Input) will use these map tokens"
-
-	^ Color fromHexString: '#faad14'
-]
-
-{ #category : #sizes }
-ToDefaultTheme >> controlHeight [
-	"The height of the basic controls such as buttons and input boxes in Ant Design"
-
-	^ 32
-]
-
-{ #category : #sizes }
-ToDefaultTheme >> controlHeightLG [
-	"The height of the basic controls such as buttons and input boxes in Ant Design"
-
-	^ 40
-]
-
-{ #category : #sizes }
-ToDefaultTheme >> controlHeightSM [
-	"The height of the basic controls such as buttons and input boxes in Ant Design"
-
-	^ 24
-]
-
-{ #category : #colors }
-ToDefaultTheme >> darkTheme [
-
-	^ nil
-]
-
-{ #category : #border }
-ToDefaultTheme >> dashArray [
-	"dashed rendering equivalent in web UI"
-	
-	^ #( 3 3 )
-]
-
 { #category : #settings }
 ToDefaultTheme >> defaultColorPrimary [
 
@@ -253,37 +177,132 @@ ToDefaultTheme >> defaultStampList [
 		  (ToStyleStamp name: #'border-radius-SM' value: 4).
 		  (ToStyleStamp
 			   name: #'checkbox-image-builder'
-			   value: [ self checkboxUncheckedImage ]).
-		  (ToStyleStamp name: #'color-bg-container' value: (Color fromHexString: '#ffffff')).
+			   value: [ self checkboxBlankImage ]).
+		  (ToStyleStamp
+			   name: #'color-bg-container'
+			   value: (Color fromHexString: '#ffffff')).
 		  (ToStyleStamp name: #'color-bg-container-disabled' value: (Color
 				    r: 0.0
 				    g: 0.0
 				    b: 0.0
 				    alpha: 0.04)).
-		  (ToStyleStamp name: #'color-bg-text-active' value: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.15 )).
-			(ToStyleStamp name: #'color-bg-text-hover' value: (Color r: 0 g: 0 b: 0 alpha: 0.2)).
-			(ToStyleStamp name: #'color-border' value: (Color fromHexString: '#d9d9d9')).
-			(ToStyleStamp name: #'color-border-checkable' value: (Color transparent)).
-			(ToStyleStamp name: #'color-border-disabled' value: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.2 )).
-			(ToStyleStamp name: #'color-error-bg' value: (Color fromHexString: '#fff2f0')).
-			(ToStyleStamp name: #'color-error-hover' value: (Color fromHexString: '#ff7875')).
-			(ToStyleStamp name: #'color-error-pressed' value: (Color fromHexString: '#e75c5d')).
-			(ToStyleStamp name: #'color-error' value: (Color fromHexString: '#ff4d4f')).
-			(ToStyleStamp name: #'color-image-disabled' value: (Color r: 0.7 g: 0.7 b: 0.7 alpha: 1.0)).
-			(ToStyleStamp name: #'color-image-light-solid' value: (Color fromHexString: '#ffffff')).
-			(ToStyleStamp name: #'color-text-light-solid' value: (Color fromHexString: '#ffffff')).
-			(ToStyleStamp name: #'color-link' value: (Color fromHexString: '#1677ff')).
-			(ToStyleStamp name: #'color-link-active' value: (Color fromHexString: '#0958d9')).
-			(ToStyleStamp name: #'color-link-hover' value: (Color fromHexString: '#69b1ff')).
-			(ToStyleStamp name: #'color-primary' value: self colorPrimary).
-			(ToStyleStamp name: #'color-primary-pressed' value: self colorPrimaryPressed).
-			(ToStyleStamp name: #'color-primary-hover' value: self colorPrimaryHover).
-			(ToStyleStamp name: #'color-success' value: (Color fromHexString: '#52c41a')).
-			(ToStyleStamp name: #'color-text' value: (Color r: 0.0 g: 0.0 b: 0.0)).
-				
-				
-				
-				 }
+		  (ToStyleStamp name: #'color-bg-text-active' value: (Color
+				    r: 0.0
+				    g: 0.0
+				    b: 0.0
+				    alpha: 0.15)).
+		  (ToStyleStamp name: #'color-bg-text-hover' value: (Color
+				    r: 0
+				    g: 0
+				    b: 0
+				    alpha: 0.2)).
+		  (ToStyleStamp
+			   name: #'color-border'
+			   value: (Color fromHexString: '#d9d9d9')).
+		  (ToStyleStamp
+			   name: #'color-border-checkable'
+			   value: Color transparent).
+		  (ToStyleStamp name: #'color-border-disabled' value: (Color
+				    r: 0.0
+				    g: 0.0
+				    b: 0.0
+				    alpha: 0.2)).
+		  (ToStyleStamp
+			   name: #'color-error-bg'
+			   value: (Color fromHexString: '#fff2f0')).
+		  (ToStyleStamp
+			   name: #'color-error-hover'
+			   value: (Color fromHexString: '#ff7875')).
+		  (ToStyleStamp
+			   name: #'color-error-pressed'
+			   value: (Color fromHexString: '#e75c5d')).
+		  (ToStyleStamp
+			   name: #'color-error'
+			   value: (Color fromHexString: '#ff4d4f')).
+		  (ToStyleStamp name: #'color-image-disabled' value: (Color
+				    r: 0.7
+				    g: 0.7
+				    b: 0.7
+				    alpha: 1.0)).
+		  (ToStyleStamp
+			   name: #'color-image-light-solid'
+			   value: (Color fromHexString: '#ffffff')).
+		  (ToStyleStamp
+			   name: #'color-text-light-solid'
+			   value: (Color fromHexString: '#ffffff')).
+		  (ToStyleStamp
+			   name: #'color-link'
+			   value: (Color fromHexString: '#1677ff')).
+		  (ToStyleStamp
+			   name: #'color-link-active'
+			   value: (Color fromHexString: '#0958d9')).
+		  (ToStyleStamp
+			   name: #'color-link-hover'
+			   value: (Color fromHexString: '#69b1ff')).
+		  (ToStyleStamp name: #'color-primary' value: self colorPrimary).
+		  (ToStyleStamp
+			   name: #'color-primary-pressed'
+			   value: self colorPrimaryPressed).
+		  (ToStyleStamp
+			   name: #'color-primary-hover'
+			   value: self colorPrimaryHover).
+		  (ToStyleStamp
+			   name: #'color-success'
+			   value: (Color fromHexString: '#52c41a')).
+		  (ToStyleStamp
+			   name: #'color-warning'
+			   value: (Color fromHexString: '#faad14')).
+		  (ToStyleStamp
+			   name: #'color-text'
+			   value: (Color r: 0.0 g: 0.0 b: 0.0)).
+		  (ToStyleStamp
+			   name: #'color-Text-description'
+			   value: (Color r: 0.0 g: 0.0 b: 0.45)).
+		  (ToStyleStamp
+			   name: #'color-Text-disabled'
+			   value: (Color r: 0.0 g: 0.0 b: 0.25)).
+		  (ToStyleStamp name: #'color-Text-heading' value: (Color
+				    r: 0.0
+				    g: 0.0
+				    b: 0.0
+				    alpha: 0.88)).
+		  (ToStyleStamp
+			   name: #'color-Text-light-solid'
+			   value: (Color fromHexString: '#ffffff')).
+		  (ToStyleStamp
+			   name: #'color-Text-secondary'
+			   value: (Color black alpha: 0.45)).
+
+		  (ToStyleStamp name: #'control-height' value: 32).
+		  (ToStyleStamp name: #'control-height-LG' value: 40).
+		  (ToStyleStamp name: #'control-height-SM' value: 24).
+
+		  (ToStyleStamp name: #'dash-array' value: #( 3 3 )).
+
+		  "#( 'SFMono-Regular' , Consolas , 'Liberation Mono', Menlo , Courier , monospace )"
+		  (ToStyleStamp name: #'font-family-code' value: 'SFMono-Regular').
+		  (ToStyleStamp name: #'font-size' value: 14).
+		  (ToStyleStamp name: #'font-size-H1' value: 38).
+		  (ToStyleStamp name: #'font-size-H2' value: 30).
+		  (ToStyleStamp name: #'font-size-H3' value: 24).
+		  (ToStyleStamp name: #'font-size-H4' value: 20).
+		  (ToStyleStamp name: #'font-size-H5' value: 16).
+		  (ToStyleStamp name: #'font-weight-strong' value: 600).
+
+		  (ToStyleStamp name: #'line-height' value: 1.5).
+		  (ToStyleStamp name: #'line-height-H1' value: 1.2).
+		  (ToStyleStamp name: #'line-height-H2' value: 1.3).
+		  (ToStyleStamp name: #'line-height-H3' value: 1.3).
+		  (ToStyleStamp name: #'line-height-H4' value: 1.4).
+		  (ToStyleStamp name: #'line-height-H5' value: 1.5).
+
+		  (ToStyleStamp name: #'line-type' value: #solid).
+		  (ToStyleStamp name: #'line-width' value: 1).
+		  (ToStyleStamp name: #'line-width-focus' value: 4).
+
+		  (ToStyleStamp name: #'padding-content-H' value: 16).
+		  (ToStyleStamp name: #'padding-content-V' value: 8).
+		  (ToStyleStamp name: #'padding-XS' value: 8) }
 ]
 
 { #category : #initialization }
@@ -292,168 +311,9 @@ ToDefaultTheme >> defaultStyleSheet [
 	^ ToDefaultStyleSheet new
 ]
 
-{ #category : #text }
-ToDefaultTheme >> fontFamilyCode [
-	"https://ant.design/components/typography#design-token"
-
-	"^ #( 'SFMono-Regular' , Consolas , 'Liberation Mono', Menlo , Courier , monospace )"
-	^ 'SFMono-Regular'
-]
-
-{ #category : #text }
-ToDefaultTheme >> fontSize [
-	"https://ant.design/components/typography#design-token"
-
-	^ 14
-]
-
-{ #category : #text }
-ToDefaultTheme >> fontSizeHeading1 [
-	"Font size of h1 tag"
-
-	^ 38
-]
-
-{ #category : #text }
-ToDefaultTheme >> fontSizeHeading2 [
-	"Font size of h2 tag"
-
-	^ 30
-]
-
-{ #category : #text }
-ToDefaultTheme >> fontSizeHeading3 [
-	"Font size of h3 tag"
-
-	^ 24
-]
-
-{ #category : #text }
-ToDefaultTheme >> fontSizeHeading4 [
-	"Font size of h4 tag"
-
-	^ 20
-]
-
-{ #category : #text }
-ToDefaultTheme >> fontSizeHeading5 [
-	"Font size of h5 tag"
-
-	^ 16
-]
-
-{ #category : #text }
-ToDefaultTheme >> fontWeightStrong [
-	"https://ant.design/components/typography#design-token"
-
-	^ 600
-]
-
 { #category : #initialization }
 ToDefaultTheme >> initialize [ 
 
 	super initialize.
 	self styleSheet: self defaultStyleSheet 
-]
-
-{ #category : #colors }
-ToDefaultTheme >> isDark [
-
-	^ false
-]
-
-{ #category : #colors }
-ToDefaultTheme >> isLight [
-
-	^ false
-]
-
-{ #category : #colors }
-ToDefaultTheme >> lightTheme [
-
-	^ nil
-]
-
-{ #category : #text }
-ToDefaultTheme >> lineHeight [
-	"https://ant.design/components/typography#design-token"
-
-	^ 1.5
-]
-
-{ #category : #text }
-ToDefaultTheme >> lineHeightHeading1 [
-	"Line height of h1 tag"
-
-	^ 1.2
-]
-
-{ #category : #text }
-ToDefaultTheme >> lineHeightHeading2 [
-	"Line height of h2 tag"
-
-	^ 1.3
-]
-
-{ #category : #text }
-ToDefaultTheme >> lineHeightHeading3 [
-	"Line height of h3 tag"
-
-	^ 1.3
-]
-
-{ #category : #text }
-ToDefaultTheme >> lineHeightHeading4 [
-	"Line height of h4 tag"
-
-	^ 1.4
-]
-
-{ #category : #text }
-ToDefaultTheme >> lineHeightHeading5 [
-	"Line height of h5 tag"
-
-	^ 1.5
-]
-
-{ #category : #border }
-ToDefaultTheme >> lineType [
-	"https://ant.design/components/button#design-token"
-	
-	^ #solid
-]
-
-{ #category : #border }
-ToDefaultTheme >> lineWidth [
-	"https://ant.design/components/button#design-token"
-	
-	^ 1
-]
-
-{ #category : #border }
-ToDefaultTheme >> lineWidthFocus [
-	"https://ant.design/components/button#design-token"
-	
-	^ 4
-]
-
-{ #category : #sizes }
-ToDefaultTheme >> paddingContentHorizontal [
-	"Control the horizontal padding of content element"
-
-	^ 16
-]
-
-{ #category : #sizes }
-ToDefaultTheme >> paddingContentVertical [
-	"Control the vertical padding of content element"
-
-	^ 8
-]
-
-{ #category : #sizes }
-ToDefaultTheme >> paddingXS [
-	"Control the extra small padding of the element"
-
-	^ 8
 ]

@@ -27,7 +27,7 @@ ToStyleRuleTest >> testNewStyleRuleFromSelector [
 	}"
 
 	ToStyleRule new
-		selectedWith: (ToStyleTagSelector new styleTag: #button)
+		selectedWith: (ToStyleStampSelector new addStampName: #button)
 		style: [ :sr |
 			sr
 				write: (self writablePropertyIndex propertyNamed: #background)
@@ -42,30 +42,30 @@ ToStyleRuleTest >> testRuleWithAndSelector [
 	" a rule with an And operator  "
 
 	| rule e |
-	rule := ToStyleScript new select: (ToStyleTagSelector new styleTags: #( #button ))
+	rule := ToStyleScript new select: (ToStyleStampSelector new addStampName: #button )
 		        style: [ :sr |  ].
 
-	e := ToElement new styleTag: #something.
+	e := ToElement new stampWith: #something.
 	self assert: (rule canBeAppliedTo: e) not.
 
-	e styleTag: #button.
+	e stampWith: #button.
 	self assert: (rule canBeAppliedTo: e).
 
 	rule := ToStyleScript new 
-		        select: (ToStyleTagSelector new styleTags: #( #button ))
-			        + (ToStyleTagSelector new styleTags: #( #danger ))
+		        select: (ToStyleStampSelector new addStampName: #button )
+			        + (ToStyleStampSelector new addStampName: #danger )
 		        style: [ :sr |  ].
 	self assert: (rule canBeAppliedTo: e) not.
 
-	e addStyleTag: #danger.
+	e stampWith: #danger.
 	self assert: (rule canBeAppliedTo: e).
 
 	rule := ToStyleScript new
-		        select: (ToStyleTagSelector new styleTags: #( #button #danger ))
+		        select: (ToStyleStampSelector new addAllStampNames: #( #button #danger ))
 		        style: [ :sr |  ].
 
 	self assert: (rule canBeAppliedTo: e).
-	e addStyleTag: #something.
+	e stampWith: #something.
 
 	self assert: (rule canBeAppliedTo: e)
 ]
@@ -76,16 +76,16 @@ ToStyleRuleTest >> testRuleWithAndWithParentSelector [
 
 	| rule e child |
 	rule := ToStyleRule new selector:
-		        ((ToStyleTagSelector new styleTag: #'button-label')
-			         parent: (ToStyleTagSelector new styleTags: #( #button ))
-				         + (ToStyleTagSelector new styleTags: #( #danger ))
+		        ((ToStyleStampSelector new addStampName: #'button-label')
+			         parent: (ToStyleStampSelector new addStampName: #button )
+				         + (ToStyleStampSelector new addStampName: #danger )
 			         depth: 1).
-	e := ToElement new styleTag: #button.
+	e := ToElement new stampWith: #button.
 	self assert: (rule canBeAppliedTo: e) not.
-	e addStyleTag: #danger.
+	e stampWith: #danger.
 	" ko since no child "
 	self assert: (rule canBeAppliedTo: e) not.
-	e addChild: (child := ToElement new styleTag: #'button-label').
+	e addChild: (child := ToElement new stampWith: #'button-label').
 	" ko since no child "
 	self assert: (rule canBeAppliedTo: child)
 ]
@@ -96,13 +96,13 @@ ToStyleRuleTest >> testRuleWithChildSelector1 [
 
 	| rule parent child |
 	rule := ToStyleRule new
-			 selector:  ((ToStyleTagSelector new styleTag: #child)
-					  parent: (ToStyleTagSelector new styleTag: #'direct-parent')
+			 selector:  ((ToStyleStampSelector new addStampName: #child)
+					  parent: (ToStyleStampSelector new addStampName: #'direct-parent')
 					  depth: 1).
 	child := ToElement new.
-	child styleTag: #child.
+	child stampWith: #child.
 	parent := ToElement new.
-	parent styleTag: #'direct-parent'.
+	parent stampWith: #'direct-parent'.
 	parent addChild: child.
 	self assert: (rule canBeAppliedTo: child)
 ]
@@ -113,14 +113,14 @@ ToStyleRuleTest >> testRuleWithChildSelector2 [
 
 	| rule child childchild |
 	rule := ToStyleRule new selector:
-		        ((ToStyleTagSelector new styleTag: #childchild)
-			         parent: (ToStyleTagSelector new styleTag: #child)
+		        ((ToStyleStampSelector new addStampName: #childchild)
+			         parent: (ToStyleStampSelector new addStampName: #child)
 			         depth: 1).
 
 	childchild := ToElement new.
-	childchild styleTag: #childchild.
+	childchild stampWith: #childchild.
 	child := ToElement new.
-	child styleTag: #child.
+	child stampWith: #child.
 	self assert: (rule canBeAppliedTo: childchild) not.
 	child addChild: childchild.
 	self assert: (rule canBeAppliedTo: childchild)
@@ -133,14 +133,14 @@ ToStyleRuleTest >> testRuleWithChildSelector3 [
 	| rule parent child childchild |
 
 	rule := ToStyleRule new
-			 selector:  ((ToUniversalSelector new) parent: (ToStyleTagSelector new styleTag: #parent) depth: 2).
+			 selector:  ((ToUniversalSelector new) parent: (ToStyleStampSelector new addStampName: #parent) depth: 2).
 	childchild := BlElement new.
-	childchild styleTag: #childchild.
+	childchild stampWith: #childchild.
 	child := BlElement new.
-	child styleTag: #child.
+	child stampWith: #child.
 	child addChild: childchild.
 	parent := BlElement new.
-	parent styleTag: #parent.
+	parent stampWith: #parent.
 	parent addChild: child.
 	self assert: childchild parent == child.
 	self assert: child parent == parent.
@@ -154,29 +154,29 @@ ToStyleRuleTest >> testRuleWithChildSelector4 [
 	| parent child childchild childchildchild childRule childchildRule childchildchildRule |
 	childRule := ToStyleRule new selector: (ToUniversalSelector new
 			              parent:
-			              (ToStyleTagSelector new styleTag: #parent)
+			              (ToStyleStampSelector new addStampName: #parent)
 			              depth: 1).
 	childchildRule := ToStyleRule new selector: (ToUniversalSelector new
 			                   parent:
-			                   (ToStyleTagSelector new styleTag: #parent)
+			                   (ToStyleStampSelector new addStampName: #parent)
 			                   depth: 2).
 	childchildchildRule := ToStyleRule new selector:
 		                       (ToUniversalSelector new
 			                        parent:
-			                        (ToStyleTagSelector new styleTag:
+			                        (ToStyleStampSelector new addStampName:
 				                         #parent)
 			                        depth: 3).
 
 	childchildchild := BlElement new.
-	childchildchild styleTag: #childchildchild.
+	childchildchild stampWith: #childchildchild.
 	childchild := BlElement new.
-	childchild styleTag: #childchild.
+	childchild stampWith: #childchild.
 	child := BlElement new.
-	child styleTag: #child.
+	child stampWith: #child.
 	child addChild: childchild.
 	childchild addChild: childchildchild.
 	parent := BlElement new.
-	parent styleTag: #parent.
+	parent stampWith: #parent.
 	parent addChild: child.
 	self assert: childchildchild parent identicalTo: childchild.
 	self assert: childchild parent identicalTo: child.
@@ -192,15 +192,15 @@ ToStyleRuleTest >> testRuleWithChildSelector5 [
 
 	| parent child childchild childchildchild childRule childchildRule childchildchildRule |
 	childchildchild := BlElement new.
-	childchildchild styleTag: #childchildchild.
+	childchildchild stampWith: #childchildchild.
 	childchild := BlElement new.
-	childchild styleTag: #childchild.
+	childchild stampWith: #childchild.
 	child := BlElement new.
-	child styleTag: #child.
+	child stampWith: #child.
 	child addChild: childchild.
 	childchild addChild: childchildchild.
 	parent := BlElement new.
-	parent styleTag: #parent.
+	parent stampWith: #parent.
 	parent addChild: child.
 	self assert: childchildchild parent identicalTo: childchild.
 	self assert: childchild parent identicalTo: child.
@@ -208,17 +208,17 @@ ToStyleRuleTest >> testRuleWithChildSelector5 [
 
 	childRule := ToStyleRule new selector: (ToUniversalSelector new
 			              parent:
-			              (ToStyleTagSelector new styleTag: #parent)
+			              (ToStyleStampSelector new addStampName: #parent)
 			              depth: 0).
 
 	childchildRule := ToStyleRule new selector: (ToUniversalSelector new
 			                   parent:
-			                   (ToStyleTagSelector new styleTag: #parent)
+			                   (ToStyleStampSelector new addStampName: #parent)
 			                   depth: 1).
 	childchildchildRule := ToStyleRule new selector:
 		                       (ToUniversalSelector new
 			                        parent:
-			                        (ToStyleTagSelector new styleTag:
+			                        (ToStyleStampSelector new addStampName:
 				                         #parent)
 			                        depth: 2).
 
@@ -229,16 +229,16 @@ ToStyleRuleTest >> testRuleWithChildSelector5 [
 
 	childRule := ToStyleRule new selector: (ToUniversalSelector new
 			              parent:
-			              (ToStyleTagSelector new styleTag: #parent)
+			              (ToStyleStampSelector new addStampName: #parent)
 			              depth: 2).
 	childchildRule := ToStyleRule new selector: (ToUniversalSelector new
 			                   parent:
-			                   (ToStyleTagSelector new styleTag: #parent)
+			                   (ToStyleStampSelector new addStampName: #parent)
 			                   depth: 3).
 	childchildchildRule := ToStyleRule new selector:
 		                       (ToUniversalSelector new
 			                        parent:
-			                        (ToStyleTagSelector new styleTag:
+			                        (ToStyleStampSelector new addStampName:
 				                         #parent)
 			                        depth: 4).
 
@@ -249,16 +249,16 @@ ToStyleRuleTest >> testRuleWithChildSelector5 [
 
 	childRule := ToStyleRule new selector: (ToUniversalSelector new
 			              parent:
-			              (ToStyleTagSelector new styleTag: #parent)
+			              (ToStyleStampSelector new addStampName: #parent)
 			              depth: 1).
 	childchildRule := ToStyleRule new selector: (ToUniversalSelector new
 			                   parent:
-			                   (ToStyleTagSelector new styleTag: #parent)
+			                   (ToStyleStampSelector new addStampName: #parent)
 			                   depth: 2).
 	childchildchildRule := ToStyleRule new selector:
 		                       (ToUniversalSelector new
 			                        parent:
-			                        (ToStyleTagSelector new styleTag:
+			                        (ToStyleStampSelector new addStampName:
 				                         #parent)
 			                        depth: 3).
 
@@ -272,14 +272,14 @@ ToStyleRuleTest >> testRuleWithClassSelector [
 
 	| rule e |
 	rule := ToStyleRule new selector:
-		        (ToStyleTagSelector new styleTags: #( #button )).
+		        (ToStyleStampSelector new addStampName: #button ).
 
-	e := ToElement new styleTag: #something.
+	e := ToElement new stampWith: #something.
 	self assert: (rule canBeAppliedTo: e) not.
 
-	e styleTag: #button.
+	e stampWith: #button.
 	self assert: (rule canBeAppliedTo: e).
-	e addStyleTag: #danger.
+	e stampWith: #danger.
 	self assert: (rule canBeAppliedTo: e)
 ]
 
@@ -299,10 +299,10 @@ ToStyleRuleTest >> testRuleWithSubRule [
 	| rule |
 	self flag: 'add assertions'.
 	rule := ToStyleScript new
-		        select: (ToStyleTagSelector new styleTags: #( #button ))
+		        select: (ToStyleStampSelector new addStampName: #button )
 		        style: [ :sr |
 			        sr
-				        select: (ToStyleTagSelector new styleTags: #( #checkable ))
+				        select: (ToStyleStampSelector new addStampName: #checkable )
 				        style: [ :sr2 |  ] ].
 
 ]

@@ -6,8 +6,8 @@ Class {
 	#instVars : [
 		'styleRules',
 		'inherits',
-		'elementTagIndex',
-		'writablePropertyIndex'
+		'writablePropertyIndex',
+		'stampIndex'
 	],
 	#category : #'Toplo-Theme-StyleSheet'
 }
@@ -96,6 +96,12 @@ ToStyleSheet >> any [
 
 ]
 
+{ #category : #accessing }
+ToStyleSheet >> defaultStampList: aStyleStampCollection [
+
+	stampIndex := self newStampIndexFromStampList: aStyleStampCollection
+]
+
 { #category : #initialization }
 ToStyleSheet >> defaultStyleRules [
 
@@ -143,7 +149,13 @@ ToStyleSheet >> initialize [
 	inherits := true
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
+ToStyleSheet >> newStampIndexFromStampList: aStyleStampCollection [
+
+	^ ToPropertyIndex new recordAll: aStyleStampCollection; yourself.
+]
+
+{ #category : #initialization }
 ToStyleSheet >> newWritablePropertyIndex [
 
 	^ ToPropertyIndex new recordAll: self writablePropertyList; yourself.
@@ -178,9 +190,22 @@ ToStyleSheet >> rawStyleRules: aStyleRuleCollection [
 ]
 
 { #category : #accessing }
-ToStyleSheet >> styleTagNamed: aSymbol [
+ToStyleSheet >> stampIndex [
 
-	^ nil
+	^ stampIndex 
+]
+
+{ #category : #accessing }
+ToStyleSheet >> stampList [
+	" skin managing need a list of unique stamps. "
+
+	^ self class defaultStampList
+]
+
+{ #category : #accessing }
+ToStyleSheet >> stampNamed: aName [
+
+	^ self stampIndex propertyNamed: aName
 ]
 
 { #category : #accessing }

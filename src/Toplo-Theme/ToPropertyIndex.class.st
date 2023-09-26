@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'index'
 	],
-	#category : 'Toplo-Theme-StyleSheet'
+	#category : #'Toplo-Theme-StyleSheet'
 }
 
 { #category : #accessing }
@@ -23,7 +23,7 @@ ToPropertyIndex >> initialize [
 { #category : #accessing }
 ToPropertyIndex >> propertyNamed: aName [
 
-	^ self index at: aName ifAbsent: [  ] 
+	^ self index at: aName asSymbol ifAbsent: [  ] 
 ]
 
 { #category : #initialization }

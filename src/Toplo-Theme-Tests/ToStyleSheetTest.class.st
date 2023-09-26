@@ -23,8 +23,8 @@ ToStyleSheetTest >> testButtonLabelSkin0 [
 		e textChanged ].
 
 	ss addStyleRule: (
-		((ToStyleTagSelector new styleTag: #'button-label') 
-			parent: (ToStyleTagSelector new styleTags: #( #button #danger ))
+		((ToStyleStampSelector new addStampName: #'button-label') 
+			parent: (ToStyleStampSelector new addAllStampNames: #( #button #danger ))
 			depth: 2)
 			 style: [ :sr |
 				 sr write: prop with: [ :e | e toTheme colorError ].
@@ -50,13 +50,13 @@ ToStyleSheetTest >> testButtonLabelSkin0 [
 	label := (ToLabel text: 'Default') defaultSkin: nil.
 	button label: label.
 	labelSkin := ToSkin new.
-	self assert: (button styleTags includes: #danger) not.
-	self assert: (button label styleTags includesKey: #'button-label').
+	self assert: (button localStyleStampIndex includes: #danger) not.
+	self assert: (button label localStyleStampIndex includesKey: #'button-label').
 	writers := ssi writersFor: button label.
 	" writers should be empty since the label rule expect the button 
 	to be of class #danger and the label to be with style class #'button-label'"
 	self assert: writers isEmpty.
-	button styleTags: #( #button #danger ).
+	button stampWithAll: #( #button #danger ).
 	writers := ssi writersFor: button label.
 	self assert: writers size equals: 5.
 
@@ -84,7 +84,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 	ssi := ToSkinBuilder new.
 	
 	" default button rule "
-	ss addStyleRule: ((ToStyleTagSelector new styleTag: #button)
+	ss addStyleRule: ((ToStyleStampSelector new addStampName: #button)
 			 style: [ :sr |
 				 | p |
 				 p := ToFeatureProperty new name: #background.
@@ -118,9 +118,9 @@ ToStyleSheetTest >> testButtonSkin0 [
 					 with: [ :e | e toTheme colorPrimaryPressed ] ]).
 
 	" danger button label rule "
-	ss addStyleRule: (((ToStyleTagSelector new styleTag: #'button-label')
+	ss addStyleRule: (((ToStyleStampSelector new addStampName: #'button-label')
 					  parent:
-					  (ToStyleTagSelector new styleTags: #( #button #danger ))
+					  (ToStyleStampSelector new addAllStampNames: #( #button #danger ))
 					  depth: 2)
 			 style: [ :sr |
 				 | p |
@@ -172,11 +172,11 @@ ToStyleSheetTest >> testButtonSkin0 [
 	labelSkin := ToSkin new.
 	writers := ssi writersFor: button label.
 	self assert: writers isEmpty.
-	button label styleTag: #'button-label'.
+	button label stampWith: #'button-label'.
 	writers := ssi writersFor: button label.
 	" should be empty since the label rule expect the button to be of class #danger "
 	self assert: writers isEmpty.
-	button styleTags: #( #button #danger ).
+	button stampWithAll: #( #button #danger ).
 	writers := ssi writersFor: button label.
 	self assert: writers size equals: 4.
 
@@ -209,8 +209,8 @@ ToStyleSheetTest >> testButtonSkinWithInterspace [
 	layoutProp := ToFeatureProperty name: #layout.
 	
 	ss := ToStyleSheet new inherits: false; yourself.
-	ss addStyleRule: (((ToStyleTagSelector new styleTag: #button) 
-				or: (ToStyleTagSelector new styleTags: #( #button #horizontal )))
+	ss addStyleRule: (((ToStyleStampSelector new addStampName: #button) 
+				or: (ToStyleStampSelector new addAllStampNames: #( #button #horizontal )))
 			 style: [ :sr |
 				 sr
 					 write: layoutProp
@@ -221,7 +221,7 @@ ToStyleSheetTest >> testButtonSkinWithInterspace [
 	elem styleSheet: ss.
 	writers := ssi writersFor: elem.
 	self assert: writers size equals: 0.
-	elem styleTag: #button.
+	elem stampWith: #button.
 	writers := ssi writersFor: elem.
 	self assert: writers size equals: 2.
 	skin := ToSkin new.
@@ -249,7 +249,7 @@ ToStyleSheetTest >> testNewStyleSheetWith2Rules [
 	elem := ToElement new.
 	elem styleSheet: styleSheet.
 	styleSheet addAllStyleRules: {
-			((ToStyleTagSelector new styleTag: #button)
+			((ToStyleStampSelector new addStampName: #button)
 				 style: [ :sr |
 					 sr
 						 write: (styleSheet writablePropertyNamed: #background)
@@ -261,7 +261,7 @@ ToStyleSheetTest >> testNewStyleSheetWith2Rules [
 				background: blue;
 				border: red;
 			}"
-			((ToStyleTagSelector new styleTag: #button)
+			((ToStyleStampSelector new addStampName: #button)
 				 style: [ :sr |
 					 sr
 						 write: (styleSheet writablePropertyNamed: #background)
@@ -306,14 +306,14 @@ ToStyleSheetTest >> testSkinWithChildRule [
 	ss := ToStyleSheet new inherits: false; yourself.
 	ssi := ToSkinBuilder new.
 	ss addStyleRule: (((ToIdSelector new id: #child) parent:
-					  (ToStyleTagSelector new styleTag: #parent))
+					  (ToStyleStampSelector new addStampName: #parent))
 			 style: [ :sr |
 				 sr
 					 when: ToInitialLookEvent
 					 write: (ToFeatureProperty new name: #border)
 					 with: (BlBorder paint: Color red width: 3) ]).
 
-	parent := ToElement new styleTag: #parent.
+	parent := ToElement new stampWith: #parent.
 	parent styleSheet: ss.
 	child := ToElement new id: #child.
 	writers := ssi writersFor: child.
@@ -339,7 +339,7 @@ ToStyleSheetTest >> testSkinWithChildRuleLevel2 [
 	ss := ToStyleSheet new inherits: false; yourself.
 	ssi := ToSkinBuilder new.
 	ss addStyleRule: (((ToIdSelector new id: #child)
-					  parent: (ToStyleTagSelector new styleTag: #parent)
+					  parent: (ToStyleStampSelector new addStampName: #parent)
 					  depth: 2)
 			 style: [ :sr |
 				 sr
@@ -347,7 +347,7 @@ ToStyleSheetTest >> testSkinWithChildRuleLevel2 [
 					 write: (ToFeatureProperty new name: #border)
 					 with: (BlBorder paint: Color red width: 3) ]).
 
-	parent := ToElement new styleTag: #parent.
+	parent := ToElement new stampWith: #parent.
 	parent styleSheet: ss.
 	subParent := ToElement new.
 	child := ToElement new id: #child.
@@ -418,7 +418,7 @@ ToStyleSheetTest >> testStyleSheetStyle0 [
 			          with: [ :e | e toTheme colorBgContainerDisabled ] ]) }.
 
 	ss addAllStyleRules: rules.
-	button addStyleTag: #button.
+	button stampWith: #button.
 	writers := ssi writersFor: button.
 	self assert: writers size equals: 3.
 	skin := ToSkin new.
@@ -464,7 +464,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules0 [
 			          with: [ :e | Color lightGray ] ]) }.
 
 	ss addAllStyleRules: rules.
-	button addStyleTag: #button.
+	button stampWith: #button.
 	writers := ssi writersFor: button.
 	self assert: writers size equals: 3.
 	skin := ToSkin new.
@@ -479,7 +479,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules0 [
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color black.
 
-	button addStyleTag: #danger.
+	button stampWith: #danger.
 	button updateSkin.
 	button switchToSkinState: ToInstallState new.
 	self assert: button background paint isColorPaint.
@@ -505,10 +505,10 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules1 [
 		      yourself.
 	ssi := ToSkinBuilder new.
 
-	elem := ToElement new styleTag: #elem.
-	child := ToElement new styleTag: #child.
-	childchild1 := ToElement new styleTag: #childchild1.
-	childchild2 := ToElement new styleTag: #childchild2.
+	elem := ToElement new stampWith: #elem.
+	child := ToElement new stampWith: #child.
+	childchild1 := ToElement new stampWith: #childchild1.
+	childchild2 := ToElement new stampWith: #childchild2.
 
 	child styleSheet: ss.
 	" default button rule "
@@ -551,10 +551,10 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules2 [
 	ssi := ToSkinBuilder new.
 
 
-	elem := ToElement new styleTag: #elem.
-	child := ToElement new styleTag: #child.
-	childchild1 := ToElement new styleTag: #childchild1.
-	childchild2 := ToElement new styleTag: #childchild2.
+	elem := ToElement new stampWith: #elem.
+	child := ToElement new stampWith: #child.
+	childchild1 := ToElement new stampWith: #childchild1.
+	childchild2 := ToElement new stampWith: #childchild2.
 
 	elem styleSheet: ss.
 	elem addChild: child.
@@ -597,10 +597,10 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules22 [
 		      yourself.
 	ssi := ToSkinBuilder new.
 
-	elem := ToElement new styleTags: #( elem #red ).
-	child := ToElement new styleTag: #child.
-	childchild1 := ToElement new styleTag: #childchild1.
-	childchild2 := ToElement new styleTag: #childchild2.
+	elem := ToElement new stampWithAll: #( elem #red ).
+	child := ToElement new stampWith: #child.
+	childchild1 := ToElement new stampWith: #childchild1.
+	childchild2 := ToElement new stampWith: #childchild2.
 
 	elem styleSheet: ss.
 	elem addChild: child.
@@ -646,10 +646,10 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules3 [
 	ssi := ToSkinBuilder new.
 
 
-	elem := ToElement new styleTags: #( elem #red ).
-	child := ToElement new styleTag: #child.
-	childchild1 := ToElement new styleTag: #childchild1.
-	childchild2 := ToElement new styleTag: #childchild2.
+	elem := ToElement new stampWithAll: #( elem #red ).
+	child := ToElement new stampWith: #child.
+	childchild1 := ToElement new stampWith: #childchild1.
+	childchild2 := ToElement new stampWith: #childchild2.
 
 	elem styleSheet: ss.
 	elem addChild: child.
@@ -695,10 +695,10 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules32 [
 	ssi := ToSkinBuilder new.
 
 
-	elem := ToElement new styleTags: #( elem #red ).
-	child := ToElement new styleTag: #child.
-	childchild1 := ToElement new styleTag: #childchild1.
-	childchild2 := ToElement new styleTag: #childchild2.
+	elem := ToElement new stampWithAll: #( elem #red ).
+	child := ToElement new stampWith: #child.
+	childchild1 := ToElement new stampWith: #childchild1.
+	childchild2 := ToElement new stampWith: #childchild2.
 
 	elem styleSheet: ss.
 	elem addChild: child.
@@ -750,10 +750,10 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules33 [
 	ssi := ToSkinBuilder new.
 
 
-	elem := ToElement new styleTags: #( elem #red ).
-	child := ToElement new styleTag: #child.
-	childchild1 := ToElement new styleTag: #childchild1.
-	childchild2 := ToElement new styleTag: #childchild2.
+	elem := ToElement new stampWithAll: #( elem #red ).
+	child := ToElement new stampWith: #child.
+	childchild1 := ToElement new stampWith: #childchild1.
+	childchild2 := ToElement new stampWith: #childchild2.
 
 	elem styleSheet: ss.
 	elem addChild: child.
@@ -796,10 +796,10 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules1 [
 	ssi := ToSkinBuilder new.
 
 
-	elem := ToElement new styleTag: #elem.
-	child := ToElement new styleTag: #child.
-	childchild1 := ToElement new styleTag: #childchild1.
-	childchild2 := ToElement new styleTag: #childchild2.
+	elem := ToElement new stampWith: #elem.
+	child := ToElement new stampWith: #child.
+	childchild1 := ToElement new stampWith: #childchild1.
+	childchild2 := ToElement new stampWith: #childchild2.
 
 	elem styleSheet: ss.
 	elem addChild: child.
@@ -834,10 +834,10 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules2 [
 	ssi := ToSkinBuilder new.
 
 
-	elem := ToElement new styleTag: #elem.
-	child := ToElement new styleTag: #child.
-	childchild1 := ToElement new styleTag: #childchild1.
-	childchild2 := ToElement new styleTag: #childchild2.
+	elem := ToElement new stampWith: #elem.
+	child := ToElement new stampWith: #child.
+	childchild1 := ToElement new stampWith: #childchild1.
+	childchild2 := ToElement new stampWith: #childchild2.
 
 	elem styleSheet: ss.
 	elem addChild: child.
@@ -873,10 +873,10 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules3 [
 	ssi := ToSkinBuilder new.
 
 
-	elem := ToElement new styleTags: #( elem #red ).
-	child := ToElement new styleTag: #child.
-	childchild1 := ToElement new styleTag: #childchild1.
-	childchild2 := ToElement new styleTag: #childchild2.
+	elem := ToElement new stampWithAll: #( elem #red ).
+	child := ToElement new stampWith: #child.
+	childchild1 := ToElement new stampWith: #childchild1.
+	childchild2 := ToElement new stampWith: #childchild2.
 
 	elem styleSheet: ss.
 	elem addChild: child.
@@ -914,10 +914,10 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules4 [
 		      yourself.
 	ssi := ToSkinBuilder new.
 
-	elem := ToElement new styleTags: #( #elem #red ).
-	child := ToElement new styleTag: #child.
-	childchild1 := ToElement new styleTag: #childchild1.
-	childchild2 := ToElement new styleTag: #childchild2.
+	elem := ToElement new stampWithAll: #( #elem #red ).
+	child := ToElement new stampWith: #child.
+	childchild1 := ToElement new stampWith: #childchild1.
+	childchild2 := ToElement new stampWith: #childchild2.
 
 	elem styleSheet: ss.
 	elem addChild: child.
@@ -951,7 +951,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules4 [
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red.
 	
-	elem styleTags: #( #elem #blue ).
+	elem stampWithAll: #( #elem #blue ).
 	writers := ssi writersFor: child.
 	self assert: writers size equals: 1.
 	child updateSkin.

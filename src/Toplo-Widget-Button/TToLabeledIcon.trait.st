@@ -6,9 +6,9 @@ Trait {
 { #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> beIconFirst [
 
-	(self includesStyleTagNamed: #'icon-first') ifTrue: [ ^ self ].
-	self addStyleTag: #'icon-first'.
-	self removeStyleTagNamed: #'label-first'.
+	(self isStampedWith: #'icon-first') ifTrue: [ ^ self ].
+	self stampWith: #'icon-first'.
+	self removeStyleStampNamed: #'label-first'.
 	self updateSkin.
 	self requestLayout
 ]
@@ -16,9 +16,9 @@ TToLabeledIcon >> beIconFirst [
 { #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> beLabelFirst [
 
-	(self includesStyleTagNamed: #'label-first') ifTrue: [ ^ self ].
-	self removeStyleTagNamed: #'icon-first'.
-	self addStyleTag: #'label-first'.
+	(self isStampedWith: #'label-first') ifTrue: [ ^ self ].
+	self removeStyleStampNamed: #'icon-first'.
+	self stampWith: #'label-first'.
 	self updateSkin.
 	self requestLayout
 ]
@@ -50,9 +50,9 @@ TToLabeledIcon >> icon [
 { #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> icon: anElement [
 
-	self first ifNotNil: [ :s | s removeStyleTagNamed: #'button-icon'].
+	self first ifNotNil: [ :s | s removeStyleStampNamed: #'button-icon'].
 	self replaceFirstWith: anElement.
-	self first ifNotNil: [ :s | s addStyleTag: #'button-icon'].
+	self first ifNotNil: [ :s | s stampWith: #'button-icon'].
 
 ]
 
@@ -91,9 +91,9 @@ TToLabeledIcon >> label [
 { #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> label: aLabel [
 
-	self second ifNotNil: [ :s | s removeStyleTagNamed: #'button-label'].
+	self second ifNotNil: [ :s | s removeStyleStampNamed: #'button-label'].
 	self replaceSecondWith: aLabel.
-	self second ifNotNil: [ :s | s addStyleTag: #'button-label'].
+	self second ifNotNil: [ :s | s stampWith: #'button-label'].
 
 ]
 

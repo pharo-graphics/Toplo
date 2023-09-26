@@ -13,8 +13,22 @@ When to use ?
 Class {
 	#name : #ToDefaultThemeDark,
 	#superclass : #ToDefaultTheme,
-	#category : 'Toplo-Theme-DefaultTheme'
+	#category : #'Toplo-Theme-DefaultTheme'
 }
+
+{ #category : #accessing }
+ToDefaultThemeDark class >> defaultStampList [
+	" skin managing need a list of unique stamps . "
+
+	^ Array streamContents: [ :str |
+		  str nextPutAll: super defaultStampList.
+		  str nextPutAll:
+			  { (ToStyleStamp name: #'background-color' value: Color black).
+			
+			
+			
+			 } ]
+]
 
 { #category : #colors }
 ToDefaultThemeDark >> backgroundColor [

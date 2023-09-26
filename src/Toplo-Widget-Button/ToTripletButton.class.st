@@ -36,15 +36,15 @@ ToTripletButton >> initializeTriplet [
 	self layout: BlLinearLayout horizontal.
 	self justified: false.
 	innerElement := ToElement new layout: BlLinearLayout horizontal; fitContent.
-	innerElement styleTag: #'inner-element'.
+	innerElement stampWith: #'inner-element'.
 	self addChild: innerElement.
 	self fitContent.
 	filler1 := ToElement new
-		  styleTag: #'triplet-filler-1';
+		  stampWith: #'triplet-filler-1';
 		  size: 0 @ 0;
 		  yourself.
 	filler2 := ToElement new
-		  styleTag: #'triplet-filler-2';
+		  stampWith: #'triplet-filler-2';
 		  size: 0 @ 0;
 		  yourself.
 	self innerElement addChildren: { filler1. filler2 }

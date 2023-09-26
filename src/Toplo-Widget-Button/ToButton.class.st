@@ -33,7 +33,7 @@ ToButton >> first: anElement [
 ToButton >> initialize [
 
 	super initialize.
-	self addStyleTag: #button
+	self stampWith: #button
 ]
 
 { #category : #'t - orientable - accessing' }

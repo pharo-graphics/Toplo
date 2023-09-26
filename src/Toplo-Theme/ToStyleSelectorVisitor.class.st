@@ -35,7 +35,7 @@ ToStyleSelectorVisitor >> visitStyleRule: aStyleRule [
 ]
 
 { #category : #visiting }
-ToStyleSelectorVisitor >> visitStyleTagSelector: aSelector [
+ToStyleSelectorVisitor >> visitStyleStampSelector: aSelector [
 ]
 
 { #category : #visiting }

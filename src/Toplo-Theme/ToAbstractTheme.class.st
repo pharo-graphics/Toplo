@@ -8,7 +8,7 @@ Class {
 	#classInstVars : [
 		'current'
 	],
-	#category : 'Toplo-Theme-Core'
+	#category : #'Toplo-Theme-Core'
 }
 
 { #category : #cleanup }
@@ -28,6 +28,20 @@ ToAbstractTheme class >> cleanUp: anObject [
 ToAbstractTheme class >> current [
 
 	^ current ifNil: [ current := ToDefaultTheme blue ]
+]
+
+{ #category : #running }
+ToAbstractTheme class >> defaultStampList [
+	" skin managing need a list of unique stamps . "
+
+	^ {  }
+]
+
+{ #category : #accessing }
+ToAbstractTheme >> defaultStampList [
+	" skin managing need a list of unique stamps . "
+
+	^ self class defaultStampList
 ]
 
 { #category : #accessing }
@@ -58,5 +72,6 @@ ToAbstractTheme >> styleSheet [
 { #category : #accessing }
 ToAbstractTheme >> styleSheet: aStyleSheet [
 
+	aStyleSheet defaultStampList: self defaultStampList.
 	styleSheet := aStyleSheet
 ]

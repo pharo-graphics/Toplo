@@ -11,9 +11,9 @@ Class {
 ToStyleSelectorTest >> testAsStyleSelectorOnArray [
 
 	| selector  |
-	selector := #(#'small-sizing' #x)asStyleSelector.
-	self assert: (selector isKindOf: ToStyleTagSelector).
-	self assert: (selector styleTags includesAll: #(#'small-sizing' #x)).
+	selector := #(#'small-sizing' #x) asStyleSelector.
+	self assert: (selector isKindOf: ToStyleStampSelector).
+	self assert: (selector stampNames includesAll: #(#'small-sizing' #x)).
 
 ]
 
@@ -22,8 +22,8 @@ ToStyleSelectorTest >> testAsStyleSelectorOnArray2 [
 
 	| selector |
 	selector := { 'small-sizing'. 'x' } asStyleSelector.
-	self assert: (selector isKindOf: ToStyleTagSelector).
-	self assert: (selector styleTags includesAll: #( #'small-sizing' #x ))
+	self assert: (selector isKindOf: ToStyleStampSelector).
+	self assert: (selector stampNames includesAll: #( #'small-sizing' #x ))
 ]
 
 { #category : #'tests - asToTag' }
@@ -31,8 +31,8 @@ ToStyleSelectorTest >> testAsStyleSelectorOnArray3 [
 
 	| selector |
 	selector := { 'small-sizing'. 'x' } asStyleSelector.
-	self assert: (selector isKindOf: ToStyleTagSelector).
-	self assert: (selector styleTags includesAll: #( #'small-sizing' #x ))
+	self assert: (selector isKindOf: ToStyleStampSelector).
+	self assert: (selector stampNames includesAll: #( #'small-sizing' #x ))
 ]
 
 { #category : #'tests - asToTag' }
@@ -47,8 +47,8 @@ ToStyleSelectorTest >> testAsStyleSelectorOnSet3 [
 
 	| selector  |
 	selector := { 'small-sizing'.  'x' } asSet asStyleSelector.
-	self assert: (selector isKindOf: ToStyleTagSelector).
-	self assert: (selector styleTags includesAll: #(#'small-sizing' #x)).
+	self assert: (selector isKindOf: ToStyleStampSelector).
+	self assert: (selector stampNames includesAll: #(#'small-sizing' #x)).
 
 ]
 
@@ -57,8 +57,8 @@ ToStyleSelectorTest >> testAsStyleSelectorOnString [
 
 	| selector  |
 	selector := 'small-sizing' asStyleSelector.
-	self assert: (selector isKindOf: ToStyleTagSelector).
-	self assert: selector styleTags equals: #(#'small-sizing').
+	self assert: (selector isKindOf: ToStyleStampSelector).
+	self assert: selector stampNames equals: #(#'small-sizing').
 
 ]
 
@@ -67,7 +67,7 @@ ToStyleSelectorTest >> testAsStyleSelectorOnSymbol [
 
 	| selector  |
 	selector := #'small-sizing' asStyleSelector.
-	self assert: (selector isKindOf: ToStyleTagSelector).
-	self assert: selector styleTags equals: #(#'small-sizing').
+	self assert: (selector isKindOf: ToStyleStampSelector).
+	self assert: selector stampNames equals: #(#'small-sizing').
 
 ]

@@ -58,11 +58,33 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
 	btn := ToButton new.
 	btn labelText: 'Erase all your Pharo images?'.
 	btn iconImage: ToThemeIcons iconSearchOutlined16x16.
-	btn label addStyleTag: #H3.
-	btn addStyleTag: #primary.
-	btn addStyleTag: #danger.
+	btn label stampWith: #H3.
+	btn stampWith: #primary.
+	btn stampWith: #danger.
 	btn size: 500 @ 100.
 	space := BlSpace new.
+	space root layout: BlLinearLayout vertical.
+	space root addChildren: {
+			chk.
+			btn }.
+	space show
+]
+
+{ #category : #button }
+ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheetDarkTheme [
+
+	| chk btn space |
+	ToAbstractTheme cleanUp.
+	chk := ToCheckbox new.
+	chk labelText: 'OK'.
+	btn := ToButton new.
+	btn labelText: 'Erase all your Pharo images?'.
+	btn iconImage: ToThemeIcons iconSearchOutlined16x16.
+	btn label stampWith: #H3.
+	btn stampWith: #primary.
+	btn stampWith: #danger.
+	btn size: 500 @ 100.
+	space := BlSpace new toTheme: ToDefaultThemeDark new; yourself.
 	space root layout: BlLinearLayout vertical.
 	space root addChildren: {
 			chk.
@@ -1035,20 +1057,20 @@ ToSandBox class >> example_StyleSheetSandbox [
 	"b := ToRadioButton new."
 	b := ToButton new.
 	"b := ToToggleButton new."
-	"b addStyleTag: #primary. "
-	"b addStyleTag: #'large-sizing'."
-	"b addStyleTag: #'small-sizing'."
+	"b stampWith: #primary. "
+	"b stampWith: #'large-sizing'."
+	"b stampWith: #'small-sizing'."
 
-	"b addStyleTag: #vertical."
-	b addStyleTag: #'icon-first'.
-	b addStyleTag: #'label-first'.
-	b addStyleTag: #'interspace-1' -> 300.
+	"b stampWith: #vertical."
+	b stampWith: #'icon-first'.
+	b stampWith: #'label-first'.
+	b stampWith: #'interspace-1' -> 300.
 	"b justified: true."
-	"b addStyleTag: #circle."
-	"b addStyleTag: #round."
-	"b addStyleTag: #link. "
-	"b addStyleTag: #danger."
-	"b addStyleTag: #dashed."
+	"b stampWith: #circle."
+	"b stampWith: #round."
+	"b stampWith: #link. "
+	"b stampWith: #danger."
+	"b stampWith: #dashed."
 	b
 		iconImage: ToThemeIcons iconSearchOutlined16x16;
 		labelText: 'Close'.
@@ -1058,6 +1080,45 @@ ToSandBox class >> example_StyleSheetSandbox [
 	"b innerElement border: (BlBorder paint: Color black)."
 
 	b openInSpace.
+	"b width: 200."
+	"b size: 100 @ 100."
+
+	"b inspect.
+	b matchParent"
+]
+
+{ #category : #button }
+ToSandBox class >> example_StyleSheetSandboxDarkTheme [
+
+	| b |
+	ToAbstractTheme cleanUp.
+	"b := ToCheckbox new."
+	"b := ToRadioButton new."
+	b := ToButton new.
+	"b := ToToggleButton new."
+	"b stampWith: #primary. "
+	"b stampWith: #'large-sizing'."
+	"b stampWith: #'small-sizing'."
+
+	"b stampWith: #vertical."
+	b stampWith: #'icon-first'.
+	b stampWith: #'label-first'.
+	b stampWith: #'interspace-1' -> 300.
+	"b justified: true."
+	"b stampWith: #circle."
+	"b stampWith: #round."
+	"b stampWith: #link. "
+	"b stampWith: #danger."
+	"b stampWith: #dashed."
+	b
+		iconImage: ToThemeIcons iconSearchOutlined16x16;
+		labelText: 'Close'.
+	"b labelFirst: true."
+	"b checked: nil."
+	"b withIndeterminate: true."
+	"b innerElement border: (BlBorder paint: Color black)."
+
+	(b openInSpace) toTheme: ToDefaultThemeDark new.
 	"b width: 200."
 	"b size: 100 @ 100."
 
@@ -2677,28 +2738,26 @@ ToSandBox class >> example_toButtonJustified1 [
 	| but space iconImage |
 	ToAbstractTheme cleanUp.
 	but := ToTripletElement new.
-	but addStyleTag: #button.
-	but replaceSecondWith:
-		((ToLabel text: 'Pair' asRopedText bold) addStyleTag:
-			 #'button-label').
+	but stampWith: #button.
+	but replaceSecondWith: ((ToLabel text: 'Pair' asRopedText bold) stampWith: #'button-label').
 	iconImage := ToElement new
 		             size: 20 @ 20;
 		             background: Color lightGray;
 		             yourself.
 
 	but replaceFirstWith: iconImage.
-	but first addStyleTag: #'button-icon'.
+	but first stampWith: #'button-icon'.
 
 	but when: BlClickEvent do: [
 		but isHorizontal
 			ifTrue: [
-				but removeStyleTagNamed: #horizontal.
-				but addStyleTag: #vertical.
+				but removeStyleStampNamed: #horizontal.
+				but stampWith: #vertical.
 				but hFitContent.
 				but vMatchParent. ]
 			ifFalse: [
-				but removeStyleTagNamed: #vertical.
-				but addStyleTag: #horizontal.
+				but removeStyleStampNamed: #vertical.
+				but stampWith: #horizontal.
 				but vFitContent.
 				but hMatchParent. ].
 		but updateSkin.
@@ -3522,15 +3581,15 @@ ToSandBox class >> example_toPairDirectionChanger [
 
 	| but space iconImage |
 	but := ToTripletElement new.
-	but addStyleTag: #button.
-	but replaceSecondWith: ((ToLabel text: 'Pair' asRopedText bold) addStyleTag: #'button-label').
+	but stampWith: #button.
+	but replaceSecondWith: ((ToLabel text: 'Pair' asRopedText bold) stampWith: #'button-label').
 	iconImage := BlElement new
 		             size: 20 @ 20;
 		             background: Color lightGray;
 		             yourself.
 
 	but replaceFirstWith: iconImage.
-	but first addStyleTag: #'button-icon'.
+	but first stampWith: #'button-icon'.
 	but when: BlClickEvent do: [ 
 		but direction: but direction inverted.
 		but requestLayout ].
@@ -3546,17 +3605,17 @@ ToSandBox class >> example_toPairJustified1 [
 
 	but := ToButton new.
 	but inspect.
-	but addStyleTag: #button.
-	but replaceSecondWith: ((ToLabel text: 'Pair' asRopedText bold) addStyleTag: #'button-label').
+	but stampWith: #button.
+	but replaceSecondWith: ((ToLabel text: 'Pair' asRopedText bold) stampWith: #'button-label').
 	iconImage := BlElement new
 		             size: 20 @ 20;
 		             background: Color lightGray;
 		             yourself.
 
 	but replaceFirstWith: iconImage.
-	but first addStyleTag: #'button-icon'.
+	but first stampWith: #'button-icon'.
 	
-	but when: BlClickEvent do: [ but addStyleTag: #vertical. but updateSkin. but innerElement layout beVertical.  ].
+	but when: BlClickEvent do: [ but stampWith: #vertical. but updateSkin. but innerElement layout beVertical.  ].
 	but justified: true.
 	but hMatchParent.
 

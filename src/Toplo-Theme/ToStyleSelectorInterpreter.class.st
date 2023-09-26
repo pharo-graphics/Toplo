@@ -117,9 +117,9 @@ ToStyleSelectorInterpreter >> visitSiblingSelector: aSelector [
 ]
 
 { #category : #visiting }
-ToStyleSelectorInterpreter >> visitStyleTagSelector: aSelector [
+ToStyleSelectorInterpreter >> visitStyleStampSelector: aSelector [
 
-	result := aSelector styleTags allSatisfy: [ :t | targetStack top styleTags includesKey: t ]
+	result := aSelector stampNames allSatisfy: [ :t | targetStack top isStampedWith: t ]
 ]
 
 { #category : #visiting }

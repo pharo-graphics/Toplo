@@ -100,6 +100,18 @@ ToDefaultTheme class >> darkPink [
 	^self colorPrimaryDark: (Color fromHexString: '#ED4192')
 ]
 
+{ #category : #accessing }
+ToDefaultTheme class >> defaultStampList [
+	" skin managing need a list of unique stamps . "
+
+	^ {
+		  (ToStyleStamp name: #'background-color' value: Color white).
+		  (ToStyleStamp name: #'border-radius' value: 6).
+		
+		
+		 }
+]
+
 { #category : #constructor }
 ToDefaultTheme class >> green [
 
@@ -116,19 +128,6 @@ ToDefaultTheme class >> isAbstract [
 ToDefaultTheme class >> pink [
 
 	^self colorPrimary: (Color fromHexString: '#ED4192')
-]
-
-{ #category : #colors }
-ToDefaultTheme >> backgroundColor [
-
-	^ Color white
-]
-
-{ #category : #border }
-ToDefaultTheme >> borderRadius [
-	"https://ant.design/components/button#design-token"
-	
-	^ 6
 ]
 
 { #category : #border }
@@ -156,9 +155,9 @@ ToDefaultTheme >> checkboxImageIn: anElement [
 
 	| bar im |
 	bar := ToElement new. 
-	bar styleTags: #( #bar ).
+	bar stampWithAll: #( #bar ).
 	im := ToElement new.
-	im styleTags: #( #'inner-image' #unchecked ).
+	im stampWithAll: #( #'inner-image' #unchecked ).
 	im addChild: bar.
 	^ im
 ]

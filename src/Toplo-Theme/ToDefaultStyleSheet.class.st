@@ -324,7 +324,7 @@ ToDefaultStyleSheet >> commonButtonRules [
 			   sr select: #circle asStyleSelector not style: [
 				   sr write: (self property: #geometry) with: [ :e |
 					   BlRoundedRectangleGeometry cornerRadius:
-						   e toTheme borderRadius ].
+						   (e stampValue: 'border-radius') ].
 
 				   sr select: #round asStyleSelector style: [
 					   sr
@@ -406,7 +406,7 @@ ToDefaultStyleSheet >> commonButtonRules [
 							   write: (self property: #'layout-constraints')
 							   with: [ :e |
 								   [ :c |
-								   c horizontal exact: (e styleValueNamed: #'interspace-1').
+								   c horizontal exact: (e stampNamed: #'interspace-1') value.
 								   c vertical matchParent ] ] ].
 
 				   sr
@@ -419,7 +419,7 @@ ToDefaultStyleSheet >> commonButtonRules [
 							   write: (self property: #'layout-constraints')
 							   with: [ :e |
 								   [ :c | 
-								   c vertical exact: (e styleValueNamed: #'interspace-1').
+								   c vertical exact: (e stampNamed: #'interspace-1') value.
 								   c horizontal matchParent ] ] ] ]).
 
 		  ((self any - #'triplet-filler-1' parent: #( #button ) depth: 2)
@@ -931,7 +931,7 @@ ToDefaultStyleSheet >> rootPaneRules [
 	^ { ((self id: #'Space root') style: [ :sr |
 		   sr
 			   write: (self property: #background)
-			   with: [ :e | e toTheme backgroundColor ] ]) }
+			   with: [ :e | e stampValue: #'background-color' ] ]) }
 ]
 
 { #category : #'accessing rules  -button' }

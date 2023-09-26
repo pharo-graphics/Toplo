@@ -28,17 +28,17 @@ TToTriplet >> initializeTriplet [
 	innerElement := ToElement new
 		                layout: BlLinearLayout horizontal;
 		                fitContent.
-	innerElement styleTag: #'inner-element'.
+	innerElement stampWith: #'inner-element'.
 	self addChild: innerElement.
 	self fitContent.
 	filler1 := ToElement new
 		           id: #filler1;
-		           styleTag: #'triplet-filler-1';
+		           stampWith: #'triplet-filler-1';
 		           size: 0 @ 0;
 		           yourself.
 	filler2 := ToElement new
 		           id: #filler2;
-		           styleTag: #'triplet-filler-2';
+		           stampWith: #'triplet-filler-2';
 		           size: 0 @ 0;
 		           yourself.
 	self innerElement addChildren: {
@@ -62,7 +62,7 @@ TToTriplet >> interspace: anInteger [
 { #category : #'t - triplet - configuration' }
 TToTriplet >> justified [
 
-	^ self styleTags includesKey: #justified
+	^ self localStyleStampIndex includesKey: #justified
 ]
 
 { #category : #'t - triplet - configuration' }
@@ -70,8 +70,8 @@ TToTriplet >> justified: aBoolean [
 
 	self justified = aBoolean ifTrue: [ ^ self ].
 	aBoolean
-		ifTrue: [ self addStyleTag: #justified ]
-		ifFalse: [ self removeStyleTagNamed: #justified ].
+		ifTrue: [ self stampWith: #justified ]
+		ifFalse: [ self removeStyleStampNamed: #justified ].
 	self updateSkin
 ]
 

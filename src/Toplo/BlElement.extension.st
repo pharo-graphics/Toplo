@@ -1,18 +1,12 @@
 Extension { #name : #BlElement }
 
 { #category : #'*Toplo' }
-BlElement >> addStyleTag: anAssociationOrSymbol [
+BlElement >> addStyleStamp: aStyleStamp [
 
-	| dict tag |
-	dict := self userData at: #styleTags ifAbsentPut: IdentityDictionary new.
-	tag := anAssociationOrSymbol asStyleNamedValue.
-	dict at: tag name put: tag
-]
-
-{ #category : #'*Toplo' }
-BlElement >> addStyleTags: aCollection [
-
-	aCollection do: [:t | self addStyleTag: t]
+	| dict stamp |
+	dict := self userData at: #localStyleStampIndex ifAbsentPut: IdentityDictionary new.
+	stamp := aStyleStamp.
+	dict at: stamp name put: stamp
 ]
 
 { #category : #'*Toplo' }
@@ -108,15 +102,6 @@ BlElement >> holder [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> includesStyleTagNamed: aSymbol [
-
-	| dict |
-	self userData at: #styleTags ifAbsent: [ ^ false ].
-	dict := self userData at: #styleTags.
-	^ dict includesKey: aSymbol asSymbol
-]
-
-{ #category : #'*Toplo' }
 BlElement >> isDisabled [
 
 	^ self isFlaggedAsDisabled
@@ -141,6 +126,15 @@ BlElement >> isFlaggedAsEnabled [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> isStampedWith: aSymbol [
+
+	| dict |
+	self userData at: #localStyleStampIndex ifAbsent: [ ^ false ].
+	dict := self userData at: #localStyleStampIndex.
+	^ dict includesKey: aSymbol asSymbol
+]
+
+{ #category : #'*Toplo' }
 BlElement >> launchSkinInstallation [
 	"Nothing to do at BlElement level to preserve efficienty"
 
@@ -152,6 +146,15 @@ BlElement >> launchSkinUninstallation [
 
 	"Nothing to do at BlElement level to preserve efficienty"
 
+]
+
+{ #category : #'*Toplo' }
+BlElement >> localStampNamed: aSymbol [
+
+	| index |
+	index := self userData at: #localStyleStampIndex ifAbsent: [ ^ nil ].
+	^ index at: aSymbol asSymbol ifAbsent: [  ]
+	
 ]
 
 { #category : #'*Toplo' }
@@ -171,23 +174,22 @@ BlElement >> localStyleSheet: aStyleSheet [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> localStyleTagNamed: aSymbol [
+BlElement >> localStyleStampIndex [
 
-	| index |
-	index := self userData at: #styleTags ifAbsent: [ ^ nil ].
-	^ index at: aSymbol asSymbol ifAbsent: [  ]
-	
+	^ self userData at: #localStyleStampIndex ifAbsent: [ IdentityDictionary new]
 ]
 
 { #category : #'*Toplo' }
-BlElement >> lookUpStyleTagNamed: aSymbol [
+BlElement >> lookUpStyleStampNamed: aSymbol [
 
+	" first look-up following parent-children association "
 	self withAllParentsDo: [ :p |
-		(p localStyleTagNamed: aSymbol) ifNotNil: [ :t | ^ t ] ].
+		(p localStampNamed: aSymbol) ifNotNil: [ :t | ^ t ] ].
+	" second ask style sheets for child to parent "
 	self withAllParentsDo: [ :p |
 		p localStyleSheet ifNotNil: [ :ss |
-			(ss styleTagNamed: aSymbol) ifNotNil: [ :t | ^ t ] ] ].
-	^ nil
+			(ss stampNamed: aSymbol) ifNotNil: [ :t | ^ t ] ] ].
+	^ self toTheme styleSheet stampNamed: aSymbol
 ]
 
 { #category : #'*Toplo' }
@@ -216,11 +218,11 @@ BlElement >> privateToTheme: aTheme [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> removeStyleTagNamed: aSymbol [
+BlElement >> removeStyleStampNamed: aSymbol [
 
 	| dict |
-	self userData at: #styleTags ifAbsent: [ ^ self ].
-	dict := self userData at: #styleTags.
+	self userData at: #localStyleStampIndex ifAbsent: [ ^ self ].
+	dict := self userData at: #localStyleStampIndex.
 	dict removeKey: aSymbol asSymbol ifAbsent: [  ]
 ]
 
@@ -235,6 +237,34 @@ BlElement >> skinDo: aBlock [
 
 	self privateSkin ifNil: [ ^ self ].
 	aBlock value: self privateSkin
+]
+
+{ #category : #'*Toplo' }
+BlElement >> stampNamed: aSymbol [
+
+	(self lookUpStyleStampNamed: aSymbol) ifNotNil: [ :s | ^ s ].
+	(ToElementPropertyNotFound name: aSymbol) signal
+]
+
+{ #category : #'*Toplo' }
+BlElement >> stampValue: aSymbol [
+
+	(self lookUpStyleStampNamed: aSymbol) ifNotNil: [ :s | ^ s value ].
+	(ToElementPropertyNotFound name: aSymbol) signal
+]
+
+{ #category : #'*Toplo' }
+BlElement >> stampWith: anAssociationOrSymbol [
+
+	self addStyleStamp: anAssociationOrSymbol asStyleStamp
+	
+]
+
+{ #category : #'*Toplo' }
+BlElement >> stampWithAll: aCollectionOfSymbol [
+
+	self userData at: #localStyleStampIndex put: IdentityDictionary new.
+	aCollectionOfSymbol do: [ :s | self stampWith: s ]
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
@@ -267,40 +297,6 @@ BlElement >> styleSheetChain [
 			  current := current parent ].
 		  (self toTheme notNil and: [ inherits ]) ifTrue: [
 			  str nextPut: self toTheme styleSheet ] ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> styleTag: anAssociationOrSymbol [
-
-	self userData at: #styleTags put: IdentityDictionary new.
-	self addStyleTag: anAssociationOrSymbol
-	
-]
-
-{ #category : #'*Toplo' }
-BlElement >> styleTagNamed: aSymbol [
-
-	^ self lookUpStyleTagNamed: aSymbol
-]
-
-{ #category : #'*Toplo' }
-BlElement >> styleTags [
-
-	^ self userData at: #styleTags ifAbsent: [ IdentityDictionary new]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> styleTags: aCollectionOfSymbol [
-
-	self userData at: #styleTags put: IdentityDictionary new.
-	aCollectionOfSymbol do: [ :s | self addStyleTag: s ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> styleValueNamed: aSymbol [
-
-	(self styleTagNamed: aSymbol) ifNotNil: [ :t | ^ t value ].
-	Error signal: 'Unknown style tag value ' , aSymbol asString
 ]
 
 { #category : #'*Toplo' }

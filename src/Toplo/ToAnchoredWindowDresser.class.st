@@ -4,14 +4,8 @@ Class {
 	#instVars : [
 		'widgetPositionInSpaceHandler'
 	],
-	#category : 'Toplo-Core-Window'
+	#category : #'Toplo-Core-Window'
 }
-
-{ #category : #'api - install/uninstall  hook' }
-ToAnchoredWindowDresser >> installEventListenersIn: anElement [
-
-	super installEventListenersIn: anElement
-]
 
 { #category : #'api - install/uninstall  hook' }
 ToAnchoredWindowDresser >> installWidget: newWidget in: anElement [
@@ -38,13 +32,6 @@ ToAnchoredWindowDresser >> onInstalledIn: anElement [
 ToAnchoredWindowDresser >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToAnchoredWindowDresser >> uninstallEventListenersIn: anElement [
-
-	super uninstallEventListenersIn: anElement
-
 ]
 
 { #category : #'api - install/uninstall  hook' }

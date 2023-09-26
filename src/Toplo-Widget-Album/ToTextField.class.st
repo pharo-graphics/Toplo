@@ -4,17 +4,33 @@ Class {
 	#category : #'Toplo-Widget-Album-TextField'
 }
 
-{ #category : #'t - accessing - dresser' }
-ToTextField >> defaultDresser [
-
-	^ ToTextFieldDresser new
-	
-]
-
 { #category : #initialization }
 ToTextField >> defaultEditorElement [
 
 	^ AlbTextFieldElement new
+]
+
+{ #category : #initialization }
+ToTextField >> defaultEventHandler [
+
+	^ ToTextFieldEventListener new.
+
+]
+
+{ #category : #initialization }
+ToTextField >> defaultGeometry [
+
+	^ BlRoundedRectangleGeometry cornerRadius: 4
+]
+
+{ #category : #initialization }
+ToTextField >> defaultPadding [
+
+	^ BlInsets
+		  top: (3 + self defaultBorderWidth )
+		  left: (3 + self defaultBorderWidth)
+		  bottom: (0 + self defaultBorderWidth )
+		  right: (3 + self defaultBorderWidth )
 ]
 
 { #category : #initialization }
@@ -25,8 +41,10 @@ ToTextField >> initialize [
 	self next vFitContent.
 	self vFitContent.
 	self withoutLineWrapping.
-	self addEventHandler: (AlbTextEditorCursorIconHandler new element: self)
-
+	self flag: 'Why these handlers ? ( ToAlbum do not have them )'.
+	self addEventHandler: (AlbTextEditorCursorIconHandler new element: self).
+	self addEventHandler: (AlbTextEditorSelectionHandler new element: self infinite).
+	self addEventHandler: (AlbTextEditorDoubleClickHandler new element: self infinite)
 ]
 
 { #category : #layers }

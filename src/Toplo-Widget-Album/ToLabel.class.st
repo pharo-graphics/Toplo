@@ -35,7 +35,6 @@ ToLabel >> addEditor: anEditor [
 	self editorFrame: (self newEditorFrameForEditor: self editor).
 	self innerElement visibility: BlVisibility hidden.
 	self editorFrame popup.
-	self editor when: ToLabelEditorRemoveRequestEvent do: [ self removeEditor ].
 	self editor requestFocus.
 	self editor selecter
 		all;

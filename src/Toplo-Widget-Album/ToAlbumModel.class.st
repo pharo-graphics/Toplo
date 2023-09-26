@@ -90,7 +90,7 @@ ToAlbumModel >> onInstalledIn: anAlbum [
 
 	super onInstalledIn: anAlbum.
 	anAlbum whenTextReplacedDo: [ :t | self requestTextStyle ].
-	anAlbum whenTextEditedDo: [ :t | self requestTextStyle ].
+	anAlbum when: AlbTextEditedEvent do: [ :evt | self requestTextStyle ].
 	
 	self text: ''
 ]
@@ -183,14 +183,6 @@ ToAlbumModel >> text: aBlText [
 ToAlbumModel >> whenCancelRequestedDo: aBlock [
 
 	self widgetDo: [ :widget | widget whenCancelRequestedDo: aBlock ]
-]
-
-{ #category : #'property change hook' }
-ToAlbumModel >> whenEditedChangedDo: aBlock [
-
-	"set a block to perform after that the text has been chanbed, and its action performed"
-
-	self widgetDo: [ :widget | widget whenEditedChangedDo: aBlock ]
 ]
 
 { #category : #'property change hook' }

@@ -46,8 +46,14 @@ ToLabelMultiLineInnerElement >> initialize [
 { #category : #'api - editor' }
 ToLabelMultiLineInnerElement >> newEditorIn: aLabel [
 
-	| ed |
-	ed := ToAlbum new dresser: (ToLabelEditorDresser label: aLabel).
+	| ed listener |
+	listener := ToLabelEditorEventListener new label: aLabel.
+	ed := ToAlbum new.
+	ed addEventHandler: listener.
+	
+	self flag: 'Why this selection handler ?'.
+	ed addEventHandler: (AlbTextEditorSelectionHandler new element: ed infinite).
+
 	(self editorShortcutsIn: aLabel) do: [ :s | ed editor addEditorShortcut: s ].
 	^ ed
 ]

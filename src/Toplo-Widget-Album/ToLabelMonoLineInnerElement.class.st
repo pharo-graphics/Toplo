@@ -36,8 +36,10 @@ ToLabelMonoLineInnerElement >> initialize [
 { #category : #'api - editor' }
 ToLabelMonoLineInnerElement >> newEditorIn: aLabel [
 
-	| ed |
-	ed := ToTextField new dresser: (ToLabelEditorDresser label: aLabel).
+	| ed listener |
+	listener := ToLabelEditorEventListener new label: aLabel.
+	ed := ToTextField new.
+	ed addEventHandler: listener.
 	(self editorShortcutsIn: aLabel) do: [ :s | ed editor addEditorShortcut: s ].
 	^ ed
 ]

@@ -11,16 +11,86 @@ Class {
 	#category : #'Toplo-Widget-Album-TextPane'
 }
 
-{ #category : #'t - initialization dresser' }
-ToAlbum >> defaultDresser [
+{ #category : #initialization }
+ToAlbum >> defaultBackground [
 
-	^ ToAlbumBasicDresser new
+	^ Color white
+]
+
+{ #category : #initialization }
+ToAlbum >> defaultBorder [
+
+	^ BlBorder
+		  paint: self theme editor borderColor
+		  width: self defaultBorderWidth
+]
+
+{ #category : #initialization }
+ToAlbum >> defaultBorderColor [ 
+
+	^ self theme editor borderColor
+]
+
+{ #category : #initialization }
+ToAlbum >> defaultBorderWidth [ 
+
+	^ 1
 ]
 
 { #category : #initialization }
 ToAlbum >> defaultEditorElement [
 
 	^ AlbEditorElement new
+]
+
+{ #category : #initialization }
+ToAlbum >> defaultEventHandler [
+
+	^ ToAlbumEventListener new.
+
+]
+
+{ #category : #initialization }
+ToAlbum >> defaultFocusBorder [
+
+	^ BlBorder
+			 paint: self defaultFocusBorderColor
+			 width: self defaultBorderWidth
+]
+
+{ #category : #initialization }
+ToAlbum >> defaultFocusBorderColor [
+
+	^ self theme editor focusedBorderColor
+]
+
+{ #category : #initialization }
+ToAlbum >> defaultGeometry [
+
+	^ BlRoundedRectangleGeometry cornerRadius: 8
+]
+
+{ #category : #initialization }
+ToAlbum >> defaultMargin [
+
+	"setup to not depend on parent layout"
+	^ BlInsets all: 1
+]
+
+{ #category : #initialization }
+ToAlbum >> defaultOutskirts [
+
+	^ BlOutskirts inside
+]
+
+{ #category : #initialization }
+ToAlbum >> defaultPadding [
+
+	^ BlInsets
+		  top: (6 + self defaultBorderWidth )
+		  left: (3 + self defaultBorderWidth )
+		  bottom: (2 + self defaultBorderWidth )
+		  right: (3 + self defaultBorderWidth )
 ]
 
 { #category : #accessing }
@@ -47,7 +117,22 @@ ToAlbum >> initialize [
 
 	super initialize.
 	self matchParent.
-	self whenTextEditedDo: [ self edited: true ].
+	
+	self editorDo: [ :ed |
+		ed when: AlbTextEditedEvent do: [ :evt | self dispatchEvent: evt ].
+		ed when: AlbTextReplacedEvent do: [ :evt | self dispatchEvent: evt ] ].
+	self infiniteDo: [ :inf |
+		inf when: BlBlurEvent do: [ :evt | self dispatchEvent: evt ].
+		inf when: BlFocusEvent do: [ :evt | self dispatchEvent: evt ] ].
+	self addEventHandler: self defaultEventHandler.
+
+	self next geometry: self defaultGeometry.
+	self next outskirts: self defaultOutskirts.
+	self next margin: self defaultMargin.
+	self next padding: self defaultPadding.
+	self next border: self defaultBorder.
+	self background: self defaultBackground 
+
 ]
 
 { #category : #accessing }

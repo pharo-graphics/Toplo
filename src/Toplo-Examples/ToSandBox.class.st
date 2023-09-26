@@ -1798,28 +1798,6 @@ ToSandBox class >> example_WithToActionDresser [
 	t openInSpace
 ]
 
-{ #category : #window }
-ToSandBox class >> example_anchoredWidow1 [
-
-	| w e |
-	w := ToAnchoredWindow new.
-	w background: (Color gray alpha: 0.2).
-	w border: (BlBorder paint: Color black width: 2).
-	w padding: (BlInsets all: 4).
-	e := ToElement new
-		     size: 100 @ 100;
-		     position: 50 @ 50;
-		     background: Color yellow;
-		     border: (BlBorder paint: Color red).
-	w widget: e.
-	w root addChild: (ToAlbum new
-			 dresser: ToLabelEditorDresser new;
-			 text: 'bla bla bla').
-	w fitContent.
-	e openInInnerWindow.
-	w popup
-]
-
 { #category : #space }
 ToSandBox class >> example_elementInPopupRoot [
 

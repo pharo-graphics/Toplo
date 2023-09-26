@@ -15,9 +15,3 @@ ToTextFieldPlaceholder >> defaultLabel [
 		  beMonoLine;
 		  yourself
 ]
-
-{ #category : #initialization }
-ToTextFieldPlaceholder >> initialize [ 
-
-	super initialize
-]

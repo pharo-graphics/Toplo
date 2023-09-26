@@ -1,18 +1,12 @@
 Class {
 	#name : #ToLabelDresser,
-	#superclass : #ToAbstractLabelDresser,
+	#superclass : #ToDresser,
 	#instVars : [
 		'editorEventHandler',
 		'textReplacedHandler'
 	],
 	#category : #'Toplo-Widget-Album-Label'
 }
-
-{ #category : #initialization }
-ToLabelDresser >> defaultPadding [
-
-	^ BlInsets top: 3 left: 2 bottom: 3 right: 4
-]
 
 { #category : #'api - install/uninstall  hook' }
 ToLabelDresser >> lineModeChangedIn: anElement [
@@ -40,7 +34,6 @@ ToLabelDresser >> lineModeChangedIn: anElement [
 ToLabelDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	"anElement padding: self defaultPadding."
 	anElement whenLineModeChangedDo: [ self lineModeChangedIn: anElement ].
 	anElement whenTextReplacedDo: [ anElement privateText: anElement text ].
 	anElement whenEditableChangedDo: [

@@ -24,7 +24,7 @@ ToDefaultStyleSheetTest >> testDefaultButtonSkin [
 	button checkSkinInstallation.
 	self assert: button border width equals: 1.
 	self assert: button border paint isColorPaint.
-	self assert: button border paint color equals: button toTheme colorBorder.
+	self assert: button border paint color equals: (button e stampValue: #'color-border').
 	
 	button labelText: 'Default'.
 	button label privateSkin: nil.

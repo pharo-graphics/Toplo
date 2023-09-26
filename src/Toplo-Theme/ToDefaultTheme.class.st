@@ -53,7 +53,9 @@ Class {
 	#name : #ToDefaultTheme,
 	#superclass : #ToAbstractTheme,
 	#instVars : [
-		'colorPrimary'
+		'colorPrimary',
+		'colorPrimaryHover',
+		'colorPrimaryPressed'
 	],
 	#category : #'Toplo-Theme-DefaultTheme'
 }
@@ -62,18 +64,6 @@ Class {
 ToDefaultTheme class >> blue [
 
 	^ ToDefaultThemeLight new
-]
-
-{ #category : #accessing }
-ToDefaultTheme class >> checkboxUncheckedImage [
-
-	| bar im |
-	bar := ToElement new.
-	bar stampWithAll: #( #bar ).
-	im := ToElement new.
-	im stampWithAll: #( #'inner-image' #unchecked ).
-	im addChild: bar.
-	^ im
 ]
 
 { #category : #customization }
@@ -112,25 +102,6 @@ ToDefaultTheme class >> darkPink [
 	^self colorPrimaryDark: (Color fromHexString: '#ED4192')
 ]
 
-{ #category : #accessing }
-ToDefaultTheme class >> defaultStampList [
-	" skin managing need a list of unique stamps . "
-
-	^ {
-		  (ToStyleStamp name: #'background-color' value: Color white).
-		  (ToStyleStamp name: #'border-radius' value: 6).
-		  (ToStyleStamp name: #'border-radius-LG' value: 8).
-		  (ToStyleStamp name: #'border-radius-SM' value: 4).
-		  (ToStyleStamp
-			   name: #'checkbox-image-builder'
-			   value: [ self checkboxUncheckedImage ]).
-		  (ToStyleStamp name: #'color-bg-container-disabled' value: (Color
-				    r: 0.0
-				    g: 0.0
-				    b: 0.0
-				    alpha: 0.04)) }
-]
-
 { #category : #constructor }
 ToDefaultTheme class >> green [
 
@@ -149,156 +120,22 @@ ToDefaultTheme class >> pink [
 	^self colorPrimary: (Color fromHexString: '#ED4192')
 ]
 
-{ #category : #colors }
-ToDefaultTheme >> colorBgContainer [
-	"https://ant.design/components/button#design-token"
-	
-	^ Color fromHexString: '#ffffff'
-]
+{ #category : #accessing }
+ToDefaultTheme >> checkboxUncheckedImage [
 
-{ #category : #colors }
-ToDefaultTheme >> colorBgContainerChecked [
-	
-	^ self colorPrimary
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorBgContainerCheckedHover [
-	
-	^ self colorPrimaryHover
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorBgContainerCheckedPressed [
-	
-	^ self colorPrimary darker
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorBgContainerUnchecked [
-	
-	^ Color gray alpha: 0.6
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorBgContainerUncheckedHover [
-	
-	^ Color gray alpha: 0.4
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorBgTextActive [
-	"https://ant.design/components/button#design-token"
-	
-	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.15 
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorBgTextHover [
-	"Control the background color of text in hover state"
-
-	^ (Color r: 0 g: 0 b: 0 alpha: 0.2) 
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorBorder [
-	"https://ant.design/components/button#design-token"
-	
-	^ Color fromHexString: '#d9d9d9'
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorBorderCheckable [
-	
-	^ Color transparent
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorBorderDisabled [
-	"https://ant.design/components/button#design-token"
-	
-	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.2 
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorError [
-	"Used to represent the visual elements of the operation failure, such as the error Button, error Result component, etc."
-
-	^ Color fromHexString: '#ff4d4f'
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorErrorActive [
-	"The active state of the error color"
-
-	^ Color fromHexString: '#d9363e'
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorErrorBg [
-	"The background color of the error state"
-
-	^ Color fromHexString: '#fff2f0'
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorErrorHover [
-	"The hover state of the error color"
-
-	^ Color fromHexString: '#ff7875'
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorErrorPressed [
-	"The pressed state of the error color"
-
-	^ (Color fromHexString: '#ff7875') darker darker
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorImage [
-	
-	^ self colorText
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorImageDisabled [
-	
-	^ Color r: 0.7 g: 0.7 b: 0.7 alpha: 1.0
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorImageLightSolid [
-	
-	^ self colorTextLightSolid
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorLink [
-	"https://ant.design/components/button#design-token"
-
-	^ Color fromHexString: '#1677ff'
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorLinkActive [
-	"Control the color of hyperlink when clicked"
-
-	^ Color fromHexString: '#0958d9'
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorLinkHover [
-	"Control the color of hyperlink when hovering"
-
-	^ Color fromHexString: '#69b1ff'
+	| bar im |
+	bar := ToElement new.
+	bar stampWithAll: #( #bar ).
+	im := ToElement new.
+	im stampWithAll: #( #'inner-image' #unchecked ).
+	im addChild: bar.
+	^ im
 ]
 
 { #category : #colors }
 ToDefaultTheme >> colorPrimary [
-	"Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics"
-	
-	^ colorPrimary ifNil:[ colorPrimary := self defaultColorPrimary ]
+
+	^ colorPrimary ifNil: [ self colorPrimary: self defaultColorPrimary. colorPrimary  ]
 ]
 
 { #category : #settings }
@@ -306,35 +143,21 @@ ToDefaultTheme >> colorPrimary: aColor [
 	"Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics"
 	
 	colorPrimary = aColor ifTrue:[ ^ self ].
-	colorPrimary := aColor
+	colorPrimary := aColor.
+	colorPrimaryHover :=  colorPrimary whiter whiter.	
+	colorPrimaryPressed :=  colorPrimary darker darker
 ]
 
 { #category : #colors }
 ToDefaultTheme >> colorPrimaryHover [
-	"Hover state under the main color gradient"
-	
-	^ self colorPrimary whiter
+
+	^ colorPrimaryHover
 ]
 
 { #category : #colors }
 ToDefaultTheme >> colorPrimaryPressed [
-	"Hover state under the main color gradient"
-	
-	^ self colorPrimary darker darker
-]
 
-{ #category : #colors }
-ToDefaultTheme >> colorSuccess [
-	"Used to represent the token sequence of operation success, such as Result, Progress and other components will use these map tokens"
-
-	^ Color fromHexString: '#52c41a'
-]
-
-{ #category : #colors }
-ToDefaultTheme >> colorText [
-	"Default text color which comply with W3C standards, and this color is also the darkest neutral color."
-	
-	^ Color r: 0.0 g: 0.0 b: 0.0 "alpha: 0.88"
+	^ colorPrimaryPressed
 ]
 
 { #category : #colors }
@@ -417,6 +240,50 @@ ToDefaultTheme >> dashArray [
 ToDefaultTheme >> defaultColorPrimary [
 
 	^ Color fromHexString: '#1677ff'
+]
+
+{ #category : #initialization }
+ToDefaultTheme >> defaultStampList [
+	" skin managing need a list of unique stamps . "
+
+	^ {
+		  (ToStyleStamp name: #'background-color' value: Color white).
+		  (ToStyleStamp name: #'border-radius' value: 6).
+		  (ToStyleStamp name: #'border-radius-LG' value: 8).
+		  (ToStyleStamp name: #'border-radius-SM' value: 4).
+		  (ToStyleStamp
+			   name: #'checkbox-image-builder'
+			   value: [ self checkboxUncheckedImage ]).
+		  (ToStyleStamp name: #'color-bg-container' value: (Color fromHexString: '#ffffff')).
+		  (ToStyleStamp name: #'color-bg-container-disabled' value: (Color
+				    r: 0.0
+				    g: 0.0
+				    b: 0.0
+				    alpha: 0.04)).
+		  (ToStyleStamp name: #'color-bg-text-active' value: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.15 )).
+			(ToStyleStamp name: #'color-bg-text-hover' value: (Color r: 0 g: 0 b: 0 alpha: 0.2)).
+			(ToStyleStamp name: #'color-border' value: (Color fromHexString: '#d9d9d9')).
+			(ToStyleStamp name: #'color-border-checkable' value: (Color transparent)).
+			(ToStyleStamp name: #'color-border-disabled' value: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.2 )).
+			(ToStyleStamp name: #'color-error-bg' value: (Color fromHexString: '#fff2f0')).
+			(ToStyleStamp name: #'color-error-hover' value: (Color fromHexString: '#ff7875')).
+			(ToStyleStamp name: #'color-error-pressed' value: (Color fromHexString: '#e75c5d')).
+			(ToStyleStamp name: #'color-error' value: (Color fromHexString: '#ff4d4f')).
+			(ToStyleStamp name: #'color-image-disabled' value: (Color r: 0.7 g: 0.7 b: 0.7 alpha: 1.0)).
+			(ToStyleStamp name: #'color-image-light-solid' value: (Color fromHexString: '#ffffff')).
+			(ToStyleStamp name: #'color-text-light-solid' value: (Color fromHexString: '#ffffff')).
+			(ToStyleStamp name: #'color-link' value: (Color fromHexString: '#1677ff')).
+			(ToStyleStamp name: #'color-link-active' value: (Color fromHexString: '#0958d9')).
+			(ToStyleStamp name: #'color-link-hover' value: (Color fromHexString: '#69b1ff')).
+			(ToStyleStamp name: #'color-primary' value: self colorPrimary).
+			(ToStyleStamp name: #'color-primary-pressed' value: self colorPrimaryPressed).
+			(ToStyleStamp name: #'color-primary-hover' value: self colorPrimaryHover).
+			(ToStyleStamp name: #'color-success' value: (Color fromHexString: '#52c41a')).
+			(ToStyleStamp name: #'color-text' value: (Color r: 0.0 g: 0.0 b: 0.0)).
+				
+				
+				
+				 }
 ]
 
 { #category : #initialization }

@@ -16,61 +16,10 @@ Class {
 	#category : #'Toplo-Theme-DefaultTheme'
 }
 
-{ #category : #accessing }
-ToDefaultThemeDark class >> defaultStampList [
-	" skin managing need a list of unique stamps . "
-
-	^ Array streamContents: [ :str |
-		  str nextPutAll: super defaultStampList.
-		  str nextPutAll: {
-				  (ToStyleStamp name: #'background-color' value: Color black).
-				  (ToStyleStamp
-					   name: #'color-bg-container-disabled'
-					   value: (Color white alpha: 0.15)) } ]
-]
-
-{ #category : #colors }
-ToDefaultThemeDark >> backgroundColor [
-
-	^ Color black
-]
-
-{ #category : #colors }
-ToDefaultThemeDark >> colorBgContainer [
-
-	^ Color fromHexString: '#1b1b1b'
-]
-
-{ #category : #colors }
-ToDefaultThemeDark >> colorBgTextActive [
-	
-	^ Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.15 
-]
-
-{ #category : #colors }
-ToDefaultThemeDark >> colorBgTextHover [
-
-	^ Color r: 255 g: 255 b: 255 alpha: 0.30
-]
-
 { #category : #colors }
 ToDefaultThemeDark >> colorBorder [
 
 	^ Color fromHexString: '#a6a6a6'
-]
-
-{ #category : #colors }
-ToDefaultThemeDark >> colorBorderDisabled [
-	"https://ant.design/components/button#design-token"
-	
-	^ Color r: 0.7 g: 0.7 b: 0.7 alpha: 0.5
-]
-
-{ #category : #colors }
-ToDefaultThemeDark >> colorErrorBg [
-	"The background color of the error state"
-
-	^ Color fromHexString: '#2a1215'
 ]
 
 { #category : #colors }
@@ -108,6 +57,31 @@ ToDefaultThemeDark >> colorTextSecondary [
 ToDefaultThemeDark >> darkTheme [
 
 	^ self
+]
+
+{ #category : #initialization }
+ToDefaultThemeDark >> defaultStampList [
+	" skin managing need a list of unique stamps . "
+
+	^ Array streamContents: [ :str |
+		  str nextPutAll: super defaultStampList.
+		  str nextPutAll: {
+				  (ToStyleStamp name: #'background-color' value: Color black).
+				  (ToStyleStamp
+					   name: #'color-bg-container'
+					   value: (Color fromHexString: '#1b1b1b')).
+				  (ToStyleStamp
+					   name: #'color-bg-container-disabled'
+					   value: (Color white alpha: 0.15)).
+					(ToStyleStamp name: #'color-bg-text-active' value: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 0.15 )).
+					(ToStyleStamp name: #'color-bg-text-hover' value: (Color r: 255 g: 255 b: 255 alpha: 0.30)).
+					(ToStyleStamp name: #'color-border' value: (Color fromHexString: '#a6a6a6')).
+					(ToStyleStamp name: #'color-border-disabled' value: (Color r: 0.7 g: 0.7 b: 0.7 alpha: 0.5)).
+					(ToStyleStamp name: #'color-error-bg' value: (Color fromHexString: '#2a1215')).
+					(ToStyleStamp name: #'color-image-disabled' value: (Color r: 0.7 g: 0.7 b: 0.7 alpha: 1.0)).
+					(ToStyleStamp name: #'color-text' value: (Color r: 255 g: 255 b: 255)).					
+					
+					 } ]
 ]
 
 { #category : #colors }

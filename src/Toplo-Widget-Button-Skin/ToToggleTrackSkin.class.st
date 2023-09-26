@@ -77,14 +77,14 @@ ToToggleTrackSkin >> onSkinInstalledIn: anElement [
 	self addLookUpdater: ((ToLookUpdaterDep forProperty: (ToFeatureProperty new name: #background; yourself))
 			when: ToDisabledLookEvent value: [ :e | e stampValue: #'color-bg-container-disabled'  ];
 			when: ToInitialLookEvent value: [  :e | e isChecked
-					 ifTrue: [ e toTheme colorBgContainerChecked ]
-					 ifFalse: [ e toTheme colorBgContainerUnchecked  ] ];
+					 ifTrue: [ e toTheme colorPrimary ]
+					 ifFalse: [ e toTheme colorBgContainer  ] ];
 			when: ToPressedLookEvent value: [ :e | e isChecked
-					 ifTrue: [ e toTheme colorBgContainerCheckedPressed ]
-					 ifFalse: [ e toTheme colorBgContainerUnchecked ] ];
+					 ifTrue: [ e toTheme colorPrimary ]
+					 ifFalse: [ e toTheme colorBgContainer ] ];
 			when: ToHoveredLookEvent value: [ :e | e isChecked
-					 ifTrue: [ e toTheme colorBgContainerCheckedHover ]
-					 ifFalse: [ e toTheme colorBgContainerUncheckedHover ] ] ).
+					 ifTrue: [ e toTheme colorPrimaryHover ]
+					 ifFalse: [ e toTheme colorBgContainer ] ] ).
 	self addLookUpdater: (ToToggleTrackLook new
 			 animate: true;
 			 yourself).

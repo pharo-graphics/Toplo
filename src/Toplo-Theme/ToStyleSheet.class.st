@@ -197,13 +197,6 @@ ToStyleSheet >> stampIndex [
 ]
 
 { #category : #accessing }
-ToStyleSheet >> stampList [
-	" skin managing need a list of unique stamps. "
-
-	^ self class defaultStampList
-]
-
-{ #category : #accessing }
 ToStyleSheet >> stampNamed: aName [
 
 	^ self stampIndex propertyNamed: aName

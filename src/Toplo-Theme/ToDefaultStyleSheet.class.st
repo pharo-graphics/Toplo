@@ -28,7 +28,7 @@ ToDefaultStyleSheet >> checkableButtonRules [
 		  (#( #button #checkable ) asStyleSelector style: [ :sr |
 			   sr write: (self property: #'border-with-builder') with: [ :e |
 				   e borderBuilder
-					   paint: e toTheme colorBorderCheckable;
+					   paint: (e stampValue: #'color-border-checkable');
 					   yourself ].
 
 			   sr select: (sr child: #'inner-image' depth: 3) not style: [
@@ -59,28 +59,28 @@ ToDefaultStyleSheet >> checkableButtonRules [
 					   write: (self property: #'border-with-builder')
 					   with: [ :e |
 						   e borderBuilder
-							   paint: e toTheme colorBorder;
+							   paint: (e stampValue: #'color-border');
 							   yourself ].
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #'border-with-builder')
 					   with: [ :e |
 						   e borderBuilder
-							   paint: e toTheme colorBorderDisabled;
+							   paint: (e stampValue: #'color-border-disabled');
 							   yourself ].
 				   sr
 					   when: ToHoveredLookEvent
 					   write: (self property: #'border-with-builder')
 					   with: [ :e |
 						   e borderBuilder
-							   paint: e toTheme colorPrimaryHover;
+							   paint: (e stampValue: #'color-primary-hover');
 							   yourself ].
 				   sr
 					   when: ToPressedLookEvent
 					   write: (self property: #'border-with-builder')
 					   with: [ :e |
 						   e borderBuilder
-							   paint: e toTheme colorPrimaryPressed;
+							   paint: (e stampValue: #'color-primary-pressed');
 							   yourself ] ]).
 
 		  ((#image asStyleSelector
@@ -91,21 +91,21 @@ ToDefaultStyleSheet >> checkableButtonRules [
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   paint: e toTheme colorError;
+						   paint: (e stampValue: #'color-error');
 						   yourself ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   paint: e toTheme colorErrorHover;
+						   paint: (e stampValue: #'color-error-hover');
 						   yourself ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   paint: e toTheme colorErrorHover darker;
+						   paint: (e stampValue: #'color-error-pressed');
 						   yourself ] ]).
 
 		  (((#'triplet-filler-1' asStyleSelector
@@ -136,7 +136,7 @@ ToDefaultStyleSheet >> checkableButtonRules [
 				   style: [
 					   sr write: (self property: #'layout-constraints') with: [ :e |
 						   [ :c |
-						   c horizontal exact: (e stampNamed: #'interspace-1') value.
+						   c horizontal exact: (e stampValue: #'interspace-1') value.
 						   c vertical matchParent ] ] ].
 
 			   sr
@@ -147,7 +147,7 @@ ToDefaultStyleSheet >> checkableButtonRules [
 				   style: [
 					   sr write: (self property: #'layout-constraints') with: [ :e |
 						   [ :c |
-						   c vertical exact: (e stampNamed: #'interspace-1') value.
+						   c vertical exact: (e stampValue: #'interspace-1') value.
 						   c horizontal matchParent ] ] ] ]) }
 ]
 
@@ -168,7 +168,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 
 			   sr write: (self property: #'border-with-builder') with: [ :e |
 				   e borderBuilder
-					   paint: e toTheme colorPrimary;
+					   paint: (e stampValue: #'color-primary');
 					   width: 0;
 					   yourself ].
 			   sr
@@ -176,7 +176,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 				   supplement: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   paint: e toTheme colorBorderDisabled;
+						   paint: (e stampValue: #'color-border-disabled');
 						   yourself ].
 			   sr
 				   when: ToCheckedLookEvent
@@ -207,14 +207,14 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 				   supplement: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   paint: e toTheme colorError;
+						   paint: (e stampValue: #'color-error');
 						   yourself ].
 			   sr
 				   when: ToDisabledLookEvent
 				   supplement: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   paint: e toTheme colorBorderDisabled;
+						   paint: (e stampValue: #'color-border-disabled');
 						   yourself ] ]).
 
 		  ((#bar asStyleSelector
@@ -239,7 +239,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 			   sr
 				   when: ToIndeterminateLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e toTheme colorPrimary ].
+				   with: [ :e | (e stampValue: #'color-primary') ].
 			   sr
 				   when: ToCheckedLookEvent
 				   write: (self property: #background)
@@ -257,7 +257,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 			   sr
 				   when: ToIndeterminateLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e toTheme colorError ] ]) }
+				   with: [ :e | (e stampValue: #'color-error') ] ]) }
 ]
 
 { #category : #'accessing rules  -button' }
@@ -450,7 +450,7 @@ ToDefaultStyleSheet >> commonButtonRules [
 							   write: (self property: #'layout-constraints')
 							   with: [ :e |
 								   [ :c |
-								   c horizontal exact: (e stampNamed: #'interspace-1') value.
+								   c horizontal exact: (e stampValue: #'interspace-1') value.
 								   c vertical matchParent ] ] ].
 
 				   sr
@@ -463,7 +463,7 @@ ToDefaultStyleSheet >> commonButtonRules [
 							   write: (self property: #'layout-constraints')
 							   with: [ :e |
 								   [ :c |
-								   c vertical exact: (e stampNamed: #'interspace-1') value.
+								   c vertical exact: (e stampValue: #'interspace-1') value.
 								   c horizontal matchParent ] ] ] ]).
 
 		  ((self any - #'triplet-filler-1' parent: #( #button ) depth: 2)
@@ -498,28 +498,28 @@ ToDefaultStyleSheet >> defaultButtonRules [
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   paint: e toTheme colorBorder;
+						   paint: (e stampValue: #'color-border');
 						   yourself ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   paint: e toTheme colorBorderDisabled;
+						   paint: (e stampValue: #'color-border-disabled');
 						   yourself ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   paint: e toTheme colorPrimaryHover;
+						   paint: (e stampValue: #'color-primary-hover');
 						   yourself ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
-						   paint: e toTheme colorPrimaryPressed;
+						   paint: (e stampValue: #'color-primary-pressed');
 						   yourself ] ]).
 
 		  " default button form icon "
@@ -527,7 +527,7 @@ ToDefaultStyleSheet >> defaultButtonRules [
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | e toTheme colorText ].
+				   with: [ :e | e stampValue: #'color-text' ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'image-inner-form-color')
@@ -535,18 +535,18 @@ ToDefaultStyleSheet >> defaultButtonRules [
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | e toTheme colorPrimary ].
+				   with: [ :e | (e stampValue: #'color-primary') ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | e toTheme colorPrimaryPressed ] ]).
+				   with: [ :e | (e stampValue: #'color-primary-pressed') ] ]).
 
 		  " default button label "
 		  ((#label asStyleSelector parent: #button depth: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e toTheme colorText ].
+				   with: [ :e | e stampValue: #'color-text' ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'label-text-foreground')
@@ -554,32 +554,32 @@ ToDefaultStyleSheet >> defaultButtonRules [
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e toTheme colorPrimary ].
+				   with: [ :e | (e stampValue: #'color-primary') ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e toTheme colorPrimaryPressed ] ]).
+				   with: [ :e | (e stampValue: #'color-primary-pressed') ] ]).
 
 		  " ToButton default danger"
 		  (#( #button #danger ) asStyleSelector - #checkable style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder paint: e toTheme colorError ].
+				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-error') ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
-				   e borderBuilder paint: e toTheme colorBorderDisabled ].
+				   e borderBuilder paint: (e stampValue: #'color-border-disabled') ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder paint: e toTheme colorErrorHover ].
+				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-error-hover') ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
-				   e borderBuilder paint: e toTheme colorErrorHover darker ] ]).
+				   e borderBuilder paint: (e stampValue: #'color-error-pressed') ] ]).
 
 		  " danger button form icon "
 		  ((#image asStyleSelector parent: #( #button #danger ) depth: 2)
@@ -587,19 +587,19 @@ ToDefaultStyleSheet >> defaultButtonRules [
 				   sr
 					   when: ToInitialLookEvent
 					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorError ].
+					   with: [ :e | (e stampValue: #'color-error') ].
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorImageDisabled ].
+					   with: [ :e | (e stampValue: #'color-image-disabled') ].
 				   sr
 					   when: ToHoveredLookEvent
 					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorErrorHover ].
+					   with: [ :e | (e stampValue: #'color-error-hover') ].
 				   sr
 					   when: ToPressedLookEvent
 					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorErrorHover darker ] ]).
+					   with: [ :e | (e stampValue: #'color-error-pressed') ] ]).
 
 		  " danger button label "
 		  ((#label asStyleSelector parent: #( #button #danger ) depth: 2)
@@ -607,7 +607,7 @@ ToDefaultStyleSheet >> defaultButtonRules [
 				   sr
 					   when: ToInitialLookEvent
 					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorError ].
+					   with: [ :e | (e stampValue: #'color-error') ].
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #'label-text-foreground')
@@ -615,11 +615,11 @@ ToDefaultStyleSheet >> defaultButtonRules [
 				   sr
 					   when: ToHoveredLookEvent
 					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorErrorHover ].
+					   with: [ :e | (e stampValue: #'color-error-hover') ].
 				   sr
 					   when: ToPressedLookEvent
 					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorErrorHover darker ] ]).
+					   with: [ :e | (e stampValue: #'color-error-pressed') ] ]).
 
 		  " default button dashed "
 		  (#( #dashed ) asStyleSelector style: [ :sr |
@@ -706,14 +706,14 @@ ToDefaultStyleSheet >> labelRules [
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
-						   foreground: e toTheme colorError;
+						   foreground: (e stampValue: #'color-error');
 						   yourself ] ]).
 		  (#( #label #link ) asStyleSelector style: [ :sr |
 			   sr
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
-						   foreground: e toTheme colorLink;
+						   foreground: (e stampValue: #'color-link');
 						   yourself ] ]).
 		  (#( #label #primary ) asStyleSelector style: [ :sr |
 			   sr
@@ -734,14 +734,14 @@ ToDefaultStyleSheet >> labelRules [
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
-						   foreground: e toTheme colorSuccess;
+						   foreground: (e stampValue: #'color-success');
 						   yourself ] ]).
 		  (#( #label #warning ) asStyleSelector style: [ :sr |
 			   sr
 				   supplement: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
 					   e textAttributesBuilder
-						   foreground: e toTheme colorWarning;
+						   foreground: (e stampValue: #'color-warning');
 						   yourself ] ]) }
 ]
 
@@ -773,7 +773,7 @@ ToDefaultStyleSheet >> linkButtonRules [
 				   sr
 					   when: ToInitialLookEvent
 					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorLink ].
+					   with: [ :e | (e stampValue: #'color-link') ].
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #'image-inner-form-color')
@@ -781,11 +781,11 @@ ToDefaultStyleSheet >> linkButtonRules [
 				   sr
 					   when: ToHoveredLookEvent
 					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorLinkHover ].
+					   with: [ :e | e stampValue: #'color-link-hover'  ].
 				   sr
 					   when: ToPressedLookEvent
 					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorPrimaryPressed ] ]).
+					   with: [ :e | (e stampValue: #'color-primary-pressed') ] ]).
 
 		  " button link label "
 		  ((#label asStyleSelector parent: #( #button #link ) depth: 2)
@@ -793,7 +793,7 @@ ToDefaultStyleSheet >> linkButtonRules [
 				   sr
 					   when: ToInitialLookEvent
 					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorLink ].
+					   with: [ :e | (e stampValue: #'color-link') ].
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #'label-text-foreground')
@@ -801,11 +801,11 @@ ToDefaultStyleSheet >> linkButtonRules [
 				   sr
 					   when: ToHoveredLookEvent
 					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorLinkHover ].
+					   with: [ :e | (e stampValue: #'color-link-hover') ].
 				   sr
 					   when: ToPressedLookEvent
 					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorPrimaryPressed ] ]).
+					   with: [ :e | (e stampValue: #'color-primary-pressed') ] ]).
 
 		  " button link danger form icon "
 		  ((#image asStyleSelector
@@ -814,7 +814,7 @@ ToDefaultStyleSheet >> linkButtonRules [
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | e toTheme colorError ].
+				   with: [ :e | (e stampValue: #'color-error') ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'image-inner-form-color')
@@ -822,11 +822,11 @@ ToDefaultStyleSheet >> linkButtonRules [
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | e toTheme colorErrorHover ].
+				   with: [ :e | (e stampValue: #'color-error-hover') ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | e toTheme colorError darker ] ]).
+				   with: [ :e | (e stampValue: #'color-error-pressed') ] ]).
 
 		  " button link danger label "
 		  ((#label asStyleSelector
@@ -835,7 +835,7 @@ ToDefaultStyleSheet >> linkButtonRules [
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e toTheme colorError ].
+				   with: [ :e | (e stampValue: #'color-error') ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'label-text-foreground')
@@ -843,11 +843,11 @@ ToDefaultStyleSheet >> linkButtonRules [
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e toTheme colorErrorHover ].
+				   with: [ :e | (e stampValue: #'color-error-hover') ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e toTheme colorError darker ] ]) }
+				   with: [ :e | (e stampValue: #'color-error-pressed') ] ]) }
 ]
 
 { #category : #'accessing rules  -button' }
@@ -859,7 +859,7 @@ ToDefaultStyleSheet >> primaryButtonRules [
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e toTheme colorPrimary ].
+				   with: [ :e | (e stampValue: #'color-primary') ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #background)
@@ -867,17 +867,17 @@ ToDefaultStyleSheet >> primaryButtonRules [
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'background-color')
-				   with: [ :e | e toTheme colorPrimaryHover ]
+				   with: [ :e | (e stampValue: #'color-primary-hover') ]
 				   animation: ToPropertyColorTransitionAnimation new.
 			   sr
 				   when: ToLeavedLookEvent
 				   write: (self property: #'background-color')
-				   with: [ :e | e toTheme colorPrimary ]
+				   with: [ :e | (e stampValue: #'color-primary') ]
 				   animation: ToPropertyColorTransitionAnimation new.
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e toTheme colorPrimaryPressed ].
+				   with: [ :e | (e stampValue: #'color-primary-pressed') ].
 
 			   sr
 				   when: ToInitialLookEvent
@@ -887,14 +887,14 @@ ToDefaultStyleSheet >> primaryButtonRules [
 				   when: ToDisabledLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
-				   e borderBuilder paint: e toTheme colorBorderDisabled ].
+				   e borderBuilder paint: (e stampValue: #'color-border-disabled') ].
 
 
 			   sr select: #danger style: [
 				   sr
 					   when: ToInitialLookEvent
 					   write: (self property: #background)
-					   with: [ :e | e toTheme colorError ].
+					   with: [ :e | (e stampValue: #'color-error') ].
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #background)
@@ -902,17 +902,17 @@ ToDefaultStyleSheet >> primaryButtonRules [
 				   sr
 					   when: ToHoveredLookEvent
 					   write: (self property: #'background-color')
-					   with: [ :e | e toTheme colorErrorHover ]
+					   with: [ :e | (e stampValue: #'color-error-hover') ]
 					   animation: ToPropertyColorTransitionAnimation new.
 				   sr
 					   when: ToLeavedLookEvent
 					   write: (self property: #'background-color')
-					   with: [ :e | e toTheme colorError ]
+					   with: [ :e | (e stampValue: #'color-error') ]
 					   animation: ToPropertyColorTransitionAnimation new.
 				   sr
 					   when: ToPressedLookEvent
 					   write: (self property: #background)
-					   with: [ :e | e toTheme colorErrorPressed ].
+					   with: [ :e | e stampValue: #'color-error-pressed' ].
 
 				   sr
 					   when: ToInitialLookEvent
@@ -922,7 +922,7 @@ ToDefaultStyleSheet >> primaryButtonRules [
 					   when: ToDisabledLookEvent
 					   write: (self property: #'border-with-builder')
 					   with: [ :e |
-					   e borderBuilder paint: e toTheme colorBorderDisabled ] ] ]).
+					   e borderBuilder paint: (e stampValue: #'color-border-disabled') ] ] ]).
 
 		  " primary button form icon "
 
@@ -932,19 +932,19 @@ ToDefaultStyleSheet >> primaryButtonRules [
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | e toTheme colorImageLightSolid ].
+				   with: [ :e | (e stampValue: #'color-image-light-solid') ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | e toTheme colorImageDisabled ].
+				   with: [ :e | (e stampValue: #'color-image-disabled') ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | e toTheme colorImageLightSolid ].
+				   with: [ :e | (e stampValue: #'color-image-light-solid') ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | e toTheme colorImageLightSolid ] ]).
+				   with: [ :e | (e stampValue: #'color-image-light-solid') ] ]).
 
 		  " primary button label "
 
@@ -995,11 +995,11 @@ ToDefaultStyleSheet >> textButtonRules [
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e toTheme colorBgTextHover ].
+				   with: [ :e | e stampValue: #'color-bg-text-hover' ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e toTheme colorBgTextActive ].
+				   with: [ :e | e stampValue: #'color-bg-text-active' ].
 
 			   sr
 				   when: ToInstallLookEvent
@@ -1023,11 +1023,11 @@ ToDefaultStyleSheet >> textButtonRules [
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e toTheme colorErrorBg ].
+				   with: [ :e | e stampValue: #'color-error-bg' ].
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #background)
-				   with: [ :e | e toTheme colorErrorBg ].
+				   with: [ :e | e stampValue: #'color-error-bg' ].
 
 			   sr
 				   when: ToInstallLookEvent
@@ -1044,7 +1044,7 @@ ToDefaultStyleSheet >> textButtonRules [
 				   sr
 					   when: ToInitialLookEvent
 					   write: (self property: #'image-inner-form-color')
-					   with: [ :e | e toTheme colorText ].
+					   with: [ :e | e stampValue: #'color-text' ].
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #'image-inner-form-color')
@@ -1057,7 +1057,7 @@ ToDefaultStyleSheet >> textButtonRules [
 				   sr
 					   when: ToInitialLookEvent
 					   write: (self property: #'label-text-foreground')
-					   with: [ :e | e toTheme colorText ].
+					   with: [ :e | e stampValue: #'color-text' ].
 				   sr
 					   when: ToDisabledLookEvent
 					   write: (self property: #'label-text-foreground')
@@ -1071,7 +1071,7 @@ ToDefaultStyleSheet >> textButtonRules [
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'image-inner-form-color')
-				   with: [ :e | e toTheme colorError ].
+				   with: [ :e | (e stampValue: #'color-error') ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'image-inner-form-color')
@@ -1085,7 +1085,7 @@ ToDefaultStyleSheet >> textButtonRules [
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e toTheme colorError ].
+				   with: [ :e | (e stampValue: #'color-error') ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'label-text-foreground')

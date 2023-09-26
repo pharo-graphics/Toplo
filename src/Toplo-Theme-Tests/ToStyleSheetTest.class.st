@@ -27,7 +27,7 @@ ToStyleSheetTest >> testButtonLabelSkin0 [
 			parent: (ToStyleStampSelector new addAllStampNames: #( #button #danger ))
 			depth: 2)
 			 style: [ :sr |
-				 sr write: prop with: [ :e | e toTheme colorError ].
+				 sr write: prop with: [ :e | (e stampValue: #'color-error') ].
 				 sr
 					 when: ToDisabledLookEvent
 					 write: prop
@@ -35,15 +35,15 @@ ToStyleSheetTest >> testButtonLabelSkin0 [
 				 sr
 					 when: ToInitialLookEvent
 					 write: prop
-					 with: [ :e | e toTheme colorError ].
+					 with: [ :e | (e stampValue: #'color-error') ].
 				 sr
 					 when: ToHoveredLookEvent
 					 write: prop
-					 with: [ :e | e toTheme colorErrorHover ].
+					 with: [ :e | (e stampValue: #'color-error-hover') ].
 				 sr
 					 when: ToPressedLookEvent
 					 write: prop
-					 with: [ :e | e toTheme colorError darker ] ]).
+					 with: [ :e | (e stampValue: #'color-error-pressed') ] ]).
 
 	button := ToButton new.
 	button styleSheet: ss.
@@ -73,7 +73,7 @@ ToStyleSheetTest >> testButtonLabelSkin0 [
 				                  'should have a foreground attribute (toTheme colorError)' ].
 	self
 		assert: foregroundAttr paint
-		equals: button label toTheme colorError
+		equals: (button stampValue: #'color-error')
 ]
 
 { #category : #tests }
@@ -103,19 +103,19 @@ ToStyleSheetTest >> testButtonSkin0 [
 				 sr
 					 when: ToDisabledLookEvent
 					 write: p
-					 with: [ :e | e toTheme colorBorderDisabled ].
+					 with: [ :e | (e stampValue: #'color-border-disabled') ].
 				 sr
 					 when: ToInitialLookEvent
 					 write: p
-					 with: [ :e | e toTheme colorBorder ].
+					 with: [ :e | e stampValue: #'color-border' ].
 				 sr
 					 when: ToHoveredLookEvent
 					 write: p
-					 with: [ :e | e toTheme colorPrimaryHover ].
+					 with: [ :e | (e stampValue: #'color-primary-hover') ].
 				 sr
 					 when: ToPressedLookEvent
 					 write: p
-					 with: [ :e | e toTheme colorPrimaryPressed ] ]).
+					 with: [ :e | (e stampValue: #'color-primary-pressed') ] ]).
 
 	" danger button label rule "
 	ss addStyleRule: (((ToStyleStampSelector new addStampName: #'button-label')
@@ -137,15 +137,15 @@ ToStyleSheetTest >> testButtonSkin0 [
 				 sr
 					 when: ToInitialLookEvent
 					 write: p
-					 with: [ :e | e toTheme colorError ].
+					 with: [ :e | (e stampValue: #'color-error') ].
 				 sr
 					 when: ToHoveredLookEvent
 					 write: p
-					 with: [ :e | e toTheme colorErrorHover ].
+					 with: [ :e | (e stampValue: #'color-error-hover') ].
 				 sr
 					 when: ToPressedLookEvent
 					 write: p
-					 with: [ :e | e toTheme colorError darker ] ]).
+					 with: [ :e | (e stampValue: #'color-error-pressed') ] ]).
 
 
 	button := ToButton new.
@@ -163,7 +163,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 	self assert: button border paint isColorPaint.
 	self
 		assert: button border paint color
-		equals: button toTheme colorBorder.
+		equals: (button stampValue: #'color-border').
 
 	label := ToLabel text: 'Default'.
 	label defaultSkin: nil.
@@ -193,7 +193,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 				                  'should have a foreground attribute (toTheme colorError)' ].
 	self
 		assert: foregroundAttr paint
-		equals: button label toTheme colorError
+		equals: (button label stampValue: #'color-error')
 ]
 
 { #category : #tests }

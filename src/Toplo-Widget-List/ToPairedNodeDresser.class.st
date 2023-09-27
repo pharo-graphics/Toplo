@@ -19,9 +19,9 @@ ToPairedNodeDresser >> installEventListenersIn: anElement [
 	selectionRemovedHandler := BlEventHandler
 		                           on: ToListPrimarySelectionRemovedEvent
 		                           do: [ :event | self selectionRemovedIn: anElement ].
-	anElement addEventHandler: selectionBackgroundChangedHandler.
+	"anElement addEventHandler: selectionBackgroundChangedHandler.
 	anElement addEventHandler: selectionRemovedHandler.
-
+"
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -44,7 +44,7 @@ ToPairedNodeDresser >> selectionRemovedIn: anElement [
 ToPairedNodeDresser >> uninstallEventListenersIn: anElement [
 
 	super uninstallEventListenersIn: anElement.
-	anElement removeEventHandler: selectionBackgroundChangedHandler.
+	"anElement removeEventHandler: selectionBackgroundChangedHandler.
 	anElement removeEventHandler: selectionRemovedHandler.
-
+"
 ]

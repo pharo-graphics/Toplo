@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Widget-Album-Label'
 }
 
+{ #category : #sending }
+ToTextReplacedEvent >> sendTo: anObject [
+
+	anObject textReplacedEvent: self
+]
+
 { #category : #accessing }
 ToTextReplacedEvent >> text [
 

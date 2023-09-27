@@ -1,6 +1,6 @@
 Class {
-	#name : #ToLabelEditorEventListener,
-	#superclass : #ToTextFieldEventListener,
+	#name : #ToLabelEditorEventHandler,
+	#superclass : #ToAlbumEventHandler,
 	#instVars : [
 		'label',
 		'editorPosition'
@@ -9,51 +9,50 @@ Class {
 }
 
 { #category : #'event handling' }
-ToLabelEditorEventListener >> elementAddedToSceneGraphEvent: anEvent [
+ToLabelEditorEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target whenLayoutedDoOnce: [ editorPosition := target positionInSpace ]
+	target whenLayoutedDoOnce: [ editorPosition := target positionInSpace ].
 ]
 
 { #category : #'event handling' }
-ToLabelEditorEventListener >> elementPositionInSpaceChangedEvent: anEvent [
+ToLabelEditorEventHandler >> elementPositionInSpaceChangedEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-
 	editorPosition ifNil: [ ^ self ].
 	editorPosition ~= target positionInSpace ifTrue: [
 		self label removeEditor ]
 ]
 
 { #category : #'api - accessing' }
-ToLabelEditorEventListener >> eventsToHandle [ 
+ToLabelEditorEventHandler >> eventsToHandle [ 
 
 	^ super eventsToHandle , { BlElementAddedToSceneGraphEvent. BlElementPositionInSpaceChangedEvent  }
 ]
 
 { #category : #'event handling' }
-ToLabelEditorEventListener >> focusEvent: anEvent [
+ToLabelEditorEventHandler >> focusEvent: anEvent [
 
 	super focusEvent: anEvent.
 	self label editorFrame toFront
 ]
 
 { #category : #accessing }
-ToLabelEditorEventListener >> label [
+ToLabelEditorEventHandler >> label [
 
 	^ label
 ]
 
 { #category : #accessing }
-ToLabelEditorEventListener >> label: aLabel [
+ToLabelEditorEventHandler >> label: aLabel [
 
 	label := aLabel
 ]
 
 { #category : #'api - hooks' }
-ToLabelEditorEventListener >> onInstalledIn: anElement [
+ToLabelEditorEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	anElement fitContent.

@@ -46,7 +46,7 @@ ToAlbum >> defaultEditorElement [
 { #category : #initialization }
 ToAlbum >> defaultEventHandler [
 
-	^ ToAlbumEventListener new.
+	^ ToAlbumEventHandler new.
 
 ]
 

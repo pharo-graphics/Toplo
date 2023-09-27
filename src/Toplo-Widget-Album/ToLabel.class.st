@@ -30,7 +30,6 @@ ToLabel >> addEditor: anEditor [
 
 	self editor ifNotNil: [ ^ self ].
 	self editor: anEditor.
-	self dispatchEvent: ToLabelEditorAddedEvent new.
 	self editor text: self text copy.
 	self editorFrame: (self newEditorFrameForEditor: self editor).
 	self innerElement visibility: BlVisibility hidden.
@@ -73,9 +72,9 @@ ToLabel >> cleanUpUserData [
 ]
 
 { #category : #initialization }
-ToLabel >> defaultDresser [
+ToLabel >> defaultEventHandler [ 
 
-	^ ToLabelDresser new
+	^ ToLabelEventHandler new
 ]
 
 { #category : #initialization }
@@ -176,13 +175,16 @@ ToLabel >> initialize [
 
 	super initialize.
 
-	" need to initialize the dresser before setting lineMode and text"
 	self lineMode: self defaultLineMode.
 	self text: self defaultText.
 
 	isEditable := false.
 	self layout: self defaultLayout.
 	self fitContent.
+	self innerElement: self defaultTextElement.	
+	self whenLineModeChangedDo: [ self lineModeChanged ].
+	self whenTextReplacedDo: [ self privateText: self text ].
+	self addEventHandler: self defaultEventHandler 
 ]
 
 { #category : #accessing }
@@ -194,7 +196,13 @@ ToLabel >> innerElement [
 { #category : #accessing }
 ToLabel >> innerElement: anInnerElement [
 
-	innerElement := anInnerElement 
+	innerElement = anInnerElement ifTrue: [ ^ self ].
+	innerElement ifNotNil: [ innerElement removeFromParent ]. 
+	innerElement := anInnerElement.
+	innerElement
+		when: ToTextReplacedEvent
+		do: [ :evt | self text: evt text ].
+	self addChild: innerElement 
 ]
 
 { #category : #accessing }
@@ -239,6 +247,15 @@ ToLabel >> lineMode: aLineMode [
 	lineMode := aLineMode
 ]
 
+{ #category : #'private-change' }
+ToLabel >> lineModeChanged [
+
+	| currText |
+	currText := self text.
+	self innerElement: self defaultTextElement.	
+	currText ifNotNil: [self innerElement text: currText]
+]
+
 { #category : #initialization }
 ToLabel >> monoLine: aBoolean [
 
@@ -275,9 +292,7 @@ ToLabel >> removeEditor [
 	self editor ifNil: [ ^ self ].
 	self editorFrame removeFromParent.
 	self innerElement visibility: BlVisibility visible.
-	self cleanUpUserData.
-	self dispatchEvent: ToLabelEditorRemovedEvent new.
-
+	self cleanUpUserData
 
 ]
 

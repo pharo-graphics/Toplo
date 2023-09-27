@@ -11,13 +11,6 @@ ToTextField >> defaultEditorElement [
 ]
 
 { #category : #initialization }
-ToTextField >> defaultEventHandler [
-
-	^ ToTextFieldEventListener new.
-
-]
-
-{ #category : #initialization }
 ToTextField >> defaultGeometry [
 
 	^ BlRoundedRectangleGeometry cornerRadius: 4

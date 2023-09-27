@@ -6,12 +6,6 @@ Class {
 	#category : #'Toplo-Widget-Select'
 }
 
-{ #category : #'t - initialization dresser' }
-ToSelectItem >> defaultDresser [
-
-	^ ToBasicMenuItemDresser next: ToSelectItemDresser new
-]
-
 { #category : #'as yet unclassified' }
 ToSelectItem >> initialize [
 

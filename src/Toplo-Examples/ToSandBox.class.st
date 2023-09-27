@@ -919,7 +919,7 @@ ToSandBox class >> example_Popup1 [
 		     position: 50 @ 50.
 	popup := ToPopupWindow new widget: e.
 	but := ToWidget new size: 50 @ 90.
-	but addDresser: ToWidgetDresser new.
+	but addEventHandler: (ToSkinableEventHandler new target: but).
 	but when: BlPrimaryClickEvent do: [
 		self inform: 'Click'.
 		popup close ].
@@ -2613,7 +2613,7 @@ ToSandBox class >> example_toAlbumAsButton [
 	but := ToAlbum new
 		       text: 'Hello world';
 		       preventChildrenMouseEvents.
-	but addDresser: ToWidgetDresser new.
+	but addEventHandler: (ToSkinableEventHandler new target: but).
 	but
 		when: BlPrimaryClickEvent
 		do: [ self inform: 'Click' ].
@@ -2635,7 +2635,8 @@ ToSandBox class >> example_toBasicButton0 [
 ToSandBox class >> example_toBasicButton1 [
 
 	| but |
-	but := ToGeneralButton new dresser: ToWidgetDresser new.
+	but := ToGeneralButton new.
+	but addEventHandler: (ToSkinableEventHandler new target: but).
 	but addChild: (BlElement new
 			 size: 30 @ 30;
 			 yourself).
@@ -2651,7 +2652,8 @@ ToSandBox class >> example_toBasicButton2 [
 	lab := ToLabel new text: ('Button' asRopedText
 			        fontSize: 40;
 			        yourself).
-	but := ToGeneralButton new dresser: ToWidgetDresser new.
+	but := ToGeneralButton new.
+	but addEventHandler: (ToSkinableEventHandler new target: but).
 	but matchParent.
 	but addChild: lab.
 	but layout alignCenter.
@@ -2684,7 +2686,8 @@ ToSandBox class >> example_toBasicButton4 [
 	pane addChildren: {
 			ico.
 			lab }.
-	but := ToGeneralButton new dresser: ToWidgetDresser new.
+	but := ToGeneralButton new.
+	but addEventHandler: (ToSkinableEventHandler new target: but).
 	but matchParent.
 	but addChild: pane.
 	but layout alignCenter.
@@ -3726,7 +3729,7 @@ ToSandBox class >> example_toWidgetAsButton0 [
 
 	| but |
 	but := ToWidget new.
-	but addDresser: ToWidgetDresser new.
+	but addEventHandler: (ToSkinableEventHandler new target: but)..
 	but
 		when: BlPrimaryClickEvent
 		do: [ self inform: 'Click' ].

@@ -18,12 +18,6 @@ ToOverlayWindow >> defaulPositioningHook [
 	^ [ :w :event | w widget bounds inSpace bounds topLeft ]
 ]
 
-{ #category : #'t - initialization dresser' }
-ToOverlayWindow >> defaultDresser [ 
-
-	^ ToOverlayWindowDresser new
-]
-
 { #category : #initialization }
 ToOverlayWindow >> defaultWidgetEventHandler [ 
 

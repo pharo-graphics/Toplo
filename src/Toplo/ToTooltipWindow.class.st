@@ -5,7 +5,7 @@ Class {
 		'#content => ObservableSlot',
 		'#label'
 	],
-	#category : 'Toplo-Core-Tooltip'
+	#category : #'Toplo-Core-Tooltip'
 }
 
 { #category : #accessing }
@@ -32,13 +32,6 @@ ToTooltipWindow >> defaulPositioningHook [
 	^ [ :w :event | event position x @ (w widget localPointToGlobal: 0 @ w widget height) y + self vgap ]
 ]
 
-{ #category : #'t - accessing - dresser' }
-ToTooltipWindow >> defaultDresser [
-
-	^ ToTooltipWindowDresser new
-
-]
-
 { #category : #initialization }
 ToTooltipWindow >> defaultLabel [
 
@@ -50,12 +43,29 @@ ToTooltipWindow >> defaultLabel [
 ]
 
 { #category : #initialization }
+ToTooltipWindow >> defaultWidgetEventHandler [ 
+
+	^ ToWidgetWithTooltipEventHandler new
+]
+
+{ #category : #initialization }
 ToTooltipWindow >> initialize [
 
 	super initialize.
 		
 	self elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
-	self whenContentChangedDo: [ self label text: self content ]
+	self whenContentChangedDo: [ self label text: self content ].
+	self geometry: (BlRoundedRectangleGeometry cornerRadius: 8).
+	self border: (BlBorder paint: (Color gray alpha: 0.4)).
+	self background: (Color yellow alpha: 0.2).
+	self padding: (BlInsets all: 4).
+	self label margin: (BlInsets all: 4).
+	self fitContent.
+	self label constraintsDo: [ :c | 
+		c linear vertical alignCenter.
+		c linear horizontal alignCenter ].
+	self addEventHandler: ToTooltipWindowEventHandler new
+
 ]
 
 { #category : #accessing }

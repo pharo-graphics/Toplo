@@ -24,15 +24,21 @@ ToMenuWindow >> defaulPositioningHook [
 ]
 
 { #category : #initialization }
+ToMenuWindow >> defaultBackground [
+
+	^ Color white
+]
+
+{ #category : #initialization }
 ToMenuWindow >> defaultBorder [
 
 	^ BlBorder paint: Color lightGray width: 1
 ]
 
-{ #category : #'t - initialization dresser' }
-ToMenuWindow >> defaultDresser [ 
-
-	^ ToMenuWindowDresser new
+{ #category : #initialization }
+ToMenuWindow >> defaultEventHandler [ 
+	
+	^ ToMenuWindowEventHandler new
 ]
 
 { #category : #accessing }

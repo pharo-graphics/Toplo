@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
+{ #category : #testing }
+ToButtonMenuItemDresser class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #'events handling' }
 ToButtonMenuItemDresser >> mouseUpEvent: anEvent in: anElement [
 

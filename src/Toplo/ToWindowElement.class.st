@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'root'
 	],
-	#category : 'Toplo-Core-Window'
+	#category : #'Toplo-Core-Window'
 }
 
 { #category : #'api - displaying' }
@@ -76,9 +76,11 @@ ToWindowElement >> elements [
 ToWindowElement >> initialize [
 
 	super initialize.
+	
 	self
 		elevation: (BlRelativeElevation elevation: SmallInteger maxVal);
 		border: self defaultBorder;
+		background: self defaultBackground;
 		layout: self defaultLayout;
 		outskirts: BlOutskirts outside;
 		geometry: self defaultGeometry;

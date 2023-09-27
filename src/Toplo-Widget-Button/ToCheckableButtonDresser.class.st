@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Widget-Button-Checkable'
 }
 
+{ #category : #testing }
+ToCheckableButtonDresser class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToCheckableButtonDresser >> checkEvent: anEvent in: anElement [
 	"checkEvent:in: can be send either because of a click or because the checkable as been checked programmatically"
@@ -36,6 +42,7 @@ ToCheckableButtonDresser >> clicked: anElement [
 ToCheckableButtonDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
+	true ifTrue: [ ^ self ].
 	checkableHandler := BlEventHandler
 		                    on: ToCheckableCheckEvent
 		                    do: [ :event | self checkEvent: event in: anElement ].

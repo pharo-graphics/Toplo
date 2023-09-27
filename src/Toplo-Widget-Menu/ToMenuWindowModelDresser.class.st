@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
+{ #category : #testing }
+ToMenuWindowModelDresser class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #'events handling' }
 ToMenuWindowModelDresser >> leftMouseDownEvent: anEvent in: anElement [
 

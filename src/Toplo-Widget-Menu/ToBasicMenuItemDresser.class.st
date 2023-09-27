@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
+{ #category : #testing }
+ToBasicMenuItemDresser class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToBasicMenuItemDresser >> hover: anElement event: anEvent [
 

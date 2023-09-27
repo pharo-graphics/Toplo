@@ -6,6 +6,12 @@ Class {
 	#category : #'Toplo-Widget-List'
 }
 
+{ #category : #initialization }
+ToListElement >> defaultBackground [
+
+	^ BlBackground paint: Color white
+]
+
 { #category : #'t - initialization dresser' }
 ToListElement >> defaultDresser [ 
 
@@ -19,6 +25,20 @@ ToListElement >> defaultLayout [
 ]
 
 { #category : #initialization }
+ToListElement >> defaultMargin [
+
+	^ BlInsets all: 0
+]
+
+{ #category : #initialization }
+ToListElement >> defaultPadding [
+
+	" Must be 1 to see the focus frame AND to draw selection decoration correctly (not outside infinite bounds)  "
+	^ BlInsets all: 1
+
+]
+
+{ #category : #initialization }
 ToListElement >> initialize [ 
 
 	super initialize.
@@ -26,6 +46,9 @@ ToListElement >> initialize [
 	self next elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
 	self matchParent.
 	self withSelectionDecoration.
+	self background: self defaultBackground.
+	self margin: self defaultMargin.
+	self padding: self defaultPadding.
 ]
 
 { #category : #'t - initialization dresser' }

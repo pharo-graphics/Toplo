@@ -5,8 +5,14 @@ Class {
 		'eventHandler',
 		'widgetWithTooltipEventHandler'
 	],
-	#category : 'Toplo-Core-Tooltip'
+	#category : #'Toplo-Core-Tooltip'
 }
+
+{ #category : #testing }
+ToTooltipWindowDresser class >> isDeprecated [ 
+
+	^ true
+]
 
 { #category : #'api - install/uninstall  hook' }
 ToTooltipWindowDresser >> installWidget: newWidget in: anElement [

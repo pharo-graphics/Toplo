@@ -124,6 +124,7 @@ ToWidgetDresser >> initialState: anElement [
 ToWidgetDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
+
 	" since BlMousePickOutsideEvent is not a BlUIEvent, it is not handled by a BlEventListener"
 	mouseUpOutsideHandler := BlEventHandler
 		                         on: BlMouseUpOutsideEvent

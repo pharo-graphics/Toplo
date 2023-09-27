@@ -6,10 +6,10 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : #'t - initialization dresser' }
-ToCheckMenuItem >> defaultDresser [
+{ #category : #initialization }
+ToCheckMenuItem >> defaultEventHandler [ 
 
-	^ ToBasicMenuItemDresser next: ToCheckableButtonDresser new
+	^ ToCheckableEventHandler new
 ]
 
 { #category : #initialization }

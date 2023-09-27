@@ -6,10 +6,10 @@ Class {
 	#category : #'Toplo-Widget-Button-Checkable'
 }
 
-{ #category : #'t - initialization dresser' }
-ToCheckbox >> defaultDresser [
+{ #category : #initialization }
+ToCheckbox >> defaultEventHandler [ 
 
-	^ ToCheckableButtonDresser new
+	^ ToCheckableEventHandler new 
 ]
 
 { #category : #'t - skinable - initialization' }

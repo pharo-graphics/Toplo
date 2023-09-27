@@ -23,10 +23,10 @@ ToMenuItem >> client [
 	^ self parentMenu client
 ]
 
-{ #category : #'t - initialization dresser' }
-ToMenuItem >> defaultDresser [ 
+{ #category : #initialization }
+ToMenuItem >> defaultEventHandler [ 
 
-	^ ToBasicMenuItemDresser next: ToButtonMenuItemDresser new
+	^ ToMenuItemEventHandler new
 ]
 
 { #category : #'t - triplet - accessing' }
@@ -39,13 +39,6 @@ ToMenuItem >> first [
 ToMenuItem >> first: anElement [
 
 	icon := anElement
-]
-
-{ #category : #initialization }
-ToMenuItem >> initialize [
-
-	super initialize.
-	self fitContent
 ]
 
 { #category : #'t - orientable - accessing' }

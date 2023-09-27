@@ -7,10 +7,10 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : #'t - initialization dresser' }
-ToCustomMenuItem >> defaultDresser [
+{ #category : #initialization }
+ToCustomMenuItem >> defaultEventHandler [
 
-	^ ToBasicMenuItemDresser new
+	^ ToMenuItemEventHandler new
 ]
 
 { #category : #accessing }

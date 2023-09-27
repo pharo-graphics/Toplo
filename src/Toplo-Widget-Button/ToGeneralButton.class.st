@@ -21,8 +21,17 @@ ToGeneralButton >> client: anObject [
 	client := anObject
 ]
 
-{ #category : #'t - initialization dresser' }
-ToGeneralButton >> defaultDresser [
+{ #category : #initialization }
+ToGeneralButton >> defaultEventHandler [ 
 
-	^ ToWidgetDresser new
+	^ ToSkinableEventHandler new 
+]
+
+{ #category : #initialization }
+ToGeneralButton >> initialize [
+
+	super initialize.
+	self addEventHandler: (self defaultEventHandler
+			 target: self;
+			 yourself)
 ]

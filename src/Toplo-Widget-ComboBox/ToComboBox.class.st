@@ -53,10 +53,10 @@ ToComboBox >> data [
 	^ data
 ]
 
-{ #category : #'t - initialization dresser' }
-ToComboBox >> defaultDresser [
+{ #category : #initialization }
+ToComboBox >> defaultEventHandler [ 
 
-	^ ToComboBoxDresser new
+	^ ToComboBoxEventHandler new
 ]
 
 { #category : #initialization }
@@ -71,6 +71,7 @@ ToComboBox >> defaultListElement [
 	^ ToListElement new
 		  preserveSelectionOnFocused: false;
 		  in: [ :le | le infinite focusability: BlFocusability none ];
+		  geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
 		  yourself
 ]
 
@@ -162,6 +163,9 @@ ToComboBox >> indexOfData: aData [
 ToComboBox >> initialize [
 
 	super initialize.
+	self vFitContent.
+	self hMatchParent.
+	self privateListElement: self defaultListElement.
 	selectedIndex := 0.
 	self mode: self defaultMode.
 	self privateListFrame: self defaultListFrame.
@@ -173,6 +177,7 @@ ToComboBox >> initialize [
 	self fitListElementToContent.
 	self listElement showPlaceholder.
 	self whenModeChangedDo: [ :new :prev | self mode: prev changedWith: new ].
+	self addEventHandler: self defaultEventHandler 
 ]
 
 { #category : #testing }
@@ -336,16 +341,6 @@ ToComboBox >> popupOrCloseEvent: anEvent [
 	self isOpened
 		ifTrue: [ self closeEvent: anEvent ]
 		ifFalse: [ self popupEvent: anEvent ]
-]
-
-{ #category : #'t - initialization dresser' }
-ToComboBox >> preInitializeDresser [ 
-
-	super preInitializeDresser.
-	self privateListElement: self defaultListElement.
-
-
-
 ]
 
 { #category : #accessing }

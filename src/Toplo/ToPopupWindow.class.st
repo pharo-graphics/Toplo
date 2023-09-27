@@ -21,10 +21,10 @@ ToPopupWindow >> defaulPositioningHook [
 	^ [ :window :event |  window widget bounds inSpace bounds bottomLeft ]
 ]
 
-{ #category : #'t - initialization dresser' }
-ToPopupWindow >> defaultDresser [ 
-
-	^ ToPopupWindowDresser new
+{ #category : #initialization }
+ToPopupWindow >> defaultEventHandler [ 
+	
+	^ ToPopupWindowEventHandler new
 ]
 
 { #category : #initialization }
@@ -37,7 +37,7 @@ ToPopupWindow >> defaultWidgetEventHandler [
 ToPopupWindow >> initialize [ 
 
 	super initialize.
-	self addEventHandler: ToPopupWindowEventHandler new
+	self addEventHandler: self defaultEventHandler 
 ]
 
 { #category : #'api - displaying' }

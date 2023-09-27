@@ -30,6 +30,12 @@ ToAbstractMenuItem >> columnWidth [
 	^ self parentMenu ifNil: [ 0 ] ifNotNil: [:pm | pm columnWidth ]
 ]
 
+{ #category : #initialization }
+ToAbstractMenuItem >> defaultEventHandler [
+
+	^ nil
+]
+
 { #category : #testing }
 ToAbstractMenuItem >> hasIcon [
 
@@ -44,8 +50,10 @@ ToAbstractMenuItem >> icon: anElement [
 ToAbstractMenuItem >> initialize [
 
 	super initialize.
-	self layout: BlLinearLayout horizontal
-
+	self layout: BlLinearLayout horizontal.
+	self defaultEventHandler ifNotNil: [ :eh |
+		eh target: self.
+		self addEventHandler: eh ]
 ]
 
 { #category : #testing }

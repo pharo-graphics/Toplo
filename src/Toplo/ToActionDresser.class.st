@@ -5,8 +5,14 @@ Class {
 		'installAction',
 		'uninstallAction'
 	],
-	#category : 'Toplo-Core'
+	#category : #'Toplo-Core'
 }
+
+{ #category : #testing }
+ToActionDresser class >> isDeprecated [ 
+
+	^ true
+]
 
 { #category : #initialization }
 ToActionDresser >> initialize [

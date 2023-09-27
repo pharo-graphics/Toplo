@@ -15,10 +15,10 @@ ToSelectInnerButton >> close [
 	^ self menuWindow close
 ]
 
-{ #category : #'t - initialization dresser' }
-ToSelectInnerButton >> defaultDresser [
+{ #category : #initialization }
+ToSelectInnerButton >> defaultEventHandler [ 
 
-	^ ToBasicMenuItemDresser next: (ToMenuWindowModelDresser next: ToSelectInnerButtonDresser new )
+	^ ToMenuWindowModelEventHandler new
 ]
 
 { #category : #initialization }

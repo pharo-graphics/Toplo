@@ -1,24 +1,16 @@
 Class {
 	#name : #ToWidgetWithTooltipEventHandler,
-	#superclass : #BlCustomEventHandler,
+	#superclass : #ToWidgetInPopupWindowEventHandler,
 	#instVars : [
-		'openTooltipTask',
-		'widget'
+		'openTooltipTask'
 	],
-	#category : 'Toplo-Core-Tooltip'
+	#category : #'Toplo-Core-Tooltip'
 }
-
-{ #category : #'element handlers' }
-ToWidgetWithTooltipEventHandler >> elementPositionChangedEvent: anEvent [
-
-	widget tooltip close
-
-]
 
 { #category : #'api - accessing' }
 ToWidgetWithTooltipEventHandler >> eventsToHandle [
 
-	^ { BlElementPositionChangedEvent.
+	^ super eventsToHandle , {
 		  BlMouseEnterEvent.
 		  BlMouseLeaveEvent.
 		  BlMouseDownEvent }
@@ -36,14 +28,14 @@ ToWidgetWithTooltipEventHandler >> hideTooltipFor: aWidget [
 { #category : #'api - accessing' }
 ToWidgetWithTooltipEventHandler >> mouseDownEvent: anEvent [
 
-	self hideTooltipFor: widget
+	self hideTooltipFor: self widget
 
 ]
 
 { #category : #'api - accessing' }
 ToWidgetWithTooltipEventHandler >> mouseEnterEvent: anEvent [
 
-	openTooltipTask ifNotNil: [ widget dequeueTask: openTooltipTask ].
+	openTooltipTask ifNotNil: [ self widget dequeueTask: openTooltipTask ].
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
 	self prepareDelayedPopupTooltipFromEvent: anEvent
 ]
@@ -51,7 +43,7 @@ ToWidgetWithTooltipEventHandler >> mouseEnterEvent: anEvent [
 { #category : #'api - accessing' }
 ToWidgetWithTooltipEventHandler >> mouseLeaveEvent: anEvent [
 
-	self hideTooltipFor: widget
+	self hideTooltipFor: self widget
 
 ]
 
@@ -64,7 +56,7 @@ ToWidgetWithTooltipEventHandler >> popupDelay [
 { #category : #private }
 ToWidgetWithTooltipEventHandler >> prepareDelayedPopupTooltipFromEvent: anEvent [
 
-	widget tooltipDo: [ :tooltip | 
+	self widget tooltipDo: [ :tooltip | 
 		tooltip content ifEmpty: [ ^ self ].
 		tooltip parentDo: [ :p | tooltip close ].
 		openTooltipTask := BlDelayedTaskAction new
@@ -72,17 +64,11 @@ ToWidgetWithTooltipEventHandler >> prepareDelayedPopupTooltipFromEvent: anEvent 
 			                   action: [ 
 				                   tooltip popupEvent: anEvent.
 				                   openTooltipTask := nil ].
-		widget enqueueTask: openTooltipTask ]
+		self widget enqueueTask: openTooltipTask ]
 ]
 
 { #category : #accessing }
 ToWidgetWithTooltipEventHandler >> widget [
 
-	^ widget
-]
-
-{ #category : #accessing }
-ToWidgetWithTooltipEventHandler >> widget: aWidget [
-
-	widget := aWidget
+	^ self window widget
 ]

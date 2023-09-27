@@ -8,6 +8,12 @@ Class {
 	#category : #'Toplo-Core-Window'
 }
 
+{ #category : #testing }
+ToBasicWindowDresser class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToBasicWindowDresser >> installWidget: newWidget in: anElement [
 

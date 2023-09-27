@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Core-Window'
 }
 
+{ #category : #testing }
+ToAnchoredWindowDresser class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToAnchoredWindowDresser >> installWidget: newWidget in: anElement [
 

@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Widget-Menu'
 }
 
+{ #category : #sending }
+ToContextMenuOpenedEvent >> sendTo: anEvent [
+
+	anEvent contextMenuOpenedEvent: self
+]
+
 { #category : #accessing }
 ToContextMenuOpenedEvent >> sourceEvent [
 

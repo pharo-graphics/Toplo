@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
+{ #category : #testing }
+ToMenuAsSubmenuDresser class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToMenuAsSubmenuDresser >> hover: anElement event: anEvent [
 

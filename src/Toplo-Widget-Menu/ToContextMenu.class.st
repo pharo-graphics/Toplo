@@ -31,12 +31,6 @@ ToContextMenu >> defaulPositioningHook [
 	^ [ :w :event | event position ]
 ]
 
-{ #category : #'t - initialization dresser' }
-ToContextMenu >> defaultDresser [ 
-
-	^ ToContextMenuDresser new
-]
-
 { #category : #initialization }
 ToContextMenu >> initialize [
 

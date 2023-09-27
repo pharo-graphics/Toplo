@@ -8,6 +8,12 @@ Class {
 	#category : #'Toplo-Core-Window'
 }
 
+{ #category : #testing }
+ToOverlayWindowDresser class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToOverlayWindowDresser >> installWidget: newWidget in: anElement [
 

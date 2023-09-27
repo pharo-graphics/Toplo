@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-Button-Toggle'
 }
 
+{ #category : #testing }
+ToToggleButtonDresser class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #'api - install/uninstall  hook' }
 ToToggleButtonDresser >> checkEvent: anEvent in: anElement [
 

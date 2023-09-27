@@ -15,23 +15,10 @@ ToAnchoredWindowDresser >> installWidget: newWidget in: anElement [
 	widgetPositionInSpaceHandler := BlEventHandler
 		                                on: BlElementPositionInSpaceChangedEvent
 		                                do: [ :event | anElement position: (anElement positioningHook value: anElement value: event) ].
-	newWidget addEventHandler: widgetPositionInSpaceHandler
+"	newWidget addEventHandler: widgetPositionInSpaceHandler"
 
 	
 
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToAnchoredWindowDresser >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement.
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToAnchoredWindowDresser >> onUninstalledIn: anElement [
-
-	super onUninstalledIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -39,7 +26,7 @@ ToAnchoredWindowDresser >> uninstallWidget: oldWidget in: anElement [
 
 	super uninstallWidget: oldWidget in: anElement.
 	oldWidget ifNil: [ ^ self ].
-	oldWidget removeEventHandler: widgetPositionInSpaceHandler.
-
+	"oldWidget removeEventHandler: widgetPositionInSpaceHandler.
+"
 
 ]

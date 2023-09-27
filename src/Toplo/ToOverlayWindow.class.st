@@ -1,7 +1,7 @@
 Class {
 	#name : #ToOverlayWindow,
 	#superclass : #ToWidgetWindowElement,
-	#category : 'Toplo-Core-Window'
+	#category : #'Toplo-Core-Window'
 }
 
 { #category : #'api - displaying' }
@@ -22,4 +22,10 @@ ToOverlayWindow >> defaulPositioningHook [
 ToOverlayWindow >> defaultDresser [ 
 
 	^ ToOverlayWindowDresser new
+]
+
+{ #category : #initialization }
+ToOverlayWindow >> defaultWidgetEventHandler [ 
+
+	^ ToWidgetInOverlayWindowEventHandler new
 ]

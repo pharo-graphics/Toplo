@@ -10,9 +10,10 @@ Class {
 		'#popupAnimationFactory',
 		'#hook',
 		'#popupTimestamp',
-		'#widget => ObservableSlot'
+		'#widget => ObservableSlot',
+		'#widgetEventHandler'
 	],
-	#category : 'Toplo-Core-Window'
+	#category : #'Toplo-Core-Window'
 }
 
 { #category : #accessing }
@@ -77,6 +78,12 @@ ToWidgetWindowElement >> close [
 ToWidgetWindowElement >> defaulPositioningHook [
 
 	^ self subclassResponsibility 
+]
+
+{ #category : #initialization }
+ToWidgetWindowElement >> defaultWidgetEventHandler [
+
+	^ ToWidgetInWindowEventHandler new
 ]
 
 { #category : #accessing }
@@ -206,7 +213,12 @@ ToWidgetWindowElement >> widget [
 ToWidgetWindowElement >> widget: aWidget [
 
 	aWidget = widget ifTrue: [ ^ self ].
-	widget := aWidget
+	widget ifNotNil: [ widget removeEventHandler: widgetEventHandler ].
+	widget := aWidget.
+	widgetEventHandler := nil.
+	widget ifNotNil: [
+		widgetEventHandler := self defaultWidgetEventHandler window: self.
+		widget addEventHandler: widgetEventHandler ]
 ]
 
 { #category : #initialization }

@@ -5,7 +5,7 @@ Class {
 		'closeHandler',
 		'widgetPositionHandler'
 	],
-	#category : 'Toplo-Core-Window'
+	#category : #'Toplo-Core-Window'
 }
 
 { #category : #'api - install/uninstall  hook' }
@@ -31,27 +31,6 @@ ToPopupWindowDresser >> mouseUpOutside: anEvent in: aMenuWindow [
 	" ok, really outside "
 	anEvent consumed: true.
 	anEvent currentTarget close
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToPopupWindowDresser >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement.
-	
-	anElement effect:
-		(BlGaussianShadowEffect
-			 color: Color gray
-			 width: 5
-			 offset: 2 asPoint)	
-
-
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToPopupWindowDresser >> onUninstalledIn: anElement [
-
-	super onUninstalledIn: anElement
 ]
 
 { #category : #'api - install/uninstall  hook' }

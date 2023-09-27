@@ -1,7 +1,7 @@
 Class {
 	#name : #ToAnchoredWindow,
 	#superclass : #ToWidgetWindowElement,
-	#category : 'Toplo-Core-Window'
+	#category : #'Toplo-Core-Window'
 }
 
 { #category : #start }
@@ -26,6 +26,12 @@ ToAnchoredWindow >> defaultDresser [
 ToAnchoredWindow >> defaultLayout [
 
 	^ BlFrameLayout new 
+]
+
+{ #category : #initialization }
+ToAnchoredWindow >> defaultWidgetEventHandler [
+
+	^ ToWidgetInAnchoredWindowEventHandler new
 ]
 
 { #category : #start }

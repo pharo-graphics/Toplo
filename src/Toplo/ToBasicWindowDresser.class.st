@@ -5,7 +5,7 @@ Class {
 		'widgetRemovedHandler',
 		'widgetRemovedFromSpaceHandler'
 	],
-	#category : 'Toplo-Core-Window'
+	#category : #'Toplo-Core-Window'
 }
 
 { #category : #'api - install/uninstall  hook' }
@@ -19,8 +19,8 @@ ToBasicWindowDresser >> installWidget: newWidget in: anElement [
 		                                 BlElementRemovedFromSceneGraphEvent
 		                                 do: [ anElement close ].
 
-	newWidget addEventHandler: widgetRemovedHandler.
-	newWidget addEventHandler: widgetRemovedFromSpaceHandler
+	"newWidget addEventHandler: widgetRemovedHandler.
+	newWidget addEventHandler: widgetRemovedFromSpaceHandler"
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -38,6 +38,6 @@ ToBasicWindowDresser >> onInstalledIn: anElement [
 ToBasicWindowDresser >> uninstallWidget: oldWidget in: anElement [
 
 	oldWidget ifNil: [ ^ self ].
-	oldWidget removeEventHandler: widgetRemovedHandler.
-	oldWidget removeEventHandler: widgetRemovedFromSpaceHandler
+	"oldWidget removeEventHandler: widgetRemovedHandler.
+	oldWidget removeEventHandler: widgetRemovedFromSpaceHandler"
 ]

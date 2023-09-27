@@ -19,23 +19,9 @@ ToOverlayWindowDresser >> installWidget: newWidget in: anElement [
 		                                on: BlElementPositionInSpaceChangedEvent
 		                                do: [ :event | anElement position: (anElement positioningHook value: anElement value: event) ].
 
-	newWidget addEventHandler: widgetPositionInSpaceHandler.
+	"newWidget addEventHandler: widgetPositionInSpaceHandler.
 	newWidget addEventHandler: widgetExtentHandler.
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToOverlayWindowDresser >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement.
-	
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToOverlayWindowDresser >> onUninstalledIn: anElement [
-
-	super onUninstalledIn: anElement
+"
 ]
 
 { #category : #'api - install/uninstall  hook' }

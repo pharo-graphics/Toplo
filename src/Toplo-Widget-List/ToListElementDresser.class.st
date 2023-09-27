@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListElementDresser,
-	#superclass : #ToPaneDresser,
+	#superclass : #ToDresser,
 	#instVars : [
 		'keyboardHandler',
 		'menuPopupHandler',

@@ -20,7 +20,7 @@ ToLabeledNode >> client [
 { #category : #'t - initialization dresser' }
 ToLabeledNode >> defaultDresser [ 
 
-	^ ToPairedNodeDresser new
+	^ ToNodeDresser new
 ]
 
 { #category : #'t - triplet - accessing' }

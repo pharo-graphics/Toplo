@@ -44,12 +44,6 @@ ToPane >> addDividers [
 			self addDividerBetween: child and: (self children at: idx + 1) ] ]
 ]
 
-{ #category : #'t - initialization dresser' }
-ToPane >> defaultDresser [ 
-
-	^ ToPaneDresser new
-]
-
 { #category : #'t - widget - initialization' }
 ToPane >> defaultLayout [
 

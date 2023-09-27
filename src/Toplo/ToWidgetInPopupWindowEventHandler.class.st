@@ -13,5 +13,9 @@ ToWidgetInPopupWindowEventHandler >> elementPositionChangedEvent: anEvent [
 { #category : #'api - accessing' }
 ToWidgetInPopupWindowEventHandler >> eventsToHandle [ 
 
-	^ super eventsToHandle , { BlElementPositionChangedEvent }
+	^ super eventsToHandle , { BlElementPositionChangedEvent . }
+]
+
+{ #category : #'event handling' }
+ToWidgetInPopupWindowEventHandler >> mouseUpOutsideEvent: anEvent [
 ]

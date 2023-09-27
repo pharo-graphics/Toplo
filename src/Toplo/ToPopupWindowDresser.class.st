@@ -16,7 +16,7 @@ ToPopupWindowDresser >> installWidget: newWidget in: anElement [
 	widgetPositionHandler := BlEventHandler
 		                         on: BlElementPositionChangedEvent
 		                         do: [ :event | anElement close ].
-	newWidget addEventHandler: widgetPositionHandler.
+	"newWidget addEventHandler: widgetPositionHandler."
 	super installWidget: newWidget in: anElement
 ]
 
@@ -39,14 +39,14 @@ ToPopupWindowDresser >> openedInSpace: anEvent in: anElement [
 	closeHandler := BlEventHandler
 		                on: BlMouseUpOutsideEvent
 		                do: [ :event | self mouseUpOutside: event in: anElement ].
-	anElement addEventFilter: closeHandler.
+	"anElement addEventFilter: closeHandler."
 	anElement switchToSkinState: ToOpenedState new
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToPopupWindowDresser >> removedFromSpace: anEvent in: anElement [
 
-	anElement removeEventFilter: closeHandler.
+	"anElement removeEventFilter: closeHandler."
 	closeHandler := nil.
 	anElement switchToSkinState: ToClosedState new
 ]
@@ -55,15 +55,15 @@ ToPopupWindowDresser >> removedFromSpace: anEvent in: anElement [
 ToPopupWindowDresser >> uninstallEventListenersIn: anElement [
 
 	super uninstallEventListenersIn: anElement.
-	closeHandler ifNotNil: [ anElement removeEventFilter: closeHandler ].
-	closeHandler := nil	
+	"closeHandler ifNotNil: [ anElement removeEventFilter: closeHandler ].
+	closeHandler := nil	"
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToPopupWindowDresser >> uninstallWidget: oldWidget in: anElement [
 
 	oldWidget ifNil: [ ^ self ].
-	oldWidget removeEventHandler: widgetPositionHandler.
+	"oldWidget removeEventHandler: widgetPositionHandler."
 	widgetPositionHandler := nil.
 	super uninstallWidget: oldWidget in: anElement
 ]
@@ -72,12 +72,12 @@ ToPopupWindowDresser >> uninstallWidget: oldWidget in: anElement [
 ToPopupWindowDresser >> whenAddedToSpace: anvent in: anElement [
 
 	super whenAddedToSpace: anvent in: anElement.
-	self openedInSpace: anvent in: anElement
+	"self openedInSpace: anvent in: anElement"
 ]
 
 { #category : #'api - install/uninstall  hook' }
 ToPopupWindowDresser >> whenRemovedFromSpace: anEvent in: anElement [
 
 	super whenRemovedFromSpace: anEvent in: anElement.
-	self removedFromSpace: anEvent in: anElement
+	"self removedFromSpace: anEvent in: anElement"
 ]

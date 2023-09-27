@@ -1,7 +1,7 @@
 Class {
 	#name : #ToPopupWindow,
 	#superclass : #ToWidgetWindowElement,
-	#category : 'Toplo-Core-Window'
+	#category : #'Toplo-Core-Window'
 }
 
 { #category : #'api - displaying' }
@@ -25,6 +25,19 @@ ToPopupWindow >> defaulPositioningHook [
 ToPopupWindow >> defaultDresser [ 
 
 	^ ToPopupWindowDresser new
+]
+
+{ #category : #initialization }
+ToPopupWindow >> defaultWidgetEventHandler [ 
+
+	^ ToWidgetInPopupWindowEventHandler new
+]
+
+{ #category : #initialization }
+ToPopupWindow >> initialize [ 
+
+	super initialize.
+	self addEventHandler: ToPopupWindowEventHandler new
 ]
 
 { #category : #'api - displaying' }

@@ -3,19 +3,42 @@ Class {
 	#superclass : #ToPane,
 	#traits : 'TToListElementDecorator',
 	#classTraits : 'TToListElementDecorator classTrait',
+	#instVars : [
+		'menuCloseHandler'
+	],
 	#category : #'Toplo-Widget-List'
 }
+
+{ #category : #'private-initialization' }
+ToListElement >> addSecondarySelectionDecorationOnNode: aChildNode [
+	" update selection decoration to show the secondary selection on which the popup is opened"
+
+	| d |
+	d := ToListSecondarySelectionElement new
+		     listElement: self;
+		     nodes: (Array with: aChildNode);
+		     yourself.
+	self addChild: d.
+	menuCloseHandler := BlEventHandler
+		                    on: ToContextMenuClosedEvent
+		                    do: [ :event |
+			                    self removeChild: d.
+			                    self infinite removeEventHandler: menuCloseHandler.
+			                    self secondarySelection deselectAll ].
+	self infinite addEventHandler: menuCloseHandler
+]
+
+{ #category : #'private-initialization' }
+ToListElement >> checkEmptinessChange [
+
+	self data ifEmpty: [ ^ self showPlaceholder ].
+	self hidePlaceholder
+]
 
 { #category : #initialization }
 ToListElement >> defaultBackground [
 
 	^ BlBackground paint: Color white
-]
-
-{ #category : #'t - initialization dresser' }
-ToListElement >> defaultDresser [ 
-
-	^ ToListElementDresser new
 ]
 
 { #category : #initialization }
@@ -49,6 +72,28 @@ ToListElement >> initialize [
 	self background: self defaultBackground.
 	self margin: self defaultMargin.
 	self padding: self defaultPadding.
+	self when: BlKeyboardEvent do: [ :event | self infinite dispatchEvent: event ].
+	self infinite when: ToContextMenuOpenedEvent do: [ :event | self popupOpenedEvent: event ].
+	self infinite dataSource when: ToListDataEmptinessChangeEvent do: [ :event | self checkEmptinessChange ].
+]
+
+{ #category : #'private-initialization' }
+ToListElement >> popupOpenedEvent: anEvent [
+
+	| pos targetChildren childNode |
+	pos := self infinite globalPointToLocal: anEvent sourceEvent position.
+	targetChildren := (self infinite withAllChildrenAt: pos) allButLast.
+	targetChildren ifEmpty: [ ^ self ].
+	childNode := targetChildren last.
+	childNode holder isSelected
+		ifTrue: [ 
+			self dispatchEvent: ToListSecondarySelectionAddedEvent new.
+			self updatePrimarySelectionDecoration.
+			self secondarySelection selectIndexes: self primarySelectionIndexes. ]
+		ifFalse: [
+			self
+				addSecondarySelectionDecorationOnNode: childNode.
+			self secondarySelection selectIndex: childNode holder position ]
 ]
 
 { #category : #'t - initialization dresser' }
@@ -58,6 +103,20 @@ ToListElement >> preInitializeDresser [
 
 	self next: ToListInfiniteElement new.
 	self addChild: self next
+]
+
+{ #category : #'private-initialization' }
+ToListElement >> updatePrimarySelectionDecoration [
+	" if the node selected with right mouse click is already selected, 
+	then all selected nodes are also within the secondary selection "
+
+	menuCloseHandler := BlEventHandler
+		                    on: ToContextMenuClosedEvent
+		                    do: [ :event |
+			                    self dispatchEvent: (ToListSecondarySelectionRemovedEvent new).
+			                    self infinite removeEventHandler: menuCloseHandler.
+			                    self secondarySelection deselectAll ].
+	self infinite addEventHandler: menuCloseHandler
 ]
 
 { #category : #initialization }

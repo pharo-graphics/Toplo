@@ -10,6 +10,12 @@ Class {
 	#category : #'Toplo-Widget-List'
 }
 
+{ #category : #testing }
+ToListElementDresser class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : #'context menu popup' }
 ToListElementDresser >> addSecondarySelectionDecorationOnNode: aChildNode In: anElement [
 	" update selection decoration to show the secondary selection on which the popup is opened"
@@ -64,9 +70,9 @@ ToListElementDresser >> installEventListenersIn: anElement [
 	menuPopupHandler := BlEventHandler on: ToContextMenuOpenedEvent do: [ :event | self popupOpenedEvent: event in: anElement ].
 	structuralChangeHandler := BlEventHandler on: ToListDataEmptinessChangeEvent do: [ :event | self checkEmptinessChangeIn: anElement ].
 
-	anElement addEventHandler: keyboardHandler.
+	"anElement addEventHandler: keyboardHandler.
 	anElement infinite addEventHandler: menuPopupHandler.
-	anElement infinite dataSource addEventHandler: structuralChangeHandler
+	anElement infinite dataSource addEventHandler: structuralChangeHandler"
 
 	
 	
@@ -112,11 +118,11 @@ ToListElementDresser >> popupOpenedEvent: anEvent in: anElement [
 ToListElementDresser >> uninstallEventListenersIn: anElement [
 
 	super uninstallEventListenersIn: anElement.
-	anElement removeEventHandler: keyboardHandler.
+	"anElement removeEventHandler: keyboardHandler.
 	anElement infinite removeEventHandler: menuPopupHandler.
 	anElement infinite dataSource removeEventHandler: structuralChangeHandler
 
-
+"
 ]
 
 { #category : #'context menu popup' }

@@ -56,10 +56,6 @@ ToListInfiniteElementDresser >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	
-	anElement outskirts: BlOutskirts outside.
-	anElement padding: self defaultPadding.
-	anElement margin: self defaultMargin.
-	anElement clipChildren: true.
 	anElement 
 		when: BlBlurEvent
 		do: [ :anEvent | 
@@ -73,11 +69,7 @@ ToListInfiniteElementDresser >> onInstalledIn: anElement [
 					 paint: anElement theme editor focusedBorderColor
 					 width: 1) ].
 
-	anElement  border: (BlBorder
-			 paint: anElement theme editor borderColor
-			 width: 1).
 
-	anElement background: Color transparent
 ]
 
 { #category : #'api - install/uninstall  hook' }

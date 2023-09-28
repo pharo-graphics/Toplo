@@ -18,6 +18,14 @@ ToAlbum >> defaultBackground [
 ]
 
 { #category : #initialization }
+ToAlbum >> defaultBlurBorder [
+
+	^ BlBorder
+			 paint: self defaultBorderColor
+			 width: self defaultBorderWidth
+]
+
+{ #category : #initialization }
 ToAlbum >> defaultBorder [
 
 	^ BlBorder

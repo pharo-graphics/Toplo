@@ -9,16 +9,10 @@ Class {
 	#category : #'Toplo-Widget-List'
 }
 
-{ #category : #initialization }
-ToListInfiniteElementDresser >> defaultMargin [
+{ #category : #testing }
+ToListInfiniteElementDresser class >> isDeprecated [ 
 
-	^ BlInsets all: 0
-]
-
-{ #category : #initialization }
-ToListInfiniteElementDresser >> defaultPadding [
-
-	^ BlInsets all: 4
+	^ true
 ]
 
 { #category : #'api - install/uninstall  hook' }
@@ -26,6 +20,7 @@ ToListInfiniteElementDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
 
+	"true ifTrue: [ ^ self ]."
 	doubleClickHandler := BlEventHandler
 		                      on: BlDoubleClickEvent
 		                      do: [ :anEvent |
@@ -52,36 +47,9 @@ ToListInfiniteElementDresser >> installShortInIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToListInfiniteElementDresser >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement.
-	
-	anElement 
-		when: BlBlurEvent
-		do: [ :anEvent | 
-			anElement  border: (BlBorder
-					 paint: anElement theme editor borderColor
-					 width: 1) ].
-	anElement 
-		when: BlFocusEvent
-		do: [ :anEvent | 
-			anElement border: (BlBorder
-					 paint: anElement theme editor focusedBorderColor
-					 width: 1) ].
-
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToListInfiniteElementDresser >> onUninstalledIn: anElement [
-
-	super onUninstalledIn: anElement.
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
 ToListInfiniteElementDresser >> uninstallEventListenersIn: anElement [
 
+"true ifTrue: [ ^ self ]."
 	anElement removeEventHandler: scrolledHandler.
 	anElement removeEventHandler: doubleClickHandler.
 

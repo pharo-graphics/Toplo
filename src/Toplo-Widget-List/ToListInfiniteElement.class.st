@@ -5,15 +5,55 @@ Class {
 }
 
 { #category : #initialization }
+ToListInfiniteElement >> defaultBackground [
+
+	^ Color transparent
+]
+
+{ #category : #initialization }
+ToListInfiniteElement >> defaultBlurBorder [
+
+	^ BlBorder
+			 paint: self defaultBorderColor
+			 width: self defaultBorderWidth
+]
+
+{ #category : #initialization }
+ToListInfiniteElement >> defaultBorderColor [ 
+
+	^ self theme editor borderColor
+]
+
+{ #category : #initialization }
+ToListInfiniteElement >> defaultBorderWidth [ 
+
+	^ 1
+]
+
+{ #category : #initialization }
 ToListInfiniteElement >> defaultDataSource [
 
 	^ ToObservableCollectionDataSource new
 ]
 
-{ #category : #'t - initialization dresser' }
-ToListInfiniteElement >> defaultDresser [ 
+{ #category : #initialization }
+ToListInfiniteElement >> defaultEventHandler [ 
 
-	^ ToListInfiniteElementDresser new
+	^ ToListInfiniteElementEventHandler new
+]
+
+{ #category : #initialization }
+ToListInfiniteElement >> defaultFocusBorder [
+
+	^ BlBorder
+			 paint: self defaultFocusBorderColor
+			 width: self defaultBorderWidth
+]
+
+{ #category : #initialization }
+ToListInfiniteElement >> defaultFocusBorderColor [
+
+	^ self theme editor focusedBorderColor
 ]
 
 { #category : #initialization }
@@ -47,17 +87,16 @@ ToListInfiniteElement >> infinite [
 ]
 
 { #category : #initialization }
-ToListInfiniteElement >> initialize [ 
+ToListInfiniteElement >> initialize [
 
 	super initialize.
 	self outskirts: BlOutskirts outside.
 	self padding: self defaultPadding.
 	self margin: self defaultMargin.
 	self clipChildren: true.
-	self  border: (BlBorder
-			 paint: self theme editor borderColor
-			 width: 1).
-	self background: Color transparent
+	self border: self defaultBorder.
+	self background: self defaultBackground.
+	"self addEventHandler: self defaultEventHandler"
 ]
 
 { #category : #initialization }

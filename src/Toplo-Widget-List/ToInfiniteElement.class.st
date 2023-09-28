@@ -9,7 +9,8 @@ Class {
 		'clickLauncher',
 		'primarySelection',
 		'secondarySelection',
-		'keepSelectionOnFocused'
+		'keepSelectionOnFocused',
+		'shortcuts'
 	],
 	#category : #'Toplo-Widget-List'
 }
@@ -184,15 +185,29 @@ ToInfiniteElement >> initialize [
 	self class initializeSlots: self.
 	super initialize.
 	
-	"Dresser initialization processus"
-	self preInitializeDresser.
+	primarySelection := self defaultPrimarySelection.
+	secondarySelection := self defaultSecondarySelection.
+	self privateData: ToObservableCollection new.
+
 	self initializeDresser.
 	self postInitializeDresser.
+	
+	self primarySelection whenModeChangedDo: [
+		self uninstallShortcuts.
+		self installShortcuts ].
+	self installShortcuts.
 	
 	self preserveSelectionOnFocused: self preserveSelectionOnFocusedByDefault.
 	self holderFactory: self defaultHolderFactory.
 	self nodeFactory: self defaultListNodeFactory.
 	self matchParent
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> installShortcuts [
+
+	shortcuts := self primarySelection shortcutsIn: self.
+	shortcuts do: [ :s | self addShortcut: s ]
 ]
 
 { #category : #'selection events' }
@@ -439,6 +454,7 @@ ToInfiniteElement >> selectAndScrollTo: anIndex [
 { #category : #'selection events' }
 ToInfiniteElement >> selectIndex: anIndex [
 
+
 	self primarySelection
 		dispatchSelectionChangedAfter: [ 
 			self primarySelection selectIndex: anIndex.
@@ -493,6 +509,13 @@ ToInfiniteElement >> terminateClickLauncher [
 
 	clickLauncher ifNotNil: #terminate.
 	clickLauncher := nil.
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> uninstallShortcuts [
+
+	shortcuts do: [ :s | self removeShortcut: s ].
+	shortcuts := nil
 ]
 
 { #category : #dispatching }

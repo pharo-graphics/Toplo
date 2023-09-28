@@ -9,9 +9,7 @@ ToAlbumEventHandler >> blurEvent: aBlurEvent [
 
 	| target |
 	target := aBlurEvent currentTarget.
-	target next border: (BlBorder
-			 paint: target defaultBorderColor
-			 width: target defaultBorderWidth)
+	target next border: target defaultBlurBorder
 ]
 
 { #category : #'event handling' }

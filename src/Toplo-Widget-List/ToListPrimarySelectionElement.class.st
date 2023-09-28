@@ -1,17 +1,48 @@
 Class {
 	#name : #ToListPrimarySelectionElement,
 	#superclass : #ToListSelectionElement,
+	#instVars : [
+		'backgroundElement'
+	],
 	#category : #'Toplo-Widget-List'
 }
 
-{ #category : #'t - initialization dresser' }
-ToListPrimarySelectionElement >> defaultDresser [ 
+{ #category : #accessing }
+ToListPrimarySelectionElement >> backgroundElement [
 
-	^ ToListDefaultPrimarySelectionDresser new
+	^ backgroundElement 
 ]
 
 { #category : #initialization }
-ToListPrimarySelectionElement >> defaultGeometry [
+ToListPrimarySelectionElement >> blurEvent: anEvent [
 
-	^ BlRoundedRectangleGeometry cornerRadius: 5
+	self backgroundElement background: self theme item selectedBlurredColor
+]
+
+{ #category : #initialization }
+ToListPrimarySelectionElement >> focusEvent: anEvent [
+
+	self backgroundElement background: self theme item selectedColor
+]
+
+{ #category : #'secondary selection' }
+ToListPrimarySelectionElement >> hideSecondarySelection [
+
+	self padding: (BlInsets all: 0)
+]
+
+{ #category : #initialization }
+ToListPrimarySelectionElement >> initialize [ 
+
+	super initialize.
+	backgroundElement := ToElement new matchParent.
+	self background: Color transparent.
+	backgroundElement background: self theme item selectedColor.
+	self addChild: backgroundElement
+]
+
+{ #category : #'secondary selection' }
+ToListPrimarySelectionElement >> showSecondarySelection [
+
+	self padding: (BlInsets all: 3)
 ]

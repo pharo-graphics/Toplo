@@ -20,16 +20,17 @@ ToMenuBarSeparator >> beVertical [
 		c horizontal exact: 1 ]
 ]
 
-{ #category : #'t - initialization dresser' }
-ToMenuBarSeparator >> defaultDresser [ 
-
-	^ ToMenuBarSeparatorDresser new
-]
-
 { #category : #orientation }
 ToMenuBarSeparator >> horizontal: aBoolean [
 
 	aBoolean
 		ifTrue: [ self beHorizontal ]
 		ifFalse: [ self beVertical ]
+]
+
+{ #category : #initialization }
+ToMenuBarSeparator >> initialize [
+
+	super initialize.
+	self background: Color lightGray
 ]

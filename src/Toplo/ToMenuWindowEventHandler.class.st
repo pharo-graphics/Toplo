@@ -26,3 +26,9 @@ ToMenuWindowEventHandler >> mouseUpOutsideEvent: anEvent [
 	" ok, the event is outside of the submenu chain"
 	super mouseUpOutsideEvent: anEvent 
 ]
+
+{ #category : #'event handling' }
+ToMenuWindowEventHandler >> mouseWheelEvent: anEvent [
+
+	
+]

@@ -4,14 +4,23 @@ Class {
 	#category : #'Toplo-Widget-List'
 }
 
-{ #category : #'t - initialization dresser' }
-ToListSecondarySelectionElement >> defaultDresser [ 
+{ #category : #initialization }
+ToListSecondarySelectionElement >> defaultPadding [
 
-	^ ToListDefaultSecondarySelectionDresser new
+	^ BlInsets all: 3
+]
+
+{ #category : #'secondary selection' }
+ToListSecondarySelectionElement >> hideSecondarySelection [
+
+	self removeFromParent
 ]
 
 { #category : #initialization }
-ToListSecondarySelectionElement >> defaultGeometry [
+ToListSecondarySelectionElement >> initialize [ 
 
-	^ BlRoundedRectangleGeometry cornerRadius: 5
+	super initialize.
+	"self background: Color red"
+
+
 ]

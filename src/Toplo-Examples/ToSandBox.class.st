@@ -780,58 +780,6 @@ ToSandBox class >> example_ListWithSingleSelection [
 ]
 
 { #category : #list }
-ToSandBox class >> example_ListWithSpecificSelection [
-
-	| l vscrollBar space |
-	l := ToListElement new nodeFactory: [ :color |
-		     | node |
-		     node := ToElement new
-			             hMatchParent;
-			             vFitContent;
-			             layout: BlLinearLayout horizontal;
-			             dresser: ToNodeDresser new.
-		     node addChild: (ToElement new size: 15 @ 0).
-		     node addChild: (ToLabel new
-				      text: (color asString asRopedText foreground: color contrastingBlackAndWhiteColor);
-				      background: color;
-				      hMatchParent;
-				      yourself).
-		     node addChild: (ToElement new size: 18 @ 0).
-		     node ].
-
-	l withSelectionDresserFactory: [
-		ToListActionSelectionDresser new
-			addAction: [ :dresser :selectionElement |
-				| leftBar rightBar |
-				leftBar := ToElement new background: Color gray lighter.
-				leftBar vMatchParent.
-				leftBar margin: (BlInsets left: 5).
-				leftBar hExact: 3.
-				selectionElement addChild: leftBar.
-				rightBar := ToElement new background: Color gray lighter.
-				rightBar vMatchParent.
-				rightBar margin: (BlInsets right: 8 ).
-				rightBar hExact: 3.
-				rightBar constraintsDo: [ :c | c frame horizontal alignRight ].
-				selectionElement addChild: rightBar ];
-			yourself ].
-
-	l data addAll: Color indexedColors.
-
-	vscrollBar := BlVerticalScrollbarElement new.
-	vscrollBar constraintsDo: [ :c |
-		c ignoreByLayout.
-		c margin: (BlInsets right: 0).
-		c ignored horizontal alignRight.
-		c ignored vertical alignBottom ].
-	vscrollBar attachTo: l infinite.
-	space := BlSpace new.
-	space root addChild: l.
-	space root addChild: vscrollBar.
-	space show
-]
-
-{ #category : #list }
 ToSandBox class >> example_ListWithoutSelection [
 
 	| l |
@@ -863,15 +811,6 @@ ToSandBox class >> example_PicsumPhotosGallery [
 								 n margin: (BlInsets all: 5).
 								 n beOutskirtsOutside ]) ];
 			imageData: anImageData;
-			yourself ].
-
-	list withSelectionDresserFactory: [
-		ToListActionSelectionDresser new
-			addAction: [ :dresser :selectionElement |
-				selectionElement nodes do: [ :n |
-						n border: (BlBorder paint: Color yellow width: 5) ] ];
-			removeAction: [ :dresser :selectionElement |
-				selectionElement nodes do: [ :n | n border: BlBorder empty ] ];
 			yourself ].
 
 	[

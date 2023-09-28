@@ -169,6 +169,10 @@ ToSkinableEventHandler >> mouseUpOutsideEvent: anEvent [
 ]
 
 { #category : #'mouse handlers' }
+ToSkinableEventHandler >> mouseWheelEvent: anEvent [
+]
+
+{ #category : #'mouse handlers' }
 ToSkinableEventHandler >> otherClickEvent: anEvent [
 ]
 

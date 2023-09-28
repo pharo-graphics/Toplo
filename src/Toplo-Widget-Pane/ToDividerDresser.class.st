@@ -163,18 +163,6 @@ ToDividerDresser >> mouseLeaveEvent: anEvent in: anElement [
 	anElement background: self colorProvider defaultBackgroundColor
 ]
 
-{ #category : #'api - install/uninstall  hook' }
-ToDividerDresser >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToDividerDresser >> onUninstalledIn: anElement [
-
-	super onUninstalledIn: anElement
-]
-
 { #category : #'event handlers' }
 ToDividerDresser >> paneExtentChangeHandlerIn: anElement [
 

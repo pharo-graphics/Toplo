@@ -4,35 +4,59 @@ Class {
 	#traits : 'TToListElementDecorator',
 	#classTraits : 'TToListElementDecorator classTrait',
 	#instVars : [
-		'menuCloseHandler'
+		'decorations',
+		'popupMenuCloseHandler'
 	],
 	#category : #'Toplo-Widget-List'
 }
 
-{ #category : #'private-initialization' }
+{ #category : #'private - selection decoration managing' }
 ToListElement >> addSecondarySelectionDecorationOnNode: aChildNode [
 	" update selection decoration to show the secondary selection on which the popup is opened"
 
-	| d |
-	d := ToListSecondarySelectionElement new
-		     listElement: self;
-		     nodes: (Array with: aChildNode);
-		     yourself.
-	self addChild: d.
-	menuCloseHandler := BlEventHandler
-		                    on: ToContextMenuClosedEvent
-		                    do: [ :event |
-			                    self removeChild: d.
-			                    self infinite removeEventHandler: menuCloseHandler.
-			                    self secondarySelection deselectAll ].
-	self infinite addEventHandler: menuCloseHandler
+	| deco |
+	deco := ToListSecondarySelectionElement new
+		        listElement: self;
+		        nodes: (Array with: aChildNode);
+		        yourself.
+	decorations := decorations copyWith: deco.
+	self addChild: deco
 ]
 
-{ #category : #'private-initialization' }
+{ #category : #'private - selection decoration managing' }
+ToListElement >> adjacentSelectedNodesGroups [
+	" return an array of collection. Each collection contains a list of adjacent selected nodes "
+
+	^ Array streamContents: [ :stream |
+		  | g |
+		  g := OrderedCollection new.
+		  self infinite childrenDo: [ :node |
+			  (self selectionIncludesNode: node)
+				  ifTrue: [ g add: node ]
+				  ifFalse: [
+					  g ifNotEmpty: [
+						  stream nextPut: g.
+						  g := OrderedCollection new ] ] ].
+		  g ifNotEmpty: [ stream nextPut: g ] ]
+]
+
+{ #category : #'private - selection decoration managing' }
+ToListElement >> blurEvent: anEvent [
+
+	decorations do: [ :d | d blurEvent: anEvent ]
+]
+
+{ #category : #private }
 ToListElement >> checkEmptinessChange [
 
 	self data ifEmpty: [ ^ self showPlaceholder ].
 	self hidePlaceholder
+]
+
+{ #category : #accessing }
+ToListElement >> decorations [ 
+
+	^ decorations
 ]
 
 { #category : #initialization }
@@ -61,92 +85,119 @@ ToListElement >> defaultPadding [
 
 ]
 
+{ #category : #'private - selection decoration managing' }
+ToListElement >> focusEvent: anEvent [
+
+	decorations do: [ :d | d focusEvent: anEvent ]
+]
+
 { #category : #initialization }
 ToListElement >> initialize [ 
 
 	super initialize.
+	decorations := #().
 	self layout: self defaultLayout.
+	self next: ToListInfiniteElement new.
+	self addChild: self next.
 	self next elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
+
+	self infinite when: BlElementExtentChangedEvent do: [ self updatePrimarySelectionDecorations  ].
+	self infinite when: BlElementScrolledEvent do: [ self updatePrimarySelectionDecorations  ].
+	self infinite when: ToInfiniteSelectionChangedEvent do: [ self updatePrimarySelectionDecorations  ].
+	self infinite when: BlBlurEvent do: [ :event | self blurEvent: event ].
+	self infinite when: BlFocusEvent do: [ :event | self focusEvent: event ].
+	self infinite when: ToContextMenuOpenedEvent do: [ :event | self popupOpenedEvent: event ].
+	self infinite dataSource when: ToListDataEmptinessChangeEvent do: [ :event | self checkEmptinessChange ].
+	self when: BlKeyboardEvent do: [ :event | self infinite dispatchEvent: event ].
+
 	self matchParent.
 	self withSelectionDecoration.
 	self background: self defaultBackground.
 	self margin: self defaultMargin.
 	self padding: self defaultPadding.
-	self when: BlKeyboardEvent do: [ :event | self infinite dispatchEvent: event ].
-	self infinite when: ToContextMenuOpenedEvent do: [ :event | self popupOpenedEvent: event ].
-	self infinite dataSource when: ToListDataEmptinessChangeEvent do: [ :event | self checkEmptinessChange ].
+
 ]
 
-{ #category : #'private-initialization' }
+{ #category : #'private - selection decoration managing' }
+ToListElement >> newPrimarySelectionDecorations [
+	" return a collection with instances of ListSelectionDecorationElement "
+
+	^ (self adjacentSelectedNodesGroups) collect: [ :g |
+		  ToListPrimarySelectionElement new
+			  listElement: self;
+			  nodes: g;
+			  yourself ]
+]
+
+{ #category : #'private - selection decoration managing' }
 ToListElement >> popupOpenedEvent: anEvent [
 
 	| pos targetChildren childNode |
+	self infinite disableScrolledEvent.
 	pos := self infinite globalPointToLocal: anEvent sourceEvent position.
 	targetChildren := (self infinite withAllChildrenAt: pos) allButLast.
 	targetChildren ifEmpty: [ ^ self ].
 	childNode := targetChildren last.
 	childNode holder isSelected
 		ifTrue: [ 
-			self dispatchEvent: ToListSecondarySelectionAddedEvent new.
-			self updatePrimarySelectionDecoration.
+			self secondarySelectionOverPrimary.		
 			self secondarySelection selectIndexes: self primarySelectionIndexes. ]
 		ifFalse: [
-			self
-				addSecondarySelectionDecorationOnNode: childNode.
-			self secondarySelection selectIndex: childNode holder position ]
+			self addSecondarySelectionDecorationOnNode: childNode.
+			self secondarySelection selectIndex: childNode holder position].
+	self setUpPopupCloseHandler.
 ]
 
-{ #category : #'t - initialization dresser' }
-ToListElement >> preInitializeDresser [ 
+{ #category : #'private - selection decoration managing' }
+ToListElement >> removeSecondarySelectionDecoration [
 
-	super preInitializeDresser.
-
-	self next: ToListInfiniteElement new.
-	self addChild: self next
+	decorations do: [ :d | d hideSecondarySelection ]
 ]
 
-{ #category : #'private-initialization' }
-ToListElement >> updatePrimarySelectionDecoration [
+{ #category : #'private - selection decoration managing' }
+ToListElement >> secondarySelectionOverPrimary [
+
+	decorations do: [ :d | d showSecondarySelection ]
+]
+
+{ #category : #'private - selection decoration managing' }
+ToListElement >> selectionIncludesNode: aNode [
+
+	^ aNode holder isSelected
+]
+
+{ #category : #'private - selection decoration managing' }
+ToListElement >> setUpPopupCloseHandler [
 	" if the node selected with right mouse click is already selected, 
 	then all selected nodes are also within the secondary selection "
 
-	menuCloseHandler := BlEventHandler
-		                    on: ToContextMenuClosedEvent
-		                    do: [ :event |
-			                    self dispatchEvent: (ToListSecondarySelectionRemovedEvent new).
-			                    self infinite removeEventHandler: menuCloseHandler.
-			                    self secondarySelection deselectAll ].
-	self infinite addEventHandler: menuCloseHandler
+	popupMenuCloseHandler := BlEventHandler
+		                         on: ToContextMenuClosedEvent
+		                         do: [
+			                         self removeSecondarySelectionDecoration.
+			                         self infinite removeEventHandler: popupMenuCloseHandler.
+			                         self secondarySelection deselectAll.
+			                         self infinite enableScrolledEvent ].
+	self infinite addEventHandler: popupMenuCloseHandler
+]
+
+{ #category : #'private - selection decoration managing' }
+ToListElement >> updatePrimarySelectionDecorations [
+	"add a ListDecorationElement for each group of adjacent selected nodes "
+
+	decorations do: [ :d | d removeFromParent ].
+	decorations := self newPrimarySelectionDecorations.
+	self addChildren: decorations
 ]
 
 { #category : #initialization }
 ToListElement >> withSelectionDecoration [
 
-	self withSelectionDecorationUpdater: ToListPrimarySelectionUpdater new
-]
-
-{ #category : #'private-initialization' }
-ToListElement >> withSelectionDecorationFactory: aValuable [
-
-	self withSelectionDecorationUpdater: (ToListPrimarySelectionUpdater new decorationFactory: aValuable)
-]
-
-{ #category : #'private-initialization' }
-ToListElement >> withSelectionDecorationUpdater: aSelectionUpdater [
-
-	self dispatchEvent: ToListSelectionUpdaterStopEvent new.
-	aSelectionUpdater onInstalledIn: self
-]
-
-{ #category : #initialization }
-ToListElement >> withSelectionDresserFactory: aValuable [
-	"aValuable value is a a dresser instance that can be an instance of a subclass of ToListSelectionDresser. "
-
-	self withSelectionDecorationFactory: [ ToListSelectionElement new dresser: aValuable value ]
+	
 ]
 
 { #category : #initialization }
 ToListElement >> withoutSelectionDecoration [
 
-	self dispatchEvent: ToListSelectionUpdaterStopEvent new
+
 ]

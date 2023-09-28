@@ -25,19 +25,6 @@ ToCheckNodeDresser >> installEventListenersIn: anElement [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToCheckNodeDresser >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToCheckNodeDresser >> onUninstalledIn: anElement [
-
-	super onUninstalledIn: anElement.
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
 ToCheckNodeDresser >> uninstallEventListenersIn: anElement [
 
 	anElement removeEventHandler: selectedHandler.

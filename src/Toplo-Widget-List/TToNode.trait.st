@@ -85,5 +85,5 @@ TToNode >> initializeListNode [
 	self margin: self defaultMargin.
 	self border: self defaultInitialBorder.
 	self background: self defaultInitialBackground.
-	self addEventHandler: (self defaultEventHandler target: self).
+	self addEventHandler: self defaultEventHandler.
 ]

@@ -31,7 +31,5 @@ ToGeneralButton >> defaultEventHandler [
 ToGeneralButton >> initialize [
 
 	super initialize.
-	self addEventHandler: (self defaultEventHandler
-			 target: self;
-			 yourself)
+	self addEventHandler: self defaultEventHandler
 ]

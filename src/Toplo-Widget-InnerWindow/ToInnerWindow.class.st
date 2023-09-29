@@ -12,18 +12,6 @@ Class {
 	#category : #'Toplo-Widget-InnerWindow'
 }
 
-{ #category : #adding }
-ToInnerWindow >> addChild: anElement [
-	"Add a given element as a direct child to the space root"
-	self
-		deprecated: 'Send addChild: to root.'
-		transformWith:
-			'`@receiver addChild: `@arg'
-				-> '`@receiver root addChild: `@arg'.
-
-	self root addChild: anElement
-]
-
 { #category : #accessing }
 ToInnerWindow >> bar [
 
@@ -63,7 +51,7 @@ ToInnerWindow >> defaultBar [
 		         background: Color transparent;
 		         constraintsDo: [ :c |
 			         c vertical exact: 1.
-			         c horizontal exact: 3 ].
+			         c horizontal exact: 6 ].
 	fill2 := BlElement new
 		         background: Color transparent;
 		         constraintsDo: [ :c |
@@ -78,7 +66,7 @@ ToInnerWindow >> defaultBar [
 		         background: Color transparent;
 		         constraintsDo: [ :c |
 			         c vertical exact: 1.
-			         c horizontal exact: 3 ].
+			         c horizontal exact: 8 ].
 	titleLabel := ToLabel new text: self title.
 	titleLabel hMatchParent.
 
@@ -114,7 +102,7 @@ ToInnerWindow >> defaultBorderPaint [
 { #category : #initialization }
 ToInnerWindow >> defaultBorderWidth [
 
-	^ 3
+	^ 2
 ]
 
 { #category : #initialization }

@@ -13,9 +13,13 @@ ToBottomResizeGrip >> cursorSelector [
 { #category : #initialization }
 ToBottomResizeGrip >> drag: anElement by: deltaFromInitialPosition [
 
+
+		(initialSize x
+		@ (initialSize y + deltaFromInitialPosition y)) traceCr.
+
 	anElement size:
-		initialTargetSize x
-		@ (initialTargetSize y + deltaFromInitialPosition y)
+		initialSize x
+		@ (initialSize y + deltaFromInitialPosition y)
 ]
 
 { #category : #initialization }

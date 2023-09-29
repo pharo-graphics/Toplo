@@ -52,7 +52,6 @@ ToAbstractMenuItem >> initialize [
 	super initialize.
 	self layout: BlLinearLayout horizontal.
 	self defaultEventHandler ifNotNil: [ :eh |
-		eh target: self.
 		self addEventHandler: eh ]
 ]
 

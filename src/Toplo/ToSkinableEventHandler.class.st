@@ -30,15 +30,23 @@ ToSkinableEventHandler >> doubleClickEvent: anEvent [
 
 ]
 
+{ #category : #'dnd handlers' }
+ToSkinableEventHandler >> dragEndEvent: anEvent [
+]
+
 { #category : #'event handling' }
 ToSkinableEventHandler >> dragEnterEvent: anEvent [
+]
+
+{ #category : #'dnd handlers' }
+ToSkinableEventHandler >> dragEvent: anEvent [
 ]
 
 { #category : #'event handling' }
 ToSkinableEventHandler >> dragLeaveEvent: anEvent [
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : #'dnd handlers' }
 ToSkinableEventHandler >> dragStartEvent: anEvent [
 ]
 
@@ -49,7 +57,9 @@ ToSkinableEventHandler >> dropEvent: anEvent [
 { #category : #enablement }
 ToSkinableEventHandler >> enablementChangedEvent: anEvent [
 
-	privateTarget isEnabled ifTrue: [ ^ self switchToInitialState ].
+	| target |
+	target := anEvent currentTarget.
+	target isEnabled ifTrue: [ ^ self switchToInitialState ].
 	self switchToDisabledState
 	
 ]
@@ -184,6 +194,13 @@ ToSkinableEventHandler >> mouseUpOutsideEvent: anEvent [
 ToSkinableEventHandler >> mouseWheelEvent: anEvent [
 ]
 
+{ #category : #'api - hooks' }
+ToSkinableEventHandler >> onInstalledIn: anElement [
+
+	super onInstalledIn: anElement.
+	privateTarget := anElement
+]
+
 { #category : #'mouse handlers' }
 ToSkinableEventHandler >> otherClickEvent: anEvent [
 ]
@@ -245,12 +262,6 @@ ToSkinableEventHandler >> switchToLeavedState [
 ToSkinableEventHandler >> switchToPressedState [
 
 	privateTarget switchToSkinState: ToPressedState new
-]
-
-{ #category : #accessing }
-ToSkinableEventHandler >> target: anElement [
-	" the element which has myself as an event handler, must be not nil"
-	privateTarget := anElement
 ]
 
 { #category : #'api - event managing' }

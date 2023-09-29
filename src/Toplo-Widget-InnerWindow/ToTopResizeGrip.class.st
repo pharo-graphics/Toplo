@@ -14,11 +14,11 @@ ToTopResizeGrip >> cursorSelector [
 ToTopResizeGrip >> drag: anElement by: deltaFromInitialPosition [
 
 	anElement position:
-		initialTargetPosition x
-		@ (initialTargetPosition y + deltaFromInitialPosition y).
+		initialPosition x
+		@ (initialPosition y + deltaFromInitialPosition y).
 	anElement size:
-		initialTargetSize x
-		@ (initialTargetSize y - deltaFromInitialPosition y)
+		initialSize x
+		@ (initialSize y - deltaFromInitialPosition y)
 ]
 
 { #category : #initialization }

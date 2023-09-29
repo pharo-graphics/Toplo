@@ -1,14 +1,14 @@
 Class {
 	#name : #ToMenuWindowModelEventHandler,
 	#superclass : #ToMenuItemEventHandler,
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Widget-Menu-Basic'
 }
 
 { #category : #'mouse handlers' }
 ToMenuWindowModelEventHandler >> leftMouseDownEvent: anEvent [
 
 	super leftMouseDownEvent: anEvent.
-	privateTarget menuWindow isAttachedToSceneGraph ifTrue: [
+	privateTarget menuWindow isOpened ifTrue: [
 		privateTarget isSubmenu ifTrue: [ ^ privateTarget parentMenu close ].
 		^ privateTarget close ].
 	privateTarget popupEvent: anEvent

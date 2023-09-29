@@ -51,21 +51,20 @@ ToMenuBar >> addSeparator [
 	sep horizontal: self isHorizontal not
 ]
 
-{ #category : #'t - initialization dresser' }
-ToMenuBar >> defaultDresser [ 
-
-	^ ToMenuBarDresser new
-]
-
 { #category : #initialize }
 ToMenuBar >> initialize [ 
 
 	super initialize.
 
 	self layout: BlLinearLayout new.
+	self layout cellSpacing: 5.
+	self background: Color transparent.
+	self border: BlBorder empty.
+	self padding: (BlInsets all: 4).
 	self beHorizontal.	
 	self when: ToLayoutOrientationChangedEvent do: [ self adaptToOrientation ].
 	menus := OrderedCollection new.
+	self addEventHandler: ToMenuBarEventHandler new
 ]
 
 { #category : #'t - orientable - accessing' }

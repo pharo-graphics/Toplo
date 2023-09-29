@@ -1,7 +1,7 @@
 Class {
 	#name : #ToMenuItemEventHandler,
 	#superclass : #ToSkinableEventHandler,
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Widget-Menu-Basic'
 }
 
 { #category : #'mouse handlers' }

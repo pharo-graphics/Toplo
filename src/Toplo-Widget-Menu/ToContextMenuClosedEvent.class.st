@@ -1,7 +1,7 @@
 Class {
 	#name : #ToContextMenuClosedEvent,
 	#superclass : #ToContextMenuEvent,
-	#category : #'Toplo-Widget-Menu'
+	#category : #'Toplo-Widget-Menu-Basic'
 }
 
 { #category : #sending }

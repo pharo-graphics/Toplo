@@ -1,7 +1,7 @@
 Class {
 	#name : #ToListNodeHolder,
 	#superclass : #ToNodeHolder,
-	#category : #'Toplo-Widget-List'
+	#category : #'Toplo-Widget-List-node'
 }
 
 { #category : #accessing }

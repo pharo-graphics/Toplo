@@ -8,7 +8,7 @@ Class {
 		'#label => ToSkinnableSlot',
 		'#extra => ToSkinnableSlot'
 	],
-	#category : #'Toplo-Widget-List'
+	#category : #'Toplo-Widget-List-node'
 }
 
 { #category : #'t - clickable - click behavior' }

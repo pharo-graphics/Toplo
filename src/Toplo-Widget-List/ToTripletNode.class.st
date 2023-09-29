@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToTripletElement,
 	#traits : 'TToClickable',
 	#classTraits : 'TToClickable classTrait',
-	#category : #'Toplo-Widget-List'
+	#category : #'Toplo-Widget-List-node'
 }
 
 { #category : #'t - clickable - click behavior' }

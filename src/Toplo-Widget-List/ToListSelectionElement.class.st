@@ -5,7 +5,7 @@ Class {
 		'listElement',
 		'nodes'
 	],
-	#category : #'Toplo-Widget-List'
+	#category : #'Toplo-Widget-List-core'
 }
 
 { #category : #'event handling' }

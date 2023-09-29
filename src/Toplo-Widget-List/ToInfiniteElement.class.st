@@ -11,7 +11,7 @@ Class {
 		'keepSelectionOnFocused',
 		'shortcuts'
 	],
-	#category : #'Toplo-Widget-List'
+	#category : #'Toplo-Widget-List-infinite'
 }
 
 { #category : #'selection mode' }

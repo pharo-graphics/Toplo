@@ -547,7 +547,7 @@ ToSandBox class >> example_ListWithAllClasses4 [
 
 	| l |
 	l := ToListElement new
-		     withoutSelectionDecoration;
+		     beWithoutSelection;
 		     nodeFactory: [ :cls |
 			     ToCheckNode new
 				     labelText: cls name;
@@ -720,7 +720,7 @@ ToSandBox class >> example_ListWithPanes [
 
 	| list |
 	list := ToListElement new
-		        withoutSelectionDecoration;
+		        beWithoutSelection;
 		        withRowNumbers;
 		        nodeFactory: [ :collectible :holder |
 			        | title blContent |

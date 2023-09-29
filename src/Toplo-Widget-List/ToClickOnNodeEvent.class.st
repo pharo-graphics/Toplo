@@ -1,5 +1,5 @@
 Class {
 	#name : #ToClickOnNodeEvent,
 	#superclass : #ToNodeEvent,
-	#category : #'Toplo-Widget-List'
+	#category : #'Toplo-Widget-List-node'
 }

@@ -1,16 +1,16 @@
 Class {
 	#name : #ToListElementEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#category : #'Toplo-Widget-List'
+	#category : #'Toplo-Widget-List-core'
 }
 
-{ #category : #'api - accessing' }
+{ #category : #'events - handling' }
 ToListElementEventHandler >> blurEvent: anEvent [
 
 	anEvent currentTarget blurEvent: anEvent
 ]
 
-{ #category : #'api - accessing' }
+{ #category : #'events - handling' }
 ToListElementEventHandler >> contextMenuClosedEvent: anEvent [
 
 	| target |
@@ -20,7 +20,7 @@ ToListElementEventHandler >> contextMenuClosedEvent: anEvent [
 	target infinite enableScrolledEvent
 ]
 
-{ #category : #'api - accessing' }
+{ #category : #'events - handling' }
 ToListElementEventHandler >> contextMenuOpenedEvent: anEvent [
 
 	| pos targetChildren childNode target infinite |
@@ -40,13 +40,13 @@ ToListElementEventHandler >> contextMenuOpenedEvent: anEvent [
 			target secondarySelection selectIndex: childNode holder position]
 ]
 
-{ #category : #'api - accessing' }
+{ #category : #'events - handling' }
 ToListElementEventHandler >> elementExtentChangedEvent: anEvent [
 
 	anEvent currentTarget updatePrimarySelectionDecorations
 ]
 
-{ #category : #'api - accessing' }
+{ #category : #'events - handling' }
 ToListElementEventHandler >> elementScrolledEvent: anEvent [
 
 	anEvent currentTarget updatePrimarySelectionDecorations
@@ -55,24 +55,54 @@ ToListElementEventHandler >> elementScrolledEvent: anEvent [
 { #category : #'api - accessing' }
 ToListElementEventHandler >> eventsToHandle [
 
-	^ {
+	^ {ToListDataEmptinessChangeEvent.
+		  ToStrongSelectionEvent.
 		  BlElementScrolledEvent.
 		  BlElementExtentChangedEvent.
 		  ToInfiniteSelectionChangedEvent.
 		  BlBlurEvent.
 		  BlFocusEvent.
 		  ToContextMenuOpenedEvent.
-		ToContextMenuClosedEvent }
+		  ToContextMenuClosedEvent }
 ]
 
-{ #category : #'api - accessing' }
+{ #category : #'events - handling' }
 ToListElementEventHandler >> focusEvent: anEvent [
 
 	anEvent currentTarget focusEvent: anEvent
 ]
 
-{ #category : #'api - accessing' }
+{ #category : #'api - event managing' }
+ToListElementEventHandler >> handleEvent: anEvent [
+	" The event can come from the infinite element. 
+	In that case, the event is re-dispatched from here to allow client to simply 
+	add handlers to my list element (and not have to ask to my infinite)"
+
+	| evt |
+	" if the event has been dispatched from here "
+	anEvent source = anEvent currentTarget ifTrue: [
+		^ super handleEvent: anEvent ].
+	" if not, then clone the event and re-dispatch it from here"
+	evt := anEvent clone.
+	evt source: anEvent currentTarget.
+	anEvent currentTarget dispatchEvent: evt
+]
+
+{ #category : #'events - handling' }
 ToListElementEventHandler >> infiniteSelectionChangedEvent: anEvent [
 
 	anEvent currentTarget updatePrimarySelectionDecorations
+]
+
+{ #category : #'api - event managing' }
+ToListElementEventHandler >> listDataEmptinessChangeEvent: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	target data ifEmpty: [ ^ target showPlaceholder ].
+	target hidePlaceholder
+]
+
+{ #category : #'events - handling' }
+ToListElementEventHandler >> strongSelectionEvent: anEvent [
 ]

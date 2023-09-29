@@ -8,7 +8,7 @@ Class {
 		'selectedHandler',
 		'deselectedHandler'
 	],
-	#category : #'Toplo-Widget-List'
+	#category : #'Toplo-Widget-List-node'
 }
 
 { #category : #'api - install/uninstall  hook' }

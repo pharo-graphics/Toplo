@@ -16,7 +16,7 @@ Class {
 		'removeHandler',
 		'updateHandler'
 	],
-	#category : #'Toplo-Widget-List'
+	#category : #'Toplo-Widget-List-filter'
 }
 
 { #category : #'api - install/uninstall  hook' }

@@ -7,7 +7,7 @@ Class {
 		'selection',
 		'eventDispatcher'
 	],
-	#category : #'Toplo-Widget-List'
+	#category : #'Toplo-Widget-List-infinite'
 }
 
 { #category : #printing }

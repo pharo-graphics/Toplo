@@ -3,7 +3,7 @@ Trait {
 	#instVars : [
 		'next'
 	],
-	#category : #'Toplo-Widget-List'
+	#category : #'Toplo-Widget-List-core'
 }
 
 { #category : #'t - selection mode changing' }
@@ -34,6 +34,12 @@ TToListElementDecorator >> contextMenuFactory: aValuable [
 TToListElementDecorator >> data [
 
 	^ self next data
+]
+
+{ #category : #'t - infinite accessing' }
+TToListElementDecorator >> dataSource [
+
+	^ self next dataSource
 ]
 
 { #category : #'t - accessing selection' }

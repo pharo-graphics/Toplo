@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToLabeledNode,
 	#traits : 'TToCheckable + TToCheckbox',
 	#classTraits : 'TToCheckable classTrait + TToCheckbox classTrait',
-	#category : #'Toplo-Widget-List'
+	#category : #'Toplo-Widget-List-node'
 }
 
 { #category : #'t - initialization dresser' }

@@ -11,7 +11,7 @@ Class {
 		'#pivot',
 		'#distance'
 	],
-	#category : #'Toplo-Widget-List'
+	#category : #'Toplo-Widget-List-infinite'
 }
 
 { #category : #'private - selection managing' }

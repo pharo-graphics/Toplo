@@ -5,7 +5,7 @@ Class {
 		'model',
 		'indexes'
 	],
-	#category : #'Toplo-Widget-List'
+	#category : #'Toplo-Widget-List-infinite'
 }
 
 { #category : #accessing }

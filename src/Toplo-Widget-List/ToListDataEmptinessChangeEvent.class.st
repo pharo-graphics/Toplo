@@ -1,7 +1,7 @@
 Class {
 	#name : #ToListDataEmptinessChangeEvent,
 	#superclass : #BlEvent,
-	#category : #'Toplo-Widget-List'
+	#category : #'Toplo-Widget-List-infinite'
 }
 
 { #category : #sending }

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToListInfiniteElement,
 	#superclass : #ToInfiniteElement,
-	#category : #'Toplo-Widget-List'
+	#category : #'Toplo-Widget-List-infinite'
 }
 
 { #category : #initialization }

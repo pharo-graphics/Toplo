@@ -1,7 +1,7 @@
 Class {
 	#name : #ToListSecondarySelectionElement,
 	#superclass : #ToListSelectionElement,
-	#category : #'Toplo-Widget-List'
+	#category : #'Toplo-Widget-List-core'
 }
 
 { #category : #initialization }

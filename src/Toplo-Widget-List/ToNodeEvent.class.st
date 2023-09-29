@@ -5,7 +5,7 @@ Class {
 		'holder',
 		'event'
 	],
-	#category : #'Toplo-Widget-List'
+	#category : #'Toplo-Widget-List-node'
 }
 
 { #category : #accessing }

@@ -5,7 +5,7 @@ Class {
 		'newSelectedIndexes',
 		'oldSelectedIndexes'
 	],
-	#category : #'Toplo-Widget-List'
+	#category : #'Toplo-Widget-List-infinite'
 }
 
 { #category : #'instance creation' }

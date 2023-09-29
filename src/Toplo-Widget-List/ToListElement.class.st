@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'decorations'
 	],
-	#category : #'Toplo-Widget-List'
+	#category : #'Toplo-Widget-List-core'
 }
 
 { #category : #'private - selection decoration managing' }
@@ -43,13 +43,6 @@ ToListElement >> adjacentSelectedNodesGroups [
 ToListElement >> blurEvent: anEvent [
 
 	decorations do: [ :d | d blurEvent: anEvent ]
-]
-
-{ #category : #private }
-ToListElement >> checkEmptinessChange [
-
-	self data ifEmpty: [ ^ self showPlaceholder ].
-	self hidePlaceholder
 ]
 
 { #category : #accessing }
@@ -104,13 +97,14 @@ ToListElement >> initialize [
 	self layout: self defaultLayout.
 	self next: ToListInfiniteElement new.
 	self next addEventHandler: (BlEventForwarder forwardTo: localHandler from: self).
+	self dataSource addEventHandler: (BlEventForwarder forwardTo: localHandler from: self).
+	
 	self addChild: self next.
 	self next elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
 
-	self infinite dataSource when: ToListDataEmptinessChangeEvent do: [ :event | self checkEmptinessChange ].
+	"self infinite dataSource when: ToListDataEmptinessChangeEvent do: [ :event | self checkEmptinessChange ]."
 
 	self matchParent.
-	self withSelectionDecoration.
 	self background: self defaultBackground.
 	self margin: self defaultMargin.
 	self padding: self defaultPadding.
@@ -153,16 +147,4 @@ ToListElement >> updatePrimarySelectionDecorations [
 	decorations do: [ :d | d removeFromParent ].
 	decorations := self newPrimarySelectionDecorations.
 	self addChildren: decorations
-]
-
-{ #category : #initialization }
-ToListElement >> withSelectionDecoration [
-
-	
-]
-
-{ #category : #initialization }
-ToListElement >> withoutSelectionDecoration [
-
-
 ]

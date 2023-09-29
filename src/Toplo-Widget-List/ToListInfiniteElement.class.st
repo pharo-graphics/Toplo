@@ -80,12 +80,6 @@ ToListInfiniteElement >> holderClass [
 	^ ToListNodeHolder 
 ]
 
-{ #category : #'t - infinite accessing' }
-ToListInfiniteElement >> infinite [ 
-
-	^ self
-]
-
 { #category : #initialization }
 ToListInfiniteElement >> initialize [
 
@@ -96,16 +90,11 @@ ToListInfiniteElement >> initialize [
 	self clipChildren: true.
 	self border: self defaultBorder.
 	self background: self defaultBackground.
-	"self addEventHandler: self defaultEventHandler"
+	self addEventHandler: self defaultEventHandler
 ]
 
 { #category : #initialization }
 ToListInfiniteElement >> nodeClass [
 
 	^ ToLabeledNode
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToListInfiniteElement >> onInstalledIn: anElement [
-
 ]

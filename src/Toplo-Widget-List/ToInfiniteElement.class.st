@@ -4,7 +4,6 @@ Class {
 	#traits : 'TToResizable + TToDressable + TToWidgetWithContextMenu',
 	#classTraits : 'TToResizable classTrait + TToDressable classTrait + TToWidgetWithContextMenu classTrait',
 	#instVars : [
-		'holderFactory',
 		'nodeFactory',
 		'clickLauncher',
 		'primarySelection',
@@ -177,18 +176,10 @@ ToInfiniteElement >> holderClass [
 	^ self subclassResponsibility 
 ]
 
-{ #category : #accessing }
-ToInfiniteElement >> holderFactory [
+{ #category : #'t - infinite accessing' }
+ToInfiniteElement >> infinite [ 
 
-	" aHolderfactory is a valuable which implement #value:. #value takes the infinite element as unique argument "
-	^ holderFactory
-]
-
-{ #category : #accessing }
-ToInfiniteElement >> holderFactory: aHolderFactory [
-
-	" aHolderfactory is a valuable which implement #value:. #value takes the infinite element as unique argument "
-	holderFactory := aHolderFactory 
+	^ self
 ]
 
 { #category : #initialization }
@@ -210,7 +201,6 @@ ToInfiniteElement >> initialize [
 	self installShortcuts.
 	
 	self preserveSelectionOnFocused: self preserveSelectionOnFocusedByDefault.
-	self holderFactory: self defaultHolderFactory.
 	self nodeFactory: self defaultListNodeFactory.
 	self matchParent
 ]
@@ -258,6 +248,12 @@ ToInfiniteElement >> list: aList [
 
 	self privateData: aList
 
+]
+
+{ #category : #'instance creation' }
+ToInfiniteElement >> newElementHolderFromDataSource: aDataSource [
+
+	^ self holderClass new infiniteElement: self
 ]
 
 { #category : #accessing }

@@ -31,7 +31,7 @@ ToListDataSource >> list: aCollection [
 { #category : #'instance creation' }
 ToListDataSource >> onCreateHolder: anInfiniteElement [ 
 
-	^ anInfiniteElement holderFactory value: anInfiniteElement
+	^ anInfiniteElement newElementHolderFromDataSource: self
 ]
 
 { #category : #'instance creation' }

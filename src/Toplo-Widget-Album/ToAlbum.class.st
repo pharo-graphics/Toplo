@@ -124,6 +124,10 @@ ToAlbum >> flash [
 ToAlbum >> initialize [
 
 	super initialize.
+	
+	self next: self defaultEditorElement.
+	self addChild: self next.
+
 	self matchParent.
 	
 	self editorDo: [ :ed |
@@ -160,16 +164,6 @@ ToAlbum >> placeholderText: aText [
 
 	self placeholder: (ToAlbumPlaceholder new text: aText).
 	self text size isZero ifTrue: [ self showPlaceholder ]
-]
-
-{ #category : #'t - initialization dresser' }
-ToAlbum >> preInitializeDresser [ 
-
-	super preInitializeDresser.
-
-	self next: self defaultEditorElement.
-	self addChild: self next.
-
 ]
 
 { #category : #'transaction hook' }

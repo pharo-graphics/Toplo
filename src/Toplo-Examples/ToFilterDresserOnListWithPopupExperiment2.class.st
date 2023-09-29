@@ -82,11 +82,10 @@ ToFilterDresserOnListWithPopupExperiment2 >> open [
 		(BlRelativeElevation elevation: SmallInteger maxVal).
 	listElement showPlaceholder.
 
-	self listElement addDresser: ToDataFilterDresser new.
+	self listElement addDresser: ToListElementFilter new.
 
 	listElement when: ToDataFilterResultEvent do: [ :event |
-		event selectionUpdated ifTrue: [
-			listElement selectIndexes: event indexes ] ].
+			listElement selectIndexes: event indexes ].
 
 	listElement requestFocus.
 	pane openInSpace
@@ -142,7 +141,7 @@ ToFilterDresserOnListWithPopupExperiment2 >> popupTextFieldWith: aString [
 ToFilterDresserOnListWithPopupExperiment2 >> requestCancel [
 
 	filterWin ifNil: [  ^ self ].
-	self listElement dispatchEvent: (ToDataFilterRequestEvent new pattern: '').
+	self listElement dispatchEvent: (ToDataFilterRequest new pattern: '').
 	self close
 ]
 
@@ -178,5 +177,5 @@ ToFilterDresserOnListWithPopupExperiment2 >> startPlaceholder [
 ToFilterDresserOnListWithPopupExperiment2 >> textUpdated [
 
 	filterField ifNil: [ ^self ].
-	listElement dispatchEvent: (ToDataFilterRequestEvent new pattern: filterField text asString)
+	listElement dispatchEvent: (ToDataFilterRequest new pattern: filterField text asString)
 ]

@@ -1,64 +1,84 @@
 Class {
-	#name : #ToDataFilterDresser,
-	#superclass : #ToDresser,
+	#name : #ToListElementFilter,
+	#superclass : #Object,
 	#instVars : [
 		'pattern',
 		'semaphore',
-		'requestHandler',
 		'process',
 		'filter',
 		'originalDataProvider',
 		'originalData',
 		'delayBeforeFilter',
-		'currentIndexes',
-		'filterResultTask',
-		'addHandler',
-		'removeHandler',
-		'updateHandler'
+		'filterResultTask'
 	],
 	#category : #'Toplo-Widget-List-filter'
 }
 
-{ #category : #'api - install/uninstall  hook' }
-ToDataFilterDresser >> dataChangedIn: anElement [
+{ #category : #'filter events handling' }
+ToListElementFilter >> collectionAddEvent: anEvent [
+
+	self dataChangedIn: anEvent currentTarget
+]
+
+{ #category : #'filter events handling' }
+ToListElementFilter >> collectionRemoveEvent: anEvent [ 
+
+	self dataChangedIn: anEvent currentTarget
+]
+
+{ #category : #'filter events handling' }
+ToListElementFilter >> collectionUpdateEvent: anEvent [ 
+
+	self dataChangedIn: anEvent currentTarget
+]
+
+{ #category : #'filter events handling' }
+ToListElementFilter >> dataChangedIn: anElement [
 
 	originalData := originalDataProvider value.
-	currentIndexes  := 1 to: 0.
 	self filterDataIn: anElement
 ]
 
-{ #category : #'api - install/uninstall  hook' }
-ToDataFilterDresser >> defaultFilter [
+{ #category : #'private filtering' }
+ToListElementFilter >> dataFilterPattern: aString [
 
-	^ [ :data :p | data includesSubstring: p caseSensitive: false ]
+	pattern := aString asString trimBoth.
+	self semaphore signal
 ]
 
-{ #category : #initialization }
-ToDataFilterDresser >> defaultOriginalDataProvider [
+{ #category : #'private filtering' }
+ToListElementFilter >> dataFilterRequest: anEvent [
 
-	^ nil
+	self dataFilterPattern: anEvent pattern
+]
+
+{ #category : #'filter events handling' }
+ToListElementFilter >> defaultFilter [
+
+	"^ [ :data :p | data includesSubstring: p caseSensitive: false ]"
+	^ [ :data :p | data asString beginsWith: p caseSensitive: false ]
 ]
 
 { #category : #accessing }
-ToDataFilterDresser >> delayBeforeFilter [
+ToListElementFilter >> delayBeforeFilter [
 
 	^ delayBeforeFilter
 ]
 
 { #category : #accessing }
-ToDataFilterDresser >> filter [
+ToListElementFilter >> filter [
 
 	^ filter ifNil: [ filter := self defaultFilter ]
 ]
 
 { #category : #accessing }
-ToDataFilterDresser >> filter: aValuable [
+ToListElementFilter >> filter: aValuable [
 	" filter takes a data and a pattern as argument "
 	filter := aValuable
 ]
 
 { #category : #'private filtering' }
-ToDataFilterDresser >> filterDataIn: anElement [
+ToListElementFilter >> filterDataIn: anElement [
 
 	| filtered indexes |
 	self pattern ifNil: [ ^ self ].
@@ -82,17 +102,15 @@ ToDataFilterDresser >> filterDataIn: anElement [
 	filterResultTask ifNotNil: [ anElement dequeueTask: filterResultTask ].
 	filterResultTask := BlTaskAction new action: [ 
 		anElement dispatchEvent: (ToDataFilterResultEvent new
-			 selectionUpdated: currentIndexes ~= indexes;
 			 data: filtered;
 			 indexes: indexes;
 			 yourself).
-		currentIndexes := indexes.
 		filterResultTask := nil].
 	anElement enqueueTask: filterResultTask
 ]
 
 { #category : #'private filtering' }
-ToDataFilterDresser >> filterProcessIn: anElement [
+ToListElementFilter >> filterProcessIn: anElement [
 	"Runs in background, thank to Henrik Johansen for this"
 
 	semaphore := Semaphore new.
@@ -115,51 +133,23 @@ ToDataFilterDresser >> filterProcessIn: anElement [
 ]
 
 { #category : #'private filtering' }
-ToDataFilterDresser >> filterRequestEvent: anEvent in: anElement [
+ToListElementFilter >> filterRequestEvent: anEvent in: anElement [
 
 	pattern := anEvent pattern asString trimBoth.
 	self semaphore signal
 ]
 
-{ #category : #initialization }
-ToDataFilterDresser >> initialize [ 
+{ #category : #'filter events handling' }
+ToListElementFilter >> onInstalledIn: anElement [
 
-	super initialize.
-	originalDataProvider := self defaultOriginalDataProvider
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToDataFilterDresser >> installEventListenersIn: anElement [
-
-	super installEventListenersIn: anElement.
-
-	requestHandler := BlEventHandler
-		                  on: ToDataFilterRequestEvent
-		                  do: [ :event | self filterRequestEvent: event in: anElement ].
-	
-	addHandler := BlEventHandler on: ToCollectionAddEvent  do: [ :event | self dataChangedIn: anElement ].
-	removeHandler := BlEventHandler on: ToCollectionRemoveEvent  do: [ :event | self dataChangedIn: anElement ].
-	updateHandler := BlEventHandler on: ToCollectionUpdateEvent  do: [ :event | self dataChangedIn: anElement ].
-		
-	anElement addEventHandler: requestHandler.
-	anElement data addEventHandler: addHandler.
-	anElement data addEventHandler: removeHandler.
-	anElement data addEventHandler: updateHandler.
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToDataFilterDresser >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement.
 	originalDataProvider ifNil: [ originalDataProvider := [ anElement data asArray ] ].
 	originalData :=  originalDataProvider value.
 	delayBeforeFilter := 150 milliSeconds.
 	process := self filterProcessIn: anElement
 ]
 
-{ #category : #'api - install/uninstall  hook' }
-ToDataFilterDresser >> onUninstalledIn: anElement [
+{ #category : #'filter events handling' }
+ToListElementFilter >> onUninstalledIn: anElement [
 
 	process terminate.
 	originalData := nil.
@@ -170,36 +160,20 @@ ToDataFilterDresser >> onUninstalledIn: anElement [
 ]
 
 { #category : #accessing }
-ToDataFilterDresser >> originalDataProvider: aBlock [
+ToListElementFilter >> originalDataProvider: aBlock [
 
 	" returns an array "
 	originalDataProvider := aBlock
 ]
 
 { #category : #accessing }
-ToDataFilterDresser >> pattern [
+ToListElementFilter >> pattern [
 
 	^ pattern
 ]
 
 { #category : #accessing }
-ToDataFilterDresser >> semaphore [
+ToListElementFilter >> semaphore [
 
 	^ semaphore 
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToDataFilterDresser >> uninstallEventListenersIn: anElement [
-
-	anElement removeEventHandler: requestHandler.
-	anElement data removeEventHandler: addHandler.
-	anElement data removeEventHandler: removeHandler.
-	anElement data removeEventHandler: updateHandler.
-
-	requestHandler := nil.
-	addHandler := nil.
-	removeHandler := nil.
-	updateHandler := nil.
-	
-	super uninstallEventListenersIn: anElement
 ]

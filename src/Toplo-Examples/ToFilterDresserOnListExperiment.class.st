@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'filterField',
-		'listElement'
+		'listElement',
+		'dataFilter'
 	],
 	#category : #'Toplo-Examples'
 }
@@ -39,27 +40,27 @@ ToFilterDresserOnListExperiment >> listElement [
 { #category : #'instance creation' }
 ToFilterDresserOnListExperiment >> open [
 
-	| pane filterDresser |
+	| pane  |
 	pane := ToPane vertical
 		        matchParent;
 		        yourself.
-	filterField := ToTextField new.
+	filterField := ToTextField new withLineWrapping.
 	listElement := ToListElement new matchParent.
 	listElement margin: (BlInsets all: 2).
 	filterField margin: (BlInsets all: 2).
 	pane addChild: listElement.
 	pane addChild: filterField.
 
-	filterDresser := ToDataFilterDresser new.
-	listElement addDresser: filterDresser.
-	filterField whenTextEditedDo: [ self textUpdated ].
+	dataFilter := ToListElementFilter new.
+	listElement dataFilter: dataFilter.
+	filterField editorDo: [:ed | ed when: AlbTextEditedEvent do: [ self textUpdated ] ].
 
 	listElement placeholder: self startPlaceholder.
 	listElement placeholder elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
 	listElement showPlaceholder.
 
 	listElement when: ToDataFilterResultEvent do: [ :event |
-		event selectionUpdated ifTrue: [ listElement data filterResult: event data ] ].
+		listElement data filterResult: event data ].
 	pane openInSpace
 ]
 
@@ -92,5 +93,5 @@ ToFilterDresserOnListExperiment >> startPlaceholder [
 { #category : #'instance creation' }
 ToFilterDresserOnListExperiment >> textUpdated [
 
-	listElement dispatchEvent: (ToDataFilterRequestEvent new pattern: filterField text asString)
+	dataFilter dataFilterPattern: filterField text asString
 ]

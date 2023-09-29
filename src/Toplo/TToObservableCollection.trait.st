@@ -3,7 +3,7 @@ Trait {
 	#instVars : [
 		'list'
 	],
-	#category : 'Toplo-Core-Collection'
+	#category : #'Toplo-Core-Collection'
 }
 
 { #category : #'t - observable collection - copying' }
@@ -326,12 +326,14 @@ TToObservableCollection >> noneSatisfy: aBlock [
 TToObservableCollection >> notifyAddChangeAround: aBlock candidates: aCollection interval: anInterval [
 
 	self notifyEmptinessChangeAfter: [
-		self fireEvent: (ToCollectionBeforeAddEvent new
-				 interval: anInterval;
-				 candidates: aCollection;
-				 yourself).
-		aBlock value.
-		self fireEvent: (ToCollectionAddEvent new interval: anInterval) ]
+		| request |
+		self fireEvent: (request := ToCollectionAddRequest new
+				            interval: anInterval;
+				            candidates: aCollection;
+				            yourself).
+		request validated ifTrue: [
+			aBlock value.
+			self fireEvent: (ToCollectionAddEvent new interval: anInterval) ] ]
 ]
 
 { #category : #'t - observable collection - notifications' }
@@ -347,29 +349,35 @@ TToObservableCollection >> notifyEmptinessChangeAfter: aBlock [
 TToObservableCollection >> notifyFilterChangeAround: aBlock interval: anInterval [
 
 	self notifyEmptinessChangeAfter: [
-		self fireEvent: (ToCollectionBeforeFilterEvent new interval: (1 to: self size)).
-		aBlock value.
-		self fireEvent: (ToCollectionFilterEvent new interval: anInterval) ]
+		| request |
+		self fireEvent: (request := ToCollectionFilterRequest new interval: (1 to: self size)).
+		request validated ifTrue: [
+			aBlock value.
+			self fireEvent: (ToCollectionFilterEvent new interval: anInterval) ] ]
 ]
 
 { #category : #'t - observable collection - notifications' }
 TToObservableCollection >> notifyRemoveChangeAround: aBlock removed: aCollection interval: anInterval [
 
 	self notifyEmptinessChangeAfter: [
-		self fireEvent: (ToCollectionBeforeRemoveEvent new interval: anInterval).
-		aBlock value.
-		self fireEvent: (ToCollectionRemoveEvent new
-				 interval: anInterval;
-				 removed: aCollection;
-				 yourself) ]
+		| request |
+		self fireEvent: (request := ToCollectionRemoveRequest new interval: anInterval).
+		request validated ifTrue: [
+			aBlock value.
+			self fireEvent: (ToCollectionRemoveEvent new
+					 interval: anInterval;
+					 removed: aCollection;
+					 yourself) ] ]
 ]
 
 { #category : #'t - observable collection - notifications' }
 TToObservableCollection >> notifyUpdateChangeAround: aBlock interval: anInterval [
 
-	self fireEvent: (ToCollectionBeforeUpdateEvent new interval: anInterval).	
-	aBlock value.
-	self fireEvent: (ToCollectionUpdateEvent new interval: anInterval).
+	| request |
+	self fireEvent: (request := ToCollectionUpdateRequest new interval: anInterval).
+	request validated ifTrue: [
+		aBlock value.
+		self fireEvent: (ToCollectionUpdateEvent new interval: anInterval) ]
 ]
 
 { #category : #'t - observable collection - copying' }
@@ -528,25 +536,25 @@ TToObservableCollection >> whenAddChangeDo: aBlock [
 { #category : #'t - observable collection - event management' }
 TToObservableCollection >> whenBeforeAddChangeDo: aBlock [
 
-	self when: ToCollectionBeforeAddEvent  do: [ :ann | aBlock cull: ann ] 
+	self when: ToCollectionAddRequest  do: [ :ann | aBlock cull: ann ] 
 ]
 
 { #category : #'t - observable collection - event management' }
 TToObservableCollection >> whenBeforeFilterChangeDo: aBlock [
 
-	self when: ToCollectionBeforeFilterEvent  do: [ :ann | aBlock cull: ann ] 
+	self when: ToCollectionFilterRequest  do: [ :ann | aBlock cull: ann ] 
 ]
 
 { #category : #'t - observable collection - event management' }
 TToObservableCollection >> whenBeforeRemoveChangeDo: aBlock [
 
-	self when: ToCollectionBeforeRemoveEvent  do: [ :ann | aBlock cull: ann ] 
+	self when: ToCollectionRemoveRequest  do: [ :ann | aBlock cull: ann ] 
 ]
 
 { #category : #'t - observable collection - event management' }
 TToObservableCollection >> whenBeforeUpdateChangeDo: aBlock [
 
-	self when: ToCollectionBeforeUpdateEvent  do: [ :ann | aBlock cull: ann ] 
+	self when: ToCollectionUpdateRequest  do: [ :ann | aBlock cull: ann ] 
 ]
 
 { #category : #'t - observable collection - event management' }

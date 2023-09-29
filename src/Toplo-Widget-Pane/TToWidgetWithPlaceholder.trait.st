@@ -42,8 +42,7 @@ TToWidgetWithPlaceholder >> placeholderLayer: aPanePlaceholderLayer [
 			placeholderLayer := aPanePlaceholderLayer.
 			self showPlaceholder.
 			^ self ] ].
-	placeholderLayer := aPanePlaceholderLayer.
-	self showPlaceholder 
+	placeholderLayer := aPanePlaceholderLayer
 ]
 
 { #category : #'t - placeholder show/hide' }

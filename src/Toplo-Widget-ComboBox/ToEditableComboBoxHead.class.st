@@ -90,7 +90,7 @@ ToEditableComboBoxHead >> selectData: aData in: aComboBox [
 
 	self hidePlaceholder.
 	self textField text: (self dataToTextConverter value: aData).
-	aComboBox listElement dispatchEvent: (ToDataFilterRequestEvent new pattern: self textField text asString)
+	aComboBox listElement dispatchEvent: (ToDataFilterRequest new pattern: self textField text asString)
 
 
 ]

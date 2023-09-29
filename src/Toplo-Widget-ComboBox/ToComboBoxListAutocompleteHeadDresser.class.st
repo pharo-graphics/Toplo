@@ -28,7 +28,7 @@ ToComboBoxListAutocompleteHeadDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
 
-	filterDresser := ToDataFilterDresser new.
+	filterDresser := ToListElementFilter new.
 	filterDresser filter: [ :data :pattern | (anElement dataToTextConverter value: data) beginsWith: pattern caseSensitive: true ].
 	filterDresser originalDataProvider: [ comboBox data asArray sorted ].
 	comboBox listElement addDresser: filterDresser.
@@ -42,7 +42,7 @@ ToComboBoxListAutocompleteHeadDresser >> installEventListenersIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToComboBoxListAutocompleteHeadDresser >> textUpdatedIn: anElement [
 
-	comboBox listElement dispatchEvent: (ToDataFilterRequestEvent new pattern: anElement textField text asString)
+	comboBox listElement dispatchEvent: (ToDataFilterRequest new pattern: anElement textField text asString)
 ]
 
 { #category : #'api - install/uninstall  hook' }

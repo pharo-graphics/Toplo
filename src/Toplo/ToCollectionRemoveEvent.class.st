@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'removed'
 	],
-	#category : 'Toplo-Core-Collection'
+	#category : #'Toplo-Core-Collection'
 }
 
 { #category : #accessing }
@@ -17,4 +17,10 @@ ToCollectionRemoveEvent >> removed [
 ToCollectionRemoveEvent >> removed: aCollection [
 
 	removed := aCollection
+]
+
+{ #category : #sending }
+ToCollectionRemoveEvent >> sendTo: anObject [
+
+	anObject collectionRemoveEvent: self
 ]

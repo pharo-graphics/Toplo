@@ -64,7 +64,7 @@ ToEditableComboBoxHeadDresser >> selectIndexInPresentedData [
 { #category : #'api - install/uninstall  hook' }
 ToEditableComboBoxHeadDresser >> textUpdatedIn: anElement [
 
-	comboBox listElement dispatchEvent: (ToDataFilterRequestEvent new pattern: anElement textField text asString)
+	comboBox listElement dispatchEvent: (ToDataFilterRequest new pattern: anElement textField text asString)
 ]
 
 { #category : #'api - install/uninstall  hook' }

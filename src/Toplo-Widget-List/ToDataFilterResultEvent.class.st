@@ -33,14 +33,8 @@ ToDataFilterResultEvent >> indexes: aCollection [
 	indexes := aCollection
 ]
 
-{ #category : #accessing }
-ToDataFilterResultEvent >> selectionUpdated [
+{ #category : #sending }
+ToDataFilterResultEvent >> sendTo: anObject [
 
-	^ selectionUpdated
-]
-
-{ #category : #accessing }
-ToDataFilterResultEvent >> selectionUpdated: aBoolean [
-
-	selectionUpdated := aBoolean
+	anObject dataFilterResultEvent: self
 ]

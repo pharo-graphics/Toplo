@@ -4,7 +4,8 @@ Class {
 	#traits : 'TToListElementDecorator',
 	#classTraits : 'TToListElementDecorator classTrait',
 	#instVars : [
-		'decorations'
+		'decorations',
+		'dataFilter'
 	],
 	#category : #'Toplo-Widget-List-core'
 }
@@ -43,6 +44,21 @@ ToListElement >> adjacentSelectedNodesGroups [
 ToListElement >> blurEvent: anEvent [
 
 	decorations do: [ :d | d blurEvent: anEvent ]
+]
+
+{ #category : #accessing }
+ToListElement >> dataFilter [
+
+	^ dataFilter
+]
+
+{ #category : #accessing }
+ToListElement >> dataFilter: aDataFilter [
+
+	dataFilter = aDataFilter ifTrue: [ ^ self ].
+	dataFilter ifNotNil: [ dataFilter onUninstalledIn: self ].
+	dataFilter := aDataFilter.
+	dataFilter ifNotNil: [ dataFilter onInstalledIn: self ]
 ]
 
 { #category : #accessing }
@@ -98,6 +114,7 @@ ToListElement >> initialize [
 	self next: ToListInfiniteElement new.
 	self next addEventHandler: (BlEventForwarder forwardTo: localHandler from: self).
 	self dataSource addEventHandler: (BlEventForwarder forwardTo: localHandler from: self).
+	self data addEventHandler: (BlEventForwarder forwardTo: localHandler from: self).
 	
 	self addChild: self next.
 	self next elevation: (BlRelativeElevation elevation: SmallInteger maxVal).

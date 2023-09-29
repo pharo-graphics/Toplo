@@ -104,3 +104,8 @@ ToListInfiniteElement >> nodeClass [
 
 	^ ToLabeledNode
 ]
+
+{ #category : #'api - install/uninstall  hook' }
+ToListInfiniteElement >> onInstalledIn: anElement [
+
+]

@@ -39,5 +39,5 @@ ToInfiniteSelectionChangedEvent >> oldSelectedIndexes: anObject [
 { #category : #sending }
 ToInfiniteSelectionChangedEvent >> sendTo: anObject [
 
-	anObject selectionChanged: self
+	anObject infiniteSelectionChangedEvent: self
 ]

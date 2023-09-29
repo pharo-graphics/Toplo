@@ -4,8 +4,7 @@ Class {
 	#traits : 'TToListElementDecorator',
 	#classTraits : 'TToListElementDecorator classTrait',
 	#instVars : [
-		'decorations',
-		'popupMenuCloseHandler'
+		'decorations'
 	],
 	#category : #'Toplo-Widget-List'
 }
@@ -94,21 +93,21 @@ ToListElement >> focusEvent: anEvent [
 { #category : #initialization }
 ToListElement >> initialize [ 
 
+	
+	| localHandler |
 	super initialize.
 	decorations := #().
+	
+	localHandler := ToListElementEventHandler new.
+	self addEventHandler: localHandler.
+
 	self layout: self defaultLayout.
 	self next: ToListInfiniteElement new.
+	self next addEventHandler: (BlEventForwarder forwardTo: localHandler from: self).
 	self addChild: self next.
 	self next elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
 
-	self infinite when: BlElementExtentChangedEvent do: [ self updatePrimarySelectionDecorations  ].
-	self infinite when: BlElementScrolledEvent do: [ self updatePrimarySelectionDecorations  ].
-	self infinite when: ToInfiniteSelectionChangedEvent do: [ self updatePrimarySelectionDecorations  ].
-	self infinite when: BlBlurEvent do: [ :event | self blurEvent: event ].
-	self infinite when: BlFocusEvent do: [ :event | self focusEvent: event ].
-	self infinite when: ToContextMenuOpenedEvent do: [ :event | self popupOpenedEvent: event ].
 	self infinite dataSource when: ToListDataEmptinessChangeEvent do: [ :event | self checkEmptinessChange ].
-	self when: BlKeyboardEvent do: [ :event | self infinite dispatchEvent: event ].
 
 	self matchParent.
 	self withSelectionDecoration.
@@ -130,25 +129,6 @@ ToListElement >> newPrimarySelectionDecorations [
 ]
 
 { #category : #'private - selection decoration managing' }
-ToListElement >> popupOpenedEvent: anEvent [
-
-	| pos targetChildren childNode |
-	self infinite disableScrolledEvent.
-	pos := self infinite globalPointToLocal: anEvent sourceEvent position.
-	targetChildren := (self infinite withAllChildrenAt: pos) allButLast.
-	targetChildren ifEmpty: [ ^ self ].
-	childNode := targetChildren last.
-	childNode holder isSelected
-		ifTrue: [ 
-			self secondarySelectionOverPrimary.		
-			self secondarySelection selectIndexes: self primarySelectionIndexes. ]
-		ifFalse: [
-			self addSecondarySelectionDecorationOnNode: childNode.
-			self secondarySelection selectIndex: childNode holder position].
-	self setUpPopupCloseHandler.
-]
-
-{ #category : #'private - selection decoration managing' }
 ToListElement >> removeSecondarySelectionDecoration [
 
 	decorations do: [ :d | d hideSecondarySelection ]
@@ -164,21 +144,6 @@ ToListElement >> secondarySelectionOverPrimary [
 ToListElement >> selectionIncludesNode: aNode [
 
 	^ aNode holder isSelected
-]
-
-{ #category : #'private - selection decoration managing' }
-ToListElement >> setUpPopupCloseHandler [
-	" if the node selected with right mouse click is already selected, 
-	then all selected nodes are also within the secondary selection "
-
-	popupMenuCloseHandler := BlEventHandler
-		                         on: ToContextMenuClosedEvent
-		                         do: [
-			                         self removeSecondarySelectionDecoration.
-			                         self infinite removeEventHandler: popupMenuCloseHandler.
-			                         self secondarySelection deselectAll.
-			                         self infinite enableScrolledEvent ].
-	self infinite addEventHandler: popupMenuCloseHandler
 ]
 
 { #category : #'private - selection decoration managing' }

@@ -36,6 +36,12 @@ ToDivider >> bottomTarget [
 	^ self topTarget == self firstTarget ifTrue: [ self secondTarget  ] ifFalse: [ self firstTarget ]
 ]
 
+{ #category : #accessing }
+ToDivider >> colorProvider [ 
+
+	^ self theme divider
+]
+
 { #category : #'t - initialization dresser' }
 ToDivider >> defaultDresser [
 
@@ -48,6 +54,18 @@ ToDivider >> defaultLayout [
 	^ BlBasicLayout new 
 ]
 
+{ #category : #initialization }
+ToDivider >> defaultMargins [ 
+
+	^ BlInsets empty
+]
+
+{ #category : #initialization }
+ToDivider >> defaultPadding [
+
+	^ BlInsets empty
+]
+
 { #category : #accessing }
 ToDivider >> firstTarget [
 
@@ -58,6 +76,20 @@ ToDivider >> firstTarget [
 ToDivider >> firstTarget: anElement [
 
 	firstTarget := anElement
+]
+
+{ #category : #initialization }
+ToDivider >> initialize [
+
+	super initialize.
+	self thickness: 4.
+	self geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
+	self border: (BlBorder paint: self colorProvider defaultBorderColor).
+	self background: self colorProvider defaultBackgroundColor.
+	self margin: self defaultMargins.
+	self padding: self defaultPadding.
+	self elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
+	self constraintsDo: [ :c | c ignoreByLayout ]
 ]
 
 { #category : #testing }

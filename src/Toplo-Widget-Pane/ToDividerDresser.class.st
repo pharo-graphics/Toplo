@@ -29,12 +29,6 @@ ToDividerDresser >> defaultPadding [
 	^ BlInsets empty
 ]
 
-{ #category : #'event handlers' }
-ToDividerDresser >> dragEndHandlerIn: anElement [
-
-	^ BlEventHandler on: BlDragEndEvent do: [ :event | self mouseUpEvent: event in: anElement].
-]
-
 { #category : #'events handling' }
 ToDividerDresser >> hover: anElement event: anEvent [
 
@@ -66,14 +60,13 @@ ToDividerDresser >> initialState: anElement [
 ToDividerDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.	
-	dragEndHandler := self dragEndHandlerIn: anElement.
-
+	dragEndHandler := BlEventHandler on: BlDragEndEvent do: [ :event | self mouseUpEvent: event in: anElement].
 	dividerHandler := ToDividerEventHandler new divider: anElement.
 	
 	anElement addEventHandler: dragEndHandler.
 	anElement addEventHandler: dividerHandler.
 	
-	paneExtentHandler := self paneExtentChangeHandlerIn: anElement.
+	paneExtentHandler := BlEventHandler on: BlElementExtentChangedEvent do: [ :event | anElement requestLayout ].
 	anElement pane addEventHandler: paneExtentHandler.
 	
 	firstTargetPositionChangeHandler := BlEventHandler on: BlElementPositionChangedEvent do: [ anElement requestLayout ].	
@@ -161,13 +154,6 @@ ToDividerDresser >> mouseLeaveEvent: anEvent in: anElement [
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
 	anElement border: (BlBorder paint: self colorProvider defaultBorderColor).
 	anElement background: self colorProvider defaultBackgroundColor
-]
-
-{ #category : #'event handlers' }
-ToDividerDresser >> paneExtentChangeHandlerIn: anElement [
-
-	^ BlEventHandler on: BlElementExtentChangedEvent do: [ :event | anElement requestLayout ].
-
 ]
 
 { #category : #accessing }

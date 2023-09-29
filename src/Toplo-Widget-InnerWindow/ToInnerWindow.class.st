@@ -53,11 +53,11 @@ ToInnerWindow >> defaultBar [
 	b when: BlDoubleClickEvent do: [ self maximize ].
 	b when: BlMouseDownEvent do: [ self toFront ].
 	close := ToButton new icon: (ToImage new innerImage: Smalltalk ui theme windowCloseForm).
-	close constraintsDo: [ :c | c linear vertical alignCenter ].
+	close height: 16.
 	close whenClickedDo: [ self close ].
 	expand := ToButton new icon: (ToImage new innerImage: Smalltalk ui theme windowMaximizeForm).
 	expand whenClickedDo: [ self maximize ].
-	expand constraintsDo: [ :c | c linear vertical alignCenter ].
+	expand height: 16.
 
 	fill1 := BlElement new
 		         background: Color transparent;
@@ -160,6 +160,7 @@ ToInnerWindow >> initialize [
 
 	barPullHandler := BlPullHandler new target: self; yourself.
 	super initialize.
+	self layout: BlLinearLayout vertical.
 	self size: self defaultSize.
 	self background: Color gray.
 	self initializeGrips
@@ -178,7 +179,7 @@ ToInnerWindow >> maximize [
 ToInnerWindow >> show [
 	"Open me in a window and show it to the user"
 
-	self openInOBlSpace
+	self openInSpace
 ]
 
 { #category : #accessing }

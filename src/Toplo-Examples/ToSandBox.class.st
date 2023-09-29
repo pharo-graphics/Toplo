@@ -801,10 +801,7 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		ToPicsumPhotosGalleryImageElement new
 			hMatchParent;
 			vFitContent;
-			in: [ :node |
-				node addDresser: (ToActionDresser new installAction: [ :n |
-								 n margin: (BlInsets all: 5).
-								 n beOutskirtsOutside ]) ];
+			margin: (BlInsets all: 5);
 			imageData: anImageData;
 			yourself ].
 
@@ -1711,27 +1708,6 @@ ToSandBox class >> example_ToLabelWithHeadingSkin [
 	space show
 ]
 
-{ #category : #dresser }
-ToSandBox class >> example_WithToActionDresser [
-
-	| t |
-	t := ToTextField new.
-	t addDresser: (ToActionDresser new
-			 installAction: [ :textField :dresser |
-				 | h |
-				 h := BlEventHandler
-					      on: BlMouseEnterEvent
-					      do: [ self inform: 'hep!!!' ].
-				 dresser userData at: #mouseDownHandler put: h.
-				 textField addEventHandler: h ];
-			 uninstallAction: [ :textField :dresser |
-				 | h |
-				 h := dresser userData at: #mouseDownHandler.
-				 textField removeEventHandler: h ]).
-	t text: 'Bla bla'.
-	t openInSpace
-]
-
 { #category : #space }
 ToSandBox class >> example_elementInPopupRoot [
 
@@ -2426,16 +2402,6 @@ ToSandBox class >> example_textFieldOnlyDigits [
 
 	| t |
 	t := ToTextField new inputFilter: AlbTextEditorDigitInputFilter new.
-	t openInSpace
-]
-
-{ #category : #'text field' }
-ToSandBox class >> example_textFieldWithDresserToSetFontNameAndSize [
-
-	| t |
-	t := ToTextField new.
-	t addDresser: (ToActionDresser new installAction: [ :textField | textField whenTextReplacedDo: [ :event | event text fontName: 'Arial'; fontSize: 24 ] ]).
-	t text: 'AAAA'.
 	t openInSpace
 ]
 

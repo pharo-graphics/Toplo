@@ -55,12 +55,6 @@ ToNotebook >> addPageTitle: aTitle bodyFactory: aValuable [
 	^ aPage
 ]
 
-{ #category : #'t - initialization dresser' }
-ToNotebook >> defaultDresser [
-
-	^ ToNotebookDresser new
-]
-
 { #category : #accessing }
 ToNotebook >> header [
 
@@ -68,12 +62,27 @@ ToNotebook >> header [
 ]
 
 { #category : #initialization }
-ToNotebook >> initialize [ 
+ToNotebook >> initialize [
 
 	super initialize.
 
-	pages := OrderedCollection new
+	header := BlElement new.
+	self addChild: header as: #header.
+	pages := OrderedCollection new.
+	self
+		background: self theme notebook backgroundColor;
+		layout: BlLinearLayout vertical;
+		constraintsDo: [ :c |
+			c horizontal matchParent.
+			c vertical matchParent ].
 
+	self header
+		layout: (BlLinearLayout horizontal
+				 cellSpacing: 4;
+				 yourself);
+		constraintsDo: [ :c |
+			c horizontal matchParent.
+			c vertical exact: 30 ]
 ]
 
 { #category : #private }
@@ -93,7 +102,6 @@ ToNotebook >> newTitleElementFor: aPage title: aTitle [
 		page: aPage;
 		title: aTitle;
 		whenClickedDo: [ aPage isSelected: true ];
-		dresser: self dresser newPageTitleDresser;
 		yourself
 ]
 
@@ -101,14 +109,6 @@ ToNotebook >> newTitleElementFor: aPage title: aTitle [
 ToNotebook >> pages [
 
 	^ pages
-]
-
-{ #category : #'t - initialization dresser' }
-ToNotebook >> preInitializeDresser [
-
-	super preInitializeDresser.
-	header := BlElement new.
-	self addChild: header as: #header
 ]
 
 { #category : #private }

@@ -7,32 +7,6 @@ Class {
 	#category : #'Toplo-Incubator'
 }
 
-{ #category : #'api - install/uninstall  hook' }
-ToNotebookPageTitleDresser >> dressCloseable: aToNotebookTitle [
-
-	| closeButton |
-	closeButton := aToNotebookTitle childWithId: #closeButton.
-	closeButton
-		background: Color transparent;
-		border: BlBorder empty;
-		margin: (BlInsets top: 1 bottom: 2). "Check this"
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToNotebookPageTitleDresser >> dressDeselected: aToNotebookTitle [
-
-	aToNotebookTitle background:
-		notebookDresser theme notebook deselectedPageTitleBackgroundColor
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToNotebookPageTitleDresser >> dressSelected: aToNotebookTitle [
-
-	aToNotebookTitle background:
-		notebookDresser theme notebook selectedPageTitleBackgroundColor
-]
-
 { #category : #accessing }
 ToNotebookPageTitleDresser >> notebookDresser [
 
@@ -87,19 +61,4 @@ ToNotebookPageTitleDresser >> onInstalledIn: aToNotebookTitle [
 					action: [ self refreshIsCloseable: aToNotebookTitle ];
 				 	yourself) ]
 
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToNotebookPageTitleDresser >> refreshIsCloseable: aToNotebookTitle [
-
-	aToNotebookTitle page isCloseable ifFalse: [ ^ self ].
-	self dressCloseable: aToNotebookTitle.
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToNotebookPageTitleDresser >> refreshIsSelected: aToNotebookTitle [
-
-	aToNotebookTitle page isSelected
-		ifTrue: [ self dressSelected: aToNotebookTitle ]
-		ifFalse: [ self dressDeselected: aToNotebookTitle ]
 ]

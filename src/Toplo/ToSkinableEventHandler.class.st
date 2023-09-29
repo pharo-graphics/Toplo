@@ -30,8 +30,20 @@ ToSkinableEventHandler >> doubleClickEvent: anEvent [
 
 ]
 
+{ #category : #'event handling' }
+ToSkinableEventHandler >> dragEnterEvent: anEvent [
+]
+
+{ #category : #'event handling' }
+ToSkinableEventHandler >> dragLeaveEvent: anEvent [
+]
+
 { #category : #'mouse handlers' }
 ToSkinableEventHandler >> dragStartEvent: anEvent [
+]
+
+{ #category : #'dnd handlers' }
+ToSkinableEventHandler >> dropEvent: anEvent [
 ]
 
 { #category : #enablement }

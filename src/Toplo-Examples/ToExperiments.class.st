@@ -858,34 +858,34 @@ space inspect
 { #category : #'popup strategy' }
 ToExperiments class >> example_strategy [
 
-	| win blue red  |
+	| win blue red |
+	win := ToInnerWindow new
+		       id: #win;
+		       background: Color gray;
+		       size: 500 @ 400;
+		       position: 100 @ 100.
 
-	win := ToInnerWindow new id: #win; 
-		         background: Color gray;
-		         size: 500 @ 400;
-					relocate: 100@100.
-
-	blue := ToElement new id: #blue;
+	blue := ToElement new
+		        id: #blue;
 		        background: Color blue;
-		        size: 50@50.
-		
-	red := ToElement new id: #red;
-		        background: Color red;
-				relocate: 100@75;
-		        size: 50@50.
+		        size: 50 @ 50.
 
-	win addChild: red.
-	win addChild: blue. 
-	blue constraintsDo: [ :c | c ignoreByLayout  ].
+	red := ToElement new
+		       id: #red;
+		       background: Color red;
+		       position: 100 @ 75;
+		       size: 50 @ 50.
+
+	win root addChild: red.
+	win root addChild: blue.
+	blue constraintsDo: [ :c | c ignoreByLayout ].
 	blue anchorLeft: red leftAnchor + 10.
 	blue anchorTop: red topAnchor + 10.
 	blue anchorBottom: red bottomAnchor - 10.
 	blue anchorRight: red rightAnchor - 10.
 
 	win openInOBlSpace.
-	win relocate: 100@30.
-	
-
+	win relocate: 100 @ 30
 ]
 
 { #category : #frame }

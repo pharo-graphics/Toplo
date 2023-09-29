@@ -6,12 +6,6 @@ Class {
 	#category : #'Toplo-Widget-Button-Toggle'
 }
 
-{ #category : #'t - initialization dresser' }
-ToToggleButton >> defaultDresser [
-
-	^ ToToggleButtonDresser new
-]
-
 { #category : #'t - skinable - initialization' }
 ToToggleButton >> defaultStyleTags [
 

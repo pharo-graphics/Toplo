@@ -3,8 +3,7 @@ Class {
 	#superclass : #BlEvent,
 	#instVars : [
 		'data',
-		'indexes',
-		'selectionUpdated'
+		'indexes'
 	],
 	#category : #'Toplo-Widget-List-filter'
 }

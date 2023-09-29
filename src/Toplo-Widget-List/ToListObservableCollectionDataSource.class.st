@@ -1,5 +1,5 @@
 Class {
-	#name : #ToObservableCollectionDataSource,
+	#name : #ToListObservableCollectionDataSource,
 	#superclass : #ToListDataSource,
 	#instVars : [
 		'data'
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-ToObservableCollectionDataSource >> data [
+ToListObservableCollectionDataSource >> data [
 
 	^ data
 ]
 
 { #category : #accessing }
-ToObservableCollectionDataSource >> data: anObservableCollection [
+ToListObservableCollectionDataSource >> data: anObservableCollection [
 
 	data := anObservableCollection.
 	data whenAddChangeDo: [ :ann | self notifyItemsInserted: ann interval ].
@@ -22,13 +22,13 @@ ToObservableCollectionDataSource >> data: anObservableCollection [
 	data whenUpdateChangeDo: [ :ann | self notifyItemsChanged: ann interval ].
 	data whenBeforeFilterChangeDo: [ :ann | self notifyItemsRemoved: ann interval ]. 
 	data whenFilterChangeDo: [ :ann | self notifyItemsInserted: ann interval ].
-	data when: ToCollectionEmptinessEvent do: [ self dispatchEvent: ToListDataEmptinessChangeEvent new  ].
+	data when: ToCollectionEmptinessEvent do: [ self dispatchEvent: ToDataEmptinessChangeEvent new  ].
 
 	self notifyChanged
 ]
 
 { #category : #accessing }
-ToObservableCollectionDataSource >> itemCount [
+ToListObservableCollectionDataSource >> itemCount [
 	"Return the total number of items in the data set"
 	<return: #Number>
 
@@ -36,7 +36,7 @@ ToObservableCollectionDataSource >> itemCount [
 ]
 
 { #category : #accessing }
-ToObservableCollectionDataSource >> list [
+ToListObservableCollectionDataSource >> list [
 
 	self 
 		deprecated:  'Use #data instead' 
@@ -45,7 +45,7 @@ ToObservableCollectionDataSource >> list [
 ]
 
 { #category : #accessing }
-ToObservableCollectionDataSource >> list: anObservableCollection [
+ToListObservableCollectionDataSource >> list: anObservableCollection [
 
 	self
 		deprecated: 'Please use data: instead.'
@@ -56,7 +56,7 @@ ToObservableCollectionDataSource >> list: anObservableCollection [
 ]
 
 { #category : #'instance creation' }
-ToObservableCollectionDataSource >> onBindHolder: anElementHolder at: aPosition [
+ToListObservableCollectionDataSource >> onBindHolder: anElementHolder at: aPosition [
 
 	"Update holder's model"
 	anElementHolder data: (self data at: aPosition).

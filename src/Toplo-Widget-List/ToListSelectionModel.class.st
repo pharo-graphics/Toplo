@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSelectionModel,
+	#name : #ToListSelectionModel,
 	#superclass : #Object,
 	#traits : 'TBlEventTarget',
 	#classTraits : 'TBlEventTarget classTrait',
@@ -11,12 +11,12 @@ Class {
 }
 
 { #category : #printing }
-ToSelectionModel class >> modelName [
+ToListSelectionModel class >> modelName [
 	^ 'Selection'
 ]
 
 { #category : #selection }
-ToSelectionModel >> deselect: aFromIndex to: aToIndex [
+ToListSelectionModel >> deselect: aFromIndex to: aToIndex [
 	"Deselect items within a given interval"
 
 	selection deselect: aFromIndex - 1 to: aToIndex.
@@ -24,33 +24,33 @@ ToSelectionModel >> deselect: aFromIndex to: aToIndex [
 ]
 
 { #category : #selection }
-ToSelectionModel >> deselectAll [
+ToListSelectionModel >> deselectAll [
 	"Deselect all items"
 
 	selection reverseDo: [ :aMonotoneSelection | self deselect: aMonotoneSelection from + 1 to: aMonotoneSelection to ]
 ]
 
 { #category : #selection }
-ToSelectionModel >> deselectIndex: anIndex [
+ToListSelectionModel >> deselectIndex: anIndex [
 	"Deselect items with a given index"
 
 	self deselect: anIndex to: anIndex
 ]
 
 { #category : #notifying }
-ToSelectionModel >> dispatchDeselected: anInterval [
+ToListSelectionModel >> dispatchDeselected: anInterval [
 
-	self fireEvent: (ToSelectionModelDeselectEvent new model: self; indexes: anInterval; yourself)
+	self fireEvent: (ToListSelectionModelDeselectEvent new model: self; indexes: anInterval; yourself)
 ]
 
 { #category : #notifying }
-ToSelectionModel >> dispatchSelected: aCollection [
+ToListSelectionModel >> dispatchSelected: aCollection [
 
-	self fireEvent: (ToSelectionModelSelectEvent new model: self; indexes: aCollection; yourself)
+	self fireEvent: (ToListSelectionModelSelectEvent new model: self; indexes: aCollection; yourself)
 ]
 
 { #category : #'event management accessing' }
-ToSelectionModel >> eventDispatcher [
+ToListSelectionModel >> eventDispatcher [
 	"Return an object responsible for event dispatching"
 	<return: #BlDirectEventDispatcher>
 
@@ -58,13 +58,13 @@ ToSelectionModel >> eventDispatcher [
 ]
 
 { #category : #accessing }
-ToSelectionModel >> first [
+ToListSelectionModel >> first [
 
 	^ self indices first
 ]
 
 { #category : #testing }
-ToSelectionModel >> ifEmpty: aBlock [
+ToListSelectionModel >> ifEmpty: aBlock [
 
 	^ self isEmpty
 		ifTrue: [ aBlock value ]
@@ -72,7 +72,7 @@ ToSelectionModel >> ifEmpty: aBlock [
 ]
 
 { #category : #testing }
-ToSelectionModel >> ifNotEmpty: aBlock [
+ToListSelectionModel >> ifNotEmpty: aBlock [
 
 	^ self isEmpty
 		ifTrue: [ self ]
@@ -80,7 +80,7 @@ ToSelectionModel >> ifNotEmpty: aBlock [
 ]
 
 { #category : #testing }
-ToSelectionModel >> includes: anIndex [
+ToListSelectionModel >> includes: anIndex [
 	"Return true if item at a given index is selected, false otherwise"
 	<return: #Boolean>
 
@@ -88,14 +88,14 @@ ToSelectionModel >> includes: anIndex [
 ]
 
 { #category : #accessing }
-ToSelectionModel >> indices [
+ToListSelectionModel >> indices [
 	<return: #Collection of: #Number>
 	
 	^ selection indices
 ]
 
 { #category : #initialization }
-ToSelectionModel >> initialize [
+ToListSelectionModel >> initialize [
 	super initialize.
 
 	selection := BlCompositeSelection new.
@@ -103,34 +103,34 @@ ToSelectionModel >> initialize [
 ]
 
 { #category : #testing }
-ToSelectionModel >> isEmpty [
+ToListSelectionModel >> isEmpty [
 	<return: #Boolean>
 	
 	^ selection isEmpty
 ]
 
 { #category : #testing }
-ToSelectionModel >> isNotEmpty [
+ToListSelectionModel >> isNotEmpty [
 	<return: #Boolean>
 	
 	^ selection isNotEmpty
 ]
 
 { #category : #accessing }
-ToSelectionModel >> last [
+ToListSelectionModel >> last [
 
 	^ self indices last
 ]
 
 { #category : #copying }
-ToSelectionModel >> postCopy [  
+ToListSelectionModel >> postCopy [  
 
 	selection := selection copy.
 	^ super postCopy
 ]
 
 { #category : #selection }
-ToSelectionModel >> select: aToIndex [
+ToListSelectionModel >> select: aToIndex [
 	"Select items within a given interval"
 
 	selection select: aToIndex - 1 to: aToIndex.
@@ -138,7 +138,7 @@ ToSelectionModel >> select: aToIndex [
 ]
 
 { #category : #selection }
-ToSelectionModel >> select: aFromIndex to: aToIndex [
+ToListSelectionModel >> select: aFromIndex to: aToIndex [
 	"Select items within a given interval"
 
 	selection select: aFromIndex - 1 to: aToIndex.
@@ -146,7 +146,7 @@ ToSelectionModel >> select: aFromIndex to: aToIndex [
 ]
 
 { #category : #selection }
-ToSelectionModel >> selectIndex: anIndex [
+ToListSelectionModel >> selectIndex: anIndex [
 	"Select an item at a given index deselecting all previously selected items"
 	| aSelectionCopy |
 
@@ -163,20 +163,20 @@ ToSelectionModel >> selectIndex: anIndex [
 ]
 
 { #category : #selection }
-ToSelectionModel >> selectIndexes: aCollection [
+ToListSelectionModel >> selectIndexes: aCollection [
 
 	aCollection do: [ :idx | selection select: idx - 1 to: idx ].
 	self dispatchSelected: aCollection
 ]
 
 { #category : #accessing }
-ToSelectionModel >> selectedIndexes [ 
+ToListSelectionModel >> selectedIndexes [ 
 
 	^ self indices
 ]
 
 { #category : #accessing }
-ToSelectionModel >> size [
+ToListSelectionModel >> size [
 
 	^ self indices size
 ]

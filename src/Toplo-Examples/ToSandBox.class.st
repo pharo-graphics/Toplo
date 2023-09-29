@@ -292,7 +292,7 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 			            padding: (BlInsets all: 1);
 			            yourself.
 		     lab whenTextReplacedDo: [
-			     holder data
+			     holder infiniteElement data
 				     at: holder position
 				     put: assoc key -> lab text asString ].
 		     ToLabeledNode new
@@ -612,7 +612,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		ToLabeledNode new
 			label: lab;
 			hMatchParent ].
-	l when: ToStrongSelectionEvent do: [ :event |
+	l when: ToListStrongSelectionEvent do: [ :event |
 		| r |
 		r := event indexes collect: [ :idx | idx asString , ':XXXXXX' ].
 		r do: [ :e | l data addFirst: e ] ].
@@ -695,19 +695,19 @@ ToSandBox class >> example_ListWithIndexedColors [
 	| l vscrollBar space |
 	l := ToListElement new nodeFactory: [ :color |
 		     ToLabeledNode new
-			     dresser: (ToNodeWithHoverButtonDresserExample new changeBackground: false; yourself);
 			     labelText: (color asString asRopedText
 					      foreground: color contrastingBlackAndWhiteColor;
 					      yourself);
+			     hMatchParent;
 			     background: color ].
 	l data addAll: Color indexedColors.
 
 	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
-			c ignoreByLayout.
-			c margin: (BlInsets right: 2).
-			c ignored horizontal alignRight.
-			c ignored vertical alignBottom]. 
+		c ignoreByLayout.
+		c margin: (BlInsets right: 2).
+		c ignored horizontal alignRight.
+		c ignored vertical alignBottom ].
 	vscrollBar attachTo: l infinite.
 	space := BlSpace new.
 	space root addChild: l.
@@ -720,7 +720,6 @@ ToSandBox class >> example_ListWithPanes [
 
 	| list |
 	list := ToListElement new
-		        beWithoutSelection;
 		        withRowNumbers;
 		        nodeFactory: [ :collectible :holder |
 			        | title blContent |
@@ -731,7 +730,6 @@ ToSandBox class >> example_ListWithPanes [
 				                 padding: (BlInsets all: 1);
 				                 yourself.
 			        blContent := ToPaneNodeExample new.
-			        blContent addDresser: ToNodeDresser new.
 			        blContent
 				        when: ToNodeHolderSelectedEvent
 				        do: [ 'S' traceCr ].
@@ -739,12 +737,9 @@ ToSandBox class >> example_ListWithPanes [
 				        when: ToNodeHolderDeselectedEvent
 				        do: [ 'D' traceCr ].
 			        blContent addChild: title at: 1.
-			        blContent vFitContent.
-			        blContent hMatchParent.
 			        blContent margin: (BlInsets all: 4).
 			        blContent padding: (BlInsets all: 12).
-			        blContent geometry:
-				        (BlRoundedRectangleGeometry cornerRadius: 6).
+			        blContent geometry: (BlRoundedRectangleGeometry cornerRadius: 6).
 			        blContent border: (BlBorder paint: Color lightGray).
 			        blContent ].
 	list data addAll: (1 to: 1000).

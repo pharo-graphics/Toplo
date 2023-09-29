@@ -6,10 +6,10 @@ Class {
 	#category : #'Toplo-Widget-List-node'
 }
 
-{ #category : #'t - initialization dresser' }
-ToCheckNode >> defaultDresser [
+{ #category : #'t - list node - initialization' }
+ToCheckNode >> defaultEventHandler [
 
-	^ToCheckNodeDresser new
+	^ ToCheckNodeEventHandler new
 ]
 
 { #category : #initialization }

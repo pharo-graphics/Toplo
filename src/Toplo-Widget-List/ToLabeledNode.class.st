@@ -1,8 +1,8 @@
 Class {
 	#name : #ToLabeledNode,
-	#superclass : #ToWidget,
-	#traits : 'TToTriplet + TToLabeledIcon + TToOrientable + TToClickable',
-	#classTraits : 'TToTriplet classTrait + TToLabeledIcon classTrait + TToOrientable classTrait + TToClickable classTrait',
+	#superclass : #ToNode,
+	#traits : 'TToTriplet + TToLabeledIcon + TToOrientable',
+	#classTraits : 'TToTriplet classTrait + TToLabeledIcon classTrait + TToOrientable classTrait',
 	#instVars : [
 		'#icon => ToSkinnableSlot',
 		'#label => ToSkinnableSlot',
@@ -10,18 +10,6 @@ Class {
 	],
 	#category : #'Toplo-Widget-List-node'
 }
-
-{ #category : #'t - clickable - click behavior' }
-ToLabeledNode >> client [
-
-	^ self  
-]
-
-{ #category : #'t - initialization dresser' }
-ToLabeledNode >> defaultDresser [ 
-
-	^ ToNodeDresser new
-]
 
 { #category : #'t - triplet - accessing' }
 ToLabeledNode >> first [

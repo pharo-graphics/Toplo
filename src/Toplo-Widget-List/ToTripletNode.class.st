@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTripletNode,
 	#superclass : #ToTripletElement,
-	#traits : 'TToClickable',
-	#classTraits : 'TToClickable classTrait',
+	#traits : 'TToClickable + TToNode',
+	#classTraits : 'TToClickable classTrait + TToNode classTrait',
 	#category : #'Toplo-Widget-List-node'
 }
 
@@ -12,8 +12,8 @@ ToTripletNode >> client [
 	^ self holder infiniteElement client
 ]
 
-{ #category : #'t - initialization dresser' }
-ToTripletNode >> defaultDresser [ 
+{ #category : #'t - list node - initialization' }
+ToTripletNode >> defaultEventHandler [
 
-	^ super defaultDresser next: ToNodeDresser new
+	^ ToNodeEventHandler new
 ]

@@ -33,7 +33,7 @@ ToListInfiniteElement >> defaultBorderWidth [
 { #category : #initialization }
 ToListInfiniteElement >> defaultDataSource [
 
-	^ ToObservableCollectionDataSource new
+	^ ToListObservableCollectionDataSource new
 ]
 
 { #category : #initialization }
@@ -77,7 +77,7 @@ ToListInfiniteElement >> defaultPadding [
 { #category : #initialization }
 ToListInfiniteElement >> holderClass [
 
-	^ ToListNodeHolder 
+	^ ToNodeHolder 
 ]
 
 { #category : #initialization }

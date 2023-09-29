@@ -95,13 +95,13 @@ ToInfiniteElement >> defaultListNodeFactory [
 { #category : #initialization }
 ToInfiniteElement >> defaultPrimarySelection [
 
-	^ ToSelectionStrategy new infiniteElement: self
+	^ ToListSelectionStrategy new infiniteElement: self
 ]
 
 { #category : #initialization }
 ToInfiniteElement >> defaultSecondarySelection [
 
-	^ ToSelectionModel new
+	^ ToListSelectionModel new
 ]
 
 { #category : #'selection events' }
@@ -143,7 +143,7 @@ ToInfiniteElement >> dispatchSelectionChangedAfter: aBlock [
 ToInfiniteElement >> dispatchStrongSelectionChanged [
 
 	self terminateClickLauncher.
-	self dispatchEvent: (ToStrongSelectionEvent indexes: self primarySelectionIndexes)
+	self dispatchEvent: (ToListStrongSelectionEvent indexes: self primarySelectionIndexes)
 ]
 
 { #category : #'as yet unclassified' }

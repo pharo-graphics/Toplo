@@ -11,7 +11,7 @@ Class {
 ToObservableCollectionDataSourceTest >> testRangeChangedNotification [
 
 	| datasource rangeEvent |
-	datasource := ToObservableCollectionDataSource new.
+	datasource := ToListObservableCollectionDataSource new.
 	datasource
 		when: BlInfiniteDataSourceItemRangeChanged
 		do: [ :event | rangeEvent := event ].
@@ -39,7 +39,7 @@ ToObservableCollectionDataSourceTest >> testRangeChangedNotification [
 ToObservableCollectionDataSourceTest >> testRangeInsertedNotification [
 
 	| datasource rangeEvent |
-	datasource := ToObservableCollectionDataSource new.
+	datasource := ToListObservableCollectionDataSource new.
 	datasource
 		when: BlInfiniteDataSourceItemRangeInserted
 		do: [ :event | rangeEvent := event ].
@@ -58,7 +58,7 @@ ToObservableCollectionDataSourceTest >> testRangeInsertedNotification [
 ToObservableCollectionDataSourceTest >> testRangeRemovedNotification [
 
 	| datasource rangeEvent |
-	datasource := ToObservableCollectionDataSource new.
+	datasource := ToListObservableCollectionDataSource new.
 	datasource
 		when: BlInfiniteDataSourceItemRangeRemoved
 		do: [ :event | rangeEvent := event ].
@@ -90,7 +90,7 @@ ToObservableCollectionDataSourceTest >> testRangeRemovedNotification [
 ToObservableCollectionDataSourceTest >> testWithData [
 
 	| datasource changedEvent |
-	datasource := ToObservableCollectionDataSource new.
+	datasource := ToListObservableCollectionDataSource new.
 	datasource
 		when: BlInfiniteDataSourceChanged
 		do: [ :event | changedEvent := event ].
@@ -106,7 +106,7 @@ ToObservableCollectionDataSourceTest >> testWithData [
 ToObservableCollectionDataSourceTest >> testWithoutData [
 
 	| datasource |
-	datasource := ToObservableCollectionDataSource new.
+	datasource := ToListObservableCollectionDataSource new.
 	self assert: datasource data isNil.
 	self assert: datasource itemCount equals: 0.
 	self assert: datasource hasStableIds not

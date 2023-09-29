@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSelectionModelChangedEvent,
+	#name : #ToListSelectionModelChangedEvent,
 	#superclass : #BlEvent,
 	#instVars : [
 		'model',
@@ -9,25 +9,25 @@ Class {
 }
 
 { #category : #accessing }
-ToSelectionModelChangedEvent >> indexes [
+ToListSelectionModelChangedEvent >> indexes [
 
 	^ indexes
 ]
 
 { #category : #accessing }
-ToSelectionModelChangedEvent >> indexes: aCollection [
+ToListSelectionModelChangedEvent >> indexes: aCollection [
 
 	indexes := aCollection
 ]
 
 { #category : #accessing }
-ToSelectionModelChangedEvent >> model [
+ToListSelectionModelChangedEvent >> model [
 
 	^ model
 ]
 
 { #category : #accessing }
-ToSelectionModelChangedEvent >> model: aSelectionModel [
+ToListSelectionModelChangedEvent >> model: aSelectionModel [
 
 	model := aSelectionModel
 ]

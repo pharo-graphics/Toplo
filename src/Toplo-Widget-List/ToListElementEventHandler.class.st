@@ -55,8 +55,8 @@ ToListElementEventHandler >> elementScrolledEvent: anEvent [
 { #category : #'api - accessing' }
 ToListElementEventHandler >> eventsToHandle [
 
-	^ {ToListDataEmptinessChangeEvent.
-		  ToStrongSelectionEvent.
+	^ {ToDataEmptinessChangeEvent.
+		  ToListStrongSelectionEvent.
 		  BlElementScrolledEvent.
 		  BlElementExtentChangedEvent.
 		  ToInfiniteSelectionChangedEvent.

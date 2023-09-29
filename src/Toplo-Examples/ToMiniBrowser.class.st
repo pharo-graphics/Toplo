@@ -137,7 +137,7 @@ ToMiniBrowser >> initialize [
 			 	hMatchParent;
 				yourself].
 
-	packages infinite when: ToStrongSelectionEvent do: [ :event | event traceCr ].
+	packages infinite when: ToListStrongSelectionEvent do: [ :event | event traceCr ].
 
 	packages margin: (BlInsets all: 2).
 

@@ -1,11 +1,11 @@
 Class {
-	#name : #ToListDataEmptinessChangeEvent,
+	#name : #ToDataEmptinessChangeEvent,
 	#superclass : #BlEvent,
 	#category : #'Toplo-Widget-List-infinite'
 }
 
 { #category : #sending }
-ToListDataEmptinessChangeEvent >> sendTo: anObject [
+ToDataEmptinessChangeEvent >> sendTo: anObject [
 
 	anObject listDataEmptinessChangeEvent: self
 ]

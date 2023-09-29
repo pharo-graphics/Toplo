@@ -68,11 +68,11 @@ ToNodeHolder >> onAttachedFromDatasource: aDataSource [
 		                do: [ :event | infiniteElement whenClickOnNodeEvent: event ].
 
 	deselectHandler := BlEventHandler
-		                   on: ToSelectionModelDeselectEvent
+		                   on: ToListSelectionModelDeselectEvent
 		                   do: [ :event | self whenDeselectEvent: event ].
 
 	selectHandler := BlEventHandler
-		                 on: ToSelectionModelSelectEvent
+		                 on: ToListSelectionModelSelectEvent
 		                 do: [ :event | self whenSelectEvent: event ].
 
 	self addEventHandler: clickHandler.

@@ -1,10 +1,12 @@
 Class {
 	#name : #ToDividerEventHandler,
-	#superclass : #BlCustomEventHandler,
+	#superclass : #ToSkinableEventHandler,
 	#instVars : [
-		'divider',
 		'startPosition',
-		'startBounds'
+		'startBounds',
+		'firstTargetPositionChangeHandler',
+		'secondTargetPositionChangeHandler',
+		'paneExtentHandler'
 	],
 	#category : #'Toplo-Widget-Pane'
 }
@@ -22,23 +24,15 @@ ToDividerEventHandler >> appliedDragDeltaFromPosition: aPoint [
 { #category : #accessing }
 ToDividerEventHandler >> divider [
 
-	^ divider
-]
-
-{ #category : #accessing }
-ToDividerEventHandler >> divider: aDivider [
-
-	divider := aDivider
-]
-
-{ #category : #'dnd handlers' }
-ToDividerEventHandler >> dragEndEvent: anEvent [
+	^ privateTarget
 ]
 
 { #category : #'dnd handlers' }
 ToDividerEventHandler >> dragEvent: anEvent [
 
 	| firstTargetBounds secondTargetBounds dragDelta |
+	
+	super dragEvent: anEvent.
 	anEvent consumed: true.
 
 	firstTargetBounds := startBounds first copy.
@@ -93,6 +87,7 @@ ToDividerEventHandler >> dragEvent: anEvent target: aTarget bounds: aTargetBound
 { #category : #'dnd handlers' }
 ToDividerEventHandler >> dragStartEvent: anEvent [
 
+	super dragStartEvent: anEvent.
 	anEvent consumed: true.
 
 	"drag start position in parent"
@@ -105,10 +100,30 @@ ToDividerEventHandler >> dragStartEvent: anEvent [
 		               bnds inSpace bounds copy ]
 ]
 
+{ #category : #'event handling' }
+ToDividerEventHandler >> elementExtentChangedEvent: anEvent [
+
+	anEvent currentTarget pane requestLayout
+]
+
+{ #category : #'event handling' }
+ToDividerEventHandler >> elementPositionChangedEvent: anEvent [
+
+	anEvent currentTarget firstTarget requestLayout.
+	anEvent currentTarget secondTarget requestLayout
+]
+
 { #category : #'api - accessing' }
 ToDividerEventHandler >> eventsToHandle [
 
-	^ { BlDragEndEvent. BlDragStartEvent. BlDragEvent. BlMouseDownEvent. BlMouseEnterEvent. BlMouseLeaveEvent. BlMouseUpEvent }
+	^ {
+		  BlDragEndEvent.
+		  BlDragStartEvent.
+		  BlDragEvent.
+		  BlMouseDownEvent.
+		  BlMouseEnterEvent.
+		  BlMouseLeaveEvent.
+		  BlMouseUpEvent }
 ]
 
 { #category : #accessing }
@@ -130,6 +145,24 @@ ToDividerEventHandler >> horizontalDragEvent: anEvent target: aTarget width: aWi
 			aTarget constraints linear weight: w ]
 ]
 
+{ #category : #'mouse handlers' }
+ToDividerEventHandler >> leftMouseDownEvent: anEvent [
+
+	super leftMouseDownEvent: anEvent.
+	anEvent currentTarget border: (BlBorder paint: anEvent currentTarget colorProvider pressedBorderColor).
+	anEvent currentTarget  background: anEvent currentTarget colorProvider pressedBackgroundColor
+]
+
+{ #category : #'mouse handlers' }
+ToDividerEventHandler >> leftMouseUpEvent: anEvent [
+
+	super leftMouseUpEvent: anEvent.
+	anEvent currentTarget border: (BlBorder paint: anEvent currentTarget colorProvider defaultBorderColor).
+	anEvent currentTarget background: anEvent currentTarget colorProvider defaultBackgroundColor.
+	anEvent currentTarget space mouseProcessor handleLastMouseMove.
+	anEvent currentTarget mouseCursor: BlCursor default.
+]
+
 { #category : #accessing }
 ToDividerEventHandler >> leftTarget [
 
@@ -143,30 +176,48 @@ ToDividerEventHandler >> minimumExtent [
 ]
 
 { #category : #'mouse handlers' }
-ToDividerEventHandler >> mouseDownEvent: anEvent [
-
-	anEvent consumed: true
-]
-
-{ #category : #'mouse handlers' }
 ToDividerEventHandler >> mouseEnterEvent: anEvent [
 
+	super mouseEnterEvent: anEvent.
 	anEvent currentTarget mouseCursor: self resizerCursor.
-	anEvent consumed: true
+	anEvent consumed: true.
+	anEvent anyButtonPressed ifTrue: [ ^ self ].
+	anEvent currentTarget border: (BlBorder paint: anEvent currentTarget colorProvider hoveredBorderColor).
+	anEvent currentTarget background: anEvent currentTarget colorProvider hoveredBackgroundColor
 ]
 
 { #category : #'mouse handlers' }
 ToDividerEventHandler >> mouseLeaveEvent: anEvent [
 
+	super mouseLeaveEvent: anEvent.
 	anEvent consumed: true.
-	anEvent anyButtonPressed ifFalse: [ ^ self ].
+	anEvent anyButtonPressed ifTrue: [ ^ self ].
+	anEvent currentTarget border: (BlBorder paint: anEvent currentTarget colorProvider defaultBorderColor).
+	anEvent currentTarget background: anEvent currentTarget colorProvider defaultBackgroundColor.
 	anEvent currentTarget mouseCursor: BlCursor default.
 ]
 
-{ #category : #'mouse handlers' }
-ToDividerEventHandler >> mouseUpEvent: anEvent [
+{ #category : #'api - hooks' }
+ToDividerEventHandler >> onInstalledIn: anElement [
+
+	super onInstalledIn: anElement.
+	paneExtentHandler := BlEventHandler on: BlElementExtentChangedEvent do: [ :event | anElement requestLayout ].	
+	firstTargetPositionChangeHandler := BlEventHandler on: BlElementPositionChangedEvent do: [ anElement requestLayout ].	
+	secondTargetPositionChangeHandler := BlEventHandler on: BlElementPositionChangedEvent do: [ anElement requestLayout ].
 	
-	anEvent currentTarget mouseCursor: BlCursor default.
+	anElement pane addEventHandler: paneExtentHandler.
+	anElement firstTarget addEventHandler: firstTargetPositionChangeHandler.
+	anElement secondTarget addEventHandler: secondTargetPositionChangeHandler.
+]
+
+{ #category : #'api - hooks' }
+ToDividerEventHandler >> onUninstalledIn: anElement [
+
+	anElement pane removeEventHandler: paneExtentHandler.
+	anElement firstTarget removeEventHandler: firstTargetPositionChangeHandler.
+	anElement secondTarget removeEventHandler: secondTargetPositionChangeHandler.
+	super onUninstalledIn: anElement.	
+
 ]
 
 { #category : #accessing }

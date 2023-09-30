@@ -42,10 +42,10 @@ ToDivider >> colorProvider [
 	^ self theme divider
 ]
 
-{ #category : #'t - initialization dresser' }
-ToDivider >> defaultDresser [
+{ #category : #initialization }
+ToDivider >> defaultEventHandler [ 
 
-	^ ToDividerDresser new
+	^ ToDividerEventHandler new
 ]
 
 { #category : #'t - widget - initialization' }
@@ -89,7 +89,8 @@ ToDivider >> initialize [
 	self margin: self defaultMargins.
 	self padding: self defaultPadding.
 	self elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
-	self constraintsDo: [ :c | c ignoreByLayout ]
+	self constraintsDo: [ :c | c ignoreByLayout ].
+	self addEventHandler: self defaultEventHandler 
 ]
 
 { #category : #testing }
@@ -211,6 +212,18 @@ ToDivider >> pane [
 ToDivider >> pane: aPane [
 
 	pane := aPane
+]
+
+{ #category : #accessing }
+ToDivider >> pressedBackground [
+
+	^ self colorProvider pressedBackgroundColor
+]
+
+{ #category : #accessing }
+ToDivider >> pressedBorder [
+
+	^ BlBorder paint: self colorProvider pressedBorderColor width: 1
 ]
 
 { #category : #accessing }

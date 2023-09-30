@@ -86,7 +86,7 @@ ToComboBox >> defaultListFrame [
 
 	| win |
 	win := ToAnchoredWindow new widget: self.
-	win positioningHook: [ :w :event | self bounds inSpace bottomLeft ].
+	win positionHook: [ :w :event | self bounds inSpace bottomLeft ].
 	win root layout: BlFrameLayout new.
 	win root fitContent.
 	win root addChild: self listElement.
@@ -139,18 +139,20 @@ ToComboBox >> headElement [
 ]
 
 { #category : #accessing }
-ToComboBox >> headElementFactory: aValuable [
-	" aValuable is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
+ToComboBox >> headElementFactory: aFactory [
+	" aFactory is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
 
-	self dispatchEvent: (ToComboBoxHeadElementFactoryChangeEvent new factory: aValuable)
+	|idx |
+	self headElement dataElementFactory: aFactory.
+	(idx := self selectedIndex) isZero ifFalse: [
+		self listElement selectIndex: idx ]
 ]
 
 { #category : #accessing }
-ToComboBox >> headPlaceholder: anElement [
+ToComboBox >> headPlaceholder: aPlaceholder [
 
-	self dispatchEvent: (ToComboBoxHeadPlaceholderChangeEvent new
-			 placeholder: anElement;
-			 yourself)
+	self headElement placeholder: aPlaceholder.
+	self selectedIndex isZero ifTrue: [ self headElement noDataSelected ]
 ]
 
 { #category : #accessing }
@@ -162,10 +164,14 @@ ToComboBox >> indexOfData: aData [
 { #category : #initialization }
 ToComboBox >> initialize [
 
+	| localEventHandler |
 	super initialize.
 	self vFitContent.
 	self hMatchParent.
+	localEventHandler := self defaultEventHandler.
+	self addEventHandler: localEventHandler.
 	self privateListElement: self defaultListElement.
+	self listElement addEventHandler: (BlEventForwarder forwardTo: localEventHandler from: self).
 	selectedIndex := 0.
 	self mode: self defaultMode.
 	self privateListFrame: self defaultListFrame.
@@ -176,8 +182,7 @@ ToComboBox >> initialize [
 	self listPlaceholder: self defaultListPlaceholder.
 	self fitListElementToContent.
 	self listElement showPlaceholder.
-	self whenModeChangedDo: [ :new :prev | self mode: prev changedWith: new ].
-	self addEventHandler: self defaultEventHandler 
+	self whenModeChangedDo: [ :new :prev | self mode: prev changedWith: new ]
 ]
 
 { #category : #testing }
@@ -190,13 +195,6 @@ ToComboBox >> isClosed [
 ToComboBox >> isOpened [ 
 
 	^ self listFrame isAttachedToSceneGraph
-]
-
-{ #category : #events }
-ToComboBox >> listClickedEvent: aClickEvent [
-
-	self selectIndexInPresentedData: self listElement selectedIndex.
-	self close
 ]
 
 { #category : #accessing }
@@ -235,6 +233,13 @@ ToComboBox >> listFrame [
 ToComboBox >> listPlaceholder: anElement [
 
 	self listElement placeholder: anElement
+]
+
+{ #category : #events }
+ToComboBox >> listSelectionChangedEvent: aClickEvent [
+
+	self selectIndexInPresentedData: self listElement selectedIndex.
+	self close
 ]
 
 { #category : #accessing }
@@ -366,7 +371,8 @@ ToComboBox >> privateHeadElement: anElement [
 	headElement = anElement ifTrue: [ ^ self ].
 	headElement ifNotNil: [ headElement removeFromParent ].
 	headElement := anElement.
-	self addChild: headElement
+	self addChild: headElement.
+	self selectedIndex isZero ifTrue: [ headElement noDataSelected ]
 ]
 
 { #category : #'private - accessing' }
@@ -422,12 +428,6 @@ ToComboBox >> selectedIndex: anIndex [
 
 	selectedIndex = anIndex ifTrue: [ ^ self ].
 	selectedIndex := anIndex.
-]
-
-{ #category : #'change hook' }
-ToComboBox >> updateHeadContent [
-
-	self dispatchEvent: ToComboBoxSelectedIndexChangeEvent new 
 ]
 
 { #category : #'transaction hook' }

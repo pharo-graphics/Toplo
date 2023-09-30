@@ -9,11 +9,71 @@ Class {
 	#category : #'Toplo-Widget-ComboBox'
 }
 
+{ #category : #initialization }
+ToSelectOnlyComboBoxHead >> addShortCuts [
+
+	| downShortcut upShortcut crShortcut escShortcut |
+	downShortcut := BlShortcutWithAction new
+		                combination: BlKeyCombination arrowDown;
+		                action: [ :event | self arrowDownEvent: event ];
+		                name: 'Popup';
+		                yourself.
+	upShortcut := BlShortcutWithAction new
+		                combination: BlKeyCombination arrowUp;
+		                action: [ :event | self arrowUpEvent: event ];
+		                name: 'Popup';
+		                yourself.
+
+	crShortcut := BlShortcutWithAction new
+		              combination: (BlKeyCombination primaryReturn or: BlKeyCombination return);
+		              action: [
+			              self comboBox listElement primarySelectionIndexes ifNotEmpty: [
+					              :idxes |
+					              self comboBox selectIndexInPresentedData: idxes first.
+					              self comboBox close ] ];
+		              name: 'Accept';
+		              yourself.
+	escShortcut := BlShortcutWithAction new
+		               combination: BlKeyCombination escape;
+		               action: [ self comboBox close ];
+		               name: 'Escape';
+		               yourself.
+
+	self  addShortcut: downShortcut.
+	self addShortcut: upShortcut.
+	self addShortcut: crShortcut.
+	self addShortcut: escShortcut
+]
+
+{ #category : #initialization }
+ToSelectOnlyComboBoxHead >> arrowDownEvent: anEvent [
+
+	| wasOpened |
+	wasOpened := self comboBox isOpened.
+	wasOpened ifFalse: [
+		self comboBox popupEvent: anEvent.
+		self comboBox listElement selectedIndexes ifNotEmpty: [ ^ self ] ].
+	anEvent consumed: false.
+	self comboBox listElement infinite fireEvent: anEvent
+]
+
+{ #category : #initialization }
+ToSelectOnlyComboBoxHead >> arrowUpEvent: anEvent [
+
+	| wasOpened |
+	wasOpened :=  self comboBox isOpened.
+	wasOpened ifFalse: [ ^ self ].
+	anEvent consumed: false.
+	self comboBox listElement infinite fireEvent: anEvent
+]
+
 { #category : #accessing }
 ToSelectOnlyComboBoxHead >> dataElement: anElement [
 
 	anElement ifNil: [ ^ self ].
-	self replaceFirstWith:  anElement
+	self replaceSecondWith: anElement.
+	anElement matchParent.
+	anElement withStamp: #'button-label'
 ]
 
 { #category : #accessing }
@@ -36,10 +96,10 @@ ToSelectOnlyComboBoxHead >> defaultDataElementFactory [
 	^ ToActionDataToElementConverter new valuable: [ :d | (ToLabel text: d) hMatchParent; yourself ] 
 ]
 
-{ #category : #'t - initialization dresser' }
-ToSelectOnlyComboBoxHead >> defaultDresser [
+{ #category : #initialization }
+ToSelectOnlyComboBoxHead >> defaultEventHandler [
 
-	^ ToSelectOnlyComboBoxHeadDresser new
+	^ ToComboBoxHeadEventHandler new
 ]
 
 { #category : #'t - placeholder show/hide' }
@@ -54,7 +114,8 @@ ToSelectOnlyComboBoxHead >> initialize [
 
 	super initialize.
 	self dataElementFactory: self defaultDataElementFactory.
-	placeholder := self defaultPlaceholder
+	placeholder := self defaultPlaceholder.
+	self addShortCuts 
 ]
 
 { #category : #accessing }

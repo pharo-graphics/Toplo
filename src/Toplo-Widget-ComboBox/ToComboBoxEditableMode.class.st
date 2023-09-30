@@ -12,13 +12,14 @@ ToComboBoxEditableMode >> beListAutocompleteIn: aComboBox [
 
 	listAutocompleteDresser ifNotNil: [ ^ self ].
 	listAutocompleteDresser := ToComboBoxListAutocompleteHeadDresser new comboBox: aComboBox.
-	aComboBox headElement addDresser: listAutocompleteDresser
+	"aComboBox headElement addDresser: listAutocompleteDresser"
 ]
 
 { #category : #initialization }
 ToComboBoxEditableMode >> defaultHeadElementIn: aComboBox [
 
 	^ ToEditableComboBoxHead new
+		  comboBox: aComboBox;
 		  vFitContent;
 		  hMatchParent;
 		  yourself

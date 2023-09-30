@@ -12,6 +12,7 @@ ToSandBox class >> example_BasicComboBox [
 	combo := ToComboBox new.
 	combo data addAll:
 		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
+	"combo inspect."
 	win root addChild: combo.
 	win openInSpace
 ]
@@ -536,6 +537,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 			     icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
 			     interspace: 10;
 			     hMatchParent ].
+	l when: ToInfiniteSelectionChangedEvent do: [ :evt | evt traceCr ].
 	l data addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
 	l infinite requestFocus.

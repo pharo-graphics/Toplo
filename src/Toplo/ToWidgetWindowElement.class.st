@@ -122,7 +122,7 @@ ToWidgetWindowElement >> initialize [
 
 	super initialize.
 	self animate: true.
-	self positioningHook: self defaulPositioningHook.
+	self positionHook: self defaulPositioningHook.
 	
 	self flag: 'delete animation duration must be very very fast to ensure that sub-menu widows are always opened even if mouse is moving fast (issue #51). It is so fast that it cannot be perceived at all. So for now, no delete animation is initialize'.
 	
@@ -174,16 +174,16 @@ ToWidgetWindowElement >> popupTimestamp [
 ]
 
 { #category : #accessing }
-ToWidgetWindowElement >> positioningHook [
-
-	^ hook
-]
-
-{ #category : #accessing }
-ToWidgetWindowElement >> positioningHook: aValuable [
+ToWidgetWindowElement >> positionHook: aValuable [
 	" takes the window as argument. Computes the window position according to the given window anchor element "
 	
 	hook := aValuable
+]
+
+{ #category : #accessing }
+ToWidgetWindowElement >> positioningHook [
+
+	^ hook
 ]
 
 { #category : #'theme accessing' }

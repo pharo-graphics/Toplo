@@ -74,6 +74,12 @@ ToListElement >> defaultBackground [
 ]
 
 { #category : #initialization }
+ToListElement >> defaultEventHandler [
+
+	^ ToListElementEventHandler new
+]
+
+{ #category : #initialization }
 ToListElement >> defaultLayout [
 
 	^ BlFrameLayout new
@@ -107,7 +113,7 @@ ToListElement >> initialize [
 	super initialize.
 	decorations := #().
 	
-	localHandler := ToListElementEventHandler new.
+	localHandler := self defaultEventHandler.
 	self addEventHandler: localHandler.
 
 	self layout: self defaultLayout.
@@ -118,8 +124,6 @@ ToListElement >> initialize [
 	
 	self addChild: self next.
 	self next elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
-
-	"self infinite dataSource when: ToListDataEmptinessChangeEvent do: [ :event | self checkEmptinessChange ]."
 
 	self matchParent.
 	self background: self defaultBackground.

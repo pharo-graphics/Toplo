@@ -14,8 +14,7 @@ ToComboBoxReadOnlyMode >> beListAutocompleteIn: aComboBox [
 ToComboBoxReadOnlyMode >> defaultHeadElementIn: aComboBox [
 
 	^ ToSelectOnlyComboBoxHead new
-		  vFitContent;
-		  hMatchParent;
+		  comboBox: aComboBox;
 		  yourself
 ]
 

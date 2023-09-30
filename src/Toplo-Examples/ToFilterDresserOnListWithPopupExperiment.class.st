@@ -103,7 +103,7 @@ ToFilterDresserOnListWithPopupExperiment >> popupTextFieldWith: aString [
 		^ self ].
 
 	filterWin := ToAnchoredWindow new
-		             positioningHook: [ :win :event |
+		             positionHook: [ :win :event |
 			             win widget bounds inSpace bounds bottomLeft ];
 		             yourself.
 

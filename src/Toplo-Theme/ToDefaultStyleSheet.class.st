@@ -378,6 +378,7 @@ ToDefaultStyleSheet >> commonButtonRules [
 			   sr
 				   write: (self property: #layout)
 				   with: BlLinearLayout horizontal.
+				
 			   sr write: (self property: #'layout-constraints') with: [ :e |
 				   [ :c |
 				   c horizontal fitContent.
@@ -398,8 +399,8 @@ ToDefaultStyleSheet >> commonButtonRules [
 					innerElement is matchParent if it has a parent with #justified and with #'button-label' and #'button-icon' at depth 1"
 			   sr
 				   select:
-					   (((sr parent: #justified) child: #'button-icon') child:
-						    #'button-label')
+					   (((sr parent: #justified) child: #'button-icon') "child:
+						    #'button-label'")
 				   style: [
 					   sr write: (self property: #'layout-constraints') with: [ :e |
 						   [ :c |

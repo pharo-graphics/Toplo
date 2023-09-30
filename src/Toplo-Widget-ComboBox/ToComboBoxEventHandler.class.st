@@ -1,19 +1,19 @@
 Class {
 	#name : #ToComboBoxEventHandler,
-	#superclass : #BlCustomEventHandler,
+	#superclass : #ToForwardedEventHandler,
 	#category : #'Toplo-Widget-ComboBox'
 }
-
-{ #category : #'mouse handlers' }
-ToComboBoxEventHandler >> clickEvent: anEvent [
-
-	anEvent currentTarget listClickedEvent: anEvent
-]
 
 { #category : #'api - accessing' }
 ToComboBoxEventHandler >> eventsToHandle [ 
 
-	^ { ToPlaceholderAddedEvent.  ToPlaceholderRemovedEvent. BlClickEvent }
+	^ { ToPlaceholderAddedEvent.  ToPlaceholderRemovedEvent. ToInfiniteSelectionChangedEvent }
+]
+
+{ #category : #'infinite element events handling' }
+ToComboBoxEventHandler >> infiniteSelectionChangedEvent: anEvent [
+
+	anEvent currentTarget listSelectionChangedEvent: anEvent
 ]
 
 { #category : #'placer holder handlers' }

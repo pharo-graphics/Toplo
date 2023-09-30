@@ -1,8 +1,23 @@
 Class {
 	#name : #ToComboBoxHead,
-	#superclass : #ToTripletButton,
+	#superclass : #ToButton,
+	#instVars : [
+		'comboBox'
+	],
 	#category : #'Toplo-Widget-ComboBox'
 }
+
+{ #category : #accessing }
+ToComboBoxHead >> comboBox [
+
+	^ comboBox
+]
+
+{ #category : #accessing }
+ToComboBoxHead >> comboBox: aComboBox [
+
+	comboBox := aComboBox
+]
 
 { #category : #initialization }
 ToComboBoxHead >> defaultPlaceholder [
@@ -13,6 +28,26 @@ ToComboBoxHead >> defaultPlaceholder [
 { #category : #'t - placeholder show/hide' }
 ToComboBoxHead >> hidePlaceholder [
 	^ self subclassResponsibility
+]
+
+{ #category : #initialization }
+ToComboBoxHead >> initialize [
+
+	super initialize.
+	self replaceFirstWith: ((ToImage inner: (Smalltalk ui icons iconNamed: #bottom))
+			 hFitContent;
+			 yourself).
+	self first withStamp: #'button-icon'.
+	self constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical fitContent ].
+	self withStamp: #button.
+	self withStamp: #'label-first'.
+	self withStamp: #'small-sizing'.
+	self justified: true
+
+
+
 ]
 
 { #category : #accessing }

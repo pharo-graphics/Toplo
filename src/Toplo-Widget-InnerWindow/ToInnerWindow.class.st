@@ -34,18 +34,22 @@ ToInnerWindow >> defaultBar [
 	| b close expand fill1 fill2 fill3 fill4 |
 	b := ToPane horizontal
 		     border: BlBorder empty;
-			vFitContent;
+		     vFitContent;
+		     padding: (BlInsets top: 2 bottom: 3);
 		     outskirts: BlOutskirts inside;
 		     yourself.
 	b layout: BlLinearLayout horizontal.
 	b when: BlDoubleClickEvent do: [ self maximize ].
 	b when: BlMouseDownEvent do: [ self toFront ].
-	close := ToButton new icon: (ToImage new innerImage: Smalltalk ui theme windowCloseForm).
-	close height: 16.
+	close := ToButton new icon:
+		         (ToImage new innerImage: Smalltalk ui theme windowCloseForm).
+	close size: 18@18.
 	close whenClickedDo: [ self close ].
-	expand := ToButton new icon: (ToImage new innerImage: Smalltalk ui theme windowMaximizeForm).
+	expand := ToButton new icon:
+		          (ToImage new innerImage:
+			           Smalltalk ui theme windowMaximizeForm).
 	expand whenClickedDo: [ self maximize ].
-	expand height: 16.
+	expand size: 18@18.
 
 	fill1 := BlElement new
 		         background: Color transparent;
@@ -150,7 +154,7 @@ ToInnerWindow >> initialize [
 	super initialize.
 	self layout: BlLinearLayout vertical.
 	self size: self defaultSize.
-	self background: Color gray.
+	self background: Color lightGray.
 	self initializeGrips
 
 ]

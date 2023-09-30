@@ -350,17 +350,17 @@ ToDefaultStyleSheet >> commonButtonRules [
 				   sr select: self haveExactHeight not style: [
 					   sr
 						   write: (self property: #height)
-						   with: [ :e | (e stampValue: #'control-height') ] ].
+						   with: [ :e | e stampValue: #'control-height' ] ].
 
 				   sr select: #'large-sizing' style: [
 					   sr
 						   write: (self property: #height)
-						   with: [ :e | (e stampValue: #'control-height-LG') ] ].
+						   with: [ :e | e stampValue: #'control-height-LG' ] ].
 
 				   sr select: #'small-sizing' style: [
 					   sr
 						   write: (self property: #height)
-						   with: [ :e | (e stampValue: #'control-height-SM') ] ] ].
+						   with: [ :e | e stampValue: #'control-height-SM' ] ] ].
 
 			   " non circular button corner radius"
 			   sr select: #circle asStyleSelector not style: [
@@ -378,7 +378,7 @@ ToDefaultStyleSheet >> commonButtonRules [
 			   sr
 				   write: (self property: #layout)
 				   with: BlLinearLayout horizontal.
-				
+
 			   sr write: (self property: #'layout-constraints') with: [ :e |
 				   [ :c |
 				   c horizontal fitContent.
@@ -395,17 +395,12 @@ ToDefaultStyleSheet >> commonButtonRules [
 					   c linear vertical alignCenter.
 					   c linear horizontal alignCenter ] ] ].
 
-			   " with justification: 
-					innerElement is matchParent if it has a parent with #justified and with #'button-label' and #'button-icon' at depth 1"
-			   sr
-				   select:
-					   (((sr parent: #justified) child: #'button-icon') "child:
-						    #'button-label'")
-				   style: [
-					   sr write: (self property: #'layout-constraints') with: [ :e |
-						   [ :c |
-						   c horizontal matchParent.
-						   c vertical matchParent ] ] ].
+			   " with justification: innerElement is matchParent if it has a parent with #justified "
+			   sr select: (sr parent: #justified) style: [
+				   sr write: (self property: #'layout-constraints') with: [ :e |
+					   [ :c |
+					   c horizontal matchParent.
+					   c vertical matchParent ] ] ].
 
 			   sr select: (sr parent: #'icon-first') style: [
 				   sr
@@ -425,12 +420,10 @@ ToDefaultStyleSheet >> commonButtonRules [
 					   write: (self property: #layout)
 					   with: [ :e | BlFrameLayout new ].
 
-				   sr
-					   write: (self property: #'layout-constraints')
-					   with: [ :e | 
-						   [ :c |
-						   c horizontal exact: (e stampValue: #'padding-content-H') / 3.
-						   c vertical exact: (e stampValue: #'padding-content-H') / 3 ] ].
+				   sr write: (self property: #'layout-constraints') with: [ :e |
+					   [ :c |
+					   c horizontal exact: (e stampValue: #'padding-content-H') / 3.
+					   c vertical exact: (e stampValue: #'padding-content-H') / 3 ] ].
 
 
 				   sr select: (sr parent: #justified depth: 2) style: [

@@ -71,9 +71,9 @@ ToSelectOnlyComboBoxHead >> arrowUpEvent: anEvent [
 ToSelectOnlyComboBoxHead >> dataElement: anElement [
 
 	anElement ifNil: [ ^ self ].
-	self replaceSecondWith: anElement.
-	anElement matchParent.
-	anElement withStamp: #'button-label'
+	anElement constraintsDo: [ :c | c linear vertical alignCenter ].
+	innerElement removeChildren.
+	innerElement addChild: anElement
 ]
 
 { #category : #accessing }
@@ -93,7 +93,7 @@ ToSelectOnlyComboBoxHead >> dataElementFactory: aValuable [
 { #category : #initialization }
 ToSelectOnlyComboBoxHead >> defaultDataElementFactory [
 
-	^ ToActionDataToElementConverter new valuable: [ :d | (ToLabel text: d) hMatchParent; yourself ] 
+	^ ToActionDataToElementConverter new valuable: [ :d | ToLabel text: d asString] 
 ]
 
 { #category : #initialization }

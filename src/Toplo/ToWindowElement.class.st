@@ -132,6 +132,5 @@ ToWindowElement >> rootDo: aBlock [
 { #category : #'api - displaying' }
 ToWindowElement >> toFront [
 
-	self detachFromParentWhile: [ 
-		self elevation: (BlRelativeElevation elevation: SmallInteger maxVal) ]
+	self elevation: self space defaultInnerWindowElevation
 ]

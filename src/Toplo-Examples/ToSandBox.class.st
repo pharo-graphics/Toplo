@@ -1012,8 +1012,8 @@ ToSandBox class >> example_StyleSheetSandbox [
 	"b stampWith: #vertical."
 	b withStamp: #'icon-first'.
 	b withStamp: #'label-first'.
-	b withStamp: #'interspace-1' -> 300.
-	"b justified: true."
+	"b withStamp: #'interspace-1' -> 300."
+	b justified: true.
 	"b stampWith: #circle."
 	"b stampWith: #round."
 	"b stampWith: #link. "
@@ -1028,11 +1028,11 @@ ToSandBox class >> example_StyleSheetSandbox [
 	"b innerElement border: (BlBorder paint: Color black)."
 
 	b openInSpace.
-	"b width: 200."
+	b width: 200.
 	"b size: 100 @ 100."
 
-	"b inspect.
-	b matchParent"
+	b inspect.
+	"b matchParent"
 ]
 
 { #category : #button }

@@ -31,6 +31,12 @@ BlSpace >> checkSpaceFrameSkinInstallationPhase [
 ]
 
 { #category : #'*Toplo' }
+BlSpace >> defaultInnerWindowElevation [
+
+	^ BlRelativeElevation elevation: (SmallInteger maxVal - 100)
+]
+
+{ #category : #'*Toplo' }
 BlSpace >> defaultPopupElevation [
 
 	^ BlRelativeElevation elevation: SmallInteger maxVal

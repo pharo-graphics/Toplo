@@ -1,8 +1,9 @@
 Class {
 	#name : #ToComboBoxHead,
-	#superclass : #ToButton,
+	#superclass : #ToElement,
 	#instVars : [
-		'comboBox'
+		'comboBox',
+		'innerElement'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
@@ -20,9 +21,15 @@ ToComboBoxHead >> comboBox: aComboBox [
 ]
 
 { #category : #initialization }
+ToComboBoxHead >> defaultEventHandler [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #initialization }
 ToComboBoxHead >> defaultPlaceholder [
 
-	^ ToLabel new hMatchParent; yourself
+	^ (ToLabel text: '') hMatchParent; yourself
 ]
 
 { #category : #'t - placeholder show/hide' }
@@ -33,21 +40,32 @@ ToComboBoxHead >> hidePlaceholder [
 { #category : #initialization }
 ToComboBoxHead >> initialize [
 
+	| image |
 	super initialize.
-	self replaceFirstWith: ((ToImage inner: (Smalltalk ui icons iconNamed: #bottom))
-			 hFitContent;
-			 yourself).
-	self first withStamp: #'button-icon'.
-	self constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical fitContent ].
-	self withStamp: #button.
-	self withStamp: #'label-first'.
-	self withStamp: #'small-sizing'.
-	self justified: true
+	self layout: BlLinearLayout horizontal.
+	self padding: (BlInsets
+			 top: 1
+			 left: 7
+			 bottom: 1
+			 right: 2).
+	self border: (BlBorder paint: Color lightGray).
+	self
+		hMatchParent;
+		vFitContent.
+		
+	innerElement := ToElement new.
+	innerElement layout: BlLinearLayout horizontal.
+	innerElement constraintsDo: [ :c | c linear vertical alignCenter ].
+	innerElement hMatchParent.
+	innerElement height: 25.
+	
+	image := ToImage inner: (Smalltalk ui icons iconNamed: #bottom).
+	image constraintsDo: [ :c | c linear vertical alignCenter ].
 
+	self addChild: innerElement.
+	self addChild: image after: innerElement.
 
-
+	self addEventHandler: self defaultEventHandler
 ]
 
 { #category : #accessing }

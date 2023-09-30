@@ -124,7 +124,10 @@ ToSelect >> newDataCollection [
 { #category : #'private - accessing' }
 ToSelect >> newMenuItemFromData: anObject [
 
-	^ ToSelectItem new labelText: (self dataToTextConverter value: anObject)
+	^ ToSelectItem new
+		  labelText: (self dataToTextConverter value: anObject)";
+		  group: self group;";
+		  yourself
 ]
 
 { #category : #'private - notifications' }

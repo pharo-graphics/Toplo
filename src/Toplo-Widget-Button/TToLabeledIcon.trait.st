@@ -7,8 +7,8 @@ Trait {
 TToLabeledIcon >> beIconFirst [
 
 	(self isStampedWith: #'icon-first') ifTrue: [ ^ self ].
-	self stampWith: #'icon-first'.
-	self removeStyleStampNamed: #'label-first'.
+	self withStamp: #'icon-first'.
+	self withoutStampNamed: #'label-first'.
 	self updateSkin.
 	self requestLayout
 ]
@@ -17,8 +17,8 @@ TToLabeledIcon >> beIconFirst [
 TToLabeledIcon >> beLabelFirst [
 
 	(self isStampedWith: #'label-first') ifTrue: [ ^ self ].
-	self removeStyleStampNamed: #'icon-first'.
-	self stampWith: #'label-first'.
+	self withoutStampNamed: #'icon-first'.
+	self withStamp: #'label-first'.
 	self updateSkin.
 	self requestLayout
 ]
@@ -52,7 +52,7 @@ TToLabeledIcon >> icon: anElement [
 
 	self first ifNotNil: [ :s | s removeStyleStampNamed: #'button-icon'].
 	self replaceFirstWith: anElement.
-	self first ifNotNil: [ :s | s stampWith: #'button-icon']
+	self first ifNotNil: [ :s | s withStamp: #'button-icon']
 ]
 
 { #category : #'t - labeled icon - accessing' }
@@ -92,7 +92,7 @@ TToLabeledIcon >> label: aLabel [
 
 	self second ifNotNil: [ :s | s removeStyleStampNamed: #'button-label'].
 	self replaceSecondWith: aLabel.
-	self second ifNotNil: [ :s | s stampWith: #'button-label'].
+	self second ifNotNil: [ :s | s withStamp: #'button-label'].
 
 ]
 

@@ -125,9 +125,9 @@ ToDefaultTheme >> checkboxBlankImage [
 
 	| bar im |
 	bar := ToElement new.
-	bar stampWithAll: #( #bar ).
+	bar withAllStamps: #( #bar ).
 	im := ToElement new.
-	im stampWithAll: #( #'inner-image' #unchecked ).
+	im withAllStamps: #( #'inner-image' #unchecked ).
 	im addChild: bar.
 	^ im
 ]

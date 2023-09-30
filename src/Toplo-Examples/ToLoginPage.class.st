@@ -63,7 +63,7 @@ ToLoginPage >> open [
 		            hMatchParent;
 		            vFitContent.
 	btnLogin := ToButton new labelText: 'Accept'; yourself.
-	btnLogin stampWith: #primary.
+	btnLogin withStamp: #primary.
 	btnLogin padding: (BlInsets
 			 top: 10
 			 left: 40

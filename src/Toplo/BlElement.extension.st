@@ -149,15 +149,6 @@ BlElement >> launchSkinUninstallation [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> localStampNamed: aSymbol [
-
-	| index |
-	index := self userData at: #localStyleStampIndex ifAbsent: [ ^ nil ].
-	^ index at: aSymbol asSymbol ifAbsent: [  ]
-	
-]
-
-{ #category : #'*Toplo' }
 BlElement >> localStyleSheet [
 
 	^ self userData at: #localStyleSheet ifAbsent: [  ]
@@ -180,11 +171,20 @@ BlElement >> localStyleStampIndex [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> localStyleStampNamed: aSymbol [
+
+	| index |
+	index := self userData at: #localStyleStampIndex ifAbsent: [ ^ nil ].
+	^ index at: aSymbol asSymbol ifAbsent: [  ]
+	
+]
+
+{ #category : #'*Toplo' }
 BlElement >> lookUpStyleStampNamed: aSymbol [
 
 	" first look-up following parent-children association "
 	self withAllParentsDo: [ :p |
-		(p localStampNamed: aSymbol) ifNotNil: [ :t | ^ t ] ].
+		(p localStyleStampNamed: aSymbol) ifNotNil: [ :t | ^ t ] ].
 	" second ask style sheets for child to parent "
 	self withAllParentsDo: [ :p |
 		p localStyleSheet ifNotNil: [ :ss |
@@ -218,12 +218,29 @@ BlElement >> privateToTheme: aTheme [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> removeStyleStampNamed: aSymbol [
+BlElement >> removeStyleStamp: aStyleStamp [
 
 	| dict |
 	self userData at: #localStyleStampIndex ifAbsent: [ ^ self ].
 	dict := self userData at: #localStyleStampIndex.
-	dict removeKey: aSymbol asSymbol ifAbsent: [  ]
+	dict removeKey: aStyleStamp name ifAbsent: [  ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> removeStyleStampNamed: aSymbol [
+
+	self
+		removeStyleStampNamed: aSymbol
+		ifAbsent: [ (ToElementPropertyNotFound name: aSymbol) signal ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> removeStyleStampNamed: aSymbol ifAbsent: anAbsentBlock [
+
+	| stamp |
+	stamp := self localStyleStampNamed: aSymbol.
+	stamp ifNil: [ ^ anAbsentBlock value ].
+	self removeStyleStamp: stamp
 ]
 
 { #category : #'*Toplo' }
@@ -251,20 +268,6 @@ BlElement >> stampValue: aSymbol [
 
 	(self lookUpStyleStampNamed: aSymbol) ifNotNil: [ :s | ^ s value ].
 	(ToElementPropertyNotFound name: aSymbol) signal
-]
-
-{ #category : #'*Toplo' }
-BlElement >> stampWith: anAssociationOrSymbol [
-
-	self addStyleStamp: anAssociationOrSymbol asStyleStamp
-	
-]
-
-{ #category : #'*Toplo' }
-BlElement >> stampWithAll: aCollectionOfSymbol [
-
-	self userData at: #localStyleStampIndex put: IdentityDictionary new.
-	aCollectionOfSymbol do: [ :s | self stampWith: s ]
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
@@ -352,6 +355,13 @@ BlElement >> updateSkin [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> withAllStamps: aCollectionOfSymbol [
+
+	self userData at: #localStyleStampIndex put: IdentityDictionary new.
+	aCollectionOfSymbol do: [ :s | self withStamp: s ]
+]
+
+{ #category : #'*Toplo' }
 BlElement >> withSkin: aSkin [
 
 	self privateSkin ifNotNil: [ :s |
@@ -363,9 +373,23 @@ BlElement >> withSkin: aSkin [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> withStamp: anAssociationOrSymbol [
+
+	self addStyleStamp: anAssociationOrSymbol asStyleStamp
+	
+]
+
+{ #category : #'*Toplo' }
 BlElement >> withoutSkin [
 
 	self privateSkin ifNotNil: [ :s |
 		self removeEventHandler: s.
 		self privateSkin: nil ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> withoutStampNamed: aSymbol [
+
+	self removeStyleStampNamed: aSymbol ifAbsent: [  ]
+	
 ]

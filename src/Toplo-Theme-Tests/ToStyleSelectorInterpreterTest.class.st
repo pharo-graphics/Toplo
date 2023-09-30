@@ -31,13 +31,13 @@ ToStyleSelectorInterpreterTest >> testChildMixedWithParentSelector [
 		                        buttonSelector.
 
 	button := ToElement new.
-	button stampWithAll: #( #button ).
+	button withAllStamps: #( #button ).
 	innerElement := ToElement new.
-	innerElement stampWith: #'inner-element'.
+	innerElement withStamp: #'inner-element'.
 	icon := ToElement new.
-	icon stampWith: #'button-icon'.
+	icon withStamp: #'button-icon'.
 	label := ToElement new.
-	label stampWith: #'button-label'.
+	label withStamp: #'button-label'.
 
 	button addChild: innerElement.
 	innerElement addChild: icon.
@@ -121,11 +121,11 @@ ToStyleSelectorInterpreterTest >> testChildSelectorWithTwoChildrenDepth1 [
 	buttonSelector := ((ToStyleStampSelector new addStampName: #button) child: #'button-label' ).
 
 	button := ToElement new.
-	button stampWithAll: #( #button ).
+	button withAllStamps: #( #button ).
 	icon := ToElement new.
-	icon stampWith: #'button-icon'.
+	icon withStamp: #'button-icon'.
 	label := ToElement new.
-	label stampWith: #'button-label'.
+	label withStamp: #'button-label'.
 
 	button addChild: icon.
 	button addChild: label.
@@ -144,13 +144,13 @@ ToStyleSelectorInterpreterTest >> testChildSelectorWithTwoChildrenWithTwoChildSe
 	buttonSelector := ((ToStyleStampSelector new addStampName: #button) child: #'button-label' depth: 2) child: #'button-icon' depth: 2.
 
 	button := ToElement new id: #button.
-	button stampWithAll: #( #button ).
+	button withAllStamps: #( #button ).
 	innerElement := ToElement new id: #innerElement.
-	innerElement stampWith: #'inner-element'.
+	innerElement withStamp: #'inner-element'.
 	icon := ToElement new id: #icon.
-	icon stampWith: #'button-icon'.
+	icon withStamp: #'button-icon'.
 	label := ToElement new id: #label.
-	label stampWith: #'button-label'.
+	label withStamp: #'button-label'.
 
 	button addChild: innerElement.
 	innerElement addChild: icon.
@@ -199,7 +199,7 @@ ToStyleSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass1 [
 
 	| selector e engine |
 	selector := ToStyleStampSelector new.
-	e := ToElement new stampWith: #a.
+	e := ToElement new withStamp: #a.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result 
@@ -212,7 +212,7 @@ ToStyleSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass2 [
 
 	| selector e engine |
 	selector := ToStyleStampSelector new addStampName: #a.
-	e := ToElement new stampWith: #a.
+	e := ToElement new withStamp: #a.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result 
@@ -225,12 +225,12 @@ ToStyleSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass3 [
 
 	| selector e engine |
 	selector := ToStyleStampSelector new addStampName: #b.
-	e := ToElement new stampWith: #a.
+	e := ToElement new withStamp: #a.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result not.
 	selector := ToStyleStampSelector new addStampName: #b.
-	e := ToElement new stampWith: #a.
+	e := ToElement new withStamp: #a.
 	self assert: engine result not.
 
 
@@ -242,15 +242,15 @@ ToStyleSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass4 [
 
 	| selector e engine |
 	selector := ToStyleStampSelector new addStampName: #a.
-	e := ToElement new stampWith: #a.
+	e := ToElement new withStamp: #a.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result.
-	e stampWith: #c.
+	e withStamp: #c.
 	self assert: engine result.
 	engine check: selector on: e.
 	self assert: engine result.
-	e stampWith: #b.
+	e withStamp: #b.
 	engine check: selector on: e.
 	self assert: engine result
 ]
@@ -333,11 +333,11 @@ ToStyleSelectorInterpreterTest >> testRuleWithAndSelector [
 	selector := (ToStyleStampSelector new addAllStampNames: #( #button ))
 	            + (ToStyleStampSelector new addAllStampNames: #( #danger )).
 
-	e := ToElement new stampWith: #button.
+	e := ToElement new withStamp: #button.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result not.
-	e stampWith: #danger.
+	e withStamp: #danger.
 	" ko since no child "
 	engine check: selector on: e.
 	self assert: engine result.
@@ -355,8 +355,8 @@ ToStyleSelectorInterpreterTest >> testRuleWithAndSiblingSelector [
 	selector := (ToStyleStampSelector new addStampName: #child ) sibling: #sibling.
 
 	parent := ToElement new.
-	child := ToElement new stampWith: #child.
-	sibling := ToElement new stampWith: #sibling.
+	child := ToElement new withStamp: #child.
+	sibling := ToElement new withStamp: #sibling.
 	parent addChild: child.
 	parent addChild: sibling.
 	engine := ToStyleSelectorInterpreter new.
@@ -372,15 +372,15 @@ ToStyleSelectorInterpreterTest >> testRuleWithAndSiblingSelector2 [
 	selector := ((ToStyleStampSelector new addStampName: #child ) parent: #( #parent )) sibling: #sibling.
 
 	parent := ToElement new .
-	child := ToElement new stampWith: #child.
-	sibling := ToElement new stampWith: #sibling.
+	child := ToElement new withStamp: #child.
+	sibling := ToElement new withStamp: #sibling.
 	parent addChild: child.
 	parent addChild: sibling.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: child.
 	" result false since parent do not have #parent tag "
 	self assert: engine result not.
-	parent stampWith: #parent.
+	parent withStamp: #parent.
 	" should be ok now "
 	engine check: selector on: child.
 	self assert: engine result.
@@ -395,15 +395,15 @@ ToStyleSelectorInterpreterTest >> testRuleWithAndSiblingSelector3 [
 	selector := ((ToStyleStampSelector new addStampName: #child ) parent: #( #parent )) sibling: #sibling.
 
 	parent := ToElement new .
-	child := ToElement new stampWith: #child.
-	sibling := ToElement new stampWithAll: #(#image #sibling).
+	child := ToElement new withStamp: #child.
+	sibling := ToElement new withAllStamps: #(#image #sibling).
 	parent addChild: child.
 	parent addChild: sibling.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: child.
 	" result false since parent do not have #parent tag "
 	self assert: engine result not.
-	parent stampWith: #parent.
+	parent withStamp: #parent.
 	" should be ok now "
 	engine check: selector on: child.
 	self assert: engine result.
@@ -418,14 +418,14 @@ ToStyleSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector [
 	selector := (((ToStyleStampSelector new addStampName: #child ) parent: #( #parent )) sibling: #'image-sibling') sibling: #'label-sibling'.
 
 	parent := ToElement new .
-	child := ToElement new stampWith: #child.
-	sibling1 := ToElement new stampWithAll: #(#image #'image-sibling').
-	sibling2 := ToElement new stampWithAll: #(#label #'label-sibling').
+	child := ToElement new withStamp: #child.
+	sibling1 := ToElement new withAllStamps: #(#image #'image-sibling').
+	sibling2 := ToElement new withAllStamps: #(#label #'label-sibling').
 	parent addChild: sibling1.
 	parent addChild: child.
 	parent addChild: sibling2.
 	
-	parent stampWith: #parent.
+	parent withStamp: #parent.
 	
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: child.
@@ -443,14 +443,14 @@ ToStyleSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector2 [
 		            sibling: #( #label #'label-sibling' ).
 
 	parent := ToElement new.
-	child := ToElement new stampWith: #child.
-	sibling1 := ToElement new stampWithAll: #( #image #'image-sibling' ).
-	sibling2 := ToElement new stampWithAll: #( #label #'label-sibling' ).
+	child := ToElement new withStamp: #child.
+	sibling1 := ToElement new withAllStamps: #( #image #'image-sibling' ).
+	sibling2 := ToElement new withAllStamps: #( #label #'label-sibling' ).
 	parent addChild: sibling1.
 	parent addChild: child.
 	parent addChild: sibling2.
 
-	parent stampWith: #parent.
+	parent withStamp: #parent.
 
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: child.
@@ -469,15 +469,15 @@ ToStyleSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector3 [
 
 	parent := ToElement new.
 	inner := ToElement new.
-	child := ToElement new stampWith: #child.
-	sibling1 := ToElement new stampWithAll: #( #image #'image-sibling' ).
-	sibling2 := ToElement new stampWithAll: #( #label #'label-sibling' ).
+	child := ToElement new withStamp: #child.
+	sibling1 := ToElement new withAllStamps: #( #image #'image-sibling' ).
+	sibling2 := ToElement new withAllStamps: #( #label #'label-sibling' ).
 	parent addChild: inner.
 	inner addChild: sibling1.
 	inner addChild: child.
 	inner addChild: sibling2.
 
-	parent stampWith: #parent.
+	parent withStamp: #parent.
 
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: child.
@@ -495,15 +495,15 @@ ToStyleSelectorInterpreterTest >> testRuleWithAndWithParentSelector [
 			            + (ToStyleStampSelector new addStampName: #danger )
 		            depth: 1.
 
-	e := ToElement new stampWith: #button.
+	e := ToElement new withStamp: #button.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result not.
-	e stampWith: #danger.
+	e withStamp: #danger.
 	" ko since no child "
 	engine check: selector on: e.
 	self assert: engine result not.
-	e addChild: (child := ToElement new stampWith: #'button-label').
+	e addChild: (child := ToElement new withStamp: #'button-label').
 	" ko since no child "
 	engine check: selector on: e.
 	self assert: engine result not.
@@ -520,14 +520,14 @@ ToStyleSelectorInterpreterTest >> testRuleWithOrSelector [
 	selector := (ToStyleStampSelector new addStampName: #button)
 		            or: (ToStyleStampSelector new addAllStampNames: #( #button #horizontal )).
 
-	e := ToElement new stampWith: #button.
+	e := ToElement new withStamp: #button.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result.
-	e stampWith: #horizontal.
+	e withStamp: #horizontal.
 	engine check: selector on: e.
 	self assert: engine result.
-	e stampWithAll: { #blob }.
+	e withAllStamps: { #blob }.
 	engine check: selector on: e.
 	self assert: engine result not
 ]
@@ -544,16 +544,16 @@ ToStyleSelectorInterpreterTest >> testRuleWithOrWithParentSelector [
 					              #( #button #justified )))
 		            depth: 1.
 
-	e := ToElement new stampWith: #button.
+	e := ToElement new withStamp: #button.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result not.
 
-	e addChild: (child := ToElement new stampWith: #'inner-element').
+	e addChild: (child := ToElement new withStamp: #'inner-element').
 	engine check: selector on: child.
 	self assert: engine result not.
 
-	e stampWith: #justified.
+	e withStamp: #justified.
 	engine check: selector on: child.
 	self assert: engine result
 ]
@@ -586,7 +586,7 @@ ToStyleSelectorInterpreterTest >> testUniversalSelectorWithParent [
 	| selector button engine chilLevel3 |	
 	selector := ToUniversalSelector new parent: (ToStyleStampSelector new addAllStampNames: #( #button #circle ) ) depth: 2.	
 	button := ToElement new id: #button.
-	button stampWithAll: #(#button #circle).
+	button withAllStamps: #(#button #circle).
 	button addChild: (ToElement new  id: #inner).
 	button firstChild addChild: (chilLevel3 := ToElement new).
 	chilLevel3 id: #childLevel3.

@@ -16,7 +16,7 @@ ToElementProperty >> name [
 { #category : #accessing }
 ToElementProperty >> name: anObject [
 
-	name := anObject
+	name := anObject asSymbol
 ]
 
 { #category : #operating }

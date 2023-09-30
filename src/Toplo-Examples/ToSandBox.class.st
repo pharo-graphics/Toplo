@@ -58,9 +58,9 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
 	btn := ToButton new.
 	btn labelText: 'Erase all your Pharo images?'.
 	btn iconImage: ToThemeIcons iconSearchOutlined16x16.
-	btn label stampWith: #H3.
-	btn stampWith: #primary.
-	btn stampWith: #danger.
+	btn label withStamp: #H3.
+	btn withStamp: #primary.
+	btn withStamp: #danger.
 	btn size: 500 @ 100.
 	space := BlSpace new.
 	space root layout: BlLinearLayout vertical.
@@ -80,9 +80,9 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheetDarkTheme [
 	btn := ToButton new.
 	btn labelText: 'Erase all your Pharo images?'.
 	btn iconImage: ToThemeIcons iconSearchOutlined16x16.
-	btn label stampWith: #H3.
-	btn stampWith: #primary.
-	btn stampWith: #danger.
+	btn label withStamp: #H3.
+	btn withStamp: #primary.
+	btn withStamp: #danger.
 	btn size: 500 @ 100.
 	space := BlSpace new toTheme: ToDefaultThemeDark new; yourself.
 	space root layout: BlLinearLayout vertical.
@@ -943,7 +943,7 @@ ToSandBox class >> example_SelectWithStructuredData [
 
 	select := ToSelect new
 		             hMatchParent;
-		             justified: true.
+		             withStamp: #justified.
 	select dataToTextConverter: [ :assoc | assoc key ].
 	select data addAll: {
 			('Morphic SDL' -> BlMorphicWindowHost).
@@ -1008,9 +1008,9 @@ ToSandBox class >> example_StyleSheetSandbox [
 	"b stampWith: #'small-sizing'."
 
 	"b stampWith: #vertical."
-	b stampWith: #'icon-first'.
-	b stampWith: #'label-first'.
-	b stampWith: #'interspace-1' -> 300.
+	b withStamp: #'icon-first'.
+	b withStamp: #'label-first'.
+	b withStamp: #'interspace-1' -> 300.
 	"b justified: true."
 	"b stampWith: #circle."
 	"b stampWith: #round."
@@ -1047,9 +1047,9 @@ ToSandBox class >> example_StyleSheetSandboxDarkTheme [
 	"b stampWith: #'small-sizing'."
 
 	"b stampWith: #vertical."
-	b stampWith: #'icon-first'.
-	b stampWith: #'label-first'.
-	b stampWith: #'interspace-1' -> 300.
+	b withStamp: #'icon-first'.
+	b withStamp: #'label-first'.
+	b withStamp: #'interspace-1' -> 300.
 	"b justified: true."
 	"b stampWith: #circle."
 	"b stampWith: #round."
@@ -2110,19 +2110,19 @@ ToSandBox class >> example_menu6 [
 		      labelText: 'Cheesecake';
 		      beLabelFirst;
 		      hMatchParent.
-	th skinDo: [ :s | s sizing: ToSmallSizing new ].
+	
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	th := ToToggleButton new
 		      labelText: 'Column';
 		      beLabelFirst.
-	th skinDo: [ :s | s sizing: ToSmallSizing new ].
+	
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	th := ToToggleButton new
 		      labelText: 'Cheesecake justified';
 		      beLabelFirst;
 				justified: true;
 		      hMatchParent.
-	th skinDo: [ :s | s sizing: ToSmallSizing new ].
+	
 	menu addItem: (ToCustomMenuItem new innerElement: th).
 	th := ToToggleButton new
 		      labelText: 'Cheesecake';
@@ -2634,26 +2634,26 @@ ToSandBox class >> example_toButtonJustified1 [
 	| but space iconImage |
 	ToAbstractTheme cleanUp.
 	but := ToTripletElement new.
-	but stampWith: #button.
-	but replaceSecondWith: ((ToLabel text: 'Pair' asRopedText bold) stampWith: #'button-label').
+	but withStamp: #button.
+	but replaceSecondWith: ((ToLabel text: 'Pair' asRopedText bold) withStamp: #'button-label').
 	iconImage := ToElement new
 		             size: 20 @ 20;
 		             background: Color lightGray;
 		             yourself.
 
 	but replaceFirstWith: iconImage.
-	but first stampWith: #'button-icon'.
+	but first withStamp: #'button-icon'.
 
 	but when: BlClickEvent do: [
 		but isHorizontal
 			ifTrue: [
 				but removeStyleStampNamed: #horizontal.
-				but stampWith: #vertical.
+				but withStamp: #vertical.
 				but hFitContent.
 				but vMatchParent. ]
 			ifFalse: [
 				but removeStyleStampNamed: #vertical.
-				but stampWith: #horizontal.
+				but withStamp: #horizontal.
 				but vFitContent.
 				but hMatchParent. ].
 		but updateSkin.
@@ -2937,7 +2937,8 @@ ToSandBox class >> example_toCheckbox2 [
 		       labelText: '1';
 		       id: 1 asString;
 				 beLabelFirst.
-	chb skinDo: [ :s | s "dashed: true;" danger: true].
+	chb withStamp: #button.
+	chb withStamp: #danger.
 	""
 	container := BlElement new.
 	container constraintsDo: [ :c |
@@ -3477,15 +3478,15 @@ ToSandBox class >> example_toPairDirectionChanger [
 
 	| but space iconImage |
 	but := ToTripletElement new.
-	but stampWith: #button.
-	but replaceSecondWith: ((ToLabel text: 'Pair' asRopedText bold) stampWith: #'button-label').
+	but withStamp: #button.
+	but replaceSecondWith: ((ToLabel text: 'Pair' asRopedText bold) withStamp: #'button-label').
 	iconImage := BlElement new
 		             size: 20 @ 20;
 		             background: Color lightGray;
 		             yourself.
 
 	but replaceFirstWith: iconImage.
-	but first stampWith: #'button-icon'.
+	but first withStamp: #'button-icon'.
 	but when: BlClickEvent do: [ 
 		but direction: but direction inverted.
 		but requestLayout ].
@@ -3501,17 +3502,17 @@ ToSandBox class >> example_toPairJustified1 [
 
 	but := ToButton new.
 	but inspect.
-	but stampWith: #button.
-	but replaceSecondWith: ((ToLabel text: 'Pair' asRopedText bold) stampWith: #'button-label').
+	but withStamp: #button.
+	but replaceSecondWith: ((ToLabel text: 'Pair' asRopedText bold) withStamp: #'button-label').
 	iconImage := BlElement new
 		             size: 20 @ 20;
 		             background: Color lightGray;
 		             yourself.
 
 	but replaceFirstWith: iconImage.
-	but first stampWith: #'button-icon'.
+	but first withStamp: #'button-icon'.
 	
-	but when: BlClickEvent do: [ but stampWith: #vertical. but updateSkin. but innerElement layout beVertical.  ].
+	but when: BlClickEvent do: [ but withStamp: #vertical. but updateSkin. but innerElement layout beVertical.  ].
 	but justified: true.
 	but hMatchParent.
 

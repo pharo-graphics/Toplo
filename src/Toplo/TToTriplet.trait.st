@@ -28,17 +28,17 @@ TToTriplet >> initializeTriplet [
 	innerElement := ToElement new
 		                layout: BlLinearLayout horizontal;
 		                fitContent.
-	innerElement stampWith: #'inner-element'.
+	innerElement withStamp: #'inner-element'.
 	self addChild: innerElement.
 	self fitContent.
 	filler1 := ToElement new
 		           id: #filler1;
-		           stampWith: #'triplet-filler-1';
+		           withStamp: #'triplet-filler-1';
 		           size: 0 @ 0;
 		           yourself.
 	filler2 := ToElement new
 		           id: #filler2;
-		           stampWith: #'triplet-filler-2';
+		           withStamp: #'triplet-filler-2';
 		           size: 0 @ 0;
 		           yourself.
 	self innerElement addChildren: {
@@ -70,7 +70,7 @@ TToTriplet >> justified: aBoolean [
 
 	self justified = aBoolean ifTrue: [ ^ self ].
 	aBoolean
-		ifTrue: [ self stampWith: #justified ]
+		ifTrue: [ self withStamp: #justified ]
 		ifFalse: [ self removeStyleStampNamed: #justified ].
 	self updateSkin
 ]

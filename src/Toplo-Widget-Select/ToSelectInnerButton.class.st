@@ -25,8 +25,11 @@ ToSelectInnerButton >> defaultEventHandler [
 ToSelectInnerButton >> initialize [
 
 	super initialize.
-
-	self initializeMenuItemHolder
+	self beLabelFirst.
+	self justified: true.
+	self icon: (ToImage inner: (Smalltalk ui icons iconNamed: #bottom)).
+	self initializeMenuItemHolder.
+	
 ]
 
 { #category : #'t - menu window model - accessing' }

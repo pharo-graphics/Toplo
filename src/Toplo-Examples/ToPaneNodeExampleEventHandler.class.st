@@ -27,7 +27,7 @@ ToPaneNodeExampleEventHandler >> mouseEnterEvent: anEvent [
 	self changeBackground ifTrue: [
 		anEvent currentTarget background: (Color lightGray alpha: 0.2) ].
 	nodeButton := ToButton new labelText: 'Do something'; yourself.
-	nodeButton stampWith: #primary.
+	nodeButton withStamp: #primary.
 	nodeButton updateSkin.
 	nodeButton whenClickedDo: [ self inform: 'CLICK' ].
 	nodeButton constraintsDo: [ :c |

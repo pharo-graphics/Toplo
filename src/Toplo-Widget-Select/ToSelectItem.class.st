@@ -1,15 +1,22 @@
 Class {
 	#name : #ToSelectItem,
-	#superclass : #ToMenuItem,
-	#traits : 'TToCheckable + TToCheckbox',
-	#classTraits : 'TToCheckable classTrait + TToCheckbox classTrait',
+	#superclass : #ToCheckMenuItem,
+	#traits : 'TToCheckable',
+	#classTraits : 'TToCheckable classTrait',
 	#category : #'Toplo-Widget-Select'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
+ToSelectItem >> defaultEventHandler [
+
+	^ ToSelectItemEventHandler new
+]
+
+{ #category : #initialization }
 ToSelectItem >> initialize [
 
 	super initialize.
 	self initializeCheckable.
-	self whenClickedDo: [ self switchCheckState ] 
+	self whenClickedDo: [ self switchCheckState ].
+	self addEventHandler: self defaultEventHandler
 ]

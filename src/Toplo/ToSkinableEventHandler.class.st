@@ -82,6 +82,14 @@ ToSkinableEventHandler >> eventsToHandleWhenEnabled [
 	^ { BlUIEvent. BlMousePickOutsideEvent. ToEnablementChangedEvent }
 ]
 
+{ #category : #'focus events handling' }
+ToSkinableEventHandler >> focusInEvent: anEvent [
+]
+
+{ #category : #'focus events handling' }
+ToSkinableEventHandler >> focusOutEvent: anEvent [
+]
+
 { #category : #'api - event managing' }
 ToSkinableEventHandler >> handleEvent: anEvent [
 

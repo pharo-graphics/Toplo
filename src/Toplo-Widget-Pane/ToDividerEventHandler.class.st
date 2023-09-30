@@ -100,19 +100,6 @@ ToDividerEventHandler >> dragStartEvent: anEvent [
 		               bnds inSpace bounds copy ]
 ]
 
-{ #category : #'event handling' }
-ToDividerEventHandler >> elementExtentChangedEvent: anEvent [
-
-	anEvent currentTarget pane requestLayout
-]
-
-{ #category : #'event handling' }
-ToDividerEventHandler >> elementPositionChangedEvent: anEvent [
-
-	anEvent currentTarget firstTarget requestLayout.
-	anEvent currentTarget secondTarget requestLayout
-]
-
 { #category : #'api - accessing' }
 ToDividerEventHandler >> eventsToHandle [
 
@@ -149,18 +136,18 @@ ToDividerEventHandler >> horizontalDragEvent: anEvent target: aTarget width: aWi
 ToDividerEventHandler >> leftMouseDownEvent: anEvent [
 
 	super leftMouseDownEvent: anEvent.
-	anEvent currentTarget border: (BlBorder paint: anEvent currentTarget colorProvider pressedBorderColor).
-	anEvent currentTarget  background: anEvent currentTarget colorProvider pressedBackgroundColor
+	self divider border: (BlBorder paint: self divider colorProvider pressedBorderColor).
+	self divider background: self divider colorProvider pressedBackgroundColor
 ]
 
 { #category : #'mouse handlers' }
 ToDividerEventHandler >> leftMouseUpEvent: anEvent [
 
 	super leftMouseUpEvent: anEvent.
-	anEvent currentTarget border: (BlBorder paint: anEvent currentTarget colorProvider defaultBorderColor).
-	anEvent currentTarget background: anEvent currentTarget colorProvider defaultBackgroundColor.
-	anEvent currentTarget space mouseProcessor handleLastMouseMove.
-	anEvent currentTarget mouseCursor: BlCursor default.
+	self divider border: (BlBorder paint: self divider colorProvider defaultBorderColor).
+	self divider background: self divider colorProvider defaultBackgroundColor.
+	self divider space mouseProcessor handleLastMouseMove.
+	self divider mouseCursor: BlCursor default.
 ]
 
 { #category : #accessing }
@@ -179,11 +166,11 @@ ToDividerEventHandler >> minimumExtent [
 ToDividerEventHandler >> mouseEnterEvent: anEvent [
 
 	super mouseEnterEvent: anEvent.
-	anEvent currentTarget mouseCursor: self resizerCursor.
+	self divider mouseCursor: self resizerCursor.
 	anEvent consumed: true.
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
-	anEvent currentTarget border: (BlBorder paint: anEvent currentTarget colorProvider hoveredBorderColor).
-	anEvent currentTarget background: anEvent currentTarget colorProvider hoveredBackgroundColor
+	self divider border: (BlBorder paint: self divider colorProvider hoveredBorderColor).
+	self divider background: self divider colorProvider hoveredBackgroundColor
 ]
 
 { #category : #'mouse handlers' }
@@ -192,18 +179,18 @@ ToDividerEventHandler >> mouseLeaveEvent: anEvent [
 	super mouseLeaveEvent: anEvent.
 	anEvent consumed: true.
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
-	anEvent currentTarget border: (BlBorder paint: anEvent currentTarget colorProvider defaultBorderColor).
-	anEvent currentTarget background: anEvent currentTarget colorProvider defaultBackgroundColor.
-	anEvent currentTarget mouseCursor: BlCursor default.
+	self divider border: (BlBorder paint: self divider colorProvider defaultBorderColor).
+	self divider background: self divider colorProvider defaultBackgroundColor.
+	self divider mouseCursor: BlCursor default.
 ]
 
 { #category : #'api - hooks' }
 ToDividerEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	paneExtentHandler := BlEventHandler on: BlElementExtentChangedEvent do: [ :event | anElement requestLayout ].	
-	firstTargetPositionChangeHandler := BlEventHandler on: BlElementPositionChangedEvent do: [ anElement requestLayout ].	
-	secondTargetPositionChangeHandler := BlEventHandler on: BlElementPositionChangedEvent do: [ anElement requestLayout ].
+	paneExtentHandler := BlEventHandler on: BlElementExtentChangedEvent do: [ :event | self divider requestLayout ].	
+	firstTargetPositionChangeHandler := BlEventHandler on: BlElementPositionChangedEvent do: [ self divider requestLayout ].	
+	secondTargetPositionChangeHandler := BlEventHandler on: BlElementPositionChangedEvent do: [ self divider requestLayout ].
 	
 	anElement pane addEventHandler: paneExtentHandler.
 	anElement firstTarget addEventHandler: firstTargetPositionChangeHandler.

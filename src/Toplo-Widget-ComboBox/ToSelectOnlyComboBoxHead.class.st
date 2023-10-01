@@ -115,7 +115,8 @@ ToSelectOnlyComboBoxHead >> initialize [
 	super initialize.
 	self dataElementFactory: self defaultDataElementFactory.
 	placeholder := self defaultPlaceholder.
-	self addShortCuts 
+	self addShortCuts.
+	self addEventHandler: self defaultEventHandler
 ]
 
 { #category : #accessing }

@@ -11,8 +11,7 @@ Class {
 ToComboBoxEditableMode >> beListAutocompleteIn: aComboBox [
 
 	listAutocompleteDresser ifNotNil: [ ^ self ].
-	listAutocompleteDresser := ToComboBoxListAutocompleteHeadDresser new comboBox: aComboBox.
-	"aComboBox headElement addDresser: listAutocompleteDresser"
+	listAutocompleteDresser := ToComboBoxListAutocompleteHeadDresser new comboBox: aComboBox
 ]
 
 { #category : #initialization }

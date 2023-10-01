@@ -9,11 +9,5 @@ ToComboBoxHeadEventHandler >> leftMouseDownEvent: anEvent [
 
 	anEvent consumed: true.
 	super leftMouseDownEvent: anEvent.
-	anEvent currentTarget comboBox popupOrCloseEvent: anEvent
-]
-
-{ #category : #'mouse handlers' }
-ToComboBoxHeadEventHandler >> leftMouseUpEvent: anEvent [
-
-	super leftMouseUpEvent: anEvent
+	anEvent currentTarget popupOrCloseEvent: anEvent
 ]

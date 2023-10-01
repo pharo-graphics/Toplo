@@ -4,7 +4,8 @@ Class {
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
 		'dataToTextConverter',
-		'textToDataConverter'
+		'textToDataConverter',
+		'textField'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
@@ -28,10 +29,10 @@ ToEditableComboBoxHead >> defaultDataToTextConverter [
 
 ]
 
-{ #category : #'t - initialization dresser' }
-ToEditableComboBoxHead >> defaultDresser [
+{ #category : #initialization }
+ToEditableComboBoxHead >> defaultEventHandler [
 
-	^ ToEditableComboBoxHeadDresser new
+	^ ToEditableComboBoxHeadEventHandler new
 ]
 
 { #category : #initialization }
@@ -70,7 +71,10 @@ ToEditableComboBoxHead >> initialize [
 	self placeholder: self defaultPlaceholder.
 
 	self dataToTextConverter: self defaultDataToTextConverter.
-	self textToDataConverter: self defaultTextToDataConverter
+	self textToDataConverter: self defaultTextToDataConverter.
+	
+	self button addEventHandler: (ToComboBoxHeadEventHandler new).
+	self addEventHandler: self defaultEventHandler
 ]
 
 { #category : #accessing }
@@ -104,13 +108,16 @@ ToEditableComboBoxHead >> showPlaceholder [
 { #category : #accessing }
 ToEditableComboBoxHead >> textField [ 
 
-	^ self first
+	^ textField
 ]
 
 { #category : #accessing }
 ToEditableComboBoxHead >> textField: aTextField [
 
-	self replaceFirstWith: aTextField 
+	aTextField constraintsDo: [ :c | c linear vertical alignCenter ].
+	textField := aTextField.
+	innerElement removeChildren.
+	innerElement addChild: aTextField
 ]
 
 { #category : #accessing }

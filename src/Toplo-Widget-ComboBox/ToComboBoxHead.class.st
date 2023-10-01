@@ -3,10 +3,17 @@ Class {
 	#superclass : #ToElement,
 	#instVars : [
 		'comboBox',
-		'innerElement'
+		'innerElement',
+		'button'
 	],
 	#category : #'Toplo-Widget-ComboBox'
 }
+
+{ #category : #accessing }
+ToComboBoxHead >> button [
+
+	^ button
+]
 
 { #category : #accessing }
 ToComboBoxHead >> comboBox [
@@ -18,12 +25,6 @@ ToComboBoxHead >> comboBox [
 ToComboBoxHead >> comboBox: aComboBox [
 
 	comboBox := aComboBox
-]
-
-{ #category : #initialization }
-ToComboBoxHead >> defaultEventHandler [
-
-	^ self subclassResponsibility 
 ]
 
 { #category : #initialization }
@@ -61,11 +62,13 @@ ToComboBoxHead >> initialize [
 	
 	image := ToImage inner: (Smalltalk ui icons iconNamed: #bottom).
 	image constraintsDo: [ :c | c linear vertical alignCenter ].
+	button := ToButton new.
+	button icon: image.
+	button withStamp: #'small-sizing'.
 
 	self addChild: innerElement.
-	self addChild: image after: innerElement.
+	self addChild: button after: innerElement.
 
-	self addEventHandler: self defaultEventHandler
 ]
 
 { #category : #accessing }

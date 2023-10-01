@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToOrientable,
-	#category : #'Toplo-Core-Triplet'
+	#category : #'Toplo-Core'
 }
 
 { #category : #'t - orientable - orientation' }
@@ -117,4 +117,10 @@ TToOrientable >> orientation: aBlLayoutOrientation [
 	self layoutStrategy orientation: aBlLayoutOrientation.
 	self dispatchEvent: ToLayoutOrientationChangedEvent new.
 	self launchRequestLayout
+]
+
+{ #category : #'t - orientable - orientation' }
+TToOrientable >> vertical: aBoolean [
+
+	self horizontal: aBoolean not
 ]

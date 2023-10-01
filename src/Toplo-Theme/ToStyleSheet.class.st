@@ -28,7 +28,6 @@ ToStyleSheet class >> defaultWritablePropertyList [
 		  (ToFeatureProperty name: #padding).
 		  (ToFeatureProperty name: #icon).
 		  (ToFeatureProperty name: #label).
-		  (ToFeatureProperty name: #extra).
 		  (ToFeatureProperty name: #justified).
 
 		  (ToPseudoProperty

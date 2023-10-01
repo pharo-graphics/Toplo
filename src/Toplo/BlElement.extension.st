@@ -96,6 +96,15 @@ BlElement >> flagAsEnabled [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> hasStamp: aSymbol [
+
+	| dict |
+	self userData at: #localStyleStampIndex ifAbsent: [ ^ false ].
+	dict := self userData at: #localStyleStampIndex.
+	^ dict includesKey: aSymbol asSymbol
+]
+
+{ #category : #'*Toplo' }
 BlElement >> holder [
 
 	^ self constraints infinite holder
@@ -123,15 +132,6 @@ BlElement >> isFlaggedAsDisabled [
 BlElement >> isFlaggedAsEnabled [
 
 	^ self userData at: #enabled ifAbsentPut: [ true ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> isStampedWith: aSymbol [
-
-	| dict |
-	self userData at: #localStyleStampIndex ifAbsent: [ ^ false ].
-	dict := self userData at: #localStyleStampIndex.
-	^ dict includesKey: aSymbol asSymbol
 ]
 
 { #category : #'*Toplo' }
@@ -388,7 +388,7 @@ BlElement >> withoutSkin [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> withoutStampNamed: aSymbol [
+BlElement >> withoutStamp: aSymbol [
 
 	self removeStyleStampNamed: aSymbol ifAbsent: [  ]
 	

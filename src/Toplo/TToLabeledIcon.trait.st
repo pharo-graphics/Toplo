@@ -1,14 +1,14 @@
 Trait {
 	#name : #TToLabeledIcon,
-	#category : #'Toplo-Widget-Button-Core'
+	#category : #'Toplo-Core-Triplet'
 }
 
 { #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> beIconFirst [
 
-	(self isStampedWith: #'icon-first') ifTrue: [ ^ self ].
+	(self hasStamp: #'icon-first') ifTrue: [ ^ self ].
 	self withStamp: #'icon-first'.
-	self withoutStampNamed: #'label-first'.
+	self withoutStamp: #'label-first'.
 	self updateSkin.
 	self requestLayout
 ]
@@ -16,23 +16,11 @@ TToLabeledIcon >> beIconFirst [
 { #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> beLabelFirst [
 
-	(self isStampedWith: #'label-first') ifTrue: [ ^ self ].
-	self withoutStampNamed: #'icon-first'.
+	(self hasStamp: #'label-first') ifTrue: [ ^ self ].
+	self withoutStamp: #'icon-first'.
 	self withStamp: #'label-first'.
 	self updateSkin.
 	self requestLayout
-]
-
-{ #category : #'t - labeled icon - accessing' }
-TToLabeledIcon >> extra [
-
-	^ self third
-]
-
-{ #category : #'t - labeled icon - accessing' }
-TToLabeledIcon >> extra: anElement [
-
-	self replaceThirdWith: anElement
 ]
 
 { #category : #'t - labeled icon - testing' }
@@ -50,7 +38,7 @@ TToLabeledIcon >> icon [
 { #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> icon: anElement [
 
-	self first ifNotNil: [ :s | s removeStyleStampNamed: #'button-icon'].
+	self first ifNotNil: [ :s | s withoutStamp: #'button-icon'].
 	self replaceFirstWith: anElement.
 	self first ifNotNil: [ :s | s withStamp: #'button-icon']
 ]

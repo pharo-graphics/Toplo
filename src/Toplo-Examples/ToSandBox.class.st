@@ -430,6 +430,87 @@ ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
 	pane openInSpace
 ]
 
+{ #category : #'labeled icon' }
+ToSandBox class >> example_LabeledIconlWithIconAndText [
+
+	| but  |
+	but := ToLabeledIcon new.
+	but label: (ToLabel text: 'Labeled icon').
+	but icon: (ToImage inner: (BlElement new
+			 size: 60 @ 20;
+			 background: (Color blue alpha: 0.2);
+			 yourself)).
+	but openInSpace.
+	^ but
+]
+
+{ #category : #'labeled icon' }
+ToSandBox class >> example_LabeledIconlWithIconAndText_flexible [
+
+	| but  |
+	but := self example_LabeledIconlWithIconAndText.
+	but interspace: #flexible.
+	but border: Color red.
+	but vFitContent.
+	but hMatchParent.
+	^ but
+]
+
+{ #category : #'labeled icon' }
+ToSandBox class >> example_LabeledIconlWithIconAndText_interspace [
+
+	| but  |
+	but := self example_LabeledIconlWithIconAndText.
+	but interspace: 20 asPoint.
+	^ but
+]
+
+{ #category : #'labeled icon' }
+ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst [
+
+	| but  |
+	but := self example_LabeledIconlWithIconAndText.
+	but labelFirst: true.
+	^ but
+]
+
+{ #category : #'labeled icon' }
+ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst_flexible [
+
+	| but  |
+	but := self example_LabeledIconlWithIconAndText_labelFirst.
+	but interspace: #'flexible'.
+	but matchParent.
+	^ but
+]
+
+{ #category : #'labeled icon' }
+ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst_vertical [
+
+	| but  |
+	but := self example_LabeledIconlWithIconAndText_labelFirst.
+	but vertical: true.
+	^ but
+]
+
+{ #category : #'labeled icon' }
+ToSandBox class >> example_LabeledIconlWithIconAndText_vertical [
+
+	| but  |
+	but := self example_LabeledIconlWithIconAndText.
+	but vertical: true.
+	^ but
+]
+
+{ #category : #'labeled icon' }
+ToSandBox class >> example_LabeledIconlWithIconAndText_vertical_interspace [
+
+	| but  |
+	but := self example_LabeledIconlWithIconAndText_vertical.
+	but interspace: 20.
+	^ but
+]
+
 { #category : #combobox }
 ToSandBox class >> example_ListAutocompleteComboBoxEmpty [
 

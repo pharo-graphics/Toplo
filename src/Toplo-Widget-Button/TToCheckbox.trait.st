@@ -74,7 +74,7 @@ TToCheckbox >> removeFromGroup [
 ]
 
 { #category : #'t - checkbox - private protocol' }
-TToCheckbox >> switchCheckState [
+TToCheckbox >> switchToNextCheckState [
 
 	self explicitRequirement 
 ]

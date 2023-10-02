@@ -12,11 +12,10 @@ ToSelectItem >> defaultEventHandler [
 	^ ToSelectItemEventHandler new
 ]
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 ToSelectItem >> initialize [
 
 	super initialize.
-	self initializeCheckable.
-	self whenClickedDo: [ self switchCheckState ].
+	self whenClickedDo: [ self switchToNextCheckState ].
 	self addEventHandler: self defaultEventHandler
 ]

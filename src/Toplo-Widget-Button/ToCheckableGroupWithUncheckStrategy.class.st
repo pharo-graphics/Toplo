@@ -9,6 +9,5 @@ ToCheckableGroupWithUncheckStrategy >> checkRequestEvent: aCheckRequest in: aGro
 
 	aCheckRequest checked ifTrue: [ 
 		aGroup uncheckAllExcept: aCheckRequest currentTarget ].
-	aCheckRequest currentTarget privateChecked: aCheckRequest checked.
 	aGroup notifyChanged
 ]

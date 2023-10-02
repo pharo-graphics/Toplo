@@ -1,49 +1,49 @@
 Trait {
 	#name : #TToClickable,
-	#instVars : [
-		'clickHandler'
-	],
 	#category : #'Toplo-Widget-Button-Core'
 }
 
 { #category : #'t - clickable - click behavior' }
 TToClickable >> clickEventClass [
 
-	^ BlPrimaryClickEvent 
+	^ self userData at: #clickEventClass ifAbsentPut: [ BlPrimaryClickEvent ]
 ]
 
 { #category : #'t - clickable - click behavior' }
-TToClickable >> client [
+TToClickable >> clickEventClass: anEventClass [
 
-	^ self explicitRequirement 
+	^ self userData at: #clickEventClass put: anEventClass
 ]
 
 { #category : #'t - clickable - click behavior' }
-TToClickable >> manageAction: aBlock onClickEvent: anEvent [
+TToClickable >> clickHandler [
 
-	aBlock
-		cull: anEvent
-		cull: self client
-		cull: anEvent currentTarget
+	^ self userData at: #clickHandler ifAbsent: [  ]
+]
+
+{ #category : #'t - clickable - click behavior' }
+TToClickable >> clickHandler: anEventHandler [
+
+	self userData at: #clickHandler put: anEventHandler
 ]
 
 { #category : #'t - clickable - click behavior' }
 TToClickable >> removeClickHandler [
 	"remove the click action"
 
-	clickHandler ifNotNil: [
-		self removeEventHandler: clickHandler.
-		clickHandler := nil ]
+	self clickHandler ifNotNil: [ :ch |
+		self removeEventHandler: ch.
+		self userData removeKey: #clickHandler ]
 ]
 
 { #category : #'t - clickable - click behavior' }
 TToClickable >> whenClickedDo: aBlock [
 	"Inform that the widget has been clicked."
-	
+
 	" only one official handler "
 	self removeClickHandler.
-	clickHandler := BlEventHandler
-		                on: self clickEventClass
-		                do: [ :event | self manageAction: aBlock onClickEvent: event ].
-	self addEventHandler: clickHandler
+	self clickHandler: (BlEventHandler
+			 on: self clickEventClass
+			 do: [ :event | aBlock cull: event ]).
+	self addEventHandler: self clickHandler
 ]

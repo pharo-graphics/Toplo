@@ -1,25 +1,10 @@
 Class {
 	#name : #ToGeneralButton,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TToClickable + TToWidgetWithTooltip + TToWidgetWithViewModel + TToWidgetWithContextMenu',
-	#classTraits : 'TToWidget classTrait + TToClickable classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithViewModel classTrait + TToWidgetWithContextMenu classTrait',
-	#instVars : [
-		'client'
-	],
+	#traits : 'TToWidget + TToClickable + TToWidgetWithTooltip + TToWidgetWithContextMenu',
+	#classTraits : 'TToWidget classTrait + TToClickable classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithContextMenu classTrait',
 	#category : #'Toplo-Widget-Button-Core'
 }
-
-{ #category : #'t - clickable - click behavior' }
-ToGeneralButton >> client [
-
-	^ client
-]
-
-{ #category : #accessing }
-ToGeneralButton >> client: anObject [
-
-	client := anObject
-]
 
 { #category : #initialization }
 ToGeneralButton >> defaultEventHandler [ 

@@ -11,10 +11,3 @@ ToCheckMenuItem >> defaultEventHandler [
 
 	^ ToCheckableEventHandler new
 ]
-
-{ #category : #initialization }
-ToCheckMenuItem >> initialize [
-
-	super initialize.
-	self initializeCheckable 
-]

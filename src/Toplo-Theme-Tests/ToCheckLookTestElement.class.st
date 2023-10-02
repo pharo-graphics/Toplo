@@ -8,7 +8,7 @@ Class {
 		'second',
 		'third'
 	],
-	#category : 'Toplo-Theme-Tests-Skin'
+	#category : #'Toplo-Theme-Tests-Skin'
 }
 
 { #category : #'t - triplet - accessing' }
@@ -23,12 +23,11 @@ ToCheckLookTestElement >> first: anElement [
 	first := anElement
 ]
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 ToCheckLookTestElement >> initialize [
 
 	self class initializeSlots: self.
-	super initialize.
-	self initializeCheckable
+	super initialize
 ]
 
 { #category : #'t - triplet - accessing' }

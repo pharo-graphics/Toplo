@@ -12,11 +12,10 @@ ToToggleButton >> defaultStyleStamps [
 	^ #( #button. #'toggle-button' )
 ]
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 ToToggleButton >> initialize [ 
 
 	super initialize.
-	self initializeCheckable.
 	self track: (ToToggleTrackElement new checked: self isChecked; yourself)
 ]
 

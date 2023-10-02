@@ -11,10 +11,3 @@ ToCheckNode >> defaultEventHandler [
 
 	^ ToCheckNodeEventHandler new
 ]
-
-{ #category : #initialization }
-ToCheckNode >> initialize [
-
-	super initialize.
-	self initializeCheckable 
-]

@@ -17,7 +17,7 @@ ToMenuItem >> clickEventClass [
 	^ BlMouseUpEvent
 ]
 
-{ #category : #'t - clickable - click behavior' }
+{ #category : #'as yet unclassified' }
 ToMenuItem >> client [
 
 	^ self parentMenu client

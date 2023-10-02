@@ -15,11 +15,13 @@ ToCheckableGroupStrictStrategy >> buttonInserted: aCheckable in: aGroup [
 
 { #category : #testing }
 ToCheckableGroupStrictStrategy >> checkRequestEvent: aCheckRequest in: aGroup [
+	" do not allow to uncheck a button by checking it "
 
-	aCheckRequest checked ifFalse: [ 
-		aCheckRequest processed: true.
+	(aCheckRequest checked not and: [
+		 aCheckRequest currentTarget checked ]) ifTrue: [
+		aCheckRequest checked: true.
 		^ self ].
+	" ok, the button is unchecked -> uncheck others then check it"
 	aGroup uncheckAllExcept: aCheckRequest currentTarget.
-	aCheckRequest currentTarget privateChecked: aCheckRequest checked.
 	aGroup notifyChanged
 ]

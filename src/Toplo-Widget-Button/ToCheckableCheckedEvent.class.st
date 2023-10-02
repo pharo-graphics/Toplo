@@ -1,5 +1,5 @@
 Class {
-	#name : #ToCheckableCheckEvent,
+	#name : #ToCheckableCheckedEvent,
 	#superclass : #BlEvent,
 	#instVars : [
 		'previous',
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToCheckableCheckEvent class >> current: aBoolean previous: aPreviousBoolean [
+ToCheckableCheckedEvent class >> current: aBoolean previous: aPreviousBoolean [
 
 	^ self new
 		  current: aBoolean;
@@ -18,31 +18,31 @@ ToCheckableCheckEvent class >> current: aBoolean previous: aPreviousBoolean [
 ]
 
 { #category : #accessing }
-ToCheckableCheckEvent >> current [
+ToCheckableCheckedEvent >> current [
 
 	^ current
 ]
 
 { #category : #accessing }
-ToCheckableCheckEvent >> current: aBoolean [
+ToCheckableCheckedEvent >> current: aBoolean [
 
 	current := aBoolean
 ]
 
 { #category : #accessing }
-ToCheckableCheckEvent >> previous [
+ToCheckableCheckedEvent >> previous [
 
 	^ previous
 ]
 
 { #category : #accessing }
-ToCheckableCheckEvent >> previous: aBoolean [
+ToCheckableCheckedEvent >> previous: aBoolean [
 
 	previous := aBoolean
 ]
 
 { #category : #sending }
-ToCheckableCheckEvent >> sendTo: anObject [
+ToCheckableCheckedEvent >> sendTo: anObject [
 
 	anObject checkableCheckEvent: self
 ]

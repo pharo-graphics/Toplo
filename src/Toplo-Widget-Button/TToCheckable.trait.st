@@ -1,10 +1,6 @@
 Trait {
 	#name : #TToCheckable,
-	#instVars : [
-		'checked',
-		'withIndeterminate'
-	],
-	#category : #'Toplo-Widget-Button-Core'
+	#category : #'Toplo-Widget-Button-Checkable'
 }
 
 { #category : #'t - checkable  - protocol' }
@@ -16,7 +12,10 @@ TToCheckable >> check [
 { #category : #'t - checkable - accessing' }
 TToCheckable >> checked [
 
-	^ checked 
+	^ self userData at: #checked ifAbsentPut: [
+		  self withIndeterminate
+			  ifTrue: [  ]
+			  ifFalse: [ false ] ]
 ]
 
 { #category : #'t - checkable - accessing' }
@@ -24,62 +23,52 @@ TToCheckable >> checked: aBooleanOrNil [
 	" change the checkable state. nil means indeterminate. "
 
 	| request |
-	checked = aBooleanOrNil ifTrue: [ ^ self ].
+	(aBooleanOrNil isNil and: [ self withIndeterminate not ]) ifTrue: [
+		Error signal: 'nil not allowed except when indeterminate is explicitly allowed ' ].
 	request := ToCheckableCheckRequest new
 		           checked: aBooleanOrNil;
 		           yourself.
+	" give a chance to the button group to verify and change the result of the checking"
 	self dispatchEvent: request.
-	request processed ifTrue: [ ^ self ].
+	" update with the result that has been eventually changed by the group according to its strategy"
 	self privateChecked: request checked
-]
-
-{ #category : #initialization }
-TToCheckable >> initialize [
-
-	self class initializeSlots: self.
-	super initialize.
-]
-
-{ #category : #'t - checkable - initializing' }
-TToCheckable >> initializeCheckable [
-
-	withIndeterminate := false.
-	checked := false
 ]
 
 { #category : #'t - checkable - testing' }
 TToCheckable >> isChecked [
 
-	^ checked = true
+	" since checked can be nil, test is with = "
+	^ self checked = true
 ]
 
 { #category : #'t - checkable - testing' }
 TToCheckable >> isIndeterminate [
 
-	^ checked isNil
+	^ self checked isNil
 ]
 
 { #category : #'t - checkable - testing' }
 TToCheckable >> isUnchecked [
 
-	^ checked = false
+	" since checked can be nil, test is with = "
+	^ self checked = false
 ]
 
 { #category : #'t - checkable - private protocol' }
 TToCheckable >> privateChecked: aBooleanOrNil [
 
 	| prev |
-	checked = aBooleanOrNil ifTrue: [ ^ self ].
-	prev := checked.
-	checked := aBooleanOrNil.
-	self dispatchEvent: (ToCheckableCheckEvent current: checked previous: prev)
+	self checked = aBooleanOrNil ifTrue: [ ^ self ].
+	prev := self checked.
+	self userData at: #checked put: aBooleanOrNil.
+	self dispatchEvent: (ToCheckableCheckedEvent current: self checked previous: prev)
 ]
 
 { #category : #'t - checkable - private protocol' }
-TToCheckable >> switchCheckState [
+TToCheckable >> switchToNextCheckState [
 
-	(self withIndeterminate and: [ self isUnchecked  ]) ifTrue: [ ^ self checked: nil ].
-	self isIndeterminate ifTrue: [ ^ self checked: true ].
+	(self withIndeterminate and: [ self isChecked  ]) ifTrue: [ ^ self checked: nil ].
+	self isIndeterminate ifTrue: [ ^ self checked: false ].
 	self checked: self checked not
 ]
 
@@ -89,22 +78,14 @@ TToCheckable >> uncheck [
 	self checked: false
 ]
 
-{ #category : #'t - checkable - change hook' }
-TToCheckable >> whenCheckedChangedDo: aBlock [
-
-	"set a block to perform after that the slot has been changed, and its action performed"
-
-	self property: #checked whenChangedDo: aBlock
-]
-
 { #category : #'t - checkable  - protocol' }
 TToCheckable >> withIndeterminate [
 
-	^ withIndeterminate 
+	^ self userData at: #withIndeterminate ifAbsentPut: [  false ]
 ]
 
 { #category : #'t - checkable  - protocol' }
 TToCheckable >> withIndeterminate: aBoolean [
 
-	withIndeterminate := aBoolean
+	self userData at: #withIndeterminate put: aBoolean
 ]

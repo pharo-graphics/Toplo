@@ -1243,7 +1243,7 @@ ToSandBox class >> example_ToButtonSkins [
 			 (ToLabelSkin new type: ToLabelPrimaryType new)).
 	enablementSwitcher check.
 	enablementSwitcher
-		when: ToCheckableCheckEvent
+		when: ToCheckableCheckedEvent
 		do: [ :event |
 		allButtons do: [ :b | b enabled: event target isChecked ] ].
 
@@ -1305,14 +1305,14 @@ ToSandBox class >> example_ToButtonSkins [
 	directionSwitcher := ToToggleButton new labelText: 'Icon first'; beLabelFirst; yourself.
 	directionSwitcher check.
 	directionSwitcher
-		when: ToCheckableCheckEvent
+		when: ToCheckableCheckedEvent
 		do: [ :event | allButtons do: [ :b | b iconFirst: event target isChecked ] ].
 	topBar addChild: directionSwitcher.
 	
 	orientationSwitcher := ToToggleButton new labelText: 'Horizontal'; beLabelFirst; yourself.
 	orientationSwitcher check.
 	orientationSwitcher
-		when: ToCheckableCheckEvent
+		when: ToCheckableCheckedEvent
 		do: [ :event | allButtons do: [ :b | b horizontal: event target isChecked ] ].
 	topBar addChild: orientationSwitcher.
 	
@@ -1320,7 +1320,7 @@ ToSandBox class >> example_ToButtonSkins [
 		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
 
 	circleShapingRadio 
-		when: ToCheckableCheckEvent 
+		when: ToCheckableCheckedEvent 
 		do: [ :event | 
 			event current 
 				ifTrue: [ directionSwitcher enabled: false. orientationSwitcher  enabled: false] 
@@ -1482,7 +1482,7 @@ ToSandBox class >> example_ToButtonSkinsOnOneButton [
 			 (ToLabelSkin new type: ToLabelPrimaryType new)).
 	enablementSwitcher check.
 	enablementSwitcher
-		when: ToCheckableCheckEvent
+		when: ToCheckableCheckedEvent
 		do: [ :event |
 		allButtons do: [ :b | b enabled: event target isChecked ] ].
 
@@ -1544,14 +1544,14 @@ ToSandBox class >> example_ToButtonSkinsOnOneButton [
 	directionSwitcher := ToToggleButton new labelText: 'Icon first'; beLabelFirst; yourself.
 	directionSwitcher check.
 	directionSwitcher
-		when: ToCheckableCheckEvent
+		when: ToCheckableCheckedEvent
 		do: [ :event | allButtons do: [ :b | b iconFirst: event target isChecked ] ].
 	topBar addChild: directionSwitcher.
 	
 	orientationSwitcher := ToToggleButton new labelText: 'Horizontal'; beLabelFirst; yourself.
 	orientationSwitcher check.
 	orientationSwitcher
-		when: ToCheckableCheckEvent
+		when: ToCheckableCheckedEvent
 		do: [ :event | allButtons do: [ :b | b horizontal: event target isChecked ] ].
 	topBar addChild: orientationSwitcher.
 	
@@ -1559,7 +1559,7 @@ ToSandBox class >> example_ToButtonSkinsOnOneButton [
 		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
 
 	circleShapingRadio 
-		when: ToCheckableCheckEvent 
+		when: ToCheckableCheckedEvent 
 		do: [ :event | 
 			event current 
 				ifTrue: [ directionSwitcher enabled: false. orientationSwitcher  enabled: false] 
@@ -1706,7 +1706,7 @@ ToSandBox class >> example_ToButtonWithDefaultSkin [
 			 (ToLabelSkin new type: ToLabelPrimaryType new)).
 	enablementSwitcher check.
 	enablementSwitcher 
-		when: ToCheckableCheckEvent 
+		when: ToCheckableCheckedEvent 
 		do: [ :event | button1 enabled: event target isChecked  ].
 	enablementSwitcher constraintsDo: [ :c |
 		c linear vertical alignCenter ].
@@ -1811,7 +1811,7 @@ ToSandBox class >> example_ToLabelWithHeadingSkin [
 	themeSwitcher switchBarOnElement: ((ToLabel text: ('Dark' asRopedText foreground: Color white)) ).
 	themeSwitcher switchBarOffElement: ((ToLabel text: ('Light' asRopedText foreground: Color black)) ).
 	themeSwitcher 
-		when: ToCheckableCheckEvent 
+		when: ToCheckableCheckedEvent 
 		do: [ :event | space toTheme: ( event current ifTrue: [ToDefaultThemeDark new] ifFalse: [ ToDefaultThemeLight new]) ].
 	
 	space root addChild: themeSwitcher.
@@ -1929,7 +1929,7 @@ ToSandBox class >> example_menu0 [
 	themeSwitcher switchBarOnElement: ((ToLabel text: ('Dark' asRopedText foreground: Color white)) ).
 	themeSwitcher switchBarOffElement: ((ToLabel text: ('Light' asRopedText foreground: Color black)) ).
 	themeSwitcher 
-		when: ToCheckableCheckEvent 
+		when: ToCheckableCheckedEvent 
 		do: [ :event | space toTheme: ( event current ifTrue: [ToDefaultThemeDark new] ifFalse: [ ToDefaultThemeLight new]) ].
 	
 	themeSwitcher checked: true.
@@ -2543,7 +2543,7 @@ ToSandBox class >> example_spaceRootSkin [
 		      beLabelFirst.
 	themeSwitcher switchBarOnElement: ((ToLabel text: ('Dark' asRopedText foreground: Color white)) ).
 	themeSwitcher switchBarOffElement: ((ToLabel text: ('Light' asRopedText foreground: Color black)) ).
-	themeSwitcher when: ToCheckableCheckEvent do: [ :event | space toTheme: ( event current ifTrue: [ToDefaultThemeDark new] ifFalse: [ ToDefaultThemeLight new]) ].
+	themeSwitcher when: ToCheckableCheckedEvent do: [ :event | space toTheme: ( event current ifTrue: [ToDefaultThemeDark new] ifFalse: [ ToDefaultThemeLight new]) ].
 	space root addChild: themeSwitcher.
 	space show
 ]
@@ -2649,22 +2649,6 @@ ToSandBox class >> example_textFieldWithoutLineWrapping [
 	t openInSpace
 ]
 
-{ #category : #checkbox }
-ToSandBox class >> example_to3statesCheckbox [
-
-	| but |
-	but := ToCheckboxModel new widgetDo: [:w | w withIndeterminate: true ].
-	but onWidget openInSpace
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_to3statesRadioButton [
-
-	| but |
-	but := ToRadioButtonModel new withIndeterminate.
-	but onWidget openInSpace
-]
-
 { #category : #'button-dep' }
 ToSandBox class >> example_toAlbumAsButton [
 
@@ -2755,30 +2739,6 @@ ToSandBox class >> example_toBasicButton4 [
 ]
 
 { #category : #'button-dep' }
-ToSandBox class >> example_toBasicButtonModel0 [
-
-	| but |
-	but := ToGeneralButtonModel new.
-	but whenClickedDo: [ self inform: 'clicked' ].
-	but onWidget openInSpace
-]
-
-{ #category : #'button-dep' }
-ToSandBox class >> example_toBasicButtonModel1 [
-
-	| but |
-	but := ToGeneralButtonModel new.
-	but widgetDo: [ :widget |
-		widget addChild: (BlElement new
-				 size: 30 @ 30;
-				 background: Color lightBlue;
-				 yourself) ].
-	but widgetDo: [ :widget | widget fitContent ].
-	but whenClickedDo: [ self inform: 'clicked' ].
-	but onWidget openInSpace
-]
-
-{ #category : #'button-dep' }
 ToSandBox class >> example_toButton0 [
 
 	| but |
@@ -2824,47 +2784,6 @@ ToSandBox class >> example_toButtonJustified1 [
 	space := BlSpace new.
 	space root addChild: but.
 	space show
-]
-
-{ #category : #'button-dep' }
-ToSandBox class >> example_toButtonModel1 [
-
-	| but |
-	but := ToButtonModel new label: (ToLabel text: 'Button').
-	but whenClickedDo: [ self inform: 'clicked' ].
-	but onWidget openInSpace
-]
-
-{ #category : #'button-dep' }
-ToSandBox class >> example_toButtonModelWithIconOnly [
-
-	| but space |
-	but := ToButtonModel new.
-	but icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
-	but widgetDo: [ :widget | widget padding: (BlInsets all: 3) ].
-	space := BlSpace new.
-	space root addChild: but onWidget.
-	space show 
-]
-
-{ #category : #'button-dep' }
-ToSandBox class >> example_toButtonModelWithTextAndIconVertical [
-
-	| but space wid |
-	but := ToButtonModel new
-		       beVertical.
-	but label: (ToLabel text: 'Button').
-	but icon: (ToImage inner: (BlElement new
-			 size: 60 @ 20;
-			 background: (Color blue alpha: 0.2);
-			 yourself)).
-	but whenClickedDo: [ :ann | 
-		ann currentTarget horizontal: ann currentTarget horizontal not ].
-	space := BlSpace new.
-	wid := but onWidget.
-	wid layout cellSpacing: 10.
-	space root addChild: wid.
-	space show 
 ]
 
 { #category : #'button-dep' }
@@ -3068,14 +2987,6 @@ ToSandBox class >> example_toButtonWithTooltip [
 ]
 
 { #category : #checkbox }
-ToSandBox class >> example_toCheckbox0 [
-
-	| but |
-	but := ToCheckboxModel new.
-	but onWidget openInSpace
-]
-
-{ #category : #checkbox }
 ToSandBox class >> example_toCheckbox1 [
 
 	| chb |
@@ -3112,40 +3023,24 @@ ToSandBox class >> example_toCheckbox2 [
 ]
 
 { #category : #checkbox }
-ToSandBox class >> example_toCheckboxModelWithLabel [
-
-	| but |
-	but := ToCheckboxModel new label: (ToLabel text: 'Check me').
-	but inspect.
-	but onWidget openInSpace
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_toCheckboxModelWithLabel2 [
-
-	| but |
-	but := ToCheckboxModel new
-		       labelText: 'Check me';
-		       beLabelFirst.
-	but onWidget openInSpace
-]
-
-{ #category : #checkbox }
 ToSandBox class >> example_toCheckboxModelWithLabel3 [
 
 	| but |
+	ToAbstractTheme cleanUp.
 	but := ToCheckbox new labelText: 'Check me'.
+	but checked: true.
 	but openInSpace
 ]
 
 { #category : #checkbox }
-ToSandBox class >> example_toCheckboxModelWithLabel4 [
+ToSandBox class >> example_toCheckboxModelWithLabel3_bis [
 
 	| but |
-	but := ToCheckboxModel new
-		       labelText: 'Check me';
-		       beVertical.
-	but onWidget openInSpace
+	ToAbstractTheme cleanUp.
+	but := ToCheckbox new labelText: 'Check me'.
+	but withIndeterminate: true.
+	but checked: nil.
+	but openInSpace
 ]
 
 { #category : #checkbox }
@@ -3161,6 +3056,7 @@ ToSandBox class >> example_toCheckboxWithGroup2 [
 			       id: idx asString.
 		chb beIconFirst.
 		group add: chb ].
+
 	group buttons second checked: true.
 	container := ToElement new.
 	container matchParent.
@@ -3318,7 +3214,7 @@ ToSandBox class >> example_toCheckboxWithLabel [
 
 	| but |
 	but := ToCheckbox new labelText: 'Check me'.
-	but when: ToCheckableCheckEvent do: [ :event | self inform: 'checked ', event current asString ].
+	but when: ToCheckableCheckedEvent do: [ :event | self inform: 'checked ', event current asString ].
 	but openInSpace
 ]
 
@@ -3330,7 +3226,7 @@ ToSandBox class >> example_toCheckboxWithLabel2 [
 		       labelText: 'Check me';
 		       beLabelFirst;
 		       checked: true.
-	but when: ToCheckableCheckEvent do: [ :event | self inform: 'checked ', event current asString ].
+	but when: ToCheckableCheckedEvent do: [ :event | self inform: 'checked ', event current asString ].
 
 	but openInSpace
 ]
@@ -3840,7 +3736,7 @@ ToSandBox class >> example_toggle2 [
 	th interspace: 150.
 	th switchBarOnElement: ((ToLabel text: 'Dark') withSkin: (ToLabelSkin new type: ToLabelPrimaryType new)).
 	th switchBarOffElement: ((ToLabel text: 'Light') withSkin: (ToLabelSkin new type: ToLabelPrimaryType new)).
-	th when: ToCheckableCheckEvent do: [ :event | event current traceCr ].
+	th when: ToCheckableCheckedEvent do: [ :event | event current traceCr ].
 	th checked: true.
 	th openInSpace
 ]
@@ -3857,7 +3753,7 @@ ToSandBox class >> example_toggle3 [
 	th switchButtonOnElement: (ToImage inner: (Smalltalk ui icons iconNamed: #glamorousAccept)).
 	th switchButtonOffElement: (ToImage inner: (Smalltalk ui icons iconNamed: #glamorousClose)).
 
-	th when: ToCheckableCheckEvent do: [ :event | event current traceCr ].
+	th when: ToCheckableCheckedEvent do: [ :event | event current traceCr ].
 	th checked: true.
 	sp := th openInSpace.
 	sp root background: Color veryLightGray

@@ -67,23 +67,11 @@ ToAbstractMenuItem >> isTopMenu [
 	^ false
 ]
 
-{ #category : #'accessing sizing' }
-ToAbstractMenuItem >> largeHeight [ 
-
-	^ 32
-]
-
 { #category : #window }
 ToAbstractMenuItem >> menuWindow [
 
 	" by default, a menuItem do not open a submenu "
 	^ nil
-]
-
-{ #category : #'accessing sizing' }
-ToAbstractMenuItem >> middleHeight [
-
-	^ 24
 ]
 
 { #category : #'parent menu' }
@@ -108,10 +96,4 @@ ToAbstractMenuItem >> privateParentMenu: aMenu [
 ToAbstractMenuItem >> removedFromMenu: aMenu [
 
 	self privateParentMenu: nil
-]
-
-{ #category : #'accessing sizing' }
-ToAbstractMenuItem >> smallHeight [ 
-
-	^ 18
 ]

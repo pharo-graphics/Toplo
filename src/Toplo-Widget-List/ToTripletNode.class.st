@@ -6,7 +6,7 @@ Class {
 	#category : #'Toplo-Widget-List-node'
 }
 
-{ #category : #'t - clickable - click behavior' }
+{ #category : #'as yet unclassified' }
 ToTripletNode >> client [
 
 	^ self holder infiniteElement client

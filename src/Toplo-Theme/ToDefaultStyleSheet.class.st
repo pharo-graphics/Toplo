@@ -31,10 +31,11 @@ ToDefaultStyleSheet >> checkableButtonRules [
 					   paint: (e stampValue: #'color-border-checkable');
 					   yourself ].
 
-			   sr select: (sr child: #'inner-image' depth: 3) not style: [
+			   sr select: (sr child: #'button-icon' depth: 2) not style: [
 				   sr
 					   write: (self property: #iconImage)
-					   with: [ :e | (e stampValue: #'checkbox-image-builder') value ] ] ]).
+					   with: [ :e | (e stampValue: #'checkbox-image-builder') value ].
+				] ]).
 
 		  " checkbox icon geometry "
 		  ((#image asStyleSelector
@@ -164,13 +165,21 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 				   with: [ :e | BlFrameLayout new ].
 			   sr
 				   write: (self property: #size)
-				   with: [ :e | ((e stampValue: #'control-height')/2) asPoint ].
+				   with: [ :e | ((e stampValue: #'control-height') / 2) asPoint ].
 
 			   sr write: (self property: #'border-with-builder') with: [ :e |
+				   | width btn |
+				   " have to get the button to get the install border width (according to the checked/unchecked state) "
+				   btn := e parent parent parent.
+				   width := btn checked ifNil: [ 0 ] ifNotNil: [ :c |
+					            c
+						            ifTrue: [ 6 ]
+						            ifFalse: [ 0 ] ].
 				   e borderBuilder
 					   paint: (e stampValue: #'color-primary');
-					   width: 0;
+					   width: width;
 					   yourself ].
+
 			   sr
 				   when: ToDisabledLookEvent
 				   supplement: (self property: #'border-with-builder')
@@ -232,14 +241,22 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 				   write: (self property: #margin)
 				   with: [ :e | BlInsets left: 2 right: 2 ].
 
+			   sr write: (self property: #background) with: [ :e |
+				   | btn bg |
+				   btn := e parent parent parent parent.
+				   bg := btn checked
+					         ifNil: [ e stampValue: #'color-primary' ]
+					         ifNotNil: [ Color transparent ].
+				   bg ].
+
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #background)
-				   with: [ :e | (e stampValue: #'color-bg-container-disabled') ].
+				   with: [ :e | e stampValue: #'color-bg-container-disabled' ].
 			   sr
 				   when: ToIndeterminateLookEvent
 				   write: (self property: #background)
-				   with: [ :e | (e stampValue: #'color-primary') ].
+				   with: [ :e | e stampValue: #'color-primary' ].
 			   sr
 				   when: ToCheckedLookEvent
 				   write: (self property: #background)
@@ -257,7 +274,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 			   sr
 				   when: ToIndeterminateLookEvent
 				   write: (self property: #background)
-				   with: [ :e | (e stampValue: #'color-error') ] ]) }
+				   with: [ :e | e stampValue: #'color-error' ] ]) }
 ]
 
 { #category : #'accessing rules  -button' }

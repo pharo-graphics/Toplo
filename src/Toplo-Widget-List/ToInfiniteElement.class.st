@@ -1,8 +1,8 @@
 Class {
 	#name : #ToInfiniteElement,
 	#superclass : #BlInfiniteElement,
-	#traits : 'TToResizable + TToDressable + TToWidgetWithContextMenu',
-	#classTraits : 'TToResizable classTrait + TToDressable classTrait + TToWidgetWithContextMenu classTrait',
+	#traits : 'TToResizable + TToWidgetWithContextMenu',
+	#classTraits : 'TToResizable classTrait + TToWidgetWithContextMenu classTrait',
 	#instVars : [
 		'nodeFactory',
 		'clickLauncher',
@@ -191,9 +191,6 @@ ToInfiniteElement >> initialize [
 	primarySelection := self defaultPrimarySelection.
 	secondarySelection := self defaultSecondarySelection.
 	self privateData: ToObservableCollection new.
-
-	self initializeDresser.
-	self postInitializeDresser.
 	
 	self primarySelection whenModeChangedDo: [
 		self uninstallShortcuts.
@@ -337,16 +334,6 @@ ToInfiniteElement >> onGotFocus [
 
 { #category : #'private - focus' }
 ToInfiniteElement >> onLostFocus [ 
-
-]
-
-{ #category : #'t - dressable -  initialization' }
-ToInfiniteElement >> preInitializeDresser [ 
-
-	primarySelection := self defaultPrimarySelection.
-	secondarySelection := self defaultSecondarySelection.
-	self privateData: ToObservableCollection new.
-
 
 ]
 

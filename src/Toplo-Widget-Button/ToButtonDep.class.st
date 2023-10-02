@@ -33,6 +33,7 @@ ToButtonDep >> first: anElement [
 ToButtonDep >> initialize [
 
 	super initialize.
+	self initializeTriplet.
 	self withStamp: #button
 ]
 
@@ -42,13 +43,6 @@ ToButtonDep >> layoutStrategy [
 	^ self innerElement layout
 
 	
-]
-
-{ #category : #'t - dressable -  initialization' }
-ToButtonDep >> preInitializeDresser [ 
-
-	super preInitializeDresser.
-	self initializeTriplet
 ]
 
 { #category : #'t - triplet - accessing' }

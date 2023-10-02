@@ -1,8 +1,8 @@
 Class {
 	#name : #ToCheckLookTestElement,
 	#superclass : #BlElement,
-	#traits : 'TToCheckable + TToLabeledIcon + TToTriplet + TToDressable',
-	#classTraits : 'TToCheckable classTrait + TToLabeledIcon classTrait + TToTriplet classTrait + TToDressable classTrait',
+	#traits : 'TToCheckable + TToLabeledIcon + TToTriplet',
+	#classTraits : 'TToCheckable classTrait + TToLabeledIcon classTrait + TToTriplet classTrait',
 	#instVars : [
 		'first',
 		'second',

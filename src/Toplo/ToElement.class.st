@@ -1,16 +1,10 @@
 Class {
 	#name : #ToElement,
 	#superclass : #BlElement,
-	#traits : 'TToResizable + TToEnableable + TToDressable + TToSkinable + TObservable',
-	#classTraits : 'TToResizable classTrait + TToEnableable classTrait + TToDressable classTrait + TToSkinable classTrait + TObservable classTrait',
+	#traits : 'TToResizable + TToEnableable + TToSkinable + TObservable',
+	#classTraits : 'TToResizable classTrait + TToEnableable classTrait + TToSkinable classTrait + TObservable classTrait',
 	#category : #'Toplo-Core'
 }
-
-{ #category : #'t - dressable -  initialization' }
-ToElement >> defaultDresser [
-
-	^ ToDresser new
-]
 
 { #category : #'t - skinable - initialization' }
 ToElement >> defaultStyleStamps [
@@ -24,11 +18,6 @@ ToElement >> initialize [
 	super initialize.
 	
 	self class initializeSlots: self.
-	
-	"Dresser initialization steps"
-	self preInitializeDresser.
-	self initializeDresser.
-	self postInitializeDresser.
 	self initializeSkin
 ]
 

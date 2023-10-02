@@ -12,7 +12,7 @@ TToSkinable >> defaultStyleStamps [
 { #category : #'t - skinable - initialization' }
 TToSkinable >> initializeSkin [
 
-	self localStyleStampIndex ifEmpty: [ self withAllStamps: self defaultStyleStamps]
+	self withAllStamps: self defaultStyleStamps
 ]
 
 { #category : #'t - skinable - install/uninstall  hook' }

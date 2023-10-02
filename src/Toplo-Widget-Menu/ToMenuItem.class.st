@@ -41,17 +41,17 @@ ToMenuItem >> first: anElement [
 	icon := anElement
 ]
 
+{ #category : #initialization }
+ToMenuItem >> initialize [ 
+
+	super initialize.
+	self initializeTriplet
+]
+
 { #category : #'t - orientable - accessing' }
 ToMenuItem >> layoutStrategy [
 
 	^ self innerElement layout
-]
-
-{ #category : #'t - dressable -  initialization' }
-ToMenuItem >> preInitializeDresser [
-
-	super preInitializeDresser.
-	self initializeTriplet
 ]
 
 { #category : #'t - triplet - accessing' }

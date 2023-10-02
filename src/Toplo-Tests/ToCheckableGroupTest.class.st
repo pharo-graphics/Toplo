@@ -47,11 +47,7 @@ ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndCheckUse [
 	].
 
 	checkBox := group buttons first.
-	checkBox dresser: nil. "Simulate a dresser change"
-	checkBox dresser: checkBox defaultDresser.
-	
 	checkBox check.
-	self assert: checkBox checked.
 	
 	checkBox2 := group buttons at: 2.
 	checkBox2 check.
@@ -93,24 +89,6 @@ ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndCheckUse2 [
 	buttons third check.
 	self assert: buttons first checked not.
 	self assert: buttons second checked not.
-	self assert: buttons third checked.
-
-	buttons do: [ :b |
-		b dresser: nil.
-		b dresser: b defaultDresser ].
-	self assert: modelButtonsGroup buttons size equals: 3.
-	
-	buttons first check.
-	self assert: buttons first checked.
-	self assert: buttons second checked not.
-	self assert: buttons third checked not.
-	buttons second check.
-	self assert: buttons first checked not.
-	self assert: buttons second checked.
-	self assert: buttons third checked not.
-	buttons third check.
-	self assert: buttons first checked not.
-	self assert: buttons second checked not.
 	self assert: buttons third checked
 ]
 
@@ -138,24 +116,6 @@ ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndSwitchToNextStateU
 
 	buttons do: [ :b | pane addChild: b ].
 
-	buttons first switchToNextCheckState.
-	self assert: buttons first checked.
-	self assert: buttons second checked not.
-	self assert: buttons third checked not.
-	buttons second switchToNextCheckState.
-	self assert: buttons first checked not.
-	self assert: buttons second checked.
-	self assert: buttons third checked not.
-	buttons third switchToNextCheckState.
-	self assert: buttons first checked not.
-	self assert: buttons second checked not.
-	self assert: buttons third checked.
-
-	buttons do: [ :b |
-		b dresser: nil.
-		b dresser: b defaultDresser ].
-	self assert: modelButtonsGroup buttons size equals: 3.
-	
 	buttons first switchToNextCheckState.
 	self assert: buttons first checked.
 	self assert: buttons second checked not.

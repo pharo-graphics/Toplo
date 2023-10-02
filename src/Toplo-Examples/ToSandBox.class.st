@@ -761,16 +761,16 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 	               menu := ToContextMenu new.
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Add initial Items';
-			                whenClickedDo: [ :event :client |
-				                client data addAll: ((1 to: 2000) collect: [:p | 'AAAAAAAAAAA'] ) ]).
+			                whenClickedDo: [ :event  |
+				                event currentTarget data addAll: ((1 to: 2000) collect: [:p | 'AAAAAAAAAAA'] ) ]).
 	               widget data ifNotEmpty: [
 		               menu addItem: (ToMenuItem new
 				                labelText: 'Select all';
-				                whenClickedDo: [ :event :client | client selectAll ]).
+				                whenClickedDo: [ :event  | event currentTarget  selectAll ]).
 			            menu addItem: (ToMenuItem new
 				                labelText: 'Remove all';
-				                whenClickedDo: [ :event :client |
-					                client data removeAll ];
+				                whenClickedDo: [ :event  |
+					                event currentTarget  data removeAll ];
 				                yourself) ].
 	               selection ifNotEmpty: [ 
 				         selectionMenu := ToMenu new .
@@ -781,45 +781,45 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 			               node := l nodeAt: idx.
 			               selectionMenu addItem: (ToMenuItem new
 					                labelText: 'Edit';
-					                whenClickedDo: [ :event :client | 
+					                whenClickedDo: [ :event  | 
 						                node label addEditor ];
 					                yourself).
 			               selectionMenu addItem: (ToMenuItem new
 					                labelText: (node label isMonoLine
 							                 ifTrue: [ 'Be multiline' ]
 							                 ifFalse: [ 'Be monoline' ]);
-					                whenClickedDo: [ :event :client |
+					                whenClickedDo: [ :event  |
 						                node label monoLine: node label isMonoLine not ];
 					                yourself).			               
 								selectionMenu addItem: (ToMenuItem new
 					                labelText: 'Inspect';
-					                whenClickedDo: [ :event :client |
+					                whenClickedDo: [ :event  |
 						                node inspect ];
 					                yourself).
 			               selectionMenu addSeparator ].
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert before';
-				                whenClickedDo: [ :event :client |
+				                whenClickedDo: [ :event  |
 					                selection selectedIndexes do: [ :idx |
-							                client data
+							                event currentTarget  data
 								                add: idx asString , ':XXXXXX'
 								                beforeIndex: idx ] ];
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert after';
-				                whenClickedDo: [ :event :client |
+				                whenClickedDo: [ :event |
 					                | nb |
 					                nb := selection size.
 					                selection selectedIndexes do: [ :idx |
-							                client data
+							                event currentTarget  data
 								                add: idx asString , ':XXXXXX'
 								                afterIndex: idx + nb - 1 ] ];
 				                yourself).
 		               selectionMenu addSeparator.
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Remove';
-				                whenClickedDo: [ :event :client |
-					                selection ifNotEmpty: [client data removeFrom: selection first to: selection last ] ];
+				                whenClickedDo: [ :event  |
+					                selection ifNotEmpty: [event currentTarget  data removeFrom: selection first to: selection last ] ];
 				                yourself).
   							menu addSeparator.
 		               menu addItem: selectionMenu].
@@ -3341,46 +3341,6 @@ ToSandBox class >> example_toLabel3 [
 ]
 
 { #category : #label }
-ToSandBox class >> example_toLabel3_bis [
-
-	| model widget |
-	model := ToLabelModel new.
-	model text: ('This is a bold label' asRopedText
-			 fontSize: 20;
-			 bold;
-			 foreground: Color gray;
-			 yourself).
-	model widgetDo: [ :label |
-		label hMatchParent.
-		label background: Color lightBlue.
-		label layout alignCenterRight.
-		label border: (BlBorder paint: Color yellow width: 1) ].
-	model isEditable: true.
-	(widget := model onWidget) openInSpace.
-	widget inspect
-]
-
-{ #category : #label }
-ToSandBox class >> example_toLabel3_bis2 [
-
-	| model widget |
-	model := ToLabelModel new beMultiLine.
-	model text: ('This is a bold label' asRopedText
-			 fontSize: 20;
-			 bold;
-			 foreground: Color gray;
-			 yourself).
-	model widgetDo: [ :label |
-		label hMatchParent.
-		label background: Color lightBlue.
-		label layout alignCenterRight.
-		label border: (BlBorder paint: Color yellow width: 1) ].
-	model isEditable: true.
-	(widget := model onWidget) openInSpace.
-	widget inspect
-]
-
-{ #category : #label }
 ToSandBox class >> example_toLabel4 [
 
 	| lab1 lab2 lab3 root |
@@ -3420,29 +3380,6 @@ ToSandBox class >> example_toLabel4 [
 	root clipChildren: false.
 
 	root openInInnerWindow 
-]
-
-{ #category : #label }
-ToSandBox class >> example_toLabel5 [
-
-	| label root model |
-	root := BlElement new constraintsDo: [ :c |
-		        c vertical fitContent.
-		        c horizontal matchParent ].
-	root layout: BlLinearLayout vertical.
-	label := ToLabel new.
-	model := ToLabelModel new.
-	model text: ('' asRopedText fontSize: 24).
-	model beMultiLine.
-	model widgetDo: [ :widget |
-		widget vFitContent.
-		widget hMatchParent.
-		widget border: (BlBorder paint: Color red width: 1).
-		widget innerElement margin: (BlInsets all: 8) ].
-	model isEditable: true.
-	label viewModel: model.
-	root addChild: label.
-	root openInSpace
 ]
 
 { #category : #label }

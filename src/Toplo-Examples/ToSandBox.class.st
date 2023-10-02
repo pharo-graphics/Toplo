@@ -434,13 +434,15 @@ ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
 ToSandBox class >> example_LabeledIconlWithIconAndText [
 
 	| but  |
+	ToAbstractTheme cleanUp.
 	but := ToLabeledIcon new.
-	but openInSpace.
 	but label: (ToLabel text: 'Labeled icon').
 	but icon: (ToImage inner: (BlElement new
 			 size: 60 @ 60;
 			 background: (Color blue alpha: 0.2);
 			 yourself)).
+	but openInSpace.
+but inspect.
 	^ but
 ]
 
@@ -490,6 +492,16 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst_vertical [
 	| but  |
 	but := self example_LabeledIconlWithIconAndText_labelFirst.
 	but vertical: true.
+	^ but
+]
+
+{ #category : #'labeled icon' }
+ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst_vertical_flexible [
+
+	| but  |
+	but := self example_LabeledIconlWithIconAndText_labelFirst_vertical.
+	but interspace: #flexible.
+	but matchParent.
 	^ but
 ]
 

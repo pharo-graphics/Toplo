@@ -15,7 +15,8 @@ ToDefaultStyleSheetTest >> setUp [
 
 	super setUp.
 	ToDefaultTheme cleanUp.
-	styleSheet := ToDefaultTheme new styleSheet
+	styleSheet := ToDefaultTheme new styleSheet.
+	styleSheet inherits: false.
 ]
 
 { #category : #skin }

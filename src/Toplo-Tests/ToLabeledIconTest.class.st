@@ -7,6 +7,13 @@ Class {
 	#category : #'Toplo-Tests-Core'
 }
 
+{ #category : #running }
+ToLabeledIconTest >> setUp [ 
+
+	super setUp.
+	ToAbstractTheme cleanUp
+]
+
 { #category : #tests }
 ToLabeledIconTest >> testEmpty [
 

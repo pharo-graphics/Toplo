@@ -77,12 +77,6 @@ ToImage >> innerImage: anImage [
 	self addChild: element
 ]
 
-{ #category : #'as yet unclassified' }
-ToImage >> privateSkin: aSkin [
-
-	super privateSkin: aSkin
-]
-
 { #category : #'form accessing' }
 ToImage >> withInnerFormDo: aBlock [
 	" aBlock is evaluated with the form as arguments 

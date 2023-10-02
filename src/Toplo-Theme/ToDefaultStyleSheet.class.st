@@ -744,7 +744,7 @@ ToDefaultStyleSheet >> labelRules [
 ToDefaultStyleSheet >> labeledIconRules [
 
 	^ { (self any parent: (self type: ToLabeledIcon)) style: [ :sr | 
-		" any child of a ToLabeledIcon is centered vertically and horizontally "
+		" any child of a ToLabeledIcon is centered vertically and horizontally ( icon, label and filler) "
 		   sr write: (self property: #'layout-constraints') with: [ :e |
 			   [ :c | 
 			   c linear vertical alignCenter.

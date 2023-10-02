@@ -1,7 +1,7 @@
 Extension { #name : #ToRadioButton }
 
 { #category : #'*Toplo-Widget-Button-Skin' }
-ToRadioButton >> defaultStyleTags [
+ToRadioButton >> defaultStyleStamps [
 
 	^ { #button. #checkable. #radio}
 ]

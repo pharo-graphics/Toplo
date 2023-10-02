@@ -24,7 +24,7 @@ ToImage >> defaultInnerImage [
 ]
 
 { #category : #'t - skinable - initialization' }
-ToImage >> defaultStyleTags [ 
+ToImage >> defaultStyleStamps [ 
 
 	^ #( #image )
 ]

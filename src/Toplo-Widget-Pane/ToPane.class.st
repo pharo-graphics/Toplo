@@ -51,7 +51,7 @@ ToPane >> defaultLayout [
 ]
 
 { #category : #'t - skinable - initialization' }
-ToPane >> defaultStyleTags [
+ToPane >> defaultStyleStamps [
 
 	^ #( #pane )
 ]

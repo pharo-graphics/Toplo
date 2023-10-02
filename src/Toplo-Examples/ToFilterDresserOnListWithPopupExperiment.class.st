@@ -160,7 +160,7 @@ ToFilterDresserOnListWithPopupExperiment >> startPlaceholder [
 	placeholder addChild: (lab := ToLabel new text:
 			        ('No element - click to get data' asRopedText foreground:
 				         Color red)).
-	placeholder addChild: (but := ToButton new labelText: 'Fetch data').
+	placeholder addChild: (but := ToButtonDep new labelText: 'Fetch data').
 	lab constraintsDo: [ :c | c linear horizontal alignCenter ].
 	but constraintsDo: [ :c | c linear horizontal alignCenter ].
 	but whenClickedDo: [

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCheckbox,
-	#superclass : #ToButton,
+	#superclass : #ToButtonDep,
 	#traits : 'TToCheckable + TToCheckbox',
 	#classTraits : 'TToCheckable classTrait + TToCheckbox classTrait',
 	#category : #'Toplo-Widget-Button-Checkable'
@@ -13,7 +13,7 @@ ToCheckbox >> defaultEventHandler [
 ]
 
 { #category : #'t - skinable - initialization' }
-ToCheckbox >> defaultStyleTags [
+ToCheckbox >> defaultStyleStamps [
 
 	^ { #button. #checkable. #checkbox}
 ]

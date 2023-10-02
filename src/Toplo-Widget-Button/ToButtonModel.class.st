@@ -55,5 +55,5 @@ ToButtonModel >> labelText: aText [
 { #category : #'private - accessing - widget' }
 ToButtonModel >> privateWidgetClass [
 
-	^ ToButton
+	^ ToButtonDep
 ]

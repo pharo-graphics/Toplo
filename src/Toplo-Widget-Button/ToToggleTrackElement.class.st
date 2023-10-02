@@ -22,7 +22,7 @@ ToToggleTrackElement >> checked: aBoolean [
 ]
 
 { #category : #'t - skinable - initialization' }
-ToToggleTrackElement >> defaultStyleTags [
+ToToggleTrackElement >> defaultStyleStamps [
 
 	^ #( #'toggle-track' )
 ]

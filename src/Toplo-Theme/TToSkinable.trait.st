@@ -4,7 +4,7 @@ Trait {
 }
 
 { #category : #'t - skinable - initialization' }
-TToSkinable >> defaultStyleTags [
+TToSkinable >> defaultStyleStamps [
 
 	^ self explicitRequirement 
 ]
@@ -12,7 +12,7 @@ TToSkinable >> defaultStyleTags [
 { #category : #'t - skinable - initialization' }
 TToSkinable >> initializeSkin [
 
-	self localStyleStampIndex ifEmpty: [ self withAllStamps: self defaultStyleTags]
+	self localStyleStampIndex ifEmpty: [ self withAllStamps: self defaultStyleStamps]
 ]
 
 { #category : #'t - skinable - install/uninstall  hook' }

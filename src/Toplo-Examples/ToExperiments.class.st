@@ -746,10 +746,10 @@ ToExperiments class >> example_frame [
 	pullHandler := BlPullHandler new target: frame; yourself.
 	bar addEventHandler: pullHandler.
 	
-	close := ToButton new iconImage: Smalltalk ui theme windowCloseForm; labelText: 'close'.
+	close := ToButtonDep new iconImage: Smalltalk ui theme windowCloseForm; labelText: 'close'.
 	close whenClickedDo: [ frame removeFromParent ].
 	close background: Color transparent.
-	expand := ToButton new iconImage: Smalltalk ui theme windowMaximizeForm.
+	expand := ToButtonDep new iconImage: Smalltalk ui theme windowMaximizeForm.
 	expand whenClickedDo: [ 
 		frame 
 			relocate: 0@0; 
@@ -948,7 +948,7 @@ ToExperiments class >> example_toScaling [
 		             fitContent;
 		             clipChildren: false.
 	container layout cellSpacing: 5.
-	container addChild: ((ToButton new
+	container addChild: ((ToButtonDep new
 	constraintsDo: [ :c | c accountTransformation ];
 			 clipChildren: false;
 			 iconImage: (BlElement new
@@ -959,7 +959,7 @@ ToExperiments class >> example_toScaling [
 				 d
 					 topLeftOrigin;
 					 scaleBy: 3.0 ]))  .
-	container addChild: (ToButton new constraintsDo: [ :c | c accountTransformation ];
+	container addChild: (ToButtonDep new constraintsDo: [ :c | c accountTransformation ];
 			 clipChildren: false;
 			 iconImage: (BlElement new constraintsDo: [ :c | c accountTransformation ];
 					  size: 100 @ 100;

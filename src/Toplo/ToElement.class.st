@@ -13,7 +13,7 @@ ToElement >> defaultDresser [
 ]
 
 { #category : #'t - skinable - initialization' }
-ToElement >> defaultStyleTags [
+ToElement >> defaultStyleStamps [
 
 	^ #( )
 ]

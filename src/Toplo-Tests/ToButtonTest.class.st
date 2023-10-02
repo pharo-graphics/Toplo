@@ -9,7 +9,7 @@ ToButtonTest >> testButton [
 	"Test default values of a new button"
 
 	| button |
-	button := ToButton new.
+	button := ToButtonDep new.
 
 	self assert: button isHorizontal.
 	self assert: button isLeftToRight.
@@ -26,7 +26,7 @@ ToButtonTest >> testButton [
 ToButtonTest >> testClickRemovingHandler [
 
 	| but done |
-	but := ToButton new.
+	but := ToButtonDep new.
 	done := 0.
 	but whenClickedDo: [ done := done + 1 ].
 	but dispatchEvent: BlMouseUpEvent primary asClickEvent.
@@ -43,7 +43,7 @@ ToButtonTest >> testClickRemovingHandler [
 ToButtonTest >> testClickReplacingHandler [
 
 	| but done |
-	but := ToButton new.
+	but := ToButtonDep new.
 	done := 0.
 	but whenClickedDo: [ done := done + 1 ].
 	but dispatchEvent: BlMouseUpEvent primary asClickEvent.
@@ -60,7 +60,7 @@ ToButtonTest >> testClickReplacingHandler [
 ToButtonTest >> testClickWithSimpleHandler [
 
 	| but done |
-	but := ToButton new.
+	but := ToButtonDep new.
 	done := 0.
 	but whenClickedDo: [ done := done +1 ].
 	but dispatchEvent: BlMouseUpEvent primary asClickEvent.
@@ -72,7 +72,7 @@ ToButtonTest >> testClickWithSimpleHandler [
 ToButtonTest >> testClickWithoutHandler [
 
 	| but |
-	but := ToButton new.
+	but := ToButtonDep new.
 	but dispatchEvent: BlMouseUpEvent primary asClickEvent.
 	
 ]

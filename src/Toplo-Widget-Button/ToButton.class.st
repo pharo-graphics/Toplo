@@ -1,39 +1,65 @@
 Class {
 	#name : #ToButton,
 	#superclass : #ToGeneralButton,
-	#traits : 'TToTriplet + TToLabeledIcon + TToOrientable',
-	#classTraits : 'TToTriplet classTrait + TToLabeledIcon classTrait + TToOrientable classTrait',
+	#traits : 'TToOrientable',
+	#classTraits : 'TToOrientable classTrait',
 	#instVars : [
-		'#icon => ToSkinnableSlot',
-		'#label => ToSkinnableSlot',
-		'#extra => ToSkinnableSlot'
+		'#labeledIcon => ToSkinnableSlot'
 	],
 	#category : #'Toplo-Widget-Button-BasicButton'
 }
 
+{ #category : #initialization }
+ToButton >> defaultLayout [ 
+
+	^ BlLinearLayout vertical
+]
+
 { #category : #'t - skinable - initialization' }
-ToButton >> defaultStyleTags [
+ToButton >> defaultStyleStamps [
 
 	^ { #button }
 ]
 
-{ #category : #'t - triplet - accessing' }
-ToButton >> first [
+{ #category : #accessing }
+ToButton >> icon [
 
-	^ icon
+	^ self labeledIcon icon
 ]
 
-{ #category : #'t - triplet - accessing' }
-ToButton >> first: anElement [
+{ #category : #accessing }
+ToButton >> icon: aToImage [
 
-	icon := anElement
+	self labeledIcon icon: aToImage
 ]
 
 { #category : #initialization }
 ToButton >> initialize [
 
 	super initialize.
-	self withStamp: #button
+	self withStamp: #button.
+	self layout: self defaultLayout.
+	labeledIcon := ToLabeledIcon new.
+	self addChild: labeledIcon.
+	self fitContent
+]
+
+{ #category : #accessing }
+ToButton >> label [
+
+	^ self labeledIcon label
+]
+
+{ #category : #accessing }
+ToButton >> label: aToLabel [
+
+	self labeledIcon label: aToLabel
+]
+
+{ #category : #accessing }
+ToButton >> labeledIcon [
+
+	^ labeledIcon
 ]
 
 { #category : #'t - orientable - accessing' }
@@ -42,36 +68,4 @@ ToButton >> layoutStrategy [
 	^ self innerElement layout
 
 	
-]
-
-{ #category : #'t - dressable -  initialization' }
-ToButton >> preInitializeDresser [ 
-
-	super preInitializeDresser.
-	self initializeTriplet
-]
-
-{ #category : #'t - triplet - accessing' }
-ToButton >> second [
-
-	^ label
-]
-
-{ #category : #'t - triplet - accessing' }
-ToButton >> second: anElement [
-
-	label := anElement
-]
-
-{ #category : #'t - triplet - accessing' }
-ToButton >> third [
-
-	^ extra 
-]
-
-{ #category : #'t - triplet - accessing' }
-ToButton >> third: anElement [
-
-	extra := anElement
-
 ]

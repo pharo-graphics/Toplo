@@ -49,14 +49,14 @@ ToSandBox class >> example_BasicComboBoxWithStatesOfAmerica [
 	win openInSpace
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
 
 	| chk btn space |
 	ToAbstractTheme cleanUp.
 	chk := ToCheckbox new.
 	chk labelText: 'OK'.
-	btn := ToButton new.
+	btn := ToButtonDep new.
 	btn labelText: 'Erase all your Pharo images?'.
 	btn iconImage: ToThemeIcons iconSearchOutlined16x16.
 	btn label withStamp: #H3.
@@ -71,14 +71,14 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
 	space show
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheetDarkTheme [
 
 	| chk btn space |
 	ToAbstractTheme cleanUp.
 	chk := ToCheckbox new.
 	chk labelText: 'OK'.
-	btn := ToButton new.
+	btn := ToButtonDep new.
 	btn labelText: 'Erase all your Pharo images?'.
 	btn iconImage: ToThemeIcons iconSearchOutlined16x16.
 	btn label withStamp: #H3.
@@ -93,7 +93,7 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheetDarkTheme [
 	space show
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_CheckBoxWithDefaultStyleSheetDarkTheme [
 
 	| chk  space |
@@ -235,7 +235,7 @@ ToSandBox class >> example_ComboBoxWithListPlaceholder [
 	placeholder addChild: (lab := ToLabel new text:
 			        ('No element - click to get data' asRopedText foreground:
 				         Color red)).
-	placeholder addChild: (but := ToButton new labelText: 'Fetch data').
+	placeholder addChild: (but := ToButtonDep new labelText: 'Fetch data').
 	lab constraintsDo: [ :c | c linear horizontal alignCenter ].
 	but constraintsDo: [ :c | c linear horizontal alignCenter ].
 	but whenClickedDo: [
@@ -428,6 +428,51 @@ ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
 	pane addChild: l.
 	pane addChild: filter.
 	pane openInSpace
+]
+
+{ #category : #'general button' }
+ToSandBox class >> example_GeneralButtonWithIconAndLabel [
+
+	| but lab ico pane |
+	pane := ToPane new.
+	pane fitContent.
+	pane layout alignCenter.
+	lab := ToLabel new text: 'General button'.
+	ico := ToImage inner: (self iconNamed: #remove).
+	pane addChildren: {
+			ico.
+			lab }.
+	but := ToGeneralButton new.
+	but fitContent.
+	but padding: (BlInsets all: 4).
+	but geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
+	but border: Color black.
+	but addChild: pane.
+	but layout alignCenter.
+	but whenClickedDo: [ self inform: 'clicked' ].
+	but openInSpace.
+	^ but
+]
+
+{ #category : #'general button' }
+ToSandBox class >> example_GeneralButtonWithIconAndLabel_matchParent [
+
+	| but |
+	but := self example_GeneralButtonWithIconAndLabel.
+	but matchParent
+]
+
+{ #category : #'general button' }
+ToSandBox class >> example_GeneralButtonWithLabel [
+
+	| but |
+	but := ToGeneralButton new.
+	but addChild: (ToLabel text: 'General button').
+	but border: Color black.
+	but fitContent.
+	but whenClickedDo: [ self inform: 'clicked' ].
+	but openInSpace.
+	^ but
 ]
 
 { #category : #'labeled icon' }
@@ -667,7 +712,7 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 
 	| l |
 	l := ToListElement new nodeFactory: [ :cls |
-		     ToButton new
+		     ToButtonDep new
 			     labelText: cls name;
 			     hMatchParent ].
 	l data addAll: Smalltalk globals allClasses.
@@ -1065,7 +1110,7 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 		| lab im node |
 		im := ToImage new innerImage: (Smalltalk ui icons iconNamed: k).
 		lab := ToLabel new text: k asString.
-		node := ToButton new icon: im; label: lab; yourself.
+		node := ToButtonDep new icon: im; label: lab; yourself.
 		node width: 600.
 		node justified: true.
 		column addChild: node ].
@@ -1089,14 +1134,14 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 	container openInSpace
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_StyleSheetSandbox [
 
 	| b |
 	ToAbstractTheme cleanUp.
 	"b := ToCheckbox new."
 	"b := ToRadioButton new."
-	b := ToButton new.
+	b := ToButtonDep new.
 	"b := ToToggleButton new."
 	"b stampWith: #primary. "
 	"b stampWith: #'large-sizing'."
@@ -1128,14 +1173,14 @@ ToSandBox class >> example_StyleSheetSandbox [
 	"b matchParent"
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_StyleSheetSandboxDarkTheme [
 
 	| b |
 	ToAbstractTheme cleanUp.
 	"b := ToCheckbox new."
 	"b := ToRadioButton new."
-	b := ToButton new.
+	b := ToButtonDep new.
 	"b := ToToggleButton new."
 	"b stampWith: #primary. "
 	"b stampWith: #'large-sizing'."
@@ -1167,7 +1212,7 @@ ToSandBox class >> example_StyleSheetSandboxDarkTheme [
 	b matchParent"
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_ToButtonSkins [
 
 	| space pane themeSwitcher butBuilder buttonSpecsBuilder enablementSwitcher allButtons sizingGroup smallSizingRadio middleSizingRadio largeSizingRadio shapingGroup circleShapingRadio defaultShapingRadio roundShapingRadio topBar buttonBar directionSwitcher orientationSwitcher |
@@ -1312,7 +1357,7 @@ ToSandBox class >> example_ToButtonSkins [
 
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
-		but := ToButton new.
+		but := ToButtonDep new.
 		allButtons add: but.
 		arr second ifNotNil: [ :skin | but withSkin: skin ].
 		but labelText: arr first.
@@ -1326,7 +1371,7 @@ ToSandBox class >> example_ToButtonSkins [
 
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
-		but := ToButton new.
+		but := ToButtonDep new.
 		allButtons add: but.
 		arr second ifNotNil: [ :skin | but withSkin: skin ].
 		but labelText: arr first.
@@ -1341,7 +1386,7 @@ ToSandBox class >> example_ToButtonSkins [
 
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
-		but := ToButton new.
+		but := ToButtonDep new.
 		allButtons add: but.
 		arr second ifNotNil: [ :skin | but withSkin: skin ].
 		but icon: butBuilder value.
@@ -1355,7 +1400,7 @@ ToSandBox class >> example_ToButtonSkins [
 
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
-		but := ToButton new.
+		but := ToButtonDep new.
 		allButtons add: but.
 		arr second ifNotNil: [ :skin |
 			but withSkin: (skin
@@ -1372,7 +1417,7 @@ ToSandBox class >> example_ToButtonSkins [
 
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
-		but := ToButton new.
+		but := ToButtonDep new.
 		allButtons add: but.
 		arr second ifNotNil: [ :skin |
 			but withSkin: (skin
@@ -1390,7 +1435,7 @@ ToSandBox class >> example_ToButtonSkins [
 
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
-		but := ToButton new.
+		but := ToButtonDep new.
 		allButtons add: but.
 		arr second ifNotNil: [ :skin |
 			but withSkin: (skin
@@ -1406,7 +1451,7 @@ ToSandBox class >> example_ToButtonSkins [
 	^ space
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_ToButtonSkinsOnOneButton [
 
 	| space pane themeSwitcher butBuilder buttonSpecsBuilder enablementSwitcher allButtons sizingGroup smallSizingRadio middleSizingRadio largeSizingRadio shapingGroup circleShapingRadio defaultShapingRadio roundShapingRadio topBar buttonBar directionSwitcher orientationSwitcher |
@@ -1537,7 +1582,7 @@ ToSandBox class >> example_ToButtonSkinsOnOneButton [
 
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
-		but := ToButton new.
+		but := ToButtonDep new.
 		allButtons add: but.
 		arr second ifNotNil: [ :skin | but withSkin: skin ].
 		but labelText: arr first.
@@ -1551,13 +1596,13 @@ ToSandBox class >> example_ToButtonSkinsOnOneButton [
 	^ space
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_ToButtonWithDashedSkin [
 
 	| space button1 |
 	space := BlSpace new.
 
-	button1 := ToButton new 
+	button1 := ToButtonDep new 
 		           withSkin: (ToButtonSkin new
 				            dashed: true;
 				            yourself);
@@ -1583,7 +1628,7 @@ ToSandBox class >> example_ToButtonWithDashedSkin [
 	^ space
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_ToButtonWithDefaultDangerDashedSkin [
 
 
@@ -1591,7 +1636,7 @@ ToSandBox class >> example_ToButtonWithDefaultDangerDashedSkin [
 	
 	space := BlSpace new.
 
-	button1 := ToButton new withSkin: (ToButtonSkin new danger: true; dashed: true; yourself).
+	button1 := ToButtonDep new withSkin: (ToButtonSkin new danger: true; dashed: true; yourself).
 	button1 label: (ToLabel text: 'Default danger button').
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 	space root addChild: button1.	
@@ -1602,7 +1647,7 @@ ToSandBox class >> example_ToButtonWithDefaultDangerDashedSkin [
 	space show.
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_ToButtonWithDefaultDangerSkin [
 
 
@@ -1610,7 +1655,7 @@ ToSandBox class >> example_ToButtonWithDefaultDangerSkin [
 	
 	space := BlSpace new.
 
-	button1 := ToButton new withSkin: (ToButtonSkin new danger: true; yourself).
+	button1 := ToButtonDep new withSkin: (ToButtonSkin new danger: true; yourself).
 	button1 label: (ToLabel text: 'Default danger button').
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 	space root addChild: button1.	
@@ -1621,7 +1666,7 @@ ToSandBox class >> example_ToButtonWithDefaultDangerSkin [
 	space show.
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_ToButtonWithDefaultSkin [
 
 
@@ -1632,7 +1677,7 @@ ToSandBox class >> example_ToButtonWithDefaultSkin [
 	pane layout cellSpacing: 10.
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 
-	button1 := ToButton new withSkin: (ToButtonSkin new type: ToButtonDefaultType new).
+	button1 := ToButtonDep new withSkin: (ToButtonSkin new type: ToButtonDefaultType new).
 	button1 label: (ToLabel text: 'Primary button').
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 	space root when: BlElementAddedToSceneGraphEvent do: [  
@@ -1680,7 +1725,7 @@ ToSandBox class >> example_ToButtonWithDefaultSkin [
 	space show.
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_ToButtonWithDefaultSkin0 [
 
 
@@ -1691,7 +1736,7 @@ ToSandBox class >> example_ToButtonWithDefaultSkin0 [
 	pane layout cellSpacing: 10.
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 
-	button1 := ToButton new.
+	button1 := ToButtonDep new.
 	"button1 addStyleClass: #primary."
 	"button1 addStyleClass: #danger."
 	button1 label: (ToLabel text: 'Primary button').
@@ -1703,14 +1748,14 @@ ToSandBox class >> example_ToButtonWithDefaultSkin0 [
 	space show.
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_ToButtonWithPrimarySkin [
 
 
 	| space button1 |
 	
 	space := BlSpace new.
-	button1 := ToButton new withSkin: (ToButtonSkin new type: ToButtonPrimaryType new).
+	button1 := ToButtonDep new withSkin: (ToButtonSkin new type: ToButtonPrimaryType new).
 	button1 label: (ToLabel text: 'Primary button').
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 	space root addChild: button1.	
@@ -1721,13 +1766,13 @@ ToSandBox class >> example_ToButtonWithPrimarySkin [
 	
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_ToButtonWithPrimarySkin2 [
 
 	| space button1 |
 	space := BlSpace new.
 
-	button1 := ToButton new
+	button1 := ToButtonDep new
 		           withSkin: (ToButtonSkin new type: ToButtonPrimaryType new);
 		           label: (ToLabel text: 'Primary button');
 		           icon: (ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16);
@@ -1736,14 +1781,14 @@ ToSandBox class >> example_ToButtonWithPrimarySkin2 [
 	space show
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_ToButtonWithTextSkin [
 
 	| space button1 |
 	
 	space := BlSpace new.
 
-	button1 := ToButton new withSkin: (ToButtonSkin new type: ToButtonTextType new).
+	button1 := ToButtonDep new withSkin: (ToButtonSkin new type: ToButtonTextType new).
 	button1 labelText: 'Text button'.
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).	
 		
@@ -1803,6 +1848,25 @@ ToSandBox class >> example_ToLabelWithHeadingSkin [
 	space show
 ]
 
+{ #category : #button }
+ToSandBox class >> example_buttonWithIcon [
+
+	| but  |
+	but := ToButton new.
+	but icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	but openInSpace.
+	^ but
+]
+
+{ #category : #button }
+ToSandBox class >> example_buttonWithIconAndLabel [
+
+	| but  |
+	but := self example_buttonWithIcon.
+	but label: (ToLabel text: 'Button').
+	^ but
+]
+
 { #category : #space }
 ToSandBox class >> example_elementInPopupRoot [
 
@@ -1841,10 +1905,10 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 			e1.
 			e2.
 			e3 }.
-	btn := ToButton new labelText: 'Change orientation'.
+	btn := ToButtonDep new labelText: 'Change orientation'.
 	btn whenClickedDo: [ pane orientation: pane orientation inverted ].
 	pane addChild: btn.
-	btn := ToButton new labelText: 'Change direction'.
+	btn := ToButtonDep new labelText: 'Change direction'.
 	btn whenClickedDo: [ pane direction: pane direction inverted ].
 	pane addChild: btn.
 
@@ -2601,7 +2665,7 @@ ToSandBox class >> example_to3statesRadioButton [
 	but onWidget openInSpace
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_toAlbumAsButton [
 
 	| but |
@@ -2617,7 +2681,7 @@ ToSandBox class >> example_toAlbumAsButton [
 	but openInSpace
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_toBasicButton0 [
 
 	| but |
@@ -2626,7 +2690,7 @@ ToSandBox class >> example_toBasicButton0 [
 	but openInSpace
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_toBasicButton1 [
 
 	| but |
@@ -2640,7 +2704,7 @@ ToSandBox class >> example_toBasicButton1 [
 	but openInSpace
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_toBasicButton2 [
 
 	| but lab |
@@ -2656,11 +2720,11 @@ ToSandBox class >> example_toBasicButton2 [
 	but openInSpace
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_toBasicButton3 [
 
 	| but |
-	but := ToButton new label: (ToLabel new text: ('Button' asRopedText
+	but := ToButtonDep new label: (ToLabel new text: ('Button' asRopedText
 				         fontSize: 40;
 				         yourself)).
 	but matchParent.
@@ -2669,7 +2733,7 @@ ToSandBox class >> example_toBasicButton3 [
 	but openInSpace
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_toBasicButton4 [
 
 	| but lab ico pane |
@@ -2690,7 +2754,7 @@ ToSandBox class >> example_toBasicButton4 [
 	but openInSpace
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_toBasicButtonModel0 [
 
 	| but |
@@ -2699,7 +2763,7 @@ ToSandBox class >> example_toBasicButtonModel0 [
 	but onWidget openInSpace
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_toBasicButtonModel1 [
 
 	| but |
@@ -2714,11 +2778,11 @@ ToSandBox class >> example_toBasicButtonModel1 [
 	but onWidget openInSpace
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_toButton0 [
 
 	| but |
-	but := ToButton new.
+	but := ToButtonDep new.
 	but openInSpace.
 	but inspect.
 ]
@@ -2762,7 +2826,7 @@ ToSandBox class >> example_toButtonJustified1 [
 	space show
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_toButtonModel1 [
 
 	| but |
@@ -2771,7 +2835,7 @@ ToSandBox class >> example_toButtonModel1 [
 	but onWidget openInSpace
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_toButtonModelWithIconOnly [
 
 	| but space |
@@ -2783,7 +2847,7 @@ ToSandBox class >> example_toButtonModelWithIconOnly [
 	space show 
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_toButtonModelWithTextAndIconVertical [
 
 	| but space wid |
@@ -2803,11 +2867,11 @@ ToSandBox class >> example_toButtonModelWithTextAndIconVertical [
 	space show 
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_toButtonOrientationChanger [
 
 	| but space iconImage count |
-	but := ToButton new.
+	but := ToButtonDep new.
 	but label: (ToLabel text:'Button' asRopedText bold).
 	iconImage := BlElement new
 		             size: 20 @ 20;
@@ -2821,11 +2885,11 @@ ToSandBox class >> example_toButtonOrientationChanger [
 	space show 
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_toButtonOrientationChanger3 [
 
 	| but space iconImage count |
-	but := ToButton new.
+	but := ToButtonDep new.
 	but label: (ToLabel text:'Button' asRopedText bold).
 	iconImage := BlElement new
 		             size: 20 @ 20;
@@ -2839,11 +2903,11 @@ ToSandBox class >> example_toButtonOrientationChanger3 [
 	space show 
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_toButtonWithIconAndText [
 
 	| but space  icon |
-	but := ToButton new.
+	but := ToButtonDep new.
 
 	but label: (ToLabel text: 'Button').
 	icon := ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16).
@@ -2860,11 +2924,11 @@ ToSandBox class >> example_toButtonWithIconAndText [
 	space show 
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_toButtonWithIconAndTextAndExtra [
 
 	| but space  icon |
-	but := ToButton new.
+	but := ToButtonDep new.
 
 	but label: (ToLabel text: 'Button').
 	icon := ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16).
@@ -2878,12 +2942,12 @@ ToSandBox class >> example_toButtonWithIconAndTextAndExtra [
 	space show 
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_toButtonWithIconOnly [
 
 	| but space container |
 	container := BlElement new size: 200@200; border: (BlBorder paint: Color gray); background: (Color gray alpha: 0.1).
-	but := ToButton new.
+	but := ToButtonDep new.
 	"but addLook: ToButtonLinkLook new."
 	"but addLook: ToButtonDashedLook new."
 	"but addLook: ToButtonFixedSizeLook new."
@@ -2900,11 +2964,11 @@ ToSandBox class >> example_toButtonWithIconOnly [
 	space show 
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 
 	| but space count |
-	but := ToButton new.
+	but := ToButtonDep new.
 	but label: (ToLabel text: 'Button').
 	but iconImage: (BlElement new
 			 size: 60 @ 20;
@@ -2921,11 +2985,11 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 	space show 
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_toButtonWithTextAndIconHorizontal2 [
 
 	| but count |
-	but := ToButton new.
+	but := ToButtonDep new.
 	but label: (ToLabel text: 'Button').
 	but iconImage: (BlElement new
 			 size: 60 @ 20;
@@ -2938,11 +3002,11 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal2 [
 	but openInInnerWindow 
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_toButtonWithTextAndIconHorizontal3 [
 
 	| but count pane |
-	but := ToButton new "cellSpacing: 2; padding: (BlInsets all: 4)".
+	but := ToButtonDep new "cellSpacing: 2; padding: (BlInsets all: 4)".
 	but label: (ToLabel text: 'Button').
 	but iconImage: (BlElement new
 			 size: 60 @ 20;
@@ -2960,11 +3024,11 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal3 [
 	but id: 'BUT'
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_toButtonWithTextAndIconVertical [
 
 	| but space |
-	but := ToButton new padding: (BlInsets all: 4); beVertical.
+	but := ToButtonDep new padding: (BlInsets all: 4); beVertical.
 	but label: (ToLabel text: 'Button').
 	but iconImage: (BlElement new
 			 size: 60 @ 20;
@@ -2977,11 +3041,11 @@ ToSandBox class >> example_toButtonWithTextAndIconVertical [
 	space show 
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_toButtonWithTextOnly [
 
 	| but space |
-	but := ToButton new.
+	but := ToButtonDep new.
 	but label: (ToLabel text: 'Button').
 	but padding: (BlInsets all: 4).
 	but whenClickedDo: [ self inform: 'clicked' ].
@@ -2991,11 +3055,11 @@ ToSandBox class >> example_toButtonWithTextOnly [
 	space show 
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_toButtonWithTooltip [
 
 	| but  |
-	but := ToButton new.
+	but := ToButtonDep new.
 	but tooltipContent: ('This is a button', String cr, 'so, click on me...') asRopedText. 
 	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
 	but size: 32@16.
@@ -3595,7 +3659,7 @@ ToSandBox class >> example_toPairJustified1 [
 
 	| but space iconImage |
 
-	but := ToButton new.
+	but := ToButtonDep new.
 	but inspect.
 	but withStamp: #button.
 	but replaceSecondWith: ((ToLabel text: 'Pair' asRopedText bold) withStamp: #'button-label').
@@ -3720,7 +3784,7 @@ ToSandBox class >> example_toRadioButtonWithIndeterminate [
 	but openInSpace
 ]
 
-{ #category : #button }
+{ #category : #'button-dep' }
 ToSandBox class >> example_toWidgetAsButton0 [
 
 	| but |
@@ -3824,10 +3888,10 @@ ToSandBox class >> example_verticalPaneWithDivider [
 			e1.
 			e2.
 			e3 }.
-	btn := ToButton new labelText: 'Change orientation'.
+	btn := ToButtonDep new labelText: 'Change orientation'.
 	btn whenClickedDo: [ pane orientation: pane orientation inverted ].
 	pane addChild: btn.
-	btn := ToButton new labelText: 'Change direction'.
+	btn := ToButtonDep new labelText: 'Change direction'.
 	btn whenClickedDo: [ pane direction: pane direction inverted ].
 	pane addChild: btn.
 	pane addDividers.

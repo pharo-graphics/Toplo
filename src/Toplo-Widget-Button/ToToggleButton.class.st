@@ -1,13 +1,13 @@
 Class {
 	#name : #ToToggleButton,
-	#superclass : #ToButton,
+	#superclass : #ToButtonDep,
 	#traits : 'TToCheckable',
 	#classTraits : 'TToCheckable classTrait',
 	#category : #'Toplo-Widget-Button-Toggle'
 }
 
 { #category : #'t - skinable - initialization' }
-ToToggleButton >> defaultStyleTags [
+ToToggleButton >> defaultStyleStamps [
 
 	^ #( #button. #'toggle-button' )
 ]

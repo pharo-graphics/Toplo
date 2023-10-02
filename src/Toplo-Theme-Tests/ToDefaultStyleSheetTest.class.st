@@ -25,7 +25,7 @@ ToDefaultStyleSheetTest >> testDefaultButtonSkin [
 	| ss button writers skin labelSkin ssi |
 	ss := ToDefaultStyleSheet new.
 	ssi := ToSkinBuilder new.
-	button := ToButton new.
+	button := ToButtonDep new.
 	writers := ssi writersFor: button.
 	self assert: writers notEmpty.
 	skin := ToSkin new.

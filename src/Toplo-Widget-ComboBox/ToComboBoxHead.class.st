@@ -62,7 +62,7 @@ ToComboBoxHead >> initialize [
 	
 	image := ToImage inner: (Smalltalk ui icons iconNamed: #bottom).
 	image constraintsDo: [ :c | c linear vertical alignCenter ].
-	button := ToButton new.
+	button := ToButtonDep new.
 	button icon: image.
 	button withStamp: #'small-sizing'.
 

@@ -5,7 +5,7 @@ Class {
 	#classTraits : 'TToOrientable classTrait',
 	#instVars : [
 		'#icon => ToSkinnableSlot',
-		'#filler',
+		'#filler => ToSkinnableSlot',
 		'#label => ToSkinnableSlot'
 	],
 	#category : #'Toplo-Core'
@@ -70,6 +70,7 @@ ToLabeledIcon >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
+	self withStamp: #'labeled-icon'.
 	self layout: BlLinearLayout horizontal.
 	self fitContent.
 	filler := ToElement new

@@ -24,8 +24,7 @@ ToSkinTest >> testPropertyWriterOrderMatter [
 	w := ToElement new.
 	w layout: BlBasicLayout new.
 	skin := ToSkin new.
-	layoutDirectionProp := self writablePropertyIndex propertyNamed:
-		                       #'layout-direction'.
+	layoutDirectionProp := self writablePropertyIndex propertyNamed: #'layout-direction'.
 	layoutProp := self writablePropertyIndex propertyNamed: #layout.
 	directionWriter := ToPropertyWriter new
 		                   eventClass: ToInstallLookEvent;
@@ -41,16 +40,19 @@ ToSkinTest >> testPropertyWriterOrderMatter [
 			directionWriter.
 			layoutWriter }.
 
-	w withSkin: skin.
+	
+	" Since withSkin: will switch to ToInstallState "
 	" the installation will fail because the widget layout (not a BlLinearLayout) does not understand #direction:"
+	
 	self
-		should: [ w switchToSkinState: ToInstallState new ]
+		should: [ w withSkin: skin ]
 		raise: MessageNotUnderstood.
 
 	" Now change writers order and it should be ok "
 	skin writers: {
 			layoutWriter.
 			directionWriter }.
+
 	w switchToSkinState: ToInstallState new.
 	self assert: (w layout isKindOf: BlLinearLayout).
 	self assert: w layout direction isRightToLeft

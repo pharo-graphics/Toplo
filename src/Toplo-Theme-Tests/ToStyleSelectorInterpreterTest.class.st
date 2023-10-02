@@ -558,15 +558,49 @@ ToStyleSelectorInterpreterTest >> testRuleWithOrWithParentSelector [
 	self assert: engine result
 ]
 
-{ #category : #'tests - with single selector' }
-ToStyleSelectorInterpreterTest >> testTypeSelector [
+{ #category : #'tests - type selector' }
+ToStyleSelectorInterpreterTest >> testTypeSelector [ 
 
 	| selector e engine |
 	selector := ToTypeSelector new type: ToElement.
 	e := ToElement new.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
-	self assert: engine result
+	self assert: engine result.
+]
+
+{ #category : #'tests - type selector' }
+ToStyleSelectorInterpreterTest >> testTypeSelectorAndChildSelector [
+
+	| selector e engine |
+	selector := (ToTypeSelector new type: ToLabeledIcon ) child: (ToTypeSelector new type: ToLabel).
+	e := ToLabeledIcon new.
+	e label: (ToLabel text: 'A').
+	engine := ToStyleSelectorInterpreter new.
+	engine check: selector on: e.
+	self assert: engine result.
+
+]
+
+{ #category : #'tests - type selector' }
+ToStyleSelectorInterpreterTest >> testTypeSelectorAndParentSelector [
+
+	| selector e engine |
+	e := ToLabeledIcon new.
+	e label: (ToLabel text: 'A').
+	selector := (ToTypeSelector new type: ToLabel ) parent: (ToTypeSelector new type: ToLabeledIcon ).
+	engine := ToStyleSelectorInterpreter new.
+	engine check: selector on: e.
+	self assert: engine result not.
+	engine check: selector on: e label.
+	self assert: engine result.
+	selector := (ToUniversalSelector new ) parent: (ToTypeSelector new type: ToLabeledIcon ).
+	engine check: selector on: e.
+	self assert: engine result not.
+	engine check: selector on: e label.
+	self assert: engine result.
+
+
 ]
 
 { #category : #'tests - with single selector' }

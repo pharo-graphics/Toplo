@@ -435,12 +435,12 @@ ToSandBox class >> example_LabeledIconlWithIconAndText [
 
 	| but  |
 	but := ToLabeledIcon new.
+	but openInSpace.
 	but label: (ToLabel text: 'Labeled icon').
 	but icon: (ToImage inner: (BlElement new
-			 size: 60 @ 20;
+			 size: 60 @ 60;
 			 background: (Color blue alpha: 0.2);
 			 yourself)).
-	but openInSpace.
 	^ but
 ]
 

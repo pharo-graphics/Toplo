@@ -7,7 +7,7 @@ Class {
 		'installStep',
 		'writers'
 	],
-	#category : 'Toplo-Theme-Skin'
+	#category : #'Toplo-Theme-Skin'
 }
 
 { #category : #'event handling' }
@@ -155,6 +155,7 @@ ToSkin >> rawWriters: aPropertyWriterCollection [
 { #category : #'event handling' }
 ToSkin >> skinChangedEvent: anEvent [
 
+	anEvent target switchToSkinState: ToInstallState new.
 	anEvent target childrenDo: [ :child | child updateSkin ]
 ]
 

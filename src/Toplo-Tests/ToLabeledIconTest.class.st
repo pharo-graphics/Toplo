@@ -12,6 +12,7 @@ ToLabeledIconTest >> testEmpty [
 
 	| li |
 	li := ToLabeledIcon new.
+	self assert: (li hasStamp: #'labeled-icon').
 	li forceLayout.
 	self assert: li size equals: 0	asPoint
 ]

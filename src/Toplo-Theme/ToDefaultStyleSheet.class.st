@@ -1,7 +1,7 @@
 Class {
 	#name : #ToDefaultStyleSheet,
 	#superclass : #ToStyleSheet,
-	#category : #'Toplo-Theme-DefaultTheme'
+	#category : #'Toplo-Theme-StyleSheet-Default'
 }
 
 { #category : #'accessing rules  -button' }
@@ -628,6 +628,7 @@ ToDefaultStyleSheet >> defaultStyleRules [
 
 	^ Array streamContents: [ :str |
 		str nextPutAll: self rootPaneRules.
+		str nextPutAll: self labeledIconRules.
 		str nextPutAll: self buttonRules.
 		str nextPutAll: self labelRules ]
 ]
@@ -737,6 +738,17 @@ ToDefaultStyleSheet >> labelRules [
 					   e textAttributesBuilder
 						   foreground: (e stampValue: #'color-warning');
 						   yourself ] ]) }
+]
+
+{ #category : #'accessing rules - labeled icon' }
+ToDefaultStyleSheet >> labeledIconRules [
+
+	^ { (self any parent: (self type: ToLabeledIcon)) style: [ :sr | 
+		" any child of a ToLabeledIcon is centered vertically and horizontally "
+		   sr write: (self property: #'layout-constraints') with: [ :e |
+			   [ :c | 
+			   c linear vertical alignCenter.
+			   c linear horizontal alignCenter ] ] ] }
 ]
 
 { #category : #'accessing rules  -button' }

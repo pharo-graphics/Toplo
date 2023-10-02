@@ -13,7 +13,7 @@ When to use ?
 Class {
 	#name : #ToDefaultThemeDark,
 	#superclass : #ToDefaultTheme,
-	#category : #'Toplo-Theme-DefaultTheme'
+	#category : #'Toplo-Theme-StyleSheet-Default'
 }
 
 { #category : #initialization }

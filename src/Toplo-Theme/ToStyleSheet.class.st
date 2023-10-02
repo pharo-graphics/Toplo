@@ -164,6 +164,8 @@ ToStyleSheet >> newWritablePropertyIndex [
 { #category : #initialization }
 ToStyleSheet >> onInstalledIn: anElement [
 
+	anElement updateSkin
+
 ]
 
 { #category : #initialization }
@@ -198,7 +200,13 @@ ToStyleSheet >> stampIndex [
 { #category : #accessing }
 ToStyleSheet >> stampNamed: aName [
 
-	^ self stampIndex propertyNamed: aName
+	^ self stampIndex ifNotNil: [ :si | si propertyNamed: aName ]
+]
+
+{ #category : #'syntactic sugar' }
+ToStyleSheet >> type: aClass [
+
+	^ ToTypeSelector new type: aClass
 ]
 
 { #category : #accessing }

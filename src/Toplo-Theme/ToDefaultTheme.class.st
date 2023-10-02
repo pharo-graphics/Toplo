@@ -57,7 +57,7 @@ Class {
 		'colorPrimaryHover',
 		'colorPrimaryPressed'
 	],
-	#category : #'Toplo-Theme-DefaultTheme'
+	#category : #'Toplo-Theme-StyleSheet-Default'
 }
 
 { #category : #constructor }

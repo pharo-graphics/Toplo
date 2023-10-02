@@ -4,8 +4,19 @@ A ToDefaultStyleSheetTest is a test class for testing the behavior of ToDefaultS
 Class {
 	#name : #ToDefaultStyleSheetTest,
 	#superclass : #TestCase,
+	#instVars : [
+		'styleSheet'
+	],
 	#category : #'Toplo-Theme-Tests-DefaultTheme'
 }
+
+{ #category : #running }
+ToDefaultStyleSheetTest >> setUp [ 
+
+	super setUp.
+	ToDefaultTheme cleanUp.
+	styleSheet := ToDefaultTheme new styleSheet
+]
 
 { #category : #skin }
 ToDefaultStyleSheetTest >> testDefaultButtonSkin [
@@ -24,7 +35,7 @@ ToDefaultStyleSheetTest >> testDefaultButtonSkin [
 	button checkSkinInstallation.
 	self assert: button border width equals: 1.
 	self assert: button border paint isColorPaint.
-	self assert: button border paint color equals: (button e stampValue: #'color-border').
+	self assert: button border paint color equals: (button stampValue: #'color-border').
 	
 	button labelText: 'Default'.
 	button label privateSkin: nil.
@@ -38,18 +49,37 @@ ToDefaultStyleSheetTest >> testDefaultButtonSkin [
 	
 ]
 
+{ #category : #'labeled-icon' }
+ToDefaultStyleSheetTest >> testLabeledIconWithLabelAndIcon [
+
+	| li |
+	li := ToLabeledIcon new.
+	li styleSheet: styleSheet.
+	li label: (ToLabel text: 'A').
+	li icon: (ToImage inner: (BlElement new
+			 size: 60 @ 20;
+			 background: (Color blue alpha: 0.2);
+			 yourself)).
+	self assert: (li icon constraints linear vertical alignment isKindOf: BlVerticalCenterAlignment) .	
+	self assert: (li icon constraints linear horizontal alignment isKindOf: BlHorizontalCenterAlignment).
+	self assert: (li filler constraints linear vertical alignment isKindOf: BlVerticalCenterAlignment) .	
+	self assert: (li filler constraints linear horizontal alignment isKindOf: BlHorizontalCenterAlignment).
+	self assert: (li label constraints linear vertical alignment isKindOf: BlVerticalCenterAlignment) .	
+	self assert: (li label constraints linear horizontal alignment isKindOf: BlHorizontalCenterAlignment).
+
+]
+
 { #category : #'look updaters' }
 ToDefaultStyleSheetTest >> testWriteablePropertyList [
 
-	| ss index count elem |
+	| index count elem |
 	elem := ToElement new.
-	ss := ToStyleSheet new.
-	elem styleSheet: ss.
+	elem styleSheet: styleSheet.
 	index := IdentityDictionary new.
-	ss writablePropertyList do: [ :p |
+	styleSheet writablePropertyList do: [ :p |
 		index at: p name ifAbsentPut: [ 0 ].
 		count := (index at: p name) + 1.
 		index at: p name put: count ].
 	index keysAndValuesDo: [ :k :v | self assert: v identicalTo: 1 ].
-	ss writablePropertyList do: [ :p | self assert: (ss writablePropertyNamed: p name) notNil ]
+	styleSheet writablePropertyList do: [ :p | self assert: (styleSheet writablePropertyNamed: p name) notNil ]
 ]

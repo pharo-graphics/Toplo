@@ -14,6 +14,12 @@ ToPopupWindowEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToPopupWindowEventHandler >> elementPositionInSpaceChangedEvent:  anEvent [
+
+		state := #closed
+]
+
+{ #category : #'event handling' }
 ToPopupWindowEventHandler >> elementRemovedFromSceneGraphEvent: anEvent [
 
 		state := #closed
@@ -21,7 +27,11 @@ ToPopupWindowEventHandler >> elementRemovedFromSceneGraphEvent: anEvent [
 
 { #category : #'api - accessing' }
 ToPopupWindowEventHandler >> eventsToHandle [
-	^ { BlMouseUpOutsideEvent. BlElementAddedToSceneGraphEvent. BlElementRemovedFromSceneGraphEvent}
+
+	^ {
+		  BlMouseUpOutsideEvent.
+		  BlElementAddedToSceneGraphEvent.
+		  BlElementRemovedFromSceneGraphEvent }
 ]
 
 { #category : #initialization }

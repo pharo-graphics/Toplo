@@ -5,6 +5,6 @@ BlElement >> openInInnerWindow [
 
 	| frame |
 	frame := ToInnerWindow new.
-	frame root addChild: self.
+	frame pane addChild: self.
 	frame openInSpace
 ]

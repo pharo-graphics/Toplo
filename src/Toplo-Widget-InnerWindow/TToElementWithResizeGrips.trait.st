@@ -1,22 +1,22 @@
 Trait {
-	#name : #TToWidgetWithResizeGrips,
+	#name : #TToElementWithResizeGrips,
 	#category : #'Toplo-Widget-InnerWindow'
 }
 
-{ #category : #'t - accessing grips' }
-TToWidgetWithResizeGrips >> grips [
+{ #category : #'t - element with resize grips - accessing' }
+TToElementWithResizeGrips >> grips [
 
 	^ self userData at: #grips ifAbsent: [  ]
 ]
 
-{ #category : #'t - accessing grips' }
-TToWidgetWithResizeGrips >> grips: resizeGripList [
+{ #category : #'t - element with resize grips - accessing' }
+TToElementWithResizeGrips >> grips: resizeGripList [
 
 	self userData at: #grips put: resizeGripList
 ]
 
-{ #category : #'t - initializing grips' }
-TToWidgetWithResizeGrips >> initializeGrips [
+{ #category : #'t - element with resize grips -  initializing' }
+TToElementWithResizeGrips >> initializeGrips [
 
 	self grips: ({ 
 		 ToBottomRightResizeGrip.
@@ -36,8 +36,8 @@ TToWidgetWithResizeGrips >> initializeGrips [
 		do: [ :evt | self layoutGrips ]
 ]
 
-{ #category : #'t - layout grips' }
-TToWidgetWithResizeGrips >> layoutGrips [
+{ #category : #'t - element with resize grips - layouting' }
+TToElementWithResizeGrips >> layoutGrips [
 
 	self grips do: [ :each | each layoutIn: self ]
 ]

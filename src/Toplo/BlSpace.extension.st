@@ -30,25 +30,6 @@ BlSpace >> checkSpaceFrameSkinInstallationPhase [
 	self frame addPhase: ToSpaceFrameSkinInstallationPhase new before: layoutPhase
 ]
 
-{ #category : #'*Toplo' }
-BlSpace >> defaultInnerWindowElevation [
-
-	^ BlRelativeElevation elevation: (SmallInteger maxVal - 100)
-]
-
-{ #category : #'*Toplo' }
-BlSpace >> defaultPopupElevation [
-
-	^ BlRelativeElevation elevation: SmallInteger maxVal
-]
-
-{ #category : #'*Toplo' }
-BlSpace >> openAsPopup: anElement [
-
-	anElement elevation: self defaultPopupElevation.
-	self root addChild: anElement
-]
-
 { #category : #'*Toplo-LookAndFeel' }
 BlSpace >> toTheme [
 

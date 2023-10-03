@@ -1,84 +1,78 @@
 Class {
-	#name : #ToWindowElement,
+	#name : #ToAbstractWindowElement,
 	#superclass : #ToElement,
 	#instVars : [
-		'root'
+		'rootElement'
 	],
 	#category : #'Toplo-Core-Window'
 }
 
 { #category : #'api - displaying' }
-ToWindowElement >> close [
+ToAbstractWindowElement >> close [
 
-	"Delegate closing to the Universe"
-
-	self parentDo: [ :p | 
-		[ self removeFromParent ]
-			on: Error
-			do: [ :err | 
-				(self class name , '>>close') traceCr.
-				err traceCr ] ]
+	self parentDo: [ :p | self removeFromParent ]
 ]
 
 { #category : #initialization }
-ToWindowElement >> defaultBorder [
+ToAbstractWindowElement >> defaultBorder [
 
 	^ BlBorder empty
 ]
 
+{ #category : #accessing }
+ToAbstractWindowElement >> defaultElevation [
+
+	^ BlRelativeElevation elevation: (SmallInteger maxVal - 1000)
+]
+
 { #category : #initialization }
-ToWindowElement >> defaultGeometry [ 
+ToAbstractWindowElement >> defaultGeometry [ 
 	
 	^ (BlRoundedRectangleGeometry cornerRadius: 4)
 ]
 
 { #category : #initialization }
-ToWindowElement >> defaultLayout [
+ToAbstractWindowElement >> defaultLayout [
 
 	^ BlFrameLayout new
 ]
 
 { #category : #initialization }
-ToWindowElement >> defaultRoot [
-
-	^ ToElement new
-		  background: self defaultRootBackground;
-		  labeled: self defaultRootLabel;
-		  layout: self defaultRootLayout;
-		  fitContent
-]
-
-{ #category : #initialization }
-ToWindowElement >> defaultRootBackground [
+ToAbstractWindowElement >> defaultRootBackground [
 
 	^ Color transparent
 ]
 
 { #category : #initialization }
-ToWindowElement >> defaultRootLabel [
-	^ 'ToWindowElement root'
+ToAbstractWindowElement >> defaultRootElement [
+
+	^ ToElement new
+		  background: self defaultRootBackground;
+		  id: self defaultRootId;
+		  layout: self defaultRootLayout;
+		  fitContent
 ]
 
 { #category : #initialization }
-ToWindowElement >> defaultRootLayout [
+ToAbstractWindowElement >> defaultRootId [
+
+	^ 'windowElement-root'
+]
+
+{ #category : #initialization }
+ToAbstractWindowElement >> defaultRootLayout [
 
 	^ BlLinearLayout vertical 
 
 ]
 
 { #category : #initialization }
-ToWindowElement >> elements [
-
-	^ { self root }
-]
-
-{ #category : #initialization }
-ToWindowElement >> initialize [
+ToAbstractWindowElement >> initialize [
 
 	super initialize.
 	
 	self
-		elevation: (BlRelativeElevation elevation: SmallInteger maxVal);
+		elevation: self defaultElevation;
 		border: self defaultBorder;
 		background: self defaultBackground;
 		layout: self defaultLayout;
@@ -86,43 +80,50 @@ ToWindowElement >> initialize [
 		geometry: self defaultGeometry;
 		fitContent.
 	self constraintsDo: [ :c | c ignoreByLayout ].	
-	self addChildren: self elements.
+	self initializeRootElement 
+]
+
+{ #category : #initialization }
+ToAbstractWindowElement >> initializeRootElement [
+
+	rootElement := self defaultRootElement.
+	self addChild: rootElement
 ]
 
 { #category : #'api - displaying' }
-ToWindowElement >> isClosed [
+ToAbstractWindowElement >> isClosed [
 
 	^ self isOpened not
 ]
 
 { #category : #'api - displaying' }
-ToWindowElement >> isOpened [
+ToAbstractWindowElement >> isOpened [
 
 	^ self hasParent
 ]
 
 { #category : #accessing }
-ToWindowElement >> root [
+ToAbstractWindowElement >> root [
 	"Return my current root element.
 	root can not be nil"
 	
-	^ root ifNil: [ root := self defaultRoot ]
+	^ rootElement
 ]
 
 { #category : #accessing }
-ToWindowElement >> root: anElement [
+ToAbstractWindowElement >> root: anElement [
 
 	"Make a given element my root element.
 	anElement must not be nil.
 	anElement must not be added to any scene graph"
 
-	root ifNotNil: [ 
-		root removeFromParent ].
-	root := anElement
+	rootElement ifNotNil: [ 
+		rootElement removeFromParent ].
+	rootElement := anElement
 ]
 
 { #category : #accessing }
-ToWindowElement >> rootDo: aBlock [
+ToAbstractWindowElement >> rootDo: aBlock [
 	"A helper method to evaluate a given block with the root element as its argument.
 	May be useful for scripting"
 
@@ -130,7 +131,7 @@ ToWindowElement >> rootDo: aBlock [
 ]
 
 { #category : #'api - displaying' }
-ToWindowElement >> toFront [
+ToAbstractWindowElement >> toFront [
 
-	self elevation: self space defaultInnerWindowElevation
+	self elevation: self defaultElevation
 ]

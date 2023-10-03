@@ -6,3 +6,13 @@ Class {
 	#superclass : #TestCase,
 	#category : #'Toplo-Tests-Core-Tooltip'
 }
+
+{ #category : #tests }
+ToTooltipWindowTest >> testEmptyWindow [
+
+	| w |
+	w := ToTooltipWindow new.
+	self assert: w widget isNil.
+	self assert: w content isNil 
+	
+]

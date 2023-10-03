@@ -1,13 +1,14 @@
 Class {
 	#name : #ToInnerWindow,
-	#superclass : #ToWindowElement,
-	#traits : 'TToWidgetWithResizeGrips + TToWidgetWithContextMenu',
-	#classTraits : 'TToWidgetWithResizeGrips classTrait + TToWidgetWithContextMenu classTrait',
+	#superclass : #ToAbstractWindowElement,
+	#traits : 'TToElementWithResizeGrips',
+	#classTraits : 'TToElementWithResizeGrips classTrait',
 	#instVars : [
-		'bar',
 		'title',
 		'titleLabel',
-		'barPullHandler'
+		'barPullHandler',
+		'paneElement',
+		'barElement'
 	],
 	#category : #'Toplo-Widget-InnerWindow'
 }
@@ -15,21 +16,30 @@ Class {
 { #category : #accessing }
 ToInnerWindow >> bar [
 
-	^ bar ifNil: [ self bar: self defaultBar. bar ]
+	^ barElement 
 ]
 
 { #category : #accessing }
 ToInnerWindow >> bar: anElement [
 
-	bar ifNotNil: [ 
-		bar removeEventHandler: barPullHandler.
-		bar removeFromParent ].
-	bar := anElement.
-	bar addEventHandler: barPullHandler
+	barElement ifNotNil: [
+		barElement removeEventHandler: barPullHandler.
+		barElement removeFromParent ].
+	barPullHandler ifNil: [ barPullHandler := self newBarPullHandler ].
+	barElement := anElement.
+	barElement ifNotNil: [ :be |
+		be addEventHandler: barPullHandler.
+		self root addChild: be at: 1 ]
 ]
 
 { #category : #initialization }
-ToInnerWindow >> defaultBar [
+ToInnerWindow >> defaultBarBackground [
+	
+	^ Color veryLightGray alpha: 0.4
+]
+
+{ #category : #initialization }
+ToInnerWindow >> defaultBarElement [
 
 	| b close expand fill1 fill2 fill3 fill4 |
 	b := ToPane horizontal
@@ -86,12 +96,6 @@ ToInnerWindow >> defaultBar [
 ]
 
 { #category : #initialization }
-ToInnerWindow >> defaultBarBackground [
-	
-	^ Color veryLightGray alpha: 0.4
-]
-
-{ #category : #initialization }
 ToInnerWindow >> defaultBorder [
 
 	^ BlBorder paint: self defaultBorderPaint width: self defaultBorderWidth
@@ -110,29 +114,38 @@ ToInnerWindow >> defaultBorderWidth [
 ]
 
 { #category : #initialization }
-ToInnerWindow >> defaultRoot [
-
-	^ super defaultRoot
-		  outskirts: BlOutskirts outside;
-		  matchParent
-]
-
-{ #category : #initialization }
-ToInnerWindow >> defaultRootBackground [
+ToInnerWindow >> defaultPaneBackground [
 
 	^ Color white
 ]
 
 { #category : #initialization }
-ToInnerWindow >> defaultRootLayout [
+ToInnerWindow >> defaultPaneElement [
+
+	^ ToInnerWindowPane new
+		  matchParent;
+		  background: self defaultPaneBackground;
+		  layout: self defaultPaneLayout;
+		  yourself
+]
+
+{ #category : #initialization }
+ToInnerWindow >> defaultPaneLayout [
 
 	^ BlBasicLayout uniqueInstance 
 ]
 
 { #category : #initialization }
+ToInnerWindow >> defaultRootElement [
+
+	^ super defaultRootElement
+		  matchParent
+]
+
+{ #category : #initialization }
 ToInnerWindow >> defaultSize [
 
-	^ 300@200
+	^ 400@300
 ]
 
 { #category : #initialization }
@@ -142,21 +155,22 @@ ToInnerWindow >> defaultTitle [
 ]
 
 { #category : #initialization }
-ToInnerWindow >> elements [
-
-	^ { self bar. self root }
-]
-
-{ #category : #initialization }
 ToInnerWindow >> initialize [ 
 
-	barPullHandler := BlPullHandler new target: self; yourself.
 	super initialize.
 	self layout: BlLinearLayout vertical.
 	self size: self defaultSize.
 	self background: Color lightGray.
 	self initializeGrips
 
+]
+
+{ #category : #initialization }
+ToInnerWindow >> initializeRootElement [
+
+	super initializeRootElement.
+	self bar: self defaultBarElement.
+	self pane: self defaultPaneElement	
 ]
 
 { #category : #'api - displaying' }
@@ -167,11 +181,29 @@ ToInnerWindow >> maximize [
 		size: self parent size
 ]
 
-{ #category : #'api - displaying' }
-ToInnerWindow >> show [
-	"Open me in a window and show it to the user"
+{ #category : #initialization }
+ToInnerWindow >> newBarPullHandler [
 
-	self openInSpace
+	^ BlPullHandler new
+		  target: self;
+		  yourself
+]
+
+{ #category : #accessing }
+ToInnerWindow >> pane [
+
+	^ paneElement
+]
+
+{ #category : #accessing }
+ToInnerWindow >> pane: anElement [
+
+	paneElement ifNotNil: [ :pe | pe removeFromParent ].
+	paneElement := anElement.
+	paneElement ifNotNil: [ :pe |
+		self bar
+			ifNil: [ self root addChild: pe ]
+			ifNotNil: [ :b | self root addChild: pe after: b ] ]
 ]
 
 { #category : #accessing }

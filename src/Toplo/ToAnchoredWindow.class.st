@@ -1,14 +1,8 @@
 Class {
 	#name : #ToAnchoredWindow,
-	#superclass : #ToWidgetWindowElement,
+	#superclass : #ToBasicPopupWindowElement,
 	#category : #'Toplo-Core-Window'
 }
-
-{ #category : #start }
-ToAnchoredWindow >> attachTo: anElement [
-
-	self widget: anElement
-]
 
 { #category : #initialization }
 ToAnchoredWindow >> defaulPositionHook [
@@ -23,16 +17,9 @@ ToAnchoredWindow >> defaultLayout [
 ]
 
 { #category : #initialization }
-ToAnchoredWindow >> defaultWidgetEventHandler [
+ToAnchoredWindow >> defaultWidgetEventHandlerClass [
 
-	^ ToWidgetInAnchoredWindowEventHandler new
-]
-
-{ #category : #start }
-ToAnchoredWindow >> detach [
-
-	self close.
-	self widget: nil
+	^ ToWidgetInAnchoredWindowEventHandler
 ]
 
 { #category : #initialization }
@@ -40,10 +27,4 @@ ToAnchoredWindow >> initialize [
 
 	super initialize.
 	self fitContent
-]
-
-{ #category : #start }
-ToAnchoredWindow >> isAttached [
-
-	^ self widget notNil
 ]

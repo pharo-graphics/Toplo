@@ -7,7 +7,7 @@ Class {
 { #category : #'event handling' }
 ToWidgetInAnchoredWindowEventHandler >> elementPositionInSpaceChangedEvent: anEvent [
 
-	self window position: (self window positioningHook value: self window value: anEvent)
+	self window position: (self window positionHook value: self window value: anEvent)
 ]
 
 { #category : #'api - accessing' }

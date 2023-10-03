@@ -7,6 +7,12 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
+{ #category : #accessing }
+ToMenuWindow >> autoCloseOnMouseUpDelay [
+
+	^ 300 milliSeconds 
+]
+
 { #category : #'api - displaying' }
 ToMenuWindow >> close [ 
 
@@ -35,10 +41,16 @@ ToMenuWindow >> defaultBorder [
 	^ BlBorder paint: Color lightGray width: 1
 ]
 
+{ #category : #accessing }
+ToMenuWindow >> defaultElevation [
+
+	^ BlRelativeElevation elevation: (SmallInteger maxVal - 400)
+]
+
 { #category : #initialization }
-ToMenuWindow >> defaultEventHandler [ 
+ToMenuWindow >> defaultEventHandlerClass [
 	
-	^ ToMenuWindowEventHandler new
+	^ ToMenuWindowEventHandler
 ]
 
 { #category : #accessing }

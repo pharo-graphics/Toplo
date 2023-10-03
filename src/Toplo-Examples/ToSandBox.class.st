@@ -985,12 +985,14 @@ ToSandBox class >> example_Popup1 [
 		             yourself.
 
 	e := ToElement new
-		     background: Color lightGray;
+		     background: Color red;
 		     size: 100 @ 40;
 		     position: 50 @ 50.
+		
 	popup := ToPopupWindow new widget: e.
 	but := ToWidget new size: 50 @ 90.
-	but addEventHandler: (ToSkinableEventHandler new target: but).
+	but background: Color yellow.
+	but addEventHandler: ToSkinableEventHandler new.
 	but when: BlPrimaryClickEvent do: [
 		self inform: 'Click'.
 		popup close ].
@@ -1011,7 +1013,7 @@ ToSandBox class >> example_Popup1 [
 				 'CLICK' traceCr.
 				 popup close ]).
 
-	container root addChild: e.
+	container pane addChild: e.
 	container openInSpace
 ]
 
@@ -1873,7 +1875,7 @@ ToSandBox class >> example_elementInPopupRoot [
 	| e space |
 	space := BlSpace new.
 	e := BlElement new background: Color blue; size: 50@50; yourself.
-	space openAsPopup: e.
+	space root addChild:e.
 	e addEventHandler: (BlEventHandler
 				on: BlClickEvent
 				do: [ :evt | self inform: 'Clicked'  ]).
@@ -2331,7 +2333,7 @@ ToSandBox class >> example_menuBar1 [
 			 tooltipString: 'help stuffs').
 	bar when: BlMouseDownEvent do: [ :event | event target traceCr ].
 	bar border: (BlBorder paint: Color red).
-	win root addChild: bar.
+	win pane addChild: bar.
 	win openInSpace
 ]
 
@@ -2380,7 +2382,7 @@ ToSandBox class >> example_menuBar2 [
 
 		bar addMenu: menu	].
 	
-	frame root addChild: bar. 
+	frame pane addChild: bar. 
 	frame openInSpace
 ]
 
@@ -2436,7 +2438,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 
 		menu addItem: sub ].
 
-	win contextMenuFactory: [ menu ].
+	win pane contextMenuFactory: [ menu ].
 
 	bar := ToMenuBar new
 		       hMatchParent;
@@ -2460,7 +2462,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 
 	bar position: 0 @ 0.
 	bar border: (BlBorder paint: Color black).
-	win root addChild: bar.
+	win pane addChild: bar.
 	win openInSpace
 ]
 
@@ -2491,7 +2493,7 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 
 	menu addItem: sub.
 
-	win contextMenuFactory: [ menu ].
+	win pane contextMenuFactory: [ menu ].
 
 	bar := ToMenuBar new
 		       hMatchParent;
@@ -2512,7 +2514,7 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 	bar beVertical.
 	bar hFitContent.
 	bar border: (BlBorder paint: Color black).
-	win root addChild: bar.
+	win pane addChild: bar.
 	win openInSpace
 ]
 
@@ -3014,11 +3016,14 @@ ToSandBox class >> example_toButtonWithTooltipText [
 ToSandBox class >> example_toCheckbox1 [
 
 	| chb |
+	ToAbstractTheme cleanUp.
 	chb := ToCheckbox new
 				interspace: 10;
 		       label: (ToLabel text: '1');
 		       id: 1 asString.
 	"chb beRightToLeft."
+	chb updateSkin.
+	"chb checked: true."
 	"chb inspect."
 	chb openInInnerWindow
 ]
@@ -3089,9 +3094,7 @@ ToSandBox class >> example_toCheckboxWithGroup2 [
 	group when: ToCheckableGroupChangedEvent do: [ :event |
 		('checked: ' , event checkedButtons asString , ' unchecked: '
 		 , event uncheckedButtons asString) traceCr ].
-	ToInnerWindow new
-		in: [ :f | f root addChild: container ];
-		openInSpace
+	container openInInnerWindow 
 ]
 
 { #category : #checkbox }

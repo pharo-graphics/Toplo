@@ -25,17 +25,15 @@ ToDefaultStyleSheet >> checkableButtonRules [
 	" checkbox family "
 
 	^ {
-		  (#( #button #checkable ) asStyleSelector style: [ :sr |
-			   sr write: (self property: #'border-with-builder') with: [ :e |
+		  (#( #button #checkable #checkbox) asStyleSelector style: [ :sr |
+			   sr write: (self property: #'border-with-builder') with: [ :e | 
 				   e borderBuilder
+						width: 1;
 					   paint: (e stampValue: #'color-border-checkable');
 					   yourself ].
-
-			   sr select: (sr child: #'button-icon' depth: 2) not style: [
 				   sr
 					   write: (self property: #iconImage)
-					   with: [ :e | (e stampValue: #'checkbox-image-builder') value ].
-				] ]).
+					   with: [ :e | (e stampValue: #'checkbox-image-builder') value ] ]).
 
 		  " checkbox icon geometry "
 		  ((#image asStyleSelector
@@ -55,6 +53,12 @@ ToDefaultStyleSheet >> checkableButtonRules [
 
 		  ((#image asStyleSelector parent: #( #button #checkable ) depth: 2)
 			   style: [ :sr | " icon border "
+				   sr
+					   write: (self property: #'border-with-builder')
+					   with: [ :e |
+						   e borderBuilder
+							   paint: (e stampValue: #'color-border');
+							   yourself ].
 				   sr
 					   when: ToInitialLookEvent
 					   write: (self property: #'border-with-builder')
@@ -169,7 +173,6 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 
 			   sr write: (self property: #'border-with-builder') with: [ :e |
 				   | width btn |
-				   " have to get the button to get the install border width (according to the checked/unchecked state) "
 				   btn := e parent parent parent.
 				   width := btn checked ifNil: [ 0 ] ifNotNil: [ :c |
 					            c
@@ -240,14 +243,6 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 			   sr
 				   write: (self property: #margin)
 				   with: [ :e | BlInsets left: 2 right: 2 ].
-
-			   sr write: (self property: #background) with: [ :e |
-				   | btn bg |
-				   btn := e parent parent parent parent.
-				   bg := btn checked
-					         ifNil: [ e stampValue: #'color-primary' ]
-					         ifNotNil: [ Color transparent ].
-				   bg ].
 
 			   sr
 				   when: ToDisabledLookEvent

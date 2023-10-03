@@ -73,7 +73,7 @@ ToContextMenu >> menuWindow [
 	^ self 
 ]
 
-{ #category : #'t - menu window model - window opening/closing' }
+{ #category : #'api - displaying' }
 ToContextMenu >> popupEvent: anEvent [
 
 	self widget ifNotNil: [ :w | w openedContextMenu: self ].

@@ -10,10 +10,16 @@ ToWidgetInPopupWindowEventHandler >> elementPositionChangedEvent: anEvent [
 	self window close
 ]
 
+{ #category : #'event handling' }
+ToWidgetInPopupWindowEventHandler >> elementPositionInSpaceChangedEvent: anEvent [
+
+	self window close
+]
+
 { #category : #'api - accessing' }
 ToWidgetInPopupWindowEventHandler >> eventsToHandle [ 
 
-	^ super eventsToHandle , { BlElementPositionChangedEvent . }
+	^ super eventsToHandle , { BlElementPositionChangedEvent . BlElementPositionInSpaceChangedEvent }
 ]
 
 { #category : #'event handling' }

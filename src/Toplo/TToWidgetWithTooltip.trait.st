@@ -55,7 +55,7 @@ TToWidgetWithTooltip >> privateTooltipWindowDo: aBlock [
 TToWidgetWithTooltip >> removeTooltip [
 
 	self privateTooltipWindowDo: [ :tooltip |
-		tooltip detachFromWidget.
+		tooltip removeWidget.
 		self privateTooltipWindow: nil ]
 ]
 

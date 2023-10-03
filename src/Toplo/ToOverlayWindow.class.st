@@ -1,25 +1,19 @@
 Class {
 	#name : #ToOverlayWindow,
-	#superclass : #ToWidgetWindowElement,
+	#superclass : #ToAnchoredWindow,
 	#category : #'Toplo-Core-Window'
 }
 
 { #category : #'api - displaying' }
-ToOverlayWindow >> checkBeforePopupIn: aWidget [
+ToOverlayWindow >> checkBeforePopup [
 
 	" aWindow bounds are up-to-date, I can be visible "
 	self size: self widget size.
-	super checkBeforePopupIn: aWidget
+	super checkBeforePopup
 ]
 
 { #category : #initialization }
-ToOverlayWindow >> defaulPositionHook [
+ToOverlayWindow >> defaultWidgetEventHandlerClass [
 
-	^ [ :w :event | w widget bounds inSpace bounds topLeft ]
-]
-
-{ #category : #initialization }
-ToOverlayWindow >> defaultWidgetEventHandler [ 
-
-	^ ToWidgetInOverlayWindowEventHandler new
+	^ ToWidgetInOverlayWindowEventHandler
 ]

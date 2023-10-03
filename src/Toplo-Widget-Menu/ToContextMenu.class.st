@@ -26,7 +26,7 @@ ToContextMenu >> close [
 ]
 
 { #category : #initialization }
-ToContextMenu >> defaulPositioningHook [
+ToContextMenu >> defaulPositionHook [
 
 	^ [ :w :event | event position ]
 ]

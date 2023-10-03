@@ -2,8 +2,7 @@ Class {
 	#name : #ToTooltipWindow,
 	#superclass : #ToPopupWindow,
 	#instVars : [
-		'#content => ObservableSlot',
-		'#label'
+		'content'
 	],
 	#category : #'Toplo-Core-Tooltip'
 }
@@ -15,87 +14,73 @@ ToTooltipWindow >> content [
 ]
 
 { #category : #accessing }
-ToTooltipWindow >> content: aText [
+ToTooltipWindow >> content: anElement [
 
-	content := aText
-]
-
-{ #category : #accessing }
-ToTooltipWindow >> contentString: aString [
-
-	self content: aString asRopedText
+	content ifNotNil: [ content removeFromParent ].
+	content := anElement.
+	anElement ifNotNil: [
+		self root addChild: self content.
+		self content constraintsDo: [ :c |
+			c linear vertical alignCenter.
+			c linear horizontal alignCenter.
+			c frame vertical alignCenter.
+			c frame horizontal alignCenter ] ]
 ]
 
 { #category : #initialization }
-ToTooltipWindow >> defaulPositioningHook [
+ToTooltipWindow >> defaulPositionHook [
 
 	^ [ :w :event | event position x @ (w widget localPointToGlobal: 0 @ w widget height) y + self vgap ]
 ]
 
 { #category : #initialization }
-ToTooltipWindow >> defaultLabel [
+ToTooltipWindow >> defaultEventHandler [
 
-	^ ToLabel new
-		  beMultiLine;
-		  text: self content;
-		  preventMouseEvents;
-		  yourself
+	^ self defaultEventHandlerClass new
+
+]
+
+{ #category : #initialization }
+ToTooltipWindow >> defaultEventHandlerClass [
+
+	^ ToTooltipWindowEventHandler
+
 ]
 
 { #category : #initialization }
 ToTooltipWindow >> defaultWidgetEventHandler [ 
 
-	^ ToWidgetWithTooltipEventHandler new
+	^ self defaultWidgetEventHandlerClass new
+]
+
+{ #category : #initialization }
+ToTooltipWindow >> defaultWidgetEventHandlerClass [
+
+	^ ToWidgetWithTooltipEventHandler
+]
+
+{ #category : #initialization }
+ToTooltipWindow >> detachFromWidget [
+
+	super detachFromWidget.
+	self content: nil
 ]
 
 { #category : #initialization }
 ToTooltipWindow >> initialize [
 
 	super initialize.
-		
 	self elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
-	self whenContentChangedDo: [ self label text: self content ].
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: 8).
 	self border: (BlBorder paint: (Color gray alpha: 0.4)).
 	self background: (Color yellow alpha: 0.2).
 	self padding: (BlInsets all: 4).
-	self label margin: (BlInsets all: 4).
 	self fitContent.
-	self label constraintsDo: [ :c | 
-		c linear vertical alignCenter.
-		c linear horizontal alignCenter ].
-	self addEventHandler: ToTooltipWindowEventHandler new
-
-]
-
-{ #category : #accessing }
-ToTooltipWindow >> label [
-
-	^ label ifNil: [ 	self label: self defaultLabel. label ]
-]
-
-{ #category : #accessing }
-ToTooltipWindow >> label: aLabel [
-
-	label ifNotNil: [ label removeFromParent ].
-	label := aLabel.
-	self root addChild: label.
-
+	self addEventHandler: self defaultEventHandler
 ]
 
 { #category : #initialization }
 ToTooltipWindow >> vgap [
 
 	^ 5
-]
-
-{ #category : #'api - properties change hook' }
-ToTooltipWindow >> whenContentChangedDo: aBlock [
-	"Inform when content property has changed. 
-	 `aBlock` has three optional arguments: 
-	 - new value
-	 - old value
-	 - the announcement triggering this action"
-
-	self property: #content whenChangedDo: aBlock
 ]

@@ -11,7 +11,7 @@ ToAnchoredWindow >> attachTo: anElement [
 ]
 
 { #category : #initialization }
-ToAnchoredWindow >> defaulPositioningHook [
+ToAnchoredWindow >> defaulPositionHook [
 
 	^ [ :w :event | w widget bounds inSpace bounds topLeft ]
 ]

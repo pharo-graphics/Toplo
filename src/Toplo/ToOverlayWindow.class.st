@@ -13,7 +13,7 @@ ToOverlayWindow >> checkBeforePopupIn: aWidget [
 ]
 
 { #category : #initialization }
-ToOverlayWindow >> defaulPositioningHook [
+ToOverlayWindow >> defaulPositionHook [
 
 	^ [ :w :event | w widget bounds inSpace bounds topLeft ]
 ]

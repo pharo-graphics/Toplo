@@ -1,18 +1,12 @@
 Trait {
 	#name : #TToWidgetWithTooltip,
-	#category : 'Toplo-Core-Tooltip'
+	#category : #'Toplo-Core-Tooltip'
 }
 
-{ #category : #'t - widget with tooltip - private' }
-TToWidgetWithTooltip >> checkTooltip [
+{ #category : #'t - widget with tooltip - testing' }
+TToWidgetWithTooltip >> hasTooltip [
 
-	self tooltip ifNil: [ self installTooltip ]
-]
-
-{ #category : #'t - widget with tooltip - private' }
-TToWidgetWithTooltip >> installTooltip [
-
-	self tooltip: self newTooltipWindow
+	^ self privateTooltipWindow notNil
 ]
 
 { #category : #'t - widget with tooltip - private' }
@@ -24,44 +18,63 @@ TToWidgetWithTooltip >> newTooltipWindow [
 ]
 
 { #category : #'t - widget with tooltip - private' }
+TToWidgetWithTooltip >> privateCheckTooltipWindowInstallation [
+
+	self privateTooltipWindow ifNil: [ self privateInstallTooltipWindow ]
+]
+
+{ #category : #'t - widget with tooltip - private' }
+TToWidgetWithTooltip >> privateInstallTooltipWindow [
+
+	self privateTooltipWindow: self newTooltipWindow
+]
+
+{ #category : #'t - widget with tooltip - private' }
+TToWidgetWithTooltip >> privateTooltipWindow [
+
+	^ self userData at: #privateTooltipWindow ifAbsent: [  ]
+]
+
+{ #category : #'t - widget with tooltip - private' }
+TToWidgetWithTooltip >> privateTooltipWindow: aTooltip [
+
+	aTooltip ifNil: [
+		self userData removeKey: #privateTooltipWindow.
+		^ self ].
+	self userData at: #privateTooltipWindow put: aTooltip
+]
+
+{ #category : #'t - widget with tooltip - private' }
+TToWidgetWithTooltip >> privateTooltipWindowDo: aBlock [
+
+	self privateTooltipWindow
+		ifNotNil: [ :tooltip | aBlock value: tooltip ]
+]
+
+{ #category : #'t - widget with tooltip - private' }
 TToWidgetWithTooltip >> removeTooltip [
 
-	self tooltip ifNotNil: [ :tooltip | tooltip close ]
-]
-
-{ #category : #'t - widget with tooltip - accessing' }
-TToWidgetWithTooltip >> tooltip [
-
-	^ self userData at: #tooltip ifAbsent: [  ]
-]
-
-{ #category : #'t - widget with tooltip - accessing' }
-TToWidgetWithTooltip >> tooltip: aTooltip [
-
-	self userData at: #tooltip put: aTooltip
+	self privateTooltipWindowDo: [ :tooltip |
+		tooltip detachFromWidget.
+		self privateTooltipWindow: nil ]
 ]
 
 { #category : #'t - widget with tooltip - accessing' }
 TToWidgetWithTooltip >> tooltipContent [
 
-	^ self tooltip ifNotNil: [ :tooltip | tooltip content ifNotNil:[ :e | e asString ] ]
+	^ self privateTooltipWindow ifNotNil: [ :ptw | ptw content ]
 ]
 
 { #category : #'t - widget with tooltip - accessing' }
-TToWidgetWithTooltip >> tooltipContent: aString [
+TToWidgetWithTooltip >> tooltipContent: anElement [
 
-	self tooltipContent = aString ifTrue: [ ^ self ].
-
-	self checkTooltip.
-	self tooltip content: aString asRopedText
-]
-
-{ #category : #'t - widget with tooltip - accessing' }
-TToWidgetWithTooltip >> tooltipDo: aBlock [
-
-	self tooltip
-		ifNil: [ ^ self ]
-		ifNotNil: [ :tooltip | aBlock value: tooltip ]
+	self hasTooltip ifTrue: [
+		self tooltipContent = anElement ifTrue: [ ^ self ] ].
+	anElement ifNil: [
+		self removeTooltip.
+		^ self ].
+	self privateCheckTooltipWindowInstallation.
+	self privateTooltipWindow content: anElement
 ]
 
 { #category : #'t - widget with tooltip - accessing' }
@@ -69,23 +82,19 @@ TToWidgetWithTooltip >> tooltipString: aString [
 
 	"Set a help string to display to the user if he let the mouse over the widget (a tooltip)."
 
-	self tooltipContent: aString asRopedText
+	self tooltipText: aString asRopedText
 ]
 
 { #category : #'t - widget with tooltip - accessing' }
+TToWidgetWithTooltip >> tooltipText: aText [
+
+	self tooltipContent: ((ToLabel text: aText asRopedText)
+			 beMultiLine;
+			 yourself)
+]
+
+{ #category : #'t - widget with tooltip - private' }
 TToWidgetWithTooltip >> tooltipWindowClass [
 
 	^ ToTooltipWindow 
-]
-
-{ #category : #'t - widget with tooltip - change hook' }
-TToWidgetWithTooltip >> whenTooltipChangedDo: aBlock [
-	"Inform when tooltip property has changed. 
-	 `aBlock` has three optional arguments: 
-	 - new value
-	 - old value
-	 - the announcement triggering this action"
-
-	self checkTooltip.
-	self tooltip whenContentChangedDo: aBlock
 ]

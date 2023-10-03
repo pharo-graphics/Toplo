@@ -1,11 +1,7 @@
 Class {
 	#name : #ToTooltipWindowEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#instVars : [
-		'tooltipElement',
-		'openTask'
-	],
-	#category : 'Toplo-Core-Tooltip'
+	#category : #'Toplo-Core-Tooltip'
 }
 
 { #category : #'api - accessing' }

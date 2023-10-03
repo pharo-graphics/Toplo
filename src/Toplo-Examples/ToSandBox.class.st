@@ -1863,7 +1863,7 @@ ToSandBox class >> example_buttonWithIconAndLabel [
 
 	| but  |
 	but := self example_buttonWithIcon.
-	but label: (ToLabel text: 'Button').
+	but label: (ToLabel text: 'Button with label').
 	^ but
 ]
 
@@ -2883,6 +2883,18 @@ ToSandBox class >> example_toButtonWithIconOnly [
 	space show 
 ]
 
+{ #category : #tooltip }
+ToSandBox class >> example_toButtonWithRedElementTooltip [
+
+	| but  |
+	but := ToButton new.
+	but labelText: 'Button with tooltip'.
+	but tooltipContent: (BlElement new background: Color red; size: 70@100; yourself). 
+	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
+	but openInInnerWindow 
+ 
+]
+
 { #category : #'button-dep' }
 ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 
@@ -2974,14 +2986,26 @@ ToSandBox class >> example_toButtonWithTextOnly [
 	space show 
 ]
 
-{ #category : #'button-dep' }
-ToSandBox class >> example_toButtonWithTooltip [
+{ #category : #tooltip }
+ToSandBox class >> example_toButtonWithTooltipString [
 
 	| but  |
-	but := ToButtonDep new.
-	but tooltipContent: ('This is a button', String cr, 'so, click on me...') asRopedText. 
+	but := ToButton new.
+	but labelText: 'Button with tooltip string'.
+	but tooltipString: ('This is a button', String cr, 'so, click on me...'). 
 	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
-	but size: 32@16.
+	but openInInnerWindow 
+ 
+]
+
+{ #category : #tooltip }
+ToSandBox class >> example_toButtonWithTooltipText [
+
+	| but  |
+	but := ToButton new.
+	but labelText: 'Button with tooltip text'.
+	but tooltipText: ('This is a button', String cr, 'so, click on me...') asRopedText. 
+	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
 	but openInInnerWindow 
  
 ]

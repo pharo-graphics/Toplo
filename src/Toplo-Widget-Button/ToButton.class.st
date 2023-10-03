@@ -57,6 +57,12 @@ ToButton >> label: aToLabel [
 ]
 
 { #category : #accessing }
+ToButton >> labelText: aText [
+
+	self labeledIcon label: (ToLabel text: aText)
+]
+
+{ #category : #accessing }
 ToButton >> labeledIcon [
 
 	^ labeledIcon

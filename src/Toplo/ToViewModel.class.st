@@ -1,7 +1,7 @@
 Class {
 	#name : #ToViewModel,
 	#superclass : #ToCompanion,
-	#category : 'Toplo-Core'
+	#category : #'Toplo-Core'
 }
 
 { #category : #'api - enablement' }
@@ -55,26 +55,15 @@ ToViewModel >> privateWidgetClass [
 ]
 
 { #category : #'api - tooltip' }
-ToViewModel >> tooltipContent: aText [
-	"Set a tooltip text to display to the user if he let the mouse over the widget."
-
-	self widgetDo: [ :widget | widget tooltipContent: aText ]
-]
-
-{ #category : #'api - tooltip' }
 ToViewModel >> tooltipString: aString [
 	"Set a tooltip string to display to the user if he let the mouse over the widget."
 
-	self tooltipContent: aString asRopedText
+	self tooltipText: aString asRopedText
 ]
 
-{ #category : #'api - properties change hook' }
-ToViewModel >> whenTooltipChangedDo: aBlock [
-	"Inform when tooltip has changed. 
-	 `aBlock` has three optional arguments: 
-	 - new value
-	 - old value
-	 - the announcement triggering this action"
+{ #category : #'api - tooltip' }
+ToViewModel >> tooltipText: aText [
+	"Set a tooltip text to display to the user if he let the mouse over the widget."
 
-	self widgetDo: [ :widget | widget whenTooltipChangedDo: aBlock ]
+	self widgetDo: [ :widget | widget tooltipText: aText ]
 ]

@@ -16,7 +16,7 @@ ToMenuWindow >> close [
 ]
 
 { #category : #initialization }
-ToMenuWindow >> defaulPositioningHook [ 
+ToMenuWindow >> defaulPositionHook [ 
 
 	^ [ :w :event | w widget isSubmenu
 		  ifTrue: [ w widget bounds inSpace bounds topRight ]

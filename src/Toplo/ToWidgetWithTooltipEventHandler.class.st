@@ -22,7 +22,7 @@ ToWidgetWithTooltipEventHandler >> hideTooltipFor: aWidget [
 	openTooltipTask ifNotNil: [ 
 		aWidget dequeueTask: openTooltipTask.
 		openTooltipTask := nil ].
-	aWidget tooltip ifNotNil: [ :tooltip | tooltip close ]
+	aWidget privateTooltipWindow ifNotNil: [ :tooltip | tooltip close ]
 ]
 
 { #category : #'api - accessing' }
@@ -56,8 +56,8 @@ ToWidgetWithTooltipEventHandler >> popupDelay [
 { #category : #private }
 ToWidgetWithTooltipEventHandler >> prepareDelayedPopupTooltipFromEvent: anEvent [
 
-	self widget tooltipDo: [ :tooltip | 
-		tooltip content ifEmpty: [ ^ self ].
+	self widget privateTooltipWindowDo: [ :tooltip | 
+		tooltip content ifNil: [ ^ self ].
 		tooltip parentDo: [ :p | tooltip close ].
 		openTooltipTask := BlDelayedTaskAction new
 			                   delay: self popupDelay;

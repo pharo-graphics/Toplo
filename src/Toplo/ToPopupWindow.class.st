@@ -16,7 +16,7 @@ ToPopupWindow >> checkBeforePopupIn: aWidget [
 ]
 
 { #category : #initialization }
-ToPopupWindow >> defaulPositioningHook [
+ToPopupWindow >> defaulPositionHook [
 
 	^ [ :window :event |  window widget bounds inSpace bounds bottomLeft ]
 ]

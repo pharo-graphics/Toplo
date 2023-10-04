@@ -73,13 +73,7 @@ ToSkinnableEventHandler >> eventsToHandle [
 { #category : #'api - accessing' }
 ToSkinnableEventHandler >> eventsToHandleWhenDisabled [
 
-	^ { ToEnablementChangedEvent }
-]
-
-{ #category : #'api - accessing' }
-ToSkinnableEventHandler >> eventsToHandleWhenEnabled [
-
-	^ { BlUIEvent. BlMousePickOutsideEvent. ToEnablementChangedEvent }
+	^ { ToEnablementChangedEvent. BlMouseEnterEvent. BlMouseLeaveEvent  }
 ]
 
 { #category : #'focus events handling' }
@@ -289,7 +283,7 @@ ToSkinnableEventHandler >> wantsEvent: anEvent [
 
 	| eventsToHandle |
 	eventsToHandle := anEvent currentTarget isEnabled
-		                  ifTrue: [ self eventsToHandleWhenEnabled ]
+		                  ifTrue: [ self eventsToHandle ]
 		                  ifFalse: [ self eventsToHandleWhenDisabled ].
 	anEvent currentTarget isEnabled ifTrue: [
 		^ eventsToHandle anySatisfy: [ :eachEventClass |

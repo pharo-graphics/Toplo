@@ -150,14 +150,20 @@ ToAnchoredWindowTest >> testPositionHook [
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
+	e forceLayout.
 	win := ToAnchoredWindow new widget: e.
 	self assert: win positionHook notNil.
 	win popup.
+	win forceLayout.
+	space root forceLayout.
 	self waitTestingSpaces.
 	self
 		assert: win bounds inSpace bounds origin
 		equals: e bounds inSpace bounds origin.
 	e position: 20 asPoint.
+	e forceLayout.
+	win forceLayout.
+	space root forceLayout.
 	self waitTestingSpaces.
 	self
 		assert: win bounds inSpace bounds origin

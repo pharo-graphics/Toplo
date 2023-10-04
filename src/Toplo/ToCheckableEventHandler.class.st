@@ -22,9 +22,9 @@ ToCheckableEventHandler >> checkableCheckEvent: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToCheckableEventHandler >> eventsToHandleWhenEnabled [
+ToCheckableEventHandler >> eventsToHandle [
 
-	^ super eventsToHandleWhenEnabled, { ToCheckableCheckedEvent }
+	^ super eventsToHandle, { ToCheckableCheckedEvent }
 ]
 
 { #category : #'state switching' }

@@ -40,14 +40,13 @@ ToAnchoredWindowTest >> testPopupWithWidgetInSpace [
 		when: ToWidgetWindowOpenedEvent
 		do: [ :event | openEventFromWidget := event ].
 	win
-		when: ToWidgetWindowOpenedEvent
+		when: ToWidgetWindowClosedEvent
 		do: [ :event | closeEventFromWindow := event ].
 	e
-		when: ToWidgetWindowOpenedEvent
+		when: ToWidgetWindowClosedEvent
 		do: [ :event | closeEventFromWidget := event ].
 	win popup.
 	self assert: win widget equals: e.	
-	
 	self assert: openEventFromWindow notNil.
 	self assert: openEventFromWindow currentTarget equals: win.
 	self assert: openEventFromWindow window equals: win.
@@ -104,10 +103,10 @@ ToAnchoredWindowTest >> testPopupWithWidgetNotInSpace [
 		when: ToWidgetWindowOpenedEvent
 		do: [ :event | openEventFromWidget := event ].
 	win
-		when: ToWidgetWindowOpenedEvent
+		when: ToWidgetWindowClosedEvent
 		do: [ :event | closeEventFromWindow := event ].
 	e
-		when: ToWidgetWindowOpenedEvent
+		when: ToWidgetWindowClosedEvent
 		do: [ :event | closeEventFromWidget := event ].
 	self should: [ win popup ] raise: Error.
 	self assert: win isOpened not.

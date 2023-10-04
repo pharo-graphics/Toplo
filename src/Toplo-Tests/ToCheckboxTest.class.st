@@ -19,8 +19,9 @@ ToCheckboxTest >> testIndeterminateState [
 
 	| cb |
 	cb := ToCheckbox new.
-	cb checked: nil.
-	self assert: cb isIndeterminate
+	self should: [ cb checked: nil] raise: Error.
+	self assert: cb isIndeterminate not.
+	self assert: cb isUnchecked 
 ]
 
 { #category : #tests }

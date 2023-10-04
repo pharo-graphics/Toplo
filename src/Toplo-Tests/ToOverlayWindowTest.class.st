@@ -16,7 +16,7 @@ ToOverlayWindowTest >> testWindowsize [
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	win := ToOverlayWindow new widget: e.
+	win := ToOverlayWindow new associateElement: e.
 	win popup.
 	self waitTestingSpaces.
 	self
@@ -47,7 +47,7 @@ ToOverlayWindowTest >> testWindowsize2 [
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	win := ToOverlayWindow new widget: e.
+	win := ToOverlayWindow new associateElement: e.
 	win root addChild: (ToElement new size: 100 asPoint ).
 	win popup.
 	self waitTestingSpaces.

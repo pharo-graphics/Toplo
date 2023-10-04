@@ -2,15 +2,19 @@ Class {
 	#name : #ToSkinnableEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
-		'privateTarget'
+		'target'
 	],
 	#category : #'Toplo-Core'
 }
 
+{ #category : #'focus events handling' }
+ToSkinnableEventHandler >> blurEvent: anEvent [
+]
+
 { #category : #'mouse handlers' }
 ToSkinnableEventHandler >> clickAvortedEvent: anEvent [
 
-	(anEvent upEvent target ~= privateTarget and: [ (privateTarget findMouseEventTargetAt: anEvent upEvent position) isNil ])
+	(anEvent upEvent target ~= target and: [ (target findMouseEventTargetAt: anEvent upEvent position) isNil ])
 		ifTrue: [ ^ self ].
 	anEvent processor fireClickEventFrom: anEvent
 ]
@@ -73,13 +77,11 @@ ToSkinnableEventHandler >> eventsToHandle [
 { #category : #'api - accessing' }
 ToSkinnableEventHandler >> eventsToHandleWhenDisabled [
 
-	^ { ToEnablementChangedEvent }
+	^ { ToEnablementChangedEvent. BlMouseEnterEvent. BlMouseLeaveEvent  }
 ]
 
-{ #category : #'api - accessing' }
-ToSkinnableEventHandler >> eventsToHandleWhenEnabled [
-
-	^ { BlUIEvent. BlMousePickOutsideEvent. ToEnablementChangedEvent }
+{ #category : #'focus events handling' }
+ToSkinnableEventHandler >> focusEvent: anEvent [
 ]
 
 { #category : #'focus events handling' }
@@ -197,11 +199,11 @@ ToSkinnableEventHandler >> mouseUpOutsideEvent: anEvent [
 	"Outside event can have a button label or icon as target. 
 	In that case, no action is triggered "
 	(anEvent originalEvent target notNil and: [
-		 anEvent originalEvent target hasParent: privateTarget ]) ifTrue: [
+		 anEvent originalEvent target hasParent: target ]) ifTrue: [
 		^ self ].
 	"MouseUpOutside for a button is managed if a MouseDown (inside) has occured before (with a consequent pressed state).
 	So, do not change the state if the button is not in pressed state"
-	privateTarget currentSkinState ifNotNil: [ :s | 
+	target currentSkinState ifNotNil: [ :s | 
 		s isPressedState ifFalse: [ ^ self ] ].
 	self switchToInitialState
 ]
@@ -214,7 +216,7 @@ ToSkinnableEventHandler >> mouseWheelEvent: anEvent [
 ToSkinnableEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	privateTarget := anElement
+	target := anElement
 ]
 
 { #category : #'mouse handlers' }
@@ -249,39 +251,39 @@ ToSkinnableEventHandler >> shortcutEvent: anEvent [
 ToSkinnableEventHandler >> switchToClickState [
 
 	" when switch back to enabled state, one have to reinstall mouseListener"
-	privateTarget dispatchLookEvent: ToClickedLookEvent new.
+	target dispatchLookEvent: ToClickedLookEvent new.
 	self switchToHoveredState
 ]
 
 { #category : #'state switching' }
 ToSkinnableEventHandler >> switchToDisabledState [
 
-	privateTarget switchToSkinState: ToDisabledState new
+	target switchToSkinState: ToDisabledState new
 ]
 
 { #category : #'state switching' }
 ToSkinnableEventHandler >> switchToHoveredState [
 
-	privateTarget switchToSkinState: ToHoveredState new
+	target switchToSkinState: ToHoveredState new
 ]
 
 { #category : #'state switching' }
 ToSkinnableEventHandler >> switchToInitialState [
 
 	" when switch back to enabled state, one have to reinstall mouseListener"
-	privateTarget switchToSkinState: ToInitialState new
+	target switchToSkinState: ToInitialState new
 ]
 
 { #category : #'state switching' }
 ToSkinnableEventHandler >> switchToLeavedState [
 
-	privateTarget switchToSkinState: ToLeavedState new
+	target switchToSkinState: ToLeavedState new
 ]
 
 { #category : #'state switching' }
 ToSkinnableEventHandler >> switchToPressedState [
 
-	privateTarget switchToSkinState: ToPressedState new
+	target switchToSkinState: ToPressedState new
 ]
 
 { #category : #'api - event managing' }
@@ -289,7 +291,7 @@ ToSkinnableEventHandler >> wantsEvent: anEvent [
 
 	| eventsToHandle |
 	eventsToHandle := anEvent currentTarget isEnabled
-		                  ifTrue: [ self eventsToHandleWhenEnabled ]
+		                  ifTrue: [ self eventsToHandle ]
 		                  ifFalse: [ self eventsToHandleWhenDisabled ].
 	anEvent currentTarget isEnabled ifTrue: [
 		^ eventsToHandle anySatisfy: [ :eachEventClass |

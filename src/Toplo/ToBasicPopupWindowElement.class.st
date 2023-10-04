@@ -3,13 +3,32 @@ Class {
 	#superclass : #ToAbstractWindowElement,
 	#classTraits : 'TToWidget classTrait',
 	#instVars : [
-		'widget',
 		'widgetEventHandler',
 		'positionHook',
-		'popupTimestamp'
+		'popupTimestamp',
+		'associateElement'
 	],
 	#category : #'Toplo-Core-Window'
 }
+
+{ #category : #accessing }
+ToBasicPopupWindowElement >> associateElement [
+
+	^ associateElement 
+
+]
+
+{ #category : #accessing }
+ToBasicPopupWindowElement >> associateElement: aWidget [
+
+	aWidget = associateElement ifTrue: [ ^ self ].
+	associateElement ifNotNil: [ associateElement removeEventHandler: widgetEventHandler ].
+	associateElement := aWidget.
+	widgetEventHandler := nil.
+	associateElement ifNotNil: [
+		widgetEventHandler := self defaultAssociateElementEventHandler window: self.
+		associateElement addEventHandler: widgetEventHandler ]
+]
 
 { #category : #'api - displaying' }
 ToBasicPopupWindowElement >> checkBeforePopup [
@@ -31,51 +50,50 @@ ToBasicPopupWindowElement >> defaulPositionHook [
 	^ self subclassResponsibility 
 ]
 
+{ #category : #initialization }
+ToBasicPopupWindowElement >> defaultAssociateElementEventHandler [
+
+	^ self defaultAssociateElementEventHandlerClass new
+]
+
+{ #category : #initialization }
+ToBasicPopupWindowElement >> defaultAssociateElementEventHandlerClass [
+
+	^ self subclassResponsibility 
+]
+
 { #category : #accessing }
 ToBasicPopupWindowElement >> defaultElevation [
 
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 900)
 ]
 
-{ #category : #initialization }
-ToBasicPopupWindowElement >> defaultWidgetEventHandler [
-
-	^ self defaultWidgetEventHandlerClass new
-]
-
-{ #category : #initialization }
-ToBasicPopupWindowElement >> defaultWidgetEventHandlerClass [
-
-	^ self subclassResponsibility 
-]
-
 { #category : #'api - displaying' }
 ToBasicPopupWindowElement >> dispatchClosedEvent [
 
 	| event |
-	event := ToWidgetWindowClosedEvent new
+	event := ToWindowClosedEvent new
 		         window: self;
 		         yourself.
 	self dispatchEvent: event.
-	self widget ifNotNil: [ :w | w dispatchEvent: event copy]
+	self associateElement ifNotNil: [ :w | w dispatchEvent: event copy]
 ]
 
 { #category : #'api - displaying' }
 ToBasicPopupWindowElement >> dispatchOpenedEventFrom: anEvent [
 
 	| event |
-	event := ToWidgetWindowOpenedEvent new
+	event := ToWindowOpenedEvent new
 		         window: self;
-		         sourceEvent: anEvent;
 		         yourself.
 	self dispatchEvent: event.
-	self widget ifNotNil: [ :w | w dispatchEvent: event copy]
+	self associateElement ifNotNil: [ :w | w dispatchEvent: event copy]
 ]
 
 { #category : #start }
-ToBasicPopupWindowElement >> hasWidget [
+ToBasicPopupWindowElement >> hasAssociateElement [
 
-	^ self widget notNil
+	^ self associateElement notNil
 ]
 
 { #category : #initialization }
@@ -97,12 +115,12 @@ ToBasicPopupWindowElement >> popupEvent: anEvent [
 
 	self setPositionFromHookOnEvent: anEvent.
 	self hasParent ifTrue: [ ^ self ].
-	self widget space root addChild: self.
-	self dispatchOpenedEventFrom: anEvent.
+	self associateElement space root addChild: self.
+	self dispatchOpenedEventFrom: anEvent. 
 	popupTimestamp := DateAndTime now.
 	"I need to finalize my position as soon as my layout is up-to-date"
 	self whenLayoutedDoOnce: [
-		self widget isAttachedToSceneGraph ifTrue: [
+		self associateElement isAttachedToSceneGraph ifTrue: [
 			self checkBeforePopup ] ].
 	self requestLayout
 ]
@@ -129,7 +147,7 @@ ToBasicPopupWindowElement >> positionHook: aValuable [
 { #category : #initialization }
 ToBasicPopupWindowElement >> removeWidget [
 
-	self widget: nil
+	self associateElement: nil
 ]
 
 { #category : #'api - displaying' }
@@ -148,25 +166,6 @@ ToBasicPopupWindowElement >> setPositionFromHookOnEvent: anEvent [
 ToBasicPopupWindowElement >> toTheme [
 
 	" try to take the parent widget theme first "
-	self widget ifNotNil: [ :w | ^ w toTheme ].
+	self associateElement ifNotNil: [ :w | ^ w toTheme ].
 	^ super toTheme
-]
-
-{ #category : #accessing }
-ToBasicPopupWindowElement >> widget [
-
-	^ widget 
-
-]
-
-{ #category : #accessing }
-ToBasicPopupWindowElement >> widget: aWidget [
-
-	aWidget = widget ifTrue: [ ^ self ].
-	widget ifNotNil: [ widget removeEventHandler: widgetEventHandler ].
-	widget := aWidget.
-	widgetEventHandler := nil.
-	widget ifNotNil: [
-		widgetEventHandler := self defaultWidgetEventHandler window: self.
-		widget addEventHandler: widgetEventHandler ]
 ]

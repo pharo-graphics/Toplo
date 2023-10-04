@@ -18,7 +18,8 @@ ToSelectInnerButton >> close [
 { #category : #initialization }
 ToSelectInnerButton >> defaultEventHandler [ 
 
-	^ ToMenuWindowModelEventHandler new
+	ToMenuWindowModelEventHandlerDep.
+	^ super defaultEventHandler
 ]
 
 { #category : #initialization }

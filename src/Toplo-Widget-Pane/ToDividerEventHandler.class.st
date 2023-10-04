@@ -24,7 +24,7 @@ ToDividerEventHandler >> appliedDragDeltaFromPosition: aPoint [
 { #category : #accessing }
 ToDividerEventHandler >> divider [
 
-	^ privateTarget
+	^ target
 ]
 
 { #category : #'dnd handlers' }

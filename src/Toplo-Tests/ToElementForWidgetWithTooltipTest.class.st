@@ -1,7 +1,7 @@
 Class {
 	#name : #ToElementForWidgetWithTooltipTest,
 	#superclass : #ToElement,
-	#traits : 'TToWidgetWithTooltip',
-	#classTraits : 'TToWidgetWithTooltip classTrait',
+	#traits : 'TToElementWithTooltip',
+	#classTraits : 'TToElementWithTooltip classTrait',
 	#category : #'Toplo-Tests-Core-Tooltip'
 }

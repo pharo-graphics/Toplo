@@ -1,8 +1,8 @@
 Class {
 	#name : #ToComboBox,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TToWidgetWithTooltip',
-	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait',
+	#traits : 'TToWidget + TToElementWithTooltip',
+	#classTraits : 'TToWidget classTrait + TToElementWithTooltip classTrait',
 	#instVars : [
 		'#listElement',
 		'#listFrame',

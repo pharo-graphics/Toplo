@@ -8,12 +8,12 @@ Class {
 ToOverlayWindow >> checkBeforePopup [
 
 	" aWindow bounds are up-to-date, I can be visible "
-	self size: self widget size.
+	self size: self associateElement size.
 	super checkBeforePopup
 ]
 
 { #category : #initialization }
-ToOverlayWindow >> defaultWidgetEventHandlerClass [
+ToOverlayWindow >> defaultAssociateElementEventHandlerClass [
 
-	^ ToWidgetInOverlayWindowEventHandler
+	^ ToElementWithOverlayWindowEventHandler
 ]

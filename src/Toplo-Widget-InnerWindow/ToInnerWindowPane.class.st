@@ -1,7 +1,7 @@
 Class {
 	#name : #ToInnerWindowPane,
 	#superclass : #ToElement,
-	#traits : 'TToWidgetWithContextMenu',
-	#classTraits : 'TToWidgetWithContextMenu classTrait',
+	#traits : 'TToElementWithContextMenu',
+	#classTraits : 'TToElementWithContextMenu classTrait',
 	#category : #'Toplo-Widget-InnerWindow'
 }

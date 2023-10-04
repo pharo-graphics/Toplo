@@ -10,7 +10,8 @@ Class {
 { #category : #initialization }
 ToCustomMenuItem >> defaultEventHandler [
 
-	^ ToMenuItemEventHandler new
+	ToMenuItemEventHandlerDep.
+	^ super defaultEventHandler
 ]
 
 { #category : #accessing }

@@ -1,17 +1,17 @@
 Class {
-	#name : #ToWidgetInAnchoredWindowEventHandler,
-	#superclass : #ToWidgetInWindowEventHandler,
+	#name : #ToElementWithAnchoredWindowEventHandler,
+	#superclass : #ToElementWithWindowEventHandler,
 	#category : #'Toplo-Core-Window'
 }
 
 { #category : #'event handling' }
-ToWidgetInAnchoredWindowEventHandler >> elementPositionInSpaceChangedEvent: anEvent [
+ToElementWithAnchoredWindowEventHandler >> elementPositionInSpaceChangedEvent: anEvent [
 
 	self window position: (self window positionHook value: self window value: anEvent)
 ]
 
 { #category : #'api - accessing' }
-ToWidgetInAnchoredWindowEventHandler >> eventsToHandle [ 
+ToElementWithAnchoredWindowEventHandler >> eventsToHandle [ 
 
 	^ super eventsToHandle , { BlElementPositionInSpaceChangedEvent }
 ]

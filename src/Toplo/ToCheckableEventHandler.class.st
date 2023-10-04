@@ -16,20 +16,20 @@ ToCheckableEventHandler >> checkableCheckEvent: anEvent [
 				       ifTrue: [ ToCheckedState new ]
 				       ifFalse: [ ToUncheckedState new ] ].
 
-	privateTarget switchToSkinState: newState.
-	privateTarget dispatchLookEvent: ToClickedLookEvent new.		
+	target switchToSkinState: newState.
+	target dispatchLookEvent: ToClickedLookEvent new.		
 	
 ]
 
 { #category : #'api - accessing' }
-ToCheckableEventHandler >> eventsToHandleWhenEnabled [
+ToCheckableEventHandler >> eventsToHandle [
 
-	^ super eventsToHandleWhenEnabled, { ToCheckableCheckedEvent }
+	^ super eventsToHandle, { ToCheckableCheckedEvent }
 ]
 
 { #category : #'state switching' }
 ToCheckableEventHandler >> switchToClickState [
 
-	privateTarget switchToNextCheckState.
+	target switchToNextCheckState.
 	super switchToClickState
 ]

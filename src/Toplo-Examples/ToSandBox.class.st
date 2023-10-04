@@ -131,16 +131,15 @@ Here an example of a client for a method.
 	model whenCancelRequestedDo: [ :cancelRequested | cancelRequested client text: text copy ].
 	
 	menu := ToContextMenu new.
-	menu addItem: (ToMenuItem new labelText: 'Select all'; whenClickedDo: [:event :client | client selecter all; apply ]; yourself).
-	menu addItem: (ToMenuItem new labelText: 'Copy'; whenClickedDo: [:event :client | client editor copySelected ]; yourself).
-	menu addItem: (ToMenuItem new labelText: 'Cut'; whenClickedDo: [:event :client | client editor cutSelected ]; yourself).
-	menu addItem: (ToMenuItem new labelText: 'Paste'; whenClickedDo: [:event :client | client editor paste ]; yourself).
+	menu addItem: (ToMenuItem new labelText: 'Select all'; whenClickedDo: [:event  | event currentTarget selecter all; apply ]; yourself).
+	menu addItem: (ToMenuItem new labelText: 'Copy'; whenClickedDo: [:event  | event currentTarget editor copySelected ]; yourself).
+	menu addItem: (ToMenuItem new labelText: 'Cut'; whenClickedDo: [:event  | event currentTarget editor cutSelected ]; yourself).
+	menu addItem: (ToMenuItem new labelText: 'Paste'; whenClickedDo: [:event  | event currentTarget editor paste ]; yourself).
 	menu addSeparator.
-	menu addItem: (ToMenuItem new labelText: 'Accept'; whenClickedDo: [:event :client | client requestSave ]; yourself).
+	menu addItem: (ToMenuItem new labelText: 'Accept'; whenClickedDo: [:event  | event currentTarget requestSave ]; yourself).
 	menu addSeparator.
-	menu addItem: (ToMenuItem new labelText: 'Cancel'; whenClickedDo: [:event :client | client requestCancel ]; yourself).
+	menu addItem: (ToMenuItem new labelText: 'Cancel'; whenClickedDo: [:event  | event currentTarget requestCancel ]; yourself).
 	menu withoutLeftColumn.
-	menu client: model.
 	model widgetDo: [ :widget | widget contextMenuFactory: [ menu ]. widget cursorColor: Color black].
 	model onWidget openInInnerWindow 
 
@@ -978,37 +977,38 @@ ToSandBox class >> example_PicsumPhotosGallery [
 { #category : #window }
 ToSandBox class >> example_Popup1 [
 
-	| e popup container but |
+	| popup container menu item sub |
 	container := ToInnerWindow new
 		             position: 10 @ 10;
 		             size: 400 @ 200;
 		             yourself.
 
-	e := ToElement new
-				id: #'red-button';
+	menu := ToElement new
+		     id: #'red-button';
 		     background: Color red;
 		     size: 100 @ 40;
 		     position: 50 @ 50.
-		
-	popup := ToPopupWindow new widget: e.
-	but := ToWidget new size: 50 @ 90.
-	but background: Color yellow.
-	but addEventHandler: ToSkinnableEventHandler new.
-	but when: BlPrimaryClickEvent do: [
-		self inform: 'Click' ].
-	popup root addChild: but.
-	popup addEventFilter: (BlEventHandler
-			 on: BlMouseUpOutsideEvent
-			 do: [ :event | 'UP OUTSIDE' traceCr]).
-	popup addEventFilter: (BlEventHandler
-			 on: BlMouseDownOutsideEvent
-			 do: [ :event |  'DOWN OUTSIDE' traceCr ]).
-	popup addEventHandler: (BlEventHandler
-			 on: BlClickEvent
-			 do: [ :evt | 
-				 'CLICK' traceCr]).
+	sub := ToElement new background: Color white; size: 20@20; position: 10@10.
+	menu addChild: sub.
 
-	container pane addChild: e.
+	popup := ToPopupWindow new associateElement: menu.
+	popup border: Color black.
+	item := ToElement new size: 50 @ 90.
+	item background: Color yellow.
+	item addEventHandler: ToSkinnableEventHandler new.
+	item when: BlPrimaryClickEvent do: [ self inform: 'Click' ].
+	popup root addChild: item.
+	"popup addEventFilter: (BlEventHandler
+			 on: BlMouseUpOutsideEvent
+			 do: [ :event | 'UP OUTSIDE' traceCr ])."
+	"popup addEventFilter: (BlEventHandler
+			 on: BlMouseDownOutsideEvent
+			 do: [ :event | 'DOWN OUTSIDE' traceCr ])."
+	"popup addEventHandler: (BlEventHandler
+			 on: BlClickEvent
+			 do: [ :evt | 'CLICK' traceCr ])."
+
+	container pane addChild: menu.
 	container openInSpace
 ]
 
@@ -2393,7 +2393,7 @@ ToSandBox class >> example_overlayWidow1 [
 		     position: 50 @ 50;
 		     background: Color yellow;
 		     border: (BlBorder paint: Color red).
-	w widget: e.
+	w associateElement: e.
 	e openInInnerWindow.
 	w popup
 ]

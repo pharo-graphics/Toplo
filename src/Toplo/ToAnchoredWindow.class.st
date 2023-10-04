@@ -7,19 +7,19 @@ Class {
 { #category : #initialization }
 ToAnchoredWindow >> defaulPositionHook [
 
-	^ [ :w :event | w widget bounds inSpace bounds topLeft ]
+	^ [ :w :event | w associateElement bounds inSpace bounds topLeft ]
+]
+
+{ #category : #initialization }
+ToAnchoredWindow >> defaultAssociateElementEventHandlerClass [
+
+	^ ToElementWithAnchoredWindowEventHandler
 ]
 
 { #category : #initialization }
 ToAnchoredWindow >> defaultLayout [
 
 	^ BlFrameLayout new 
-]
-
-{ #category : #initialization }
-ToAnchoredWindow >> defaultWidgetEventHandlerClass [
-
-	^ ToWidgetInAnchoredWindowEventHandler
 ]
 
 { #category : #initialization }

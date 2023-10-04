@@ -31,7 +31,13 @@ ToPopupWindow >> checkBeforePopup [
 { #category : #initialization }
 ToPopupWindow >> defaulPositionHook [
 
-	^ [ :window :event |  window widget bounds inSpace bounds bottomLeft ]
+	^ [ :window :event |  window associateElement bounds inSpace bounds bottomLeft ]
+]
+
+{ #category : #initialization }
+ToPopupWindow >> defaultAssociateElementEventHandlerClass [
+
+	^ ToElementWithPopupWindowEventHandler 
 ]
 
 { #category : #accessing }
@@ -50,12 +56,6 @@ ToPopupWindow >> defaultEventHandler [
 ToPopupWindow >> defaultEventHandlerClass [
 	
 	^ ToPopupWindowEventHandler
-]
-
-{ #category : #initialization }
-ToPopupWindow >> defaultWidgetEventHandlerClass [
-
-	^ ToWidgetInPopupWindowEventHandler 
 ]
 
 { #category : #initialization }

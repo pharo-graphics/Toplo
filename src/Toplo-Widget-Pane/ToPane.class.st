@@ -1,8 +1,8 @@
 Class {
 	#name : #ToPane,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TToOrientable + TToWidgetWithLayers + TToWidgetWithPlaceholder',
-	#classTraits : 'TToWidget classTrait + TToOrientable classTrait + TToWidgetWithLayers classTrait + TToWidgetWithPlaceholder classTrait',
+	#traits : 'TToWidget + TToOrientable + TToElementWithLayers + TToWidgetWithPlaceholder',
+	#classTraits : 'TToWidget classTrait + TToOrientable classTrait + TToElementWithLayers classTrait + TToWidgetWithPlaceholder classTrait',
 	#category : #'Toplo-Widget-Pane'
 }
 

@@ -1,27 +1,27 @@
 Trait {
-	#name : #TToWidgetWithContextMenu,
+	#name : #TToElementWithContextMenu,
 	#instVars : [
 		'contextMenuFactory',
 		'contextMenuEventHandler',
 		'openedContextMenu'
 	],
-	#category : 'Toplo-Core-Window'
+	#category : #'Toplo-Core-Window'
 }
 
 { #category : #'t - widget with context menu - accessing' }
-TToWidgetWithContextMenu >> contextMenu [
+TToElementWithContextMenu >> contextMenu [
 
-	^ (contextMenuFactory cull: self) widget: self; client: self; yourself
+	^ (contextMenuFactory cull: self) associateElement: self; yourself
 ]
 
 { #category : #'t - widget with context menu - accessing' }
-TToWidgetWithContextMenu >> contextMenuFactory [
+TToElementWithContextMenu >> contextMenuFactory [
 
 	^ contextMenuFactory 
 ]
 
 { #category : #'t - widget with context menu - accessing' }
-TToWidgetWithContextMenu >> contextMenuFactory: aValuable [
+TToElementWithContextMenu >> contextMenuFactory: aValuable [
 
 	aValuable = contextMenuFactory ifTrue: [ ^ self ].
 	self uninstallContextMenuFactory.
@@ -30,33 +30,33 @@ TToWidgetWithContextMenu >> contextMenuFactory: aValuable [
 ]
 
 { #category : #'t - widget with context menu - testing' }
-TToWidgetWithContextMenu >> hasOpenedContextMenu [
+TToElementWithContextMenu >> hasOpenedContextMenu [
 
 	^ openedContextMenu notNil and: [ openedContextMenu isAttachedToSceneGraph ]
 ]
 
 { #category : #'t - widget with context menu - accessing' }
-TToWidgetWithContextMenu >> installContextMenuFactory [
+TToElementWithContextMenu >> installContextMenuFactory [
 
 	contextMenuFactory ifNotNil: [
-		contextMenuEventHandler := ToWidgetWithContextMenuEventHandler new.
+		contextMenuEventHandler := ToElementWithContextMenuEventHandler new.
 		self addEventHandler: contextMenuEventHandler ]
 ]
 
 { #category : #'t - widget with context menu - accessing' }
-TToWidgetWithContextMenu >> openedContextMenu [
+TToElementWithContextMenu >> openedContextMenu [
 
 	^ openedContextMenu
 ]
 
 { #category : #'t - widget with context menu - accessing' }
-TToWidgetWithContextMenu >> openedContextMenu: aContextMenu [
+TToElementWithContextMenu >> openedContextMenu: aContextMenu [
 
 	openedContextMenu := aContextMenu
 ]
 
 { #category : #'t - widget with context menu - accessing' }
-TToWidgetWithContextMenu >> uninstallContextMenuFactory [
+TToElementWithContextMenu >> uninstallContextMenuFactory [
 
 	contextMenuFactory ifNotNil: [
 		self removeEventHandler: contextMenuEventHandler.

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSelectItemEventHandler,
-	#superclass : #ToMenuItemEventHandler,
+	#superclass : #ToMenuItemEventHandlerDep,
 	#category : #'Toplo-Widget-Select'
 }
 
@@ -8,5 +8,5 @@ Class {
 ToSelectItemEventHandler >> leftMouseUpEvent: anEvent [
 
 	super leftMouseUpEvent: anEvent.
-	privateTarget parentMenuWindow widget close
+	target parentMenuWindow widget close
 ]

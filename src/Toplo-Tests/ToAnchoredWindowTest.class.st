@@ -8,23 +8,7 @@ Class {
 }
 
 { #category : #tests }
-ToAnchoredWindowTest >> testElevation [
-
-	| win e space |
-	space := BlSpace new.
-	e := ToElement new.
-	space root addChild: e.
-	e position: 10 asPoint.
-	e size: 10 asPoint.
-	win := ToAnchoredWindow new widget: e.
-	win popup.
-	self
-		assert: win elevation elevation
-		equals: win defaultElevation elevation
-]
-
-{ #category : #tests }
-ToAnchoredWindowTest >> testPopupWithWidgetInSpace [
+ToAnchoredWindowTest >> testAssociateElement [
 
 	| win e space openEventFromWindow openEventFromWidget closeEventFromWindow closeEventFromWidget |
 	space := BlSpace new.
@@ -32,21 +16,21 @@ ToAnchoredWindowTest >> testPopupWithWidgetInSpace [
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	win := ToAnchoredWindow new widget: e.
+	win := ToAnchoredWindow new associateElement: e.
 	win
-		when: ToWidgetWindowOpenedEvent
+		when: ToWindowOpenedEvent
 		do: [ :event | openEventFromWindow := event ].
 	e
-		when: ToWidgetWindowOpenedEvent
+		when: ToWindowOpenedEvent
 		do: [ :event | openEventFromWidget := event ].
 	win
-		when: ToWidgetWindowClosedEvent
+		when: ToWindowClosedEvent
 		do: [ :event | closeEventFromWindow := event ].
 	e
-		when: ToWidgetWindowClosedEvent
+		when: ToWindowClosedEvent
 		do: [ :event | closeEventFromWidget := event ].
 	win popup.
-	self assert: win widget equals: e.	
+	self assert: win associateElement equals: e.	
 	self assert: openEventFromWindow notNil.
 	self assert: openEventFromWindow currentTarget equals: win.
 	self assert: openEventFromWindow window equals: win.
@@ -63,7 +47,64 @@ ToAnchoredWindowTest >> testPopupWithWidgetInSpace [
 ]
 
 { #category : #tests }
-ToAnchoredWindowTest >> testPopupWithWidgetInSpace2 [
+ToAnchoredWindowTest >> testAssociateElementEventHandler [
+
+	| win e space |
+	space := BlSpace new.
+	e := ToElement new.
+	space root addChild: e.
+	win := ToAnchoredWindow new associateElement: e.
+	win popup.
+	self assert: win associateElement equals: e.
+	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
+			 eh isKindOf: win defaultAssociateElementEventHandlerClass ]).
+	win close.
+	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
+			 eh isKindOf: win defaultAssociateElementEventHandlerClass ]).
+
+	self assert: win hasAssociateElement.
+	win associateElement: nil.
+	self assert: win hasAssociateElement not.
+	self assert: win associateElement isNil.
+	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
+			 eh isKindOf: win defaultAssociateElementEventHandlerClass ]) not.
+	self should: [ win popup ] raise: Error
+]
+
+{ #category : #tests }
+ToAnchoredWindowTest >> testAssociateElementEventHandler2 [
+
+	| win e space |
+	space := BlSpace new.
+	e := ToElement new.
+	space root addChild: e.
+	win := ToAnchoredWindow new associateElement: e.
+	win popup.
+	self assert: win associateElement equals: e.
+	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
+			 eh isKindOf: win defaultAssociateElementEventHandlerClass ]).
+	win associateElement: nil.
+	win close.
+]
+
+{ #category : #tests }
+ToAnchoredWindowTest >> testElevation [
+
+	| win e space |
+	space := BlSpace new.
+	e := ToElement new.
+	space root addChild: e.
+	e position: 10 asPoint.
+	e size: 10 asPoint.
+	win := ToAnchoredWindow new associateElement: e.
+	win popup.
+	self
+		assert: win elevation elevation
+		equals: win defaultElevation elevation
+]
+
+{ #category : #tests }
+ToAnchoredWindowTest >> testPopupWithAssociateElementInSpace2 [
 
 	| win e space timeStamp |
 	space := BlSpace new.
@@ -71,7 +112,7 @@ ToAnchoredWindowTest >> testPopupWithWidgetInSpace2 [
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	win := ToAnchoredWindow new widget: e.
+	win := ToAnchoredWindow new associateElement: e.
 	self assert: win isOpened not.
 	self assert: win isClosed.
 	self assert: win popupTimestamp isNil.
@@ -88,25 +129,25 @@ ToAnchoredWindowTest >> testPopupWithWidgetInSpace2 [
 ]
 
 { #category : #tests }
-ToAnchoredWindowTest >> testPopupWithWidgetNotInSpace [
+ToAnchoredWindowTest >> testPopupWithAssociateElementNotInSpace [
 
 	| win e openEventFromWindow openEventFromWidget closeEventFromWindow closeEventFromWidget |
 	e := ToElement new.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	win := ToAnchoredWindow new widget: e.
-	self assert: win hasWidget.
+	win := ToAnchoredWindow new associateElement: e.
+	self assert: win hasAssociateElement.
 	win
-		when: ToWidgetWindowOpenedEvent
+		when: ToWindowOpenedEvent
 		do: [ :event | openEventFromWindow := event ].
 	e
-		when: ToWidgetWindowOpenedEvent
+		when: ToWindowOpenedEvent
 		do: [ :event | openEventFromWidget := event ].
 	win
-		when: ToWidgetWindowClosedEvent
+		when: ToWindowClosedEvent
 		do: [ :event | closeEventFromWindow := event ].
 	e
-		when: ToWidgetWindowClosedEvent
+		when: ToWindowClosedEvent
 		do: [ :event | closeEventFromWidget := event ].
 	self should: [ win popup ] raise: Error.
 	self assert: win isOpened not.
@@ -118,13 +159,13 @@ ToAnchoredWindowTest >> testPopupWithWidgetNotInSpace [
 ]
 
 { #category : #tests }
-ToAnchoredWindowTest >> testPopupWithWidgetNotInSpace2 [
+ToAnchoredWindowTest >> testPopupWithAssociateElementNotInSpace2 [
 
 	| win e |
 	e := ToElement new.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	win := ToAnchoredWindow new widget: e.
+	win := ToAnchoredWindow new associateElement: e.
 	self waitTestingSpaces.
 	self should: [ win popup ] raise: Error.
 	self assert: win isOpened not.
@@ -133,11 +174,11 @@ ToAnchoredWindowTest >> testPopupWithWidgetNotInSpace2 [
 ]
 
 { #category : #tests }
-ToAnchoredWindowTest >> testPopupWithoutWidget [
+ToAnchoredWindowTest >> testPopupWithoutAssociateElement [
 
 	| w |
 	w := ToAnchoredWindow new.
-	self assert: w hasWidget not.
+	self assert: w hasAssociateElement not.
 	self should: [ w popup ] raise: Error
 ]
 
@@ -150,7 +191,7 @@ ToAnchoredWindowTest >> testPositionHook [
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	win := ToAnchoredWindow new widget: e.
+	win := ToAnchoredWindow new associateElement: e.
 	self assert: win positionHook notNil.
 	win popup.
 	self waitTestingSpaces.
@@ -176,15 +217,15 @@ ToAnchoredWindowTest >> testPositionHook2 [
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	win := ToAnchoredWindow new widget: e.
+	win := ToAnchoredWindow new associateElement: e.
 	self assert: win positionHook notNil.
 	win popup.
 	self waitTestingSpaces.
 	self
 		assert: win bounds inSpace bounds origin
 		equals: e bounds inSpace bounds origin.
-	self assert: win hasWidget.	
-	win positionHook: [ :w :event | w widget bounds inSpace bounds bottomRight ].
+	self assert: win hasAssociateElement.	
+	win positionHook: [ :w :event | w associateElement bounds inSpace bounds bottomRight ].
 	self
 		assert: win bounds inSpace bounds origin
 		equals: e bounds inSpace bounds origin.
@@ -203,47 +244,6 @@ ToAnchoredWindowTest >> testPositionHook2 [
 ]
 
 { #category : #tests }
-ToAnchoredWindowTest >> testWidgetEventHandler [
-
-	| win e space |
-	space := BlSpace new.
-	e := ToElement new.
-	space root addChild: e.
-	win := ToAnchoredWindow new widget: e.
-	win popup.
-	self assert: win widget equals: e.
-	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: win defaultWidgetEventHandlerClass ]).
-	win close.
-	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: win defaultWidgetEventHandlerClass ]).
-
-	self assert: win hasWidget.
-	win widget: nil.
-	self assert: win hasWidget not.
-	self assert: win widget isNil.
-	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: win defaultWidgetEventHandlerClass ]) not.
-	self should: [ win popup ] raise: Error
-]
-
-{ #category : #tests }
-ToAnchoredWindowTest >> testWidgetEventHandler2 [
-
-	| win e space |
-	space := BlSpace new.
-	e := ToElement new.
-	space root addChild: e.
-	win := ToAnchoredWindow new widget: e.
-	win popup.
-	self assert: win widget equals: e.
-	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: win defaultWidgetEventHandlerClass ]).
-	win widget: nil.
-	win close.
-]
-
-{ #category : #tests }
 ToAnchoredWindowTest >> testWindowsize [
 
 	| win e space |
@@ -252,7 +252,7 @@ ToAnchoredWindowTest >> testWindowsize [
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	win := ToAnchoredWindow new widget: e.
+	win := ToAnchoredWindow new associateElement: e.
 	self assert: win constraints horizontal resizer isFitContent.
 	self assert: win constraints vertical resizer isFitContent.
 	self assert: win root constraints horizontal resizer isFitContent.
@@ -292,7 +292,7 @@ ToAnchoredWindowTest >> testWindowsize2 [
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	win := ToAnchoredWindow new widget: e.
+	win := ToAnchoredWindow new associateElement: e.
 	win popup.
 	self waitTestingSpaces.
 	self

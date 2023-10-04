@@ -30,7 +30,13 @@ ToTooltipWindow >> content: anElement [
 { #category : #initialization }
 ToTooltipWindow >> defaulPositionHook [
 
-	^ [ :w :event | event position x @ (w widget localPointToGlobal: 0 @ w widget height) y + self vgap ]
+	^ [ :w :event | event position x @ (w associateElement localPointToGlobal: 0 @ w associateElement height) y + self vgap ]
+]
+
+{ #category : #initialization }
+ToTooltipWindow >> defaultAssociateElementEventHandlerClass [
+
+	^ ToElementWithTooltipEventHandler
 ]
 
 { #category : #accessing }
@@ -47,12 +53,6 @@ ToTooltipWindow >> defaultEventHandlerClass [
 ]
 
 { #category : #initialization }
-ToTooltipWindow >> defaultWidgetEventHandlerClass [
-
-	^ ToWidgetWithTooltipEventHandler
-]
-
-{ #category : #initialization }
 ToTooltipWindow >> initialize [
 
 	super initialize.
@@ -60,8 +60,7 @@ ToTooltipWindow >> initialize [
 	self border: (BlBorder paint: (Color gray alpha: 0.4)).
 	self background: (Color yellow alpha: 0.2).
 	self padding: (BlInsets all: 4).
-	self fitContent.
-	self addEventHandler: self defaultEventHandler
+	self fitContent
 ]
 
 { #category : #initialization }

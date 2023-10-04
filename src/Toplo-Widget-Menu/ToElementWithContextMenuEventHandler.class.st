@@ -1,5 +1,5 @@
 Class {
-	#name : #ToWidgetWithContextMenuEventHandler,
+	#name : #ToElementWithContextMenuEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'mouseButton',
@@ -9,13 +9,13 @@ Class {
 }
 
 { #category : #'api - accessing' }
-ToWidgetWithContextMenuEventHandler >> eventsToHandle [
+ToElementWithContextMenuEventHandler >> eventsToHandle [
 
 	^ { BlMouseDownEvent }
 ]
 
 { #category : #private }
-ToWidgetWithContextMenuEventHandler >> hideContextMenuFor: aWidget [
+ToElementWithContextMenuEventHandler >> hideContextMenuFor: aWidget [
 
 	contextMenu ifNotNil: [ :m |
 		m close.
@@ -23,14 +23,14 @@ ToWidgetWithContextMenuEventHandler >> hideContextMenuFor: aWidget [
 ]
 
 { #category : #initialization }
-ToWidgetWithContextMenuEventHandler >> initialize [
+ToElementWithContextMenuEventHandler >> initialize [
 
 	super initialize.
 	self useSecondaryMouseButton 
 ]
 
 { #category : #'api - accessing' }
-ToWidgetWithContextMenuEventHandler >> mouseDownEvent: anEvent [
+ToElementWithContextMenuEventHandler >> mouseDownEvent: anEvent [
 
 	anEvent button = mouseButton ifFalse: [ ^ self ].
 	self hideContextMenuFor: anEvent currentTarget.
@@ -40,7 +40,7 @@ ToWidgetWithContextMenuEventHandler >> mouseDownEvent: anEvent [
 ]
 
 { #category : #private }
-ToWidgetWithContextMenuEventHandler >> popupContextMenuFor: aWidget event: anEvent [
+ToElementWithContextMenuEventHandler >> popupContextMenuFor: aWidget event: anEvent [
 
 	aWidget dispatchEvent: (ToContextMenuOpenedEvent new
 			 widget: aWidget;
@@ -51,13 +51,13 @@ ToWidgetWithContextMenuEventHandler >> popupContextMenuFor: aWidget event: anEve
 ]
 
 { #category : #'api - accessing' }
-ToWidgetWithContextMenuEventHandler >> usePrimaryMouseButton [
+ToElementWithContextMenuEventHandler >> usePrimaryMouseButton [
 
 	mouseButton := BlMouseButton primary
 ]
 
 { #category : #'api - accessing' }
-ToWidgetWithContextMenuEventHandler >> useSecondaryMouseButton [
+ToElementWithContextMenuEventHandler >> useSecondaryMouseButton [
 
 	mouseButton := BlMouseButton secondary
 ]

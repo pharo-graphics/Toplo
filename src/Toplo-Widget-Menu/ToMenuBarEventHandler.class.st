@@ -22,7 +22,7 @@ ToMenuBarEventHandler >> mouseDownEvent: anEvent [
 
 	super mouseDownEvent: anEvent.
 	" mouse down on the menubar or in a menubar child with auto open "
-	(anEvent target = privateTarget or: [ autoOpenDresser notNil ]) ifTrue: [
+	(anEvent target = target or: [ autoOpenDresser notNil ]) ifTrue: [
 		" stop auto open on mouse over "
 		autoOpen := false.
 		^ self ].
@@ -38,7 +38,7 @@ ToMenuBarEventHandler >> mouseOverEvent: anEvent [
 	autoOpen ifFalse: [ ^ self ].
 	
 	" auto-open action "
-	privateTarget menus do: [ :m |
+	target menus do: [ :m |
 		(anEvent target hasInParentChain: m)
 			ifTrue: [ m popupEvent: anEvent ]
 			ifFalse: [ m close ] ]
@@ -49,7 +49,7 @@ ToMenuBarEventHandler >> mouseUpOutsideEvent: anEvent [
 
 	autoOpen ifFalse: [ ^ self ].
 	anEvent originalEvent target ifNil: [ ^ self ].
-	(anEvent originalEvent target hasInParentChain: privateTarget)
+	(anEvent originalEvent target hasInParentChain: target)
 		ifTrue: [ ^ self ].
 	anEvent consumed: true.
 	autoOpen := false

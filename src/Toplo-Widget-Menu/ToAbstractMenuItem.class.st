@@ -50,9 +50,7 @@ ToAbstractMenuItem >> icon: anElement [
 ToAbstractMenuItem >> initialize [
 
 	super initialize.
-	self layout: BlLinearLayout horizontal.
-	self defaultEventHandler ifNotNil: [ :eh |
-		self addEventHandler: eh ]
+	self layout: BlLinearLayout horizontal
 ]
 
 { #category : #testing }

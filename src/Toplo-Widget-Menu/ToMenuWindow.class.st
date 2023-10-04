@@ -18,9 +18,9 @@ ToMenuWindow >> close [
 { #category : #initialization }
 ToMenuWindow >> defaulPositionHook [ 
 
-	^ [ :w :event | w widget isSubmenu
-		  ifTrue: [ w widget bounds inSpace bounds topRight ]
-		  ifFalse: [ w widget bounds inSpace bounds bottomLeft ] ]
+	^ [ :w :event | w associateElement isSubmenu
+		  ifTrue: [ w associateElement bounds inSpace bounds topRight ]
+		  ifFalse: [ w associateElement bounds inSpace bounds bottomLeft ] ]
 ]
 
 { #category : #initialization }
@@ -44,28 +44,14 @@ ToMenuWindow >> defaultElevation [
 { #category : #initialization }
 ToMenuWindow >> defaultEventHandlerClass [
 	
-	^ ToMenuWindowEventHandler
+	ToMenuWindowEventHandlerDep.
+	^ super defaultEventHandlerClass
 ]
 
 { #category : #accessing }
 ToMenuWindow >> items [
 
-	^ self widget ifNil: [ ^ #(  ) ] ifNotNil: [ :w | w items ]
-]
-
-{ #category : #'api - displaying' }
-ToMenuWindow >> mouseEnterOnMenuItem: aMenuItem [
-
-	" test if a submenu is opened "
-	self openedSubmenuWindow ifNil: [ ^ self ].
-
-	" test if the submenu is not the menuItem one "
-	self openedSubmenuWindow == aMenuItem menuWindow 
-		ifTrue: [ ^ self ].
-
-	" ok, I can close other item submenu window"
-	self openedSubmenuWindow close.
-	self openedSubmenuWindow: nil
+	^ self associateElement ifNil: [ ^ #(  ) ] ifNotNil: [ :w | w items ]
 ]
 
 { #category : #'api - displaying' }
@@ -100,7 +86,7 @@ ToMenuWindow >> openedSubmenuWindow: aWindow [
 { #category : #'api - displaying' }
 ToMenuWindow >> popupEvent: anEvent [
 
-	self widget ifNil: [ ^ self ].
+	self associateElement ifNil: [ ^ self ].
 	self items ifEmpty: [ ^ self ].
 	^ super popupEvent: anEvent
 ]

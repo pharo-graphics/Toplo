@@ -1,14 +1,20 @@
 Class {
-	#name : #ToWidgetWithTooltipEventHandler,
-	#superclass : #ToWidgetInPopupWindowEventHandler,
+	#name : #ToElementWithTooltipEventHandler,
+	#superclass : #ToElementWithPopupWindowEventHandler,
 	#instVars : [
 		'openTooltipTask'
 	],
 	#category : #'Toplo-Core-Tooltip'
 }
 
+{ #category : #accessing }
+ToElementWithTooltipEventHandler >> associateElement [
+
+	^ self window associateElement
+]
+
 { #category : #'api - accessing' }
-ToWidgetWithTooltipEventHandler >> eventsToHandle [
+ToElementWithTooltipEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , {
 		  BlMouseEnterEvent.
@@ -17,7 +23,7 @@ ToWidgetWithTooltipEventHandler >> eventsToHandle [
 ]
 
 { #category : #private }
-ToWidgetWithTooltipEventHandler >> hideTooltipFor: aWidget [
+ToElementWithTooltipEventHandler >> hideTooltipFor: aWidget [
 
 	openTooltipTask ifNotNil: [ 
 		aWidget dequeueTask: openTooltipTask.
@@ -26,37 +32,37 @@ ToWidgetWithTooltipEventHandler >> hideTooltipFor: aWidget [
 ]
 
 { #category : #'api - accessing' }
-ToWidgetWithTooltipEventHandler >> mouseDownEvent: anEvent [
+ToElementWithTooltipEventHandler >> mouseDownEvent: anEvent [
 
-	self hideTooltipFor: self widget
+	self hideTooltipFor: self associateElement
 
 ]
 
 { #category : #'api - accessing' }
-ToWidgetWithTooltipEventHandler >> mouseEnterEvent: anEvent [
+ToElementWithTooltipEventHandler >> mouseEnterEvent: anEvent [
 
-	openTooltipTask ifNotNil: [ self widget dequeueTask: openTooltipTask ].
+	openTooltipTask ifNotNil: [ self associateElement dequeueTask: openTooltipTask ].
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
 	self prepareDelayedPopupTooltipFromEvent: anEvent
 ]
 
 { #category : #'api - accessing' }
-ToWidgetWithTooltipEventHandler >> mouseLeaveEvent: anEvent [
+ToElementWithTooltipEventHandler >> mouseLeaveEvent: anEvent [
 
-	self hideTooltipFor: self widget
+	self hideTooltipFor: self associateElement
 
 ]
 
 { #category : #private }
-ToWidgetWithTooltipEventHandler >> popupDelay [
+ToElementWithTooltipEventHandler >> popupDelay [
 
 	^ 700 milliSeconds
 ]
 
 { #category : #private }
-ToWidgetWithTooltipEventHandler >> prepareDelayedPopupTooltipFromEvent: anEvent [
+ToElementWithTooltipEventHandler >> prepareDelayedPopupTooltipFromEvent: anEvent [
 
-	self widget privateTooltipWindowDo: [ :tooltip | 
+	self associateElement privateTooltipWindowDo: [ :tooltip | 
 		tooltip content ifNil: [ ^ self ].
 		tooltip parentDo: [ :p | tooltip close ].
 		openTooltipTask := BlDelayedTaskAction new
@@ -64,11 +70,5 @@ ToWidgetWithTooltipEventHandler >> prepareDelayedPopupTooltipFromEvent: anEvent 
 			                   action: [ 
 				                   tooltip popupEvent: anEvent.
 				                   openTooltipTask := nil ].
-		self widget enqueueTask: openTooltipTask ]
-]
-
-{ #category : #accessing }
-ToWidgetWithTooltipEventHandler >> widget [
-
-	^ self window widget
+		self associateElement enqueueTask: openTooltipTask ]
 ]

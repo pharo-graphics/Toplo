@@ -1,42 +1,42 @@
 Trait {
-	#name : #TToWidgetWithTooltip,
+	#name : #TToElementWithTooltip,
 	#category : #'Toplo-Core-Tooltip'
 }
 
 { #category : #'t - widget with tooltip - testing' }
-TToWidgetWithTooltip >> hasTooltip [
+TToElementWithTooltip >> hasTooltip [
 
 	^ self privateTooltipWindow notNil
 ]
 
 { #category : #'t - widget with tooltip - private' }
-TToWidgetWithTooltip >> newTooltipWindow [
+TToElementWithTooltip >> newTooltipWindow [
 
 	^ self tooltipWindowClass new
-		  widget: self;
+		  associateElement: self;
 		  yourself
 ]
 
 { #category : #'t - widget with tooltip - private' }
-TToWidgetWithTooltip >> privateCheckTooltipWindowInstallation [
+TToElementWithTooltip >> privateCheckTooltipWindowInstallation [
 
 	self privateTooltipWindow ifNil: [ self privateInstallTooltipWindow ]
 ]
 
 { #category : #'t - widget with tooltip - private' }
-TToWidgetWithTooltip >> privateInstallTooltipWindow [
+TToElementWithTooltip >> privateInstallTooltipWindow [
 
 	self privateTooltipWindow: self newTooltipWindow
 ]
 
 { #category : #'t - widget with tooltip - private' }
-TToWidgetWithTooltip >> privateTooltipWindow [
+TToElementWithTooltip >> privateTooltipWindow [
 
 	^ self userData at: #privateTooltipWindow ifAbsent: [  ]
 ]
 
 { #category : #'t - widget with tooltip - private' }
-TToWidgetWithTooltip >> privateTooltipWindow: aTooltip [
+TToElementWithTooltip >> privateTooltipWindow: aTooltip [
 
 	aTooltip ifNil: [
 		self userData removeKey: #privateTooltipWindow.
@@ -45,14 +45,14 @@ TToWidgetWithTooltip >> privateTooltipWindow: aTooltip [
 ]
 
 { #category : #'t - widget with tooltip - private' }
-TToWidgetWithTooltip >> privateTooltipWindowDo: aBlock [
+TToElementWithTooltip >> privateTooltipWindowDo: aBlock [
 
 	self privateTooltipWindow
 		ifNotNil: [ :tooltip | aBlock value: tooltip ]
 ]
 
 { #category : #'t - widget with tooltip - private' }
-TToWidgetWithTooltip >> removeTooltip [
+TToElementWithTooltip >> removeTooltip [
 
 	self privateTooltipWindowDo: [ :tooltip |
 		tooltip removeWidget.
@@ -60,13 +60,13 @@ TToWidgetWithTooltip >> removeTooltip [
 ]
 
 { #category : #'t - widget with tooltip - accessing' }
-TToWidgetWithTooltip >> tooltipContent [
+TToElementWithTooltip >> tooltipContent [
 
 	^ self privateTooltipWindow ifNotNil: [ :ptw | ptw content ]
 ]
 
 { #category : #'t - widget with tooltip - accessing' }
-TToWidgetWithTooltip >> tooltipContent: anElement [
+TToElementWithTooltip >> tooltipContent: anElement [
 
 	self hasTooltip ifTrue: [
 		self tooltipContent = anElement ifTrue: [ ^ self ] ].
@@ -78,7 +78,7 @@ TToWidgetWithTooltip >> tooltipContent: anElement [
 ]
 
 { #category : #'t - widget with tooltip - accessing' }
-TToWidgetWithTooltip >> tooltipString: aString [
+TToElementWithTooltip >> tooltipString: aString [
 
 	"Set a help string to display to the user if he let the mouse over the widget (a tooltip)."
 
@@ -86,7 +86,7 @@ TToWidgetWithTooltip >> tooltipString: aString [
 ]
 
 { #category : #'t - widget with tooltip - accessing' }
-TToWidgetWithTooltip >> tooltipText: aText [
+TToElementWithTooltip >> tooltipText: aText [
 
 	self tooltipContent: ((ToLabel text: aText asRopedText)
 			 beMultiLine;
@@ -94,7 +94,7 @@ TToWidgetWithTooltip >> tooltipText: aText [
 ]
 
 { #category : #'t - widget with tooltip - private' }
-TToWidgetWithTooltip >> tooltipWindowClass [
+TToElementWithTooltip >> tooltipWindowClass [
 
 	^ ToTooltipWindow 
 ]

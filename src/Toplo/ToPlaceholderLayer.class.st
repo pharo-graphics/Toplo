@@ -1,7 +1,7 @@
 Class {
 	#name : #ToPlaceholderLayer,
-	#superclass : #ToWidgetLayer,
-	#category : 'Toplo-Core'
+	#superclass : #ToElementLayer,
+	#category : #'Toplo-Core'
 }
 
 { #category : #converting }

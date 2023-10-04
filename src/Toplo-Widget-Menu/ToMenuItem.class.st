@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuItem,
 	#superclass : #ToAbstractMenuItem,
-	#traits : 'TToWidget + TToWidgetWithTooltip + TToClickable + TToLabeledIcon + TToTriplet + TToOrientable',
-	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait + TToClickable classTrait + TToLabeledIcon classTrait + TToTriplet classTrait + TToOrientable classTrait',
+	#traits : 'TToWidget + TToElementWithTooltip + TToClickable + TToLabeledIcon + TToTriplet + TToOrientable',
+	#classTraits : 'TToWidget classTrait + TToElementWithTooltip classTrait + TToClickable classTrait + TToLabeledIcon classTrait + TToTriplet classTrait + TToOrientable classTrait',
 	#instVars : [
 		'#icon => ToSkinnableSlot',
 		'#label => ToSkinnableSlot',
@@ -13,7 +13,7 @@ Class {
 
 { #category : #'t - clickable - click behavior' }
 ToMenuItem >> clickEventClass [
-
+self halt.
 	^ BlMouseUpEvent
 ]
 
@@ -26,7 +26,8 @@ ToMenuItem >> client [
 { #category : #initialization }
 ToMenuItem >> defaultEventHandler [ 
 
-	^ ToMenuItemEventHandler new
+	ToMenuItemEventHandlerDep.
+	^ super defaultEventHandler
 ]
 
 { #category : #'t - triplet - accessing' }

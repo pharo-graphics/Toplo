@@ -1,5 +1,5 @@
 Class {
-	#name : #ToWidgetInWindowEventHandler,
+	#name : #ToElementWithWindowEventHandler,
 	#superclass : #ToSkinnableEventHandler,
 	#instVars : [
 		'window'
@@ -8,30 +8,30 @@ Class {
 }
 
 { #category : #'element handlers' }
-ToWidgetInWindowEventHandler >> elementRemovedFromParentEvent: anEvent [
+ToElementWithWindowEventHandler >> elementRemovedFromParentEvent: anEvent [
 
 	self window close
 ]
 
 { #category : #'element handlers' }
-ToWidgetInWindowEventHandler >> elementRemovedFromSceneGraphEvent: anEvent [
+ToElementWithWindowEventHandler >> elementRemovedFromSceneGraphEvent: anEvent [
 
 	self window close
 ]
 
 { #category : #'api - accessing' }
-ToWidgetInWindowEventHandler >> eventsToHandle [
+ToElementWithWindowEventHandler >> eventsToHandle [
 	^ super eventsToHandle, { BlElementRemovedFromParentEvent. BlElementRemovedFromSceneGraphEvent }
 ]
 
 { #category : #accessing }
-ToWidgetInWindowEventHandler >> window [
+ToElementWithWindowEventHandler >> window [
 
 	^ window
 ]
 
 { #category : #accessing }
-ToWidgetInWindowEventHandler >> window: aWindow [
+ToElementWithWindowEventHandler >> window: aWindow [
 
 	window := aWindow
 ]

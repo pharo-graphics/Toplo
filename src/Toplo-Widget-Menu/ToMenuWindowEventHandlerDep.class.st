@@ -1,11 +1,11 @@
 Class {
-	#name : #ToMenuWindowEventHandler,
+	#name : #ToMenuWindowEventHandlerDep,
 	#superclass : #ToPopupWindowEventHandler,
-	#category : #'Toplo-Widget-Menu'
+	#category : #'Toplo-Widget-Menu-Basic'
 }
 
 { #category : #'event handling' }
-ToMenuWindowEventHandler >> mouseUpOutsideEvent: anEvent [
+ToMenuWindowEventHandlerDep >> mouseUpOutsideEvent: anEvent [
 
 	| origEventTarget win |
 	origEventTarget := anEvent originalEvent target.
@@ -25,10 +25,4 @@ ToMenuWindowEventHandler >> mouseUpOutsideEvent: anEvent [
 
 	" ok, the event is outside of the submenu chain"
 	super mouseUpOutsideEvent: anEvent 
-]
-
-{ #category : #'event handling' }
-ToMenuWindowEventHandler >> mouseWheelEvent: anEvent [
-
-	
 ]

@@ -31,9 +31,10 @@ ToMenu >> close [
 ]
 
 { #category : #initialization }
-ToMenu >> defaultEventHandler [ 
-
-	^ ToMenuWindowModelEventHandler new
+ToMenu >> defaultEventHandler [
+self halt.
+	ToMenuWindowModelEventHandlerDep.
+	^ ToElementWithPopupWindowEventHandler new 
 ]
 
 { #category : #initialization }
@@ -61,7 +62,7 @@ ToMenu >> menuWindow [
 
 	^ menuWindow ifNil: [
 		  menuWindow := ToMenuWindow new
-			                widget: self;
+			                associateElement: self;
 			                yourself ]
 ]
 

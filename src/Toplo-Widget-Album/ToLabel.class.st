@@ -1,8 +1,8 @@
 Class {
 	#name : #ToLabel,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TToWidgetWithTooltip + TBlAlignable',
-	#classTraits : 'TToWidget classTrait + TToWidgetWithTooltip classTrait + TBlAlignable classTrait',
+	#traits : 'TToWidget + TToElementWithTooltip + TBlAlignable',
+	#classTraits : 'TToWidget classTrait + TToElementWithTooltip classTrait + TBlAlignable classTrait',
 	#instVars : [
 		'#isEditable => ObservableSlot',
 		'#innerElement',

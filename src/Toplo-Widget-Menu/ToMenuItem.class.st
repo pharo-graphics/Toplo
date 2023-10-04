@@ -13,7 +13,7 @@ Class {
 
 { #category : #'t - clickable - click behavior' }
 ToMenuItem >> clickEventClass [
-self halt.
+
 	^ BlMouseUpEvent
 ]
 

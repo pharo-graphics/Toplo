@@ -19,7 +19,7 @@ TToWidgetWithTooltipTest >> testRemoveTooltip [
 	e removeTooltip.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
 			 eh isKindOf: e privateTooltipWindow defaultAssociateElementEventHandlerClass ]) not.
-	self assert: ttw widget isNil.
+	self assert: ttw associateElement isNil.
 	self assert: ttw content isNil.
 	self assert: e privateTooltipWindow isNil.
 	self assert: e tooltipContent isNil.
@@ -37,7 +37,7 @@ TToWidgetWithTooltipTest >> testTooltip [
 	e tooltipContent: tt.
 	self assert: e hasTooltip.
 	self assert: e tooltipContent identicalTo: tt.
-	self assert: e privateTooltipWindow widget identicalTo: e.
+	self assert: e privateTooltipWindow associateElement identicalTo: e.
 	self assert:
 		(e privateTooltipWindow eventDispatcher hasEventHandlerSuchThat: [
 			 :eh |

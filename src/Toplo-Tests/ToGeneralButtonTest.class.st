@@ -27,5 +27,5 @@ ToGeneralButtonTest >> testGeneralButtonTooltip [
 	button tooltipText: 'I am a tooltip content'.
 
 	self assert: button privateTooltipWindow notNil.
-	self assert: button tooltipContent equals: 'I am a tooltip content'
+	self assert: button tooltipContent text asString equals: 'I am a tooltip content'
 ]

@@ -16,26 +16,20 @@ ToWidgetInPopupWindowEventHandler >> elementPositionInSpaceChangedEvent: anEvent
 	self window close
 ]
 
-{ #category : #'event handling' }
-ToWidgetInPopupWindowEventHandler >> elementRemovedFromParentEvent: anEvent [
-
-	self window close
-]
-
 { #category : #'api - accessing' }
 ToWidgetInPopupWindowEventHandler >> eventsToHandle [ 
 
 	^ super eventsToHandle , { BlElementRemovedFromParentEvent. BlElementPositionChangedEvent . BlElementPositionInSpaceChangedEvent }
 ]
 
-{ #category : #'event handling' }
+{ #category : #'mouse handlers' }
 ToWidgetInPopupWindowEventHandler >> mouseDownEvent: anEvent [
 
 	super mouseDownEvent: anEvent.
 	self window popupEvent: anEvent
 ]
 
-{ #category : #'event handling' }
+{ #category : #'mouse handlers' }
 ToWidgetInPopupWindowEventHandler >> mouseUpEvent: anEvent [ 
 
 	| delay |

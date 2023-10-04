@@ -1,6 +1,6 @@
 Class {
 	#name : #ToDividerEventHandler,
-	#superclass : #ToSkinableEventHandler,
+	#superclass : #ToSkinnableEventHandler,
 	#instVars : [
 		'startPosition',
 		'startBounds',

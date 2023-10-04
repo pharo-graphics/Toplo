@@ -1,6 +1,6 @@
 Class {
 	#name : #ToWidgetInWindowEventHandler,
-	#superclass : #BlCustomEventHandler,
+	#superclass : #ToSkinnableEventHandler,
 	#instVars : [
 		'window'
 	],
@@ -21,7 +21,7 @@ ToWidgetInWindowEventHandler >> elementRemovedFromSceneGraphEvent: anEvent [
 
 { #category : #'api - accessing' }
 ToWidgetInWindowEventHandler >> eventsToHandle [
-	^ { BlElementRemovedFromParentEvent. BlElementRemovedFromSceneGraphEvent }
+	^ super eventsToHandle, { BlElementRemovedFromParentEvent. BlElementRemovedFromSceneGraphEvent }
 ]
 
 { #category : #accessing }

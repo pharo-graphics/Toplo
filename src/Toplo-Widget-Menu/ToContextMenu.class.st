@@ -76,6 +76,7 @@ ToContextMenu >> menuWindow [
 { #category : #'api - displaying' }
 ToContextMenu >> popupEvent: anEvent [
 
+	self flag: '#openedContextMenu: and #requestFocus should not be sent directly like that. One should be sure that that the popup is done (eventHandler ?)'.
 	self widget ifNotNil: [ :w | w openedContextMenu: self ].
 	self requestFocus.
 	super popupEvent: anEvent

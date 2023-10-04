@@ -8,6 +8,16 @@ Class {
 }
 
 { #category : #'event handling' }
+ToPopupWindowEventHandler >> clickEvent: anEvent [
+	"state = #ready ifTrue: [
+		state := #opened.
+		^ self ].
+	state ~= #opened ifTrue: [ ^ self ]."
+	"anEvent consumed: true.
+	anEvent currentTarget close"
+]
+
+{ #category : #'event handling' }
 ToPopupWindowEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
 	state := #ready
@@ -29,7 +39,8 @@ ToPopupWindowEventHandler >> elementRemovedFromSceneGraphEvent: anEvent [
 ToPopupWindowEventHandler >> eventsToHandle [
 
 	^ {
-		  BlMouseUpOutsideEvent.
+		  BlClickEvent.
+		  BlMouseDownOutsideEvent.
 		  BlElementAddedToSceneGraphEvent.
 		  BlElementRemovedFromSceneGraphEvent }
 ]
@@ -42,12 +53,10 @@ ToPopupWindowEventHandler >> initialize [
 ]
 
 { #category : #'event handling' }
-ToPopupWindowEventHandler >> mouseUpOutsideEvent: anEvent [
+ToPopupWindowEventHandler >> mouseDownOutsideEvent: anEvent [
 
-	state = #ready ifTrue: [
-		state := #opened.
-		^ self ].
-	state ~= #opened ifTrue: [ ^ self ].
+	anEvent originalEvent target = anEvent currentTarget widget
+		ifTrue: [ ^ self ].
 	anEvent consumed: true.
 	anEvent currentTarget close
 ]

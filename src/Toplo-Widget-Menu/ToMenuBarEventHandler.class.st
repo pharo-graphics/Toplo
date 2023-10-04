@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMenuBarEventHandler,
-	#superclass : #ToSkinableEventHandler,
+	#superclass : #ToSkinnableEventHandler,
 	#instVars : [
 		'autoOpenDresser',
 		'mouseDownHandler',

@@ -88,9 +88,7 @@ ToNodeHolder >> onAttachedFromDatasource: aDataSource [
 { #category : #accessing }
 ToNodeHolder >> onDetachedFromDatasource: aDataSource [
 
-	itemElement undress.
 	self node launchSkinUninstallation.
-
 	self removeEventHandler: clickHandler.
 	infiniteElement primarySelection removeEventHandler: deselectHandler.
 	infiniteElement primarySelection removeEventHandler: selectHandler.

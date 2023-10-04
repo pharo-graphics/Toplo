@@ -7,12 +7,6 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : #accessing }
-ToMenuWindow >> autoCloseOnMouseUpDelay [
-
-	^ 300 milliSeconds 
-]
-
 { #category : #'api - displaying' }
 ToMenuWindow >> close [ 
 
@@ -56,8 +50,7 @@ ToMenuWindow >> defaultEventHandlerClass [
 { #category : #accessing }
 ToMenuWindow >> items [
 
-	self widget ifNil: [ ^ #() ].
-	^ self widget items
+	^ self widget ifNil: [ ^ #(  ) ] ifNotNil: [ :w | w items ]
 ]
 
 { #category : #'api - displaying' }

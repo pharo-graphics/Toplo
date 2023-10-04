@@ -4,6 +4,18 @@ Class {
 	#category : #'Toplo-Core-Window'
 }
 
+{ #category : #accessing }
+ToPopupWindow >> autoCloseOnMouseUpDelay [
+
+	^ self userData at: #autoCloseOnMouseUpDelay ifAbsentPut: [ 300 milliSeconds ]
+]
+
+{ #category : #accessing }
+ToPopupWindow >> autoCloseOnMouseUpDelay: aDelay [
+
+	self userData at: #autoCloseOnMouseUpDelay put: aDelay asDelay
+]
+
 { #category : #'api - displaying' }
 ToPopupWindow >> checkBeforePopup [
 

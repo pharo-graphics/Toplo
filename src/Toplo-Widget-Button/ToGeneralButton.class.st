@@ -9,7 +9,7 @@ Class {
 { #category : #initialization }
 ToGeneralButton >> defaultEventHandler [ 
 
-	^ ToSkinableEventHandler new 
+	^ ToSkinnableEventHandler new 
 ]
 
 { #category : #initialization }

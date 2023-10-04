@@ -1,6 +1,6 @@
 Class {
 	#name : #ToResizeGripEventHandler,
-	#superclass : #ToSkinableEventHandler,
+	#superclass : #ToSkinnableEventHandler,
 	#instVars : [
 		'gripTarget'
 	],

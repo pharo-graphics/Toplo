@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCheckableEventHandler,
-	#superclass : #ToSkinableEventHandler,
+	#superclass : #ToSkinnableEventHandler,
 	#category : #'Toplo-Core'
 }
 

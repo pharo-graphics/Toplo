@@ -1,6 +1,6 @@
 Class {
 	#name : #ToComboBoxHeadEventHandler,
-	#superclass : #ToSkinableEventHandler,
+	#superclass : #ToSkinnableEventHandler,
 	#category : #'Toplo-Widget-ComboBox'
 }
 

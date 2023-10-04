@@ -762,15 +762,15 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Add initial Items';
 			                whenClickedDo: [ :event  |
-				                event currentTarget data addAll: ((1 to: 2000) collect: [:p | 'AAAAAAAAAAA'] ) ]).
+				                widget data addAll: ((1 to: 2000) collect: [:p | 'AAAAAAAAAAA'] ) ]).
 	               widget data ifNotEmpty: [
 		               menu addItem: (ToMenuItem new
 				                labelText: 'Select all';
-				                whenClickedDo: [ :event  | event currentTarget  selectAll ]).
+				                whenClickedDo: [ :event  | widget  selectAll ]).
 			            menu addItem: (ToMenuItem new
 				                labelText: 'Remove all';
 				                whenClickedDo: [ :event  |
-					                event currentTarget  data removeAll ];
+					                widget  data removeAll ];
 				                yourself) ].
 	               selection ifNotEmpty: [ 
 				         selectionMenu := ToMenu new .
@@ -801,7 +801,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				                labelText: 'Insert before';
 				                whenClickedDo: [ :event  |
 					                selection selectedIndexes do: [ :idx |
-							                event currentTarget  data
+							                widget  data
 								                add: idx asString , ':XXXXXX'
 								                beforeIndex: idx ] ];
 				                yourself).
@@ -811,7 +811,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 					                | nb |
 					                nb := selection size.
 					                selection selectedIndexes do: [ :idx |
-							                event currentTarget  data
+							                widget  data
 								                add: idx asString , ':XXXXXX'
 								                afterIndex: idx + nb - 1 ] ];
 				                yourself).
@@ -819,7 +819,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Remove';
 				                whenClickedDo: [ :event  |
-					                selection ifNotEmpty: [event currentTarget  data removeFrom: selection first to: selection last ] ];
+					                selection ifNotEmpty: [widget  data removeFrom: selection first to: selection last ] ];
 				                yourself).
   							menu addSeparator.
 		               menu addItem: selectionMenu].
@@ -985,6 +985,7 @@ ToSandBox class >> example_Popup1 [
 		             yourself.
 
 	e := ToElement new
+				id: #'red-button';
 		     background: Color red;
 		     size: 100 @ 40;
 		     position: 50 @ 50.
@@ -992,10 +993,9 @@ ToSandBox class >> example_Popup1 [
 	popup := ToPopupWindow new widget: e.
 	but := ToWidget new size: 50 @ 90.
 	but background: Color yellow.
-	but addEventHandler: ToSkinableEventHandler new.
+	but addEventHandler: ToSkinnableEventHandler new.
 	but when: BlPrimaryClickEvent do: [
-		self inform: 'Click'.
-		popup close ].
+		self inform: 'Click' ].
 	popup root addChild: but.
 	popup addEventFilter: (BlEventHandler
 			 on: BlMouseUpOutsideEvent
@@ -1003,15 +1003,10 @@ ToSandBox class >> example_Popup1 [
 	popup addEventFilter: (BlEventHandler
 			 on: BlMouseDownOutsideEvent
 			 do: [ :event |  'DOWN OUTSIDE' traceCr ]).
-	e addEventHandler: (BlEventHandler
-			 on: BlMouseDownEvent
-			 do: [ :evt |
-				 popup isAttachedToSceneGraph ifFalse: [ popup popupEvent: evt ] ]).
 	popup addEventHandler: (BlEventHandler
 			 on: BlClickEvent
-			 do: [ :evt |
-				 'CLICK' traceCr.
-				 popup close ]).
+			 do: [ :evt | 
+				 'CLICK' traceCr]).
 
 	container pane addChild: e.
 	container openInSpace
@@ -2658,7 +2653,7 @@ ToSandBox class >> example_toAlbumAsButton [
 	but := ToAlbum new
 		       text: 'Hello world';
 		       preventChildrenMouseEvents.
-	but addEventHandler: (ToSkinableEventHandler new target: but).
+	but addEventHandler: (ToSkinnableEventHandler new target: but).
 	but
 		when: BlPrimaryClickEvent
 		do: [ self inform: 'Click' ].
@@ -2681,7 +2676,7 @@ ToSandBox class >> example_toBasicButton1 [
 
 	| but |
 	but := ToGeneralButton new.
-	but addEventHandler: (ToSkinableEventHandler new target: but).
+	but addEventHandler: (ToSkinnableEventHandler new target: but).
 	but addChild: (BlElement new
 			 size: 30 @ 30;
 			 yourself).
@@ -2698,7 +2693,7 @@ ToSandBox class >> example_toBasicButton2 [
 			        fontSize: 40;
 			        yourself).
 	but := ToGeneralButton new.
-	but addEventHandler: (ToSkinableEventHandler new target: but).
+	but addEventHandler: (ToSkinnableEventHandler new target: but).
 	but matchParent.
 	but addChild: lab.
 	but layout alignCenter.
@@ -2732,7 +2727,7 @@ ToSandBox class >> example_toBasicButton4 [
 			ico.
 			lab }.
 	but := ToGeneralButton new.
-	but addEventHandler: (ToSkinableEventHandler new target: but).
+	but addEventHandler: (ToSkinnableEventHandler new target: but).
 	but matchParent.
 	but addChild: pane.
 	but layout alignCenter.
@@ -3649,7 +3644,7 @@ ToSandBox class >> example_toWidgetAsButton0 [
 
 	| but |
 	but := ToWidget new.
-	but addEventHandler: (ToSkinableEventHandler new target: but)..
+	but addEventHandler: (ToSkinnableEventHandler new target: but)..
 	but
 		when: BlPrimaryClickEvent
 		do: [ self inform: 'Click' ].

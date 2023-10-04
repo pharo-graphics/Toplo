@@ -1,6 +1,6 @@
 Class {
 	#name : #ToNodeEventHandler,
-	#superclass : #ToSkinableEventHandler,
+	#superclass : #ToSkinnableEventHandler,
 	#instVars : [
 		'monitor'
 	],

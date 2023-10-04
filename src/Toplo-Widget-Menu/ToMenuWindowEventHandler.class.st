@@ -1,7 +1,7 @@
 Class {
 	#name : #ToMenuWindowEventHandler,
 	#superclass : #ToPopupWindowEventHandler,
-	#category : #'Toplo-Core-Window'
+	#category : #'Toplo-Widget-Menu'
 }
 
 { #category : #'event handling' }

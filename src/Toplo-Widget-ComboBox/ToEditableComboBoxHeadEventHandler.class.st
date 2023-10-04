@@ -1,5 +1,5 @@
 Class {
 	#name : #ToEditableComboBoxHeadEventHandler,
-	#superclass : #ToSkinableEventHandler,
+	#superclass : #ToSkinnableEventHandler,
 	#category : #'Toplo-Widget-ComboBox'
 }

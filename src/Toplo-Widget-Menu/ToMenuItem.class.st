@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'#labeledIcon => ToSkinnableSlot',
 		'#filler',
-		'#righHandSide'
+		'#rightHandSide'
 	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
@@ -56,10 +56,10 @@ ToMenuItem >> initialize [
 	self layout: self defaultLayout.
 	labeledIcon := ToLabeledIcon new "interspace: #flexible; matchParent".
 	filler := self newFiller.
-	righHandSide := self newRightHandSide.
+	rightHandSide := self newRightHandSide.
 	self addChild: labeledIcon.
 	self addChild: filler.
-	self addChild: righHandSide.
+	self addChild: rightHandSide.
 	self initializeWithMenuItemConstraints
 
 ]
@@ -122,4 +122,10 @@ ToMenuItem >> newRightHandSide [
 						 c linear horizontal alignCenter ].
 	rhs fitContent.
 	^ rhs
+]
+
+{ #category : #accessing }
+ToMenuItem >> rightHandSide [
+
+	^ rightHandSide
 ]

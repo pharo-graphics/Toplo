@@ -34,9 +34,8 @@ ToMenu >> close [
 
 { #category : #initialization }
 ToMenu >> defaultEventHandler [
-self halt.
-	ToMenuWindowModelEventHandlerDep.
-	^ ToElementWithPopupWindowEventHandler new 
+
+	^ ToMenuItemEventHandler new window: self window
 ]
 
 { #category : #initialization }
@@ -45,7 +44,8 @@ ToMenu >> initialize [
 	super initialize.
 	self initializeMenuItemHolder.
 	isSubmenu := false.
-	self initializeWithMenuConstraints  
+	self initializeWithMenuConstraints.
+	self addEventHandler: self defaultEventHandler 
 ]
 
 { #category : #initialization }

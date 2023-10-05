@@ -10,7 +10,7 @@ Class {
 { #category : #'adding-removing' }
 ToAbstractMenuItem >> addedInMenu: aMenu [
 
-	self privateParentMenu: aMenu
+	self parentMenu: aMenu
 ]
 
 { #category : #'parent menu' }
@@ -39,10 +39,6 @@ ToAbstractMenuItem >> defaultEventHandler [
 ToAbstractMenuItem >> hasIcon [
 
 	^ false
-]
-
-{ #category : #accessing }
-ToAbstractMenuItem >> icon: anElement [
 ]
 
 { #category : #initialization }
@@ -78,19 +74,19 @@ ToAbstractMenuItem >> parentMenu [
 ]
 
 { #category : #'parent menu' }
+ToAbstractMenuItem >> parentMenu: aMenu [
+
+	parentMenu := aMenu
+]
+
+{ #category : #'parent menu' }
 ToAbstractMenuItem >> parentMenuWindow [
 
 	^ parentMenu ifNotNil: [:m | m menuWindow ] 
 ]
 
-{ #category : #'parent menu' }
-ToAbstractMenuItem >> privateParentMenu: aMenu [
-
-	parentMenu := aMenu
-]
-
 { #category : #'adding-removing' }
 ToAbstractMenuItem >> removedFromMenu: aMenu [
 
-	self privateParentMenu: nil
+	self parentMenu: nil
 ]

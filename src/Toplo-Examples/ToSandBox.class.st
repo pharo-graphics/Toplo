@@ -1104,6 +1104,36 @@ ToSandBox class >> example_SelectWithStructuredData [
 	win openInSpace
 ]
 
+{ #category : #menu }
+ToSandBox class >> example_SimpleOpenSaveSaveAsClose [
+
+	| menu container |
+	container := ToInnerWindow new
+		             position: 10 @ 10;
+		             size: 400 @ 200;
+		             yourself.
+	menu := ToMenu new background: Color random.
+	menu label: (ToLabel text: 'Menu').
+	menu addItem: (ToMenuItem new
+			 icon: ((ToImage inner: (self iconNamed: #solidMenu)) width: 25);
+			 label: (ToLabel text: 'Open')).
+	menu addItem: (ToMenuItem new
+			 icon: ((ToImage inner: (self iconNamed: #solidMenu)) width: 25);
+			 label: (ToLabel text: 'Save');
+			 background: Color random).
+	menu addItem: (ToMenuItem new
+			 icon: ((ToImage inner: (self iconNamed: #solidMenu)) width: 25);
+			 label: (ToLabel text: 'Save as ...');
+			 background: Color random).
+	menu addSeparator.
+	menu addItem: (ToMenuItem new
+			 icon: ((ToImage inner: (self iconNamed: #solidMenu)) width: 25);
+			 label: (ToLabel text: 'Close');
+			 background: Color random).
+	container pane addChild: menu.
+	container openInSpace
+]
+
 { #category : #image }
 ToSandBox class >> example_Smalltalk_ui_icons [
 
@@ -1924,7 +1954,7 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 	pane openInSpace
 ]
 
-{ #category : #menu }
+{ #category : #'menu dep' }
 ToSandBox class >> example_menu0 [
 
 	| menu sub subsub space themeSwitcher |
@@ -1957,7 +1987,7 @@ ToSandBox class >> example_menu0 [
 	space show
 ]
 
-{ #category : #menu }
+{ #category : #'menu dep' }
 ToSandBox class >> example_menu1 [
 
 	| menu sub subsub space |
@@ -2005,7 +2035,7 @@ ToSandBox class >> example_menu1 [
 	space show
 ]
 
-{ #category : #menu }
+{ #category : #'menu dep' }
 ToSandBox class >> example_menu2 [
 
 	| menu |
@@ -2021,7 +2051,7 @@ ToSandBox class >> example_menu2 [
 	menu openInSpace
 ]
 
-{ #category : #menu }
+{ #category : #'menu dep' }
 ToSandBox class >> example_menu2_2 [
 
 	| menu sub |
@@ -2040,7 +2070,7 @@ ToSandBox class >> example_menu2_2 [
 	menu openInInnerWindow
 ]
 
-{ #category : #menu }
+{ #category : #'menu dep' }
 ToSandBox class >> example_menu3 [
 
 	| menu sub subsub |
@@ -2067,7 +2097,7 @@ ToSandBox class >> example_menu3 [
 	menu openInInnerWindow
 ]
 
-{ #category : #menu }
+{ #category : #'menu dep' }
 ToSandBox class >> example_menu4 [
 
 	| menu sub subsub |
@@ -2094,7 +2124,7 @@ ToSandBox class >> example_menu4 [
 	menu openInInnerWindow
 ]
 
-{ #category : #menu }
+{ #category : #'menu dep' }
 ToSandBox class >> example_menu5 [
 
 	| menu sub subsub grp right center left |
@@ -2140,7 +2170,7 @@ ToSandBox class >> example_menu5 [
 	menu openInInnerWindow
 ]
 
-{ #category : #menu }
+{ #category : #'menu dep' }
 ToSandBox class >> example_menu6 [
 
 	| menu grp right center left textField sub th lbl |

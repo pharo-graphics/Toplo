@@ -7,7 +7,7 @@ Class {
 { #category : #'adding-removing' }
 ToSeparatorMenuItem >> addedInMenu: aMenu [
 
-	self privateParentMenu: aMenu.
+	self parentMenu: aMenu.
 	self hMatchParent.
 	self vFitContent
 ]

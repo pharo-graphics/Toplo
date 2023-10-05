@@ -45,7 +45,14 @@ ToMenu >> initialize [
 	super initialize.
 	self initializeMenuItemHolder.
 	isSubmenu := false.
-	self fitContent 
+	self initializeWithMenuConstraints  
+]
+
+{ #category : #initialization }
+ToMenu >> initializeWithMenuConstraints [
+
+	self fitContent.
+
 ]
 
 { #category : #testing }
@@ -79,7 +86,8 @@ ToMenu >> popupEvent: anEvent [
 ToMenu >> removedFromMenu: aMenu [
 
 	super removedFromMenu: aMenu.
-	isSubmenu := false
+	isSubmenu := false.
+	self initializeWithMenuConstraints 
 
 	
 ]

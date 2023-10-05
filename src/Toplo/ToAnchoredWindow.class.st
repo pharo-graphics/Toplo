@@ -17,12 +17,6 @@ ToAnchoredWindow >> defaultAssociateElementEventHandlerClass [
 ]
 
 { #category : #initialization }
-ToAnchoredWindow >> defaultLayout [
-
-	^ BlFrameLayout new 
-]
-
-{ #category : #initialization }
 ToAnchoredWindow >> initialize [ 
 
 	super initialize.

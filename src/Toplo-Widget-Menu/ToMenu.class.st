@@ -10,11 +10,13 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : #'adding/removing' }
+{ #category : #'adding-removing' }
 ToMenu >> addedInMenu: aMenu [
 
 	super addedInMenu: aMenu.
-	isSubmenu := true
+	isSubmenu := true.
+	self initializeWithMenuItemConstraints
+
 ]
 
 { #category : #'t - menu item holder - accessing' }
@@ -42,7 +44,8 @@ ToMenu >> initialize [
 
 	super initialize.
 	self initializeMenuItemHolder.
-	isSubmenu := false
+	isSubmenu := false.
+	self fitContent 
 ]
 
 { #category : #testing }
@@ -72,7 +75,7 @@ ToMenu >> popupEvent: anEvent [
 	^ self menuWindow popupEvent: anEvent
 ]
 
-{ #category : #'adding/removing' }
+{ #category : #'adding-removing' }
 ToMenu >> removedFromMenu: aMenu [
 
 	super removedFromMenu: aMenu.

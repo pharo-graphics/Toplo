@@ -1,8 +1,8 @@
 Class {
 	#name : #ToGeneralButton,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TToClickable + TToWidgetWithTooltip + TToWidgetWithContextMenu',
-	#classTraits : 'TToWidget classTrait + TToClickable classTrait + TToWidgetWithTooltip classTrait + TToWidgetWithContextMenu classTrait',
+	#traits : 'TToWidget + TToClickable + TToElementWithTooltip + TToElementWithContextMenu',
+	#classTraits : 'TToWidget classTrait + TToClickable classTrait + TToElementWithTooltip classTrait + TToElementWithContextMenu classTrait',
 	#category : #'Toplo-Widget-Button-Core'
 }
 

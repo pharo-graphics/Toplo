@@ -1,12 +1,11 @@
 Class {
 	#name : #ToMenuItem,
 	#superclass : #ToAbstractMenuItem,
-	#traits : 'TToWidget + TToElementWithTooltip + TToClickable + TToLabeledIcon + TToTriplet + TToOrientable',
-	#classTraits : 'TToWidget classTrait + TToElementWithTooltip classTrait + TToClickable classTrait + TToLabeledIcon classTrait + TToTriplet classTrait + TToOrientable classTrait',
+	#traits : 'TToElementWithTooltip + TToClickable',
+	#classTraits : 'TToElementWithTooltip classTrait + TToClickable classTrait',
 	#instVars : [
-		'#icon => ToSkinnableSlot',
-		'#label => ToSkinnableSlot',
-		'#extra => ToSkinnableSlot'
+		'#labeledIcon => ToSkinnableSlot',
+		'#filler'
 	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
@@ -17,12 +16,6 @@ ToMenuItem >> clickEventClass [
 	^ BlMouseUpEvent
 ]
 
-{ #category : #'as yet unclassified' }
-ToMenuItem >> client [
-
-	^ self parentMenu client
-]
-
 { #category : #initialization }
 ToMenuItem >> defaultEventHandler [ 
 
@@ -30,52 +23,66 @@ ToMenuItem >> defaultEventHandler [
 	^ super defaultEventHandler
 ]
 
-{ #category : #'t - triplet - accessing' }
-ToMenuItem >> first [
+{ #category : #initialization }
+ToMenuItem >> defaultLayout [ 
 
-	^ icon
+	^ BlLinearLayout horizontal
 ]
 
-{ #category : #'t - triplet - accessing' }
-ToMenuItem >> first: anElement [
+{ #category : #accessing }
+ToMenuItem >> icon [
 
-	icon := anElement
+	^ self labeledIcon icon
+]
+
+{ #category : #accessing }
+ToMenuItem >> icon: aToImage [
+
+	self labeledIcon icon: aToImage
 ]
 
 { #category : #initialization }
 ToMenuItem >> initialize [ 
 
 	super initialize.
-	self initializeTriplet
+	self withStamp: #'menu-item'.
+	self layout: self defaultLayout.
+	labeledIcon := ToLabeledIcon new "interspace: #flexible; matchParent".
+	filler := ToElement new id: #'filler'; hMatchParent; vFitContent; background: Color yellow.
+	self addChild: labeledIcon.
+	self addChild: filler.
+	self initializeWithMenuItemConstraints
+
 ]
 
-{ #category : #'t - orientable - accessing' }
-ToMenuItem >> layoutStrategy [
+{ #category : #initialization }
+ToMenuItem >> initializeWithMenuItemConstraints [ 
 
-	^ self innerElement layout
+	self hMatchParent.
+	self vFitContent.
+
 ]
 
-{ #category : #'t - triplet - accessing' }
-ToMenuItem >> second [
+{ #category : #accessing }
+ToMenuItem >> label [
 
-	^ label
+	^ self labeledIcon label
 ]
 
-{ #category : #'t - triplet - accessing' }
-ToMenuItem >> second: anElement [
+{ #category : #accessing }
+ToMenuItem >> label: aToLabel [
 
-	label := anElement
+	self labeledIcon label: aToLabel
 ]
 
-{ #category : #'t - triplet - accessing' }
-ToMenuItem >> third [
+{ #category : #accessing }
+ToMenuItem >> labelText: aText [
 
-	^ extra
+	self labeledIcon label: (ToLabel text: aText)
 ]
 
-{ #category : #'t - triplet - accessing' }
-ToMenuItem >> third: anElement [
+{ #category : #accessing }
+ToMenuItem >> labeledIcon [
 
-	extra := anElement
-
+	^ labeledIcon
 ]

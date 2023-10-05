@@ -7,11 +7,10 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : #'adding/removing' }
+{ #category : #'adding-removing' }
 ToAbstractMenuItem >> addedInMenu: aMenu [
 
-	self privateParentMenu: aMenu.
-	self fitContent.
+	self privateParentMenu: aMenu
 ]
 
 { #category : #'parent menu' }
@@ -90,7 +89,7 @@ ToAbstractMenuItem >> privateParentMenu: aMenu [
 	parentMenu := aMenu
 ]
 
-{ #category : #'adding/removing' }
+{ #category : #'adding-removing' }
 ToAbstractMenuItem >> removedFromMenu: aMenu [
 
 	self privateParentMenu: nil

@@ -478,15 +478,8 @@ ToSandBox class >> example_GeneralButtonWithLabel [
 ToSandBox class >> example_LabeledIconlWithIconAndText [
 
 	| but  |
-	ToAbstractTheme cleanUp.
-	but := ToLabeledIcon new.
-	but label: (ToLabel text: 'Labeled icon').
-	but icon: (ToImage inner: (BlElement new
-			 size: 60 @ 60;
-			 background: (Color blue alpha: 0.2);
-			 yourself)).
+	but := self labeledIconlWithIconAndText.
 	but openInSpace.
-but inspect.
 	^ but
 ]
 
@@ -499,6 +492,24 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_flexible [
 	but border: Color red.
 	but vFitContent.
 	but hMatchParent.
+	^ but
+]
+
+{ #category : #'labeled icon' }
+ToSandBox class >> example_LabeledIconlWithIconAndText_flexible_inFitContent [
+
+	| but container |
+	container := ToElement new.
+	container hMatchParent.
+	container vFitContent.
+	container layout: BlLinearLayout vertical.
+	but := self labeledIconlWithIconAndText.
+	but interspace: #flexible.
+	but border: Color red.
+	but vFitContent.
+	but hMatchParent.
+	container addChild: but.
+	container openInInnerWindow.
 	^ but
 ]
 
@@ -1850,7 +1861,7 @@ ToSandBox class >> example_buttonWithIcon [
 
 	| but  |
 	but := ToButton new.
-	but icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	but icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
 	but openInSpace.
 	^ but
 ]
@@ -3778,6 +3789,20 @@ ToSandBox class >> group [
 	ToInnerWindow new
 		in: [ :f | f root addChild: container ];
 		openInSpace
+]
+
+{ #category : #'labeled icon' }
+ToSandBox class >> labeledIconlWithIconAndText [
+
+	| but  |
+	ToAbstractTheme cleanUp.
+	but := ToLabeledIcon new.
+	but label: (ToLabel text: 'Labeled icon').
+	but icon: (ToImage inner: (BlElement new
+			 size: 60 @ 60;
+			 background: (Color blue alpha: 0.2);
+			 yourself)).
+	^ but
 ]
 
 { #category : #accessing }

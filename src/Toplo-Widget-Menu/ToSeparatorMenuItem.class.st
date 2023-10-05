@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : #'adding/removing' }
+{ #category : #'adding-removing' }
 ToSeparatorMenuItem >> addedInMenu: aMenu [
 
 	self privateParentMenu: aMenu.

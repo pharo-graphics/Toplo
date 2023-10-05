@@ -326,41 +326,31 @@ ToExperiments class >> example_LinearLayout [
 { #category : #frame }
 ToExperiments class >> example_LinearLayoutFillWithFitContent [
 
-	| frame cpt |
-	frame := BlElement new
+	| win cpt root |
+	root := BlElement new
 		         background: Color lightGray;
-		         layout: (BlLinearLayout vertical cellSpacing: 2);
+		         layout: (BlLinearLayout vertical);
 		         border: (BlBorder paint: Color gray);
 		         constraintsDo: [ :c |
 			         c horizontal fitContent.
 			         c vertical fitContent ].
 	cpt := 0.
 	3 timesRepeat: [
-		| left middle right fill1 fill2 node |
+		| left right fill menuItem labeledIcon |
 		cpt := cpt + 20.
-		node := BlElement new
-			        layout: (BlLinearLayout horizontal cellSpacing: 2);
+		menuItem := BlElement new
+			        layout: (BlLinearLayout horizontal);
 			        constraintsDo: [ :c |
 				        c horizontal matchParent.
 				        c vertical fitContent ].
+		labeledIcon := ToElement new hMatchParent; vFitContent; layout: BlLinearLayout horizontal.
 		left := BlElement new
-			        id: #left;
-			        background: Color blue;
-			        width: 10.
-		middle := BlElement new
-			          id: #left;
-			          background: Color yellow;
-			          width: 10 + cpt.
-		fill1 := BlElement new
+			          id: #middle;
+			          background: Color blue;
+			          width: 10.
+		fill := BlElement new
 			         id: #fill;
-			         background: Color white;
-			         height: 15;
-			         constraintsDo: [ :c |
-				         c horizontal matchParent.
-				         c vertical matchParent ].
-		fill2 := BlElement new
-			         id: #fill;
-			         background: Color white;
+			         background: Color yellow;
 			         height: 15;
 			         constraintsDo: [ :c |
 				         c horizontal matchParent.
@@ -368,23 +358,19 @@ ToExperiments class >> example_LinearLayoutFillWithFitContent [
 		right := BlElement new
 			         id: #right;
 			         background: Color red;
-			         width: 14.
-		node addChild: left.
-		"		node addChild: fill1.
-"
-		node addChild: middle.
-		node addChild: fill2.
-		node addChild: right.
-		frame addChild: (BlElement new
-				 background: Color pink;
-				 constraintsDo: [ :c |
-					 c horizontal matchParent.
-					 c vertical exact: 5 ]).
+			         width: 10 + cpt.
+		labeledIcon addChild: left.
+		labeledIcon addChild: fill.
+		labeledIcon addChild: right.
 
-		frame addChild: node ].
+		menuItem addChild: labeledIcon.
+		root addChild: menuItem ].
+	
+	win := ToElement new layout: BlFrameLayout new.
+	win fitContent.
+	win addChild: root.
 
-
-	frame openInSpace
+	win openInSpace
 ]
 
 { #category : #frame }

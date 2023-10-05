@@ -86,7 +86,6 @@ ToMenuWindow >> openedSubmenuWindow: aWindow [
 { #category : #'api - displaying' }
 ToMenuWindow >> popupEvent: anEvent [
 
-	self associateElement ifNil: [ ^ self ].
 	self items ifEmpty: [ ^ self ].
-	^ super popupEvent: anEvent
+	super popupEvent: anEvent
 ]

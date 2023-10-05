@@ -121,8 +121,7 @@ ToBasicPopupWindowElement >> popupEvent: anEvent [
 	"I need to finalize my position as soon as my layout is up-to-date"
 	self whenLayoutedDoOnce: [
 		self associateElement isAttachedToSceneGraph ifTrue: [
-			self checkBeforePopup ] ].
-	self requestLayout
+			self checkBeforePopup ] ]
 ]
 
 { #category : #accessing }

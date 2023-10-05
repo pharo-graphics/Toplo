@@ -30,6 +30,12 @@ ToMenuItem >> defaultLayout [
 ]
 
 { #category : #accessing }
+ToMenuItem >> filler [ 
+
+	^ filler
+]
+
+{ #category : #accessing }
 ToMenuItem >> icon [
 
 	^ self labeledIcon icon
@@ -48,7 +54,8 @@ ToMenuItem >> initialize [
 	self withStamp: #'menu-item'.
 	self layout: self defaultLayout.
 	labeledIcon := ToLabeledIcon new "interspace: #flexible; matchParent".
-	filler := ToElement new id: #'filler'; hMatchParent; vFitContent; background: Color yellow.
+	filler := self newFiller.
+	filler id: #'menu-item-filler'.
 	self addChild: labeledIcon.
 	self addChild: filler.
 	self initializeWithMenuItemConstraints
@@ -76,6 +83,12 @@ ToMenuItem >> label: aToLabel [
 ]
 
 { #category : #accessing }
+ToMenuItem >> labelOffset: aNumber [
+
+	self labeledIcon labelOffset: aNumber
+]
+
+{ #category : #accessing }
 ToMenuItem >> labelText: aText [
 
 	self labeledIcon label: (ToLabel text: aText)
@@ -85,4 +98,10 @@ ToMenuItem >> labelText: aText [
 ToMenuItem >> labeledIcon [
 
 	^ labeledIcon
+]
+
+{ #category : #initialization }
+ToMenuItem >> newFiller [
+
+	^ ToElement new matchParent
 ]

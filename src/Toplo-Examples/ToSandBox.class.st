@@ -1115,21 +1115,24 @@ ToSandBox class >> example_SimpleOpenSaveSaveAsClose [
 	menu := ToMenu new background: Color random.
 	menu label: (ToLabel text: 'Menu').
 	menu addItem: (ToMenuItem new
-			 icon: ((ToImage inner: (self iconNamed: #solidMenu)) width: 25);
+			 icon: ((ToImage inner: (self iconNamed: #solidMenu)));
 			 label: (ToLabel text: 'Open')).
+	menu items last labelOffset: 25.
 	menu addItem: (ToMenuItem new
-			 icon: ((ToImage inner: (self iconNamed: #solidMenu)) width: 25);
+			 icon: ((ToImage inner: (self iconNamed: #solidMenu)));
 			 label: (ToLabel text: 'Save');
 			 background: Color random).
+	menu items last labelOffset: 25.
 	menu addItem: (ToMenuItem new
-			 icon: ((ToImage inner: (self iconNamed: #solidMenu)) width: 25);
+			 icon: ((ToImage inner: (self iconNamed: #solidMenu)));
 			 label: (ToLabel text: 'Save as ...');
 			 background: Color random).
+	menu items last labelOffset: 25.
 	menu addSeparator.
 	menu addItem: (ToMenuItem new
-			 icon: ((ToImage inner: (self iconNamed: #solidMenu)) width: 25);
 			 label: (ToLabel text: 'Close');
 			 background: Color random).
+	menu items last labelOffset: 25.
 	container pane addChild: menu.
 	container openInSpace
 ]

@@ -24,6 +24,5 @@ ToCustomMenuItem >> innerElement [
 ToCustomMenuItem >> innerElement: anElement [
 
 	innerElement := anElement.
-	self addChild: anElement.
-	anElement border: BlBorder empty
+	self addChild: anElement
 ]

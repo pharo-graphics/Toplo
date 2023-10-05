@@ -1134,6 +1134,7 @@ ToSandBox class >> example_SimpleOpenSaveSaveAsClose [
 			 background: Color random).
 	menu items last labelOffset: 25.
 	container pane addChild: menu.
+	menu window inspect.
 	container openInSpace
 ]
 

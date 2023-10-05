@@ -46,12 +46,6 @@ ToContextMenu >> isTopMenu [
 	^ true
 ]
 
-{ #category : #'t - menu window model - accessing' }
-ToContextMenu >> menuWindow [
-
-	^ self 
-]
-
 { #category : #'api - displaying' }
 ToContextMenu >> popupEvent: anEvent [
 
@@ -59,4 +53,10 @@ ToContextMenu >> popupEvent: anEvent [
 	self associateElement ifNotNil: [ :w | w openedContextMenu: self ].
 	self requestFocus.
 	super popupEvent: anEvent
+]
+
+{ #category : #'t - menu window model - accessing' }
+ToContextMenu >> window [
+
+	^ self 
 ]

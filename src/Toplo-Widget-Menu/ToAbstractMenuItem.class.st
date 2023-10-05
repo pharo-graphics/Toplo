@@ -60,13 +60,6 @@ ToAbstractMenuItem >> isTopMenu [
 	^ false
 ]
 
-{ #category : #window }
-ToAbstractMenuItem >> menuWindow [
-
-	" by default, a menuItem do not open a submenu "
-	^ nil
-]
-
 { #category : #'parent menu' }
 ToAbstractMenuItem >> parentMenu [
 
@@ -82,11 +75,18 @@ ToAbstractMenuItem >> parentMenu: aMenu [
 { #category : #'parent menu' }
 ToAbstractMenuItem >> parentMenuWindow [
 
-	^ parentMenu ifNotNil: [:m | m menuWindow ] 
+	^ parentMenu ifNotNil: [:m | m window ] 
 ]
 
 { #category : #'adding-removing' }
 ToAbstractMenuItem >> removedFromMenu: aMenu [
 
 	self parentMenu: nil
+]
+
+{ #category : #window }
+ToAbstractMenuItem >> window [
+
+	" by default, a menuItem do not open a submenu "
+	^ nil
 ]

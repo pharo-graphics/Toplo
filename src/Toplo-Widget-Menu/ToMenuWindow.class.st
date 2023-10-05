@@ -1,6 +1,8 @@
 Class {
 	#name : #ToMenuWindow,
 	#superclass : #ToPopupWindow,
+	#traits : 'TToOrientable',
+	#classTraits : 'TToOrientable classTrait',
 	#instVars : [
 		'openedSubmenuWindow'
 	],
@@ -54,11 +56,19 @@ ToMenuWindow >> items [
 	^ self associateElement ifNil: [ ^ #(  ) ] ifNotNil: [ :w | w items ]
 ]
 
+{ #category : #'t - orientable - accessing' }
+ToMenuWindow >> layoutStrategy [
+
+	^ self rootLayout
+
+	
+]
+
 { #category : #'api - displaying' }
 ToMenuWindow >> openSubmenuWindowFor: anElement event: anEvent [
 
 	" the sub menu window must not be already opened "
-	anElement menuWindow isAttachedToSceneGraph ifTrue: [ ^ self ].
+	anElement window isAttachedToSceneGraph ifTrue: [ ^ self ].
 	
 	" do not open if empty "
 	anElement hasItems ifFalse: [ ^ self ].
@@ -67,8 +77,8 @@ ToMenuWindow >> openSubmenuWindowFor: anElement event: anEvent [
 	self openedSubmenuWindow ifNotNil: [ :w | w close ].
 	
 	" ok, open the sub menu window "
-	self openedSubmenuWindow: anElement menuWindow.
-	anElement menuWindow popupEvent: anEvent
+	self openedSubmenuWindow: anElement window.
+	anElement window popupEvent: anEvent
 ]
 
 { #category : #accessing }

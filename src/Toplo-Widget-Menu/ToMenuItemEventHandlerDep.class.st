@@ -20,7 +20,7 @@ ToMenuItemEventHandlerDep >> mouseEnterEvent: anEvent [
 	target parentMenuWindow  openedSubmenuWindow ifNil: [ ^ self ].
 
 	" test if the submenu is not the menuItem one "
-	target parentMenuWindow  openedSubmenuWindow == target menuWindow 
+	target parentMenuWindow  openedSubmenuWindow == target window 
 		ifTrue: [ ^ self ].
 
 	" ok, I can close other item submenu window"

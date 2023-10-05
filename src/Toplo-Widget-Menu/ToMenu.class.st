@@ -4,8 +4,8 @@ Class {
 	#traits : 'TToMenuItemHolder + TToMenuWindowModel',
 	#classTraits : 'TToMenuItemHolder classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
-		'menuWindow',
-		'isSubmenu'
+		'isSubmenu',
+		'window'
 	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
@@ -29,7 +29,7 @@ ToMenu >> client [
 { #category : #'t - menu window model - window opening/closing' }
 ToMenu >> close [
 
-	^ self menuWindow close
+	^ self window close
 ]
 
 { #category : #initialization }
@@ -67,19 +67,10 @@ ToMenu >> isTopMenu [
 	^ self parentMenu isNil
 ]
 
-{ #category : #'t - menu window model - accessing' }
-ToMenu >> menuWindow [
-
-	^ menuWindow ifNil: [
-		  menuWindow := ToMenuWindow new
-			                associateElement: self;
-			                yourself ]
-]
-
 { #category : #'t - menu window model - window opening/closing' }
 ToMenu >> popupEvent: anEvent [
 
-	^ self menuWindow popupEvent: anEvent
+	^ self window popupEvent: anEvent
 ]
 
 { #category : #'adding-removing' }
@@ -96,6 +87,15 @@ ToMenu >> removedFromMenu: aMenu [
 ToMenu >> toThemeChanged [ 
 
 	super toThemeChanged.
-	self menuWindow ifNotNil: [ :mw | mw toThemeChanged ]
+	self window ifNotNil: [ :mw | mw toThemeChanged ]
 	
+]
+
+{ #category : #'t - menu window model - accessing' }
+ToMenu >> window [
+
+	^ window ifNil: [
+		  window := ToMenuWindow new
+			                associateElement: self;
+			                yourself ]
 ]

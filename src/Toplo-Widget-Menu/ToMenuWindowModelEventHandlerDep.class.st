@@ -8,7 +8,7 @@ Class {
 ToMenuWindowModelEventHandlerDep >> leftMouseDownEvent: anEvent [
 
 	super leftMouseDownEvent: anEvent.
-	target menuWindow isOpened ifTrue: [
+	target window isOpened ifTrue: [
 		target isSubmenu ifTrue: [ ^ target parentMenu close ].
 		^ target close ].
 	target popupEvent: anEvent

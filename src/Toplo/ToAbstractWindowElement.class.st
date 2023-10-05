@@ -130,6 +130,20 @@ ToAbstractWindowElement >> rootDo: aBlock [
 	aBlock value: self root
 ]
 
+{ #category : #initialization }
+ToAbstractWindowElement >> rootLayout [
+
+	^ self root layout
+
+]
+
+{ #category : #initialization }
+ToAbstractWindowElement >> rootLayout: aLayout [
+
+	self root layout: aLayout
+
+]
+
 { #category : #'api - displaying' }
 ToAbstractWindowElement >> toFront [
 

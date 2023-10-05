@@ -9,14 +9,14 @@ TToMenuWindowModel >> close [
 	^ self explicitRequirement
 ]
 
-{ #category : #'t - menu window model - accessing' }
-TToMenuWindowModel >> menuWindow [
-
-	^ self explicitRequirement 
-]
-
 { #category : #'t - menu window model - window opening/closing' }
 TToMenuWindowModel >> popupEvent: anEvent [
 
 	^ self explicitRequirement
+]
+
+{ #category : #'t - menu window model - accessing' }
+TToMenuWindowModel >> window [
+
+	^ self explicitRequirement 
 ]

@@ -326,7 +326,7 @@ ToSelectTest >> testWith5StringData [
 	self assert: cb data size equals: 5.
 	self assert: cb selectedData equals: d first.
 	self assert: cb menuButton label text asString equals: d first.
-	self assert: cb menuButton menuWindow root children size equals: 5.
+	self assert: cb menuButton window root children size equals: 5.
 	self assert: cb group buttons size equals: 5.
 	self assert: cb placeholder isNil.
 	cb data removeAll.
@@ -344,7 +344,7 @@ ToSelectTest >> testWithOneStringData [
 	self assert: cb data size equals: 1.
 	self assert: cb selectedData equals: d.
 	self assert: cb menuButton label text asString equals: d.
-	self assert: cb menuButton menuWindow root children size equals: 1.
+	self assert: cb menuButton window root children size equals: 1.
 	self assert: cb group buttons size equals: 1.
 	self assert: cb placeholder isNil
 ]
@@ -365,7 +365,7 @@ ToSelectTest >> testWithStrictStrategy [
 	self assert: cb data size equals: 3.
 	self assert: cb selectedData equals: d1.
 	self assert: cb menuButton label text asString equals: d1.
-	self assert: cb menuButton menuWindow root children size equals: 3.
+	self assert: cb menuButton window root children size equals: 3.
 	self assert: cb group buttons size equals: 3.
 	self assert: cb group buttons first checked.
 	self assert: cb group buttons second checked not.
@@ -391,7 +391,7 @@ ToSelectTest >> testWithUncheckStrategy [
 	self assert: cb data size equals: 3.
 	cb selectData: d1.
 	self assert: cb menuButton label text asString equals: d1.
-	self assert: cb menuButton menuWindow root children size equals: 3.
+	self assert: cb menuButton window root children size equals: 3.
 	self assert: cb group buttons size equals: 3.
 	self assert: cb group buttons first checked.
 	self assert: cb group buttons second checked not.

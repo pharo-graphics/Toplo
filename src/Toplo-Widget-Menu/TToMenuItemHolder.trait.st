@@ -18,7 +18,7 @@ TToMenuItemHolder >> addAllItems: aCollection [
 TToMenuItemHolder >> addItem: aMenuItem [
 
 	self items add: aMenuItem.
-	self menuWindow root addChild: aMenuItem.
+	self window root addChild: aMenuItem.
 	aMenuItem addedInMenu: self
 ]
 
@@ -76,7 +76,7 @@ TToMenuItemHolder >> removeItem: aMenuItem [
 
 	aMenuItem removedFromMenu: self.
 	self items remove: aMenuItem.
-	self menuWindow root removeChild: aMenuItem
+	self window root removeChild: aMenuItem
 ]
 
 { #category : #'t - menu item holder - adding/removing' }
@@ -94,7 +94,7 @@ TToMenuItemHolder >> replaceItemAt: anIndex with: anItem [
 	previous := self items at: anIndex.
 	previous removedFromMenu: self.
 	self items at: anIndex put: anItem.
-	self menuWindow root replaceChild: previous with: anItem
+	self window root replaceChild: previous with: anItem
 
 ]
 

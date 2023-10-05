@@ -12,7 +12,7 @@ Class {
 { #category : #'t - menu window model - window opening/closing' }
 ToSelectInnerButton >> close [
 
-	^ self menuWindow close
+	^ self window close
 ]
 
 { #category : #initialization }
@@ -33,24 +33,24 @@ ToSelectInnerButton >> initialize [
 	
 ]
 
-{ #category : #'t - menu window model - accessing' }
-ToSelectInnerButton >> menuWindow [
-
-	^ menuWindow ifNil: [
-		  menuWindow := ToMenuWindow new
-			                widget: self;
-			                yourself ]
-]
-
 { #category : #'t - menu window model - window opening/closing' }
 ToSelectInnerButton >> popupEvent: anEvent [
 
-	^ self menuWindow popupEvent: anEvent
+	^ self window popupEvent: anEvent
 ]
 
 { #category : #'theme event handling' }
 ToSelectInnerButton >> toThemeChanged [ 
 
 	super toThemeChanged.
-	self menuWindow ifNotNil: [ :mw | mw toThemeChanged ]
+	self window ifNotNil: [ :mw | mw toThemeChanged ]
+]
+
+{ #category : #'t - menu window model - accessing' }
+ToSelectInnerButton >> window [
+
+	^ menuWindow ifNil: [
+		  menuWindow := ToMenuWindow new
+			                widget: self;
+			                yourself ]
 ]

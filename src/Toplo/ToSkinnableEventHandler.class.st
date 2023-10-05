@@ -98,6 +98,16 @@ ToSkinnableEventHandler >> handleEvent: anEvent [
 	anEvent sendTo: self 
 ]
 
+{ #category : #'mouse handlers' }
+ToSkinnableEventHandler >> isPickOutsideEventRelevantForTarget: anEvent [
+
+	"Outside event can have a button label or icon as target. 
+	In that case, no action is triggered "
+	(anEvent originalEvent target notNil and: [
+		 anEvent originalEvent target hasParent: target ]) ifTrue: [
+		^ false ].
+]
+
 { #category : #'event handling' }
 ToSkinnableEventHandler >> keyDownEvent: anEvent [
 ]
@@ -181,6 +191,12 @@ ToSkinnableEventHandler >> mouseOutEvent: anEvent [
 
 { #category : #'mouse handlers' }
 ToSkinnableEventHandler >> mouseOverEvent: anEvent [
+]
+
+{ #category : #'mouse handlers' }
+ToSkinnableEventHandler >> mousePickOutsideEvent: anEvent [
+
+
 ]
 
 { #category : #'mouse handlers' }

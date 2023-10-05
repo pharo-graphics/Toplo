@@ -30,6 +30,24 @@ ToElementWithPopupWindowEventHandler >> mouseDownEvent: anEvent [
 ]
 
 { #category : #'mouse handlers' }
+ToElementWithPopupWindowEventHandler >> mouseDownOutsideEvent: anEvent [
+
+	" 
+	if the original event target is the element with popup or
+	if the original event target is the popup window then do nothing
+	"
+	anEvent originalEvent target ifNotNil: [ :originalTarget |
+		(originalTarget hasParent: target) ifTrue: [ ^ self  ].
+		(originalTarget hasParent: window) ifTrue: [ ^ self ] ].
+	
+	super mouseDownOutsideEvent: anEvent.
+	
+	" ok, mouseUp outside the element and outside of the popup window "
+	anEvent consumed: true.
+	window close
+]
+
+{ #category : #'mouse handlers' }
 ToElementWithPopupWindowEventHandler >> mouseUpEvent: anEvent [
 
 	| delay |
@@ -51,8 +69,10 @@ ToElementWithPopupWindowEventHandler >> mouseUpOutsideEvent: anEvent [
 	if the original event target is the popup window then do nothing
 	"
 	anEvent originalEvent target ifNotNil: [ :originalTarget |
-		(originalTarget hasParent: target) ifTrue: [ ^ self ].
+		(originalTarget hasParent: target) ifTrue: [ ^ self  ].
 		(originalTarget hasParent: window) ifTrue: [ ^ self ] ].
+	
+	super mouseUpOutsideEvent: anEvent.
 	
 	" ok, mouseUp outside the element and outside of the popup window "
 	anEvent consumed: true.

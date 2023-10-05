@@ -93,16 +93,27 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseUpOutsideAssociateElement [
 	win := ToPopupWindow new associateElement: e.
 	self assert: win associateElement equals: e.
 	
+	" mouse down on widget then up on space root"
+	BlSpace simulateMouseDownOn: e.
+	BlSpace simulateDragOn: e byAll: { 100@100  }.
+	BlSpace simulateMouseUpOn: space root.
+	self assert: win isClosed.
+	
 	" mouse down on widget then up on popup"
+	self waitTestingSpaces.
+	space root forceLayout.
+	e forceLayout.
+	win forceLayout.
 	BlSpace simulateMouseDownOn: e.
 	self assert: win isOpened.
+	space root forceLayout.
+	e forceLayout.
+	win forceLayout.
+	self waitTestingSpaces.
 	BlSpace simulateMouseUpOn: win.
 	self flag: 'should stay opened. it works on examples. I guess this is due a bad implementation of the test:
 	in working examples but the use case is a  mouse drag from e to win'.
 	self assert: win isOpened.
 	
-	" mouse down on widget then up on space root"
-	BlSpace simulateMouseDownOn: e.
-	BlSpace simulateMouseUpOn: space root.
-	self assert: win isOpened
+
 ]

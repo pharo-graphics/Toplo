@@ -5,7 +5,8 @@ Class {
 	#classTraits : 'TToElementWithTooltip classTrait + TToClickable classTrait',
 	#instVars : [
 		'#labeledIcon => ToSkinnableSlot',
-		'#filler'
+		'#filler',
+		'#righHandSide'
 	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
@@ -55,9 +56,10 @@ ToMenuItem >> initialize [
 	self layout: self defaultLayout.
 	labeledIcon := ToLabeledIcon new "interspace: #flexible; matchParent".
 	filler := self newFiller.
-	filler id: #'menu-item-filler'.
+	righHandSide := self newRightHandSide.
 	self addChild: labeledIcon.
 	self addChild: filler.
+	self addChild: righHandSide.
 	self initializeWithMenuItemConstraints
 
 ]
@@ -103,5 +105,21 @@ ToMenuItem >> labeledIcon [
 { #category : #initialization }
 ToMenuItem >> newFiller [
 
-	^ ToElement new matchParent
+	^ ToElement new
+		  matchParent;
+		  id: #'menu-item-filler';
+		  yourself
+]
+
+{ #category : #initialization }
+ToMenuItem >> newRightHandSide [
+
+	| rhs |
+	rhs := ToElement new layout: BlLinearLayout horizontal.
+	rhs id: #'right-hand-side'.
+	rhs constraintsDo: [ :c |
+						 c linear vertical alignCenter.
+						 c linear horizontal alignCenter ].
+	rhs fitContent.
+	^ rhs
 ]

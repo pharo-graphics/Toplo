@@ -8,11 +8,11 @@ Class {
 }
 
 { #category : #tests }
-ToOverlayWindowTest >> testWindowsize [
+ToOverlayWindowTest >> testWindowSize [
 
 	| win e space |
 	space := self newTestingSpace.
-	e := ToElement new.
+	e := ToAnchoredWindowElementForTest new.
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
@@ -39,11 +39,11 @@ ToOverlayWindowTest >> testWindowsize [
 ]
 
 { #category : #tests }
-ToOverlayWindowTest >> testWindowsize2 [
+ToOverlayWindowTest >> testWindowSize2 [
 
 	| win e space |
 	space := self newTestingSpace.
-	e := ToElement new.
+	e := ToAnchoredWindowElementForTest new.
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.

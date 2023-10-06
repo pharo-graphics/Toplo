@@ -1,19 +1,24 @@
 Class {
 	#name : #ToOverlayWindow,
-	#superclass : #ToAnchoredWindow,
+	#superclass : #ToAnchoredWindowElement,
 	#category : #'Toplo-Core-Window'
 }
 
-{ #category : #'api - displaying' }
-ToOverlayWindow >> checkBeforePopup [
+{ #category : #initialization }
+ToOverlayWindow >> defaulSizeHook [
 
-	" aWindow bounds are up-to-date, I can be visible "
-	self size: self associateElement size.
-	super checkBeforePopup
+	^ [ :w :event | w associateElement size ]
 ]
 
 { #category : #initialization }
 ToOverlayWindow >> defaultAssociateElementEventHandlerClass [
 
-	^ ToElementWithOverlayWindowEventHandler
+	^ ToOverlayWindowAssociateElementEventHandler
+]
+
+{ #category : #initialization }
+ToOverlayWindow >> initialize [ 
+
+	super initialize.
+	self sizeHook: self defaulSizeHook
 ]

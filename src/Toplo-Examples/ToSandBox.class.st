@@ -518,7 +518,9 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_interspace [
 
 	| but  |
 	but := self example_LabeledIconlWithIconAndText.
-	but interspace: 20 asPoint.
+	but border: Color black.
+	but layout cellSpacing: 20.
+	but interspace: 100 asPoint.
 	^ but
 ]
 
@@ -1040,7 +1042,7 @@ ToSandBox class >> example_Popup1 [
 		             size: 400 @ 200;
 		             yourself.
 
-	menu := ToElement new
+	menu := ToAnchoredWindowElementForTest new
 		     id: #'red-button';
 		     background: Color red;
 		     size: 100 @ 40;
@@ -2479,7 +2481,7 @@ ToSandBox class >> example_overlayWidow1 [
 	w := ToOverlayWindow new.
 	w background: (Color gray alpha: 0.2).
 	w border: (BlBorder paint: Color black width: 2).
-	e := ToElement new
+	e := ToAnchoredWindowElementForTest new
 		     size: 100 @ 100;
 		     position: 50 @ 50;
 		     background: Color yellow;

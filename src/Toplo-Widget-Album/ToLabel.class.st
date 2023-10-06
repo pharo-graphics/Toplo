@@ -273,8 +273,8 @@ ToLabel >> newEditor [
 { #category : #'private-editing' }
 ToLabel >> newEditorFrameForEditor: anEditor [
 
-	^ ToAnchoredWindow new
-		  widget: self innerElement;
+	^ ToAnchoredWindowElement new
+		  associateElement: self innerElement;
 		  in: [ :aw | aw root addChild: anEditor ];
 		  yourself
 ]

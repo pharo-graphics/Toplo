@@ -1,6 +1,6 @@
 Class {
 	#name : #ToPopupWindow,
-	#superclass : #ToBasicPopupWindowElement,
+	#superclass : #ToAnchoredWindowElement,
 	#category : #'Toplo-Core-Window'
 }
 
@@ -37,30 +37,11 @@ ToPopupWindow >> defaulPositionHook [
 { #category : #initialization }
 ToPopupWindow >> defaultAssociateElementEventHandlerClass [
 
-	^ ToElementWithPopupWindowEventHandler 
+	^ ToPopupWindowAssociateElementEventHandler 
 ]
 
 { #category : #accessing }
 ToPopupWindow >> defaultElevation [
 
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 500)
-]
-
-{ #category : #initialization }
-ToPopupWindow >> defaultEventHandler [ 
-	
-	^ self defaultEventHandlerClass new
-]
-
-{ #category : #initialization }
-ToPopupWindow >> defaultEventHandlerClass [
-	
-	^ ToPopupWindowEventHandler
-]
-
-{ #category : #initialization }
-ToPopupWindow >> initialize [ 
-
-	super initialize.
-	self addEventHandler: self defaultEventHandler 
 ]

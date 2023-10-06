@@ -12,7 +12,7 @@ ToPopupWindowTest >> testAssociateElement [
 
 	| win e space |
 	space := BlSpace new.
-	e := e := ToElement new
+	e := e := ToAnchoredWindowElementForTest new
 		          background: Color red;
 		          size: 100 @ 40;
 		          position: 50 @ 50.
@@ -33,7 +33,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp [
 
 	| win e space |
 	space := BlSpace new.
-	e := e := ToElement new
+	e := e := ToAnchoredWindowElementForTest new
 		          background: Color red;
 		          size: 100 @ 40;
 		          position: 50 @ 50.
@@ -59,7 +59,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 
 	| win e space |
 	space := BlSpace new.
-	e := e := ToElement new
+	e := e := ToAnchoredWindowElementForTest new
 		          background: Color red;
 		          size: 100 @ 40;
 		          position: 50 @ 50.
@@ -85,7 +85,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseUpOutsideAssociateElement [
 	| win e space |
 	self skip.
 	space := BlSpace new.
-	e := e := ToElement new
+	e := e := ToAnchoredWindowElementForTest new
 		          background: Color red;
 		          size: 100 @ 40;
 		          position: 50 @ 50.

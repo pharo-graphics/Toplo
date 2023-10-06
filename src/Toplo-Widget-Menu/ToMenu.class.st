@@ -1,11 +1,11 @@
 Class {
 	#name : #ToMenu,
 	#superclass : #ToMenuItem,
-	#traits : 'TToMenuItemHolder + TToMenuWindowModel',
-	#classTraits : 'TToMenuItemHolder classTrait + TToMenuWindowModel classTrait',
+	#traits : 'TToMenuItemHolder + TToMenuWindowModel + TToElementWithAssociateWindow',
+	#classTraits : 'TToMenuItemHolder classTrait + TToMenuWindowModel classTrait + TToElementWithAssociateWindow classTrait',
 	#instVars : [
 		'isSubmenu',
-		'window'
+		'associateWindow'
 	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
@@ -17,6 +17,21 @@ ToMenu >> addedInMenu: aMenu [
 	isSubmenu := true.
 	self initializeWithMenuItemConstraints
 
+]
+
+{ #category : #accessing }
+ToMenu >> associateWindow [
+
+	^ associateWindow ifNil: [
+		  associateWindow := ToMenuWindow new
+			                associateElement: self;
+			                yourself ]
+]
+
+{ #category : #accessing }
+ToMenu >> associateWindow: aWindowElement [
+
+	associateWindow := aWindowElement
 ]
 
 { #category : #'t - menu item holder - accessing' }
@@ -35,7 +50,7 @@ ToMenu >> close [
 { #category : #initialization }
 ToMenu >> defaultEventHandler [
 
-	^ ToMenuItemEventHandler new window: self window
+	^ nil
 ]
 
 { #category : #initialization }
@@ -45,7 +60,7 @@ ToMenu >> initialize [
 	self initializeMenuItemHolder.
 	isSubmenu := false.
 	self initializeWithMenuConstraints.
-	self addEventHandler: self defaultEventHandler 
+	"self addEventHandler: self defaultEventHandler "
 ]
 
 { #category : #initialization }
@@ -94,8 +109,5 @@ ToMenu >> toThemeChanged [
 { #category : #'t - menu window model - accessing' }
 ToMenu >> window [
 
-	^ window ifNil: [
-		  window := ToMenuWindow new
-			                associateElement: self;
-			                yourself ]
+	^ self associateWindow  
 ]

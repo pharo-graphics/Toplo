@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMenuWindowEventHandlerDep,
-	#superclass : #ToPopupWindowEventHandler,
+	#superclass : #ToSkinnableEventHandler,
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 

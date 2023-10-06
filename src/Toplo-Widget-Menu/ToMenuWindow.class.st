@@ -26,6 +26,12 @@ ToMenuWindow >> defaulPositionHook [
 ]
 
 { #category : #initialization }
+ToMenuWindow >> defaultAssociateElementEventHandlerClass [
+
+	^ ToMenuItemEventHandler 
+]
+
+{ #category : #initialization }
 ToMenuWindow >> defaultBackground [
 
 	^ Color white

@@ -46,6 +46,12 @@ ToTooltipWindow >> defaultElevation [
 ]
 
 { #category : #initialization }
+ToTooltipWindow >> defaultEventHandler [ 
+	
+	^ self defaultEventHandlerClass new
+]
+
+{ #category : #initialization }
 ToTooltipWindow >> defaultEventHandlerClass [
 
 	^ ToTooltipWindowEventHandler
@@ -60,7 +66,8 @@ ToTooltipWindow >> initialize [
 	self border: (BlBorder paint: (Color gray alpha: 0.4)).
 	self background: (Color yellow alpha: 0.2).
 	self padding: (BlInsets all: 4).
-	self fitContent
+	self fitContent.
+	self addEventHandler: self defaultEventHandler 
 ]
 
 { #category : #initialization }

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToElementWithTooltipEventHandler,
-	#superclass : #ToElementWithPopupWindowEventHandler,
+	#superclass : #ToPopupWindowAssociateElementEventHandler,
 	#instVars : [
 		'openTooltipTask'
 	],

@@ -4,18 +4,13 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : #'adding-removing' }
-ToSeparatorMenuItem >> addedInMenu: aMenu [
-
-	self parentMenu: aMenu.
-	self hMatchParent.
-	self vFitContent
-]
-
 { #category : #initialization }
 ToSeparatorMenuItem >> initialize [ 
 
 	super initialize.
+
+	self hMatchParent.
+	self vFitContent.
 	self addChild: (ToElement new
 			 background: Color lightGray;
 			 constraintsDo: [ :c | 

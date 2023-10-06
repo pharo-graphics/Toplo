@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMenuItemEventHandlerDep,
-	#superclass : #ToElementWithPopupWindowEventHandler,
+	#superclass : #ToPopupWindowAssociateElementEventHandler,
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 

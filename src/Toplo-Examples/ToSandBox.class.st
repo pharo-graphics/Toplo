@@ -946,7 +946,7 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 		             position: 10 @ 10;
 		             size: 400 @ 200;
 		             yourself.
-	menu := ToMenu new background: Color random.
+	menu := ToMenu new.
 	menu label: (ToLabel text: 'Menu').
 	menu addItem: (ToMenuItem new
 			 icon: (ToImage inner: (self iconNamed: #solidMenu));
@@ -954,8 +954,7 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 	menu items last labelOffset: 25.
 	menu addItem: (ToMenuItem new
 			 icon: (ToImage inner: (self iconNamed: #solidMenu));
-			 label: (ToLabel text: 'Save');
-			 background: Color random).
+			 label: (ToLabel text: 'Save')).
 	menu items last labelOffset: 25.
 	saveAs := ToMenu new label: (ToLabel text: 'Save as ...').
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.pdf')).
@@ -963,10 +962,22 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.xml')).
 	menu addItem: saveAs.
 	menu items last labelOffset: 25.
+	saveAs := ToMenu new label: (ToLabel text: 'Save as ...').
+	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.pdf')).
+	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.doc')).
+	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.xml')).
+	menu addItem: saveAs.
+	menu items last labelOffset: 25.
+	saveAs := ToMenu new label: (ToLabel text: 'Save as ...').
+	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.pdf')).
+	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.doc')).
+	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.xml')).
+	menu addItem: (ToMenu new label: (ToLabel  text: 'Save as again...')).
+	menu items last addItem: saveAs.
+	menu items last labelOffset: 25.
 	menu addSeparator.
 	menu addItem: (ToMenuItem new
-			 label: (ToLabel text: 'Close');
-			 background: Color random).
+			 label: (ToLabel text: 'Close')).
 	menu items last labelOffset: 25.
 	container pane addChild: menu.
 	menu window inspect.

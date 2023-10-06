@@ -205,7 +205,7 @@ ToMiniBrowser >> initialize [
 	codeModel styler: BlRBTextStyler new.
 	codePane := codeModel onWidget margin: (BlInsets top: 8 left: 3 bottom: 3 right: 3).
 
-	codeMenu := ToContextMenu new columnWidth: 0.
+	codeMenu := ToContextMenu new.
 	codeMenu addItem: (ToMenuItem new labelText: 'Accept').
 	codePane contextMenuFactory: [ codeMenu ].
 

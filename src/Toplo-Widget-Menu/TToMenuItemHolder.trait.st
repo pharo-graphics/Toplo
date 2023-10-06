@@ -1,10 +1,5 @@
 Trait {
 	#name : #TToMenuItemHolder,
-	#instVars : [
-		'items',
-		'client',
-		'columnWidth'
-	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
@@ -28,47 +23,16 @@ TToMenuItemHolder >> addSeparator [
 	self addItem: ToSeparatorMenuItem new
 ]
 
-{ #category : #'t - menu item holder - accessing' }
-TToMenuItemHolder >> client [
-
-	^ client 
-]
-
-{ #category : #'t - menu item holder - accessing' }
-TToMenuItemHolder >> client: anObject [
-
-	client := anObject
-]
-
-{ #category : #'t - menu item holder - accessing' }
-TToMenuItemHolder >> columnWidth [
-
-	^ columnWidth ifNil: [ columnWidth := 35 ] 
-]
-
-{ #category : #'t - menu item holder - accessing' }
-TToMenuItemHolder >> columnWidth: anInteger [
-
-	columnWidth = anInteger ifTrue: [ ^ self ].
-	columnWidth := anInteger
-]
-
 { #category : #'t - menu item holder - testing' }
 TToMenuItemHolder >> hasItems [ 
 
 	^ self items notEmpty
 ]
 
-{ #category : #'t - menu item holder -  initialization' }
-TToMenuItemHolder >> initializeMenuItemHolder [
-
-	items := OrderedCollection new
-]
-
 { #category : #'t - menu item holder - accessing' }
 TToMenuItemHolder >> items [
 
-	^ items
+	^ self explicitRequirement 
 ]
 
 { #category : #'t - menu item holder - adding/removing' }
@@ -96,10 +60,4 @@ TToMenuItemHolder >> replaceItemAt: anIndex with: anItem [
 	self items at: anIndex put: anItem.
 	self window root replaceChild: previous with: anItem
 
-]
-
-{ #category : #'t - menu item holder - accessing' }
-TToMenuItemHolder >> withoutLeftColumn [
-
-	self columnWidth: 0
 ]

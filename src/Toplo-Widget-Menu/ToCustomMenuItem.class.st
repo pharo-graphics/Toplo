@@ -7,13 +7,6 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : #initialization }
-ToCustomMenuItem >> defaultEventHandler [
-
-	ToMenuItemEventHandlerDep.
-	^ super defaultEventHandler
-]
-
 { #category : #accessing }
 ToCustomMenuItem >> innerElement [
 

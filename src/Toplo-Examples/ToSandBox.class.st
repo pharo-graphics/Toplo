@@ -139,7 +139,6 @@ Here an example of a client for a method.
 	menu addItem: (ToMenuItem new labelText: 'Accept'; whenClickedDo: [:event  | event currentTarget requestSave ]; yourself).
 	menu addSeparator.
 	menu addItem: (ToMenuItem new labelText: 'Cancel'; whenClickedDo: [:event  | event currentTarget requestCancel ]; yourself).
-	menu withoutLeftColumn.
 	model widgetDo: [ :widget | widget contextMenuFactory: [ menu ]. widget cursorColor: Color black].
 	model onWidget openInInnerWindow 
 
@@ -2048,7 +2047,6 @@ ToSandBox class >> example_menu1 [
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 	
 	menu := ToMenu new.
-	menu columnWidth: 35.
 	menu label: (ToLabel new text: 'File').
 	menu icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
 	menu addItem: (ToMenuItem new
@@ -2127,7 +2125,6 @@ ToSandBox class >> example_menu3 [
 
 	| menu sub subsub |
 	menu := ToMenu new.
-	menu columnWidth: 35.
 	menu label: (ToLabel new text: 'File').
 	menu addItem: (ToMenuItem new
 			 labelText: 'Open file';
@@ -2227,7 +2224,6 @@ ToSandBox class >> example_menu6 [
 
 	| menu grp right center left textField sub th lbl |
 	menu := ToMenu new.
-	menu columnWidth: 35.
 
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
@@ -2438,7 +2434,6 @@ ToSandBox class >> example_menuBar2 [
 	3 timesRepeat: [ 
 		menu := ToMenu new.
 		menu layout cellSpacing: 5.
-		menu columnWidth: 0.
 		menu label: (ToLabel text: 'Levels').
 		menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
 
@@ -2506,7 +2501,6 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	win := ToInnerWindow new title: 'Context menu Example'.
 	win width: 600.
 	menu := ToContextMenu new.
-	menu columnWidth: 22.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Open file';
 			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
@@ -2560,7 +2554,6 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 	| win menu sub subsub bar |
 	win := ToInnerWindow new title: 'Context menu Example'.
 	menu := ToContextMenu new.
-	menu columnWidth: 22.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Open file';
 			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).

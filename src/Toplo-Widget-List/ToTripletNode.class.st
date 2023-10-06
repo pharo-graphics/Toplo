@@ -6,12 +6,6 @@ Class {
 	#category : #'Toplo-Widget-List-node'
 }
 
-{ #category : #'as yet unclassified' }
-ToTripletNode >> client [
-
-	^ self holder infiniteElement client
-]
-
 { #category : #'t - list node - initialization' }
 ToTripletNode >> defaultEventHandler [
 

@@ -14,7 +14,6 @@ ToMenuWindow >> close [
 
 	openedSubmenuWindow ifNotNil: [ :w | w close ].
 	super close
-	
 ]
 
 { #category : #initialization }
@@ -28,7 +27,7 @@ ToMenuWindow >> defaulPositionHook [
 { #category : #initialization }
 ToMenuWindow >> defaultAssociateElementEventHandlerClass [
 
-	^ ToMenuItemEventHandler 
+	^ ToMenuEventHandler 
 ]
 
 { #category : #initialization }
@@ -47,13 +46,6 @@ ToMenuWindow >> defaultBorder [
 ToMenuWindow >> defaultElevation [
 
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 400)
-]
-
-{ #category : #initialization }
-ToMenuWindow >> defaultEventHandlerClass [
-	
-	ToMenuWindowEventHandlerDep.
-	^ super defaultEventHandlerClass
 ]
 
 { #category : #accessing }

@@ -4,6 +4,7 @@ Class {
 	#traits : 'TToMenuItemHolder + TToMenuWindowModel + TToElementWithAssociateWindow',
 	#classTraits : 'TToMenuItemHolder classTrait + TToMenuWindowModel classTrait + TToElementWithAssociateWindow classTrait',
 	#instVars : [
+		'items',
 		'isSubmenu',
 		'associateWindow'
 	],
@@ -34,33 +35,27 @@ ToMenu >> associateWindow: aWindowElement [
 	associateWindow := aWindowElement
 ]
 
-{ #category : #'t - menu item holder - accessing' }
-ToMenu >> client [
-
-	" get parent menu client if none is declared locally "
-	^ client ifNil: [ self parentMenu ifNotNil: [ :pm | pm client ] ]
-]
-
 { #category : #'t - menu window model - window opening/closing' }
 ToMenu >> close [
 
 	^ self window close
 ]
 
-{ #category : #initialization }
-ToMenu >> defaultEventHandler [
+{ #category : #testing }
+ToMenu >> includes: anElement [
 
-	^ nil
+	self associateWindow = anElement ifTrue: [ ^ true ].
+	(self items anySatisfy: [ :e | e includes: anElement ]) ifTrue: [
+		^ true ].
+	^ super includes: anElement
 ]
 
 { #category : #initialization }
 ToMenu >> initialize [
 
 	super initialize.
-	self initializeMenuItemHolder.
 	isSubmenu := false.
-	self initializeWithMenuConstraints.
-	"self addEventHandler: self defaultEventHandler "
+	self initializeWithMenuConstraints
 ]
 
 { #category : #initialization }
@@ -80,6 +75,12 @@ ToMenu >> isSubmenu [
 ToMenu >> isTopMenu [
 
 	^ self parentMenu isNil
+]
+
+{ #category : #'t - menu item holder - accessing' }
+ToMenu >> items [
+
+	^ items ifNil: [ items := OrderedCollection new ]
 ]
 
 { #category : #'t - menu window model - window opening/closing' }

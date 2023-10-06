@@ -18,13 +18,6 @@ ToMenuItem >> clickEventClass [
 ]
 
 { #category : #initialization }
-ToMenuItem >> defaultEventHandler [ 
-
-	ToMenuItemEventHandlerDep.
-	^ super defaultEventHandler
-]
-
-{ #category : #initialization }
 ToMenuItem >> defaultLayout [ 
 
 	^ BlLinearLayout horizontal

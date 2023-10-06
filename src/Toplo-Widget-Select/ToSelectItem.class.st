@@ -6,12 +6,6 @@ Class {
 	#category : #'Toplo-Widget-Select'
 }
 
-{ #category : #initialization }
-ToSelectItem >> defaultEventHandler [
-
-	^ ToSelectItemEventHandler new
-]
-
 { #category : #'as yet unclassified' }
 ToSelectItem >> initialize [
 

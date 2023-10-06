@@ -3,6 +3,9 @@ Class {
 	#superclass : #ToMenuWindow,
 	#traits : 'TToMenuItemHolder + TToMenuWindowModel',
 	#classTraits : 'TToMenuItemHolder classTrait + TToMenuWindowModel classTrait',
+	#instVars : [
+		'items'
+	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
@@ -14,24 +17,13 @@ ToContextMenu >> allParentMenusDo: aBlock [
 ToContextMenu >> close [
 
 	self isOpened ifFalse: [ ^ self ].
-	super close.
-	self associateElement dispatchEvent: (ToContextMenuClosedEvent new
-			 widget: self associateElement;
-			 yourself)
+	super close
 ]
 
 { #category : #initialization }
 ToContextMenu >> defaulPositionHook [
 
 	^ [ :w :event | event position ]
-]
-
-{ #category : #initialization }
-ToContextMenu >> initialize [
-
-	super initialize.
-	self initializeMenuItemHolder.
-
 ]
 
 { #category : #testing }
@@ -44,6 +36,12 @@ ToContextMenu >> isSubmenu [
 ToContextMenu >> isTopMenu [
 
 	^ true
+]
+
+{ #category : #'t - menu item holder - accessing' }
+ToContextMenu >> items [
+
+	^ items ifNil: [ items := OrderedCollection new ]
 ]
 
 { #category : #'api - displaying' }

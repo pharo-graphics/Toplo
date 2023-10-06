@@ -1,6 +1,6 @@
 Class {
 	#name : #ToContextMenuOpenedEvent,
-	#superclass : #ToContextMenuEvent,
+	#superclass : #ToWindowOpenedEvent,
 	#instVars : [
 		'sourceEvent'
 	],

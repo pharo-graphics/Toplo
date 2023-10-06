@@ -4,6 +4,7 @@ Class {
 	#traits : 'TToMenuItemHolder + TToMenuWindowModel',
 	#classTraits : 'TToMenuItemHolder classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
+		'items',
 		'menuWindow'
 	],
 	#category : #'Toplo-Widget-Select'
@@ -16,21 +17,18 @@ ToSelectInnerButton >> close [
 ]
 
 { #category : #initialization }
-ToSelectInnerButton >> defaultEventHandler [ 
-
-	ToMenuWindowModelEventHandlerDep.
-	^ super defaultEventHandler
-]
-
-{ #category : #initialization }
 ToSelectInnerButton >> initialize [
 
 	super initialize.
 	self beLabelFirst.
 	self justified: true.
-	self icon: (ToImage inner: (Smalltalk ui icons iconNamed: #bottom)).
-	self initializeMenuItemHolder.
-	
+	self icon: (ToImage inner: (Smalltalk ui icons iconNamed: #bottom))	
+]
+
+{ #category : #'t - menu item holder - accessing' }
+ToSelectInnerButton >> items [
+
+	^ items ifNil: [ items := OrderedCollection new ]
 ]
 
 { #category : #'t - menu window model - window opening/closing' }

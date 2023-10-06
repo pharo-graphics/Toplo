@@ -13,39 +13,26 @@ ToAbstractMenuItem >> addedInMenu: aMenu [
 	self parentMenu: aMenu
 ]
 
-{ #category : #'parent menu' }
-ToAbstractMenuItem >> allParentMenusDo: aBlock [
-	
-	| pm |
-	pm := self parentMenu.
-	pm ifNil: [ ^ self ].
-	aBlock value: pm.
-	pm allParentMenusDo: aBlock
-]
-
-{ #category : #accessing }
-ToAbstractMenuItem >> columnWidth [
-
-	^ self parentMenu ifNil: [ 0 ] ifNotNil: [:pm | pm columnWidth ]
-]
-
-{ #category : #initialization }
-ToAbstractMenuItem >> defaultEventHandler [
-
-	^ nil
-]
-
 { #category : #testing }
 ToAbstractMenuItem >> hasIcon [
 
 	^ false
 ]
 
+{ #category : #testing }
+ToAbstractMenuItem >> includes: anElement [
+
+	self allChildrenBreadthFirstDo: [ :e | e = anElement ifTrue: [ ^ true ] ].
+	^ false
+
+]
+
 { #category : #initialization }
 ToAbstractMenuItem >> initialize [
 
 	super initialize.
-	self layout: BlLinearLayout horizontal
+	self layout: BlLinearLayout horizontal.
+	self addEventHandler: ToMenuItemEventHandler new
 ]
 
 { #category : #testing }
@@ -75,7 +62,7 @@ ToAbstractMenuItem >> parentMenu: aMenu [
 { #category : #'parent menu' }
 ToAbstractMenuItem >> parentMenuWindow [
 
-	^ parentMenu ifNotNil: [:m | m window ] 
+	^ parentMenu ifNotNil: [:m | m associateWindow ] 
 ]
 
 { #category : #'adding-removing' }

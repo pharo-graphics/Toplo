@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : #initialization }
-ToCheckMenuItem >> defaultEventHandler [ 
+ToCheckMenuItem >> defaultEventHandlerClass [
 
-	^ ToCheckableEventHandler new
+	^ ToCheckableEventHandler
 ]

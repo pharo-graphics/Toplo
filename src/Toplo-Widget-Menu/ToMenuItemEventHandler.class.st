@@ -7,12 +7,15 @@ Class {
 { #category : #'mouse handlers' }
 ToMenuItemEventHandler >> mouseEnterEvent: anEvent [
 
+	| win |
 	super mouseEnterEvent: anEvent.
 	" check event and current target "
 	(anEvent anyButtonPressed and: [ anEvent currentTarget ~= target ])
 		ifTrue: [ ^ self ].
-	
+
 	target isTopMenu ifTrue: [ ^ self ].
-	"target parentMenuWindow openedSubmenuWindow ifNotNil: [ :osmw |
-		osmw close ]"
+	win := target associateWindow.
+	target parentMenuWindow openedSubmenuWindow: win.
+	win ifNotNil: [ win popupEvent: anEvent ].
+
 ]

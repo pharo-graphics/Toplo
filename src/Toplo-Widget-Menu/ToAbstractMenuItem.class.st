@@ -13,6 +13,24 @@ ToAbstractMenuItem >> addedInMenu: aMenu [
 	self parentMenu: aMenu
 ]
 
+{ #category : #accessing }
+ToAbstractMenuItem >> associateWindow [
+
+	^ nil
+]
+
+{ #category : #initialization }
+ToAbstractMenuItem >> defaultEventHandler [
+
+	^ self defaultEventHandlerClass new
+]
+
+{ #category : #initialization }
+ToAbstractMenuItem >> defaultEventHandlerClass [ 
+
+	^ ToMenuItemEventHandler
+]
+
 { #category : #testing }
 ToAbstractMenuItem >> hasIcon [
 
@@ -32,7 +50,7 @@ ToAbstractMenuItem >> initialize [
 
 	super initialize.
 	self layout: BlLinearLayout horizontal.
-	self addEventHandler: ToMenuItemEventHandler new
+	self addEventHandler: self defaultEventHandler 
 ]
 
 { #category : #testing }

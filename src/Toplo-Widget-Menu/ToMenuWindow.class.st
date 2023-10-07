@@ -88,7 +88,8 @@ ToMenuWindow >> openedSubmenuWindow [
 { #category : #accessing }
 ToMenuWindow >> openedSubmenuWindow: aWindow [
 
-	openedSubmenuWindow := aWindow
+	openedSubmenuWindow ifNotNil: [ openedSubmenuWindow close ].
+	openedSubmenuWindow := aWindow.
 ]
 
 { #category : #'api - displaying' }

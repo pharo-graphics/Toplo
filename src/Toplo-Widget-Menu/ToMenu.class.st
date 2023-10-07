@@ -20,7 +20,7 @@ ToMenu >> addedInMenu: aMenu [
 
 ]
 
-{ #category : #accessing }
+{ #category : #'t - element with associate window - accessing' }
 ToMenu >> associateWindow [
 
 	^ associateWindow ifNil: [
@@ -29,7 +29,7 @@ ToMenu >> associateWindow [
 			                yourself ]
 ]
 
-{ #category : #accessing }
+{ #category : #'t - element with associate window - accessing' }
 ToMenu >> associateWindow: aWindowElement [
 
 	associateWindow := aWindowElement

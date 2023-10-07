@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCustomMenuItem,
-	#superclass : #ToAbstractMenuItem,
+	#superclass : #ToMenuItemElement,
 	#instVars : [
 		'innerElement'
 	],

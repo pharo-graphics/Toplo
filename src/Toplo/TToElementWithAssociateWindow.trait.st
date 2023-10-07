@@ -3,13 +3,13 @@ Trait {
 	#category : #'Toplo-Core-Window'
 }
 
-{ #category : #accessing }
+{ #category : #'t - element with associate window - accessing' }
 TToElementWithAssociateWindow >> associateWindow [
 
 	^ self explicitRequirement
 ]
 
-{ #category : #accessing }
+{ #category : #'t - element with associate window - accessing' }
 TToElementWithAssociateWindow >> associateWindow: aWindowElement [
 
 	^ self explicitRequirement

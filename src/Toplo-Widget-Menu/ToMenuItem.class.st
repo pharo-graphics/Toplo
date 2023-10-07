@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMenuItem,
-	#superclass : #ToAbstractMenuItem,
+	#superclass : #ToMenuItemElement,
 	#traits : 'TToElementWithTooltip + TToClickable + TToElementWithLabeledIcon',
 	#classTraits : 'TToElementWithTooltip classTrait + TToClickable classTrait + TToElementWithLabeledIcon classTrait',
 	#instVars : [

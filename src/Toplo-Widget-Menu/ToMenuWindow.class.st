@@ -62,23 +62,6 @@ ToMenuWindow >> layoutStrategy [
 	
 ]
 
-{ #category : #'api - displaying' }
-ToMenuWindow >> openSubmenuWindowFor: anElement event: anEvent [
-
-	" the sub menu window must not be already opened "
-	anElement window isAttachedToSceneGraph ifTrue: [ ^ self ].
-	
-	" do not open if empty "
-	anElement hasItems ifFalse: [ ^ self ].
-	
-	" close currently opened submenu window (issue #50) "
-	self openedSubmenuWindow ifNotNil: [ :w | w close ].
-	
-	" ok, open the sub menu window "
-	self openedSubmenuWindow: anElement window.
-	anElement window popupEvent: anEvent
-]
-
 { #category : #accessing }
 ToMenuWindow >> openedSubmenuWindow [
 

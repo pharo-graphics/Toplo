@@ -30,7 +30,7 @@ ToTooltipWindow >> content: anElement [
 { #category : #initialization }
 ToTooltipWindow >> defaulPositionHook [
 
-	^ [ :w :event | event position x @ (w associateElement localPointToGlobal: 0 @ w associateElement height) y + self vgap ]
+	^ [ :w :event | event currentTarget position x @ (w associateElement localPointToGlobal: 0 @ w associateElement height) y + self vgap ]
 ]
 
 { #category : #initialization }

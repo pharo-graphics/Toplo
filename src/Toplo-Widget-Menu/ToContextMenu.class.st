@@ -9,14 +9,9 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : #'parent menu' }
-ToContextMenu >> allParentMenusDo: aBlock [
-]
-
 { #category : #'t - menu window model - window opening/closing' }
 ToContextMenu >> close [
 
-	self isOpened ifFalse: [ ^ self ].
 	super close
 ]
 

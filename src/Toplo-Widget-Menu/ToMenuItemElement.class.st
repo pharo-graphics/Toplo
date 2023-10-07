@@ -1,5 +1,5 @@
 Class {
-	#name : #ToAbstractMenuItem,
+	#name : #ToMenuItemElement,
 	#superclass : #ToElement,
 	#instVars : [
 		'parentMenu'
@@ -8,37 +8,37 @@ Class {
 }
 
 { #category : #'adding-removing' }
-ToAbstractMenuItem >> addedInMenu: aMenu [
+ToMenuItemElement >> addedInMenu: aMenu [
 
 	self parentMenu: aMenu
 ]
 
 { #category : #accessing }
-ToAbstractMenuItem >> associateWindow [
+ToMenuItemElement >> associateWindow [
 
 	^ nil
 ]
 
 { #category : #initialization }
-ToAbstractMenuItem >> defaultEventHandler [
+ToMenuItemElement >> defaultEventHandler [
 
 	^ self defaultEventHandlerClass new
 ]
 
 { #category : #initialization }
-ToAbstractMenuItem >> defaultEventHandlerClass [ 
+ToMenuItemElement >> defaultEventHandlerClass [ 
 
 	^ ToMenuItemEventHandler
 ]
 
 { #category : #testing }
-ToAbstractMenuItem >> hasIcon [
+ToMenuItemElement >> hasIcon [
 
 	^ false
 ]
 
 { #category : #testing }
-ToAbstractMenuItem >> includes: anElement [
+ToMenuItemElement >> includes: anElement [
 
 	self allChildrenBreadthFirstDo: [ :e | e = anElement ifTrue: [ ^ true ] ].
 	^ false
@@ -46,7 +46,7 @@ ToAbstractMenuItem >> includes: anElement [
 ]
 
 { #category : #initialization }
-ToAbstractMenuItem >> initialize [
+ToMenuItemElement >> initialize [
 
 	super initialize.
 	self layout: BlLinearLayout horizontal.
@@ -54,49 +54,49 @@ ToAbstractMenuItem >> initialize [
 ]
 
 { #category : #testing }
-ToAbstractMenuItem >> isSubmenu [ 
+ToMenuItemElement >> isSubmenu [ 
 
 	^ false
 ]
 
 { #category : #testing }
-ToAbstractMenuItem >> isTopMenu [
+ToMenuItemElement >> isTopMenu [
 
 	^ false
 ]
 
 { #category : #'parent menu' }
-ToAbstractMenuItem >> parentMenu [
+ToMenuItemElement >> parentMenu [
 
 	 ^ parentMenu
 ]
 
 { #category : #'parent menu' }
-ToAbstractMenuItem >> parentMenu: aMenu [
+ToMenuItemElement >> parentMenu: aMenu [
 
 	parentMenu := aMenu
 ]
 
 { #category : #'parent menu' }
-ToAbstractMenuItem >> parentMenuWindow [
+ToMenuItemElement >> parentMenuWindow [
 
 	^ parentMenu ifNotNil: [:m | m associateWindow ] 
 ]
 
 { #category : #'adding-removing' }
-ToAbstractMenuItem >> removedFromMenu: aMenu [
+ToMenuItemElement >> removedFromMenu: aMenu [
 
 	self parentMenu: nil
 ]
 
 { #category : #'parent menu' }
-ToAbstractMenuItem >> rootMenu [
+ToMenuItemElement >> rootMenu [
 
 	 ^ parentMenu ifNil: [ self ] ifNotNil: [ :pm | pm rootMenu  ]
 ]
 
 { #category : #window }
-ToAbstractMenuItem >> window [
+ToMenuItemElement >> window [
 
 	" by default, a menuItem do not open a submenu "
 	^ nil

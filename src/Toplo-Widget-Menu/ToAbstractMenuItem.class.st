@@ -89,6 +89,12 @@ ToAbstractMenuItem >> removedFromMenu: aMenu [
 	self parentMenu: nil
 ]
 
+{ #category : #'parent menu' }
+ToAbstractMenuItem >> rootMenu [
+
+	 ^ parentMenu ifNil: [ self ] ifNotNil: [ :pm | pm rootMenu  ]
+]
+
 { #category : #window }
 ToAbstractMenuItem >> window [
 

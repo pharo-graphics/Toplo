@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuItem,
 	#superclass : #ToAbstractMenuItem,
-	#traits : 'TToElementWithTooltip + TToClickable',
-	#classTraits : 'TToElementWithTooltip classTrait + TToClickable classTrait',
+	#traits : 'TToElementWithTooltip + TToClickable + TToElementWithLabeledIcon',
+	#classTraits : 'TToElementWithTooltip classTrait + TToClickable classTrait + TToElementWithLabeledIcon classTrait',
 	#instVars : [
 		'#labeledIcon => ToSkinnableSlot',
 		'#filler',
@@ -29,25 +29,13 @@ ToMenuItem >> filler [
 	^ filler
 ]
 
-{ #category : #accessing }
-ToMenuItem >> icon [
-
-	^ self labeledIcon icon
-]
-
-{ #category : #accessing }
-ToMenuItem >> icon: aToImage [
-
-	self labeledIcon icon: aToImage
-]
-
 { #category : #initialization }
 ToMenuItem >> initialize [ 
 
 	super initialize.
 	self withStamp: #'menu-item'.
 	self layout: self defaultLayout.
-	labeledIcon := ToLabeledIcon new "interspace: #flexible; matchParent".
+	labeledIcon := ToLabeledIcon new .
 	filler := self newFiller.
 	rightHandSide := self newRightHandSide.
 	self addChild: labeledIcon.
@@ -65,34 +53,10 @@ ToMenuItem >> initializeWithMenuItemConstraints [
 
 ]
 
-{ #category : #accessing }
-ToMenuItem >> label [
+{ #category : #'t - element with labeled icon - accessing' }
+ToMenuItem >> labeledIcon [ 
 
-	^ self labeledIcon label
-]
-
-{ #category : #accessing }
-ToMenuItem >> label: aToLabel [
-
-	self labeledIcon label: aToLabel
-]
-
-{ #category : #accessing }
-ToMenuItem >> labelOffset: aNumber [
-
-	self labeledIcon labelOffset: aNumber
-]
-
-{ #category : #accessing }
-ToMenuItem >> labelText: aText [
-
-	self labeledIcon label: (ToLabel text: aText)
-]
-
-{ #category : #accessing }
-ToMenuItem >> labeledIcon [
-
-	^ labeledIcon
+	^ labeledIcon 
 ]
 
 { #category : #initialization }

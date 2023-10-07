@@ -981,7 +981,7 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 			 label: (ToLabel text: 'Close')).
 	menu items last labelOffset: 25.
 	container pane addChild: menu.
-	menu window inspect.
+	"menu window inspect."
 	container openInSpace
 ]
 

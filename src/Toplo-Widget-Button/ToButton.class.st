@@ -1,8 +1,8 @@
 Class {
 	#name : #ToButton,
 	#superclass : #ToGeneralButton,
-	#traits : 'TToOrientable',
-	#classTraits : 'TToOrientable classTrait',
+	#traits : 'TToOrientable + TToElementWithLabeledIcon',
+	#classTraits : 'TToOrientable classTrait + TToElementWithLabeledIcon classTrait',
 	#instVars : [
 		'#labeledIcon => ToSkinnableSlot'
 	],
@@ -21,18 +21,6 @@ ToButton >> defaultStyleStamps [
 	^ { #button }
 ]
 
-{ #category : #accessing }
-ToButton >> icon [
-
-	^ self labeledIcon icon
-]
-
-{ #category : #accessing }
-ToButton >> icon: aToImage [
-
-	self labeledIcon icon: aToImage
-]
-
 { #category : #initialization }
 ToButton >> initialize [
 
@@ -44,28 +32,10 @@ ToButton >> initialize [
 	self fitContent
 ]
 
-{ #category : #accessing }
-ToButton >> label [
+{ #category : #'t - element with labeled icon - accessing' }
+ToButton >> labeledIcon [ 
 
-	^ self labeledIcon label
-]
-
-{ #category : #accessing }
-ToButton >> label: aToLabel [
-
-	self labeledIcon label: aToLabel
-]
-
-{ #category : #accessing }
-ToButton >> labelText: aText [
-
-	self labeledIcon label: (ToLabel text: aText)
-]
-
-{ #category : #accessing }
-ToButton >> labeledIcon [
-
-	^ labeledIcon
+	^ labeledIcon 
 ]
 
 { #category : #'t - orientable - accessing' }

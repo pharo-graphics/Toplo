@@ -1,13 +1,22 @@
 Class {
 	#name : #ToAnchoredWindowAssociateElementEventHandler,
 	#superclass : #ToSkinnableEventHandler,
+	#instVars : [
+		'associateWindow'
+	],
 	#category : #'Toplo-Core-Window'
 }
 
 { #category : #accessing }
 ToAnchoredWindowAssociateElementEventHandler >> associateWindow [
 
-	^ target associateWindow
+	^ associateWindow
+]
+
+{ #category : #accessing }
+ToAnchoredWindowAssociateElementEventHandler >> associateWindow: aWindowElement [
+
+	associateWindow := aWindowElement
 ]
 
 { #category : #'event handling' }

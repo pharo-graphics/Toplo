@@ -34,7 +34,7 @@ ToElementWithTooltipEventHandler >> hideTooltipFor: aWidget [
 { #category : #'api - accessing' }
 ToElementWithTooltipEventHandler >> mouseDownEvent: anEvent [
 
-	self hideTooltipFor: self associateElement
+	self hideTooltipFor: target
 
 ]
 
@@ -49,7 +49,7 @@ ToElementWithTooltipEventHandler >> mouseEnterEvent: anEvent [
 { #category : #'api - accessing' }
 ToElementWithTooltipEventHandler >> mouseLeaveEvent: anEvent [
 
-	self hideTooltipFor: self associateElement
+	self hideTooltipFor: target
 
 ]
 
@@ -62,13 +62,13 @@ ToElementWithTooltipEventHandler >> popupDelay [
 { #category : #private }
 ToElementWithTooltipEventHandler >> prepareDelayedPopupTooltipFromEvent: anEvent [
 
-	self associateElement privateTooltipWindowDo: [ :tooltip | 
-		tooltip content ifNil: [ ^ self ].
-		tooltip parentDo: [ :p | tooltip close ].
+
+		associateWindow content ifNil: [ ^ self ].
+		associateWindow parentDo: [ :p | associateWindow close ].
 		openTooltipTask := BlDelayedTaskAction new
 			                   delay: self popupDelay;
 			                   action: [ 
-				                   tooltip popupEvent: anEvent.
+				                   associateWindow popupEvent: anEvent.
 				                   openTooltipTask := nil ].
-		self associateElement enqueueTask: openTooltipTask ]
+		target enqueueTask: openTooltipTask
 ]

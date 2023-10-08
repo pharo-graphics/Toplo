@@ -12,7 +12,7 @@ TToElementWithTooltip >> hasTooltip [
 { #category : #'t - widget with tooltip - private' }
 TToElementWithTooltip >> newTooltipWindow [
 
-	^ self tooltipWindowClass new
+	^ ToTooltipWindow new
 		  associateElement: self;
 		  yourself
 ]
@@ -91,10 +91,4 @@ TToElementWithTooltip >> tooltipText: aText [
 	self tooltipContent: ((ToLabel text: aText asRopedText)
 			 beMultiLine;
 			 yourself)
-]
-
-{ #category : #'t - widget with tooltip - private' }
-TToElementWithTooltip >> tooltipWindowClass [
-
-	^ ToTooltipWindow 
 ]

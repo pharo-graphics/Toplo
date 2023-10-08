@@ -94,10 +94,3 @@ ToMenuItemElement >> rootMenu [
 
 	 ^ parentMenu ifNil: [ self ] ifNotNil: [ :pm | pm rootMenu  ]
 ]
-
-{ #category : #window }
-ToMenuItemElement >> window [
-
-	" by default, a menuItem do not open a submenu "
-	^ nil
-]

@@ -16,18 +16,6 @@ ToPopupWindow >> autoCloseOnMouseUpDelay: aDelay [
 	self userData at: #autoCloseOnMouseUpDelay put: aDelay asDelay
 ]
 
-{ #category : #'api - displaying' }
-ToPopupWindow >> checkBeforePopup [
-
-	| gap rect |
-	" layout is done, aWindow bounds are now up-to-date"" check if 
-	aWindow position is ok according to aWindow extent and the space extent"
-	rect := self bounds inSpace asRectangle.
-	gap := rect amountToTranslateWithin: (0 asPoint extent: self space extent).
-	self position: self position + gap.
-	super checkBeforePopup
-]
-
 { #category : #initialization }
 ToPopupWindow >> defaulPositionHook [
 

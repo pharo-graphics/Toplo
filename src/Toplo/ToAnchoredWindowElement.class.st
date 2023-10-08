@@ -54,16 +54,15 @@ ToAnchoredWindowElement >> associateElement: anElement [
 	associateElement := anElement.
 	associateElementEventHandler := nil.
 	associateElement ifNotNil: [
-		associateElement associateWindow: self.
-		associateElementEventHandler := self defaultAssociateElementEventHandler.
+		associateElementEventHandler := self defaultAssociateElementEventHandler associateWindow: self; yourself.
 		associateElement addEventHandler: associateElementEventHandler ]
 ]
 
 { #category : #'api - displaying' }
-ToAnchoredWindowElement >> checkBeforePopup [
+ToAnchoredWindowElement >> checkBeforePopupEvent: anEvent [
 
-	self applyPositionHook.
-	self applySizeHook.
+	self applyPositionHookFromEvent: anEvent.
+	self applySizeHookFromEvent: anEvent.
 ]
 
 { #category : #'api - displaying' }
@@ -157,7 +156,7 @@ ToAnchoredWindowElement >> popupEvent: anEvent [
 	"I need to finalize my position as soon as my layout is up-to-date"
 	self whenLayoutedDoOnce: [
 		self associateElement isAttachedToSceneGraph ifTrue: [
-			self checkBeforePopup ] ]
+			self checkBeforePopupEvent: anEvent ] ]
 ]
 
 { #category : #accessing }

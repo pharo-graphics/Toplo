@@ -3,6 +3,12 @@ Trait {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
+{ #category : #'t - menu window model - accessing' }
+TToMenuWindowModel >> associateWindow [
+
+	^ self explicitRequirement 
+]
+
 { #category : #'t - menu window model - window opening/closing' }
 TToMenuWindowModel >> close [
 
@@ -13,10 +19,4 @@ TToMenuWindowModel >> close [
 TToMenuWindowModel >> popupEvent: anEvent [
 
 	^ self explicitRequirement
-]
-
-{ #category : #'t - menu window model - accessing' }
-TToMenuWindowModel >> window [
-
-	^ self explicitRequirement 
 ]

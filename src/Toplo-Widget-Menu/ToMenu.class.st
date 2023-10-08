@@ -20,7 +20,7 @@ ToMenu >> addedInMenu: aMenu [
 
 ]
 
-{ #category : #'t - element with associate window - accessing' }
+{ #category : #'t - menu window model - accessing' }
 ToMenu >> associateWindow [
 
 	^ associateWindow ifNil: [
@@ -29,7 +29,7 @@ ToMenu >> associateWindow [
 			                yourself ]
 ]
 
-{ #category : #'t - element with associate window - accessing' }
+{ #category : #accessing }
 ToMenu >> associateWindow: aWindowElement [
 
 	associateWindow := aWindowElement
@@ -38,7 +38,7 @@ ToMenu >> associateWindow: aWindowElement [
 { #category : #'t - menu window model - window opening/closing' }
 ToMenu >> close [
 
-	^ self window close
+	^ self associateWindow close
 ]
 
 { #category : #testing }
@@ -86,7 +86,7 @@ ToMenu >> items [
 { #category : #'t - menu window model - window opening/closing' }
 ToMenu >> popupEvent: anEvent [
 
-	^ self window popupEvent: anEvent
+	^ self associateWindow popupEvent: anEvent
 ]
 
 { #category : #'adding-removing' }
@@ -105,10 +105,4 @@ ToMenu >> toThemeChanged [
 	super toThemeChanged.
 	self window ifNotNil: [ :mw | mw toThemeChanged ]
 	
-]
-
-{ #category : #'t - menu window model - accessing' }
-ToMenu >> window [
-
-	^ self associateWindow  
 ]

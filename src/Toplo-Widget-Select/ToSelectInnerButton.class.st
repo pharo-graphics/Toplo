@@ -44,7 +44,7 @@ ToSelectInnerButton >> toThemeChanged [
 	self window ifNotNil: [ :mw | mw toThemeChanged ]
 ]
 
-{ #category : #'t - menu window model - accessing' }
+{ #category : #'as yet unclassified' }
 ToSelectInnerButton >> window [
 
 	^ menuWindow ifNil: [

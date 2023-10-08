@@ -9,6 +9,12 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
+{ #category : #'t - menu window model - accessing' }
+ToContextMenu >> associateWindow [
+
+	^ self 
+]
+
 { #category : #'t - menu window model - window opening/closing' }
 ToContextMenu >> close [
 
@@ -49,7 +55,7 @@ ToContextMenu >> popupEvent: anEvent [
 ]
 
 { #category : #'t - menu window model - accessing' }
-ToContextMenu >> window [
+ToContextMenu >> rootMenu [
 
 	^ self 
 ]

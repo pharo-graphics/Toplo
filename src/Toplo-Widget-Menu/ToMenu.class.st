@@ -1,12 +1,11 @@
 Class {
 	#name : #ToMenu,
 	#superclass : #ToMenuItem,
-	#traits : 'TToMenuItemHolder + TToMenuWindowModel + TToElementWithAssociateWindow',
-	#classTraits : 'TToMenuItemHolder classTrait + TToMenuWindowModel classTrait + TToElementWithAssociateWindow classTrait',
+	#traits : 'TToMenuItemHolder + TToMenuWindowModel',
+	#classTraits : 'TToMenuItemHolder classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
 		'items',
-		'isSubmenu',
-		'associateWindow'
+		'isSubmenu'
 	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
@@ -20,31 +19,23 @@ ToMenu >> addedInMenu: aMenu [
 
 ]
 
-{ #category : #'t - menu window model - accessing' }
-ToMenu >> associateWindow [
+{ #category : #'t - clickable - click behavior' }
+ToMenu >> clickEventClass [
 
-	^ associateWindow ifNil: [
-		  associateWindow := ToMenuWindow new
-			                associateElement: self;
-			                yourself ]
+	^ BlMouseDownEvent
 ]
 
-{ #category : #accessing }
-ToMenu >> associateWindow: aWindowElement [
-
-	associateWindow := aWindowElement
-]
-
-{ #category : #'t - menu window model - window opening/closing' }
+{ #category : #'t - menu window model' }
 ToMenu >> close [
 
-	^ self associateWindow close
+	self items do: [ :it | it close ].
+	super close
 ]
 
 { #category : #testing }
 ToMenu >> includes: anElement [
 
-	self associateWindow = anElement ifTrue: [ ^ true ].
+	self currentAssociateWindow = anElement ifTrue: [ ^ true ].
 	(self items anySatisfy: [ :e | e includes: anElement ]) ifTrue: [
 		^ true ].
 	^ super includes: anElement
@@ -55,7 +46,10 @@ ToMenu >> initialize [
 
 	super initialize.
 	isSubmenu := false.
-	self initializeWithMenuConstraints
+	self initializeWithMenuConstraints.
+	self associateWindowFactory: [ ToMenuWindow new ].
+	self whenClickedDo: [ :event | self popupOrCloseEvent: event ]
+		
 ]
 
 { #category : #initialization }
@@ -66,12 +60,24 @@ ToMenu >> initializeWithMenuConstraints [
 ]
 
 { #category : #testing }
+ToMenu >> isMenu [
+
+	^ true
+]
+
+{ #category : #'t - menu window model' }
+ToMenu >> isOpened [ 
+
+	^ self menuWindow notNil
+]
+
+{ #category : #'t - menu window model' }
 ToMenu >> isSubmenu [
 
 	^ isSubmenu 
 ]
 
-{ #category : #testing }
+{ #category : #'t - menu window model' }
 ToMenu >> isTopMenu [
 
 	^ self parentMenu isNil
@@ -83,10 +89,32 @@ ToMenu >> items [
 	^ items ifNil: [ items := OrderedCollection new ]
 ]
 
-{ #category : #'t - menu window model - window opening/closing' }
+{ #category : #'t - menu window model' }
+ToMenu >> menuWindow [ 
+
+	^ self currentAssociateWindow 
+]
+
+{ #category : #'window accessing' }
+ToMenu >> newMenuWindow [ 
+
+	^ self newAssociateWindow 
+]
+
+{ #category : #'t - menu window model' }
 ToMenu >> popupEvent: anEvent [
 
-	^ self associateWindow popupEvent: anEvent
+	| win |
+	win := self newMenuWindow.
+	win popupEvent: anEvent
+]
+
+{ #category : #'as yet unclassified' }
+ToMenu >> popupOrCloseEvent: anEvent [
+
+	self isOpened
+		ifTrue: [ self close ]
+		ifFalse: [ self popupEvent: anEvent ]
 ]
 
 { #category : #'adding-removing' }
@@ -97,6 +125,12 @@ ToMenu >> removedFromMenu: aMenu [
 	self initializeWithMenuConstraints 
 
 	
+]
+
+{ #category : #'t - menu window model' }
+ToMenu >> rootMenu [
+
+	^ super rootMenu
 ]
 
 { #category : #'theme event handling' }

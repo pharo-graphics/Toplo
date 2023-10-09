@@ -3,20 +3,44 @@ Trait {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : #'t - menu window model - accessing' }
-TToMenuWindowModel >> associateWindow [
+{ #category : #'t - menu window model' }
+TToMenuWindowModel >> close [
 
 	^ self explicitRequirement 
 ]
 
-{ #category : #'t - menu window model - window opening/closing' }
-TToMenuWindowModel >> close [
+{ #category : #'t - menu window model' }
+TToMenuWindowModel >> isOpened [
 
-	^ self explicitRequirement
+	^ self explicitRequirement 
 ]
 
-{ #category : #'t - menu window model - window opening/closing' }
+{ #category : #'t - menu window model' }
+TToMenuWindowModel >> isSubmenu [
+
+	^ self explicitRequirement 
+]
+
+{ #category : #'t - menu window model' }
+TToMenuWindowModel >> isTopMenu [
+
+	^ self explicitRequirement 
+]
+
+{ #category : #'t - menu window model' }
+TToMenuWindowModel >> menuWindow [
+
+	^ self explicitRequirement 
+]
+
+{ #category : #'t - menu window model' }
 TToMenuWindowModel >> popupEvent: anEvent [
 
-	^ self explicitRequirement
+	^ self explicitRequirement 
+]
+
+{ #category : #'t - menu window model' }
+TToMenuWindowModel >> rootMenu [
+
+	^ self explicitRequirement 
 ]

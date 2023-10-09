@@ -5,10 +5,17 @@ Class {
 }
 
 { #category : #'event handling' }
+ToPopupWindowAssociateElementEventHandler >> closeAssociateWindow [
+
+	associateWindow ifNil: [ ^ self ].
+	associateWindow close
+]
+
+{ #category : #'event handling' }
 ToPopupWindowAssociateElementEventHandler >> elementPositionInSpaceChangedEvent: anEvent [
 
-	super elementPositionInSpaceChangedEvent: anEvent
-	"self associateWindow close"
+	super elementPositionInSpaceChangedEvent: anEvent.
+	self closeAssociateWindow
 ]
 
 { #category : #'api - accessing' }
@@ -17,11 +24,10 @@ ToPopupWindowAssociateElementEventHandler >> eventsToHandle [
 	^ super eventsToHandle , { BlElementRemovedFromParentEvent }
 ]
 
-{ #category : #'mouse handlers' }
-ToPopupWindowAssociateElementEventHandler >> mouseDownEvent: anEvent [
+{ #category : #testing }
+ToPopupWindowAssociateElementEventHandler >> hasOpenedPopupWindow [
 
-	super mouseDownEvent: anEvent.
-	self associateWindow popupEvent: anEvent
+	^ associateWindow notNil and: [ associateWindow isOpened ]
 ]
 
 { #category : #'mouse handlers' }
@@ -39,7 +45,7 @@ ToPopupWindowAssociateElementEventHandler >> mouseDownOutsideEvent: anEvent [
 	
 	" ok, mouseUp outside the element and outside of the popup window "
 	anEvent consumed: true.
-	self associateWindow close
+	self closeAssociateWindow
 ]
 
 { #category : #'mouse handlers' }
@@ -47,11 +53,11 @@ ToPopupWindowAssociateElementEventHandler >> mouseUpEvent: anEvent [
 
 	| delay |
 	super mouseUpEvent: anEvent.
-	self associateWindow parentDo: [ :p | " check a minimal delay between opening and closing.
+	associateWindow ifNil: [ ^ self ].
+	associateWindow parentDo: [ :p | " check a minimal delay between opening and closing.
 		The mouse up can occur immediately after the window opening -> don't close the popup window.
 		After a given delay between down and up, the popup window is closed "
-		delay := anEvent timestamp - self associateWindow popupTimestamp.
-		delay > self associateWindow autoCloseOnMouseUpDelay ifTrue: [
-			self associateWindow close ] ].
-	anEvent consumed: true
+		delay := (anEvent timestamp - associateWindow popupTimestamp).
+		delay > associateWindow autoCloseOnMouseUpDelay ifTrue: [
+			self closeAssociateWindow ] ]
 ]

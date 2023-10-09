@@ -9,15 +9,10 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : #'t - menu window model - accessing' }
-ToContextMenu >> associateWindow [
+{ #category : #'t - menu window model' }
+ToContextMenu >> close [ 
 
-	^ self 
-]
-
-{ #category : #'t - menu window model - window opening/closing' }
-ToContextMenu >> close [
-
+	self items do: [ :it | it close ].
 	super close
 ]
 
@@ -27,16 +22,34 @@ ToContextMenu >> defaulPositionHook [
 	^ [ :w :event | event position ]
 ]
 
-{ #category : #testing }
+{ #category : #initialization }
+ToContextMenu >> defaultAssociateElementEventHandlerClass [
+
+	^ ToContextMenuEventHandler 
+]
+
+{ #category : #'t - menu window model' }
+ToContextMenu >> isOpened [
+
+	^ super isOpened
+]
+
+{ #category : #'t - menu window model' }
 ToContextMenu >> isSubmenu [ 
 
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : #'t - menu window model' }
 ToContextMenu >> isTopMenu [
 
 	^ true
+]
+
+{ #category : #accessing }
+ToContextMenu >> itemHolder [
+
+	^ self 
 ]
 
 { #category : #'t - menu item holder - accessing' }
@@ -45,16 +58,19 @@ ToContextMenu >> items [
 	^ items ifNil: [ items := OrderedCollection new ]
 ]
 
-{ #category : #'api - displaying' }
+{ #category : #'t - menu window model' }
+ToContextMenu >> menuWindow [
+
+	^ self
+]
+
+{ #category : #'t - menu window model' }
 ToContextMenu >> popupEvent: anEvent [
 
-	self flag: '#openedContextMenu: and #requestFocus should not be sent directly like that. One should be sure that that the popup is done (eventHandler on ToWindowOpenedEvent ?)'.
-	self associateElement ifNotNil: [ :w | w openedContextMenu: self ].
-	self requestFocus.
 	super popupEvent: anEvent
 ]
 
-{ #category : #'t - menu window model - accessing' }
+{ #category : #'t - menu window model' }
 ToContextMenu >> rootMenu [
 
 	^ self 

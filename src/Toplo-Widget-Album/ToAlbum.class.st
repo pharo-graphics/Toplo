@@ -1,8 +1,8 @@
 Class {
 	#name : #ToAlbum,
 	#superclass : #ToPane,
-	#traits : 'TToWidget + TToEnableable + TAlbInfiniteDecorator + TToElementWithViewModel + TToElementWithTooltip + TToElementWithContextMenu + TToElementWithLayers + TToWidgetWithPlaceholder',
-	#classTraits : 'TToWidget classTrait + TToEnableable classTrait + TAlbInfiniteDecorator classTrait + TToElementWithViewModel classTrait + TToElementWithTooltip classTrait + TToElementWithContextMenu classTrait + TToElementWithLayers classTrait + TToWidgetWithPlaceholder classTrait',
+	#traits : 'TToWidget + TToEnableable + TAlbInfiniteDecorator + TToElementWithViewModel + TToElementWithTooltip + TToElementWithLayers + TToWidgetWithPlaceholder',
+	#classTraits : 'TToWidget classTrait + TToEnableable classTrait + TAlbInfiniteDecorator classTrait + TToElementWithViewModel classTrait + TToElementWithTooltip classTrait + TToElementWithLayers classTrait + TToWidgetWithPlaceholder classTrait',
 	#instVars : [
 		'#editsFeedbackLayer',
 		'#innerElement',

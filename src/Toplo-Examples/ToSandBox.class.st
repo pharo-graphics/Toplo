@@ -1035,37 +1035,35 @@ ToSandBox class >> example_PicsumPhotosGallery [
 { #category : #window }
 ToSandBox class >> example_Popup1 [
 
-	| popup container menu item sub |
+	| container menu item sub |
 	container := ToInnerWindow new
 		             position: 10 @ 10;
 		             size: 400 @ 200;
 		             yourself.
 
-	menu := ToAnchoredWindowElementForTest new
-		     id: #'red-button';
-		     background: Color red;
-		     size: 100 @ 40;
-		     position: 50 @ 50.
-	sub := ToElement new background: Color white; size: 20@20; position: 10@10.
+	menu := ToElementWithAssociateWindowForTest new
+		        id: #'red-button';
+		        background: Color red;
+		        size: 100 @ 40;
+		        position: 50 @ 50.
+	sub := ToElement new
+		       background: Color white;
+		       size: 20 @ 20;
+		       position: 10 @ 10.
 	menu addChild: sub.
-
-	popup := ToPopupWindow new associateElement: menu.
-	popup border: Color black.
-	item := ToElement new size: 50 @ 90.
-	item background: Color yellow.
-	item addEventHandler: ToSkinnableEventHandler new.
-	item when: BlPrimaryClickEvent do: [ self inform: 'Click' ].
-	popup root addChild: item.
-	"popup addEventFilter: (BlEventHandler
-			 on: BlMouseUpOutsideEvent
-			 do: [ :event | 'UP OUTSIDE' traceCr ])."
-	"popup addEventFilter: (BlEventHandler
-			 on: BlMouseDownOutsideEvent
-			 do: [ :event | 'DOWN OUTSIDE' traceCr ])."
-	"popup addEventHandler: (BlEventHandler
-			 on: BlClickEvent
-			 do: [ :evt | 'CLICK' traceCr ])."
-
+	menu associateWindowFactory: [ 
+		| popup |
+		popup := ToPopupWindow new border: Color black.
+		item := ToElement new size: 50 @ 90.
+		item background: Color yellow.
+		item addEventHandler: ToSkinnableEventHandler new.
+		item when: BlPrimaryClickEvent do: [ self inform: 'Click' ].
+		popup root addChild: item.
+		popup ].
+	menu when: BlMouseDownEvent do: [ :event |
+		menu hasAssociateWindow
+			ifTrue: [ menu currentAssociateWindow close ]
+			ifFalse: [ menu newAssociateWindow popupEvent: event ] ].
 	container pane addChild: menu.
 	container openInSpace
 ]
@@ -1181,7 +1179,7 @@ ToSandBox class >> example_SimpleOpenSaveSaveAsClose [
 			 background: Color random).
 	menu items last labelOffset: 25.
 	container pane addChild: menu.
-	menu window inspect.
+	
 	container openInSpace
 ]
 
@@ -1956,6 +1954,25 @@ ToSandBox class >> example_buttonWithIconAndLabel [
 	^ but
 ]
 
+{ #category : #'context menu + menubar' }
+ToSandBox class >> example_contextMenu [
+
+	| container win |
+	container := ToElement new matchParent.
+	
+	container associateWindowFactory: [ :e |
+		win := ToContextMenu new.
+		win addItem: (ToMenuItem new
+				 labelText: 'Open';
+				 yourself).
+		win ].
+
+	container when: BlSecondaryMouseDownEvent do: [ :event |
+		container popupOrCloseContextMenuEvent: event].
+
+	container openInSpace
+]
+
 { #category : #space }
 ToSandBox class >> example_elementInPopupRoot [
 
@@ -2472,18 +2489,20 @@ ToSandBox class >> example_menuBar2 [
 { #category : #window }
 ToSandBox class >> example_overlayWidow1 [
 
-	| w e |
-	w := ToOverlayWindow new.
-	w background: (Color gray alpha: 0.2).
-	w border: (BlBorder paint: Color black width: 2).
-	e := ToAnchoredWindowElementForTest new
+	| e |
+	e := ToElementWithAssociateWindowForTest new
 		     size: 100 @ 100;
 		     position: 50 @ 50;
 		     background: Color yellow;
 		     border: (BlBorder paint: Color red).
-	w associateElement: e.
+	e associateWindowFactory: [ :_ |
+		| w |
+		w := ToOverlayWindow new.
+		w background: (Color gray alpha: 0.2).
+		w border: (BlBorder paint: Color black width: 2).
+		w ].
 	e openInInnerWindow.
-	w popup
+	e newAssociateWindow popup
 ]
 
 { #category : #window }
@@ -2520,8 +2539,9 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 
 		menu addItem: sub ].
 
-	win pane contextMenuFactory: [ menu ].
-
+	win pane contextMenuFactory: [ :e | menu ].
+	win pane installContextMenuFactory.
+	
 	bar := ToMenuBar new
 		       hMatchParent;
 		       vFitContent.
@@ -2574,7 +2594,7 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 
 	menu addItem: sub.
 
-	win pane contextMenuFactory: [ menu ].
+	win pane associateWindowFactory: [ menu ].
 
 	bar := ToMenuBar new
 		       hMatchParent;

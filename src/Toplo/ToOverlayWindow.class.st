@@ -1,6 +1,6 @@
 Class {
 	#name : #ToOverlayWindow,
-	#superclass : #ToAnchoredWindowElement,
+	#superclass : #ToAnchoredWindow,
 	#category : #'Toplo-Core-Window'
 }
 

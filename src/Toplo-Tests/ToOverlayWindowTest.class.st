@@ -12,11 +12,12 @@ ToOverlayWindowTest >> testWindowSize [
 
 	| win e space |
 	space := self newTestingSpace.
-	e := ToAnchoredWindowElementForTest new.
+	e := ToElementWithAssociateWindowForTest new.
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	win := ToOverlayWindow new associateElement: e.
+	e associateWindowFactory: [ :element | ToOverlayWindow new ].
+	win := e newAssociateWindow.
 	win popup.
 	self waitTestingSpaces.
 	self
@@ -43,29 +44,21 @@ ToOverlayWindowTest >> testWindowSize2 [
 
 	| win e space |
 	space := self newTestingSpace.
-	e := ToAnchoredWindowElementForTest new.
+	e := ToElementWithAssociateWindowForTest new.
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	win := ToOverlayWindow new associateElement: e.
-	win root addChild: (ToElement new size: 100 asPoint ).
+	e associateWindowFactory: [ :element |
+		ToOverlayWindow new
+			in: [ :w | w root addChild: (ToElement new size: 100 asPoint) ];
+			yourself ].
+	win := e newAssociateWindow.
 	win popup.
 	self waitTestingSpaces.
-	self
-		assert: win bounds inSpace extent 
-		equals: 10 asPoint.
-	self
-		assert: win root bounds inSpace extent 
-		equals: 100 asPoint.
+	self assert: win bounds inSpace extent equals: 10 asPoint.
+	self assert: win root bounds inSpace extent equals: 100 asPoint.
 	e size: 20 asPoint.
 	self waitTestingSpaces.
-	self
-		assert: win bounds inSpace extent 
-		equals: 20 asPoint.
-	self
-		assert: win root bounds inSpace extent 
-		equals: 100 asPoint.
-
-
-	
+	self assert: win bounds inSpace extent equals: 20 asPoint.
+	self assert: win root bounds inSpace extent equals: 100 asPoint
 ]

@@ -85,7 +85,7 @@ ToComboBox >> defaultListElementSize [
 ToComboBox >> defaultListFrame [
 
 	| win |
-	win := ToAnchoredWindowElement new associateElement: self.
+	win := ToAnchoredWindow new associateElement: self.
 	win positionHook: [ :w :event | self bounds inSpace bottomLeft ].
 	win root layout: BlFrameLayout new.
 	win root fitContent.

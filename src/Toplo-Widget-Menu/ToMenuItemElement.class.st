@@ -13,10 +13,17 @@ ToMenuItemElement >> addedInMenu: aMenu [
 	self parentMenu: aMenu
 ]
 
-{ #category : #accessing }
-ToMenuItemElement >> associateWindow [
+{ #category : #'adding-removing' }
+ToMenuItemElement >> close [
 
-	^ nil
+	self currentAssociateWindow ifNotNil: [ :w | w close ]
+]
+
+{ #category : #'adding-removing' }
+ToMenuItemElement >> closeSiblingMenuWindow [
+
+	self parentMenu items do: [ :it |
+		it currentAssociateWindowDo: [ :w | w close ] ]
 ]
 
 { #category : #initialization }
@@ -54,6 +61,12 @@ ToMenuItemElement >> initialize [
 ]
 
 { #category : #testing }
+ToMenuItemElement >> isMenu [
+
+	^ false
+]
+
+{ #category : #testing }
 ToMenuItemElement >> isSubmenu [ 
 
 	^ false
@@ -75,12 +88,6 @@ ToMenuItemElement >> parentMenu [
 ToMenuItemElement >> parentMenu: aMenu [
 
 	parentMenu := aMenu
-]
-
-{ #category : #'parent menu' }
-ToMenuItemElement >> parentMenuWindow [
-
-	^ parentMenu ifNotNil: [:m | m associateWindow ] 
 ]
 
 { #category : #'adding-removing' }

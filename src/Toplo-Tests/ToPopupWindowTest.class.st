@@ -12,13 +12,13 @@ ToPopupWindowTest >> testAssociateElement [
 
 	| win e space |
 	space := BlSpace new.
-	e := e := ToAnchoredWindowElementForTest new
+	e := ToElementWithAssociateWindowForTest new
 		          background: Color red;
 		          size: 100 @ 40;
 		          position: 50 @ 50.
 	space root addChild: e.
-	win := ToPopupWindow new associateElement: e.
-
+	e associateWindowFactory: [ ToPopupWindow new ].
+	win := e newAssociateWindow.
 	win popup.
 	self waitTestingSpaces.
 	self assert: win associateElement equals: e.
@@ -33,25 +33,50 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp [
 
 	| win e space |
 	space := BlSpace new.
-	e := e := ToAnchoredWindowElementForTest new
+	e := ToElementWithAssociateWindowForTest new
 		          background: Color red;
 		          size: 100 @ 40;
 		          position: 50 @ 50.
 	space root addChild: e.
-	win := ToPopupWindow new associateElement: e.
+	e associateWindowFactory: [ ToPopupWindow new ].
+	win := e newAssociateWindow.
 	self assert: win associateElement equals: e.
+	self should: [ e newAssociateWindow ] raise: Error.
+	e dissociateFromWindow.
+	e when: BlMouseDownEvent do: [ :event | (win := e newAssociateWindow) popupEvent: event].
+	e when: BlMouseUpEvent do: [ :event | (win := e currentAssociateWindow) ifNotNil: [:w | w close]. ].
 	
 	" mouse down immediately followed by a mouse up -> the popup should stay opened"
 	BlSpace simulateMouseDownOn: e.
 	self assert: win isOpened.
 	BlSpace simulateMouseUpOn: e.
-	self assert: win isOpened.
-	
+	self assert: win isClosed
+]
+
+{ #category : #tests }
+ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp2 [
+
+	| win e space |
+	space := BlSpace new.
+	e := ToElementWithAssociateWindowForTest new
+		          background: Color red;
+		          size: 100 @ 40;
+		          position: 50 @ 50.
+	space root addChild: e.
+	e associateWindowFactory: [ ToPopupWindow new ].
+	win := e newAssociateWindow.
+	self assert: win associateElement equals: e.
+	self should: [ e newAssociateWindow ] raise: Error.
+	e dissociateFromWindow.
+	e when: BlMouseDownEvent do: [ :event | 'down' traceCr. (win := e newAssociateWindow) popupEvent: event].
+		
 	" mouse down then wait a delay then a mouse up -> the popup should be closed"
 	BlSpace simulateMouseDownOn: e.
-	win autoCloseOnMouseUpDelay wait.
+	self assert: e currentAssociateWindow notNil.
+	(win autoCloseOnMouseUpDelay + 1 milliSecond ) wait.
 	BlSpace simulateMouseUpOn: e.
-	self assert: win isClosed
+	" window is closed on mouse-up "
+	self assert: e currentAssociateWindow isNil
 ]
 
 { #category : #tests }
@@ -59,23 +84,29 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 
 	| win e space |
 	space := BlSpace new.
-	e := e := ToAnchoredWindowElementForTest new
+	e := e := ToElementWithAssociateWindowForTest new
 		          background: Color red;
 		          size: 100 @ 40;
 		          position: 50 @ 50.
 	space root addChild: e.
-	win := ToPopupWindow new associateElement: e.
+	e associateWindowFactory: [ ToPopupWindow new ].
+	win := e newAssociateWindow.
+	self assert: win isClosed.
 	self assert: win associateElement equals: e.
-	
+	e dissociateFromWindow.
+	e when: BlMouseDownEvent do: [ :event | (win := e newAssociateWindow) popupEvent: event].
+	e when: BlMouseUpEvent do: [ :event | e currentAssociateWindow close. ].
 	" mouse down immediately followed by a mouse up -> the popup should stay opened"
 	BlSpace simulateMouseDownOn: e.
 	self assert: win isOpened.
 	BlSpace simulateMouseUpOn: e.
-	self assert: win isOpened.
+	self assert: win isClosed.
 	
 	" mouse down outside the widget"
+	BlSpace simulateMouseDownOn: e.
+	self assert: win isOpened.
 	BlSpace simulateMouseDownOn: space root.
-	BlSpace simulateMouseUpOn: space root.
+	
 	self assert: win isClosed
 ]
 
@@ -83,37 +114,31 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 ToPopupWindowTest >> testPopupOpenCloseWithMouseUpOutsideAssociateElement [
 
 	| win e space |
-	self skip.
 	space := BlSpace new.
-	e := e := ToAnchoredWindowElementForTest new
+	e := ToElementWithAssociateWindowForTest new
 		          background: Color red;
 		          size: 100 @ 40;
 		          position: 50 @ 50.
 	space root addChild: e.
-	win := ToPopupWindow new associateElement: e.
+	e associateWindowFactory: [ ToPopupWindow new ].
+	win := e newAssociateWindow.
 	self assert: win associateElement equals: e.
-	
-	" mouse down on widget then up on space root"
-	BlSpace simulateMouseDownOn: e.
-	BlSpace simulateDragOn: e byAll: { 100@100  }.
-	BlSpace simulateMouseUpOn: space root.
-	self assert: win isClosed.
+	e dissociateFromWindow.
+	e when: BlMouseDownEvent do: [ :event | (win := e newAssociateWindow) popupEvent: event].
+	e when: BlMouseUpEvent do: [ :event | e currentAssociateWindow close. ].
 	
 	" mouse down on widget then up on popup"
 	self waitTestingSpaces.
-	space root forceLayout.
-	e forceLayout.
-	win forceLayout.
 	BlSpace simulateMouseDownOn: e.
 	self assert: win isOpened.
-	space root forceLayout.
-	e forceLayout.
-	win forceLayout.
 	self waitTestingSpaces.
 	BlSpace simulateMouseUpOn: win.
-	self flag: 'should stay opened. it works on examples. I guess this is due a bad implementation of the test:
-	in working examples but the use case is a  mouse drag from e to win'.
 	self assert: win isOpened.
+	" mouse donw outside closes the iwndow"
+	BlSpace simulateMouseDownOn: space root.
+	self assert: win isClosed.
+	
+
 	
 
 ]

@@ -1,111 +1,105 @@
 Class {
-	#name : #ToAnchoredWindowElement,
+	#name : #ToAnchoredWindow,
 	#superclass : #ToAbstractWindowElement,
 	#classTraits : 'TToWidget classTrait',
 	#instVars : [
 		'positionHook',
 		'sizeHook',
 		'popupTimestamp',
-		'associateElement',
-		'associateElementEventHandler'
+		'associateElement'
 	],
 	#category : #'Toplo-Core-Window'
 }
 
 { #category : #accessing }
-ToAnchoredWindowElement >> applyPositionHook [
+ToAnchoredWindow >> applyPositionHook [
 
 	self applyPositionHookFromEvent: nil
 
 ]
 
 { #category : #accessing }
-ToAnchoredWindowElement >> applyPositionHookFromEvent: anEvent [
+ToAnchoredWindow >> applyPositionHookFromEvent: anEvent [
 
 	^ self position: (self positionHook value: self value: anEvent)
 ]
 
 { #category : #accessing }
-ToAnchoredWindowElement >> applySizeHook [
+ToAnchoredWindow >> applySizeHook [
 
 	self applySizeHookFromEvent: nil
 
 ]
 
 { #category : #accessing }
-ToAnchoredWindowElement >> applySizeHookFromEvent: anEvent [
+ToAnchoredWindow >> applySizeHookFromEvent: anEvent [
 
 	self sizeHook ifNil: [ ^ self ].
 	^ self size: (self sizeHook value: self value: anEvent)
 ]
 
 { #category : #accessing }
-ToAnchoredWindowElement >> associateElement [
+ToAnchoredWindow >> associateElement [
 
 	^ associateElement 
 
 ]
 
 { #category : #accessing }
-ToAnchoredWindowElement >> associateElement: anElement [
+ToAnchoredWindow >> associateElement: anElement [
 
-	anElement = associateElement ifTrue: [ ^ self ].
-	associateElement ifNotNil: [ associateElement removeEventHandler: associateElementEventHandler ].
-	associateElement := anElement.
-	associateElementEventHandler := nil.
-	associateElement ifNotNil: [
-		associateElementEventHandler := self defaultAssociateElementEventHandler associateWindow: self; yourself.
-		associateElement addEventHandler: associateElementEventHandler ]
+	associateElement := anElement
 ]
 
 { #category : #'api - displaying' }
-ToAnchoredWindowElement >> checkBeforePopupEvent: anEvent [
+ToAnchoredWindow >> checkBeforePopupEvent: anEvent [
 
 	self applyPositionHookFromEvent: anEvent.
 	self applySizeHookFromEvent: anEvent.
 ]
 
 { #category : #'api - displaying' }
-ToAnchoredWindowElement >> close [
+ToAnchoredWindow >> close [
 
-	self parentDo: [ :p | 
+	self parentDo: [ :p |
 		super close.
-		self dispatchClosedEvent ]
+		self dispatchClosedEvent].
+	self associateElement dissociateFromWindow
 
 ]
 
 { #category : #initialization }
-ToAnchoredWindowElement >> defaulPositionHook [
+ToAnchoredWindow >> defaulPositionHook [
 
 	^ [ :w :event | w associateElement bounds inSpace bounds topLeft ]
 ]
 
 { #category : #initialization }
-ToAnchoredWindowElement >> defaulSizeHook [
+ToAnchoredWindow >> defaulSizeHook [
 
 	^ nil
 ]
 
 { #category : #initialization }
-ToAnchoredWindowElement >> defaultAssociateElementEventHandler [
+ToAnchoredWindow >> defaultAssociateElementEventHandler [
 
 	^ self defaultAssociateElementEventHandlerClass new
 ]
 
 { #category : #initialization }
-ToAnchoredWindowElement >> defaultAssociateElementEventHandlerClass [
+ToAnchoredWindow >> defaultAssociateElementEventHandlerClass [
 
 	^ ToAnchoredWindowAssociateElementEventHandler
 ]
 
 { #category : #accessing }
-ToAnchoredWindowElement >> defaultElevation [
+ToAnchoredWindow >> defaultElevation [
 
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 900)
 ]
 
 { #category : #'api - displaying' }
-ToAnchoredWindowElement >> dispatchClosedEvent [
+ToAnchoredWindow >> dispatchClosedEvent [
 
 	| event |
 	event := ToWindowClosedEvent new.
@@ -114,7 +108,7 @@ ToAnchoredWindowElement >> dispatchClosedEvent [
 ]
 
 { #category : #'api - displaying' }
-ToAnchoredWindowElement >> dispatchOpenedEventFrom: anEvent [
+ToAnchoredWindow >> dispatchOpenedEventFrom: anEvent [
 
 	| event |
 	event := ToWindowOpenedEvent new.
@@ -123,13 +117,13 @@ ToAnchoredWindowElement >> dispatchOpenedEventFrom: anEvent [
 ]
 
 { #category : #start }
-ToAnchoredWindowElement >> hasAssociateElement [
+ToAnchoredWindow >> hasAssociateElement [
 
 	^ self associateElement notNil
 ]
 
 { #category : #initialization }
-ToAnchoredWindowElement >> initialize [
+ToAnchoredWindow >> initialize [
 
 	super initialize.
 	self positionHook: self defaulPositionHook.
@@ -138,13 +132,13 @@ ToAnchoredWindowElement >> initialize [
 ]
 
 { #category : #'api - displaying' }
-ToAnchoredWindowElement >> popup [
+ToAnchoredWindow >> popup [
 	
 	self popupEvent: nil
 ]
 
 { #category : #'api - displaying' }
-ToAnchoredWindowElement >> popupEvent: anEvent [
+ToAnchoredWindow >> popupEvent: anEvent [
 	" I have to set the position here "
 
 	self applyPositionHookFromEvent: anEvent.
@@ -160,44 +154,38 @@ ToAnchoredWindowElement >> popupEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToAnchoredWindowElement >> popupTimestamp [
+ToAnchoredWindow >> popupTimestamp [
 
 	^ popupTimestamp 
 ]
 
 { #category : #accessing }
-ToAnchoredWindowElement >> positionHook [
+ToAnchoredWindow >> positionHook [
 
 	^ positionHook
 ]
 
 { #category : #accessing }
-ToAnchoredWindowElement >> positionHook: aValuable [
+ToAnchoredWindow >> positionHook: aValuable [
 	" takes the window as argument. Computes the window position according to the given window anchor element "
 	
 	positionHook := aValuable
 ]
 
-{ #category : #initialization }
-ToAnchoredWindowElement >> removeWidget [
-
-	self associateElement: nil
-]
-
 { #category : #accessing }
-ToAnchoredWindowElement >> sizeHook [
+ToAnchoredWindow >> sizeHook [
 	
 	^ sizeHook
 ]
 
 { #category : #accessing }
-ToAnchoredWindowElement >> sizeHook: aValuable [
+ToAnchoredWindow >> sizeHook: aValuable [
 	
 	sizeHook := aValuable
 ]
 
 { #category : #'theme accessing' }
-ToAnchoredWindowElement >> toTheme [
+ToAnchoredWindow >> toTheme [
 
 	" try to take the parent widget theme first "
 	self associateElement ifNotNil: [ :w | ^ w toTheme ].

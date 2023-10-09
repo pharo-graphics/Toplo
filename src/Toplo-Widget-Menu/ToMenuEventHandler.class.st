@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
+{ #category : #'api - accessing' }
+ToMenuEventHandler >> eventsToHandle [ 
+
+	^ super eventsToHandle, { ToWindowClosedEvent  }
+]
+
 { #category : #'mouse handlers' }
 ToMenuEventHandler >> mouseDownOutsideEvent: anEvent [
 
@@ -13,4 +19,12 @@ ToMenuEventHandler >> mouseDownOutsideEvent: anEvent [
 
 	" ok, the event is outside of the submenu chain"
 	super mouseDownOutsideEvent: anEvent
+]
+
+{ #category : #'api - accessing' }
+ToMenuEventHandler >> windowClosedEvent: anEvent [
+
+	anEvent currentTarget items do: [ :child |
+		child removeFromParent.
+		child removedFromMenu: anEvent currentTarget ]
 ]

@@ -1,5 +1,5 @@
 Class {
-	#name : #ToElementForWidgetWithTooltipTest,
+	#name : #ToElementWithTooltipForTest,
 	#superclass : #ToElement,
 	#traits : 'TToElementWithTooltip',
 	#classTraits : 'TToElementWithTooltip classTrait',

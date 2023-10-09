@@ -1,47 +1,41 @@
 Class {
 	#name : #ToElementWithTooltipEventHandler,
-	#superclass : #ToPopupWindowAssociateElementEventHandler,
+	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'openTooltipTask'
 	],
 	#category : #'Toplo-Core-Tooltip'
 }
 
-{ #category : #accessing }
-ToElementWithTooltipEventHandler >> associateElement [
-
-	^ self window associateElement
-]
-
 { #category : #'api - accessing' }
 ToElementWithTooltipEventHandler >> eventsToHandle [
 
-	^ super eventsToHandle , {
+	^ {
 		  BlMouseEnterEvent.
 		  BlMouseLeaveEvent.
 		  BlMouseDownEvent }
 ]
 
 { #category : #private }
-ToElementWithTooltipEventHandler >> hideTooltipFor: aWidget [
+ToElementWithTooltipEventHandler >> hideTooltipFor: anElement [
 
 	openTooltipTask ifNotNil: [ 
-		aWidget dequeueTask: openTooltipTask.
+		anElement dequeueTask: openTooltipTask.
 		openTooltipTask := nil ].
-	aWidget privateTooltipWindow ifNotNil: [ :tooltip | tooltip close ]
+	anElement currentTooltipWindow ifNotNil: [ :tooltip | tooltip close ]
 ]
 
 { #category : #'api - accessing' }
 ToElementWithTooltipEventHandler >> mouseDownEvent: anEvent [
 
-	self hideTooltipFor: target
+	self hideTooltipFor: anEvent currentTarget
 
 ]
 
 { #category : #'api - accessing' }
 ToElementWithTooltipEventHandler >> mouseEnterEvent: anEvent [
 
-	openTooltipTask ifNotNil: [ self associateElement dequeueTask: openTooltipTask ].
+	openTooltipTask ifNotNil: [ anEvent currentTarget dequeueTask: openTooltipTask ].
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
 	self prepareDelayedPopupTooltipFromEvent: anEvent
 ]
@@ -49,7 +43,7 @@ ToElementWithTooltipEventHandler >> mouseEnterEvent: anEvent [
 { #category : #'api - accessing' }
 ToElementWithTooltipEventHandler >> mouseLeaveEvent: anEvent [
 
-	self hideTooltipFor: target
+	self hideTooltipFor: anEvent currentTarget
 
 ]
 
@@ -62,13 +56,10 @@ ToElementWithTooltipEventHandler >> popupDelay [
 { #category : #private }
 ToElementWithTooltipEventHandler >> prepareDelayedPopupTooltipFromEvent: anEvent [
 
-
-		associateWindow content ifNil: [ ^ self ].
-		associateWindow parentDo: [ :p | associateWindow close ].
 		openTooltipTask := BlDelayedTaskAction new
 			                   delay: self popupDelay;
 			                   action: [ 
-				                   associateWindow popupEvent: anEvent.
+				                   anEvent currentTarget newTooltipWindow popupEvent: anEvent.
 				                   openTooltipTask := nil ].
-		target enqueueTask: openTooltipTask
+		anEvent currentTarget enqueueTask: openTooltipTask
 ]

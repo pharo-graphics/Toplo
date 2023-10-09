@@ -2,7 +2,6 @@ Class {
 	#name : #ToMenuBarEventHandler,
 	#superclass : #ToSkinnableEventHandler,
 	#instVars : [
-		'autoOpenDresser',
 		'mouseDownHandler',
 		'autoOpen'
 	],
@@ -18,14 +17,23 @@ ToMenuBarEventHandler >> initialize [
 
 { #category : #'api - install/uninstall  hook' }
 ToMenuBarEventHandler >> mouseDownEvent: anEvent [
-	"switch auto=open dresser "
+	"switch auto=open filter "
 
 	super mouseDownEvent: anEvent.
-	" mouse down on the menubar or in a menubar child with auto open "
-	(anEvent target = target or: [ autoOpenDresser notNil ]) ifTrue: [
-		" stop auto open on mouse over "
+	" mouse down on the menubar stops auto-open "
+	(anEvent target = target or: [
+		 target menus noneSatisfy: [ :m |
+			 anEvent target hasInParentChain: m ] ]) ifTrue: [ " stop auto open on mouse over "
 		autoOpen := false.
 		^ self ].
+
+	" a mouse down on an opened menu stops auto-open"
+	autoOpen ifTrue: [
+		target menus do: [ :m |
+			((anEvent target hasInParentChain: m) and: [ m hasAssociateWindow ])
+				ifTrue: [
+					autoOpen := false.
+					^ self ] ] ].
 
 	" now auto open on mouse over  "
 	autoOpen := true
@@ -40,7 +48,7 @@ ToMenuBarEventHandler >> mouseOverEvent: anEvent [
 	" auto-open action "
 	target menus do: [ :m |
 		(anEvent target hasInParentChain: m)
-			ifTrue: [ m popupEvent: anEvent ]
+			ifTrue: [ m currentAssociateWindow ifNil: [ m popupEvent: anEvent ] ]
 			ifFalse: [ m close ] ]
 ]
 

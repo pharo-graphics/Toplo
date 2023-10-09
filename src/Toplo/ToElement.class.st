@@ -1,8 +1,8 @@
 Class {
 	#name : #ToElement,
 	#superclass : #BlElement,
-	#traits : 'TToResizable + TToEnableable + TToSkinable + TObservable',
-	#classTraits : 'TToResizable classTrait + TToEnableable classTrait + TToSkinable classTrait + TObservable classTrait',
+	#traits : 'TToResizable + TToEnableable + TToSkinable + TObservable + TToElementWithAssociateWindow + TToElementWithContextMenu',
+	#classTraits : 'TToResizable classTrait + TToEnableable classTrait + TToSkinable classTrait + TObservable classTrait + TToElementWithAssociateWindow classTrait + TToElementWithContextMenu classTrait',
 	#category : #'Toplo-Core'
 }
 

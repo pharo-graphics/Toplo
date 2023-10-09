@@ -1,6 +1,6 @@
 Class {
 	#name : #ToPopupWindow,
-	#superclass : #ToAnchoredWindowElement,
+	#superclass : #ToAnchoredWindow,
 	#category : #'Toplo-Core-Window'
 }
 

@@ -7,6 +7,13 @@ Class {
 	#category : #'Toplo-Core-Tooltip'
 }
 
+{ #category : #'api - displaying' }
+ToTooltipWindow >> close [ 
+	
+	self content removeFromParent.
+	super close
+]
+
 { #category : #accessing }
 ToTooltipWindow >> content [
 
@@ -30,13 +37,17 @@ ToTooltipWindow >> content: anElement [
 { #category : #initialization }
 ToTooltipWindow >> defaulPositionHook [
 
-	^ [ :w :event | event currentTarget position x @ (w associateElement localPointToGlobal: 0 @ w associateElement height) y + self vgap ]
+	^ [ :window :event |
+	  event position x
+	  @
+		  (window associateElement localPointToGlobal:
+			   0 @ window associateElement height) y + self vgap ]
 ]
 
 { #category : #initialization }
 ToTooltipWindow >> defaultAssociateElementEventHandlerClass [
 
-	^ ToElementWithTooltipEventHandler
+	^ super defaultAssociateElementEventHandlerClass 
 ]
 
 { #category : #accessing }
@@ -68,13 +79,6 @@ ToTooltipWindow >> initialize [
 	self padding: (BlInsets all: 4).
 	self fitContent.
 	self addEventHandler: self defaultEventHandler 
-]
-
-{ #category : #initialization }
-ToTooltipWindow >> removeWidget [
-
-	super removeWidget.
-	self content: nil
 ]
 
 { #category : #initialization }

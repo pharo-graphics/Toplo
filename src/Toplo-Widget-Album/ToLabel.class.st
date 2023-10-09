@@ -4,10 +4,10 @@ Class {
 	#traits : 'TToWidget + TToElementWithTooltip + TBlAlignable',
 	#classTraits : 'TToWidget classTrait + TToElementWithTooltip classTrait + TBlAlignable classTrait',
 	#instVars : [
-		'#isEditable => ObservableSlot',
-		'#innerElement',
-		'#text => ObservableSlot',
-		'#lineMode => ObservableSlot'
+		'isEditable',
+		'innerElement',
+		'text',
+		'lineMode'
 	],
 	#category : #'Toplo-Widget-Album-Label'
 }
@@ -21,23 +21,13 @@ ToLabel class >> text: aText [
 { #category : #'private-editing' }
 ToLabel >> addEditor [
 
-	self isEditable ifFalse: [ ^ self ].
-	self addEditor: self newEditor
-]
-
-{ #category : #'private-editing' }
-ToLabel >> addEditor: anEditor [
-
-	self editor ifNotNil: [ ^ self ].
-	self editor: anEditor.
-	self editor text: self text copy.
-	self editorFrame: (self newEditorFrameForEditor: self editor).
 	self innerElement visibility: BlVisibility hidden.
-	self editorFrame popup.
+	self newEditorFrame popup.
 	self editor requestFocus.
 	self editor selecter
 		all;
 		apply
+	
 ]
 
 { #category : #accessing }
@@ -67,8 +57,13 @@ ToLabel >> beReadOnly [
 { #category : #'private-editing' }
 ToLabel >> cleanUpUserData [
 
-	self userData removeKey: #editorFrame.
 	self userData removeKey: #editor
+]
+
+{ #category : #'private-editing' }
+ToLabel >> currentEditorFrame [
+
+	^  self innerElement currentAssociateWindow
 ]
 
 { #category : #initialization }
@@ -108,34 +103,10 @@ ToLabel >> defaultTextElement [
 	^ self lineMode newTextElementIn: self
 ]
 
-{ #category : #initialization }
-ToLabel >> dresser: aDresser [
-
-	super dresser: aDresser
-]
-
 { #category : #'private-editing' }
 ToLabel >> editor [
 
 	^ self userData at: #editor ifAbsent: [  ]
-]
-
-{ #category : #'private-editing' }
-ToLabel >> editor: anEditor [
-
-	self userData at: #editor put: anEditor
-]
-
-{ #category : #'private-editing' }
-ToLabel >> editorFrame [
-
-	^ self userData at: #editorFrame ifAbsent: [  ]
-]
-
-{ #category : #'private-editing' }
-ToLabel >> editorFrame: anAnchoredWindow [
-
-	self userData at: #editorFrame put: anAnchoredWindow
 ]
 
 { #category : #'api - text style' }
@@ -143,12 +114,6 @@ ToLabel >> foreground: aBlPaint [
 
 	self text foreground: aBlPaint.
 	self requestLayout 
-]
-
-{ #category : #'private-editing' }
-ToLabel >> hasEditor [
-
-	^ self editor notNil
 ]
 
 { #category : #accessing }
@@ -174,17 +139,30 @@ ToLabel >> horizontalAlignment: aBlElementAlignment [
 ToLabel >> initialize [
 
 	super initialize.
-
-	self lineMode: self defaultLineMode.
-	self text: self defaultText.
-
-	isEditable := false.
+	
 	self layout: self defaultLayout.
 	self fitContent.
+
+	self text: self defaultText.
+	self lineMode: self defaultLineMode.
 	self innerElement: self defaultTextElement.	
-	self whenLineModeChangedDo: [ self lineModeChanged ].
-	self whenTextReplacedDo: [ self privateText: self text ].
+
+	self isEditable: false.
 	self addEventHandler: self defaultEventHandler 
+]
+
+{ #category : #initialization }
+ToLabel >> initializeEditorFrameFactory [
+
+	self isEditable
+		ifTrue: [
+			self innerElement associateWindowFactory: [
+				| win |
+				win := ToAnchoredWindow new.
+				win root addChild: self newEditor.
+				self editor text: self text copy.
+				win ] ]
+		ifFalse: [ self innerElement associateWindowFactory: nil ]
 ]
 
 { #category : #accessing }
@@ -215,7 +193,8 @@ ToLabel >> isEditable [
 ToLabel >> isEditable: aBoolean [
 
 	isEditable = aBoolean ifTrue: [ ^ self ].
-	isEditable := aBoolean
+	isEditable := aBoolean.
+	self initializeEditorFrameFactory
 ]
 
 { #category : #accessing }
@@ -244,16 +223,15 @@ ToLabel >> lineMode [
 ToLabel >> lineMode: aLineMode [
 
 	lineMode = aLineMode ifTrue: [ ^ self ].
-	lineMode := aLineMode
+	lineMode := aLineMode.
+	self lineModeChanged 
 ]
 
 { #category : #'private-change' }
 ToLabel >> lineModeChanged [
 
-	| currText |
-	currText := self text.
 	self innerElement: self defaultTextElement.	
-	currText ifNotNil: [self innerElement text: currText]
+	self innerElement text: self text
 ]
 
 { #category : #initialization }
@@ -267,29 +245,26 @@ ToLabel >> monoLine: aBoolean [
 { #category : #'private-editing' }
 ToLabel >> newEditor [
 
-	^ self innerElement newEditorIn: self
+	^ self userData at: #editor put: (self innerElement newEditorIn: self)
 ]
 
 { #category : #'private-editing' }
-ToLabel >> newEditorFrameForEditor: anEditor [
+ToLabel >> newEditorFrame [
 
-	^ ToAnchoredWindowElement new
-		  associateElement: self innerElement;
-		  in: [ :aw | aw root addChild: anEditor ];
-		  yourself
+	^  self innerElement newAssociateWindow
 ]
 
 { #category : #'private-change' }
 ToLabel >> privateText: aText [
 
-	self innerElement text: aText
+	text := aText.
+	self innerElement ifNotNil: [:inner | inner text: aText ]
 ]
 
 { #category : #'private-editing' }
 ToLabel >> removeEditor [
 
-	self editor ifNil: [ ^ self ].
-	self editorFrame removeFromParent.
+	self currentEditorFrame close.
 	self innerElement visibility: BlVisibility visible.
 	self cleanUpUserData
 
@@ -305,15 +280,10 @@ ToLabel >> text [
 { #category : #accessing }
 ToLabel >> text: aBlTextOrString [
 
-	| attributes newText |
+	| newText |
 	text = aBlTextOrString ifTrue: [ ^ self ].
-	
-	text ifNotNil:[text asRopedText rope isLeaf ifFalse:[attributes := text asRopedText rope attributes]].
-
 	newText := (aBlTextOrString ifNil: [ self defaultText ]) asRopedText.
-	attributes ifNotNil:[newText attributes: attributes].
-
-	text := newText
+	self privateText: newText
 ]
 
 { #category : #'event handling' }
@@ -334,18 +304,6 @@ ToLabel >> verticalAlignment [
 ToLabel >> verticalAlignment: aBlElementAlignment [
 
 	self layout verticalAlignment: aBlElementAlignment
-]
-
-{ #category : #'change hook' }
-ToLabel >> whenEditableChangedDo: aBlock [
-
-	"Inform when editable property has changed. 
-	 `aBlock` has three optional arguments: 
-	 - new value
-	 - old value
-	 - the announcement triggering this action"
-
-	self property: #isEditable whenChangedDo: aBlock
 ]
 
 { #category : #'change hook' }

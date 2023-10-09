@@ -36,7 +36,7 @@ ToLabelEditorEventHandler >> eventsToHandle [
 ToLabelEditorEventHandler >> focusEvent: anEvent [
 
 	super focusEvent: anEvent.
-	self label editorFrame toFront
+	"self label editorFrame toFront"
 ]
 
 { #category : #accessing }

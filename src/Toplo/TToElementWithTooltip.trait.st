@@ -3,78 +3,70 @@ Trait {
 	#category : #'Toplo-Core-Tooltip'
 }
 
+{ #category : #'t - widget with tooltip - private' }
+TToElementWithTooltip >> currentTooltipWindow [
+
+	^ self currentAssociateWindow 
+]
+
 { #category : #'t - widget with tooltip - testing' }
 TToElementWithTooltip >> hasTooltip [
 
-	^ self privateTooltipWindow notNil
+	^ self privateTooltipContent notNil
 ]
 
 { #category : #'t - widget with tooltip - private' }
 TToElementWithTooltip >> newTooltipWindow [
 
-	^ ToTooltipWindow new
-		  associateElement: self;
-		  yourself
+	^ self newAssociateWindow 
 ]
 
-{ #category : #'t - widget with tooltip - private' }
-TToElementWithTooltip >> privateCheckTooltipWindowInstallation [
+{ #category : #'t - widget with tooltip - accessing' }
+TToElementWithTooltip >> privateTooltipContent [
 
-	self privateTooltipWindow ifNil: [ self privateInstallTooltipWindow ]
+	^ self userData at: #tooltipContent ifAbsent: [  ]
 ]
 
-{ #category : #'t - widget with tooltip - private' }
-TToElementWithTooltip >> privateInstallTooltipWindow [
+{ #category : #'t - widget with tooltip - accessing' }
+TToElementWithTooltip >> privateTooltipContent: anElement [
 
-	self privateTooltipWindow: self newTooltipWindow
-]
-
-{ #category : #'t - widget with tooltip - private' }
-TToElementWithTooltip >> privateTooltipWindow [
-
-	^ self userData at: #privateTooltipWindow ifAbsent: [  ]
-]
-
-{ #category : #'t - widget with tooltip - private' }
-TToElementWithTooltip >> privateTooltipWindow: aTooltip [
-
-	aTooltip ifNil: [
-		self userData removeKey: #privateTooltipWindow.
+	anElement ifNil: [
+		self userData removeKey: #tooltipContent ifAbsent: [  ].
 		^ self ].
-	self userData at: #privateTooltipWindow put: aTooltip
+	self userData at: #tooltipContent put: anElement
 ]
 
 { #category : #'t - widget with tooltip - private' }
 TToElementWithTooltip >> privateTooltipWindowDo: aBlock [
 
-	self privateTooltipWindow
+	self currentTooltipWindow
 		ifNotNil: [ :tooltip | aBlock value: tooltip ]
 ]
 
-{ #category : #'t - widget with tooltip - private' }
+{ #category : #'t - widget with tooltip - accessing' }
 TToElementWithTooltip >> removeTooltip [
 
-	self privateTooltipWindowDo: [ :tooltip |
-		tooltip removeWidget.
-		self privateTooltipWindow: nil ]
+	self currentTooltipWindow ifNotNil: [ :w | self dissociateFromWindow ].
+	self tooltipContent: nil
 ]
 
 { #category : #'t - widget with tooltip - accessing' }
 TToElementWithTooltip >> tooltipContent [
 
-	^ self privateTooltipWindow ifNotNil: [ :ptw | ptw content ]
+	^ self privateTooltipContent 
 ]
 
 { #category : #'t - widget with tooltip - accessing' }
 TToElementWithTooltip >> tooltipContent: anElement [
 
-	self hasTooltip ifTrue: [
-		self tooltipContent = anElement ifTrue: [ ^ self ] ].
+	self privateTooltipContent: anElement.
 	anElement ifNil: [
-		self removeTooltip.
+		self associateWindowFactory: nil.
 		^ self ].
-	self privateCheckTooltipWindowInstallation.
-	self privateTooltipWindow content: anElement
+	self associateWindowFactory: [ | win | win := ToTooltipWindow new.
+		win content: anElement.
+		win ].
+	self addEventHandler: ToElementWithTooltipEventHandler new
 ]
 
 { #category : #'t - widget with tooltip - accessing' }

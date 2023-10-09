@@ -1,8 +1,6 @@
 Class {
 	#name : #ToMenuWindow,
 	#superclass : #ToPopupWindow,
-	#traits : 'TToOrientable',
-	#classTraits : 'TToOrientable classTrait',
 	#instVars : [
 		'openedSubmenuWindow'
 	],
@@ -49,17 +47,15 @@ ToMenuWindow >> defaultElevation [
 ]
 
 { #category : #accessing }
+ToMenuWindow >> itemHolder [
+
+	^ self associateElement
+]
+
+{ #category : #accessing }
 ToMenuWindow >> items [
 
 	^ self associateElement ifNil: [ ^ #(  ) ] ifNotNil: [ :w | w items ]
-]
-
-{ #category : #'t - orientable - accessing' }
-ToMenuWindow >> layoutStrategy [
-
-	^ self rootLayout
-
-	
 ]
 
 { #category : #accessing }
@@ -79,5 +75,8 @@ ToMenuWindow >> openedSubmenuWindow: aWindow [
 ToMenuWindow >> popupEvent: anEvent [
 
 	self items ifEmpty: [ ^ self ].
+	self items do: [ :it |
+		self root addChild: it.
+		it addedInMenu: self itemHolder  ].
 	super popupEvent: anEvent
 ]

@@ -2,77 +2,78 @@
 A TToWidgetWithTooltipTest is a test class for testing the behavior of TToWidgetWithTooltip
 "
 Class {
-	#name : #TToWidgetWithTooltipTest,
+	#name : #TToElementWithTooltipTest,
 	#superclass : #TestCase,
 	#category : #'Toplo-Tests-Core-Tooltip'
 }
 
 { #category : #tests }
-TToWidgetWithTooltipTest >> testRemoveTooltip [
+TToElementWithTooltipTest >> testRemoveTooltip [
 
-	| tt e ttw |
+	| tt e ttw elementEventHandlerClass |
 	e := self testTooltip.
 	self assert: e hasTooltip.
 	tt := e tooltipContent.
-	ttw := e privateTooltipWindow.
+	ttw := e newTooltipWindow.
 	self assert: ttw notNil.
+	elementEventHandlerClass := ttw defaultAssociateElementEventHandlerClass.
 	e removeTooltip.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: e privateTooltipWindow defaultAssociateElementEventHandlerClass ]) not.
+			 eh isKindOf: elementEventHandlerClass ]) not.
 	self assert: ttw associateElement isNil.
-	self assert: ttw content isNil.
-	self assert: e privateTooltipWindow isNil.
+	self assert: e currentTooltipWindow isNil.
 	self assert: e tooltipContent isNil.
 	self assert: e hasTooltip not.
 	^ e
 ]
 
 { #category : #tests }
-TToWidgetWithTooltipTest >> testTooltip [
+TToElementWithTooltipTest >> testTooltip [
 
-	| tt e |
+	| tt e ttwin |
 	tt := BlElement new.
-	e := ToElementForWidgetWithTooltipTest new.
+	e := ToElementWithTooltipForTest new.
 	self assert: e hasTooltip not.
 	e tooltipContent: tt.
 	self assert: e hasTooltip.
 	self assert: e tooltipContent identicalTo: tt.
-	self assert: e privateTooltipWindow associateElement identicalTo: e.
+	ttwin := e newTooltipWindow.
+	self assert: e currentTooltipWindow identicalTo: ttwin.
+	self assert: ttwin associateElement identicalTo: e.
 	self assert:
-		(e privateTooltipWindow eventDispatcher hasEventHandlerSuchThat: [
+		(ttwin eventDispatcher hasEventHandlerSuchThat: [
 			 :eh |
-			 eh isKindOf: e privateTooltipWindow defaultEventHandlerClass ]).
+			 eh isKindOf: e currentTooltipWindow defaultEventHandlerClass ]).
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: e privateTooltipWindow defaultAssociateElementEventHandlerClass ]).
+			 eh isKindOf: e currentTooltipWindow defaultAssociateElementEventHandlerClass ]).
+	ttwin close.
 	^ e
 ]
 
 { #category : #tests }
-TToWidgetWithTooltipTest >> testTooltipContent [
+TToElementWithTooltipTest >> testTooltipContent [
 
 	| tt e |
 	e := self testTooltip.
 	self assert: e hasTooltip.
 	tt := e tooltipContent.
 	e tooltipContent: nil.
-	self assert: tt hasParent not.
 	self assert: e tooltipContent isNil.
-	self assert: e privateTooltipWindow isNil.
+	self assert: e currentTooltipWindow isNil.
 	self assert: e hasTooltip not.
 	^ e
 ]
 
 { #category : #tests }
-TToWidgetWithTooltipTest >> testWithoutTooltip [
+TToElementWithTooltipTest >> testWithoutTooltip [
 
-	| ttc e ttw |
-	e := ToElementForWidgetWithTooltipTest new.
+	| ttc e  |
+	e := ToElementWithTooltipForTest new.
 	self assert: e hasTooltip not.
 	ttc := e tooltipContent.
 	self assert: ttc isNil.
-	ttw := e privateTooltipWindow.
-	self assert: ttw isNil.
+	self should: [e newTooltipWindow] raise: Error.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: e privateTooltipWindow defaultAssociateElementEventHandlerClass ]) not.
+			 eh isKindOf: e currentTooltipWindow defaultAssociateElementEventHandlerClass ]) not.
 	^ e
 ]

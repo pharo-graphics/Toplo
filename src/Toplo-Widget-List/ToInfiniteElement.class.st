@@ -1,8 +1,8 @@
 Class {
 	#name : #ToInfiniteElement,
 	#superclass : #BlInfiniteElement,
-	#traits : 'TToResizable + TToElementWithContextMenu',
-	#classTraits : 'TToResizable classTrait + TToElementWithContextMenu classTrait',
+	#traits : 'TToResizable',
+	#classTraits : 'TToResizable classTrait',
 	#instVars : [
 		'nodeFactory',
 		'clickLauncher',
@@ -52,14 +52,6 @@ ToInfiniteElement >> clickLauncher: aProcessOrNil [
 ToInfiniteElement >> client [
 
 	^ self
-]
-
-{ #category : #'t - widget with context menu - accessing' }
-ToInfiniteElement >> contextMenu [
-
-	" specific version to pass the secondary selection as 2de argument "
-	^ 	(self contextMenuFactory cull: self cull: self secondarySelection copy) associateElement: self; yourself
-
 ]
 
 { #category : #accessing }

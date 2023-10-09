@@ -7,7 +7,7 @@ Class {
 { #category : #'api - accessing' }
 ToLabelEventHandler >> eventsToHandle [ 
 
-	^ { ToTextReplacedEvent. BlMouseDownEvent }
+	^ { BlMouseDownEvent }
 ]
 
 { #category : #'event handling' }
@@ -21,11 +21,4 @@ ToLabelEventHandler >> mouseDownEvent: anEvent [
 		 anEvent modifiers isPrimaryModifier ]) ifFalse: [ ^ self ].
 	anEvent consumed: true.
 	target addEditor
-]
-
-{ #category : #'event handling' }
-ToLabelEventHandler >> textReplacedEvent: anEvent [
-
-	| target |
-	target := anEvent currentTarget.
 ]

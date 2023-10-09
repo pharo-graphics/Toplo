@@ -1,6 +1,6 @@
 Class {
-	#name : #ToAnchoredWindowElementForTest,
-	#superclass : #ToElement,
+	#name : #ToElementWithAssociateWindowForTest,
+	#superclass : #BlElement,
 	#traits : 'TToElementWithAssociateWindow',
 	#classTraits : 'TToElementWithAssociateWindow classTrait',
 	#instVars : [

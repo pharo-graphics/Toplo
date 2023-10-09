@@ -10,7 +10,7 @@ Class {
 	#category : #'Toplo-Widget-Select'
 }
 
-{ #category : #'t - menu window model - window opening/closing' }
+{ #category : #'t - menu window model' }
 ToSelectInnerButton >> close [
 
 	^ self window close
@@ -31,7 +31,7 @@ ToSelectInnerButton >> items [
 	^ items ifNil: [ items := OrderedCollection new ]
 ]
 
-{ #category : #'t - menu window model - window opening/closing' }
+{ #category : #'t - menu window model' }
 ToSelectInnerButton >> popupEvent: anEvent [
 
 	^ self window popupEvent: anEvent

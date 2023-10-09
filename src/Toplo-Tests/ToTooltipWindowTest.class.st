@@ -12,7 +12,5 @@ ToTooltipWindowTest >> testEmptyWindow [
 
 	| w |
 	w := ToTooltipWindow new.
-	self assert: w associateElement isNil.
-	self assert: w associateElement isNil 
-	
+	self assert: w associateElement isNil	
 ]

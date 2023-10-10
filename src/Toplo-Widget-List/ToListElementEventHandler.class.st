@@ -61,17 +61,7 @@ ToListElementEventHandler >> collectionUpdateRequest: anEvent [
 ]
 
 { #category : #'infinite element events handling' }
-ToListElementEventHandler >> contextMenuClosedEvent: anEvent [
-
-	| target |
-	target := anEvent currentTarget.
-	target removeSecondarySelectionDecoration.
-	target secondarySelection deselectAll.
-	target infinite enableScrolledEvent
-]
-
-{ #category : #'infinite element events handling' }
-ToListElementEventHandler >> contextMenuOpenedEvent: anEvent [
+ToListElementEventHandler >> contextMenuBeforeBuildingEvent: anEvent [
 
 	| pos targetChildren childNode target infinite |
 	target := anEvent currentTarget.
@@ -88,6 +78,22 @@ ToListElementEventHandler >> contextMenuOpenedEvent: anEvent [
 		ifFalse: [
 			target addSecondarySelectionDecorationOnNode: childNode.
 			target secondarySelection selectIndex: childNode holder position]
+]
+
+{ #category : #'infinite element events handling' }
+ToListElementEventHandler >> contextMenuClosedEvent: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	target removeSecondarySelectionDecoration.
+	target secondarySelection deselectAll.
+	target infinite enableScrolledEvent
+]
+
+{ #category : #'infinite element events handling' }
+ToListElementEventHandler >> contextMenuOpenedEvent: anEvent [
+
+	
 ]
 
 { #category : #'infinite element events handling' }
@@ -146,6 +152,7 @@ ToListElementEventHandler >> eventsToHandle [
 		  ToInfiniteSelectionChangedEvent.
 		  BlBlurEvent.
 		  BlFocusEvent.
+			ToContextMenuBeforeBuildingEvent.
 		  ToContextMenuOpenedEvent.
 		  ToContextMenuClosedEvent }
 ]

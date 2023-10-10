@@ -1,9 +1,6 @@
 Class {
 	#name : #ToContextMenuOpenedEvent,
 	#superclass : #ToWindowOpenedEvent,
-	#instVars : [
-		'sourceEvent'
-	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
@@ -11,16 +8,4 @@ Class {
 ToContextMenuOpenedEvent >> sendTo: anEvent [
 
 	anEvent contextMenuOpenedEvent: self
-]
-
-{ #category : #accessing }
-ToContextMenuOpenedEvent >> sourceEvent [
-
-	^ sourceEvent
-]
-
-{ #category : #accessing }
-ToContextMenuOpenedEvent >> sourceEvent: anEvent [
-
-	sourceEvent := anEvent
 ]

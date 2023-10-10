@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMenuWindow,
-	#superclass : #ToPopupWindow,
+	#superclass : #ToAnchoredWindow,
 	#instVars : [
 		'openedSubmenuWindow'
 	],
@@ -12,20 +12,6 @@ ToMenuWindow >> close [
 
 	openedSubmenuWindow ifNotNil: [ :w | w close ].
 	super close
-]
-
-{ #category : #initialization }
-ToMenuWindow >> defaulPositionHook [ 
-
-	^ [ :w :event | w associateElement isSubmenu
-		  ifTrue: [ w associateElement bounds inSpace bounds topRight ]
-		  ifFalse: [ w associateElement bounds inSpace bounds bottomLeft ] ]
-]
-
-{ #category : #initialization }
-ToMenuWindow >> defaultAssociateElementEventHandlerClass [
-
-	^ ToMenuEventHandler 
 ]
 
 { #category : #initialization }
@@ -46,6 +32,15 @@ ToMenuWindow >> defaultElevation [
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 400)
 ]
 
+{ #category : #testing }
+ToMenuWindow >> includes: anElement [
+
+	self = anElement ifTrue: [ ^ true ].
+	(self items anySatisfy: [ :e | e includes: anElement ]) ifTrue: [
+		^ true ].
+	^ false
+]
+
 { #category : #accessing }
 ToMenuWindow >> itemHolder [
 
@@ -56,6 +51,12 @@ ToMenuWindow >> itemHolder [
 ToMenuWindow >> items [
 
 	^ self associateElement ifNil: [ ^ #(  ) ] ifNotNil: [ :w | w items ]
+]
+
+{ #category : #'t - menu window model' }
+ToMenuWindow >> menuWindow [
+
+	^ self
 ]
 
 { #category : #accessing }

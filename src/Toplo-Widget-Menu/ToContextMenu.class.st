@@ -9,23 +9,29 @@ Class {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : #'t - menu window model' }
+{ #category : #'api - displaying' }
 ToContextMenu >> close [ 
 
-	self items do: [ :it | it close ].
+	self items do: [ :it | it closeWindow ].
 	super close
+]
+
+{ #category : #'t - menu window model' }
+ToContextMenu >> closeWindow [
+
+	self close
+]
+
+{ #category : #accessing }
+ToContextMenu >> closedEventClass [
+
+	^ ToContextMenuClosedEvent 
 ]
 
 { #category : #initialization }
 ToContextMenu >> defaulPositionHook [
 
 	^ [ :w :event | event position ]
-]
-
-{ #category : #initialization }
-ToContextMenu >> defaultAssociateElementEventHandlerClass [
-
-	^ ToContextMenuEventHandler 
 ]
 
 { #category : #'t - menu window model' }
@@ -61,7 +67,13 @@ ToContextMenu >> items [
 { #category : #'t - menu window model' }
 ToContextMenu >> menuWindow [
 
-	^ self
+	^ super menuWindow
+]
+
+{ #category : #accessing }
+ToContextMenu >> openedEventClass [
+
+	^ ToContextMenuOpenedEvent 
 ]
 
 { #category : #'t - menu window model' }

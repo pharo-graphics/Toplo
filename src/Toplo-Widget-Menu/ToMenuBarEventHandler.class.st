@@ -30,7 +30,7 @@ ToMenuBarEventHandler >> mouseDownEvent: anEvent [
 	" a mouse down on an opened menu stops auto-open"
 	autoOpen ifTrue: [
 		target menus do: [ :m |
-			((anEvent target hasInParentChain: m) and: [ m hasAssociateWindow ])
+			((anEvent target hasInParentChain: m) and: [ m menuWindow notNil])
 				ifTrue: [
 					autoOpen := false.
 					^ self ] ] ].
@@ -48,8 +48,8 @@ ToMenuBarEventHandler >> mouseOverEvent: anEvent [
 	" auto-open action "
 	target menus do: [ :m |
 		(anEvent target hasInParentChain: m)
-			ifTrue: [ m currentAssociateWindow ifNil: [ m popupEvent: anEvent ] ]
-			ifFalse: [ m close ] ]
+			ifTrue: [ m menuWindow ifNil: [ m popupEvent: anEvent ] ]
+			ifFalse: [ m closeWindow ] ]
 ]
 
 { #category : #'mouse handlers' }

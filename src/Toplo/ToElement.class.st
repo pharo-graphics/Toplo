@@ -1,8 +1,8 @@
 Class {
 	#name : #ToElement,
 	#superclass : #BlElement,
-	#traits : 'TToResizable + TToEnableable + TToSkinable + TObservable + TToElementWithAssociateWindow + TToElementWithContextMenu',
-	#classTraits : 'TToResizable classTrait + TToEnableable classTrait + TToSkinable classTrait + TObservable classTrait + TToElementWithAssociateWindow classTrait + TToElementWithContextMenu classTrait',
+	#traits : 'TToResizable + TToEnableable + TToSkinable + TObservable + TToElementWithTooltip + TToElementWithContextMenu',
+	#classTraits : 'TToResizable classTrait + TToEnableable classTrait + TToSkinable classTrait + TObservable classTrait + TToElementWithTooltip classTrait + TToElementWithContextMenu classTrait',
 	#category : #'Toplo-Core'
 }
 
@@ -16,9 +16,7 @@ ToElement >> defaultStyleStamps [
 ToElement >> initialize [ 
 
 	super initialize.
-	
-	self class initializeSlots: self.
-	self initializeSkin
+	self class initializeSlots: self
 ]
 
 { #category : #accessing }

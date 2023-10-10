@@ -3,14 +3,14 @@ Trait {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'t - widget with  view model - accessing' }
+{ #category : #'t - element with  view model - accessing' }
 TToElementWithViewModel >> viewModel [
 
 	" should be lazy to avoid unecessary instanciation and installation "
 	^ self userData at: #viewModel ifAbsent: [  ]
 ]
 
-{ #category : #'t - widget with  view model - accessing' }
+{ #category : #'t - element with  view model - accessing' }
 TToElementWithViewModel >> viewModel: aViewModel [
 
 	" A viewModel is normally installed only once by the widget or by the viewModel itself.
@@ -20,7 +20,7 @@ TToElementWithViewModel >> viewModel: aViewModel [
 	self viewModelDo: [ :aCurrentModel | aViewModel launchInstallationIn: self ]
 ]
 
-{ #category : #'t - widget with  view model - accessing' }
+{ #category : #'t - element with  view model - accessing' }
 TToElementWithViewModel >> viewModelDo: aBlock [
 
 	self viewModel ifNotNil: [ :vm | aBlock cull: vm ]

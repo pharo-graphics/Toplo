@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTooltipWindow,
-	#superclass : #ToPopupWindow,
+	#superclass : #ToAnchoredWindow,
 	#instVars : [
 		'content'
 	],
@@ -34,22 +34,6 @@ ToTooltipWindow >> content: anElement [
 			c frame horizontal alignCenter ] ]
 ]
 
-{ #category : #initialization }
-ToTooltipWindow >> defaulPositionHook [
-
-	^ [ :window :event |
-	  event position x
-	  @
-		  (window associateElement localPointToGlobal:
-			   0 @ window associateElement height) y + self vgap ]
-]
-
-{ #category : #initialization }
-ToTooltipWindow >> defaultAssociateElementEventHandlerClass [
-
-	^ super defaultAssociateElementEventHandlerClass 
-]
-
 { #category : #accessing }
 ToTooltipWindow >> defaultElevation [
 
@@ -79,10 +63,4 @@ ToTooltipWindow >> initialize [
 	self padding: (BlInsets all: 4).
 	self fitContent.
 	self addEventHandler: self defaultEventHandler 
-]
-
-{ #category : #initialization }
-ToTooltipWindow >> vgap [
-
-	^ 5
 ]

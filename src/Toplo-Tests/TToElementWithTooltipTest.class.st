@@ -10,16 +10,15 @@ Class {
 { #category : #tests }
 TToElementWithTooltipTest >> testRemoveTooltip [
 
-	| tt e ttw elementEventHandlerClass |
+	| tt e ttw |
 	e := self testTooltip.
 	self assert: e hasTooltip.
 	tt := e tooltipContent.
-	ttw := e newTooltipWindow.
+	ttw := e newTooltipWindowEvent: nil.
 	self assert: ttw notNil.
-	elementEventHandlerClass := ttw defaultAssociateElementEventHandlerClass.
 	e removeTooltip.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: elementEventHandlerClass ]) not.
+			 eh isKindOf: ToElementWithTooltipEventHandler ]) not.
 	self assert: ttw associateElement isNil.
 	self assert: e currentTooltipWindow isNil.
 	self assert: e tooltipContent isNil.
@@ -32,12 +31,12 @@ TToElementWithTooltipTest >> testTooltip [
 
 	| tt e ttwin |
 	tt := BlElement new.
-	e := ToElementWithTooltipForTest new.
+	e := ToElement new.
 	self assert: e hasTooltip not.
 	e tooltipContent: tt.
 	self assert: e hasTooltip.
 	self assert: e tooltipContent identicalTo: tt.
-	ttwin := e newTooltipWindow.
+	ttwin := e newTooltipWindowEvent: nil.
 	self assert: e currentTooltipWindow identicalTo: ttwin.
 	self assert: ttwin associateElement identicalTo: e.
 	self assert:
@@ -45,7 +44,7 @@ TToElementWithTooltipTest >> testTooltip [
 			 :eh |
 			 eh isKindOf: e currentTooltipWindow defaultEventHandlerClass ]).
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: e currentTooltipWindow defaultAssociateElementEventHandlerClass ]).
+			 eh isKindOf: ToElementWithTooltipEventHandler ]).
 	ttwin close.
 	^ e
 ]
@@ -68,12 +67,12 @@ TToElementWithTooltipTest >> testTooltipContent [
 TToElementWithTooltipTest >> testWithoutTooltip [
 
 	| ttc e  |
-	e := ToElementWithTooltipForTest new.
+	e := ToElement new.
 	self assert: e hasTooltip not.
 	ttc := e tooltipContent.
 	self assert: ttc isNil.
-	self should: [e newTooltipWindow] raise: Error.
+	self should: [e newTooltipWindowEvent: nil] raise: Error.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: e currentTooltipWindow defaultAssociateElementEventHandlerClass ]) not.
+			 eh isKindOf: ToElementWithTooltipEventHandler ]) not.
 	^ e
 ]

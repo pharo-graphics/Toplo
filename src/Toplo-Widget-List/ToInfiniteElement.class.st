@@ -1,8 +1,8 @@
 Class {
 	#name : #ToInfiniteElement,
 	#superclass : #BlInfiniteElement,
-	#traits : 'TToResizable',
-	#classTraits : 'TToResizable classTrait',
+	#traits : 'TToResizable + TToElementWithContextMenu',
+	#classTraits : 'TToResizable classTrait + TToElementWithContextMenu classTrait',
 	#instVars : [
 		'nodeFactory',
 		'clickLauncher',
@@ -482,6 +482,12 @@ ToInfiniteElement >> selectedIndex [
 ToInfiniteElement >> selectedIndexes [
 
 	^ self primarySelectionIndexes 
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> selection [
+
+	^ self primarySelection 
 ]
 
 { #category : #accessing }

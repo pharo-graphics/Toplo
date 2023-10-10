@@ -32,11 +32,7 @@ ToElementWithContextMenuEventHandler >> mouseDownEvent: anEvent [
 { #category : #private }
 ToElementWithContextMenuEventHandler >> popupContextMenuFor: aWidget event: anEvent [
 
-	aWidget dispatchEvent: (ToContextMenuOpenedEvent new
-			 sourceEvent: anEvent;
-			 yourself).
-			
-	contextMenu := aWidget contextMenu.
+	contextMenu := aWidget contextMenuWindow.
 	contextMenu popupEvent: anEvent
 ]
 

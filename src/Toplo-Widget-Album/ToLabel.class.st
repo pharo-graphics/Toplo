@@ -1,13 +1,14 @@
 Class {
 	#name : #ToLabel,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TToElementWithTooltip + TBlAlignable',
-	#classTraits : 'TToWidget classTrait + TToElementWithTooltip classTrait + TBlAlignable classTrait',
+	#traits : 'TToWidget + TBlAlignable',
+	#classTraits : 'TToWidget classTrait + TBlAlignable classTrait',
 	#instVars : [
-		'isEditable',
-		'innerElement',
-		'text',
-		'lineMode'
+		'#isEditable',
+		'#innerElement',
+		'#text => ObservableSlot',
+		'#lineMode',
+		'#frameHandler'
 	],
 	#category : #'Toplo-Widget-Album-Label'
 }
@@ -19,10 +20,10 @@ ToLabel class >> text: aText [
 ]
 
 { #category : #'private-editing' }
-ToLabel >> addEditor [
+ToLabel >> addEditorEvent: anEvent [
 
 	self innerElement visibility: BlVisibility hidden.
-	self newEditorFrame popup.
+	(self newEditorFrameEvent: anEvent) popup.
 	self editor requestFocus.
 	self editor selecter
 		all;
@@ -63,7 +64,7 @@ ToLabel >> cleanUpUserData [
 { #category : #'private-editing' }
 ToLabel >> currentEditorFrame [
 
-	^  self innerElement currentAssociateWindow
+	^ frameHandler currentWindow
 ]
 
 { #category : #initialization }
@@ -152,17 +153,22 @@ ToLabel >> initialize [
 ]
 
 { #category : #initialization }
-ToLabel >> initializeEditorFrameFactory [
+ToLabel >> initializeEditorFrameBuilder [
 
 	self isEditable
 		ifTrue: [
-			self innerElement associateWindowFactory: [
+			frameHandler := ToAnchoredWindowHandler new.
+			frameHandler element: self innerElement.
+			frameHandler builder: [
 				| win |
 				win := ToAnchoredWindow new.
 				win root addChild: self newEditor.
 				self editor text: self text copy.
 				win ] ]
-		ifFalse: [ self innerElement associateWindowFactory: nil ]
+		ifFalse: [
+			frameHandler ifNil: [ ^ self ].
+			frameHandler element: nil.
+			frameHandler := nil ]
 ]
 
 { #category : #accessing }
@@ -175,12 +181,11 @@ ToLabel >> innerElement [
 ToLabel >> innerElement: anInnerElement [
 
 	innerElement = anInnerElement ifTrue: [ ^ self ].
-	innerElement ifNotNil: [ innerElement removeFromParent ]. 
+	innerElement ifNotNil: [ innerElement removeFromParent ].
 	innerElement := anInnerElement.
-	innerElement
-		when: ToTextReplacedEvent
-		do: [ :evt | self text: evt text ].
-	self addChild: innerElement 
+	innerElement when: ToTextReplacedEvent do: [ :evt |
+		self text: evt text ].
+	self addChild: innerElement
 ]
 
 { #category : #accessing }
@@ -194,7 +199,7 @@ ToLabel >> isEditable: aBoolean [
 
 	isEditable = aBoolean ifTrue: [ ^ self ].
 	isEditable := aBoolean.
-	self initializeEditorFrameFactory
+	self initializeEditorFrameBuilder
 ]
 
 { #category : #accessing }
@@ -249,9 +254,9 @@ ToLabel >> newEditor [
 ]
 
 { #category : #'private-editing' }
-ToLabel >> newEditorFrame [
+ToLabel >> newEditorFrameEvent: anEvent [
 
-	^  self innerElement newAssociateWindow
+	^  frameHandler newWindowEvent: anEvent
 ]
 
 { #category : #'private-change' }
@@ -304,18 +309,6 @@ ToLabel >> verticalAlignment [
 ToLabel >> verticalAlignment: aBlElementAlignment [
 
 	self layout verticalAlignment: aBlElementAlignment
-]
-
-{ #category : #'change hook' }
-ToLabel >> whenLineModeChangedDo: aBlock [
-
-	"Inform when lineMode property has changed. 
-	 `aBlock` has three optional arguments: 
-	 - new value
-	 - old value
-	 - the announcement triggering this action"
-
-	self property: #lineMode whenChangedDo: aBlock
 ]
 
 { #category : #'change hook' }

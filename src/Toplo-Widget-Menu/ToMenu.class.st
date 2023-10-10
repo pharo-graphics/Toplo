@@ -5,7 +5,8 @@ Class {
 	#classTraits : 'TToMenuItemHolder classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
 		'items',
-		'isSubmenu'
+		'isSubmenu',
+		'windowHandler'
 	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }
@@ -26,16 +27,16 @@ ToMenu >> clickEventClass [
 ]
 
 { #category : #'t - menu window model' }
-ToMenu >> close [
+ToMenu >> closeWindow [
 
-	self items do: [ :it | it close ].
-	super close
+	self items do: [ :it | it closeWindow ].
+	windowHandler closeWindow
 ]
 
 { #category : #testing }
 ToMenu >> includes: anElement [
 
-	self currentAssociateWindow = anElement ifTrue: [ ^ true ].
+	self menuWindow = anElement ifTrue: [ ^ true ].
 	(self items anySatisfy: [ :e | e includes: anElement ]) ifTrue: [
 		^ true ].
 	^ super includes: anElement
@@ -47,9 +48,8 @@ ToMenu >> initialize [
 	super initialize.
 	isSubmenu := false.
 	self initializeWithMenuConstraints.
-	self associateWindowFactory: [ ToMenuWindow new ].
-	self whenClickedDo: [ :event | self popupOrCloseEvent: event ]
-		
+	windowHandler := ToMenuWindowHandler new element: self.
+	windowHandler builder: [ ToMenuWindow new ]
 ]
 
 { #category : #initialization }
@@ -92,29 +92,20 @@ ToMenu >> items [
 { #category : #'t - menu window model' }
 ToMenu >> menuWindow [ 
 
-	^ self currentAssociateWindow 
+	^ windowHandler currentWindow
 ]
 
-{ #category : #'window accessing' }
-ToMenu >> newMenuWindow [ 
+{ #category : #'menu window' }
+ToMenu >> menuWindowDo: aValuable [
 
-	^ self newAssociateWindow 
+	self menuWindow ifNil: [ ^ self ].
+	aValuable value: self menuWindow
 ]
 
 { #category : #'t - menu window model' }
 ToMenu >> popupEvent: anEvent [
 
-	| win |
-	win := self newMenuWindow.
-	win popupEvent: anEvent
-]
-
-{ #category : #'as yet unclassified' }
-ToMenu >> popupOrCloseEvent: anEvent [
-
-	self isOpened
-		ifTrue: [ self close ]
-		ifFalse: [ self popupEvent: anEvent ]
+	(windowHandler newWindowEvent: anEvent) popupEvent: anEvent
 ]
 
 { #category : #'adding-removing' }
@@ -137,6 +128,6 @@ ToMenu >> rootMenu [
 ToMenu >> toThemeChanged [ 
 
 	super toThemeChanged.
-	self window ifNotNil: [ :mw | mw toThemeChanged ]
+	self menuWindow ifNotNil: [ :mw | mw toThemeChanged ]
 	
 ]

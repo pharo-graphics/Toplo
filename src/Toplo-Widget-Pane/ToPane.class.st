@@ -56,7 +56,7 @@ ToPane >> defaultStyleStamps [
 	^ #( #pane )
 ]
 
-{ #category : #'t - widget with layers - accessing' }
+{ #category : #'t - element with layers - accessing' }
 ToPane >> layerReferentElement [
 
 	^ self

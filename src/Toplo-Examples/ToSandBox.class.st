@@ -139,7 +139,7 @@ Here an example of a client for a method.
 	menu addItem: (ToMenuItem new labelText: 'Accept'; whenClickedDo: [:event  | event currentTarget requestSave ]; yourself).
 	menu addSeparator.
 	menu addItem: (ToMenuItem new labelText: 'Cancel'; whenClickedDo: [:event  | event currentTarget requestCancel ]; yourself).
-	model widgetDo: [ :widget | widget contextMenuFactory: [ menu ]. widget cursorColor: Color black].
+	model widgetDo: [ :widget | widget contextMenuBuilder: [ menu ]. widget cursorColor: Color black].
 	model onWidget openInInnerWindow 
 
 
@@ -767,8 +767,9 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		| r |
 		r := event indexes collect: [ :idx | idx asString , ':XXXXXX' ].
 		r do: [ :e | l data addFirst: e ] ].
-	menuFactory := [ :widget :selection |
-	               | menu |
+	menuFactory := [ :widget |
+	               | menu selectedIndexes |
+						selectedIndexes := widget secondarySelectionIndexes.
 	               menu := ToContextMenu new.
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Add initial Items';
@@ -783,17 +784,17 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				                whenClickedDo: [ :event  |
 					                widget  data removeAll ];
 				                yourself) ].
-	               selection ifNotEmpty: [ 
+	               selectedIndexes ifNotEmpty: [ 
 				         selectionMenu := ToMenu new .
 		               selectionMenu label: (ToLabel new text: 'Selection').
-		               selection size = 1 ifTrue: [
+		               selectedIndexes size = 1 ifTrue: [
 			               | node idx |
-			               idx := selection first.
+			               idx := selectedIndexes first.
 			               node := l nodeAt: idx.
 			               selectionMenu addItem: (ToMenuItem new
 					                labelText: 'Edit';
 					                whenClickedDo: [ :event  | 
-						                node label addEditor ];
+						                node label addEditorEvent: nil ];
 					                yourself).
 			               selectionMenu addItem: (ToMenuItem new
 					                labelText: (node label isMonoLine
@@ -810,8 +811,8 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 			               selectionMenu addSeparator ].
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert before';
-				                whenClickedDo: [ :event  |
-					                selection selectedIndexes do: [ :idx |
+				                whenClickedDo: [ :event  | 
+					                selectedIndexes do: [ :idx |
 							                widget  data
 								                add: idx asString , ':XXXXXX'
 								                beforeIndex: idx ] ];
@@ -820,8 +821,8 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				                labelText: 'Insert after';
 				                whenClickedDo: [ :event |
 					                | nb |
-					                nb := selection size.
-					                selection selectedIndexes do: [ :idx |
+					                nb := selectedIndexes size.
+					                selectedIndexes do: [ :idx |
 							                widget  data
 								                add: idx asString , ':XXXXXX'
 								                afterIndex: idx + nb - 1 ] ];
@@ -829,13 +830,14 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		               selectionMenu addSeparator.
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Remove';
-				                whenClickedDo: [ :event  |
-					                selection ifNotEmpty: [widget  data removeFrom: selection first to: selection last ] ];
+				                whenClickedDo: [ :event  | 
+					                selectedIndexes ifNotEmpty: [widget data removeFrom: selectedIndexes first to: selectedIndexes last ] ];
 				                yourself).
   							menu addSeparator.
 		               menu addItem: selectionMenu].
 	               menu ].
-	l contextMenuFactory: menuFactory.
+
+	l contextMenuBuilder: menuFactory.
 	l withRowNumbers.
 	l openInInnerWindow
 ]
@@ -1035,13 +1037,13 @@ ToSandBox class >> example_PicsumPhotosGallery [
 { #category : #window }
 ToSandBox class >> example_Popup1 [
 
-	| container menu item sub |
+	| container menu item sub popupWindowHandler |
 	container := ToInnerWindow new
 		             position: 10 @ 10;
 		             size: 400 @ 200;
 		             yourself.
 
-	menu := ToElementWithAssociateWindowForTest new
+	menu := ToElement new
 		        id: #'red-button';
 		        background: Color red;
 		        size: 100 @ 40;
@@ -1051,19 +1053,17 @@ ToSandBox class >> example_Popup1 [
 		       size: 20 @ 20;
 		       position: 10 @ 10.
 	menu addChild: sub.
-	menu associateWindowFactory: [ 
+	popupWindowHandler := ToPopupWindowHandler new.
+	popupWindowHandler builder: [ 
 		| popup |
-		popup := ToPopupWindow new border: Color black.
+		popup := ToAnchoredWindow new border: Color black.
 		item := ToElement new size: 50 @ 90.
 		item background: Color yellow.
 		item addEventHandler: ToSkinnableEventHandler new.
 		item when: BlPrimaryClickEvent do: [ self inform: 'Click' ].
 		popup root addChild: item.
 		popup ].
-	menu when: BlMouseDownEvent do: [ :event |
-		menu hasAssociateWindow
-			ifTrue: [ menu currentAssociateWindow close ]
-			ifFalse: [ menu newAssociateWindow popupEvent: event ] ].
+	popupWindowHandler element: menu.
 	container pane addChild: menu.
 	container openInSpace
 ]
@@ -1959,16 +1959,13 @@ ToSandBox class >> example_contextMenu [
 
 	| container win |
 	container := ToElement new matchParent.
-	
-	container associateWindowFactory: [ :e |
+	container contextMenuBuilder: [ :e |
 		win := ToContextMenu new.
 		win addItem: (ToMenuItem new
 				 labelText: 'Open';
+				 whenClickedDo: [ self inform: 'Open' ];
 				 yourself).
 		win ].
-
-	container when: BlSecondaryMouseDownEvent do: [ :event |
-		container popupOrCloseContextMenuEvent: event].
 
 	container openInSpace
 ]
@@ -2487,22 +2484,24 @@ ToSandBox class >> example_menuBar2 [
 ]
 
 { #category : #window }
-ToSandBox class >> example_overlayWidow1 [
+ToSandBox class >> example_overlayWindow1 [
 
-	| e |
-	e := ToElementWithAssociateWindowForTest new
+	| e windowHandler |
+	e := ToElement new
 		     size: 100 @ 100;
 		     position: 50 @ 50;
 		     background: Color yellow;
 		     border: (BlBorder paint: Color red).
-	e associateWindowFactory: [ :_ |
+	windowHandler := ToOverlayWindowHandler new.
+	windowHandler element: e.
+	windowHandler builder: [
 		| w |
-		w := ToOverlayWindow new.
+		w := ToAnchoredWindow new.
 		w background: (Color gray alpha: 0.2).
 		w border: (BlBorder paint: Color black width: 2).
 		w ].
 	e openInInnerWindow.
-	e newAssociateWindow popup
+	(windowHandler newWindowEvent: nil) popup
 ]
 
 { #category : #window }
@@ -2539,8 +2538,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 
 		menu addItem: sub ].
 
-	win pane contextMenuFactory: [ :e | menu ].
-	win pane installContextMenuFactory.
+	win pane contextMenuBuilder: [ :e | menu ].
 	
 	bar := ToMenuBar new
 		       hMatchParent;
@@ -2594,7 +2592,7 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 
 	menu addItem: sub.
 
-	win pane associateWindowFactory: [ menu ].
+	win pane contextMenuBuilder: [ menu ].
 
 	bar := ToMenuBar new
 		       hMatchParent;

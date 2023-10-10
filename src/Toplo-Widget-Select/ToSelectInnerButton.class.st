@@ -10,7 +10,7 @@ Class {
 	#category : #'Toplo-Widget-Select'
 }
 
-{ #category : #'t - menu window model' }
+{ #category : #'as yet unclassified' }
 ToSelectInnerButton >> close [
 
 	^ self window close

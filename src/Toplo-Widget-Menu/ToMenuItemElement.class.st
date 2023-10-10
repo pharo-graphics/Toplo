@@ -14,16 +14,14 @@ ToMenuItemElement >> addedInMenu: aMenu [
 ]
 
 { #category : #'adding-removing' }
-ToMenuItemElement >> close [
-
-	self currentAssociateWindow ifNotNil: [ :w | w close ]
-]
-
-{ #category : #'adding-removing' }
 ToMenuItemElement >> closeSiblingMenuWindow [
 
 	self parentMenu items do: [ :it |
-		it currentAssociateWindowDo: [ :w | w close ] ]
+		it menuWindowDo: [ :w | w close ] ]
+]
+
+{ #category : #'menu window' }
+ToMenuItemElement >> closeWindow [
 ]
 
 { #category : #initialization }
@@ -76,6 +74,10 @@ ToMenuItemElement >> isSubmenu [
 ToMenuItemElement >> isTopMenu [
 
 	^ false
+]
+
+{ #category : #'menu window' }
+ToMenuItemElement >> menuWindowDo: aValuable [
 ]
 
 { #category : #'parent menu' }

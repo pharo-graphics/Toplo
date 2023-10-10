@@ -25,9 +25,9 @@ TToListElementDecorator >> beWithoutSelection [
 ]
 
 { #category : #'t - accessing context menu' }
-TToListElementDecorator >> contextMenuFactory: aValuable [
+TToListElementDecorator >> contextMenuBuilder: aValuable [
 
-	self next contextMenuFactory: aValuable
+	self next contextMenuBuilder: aValuable
 ]
 
 { #category : #'t - infinite accessing' }

@@ -3,43 +3,79 @@ Trait {
 	#category : #'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : #'t - element with context menu' }
-TToElementWithContextMenu >> contextMenu [
+{ #category : #'t - widget with context menu - accessing' }
+TToElementWithContextMenu >> contextMenuBuilder: aValuable [
 
-	^ self currentAssociateWindow
+	self contextMenuWindowHandler builder: aValuable
+]
+
+{ #category : #'t - element with context menu' }
+TToElementWithContextMenu >> contextMenuWindow [
+
+	^ self rawContextMenuWindowHandler ifNotNil: [ :h | h currentWindow ]
 ]
 
 { #category : #'t - widget with context menu - accessing' }
-TToElementWithContextMenu >> contextMenuFactory: aValuable [
+TToElementWithContextMenu >> contextMenuWindowHandler [
 
-	self associateWindowFactory: aValuable
+	^ self userData
+		  at: #contextMenuWindowHandler
+		  ifAbsentPut: [ ToContextMenuWindowHandler new element: self; yourself]
+]
+
+{ #category : #'t - widget with context menu - accessing' }
+TToElementWithContextMenu >> contextMenuWindowHandler: aWindowHandler [
+
+	self rawContextMenuWindowHandler = aWindowHandler ifTrue: [ ^ self ].
+	self removeContextMenuWindowHandler.
+	aWindowHandler ifNil: [ ^ self ].
+	self userData at: #contextMenuWindowHandler put: (aWindowHandler
+			 element: self;
+			 yourself)
 ]
 
 { #category : #'t - element with context menu' }
 TToElementWithContextMenu >> hasOpenedContextMenu [
+	" do not use #contextMenuWindowHandler to avoid ContextMenuWindowHandler installation here "
 
-	^ self hasAssociateWindow 
+	^ self contextMenuWindow notNil
+]
+
+{ #category : #testing }
+TToElementWithContextMenu >> isTopMenu [
+
+	"need it for mouse outside event handling "
+	^ false
 ]
 
 { #category : #'t - element with context menu' }
-TToElementWithContextMenu >> installContextMenuFactory [
+TToElementWithContextMenu >> newContextMenuEvent: anEvent [
 
-	self when: BlSecondaryMouseDownEvent do: [ :event |
-		self contextMenu
-			ifNotNil: [ :w | w close ]
-			ifNil: [ self newContextMenu popupEvent: event ] ].
-]
-
-{ #category : #'t - element with context menu' }
-TToElementWithContextMenu >> newContextMenu [
-
-	^ self newAssociateWindow
+	^ self contextMenuWindowHandler newWindowEvent: anEvent
 ]
 
 { #category : #'t - element with context menu' }
 TToElementWithContextMenu >> popupOrCloseContextMenuEvent: anEvent [
 
-	self contextMenu
-		ifNotNil: [ :w | w close ]
-		ifNil: [ self newContextMenu popupEvent: anEvent ]
+	self contextMenuWindow
+		ifNotNil: [ :w | w closeWindow ]
+		ifNil: [ (self newContextMenuEvent: anEvent) popupEvent: anEvent ]
+]
+
+{ #category : #'t - widget with context menu - accessing' }
+TToElementWithContextMenu >> rawContextMenuWindowHandler [
+
+	^ self userData at: #contextMenuWindowHandler ifAbsent: [ ]
+]
+
+{ #category : #'t - widget with context menu - accessing' }
+TToElementWithContextMenu >> removeContextMenuWindowHandler [
+
+	| handler |
+	handler := self userData
+		           at: #contextMenuWindowHandler
+		           ifAbsent: [ ^ self ].
+	handler hasWindow ifTrue: [ handler closeWindow ].
+	handler element: nil.
+	self userData removeKey: #contextMenuWindowHandler
 ]

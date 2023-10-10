@@ -20,5 +20,5 @@ ToLabelEventHandler >> mouseDownEvent: anEvent [
 	(anEvent modifiers isShift and: [
 		 anEvent modifiers isPrimaryModifier ]) ifFalse: [ ^ self ].
 	anEvent consumed: true.
-	target addEditor
+	target addEditorEvent: anEvent
 ]

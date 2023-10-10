@@ -4,7 +4,7 @@ Trait {
 }
 
 { #category : #'t - menu window model' }
-TToMenuWindowModel >> close [
+TToMenuWindowModel >> closeWindow [
 
 	^ self explicitRequirement 
 ]

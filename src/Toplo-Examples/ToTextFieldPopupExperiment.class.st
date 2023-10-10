@@ -30,7 +30,7 @@ ToTextFieldPopupExperiment >> open [
 ToTextFieldPopupExperiment >> popupTextFieldWith: aString on: anElement [
 	
 	| tf w |
-	w := ToPopupWindow new.
+	w := ToAnchoredWindow new.
 	tf := ToTextField new.
 	tf whenTextEditedDo: [ :event | event text traceCr ].
 	tf text: aString.

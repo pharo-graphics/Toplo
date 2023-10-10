@@ -207,7 +207,7 @@ ToMiniBrowser >> initialize [
 
 	codeMenu := ToContextMenu new.
 	codeMenu addItem: (ToMenuItem new labelText: 'Accept').
-	codePane contextMenuFactory: [ codeMenu ].
+	codePane contextMenuBuilder: [ codeMenu ].
 
 	"packages withRowNumbers.
 	classes withRowNumbers.

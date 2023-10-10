@@ -1,6 +1,6 @@
 Class {
 	#name : #ToElementWithTooltipEventHandler,
-	#superclass : #BlCustomEventHandler,
+	#superclass : #ToAnchorEventHandler,
 	#instVars : [
 		'openTooltipTask'
 	],
@@ -10,7 +10,7 @@ Class {
 { #category : #'api - accessing' }
 ToElementWithTooltipEventHandler >> eventsToHandle [
 
-	^ {
+	^ super eventsToHandle, {
 		  BlMouseEnterEvent.
 		  BlMouseLeaveEvent.
 		  BlMouseDownEvent }
@@ -59,7 +59,7 @@ ToElementWithTooltipEventHandler >> prepareDelayedPopupTooltipFromEvent: anEvent
 		openTooltipTask := BlDelayedTaskAction new
 			                   delay: self popupDelay;
 			                   action: [ 
-				                   anEvent currentTarget newTooltipWindow popupEvent: anEvent.
+				                   (anEvent currentTarget newTooltipWindowEvent: anEvent) popupEvent: anEvent.
 				                   openTooltipTask := nil ].
 		anEvent currentTarget enqueueTask: openTooltipTask
 ]

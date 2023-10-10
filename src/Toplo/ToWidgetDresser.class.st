@@ -1,8 +1,6 @@
 Class {
 	#name : #ToWidgetDresser,
 	#superclass : #ToDresser,
-	#traits : 'TToMouseHandler',
-	#classTraits : 'TToMouseHandler classTrait',
 	#instVars : [
 		'mouseUpOutsideHandler',
 		'enablementHandler',

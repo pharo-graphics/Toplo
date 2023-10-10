@@ -120,7 +120,7 @@ All the different kind of Album using should use the available basic client clas
 Here an example of a client for a method.
 "
 
-	| text model menu |
+	| text model menuBuilder |
 	text := self methodText asRopedText.
 	model := ToAlbumModel new.
 	model styler: (BlRBTextStyler new classOrMetaClass: self class).
@@ -130,16 +130,18 @@ Here an example of a client for a method.
 	model whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ].
 	model whenCancelRequestedDo: [ :cancelRequested | cancelRequested client text: text copy ].
 	
-	menu := ToContextMenu new.
-	menu addItem: (ToMenuItem new labelText: 'Select all'; whenClickedDo: [:event  | event currentTarget selecter all; apply ]; yourself).
-	menu addItem: (ToMenuItem new labelText: 'Copy'; whenClickedDo: [:event  | event currentTarget editor copySelected ]; yourself).
-	menu addItem: (ToMenuItem new labelText: 'Cut'; whenClickedDo: [:event  | event currentTarget editor cutSelected ]; yourself).
-	menu addItem: (ToMenuItem new labelText: 'Paste'; whenClickedDo: [:event  | event currentTarget editor paste ]; yourself).
-	menu addSeparator.
-	menu addItem: (ToMenuItem new labelText: 'Accept'; whenClickedDo: [:event  | event currentTarget requestSave ]; yourself).
-	menu addSeparator.
-	menu addItem: (ToMenuItem new labelText: 'Cancel'; whenClickedDo: [:event  | event currentTarget requestCancel ]; yourself).
-	model widgetDo: [ :widget | widget contextMenuBuilder: [ menu ]. widget cursorColor: Color black].
+	menuBuilder := [ :a | | menu |
+		menu := ToContextMenu new.
+		menu addItem: (ToMenuItem new labelText: 'Select all'; whenClickedDo: [:event  | a selecter all; apply ]; yourself).
+		menu addItem: (ToMenuItem new labelText: 'Copy'; whenClickedDo: [:event  | a editor copySelected ]; yourself).
+		menu addItem: (ToMenuItem new labelText: 'Cut'; whenClickedDo: [:event  | a editor cutSelected ]; yourself).
+		menu addItem: (ToMenuItem new labelText: 'Paste'; whenClickedDo: [:event  | a editor paste ]; yourself).
+		menu addSeparator.
+		menu addItem: (ToMenuItem new labelText: 'Accept'; whenClickedDo: [:event  | a requestSave ]; yourself).
+		menu addSeparator.
+		menu addItem: (ToMenuItem new labelText: 'Cancel'; whenClickedDo: [:event  | a requestCancel ]; yourself).
+		menu ].
+	model widgetDo: [ :widget | widget contextMenuBuilder: menuBuilder. widget cursorColor: Color black].
 	model onWidget openInInnerWindow 
 
 

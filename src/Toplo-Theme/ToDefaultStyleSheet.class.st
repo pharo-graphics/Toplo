@@ -25,25 +25,16 @@ ToDefaultStyleSheet >> checkableButtonRules [
 	" checkbox family "
 
 	^ {
-		  (#( #button #checkable #checkbox) asStyleSelector style: [ :sr | 
-			   sr write: (self property: #'border-with-builder') with: [ :e | 
-				   e borderBuilder
-						width: 1;
-					   paint: (e stampValue: #'color-border-checkable');
-					   yourself ].
+		  (#( #button #checkable ) asStyleSelector style: [ :sr |
+			   (#checkbox asStyleSelector or: #radio asStyleSelector) style: [
+				   sr write: (self property: #'border-with-builder') with: [ :e |
+					   e borderBuilder
+						   width: 1;
+						   paint: (e stampValue: #'color-border-checkable');
+						   yourself ].
 				   sr
 					   write: (self property: #iconImage)
-					   with: [ :e | (e stampValue: #'checkbox-image-builder') value ] ]).
-				
-		  (#( #button #checkable #radio) asStyleSelector style: [ :sr | 
-			   sr write: (self property: #'border-with-builder') with: [ :e | 
-				   e borderBuilder
-						width: 1;
-					   paint: (e stampValue: #'color-border-checkable');
-					   yourself ].
-				   sr
-					   write: (self property: #iconImage)
-					   with: [ :e | (e stampValue: #'checkbox-image-builder') value ] ]).
+					   with: [ :e | (e stampValue: #'checkbox-image-builder') value ] ] ]).
 
 		  " checkbox icon geometry "
 		  ((#image asStyleSelector
@@ -63,12 +54,10 @@ ToDefaultStyleSheet >> checkableButtonRules [
 
 		  ((#image asStyleSelector parent: #( #button #checkable ) depth: 3)
 			   style: [ :sr | " icon border "
-				   sr
-					   write: (self property: #'border-with-builder')
-					   with: [ :e |
-						   e borderBuilder
-							   paint: (e stampValue: #'color-border');
-							   yourself ].
+				   sr write: (self property: #'border-with-builder') with: [ :e |
+					   e borderBuilder
+						   paint: (e stampValue: #'color-border');
+						   yourself ].
 				   sr
 					   when: ToInitialLookEvent
 					   write: (self property: #'border-with-builder')
@@ -123,9 +112,9 @@ ToDefaultStyleSheet >> checkableButtonRules [
 						   paint: (e stampValue: #'color-error-pressed');
 						   yourself ] ]).
 
-		  (((#'triplet-filler-1' asStyleSelector
+		  (((#filler asStyleSelector
 			     parent: #( #button #checkable )
-			     depth: 3) sibling: #'button-label') style: [ :sr |
+			     depth: 2) sibling: #'button-label') style: [ :sr |
 			   sr
 				   write: (self property: #layout)
 				   with: [ :e | BlFrameLayout new ].
@@ -396,7 +385,7 @@ ToDefaultStyleSheet >> commonButtonRules [
 						   with: [ :e |
 						   BlRoundedRectangleGeometry cornerRadius: e requestedHeight ] ] ] ]).
 
-		  ((#'inner-element' asStyleSelector parent: #button) style: [ :sr |
+		  ((#'labeled-icon' asStyleSelector parent: #button) style: [ :sr |
 			   sr
 				   write: (self property: #layout)
 				   with: BlLinearLayout horizontal.
@@ -434,7 +423,7 @@ ToDefaultStyleSheet >> commonButtonRules [
 					   write: (self property: #'layout-direction')
 					   with: [ :e | BlLayoutDirection rightToLeft ] ] ]).
 
-		  ((((#'triplet-filler-1' asStyleSelector
+		  ((((#'filler' asStyleSelector
 			      parent: #( #button )
 			      depth: 2) sibling: #'button-label') sibling: #'button-icon')
 			   style: [ :sr |
@@ -482,7 +471,7 @@ ToDefaultStyleSheet >> commonButtonRules [
 								   c vertical exact: (e stampValue: #'interspace-1') value.
 								   c horizontal matchParent ] ] ] ]).
 
-		  ((self any - #'triplet-filler-1' parent: #( #button ) depth: 2)
+		  ((self any - #'filler' parent: #( #button ) depth: 2)
 			   style: [ :sr |
 				   sr write: (self property: #'layout-constraints') with: [ :e |
 					   [ :c |

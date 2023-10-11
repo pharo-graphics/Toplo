@@ -35,6 +35,12 @@ ToLabeledIcon >> beLabelFirst [
 	self requestLayout
 ]
 
+{ #category : #'t - skinable - initialization' }
+ToLabeledIcon >> defaultStyleStamps [
+
+	^ #( #labeled-icon )
+]
+
 { #category : #accessing }
 ToLabeledIcon >> filler [
 

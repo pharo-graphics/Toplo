@@ -928,36 +928,39 @@ ToExperiments class >> example_testTwoChildrenOnOppositeSidesWithSpan [
 ToExperiments class >> example_toScaling [
 
 	| space container |
-	container := ToElement new constraintsDo: [ :c | c accountTransformation ];
+	container := ToElement new
+		             constraintsDo: [ :c | c accountTransformation ];
 		             layout: BlLinearLayout vertical;
 		             border: (BlBorder paint: Color black);
 		             fitContent;
 		             clipChildren: false.
 	container layout cellSpacing: 5.
-	container addChild: ((ToButtonDep new
-	constraintsDo: [ :c | c accountTransformation ];
+	container addChild: (ToButtonDep new
+			 constraintsDo: [ :c | c accountTransformation ];
 			 clipChildren: false;
 			 iconImage: (BlElement new
 					  size: 100 @ 100;
 					  background: Color blue);
 			 labelText: ('Blue' asRopedText fontSize: 24);
-			 transformDo: [ :d | 
+			 transformDo: [ :d |
 				 d
 					 topLeftOrigin;
-					 scaleBy: 3.0 ]))  .
-	container addChild: (ToButtonDep new constraintsDo: [ :c | c accountTransformation ];
+					 scaleBy: 3.0 ]).
+	container addChild: (ToButtonDep new
+			 constraintsDo: [ :c | c accountTransformation ];
 			 clipChildren: false;
-			 iconImage: (BlElement new constraintsDo: [ :c | c accountTransformation ];
+			 iconImage: (BlElement new
+					  constraintsDo: [ :c | c accountTransformation ];
 					  size: 100 @ 100;
 					  background: Color red);
 			 labelText: ('red' asRopedText fontSize: 24);
-			 transformDo: [ :d | 
+			 transformDo: [ :d |
 				 d
 					 topLeftOrigin;
-					 scaleBy: 2.0 ])  .
+					 scaleBy: 2.0 ]).
 	space := BlSpace new.
-	container relocate: 100 @ 100.
-	space addChild: container.
+	container position: 100 @ 100.
+	space root addChild: container.
 	space show
 ]
 

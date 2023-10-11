@@ -11,12 +11,6 @@ Class {
 	#category : #'Toplo-Widget-Button-BasicButton'
 }
 
-{ #category : #testing }
-ToButtonDep class >> isDeprecated [ 
-
-	^ true
-]
-
 { #category : #'t - skinable - initialization' }
 ToButtonDep >> defaultStyleStamps [
 

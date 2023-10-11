@@ -7,5 +7,5 @@ Class {
 { #category : #'t - skinable - initialization' }
 ToRadioButton >> defaultStyleStamps [
 
-	^ { #button. #checkable. #radio}
+	^ { #button. #checkable. #radio. #truc}
 ]

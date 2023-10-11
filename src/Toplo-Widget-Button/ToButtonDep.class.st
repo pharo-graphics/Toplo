@@ -1,8 +1,8 @@
 Class {
 	#name : #ToButtonDep,
 	#superclass : #ToGeneralButton,
-	#traits : 'TToTriplet + TToLabeledIcon + TToOrientable',
-	#classTraits : 'TToTriplet classTrait + TToLabeledIcon classTrait + TToOrientable classTrait',
+	#traits : 'TToTriplet + TToOrientable',
+	#classTraits : 'TToTriplet classTrait + TToOrientable classTrait',
 	#instVars : [
 		'#icon => ToSkinnableSlot',
 		'#label => ToSkinnableSlot',

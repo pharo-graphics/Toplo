@@ -44,6 +44,12 @@ ToPropertyIndex >> isEmpty [
 	^ self index isEmpty
 ]
 
+{ #category : #testing }
+ToPropertyIndex >> isNotEmpty [
+
+	^ self isEmpty not
+]
+
 { #category : #querying }
 ToPropertyIndex >> propertyNamed: aName [
 

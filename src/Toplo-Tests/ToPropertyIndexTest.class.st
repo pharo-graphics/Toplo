@@ -59,11 +59,19 @@ ToPropertyIndexTest >> testIsEmpty [
 	idx := ToPropertyIndex new.
 	self assert: idx isEmpty.
 	self assert: idx size equals: 0.
-	idx addAllProperties: { (ToFeatureProperty new name: #color).  } .
-	self assert: idx isEmpty not.
-	
+	idx addAllProperties: { (ToFeatureProperty new name: #color) }.
+	self deny: idx isEmpty
+]
 
-		
+{ #category : #tests }
+ToPropertyIndexTest >> testIsNotEmpty [
+
+	| idx |
+	idx := ToPropertyIndex new.
+	self deny: idx isNotEmpty.
+	self assert: idx size equals: 0.
+	idx addAllProperties: { (ToFeatureProperty new name: #color) }.
+	self assert: idx isNotEmpty
 ]
 
 { #category : #tests }

@@ -89,12 +89,17 @@ ToStyleStampTest >> testLookUpStyleStampNamed [
 	child := BlElement new.
 	e addStyleStamp: (#color -> Color blue) asStyleStamp.
 	self assert: e localStyleStampIndex size equals: 1.
-	self assert: (e lookUpStyleStampNamed: #color) identicalTo: (e localStyleStampNamed: #color).
+	self
+		assert: (e lookUpStyleStampNamed: #color)
+		identicalTo: (e localStyleStampNamed: #color).
 	e addChild: child.
-	self assert: (child lookUpStyleStampNamed: #color) identicalTo: (e localStyleStampNamed: #color).
+	self
+		assert: (child lookUpStyleStampNamed: #color)
+		identicalTo: (e localStyleStampNamed: #color).
 	child addStyleStamp: (#color -> Color red) asStyleStamp.
-	self assert: (child lookUpStyleStampNamed: #color) identicalTo: (child localStyleStampNamed: #color).
-
+	self
+		assert: (child lookUpStyleStampNamed: #color)
+		identicalTo: (child localStyleStampNamed: #color)
 ]
 
 { #category : #tests }

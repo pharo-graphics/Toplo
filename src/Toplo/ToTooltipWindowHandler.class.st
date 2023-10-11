@@ -19,6 +19,12 @@ ToTooltipWindowHandler >> elementEventHandlerClass [
 ]
 
 { #category : #accessing }
+ToTooltipWindowHandler >> popupDelay [
+
+	^ 700 milliSeconds
+]
+
+{ #category : #accessing }
 ToTooltipWindowHandler >> vgap [
 
 	^ 5

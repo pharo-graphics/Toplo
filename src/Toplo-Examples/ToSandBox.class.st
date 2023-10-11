@@ -56,7 +56,7 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
 	ToAbstractTheme cleanUp.
 	chk := ToCheckbox new.
 	chk labelText: 'OK'.
-	btn := ToButtonDep new.
+	btn := ToButton new.
 	btn labelText: 'Erase all your Pharo images?'.
 	btn iconImage: ToThemeIcons iconSearchOutlined16x16.
 	btn label withStamp: #H3.
@@ -78,7 +78,7 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheetDarkTheme [
 	ToAbstractTheme cleanUp.
 	chk := ToCheckbox new.
 	chk labelText: 'OK'.
-	btn := ToButtonDep new.
+	btn := ToButton new.
 	btn labelText: 'Erase all your Pharo images?'.
 	btn iconImage: ToThemeIcons iconSearchOutlined16x16.
 	btn label withStamp: #H3.
@@ -233,7 +233,7 @@ ToSandBox class >> example_ComboBoxWithListPlaceholder [
 	placeholder addChild: (lab := ToLabel new text:
 			        ('No element - click to get data' asRopedText foreground:
 				         Color red)).
-	placeholder addChild: (but := ToButtonDep new labelText: 'Fetch data').
+	placeholder addChild: (but := ToButton new labelText: 'Fetch data').
 	lab constraintsDo: [ :c | c linear horizontal alignCenter ].
 	but constraintsDo: [ :c | c linear horizontal alignCenter ].
 	but whenClickedDo: [
@@ -678,7 +678,7 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 
 	| l |
 	l := ToListElement new nodeFactory: [ :cls |
-		     ToButtonDep new
+		     ToButton new
 			     labelText: cls name;
 			     hMatchParent ].
 	l data addAll: Smalltalk globals allClasses.
@@ -1150,7 +1150,7 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 		| lab im node |
 		im := ToImage new innerImage: (Smalltalk ui icons iconNamed: k).
 		lab := ToLabel new text: k asString.
-		node := ToButtonDep new icon: im; label: lab; yourself.
+		node := ToButton new icon: im; label: lab; yourself.
 		node width: 600.
 		node justified: true.
 		column addChild: node ].
@@ -1181,7 +1181,7 @@ ToSandBox class >> example_StyleSheetSandbox [
 	ToAbstractTheme cleanUp.
 	"b := ToCheckbox new."
 	"b := ToRadioButton new."
-	b := ToButtonDep new.
+	b := ToButton new.
 	"b := ToToggleButton new."
 	"b stampWith: #primary. "
 	"b stampWith: #'large-sizing'."
@@ -1220,7 +1220,7 @@ ToSandBox class >> example_StyleSheetSandboxDarkTheme [
 	ToAbstractTheme cleanUp.
 	"b := ToCheckbox new."
 	"b := ToRadioButton new."
-	b := ToButtonDep new.
+	b := ToButton new.
 	"b := ToToggleButton new."
 	"b stampWith: #primary. "
 	"b stampWith: #'large-sizing'."
@@ -1776,7 +1776,7 @@ ToSandBox class >> example_ToButtonWithDefaultSkin0 [
 	pane layout cellSpacing: 10.
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 
-	button1 := ToButtonDep new.
+	button1 := ToButton new.
 	"button1 addStyleClass: #primary."
 	"button1 addStyleClass: #danger."
 	button1 label: (ToLabel text: 'Primary button').
@@ -1961,10 +1961,10 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 			e1.
 			e2.
 			e3 }.
-	btn := ToButtonDep new labelText: 'Change orientation'.
+	btn := ToButton new labelText: 'Change orientation'.
 	btn whenClickedDo: [ pane orientation: pane orientation inverted ].
 	pane addChild: btn.
-	btn := ToButtonDep new labelText: 'Change direction'.
+	btn := ToButton new labelText: 'Change direction'.
 	btn whenClickedDo: [ pane direction: pane direction inverted ].
 	pane addChild: btn.
 
@@ -2762,7 +2762,7 @@ ToSandBox class >> example_toBasicButton2 [
 ToSandBox class >> example_toBasicButton3 [
 
 	| but |
-	but := ToButtonDep new label: (ToLabel new text: ('Button' asRopedText
+	but := ToButton new label: (ToLabel new text: ('Button' asRopedText
 				         fontSize: 40;
 				         yourself)).
 	but matchParent.
@@ -2796,7 +2796,7 @@ ToSandBox class >> example_toBasicButton4 [
 ToSandBox class >> example_toButton0 [
 
 	| but |
-	but := ToButtonDep new.
+	but := ToButton new.
 	but openInSpace.
 	but inspect.
 ]
@@ -2805,7 +2805,7 @@ ToSandBox class >> example_toButton0 [
 ToSandBox class >> example_toButtonOrientationChanger [
 
 	| but space iconImage count |
-	but := ToButtonDep new.
+	but := ToButton new.
 	but label: (ToLabel text:'Button' asRopedText bold).
 	iconImage := BlElement new
 		             size: 20 @ 20;
@@ -2823,7 +2823,7 @@ ToSandBox class >> example_toButtonOrientationChanger [
 ToSandBox class >> example_toButtonOrientationChanger3 [
 
 	| but space iconImage count |
-	but := ToButtonDep new.
+	but := ToButton new.
 	but label: (ToLabel text:'Button' asRopedText bold).
 	iconImage := BlElement new
 		             size: 20 @ 20;
@@ -2841,7 +2841,7 @@ ToSandBox class >> example_toButtonOrientationChanger3 [
 ToSandBox class >> example_toButtonWithIconAndText [
 
 	| but space  icon |
-	but := ToButtonDep new.
+	but := ToButton new.
 
 	but label: (ToLabel text: 'Button').
 	icon := ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16).
@@ -2862,7 +2862,7 @@ ToSandBox class >> example_toButtonWithIconAndText [
 ToSandBox class >> example_toButtonWithIconAndTextAndExtra [
 
 	| but space  icon |
-	but := ToButtonDep new.
+	but := ToButton new.
 
 	but label: (ToLabel text: 'Button').
 	icon := ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16).
@@ -2881,7 +2881,7 @@ ToSandBox class >> example_toButtonWithIconOnly [
 
 	| but space container |
 	container := BlElement new size: 200@200; border: (BlBorder paint: Color gray); background: (Color gray alpha: 0.1).
-	but := ToButtonDep new.
+	but := ToButton new.
 	"but addLook: ToButtonLinkLook new."
 	"but addLook: ToButtonDashedLook new."
 	"but addLook: ToButtonFixedSizeLook new."
@@ -2914,7 +2914,7 @@ ToSandBox class >> example_toButtonWithRedElementTooltip [
 ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 
 	| but space count |
-	but := ToButtonDep new.
+	but := ToButton new.
 	but label: (ToLabel text: 'Button').
 	but iconImage: (BlElement new
 			 size: 60 @ 20;
@@ -2935,7 +2935,7 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 ToSandBox class >> example_toButtonWithTextAndIconHorizontal2 [
 
 	| but count |
-	but := ToButtonDep new.
+	but := ToButton new.
 	but label: (ToLabel text: 'Button').
 	but iconImage: (BlElement new
 			 size: 60 @ 20;
@@ -2952,7 +2952,7 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal2 [
 ToSandBox class >> example_toButtonWithTextAndIconHorizontal3 [
 
 	| but count pane |
-	but := ToButtonDep new "cellSpacing: 2; padding: (BlInsets all: 4)".
+	but := ToButton new "cellSpacing: 2; padding: (BlInsets all: 4)".
 	but label: (ToLabel text: 'Button').
 	but iconImage: (BlElement new
 			 size: 60 @ 20;
@@ -2974,7 +2974,7 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal3 [
 ToSandBox class >> example_toButtonWithTextAndIconVertical [
 
 	| but space |
-	but := ToButtonDep new padding: (BlInsets all: 4); beVertical.
+	but := ToButton new padding: (BlInsets all: 4); beVertical.
 	but label: (ToLabel text: 'Button').
 	but iconImage: (BlElement new
 			 size: 60 @ 20;
@@ -2991,7 +2991,7 @@ ToSandBox class >> example_toButtonWithTextAndIconVertical [
 ToSandBox class >> example_toButtonWithTextOnly [
 
 	| but space |
-	but := ToButtonDep new.
+	but := ToButton new.
 	but label: (ToLabel text: 'Button').
 	but padding: (BlInsets all: 4).
 	but whenClickedDo: [ self inform: 'clicked' ].
@@ -3036,8 +3036,8 @@ ToSandBox class >> example_toCheckbox1 [
 		       id: 1 asString.
 	"chb beRightToLeft."
 	chb updateSkin.
-	"chb checked: true."
-	"chb inspect."
+	chb checked: true.
+	chb inspect.
 	chb openInInnerWindow
 ]
 
@@ -3510,7 +3510,7 @@ ToSandBox class >> example_toPairJustified1 [
 
 	| but space iconImage |
 
-	but := ToButtonDep new.
+	but := ToButton new.
 	but inspect.
 	but withStamp: #button.
 	but replaceSecondWith: ((ToLabel text: 'Pair' asRopedText bold) withStamp: #'button-label').
@@ -3535,7 +3535,11 @@ ToSandBox class >> example_toPairJustified1 [
 ToSandBox class >> example_toRadioButton0 [
 
 	| but |
+	ToAbstractTheme cleanUp.
 	but := ToRadioButton new.
+	but checked: true.
+	but labelText: 'Radio'.
+	but inspect.
 	but openInSpace
 ]
 
@@ -3651,10 +3655,10 @@ ToSandBox class >> example_verticalPaneWithDivider [
 			e1.
 			e2.
 			e3 }.
-	btn := ToButtonDep new labelText: 'Change orientation'.
+	btn := ToButton new labelText: 'Change orientation'.
 	btn whenClickedDo: [ pane orientation: pane orientation inverted ].
 	pane addChild: btn.
-	btn := ToButtonDep new labelText: 'Change direction'.
+	btn := ToButton new labelText: 'Change direction'.
 	btn whenClickedDo: [ pane direction: pane direction inverted ].
 	pane addChild: btn.
 	pane addDividers.

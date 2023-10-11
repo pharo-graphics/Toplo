@@ -62,7 +62,7 @@ ToLoginPage >> open [
 		            beHorizontal;
 		            hMatchParent;
 		            vFitContent.
-	btnLogin := ToButtonDep new labelText: 'Accept'; yourself.
+	btnLogin := ToButton new labelText: 'Accept'; yourself.
 	btnLogin withStamp: #primary.
 	btnLogin padding: (BlInsets
 			 top: 10
@@ -79,7 +79,7 @@ ToLoginPage >> open [
 	sep := BlElement new constraintsDo: [ :c | c horizontal matchParent ].
 	btnPanel addChild: sep.
 
-	btnCancel := ToButtonDep new labelText: 'Cancel'.
+	btnCancel := ToButton new labelText: 'Cancel'.
 	btnCancel padding: (BlInsets
 			 top: 10
 			 left: 40

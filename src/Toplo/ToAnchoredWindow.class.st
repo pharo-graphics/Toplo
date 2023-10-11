@@ -125,11 +125,3 @@ ToAnchoredWindow >> popupTimestamp [
 
 	^ popupTimestamp 
 ]
-
-{ #category : #'theme accessing' }
-ToAnchoredWindow >> toTheme [
-
-	" try to take the parent widget theme first "
-	self associateElement ifNotNil: [ :w | ^ w toTheme ].
-	^ super toTheme
-]

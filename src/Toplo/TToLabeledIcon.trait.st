@@ -52,6 +52,12 @@ TToLabeledIcon >> iconFirst: aBoolean [
 ]
 
 { #category : #'t - labeled icon - accessing' }
+TToLabeledIcon >> iconImage [
+
+	^ self icon innerImage
+]
+
+{ #category : #'t - labeled icon - accessing' }
 TToLabeledIcon >> iconImage: anElement [
 
 	self icon: (ToImage inner: anElement)
@@ -90,6 +96,12 @@ TToLabeledIcon >> labelFirst: aBoolean [
 	aBoolean
 		ifTrue: [ self beLabelFirst ]
 		ifFalse: [ self beIconFirst ]
+]
+
+{ #category : #'t - labeled icon - accessing' }
+TToLabeledIcon >> labelText [
+
+	^ self label text
 ]
 
 { #category : #'t - labeled icon - accessing' }

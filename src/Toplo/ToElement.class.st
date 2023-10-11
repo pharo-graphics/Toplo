@@ -24,7 +24,9 @@ ToElement >> initialize [
 
 	super initialize.
 	self class initializeSlots: self.
-	self initializeSkinInstallationPhaseChecker
+	self initializeSkin.
+	self initializeSkinInstallationPhaseChecker.
+	
 ]
 
 { #category : #initialization }

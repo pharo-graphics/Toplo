@@ -50,7 +50,7 @@ ToElementWithTooltipEventHandler >> mouseLeaveEvent: anEvent [
 { #category : #private }
 ToElementWithTooltipEventHandler >> popupDelay [
 
-	^ 700 milliSeconds
+	^ windowHandler popupDelay
 ]
 
 { #category : #private }

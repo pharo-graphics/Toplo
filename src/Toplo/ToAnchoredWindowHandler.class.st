@@ -28,12 +28,6 @@ ToAnchoredWindowHandler >> applySizeHookFromEvent: anEvent [
 	self currentWindow size: (self sizeHook value: anEvent)
 ]
 
-{ #category : #initialization }
-ToAnchoredWindowHandler >> associateElement [
-
-	element addEventHandler: self newElementEventHandler
-]
-
 { #category : #accessing }
 ToAnchoredWindowHandler >> builder [
 
@@ -77,13 +71,6 @@ ToAnchoredWindowHandler >> defaulSizeHook [
 	^ nil
 ]
 
-{ #category : #initialization }
-ToAnchoredWindowHandler >> dissociateElement [
-
-	element removeEventHandler: elementEventHandler.
-	elementEventHandler := nil
-]
-
 { #category : #accessing }
 ToAnchoredWindowHandler >> element [
 
@@ -93,10 +80,12 @@ ToAnchoredWindowHandler >> element [
 { #category : #accessing }
 ToAnchoredWindowHandler >> element: anElement [
 
-	element ifNotNil: [ self dissociateElement  ].
+	element ifNotNil: [
+		element removeEventHandler: elementEventHandler.
+		elementEventHandler := nil ].
 	element := anElement.
-	element ifNotNil: [ self associateElement ]
-
+	element ifNotNil: [
+		element addEventHandler: self newElementEventHandler ]
 ]
 
 { #category : #accessing }

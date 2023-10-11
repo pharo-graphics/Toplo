@@ -51,11 +51,11 @@ ToInnerWindow >> defaultBarElement [
 	b layout: BlLinearLayout horizontal.
 	b when: BlDoubleClickEvent do: [ self maximize ].
 	b when: BlMouseDownEvent do: [ self toFront ].
-	close := ToButtonDep new icon:
+	close := ToButton new icon:
 		         (ToImage new innerImage: Smalltalk ui theme windowCloseForm).
 	close size: 18@18.
 	close whenClickedDo: [ self close ].
-	expand := ToButtonDep new icon:
+	expand := ToButton new icon:
 		          (ToImage new innerImage:
 			           Smalltalk ui theme windowMaximizeForm).
 	expand whenClickedDo: [ self maximize ].

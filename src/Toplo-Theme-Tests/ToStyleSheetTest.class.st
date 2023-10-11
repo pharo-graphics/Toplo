@@ -45,7 +45,7 @@ ToStyleSheetTest >> testButtonLabelSkin0 [
 					 write: prop
 					 with: [ :e | (e stampValue: #'color-error-pressed') ] ]).
 
-	button := ToButtonDep new.
+	button := ToButton new.
 	button styleSheet: ss.
 	label := (ToLabel text: 'Default') defaultSkin: nil.
 	button label: label.
@@ -148,7 +148,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 					 with: [ :e | (e stampValue: #'color-error-pressed') ] ]).
 
 
-	button := ToButtonDep new.
+	button := ToButton new.
 	button styleSheet: ss.
 	writers := ssi writersFor: button.
 	self assert: writers size equals: 6.

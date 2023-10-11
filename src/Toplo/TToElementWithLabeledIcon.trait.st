@@ -46,6 +46,18 @@ TToElementWithLabeledIcon >> iconFirst: aBoolean [
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> iconImage [
+
+	^ self labeledIcon iconImage
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> iconImage: anElement [
+
+	self labeledIcon iconImage: anElement
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> interspace: aPointOrSymbol [
 
 	self labeledIcon interspace: aPointOrSymbol
@@ -106,9 +118,15 @@ TToElementWithLabeledIcon >> labelOffset: anInteger [
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> labelText [
+
+	^ self labeledIcon labelText
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> labelText: aText [
 
-	self labeledIcon label: (ToLabel text: aText)
+	self labeledIcon labelText: aText
 ]
 
 { #category : #'t - element with labeled icon - accessing' }

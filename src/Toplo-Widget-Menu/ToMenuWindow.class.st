@@ -50,7 +50,7 @@ ToMenuWindow >> itemHolder [
 { #category : #accessing }
 ToMenuWindow >> items [
 
-	^ self associateElement ifNil: [ ^ #(  ) ] ifNotNil: [ :w | w items ]
+	^ self itemHolder ifNil: [ ^ #(  ) ] ifNotNil: [ :w | w items ]
 ]
 
 { #category : #'t - menu window model' }

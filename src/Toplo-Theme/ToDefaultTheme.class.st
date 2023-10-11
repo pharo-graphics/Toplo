@@ -177,7 +177,7 @@ ToDefaultTheme >> defaultStampList [
 		  (ToStyleStamp name: #'border-radius-SM' value: 4).
 		  (ToStyleStamp
 			   name: #'checkbox-image-builder'
-			   value: [ self checkboxBlankImage ]).
+			   value: [ self checkboxBlankImage ] ).
 		  (ToStyleStamp
 			   name: #'color-bg-container'
 			   value: (Color fromHexString: '#ffffff')).

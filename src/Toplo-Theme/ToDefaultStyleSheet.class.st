@@ -25,7 +25,17 @@ ToDefaultStyleSheet >> checkableButtonRules [
 	" checkbox family "
 
 	^ {
-		  (#( #button #checkable #checkbox) asStyleSelector style: [ :sr |
+		  (#( #button #checkable #checkbox) asStyleSelector style: [ :sr | 
+			   sr write: (self property: #'border-with-builder') with: [ :e | 
+				   e borderBuilder
+						width: 1;
+					   paint: (e stampValue: #'color-border-checkable');
+					   yourself ].
+				   sr
+					   write: (self property: #iconImage)
+					   with: [ :e | (e stampValue: #'checkbox-image-builder') value ] ]).
+				
+		  (#( #button #checkable #radio) asStyleSelector style: [ :sr | 
 			   sr write: (self property: #'border-with-builder') with: [ :e | 
 				   e borderBuilder
 						width: 1;
@@ -38,7 +48,7 @@ ToDefaultStyleSheet >> checkableButtonRules [
 		  " checkbox icon geometry "
 		  ((#image asStyleSelector
 			    parent: #( #button #checkable #checkbox )
-			    depth: 2) style: [ :sr |
+			    depth: 3) style: [ :sr |
 			   sr
 				   write: (self property: #geometry)
 				   with: [ :e | BlRoundedRectangleGeometry cornerRadius: 3 ] ]).
@@ -46,12 +56,12 @@ ToDefaultStyleSheet >> checkableButtonRules [
 		  " radio button icon geometry "
 		  ((#image asStyleSelector
 			    parent: #( #button #checkable #radio )
-			    depth: 2) style: [ :sr |
+			    depth: 3) style: [ :sr |
 			   sr
 				   write: (self property: #geometry)
 				   with: [ :e | BlCircleGeometry new ] ]).
 
-		  ((#image asStyleSelector parent: #( #button #checkable ) depth: 2)
+		  ((#image asStyleSelector parent: #( #button #checkable ) depth: 3)
 			   style: [ :sr | " icon border "
 				   sr
 					   write: (self property: #'border-with-builder')
@@ -90,7 +100,7 @@ ToDefaultStyleSheet >> checkableButtonRules [
 
 		  ((#image asStyleSelector
 			    parent: #( #button #checkable #danger )
-			    depth: 2) style: [ :sr | " icon border "
+			    depth: 3) style: [ :sr | " icon border "
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'border-with-builder')
@@ -115,7 +125,7 @@ ToDefaultStyleSheet >> checkableButtonRules [
 
 		  (((#'triplet-filler-1' asStyleSelector
 			     parent: #( #button #checkable )
-			     depth: 2) sibling: #'button-label') style: [ :sr |
+			     depth: 3) sibling: #'button-label') style: [ :sr |
 			   sr
 				   write: (self property: #layout)
 				   with: [ :e | BlFrameLayout new ].
@@ -163,7 +173,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 	^ {
 		  ((#( #'inner-image' ) asStyleSelector
 			    parent: #( #button #checkable )
-			    depth: 3) style: [ :sr |
+			    depth: 4) style: [ :sr |
 			   sr
 				   write: (self property: #layout)
 				   with: [ :e | BlFrameLayout new ].
@@ -173,7 +183,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 
 			   sr write: (self property: #'border-with-builder') with: [ :e |
 				   | width btn |
-				   btn := e parent parent parent.
+				   btn := e parent parent parent parent.
 				   width := btn checked ifNil: [ 0 ] ifNotNil: [ :c |
 					            c
 						            ifTrue: [ 6 ]
@@ -214,7 +224,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 
 		  ((#( #'inner-image' ) asStyleSelector
 			    parent: #( #button #checkable #danger )
-			    depth: 3) style: [ :sr |
+			    depth: 4) style: [ :sr |
 			   sr
 				   supplement: (self property: #'border-with-builder')
 				   with: [ :e |
@@ -232,7 +242,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 		  ((#bar asStyleSelector
 			    parent: (#( #'inner-image' ) asStyleSelector
 					     parent: #( #button #checkable )
-					     depth: 3)
+					     depth: 4)
 			    depth: 1) style: [ :sr |
 			   sr write: (self property: #'layout-constraints') with: [ :e |
 				   [ :c |

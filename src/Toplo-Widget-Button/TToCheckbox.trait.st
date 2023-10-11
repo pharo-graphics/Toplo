@@ -13,25 +13,6 @@ TToCheckbox >> addToGroup: aToggleGroup [
 	self group: aToggleGroup 
 ]
 
-{ #category : #'t - checkbox  - protocol' }
-TToCheckbox >> check [
-
-	self explicitRequirement
-]
-
-{ #category : #'t - checkbox - accessing' }
-TToCheckbox >> checked [
-
-	^ self explicitRequirement  
-]
-
-{ #category : #'t - checkbox - accessing' }
-TToCheckbox >> checked: aBooleanOrNil [
-	" change the checkable state. nil means indeterminate. "
-
-	self explicitRequirement 
-]
-
 { #category : #'t - checkbox - group' }
 TToCheckbox >> group [
 
@@ -49,50 +30,8 @@ TToCheckbox >> group: aCheckableGroup [
 	group := aCheckableGroup
 ]
 
-{ #category : #'t - checkbox - testing' }
-TToCheckbox >> isChecked [
-
-	^ self explicitRequirement 
-]
-
-{ #category : #'t - checkbox - testing' }
-TToCheckbox >> isIndeterminate [
-
-	^ self explicitRequirement 
-]
-
-{ #category : #'t - checkbox - testing' }
-TToCheckbox >> isUnchecked [
-
-	^ self explicitRequirement 
-]
-
 { #category : #'t - checkbox - group' }
 TToCheckbox >> removeFromGroup [
 
 	self group remove: self
-]
-
-{ #category : #'t - checkbox - private protocol' }
-TToCheckbox >> switchToNextCheckState [
-
-	self explicitRequirement 
-]
-
-{ #category : #'t - checkbox  - protocol' }
-TToCheckbox >> uncheck [
-
-	self explicitRequirement 
-]
-
-{ #category : #'t - checkbox  - protocol' }
-TToCheckbox >> withIndeterminate [
-
-	self explicitRequirement 
-]
-
-{ #category : #'t - checkbox  - protocol' }
-TToCheckbox >> withIndeterminate: aBoolean [
-
-	self explicitRequirement 
 ]

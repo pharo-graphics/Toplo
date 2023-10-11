@@ -74,6 +74,12 @@ ToLabeledIcon >> iconHolder [
 	^ iconHolder
 ]
 
+{ #category : #accessing }
+ToLabeledIcon >> iconImage: anElement [
+
+	self icon: (ToImage inner: anElement)
+]
+
 { #category : #initialization }
 ToLabeledIcon >> initialize [
 
@@ -174,6 +180,12 @@ ToLabeledIcon >> labelOffsetChanged [
 		^ self ].
 	gap := self labelOffset - self iconHolder requestedWidth.
 	self iconHolder width: self iconHolder requestedWidth + gap
+]
+
+{ #category : #accessing }
+ToLabeledIcon >> labelText: aText [
+
+	self label: (ToLabel text: aText)
 ]
 
 { #category : #'t - orientable - accessing' }

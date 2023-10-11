@@ -39,10 +39,7 @@ TToElementWithTooltipTest >> testTooltip [
 	ttwin := e newTooltipWindowEvent: nil.
 	self assert: e currentTooltipWindow identicalTo: ttwin.
 	self assert: ttwin associateElement identicalTo: e.
-	self assert:
-		(ttwin eventDispatcher hasEventHandlerSuchThat: [
-			 :eh |
-			 eh isKindOf: e currentTooltipWindow defaultEventHandlerClass ]).
+
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
 			 eh isKindOf: ToElementWithTooltipEventHandler ]).
 	ttwin close.

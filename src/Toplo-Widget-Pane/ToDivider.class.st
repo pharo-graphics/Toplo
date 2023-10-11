@@ -1,8 +1,6 @@
 Class {
 	#name : #ToDivider,
 	#superclass : #ToElement,
-	#traits : 'TToWidget',
-	#classTraits : 'TToWidget classTrait',
 	#instVars : [
 		'thickness',
 		'pane',

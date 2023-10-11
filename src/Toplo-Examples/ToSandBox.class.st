@@ -109,7 +109,7 @@ ToSandBox class >> example_CheckBoxWithDefaultStyleSheetDarkTheme [
 ]
 
 { #category : #album }
-ToSandBox class >> example_CodeEditorWithToAlbumModel [
+ToSandBox class >> example_CodeEditor [
 
 "
 The Client is a defined by user class. 
@@ -120,29 +120,30 @@ All the different kind of Album using should use the available basic client clas
 Here an example of a client for a method.
 "
 
-	| text model menuBuilder |
+	| text album menuBuilder |
 	text := self methodText asRopedText.
-	model := ToAlbumModel new.
-	model styler: (BlRBTextStyler new classOrMetaClass: self class).
-	model text: text copy.
-	model withSaveCapability.
-	model withRowNumbers.
-	model whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ].
-	model whenCancelRequestedDo: [ :cancelRequested | cancelRequested client text: text copy ].
+	album := ToAlbum new.
+	album styler: (BlRBTextStyler new classOrMetaClass: self class).
+	album text: text copy.
+	album withSaveCapability.
+	album withRowNumbers.
+	album whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ].
+	album whenCancelRequestedDo: [ :cancelRequested | cancelRequested client text: text copy ].
 	
-	menuBuilder := [ :a | | menu |
+	menuBuilder := [ :alb | | menu |
 		menu := ToContextMenu new.
-		menu addItem: (ToMenuItem new labelText: 'Select all'; whenClickedDo: [:event  | a selecter all; apply ]; yourself).
-		menu addItem: (ToMenuItem new labelText: 'Copy'; whenClickedDo: [:event  | a editor copySelected ]; yourself).
-		menu addItem: (ToMenuItem new labelText: 'Cut'; whenClickedDo: [:event  | a editor cutSelected ]; yourself).
-		menu addItem: (ToMenuItem new labelText: 'Paste'; whenClickedDo: [:event  | a editor paste ]; yourself).
+		menu addItem: (ToMenuItem new labelText: 'Select all'; whenClickedDo: [:event  | alb selecter all; apply ]; yourself).
+		menu addItem: (ToMenuItem new labelText: 'Copy'; whenClickedDo: [:event  | alb editor copySelected ]; yourself).
+		menu addItem: (ToMenuItem new labelText: 'Cut'; whenClickedDo: [:event  | alb editor cutSelected ]; yourself).
+		menu addItem: (ToMenuItem new labelText: 'Paste'; whenClickedDo: [:event  | alb editor paste ]; yourself).
 		menu addSeparator.
-		menu addItem: (ToMenuItem new labelText: 'Accept'; whenClickedDo: [:event  | a requestSave ]; yourself).
+		menu addItem: (ToMenuItem new labelText: 'Accept'; whenClickedDo: [:event  | alb requestSave ]; yourself).
 		menu addSeparator.
-		menu addItem: (ToMenuItem new labelText: 'Cancel'; whenClickedDo: [:event  | a requestCancel ]; yourself).
+		menu addItem: (ToMenuItem new labelText: 'Cancel'; whenClickedDo: [:event  | alb requestCancel ]; yourself).
 		menu ].
-	model widgetDo: [ :widget | widget contextMenuBuilder: menuBuilder. widget cursorColor: Color black].
-	model onWidget openInInnerWindow 
+	album contextMenuBuilder: menuBuilder. 
+	album cursorColor: Color black.
+	album openInInnerWindow 
 
 
 ]
@@ -180,15 +181,12 @@ ToSandBox class >> example_ComboBoxWithColors [
 	win := ToInnerWindow new title: 'Combo box Example'.
 	combo := ToComboBox new.
 	combo nodeFactory: [ :color |
-		ToTripletNode new
-			padding: (BlInsets all: 8);
-			replaceSecondWith: 
 				(ToElement new
 					 height: 30;
 					 hMatchParent;
 					 background: color;
-					 yourself);
-			hMatchParent ].
+					 yourself;
+			hMatchParent) ].
 	combo headElementFactory: [ :color |
 		ToElement new
 			margin: (BlInsets all: 4);
@@ -333,59 +331,14 @@ ToSandBox class >> example_EditorWithPlaceholder [
 	placeholderText foreground: Color lightGray.
 	placeholderText fontSize: 24.
 
-	view := (ToAlbumModel new
-		         placeholderText: placeholderText;
-		         withRowNumbers;
-		         withSaveCapability;
-		         whenSaveRequestedDo: [ :saveRequested |
-			         saveRequested client saveResult: true ];
-		         withEditsFeedback) onWidget.
+	view := ToAlbum new
+		        placeholderText: placeholderText;
+		        withRowNumbers;
+		        withSaveCapability;
+		        whenSaveRequestedDo: [ :saveRequested |
+			        saveRequested client saveResult: true ];
+		        withEditsFeedback.
 	view showPlaceholder.
-	view openInSpace
-]
-
-{ #category : #album }
-ToSandBox class >> example_EditorWithPlaceholderWithToAlbumModel [
-
-	| placeholderText view |
-	placeholderText := ('Here is a placeholder text' , String cr
-	                    , 'visible only if the text is empty')
-		                   asRopedText.
-	placeholderText foreground: Color lightGray.
-	placeholderText fontSize: 24.
-
-	view := (ToAlbumModel new
-		         placeholderText: placeholderText;
-		         withRowNumbers;
-		         withSaveCapability;
-		         whenSaveRequestedDo: [ :saveRequested |
-			         saveRequested client saveResult: true ];
-		         withEditsFeedback) onWidget.
-
-	view showPlaceholder.
-	view openInSpace
-]
-
-{ #category : #album }
-ToSandBox class >> example_EditorWithSoftLine [
-
-	| placeholderText view |
-	placeholderText := ('Here is a placeholder text' , String cr
-	                    , 'visible only if the text is empty')
-		                   asRopedText.
-	placeholderText foreground: Color lightGray.
-	placeholderText fontSize: 24.
-
-	view := (ToAlbumModel new
-		         placeholderText: placeholderText;
-		         withRowNumbers;
-		         withSaveCapability;
-		         whenSaveRequestedDo: [ :saveRequested |
-			         saveRequested client saveResult: true ];
-		         withEditsFeedback) onWidget.
-	view withSoftLine.
-	view text:
-		((String loremIpsum: 100000) asRopedText fontName: 'Source Code Pro').
 	view openInSpace
 ]
 
@@ -399,13 +352,13 @@ ToSandBox class >> example_EditorWithoutSoftLine [
 	placeholderText foreground: Color lightGray.
 	placeholderText fontSize: 24.
 
-	view := (ToAlbumModel new
-		         placeholderText: placeholderText;
-		         withRowNumbers;
-		         withSaveCapability;
-		         whenSaveRequestedDo: [ :saveRequested |
-			         saveRequested client saveResult: true ];
-		         withEditsFeedback) onWidget.
+	view := ToAlbum new
+		        placeholderText: placeholderText;
+		        withRowNumbers;
+		        withSaveCapability;
+		        whenSaveRequestedDo: [ :saveRequested |
+			        saveRequested client saveResult: true ];
+		        withEditsFeedback.
 	view withoutSoftLine.
 	view text:
 		((String loremIpsum: 100000) asRopedText fontName: 'Source Code Pro').
@@ -850,9 +803,7 @@ ToSandBox class >> example_ListWithIndexedColors [
 	| l vscrollBar space |
 	l := ToListElement new nodeFactory: [ :color |
 		     ToLabeledNode new
-			     labelText: (color asString asRopedText
-					      foreground: color contrastingBlackAndWhiteColor;
-					      yourself);
+			     labelText: (color asString asRopedText);
 			     hMatchParent;
 			     background: color ].
 	l data addAll: Color indexedColors.
@@ -2850,45 +2801,6 @@ ToSandBox class >> example_toButton0 [
 	but inspect.
 ]
 
-{ #category : #pair }
-ToSandBox class >> example_toButtonJustified1 [
-
-	| but space iconImage |
-	ToAbstractTheme cleanUp.
-	but := ToTripletElement new.
-	but withStamp: #button.
-	but replaceSecondWith: ((ToLabel text: 'Pair' asRopedText bold) withStamp: #'button-label').
-	iconImage := ToElement new
-		             size: 20 @ 20;
-		             background: Color lightGray;
-		             yourself.
-
-	but replaceFirstWith: iconImage.
-	but first withStamp: #'button-icon'.
-
-	but when: BlClickEvent do: [
-		but isHorizontal
-			ifTrue: [
-				but removeStyleStampNamed: #horizontal.
-				but withStamp: #vertical.
-				but hFitContent.
-				but vMatchParent. ]
-			ifFalse: [
-				but removeStyleStampNamed: #vertical.
-				but withStamp: #horizontal.
-				but vFitContent.
-				but hMatchParent. ].
-		but updateSkin.
-		but switchToSkinState: ToInstallState new ].
-	but justified: true.
-	but hMatchParent.
-	
-
-	space := BlSpace new.
-	space root addChild: but.
-	space show
-]
-
 { #category : #'button-dep' }
 ToSandBox class >> example_toButtonOrientationChanger [
 
@@ -3594,28 +3506,6 @@ ToSandBox class >> example_toLabel_Multiline2_Centered [
 ]
 
 { #category : #pair }
-ToSandBox class >> example_toPairDirectionChanger [
-
-	| but space iconImage |
-	but := ToTripletElement new.
-	but withStamp: #button.
-	but replaceSecondWith: ((ToLabel text: 'Pair' asRopedText bold) withStamp: #'button-label').
-	iconImage := BlElement new
-		             size: 20 @ 20;
-		             background: Color lightGray;
-		             yourself.
-
-	but replaceFirstWith: iconImage.
-	but first withStamp: #'button-icon'.
-	but when: BlClickEvent do: [ 
-		but direction: but direction inverted.
-		but requestLayout ].
-	space := BlSpace new.
-	space root addChild: but.
-	space show
-]
-
-{ #category : #pair }
 ToSandBox class >> example_toPairJustified1 [
 
 	| but space iconImage |
@@ -3641,94 +3531,6 @@ ToSandBox class >> example_toPairJustified1 [
 	space show
 ]
 
-{ #category : #pair }
-ToSandBox class >> example_toPairJustified2 [
-
-	| but space iconImage |
-	but := ToTripletElement new.
-	but layout cellSpacing: 4.
-	but padding: (BlInsets all: 3).
-	but border: (BlBorder paint: Color lightGray).
-	but first: (ToLabel text: 'Pair' asRopedText bold).
-	iconImage := BlElement new
-		             size: 20 @ 20;
-		             background: Color lightGray;
-		             yourself.
-	but second: iconImage.
-	but when: BlClickEvent do: [ but direction: but direction inverted ].
-	but justified: true.
-	but innerElement hMatchParent.
-	but hMatchParent.
-
-	space := BlSpace new.
-	space root addChild: but.
-	space show
-]
-
-{ #category : #pair }
-ToSandBox class >> example_toPairOrientationChanger [
-
-	| but space iconImage |
-	but := ToTripletElement new.
-	but layout cellSpacing: 4.
-	but padding: (BlInsets all: 3).
-	but border: (BlBorder paint: Color lightGray).
-	but first: (ToLabel text: 'Pair' asRopedText bold).
-	iconImage := BlElement new
-		             size: 20 @ 20;
-		             background: Color lightGray;
-		             yourself.
-	but replaceSecondWith: iconImage.
-	but when: BlClickEvent do: [ but orientation: but orientation inverted ].
-	space := BlSpace new.
-	space root addChild: but.
-	space show 
-]
-
-{ #category : #pair }
-ToSandBox class >> example_toPairWithColumn1 [
-
-	| but space iconImage |
-	but := ToTripletElement new.
-	but layout cellSpacing: 4.
-	but padding: (BlInsets all: 3).
-	but border: (BlBorder paint: Color lightGray).
-	but first: (ToLabel text: 'Pair' asRopedText bold).
-	iconImage := BlElement new
-		             size: 20 @ 20;
-		             background: Color lightGray;
-		             yourself.
-	but second: iconImage.
-	but interspace: 50.
-	but when: BlClickEvent do: [ but orientation: but orientation inverted ].	
-	but hMatchParent.
-	space := BlSpace new.
-	space root addChild: but.
-	space show 
-]
-
-{ #category : #pair }
-ToSandBox class >> example_toPairWithColumn2 [
-
-	| but space iconImage |
-	but := ToTripletElement new.
-	but layout cellSpacing: 4.
-	but padding: (BlInsets all: 3).
-	but border: (BlBorder paint: Color lightGray).
-	but first: (ToLabel text: 'Pair' asRopedText bold).
-	iconImage := BlElement new
-		             size: 50 @ 20;
-		             background: Color lightGray;
-		             yourself.
-	but second: iconImage.
-	but interspace: 100.
-	but when: BlClickEvent do: [ but direction: but direction inverted ].
-	but hMatchParent.
-	space := BlSpace new.
-	space root addChild: but.
-	space show
-]
-
 { #category : #checkbox }
 ToSandBox class >> example_toRadioButton0 [
 
@@ -3749,7 +3551,7 @@ ToSandBox class >> example_toRadioButtonWithIndeterminate [
 ToSandBox class >> example_toWidgetAsButton0 [
 
 	| but |
-	but := ToWidget new.
+	but := ToElement new.
 	but addEventHandler: (ToSkinnableEventHandler new target: but)..
 	but
 		when: BlPrimaryClickEvent
@@ -3902,7 +3704,7 @@ ToSandBox class >> labeledIconlWithIconAndText [
 
 { #category : #accessing }
 ToSandBox class >> methodText [
-	^ self  class sourceCodeAt: #example_CodeEditorWithToAlbumModel
+	^ self  class sourceCodeAt: #example_CodeEditor
 ]
 
 { #category : #combobox }

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToPolyElement,
 	#superclass : #ToElement,
-	#category : 'Toplo-Core'
+	#category : #'Toplo-Incubator'
 }
 
 { #category : #initialization }

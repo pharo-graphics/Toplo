@@ -1,7 +1,6 @@
 Class {
 	#name : #ToAnchoredWindow,
 	#superclass : #ToAbstractWindowElement,
-	#classTraits : 'TToWidget classTrait',
 	#instVars : [
 		'popupTimestamp',
 		'windowHandler'

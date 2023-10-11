@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuBar,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TToOrientable',
-	#classTraits : 'TToWidget classTrait + TToOrientable classTrait',
+	#traits : 'TToOrientable',
+	#classTraits : 'TToOrientable classTrait',
 	#instVars : [
 		'menus'
 	],

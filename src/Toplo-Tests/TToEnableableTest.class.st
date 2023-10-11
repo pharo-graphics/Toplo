@@ -11,7 +11,7 @@ Class {
 TToEnableableTest >> testEnableable [
 
 	| element |
-	element := ToWidget new.
+	element := ToElement new.
 	self assert: element isEnabled.
 	self assert: element isDisabled not.
 	
@@ -44,7 +44,7 @@ TToEnableableTest >> testEnableable [
 TToEnableableTest >> testMultipleDisable [
 
 	| element |
-	element := ToWidget new.
+	element := ToElement new.
 	element disable. 
 	element disable. 
 	element disable. 

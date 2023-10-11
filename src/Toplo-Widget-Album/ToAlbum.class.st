@@ -1,8 +1,8 @@
 Class {
 	#name : #ToAlbum,
 	#superclass : #ToPane,
-	#traits : 'TToWidget + TToEnableable + TAlbInfiniteDecorator + TToElementWithViewModel + TToElementWithTooltip + TToElementWithLayers + TToWidgetWithPlaceholder',
-	#classTraits : 'TToWidget classTrait + TToEnableable classTrait + TAlbInfiniteDecorator classTrait + TToElementWithViewModel classTrait + TToElementWithTooltip classTrait + TToElementWithLayers classTrait + TToWidgetWithPlaceholder classTrait',
+	#traits : 'TToEnableable + TAlbInfiniteDecorator + TToElementWithLayers + TToWidgetWithPlaceholder + TBlAnnouncerProvider',
+	#classTraits : 'TToEnableable classTrait + TAlbInfiniteDecorator classTrait + TToElementWithLayers classTrait + TToWidgetWithPlaceholder classTrait + TBlAnnouncerProvider classTrait',
 	#instVars : [
 		'#editsFeedbackLayer',
 		'#innerElement',
@@ -10,6 +10,18 @@ Class {
 	],
 	#category : #'Toplo-Widget-Album-TextPane'
 }
+
+{ #category : #'styler configuration' }
+ToAlbum >> codeFontName [ 
+
+	^ self userData at: #codeFontName ifAbsentPut: [ self defaultCodeFontName  ]
+]
+
+{ #category : #'styler configuration' }
+ToAlbum >> codeFontName: aFontName [
+
+	^ self userData at: #codeFontName put: aFontName
+]
 
 { #category : #initialization }
 ToAlbum >> defaultBackground [
@@ -43,6 +55,13 @@ ToAlbum >> defaultBorderColor [
 ToAlbum >> defaultBorderWidth [ 
 
 	^ 1
+]
+
+{ #category : #initialization }
+ToAlbum >> defaultCodeFontName [
+
+	^ AeFontManager defaultCodeFontFamilyName
+	
 ]
 
 { #category : #initialization }
@@ -101,6 +120,12 @@ ToAlbum >> defaultPadding [
 		  right: (3 + self defaultBorderWidth )
 ]
 
+{ #category : #initialization }
+ToAlbum >> defaultStyler [
+
+	^ nil 
+]
+
 { #category : #accessing }
 ToAlbum >> edited [
 
@@ -137,6 +162,8 @@ ToAlbum >> initialize [
 		inf when: BlBlurEvent do: [ :evt | self dispatchEvent: evt ].
 		inf when: BlFocusEvent do: [ :evt | self dispatchEvent: evt ] ].
 	self addEventHandler: self defaultEventHandler.
+	self whenTextReplacedDo: [ :t | self requestTextStyle ].
+	self when: AlbTextEditedEvent do: [ :evt | self requestTextStyle ].
 
 	self next geometry: self defaultGeometry.
 	self next outskirts: self defaultOutskirts.
@@ -181,6 +208,12 @@ ToAlbum >> requestSave [
 			 yourself)
 ]
 
+{ #category : #'styler configuration' }
+ToAlbum >> requestTextStyle [
+
+	self announce: ToTextStyleRequested new
+]
+
 { #category : #'transaction hook' }
 ToAlbum >> saveResult: aBoolean [
 
@@ -190,6 +223,38 @@ ToAlbum >> saveResult: aBoolean [
 		                ifTrue: [ ToAlbumSaveAcceptedEvent new client: self ]
 		                ifFalse: [ ToAlbumSaveDeniedEvent new client: self ].
 	self dispatchEvent: event
+]
+
+{ #category : #'styler configuration' }
+ToAlbum >> styler [
+
+	^ self userData at: #styler ifAbsent: [  ]
+]
+
+{ #category : #'styler configuration' }
+ToAlbum >> styler: aBlStyler [
+
+	self styler ifNotNil: [ :styler |
+		self styler unsubscribe: self.
+		self unsubscribe: styler ].
+
+	self userData at: #styler put: aBlStyler.
+
+	self styler ifNil: [ ^ self ].
+
+	aBlStyler fontName: self codeFontName.
+	aBlStyler
+		whenAnnouncement: BlStylerStateChanged
+		send: #whenStylerStateChanged:
+		to: self.
+	aBlStyler
+		whenAnnouncement: BlStylerTextStyled
+		send: #whenStylerTextStyled:
+		to: self.
+	self
+		whenAnnouncement: ToTextStyleRequested
+		send: #whenTextStyleRequested:
+		to: self
 ]
 
 { #category : #accessing }
@@ -230,6 +295,34 @@ ToAlbum >> whenSaveDeniedDo: aBlock [
 ToAlbum >> whenSaveRequestedDo: aBlock [
 
 	self when: ToAlbumSaveRequestedEvent do: aBlock
+]
+
+{ #category : #'styler configuration' }
+ToAlbum >> whenStylerStateChanged: aBlStylerStateChangedAnnouncement [
+
+	self requestTextStyle
+]
+
+{ #category : #'styler configuration' }
+ToAlbum >> whenStylerTextStyled: aBlStylerTextStyledAnnouncement [
+
+	| result |
+	result := aBlStylerTextStyledAnnouncement styledText.
+	" text just styled by the styler, check the generation (to be thread-safe) to ensure that 
+			my text has not be changed elsewhere during the styling "
+	(result isNextGenerationOf: self text) ifFalse: [ ^ self ].
+	self text takeInternalRepresentationOf: result.
+	self textInternalRepresentationChanged
+]
+
+{ #category : #'styler configuration' }
+ToAlbum >> whenTextStyleRequested: aToTextStyleRequested [
+
+	self styler ifNotNil: [
+		self styler announce: (BlStylerTextStyleRequested new
+				 unstyledText: self text nextGeneration;
+				 referentElement: self;
+				 yourself) ]
 ]
 
 { #category : #layers }

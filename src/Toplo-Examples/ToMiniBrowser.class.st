@@ -8,7 +8,6 @@ Class {
 		'classes',
 		'protocols',
 		'selectors',
-		'codeModel',
 		'codePane',
 		'classSide',
 		'selectedSelector'
@@ -41,9 +40,9 @@ ToMiniBrowser >> changeCodeInEditor [
 	selectedSelector := selected.
 	cls := selectedSelector key.
 	sel := selectedSelector value.
-	codeModel styler classOrMetaClass: cls.
+	codePane styler classOrMetaClass: cls.
 	codeText := cls sourceCodeAt: sel.
-	codeModel text: codeText copy
+	codePane text: codeText copy
 ]
 
 { #category : #'class selection' }
@@ -82,8 +81,8 @@ ToMiniBrowser >> classSide [
 { #category : #'code editor' }
 ToMiniBrowser >> clearCodeInEditor [
 
-	codeModel styler classOrMetaClass: nil.
-	codeModel text: ''
+	codePane styler classOrMetaClass: nil.
+	codePane text: ''
 
 ]
 
@@ -201,9 +200,9 @@ ToMiniBrowser >> initialize [
 
 	"selectors hasFixedSize: true."
 
-	codeModel := ToAlbumModel new withRowNumbers.
-	codeModel styler: BlRBTextStyler new.
-	codePane := codeModel onWidget margin: (BlInsets top: 8 left: 3 bottom: 3 right: 3).
+	codePane := ToAlbum new withRowNumbers.
+	codePane styler: BlRBTextStyler new.
+	codePane margin: (BlInsets top: 8 left: 3 bottom: 3 right: 3).
 
 	codeMenu := ToContextMenu new.
 	codeMenu addItem: (ToMenuItem new labelText: 'Accept').

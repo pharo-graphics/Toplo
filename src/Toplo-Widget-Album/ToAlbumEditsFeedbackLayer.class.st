@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAlbumEditsFeedbackLayer,
-	#superclass : #ToElementLayer,
+	#superclass : #BlOverlayElement,
 	#instVars : [
 		'feedback',
 		'backgroundAnimation',

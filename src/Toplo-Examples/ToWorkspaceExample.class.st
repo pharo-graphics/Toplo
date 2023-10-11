@@ -55,32 +55,6 @@ ToWorkspaceExample >> bindings [
 	^ bindings 
 ]
 
-{ #category : #'user interface' }
-ToWorkspaceExample >> codeEditor [
-
-	| st |
-	st := textModel
-		      withRowNumbers;
-		      placeholderText:
-			      (('Workspace example' , String cr , '- doit: Cmd-d')
-				       asRopedText
-				       fontSize: 24;
-				       foreground: Color gray lighter;
-				       yourself) ;
-		      styler: (BlRBTextStyler new
-				       isForWorkspace: true;
-				       workspace: self;
-				       fontName: AeFontManager defaultCodeFontFamilyName;
-				       yourself);
-		      addEditorShortcut: (BlShortcutWithAction new
-				       combination: BlKeyCombination primaryD;
-				       action: [ :aShortcutEvent :aShortcut | self doIt ];
-				       name: 'Do it';
-				       description: 'Run selected expression.');
-		      yourself.
-	^ st onWidget
-]
-
 { #category : #accessing }
 ToWorkspaceExample >> correctFrom: start to: stop with: aString [
 
@@ -90,18 +64,17 @@ ToWorkspaceExample >> correctFrom: start to: stop with: aString [
 { #category : #accessing }
 ToWorkspaceExample >> doIt [
 
-	textModel widgetDo: [ :widget | 
-		| toDo |
-		toDo := widget selectedText asString.
-		toDo ifEmpty: [ toDo := widget text asString ].
-		[ 
-		OpalCompiler new
-			source: toDo readStream;
-			requestor: self;
-			failBlock: [ ^ Object new ];
-			evaluate ]
-			on: OCUndeclaredVariableWarning
-			do: [ :warn | warn traceCr ] ]
+	| toDo |
+	toDo := textModel selectedText asString.
+	toDo ifEmpty: [ toDo := textModel text asString ].
+	[
+	OpalCompiler new
+		source: toDo readStream;
+		requestor: self;
+		failBlock: [ ^ Object new ];
+		evaluate ]
+		on: OCUndeclaredVariableWarning
+		do: [ :warn | warn traceCr ]
 ]
 
 { #category : #bindings }
@@ -113,8 +86,30 @@ ToWorkspaceExample >> hasBindingOf: aString [
 ToWorkspaceExample >> initialize [
 	super initialize.
 	bindings := Dictionary new.
-	textModel := ToAlbumModel new.
+	textModel := ToAlbum new.
 
+]
+
+{ #category : #'user interface' }
+ToWorkspaceExample >> initializeCodeEditor [
+
+	textModel
+		withRowNumbers;
+		placeholderText:
+			(('Workspace example' , String cr , '- doit: Cmd-d') asRopedText
+				 fontSize: 24;
+				 foreground: Color gray lighter;
+				 yourself);
+		styler: (BlRBTextStyler new
+				 isForWorkspace: true;
+				 workspace: self;
+				 fontName: AeFontManager defaultCodeFontFamilyName;
+				 yourself);
+		addEditorShortcut: (BlShortcutWithAction new
+				 combination: BlKeyCombination primaryD;
+				 action: [ :aShortcutEvent :aShortcut | self doIt ];
+				 name: 'Do it';
+				 description: 'Run selected expression.')
 ]
 
 { #category : #accessing }
@@ -137,12 +132,12 @@ ToWorkspaceExample >> open [
 { #category : #'user interface' }
 ToWorkspaceExample >> openInSpace: aSpace [
 
-	| editor frame |
-	editor := self codeEditor.
-	editor infinite requestFocus.
-	editor showPlaceholder.
+	| frame |
+	self initializeCodeEditor.
+	textModel infinite requestFocus.
+	textModel showPlaceholder.
 	frame := ToInnerWindow new title: 'Workspace'.
-	frame root addChild: editor.
+	frame pane addChild: textModel.
 	aSpace root addChild: frame
 ]
 

@@ -6,6 +6,13 @@ Class {
 	#category : #'Toplo-Core'
 }
 
+{ #category : #initialization }
+ToElement >> defaultLayout [
+
+	^ BlLinearLayout horizontal
+
+]
+
 { #category : #'t - skinable - initialization' }
 ToElement >> defaultStyleStamps [
 

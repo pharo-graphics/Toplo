@@ -1,8 +1,8 @@
 Class {
 	#name : #ToLabel,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TBlAlignable',
-	#classTraits : 'TToWidget classTrait + TBlAlignable classTrait',
+	#traits : 'TBlAlignable',
+	#classTraits : 'TBlAlignable classTrait',
 	#instVars : [
 		'#isEditable',
 		'#innerElement',

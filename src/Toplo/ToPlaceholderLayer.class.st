@@ -1,6 +1,6 @@
 Class {
 	#name : #ToPlaceholderLayer,
-	#superclass : #ToElementLayer,
+	#superclass : #BlOverlayElement,
 	#category : #'Toplo-Core'
 }
 

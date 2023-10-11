@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuItem,
 	#superclass : #ToMenuItemElement,
-	#traits : 'TToElementWithTooltip + TToClickable + TToElementWithLabeledIcon',
-	#classTraits : 'TToElementWithTooltip classTrait + TToClickable classTrait + TToElementWithLabeledIcon classTrait',
+	#traits : 'TToClickable + TToElementWithLabeledIcon',
+	#classTraits : 'TToClickable classTrait + TToElementWithLabeledIcon classTrait',
 	#instVars : [
 		'#labeledIcon => ToSkinnableSlot',
 		'#filler',

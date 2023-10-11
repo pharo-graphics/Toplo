@@ -1,8 +1,6 @@
 Class {
 	#name : #ToImage,
 	#superclass : #ToElement,
-	#traits : 'TToWidget',
-	#classTraits : 'TToWidget classTrait',
 	#instVars : [
 		'innerImage'
 	],

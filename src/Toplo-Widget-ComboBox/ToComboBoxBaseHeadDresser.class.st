@@ -1,6 +1,6 @@
 Class {
 	#name : #ToComboBoxBaseHeadDresser,
-	#superclass : #ToWidgetDresser,
+	#superclass : #Object,
 	#instVars : [
 		'comboBox'
 	],

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'collector'
 	],
-	#category : 'Toplo-Core'
+	#category : #'Toplo-Incubator'
 }
 
 { #category : #accessing }

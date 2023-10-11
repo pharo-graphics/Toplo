@@ -1,8 +1,6 @@
 Class {
 	#name : #ToSelect,
 	#superclass : #ToElement,
-	#traits : 'TToWidget + TToElementWithTooltip',
-	#classTraits : 'TToWidget classTrait + TToElementWithTooltip classTrait',
 	#instVars : [
 		'#group',
 		'#placeholder => ObservableSlot',

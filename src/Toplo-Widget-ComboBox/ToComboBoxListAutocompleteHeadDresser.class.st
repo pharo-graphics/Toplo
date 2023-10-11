@@ -1,6 +1,6 @@
 Class {
 	#name : #ToComboBoxListAutocompleteHeadDresser,
-	#superclass : #ToDresser,
+	#superclass : #Object,
 	#instVars : [
 		'comboBox',
 		'filterDresser',

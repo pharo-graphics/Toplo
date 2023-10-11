@@ -55,7 +55,7 @@ ToFeaturePropertyTest >> testWriteTo [
 { #category : #tests }
 ToFeaturePropertyTest >> testWrongDefinition [
 
-	| w prop r |
+	| w prop |
 	w := ToElement new.
 	prop := ToFeatureProperty new.
 	self assert: (w respondsTo: #background2) not.

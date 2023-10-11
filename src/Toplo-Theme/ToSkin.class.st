@@ -29,7 +29,6 @@ ToSkin >> eventsToHandle [
 	^ {
 		  ToThemeChangedEvent.
 		  ToSkinChangedEvent.
-		  ToPropertyChangedEvent.
 		  ToElementLookEvent }
 ]
 
@@ -132,11 +131,6 @@ ToSkin >> onSkinInstalledIn: anElement [
 { #category : #'api - install/uninstall  hook' }
 ToSkin >> onSkinUninstalledIn: anElement [
 
-
-]
-
-{ #category : #'event handling' }
-ToSkin >> propertyChangedEvent: anEvent [
 
 ]
 

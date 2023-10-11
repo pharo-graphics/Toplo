@@ -23,7 +23,14 @@ ToElement >> defaultStyleStamps [
 ToElement >> initialize [ 
 
 	super initialize.
-	self class initializeSlots: self
+	self class initializeSlots: self.
+	self initializeSkinInstallationPhaseChecker
+]
+
+{ #category : #initialization }
+ToElement >> initializeSkinInstallationPhaseChecker [
+
+	self addEventHandler: ToSpaceSkinInstallationPhaseCheckerEventHandler new
 ]
 
 { #category : #accessing }

@@ -47,8 +47,20 @@ ToStyleStampTest >> testAsStyleStamp [
 
 ]
 
-{ #category : #'stamp reading' }
+{ #category : #'stamp  private use' }
 ToStyleStampTest >> testHasStamp [
+
+	| e |
+	e := BlElement new.
+	self deny: (e hasStamp: #color).
+	e addStyleStamp: (#color -> Color blue) asStyleStamp.
+	self assert: (e hasStamp: #color).
+	e addStyleStamp: (#background -> Color blue) asStyleStamp.
+	e addStyleStamp: (#layout -> BlLinearLayout horizontal) asStyleStamp.
+	e addStyleStamp: (#something -> #something) asStyleStamp.
+	self assert: (e hasStamp: #something).
+	self assert: (e hasStamp: #color).
+
 ]
 
 { #category : #'stamp  private use' }
@@ -169,10 +181,41 @@ ToStyleStampTest >> testRemoveStyleStampNamedIfAbsent [
 
 { #category : #'stamp reading' }
 ToStyleStampTest >> testStampNamed [
+
+	| e p |
+	e := BlElement new.
+	self
+		should: [ e stampNamed: #color ]
+		raise: ToElementPropertyNotFound.
+	e addStyleStamp: (p := (#color -> Color blue) asStyleStamp).
+	self assert: (e stampNamed: #color) equals: p.
+	e addStyleStamp: (#background -> Color blue) asStyleStamp.
+	e addStyleStamp: (#layout -> BlLinearLayout horizontal) asStyleStamp.
+	e addStyleStamp: (p := (#something -> #something) asStyleStamp).
+	self assert: (e stampNamed: #something) equals: p.
+	self
+		should: [ e stampNamed: #Color ]
+		raise: ToElementPropertyNotFound
 ]
 
 { #category : #'stamp reading' }
 ToStyleStampTest >> testStampValue [
+
+	| e p |
+	e := BlElement new.
+	self
+		should: [ e stampValue: #color ]
+		raise: ToElementPropertyNotFound.
+	e addStyleStamp: (p := (#color -> Color blue) asStyleStamp).
+	self assert: (e stampValue: #color) equals: p value.
+	self assert: (e stampValue: #color) equals: Color blue.
+	e addStyleStamp: (#background -> Color blue) asStyleStamp.
+	e addStyleStamp: (#layout -> BlLinearLayout horizontal) asStyleStamp.
+	e addStyleStamp: ((#something -> #something) asStyleStamp).
+	self assert: (e stampValue: #something) equals: #something.
+	self
+		should: [ e stampValue: #Color ]
+		raise: ToElementPropertyNotFound
 ]
 
 { #category : #tests }
@@ -193,14 +236,73 @@ ToStyleStampTest >> testValue [
 
 { #category : #'stamp adding' }
 ToStyleStampTest >> testWithAllStamps [
+
+	| e |
+	e := BlElement new.
+	e withAllStamps: {  }.
+	self assert: e localStyleStampIndex isNil.
+	e withAllStamps: { #color. #background }.
+	self assert: e localStyleStampIndex size equals: 2.
+	self assert: (e hasStamp: #color).	
+	self assert: (e hasStamp: #background).
+	e withAllStamps: { #blob }.
+	self assert: e localStyleStampIndex size equals: 3.
+	self assert: (e hasStamp: #color).	
+	self assert: (e hasStamp: #background).
+	self assert: (e hasStamp: #blob).
+
+
 ]
 
 { #category : #'stamp adding' }
 ToStyleStampTest >> testWithStamp [
+
+	| e |
+	e := BlElement new.
+	e withAllStamps: {  }.
+	self assert: e localStyleStampIndex isNil.
+	e withStamp: #color.
+	e withStamp: #background.
+	self assert: e localStyleStampIndex size equals: 2.
+	self assert: (e hasStamp: #color).	
+	self assert: (e hasStamp: #background).
+	self assert: (e stampValue: #color).	
+	self assert: (e stampValue: #background).
+	e withStamp: #color.
+	self assert: e localStyleStampIndex size equals: 2.
+	e withStamp: #blob.
+	self assert: (e hasStamp: #color).	
+	self assert: (e hasStamp: #background).
+	self assert: (e hasStamp: #blob).
+	self assert: (e stampValue: #color).	
+	self assert: (e stampValue: #background).
+	self assert: (e stampValue: #blob).
 
 
 ]
 
 { #category : #'stamp adding' }
 ToStyleStampTest >> testWithoutStamp [
+
+	| e |
+	e := BlElement new.
+	e withAllStamps: {  }.
+	self assert: e localStyleStampIndex isNil.
+	e withStamp: #color.
+	e withStamp: #background.
+	self assert: e localStyleStampIndex size equals: 2.
+	self assert: (e hasStamp: #color).	
+	self assert: (e hasStamp: #background).
+	self assert: (e stampValue: #color).	
+	self assert: (e stampValue: #background).
+	e withoutStamp: #color.
+	self assert: e localStyleStampIndex size equals: 1.
+	e withoutStamp: #blob.
+	self deny: (e hasStamp: #color).	
+	self assert: (e hasStamp: #background).
+	self deny: (e hasStamp: #blob).
+	self should: [ e stampValue: #color ] raise: ToElementPropertyNotFound.	
+	self assert: (e stampValue: #background).
+	self should: [ e stampValue: #blob ] raise: ToElementPropertyNotFound
+
 ]

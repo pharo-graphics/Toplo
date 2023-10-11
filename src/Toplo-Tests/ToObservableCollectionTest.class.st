@@ -353,6 +353,14 @@ ToObservableCollectionTest >> testConcatenation [
 		equals: firstCollection size + secondCollection size
 ]
 
+{ #category : #'tests - accessing' }
+ToObservableCollectionTest >> testEventDispatcher [
+
+	| l |
+	l := ToObservableCollection new.
+	self assert: (l eventDispatcher isKindOf: BlEventDispatcher)
+]
+
 { #category : #'tests - removing' }
 ToObservableCollectionTest >> testRemove [
 

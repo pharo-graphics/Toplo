@@ -527,6 +527,7 @@ ToStyleSelectorInterpreterTest >> testRuleWithOrSelector [
 	e withStamp: #horizontal.
 	engine check: selector on: e.
 	self assert: engine result.
+	e withoutAllStamps.
 	e withAllStamps: { #blob }.
 	engine check: selector on: e.
 	self assert: engine result not

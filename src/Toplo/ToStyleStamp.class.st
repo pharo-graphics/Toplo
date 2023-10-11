@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #accessing }
+ToStyleStamp class >> asStyleStamp [ 
+
+	^ self
+]
+
+{ #category : #accessing }
 ToStyleStamp class >> name: aSymbol [
 
 	^ self new name: aSymbol asSymbol

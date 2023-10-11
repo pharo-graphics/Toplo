@@ -62,7 +62,7 @@ TToTriplet >> interspace: anInteger [
 { #category : #'t - triplet - configuration' }
 TToTriplet >> justified [
 
-	^ self localStyleStampIndex includesKey: #justified
+	^ self hasStamp: #justified
 ]
 
 { #category : #'t - triplet - configuration' }

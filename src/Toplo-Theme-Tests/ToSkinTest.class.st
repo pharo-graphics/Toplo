@@ -11,10 +11,13 @@ Class {
 }
 
 { #category : #running }
-ToSkinTest >> setUp [ 
+ToSkinTest >> setUp [
 
 	super setUp.
-	writeablePropertyIndex := ToPropertyIndex new recordAll: self writablePropertyList; yourself
+	writeablePropertyIndex := ToPropertyIndex new
+		                          addAllProperties:
+			                          self writablePropertyList;
+		                          yourself
 ]
 
 { #category : #'test with accessors' }

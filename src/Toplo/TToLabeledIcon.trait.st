@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToLabeledIcon,
-	#category : #'Toplo-Core-Triplet'
+	#category : #'Toplo-Core'
 }
 
 { #category : #'t - labeled icon - accessing' }

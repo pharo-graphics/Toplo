@@ -152,13 +152,13 @@ ToStyleSheet >> initialize [
 { #category : #initialization }
 ToStyleSheet >> newStampIndexFromStampList: aStyleStampCollection [
 
-	^ ToPropertyIndex new recordAll: aStyleStampCollection; yourself.
+	^ ToPropertyIndex new addAllProperties: aStyleStampCollection; yourself.
 ]
 
 { #category : #initialization }
 ToStyleSheet >> newWritablePropertyIndex [
 
-	^ ToPropertyIndex new recordAll: self writablePropertyList; yourself.
+	^ ToPropertyIndex new addAllProperties: self writablePropertyList; yourself.
 ]
 
 { #category : #initialization }

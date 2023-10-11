@@ -57,6 +57,12 @@ ToAbstractTheme >> printOn: aStream [
 ]
 
 { #category : #accessing }
+ToAbstractTheme >> stampNamed: aSymbol [
+
+	^ self styleSheet stampNamed: aSymbol
+]
+
+{ #category : #accessing }
 ToAbstractTheme >> styleSheet [
 
 	^ styleSheet

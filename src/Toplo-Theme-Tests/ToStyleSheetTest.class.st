@@ -50,8 +50,8 @@ ToStyleSheetTest >> testButtonLabelSkin0 [
 	label := (ToLabel text: 'Default') defaultSkin: nil.
 	button label: label.
 	labelSkin := ToSkin new.
-	self assert: (button localStyleStampIndex includes: #danger) not.
-	self assert: (button label localStyleStampIndex includesKey: #'button-label').
+	self assert: (button hasStamp: #danger) not.
+	self assert: (button label hasStamp: #'button-label').
 	writers := ssi writersFor: button label.
 	" writers should be empty since the label rule expect the button 
 	to be of class #danger and the label to be with style class #'button-label'"

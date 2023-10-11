@@ -15,7 +15,7 @@ ToStyleRuleTest >> setUp [
 
 	super setUp.
 	writeablePropertyIndex := ToPropertyIndex new
-		                          recordAll: ToStyleSheet defaultWritablePropertyList;
+		                          addAllProperties: ToStyleSheet defaultWritablePropertyList;
 		                          yourself
 ]
 

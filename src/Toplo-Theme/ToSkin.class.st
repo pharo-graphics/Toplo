@@ -1,26 +1,16 @@
 Class {
 	#name : #ToSkin,
 	#superclass : #BlCustomEventHandler,
-	#traits : 'TToPropertyWriterHolder',
-	#classTraits : 'TToPropertyWriterHolder classTrait',
 	#instVars : [
-		'installStep',
-		'writers'
+		'installStep'
 	],
 	#category : #'Toplo-Theme-Skin'
 }
 
 { #category : #'event handling' }
-ToSkin >> dispatchChangedEventIn: anElement [
-
-	self markAsNotInstalled.
-	anElement dispatchSkinChangedEvent
-]
-
-{ #category : #'event handling' }
 ToSkin >> elementLookEvent: anEvent [
 
-	self writers do: [ :s | s receiveEvent: anEvent  ]
+
 ]
 
 { #category : #'api - accessing' }
@@ -32,19 +22,12 @@ ToSkin >> eventsToHandle [
 		  ToElementLookEvent }
 ]
 
-{ #category : #'private - installation' }
-ToSkin >> forceInstallationIn: anElement [
-
-	self markAsNotInstalled.
-	anElement dispatchSkinChangedEvent
-]
-
 { #category : #initialization }
 ToSkin >> initialize [
 
 	super initialize.
-	self markAsNotInstalled.
-	writers := #(  )
+	self markAsNotInstalled
+
 ]
 
 { #category : #'private - installation' }
@@ -132,18 +115,6 @@ ToSkin >> onSkinInstalledIn: anElement [
 ToSkin >> onSkinUninstalledIn: anElement [
 
 
-]
-
-{ #category : #'t - property writer holder - accessing' }
-ToSkin >> rawWriters [
-
-	^ writers
-]
-
-{ #category : #'t - property writer holder - accessing' }
-ToSkin >> rawWriters: aPropertyWriterCollection [
-
-	writers := aPropertyWriterCollection asArray
 ]
 
 { #category : #'event handling' }

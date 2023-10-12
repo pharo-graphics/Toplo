@@ -266,7 +266,7 @@ BlElement >> removeStyleStampNamed: aSymbol ifAbsent: anAbsentBlock [
 { #category : #'*Toplo' }
 BlElement >> skinBuilder [
 
-	^ ToSkinBuilder new
+	^ self toTheme skinBuilder
 ]
 
 { #category : #'*Toplo' }

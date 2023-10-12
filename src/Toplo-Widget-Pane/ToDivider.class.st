@@ -120,8 +120,6 @@ ToDivider >> initializeRawStyle [
 	super initializeRawStyle.
 	self thickness: self defaultThickness.
 	self geometry: self defaultGeometry.
-	self border: self defaultBorder.
-	self background: self defaultBackground.
 	self margin: self defaultMargins.
 	self padding: self defaultPadding
 ]

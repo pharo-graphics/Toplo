@@ -20,8 +20,6 @@ ToDividerSkin >> hoveredLookEvent: anEvent [
 { #category : #'event handling' }
 ToDividerSkin >> initialLookEvent: anEvent [
 
-	anEvent sourceEvent ifNotNil: [ :evt |
-		evt anyButtonPressed ifTrue: [ ^ self ] ].
 	pressed ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
 		e border: e defaultBorder.

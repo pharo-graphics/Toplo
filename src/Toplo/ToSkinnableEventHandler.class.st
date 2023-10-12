@@ -36,6 +36,9 @@ ToSkinnableEventHandler >> doubleClickEvent: anEvent [
 
 { #category : #'dnd handlers' }
 ToSkinnableEventHandler >> dragEndEvent: anEvent [
+
+	self switchToReleasedStateEvent: anEvent.
+	self switchToHoveredStateEvent: anEvent
 ]
 
 { #category : #'event handling' }
@@ -219,8 +222,9 @@ ToSkinnableEventHandler >> mouseUpOutsideEvent: anEvent [
 		^ self ].
 	"MouseUpOutside for a button is managed if a MouseDown (inside) has occured before (with a consequent pressed state).
 	So, do not change the state if the button is not in pressed state"
-	target currentSkinState ifNotNil: [ :s | 
-		s isPressedState ifFalse: [ ^ self ] ].
+	"target currentSkinState ifNotNil: [ :s | 
+		s isPressedState ifFalse: [ ^ self ] ]."
+	self switchToReleasedStateEvent: anEvent.
 	self switchToInitialStateEvent: anEvent
 ]
 

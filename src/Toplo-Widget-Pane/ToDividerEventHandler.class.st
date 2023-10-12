@@ -100,19 +100,6 @@ ToDividerEventHandler >> dragStartEvent: anEvent [
 		               bnds inSpace bounds copy ]
 ]
 
-{ #category : #'api - accessing' }
-ToDividerEventHandler >> eventsToHandle [
-
-	^ {
-		  BlDragEndEvent.
-		  BlDragStartEvent.
-		  BlDragEvent.
-		  BlMouseDownEvent.
-		  BlMouseEnterEvent.
-		  BlMouseLeaveEvent.
-		  BlMouseUpEvent }
-]
-
 { #category : #accessing }
 ToDividerEventHandler >> firstTarget [
 
@@ -132,14 +119,6 @@ ToDividerEventHandler >> horizontalDragEvent: anEvent target: aTarget width: aWi
 			aTarget constraints linear weight: w ]
 ]
 
-{ #category : #'mouse handlers' }
-ToDividerEventHandler >> leftMouseUpEvent: anEvent [
-
-	super leftMouseUpEvent: anEvent.
-	self divider space mouseProcessor handleLastMouseMove.
-	
-]
-
 { #category : #accessing }
 ToDividerEventHandler >> leftTarget [
 
@@ -150,21 +129,6 @@ ToDividerEventHandler >> leftTarget [
 ToDividerEventHandler >> minimumExtent [
 
 	^ 10@10
-]
-
-{ #category : #'mouse handlers' }
-ToDividerEventHandler >> mouseEnterEvent: anEvent [
-
-	super mouseEnterEvent: anEvent.
-	anEvent consumed: true.
-
-]
-
-{ #category : #'mouse handlers' }
-ToDividerEventHandler >> mouseLeaveEvent: anEvent [
-
-	super mouseLeaveEvent: anEvent.
-	anEvent consumed: true
 ]
 
 { #category : #'api - hooks' }

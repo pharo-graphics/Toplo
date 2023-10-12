@@ -8,6 +8,30 @@ Class {
 }
 
 { #category : #'event handling' }
+ToSkin >> checkedLookEvent: anEvent [
+
+
+]
+
+{ #category : #'event handling' }
+ToSkin >> clickedLookEvent: anEvent [
+
+
+]
+
+{ #category : #'event handling' }
+ToSkin >> closedLookEvent: anEvent [
+
+
+]
+
+{ #category : #'event handling' }
+ToSkin >> disabledLookEvent: anEvent [
+
+
+]
+
+{ #category : #'event handling' }
 ToSkin >> elementLookEvent: anEvent [
 
 
@@ -22,6 +46,30 @@ ToSkin >> eventsToHandle [
 		  ToElementLookEvent }
 ]
 
+{ #category : #'event handling' }
+ToSkin >> focusedLookEvent: anEvent [
+
+
+]
+
+{ #category : #'event handling' }
+ToSkin >> hoveredLookEvent: anEvent [
+
+
+]
+
+{ #category : #'event handling' }
+ToSkin >> indeterminateLookEvent: anEvent [
+
+
+]
+
+{ #category : #'event handling' }
+ToSkin >> initialLookEvent: anEvent [
+
+
+]
+
 { #category : #initialization }
 ToSkin >> initialize [
 
@@ -34,6 +82,12 @@ ToSkin >> initialize [
 ToSkin >> initializedLevel [
 
 	^ 2
+
+]
+
+{ #category : #'event handling' }
+ToSkin >> installLookEvent: anEvent [
+
 
 ]
 
@@ -87,6 +141,12 @@ ToSkin >> launchSkinUninstallationIn: anElement [
 	self markAsNotInstalled 
 ]
 
+{ #category : #'event handling' }
+ToSkin >> leavedLookEvent: anEvent [
+
+
+]
+
 { #category : #'private - installation' }
 ToSkin >> markAsInitialized [
 
@@ -118,6 +178,30 @@ ToSkin >> onSkinUninstalledIn: anElement [
 ]
 
 { #category : #'event handling' }
+ToSkin >> openedLookEvent: anEvent [
+
+
+]
+
+{ #category : #'event handling' }
+ToSkin >> pressedLookEvent: anEvent [
+
+
+]
+
+{ #category : #'event handling' }
+ToSkin >> releasedLookEvent: anEvent [
+
+
+]
+
+{ #category : #'event handling' }
+ToSkin >> selectedLookEvent: anEvent [
+
+
+]
+
+{ #category : #'event handling' }
 ToSkin >> skinChangedEvent: anEvent [
 
 	anEvent target switchToSkinState: ToInstallState new.
@@ -130,4 +214,16 @@ ToSkin >> themeChangedEvent: anEvent [
 	self launchSkinUninstallationIn: anEvent currentTarget.
 	self launchSkinInstallationIn: anEvent currentTarget.	
 	self launchSkinInitializationIn:  anEvent currentTarget.
+]
+
+{ #category : #'event handling' }
+ToSkin >> uncheckedLookEvent: anEvent [
+
+
+]
+
+{ #category : #'event handling' }
+ToSkin >> uninstallLookEvent: anEvent [
+
+
 ]

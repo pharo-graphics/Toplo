@@ -1,13 +1,13 @@
-Extension { #name : #ToElement }
+Extension { #name : #BlElement }
 
 { #category : #'*Toplo-Theme-Bee' }
-ToElement >> defaultBeeStyleStamps [
+BlElement >> defaultBeeStyleStamps [
 
 	^ #( )
 ]
 
 { #category : #'*Toplo-Theme-Bee' }
-ToElement >> initializeBeeStyle [ 
+BlElement >> initializeBeeStyle [ 
 
 	self initializeRawStyle.
 	self withAllStamps: self defaultBeeStyleStamps

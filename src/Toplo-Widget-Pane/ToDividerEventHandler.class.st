@@ -133,21 +133,11 @@ ToDividerEventHandler >> horizontalDragEvent: anEvent target: aTarget width: aWi
 ]
 
 { #category : #'mouse handlers' }
-ToDividerEventHandler >> leftMouseDownEvent: anEvent [
-
-	super leftMouseDownEvent: anEvent.
-	self divider border: (BlBorder paint: self divider colorProvider pressedBorderColor).
-	self divider background: self divider colorProvider pressedBackgroundColor
-]
-
-{ #category : #'mouse handlers' }
 ToDividerEventHandler >> leftMouseUpEvent: anEvent [
 
 	super leftMouseUpEvent: anEvent.
-	self divider border: (BlBorder paint: self divider colorProvider defaultBorderColor).
-	self divider background: self divider colorProvider defaultBackgroundColor.
 	self divider space mouseProcessor handleLastMouseMove.
-	self divider mouseCursor: BlCursor default.
+	
 ]
 
 { #category : #accessing }
@@ -166,22 +156,15 @@ ToDividerEventHandler >> minimumExtent [
 ToDividerEventHandler >> mouseEnterEvent: anEvent [
 
 	super mouseEnterEvent: anEvent.
-	self divider mouseCursor: self resizerCursor.
 	anEvent consumed: true.
-	anEvent anyButtonPressed ifTrue: [ ^ self ].
-	self divider border: (BlBorder paint: self divider colorProvider hoveredBorderColor).
-	self divider background: self divider colorProvider hoveredBackgroundColor
+
 ]
 
 { #category : #'mouse handlers' }
 ToDividerEventHandler >> mouseLeaveEvent: anEvent [
 
 	super mouseLeaveEvent: anEvent.
-	anEvent consumed: true.
-	anEvent anyButtonPressed ifTrue: [ ^ self ].
-	self divider border: (BlBorder paint: self divider colorProvider defaultBorderColor).
-	self divider background: self divider colorProvider defaultBackgroundColor.
-	self divider mouseCursor: BlCursor default.
+	anEvent consumed: true
 ]
 
 { #category : #'api - hooks' }
@@ -221,14 +204,6 @@ ToDividerEventHandler >> resizeBounds: aBlBounds by: aPoint [
 			aBlBounds extent: (aBlBounds extent + (0.0 @ aPoint y) max: self minimumExtent) ]
 		ifFalse: [
 			aBlBounds extent: (aBlBounds extent + (aPoint x negated @ 0.0) max: self minimumExtent) ]
-]
-
-{ #category : #resizer }
-ToDividerEventHandler >> resizerCursor [
-
-	^ self divider isHorizontal
-		  ifTrue: [ BlCursor resizeTop ]
-		  ifFalse: [ BlCursor resizeRight ]
 ]
 
 { #category : #accessing }

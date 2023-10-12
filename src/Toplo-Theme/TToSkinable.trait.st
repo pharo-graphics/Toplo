@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToSkinable,
-	#category : #'Toplo-Theme-Skin'
+	#category : #'Toplo-Theme-Core'
 }
 
 { #category : #'t - skinable - install/uninstall  hook' }

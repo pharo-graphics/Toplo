@@ -8,7 +8,9 @@ Class {
 		'titleLabel',
 		'barPullHandler',
 		'paneElement',
-		'barElement'
+		'barElement',
+		'closeButton',
+		'expandButton'
 	],
 	#category : #'Toplo-Widget-InnerWindow'
 }
@@ -32,33 +34,26 @@ ToInnerWindow >> bar: anElement [
 		self root addChild: be at: 1 ]
 ]
 
-{ #category : #initialization }
-ToInnerWindow >> defaultBarBackground [
-	
-	^ Color veryLightGray alpha: 0.4
+{ #category : #accessing }
+ToInnerWindow >> closeButton [ 
+
+	^ closeButton 
 ]
 
 { #category : #initialization }
 ToInnerWindow >> defaultBarElement [
 
-	| b close expand fill1 fill2 fill3 fill4 |
+	| b fill1 fill2 fill3 fill4 |
 	b := ToPane horizontal
 		     border: BlBorder empty;
 		     vFitContent;
-		     padding: (BlInsets top: 2 bottom: 3);
-		     outskirts: BlOutskirts inside;
 		     yourself.
 	b when: BlDoubleClickEvent do: [ self maximize ].
 	b when: BlMouseDownEvent do: [ self toFront ].
-	close := ToButton new icon:
-		         (ToImage new innerImage: Smalltalk ui theme windowCloseForm).
-	close size: 18@18.
-	close whenClickedDo: [ self close ].
-	expand := ToButton new icon:
-		          (ToImage new innerImage:
-			           Smalltalk ui theme windowMaximizeForm).
-	expand whenClickedDo: [ self maximize ].
-	expand size: 18@18.
+	closeButton := ToButton new id: #'close-button'; yourself.
+	closeButton whenClickedDo: [ self close ].
+	expandButton := ToButton new id: #'expand-button'; yourself.
+	expandButton whenClickedDo: [ self maximize ].
 
 	fill1 := BlElement new
 		         background: Color transparent;
@@ -85,11 +80,11 @@ ToInnerWindow >> defaultBarElement [
 
 	b addChildren: {
 			fill1.
-			close.
+			closeButton.
 			fill2.
 			titleLabel.
 			fill3.
-			expand.
+			expandButton.
 			fill4 }.
 	^ b
 ]
@@ -153,15 +148,34 @@ ToInnerWindow >> defaultTitle [
 	^ ''
 ]
 
+{ #category : #accessing }
+ToInnerWindow >> expandButton [ 
+
+	^ expandButton 
+]
+
 { #category : #initialization }
 ToInnerWindow >> initialize [ 
 
 	super initialize.
 	self layout: BlLinearLayout vertical.
 	self size: self defaultSize.
-	self background: Color lightGray.
 	self initializeGrips
 
+]
+
+{ #category : #initialization }
+ToInnerWindow >> initializeRawStyle [
+
+	super initializeRawStyle.
+	self background: Color lightGray.
+	self bar
+		padding: (BlInsets top: 2 bottom: 1);
+		outskirts: BlOutskirts inside.
+	self closeButton icon: (ToImage inner: (self iconNamed: #windowCloseForm)).
+	self closeButton size: 18 @ 18.
+	self expandButton icon: (ToImage inner: (self iconNamed: #windowMaximizeForm)).
+	self expandButton size: 18 @ 18
 ]
 
 { #category : #initialization }

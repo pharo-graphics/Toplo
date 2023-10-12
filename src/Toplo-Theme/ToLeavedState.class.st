@@ -1,11 +1,11 @@
 Class {
 	#name : #ToLeavedState,
 	#superclass : #ToElementState,
-	#category : 'Toplo-Theme-State'
+	#category : #'Toplo-Theme-State'
 }
 
 { #category : #'look event sending' }
-ToLeavedState >> applyOn: anElement [
+ToLeavedState >> lookEventClass [
 
-	anElement dispatchLookEvent: ToLeavedLookEvent new
+	^ ToLeavedLookEvent
 ]

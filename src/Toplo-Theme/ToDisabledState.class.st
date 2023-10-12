@@ -1,11 +1,11 @@
 Class {
 	#name : #ToDisabledState,
 	#superclass : #ToElementState,
-	#category : 'Toplo-Theme-State'
+	#category : #'Toplo-Theme-State'
 }
 
 { #category : #'look event sending' }
-ToDisabledState >> applyOn: anElement [
+ToDisabledState >> lookEventClass [
 
-	anElement dispatchLookEvent: ToDisabledLookEvent new
+	^ ToDisabledLookEvent
 ]

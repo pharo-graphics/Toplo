@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'look event sending' }
-ToIndeterminateState >> applyOn: anElement [
+ToIndeterminateState >> lookEventClass [
 
-	anElement dispatchLookEvent: ToIndeterminateLookEvent new
+	^ ToIndeterminateLookEvent
 ]

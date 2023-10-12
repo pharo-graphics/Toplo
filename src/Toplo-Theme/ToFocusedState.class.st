@@ -1,11 +1,11 @@
 Class {
 	#name : #ToFocusedState,
 	#superclass : #ToElementState,
-	#category : 'Toplo-Theme-State'
+	#category : #'Toplo-Theme-State'
 }
 
 { #category : #'look event sending' }
-ToFocusedState >> applyOn: anElement [
+ToFocusedState >> lookEventClass [
 
-	anElement dispatchLookEvent: ToFocusedLookEvent new
+	^ ToFocusedLookEvent
 ]

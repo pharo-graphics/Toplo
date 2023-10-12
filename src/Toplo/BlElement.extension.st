@@ -45,6 +45,18 @@ BlElement >> currentSkinState: aState [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> defaultSkin [
+self traceCr.
+	^  self skinBuilder skinFor: self
+]
+
+{ #category : #'*Toplo' }
+BlElement >> defaultSkin: aSkin [
+
+	self userData at: #defaultSkin put: aSkin
+]
+
+{ #category : #'*Toplo' }
 BlElement >> disable [
 
 	self isFlaggedAsDisabled ifFalse: [
@@ -113,6 +125,10 @@ BlElement >> hasStamp: aSymbol [
 BlElement >> holder [
 
 	^ self constraints infinite holder
+]
+
+{ #category : #'*Toplo' }
+BlElement >> initializeRawStyle [
 ]
 
 { #category : #'*Toplo' }
@@ -199,6 +215,15 @@ BlElement >> lookUpStyleStampNamed: aSymbol [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> openInInnerWindow [
+
+	| frame |
+	frame := ToInnerWindow new.
+	frame pane addChild: self.
+	frame openInSpace
+]
+
+{ #category : #'*Toplo' }
 BlElement >> privateSkin [
 
 	^ self userData at: #privateSkin ifAbsent: [  ]
@@ -221,6 +246,12 @@ BlElement >> privateToTheme [
 BlElement >> privateToTheme: aTheme [
 
 	self userData at: #privateToTheme put: aTheme
+]
+
+{ #category : #'*Toplo' }
+BlElement >> rawSkin [
+
+	^  ToRawSkin new
 ]
 
 { #category : #'*Toplo' }

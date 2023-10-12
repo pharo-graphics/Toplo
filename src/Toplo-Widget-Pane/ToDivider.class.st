@@ -34,16 +34,28 @@ ToDivider >> bottomTarget [
 	^ self topTarget == self firstTarget ifTrue: [ self secondTarget  ] ifFalse: [ self firstTarget ]
 ]
 
-{ #category : #accessing }
-ToDivider >> colorProvider [ 
+{ #category : #initialization }
+ToDivider >> defaultBackground [
 
-	^ self theme divider
+	^ Color veryLightGray alpha: 0.1
+]
+
+{ #category : #initialization }
+ToDivider >> defaultBorder [
+
+	^ Color veryLightGray alpha: 0.3
 ]
 
 { #category : #initialization }
 ToDivider >> defaultEventHandler [ 
 
 	^ ToDividerEventHandler new
+]
+
+{ #category : #initialization }
+ToDivider >> defaultGeometry [
+
+	^ BlRoundedRectangleGeometry cornerRadius: 2
 ]
 
 { #category : #'t - widget - initialization' }
@@ -64,6 +76,12 @@ ToDivider >> defaultPadding [
 	^ BlInsets empty
 ]
 
+{ #category : #initialization }
+ToDivider >> defaultThickness [
+
+	^ 3
+]
+
 { #category : #accessing }
 ToDivider >> firstTarget [
 
@@ -76,19 +94,36 @@ ToDivider >> firstTarget: anElement [
 	firstTarget := anElement
 ]
 
+{ #category : #accessing }
+ToDivider >> hoveredBackground [
+
+	^ Color veryLightGray alpha: 0.3
+]
+
+{ #category : #accessing }
+ToDivider >> hoveredBorder [
+
+	^ Color veryLightGray alpha: 0.4
+]
+
 { #category : #initialization }
 ToDivider >> initialize [
 
 	super initialize.
-	self thickness: 4.
-	self geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
-	self border: (BlBorder paint: self colorProvider defaultBorderColor).
-	self background: self colorProvider defaultBackgroundColor.
-	self margin: self defaultMargins.
-	self padding: self defaultPadding.
-	self elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
 	self constraintsDo: [ :c | c ignoreByLayout ].
 	self addEventHandler: self defaultEventHandler 
+]
+
+{ #category : #initialization }
+ToDivider >> initializeRawStyle [ 
+
+	super initializeRawStyle.
+	self thickness: self defaultThickness.
+	self geometry: self defaultGeometry.
+	self border: self defaultBorder.
+	self background: self defaultBackground.
+	self margin: self defaultMargins.
+	self padding: self defaultPadding
 ]
 
 { #category : #testing }
@@ -215,13 +250,27 @@ ToDivider >> pane: aPane [
 { #category : #accessing }
 ToDivider >> pressedBackground [
 
-	^ self colorProvider pressedBackgroundColor
+	^ Color veryLightGray alpha: 0.6
 ]
 
 { #category : #accessing }
 ToDivider >> pressedBorder [
 
-	^ BlBorder paint: self colorProvider pressedBorderColor width: 1
+	^ Color veryLightGray alpha: 0.6
+]
+
+{ #category : #skin }
+ToDivider >> rawSkin [
+
+	^ ToDividerSkin new
+]
+
+{ #category : #accessing }
+ToDivider >> resizerCursor [
+
+	^ self isHorizontal
+		  ifTrue: [ BlCursor resizeTop ]
+		  ifFalse: [ BlCursor resizeRight ]
 ]
 
 { #category : #accessing }

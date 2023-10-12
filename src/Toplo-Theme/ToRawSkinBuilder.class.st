@@ -7,5 +7,5 @@ Class {
 { #category : #'skin building' }
 ToRawSkinBuilder >> skinFor: anElement [
 
-	^ ToRawSkin new
+	^ anElement rawSkin
 ]

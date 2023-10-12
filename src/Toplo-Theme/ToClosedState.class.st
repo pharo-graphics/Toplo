@@ -1,11 +1,11 @@
 Class {
 	#name : #ToClosedState,
 	#superclass : #ToElementState,
-	#category : 'Toplo-Theme-State'
+	#category : #'Toplo-Theme-State'
 }
 
 { #category : #sending }
-ToClosedState >> applyOn: anElement [
+ToClosedState >> lookEventClass [
 
-	anElement dispatchLookEvent: ToClosedLookEvent new
+	^ ToClosedLookEvent
 ]

@@ -2,27 +2,15 @@ Class {
 	#name : #ToElementLookEvent,
 	#superclass : #BlEvent,
 	#instVars : [
-		'currentUpdater'
+		'sourceEvent'
 	],
 	#category : #'Toplo-Theme-Look-Event'
 }
 
 { #category : #accessing }
-ToElementLookEvent >> currentUpdater [
+ToElementLookEvent class >> sourceEvent: anEvent [
 
-	^ currentUpdater
-]
-
-{ #category : #accessing }
-ToElementLookEvent >> currentUpdater: anObject [
-
-	currentUpdater := anObject
-]
-
-{ #category : #accessing }
-ToElementLookEvent >> currentUpdaterDo: aBlock [
-
-	^ currentUpdater ifNotNil: [ :u | aBlock value: u ]
+	^ self new sourceEvent: anEvent
 ]
 
 { #category : #accessing }
@@ -37,8 +25,14 @@ ToElementLookEvent >> sendTo: anObject [
 	anObject elementLookEvent: self
 ]
 
-{ #category : #sending }
-ToElementLookEvent >> sendToLook: aLook [
+{ #category : #accessing }
+ToElementLookEvent >> sourceEvent [
 
-	aLook receiveEvent: self
+	^ sourceEvent
+]
+
+{ #category : #accessing }
+ToElementLookEvent >> sourceEvent: anEvent [
+
+	sourceEvent := anEvent
 ]

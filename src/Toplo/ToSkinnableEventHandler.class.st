@@ -61,10 +61,9 @@ ToSkinnableEventHandler >> dropEvent: anEvent [
 { #category : #enablement }
 ToSkinnableEventHandler >> enablementChangedEvent: anEvent [
 
-	| target |
 	target := anEvent currentTarget.
-	target isEnabled ifTrue: [ ^ self switchToInitialState ].
-	self switchToDisabledState
+	target isEnabled ifTrue: [ ^ self switchToInitialStateEvent: anEvent ].
+	self switchToDisabledStateEvent: anEvent
 	
 ]
 
@@ -119,19 +118,20 @@ ToSkinnableEventHandler >> keyUpEvent: anEvent [
 { #category : #'mouse handlers' }
 ToSkinnableEventHandler >> leftClickEvent: anEvent [
 
-	self switchToClickState 
+	self switchToClickStateEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }
 ToSkinnableEventHandler >> leftMouseDownEvent: anEvent [
 
-	self switchToPressedState 
+	self switchToPressedStateEvent: anEvent 
 ]
 
 { #category : #'mouse handlers' }
 ToSkinnableEventHandler >> leftMouseUpEvent: anEvent [
 
-	self switchToHoveredState 
+	self switchToReleasedStateEvent: anEvent.
+	self switchToHoveredStateEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }
@@ -167,15 +167,15 @@ ToSkinnableEventHandler >> mouseDownOutsideEvent: anEvent [
 ToSkinnableEventHandler >> mouseEnterEvent: anEvent [
 
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
-	self switchToHoveredState 
+	self switchToHoveredStateEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }
 ToSkinnableEventHandler >> mouseLeaveEvent: anEvent [
 
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
-	self switchToLeavedState.
-	self switchToInitialState 
+	self switchToLeavedStateEvent: anEvent.
+	self switchToInitialStateEvent: anEvent 
 
 
 
@@ -221,7 +221,7 @@ ToSkinnableEventHandler >> mouseUpOutsideEvent: anEvent [
 	So, do not change the state if the button is not in pressed state"
 	target currentSkinState ifNotNil: [ :s | 
 		s isPressedState ifFalse: [ ^ self ] ].
-	self switchToInitialState
+	self switchToInitialStateEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }
@@ -264,42 +264,48 @@ ToSkinnableEventHandler >> shortcutEvent: anEvent [
 ]
 
 { #category : #'state switching' }
-ToSkinnableEventHandler >> switchToClickState [
+ToSkinnableEventHandler >> switchToClickStateEvent: anEvent [
 
 	" when switch back to enabled state, one have to reinstall mouseListener"
-	target dispatchLookEvent: ToClickedLookEvent new.
-	self switchToHoveredState
+	target dispatchLookEvent: (ToClickedLookEvent sourceEvent: anEvent).
+	self switchToHoveredStateEvent: anEvent
 ]
 
 { #category : #'state switching' }
-ToSkinnableEventHandler >> switchToDisabledState [
+ToSkinnableEventHandler >> switchToDisabledStateEvent: anEvent [
 
-	target switchToSkinState: ToDisabledState new
+	target switchToSkinState: (ToDisabledState sourceEvent: anEvent)
 ]
 
 { #category : #'state switching' }
-ToSkinnableEventHandler >> switchToHoveredState [
+ToSkinnableEventHandler >> switchToHoveredStateEvent: anEvent [
 
-	target switchToSkinState: ToHoveredState new
+	target switchToSkinState: (ToHoveredState sourceEvent: anEvent)
 ]
 
 { #category : #'state switching' }
-ToSkinnableEventHandler >> switchToInitialState [
+ToSkinnableEventHandler >> switchToInitialStateEvent: anEvent [
 
 	" when switch back to enabled state, one have to reinstall mouseListener"
-	target switchToSkinState: ToInitialState new
+	target switchToSkinState: (ToInitialState sourceEvent: anEvent)
 ]
 
 { #category : #'state switching' }
-ToSkinnableEventHandler >> switchToLeavedState [
+ToSkinnableEventHandler >> switchToLeavedStateEvent: anEvent [
 
-	target switchToSkinState: ToLeavedState new
+	target switchToSkinState: (ToLeavedState sourceEvent: anEvent)
 ]
 
 { #category : #'state switching' }
-ToSkinnableEventHandler >> switchToPressedState [
+ToSkinnableEventHandler >> switchToPressedStateEvent: anEvent [
 
-	target switchToSkinState: ToPressedState new
+	target switchToSkinState: (ToPressedState sourceEvent: anEvent)
+]
+
+{ #category : #'state switching' }
+ToSkinnableEventHandler >> switchToReleasedStateEvent: anEvent [
+
+	target switchToSkinState: (ToReleasedState sourceEvent: anEvent)
 ]
 
 { #category : #'api - event managing' }

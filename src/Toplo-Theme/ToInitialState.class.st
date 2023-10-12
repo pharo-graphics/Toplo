@@ -1,11 +1,11 @@
 Class {
 	#name : #ToInitialState,
 	#superclass : #ToElementState,
-	#category : 'Toplo-Theme-State'
+	#category : #'Toplo-Theme-State'
 }
 
 { #category : #'look event sending' }
-ToInitialState >> applyOn: anElement [
+ToInitialState >> lookEventClass [
 
-	anElement dispatchLookEvent: ToInitialLookEvent new
+	^ ToInitialLookEvent
 ]

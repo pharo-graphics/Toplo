@@ -57,10 +57,16 @@ ToTooltipWindow >> defaultEventHandlerClass [
 ToTooltipWindow >> initialize [
 
 	super initialize.
+	self fitContent.
+	self addEventHandler: self defaultEventHandler 
+]
+
+{ #category : #initialization }
+ToTooltipWindow >> initializeRawStyle [
+
+	super initializeRawStyle.
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: 8).
 	self border: (BlBorder paint: (Color gray alpha: 0.4)).
 	self background: (Color yellow alpha: 0.2).
-	self padding: (BlInsets all: 4).
-	self fitContent.
-	self addEventHandler: self defaultEventHandler 
+	self padding: (BlInsets all: 4)
 ]

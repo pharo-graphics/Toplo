@@ -1,11 +1,11 @@
 Class {
 	#name : #ToInstallState,
 	#superclass : #ToElementState,
-	#category : 'Toplo-Theme-State'
+	#category : #'Toplo-Theme-State'
 }
 
 { #category : #'look event sending' }
-ToInstallState >> applyOn: anElement [
+ToInstallState >> lookEventClass [
 
-	anElement dispatchLookEvent: ToInstallLookEvent new
+	^ ToInstallLookEvent
 ]

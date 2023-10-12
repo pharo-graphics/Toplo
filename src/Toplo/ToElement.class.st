@@ -17,10 +17,6 @@ ToElement >> initialize [
 ]
 
 { #category : #initialization }
-ToElement >> initializeRawStyle [
-]
-
-{ #category : #initialization }
 ToElement >> initializeSkinInstallationPhaseChecker [
 
 	self addEventHandler: ToSpaceSkinInstallationPhaseCheckerEventHandler new

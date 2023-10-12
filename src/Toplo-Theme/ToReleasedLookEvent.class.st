@@ -1,11 +1,11 @@
 Class {
-	#name : #ToUninstallLookEvent,
+	#name : #ToReleasedLookEvent,
 	#superclass : #ToElementLookEvent,
 	#category : #'Toplo-Theme-Look-Event'
 }
 
 { #category : #sending }
-ToUninstallLookEvent >> sendTo: anObject [
+ToReleasedLookEvent >> sendTo: anObject [
 
-	anObject uninstallLookEvent: self
+	anObject releasedLookEvent: self
 ]

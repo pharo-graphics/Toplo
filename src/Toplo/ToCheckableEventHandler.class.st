@@ -13,11 +13,11 @@ ToCheckableEventHandler >> checkableCheckEvent: anEvent [
 		       ifNil: [ ToIndeterminateState new]
 		       ifNotNil: [ :v |
 			       v
-				       ifTrue: [ ToCheckedState new ]
-				       ifFalse: [ ToUncheckedState new ] ].
+				       ifTrue: [ ToCheckedState sourceEvent: anEvent ]
+				       ifFalse: [ ToUncheckedState sourceEvent: anEvent ] ].
 
 	target switchToSkinState: newState.
-	target dispatchLookEvent: ToClickedLookEvent new.		
+	target dispatchLookEvent: (ToClickedLookEvent sourceEvent: anEvent).		
 	
 ]
 
@@ -28,8 +28,8 @@ ToCheckableEventHandler >> eventsToHandle [
 ]
 
 { #category : #'state switching' }
-ToCheckableEventHandler >> switchToClickState [
+ToCheckableEventHandler >> switchToClickStateEvent: anEvent [
 
 	target switchToNextCheckState.
-	super switchToClickState
+	super switchToClickStateEvent: anEvent
 ]

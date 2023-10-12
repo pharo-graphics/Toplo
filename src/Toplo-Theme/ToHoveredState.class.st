@@ -1,11 +1,11 @@
 Class {
 	#name : #ToHoveredState,
 	#superclass : #ToElementState,
-	#category : 'Toplo-Theme-State'
+	#category : #'Toplo-Theme-State'
 }
 
 { #category : #'look event sending' }
-ToHoveredState >> applyOn: anElement [
+ToHoveredState >> lookEventClass [
 
-	anElement dispatchLookEvent: ToHoveredLookEvent new
+	^ ToHoveredLookEvent
 ]

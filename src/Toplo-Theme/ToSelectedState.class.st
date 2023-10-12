@@ -1,11 +1,11 @@
 Class {
 	#name : #ToSelectedState,
 	#superclass : #ToElementState,
-	#category : 'Toplo-Theme-State'
+	#category : #'Toplo-Theme-State'
 }
 
 { #category : #'look event sending' }
-ToSelectedState >> applyOn: anElement [
+ToSelectedState >> lookEventClass [
 
-	anElement dispatchLookEvent: ToSelectedLookEvent new
+	^ ToSelectedLookEvent
 ]

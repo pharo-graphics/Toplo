@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'look event sending' }
-ToCheckedState >> applyOn: anElement [
+ToCheckedState >> lookEventClass [
 
-	anElement dispatchLookEvent: ToCheckedLookEvent new
+	^ ToCheckedLookEvent
 ]

@@ -1,47 +1,43 @@
 Class {
-	#name : #ToDividerSkin,
+	#name : #ToGeneralButtonSkin,
 	#superclass : #ToRawSkin,
 	#instVars : [
 		'pressed'
 	],
-	#category : #'Toplo-Widget-Pane'
+	#category : #'Toplo-Widget-Button-Core'
 }
 
 { #category : #'event handling' }
-ToDividerSkin >> hoveredLookEvent: anEvent [
+ToGeneralButtonSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	pressed ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
-		e mouseCursor: e resizerCursor.
+		e mouseCursor: BlCursor hand.
 		e border: e hoveredBorder.
 		e background: e hoveredBackground ]
 ]
 
 { #category : #'event handling' }
-ToDividerSkin >> initialLookEvent: anEvent [
+ToGeneralButtonSkin >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
-	pressed ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
+		e mouseCursor: BlCursor default.
 		e border: e defaultBorder.
 		e background: e defaultBackground ]
 ]
 
 { #category : #'event handling' }
-ToDividerSkin >> installLookEvent: anEvent [
+ToGeneralButtonSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	pressed := false.
-	anEvent elementDo: [ :e |
-		e thickness: e defaultThickness.
-		e geometry: e defaultGeometry.
-		e margin: e defaultMargins.
-		e padding: e defaultPadding ]
+
 ]
 
 { #category : #'event handling' }
-ToDividerSkin >> pressedLookEvent: anEvent [
+ToGeneralButtonSkin >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
 	pressed := true.
@@ -51,7 +47,7 @@ ToDividerSkin >> pressedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToDividerSkin >> releasedLookEvent: anEvent [
+ToGeneralButtonSkin >> releasedLookEvent: anEvent [
 
 	super releasedLookEvent: anEvent.
 	pressed := false.

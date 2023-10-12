@@ -16,10 +16,8 @@ Class {
 { #category : #configurating }
 ToLabeledIcon >> beIconFirst [
 
-	(self hasStamp: #'icon-first') ifTrue: [ ^ self ].
-	self withStamp: #'icon-first'.
-	self layout direction: BlLayoutDirection leftToRight.
-	self withoutStamp: #'label-first'.
+	self isIconFirst ifTrue: [ ^ self ].
+	self leftToRight: true.
 	self updateSkin.
 	self requestLayout
 ]
@@ -27,10 +25,8 @@ ToLabeledIcon >> beIconFirst [
 { #category : #configurating }
 ToLabeledIcon >> beLabelFirst [
 
-	(self hasStamp: #'label-first') ifTrue: [ ^ self ].
-	self withoutStamp: #'icon-first'.
-	self layout direction: BlLayoutDirection rightToLeft.
-	self withStamp: #'label-first'.
+	self isLabelFirst ifTrue: [ ^ self ].
+	self leftToRight: false.
 	self updateSkin.
 	self requestLayout
 ]
@@ -58,12 +54,9 @@ ToLabeledIcon >> icon [
 ToLabeledIcon >> icon: anElement [
 
 	anElement = self icon ifTrue: [ ^ self ].
-	self icon ifNotNil: [ :s |
-		self icon removeFromParent.
-		s removeStyleStampNamed: #icon ].
+	self icon ifNotNil: [ :s | self icon removeFromParent ].
 	anElement ifNil: [ ^ self ].
 	self iconHolder addChild: anElement.
-	anElement withStamp: #icon.
 	icon := anElement
 ]
 
@@ -76,7 +69,7 @@ ToLabeledIcon >> iconFirst: aBoolean [
 ]
 
 { #category : #accessing }
-ToLabeledIcon >> iconHolder [ 
+ToLabeledIcon >> iconHolder [
 
 	^ iconHolder
 ]
@@ -92,23 +85,25 @@ ToLabeledIcon >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	self withStamp: #'labeled-icon'.
 	filler := ToElement new
-		          id: #filler;
-		          withStamp: #'labeled-icon-filler';
 		          size: 0 @ 0;
 		          yourself.
 	iconHolder := ToElement new
 		              fitContent;
 		              layout: BlFrameLayout new;
 		              yourself.
-	iconHolder id: #'icon-holder'.
 	self addChild: iconHolder.
 	self addChild: filler.
 	labelOffset := 0.
 	self beIconFirst.
 	self fitContent.
 
+]
+
+{ #category : #skin }
+ToLabeledIcon >> initializeRawStyle [ 
+
+	super initializeRawStyle
 ]
 
 { #category : #configurating }
@@ -126,15 +121,21 @@ ToLabeledIcon >> interspace: aPointOrSymbol [
 ]
 
 { #category : #testing }
-ToLabeledIcon >> isIconFirst [
+ToLabeledIcon >> isFlexible [
 
-	^ self hasStamp: #'icon-first'
+	^ self filler constraints horizontal resizer isExact not
 ]
 
-{ #category : #configurating }
+{ #category : #testing }
+ToLabeledIcon >> isIconFirst [
+
+	^ self isLeftToRight
+]
+
+{ #category : #testing }
 ToLabeledIcon >> isLabelFirst [
 
-	^ self hasStamp: #'label-first'
+	^ self isIconFirst not
 ]
 
 { #category : #accessing }
@@ -147,10 +148,9 @@ ToLabeledIcon >> label [
 ToLabeledIcon >> label: anElement [
 
 	anElement = self label ifTrue: [ ^ self ].
-	self label ifNotNil: [ :s | self label removeFromParent. s removeStyleStampNamed: #'label'].
+	self label ifNotNil: [ :s | self label removeFromParent].
 	anElement ifNil: [ ^ self ].
 	self addChild: anElement after: filler.
-	anElement withStamp: #'label'.
 	label := anElement
 	
 ]

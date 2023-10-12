@@ -61,7 +61,7 @@ ToTooltipWindow >> initialize [
 	self addEventHandler: self defaultEventHandler 
 ]
 
-{ #category : #initialization }
+{ #category : #skin }
 ToTooltipWindow >> initializeRawStyle [
 
 	super initializeRawStyle.

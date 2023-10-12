@@ -1492,9 +1492,7 @@ ToSandBox class >> example_ToButtonWithDefaultSkin0 [
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 
 	button1 := ToButton new.
-	"button1 addStyleClass: #primary."
-	"button1 addStyleClass: #danger."
-	button1 label: (ToLabel text: 'Primary button').
+	button1 label: (ToLabel text: 'Default raw button').
 	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
 
 	space root addChild: pane.
@@ -2181,11 +2179,10 @@ ToSandBox class >> example_toAlbumAsButton [
 	but := ToAlbum new
 		       text: 'Hello world';
 		       preventChildrenMouseEvents.
-	but addEventHandler: (ToSkinnableEventHandler new target: but).
 	but
 		when: BlPrimaryClickEvent
 		do: [ self inform: 'Click' ].
-	but background: Color blue.
+"	but background: Color blue."
 	but size: 300 @ 100.
 	but openInSpace
 ]
@@ -2204,12 +2201,11 @@ ToSandBox class >> example_toBasicButton1 [
 
 	| but |
 	but := ToGeneralButton new.
-	but addEventHandler: (ToSkinnableEventHandler new target: but).
 	but addChild: (BlElement new
 			 size: 30 @ 30;
 			 yourself).
-	but fitContent.
 	but whenClickedDo: [ self inform: 'clicked' ].
+	but background: (Color blue alpha: 0.3).
 	but openInSpace
 ]
 

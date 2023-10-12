@@ -5,3 +5,10 @@ ToButton >> defaultBeeStyleStamps [
 
 	^ { #button }
 ]
+
+{ #category : #'*Toplo-Theme-Bee' }
+ToButton >> initializeBeeStyle [ 
+
+	super initializeBeeStyle.
+	self withStamp: #button
+]

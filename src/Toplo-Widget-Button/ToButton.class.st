@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'#labeledIcon => ToSkinnableSlot'
 	],
-	#category : #'Toplo-Widget-Button-BasicButton'
+	#category : #'Toplo-Widget-Button-Core'
 }
 
 { #category : #initialization }
@@ -19,10 +19,18 @@ ToButton >> defaultLayout [
 ToButton >> initialize [
 
 	super initialize.
-	self withStamp: #button.
 	labeledIcon := ToLabeledIcon new.
 	self addChild: labeledIcon.
 	self fitContent
+]
+
+{ #category : #skin }
+ToButton >> initializeRawStyle [ 
+
+	super initializeRawStyle.
+	((self label notNil) and: [ self icon notNil ])
+		ifTrue: [ self interspace: 10 ]
+
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
@@ -37,4 +45,10 @@ ToButton >> layoutStrategy [
 	^ self innerElement layout
 
 	
+]
+
+{ #category : #skin }
+ToButton >> rawSkin [
+
+	^ ToButtonSkin new
 ]

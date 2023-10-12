@@ -114,7 +114,7 @@ ToDivider >> initialize [
 	self addEventHandler: self defaultEventHandler 
 ]
 
-{ #category : #initialization }
+{ #category : #skin }
 ToDivider >> initializeRawStyle [ 
 
 	super initializeRawStyle.

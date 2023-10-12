@@ -164,7 +164,7 @@ ToInnerWindow >> initialize [
 
 ]
 
-{ #category : #initialization }
+{ #category : #skin }
 ToInnerWindow >> initializeRawStyle [
 
 	super initializeRawStyle.

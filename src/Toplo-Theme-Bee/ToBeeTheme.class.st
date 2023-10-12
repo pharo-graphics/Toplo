@@ -310,3 +310,9 @@ ToBeeTheme >> initialize [
 	super initialize.
 	self styleSheet: self defaultStyleSheet 
 ]
+
+{ #category : #accessing }
+ToBeeTheme >> skinBuilder [ 
+
+	^ ToBeeSkinBuilder new
+]

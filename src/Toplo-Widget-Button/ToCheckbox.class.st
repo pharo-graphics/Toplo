@@ -11,9 +11,3 @@ ToCheckbox >> defaultEventHandler [
 
 	^ ToCheckableEventHandler new 
 ]
-
-{ #category : #'t - skinable - initialization' }
-ToCheckbox >> defaultStyleStamps [
-
-	^ #( #button #checkable #checkbox)
-]

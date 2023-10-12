@@ -6,12 +6,6 @@ Class {
 	#category : #'Toplo-Widget-Button-Toggle'
 }
 
-{ #category : #'t - skinable - initialization' }
-ToToggleButton >> defaultStyleStamps [
-
-	^ #( #button. #'toggle-button' )
-]
-
 { #category : #'as yet unclassified' }
 ToToggleButton >> initialize [ 
 

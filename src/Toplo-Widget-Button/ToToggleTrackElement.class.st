@@ -21,12 +21,6 @@ ToToggleTrackElement >> checked: aBoolean [
 	self switchBar checked: aBoolean
 ]
 
-{ #category : #'t - skinable - initialization' }
-ToToggleTrackElement >> defaultStyleStamps [
-
-	^ #( #'toggle-track' )
-]
-
 { #category : #sliding }
 ToToggleTrackElement >> deltaToLeft [
 	

@@ -15,12 +15,6 @@ ToButton >> defaultLayout [
 	^ BlLinearLayout vertical
 ]
 
-{ #category : #'t - skinable - initialization' }
-ToButton >> defaultStyleStamps [
-
-	^ { #button }
-]
-
 { #category : #initialization }
 ToButton >> initialize [
 

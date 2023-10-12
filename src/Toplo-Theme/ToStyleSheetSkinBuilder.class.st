@@ -21,12 +21,18 @@ ToStyleSheetSkinBuilder >> rootRulesFor: anElement [
 ]
 
 { #category : #'skin building' }
+ToStyleSheetSkinBuilder >> skinClassFor: anElement [
+
+	^ ToStyleSheetSkin
+]
+
+{ #category : #'skin building' }
 ToStyleSheetSkinBuilder >> skinFor: anElement [
 
 	^ (self writersFor: anElement)
 		  ifEmpty: [ ToRawSkin new ]
 		  ifNotEmpty: [ :writers |
-			  ToStyleSheetSkin new
+			  (self skinClassFor: anElement) new
 				  writers: writers;
 				  yourself ]
 ]

@@ -50,12 +50,6 @@ ToPane >> defaultLayout [
 	^ BlLinearLayout new 
 ]
 
-{ #category : #'t - skinable - initialization' }
-ToPane >> defaultStyleStamps [
-
-	^ #( #pane )
-]
-
 { #category : #'t - element with layers - accessing' }
 ToPane >> layerReferentElement [
 

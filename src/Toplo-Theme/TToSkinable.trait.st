@@ -3,18 +3,6 @@ Trait {
 	#category : #'Toplo-Theme-Skin'
 }
 
-{ #category : #'t - skinable - initialization' }
-TToSkinable >> defaultStyleStamps [
-
-	^ self explicitRequirement 
-]
-
-{ #category : #'t - skinable - initialization' }
-TToSkinable >> initializeSkin [
-
-	self withAllStamps: self defaultStyleStamps
-]
-
 { #category : #'t - skinable - install/uninstall  hook' }
 TToSkinable >> launchSkinInstallation [
 

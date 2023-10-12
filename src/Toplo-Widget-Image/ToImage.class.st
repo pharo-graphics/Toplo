@@ -27,12 +27,6 @@ ToImage >> defaultLayout [
 	^ BlLinearLayout horizontal
 ]
 
-{ #category : #'t - skinable - initialization' }
-ToImage >> defaultStyleStamps [ 
-
-	^ #( #image )
-]
-
 { #category : #'form accessing' }
 ToImage >> errorInnerFormNotFound [
 	"Raise a NotFound exception."

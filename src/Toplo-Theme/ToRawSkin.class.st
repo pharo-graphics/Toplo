@@ -7,5 +7,5 @@ Class {
 { #category : #'api - install/uninstall  hook' }
 ToRawSkin >> onSkinInstalledIn: anElement [
 
-	anElement rawStyleInitialize
+	anElement initializeRawStyle
 ]

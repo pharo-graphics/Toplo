@@ -49,7 +49,7 @@ ToStyleSheetTest >> testButtonLabelSkin0 [
 	button styleSheet: ss.
 	label := (ToLabel text: 'Default') defaultSkin: nil.
 	button label: label.
-	labelSkin := ToSkin new.
+	labelSkin := ToStyleSheetSkin new.
 	self assert: (button hasStamp: #danger) not.
 	self assert: (button label hasStamp: #'button-label').
 	writers := ssi writersFor: button label.
@@ -152,7 +152,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 	button styleSheet: ss.
 	writers := ssi writersFor: button.
 	self assert: writers size equals: 6.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	skin writers: writers.
 	button withSkin: nil.
 	self assert: button privateSkin isNil.
@@ -168,7 +168,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 	label defaultSkin: nil.
 	label withSkin: nil.
 	button label: label.
-	labelSkin := ToSkin new.
+	labelSkin := ToStyleSheetSkin new.
 	writers := ssi writersFor: button label.
 	self assert: writers isEmpty.
 	button label withStamp: #'button-label'.
@@ -223,7 +223,7 @@ ToStyleSheetTest >> testButtonSkinWithInterspace [
 	elem withStamp: #button.
 	writers := ssi writersFor: elem.
 	self assert: writers size equals: 2.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	skin writers: writers.
 	elem withSkin: skin.
 	elem checkSkinInstallation.
@@ -290,7 +290,7 @@ ToStyleSheetTest >> testSkinWithAnUniversalRule [
 	elem styleSheet: ss.
 	writers := ssi writersFor: elem.
 	self assert: writers size equals: 1.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	skin writers: writers.
 	elem withSkin: skin.
 	elem checkSkinInstallation.
@@ -321,7 +321,7 @@ ToStyleSheetTest >> testSkinWithChildRule [
 	parent addChild: child.
 	writers := ssi writersFor: child.
 	self assert: writers size equals: 1.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	skin writers: writers.
 	child withSkin: skin.
 	parent checkSkinInstallation.
@@ -357,7 +357,7 @@ ToStyleSheetTest >> testSkinWithChildRuleLevel2 [
 	subParent addChild: child.
 	writers := ssi writersFor: child.
 	self assert: writers size equals: 1.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	skin writers: writers.
 	child withSkin: skin.
 	parent checkSkinInstallation.
@@ -384,7 +384,7 @@ ToStyleSheetTest >> testSkinWithIdRule [
 	elem id: #a.
 	writers := ssi writersFor: elem.
 	self assert: writers size equals: 1.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	skin writers: writers.
 	elem withSkin: skin.
 	elem checkSkinInstallation.
@@ -420,7 +420,7 @@ ToStyleSheetTest >> testStyleSheetStyle0 [
 	button withStamp: #button.
 	writers := ssi writersFor: button.
 	self assert: writers size equals: 3.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	skin writers: writers.
 	button withSkin: skin.
 
@@ -466,7 +466,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules0 [
 	button withStamp: #button.
 	writers := ssi writersFor: button.
 	self assert: writers size equals: 3.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	skin writers: writers.
 	button withSkin: skin.
 
@@ -531,7 +531,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules1 [
 	
 	writers := ssi writersFor: child.
 	self assert: writers size equals: 1.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	skin writers: writers.
 	child withSkin: skin.
 
@@ -578,7 +578,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules2 [
 
 	writers := ssi writersFor: child.
 	self assert: writers size equals: 1.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	skin writers: writers.
 	child withSkin: skin.
 
@@ -626,7 +626,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules22 [
 
 	writers := ssi writersFor: child.
 	self assert: writers size equals: 1.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	skin writers: writers.
 	child withSkin: skin.
 
@@ -675,7 +675,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules3 [
 
 	writers := ssi writersFor: child.
 	self assert: writers size equals: 1.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	skin writers: writers.
 	child withSkin: skin.
 
@@ -730,7 +730,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules32 [
 
 	writers := ssi writersFor: child.
 	self assert: writers size equals: 1.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	skin writers: writers.
 	child withSkin: skin.
 
@@ -776,7 +776,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules33 [
 
 	writers := ssi writersFor: child.
 	self assert: writers size equals: 1.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	skin writers: writers.
 	child withSkin: skin.
 
@@ -814,7 +814,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules1 [
 	ss addAllStyleRules: rules.
 	writers := ssi writersFor: child.
 	self assert: writers size equals: 1.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	skin writers: writers.
 	child withSkin: skin.
 
@@ -853,7 +853,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules2 [
 
 	writers := ssi writersFor: child.
 	self assert: writers size equals: 1.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	skin writers: writers.
 	child withSkin: skin.
 
@@ -895,7 +895,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules3 [
 
 	writers := ssi writersFor: child.
 	self assert: writers size equals: 1.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	skin writers: writers.
 	child withSkin: skin.
 

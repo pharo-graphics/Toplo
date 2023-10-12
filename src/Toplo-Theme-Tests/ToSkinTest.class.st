@@ -26,7 +26,7 @@ ToSkinTest >> testPropertyWriterOrderMatter [
 	| w skin layoutDirectionProp layoutProp layoutWriter directionWriter |
 	w := ToElement new.
 	w layout: BlBasicLayout new.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	layoutDirectionProp := self writablePropertyIndex propertyNamed: #'layout-direction'.
 	layoutProp := self writablePropertyIndex propertyNamed: #layout.
 	directionWriter := ToPropertyWriter new
@@ -66,7 +66,7 @@ ToSkinTest >> testSupplementWriter [
 
 	| w skin backgroundProp borderProp borderBuilder |
 	w := ToElement new.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	borderBuilder := BlBorderBuilder new.
 	backgroundProp := self writablePropertyIndex propertyNamed: #background.
 	borderProp := self writablePropertyIndex propertyNamed: #border.
@@ -112,7 +112,7 @@ ToSkinTest >> testWithAnimationOn2EventClasses [
 
 	| w skin prop animation |
 	w := ToElement new.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	animation := ToPropertyColorTransitionAnimation new.
 	prop := self writablePropertyIndex propertyNamed: #'background-color'.
 
@@ -156,7 +156,7 @@ ToSkinTest >> testWithNoWriter [
 
 	| w skin paint |
 	w := ToElement new.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	w withSkin: skin.
 	paint := w background paint.
 	w switchToSkinState: ToInstallState new.
@@ -168,7 +168,7 @@ ToSkinTest >> testWithOneWriter [
 
 	| w skin prop propWriter |
 	w := ToElement new.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	prop := self writablePropertyIndex propertyNamed: #background.
 	propWriter := ToPropertyWriter new
 		              property: prop;
@@ -185,7 +185,7 @@ ToSkinTest >> testWithTwoWriters [
 
 	| w skin backgroundProp borderProp |
 	w := ToElement new.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	backgroundProp := self writablePropertyIndex propertyNamed: #background.
 	borderProp := self writablePropertyIndex propertyNamed: #border.
 	skin writers: {
@@ -208,7 +208,7 @@ ToSkinTest >> testWithTwoWritersTwoEventClasses [
 
 	| w skin backgroundProp borderProp |
 	w := ToElement new.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	backgroundProp := self writablePropertyIndex propertyNamed: #background.
 	borderProp := self writablePropertyIndex propertyNamed: #border.
 	skin writers: {

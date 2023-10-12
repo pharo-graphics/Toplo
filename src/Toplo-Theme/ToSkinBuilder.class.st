@@ -25,7 +25,7 @@ ToSkinBuilder >> skinFor: anElement [
 
 	| writers skin |
 	writers := self writersFor: anElement.
-	skin := ToSkin new.
+	skin := ToStyleSheetSkin new.
 	skin writers: writers.
 	^ skin
 ]

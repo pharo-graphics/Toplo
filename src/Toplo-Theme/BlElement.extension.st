@@ -2,8 +2,8 @@ Extension { #name : #BlElement }
 
 { #category : #'*Toplo-Theme' }
 BlElement >> defaultSkin [
-
-	^  self userData at: #defaultSkin ifAbsent: [self skinBuilder skinFor: self]
+self traceCr.
+	^  self skinBuilder skinFor: self
 ]
 
 { #category : #'*Toplo-Theme' }

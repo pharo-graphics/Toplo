@@ -1,34 +1,30 @@
 Class {
 	#name : #ToLabeledNode,
 	#superclass : #ToNode,
-	#traits : 'TToTriplet + TToLabeledIcon + TToOrientable',
-	#classTraits : 'TToTriplet classTrait + TToLabeledIcon classTrait + TToOrientable classTrait',
+	#traits : 'TToElementWithLabeledIcon',
+	#classTraits : 'TToElementWithLabeledIcon classTrait',
 	#instVars : [
-		'#icon => ToSkinnableSlot',
-		'#label => ToSkinnableSlot',
-		'#extra => ToSkinnableSlot'
+		'#labeledIcon => ToSkinnableSlot'
 	],
 	#category : #'Toplo-Widget-List-node'
 }
-
-{ #category : #'t - triplet - accessing' }
-ToLabeledNode >> first [
-
-	^ icon
-]
-
-{ #category : #'t - triplet - accessing' }
-ToLabeledNode >> first: anElement [
-
-	icon := anElement
-]
 
 { #category : #initialization }
 ToLabeledNode >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	self initializeTriplet
+	self withStamp: #button.
+	self layout: self defaultLayout.
+	labeledIcon := ToLabeledIcon new.
+	self addChild: labeledIcon.
+	self fitContent
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+ToLabeledNode >> labeledIcon [ 
+
+	^ labeledIcon 
 ]
 
 { #category : #'t - orientable - accessing' }
@@ -47,29 +43,4 @@ ToLabeledNode >> privateBeEditable [
 ToLabeledNode >> privateBeReadOnly [ 
 
 	self label ifNotNil: [ :l | l beReadOnly ]
-]
-
-{ #category : #'t - triplet - accessing' }
-ToLabeledNode >> second [
-
-	^ label
-]
-
-{ #category : #'t - triplet - accessing' }
-ToLabeledNode >> second: anElement [
-
-	label := anElement
-]
-
-{ #category : #'t - triplet - accessing' }
-ToLabeledNode >> third [
-
-	^ extra
-]
-
-{ #category : #'t - triplet - accessing' }
-ToLabeledNode >> third: anElement [
-
-	extra := anElement
-
 ]

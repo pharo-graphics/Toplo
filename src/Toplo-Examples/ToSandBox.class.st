@@ -1276,11 +1276,9 @@ ToSandBox class >> example_ToButtonSkins [
 
 	enablementSwitcher := ToToggleButton new.
 	enablementSwitcher switchBarOnElement:
-		((ToLabel text: 'Enabled') withSkin:
-			 (ToLabelSkin new type: ToLabelPrimaryType new)).
+		((ToLabel text: 'Enabled')).
 	enablementSwitcher switchBarOffElement:
-		((ToLabel text: 'Disabled') withSkin:
-			 (ToLabelSkin new type: ToLabelPrimaryType new)).
+		((ToLabel text: 'Disabled')).
 	enablementSwitcher check.
 	enablementSwitcher
 		when: ToCheckableCheckedEvent
@@ -1293,11 +1291,11 @@ ToSandBox class >> example_ToButtonSkins [
 	 
 	sizingGroup := ToCheckableGroup new.
 	smallSizingRadio := ToRadioButton new labelText: 'Small'.
-	smallSizingRadio userData at: #sizing put: ToSmallSizing new.
+	smallSizingRadio userData at: #sizing put: #'small-sizing'.
 	middleSizingRadio := ToRadioButton new labelText: 'Middle'.
-	middleSizingRadio userData at: #sizing put: ToMiddleSizing new.
+	middleSizingRadio userData at: #sizing put: #'middle-sizing'.
 	largeSizingRadio := ToRadioButton new labelText: 'Large'.
-	largeSizingRadio userData at: #sizing put: ToLargeSizing new.
+	largeSizingRadio userData at: #sizing put: #'large-sizing'.
 	middleSizingRadio checked: true.
 	sizingGroup addAll: {
 			smallSizingRadio.
@@ -1319,11 +1317,11 @@ ToSandBox class >> example_ToButtonSkins [
 
 	shapingGroup := ToCheckableGroup new.
 	circleShapingRadio := ToRadioButton new labelText: 'Circle'.
-	circleShapingRadio userData at: #shaping put: ToCircleShaping new.
+	circleShapingRadio userData at: #shaping put: #circle.
 	defaultShapingRadio := ToRadioButton new labelText: 'Default shape'.
-	defaultShapingRadio userData at: #shaping put: ToRectangleShaping new.
+	defaultShapingRadio userData at: #shaping put: #'default-shaping'.
 	roundShapingRadio := ToRadioButton new labelText: 'Round'.
-	roundShapingRadio userData at: #shaping put: ToRoundShaping new.
+	roundShapingRadio userData at: #shaping put: #'round'.
 	defaultShapingRadio checked: true.
 	shapingGroup addAll: {
 			circleShapingRadio.
@@ -1375,21 +1373,19 @@ ToSandBox class >> example_ToButtonSkins [
 	                      {
 		                      {
 			                      'Primary'.
-			                      ToButtonSkin primaryType }.
+			                      #primary }.
 		                      {
 			                      'Default'.
-			                      ToButtonSkin defaultType }.
+			                      #default }.
 		                      {
 			                      'Dashed'.
-			                      (ToButtonSkin new
-				                       dashed: true;
-				                       yourself) }.
+			                      #dashed }.
 		                      {
 			                      'Text'.
-			                      ToButtonSkin textType }.
+			                      #text }.
 		                      {
 			                      'Link'.
-			                      ToButtonSkin linkType } } ].
+			                      #link } } ].
 
 	" Line 1 "
 	pane := ToPane horizontal.
@@ -1397,9 +1393,9 @@ ToSandBox class >> example_ToButtonSkins [
 
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
-		but := ToButtonDep new.
+		but := ToButton new.
 		allButtons add: but.
-		arr second ifNotNil: [ :skin | but withSkin: skin ].
+		arr second ifNotNil: [ :s | but withStamp: s ].
 		but labelText: arr first.
 		pane addChild: but ].
 
@@ -1411,9 +1407,9 @@ ToSandBox class >> example_ToButtonSkins [
 
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
-		but := ToButtonDep new.
+		but := ToButton new.
 		allButtons add: but.
-		arr second ifNotNil: [ :skin | but withSkin: skin ].
+		arr second ifNotNil: [ :s | but withStamp: s ].
 		but labelText: arr first.
 		but icon: butBuilder value.
 		pane addChild: but ].
@@ -1426,9 +1422,9 @@ ToSandBox class >> example_ToButtonSkins [
 
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
-		but := ToButtonDep new.
+		but := ToButton new.
 		allButtons add: but.
-		arr second ifNotNil: [ :skin | but withSkin: skin ].
+		arr second ifNotNil: [ :s | but withStamp: s ].
 		but icon: butBuilder value.
 		pane addChild: but ].
 
@@ -1440,12 +1436,9 @@ ToSandBox class >> example_ToButtonSkins [
 
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
-		but := ToButtonDep new.
+		but := ToButton new.
 		allButtons add: but.
-		arr second ifNotNil: [ :skin |
-			but withSkin: (skin
-					 danger: true;
-					 yourself) ].
+		arr second ifNotNil: [ :s | but withStamp: s ].
 		but labelText: arr first.
 		pane addChild: but ].
 
@@ -1457,12 +1450,9 @@ ToSandBox class >> example_ToButtonSkins [
 
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
-		but := ToButtonDep new.
+		but := ToButton new.
 		allButtons add: but.
-		arr second ifNotNil: [ :skin |
-			but withSkin: (skin
-					 danger: true;
-					 yourself) ].
+		arr second ifNotNil: [ :s | but withStamp: s ].
 		but labelText: arr first.
 		but icon: butBuilder value.
 		pane addChild: but ].
@@ -1475,12 +1465,9 @@ ToSandBox class >> example_ToButtonSkins [
 
 	buttonSpecsBuilder value do: [ :arr |
 		| but |
-		but := ToButtonDep new.
+		but := ToButton new.
 		allButtons add: but.
-		arr second ifNotNil: [ :skin |
-			but withSkin: (skin
-					 danger: true;
-					 yourself) ].
+		arr second ifNotNil: [ :s | but withStamp: s ].
 		but icon: butBuilder value.
 		pane addChild: but ].
 
@@ -1489,280 +1476,6 @@ ToSandBox class >> example_ToButtonSkins [
 	space show.
 
 	^ space
-]
-
-{ #category : #'button-dep' }
-ToSandBox class >> example_ToButtonSkinsOnOneButton [
-
-	| space pane themeSwitcher butBuilder buttonSpecsBuilder enablementSwitcher allButtons sizingGroup smallSizingRadio middleSizingRadio largeSizingRadio shapingGroup circleShapingRadio defaultShapingRadio roundShapingRadio topBar buttonBar directionSwitcher orientationSwitcher |
-	space := BlSpace new.
-	allButtons := OrderedCollection new.
-
-	space root layout: (BlLinearLayout vertical cellSpacing: 10).
-	topBar := ToMenuBar new beHorizontal; hMatchParent; vFitContent.
-	topBar layout cellSpacing: 10.
-
-	themeSwitcher := ToSelect new.
-	themeSwitcher width: 150.
-	themeSwitcher data addAll: {
-			ToDefaultThemeLight.
-			ToDefaultThemeDark }.
-
-	themeSwitcher whenSelectedIndexChangedDo: [
-		space toTheme: themeSwitcher selectedData new ].
-	themeSwitcher selectData: space toTheme class.
-	topBar addChild: themeSwitcher.
-
-	enablementSwitcher := ToToggleButton new.
-	enablementSwitcher switchBarOnElement:
-		((ToLabel text: 'Enabled') withSkin:
-			 (ToLabelSkin new type: ToLabelPrimaryType new)).
-	enablementSwitcher switchBarOffElement:
-		((ToLabel text: 'Disabled') withSkin:
-			 (ToLabelSkin new type: ToLabelPrimaryType new)).
-	enablementSwitcher check.
-	enablementSwitcher
-		when: ToCheckableCheckedEvent
-		do: [ :event |
-		allButtons do: [ :b | b enabled: event target isChecked ] ].
-
-	topBar addChild: enablementSwitcher.
-
-	buttonBar := ToPane vertical vFitContent.
-	 
-	sizingGroup := ToCheckableGroup new.
-	smallSizingRadio := ToRadioButton new labelText: 'Small'.
-	smallSizingRadio userData at: #sizing put: ToSmallSizing new.
-	middleSizingRadio := ToRadioButton new labelText: 'Middle'.
-	middleSizingRadio userData at: #sizing put: ToMiddleSizing new.
-	largeSizingRadio := ToRadioButton new labelText: 'Large'.
-	largeSizingRadio userData at: #sizing put: ToLargeSizing new.
-	middleSizingRadio checked: true.
-	sizingGroup addAll: {
-			smallSizingRadio.
-			middleSizingRadio.
-			largeSizingRadio }.
-	sizingGroup when: ToCheckableGroupChangedEvent do: [ :event |
-		| choice sizing |
-		choice := event checkedButtons anyOne.
-		sizing := choice userData at: #sizing.
-		allButtons do: [ :but | but sizing: sizing ] ].
-
-	buttonBar addChildren: {
-			smallSizingRadio.
-			middleSizingRadio.
-			largeSizingRadio }.
-	topBar addChild: buttonBar.
-	
-	buttonBar := ToPane vertical vFitContent.
-
-	shapingGroup := ToCheckableGroup new.
-	circleShapingRadio := ToRadioButton new labelText: 'Circle'.
-	circleShapingRadio userData at: #shaping put: ToCircleShaping new.
-	defaultShapingRadio := ToRadioButton new labelText: 'Default shape'.
-	defaultShapingRadio userData at: #shaping put: ToRectangleShaping new.
-	roundShapingRadio := ToRadioButton new labelText: 'Round'.
-	roundShapingRadio userData at: #shaping put: ToRoundShaping new.
-	defaultShapingRadio checked: true.
-	shapingGroup addAll: {
-			circleShapingRadio.
-			defaultShapingRadio.
-			roundShapingRadio }.
-	shapingGroup when: ToCheckableGroupChangedEvent do: [ :event |
-		| choice shaping |
-		choice := event checkedButtons anyOne.
-		shaping := choice userData at: #shaping.
-		allButtons do: [ :but | but shaping: shaping ] ].
-
-	buttonBar addChildren: {
-			circleShapingRadio.
-			defaultShapingRadio.
-			roundShapingRadio }.
-	
-	topBar addChild: buttonBar.
-	
-	directionSwitcher := ToToggleButton new labelText: 'Icon first'; beLabelFirst; yourself.
-	directionSwitcher check.
-	directionSwitcher
-		when: ToCheckableCheckedEvent
-		do: [ :event | allButtons do: [ :b | b iconFirst: event target isChecked ] ].
-	topBar addChild: directionSwitcher.
-	
-	orientationSwitcher := ToToggleButton new labelText: 'Horizontal'; beLabelFirst; yourself.
-	orientationSwitcher check.
-	orientationSwitcher
-		when: ToCheckableCheckedEvent
-		do: [ :event | allButtons do: [ :b | b horizontal: event target isChecked ] ].
-	topBar addChild: orientationSwitcher.
-	
-	topBar childrenDo: [ :child |
-		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
-
-	circleShapingRadio 
-		when: ToCheckableCheckedEvent 
-		do: [ :event | 
-			event current 
-				ifTrue: [ directionSwitcher enabled: false. orientationSwitcher  enabled: false] 
-				ifFalse: [ directionSwitcher enabled: true. orientationSwitcher  enabled: true ] ].	
-
-	space root addChild: topBar.
-
-	butBuilder := [
-	              ToImage new innerImage:
-		              ToThemeIcons iconSearchOutlined16x16 ].
-	buttonSpecsBuilder := [
-	                      {
-		                      {
-			                      'Default'.
-			                      ToButtonSkin defaultType } } ].
-
-	" line 2 "
-	pane := ToPane horizontal.
-	pane layout: (BlLinearLayout horizontal cellSpacing: 10).
-
-	buttonSpecsBuilder value do: [ :arr |
-		| but |
-		but := ToButtonDep new.
-		allButtons add: but.
-		arr second ifNotNil: [ :skin | but withSkin: skin ].
-		but labelText: arr first.
-		but icon: butBuilder value.
-		pane addChild: but ].
-
-	space root addChild: pane.
-
-	space show.
-
-	^ space
-]
-
-{ #category : #'button-dep' }
-ToSandBox class >> example_ToButtonWithDashedSkin [
-
-	| space button1 |
-	space := BlSpace new.
-
-	button1 := ToButtonDep new 
-		           withSkin: (ToButtonSkin new
-				            dashed: true;
-				            yourself);
-		           yourself.
-
-	button1 labelText: 'Dashed button'.
-	button1 icon: (ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16).
-	button1 justified: true.
-	button1 hMatchParent.
-	"button1 innerElement hMatchParent."
-
-
-	
-	button1 beLabelFirst.
-	"button1 beVertical."
-
-	space root addChild: button1.
-
-	button1 labelText: 'Dashed button **'.
-
-	space show.
-
-	^ space
-]
-
-{ #category : #'button-dep' }
-ToSandBox class >> example_ToButtonWithDefaultDangerDashedSkin [
-
-
-	| space button1 |
-	
-	space := BlSpace new.
-
-	button1 := ToButtonDep new withSkin: (ToButtonSkin new danger: true; dashed: true; yourself).
-	button1 label: (ToLabel text: 'Default danger button').
-	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-	space root addChild: button1.	
-	space root when: BlElementAddedToSceneGraphEvent do: [  
-		button1 labelText: 'Default danger button 3'.
-		button1 iconImage: (ToThemeIcons iconSearchOutlined16x16) ].
-	"button1 inspect."
-	space show.
-]
-
-{ #category : #'button-dep' }
-ToSandBox class >> example_ToButtonWithDefaultDangerSkin [
-
-
-	| space button1 |
-	
-	space := BlSpace new.
-
-	button1 := ToButtonDep new withSkin: (ToButtonSkin new danger: true; yourself).
-	button1 label: (ToLabel text: 'Default danger button').
-	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-	space root addChild: button1.	
-	space root when: BlElementAddedToSceneGraphEvent do: [  
-		button1 labelText: 'Default danger button 3'.
-		button1 iconImage: (ToThemeIcons iconSearchOutlined16x16) ].
-	"button1 inspect."
-	space show.
-]
-
-{ #category : #'button-dep' }
-ToSandBox class >> example_ToButtonWithDefaultSkin [
-
-
-	| space button1 themeSwitcher skinSwitcher pane enablementSwitcher |
-	
-	space := BlSpace new.
-	pane := ToPane horizontal.
-	pane layout cellSpacing: 10.
-	space root layout: (BlLinearLayout vertical cellSpacing: 10).
-
-	button1 := ToButtonDep new withSkin: (ToButtonSkin new type: ToButtonDefaultType new).
-	button1 label: (ToLabel text: 'Primary button').
-	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-	space root when: BlElementAddedToSceneGraphEvent do: [  
-		button1 labelText: 'Primary button 3'.
-		button1 iconImage: (ToThemeIcons iconSearchOutlined16x16) ].
-
-	skinSwitcher := ToSelect new.
-	skinSwitcher data addAll: { ToButtonDefaultType. ToButtonLinkType. ToButtonPrimaryType. ToButtonTextType }.
-			
-	skinSwitcher whenSelectedIndexChangedDo: [ 
-		button1 skinDo: [ :s | s changeTypeWith: skinSwitcher selectedData new in: button1 ] ].
-	skinSwitcher selectData: button1 privateSkin type class.
-	
-	themeSwitcher := ToSelect new.
-	themeSwitcher data addAll: { ToDefaultThemeLight. ToDefaultThemeDark }.
-			
-	themeSwitcher whenSelectedIndexChangedDo: [ space toTheme: themeSwitcher selectedData new ].
-	themeSwitcher selectData: space toTheme class.
-	
-	enablementSwitcher := ToToggleButton new.
-	enablementSwitcher switchBarOnElement:
-		((ToLabel text: 'Enabled') withSkin:
-			 (ToLabelSkin new type: ToLabelPrimaryType new)).
-	enablementSwitcher switchBarOffElement:
-		((ToLabel text: 'Disabled') withSkin:
-			 (ToLabelSkin new type: ToLabelPrimaryType new)).
-	enablementSwitcher check.
-	enablementSwitcher 
-		when: ToCheckableCheckedEvent 
-		do: [ :event | button1 enabled: event target isChecked  ].
-	enablementSwitcher constraintsDo: [ :c |
-		c linear vertical alignCenter ].
-
-
-	pane addChild: themeSwitcher.
-	pane addChild: skinSwitcher.
-	pane addChild: enablementSwitcher.
-	
-	pane childrenDo: [ :child | child constraintsDo: [ :c |
-		c linear vertical alignCenter ] ].
-
-	space root addChild: pane.
-	space root addChild: button1.
-
-	space show.
 ]
 
 { #category : #'button-dep' }
@@ -1786,56 +1499,6 @@ ToSandBox class >> example_ToButtonWithDefaultSkin0 [
 	space root addChild: button1.
 
 	space show.
-]
-
-{ #category : #'button-dep' }
-ToSandBox class >> example_ToButtonWithPrimarySkin [
-
-
-	| space button1 |
-	
-	space := BlSpace new.
-	button1 := ToButtonDep new withSkin: (ToButtonSkin new type: ToButtonPrimaryType new).
-	button1 label: (ToLabel text: 'Primary button').
-	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).
-	space root addChild: button1.	
-	space root when: BlElementAddedToSceneGraphEvent do: [  
-		button1 labelText: 'Primary button 3'.
-		button1 icon: (ToImage inner: (ToThemeIcons iconSearchOutlined16x16)) ].
-	space show.
-	
-]
-
-{ #category : #'button-dep' }
-ToSandBox class >> example_ToButtonWithPrimarySkin2 [
-
-	| space button1 |
-	space := BlSpace new.
-
-	button1 := ToButtonDep new
-		           withSkin: (ToButtonSkin new type: ToButtonPrimaryType new);
-		           label: (ToLabel text: 'Primary button');
-		           icon: (ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16);
-		           yourself.
-	space root addChild: button1.
-	space show
-]
-
-{ #category : #'button-dep' }
-ToSandBox class >> example_ToButtonWithTextSkin [
-
-	| space button1 |
-	
-	space := BlSpace new.
-
-	button1 := ToButtonDep new withSkin: (ToButtonSkin new type: ToButtonTextType new).
-	button1 labelText: 'Text button'.
-	button1 icon: (ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16)).	
-		
-	space root addChild: button1.	
-	space show.
-
-	^space
 ]
 
 { #category : #label }

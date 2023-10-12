@@ -36,7 +36,9 @@ TToElementWithLabeledIcon >> icon [
 { #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> icon: anElement [
 
-	self labeledIcon icon: anElement
+	self icon ifNotNil: [ :s | s withoutStamp: #'button-icon'].
+	self labeledIcon icon: anElement.
+	self icon ifNotNil: [ :s | s withStamp: #'button-icon']
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
@@ -96,7 +98,10 @@ TToElementWithLabeledIcon >> label [
 { #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> label: anElement [
 
-	self labeledIcon label: anElement
+	self label ifNotNil: [ :s | s withoutStamp: #'button-label'].
+	self labeledIcon label: anElement.
+	self label ifNotNil: [ :s | s withStamp: #'button-label'].
+
 ]
 
 { #category : #'t - element with labeled icon - accessing' }

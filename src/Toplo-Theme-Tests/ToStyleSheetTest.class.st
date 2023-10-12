@@ -155,7 +155,6 @@ ToStyleSheetTest >> testButtonSkin0 [
 	skin := ToSkin new.
 	skin writers: writers.
 	button withSkin: nil.
-	button innerElement defaultSkin: nil.
 	self assert: button privateSkin isNil.
 	button withSkin: skin.
 	button checkSkinInstallation.

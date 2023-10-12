@@ -57,7 +57,6 @@ ToNodeEventHandler >> launchClick: aBlock event: anEvent for: anElement [
 { #category : #'events handling' }
 ToNodeEventHandler >> leftClickEvent: anEvent [
 
-	| target |
 	super leftClickEvent: anEvent.
 	target := anEvent currentTarget.
 	self

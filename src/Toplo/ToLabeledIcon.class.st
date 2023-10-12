@@ -38,7 +38,7 @@ ToLabeledIcon >> beLabelFirst [
 { #category : #'t - skinable - initialization' }
 ToLabeledIcon >> defaultStyleStamps [
 
-	^ #( #labeled-icon )
+	^ #( #'labeled-icon' )
 ]
 
 { #category : #accessing }

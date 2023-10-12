@@ -6,16 +6,16 @@ Class {
 	#category : #'Toplo-Widget-List-node'
 }
 
-{ #category : #'as yet unclassified' }
-ToNode >> client [
-
-	^ self  
-]
-
 { #category : #'t - list node - initialization' }
 ToNode >> defaultEventHandler [
 
 	^ ToNodeEventHandler new
+]
+
+{ #category : #initialization }
+ToNode >> defaultLayout [ 
+
+	^ BlLinearLayout vertical
 ]
 
 { #category : #initialization }

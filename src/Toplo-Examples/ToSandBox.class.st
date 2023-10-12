@@ -669,8 +669,7 @@ ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 
 	| l |
 	l := ToListElement new nodeFactory: ToClassToNodeConverterExample new.
-	l data addAll:
-		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
+	l data addAll: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
 	l openInSpace
 ]
 

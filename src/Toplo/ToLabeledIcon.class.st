@@ -35,6 +35,13 @@ ToLabeledIcon >> beLabelFirst [
 	self requestLayout
 ]
 
+{ #category : #initialization }
+ToLabeledIcon >> defaultLayout [ 
+
+	^ BlLinearLayout horizontal.
+
+]
+
 { #category : #'t - skinable - initialization' }
 ToLabeledIcon >> defaultStyleStamps [
 
@@ -92,8 +99,6 @@ ToLabeledIcon >> initialize [
 	self class initializeSlots: self.
 	super initialize.
 	self withStamp: #'labeled-icon'.
-	self layout: BlLinearLayout horizontal.
-	self fitContent.
 	filler := ToElement new
 		          id: #filler;
 		          withStamp: #'labeled-icon-filler';
@@ -107,7 +112,9 @@ ToLabeledIcon >> initialize [
 	self addChild: iconHolder.
 	self addChild: filler.
 	labelOffset := 0.
-	self beIconFirst
+	self beIconFirst.
+	self fitContent.
+
 ]
 
 { #category : #configurating }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'rawAnimation'
 	],
-	#category : 'Toplo-Theme-Skin'
+	#category : #'Toplo-Theme-StyleSheet'
 }
 
 { #category : #'t - property animation - running' }

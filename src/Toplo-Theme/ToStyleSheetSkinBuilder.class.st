@@ -1,11 +1,11 @@
 Class {
-	#name : #ToSkinBuilder,
-	#superclass : #Object,
+	#name : #ToStyleSheetSkinBuilder,
+	#superclass : #ToAbstractSkinBuilder,
 	#category : #'Toplo-Theme-StyleSheet'
 }
 
 { #category : #'writer selecting' }
-ToSkinBuilder >> rawWritersFor: anElement [
+ToStyleSheetSkinBuilder >> rawWritersFor: anElement [
 
 	^ Array streamContents: [ :stream |
 		  (self rootRulesFor: anElement) do: [ :r |
@@ -13,7 +13,7 @@ ToSkinBuilder >> rawWritersFor: anElement [
 ]
 
 { #category : #'writer selecting' }
-ToSkinBuilder >> rootRulesFor: anElement [
+ToStyleSheetSkinBuilder >> rootRulesFor: anElement [
 
 	^ Array streamContents: [ :str |
 		  anElement styleSheetChain reverseDo: [ :ss |
@@ -21,17 +21,18 @@ ToSkinBuilder >> rootRulesFor: anElement [
 ]
 
 { #category : #'skin building' }
-ToSkinBuilder >> skinFor: anElement [
+ToStyleSheetSkinBuilder >> skinFor: anElement [
 
-	| writers skin |
-	writers := self writersFor: anElement.
-	skin := ToStyleSheetSkin new.
-	skin writers: writers.
-	^ skin
+	^ (self writersFor: anElement)
+		  ifEmpty: [ ToRawSkin new ]
+		  ifNotEmpty: [ :writers |
+			  ToStyleSheetSkin new
+				  writers: writers;
+				  yourself ]
 ]
 
 { #category : #'writer selecting' }
-ToSkinBuilder >> writersFor: anElement [
+ToStyleSheetSkinBuilder >> writersFor: anElement [
 	" for an element, several writers can be found. These writers 
 	are found with #rawWritersFor:. After, for each property only the last writers is kept"
 

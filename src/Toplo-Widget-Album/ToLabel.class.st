@@ -74,6 +74,12 @@ ToLabel >> defaultEventHandler [
 ]
 
 { #category : #initialization }
+ToLabel >> defaultLayout [ 
+
+	^ BlLinearLayout horizontal
+]
+
+{ #category : #initialization }
 ToLabel >> defaultLineMode [
 
 	^ ToLabelMonoLineMode new

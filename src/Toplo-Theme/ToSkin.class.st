@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'installStep'
 	],
-	#category : #'Toplo-Theme-Skin'
+	#category : #'Toplo-Theme-Core'
 }
 
 { #category : #'event handling' }

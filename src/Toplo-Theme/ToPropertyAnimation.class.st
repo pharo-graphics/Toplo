@@ -6,7 +6,7 @@ Class {
 		'duration',
 		'finishedHandlers'
 	],
-	#category : #'Toplo-Theme-Skin'
+	#category : #'Toplo-Theme-StyleSheet'
 }
 
 { #category : #accessing }

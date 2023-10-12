@@ -11,7 +11,7 @@ Class {
 ToLabeledIconTest >> setUp [ 
 
 	super setUp.
-	ToAbstractTheme cleanUp
+	ToStyleSheetTheme cleanUp
 ]
 
 { #category : #tests }

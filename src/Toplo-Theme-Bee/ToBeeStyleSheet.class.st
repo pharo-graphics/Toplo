@@ -1,11 +1,11 @@
 Class {
-	#name : #ToDefaultStyleSheet,
+	#name : #ToBeeStyleSheet,
 	#superclass : #ToStyleSheet,
-	#category : #'Toplo-Theme-StyleSheet-Default'
+	#category : #'Toplo-Theme-Bee'
 }
 
 { #category : #'accessing rules  -button' }
-ToDefaultStyleSheet >> buttonRules [
+ToBeeStyleSheet >> buttonRules [
 
 	^ Array streamContents: [ :str |
 		  str nextPutAll: self commonButtonRules.
@@ -21,7 +21,7 @@ ToDefaultStyleSheet >> buttonRules [
 ]
 
 { #category : #'accessing rules  -button' }
-ToDefaultStyleSheet >> checkableButtonRules [
+ToBeeStyleSheet >> checkableButtonRules [
 	" checkbox family "
 
 	^ {
@@ -156,7 +156,7 @@ ToDefaultStyleSheet >> checkableButtonRules [
 ]
 
 { #category : #'accessing rules  -button' }
-ToDefaultStyleSheet >> checkableInnerImageRules [
+ToBeeStyleSheet >> checkableInnerImageRules [
 	" checkbox family "
 
 	^ {
@@ -272,7 +272,7 @@ ToDefaultStyleSheet >> checkableInnerImageRules [
 ]
 
 { #category : #'accessing rules  -button' }
-ToDefaultStyleSheet >> circleButtonRules [
+ToBeeStyleSheet >> circleButtonRules [
 
 
 	^ {
@@ -320,7 +320,7 @@ ToDefaultStyleSheet >> circleButtonRules [
 ]
 
 { #category : #'accessing rules  -button' }
-ToDefaultStyleSheet >> commonButtonRules [
+ToBeeStyleSheet >> commonButtonRules [
 	"  
 	'button:hover' rule: [ :e | e mouseCursor: BlCursor hand. e background: Color gray. e font-size: 18 ].
 	'button:leave' rule: [ :e | e mouseCursor: nil ].
@@ -480,7 +480,7 @@ ToDefaultStyleSheet >> commonButtonRules [
 ]
 
 { #category : #'accessing rules  -button' }
-ToDefaultStyleSheet >> defaultButtonRules [
+ToBeeStyleSheet >> defaultButtonRules [
 	" ToButton default rule including icon and label "
 
 	" default button (class #button) "
@@ -635,7 +635,7 @@ ToDefaultStyleSheet >> defaultButtonRules [
 ]
 
 { #category : #initialization }
-ToDefaultStyleSheet >> defaultStyleRules [
+ToBeeStyleSheet >> defaultStyleRules [
 
 	^ Array streamContents: [ :str |
 		str nextPutAll: self rootPaneRules.
@@ -645,7 +645,7 @@ ToDefaultStyleSheet >> defaultStyleRules [
 ]
 
 { #category : #'accessing rules  - label' }
-ToDefaultStyleSheet >> labelRules [
+ToBeeStyleSheet >> labelRules [
 	" label  rules"
 
 	^ {
@@ -752,7 +752,7 @@ ToDefaultStyleSheet >> labelRules [
 ]
 
 { #category : #'accessing rules - labeled icon' }
-ToDefaultStyleSheet >> labeledIconRules [
+ToBeeStyleSheet >> labeledIconRules [
 
 	^ { (self any parent: (self type: ToLabeledIcon)) style: [ :sr | 
 		" any child of a ToLabeledIcon is centered vertically and horizontally ( icon, label and filler) "
@@ -763,7 +763,7 @@ ToDefaultStyleSheet >> labeledIconRules [
 ]
 
 { #category : #'accessing rules  -button' }
-ToDefaultStyleSheet >> linkButtonRules [
+ToBeeStyleSheet >> linkButtonRules [
 	" ToButton link "
 
 	^ {
@@ -868,7 +868,7 @@ ToDefaultStyleSheet >> linkButtonRules [
 ]
 
 { #category : #'accessing rules  -button' }
-ToDefaultStyleSheet >> primaryButtonRules [
+ToBeeStyleSheet >> primaryButtonRules [
 	" ToButton primary "
 
 	^ {
@@ -987,7 +987,7 @@ ToDefaultStyleSheet >> primaryButtonRules [
 ]
 
 { #category : #'accessing rules  - pane' }
-ToDefaultStyleSheet >> rootPaneRules [
+ToBeeStyleSheet >> rootPaneRules [
 
 	^ { ((self id: #'Space root') style: [ :sr |
 		   sr
@@ -996,7 +996,7 @@ ToDefaultStyleSheet >> rootPaneRules [
 ]
 
 { #category : #'accessing rules  -button' }
-ToDefaultStyleSheet >> textButtonRules [
+ToBeeStyleSheet >> textButtonRules [
 	" ToButton text "
 
 	^ {
@@ -1110,7 +1110,7 @@ ToDefaultStyleSheet >> textButtonRules [
 ]
 
 { #category : #'accessing rules  -button' }
-ToDefaultStyleSheet >> toggleButtonRules [
+ToBeeStyleSheet >> toggleButtonRules [
 
 	^ { ( #(#button #'toggle-button') asStyleSelector style: [ :sr |
 		   sr
@@ -1132,7 +1132,7 @@ ToDefaultStyleSheet >> toggleButtonRules [
 ]
 
 { #category : #'accessing rules  -button' }
-ToDefaultStyleSheet >> verticalButtonRules [
+ToBeeStyleSheet >> verticalButtonRules [
 	"  
 	'button:hover' rule: [ :e | e mouseCursor: BlCursor hand. e background: Color gray. e font-size: 18 ].
 	'button:leave' rule: [ :e | e mouseCursor: nil ].

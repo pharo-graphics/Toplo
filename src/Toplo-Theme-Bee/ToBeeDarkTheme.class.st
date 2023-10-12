@@ -11,13 +11,13 @@ When to use ?
         It works similarly to turning off the lights in a movie theater.
 "
 Class {
-	#name : #ToDefaultThemeDark,
-	#superclass : #ToDefaultTheme,
-	#category : #'Toplo-Theme-StyleSheet-Default'
+	#name : #ToBeeDarkTheme,
+	#superclass : #ToBeeTheme,
+	#category : #'Toplo-Theme-Bee'
 }
 
 { #category : #initialization }
-ToDefaultThemeDark >> defaultStampList [
+ToBeeDarkTheme >> defaultStampList [
 	" skin managing need a list of unique stamps . "
 
 	^ Array streamContents: [ :str |
@@ -80,7 +80,7 @@ ToDefaultThemeDark >> defaultStampList [
 ]
 
 { #category : #colors }
-ToDefaultThemeDark >> initialize [ 
+ToBeeDarkTheme >> initialize [ 
 
 	super initialize.
 	self name: 'Toplo Dark'.

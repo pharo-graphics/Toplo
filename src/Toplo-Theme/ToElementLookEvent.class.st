@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'currentUpdater'
 	],
-	#category : 'Toplo-Theme-Core'
+	#category : #'Toplo-Theme-Look-Event'
 }
 
 { #category : #accessing }

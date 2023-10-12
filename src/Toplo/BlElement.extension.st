@@ -343,11 +343,11 @@ BlElement >> toTheme [
 			  ifTrue: [ self parent toTheme ]
 			  ifFalse: [
 				  self isAttachedToSceneGraph
-					  ifTrue: [ " install the theme only if the root is visible to 
+					  ifTrue: [ " install the theme only if the root is attached to 
 						avoid default installation in another element that the space root"
-						  self privateToTheme: ToAbstractTheme current.
+						  self privateToTheme: ToStyleSheetTheme current.
 						  self privateToTheme ]
-					  ifFalse: [ ToAbstractTheme current ] ] ]
+					  ifFalse: [ ToTheme current ] ] ]
 ]
 
 { #category : #'*Toplo-LookAndFeel' }

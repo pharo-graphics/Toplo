@@ -13,7 +13,7 @@ ToStyleSheetTest >> testButtonLabelSkin0 [
 	| ss button labelSkin attributes foregroundAttr prop writers label ssi |
 	" declare a local only stylesheet "
 	ss := ToStyleSheet new inherits: false; yourself.
-	ssi := ToSkinBuilder new.
+	ssi := ToStyleSheetSkinBuilder new.
 
 	" danger button label rule "
 	prop := ToPseudoProperty new name: #'text-attributes'.
@@ -81,7 +81,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 
 	| ss button skin labelSkin attributes foregroundAttr writers label ssi |
 	ss := ToStyleSheet new inherits: false; yourself.
-	ssi := ToSkinBuilder new.
+	ssi := ToStyleSheetSkinBuilder new.
 	
 	" default button rule "
 	ss addStyleRule: ((ToStyleStampSelector new addStampName: #button)
@@ -200,7 +200,7 @@ ToStyleSheetTest >> testButtonSkinWithInterspace [
 
 	| ss elem writers skin interspaceProp layoutProp ssi |
 	
-	ssi := ToSkinBuilder new.
+	ssi := ToStyleSheetSkinBuilder new.
 	interspaceProp := ToPseudoProperty
 			   name: #'layout-interspace'
 			   reader: [ :e | e layout interspace ]
@@ -236,7 +236,7 @@ ToStyleSheetTest >> testEmptyStyleSheet [
 
 	| ss ssi |
 	ss := ToStyleSheet new inherits: false; yourself.
-	ssi := ToSkinBuilder new.
+	ssi := ToStyleSheetSkinBuilder new.
 	self assert: (ssi writersFor: (ToElement new)) isEmpty
 ]
 
@@ -279,7 +279,7 @@ ToStyleSheetTest >> testSkinWithAnUniversalRule [
 
 	| ss elem skin writers ssi |
 	ss := ToStyleSheet new inherits: false; yourself.
-	ssi := ToSkinBuilder new.
+	ssi := ToStyleSheetSkinBuilder new.
 	ss addStyleRule:
 		(ToUniversalSelector new style: [ :sr |
 			 sr
@@ -303,7 +303,7 @@ ToStyleSheetTest >> testSkinWithChildRule [
 
 	| ss skin parent child writers ssi |
 	ss := ToStyleSheet new inherits: false; yourself.
-	ssi := ToSkinBuilder new.
+	ssi := ToStyleSheetSkinBuilder new.
 	ss addStyleRule: (((ToIdSelector new id: #child) parent:
 					  (ToStyleStampSelector new addStampName: #parent))
 			 style: [ :sr |
@@ -336,7 +336,7 @@ ToStyleSheetTest >> testSkinWithChildRuleLevel2 [
 
 	| ss skin parent child writers subParent ssi |
 	ss := ToStyleSheet new inherits: false; yourself.
-	ssi := ToSkinBuilder new.
+	ssi := ToStyleSheetSkinBuilder new.
 	ss addStyleRule: (((ToIdSelector new id: #child)
 					  parent: (ToStyleStampSelector new addStampName: #parent)
 					  depth: 2)
@@ -371,7 +371,7 @@ ToStyleSheetTest >> testSkinWithIdRule [
 
 	| ss elem writers skin ssi |
 	ss := ToStyleSheet new inherits: false; yourself.
-	ssi := ToSkinBuilder new.
+	ssi := ToStyleSheetSkinBuilder new.
 	ss addStyleRule:
 		((ToIdSelector new id: #a) style: [ :sr |
 			 sr
@@ -400,7 +400,7 @@ ToStyleSheetTest >> testStyleSheetStyle0 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToSkinBuilder new.
+	ssi := ToStyleSheetSkinBuilder new.
 	button := ToElement new.
 	button styleSheet: ss.
 
@@ -440,7 +440,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules0 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToSkinBuilder new.
+	ssi := ToStyleSheetSkinBuilder new.
 	button := ToElement new.
 	button styleSheet: ss.
 
@@ -502,7 +502,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules1 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToSkinBuilder new.
+	ssi := ToStyleSheetSkinBuilder new.
 
 	elem := ToElement new withStamp: #elem.
 	child := ToElement new withStamp: #child.
@@ -547,7 +547,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules2 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToSkinBuilder new.
+	ssi := ToStyleSheetSkinBuilder new.
 
 
 	elem := ToElement new withStamp: #elem.
@@ -594,7 +594,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules22 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToSkinBuilder new.
+	ssi := ToStyleSheetSkinBuilder new.
 
 	elem := ToElement new withAllStamps: #( elem #red ).
 	child := ToElement new withStamp: #child.
@@ -642,7 +642,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules3 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToSkinBuilder new.
+	ssi := ToStyleSheetSkinBuilder new.
 
 
 	elem := ToElement new withAllStamps: #( elem #red ).
@@ -691,7 +691,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules32 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToSkinBuilder new.
+	ssi := ToStyleSheetSkinBuilder new.
 
 
 	elem := ToElement new withAllStamps: #( elem #red ).
@@ -746,7 +746,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules33 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToSkinBuilder new.
+	ssi := ToStyleSheetSkinBuilder new.
 
 
 	elem := ToElement new withAllStamps: #( elem #red ).
@@ -792,7 +792,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules1 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToSkinBuilder new.
+	ssi := ToStyleSheetSkinBuilder new.
 
 
 	elem := ToElement new withStamp: #elem.
@@ -830,7 +830,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules2 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToSkinBuilder new.
+	ssi := ToStyleSheetSkinBuilder new.
 
 
 	elem := ToElement new withStamp: #elem.
@@ -869,7 +869,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules3 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToSkinBuilder new.
+	ssi := ToStyleSheetSkinBuilder new.
 
 
 	elem := ToElement new withAllStamps: #( elem #red ).
@@ -911,7 +911,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules4 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToSkinBuilder new.
+	ssi := ToStyleSheetSkinBuilder new.
 
 	elem := ToElement new withAllStamps: #( #elem #red ).
 	child := ToElement new withStamp: #child.

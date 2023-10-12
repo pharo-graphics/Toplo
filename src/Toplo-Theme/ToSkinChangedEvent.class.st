@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSkinChangedEvent,
 	#superclass : #BlEvent,
-	#category : 'Toplo-Theme-Skin'
+	#category : #'Toplo-Theme-Core'
 }
 
 { #category : #sending }

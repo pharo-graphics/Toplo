@@ -8,7 +8,7 @@ Class {
 		'eventClass',
 		'supplement'
 	],
-	#category : #'Toplo-Theme-Skin'
+	#category : #'Toplo-Theme-StyleSheet'
 }
 
 { #category : #accessing }

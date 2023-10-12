@@ -53,7 +53,7 @@ ToSandBox class >> example_BasicComboBoxWithStatesOfAmerica [
 ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
 
 	| chk btn space |
-	ToAbstractTheme cleanUp.
+	ToStyleSheetTheme cleanUp.
 	chk := ToCheckbox new.
 	chk labelText: 'OK'.
 	btn := ToButton new.
@@ -75,7 +75,7 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
 ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheetDarkTheme [
 
 	| chk btn space |
-	ToAbstractTheme cleanUp.
+	ToStyleSheetTheme cleanUp.
 	chk := ToCheckbox new.
 	chk labelText: 'OK'.
 	btn := ToButton new.
@@ -85,7 +85,7 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheetDarkTheme [
 	btn withStamp: #primary.
 	btn withStamp: #danger.
 	btn size: 500 @ 100.
-	space := BlSpace new toTheme: ToDefaultThemeDark new; yourself.
+	space := BlSpace new toTheme: ToBeeDarkTheme new; yourself.
 	space root layout: BlLinearLayout vertical.
 	space root addChildren: {
 			chk.
@@ -97,10 +97,10 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheetDarkTheme [
 ToSandBox class >> example_CheckBoxWithDefaultStyleSheetDarkTheme [
 
 	| chk  space |
-	ToAbstractTheme cleanUp.
+	ToStyleSheetTheme cleanUp.
 	chk := ToCheckbox new.
 	chk labelText: 'OK'.
-	space := BlSpace new toTheme: ToDefaultThemeDark new; yourself.
+	space := BlSpace new toTheme: ToBeeDarkTheme new; yourself.
 	space root layout: BlLinearLayout vertical.
 	space root addChildren: {
 			chk }.
@@ -433,6 +433,7 @@ ToSandBox class >> example_LabeledIconlWithIconAndText [
 
 	| but  |
 	but := self labeledIconlWithIconAndText.
+	but matchParent.
 	but openInSpace.
 	^ but
 ]
@@ -1003,11 +1004,12 @@ ToSandBox class >> example_Popup1 [
 		        position: 50 @ 50.
 	sub := ToElement new
 		       background: Color white;
+		       border: Color black;
 		       size: 20 @ 20;
 		       position: 10 @ 10.
 	menu addChild: sub.
 	popupWindowHandler := ToPopupWindowHandler new.
-	popupWindowHandler builder: [ 
+	popupWindowHandler builder: [
 		| popup |
 		popup := ToAnchoredWindow new border: Color black.
 		item := ToElement new size: 50 @ 90.
@@ -1178,7 +1180,7 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 ToSandBox class >> example_StyleSheetSandbox [
 
 	| b |
-	ToAbstractTheme cleanUp.
+	ToStyleSheetTheme cleanUp.
 	"b := ToCheckbox new."
 	"b := ToRadioButton new."
 	b := ToButton new.
@@ -1217,7 +1219,7 @@ ToSandBox class >> example_StyleSheetSandbox [
 ToSandBox class >> example_StyleSheetSandboxDarkTheme [
 
 	| b |
-	ToAbstractTheme cleanUp.
+	ToStyleSheetTheme cleanUp.
 	"b := ToCheckbox new."
 	"b := ToRadioButton new."
 	b := ToButton new.
@@ -1244,7 +1246,7 @@ ToSandBox class >> example_StyleSheetSandboxDarkTheme [
 	"b withIndeterminate: true."
 	"b innerElement border: (BlBorder paint: Color black)."
 
-	(b openInSpace) toTheme: ToDefaultThemeDark new.
+	(b openInSpace) toTheme: ToBeeDarkTheme new.
 	"b width: 200."
 	"b size: 100 @ 100."
 
@@ -1266,8 +1268,8 @@ ToSandBox class >> example_ToButtonSkins [
 	themeSwitcher := ToSelect new.
 	themeSwitcher width: 150.
 	themeSwitcher data addAll: {
-			ToDefaultThemeLight.
-			ToDefaultThemeDark }.
+			ToBeeLightTheme.
+			ToBeeDarkTheme }.
 
 	themeSwitcher whenSelectedIndexChangedDo: [
 		space toTheme: themeSwitcher selectedData new ].
@@ -1515,7 +1517,7 @@ ToSandBox class >> example_ToLabelWithHeadingSkin [
 	themeSwitcher switchBarOffElement: ((ToLabel text: ('Light' asRopedText foreground: Color black)) ).
 	themeSwitcher 
 		when: ToCheckableCheckedEvent 
-		do: [ :event | space toTheme: ( event current ifTrue: [ToDefaultThemeDark new] ifFalse: [ ToDefaultThemeLight new]) ].
+		do: [ :event | space toTheme: ( event current ifTrue: [ToBeeDarkTheme new] ifFalse: [ ToBeeLightTheme new]) ].
 	
 	space root addChild: themeSwitcher.
 
@@ -1586,19 +1588,6 @@ ToSandBox class >> example_contextMenu [
 	container openInSpace
 ]
 
-{ #category : #space }
-ToSandBox class >> example_elementInPopupRoot [
-
-	| e space |
-	space := BlSpace new.
-	e := BlElement new background: Color blue; size: 50@50; yourself.
-	space root addChild:e.
-	e addEventHandler: (BlEventHandler
-				on: BlClickEvent
-				do: [ :evt | self inform: 'Clicked'  ]).
-	space show
-]
-
 { #category : #pane }
 ToSandBox class >> example_horizontalPaneWithDivider [
 
@@ -1649,7 +1638,7 @@ ToSandBox class >> example_menu0 [
 	themeSwitcher switchBarOffElement: ((ToLabel text: ('Light' asRopedText foreground: Color black)) ).
 	themeSwitcher 
 		when: ToCheckableCheckedEvent 
-		do: [ :event | space toTheme: ( event current ifTrue: [ToDefaultThemeDark new] ifFalse: [ ToDefaultThemeLight new]) ].
+		do: [ :event | space toTheme: ( event current ifTrue: [ToBeeDarkTheme new] ifFalse: [ ToBeeLightTheme new]) ].
 	
 	themeSwitcher checked: true.
 	space root addChild: themeSwitcher.
@@ -1666,187 +1655,6 @@ ToSandBox class >> example_menu0 [
 	"menu inspect."
 	space root addChild: menu.
 	space show
-]
-
-{ #category : #'menu dep' }
-ToSandBox class >> example_menu1 [
-
-	| menu sub subsub space |
-	
-	space := BlSpace new.
-	space root layout: (BlLinearLayout vertical cellSpacing: 10).
-	
-	menu := ToMenu new.
-	menu label: (ToLabel new text: 'File').
-	menu icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
-	menu addItem: (ToMenuItem new
-			 label: (ToLabel new text: 'Open file');
-			 icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #config))).
-	menu addSeparator.
-	menu addItem: (ToMenuItem new 
-			label: (ToLabel new text: 'Export'); yourself).
-
-
-	sub := ToMenu new label: (ToLabel new text: 'Save All').
-	sub addItem:
-		(ToMenuItem new label: (ToLabel new text: 'Locally')).
-
-	subsub := ToMenu new
-		          label: (ToLabel new text: 'Externally');
-		          icon:
-			          (ToImage new innerImage:
-					           (Smalltalk ui icons iconNamed: #solidMenu)).
-	subsub addItem: (ToMenuItem new label: (ToLabel new text: 'Here')).
-
-	sub addItem: subsub.
-
-	menu addItem: sub.
-	
-	"sub := ToMenu new label: (ToLabel new text: 'Save All 2').
-	sub addItem: (ToMenuItem new label: (ToLabel new text: 'Locally 2')).
-	sub addItem: (ToMenuItem new label: (ToLabel new text: 'sub sub Locally 2'); icon:
-			          (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu))).
-
-	menu addItem: sub."
-	
-	menu position: 10 @ 10.
-	space root addChild: menu.
-	"menu inspect."
-	space show
-]
-
-{ #category : #'menu dep' }
-ToSandBox class >> example_menu2 [
-
-	| menu |
-	menu := ToMenu new.
-	menu label: (ToLabel text: 'File').	
-	menu addItem: (ToMenuItem new
-			 label: (ToLabel text: 'Otherrrrr');
-			 yourself).
-	menu addItem: (ToMenuItem new
-			 label: (ToLabel text: 'item');
-			 yourself).
-
-	menu openInSpace
-]
-
-{ #category : #'menu dep' }
-ToSandBox class >> example_menu2_2 [
-
-	| menu sub |
-	menu := ToMenu new.
-	menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
-
-	sub := ToMenu new labelText: 'Save All'.
-	sub addItem: (ToMenuItem new labelText: 'Locally').
-	menu addItem: sub.
-
-	menu addItem: (ToMenuItem new labelText: 'Export').
-	menu addItem: (ToCheckMenuItem new labelText: 'Align right').
-	menu addSeparator.
-
-	menu position: 10 @ 10.
-	menu openInInnerWindow
-]
-
-{ #category : #'menu dep' }
-ToSandBox class >> example_menu3 [
-
-	| menu sub subsub |
-	menu := ToMenu new.
-	menu label: (ToLabel new text: 'File').
-	menu addItem: (ToMenuItem new
-			 labelText: 'Open file';
-			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
-	menu addItem: (ToMenuItem new labelText: 'Export').
-	menu addItem: (ToCheckMenuItem new labelText: 'Align right').
-	menu addSeparator.
-
-	sub := ToMenu new labelText: 'Save All'.
-	sub addItem: (ToMenuItem new labelText: 'Locally').
-
-	subsub := ToMenu new labelText: 'Externally'.
-	subsub addItem: (ToMenuItem new labelText: 'Here').
-
-	sub addItem: subsub.
-
-	menu addItem: sub.
-	menu position: 10 @ 10.
-	menu openInInnerWindow
-]
-
-{ #category : #'menu dep' }
-ToSandBox class >> example_menu4 [
-
-	| menu sub subsub |
-	menu := ToMenu new.
-	menu labelText: 'File'.
-	menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
-	menu addItem: (ToMenuItem new labelText: 'Open file').
-	menu addItem: (ToMenuItem new labelText: 'Export').
-	menu addItem: (ToRadioMenuItem new labelText: 'Align right').
-	menu addSeparator.
-
-	sub := ToMenu new labelText: 'Save All'.
-	sub addItem: (ToMenuItem new labelText: 'Locally').
-
-	subsub := ToMenu new
-		          labelText: 'Externally';
-		          icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
-	subsub addItem: (ToMenuItem new labelText: 'Here').
-
-	sub addItem: subsub.
-
-	menu addItem: sub.
-	menu position: 10 @ 10.
-	menu openInInnerWindow
-]
-
-{ #category : #'menu dep' }
-ToSandBox class >> example_menu5 [
-
-	| menu sub subsub grp right center left |
-	menu := ToMenu new.
-	menu labelText: 'File'.
-	menu addItem: (ToMenuItem new labelText: 'Open file').
-
-	menu addItem: (ToMenuItem new labelText: 'Export').
-	grp := ToCheckableGroup new.
-	right := ToRadioMenuItem new
-		         labelText: 'Right';
-		         id: #right.
-	center := ToRadioMenuItem new
-		          labelText: 'Center';
-		          id: #center.
-	left := ToRadioMenuItem new
-		        labelText: 'Left';
-		        id: #left.
-	grp when: ToCheckableGroupChangedEvent do: [ :event |
-		('checked: ' , event checkedButtons asString , ' unchecked: '
-		 , event uncheckedButtons asString) traceCr ].
-	center checked: true.
-
-	grp add: right.
-	grp add: center.
-	grp add: left.
-
-
-	menu addSeparator.
-	menu addAllItems: grp buttons.
-	menu addSeparator.
-
-	sub := ToMenu new labelText: 'Save All'.
-	sub addItem: (ToMenuItem new labelText: 'Locally').
-
-	subsub := ToMenu new labelText: 'Externally'.
-	subsub addItem: (ToMenuItem new labelText: 'Here').
-
-	sub addItem: subsub.
-
-	menu addItem: sub.
-	menu position: 10 @ 10.
-	menu openInInnerWindow
 ]
 
 { #category : #'menu dep' }
@@ -2260,7 +2068,7 @@ ToSandBox class >> example_spaceRootSkin [
 		      beLabelFirst.
 	themeSwitcher switchBarOnElement: ((ToLabel text: ('Dark' asRopedText foreground: Color white)) ).
 	themeSwitcher switchBarOffElement: ((ToLabel text: ('Light' asRopedText foreground: Color black)) ).
-	themeSwitcher when: ToCheckableCheckedEvent do: [ :event | space toTheme: ( event current ifTrue: [ToDefaultThemeDark new] ifFalse: [ ToDefaultThemeLight new]) ].
+	themeSwitcher when: ToCheckableCheckedEvent do: [ :event | space toTheme: ( event current ifTrue: [ToBeeDarkTheme new] ifFalse: [ ToBeeLightTheme new]) ].
 	space root addChild: themeSwitcher.
 	space show
 ]
@@ -2692,7 +2500,7 @@ ToSandBox class >> example_toButtonWithTooltipText [
 ToSandBox class >> example_toCheckbox1 [
 
 	| chb |
-	ToAbstractTheme cleanUp.
+	ToStyleSheetTheme cleanUp.
 	chb := ToCheckbox new
 				interspace: 10;
 		       label: (ToLabel text: '1');
@@ -2731,7 +2539,7 @@ ToSandBox class >> example_toCheckbox2 [
 ToSandBox class >> example_toCheckboxModelWithLabel3 [
 
 	| but |
-	ToAbstractTheme cleanUp.
+	ToStyleSheetTheme cleanUp.
 	but := ToCheckbox new labelText: 'Check me'.
 	but checked: true.
 	but openInSpace
@@ -2741,7 +2549,7 @@ ToSandBox class >> example_toCheckboxModelWithLabel3 [
 ToSandBox class >> example_toCheckboxModelWithLabel3_bis [
 
 	| but |
-	ToAbstractTheme cleanUp.
+	ToStyleSheetTheme cleanUp.
 	but := ToCheckbox new labelText: 'Check me'.
 	but withIndeterminate: true.
 	but checked: nil.
@@ -2955,46 +2763,6 @@ ToSandBox class >> example_toImage1 [
 	im openInSpace
 ]
 
-{ #category : #image }
-ToSandBox class >> example_toImageViewModel0 [
-
-	| im |
-	im := ToImageModel new.
-	im inspect.
-	im onWidget openInSpace
-]
-
-{ #category : #image }
-ToSandBox class >> example_toImageViewModel1 [
-
-	| im |
-	im := ToImageModel new innerImage: (BlElement new
-			       size: 16 @ 16;
-			       border: (BlBorder paint: Color gray width: 2);
-			       background: (Color gray alpha: 0.1);
-			       geometry: BlCircleGeometry new).
-	im inspect.
-	im onWidget openInSpace
-]
-
-{ #category : #image }
-ToSandBox class >> example_toImageViewModel2 [
-
-	| im |
-	im := ToImageModel new innerImage: (Form dotOfSize: 40).
-	im inspect.
-	im onWidget openInSpace
-]
-
-{ #category : #image }
-ToSandBox class >> example_toImageViewModel3 [
-
-	| im |
-	im := ToImageModel new innerImage: (Smalltalk ui icons iconNamed: #classIcon).
-	im widgetDo: [:w | w border: (BlBorder paint: Color black width: 2)].
-	im onWidget openInWorld
-]
-
 { #category : #label }
 ToSandBox class >> example_toLabel0 [
 
@@ -3168,37 +2936,11 @@ ToSandBox class >> example_toLabel_Multiline2_Centered [
 	space := container openInSpace
 ]
 
-{ #category : #pair }
-ToSandBox class >> example_toPairJustified1 [
-
-	| but space iconImage |
-
-	but := ToButton new.
-	but inspect.
-	but withStamp: #button.
-	but replaceSecondWith: ((ToLabel text: 'Pair' asRopedText bold) withStamp: #'button-label').
-	iconImage := BlElement new
-		             size: 20 @ 20;
-		             background: Color lightGray;
-		             yourself.
-
-	but replaceFirstWith: iconImage.
-	but first withStamp: #'button-icon'.
-	
-	but when: BlClickEvent do: [ but withStamp: #vertical. but updateSkin. but innerElement layout beVertical.  ].
-	but justified: true.
-	but hMatchParent.
-
-	space := BlSpace new.
-	space root addChild: but.
-	space show
-]
-
 { #category : #checkbox }
 ToSandBox class >> example_toRadioButton0 [
 
 	| but |
-	ToAbstractTheme cleanUp.
+	ToStyleSheetTheme cleanUp.
 	but := ToRadioButton new.
 	but checked: true.
 	but labelText: 'Radio'.
@@ -3261,21 +3003,6 @@ ToSandBox class >> example_toggle [
 ]
 
 { #category : #'toggle button' }
-ToSandBox class >> example_toggle2 [
-
-	| th |
-	th := ToToggleButton new
-		      labelText: 'Theme';
-		      beLabelFirst.
-	th interspace: 150.
-	th switchBarOnElement: ((ToLabel text: 'Dark') withSkin: (ToLabelSkin new type: ToLabelPrimaryType new)).
-	th switchBarOffElement: ((ToLabel text: 'Light') withSkin: (ToLabelSkin new type: ToLabelPrimaryType new)).
-	th when: ToCheckableCheckedEvent do: [ :event | event current traceCr ].
-	th checked: true.
-	th openInSpace
-]
-
-{ #category : #'toggle button' }
 ToSandBox class >> example_toggle3 [
 
 	| th sp |
@@ -3328,6 +3055,51 @@ ToSandBox class >> example_verticalPaneWithDivider [
 	pane openInInnerWindow 
 ]
 
+{ #category : #menu }
+ToSandBox class >> example_withCheckBox [
+
+	| menu sub subsub grp right center left |
+	menu := ToMenu new.
+	menu labelText: 'File'.
+	menu addItem: (ToMenuItem new labelText: 'Open file').
+
+	menu addItem: (ToMenuItem new labelText: 'Export').
+	grp := ToCheckableGroup new.
+	right := ToRadioMenuItem new
+		         labelText: 'Right';
+		         id: #right.
+	center := ToRadioMenuItem new
+		          labelText: 'Center';
+		          id: #center.
+	left := ToRadioMenuItem new
+		        labelText: 'Left';
+		        id: #left.
+	grp when: ToCheckableGroupChangedEvent do: [ :event |
+		('checked: ' , event checkedButtons asString , ' unchecked: '
+		 , event uncheckedButtons asString) traceCr ].
+	center checked: true.
+
+	grp add: right.
+	grp add: center.
+	grp add: left.
+
+	menu addSeparator.
+	menu addAllItems: grp buttons.
+	menu addSeparator.
+
+	sub := ToMenu new labelText: 'Save All'.
+	sub addItem: (ToMenuItem new labelText: 'Locally').
+
+	subsub := ToMenu new labelText: 'Externally'.
+	subsub addItem: (ToMenuItem new labelText: 'Here').
+
+	sub addItem: subsub.
+
+	menu addItem: sub.
+	menu position: 10 @ 10.
+	menu openInInnerWindow
+]
+
 { #category : #checkbox }
 ToSandBox class >> group [ 
 
@@ -3359,7 +3131,7 @@ ToSandBox class >> group [
 ToSandBox class >> labeledIconlWithIconAndText [
 
 	| but  |
-	ToAbstractTheme cleanUp.
+	ToStyleSheetTheme cleanUp.
 	but := ToLabeledIcon new.
 	but label: (ToLabel text: 'Labeled icon').
 	but icon: (ToImage inner: (BlElement new

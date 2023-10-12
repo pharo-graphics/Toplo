@@ -6,13 +6,6 @@ Class {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #initialization }
-ToElement >> defaultLayout [
-
-	^ BlLinearLayout horizontal
-
-]
-
 { #category : #'t - skinable - initialization' }
 ToElement >> defaultStyleStamps [
 
@@ -24,6 +17,7 @@ ToElement >> initialize [
 
 	super initialize.
 	self class initializeSlots: self.
+	self layout: self defaultLayout.
 	self initializeSkin.
 	self initializeSkinInstallationPhaseChecker.
 	
@@ -39,6 +33,10 @@ ToElement >> initializeSkinInstallationPhaseChecker [
 ToElement >> innerElement [ 
 
 	^ nil
+]
+
+{ #category : #initialization }
+ToElement >> rawStyleInitialize [
 ]
 
 { #category : #'t - layout resizeable' }

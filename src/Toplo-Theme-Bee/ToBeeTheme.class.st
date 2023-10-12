@@ -1,5 +1,4 @@
 "
-ToTheme is the mother Abstract Class for the default Toplo Theme.
 This theme is inpired by Ant (https://ant.design/docs/spec/introduce).
 This theme exists in two variants : light (by default) and dark.
 This theme can be derive using ""primaryColor"" properties to create color variants.
@@ -50,78 +49,72 @@ paddingXS	Control the extra small padding of the element.	number	8
 
 "
 Class {
-	#name : #ToDefaultTheme,
-	#superclass : #ToAbstractTheme,
+	#name : #ToBeeTheme,
+	#superclass : #ToStyleSheetTheme,
 	#instVars : [
 		'colorPrimary',
 		'colorPrimaryHover',
 		'colorPrimaryPressed'
 	],
-	#category : #'Toplo-Theme-StyleSheet-Default'
+	#category : #'Toplo-Theme-Bee'
 }
 
 { #category : #constructor }
-ToDefaultTheme class >> blue [
+ToBeeTheme class >> blue [
 
-	^ ToDefaultThemeLight new
+	^ ToBeeLightTheme new
 ]
 
 { #category : #customization }
-ToDefaultTheme class >> colorPrimary: aColor [
+ToBeeTheme class >> colorPrimary: aColor [
 
 	| theme |
-	theme := ToDefaultThemeLight new.
+	theme := ToBeeLightTheme new.
 	theme colorPrimary: aColor.
 	^theme
 ]
 
 { #category : #customization }
-ToDefaultTheme class >> colorPrimaryDark: aColor [
+ToBeeTheme class >> colorPrimaryDark: aColor [
 
 	| theme |
-	theme := ToDefaultThemeDark new.
+	theme := ToBeeDarkTheme new.
 	theme colorPrimary: aColor.
 	^theme
 ]
 
 { #category : #constructor }
-ToDefaultTheme class >> darkBlue [
+ToBeeTheme class >> darkBlue [
 
-	^ ToDefaultThemeDark new
+	^ ToBeeDarkTheme new
 ]
 
 { #category : #constructor }
-ToDefaultTheme class >> darkGreen [
+ToBeeTheme class >> darkGreen [
 
 	^self colorPrimaryDark: (Color fromHexString: '#00B96B')
 ]
 
 { #category : #constructor }
-ToDefaultTheme class >> darkPink [
+ToBeeTheme class >> darkPink [
 
 	^self colorPrimaryDark: (Color fromHexString: '#ED4192')
 ]
 
 { #category : #constructor }
-ToDefaultTheme class >> green [
+ToBeeTheme class >> green [
 
 	^self colorPrimary: (Color fromHexString: '#00B96B')
 ]
 
-{ #category : #testing }
-ToDefaultTheme class >> isAbstract [
-
-	^ self = ToDefaultTheme
-]
-
 { #category : #constructor }
-ToDefaultTheme class >> pink [
+ToBeeTheme class >> pink [
 
 	^self colorPrimary: (Color fromHexString: '#ED4192')
 ]
 
 { #category : #accessing }
-ToDefaultTheme >> checkboxBlankImage [
+ToBeeTheme >> checkboxBlankImage [
 
 	| bar im |
 	bar := ToElement new.
@@ -133,13 +126,13 @@ ToDefaultTheme >> checkboxBlankImage [
 ]
 
 { #category : #colors }
-ToDefaultTheme >> colorPrimary [
+ToBeeTheme >> colorPrimary [
 
 	^ colorPrimary ifNil: [ self colorPrimary: self defaultColorPrimary. colorPrimary  ]
 ]
 
 { #category : #settings }
-ToDefaultTheme >> colorPrimary: aColor [
+ToBeeTheme >> colorPrimary: aColor [
 	"Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics"
 	
 	colorPrimary = aColor ifTrue:[ ^ self ].
@@ -149,25 +142,25 @@ ToDefaultTheme >> colorPrimary: aColor [
 ]
 
 { #category : #colors }
-ToDefaultTheme >> colorPrimaryHover [
+ToBeeTheme >> colorPrimaryHover [
 
 	^ colorPrimaryHover
 ]
 
 { #category : #colors }
-ToDefaultTheme >> colorPrimaryPressed [
+ToBeeTheme >> colorPrimaryPressed [
 
 	^ colorPrimaryPressed
 ]
 
 { #category : #settings }
-ToDefaultTheme >> defaultColorPrimary [
+ToBeeTheme >> defaultColorPrimary [
 
 	^ Color fromHexString: '#1677ff'
 ]
 
 { #category : #initialization }
-ToDefaultTheme >> defaultStampList [
+ToBeeTheme >> defaultStampList [
 	" skin managing need a list of unique stamps . "
 
 	^ {
@@ -306,13 +299,13 @@ ToDefaultTheme >> defaultStampList [
 ]
 
 { #category : #initialization }
-ToDefaultTheme >> defaultStyleSheet [ 
+ToBeeTheme >> defaultStyleSheet [ 
 
-	^ ToDefaultStyleSheet new
+	^ ToBeeStyleSheet new
 ]
 
 { #category : #initialization }
-ToDefaultTheme >> initialize [ 
+ToBeeTheme >> initialize [ 
 
 	super initialize.
 	self styleSheet: self defaultStyleSheet 

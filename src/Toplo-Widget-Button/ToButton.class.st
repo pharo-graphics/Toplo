@@ -26,7 +26,6 @@ ToButton >> initialize [
 
 	super initialize.
 	self withStamp: #button.
-	self layout: self defaultLayout.
 	labeledIcon := ToLabeledIcon new.
 	self addChild: labeledIcon.
 	self fitContent

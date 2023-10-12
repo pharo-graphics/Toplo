@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'writers'
 	],
-	#category : #'Toplo-Theme-Skin'
+	#category : #'Toplo-Theme-StyleSheet'
 }
 
 { #category : #'event handling' }

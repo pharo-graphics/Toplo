@@ -63,6 +63,12 @@ BaselineOfToplo >> registerPackages: spec [
 	spec
 		package: #'Toplo-Theme-Tests'
 		with: [ spec requires: #( #Toplo #'Toplo-Theme') ].
+	spec
+		package: #'Toplo-Theme-Bee'
+		with: [ spec requires: #( #'Toplo-Theme' ) ].
+	spec
+		package: #'Toplo-Theme-Bee-Tests'
+		with: [ spec requires: #( #Toplo #'Toplo-Theme-Bee') ].
 
 	spec package: #'Toplo-Widget-Album' with: [
 		spec requires:

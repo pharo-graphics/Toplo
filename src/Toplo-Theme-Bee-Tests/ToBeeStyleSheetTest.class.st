@@ -2,29 +2,29 @@
 A ToDefaultStyleSheetTest is a test class for testing the behavior of ToDefaultStyleSheet
 "
 Class {
-	#name : #ToDefaultStyleSheetTest,
+	#name : #ToBeeStyleSheetTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'styleSheet'
 	],
-	#category : #'Toplo-Theme-Tests-DefaultTheme'
+	#category : #'Toplo-Theme-Bee-Tests'
 }
 
 { #category : #running }
-ToDefaultStyleSheetTest >> setUp [ 
+ToBeeStyleSheetTest >> setUp [ 
 
 	super setUp.
-	ToDefaultTheme cleanUp.
-	styleSheet := ToDefaultTheme new styleSheet.
+	ToTheme cleanUp.
+	styleSheet := ToBeeTheme new styleSheet.
 	styleSheet inherits: false.
 ]
 
 { #category : #skin }
-ToDefaultStyleSheetTest >> testDefaultButtonSkin [
+ToBeeStyleSheetTest >> testDefaultButtonSkin [
 
 	| ss button writers skin labelSkin ssi |
-	ss := ToDefaultStyleSheet new.
-	ssi := ToSkinBuilder new.
+	ss := ToBeeStyleSheet new.
+	ssi := ToStyleSheetSkinBuilder new.
 	button := ToButton new.
 	writers := ssi writersFor: button.
 	self assert: writers notEmpty.
@@ -51,7 +51,7 @@ ToDefaultStyleSheetTest >> testDefaultButtonSkin [
 ]
 
 { #category : #'labeled-icon' }
-ToDefaultStyleSheetTest >> testLabeledIconWithLabelAndIcon [
+ToBeeStyleSheetTest >> testLabeledIconWithLabelAndIcon [
 
 	| li |
 	li := ToLabeledIcon new.
@@ -71,7 +71,7 @@ ToDefaultStyleSheetTest >> testLabeledIconWithLabelAndIcon [
 ]
 
 { #category : #'look updaters' }
-ToDefaultStyleSheetTest >> testWriteablePropertyList [
+ToBeeStyleSheetTest >> testWriteablePropertyList [
 
 	| index count elem |
 	elem := ToElement new.

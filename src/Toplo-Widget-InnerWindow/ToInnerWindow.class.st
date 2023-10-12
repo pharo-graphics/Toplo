@@ -48,7 +48,6 @@ ToInnerWindow >> defaultBarElement [
 		     padding: (BlInsets top: 2 bottom: 3);
 		     outskirts: BlOutskirts inside;
 		     yourself.
-	b layout: BlLinearLayout horizontal.
 	b when: BlDoubleClickEvent do: [ self maximize ].
 	b when: BlMouseDownEvent do: [ self toFront ].
 	close := ToButton new icon:

@@ -21,6 +21,12 @@ ToImage >> defaultInnerImage [
 		  yourself
 ]
 
+{ #category : #initialization }
+ToImage >> defaultLayout [ 
+
+	^ BlLinearLayout horizontal
+]
+
 { #category : #'t - skinable - initialization' }
 ToImage >> defaultStyleStamps [ 
 

@@ -589,13 +589,13 @@ ToStyleSelectorInterpreterTest >> testTypeSelectorAndParentSelector [
 	| selector e engine |
 	e := ToLabeledIcon new.
 	e label: (ToLabel text: 'A').
-	selector := (ToTypeSelector new type: ToLabel ) parent: (ToTypeSelector new type: ToLabeledIcon ).
+	selector := (ToTypeSelector new type: ToLabel ) parent: (ToTypeSelector new type: ToLabeledIcon ) depth: 2.
 	engine := ToStyleSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result not.
 	engine check: selector on: e label.
 	self assert: engine result.
-	selector := (ToUniversalSelector new ) parent: (ToTypeSelector new type: ToLabeledIcon ).
+	selector := (ToUniversalSelector new ) parent: (ToTypeSelector new type: ToLabeledIcon ) depth: 2.
 	engine check: selector on: e.
 	self assert: engine result not.
 	engine check: selector on: e label.

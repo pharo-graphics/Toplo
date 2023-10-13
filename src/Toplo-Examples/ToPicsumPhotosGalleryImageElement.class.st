@@ -70,7 +70,7 @@ ToPicsumPhotosGalleryImageElement >> initialize [
 		         hFitContent;
 		         yourself.
 	label background: Color black.
-	label withSkin: nil.
+	label installSkin: nil.
 	self addChild: label.
 	self whenLayoutedDo: [ self loadImage ]
 ]

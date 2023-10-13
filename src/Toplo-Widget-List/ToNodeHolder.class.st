@@ -62,7 +62,6 @@ ToNodeHolder >> node: aNode [
 { #category : #accessing }
 ToNodeHolder >> onAttachedFromDatasource: aDataSource [
 
-	self node launchSkinInstallation.
 	clickHandler := BlEventHandler
 		                on: ToClickOnNodeEvent
 		                do: [ :event | infiniteElement whenClickOnNodeEvent: event ].
@@ -88,7 +87,7 @@ ToNodeHolder >> onAttachedFromDatasource: aDataSource [
 { #category : #accessing }
 ToNodeHolder >> onDetachedFromDatasource: aDataSource [
 
-	self node launchSkinUninstallation.
+	self node withoutSkin.
 	self removeEventHandler: clickHandler.
 	infiniteElement primarySelection removeEventHandler: deselectHandler.
 	infiniteElement primarySelection removeEventHandler: selectHandler.

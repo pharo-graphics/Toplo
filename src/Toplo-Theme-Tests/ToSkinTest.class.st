@@ -24,7 +24,7 @@ ToSkinTest >> setUp [
 ToSkinTest >> testPropertyWriterOrderMatter [
 
 	| w skin layoutDirectionProp layoutProp layoutWriter directionWriter |
-	w := ToElement new.
+	w := ToElement new toTheme: ToBeeLightTheme new.
 	w layout: BlBasicLayout new.
 	skin := ToStyleSheetSkin new.
 	layoutDirectionProp := self writablePropertyIndex propertyNamed: #'layout-direction'.
@@ -44,11 +44,11 @@ ToSkinTest >> testPropertyWriterOrderMatter [
 			layoutWriter }.
 
 	
-	" Since withSkin: will switch to ToInstallState "
+	" Since checkSkinInstallation will switch to ToInstallState "
 	" the installation will fail because the widget layout (not a BlLinearLayout) does not understand #direction:"
-	
+	w installSkin: skin.
 	self
-		should: [ w withSkin: skin ]
+		should: [ w checkSkinInstallation ]
 		raise: MessageNotUnderstood.
 
 	" Now change writers order and it should be ok "
@@ -96,12 +96,8 @@ ToSkinTest >> testSupplementWriter [
 						 paint: Color black;
 						 dashArray: #( 4 5 );
 						 build ] yourself) }.
-	w withSkin: skin.
-	w switchToSkinState: ToInstallState new.
-	self assert: w background paint isNil.
-	self assert: w border paint color equals: Color yellow.
-	self assert: w border style dashArray equals: #(  ).
-	w switchToSkinState: ToInitialState new.
+	w installSkin: skin.
+	w checkSkinInstallation.
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color black.
 	self assert: w border style dashArray equals: #( 4 5 )
@@ -137,9 +133,8 @@ ToSkinTest >> testWithAnimationOn2EventClasses [
 	
 	 }.
 
-	w withSkin: skin.
-
-	w switchToSkinState: ToInstallState new.
+	w installSkin: skin.
+	w checkSkinInstallation.
 	self assert: w background paint color equals: Color white.
 
 	w switchToSkinState: ToHoveredState new.
@@ -157,9 +152,9 @@ ToSkinTest >> testWithNoWriter [
 	| w skin paint |
 	w := ToElement new.
 	skin := ToStyleSheetSkin new.
-	w withSkin: skin.
+	w installSkin: skin.
 	paint := w background paint.
-	w switchToSkinState: ToInstallState new.
+	w checkSkinInstallation.
 	self assert: w background paint equals: paint
 ]
 
@@ -175,8 +170,8 @@ ToSkinTest >> testWithOneWriter [
 		              value: Color blue;
 		              yourself.
 	skin writers: { propWriter }.
-	w withSkin: skin.
-	w switchToSkinState: ToInstallState new.
+	w installSkin: skin.
+	w checkSkinInstallation.
 	self assert: w background paint color equals: Color blue
 ]
 
@@ -197,8 +192,8 @@ ToSkinTest >> testWithTwoWriters [
 				 property: borderProp;
 				 value: Color yellow;
 				 yourself) }.
-	w withSkin: skin.
-	w switchToSkinState: ToInstallState new.
+	w installSkin: skin.
+	w checkSkinInstallation.
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color yellow
 ]
@@ -226,11 +221,8 @@ ToSkinTest >> testWithTwoWritersTwoEventClasses [
 				 property: borderProp;
 				 value: Color red;
 				 yourself) }.
-	w withSkin: skin.
-	w switchToSkinState: ToInstallState new.
-	self assert: w background paint isNil.
-	self assert: w border paint color equals: Color yellow.
-	w switchToSkinState: ToInitialState new.
+	w installSkin: skin.
+	w checkSkinInstallation..
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color red
 ]

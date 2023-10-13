@@ -37,3 +37,9 @@ ToTheme >> skinBuilder [
 
 	^ self subclassResponsibility 
 ]
+
+{ #category : #styling }
+ToTheme >> styleSheet [
+
+	^ nil
+]

@@ -9,6 +9,5 @@ BlElement >> defaultBeeStyleStamps [
 { #category : #'*Toplo-Theme-Bee' }
 BlElement >> installBeeStyle [ 
 
-	self installRawStyle.
-	self withAllStamps: self defaultBeeStyleStamps
+	self installRawStyle
 ]

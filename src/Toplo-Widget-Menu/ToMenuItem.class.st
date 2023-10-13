@@ -4,9 +4,9 @@ Class {
 	#traits : 'TToClickable + TToElementWithLabeledIcon',
 	#classTraits : 'TToClickable classTrait + TToElementWithLabeledIcon classTrait',
 	#instVars : [
-		'#labeledIcon => ToSkinnableSlot',
-		'#filler',
-		'#rightHandSide'
+		'labeledIcon',
+		'filler',
+		'rightHandSide'
 	],
 	#category : #'Toplo-Widget-Menu-Basic'
 }

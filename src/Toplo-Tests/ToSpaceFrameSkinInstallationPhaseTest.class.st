@@ -34,3 +34,26 @@ ToSpaceFrameSkinInstallationPhaseTest >> testElementAddedToSceneGraphEvent [
 	self deny: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
 			 eh isKindOf: ToSpaceSkinInstallationPhaseCheckerEventHandler ])
 ]
+
+{ #category : #tests }
+ToSpaceFrameSkinInstallationPhaseTest >> testremoveSpaceFrameSkinInstallationPhase [
+
+	| space e nb |
+	space := BlSpace new.
+	e := ToElement new.
+	nb := space frame phases size.
+	space root addChild: e.
+
+	" The skin specific phase is added"
+	self assert: space frame phases size equals: nb + 1.
+	self assert: (space frame phases anySatisfy: [ :p |
+			 p isKindOf: ToSpaceFrameSkinInstallationPhase ]).
+
+	space removeSpaceFrameSkinInstallationPhase.
+		" The skin specific phase is added"
+	self assert: space frame phases size equals: nb.
+	self assert: (space frame phases noneSatisfy: [ :p |
+			 p isKindOf: ToSpaceFrameSkinInstallationPhase ]).
+
+
+]

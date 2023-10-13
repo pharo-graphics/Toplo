@@ -30,7 +30,7 @@ ToStyleSheetTheme >> printOn: aStream [
 { #category : #accessing }
 ToStyleSheetTheme >> skinBuilder [ 
 
-	^ ToStyleSheetSkinBuilder new
+	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }

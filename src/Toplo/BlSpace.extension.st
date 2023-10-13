@@ -4,7 +4,7 @@ Extension { #name : #BlSpace }
 BlSpace >> checkSkinInstallation [
 
 	self rootSkinInstalled ifFalse: [
-		self root withSkin: self root defaultSkin ].
+		self root installSkin: self root defaultSkin ].
 	self root checkSkinInstallation
 ]
 
@@ -17,6 +17,16 @@ BlSpace >> checkSpaceFrameSkinInstallationPhase [
 	" The skin phase must be inserted before the layout phase "
 	layoutPhase := self frame detectPhase: [ :f | f class = BlSpaceFrameLayoutPhase ].
 	self frame addPhase: ToSpaceFrameSkinInstallationPhase new before: layoutPhase
+]
+
+{ #category : #'*Toplo' }
+BlSpace >> removeSpaceFrameSkinInstallationPhase [
+
+	| layoutPhase |
+	layoutPhase := (self frame phases detect: [ :p |
+		                p isKindOf: ToSpaceFrameSkinInstallationPhase ])
+		               ifNil: [ ^ self ].
+	self frame removePhase: layoutPhase
 ]
 
 { #category : #'*Toplo' }

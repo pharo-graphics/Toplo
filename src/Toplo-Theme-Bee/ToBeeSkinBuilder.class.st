@@ -9,3 +9,11 @@ ToBeeSkinBuilder >> skinClassFor: anElement [
 
 	^ ToBeeSkin
 ]
+
+{ #category : #'writer selecting' }
+ToBeeSkinBuilder >> writersFor: anElement [
+
+	anElement withAllStamps: anElement defaultBeeStyleStamps.
+	^ super writersFor: anElement
+
+]

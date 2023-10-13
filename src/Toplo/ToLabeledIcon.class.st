@@ -4,12 +4,12 @@ Class {
 	#traits : 'TToOrientable',
 	#classTraits : 'TToOrientable classTrait',
 	#instVars : [
-		'#iconHolder',
-		'#labelHolder',
-		'#icon => ToSkinnableSlot',
-		'#filler => ToSkinnableSlot',
-		'#label => ToSkinnableSlot',
-		'#labelOffset'
+		'iconHolder',
+		'labelHolder',
+		'icon',
+		'filler',
+		'label',
+		'labelOffset'
 	],
 	#category : #'Toplo-Core'
 }
@@ -19,7 +19,7 @@ ToLabeledIcon >> beIconFirst [
 
 	self isIconFirst ifTrue: [ ^ self ].
 	self leftToRight: true.
-	self updateSkin.
+	self reinstallMySkin.
 	self requestLayout
 ]
 
@@ -28,7 +28,7 @@ ToLabeledIcon >> beLabelFirst [
 
 	self isLabelFirst ifTrue: [ ^ self ].
 	self leftToRight: false.
-	self updateSkin.
+	self reinstallMySkin.
 	self requestLayout
 ]
 
@@ -230,10 +230,4 @@ ToLabeledIcon >> labelText: aText [
 ToLabeledIcon >> layoutStrategy [
 
 	^ self layout
-]
-
-{ #category : #'t - skinable - initialization' }
-ToLabeledIcon >> updateSkin [
-
-	super updateSkin
 ]

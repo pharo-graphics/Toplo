@@ -4,7 +4,7 @@ Class {
 	#traits : 'TToElementWithLabeledIcon',
 	#classTraits : 'TToElementWithLabeledIcon classTrait',
 	#instVars : [
-		'#labeledIcon => ToSkinnableSlot'
+		'labeledIcon'
 	],
 	#category : #'Toplo-Widget-Button-Core'
 }

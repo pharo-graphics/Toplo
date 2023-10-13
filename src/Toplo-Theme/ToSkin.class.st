@@ -1,9 +1,6 @@
 Class {
 	#name : #ToSkin,
 	#superclass : #BlCustomEventHandler,
-	#instVars : [
-		'installStep'
-	],
 	#category : #'Toplo-Theme-Core'
 }
 
@@ -70,103 +67,14 @@ ToSkin >> initialLookEvent: anEvent [
 
 ]
 
-{ #category : #initialization }
-ToSkin >> initialize [
-
-	super initialize.
-	self markAsNotInstalled
-
-]
-
-{ #category : #'private - installation' }
-ToSkin >> initializedLevel [
-
-	^ 2
-
-]
-
 { #category : #'event handling' }
 ToSkin >> installLookEvent: anEvent [
 
 
 ]
 
-{ #category : #'private - installation' }
-ToSkin >> installedLevel [
-
-	^ 1
-]
-
-{ #category : #'private - installation' }
-ToSkin >> isInitialized [
-
-	^ installStep >= self initializedLevel 
-]
-
-{ #category : #'private - installation' }
-ToSkin >> isInstalled [
-
-	^ installStep >= self installedLevel 
-]
-
-{ #category : #'private - installation' }
-ToSkin >> launchSkinInitializationIn: anElement [
-
-	self isInitialized ifTrue: [ ^ self ].
-	self markAsInitialized.
-	anElement isDisabled ifTrue: [ ^ anElement switchToSkinState: ToDisabledState new ].
-	anElement switchToSkinState: ToInitialState new.
-
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToSkin >> launchSkinInstallationIn: anElement [
-
-	self isInitialized ifTrue: [ ^ self ].
-	self isInstalled ifTrue: [ ^ self launchSkinInitializationIn: anElement ].
-	self markAsInstalled.
-	anElement switchToSkinState: ToInstallState new.
-	self launchSkinInitializationIn: anElement.
-
-]
-
-{ #category : #'private - installation' }
-ToSkin >> launchSkinUninstallationIn: anElement [
-
-	self isInstalled ifFalse: [ ^ self ].
-	anElement dispatchLookEvent: ToUninstallLookEvent new.
-	self onSkinUninstalledIn: anElement.
-	self markAsNotInstalled 
-]
-
 { #category : #'event handling' }
 ToSkin >> leavedLookEvent: anEvent [
-
-
-]
-
-{ #category : #'private - installation' }
-ToSkin >> markAsInitialized [
-
-	installStep := self initializedLevel
-
-]
-
-{ #category : #'private - installation' }
-ToSkin >> markAsInstalled [
-
-	installStep := self installedLevel 
-]
-
-{ #category : #'private - installation' }
-ToSkin >> markAsNotInstalled [
-
-	installStep := 0
-]
-
-{ #category : #'api - install/uninstall  hook' }
-ToSkin >> onSkinUninstalledIn: anElement [
 
 
 ]
@@ -198,17 +106,16 @@ ToSkin >> selectedLookEvent: anEvent [
 { #category : #'event handling' }
 ToSkin >> skinChangedEvent: anEvent [
 
-	anEvent target childrenDo: [ :child | child updateSkin ].
 	anEvent target switchToSkinState: ToInstallState new.
-
+	anEvent target isDisabled ifTrue: [
+		^ anEvent target switchToSkinState: ToDisabledState new ].
+	anEvent target switchToSkinState: ToInitialState new
 ]
 
 { #category : #'event handling' }
 ToSkin >> themeChangedEvent: anEvent [
 
-	self launchSkinUninstallationIn: anEvent currentTarget.
-	self launchSkinInstallationIn: anEvent currentTarget.	
-	self launchSkinInitializationIn:  anEvent currentTarget.
+	anEvent currentTarget updateDefaultSkin
 ]
 
 { #category : #'event handling' }

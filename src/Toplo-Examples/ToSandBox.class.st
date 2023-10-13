@@ -53,7 +53,8 @@ ToSandBox class >> example_BasicComboBoxWithStatesOfAmerica [
 ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
 
 	| chk btn space |
-	ToStyleSheetTheme cleanUp.
+	ToTheme cleanUp.
+
 	chk := ToCheckbox new.
 	chk labelText: 'OK'.
 	btn := ToButton new.
@@ -64,6 +65,7 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
 	btn withStamp: #danger.
 	btn size: 500 @ 100.
 	space := BlSpace new.
+	space toTheme: ToBeeLightTheme new.
 	space root layout: BlLinearLayout vertical.
 	space root addChildren: {
 			chk.
@@ -75,7 +77,7 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
 ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheetDarkTheme [
 
 	| chk btn space |
-	ToStyleSheetTheme cleanUp.
+	ToTheme cleanUp.
 	chk := ToCheckbox new.
 	chk labelText: 'OK'.
 	btn := ToButton new.
@@ -97,7 +99,7 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheetDarkTheme [
 ToSandBox class >> example_CheckBoxWithDefaultStyleSheetDarkTheme [
 
 	| chk  space |
-	ToStyleSheetTheme cleanUp.
+	ToTheme cleanUp.
 	chk := ToCheckbox new.
 	chk labelText: 'OK'.
 	space := BlSpace new toTheme: ToBeeDarkTheme new; yourself.
@@ -1438,10 +1440,12 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 ToSandBox class >> example_StyleSheetSandbox [
 
 	| b |
-	ToStyleSheetTheme cleanUp.
+	ToTheme cleanUp.
 	"b := ToCheckbox new."
 	"b := ToRadioButton new."
 	b := ToButton new.
+	b toTheme: ToBeeLightTheme new.
+
 	"b := ToToggleButton new."
 	"b stampWith: #primary. "
 	"b stampWith: #'large-sizing'."
@@ -1451,7 +1455,7 @@ ToSandBox class >> example_StyleSheetSandbox [
 	b withStamp: #'icon-first'.
 	b withStamp: #'label-first'.
 	"b withStamp: #'interspace-1' -> 300."
-	b justified: true.
+	b interspace: #flexible.
 	"b stampWith: #circle."
 	"b stampWith: #round."
 	"b stampWith: #link. "
@@ -1802,7 +1806,7 @@ ToSandBox class >> example_ToLabelWithHeadingSkin [
 				        type: typeAssoc value new;
 				        heading: headingAssoc value new;
 				        yourself.
-			lab := ToLabel new withSkin: skin.
+			lab := ToLabel new installSkin: skin.
 			lab text: typeAssoc key , ' ' , headingAssoc key.
 			listElement data add: lab ] ].
 	space root addChild: listElement.
@@ -2187,7 +2191,8 @@ ToSandBox class >> example_overlayWindow1 [
 { #category : #window }
 ToSandBox class >> example_rootFrame1 [
 
-	ToInnerWindow new
+	| e |
+	(e := ToInnerWindow new)
 		title: 'Internal Frame example';
 		openInSpace
 ]

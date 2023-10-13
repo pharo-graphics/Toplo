@@ -23,16 +23,14 @@ ToBeeStyleSheetTest >> setUp [
 ToBeeStyleSheetTest >> testDefaultButtonSkin [
 
 	| ss button writers skin labelSkin ssi |
-	ss := ToBeeStyleSheet new.
-	ssi := ToStyleSheetSkinBuilder new.
-	button := ToButton new.
-	writers := ssi writersFor: button.
+	button := ToButton new toTheme: ToBeeLightTheme new.
+	writers := button skinBuilder writersFor: button.
 	self assert: writers notEmpty.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	button withSkin: nil.
+	button installSkin: nil.
 	self assert: button privateSkin isNil.
-	button withSkin: skin.
+	button installSkin: skin.
 	button checkSkinInstallation.
 	self assert: button border width equals: 1.
 	self assert: button border paint isColorPaint.
@@ -42,9 +40,9 @@ ToBeeStyleSheetTest >> testDefaultButtonSkin [
 	button label privateSkin: nil.
 	
 	labelSkin := ToStyleSheetSkin new.
-	writers := ssi writersFor: button label.
+	writers := button label skinBuilder writersFor: button label.
 	labelSkin writers: writers.
-	button label withSkin: labelSkin.
+	button label installSkin: labelSkin.
 	button checkSkinInstallation.
 	
 	

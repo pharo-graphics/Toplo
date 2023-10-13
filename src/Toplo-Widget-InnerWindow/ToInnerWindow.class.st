@@ -86,6 +86,7 @@ ToInnerWindow >> defaultBarElement [
 			fill3.
 			expandButton.
 			fill4 }.
+	b childrenDo: [ :child | child constraintsDo: [ :c | c linear vertical alignCenter ] ].
 	^ b
 ]
 
@@ -176,14 +177,14 @@ ToInnerWindow >> initializeRootElement [
 ToInnerWindow >> installRawStyle [
 
 	super installRawStyle.
+
 	self background: Color lightGray.
 	self bar
 		padding: (BlInsets top: 2 bottom: 1);
 		outskirts: BlOutskirts inside.
 	self closeButton icon: (ToImage inner: (self iconNamed: #windowCloseForm)).
-	self closeButton size: 18 @ 18.
 	self expandButton icon: (ToImage inner: (self iconNamed: #windowMaximizeForm)).
-	self expandButton size: 18 @ 18
+
 ]
 
 { #category : #'api - displaying' }

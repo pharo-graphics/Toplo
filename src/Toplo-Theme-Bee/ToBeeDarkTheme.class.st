@@ -78,10 +78,3 @@ ToBeeDarkTheme >> defaultStampList [
 
  } ]
 ]
-
-{ #category : #colors }
-ToBeeDarkTheme >> initialize [ 
-
-	super initialize.
-	self name: 'Toplo Dark'.
-]

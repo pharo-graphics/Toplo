@@ -29,7 +29,7 @@ BlElement >> checkSkinInitialization [
 BlElement >> checkSkinInstallation [
 
 	self childrenDo: [ :child | child checkSkinInstallation ].
-	self launchSkinInstallation.
+	self skinInstaller ifNotNil: [ :si | si applyOn: self ].
 
 ]
 
@@ -47,7 +47,7 @@ BlElement >> currentSkinState: aState [
 
 { #category : #'*Toplo' }
 BlElement >> defaultSkin [
-self traceCr.
+
 	^  self skinBuilder skinFor: self
 ]
 
@@ -132,6 +132,27 @@ BlElement >> installRawStyle [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> installSkin [
+
+	self skinInstaller: ToLazySkintInstaller new
+]
+
+{ #category : #'*Toplo' }
+BlElement >> installSkin: aSkin [
+
+	self privateSkin ifNotNil: [ :s | self removeEventHandler: s ].
+	aSkin ifNotNil: [ :s |
+		self skinInstaller: (ToExplicitSkinInstaller new skin: s) ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> installSkinRecursively [
+
+	self childrenDo: [ :child | child installSkinRecursively ].
+	self installSkin
+]
+
+{ #category : #'*Toplo' }
 BlElement >> isDisabled [
 
 	^ self isFlaggedAsDisabled
@@ -153,19 +174,6 @@ BlElement >> isFlaggedAsDisabled [
 BlElement >> isFlaggedAsEnabled [
 
 	^ self userData at: #enabled ifAbsentPut: [ true ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> launchSkinInstallation [
-
-	self privateSkin ifNotNil: [ :s | s launchSkinInstallationIn: self ]
-	
-]
-
-{ #category : #'*Toplo' }
-BlElement >> launchSkinUninstallation [
-
-	self privateSkin ifNotNil: [ :s | s launchSkinUninstallationIn: self ]
 ]
 
 { #category : #'*Toplo' }
@@ -254,6 +262,14 @@ BlElement >> rawSkin [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> reinstallMySkin [
+
+	self privateSkin ifNotNil: [ :s |
+		self skinInstaller: (ToExplicitSkinInstaller new skin: s).
+		self installSkin: nil ]
+]
+
+{ #category : #'*Toplo' }
 BlElement >> removeAllStyleStamps [
 
 	| index |
@@ -307,6 +323,18 @@ BlElement >> skinDo: aBlock [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> skinInstaller [
+
+	^ self userData at: #skinInstaller ifAbsent: [  ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> skinInstaller: aSkinInstaller [
+
+	self userData at: #skinInstaller put: aSkinInstaller
+]
+
+{ #category : #'*Toplo' }
 BlElement >> stampNamed: aSymbol [
 
 	(self lookUpStyleStampNamed: aSymbol) ifNotNil: [ :s | ^ s ].
@@ -337,9 +365,9 @@ BlElement >> styleSheet: aStyleSheet [
 
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> styleSheetChain [
-
 	" return an array with all my inherited stylesheets "
-	^ Array streamContents: [ :str |
+
+	^ Array new: 20 streamContents: [ :str |
 		  | current inherits |
 		  current := self.
 		  inherits := true.
@@ -348,7 +376,8 @@ BlElement >> styleSheetChain [
 				  str nextPut: ss.
 				  inherits := ss inherits ].
 			  current := current parent ].
-		  (self toTheme notNil and: [ inherits ]) ifTrue: [
+		  (self toTheme notNil and: [
+			   self toTheme styleSheet notNil and: [ inherits ] ]) ifTrue: [
 			  str nextPut: self toTheme styleSheet ] ]
 ]
 
@@ -399,9 +428,9 @@ BlElement >> toThemeChanged [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> updateSkin [
+BlElement >> updateDefaultSkin [
 
-
+	self installSkin: self defaultSkin
 ]
 
 { #category : #'*Toplo' }
@@ -409,17 +438,6 @@ BlElement >> withAllStamps: aCollectionOfSymbol [
 
 	aCollectionOfSymbol ifEmpty: [ ^ self ].
 	aCollectionOfSymbol do: [ :s | self withStamp: s ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> withSkin: aSkin [
-
-	self privateSkin ifNotNil: [ :s |
-		self removeEventHandler: s ].
-	self privateSkin: aSkin.
-	self privateSkin ifNotNil: [ :s |
-		self addEventHandler: s.
-		self dispatchSkinChangedEvent ]
 ]
 
 { #category : #'*Toplo' }

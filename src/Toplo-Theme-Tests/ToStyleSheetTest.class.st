@@ -12,7 +12,7 @@ ToStyleSheetTest >> testButtonLabelSkin0 [
 
 	| ss button labelSkin attributes foregroundAttr prop writers label ssi |
 	" declare a local only stylesheet "
-	ss := ToStyleSheet new inherits: false; yourself.
+	ss := ToBeeStyleSheet new inherits: false; yourself.
 	ssi := ToStyleSheetSkinBuilder new.
 
 	" danger button label rule "
@@ -45,7 +45,7 @@ ToStyleSheetTest >> testButtonLabelSkin0 [
 					 write: prop
 					 with: [ :e | (e stampValue: #'color-error-pressed') ] ]).
 
-	button := ToButton new.
+	button := ToButton new toTheme: ToBeeLightTheme new.
 	button styleSheet: ss.
 	label := (ToLabel text: 'Default') defaultSkin: nil.
 	button label: label.
@@ -61,7 +61,7 @@ ToStyleSheetTest >> testButtonLabelSkin0 [
 	self assert: writers size equals: 5.
 
 	labelSkin writers: writers.
-	button label withSkin: labelSkin.
+	button label installSkin: labelSkin.
 	button label checkSkinInstallation.
 	attributes := button label text attributesAt: 1.
 	self assert: attributes notEmpty.
@@ -154,9 +154,9 @@ ToStyleSheetTest >> testButtonSkin0 [
 	self assert: writers size equals: 6.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	button withSkin: nil.
+	button installSkin: nil.
 	self assert: button privateSkin isNil.
-	button withSkin: skin.
+	button installSkin: skin.
 	button checkSkinInstallation.
 	self assert: button border width equals: 1.
 	self assert: button border paint isColorPaint.
@@ -166,7 +166,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 
 	label := ToLabel text: 'Default'.
 	label defaultSkin: nil.
-	label withSkin: nil.
+	label installSkin: nil.
 	button label: label.
 	labelSkin := ToStyleSheetSkin new.
 	writers := ssi writersFor: button label.
@@ -180,7 +180,7 @@ ToStyleSheetTest >> testButtonSkin0 [
 	self assert: writers size equals: 4.
 
 	labelSkin writers: writers.
-	label withSkin: labelSkin.
+	label installSkin: labelSkin.
 	label checkSkinInstallation.
 	attributes := button label text attributesAt: 1.
 	self assert: attributes notEmpty.
@@ -225,7 +225,7 @@ ToStyleSheetTest >> testButtonSkinWithInterspace [
 	self assert: writers size equals: 2.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	elem withSkin: skin.
+	elem installSkin: skin.
 	elem checkSkinInstallation.
 	self assert: (elem layout isKindOf: BlLinearLayout).
 	self assert: elem layout interspace equals: 10
@@ -292,7 +292,7 @@ ToStyleSheetTest >> testSkinWithAnUniversalRule [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	elem withSkin: skin.
+	elem installSkin: skin.
 	elem checkSkinInstallation.
 	self assert: elem background paint color equals: Color red
 ]
@@ -323,7 +323,7 @@ ToStyleSheetTest >> testSkinWithChildRule [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	child withSkin: skin.
+	child installSkin: skin.
 	parent checkSkinInstallation.
 	self assert: child border width equals: 3.
 	self assert: child border paint isColorPaint.
@@ -359,7 +359,7 @@ ToStyleSheetTest >> testSkinWithChildRuleLevel2 [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	child withSkin: skin.
+	child installSkin: skin.
 	parent checkSkinInstallation.
 	self assert: child border width equals: 3.
 	self assert: child border paint isColorPaint.
@@ -386,7 +386,7 @@ ToStyleSheetTest >> testSkinWithIdRule [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	elem withSkin: skin.
+	elem installSkin: skin.
 	elem checkSkinInstallation.
 	self assert: elem border width equals: 3.
 	self assert: elem border paint isColorPaint.
@@ -422,7 +422,7 @@ ToStyleSheetTest >> testStyleSheetStyle0 [
 	self assert: writers size equals: 3.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	button withSkin: skin.
+	button installSkin: skin.
 
 	button switchToSkinState: ToInstallState new.
 	self assert: button background paint isColorPaint.
@@ -468,7 +468,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules0 [
 	self assert: writers size equals: 3.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	button withSkin: skin.
+	button installSkin: skin.
 
 	button switchToSkinState: ToInstallState new.
 	self assert: button background paint isColorPaint.
@@ -479,7 +479,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules0 [
 	self assert: button background paint color equals: Color black.
 
 	button withStamp: #danger.
-	button updateSkin.
+	button installSkinRecursively .
 	button switchToSkinState: ToInstallState new.
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color red.
@@ -533,7 +533,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules1 [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	child withSkin: skin.
+	child installSkin: skin.
 
 	child switchToSkinState: ToInstallState new.
 	self assert: child background paint isColorPaint.
@@ -580,7 +580,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules2 [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	child withSkin: skin.
+	child installSkin: skin.
 
 	child switchToSkinState: ToInstallState new.
 	self assert: child background paint isColorPaint.
@@ -628,7 +628,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules22 [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	child withSkin: skin.
+	child installSkin: skin.
 
 	child switchToSkinState: ToInstallState new.
 	self assert: child background paint isColorPaint.
@@ -677,7 +677,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules3 [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	child withSkin: skin.
+	child installSkin: skin.
 
 	child switchToSkinState: ToInstallState new.
 	self assert: child background paint isColorPaint.
@@ -732,7 +732,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules32 [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	child withSkin: skin.
+	child installSkin: skin.
 
 	child switchToSkinState: ToInstallState new.
 	self assert: child background paint isColorPaint.
@@ -778,7 +778,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithSubRules33 [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	child withSkin: skin.
+	child installSkin: skin.
 
 	child switchToSkinState: ToInstallState new.
 	self assert: child background paint isColorPaint.
@@ -816,7 +816,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules1 [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	child withSkin: skin.
+	child installSkin: skin.
 
 	child switchToSkinState: ToInstallState new.
 	self assert: child background paint isColorPaint.
@@ -855,7 +855,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules2 [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	child withSkin: skin.
+	child installSkin: skin.
 
 	child switchToSkinState: ToInstallState new.
 	self assert: child background paint isColorPaint.
@@ -897,7 +897,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules3 [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	child withSkin: skin.
+	child installSkin: skin.
 
 	child switchToSkinState: ToInstallState new.
 	self assert: child background paint isColorPaint.
@@ -944,7 +944,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules4 [
 	ss addAllStyleRules: rules.
 	writers := ssi writersFor: child.
 	self assert: writers size equals: 1.
-	child updateSkin.
+	child installSkinRecursively .
 
 	child switchToSkinState: ToInstallState new.
 	self assert: child background paint isColorPaint.
@@ -953,7 +953,7 @@ ToStyleSheetTest >> testStyleSheetStyleWithoutSubRules4 [
 	elem withAllStamps: #( #elem #blue ).
 	writers := ssi writersFor: child.
 	self assert: writers size equals: 1.
-	child updateSkin.
+	child installSkinRecursively .
 
 	child switchToSkinState: ToInstallState new.
 	self assert: child background paint isColorPaint.

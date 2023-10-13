@@ -24,20 +24,21 @@ ToElement >> initialize [
 	super initialize.
 	self class initializeSlots: self.
 	self layout: self defaultLayout.
-	self initializeSkinInstallationPhaseChecker.
+	self startSkinInstallationPhaseChecker.
 	
-]
-
-{ #category : #initialization }
-ToElement >> initializeSkinInstallationPhaseChecker [
-
-	self addEventHandler: ToSpaceSkinInstallationPhaseCheckerEventHandler new
 ]
 
 { #category : #accessing }
 ToElement >> innerElement [ 
 
 	^ nil
+]
+
+{ #category : #'hooks - children' }
+ToElement >> onAddedToSceneGraph [
+
+	super onAddedToSceneGraph.
+	self installSkinRecursively 
 ]
 
 { #category : #'t - layout resizeable' }
@@ -56,4 +57,10 @@ ToElement >> resizableConstraintsDo: aBlock [
 	self constraintsDo: aBlock.
 	self dispatchEvent: ToLayoutConstraintsChangedEvent new
 	
+]
+
+{ #category : #initialization }
+ToElement >> startSkinInstallationPhaseChecker [
+
+	self addEventHandler: ToSpaceSkinInstallationPhaseCheckerEventHandler new
 ]

@@ -5,17 +5,7 @@ Class {
 }
 
 { #category : #skin }
-ToRadioButton >> defaultBlankCheckboxImage [
+ToRadioButton >> iconGeometry [
 
-	| im |
-	im := super defaultBlankCheckboxImage.
-	im geometry: BlCircleGeometry new.
-	^ im
-]
-
-{ #category : #skin }
-ToRadioButton >> installRawStyle [ 
-
-	super installRawStyle.
-	self icon geometry: BlCircleGeometry new.
+	^ BlCircleGeometry new
 ]

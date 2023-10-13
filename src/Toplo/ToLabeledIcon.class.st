@@ -137,9 +137,15 @@ ToLabeledIcon >> interspace: aPointOrSymbol [
 ]
 
 { #category : #testing }
+ToLabeledIcon >> isExact [
+
+	^ self filler constraints horizontal resizer isExact
+]
+
+{ #category : #testing }
 ToLabeledIcon >> isFlexible [
 
-	^ self filler constraints horizontal resizer isExact not
+	^ self isExact not
 ]
 
 { #category : #testing }

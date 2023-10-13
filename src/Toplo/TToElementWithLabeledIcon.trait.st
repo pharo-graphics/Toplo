@@ -66,6 +66,18 @@ TToElementWithLabeledIcon >> interspace: aPointOrSymbol [
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> isExact [
+
+	^ self labeledIcon isExact
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> isFlexible [
+
+	^ self labeledIcon isFlexible
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> isHorizontal [
 
 	^ self labeledIcon isHorizontal
@@ -108,6 +120,12 @@ TToElementWithLabeledIcon >> label: anElement [
 TToElementWithLabeledIcon >> labelFirst: aBoolean [
 
 	self labeledIcon labelFirst: aBoolean
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> labelIconfiller [
+
+	^ self labeledIcon filler
 ]
 
 { #category : #'t - element with labeled icon - accessing' }

@@ -21,16 +21,17 @@ ToButton >> initialize [
 	super initialize.
 	labeledIcon := ToLabeledIcon new.
 	self addChild: labeledIcon.
+	self labeledIcon hMatchParent.
 	self fitContent
 ]
 
 { #category : #skin }
-ToButton >> installRawStyle [ 
+ToButton >> installRawStyle [
 
 	super installRawStyle.
-	((self label notNil) and: [ self icon notNil ])
-		ifTrue: [ self interspace: 10 ]
-
+	(self label notNil and: [ self icon notNil ]) ifTrue: [
+		(self isExact and: [ self labelIconfiller requestedWidth isZero ])
+			ifTrue: [ self labelIconfiller width: 10 ] ]
 ]
 
 { #category : #'t - element with labeled icon - accessing' }

@@ -113,12 +113,149 @@ ToSandBox class >> example_CheckboxChecked [
 
 	| chb |
 	ToTheme cleanUp.
-	chb := ToCheckbox new
-				interspace: 10;
-		       label: (ToLabel text: 'Checkbox');
-		       id: 1 asString.
+	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
 	chb checked: true.
 	chb openInInnerWindow
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_CheckboxFlexible [
+
+	| chb |
+	ToTheme cleanUp.
+	chb := ToCheckbox new
+		       interspace: #flexible;
+		       hMatchParent;
+		       labelText: 'Checkbox' asString.
+	"chb inspect."
+	chb openInInnerWindow
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_CheckboxFlexibleWithGroup [
+
+	| group container buttons |
+	group := ToCheckableGroup new.
+	buttons := OrderedCollection new.
+	1 to: 4 do: [ :idx |
+		| chb |
+		chb := ToCheckbox new
+			       interspace: #flexible;
+			       hMatchParent;
+			       beLabelFirst;
+			       labelText: idx asString;
+			       id: idx asString.
+		buttons add: chb ].
+	buttons second checked: true.
+	group addAll: buttons.
+	group when: ToCheckableGroupChangedEvent do: [ :event |
+		('checked: ' , event checkedButtons asString , ' unchecked: '
+		 , event uncheckedButtons asString) traceCr ].
+
+	container := ToElement new.
+	container background: Color veryLightGray.
+	container matchParent.
+
+	container layout: BlLinearLayout vertical.
+	container layout cellSpacing: 5.
+
+	container addChildren: group buttons.
+	container openInSpace
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_CheckboxGroupAndNoneStrategy [
+
+	| group container buttons |
+	group := ToCheckableGroup new.
+	group withoutCheckingStrategy.
+	buttons := OrderedCollection new.
+	1 to: 4 do: [ :idx |
+		| chb |
+		chb := ToCheckbox new
+			       beLabelFirst;
+			       labelText: idx asString;
+			       id: idx asString.
+		buttons add: chb ].
+	buttons second checked: true.
+	group addAll: buttons.
+	group when: ToCheckableGroupChangedEvent do: [ :event |
+		('checked: ' , event checkedButtons asString , ' unchecked: '
+		 , event uncheckedButtons asString) traceCr ].
+
+	container := ToElement new.
+	container constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical matchParent ].
+
+	container layout: BlLinearLayout vertical.
+	container layout cellSpacing: 5.
+
+	container addChildren: group buttons.
+	container openInSpace
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_CheckboxGroupAndStrictStrategy [
+
+	| group container buttons |
+	group := ToCheckableGroup new.
+	buttons := OrderedCollection new.
+	1 to: 4 do: [ :idx |
+		| chb |
+		chb := ToCheckbox new
+			       beLabelFirst;
+			       labelText: idx asString;
+			       id: idx asString.
+		buttons add: chb ].
+	buttons second checked: true.
+	group addAll: buttons.
+	group when: ToCheckableGroupChangedEvent do: [ :event |
+		('checked: ' , event checkedButtons asString , ' unchecked: '
+		 , event uncheckedButtons asString) traceCr ].
+
+	container := ToElement new.
+	container constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical matchParent ].
+
+	container layout: BlLinearLayout vertical.
+	container layout cellSpacing: 5.
+
+	container addChildren: group buttons.
+	container openInSpace
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_CheckboxGroupAndUnckekingStrategy [
+
+	| group container buttons |
+	group := ToCheckableGroup new.
+	group withUncheckingStrategy.
+	buttons := OrderedCollection new.
+	1 to: 4 do: [ :idx |
+		| chb |
+		chb := ToCheckbox new
+			       beLabelFirst;
+			       labelText: idx asString;
+			       id: idx asString.
+		buttons add: chb ].
+	buttons second checked: true.
+	group addAll: buttons.
+	group when: ToCheckableGroupChangedEvent do: [ :event |
+		('checked: ' , event checkedButtons asString , ' unchecked: '
+		 , event uncheckedButtons asString) traceCr ].
+
+	container := ToElement new.
+	container constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical matchParent ].
+
+	container layout: BlLinearLayout vertical.
+	container layout cellSpacing: 5.
+
+	container addChildren: group buttons.
+	container openInSpace
 ]
 
 { #category : #checkbox }
@@ -130,6 +267,42 @@ ToSandBox class >> example_CheckboxUnchecked [
 				interspace: 10;
 		       label: (ToLabel text: 'Checkbox');
 		       id: 1 asString.
+	chb openInInnerWindow
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_CheckboxVerticalGroupHorizontal [
+
+	| group container |
+	group := ToCheckableGroup new.
+	1 to: 4 do: [ :idx |
+		| chb |
+		chb := ToRadioButton new
+			       beVertical;
+			       labelText: idx asString;
+			       id: idx asString.
+		chb beIconFirst.
+		group add: chb ].
+
+	group buttons second checked: true.
+	container := ToElement new.
+	container matchParent.
+	container layout: BlLinearLayout horizontal.
+	container addChildren: group buttons.
+	group when: ToCheckableGroupChangedEvent do: [ :event |
+		('checked: ' , event checkedButtons asString , ' unchecked: '
+		 , event uncheckedButtons asString) traceCr ].
+	container openInInnerWindow 
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_CheckboxWithExactWidth [
+
+	| chb |
+	ToTheme cleanUp.
+	chb := ToCheckbox new
+		       interspace: 100 @ 0;
+		       labelText: 'Checkbox' asString.
 	chb openInInnerWindow
 ]
 
@@ -2558,158 +2731,6 @@ ToSandBox class >> example_toButtonWithTooltipText [
  
 ]
 
-{ #category : #checkbox }
-ToSandBox class >> example_toCheckboxWithGroup2 [
-
-	| group container |
-	group := ToCheckableGroup new.
-	1 to: 4 do: [ :idx |
-		| chb |
-		chb := ToRadioButton new
-			       beVertical;
-			       labelText: idx asString;
-			       id: idx asString.
-		chb beIconFirst.
-		group add: chb ].
-
-	group buttons second checked: true.
-	container := ToElement new.
-	container matchParent.
-	container layout: BlLinearLayout horizontal.
-	container addChildren: group buttons.
-	group when: ToCheckableGroupChangedEvent do: [ :event |
-		('checked: ' , event checkedButtons asString , ' unchecked: '
-		 , event uncheckedButtons asString) traceCr ].
-	container openInInnerWindow 
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_toCheckboxWithGroupAndNoneStrategy [
-
-	| group container buttons |
-	group := ToCheckableGroup new.
-	group withoutCheckingStrategy.
-	buttons := OrderedCollection new.
-	1 to: 4 do: [ :idx |
-		| chb |
-		chb := ToCheckbox new
-			       beLabelFirst;
-			       labelText: idx asString;
-			       id: idx asString.
-		buttons add: chb ].
-	buttons second checked: true.
-	group addAll: buttons.
-	group when: ToCheckableGroupChangedEvent do: [ :event |
-		('checked: ' , event checkedButtons asString , ' unchecked: '
-		 , event uncheckedButtons asString) traceCr ].
-
-	container := BlElement new.
-	container constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical matchParent ].
-
-	container layout: BlLinearLayout vertical.
-	container layout cellSpacing: 5.
-
-	container addChildren: group buttons.
-	container openInSpace
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_toCheckboxWithGroupAndStrictStrategy [
-
-	| group container buttons |
-	group := ToCheckableGroup new.
-	buttons := OrderedCollection new.
-	1 to: 4 do: [ :idx |
-		| chb |
-		chb := ToCheckbox new
-			       beLabelFirst;
-			       labelText: idx asString;
-			       id: idx asString.
-		buttons add: chb ].
-	buttons second checked: true.
-	group addAll: buttons.
-	group when: ToCheckableGroupChangedEvent do: [ :event |
-		('checked: ' , event checkedButtons asString , ' unchecked: '
-		 , event uncheckedButtons asString) traceCr ].
-
-	container := ToElement new.
-	container constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical matchParent ].
-
-	container layout: BlLinearLayout vertical.
-	container layout cellSpacing: 5.
-
-	container addChildren: group buttons.
-	container openInSpace
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_toCheckboxWithGroupAndUnckekingStrategy [
-
-	| group container buttons |
-	group := ToCheckableGroup new.
-	group withUncheckingStrategy.
-	buttons := OrderedCollection new.
-	1 to: 4 do: [ :idx |
-		| chb |
-		chb := ToCheckbox new
-			       beLabelFirst;
-			       labelText: idx asString;
-			       id: idx asString.
-		buttons add: chb ].
-	buttons second checked: true.
-	group addAll: buttons.
-	group when: ToCheckableGroupChangedEvent do: [ :event |
-		('checked: ' , event checkedButtons asString , ' unchecked: '
-		 , event uncheckedButtons asString) traceCr ].
-
-	container := BlElement new.
-	container constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical matchParent ].
-
-	container layout: BlLinearLayout vertical.
-	container layout cellSpacing: 5.
-
-	container addChildren: group buttons.
-	container openInSpace
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_toCheckboxWithGroupFlexible [
-
-	| group container buttons |
-	group := ToCheckableGroup new.
-	buttons := OrderedCollection new.
-	1 to: 4 do: [ :idx |
-		| chb |
-		chb := ToCheckbox new
-			       interspace: #flexible;
-			       hMatchParent;
-			       beLabelFirst;
-			       labelText: idx asString;
-			       id: idx asString.
-		buttons add: chb ].
-	buttons second checked: true.
-	group addAll: buttons.
-	group when: ToCheckableGroupChangedEvent do: [ :event |
-		('checked: ' , event checkedButtons asString , ' unchecked: '
-		 , event uncheckedButtons asString) traceCr ].
-
-	container := ToElement new.
-	container background: Color veryLightGray.
-	container matchParent.
-
-	container layout: BlLinearLayout vertical.
-	container layout cellSpacing: 5.
-
-	container addChildren: group buttons.
-	container openInSpace
-]
-
 { #category : #image }
 ToSandBox class >> example_toImage0 [
 
@@ -2902,26 +2923,6 @@ ToSandBox class >> example_toLabel_Multiline2_Centered [
 			lab1.
 			lab2 }.
 	space := container openInSpace
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_toRadioButton0 [
-
-	| but |
-	ToStyleSheetTheme cleanUp.
-	but := ToRadioButton new.
-	but checked: true.
-	but labelText: 'Radio'.
-	but inspect.
-	but openInSpace
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_toRadioButtonWithIndeterminate [
-
-	| but |
-	but := ToRadioButton new withIndeterminate: true.
-	but openInSpace
 ]
 
 { #category : #'button-dep' }

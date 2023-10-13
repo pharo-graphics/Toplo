@@ -22,7 +22,7 @@ ToCheckbox >> defaultBlankCheckboxImage [
 	im layout: BlFrameLayout new.
 	im size: 16 asPoint.
 	im addChild: bar.
-	im geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
+	im geometry: self iconGeometry.
 	^ im
 ]
 
@@ -63,6 +63,12 @@ ToCheckbox >> iconDefaultBorder [
 ]
 
 { #category : #skin }
+ToCheckbox >> iconGeometry [
+
+	^ BlRoundedRectangleGeometry cornerRadius: 4
+]
+
+{ #category : #skin }
 ToCheckbox >> iconHoveredBorder [ 
 
 	^ BlBorder paint: (Color lightGray) width: 1
@@ -97,7 +103,7 @@ ToCheckbox >> installRawStyle [
 
 	super installRawStyle.
 	self iconImage: self defaultBlankCheckboxImage.
-	self icon geometry: (BlRoundedRectangleGeometry cornerRadius: 4) .
+	self icon geometry: self iconGeometry.
 ]
 
 { #category : #skin }

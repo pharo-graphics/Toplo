@@ -38,7 +38,7 @@ ToElement >> innerElement [
 ToElement >> onAddedToSceneGraph [
 
 	super onAddedToSceneGraph.
-	self installSkinRecursively 
+	self installDefaultSkinRecursively 
 ]
 
 { #category : #'t - layout resizeable' }

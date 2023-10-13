@@ -22,10 +22,6 @@ BlElement >> borderBuilder [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> checkSkinInitialization [
-]
-
-{ #category : #'*Toplo' }
 BlElement >> checkSkinInstallation [
 
 	self childrenDo: [ :child | child checkSkinInstallation ].
@@ -128,13 +124,20 @@ BlElement >> holder [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> installRawStyle [
+BlElement >> installDefaultSkin [
+
+	self skinInstaller: ToLazySkintInstaller new
 ]
 
 { #category : #'*Toplo' }
-BlElement >> installSkin [
+BlElement >> installDefaultSkinRecursively [
 
-	self skinInstaller: ToLazySkintInstaller new
+	self childrenDo: [ :child | child installDefaultSkinRecursively ].
+	self installDefaultSkin
+]
+
+{ #category : #'*Toplo' }
+BlElement >> installRawStyle [
 ]
 
 { #category : #'*Toplo' }
@@ -143,13 +146,6 @@ BlElement >> installSkin: aSkin [
 	self privateSkin ifNotNil: [ :s | self removeEventHandler: s ].
 	aSkin ifNotNil: [ :s |
 		self skinInstaller: (ToExplicitSkinInstaller new skin: s) ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> installSkinRecursively [
-
-	self childrenDo: [ :child | child installSkinRecursively ].
-	self installSkin
 ]
 
 { #category : #'*Toplo' }

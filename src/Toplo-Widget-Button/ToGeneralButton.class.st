@@ -30,6 +30,12 @@ ToGeneralButton >> defaultGeometry [
 	^ BlRoundedRectangleGeometry cornerRadius: 4 
 ]
 
+{ #category : #initialization }
+ToGeneralButton >> defaultLayout [ 
+
+	^ BlLinearLayout new
+]
+
 { #category : #skin }
 ToGeneralButton >> defaultPadding [
 

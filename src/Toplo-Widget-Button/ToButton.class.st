@@ -10,12 +10,6 @@ Class {
 }
 
 { #category : #initialization }
-ToButton >> defaultLayout [ 
-
-	^ BlLinearLayout vertical
-]
-
-{ #category : #initialization }
 ToButton >> initialize [
 
 	super initialize.
@@ -23,15 +17,6 @@ ToButton >> initialize [
 	self addChild: labeledIcon.
 	self labeledIcon hMatchParent.
 	self fitContent
-]
-
-{ #category : #skin }
-ToButton >> installRawStyle [
-
-	super installRawStyle.
-	(self label notNil and: [ self icon notNil ]) ifTrue: [
-		(self isExact and: [ self labelIconfiller requestedWidth isZero ])
-			ifTrue: [ self labelIconfiller width: 10 ] ]
 ]
 
 { #category : #'t - element with labeled icon - accessing' }

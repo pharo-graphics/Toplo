@@ -259,6 +259,17 @@ ToSandBox class >> example_CheckboxGroupAndUnckekingStrategy [
 ]
 
 { #category : #checkbox }
+ToSandBox class >> example_CheckboxNoLabel [
+
+	| chb |
+	ToTheme cleanUp.
+	chb := ToCheckbox new .
+	chb checked: true.
+	chb inspect.
+	chb openInInnerWindow
+]
+
+{ #category : #checkbox }
 ToSandBox class >> example_CheckboxUnchecked [
 
 	| chb |
@@ -597,19 +608,22 @@ ToSandBox class >> example_GeneralButtonWithIconAndLabel [
 	| but lab ico pane |
 	pane := ToPane new.
 	pane fitContent.
-	pane layout alignCenter.
 	lab := ToLabel new text: 'General button'.
 	ico := ToImage inner: (self iconNamed: #remove).
 	pane addChildren: {
 			ico.
 			lab }.
+	pane childrenDo: [ :child |
+		child constraintsDo: [ :c |
+			c linear horizontal alignCenter.
+			c linear vertical alignCenter ] ].
+
 	but := ToGeneralButton new.
 	but fitContent.
 	but padding: (BlInsets all: 4).
 	but geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
 	but border: Color black.
 	but addChild: pane.
-	but layout alignCenter.
 	but whenClickedDo: [ self inform: 'clicked' ].
 	but openInSpace.
 	^ but
@@ -620,6 +634,11 @@ ToSandBox class >> example_GeneralButtonWithIconAndLabel_matchParent [
 
 	| but |
 	but := self example_GeneralButtonWithIconAndLabel.
+	but layout alignCenter.
+	but childrenDo: [ :child |
+		child constraintsDo: [ :c |
+			c linear horizontal alignCenter.
+			c linear vertical alignCenter ] ].
 	but matchParent
 ]
 

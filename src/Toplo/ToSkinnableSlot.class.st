@@ -11,8 +11,8 @@ ToSkinnableSlot >> write: aValue to: anObject [
 	" change the property value actually "
 	r := super write: aValue to: anObject.
 
-	" value has changed, dispatch to the property parent to update the property skin"
-	r ifNotNil: [ r updateSkin ].
+	" value has changed, dispatch to the property parent to update its skin"
+	anObject updateSkin.
 
 	^ r
 ]

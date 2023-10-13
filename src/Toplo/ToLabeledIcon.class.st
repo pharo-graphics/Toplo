@@ -119,7 +119,10 @@ ToLabeledIcon >> installRawStyle [
 	self childrenDo: [ :child |
 		child constraintsDo: [ :c |
 			c linear vertical alignCenter.
-			c linear horizontal alignCenter ] ]
+			c linear horizontal alignCenter ] ].
+	(self label notNil and: [ self icon notNil ]) ifTrue: [
+		(self isExact and: [ self filler requestedWidth isZero ])
+			ifTrue: [ self filler width: 10 ] ]
 ]
 
 { #category : #configurating }
@@ -227,4 +230,10 @@ ToLabeledIcon >> labelText: aText [
 ToLabeledIcon >> layoutStrategy [
 
 	^ self layout
+]
+
+{ #category : #'t - skinable - initialization' }
+ToLabeledIcon >> updateSkin [
+
+	super updateSkin
 ]

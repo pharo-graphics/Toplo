@@ -25,9 +25,9 @@ ToButton >> initialize [
 ]
 
 { #category : #skin }
-ToButton >> initializeRawStyle [ 
+ToButton >> installRawStyle [ 
 
-	super initializeRawStyle.
+	super installRawStyle.
 	((self label notNil) and: [ self icon notNil ])
 		ifTrue: [ self interspace: 10 ]
 

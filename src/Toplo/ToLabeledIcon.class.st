@@ -5,6 +5,7 @@ Class {
 	#classTraits : 'TToOrientable classTrait',
 	#instVars : [
 		'#iconHolder',
+		'#labelHolder',
 		'#icon => ToSkinnableSlot',
 		'#filler => ToSkinnableSlot',
 		'#label => ToSkinnableSlot',
@@ -75,6 +76,12 @@ ToLabeledIcon >> iconHolder [
 ]
 
 { #category : #accessing }
+ToLabeledIcon >> iconImage [
+
+	^ self icon innerImage
+]
+
+{ #category : #accessing }
 ToLabeledIcon >> iconImage: anElement [
 
 	self icon: (ToImage inner: anElement)
@@ -92,8 +99,13 @@ ToLabeledIcon >> initialize [
 		              fitContent;
 		              layout: BlFrameLayout new;
 		              yourself.
+	labelHolder := ToElement new
+		              fitContent;
+		              layout: BlFrameLayout new;
+		              yourself.
 	self addChild: iconHolder.
 	self addChild: filler.
+	self addChild: labelHolder.
 	labelOffset := 0.
 	self beIconFirst.
 	self fitContent.
@@ -101,9 +113,13 @@ ToLabeledIcon >> initialize [
 ]
 
 { #category : #skin }
-ToLabeledIcon >> initializeRawStyle [ 
+ToLabeledIcon >> installRawStyle [
 
-	super initializeRawStyle
+	super installRawStyle.
+	self childrenDo: [ :child |
+		child constraintsDo: [ :c |
+			c linear vertical alignCenter.
+			c linear horizontal alignCenter ] ]
 ]
 
 { #category : #configurating }
@@ -150,7 +166,7 @@ ToLabeledIcon >> label: anElement [
 	anElement = self label ifTrue: [ ^ self ].
 	self label ifNotNil: [ :s | self label removeFromParent].
 	anElement ifNil: [ ^ self ].
-	self addChild: anElement after: filler.
+	self labelHolder addChild: anElement.
 	label := anElement
 	
 ]
@@ -160,6 +176,12 @@ ToLabeledIcon >> labelFirst: aBoolean [
 
 	labelOffset isZero ifFalse: [ 	Error signal: 'Configurated with a label offset which is incompatible with label first configuration' ].
 	self iconFirst: aBoolean not
+]
+
+{ #category : #accessing }
+ToLabeledIcon >> labelHolder [
+
+	^ labelHolder
 ]
 
 { #category : #accessing }

@@ -7,13 +7,14 @@ ToLabeledIcon >> defaultBeeStyleStamps [
 ]
 
 { #category : #'*Toplo-Theme-Bee' }
-ToLabeledIcon >> initializeBeeStyle [
+ToLabeledIcon >> installBeeStyle [
 
-	super initializeBeeStyle.
+	super installBeeStyle.
 	self withStamp: #'labeled-icon'.
 	self filler withStamp: #'labeled-icon-filler'.
 	self filler id: #filler.
 	self iconHolder id: #'icon-holder'.
+	self labelHolder id: #'label-holder'.
 	self icon ifNotNil: [ :ic | ic withStamp: #icon ].
 	self isIconFirst
 		ifTrue: [

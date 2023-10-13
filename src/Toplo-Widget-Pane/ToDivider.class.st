@@ -115,9 +115,9 @@ ToDivider >> initialize [
 ]
 
 { #category : #skin }
-ToDivider >> initializeRawStyle [ 
+ToDivider >> installRawStyle [ 
 
-	super initializeRawStyle.
+	super installRawStyle.
 	self thickness: self defaultThickness.
 	self geometry: self defaultGeometry.
 	self margin: self defaultMargins.

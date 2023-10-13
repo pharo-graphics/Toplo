@@ -62,9 +62,9 @@ ToTooltipWindow >> initialize [
 ]
 
 { #category : #skin }
-ToTooltipWindow >> initializeRawStyle [
+ToTooltipWindow >> installRawStyle [
 
-	super initializeRawStyle.
+	super installRawStyle.
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: 8).
 	self border: (BlBorder paint: (Color gray alpha: 0.4)).
 	self background: (Color yellow alpha: 0.2).

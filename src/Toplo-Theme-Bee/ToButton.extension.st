@@ -7,8 +7,8 @@ ToButton >> defaultBeeStyleStamps [
 ]
 
 { #category : #'*Toplo-Theme-Bee' }
-ToButton >> initializeBeeStyle [ 
+ToButton >> installBeeStyle [ 
 
-	super initializeBeeStyle.
+	super installBeeStyle.
 	self withStamp: #button
 ]

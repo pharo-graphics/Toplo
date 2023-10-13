@@ -7,8 +7,8 @@ BlElement >> defaultBeeStyleStamps [
 ]
 
 { #category : #'*Toplo-Theme-Bee' }
-BlElement >> initializeBeeStyle [ 
+BlElement >> installBeeStyle [ 
 
-	self initializeRawStyle.
+	self installRawStyle.
 	self withAllStamps: self defaultBeeStyleStamps
 ]

@@ -67,7 +67,12 @@ ToStyleSheetSkin >> initialize [
 { #category : #'event handling' }
 ToStyleSheetSkin >> installLookEvent: anEvent [
 
+	anEvent elementDo: [ :e | self installStyleSheetStyleIn: e ].
 	self sendEventToWriters: anEvent
+]
+
+{ #category : #'event handling' }
+ToStyleSheetSkin >> installStyleSheetStyleIn: anElement [
 ]
 
 { #category : #'event handling' }

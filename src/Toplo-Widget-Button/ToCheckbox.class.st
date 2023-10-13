@@ -13,19 +13,20 @@ ToCheckbox >> defaultBlankCheckboxImage [
 	bar := ToElement new id: #bar.
 	bar constraintsDo: [ :c |
 		c horizontal matchParent.
-		c vertical exact: 4.
+		c vertical exact: 3.
 		c frame horizontal alignCenter.
 		c frame vertical alignCenter ].
+	bar margin: (BlInsets left: 2 right: 2).
+	bar geometry: (BlRoundedRectangleGeometry cornerRadius: 2).
 	im := ToElement new.
 	im layout: BlFrameLayout new.
 	im size: 16 asPoint.
 	im addChild: bar.
-	im geometry: (BlRoundedRectangleGeometry cornerRadius: 4) .
-	im margin: (BlInsets left: 2 right: 2).
+	im geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
 	^ im
 ]
 
-{ #category : #initialization }
+{ #category : #skin }
 ToCheckbox >> defaultBorder [ 
 
 	^ BlBorder empty
@@ -37,22 +38,69 @@ ToCheckbox >> defaultEventHandler [
 	^ ToCheckableEventHandler new 
 ]
 
-{ #category : #initialization }
+{ #category : #skin }
+ToCheckbox >> defaultImageBorder [
+
+	^ self defaultImageColor
+]
+
+{ #category : #skin }
+ToCheckbox >> defaultImageColor [
+
+	^ Color blue
+]
+
+{ #category : #skin }
 ToCheckbox >> hoveredBorder [ 
 
 	^ self defaultBorder
 ]
 
 { #category : #skin }
-ToCheckbox >> initializeRawStyle [ 
+ToCheckbox >> iconDefaultBorder [ 
 
-	super initializeRawStyle.
-	self iconImage: self defaultBlankCheckboxImage 
-
-	
+	^ BlBorder paint: (Color lightGray alpha: 0.2) width: 1
 ]
 
-{ #category : #initialization }
+{ #category : #skin }
+ToCheckbox >> iconHoveredBorder [ 
+
+	^ BlBorder paint: (Color lightGray) width: 1
+]
+
+{ #category : #skin }
+ToCheckbox >> imageCheckedBorder [ 
+
+	^ BlBorder paint: self defaultImageBorder width: 6
+]
+
+{ #category : #skin }
+ToCheckbox >> imageIndeterminateBorder [ 
+
+	^ BlBorder paint: self defaultImageBorder width: 0
+]
+
+{ #category : #skin }
+ToCheckbox >> imageUncheckedBorder [ 
+
+	^ BlBorder paint: self defaultImageBorder width: 0
+]
+
+{ #category : #skin }
+ToCheckbox >> indeterminateChild [
+
+	^ self iconImage childWithId: #bar
+]
+
+{ #category : #skin }
+ToCheckbox >> installRawStyle [ 
+
+	super installRawStyle.
+	self iconImage: self defaultBlankCheckboxImage.
+	self icon geometry: (BlRoundedRectangleGeometry cornerRadius: 4) .
+]
+
+{ #category : #skin }
 ToCheckbox >> pressedBorder [ 
 
 	^ self defaultBorder

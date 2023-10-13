@@ -126,7 +126,6 @@ ToSkin >> launchSkinInstallationIn: anElement [
 	self isInitialized ifTrue: [ ^ self ].
 	self isInstalled ifTrue: [ ^ self launchSkinInitializationIn: anElement ].
 	self markAsInstalled.
-	self onSkinInstalledIn: anElement.
 	anElement switchToSkinState: ToInstallState new.
 	self launchSkinInitializationIn: anElement.
 
@@ -167,11 +166,6 @@ ToSkin >> markAsNotInstalled [
 ]
 
 { #category : #'api - install/uninstall  hook' }
-ToSkin >> onSkinInstalledIn: anElement [
-
-]
-
-{ #category : #'api - install/uninstall  hook' }
 ToSkin >> onSkinUninstalledIn: anElement [
 
 
@@ -204,8 +198,9 @@ ToSkin >> selectedLookEvent: anEvent [
 { #category : #'event handling' }
 ToSkin >> skinChangedEvent: anEvent [
 
+	anEvent target childrenDo: [ :child | child updateSkin ].
 	anEvent target switchToSkinState: ToInstallState new.
-	anEvent target childrenDo: [ :child | child updateSkin ]
+
 ]
 
 { #category : #'event handling' }

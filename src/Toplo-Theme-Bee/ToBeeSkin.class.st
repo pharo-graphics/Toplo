@@ -4,8 +4,8 @@ Class {
 	#category : #'Toplo-Theme-Bee'
 }
 
-{ #category : #'api - install/uninstall  hook' }
-ToBeeSkin >> onSkinInstalledIn: anElement [
+{ #category : #'event handling' }
+ToBeeSkin >> installStyleSheetStyleIn: anElement [
 
-	anElement initializeBeeStyle
+	anElement installBeeStyle
 ]

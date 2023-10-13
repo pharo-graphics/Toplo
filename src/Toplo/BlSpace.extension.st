@@ -1,21 +1,10 @@
 Extension { #name : #BlSpace }
 
 { #category : #'*Toplo' }
-BlSpace >> checkRootSkinInstallation [
-
-	self root privateSkin ifNotNil: [ ^ self ].
-	
-	self root withSkin: self root defaultSkin.
-	" To preserve efficiency, #launchSkinInstallation does nothing by default at BlElement level."
-	" Thus, the installation for root is directly launched here "
-	self root privateSkin launchSkinInstallationIn: self root
-]
-
-{ #category : #'*Toplo' }
 BlSpace >> checkSkinInstallation [
 
-	
-	self checkRootSkinInstallation.
+	self rootSkinInstalled ifFalse: [
+		self root withSkin: self root defaultSkin ].
 	self root checkSkinInstallation
 ]
 
@@ -28,6 +17,13 @@ BlSpace >> checkSpaceFrameSkinInstallationPhase [
 	" The skin phase must be inserted before the layout phase "
 	layoutPhase := self frame detectPhase: [ :f | f class = BlSpaceFrameLayoutPhase ].
 	self frame addPhase: ToSpaceFrameSkinInstallationPhase new before: layoutPhase
+]
+
+{ #category : #'*Toplo' }
+BlSpace >> rootSkinInstalled [
+
+	^ self root privateSkin notNil
+
 ]
 
 { #category : #'*Toplo-LookAndFeel' }

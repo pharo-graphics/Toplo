@@ -28,8 +28,9 @@ BlElement >> checkSkinInitialization [
 { #category : #'*Toplo' }
 BlElement >> checkSkinInstallation [
 
+	self childrenDo: [ :child | child checkSkinInstallation ].
 	self launchSkinInstallation.
-	self childrenDo: [ :child | child checkSkinInstallation ]
+
 ]
 
 { #category : #'*Toplo' }
@@ -74,8 +75,7 @@ BlElement >> dispatchEnablementChangedEvent [
 { #category : #'*Toplo' }
 BlElement >> dispatchLookEvent: anEvent [
 
-	self dispatchEvent: anEvent.
-	self childrenDo: [ :child | child dispatchLookEvent: anEvent ]
+	self dispatchEvent: anEvent
 ]
 
 { #category : #'*Toplo' }
@@ -128,7 +128,7 @@ BlElement >> holder [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> initializeRawStyle [
+BlElement >> installRawStyle [
 ]
 
 { #category : #'*Toplo' }
@@ -157,16 +157,15 @@ BlElement >> isFlaggedAsEnabled [
 
 { #category : #'*Toplo' }
 BlElement >> launchSkinInstallation [
-	"Nothing to do at BlElement level to preserve efficienty"
 
+	self privateSkin ifNotNil: [ :s | s launchSkinInstallationIn: self ]
 	
 ]
 
 { #category : #'*Toplo' }
 BlElement >> launchSkinUninstallation [
 
-	"Nothing to do at BlElement level to preserve efficienty"
-
+	self privateSkin ifNotNil: [ :s | s launchSkinUninstallationIn: self ]
 ]
 
 { #category : #'*Toplo' }

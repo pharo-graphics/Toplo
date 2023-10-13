@@ -4,10 +4,18 @@ Class {
 	#category : #'Toplo-Widget-Button-Checkable'
 }
 
-{ #category : #initialization }
+{ #category : #skin }
 ToRadioButton >> defaultBlankCheckboxImage [
 
-	^ super defaultBlankCheckboxImage
-		  geometry: BlCircleGeometry new;
-		  yourself
+	| im |
+	im := super defaultBlankCheckboxImage.
+	im geometry: BlCircleGeometry new.
+	^ im
+]
+
+{ #category : #skin }
+ToRadioButton >> installRawStyle [ 
+
+	super installRawStyle.
+	self icon geometry: BlCircleGeometry new.
 ]

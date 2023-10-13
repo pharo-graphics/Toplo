@@ -164,10 +164,18 @@ ToInnerWindow >> initialize [
 
 ]
 
-{ #category : #skin }
-ToInnerWindow >> initializeRawStyle [
+{ #category : #initialization }
+ToInnerWindow >> initializeRootElement [
 
-	super initializeRawStyle.
+	super initializeRootElement.
+	self bar: self defaultBarElement.
+	self pane: self defaultPaneElement	
+]
+
+{ #category : #skin }
+ToInnerWindow >> installRawStyle [
+
+	super installRawStyle.
 	self background: Color lightGray.
 	self bar
 		padding: (BlInsets top: 2 bottom: 1);
@@ -176,14 +184,6 @@ ToInnerWindow >> initializeRawStyle [
 	self closeButton size: 18 @ 18.
 	self expandButton icon: (ToImage inner: (self iconNamed: #windowMaximizeForm)).
 	self expandButton size: 18 @ 18
-]
-
-{ #category : #initialization }
-ToInnerWindow >> initializeRootElement [
-
-	super initializeRootElement.
-	self bar: self defaultBarElement.
-	self pane: self defaultPaneElement	
 ]
 
 { #category : #'api - displaying' }

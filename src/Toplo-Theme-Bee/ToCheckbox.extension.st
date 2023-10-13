@@ -18,9 +18,9 @@ ToCheckbox >> defaultBeeStyleStamps [
 ]
 
 { #category : #'*Toplo-Theme-Bee' }
-ToCheckbox >> initializeBeeStyle [ 
+ToCheckbox >> installBeeStyle [ 
 
-	super initializeBeeStyle.
+	super installBeeStyle.
 	self iconImage: self beeBlankCheckboxImage 
 	
 ]

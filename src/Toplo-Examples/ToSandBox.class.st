@@ -108,6 +108,41 @@ ToSandBox class >> example_CheckBoxWithDefaultStyleSheetDarkTheme [
 	space show
 ]
 
+{ #category : #checkbox }
+ToSandBox class >> example_CheckboxChecked [
+
+	| chb |
+	ToTheme cleanUp.
+	chb := ToCheckbox new
+				interspace: 10;
+		       label: (ToLabel text: 'Checkbox');
+		       id: 1 asString.
+	chb checked: true.
+	chb openInInnerWindow
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_CheckboxUnchecked [
+
+	| chb |
+	ToTheme cleanUp.
+	chb := ToCheckbox new
+				interspace: 10;
+		       label: (ToLabel text: 'Checkbox');
+		       id: 1 asString.
+	chb openInInnerWindow
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_CheckboxWithIndeterminate [
+
+	| but |
+	ToStyleSheetTheme cleanUp.
+	but := ToCheckbox new labelText: 'Checkbox'.
+	but withIndeterminate: true.
+	but openInSpace
+]
+
 { #category : #album }
 ToSandBox class >> example_CodeEditor [
 
@@ -1020,6 +1055,38 @@ ToSandBox class >> example_Popup1 [
 	popupWindowHandler element: menu.
 	container pane addChild: menu.
 	container openInSpace
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_RadioButtonChecked [
+
+	| but |
+	ToTheme cleanUp.
+	but := ToRadioButton new.
+	but checked: true.
+	but labelText: 'Radio'.
+	but openInSpace
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_RadioButtonUnchecked [
+
+	| but |
+	ToTheme cleanUp.
+	but := ToRadioButton new.
+	but labelText: 'Radio'.
+	but openInSpace
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_RadioButtonWithIndeterminate [
+
+	| but |
+	ToTheme cleanUp.
+	but := ToRadioButton new.
+	but withIndeterminate: true.
+	but labelText: 'Radio'.
+	but openInSpace
 ]
 
 { #category : #select }
@@ -2492,66 +2559,6 @@ ToSandBox class >> example_toButtonWithTooltipText [
 ]
 
 { #category : #checkbox }
-ToSandBox class >> example_toCheckbox1 [
-
-	| chb |
-	ToStyleSheetTheme cleanUp.
-	chb := ToCheckbox new
-				interspace: 10;
-		       label: (ToLabel text: '1');
-		       id: 1 asString.
-	"chb beRightToLeft."
-	chb updateSkin.
-	chb checked: true.
-	chb inspect.
-	chb openInInnerWindow
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_toCheckbox2 [
-
-	| chb container |
-	chb := ToCheckbox new
-		       labelText: '1';
-		       id: 1 asString;
-				 beLabelFirst.
-	chb withStamp: #button.
-	chb withStamp: #danger.
-	""
-	container := BlElement new.
-	container constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical matchParent ].
-
-	container layout: BlLinearLayout vertical.
-	container layout cellSpacing: 5.
-
-	container addChild: chb.
-	container openInSpace
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_toCheckboxModelWithLabel3 [
-
-	| but |
-	ToStyleSheetTheme cleanUp.
-	but := ToCheckbox new labelText: 'Check me'.
-	but checked: true.
-	but openInSpace
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_toCheckboxModelWithLabel3_bis [
-
-	| but |
-	ToStyleSheetTheme cleanUp.
-	but := ToCheckbox new labelText: 'Check me'.
-	but withIndeterminate: true.
-	but checked: nil.
-	but openInSpace
-]
-
-{ #category : #checkbox }
 ToSandBox class >> example_toCheckboxWithGroup2 [
 
 	| group container |
@@ -2672,7 +2679,7 @@ ToSandBox class >> example_toCheckboxWithGroupAndUnckekingStrategy [
 ]
 
 { #category : #checkbox }
-ToSandBox class >> example_toCheckboxWithGroupJustified [
+ToSandBox class >> example_toCheckboxWithGroupFlexible [
 
 	| group container buttons |
 	group := ToCheckableGroup new.
@@ -2680,7 +2687,7 @@ ToSandBox class >> example_toCheckboxWithGroupJustified [
 	1 to: 4 do: [ :idx |
 		| chb |
 		chb := ToCheckbox new
-			       justified: true;
+			       interspace: #flexible;
 			       hMatchParent;
 			       beLabelFirst;
 			       labelText: idx asString;
@@ -2701,40 +2708,6 @@ ToSandBox class >> example_toCheckboxWithGroupJustified [
 
 	container addChildren: group buttons.
 	container openInSpace
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_toCheckboxWithIndeterminate1 [
-
-	| chb |
-	chb := ToCheckbox new
-		       interspace: 50;
-		       label: (ToLabel text: '1');
-		       id: 1 asString.
-	chb withIndeterminate: true.	
-	chb openInInnerWindow
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_toCheckboxWithLabel [
-
-	| but |
-	but := ToCheckbox new labelText: 'Check me'.
-	but when: ToCheckableCheckedEvent do: [ :event | self inform: 'checked ', event current asString ].
-	but openInSpace
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_toCheckboxWithLabel2 [
-
-	| but |
-	but := ToCheckbox new
-		       labelText: 'Check me';
-		       beLabelFirst;
-		       checked: true.
-	but when: ToCheckableCheckedEvent do: [ :event | self inform: 'checked ', event current asString ].
-
-	but openInSpace
 ]
 
 { #category : #image }

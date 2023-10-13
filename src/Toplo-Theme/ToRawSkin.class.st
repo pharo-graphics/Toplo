@@ -4,8 +4,8 @@ Class {
 	#category : #'Toplo-Theme-Core'
 }
 
-{ #category : #'api - install/uninstall  hook' }
-ToRawSkin >> onSkinInstalledIn: anElement [
+{ #category : #'event handling' }
+ToRawSkin >> installLookEvent: anEvent [
 
-	anElement initializeRawStyle
+	anEvent elementDo: [ :e | e installRawStyle ]
 ]

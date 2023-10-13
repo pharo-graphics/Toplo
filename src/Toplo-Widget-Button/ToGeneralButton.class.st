@@ -6,13 +6,13 @@ Class {
 	#category : #'Toplo-Widget-Button-Core'
 }
 
-{ #category : #initialization }
+{ #category : #skin }
 ToGeneralButton >> defaultBackground [
 
 	^ Color transparent 
 ]
 
-{ #category : #initialization }
+{ #category : #skin }
 ToGeneralButton >> defaultBorder [
 
 	^ Color transparent 
@@ -24,13 +24,13 @@ ToGeneralButton >> defaultEventHandler [
 	^ ToSkinnableEventHandler new 
 ]
 
-{ #category : #initialization }
+{ #category : #skin }
 ToGeneralButton >> defaultGeometry [
 
 	^ BlRoundedRectangleGeometry cornerRadius: 4 
 ]
 
-{ #category : #initialization }
+{ #category : #skin }
 ToGeneralButton >> defaultPadding [
 
 	^ BlInsets
@@ -40,13 +40,13 @@ ToGeneralButton >> defaultPadding [
 		  right: 10
 ]
 
-{ #category : #initialization }
+{ #category : #skin }
 ToGeneralButton >> hoveredBackground [
 
 	^ Color transparent 
 ]
 
-{ #category : #initialization }
+{ #category : #skin }
 ToGeneralButton >> hoveredBorder [
 
 	^ Color lightGray alpha: 0.2 
@@ -60,21 +60,21 @@ ToGeneralButton >> initialize [
 ]
 
 { #category : #skin }
-ToGeneralButton >> initializeRawStyle [ 
+ToGeneralButton >> installRawStyle [ 
 
-	super initializeRawStyle.
+	super installRawStyle.
 	self padding: self defaultPadding.
 	self geometry: self defaultGeometry.
 	self border: self defaultBorder
 ]
 
-{ #category : #initialization }
+{ #category : #skin }
 ToGeneralButton >> pressedBackground [
 
 	^ Color transparent 
 ]
 
-{ #category : #initialization }
+{ #category : #skin }
 ToGeneralButton >> pressedBorder [
 
 	^ Color lightGray alpha: 0.6 

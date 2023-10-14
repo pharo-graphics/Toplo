@@ -1,8 +1,8 @@
 Class {
 	#name : 'ToInfiniteElement',
 	#superclass : 'BlInfiniteElement',
-	#traits : 'TToResizable + TToElementWithContextMenu',
-	#classTraits : 'TToResizable classTrait + TToElementWithContextMenu classTrait',
+	#traits : 'TBlLayoutResizable + TToElementWithContextMenu',
+	#classTraits : 'TBlLayoutResizable classTrait + TToElementWithContextMenu classTrait',
 	#instVars : [
 		'nodeFactory',
 		'clickLauncher',

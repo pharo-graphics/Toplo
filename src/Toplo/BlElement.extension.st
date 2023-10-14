@@ -58,7 +58,7 @@ BlElement >> defaultSkin: aSkin [
 { #category : '*Toplo' }
 BlElement >> disable [
 
-	self isFlaggedAsDisabled ifFalse: [
+	self isDisabled ifFalse: [
 		self flagAsDisabled.
 		self dispatchEnablementChangedEvent  ].
 	self childrenDo: [ :child | child disable ]
@@ -85,7 +85,7 @@ BlElement >> dispatchSkinChangedEvent [
 { #category : '*Toplo' }
 BlElement >> enable [
 
-	self isFlaggedAsEnabled ifFalse: [
+	self isEnabled ifFalse: [
 		self flagAsEnabled.
 		self dispatchEnablementChangedEvent ].
 	self childrenDo: [ :child | child enable ]
@@ -139,23 +139,11 @@ BlElement >> installRawStyle [
 { #category : '*Toplo' }
 BlElement >> isDisabled [
 
-	^ self isFlaggedAsDisabled
+	^ self isEnabled not
 ]
 
 { #category : '*Toplo' }
 BlElement >> isEnabled [
-
-	^ self isFlaggedAsEnabled 
-]
-
-{ #category : '*Toplo' }
-BlElement >> isFlaggedAsDisabled [
-
-	^ self isFlaggedAsEnabled not
-]
-
-{ #category : '*Toplo' }
-BlElement >> isFlaggedAsEnabled [
 
 	^ self userData at: #enabled ifAbsentPut: [ true ]
 ]
@@ -288,7 +276,7 @@ BlElement >> removeStyleStampNamed: aSymbol ifAbsent: anAbsentBlock [
 { #category : '*Toplo' }
 BlElement >> requestDefaultSkin [
 
-	self skinInstaller: ToLazySkintInstaller new
+	self skinInstaller: ToLazySkinInstaller new
 ]
 
 { #category : '*Toplo' }

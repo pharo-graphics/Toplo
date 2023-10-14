@@ -67,7 +67,7 @@ ToElementTest >> testOnAddedToSceneGraph [
 	self assert: e skinInstaller isNil.
 	BlSpace new root addChild: e.
 	self assert: e skinInstaller notNil.
-	self assert: (e skinInstaller isKindOf: ToLazySkintInstaller)
+	self assert: (e skinInstaller isKindOf: ToLazySkinInstaller)
 ]
 
 { #category : 'test initialize' }

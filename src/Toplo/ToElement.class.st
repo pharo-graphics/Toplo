@@ -1,14 +1,14 @@
 Class {
 	#name : 'ToElement',
 	#superclass : 'BlElement',
-	#traits : 'TToResizable + TToEnableable + TToSkinable + TToElementWithTooltip + TToElementWithContextMenu',
-	#classTraits : 'TToResizable classTrait + TToEnableable classTrait + TToSkinable classTrait + TToElementWithTooltip classTrait + TToElementWithContextMenu classTrait',
+	#traits : 'TBlLayoutResizable + TToEnableable + TToElementWithTooltip + TToElementWithContextMenu',
+	#classTraits : 'TBlLayoutResizable classTrait + TToEnableable classTrait + TToElementWithTooltip classTrait + TToElementWithContextMenu classTrait',
 	#category : 'Toplo-Core',
 	#package : 'Toplo',
 	#tag : 'Core'
 }
 
-{ #category : 'initialization' }
+{ #category : 'skin - private' }
 ToElement >> addSkinInstallerPhaseChecker [
 
 	self skinInstallerPhaseChecker ifNotNil: [ ^ self ].
@@ -27,7 +27,7 @@ ToElement >> disabledBorder [
 	^ Color lightGray alpha: 0.5 
 ]
 
-{ #category : 'initialization' }
+{ #category : 'skin - private' }
 ToElement >> hasSkinInstallerPhaseChecker [
 
 	^ self skinInstallerPhaseChecker notNil
@@ -39,6 +39,13 @@ ToElement >> initialize [
 	super initialize.
 	self layout: self defaultLayout.
 	self addSkinInstallerPhaseChecker
+]
+
+{ #category : 'hooks - children' }
+ToElement >> onAddedToParent [
+
+	super onAddedToParent.
+	self enabled: self parent isEnabled
 ]
 
 { #category : 'hooks - children' }
@@ -65,7 +72,7 @@ ToElement >> privateTooltipContent: arg1 [
 	self userData at: #tooltip put: arg1
 ]
 
-{ #category : 'initialization' }
+{ #category : 'skin - private' }
 ToElement >> removeSkinInstallerPhaseChecker [
 
 	self skinInstallerPhaseChecker ifNotNil: [ :checker |
@@ -90,7 +97,7 @@ ToElement >> resizableConstraintsDo: aBlock [
 	
 ]
 
-{ #category : 'initialization' }
+{ #category : 'skin - private' }
 ToElement >> skinInstallerPhaseChecker [
 
 	^ self eventDispatcher handlers

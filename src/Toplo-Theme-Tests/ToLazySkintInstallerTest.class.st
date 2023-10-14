@@ -18,7 +18,7 @@ ToLazySkintInstallerTest >> testApplyOn [
 	e := ToElement new removeSkinInstallerPhaseChecker.
 	space root addChild: e.
 	self assert: e skinInstaller notNil.
-	self assert: (e skinInstaller isKindOf: ToLazySkintInstaller).
+	self assert: (e skinInstaller isKindOf: ToLazySkinInstaller).
 	e defaultSkin: (s := ToRawSkin new).
 	e applySkinInstaller.
 	" the default skin is installed "

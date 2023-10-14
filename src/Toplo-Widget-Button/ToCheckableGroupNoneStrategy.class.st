@@ -1,10 +1,12 @@
 Class {
-	#name : #ToCheckableGroupNoneStrategy,
-	#superclass : #ToCheckableGroupCheckingStrategy,
-	#category : #'Toplo-Widget-Button-Checkable'
+	#name : 'ToCheckableGroupNoneStrategy',
+	#superclass : 'ToCheckableGroupCheckingStrategy',
+	#category : 'Toplo-Widget-Button-Checkable',
+	#package : 'Toplo-Widget-Button',
+	#tag : 'Checkable'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToCheckableGroupNoneStrategy >> checkRequestEvent: aCheckRequest in: aGroup [
 
 	aGroup notifyChanged

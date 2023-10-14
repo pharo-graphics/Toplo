@@ -1,10 +1,12 @@
 Class {
-	#name : #ToSlotProperty,
-	#superclass : #ToWritableProperty,
-	#category : #'Toplo-Core-Properties'
+	#name : 'ToSlotProperty',
+	#superclass : 'ToWritableProperty',
+	#category : 'Toplo-Core-Properties',
+	#package : 'Toplo',
+	#tag : 'Core-Properties'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSlotProperty class >> name: aName [ 
 
 	^ self new
@@ -12,13 +14,13 @@ ToSlotProperty class >> name: aName [
 		  yourself
 ]
 
-{ #category : #operating }
+{ #category : 'operating' }
 ToSlotProperty >> read: anObject [
 
 	^ anObject readSlotNamed: self name
 ]
 
-{ #category : #operating }
+{ #category : 'operating' }
 ToSlotProperty >> write: aPropertyValue to: anObject [
 
 	anObject writeSlotNamed: self name value: aPropertyValue

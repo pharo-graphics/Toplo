@@ -2,12 +2,14 @@
 A ToStyleSelectorInterpreterTest is a test class for testing the behavior of ToStyleSelectorInterpreter
 "
 Class {
-	#name : #ToStyleSelectorInterpreterTest,
-	#superclass : #TestCase,
-	#category : #'Toplo-Theme-Tests-StyleSelector'
+	#name : 'ToStyleSelectorInterpreterTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Theme-Tests-StyleSelector',
+	#package : 'Toplo-Theme-Tests',
+	#tag : 'StyleSelector'
 }
 
-{ #category : #'tests - action selector' }
+{ #category : 'tests - action selector' }
 ToStyleSelectorInterpreterTest >> testActionSelector [
 
 	| selector e engine  |
@@ -20,7 +22,7 @@ ToStyleSelectorInterpreterTest >> testActionSelector [
 
 ]
 
-{ #category : #'tests - child selector' }
+{ #category : 'tests - child selector' }
 ToStyleSelectorInterpreterTest >> testChildMixedWithParentSelector [
 
 	| button innerElement icon label engine innerElementSelector buttonSelector |
@@ -52,7 +54,7 @@ ToStyleSelectorInterpreterTest >> testChildMixedWithParentSelector [
 	self assert: engine result
 ]
 
-{ #category : #'tests - child selector' }
+{ #category : 'tests - child selector' }
 ToStyleSelectorInterpreterTest >> testChildSelector [
 
 	" selector: an element with a parent of type Object "
@@ -73,7 +75,7 @@ ToStyleSelectorInterpreterTest >> testChildSelector [
 	
 ]
 
-{ #category : #'tests - child selector' }
+{ #category : 'tests - child selector' }
 ToStyleSelectorInterpreterTest >> testChildSelectorWithDepth [
 
 	| childSelectorAnyDepth childSelectorDepth1 childSelectorDepth2 sub subsub parent engine |
@@ -114,7 +116,7 @@ ToStyleSelectorInterpreterTest >> testChildSelectorWithDepth [
 	self assert: engine result not
 ]
 
-{ #category : #'tests - child selector' }
+{ #category : 'tests - child selector' }
 ToStyleSelectorInterpreterTest >> testChildSelectorWithTwoChildrenDepth1 [
 
 	| button icon label engine buttonSelector |
@@ -137,7 +139,7 @@ ToStyleSelectorInterpreterTest >> testChildSelectorWithTwoChildrenDepth1 [
 
 ]
 
-{ #category : #'tests - child selector' }
+{ #category : 'tests - child selector' }
 ToStyleSelectorInterpreterTest >> testChildSelectorWithTwoChildrenWithTwoChildSelectorsDepth2 [
 
 	| button innerElement icon label engine buttonSelector |
@@ -179,7 +181,7 @@ ToStyleSelectorInterpreterTest >> testChildSelectorWithTwoChildrenWithTwoChildSe
 
 ]
 
-{ #category : #'tests - with single selector' }
+{ #category : 'tests - with single selector' }
 ToStyleSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass0 [
 
 	" element with no class, selector without class "
@@ -192,7 +194,7 @@ ToStyleSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass0 [
 	self assert: engine result 
 ]
 
-{ #category : #'tests - with single selector' }
+{ #category : 'tests - with single selector' }
 ToStyleSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass1 [
 
 	" element with a class, selector without class "
@@ -205,7 +207,7 @@ ToStyleSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass1 [
 	self assert: engine result 
 ]
 
-{ #category : #'tests - with single selector' }
+{ #category : 'tests - with single selector' }
 ToStyleSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass2 [
 
 	" element with a class, selector with the same class "
@@ -218,7 +220,7 @@ ToStyleSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass2 [
 	self assert: engine result 
 ]
 
-{ #category : #'tests - with single selector' }
+{ #category : 'tests - with single selector' }
 ToStyleSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass3 [
 
 	" element with a class, selector with the a different class "
@@ -236,7 +238,7 @@ ToStyleSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass3 [
 
 ]
 
-{ #category : #'tests - with single selector' }
+{ #category : 'tests - with single selector' }
 ToStyleSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass4 [
 	" element with multiple classes "
 
@@ -255,7 +257,7 @@ ToStyleSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass4 [
 	self assert: engine result
 ]
 
-{ #category : #'tests - with single selector' }
+{ #category : 'tests - with single selector' }
 ToStyleSelectorInterpreterTest >> testNotSelector [
 
 	| selector e engine |
@@ -272,7 +274,7 @@ ToStyleSelectorInterpreterTest >> testNotSelector [
 
 ]
 
-{ #category : #'tests - parent selector' }
+{ #category : 'tests - parent selector' }
 ToStyleSelectorInterpreterTest >> testParentSelector [
 
 	" selector: an element with a parent of type Object "
@@ -293,7 +295,7 @@ ToStyleSelectorInterpreterTest >> testParentSelector [
 	
 ]
 
-{ #category : #'tests - with single selector' }
+{ #category : 'tests - with single selector' }
 ToStyleSelectorInterpreterTest >> testParentSelectorWithElementWithNoParent [
 
 	| selector e engine |
@@ -304,7 +306,7 @@ ToStyleSelectorInterpreterTest >> testParentSelectorWithElementWithNoParent [
 	self assert: engine result not
 ]
 
-{ #category : #'tests - parent selector' }
+{ #category : 'tests - parent selector' }
 ToStyleSelectorInterpreterTest >> testParentSelectorWithoutLeft [
 
 	" selector: an element with a parent of type Object "
@@ -325,7 +327,7 @@ ToStyleSelectorInterpreterTest >> testParentSelectorWithoutLeft [
 	
 ]
 
-{ #category : #'tests - and selector' }
+{ #category : 'tests - and selector' }
 ToStyleSelectorInterpreterTest >> testRuleWithAndSelector [
 	" a rule with an And operator  "
 
@@ -347,7 +349,7 @@ ToStyleSelectorInterpreterTest >> testRuleWithAndSelector [
 	self assert: engine result not
 ]
 
-{ #category : #'tests - sibling selector' }
+{ #category : 'tests - sibling selector' }
 ToStyleSelectorInterpreterTest >> testRuleWithAndSiblingSelector [
 	" a rule with an And operator  "
 
@@ -364,7 +366,7 @@ ToStyleSelectorInterpreterTest >> testRuleWithAndSiblingSelector [
 	self assert: engine result
 ]
 
-{ #category : #'tests - sibling selector' }
+{ #category : 'tests - sibling selector' }
 ToStyleSelectorInterpreterTest >> testRuleWithAndSiblingSelector2 [
 	" a rule with an And operator  "
 
@@ -387,7 +389,7 @@ ToStyleSelectorInterpreterTest >> testRuleWithAndSiblingSelector2 [
 	
 ]
 
-{ #category : #'tests - sibling selector' }
+{ #category : 'tests - sibling selector' }
 ToStyleSelectorInterpreterTest >> testRuleWithAndSiblingSelector3 [
 	" a rule with an And operator  "
 
@@ -410,7 +412,7 @@ ToStyleSelectorInterpreterTest >> testRuleWithAndSiblingSelector3 [
 	
 ]
 
-{ #category : #'tests - sibling selector' }
+{ #category : 'tests - sibling selector' }
 ToStyleSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector [
 	" a rule with an And operator  "
 
@@ -433,7 +435,7 @@ ToStyleSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector [
 	
 ]
 
-{ #category : #'tests - sibling selector' }
+{ #category : 'tests - sibling selector' }
 ToStyleSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector2 [
 	" a rule with an And operator  "
 
@@ -457,7 +459,7 @@ ToStyleSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector2 [
 	self assert: engine result
 ]
 
-{ #category : #'tests - sibling selector' }
+{ #category : 'tests - sibling selector' }
 ToStyleSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector3 [
 	" a rule with an And operator  "
 
@@ -484,7 +486,7 @@ ToStyleSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector3 [
 	self assert: engine result
 ]
 
-{ #category : #'tests - and selector' }
+{ #category : 'tests - and selector' }
 ToStyleSelectorInterpreterTest >> testRuleWithAndWithParentSelector [
 	" a rule with an And operator  "
 
@@ -512,7 +514,7 @@ ToStyleSelectorInterpreterTest >> testRuleWithAndWithParentSelector [
 	self assert: engine result
 ]
 
-{ #category : #'tests - or selector' }
+{ #category : 'tests - or selector' }
 ToStyleSelectorInterpreterTest >> testRuleWithOrSelector [
 	" a rule with an And operator  "
 
@@ -533,7 +535,7 @@ ToStyleSelectorInterpreterTest >> testRuleWithOrSelector [
 	self assert: engine result not
 ]
 
-{ #category : #'tests - or selector' }
+{ #category : 'tests - or selector' }
 ToStyleSelectorInterpreterTest >> testRuleWithOrWithParentSelector [
 	" a rule with an Or operator with a child selector  "
 
@@ -559,7 +561,7 @@ ToStyleSelectorInterpreterTest >> testRuleWithOrWithParentSelector [
 	self assert: engine result
 ]
 
-{ #category : #'tests - type selector' }
+{ #category : 'tests - type selector' }
 ToStyleSelectorInterpreterTest >> testTypeSelector [ 
 
 	| selector e engine |
@@ -570,7 +572,7 @@ ToStyleSelectorInterpreterTest >> testTypeSelector [
 	self assert: engine result.
 ]
 
-{ #category : #'tests - type selector' }
+{ #category : 'tests - type selector' }
 ToStyleSelectorInterpreterTest >> testTypeSelectorAndChildSelector [
 
 	| selector e engine |
@@ -583,7 +585,7 @@ ToStyleSelectorInterpreterTest >> testTypeSelectorAndChildSelector [
 
 ]
 
-{ #category : #'tests - type selector' }
+{ #category : 'tests - type selector' }
 ToStyleSelectorInterpreterTest >> testTypeSelectorAndParentSelector [
 
 	| selector e engine |
@@ -604,7 +606,7 @@ ToStyleSelectorInterpreterTest >> testTypeSelectorAndParentSelector [
 
 ]
 
-{ #category : #'tests - with single selector' }
+{ #category : 'tests - with single selector' }
 ToStyleSelectorInterpreterTest >> testUniversalSelector [
 
 	| selector e engine |
@@ -615,7 +617,7 @@ ToStyleSelectorInterpreterTest >> testUniversalSelector [
 	self assert: engine result
 ]
 
-{ #category : #'tests - with single selector' }
+{ #category : 'tests - with single selector' }
 ToStyleSelectorInterpreterTest >> testUniversalSelectorWithParent [
 
 	| selector button engine chilLevel3 |	
@@ -630,7 +632,7 @@ ToStyleSelectorInterpreterTest >> testUniversalSelectorWithParent [
 	self assert: engine result 
 ]
 
-{ #category : #'tests - parent selector' }
+{ #category : 'tests - parent selector' }
 ToStyleSelectorInterpreterTest >> testparentSelectorWithDepth [
 
 	| engine parent directParentSelector1 directParentSelector2 parentParentSelector sub subsub |

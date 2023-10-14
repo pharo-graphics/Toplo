@@ -1,26 +1,28 @@
 Class {
-	#name : #ToElementWithContextMenuEventHandler,
-	#superclass : #BlCustomEventHandler,
+	#name : 'ToElementWithContextMenuEventHandler',
+	#superclass : 'BlCustomEventHandler',
 	#instVars : [
 		'mouseButton',
 		'contextMenu'
 	],
-	#category : #'Toplo-Widget-Menu-Basic'
+	#category : 'Toplo-Widget-Menu-Basic',
+	#package : 'Toplo-Widget-Menu',
+	#tag : 'Basic'
 }
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToElementWithContextMenuEventHandler >> eventsToHandle [
 	^ { BlMouseDownEvent }
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToElementWithContextMenuEventHandler >> initialize [
 
 	super initialize.
 	self useSecondaryMouseButton 
 ]
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToElementWithContextMenuEventHandler >> mouseDownEvent: anEvent [
 
 	anEvent button = mouseButton ifFalse: [ ^ self ].
@@ -29,20 +31,20 @@ ToElementWithContextMenuEventHandler >> mouseDownEvent: anEvent [
 		event: anEvent
 ]
 
-{ #category : #private }
-ToElementWithContextMenuEventHandler >> popupContextMenuFor: aWidget event: anEvent [
+{ #category : 'private' }
+ToElementWithContextMenuEventHandler >> popupContextMenuFor: anElement event: anEvent [
 
-	contextMenu := aWidget contextMenuWindow.
+	contextMenu := anElement currentContextMenu.
 	contextMenu popupEvent: anEvent
 ]
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToElementWithContextMenuEventHandler >> usePrimaryMouseButton [
 
 	mouseButton := BlMouseButton primary
 ]
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToElementWithContextMenuEventHandler >> useSecondaryMouseButton [
 
 	mouseButton := BlMouseButton secondary

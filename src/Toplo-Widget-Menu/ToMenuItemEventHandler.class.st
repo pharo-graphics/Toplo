@@ -1,10 +1,12 @@
 Class {
-	#name : #ToMenuItemEventHandler,
-	#superclass : #ToSkinnableEventHandler,
-	#category : #'Toplo-Widget-Menu-Basic'
+	#name : 'ToMenuItemEventHandler',
+	#superclass : 'ToSkinnableEventHandler',
+	#category : 'Toplo-Widget-Menu-Basic',
+	#package : 'Toplo-Widget-Menu',
+	#tag : 'Basic'
 }
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToMenuItemEventHandler >> mouseEnterEvent: anEvent [
 
 	super mouseEnterEvent: anEvent.
@@ -18,7 +20,7 @@ ToMenuItemEventHandler >> mouseEnterEvent: anEvent [
 	target popupEvent: anEvent
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToMenuItemEventHandler >> mouseUpEvent: anEvent [
 
 	" check event and current target "

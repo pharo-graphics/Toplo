@@ -1,10 +1,12 @@
 Class {
-	#name : #ToLazySkintInstaller,
-	#superclass : #ToAbstractSkinInstaller,
-	#category : #'Toplo-Theme-Core'
+	#name : 'ToLazySkintInstaller',
+	#superclass : 'ToAbstractSkinInstaller',
+	#category : 'Toplo-Theme-Core',
+	#package : 'Toplo-Theme',
+	#tag : 'Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToLazySkintInstaller >> defaultSkinIn: anElement [
 
 	^ anElement defaultSkin

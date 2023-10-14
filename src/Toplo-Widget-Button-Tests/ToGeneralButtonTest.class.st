@@ -1,10 +1,12 @@
 Class {
-	#name : #ToGeneralButtonTest,
-	#superclass : #TestCase,
-	#category : #'Toplo-Widget-Button-Tests-Core'
+	#name : 'ToGeneralButtonTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Widget-Button-Tests-Core',
+	#package : 'Toplo-Widget-Button-Tests',
+	#tag : 'Core'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToGeneralButtonTest >> testGeneralButton [
 	"Test default values of a new general button"
 
@@ -15,10 +17,10 @@ ToGeneralButtonTest >> testGeneralButton [
 	self assert: button isDisabled equals: false.
 
 	self assert: button currentTooltipWindow isNil.
-	self assert: button tooltipContent isNil
+	self assert: button tooltip isNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToGeneralButtonTest >> testGeneralButtonTooltip [
 	"Test default values of a new general button"
 
@@ -27,5 +29,5 @@ ToGeneralButtonTest >> testGeneralButtonTooltip [
 	button tooltipText: 'I am a tooltip content'.
 
 	self assert: button currentTooltipWindow isNil.
-	self assert: button tooltipContent text asString equals: 'I am a tooltip content'
+	self assert: button tooltip text asString equals: 'I am a tooltip content'
 ]

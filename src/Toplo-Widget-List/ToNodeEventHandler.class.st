@@ -1,19 +1,21 @@
 Class {
-	#name : #ToNodeEventHandler,
-	#superclass : #ToSkinnableEventHandler,
+	#name : 'ToNodeEventHandler',
+	#superclass : 'ToSkinnableEventHandler',
 	#instVars : [
 		'monitor'
 	],
-	#category : #'Toplo-Widget-List-node'
+	#category : 'Toplo-Widget-List-node',
+	#package : 'Toplo-Widget-List',
+	#tag : 'node'
 }
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToNodeEventHandler >> eventsToHandle [ 
 
 	^ super eventsToHandle , { ToNodeHolderSelectedEvent. ToNodeHolderDeselectedEvent }
 ]
 
-{ #category : #'events handling' }
+{ #category : 'events handling' }
 ToNodeEventHandler >> launchClick: aBlock event: anEvent for: anElement [
 	" click launcher management to allow double click to work with several selected nodes "
 
@@ -54,7 +56,7 @@ ToNodeEventHandler >> launchClick: aBlock event: anEvent for: anElement [
 				 named: 'ToNodeDresser clickLauncher') ]
 ]
 
-{ #category : #'events handling' }
+{ #category : 'events handling' }
 ToNodeEventHandler >> leftClickEvent: anEvent [
 
 	super leftClickEvent: anEvent.
@@ -69,23 +71,23 @@ ToNodeEventHandler >> leftClickEvent: anEvent [
 		for: target
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToNodeEventHandler >> nodeHolderDeselectedEvent: anEvent [
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToNodeEventHandler >> nodeHolderSelectedEvent: anEvent [
 
 ]
 
-{ #category : #'api - hooks' }
+{ #category : 'api - hooks' }
 ToNodeEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	monitor := Monitor new
 ]
 
-{ #category : #'api - hooks' }
+{ #category : 'api - hooks' }
 ToNodeEventHandler >> onUninstalledIn: anElement [
 
 	monitor := nil.

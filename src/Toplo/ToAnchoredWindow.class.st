@@ -1,68 +1,64 @@
 Class {
-	#name : #ToAnchoredWindow,
-	#superclass : #ToAbstractWindowElement,
+	#name : 'ToAnchoredWindow',
+	#superclass : 'ToAbstractWindowElement',
 	#instVars : [
 		'popupTimestamp',
 		'windowHandler'
 	],
-	#category : #'Toplo-Core-Window'
+	#category : 'Toplo-Core-Window',
+	#package : 'Toplo',
+	#tag : 'Core-Window'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAnchoredWindow >> applyPositionHookFromEvent: anEvent [
 
 	^ windowHandler applyPositionHookFromEvent: anEvent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAnchoredWindow >> applySizeHookFromEvent: anEvent [
 
 	windowHandler applySizeHookFromEvent: anEvent
 ]
 
-{ #category : #accessing }
-ToAnchoredWindow >> associateElement [
-
-	^ windowHandler ifNotNil: [:h | h element]
-]
-
-{ #category : #'api - displaying' }
+{ #category : 'api - displaying' }
 ToAnchoredWindow >> checkBeforePopupEvent: anEvent [
 
 	self applyPositionHookFromEvent: anEvent.
 	self applySizeHookFromEvent: anEvent.
 ]
 
-{ #category : #'api - displaying' }
+{ #category : 'api - displaying' }
 ToAnchoredWindow >> close [
 
 	self parentDo: [ :p | super close ].
 	self dispatchClosedEvent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAnchoredWindow >> closedEventClass [
 
 	^ ToWindowClosedEvent 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAnchoredWindow >> defaultElevation [
 
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 900)
 ]
 
-{ #category : #'api - displaying' }
+{ #category : 'api - displaying' }
 ToAnchoredWindow >> dispatchClosedEvent [
 
 	| event |
 	event := self closedEventClass new.
-	self associateElement ifNotNil: [ :w | w dispatchEvent: event ].
+	self element ifNotNil: [ :w | w dispatchEvent: event ].
 	self dispatchEvent: event copy.
 
 ]
 
-{ #category : #'api - displaying' }
+{ #category : 'api - displaying' }
 ToAnchoredWindow >> dispatchOpenedEvent: anEvent [
 
 	| event |
@@ -70,57 +66,63 @@ ToAnchoredWindow >> dispatchOpenedEvent: anEvent [
 		         sourceEvent: anEvent;
 		         yourself.
 	self dispatchEvent: event.
-	self associateElement ifNotNil: [ :w | w dispatchEvent: event copy ]
+	self element ifNotNil: [ :w | w dispatchEvent: event copy ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
+ToAnchoredWindow >> element [
+
+	^ windowHandler ifNotNil: [:h | h element]
+]
+
+{ #category : 'accessing' }
 ToAnchoredWindow >> handler: aWindowHandler [
 
 	windowHandler := aWindowHandler 
 ]
 
-{ #category : #start }
+{ #category : 'start' }
 ToAnchoredWindow >> hasAssociateElement [
 
-	^ self associateElement notNil
+	^ self element notNil
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToAnchoredWindow >> initialize [
 
 	super initialize.
 	self fitContent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAnchoredWindow >> openedEventClass [
 
 	^ ToWindowOpenedEvent 
 ]
 
-{ #category : #'api - displaying' }
+{ #category : 'api - displaying' }
 ToAnchoredWindow >> popup [
 	
 	self popupEvent: nil
 ]
 
-{ #category : #'api - displaying' }
+{ #category : 'api - displaying' }
 ToAnchoredWindow >> popupEvent: anEvent [
 	" I have to set the position here "
 
 	self applyPositionHookFromEvent: anEvent.
 	self applySizeHookFromEvent: anEvent.
 	self hasParent ifTrue: [ ^ self ].
-	self associateElement space root addChild: self.
+	self element space root addChild: self.
 	self dispatchOpenedEvent: anEvent. 
 	popupTimestamp := DateAndTime now.
 	"I need to finalize my position as soon as my layout is up-to-date"
 	self whenLayoutedDoOnce: [
-		self associateElement isAttachedToSceneGraph ifTrue: [
+		self element isAttachedToSceneGraph ifTrue: [
 			self checkBeforePopupEvent: anEvent ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAnchoredWindow >> popupTimestamp [
 
 	^ popupTimestamp 

@@ -2,12 +2,14 @@
 A ToOverlayWindowTest is a test class for testing the behavior of ToOverlayWindow
 "
 Class {
-	#name : #ToOverlayWindowTest,
-	#superclass : #BlParameterizedHostTest,
-	#category : #'Toplo-Tests-Core-Window'
+	#name : 'ToOverlayWindowTest',
+	#superclass : 'BlParameterizedHostTest',
+	#category : 'Toplo-Tests-Core-Window',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-Window'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToOverlayWindowTest >> testWindowSize [
 
 	| win e space windowHandler |
@@ -16,7 +18,7 @@ ToOverlayWindowTest >> testWindowSize [
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	windowHandler := ToOverlayWindowHandler new builder: [ :element | ToAnchoredWindow new ].
+	windowHandler := ToOverlayWindowHandler new builder: [ :anchWin  :element | ].
 	windowHandler element: e.
 	win := windowHandler newWindowEvent: nil.
 	win popup.
@@ -41,7 +43,7 @@ ToOverlayWindowTest >> testWindowSize [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToOverlayWindowTest >> testWindowSize2 [
 
 	| win e space windowHandler |
@@ -50,10 +52,8 @@ ToOverlayWindowTest >> testWindowSize2 [
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	windowHandler := ToOverlayWindowHandler new builder: [ :element |
-		ToAnchoredWindow new
-			in: [ :w | w root addChild: (ToElement new size: 100 asPoint) ];
-			yourself ].
+	windowHandler := ToOverlayWindowHandler new builder: [ :anchWin  :element |
+		anchWin root addChild: (ToElement new size: 100 asPoint) ].
 	windowHandler element: e.
 	win := windowHandler newWindowEvent: nil.
 	win popup.

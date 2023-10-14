@@ -1,16 +1,18 @@
 Class {
-	#name : #ToMenuEventHandler,
-	#superclass : #ToElementWithPopupEventHandler,
-	#category : #'Toplo-Widget-Menu-Basic'
+	#name : 'ToMenuEventHandler',
+	#superclass : 'ToElementWithPopupEventHandler',
+	#category : 'Toplo-Widget-Menu-Basic',
+	#package : 'Toplo-Widget-Menu',
+	#tag : 'Basic'
 }
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToMenuEventHandler >> eventsToHandle [ 
 
 	^ super eventsToHandle, { ToWindowClosedEvent. ToWindowClosedEvent   }
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToMenuEventHandler >> mouseDownOutsideEvent: anEvent [
 
 	" only test on top menu "
@@ -22,7 +24,7 @@ ToMenuEventHandler >> mouseDownOutsideEvent: anEvent [
 	super mouseDownOutsideEvent: anEvent
 ]
 
-{ #category : #'window handlers' }
+{ #category : 'window handlers' }
 ToMenuEventHandler >> windowClosedEvent: anEvent [
 
 	anEvent currentTarget items do: [ :child |

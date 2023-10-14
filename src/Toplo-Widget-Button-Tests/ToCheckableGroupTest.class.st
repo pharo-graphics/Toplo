@@ -2,12 +2,14 @@
 A ToCheckableGroupTest is a test class for testing the behavior of ToCheckableGroup
 "
 Class {
-	#name : #ToCheckableGroupTest,
-	#superclass : #TestCase,
-	#category : #'Toplo-Widget-Button-Tests-Checkable'
+	#name : 'ToCheckableGroupTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Widget-Button-Tests-Checkable',
+	#package : 'Toplo-Widget-Button-Tests',
+	#tag : 'Checkable'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToCheckableGroupTest >> testCheckableGroupBasic [
 
 	| group |
@@ -22,7 +24,7 @@ ToCheckableGroupTest >> testCheckableGroupBasic [
 	self assert: group uncheckedButtons size equals: group buttons size
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToCheckableGroupTest >> testCheckableGroupUpdateError [
 
 	| group buttons |
@@ -35,7 +37,7 @@ ToCheckableGroupTest >> testCheckableGroupUpdateError [
 		description: 'Updating a button is not allowed'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndCheckUse [
 
 	| group checkBox checkBox2 |
@@ -54,7 +56,7 @@ ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndCheckUse [
 	self deny: checkBox checked.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndCheckUse2 [
 
 	| list modelButtonsGroup pane buttons |
@@ -92,7 +94,7 @@ ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndCheckUse2 [
 	self assert: buttons third checked
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndSwitchToNextStateUse [
 
 	| list modelButtonsGroup pane buttons |
@@ -130,7 +132,7 @@ ToCheckableGroupTest >> testCheckableGroupWithDresserChangeAndSwitchToNextStateU
 	self assert: buttons third checked
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToCheckableGroupTest >> testCheckableGroupWithIndeterminateRaiseError2 [
 
 	| group btn |
@@ -141,7 +143,7 @@ ToCheckableGroupTest >> testCheckableGroupWithIndeterminateRaiseError2 [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToCheckableGroupTest >> testCheckableGroupWithOnePreCheckedButton [
 
 	| group |
@@ -156,7 +158,7 @@ ToCheckableGroupTest >> testCheckableGroupWithOnePreCheckedButton [
 	self assert: group uncheckedButtons size equals: group buttons size - 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToCheckableGroupTest >> testCheckableGroupWithStartDefault [
 
 	| group |
@@ -174,7 +176,7 @@ ToCheckableGroupTest >> testCheckableGroupWithStartDefault [
 	self assert: group uncheckedButtons size equals: group buttons size - 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToCheckableGroupTest >> testCheckableGroupWithTwoPreCheckedButtons0 [
 
 	| group |
@@ -189,7 +191,7 @@ ToCheckableGroupTest >> testCheckableGroupWithTwoPreCheckedButtons0 [
 	self assert: group uncheckedButtons size equals: group buttons size - 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToCheckableGroupTest >> testCheckableGroupWithTwoPreCheckedButtons1 [
 
 	| group |
@@ -205,7 +207,7 @@ ToCheckableGroupTest >> testCheckableGroupWithTwoPreCheckedButtons1 [
 	self assert: group uncheckedButtons size equals: group buttons size - 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToCheckableGroupTest >> testCheckableGroupWithTwoPreCheckedButtons2 [
 
 	| group |
@@ -225,7 +227,7 @@ ToCheckableGroupTest >> testCheckableGroupWithTwoPreCheckedButtons2 [
 	self assert: group uncheckedButtons size equals: group buttons size - 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToCheckableGroupTest >> testCheckableGroupWithTwoPreCheckedButtons3 [
 
 	| group |
@@ -240,7 +242,7 @@ ToCheckableGroupTest >> testCheckableGroupWithTwoPreCheckedButtons3 [
 	self assert: group uncheckedButtons size equals: group buttons size - 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToCheckableGroupTest >> testCheckableGroupWithTwoPreCheckedButtons4 [
 
 	| group buttons |
@@ -254,7 +256,7 @@ ToCheckableGroupTest >> testCheckableGroupWithTwoPreCheckedButtons4 [
 	self assert: group buttons fourth checked not
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToCheckableGroupTest >> testRemoveCheckableInCheckableGroup [
 
 	| group buttons |

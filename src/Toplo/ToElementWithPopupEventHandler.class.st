@@ -1,37 +1,39 @@
 Class {
-	#name : #ToElementWithPopupEventHandler,
-	#superclass : #ToAnchorEventHandler,
+	#name : 'ToElementWithPopupEventHandler',
+	#superclass : 'ToAnchorEventHandler',
 	#instVars : [
 		'target'
 	],
-	#category : #'Toplo-Core-Window'
+	#category : 'Toplo-Core-Window',
+	#package : 'Toplo',
+	#tag : 'Core-Window'
 }
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToElementWithPopupEventHandler >> closeWindow [
 
 	windowHandler closeWindow
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToElementWithPopupEventHandler >> elementPositionInSpaceChangedEvent: anEvent [
 
 	windowHandler closeWindow
 ]
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToElementWithPopupEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , { BlMouseUpEvent. BlMouseDownEvent. BlMouseDownOutsideEvent .  BlElementRemovedFromParentEvent }
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToElementWithPopupEventHandler >> mouseDownEvent: anEvent [
 
 	windowHandler mouseDownInElementEvent: anEvent 
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToElementWithPopupEventHandler >> mouseDownOutsideEvent: anEvent [
 
 	" 
@@ -47,20 +49,20 @@ ToElementWithPopupEventHandler >> mouseDownOutsideEvent: anEvent [
 	self closeWindow
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToElementWithPopupEventHandler >> mouseUpEvent: anEvent [
 
 	windowHandler mouseUpInElementEvent: anEvent
 ]
 
-{ #category : #'api - hooks' }
+{ #category : 'api - hooks' }
 ToElementWithPopupEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	target := anElement
 ]
 
-{ #category : #'api - hooks' }
+{ #category : 'api - hooks' }
 ToElementWithPopupEventHandler >> onUninstalledIn: anElement [
 
 	target := nil.

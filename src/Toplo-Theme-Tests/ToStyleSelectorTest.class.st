@@ -2,12 +2,14 @@
 A ToStyleSelectorEngineTest is a test class for testing the behavior of ToStyleSelectorEngine
 "
 Class {
-	#name : #ToStyleSelectorTest,
-	#superclass : #TestCase,
-	#category : #'Toplo-Theme-Tests-StyleSelector'
+	#name : 'ToStyleSelectorTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Theme-Tests-StyleSelector',
+	#package : 'Toplo-Theme-Tests',
+	#tag : 'StyleSelector'
 }
 
-{ #category : #'tests - asToTag' }
+{ #category : 'tests - asToTag' }
 ToStyleSelectorTest >> testAsStyleSelectorOnArray [
 
 	| selector  |
@@ -17,7 +19,7 @@ ToStyleSelectorTest >> testAsStyleSelectorOnArray [
 
 ]
 
-{ #category : #'tests - asToTag' }
+{ #category : 'tests - asToTag' }
 ToStyleSelectorTest >> testAsStyleSelectorOnArray2 [
 
 	| selector |
@@ -26,7 +28,7 @@ ToStyleSelectorTest >> testAsStyleSelectorOnArray2 [
 	self assert: (selector stampNames includesAll: #( #'small-sizing' #x ))
 ]
 
-{ #category : #'tests - asToTag' }
+{ #category : 'tests - asToTag' }
 ToStyleSelectorTest >> testAsStyleSelectorOnArray3 [
 
 	| selector |
@@ -35,14 +37,14 @@ ToStyleSelectorTest >> testAsStyleSelectorOnArray3 [
 	self assert: (selector stampNames includesAll: #( #'small-sizing' #x ))
 ]
 
-{ #category : #'tests - asToTag' }
+{ #category : 'tests - asToTag' }
 ToStyleSelectorTest >> testAsStyleSelectorOnObjectNotImplemented [
 
 	self should: [Object new asStyleSelector] raise: MessageNotUnderstood .
 
 ]
 
-{ #category : #'tests - asToTag' }
+{ #category : 'tests - asToTag' }
 ToStyleSelectorTest >> testAsStyleSelectorOnSet3 [
 
 	| selector  |
@@ -52,7 +54,7 @@ ToStyleSelectorTest >> testAsStyleSelectorOnSet3 [
 
 ]
 
-{ #category : #'tests - asToTag' }
+{ #category : 'tests - asToTag' }
 ToStyleSelectorTest >> testAsStyleSelectorOnString [
 
 	| selector  |
@@ -62,7 +64,7 @@ ToStyleSelectorTest >> testAsStyleSelectorOnString [
 
 ]
 
-{ #category : #'tests - asToTag' }
+{ #category : 'tests - asToTag' }
 ToStyleSelectorTest >> testAsStyleSelectorOnSymbol [
 
 	| selector  |

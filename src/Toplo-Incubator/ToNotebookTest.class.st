@@ -1,13 +1,14 @@
 Class {
-	#name : #ToNotebookTest,
-	#superclass : #BlParameterizedHostTest,
+	#name : 'ToNotebookTest',
+	#superclass : 'BlParameterizedHostTest',
 	#instVars : [
 		'notebook'
 	],
-	#category : #'Toplo-Incubator'
+	#category : 'Toplo-Incubator',
+	#package : 'Toplo-Incubator'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 ToNotebookTest >> setUp [
 
 	| space |
@@ -18,7 +19,7 @@ ToNotebookTest >> setUp [
 	space root addChild: notebook.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToNotebookTest >> testBodyFactoryIsValuedOnSelect [
 
 	| redPage greenPage redCount greenCount |
@@ -55,7 +56,7 @@ ToNotebookTest >> testBodyFactoryIsValuedOnSelect [
 	self assert: greenCount equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToNotebookTest >> testCloseLastPage [
 
 	| redPage |
@@ -76,7 +77,7 @@ ToNotebookTest >> testCloseLastPage [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToNotebookTest >> testCloseSelectedPage [
 
 	| redPage greenPage |
@@ -104,7 +105,7 @@ ToNotebookTest >> testCloseSelectedPage [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToNotebookTest >> testCloseUnselectedPage [
 
 	| redPage greenPage |
@@ -133,7 +134,7 @@ ToNotebookTest >> testCloseUnselectedPage [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToNotebookTest >> testDefaultBodyIsTransparent [
 
 	| aPage |
@@ -143,7 +144,7 @@ ToNotebookTest >> testDefaultBodyIsTransparent [
 	self assert: aPage bodyElement background isTransparent
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToNotebookTest >> testSelectPage [
 
 	| orangePage greenPage |

@@ -1,10 +1,12 @@
 Class {
-	#name : #ToLeavedState,
-	#superclass : #ToElementState,
-	#category : #'Toplo-Theme-State'
+	#name : 'ToLeavedState',
+	#superclass : 'ToElementState',
+	#category : 'Toplo-Theme-State',
+	#package : 'Toplo-Theme',
+	#tag : 'State'
 }
 
-{ #category : #'look event sending' }
+{ #category : 'look event sending' }
 ToLeavedState >> lookEventClass [
 
 	^ ToLeavedLookEvent

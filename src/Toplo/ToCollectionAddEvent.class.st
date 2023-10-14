@@ -1,10 +1,12 @@
 Class {
-	#name : #ToCollectionAddEvent,
-	#superclass : #ToCollectionAfterChangeEvent,
-	#category : #'Toplo-Core-Collection'
+	#name : 'ToCollectionAddEvent',
+	#superclass : 'ToCollectionAfterChangeEvent',
+	#category : 'Toplo-Core-Collection',
+	#package : 'Toplo',
+	#tag : 'Core-Collection'
 }
 
-{ #category : #sending }
+{ #category : 'sending' }
 ToCollectionAddEvent >> sendTo: anObject [
 
 	anObject collectionAddEvent: self

@@ -1,26 +1,28 @@
 Class {
-	#name : #ToTooltipWindow,
-	#superclass : #ToAnchoredWindow,
+	#name : 'ToTooltipWindow',
+	#superclass : 'ToAnchoredWindow',
 	#instVars : [
 		'content'
 	],
-	#category : #'Toplo-Core-Tooltip'
+	#category : 'Toplo-Core-Tooltip',
+	#package : 'Toplo',
+	#tag : 'Core-Tooltip'
 }
 
-{ #category : #'api - displaying' }
+{ #category : 'api - displaying' }
 ToTooltipWindow >> close [ 
 	
 	self content removeFromParent.
 	super close
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToTooltipWindow >> content [
 
 	^ content
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToTooltipWindow >> content: anElement [
 
 	content ifNotNil: [ content removeFromParent ].
@@ -34,26 +36,26 @@ ToTooltipWindow >> content: anElement [
 			c frame horizontal alignCenter ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToTooltipWindow >> defaultElevation [
 
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 300)
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToTooltipWindow >> defaultEventHandler [ 
 	
 	^ self defaultEventHandlerClass new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToTooltipWindow >> defaultEventHandlerClass [
 
 	^ ToTooltipWindowEventHandler
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToTooltipWindow >> initialize [
 
 	super initialize.
@@ -61,7 +63,7 @@ ToTooltipWindow >> initialize [
 	self addEventHandler: self defaultEventHandler 
 ]
 
-{ #category : #skin }
+{ #category : 'skin' }
 ToTooltipWindow >> installRawStyle [
 
 	super installRawStyle.

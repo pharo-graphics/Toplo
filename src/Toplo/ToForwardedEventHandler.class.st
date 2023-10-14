@@ -1,16 +1,18 @@
 Class {
-	#name : #ToForwardedEventHandler,
-	#superclass : #BlCustomEventHandler,
-	#category : #'Toplo-Core'
+	#name : 'ToForwardedEventHandler',
+	#superclass : 'BlCustomEventHandler',
+	#category : 'Toplo-Core',
+	#package : 'Toplo',
+	#tag : 'Core'
 }
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToForwardedEventHandler >> eventsToHandle [
 
 	^ self subclassResponsibility 
 ]
 
-{ #category : #'api - event managing' }
+{ #category : 'api - event managing' }
 ToForwardedEventHandler >> handleEvent: anEvent [
 	" The event can come from the infinite element. 
 	In that case, the event is re-dispatched from here to allow client to simply 

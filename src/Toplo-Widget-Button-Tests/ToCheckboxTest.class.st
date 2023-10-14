@@ -1,10 +1,12 @@
 Class {
-	#name : #ToCheckboxTest,
-	#superclass : #TestCase,
-	#category : #'Toplo-Widget-Button-Tests-Checkable'
+	#name : 'ToCheckboxTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Widget-Button-Tests-Checkable',
+	#package : 'Toplo-Widget-Button-Tests',
+	#tag : 'Checkable'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToCheckboxTest >> testCheckUncheckStates [
 
 	| cb |
@@ -14,7 +16,7 @@ ToCheckboxTest >> testCheckUncheckStates [
 	self assert: cb checked
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToCheckboxTest >> testIndeterminateState [
 
 	| cb |
@@ -24,7 +26,7 @@ ToCheckboxTest >> testIndeterminateState [
 	self assert: cb isUnchecked 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToCheckboxTest >> testStartChecked [
 
 	| cb space |
@@ -36,7 +38,7 @@ ToCheckboxTest >> testStartChecked [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToCheckboxTest >> testStartUnchecked [
 
 	| cb space |

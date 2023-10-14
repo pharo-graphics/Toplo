@@ -1,6 +1,6 @@
 Class {
-	#name : #ToNotebookPage,
-	#superclass : #Object,
+	#name : 'ToNotebookPage',
+	#superclass : 'Object',
 	#traits : 'TObservable',
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
@@ -9,41 +9,42 @@ Class {
 		'#titleElement',
 		'#bodyFactory => ObservableSlot'
 	],
-	#category : #'Toplo-Incubator'
+	#category : 'Toplo-Incubator',
+	#package : 'Toplo-Incubator'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNotebookPage >> bodyElement [
 
 	^ bodyFactory value
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNotebookPage >> bodyElement: aBlElement [
 
 	self bodyFactory: [ aBlElement ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNotebookPage >> bodyFactory [
 
 	^ bodyFactory
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNotebookPage >> bodyFactory: aValuable [
 	"Establish what is my body. When a page is selected in a notebook, it will send `#value` to this factory, and use the answered `BlElement` as the page's body."
 
 	bodyFactory := aValuable
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNotebookPage >> closeButton [
 	
 	^ titleElement childWithId: #closeButton
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToNotebookPage >> initialize [
 
 	super initialize.
@@ -54,55 +55,55 @@ ToNotebookPage >> initialize [
 	bodyFactory := [ BlElement new ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNotebookPage >> isCloseable [
 
 	^ isCloseable
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNotebookPage >> isCloseable: aBoolean [
 
 	isCloseable := aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNotebookPage >> isSelected [
 
 	^ isSelected
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNotebookPage >> isSelected: aBoolean [
 
 	isSelected := aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNotebookPage >> titleElement [
 
 	^ titleElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNotebookPage >> titleElement: aBlElement [
 
 	titleElement := aBlElement
 ]
 
-{ #category : #enumerating }
+{ #category : 'enumerating' }
 ToNotebookPage >> whenBodyFactoryChangedDo: aBlock [
 
 	self property: #bodyFactory whenChangedDo: aBlock
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 ToNotebookPage >> whenIsCloseableChangedDo: aBlock [
 
 	self property: #isCloseable whenChangedDo: aBlock
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 ToNotebookPage >> whenIsSelectedChangedDo: aBlock [
 
 	self property: #isSelected whenChangedDo: aBlock

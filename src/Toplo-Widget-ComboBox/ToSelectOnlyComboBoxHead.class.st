@@ -1,15 +1,16 @@
 Class {
-	#name : #ToSelectOnlyComboBoxHead,
-	#superclass : #ToComboBoxHead,
+	#name : 'ToSelectOnlyComboBoxHead',
+	#superclass : 'ToComboBoxHead',
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
 		'placeholder',
 		'dataElementFactory'
 	],
-	#category : #'Toplo-Widget-ComboBox'
+	#category : 'Toplo-Widget-ComboBox',
+	#package : 'Toplo-Widget-ComboBox'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSelectOnlyComboBoxHead >> addShortCuts [
 
 	| downShortcut upShortcut crShortcut escShortcut |
@@ -45,7 +46,7 @@ ToSelectOnlyComboBoxHead >> addShortCuts [
 	self addShortcut: escShortcut
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSelectOnlyComboBoxHead >> arrowDownEvent: anEvent [
 
 	| wasOpened |
@@ -57,7 +58,7 @@ ToSelectOnlyComboBoxHead >> arrowDownEvent: anEvent [
 	self comboBox listElement infinite fireEvent: anEvent
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSelectOnlyComboBoxHead >> arrowUpEvent: anEvent [
 
 	| wasOpened |
@@ -67,7 +68,7 @@ ToSelectOnlyComboBoxHead >> arrowUpEvent: anEvent [
 	self comboBox listElement infinite fireEvent: anEvent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSelectOnlyComboBoxHead >> dataElement: anElement [
 
 	anElement ifNil: [ ^ self ].
@@ -76,40 +77,40 @@ ToSelectOnlyComboBoxHead >> dataElement: anElement [
 	innerElement addChild: anElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSelectOnlyComboBoxHead >> dataElementFactory [
 	" is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
 
 	^ dataElementFactory
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSelectOnlyComboBoxHead >> dataElementFactory: aValuable [
 	" is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
 
 	dataElementFactory := aValuable asToDataToElementConverter
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSelectOnlyComboBoxHead >> defaultDataElementFactory [
 
 	^ ToActionDataToElementConverter new valuable: [ :d | ToLabel text: d asString] 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSelectOnlyComboBoxHead >> defaultEventHandler [
 
 	^ ToComboBoxHeadEventHandler new
 ]
 
-{ #category : #'t - placeholder show/hide' }
+{ #category : 't - placeholder show/hide' }
 ToSelectOnlyComboBoxHead >> hidePlaceholder [
 
 	self placeholder ifNotNil: [ :ph |
 		ph parentDo: [ :p | self placeholder removeFromParent ] ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSelectOnlyComboBoxHead >> initialize [ 
 
 	super initialize.
@@ -119,13 +120,13 @@ ToSelectOnlyComboBoxHead >> initialize [
 	self addEventHandler: self defaultEventHandler
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSelectOnlyComboBoxHead >> placeholder [
 
 	^ placeholder
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSelectOnlyComboBoxHead >> placeholder: anElement [
 
 	placeholder = anElement ifTrue: [ ^ self ].
@@ -133,14 +134,14 @@ ToSelectOnlyComboBoxHead >> placeholder: anElement [
 	placeholder := (anElement ifNil: [ self defaultPlaceholder ])
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSelectOnlyComboBoxHead >> selectData: aData in: aComboBox [
 
 	self hidePlaceholder.
 	self dataElement: (self dataElementFactory cull: aData cull: self)
 ]
 
-{ #category : #'t - placeholder show/hide' }
+{ #category : 't - placeholder show/hide' }
 ToSelectOnlyComboBoxHead >> showPlaceholder [
 
 	self dataElement: self placeholder

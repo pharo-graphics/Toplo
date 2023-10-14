@@ -1,10 +1,12 @@
 Class {
-	#name : #ToNodeHolderSelectedEvent,
-	#superclass : #ToNodeHolderEvent,
-	#category : #'Toplo-Widget-List-node'
+	#name : 'ToNodeHolderSelectedEvent',
+	#superclass : 'ToNodeHolderEvent',
+	#category : 'Toplo-Widget-List-node',
+	#package : 'Toplo-Widget-List',
+	#tag : 'node'
 }
 
-{ #category : #sending }
+{ #category : 'sending' }
 ToNodeHolderSelectedEvent >> sendTo: anObject [
 
 	^ anObject nodeHolderSelectedEvent: self

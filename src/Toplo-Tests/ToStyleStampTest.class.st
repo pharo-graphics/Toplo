@@ -2,12 +2,14 @@
 A ToStyleStampTest is a test class for testing the behavior of ToStyleStamp
 "
 Class {
-	#name : #ToStyleStampTest,
-	#superclass : #TestCase,
-	#category : #'Toplo-Tests-Core-Properties'
+	#name : 'ToStyleStampTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Tests-Core-Properties',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-Properties'
 }
 
-{ #category : #'stamp  private use' }
+{ #category : 'stamp  private use' }
 ToStyleStampTest >> testAddStyleStamp [
 
 	| e s s2 |
@@ -26,7 +28,7 @@ ToStyleStampTest >> testAddStyleStamp [
 	self assert: e localStyleStampIndex size equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleStampTest >> testAsStyleStamp [
 
 	| s |
@@ -47,7 +49,7 @@ ToStyleStampTest >> testAsStyleStamp [
 
 ]
 
-{ #category : #'stamp  private use' }
+{ #category : 'stamp  private use' }
 ToStyleStampTest >> testHasStamp [
 
 	| e |
@@ -63,7 +65,7 @@ ToStyleStampTest >> testHasStamp [
 
 ]
 
-{ #category : #'stamp  private use' }
+{ #category : 'stamp  private use' }
 ToStyleStampTest >> testLocalStyleStampIndex [
 
 	| e dict |
@@ -77,7 +79,7 @@ ToStyleStampTest >> testLocalStyleStampIndex [
 	self assert: (e userData includesKey: #localStyleStampIndex)
 ]
 
-{ #category : #'stamp  private use' }
+{ #category : 'stamp  private use' }
 ToStyleStampTest >> testLocalStyleStampNamed [
 
 	| e s |
@@ -93,7 +95,7 @@ ToStyleStampTest >> testLocalStyleStampNamed [
 	self assert: s value
 ]
 
-{ #category : #'stamp  private use' }
+{ #category : 'stamp  private use' }
 ToStyleStampTest >> testLookUpStyleStampNamed [
 
 	| e child |
@@ -114,7 +116,7 @@ ToStyleStampTest >> testLookUpStyleStampNamed [
 		identicalTo: (child localStyleStampNamed: #color)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleStampTest >> testName [
 
 	| s |
@@ -133,7 +135,7 @@ ToStyleStampTest >> testName [
 
 ]
 
-{ #category : #'stamp  private use' }
+{ #category : 'stamp  private use' }
 ToStyleStampTest >> testRemoveStyleStamp [
 
 	| e |
@@ -146,7 +148,7 @@ ToStyleStampTest >> testRemoveStyleStamp [
 	self assert: e localStyleStampIndex isEmpty
 ]
 
-{ #category : #'stamp  private use' }
+{ #category : 'stamp  private use' }
 ToStyleStampTest >> testRemoveStyleStampNamed [
 
 	| e |
@@ -159,7 +161,7 @@ ToStyleStampTest >> testRemoveStyleStampNamed [
 	self assert: e localStyleStampIndex isEmpty
 ]
 
-{ #category : #'stamp  private use' }
+{ #category : 'stamp  private use' }
 ToStyleStampTest >> testRemoveStyleStampNamedIfAbsent [
 
 	| e |
@@ -179,7 +181,7 @@ ToStyleStampTest >> testRemoveStyleStampNamedIfAbsent [
 
 ]
 
-{ #category : #'stamp reading' }
+{ #category : 'stamp reading' }
 ToStyleStampTest >> testStampNamed [
 
 	| e p |
@@ -199,7 +201,7 @@ ToStyleStampTest >> testStampNamed [
 		raise: ToElementPropertyNotFound
 ]
 
-{ #category : #'stamp reading' }
+{ #category : 'stamp reading' }
 ToStyleStampTest >> testStampValue [
 
 	| e p |
@@ -220,7 +222,7 @@ ToStyleStampTest >> testStampValue [
 		raise: ToElementPropertyNotFound
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleStampTest >> testValue [
 
 	| s |
@@ -236,7 +238,7 @@ ToStyleStampTest >> testValue [
 
 ]
 
-{ #category : #'stamp adding' }
+{ #category : 'stamp adding' }
 ToStyleStampTest >> testWithAllStamps [
 
 	| e |
@@ -256,7 +258,7 @@ ToStyleStampTest >> testWithAllStamps [
 
 ]
 
-{ #category : #'stamp adding' }
+{ #category : 'stamp adding' }
 ToStyleStampTest >> testWithStamp [
 
 	| e |
@@ -283,7 +285,7 @@ ToStyleStampTest >> testWithStamp [
 
 ]
 
-{ #category : #'stamp adding' }
+{ #category : 'stamp adding' }
 ToStyleStampTest >> testWithoutStamp [
 
 	| e |

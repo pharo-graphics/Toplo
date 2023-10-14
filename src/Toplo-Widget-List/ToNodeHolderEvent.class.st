@@ -1,19 +1,21 @@
 Class {
-	#name : #ToNodeHolderEvent,
-	#superclass : #BlEvent,
+	#name : 'ToNodeHolderEvent',
+	#superclass : 'BlEvent',
 	#instVars : [
 		'holder'
 	],
-	#category : #'Toplo-Widget-List-node'
+	#category : 'Toplo-Widget-List-node',
+	#package : 'Toplo-Widget-List',
+	#tag : 'node'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNodeHolderEvent >> holder [
 
 	^ holder
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNodeHolderEvent >> holder: anHolder [
 
 	holder := anHolder

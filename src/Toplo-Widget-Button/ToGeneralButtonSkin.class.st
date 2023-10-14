@@ -1,13 +1,15 @@
 Class {
-	#name : #ToGeneralButtonSkin,
-	#superclass : #ToRawSkin,
+	#name : 'ToGeneralButtonSkin',
+	#superclass : 'ToRawSkin',
 	#instVars : [
 		'pressed'
 	],
-	#category : #'Toplo-Widget-Button-Core'
+	#category : 'Toplo-Widget-Button-Core',
+	#package : 'Toplo-Widget-Button',
+	#tag : 'Core'
 }
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToGeneralButtonSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
@@ -18,7 +20,7 @@ ToGeneralButtonSkin >> hoveredLookEvent: anEvent [
 		e background: e hoveredBackground ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToGeneralButtonSkin >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
@@ -28,7 +30,7 @@ ToGeneralButtonSkin >> initialLookEvent: anEvent [
 		e background: e defaultBackground ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToGeneralButtonSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
@@ -36,7 +38,7 @@ ToGeneralButtonSkin >> installLookEvent: anEvent [
 
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToGeneralButtonSkin >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
@@ -46,7 +48,7 @@ ToGeneralButtonSkin >> pressedLookEvent: anEvent [
 		e background: e pressedBackground ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToGeneralButtonSkin >> releasedLookEvent: anEvent [
 
 	super releasedLookEvent: anEvent.

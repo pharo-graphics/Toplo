@@ -1,13 +1,15 @@
 Class {
-	#name : #ToTextScissor,
-	#superclass : #Object,
+	#name : 'ToTextScissor',
+	#superclass : 'Object',
 	#instVars : [
 		'privateCount'
 	],
-	#category : #'Toplo-Widget-Album-Label'
+	#category : 'Toplo-Widget-Album-Label',
+	#package : 'Toplo-Widget-Album',
+	#tag : 'Label'
 }
 
-{ #category : #splitting }
+{ #category : 'splitting' }
 ToTextScissor >> cut: aText [ 
 
 	^ Array streamContents: [ :stream | 
@@ -17,13 +19,13 @@ ToTextScissor >> cut: aText [
 				self processNextWord: lineIterator in: stream] ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToTextScissor >> initialize [
 	super initialize.
 	privateCount := 0.
 ]
 
-{ #category : #'private - pieces computation' }
+{ #category : 'private - pieces computation' }
 ToTextScissor >> itemValueType: anObject [
 
 	"Return a type of an item within a segment.
@@ -37,13 +39,13 @@ ToTextScissor >> itemValueType: anObject [
 		  ifFalse: [ #letter ]
 ]
 
-{ #category : #'private - pieces computation' }
+{ #category : 'private - pieces computation' }
 ToTextScissor >> privateNextCount [
 
 	^ privateCount := privateCount + 1
 ]
 
-{ #category : #'private - pieces computation' }
+{ #category : 'private - pieces computation' }
 ToTextScissor >> processNextWord: aTextIterator in: aStream [
 
 	"just split it in words based on the text separator

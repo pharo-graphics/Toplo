@@ -1,15 +1,16 @@
 Class {
-	#name : #ToNotebook,
-	#superclass : #ToElement,
+	#name : 'ToNotebook',
+	#superclass : 'ToElement',
 	#instVars : [
 		'pages',
 		'header',
 		'selectedPage'
 	],
-	#category : #'Toplo-Incubator'
+	#category : 'Toplo-Incubator',
+	#package : 'Toplo-Incubator'
 }
 
-{ #category : #api }
+{ #category : 'api' }
 ToNotebook >> addPage: aPage [
 
 	pages add: aPage.
@@ -26,7 +27,7 @@ ToNotebook >> addPage: aPage [
 	pages size = 1 ifTrue: [ aPage isSelected: true ]
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 ToNotebook >> addPageTitle: aTitle [
 
 	| aPage |
@@ -35,7 +36,7 @@ ToNotebook >> addPageTitle: aTitle [
 	^ aPage
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 ToNotebook >> addPageTitle: aTitle body: aBlElement [ 
 
 	| aPage |
@@ -45,7 +46,7 @@ ToNotebook >> addPageTitle: aTitle body: aBlElement [
 	^ aPage
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 ToNotebook >> addPageTitle: aTitle bodyFactory: aValuable [
 
 	| aPage |
@@ -55,13 +56,13 @@ ToNotebook >> addPageTitle: aTitle bodyFactory: aValuable [
 	^ aPage
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNotebook >> header [
 
 	^ header
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToNotebook >> initialize [
 
 	super initialize.
@@ -85,7 +86,7 @@ ToNotebook >> initialize [
 			c vertical exact: 30 ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ToNotebook >> newPageTitle: aTitle [
 
 	| aPage titleElement |
@@ -95,7 +96,7 @@ ToNotebook >> newPageTitle: aTitle [
 	^ aPage
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ToNotebook >> newTitleElementFor: aPage title: aTitle [
 
 	^ ToNotebookPageTitle new
@@ -105,13 +106,13 @@ ToNotebook >> newTitleElementFor: aPage title: aTitle [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNotebook >> pages [
 
 	^ pages
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ToNotebook >> refreshOnBodyFactoryChange: aPage [
 
 	selectedPage = aPage ifFalse: [ ^ self ].
@@ -121,13 +122,13 @@ ToNotebook >> refreshOnBodyFactoryChange: aPage [
 
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ToNotebook >> refreshOnPageIsCloseableChange: aPage [
 
 	aPage isCloseable
 		ifTrue: [
 			| but |
-			but := ToButton new installSkin: nil.
+			but := ToButton new requestNewSkin: nil.
 			but icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #windowClose)).
 			but whenClickedDo: [ :evt | 
 				evt consumed: true.
@@ -137,7 +138,7 @@ ToNotebook >> refreshOnPageIsCloseableChange: aPage [
 			aPage titleElement removeChildNamed: #closeButton ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ToNotebook >> refreshOnPageIsSelectedChange: aPage [
 
 	aPage isSelected
@@ -150,13 +151,13 @@ ToNotebook >> refreshOnPageIsSelectedChange: aPage [
 			selectedPage := nil ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ToNotebook >> removeBodyElement [
 
 	self removeChildWithId: #body
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 ToNotebook >> removePage: aPage [
 
 	| pageIndex |
@@ -175,19 +176,19 @@ ToNotebook >> removePage: aPage [
 		ifFalse: [ pages at: pageIndex ]) isSelected: true
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 ToNotebook >> selectPage: aPage [
 
 	aPage isSelected: true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNotebook >> selectedPage [
 
 	^ selectedPage
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ToNotebook >> setBodyElement: aBlElement [
 
 	aBlElement constraintsDo: [ :c |

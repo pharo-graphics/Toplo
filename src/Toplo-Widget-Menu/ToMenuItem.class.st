@@ -1,6 +1,6 @@
 Class {
-	#name : #ToMenuItem,
-	#superclass : #ToMenuItemElement,
+	#name : 'ToMenuItem',
+	#superclass : 'ToMenuItemElement',
 	#traits : 'TToClickable + TToElementWithLabeledIcon',
 	#classTraits : 'TToClickable classTrait + TToElementWithLabeledIcon classTrait',
 	#instVars : [
@@ -8,28 +8,30 @@ Class {
 		'filler',
 		'rightHandSide'
 	],
-	#category : #'Toplo-Widget-Menu-Basic'
+	#category : 'Toplo-Widget-Menu-Basic',
+	#package : 'Toplo-Widget-Menu',
+	#tag : 'Basic'
 }
 
-{ #category : #'t - clickable - click behavior' }
+{ #category : 't - clickable - click behavior' }
 ToMenuItem >> clickEventClass [
 
 	^ BlMouseUpEvent
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToMenuItem >> defaultLayout [ 
 
 	^ BlLinearLayout horizontal
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToMenuItem >> filler [ 
 
 	^ filler
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToMenuItem >> initialize [ 
 
 	super initialize.
@@ -45,7 +47,7 @@ ToMenuItem >> initialize [
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToMenuItem >> initializeWithMenuItemConstraints [ 
 
 	self hMatchParent.
@@ -53,13 +55,13 @@ ToMenuItem >> initializeWithMenuItemConstraints [
 
 ]
 
-{ #category : #'t - element with labeled icon - accessing' }
+{ #category : 't - element with labeled icon - accessing' }
 ToMenuItem >> labeledIcon [ 
 
 	^ labeledIcon 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToMenuItem >> newFiller [
 
 	^ ToElement new
@@ -68,7 +70,7 @@ ToMenuItem >> newFiller [
 		  yourself
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToMenuItem >> newRightHandSide [
 
 	| rhs |
@@ -81,7 +83,7 @@ ToMenuItem >> newRightHandSide [
 	^ rhs
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToMenuItem >> rightHandSide [
 
 	^ rightHandSide

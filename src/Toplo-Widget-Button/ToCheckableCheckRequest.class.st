@@ -1,19 +1,21 @@
 Class {
-	#name : #ToCheckableCheckRequest,
-	#superclass : #BlEvent,
+	#name : 'ToCheckableCheckRequest',
+	#superclass : 'BlEvent',
 	#instVars : [
 		'checked'
 	],
-	#category : #'Toplo-Widget-Button-Checkable'
+	#category : 'Toplo-Widget-Button-Checkable',
+	#package : 'Toplo-Widget-Button',
+	#tag : 'Checkable'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToCheckableCheckRequest >> checked [
 
 	^ checked
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToCheckableCheckRequest >> checked: aBoolean [
 
 	checked := aBoolean

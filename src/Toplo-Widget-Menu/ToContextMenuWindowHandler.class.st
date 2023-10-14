@@ -1,30 +1,38 @@
 Class {
-	#name : #ToContextMenuWindowHandler,
-	#superclass : #ToMenuWindowHandler,
-	#category : #'Toplo-Widget-Menu-Basic'
+	#name : 'ToContextMenuWindowHandler',
+	#superclass : 'ToMenuWindowHandler',
+	#category : 'Toplo-Widget-Menu-Basic',
+	#package : 'Toplo-Widget-Menu',
+	#tag : 'Basic'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToContextMenuWindowHandler >> defaulPositionHook [
 
 	^ [ :event | event position ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToContextMenuWindowHandler >> elementEventHandlerClass [ 
 
 	^ ToContextMenuEventHandler
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToContextMenuWindowHandler >> initialize [
 
 	super initialize.
 	self useSecondaryMouseButton
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToContextMenuWindowHandler >> windowBeforeBuildingEventClass [
 
 	^ ToContextMenuBeforeBuildingEvent 
+]
+
+{ #category : 'accessing' }
+ToContextMenuWindowHandler >> windowClass [
+
+	^ ToContextMenu
 ]

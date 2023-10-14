@@ -1,13 +1,15 @@
 Class {
-	#name : #ToElementWithTooltipEventHandler,
-	#superclass : #ToAnchorEventHandler,
+	#name : 'ToElementWithTooltipEventHandler',
+	#superclass : 'ToAnchorEventHandler',
 	#instVars : [
 		'openTooltipTask'
 	],
-	#category : #'Toplo-Core-Tooltip'
+	#category : 'Toplo-Core-Tooltip',
+	#package : 'Toplo',
+	#tag : 'Core-Tooltip'
 }
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToElementWithTooltipEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle, {
@@ -16,7 +18,7 @@ ToElementWithTooltipEventHandler >> eventsToHandle [
 		  BlMouseDownEvent }
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ToElementWithTooltipEventHandler >> hideTooltipFor: anElement [
 
 	openTooltipTask ifNotNil: [ 
@@ -25,14 +27,14 @@ ToElementWithTooltipEventHandler >> hideTooltipFor: anElement [
 	anElement currentTooltipWindow ifNotNil: [ :tooltip | tooltip close ]
 ]
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToElementWithTooltipEventHandler >> mouseDownEvent: anEvent [
 
 	self hideTooltipFor: anEvent currentTarget
 
 ]
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToElementWithTooltipEventHandler >> mouseEnterEvent: anEvent [
 
 	openTooltipTask ifNotNil: [ anEvent currentTarget dequeueTask: openTooltipTask ].
@@ -40,20 +42,20 @@ ToElementWithTooltipEventHandler >> mouseEnterEvent: anEvent [
 	self prepareDelayedPopupTooltipFromEvent: anEvent
 ]
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToElementWithTooltipEventHandler >> mouseLeaveEvent: anEvent [
 
 	self hideTooltipFor: anEvent currentTarget
 
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ToElementWithTooltipEventHandler >> popupDelay [
 
 	^ windowHandler popupDelay
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ToElementWithTooltipEventHandler >> prepareDelayedPopupTooltipFromEvent: anEvent [
 
 		openTooltipTask := BlDelayedTaskAction new

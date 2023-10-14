@@ -1,10 +1,12 @@
 Class {
-	#name : #ToWindowOpenedEvent,
-	#superclass : #ToWindowOpeningEvent,
-	#category : #'Toplo-Core-Window'
+	#name : 'ToWindowOpenedEvent',
+	#superclass : 'ToWindowOpeningEvent',
+	#category : 'Toplo-Core-Window',
+	#package : 'Toplo',
+	#tag : 'Core-Window'
 }
 
-{ #category : #sending }
+{ #category : 'sending' }
 ToWindowOpenedEvent >> sendTo: anObject [
 
 	anObject windowOpenedEvent: self

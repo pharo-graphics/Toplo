@@ -1,12 +1,13 @@
 Class {
-	#name : #ToLabelInnerElementExample,
-	#superclass : #BlElement,
+	#name : 'ToLabelInnerElementExample',
+	#superclass : 'BlElement',
 	#traits : 'TToLabelInnerElement',
 	#classTraits : 'TToLabelInnerElement classTrait',
-	#category : #'Toplo-Examples'
+	#category : 'Toplo-Examples',
+	#package : 'Toplo-Examples'
 }
 
-{ #category : #'api - editor' }
+{ #category : 'api - editor' }
 ToLabelInnerElementExample >> editorShortcutsIn: aLabel [
 
 	^ { (BlShortcutWithAction new
@@ -23,19 +24,19 @@ ToLabelInnerElementExample >> editorShortcutsIn: aLabel [
 			 yourself) }
 ]
 
-{ #category : #'api - editor' }
+{ #category : 'api - editor' }
 ToLabelInnerElementExample >> newEditorIn: aLabel [
 
 	^ BlElement new background: Color yellow; yourself 
 ]
 
-{ #category : #'api - text accessing' }
+{ #category : 'api - text accessing' }
 ToLabelInnerElementExample >> text [
 
 	^ 'My text'
 ]
 
-{ #category : #'api - text accessing' }
+{ #category : 'api - text accessing' }
 ToLabelInnerElementExample >> text: aText [
 
 	

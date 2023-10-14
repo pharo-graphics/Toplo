@@ -1,6 +1,6 @@
 Class {
-	#name : #ToAnchoredWindowHandler,
-	#superclass : #Object,
+	#name : 'ToAnchoredWindowHandler',
+	#superclass : 'Object',
 	#instVars : [
 		'currentWindow',
 		'element',
@@ -10,17 +10,19 @@ Class {
 		'positionHook',
 		'sizeHook'
 	],
-	#category : #'Toplo-Core-Window'
+	#category : 'Toplo-Core-Window',
+	#package : 'Toplo',
+	#tag : 'Core-Window'
 }
 
-{ #category : #'position hook' }
+{ #category : 'position hook' }
 ToAnchoredWindowHandler >> applyPositionHookFromEvent: anEvent [
 
 	self currentWindow ifNil: [ ^ self ].
 	self currentWindow position: (self positionHook value: anEvent)
 ]
 
-{ #category : #'position hook' }
+{ #category : 'position hook' }
 ToAnchoredWindowHandler >> applySizeHookFromEvent: anEvent [
 
 	self currentWindow ifNil: [ ^ self ].
@@ -28,56 +30,56 @@ ToAnchoredWindowHandler >> applySizeHookFromEvent: anEvent [
 	self currentWindow size: (self sizeHook value: anEvent)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAnchoredWindowHandler >> builder [
 
 	^ builder
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAnchoredWindowHandler >> builder: aWindowBuilderValuable [
 
 	builder := aWindowBuilderValuable
 ]
 
-{ #category : #'window handling' }
+{ #category : 'window handling' }
 ToAnchoredWindowHandler >> closeWindow [
 
 	currentWindow ifNil: [ ^ self ].
 	currentWindow close
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAnchoredWindowHandler >> currentWindow [
 
 	^ currentWindow
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAnchoredWindowHandler >> currentWindow: aWindowElement [
 
 	currentWindow := aWindowElement
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToAnchoredWindowHandler >> defaulPositionHook [
 
 	^ [ :event | element bounds inSpace bounds topLeft ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToAnchoredWindowHandler >> defaulSizeHook [
 
 	^ nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAnchoredWindowHandler >> element [
 
 	^ element
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAnchoredWindowHandler >> element: anElement [
 
 	element ifNotNil: [
@@ -88,19 +90,19 @@ ToAnchoredWindowHandler >> element: anElement [
 		element addEventHandler: self newElementEventHandler ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAnchoredWindowHandler >> elementEventHandlerClass [
 
 	^ ToAnchorEventHandler 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToAnchoredWindowHandler >> hasWindow [
 
 	^ currentWindow notNil
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToAnchoredWindowHandler >> initialize [ 
 
 	super initialize.
@@ -110,7 +112,7 @@ ToAnchoredWindowHandler >> initialize [
 	
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAnchoredWindowHandler >> newElementEventHandler [
 
 	elementEventHandler := self elementEventHandlerClass new.
@@ -118,7 +120,7 @@ ToAnchoredWindowHandler >> newElementEventHandler [
 	^ elementEventHandler
 ]
 
-{ #category : #'window handling' }
+{ #category : 'window handling' }
 ToAnchoredWindowHandler >> newWindowEvent: anEvent [
 
 	currentWindow ifNotNil: [
@@ -127,7 +129,6 @@ ToAnchoredWindowHandler >> newWindowEvent: anEvent [
 			 sourceEvent: anEvent;
 			 yourself).
 	currentWindow := self newWindowInstance.
-	currentWindow handler: self.
 	windowClosedHandler := BlEventHandler
 		                       on: ToWindowClosedEvent
 		                       do: [ self windowClosed ].
@@ -135,19 +136,22 @@ ToAnchoredWindowHandler >> newWindowEvent: anEvent [
 	^ currentWindow
 ]
 
-{ #category : #'window handling' }
+{ #category : 'window handling' }
 ToAnchoredWindowHandler >> newWindowInstance [
 
-	^  builder cull: element
+	| w |
+	w := self windowClass new handler: self; yourself.
+	builder value: w value: self element.
+	^ w
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAnchoredWindowHandler >> positionHook [
 
 	^ positionHook
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAnchoredWindowHandler >> positionHook: aValuable [
 	" takes the window as argument. Computes the window position according to the given window anchor element "
 	
@@ -155,26 +159,32 @@ ToAnchoredWindowHandler >> positionHook: aValuable [
 	self applyPositionHookFromEvent: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAnchoredWindowHandler >> sizeHook [
 	
 	^ sizeHook
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAnchoredWindowHandler >> sizeHook: aValuable [
 	
 	sizeHook := aValuable.
 	self applySizeHookFromEvent: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAnchoredWindowHandler >> windowBeforeBuildingEventClass [
 
 	^ ToWindowBeforeBuildingEvent 
 ]
 
-{ #category : #'window handling' }
+{ #category : 'accessing' }
+ToAnchoredWindowHandler >> windowClass [
+
+	^ ToAnchoredWindow 
+]
+
+{ #category : 'window handling' }
 ToAnchoredWindowHandler >> windowClosed [
 
 	currentWindow removeEventHandler: windowClosedHandler.

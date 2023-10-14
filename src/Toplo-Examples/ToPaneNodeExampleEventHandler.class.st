@@ -1,26 +1,27 @@
 Class {
-	#name : #ToPaneNodeExampleEventHandler,
-	#superclass : #ToNodeEventHandler,
+	#name : 'ToPaneNodeExampleEventHandler',
+	#superclass : 'ToNodeEventHandler',
 	#instVars : [
 		'nodeButton',
 		'changeBackground'
 	],
-	#category : #'Toplo-Examples'
+	#category : 'Toplo-Examples',
+	#package : 'Toplo-Examples'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPaneNodeExampleEventHandler >> changeBackground [
 
 	^ changeBackground ifNil: [ changeBackground := true ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPaneNodeExampleEventHandler >> changeBackground: aBoolean [
 
 	changeBackground := aBoolean
 ]
 
-{ #category : #'events handling' }
+{ #category : 'events handling' }
 ToPaneNodeExampleEventHandler >> mouseEnterEvent: anEvent [
 
 	super mouseEnterEvent: anEvent.
@@ -28,7 +29,7 @@ ToPaneNodeExampleEventHandler >> mouseEnterEvent: anEvent [
 		anEvent currentTarget background: (Color lightGray alpha: 0.2) ].
 	nodeButton := ToButton new labelText: 'Do something'; yourself.
 	nodeButton withStamp: #primary.
-	nodeButton reinstallMySkin.
+	nodeButton requestRenewSkin.
 	nodeButton whenClickedDo: [ self inform: 'CLICK' ].
 	nodeButton constraintsDo: [ :c |
 		c ignoreByLayout.
@@ -37,7 +38,7 @@ ToPaneNodeExampleEventHandler >> mouseEnterEvent: anEvent [
 	nodeButton position: 0 @ -10
 ]
 
-{ #category : #'events handling' }
+{ #category : 'events handling' }
 ToPaneNodeExampleEventHandler >> mouseLeaveEvent: anEvent [
 
 	super mouseLeaveEvent: anEvent.

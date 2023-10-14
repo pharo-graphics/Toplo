@@ -2,12 +2,14 @@
 A ToCheckableGroupCheckingStrategyTest is a test class for testing the behavior of ToCheckableGroupCheckingStrategy
 "
 Class {
-	#name : #ToCheckableGroupCheckingStrategyTest,
-	#superclass : #TestCase,
-	#category : #'Toplo-Widget-Button-Tests-Checkable'
+	#name : 'ToCheckableGroupCheckingStrategyTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Widget-Button-Tests-Checkable',
+	#package : 'Toplo-Widget-Button-Tests',
+	#tag : 'Checkable'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToCheckableGroupCheckingStrategyTest >> testNoneStrategy [
 
 	| group |
@@ -33,7 +35,7 @@ ToCheckableGroupCheckingStrategyTest >> testNoneStrategy [
 	self assert: ((group buttons copyFrom: 3 to: 4) allSatisfy: [ :btn | btn checked not ])
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToCheckableGroupCheckingStrategyTest >> testStrictStrategy [
 
 	| group |
@@ -58,7 +60,7 @@ ToCheckableGroupCheckingStrategyTest >> testStrictStrategy [
 	self assert: ((group buttons copyFrom: 3 to: 4) allSatisfy: [ :btn | btn checked not ])
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToCheckableGroupCheckingStrategyTest >> testWithUncheckStrategy [
 
 	| group |

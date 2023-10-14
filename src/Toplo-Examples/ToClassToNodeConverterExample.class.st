@@ -1,17 +1,18 @@
 Class {
-	#name : #ToClassToNodeConverterExample,
-	#superclass : #ToDataToElementConverter,
-	#category : #'Toplo-Examples'
+	#name : 'ToClassToNodeConverterExample',
+	#superclass : 'ToDataToElementConverter',
+	#category : 'Toplo-Examples',
+	#package : 'Toplo-Examples'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 ToClassToNodeConverterExample >> colorFor: index [
 
 	index odd ifTrue: [ ^ Smalltalk ui theme lightBackgroundColor ].
 	^ Smalltalk ui theme backgroundColor
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 ToClassToNodeConverterExample >> cull: aClass cull: anHolder [
 
 	^ ToLabeledNode new
@@ -23,13 +24,13 @@ ToClassToNodeConverterExample >> cull: aClass cull: anHolder [
 		  yourself
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ToClassToNodeConverterExample >> iconFor: aClass [
 
 	^ ToImage new innerImage: (self iconImageFor: aClass)
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ToClassToNodeConverterExample >> iconImageFor: aClass [
 
 	((aClass

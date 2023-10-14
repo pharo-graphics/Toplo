@@ -1,13 +1,21 @@
-Extension { #name : #BlElement }
+Extension { #name : 'BlElement' }
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> addStyleStamp: aStyleStamp [
 
 	self ensureLocalStyleStampIndex.
 	self localStyleStampIndex addProperty: aStyleStamp
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
+BlElement >> applySkinInstaller [
+
+	self childrenDo: [ :child | child applySkinInstaller ].
+	self skinInstaller ifNotNil: [ :si | si applyOn: self ].
+
+]
+
+{ #category : '*Toplo' }
 BlElement >> asPlaceholderLayer [
 
 	^ ToPlaceholderLayer new
@@ -15,45 +23,39 @@ BlElement >> asPlaceholderLayer [
 		  yourself
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> borderBuilder [
 
 	^ self userData at: #borderBuilder ifAbsentPut: [ BlBorderBuilder new ]
 ]
 
-{ #category : #'*Toplo' }
-BlElement >> checkSkinInstallation [
-
-	self childrenDo: [ :child | child checkSkinInstallation ].
-	self skinInstaller ifNotNil: [ :si | si applyOn: self ].
-
-]
-
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> currentSkinState [
 
 	^ self userData at: #currentSkinState ifAbsentPut: [  ]
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> currentSkinState: aState [
 
 	self userData at: #currentSkinState put: aState
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> defaultSkin [
 
-	^  self skinBuilder skinFor: self
+	^ self userData
+		  at: #defaultSkin
+		  ifAbsent: [ self skinBuilder skinFor: self ]
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> defaultSkin: aSkin [
 
 	self userData at: #defaultSkin put: aSkin
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> disable [
 
 	self isFlaggedAsDisabled ifFalse: [
@@ -62,25 +64,25 @@ BlElement >> disable [
 	self childrenDo: [ :child | child disable ]
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> dispatchEnablementChangedEvent [
 
 	self dispatchEvent: ToEnablementChangedEvent new
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> dispatchLookEvent: anEvent [
 
 	self dispatchEvent: anEvent
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> dispatchSkinChangedEvent [
 
 	self dispatchEvent: ToSkinChangedEvent new
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> enable [
 
 	self isFlaggedAsEnabled ifFalse: [
@@ -89,7 +91,7 @@ BlElement >> enable [
 	self childrenDo: [ :child | child enable ]
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> ensureLocalStyleStampIndex [
 
 	self userData
@@ -97,19 +99,19 @@ BlElement >> ensureLocalStyleStampIndex [
 		ifAbsentPut: ToPropertyIndex new
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> flagAsDisabled [
 
 	self userData at: #enabled put: false
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> flagAsEnabled [
 
 	self userData at: #enabled put: true
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> hasStamp: aSymbol [
 
 	| index |
@@ -117,68 +119,54 @@ BlElement >> hasStamp: aSymbol [
 	^ index hasPropertyNamed: aSymbol
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> holder [
 
 	^ self constraints infinite holder
 ]
 
-{ #category : #'*Toplo' }
-BlElement >> installDefaultSkin [
-
-	self skinInstaller: ToLazySkintInstaller new
-]
-
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> installDefaultSkinRecursively [
 
 	self childrenDo: [ :child | child installDefaultSkinRecursively ].
-	self installDefaultSkin
+	self requestDefaultSkin
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> installRawStyle [
 ]
 
-{ #category : #'*Toplo' }
-BlElement >> installSkin: aSkin [
-
-	self privateSkin ifNotNil: [ :s | self removeEventHandler: s ].
-	aSkin ifNotNil: [ :s |
-		self skinInstaller: (ToExplicitSkinInstaller new skin: s) ]
-]
-
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> isDisabled [
 
 	^ self isFlaggedAsDisabled
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> isEnabled [
 
 	^ self isFlaggedAsEnabled 
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> isFlaggedAsDisabled [
 
 	^ self isFlaggedAsEnabled not
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> isFlaggedAsEnabled [
 
 	^ self userData at: #enabled ifAbsentPut: [ true ]
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> localStyleSheet [
 
 	^ self userData at: #localStyleSheet ifAbsent: [  ]
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> localStyleSheet: aStyleSheet [
 
 	| prev |
@@ -188,13 +176,13 @@ BlElement >> localStyleSheet: aStyleSheet [
 	aStyleSheet ifNotNil: [ aStyleSheet onInstalledIn: self ]
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> localStyleStampIndex [
 
 	^ self userData at: #localStyleStampIndex ifAbsent: [ ]
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> localStyleStampNamed: aSymbol [
 
 	| index |
@@ -203,7 +191,7 @@ BlElement >> localStyleStampNamed: aSymbol [
 	
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> lookUpStyleStampNamed: aSymbol [
 	" first look-up following child-parent association 
 	for each element, try first to get the stamp from the localStyleStampIndex 
@@ -217,7 +205,7 @@ BlElement >> lookUpStyleStampNamed: aSymbol [
 	^ self toTheme stampNamed: aSymbol
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> openInInnerWindow [
 
 	| frame |
@@ -226,46 +214,38 @@ BlElement >> openInInnerWindow [
 	frame openInSpace
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> privateSkin [
 
 	^ self userData at: #privateSkin ifAbsent: [  ]
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> privateSkin: aSkin [
 
 	self privateSkin = aSkin ifTrue: [ ^ self ].
 	self userData at: #privateSkin put: aSkin
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> privateToTheme [
 
 	^ self userData at: #privateToTheme ifAbsent: [  ]
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> privateToTheme: aTheme [
 
 	self userData at: #privateToTheme put: aTheme
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> rawSkin [
 
 	^  ToRawSkin new
 ]
 
-{ #category : #'*Toplo' }
-BlElement >> reinstallMySkin [
-
-	self privateSkin ifNotNil: [ :s |
-		self skinInstaller: (ToExplicitSkinInstaller new skin: s).
-		self installSkin: nil ]
-]
-
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> removeAllStyleStamps [
 
 	| index |
@@ -273,7 +253,7 @@ BlElement >> removeAllStyleStamps [
 	index removeAllProperties 
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> removeAllStyleStamps: aStyleStampCollection [
 
 	| index |
@@ -281,7 +261,7 @@ BlElement >> removeAllStyleStamps: aStyleStampCollection [
 	aStyleStampCollection do: [ :s | index removeProperty: s ]
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> removeStyleStamp: aStyleStamp [
 
 	| index |
@@ -289,7 +269,7 @@ BlElement >> removeStyleStamp: aStyleStamp [
 	index removeProperty: aStyleStamp
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> removeStyleStampNamed: aSymbol [
 
 	| index |
@@ -297,7 +277,7 @@ BlElement >> removeStyleStampNamed: aSymbol [
 	index removePropertyNamed: aSymbol
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> removeStyleStampNamed: aSymbol ifAbsent: anAbsentBlock [
 
 	| index |
@@ -305,52 +285,73 @@ BlElement >> removeStyleStampNamed: aSymbol ifAbsent: anAbsentBlock [
 	index removePropertyNamed: aSymbol ifAbsent: anAbsentBlock
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
+BlElement >> requestDefaultSkin [
+
+	self skinInstaller: ToLazySkintInstaller new
+]
+
+{ #category : '*Toplo' }
+BlElement >> requestNewSkin: aSkin [
+
+	
+	aSkin ifNotNil: [ :s |
+		self skinInstaller: (ToExplicitSkinInstaller new skin: s) ]
+]
+
+{ #category : '*Toplo' }
+BlElement >> requestRenewSkin [
+
+	self privateSkin ifNotNil: [ :s |
+		self skinInstaller: (ToExplicitSkinInstaller new skin: s) ]
+]
+
+{ #category : '*Toplo' }
 BlElement >> skinBuilder [
 
 	^ self toTheme skinBuilder
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> skinDo: aBlock [
 
 	self privateSkin ifNil: [ ^ self ].
 	aBlock value: self privateSkin
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> skinInstaller [
 
 	^ self userData at: #skinInstaller ifAbsent: [  ]
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> skinInstaller: aSkinInstaller [
 
 	self userData at: #skinInstaller put: aSkinInstaller
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> stampNamed: aSymbol [
 
 	(self lookUpStyleStampNamed: aSymbol) ifNotNil: [ :s | ^ s ].
 	(ToElementPropertyNotFound name: aSymbol) signal
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> stampValue: aSymbol [
 
 	(self lookUpStyleStampNamed: aSymbol) ifNotNil: [ :s | ^ s value ].
 	(ToElementPropertyNotFound name: aSymbol) signal
 ]
 
-{ #category : #'*Toplo-LookAndFeel' }
+{ #category : '*Toplo-LookAndFeel' }
 BlElement >> styleSheet [
 
 	^ self localStyleSheet
 ]
 
-{ #category : #'*Toplo-LookAndFeel' }
+{ #category : '*Toplo-LookAndFeel' }
 BlElement >> styleSheet: aStyleSheet [
 
 	self localStyleSheet = aStyleSheet ifTrue: [ ^ self ].
@@ -359,7 +360,7 @@ BlElement >> styleSheet: aStyleSheet [
 
 ]
 
-{ #category : #'*Toplo-LookAndFeel' }
+{ #category : '*Toplo-LookAndFeel' }
 BlElement >> styleSheetChain [
 	" return an array with all my inherited stylesheets "
 
@@ -377,20 +378,20 @@ BlElement >> styleSheetChain [
 			  str nextPut: self toTheme styleSheet ] ]
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> switchToSkinState: aState [
 
 	self currentSkinState: aState.
 	aState applyOn: self
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> textAttributesBuilder [
 
 	^ self userData at: #textAttributesBuilder ifAbsentPut: [ BlTextAttributesBuilder new ]
 ]
 
-{ #category : #'*Toplo-LookAndFeel' }
+{ #category : '*Toplo-LookAndFeel' }
 BlElement >> toTheme [
 
 	^ self privateToTheme ifNil: [
@@ -405,7 +406,7 @@ BlElement >> toTheme [
 					  ifFalse: [ ToTheme current ] ] ]
 ]
 
-{ #category : #'*Toplo-LookAndFeel' }
+{ #category : '*Toplo-LookAndFeel' }
 BlElement >> toTheme: aTheme [
 
 	self privateToTheme = aTheme ifTrue: [ ^ self ].
@@ -414,7 +415,7 @@ BlElement >> toTheme: aTheme [
 
 ]
 
-{ #category : #'*Toplo-LookAndFeel' }
+{ #category : '*Toplo-LookAndFeel' }
 BlElement >> toThemeChanged [
 
 	self dispatchEvent: ToThemeChangedEvent new.
@@ -423,33 +424,27 @@ BlElement >> toThemeChanged [
 
 ]
 
-{ #category : #'*Toplo' }
-BlElement >> updateDefaultSkin [
-
-	self installSkin: self defaultSkin
-]
-
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> withAllStamps: aCollectionOfSymbol [
 
 	aCollectionOfSymbol ifEmpty: [ ^ self ].
 	aCollectionOfSymbol do: [ :s | self withStamp: s ]
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> withStamp: anAssociationOrSymbol [
 
 	self ensureLocalStyleStampIndex.
 	self addStyleStamp: anAssociationOrSymbol asStyleStamp
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> withoutAllStamps [
 
 	self removeAllStyleStamps
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> withoutSkin [
 
 	self privateSkin ifNotNil: [ :s |
@@ -457,7 +452,7 @@ BlElement >> withoutSkin [
 		self privateSkin: nil ]
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlElement >> withoutStamp: aSymbol [
 
 	self removeStyleStampNamed: aSymbol ifAbsent: [  ]

@@ -1,10 +1,12 @@
 Class {
-	#name : #ToUniversalSelector,
-	#superclass : #ToSimpleSelector,
-	#category : #'Toplo-Theme-StyleSelector'
+	#name : 'ToUniversalSelector',
+	#superclass : 'ToSimpleSelector',
+	#category : 'Toplo-Theme-StyleSelector',
+	#package : 'Toplo-Theme',
+	#tag : 'StyleSelector'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ToUniversalSelector >> accept: aVisitor [
 
 	aVisitor visitUniversalSelector: self

@@ -1,16 +1,18 @@
 Class {
-	#name : #ToRawTheme,
-	#superclass : #ToTheme,
-	#category : #'Toplo-Theme-Core'
+	#name : 'ToRawTheme',
+	#superclass : 'ToTheme',
+	#category : 'Toplo-Theme-Core',
+	#package : 'Toplo-Theme',
+	#tag : 'Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToRawTheme >> name [
 
 	^ #'RawTheme'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToRawTheme >> skinBuilder [
 
 	^ ToRawSkinBuilder new

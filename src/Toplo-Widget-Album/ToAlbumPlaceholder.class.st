@@ -1,13 +1,15 @@
 Class {
-	#name : #ToAlbumPlaceholder,
-	#superclass : #ToPlaceholderLayer,
+	#name : 'ToAlbumPlaceholder',
+	#superclass : 'ToPlaceholderLayer',
 	#instVars : [
 		'label'
 	],
-	#category : #'Toplo-Widget-Album-TextPane'
+	#category : 'Toplo-Widget-Album-TextPane',
+	#package : 'Toplo-Widget-Album',
+	#tag : 'TextPane'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToAlbumPlaceholder >> defaultLabel [
 
 	^ ToLabel new
@@ -20,7 +22,7 @@ ToAlbumPlaceholder >> defaultLabel [
 		  yourself
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToAlbumPlaceholder >> initialize [
 
 	super initialize.
@@ -31,7 +33,7 @@ ToAlbumPlaceholder >> initialize [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAlbumPlaceholder >> text: aBlText [
 
 	label text: aBlText

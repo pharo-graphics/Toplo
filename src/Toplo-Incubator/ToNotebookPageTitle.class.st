@@ -1,14 +1,15 @@
 Class {
-	#name : #ToNotebookPageTitle,
-	#superclass : #ToGeneralButton,
+	#name : 'ToNotebookPageTitle',
+	#superclass : 'ToGeneralButton',
 	#instVars : [
 		'page',
 		'labelElement'
 	],
-	#category : #'Toplo-Incubator'
+	#category : 'Toplo-Incubator',
+	#package : 'Toplo-Incubator'
 }
 
-{ #category : #dressing }
+{ #category : 'dressing' }
 ToNotebookPageTitle >> dressCloseable [
 
 	| closeButton |
@@ -20,21 +21,21 @@ ToNotebookPageTitle >> dressCloseable [
 
 ]
 
-{ #category : #dressing }
+{ #category : 'dressing' }
 ToNotebookPageTitle >> dressDeselected [
 
 	self background:
 		self theme notebook deselectedPageTitleBackgroundColor
 ]
 
-{ #category : #dressing }
+{ #category : 'dressing' }
 ToNotebookPageTitle >> dressSelected [
 
 	self background:
 		self theme notebook selectedPageTitleBackgroundColor
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToNotebookPageTitle >> initialize [
 
 	| radius |
@@ -63,19 +64,19 @@ ToNotebookPageTitle >> initialize [
 	
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNotebookPageTitle >> labelElement [
 
 	^ labelElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNotebookPageTitle >> page [
 
 	^ page
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNotebookPageTitle >> page: aPage [
 
 	page := aPage.
@@ -97,14 +98,14 @@ ToNotebookPageTitle >> page: aPage [
 				 	yourself) ].
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToNotebookPageTitle >> refreshIsCloseable [
 
 	self page isCloseable ifFalse: [ ^ self ].
 	self dressCloseable
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToNotebookPageTitle >> refreshIsSelected [
 
 	self page isSelected
@@ -112,7 +113,7 @@ ToNotebookPageTitle >> refreshIsSelected [
 		ifFalse: [ self dressDeselected ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNotebookPageTitle >> title: aString [ 
 	
 	labelElement text: aString asRopedText

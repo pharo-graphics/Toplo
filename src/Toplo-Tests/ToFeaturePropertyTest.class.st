@@ -2,12 +2,14 @@
 A ToFeaturePropertyTest is a test class for testing the behavior of ToFeatureProperty
 "
 Class {
-	#name : #ToFeaturePropertyTest,
-	#superclass : #TestCase,
-	#category : #'Toplo-Tests-Core-Properties'
+	#name : 'ToFeaturePropertyTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Tests-Core-Properties',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-Properties'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToFeaturePropertyTest >> testName [
 
 	| prop |
@@ -16,7 +18,7 @@ ToFeaturePropertyTest >> testName [
 	self assert: prop name equals: #background
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToFeaturePropertyTest >> testRead [
 
 	| w prop r |
@@ -38,7 +40,7 @@ ToFeaturePropertyTest >> testRead [
 	self assert: (prop read: w) equals: w background
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToFeaturePropertyTest >> testWriteTo [
 
 	| w prop |
@@ -52,7 +54,7 @@ ToFeaturePropertyTest >> testWriteTo [
 	self assert: (prop read: w) equals: w background
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToFeaturePropertyTest >> testWrongDefinition [
 
 	| w prop |

@@ -1,12 +1,16 @@
 Class {
-	#name : #ToAbstractSkinInstaller,
-	#superclass : #Object,
-	#category : #'Toplo-Theme-Core'
+	#name : 'ToAbstractSkinInstaller',
+	#superclass : 'Object',
+	#category : 'Toplo-Theme-Core',
+	#package : 'Toplo-Theme',
+	#tag : 'Core'
 }
 
-{ #category : #hook }
+{ #category : 'hook' }
 ToAbstractSkinInstaller >> applyOn: anElement [
 
+	anElement privateSkin ifNotNil: [ :s |
+		anElement removeEventHandler: s ].
 	(self defaultSkinIn: anElement) ifNotNil: [ :found |
 		anElement privateSkin: found.
 		anElement addEventHandler: found.
@@ -14,7 +18,7 @@ ToAbstractSkinInstaller >> applyOn: anElement [
 		anElement dispatchSkinChangedEvent ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAbstractSkinInstaller >> defaultSkinIn: anElement [
 
 	^ self subclassResponsibility 

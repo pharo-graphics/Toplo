@@ -2,12 +2,14 @@
 A ToPropertyIndexTest is a test class for testing the behavior of ToPropertyIndex
 "
 Class {
-	#name : #ToPropertyIndexTest,
-	#superclass : #TestCase,
-	#category : #'Toplo-Tests-Core-Properties'
+	#name : 'ToPropertyIndexTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Tests-Core-Properties',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-Properties'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToPropertyIndexTest >> testAddAllProperties [
 
 	| idx |
@@ -21,7 +23,7 @@ ToPropertyIndexTest >> testAddAllProperties [
 		
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToPropertyIndexTest >> testAddProperty [
 
 	| idx |
@@ -31,7 +33,7 @@ ToPropertyIndexTest >> testAddProperty [
 		
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToPropertyIndexTest >> testHasPropertyNamed [
 
 	| idx |
@@ -43,7 +45,7 @@ ToPropertyIndexTest >> testHasPropertyNamed [
 		
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToPropertyIndexTest >> testIndex [
 
 	| idx |
@@ -52,7 +54,7 @@ ToPropertyIndexTest >> testIndex [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToPropertyIndexTest >> testIsEmpty [
 
 	| idx |
@@ -63,7 +65,7 @@ ToPropertyIndexTest >> testIsEmpty [
 	self deny: idx isEmpty
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToPropertyIndexTest >> testIsNotEmpty [
 
 	| idx |
@@ -74,7 +76,7 @@ ToPropertyIndexTest >> testIsNotEmpty [
 	self assert: idx isNotEmpty
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToPropertyIndexTest >> testPropertyNamed [
 
 	| idx p |
@@ -85,7 +87,7 @@ ToPropertyIndexTest >> testPropertyNamed [
 	self assert: (idx propertyNamed: #layout) isNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToPropertyIndexTest >> testPropertyNamedIfAbsent [
 
 	| idx p notFound |
@@ -97,7 +99,7 @@ ToPropertyIndexTest >> testPropertyNamedIfAbsent [
 	self assert: notFound
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToPropertyIndexTest >> testRemoveAllProperties [
 
 	| idx |
@@ -111,7 +113,7 @@ ToPropertyIndexTest >> testRemoveAllProperties [
 		
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToPropertyIndexTest >> testRemoveProperty [
 
 	| idx p |
@@ -124,7 +126,7 @@ ToPropertyIndexTest >> testRemoveProperty [
 		
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToPropertyIndexTest >> testRemovePropertyIfAbsent [
 
 	| idx p notFound |
@@ -139,7 +141,7 @@ ToPropertyIndexTest >> testRemovePropertyIfAbsent [
 	self assert: notFound
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToPropertyIndexTest >> testRemovePropertyNamed [
 
 	| idx |
@@ -152,7 +154,7 @@ ToPropertyIndexTest >> testRemovePropertyNamed [
 		
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToPropertyIndexTest >> testRemovePropertyNamedIfAbsent [
 
 	| idx notFound |
@@ -167,7 +169,7 @@ ToPropertyIndexTest >> testRemovePropertyNamedIfAbsent [
 	self assert: notFound
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToPropertyIndexTest >> testSize [
 
 	| idx |

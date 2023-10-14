@@ -1,25 +1,27 @@
 Trait {
-	#name : #TToCheckbox,
+	#name : 'TToCheckbox',
 	#instVars : [
 		'group'
 	],
-	#category : #'Toplo-Widget-Button-Core'
+	#category : 'Toplo-Widget-Button-Core',
+	#package : 'Toplo-Widget-Button',
+	#tag : 'Core'
 }
 
-{ #category : #'t - checkbox - group' }
+{ #category : 't - checkbox - group' }
 TToCheckbox >> addToGroup: aToggleGroup [
 
 	aToggleGroup add: self.
 	self group: aToggleGroup 
 ]
 
-{ #category : #'t - checkbox - group' }
+{ #category : 't - checkbox - group' }
 TToCheckbox >> group [
 
 	^ group
 ]
 
-{ #category : #'t - checkbox - group' }
+{ #category : 't - checkbox - group' }
 TToCheckbox >> group: aCheckableGroup [
 
 	self withIndeterminate ifTrue: [
@@ -30,7 +32,7 @@ TToCheckbox >> group: aCheckableGroup [
 	group := aCheckableGroup
 ]
 
-{ #category : #'t - checkbox - group' }
+{ #category : 't - checkbox - group' }
 TToCheckbox >> removeFromGroup [
 
 	self group remove: self

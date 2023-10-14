@@ -2,12 +2,14 @@
 A TToEnableableTest is a test class for testing the behavior of TToEnableable
 "
 Class {
-	#name : #TToEnableableTest,
-	#superclass : #TestCase,
-	#category : #'Toplo-Tests-Core'
+	#name : 'TToEnableableTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Tests-Core',
+	#package : 'Toplo-Tests',
+	#tag : 'Core'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToEnableableTest >> testEnableable [
 
 	| element |
@@ -40,7 +42,7 @@ TToEnableableTest >> testEnableable [
 	self assert: element isDisabled not.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToEnableableTest >> testMultipleDisable [
 
 	| element |

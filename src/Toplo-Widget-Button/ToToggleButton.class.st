@@ -1,79 +1,81 @@
 Class {
-	#name : #ToToggleButton,
-	#superclass : #ToGeneralButton,
+	#name : 'ToToggleButton',
+	#superclass : 'ToGeneralButton',
 	#traits : 'TToCheckable',
 	#classTraits : 'TToCheckable classTrait',
-	#category : #'Toplo-Widget-Button-Toggle'
+	#category : 'Toplo-Widget-Button-Toggle',
+	#package : 'Toplo-Widget-Button',
+	#tag : 'Toggle'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 ToToggleButton >> initialize [ 
 
 	super initialize.
 	self track: (ToToggleTrackElement new checked: self isChecked; yourself)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToToggleButton >> innerButton [
 
 	^ self track innerButton
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToToggleButton >> switchBarOffContainer [
 
 	^ self track switchBarOffContainer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToToggleButton >> switchBarOffElement: anElement [
 
 	self track switchBarOffElement: anElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToToggleButton >> switchBarOnContainer [
 
 	^ self track switchBarOnContainer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToToggleButton >> switchBarOnElement: anElement [
 
 	self track switchBarOnElement: anElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToToggleButton >> switchButtonOffElement [
 
 	^ self track switchButtonOffElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToToggleButton >> switchButtonOffElement: anElement [
 
 	^ self track switchButtonOffElement: anElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToToggleButton >> switchButtonOnElement [
 
 	^ self track switchButtonOnElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToToggleButton >> switchButtonOnElement: anElement [
 
 	self track switchButtonOnElement: anElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToToggleButton >> track [
 
 	^ self icon
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToToggleButton >> track: anElement [
 
 	self icon: anElement

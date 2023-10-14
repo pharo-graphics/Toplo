@@ -1,44 +1,46 @@
 Class {
-	#name : #ToTheme,
-	#superclass : #Object,
+	#name : 'ToTheme',
+	#superclass : 'Object',
 	#classInstVars : [
 		'current'
 	],
-	#category : #'Toplo-Theme-Core'
+	#category : 'Toplo-Theme-Core',
+	#package : 'Toplo-Theme',
+	#tag : 'Core'
 }
 
-{ #category : #cleanup }
+{ #category : 'cleanup' }
 ToTheme class >> cleanUp [
 	<script>
 
 	current := nil
 ]
 
-{ #category : #cleanup }
+{ #category : 'cleanup' }
 ToTheme class >> cleanUp: anObject [
 
 	self cleanUp
 ]
 
-{ #category : #current }
+{ #category : 'current' }
 ToTheme class >> current [
 
 	^ current ifNil: [ current := ToRawTheme new ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToTheme >> name [
 
 	^ self subclassResponsibility 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToTheme >> skinBuilder [
 
 	^ self subclassResponsibility 
 ]
 
-{ #category : #styling }
+{ #category : 'styling' }
 ToTheme >> styleSheet [
 
 	^ nil

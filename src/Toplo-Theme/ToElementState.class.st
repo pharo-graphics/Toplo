@@ -1,49 +1,51 @@
 Class {
-	#name : #ToElementState,
-	#superclass : #Object,
+	#name : 'ToElementState',
+	#superclass : 'Object',
 	#instVars : [
 		'sourceEvent'
 	],
-	#category : #'Toplo-Theme-State'
+	#category : 'Toplo-Theme-State',
+	#package : 'Toplo-Theme',
+	#tag : 'State'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementState class >> sourceEvent: anEvent [
 
 	^ self new sourceEvent: anEvent
 ]
 
-{ #category : #'look event sending' }
+{ #category : 'look event sending' }
 ToElementState >> applyOn: anElement [
 
 	anElement dispatchLookEvent: (self newLookEventFromSourceEvent: self sourceEvent)
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToElementState >> isPressedState [
 
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementState >> lookEventClass [
 
 	^ self subclassResponsibility 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementState >> newLookEventFromSourceEvent: anEvent [
 
 	^ self lookEventClass sourceEvent: anEvent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementState >> sourceEvent [
 
 	^ sourceEvent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementState >> sourceEvent: anEvent [
 
 	sourceEvent := anEvent

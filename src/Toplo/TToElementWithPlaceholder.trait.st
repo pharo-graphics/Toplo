@@ -1,13 +1,15 @@
 Trait {
-	#name : #TToWidgetWithPlaceholder,
+	#name : 'TToElementWithPlaceholder',
 	#instVars : [
 		'placeholderLayer'
 	],
-	#category : #'Toplo-Core'
+	#category : 'Toplo-Core',
+	#package : 'Toplo',
+	#tag : 'Core'
 }
 
-{ #category : #'t - placeholder show/hide' }
-TToWidgetWithPlaceholder >> hidePlaceholder [
+{ #category : 't - element with placeholder' }
+TToElementWithPlaceholder >> hidePlaceholder [
 
 	placeholderLayer ifNil: [ ^ self ].
 	placeholderLayer parentDo: [ :p |
@@ -15,26 +17,26 @@ TToWidgetWithPlaceholder >> hidePlaceholder [
 		self dispatchEvent: ToPlaceholderRemovedEvent new ]
 ]
 
-{ #category : #'t - placeholder accessing' }
-TToWidgetWithPlaceholder >> placeholder [
+{ #category : 't - element with placeholder' }
+TToElementWithPlaceholder >> placeholder [
 
 	^ self placeholderLayer
 ]
 
-{ #category : #'t - placeholder accessing' }
-TToWidgetWithPlaceholder >> placeholder: anElement [
+{ #category : 't - element with placeholder' }
+TToElementWithPlaceholder >> placeholder: anElement [
 
 	self placeholderLayer: (anElement ifNotNil: [:ph | ph asPlaceholderLayer ])
 ]
 
-{ #category : #'t - placeholder accessing' }
-TToWidgetWithPlaceholder >> placeholderLayer [
+{ #category : 't - element with placeholder' }
+TToElementWithPlaceholder >> placeholderLayer [
 
 	^ placeholderLayer
 ]
 
-{ #category : #'t - placeholder accessing' }
-TToWidgetWithPlaceholder >> placeholderLayer: aPanePlaceholderLayer [
+{ #category : 't - element with placeholder' }
+TToElementWithPlaceholder >> placeholderLayer: aPanePlaceholderLayer [
 
 	self placeholderLayer ifNotNil: [
 		self placeholderLayer parentDo: [ :layer |
@@ -45,8 +47,8 @@ TToWidgetWithPlaceholder >> placeholderLayer: aPanePlaceholderLayer [
 	placeholderLayer := aPanePlaceholderLayer
 ]
 
-{ #category : #'t - placeholder show/hide' }
-TToWidgetWithPlaceholder >> showPlaceholder [
+{ #category : 't - element with placeholder' }
+TToElementWithPlaceholder >> showPlaceholder [
 
 	placeholderLayer ifNil: [ ^ self ].
 	placeholderLayer parentDo: [ :p | ^ self ].

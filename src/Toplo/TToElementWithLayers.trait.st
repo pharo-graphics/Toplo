@@ -1,22 +1,24 @@
 Trait {
-	#name : #TToElementWithLayers,
-	#category : #'Toplo-Core'
+	#name : 'TToElementWithLayers',
+	#category : 'Toplo-Core',
+	#package : 'Toplo',
+	#tag : 'Core'
 }
 
-{ #category : #'t - element with layers - adding/removing' }
+{ #category : 't - element with layers - adding/removing' }
 TToElementWithLayers >> addLayer: aToWidgetLayer [ 
 
 	aToWidgetLayer attachTo: self layerReferentElement.
 	self addChild: aToWidgetLayer
 ]
 
-{ #category : #'t - element with layers - accessing' }
+{ #category : 't - element with layers - accessing' }
 TToElementWithLayers >> layerReferentElement [
 
 	^ self explicitRequirement
 ]
 
-{ #category : #'t - element with layers - adding/removing' }
+{ #category : 't - element with layers - adding/removing' }
 TToElementWithLayers >> removeLayer: aToWidgetLayer [
 
 	aToWidgetLayer detach.

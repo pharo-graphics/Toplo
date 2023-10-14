@@ -1,16 +1,18 @@
 Class {
-	#name : #ToLabelEventHandler,
-	#superclass : #BlCustomEventHandler,
-	#category : #'Toplo-Widget-Album-Label'
+	#name : 'ToLabelEventHandler',
+	#superclass : 'BlCustomEventHandler',
+	#category : 'Toplo-Widget-Album-Label',
+	#package : 'Toplo-Widget-Album',
+	#tag : 'Label'
 }
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToLabelEventHandler >> eventsToHandle [ 
 
 	^ { BlMouseDownEvent }
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToLabelEventHandler >> mouseDownEvent: anEvent [
 
 	| target |

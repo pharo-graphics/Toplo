@@ -1,16 +1,18 @@
 Class {
-	#name : #ToPlaceholderLayer,
-	#superclass : #BlOverlayElement,
-	#category : #'Toplo-Core'
+	#name : 'ToPlaceholderLayer',
+	#superclass : 'BlOverlayElement',
+	#category : 'Toplo-Core',
+	#package : 'Toplo',
+	#tag : 'Core'
 }
 
-{ #category : #converting }
+{ #category : 'converting' }
 ToPlaceholderLayer >> asPlaceholderLayer [
 
 	^ self
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToPlaceholderLayer >> initialize [
 
 	super initialize.

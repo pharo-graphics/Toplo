@@ -2,12 +2,14 @@
 A ToAnchoredWindowTest is a test class for testing the behavior of ToAnchoredWindow
 "
 Class {
-	#name : #ToAnchoredWindowTest,
-	#superclass : #BlParameterizedHostTest,
-	#category : #'Toplo-Tests-Core-Window'
+	#name : 'ToAnchoredWindowTest',
+	#superclass : 'BlParameterizedHostTest',
+	#category : 'Toplo-Tests-Core-Window',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-Window'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToAnchoredWindowTest >> testAssociateElement [
 
 	| win e space openEventFromWindow openEventFromWidget closeEventFromWindow closeEventFromWidget windowHandler |
@@ -16,12 +18,12 @@ ToAnchoredWindowTest >> testAssociateElement [
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	windowHandler := ToAnchoredWindowHandler new builder: [ :element | ToAnchoredWindow new ].
+	windowHandler := ToAnchoredWindowHandler new builder: [ :window :element | ].
 	windowHandler element: e.
 	" create the window -> plug-in the window handler "
 	win := windowHandler newWindowEvent: nil.
 	
-	self assert: win associateElement identicalTo: e.
+	self assert: win element identicalTo: e.
 	
 	" a window handler can be used only for one window  "
 	self should: [ windowHandler newWindowEvent: nil  ] raise: Error.
@@ -37,7 +39,7 @@ ToAnchoredWindowTest >> testAssociateElement [
 	e
 		when: ToWindowClosedEvent
 		do: [ :event | closeEventFromWidget := event ].
-	self assert: win associateElement equals: e.	
+	self assert: win element equals: e.	
 		
 	win popup.
 	self assert: openEventFromWindow notNil.
@@ -51,18 +53,18 @@ ToAnchoredWindowTest >> testAssociateElement [
 	self assert: closeEventFromWidget currentTarget equals: e
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToAnchoredWindowTest >> testAssociateElementEventHandler [
 
 	| win e space windowHandler |
 	space := BlSpace new.
 	e := ToElement new.
 	space root addChild: e.
-	windowHandler := ToAnchoredWindowHandler new builder: [ :element | ToAnchoredWindow new ].
+	windowHandler := ToAnchoredWindowHandler new builder: [ :anchWin :element |  ].
 	windowHandler element: e.
 	win := windowHandler newWindowEvent: nil.
 	win popup.
-	self assert: win associateElement equals: e.
+	self assert: win element equals: e.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
 			 eh isKindOf: ToAnchorEventHandler ]).
 	win close.
@@ -73,14 +75,14 @@ ToAnchoredWindowTest >> testAssociateElementEventHandler [
 	self should: [ win popup ] raise: Error
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToAnchoredWindowTest >> testElevation [
 
 	| win e space windowHandler |
 	space := BlSpace new.
 	e := ToElement new.
 	space root addChild: e.
-	windowHandler := ToAnchoredWindowHandler new builder: [ :element | ToAnchoredWindow new ].
+	windowHandler := ToAnchoredWindowHandler new builder: [ :anchWin :element | ].
 	windowHandler element: e.
 	win := windowHandler newWindowEvent: nil.
 	e position: 10 asPoint.
@@ -91,14 +93,14 @@ ToAnchoredWindowTest >> testElevation [
 		equals: win defaultElevation elevation
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToAnchoredWindowTest >> testPopupWithAssociateElementInSpace2 [
 
 	| win e space timeStamp windowHandler |
 	space := BlSpace new.
 	e := ToElement new.
 	space root addChild: e.
-	windowHandler := ToAnchoredWindowHandler new builder: [ :element | ToAnchoredWindow new ].
+	windowHandler := ToAnchoredWindowHandler new builder: [ :anchWin :element | ].
 	windowHandler element: e.
 	win := windowHandler newWindowEvent: nil.
 	self assert: win isOpened not.
@@ -116,12 +118,12 @@ ToAnchoredWindowTest >> testPopupWithAssociateElementInSpace2 [
 	self assert: win isClosed
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToAnchoredWindowTest >> testPopupWithAssociateElementNotInSpace [
 
 	| win e openEventFromWindow openEventFromWidget closeEventFromWindow closeEventFromWidget windowHandler |
 	e := ToElement new.
-	windowHandler := ToAnchoredWindowHandler new builder: [ :element | ToAnchoredWindow new ].
+	windowHandler := ToAnchoredWindowHandler new builder: [ :anchWin :element | ].
 	windowHandler element: e.
 	win := windowHandler newWindowEvent: nil.
 	self assert: win hasAssociateElement.
@@ -147,12 +149,12 @@ ToAnchoredWindowTest >> testPopupWithAssociateElementNotInSpace [
 	self assert: closeEventFromWidget notNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToAnchoredWindowTest >> testPopupWithAssociateElementNotInSpace2 [
 
 	| win e windowHandler |
 	e := ToElement new.
-	windowHandler := ToAnchoredWindowHandler new builder: [ :element | ToAnchoredWindow new ].
+	windowHandler := ToAnchoredWindowHandler new builder: [ :anchWin :element | ].
 	windowHandler element: e.
 	win := windowHandler newWindowEvent: nil.
 	self waitTestingSpaces.
@@ -162,7 +164,7 @@ ToAnchoredWindowTest >> testPopupWithAssociateElementNotInSpace2 [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToAnchoredWindowTest >> testPopupWithoutAssociateElement [
 
 	| w |
@@ -171,7 +173,7 @@ ToAnchoredWindowTest >> testPopupWithoutAssociateElement [
 	self should: [ w popup ] raise: Error
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToAnchoredWindowTest >> testPositionHook [
 
 	| win e space windowHandler |
@@ -180,7 +182,7 @@ ToAnchoredWindowTest >> testPositionHook [
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	windowHandler := ToAnchoredWindowHandler new builder: [ :element | ToAnchoredWindow new ].
+	windowHandler := ToAnchoredWindowHandler new builder: [ :anchWin :element | ].
 	windowHandler element: e.
 	win := windowHandler newWindowEvent: nil.
 	self assert: windowHandler positionHook notNil.
@@ -199,7 +201,7 @@ ToAnchoredWindowTest >> testPositionHook [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToAnchoredWindowTest >> testPositionHook2 [
 
 	| win e space windowHandler |
@@ -208,7 +210,7 @@ ToAnchoredWindowTest >> testPositionHook2 [
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	windowHandler := ToAnchoredWindowHandler new builder: [ :element | ToAnchoredWindow new ].
+	windowHandler := ToAnchoredWindowHandler new builder: [ :anchWin :element | ].
 	windowHandler element: e.
 	win := windowHandler newWindowEvent: nil.
 	self assert: windowHandler positionHook notNil.
@@ -235,7 +237,7 @@ ToAnchoredWindowTest >> testPositionHook2 [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToAnchoredWindowTest >> testWindowSize [
 
 	| win e space windowHandler |
@@ -244,7 +246,7 @@ ToAnchoredWindowTest >> testWindowSize [
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	windowHandler := ToAnchoredWindowHandler new builder: [ :element | ToAnchoredWindow new ].
+	windowHandler := ToAnchoredWindowHandler new builder: [ :anchWin :element | ].
 	windowHandler element: e.
 	win := windowHandler newWindowEvent: nil.
 	self assert: win constraints horizontal resizer isFitContent.
@@ -277,7 +279,7 @@ ToAnchoredWindowTest >> testWindowSize [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToAnchoredWindowTest >> testWindowSize2 [
 
 	| win e space windowHandler |
@@ -286,7 +288,7 @@ ToAnchoredWindowTest >> testWindowSize2 [
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	windowHandler := ToAnchoredWindowHandler new builder: [ :element | ToAnchoredWindow new ].
+	windowHandler := ToAnchoredWindowHandler new builder: [ :anchWin :element |  ].
 	windowHandler element: e.
 	win := windowHandler newWindowEvent: nil.
 	win popup.

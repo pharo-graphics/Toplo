@@ -1,10 +1,12 @@
 Class {
-	#name : #ToStyleSheetSkinBuilder,
-	#superclass : #ToAbstractSkinBuilder,
-	#category : #'Toplo-Theme-StyleSheet'
+	#name : 'ToStyleSheetSkinBuilder',
+	#superclass : 'ToAbstractSkinBuilder',
+	#category : 'Toplo-Theme-StyleSheet',
+	#package : 'Toplo-Theme',
+	#tag : 'StyleSheet'
 }
 
-{ #category : #'writer selecting' }
+{ #category : 'writer selecting' }
 ToStyleSheetSkinBuilder >> rawWritersFor: anElement [
 
 	^ Array streamContents: [ :stream |
@@ -12,7 +14,7 @@ ToStyleSheetSkinBuilder >> rawWritersFor: anElement [
 			  r putAllWritersFor: anElement in: stream ] ]
 ]
 
-{ #category : #'writer selecting' }
+{ #category : 'writer selecting' }
 ToStyleSheetSkinBuilder >> rootRulesFor: anElement [
 
 	^ Array streamContents: [ :str |
@@ -20,13 +22,13 @@ ToStyleSheetSkinBuilder >> rootRulesFor: anElement [
 			  str nextPutAll: ss styleRules ] ]
 ]
 
-{ #category : #'skin building' }
+{ #category : 'skin building' }
 ToStyleSheetSkinBuilder >> skinClassFor: anElement [
 
 	^ ToStyleSheetSkin
 ]
 
-{ #category : #'skin building' }
+{ #category : 'skin building' }
 ToStyleSheetSkinBuilder >> skinFor: anElement [
 
 	^ (self writersFor: anElement)
@@ -37,7 +39,7 @@ ToStyleSheetSkinBuilder >> skinFor: anElement [
 				  yourself ]
 ]
 
-{ #category : #'writer selecting' }
+{ #category : 'writer selecting' }
 ToStyleSheetSkinBuilder >> writersFor: anElement [
 	" for an element, several writers can be found. These writers 
 	are found with #rawWritersFor:. After, for each property only the last writers is kept"

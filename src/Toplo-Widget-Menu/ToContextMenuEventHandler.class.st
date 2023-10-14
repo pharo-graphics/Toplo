@@ -1,30 +1,32 @@
 Class {
-	#name : #ToContextMenuEventHandler,
-	#superclass : #ToMenuEventHandler,
-	#category : #'Toplo-Widget-Menu-Basic'
+	#name : 'ToContextMenuEventHandler',
+	#superclass : 'ToMenuEventHandler',
+	#category : 'Toplo-Widget-Menu-Basic',
+	#package : 'Toplo-Widget-Menu',
+	#tag : 'Basic'
 }
 
-{ #category : #'window handlers' }
+{ #category : 'window handlers' }
 ToContextMenuEventHandler >> contextMenuClosedEvent: anEvent [
 
 	self windowClosedEvent: anEvent
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToContextMenuEventHandler >> mouseDownOutsideEvent: anEvent [
 
-	target contextMenuWindow ifNil: [ ^ self ].
+	target currentContextMenu ifNil: [ ^ self ].
 	" must test in the original target is one of my menu items element "
-	(target contextMenuWindow includes: anEvent originalEvent target)
+	(target currentContextMenu includes: anEvent originalEvent target)
 		ifTrue: [ ^ self ].
 	" no - mouse outside the context menu "
 	self closeWindow
 ]
 
-{ #category : #'window handlers' }
+{ #category : 'window handlers' }
 ToContextMenuEventHandler >> windowClosedEvent: anEvent [
 
-	target contextMenuWindow items do: [ :child |
+	target currentContextMenu items do: [ :child |
 		child removeFromParent.
 		child removedFromMenu: target ]
 ]

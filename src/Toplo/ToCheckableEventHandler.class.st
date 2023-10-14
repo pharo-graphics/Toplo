@@ -1,10 +1,12 @@
 Class {
-	#name : #ToCheckableEventHandler,
-	#superclass : #ToSkinnableEventHandler,
-	#category : #'Toplo-Core'
+	#name : 'ToCheckableEventHandler',
+	#superclass : 'ToSkinnableEventHandler',
+	#category : 'Toplo-Core',
+	#package : 'Toplo',
+	#tag : 'Core'
 }
 
-{ #category : #'checkable event handling' }
+{ #category : 'checkable event handling' }
 ToCheckableEventHandler >> checkableCheckEvent: anEvent [
 
 	"ToCheclableCheckEvent can be send either because of a click or because the checkable as been checked programmatically"
@@ -21,13 +23,13 @@ ToCheckableEventHandler >> checkableCheckEvent: anEvent [
 	
 ]
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToCheckableEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle, { ToCheckableCheckedEvent }
 ]
 
-{ #category : #'state switching' }
+{ #category : 'state switching' }
 ToCheckableEventHandler >> switchToClickStateEvent: anEvent [
 
 	target switchToNextCheckState.

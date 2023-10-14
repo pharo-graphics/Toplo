@@ -1,48 +1,58 @@
-Extension { #name : #BlSpace }
+Extension { #name : 'BlSpace' }
 
-{ #category : #'*Toplo' }
-BlSpace >> checkSkinInstallation [
+{ #category : '*Toplo' }
+BlSpace >> applySkinInstaller [
 
 	self rootSkinInstalled ifFalse: [
-		self root installSkin: self root defaultSkin ].
-	self root checkSkinInstallation
+		self root requestNewSkin: self root defaultSkin ].
+	self root applySkinInstaller
 ]
 
-{ #category : #'*Toplo' }
-BlSpace >> checkSpaceFrameSkinInstallationPhase [
-	| layoutPhase |
+{ #category : '*Toplo' }
+BlSpace >> installedSkinInstallerPhase [
 
-	(self frame phases anySatisfy: [ :p |
-		 p isKindOf: ToSpaceFrameSkinInstallationPhase ]) ifTrue: [ ^ self ].
-	" The skin phase must be inserted before the layout phase "
-	layoutPhase := self frame detectPhase: [ :f | f class = BlSpaceFrameLayoutPhase ].
-	self frame addPhase: ToSpaceFrameSkinInstallationPhase new before: layoutPhase
+	^ self frame phases
+		  detect: [ :p | p isKindOf: ToSpaceSkinInstallerPhase ]
+		  ifNone: [  ]
 ]
 
-{ #category : #'*Toplo' }
-BlSpace >> removeSpaceFrameSkinInstallationPhase [
+{ #category : '*Toplo' }
+BlSpace >> isSkinInstallerPhaseInstalled [
 
-	| layoutPhase |
-	layoutPhase := (self frame phases detect: [ :p |
-		                p isKindOf: ToSpaceFrameSkinInstallationPhase ])
-		               ifNil: [ ^ self ].
-	self frame removePhase: layoutPhase
+	^ self installedSkinInstallerPhase notNil
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlSpace >> rootSkinInstalled [
 
 	^ self root privateSkin notNil
 
 ]
 
-{ #category : #'*Toplo-LookAndFeel' }
+{ #category : '*Toplo' }
+BlSpace >> startSkinInstallerPhase [
+	| layoutPhase |
+
+	self isSkinInstallerPhaseInstalled ifTrue: [ ^ self ].
+	" The skin phase must be inserted before the layout phase (that must be present) "
+	layoutPhase := self frame detectPhase: [ :f | f class = BlSpaceFrameLayoutPhase ].
+	self frame addPhase: ToSpaceSkinInstallerPhase new before: layoutPhase
+]
+
+{ #category : '*Toplo' }
+BlSpace >> stopSkinInstallerPhase [
+
+	self installedSkinInstallerPhase ifNotNil: [ :phase |
+		self frame removePhase: phase ]
+]
+
+{ #category : '*Toplo-LookAndFeel' }
 BlSpace >> toTheme [
 
 	^ self root toTheme
 ]
 
-{ #category : #'*Toplo-LookAndFeel' }
+{ #category : '*Toplo-LookAndFeel' }
 BlSpace >> toTheme: aTheme [
 
 	self root toTheme: aTheme

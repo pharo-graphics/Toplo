@@ -1,10 +1,12 @@
 Class {
-	#name : #ToButtonTest,
-	#superclass : #TestCase,
-	#category : #'Toplo-Widget-Button-Tests-BasicButton'
+	#name : 'ToButtonTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Widget-Button-Tests-BasicButton',
+	#package : 'Toplo-Widget-Button-Tests',
+	#tag : 'BasicButton'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToButtonTest >> testButton [
 	"Test default values of a new button"
 
@@ -20,7 +22,7 @@ ToButtonTest >> testButton [
 	self assert: button label isNil
 ]
 
-{ #category : #'click handler' }
+{ #category : 'click handler' }
 ToButtonTest >> testClickRemovingHandler [
 
 	| but done |
@@ -37,7 +39,7 @@ ToButtonTest >> testClickRemovingHandler [
 	
 ]
 
-{ #category : #'click handler' }
+{ #category : 'click handler' }
 ToButtonTest >> testClickReplacingHandler [
 
 	| but done |
@@ -54,7 +56,7 @@ ToButtonTest >> testClickReplacingHandler [
 	
 ]
 
-{ #category : #'click handler' }
+{ #category : 'click handler' }
 ToButtonTest >> testClickWithSimpleHandler [
 
 	| but done |
@@ -66,7 +68,7 @@ ToButtonTest >> testClickWithSimpleHandler [
 	
 ]
 
-{ #category : #'click handler' }
+{ #category : 'click handler' }
 ToButtonTest >> testClickWithoutHandler [
 
 	| but |

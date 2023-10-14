@@ -1,10 +1,12 @@
 Class {
-	#name : #ToSeparatorMenuItem,
-	#superclass : #ToMenuItemElement,
-	#category : #'Toplo-Widget-Menu-Basic'
+	#name : 'ToSeparatorMenuItem',
+	#superclass : 'ToMenuItemElement',
+	#category : 'Toplo-Widget-Menu-Basic',
+	#package : 'Toplo-Widget-Menu',
+	#tag : 'Basic'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSeparatorMenuItem >> initialize [ 
 
 	super initialize.

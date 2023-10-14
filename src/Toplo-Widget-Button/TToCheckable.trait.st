@@ -1,15 +1,17 @@
 Trait {
-	#name : #TToCheckable,
-	#category : #'Toplo-Widget-Button-Checkable'
+	#name : 'TToCheckable',
+	#category : 'Toplo-Widget-Button-Checkable',
+	#package : 'Toplo-Widget-Button',
+	#tag : 'Checkable'
 }
 
-{ #category : #'t - checkable  - protocol' }
+{ #category : 't - checkable  - protocol' }
 TToCheckable >> check [
 
 	self checked: true
 ]
 
-{ #category : #'t - checkable - accessing' }
+{ #category : 't - checkable - accessing' }
 TToCheckable >> checked [
 
 	^ self userData at: #checked ifAbsentPut: [
@@ -18,7 +20,7 @@ TToCheckable >> checked [
 			  ifFalse: [ false ] ]
 ]
 
-{ #category : #'t - checkable - accessing' }
+{ #category : 't - checkable - accessing' }
 TToCheckable >> checked: aBooleanOrNil [
 	" change the checkable state. nil means indeterminate. "
 
@@ -34,27 +36,27 @@ TToCheckable >> checked: aBooleanOrNil [
 	self privateChecked: request checked
 ]
 
-{ #category : #'t - checkable - testing' }
+{ #category : 't - checkable - testing' }
 TToCheckable >> isChecked [
 
 	" since checked can be nil, test is with = "
 	^ self checked = true
 ]
 
-{ #category : #'t - checkable - testing' }
+{ #category : 't - checkable - testing' }
 TToCheckable >> isIndeterminate [
 
 	^ self checked isNil
 ]
 
-{ #category : #'t - checkable - testing' }
+{ #category : 't - checkable - testing' }
 TToCheckable >> isUnchecked [
 
 	" since checked can be nil, test is with = "
 	^ self checked = false
 ]
 
-{ #category : #'t - checkable - private protocol' }
+{ #category : 't - checkable - private protocol' }
 TToCheckable >> privateChecked: aBooleanOrNil [
 
 	| prev |
@@ -64,7 +66,7 @@ TToCheckable >> privateChecked: aBooleanOrNil [
 	self dispatchEvent: (ToCheckableCheckedEvent current: self checked previous: prev)
 ]
 
-{ #category : #'t - checkable - private protocol' }
+{ #category : 't - checkable - private protocol' }
 TToCheckable >> switchToNextCheckState [
 
 	(self withIndeterminate and: [ self isChecked  ]) ifTrue: [ ^ self checked: nil ].
@@ -72,19 +74,19 @@ TToCheckable >> switchToNextCheckState [
 	self checked: self checked not
 ]
 
-{ #category : #'t - checkable  - protocol' }
+{ #category : 't - checkable  - protocol' }
 TToCheckable >> uncheck [
 
 	self checked: false
 ]
 
-{ #category : #'t - checkable  - protocol' }
+{ #category : 't - checkable  - protocol' }
 TToCheckable >> withIndeterminate [
 
 	^ self userData at: #withIndeterminate ifAbsentPut: [  false ]
 ]
 
-{ #category : #'t - checkable  - protocol' }
+{ #category : 't - checkable  - protocol' }
 TToCheckable >> withIndeterminate: aBoolean [
 
 	self userData at: #withIndeterminate put: aBoolean

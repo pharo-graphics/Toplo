@@ -1,10 +1,12 @@
 Class {
-	#name : #ToTextFieldPlaceholder,
-	#superclass : #ToAlbumPlaceholder,
-	#category : #'Toplo-Widget-Album-TextField'
+	#name : 'ToTextFieldPlaceholder',
+	#superclass : 'ToAlbumPlaceholder',
+	#category : 'Toplo-Widget-Album-TextField',
+	#package : 'Toplo-Widget-Album',
+	#tag : 'TextField'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToTextFieldPlaceholder >> defaultLabel [
 
 	^ ToLabel new

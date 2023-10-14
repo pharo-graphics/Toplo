@@ -1,6 +1,6 @@
 Class {
-	#name : #ToEditableComboBoxHeadDresser,
-	#superclass : #ToComboBoxHeadDresser,
+	#name : 'ToEditableComboBoxHeadDresser',
+	#superclass : 'ToComboBoxHeadDresser',
 	#instVars : [
 		'escShortcut',
 		'upShortcut',
@@ -9,10 +9,11 @@ Class {
 		'saveRequestedHandler',
 		'cancelRequestedHandler'
 	],
-	#category : #'Toplo-Widget-ComboBox'
+	#category : 'Toplo-Widget-ComboBox',
+	#package : 'Toplo-Widget-ComboBox'
 }
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToEditableComboBoxHeadDresser >> cancelRequestedInTextField: aCancelRequestedEvent [
 
 	comboBox close.
@@ -20,13 +21,13 @@ ToEditableComboBoxHeadDresser >> cancelRequestedInTextField: aCancelRequestedEve
 
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToEditableComboBoxHeadDresser >> carriageReturnEvent: anEvent in: anElement [
 
 	^ self selectIndexInPresentedData
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToEditableComboBoxHeadDresser >> newButtonMouseDownHandlerIn: anElement [
 
 	^ BlEventHandler
@@ -34,7 +35,7 @@ ToEditableComboBoxHeadDresser >> newButtonMouseDownHandlerIn: anElement [
 		  do: [ :evt | comboBox popupOrCloseEvent: evt]
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToEditableComboBoxHeadDresser >> newCarriageReturnShortcutIn: anElement [
 
 	^ BlShortcutWithAction new
@@ -44,7 +45,7 @@ ToEditableComboBoxHeadDresser >> newCarriageReturnShortcutIn: anElement [
 		                yourself.
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToEditableComboBoxHeadDresser >> saveRequestedInTextField: aSaveRequestedEvent [
 
 	self selectIndexInPresentedData.
@@ -52,7 +53,7 @@ ToEditableComboBoxHeadDresser >> saveRequestedInTextField: aSaveRequestedEvent [
 
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToEditableComboBoxHeadDresser >> selectIndexInPresentedData [
 
 	comboBox isOpened ifFalse: [ ^ self ].
@@ -61,13 +62,13 @@ ToEditableComboBoxHeadDresser >> selectIndexInPresentedData [
 		comboBox close ]
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToEditableComboBoxHeadDresser >> textUpdatedIn: anElement [
 
 	comboBox listElement dispatchEvent: (ToDataFilterRequest new pattern: anElement textField text asString)
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToEditableComboBoxHeadDresser >> whenAddedToParent: anElement [
 
 	super whenAddedToParent: anElement.
@@ -95,7 +96,7 @@ ToEditableComboBoxHeadDresser >> whenAddedToParent: anElement [
 	anElement textField addEditorShortcut: crShortcut
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToEditableComboBoxHeadDresser >> whenRemovedFromParent: anElement [
 
 	anElement textField removeEventHandler: saveRequestedHandler.

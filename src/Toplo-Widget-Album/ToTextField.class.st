@@ -1,22 +1,24 @@
 Class {
-	#name : #ToTextField,
-	#superclass : #ToAlbum,
-	#category : #'Toplo-Widget-Album-TextField'
+	#name : 'ToTextField',
+	#superclass : 'ToAlbum',
+	#category : 'Toplo-Widget-Album-TextField',
+	#package : 'Toplo-Widget-Album',
+	#tag : 'TextField'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToTextField >> defaultEditorElement [
 
 	^ AlbTextFieldElement new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToTextField >> defaultGeometry [
 
 	^ BlRoundedRectangleGeometry cornerRadius: 4
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToTextField >> defaultPadding [
 
 	^ BlInsets
@@ -26,7 +28,7 @@ ToTextField >> defaultPadding [
 		  right: (3 + self defaultBorderWidth )
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToTextField >> initialize [
 
 	super initialize.
@@ -40,14 +42,14 @@ ToTextField >> initialize [
 	self addEventHandler: (AlbTextEditorDoubleClickHandler new element: self infinite)
 ]
 
-{ #category : #layers }
+{ #category : 'layers' }
 ToTextField >> placeholderText: aText [
 
 	self placeholder: (ToTextFieldPlaceholder new text: aText).
 	self text size isZero ifTrue: [ self showPlaceholder ]
 ]
 
-{ #category : #'t - placeholder show/hide' }
+{ #category : 't - placeholder show/hide' }
 ToTextField >> showPlaceholder [
 
 	placeholderLayer ifNil: [ ^ self ].
@@ -56,14 +58,14 @@ ToTextField >> showPlaceholder [
 	super showPlaceholder
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToTextField >> withLineWrapping [
 
 	self next hMatchParent.
 	self infinite hMatchParent
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToTextField >> withSaveCapability [
 
 	super withSaveCapability.
@@ -81,13 +83,13 @@ ToTextField >> withSaveCapability [
 			 yourself)
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToTextField >> withoutLineBreak [
 
 	self inputFilter: AlbTextEditorNoLineBreakInputFilter new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToTextField >> withoutLineWrapping [
 
 	self infinite hFitContent.

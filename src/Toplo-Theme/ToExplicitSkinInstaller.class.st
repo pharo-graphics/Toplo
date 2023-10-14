@@ -1,25 +1,27 @@
 Class {
-	#name : #ToExplicitSkinInstaller,
-	#superclass : #ToAbstractSkinInstaller,
+	#name : 'ToExplicitSkinInstaller',
+	#superclass : 'ToAbstractSkinInstaller',
 	#instVars : [
 		'skin'
 	],
-	#category : #'Toplo-Theme-Core'
+	#category : 'Toplo-Theme-Core',
+	#package : 'Toplo-Theme',
+	#tag : 'Core'
 }
 
-{ #category : #hook }
+{ #category : 'hook' }
 ToExplicitSkinInstaller >> defaultSkinIn: anElement [
 
 	^ self skin
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToExplicitSkinInstaller >> skin [
 
 	^ skin
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToExplicitSkinInstaller >> skin: aSkin [
 
 	skin := aSkin

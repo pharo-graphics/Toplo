@@ -1,4 +1,6 @@
 Trait {
-	#name : #TToSkinable,
-	#category : #'Toplo-Theme-Core'
+	#name : 'TToSkinable',
+	#category : 'Toplo-Theme-Core',
+	#package : 'Toplo-Theme',
+	#tag : 'Core'
 }

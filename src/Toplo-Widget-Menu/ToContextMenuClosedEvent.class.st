@@ -1,10 +1,12 @@
 Class {
-	#name : #ToContextMenuClosedEvent,
-	#superclass : #ToWindowClosedEvent,
-	#category : #'Toplo-Widget-Menu-Basic'
+	#name : 'ToContextMenuClosedEvent',
+	#superclass : 'ToWindowClosedEvent',
+	#category : 'Toplo-Widget-Menu-Basic',
+	#package : 'Toplo-Widget-Menu',
+	#tag : 'Basic'
 }
 
-{ #category : #sending }
+{ #category : 'sending' }
 ToContextMenuClosedEvent >> sendTo: anEvent [
 
 	anEvent contextMenuClosedEvent: self

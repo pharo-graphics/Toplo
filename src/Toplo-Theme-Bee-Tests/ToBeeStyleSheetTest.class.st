@@ -2,15 +2,16 @@
 A ToDefaultStyleSheetTest is a test class for testing the behavior of ToDefaultStyleSheet
 "
 Class {
-	#name : #ToBeeStyleSheetTest,
-	#superclass : #TestCase,
+	#name : 'ToBeeStyleSheetTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'styleSheet'
 	],
-	#category : #'Toplo-Theme-Bee-Tests'
+	#category : 'Toplo-Theme-Bee-Tests',
+	#package : 'Toplo-Theme-Bee-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 ToBeeStyleSheetTest >> setUp [ 
 
 	super setUp.
@@ -19,19 +20,19 @@ ToBeeStyleSheetTest >> setUp [
 	styleSheet inherits: false.
 ]
 
-{ #category : #skin }
+{ #category : 'skin' }
 ToBeeStyleSheetTest >> testDefaultButtonSkin [
 
-	| ss button writers skin labelSkin ssi |
+	|  button writers skin labelSkin |
 	button := ToButton new toTheme: ToBeeLightTheme new.
 	writers := button skinBuilder writersFor: button.
 	self assert: writers notEmpty.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	button installSkin: nil.
+	button requestNewSkin: nil.
 	self assert: button privateSkin isNil.
-	button installSkin: skin.
-	button checkSkinInstallation.
+	button requestNewSkin: skin.
+	button applySkinInstaller.
 	self assert: button border width equals: 1.
 	self assert: button border paint isColorPaint.
 	self assert: button border paint color equals: (button stampValue: #'color-border').
@@ -42,13 +43,13 @@ ToBeeStyleSheetTest >> testDefaultButtonSkin [
 	labelSkin := ToStyleSheetSkin new.
 	writers := button label skinBuilder writersFor: button label.
 	labelSkin writers: writers.
-	button label installSkin: labelSkin.
-	button checkSkinInstallation.
+	button label requestNewSkin: labelSkin.
+	button applySkinInstaller.
 	
 	
 ]
 
-{ #category : #'labeled-icon' }
+{ #category : 'labeled-icon' }
 ToBeeStyleSheetTest >> testLabeledIconWithLabelAndIcon [
 
 	| li |
@@ -68,7 +69,7 @@ ToBeeStyleSheetTest >> testLabeledIconWithLabelAndIcon [
 
 ]
 
-{ #category : #'look updaters' }
+{ #category : 'look updaters' }
 ToBeeStyleSheetTest >> testWriteablePropertyList [
 
 	| index count elem |

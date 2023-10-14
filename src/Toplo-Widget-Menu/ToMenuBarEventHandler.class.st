@@ -1,21 +1,23 @@
 Class {
-	#name : #ToMenuBarEventHandler,
-	#superclass : #ToSkinnableEventHandler,
+	#name : 'ToMenuBarEventHandler',
+	#superclass : 'ToSkinnableEventHandler',
 	#instVars : [
 		'mouseDownHandler',
 		'autoOpen'
 	],
-	#category : #'Toplo-Widget-Menu-Bar'
+	#category : 'Toplo-Widget-Menu-Bar',
+	#package : 'Toplo-Widget-Menu',
+	#tag : 'Bar'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToMenuBarEventHandler >> initialize [ 
 
 	super initialize.
 	autoOpen := false
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToMenuBarEventHandler >> mouseDownEvent: anEvent [
 	"switch auto=open filter "
 
@@ -39,7 +41,7 @@ ToMenuBarEventHandler >> mouseDownEvent: anEvent [
 	autoOpen := true
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToMenuBarEventHandler >> mouseOverEvent: anEvent [
 
 	super mouseOverEvent: anEvent.
@@ -52,7 +54,7 @@ ToMenuBarEventHandler >> mouseOverEvent: anEvent [
 			ifFalse: [ m closeWindow ] ]
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToMenuBarEventHandler >> mouseUpOutsideEvent: anEvent [
 
 	autoOpen ifFalse: [ ^ self ].

@@ -1,16 +1,18 @@
 Class {
-	#name : #ToOverlayedEventHandler,
-	#superclass : #ToAnchorEventHandler,
-	#category : #'Toplo-Core-Window'
+	#name : 'ToOverlayedEventHandler',
+	#superclass : 'ToAnchorEventHandler',
+	#category : 'Toplo-Core-Window',
+	#package : 'Toplo',
+	#tag : 'Core-Window'
 }
 
-{ #category : #'element handlers' }
+{ #category : 'element handlers' }
 ToOverlayedEventHandler >> elementExtentChangedEvent: anEvent [
 
 	windowHandler applySizeHookFromEvent: anEvent
 ]
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToOverlayedEventHandler >> eventsToHandle [ 
 
 	^ super eventsToHandle , { BlElementExtentChangedEvent }

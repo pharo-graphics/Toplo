@@ -43,12 +43,12 @@ TToOrientableTest >> testBeHorizontal [
 	ocpt := oriCpt.
 	pane beHorizontal.
 	" no event sent "
-	self assert: oriCpt = ocpt.
+	self assert: oriCpt equals: ocpt.
 	pane beVertical.
 	ocpt := oriCpt.
 	pane beHorizontal.
 	" orientation chaged -> and event is sent "
-	self assert: oriCpt = (ocpt + 1).
+	self assert: oriCpt equals: ocpt + 1.
 	self assert: pane isHorizontal.
 	self assert: pane isVertical not.
 	self waitTestingSpaces.
@@ -102,19 +102,19 @@ TToOrientableTest >> testBeRightToLeft [
 
 { #category : 'tests' }
 TToOrientableTest >> testBeVertical [
-
 	" to be sure pane is horizontal"
+
 	| ocpt |
 	pane beVertical.
 	ocpt := oriCpt.
 	pane beVertical.
 	" no event sent "
-	self assert: oriCpt = ocpt.
+	self assert: oriCpt equals: ocpt.
 	pane beHorizontal.
 	ocpt := oriCpt.
 	pane beVertical.
 	" orientation chaged -> and event is sent "
-	self assert: oriCpt = (ocpt + 1).	
+	self assert: oriCpt equals: ocpt + 1.
 	self assert: pane isVertical.
 	self assert: pane isHorizontal not.
 	self waitTestingSpaces.
@@ -125,40 +125,39 @@ TToOrientableTest >> testBeVertical [
 { #category : 'tests' }
 TToOrientableTest >> testDirection [
 
-
 	| dcpt |
 	pane direction: BlLayoutDirection rightToLeft.
 	dcpt := dirCpt.
 	" sure pane is rightToLeft -> no event sent "
 	pane direction: BlLayoutDirection rightToLeft.
 	" no event sent "
-	self assert: dirCpt = dcpt.
+	self assert: dirCpt equals: dcpt.
 	pane direction: BlLayoutDirection leftToRight.
 	dcpt := dirCpt.
 	pane direction: BlLayoutDirection rightToLeft.
 	" direction changed -> and event is sent "
-	self assert: dirCpt = (dcpt + 1).	
+	self assert: dirCpt equals: dcpt + 1.
 	self assert: pane isRightToLeft.
 	self assert: pane isLeftToRight not.
 	self waitTestingSpaces.
 	self assert: child2 bounds right equals: child1 bounds left.
 	self assert: child2 bounds top equals: child1 bounds top.
-		
+
 	" now for the inverted direction "
 	pane direction: BlLayoutDirection leftToRight.
 	dcpt := dirCpt.
 	" sure pane is leftToRight -> no event sent "
 	pane direction: BlLayoutDirection leftToRight.
 	" no event sent "
-	self assert: dirCpt = dcpt.
+	self assert: dirCpt equals: dcpt.
 	pane direction: BlLayoutDirection rightToLeft.
 	dcpt := dirCpt.
 	pane direction: BlLayoutDirection leftToRight.
 	" direction chaged -> and event is sent "
-	self assert: dirCpt = (dcpt + 1).	
+	self assert: dirCpt equals: dcpt + 1.
 	self assert: pane isLeftToRight.
 	self assert: pane isRightToLeft not.
-	
+
 	self waitTestingSpaces.
 	self assert: child1 bounds right equals: child2 bounds left.
 	self assert: child1 bounds top equals: child2 bounds top
@@ -166,19 +165,19 @@ TToOrientableTest >> testDirection [
 
 { #category : 'tests' }
 TToOrientableTest >> testHorizontal [
-
 	" to be sure pane is horizontal"
+
 	| ocpt |
 	pane horizontal: true.
 	ocpt := oriCpt.
 	pane horizontal: true.
 	" no event sent "
-	self assert: oriCpt = ocpt.
+	self assert: oriCpt equals: ocpt.
 	pane horizontal: false.
 	ocpt := oriCpt.
 	pane horizontal: true.
 	" orientation chaged -> and event is sent "
-	self assert: oriCpt = (ocpt + 1).	
+	self assert: oriCpt equals: ocpt + 1.
 	self assert: pane isHorizontal.
 	self assert: pane isVertical not.
 	self waitTestingSpaces.
@@ -255,44 +254,42 @@ TToOrientableTest >> testLeftToRight [
 { #category : 'tests' }
 TToOrientableTest >> testOrientation [
 
-
 	| ocpt |
 	pane orientation: BlLinearLayoutVerticalOrientation new.
 	ocpt := oriCpt.
 	" sure pane is vertical -> no event sent "
 	pane orientation: BlLinearLayoutVerticalOrientation new.
 	" no event sent "
-	self assert: oriCpt = ocpt.
+	self assert: oriCpt equals: ocpt.
 	pane orientation: BlLinearLayoutHorizontalOrientation new.
 	ocpt := oriCpt.
 	pane orientation: BlLinearLayoutVerticalOrientation new.
 	" orientation chaged -> and event is sent "
-	self assert: oriCpt = (ocpt + 1).	
+	self assert: oriCpt equals: ocpt + 1.
 	self assert: pane isVertical.
 	self assert: pane isHorizontal not.
 	self waitTestingSpaces.
 	self assert: child1 bounds bottom equals: child2 bounds top.
 	self assert: child1 bounds left equals: child2 bounds left.
-	
+
 	" now for the inverted orientation "
 	pane orientation: BlLinearLayoutHorizontalOrientation new.
 	ocpt := oriCpt.
 	" sure pane is vertical -> no event sent "
 	pane orientation: BlLinearLayoutHorizontalOrientation new.
 	" no event sent "
-	self assert: oriCpt = ocpt.
+	self assert: oriCpt equals: ocpt.
 	pane orientation: BlLinearLayoutVerticalOrientation new.
 	ocpt := oriCpt.
 	pane orientation: BlLinearLayoutHorizontalOrientation new.
 	" orientation chaged -> and event is sent "
-	self assert: oriCpt = (ocpt + 1).	
+	self assert: oriCpt equals: ocpt + 1.
 	self assert: pane isHorizontal.
 	self assert: pane isVertical not.
-	
+
 	self waitTestingSpaces.
 	self assert: child1 bounds right equals: child2 bounds left.
 	self assert: child1 bounds top equals: child2 bounds top
-
 ]
 
 { #category : 'tests' }
@@ -319,19 +316,19 @@ TToOrientableTest >> testRightToLeft [
 
 { #category : 'tests' }
 TToOrientableTest >> testVertical [
-
 	" to be sure pane is horizontal"
+
 	| ocpt |
 	pane vertical: true.
 	ocpt := oriCpt.
 	pane vertical: true.
 	" no event sent "
-	self assert: oriCpt = ocpt.
+	self assert: oriCpt equals: ocpt.
 	pane vertical: false.
 	ocpt := oriCpt.
 	pane vertical: true.
 	" orientation chaged -> and event is sent "
-	self assert: oriCpt = (ocpt + 1).	
+	self assert: oriCpt equals: ocpt + 1.
 	self assert: pane isVertical.
 	self assert: pane isHorizontal not.
 	self waitTestingSpaces.

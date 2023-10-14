@@ -4,27 +4,39 @@ A ToPopupWindowTest is a test class for testing the behavior of ToPopupWindow
 Class {
 	#name : 'ToPopupWindowTest',
 	#superclass : 'BlParameterizedHostTest',
+	#instVars : [
+		'space'
+	],
 	#category : 'Toplo-Tests-Core-Window',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-Window'
 }
 
+{ #category : 'running' }
+ToPopupWindowTest >> setUp [ 
+
+	super setUp.
+	space := self newTestingSpace.
+
+]
+
 { #category : 'tests' }
 ToPopupWindowTest >> testAssociateElement [
 
-	| win e space windowHandler |
-	space := BlSpace new.
+	| win e windowHandler |
 	e := ToElement new
 		          background: Color red;
 		          size: 100 @ 40;
 		          position: 50 @ 50.
 	space root addChild: e.
 	
+	" have to layout the space here to ensure that no position changed event is sent (which should close the window and make the test failing fail the test)"
+	self waitTestingSpaces.
 	windowHandler := ToPopupWindowHandler new builder: [ :anchWin :element | ].
 	windowHandler element: e.
 	win := windowHandler newWindowEvent: nil.	
-	
 	win popup.
+	
 	self waitTestingSpaces.
 	self assert: win element equals: e.
 	self assert: win isOpened.
@@ -46,13 +58,13 @@ ToPopupWindowTest >> testAssociateElement [
 { #category : 'tests' }
 ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp [
 
-	| e space windowHandler |
-	space := BlSpace new.
+	| e windowHandler |
 	e := ToElement new
 		          background: Color red;
 		          size: 100 @ 40;
 		          position: 50 @ 50.
 	space root addChild: e.
+	self waitTestingSpaces.
 	
 	windowHandler := ToPopupWindowHandler new builder: [ :anchWin :element | ].
 	windowHandler element: e.
@@ -73,13 +85,13 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp [
 { #category : 'tests' }
 ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp2 [
 
-	| e space windowHandler |
-	space := BlSpace new.
+	| e windowHandler |
 	e := ToElement new
 		          background: Color red;
 		          size: 100 @ 40;
 		          position: 50 @ 50.
 	space root addChild: e.
+	self waitTestingSpaces.
 
 	windowHandler := ToPopupWindowHandler new builder: [ :anchWin :element | ].
 	windowHandler element: e.
@@ -97,13 +109,13 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp2 [
 { #category : 'tests' }
 ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 
-	| e space windowHandler closed |
-	space := BlSpace new.
+	| e windowHandler closed |
 	e := e := ToElement new
 		          background: Color red;
 		          size: 100 @ 40;
 		          position: 50 @ 50.
 	space root addChild: e.
+	self waitTestingSpaces.
 
 	windowHandler := ToPopupWindowHandler new builder: [ :anchWin :element | ].
 	windowHandler element: e.
@@ -124,13 +136,13 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 { #category : 'tests' }
 ToPopupWindowTest >> testPopupOpenCloseWithMouseUpOutsideAssociateElement [
 
-	| e space windowHandler |
-	space := BlSpace new.
+	| e  windowHandler |
 	e := ToElement new
 		          background: Color red;
 		          size: 100 @ 40;
 		          position: 50 @ 50.
 	space root addChild: e.
+	self waitTestingSpaces.
 	
 	windowHandler := ToPopupWindowHandler new builder: [ :anchWin :element | ].
 	windowHandler element: e.

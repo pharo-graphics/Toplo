@@ -9,23 +9,46 @@ Class {
 	#package : 'Toplo-Incubator'
 }
 
+{ #category : 'skin' }
+ToNotebookPageTitle >> defaultBorder [
+
+	^ BlBorder empty
+]
+
+{ #category : 'skin' }
+ToNotebookPageTitle >> defaultGeometry [
+
+	^ BlRoundedRectangleGeometry cornerRadii: (BlCornerRadii new
+			   topLeft: 4;
+			   topRight: 4;
+			   bottomLeft: 0;
+			   bottomRight: 0;
+			   yourself)
+]
+
+{ #category : 'initialization' }
+ToNotebookPageTitle >> defaultLayout [ 
+
+	^ BlLinearLayout horizontal
+]
+
+{ #category : 'skin' }
+ToNotebookPageTitle >> defaultPadding [
+
+	^ BlInsets vertical: 2
+]
+
 { #category : 'dressing' }
 ToNotebookPageTitle >> dressCloseable [
 
 	| closeButton |
-	closeButton := self childWithId: #closeButton.
-	closeButton
-		background: Color transparent;
-		border: BlBorder empty;
-		margin: (BlInsets top: 1 bottom: 2). "Check this"
-
+	closeButton := self childWithId: #closeButton
 ]
 
 { #category : 'dressing' }
 ToNotebookPageTitle >> dressDeselected [
 
-	self background:
-		self theme notebook deselectedPageTitleBackgroundColor
+	self background: self theme notebook deselectedPageTitleBackgroundColor
 ]
 
 { #category : 'dressing' }
@@ -38,30 +61,24 @@ ToNotebookPageTitle >> dressSelected [
 { #category : 'initialization' }
 ToNotebookPageTitle >> initialize [
 
-	| radius |
 	super initialize.
-	radius := 4.
-	self
-		border: BlBorder empty;
-		padding: (BlInsets vertical: 2);
-		geometry:
-			(BlRoundedRectangleGeometry cornerRadii:
-				(BlCornerRadii new
-					topLeft: radius;
-					topRight: radius;
-					bottomLeft: 0;
-					bottomRight: 0;
-					yourself));
-		constraintsDo: [ :c |
-			c horizontal fitContent.
-			c vertical fitContent.
-			c linear vertical alignBottom. ].
 
 	labelElement := ToLabel new.
-	labelElement margin: (BlInsets horizontal: 20).
-	labelElement matchParent.
 	self addChild: labelElement.
 	
+]
+
+{ #category : 'skin' }
+ToNotebookPageTitle >> installRawStyle [
+
+	super installRawStyle.
+	self constraintsDo: [ :c |
+		c horizontal fitContent.
+		c vertical fitContent.
+		c linear vertical alignBottom ].
+	labelElement margin: (BlInsets horizontal: 20).
+	labelElement constraintsDo: [ :c | c linear vertical alignCenter].
+
 ]
 
 { #category : 'accessing' }

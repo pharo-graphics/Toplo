@@ -1,13 +1,14 @@
 Class {
-	#name : #ToDividerSkin,
-	#superclass : #ToRawSkin,
+	#name : 'ToDividerSkin',
+	#superclass : 'ToRawSkin',
 	#instVars : [
 		'pressed'
 	],
-	#category : #'Toplo-Widget-Pane'
+	#category : 'Toplo-Widget-Pane',
+	#package : 'Toplo-Widget-Pane'
 }
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToDividerSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
@@ -18,7 +19,7 @@ ToDividerSkin >> hoveredLookEvent: anEvent [
 		e background: e hoveredBackground ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToDividerSkin >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
@@ -28,7 +29,7 @@ ToDividerSkin >> initialLookEvent: anEvent [
 		e background: e defaultBackground ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToDividerSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
@@ -40,7 +41,7 @@ ToDividerSkin >> installLookEvent: anEvent [
 		e padding: e defaultPadding ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToDividerSkin >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
@@ -50,7 +51,7 @@ ToDividerSkin >> pressedLookEvent: anEvent [
 		e background: e pressedBackground ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToDividerSkin >> releasedLookEvent: anEvent [
 
 	super releasedLookEvent: anEvent.

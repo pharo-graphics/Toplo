@@ -1,12 +1,13 @@
 Class {
-	#name : #ToPane,
-	#superclass : #ToElement,
-	#traits : 'TToOrientable + TToElementWithLayers + TToWidgetWithPlaceholder',
-	#classTraits : 'TToOrientable classTrait + TToElementWithLayers classTrait + TToWidgetWithPlaceholder classTrait',
-	#category : #'Toplo-Widget-Pane'
+	#name : 'ToPane',
+	#superclass : 'ToElement',
+	#traits : 'TToOrientable + TToElementWithPlaceholder',
+	#classTraits : 'TToOrientable classTrait + TToElementWithPlaceholder classTrait',
+	#category : 'Toplo-Widget-Pane',
+	#package : 'Toplo-Widget-Pane'
 }
 
-{ #category : #factory }
+{ #category : 'factory' }
 ToPane class >> horizontal [
 
 	^ self new
@@ -16,7 +17,7 @@ ToPane class >> horizontal [
 		  yourself
 ]
 
-{ #category : #factory }
+{ #category : 'factory' }
 ToPane class >> vertical [
 
 	^ self new
@@ -26,7 +27,7 @@ ToPane class >> vertical [
 		  yourself
 ]
 
-{ #category : #dividers }
+{ #category : 'dividers' }
 ToPane >> addDividerBetween: aFirstElement and: aSecondElement [
 
 	| divider |
@@ -34,7 +35,7 @@ ToPane >> addDividerBetween: aFirstElement and: aSecondElement [
 	self addChild: divider
 ]
 
-{ #category : #dividers }
+{ #category : 'dividers' }
 ToPane >> addDividers [
 
 	| lastIdx |
@@ -44,19 +45,13 @@ ToPane >> addDividers [
 			self addDividerBetween: child and: (self children at: idx + 1) ] ]
 ]
 
-{ #category : #'t - widget - initialization' }
+{ #category : 't - widget - initialization' }
 ToPane >> defaultLayout [
 
 	^ BlLinearLayout new 
 ]
 
-{ #category : #'t - element with layers - accessing' }
-ToPane >> layerReferentElement [
-
-	^ self
-]
-
-{ #category : #'t - orientable - accessing' }
+{ #category : 't - orientable - accessing' }
 ToPane >> layoutStrategy [
 
 	^ self layout
@@ -64,7 +59,7 @@ ToPane >> layoutStrategy [
 
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 ToPane >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.

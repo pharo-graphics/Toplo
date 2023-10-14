@@ -1,19 +1,16 @@
 Trait {
 	#name : 'TToElementWithPlaceholder',
-	#instVars : [
-		'placeholderLayer'
-	],
-	#category : 'Toplo-Core',
-	#package : 'Toplo',
-	#tag : 'Core'
+	#category : 'Toplo-Widget-Pane',
+	#package : 'Toplo-Widget-Pane'
 }
 
 { #category : 't - element with placeholder' }
 TToElementWithPlaceholder >> hidePlaceholder [
 
-	placeholderLayer ifNil: [ ^ self ].
-	placeholderLayer parentDo: [ :p |
-		self removeLayer: placeholderLayer.
+	self placeholderLayer ifNil: [ ^ self ].
+	self placeholderLayer parentDo: [ :p |
+		self placeholderLayer detach.
+		self removeChild: self placeholderLayer.
 		self dispatchEvent: ToPlaceholderRemovedEvent new ]
 ]
 
@@ -32,7 +29,7 @@ TToElementWithPlaceholder >> placeholder: anElement [
 { #category : 't - element with placeholder' }
 TToElementWithPlaceholder >> placeholderLayer [
 
-	^ placeholderLayer
+	^ self userData at: #placeholderLayer ifAbsent: [  ]
 ]
 
 { #category : 't - element with placeholder' }
@@ -41,17 +38,26 @@ TToElementWithPlaceholder >> placeholderLayer: aPanePlaceholderLayer [
 	self placeholderLayer ifNotNil: [
 		self placeholderLayer parentDo: [ :layer |
 			self hidePlaceholder.
-			placeholderLayer := aPanePlaceholderLayer.
+			self rawPlaceholderLayer: aPanePlaceholderLayer.
 			self showPlaceholder.
 			^ self ] ].
-	placeholderLayer := aPanePlaceholderLayer
+	self rawPlaceholderLayer: aPanePlaceholderLayer
+]
+
+{ #category : 't - element with placeholder' }
+TToElementWithPlaceholder >> rawPlaceholderLayer: aPlaceHolderLayer [
+
+	self userData at: #placeholderLayer put: aPlaceHolderLayer
 ]
 
 { #category : 't - element with placeholder' }
 TToElementWithPlaceholder >> showPlaceholder [
 
-	placeholderLayer ifNil: [ ^ self ].
-	placeholderLayer parentDo: [ :p | ^ self ].
-	self addLayer: placeholderLayer.
-	self dispatchEvent: (ToPlaceholderAddedEvent new)
+	self placeholderLayer ifNil: [ ^ self ].
+	self placeholderLayer parentDo: [ :p | ^ self ].
+	
+	self placeholderLayer attachTo: self.
+	self addChild: self placeholderLayer.
+	
+	self dispatchEvent: ToPlaceholderAddedEvent new
 ]

@@ -1,6 +1,6 @@
 Class {
-	#name : #ToDividerEventHandler,
-	#superclass : #ToSkinnableEventHandler,
+	#name : 'ToDividerEventHandler',
+	#superclass : 'ToSkinnableEventHandler',
 	#instVars : [
 		'startPosition',
 		'startBounds',
@@ -8,10 +8,11 @@ Class {
 		'secondTargetPositionChangeHandler',
 		'paneExtentHandler'
 	],
-	#category : #'Toplo-Widget-Pane'
+	#category : 'Toplo-Widget-Pane',
+	#package : 'Toplo-Widget-Pane'
 }
 
-{ #category : #'dnd handlers' }
+{ #category : 'dnd handlers' }
 ToDividerEventHandler >> appliedDragDeltaFromPosition: aPoint [
 
 	| dragDelta |
@@ -21,13 +22,13 @@ ToDividerEventHandler >> appliedDragDeltaFromPosition: aPoint [
 	^ dragDelta
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDividerEventHandler >> divider [
 
 	^ target
 ]
 
-{ #category : #'dnd handlers' }
+{ #category : 'dnd handlers' }
 ToDividerEventHandler >> dragEvent: anEvent [
 
 	| firstTargetBounds secondTargetBounds dragDelta |
@@ -55,7 +56,7 @@ ToDividerEventHandler >> dragEvent: anEvent [
 	self divider requestLayout
 ]
 
-{ #category : #'dnd handlers' }
+{ #category : 'dnd handlers' }
 ToDividerEventHandler >> dragEvent: anEvent target: aTarget bounds: aTargetBounds by: aDelta [
 
 	| targetOriginalBounds widthChanged heightChanged |
@@ -84,7 +85,7 @@ ToDividerEventHandler >> dragEvent: anEvent target: aTarget bounds: aTargetBound
 			height: aTargetBounds height ]
 ]
 
-{ #category : #'dnd handlers' }
+{ #category : 'dnd handlers' }
 ToDividerEventHandler >> dragStartEvent: anEvent [
 
 	super dragStartEvent: anEvent.
@@ -100,13 +101,13 @@ ToDividerEventHandler >> dragStartEvent: anEvent [
 		               bnds inSpace bounds copy ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDividerEventHandler >> firstTarget [
 
 	^ self divider firstTarget
 ]
 
-{ #category : #'dnd handlers' }
+{ #category : 'dnd handlers' }
 ToDividerEventHandler >> horizontalDragEvent: anEvent target: aTarget width: aWidth [
 
 	aTarget constraints horizontal resizer isExact
@@ -119,19 +120,19 @@ ToDividerEventHandler >> horizontalDragEvent: anEvent target: aTarget width: aWi
 			aTarget constraints linear weight: w ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDividerEventHandler >> leftTarget [
 
 	^ self divider leftTarget
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDividerEventHandler >> minimumExtent [
 
 	^ 10@10
 ]
 
-{ #category : #'api - hooks' }
+{ #category : 'api - hooks' }
 ToDividerEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
@@ -144,7 +145,7 @@ ToDividerEventHandler >> onInstalledIn: anElement [
 	anElement secondTarget addEventHandler: secondTargetPositionChangeHandler.
 ]
 
-{ #category : #'api - hooks' }
+{ #category : 'api - hooks' }
 ToDividerEventHandler >> onUninstalledIn: anElement [
 
 	anElement pane removeEventHandler: paneExtentHandler.
@@ -154,13 +155,13 @@ ToDividerEventHandler >> onUninstalledIn: anElement [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDividerEventHandler >> pane [
 
 	^ self divider pane
 ]
 
-{ #category : #resizer }
+{ #category : 'resizer' }
 ToDividerEventHandler >> resizeBounds: aBlBounds by: aPoint [
 
 	self divider isHorizontal
@@ -170,19 +171,19 @@ ToDividerEventHandler >> resizeBounds: aBlBounds by: aPoint [
 			aBlBounds extent: (aBlBounds extent + (aPoint x negated @ 0.0) max: self minimumExtent) ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDividerEventHandler >> secondTarget [
 
 	^ self divider secondTarget
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDividerEventHandler >> topTarget [
 
 	^ self divider topTarget
 ]
 
-{ #category : #'dnd handlers' }
+{ #category : 'dnd handlers' }
 ToDividerEventHandler >> verticalDragEvent: anEvent target: aTarget height: aHeight [
 
 	aTarget constraints vertical resizer isExact
@@ -195,7 +196,7 @@ ToDividerEventHandler >> verticalDragEvent: anEvent target: aTarget height: aHei
 			aTarget constraints linear weight: w ]
 ]
 
-{ #category : #'dnd handlers' }
+{ #category : 'dnd handlers' }
 ToDividerEventHandler >> weightFromWidth: aWidth [
 
 	^ self divider weightFromWidth: aWidth

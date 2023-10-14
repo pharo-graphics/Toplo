@@ -1,8 +1,8 @@
 Class {
 	#name : 'ToAlbum',
 	#superclass : 'ToPane',
-	#traits : 'TToEnableable + TAlbInfiniteDecorator + TToElementWithLayers + TToElementWithPlaceholder + TBlAnnouncerProvider + TObservable',
-	#classTraits : 'TToEnableable classTrait + TAlbInfiniteDecorator classTrait + TToElementWithLayers classTrait + TToElementWithPlaceholder classTrait + TBlAnnouncerProvider classTrait + TObservable classTrait',
+	#traits : 'TToEnableable + TAlbInfiniteDecorator + TBlAnnouncerProvider + TObservable',
+	#classTraits : 'TToEnableable classTrait + TAlbInfiniteDecorator classTrait + TBlAnnouncerProvider classTrait + TObservable classTrait',
 	#instVars : [
 		'#editsFeedbackLayer',
 		'#innerElement',
@@ -183,12 +183,6 @@ ToAlbum >> innerElement [
 	^ self next
 ]
 
-{ #category : 't - element with layers - accessing' }
-ToAlbum >> layerReferentElement [
-
-		^ self 
-]
-
 { #category : 'layers' }
 ToAlbum >> placeholderText: aText [
 
@@ -333,7 +327,8 @@ ToAlbum >> withEditsFeedback [
 
 	editsFeedbackLayer ifNotNil: [ ^ self ].
 	editsFeedbackLayer := ToAlbumEditsFeedbackLayer new.
-	self addLayer: editsFeedbackLayer 
+	editsFeedbackLayer attachTo: self.
+	self addChild: editsFeedbackLayer
 ]
 
 { #category : 'initialization' }
@@ -357,7 +352,10 @@ ToAlbum >> withSaveCapability [
 ToAlbum >> withoutEditsFeedback [
 
 	editsFeedbackLayer ifNil: [ ^ self ].
-	self removeLayer: editsFeedbackLayer.
+
+	editsFeedbackLayer detach.
+	self removeChild: editsFeedbackLayer.
+
 	editsFeedbackLayer := nil
 ]
 

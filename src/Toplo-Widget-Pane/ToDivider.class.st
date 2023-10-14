@@ -1,6 +1,6 @@
 Class {
-	#name : #ToDivider,
-	#superclass : #ToElement,
+	#name : 'ToDivider',
+	#superclass : 'ToElement',
 	#instVars : [
 		'thickness',
 		'pane',
@@ -8,10 +8,11 @@ Class {
 		'secondTarget',
 		'hgap'
 	],
-	#category : #'Toplo-Widget-Pane'
+	#category : 'Toplo-Widget-Pane',
+	#package : 'Toplo-Widget-Pane'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ToDivider class >> between: aFirstElement and: aSecondElement in: aPane [
 
 	^ self basicNew
@@ -22,91 +23,91 @@ ToDivider class >> between: aFirstElement and: aSecondElement in: aPane [
 		  yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ToDivider class >> new [
 
 	^ self error: 'Use between:and:in'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDivider >> bottomTarget [
 
 	^ self topTarget == self firstTarget ifTrue: [ self secondTarget  ] ifFalse: [ self firstTarget ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToDivider >> defaultBackground [
 
 	^ Color veryLightGray alpha: 0.1
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToDivider >> defaultBorder [
 
 	^ Color veryLightGray alpha: 0.3
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToDivider >> defaultEventHandler [ 
 
 	^ ToDividerEventHandler new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToDivider >> defaultGeometry [
 
 	^ BlRoundedRectangleGeometry cornerRadius: 2
 ]
 
-{ #category : #'t - widget - initialization' }
+{ #category : 't - widget - initialization' }
 ToDivider >> defaultLayout [
 
 	^ BlBasicLayout new 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToDivider >> defaultMargins [ 
 
 	^ BlInsets empty
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToDivider >> defaultPadding [
 
 	^ BlInsets empty
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToDivider >> defaultThickness [
 
 	^ 3
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDivider >> firstTarget [
 
 	^ firstTarget
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDivider >> firstTarget: anElement [
 
 	firstTarget := anElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDivider >> hoveredBackground [
 
 	^ Color veryLightGray alpha: 0.3
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDivider >> hoveredBorder [
 
 	^ Color veryLightGray alpha: 0.4
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToDivider >> initialize [
 
 	super initialize.
@@ -114,7 +115,7 @@ ToDivider >> initialize [
 	self addEventHandler: self defaultEventHandler 
 ]
 
-{ #category : #skin }
+{ #category : 'skin' }
 ToDivider >> installRawStyle [ 
 
 	super installRawStyle.
@@ -124,19 +125,19 @@ ToDivider >> installRawStyle [
 	self padding: self defaultPadding
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToDivider >> isHorizontal [
 
 	^ self pane isVertical
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToDivider >> isVertical [
 
 	^ self isHorizontal not
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 ToDivider >> layoutInHorizontalPane [
 
 	| firstY secondY gap firstX secondX position |
@@ -157,7 +158,7 @@ ToDivider >> layoutInHorizontalPane [
 
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 ToDivider >> layoutInVerticalPane [
 
 	| firstY secondY gap firstX secondX x position |
@@ -178,13 +179,13 @@ ToDivider >> layoutInVerticalPane [
 	self measuredBounds position: position
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDivider >> leftTarget [
 
 	^ (self firstTarget bounds left < self secondTarget bounds left) ifTrue: [ self firstTarget  ] ifFalse: [ self secondTarget  ]
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 ToDivider >> measureInHorizontalPane [
 
 	| firstH secondH w |
@@ -199,7 +200,7 @@ ToDivider >> measureInHorizontalPane [
 	self secondTarget constraints linear weight: w
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 ToDivider >> measureInVerticalPane [
 
 	| firstW secondW w |
@@ -214,7 +215,7 @@ ToDivider >> measureInVerticalPane [
 	self secondTarget constraints linear weight: w
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 ToDivider >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 
@@ -224,7 +225,7 @@ ToDivider >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 		ifFalse: [ self layoutInHorizontalPane ]
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 ToDivider >> onMeasure: anExtentMeasurementSpec [
 
 	super onMeasure: anExtentMeasurementSpec.
@@ -233,37 +234,37 @@ ToDivider >> onMeasure: anExtentMeasurementSpec [
 		ifFalse: [ self measureInHorizontalPane ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDivider >> pane [
 
 	^ pane
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDivider >> pane: aPane [
 
 	pane := aPane
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDivider >> pressedBackground [
 
 	^ Color veryLightGray alpha: 0.6
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDivider >> pressedBorder [
 
 	^ Color veryLightGray alpha: 0.6
 ]
 
-{ #category : #skin }
+{ #category : 'skin' }
 ToDivider >> rawSkin [
 
 	^ ToDividerSkin new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDivider >> resizerCursor [
 
 	^ self isHorizontal
@@ -271,43 +272,43 @@ ToDivider >> resizerCursor [
 		  ifFalse: [ BlCursor resizeRight ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDivider >> rightTarget [
 
 	^ self leftTarget == self firstTarget ifTrue: [ self secondTarget  ] ifFalse: [ self firstTarget ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDivider >> secondTarget [
 
 	^ secondTarget
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDivider >> secondTarget: anElement [
 
 	secondTarget := anElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDivider >> thickness [
 
 	^ thickness
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDivider >> thickness: aNumber [
 
 	thickness := aNumber
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDivider >> topTarget [
 
 	^ (self firstTarget bounds top < self secondTarget bounds top) ifTrue: [ self firstTarget  ] ifFalse: [ self secondTarget  ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDivider >> weightFromWidth: aWidth [
 
 	self pane width isZero ifTrue: [ ^ 1 ].

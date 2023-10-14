@@ -338,3 +338,14 @@ TToOrientableTest >> testVertical [
 	self assert: child1 bounds bottom equals: child2 bounds top.
 	self assert: child1 bounds left equals: child2 bounds left
 ]
+
+{ #category : 'tests' }
+TToOrientableTest >> testVerticalRightToLeft [
+
+	" to be sure pane is leftToRight"
+	pane rightToLeft: true.
+	pane vertical: true.
+	self waitTestingSpaces.
+	self assert: child2 bounds left equals: child1 bounds left.
+	self assert: child2 bounds bottom equals: child1 bounds top
+]

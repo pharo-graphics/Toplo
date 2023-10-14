@@ -26,12 +26,6 @@ ToNotebookPageTitle >> defaultGeometry [
 			   yourself)
 ]
 
-{ #category : 'initialization' }
-ToNotebookPageTitle >> defaultLayout [ 
-
-	^ BlLinearLayout horizontal
-]
-
 { #category : 'skin' }
 ToNotebookPageTitle >> defaultPadding [
 

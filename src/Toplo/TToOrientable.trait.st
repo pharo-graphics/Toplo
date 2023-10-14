@@ -47,6 +47,7 @@ TToOrientable >> direction [
 TToOrientable >> direction: aDirection [
 
 	(self layoutStrategy direction isLeftToRight and: [ aDirection isLeftToRight]) ifTrue: [ ^ self ].
+	(self layoutStrategy direction isRightToLeft and: [ aDirection isRightToLeft]) ifTrue: [ ^ self ].
 	self layoutStrategy direction: aDirection.
 	self dispatchEvent: ToLayoutDirectionChangedEvent new.
 	self launchRequestLayout
@@ -116,9 +117,17 @@ TToOrientable >> orientation [
 TToOrientable >> orientation: aBlLayoutOrientation [
 
 	(self layoutStrategy orientation isHorizontal and: [ aBlLayoutOrientation isHorizontal]) ifTrue: [ ^ self ].
+	(self layoutStrategy orientation isVertical and: [ aBlLayoutOrientation isVertical]) ifTrue: [ ^ self ].
 	self layoutStrategy orientation: aBlLayoutOrientation.
 	self dispatchEvent: ToLayoutOrientationChangedEvent new.
 	self launchRequestLayout
+]
+
+{ #category : 't - orientable - direction' }
+TToOrientable >> rightToLeft: aBoolean [
+
+	aBoolean = self isRightToLeft ifTrue: [ ^ self ].
+	aBoolean ifTrue: [ self beRightToLeft ] ifFalse: [ self beLeftToRight ]
 ]
 
 { #category : 't - orientable - orientation' }

@@ -67,7 +67,7 @@ ToElementTest >> testOnAddedToSceneGraph [
 	self assert: e skinInstaller isNil.
 	BlSpace new root addChild: e.
 	self assert: e skinInstaller notNil.
-	self assert: (e skinInstaller isKindOf: ToLazySkinInstaller)
+	self assert: (e skinInstaller isKindOf: ToSkinInstaller)
 ]
 
 { #category : 'test initialize' }
@@ -99,4 +99,73 @@ ToElementTest >> testSkinInstallerPhaseChecker [
 			 h class == ToSpaceSkinInstallerPhaseCheckerEventHandler ]).
 	BlSpace new root addChild: e.
 	self assert: e skinInstallerPhaseChecker isNil
+]
+
+{ #category : 'test initialize' }
+ToElementTest >> testWithoutSkin [
+
+	| e |
+	e := ToElement new.
+	e requestSkin.
+	self assert: e skinInstaller notNil.
+	self assert: (e skinInstaller isKindOf: ToSkinInstaller).
+	e withoutSkin.
+	self assert: e defaultSkin isNullSkin.
+	e applySkinInstaller.
+	self assert: e skinInstaller isNil.
+	self assert: e installedSkin  isNullSkin
+]
+
+{ #category : 'test initialize' }
+ToElementTest >> testWithoutSkinContamination [
+
+	" NullSkin is contaminant: check if children are correctly impacted (withoutSkin must be applied recursively)"
+
+	| e child childchild |
+	
+	e := ToElement new.
+	child := ToElement new.
+	childchild := ToElement new.
+	child addChild: childchild.
+	e addChild: child.
+	e requestSkin.
+	e withoutSkin.
+	" withoutSkin must be applied to the element hierarchy "
+	self assert: e defaultSkin isNullSkin.
+	self assert: child defaultSkin isNullSkin.
+	self assert: childchild defaultSkin isNullSkin.
+	e applySkinInstaller.
+	self assert: e skinInstaller isNil.
+	self assert: e installedSkin  isNullSkin.
+	self assert: child skinInstaller isNil.
+	self assert: child installedSkin  isNullSkin.
+	self assert: childchild skinInstaller isNil.
+	self assert: childchild installedSkin  isNullSkin
+]
+
+{ #category : 'test initialize' }
+ToElementTest >> testWithoutSkinContamination2 [
+
+	" check if children are correctly impacted when they are added as child of their parent 
+	(withoutSkin must be applied when a child is added )"
+
+	| e child childchild |
+	e := ToElement new.
+	child := ToElement new.
+	childchild := ToElement new.
+	child addChild: childchild.
+	e requestSkin.
+	e withoutSkin.
+	self assert: e defaultSkin isNullSkin.
+	self assert: child installedSkin isNil.
+	self assert: childchild installedSkin isNil.
+	e applySkinInstaller.
+	self assert: e skinInstaller isNil.
+	self assert: e installedSkin isNullSkin.
+	e addChild: child.
+	e applySkinInstaller.
+	self assert: child skinInstaller isNil.
+	self assert: child installedSkin  isNullSkin.
+	self assert: childchild skinInstaller isNil.
+	self assert: childchild installedSkin  isNullSkin
 ]

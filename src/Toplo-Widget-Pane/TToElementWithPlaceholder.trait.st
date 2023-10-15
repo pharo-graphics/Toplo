@@ -23,7 +23,7 @@ TToElementWithPlaceholder >> placeholder [
 { #category : 't - element with placeholder' }
 TToElementWithPlaceholder >> placeholder: anElement [
 
-	self placeholderLayer: (anElement ifNotNil: [:ph | ph asPlaceholderLayer ])
+	self placeholderLayer: anElement 
 ]
 
 { #category : 't - element with placeholder' }

@@ -61,7 +61,7 @@ ToListInfiniteElement >> defaultFocusBorderColor [
 { #category : 'initialization' }
 ToListInfiniteElement >> defaultListNodeFactory [
 
-	^ ToActionDataToElementConverter new valuable: [ :d :h | self nodeClass new labelText: d; hMatchParent; yourself ]
+	^ [ :node :holder | node addChild: ((ToLabel text: holder data asString) hMatchParent) ]
 ]
 
 { #category : 'initialization' }
@@ -98,5 +98,5 @@ ToListInfiniteElement >> initialize [
 { #category : 'initialization' }
 ToListInfiniteElement >> nodeClass [
 
-	^ ToLabeledNode
+	^ ToNode
 ]

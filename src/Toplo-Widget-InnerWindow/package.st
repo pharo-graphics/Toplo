@@ -1,1 +1,1 @@
-Package { #name : #'Toplo-Widget-InnerWindow' }
+Package { #name : 'Toplo-Widget-InnerWindow' }

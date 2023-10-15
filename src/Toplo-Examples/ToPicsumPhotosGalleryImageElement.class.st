@@ -1,8 +1,6 @@
 Class {
 	#name : 'ToPicsumPhotosGalleryImageElement',
 	#superclass : 'ToElement',
-	#traits : 'TToNode',
-	#classTraits : 'TToNode classTrait',
 	#instVars : [
 		'loader',
 		'imageData',
@@ -17,12 +15,6 @@ ToPicsumPhotosGalleryImageElement >> attached [
 
 	imageData form ifNil: [ ^ self loadImage ].
 	self setBackgroundFromData
-]
-
-{ #category : 'initialization' }
-ToPicsumPhotosGalleryImageElement >> defaultEventHandler [ 
-
-	^ ToNodeEventHandler new
 ]
 
 { #category : 'initialization' }
@@ -66,12 +58,11 @@ ToPicsumPhotosGalleryImageElement >> imageData: anImageData [
 ToPicsumPhotosGalleryImageElement >> initialize [
 
 	super initialize.
-	self initializeListNode.
 	label := ToLabel new
 		         hFitContent;
 		         yourself.
 	label background: Color black.
-	label requestNewSkin: nil.
+	label withoutSkin.
 	self addChild: label.
 	self whenLayoutedDo: [ self loadImage ]
 ]

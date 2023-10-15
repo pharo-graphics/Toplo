@@ -25,7 +25,8 @@ ToNodeHolder >> data [
 ToNodeHolder >> data: aData [ 
 
 	data := aData.
-	self node: (infiniteElement nodeFactory cull: aData cull: self)
+	self node: infiniteElement nodeClass new.
+	infiniteElement nodeFactory value: self node value: self
 ]
 
 { #category : 'event management accessing' }
@@ -89,7 +90,6 @@ ToNodeHolder >> onAttachedFromDatasource: aDataSource [
 { #category : 'accessing' }
 ToNodeHolder >> onDetachedFromDatasource: aDataSource [
 
-	self node withoutSkin.
 	self removeEventHandler: clickHandler.
 	infiniteElement primarySelection removeEventHandler: deselectHandler.
 	infiniteElement primarySelection removeEventHandler: selectHandler.

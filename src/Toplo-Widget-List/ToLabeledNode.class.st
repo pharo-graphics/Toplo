@@ -11,6 +11,12 @@ Class {
 	#tag : 'node'
 }
 
+{ #category : 'testing' }
+ToLabeledNode class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : 'initialization' }
 ToLabeledNode >> initialize [
 

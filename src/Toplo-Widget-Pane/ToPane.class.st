@@ -45,7 +45,7 @@ ToPane >> addDividers [
 			self addDividerBetween: child and: (self children at: idx + 1) ] ]
 ]
 
-{ #category : 't - widget - initialization' }
+{ #category : 'initialization' }
 ToPane >> defaultLayout [
 
 	^ BlLinearLayout new 

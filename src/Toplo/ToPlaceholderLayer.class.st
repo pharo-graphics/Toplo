@@ -6,12 +6,6 @@ Class {
 	#tag : 'Core'
 }
 
-{ #category : 'converting' }
-ToPlaceholderLayer >> asPlaceholderLayer [
-
-	^ self
-]
-
 { #category : 'initialization' }
 ToPlaceholderLayer >> initialize [
 

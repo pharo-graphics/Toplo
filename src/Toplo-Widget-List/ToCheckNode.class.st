@@ -8,6 +8,12 @@ Class {
 	#tag : 'node'
 }
 
+{ #category : 'testing' }
+ToCheckNode class >> isDeprecated [ 
+
+	^ true
+]
+
 { #category : 't - list node - initialization' }
 ToCheckNode >> defaultEventHandler [
 

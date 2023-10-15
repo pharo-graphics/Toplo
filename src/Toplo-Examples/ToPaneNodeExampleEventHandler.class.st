@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToPaneNodeExampleEventHandler',
-	#superclass : 'ToNodeEventHandler',
+	#superclass : 'ToSkinnableEventHandler',
 	#instVars : [
 		'nodeButton',
 		'changeBackground'
@@ -21,7 +21,7 @@ ToPaneNodeExampleEventHandler >> changeBackground: aBoolean [
 	changeBackground := aBoolean
 ]
 
-{ #category : 'events handling' }
+{ #category : 'mouse handlers' }
 ToPaneNodeExampleEventHandler >> mouseEnterEvent: anEvent [
 
 	super mouseEnterEvent: anEvent.
@@ -29,7 +29,7 @@ ToPaneNodeExampleEventHandler >> mouseEnterEvent: anEvent [
 		anEvent currentTarget background: (Color lightGray alpha: 0.2) ].
 	nodeButton := ToButton new labelText: 'Do something'; yourself.
 	nodeButton withStamp: #primary.
-	nodeButton requestRenewSkin.
+	nodeButton requestSkin.
 	nodeButton whenClickedDo: [ self inform: 'CLICK' ].
 	nodeButton constraintsDo: [ :c |
 		c ignoreByLayout.
@@ -38,7 +38,7 @@ ToPaneNodeExampleEventHandler >> mouseEnterEvent: anEvent [
 	nodeButton position: 0 @ -10
 ]
 
-{ #category : 'events handling' }
+{ #category : 'mouse handlers' }
 ToPaneNodeExampleEventHandler >> mouseLeaveEvent: anEvent [
 
 	super mouseLeaveEvent: anEvent.

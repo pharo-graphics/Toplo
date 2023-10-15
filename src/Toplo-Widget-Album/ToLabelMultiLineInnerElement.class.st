@@ -85,8 +85,8 @@ ToLabelMultiLineInnerElement >> newTextElement [
 
 { #category : 'layout' }
 ToLabelMultiLineInnerElement >> requestLayout [ 
-
-	lines do: [:l | l childrenDo: #requestLayout].
+	lines ifNotNil: [ 
+		lines do: [:l | l childrenDo: #requestLayout] ].
 	super requestLayout
 ]
 

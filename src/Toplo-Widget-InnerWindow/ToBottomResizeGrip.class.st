@@ -1,16 +1,17 @@
 Class {
-	#name : #ToBottomResizeGrip,
-	#superclass : #ToBorderResizeGrip,
-	#category : #'Toplo-Widget-InnerWindow'
+	#name : 'ToBottomResizeGrip',
+	#superclass : 'ToBorderResizeGrip',
+	#category : 'Toplo-Widget-InnerWindow',
+	#package : 'Toplo-Widget-InnerWindow'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToBottomResizeGrip >> cursorSelector [
 
 	^ #resizeBottom
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToBottomResizeGrip >> drag: anElement by: deltaFromInitialPosition [
 
 
@@ -22,7 +23,7 @@ ToBottomResizeGrip >> drag: anElement by: deltaFromInitialPosition [
 		@ (initialSize y + deltaFromInitialPosition y)
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToBottomResizeGrip >> layoutIn: anElement [
 
 	self size: anElement width - (thickness * 2) @ thickness.

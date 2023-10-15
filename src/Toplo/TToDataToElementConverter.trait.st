@@ -5,12 +5,6 @@ Trait {
 	#tag : 'Core'
 }
 
-{ #category : 't - data to element converter - converting' }
-TToDataToElementConverter >> asToDataToElementConverter [
-
-	^ self
-]
-
 { #category : 't - data to element converter - evaluating' }
 TToDataToElementConverter >> cull: aData cull: anObject [
 

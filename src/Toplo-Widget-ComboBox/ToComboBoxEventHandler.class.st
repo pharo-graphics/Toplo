@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToComboBoxEventHandler',
-	#superclass : 'ToForwardedEventHandler',
+	#superclass : 'BlCustomEventHandler',
 	#category : 'Toplo-Widget-ComboBox',
 	#package : 'Toplo-Widget-ComboBox'
 }

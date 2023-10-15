@@ -131,11 +131,11 @@ ToMiniBrowser >> initialize [
 
 	packages := ToListElement new 
 		id: #packages;
-		nodeFactory: [ :pkg | 
-			ToLabeledNode new
-				labelText: pkg name;
+		nodeFactory: [ :node :holder | 
+			node addChild: (ToLabel new
+				text: holder data name;
 			 	hMatchParent;
-				yourself].
+				yourself)].
 
 	packages infinite when: ToListStrongSelectionEvent do: [ :event | event traceCr ].
 
@@ -153,7 +153,8 @@ ToMiniBrowser >> initialize [
 
 	classes := ToListElement new 
 		id: #classes; 
-		nodeFactory: ToClassToNodeConverterExample new.
+		nodeFactory:  [  :node :holder | 
+			node addChild: (ToClassNameViewExample new class: holder data position: holder position; yourself) ].
 
 	classes infinite
 		when: ToInfiniteSelectionChangedEvent
@@ -177,10 +178,11 @@ ToMiniBrowser >> initialize [
 	sideToggle when: ToCheckableCheckedEvent do: [ :event |
 		classes infinite dispatchSelectionChangedAfter: [ classSide := event current. classes deselectAll. ] ].
 
-	protocols := ToListElement new id: #protocols; nodeFactory: [ :assoc |
-		             ToLabeledNode new
-			             labelText: assoc value name;
-			             hMatchParent ].
+	protocols := ToListElement new id: #protocols; nodeFactory: [  :node :holder | 
+			node addChild: (
+		             ToLabel new
+			             text: holder data value name;
+			             hMatchParent) ].
 	protocols margin: (BlInsets all: 2).
 
 	protocols infinite
@@ -188,10 +190,11 @@ ToMiniBrowser >> initialize [
 		do: [ :event | self protocolSelectionChangedEvent: event ].
 	protocols data whenRemoveChangeDo: [ selectors data removeAll ].
 
-	selectors := ToListElement new id: #selectors; nodeFactory: [ :assoc |
-		             ToLabeledNode new
-			             labelText: assoc value asString;
-			             hMatchParent ].
+	selectors := ToListElement new id: #selectors; nodeFactory: [:node :holder | 
+			node addChild: (
+		             ToLabel new
+			             text: holder data value asString;
+			             hMatchParent) ].
 	
 	selectors margin: (BlInsets all: 2).
 	selectors

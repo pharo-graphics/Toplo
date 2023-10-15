@@ -9,5 +9,5 @@ Class {
 { #category : 'sending' }
 ToDataEmptinessChangeEvent >> sendTo: anObject [
 
-	anObject listDataEmptinessChangeEvent: self
+	anObject dataEmptinessChangeEvent: self
 ]

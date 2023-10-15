@@ -29,21 +29,21 @@ ToBeeStyleSheetTest >> testDefaultButtonSkin [
 	self assert: writers notEmpty.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	button requestNewSkin: nil.
-	self assert: button privateSkin isNil.
-	button requestNewSkin: skin.
+	button requestSkin: nil.
+	self assert: button installedSkin isNil.
+	button requestSkin: skin.
 	button applySkinInstaller.
 	self assert: button border width equals: 1.
 	self assert: button border paint isColorPaint.
 	self assert: button border paint color equals: (button stampValue: #'color-border').
 	
 	button labelText: 'Default'.
-	button label privateSkin: nil.
+	button label installedSkin: nil.
 	
 	labelSkin := ToStyleSheetSkin new.
 	writers := button label skinBuilder writersFor: button label.
 	labelSkin writers: writers.
-	button label requestNewSkin: labelSkin.
+	button label requestSkin: labelSkin.
 	button applySkinInstaller.
 	
 	

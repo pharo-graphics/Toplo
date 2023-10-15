@@ -4,7 +4,7 @@ Extension { #name : 'BlSpace' }
 BlSpace >> applySkinInstaller [
 
 	self rootSkinInstalled ifFalse: [
-		self root requestNewSkin: self root defaultSkin ].
+		self root requestSkin: self root defaultSkin ].
 	self root applySkinInstaller
 ]
 
@@ -25,7 +25,7 @@ BlSpace >> isSkinInstallerPhaseInstalled [
 { #category : '*Toplo' }
 BlSpace >> rootSkinInstalled [
 
-	^ self root privateSkin notNil
+	^ self root installedSkin notNil
 
 ]
 

@@ -16,14 +16,6 @@ BlElement >> applySkinInstaller [
 ]
 
 { #category : '*Toplo' }
-BlElement >> asPlaceholderLayer [
-
-	^ ToPlaceholderLayer new
-		  in: [ :placeholder | placeholder addChild: self ];
-		  yourself
-]
-
-{ #category : '*Toplo' }
 BlElement >> borderBuilder [
 
 	^ self userData at: #borderBuilder ifAbsentPut: [ BlBorderBuilder new ]
@@ -126,14 +118,20 @@ BlElement >> holder [
 ]
 
 { #category : '*Toplo' }
-BlElement >> installDefaultSkinRecursively [
-
-	self childrenDo: [ :child | child installDefaultSkinRecursively ].
-	self requestDefaultSkin
+BlElement >> installRawStyle [
 ]
 
 { #category : '*Toplo' }
-BlElement >> installRawStyle [
+BlElement >> installedSkin [
+
+	^ self userData at: #installedSkin ifAbsent: [  ]
+]
+
+{ #category : '*Toplo' }
+BlElement >> installedSkin: aSkin [
+
+	self installedSkin = aSkin ifTrue: [ ^ self ].
+	self userData at: #installedSkin put: aSkin
 ]
 
 { #category : '*Toplo' }
@@ -146,6 +144,12 @@ BlElement >> isDisabled [
 BlElement >> isEnabled [
 
 	^ self userData at: #enabled ifAbsentPut: [ true ]
+]
+
+{ #category : '*Toplo' }
+BlElement >> isWithoutSkin [
+
+	^ self defaultSkin ifNil: [ ^ false ] ifNotNil: [ :s | s isNullSkin ]
 ]
 
 { #category : '*Toplo' }
@@ -200,19 +204,6 @@ BlElement >> openInInnerWindow [
 	frame := ToInnerWindow new.
 	frame pane addChild: self.
 	frame openInSpace
-]
-
-{ #category : '*Toplo' }
-BlElement >> privateSkin [
-
-	^ self userData at: #privateSkin ifAbsent: [  ]
-]
-
-{ #category : '*Toplo' }
-BlElement >> privateSkin: aSkin [
-
-	self privateSkin = aSkin ifTrue: [ ^ self ].
-	self userData at: #privateSkin put: aSkin
 ]
 
 { #category : '*Toplo' }
@@ -274,24 +265,24 @@ BlElement >> removeStyleStampNamed: aSymbol ifAbsent: anAbsentBlock [
 ]
 
 { #category : '*Toplo' }
-BlElement >> requestDefaultSkin [
+BlElement >> requestSkin [
 
-	self skinInstaller: ToLazySkinInstaller new
+	self skinInstaller: ToSkinInstaller new
 ]
 
 { #category : '*Toplo' }
-BlElement >> requestNewSkin: aSkin [
+BlElement >> requestSkin: aSkin [
 
-	
-	aSkin ifNotNil: [ :s |
-		self skinInstaller: (ToExplicitSkinInstaller new skin: s) ]
+	" force the default skin. If aSkin is nil, then it means to comme back to default case "
+	self defaultSkin: aSkin.
+	self requestSkin.
 ]
 
 { #category : '*Toplo' }
-BlElement >> requestRenewSkin [
+BlElement >> requestSkinRecursively [
 
-	self privateSkin ifNotNil: [ :s |
-		self skinInstaller: (ToExplicitSkinInstaller new skin: s) ]
+	self childrenDo: [ :child | child requestSkinRecursively ].
+	self requestSkin
 ]
 
 { #category : '*Toplo' }
@@ -303,8 +294,8 @@ BlElement >> skinBuilder [
 { #category : '*Toplo' }
 BlElement >> skinDo: aBlock [
 
-	self privateSkin ifNil: [ ^ self ].
-	aBlock value: self privateSkin
+	self installedSkin ifNil: [ ^ self ].
+	aBlock value: self installedSkin
 ]
 
 { #category : '*Toplo' }
@@ -435,9 +426,10 @@ BlElement >> withoutAllStamps [
 { #category : '*Toplo' }
 BlElement >> withoutSkin [
 
-	self privateSkin ifNotNil: [ :s |
-		self removeEventHandler: s.
-		self privateSkin: nil ]
+	self childrenDo: [ :child | child withoutSkin ].
+	self installedSkin ifNotNil: [ :s | self removeEventHandler: s ].
+	self defaultSkin: ToNullSkin new.
+	self requestSkin
 ]
 
 { #category : '*Toplo' }

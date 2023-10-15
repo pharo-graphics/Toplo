@@ -265,13 +265,15 @@ ToInfiniteElement >> nodeClass [
 { #category : 'accessing' }
 ToInfiniteElement >> nodeFactory [
 
+	"aValuable takes 2 args: first, the ToNode to build and second, the data"
 	^ nodeFactory 
 ]
 
 { #category : 'accessing' }
-ToInfiniteElement >> nodeFactory: aNodeFactory [
+ToInfiniteElement >> nodeFactory: aValuable [
 
-	nodeFactory := aNodeFactory asToDataToElementConverter
+	"aValuable takes 2 args: first, the ToNode to build and second, the data "
+	nodeFactory := aValuable
 ]
 
 { #category : 'private - commands' }

@@ -21,7 +21,6 @@ ToLabeledIcon >> beIconFirst [
 
 	self isIconFirst ifTrue: [ ^ self ].
 	self leftToRight: true.
-	self requestRenewSkin.
 	self requestLayout
 ]
 
@@ -30,8 +29,13 @@ ToLabeledIcon >> beLabelFirst [
 
 	self isLabelFirst ifTrue: [ ^ self ].
 	self leftToRight: false.
-	self requestRenewSkin.
 	self requestLayout
+]
+
+{ #category : 'accessing' }
+ToLabeledIcon >> defaultEventHandler [
+
+	^ ToLabeledIconEventHandler new
 ]
 
 { #category : 'initialization' }
@@ -45,6 +49,37 @@ ToLabeledIcon >> defaultLayout [
 ToLabeledIcon >> filler [
 
 	^ filler
+]
+
+{ #category : 'configurating' }
+ToLabeledIcon >> flexible [
+
+	^ self filler constraints horizontal resizer isMatchParent
+]
+
+{ #category : 'configurating' }
+ToLabeledIcon >> flexible: aBoolean [
+
+	self isFlexible = aBoolean ifTrue: [ ^ self ].
+	aBoolean
+		ifTrue: [
+			self withStamp: #flexible -> true.
+			self filler matchParent ]
+		ifFalse: [
+			self withStamp: #flexible -> false.
+			self filler fitContent ]
+]
+
+{ #category : 'testing' }
+ToLabeledIcon >> hasIcon [
+
+	^ self icon notNil
+]
+
+{ #category : 'testing' }
+ToLabeledIcon >> hasLabel [
+
+	^ self label notNil
 ]
 
 { #category : 'accessing' }
@@ -78,6 +113,30 @@ ToLabeledIcon >> iconHolder [
 ]
 
 { #category : 'accessing' }
+ToLabeledIcon >> iconHolderHeight [
+
+	^ self iconHolder requestedHeight
+]
+
+{ #category : 'accessing' }
+ToLabeledIcon >> iconHolderHeight: anInteger [
+
+	self iconHolder height: anInteger
+]
+
+{ #category : 'accessing' }
+ToLabeledIcon >> iconHolderWidth [
+
+	^ self iconHolder requestedWidth
+]
+
+{ #category : 'accessing' }
+ToLabeledIcon >> iconHolderWidth: anInteger [
+
+	self iconHolder width: anInteger
+]
+
+{ #category : 'accessing' }
 ToLabeledIcon >> iconImage [
 
 	^ self icon innerImage
@@ -96,22 +155,24 @@ ToLabeledIcon >> initialize [
 	super initialize.
 	filler := ToElement new
 		          size: 0 @ 0;
+		          id: #filler;
+		          layout: BlFrameLayout new;
+		          fitContent;
 		          yourself.
 	iconHolder := ToElement new
 		              fitContent;
 		              layout: BlFrameLayout new;
 		              yourself.
 	labelHolder := ToElement new
-		              fitContent;
-		              layout: BlFrameLayout new;
-		              yourself.
+		               fitContent;
+		               layout: BlFrameLayout new;
+		               yourself.
 	self addChild: iconHolder.
 	self addChild: filler.
 	self addChild: labelHolder.
-	labelOffset := 0.
 	self beIconFirst.
 	self fitContent.
-
+	self addEventHandler: self defaultEventHandler
 ]
 
 { #category : 'skin' }
@@ -121,36 +182,31 @@ ToLabeledIcon >> installRawStyle [
 	self childrenDo: [ :child |
 		child constraintsDo: [ :c |
 			c linear vertical alignCenter.
-			c linear horizontal alignCenter ] ].
-	(self label notNil and: [ self icon notNil ]) ifTrue: [
-		(self isExact and: [ self filler requestedWidth isZero ])
-			ifTrue: [ self filler width: 10 ] ]
+			c linear horizontal alignCenter ] ]
 ]
 
-{ #category : 'configurating' }
-ToLabeledIcon >> interspace: aPointOrSymbol [
+{ #category : 'accessing' }
+ToLabeledIcon >> interspace [
 
-	aPointOrSymbol = #'flexible'
-		ifTrue: [
-			self withoutStamp: #'exact-interspace'.
-			self withStamp: #'flexible'.
-			self filler matchParent ]
-		ifFalse: [
-			self withStamp: #'exact-interspace'.
-			self withoutStamp: #'flexible'.
-			self filler size: aPointOrSymbol asPoint ]
+	| fc |
+	fc := self filler constraints.
+	^ fc minWidth @ fc minHeight
 ]
 
-{ #category : 'testing' }
-ToLabeledIcon >> isExact [
+{ #category : 'accessing' }
+ToLabeledIcon >> interspace: aPoint [
 
-	^ self filler constraints horizontal resizer isExact
+	| size |
+	size := aPoint asPoint.
+	self filler constraints
+		minWidth: size x;
+		minHeight: size y
 ]
 
 { #category : 'testing' }
 ToLabeledIcon >> isFlexible [
 
-	^ self isExact not
+	^ self flexible
 ]
 
 { #category : 'testing' }
@@ -185,7 +241,6 @@ ToLabeledIcon >> label: anElement [
 { #category : 'configurating' }
 ToLabeledIcon >> labelFirst: aBoolean [
 
-	labelOffset isZero ifFalse: [ 	Error signal: 'Configurated with a label offset which is incompatible with label first configuration' ].
 	self iconFirst: aBoolean not
 ]
 
@@ -196,36 +251,9 @@ ToLabeledIcon >> labelHolder [
 ]
 
 { #category : 'accessing' }
-ToLabeledIcon >> labelOffset [
-
-	^ labelOffset
-]
-
-{ #category : 'accessing' }
-ToLabeledIcon >> labelOffset: anInteger [
-
-	self isIconFirst ifFalse: [
-		Error signal:
-			'Not configurated with icon first: label offset can''t be set ' ].
-	labelOffset := anInteger.
-	self labelOffsetChanged
-]
-
-{ #category : 'configurating' }
-ToLabeledIcon >> labelOffsetChanged [
-
-	| gap |
-	self labelOffset < self iconHolder width ifTrue: [
-		self iconHolder fitContent.
-		^ self ].
-	gap := self labelOffset - self iconHolder requestedWidth.
-	self iconHolder width: self iconHolder requestedWidth + gap
-]
-
-{ #category : 'accessing' }
 ToLabeledIcon >> labelText: aText [
 
-	self label: (ToLabel text: aText)
+	self label: (ToLabel text: aText asRopedText)
 ]
 
 { #category : 't - orientable - accessing' }

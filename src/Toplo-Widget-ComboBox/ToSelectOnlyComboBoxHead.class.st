@@ -86,15 +86,15 @@ ToSelectOnlyComboBoxHead >> dataElementFactory [
 
 { #category : 'accessing' }
 ToSelectOnlyComboBoxHead >> dataElementFactory: aValuable [
-	" is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
+	" aValuable takes 2 args : the node to builder and second its holder (to get the associated data) "
 
-	dataElementFactory := aValuable asToDataToElementConverter
+	dataElementFactory := aValuable 
 ]
 
 { #category : 'initialization' }
 ToSelectOnlyComboBoxHead >> defaultDataElementFactory [
 
-	^ ToActionDataToElementConverter new valuable: [ :d | ToLabel text: d asString] 
+	^  [ :node :holder | node addChild: (ToLabel text: holder data asString) ] 
 ]
 
 { #category : 'initialization' }

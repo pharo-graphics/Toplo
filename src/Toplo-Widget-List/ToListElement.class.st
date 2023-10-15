@@ -63,6 +63,23 @@ ToListElement >> dataFilter: aDataFilter [
 	dataFilter ifNotNil: [ dataFilter onInstalledIn: self ]
 ]
 
+{ #category : 'initialization' }
+ToListElement >> dataSharedEvents [
+
+	^ {
+		  ToCollectionAddEvent.
+		  ToCollectionRemoveEvent.
+		  ToCollectionUpdateEvent }
+]
+
+{ #category : 'initialization' }
+ToListElement >> dataSourceSharedEvents [
+
+	^ {
+		  ToDataEmptinessChangeEvent.
+		  ToDataFilterRequest }
+]
+
 { #category : 'accessing' }
 ToListElement >> decorations [ 
 
@@ -108,30 +125,52 @@ ToListElement >> focusEvent: anEvent [
 ]
 
 { #category : 'initialization' }
-ToListElement >> initialize [ 
+ToListElement >> infiniteElementSharedEvents [
 
-	
-	| localHandler |
+	^ {
+		  ToListStrongSelectionEvent.
+		  BlElementScrolledEvent.
+		  BlElementExtentChangedEvent.
+		  ToInfiniteSelectionChangedEvent.
+		  BlBlurEvent.
+		  BlFocusEvent.
+		  ToContextMenuBeforeBuildingEvent.
+		  ToContextMenuClosedEvent }
+]
+
+{ #category : 'initialization' }
+ToListElement >> initialize [
+
+	| sharedDistributor |
 	super initialize.
-	decorations := #().
-	
-	localHandler := self defaultEventHandler.
-	self addEventHandler: localHandler.
+	decorations := #(  ).
 
 	self layout: self defaultLayout.
 	self next: ToListInfiniteElement new.
-	self next addEventHandler: (BlEventForwarder forwardTo: localHandler from: self).
-	self dataSource addEventHandler: (BlEventForwarder forwardTo: localHandler from: self).
-	self data addEventHandler: (BlEventForwarder forwardTo: localHandler from: self).
-	
+
+	self addEventHandler: self defaultEventHandler.
+
+	"Also installs shared event distributors between the list element, 
+	the infinite, the data and the data source. 
+	This gives the possibility to directly add event handlers on shared events :
+		self when: ToInfiniteSelectionChangedEvent do: [ bla bla ] 
+		instead of 
+		self infinite when: ToInfiniteSelectionChangedEvent do: [ bla bla ] "
+	sharedDistributor := BlSharedEventDistributor new
+		                     shareEvents: self sharedEvents
+		                     yourself.
+	self addEventHandler: sharedDistributor.
+	self data addEventHandler: sharedDistributor.
+	self dataSource addEventHandler: sharedDistributor.
+	self infinite addEventHandler: sharedDistributor.
+
 	self addChild: self next.
-	self next elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
+	self infinite elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
 
 	self matchParent.
 	self background: self defaultBackground.
 	self margin: self defaultMargin.
-	self padding: self defaultPadding.
-
+	self padding: self defaultPadding
 ]
 
 { #category : 'private - selection decoration managing' }
@@ -161,6 +200,12 @@ ToListElement >> secondarySelectionOverPrimary [
 ToListElement >> selectionIncludesNode: aNode [
 
 	^ aNode holder isSelected
+]
+
+{ #category : 'initialization' }
+ToListElement >> sharedEvents [
+
+	^ self dataSourceSharedEvents , self dataSharedEvents , self infiniteElementSharedEvents
 ]
 
 { #category : 'private - selection decoration managing' }

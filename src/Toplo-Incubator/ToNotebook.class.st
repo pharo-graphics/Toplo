@@ -128,8 +128,9 @@ ToNotebook >> refreshOnPageIsCloseableChange: aPage [
 	aPage isCloseable
 		ifTrue: [
 			| but |
-			but := ToButton new requestNewSkin: nil.
+			but := ToButton new defaultSkin: nil.
 			but icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #windowClose)).
+			but constraintsDo: [ :c | c linear vertical alignCenter].
 			but whenClickedDo: [ :evt | 
 				evt consumed: true.
 				self removePage: aPage ].

@@ -1,16 +1,17 @@
 Class {
-	#name : #ToLeftResizeGrip,
-	#superclass : #ToBorderResizeGrip,
-	#category : #'Toplo-Widget-InnerWindow'
+	#name : 'ToLeftResizeGrip',
+	#superclass : 'ToBorderResizeGrip',
+	#category : 'Toplo-Widget-InnerWindow',
+	#package : 'Toplo-Widget-InnerWindow'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToLeftResizeGrip >> cursorSelector [
 
 	^ #resizeLeft
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToLeftResizeGrip >> drag: anElement by: deltaFromInitialPosition [
 
 	anElement position:
@@ -21,7 +22,7 @@ ToLeftResizeGrip >> drag: anElement by: deltaFromInitialPosition [
 		@ initialSize y
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToLeftResizeGrip >> layoutIn: anElement [
 
 	self size: thickness @ (anElement height - (thickness * 2)).

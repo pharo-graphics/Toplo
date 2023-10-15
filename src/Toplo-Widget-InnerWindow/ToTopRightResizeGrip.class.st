@@ -1,16 +1,17 @@
 Class {
-	#name : #ToTopRightResizeGrip,
-	#superclass : #ToCornerResizeGrip,
-	#category : #'Toplo-Widget-InnerWindow'
+	#name : 'ToTopRightResizeGrip',
+	#superclass : 'ToCornerResizeGrip',
+	#category : 'Toplo-Widget-InnerWindow',
+	#package : 'Toplo-Widget-InnerWindow'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToTopRightResizeGrip >> cursorSelector [
 
 	^ #resizeTopRight
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToTopRightResizeGrip >> drag: anElement by: deltaFromInitialPosition [
 
 	anElement position:
@@ -21,7 +22,7 @@ ToTopRightResizeGrip >> drag: anElement by: deltaFromInitialPosition [
 		@ (initialSize y - deltaFromInitialPosition y)
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToTopRightResizeGrip >> layoutIn: anElement [
 
 	super layoutIn: anElement.

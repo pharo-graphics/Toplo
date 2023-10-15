@@ -127,7 +127,7 @@ ToSandBox class >> example_CheckboxFlexible [
 	| chb |
 	ToTheme cleanUp.
 	chb := ToCheckbox new
-		       interspace: #flexible;
+		       flexible: true;
 		       hMatchParent;
 		       labelText: 'Checkbox' asString.
 	"chb inspect."
@@ -143,7 +143,7 @@ ToSandBox class >> example_CheckboxFlexibleWithGroup [
 	1 to: 4 do: [ :idx |
 		| chb |
 		chb := ToCheckbox new
-			       interspace: #flexible;
+			       flexible: true;
 			       hMatchParent;
 			       beLabelFirst;
 			       labelText: idx asString;
@@ -384,10 +384,10 @@ ToSandBox class >> example_ComboBoxWithAllClasses [
 	| win combo |
 	win := ToInnerWindow new title: 'Pharo classes'.
 	combo := ToComboBox new.
-	combo nodeFactory: [ :cls |
-		ToLabeledNode new
-			label: (ToLabel new text: cls name; yourself);
-			hMatchParent ].
+	combo nodeFactory: [ :node :holder |
+		node addChild: (ToLabel new
+				 text: holder data name;
+				 hMatchParent) ].
 	combo data addAll: Smalltalk globals allClasses.
 	combo listElementSize: 200 @ 500.
 	win root addChild: combo.
@@ -502,23 +502,23 @@ ToSandBox class >> example_EditableComboBoxWithStatesOfAmerica [
 ToSandBox class >> example_EditableListWithAllClassesNames [
 
 	| l vscrollBar space |
-	l := ToListElement new nodeFactory: [ :assoc :holder |
+	l := ToListElement new nodeFactory: [ :node :holder |
 		     | lab |
 		     lab := ToLabel new
-			            text: assoc value;
+			            text: holder data value;
 			            beEditable;
 			            margin: (BlInsets all: 1);
 			            padding: (BlInsets all: 1);
 			            yourself.
 		     lab whenTextReplacedDo: [
-			     holder infiniteElement data
-				     at: holder position
-				     put: assoc key -> lab text asString ].
-		     ToLabeledNode new
+			     node holder infiniteElement data
+				     at: node holder position
+				     put: holder data key -> lab text asString ].
+		     node addChild: (ToLabeledIcon new
 			     label: lab;
-			     icon: (ToImage inner: assoc key);
+			     icon: (ToImage inner: holder data key);
 			     interspace: 20;
-			     hMatchParent ].
+			     hMatchParent) ].
 	l data addAll: (Smalltalk globals allClasses collect: [ :cls |
 			 | icon isel |
 			 isel := cls hasComment
@@ -593,9 +593,10 @@ ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
 		        beVertical;
 		        matchParent.
 	filter := ToTextField new.
-	l := ToListElement new nodeFactory: ToClassToNodeConverterExample new.
-	l data addAll:
-		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
+	l := ToListElement new nodeFactory: [  :node :holder | 
+		node padding: BlInsets empty.
+			node addChild: (ToClassNameViewExample new class: holder data position: holder position; yourself) ].
+	l data addAll: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
 	l margin: (BlInsets all: 2).
 	filter margin: (BlInsets all: 2).
 	pane addChild: l.
@@ -661,7 +662,8 @@ ToSandBox class >> example_LabeledIconlWithIconAndText [
 
 	| but  |
 	but := self labeledIconlWithIconAndText.
-	but matchParent.
+	but hMatchParent.
+	but inspect.
 	but openInSpace.
 	^ but
 ]
@@ -671,7 +673,7 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_flexible [
 
 	| but  |
 	but := self example_LabeledIconlWithIconAndText.
-	but interspace: #flexible.
+	but flexible: true.
 	but border: Color red.
 	but vFitContent.
 	but hMatchParent.
@@ -687,7 +689,7 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_flexible_inFitContent [
 	container vFitContent.
 	container layout: BlLinearLayout vertical.
 	but := self labeledIconlWithIconAndText.
-	but interspace: #flexible.
+	but flexible: true.
 	but border: Color red.
 	but vFitContent.
 	but hMatchParent.
@@ -702,7 +704,6 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_interspace [
 	| but  |
 	but := self example_LabeledIconlWithIconAndText.
 	but border: Color black.
-	but layout cellSpacing: 20.
 	but interspace: 100 asPoint.
 	^ but
 ]
@@ -721,7 +722,7 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst_flexible [
 
 	| but  |
 	but := self example_LabeledIconlWithIconAndText_labelFirst.
-	but interspace: #'flexible'.
+	but flexible: true.
 	but matchParent.
 	^ but
 ]
@@ -740,7 +741,7 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst_vertical_flexi
 
 	| but  |
 	but := self example_LabeledIconlWithIconAndText_labelFirst_vertical.
-	but interspace: #flexible.
+	but flexible: true.
 	but matchParent.
 	^ but
 ]
@@ -823,11 +824,11 @@ ToSandBox class >> example_ListAutocompleteWithSaveInListComboBoxEmpty [
 ToSandBox class >> example_ListOneClass [
 
 	| l |
-	l := ToListElement new nodeFactory: [ :cls |
-		     ToCheckNode new
-			     labelText: cls name;
-			     interspace: 10;
-			     hMatchParent ].
+	l := ToListElement new nodeFactory: [ :node :holder |
+		     node addChild: (ToCheckbox new
+				      labelText: holder data name;
+				      interspace: 10;
+				      hMatchParent) ].
 	l data addAll: { Smalltalk globals allClasses first }.
 	l openInSpace
 ]
@@ -856,20 +857,20 @@ ToSandBox class >> example_ListWithAllClasses3 [
 
 	| l |
 	l := ToListElement new 
-			nodeFactory: [ :cls :holder |
+			nodeFactory: [ :node :holder |
 		     | icn lab |
-		     icn := cls hasComment
+		     icn := holder data hasComment
 			            ifTrue: [ #class ]
 			            ifFalse: [ #uncommentedClass ].
 		     lab := ToLabel new
-			            text: cls name;
+			            text: holder data name;
 			            beEditable;
 			            yourself.
-		     ToLabeledNode new
+		     node addChild: (ToLabeledIcon new
 			     label: lab;
 			     icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
 			     interspace: 10;
-			     hMatchParent ].
+			     hMatchParent) ].
 	l when: ToInfiniteSelectionChangedEvent do: [ :evt | evt traceCr ].
 	l data addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
@@ -883,11 +884,11 @@ ToSandBox class >> example_ListWithAllClasses4 [
 	| l |
 	l := ToListElement new
 		     beWithoutSelection;
-		     nodeFactory: [ :cls |
-			     ToCheckNode new
-				     labelText: cls name;
-				     interspace: 10;
-				     hMatchParent ].
+		     nodeFactory: [ :node :holder |
+			     node addChild: (ToCheckbox new
+						      labelText: holder data name;
+						      interspace: 10;
+						      hMatchParent) ].
 	l data addAll: Smalltalk globals allClasses.
 	l openInSpace
 ]
@@ -896,7 +897,8 @@ ToSandBox class >> example_ListWithAllClasses4 [
 ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 
 	| l |
-	l := ToListElement new nodeFactory: ToClassToNodeConverterExample new.
+	l := ToListElement new nodeFactory: [  :node :holder | 
+			node addChild: (ToClassNameViewExample new class: holder data position: holder position; yourself) ].
 	l data addAll: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
 	l openInSpace
 ]
@@ -905,10 +907,10 @@ ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 ToSandBox class >> example_ListWithAllClassesAsButton [
 
 	| l |
-	l := ToListElement new nodeFactory: [ :cls |
-		     ToButton new
-			     labelText: cls name;
-			     hMatchParent ].
+	l := ToListElement new nodeFactory: [ :node :holder |
+		     node addChild: (ToButton new
+				      labelText: holder data name;
+				      hMatchParent) ].
 	l data addAll: Smalltalk globals allClasses.
 	l openInSpace
 ]
@@ -934,18 +936,18 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		  yourself.
 	phlab layout alignCenter.
 	phlab innerElement layout alignCenter.
-	l placeholder: phlab.
+	l placeholder: ((ToPlaceholderLayer new) addChild: phlab; yourself).
 	l showPlaceholder.
-	l nodeFactory: [ :t :holder |
-		| lab |
+	l nodeFactory: [ :node :holder | 		| lab t |
+		t := holder data.
 		lab := ToLabel text: t.
 		lab beMultiLine.
 		lab beEditable.
 		lab whenTextReplacedDo: [
 			l data at: holder position put: lab text asString ].
-		ToLabeledNode new
+		node addChild: (ToLabeledIcon new
 			label: lab;
-			hMatchParent ].
+			hMatchParent) ].
 	l when: ToListStrongSelectionEvent do: [ :event |
 		| r |
 		r := event indexes collect: [ :idx | idx asString , ':XXXXXX' ].
@@ -970,20 +972,22 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				         selectionMenu := ToMenu new .
 		               selectionMenu label: (ToLabel new text: 'Selection').
 		               selectedIndexes size = 1 ifTrue: [
-			               | node idx |
+			               | node idx label |
+			
 			               idx := selectedIndexes first.
 			               node := l nodeAt: idx.
+								label := node firstChild label.
 			               selectionMenu addItem: (ToMenuItem new
 					                labelText: 'Edit';
 					                whenClickedDo: [ :event  | 
-						                node label addEditorEvent: nil ];
+						                label addEditorEvent: nil ];
 					                yourself).
 			               selectionMenu addItem: (ToMenuItem new
-					                labelText: (node label isMonoLine
+					                labelText: (label isMonoLine
 							                 ifTrue: [ 'Be multiline' ]
 							                 ifFalse: [ 'Be monoline' ]);
 					                whenClickedDo: [ :event  |
-						                node label monoLine: node label isMonoLine not ];
+						                node label monoLine: label isMonoLine not ];
 					                yourself).			               
 								selectionMenu addItem: (ToMenuItem new
 					                labelText: 'Inspect';
@@ -1027,11 +1031,11 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 ToSandBox class >> example_ListWithIndexedColors [
 
 	| l vscrollBar space |
-	l := ToListElement new nodeFactory: [ :color |
-		     ToLabeledNode new
-			     labelText: (color asString asRopedText);
-			     hMatchParent;
-			     background: color ].
+	l := ToListElement new nodeFactory: [ :node :holder |
+		     node addChild: (ToLabel new
+				      text: holder data asString asRopedText;
+				      hMatchParent;
+				      background: holder data) ].
 	l data addAll: Color indexedColors.
 
 	vscrollBar := BlVerticalScrollbarElement new.
@@ -1053,11 +1057,11 @@ ToSandBox class >> example_ListWithPanes [
 	| list |
 	list := ToListElement new
 		        withRowNumbers;
-		        nodeFactory: [ :collectible :holder |
+		        nodeFactory: [ :node :holder |
 			        | title blContent |
 			        title := ToLabel new
 				                 id: #title;
-				                 text: collectible;
+				                 text: holder data;
 				                 margin: (BlInsets all: 1);
 				                 padding: (BlInsets all: 1);
 				                 yourself.
@@ -1073,34 +1077,16 @@ ToSandBox class >> example_ListWithPanes [
 			        blContent padding: (BlInsets all: 12).
 			        blContent geometry: (BlRoundedRectangleGeometry cornerRadius: 6).
 			        blContent border: (BlBorder paint: Color lightGray).
-			        blContent ].
+			        node addChild: (blContent) ].
 	list data addAll: (1 to: 1000).
 	list openInSpace
-]
-
-{ #category : 'list' }
-ToSandBox class >> example_ListWithRowNumbers [
-
-	| l |
-	l := ToListElement new nodeFactory: [ :cls |
-		     ToCheckNode new
-			     labelText: cls name;
-			     interspace: 25;
-			     hMatchParent ].
-	l data addAll: Smalltalk globals allClasses.
-	l withRowNumbers.
-	l openInSpace
 ]
 
 { #category : 'list' }
 ToSandBox class >> example_ListWithSingleSelection [
 
 	| l |
-	l := ToListElement new nodeFactory: [ :cls |
-		     ToCheckNode new
-			     labelText: cls name;
-			     interspace: 25;
-			     hMatchParent ].
+	l := ToListElement new.
 	l data addAll: Smalltalk globals allClasses.
 	l beSingleSelection.
 	l openInSpace
@@ -1110,11 +1096,7 @@ ToSandBox class >> example_ListWithSingleSelection [
 ToSandBox class >> example_ListWithoutSelection [
 
 	| l |
-	l := ToListElement new nodeFactory: [ :cls |
-		     ToCheckNode new
-			     labelText: cls name;
-			     interspace: 25;
-			     hMatchParent ].
+	l := ToListElement new.
 	l data addAll: Smalltalk globals allClasses.
 	l beWithoutSelection.
 	l openInSpace
@@ -1133,34 +1115,37 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 	menu addItem: (ToMenuItem new
 			 icon: (ToImage inner: (self iconNamed: #solidMenu));
 			 label: (ToLabel text: 'Open')).
-	menu items last labelOffset: 25.
+	menu items last iconHolderWidth: 40.
+	"menu items last when: BlMouseDownEvent do: [ :event | event currentTarget inspect ]."
 	menu addItem: (ToMenuItem new
 			 icon: (ToImage inner: (self iconNamed: #solidMenu));
 			 label: (ToLabel text: 'Save')).
-	menu items last labelOffset: 25.
+	menu items last iconHolderWidth: 40.
 	saveAs := ToMenu new label: (ToLabel text: 'Save as ...').
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.pdf')).
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.doc')).
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.xml')).
 	menu addItem: saveAs.
-	menu items last labelOffset: 25.
+	"menu items last when: BlMouseDownEvent do: [ :event | event currentTarget inspect ]."
+
+	menu items last iconHolderWidth: 40.
 	saveAs := ToMenu new label: (ToLabel text: 'Save as ...').
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.pdf')).
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.doc')).
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.xml')).
 	menu addItem: saveAs.
-	menu items last labelOffset: 25.
+	menu items last iconHolderWidth: 40.
 	saveAs := ToMenu new label: (ToLabel text: 'Save as ...').
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.pdf')).
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.doc')).
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.xml')).
 	menu addItem: (ToMenu new label: (ToLabel  text: 'Save as again...')).
 	menu items last addItem: saveAs.
-	menu items last labelOffset: 25.
+	menu items last iconHolderWidth: 40.
 	menu addSeparator.
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Close')).
-	menu items last labelOffset: 25.
+	menu items last iconHolderWidth: 40.
 	container pane addChild: menu.
 	"menu window inspect."
 	container openInSpace
@@ -1175,13 +1160,14 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		        matchParent;
 		        yourself.
 	list padding: (BlInsets all: 1).
-	list nodeFactory: [ :anImageData |
-		ToPicsumPhotosGalleryImageElement new
+	list nodeFactory: [ :node :holder | | imageData |
+		imageData := holder data.
+		node addChild: (ToPicsumPhotosGalleryImageElement new
 			hMatchParent;
 			vFitContent;
 			margin: (BlInsets all: 5);
-			imageData: anImageData;
-			yourself ].
+			imageData: imageData;
+			yourself) ].
 
 	[
 	| images |
@@ -1193,8 +1179,8 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	images sort: [ :a :b | a id > b id ].
 	list data addAll: images ] fork.
 
-	list whenChildAttachedDo: [ :event | event element attached ].
-	list whenChildDetachedDo: [ :event | event element detached ].
+	list whenChildAttachedDo: [ :event | event element firstChild attached ].
+	list whenChildDetachedDo: [ :event | event element firstChild detached ].
 
 	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
@@ -1372,22 +1358,22 @@ ToSandBox class >> example_SimpleOpenSaveSaveAsClose [
 	menu addItem: (ToMenuItem new
 			 icon: ((ToImage inner: (self iconNamed: #solidMenu)));
 			 label: (ToLabel text: 'Open')).
-	menu items last labelOffset: 25.
+	menu items last iconHolderWidth: 40.
 	menu addItem: (ToMenuItem new
 			 icon: ((ToImage inner: (self iconNamed: #solidMenu)));
 			 label: (ToLabel text: 'Save');
 			 background: Color random).
-	menu items last labelOffset: 25.
+	menu items last iconHolderWidth: 40.
 	menu addItem: (ToMenuItem new
 			 icon: ((ToImage inner: (self iconNamed: #solidMenu)));
 			 label: (ToLabel text: 'Save as ...');
 			 background: Color random).
-	menu items last labelOffset: 25.
+	menu items last iconHolderWidth: 40.
 	menu addSeparator.
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Close');
 			 background: Color random).
-	menu items last labelOffset: 25.
+	menu items last iconHolderWidth: 40.
 	container pane addChild: menu.
 	
 	container openInSpace
@@ -1801,7 +1787,7 @@ ToSandBox class >> example_ToLabelWithHeadingSkin [
 				        type: typeAssoc value new;
 				        heading: headingAssoc value new;
 				        yourself.
-			lab := ToLabel new requestNewSkin: skin.
+			lab := ToLabel new requestSkin: skin.
 			lab text: typeAssoc key , ' ' , headingAssoc key.
 			listElement data add: lab ] ].
 	space root addChild: listElement.
@@ -1824,6 +1810,16 @@ ToSandBox class >> example_buttonWithIconAndLabel [
 	| but  |
 	but := self example_buttonWithIcon.
 	but label: (ToLabel text: 'Button with label').
+	^ but
+]
+
+{ #category : 'button' }
+ToSandBox class >> example_buttonWithLabel [
+
+	| but  |
+	but := ToButton new.
+	but label: (ToLabel text: 'Button with label').
+	but openInSpace.
 	^ but
 ]
 

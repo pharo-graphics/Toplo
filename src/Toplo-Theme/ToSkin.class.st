@@ -75,6 +75,12 @@ ToSkin >> installLookEvent: anEvent [
 
 ]
 
+{ #category : 'testing' }
+ToSkin >> isNullSkin [
+
+	^ false
+]
+
 { #category : 'event handling' }
 ToSkin >> leavedLookEvent: anEvent [
 
@@ -117,7 +123,7 @@ ToSkin >> skinChangedEvent: anEvent [
 { #category : 'event handling' }
 ToSkin >> themeChangedEvent: anEvent [
 
-	anEvent currentTarget requestRenewSkin 
+	anEvent currentTarget requestSkin 
 ]
 
 { #category : 'event handling' }

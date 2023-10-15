@@ -15,6 +15,12 @@ ToElement >> addSkinInstallerPhaseChecker [
 	self addEventHandler: ToSpaceSkinInstallerPhaseCheckerEventHandler new
 ]
 
+{ #category : 'initialization' }
+ToElement >> defaultLayout [ 
+
+	^ BlFrameLayout new
+]
+
 { #category : 'skin' }
 ToElement >> disabledBackground [
 
@@ -45,14 +51,15 @@ ToElement >> initialize [
 ToElement >> onAddedToParent [
 
 	super onAddedToParent.
-	self enabled: self parent isEnabled
+	self enabled: self parent isEnabled.
+	self parent isWithoutSkin ifTrue: [ self withoutSkin ]
 ]
 
 { #category : 'hooks - children' }
 ToElement >> onAddedToSceneGraph [
 
 	super onAddedToSceneGraph.
-	self requestDefaultSkin
+	self requestSkin
 ]
 
 { #category : 't - element with tooltip - private' }

@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToListElementEventHandler',
-	#superclass : 'ToForwardedEventHandler',
+	#superclass : 'BlCustomEventHandler',
 	#category : 'Toplo-Widget-List-core',
 	#package : 'Toplo-Widget-List',
 	#tag : 'core'
@@ -20,24 +20,6 @@ ToListElementEventHandler >> collectionAddEvent: anEvent [
 ]
 
 { #category : 'infinite element events handling' }
-ToListElementEventHandler >> collectionAddRequest: anEvent [
-
-
-]
-
-{ #category : 'infinite element events handling' }
-ToListElementEventHandler >> collectionFilterEvent: anEvent [
-
-
-]
-
-{ #category : 'infinite element events handling' }
-ToListElementEventHandler >> collectionFilterRequest: anEvent [
-
-
-]
-
-{ #category : 'infinite element events handling' }
 ToListElementEventHandler >> collectionRemoveEvent: anEvent [
 
 	anEvent currentTarget dataFilter ifNil: [ ^ self ].
@@ -45,21 +27,10 @@ ToListElementEventHandler >> collectionRemoveEvent: anEvent [
 ]
 
 { #category : 'infinite element events handling' }
-ToListElementEventHandler >> collectionRemoveRequest: anEvent [
-
-
-]
-
-{ #category : 'infinite element events handling' }
 ToListElementEventHandler >> collectionUpdateEvent: anEvent [
 
 	anEvent currentTarget dataFilter ifNil: [ ^ self ].
 	anEvent currentTarget dataFilter collectionUpdateEvent: anEvent
-]
-
-{ #category : 'infinite element events handling' }
-ToListElementEventHandler >> collectionUpdateRequest: anEvent [
-
 ]
 
 { #category : 'infinite element events handling' }
@@ -74,12 +45,12 @@ ToListElementEventHandler >> contextMenuBeforeBuildingEvent: anEvent [
 	targetChildren ifEmpty: [ ^ self ].
 	childNode := targetChildren last.
 	childNode holder isSelected
-		ifTrue: [ 
-			target secondarySelectionOverPrimary.		
-			target secondarySelection selectIndexes: target primarySelectionIndexes. ]
+		ifTrue: [
+			target secondarySelectionOverPrimary.
+			target secondarySelection selectIndexes: target primarySelectionIndexes ]
 		ifFalse: [
 			target addSecondarySelectionDecorationOnNode: childNode.
-			target secondarySelection selectIndex: childNode holder position]
+			target secondarySelection selectIndex: childNode holder position ]
 ]
 
 { #category : 'infinite element events handling' }
@@ -93,9 +64,12 @@ ToListElementEventHandler >> contextMenuClosedEvent: anEvent [
 ]
 
 { #category : 'infinite element events handling' }
-ToListElementEventHandler >> contextMenuOpenedEvent: anEvent [
+ToListElementEventHandler >> dataEmptinessChangeEvent: anEvent [
 
-	
+	| target |
+	target := anEvent currentTarget.
+	target data ifEmpty: [ ^ target showPlaceholder ].
+	target hidePlaceholder
 ]
 
 { #category : 'infinite element events handling' }
@@ -103,10 +77,6 @@ ToListElementEventHandler >> dataFilterRequest: anEvent [
 
 	anEvent currentTarget dataFilter ifNil: [ ^ self ].
 	anEvent currentTarget dataFilter dataFilterRequest: anEvent
-]
-
-{ #category : 'infinite element events handling' }
-ToListElementEventHandler >> dataFilterResultEvent: anEvent [
 ]
 
 { #category : 'infinite element events handling' }
@@ -124,38 +94,24 @@ ToListElementEventHandler >> elementScrolledEvent: anEvent [
 { #category : 'api - accessing' }
 ToListElementEventHandler >> eventsToHandle [
 
-	^ { 
-		  ToDataFilterRequest.
-		  ToDataFilterResultEvent.
+	^ {
+		  BlElementExtentChangedEvent.
+		  BlElementScrolledEvent.
 
 		  " data (ToObservableCollection) events "
 		  ToCollectionAddEvent.
-		  ToCollectionFilterEvent.
 		  ToCollectionRemoveEvent.
 		  ToCollectionUpdateEvent.
-		  ToCollectionAddRequest.
-		  ToCollectionFilterRequest.
-		  ToCollectionRemoveRequest.
-		  ToCollectionUpdateRequest.
 
 		  " data source events "
-		  BlInfiniteDataSourceChanged.
-		  BlInfiniteDataSourceItemRangeChanged.
-		  BlInfiniteDataSourceItemRangeEvent.
-		  BlInfiniteDataSourceItemRangeRemoved.
-		  BlInfiniteDataSourceItemRangeInserted.
 		  ToDataEmptinessChangeEvent.
-
+		  ToDataFilterRequest.
 
 		  " infinite element events "
-		  ToListStrongSelectionEvent.
-		  BlElementScrolledEvent.
-		  BlElementExtentChangedEvent.
 		  ToInfiniteSelectionChangedEvent.
 		  BlBlurEvent.
 		  BlFocusEvent.
-			ToContextMenuBeforeBuildingEvent.
-		  ToContextMenuOpenedEvent.
+		  ToContextMenuBeforeBuildingEvent.
 		  ToContextMenuClosedEvent }
 ]
 
@@ -169,49 +125,4 @@ ToListElementEventHandler >> focusEvent: anEvent [
 ToListElementEventHandler >> infiniteSelectionChangedEvent: anEvent [
 
 	anEvent currentTarget updatePrimarySelectionDecorations
-]
-
-{ #category : 'infinite element events handling' }
-ToListElementEventHandler >> listDataEmptinessChangeEvent: anEvent [
-
-	| target |
-	target := anEvent currentTarget.
-	target data ifEmpty: [ ^ target showPlaceholder ].
-	target hidePlaceholder
-]
-
-{ #category : 'data source events handling' }
-ToListElementEventHandler >> onChanged: anEvent [
-	" anEvent is a BlInfiniteDataSourceChanged "
-
-]
-
-{ #category : 'data source events handling' }
-ToListElementEventHandler >> onItemsChanged: anEvent [
-	" anEvent is a BlInfiniteDataSourceItemRangeChanged "
-
-]
-
-{ #category : 'data source events handling' }
-ToListElementEventHandler >> onItemsEvent: anEvent [
-	" anEvent is a BlInfiniteDataSourceItemRangeEvent "
-
-]
-
-{ #category : 'data source events handling' }
-ToListElementEventHandler >> onItemsInserted: anEvent [
-
-	" anEvent is a BlInfiniteDataSourceItemRangeInserted "
-
-]
-
-{ #category : 'data source events handling' }
-ToListElementEventHandler >> onItemsRemoved: anEvent [
-	" anEvent is a BlInfiniteDataSourceItemRangeRemoved "
-
-
-]
-
-{ #category : 'infinite element events handling' }
-ToListElementEventHandler >> strongSelectionEvent: anEvent [
 ]

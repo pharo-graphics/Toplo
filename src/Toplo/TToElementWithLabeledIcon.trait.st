@@ -30,6 +30,30 @@ TToElementWithLabeledIcon >> beVertical [
 ]
 
 { #category : 't - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> flexible [
+
+	^ self labeledIcon flexible
+]
+
+{ #category : 't - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> flexible: aBoolean [
+
+	self labeledIcon flexible: aBoolean
+]
+
+{ #category : 't - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> hasIcon [
+
+	^ self labeledIcon hasIcon
+]
+
+{ #category : 't - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> hasLabel [
+
+	self labeledIcon hasLabel
+]
+
+{ #category : 't - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> icon [
 
 	^ self labeledIcon icon
@@ -50,6 +74,18 @@ TToElementWithLabeledIcon >> iconFirst: aBoolean [
 ]
 
 { #category : 't - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> iconHolderHeight: anInteger [
+
+	self labeledIcon iconHolderHeight: anInteger
+]
+
+{ #category : 't - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> iconHolderWidth: anInteger [
+
+	self labeledIcon iconHolderWidth: anInteger
+]
+
+{ #category : 't - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> iconImage [
 
 	^ self labeledIcon iconImage
@@ -62,9 +98,15 @@ TToElementWithLabeledIcon >> iconImage: anElement [
 ]
 
 { #category : 't - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> interspace: aPointOrSymbol [
+TToElementWithLabeledIcon >> interspace [
 
-	self labeledIcon interspace: aPointOrSymbol
+	^ self labeledIcon interspace
+]
+
+{ #category : 't - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> interspace: aPoint [
+
+	self labeledIcon interspace: aPoint
 ]
 
 { #category : 't - element with labeled icon - accessing' }
@@ -128,18 +170,6 @@ TToElementWithLabeledIcon >> labelFirst: aBoolean [
 TToElementWithLabeledIcon >> labelIconfiller [
 
 	^ self labeledIcon filler
-]
-
-{ #category : 't - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> labelOffset [
-
-	^ self labeledIcon labelOffset
-]
-
-{ #category : 't - element with labeled icon - accessing' }
-TToElementWithLabeledIcon >> labelOffset: anInteger [
-
-	self labeledIcon labelOffset: anInteger
 ]
 
 { #category : 't - element with labeled icon - accessing' }

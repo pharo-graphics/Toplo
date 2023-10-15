@@ -48,7 +48,7 @@ ToSkinTest >> testPropertyWriterOrderMatter [
 	
 	" Since checkSkinInstallation will switch to ToInstallState "
 	" the installation will fail because the widget layout (not a BlLinearLayout) does not understand #direction:"
-	w requestNewSkin: skin.
+	w requestSkin: skin.
 	self
 		should: [ w applySkinInstaller ]
 		raise: MessageNotUnderstood.
@@ -98,7 +98,7 @@ ToSkinTest >> testSupplementWriter [
 						 paint: Color black;
 						 dashArray: #( 4 5 );
 						 build ] yourself) }.
-	w requestNewSkin: skin.
+	w requestSkin: skin.
 	w applySkinInstaller.
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color black.
@@ -135,7 +135,7 @@ ToSkinTest >> testWithAnimationOn2EventClasses [
 	
 	 }.
 
-	w requestNewSkin: skin.
+	w requestSkin: skin.
 	w applySkinInstaller.
 	self assert: w background paint color equals: Color white.
 
@@ -154,7 +154,7 @@ ToSkinTest >> testWithNoWriter [
 	| w skin paint |
 	w := ToElement new.
 	skin := ToStyleSheetSkin new.
-	w requestNewSkin: skin.
+	w requestSkin: skin.
 	paint := w background paint.
 	w applySkinInstaller.
 	self assert: w background paint equals: paint
@@ -172,7 +172,7 @@ ToSkinTest >> testWithOneWriter [
 		              value: Color blue;
 		              yourself.
 	skin writers: { propWriter }.
-	w requestNewSkin: skin.
+	w requestSkin: skin.
 	w applySkinInstaller.
 	self assert: w background paint color equals: Color blue
 ]
@@ -194,7 +194,7 @@ ToSkinTest >> testWithTwoWriters [
 				 property: borderProp;
 				 value: Color yellow;
 				 yourself) }.
-	w requestNewSkin: skin.
+	w requestSkin: skin.
 	w applySkinInstaller.
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color yellow
@@ -223,7 +223,7 @@ ToSkinTest >> testWithTwoWritersTwoEventClasses [
 				 property: borderProp;
 				 value: Color red;
 				 yourself) }.
-	w requestNewSkin: skin.
+	w requestSkin: skin.
 	w applySkinInstaller..
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color red

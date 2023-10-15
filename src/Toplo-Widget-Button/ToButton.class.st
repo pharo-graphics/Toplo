@@ -21,14 +21,16 @@ ToButton >> initialize [
 	self fitContent
 ]
 
+{ #category : 'skin' }
+ToButton >> installRawStyle [
+
+	super installRawStyle.
+	(self hasIcon and: [ self hasLabel ]) ifFalse: [ ^ self ].
+	self interspace: 10
+]
+
 { #category : 't - element with labeled icon - accessing' }
 ToButton >> labeledIcon [ 
 
 	^ labeledIcon 
-]
-
-{ #category : 'skin' }
-ToButton >> rawSkin [
-
-	^ ToButtonSkin new
 ]

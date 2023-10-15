@@ -70,7 +70,7 @@ ToNotebookPageTitle >> installRawStyle [
 		c horizontal fitContent.
 		c vertical fitContent.
 		c linear vertical alignBottom ].
-	labelElement margin: (BlInsets horizontal: 20).
+	labelElement margin: (BlInsets horizontal: 10).
 	labelElement constraintsDo: [ :c | c linear vertical alignCenter].
 
 ]

@@ -1,8 +1,6 @@
 Class {
 	#name : 'ToPaneNodeExample',
 	#superclass : 'ToPane',
-	#traits : 'TToNode',
-	#classTraits : 'TToNode classTrait',
 	#category : 'Toplo-Examples',
 	#package : 'Toplo-Examples'
 }
@@ -18,9 +16,7 @@ ToPaneNodeExample >> initialize [
 
 	| p1 p2 p3 |
 	super initialize.
-	self initializeListNode.
-	self beHorizontal.
-	
+	self beHorizontal.	
 	self
 		clipChildren: false;
 		outskirts: BlOutskirts outside;
@@ -33,6 +29,8 @@ ToPaneNodeExample >> initialize [
 	p3 := ToPane vertical background: (Color blue alpha: 0.3); hMatchParent; yourself.
 	self addChildren: { p1. p2. p3 }.
 	self height: 60.
+	self hMatchParent.
+	self addEventHandler: self defaultEventHandler 
 	
 	
 ]

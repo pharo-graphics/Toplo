@@ -49,12 +49,12 @@ ToTextField >> placeholderText: aText [
 	self text size isZero ifTrue: [ self showPlaceholder ]
 ]
 
-{ #category : 't - placeholder show/hide' }
+{ #category : 't - element with placeholder' }
 ToTextField >> showPlaceholder [
 
-	placeholderLayer ifNil: [ ^ self ].
-	placeholderLayer parentDo: [ :p | ^ self ].
-	placeholderLayer padding: (BlInsets left: self textLeft).
+	self placeholderLayer ifNil: [ ^ self ].
+	self placeholderLayer parentDo: [ :p | ^ self ].
+	self placeholderLayer padding: (BlInsets left: self textLeft).
 	super showPlaceholder
 ]
 

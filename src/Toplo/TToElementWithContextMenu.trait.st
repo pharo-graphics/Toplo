@@ -1,8 +1,8 @@
 Trait {
 	#name : 'TToElementWithContextMenu',
-	#category : 'Toplo-Widget-Menu-Basic',
-	#package : 'Toplo-Widget-Menu',
-	#tag : 'Basic'
+	#category : 'Toplo-Core',
+	#package : 'Toplo',
+	#tag : 'Core'
 }
 
 { #category : 't - element with context menu' }

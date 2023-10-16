@@ -85,7 +85,7 @@ BaselineOfToplo >> registerPackages: spec [
 			#( #Toplo #'Toplo-Widget-Album' #'Toplo-Widget-Button'
 			   #'Toplo-Widget-Image' #'Toplo-Widget-List' #'Toplo-Widget-Pane' #'Toplo-Theme') ].
 
-	spec package: #'Toplo-Widget-ComboBox-Test' with: [
+	spec package: #'Toplo-Widget-ComboBox-Tests' with: [
 		spec requires: #( #Toplo #'Toplo-Widget-ComboBox' ) ].
 
 	spec

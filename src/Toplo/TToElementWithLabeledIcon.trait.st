@@ -30,6 +30,12 @@ TToElementWithLabeledIcon >> beVertical [
 ]
 
 { #category : 't - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> filler [ 
+
+	^ self labeledIcon filler
+]
+
+{ #category : 't - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> flexible [
 
 	^ self labeledIcon flexible
@@ -74,9 +80,27 @@ TToElementWithLabeledIcon >> iconFirst: aBoolean [
 ]
 
 { #category : 't - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> iconHolder [
+
+	^ self labeledIcon iconHolder
+]
+
+{ #category : 't - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> iconHolderHeight [
+
+	^ self labeledIcon iconHolderHeight
+]
+
+{ #category : 't - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> iconHolderHeight: anInteger [
 
 	self labeledIcon iconHolderHeight: anInteger
+]
+
+{ #category : 't - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> iconHolderWidth [
+
+	^ self labeledIcon iconHolderWidth
 ]
 
 { #category : 't - element with labeled icon - accessing' }
@@ -164,6 +188,12 @@ TToElementWithLabeledIcon >> label: anElement [
 TToElementWithLabeledIcon >> labelFirst: aBoolean [
 
 	self labeledIcon labelFirst: aBoolean
+]
+
+{ #category : 't - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> labelHolder [
+
+	^ self labeledIcon labelHolder
 ]
 
 { #category : 't - element with labeled icon - accessing' }

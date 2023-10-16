@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToNotebook',
-	#superclass : 'ToElement',
+	#superclass : 'ToPane',
 	#instVars : [
 		'pages',
 		'header',
@@ -66,24 +66,19 @@ ToNotebook >> header [
 ToNotebook >> initialize [
 
 	super initialize.
-
-	header := BlElement new.
+	self beVertical.
+	self matchParent.
+	header := ToPane horizontal.
 	self addChild: header as: #header.
-	pages := OrderedCollection new.
-	self
-		background: self theme notebook backgroundColor;
-		layout: BlLinearLayout vertical;
-		constraintsDo: [ :c |
-			c horizontal matchParent.
-			c vertical matchParent ].
+	pages := OrderedCollection new
+]
 
-	self header
-		layout: (BlLinearLayout horizontal
-				 cellSpacing: 4;
-				 yourself);
-		constraintsDo: [ :c |
-			c horizontal matchParent.
-			c vertical exact: 30 ]
+{ #category : 'skin' }
+ToNotebook >> installRawStyle [ 
+
+	super installRawStyle.
+.
+	self background: self theme notebook backgroundColor
 ]
 
 { #category : 'private' }

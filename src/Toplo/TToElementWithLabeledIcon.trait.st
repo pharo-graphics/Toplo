@@ -50,7 +50,7 @@ TToElementWithLabeledIcon >> hasIcon [
 { #category : 't - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> hasLabel [
 
-	self labeledIcon hasLabel
+	^ self labeledIcon hasLabel
 ]
 
 { #category : 't - element with labeled icon - accessing' }

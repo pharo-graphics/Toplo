@@ -9,7 +9,7 @@ Class {
 { #category : 'initialization' }
 ToOverlayWindowHandler >> defaulSizeHook [
 
-	^ [ :event | element size ]
+	^ [ :event :theElement | theElement size ]
 ]
 
 { #category : 'accessing' }

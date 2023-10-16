@@ -86,7 +86,7 @@ ToElement >> removeSkinInstallerPhaseChecker [
 		self removeEventHandler: checker ]
 ]
 
-{ #category : 't - resizeable' }
+{ #category : 't  - layout resizeable' }
 ToElement >> resizableConstraintsDo: aBlock [
 	"Perform aBlock with my constraints as argument.
 	Note: After evaluation I request a layout update!

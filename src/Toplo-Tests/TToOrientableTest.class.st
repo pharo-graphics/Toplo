@@ -47,7 +47,7 @@ TToOrientableTest >> testBeHorizontal [
 	pane beVertical.
 	ocpt := oriCpt.
 	pane beHorizontal.
-	" orientation chaged -> and event is sent "
+	" orientation changed -> and event is sent "
 	self assert: oriCpt equals: ocpt + 1.
 	self assert: pane isHorizontal.
 	self assert: pane isVertical not.

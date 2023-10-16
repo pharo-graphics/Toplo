@@ -238,7 +238,7 @@ ToAnchoredWindowTest >> testPositionHook2 [
 		assert: win bounds inSpace bounds origin
 		equals: e bounds inSpace bounds origin.
 	self assert: win hasAssociateElement.	
-	windowHandler positionHook: [ :event | e bounds inSpace bounds bottomRight ].
+	windowHandler positionHook: [ :event :theElement | e bounds inSpace bounds bottomRight ].
 	self
 		assert: win bounds inSpace bounds origin
 		equals: e bounds inSpace bounds origin.

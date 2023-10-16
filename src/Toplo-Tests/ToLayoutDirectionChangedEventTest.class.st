@@ -8,3 +8,34 @@ Class {
 	#package : 'Toplo-Tests',
 	#tag : 'Core'
 }
+
+{ #category : 'tests' }
+ToLayoutDirectionChangedEventTest >> test [
+
+	| li cpt bcpt |
+	li := ToLabeledIcon new.
+	li beRightToLeft.
+	cpt := 0.
+	li when: ToLayoutDirectionChangedEvent do: [ cpt := cpt + 1 ].
+	bcpt := cpt.
+	li beLeftToRight.
+	self assert: cpt equals: bcpt + 1.
+	bcpt := cpt.
+	li beRightToLeft.
+	self assert: cpt equals: bcpt + 1.
+	bcpt := cpt.
+	li beLeftToRight.
+	self assert: cpt equals: bcpt + 1.
+	bcpt := cpt.
+	li leftToRight: false.
+	self assert: cpt equals: bcpt + 1.
+	bcpt := cpt.
+	li leftToRight: true.
+	self assert: cpt equals: bcpt + 1.
+	bcpt := cpt.
+	li rightToLeft: true.
+	self assert: cpt equals: bcpt + 1.
+	bcpt := cpt.
+	li rightToLeft: false.
+	self assert: cpt equals: bcpt + 1
+]

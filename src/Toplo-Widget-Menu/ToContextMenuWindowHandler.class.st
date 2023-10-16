@@ -9,7 +9,7 @@ Class {
 { #category : 'initialization' }
 ToContextMenuWindowHandler >> defaulPositionHook [
 
-	^ [ :event | event position ]
+	^ [ :event :theContextMenu | event position ]
 ]
 
 { #category : 'accessing' }

@@ -161,11 +161,11 @@ ToLabel >> initializeEditorFrameBuilder [
 	self isEditable
 		ifTrue: [
 			frameHandler := ToAnchoredWindowHandler new.
-			frameHandler positionHook: [ :event |
-				self innerElement bounds inSpace bounds topLeft
-				"- (event currentTarget editor padding left
-					 @ event currentTarget editor padding top)" ].
-			frameHandler element: self innerElement.
+			frameHandler positionHook: [ :event :theLabel |
+				theLabel innerElement bounds inSpace bounds topLeft
+				- (theLabel editor padding left
+					 @ theLabel editor padding top) ].
+			frameHandler element: self.
 			frameHandler builder: [ :anchWin :label |
 				anchWin root addChild: self newEditor.
 				self editor text: self text copy ] ]

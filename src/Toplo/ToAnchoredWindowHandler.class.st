@@ -19,7 +19,8 @@ Class {
 ToAnchoredWindowHandler >> applyPositionHookFromEvent: anEvent [
 
 	self currentWindow ifNil: [ ^ self ].
-	self currentWindow position: (self positionHook value: anEvent)
+	self currentWindow position:
+		(self positionHook value: anEvent value: self element)
 ]
 
 { #category : 'position hook' }
@@ -27,7 +28,7 @@ ToAnchoredWindowHandler >> applySizeHookFromEvent: anEvent [
 
 	self currentWindow ifNil: [ ^ self ].
 	self sizeHook ifNil: [ ^ self ].
-	self currentWindow size: (self sizeHook value: anEvent)
+	self currentWindow size: (self sizeHook value: anEvent value: self element)
 ]
 
 { #category : 'accessing' }
@@ -64,7 +65,7 @@ ToAnchoredWindowHandler >> currentWindow: aWindowElement [
 { #category : 'initialization' }
 ToAnchoredWindowHandler >> defaulPositionHook [
 
-	^ [ :event | element bounds inSpace bounds topLeft ]
+	^ [ :event :theElement| theElement bounds inSpace bounds topLeft ]
 ]
 
 { #category : 'initialization' }

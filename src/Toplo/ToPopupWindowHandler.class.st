@@ -25,7 +25,7 @@ ToPopupWindowHandler >> autoCloseOnMouseUpDelay: aDelay [
 { #category : 'initialization' }
 ToPopupWindowHandler >> defaulPositionHook [
 
-	^ [ :event |  element bounds inSpace bounds bottomLeft ]
+	^ [ :event :theElement | theElement bounds inSpace bounds bottomLeft ]
 ]
 
 { #category : 'accessing' }

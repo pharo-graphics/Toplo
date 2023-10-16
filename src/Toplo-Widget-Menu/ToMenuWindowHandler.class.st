@@ -9,9 +9,9 @@ Class {
 { #category : 'initialization' }
 ToMenuWindowHandler >> defaulPositionHook [ 
 
-	^ [ :event | element isSubmenu
-		  ifTrue: [ element bounds inSpace bounds topRight ]
-		  ifFalse: [ element bounds inSpace bounds bottomLeft ] ]
+	^ [ :event :theMenu | theMenu isSubmenu
+		  ifTrue: [ theMenu bounds inSpace bounds topRight ]
+		  ifFalse: [ theMenu bounds inSpace bounds bottomLeft ] ]
 ]
 
 { #category : 'accessing' }

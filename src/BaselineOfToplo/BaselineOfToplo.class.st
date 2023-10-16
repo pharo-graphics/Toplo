@@ -54,9 +54,7 @@ BaselineOfToplo >> registerPackages: spec [
 	spec package: #Toplo with: [ spec requires: #( #Bloc ) ].
 	spec package: #'Toplo-Tests' with: [
 		spec requires:
-			#( #Toplo #'Toplo-Widget-Album' #'Toplo-Widget-Button'
-			   #'Toplo-Widget-Select' #'Toplo-Widget-ComboBox'
-			   #'Toplo-Widget-Image' #'Toplo-Widget-List' #'Toplo-Widget-Pane' ) ].
+			#( #Toplo ) ].
 
 	spec
 		package: #'Toplo-Theme'
@@ -114,7 +112,6 @@ BaselineOfToplo >> registerPackages: spec [
 	spec
 		package: #'Toplo-Widget-Pane'
 		with: [ spec requires: #( #Toplo #'Toplo-Theme') ].
-
 
 	"Incubator"
 	spec package: #'Toplo-Incubator' with: [

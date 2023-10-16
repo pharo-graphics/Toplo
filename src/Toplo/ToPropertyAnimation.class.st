@@ -6,9 +6,9 @@ Class {
 		'duration',
 		'finishedHandlers'
 	],
-	#category : 'Toplo-Theme-StyleSheet',
-	#package : 'Toplo-Theme',
-	#tag : 'StyleSheet'
+	#category : 'Toplo-Core-Skin',
+	#package : 'Toplo',
+	#tag : 'Core-Skin'
 }
 
 { #category : 'accessing' }

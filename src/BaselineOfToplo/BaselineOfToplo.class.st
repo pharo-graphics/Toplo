@@ -62,12 +62,6 @@ BaselineOfToplo >> registerPackages: spec [
 	spec
 		package: #'Toplo-Theme-Tests'
 		with: [ spec requires: #( #Toplo #'Toplo-Theme') ].
-	spec
-		package: #'Toplo-Theme-Bee'
-		with: [ spec requires: #( #'Toplo-Theme' ) ].
-	spec
-		package: #'Toplo-Theme-Bee-Tests'
-		with: [ spec requires: #( #Toplo #'Toplo-Theme-Bee') ].
 
 	spec package: #'Toplo-Widget-Album' with: [
 		spec requires:
@@ -135,5 +129,13 @@ BaselineOfToplo >> registerPackages: spec [
 	spec package: #'Toplo-Widget-Select-Tests' with: [
 		spec requires:
 			#( #Toplo #'Toplo-Widget-Select' ) ].
+		
+	spec
+		package: #'Toplo-Theme-Bee'
+		with: [ spec requires: #( #'Toplo-Theme' #'Toplo-Widget-Button'  #'Toplo-Widget-Album'  #'Toplo-Widget-Image'  #'Toplo-Widget-Pane') ].
+
+	spec
+		package: #'Toplo-Theme-Bee-Tests'
+		with: [ spec requires: #( #Toplo #'Toplo-Theme-Bee') ].
 
 ]

@@ -11,9 +11,16 @@ ToTextFieldPlaceholder >> defaultLabel [
 
 	^ ToLabel new
 		  fitContent;
-		  constraintsDo: [ :c | 
-			  c frame vertical alignCenter.
-			  "c frame horizontal alignLeft" ];
 		  beMonoLine;
 		  yourself
+]
+
+{ #category : 'initialization' }
+ToTextFieldPlaceholder >> initialize [
+
+	super initialize.
+	self constraintsDo: [ :c |
+		c frame horizontal alignLeft.
+		c frame vertical alignCenter ].
+
 ]

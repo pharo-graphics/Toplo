@@ -20,7 +20,7 @@ ToNotebook >> addPage: aPage [
 				ifTrue: [ 'isSelected didnt change!' traceCr ]
 				ifFalse: [ self refreshOnPageIsSelectedChange: aPage ] ];
 		whenIsCloseableChangedDo: [ self refreshOnPageIsCloseableChange: aPage ];
-		whenBodyFactoryChangedDo: [ self refreshOnBodyFactoryChange: aPage ].
+		whenBodyBuilderChangedDo: [ self refreshOnBodyBuilderChange: aPage ].
 
 	header addChild: aPage titleElement.
 	
@@ -47,11 +47,11 @@ ToNotebook >> addPageTitle: aTitle body: aBlElement [
 ]
 
 { #category : 'adding' }
-ToNotebook >> addPageTitle: aTitle bodyFactory: aValuable [
+ToNotebook >> addPageTitle: aTitle bodyBuilder: aValuable [
 
 	| aPage |
 	aPage := self newPageTitle: aTitle.
-	aPage bodyFactory: aValuable.
+	aPage bodyBuilder: aValuable.
 	self addPage: aPage.
 	^ aPage
 ]
@@ -113,7 +113,7 @@ ToNotebook >> pages [
 ]
 
 { #category : 'private' }
-ToNotebook >> refreshOnBodyFactoryChange: aPage [
+ToNotebook >> refreshOnBodyBuilderChange: aPage [
 
 	selectedPage = aPage ifFalse: [ ^ self ].
 

@@ -27,8 +27,10 @@ ToMiniBrowser >> candidateProtocolsForClass: aClass [
 
 	| prots |
 	prots := classSide
-		         ifTrue: [ aClass organization allProtocols select: [ :p | aClass isLocalMethodsProtocol: p ] ]
-		         ifFalse: [ aClass organization allProtocols ].
+		         ifTrue: [
+			         aClass organization allProtocols select: [ :p |
+				         aClass isLocalMethodsProtocol: p ] ]
+		         ifFalse: [ aClass allProtocols ].
 	^ prots sort: [ :a :b | a name < b name ]
 ]
 
@@ -93,13 +95,7 @@ ToMiniBrowser >> filteredProtocolsFrom: aListOfProtocols [
 	^ aListOfProtocols collect: [ :assoc | 
 		  | p |
 		  p := assoc value.
-		  p name = AllProtocol defaultName
-			  ifTrue: [ 
-				  | fake |
-				  fake := Protocol new name: p name , ' ' , assoc key name.
-				  fake addAllMethodsFrom: p.
-				  assoc key -> fake ]
-			  ifFalse: [ assoc ] ]
+		   assoc ]
 ]
 
 { #category : 'class selection' }
@@ -107,13 +103,7 @@ ToMiniBrowser >> finalProtocolsFrom: aListOfProtocols forClass: aClass [
 
 	^ Array streamContents: [ :stream | 
 		  aListOfProtocols do: [ :prot | 
-			  prot name = AllProtocol defaultName
-				  ifTrue: [ 
-					  | fake |
-					  fake := Protocol new name: (String streamContents: [ :str | str nextPutAll: AllProtocol defaultName ]).
-					  fake addAllMethodsFrom: prot.
-					  stream nextPut: aClass -> fake ]
-				  ifFalse: [ stream nextPut: aClass -> prot ] ] ]
+			  stream nextPut: aClass -> prot ] ]
 ]
 
 { #category : 'initialization' }
@@ -131,7 +121,7 @@ ToMiniBrowser >> initialize [
 
 	packages := ToListElement new 
 		id: #packages;
-		nodeFactory: [ :node :holder | 
+		nodeBuilder: [ :node :holder | 
 			node addChild: (ToLabel new
 				text: holder data name;
 			 	hMatchParent;
@@ -153,7 +143,7 @@ ToMiniBrowser >> initialize [
 
 	classes := ToListElement new 
 		id: #classes; 
-		nodeFactory:  [  :node :holder | 
+		nodeBuilder:  [  :node :holder | 
 			node addChild: (ToClassNameViewExample new class: holder data position: holder position; yourself) ].
 
 	classes infinite
@@ -166,19 +156,17 @@ ToMiniBrowser >> initialize [
 	classesButtonPane := ToPane new
 		                     hMatchParent;
 		                     vFitContent.
-	classesButtonPane addChild: (sideToggle := ToToggleButton new
+	classesButtonPane addChild: (sideToggle := ToCheckbox new
 			               label: (ToLabel text: 'Class side');
-			               beLabelFirst;
 			               margin: (BlInsets top: 5);
 			               padding: (BlInsets all: 0)).
-	sideToggle layout cellSpacing: 5.
 	classesPane addChild: classesButtonPane.
 
 	sideToggle checked: self classSide.
 	sideToggle when: ToCheckableCheckedEvent do: [ :event |
 		classes infinite dispatchSelectionChangedAfter: [ classSide := event current. classes deselectAll. ] ].
 
-	protocols := ToListElement new id: #protocols; nodeFactory: [  :node :holder | 
+	protocols := ToListElement new id: #protocols; nodeBuilder: [  :node :holder | 
 			node addChild: (
 		             ToLabel new
 			             text: holder data value name;
@@ -190,7 +178,7 @@ ToMiniBrowser >> initialize [
 		do: [ :event | self protocolSelectionChangedEvent: event ].
 	protocols data whenRemoveChangeDo: [ selectors data removeAll ].
 
-	selectors := ToListElement new id: #selectors; nodeFactory: [:node :holder | 
+	selectors := ToListElement new id: #selectors; nodeBuilder: [:node :holder | 
 			node addChild: (
 		             ToLabel new
 			             text: holder data value asString;

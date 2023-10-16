@@ -51,12 +51,6 @@ ToAlbumEditsFeedbackLayer >> coverWithColor: aCoverColor [
 ]
 
 { #category : 'api - attaching / detaching' }
-ToAlbumEditsFeedbackLayer >> detach [
-
-	super detach
-]
-
-{ #category : 'api - attaching / detaching' }
 ToAlbumEditsFeedbackLayer >> flash [
 
 	self coverWithColor: coverColor

@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToAlbumEventHandler',
-	#superclass : 'BlCustomEventHandler',
+	#superclass : 'ToSkinnableEventHandler',
 	#category : 'Toplo-Widget-Album-TextPane',
 	#package : 'Toplo-Widget-Album',
 	#tag : 'TextPane'
@@ -11,7 +11,7 @@ ToAlbumEventHandler >> blurEvent: aBlurEvent [
 
 	| target |
 	target := aBlurEvent currentTarget.
-	target next border: target defaultBlurBorder
+	target border: target defaultBlurBorder
 ]
 
 { #category : 'event handling' }
@@ -25,7 +25,7 @@ ToAlbumEventHandler >> checkTextIn: anEditorElement [
 { #category : 'api - accessing' }
 ToAlbumEventHandler >> eventsToHandle [
 
-	^ {
+	^ super eventsToHandle , {
 		  AlbTextEditedEvent.
 		  AlbTextReplacedEvent.
 		  BlBlurEvent.
@@ -37,7 +37,7 @@ ToAlbumEventHandler >> focusEvent: aFocusEvent [
 
 	| target |
 	target := aFocusEvent currentTarget.
-	target next border: target defaultFocusBorder
+	target border: target defaultFocusBorder
 ]
 
 { #category : 'event handling' }

@@ -117,9 +117,9 @@ TToListElementDecorator >> nodeAt: anIndex [
 ]
 
 { #category : 't - infinite accessing' }
-TToListElementDecorator >> nodeFactory: aNodeFactory [
+TToListElementDecorator >> nodeBuilder: aNodeFactory [
 
-	self next nodeFactory: aNodeFactory
+	self next nodeBuilder: aNodeFactory
 ]
 
 { #category : 't - accessing selection' }

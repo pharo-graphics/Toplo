@@ -7,35 +7,35 @@ Class {
 		'#isSelected => ObservableSlot',
 		'#isCloseable => ObservableSlot',
 		'#titleElement',
-		'#bodyFactory => ObservableSlot'
+		'#bodyBuilder => ObservableSlot'
 	],
 	#category : 'Toplo-Incubator',
 	#package : 'Toplo-Incubator'
 }
 
 { #category : 'accessing' }
+ToNotebookPage >> bodyBuilder [
+
+	^ bodyBuilder
+]
+
+{ #category : 'accessing' }
+ToNotebookPage >> bodyBuilder: aValuable [
+	"Establish what is my body. When a page is selected in a notebook, it will send `#value` to this factory, and use the answered `BlElement` as the page's body."
+
+	bodyBuilder := aValuable
+]
+
+{ #category : 'accessing' }
 ToNotebookPage >> bodyElement [
 
-	^ bodyFactory value
+	^ bodyBuilder value
 ]
 
 { #category : 'accessing' }
 ToNotebookPage >> bodyElement: aBlElement [
 
-	self bodyFactory: [ aBlElement ]
-]
-
-{ #category : 'accessing' }
-ToNotebookPage >> bodyFactory [
-
-	^ bodyFactory
-]
-
-{ #category : 'accessing' }
-ToNotebookPage >> bodyFactory: aValuable [
-	"Establish what is my body. When a page is selected in a notebook, it will send `#value` to this factory, and use the answered `BlElement` as the page's body."
-
-	bodyFactory := aValuable
+	self bodyBuilder: [ aBlElement ]
 ]
 
 { #category : 'accessing' }
@@ -52,7 +52,7 @@ ToNotebookPage >> initialize [
 	
 	isSelected := false.
 	isCloseable := false.
-	bodyFactory := [ BlElement new ]
+	bodyBuilder := [ BlElement new ]
 ]
 
 { #category : 'accessing' }
@@ -92,9 +92,9 @@ ToNotebookPage >> titleElement: aBlElement [
 ]
 
 { #category : 'enumerating' }
-ToNotebookPage >> whenBodyFactoryChangedDo: aBlock [
+ToNotebookPage >> whenBodyBuilderChangedDo: aBlock [
 
-	self property: #bodyFactory whenChangedDo: aBlock
+	self property: #bodyBuilder whenChangedDo: aBlock
 ]
 
 { #category : 'events' }

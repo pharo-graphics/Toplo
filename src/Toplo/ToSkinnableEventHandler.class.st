@@ -314,6 +314,10 @@ ToSkinnableEventHandler >> switchToReleasedStateEvent: anEvent [
 	target switchToSkinState: (ToReleasedState sourceEvent: anEvent)
 ]
 
+{ #category : 'event handling' }
+ToSkinnableEventHandler >> textInputEvent: anEvent [
+]
+
 { #category : 'api - event managing' }
 ToSkinnableEventHandler >> wantsEvent: anEvent [
 

@@ -13,12 +13,13 @@ Class {
 ToAlbumPlaceholder >> defaultLabel [
 
 	^ ToLabel new
-		  constraintsDo: [ :c | 
+		  constraintsDo: [ :c |
 			  c frame vertical alignCenter.
 			  c frame horizontal alignCenter ];
 		  beMultiLine;
-		  in: [ :l | l layout alignCenter ];
-		  in: [ :l | l innerElement layout alignCenter ];
+		  in: [ :l |
+			  l layout alignCenter.
+			  l innerElement layout alignCenter ];
 		  yourself
 ]
 
@@ -26,11 +27,12 @@ ToAlbumPlaceholder >> defaultLabel [
 ToAlbumPlaceholder >> initialize [
 
 	super initialize.
-	self layout: BlFrameLayout new.
 	label := self defaultLabel.
 	self addChild: label.
-	self preventMeAndChildrenMouseEvents.
-
+	self constraintsDo: [ :c |
+		c frame horizontal alignCenter.
+		c frame vertical alignCenter ].
+	self preventMeAndChildrenMouseEvents
 ]
 
 { #category : 'accessing' }

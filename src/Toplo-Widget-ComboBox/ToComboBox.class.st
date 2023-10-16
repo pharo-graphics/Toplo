@@ -269,17 +269,17 @@ ToComboBox >> newDataCollection [
 ]
 
 { #category : 'accessing' }
-ToComboBox >> nodeFactory [
+ToComboBox >> nodeBuilder [
 	" is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
 
-	^ self listElement nodeFactory
+	^ self listElement nodeBuilder
 ]
 
 { #category : 'accessing' }
-ToComboBox >> nodeFactory: aConverter [
+ToComboBox >> nodeBuilder: aConverter [
 
 	" is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
-	self listElement nodeFactory: aConverter
+	self listElement nodeBuilder: aConverter
 ]
 
 { #category : 'private - notifications' }

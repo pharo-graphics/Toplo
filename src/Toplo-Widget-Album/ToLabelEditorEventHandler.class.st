@@ -34,13 +34,6 @@ ToLabelEditorEventHandler >> eventsToHandle [
 	^ super eventsToHandle , { BlElementAddedToSceneGraphEvent. BlElementPositionInSpaceChangedEvent  }
 ]
 
-{ #category : 'event handling' }
-ToLabelEditorEventHandler >> focusEvent: anEvent [
-
-	super focusEvent: anEvent.
-	"self label editorFrame toFront"
-]
-
 { #category : 'accessing' }
 ToLabelEditorEventHandler >> label [
 

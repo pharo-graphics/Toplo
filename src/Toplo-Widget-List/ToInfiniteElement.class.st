@@ -4,12 +4,12 @@ Class {
 	#traits : 'TBlLayoutResizable + TToElementWithContextMenu',
 	#classTraits : 'TBlLayoutResizable classTrait + TToElementWithContextMenu classTrait',
 	#instVars : [
-		'nodeFactory',
 		'clickLauncher',
 		'primarySelection',
 		'secondarySelection',
 		'keepSelectionOnFocused',
-		'shortcuts'
+		'shortcuts',
+		'nodeBuilder'
 	],
 	#category : 'Toplo-Widget-List-infinite',
 	#package : 'Toplo-Widget-List',
@@ -192,7 +192,7 @@ ToInfiniteElement >> initialize [
 	self installShortcuts.
 	
 	self preserveSelectionOnFocused: self preserveSelectionOnFocusedByDefault.
-	self nodeFactory: self defaultListNodeFactory.
+	self nodeBuilder: self defaultListNodeFactory.
 	self matchParent
 ]
 
@@ -256,24 +256,24 @@ ToInfiniteElement >> nodeAt: anIndex [
 		  ifNil: [  ]
 ]
 
+{ #category : 'accessing' }
+ToInfiniteElement >> nodeBuilder [
+
+	"aValuable takes 2 args: first, the ToNode to build and second, the data"
+	^ nodeBuilder 
+]
+
+{ #category : 'accessing' }
+ToInfiniteElement >> nodeBuilder: aValuable [
+
+	"aValuable takes 2 args: first, the ToNode to build and second, the data "
+	nodeBuilder := aValuable
+]
+
 { #category : 'initialization' }
 ToInfiniteElement >> nodeClass [
 
 	^ self subclassResponsibility 
-]
-
-{ #category : 'accessing' }
-ToInfiniteElement >> nodeFactory [
-
-	"aValuable takes 2 args: first, the ToNode to build and second, the data"
-	^ nodeFactory 
-]
-
-{ #category : 'accessing' }
-ToInfiniteElement >> nodeFactory: aValuable [
-
-	"aValuable takes 2 args: first, the ToNode to build and second, the data "
-	nodeFactory := aValuable
 ]
 
 { #category : 'private - commands' }

@@ -19,43 +19,42 @@ ToTextField >> defaultGeometry [
 ]
 
 { #category : 'initialization' }
-ToTextField >> defaultPadding [
-
-	^ BlInsets
-		  top: (3 + self defaultBorderWidth )
-		  left: (3 + self defaultBorderWidth)
-		  bottom: (0 + self defaultBorderWidth )
-		  right: (3 + self defaultBorderWidth )
-]
-
-{ #category : 'initialization' }
 ToTextField >> initialize [
 
+	| sharedDistributor |
 	super initialize.
 	self infinite vFitContent.
 	self next vFitContent.
 	self vFitContent.
 	self withoutLineWrapping.
-	self flag: 'Why these handlers ? ( ToAlbum do not have them )'.
-	self addEventHandler: (AlbTextEditorCursorIconHandler new element: self).
-	self addEventHandler: (AlbTextEditorSelectionHandler new element: self infinite).
-	self addEventHandler: (AlbTextEditorDoubleClickHandler new element: self infinite)
-]
 
-{ #category : 'layers' }
-ToTextField >> placeholderText: aText [
+	sharedDistributor := BlSharedEventDistributor new.
+	sharedDistributor
+		adjustMousePosition: false;
+		shareEvents: {
+				BlMouseDownEvent.
+				BlDragEvent.
+				BlDragStartEvent.
+				BlDragEndEvent.
+				BlDragEnterEvent.
+				BlDragLeaveEvent.
+				BlMouseEnterEvent.
+				BlMouseLeaveEvent.
+				BlMouseOverEvent.
+				BlDoubleClickEvent.
+				BlFocusEvent.
+				BlBlurEvent }.
+	self addEventHandler: sharedDistributor.
+	self next addEventHandler: sharedDistributor.
+	self infinite addEventHandler: sharedDistributor.
 
-	self placeholder: (ToTextFieldPlaceholder new text: aText).
-	self text size isZero ifTrue: [ self showPlaceholder ]
+	"self addEventHandler:	(AlbTextEditorDoubleClickHandler new element: self infinite)"
 ]
 
 { #category : 't - element with placeholder' }
-ToTextField >> showPlaceholder [
+ToTextField >> placeholderClass [
 
-	self placeholderLayer ifNil: [ ^ self ].
-	self placeholderLayer parentDo: [ :p | ^ self ].
-	self placeholderLayer padding: (BlInsets left: self textLeft).
-	super showPlaceholder
+	^ ToTextFieldPlaceholder
 ]
 
 { #category : 'initialization' }

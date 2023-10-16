@@ -5,59 +5,71 @@ Trait {
 }
 
 { #category : 't - element with placeholder' }
+TToElementWithPlaceholder >> currentPlaceholderLayer [
+
+	^ self userData at: #currentPlaceholderLayer ifAbsent: [  ]
+]
+
+{ #category : 't - element with placeholder' }
+TToElementWithPlaceholder >> currentPlaceholderLayer: aPlaceholderLayer [
+
+	aPlaceholderLayer ifNil: [
+		self userData removeKey: #currentPlaceholderLayer ifAbsent: [  ].
+		^ self ].
+	self userData at: #currentPlaceholderLayer put: aPlaceholderLayer
+]
+
+{ #category : 't - element with placeholder' }
 TToElementWithPlaceholder >> hidePlaceholder [
 
-	self placeholderLayer ifNil: [ ^ self ].
-	self placeholderLayer parentDo: [ :p |
-		self placeholderLayer detach.
-		self removeChild: self placeholderLayer.
-		self dispatchEvent: ToPlaceholderRemovedEvent new ]
+	self currentPlaceholderLayer ifNil: [ ^ self ].
+	self currentPlaceholderLayer detach.
+	self removeChild: self currentPlaceholderLayer.
+	self dispatchEvent: ToPlaceholderRemovedEvent new.
+	self currentPlaceholderLayer: nil
 ]
 
 { #category : 't - element with placeholder' }
-TToElementWithPlaceholder >> placeholder [
+TToElementWithPlaceholder >> placeholderBuilder: aValuable [
 
-	^ self placeholderLayer
+	" aValuaable takes 2 args: 1 the placeholder to build, 2 the element. If nil, the current builder is removed"
+	self rawPlaceholderBuilder: aValuable 
 ]
 
 { #category : 't - element with placeholder' }
-TToElementWithPlaceholder >> placeholder: anElement [
+TToElementWithPlaceholder >> placeholderClass [
 
-	self placeholderLayer: anElement 
+	^ ToPlaceholderLayer
 ]
 
 { #category : 't - element with placeholder' }
-TToElementWithPlaceholder >> placeholderLayer [
+TToElementWithPlaceholder >> rawPlaceholderBuilder [
 
-	^ self userData at: #placeholderLayer ifAbsent: [  ]
+	" if not nil, a valuable that takes 2 args: 1 the placeholder to build, 2 the element"
+	
+	^ self userData at: #placeholderBuilder ifAbsent: [  ]
 ]
 
 { #category : 't - element with placeholder' }
-TToElementWithPlaceholder >> placeholderLayer: aPanePlaceholderLayer [
+TToElementWithPlaceholder >> rawPlaceholderBuilder: aValuable [
+	" aValuaable takes 2 args: 1 the placeholder to build, 2 the element. If nil, the current builder is removed"
 
-	self placeholderLayer ifNotNil: [
-		self placeholderLayer parentDo: [ :layer |
-			self hidePlaceholder.
-			self rawPlaceholderLayer: aPanePlaceholderLayer.
-			self showPlaceholder.
-			^ self ] ].
-	self rawPlaceholderLayer: aPanePlaceholderLayer
-]
-
-{ #category : 't - element with placeholder' }
-TToElementWithPlaceholder >> rawPlaceholderLayer: aPlaceHolderLayer [
-
-	self userData at: #placeholderLayer put: aPlaceHolderLayer
+	aValuable ifNil: [
+		self userData removeKey: #placeholderBuilder ifAbsent: [  ].
+		^ self ].
+	self userData at: #placeholderBuilder put: aValuable
 ]
 
 { #category : 't - element with placeholder' }
 TToElementWithPlaceholder >> showPlaceholder [
 
-	self placeholderLayer ifNil: [ ^ self ].
-	self placeholderLayer parentDo: [ :p | ^ self ].
-	
-	self placeholderLayer attachTo: self.
-	self addChild: self placeholderLayer.
-	
-	self dispatchEvent: ToPlaceholderAddedEvent new
+	self currentPlaceholderLayer ifNotNil: [ ^ self ].
+	self rawPlaceholderBuilder ifNotNil: [ :builder |
+		| ph |
+		ph := self placeholderClass new.
+		builder value: ph value: self.
+		self currentPlaceholderLayer: ph.
+		ph attachTo: self.
+		self addChild: ph.
+		self dispatchEvent: ToPlaceholderAddedEvent new ]
 ]

@@ -26,7 +26,7 @@ ToNodeHolder >> data: aData [
 
 	data := aData.
 	self node: infiniteElement nodeClass new.
-	infiniteElement nodeFactory value: self node value: self
+	infiniteElement nodeBuilder value: self node value: self
 ]
 
 { #category : 'event management accessing' }

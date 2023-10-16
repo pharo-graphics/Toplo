@@ -33,7 +33,7 @@ ToNotebookExamples class >> example_tabsWith2Pages [
 	aNotebook := ToNotebook new.
 
 	redCount := 0.
-	redPage := aNotebook addPageTitle: 'Red' bodyFactory: [
+	redPage := aNotebook addPageTitle: 'Red' bodyBuilder: [
 		           redCount := redCount + 1.
 		           BlTextElement new
 			           text:
@@ -41,7 +41,7 @@ ToNotebookExamples class >> example_tabsWith2Pages [
 			           yourself ].
 
 	greenCount := 0.
-	greenPage := aNotebook addPageTitle: 'Green' bodyFactory: [
+	greenPage := aNotebook addPageTitle: 'Green' bodyBuilder: [
 		             greenCount := greenCount + 1.
 		             BlTextElement new
 			             text:

@@ -26,7 +26,7 @@ ToNotebookTest >> testBodyFactoryIsValuedOnSelect [
 	redCount := 0.
 	redPage := notebook
 		addPageTitle: 'Red'
-		bodyFactory: [
+		bodyBuilder: [
 			redCount := redCount + 1.
 			BlTextElement new
 				text: (redCount asRopedText foreground: Color red darker);
@@ -35,7 +35,7 @@ ToNotebookTest >> testBodyFactoryIsValuedOnSelect [
 	greenCount := 0.
 	greenPage := notebook
 		addPageTitle: 'Green'
-		bodyFactory: [
+		bodyBuilder: [
 			greenCount := greenCount + 1.
 			BlTextElement new
 				text: (greenCount asRopedText foreground: Color green muchDarker);

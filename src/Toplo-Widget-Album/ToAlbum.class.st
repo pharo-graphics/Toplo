@@ -103,7 +103,7 @@ ToAlbum >> defaultGeometry [
 ToAlbum >> defaultMargin [
 
 	"setup to not depend on parent layout"
-	^ BlInsets all: 1
+	^ BlInsets all: 0
 ]
 
 { #category : 'initialization' }
@@ -115,11 +115,11 @@ ToAlbum >> defaultOutskirts [
 { #category : 'initialization' }
 ToAlbum >> defaultPadding [
 
-	^ BlInsets
-		  top: (6 + self defaultBorderWidth )
+	^ BlInsets all: 3
+		 " top: (6 + self defaultBorderWidth )
 		  left: (3 + self defaultBorderWidth )
 		  bottom: (2 + self defaultBorderWidth )
-		  right: (3 + self defaultBorderWidth )
+		  right: (3 + self defaultBorderWidth )"
 ]
 
 { #category : 'initialization' }
@@ -164,16 +164,22 @@ ToAlbum >> initialize [
 	self infiniteDo: [ :inf |
 		inf when: BlBlurEvent do: [ :evt | self dispatchEvent: evt ].
 		inf when: BlFocusEvent do: [ :evt | self dispatchEvent: evt ] ].
+	
 	self addEventHandler: self defaultEventHandler.
 	self whenTextReplacedDo: [ :t | self requestTextStyle ].
 	self when: AlbTextEditedEvent do: [ :evt | self requestTextStyle ].
 
-	self next geometry: self defaultGeometry.
-	self next outskirts: self defaultOutskirts.
-	self next margin: self defaultMargin.
-	self next padding: self defaultPadding.
-	self next border: self defaultBorder.
-	self background: self defaultBackground 
+	self geometry: self defaultGeometry.
+	self outskirts: self defaultOutskirts.
+	self margin: self defaultMargin.
+	self padding: self defaultPadding.
+	self border: self defaultBorder.
+	self background: self defaultBackground.
+	self addEventHandler: (AlbTextEditorFocusHandler new element: self).
+	self addEventHandler:	(AlbTextEditorCursorIconHandler new element: self).
+	self addEventHandler:	(AlbTextEditorSelectionHandler new element: self infinite).
+
+
 
 ]
 
@@ -183,10 +189,21 @@ ToAlbum >> innerElement [
 	^ self next
 ]
 
+{ #category : 't - element with placeholder' }
+ToAlbum >> placeholderClass [
+
+	^ ToAlbumPlaceholder
+]
+
 { #category : 'layers' }
 ToAlbum >> placeholderText: aText [
 
-	self placeholder: (ToAlbumPlaceholder new text: aText).
+	aText ifNil: [
+		self placeholderBuilder: nil.
+		^ self ].
+	self placeholderBuilder: [ :placeholder :e |
+		placeholder text: aText.
+		placeholder padding: self defaultPadding ].
 	self text size isZero ifTrue: [ self showPlaceholder ]
 ]
 

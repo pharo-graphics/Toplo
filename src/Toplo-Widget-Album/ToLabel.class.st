@@ -25,7 +25,7 @@ ToLabel class >> text: aText [
 ToLabel >> addEditorEvent: anEvent [
 
 	self innerElement visibility: BlVisibility hidden.
-	(self newEditorFrameEvent: anEvent) popup.
+	(self newEditorFrameEvent: anEvent) popupEvent: anEvent.
 	self editor requestFocus.
 	self editor selecter
 		all;
@@ -161,8 +161,12 @@ ToLabel >> initializeEditorFrameBuilder [
 	self isEditable
 		ifTrue: [
 			frameHandler := ToAnchoredWindowHandler new.
+			frameHandler positionHook: [ :event |
+				self innerElement bounds inSpace bounds topLeft
+				"- (event currentTarget editor padding left
+					 @ event currentTarget editor padding top)" ].
 			frameHandler element: self innerElement.
-			frameHandler builder: [ :anchWin  :label| 
+			frameHandler builder: [ :anchWin :label |
 				anchWin root addChild: self newEditor.
 				self editor text: self text copy ] ]
 		ifFalse: [

@@ -343,10 +343,10 @@ Here an example of a client for a method.
 "
 
 	| text album menuBuilder |
-	text := self methodText asRopedText.
+	text := self methodText asRopedText fontName: 'Source Code Pro'.
 	album := ToAlbum new.
 	album styler: (BlRBTextStyler new classOrMetaClass: self class).
-	album text: text copy.
+	album text: (text copy fontName: 'Source Code Pro').
 	album withSaveCapability.
 	album withRowNumbers.
 	album whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ].
@@ -384,7 +384,7 @@ ToSandBox class >> example_ComboBoxWithAllClasses [
 	| win combo |
 	win := ToInnerWindow new title: 'Pharo classes'.
 	combo := ToComboBox new.
-	combo nodeFactory: [ :node :holder |
+	combo nodeBuilder: [ :node :holder |
 		node addChild: (ToLabel new
 				 text: holder data name;
 				 hMatchParent) ].
@@ -400,7 +400,7 @@ ToSandBox class >> example_ComboBoxWithColors [
 	| win combo |
 	win := ToInnerWindow new title: 'Combo box Example'.
 	combo := ToComboBox new.
-	combo nodeFactory: [ :color |
+	combo nodeBuilder: [ :color |
 				(ToElement new
 					 height: 30;
 					 hMatchParent;
@@ -502,7 +502,7 @@ ToSandBox class >> example_EditableComboBoxWithStatesOfAmerica [
 ToSandBox class >> example_EditableListWithAllClassesNames [
 
 	| l vscrollBar space |
-	l := ToListElement new nodeFactory: [ :node :holder |
+	l := ToListElement new nodeBuilder: [ :node :holder |
 		     | lab |
 		     lab := ToLabel new
 			            text: holder data value;
@@ -517,7 +517,7 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 		     node addChild: (ToLabeledIcon new
 			     label: lab;
 			     icon: (ToImage inner: holder data key);
-			     interspace: 20;
+			     interspace: 10;
 			     hMatchParent) ].
 	l data addAll: (Smalltalk globals allClasses collect: [ :cls |
 			 | icon isel |
@@ -580,8 +580,7 @@ ToSandBox class >> example_EditorWithoutSoftLine [
 			        saveRequested client saveResult: true ];
 		        withEditsFeedback.
 	view withoutSoftLine.
-	view text:
-		((String loremIpsum: 100000) asRopedText fontName: 'Source Code Pro').
+	view text: ((String loremIpsum: 100000) asRopedText fontName: 'Source Code Pro').
 	view openInSpace
 ]
 
@@ -593,8 +592,7 @@ ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
 		        beVertical;
 		        matchParent.
 	filter := ToTextField new.
-	l := ToListElement new nodeFactory: [  :node :holder | 
-		node padding: BlInsets empty.
+	l := ToListElement new nodeBuilder: [  :node :holder | 
 			node addChild: (ToClassNameViewExample new class: holder data position: holder position; yourself) ].
 	l data addAll: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
 	l margin: (BlInsets all: 2).
@@ -824,7 +822,7 @@ ToSandBox class >> example_ListAutocompleteWithSaveInListComboBoxEmpty [
 ToSandBox class >> example_ListOneClass [
 
 	| l |
-	l := ToListElement new nodeFactory: [ :node :holder |
+	l := ToListElement new nodeBuilder: [ :node :holder |
 		     node addChild: (ToCheckbox new
 				      labelText: holder data name;
 				      interspace: 10;
@@ -857,7 +855,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 
 	| l |
 	l := ToListElement new 
-			nodeFactory: [ :node :holder |
+			nodeBuilder: [ :node :holder |
 		     | icn lab |
 		     icn := holder data hasComment
 			            ifTrue: [ #class ]
@@ -884,7 +882,7 @@ ToSandBox class >> example_ListWithAllClasses4 [
 	| l |
 	l := ToListElement new
 		     beWithoutSelection;
-		     nodeFactory: [ :node :holder |
+		     nodeBuilder: [ :node :holder |
 			     node addChild: (ToCheckbox new
 						      labelText: holder data name;
 						      interspace: 10;
@@ -897,7 +895,7 @@ ToSandBox class >> example_ListWithAllClasses4 [
 ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 
 	| l |
-	l := ToListElement new nodeFactory: [  :node :holder | 
+	l := ToListElement new nodeBuilder: [  :node :holder | 
 			node addChild: (ToClassNameViewExample new class: holder data position: holder position; yourself) ].
 	l data addAll: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
 	l openInSpace
@@ -907,7 +905,7 @@ ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 ToSandBox class >> example_ListWithAllClassesAsButton [
 
 	| l |
-	l := ToListElement new nodeFactory: [ :node :holder |
+	l := ToListElement new nodeBuilder: [ :node :holder |
 		     node addChild: (ToButton new
 				      labelText: holder data name;
 				      hMatchParent) ].
@@ -920,7 +918,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l selectionMenu menuFactory phlab |
 	l := ToListElement new.
-	phlab :=ToLabel new
+	phlab := ToLabel new
 		  beMultiLine;
 		  text: ((('Invoke the context menu ', String cr, 
 					'with a right-click', String cr, 
@@ -936,9 +934,12 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		  yourself.
 	phlab layout alignCenter.
 	phlab innerElement layout alignCenter.
-	l placeholder: ((ToPlaceholderLayer new) addChild: phlab; yourself).
+	l placeholderBuilder: [:placeholder :e | 
+		phlab removeFromParent.
+		placeholder addChild: phlab ].
 	l showPlaceholder.
-	l nodeFactory: [ :node :holder | 		| lab t |
+	l nodeBuilder: [ :node :holder | 		
+		| lab t |
 		t := holder data.
 		lab := ToLabel text: t.
 		lab beMultiLine.
@@ -1031,7 +1032,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 ToSandBox class >> example_ListWithIndexedColors [
 
 	| l vscrollBar space |
-	l := ToListElement new nodeFactory: [ :node :holder |
+	l := ToListElement new nodeBuilder: [ :node :holder |
 		     node addChild: (ToLabel new
 				      text: holder data asString asRopedText;
 				      hMatchParent;
@@ -1057,7 +1058,7 @@ ToSandBox class >> example_ListWithPanes [
 	| list |
 	list := ToListElement new
 		        withRowNumbers;
-		        nodeFactory: [ :node :holder |
+		        nodeBuilder: [ :node :holder |
 			        | title blContent |
 			        title := ToLabel new
 				                 id: #title;
@@ -1160,7 +1161,7 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		        matchParent;
 		        yourself.
 	list padding: (BlInsets all: 1).
-	list nodeFactory: [ :node :holder | | imageData |
+	list nodeBuilder: [ :node :holder | | imageData |
 		imageData := holder data.
 		node addChild: (ToPicsumPhotosGalleryImageElement new
 			hMatchParent;
@@ -1762,7 +1763,7 @@ ToSandBox class >> example_ToLabelWithHeadingSkin [
 	
 	space root addChild: themeSwitcher.
 
-	listElement := ToListElement new nodeFactory: [ :lab |
+	listElement := ToListElement new nodeBuilder: [ :lab |
 		     lab hMatchParent; yourself].
 	listElement background: Color transparent.
 	typeArr := {
@@ -2369,10 +2370,11 @@ ToSandBox class >> example_textFieldWithPlaceholder [
 	| t text |
 	t := ToTextField new withSaveCapability.
 	text := ''.
-	t placeholderText: 'Enter to accept'.
+	t placeholderText: (('Enter to accept' asRopedText) foreground: Color lightGray).
 	t whenSaveRequestedDo: [ :saveRequested |
+		saveRequested client text ifNotEmpty: [ 
 		saveRequested client saveResult: true.
-		text := saveRequested client text copy ].
+		text := saveRequested client text copy ]].
 	t whenCancelRequestedDo: [ :cancelRequested |
 		cancelRequested client text: text copy ].
 	t showPlaceholder.
@@ -2385,16 +2387,19 @@ ToSandBox class >> example_textFieldWithPlaceholder2 [
 	| t text |
 	t := ToTextField new withSaveCapability.
 	text := ''.
-	t placeholder: (ToLabel new
-			 text: 'Enter text';
-			 yourself).
+	t placeholderBuilder: [ :placeholder :e |
+		placeholder padding: e padding. 
+		placeholder addChild: (ToLabel new
+				 text: 'Enter text';
+				 yourself) ].
 	t whenSaveRequestedDo: [ :saveRequested |
 		saveRequested client saveResult: true.
 		text := saveRequested client text copy ].
 	t whenCancelRequestedDo: [ :cancelRequested |
 		cancelRequested client text: text copy ].
 	t showPlaceholder.
-	t openInSpace
+	t openInSpace.
+	t inspect
 ]
 
 { #category : 'text field' }

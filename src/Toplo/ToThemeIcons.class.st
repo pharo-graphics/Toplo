@@ -9,9 +9,9 @@ iconDescription serializeAsForm: ToThemeIcons maxWidth: 32 maxHeight: 32.
 Class {
 	#name : 'ToThemeIcons',
 	#superclass : 'Object',
-	#category : 'Toplo-Theme-Core',
-	#package : 'Toplo-Theme',
-	#tag : 'Core'
+	#category : 'Toplo-Core-Skin',
+	#package : 'Toplo',
+	#tag : 'Core-Skin'
 }
 
 { #category : 'icons' }

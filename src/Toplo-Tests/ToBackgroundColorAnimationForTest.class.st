@@ -1,9 +1,9 @@
 Class {
 	#name : 'ToBackgroundColorAnimationForTest',
 	#superclass : 'ToPropertyAnimation',
-	#category : 'Toplo-Theme-Tests-Skin',
-	#package : 'Toplo-Theme-Tests',
-	#tag : 'Skin'
+	#category : 'Toplo-Tests-Core-Skin',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-Skin'
 }
 
 { #category : 'running' }

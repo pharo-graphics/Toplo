@@ -1,9 +1,9 @@
 Class {
 	#name : 'ToSkinInstaller',
 	#superclass : 'Object',
-	#category : 'Toplo-Theme-Core',
-	#package : 'Toplo-Theme',
-	#tag : 'Core'
+	#category : 'Toplo-Core-Skin',
+	#package : 'Toplo',
+	#tag : 'Core-Skin'
 }
 
 { #category : 'hook' }

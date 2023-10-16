@@ -4,9 +4,9 @@ Class {
 	#instVars : [
 		'styleSheet'
 	],
-	#category : 'Toplo-Theme-Core',
-	#package : 'Toplo-Theme',
-	#tag : 'Core'
+	#category : 'Toplo-Core-Skin',
+	#package : 'Toplo',
+	#tag : 'Core-Skin'
 }
 
 { #category : 'initialization' }

@@ -2,15 +2,15 @@
 A ToLazySkintInstallerTest is a test class for testing the behavior of ToLazySkintInstaller
 "
 Class {
-	#name : 'ToSkintInstallerTest',
+	#name : 'ToSkinInstallerTest',
 	#superclass : 'TestCase',
-	#category : 'Toplo-Theme-Tests-Core',
-	#package : 'Toplo-Theme-Tests',
-	#tag : 'Core'
+	#category : 'Toplo-Tests-Core-Skin',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-Skin'
 }
 
 { #category : 'tests' }
-ToSkintInstallerTest >> testApplyOn [
+ToSkinInstallerTest >> testApplyOn [
 
 	| space e s |
 	space := BlSpace new.

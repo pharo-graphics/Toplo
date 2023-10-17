@@ -9,6 +9,12 @@ BlSpace >> applySkinInstaller [
 ]
 
 { #category : '*Toplo' }
+BlSpace >> applySkinState [
+
+	self root applySkinState
+]
+
+{ #category : '*Toplo' }
 BlSpace >> installedSkinInstallerPhase [
 
 	^ self frame phases
@@ -17,9 +23,23 @@ BlSpace >> installedSkinInstallerPhase [
 ]
 
 { #category : '*Toplo' }
+BlSpace >> installedSkinStatePhase [
+
+	^ self frame phases
+		  detect: [ :p | p isKindOf: ToSpaceSkinStatePhase ]
+		  ifNone: [  ]
+]
+
+{ #category : '*Toplo' }
 BlSpace >> isSkinInstallerPhaseInstalled [
 
 	^ self installedSkinInstallerPhase notNil
+]
+
+{ #category : '*Toplo' }
+BlSpace >> isSkinStatePhaseInstalled [
+
+	^ self installedSkinStatePhase notNil
 ]
 
 { #category : '*Toplo' }
@@ -40,9 +60,26 @@ BlSpace >> startSkinInstallerPhase [
 ]
 
 { #category : '*Toplo' }
+BlSpace >> startSkinStatePhase [
+	| layoutPhase |
+
+	self isSkinStatePhaseInstalled ifTrue: [ ^ self ].
+	" The skin phase must be inserted before the layout phase (that must be present) "
+	layoutPhase := self frame detectPhase: [ :f | f class = BlSpaceFrameLayoutPhase ].
+	self frame addPhase: ToSpaceSkinStatePhase new before: layoutPhase
+]
+
+{ #category : '*Toplo' }
 BlSpace >> stopSkinInstallerPhase [
 
 	self installedSkinInstallerPhase ifNotNil: [ :phase |
+		self frame removePhase: phase ]
+]
+
+{ #category : '*Toplo' }
+BlSpace >> stopSkinStatePhase [
+
+	self installedSkinStatePhase ifNotNil: [ :phase |
 		self frame removePhase: phase ]
 ]
 

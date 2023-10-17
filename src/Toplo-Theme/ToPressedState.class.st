@@ -6,10 +6,10 @@ Class {
 	#tag : 'State'
 }
 
-{ #category : 'testing' }
-ToPressedState >> isPressedState [
+{ #category : 'accessing' }
+ToPressedState >> incompatibleStateClasses [
 
-	^ true
+	^ { ToReleasedState }  
 ]
 
 { #category : 'look event sending' }

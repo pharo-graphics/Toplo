@@ -15,16 +15,29 @@ ToElementState class >> sourceEvent: anEvent [
 	^ self new sourceEvent: anEvent
 ]
 
+{ #category : 'skin state engine' }
+ToElementState >> addAsNextStateIn: aSkinStateEngine [
+
+	aSkinStateEngine addSkinState: self.
+
+]
+
 { #category : 'look event sending' }
 ToElementState >> applyOn: anElement [
 
 	anElement dispatchLookEvent: (self newLookEventFromSourceEvent: self sourceEvent)
 ]
 
-{ #category : 'testing' }
-ToElementState >> isPressedState [
+{ #category : 'accessing' }
+ToElementState >> incompatibleStateClasses [
 
-	^ false
+	^ {  }
+]
+
+{ #category : 'testing' }
+ToElementState >> isPersistent [
+
+	^ true
 ]
 
 { #category : 'accessing' }

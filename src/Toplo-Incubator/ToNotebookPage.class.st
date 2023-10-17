@@ -77,7 +77,9 @@ ToNotebookPage >> isSelected [
 ToNotebookPage >> isSelected: aBoolean [
 
 	isSelected := aBoolean.
-	aBoolean ifTrue: [ titleElement switchToSkinState: ToCheckedState new ] ifFalse: [ titleElement switchToSkinState: ToUncheckedState new ]
+	aBoolean
+		ifTrue: [ titleElement switchToSkinState: ToCheckedState new ]
+		ifFalse: [ titleElement switchToSkinState: ToUncheckedState new ]
 ]
 
 { #category : 'accessing' }

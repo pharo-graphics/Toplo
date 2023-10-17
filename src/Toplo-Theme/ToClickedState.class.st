@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToInitialState',
+	#name : 'ToClickedState',
 	#superclass : 'ToElementState',
 	#category : 'Toplo-Theme-State',
 	#package : 'Toplo-Theme',
@@ -7,13 +7,13 @@ Class {
 }
 
 { #category : 'testing' }
-ToInitialState >> isPersistent [ 
+ToClickedState >> isPersistent [
 
 	^ false
 ]
 
-{ #category : 'look event sending' }
-ToInitialState >> lookEventClass [
+{ #category : 'accessing' }
+ToClickedState >> lookEventClass [
 
-	^ ToInitialLookEvent
+	^ ToClickedLookEvent 
 ]

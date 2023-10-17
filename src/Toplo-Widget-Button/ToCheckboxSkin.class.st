@@ -30,13 +30,6 @@ ToCheckboxSkin >> hoveredLookEvent: anEvent [
 	anEvent elementDo: [ :e | e icon border: e iconHoveredBorder ]
 ]
 
-{ #category : 'accessing' }
-ToCheckboxSkin >> iconSkinIn: aButton [ 
-
-	^ self type checkboxIconSkinIn: aButton
-
-]
-
 { #category : 'event handling' }
 ToCheckboxSkin >> indeterminateLookEvent: anEvent [
 
@@ -50,24 +43,33 @@ ToCheckboxSkin >> indeterminateLookEvent: anEvent [
 ToCheckboxSkin >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
-	anEvent elementDo: [ :e | e icon border: e iconDefaultBorder ]
+	anEvent elementDo: [ :e | e icon border: e iconDefaultBorder.  ]
+]
+
+{ #category : 'event handling' }
+ToCheckboxSkin >> installIconImageIn: aCheckbox [
+
+	aCheckbox isIndeterminate ifTrue: [
+		aCheckbox indeterminateChild background: aCheckbox defaultImageColor.
+		^ aCheckbox icon innerImage border: aCheckbox imageIndeterminateBorder ].
+	aCheckbox isChecked ifTrue: [
+		^ aCheckbox icon innerImage border: aCheckbox imageCheckedBorder ].
+	aCheckbox icon innerImage border: aCheckbox imageUncheckedBorder
 ]
 
 { #category : 'event handling' }
 ToCheckboxSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
+	anEvent elementDo: [ :e |  self installIconImageIn: e ]
+]
+
+{ #category : 'event handling' }
+ToCheckboxSkin >> unabledLookEvent: anEvent [
+
+	super unabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		| color |
-		color := e isDisabled
-			         ifTrue: [ e disabledBorder ]
-			         ifFalse: [
-				         e isChecked
-					         ifTrue: [ e imageCheckedBorder ]
-					         ifFalse: [ e imageUncheckedBorder ] ].
-		e icon innerImage border: color.
-		e isIndeterminate ifTrue: [
-			e indeterminateChild background: e defaultImageColor ] ]
+		e icon border: e iconDefaultBorder ]
 ]
 
 { #category : 'event handling' }

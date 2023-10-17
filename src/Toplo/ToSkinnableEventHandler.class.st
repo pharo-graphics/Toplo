@@ -123,7 +123,7 @@ ToSkinnableEventHandler >> keyUpEvent: anEvent [
 { #category : 'mouse handlers' }
 ToSkinnableEventHandler >> leftClickEvent: anEvent [
 
-	self switchToClickStateEvent: anEvent
+	self switchToClickedStateEvent: anEvent
 ]
 
 { #category : 'mouse handlers' }
@@ -270,11 +270,10 @@ ToSkinnableEventHandler >> shortcutEvent: anEvent [
 ]
 
 { #category : 'state switching' }
-ToSkinnableEventHandler >> switchToClickStateEvent: anEvent [
+ToSkinnableEventHandler >> switchToClickedStateEvent: anEvent [
 
-	" when switch back to enabled state, one have to reinstall mouseListener"
-	target dispatchLookEvent: (ToClickedLookEvent sourceEvent: anEvent).
-	self switchToHoveredStateEvent: anEvent
+	target switchToSkinState: (ToClickedState sourceEvent: anEvent)
+
 ]
 
 { #category : 'state switching' }

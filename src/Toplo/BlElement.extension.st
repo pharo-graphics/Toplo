@@ -16,21 +16,17 @@ BlElement >> applySkinInstaller [
 ]
 
 { #category : '*Toplo' }
+BlElement >> applySkinState [
+
+	self skinStateEngine applyOn: self.
+	self childrenDo: [ :child | child applySkinState ].
+
+]
+
+{ #category : '*Toplo' }
 BlElement >> borderBuilder [
 
 	^ self userData at: #borderBuilder ifAbsentPut: [ BlBorderBuilder new ]
-]
-
-{ #category : '*Toplo' }
-BlElement >> currentSkinState [
-
-	^ self userData at: #currentSkinState ifAbsentPut: [  ]
-]
-
-{ #category : '*Toplo' }
-BlElement >> currentSkinState: aState [
-
-	self userData at: #currentSkinState put: aState
 ]
 
 { #category : '*Toplo' }
@@ -184,6 +180,18 @@ BlElement >> localStyleStampNamed: aSymbol [
 ]
 
 { #category : '*Toplo' }
+BlElement >> localToTheme [
+
+	^ self userData at: #localToTheme ifAbsent: [  ]
+]
+
+{ #category : '*Toplo' }
+BlElement >> localToTheme: aTheme [
+
+	self userData at: #localToTheme put: aTheme
+]
+
+{ #category : '*Toplo' }
 BlElement >> lookUpStyleStampNamed: aSymbol [
 	" first look-up following child-parent association 
 	for each element, try first to get the stamp from the localStyleStampIndex 
@@ -198,24 +206,18 @@ BlElement >> lookUpStyleStampNamed: aSymbol [
 ]
 
 { #category : '*Toplo' }
+BlElement >> nextSkinStates [
+
+	^ self skinStateEngine nextStates
+]
+
+{ #category : '*Toplo' }
 BlElement >> openInInnerWindow [
 
 	| frame |
 	frame := ToInnerWindow new.
 	frame pane addChild: self.
 	frame openInSpace
-]
-
-{ #category : '*Toplo' }
-BlElement >> privateToTheme [
-
-	^ self userData at: #privateToTheme ifAbsent: [  ]
-]
-
-{ #category : '*Toplo' }
-BlElement >> privateToTheme: aTheme [
-
-	self userData at: #privateToTheme put: aTheme
 ]
 
 { #category : '*Toplo' }
@@ -311,6 +313,12 @@ BlElement >> skinInstaller: aSkinInstaller [
 ]
 
 { #category : '*Toplo' }
+BlElement >> skinStateEngine [
+
+	^ self userData at: #skinStateEngine ifAbsentPut: ToSkinStateEngine new
+]
+
+{ #category : '*Toplo' }
 BlElement >> stampNamed: aSymbol [
 
 	(self lookUpStyleStampNamed: aSymbol) ifNotNil: [ :s | ^ s ].
@@ -360,8 +368,7 @@ BlElement >> styleSheetChain [
 { #category : '*Toplo' }
 BlElement >> switchToSkinState: aState [
 
-	self currentSkinState: aState.
-	aState applyOn: self
+	aState addAsNextStateIn: self skinStateEngine
 ]
 
 { #category : '*Toplo' }
@@ -373,23 +380,23 @@ BlElement >> textAttributesBuilder [
 { #category : '*Toplo-LookAndFeel' }
 BlElement >> toTheme [
 
-	^ self privateToTheme ifNil: [
+	^ self localToTheme ifNil: [
 		  self hasParent
 			  ifTrue: [ self parent toTheme ]
 			  ifFalse: [
 				  self isAttachedToSceneGraph
 					  ifTrue: [ " install the theme only if the root is attached to 
 						avoid default installation in another element that the space root"
-						  self privateToTheme: ToStyleSheetTheme current.
-						  self privateToTheme ]
+						  self localToTheme: ToStyleSheetTheme current.
+						  self localToTheme ]
 					  ifFalse: [ ToTheme current ] ] ]
 ]
 
 { #category : '*Toplo-LookAndFeel' }
 BlElement >> toTheme: aTheme [
 
-	self privateToTheme = aTheme ifTrue: [ ^ self ].
-	self privateToTheme: aTheme.
+	self localToTheme = aTheme ifTrue: [ ^ self ].
+	self localToTheme: aTheme.
 	self toThemeChanged.
 
 ]

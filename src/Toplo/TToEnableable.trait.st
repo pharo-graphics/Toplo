@@ -5,7 +5,7 @@ Trait {
 	#tag : 'Core'
 }
 
-{ #category : 't - enableable accessing' }
+{ #category : 't - enableable' }
 TToEnableable >> disabled: aBoolean [
 
 	aBoolean 
@@ -13,7 +13,7 @@ TToEnableable >> disabled: aBoolean [
 		ifFalse: [ self enable ]
 ]
 
-{ #category : 't - enableable accessing' }
+{ #category : 't - enableable' }
 TToEnableable >> enabled: aBoolean [
 
 	aBoolean 

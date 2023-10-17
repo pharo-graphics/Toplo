@@ -62,23 +62,6 @@ ToElement >> onAddedToSceneGraph [
 	self requestSkin
 ]
 
-{ #category : 't - element with tooltip - private' }
-ToElement >> privateTooltipContent [
-
-	^ self userData at: #tooltip ifAbsent: [  ]
-]
-
-{ #category : 't - element with tooltip - private' }
-ToElement >> privateTooltipContent: arg1 [
-
-	arg1
-		ifNil: [
-			self userData removeKey: #tooltip ifAbsent: [  ].
-			^ self ]
-		ifNotNil: [ arg1 ].
-	self userData at: #tooltip put: arg1
-]
-
 { #category : 'skin - private' }
 ToElement >> removeSkinInstallerPhaseChecker [
 
@@ -111,10 +94,4 @@ ToElement >> skinInstallerPhaseChecker [
 		  detect: [ :handler |
 			  handler isKindOf: ToSpaceSkinInstallerPhaseCheckerEventHandler ]
 		  ifNone: [  ]
-]
-
-{ #category : 't - element with tooltip - accessing' }
-ToElement >> tooltipContent [
-
-	^ self privateTooltipContent 
 ]

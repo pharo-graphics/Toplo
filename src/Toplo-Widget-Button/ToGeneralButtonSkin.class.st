@@ -1,9 +1,6 @@
 Class {
 	#name : 'ToGeneralButtonSkin',
 	#superclass : 'ToRawSkin',
-	#instVars : [
-		'pressed'
-	],
 	#category : 'Toplo-Widget-Button-Core',
 	#package : 'Toplo-Widget-Button',
 	#tag : 'Core'
@@ -13,7 +10,6 @@ Class {
 ToGeneralButtonSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
-	pressed ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
 		e mouseCursor: BlCursor hand.
 		e border: e hoveredBorder.
@@ -31,18 +27,9 @@ ToGeneralButtonSkin >> initialLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToGeneralButtonSkin >> installLookEvent: anEvent [
-
-	super installLookEvent: anEvent.
-	pressed := false.
-
-]
-
-{ #category : 'event handling' }
 ToGeneralButtonSkin >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
-	pressed := true.
 	anEvent elementDo: [ :e |
 		e border: e pressedBorder.
 		e background: e pressedBackground ]
@@ -52,5 +39,7 @@ ToGeneralButtonSkin >> pressedLookEvent: anEvent [
 ToGeneralButtonSkin >> releasedLookEvent: anEvent [
 
 	super releasedLookEvent: anEvent.
-	pressed := false
+	anEvent elementDo: [ :e |
+		e border: e defaultBorder.
+		e background: e defaultBackground ]
 ]

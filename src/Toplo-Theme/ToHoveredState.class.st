@@ -6,6 +6,12 @@ Class {
 	#tag : 'State'
 }
 
+{ #category : 'accessing' }
+ToHoveredState >> incompatibleStateClasses [
+
+	^ { ToLeavedState } 
+]
+
 { #category : 'look event sending' }
 ToHoveredState >> lookEventClass [
 

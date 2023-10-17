@@ -6,6 +6,12 @@ Class {
 	#tag : 'State'
 }
 
+{ #category : 'accessing' }
+ToFocusedState >> incompatibleStateClasses [
+
+	^ { ToUnfocusedState } 
+]
+
 { #category : 'look event sending' }
 ToFocusedState >> lookEventClass [
 

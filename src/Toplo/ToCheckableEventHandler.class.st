@@ -19,7 +19,7 @@ ToCheckableEventHandler >> checkableCheckEvent: anEvent [
 				       ifFalse: [ ToUncheckedState sourceEvent: anEvent ] ].
 
 	target switchToSkinState: newState.
-	target dispatchLookEvent: (ToClickedLookEvent sourceEvent: anEvent).		
+	target switchToSkinState: (ToClickedState sourceEvent: anEvent)
 	
 ]
 
@@ -30,8 +30,8 @@ ToCheckableEventHandler >> eventsToHandle [
 ]
 
 { #category : 'state switching' }
-ToCheckableEventHandler >> switchToClickStateEvent: anEvent [
+ToCheckableEventHandler >> switchToClickedStateEvent: anEvent [
 
 	target switchToNextCheckState.
-	super switchToClickStateEvent: anEvent
+	super switchToClickedStateEvent: anEvent
 ]

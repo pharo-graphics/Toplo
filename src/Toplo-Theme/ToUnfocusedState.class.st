@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToCheckedState',
+	#name : 'ToUnfocusedState',
 	#superclass : 'ToElementState',
 	#category : 'Toplo-Theme-State',
 	#package : 'Toplo-Theme',
@@ -7,13 +7,14 @@ Class {
 }
 
 { #category : 'accessing' }
-ToCheckedState >> incompatibleStateClasses [
+ToUnfocusedState >> incompatibleStateClasses [
 
-	^ { ToUncheckedState. ToIndeterminateState }
+	^ { ToFocusedState }.
+
 ]
 
 { #category : 'accessing' }
-ToCheckedState >> lookEventClass [
+ToUnfocusedState >> lookEventClass [
 
-	^ ToCheckedLookEvent
+	^ ToUnfocusedLookEvent 
 ]

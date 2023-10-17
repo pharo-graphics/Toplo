@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToCheckedState',
+	#name : 'ToDeselectedState',
 	#superclass : 'ToElementState',
 	#category : 'Toplo-Theme-State',
 	#package : 'Toplo-Theme',
@@ -7,13 +7,13 @@ Class {
 }
 
 { #category : 'accessing' }
-ToCheckedState >> incompatibleStateClasses [
+ToDeselectedState >> incompatibleStateClasses [
 
-	^ { ToUncheckedState. ToIndeterminateState }
+	^ { ToSelectedState }
 ]
 
 { #category : 'accessing' }
-ToCheckedState >> lookEventClass [
+ToDeselectedState >> lookEventClass [
 
-	^ ToCheckedLookEvent
+	^ ToDeselectedLookEvent
 ]

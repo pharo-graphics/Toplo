@@ -69,8 +69,10 @@ TToCheckable >> privateChecked: aBooleanOrNil [
 { #category : 't - checkable - private protocol' }
 TToCheckable >> switchToNextCheckState [
 
-	(self withIndeterminate and: [ self isChecked  ]) ifTrue: [ ^ self checked: nil ].
-	self isIndeterminate ifTrue: [ ^ self checked: false ].
+	self withIndeterminate ifTrue: [ " unchecked -> indeterminate -> checked"
+		self isIndeterminate ifTrue: [ ^ self checked: true ].
+		self isChecked ifTrue: [ ^ self checked: false ].
+		^ self checked: nil ].
 	self checked: self checked not
 ]
 

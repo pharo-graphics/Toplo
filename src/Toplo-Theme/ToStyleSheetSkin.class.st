@@ -30,6 +30,12 @@ ToStyleSheetSkin >> closedLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
+ToStyleSheetSkin >> deselectedLookEvent: anEvent [
+
+	self sendEventToWriters: anEvent
+]
+
+{ #category : 'event handling' }
 ToStyleSheetSkin >> disabledLookEvent: anEvent [
 
 	self sendEventToWriters: anEvent
@@ -126,7 +132,19 @@ ToStyleSheetSkin >> sendEventToWriters: anEvent [
 ]
 
 { #category : 'event handling' }
+ToStyleSheetSkin >> unabledLookEvent: anEvent [
+
+	self sendEventToWriters: anEvent
+]
+
+{ #category : 'event handling' }
 ToStyleSheetSkin >> uncheckedLookEvent: anEvent [
+
+	self sendEventToWriters: anEvent
+]
+
+{ #category : 'event handling' }
+ToStyleSheetSkin >> unfocusedLookEvent: anEvent [
 
 	self sendEventToWriters: anEvent
 ]

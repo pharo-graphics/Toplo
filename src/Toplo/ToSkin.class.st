@@ -25,6 +25,12 @@ ToSkin >> closedLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
+ToSkin >> deselectedLookEvent: anEvent [
+
+
+]
+
+{ #category : 'event handling' }
 ToSkin >> disabledLookEvent: anEvent [
 
 
@@ -114,10 +120,8 @@ ToSkin >> selectedLookEvent: anEvent [
 { #category : 'event handling' }
 ToSkin >> skinChangedEvent: anEvent [
 
-	anEvent target switchToSkinState: ToInstallState new.
-	anEvent target isDisabled ifTrue: [
-		^ anEvent target switchToSkinState: ToDisabledState new ].
-	anEvent target switchToSkinState: ToInitialState new
+	anEvent target skinStateEngine reset.
+	ToInstallState new addAsNextStateIn: anEvent target skinStateEngine
 ]
 
 { #category : 'event handling' }
@@ -127,7 +131,19 @@ ToSkin >> themeChangedEvent: anEvent [
 ]
 
 { #category : 'event handling' }
+ToSkin >> unabledLookEvent: anEvent [
+
+
+]
+
+{ #category : 'event handling' }
 ToSkin >> uncheckedLookEvent: anEvent [
+
+
+]
+
+{ #category : 'event handling' }
+ToSkin >> unfocusedLookEvent: anEvent [
 
 
 ]

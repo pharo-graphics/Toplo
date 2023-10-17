@@ -118,7 +118,8 @@ ToSandBox class >> example_CheckboxChecked [
 	ToTheme cleanUp.
 	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
 	chb checked: true.
-	chb openInInnerWindow
+	chb openInInnerWindow.
+	chb inspect.
 ]
 
 { #category : 'checkbox' }
@@ -327,6 +328,7 @@ ToSandBox class >> example_CheckboxWithIndeterminate [
 	ToStyleSheetTheme cleanUp.
 	but := ToCheckbox new labelText: 'Checkbox'.
 	but withIndeterminate: true.
+	but checked: true.
 	but openInSpace
 ]
 
@@ -1210,6 +1212,7 @@ ToSandBox class >> example_Popup1 [
 		             yourself.
 
 	menu := ToElement new
+		        layout: BlBasicLayout new;
 		        id: #'red-button';
 		        background: Color red;
 		        size: 100 @ 40;

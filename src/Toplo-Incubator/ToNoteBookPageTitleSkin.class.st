@@ -39,12 +39,6 @@ ToNoteBookPageTitleSkin >> initialLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToNoteBookPageTitleSkin >> releasedLookEvent: anEvent [
-
-
-]
-
-{ #category : 'event handling' }
 ToNoteBookPageTitleSkin >> uncheckedLookEvent: anEvent [
 
 	super uncheckedLookEvent: anEvent.

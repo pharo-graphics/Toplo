@@ -7,6 +7,12 @@ Class {
 }
 
 { #category : 'accessing' }
+ToReleasedState >> incompatibleStateClasses [
+
+	^ { ToPressedState }   
+]
+
+{ #category : 'accessing' }
 ToReleasedState >> lookEventClass [
 
 	^ ToReleasedLookEvent

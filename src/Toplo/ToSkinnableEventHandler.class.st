@@ -9,6 +9,50 @@ Class {
 	#tag : 'Core'
 }
 
+{ #category : 'state switching' }
+ToSkinnableEventHandler >> addClickedStateEvent: anEvent [
+
+	target addNextSkinState: (ToClickedState sourceEvent: anEvent)
+
+]
+
+{ #category : 'state switching' }
+ToSkinnableEventHandler >> addDisabledStateEvent: anEvent [
+
+	target addNextSkinState: (ToDisabledState sourceEvent: anEvent)
+]
+
+{ #category : 'state switching' }
+ToSkinnableEventHandler >> addHoveredStateEvent: anEvent [
+
+	target addNextSkinState: (ToHoveredState sourceEvent: anEvent)
+]
+
+{ #category : 'state switching' }
+ToSkinnableEventHandler >> addInitialStateEvent: anEvent [
+
+	" when switch back to enabled state, one have to reinstall mouseListener"
+	target addNextSkinState: (ToInitialState sourceEvent: anEvent)
+]
+
+{ #category : 'state switching' }
+ToSkinnableEventHandler >> addLeavedStateEvent: anEvent [
+
+	target addNextSkinState: (ToLeavedState sourceEvent: anEvent)
+]
+
+{ #category : 'state switching' }
+ToSkinnableEventHandler >> addPressedStateEvent: anEvent [
+
+	target addNextSkinState: (ToPressedState sourceEvent: anEvent)
+]
+
+{ #category : 'state switching' }
+ToSkinnableEventHandler >> addReleasedStateEvent: anEvent [
+
+	target addNextSkinState: (ToReleasedState sourceEvent: anEvent)
+]
+
 { #category : 'focus events handling' }
 ToSkinnableEventHandler >> blurEvent: anEvent [
 ]
@@ -39,8 +83,8 @@ ToSkinnableEventHandler >> doubleClickEvent: anEvent [
 { #category : 'dnd handlers' }
 ToSkinnableEventHandler >> dragEndEvent: anEvent [
 
-	self switchToReleasedStateEvent: anEvent.
-	self switchToHoveredStateEvent: anEvent
+	self addReleasedStateEvent: anEvent.
+	self addHoveredStateEvent: anEvent
 ]
 
 { #category : 'event handling' }
@@ -67,8 +111,8 @@ ToSkinnableEventHandler >> dropEvent: anEvent [
 ToSkinnableEventHandler >> enablementChangedEvent: anEvent [
 
 	target := anEvent currentTarget.
-	target isEnabled ifTrue: [ ^ self switchToInitialStateEvent: anEvent ].
-	self switchToDisabledStateEvent: anEvent
+	target isEnabled ifTrue: [ ^ self addInitialStateEvent: anEvent ].
+	self addDisabledStateEvent: anEvent
 	
 ]
 
@@ -123,20 +167,20 @@ ToSkinnableEventHandler >> keyUpEvent: anEvent [
 { #category : 'mouse handlers' }
 ToSkinnableEventHandler >> leftClickEvent: anEvent [
 
-	self switchToClickedStateEvent: anEvent
+	self addClickedStateEvent: anEvent
 ]
 
 { #category : 'mouse handlers' }
 ToSkinnableEventHandler >> leftMouseDownEvent: anEvent [
 
-	self switchToPressedStateEvent: anEvent 
+	self addPressedStateEvent: anEvent 
 ]
 
 { #category : 'mouse handlers' }
 ToSkinnableEventHandler >> leftMouseUpEvent: anEvent [
 
-	self switchToReleasedStateEvent: anEvent.
-	self switchToHoveredStateEvent: anEvent
+	self addReleasedStateEvent: anEvent.
+	self addHoveredStateEvent: anEvent
 ]
 
 { #category : 'mouse handlers' }
@@ -172,15 +216,15 @@ ToSkinnableEventHandler >> mouseDownOutsideEvent: anEvent [
 ToSkinnableEventHandler >> mouseEnterEvent: anEvent [
 
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
-	self switchToHoveredStateEvent: anEvent
+	self addHoveredStateEvent: anEvent
 ]
 
 { #category : 'mouse handlers' }
 ToSkinnableEventHandler >> mouseLeaveEvent: anEvent [
 
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
-	self switchToLeavedStateEvent: anEvent.
-	self switchToInitialStateEvent: anEvent 
+	self addLeavedStateEvent: anEvent.
+	self addInitialStateEvent: anEvent 
 
 
 
@@ -226,8 +270,8 @@ ToSkinnableEventHandler >> mouseUpOutsideEvent: anEvent [
 	So, do not change the state if the button is not in pressed state"
 	"target currentSkinState ifNotNil: [ :s | 
 		s isPressedState ifFalse: [ ^ self ] ]."
-	self switchToReleasedStateEvent: anEvent.
-	self switchToInitialStateEvent: anEvent
+	self addReleasedStateEvent: anEvent.
+	self addInitialStateEvent: anEvent
 ]
 
 { #category : 'mouse handlers' }
@@ -267,50 +311,6 @@ ToSkinnableEventHandler >> rightMouseUpEvent: anEvent [
 
 { #category : 'event handling' }
 ToSkinnableEventHandler >> shortcutEvent: anEvent [
-]
-
-{ #category : 'state switching' }
-ToSkinnableEventHandler >> switchToClickedStateEvent: anEvent [
-
-	target switchToSkinState: (ToClickedState sourceEvent: anEvent)
-
-]
-
-{ #category : 'state switching' }
-ToSkinnableEventHandler >> switchToDisabledStateEvent: anEvent [
-
-	target switchToSkinState: (ToDisabledState sourceEvent: anEvent)
-]
-
-{ #category : 'state switching' }
-ToSkinnableEventHandler >> switchToHoveredStateEvent: anEvent [
-
-	target switchToSkinState: (ToHoveredState sourceEvent: anEvent)
-]
-
-{ #category : 'state switching' }
-ToSkinnableEventHandler >> switchToInitialStateEvent: anEvent [
-
-	" when switch back to enabled state, one have to reinstall mouseListener"
-	target switchToSkinState: (ToInitialState sourceEvent: anEvent)
-]
-
-{ #category : 'state switching' }
-ToSkinnableEventHandler >> switchToLeavedStateEvent: anEvent [
-
-	target switchToSkinState: (ToLeavedState sourceEvent: anEvent)
-]
-
-{ #category : 'state switching' }
-ToSkinnableEventHandler >> switchToPressedStateEvent: anEvent [
-
-	target switchToSkinState: (ToPressedState sourceEvent: anEvent)
-]
-
-{ #category : 'state switching' }
-ToSkinnableEventHandler >> switchToReleasedStateEvent: anEvent [
-
-	target switchToSkinState: (ToReleasedState sourceEvent: anEvent)
 ]
 
 { #category : 'event handling' }

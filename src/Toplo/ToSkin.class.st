@@ -121,7 +121,8 @@ ToSkin >> selectedLookEvent: anEvent [
 ToSkin >> skinChangedEvent: anEvent [
 
 	anEvent target skinStateEngine reset.
-	ToInstallState new addAsNextStateIn: anEvent target skinStateEngine
+	(ToInstallState sourceEvent: anEvent) addAsNextStateIn:
+		anEvent target skinStateEngine
 ]
 
 { #category : 'event handling' }

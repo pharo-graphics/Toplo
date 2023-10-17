@@ -481,7 +481,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color black.
 
-	button switchToSkinState: ToDisabledState new.
+	button addNextSkinState: ToDisabledState new.
 	self assert: button background paint isColorPaint.
 	self
 		assert: button background paint color

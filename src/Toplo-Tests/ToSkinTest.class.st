@@ -58,7 +58,7 @@ ToSkinTest >> testPropertyWriterOrderMatter [
 			layoutWriter.
 			directionWriter }.
 
-	w switchToSkinState: ToInstallState new.
+	w addNextSkinState: ToInstallState new.
 	self assert: (w layout isKindOf: BlLinearLayout).
 	self assert: w layout direction isRightToLeft
 ]
@@ -139,11 +139,11 @@ ToSkinTest >> testWithAnimationOn2EventClasses [
 	w applySkinInstaller.
 	self assert: w background paint color equals: Color white.
 
-	w switchToSkinState: ToHoveredState new.
+	w addNextSkinState: ToHoveredState new.
 	animation onFinishedDo: [
 		self assert: w background paint color equals: Color black.
 
-		w switchToSkinState: ToLeavedState new.
+		w addNextSkinState: ToLeavedState new.
 		animation onFinishedDo: [
 			self assert: w background paint color equals: Color white ] ]
 ]

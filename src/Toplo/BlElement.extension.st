@@ -1,6 +1,12 @@
 Extension { #name : 'BlElement' }
 
 { #category : '*Toplo' }
+BlElement >> addNextSkinState: aState [
+
+	aState addAsNextStateIn: self skinStateEngine
+]
+
+{ #category : '*Toplo' }
 BlElement >> addStyleStamp: aStyleStamp [
 
 	self ensureLocalStyleStampIndex.
@@ -363,12 +369,6 @@ BlElement >> styleSheetChain [
 		  (self toTheme notNil and: [
 			   self toTheme styleSheet notNil and: [ inherits ] ]) ifTrue: [
 			  str nextPut: self toTheme styleSheet ] ]
-]
-
-{ #category : '*Toplo' }
-BlElement >> switchToSkinState: aState [
-
-	aState addAsNextStateIn: self skinStateEngine
 ]
 
 { #category : '*Toplo' }

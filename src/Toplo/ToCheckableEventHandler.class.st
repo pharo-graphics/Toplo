@@ -6,6 +6,13 @@ Class {
 	#tag : 'Core'
 }
 
+{ #category : 'state switching' }
+ToCheckableEventHandler >> addClickedStateEvent: anEvent [
+
+	target switchToNextCheckState.
+	super addClickedStateEvent: anEvent
+]
+
 { #category : 'checkable event handling' }
 ToCheckableEventHandler >> checkableCheckEvent: anEvent [
 
@@ -18,8 +25,8 @@ ToCheckableEventHandler >> checkableCheckEvent: anEvent [
 				       ifTrue: [ ToCheckedState sourceEvent: anEvent ]
 				       ifFalse: [ ToUncheckedState sourceEvent: anEvent ] ].
 
-	target switchToSkinState: newState.
-	target switchToSkinState: (ToClickedState sourceEvent: anEvent)
+	target addNextSkinState: newState.
+	target addNextSkinState: (ToClickedState sourceEvent: anEvent)
 	
 ]
 
@@ -27,11 +34,4 @@ ToCheckableEventHandler >> checkableCheckEvent: anEvent [
 ToCheckableEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle, { ToCheckableCheckedEvent }
-]
-
-{ #category : 'state switching' }
-ToCheckableEventHandler >> switchToClickedStateEvent: anEvent [
-
-	target switchToNextCheckState.
-	super switchToClickedStateEvent: anEvent
 ]

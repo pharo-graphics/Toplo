@@ -22,10 +22,10 @@ BlElement >> applySkinInstaller [
 ]
 
 { #category : '*Toplo' }
-BlElement >> applySkinState [
+BlElement >> applySkinStates [
 
 	self skinStateEngine applyOn: self.
-	self childrenDo: [ :child | child applySkinState ].
+	self childrenDo: [ :child | child applySkinStates ].
 
 ]
 
@@ -40,7 +40,7 @@ BlElement >> defaultSkin [
 
 	^ self userData
 		  at: #defaultSkin
-		  ifAbsent: [ self skinBuilder skinFor: self ]
+		  ifAbsent: [ self toTheme skinFor: self ]
 ]
 
 { #category : '*Toplo' }
@@ -291,12 +291,6 @@ BlElement >> requestSkinRecursively [
 
 	self childrenDo: [ :child | child requestSkinRecursively ].
 	self requestSkin
-]
-
-{ #category : '*Toplo' }
-BlElement >> skinBuilder [
-
-	^ self toTheme skinBuilder
 ]
 
 { #category : '*Toplo' }

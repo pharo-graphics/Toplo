@@ -9,9 +9,9 @@ BlSpace >> applySkinInstaller [
 ]
 
 { #category : '*Toplo' }
-BlSpace >> applySkinState [
+BlSpace >> applySkinStates [
 
-	self root applySkinState
+	self root applySkinStates
 ]
 
 { #category : '*Toplo' }

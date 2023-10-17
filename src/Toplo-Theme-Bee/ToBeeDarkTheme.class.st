@@ -11,12 +11,13 @@ When to use ?
         It works similarly to turning off the lights in a movie theater.
 "
 Class {
-	#name : #ToBeeDarkTheme,
-	#superclass : #ToBeeTheme,
-	#category : #'Toplo-Theme-Bee'
+	#name : 'ToBeeDarkTheme',
+	#superclass : 'ToBeeTheme',
+	#category : 'Toplo-Theme-Bee',
+	#package : 'Toplo-Theme-Bee'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToBeeDarkTheme >> defaultStampList [
 	" skin managing need a list of unique stamps . "
 

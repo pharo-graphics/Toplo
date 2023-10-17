@@ -15,9 +15,16 @@ ToSkinStateEngine >> addSkinState: aState [
 
 	self currentStates removeAllSuchThat: [ :s |
 		aState incompatibleStateClasses includes: s class ].
-	self pushSkinState: aState in: self nextStates.
+	self addSkinState: aState in: self nextStates.
 	aState isPersistent ifTrue: [
-		self pushSkinState: aState in: self currentStates ]
+		self addSkinState: aState in: self currentStates ]
+]
+
+{ #category : 'removing' }
+ToSkinStateEngine >> addSkinState: aState in: aStateFifo [
+
+	aStateFifo removeAllSuchThat: [ :s | s isKindOf: aState class ].
+	aStateFifo addFirst: aState
 ]
 
 { #category : 'hook' }
@@ -45,13 +52,6 @@ ToSkinStateEngine >> initialize [
 ToSkinStateEngine >> nextStates [
 
 	^ nextStates
-]
-
-{ #category : 'removing' }
-ToSkinStateEngine >> pushSkinState: aState in: aStateFifo [
-
-	aStateFifo removeAllSuchThat: [ :s | s isKindOf: aState class ].
-	aStateFifo addFirst: aState
 ]
 
 { #category : 'initialization' }

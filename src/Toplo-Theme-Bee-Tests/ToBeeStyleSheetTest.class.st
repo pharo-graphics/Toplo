@@ -25,7 +25,7 @@ ToBeeStyleSheetTest >> testDefaultButtonSkin [
 
 	|  button writers skin labelSkin |
 	button := ToButton new toTheme: ToBeeLightTheme new.
-	writers := button skinBuilder writersFor: button.
+	writers := button toTheme writersFor: button.
 	self assert: writers notEmpty.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
@@ -41,7 +41,7 @@ ToBeeStyleSheetTest >> testDefaultButtonSkin [
 	button label installedSkin: nil.
 	
 	labelSkin := ToStyleSheetSkin new.
-	writers := button label skinBuilder writersFor: button label.
+	writers := button label toTheme writersFor: button label.
 	labelSkin writers: writers.
 	button label requestSkin: labelSkin.
 	button applySkinInstaller.

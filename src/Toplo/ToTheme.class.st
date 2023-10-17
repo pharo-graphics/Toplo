@@ -34,8 +34,15 @@ ToTheme >> name [
 	^ self subclassResponsibility 
 ]
 
+{ #category : 'printing' }
+ToTheme >> printOn: aStream [
+
+	aStream nextPutAll: '[Theme named: '; nextPutAll: self name; nextPutAll: ' ]'.
+	super printOn: aStream
+]
+
 { #category : 'accessing' }
-ToTheme >> skinBuilder [
+ToTheme >> skinFor: anElement [
 
 	^ self subclassResponsibility 
 ]

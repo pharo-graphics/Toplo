@@ -15,7 +15,7 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 	| ss button labelSkin attributes foregroundAttr prop writers label ssi |
 	" declare a local only stylesheet "
 	ss := ToStyleSheet new inherits: false; yourself.
-	ssi := ToStyleSheetSkinBuilder new.
+	ssi := ToStyleSheetTheme new.
 
 	" danger button label rule "
 	prop := ToPseudoProperty new name: #'text-attributes'.
@@ -65,6 +65,7 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 	labelSkin writers: writers.
 	button label requestSkin: labelSkin.
 	button label applySkinInstaller.
+	button label applySkinStates.
 	attributes := button label text attributesAt: 1.
 	self assert: attributes notEmpty.
 	foregroundAttr := attributes
@@ -83,7 +84,7 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 
 	| ss button skin labelSkin attributes foregroundAttr writers label ssi |
 	ss := ToStyleSheet new inherits: false; yourself.
-	ssi := ToStyleSheetSkinBuilder new.
+	ssi := ToStyleSheetTheme new.
 	
 	" default button rule "
 	ss addStyleRule: ((ToStyleStampSelector new addStampName: #button)
@@ -161,6 +162,7 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 	self assert: button installedSkin isNil.
 	button requestSkin: skin.
 	button applySkinInstaller.
+	button applySkinStates.
 	self assert: button border width equals: 1.
 	self assert: button border paint isColorPaint.
 	self
@@ -185,6 +187,7 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 	labelSkin writers: writers.
 	label requestSkin: labelSkin.
 	label applySkinInstaller.
+	label applySkinStates.
 	attributes := button label text attributesAt: 1.
 	self assert: attributes notEmpty.
 	foregroundAttr := attributes
@@ -203,7 +206,7 @@ ToStyleSheetBazarTest >> testButtonSkinWithInterspace [
 
 	| ss elem writers skin interspaceProp layoutProp ssi |
 	
-	ssi := ToStyleSheetSkinBuilder new.
+	ssi := ToStyleSheetTheme new.
 	interspaceProp := ToPseudoProperty
 			   name: #'layout-interspace'
 			   reader: [ :e | e layout interspace ]
@@ -230,6 +233,7 @@ ToStyleSheetBazarTest >> testButtonSkinWithInterspace [
 	skin writers: writers.
 	elem requestSkin: skin.
 	elem applySkinInstaller.
+	elem applySkinStates.
 	self assert: (elem layout isKindOf: BlLinearLayout).
 	self assert: elem layout interspace equals: 10
 ]
@@ -239,7 +243,7 @@ ToStyleSheetBazarTest >> testEmptyStyleSheet [
 
 	| ss ssi |
 	ss := ToStyleSheet new inherits: false; yourself.
-	ssi := ToStyleSheetSkinBuilder new.
+	ssi := ToStyleSheetTheme new.
 	self assert: (ssi writersFor: (ToElement new)) isEmpty
 ]
 
@@ -282,7 +286,7 @@ ToStyleSheetBazarTest >> testSkinWithAnUniversalRule [
 
 	| ss elem skin writers ssi |
 	ss := ToStyleSheet new inherits: false; yourself.
-	ssi := ToStyleSheetSkinBuilder new.
+	ssi := ToStyleSheetTheme new.
 	ss addStyleRule:
 		(ToUniversalSelector new style: [ :sr |
 			 sr
@@ -297,6 +301,7 @@ ToStyleSheetBazarTest >> testSkinWithAnUniversalRule [
 	skin writers: writers.
 	elem requestSkin: skin.
 	elem applySkinInstaller.
+	elem applySkinStates.
 	self assert: elem background paint color equals: Color red
 ]
 
@@ -306,7 +311,7 @@ ToStyleSheetBazarTest >> testSkinWithChildRule [
 
 	| ss skin parent child writers ssi |
 	ss := ToStyleSheet new inherits: false; yourself.
-	ssi := ToStyleSheetSkinBuilder new.
+	ssi := ToStyleSheetTheme new.
 	ss addStyleRule: (((ToIdSelector new id: #child) parent:
 					  (ToStyleStampSelector new addStampName: #parent))
 			 style: [ :sr |
@@ -328,6 +333,7 @@ ToStyleSheetBazarTest >> testSkinWithChildRule [
 	skin writers: writers.
 	child requestSkin: skin.
 	parent applySkinInstaller.
+	parent applySkinStates.
 	self assert: child border width equals: 3.
 	self assert: child border paint isColorPaint.
 	self assert: child border paint color equals: Color red
@@ -339,7 +345,7 @@ ToStyleSheetBazarTest >> testSkinWithChildRuleLevel2 [
 
 	| ss skin parent child writers subParent ssi |
 	ss := ToStyleSheet new inherits: false; yourself.
-	ssi := ToStyleSheetSkinBuilder new.
+	ssi := ToStyleSheetTheme new.
 	ss addStyleRule: (((ToIdSelector new id: #child)
 					  parent: (ToStyleStampSelector new addStampName: #parent)
 					  depth: 2)
@@ -364,6 +370,7 @@ ToStyleSheetBazarTest >> testSkinWithChildRuleLevel2 [
 	skin writers: writers.
 	child requestSkin: skin.
 	parent applySkinInstaller.
+	parent applySkinStates.
 	self assert: child border width equals: 3.
 	self assert: child border paint isColorPaint.
 	self assert: child border paint color equals: Color red
@@ -374,7 +381,7 @@ ToStyleSheetBazarTest >> testSkinWithIdRule [
 
 	| ss elem writers skin ssi |
 	ss := ToStyleSheet new inherits: false; yourself.
-	ssi := ToStyleSheetSkinBuilder new.
+	ssi := ToStyleSheetTheme new.
 	ss addStyleRule:
 		((ToIdSelector new id: #a) style: [ :sr |
 			 sr
@@ -391,6 +398,7 @@ ToStyleSheetBazarTest >> testSkinWithIdRule [
 	skin writers: writers.
 	elem requestSkin: skin.
 	elem applySkinInstaller.
+	elem applySkinStates.
 	self assert: elem border width equals: 3.
 	self assert: elem border paint isColorPaint.
 	self assert: elem border paint color equals: Color red
@@ -403,7 +411,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyle0 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToStyleSheetSkinBuilder new.
+	ssi := ToStyleSheetTheme new.
 	button := ToElement new.
 	button styleSheet: ss.
 
@@ -427,6 +435,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyle0 [
 	skin writers: writers.
 	button requestSkin: skin.
 	button applySkinInstaller.
+	button applySkinStates.
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color black
 ]
@@ -438,7 +447,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToStyleSheetSkinBuilder new.
+	ssi := ToStyleSheetTheme new.
 	button := ToElement new.
 	button styleSheet: ss.
 
@@ -468,6 +477,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 	skin writers: writers.
 	button requestSkin: skin.
 	button applySkinInstaller.
+	button applySkinStates.
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color black.
 
@@ -477,11 +487,13 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 	skin writers: writers.
 	button requestSkin: skin.
 	button applySkinInstaller.
+	button applySkinStates.
 	
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color black.
 
 	button addNextSkinState: ToDisabledState new.
+	button applySkinStates.
 	self assert: button background paint isColorPaint.
 	self
 		assert: button background paint color
@@ -495,7 +507,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules1 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToStyleSheetSkinBuilder new.
+	ssi := ToStyleSheetTheme new.
 
 	elem := ToElement new withStamp: #elem.
 	child := ToElement new withStamp: #child.
@@ -528,6 +540,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules1 [
 	skin writers: writers.
 	child requestSkin: skin.
 	child applySkinInstaller.
+	child applySkinStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -539,7 +552,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules2 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToStyleSheetSkinBuilder new.
+	ssi := ToStyleSheetTheme new.
 
 
 	elem := ToElement new withStamp: #elem.
@@ -575,6 +588,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules2 [
 	child requestSkin: skin.
 
 	child applySkinInstaller.
+	child applySkinStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -586,7 +600,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules22 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToStyleSheetSkinBuilder new.
+	ssi := ToStyleSheetTheme new.
 
 	elem := ToElement new withAllStamps: #( elem #red ).
 	child := ToElement new withStamp: #child.
@@ -622,6 +636,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules22 [
 	skin writers: writers.
 	child requestSkin: skin.
 	child applySkinInstaller.
+	child applySkinStates.
 
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
@@ -634,7 +649,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules3 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToStyleSheetSkinBuilder new.
+	ssi := ToStyleSheetTheme new.
 
 
 	elem := ToElement new withAllStamps: #( elem #red ).
@@ -672,6 +687,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules3 [
 	child requestSkin: skin.
 
 	child applySkinInstaller.
+	child applySkinStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -683,7 +699,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules32 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToStyleSheetSkinBuilder new.
+	ssi := ToStyleSheetTheme new.
 
 
 	elem := ToElement new withAllStamps: #( elem #red ).
@@ -727,6 +743,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules32 [
 	child requestSkin: skin.
 
 	child applySkinInstaller.
+	child applySkinStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -738,7 +755,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules33 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToStyleSheetSkinBuilder new.
+	ssi := ToStyleSheetTheme new.
 
 
 	elem := ToElement new withAllStamps: #( elem #red ).
@@ -773,6 +790,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules33 [
 	child requestSkin: skin.
 
 	child applySkinInstaller.
+	child applySkinStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -784,7 +802,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules1 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToStyleSheetSkinBuilder new.
+	ssi := ToStyleSheetTheme new.
 
 
 	elem := ToElement new withStamp: #elem.
@@ -811,6 +829,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules1 [
 	child requestSkin: skin.
 
 	child applySkinInstaller.
+	child applySkinStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -822,7 +841,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules2 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToStyleSheetSkinBuilder new.
+	ssi := ToStyleSheetTheme new.
 
 
 	elem := ToElement new withStamp: #elem.
@@ -850,6 +869,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules2 [
 	child requestSkin: skin.
 
 	child applySkinInstaller.
+	child applySkinStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -861,7 +881,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules3 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToStyleSheetSkinBuilder new.
+	ssi := ToStyleSheetTheme new.
 
 
 	elem := ToElement new withAllStamps: #( elem #red ).
@@ -892,6 +912,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules3 [
 	child requestSkin: skin.
 
 	child applySkinInstaller.
+	child applySkinStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -903,7 +924,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToStyleSheetSkinBuilder new.
+	ssi := ToStyleSheetTheme new.
 
 	elem := ToElement new withAllStamps: #( #elem #red ).
 	child := ToElement new withStamp: #child.
@@ -941,6 +962,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 	child requestSkin: skin.
 
 	child applySkinInstaller.
+	child applySkinStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red.
 	
@@ -952,6 +974,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 	child requestSkin: skin.
 
 	child applySkinInstaller.
+	child applySkinStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color blue.
 	

@@ -1,8 +1,5 @@
-"
-A ToSpaceSkinInstallerPhaseTest is a test class for testing the behavior of ToSpaceSkinInstallerPhase
-"
 Class {
-	#name : 'ToSpaceSkinInstallerPhaseTest',
+	#name : 'ToSpaceSkinStatePhaseTest',
 	#superclass : 'TestCase',
 	#category : 'Toplo-Tests-Core-SpaceFrame',
 	#package : 'Toplo-Tests',
@@ -10,7 +7,7 @@ Class {
 }
 
 { #category : 'tests' }
-ToSpaceSkinInstallerPhaseTest >> testElementAddedToSceneGraphEvent [
+ToSpaceSkinStatePhaseTest >> testElementAddedToSceneGraphEvent [
 
 	| space e nb |
 	space := BlSpace new.
@@ -42,7 +39,7 @@ ToSpaceSkinInstallerPhaseTest >> testElementAddedToSceneGraphEvent [
 ]
 
 { #category : 'tests' }
-ToSpaceSkinInstallerPhaseTest >> testStopSpaceFrameSkinInstallerPhase [
+ToSpaceSkinStatePhaseTest >> testStopSpaceFrameSkinStatePhase [
 
 	| space e nb |
 	space := BlSpace new.
@@ -57,11 +54,11 @@ ToSpaceSkinInstallerPhaseTest >> testStopSpaceFrameSkinInstallerPhase [
 	self assert: (space frame phases anySatisfy: [ :p |
 			 p isKindOf: ToSpaceSkinStatePhase ]).
 
-	space stopSkinInstallerPhase.
+	space stopSkinStatePhase.
 	" The skin specific phase is removed "
 	self assert: space frame phases size equals: nb + 1.
 	self assert: (space frame phases noneSatisfy: [ :p |
-			 p isKindOf: ToSpaceSkinInstallerPhase ]).
+			 p isKindOf: ToSpaceSkinStatePhase ]).
 
 
 ]

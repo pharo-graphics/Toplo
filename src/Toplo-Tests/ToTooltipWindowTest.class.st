@@ -24,7 +24,8 @@ ToTooltipWindowTest >> testContent [
 	BlSpace simulateMouseMoveInside: e.
 	(windowHandler popupDelay + 100 milliSecond ) wait.
 	space pulse.
-	self assert: windowHandler currentWindow root firstChild identicalTo: windowHandler element tooltip.
+	self assert: (windowHandler currentWindow root firstChild isKindOf: ToLabel) .
+	self assert: windowHandler currentWindow root firstChild text asString equals: 'Tooltip content' .
 	^  windowHandler currentWindow
 ]
 

@@ -16,5 +16,5 @@ ToSpaceSkinStatePhase >> name [
 { #category : 'actions' }
 ToSpaceSkinStatePhase >> runOn: aSpace [
 
-	aSpace applySkinState
+	aSpace applySkinStates
 ]

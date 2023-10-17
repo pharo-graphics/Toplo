@@ -13,7 +13,7 @@ ToRawTheme >> name [
 ]
 
 { #category : 'accessing' }
-ToRawTheme >> skinBuilder [
+ToRawTheme >> skinFor: anElement [
 
-	^ ToRawSkinBuilder new
+	^ anElement rawSkin
 ]

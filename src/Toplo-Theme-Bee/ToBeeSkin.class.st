@@ -1,11 +1,14 @@
 Class {
-	#name : #ToBeeSkin,
-	#superclass : #ToStyleSheetSkin,
-	#category : #'Toplo-Theme-Bee'
+	#name : 'ToBeeSkin',
+	#superclass : 'ToStyleSheetSkin',
+	#category : 'Toplo-Theme-Bee',
+	#package : 'Toplo-Theme-Bee'
 }
 
-{ #category : #'event handling' }
-ToBeeSkin >> installStyleSheetStyleIn: anElement [
+{ #category : 'event handling' }
+ToBeeSkin >> installLookEvent: anEvent [
 
-	anElement installBeeStyle
+	anEvent elementDo: [ :e | e installBeeStyle ].
+	super installLookEvent: anEvent
+
 ]

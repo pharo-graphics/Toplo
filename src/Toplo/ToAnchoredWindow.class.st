@@ -110,11 +110,17 @@ ToAnchoredWindow >> popup [
 ToAnchoredWindow >> popupEvent: anEvent [
 	" I have to set the position here "
 
+	self element ifNil: [
+		Error signal:
+			'Can''t popup an anchored window without associate element' ].
+	self element isAttachedToSceneGraph ifFalse: [
+		Error signal:
+			'Can''t popup an anchored window if the element is not attached to a space' ].
 	self applyPositionHookFromEvent: anEvent.
 	self applySizeHookFromEvent: anEvent.
 	self hasParent ifTrue: [ ^ self ].
 	self element space root addChild: self.
-	self dispatchOpenedEvent: anEvent. 
+	self dispatchOpenedEvent: anEvent.
 	popupTimestamp := DateAndTime now.
 	"I need to finalize my position as soon as my layout is up-to-date"
 	self whenLayoutedDoOnce: [

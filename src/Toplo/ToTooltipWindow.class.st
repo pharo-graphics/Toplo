@@ -1,39 +1,16 @@
 Class {
 	#name : 'ToTooltipWindow',
 	#superclass : 'ToAnchoredWindow',
-	#instVars : [
-		'content'
-	],
 	#category : 'Toplo-Core-Tooltip',
 	#package : 'Toplo',
 	#tag : 'Core-Tooltip'
 }
 
-{ #category : 'api - displaying' }
-ToTooltipWindow >> close [ 
-	
-	self content removeFromParent.
-	super close
-]
-
 { #category : 'accessing' }
-ToTooltipWindow >> content [
+ToTooltipWindow >> close [
 
-	^ content
-]
-
-{ #category : 'accessing' }
-ToTooltipWindow >> content: anElement [
-
-	content ifNotNil: [ content removeFromParent ].
-	content := anElement.
-	anElement ifNotNil: [
-		self root addChild: self content.
-		self content constraintsDo: [ :c |
-			c linear vertical alignCenter.
-			c linear horizontal alignCenter.
-			c frame vertical alignCenter.
-			c frame horizontal alignCenter ] ]
+	self root removeChildren.
+	^super close
 ]
 
 { #category : 'accessing' }

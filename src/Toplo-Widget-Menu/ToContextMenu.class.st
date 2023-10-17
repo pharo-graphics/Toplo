@@ -30,12 +30,6 @@ ToContextMenu >> closedEventClass [
 	^ ToContextMenuClosedEvent 
 ]
 
-{ #category : 'initialization' }
-ToContextMenu >> defaulPositionHook [
-
-	^ [ :w :event | event position ]
-]
-
 { #category : 't - menu window model' }
 ToContextMenu >> isOpened [
 
@@ -76,12 +70,6 @@ ToContextMenu >> menuWindow [
 ToContextMenu >> openedEventClass [
 
 	^ ToContextMenuOpenedEvent 
-]
-
-{ #category : 't - menu window model' }
-ToContextMenu >> popupEvent: anEvent [
-
-	super popupEvent: anEvent
 ]
 
 { #category : 't - menu window model' }

@@ -9,9 +9,9 @@ Class {
 { #category : 'initialization' }
 ToTooltipWindowHandler >> defaulPositionHook [
 
-	^ [ :event |
+	^ [ :event :theElement| 
 	  event position x
-	  @ (element localPointToGlobal: 0 @ element height) y + self vgap ]
+	  @ (theElement localPointToGlobal: 0 @ theElement height) y + self vgap ]
 ]
 
 { #category : 'accessing' }

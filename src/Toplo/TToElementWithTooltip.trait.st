@@ -1,78 +1,94 @@
 Trait {
 	#name : 'TToElementWithTooltip',
-	#category : 'Toplo-Core-Tooltip',
+	#category : 'Toplo-Core',
 	#package : 'Toplo',
-	#tag : 'Core-Tooltip'
+	#tag : 'Core'
 }
 
-{ #category : 't - element with tooltip - private' }
+{ #category : 't - element with tooltip' }
 TToElementWithTooltip >> currentTooltipWindow [
 
-	^ self tooltipWindowHandler ifNotNil: [ :h | h currentWindow ] 
+	^ self rawTooltipWindowHandler ifNotNil: [ :h | h currentWindow ]
 ]
 
-{ #category : 't - element with tooltip - testing' }
+{ #category : 't - element with tooltip' }
+TToElementWithTooltip >> hasOpenedTooltip [
+	" do not use #tooltipWindowHandler to avoid TooltipWindowHandler installation here "
+
+	^ self currentTooltipWindow notNil
+]
+
+{ #category : 't - element with tooltip' }
 TToElementWithTooltip >> hasTooltip [
+	" do not use #tooltipWindowHandler to avoid TooltipWindowHandler installation here "
 
-	^ self tooltipContent notNil
+	^ self rawTooltipWindowHandler notNil
 ]
 
-{ #category : 't - element with tooltip - private' }
+{ #category : 't - element with tooltip' }
 TToElementWithTooltip >> newTooltipWindowEvent: anEvent [
 
-	^ self tooltipWindowHandler newWindowEvent: anEvent
+	^ self rawTooltipWindowHandler newWindowEvent: anEvent
 ]
 
-{ #category : 't - element with tooltip - private' }
-TToElementWithTooltip >> privateRemoveTooltipWindowHandler [
+{ #category : 't - element with tooltip' }
+TToElementWithTooltip >> rawTooltipWindowHandler [
 
-	| handler |
-	handler := self userData
-		           at: #tooltipWindowHandler
-		           ifAbsent: [ ^ self ].
-	handler hasWindow ifTrue: [ handler closeWindow ].
-	handler element: nil.
+	^ self userData at: #tooltipWindowHandler ifAbsent: [ ]
+]
+
+{ #category : 't - element with tooltip' }
+TToElementWithTooltip >> removeTooltip [
+
+	self removeTooltipWindowHandler
+]
+
+{ #category : 't - element with tooltip' }
+TToElementWithTooltip >> removeTooltipWindowHandler [
+
+	| tmp1 |
+	tmp1 := self rawTooltipWindowHandler.
+	tmp1 ifNil: [ ^ self ] ifNotNil: [ tmp1 ].
+	tmp1 hasWindow ifTrue: [ tmp1 closeWindow ].
+	tmp1 element: nil.
 	self userData removeKey: #tooltipWindowHandler
 ]
 
-{ #category : 't - element with tooltip - accessing' }
-TToElementWithTooltip >> removeTooltip [
+{ #category : 't - element with tooltip' }
+TToElementWithTooltip >> tooltip: aValuable [
+	" aValuable take the window to build as first argument and the element with tooltip as second argument. if aValuable is nil, then the context menu builder is removed"
 
-	self privateRemoveTooltipWindowHandler.
-	self tooltipContent: nil
+	self tooltipBuilder: aValuable
 ]
 
-{ #category : 't - element with tooltip - accessing' }
-TToElementWithTooltip >> tooltip [
+{ #category : 't - element with tooltip' }
+TToElementWithTooltip >> tooltipBuilder [
 
-	^ self tooltipContent 
+	^ self tooltipWindowHandler builder
 ]
 
-{ #category : 't - element with tooltip - accessing' }
-TToElementWithTooltip >> tooltip: anElement [
+{ #category : 't - element with tooltip' }
+TToElementWithTooltip >> tooltipBuilder: aValuable [
 
-	self tooltipContent: anElement
+	" aValuable take the tooltip window to build as first argument and the element with tooltip as second argument "
+	
+	aValuable 
+		ifNil: [
+			self tooltipWindowHandler: nil.
+			^ self ].
+	self tooltipWindowHandler builder: aValuable
 ]
 
-{ #category : 't - element with tooltip - accessing' }
-TToElementWithTooltip >> tooltipContent [
-
-	^ self userData at: #tooltip ifAbsent: [  ]
-]
-
-{ #category : 't - element with tooltip - accessing' }
+{ #category : 't - element with tooltip' }
 TToElementWithTooltip >> tooltipContent: anElement [
 
 	anElement ifNil: [
-		self privateRemoveTooltipWindowHandler.
-		self userData removeKey: #tooltip ifAbsent: [  ].
+		self removeTooltipWindowHandler.
 		^ self ].
-	self userData at: #tooltip put: anElement.
-	self tooltipWindowHandler: ToTooltipWindowHandler new.
-	self tooltipWindowHandler builder: [ :win :element | win content: anElement ]
+	self tooltipBuilder: [ :win :element | win root addChild: anElement ]
 ]
 
-{ #category : 't - element with tooltip - accessing' }
+{ #category : 't - element with tooltip' }
 TToElementWithTooltip >> tooltipString: aString [
 
 	"Set a help string to display to the user if he let the mouse over the widget (a tooltip)."
@@ -80,7 +96,7 @@ TToElementWithTooltip >> tooltipString: aString [
 	self tooltipText: aString asRopedText
 ]
 
-{ #category : 't - element with tooltip - accessing' }
+{ #category : 't - element with tooltip' }
 TToElementWithTooltip >> tooltipText: aText [
 
 	self tooltipContent: ((ToLabel text: aText asRopedText)
@@ -88,17 +104,22 @@ TToElementWithTooltip >> tooltipText: aText [
 			 yourself)
 ]
 
-{ #category : 't - element with tooltip - accessing' }
+{ #category : 't - element with tooltip' }
 TToElementWithTooltip >> tooltipWindowHandler [
 
-	^ self userData at: #tooltipWindowHandler ifAbsent: [  ]
+	^ self userData at: #tooltipWindowHandler ifAbsentPut: [
+		  | handler |
+		  handler := ToTooltipWindowHandler new.
+		  handler
+			  element: self;
+			  yourself ]
 ]
 
-{ #category : 't - element with tooltip - accessing' }
+{ #category : 't - element with tooltip' }
 TToElementWithTooltip >> tooltipWindowHandler: aWindowHandler [
 
-	self tooltipWindowHandler = aWindowHandler ifTrue: [ ^ self ].
-	self privateRemoveTooltipWindowHandler.
+	self rawTooltipWindowHandler = aWindowHandler ifTrue: [ ^ self ].
+	self removeTooltipWindowHandler.
 	aWindowHandler ifNil: [ ^ self ].
 	self userData at: #tooltipWindowHandler put: (aWindowHandler
 			 element: self;

@@ -20,12 +20,6 @@ ToNotebookPageTitle >> defaultGeometry [
 			   yourself)
 ]
 
-{ #category : 'skin' }
-ToNotebookPageTitle >> defaultSkin [ 
-
-	^ ToNoteBookPageTitleSkin new
-]
-
 { #category : 'initialization' }
 ToNotebookPageTitle >> initialize [
 
@@ -74,6 +68,12 @@ ToNotebookPageTitle >> page [
 ToNotebookPageTitle >> page: aPage [
 
 	page := aPage
+]
+
+{ #category : 'skin' }
+ToNotebookPageTitle >> rawSkin [ 
+
+	^ ToNoteBookPageTitleSkin new
 ]
 
 { #category : 'accessing' }

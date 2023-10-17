@@ -2559,6 +2559,21 @@ ToSandBox class >> example_toButtonOrientationChanger3 [
 	space show 
 ]
 
+{ #category : 'tooltip' }
+ToSandBox class >> example_toButtonWithElementTooltip [
+
+	| but |
+	but := ToButton new.
+	but labelText: 'Button with tooltip'.
+	but tooltipBuilder: [ :win :theElement |
+		win root addChild: (BlElement new
+				 background: Color random;
+				 size: 70 @ 100;
+				 yourself) ].
+	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
+	but openInInnerWindow
+]
+
 { #category : 'button-dep' }
 ToSandBox class >> example_toButtonWithIconAndText [
 
@@ -2618,18 +2633,6 @@ ToSandBox class >> example_toButtonWithIconOnly [
 	space := BlSpace new.
 	space root addChild: container.
 	space show 
-]
-
-{ #category : 'tooltip' }
-ToSandBox class >> example_toButtonWithRedElementTooltip [
-
-	| but  |
-	but := ToButton new.
-	but labelText: 'Button with tooltip'.
-	but tooltipContent: (BlElement new background: Color red; size: 70@100; yourself). 
-	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
-	but openInInnerWindow 
- 
 ]
 
 { #category : 'button-dep' }

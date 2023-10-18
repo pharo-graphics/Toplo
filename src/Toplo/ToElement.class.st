@@ -51,7 +51,8 @@ ToElement >> initialize [
 ToElement >> onAddedToParent [
 
 	super onAddedToParent.
-	self enabled: self parent isEnabled.
+	self hasEnablementFlag ifFalse: [
+		self enabled: self parent isEnabled ].
 	self parent isWithoutSkin ifTrue: [ self withoutSkin ]
 ]
 
@@ -94,4 +95,10 @@ ToElement >> skinInstallerPhaseChecker [
 		  detect: [ :handler |
 			  handler isKindOf: ToSpaceSkinInstallerPhaseCheckerEventHandler ]
 		  ifNone: [  ]
+]
+
+{ #category : 't - checkable - private protocol' }
+ToElement >> switchToNextCheckStateOnClick [
+
+	" introduced here to avoid questionable condition in SinnableEventHandler for the management of the click event "
 ]

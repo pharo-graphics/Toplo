@@ -11,6 +11,6 @@ Class {
 ToSelectItem >> initialize [
 
 	super initialize.
-	self whenClickedDo: [ self switchToNextCheckState ].
+	self whenClickedDo: [ self switchToNextCheckStateOnClick ].
 	self addEventHandler: self defaultEventHandler
 ]

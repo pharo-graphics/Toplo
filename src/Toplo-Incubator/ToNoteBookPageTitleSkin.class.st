@@ -10,32 +10,23 @@ ToNoteBookPageTitleSkin >> checkedLookEvent: anEvent [
 
 	super checkedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self dressSelected: e ]
+		e background: e defaultBackground ]
 ]
 
 { #category : 'event handling' }
-ToNoteBookPageTitleSkin >> dressDeselected: aPageTitle [
+ToNoteBookPageTitleSkin >> hoveredLookEvent: anEvent [
 
-	aPageTitle background: aPageTitle theme notebook deselectedPageTitleBackgroundColor
-]
-
-{ #category : 'event handling' }
-ToNoteBookPageTitleSkin >> dressSelected: aPageTitle [
-
-	aPageTitle background: aPageTitle theme notebook selectedPageTitleBackgroundColor
-]
-
-{ #category : 'event handling' }
-ToNoteBookPageTitleSkin >> initialLookEvent: anEvent [
-
-	super initialLookEvent: anEvent.
+	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e mouseCursor: BlCursor default.
-		e border: e defaultBorder.
-		e background: e defaultBackground.
-		e page isSelected
-			ifTrue: [ self dressSelected: e ]
-			ifFalse: [ self dressDeselected: e ] ]
+		e page isSelected ifTrue: [ e background: e defaultBackground ] ]
+]
+
+{ #category : 'event handling' }
+ToNoteBookPageTitleSkin >> leavedLookEvent: anEvent [
+
+	super leavedLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e background: e defaultBackground ]
 ]
 
 { #category : 'event handling' }
@@ -43,5 +34,5 @@ ToNoteBookPageTitleSkin >> uncheckedLookEvent: anEvent [
 
 	super uncheckedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self dressDeselected: e ]
+		e background: e defaultBackground ]
 ]

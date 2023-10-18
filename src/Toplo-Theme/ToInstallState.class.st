@@ -7,11 +7,10 @@ Class {
 }
 
 { #category : 'skin state engine' }
-ToInstallState >> addAsNextStateIn: aSkinStateEngine [
+ToInstallState >> addAsNextStateIn: anElement [
 
-	super addAsNextStateIn: aSkinStateEngine.
-	aSkinStateEngine addSkinState: ToInitialState new.
-	aSkinStateEngine currentStates do: [ :s | aSkinStateEngine addSkinState: s ]
+	" do not send to super here. The state engine will react accordingly "
+	anElement skinStateEngine switchToInstallState: self in: anElement
 ]
 
 { #category : 'testing' }

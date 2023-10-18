@@ -60,6 +60,32 @@ ToElementTest >> testInitialize [
 ]
 
 { #category : 'test initialize' }
+ToElementTest >> testOnAddedToParent [
+
+	| e container |
+	e := ToElement new.
+	BlSpace new root addChild: e.
+	self assert: e isEnabled.
+	e := ToElement new.
+	e disable.
+	BlSpace new root addChild: e.
+	self assert: e isDisabled.
+	e := ToElement new.
+	BlSpace new root
+		disable;
+		addChild: e.
+	self assert: e isDisabled.
+
+	container := ToElement new.
+	e := ToElement new.
+	BlSpace new root
+		disable;
+		addChild: container.
+	container addChild: e.
+	self assert: e isDisabled
+]
+
+{ #category : 'test initialize' }
 ToElementTest >> testOnAddedToSceneGraph [
 
 	| e |

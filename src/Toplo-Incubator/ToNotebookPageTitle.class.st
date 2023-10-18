@@ -10,6 +10,14 @@ Class {
 }
 
 { #category : 'skin' }
+ToNotebookPageTitle >> defaultBackground [
+
+	self page isSelected ifTrue: [
+		^ self theme notebook selectedPageTitleBackgroundColor ].
+	^ self theme notebook deselectedPageTitleBackgroundColor
+]
+
+{ #category : 'skin' }
 ToNotebookPageTitle >> defaultGeometry [
 
 	^ BlRoundedRectangleGeometry cornerRadii: (BlCornerRadii new

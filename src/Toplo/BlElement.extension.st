@@ -3,7 +3,7 @@ Extension { #name : 'BlElement' }
 { #category : '*Toplo' }
 BlElement >> addNextSkinState: aState [
 
-	aState addAsNextStateIn: self skinStateEngine
+	aState addAsNextStateIn: self 
 ]
 
 { #category : '*Toplo' }
@@ -103,6 +103,12 @@ BlElement >> flagAsDisabled [
 BlElement >> flagAsEnabled [
 
 	self userData at: #enabled put: true
+]
+
+{ #category : '*Toplo' }
+BlElement >> hasEnablementFlag [
+
+	^ self userData includesKey: #enabled
 ]
 
 { #category : '*Toplo' }
@@ -315,7 +321,7 @@ BlElement >> skinInstaller: aSkinInstaller [
 { #category : '*Toplo' }
 BlElement >> skinStateEngine [
 
-	^ self userData at: #skinStateEngine ifAbsentPut: ToSkinStateEngine new
+	^ self userData at: #skinStateEngine ifAbsentPut: (ToSkinStateEngine new onInstalledIn: self)
 ]
 
 { #category : '*Toplo' }

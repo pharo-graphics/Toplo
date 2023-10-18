@@ -7,9 +7,3 @@ Class {
 	#package : 'Toplo-Widget-Menu',
 	#tag : 'Basic'
 }
-
-{ #category : 'initialization' }
-ToCheckMenuItem >> defaultEventHandlerClass [
-
-	^ ToCheckableEventHandler
-]

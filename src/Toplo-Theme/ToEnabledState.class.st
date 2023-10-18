@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToUnabledState',
+	#name : 'ToEnabledState',
 	#superclass : 'ToElementState',
 	#category : 'Toplo-Theme-State',
 	#package : 'Toplo-Theme',
@@ -7,13 +7,13 @@ Class {
 }
 
 { #category : 'accessing' }
-ToUnabledState >> incompatibleStateClasses [
+ToEnabledState >> incompatibleStateClasses [
 
 	^ { ToDisabledState }     
 ]
 
 { #category : 'accessing' }
-ToUnabledState >> lookEventClass [
+ToEnabledState >> lookEventClass [
 
-	^ ToUnabledLookEvent 
+	^ ToEnabledLookEvent 
 ]

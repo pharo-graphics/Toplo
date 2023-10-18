@@ -20,14 +20,24 @@ ToCheckboxSkin >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
+		e background: e disabledBackground.
 		e icon innerImage border: e disabledBorder ]
+]
+
+{ #category : 'event handling' }
+ToCheckboxSkin >> enabledLookEvent: anEvent [
+
+	super enabledLookEvent: anEvent.
+	anEvent elementDo: [ :e | e icon border: e iconDefaultBorder ]
 ]
 
 { #category : 'event handling' }
 ToCheckboxSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
-	anEvent elementDo: [ :e | e icon border: e iconHoveredBorder ]
+	anEvent elementDo: [ :e | 
+		e isDisabled ifTrue: [ ^ self ].
+		e icon border: e iconHoveredBorder ]
 ]
 
 { #category : 'event handling' }
@@ -43,7 +53,7 @@ ToCheckboxSkin >> indeterminateLookEvent: anEvent [
 ToCheckboxSkin >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
-	anEvent elementDo: [ :e | e icon border: e iconDefaultBorder.  ]
+	anEvent elementDo: [ :e | e icon border: e iconDefaultBorder  ]
 ]
 
 { #category : 'event handling' }
@@ -61,15 +71,23 @@ ToCheckboxSkin >> installIconImageIn: aCheckbox [
 ToCheckboxSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
-	anEvent elementDo: [ :e |  self installIconImageIn: e ]
+	anEvent elementDo: [ :e | self installIconImageIn: e ]
 ]
 
 { #category : 'event handling' }
-ToCheckboxSkin >> unabledLookEvent: anEvent [
+ToCheckboxSkin >> leavedLookEvent: anEvent [
 
-	super unabledLookEvent: anEvent.
-	anEvent elementDo: [ :e |
+	super leavedLookEvent: anEvent.
+	anEvent elementDo: [ :e | 
+		e isDisabled ifTrue: [ ^ self ].
 		e icon border: e iconDefaultBorder ]
+]
+
+{ #category : 'event handling' }
+ToCheckboxSkin >> releasedLookEvent: anEvent [
+
+	super releasedLookEvent: anEvent.
+	anEvent elementDo: [ :e | e icon border: e iconDefaultBorder ]
 ]
 
 { #category : 'event handling' }

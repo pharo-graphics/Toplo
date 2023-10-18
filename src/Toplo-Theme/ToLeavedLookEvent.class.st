@@ -9,5 +9,5 @@ Class {
 { #category : 'sending' }
 ToLeavedLookEvent >> sendTo: anObject [
 
-	anObject leavedLookEvent: self
+	anObject leavedLookEvent: self 
 ]

@@ -34,12 +34,6 @@ ToCheckbox >> defaultBorder [
 	^ BlBorder empty
 ]
 
-{ #category : 'initialization' }
-ToCheckbox >> defaultEventHandler [ 
-
-	^ ToCheckableEventHandler new 
-]
-
 { #category : 'skin' }
 ToCheckbox >> defaultImageBorder [
 

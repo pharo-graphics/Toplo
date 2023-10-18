@@ -19,20 +19,19 @@ ToSkinnableEventHandler >> addClickedStateEvent: anEvent [
 { #category : 'state switching' }
 ToSkinnableEventHandler >> addDisabledStateEvent: anEvent [
 
-	target addNextSkinState: (ToDisabledState sourceEvent: anEvent)
+	(ToInstallState sourceEvent: anEvent) addAsNextStateIn: target
+]
+
+{ #category : 'state switching' }
+ToSkinnableEventHandler >> addEnabledStateEvent: anEvent [
+
+	(ToInstallState sourceEvent: anEvent) addAsNextStateIn: target
 ]
 
 { #category : 'state switching' }
 ToSkinnableEventHandler >> addHoveredStateEvent: anEvent [
 
 	target addNextSkinState: (ToHoveredState sourceEvent: anEvent)
-]
-
-{ #category : 'state switching' }
-ToSkinnableEventHandler >> addInitialStateEvent: anEvent [
-
-	" when switch back to enabled state, one have to reinstall mouseListener"
-	target addNextSkinState: (ToInitialState sourceEvent: anEvent)
 ]
 
 { #category : 'state switching' }
@@ -55,6 +54,22 @@ ToSkinnableEventHandler >> addReleasedStateEvent: anEvent [
 
 { #category : 'focus events handling' }
 ToSkinnableEventHandler >> blurEvent: anEvent [
+]
+
+{ #category : 'checkable event handling' }
+ToSkinnableEventHandler >> checkableCheckEvent: anEvent [
+	"ToCheclableCheckEvent can be send either because of a click or because the checkable as been checked programmatically"
+
+	| newStateClass |
+	newStateClass := anEvent current
+		                 ifNil: [ ToIndeterminateState ]
+		                 ifNotNil: [ :v |
+			                 v
+				                 ifTrue: [ ToCheckedState ]
+				                 ifFalse: [ ToUncheckedState ] ].
+
+	target addNextSkinState: (newStateClass sourceEvent: anEvent).
+	target addNextSkinState: (ToClickedState sourceEvent: anEvent)
 ]
 
 { #category : 'mouse handlers' }
@@ -83,8 +98,7 @@ ToSkinnableEventHandler >> doubleClickEvent: anEvent [
 { #category : 'dnd handlers' }
 ToSkinnableEventHandler >> dragEndEvent: anEvent [
 
-	self addReleasedStateEvent: anEvent.
-	self addHoveredStateEvent: anEvent
+	self addReleasedStateEvent: anEvent
 ]
 
 { #category : 'event handling' }
@@ -111,7 +125,7 @@ ToSkinnableEventHandler >> dropEvent: anEvent [
 ToSkinnableEventHandler >> enablementChangedEvent: anEvent [
 
 	target := anEvent currentTarget.
-	target isEnabled ifTrue: [ ^ self addInitialStateEvent: anEvent ].
+	target isEnabled ifTrue: [ ^ self addEnabledStateEvent: anEvent ].
 	self addDisabledStateEvent: anEvent
 	
 ]
@@ -119,7 +133,7 @@ ToSkinnableEventHandler >> enablementChangedEvent: anEvent [
 { #category : 'api - accessing' }
 ToSkinnableEventHandler >> eventsToHandle [
 
-	^ { BlUIEvent. BlMousePickOutsideEvent. ToEnablementChangedEvent }
+	^ { BlUIEvent. BlMousePickOutsideEvent. ToCheckableCheckedEvent. ToEnablementChangedEvent }
 ]
 
 { #category : 'api - accessing' }
@@ -143,7 +157,7 @@ ToSkinnableEventHandler >> focusOutEvent: anEvent [
 { #category : 'api - event managing' }
 ToSkinnableEventHandler >> handleEvent: anEvent [
 
-	anEvent sendTo: self 
+	anEvent sendTo: self
 ]
 
 { #category : 'mouse handlers' }
@@ -167,6 +181,7 @@ ToSkinnableEventHandler >> keyUpEvent: anEvent [
 { #category : 'mouse handlers' }
 ToSkinnableEventHandler >> leftClickEvent: anEvent [
 
+	target switchToNextCheckStateOnClick.
 	self addClickedStateEvent: anEvent
 ]
 
@@ -223,9 +238,7 @@ ToSkinnableEventHandler >> mouseEnterEvent: anEvent [
 ToSkinnableEventHandler >> mouseLeaveEvent: anEvent [
 
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
-	self addLeavedStateEvent: anEvent.
-	self addInitialStateEvent: anEvent 
-
+	self addLeavedStateEvent: anEvent
 
 
 ]
@@ -271,7 +284,6 @@ ToSkinnableEventHandler >> mouseUpOutsideEvent: anEvent [
 	"target currentSkinState ifNotNil: [ :s | 
 		s isPressedState ifFalse: [ ^ self ] ]."
 	self addReleasedStateEvent: anEvent.
-	self addInitialStateEvent: anEvent
 ]
 
 { #category : 'mouse handlers' }
@@ -282,7 +294,15 @@ ToSkinnableEventHandler >> mouseWheelEvent: anEvent [
 ToSkinnableEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
+	" need to store the element for mouse outside event interpreting "
 	target := anElement
+]
+
+{ #category : 'api - hooks' }
+ToSkinnableEventHandler >> onUninstalledIn: anElement [
+
+	target := nil.
+	super onUninstalledIn: anElement
 ]
 
 { #category : 'mouse handlers' }
@@ -313,6 +333,12 @@ ToSkinnableEventHandler >> rightMouseUpEvent: anEvent [
 ToSkinnableEventHandler >> shortcutEvent: anEvent [
 ]
 
+{ #category : 'accessing' }
+ToSkinnableEventHandler >> target [
+
+	^ target
+]
+
 { #category : 'event handling' }
 ToSkinnableEventHandler >> textInputEvent: anEvent [
 ]
@@ -324,7 +350,7 @@ ToSkinnableEventHandler >> wantsEvent: anEvent [
 	eventsToHandle := anEvent currentTarget isEnabled
 		                  ifTrue: [ self eventsToHandle ]
 		                  ifFalse: [ self eventsToHandleWhenDisabled ].
-	anEvent currentTarget isEnabled ifTrue: [
-		^ eventsToHandle anySatisfy: [ :eachEventClass |
-			  anEvent isKindOf: eachEventClass ] ]
+
+	^ eventsToHandle anySatisfy: [ :eachEventClass |
+		  anEvent isKindOf: eachEventClass ]
 ]

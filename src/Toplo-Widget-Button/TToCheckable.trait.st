@@ -33,7 +33,7 @@ TToCheckable >> checked: aBooleanOrNil [
 	" give a chance to the button group to verify and change the result of the checking"
 	self dispatchEvent: request.
 	" update with the result that has been eventually changed by the group according to its strategy"
-	self privateChecked: request checked
+	self privateChecked: request checked.
 ]
 
 { #category : 't - checkable - testing' }
@@ -57,6 +57,16 @@ TToCheckable >> isUnchecked [
 ]
 
 { #category : 't - checkable - private protocol' }
+TToCheckable >> nextCheckValue [
+
+	self withIndeterminate ifTrue: [ " unchecked -> indeterminate -> checked"
+		self isIndeterminate ifTrue: [ ^ true ].
+		self isChecked ifTrue: [ ^ false ].
+		^ nil ].
+	^ self checked not
+]
+
+{ #category : 't - checkable - private protocol' }
 TToCheckable >> privateChecked: aBooleanOrNil [
 
 	| prev |
@@ -67,13 +77,9 @@ TToCheckable >> privateChecked: aBooleanOrNil [
 ]
 
 { #category : 't - checkable - private protocol' }
-TToCheckable >> switchToNextCheckState [
+TToCheckable >> switchToNextCheckStateOnClick [
 
-	self withIndeterminate ifTrue: [ " unchecked -> indeterminate -> checked"
-		self isIndeterminate ifTrue: [ ^ self checked: true ].
-		self isChecked ifTrue: [ ^ self checked: false ].
-		^ self checked: nil ].
-	self checked: self checked not
+	self checked: self nextCheckValue 
 ]
 
 { #category : 't - checkable  - protocol' }

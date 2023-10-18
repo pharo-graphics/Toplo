@@ -48,6 +48,12 @@ ToStyleSheetSkin >> elementLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
+ToStyleSheetSkin >> enabledLookEvent: anEvent [
+
+	self sendEventToWriters: anEvent
+]
+
+{ #category : 'event handling' }
 ToStyleSheetSkin >> focusedLookEvent: anEvent [
 
 	self sendEventToWriters: anEvent
@@ -124,12 +130,6 @@ ToStyleSheetSkin >> selectedLookEvent: anEvent [
 ToStyleSheetSkin >> sendEventToWriters: anEvent [
 
 	self writers do: [ :s | s receiveEvent: anEvent  ]
-]
-
-{ #category : 'event handling' }
-ToStyleSheetSkin >> unabledLookEvent: anEvent [
-
-	self sendEventToWriters: anEvent
 ]
 
 { #category : 'event handling' }

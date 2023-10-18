@@ -328,7 +328,7 @@ ToSandBox class >> example_CheckboxWithIndeterminate [
 	ToStyleSheetTheme cleanUp.
 	but := ToCheckbox new labelText: 'Checkbox'.
 	but withIndeterminate: true.
-	but checked: true.
+	but checked: nil.
 	but openInSpace
 ]
 
@@ -1814,6 +1814,28 @@ ToSandBox class >> example_buttonWithIconAndLabel [
 	| but  |
 	but := self example_buttonWithIcon.
 	but label: (ToLabel text: 'Button with label').
+	but inspect.
+	^ but
+]
+
+{ #category : 'button' }
+ToSandBox class >> example_buttonWithIconAndLabelDisabled [
+
+	| but  |
+	but := self example_buttonWithIconDisabled.
+	but label: (ToLabel text: 'Button with label').
+	but inspect.
+	^ but
+]
+
+{ #category : 'button' }
+ToSandBox class >> example_buttonWithIconDisabled [
+
+	| but  |
+	but := ToButton new.
+	but icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
+	but disable.
+	but openInSpace.
 	^ but
 ]
 

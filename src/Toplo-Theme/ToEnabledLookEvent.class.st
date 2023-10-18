@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToUnabledLookEvent',
+	#name : 'ToEnabledLookEvent',
 	#superclass : 'ToElementLookEvent',
 	#category : 'Toplo-Theme-Look-Event',
 	#package : 'Toplo-Theme',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'sending' }
-ToUnabledLookEvent >> sendTo: anObject [
+ToEnabledLookEvent >> sendTo: anObject [
 
-	anObject unabledLookEvent: self
+	anObject enabledLookEvent: self
 ]

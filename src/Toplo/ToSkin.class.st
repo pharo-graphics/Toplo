@@ -42,6 +42,12 @@ ToSkin >> elementLookEvent: anEvent [
 
 ]
 
+{ #category : 'event handling' }
+ToSkin >> enabledLookEvent: anEvent [
+
+
+]
+
 { #category : 'api - accessing' }
 ToSkin >> eventsToHandle [
 
@@ -121,20 +127,13 @@ ToSkin >> selectedLookEvent: anEvent [
 ToSkin >> skinChangedEvent: anEvent [
 
 	anEvent target skinStateEngine reset.
-	(ToInstallState sourceEvent: anEvent) addAsNextStateIn:
-		anEvent target skinStateEngine
+	(ToInstallState sourceEvent: anEvent) addAsNextStateIn: anEvent target
 ]
 
 { #category : 'event handling' }
 ToSkin >> themeChangedEvent: anEvent [
 
 	anEvent currentTarget requestSkin 
-]
-
-{ #category : 'event handling' }
-ToSkin >> unabledLookEvent: anEvent [
-
-
 ]
 
 { #category : 'event handling' }

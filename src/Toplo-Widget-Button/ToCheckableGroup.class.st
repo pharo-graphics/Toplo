@@ -146,23 +146,14 @@ ToCheckableGroup >> removeAll [
 { #category : 'check-uncheck-request' }
 ToCheckableGroup >> uncheckAll [
 
-	self checkedButtons ifNotEmpty: [ :found |
-		found do: [ :b | b privateChecked: false ] ]
+	self checkedButtons do: [ :b | b privateChecked: false ]
 ]
 
 { #category : 'check-uncheck-request' }
 ToCheckableGroup >> uncheckAllExcept: aButton [
 
-	self uncheckAllExcept: aButton ifFoundDo: [ ]
-]
-
-{ #category : 'check-uncheck-request' }
-ToCheckableGroup >> uncheckAllExcept: aButton ifFoundDo: aBlock [
-
-	(self buttons select: [ :b | b ~= aButton and: [ b checked ] ])
-		ifNotEmpty: [ :uncheckedBtns |
-			uncheckedBtns do: [ :b | b privateChecked: false ].
-			aBlock value ]
+	(self buttons select: [ :b | b ~= aButton and: [ b checked ] ]) do: [
+		:b | b privateChecked: false ]
 ]
 
 { #category : 'accessing' }

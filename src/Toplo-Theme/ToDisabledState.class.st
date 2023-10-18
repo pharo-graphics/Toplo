@@ -9,7 +9,7 @@ Class {
 { #category : 'accessing' }
 ToDisabledState >> incompatibleStateClasses [
 
-	^ { ToUnabledState }
+	^ { ToEnabledState }
 ]
 
 { #category : 'look event sending' }

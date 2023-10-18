@@ -2,21 +2,19 @@
 A ToLabeledIconTest is a test class for testing the behavior of ToLabeledIcon
 "
 Class {
-	#name : 'ToLabeledIconTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core',
-	#package : 'Toplo-Tests',
-	#tag : 'Core'
+	#name : #ToLabeledIconTest,
+	#superclass : #TestCase,
+	#category : #'Toplo-Tests-Core'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 ToLabeledIconTest >> setUp [ 
 
 	super setUp.
 	ToTheme cleanUp
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testBeIconFirst [
 
 	| li |
@@ -29,7 +27,7 @@ ToLabeledIconTest >> testBeIconFirst [
 	self assert: li isIconFirst
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testBeLabelFirst [
 
 	| li |
@@ -42,7 +40,7 @@ ToLabeledIconTest >> testBeLabelFirst [
 	self assert: li isLabelFirst
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testFiller [
 
 	| li |
@@ -51,7 +49,7 @@ ToLabeledIconTest >> testFiller [
 	self assert: li filler size equals: 0 asPoint
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testFlexible [
 
 	| li |
@@ -63,7 +61,7 @@ ToLabeledIconTest >> testFlexible [
 	self assert: li isFlexible
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testFlexibleInEmpty [
 
 	| li container |
@@ -84,7 +82,7 @@ ToLabeledIconTest >> testFlexibleInEmpty [
 	self assert: li height equals: li label height.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testFlexibleWithLabel [
 
 	| li container |
@@ -104,7 +102,7 @@ ToLabeledIconTest >> testFlexibleWithLabel [
 	self assert: li iconHolder bounds left equals: 0.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testFlexibleWithLabelAndVertical [
 
 	| li container |
@@ -124,7 +122,7 @@ ToLabeledIconTest >> testFlexibleWithLabelAndVertical [
 	self assert: li iconHolder bounds top equals: 0.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testHasIcon [
 
 	| li |
@@ -137,7 +135,7 @@ ToLabeledIconTest >> testHasIcon [
 	self assert: li hasIcon
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testHasLabel [
 
 	| li |
@@ -148,7 +146,7 @@ ToLabeledIconTest >> testHasLabel [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testIcon [
 
 	| li |
@@ -160,10 +158,15 @@ ToLabeledIconTest >> testIcon [
 	li forceLayout.
 	self assert: li width equals: li iconHolder width.
 	self assert: li height equals: li iconHolder height.
+	self assert: li hasIcon.
+	li icon: nil.
+	self assert: li icon isNil.
+	self deny: li hasIcon.
+	
 	^ li
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testIconFirst [
 
 	| li |
@@ -179,7 +182,7 @@ ToLabeledIconTest >> testIconFirst [
 	^ li
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testIconHolder [
 
 	| li |
@@ -196,7 +199,7 @@ ToLabeledIconTest >> testIconHolder [
 	^ li
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testIconHolderHeight [
 
 	| li |
@@ -207,7 +210,7 @@ ToLabeledIconTest >> testIconHolderHeight [
 	self assert: li height equals: (li labelHolder height max: li iconHolderHeight)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testIconHolderHeightVertical [
 
 	| li |
@@ -220,7 +223,7 @@ ToLabeledIconTest >> testIconHolderHeightVertical [
 	self assert: li width equals: (li labelHolder width max: li iconHolder width).
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testIconHolderWidth [
 
 	| li |
@@ -232,7 +235,7 @@ ToLabeledIconTest >> testIconHolderWidth [
 	self assert: li height equals: (li labelHolder height max: li iconHolder height).
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testIconHolderWidthVertical [
 
 	| li |
@@ -245,7 +248,7 @@ ToLabeledIconTest >> testIconHolderWidthVertical [
 	self assert: li height equals: (li labelHolder height + li iconHolder height).
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testIconImage [
 
 	| li |
@@ -260,7 +263,7 @@ ToLabeledIconTest >> testIconImage [
 	^ li
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testInitialize [
 
 	| li |
@@ -272,7 +275,7 @@ ToLabeledIconTest >> testInitialize [
 	^ li
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testInterspace [
 
 	| li |
@@ -290,7 +293,7 @@ ToLabeledIconTest >> testInterspace [
 	self assert: li width equals: li label width + 10.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testInterspaceWithLabel [
 
 	| li |
@@ -305,7 +308,7 @@ ToLabeledIconTest >> testInterspaceWithLabel [
 	self assert: li labelHolder bounds left equals: li iconHolder bounds right + 10
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testInterspaceWithLabelAndVertical [
 
 	| li |
@@ -321,7 +324,7 @@ ToLabeledIconTest >> testInterspaceWithLabelAndVertical [
 	self assert: li labelHolder bounds top equals: li iconHolder bounds bottom + 10
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testIsFlexible [
 
 	| li |
@@ -331,7 +334,7 @@ ToLabeledIconTest >> testIsFlexible [
 	self assert: li isFlexible
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testIsIconFirst [
 
 	| li |
@@ -342,7 +345,7 @@ ToLabeledIconTest >> testIsIconFirst [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testIsLabelFirst [
 
 	| li |
@@ -354,7 +357,7 @@ ToLabeledIconTest >> testIsLabelFirst [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testLabel [
 
 	| li |
@@ -362,10 +365,15 @@ ToLabeledIconTest >> testLabel [
 	li label: (ToLabel text: 'A').
 	li forceLayout.
 	self assert: li size equals: li labelHolder size.
+	self assert: li hasLabel.
+	li label: nil.
+	self assert: li label isNil.
+	self deny: li hasLabel.
+	
 	^ li
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testLabelFirst [
 
 	| li |
@@ -381,7 +389,7 @@ ToLabeledIconTest >> testLabelFirst [
 	^ li
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testLabelHolder [
 
 	| li |
@@ -394,7 +402,7 @@ ToLabeledIconTest >> testLabelHolder [
 	^ li
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testLabelText [
 
 	| li |
@@ -410,7 +418,7 @@ ToLabeledIconTest >> testLabelText [
 	^ li
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testWithLabelAndIcon [
 
 	| li |
@@ -425,7 +433,7 @@ ToLabeledIconTest >> testWithLabelAndIcon [
 	^ li
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testWithLabelAndIconIconFirst [
 
 	| li |
@@ -442,7 +450,7 @@ ToLabeledIconTest >> testWithLabelAndIconIconFirst [
 	self assert: li labelHolder bounds left equals: li iconHolder bounds right
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testWithLabelAndIconIconFirstVertical [
 
 	| li |
@@ -460,7 +468,7 @@ ToLabeledIconTest >> testWithLabelAndIconIconFirstVertical [
 	self assert: li labelHolder bounds top equals: li iconHolder bounds bottom
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testWithLabelAndIconLabelFirst [
 
 	| li |
@@ -476,7 +484,7 @@ ToLabeledIconTest >> testWithLabelAndIconLabelFirst [
 	self assert: li iconHolder bounds left equals: li label bounds right
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testWithLabelAndIconLabelFirstVertical [
 
 	| li |
@@ -493,7 +501,7 @@ ToLabeledIconTest >> testWithLabelAndIconLabelFirstVertical [
 	self assert: li iconHolder bounds top equals: li labelHolder bounds bottom
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLabeledIconTest >> testWithLabelAndIconVertical [
 
 	| li |

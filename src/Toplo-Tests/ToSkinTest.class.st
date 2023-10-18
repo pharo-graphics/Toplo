@@ -2,17 +2,15 @@
 A ToSkinTest is a test class for testing the behavior of ToSkin
 "
 Class {
-	#name : 'ToSkinTest',
-	#superclass : 'TestCase',
+	#name : #ToSkinTest,
+	#superclass : #TestCase,
 	#instVars : [
 		'writeablePropertyIndex'
 	],
-	#category : 'Toplo-Tests-Core-Skin',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Skin'
+	#category : 'Toplo-Tests-Core-Skin'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 ToSkinTest >> setUp [
 
 	super setUp.
@@ -20,7 +18,7 @@ ToSkinTest >> setUp [
 	writeablePropertyIndex addAllProperties: self writablePropertyList.
 ]
 
-{ #category : 'test with accessors' }
+{ #category : #'test with accessors' }
 ToSkinTest >> testPropertyWriterOrderMatter [
 
 	| w skin layoutDirectionProp layoutProp layoutWriter directionWriter |
@@ -63,7 +61,7 @@ ToSkinTest >> testPropertyWriterOrderMatter [
 	self assert: w layout direction isRightToLeft
 ]
 
-{ #category : 'test with accessors' }
+{ #category : #'test with accessors' }
 ToSkinTest >> testSupplementWriter [
 
 	| w skin backgroundProp borderProp borderBuilder |
@@ -106,7 +104,7 @@ ToSkinTest >> testSupplementWriter [
 	self assert: w border style dashArray equals: #( 4 5 )
 ]
 
-{ #category : 'test with accessors' }
+{ #category : #'test with accessors' }
 ToSkinTest >> testWithAnimationOn2EventClasses [
 
 	| w skin prop animation |
@@ -151,7 +149,7 @@ ToSkinTest >> testWithAnimationOn2EventClasses [
 			self assert: w background paint color equals: Color white ] ]
 ]
 
-{ #category : 'test with accessors' }
+{ #category : #'test with accessors' }
 ToSkinTest >> testWithNoWriter [
 
 	| w skin paint |
@@ -165,7 +163,7 @@ ToSkinTest >> testWithNoWriter [
 	self assert: w background paint equals: paint
 ]
 
-{ #category : 'test with accessors' }
+{ #category : #'test with accessors' }
 ToSkinTest >> testWithOneWriter [
 
 	| w skin prop propWriter |
@@ -184,7 +182,7 @@ ToSkinTest >> testWithOneWriter [
 	self assert: w background paint color equals: Color blue
 ]
 
-{ #category : 'test with accessors' }
+{ #category : #'test with accessors' }
 ToSkinTest >> testWithTwoWriters [
 
 	| w skin backgroundProp borderProp |
@@ -209,7 +207,7 @@ ToSkinTest >> testWithTwoWriters [
 	self assert: w border paint color equals: Color yellow
 ]
 
-{ #category : 'test with accessors' }
+{ #category : #'test with accessors' }
 ToSkinTest >> testWithTwoWritersTwoEventClasses [
 
 	| w skin backgroundProp borderProp |
@@ -240,13 +238,13 @@ ToSkinTest >> testWithTwoWritersTwoEventClasses [
 	self assert: w border paint color equals: Color red
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToSkinTest >> writablePropertyIndex [
 
 	^ writeablePropertyIndex
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToSkinTest >> writablePropertyList [
 
 	^ ToStyleSheet defaultWritablePropertyList

@@ -2,17 +2,15 @@
 A ToAnchoredWindowTest is a test class for testing the behavior of ToAnchoredWindow
 "
 Class {
-	#name : 'ToAnchoredWindowTest',
-	#superclass : 'BlParameterizedHostTest',
+	#name : #ToAnchoredWindowTest,
+	#superclass : #BlParameterizedHostTest,
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core-Window',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Window'
+	#category : 'Toplo-Tests-Core-Window'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 ToAnchoredWindowTest >> setUp [ 
 
 	super setUp.
@@ -20,7 +18,7 @@ ToAnchoredWindowTest >> setUp [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testAssociateElement [
 
 	| win e openEventFromWindow openEventFromWidget closeEventFromWindow closeEventFromWidget windowHandler |
@@ -66,7 +64,7 @@ ToAnchoredWindowTest >> testAssociateElement [
 	self assert: closeEventFromWidget currentTarget equals: e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testAssociateElementEventHandler [
 
 	| win e  windowHandler |
@@ -89,7 +87,7 @@ ToAnchoredWindowTest >> testAssociateElementEventHandler [
 	self should: [ win popup ] raise: Error
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testElevation [
 
 	| win e  windowHandler |
@@ -108,7 +106,7 @@ ToAnchoredWindowTest >> testElevation [
 		equals: win defaultElevation elevation
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testPopupWithAssociateElementInSpace2 [
 
 	| win e  timeStamp windowHandler |
@@ -134,7 +132,7 @@ ToAnchoredWindowTest >> testPopupWithAssociateElementInSpace2 [
 	self assert: win isClosed
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testPopupWithAssociateElementNotInSpace [
 
 	| win e openEventFromWindow openEventFromWidget closeEventFromWindow closeEventFromWidget windowHandler |
@@ -165,7 +163,7 @@ ToAnchoredWindowTest >> testPopupWithAssociateElementNotInSpace [
 	self assert: closeEventFromWidget notNil
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testPopupWithAssociateElementNotInSpace2 [
 
 	| win e windowHandler |
@@ -180,7 +178,7 @@ ToAnchoredWindowTest >> testPopupWithAssociateElementNotInSpace2 [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testPopupWithoutAssociateElement [
 
 	| w |
@@ -189,7 +187,7 @@ ToAnchoredWindowTest >> testPopupWithoutAssociateElement [
 	self should: [ w popup ] raise: Error
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testPositionHook [
 
 	| win e  windowHandler |
@@ -218,7 +216,7 @@ ToAnchoredWindowTest >> testPositionHook [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testPositionHook2 [
 
 	| win e  windowHandler |
@@ -255,7 +253,7 @@ ToAnchoredWindowTest >> testPositionHook2 [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testWindowSize [
 
 	| win e  windowHandler |
@@ -298,7 +296,7 @@ ToAnchoredWindowTest >> testWindowSize [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToAnchoredWindowTest >> testWindowSize2 [
 
 	| win e  windowHandler |

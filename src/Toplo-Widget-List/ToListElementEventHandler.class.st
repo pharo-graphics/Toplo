@@ -1,39 +1,37 @@
 Class {
-	#name : 'ToListElementEventHandler',
-	#superclass : 'BlCustomEventHandler',
-	#category : 'Toplo-Widget-List-core',
-	#package : 'Toplo-Widget-List',
-	#tag : 'core'
+	#name : #ToListElementEventHandler,
+	#superclass : #BlCustomEventHandler,
+	#category : 'Toplo-Widget-List-core'
 }
 
-{ #category : 'infinite element events handling' }
+{ #category : #'infinite element events handling' }
 ToListElementEventHandler >> blurEvent: anEvent [
 
 	anEvent currentTarget blurEvent: anEvent
 ]
 
-{ #category : 'infinite element events handling' }
+{ #category : #'infinite element events handling' }
 ToListElementEventHandler >> collectionAddEvent: anEvent [
 
 	anEvent currentTarget dataFilter ifNil: [ ^ self ].
 	anEvent currentTarget dataFilter collectionAddEvent: anEvent
 ]
 
-{ #category : 'infinite element events handling' }
+{ #category : #'infinite element events handling' }
 ToListElementEventHandler >> collectionRemoveEvent: anEvent [
 
 	anEvent currentTarget dataFilter ifNil: [ ^ self ].
 	anEvent currentTarget dataFilter collectionRemoveEvent: anEvent
 ]
 
-{ #category : 'infinite element events handling' }
+{ #category : #'infinite element events handling' }
 ToListElementEventHandler >> collectionUpdateEvent: anEvent [
 
 	anEvent currentTarget dataFilter ifNil: [ ^ self ].
 	anEvent currentTarget dataFilter collectionUpdateEvent: anEvent
 ]
 
-{ #category : 'infinite element events handling' }
+{ #category : #'infinite element events handling' }
 ToListElementEventHandler >> contextMenuBeforeBuildingEvent: anEvent [
 
 	| pos targetChildren childNode target infinite |
@@ -53,7 +51,7 @@ ToListElementEventHandler >> contextMenuBeforeBuildingEvent: anEvent [
 			target secondarySelection selectIndex: childNode holder position ]
 ]
 
-{ #category : 'infinite element events handling' }
+{ #category : #'infinite element events handling' }
 ToListElementEventHandler >> contextMenuClosedEvent: anEvent [
 
 	| target |
@@ -63,7 +61,7 @@ ToListElementEventHandler >> contextMenuClosedEvent: anEvent [
 	target infinite enableScrolledEvent
 ]
 
-{ #category : 'infinite element events handling' }
+{ #category : #'infinite element events handling' }
 ToListElementEventHandler >> dataEmptinessChangeEvent: anEvent [
 
 	| target |
@@ -72,26 +70,26 @@ ToListElementEventHandler >> dataEmptinessChangeEvent: anEvent [
 	target hidePlaceholder
 ]
 
-{ #category : 'infinite element events handling' }
+{ #category : #'infinite element events handling' }
 ToListElementEventHandler >> dataFilterRequest: anEvent [
 
 	anEvent currentTarget dataFilter ifNil: [ ^ self ].
 	anEvent currentTarget dataFilter dataFilterRequest: anEvent
 ]
 
-{ #category : 'infinite element events handling' }
+{ #category : #'infinite element events handling' }
 ToListElementEventHandler >> elementExtentChangedEvent: anEvent [
 
 	anEvent currentTarget updatePrimarySelectionDecorations
 ]
 
-{ #category : 'infinite element events handling' }
+{ #category : #'infinite element events handling' }
 ToListElementEventHandler >> elementScrolledEvent: anEvent [
 
 	anEvent currentTarget updatePrimarySelectionDecorations
 ]
 
-{ #category : 'api - accessing' }
+{ #category : #'api - accessing' }
 ToListElementEventHandler >> eventsToHandle [
 
 	^ {
@@ -115,13 +113,13 @@ ToListElementEventHandler >> eventsToHandle [
 		  ToContextMenuClosedEvent }
 ]
 
-{ #category : 'infinite element events handling' }
+{ #category : #'infinite element events handling' }
 ToListElementEventHandler >> focusEvent: anEvent [
 
 	anEvent currentTarget focusEvent: anEvent
 ]
 
-{ #category : 'infinite element events handling' }
+{ #category : #'infinite element events handling' }
 ToListElementEventHandler >> infiniteSelectionChangedEvent: anEvent [
 
 	anEvent currentTarget updatePrimarySelectionDecorations

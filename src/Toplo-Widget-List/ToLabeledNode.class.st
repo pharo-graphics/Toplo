@@ -1,23 +1,21 @@
 Class {
-	#name : 'ToLabeledNode',
-	#superclass : 'ToNode',
+	#name : #ToLabeledNode,
+	#superclass : #ToNode,
 	#traits : 'TToElementWithLabeledIcon',
 	#classTraits : 'TToElementWithLabeledIcon classTrait',
 	#instVars : [
 		'labeledIcon'
 	],
-	#category : 'Toplo-Widget-List-node',
-	#package : 'Toplo-Widget-List',
-	#tag : 'node'
+	#category : 'Toplo-Widget-List-node'
 }
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToLabeledNode class >> isDeprecated [ 
 
 	^ true
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToLabeledNode >> initialize [
 
 	self class initializeSlots: self.
@@ -29,25 +27,25 @@ ToLabeledNode >> initialize [
 	self fitContent
 ]
 
-{ #category : 't - element with labeled icon - accessing' }
+{ #category : #'t - element with labeled icon - accessing' }
 ToLabeledNode >> labeledIcon [ 
 
 	^ labeledIcon 
 ]
 
-{ #category : 't - orientable - accessing' }
+{ #category : #'t - orientable - accessing' }
 ToLabeledNode >> layoutStrategy [
 
 	^ self labeledIcon layout
 ]
 
-{ #category : 'private-change' }
+{ #category : #'private-change' }
 ToLabeledNode >> privateBeEditable [
 
 	self label ifNotNil: [ :l | l beEditable ]
 ]
 
-{ #category : 'private-change' }
+{ #category : #'private-change' }
 ToLabeledNode >> privateBeReadOnly [ 
 
 	self label ifNotNil: [ :l | l beReadOnly ]

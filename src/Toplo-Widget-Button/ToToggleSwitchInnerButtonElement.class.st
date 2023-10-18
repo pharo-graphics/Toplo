@@ -1,41 +1,39 @@
 Class {
-	#name : 'ToToggleSwitchInnerButtonElement',
-	#superclass : 'ToElement',
+	#name : #ToToggleSwitchInnerButtonElement,
+	#superclass : #ToElement,
 	#instVars : [
 		'offElement',
 		'onElement',
 		'checked'
 	],
-	#category : 'Toplo-Widget-Button-Toggle',
-	#package : 'Toplo-Widget-Button',
-	#tag : 'Toggle'
+	#category : 'Toplo-Widget-Button-Toggle'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToToggleSwitchInnerButtonElement >> checked [
 
 	^ checked
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToToggleSwitchInnerButtonElement >> checked: aBoolean [
 
 	checked := aBoolean
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToToggleSwitchInnerButtonElement >> defaultWidth [
 
 	^ 14
 ]
 
-{ #category : 'requirements' }
+{ #category : #requirements }
 ToToggleSwitchInnerButtonElement >> empty [
 
 	self removeChildren
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToToggleSwitchInnerButtonElement >> initialize [
 
 	super initialize.
@@ -44,19 +42,19 @@ ToToggleSwitchInnerButtonElement >> initialize [
 	self width: self defaultWidth
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToToggleSwitchInnerButtonElement >> isChecked [ 
 
 	^ self checked
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToToggleSwitchInnerButtonElement >> offElement [
 
 	^ offElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToToggleSwitchInnerButtonElement >> offElement: anElement [
 
 	anElement ifNotNil: [
@@ -66,13 +64,13 @@ ToToggleSwitchInnerButtonElement >> offElement: anElement [
 	offElement := anElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToToggleSwitchInnerButtonElement >> onElement [
 
 	^ onElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToToggleSwitchInnerButtonElement >> onElement: anElement [
 
 	anElement ifNotNil: [
@@ -82,7 +80,7 @@ ToToggleSwitchInnerButtonElement >> onElement: anElement [
 	onElement := anElement
 ]
 
-{ #category : 'requirements' }
+{ #category : #requirements }
 ToToggleSwitchInnerButtonElement >> switchOff [
 
 	self empty.
@@ -90,7 +88,7 @@ ToToggleSwitchInnerButtonElement >> switchOff [
 	self addChild: self offElement
 ]
 
-{ #category : 'requirements' }
+{ #category : #requirements }
 ToToggleSwitchInnerButtonElement >> switchOn [
 
 	self empty.

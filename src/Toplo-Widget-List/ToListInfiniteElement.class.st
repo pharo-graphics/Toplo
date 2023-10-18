@@ -1,18 +1,16 @@
 Class {
-	#name : 'ToListInfiniteElement',
-	#superclass : 'ToInfiniteElement',
-	#category : 'Toplo-Widget-List-infinite',
-	#package : 'Toplo-Widget-List',
-	#tag : 'infinite'
+	#name : #ToListInfiniteElement,
+	#superclass : #ToInfiniteElement,
+	#category : 'Toplo-Widget-List-infinite'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListInfiniteElement >> defaultBackground [
 
 	^ Color transparent
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListInfiniteElement >> defaultBlurBorder [
 
 	^ BlBorder
@@ -20,31 +18,31 @@ ToListInfiniteElement >> defaultBlurBorder [
 			 width: self defaultBorderWidth
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListInfiniteElement >> defaultBorderColor [ 
 
 	^ self theme editor borderColor
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListInfiniteElement >> defaultBorderWidth [ 
 
 	^ 1
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListInfiniteElement >> defaultDataSource [
 
 	^ ToListObservableCollectionDataSource new
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListInfiniteElement >> defaultEventHandler [ 
 
 	^ ToListInfiniteElementEventHandler new
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListInfiniteElement >> defaultFocusBorder [
 
 	^ BlBorder
@@ -52,37 +50,37 @@ ToListInfiniteElement >> defaultFocusBorder [
 			 width: self defaultBorderWidth
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListInfiniteElement >> defaultFocusBorderColor [
 
 	^ self theme editor focusedBorderColor
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListInfiniteElement >> defaultListNodeFactory [
 
 	^ [ :node :holder | node addChild: ((ToLabel text: holder data asString) hMatchParent) ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListInfiniteElement >> defaultMargin [
 
 	^ BlInsets all: 0
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListInfiniteElement >> defaultPadding [
 
 	^ BlInsets all: 4
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListInfiniteElement >> holderClass [
 
 	^ ToNodeHolder 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListInfiniteElement >> initialize [
 
 	super initialize.
@@ -95,7 +93,7 @@ ToListInfiniteElement >> initialize [
 	self addEventHandler: self defaultEventHandler
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListInfiniteElement >> nodeClass [
 
 	^ ToNode

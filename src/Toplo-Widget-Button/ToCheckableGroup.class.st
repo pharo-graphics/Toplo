@@ -1,6 +1,6 @@
 Class {
-	#name : 'ToCheckableGroup',
-	#superclass : 'Object',
+	#name : #ToCheckableGroup,
+	#superclass : #Object,
 	#traits : 'TBlEventTarget',
 	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
@@ -8,32 +8,30 @@ Class {
 		'checkingStrategy',
 		'eventDispatcher'
 	],
-	#category : 'Toplo-Widget-Button-Checkable',
-	#package : 'Toplo-Widget-Button',
-	#tag : 'Checkable'
+	#category : 'Toplo-Widget-Button-Checkable'
 }
 
-{ #category : 'adding / removing' }
+{ #category : #'adding / removing' }
 ToCheckableGroup >> add: aCheckable [
 
 	buttons add: aCheckable
 
 ]
 
-{ #category : 'adding / removing' }
+{ #category : #'adding / removing' }
 ToCheckableGroup >> addAll: aCollection [
 
 	buttons addAll: aCollection
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToCheckableGroup >> buttons [
 
 	^ buttons
 ]
 
-{ #category : 'check-uncheck-request' }
+{ #category : #'check-uncheck-request' }
 ToCheckableGroup >> checkRequestEvent: aCheckRequest [
 
 	aCheckRequest checked ifNil: [ ^ self ].
@@ -41,32 +39,32 @@ ToCheckableGroup >> checkRequestEvent: aCheckRequest [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToCheckableGroup >> checkedButtons [
 
 
 	^ buttons select: [ :b | b checked ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToCheckableGroup >> checkingStrategy [
 
 	^ checkingStrategy
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToCheckableGroup >> checkingStrategy: aCheckableGroupCheckingStrategy [
 
 	checkingStrategy := aCheckableGroupCheckingStrategy
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToCheckableGroup >> defaultCheckStrategy [
 
 	^ ToCheckableGroupStrictStrategy new
 ]
 
-{ #category : 'event management accessing' }
+{ #category : #'event management accessing' }
 ToCheckableGroup >> eventDispatcher [
 	"Return an object responsible for event dispatching"
 	<return: #BlDirectEventDispatcher>
@@ -74,7 +72,7 @@ ToCheckableGroup >> eventDispatcher [
 	^ eventDispatcher
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToCheckableGroup >> initialize [ 
 
 	super initialize.
@@ -90,37 +88,37 @@ ToCheckableGroup >> initialize [
 	self notifyChanged
 ]
 
-{ #category : 'notifications' }
+{ #category : #notifications }
 ToCheckableGroup >> notifyBeforeButtonsChanged: aCollectionChangeAnnouncement [
 
 	self error: 'Changing a button in a CheckableGroup is not allowed'
 ]
 
-{ #category : 'notifications' }
+{ #category : #notifications }
 ToCheckableGroup >> notifyBeforeButtonsInserted: aCollectionChangeAnnouncement [
 
 	self checkingStrategy notifyBeforeButtonsInserted: aCollectionChangeAnnouncement in: self
 ]
 
-{ #category : 'notifications' }
+{ #category : #notifications }
 ToCheckableGroup >> notifyBeforeButtonsRemoved: aCollectionChangeAnnouncement [
 
 	self checkingStrategy notifyBeforeButtonsRemoved: aCollectionChangeAnnouncement in: self
 ]
 
-{ #category : 'notifications' }
+{ #category : #notifications }
 ToCheckableGroup >> notifyButtonsInserted: aCollectionChangeAnnouncement [
 
 	self checkingStrategy notifyButtonsInserted: aCollectionChangeAnnouncement in: self
 ]
 
-{ #category : 'notifications' }
+{ #category : #notifications }
 ToCheckableGroup >> notifyButtonsRemoved: aCollectionChangeAnnouncement [
 
 	self checkingStrategy notifyButtonsRemoved: aCollectionChangeAnnouncement in: self
 ]
 
-{ #category : 'checking protocol' }
+{ #category : #'checking protocol' }
 ToCheckableGroup >> notifyChanged [
 
 	self dispatchEvent: (ToCheckableGroupChangedEvent new
@@ -129,52 +127,52 @@ ToCheckableGroup >> notifyChanged [
 			 yourself)
 ]
 
-{ #category : 'adding / removing' }
+{ #category : #'adding / removing' }
 ToCheckableGroup >> remove: aCheckable [
 
 	buttons remove: aCheckable.
 
 ]
 
-{ #category : 'adding / removing' }
+{ #category : #'adding / removing' }
 ToCheckableGroup >> removeAll [
 
 	buttons removeAll
 
 ]
 
-{ #category : 'check-uncheck-request' }
+{ #category : #'check-uncheck-request' }
 ToCheckableGroup >> uncheckAll [
 
 	self checkedButtons do: [ :b | b privateChecked: false ]
 ]
 
-{ #category : 'check-uncheck-request' }
+{ #category : #'check-uncheck-request' }
 ToCheckableGroup >> uncheckAllExcept: aButton [
 
 	(self buttons select: [ :b | b ~= aButton and: [ b checked ] ]) do: [
 		:b | b privateChecked: false ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToCheckableGroup >> uncheckedButtons [
 
 	^ buttons reject: [ :b | b checked ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToCheckableGroup >> withStrictCheckingStrategy [
 
 	self checkingStrategy: ToCheckableGroupStrictStrategy new
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToCheckableGroup >> withUncheckingStrategy [
 
 	self checkingStrategy: ToCheckableGroupWithUncheckStrategy new
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToCheckableGroup >> withoutCheckingStrategy [
 
 	self checkingStrategy: ToCheckableGroupNoneStrategy new

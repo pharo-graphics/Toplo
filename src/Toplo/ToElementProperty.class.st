@@ -1,27 +1,25 @@
 Class {
-	#name : 'ToElementProperty',
-	#superclass : 'Object',
+	#name : #ToElementProperty,
+	#superclass : #Object,
 	#instVars : [
 		'name'
 	],
-	#category : 'Toplo-Core-Properties',
-	#package : 'Toplo',
-	#tag : 'Core-Properties'
+	#category : 'Toplo-Core-Properties'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToElementProperty >> name [
 
 	^ name
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToElementProperty >> name: anObject [
 
 	name := anObject asSymbol
 ]
 
-{ #category : 'operating' }
+{ #category : #operating }
 ToElementProperty >> read: anObject [
 
 	self subclassResponsibility 

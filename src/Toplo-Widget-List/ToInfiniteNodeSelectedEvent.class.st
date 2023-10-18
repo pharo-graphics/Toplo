@@ -1,21 +1,19 @@
 Class {
-	#name : 'ToInfiniteNodeSelectedEvent',
-	#superclass : 'BlEvent',
+	#name : #ToInfiniteNodeSelectedEvent,
+	#superclass : #BlEvent,
 	#instVars : [
 		'index'
 	],
-	#category : 'Toplo-Widget-List-infinite',
-	#package : 'Toplo-Widget-List',
-	#tag : 'infinite'
+	#category : 'Toplo-Widget-List-infinite'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInfiniteNodeSelectedEvent >> index [
 
 	^ index
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToInfiniteNodeSelectedEvent >> index: anInteger [
 
 	index := anInteger

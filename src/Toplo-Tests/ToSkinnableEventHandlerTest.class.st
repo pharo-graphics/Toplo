@@ -2,23 +2,21 @@
 A ToSkinnableEventHandlerTest is a test class for testing the behavior of ToSkinnableEventHandler
 "
 Class {
-	#name : 'ToSkinnableEventHandlerTest',
-	#superclass : 'BlParameterizedHostTest',
+	#name : #ToSkinnableEventHandlerTest,
+	#superclass : #BlParameterizedHostTest,
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core',
-	#package : 'Toplo-Tests',
-	#tag : 'Core'
+	#category : 'Toplo-Tests-Core'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 ToSkinnableEventHandlerTest >> setUp [ 
 	super setUp.
 	space := self newTestingSpace
 ]
 
-{ #category : 'api - hooks' }
+{ #category : #'api - hooks' }
 ToSkinnableEventHandlerTest >> testOnInstalledIn [
 
 	| e h |
@@ -30,19 +28,19 @@ ToSkinnableEventHandlerTest >> testOnInstalledIn [
 	self assert: h target isNil
 ]
 
-{ #category : 'api - hooks' }
+{ #category : #'api - hooks' }
 ToSkinnableEventHandlerTest >> testOnUninstalledIn [
 
 	self testOnInstalledIn
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSkinnableEventHandlerTest >> testTarget [
 
 	self testOnInstalledIn 
 ]
 
-{ #category : 'api event managing' }
+{ #category : #'api event managing' }
 ToSkinnableEventHandlerTest >> testWantsEvent [
 
 	| e h eventsToHandle eventsToHandleWhenDisabled |

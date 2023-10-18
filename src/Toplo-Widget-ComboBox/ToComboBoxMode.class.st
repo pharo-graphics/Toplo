@@ -1,23 +1,22 @@
 Class {
-	#name : 'ToComboBoxMode',
-	#superclass : 'Object',
-	#category : 'Toplo-Widget-ComboBox',
-	#package : 'Toplo-Widget-ComboBox'
+	#name : #ToComboBoxMode,
+	#superclass : #Object,
+	#category : 'Toplo-Widget-ComboBox'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToComboBoxMode >> beListAutocompleteIn: aComboBox [
 
 	self subclassResponsibility 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToComboBoxMode >> defaultHeadElementIn: aComboBox [
 
 	^ self subclassResponsibility 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToComboBoxMode >> selectIndex: anIndex in: aComboBox [
 
 	anIndex isZero ifTrue: [
@@ -28,25 +27,25 @@ ToComboBoxMode >> selectIndex: anIndex in: aComboBox [
 		in: aComboBox
 ]
 
-{ #category : 'transaction hook' }
+{ #category : #'transaction hook' }
 ToComboBoxMode >> whenSaveAcceptedDo: aBlock in: aComboBox [
 
 	self subclassResponsibility 
 ]
 
-{ #category : 'transaction hook' }
+{ #category : #'transaction hook' }
 ToComboBoxMode >> whenSaveDeniedDo: aBlock in: aComboBox [
 
 	self subclassResponsibility 
 ]
 
-{ #category : 'transaction hook' }
+{ #category : #'transaction hook' }
 ToComboBoxMode >> whenTextEditedDo: aBlock in: aComboBox [
 
 	self subclassResponsibility 
 ]
 
-{ #category : 'transaction hook' }
+{ #category : #'transaction hook' }
 ToComboBoxMode >> withSaveCapabilityIn: aComboBox [
 
 	self subclassResponsibility

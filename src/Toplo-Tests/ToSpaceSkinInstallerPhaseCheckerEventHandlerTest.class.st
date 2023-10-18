@@ -2,14 +2,12 @@
 A ToSpaceSkinInstallerPhaseCheckerEventHandlerTest is a test class for testing the behavior of ToSpaceSkinInstallerPhaseCheckerEventHandler
 "
 Class {
-	#name : 'ToSpaceSkinInstallerPhaseCheckerEventHandlerTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core-SpaceFrame',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-SpaceFrame'
+	#name : #ToSpaceSkinInstallerPhaseCheckerEventHandlerTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Tests-Core-SpaceFrame'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinInstallerPhaseCheckerEventHandlerTest >> testOnElement [
 
 	| space e |

@@ -1,22 +1,21 @@
 Class {
-	#name : 'ToComboBoxListAutocompleteHeadDresser',
-	#superclass : 'Object',
+	#name : #ToComboBoxListAutocompleteHeadDresser,
+	#superclass : #Object,
 	#instVars : [
 		'comboBox',
 		'filterDresser',
 		'filterResultHandler'
 	],
-	#category : 'Toplo-Widget-ComboBox',
-	#package : 'Toplo-Widget-ComboBox'
+	#category : 'Toplo-Widget-ComboBox'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToComboBoxListAutocompleteHeadDresser >> comboBox: aComboBox [
 
 	comboBox := aComboBox
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToComboBoxListAutocompleteHeadDresser >> filterResult: anEvent [
 
 	comboBox listElement deselectAll.
@@ -24,7 +23,7 @@ ToComboBoxListAutocompleteHeadDresser >> filterResult: anEvent [
 	comboBox fitListElementToContent
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToComboBoxListAutocompleteHeadDresser >> installEventListenersIn: anElement [
 
 	super installEventListenersIn: anElement.
@@ -40,13 +39,13 @@ ToComboBoxListAutocompleteHeadDresser >> installEventListenersIn: anElement [
 
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToComboBoxListAutocompleteHeadDresser >> textUpdatedIn: anElement [
 
 	comboBox listElement dispatchEvent: (ToDataFilterRequest new pattern: anElement textField text asString)
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToComboBoxListAutocompleteHeadDresser >> uninstallEventListenersIn: anElement [
 
 	comboBox listElement removeDresser: filterDresser.

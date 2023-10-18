@@ -1,15 +1,14 @@
 Class {
-	#name : 'ToComboBoxHeadDresser',
-	#superclass : 'ToComboBoxBaseHeadDresser',
+	#name : #ToComboBoxHeadDresser,
+	#superclass : #ToComboBoxBaseHeadDresser,
 	#instVars : [
 		'downShortcut',
 		'headPlaceholderHandler'
 	],
-	#category : 'Toplo-Widget-ComboBox',
-	#package : 'Toplo-Widget-ComboBox'
+	#category : 'Toplo-Widget-ComboBox'
 }
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToComboBoxHeadDresser >> arrowDownEvent: anEvent in: anElement [
 
 	| wasOpened |
@@ -21,7 +20,7 @@ ToComboBoxHeadDresser >> arrowDownEvent: anEvent in: anElement [
 	comboBox listElement infinite fireEvent: anEvent
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToComboBoxHeadDresser >> arrowUpEvent: anEvent in: anElement [
 
 	| wasOpened |
@@ -31,13 +30,13 @@ ToComboBoxHeadDresser >> arrowUpEvent: anEvent in: anElement [
 	comboBox listElement infinite fireEvent: anEvent
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToComboBoxHeadDresser >> escapeEvent: anEvent in: anElement [
 
 	comboBox close
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToComboBoxHeadDresser >> newArrowDownShortcutIn: anElement [
 
 	^ BlShortcutWithAction new
@@ -47,7 +46,7 @@ ToComboBoxHeadDresser >> newArrowDownShortcutIn: anElement [
 		                yourself.
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToComboBoxHeadDresser >> newArrowUpShortcutIn: anElement [
 
 	^ BlShortcutWithAction new
@@ -57,7 +56,7 @@ ToComboBoxHeadDresser >> newArrowUpShortcutIn: anElement [
 		                yourself.
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToComboBoxHeadDresser >> newEscapeShortcutIn: anElement [
 
 	^ BlShortcutWithAction new
@@ -67,7 +66,7 @@ ToComboBoxHeadDresser >> newEscapeShortcutIn: anElement [
 		                yourself.
 ]
 
-{ #category : 'api - install/uninstall  hook' }
+{ #category : #'api - install/uninstall  hook' }
 ToComboBoxHeadDresser >> newPlaceholder: aPlaceholder in: anElement [
 
 	anElement placeholder: aPlaceholder.

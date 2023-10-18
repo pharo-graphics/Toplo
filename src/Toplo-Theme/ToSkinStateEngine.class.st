@@ -3,7 +3,8 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'currentStates',
-		'nextStates'
+		'nextStates',
+		'installed'
 	],
 	#category : 'Toplo-Theme-State',
 	#package : 'Toplo-Theme',
@@ -48,7 +49,8 @@ ToSkinStateEngine >> initialize [
 
 	super initialize.
 	currentStates := LinkedList new.
-	nextStates := LinkedList new
+	nextStates := LinkedList new.
+	installed := false
 ]
 
 { #category : 'accessing' }
@@ -80,13 +82,24 @@ ToSkinStateEngine >> switchToInstallState: anInstallState in: anElement [
 	" install state required - if the element is enabled proceed with stored persistent states "
 
 	" FIFO management of states list "
-	self addSkinState: anInstallState.
-	" initial is applied after install "
-	self addSkinState:	(ToInitialState sourceEvent: anInstallState sourceEvent).
+
+	installed ifFalse: [
+		" install state is used only once "
+		self addSkinState: anInstallState.
+		installed := true ].
+	" initial is applied  "
+	self addSkinState: (ToInitialState sourceEvent: anInstallState sourceEvent).
 	anElement isEnabled
 		ifTrue: [
 			self addSkinState: (ToEnabledState sourceEvent: anInstallState sourceEvent).
 			self currentStates do: [ :s | self addSkinState: s ] ]
 		ifFalse: [ " when disabled, do not reinstall stored perssistent states "
 			self addSkinState: (ToDisabledState sourceEvent: anInstallState sourceEvent) ]
+]
+
+{ #category : 'initialization' }
+ToSkinStateEngine >> switchToInstallStateEvent: anEvent in: anElement [
+	" install state required - if the element is enabled proceed with stored persistent states "
+
+	self switchToInstallState: (ToInstallState sourceEvent: anEvent) in: anElement
 ]

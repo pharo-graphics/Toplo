@@ -6,42 +6,44 @@ aStrategy can be Strong, WithUncheck or None
 
 "
 Class {
-	#name : #ToCheckableGroupCheckingStrategy,
-	#superclass : #Object,
-	#category : 'Toplo-Widget-Button-Checkable'
+	#name : 'ToCheckableGroupCheckingStrategy',
+	#superclass : 'Object',
+	#category : 'Toplo-Widget-Button-Checkable',
+	#package : 'Toplo-Widget-Button',
+	#tag : 'Checkable'
 }
 
-{ #category : #notifications }
+{ #category : 'notifications' }
 ToCheckableGroupCheckingStrategy >> buttonInserted: aCheckable in: aGroup [
 
 	aCheckable group: aGroup
 ]
 
-{ #category : #notifications }
+{ #category : 'notifications' }
 ToCheckableGroupCheckingStrategy >> buttonRemoved: aCheckable in: aGroup [
 
 	aCheckable group: nil
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToCheckableGroupCheckingStrategy >> checkRequestEvent: aCheckRequest in: aGroup [
 
 	self subclassResponsibility 
 ]
 
-{ #category : #notifications }
+{ #category : 'notifications' }
 ToCheckableGroupCheckingStrategy >> notifyBeforeButtonsInserted: aCollectionChangeAnnouncement in: aGroup [
 
 
 ]
 
-{ #category : #notifications }
+{ #category : 'notifications' }
 ToCheckableGroupCheckingStrategy >> notifyBeforeButtonsRemoved: aCollectionChangeAnnouncement in: aGroup [
 
 
 ]
 
-{ #category : #notifications }
+{ #category : 'notifications' }
 ToCheckableGroupCheckingStrategy >> notifyButtonsInserted: aCollectionChangeAnnouncement in: aGroup [
 
 	aCollectionChangeAnnouncement interval do: [ :idx | | aCheckable |
@@ -49,7 +51,7 @@ ToCheckableGroupCheckingStrategy >> notifyButtonsInserted: aCollectionChangeAnno
 		self buttonInserted: aCheckable in: aGroup]
 ]
 
-{ #category : #notifications }
+{ #category : 'notifications' }
 ToCheckableGroupCheckingStrategy >> notifyButtonsRemoved: aCollectionChangeAnnouncement in: aGroup [
 
 	aCollectionChangeAnnouncement removed do: [ :checkable |

@@ -1,6 +1,6 @@
-Extension { #name : #BlSpace }
+Extension { #name : 'BlSpace' }
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlSpace >> applySkinInstaller [
 
 	self rootSkinInstalled ifFalse: [
@@ -8,13 +8,13 @@ BlSpace >> applySkinInstaller [
 	self root applySkinInstaller
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlSpace >> applySkinStates [
 
 	self root applySkinStates
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlSpace >> installedSkinInstallerPhase [
 
 	^ self frame phases
@@ -22,7 +22,7 @@ BlSpace >> installedSkinInstallerPhase [
 		  ifNone: [  ]
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlSpace >> installedSkinStatePhase [
 
 	^ self frame phases
@@ -30,26 +30,26 @@ BlSpace >> installedSkinStatePhase [
 		  ifNone: [  ]
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlSpace >> isSkinInstallerPhaseInstalled [
 
 	^ self installedSkinInstallerPhase notNil
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlSpace >> isSkinStatePhaseInstalled [
 
 	^ self installedSkinStatePhase notNil
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlSpace >> rootSkinInstalled [
 
 	^ self root installedSkin notNil
 
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlSpace >> startSkinInstallerPhase [
 	| layoutPhase |
 
@@ -59,7 +59,7 @@ BlSpace >> startSkinInstallerPhase [
 	self frame addPhase: ToSpaceSkinInstallerPhase new before: layoutPhase
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlSpace >> startSkinStatePhase [
 	| layoutPhase |
 
@@ -69,27 +69,27 @@ BlSpace >> startSkinStatePhase [
 	self frame addPhase: ToSpaceSkinStatePhase new before: layoutPhase
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlSpace >> stopSkinInstallerPhase [
 
 	self installedSkinInstallerPhase ifNotNil: [ :phase |
 		self frame removePhase: phase ]
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlSpace >> stopSkinStatePhase [
 
 	self installedSkinStatePhase ifNotNil: [ :phase |
 		self frame removePhase: phase ]
 ]
 
-{ #category : #'*Toplo-LookAndFeel' }
+{ #category : '*Toplo-LookAndFeel' }
 BlSpace >> toTheme [
 
 	^ self root toTheme
 ]
 
-{ #category : #'*Toplo-LookAndFeel' }
+{ #category : '*Toplo-LookAndFeel' }
 BlSpace >> toTheme: aTheme [
 
 	self root toTheme: aTheme

@@ -1,10 +1,12 @@
 Class {
-	#name : #ToSpaceSkinStatePhaseTest,
-	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-SpaceFrame'
+	#name : 'ToSpaceSkinStatePhaseTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Tests-Core-SpaceFrame',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-SpaceFrame'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSpaceSkinStatePhaseTest >> testElementAddedToSceneGraphEvent [
 
 	| space e nb |
@@ -36,7 +38,7 @@ ToSpaceSkinStatePhaseTest >> testElementAddedToSceneGraphEvent [
 			 eh isKindOf: ToSpaceSkinInstallerPhaseCheckerEventHandler ])
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSpaceSkinStatePhaseTest >> testStopSpaceFrameSkinStatePhase [
 
 	| space e nb |

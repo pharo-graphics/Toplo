@@ -51,7 +51,7 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 	button styleSheet: ss.
 	label := (ToLabel text: 'Default') defaultSkin: nil.
 	button label: label.
-	labelSkin := ToStyleSheetSkin new.
+	labelSkin := ToBeeSkin new.
 	self assert: (button hasStamp: #danger) not.
 	self assert: (button label hasStamp: #'button-label').
 	writers := ssi writersFor: button label.
@@ -942,7 +942,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 			           ((#( #elem #red ) asStyleSelector
 				             child: #childchild1
 				             depth: 2) child: #childchild2 depth: 2)) style: [ :sr |
-			          sr
+			          sr when: ToInitialLookEvent 
 				          write: (ss property: #background)
 				          with: [ :e | Color red ] ]).
 			
@@ -950,7 +950,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 			           ((#( #elem #blue ) asStyleSelector
 				             child: #childchild1
 				             depth: 2) child: #childchild2 depth: 2)) style: [ :sr |
-			          sr
+			          sr when: ToInitialLookEvent
 				          write: (ss property: #background)
 				          with: [ :e | Color blue ] ]) }.
 

@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToSkinChangedEvent',
+	#name : 'ToSkinRequested',
 	#superclass : 'BlEvent',
 	#category : 'Toplo-Core-Skin',
 	#package : 'Toplo',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'sending' }
-ToSkinChangedEvent >> sendTo: anObject [
+ToSkinRequested >> sendTo: anObject [
 
-	anObject skinChangedEvent: self
+	anObject skinRequested: self
 ]

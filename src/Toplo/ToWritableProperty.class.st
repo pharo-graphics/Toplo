@@ -1,10 +1,12 @@
 Class {
-	#name : #ToWritableProperty,
-	#superclass : #ToElementProperty,
-	#category : 'Toplo-Core-Properties'
+	#name : 'ToWritableProperty',
+	#superclass : 'ToElementProperty',
+	#category : 'Toplo-Core-Properties',
+	#package : 'Toplo',
+	#tag : 'Core-Properties'
 }
 
-{ #category : #operating }
+{ #category : 'operating' }
 ToWritableProperty >> write: anPropertyValue to: anObject [
 
 	self subclassResponsibility 

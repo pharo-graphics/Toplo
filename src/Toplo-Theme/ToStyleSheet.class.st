@@ -166,7 +166,7 @@ ToStyleSheet >> newWritablePropertyIndex [
 { #category : 'initialization' }
 ToStyleSheet >> onInstalledIn: anElement [
 
-	anElement requestSkinRecursively 
+	anElement requestSkinRecursively
 
 ]
 

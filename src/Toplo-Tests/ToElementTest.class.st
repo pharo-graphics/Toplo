@@ -2,12 +2,14 @@
 A ToElementTest is a test class for testing the behavior of ToElement
 "
 Class {
-	#name : #ToElementTest,
-	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core'
+	#name : 'ToElementTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Tests-Core',
+	#package : 'Toplo-Tests',
+	#tag : 'Core'
 }
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testAddSkinInstallerPhaseChecker [
 
 	| e |
@@ -38,7 +40,7 @@ ToElementTest >> testAddSkinInstallerPhaseChecker [
 		equals: 1
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testHasSkinInstallerPhaseChecker [
 
 	| e |
@@ -48,7 +50,7 @@ ToElementTest >> testHasSkinInstallerPhaseChecker [
 	self deny: e hasSkinInstallerPhaseChecker
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testInitialize [
 
 	| e |
@@ -57,7 +59,7 @@ ToElementTest >> testInitialize [
 
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testOnAddedToParent [
 
 	| e container |
@@ -83,7 +85,7 @@ ToElementTest >> testOnAddedToParent [
 	self assert: e isDisabled
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testOnAddedToSceneGraph [
 
 	| e |
@@ -94,7 +96,7 @@ ToElementTest >> testOnAddedToSceneGraph [
 	self assert: (e skinInstaller isKindOf: ToSkinInstaller)
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testRemoveSkinInstallerPhaseChecker [
 
 	| e |
@@ -110,7 +112,7 @@ ToElementTest >> testRemoveSkinInstallerPhaseChecker [
 		equals: 0
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testSkinInstallerPhaseChecker [
 
 	| e |
@@ -125,7 +127,7 @@ ToElementTest >> testSkinInstallerPhaseChecker [
 	self assert: e skinInstallerPhaseChecker isNil
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testWithoutSkin [
 
 	| e |
@@ -140,7 +142,7 @@ ToElementTest >> testWithoutSkin [
 	self assert: e installedSkin  isNullSkin
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testWithoutSkinContamination [
 
 	" NullSkin is contaminant: check if children are correctly impacted (withoutSkin must be applied recursively)"
@@ -167,7 +169,7 @@ ToElementTest >> testWithoutSkinContamination [
 	self assert: childchild installedSkin  isNullSkin
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testWithoutSkinContamination2 [
 
 	" check if children are correctly impacted when they are added as child of their parent 

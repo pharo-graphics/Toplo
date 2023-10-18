@@ -2,15 +2,17 @@
 A ToPopupWindowTest is a test class for testing the behavior of ToPopupWindow
 "
 Class {
-	#name : #ToPopupWindowTest,
-	#superclass : #BlParameterizedHostTest,
+	#name : 'ToPopupWindowTest',
+	#superclass : 'BlParameterizedHostTest',
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core-Window'
+	#category : 'Toplo-Tests-Core-Window',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-Window'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 ToPopupWindowTest >> setUp [ 
 
 	super setUp.
@@ -18,7 +20,7 @@ ToPopupWindowTest >> setUp [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToPopupWindowTest >> testAssociateElement [
 
 	| win e windowHandler |
@@ -53,7 +55,7 @@ ToPopupWindowTest >> testAssociateElement [
 	self assert: win isClosed
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp [
 
 	| e windowHandler |
@@ -80,7 +82,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp2 [
 
 	| e windowHandler |
@@ -104,7 +106,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp2 [
 	self assert: windowHandler currentWindow isNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 
 	| e windowHandler closed |
@@ -131,7 +133,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 	self assert: windowHandler currentWindow isNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToPopupWindowTest >> testPopupOpenCloseWithMouseUpOutsideAssociateElement [
 
 	| e  windowHandler |

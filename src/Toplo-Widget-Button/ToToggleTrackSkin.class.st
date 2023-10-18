@@ -1,22 +1,24 @@
 Class {
-	#name : #ToToggleTrackSkin,
-	#superclass : #Object,
-	#category : 'Toplo-Widget-Button-Toggle'
+	#name : 'ToToggleTrackSkin',
+	#superclass : 'Object',
+	#category : 'Toplo-Widget-Button-Toggle',
+	#package : 'Toplo-Widget-Button',
+	#tag : 'Toggle'
 }
 
-{ #category : #'t - reshapeable - private - shaping/sizing' }
+{ #category : 't - reshapeable - private - shaping/sizing' }
 ToToggleTrackSkin >> applyLargeSizing: aSizing on: anElement [
 
 	
 ]
 
-{ #category : #'t - reshapeable - private - shaping/sizing' }
+{ #category : 't - reshapeable - private - shaping/sizing' }
 ToToggleTrackSkin >> applyMiddleSizing: aSizing on: anElement [
 
 	
 ]
 
-{ #category : #'private - shaping/sizing' }
+{ #category : 'private - shaping/sizing' }
 ToToggleTrackSkin >> applyQuadShaping: aShaping on: anElement [
 
 	(anElement layout isKindOf: BlLinearLayout) ifFalse: [ 
@@ -30,7 +32,7 @@ ToToggleTrackSkin >> applyQuadShaping: aShaping on: anElement [
 	anElement updateWidth
 ]
 
-{ #category : #'t - reshapeable - private - shaping/sizing' }
+{ #category : 't - reshapeable - private - shaping/sizing' }
 ToToggleTrackSkin >> applyRectangleShaping: aShaping on: anElement [
 
 	| radius |
@@ -39,7 +41,7 @@ ToToggleTrackSkin >> applyRectangleShaping: aShaping on: anElement [
 	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: radius)
 ]
 
-{ #category : #'t - reshapeable - private - shaping/sizing' }
+{ #category : 't - reshapeable - private - shaping/sizing' }
 ToToggleTrackSkin >> applyRoundShaping: aShaping on: anElement [
 
 	| radius |
@@ -48,13 +50,13 @@ ToToggleTrackSkin >> applyRoundShaping: aShaping on: anElement [
 	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: radius)
 ]
 
-{ #category : #'t - reshapeable - private - shaping/sizing' }
+{ #category : 't - reshapeable - private - shaping/sizing' }
 ToToggleTrackSkin >> applySmallSizing: aSizing on: anElement [
 
 	
 ]
 
-{ #category : #'private - shaping/sizing' }
+{ #category : 'private - shaping/sizing' }
 ToToggleTrackSkin >> defaultPaddingIn: anElement [
 
 	^ BlInsets
@@ -64,13 +66,13 @@ ToToggleTrackSkin >> defaultPaddingIn: anElement [
 		  right: 2
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToToggleTrackSkin >> innerButtonSizeIn: anElement [
 
 	^ 16 asPoint
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToToggleTrackSkin >> onSkinInstalledIn: anElement [
 
 	super onSkinInstalledIn: anElement.

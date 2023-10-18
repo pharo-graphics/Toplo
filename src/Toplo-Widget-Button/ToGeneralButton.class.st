@@ -1,42 +1,44 @@
 Class {
-	#name : #ToGeneralButton,
-	#superclass : #ToElement,
+	#name : 'ToGeneralButton',
+	#superclass : 'ToElement',
 	#traits : 'TToClickable',
 	#classTraits : 'TToClickable classTrait',
-	#category : 'Toplo-Widget-Button-Core'
+	#category : 'Toplo-Widget-Button-Core',
+	#package : 'Toplo-Widget-Button',
+	#tag : 'Core'
 }
 
-{ #category : #skin }
+{ #category : 'skin' }
 ToGeneralButton >> defaultBackground [
 
 	^ Color transparent 
 ]
 
-{ #category : #skin }
+{ #category : 'skin' }
 ToGeneralButton >> defaultBorder [
 
 	^ Color transparent 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToGeneralButton >> defaultEventHandler [ 
 
 	^ ToSkinnableEventHandler new 
 ]
 
-{ #category : #skin }
+{ #category : 'skin' }
 ToGeneralButton >> defaultGeometry [
 
 	^ BlRoundedRectangleGeometry cornerRadius: 4 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToGeneralButton >> defaultLayout [ 
 
 	^ BlLinearLayout new
 ]
 
-{ #category : #skin }
+{ #category : 'skin' }
 ToGeneralButton >> defaultPadding [
 
 	^ BlInsets
@@ -46,26 +48,26 @@ ToGeneralButton >> defaultPadding [
 		  right: 10
 ]
 
-{ #category : #skin }
+{ #category : 'skin' }
 ToGeneralButton >> hoveredBackground [
 
 	^ Color transparent 
 ]
 
-{ #category : #skin }
+{ #category : 'skin' }
 ToGeneralButton >> hoveredBorder [
 
 	^ Color lightGray alpha: 0.2 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToGeneralButton >> initialize [
 
 	super initialize.
 	self addEventHandler: self defaultEventHandler
 ]
 
-{ #category : #skin }
+{ #category : 'skin' }
 ToGeneralButton >> installRawStyle [ 
 
 	super installRawStyle.
@@ -74,19 +76,19 @@ ToGeneralButton >> installRawStyle [
 	self border: self defaultBorder
 ]
 
-{ #category : #skin }
+{ #category : 'skin' }
 ToGeneralButton >> pressedBackground [
 
 	^ Color transparent 
 ]
 
-{ #category : #skin }
+{ #category : 'skin' }
 ToGeneralButton >> pressedBorder [
 
 	^ Color lightGray alpha: 0.6 
 ]
 
-{ #category : #skin }
+{ #category : 'skin' }
 ToGeneralButton >> rawSkin [
 
 	^ ToGeneralButtonSkin new

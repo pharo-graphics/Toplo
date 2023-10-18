@@ -2,12 +2,14 @@
 A ToPseudoPropertyTest is a test class for testing the behavior of ToPseudoProperty
 "
 Class {
-	#name : #ToPseudoPropertyTest,
-	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-Properties'
+	#name : 'ToPseudoPropertyTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Tests-Core-Properties',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-Properties'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToPseudoPropertyTest >> testRead [
 
 	| w prop  reader v |
@@ -22,7 +24,7 @@ ToPseudoPropertyTest >> testRead [
 	self assert: v equals: w background
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToPseudoPropertyTest >> testWriteTo [
 
 	| w prop  writer reader |
@@ -42,7 +44,7 @@ ToPseudoPropertyTest >> testWriteTo [
 	self assert: (prop read: w) equals: w background
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToPseudoPropertyTest >> testWriteToWithDelegation [
 
 	| w prop  writer reader |
@@ -63,7 +65,7 @@ ToPseudoPropertyTest >> testWriteToWithDelegation [
 	self assert: (prop read: w) asString equals:'Hello' asRopedText asString
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToPseudoPropertyTest >> testWrongDefinition [
 
 	| w prop  writer reader |

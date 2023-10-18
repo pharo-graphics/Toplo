@@ -1,14 +1,16 @@
 Class {
-	#name : #ToPseudoProperty,
-	#superclass : #ToWritableProperty,
+	#name : 'ToPseudoProperty',
+	#superclass : 'ToWritableProperty',
 	#instVars : [
 		'writer',
 		'reader'
 	],
-	#category : 'Toplo-Core-Properties'
+	#category : 'Toplo-Core-Properties',
+	#package : 'Toplo',
+	#tag : 'Core-Properties'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ToPseudoProperty class >> name: aName reader: aReadValuable writer: aWriteValuable [
 
 	^ self new
@@ -18,37 +20,37 @@ ToPseudoProperty class >> name: aName reader: aReadValuable writer: aWriteValuab
 		  yourself
 ]
 
-{ #category : #operating }
+{ #category : 'operating' }
 ToPseudoProperty >> read: anObject [
 
 	^ self reader value: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPseudoProperty >> reader [
 
 	^ reader
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPseudoProperty >> reader: aValuable [
 
 	reader := aValuable
 ]
 
-{ #category : #operating }
+{ #category : 'operating' }
 ToPseudoProperty >> write: anPropertyValue to: anObject [
 
 	self writer value: anObject value: anPropertyValue
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPseudoProperty >> writer [
 
 	^ writer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPseudoProperty >> writer: aValuable [
 
 	writer := aValuable

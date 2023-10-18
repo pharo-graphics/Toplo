@@ -1,16 +1,18 @@
 Class {
-	#name : #ToBackgroundColorAnimationForTest,
-	#superclass : #ToPropertyAnimation,
-	#category : 'Toplo-Tests-Core-Skin'
+	#name : 'ToBackgroundColorAnimationForTest',
+	#superclass : 'ToPropertyAnimation',
+	#category : 'Toplo-Tests-Core-Skin',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-Skin'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 ToBackgroundColorAnimationForTest >> stop [
 
 
 ]
 
-{ #category : #writing }
+{ #category : 'writing' }
 ToBackgroundColorAnimationForTest >> write: anObject to: anElement [
 
 	anElement enqueueTask: (BlTaskAction new action: [

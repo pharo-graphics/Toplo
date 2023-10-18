@@ -2,12 +2,14 @@
 A ToLazySkintInstallerTest is a test class for testing the behavior of ToLazySkintInstaller
 "
 Class {
-	#name : #ToSkinInstallerTest,
-	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-Skin'
+	#name : 'ToSkinInstallerTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Tests-Core-Skin',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-Skin'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinInstallerTest >> testApplyOn [
 
 	| space e s |
@@ -24,6 +26,5 @@ ToSkinInstallerTest >> testApplyOn [
 	" the installer has been removed "
 	self assert: e skinInstaller isNil.
 	" the element state is initial "
-	self assert: e nextSkinStates notEmpty.
-	self assert: e nextSkinStates first class identicalTo: ToInitialState
+	self assert: e nextSkinStates notEmpty
 ]

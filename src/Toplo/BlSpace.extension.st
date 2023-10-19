@@ -1,20 +1,44 @@
-Extension { #name : #BlSpace }
+Extension { #name : 'BlSpace' }
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlSpace >> applySkinInstaller [
-
-	self rootSkinInstalled ifFalse: [
-		self root requestSkin: self root defaultSkin ].
-	self root applySkinInstaller
+	
+	self elementsWithSkinInstaller do: [ :e | e applySkinInstaller ].
+	self resetElementsWithSkinInstaller
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlSpace >> applySkinStates [
-
-	self root applySkinStates
+	
+	self elementsWithUnappliedStates do: [ :e | e applySkinStates ].
+	self resetElementsWithUnappliedStates 
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
+BlSpace >> elementWithSkinInstaller: anElement [
+
+	self elementsWithSkinInstaller add: anElement
+]
+
+{ #category : '*Toplo' }
+BlSpace >> elementWithUnappliedStates: anElement [
+
+	self elementsWithUnappliedStates add: anElement
+]
+
+{ #category : '*Toplo' }
+BlSpace >> elementsWithSkinInstaller [
+
+	^ self userData at: #elementsWithSkinInstaller ifAbsentPut: [ IdentitySet new ]
+]
+
+{ #category : '*Toplo' }
+BlSpace >> elementsWithUnappliedStates [
+
+	^ self userData at: #elementsWithUnappliedStates ifAbsentPut: [ IdentitySet new ]
+]
+
+{ #category : '*Toplo' }
 BlSpace >> installedSkinInstallerPhase [
 
 	^ self frame phases
@@ -22,7 +46,7 @@ BlSpace >> installedSkinInstallerPhase [
 		  ifNone: [  ]
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlSpace >> installedSkinStatePhase [
 
 	^ self frame phases
@@ -30,26 +54,38 @@ BlSpace >> installedSkinStatePhase [
 		  ifNone: [  ]
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlSpace >> isSkinInstallerPhaseInstalled [
 
 	^ self installedSkinInstallerPhase notNil
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlSpace >> isSkinStatePhaseInstalled [
 
 	^ self installedSkinStatePhase notNil
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
+BlSpace >> resetElementsWithSkinInstaller [
+
+	^ self userData at: #elementsWithSkinInstaller put: IdentitySet new
+]
+
+{ #category : '*Toplo' }
+BlSpace >> resetElementsWithUnappliedStates [
+
+	^ self userData at: #elementsWithUnappliedStates put: IdentitySet new
+]
+
+{ #category : '*Toplo' }
 BlSpace >> rootSkinInstalled [
 
 	^ self root installedSkin notNil
 
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlSpace >> startSkinInstallerPhase [
 	| layoutPhase |
 
@@ -59,7 +95,7 @@ BlSpace >> startSkinInstallerPhase [
 	self frame addPhase: ToSpaceSkinInstallerPhase new before: layoutPhase
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlSpace >> startSkinStatePhase [
 	| layoutPhase |
 
@@ -69,27 +105,27 @@ BlSpace >> startSkinStatePhase [
 	self frame addPhase: ToSpaceSkinStatePhase new before: layoutPhase
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlSpace >> stopSkinInstallerPhase [
 
 	self installedSkinInstallerPhase ifNotNil: [ :phase |
 		self frame removePhase: phase ]
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 BlSpace >> stopSkinStatePhase [
 
 	self installedSkinStatePhase ifNotNil: [ :phase |
 		self frame removePhase: phase ]
 ]
 
-{ #category : #'*Toplo-LookAndFeel' }
+{ #category : '*Toplo-LookAndFeel' }
 BlSpace >> toTheme [
 
 	^ self root toTheme
 ]
 
-{ #category : #'*Toplo-LookAndFeel' }
+{ #category : '*Toplo-LookAndFeel' }
 BlSpace >> toTheme: aTheme [
 
 	self root toTheme: aTheme

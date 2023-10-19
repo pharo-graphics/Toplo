@@ -1,13 +1,15 @@
 Class {
-	#name : #ToSkinInstaller,
-	#superclass : #Object,
+	#name : 'ToSkinInstaller',
+	#superclass : 'Object',
 	#instVars : [
 		'renew'
 	],
-	#category : #'Toplo-Core-Skin'
+	#category : 'Toplo-Core-Skin',
+	#package : 'Toplo',
+	#tag : 'Core-Skin'
 }
 
-{ #category : #hook }
+{ #category : 'hook' }
 ToSkinInstaller >> applyOn: anElement [
 
 	anElement skinInstaller: nil.
@@ -20,14 +22,14 @@ ToSkinInstaller >> applyOn: anElement [
 		anElement dispatchSkinChangedEvent ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSkinInstaller >> initialize [ 
 
 	super initialize.
 	renew := false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSkinInstaller >> renew: aBoolean [
 
 	renew := aBoolean

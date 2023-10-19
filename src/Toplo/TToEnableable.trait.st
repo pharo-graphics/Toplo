@@ -1,9 +1,11 @@
 Trait {
-	#name : #TToEnableable,
-	#category : 'Toplo-Core'
+	#name : 'TToEnableable',
+	#category : 'Toplo-Core',
+	#package : 'Toplo',
+	#tag : 'Core'
 }
 
-{ #category : #'t - enableable' }
+{ #category : 't - enableable' }
 TToEnableable >> disabled: aBoolean [
 
 	aBoolean 
@@ -11,7 +13,7 @@ TToEnableable >> disabled: aBoolean [
 		ifFalse: [ self enable ]
 ]
 
-{ #category : #'t - enableable' }
+{ #category : 't - enableable' }
 TToEnableable >> enabled: aBoolean [
 
 	aBoolean 

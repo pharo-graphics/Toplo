@@ -1,10 +1,12 @@
 Class {
-	#name : #ToTooltipWindowHandler,
-	#superclass : #ToAnchoredWindowHandler,
-	#category : 'Toplo-Core-Tooltip'
+	#name : 'ToTooltipWindowHandler',
+	#superclass : 'ToAnchoredWindowHandler',
+	#category : 'Toplo-Core-Tooltip',
+	#package : 'Toplo',
+	#tag : 'Core-Tooltip'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToTooltipWindowHandler >> defaulPositionHook [
 
 	^ [ :event :theElement| 
@@ -12,25 +14,25 @@ ToTooltipWindowHandler >> defaulPositionHook [
 	  @ (theElement localPointToGlobal: 0 @ theElement height) y + self vgap ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToTooltipWindowHandler >> elementEventHandlerClass [
 
 	^ ToElementWithTooltipEventHandler 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToTooltipWindowHandler >> popupDelay [
 
 	^ 700 milliSeconds
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToTooltipWindowHandler >> vgap [
 
 	^ 5
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToTooltipWindowHandler >> windowClass [
 
 	^ ToTooltipWindow 

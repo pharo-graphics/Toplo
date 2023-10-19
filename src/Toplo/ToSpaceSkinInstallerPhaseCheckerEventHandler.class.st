@@ -1,10 +1,12 @@
 Class {
-	#name : #ToSpaceSkinInstallerPhaseCheckerEventHandler,
-	#superclass : #BlCustomEventHandler,
-	#category : 'Toplo-Core-SpaceFrame'
+	#name : 'ToSpaceSkinInstallerPhaseCheckerEventHandler',
+	#superclass : 'BlCustomEventHandler',
+	#category : 'Toplo-Core-SpaceFrame',
+	#package : 'Toplo',
+	#tag : 'Core-SpaceFrame'
 }
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToSpaceSkinInstallerPhaseCheckerEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
 	" add the skin installer and the skin state phases if necessary "
@@ -14,7 +16,7 @@ ToSpaceSkinInstallerPhaseCheckerEventHandler >> elementAddedToSceneGraphEvent: a
 	anEvent currentTarget removeEventHandler: self
 ]
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToSpaceSkinInstallerPhaseCheckerEventHandler >> eventsToHandle [
 
 	^ { BlElementAddedToSceneGraphEvent }

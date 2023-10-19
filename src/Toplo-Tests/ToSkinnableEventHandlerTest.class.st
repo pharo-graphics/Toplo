@@ -3,7 +3,7 @@ A ToSkinnableEventHandlerTest is a test class for testing the behavior of ToSkin
 "
 Class {
 	#name : 'ToSkinnableEventHandlerTest',
-	#superclass : 'BlParameterizedHostTest',
+	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
 		'space'
 	],

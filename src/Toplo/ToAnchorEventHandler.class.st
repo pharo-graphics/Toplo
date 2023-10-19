@@ -1,37 +1,39 @@
 Class {
-	#name : #ToAnchorEventHandler,
-	#superclass : #BlCustomEventHandler,
+	#name : 'ToAnchorEventHandler',
+	#superclass : 'BlCustomEventHandler',
 	#instVars : [
 		'windowHandler'
 	],
-	#category : 'Toplo-Core-Window'
+	#category : 'Toplo-Core-Window',
+	#package : 'Toplo',
+	#tag : 'Core-Window'
 }
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToAnchorEventHandler >> elementPositionInSpaceChangedEvent: anEvent [
 
 	windowHandler applyPositionHookFromEvent: anEvent
 ]
 
-{ #category : #'element handlers' }
+{ #category : 'element handlers' }
 ToAnchorEventHandler >> elementRemovedFromParentEvent: anEvent [
 
 	windowHandler closeWindow
 ]
 
-{ #category : #'element handlers' }
+{ #category : 'element handlers' }
 ToAnchorEventHandler >> elementRemovedFromSceneGraphEvent: anEvent [
 
 	windowHandler closeWindow
 ]
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToAnchorEventHandler >> eventsToHandle [ 
 
 	^ { BlElementRemovedFromParentEvent. BlElementRemovedFromSceneGraphEvent. BlElementPositionInSpaceChangedEvent }
 ]
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToAnchorEventHandler >> windowHandler: aWindowHandler [
 
 	windowHandler := aWindowHandler

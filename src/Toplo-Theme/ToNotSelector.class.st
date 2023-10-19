@@ -1,10 +1,12 @@
 Class {
-	#name : #ToNotSelector,
-	#superclass : #ToUnarySelector,
-	#category : 'Toplo-Theme-StyleSelector'
+	#name : 'ToNotSelector',
+	#superclass : 'ToUnarySelector',
+	#category : 'Toplo-Theme-StyleSelector',
+	#package : 'Toplo-Theme',
+	#tag : 'StyleSelector'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ToNotSelector >> accept: aVisitor [
 
 	aVisitor visitNotSelector: self

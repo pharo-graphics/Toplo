@@ -1803,8 +1803,8 @@ ToSandBox class >> example_buttonWithIcon [
 
 	| but  |
 	but := ToButton new.
-	but icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
 	but openInSpace.
+	but icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
 	^ but
 ]
 

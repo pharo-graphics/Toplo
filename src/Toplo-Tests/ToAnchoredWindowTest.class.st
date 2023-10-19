@@ -3,7 +3,7 @@ A ToAnchoredWindowTest is a test class for testing the behavior of ToAnchoredWin
 "
 Class {
 	#name : 'ToAnchoredWindowTest',
-	#superclass : 'BlParameterizedHostTest',
+	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
 		'space'
 	],

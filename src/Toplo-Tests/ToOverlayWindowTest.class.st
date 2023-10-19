@@ -3,7 +3,7 @@ A ToOverlayWindowTest is a test class for testing the behavior of ToOverlayWindo
 "
 Class {
 	#name : 'ToOverlayWindowTest',
-	#superclass : 'BlParameterizedHostTest',
+	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
 		'space'
 	],

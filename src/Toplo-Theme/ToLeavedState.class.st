@@ -1,16 +1,18 @@
 Class {
-	#name : #ToLeavedState,
-	#superclass : #ToElementState,
-	#category : 'Toplo-Theme-State'
+	#name : 'ToLeavedState',
+	#superclass : 'ToElementState',
+	#category : 'Toplo-Theme-State',
+	#package : 'Toplo-Theme',
+	#tag : 'State'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToLeavedState >> incompatibleStateClasses [
 
 	^ { ToHoveredState }
 ]
 
-{ #category : #'look event sending' }
+{ #category : 'look event sending' }
 ToLeavedState >> lookEventClass [
 
 	^ ToLeavedLookEvent

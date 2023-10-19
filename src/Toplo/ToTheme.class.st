@@ -1,51 +1,53 @@
 Class {
-	#name : #ToTheme,
-	#superclass : #Object,
+	#name : 'ToTheme',
+	#superclass : 'Object',
 	#classInstVars : [
 		'current'
 	],
-	#category : 'Toplo-Core-Skin'
+	#category : 'Toplo-Core-Skin',
+	#package : 'Toplo',
+	#tag : 'Core-Skin'
 }
 
-{ #category : #cleanup }
+{ #category : 'cleanup' }
 ToTheme class >> cleanUp [
 	<script>
 
 	current := nil
 ]
 
-{ #category : #cleanup }
+{ #category : 'cleanup' }
 ToTheme class >> cleanUp: anObject [
 
 	self cleanUp
 ]
 
-{ #category : #current }
+{ #category : 'current' }
 ToTheme class >> current [
 
 	^ current ifNil: [ current := ToRawTheme new ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToTheme >> name [
 
 	^ self subclassResponsibility 
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 ToTheme >> printOn: aStream [
 
 	aStream nextPutAll: '[Theme named: '; nextPutAll: self name; nextPutAll: ' ]'.
 	super printOn: aStream
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToTheme >> skinFor: anElement [
 
 	^ self subclassResponsibility 
 ]
 
-{ #category : #styling }
+{ #category : 'styling' }
 ToTheme >> styleSheet [
 
 	^ nil

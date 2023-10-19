@@ -1,16 +1,18 @@
 Class {
-	#name : #ToDisabledState,
-	#superclass : #ToElementState,
-	#category : 'Toplo-Theme-State'
+	#name : 'ToDisabledState',
+	#superclass : 'ToElementState',
+	#category : 'Toplo-Theme-State',
+	#package : 'Toplo-Theme',
+	#tag : 'State'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDisabledState >> incompatibleStateClasses [
 
 	^ { ToEnabledState }
 ]
 
-{ #category : #'look event sending' }
+{ #category : 'look event sending' }
 ToDisabledState >> lookEventClass [
 
 	^ ToDisabledLookEvent

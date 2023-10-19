@@ -1,27 +1,38 @@
 Class {
-	#name : #ToSkinStateEngine,
-	#superclass : #Object,
+	#name : 'ToSkinStateEngine',
+	#superclass : 'Object',
 	#instVars : [
 		'currentStates',
 		'nextStates',
 		'installed'
 	],
-	#category : #'Toplo-Theme-State'
+	#category : 'Toplo-Theme-State',
+	#package : 'Toplo-Theme',
+	#tag : 'State'
 }
 
-{ #category : #removing }
+{ #category : 'removing' }
 ToSkinStateEngine >> addSkinState: aState [
 
 	" add a state to apply later with #applyOn:"
-	self addSkinState: aState in: self nextStates.
+	self addSkinState: aState inFifo: self nextStates.
 	
 	" then store the state to be re-applied when a new install state is required (see switchToInstallState:in:)"
 	aState isPersistent ifTrue: [
-		self addSkinState: aState in: self currentStates ]
+		self addSkinState: aState inFifo: self currentStates ]
 ]
 
-{ #category : #removing }
-ToSkinStateEngine >> addSkinState: aState in: aStateFifo [
+{ #category : 'removing' }
+ToSkinStateEngine >> addSkinState: aState in: anElement [
+
+	" declare the element as dirty "
+	anElement spaceDo: [ :space | space elementWithUnappliedStates: anElement ].
+	
+	self addSkinState: aState
+]
+
+{ #category : 'removing' }
+ToSkinStateEngine >> addSkinState: aState inFifo: aStateFifo [
 
 	aStateFifo removeAllSuchThat: [ :s | s isKindOf: aState class ].
 	aStateFifo removeAllSuchThat: [ :s |
@@ -29,20 +40,20 @@ ToSkinStateEngine >> addSkinState: aState in: aStateFifo [
 	aStateFifo addFirst: aState
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 ToSkinStateEngine >> applyOn: anElement [
 
 	[ self nextStates isEmpty ] whileFalse: [
 		self nextStates removeLast applyOn: anElement ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSkinStateEngine >> currentStates [
 
 	^ currentStates
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSkinStateEngine >> initialize [ 
 
 	super initialize.
@@ -51,25 +62,25 @@ ToSkinStateEngine >> initialize [
 	installed := false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSkinStateEngine >> nextStates [
 
 	^ nextStates
 ]
 
-{ #category : #'api - hooks' }
+{ #category : 'api - hooks' }
 ToSkinStateEngine >> onInstalledIn: anElement [
 
 
 ]
 
-{ #category : #'api - hooks' }
+{ #category : 'api - hooks' }
 ToSkinStateEngine >> onUninstalledIn: anElement [
 
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSkinStateEngine >> refreshStateEvent: anEvent [ 
 	" initial state required - if the element is enabled proceed with stored persistent states "
 
@@ -80,20 +91,20 @@ ToSkinStateEngine >> refreshStateEvent: anEvent [
 	self switchToInitialStateEvent: anEvent in: anEvent currentTarget
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSkinStateEngine >> reset [
 
 	nextStates := LinkedList new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSkinStateEngine >> switchToInitialStateEvent: anEvent in: anElement [
 	" initial state required - if the element is enabled proceed with stored persistent states "
 
 	installed ifFalse: [ Error signal: 'Use InitialSate before an InstallState as been applied' ].
 	" FIFO management of states list "
 	" initial is applied first "
-	self addSkinState: (ToInitialState sourceEvent: anEvent).
+	self addSkinState: (ToInitialState sourceEvent: anEvent) in: anElement.
 	anElement isEnabled
 		ifTrue: [
 			self addSkinState: (ToEnabledState sourceEvent: anEvent).
@@ -102,7 +113,7 @@ ToSkinStateEngine >> switchToInitialStateEvent: anEvent in: anElement [
 			self addSkinState: (ToDisabledState sourceEvent: anEvent) ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSkinStateEngine >> switchToInstallState: anInstallState in: anElement [
 	" install state required - if the element is enabled proceed with stored persistent states "
 
@@ -112,7 +123,7 @@ ToSkinStateEngine >> switchToInstallState: anInstallState in: anElement [
 		^ Error signal: 'InstallState has already been applied' ].
 
 	" install state is used only once "
-	self addSkinState: anInstallState.
+	self addSkinState: anInstallState in: anElement.
 	installed := true.
 	self
 		switchToInitialStateEvent: anInstallState sourceEvent

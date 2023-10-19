@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToNotebookTest',
-	#superclass : 'BlParameterizedHostTest',
+	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
 		'notebook'
 	],

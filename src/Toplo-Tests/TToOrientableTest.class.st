@@ -3,7 +3,7 @@ A TToOrientableTest is a test class for testing the behavior of TToOrientable
 "
 Class {
 	#name : 'TToOrientableTest',
-	#superclass : 'BlParameterizedHostTest',
+	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
 		'space',
 		'pane',

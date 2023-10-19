@@ -1,23 +1,25 @@
 Class {
-	#name : #ToInstallState,
-	#superclass : #ToElementState,
-	#category : 'Toplo-Theme-State'
+	#name : 'ToInstallState',
+	#superclass : 'ToElementState',
+	#category : 'Toplo-Theme-State',
+	#package : 'Toplo-Theme',
+	#tag : 'State'
 }
 
-{ #category : #'skin state engine' }
+{ #category : 'skin state engine' }
 ToInstallState >> addAsNextStateIn: anElement [
 
 	" do not send to super here. The state engine will react accordingly "
 	anElement skinStateEngine switchToInstallState: self in: anElement
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToInstallState >> isPersistent [ 
 
 	^ false
 ]
 
-{ #category : #'look event sending' }
+{ #category : 'look event sending' }
 ToInstallState >> lookEventClass [
 
 	^ ToInstallLookEvent

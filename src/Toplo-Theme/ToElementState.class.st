@@ -1,62 +1,64 @@
 Class {
-	#name : #ToElementState,
-	#superclass : #Object,
+	#name : 'ToElementState',
+	#superclass : 'Object',
 	#instVars : [
 		'sourceEvent'
 	],
-	#category : 'Toplo-Theme-State'
+	#category : 'Toplo-Theme-State',
+	#package : 'Toplo-Theme',
+	#tag : 'State'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementState class >> sourceEvent: anEvent [
 
 	^ self new sourceEvent: anEvent
 ]
 
-{ #category : #'skin state engine' }
+{ #category : 'skin state engine' }
 ToElementState >> addAsNextStateIn: anElement [
 
-	anElement skinStateEngine addSkinState: self.
+	anElement skinStateEngine addSkinState: self in: anElement
 
 ]
 
-{ #category : #'look event sending' }
+{ #category : 'look event sending' }
 ToElementState >> applyOn: anElement [
 
 	anElement dispatchLookEvent: (self newLookEventFromSourceEvent: self sourceEvent)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementState >> incompatibleStateClasses [
 
 	^ {  }
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToElementState >> isPersistent [
 
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementState >> lookEventClass [
 
 	^ self subclassResponsibility 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementState >> newLookEventFromSourceEvent: anEvent [
 
 	^ self lookEventClass sourceEvent: anEvent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementState >> sourceEvent [
 
 	^ sourceEvent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementState >> sourceEvent: anEvent [
 
 	sourceEvent := anEvent

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSkin,
 	#superclass : #BlCustomEventHandler,
-	#category : 'Toplo-Core-Skin'
+	#category : #'Toplo-Core-Skin'
 }
 
 { #category : #'event handling' }
@@ -124,7 +124,7 @@ ToSkin >> selectedLookEvent: anEvent [
 { #category : #'event handling' }
 ToSkin >> skinChangedEvent: anEvent [
 
-	anEvent target skinStateEngine switchToInstallStateEvent: anEvent in: anEvent target
+	anEvent currentTarget skinStateEngine refreshStateEvent: anEvent
 
 ]
 

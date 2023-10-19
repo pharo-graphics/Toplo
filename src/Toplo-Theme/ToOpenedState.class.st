@@ -1,18 +1,16 @@
 Class {
-	#name : 'ToOpenedState',
-	#superclass : 'ToElementState',
-	#category : 'Toplo-Theme-State',
-	#package : 'Toplo-Theme',
-	#tag : 'State'
+	#name : #ToOpenedState,
+	#superclass : #ToElementState,
+	#category : 'Toplo-Theme-State'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToOpenedState >> incompatibleStateClasses [
 
 	^ { ToClosedState } 
 ]
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToOpenedState >> lookEventClass [
 
 	^ ToOpenedLookEvent

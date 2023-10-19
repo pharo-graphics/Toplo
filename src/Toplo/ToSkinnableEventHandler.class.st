@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'target'
 	],
-	#category : 'Toplo-Core'
+	#category : #'Toplo-Core'
 }
 
 { #category : #'state switching' }
@@ -17,13 +17,13 @@ ToSkinnableEventHandler >> addClickedStateEvent: anEvent [
 { #category : #'state switching' }
 ToSkinnableEventHandler >> addDisabledStateEvent: anEvent [
 
-	target skinStateEngine switchToInstallStateEvent: anEvent in: target
+	target skinStateEngine switchToInitialStateEvent: anEvent in: target
 ]
 
 { #category : #'state switching' }
 ToSkinnableEventHandler >> addEnabledStateEvent: anEvent [
 
-	target skinStateEngine switchToInstallStateEvent: anEvent in: target
+	target skinStateEngine switchToInitialStateEvent: anEvent in: target
 ]
 
 { #category : #'state switching' }

@@ -1,18 +1,16 @@
 Class {
-	#name : 'ToClickedState',
-	#superclass : 'ToElementState',
-	#category : 'Toplo-Theme-State',
-	#package : 'Toplo-Theme',
-	#tag : 'State'
+	#name : #ToClickedState,
+	#superclass : #ToElementState,
+	#category : 'Toplo-Theme-State'
 }
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToClickedState >> isPersistent [
 
 	^ false
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToClickedState >> lookEventClass [
 
 	^ ToClickedLookEvent 

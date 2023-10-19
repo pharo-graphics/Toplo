@@ -17,13 +17,13 @@ ToSkinnableEventHandler >> addClickedStateEvent: anEvent [
 { #category : #'state switching' }
 ToSkinnableEventHandler >> addDisabledStateEvent: anEvent [
 
-	target skinStateEngine switchToInitialStateEvent: anEvent in: target
+	target skinStateEngine refreshStateEvent: anEvent
 ]
 
 { #category : #'state switching' }
 ToSkinnableEventHandler >> addEnabledStateEvent: anEvent [
 
-	target skinStateEngine switchToInitialStateEvent: anEvent in: target
+	target skinStateEngine refreshStateEvent: anEvent 
 ]
 
 { #category : #'state switching' }

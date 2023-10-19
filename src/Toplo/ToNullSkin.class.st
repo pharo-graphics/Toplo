@@ -1,18 +1,16 @@
 Class {
-	#name : 'ToNullSkin',
-	#superclass : 'ToSkin',
-	#category : 'Toplo-Core-Skin',
-	#package : 'Toplo',
-	#tag : 'Core-Skin'
+	#name : #ToNullSkin,
+	#superclass : #ToSkin,
+	#category : 'Toplo-Core-Skin'
 }
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToNullSkin >> isNullSkin [ 
 
 	^ true
 ]
 
-{ #category : 'api - event managing' }
+{ #category : #'api - event managing' }
 ToNullSkin >> wantsEvent: anEvent [
 
 	^ false

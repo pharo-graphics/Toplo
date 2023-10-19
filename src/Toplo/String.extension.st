@@ -1,6 +1,6 @@
-Extension { #name : 'String' }
+Extension { #name : #String }
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 String >> asStyleStamp [
 
 	^ ToStyleStamp new

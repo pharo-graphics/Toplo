@@ -1,25 +1,34 @@
 Class {
-	#name : 'ToSkinInstaller',
-	#superclass : 'Object',
-	#category : 'Toplo-Core-Skin',
-	#package : 'Toplo',
-	#tag : 'Core-Skin'
+	#name : #ToSkinInstaller,
+	#superclass : #Object,
+	#instVars : [
+		'renew'
+	],
+	#category : #'Toplo-Core-Skin'
 }
 
-{ #category : 'hook' }
+{ #category : #hook }
 ToSkinInstaller >> applyOn: anElement [
-	
+
 	anElement skinInstaller: nil.
 	anElement installedSkin ifNotNil: [ :s |
+		renew ifFalse: [ ^ anElement dispatchSkinChangedEvent ].
 		anElement removeEventHandler: s ].
-	(self defaultSkinIn: anElement) ifNotNil: [ :found |
+	anElement defaultSkin ifNotNil: [ :found |
 		anElement installedSkin: found.
 		anElement addEventHandler: found.
 		anElement dispatchSkinChangedEvent ]
 ]
 
-{ #category : 'accessing' }
-ToSkinInstaller >> defaultSkinIn: anElement [
+{ #category : #initialization }
+ToSkinInstaller >> initialize [ 
 
-	^ anElement defaultSkin
+	super initialize.
+	renew := false
+]
+
+{ #category : #accessing }
+ToSkinInstaller >> renew: aBoolean [
+
+	renew := aBoolean
 ]

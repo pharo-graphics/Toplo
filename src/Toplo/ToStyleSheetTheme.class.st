@@ -1,34 +1,32 @@
 Class {
-	#name : 'ToStyleSheetTheme',
-	#superclass : 'ToTheme',
+	#name : #ToStyleSheetTheme,
+	#superclass : #ToTheme,
 	#instVars : [
 		'styleSheet'
 	],
-	#category : 'Toplo-Core-Skin',
-	#package : 'Toplo',
-	#tag : 'Core-Skin'
+	#category : 'Toplo-Core-Skin'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToStyleSheetTheme >> defaultElementStyleStampsFor: anElement [ 
 
 	^ { }
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToStyleSheetTheme >> defaultStampList [
 	" skin managing need a list of unique stamps . "
 
 	^ { }
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetTheme >> name [
 
 	^ #'StyleSheetTheme'
 ]
 
-{ #category : 'writer selecting' }
+{ #category : #'writer selecting' }
 ToStyleSheetTheme >> rawWritersFor: anElement [
 
 	^ Array streamContents: [ :stream |
@@ -36,7 +34,7 @@ ToStyleSheetTheme >> rawWritersFor: anElement [
 			  r putAllWritersFor: anElement in: stream ] ]
 ]
 
-{ #category : 'writer selecting' }
+{ #category : #'writer selecting' }
 ToStyleSheetTheme >> rootRulesFor: anElement [
 
 	^ Array streamContents: [ :str |
@@ -44,13 +42,13 @@ ToStyleSheetTheme >> rootRulesFor: anElement [
 			  str nextPutAll: ss styleRules ] ]
 ]
 
-{ #category : 'writer selecting' }
+{ #category : #'writer selecting' }
 ToStyleSheetTheme >> skinClassFor: anElement [
 
 	^ ToStyleSheetSkin
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetTheme >> skinFor: anElement [
 
 	anElement withAllStamps: (self defaultElementStyleStampsFor: anElement).
@@ -62,26 +60,26 @@ ToStyleSheetTheme >> skinFor: anElement [
 				  yourself ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetTheme >> stampNamed: aSymbol [
 
 	^ self styleSheet stampNamed: aSymbol
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetTheme >> styleSheet [
 
 	^ styleSheet
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetTheme >> styleSheet: aStyleSheet [
 
 	aStyleSheet defaultStampList: self defaultStampList.
 	styleSheet := aStyleSheet
 ]
 
-{ #category : 'writer selecting' }
+{ #category : #'writer selecting' }
 ToStyleSheetTheme >> writersFor: anElement [
 	" for an element, several writers can be found. These writers 
 	are found with #rawWritersFor:. After, for each property only the last writers is kept"

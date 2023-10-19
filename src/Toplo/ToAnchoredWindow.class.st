@@ -1,54 +1,52 @@
 Class {
-	#name : 'ToAnchoredWindow',
-	#superclass : 'ToAbstractWindowElement',
+	#name : #ToAnchoredWindow,
+	#superclass : #ToAbstractWindowElement,
 	#instVars : [
 		'popupTimestamp',
 		'windowHandler'
 	],
-	#category : 'Toplo-Core-Window',
-	#package : 'Toplo',
-	#tag : 'Core-Window'
+	#category : 'Toplo-Core-Window'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindow >> applyPositionHookFromEvent: anEvent [
 
 	^ windowHandler applyPositionHookFromEvent: anEvent
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindow >> applySizeHookFromEvent: anEvent [
 
 	windowHandler applySizeHookFromEvent: anEvent
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToAnchoredWindow >> checkBeforePopupEvent: anEvent [
 
 	self applyPositionHookFromEvent: anEvent.
 	self applySizeHookFromEvent: anEvent.
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToAnchoredWindow >> close [
 
 	self parentDo: [ :p | super close ].
 	self dispatchClosedEvent
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindow >> closedEventClass [
 
 	^ ToWindowClosedEvent 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindow >> defaultElevation [
 
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 900)
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToAnchoredWindow >> dispatchClosedEvent [
 
 	| event |
@@ -58,7 +56,7 @@ ToAnchoredWindow >> dispatchClosedEvent [
 
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToAnchoredWindow >> dispatchOpenedEvent: anEvent [
 
 	| event |
@@ -69,44 +67,44 @@ ToAnchoredWindow >> dispatchOpenedEvent: anEvent [
 	self element ifNotNil: [ :w | w dispatchEvent: event copy ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindow >> element [
 
 	^ windowHandler ifNotNil: [:h | h element]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindow >> handler: aWindowHandler [
 
 	windowHandler := aWindowHandler 
 ]
 
-{ #category : 'start' }
+{ #category : #start }
 ToAnchoredWindow >> hasAssociateElement [
 
 	^ self element notNil
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAnchoredWindow >> initialize [
 
 	super initialize.
 	self fitContent
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindow >> openedEventClass [
 
 	^ ToWindowOpenedEvent 
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToAnchoredWindow >> popup [
 	
 	self popupEvent: nil
 ]
 
-{ #category : 'api - displaying' }
+{ #category : #'api - displaying' }
 ToAnchoredWindow >> popupEvent: anEvent [
 	" I have to set the position here "
 
@@ -128,7 +126,7 @@ ToAnchoredWindow >> popupEvent: anEvent [
 			self checkBeforePopupEvent: anEvent ] ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAnchoredWindow >> popupTimestamp [
 
 	^ popupTimestamp 

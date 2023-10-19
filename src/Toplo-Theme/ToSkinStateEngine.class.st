@@ -14,12 +14,17 @@ Class {
 { #category : 'removing' }
 ToSkinStateEngine >> addSkinState: aState [
 
-	" add a state to apply later with #applyOn:"
-	self addSkinState: aState inFifo: self nextStates.
+	" remove incompatible state from next states fifo "
+	self cleanUpFifo: self nextStates forSkinState: aState.
+
+	" add a state to be apply with #applyOn: by the space SkinStatePhase "
+	self nextStates addFirst: aState.
+
+	" remove incompatible state from current states (persistent) fifo "
+	self cleanUpFifo: self currentStates forSkinState: aState.
 	
-	" then store the state to be re-applied when a new install state is required (see switchToInstallState:in:)"
-	aState isPersistent ifTrue: [
-		self addSkinState: aState inFifo: self currentStates ]
+	" then store persistent  state to be re-applied when a new initial state is required (see switchToInstallState:in:)"
+	aState isPersistent ifTrue: [ self currentStates addFirst: aState ]
 ]
 
 { #category : 'removing' }
@@ -27,17 +32,7 @@ ToSkinStateEngine >> addSkinState: aState in: anElement [
 
 	" declare the element as dirty "
 	anElement spaceDo: [ :space | space elementWithUnappliedStates: anElement ].
-	
 	self addSkinState: aState
-]
-
-{ #category : 'removing' }
-ToSkinStateEngine >> addSkinState: aState inFifo: aStateFifo [
-
-	aStateFifo removeAllSuchThat: [ :s | s isKindOf: aState class ].
-	aStateFifo removeAllSuchThat: [ :s |
-		aState incompatibleStateClasses includes: s class ].
-	aStateFifo addFirst: aState
 ]
 
 { #category : 'hook' }
@@ -45,6 +40,14 @@ ToSkinStateEngine >> applyOn: anElement [
 
 	[ self nextStates isEmpty ] whileFalse: [
 		self nextStates removeLast applyOn: anElement ]
+]
+
+{ #category : 'removing' }
+ToSkinStateEngine >> cleanUpFifo: aStateFifo forSkinState: aState [
+
+	aStateFifo removeAllSuchThat: [ :s | s isKindOf: aState class ].
+	aStateFifo removeAllSuchThat: [ :s |
+		aState incompatibleStateClasses includes: s class ]
 ]
 
 { #category : 'accessing' }
@@ -94,14 +97,15 @@ ToSkinStateEngine >> refreshStateEvent: anEvent [
 { #category : 'initialization' }
 ToSkinStateEngine >> reset [
 
-	nextStates := LinkedList new
+	nextStates := LinkedList new.
+	installed := false
 ]
 
 { #category : 'initialization' }
 ToSkinStateEngine >> switchToInitialStateEvent: anEvent in: anElement [
 	" initial state required - if the element is enabled proceed with stored persistent states "
 
-	installed ifFalse: [ Error signal: 'Use InitialSate before an InstallState as been applied' ].
+	installed ifFalse: [ Error signal: 'An InitialSate before an InstallState as been applied' ].
 	" FIFO management of states list "
 	" initial is applied first "
 	self addSkinState: (ToInitialState sourceEvent: anEvent) in: anElement.

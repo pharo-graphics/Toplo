@@ -9,44 +9,58 @@ Class {
 	#tag : 'Core'
 }
 
-{ #category : 'state switching' }
+{ #category : 'state adding' }
+ToSkinnableEventHandler >> addCheckStateEvent: anEvent [
+
+	| newStateClass |
+	newStateClass := anEvent current
+		                 ifNil: [ ToIndeterminateState ]
+		                 ifNotNil: [ :v |
+			                 v
+				                 ifTrue: [ ToCheckedState ]
+				                 ifFalse: [ ToUncheckedState ] ].
+
+	target addNextSkinState: (newStateClass sourceEvent: anEvent)
+]
+
+{ #category : 'state adding' }
 ToSkinnableEventHandler >> addClickedStateEvent: anEvent [
 
 	target addNextSkinState: (ToClickedState sourceEvent: anEvent)
 
 ]
 
-{ #category : 'state switching' }
+{ #category : 'state adding' }
 ToSkinnableEventHandler >> addDisabledStateEvent: anEvent [
 
 	target skinStateEngine refreshStateEvent: anEvent
 ]
 
-{ #category : 'state switching' }
+{ #category : 'state adding' }
 ToSkinnableEventHandler >> addEnabledStateEvent: anEvent [
 
 	target skinStateEngine refreshStateEvent: anEvent 
 ]
 
-{ #category : 'state switching' }
+{ #category : 'state adding' }
 ToSkinnableEventHandler >> addHoveredStateEvent: anEvent [
 
 	target addNextSkinState: (ToHoveredState sourceEvent: anEvent)
 ]
 
-{ #category : 'state switching' }
+{ #category : 'state adding' }
 ToSkinnableEventHandler >> addLeavedStateEvent: anEvent [
 
 	target addNextSkinState: (ToLeavedState sourceEvent: anEvent)
 ]
 
-{ #category : 'state switching' }
+{ #category : 'state adding' }
 ToSkinnableEventHandler >> addPressedStateEvent: anEvent [
 
 	target addNextSkinState: (ToPressedState sourceEvent: anEvent)
 ]
 
-{ #category : 'state switching' }
+{ #category : 'state adding' }
 ToSkinnableEventHandler >> addReleasedStateEvent: anEvent [
 
 	target addNextSkinState: (ToReleasedState sourceEvent: anEvent)
@@ -60,16 +74,7 @@ ToSkinnableEventHandler >> blurEvent: anEvent [
 ToSkinnableEventHandler >> checkableCheckEvent: anEvent [
 	"ToCheclableCheckEvent can be send either because of a click or because the checkable as been checked programmatically"
 
-	| newStateClass |
-	newStateClass := anEvent current
-		                 ifNil: [ ToIndeterminateState ]
-		                 ifNotNil: [ :v |
-			                 v
-				                 ifTrue: [ ToCheckedState ]
-				                 ifFalse: [ ToUncheckedState ] ].
-
-	target addNextSkinState: (newStateClass sourceEvent: anEvent).
-	target addNextSkinState: (ToClickedState sourceEvent: anEvent)
+	self addCheckStateEvent: anEvent
 ]
 
 { #category : 'mouse handlers' }
@@ -263,7 +268,8 @@ ToSkinnableEventHandler >> mouseUpOutsideEvent: anEvent [
 	So, do not change the state if the button is not in pressed state"
 	"target currentSkinState ifNotNil: [ :s | 
 		s isPressedState ifFalse: [ ^ self ] ]."
-	self addReleasedStateEvent: anEvent.
+	self addLeavedStateEvent: anEvent.
+	self addReleasedStateEvent: anEvent
 ]
 
 { #category : 'mouse handlers' }

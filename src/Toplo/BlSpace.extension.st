@@ -2,7 +2,7 @@ Extension { #name : 'BlSpace' }
 
 { #category : '*Toplo' }
 BlSpace >> applySkinInstaller [
-	
+
 	self elementsWithSkinInstaller do: [ :e | e applySkinInstaller ].
 	self resetElementsWithSkinInstaller
 ]

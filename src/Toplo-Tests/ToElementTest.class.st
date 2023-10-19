@@ -9,6 +9,48 @@ Class {
 	#tag : 'Core'
 }
 
+{ #category : 'tests' }
+ToElementTest >> testAddEventFilter [
+
+	| e count |
+	e := ToElement new.
+	self deny: (e eventDispatcher hasEventFilterSuchThat: [ :eh |
+			 eh isKindOf: ToSkinnableEventHandler ]).
+	e addEventFilter: ToSkinnableEventHandler new.
+	count := 0.
+	self assert: (e eventDispatcher hasEventFilterSuchThat: [ :eh |
+			 (eh isKindOf: ToSkinnableEventHandler)
+				 ifTrue: [
+					 count := count + 1.
+					 true ]
+				 ifFalse: [ false ] ]).
+	self assert: count equals: 1.
+	self
+		should: [ e addEventFilter: ToSkinnableEventHandler new ]
+		raise: Error
+]
+
+{ #category : 'tests' }
+ToElementTest >> testAddEventHandler [
+
+	| e count |
+	e := ToElement new.
+	self deny: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
+			 eh isKindOf: ToSkinnableEventHandler ]).
+	e addEventHandler: ToSkinnableEventHandler new.
+	count := 0.
+	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
+			 (eh isKindOf: ToSkinnableEventHandler)
+				 ifTrue: [
+					 count := count + 1.
+					 true ]
+				 ifFalse: [ false ] ]).
+	self assert: count equals: 1.
+	self
+		should: [ e addEventHandler: ToSkinnableEventHandler new ]
+		raise: Error
+]
+
 { #category : 'test initialize' }
 ToElementTest >> testAddSkinInstallerPhaseChecker [
 
@@ -38,6 +80,34 @@ ToElementTest >> testAddSkinInstallerPhaseChecker [
 		assert: (e eventDispatcher handlers select: [ :h |
 				 h class == ToSpaceSkinInstallerPhaseCheckerEventHandler ]) size
 		equals: 1
+]
+
+{ #category : 'tests' }
+ToElementTest >> testCheckEventFilter [
+
+	| e |
+	e := ToElement new.
+	e addEventFilter: ToSkinnableEventHandler new.
+	self
+		should: [ e checkEventFilter: ToSkinnableEventHandler new ]
+		raise: Error.
+	e := ToElement new.
+	e addEventFilter: ToSkinnableEventHandler new.
+	e checkEventHandler: ToSkinnableEventHandler new
+]
+
+{ #category : 'tests' }
+ToElementTest >> testCheckEventHandler [
+
+	| e |
+	e := ToElement new.
+	e addEventHandler: ToSkinnableEventHandler new.
+	self
+		should: [ e checkEventHandler: ToSkinnableEventHandler new ]
+		raise: Error.
+		e := ToElement new.
+	e addEventFilter: ToSkinnableEventHandler new.
+	e checkEventHandler: ToSkinnableEventHandler new
 ]
 
 { #category : 'test initialize' }
@@ -160,7 +230,11 @@ ToElementTest >> testWithoutSkinContamination [
 	self assert: e defaultSkin isNullSkin.
 	self assert: child defaultSkin isNullSkin.
 	self assert: childchild defaultSkin isNullSkin.
+	
 	e applySkinInstaller.
+	child applySkinInstaller.
+	childchild applySkinInstaller.
+	
 	self assert: e skinInstaller isNil.
 	self assert: e installedSkin  isNullSkin.
 	self assert: child skinInstaller isNil.
@@ -190,6 +264,8 @@ ToElementTest >> testWithoutSkinContamination2 [
 	self assert: e installedSkin isNullSkin.
 	e addChild: child.
 	e applySkinInstaller.
+	child applySkinInstaller.
+	childchild applySkinInstaller.
 	self assert: child skinInstaller isNil.
 	self assert: child installedSkin  isNullSkin.
 	self assert: childchild skinInstaller isNil.

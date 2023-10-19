@@ -50,6 +50,7 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 	button := ToButton new toTheme: ToBeeLightTheme new.
 	button styleSheet: ss.
 	label := (ToLabel text: 'Default') defaultSkin: nil.
+	label withStamp: #'button-label'.
 	button label: label.
 	labelSkin := ToBeeSkin new.
 	self assert: (button hasStamp: #danger) not.
@@ -316,7 +317,7 @@ ToStyleSheetBazarTest >> testSkinWithChildRule [
 					  (ToStyleStampSelector new addStampName: #parent))
 			 style: [ :sr |
 				 sr
-					 when: ToInitialLookEvent
+					 when: ToInstallLookEvent
 					 write: (ToFeatureProperty new name: #border)
 					 with: (BlBorder paint: Color red width: 3) ]).
 
@@ -334,6 +335,9 @@ ToStyleSheetBazarTest >> testSkinWithChildRule [
 	child requestSkin: skin.
 	parent applySkinInstaller.
 	parent applySkinStates.
+	child applySkinInstaller.
+	child applySkinStates.
+	
 	self assert: child border width equals: 3.
 	self assert: child border paint isColorPaint.
 	self assert: child border paint color equals: Color red
@@ -371,6 +375,8 @@ ToStyleSheetBazarTest >> testSkinWithChildRuleLevel2 [
 	child requestSkin: skin.
 	parent applySkinInstaller.
 	parent applySkinStates.
+	child applySkinInstaller.
+	child applySkinStates.
 	self assert: child border width equals: 3.
 	self assert: child border paint isColorPaint.
 	self assert: child border paint color equals: Color red
@@ -492,7 +498,10 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color black.
 
-	button addNextSkinState: ToDisabledState new.
+	button disabled: true.
+	button requestSkin.
+
+	button applySkinInstaller.
 	button applySkinStates.
 	self assert: button background paint isColorPaint.
 	self
@@ -936,13 +945,12 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 	child addChild: childchild1.
 	child addChild: childchild2.
 
-	" default button rule "
 	rules := {
 		         ((#child asStyleSelector parent:
 			           ((#( #elem #red ) asStyleSelector
 				             child: #childchild1
 				             depth: 2) child: #childchild2 depth: 2)) style: [ :sr |
-			          sr when: ToInitialLookEvent 
+			          sr when: ToInstallLookEvent
 				          write: (ss property: #background)
 				          with: [ :e | Color red ] ]).
 			
@@ -950,7 +958,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 			           ((#( #elem #blue ) asStyleSelector
 				             child: #childchild1
 				             depth: 2) child: #childchild2 depth: 2)) style: [ :sr |
-			          sr when: ToInitialLookEvent
+			          sr when: ToInstallLookEvent
 				          write: (ss property: #background)
 				          with: [ :e | Color blue ] ]) }.
 
@@ -967,13 +975,14 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 	self assert: child background paint color equals: Color red.
 	
 	elem withAllStamps: #( #elem #blue ).
+	elem withoutStamp: #red.
 	writers := ssi writersFor: child.
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
 	child requestSkin: skin.
-
 	child applySkinInstaller.
+
 	child applySkinStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color blue.

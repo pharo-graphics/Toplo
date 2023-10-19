@@ -89,7 +89,7 @@ ToCheckboxSkin >> leavedLookEvent: anEvent [
 ToCheckboxSkin >> releasedLookEvent: anEvent [
 
 	super releasedLookEvent: anEvent.
-	anEvent elementDo: [ :e | e icon border: e iconDefaultBorder ]
+	anEvent elementDo: [ :e | "e icon border: e iconDefaultBorder" ]
 ]
 
 { #category : 'event handling' }

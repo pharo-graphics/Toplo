@@ -290,9 +290,12 @@ BlElement >> requestSkin [
 { #category : '*Toplo' }
 BlElement >> requestSkin: aSkin [
 
+self flag: 'To check: defaultSkin/installedSkin'.
 	" force the default skin. If aSkin is nil, then it means to comme back to default case "
 	self defaultSkin: aSkin.
-	self requestSkin.
+	self skinInstaller: (ToSkinInstaller new renew: true).
+	self skinStateEngine reset.
+	self spaceDo: [ :space | space elementWithSkinInstaller: self ]
 ]
 
 { #category : '*Toplo' }

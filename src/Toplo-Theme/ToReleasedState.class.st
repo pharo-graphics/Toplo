@@ -13,6 +13,12 @@ ToReleasedState >> incompatibleStateClasses [
 ]
 
 { #category : 'accessing' }
+ToReleasedState >> isPersistent [ 
+
+	^ false
+]
+
+{ #category : 'accessing' }
 ToReleasedState >> lookEventClass [
 
 	^ ToReleasedLookEvent

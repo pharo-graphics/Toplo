@@ -13,6 +13,12 @@ ToLeavedState >> incompatibleStateClasses [
 ]
 
 { #category : 'look event sending' }
+ToLeavedState >> isPersistent [ 
+
+	^ false
+]
+
+{ #category : 'look event sending' }
 ToLeavedState >> lookEventClass [
 
 	^ ToLeavedLookEvent

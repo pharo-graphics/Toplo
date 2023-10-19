@@ -21,8 +21,8 @@ ToNotebookPageTitle >> defaultBackground [
 ToNotebookPageTitle >> defaultGeometry [
 
 	^ BlRoundedRectangleGeometry cornerRadii: (BlCornerRadii new
-			   topLeft: 4;
-			   topRight: 4;
+			   topLeft: 8;
+			   topRight: 8;
 			   bottomLeft: 0;
 			   bottomRight: 0;
 			   yourself)

@@ -8,11 +8,45 @@ Class {
 	#tag : 'Core'
 }
 
+{ #category : 'event management' }
+ToElement >> addEventFilter: anEventHandler [
+
+	self checkEventHandler: anEventHandler.
+	self checkEventFilter: anEventHandler.
+	super addEventFilter: anEventHandler
+]
+
+{ #category : 'event management' }
+ToElement >> addEventHandler: anEventHandler [
+
+	self checkEventHandler: anEventHandler.
+	self checkEventFilter: anEventHandler.
+	super addEventHandler: anEventHandler
+]
+
 { #category : 'skin - private' }
 ToElement >> addSkinInstallerPhaseChecker [
 
 	self skinInstallerPhaseChecker ifNotNil: [ ^ self ].
 	self addEventHandler: ToSpaceSkinInstallerPhaseCheckerEventHandler new
+]
+
+{ #category : 'event management' }
+ToElement >> checkEventFilter: anEventHandler [
+
+	(anEventHandler isKindOf: ToSkinnableEventHandler) ifTrue: [
+		(self eventDispatcher hasEventFilterSuchThat: [ :eh |
+			 eh isKindOf: ToSkinnableEventHandler ]) ifTrue: [
+			Error signal: 'Only one ' , ToSkinnableEventHandler name , ' is allowed' ] ]
+]
+
+{ #category : 'event management' }
+ToElement >> checkEventHandler: anEventHandler [
+
+	(anEventHandler isKindOf: ToSkinnableEventHandler) ifTrue: [
+		(self eventDispatcher hasEventHandlerSuchThat: [ :eh |
+			 eh isKindOf: ToSkinnableEventHandler ]) ifTrue: [
+			Error signal: 'Only one ' , ToSkinnableEventHandler name , ' is allowed' ] ]
 ]
 
 { #category : 'initialization' }

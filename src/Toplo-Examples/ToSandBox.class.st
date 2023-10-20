@@ -1814,7 +1814,7 @@ ToSandBox class >> example_buttonWithIconAndLabel [
 	| but  |
 	but := self example_buttonWithIcon.
 	but label: (ToLabel text: 'Button with label').
-	but inspect.
+	"but inspect."
 	^ but
 ]
 
@@ -2345,6 +2345,60 @@ ToSandBox class >> example_spaceRootSkin [
 	themeSwitcher when: ToCheckableCheckedEvent do: [ :event | space toTheme: ( event current ifTrue: [ToBeeDarkTheme new] ifFalse: [ ToBeeLightTheme new]) ].
 	space root addChild: themeSwitcher.
 	space show
+]
+
+{ #category : 'still pressed hovered event' }
+ToSandBox class >> example_stillHoveredEvent [
+
+	| e count lab |
+	e := ToElement new.
+	e stillHoveredStartDelay: 200 milliSeconds.
+	e layout: BlFrameLayout new.
+	lab := ToLabel new text: 'Keep mouse inside'.
+	lab constraintsDo: [ :c |
+		c frame vertical alignCenter.
+		c frame horizontal alignCenter ].
+	e addChild: lab.
+	e addEventHandler: ToSkinnableEventHandler new.
+	e size: 200 asPoint.
+	e border: Color black.
+	count := 0.
+	e when: ToStillHoveredLookEvent do: [ :event |
+		lab text: count asString asRopedText.
+		count := count + 1.
+		count > 50 ifTrue: [
+			event sourceEvent consumed: true.
+			count := 0 ] ].
+	e openInSpace
+]
+
+{ #category : 'still pressed hovered event' }
+ToSandBox class >> example_stillPressedEvent [
+
+	| e count lab color |
+	e := ToElement new.
+	e stillPressedStartDelay: 200 milliSeconds.
+	e layout: BlFrameLayout new.
+	lab := ToLabel new text: 'Keep mouse pressed here'.
+	lab constraintsDo: [ :c |
+		c frame vertical alignCenter.
+		c frame horizontal alignCenter ].
+	e addChild: lab.
+	e addEventHandler: ToSkinnableEventHandler new.
+	e size: 200 asPoint.
+	e border: Color black.
+	count := 0.
+	color := Color white alpha: 0.3.
+	e when: ToStillPressedLookEvent do: [ :event | 
+		e background: color.
+		lab text: count asString asRopedText.
+		count := count + 1.
+		color := color darker.
+		count > 50 ifTrue: [
+			event sourceEvent consumed: true.
+			count := 0.
+			color := Color white alpha: 0.3] ].
+	e openInSpace
 ]
 
 { #category : 'text field' }

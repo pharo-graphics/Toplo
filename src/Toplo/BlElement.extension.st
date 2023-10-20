@@ -351,6 +351,30 @@ BlElement >> stampValue: aSymbol [
 	(ToElementPropertyNotFound name: aSymbol) signal
 ]
 
+{ #category : '*Toplo' }
+BlElement >> stillHoveredStartDelay [
+
+	^ self userData at: #stillHoveredStartDelay ifAbsent: [ ]
+]
+
+{ #category : '*Toplo' }
+BlElement >> stillHoveredStartDelay: aDuration [
+
+	self userData at: #stillHoveredStartDelay put: aDuration asDuration
+]
+
+{ #category : '*Toplo' }
+BlElement >> stillPressedStartDelay [
+
+	^ self userData at: #stillPressedStartDelay ifAbsent: [ ]
+]
+
+{ #category : '*Toplo' }
+BlElement >> stillPressedStartDelay: aDuration [
+
+	self userData at: #stillPressedStartDelay put: aDuration asDuration
+]
+
 { #category : '*Toplo-LookAndFeel' }
 BlElement >> styleSheet [
 

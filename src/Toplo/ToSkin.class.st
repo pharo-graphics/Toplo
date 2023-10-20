@@ -137,6 +137,16 @@ ToSkin >> skinChangedEvent: anEvent [
 ]
 
 { #category : 'event handling' }
+ToSkin >> stillHoveredLookEvent: anEvent [
+
+]
+
+{ #category : 'event handling' }
+ToSkin >> stillPressedLookEvent: anEvent [
+
+]
+
+{ #category : 'event handling' }
 ToSkin >> themeChangedEvent: anEvent [
 
 	anEvent currentTarget requestSkin 

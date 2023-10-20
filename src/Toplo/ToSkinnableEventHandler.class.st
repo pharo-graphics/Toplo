@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'target',
 		'leaved',
-		'dragged'
+		'dragged',
+		'stillPressedTask',
+		'stillHoveredTask'
 	],
 	#category : 'Toplo-Core',
 	#package : 'Toplo',
@@ -72,6 +74,18 @@ ToSkinnableEventHandler >> addPressedStateEvent: anEvent [
 ToSkinnableEventHandler >> addReleasedStateEvent: anEvent [
 
 	target addNextSkinState: (ToReleasedState sourceEvent: anEvent)
+]
+
+{ #category : 'state adding' }
+ToSkinnableEventHandler >> addStillHoveredStateEvent: anEvent [
+
+	target addNextSkinState: (ToStillHoveredState sourceEvent: anEvent)
+]
+
+{ #category : 'state adding' }
+ToSkinnableEventHandler >> addStillPressedStateEvent: anEvent [
+
+	target addNextSkinState: (ToStillPressedState sourceEvent: anEvent)
 ]
 
 { #category : 'focus events handling' }
@@ -180,6 +194,7 @@ ToSkinnableEventHandler >> focusOutEvent: anEvent [
 { #category : 'api - event managing' }
 ToSkinnableEventHandler >> handleEvent: anEvent [
 
+	self stopTasks: anEvent.
 	anEvent sendTo: self
 ]
 
@@ -234,6 +249,7 @@ ToSkinnableEventHandler >> mouseDownOutsideEvent: anEvent [
 ToSkinnableEventHandler >> mouseEnterEvent: anEvent [
 
 	leaved := false.
+	self startStillHoveredEvent: anEvent.
 	self addHoveredStateEvent: anEvent
 ]
 
@@ -335,7 +351,8 @@ ToSkinnableEventHandler >> primaryClickEvent: anEvent [
 { #category : 'mouse handlers' }
 ToSkinnableEventHandler >> primaryMouseDownEvent: anEvent [
 
-	self addPressedStateEvent: anEvent 
+	self addPressedStateEvent: anEvent.
+	self startStillPressedEvent: anEvent
 ]
 
 { #category : 'mouse handlers' }
@@ -359,6 +376,87 @@ ToSkinnableEventHandler >> secondaryMouseUpEvent: anEvent [
 
 { #category : 'event handling' }
 ToSkinnableEventHandler >> shortcutEvent: anEvent [
+]
+
+{ #category : 'still pressed - hovered' }
+ToSkinnableEventHandler >> startStillHoveredEvent: anEvent [
+
+	| startDelay space |
+	target space ifNil: [ ^ self ].
+	space := target space.
+	startDelay := target stillHoveredStartDelay.
+	startDelay ifNil: [ ^ self ].
+	stillHoveredTask := [
+	                    | event |
+	                    event := anEvent copy.
+	                    startDelay asDelay wait.
+	                    [ space isOpened  and: [ target space notNil and: [event isConsumed not ] ] ]
+		                    whileTrue: [
+			                    self addStillHoveredStateEvent: event.
+			                    (Delay forMilliseconds: 50) wait.
+			                    target spaceDo: [ :sp | sp requestNextPulse ] ] ]
+		                    forkAt: Processor userBackgroundPriority
+		                    named: self class name , ' stillHoveredTask'
+]
+
+{ #category : 'still pressed - hovered' }
+ToSkinnableEventHandler >> startStillPressedEvent: anEvent [
+
+	| startDelay space |
+	target space ifNil: [ ^ self ].
+	space := target space.
+	startDelay := target stillPressedStartDelay.
+	startDelay ifNil: [ ^ self ].
+	stillPressedTask := [
+	                    | event |
+	                    event := anEvent copy.
+	                    startDelay asDelay wait.
+	                    [ space isOpened  and: [ target space notNil and: [event isConsumed not ] ] ]
+		                    whileTrue: [
+			                    self addStillPressedStateEvent: event.
+			                    (Delay forMilliseconds: 10) wait.
+			                    target spaceDo: [ :sp | sp requestNextPulse ] ] ]
+		                    forkAt: Processor userBackgroundPriority
+		                    named: self class name , ' stillPressedTask'
+]
+
+{ #category : 'still pressed - hovered' }
+ToSkinnableEventHandler >> stillHoveredTask [
+	
+	^ stillHoveredTask 
+]
+
+{ #category : 'still pressed - hovered' }
+ToSkinnableEventHandler >> stillPressedTask [
+	
+	^ stillPressedTask 
+]
+
+{ #category : 'still pressed - hovered' }
+ToSkinnableEventHandler >> stopStillHoveredTaskEvent: anEvent [
+
+	stillHoveredTask ifNil: [ ^ self ].
+	((anEvent isKindOf: BlMouseLeaveEvent)) ifFalse: [ ^ self ].
+	stillHoveredTask terminate.
+	stillHoveredTask := nil
+]
+
+{ #category : 'still pressed - hovered' }
+ToSkinnableEventHandler >> stopStillPressedTaskEvent: anEvent [
+
+	stillPressedTask ifNil: [ ^ self ].
+	((anEvent isKindOf: BlMouseUpEvent) or: [
+		 anEvent isKindOf: BlMousePickOutsideEvent ]) ifFalse: [ ^ self ].
+	stillPressedTask terminate.
+	stillPressedTask := nil
+]
+
+{ #category : 'still pressed - hovered' }
+ToSkinnableEventHandler >> stopTasks: anEvent [
+
+	self stopStillPressedTaskEvent: anEvent.
+	self stopStillHoveredTaskEvent: anEvent.
+
 ]
 
 { #category : 'accessing' }

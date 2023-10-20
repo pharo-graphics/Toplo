@@ -14,7 +14,15 @@ ToNotebookPageTitle >> defaultBackground [
 
 	self page isSelected ifTrue: [
 		^ Color fromHexString: #ffd666 ].
-	^ super defaultBackground
+	^ super defaultBackground 
+]
+
+{ #category : 'skin' }
+ToNotebookPageTitle >> defaultBorder [
+
+	self page isSelected ifTrue: [
+		^ Color fromHexString: #ffd666 ].
+	^ Color veryLightGray alpha: 0.5
 ]
 
 { #category : 'skin' }
@@ -46,7 +54,6 @@ ToNotebookPageTitle >> initialize [
 { #category : 'skin' }
 ToNotebookPageTitle >> installRawStyle [
 
-	| closeButton |
 	super installRawStyle.
 
 	self fitContent.
@@ -55,9 +62,7 @@ ToNotebookPageTitle >> installRawStyle [
 	self padding: self defaultPadding.
 	self border: Color black.
 	self geometry: self defaultGeometry.
-
-	closeButton := self childWithId: #closeButton ifNone: [^ self ].
-	closeButton withoutSkin
+	
 ]
 
 { #category : 'accessing' }

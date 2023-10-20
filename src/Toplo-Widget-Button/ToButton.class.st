@@ -31,12 +31,6 @@ ToButton >> initialize [
 	self fitContent
 ]
 
-{ #category : 'skin' }
-ToButton >> installRawStyle [
-	super installRawStyle.
-	
-]
-
 { #category : 't - element with labeled icon - accessing' }
 ToButton >> labeledIcon [ 
 

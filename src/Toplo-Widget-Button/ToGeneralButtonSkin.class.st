@@ -70,7 +70,7 @@ ToGeneralButtonSkin >> pressedLookEvent: anEvent [
 ToGeneralButtonSkin >> releasedLookEvent: anEvent [
 
 	super releasedLookEvent: anEvent.
-	anEvent elementDo: [ :e |"
+	anEvent elementDo: [ :e |
 		e border: e defaultBorder.
-		e background: e defaultBackground" ]
+		e background: e defaultBackground ]
 ]

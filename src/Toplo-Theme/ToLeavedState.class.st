@@ -12,6 +12,12 @@ ToLeavedState >> incompatibleStateClasses [
 	^ { ToHoveredState }
 ]
 
+{ #category : 'testing' }
+ToLeavedState >> isPersistent [ 
+
+	^ false
+]
+
 { #category : 'accessing' }
 ToLeavedState >> lookEventClass [
 

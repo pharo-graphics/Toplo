@@ -70,7 +70,8 @@ ToNotebook >> initialize [
 	self matchParent.
 	header := ToPane horizontal.
 	self addChild: header as: #header.
-	pages := OrderedCollection new
+	pages := OrderedCollection new.
+	self inspect
 ]
 
 { #category : 'skin' }
@@ -123,7 +124,7 @@ ToNotebook >> refreshOnPageIsCloseableChange: aPage [
 	aPage isCloseable
 		ifTrue: [
 			| but |
-			but := ToButton new withoutSkin.
+			but := ToNoteBookPageTitleCloseButton new.
 			but icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #windowClose)).
 			but constraintsDo: [ :c | c linear vertical alignCenter].
 			but whenClickedDo: [ :evt | 

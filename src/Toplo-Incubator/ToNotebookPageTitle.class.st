@@ -13,8 +13,8 @@ Class {
 ToNotebookPageTitle >> defaultBackground [
 
 	self page isSelected ifTrue: [
-		^ self theme notebook selectedPageTitleBackgroundColor ].
-	^ self theme notebook deselectedPageTitleBackgroundColor
+		^ Color fromHexString: #ffd666 ].
+	^ super defaultBackground
 ]
 
 { #category : 'skin' }
@@ -26,6 +26,12 @@ ToNotebookPageTitle >> defaultGeometry [
 			   bottomLeft: 0;
 			   bottomRight: 0;
 			   yourself)
+]
+
+{ #category : 'skin' }
+ToNotebookPageTitle >> hoveredBackground [
+
+	^ Color white
 ]
 
 { #category : 'initialization' }

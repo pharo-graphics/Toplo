@@ -88,8 +88,9 @@ ToDividerEventHandler >> dragEvent: anEvent target: aTarget bounds: aTargetBound
 { #category : 'dnd handlers' }
 ToDividerEventHandler >> dragStartEvent: anEvent [
 
-	super dragStartEvent: anEvent.
+	" consume before super send to ensure dragged state "
 	anEvent consumed: true.
+	super dragStartEvent: anEvent.
 
 	"drag start position in parent"
 	startPosition := anEvent position.
@@ -129,7 +130,7 @@ ToDividerEventHandler >> leftTarget [
 { #category : 'accessing' }
 ToDividerEventHandler >> minimumExtent [
 
-	^ 10@10
+	^ 1@1
 ]
 
 { #category : 'api - hooks' }

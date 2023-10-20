@@ -15,6 +15,7 @@ ToSkinInstaller >> applyOn: anElement [
 	anElement skinInstaller: nil.
 	anElement installedSkin ifNotNil: [ :s |
 		renew ifFalse: [ ^ anElement dispatchSkinChangedEvent ].
+		anElement skinStateEngine reset.
 		anElement removeEventHandler: s ].
 	anElement defaultSkin ifNotNil: [ :found |
 		anElement installedSkin: found.

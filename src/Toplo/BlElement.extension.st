@@ -293,8 +293,7 @@ BlElement >> requestSkin: aSkin [
 self flag: 'To check: defaultSkin/installedSkin'.
 	" force the default skin. If aSkin is nil, then it means to comme back to default case "
 	self defaultSkin: aSkin.
-	self skinInstaller: (ToSkinInstaller new renew: true).
-	self skinStateEngine reset.
+	self skinInstaller: (ToSkinInstaller new renew: true; yourself).
 	self spaceDo: [ :space | space elementWithSkinInstaller: self ]
 ]
 

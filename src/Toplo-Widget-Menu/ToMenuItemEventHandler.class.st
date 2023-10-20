@@ -24,7 +24,7 @@ ToMenuItemEventHandler >> mouseEnterEvent: anEvent [
 ToMenuItemEventHandler >> mouseUpEvent: anEvent [
 
 	" check event and current target "
-	(anEvent anyButtonPressed and: [ anEvent currentTarget ~= target ])
+	(anEvent currentTarget ~= target)
 		ifTrue: [ ^ self ].
 	super mouseUpEvent: anEvent.
 

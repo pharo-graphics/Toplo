@@ -23,7 +23,7 @@ ToGeneralButton >> defaultBorder [
 { #category : 'initialization' }
 ToGeneralButton >> defaultEventHandler [ 
 
-	^ ToSkinnableEventHandler new 
+	^ ToGeneralButtonEventHandler new 
 ]
 
 { #category : 'skin' }
@@ -64,6 +64,7 @@ ToGeneralButton >> hoveredBorder [
 ToGeneralButton >> initialize [
 
 	super initialize.
+	self allowMousePickOutsideEvent.
 	self addEventHandler: self defaultEventHandler
 ]
 

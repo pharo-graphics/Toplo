@@ -38,13 +38,13 @@ ToDivider >> bottomTarget [
 { #category : 'initialization' }
 ToDivider >> defaultBackground [
 
-	^ Color veryLightGray alpha: 0.1
+	^ Color transparent
 ]
 
 { #category : 'initialization' }
 ToDivider >> defaultBorder [
 
-	^ Color veryLightGray alpha: 0.3
+	^ BlBorder empty
 ]
 
 { #category : 'initialization' }
@@ -83,6 +83,12 @@ ToDivider >> defaultThickness [
 	^ 3
 ]
 
+{ #category : 'skin' }
+ToDivider >> draggedBackground [
+
+	^ Color veryLightGray alpha: 0.6
+]
+
 { #category : 'accessing' }
 ToDivider >> firstTarget [
 
@@ -95,16 +101,16 @@ ToDivider >> firstTarget: anElement [
 	firstTarget := anElement
 ]
 
-{ #category : 'accessing' }
+{ #category : 'skin' }
 ToDivider >> hoveredBackground [
 
 	^ Color veryLightGray alpha: 0.3
 ]
 
-{ #category : 'accessing' }
+{ #category : 'skin' }
 ToDivider >> hoveredBorder [
 
-	^ Color veryLightGray alpha: 0.4
+	^ self defaultBorder
 ]
 
 { #category : 'initialization' }
@@ -246,16 +252,16 @@ ToDivider >> pane: aPane [
 	pane := aPane
 ]
 
-{ #category : 'accessing' }
+{ #category : 'skin' }
 ToDivider >> pressedBackground [
 
 	^ Color veryLightGray alpha: 0.6
 ]
 
-{ #category : 'accessing' }
+{ #category : 'skin' }
 ToDivider >> pressedBorder [
 
-	^ Color veryLightGray alpha: 0.6
+	^ self defaultBorder
 ]
 
 { #category : 'skin' }
@@ -264,7 +270,7 @@ ToDivider >> rawSkin [
 	^ ToDividerSkin new
 ]
 
-{ #category : 'accessing' }
+{ #category : 'skin' }
 ToDivider >> resizerCursor [
 
 	^ self isHorizontal

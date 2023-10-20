@@ -64,3 +64,10 @@ ToMenuBarEventHandler >> mouseUpOutsideEvent: anEvent [
 	anEvent consumed: true.
 	autoOpen := false
 ]
+
+{ #category : 'api - hooks' }
+ToMenuBarEventHandler >> onInstalledIn: anElement [
+
+	super onInstalledIn: anElement.
+	anElement allowMousePickOutsideEvent 
+]

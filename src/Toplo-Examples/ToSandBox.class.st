@@ -3034,6 +3034,30 @@ ToSandBox class >> example_toggle3 [
 ]
 
 { #category : 'pane' }
+ToSandBox class >> example_twoSubPanesWithDivider [
+
+	| pane e1 e2 |
+	pane := ToPane horizontal.
+	pane matchParent.
+	e1 := ToElement new
+		      margin: (BlInsets all: 0);
+		      background: (Color random alpha: 0.2);
+		      vMatchParent;
+		      width: 100.
+	e2 := ToElement new
+		      margin: (BlInsets all: 0);
+		      background: (Color random alpha: 0.2);
+		      vMatchParent;
+		      width: 200.
+	pane addChildren: {
+			e1.
+			e2}.
+
+	pane addDividers.
+	pane openInSpace
+]
+
+{ #category : 'pane' }
 ToSandBox class >> example_verticalPaneWithDivider [
 
 	| pane e1 e2 e3 btn |

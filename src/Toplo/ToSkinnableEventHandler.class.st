@@ -2,7 +2,9 @@ Class {
 	#name : 'ToSkinnableEventHandler',
 	#superclass : 'BlCustomEventHandler',
 	#instVars : [
-		'target'
+		'target',
+		'leaved',
+		'dragged'
 	],
 	#category : 'Toplo-Core',
 	#package : 'Toplo',
@@ -34,6 +36,12 @@ ToSkinnableEventHandler >> addClickedStateEvent: anEvent [
 ToSkinnableEventHandler >> addDisabledStateEvent: anEvent [
 
 	target skinStateEngine refreshStateEvent: anEvent
+]
+
+{ #category : 'state adding' }
+ToSkinnableEventHandler >> addDraggedStateEvent: anEvent [
+
+	target addNextSkinState: (ToDraggedState sourceEvent: anEvent)
 ]
 
 { #category : 'state adding' }
@@ -103,11 +111,15 @@ ToSkinnableEventHandler >> doubleClickEvent: anEvent [
 { #category : 'dnd handlers' }
 ToSkinnableEventHandler >> dragEndEvent: anEvent [
 
-	self addReleasedStateEvent: anEvent
+	dragged := false.
+	self addReleasedStateEvent: anEvent.
+	leaved ifTrue: [ self addLeavedStateEvent: anEvent ]
 ]
 
 { #category : 'event handling' }
 ToSkinnableEventHandler >> dragEnterEvent: anEvent [
+
+	leaved := false
 ]
 
 { #category : 'dnd handlers' }
@@ -116,10 +128,16 @@ ToSkinnableEventHandler >> dragEvent: anEvent [
 
 { #category : 'event handling' }
 ToSkinnableEventHandler >> dragLeaveEvent: anEvent [
+
+	leaved := true
 ]
 
 { #category : 'dnd handlers' }
 ToSkinnableEventHandler >> dragStartEvent: anEvent [
+
+	anEvent isConsumed ifFalse: [ ^ self ].
+	dragged := true.
+	self addDraggedStateEvent: anEvent
 ]
 
 { #category : 'dnd handlers' }
@@ -215,14 +233,14 @@ ToSkinnableEventHandler >> mouseDownOutsideEvent: anEvent [
 { #category : 'mouse handlers' }
 ToSkinnableEventHandler >> mouseEnterEvent: anEvent [
 
-	anEvent anyButtonPressed ifTrue: [ ^ self ].
+	leaved := false.
 	self addHoveredStateEvent: anEvent
 ]
 
 { #category : 'mouse handlers' }
 ToSkinnableEventHandler >> mouseLeaveEvent: anEvent [
 
-	anEvent anyButtonPressed ifTrue: [ ^ self ].
+	leaved := true.
 	self addLeavedStateEvent: anEvent
 
 
@@ -261,9 +279,11 @@ ToSkinnableEventHandler >> mouseUpOutsideEvent: anEvent [
 
 	"Outside event can have a button label or icon as target. 
 	In that case, no action is triggered "
+
 	(anEvent originalEvent target notNil and: [
-		 anEvent originalEvent target hasParent: target ]) ifTrue: [
+		 anEvent originalEvent target hasInParentChain: target ]) ifTrue: [
 		^ self ].
+
 	"MouseUpOutside for a button is managed if a MouseDown (inside) has occured before (with a consequent pressed state).
 	So, do not change the state if the button is not in pressed state"
 	"target currentSkinState ifNotNil: [ :s | 
@@ -280,6 +300,8 @@ ToSkinnableEventHandler >> mouseWheelEvent: anEvent [
 ToSkinnableEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
+	leaved := false.
+	dragged := false.
 	" need to store the element for mouse outside event interpreting "
 	target := anElement
 ]

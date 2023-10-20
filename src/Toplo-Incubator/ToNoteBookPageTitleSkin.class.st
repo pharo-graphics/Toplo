@@ -6,14 +6,6 @@ Class {
 }
 
 { #category : 'event handling' }
-ToNoteBookPageTitleSkin >> checkedLookEvent: anEvent [
-
-	super checkedLookEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e background: e defaultBackground ]
-]
-
-{ #category : 'event handling' }
 ToNoteBookPageTitleSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
@@ -24,15 +16,14 @@ ToNoteBookPageTitleSkin >> hoveredLookEvent: anEvent [
 { #category : 'event handling' }
 ToNoteBookPageTitleSkin >> leavedLookEvent: anEvent [
 
+	anEvent elementDo: [ :e | e page isSelected ifTrue: [ ^ self ] ].
 	super leavedLookEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e background: e defaultBackground ]
+
 ]
 
 { #category : 'event handling' }
-ToNoteBookPageTitleSkin >> uncheckedLookEvent: anEvent [
+ToNoteBookPageTitleSkin >> pressedLookEvent: anEvent [
 
-	super uncheckedLookEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e background: e defaultBackground ]
+	anEvent elementDo: [ :e | e page isSelected ifTrue: [ ^ self ] ].
+	super pressedLookEvent: anEvent
 ]

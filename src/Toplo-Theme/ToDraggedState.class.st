@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToLeavedState',
+	#name : 'ToDraggedState',
 	#superclass : 'ToElementState',
 	#category : 'Toplo-Theme-State',
 	#package : 'Toplo-Theme',
@@ -7,13 +7,13 @@ Class {
 }
 
 { #category : 'accessing' }
-ToLeavedState >> incompatibleStateClasses [
+ToDraggedState >> incompatibleStateClasses [
 
-	^ { ToHoveredState }
+	^ { ToReleasedState }
 ]
 
 { #category : 'accessing' }
-ToLeavedState >> lookEventClass [
+ToDraggedState >> lookEventClass [
 
-	^ ToLeavedLookEvent
+	^ ToDraggedLookEvent
 ]

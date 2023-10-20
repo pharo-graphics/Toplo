@@ -59,7 +59,8 @@ ToElementWithPopupEventHandler >> mouseUpEvent: anEvent [
 ToElementWithPopupEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	target := anElement
+	target := anElement.
+	target allowMousePickOutsideEvent.
 ]
 
 { #category : 'api - hooks' }

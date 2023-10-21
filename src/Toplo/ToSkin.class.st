@@ -37,7 +37,19 @@ ToSkin >> disabledLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
+ToSkin >> dragStartedLookEvent: anEvent [
+
+
+]
+
+{ #category : 'event handling' }
 ToSkin >> draggedLookEvent: anEvent [
+
+
+]
+
+{ #category : 'event handling' }
+ToSkin >> droppedLookEvent: anEvent [
 
 
 ]

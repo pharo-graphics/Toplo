@@ -41,9 +41,21 @@ ToSkinnableEventHandler >> addDisabledStateEvent: anEvent [
 ]
 
 { #category : 'state adding' }
+ToSkinnableEventHandler >> addDragStartedStateEvent: anEvent [
+
+	target addNextSkinState: (ToDragStartedState sourceEvent: anEvent)
+]
+
+{ #category : 'state adding' }
 ToSkinnableEventHandler >> addDraggedStateEvent: anEvent [
 
 	target addNextSkinState: (ToDraggedState sourceEvent: anEvent)
+]
+
+{ #category : 'state adding' }
+ToSkinnableEventHandler >> addDroppedStateEvent: anEvent [
+
+	target addNextSkinState: (ToDroppedState sourceEvent: anEvent)
 ]
 
 { #category : 'state adding' }
@@ -138,6 +150,9 @@ ToSkinnableEventHandler >> dragEnterEvent: anEvent [
 
 { #category : 'dnd handlers' }
 ToSkinnableEventHandler >> dragEvent: anEvent [
+
+	dragged ifFalse: [ ^ self ].
+	self addDraggedStateEvent: anEvent
 ]
 
 { #category : 'event handling' }
@@ -151,11 +166,13 @@ ToSkinnableEventHandler >> dragStartEvent: anEvent [
 
 	anEvent isConsumed ifFalse: [ ^ self ].
 	dragged := true.
-	self addDraggedStateEvent: anEvent
+	self addDragStartedStateEvent: anEvent
 ]
 
 { #category : 'dnd handlers' }
 ToSkinnableEventHandler >> dropEvent: anEvent [
+
+	self addDroppedStateEvent: anEvent
 ]
 
 { #category : 'enablement' }

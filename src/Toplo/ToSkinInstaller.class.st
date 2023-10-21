@@ -1,9 +1,6 @@
 Class {
 	#name : 'ToSkinInstaller',
 	#superclass : 'Object',
-	#instVars : [
-		'renew'
-	],
 	#category : 'Toplo-Core-Skin',
 	#package : 'Toplo',
 	#tag : 'Core-Skin'
@@ -13,25 +10,13 @@ Class {
 ToSkinInstaller >> applyOn: anElement [
 
 	anElement skinInstaller: nil.
+	" is there an already installed skin"
 	anElement installedSkin ifNotNil: [ :s |
-		renew ifFalse: [ ^ anElement dispatchSkinChangedEvent ].
-		anElement skinStateEngine reset.
+		" one have to remove the skin from the element "
 		anElement removeEventHandler: s ].
 	anElement defaultSkin ifNotNil: [ :found |
-		anElement installedSkin: found.
+		" add the skin as an element event handler"
 		anElement addEventHandler: found.
+		" event to update the state engine accordingly (add install or initial state)"
 		anElement dispatchSkinChangedEvent ]
-]
-
-{ #category : 'initialization' }
-ToSkinInstaller >> initialize [ 
-
-	super initialize.
-	renew := false
-]
-
-{ #category : 'accessing' }
-ToSkinInstaller >> renew: aBoolean [
-
-	renew := aBoolean
 ]

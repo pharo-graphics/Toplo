@@ -1791,7 +1791,7 @@ ToSandBox class >> example_ToLabelWithHeadingSkin [
 				        type: typeAssoc value new;
 				        heading: headingAssoc value new;
 				        yourself.
-			lab := ToLabel new requestSkin: skin.
+			lab := ToLabel new requestDefaultSkin: skin.
 			lab text: typeAssoc key , ' ' , headingAssoc key.
 			listElement data add: lab ] ].
 	space root addChild: listElement.

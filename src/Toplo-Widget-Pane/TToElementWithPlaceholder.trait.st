@@ -32,7 +32,7 @@ TToElementWithPlaceholder >> hidePlaceholder [
 { #category : 't - element with placeholder' }
 TToElementWithPlaceholder >> placeholderBuilder: aValuable [
 
-	" aValuaable takes 2 args: 1 the placeholder to build, 2 the element. If nil, the current builder is removed"
+	" aValuable takes 2 args: 1 the placeholder to build, 2 the element. If nil, the current builder is removed"
 	self rawPlaceholderBuilder: aValuable 
 ]
 

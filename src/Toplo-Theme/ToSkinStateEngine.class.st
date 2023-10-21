@@ -94,6 +94,14 @@ ToSkinStateEngine >> refreshStateEvent: anEvent [
 	self switchToInitialStateEvent: anEvent in: anEvent currentTarget
 ]
 
+{ #category : 'accessing' }
+ToSkinStateEngine >> reinstall [
+
+	installed := false
+
+	
+]
+
 { #category : 'initialization' }
 ToSkinStateEngine >> reset [
 

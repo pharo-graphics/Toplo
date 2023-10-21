@@ -6,6 +6,14 @@ Class {
 }
 
 { #category : 'event handling' }
+ToDividerSkin >> dragStartedLookEvent: anEvent [
+
+	super dragStartedLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e mouseCursor: e resizerCursor ]
+]
+
+{ #category : 'event handling' }
 ToDividerSkin >> draggedLookEvent: anEvent [
 
 	super draggedLookEvent: anEvent.

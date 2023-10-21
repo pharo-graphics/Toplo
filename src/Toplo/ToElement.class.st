@@ -135,14 +135,6 @@ ToElement >> skinInstallerPhaseChecker [
 		  ifNone: [  ]
 ]
 
-{ #category : 'skin' }
-ToElement >> skinRequested: anEvent [
-
-	anEvent target = self ifTrue: [ ^ self ].
-	self requestSkinPrivately 
-	
-]
-
 { #category : 't - checkable - private protocol' }
 ToElement >> switchToNextCheckStateOnClick [
 

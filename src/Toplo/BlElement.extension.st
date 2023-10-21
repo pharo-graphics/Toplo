@@ -36,14 +36,18 @@ BlElement >> borderBuilder [
 BlElement >> defaultSkin [
 
 	^ self userData
-		  at: #defaultSkin
+		  at: #localDefaultSkin
 		  ifAbsent: [ self toTheme skinFor: self ]
 ]
 
 { #category : '*Toplo' }
 BlElement >> defaultSkin: aSkin [
 
-	self userData at: #defaultSkin put: aSkin
+	| prev |
+	prev := self userData at: #localDefaultSkin ifAbsent: [  ]. 
+	prev = aSkin ifTrue: [ ^ self ].
+	self userData at: #localDefaultSkin put: aSkin.
+	self skinStateEngine reinstall.
 ]
 
 { #category : '*Toplo' }
@@ -133,14 +137,8 @@ BlElement >> installRawStyle [
 { #category : '*Toplo' }
 BlElement >> installedSkin [
 
-	^ self userData at: #installedSkin ifAbsent: [  ]
-]
-
-{ #category : '*Toplo' }
-BlElement >> installedSkin: aSkin [
-
-	self installedSkin = aSkin ifTrue: [ ^ self ].
-	self userData at: #installedSkin put: aSkin
+	self eventDispatcher handlersDo: [ :h | (h isKindOf: ToSkin) ifTrue: [ ^ h]].
+	^ nil
 ]
 
 { #category : '*Toplo' }
@@ -280,25 +278,15 @@ BlElement >> removeStyleStampNamed: aSymbol ifAbsent: anAbsentBlock [
 ]
 
 { #category : '*Toplo' }
-BlElement >> requestSkin [
+BlElement >> requestDefaultSkin: aSkin [
 
-	self skinInstaller ifNotNil: [ ^ self ].
-	self requestSkinPrivately.
-	"self fireEvent: (ToSkinRequested new canBePropagated: true; yourself)"
-]
-
-{ #category : '*Toplo' }
-BlElement >> requestSkin: aSkin [
-
-self flag: 'To check: defaultSkin/installedSkin'.
 	" force the default skin. If aSkin is nil, then it means to comme back to default case "
 	self defaultSkin: aSkin.
-	self skinInstaller: (ToSkinInstaller new renew: true; yourself).
-	self spaceDo: [ :space | space elementWithSkinInstaller: self ]
+	self requestSkin
 ]
 
 { #category : '*Toplo' }
-BlElement >> requestSkinPrivately [
+BlElement >> requestSkin [
 
 	self skinInstaller ifNotNil: [ ^ self ].
 	self skinInstaller: ToSkinInstaller new.

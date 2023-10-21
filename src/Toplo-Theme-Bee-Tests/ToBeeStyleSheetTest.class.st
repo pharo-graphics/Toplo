@@ -29,9 +29,8 @@ ToBeeStyleSheetTest >> testDefaultButtonSkin [
 	self assert: writers notEmpty.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	button requestSkin: nil.
 	self assert: button installedSkin isNil.
-	button requestSkin: skin.
+	button defaultSkin: skin.
 	button applySkinInstaller.
 	self assert: button border width equals: 1.
 	self assert: button border paint isColorPaint.
@@ -43,7 +42,7 @@ ToBeeStyleSheetTest >> testDefaultButtonSkin [
 	labelSkin := ToStyleSheetSkin new.
 	writers := button label toTheme writersFor: button label.
 	labelSkin writers: writers.
-	button label requestSkin: labelSkin.
+	button label defaultSkin: labelSkin.
 	button applySkinInstaller.
 	
 	

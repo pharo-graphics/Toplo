@@ -23,7 +23,7 @@ ToStyleRule >> addSubStyleRule: aStyleRule [
 ToStyleRule >> canBeAppliedTo: anElement [
 
 	| engine |
-	engine := ToStyleSelectorInterpreter new.
+	engine := ToSelectorInterpreter new.
 	engine check: self selector on: anElement.
 	^ engine result
 ]

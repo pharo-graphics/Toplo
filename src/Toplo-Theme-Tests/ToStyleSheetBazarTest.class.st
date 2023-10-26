@@ -25,8 +25,8 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 		e textChanged ].
 
 	ss addStyleRule: (
-		((ToStyleStampSelector new addStampName: #'button-label') 
-			parent: (ToStyleStampSelector new addAllStampNames: #( #button #danger ))
+		((ToStampSelector new addStampName: #'button-label') 
+			parent: (ToStampSelector new addAllStampNames: #( #button #danger ))
 			depth: 3)
 			 style: [ :sr |
 				 sr write: prop with: [ :e | (e stampValue: #'color-error') ].
@@ -88,7 +88,7 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 	ssi := ToStyleSheetTheme new.
 	
 	" default button rule "
-	ss addStyleRule: ((ToStyleStampSelector new addStampName: #button)
+	ss addStyleRule: ((ToStampSelector new addStampName: #button)
 			 style: [ :sr |
 				 | p |
 				 p := ToFeatureProperty new name: #background.
@@ -122,9 +122,9 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 					 with: [ :e | (e stampValue: #'color-primary-pressed') ] ]).
 
 	" danger button label rule "
-	ss addStyleRule: (((ToStyleStampSelector new addStampName: #'button-label')
+	ss addStyleRule: (((ToStampSelector new addStampName: #'button-label')
 					  parent:
-					  (ToStyleStampSelector new addAllStampNames: #( #button #danger ))
+					  (ToStampSelector new addAllStampNames: #( #button #danger ))
 					  depth: 3)
 			 style: [ :sr |
 				 | p |
@@ -215,8 +215,8 @@ ToStyleSheetBazarTest >> testButtonSkinWithInterspace [
 	layoutProp := ToFeatureProperty name: #layout.
 	
 	ss := ToStyleSheet new inherits: false; yourself.
-	ss addStyleRule: (((ToStyleStampSelector new addStampName: #button) 
-				or: (ToStyleStampSelector new addAllStampNames: #( #button #horizontal )))
+	ss addStyleRule: (((ToStampSelector new addStampName: #button) 
+				or: (ToStampSelector new addAllStampNames: #( #button #horizontal )))
 			 style: [ :sr |
 				 sr
 					 write: layoutProp
@@ -256,7 +256,7 @@ ToStyleSheetBazarTest >> testNewStyleSheetWith2Rules [
 	elem := ToElement new.
 	elem styleSheet: styleSheet.
 	styleSheet addAllStyleRules: {
-			((ToStyleStampSelector new addStampName: #button)
+			((ToStampSelector new addStampName: #button)
 				 style: [ :sr |
 					 sr
 						 write: (styleSheet writablePropertyNamed: #background)
@@ -268,7 +268,7 @@ ToStyleSheetBazarTest >> testNewStyleSheetWith2Rules [
 				background: blue;
 				border: red;
 			}"
-			((ToStyleStampSelector new addStampName: #button)
+			((ToStampSelector new addStampName: #button)
 				 style: [ :sr |
 					 sr
 						 write: (styleSheet writablePropertyNamed: #background)
@@ -314,7 +314,7 @@ ToStyleSheetBazarTest >> testSkinWithChildRule [
 	ss := ToStyleSheet new inherits: false; yourself.
 	ssi := ToStyleSheetTheme new.
 	ss addStyleRule: (((ToIdSelector new id: #child) parent:
-					  (ToStyleStampSelector new addStampName: #parent))
+					  (ToStampSelector new addStampName: #parent))
 			 style: [ :sr |
 				 sr
 					 when: ToInstallLookEvent
@@ -351,7 +351,7 @@ ToStyleSheetBazarTest >> testSkinWithChildRuleLevel2 [
 	ss := ToStyleSheet new inherits: false; yourself.
 	ssi := ToStyleSheetTheme new.
 	ss addStyleRule: (((ToIdSelector new id: #child)
-					  parent: (ToStyleStampSelector new addStampName: #parent)
+					  parent: (ToStampSelector new addStampName: #parent)
 					  depth: 2)
 			 style: [ :sr |
 				 sr
@@ -422,7 +422,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyle0 [
 	button styleSheet: ss.
 
 	" default button rule "
-	rules := { (#button asStyleSelector style: [ :sr |
+	rules := { (#button asElementSelector style: [ :sr |
 		          sr write: (ss property: #background) with: Color white.
 		          sr
 			          when: ToInitialLookEvent
@@ -458,8 +458,8 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 	button styleSheet: ss.
 
 	" default button rule "
-	rules := { (#button asStyleSelector style: [ :sr | 
-		          sr select: #danger asStyleSelector style: [ 
+	rules := { (#button asElementSelector style: [ :sr | 
+		          sr select: #danger asElementSelector style: [ 
 			          sr write: (ss property: #background) with: Color red.
 			          sr
 				          when: ToDisabledLookEvent
@@ -525,7 +525,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules1 [
 
 	child styleSheet: ss.
 	" default button rule "
-	rules := { (#child asStyleSelector style: [ :sr |
+	rules := { (#child asElementSelector style: [ :sr |
 		          sr select: sr any style: [
 			          sr
 				          write: (ss property: #background)
@@ -575,7 +575,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules2 [
 	child addChild: childchild2.
 	
 		" default button rule "
-	rules := { ((#child asStyleSelector parent: #elem) style: [ :sr |
+	rules := { ((#child asElementSelector parent: #elem) style: [ :sr |
 		          sr any style: [
 			          sr
 				          write: (ss property: #background)
@@ -622,7 +622,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules22 [
 	child addChild: childchild2.
 
 	" default button rule "
-	rules := { ((#child asStyleSelector parent: #elem) style: [ :sr |
+	rules := { ((#child asElementSelector parent: #elem) style: [ :sr |
 		          sr
 			          select: (sr parent: #red)
 			          style: [
@@ -672,8 +672,8 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules3 [
 	child addChild: childchild2.
 
 	" default button rule "
-	rules := { ((#child asStyleSelector parent:
-		           ((#( #elem #red ) asStyleSelector
+	rules := { ((#child asElementSelector parent:
+		           ((#( #elem #red ) asElementSelector
 			             child: #childchild1
 			             depth: 2) child: #childchild2 depth: 2)) style: [ :sr |
 		          sr
@@ -721,7 +721,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules32 [
 	child addChild: childchild1.
 	child addChild: childchild2.
 
-	rules := { ((#child asStyleSelector parent: #elem) style: [ :sr |
+	rules := { ((#child asElementSelector parent: #elem) style: [ :sr |
 		          sr
 			          select: (((sr parent: #red) child: #childchild1 depth: 1) child: #childchild2 depth: 1)
 			          style: [
@@ -777,7 +777,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules33 [
 	child addChild: childchild1.
 	child addChild: childchild2.
 
-	rules := { ((#child asStyleSelector parent: #elem) style: [ :sr |
+	rules := { ((#child asElementSelector parent: #elem) style: [ :sr |
 		          ((sr parent: #red) child: #childchild1 depth: 1) style: [
 			          (sr child: #childchild2 depth: 1) style: [
 				          sr
@@ -825,7 +825,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules1 [
 	child addChild: childchild2.
 	
 	" default button rule "
-	rules := { (#child asStyleSelector style: [ :sr |
+	rules := { (#child asElementSelector style: [ :sr |
 		          sr
 			          write: (ss property: #background)
 			          with: [ :e | Color red ] ]) }.
@@ -864,7 +864,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules2 [
 	child addChild: childchild2.
 
 	" default button rule "
-	rules := { ((#child asStyleSelector parent: #elem) style: [ :sr |
+	rules := { ((#child asElementSelector parent: #elem) style: [ :sr |
 		          sr
 			          write: (ss property: #background)
 			          with: [ :e | Color red ] ]) }.
@@ -904,8 +904,8 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules3 [
 	child addChild: childchild2.
 
 	" default button rule "
-	rules := { ((#child asStyleSelector parent:
-		           ((#( #elem #red ) asStyleSelector
+	rules := { ((#child asElementSelector parent:
+		           ((#( #elem #red ) asElementSelector
 			             child: #childchild1
 			             depth: 2) child: #childchild2 depth: 2)) style: [ :sr |
 		          sr
@@ -946,16 +946,16 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 	child addChild: childchild2.
 
 	rules := {
-		         ((#child asStyleSelector parent:
-			           ((#( #elem #red ) asStyleSelector
+		         ((#child asElementSelector parent:
+			           ((#( #elem #red ) asElementSelector
 				             child: #childchild1
 				             depth: 2) child: #childchild2 depth: 2)) style: [ :sr |
 			          sr when: ToInitialLookEvent
 				          write: (ss property: #background)
 				          with: [ :e | Color red ] ]).
 			
-		         ((#child asStyleSelector parent:
-			           ((#( #elem #blue ) asStyleSelector
+		         ((#child asElementSelector parent:
+			           ((#( #elem #blue ) asElementSelector
 				             child: #childchild1
 				             depth: 2) child: #childchild2 depth: 2)) style: [ :sr |
 			          sr when: ToInitialLookEvent

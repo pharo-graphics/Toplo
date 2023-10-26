@@ -1,9 +1,9 @@
 Class {
 	#name : 'ToNotSelector',
 	#superclass : 'ToUnarySelector',
-	#category : 'Toplo-Theme-StyleSelector',
-	#package : 'Toplo-Theme',
-	#tag : 'StyleSelector'
+	#category : 'Toplo-Core-Selector',
+	#package : 'Toplo',
+	#tag : 'Core-Selector'
 }
 
 { #category : 'visiting' }

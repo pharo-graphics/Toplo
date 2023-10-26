@@ -1,13 +1,13 @@
 Class {
 	#name : 'ToBinarySelector',
-	#superclass : 'ToStyleSelector',
+	#superclass : 'ToElementSelector',
 	#instVars : [
 		'left',
 		'right'
 	],
-	#category : 'Toplo-Theme-StyleSelector',
-	#package : 'Toplo-Theme',
-	#tag : 'StyleSelector'
+	#category : 'Toplo-Core-Selector',
+	#package : 'Toplo',
+	#tag : 'Core-Selector'
 }
 
 { #category : 'accessing' }

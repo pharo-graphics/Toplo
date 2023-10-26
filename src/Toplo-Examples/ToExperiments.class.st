@@ -71,6 +71,38 @@ AeFontStretch: condensed expanded extraCondensed extraExpanded normal semiConden
 	^ text
 ]
 
+{ #category : 'drag and drop' }
+ToExperiments class >> example_DragAndDropWithLinearLayout [
+
+	| container red blue space  |
+	container := ToPane new id: #container.
+	container border: Color black.
+	container matchParent.
+	container layout: BlLinearLayout new.
+	container setUpAsPasteUp.
+
+	red := ToElement new id: #red.
+	red size: 100 asPoint.
+	red background: Color red.
+	blue := ToElement new id: #blue.
+	blue size: 50 asPoint.
+	blue background: Color blue.
+
+	container addChildren: {
+			red.
+			blue }.
+	space := BlSpace new.
+	space root addChild: container.
+	space show.
+
+	blue
+		when: BlDragEnterEvent
+		do: [ :event | blue border: (BlBorder paint: Color yellow width: 5) ].
+	blue
+		when: BlDragLeaveEvent
+		do: [ :event | blue border: BlBorder empty ]
+]
+
 { #category : 'elements' }
 ToExperiments class >> example_ExperimentForMultilineLabel [
 
@@ -431,6 +463,112 @@ ToExperiments class >> example_LinearLayoutWithLabels [
 	frame openInNewSpace
 ]
 
+{ #category : 'drag and drop' }
+ToExperiments class >> example_PasteUpPane [
+
+	| container red blue space  |
+	container := ToPane new id: #container.
+	container border: Color black.
+	container matchParent.
+	container layout: BlBasicLayout new.
+	container setUpAsPasteUp.
+
+	red := ToElement new id: #red.
+	red size: 100 asPoint.
+	red background: Color red.
+	blue := ToElement new id: #blue.
+	blue size: 50 asPoint.
+	blue background: Color blue.
+
+	container addChildren: {
+			red.
+			blue }.
+	space := BlSpace new.
+	space root addChild: container.
+	space show.
+
+	blue
+		when: BlDragEnterEvent
+		do: [ :event | blue border: (BlBorder paint: Color yellow width: 5) ].
+	blue
+		when: BlDragLeaveEvent
+		do: [ :event | blue border: BlBorder empty ]
+]
+
+{ #category : 'drag and drop' }
+ToExperiments class >> example_PasteUpWithPlaceHolder [
+
+	| container red blue pred pblue space phpane |
+	container := ToPane new id: #container.
+	container border: Color black.
+	container layout: BlBasicLayout new.
+	container matchParent.
+	container placeholderBuilder: [ :placeholder :e |
+		placeholder preventMeAndChildrenMouseEvents.
+		phpane := placeholder.
+		phpane layout: BlBasicLayout new ].
+	container showPlaceholder.
+
+	red := ToElement new id: #red.
+	red size: 100 asPoint.
+	red background: Color red.
+	blue := ToElement new id: #blue.
+	blue size: 50 asPoint.
+	blue background: Color blue.
+
+	container addChildren: {
+			red.
+			blue }.
+	space := BlSpace new.
+	space root addChild: container.
+	space show.
+
+	container when: BlDragStartEvent do: [ :event |
+		| dragged |
+		event consumed: true.
+		dragged := container findMouseEventTargetAt: event position.
+		(dragged notNil and: [ dragged ~= container ]) ifTrue: [
+			pred := event position - dragged position.
+			container detachChild: dragged.
+			phpane attachChild: dragged ] ].
+
+	container when: BlDragEvent do: [ :event |
+		event consumed: true.
+		phpane hasChildren ifTrue: [
+			| dragged |
+			dragged := phpane firstChild.
+			dragged position: event position - pred ] ].
+
+	container when: BlDragEndEvent do: [ :event |
+		event consumed: true.
+		phpane hasChildren ifTrue: [
+			| dragged |
+			dragged := phpane firstChild.
+			dragged position: event position - pred.
+			phpane detachChild: dragged.
+			container attachChild: dragged ] ].
+
+	blue when: BlDragStartEvent do: [ :event |
+		pblue := event position - blue position.
+		event consumed: true ].
+	blue when: BlDragEvent do: [ :event |
+		event consumed: true.
+		blue position: event position - pblue.
+		blue forceLayout ].
+	blue when: BlDragEndEvent do: [ :event | event consumed: true ].
+
+	blue
+		when: BlDragEnterEvent
+		do: [ :event | blue border: (BlBorder paint: Color yellow width: 5) ].
+	blue
+		when: BlDragLeaveEvent
+		do: [ :event | blue border: BlBorder empty ]
+
+	"red when: BlDragEnterEvent do: [ :event | event consumed: true. red background: Color random ].
+red when: BlDragLeaveEvent do: [ :event | event consumed: true. red background: Color red ].
+"
+]
+
 { #category : 'image' }
 ToExperiments class >> example_Smalltalk_all_classes [
 
@@ -668,80 +806,6 @@ ToExperiments class >> example_drag4 [
 
 	e openInInnerWindow.
 	child openInInnerWindow
-]
-
-{ #category : 'drag and drop' }
-ToExperiments class >> example_dragAndDropWithPlaceHolder [
-
-	| container red blue pred pblue space phpane |
-	container := ToPane new id: #container.
-	container border: Color black.
-	container layout: BlBasicLayout new.
-	container matchParent.
-	container placeholderBuilder: [ :placeholder :e |
-		placeholder preventMeAndChildrenMouseEvents.
-		phpane := placeholder.
-		phpane layout: BlBasicLayout new ].
-	container showPlaceholder.
-
-	red := ToElement new id: #red.
-	red size: 100 asPoint.
-	red background: Color red.
-	blue := ToElement new id: #blue.
-	blue size: 50 asPoint.
-	blue background: Color blue.
-
-	container addChildren: {
-			red.
-			blue }.
-	space := BlSpace new.
-	space root addChild: container.
-	space show.
-
-	container when: BlDragStartEvent do: [ :event |
-		| dragged |
-		event consumed: true.
-		dragged := container findMouseEventTargetAt: event position.
-		(dragged notNil and: [ dragged ~= container ]) ifTrue: [
-			pred := event position - dragged position.
-			container detachChild: dragged.
-			phpane attachChild: dragged ] ].
-
-	container when: BlDragEvent do: [ :event |
-		event consumed: true.
-		phpane hasChildren ifTrue: [
-			| dragged |
-			dragged := phpane firstChild.
-			dragged position: event position - pred ] ].
-
-	container when: BlDragEndEvent do: [ :event |
-		event consumed: true.
-		phpane hasChildren ifTrue: [
-			| dragged |
-			dragged := phpane firstChild.
-			dragged position: event position - pred.
-			phpane detachChild: dragged.
-			container attachChild: dragged ] ].
-
-	blue when: BlDragStartEvent do: [ :event |
-		pblue := event position - blue position.
-		event consumed: true ].
-	blue when: BlDragEvent do: [ :event |
-		event consumed: true.
-		blue position: event position - pblue.
-		blue forceLayout ].
-	blue when: BlDragEndEvent do: [ :event | event consumed: true ].
-
-	blue
-		when: BlDragEnterEvent
-		do: [ :event | blue border: (BlBorder paint: Color black width: 5) ].
-	blue
-		when: BlDragLeaveEvent
-		do: [ :event | blue border: BlBorder empty ]
-
-	"red when: BlDragEnterEvent do: [ :event | event consumed: true. red background: Color random ].
-red when: BlDragLeaveEvent do: [ :event | event consumed: true. red background: Color red ].
-"
 ]
 
 { #category : 'elements' }

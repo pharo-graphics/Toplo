@@ -4,9 +4,9 @@ Class {
 	#instVars : [
 		'action'
 	],
-	#category : 'Toplo-Theme-StyleSelector',
-	#package : 'Toplo-Theme',
-	#tag : 'StyleSelector'
+	#category : 'Toplo-Core-Selector',
+	#package : 'Toplo',
+	#tag : 'Core-Selector'
 }
 
 { #category : 'visiting' }

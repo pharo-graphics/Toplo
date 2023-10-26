@@ -2511,8 +2511,8 @@ ToSandBox class >> example_toAlbumAsButton [
 
 	| but |
 	but := ToAlbum new
-		       text: 'Hello world';
-		       preventChildrenMouseEvents.
+		       text: 'Hello world'";
+		       preventChildrenMouseEvents".
 	but
 		when: BlPrimaryClickEvent
 		do: [ self inform: 'Click' ].

@@ -1,7 +1,7 @@
 Extension { #name : 'String' }
 
 { #category : '*Toplo-Theme' }
-String >> asStyleSelector [ 
+String >> asElementSelector [ 
 
-	^ ToStyleStampSelector new addStampName: self asSymbol
+	^ ToStampSelector new addStampName: self asSymbol
 ]

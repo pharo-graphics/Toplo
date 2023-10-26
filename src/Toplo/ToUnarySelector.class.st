@@ -1,12 +1,12 @@
 Class {
 	#name : 'ToUnarySelector',
-	#superclass : 'ToStyleSelector',
+	#superclass : 'ToElementSelector',
 	#instVars : [
 		'left'
 	],
-	#category : 'Toplo-Theme-StyleSelector',
-	#package : 'Toplo-Theme',
-	#tag : 'StyleSelector'
+	#category : 'Toplo-Core-Selector',
+	#package : 'Toplo',
+	#tag : 'Core-Selector'
 }
 
 { #category : 'accessing' }

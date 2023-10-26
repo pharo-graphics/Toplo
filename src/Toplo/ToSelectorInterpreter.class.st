@@ -1,17 +1,17 @@
 Class {
-	#name : 'ToStyleSelectorInterpreter',
-	#superclass : 'ToStyleSelectorVisitor',
+	#name : 'ToSelectorInterpreter',
+	#superclass : 'ToElementSelectorVisitor',
 	#instVars : [
 		'targetStack',
 		'result'
 	],
-	#category : 'Toplo-Theme-StyleSelector',
-	#package : 'Toplo-Theme',
-	#tag : 'StyleSelector'
+	#category : 'Toplo-Core-Selector',
+	#package : 'Toplo',
+	#tag : 'Core-Selector'
 }
 
 { #category : 'operating' }
-ToStyleSelectorInterpreter >> check: aSelector on: anElement [
+ToSelectorInterpreter >> check: aSelector on: anElement [
 
 	targetStack := Stack new.
 	targetStack push: anElement.
@@ -21,19 +21,19 @@ ToStyleSelectorInterpreter >> check: aSelector on: anElement [
 ]
 
 { #category : 'accessing' }
-ToStyleSelectorInterpreter >> result [
+ToSelectorInterpreter >> result [
 
 	^ result
 ]
 
 { #category : 'visiting' }
-ToStyleSelectorInterpreter >> visitActionSelector: aSelector [
+ToSelectorInterpreter >> visitActionSelector: aSelector [
 
 	result := aSelector action value: targetStack top
 ]
 
 { #category : 'visiting' }
-ToStyleSelectorInterpreter >> visitAndSelector: aSelector [
+ToSelectorInterpreter >> visitAndSelector: aSelector [
 
 	aSelector left accept: self.
 	result ifFalse: [ ^ self ].
@@ -41,7 +41,7 @@ ToStyleSelectorInterpreter >> visitAndSelector: aSelector [
 ]
 
 { #category : 'visiting' }
-ToStyleSelectorInterpreter >> visitChildSelector: aSelector [
+ToSelectorInterpreter >> visitChildSelector: aSelector [
 
 	| parent |
 	aSelector left accept: self.
@@ -59,20 +59,20 @@ ToStyleSelectorInterpreter >> visitChildSelector: aSelector [
 ]
 
 { #category : 'visiting' }
-ToStyleSelectorInterpreter >> visitIdSelector: aSelector [
+ToSelectorInterpreter >> visitIdSelector: aSelector [
 
 	result := aSelector id = targetStack top id
 ]
 
 { #category : 'visiting' }
-ToStyleSelectorInterpreter >> visitNotSelector: aSelector [
+ToSelectorInterpreter >> visitNotSelector: aSelector [
 
 	aSelector left accept: self.
 	result := result not
 ]
 
 { #category : 'visiting' }
-ToStyleSelectorInterpreter >> visitOrSelector: aSelector [
+ToSelectorInterpreter >> visitOrSelector: aSelector [
 
 	aSelector left accept: self.
 	result ifTrue: [ ^ self ].
@@ -80,7 +80,7 @@ ToStyleSelectorInterpreter >> visitOrSelector: aSelector [
 ]
 
 { #category : 'visiting' }
-ToStyleSelectorInterpreter >> visitParentSelector: aSelector [
+ToSelectorInterpreter >> visitParentSelector: aSelector [
 
 	| current depth |
 	aSelector left accept: self.
@@ -103,7 +103,7 @@ ToStyleSelectorInterpreter >> visitParentSelector: aSelector [
 ]
 
 { #category : 'visiting' }
-ToStyleSelectorInterpreter >> visitSiblingSelector: aSelector [
+ToSelectorInterpreter >> visitSiblingSelector: aSelector [
 
 	| current |
 	aSelector left accept: self.
@@ -119,19 +119,13 @@ ToStyleSelectorInterpreter >> visitSiblingSelector: aSelector [
 ]
 
 { #category : 'visiting' }
-ToStyleSelectorInterpreter >> visitStyleStampSelector: aSelector [
-
-	result := aSelector stampNames allSatisfy: [ :t | targetStack top hasStamp: t ]
-]
-
-{ #category : 'visiting' }
-ToStyleSelectorInterpreter >> visitTypeSelector: aSelector [
+ToSelectorInterpreter >> visitTypeSelector: aSelector [
 
 	result := (aSelector selectType: targetStack top class)
 ]
 
 { #category : 'visiting' }
-ToStyleSelectorInterpreter >> visitUniversalSelector: aSelector [
+ToSelectorInterpreter >> visitUniversalSelector: aSelector [
 
 	result := true
 ]

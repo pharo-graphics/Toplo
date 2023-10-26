@@ -1,41 +1,41 @@
 Class {
-	#name : 'ToStyleStampSelector',
+	#name : 'ToStampSelector',
 	#superclass : 'ToSimpleSelector',
 	#instVars : [
 		'stampNames'
 	],
-	#category : 'Toplo-Theme-StyleSelector',
-	#package : 'Toplo-Theme',
-	#tag : 'StyleSelector'
+	#category : 'Toplo-Core-Selector',
+	#package : 'Toplo',
+	#tag : 'Core-Selector'
 }
 
 { #category : 'visiting' }
-ToStyleStampSelector >> accept: aVisitor [
+ToStampSelector >> accept: aVisitor [
 
 	aVisitor visitStyleStampSelector: self
 ]
 
 { #category : 'accessing' }
-ToStyleStampSelector >> addAllStampNames: aCollectionOfSymbols [
+ToStampSelector >> addAllStampNames: aCollectionOfSymbols [
 
 	stampNames := (stampNames copyWithAll: (aCollectionOfSymbols asArray collect: [ :s | s asSymbol  ])) asSet asArray
 ]
 
 { #category : 'accessing' }
-ToStyleStampSelector >> addStampName: aSymbol [
+ToStampSelector >> addStampName: aSymbol [
 
 	self addAllStampNames: { aSymbol }
 ]
 
 { #category : 'initialization' }
-ToStyleStampSelector >> initialize [ 
+ToStampSelector >> initialize [ 
 
 	super initialize.
 	stampNames := Array new
 ]
 
 { #category : 'accessing' }
-ToStyleStampSelector >> stampNames [
+ToStampSelector >> stampNames [
 
 	^ stampNames
 ]

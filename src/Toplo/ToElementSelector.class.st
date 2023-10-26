@@ -1,37 +1,37 @@
 Class {
-	#name : 'ToStyleSelector',
+	#name : 'ToElementSelector',
 	#superclass : 'Object',
-	#category : 'Toplo-Theme-StyleSelector',
-	#package : 'Toplo-Theme',
-	#tag : 'StyleSelector'
+	#category : 'Toplo-Core-Selector',
+	#package : 'Toplo',
+	#tag : 'Core-Selector'
 }
 
 { #category : 'logical operator' }
-ToStyleSelector >> + aStyleSelector [
+ToElementSelector >> + aStyleSelector [
 
 	^ ToAndSelector new
 		  left: self;
-		  right: aStyleSelector value asStyleSelector;
+		  right: aStyleSelector value asElementSelector;
 		  yourself
 ]
 
 { #category : 'logical operator' }
-ToStyleSelector >> - aStyleSelector [
+ToElementSelector >> - aStyleSelector [
 
 	^ ToAndSelector new
 		  left: self;
-		  right: aStyleSelector value asStyleSelector not;
+		  right: aStyleSelector value asElementSelector not;
 		  yourself
 ]
 
 { #category : 'visiting' }
-ToStyleSelector >> accept: aVisitor [
+ToElementSelector >> accept: aVisitor [
 
 	self subclassResponsibility 
 ]
 
 { #category : 'logical operator' }
-ToStyleSelector >> and: aStyleSelector [
+ToElementSelector >> and: aStyleSelector [
 
 	self
 		deprecated: 'Please use + instead.'
@@ -42,32 +42,32 @@ ToStyleSelector >> and: aStyleSelector [
 ]
 
 { #category : 'converting' }
-ToStyleSelector >> asStyleSelector [ 
+ToElementSelector >> asElementSelector [ 
 
 	^ self 
 ]
 
 { #category : 'logical operator' }
-ToStyleSelector >> child: aSelector [ 
+ToElementSelector >> child: aSelector [ 
 
 	^ ToChildSelector new
-		  right: aSelector value asStyleSelector;
+		  right: aSelector value asElementSelector;
 		  left: self;
 		  yourself
 ]
 
 { #category : 'logical operator' }
-ToStyleSelector >> child: aSelector depth: anInteger [
+ToElementSelector >> child: aSelector depth: anInteger [
 
 	^ ToChildSelector new
-		  right: aSelector value asStyleSelector;
+		  right: aSelector value asElementSelector;
 		  left: self;
 		  depth: anInteger;
 		  yourself
 ]
 
 { #category : 'logical operator' }
-ToStyleSelector >> not [
+ToElementSelector >> not [
 
 	^ ToNotSelector new
 		  left: self;
@@ -75,44 +75,44 @@ ToStyleSelector >> not [
 ]
 
 { #category : 'logical operator' }
-ToStyleSelector >> or: aStyleSelector [
+ToElementSelector >> or: aStyleSelector [
 
 	^ ToOrSelector new
 		  left: self;
-		  right: aStyleSelector value asStyleSelector;
+		  right: aStyleSelector value asElementSelector;
 		  yourself
 ]
 
 { #category : 'logical operator' }
-ToStyleSelector >> parent: aSelector [
+ToElementSelector >> parent: aSelector [
 
 	^ ToParentSelector new
 		  left: self;
-		  right: aSelector value asStyleSelector;
+		  right: aSelector value asElementSelector;
 		  yourself
 ]
 
 { #category : 'logical operator' }
-ToStyleSelector >> parent: aSelector depth: anInteger [
+ToElementSelector >> parent: aSelector depth: anInteger [
 
 	^ ToParentSelector new
 		  left: self;
-		  right: aSelector value asStyleSelector;
+		  right: aSelector value asElementSelector;
 		  depth: anInteger;
 		  yourself
 ]
 
 { #category : 'logical operator' }
-ToStyleSelector >> sibling: aSelector [
+ToElementSelector >> sibling: aSelector [
 
 	^ ToSiblingSelector new
 		  left: self;
-		  right: aSelector value asStyleSelector;
+		  right: aSelector value asElementSelector;
 		  yourself
 ]
 
 { #category : 'skin rule building' }
-ToStyleSelector >> style: aBlock [
+ToElementSelector >> style: aBlock [
 
 	^ ToStyleScript new select: self style: aBlock
 ]

@@ -262,3 +262,9 @@ ToLabeledIcon >> layoutStrategy [
 
 	^ self layout
 ]
+
+{ #category : 'accessing' }
+ToLabeledIcon >> rightLabelAlignment: anInteger [
+
+	self iconHolderWidth: anInteger - self interspace x
+]

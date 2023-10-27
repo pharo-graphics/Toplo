@@ -14,6 +14,7 @@ Class {
 { #category : 'skin' }
 ToButton >> initialRawStyle [
 	super initialRawStyle.
+	(self parent isKindOf: ToMenuItem) ifTrue: [ ^ self ].
 	(self hasIcon and: [ self hasLabel ]) ifFalse: [
 		self interspace: 0.
 		^ self ].

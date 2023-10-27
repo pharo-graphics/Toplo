@@ -45,6 +45,15 @@ ToGeneralButtonMenuItem >> defaultLayout [
 	^ BlLinearLayout horizontal
 ]
 
+{ #category : 'skin' }
+ToGeneralButtonMenuItem >> initialRawStyle [
+	super initialRawStyle.
+	self isTopMenu ifTrue: [ ^ self ].
+	(self parentMenu items anySatisfy: [ :mi | mi hasIcon ]) ifFalse: [ ^ self ].
+	self button rightLabelAlignment: 30
+	
+]
+
 { #category : 'initialization' }
 ToGeneralButtonMenuItem >> initialize [ 
 

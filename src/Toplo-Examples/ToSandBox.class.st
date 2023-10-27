@@ -1118,8 +1118,7 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 	menu addItem: (ToMenuItem new
 			 icon: (ToImage inner: (self iconNamed: #solidMenu));
 			 label: (ToLabel text: 'Open')).
-	menu items last iconHolderWidth: 40.
-	"menu items last when: BlMouseDownEvent do: [ :event | event currentTarget inspect ]."
+	menu items last rightLabelAlignment: 20.
 	lbl := ToLabel new text: ('Save stuffs' asRopedText
 			        fontSize: 12;
 			        foreground: (Color black alpha: 0.7)).
@@ -1129,31 +1128,31 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 	menu addItem: (ToMenuItem new
 			 icon: (ToImage inner: (self iconNamed: #solidMenu));
 			 label: (ToLabel text: 'Save')).
-	menu items last iconHolderWidth: 40.
-	saveAs := ToMenu new label: (ToLabel text: 'Save as ...').
+	menu items last rightLabelAlignment: 20.
+	saveAs := ToMenu new label: (ToLabel text: 'Save as').
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.pdf')).
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.doc')).
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.xml')).
 	menu addItem: saveAs.
 	"menu items last when: BlMouseDownEvent do: [ :event | event currentTarget inspect ]."
 
-	menu items last iconHolderWidth: 40.
-	saveAs := ToMenu new label: (ToLabel text: 'Save as ...').
+	menu items last rightLabelAlignment: 20.
+	saveAs := ToMenu new label: (ToLabel text: 'Save as').
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.pdf')).
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.doc')).
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.xml')).
 	menu addItem: saveAs.
-	menu items last iconHolderWidth: 40.
-	saveAs := ToMenu new label: (ToLabel text: 'Save as ...').
+	menu items last rightLabelAlignment: 20.
+	saveAs := ToMenu new label: (ToLabel text: 'Save as').
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.pdf')).
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.doc')).
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.xml')).
 	menu addItem: (ToMenu new label: (ToLabel text: 'Save as again...')).
 	menu items last addItem: saveAs.
-	menu items last iconHolderWidth: 40.
+	menu items last rightLabelAlignment: 20.
 	menu addSeparator.
 	menu addItem: (ToMenuItem new label: (ToLabel text: 'Close')).
-	menu items last iconHolderWidth: 40.
+	menu items last rightLabelAlignment: 20.
 	container pane addChild: menu.
 	"menu window inspect."
 	container openInSpace
@@ -1366,22 +1365,24 @@ ToSandBox class >> example_SimpleOpenSaveSaveAsClose [
 	menu addItem: (ToMenuItem new
 			 icon: ((ToImage inner: (self iconNamed: #solidMenu)));
 			 label: (ToLabel text: 'Open')).
-	menu items last iconHolderWidth: 40.
+	menu items last rightLabelAlignment: 40.
 	menu addItem: (ToMenuItem new
 			 icon: ((ToImage inner: (self iconNamed: #solidMenu)));
 			 label: (ToLabel text: 'Save');
 			 background: Color random).
-	menu items last iconHolderWidth: 40.
+	menu items last rightLabelAlignment: 40.
 	menu addItem: (ToMenuItem new
 			 icon: ((ToImage inner: (self iconNamed: #solidMenu)));
-			 label: (ToLabel text: 'Save as ...');
+			 label: (ToLabel text: 'Save as');
 			 background: Color random).
-	menu items last iconHolderWidth: 40.
+	menu items last rightLabelAlignment: 40.
+	menu items last whenClickedDo: [ :event | event currentTarget inspect ].
 	menu addSeparator.
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Close');
 			 background: Color random).
-	menu items last iconHolderWidth: 40.
+	menu items last rightLabelAlignment: 40.
+	menu items last whenClickedDo: [ :event | event currentTarget inspect ].
 	container pane addChild: menu.
 	
 	container openInSpace
@@ -3135,8 +3136,10 @@ ToSandBox class >> example_withCheckBox [
 	menu := ToMenu new.
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new labelText: 'Open file').
-
+	menu items last rightLabelAlignment: 20.
+	menu items last icon: ((ToImage inner: (self iconNamed: #solidMenu))).
 	menu addItem: (ToMenuItem new labelText: 'Export').
+	menu items last rightLabelAlignment: 20.
 	grp := ToCheckableGroup new.
 	right := ToCheckMenuItem new
 		         labelText: 'Right';
@@ -3157,18 +3160,23 @@ ToSandBox class >> example_withCheckBox [
 	grp add: left.
 
 	menu addSeparator.
-	menu addAllItems: grp buttons.
+	menu addAllItems: (grp buttons collect: [:b | b rightLabelAlignment: 20; yourself]).
+.
 	menu addSeparator.
 
 	sub := ToMenu new labelText: 'Save All'.
 	sub addItem: (ToMenuItem new labelText: 'Locally').
+	sub items last rightLabelAlignment: 20.
 
 	subsub := ToMenu new labelText: 'Externally'.
 	subsub addItem: (ToMenuItem new labelText: 'Here').
+	subsub items last rightLabelAlignment: 20.
 
 	sub addItem: subsub.
+	sub items last rightLabelAlignment: 20.
 
 	menu addItem: sub.
+	menu items last rightLabelAlignment: 20.
 	menu position: 10 @ 10.
 	menu openInInnerWindow
 ]

@@ -223,6 +223,12 @@ TToElementWithLabeledIcon >> labeledIcon [
 ]
 
 { #category : 't - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> rightLabelAlignment: anInteger [
+
+	self labeledIcon rightLabelAlignment: anInteger
+]
+
+{ #category : 't - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> vertical: aBoolean [
 
 	self labeledIcon vertical: aBoolean.

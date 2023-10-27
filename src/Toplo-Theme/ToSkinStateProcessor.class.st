@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToSkinStateEngine',
+	#name : 'ToSkinStateProcessor',
 	#superclass : 'Object',
 	#instVars : [
 		'currentStates',
@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : 'removing' }
-ToSkinStateEngine >> addSkinState: aState [
+ToSkinStateProcessor >> addSkinState: aState [
 
 	" remove incompatible state from next states fifo "
 	self cleanUpFifo: self nextStates forSkinState: aState.
@@ -28,7 +28,7 @@ ToSkinStateEngine >> addSkinState: aState [
 ]
 
 { #category : 'removing' }
-ToSkinStateEngine >> addSkinState: aState in: anElement [
+ToSkinStateProcessor >> addSkinState: aState in: anElement [
 
 	" declare the element as dirty "
 	anElement spaceDo: [ :space | space elementWithUnappliedStates: anElement ].
@@ -36,14 +36,14 @@ ToSkinStateEngine >> addSkinState: aState in: anElement [
 ]
 
 { #category : 'hook' }
-ToSkinStateEngine >> applyOn: anElement [
+ToSkinStateProcessor >> applyOn: anElement [
 
 	[ self nextStates isEmpty ] whileFalse: [
 		self nextStates removeLast applyOn: anElement ]
 ]
 
 { #category : 'removing' }
-ToSkinStateEngine >> cleanUpFifo: aStateFifo forSkinState: aState [
+ToSkinStateProcessor >> cleanUpFifo: aStateFifo forSkinState: aState [
 
 	aStateFifo removeAllSuchThat: [ :s | s isKindOf: aState class ].
 	aStateFifo removeAllSuchThat: [ :s |
@@ -51,13 +51,13 @@ ToSkinStateEngine >> cleanUpFifo: aStateFifo forSkinState: aState [
 ]
 
 { #category : 'accessing' }
-ToSkinStateEngine >> currentStates [
+ToSkinStateProcessor >> currentStates [
 
 	^ currentStates
 ]
 
 { #category : 'initialization' }
-ToSkinStateEngine >> initialize [ 
+ToSkinStateProcessor >> initialize [ 
 
 	super initialize.
 	currentStates := LinkedList new.
@@ -66,25 +66,25 @@ ToSkinStateEngine >> initialize [
 ]
 
 { #category : 'accessing' }
-ToSkinStateEngine >> nextStates [
+ToSkinStateProcessor >> nextStates [
 
 	^ nextStates
 ]
 
 { #category : 'api - hooks' }
-ToSkinStateEngine >> onInstalledIn: anElement [
+ToSkinStateProcessor >> onInstalledIn: anElement [
 
 
 ]
 
 { #category : 'api - hooks' }
-ToSkinStateEngine >> onUninstalledIn: anElement [
+ToSkinStateProcessor >> onUninstalledIn: anElement [
 
 
 ]
 
 { #category : 'initialization' }
-ToSkinStateEngine >> refreshStateEvent: anEvent [ 
+ToSkinStateProcessor >> refreshStateEvent: anEvent [ 
 	" initial state required - if the element is enabled proceed with stored persistent states "
 
 	installed ifFalse: [
@@ -95,7 +95,7 @@ ToSkinStateEngine >> refreshStateEvent: anEvent [
 ]
 
 { #category : 'accessing' }
-ToSkinStateEngine >> reinstall [
+ToSkinStateProcessor >> reinstall [
 
 	installed := false
 
@@ -103,14 +103,14 @@ ToSkinStateEngine >> reinstall [
 ]
 
 { #category : 'initialization' }
-ToSkinStateEngine >> reset [
+ToSkinStateProcessor >> reset [
 
 	nextStates := LinkedList new.
 	installed := false
 ]
 
 { #category : 'initialization' }
-ToSkinStateEngine >> switchToInitialStateEvent: anEvent in: anElement [
+ToSkinStateProcessor >> switchToInitialStateEvent: anEvent in: anElement [
 	" initial state required - if the element is enabled proceed with stored persistent states "
 
 	installed ifFalse: [ Error signal: 'An InitialSate before an InstallState as been applied' ].
@@ -126,7 +126,7 @@ ToSkinStateEngine >> switchToInitialStateEvent: anEvent in: anElement [
 ]
 
 { #category : 'initialization' }
-ToSkinStateEngine >> switchToInstallState: anInstallState in: anElement [
+ToSkinStateProcessor >> switchToInstallState: anInstallState in: anElement [
 	" install state required - if the element is enabled proceed with stored persistent states "
 
 	" FIFO management of states list "

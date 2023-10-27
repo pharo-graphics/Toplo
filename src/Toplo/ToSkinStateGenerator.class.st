@@ -150,7 +150,7 @@ ToSkinStateGenerator >> generateClickedStateFromEvent: anEvent [
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateDisabledStateFromEvent: anEvent [
 
-	target skinStateEngine refreshStateEvent: anEvent
+	target skinStateProcessor refreshStateEvent: anEvent
 ]
 
 { #category : 'state generating' }
@@ -174,7 +174,7 @@ ToSkinStateGenerator >> generateDroppedStateFromEvent: anEvent [
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateEnabledStateFromEvent: anEvent [
 
-	target skinStateEngine refreshStateEvent: anEvent 
+	target skinStateProcessor refreshStateEvent: anEvent 
 ]
 
 { #category : 'state generating' }

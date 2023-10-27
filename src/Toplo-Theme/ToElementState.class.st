@@ -18,7 +18,7 @@ ToElementState class >> sourceEvent: anEvent [
 { #category : 'skin state engine' }
 ToElementState >> addAsNextStateIn: anElement [
 
-	anElement skinStateEngine addSkinState: self in: anElement
+	anElement skinStateProcessor addSkinState: self in: anElement
 
 ]
 

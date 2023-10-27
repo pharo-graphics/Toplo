@@ -23,7 +23,7 @@ BlElement >> applySkinInstaller [
 { #category : '*Toplo' }
 BlElement >> applySkinStates [
 
-	self skinStateEngine applyOn: self
+	self skinStateProcessor applyOn: self
 ]
 
 { #category : '*Toplo' }
@@ -47,7 +47,7 @@ BlElement >> defaultSkin: aSkin [
 	prev := self userData at: #localDefaultSkin ifAbsent: [  ]. 
 	prev = aSkin ifTrue: [ ^ self ].
 	self userData at: #localDefaultSkin put: aSkin.
-	self skinStateEngine reinstall.
+	self skinStateProcessor reinstall.
 ]
 
 { #category : '*Toplo' }
@@ -219,7 +219,7 @@ BlElement >> lookUpStyleStampNamed: aSymbol [
 { #category : '*Toplo' }
 BlElement >> nextSkinStates [
 
-	^ self skinStateEngine nextStates
+	^ self skinStateProcessor nextStates
 ]
 
 { #category : '*Toplo' }
@@ -320,15 +320,15 @@ BlElement >> skinInstaller: aSkinInstaller [
 ]
 
 { #category : '*Toplo' }
-BlElement >> skinStateEngine [
-
-	^ self userData at: #skinStateEngine ifAbsentPut: (ToSkinStateEngine new onInstalledIn: self)
-]
-
-{ #category : '*Toplo' }
 BlElement >> skinStateEngineUpdaterClass [
 
 	^ ToSkinStateGenerator 
+]
+
+{ #category : '*Toplo' }
+BlElement >> skinStateProcessor [
+
+	^ self userData at: #skinStateProcessor ifAbsentPut: (ToSkinStateProcessor new onInstalledIn: self)
 ]
 
 { #category : '*Toplo' }

@@ -46,8 +46,8 @@ ToSkinStateGeneratorTest >> testGenerateCheckStateFromEvent [
 	| e evt nextStates currentStates nextStatesSize currentStatesSize |
 	e := self newElementInSpace.
 		
-	nextStates := e skinStateEngine nextStates.
-	currentStates := e skinStateEngine currentStates.
+	nextStates := e skinStateProcessor nextStates.
+	currentStates := e skinStateProcessor currentStates.
 	
 	nextStatesSize := nextStates size.
 	currentStatesSize := currentStates size.
@@ -126,8 +126,8 @@ ToSkinStateGeneratorTest >> testGenerateClickedStateFromEvent [
 
 	evt := BlMouseButton primary clickEventClass new button: BlMouseButton primary.
 
-	nextStates := e skinStateEngine nextStates.
-	currentStates := e skinStateEngine currentStates.
+	nextStates := e skinStateProcessor nextStates.
+	currentStates := e skinStateProcessor currentStates.
 
 	self assert: nextStates size equals: 0.
 	" has ToEnabledState "
@@ -167,8 +167,8 @@ ToSkinStateGeneratorTest >> testGenerateHoveredStateFromEvent [
 
 	evt := BlMouseEnterEvent new.
 
-	nextStates := e skinStateEngine nextStates.
-	currentStates := e skinStateEngine currentStates.
+	nextStates := e skinStateProcessor nextStates.
+	currentStates := e skinStateProcessor currentStates.
 
 	self assert: nextStates size equals: 0.
 	" has ToEnabledState "

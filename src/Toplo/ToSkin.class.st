@@ -166,7 +166,7 @@ ToSkin >> selectedLookEvent: anEvent [
 { #category : 'event handling' }
 ToSkin >> skinChangedEvent: anEvent [
 
-	anEvent currentTarget skinStateEngine refreshStateEvent: anEvent
+	anEvent currentTarget skinStateProcessor refreshStateEvent: anEvent
 
 ]
 

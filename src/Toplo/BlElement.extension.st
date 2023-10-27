@@ -328,7 +328,7 @@ BlElement >> skinStateEngine [
 { #category : '*Toplo' }
 BlElement >> skinStateEngineUpdaterClass [
 
-	^ ToSkinStateEngineUpdater 
+	^ ToSkinStateGenerator 
 ]
 
 { #category : '*Toplo' }

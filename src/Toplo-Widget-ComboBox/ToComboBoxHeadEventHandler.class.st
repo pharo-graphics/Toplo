@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToComboBoxHeadEventHandler',
-	#superclass : 'ToSkinStateEngineUpdater',
+	#superclass : 'ToSkinStateGenerator',
 	#category : 'Toplo-Widget-ComboBox',
 	#package : 'Toplo-Widget-ComboBox'
 }

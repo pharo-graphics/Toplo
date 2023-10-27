@@ -46,5 +46,5 @@ ToCheckableCheckedEvent >> previous: aBoolean [
 { #category : 'sending' }
 ToCheckableCheckedEvent >> sendTo: anObject [
 
-	anObject checkableCheckEvent: self
+	anObject checkableCheckedEvent: self
 ]

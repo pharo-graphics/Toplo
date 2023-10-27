@@ -2567,7 +2567,7 @@ ToSandBox class >> example_toBasicButton2 [
 			        fontSize: 40;
 			        yourself).
 	but := ToGeneralButton new.
-	but addEventHandler: (ToSkinStateEngineUpdater new target: but).
+	but addEventHandler: (ToSkinStateGenerator new target: but).
 	but matchParent.
 	but addChild: lab.
 	but layout alignCenter.
@@ -2601,7 +2601,7 @@ ToSandBox class >> example_toBasicButton4 [
 			ico.
 			lab }.
 	but := ToGeneralButton new.
-	but addEventHandler: (ToSkinStateEngineUpdater new target: but).
+	but addEventHandler: (ToSkinStateGenerator new target: but).
 	but matchParent.
 	but addChild: pane.
 	but layout alignCenter.
@@ -3044,7 +3044,7 @@ ToSandBox class >> example_toWidgetAsButton0 [
 
 	| but |
 	but := ToElement new.
-	but addEventHandler: (ToSkinStateEngineUpdater new target: but)..
+	but addEventHandler: (ToSkinStateGenerator new target: but)..
 	but
 		when: BlPrimaryClickEvent
 		do: [ self inform: 'Click' ].

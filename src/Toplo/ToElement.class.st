@@ -34,19 +34,19 @@ ToElement >> addSkinInstallerPhaseChecker [
 { #category : 'event management' }
 ToElement >> checkEventFilter: anEventHandler [
 
-	(anEventHandler isKindOf: ToSkinStateEngineUpdater) ifTrue: [
+	(anEventHandler isKindOf: ToSkinStateGenerator) ifTrue: [
 		(self eventDispatcher hasEventFilterSuchThat: [ :eh |
-			 eh isKindOf: ToSkinStateEngineUpdater ]) ifTrue: [
-			Error signal: 'Only one ' , ToSkinStateEngineUpdater name , ' is allowed' ] ]
+			 eh isKindOf: ToSkinStateGenerator ]) ifTrue: [
+			Error signal: 'Only one ' , ToSkinStateGenerator name , ' is allowed' ] ]
 ]
 
 { #category : 'event management' }
 ToElement >> checkEventHandler: anEventHandler [
 
-	(anEventHandler isKindOf: ToSkinStateEngineUpdater) ifTrue: [
+	(anEventHandler isKindOf: ToSkinStateGenerator) ifTrue: [
 		(self eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToSkinStateEngineUpdater ]) ifTrue: [
-			Error signal: 'Only one ' , ToSkinStateEngineUpdater name , ' is allowed' ] ]
+			 eh isKindOf: ToSkinStateGenerator ]) ifTrue: [
+			Error signal: 'Only one ' , ToSkinStateGenerator name , ' is allowed' ] ]
 ]
 
 { #category : 'initialization' }

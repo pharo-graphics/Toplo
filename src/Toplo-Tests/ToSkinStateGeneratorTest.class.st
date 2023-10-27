@@ -2,7 +2,7 @@
 A ToSkinnableEventHandlerTest is a test class for testing the behavior of ToSkinnableEventHandler
 "
 Class {
-	#name : 'ToSkinStateEngineUpdaterTest',
+	#name : 'ToSkinStateGeneratorTest',
 	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
 		'space'
@@ -13,7 +13,7 @@ Class {
 }
 
 { #category : 'tests' }
-ToSkinStateEngineUpdaterTest >> newElementInSpace [
+ToSkinStateGeneratorTest >> newElementInSpace [
 
 	| e |
 	e := ToElement new.
@@ -29,13 +29,19 @@ ToSkinStateEngineUpdaterTest >> newElementInSpace [
 ]
 
 { #category : 'running' }
-ToSkinStateEngineUpdaterTest >> setUp [ 
+ToSkinStateGeneratorTest >> setUp [ 
 	super setUp.
 	space := self newTestingSpace
 ]
 
 { #category : 'tests' }
-ToSkinStateEngineUpdaterTest >> testAddCheckStateEvent [
+ToSkinStateGeneratorTest >> testCheckableCheckedEvent [
+
+	self testGenerateCheckStateFromEvent 
+]
+
+{ #category : 'tests' }
+ToSkinStateGeneratorTest >> testGenerateCheckStateFromEvent [
 
 	| e evt nextStates currentStates nextStatesSize currentStatesSize |
 	e := self newElementInSpace.
@@ -113,7 +119,7 @@ ToSkinStateEngineUpdaterTest >> testAddCheckStateEvent [
 ]
 
 { #category : 'tests' }
-ToSkinStateEngineUpdaterTest >> testAddClickedStateEvent [
+ToSkinStateGeneratorTest >> testGenerateClickedStateFromEvent [
 
 	| e evt nextStates currentStates |
 	e := self newElementInSpace.
@@ -154,7 +160,7 @@ ToSkinStateEngineUpdaterTest >> testAddClickedStateEvent [
 ]
 
 { #category : 'tests' }
-ToSkinStateEngineUpdaterTest >> testAddHoveredStateEvent [
+ToSkinStateGeneratorTest >> testGenerateHoveredStateFromEvent [
 
 	| e evt nextStates currentStates |
 	e := self newElementInSpace.
@@ -200,18 +206,12 @@ ToSkinStateEngineUpdaterTest >> testAddHoveredStateEvent [
 	self assert: currentStates size equals: 1
 ]
 
-{ #category : 'tests' }
-ToSkinStateEngineUpdaterTest >> testCheckableCheckEvent [
-
-	self testAddCheckStateEvent 
-]
-
 { #category : 'api - hooks' }
-ToSkinStateEngineUpdaterTest >> testOnInstalledIn [
+ToSkinStateGeneratorTest >> testOnInstalledIn [
 
 	| e h |
 	e := ToElement new.
-	h := ToSkinStateEngineUpdater new.
+	h := ToSkinStateGenerator new.
 	e addEventHandler: h.
 	self assert: h target identicalTo: e.
 	e removeEventHandler: h.
@@ -219,23 +219,23 @@ ToSkinStateEngineUpdaterTest >> testOnInstalledIn [
 ]
 
 { #category : 'api - hooks' }
-ToSkinStateEngineUpdaterTest >> testOnUninstalledIn [
+ToSkinStateGeneratorTest >> testOnUninstalledIn [
 
 	self testOnInstalledIn
 ]
 
 { #category : 'accessing' }
-ToSkinStateEngineUpdaterTest >> testTarget [
+ToSkinStateGeneratorTest >> testTarget [
 
 	self testOnInstalledIn 
 ]
 
 { #category : 'api event managing' }
-ToSkinStateEngineUpdaterTest >> testWantsEvent [
+ToSkinStateGeneratorTest >> testWantsEvent [
 
 	| e h eventsToHandle eventsToHandleWhenDisabled |
 	e := ToElement new.
-	h := ToSkinStateEngineUpdater new.
+	h := ToSkinStateGenerator new.
 	e addEventHandler: h.
 	self assert: e isEnabled.
 	eventsToHandle := h eventsToHandle.

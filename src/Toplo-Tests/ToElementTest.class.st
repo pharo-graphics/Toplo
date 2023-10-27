@@ -15,18 +15,18 @@ ToElementTest >> testAddEventFilter [
 	| e count |
 	e := ToElement new.
 	self deny: (e eventDispatcher hasEventFilterSuchThat: [ :eh |
-			 eh isKindOf: ToSkinStateEngineUpdater ]).
-	e addEventFilter: ToSkinStateEngineUpdater new.
+			 eh isKindOf: ToSkinStateGenerator ]).
+	e addEventFilter: ToSkinStateGenerator new.
 	count := 0.
 	self assert: (e eventDispatcher hasEventFilterSuchThat: [ :eh |
-			 (eh isKindOf: ToSkinStateEngineUpdater)
+			 (eh isKindOf: ToSkinStateGenerator)
 				 ifTrue: [
 					 count := count + 1.
 					 true ]
 				 ifFalse: [ false ] ]).
 	self assert: count equals: 1.
 	self
-		should: [ e addEventFilter: ToSkinStateEngineUpdater new ]
+		should: [ e addEventFilter: ToSkinStateGenerator new ]
 		raise: Error
 ]
 
@@ -36,18 +36,18 @@ ToElementTest >> testAddEventHandler [
 	| e count |
 	e := ToElement new.
 	self deny: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToSkinStateEngineUpdater ]).
-	e addEventHandler: ToSkinStateEngineUpdater new.
+			 eh isKindOf: ToSkinStateGenerator ]).
+	e addEventHandler: ToSkinStateGenerator new.
 	count := 0.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 (eh isKindOf: ToSkinStateEngineUpdater)
+			 (eh isKindOf: ToSkinStateGenerator)
 				 ifTrue: [
 					 count := count + 1.
 					 true ]
 				 ifFalse: [ false ] ]).
 	self assert: count equals: 1.
 	self
-		should: [ e addEventHandler: ToSkinStateEngineUpdater new ]
+		should: [ e addEventHandler: ToSkinStateGenerator new ]
 		raise: Error
 ]
 
@@ -87,13 +87,13 @@ ToElementTest >> testCheckEventFilter [
 
 	| e |
 	e := ToElement new.
-	e addEventFilter: ToSkinStateEngineUpdater new.
+	e addEventFilter: ToSkinStateGenerator new.
 	self
-		should: [ e checkEventFilter: ToSkinStateEngineUpdater new ]
+		should: [ e checkEventFilter: ToSkinStateGenerator new ]
 		raise: Error.
 	e := ToElement new.
-	e addEventFilter: ToSkinStateEngineUpdater new.
-	e checkEventHandler: ToSkinStateEngineUpdater new
+	e addEventFilter: ToSkinStateGenerator new.
+	e checkEventHandler: ToSkinStateGenerator new
 ]
 
 { #category : 'tests' }
@@ -101,13 +101,13 @@ ToElementTest >> testCheckEventHandler [
 
 	| e |
 	e := ToElement new.
-	e addEventHandler: ToSkinStateEngineUpdater new.
+	e addEventHandler: ToSkinStateGenerator new.
 	self
-		should: [ e checkEventHandler: ToSkinStateEngineUpdater new ]
+		should: [ e checkEventHandler: ToSkinStateGenerator new ]
 		raise: Error.
 		e := ToElement new.
-	e addEventFilter: ToSkinStateEngineUpdater new.
-	e checkEventHandler: ToSkinStateEngineUpdater new
+	e addEventFilter: ToSkinStateGenerator new.
+	e checkEventHandler: ToSkinStateGenerator new
 ]
 
 { #category : 'test initialize' }

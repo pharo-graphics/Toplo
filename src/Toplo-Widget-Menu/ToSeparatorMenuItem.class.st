@@ -10,9 +10,6 @@ Class {
 ToSeparatorMenuItem >> initialize [ 
 
 	super initialize.
-
-	self hMatchParent.
-	self vFitContent.
 	self addChild: (ToElement new
 			 background: Color lightGray;
 			 constraintsDo: [ :c | 

@@ -5,3 +5,9 @@ Class {
 	#package : 'Toplo-Widget-Menu',
 	#tag : 'Basic'
 }
+
+{ #category : 'initialization' }
+ToRadioMenuItem >> buttonClass [
+
+	^ ToRadioButton 
+]

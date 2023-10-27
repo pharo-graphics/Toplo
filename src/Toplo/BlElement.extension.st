@@ -320,15 +320,15 @@ BlElement >> skinInstaller: aSkinInstaller [
 ]
 
 { #category : '*Toplo' }
-BlElement >> skinStateEngineUpdaterClass [
-
-	^ ToSkinStateGenerator 
-]
-
-{ #category : '*Toplo' }
 BlElement >> skinStateProcessor [
 
 	^ self userData at: #skinStateProcessor ifAbsentPut: (ToSkinStateProcessor new onInstalledIn: self)
+]
+
+{ #category : '*Toplo' }
+BlElement >> skinStateProcessorClass [
+
+	^ ToSkinStateGenerator 
 ]
 
 { #category : '*Toplo' }

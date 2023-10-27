@@ -35,8 +35,7 @@ ToMenuItemEventHandler >> mouseUpEvent: anEvent [
 	(anEvent currentTarget ~= target)
 		ifTrue: [ ^ self ].
 
-	target isTopMenu ifTrue: [ ^ self ].
-	target isSubmenu ifTrue: [ ^ self ].
+	target closeOnMouseEvent ifFalse: [ ^ self ].
 	target rootMenu closeWindow
 ]
 

@@ -87,9 +87,3 @@ ToGeneralButton >> rawSkin [
 
 	^ ToGeneralButtonSkin new
 ]
-
-{ #category : 'api - hooks' }
-ToGeneralButton >> skinStateEngineUpdaterClass [ 
-
-	^ super skinStateEngineUpdaterClass "ToGeneralButtonSkinStateEngineUpdater"
-]

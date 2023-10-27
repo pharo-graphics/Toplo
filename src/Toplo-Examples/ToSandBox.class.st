@@ -1108,7 +1108,7 @@ ToSandBox class >> example_ListWithoutSelection [
 { #category : 'menu' }
 ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 
-	| menu container saveAs |
+	| menu container saveAs lbl |
 	container := ToInnerWindow new
 		             position: 10 @ 10;
 		             size: 400 @ 200;
@@ -1120,6 +1120,12 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 			 label: (ToLabel text: 'Open')).
 	menu items last iconHolderWidth: 40.
 	"menu items last when: BlMouseDownEvent do: [ :event | event currentTarget inspect ]."
+	lbl := ToLabel new text: ('Save stuffs' asRopedText
+			        fontSize: 12;
+			        foreground: (Color black alpha: 0.7)).
+	menu addSeparator.
+	menu addItem: (ToCustomMenuItem new innerElement: lbl).
+
 	menu addItem: (ToMenuItem new
 			 icon: (ToImage inner: (self iconNamed: #solidMenu));
 			 label: (ToLabel text: 'Save')).
@@ -1142,12 +1148,11 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.pdf')).
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.doc')).
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.xml')).
-	menu addItem: (ToMenu new label: (ToLabel  text: 'Save as again...')).
+	menu addItem: (ToMenu new label: (ToLabel text: 'Save as again...')).
 	menu items last addItem: saveAs.
 	menu items last iconHolderWidth: 40.
 	menu addSeparator.
-	menu addItem: (ToMenuItem new
-			 label: (ToLabel text: 'Close')).
+	menu addItem: (ToMenuItem new label: (ToLabel text: 'Close')).
 	menu items last iconHolderWidth: 40.
 	container pane addChild: menu.
 	"menu window inspect."
@@ -1901,7 +1906,7 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 { #category : 'menu dep' }
 ToSandBox class >> example_menu0 [
 
-	| menu sub subsub space themeSwitcher |
+	| menu space themeSwitcher |
 	
 	space := BlSpace new.
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
@@ -1934,7 +1939,7 @@ ToSandBox class >> example_menu0 [
 { #category : 'menu dep' }
 ToSandBox class >> example_menu6 [
 
-	| menu grp right center left textField sub th lbl |
+	| menu grp right center left textField sub lbl |
 	menu := ToMenu new.
 
 	menu labelText: 'File'.
@@ -2019,17 +2024,17 @@ ToSandBox class >> example_menu6 [
 	grp := ToCheckableGroup new.
 	right := ToRadioMenuItem new
 		         beLabelFirst;
-		         justified: true;
+		         flexible: true;
 		         labelText: 'Right';
 		         id: #right.
 	center := ToRadioMenuItem new
 		          beLabelFirst;
-		          justified: true;
+		          flexible: true;
 		          labelText: 'Center';
 		          id: #center.
 	left := ToRadioMenuItem new
 		        beLabelFirst;
-		        justified: true;
+		        flexible: true;
 		        labelText: 'Left';
 		        id: #left.
 	center checked: true.
@@ -2061,46 +2066,7 @@ ToSandBox class >> example_menu6 [
 		             width: 200;
 		             placeholderText: 'Your name'.
 	menu addItem: (ToCustomMenuItem new innerElement: textField).
-
 	menu addSeparator.
-	th := ToToggleButton new
-		      labelText: 'Cheesecake';
-		      beLabelFirst;
-		      hMatchParent.
-	
-	menu addItem: (ToCustomMenuItem new innerElement: th).
-	th := ToToggleButton new
-		      labelText: 'Column';
-		      beLabelFirst.
-	
-	menu addItem: (ToCustomMenuItem new innerElement: th).
-	th := ToToggleButton new
-		      labelText: 'Cheesecake justified';
-		      beLabelFirst;
-				justified: true;
-		      hMatchParent.
-	
-	menu addItem: (ToCustomMenuItem new innerElement: th).
-	th := ToToggleButton new
-		      labelText: 'Cheesecake';
-		      labelFirst: false;
-		      hMatchParent.
-	menu addItem: (ToCustomMenuItem new innerElement: th).
-	th := ToToggleButton new
-		      labelText: 'Cheesecake';
-		      beVertical;
-		      beLabelFirst;
-		      hMatchParent.
-	menu addItem: (ToCustomMenuItem new innerElement: th).
-	menu addSeparator.
-	lbl := ToLabel new text: ('Saving stuffs' asRopedText
-			        fontSize: 12;
-			        foreground: (Color black alpha: 0.7)).
-	menu addItem: (ToCustomMenuItem new
-			 innerElement: lbl;
-			 margin: (BlInsets
-					  top: 2;
-					  bottom: 4)).
 	sub := ToMenu new labelText: 'Save All'.
 	sub addItem: (ToMenuItem new labelText: 'Locally').
 	menu addItem: sub.
@@ -3172,13 +3138,13 @@ ToSandBox class >> example_withCheckBox [
 
 	menu addItem: (ToMenuItem new labelText: 'Export').
 	grp := ToCheckableGroup new.
-	right := ToRadioMenuItem new
+	right := ToCheckMenuItem new
 		         labelText: 'Right';
 		         id: #right.
-	center := ToRadioMenuItem new
+	center := ToCheckMenuItem new
 		          labelText: 'Center';
 		          id: #center.
-	left := ToRadioMenuItem new
+	left := ToCheckMenuItem new
 		        labelText: 'Left';
 		        id: #left.
 	grp when: ToCheckableGroupChangedEvent do: [ :event |

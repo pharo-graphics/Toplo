@@ -1,10 +1,9 @@
 Class {
 	#name : 'ToMenuItem',
-	#superclass : 'ToMenuItemElement',
-	#traits : 'TToClickable + TToElementWithLabeledIcon',
-	#classTraits : 'TToClickable classTrait + TToElementWithLabeledIcon classTrait',
+	#superclass : 'ToGeneralButtonMenuItem',
+	#traits : 'TToElementWithLabeledIcon',
+	#classTraits : 'TToElementWithLabeledIcon classTrait',
 	#instVars : [
-		'labeledIcon',
 		'filler',
 		'rightHandSide'
 	],
@@ -13,16 +12,16 @@ Class {
 	#tag : 'Basic'
 }
 
-{ #category : 't - clickable - click behavior' }
-ToMenuItem >> clickEventClass [
+{ #category : 'initialization' }
+ToMenuItem >> buttonClass [
 
-	^ BlMouseUpEvent
+	^ ToButton 
 ]
 
-{ #category : 'initialization' }
-ToMenuItem >> defaultLayout [ 
+{ #category : 'testing' }
+ToMenuItem >> closeOnMouseEvent [
 
-	^ BlLinearLayout horizontal
+	^ self isTopMenu not
 ]
 
 { #category : 'accessing' }
@@ -36,36 +35,24 @@ ToMenuItem >> initialize [
 
 	super initialize.
 	self withStamp: #'menu-item'.
-	self layout: self defaultLayout.
-	labeledIcon := ToLabeledIcon new .
 	filler := self newFiller.
 	rightHandSide := self newRightHandSide.
-	self addChild: labeledIcon.
-	self addChild: filler.
-	self addChild: rightHandSide.
-	self initializeWithMenuItemConstraints
-
-]
-
-{ #category : 'initialization' }
-ToMenuItem >> initializeWithMenuItemConstraints [ 
-
-	self hMatchParent.
-	self vFitContent.
-
+	self button addChild: filler.
+	self button addChild: rightHandSide
 ]
 
 { #category : 't - element with labeled icon - accessing' }
 ToMenuItem >> labeledIcon [ 
 
-	^ labeledIcon 
+	^ self button labeledIcon 
 ]
 
 { #category : 'initialization' }
 ToMenuItem >> newFiller [
 
 	^ ToElement new
-		  matchParent;
+		  hExact: 0;
+		  vMatchParent;
 		  id: #'menu-item-filler';
 		  yourself
 ]

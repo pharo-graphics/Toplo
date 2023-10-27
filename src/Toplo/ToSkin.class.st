@@ -125,7 +125,7 @@ ToSkin >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	" install the event handler that generates state for the state engine"
-	anElement skinStateEngineUpdaterClass ifNotNil: [ :cls |
+	anElement skinStateProcessorClass ifNotNil: [ :cls |
 		skinStateEngineEpdater := cls new.
 		anElement addEventHandler: skinStateEngineEpdater ]
 ]

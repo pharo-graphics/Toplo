@@ -15,6 +15,12 @@ ToMenuItemElement >> addedInMenu: aMenu [
 	self parentMenu: aMenu
 ]
 
+{ #category : 'testing' }
+ToMenuItemElement >> closeOnMouseEvent [
+
+	^ false
+]
+
 { #category : 'adding-removing' }
 ToMenuItemElement >> closeSiblingMenuWindow [
 
@@ -57,7 +63,17 @@ ToMenuItemElement >> initialize [
 
 	super initialize.
 	self layout: BlLinearLayout horizontal.
-	self addEventHandler: self defaultEventHandler 
+	self addEventHandler: self defaultEventHandler.
+	self initializeWithMenuItemConstraints
+
+]
+
+{ #category : 'initialization' }
+ToMenuItemElement >> initializeWithMenuItemConstraints [ 
+
+	self hMatchParent.
+	self vFitContent.
+
 ]
 
 { #category : 'testing' }

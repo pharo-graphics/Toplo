@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToSkinnableEventHandler',
+	#name : 'ToSkinStateEngineUpdater',
 	#superclass : 'BlCustomEventHandler',
 	#instVars : [
 		'target',
@@ -8,13 +8,13 @@ Class {
 		'stillPressedTask',
 		'stillHoveredTask'
 	],
-	#category : 'Toplo-Core',
+	#category : 'Toplo-Core-Skin',
 	#package : 'Toplo',
-	#tag : 'Core'
+	#tag : 'Core-Skin'
 }
 
 { #category : 'state adding' }
-ToSkinnableEventHandler >> addCheckStateEvent: anEvent [
+ToSkinStateEngineUpdater >> addCheckStateEvent: anEvent [
 
 	| newStateClass |
 	newStateClass := anEvent current
@@ -28,91 +28,91 @@ ToSkinnableEventHandler >> addCheckStateEvent: anEvent [
 ]
 
 { #category : 'state adding' }
-ToSkinnableEventHandler >> addClickedStateEvent: anEvent [
+ToSkinStateEngineUpdater >> addClickedStateEvent: anEvent [
 
 	target addNextSkinState: (ToClickedState sourceEvent: anEvent)
 
 ]
 
 { #category : 'state adding' }
-ToSkinnableEventHandler >> addDisabledStateEvent: anEvent [
+ToSkinStateEngineUpdater >> addDisabledStateEvent: anEvent [
 
 	target skinStateEngine refreshStateEvent: anEvent
 ]
 
 { #category : 'state adding' }
-ToSkinnableEventHandler >> addDragStartedStateEvent: anEvent [
+ToSkinStateEngineUpdater >> addDragStartedStateEvent: anEvent [
 
 	target addNextSkinState: (ToDragStartedState sourceEvent: anEvent)
 ]
 
 { #category : 'state adding' }
-ToSkinnableEventHandler >> addDraggedStateEvent: anEvent [
+ToSkinStateEngineUpdater >> addDraggedStateEvent: anEvent [
 
 	target addNextSkinState: (ToDraggedState sourceEvent: anEvent)
 ]
 
 { #category : 'state adding' }
-ToSkinnableEventHandler >> addDroppedStateEvent: anEvent [
+ToSkinStateEngineUpdater >> addDroppedStateEvent: anEvent [
 
 	target addNextSkinState: (ToDroppedState sourceEvent: anEvent)
 ]
 
 { #category : 'state adding' }
-ToSkinnableEventHandler >> addEnabledStateEvent: anEvent [
+ToSkinStateEngineUpdater >> addEnabledStateEvent: anEvent [
 
 	target skinStateEngine refreshStateEvent: anEvent 
 ]
 
 { #category : 'state adding' }
-ToSkinnableEventHandler >> addHoveredStateEvent: anEvent [
+ToSkinStateEngineUpdater >> addHoveredStateEvent: anEvent [
 
 	target addNextSkinState: (ToHoveredState sourceEvent: anEvent)
 ]
 
 { #category : 'state adding' }
-ToSkinnableEventHandler >> addLeavedStateEvent: anEvent [
+ToSkinStateEngineUpdater >> addLeavedStateEvent: anEvent [
 
 	target addNextSkinState: (ToLeavedState sourceEvent: anEvent)
 ]
 
 { #category : 'state adding' }
-ToSkinnableEventHandler >> addPressedStateEvent: anEvent [
+ToSkinStateEngineUpdater >> addPressedStateEvent: anEvent [
 
 	target addNextSkinState: (ToPressedState sourceEvent: anEvent)
 ]
 
 { #category : 'state adding' }
-ToSkinnableEventHandler >> addReleasedStateEvent: anEvent [
+ToSkinStateEngineUpdater >> addReleasedStateEvent: anEvent [
 
 	target addNextSkinState: (ToReleasedState sourceEvent: anEvent)
 ]
 
 { #category : 'state adding' }
-ToSkinnableEventHandler >> addStillHoveredStateEvent: anEvent [
+ToSkinStateEngineUpdater >> addStillHoveredStateEvent: anEvent [
 
 	target addNextSkinState: (ToStillHoveredState sourceEvent: anEvent)
 ]
 
 { #category : 'state adding' }
-ToSkinnableEventHandler >> addStillPressedStateEvent: anEvent [
+ToSkinStateEngineUpdater >> addStillPressedStateEvent: anEvent [
 
 	target addNextSkinState: (ToStillPressedState sourceEvent: anEvent)
 ]
 
 { #category : 'focus events handling' }
-ToSkinnableEventHandler >> blurEvent: anEvent [
+ToSkinStateEngineUpdater >> blurEvent: anEvent [
 ]
 
 { #category : 'checkable event handling' }
-ToSkinnableEventHandler >> checkableCheckEvent: anEvent [
+ToSkinStateEngineUpdater >> checkableCheckEvent: anEvent [
 	"ToCheclableCheckEvent can be send either because of a click or because the checkable as been checked programmatically"
 
 	self addCheckStateEvent: anEvent
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> clickAvortedEvent: anEvent [
+ToSkinStateEngineUpdater >> clickAvortedEvent: anEvent [
 
 	(anEvent upEvent target ~= target and: [ (target findMouseEventTargetAt: anEvent upEvent position) isNil ])
 		ifTrue: [ ^ self ].
@@ -120,7 +120,7 @@ ToSkinnableEventHandler >> clickAvortedEvent: anEvent [
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> clickEvent: anEvent [
+ToSkinStateEngineUpdater >> clickEvent: anEvent [
 
 	anEvent
 		  ifPrimary: [ self primaryClickEvent: anEvent ]
@@ -130,12 +130,12 @@ ToSkinnableEventHandler >> clickEvent: anEvent [
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> doubleClickEvent: anEvent [
+ToSkinStateEngineUpdater >> doubleClickEvent: anEvent [
 
 ]
 
 { #category : 'dnd handlers' }
-ToSkinnableEventHandler >> dragEndEvent: anEvent [
+ToSkinStateEngineUpdater >> dragEndEvent: anEvent [
 
 	dragged := false.
 	self addReleasedStateEvent: anEvent.
@@ -143,40 +143,39 @@ ToSkinnableEventHandler >> dragEndEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToSkinnableEventHandler >> dragEnterEvent: anEvent [
+ToSkinStateEngineUpdater >> dragEnterEvent: anEvent [
 
 	leaved := false
 ]
 
 { #category : 'dnd handlers' }
-ToSkinnableEventHandler >> dragEvent: anEvent [
+ToSkinStateEngineUpdater >> dragEvent: anEvent [
 
 	dragged ifFalse: [ ^ self ].
 	self addDraggedStateEvent: anEvent
 ]
 
 { #category : 'event handling' }
-ToSkinnableEventHandler >> dragLeaveEvent: anEvent [
+ToSkinStateEngineUpdater >> dragLeaveEvent: anEvent [
 
 	leaved := true
 ]
 
 { #category : 'dnd handlers' }
-ToSkinnableEventHandler >> dragStartEvent: anEvent [
+ToSkinStateEngineUpdater >> dragStartEvent: anEvent [
 
-	anEvent isConsumed ifFalse: [ ^ self ].
 	dragged := true.
 	self addDragStartedStateEvent: anEvent
 ]
 
 { #category : 'dnd handlers' }
-ToSkinnableEventHandler >> dropEvent: anEvent [
+ToSkinStateEngineUpdater >> dropEvent: anEvent [
 
 	self addDroppedStateEvent: anEvent
 ]
 
 { #category : 'enablement' }
-ToSkinnableEventHandler >> enablementChangedEvent: anEvent [
+ToSkinStateEngineUpdater >> enablementChangedEvent: anEvent [
 
 	target := anEvent currentTarget.
 	target isEnabled ifTrue: [ ^ self addEnabledStateEvent: anEvent ].
@@ -185,38 +184,38 @@ ToSkinnableEventHandler >> enablementChangedEvent: anEvent [
 ]
 
 { #category : 'api - accessing' }
-ToSkinnableEventHandler >> eventsToHandle [
+ToSkinStateEngineUpdater >> eventsToHandle [
 
 	^ { BlUIEvent. BlMousePickOutsideEvent. ToCheckableCheckedEvent. ToEnablementChangedEvent }
 ]
 
 { #category : 'api - accessing' }
-ToSkinnableEventHandler >> eventsToHandleWhenDisabled [
+ToSkinStateEngineUpdater >> eventsToHandleWhenDisabled [
 
 	^ { ToEnablementChangedEvent. BlMouseEnterEvent. BlMouseLeaveEvent  }
 ]
 
 { #category : 'focus events handling' }
-ToSkinnableEventHandler >> focusEvent: anEvent [
+ToSkinStateEngineUpdater >> focusEvent: anEvent [
 ]
 
 { #category : 'focus events handling' }
-ToSkinnableEventHandler >> focusInEvent: anEvent [
+ToSkinStateEngineUpdater >> focusInEvent: anEvent [
 ]
 
 { #category : 'focus events handling' }
-ToSkinnableEventHandler >> focusOutEvent: anEvent [
+ToSkinStateEngineUpdater >> focusOutEvent: anEvent [
 ]
 
 { #category : 'api - event managing' }
-ToSkinnableEventHandler >> handleEvent: anEvent [
+ToSkinStateEngineUpdater >> handleEvent: anEvent [
 
 	self stopTasks: anEvent.
 	anEvent sendTo: self
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> isPickOutsideEventRelevantForTarget: anEvent [
+ToSkinStateEngineUpdater >> isPickOutsideEventRelevantForTarget: anEvent [
 
 	"Outside event can have a button label or icon as target. 
 	In that case, no action is triggered "
@@ -226,30 +225,30 @@ ToSkinnableEventHandler >> isPickOutsideEventRelevantForTarget: anEvent [
 ]
 
 { #category : 'event handling' }
-ToSkinnableEventHandler >> keyDownEvent: anEvent [
+ToSkinStateEngineUpdater >> keyDownEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToSkinnableEventHandler >> keyUpEvent: anEvent [
+ToSkinStateEngineUpdater >> keyUpEvent: anEvent [
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> middleClickEvent: anEvent [
-
-]
-
-{ #category : 'mouse handlers' }
-ToSkinnableEventHandler >> middleMouseDownEvent: anEvent [
+ToSkinStateEngineUpdater >> middleClickEvent: anEvent [
 
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> middleMouseUpEvent: anEvent [
+ToSkinStateEngineUpdater >> middleMouseDownEvent: anEvent [
 
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> mouseDownEvent: anEvent [
+ToSkinStateEngineUpdater >> middleMouseUpEvent: anEvent [
+
+]
+
+{ #category : 'mouse handlers' }
+ToSkinStateEngineUpdater >> mouseDownEvent: anEvent [
 
 	anEvent
 		  ifPrimary: [ self primaryMouseDownEvent: anEvent ]
@@ -259,47 +258,50 @@ ToSkinnableEventHandler >> mouseDownEvent: anEvent [
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> mouseDownOutsideEvent: anEvent [
+ToSkinStateEngineUpdater >> mouseDownOutsideEvent: anEvent [
+
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> mouseEnterEvent: anEvent [
+ToSkinStateEngineUpdater >> mouseEnterEvent: anEvent [
 
 	leaved := false.
+	dragged ifTrue: [ ^ self ].
 	self startStillHoveredEvent: anEvent.
 	self addHoveredStateEvent: anEvent
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> mouseLeaveEvent: anEvent [
+ToSkinStateEngineUpdater >> mouseLeaveEvent: anEvent [
 
 	leaved := true.
+	dragged ifTrue: [ ^ self ].
 	self addLeavedStateEvent: anEvent
 
 
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> mouseMoveEvent: anEvent [
+ToSkinStateEngineUpdater >> mouseMoveEvent: anEvent [
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> mouseOutEvent: anEvent [
+ToSkinStateEngineUpdater >> mouseOutEvent: anEvent [
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> mouseOverEvent: anEvent [
+ToSkinStateEngineUpdater >> mouseOverEvent: anEvent [
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> mousePickOutsideEvent: anEvent [
+ToSkinStateEngineUpdater >> mousePickOutsideEvent: anEvent [
 
 
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> mouseUpEvent: anEvent [
-
+ToSkinStateEngineUpdater >> mouseUpEvent: anEvent [
+	dragged := false.
 	anEvent
 		  ifPrimary: [ self primaryMouseUpEvent: anEvent ]
 		  secondary: [ self secondaryMouseUpEvent: anEvent ]
@@ -308,7 +310,7 @@ ToSkinnableEventHandler >> mouseUpEvent: anEvent [
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> mouseUpOutsideEvent: anEvent [
+ToSkinStateEngineUpdater >> mouseUpOutsideEvent: anEvent [
 
 	"Outside event can have a button label or icon as target. 
 	In that case, no action is triggered "
@@ -316,7 +318,7 @@ ToSkinnableEventHandler >> mouseUpOutsideEvent: anEvent [
 	(anEvent originalEvent target notNil and: [
 		 anEvent originalEvent target hasInParentChain: target ]) ifTrue: [
 		^ self ].
-
+	dragged := false.
 	"MouseUpOutside for a button is managed if a MouseDown (inside) has occured before (with a consequent pressed state).
 	So, do not change the state if the button is not in pressed state"
 	"target currentSkinState ifNotNil: [ :s | 
@@ -326,11 +328,11 @@ ToSkinnableEventHandler >> mouseUpOutsideEvent: anEvent [
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> mouseWheelEvent: anEvent [
+ToSkinStateEngineUpdater >> mouseWheelEvent: anEvent [
 ]
 
 { #category : 'api - hooks' }
-ToSkinnableEventHandler >> onInstalledIn: anElement [
+ToSkinStateEngineUpdater >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	leaved := false.
@@ -340,63 +342,63 @@ ToSkinnableEventHandler >> onInstalledIn: anElement [
 ]
 
 { #category : 'api - hooks' }
-ToSkinnableEventHandler >> onUninstalledIn: anElement [
+ToSkinStateEngineUpdater >> onUninstalledIn: anElement [
 
 	target := nil.
 	super onUninstalledIn: anElement
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> otherClickEvent: anEvent [
+ToSkinStateEngineUpdater >> otherClickEvent: anEvent [
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> otherMouseDownEvent: anEvent [
+ToSkinStateEngineUpdater >> otherMouseDownEvent: anEvent [
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> otherMouseUpEvent: anEvent [
+ToSkinStateEngineUpdater >> otherMouseUpEvent: anEvent [
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> primaryClickEvent: anEvent [
+ToSkinStateEngineUpdater >> primaryClickEvent: anEvent [
 
 	target switchToNextCheckStateOnClick.
 	self addClickedStateEvent: anEvent
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> primaryMouseDownEvent: anEvent [
+ToSkinStateEngineUpdater >> primaryMouseDownEvent: anEvent [
 
 	self addPressedStateEvent: anEvent.
 	self startStillPressedEvent: anEvent
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> primaryMouseUpEvent: anEvent [
+ToSkinStateEngineUpdater >> primaryMouseUpEvent: anEvent [
 
 	self addReleasedStateEvent: anEvent.
 	self addHoveredStateEvent: anEvent
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> secondaryClickEvent: anEvent [
+ToSkinStateEngineUpdater >> secondaryClickEvent: anEvent [
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> secondaryMouseDownEvent: anEvent [
+ToSkinStateEngineUpdater >> secondaryMouseDownEvent: anEvent [
 ]
 
 { #category : 'mouse handlers' }
-ToSkinnableEventHandler >> secondaryMouseUpEvent: anEvent [
+ToSkinStateEngineUpdater >> secondaryMouseUpEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToSkinnableEventHandler >> shortcutEvent: anEvent [
+ToSkinStateEngineUpdater >> shortcutEvent: anEvent [
 ]
 
 { #category : 'still pressed - hovered' }
-ToSkinnableEventHandler >> startStillHoveredEvent: anEvent [
+ToSkinStateEngineUpdater >> startStillHoveredEvent: anEvent [
 
 	| startDelay space |
 	target space ifNil: [ ^ self ].
@@ -417,7 +419,7 @@ ToSkinnableEventHandler >> startStillHoveredEvent: anEvent [
 ]
 
 { #category : 'still pressed - hovered' }
-ToSkinnableEventHandler >> startStillPressedEvent: anEvent [
+ToSkinStateEngineUpdater >> startStillPressedEvent: anEvent [
 
 	| startDelay space |
 	target space ifNil: [ ^ self ].
@@ -438,19 +440,19 @@ ToSkinnableEventHandler >> startStillPressedEvent: anEvent [
 ]
 
 { #category : 'still pressed - hovered' }
-ToSkinnableEventHandler >> stillHoveredTask [
+ToSkinStateEngineUpdater >> stillHoveredTask [
 	
 	^ stillHoveredTask 
 ]
 
 { #category : 'still pressed - hovered' }
-ToSkinnableEventHandler >> stillPressedTask [
+ToSkinStateEngineUpdater >> stillPressedTask [
 	
 	^ stillPressedTask 
 ]
 
 { #category : 'still pressed - hovered' }
-ToSkinnableEventHandler >> stopStillHoveredTaskEvent: anEvent [
+ToSkinStateEngineUpdater >> stopStillHoveredTaskEvent: anEvent [
 
 	stillHoveredTask ifNil: [ ^ self ].
 	((anEvent isKindOf: BlMouseLeaveEvent)) ifFalse: [ ^ self ].
@@ -459,7 +461,7 @@ ToSkinnableEventHandler >> stopStillHoveredTaskEvent: anEvent [
 ]
 
 { #category : 'still pressed - hovered' }
-ToSkinnableEventHandler >> stopStillPressedTaskEvent: anEvent [
+ToSkinStateEngineUpdater >> stopStillPressedTaskEvent: anEvent [
 
 	stillPressedTask ifNil: [ ^ self ].
 	((anEvent isKindOf: BlMouseUpEvent) or: [
@@ -469,7 +471,7 @@ ToSkinnableEventHandler >> stopStillPressedTaskEvent: anEvent [
 ]
 
 { #category : 'still pressed - hovered' }
-ToSkinnableEventHandler >> stopTasks: anEvent [
+ToSkinStateEngineUpdater >> stopTasks: anEvent [
 
 	self stopStillPressedTaskEvent: anEvent.
 	self stopStillHoveredTaskEvent: anEvent.
@@ -477,17 +479,17 @@ ToSkinnableEventHandler >> stopTasks: anEvent [
 ]
 
 { #category : 'accessing' }
-ToSkinnableEventHandler >> target [
+ToSkinStateEngineUpdater >> target [
 
 	^ target
 ]
 
 { #category : 'event handling' }
-ToSkinnableEventHandler >> textInputEvent: anEvent [
+ToSkinStateEngineUpdater >> textInputEvent: anEvent [
 ]
 
 { #category : 'api - event managing' }
-ToSkinnableEventHandler >> wantsEvent: anEvent [
+ToSkinStateEngineUpdater >> wantsEvent: anEvent [
 
 	| eventsToHandle |
 	eventsToHandle := anEvent currentTarget isEnabled

@@ -1,6 +1,9 @@
 Class {
 	#name : 'ToSkin',
 	#superclass : 'BlCustomEventHandler',
+	#instVars : [
+		'skinStateEngineEpdater'
+	],
 	#category : 'Toplo-Core-Skin',
 	#package : 'Toplo',
 	#tag : 'Core-Skin'
@@ -115,6 +118,25 @@ ToSkin >> isNullSkin [
 ToSkin >> leavedLookEvent: anEvent [
 
 
+]
+
+{ #category : 'api - hooks' }
+ToSkin >> onInstalledIn: anElement [
+
+	super onInstalledIn: anElement.
+	" install the event handler that generates state for the state engine"
+	anElement skinStateEngineUpdaterClass ifNotNil: [ :cls |
+		skinStateEngineEpdater := cls new.
+		anElement addEventHandler: skinStateEngineEpdater ]
+]
+
+{ #category : 'api - hooks' }
+ToSkin >> onUninstalledIn: anElement [
+
+	super onUninstalledIn: anElement.
+	skinStateEngineEpdater ifNotNil: [
+		anElement removeEventHandler: skinStateEngineEpdater.
+		skinStateEngineEpdater := nil ]
 ]
 
 { #category : 'event handling' }

@@ -24,7 +24,7 @@ ToElementWithPopupEventHandler >> elementPositionInSpaceChangedEvent: anEvent [
 { #category : 'api - accessing' }
 ToElementWithPopupEventHandler >> eventsToHandle [
 
-	^ super eventsToHandle , { BlMouseUpEvent. BlMouseDownEvent. BlMouseDownOutsideEvent .  BlElementRemovedFromParentEvent }
+	^ super eventsToHandle , { BlMouseUpEvent. BlMouseDownEvent. BlMouseUpOutsideEvent .  BlElementRemovedFromParentEvent }
 ]
 
 { #category : 'mouse handlers' }
@@ -34,12 +34,19 @@ ToElementWithPopupEventHandler >> mouseDownEvent: anEvent [
 ]
 
 { #category : 'mouse handlers' }
-ToElementWithPopupEventHandler >> mouseDownOutsideEvent: anEvent [
+ToElementWithPopupEventHandler >> mouseUpEvent: anEvent [
+
+	windowHandler mouseUpInElementEvent: anEvent
+]
+
+{ #category : 'mouse handlers' }
+ToElementWithPopupEventHandler >> mouseUpOutsideEvent: anEvent [
 
 	" 
 	if the original event target is the element with popup or
 	if the original event target is the popup window then do nothing
 	"
+
 	anEvent originalEvent target ifNotNil: [ :originalTarget |
 		(originalTarget hasInParentChain: target) ifTrue: [ ^ self  ].
 		(originalTarget hasInParentChain: windowHandler currentWindow) ifTrue: [ ^ self ] ].
@@ -47,12 +54,6 @@ ToElementWithPopupEventHandler >> mouseDownOutsideEvent: anEvent [
 	" ok, mouseUp outside the element and outside of the popup window "
 	anEvent consumed: true.
 	self closeWindow
-]
-
-{ #category : 'mouse handlers' }
-ToElementWithPopupEventHandler >> mouseUpEvent: anEvent [
-
-	windowHandler mouseUpInElementEvent: anEvent
 ]
 
 { #category : 'api - hooks' }

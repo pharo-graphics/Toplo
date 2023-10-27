@@ -1,37 +1,39 @@
 Class {
-	#name : #ToListPrimarySelectionElement,
-	#superclass : #ToListSelectionElement,
+	#name : 'ToListPrimarySelectionElement',
+	#superclass : 'ToListSelectionElement',
 	#instVars : [
 		'backgroundElement'
 	],
-	#category : 'Toplo-Widget-List-core'
+	#category : 'Toplo-Widget-List-core',
+	#package : 'Toplo-Widget-List',
+	#tag : 'core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToListPrimarySelectionElement >> backgroundElement [
 
 	^ backgroundElement 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToListPrimarySelectionElement >> blurEvent: anEvent [
 
 	self backgroundElement background: self theme item selectedBlurredColor
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToListPrimarySelectionElement >> focusEvent: anEvent [
 
 	self backgroundElement background: self theme item selectedColor
 ]
 
-{ #category : #'secondary selection' }
+{ #category : 'secondary selection' }
 ToListPrimarySelectionElement >> hideSecondarySelection [
 
 	self padding: (BlInsets all: 0)
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToListPrimarySelectionElement >> initialize [ 
 
 	super initialize.
@@ -41,7 +43,7 @@ ToListPrimarySelectionElement >> initialize [
 	self addChild: backgroundElement
 ]
 
-{ #category : #'secondary selection' }
+{ #category : 'secondary selection' }
 ToListPrimarySelectionElement >> showSecondarySelection [
 
 	self padding: (BlInsets all: 3)

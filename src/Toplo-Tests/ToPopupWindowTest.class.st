@@ -117,7 +117,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowHandler := ToPopupWindowHandler new builder: [ :anchWin :element | ].
+	windowHandler := ToPopupWindowHandler new builder: [ :anchWin :element | anchWin addChild: (ToElement new size: 20@20)].
 	windowHandler element: e.
 
 	" mouse down immediately followed by a mouse up -> the popup should stay opened"
@@ -128,7 +128,9 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 
 	closed := false.
 	windowHandler currentWindow when: ToWindowClosedEvent do: [ :event | closed := true ].
+	BlSpace simulateMouseMoveOutside: windowHandler currentWindow.
 	BlSpace simulateMouseDownOn: space root.
+	BlSpace simulateMouseUpOn: space root.
 	self assert: closed.
 	self assert: windowHandler currentWindow isNil
 ]
@@ -136,7 +138,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 { #category : 'tests' }
 ToPopupWindowTest >> testPopupOpenCloseWithMouseUpOutsideAssociateElement [
 
-	| e  windowHandler |
+	| e  windowHandler closed |
 	e := ToElement new
 		          background: Color red;
 		          size: 100 @ 40;
@@ -144,7 +146,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseUpOutsideAssociateElement [
 	space root addChild: e.
 	self waitTestingSpaces.
 	
-	windowHandler := ToPopupWindowHandler new builder: [ :anchWin :element | ].
+	windowHandler := ToPopupWindowHandler new builder: [ :anchWin :element | anchWin addChild: (ToElement new size: 20@20)].
 	windowHandler element: e.
 	
 	" mouse down on widget then up on popup"
@@ -153,7 +155,12 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseUpOutsideAssociateElement [
 	self assert: windowHandler currentWindow isOpened.
 	self waitTestingSpaces.
 	BlSpace simulateMouseUpOn: windowHandler currentWindow.
-	self assert: windowHandler currentWindow isOpened
+	self assert: windowHandler currentWindow isOpened.
 	
-
+	closed := false.
+	windowHandler currentWindow when: ToWindowClosedEvent do: [ :event | closed := true ].
+	BlSpace simulateMouseDownOn: space root.
+	BlSpace simulateMouseUpOn: space root.
+	self assert: closed.
+	self assert: windowHandler currentWindow isNil
 ]

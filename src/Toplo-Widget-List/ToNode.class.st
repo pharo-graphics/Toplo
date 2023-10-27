@@ -1,70 +1,72 @@
 Class {
-	#name : #ToNode,
-	#superclass : #ToElement,
+	#name : 'ToNode',
+	#superclass : 'ToElement',
 	#traits : 'TToClickable',
 	#classTraits : 'TToClickable classTrait',
-	#category : 'Toplo-Widget-List-node'
+	#category : 'Toplo-Widget-List-node',
+	#package : 'Toplo-Widget-List',
+	#tag : 'node'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToNode >> colorProvider [
 
 	^ self theme item 
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToNode >> defaultEventHandler [
 
 	^ ToNodeEventHandler new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToNode >> defaultHoveredBackground [  
 
 	^ self colorProvider hoveredBackgroundColor
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToNode >> defaultHoveredBorder [
 
 	^ BlBorder paint: self colorProvider hoveredBorderColor
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToNode >> defaultInitialBackground [
 
 	^ self colorProvider defaultBackgroundColor
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToNode >> defaultInitialBorder [
 
 	^ BlBorder paint: self colorProvider defaultBorderColor.
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToNode >> defaultLayout [ 
 
 	^ BlLinearLayout vertical
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToNode >> defaultMargin [
 
 	^ BlInsets empty
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToNode >> defaultPadding [
 
 	^ BlInsets empty
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToNode >> initialize [
 
 	super initialize.

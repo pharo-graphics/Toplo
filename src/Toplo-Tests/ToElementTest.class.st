@@ -15,18 +15,18 @@ ToElementTest >> testAddEventFilter [
 	| e count |
 	e := ToElement new.
 	self deny: (e eventDispatcher hasEventFilterSuchThat: [ :eh |
-			 eh isKindOf: ToSkinnableEventHandler ]).
-	e addEventFilter: ToSkinnableEventHandler new.
+			 eh isKindOf: ToSkinStateEngineUpdater ]).
+	e addEventFilter: ToSkinStateEngineUpdater new.
 	count := 0.
 	self assert: (e eventDispatcher hasEventFilterSuchThat: [ :eh |
-			 (eh isKindOf: ToSkinnableEventHandler)
+			 (eh isKindOf: ToSkinStateEngineUpdater)
 				 ifTrue: [
 					 count := count + 1.
 					 true ]
 				 ifFalse: [ false ] ]).
 	self assert: count equals: 1.
 	self
-		should: [ e addEventFilter: ToSkinnableEventHandler new ]
+		should: [ e addEventFilter: ToSkinStateEngineUpdater new ]
 		raise: Error
 ]
 
@@ -36,18 +36,18 @@ ToElementTest >> testAddEventHandler [
 	| e count |
 	e := ToElement new.
 	self deny: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToSkinnableEventHandler ]).
-	e addEventHandler: ToSkinnableEventHandler new.
+			 eh isKindOf: ToSkinStateEngineUpdater ]).
+	e addEventHandler: ToSkinStateEngineUpdater new.
 	count := 0.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 (eh isKindOf: ToSkinnableEventHandler)
+			 (eh isKindOf: ToSkinStateEngineUpdater)
 				 ifTrue: [
 					 count := count + 1.
 					 true ]
 				 ifFalse: [ false ] ]).
 	self assert: count equals: 1.
 	self
-		should: [ e addEventHandler: ToSkinnableEventHandler new ]
+		should: [ e addEventHandler: ToSkinStateEngineUpdater new ]
 		raise: Error
 ]
 
@@ -87,13 +87,13 @@ ToElementTest >> testCheckEventFilter [
 
 	| e |
 	e := ToElement new.
-	e addEventFilter: ToSkinnableEventHandler new.
+	e addEventFilter: ToSkinStateEngineUpdater new.
 	self
-		should: [ e checkEventFilter: ToSkinnableEventHandler new ]
+		should: [ e checkEventFilter: ToSkinStateEngineUpdater new ]
 		raise: Error.
 	e := ToElement new.
-	e addEventFilter: ToSkinnableEventHandler new.
-	e checkEventHandler: ToSkinnableEventHandler new
+	e addEventFilter: ToSkinStateEngineUpdater new.
+	e checkEventHandler: ToSkinStateEngineUpdater new
 ]
 
 { #category : 'tests' }
@@ -101,13 +101,13 @@ ToElementTest >> testCheckEventHandler [
 
 	| e |
 	e := ToElement new.
-	e addEventHandler: ToSkinnableEventHandler new.
+	e addEventHandler: ToSkinStateEngineUpdater new.
 	self
-		should: [ e checkEventHandler: ToSkinnableEventHandler new ]
+		should: [ e checkEventHandler: ToSkinStateEngineUpdater new ]
 		raise: Error.
 		e := ToElement new.
-	e addEventFilter: ToSkinnableEventHandler new.
-	e checkEventHandler: ToSkinnableEventHandler new
+	e addEventFilter: ToSkinStateEngineUpdater new.
+	e checkEventHandler: ToSkinStateEngineUpdater new
 ]
 
 { #category : 'test initialize' }

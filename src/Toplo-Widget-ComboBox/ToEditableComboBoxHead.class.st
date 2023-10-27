@@ -1,47 +1,48 @@
 Class {
-	#name : #ToEditableComboBoxHead,
-	#superclass : #ToComboBoxHead,
+	#name : 'ToEditableComboBoxHead',
+	#superclass : 'ToComboBoxHead',
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
 		'dataToTextConverter',
 		'textToDataConverter',
 		'textField'
 	],
-	#category : 'Toplo-Widget-ComboBox'
+	#category : 'Toplo-Widget-ComboBox',
+	#package : 'Toplo-Widget-ComboBox'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToEditableComboBoxHead >> dataToTextConverter [
 
 	^ dataToTextConverter
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToEditableComboBoxHead >> dataToTextConverter: aValuable [
 
 	dataToTextConverter := aValuable
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToEditableComboBoxHead >> defaultDataToTextConverter [
 
 		^ [ :d | d ]
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToEditableComboBoxHead >> defaultEventHandler [
 
 	^ ToEditableComboBoxHeadEventHandler new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToEditableComboBoxHead >> defaultPlaceholder [
 
 	^ ToLabel new text: ''; yourself
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToEditableComboBoxHead >> defaultTextField [
 
 	^ ToTextField new
@@ -50,20 +51,20 @@ ToEditableComboBoxHead >> defaultTextField [
 		  yourself
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToEditableComboBoxHead >> defaultTextToDataConverter [
 
 		^ [ :d | d asString ]
 
 ]
 
-{ #category : #'t - placeholder show/hide' }
+{ #category : 't - placeholder show/hide' }
 ToEditableComboBoxHead >> hidePlaceholder [
 
 	self textField hidePlaceholder 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToEditableComboBoxHead >> initialize [ 
 
 	super initialize.
@@ -77,19 +78,19 @@ ToEditableComboBoxHead >> initialize [
 	self addEventHandler: self defaultEventHandler
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToEditableComboBoxHead >> placeholder [
 
 	^ self textField placeholder
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToEditableComboBoxHead >> placeholder: anElement [
 
 	self textField placeholder: (anElement ifNil: [ self defaultPlaceholder ])
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToEditableComboBoxHead >> selectData: aData in: aComboBox [
 
 	self hidePlaceholder.
@@ -99,19 +100,19 @@ ToEditableComboBoxHead >> selectData: aData in: aComboBox [
 
 ]
 
-{ #category : #'t - placeholder show/hide' }
+{ #category : 't - placeholder show/hide' }
 ToEditableComboBoxHead >> showPlaceholder [
 
 	self textField showPlaceholder 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToEditableComboBoxHead >> textField [ 
 
 	^ textField
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToEditableComboBoxHead >> textField: aTextField [
 
 	aTextField constraintsDo: [ :c | c linear vertical alignCenter ].
@@ -120,37 +121,37 @@ ToEditableComboBoxHead >> textField: aTextField [
 	innerElement addChild: aTextField
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToEditableComboBoxHead >> textToDataConverter [
 
 	^ textToDataConverter
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToEditableComboBoxHead >> textToDataConverter: aValuable [
 
 	textToDataConverter := aValuable
 ]
 
-{ #category : #'transaction hook' }
+{ #category : 'transaction hook' }
 ToEditableComboBoxHead >> whenSaveAcceptedDo: aBlock [
 
 	self textField whenSaveAcceptedDo: aBlock
 ]
 
-{ #category : #'transaction hook' }
+{ #category : 'transaction hook' }
 ToEditableComboBoxHead >> whenSaveDeniedDo: aBlock [
 
 	self textField whenSaveDeniedDo: aBlock
 ]
 
-{ #category : #'transaction hook' }
+{ #category : 'transaction hook' }
 ToEditableComboBoxHead >> whenTextEditedDo: aBlock [
 
 	self textField whenTextEditedDo: aBlock
 ]
 
-{ #category : #'transaction hook' }
+{ #category : 'transaction hook' }
 ToEditableComboBoxHead >> withSaveCapability [
 
 	self textField withSaveCapability

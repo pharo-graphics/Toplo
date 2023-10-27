@@ -1,10 +1,16 @@
 Class {
 	#name : 'ToTooltipWindowEventHandler',
-	#superclass : 'ToSkinnableEventHandler',
+	#superclass : 'BlCustomEventHandler',
 	#category : 'Toplo-Core-Tooltip',
 	#package : 'Toplo',
 	#tag : 'Core-Tooltip'
 }
+
+{ #category : 'api - accessing' }
+ToTooltipWindowEventHandler >> eventsToHandle [
+
+	^ { BlMouseDownEvent }
+]
 
 { #category : 'api - accessing' }
 ToTooltipWindowEventHandler >> mouseDownEvent: anEvent [

@@ -1,30 +1,32 @@
 Class {
-	#name : #ToListSelectionElement,
-	#superclass : #ToElement,
+	#name : 'ToListSelectionElement',
+	#superclass : 'ToElement',
 	#instVars : [
 		'listElement',
 		'nodes'
 	],
-	#category : 'Toplo-Widget-List-core'
+	#category : 'Toplo-Widget-List-core',
+	#package : 'Toplo-Widget-List',
+	#tag : 'core'
 }
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToListSelectionElement >> blurEvent: anEvent [
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToListSelectionElement >> borderColor [
 
 	^ Color gray
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToListSelectionElement >> borderWidth [
 
 	^ 1
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ToListSelectionElement >> computeBounds [
 	" compute my bounds from my list of adjacent nodes. "
 
@@ -38,39 +40,39 @@ ToListSelectionElement >> computeBounds [
 	self bounds: (BlBounds origin: top origin corner: bottom corner)
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToListSelectionElement >> defaultBorder [
 
 	^ BlBorder paint: self borderColor width: self borderWidth
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToListSelectionElement >> defaultGeometry [
 
 	^ BlRoundedRectangleGeometry cornerRadius: 5
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToListSelectionElement >> defaultLayout [
 
 	^ BlFrameLayout new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToListSelectionElement >> defaultPadding [
 
 	^ BlInsets all: 0
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToListSelectionElement >> focusEvent: anEvent [
 ]
 
-{ #category : #'secondary selection' }
+{ #category : 'secondary selection' }
 ToListSelectionElement >> hideSecondarySelection [
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToListSelectionElement >> initialize [ 
 
 	super initialize.
@@ -84,19 +86,19 @@ ToListSelectionElement >> initialize [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToListSelectionElement >> listElement [
 
 	^ listElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToListSelectionElement >> listElement: aListElement [
 
 	listElement := aListElement
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ToListSelectionElement >> nodeBounds: aNode [
 	" compute local node bounds "
 
@@ -107,20 +109,20 @@ ToListSelectionElement >> nodeBounds: aNode [
 	^ BlBounds origin: bnds origin + listElement padding topLeft corner: bnds corner + listElement padding topLeft
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToListSelectionElement >> nodes [
 
 	^ nodes
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToListSelectionElement >> nodes: aCollection [
 
 	nodes := aCollection.
 	self computeBounds
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ToListSelectionElement >> nodesDo: aBlock [
 
 	self nodes ifNil: [ ^ self ].

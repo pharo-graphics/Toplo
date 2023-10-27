@@ -20,12 +20,6 @@ ToGeneralButton >> defaultBorder [
 	^ Color transparent 
 ]
 
-{ #category : 'initialization' }
-ToGeneralButton >> defaultEventHandler [ 
-
-	^ ToGeneralButtonEventHandler new 
-]
-
 { #category : 'skin' }
 ToGeneralButton >> defaultGeometry [
 
@@ -64,8 +58,7 @@ ToGeneralButton >> hoveredBorder [
 ToGeneralButton >> initialize [
 
 	super initialize.
-	self allowMousePickOutsideEvent.
-	self addEventHandler: self defaultEventHandler
+	self allowMousePickOutsideEvent
 ]
 
 { #category : 'skin' }
@@ -93,4 +86,10 @@ ToGeneralButton >> pressedBorder [
 ToGeneralButton >> rawSkin [
 
 	^ ToGeneralButtonSkin new
+]
+
+{ #category : 'api - hooks' }
+ToGeneralButton >> skinStateEngineUpdaterClass [ 
+
+	^ super skinStateEngineUpdaterClass "ToGeneralButtonSkinStateEngineUpdater"
 ]

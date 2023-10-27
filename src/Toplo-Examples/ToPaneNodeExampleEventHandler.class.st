@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToPaneNodeExampleEventHandler',
-	#superclass : 'ToSkinnableEventHandler',
+	#superclass : 'BlCustomEventHandler',
 	#instVars : [
 		'nodeButton',
 		'changeBackground'
@@ -21,10 +21,14 @@ ToPaneNodeExampleEventHandler >> changeBackground: aBoolean [
 	changeBackground := aBoolean
 ]
 
+{ #category : 'api - accessing' }
+ToPaneNodeExampleEventHandler >> eventsToHandle [
+	^ { BlMouseEnterEvent . BlMouseLeaveEvent }
+]
+
 { #category : 'mouse handlers' }
 ToPaneNodeExampleEventHandler >> mouseEnterEvent: anEvent [
 
-	super mouseEnterEvent: anEvent.
 	self changeBackground ifTrue: [
 		anEvent currentTarget background: (Color lightGray alpha: 0.2) ].
 	nodeButton := ToButton new labelText: 'Do something'; yourself.
@@ -41,7 +45,6 @@ ToPaneNodeExampleEventHandler >> mouseEnterEvent: anEvent [
 { #category : 'mouse handlers' }
 ToPaneNodeExampleEventHandler >> mouseLeaveEvent: anEvent [
 
-	super mouseLeaveEvent: anEvent.
 	self changeBackground ifTrue: [ anEvent currentTarget background: (Color transparent) ].
 	nodeButton ifNotNil: [
 		nodeButton removeFromParent.

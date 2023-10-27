@@ -326,6 +326,12 @@ BlElement >> skinStateEngine [
 ]
 
 { #category : '*Toplo' }
+BlElement >> skinStateEngineUpdaterClass [
+
+	^ ToSkinStateEngineUpdater 
+]
+
+{ #category : '*Toplo' }
 BlElement >> stampNamed: aSymbol [
 
 	(self lookUpStyleStampNamed: aSymbol) ifNotNil: [ :s | ^ s ].
@@ -394,6 +400,12 @@ BlElement >> styleSheetChain [
 		  (self toTheme notNil and: [
 			   self toTheme styleSheet notNil and: [ inherits ] ]) ifTrue: [
 			  str nextPut: self toTheme styleSheet ] ]
+]
+
+{ #category : '*Toplo' }
+BlElement >> switchToNextCheckStateOnClick [
+
+	" introduced here to avoid questionable condition in SinnableEventHandler for the management of the click event "
 ]
 
 { #category : '*Toplo' }

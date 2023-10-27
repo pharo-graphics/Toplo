@@ -1228,7 +1228,6 @@ ToSandBox class >> example_Popup1 [
 		popup border: Color black.
 		item := ToElement new size: 50 @ 90.
 		item background: Color yellow.
-		item addEventHandler: ToSkinnableEventHandler new.
 		item when: BlPrimaryClickEvent do: [ self inform: 'Click' ].
 		popup root addChild: item ].
 	popupWindowHandler element: menu.
@@ -2201,6 +2200,24 @@ ToSandBox class >> example_overlayWindow1 [
 ]
 
 { #category : 'window' }
+ToSandBox class >> example_overlayWindow2 [
+
+	| e windowHandler |
+	e := ToInnerWindow new
+		     size: 100 @ 100;
+		     position: 50 @ 50.
+	windowHandler := ToOverlayWindowHandler new.
+	windowHandler positionHook: [ :event :theElement| theElement bounds inSpace bounds topLeft + (20 @ 40) ].
+	windowHandler sizeHook: [ :event :theElement|  theElement size - (40 @ 60)].
+	windowHandler element: e.
+	windowHandler builder: [ :anchWin :element |
+		anchWin background: (Color gray alpha: 0.2).
+		anchWin border: (BlBorder paint: Color black width: 2) ].
+	e openInInnerWindow.
+	(windowHandler newWindowEvent: nil) popup
+]
+
+{ #category : 'window' }
 ToSandBox class >> example_rootFrame1 [
 
 	| e |
@@ -2337,13 +2354,14 @@ ToSandBox class >> example_spaceRootSkin [
 	| space themeSwitcher |
 	space := BlSpace new.
 	space inspect.
-	themeSwitcher := ToToggleButton new
+	space toTheme: ToBeeDarkTheme new.
+"	themeSwitcher := ToToggleButton new
 		      labelText: 'Theme';
 		      beLabelFirst.
 	themeSwitcher switchBarOnElement: ((ToLabel text: ('Dark' asRopedText foreground: Color white)) ).
 	themeSwitcher switchBarOffElement: ((ToLabel text: ('Light' asRopedText foreground: Color black)) ).
 	themeSwitcher when: ToCheckableCheckedEvent do: [ :event | space toTheme: ( event current ifTrue: [ToBeeDarkTheme new] ifFalse: [ ToBeeLightTheme new]) ].
-	space root addChild: themeSwitcher.
+	space root addChild: themeSwitcher."
 	space show
 ]
 
@@ -2359,7 +2377,6 @@ ToSandBox class >> example_stillHoveredEvent [
 		c frame vertical alignCenter.
 		c frame horizontal alignCenter ].
 	e addChild: lab.
-	e addEventHandler: ToSkinnableEventHandler new.
 	e size: 200 asPoint.
 	e border: Color black.
 	count := 0.
@@ -2384,7 +2401,6 @@ ToSandBox class >> example_stillPressedEvent [
 		c frame vertical alignCenter.
 		c frame horizontal alignCenter ].
 	e addChild: lab.
-	e addEventHandler: ToSkinnableEventHandler new.
 	e size: 200 asPoint.
 	e border: Color black.
 	count := 0.
@@ -2551,7 +2567,7 @@ ToSandBox class >> example_toBasicButton2 [
 			        fontSize: 40;
 			        yourself).
 	but := ToGeneralButton new.
-	but addEventHandler: (ToSkinnableEventHandler new target: but).
+	but addEventHandler: (ToSkinStateEngineUpdater new target: but).
 	but matchParent.
 	but addChild: lab.
 	but layout alignCenter.
@@ -2585,7 +2601,7 @@ ToSandBox class >> example_toBasicButton4 [
 			ico.
 			lab }.
 	but := ToGeneralButton new.
-	but addEventHandler: (ToSkinnableEventHandler new target: but).
+	but addEventHandler: (ToSkinStateEngineUpdater new target: but).
 	but matchParent.
 	but addChild: pane.
 	but layout alignCenter.
@@ -2825,7 +2841,7 @@ ToSandBox class >> example_toButtonWithTooltipText [
 	but labelText: 'Button with tooltip text'.
 	but tooltipText: ('This is a button', String cr, 'so, click on me...') asRopedText. 
 	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
-	but openInInnerWindow 
+	but openInSpace
  
 ]
 
@@ -3028,7 +3044,7 @@ ToSandBox class >> example_toWidgetAsButton0 [
 
 	| but |
 	but := ToElement new.
-	but addEventHandler: (ToSkinnableEventHandler new target: but)..
+	but addEventHandler: (ToSkinStateEngineUpdater new target: but)..
 	but
 		when: BlPrimaryClickEvent
 		do: [ self inform: 'Click' ].

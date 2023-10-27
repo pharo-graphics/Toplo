@@ -1,12 +1,13 @@
 Class {
 	#name : 'ToDividerEventHandler',
-	#superclass : 'ToSkinnableEventHandler',
+	#superclass : 'BlCustomEventHandler',
 	#instVars : [
 		'startPosition',
 		'startBounds',
 		'firstTargetPositionChangeHandler',
 		'secondTargetPositionChangeHandler',
-		'paneExtentHandler'
+		'paneExtentHandler',
+		'divider'
 	],
 	#category : 'Toplo-Widget-Pane',
 	#package : 'Toplo-Widget-Pane'
@@ -25,7 +26,7 @@ ToDividerEventHandler >> appliedDragDeltaFromPosition: aPoint [
 { #category : 'accessing' }
 ToDividerEventHandler >> divider [
 
-	^ target
+	^ divider
 ]
 
 { #category : 'dnd handlers' }
@@ -33,7 +34,6 @@ ToDividerEventHandler >> dragEvent: anEvent [
 
 	| firstTargetBounds secondTargetBounds dragDelta |
 	
-	super dragEvent: anEvent.
 	anEvent consumed: true.
 
 	firstTargetBounds := startBounds first copy.
@@ -90,7 +90,6 @@ ToDividerEventHandler >> dragStartEvent: anEvent [
 
 	" consume before super send to ensure dragged state "
 	anEvent consumed: true.
-	super dragStartEvent: anEvent.
 
 	"drag start position in parent"
 	startPosition := anEvent position.
@@ -100,6 +99,12 @@ ToDividerEventHandler >> dragStartEvent: anEvent [
 		               self firstTarget bounds.
 		               self secondTarget bounds } collect: [ :bnds |
 		               bnds inSpace bounds copy ]
+]
+
+{ #category : 'api - accessing' }
+ToDividerEventHandler >> eventsToHandle [
+
+	^ { BlDragEvent. BlDragStartEvent }
 ]
 
 { #category : 'accessing' }
@@ -137,6 +142,9 @@ ToDividerEventHandler >> minimumExtent [
 ToDividerEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
+	
+	divider := anElement.
+	
 	paneExtentHandler := BlEventHandler on: BlElementExtentChangedEvent do: [ :event | self divider requestLayout ].	
 	firstTargetPositionChangeHandler := BlEventHandler on: BlElementPositionChangedEvent do: [ self divider requestLayout ].	
 	secondTargetPositionChangeHandler := BlEventHandler on: BlElementPositionChangedEvent do: [ self divider requestLayout ].
@@ -152,6 +160,9 @@ ToDividerEventHandler >> onUninstalledIn: anElement [
 	anElement pane removeEventHandler: paneExtentHandler.
 	anElement firstTarget removeEventHandler: firstTargetPositionChangeHandler.
 	anElement secondTarget removeEventHandler: secondTargetPositionChangeHandler.
+	
+	divider := nil.
+	
 	super onUninstalledIn: anElement.	
 
 ]

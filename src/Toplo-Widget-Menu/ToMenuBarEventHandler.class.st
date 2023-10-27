@@ -1,14 +1,20 @@
 Class {
 	#name : 'ToMenuBarEventHandler',
-	#superclass : 'ToSkinnableEventHandler',
+	#superclass : 'BlCustomEventHandler',
 	#instVars : [
-		'mouseDownHandler',
-		'autoOpen'
+		'autoOpen',
+		'target'
 	],
 	#category : 'Toplo-Widget-Menu-Bar',
 	#package : 'Toplo-Widget-Menu',
 	#tag : 'Bar'
 }
+
+{ #category : 'api - accessing' }
+ToMenuBarEventHandler >> eventsToHandle [
+
+	^ { BlMouseDownEvent. BlMouseOverEvent. BlMouseUpOutsideEvent }
+]
 
 { #category : 'initialization' }
 ToMenuBarEventHandler >> initialize [ 
@@ -21,7 +27,6 @@ ToMenuBarEventHandler >> initialize [
 ToMenuBarEventHandler >> mouseDownEvent: anEvent [
 	"switch auto=open filter "
 
-	super mouseDownEvent: anEvent.
 	" mouse down on the menubar stops auto-open "
 	(anEvent target = target or: [
 		 target menus noneSatisfy: [ :m |
@@ -44,7 +49,6 @@ ToMenuBarEventHandler >> mouseDownEvent: anEvent [
 { #category : 'mouse handlers' }
 ToMenuBarEventHandler >> mouseOverEvent: anEvent [
 
-	super mouseOverEvent: anEvent.
 	autoOpen ifFalse: [ ^ self ].
 	
 	" auto-open action "
@@ -69,5 +73,13 @@ ToMenuBarEventHandler >> mouseUpOutsideEvent: anEvent [
 ToMenuBarEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
+	target := anElement.
 	anElement allowMousePickOutsideEvent 
+]
+
+{ #category : 'api - hooks' }
+ToMenuBarEventHandler >> onUninstalledIn: anElement [
+
+	super onUninstalledIn: anElement.
+	target := nil
 ]

@@ -1,9 +1,9 @@
 Class {
 	#name : 'ToButtonTest',
 	#superclass : 'TestCase',
-	#category : 'Toplo-Widget-Button-Tests-BasicButton',
+	#category : 'Toplo-Widget-Button-Tests-Core',
 	#package : 'Toplo-Widget-Button-Tests',
-	#tag : 'BasicButton'
+	#tag : 'Core'
 }
 
 { #category : 'tests' }

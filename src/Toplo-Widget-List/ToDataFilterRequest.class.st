@@ -1,25 +1,27 @@
 Class {
-	#name : #ToDataFilterRequest,
-	#superclass : #BlEvent,
+	#name : 'ToDataFilterRequest',
+	#superclass : 'BlEvent',
 	#instVars : [
 		'pattern'
 	],
-	#category : 'Toplo-Widget-List-filter'
+	#category : 'Toplo-Widget-List-filter',
+	#package : 'Toplo-Widget-List',
+	#tag : 'filter'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDataFilterRequest >> pattern [
 
 	^ pattern
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDataFilterRequest >> pattern: anObject [
 
 	pattern := anObject
 ]
 
-{ #category : #sending }
+{ #category : 'sending' }
 ToDataFilterRequest >> sendTo: anObject [
 
 	anObject dataFilterRequest: self

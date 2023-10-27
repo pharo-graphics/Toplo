@@ -1,17 +1,19 @@
 Class {
-	#name : #ToCheckNodeEventHandler,
-	#superclass : #ToNodeEventHandler,
-	#category : 'Toplo-Widget-List-node'
+	#name : 'ToCheckNodeEventHandler',
+	#superclass : 'ToNodeEventHandler',
+	#category : 'Toplo-Widget-List-node',
+	#package : 'Toplo-Widget-List',
+	#tag : 'node'
 }
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToCheckNodeEventHandler >> nodeHolderDeselectedEvent: anEvent [
 
 	super nodeHolderDeselectedEvent: anEvent.
 	anEvent currentTarget uncheck
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToCheckNodeEventHandler >> nodeHolderSelectedEvent: anEvent [
 
 	super nodeHolderSelectedEvent: anEvent.

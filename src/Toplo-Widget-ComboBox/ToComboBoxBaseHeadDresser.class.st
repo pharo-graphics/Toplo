@@ -1,19 +1,20 @@
 Class {
-	#name : #ToComboBoxBaseHeadDresser,
-	#superclass : #Object,
+	#name : 'ToComboBoxBaseHeadDresser',
+	#superclass : 'Object',
 	#instVars : [
 		'comboBox'
 	],
-	#category : 'Toplo-Widget-ComboBox'
+	#category : 'Toplo-Widget-ComboBox',
+	#package : 'Toplo-Widget-ComboBox'
 }
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToComboBoxBaseHeadDresser >> listElementRequestFocus [
 
 	comboBox listElementRequestFocus
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToComboBoxBaseHeadDresser >> whenAddedToParent: anElement [
 
 	super whenAddedToParent: anElement.
@@ -21,7 +22,7 @@ ToComboBoxBaseHeadDresser >> whenAddedToParent: anElement [
 
 ]
 
-{ #category : #'api - install/uninstall  hook' }
+{ #category : 'api - install/uninstall  hook' }
 ToComboBoxBaseHeadDresser >> whenRemovedFromParent: anElement [
 
 	comboBox := nil.

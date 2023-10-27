@@ -34,19 +34,19 @@ ToElement >> addSkinInstallerPhaseChecker [
 { #category : 'event management' }
 ToElement >> checkEventFilter: anEventHandler [
 
-	(anEventHandler isKindOf: ToSkinnableEventHandler) ifTrue: [
+	(anEventHandler isKindOf: ToSkinStateEngineUpdater) ifTrue: [
 		(self eventDispatcher hasEventFilterSuchThat: [ :eh |
-			 eh isKindOf: ToSkinnableEventHandler ]) ifTrue: [
-			Error signal: 'Only one ' , ToSkinnableEventHandler name , ' is allowed' ] ]
+			 eh isKindOf: ToSkinStateEngineUpdater ]) ifTrue: [
+			Error signal: 'Only one ' , ToSkinStateEngineUpdater name , ' is allowed' ] ]
 ]
 
 { #category : 'event management' }
 ToElement >> checkEventHandler: anEventHandler [
 
-	(anEventHandler isKindOf: ToSkinnableEventHandler) ifTrue: [
+	(anEventHandler isKindOf: ToSkinStateEngineUpdater) ifTrue: [
 		(self eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToSkinnableEventHandler ]) ifTrue: [
-			Error signal: 'Only one ' , ToSkinnableEventHandler name , ' is allowed' ] ]
+			 eh isKindOf: ToSkinStateEngineUpdater ]) ifTrue: [
+			Error signal: 'Only one ' , ToSkinStateEngineUpdater name , ' is allowed' ] ]
 ]
 
 { #category : 'initialization' }
@@ -133,10 +133,4 @@ ToElement >> skinInstallerPhaseChecker [
 		  detect: [ :handler |
 			  handler isKindOf: ToSpaceSkinInstallerPhaseCheckerEventHandler ]
 		  ifNone: [  ]
-]
-
-{ #category : 't - checkable - private protocol' }
-ToElement >> switchToNextCheckStateOnClick [
-
-	" introduced here to avoid questionable condition in SinnableEventHandler for the management of the click event "
 ]

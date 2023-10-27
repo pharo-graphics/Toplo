@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToResizeGripEventHandler',
-	#superclass : 'ToSkinnableEventHandler',
+	#superclass : 'BlCustomEventHandler',
 	#instVars : [
 		'gripTarget'
 	],
@@ -11,7 +11,6 @@ Class {
 { #category : 'event handling' }
 ToResizeGripEventHandler >> dragEndEvent: anEvent [
 
-	super dragEndEvent: anEvent.
 	anEvent consumed: true.
 	anEvent currentTarget mouseCursor: BlCursor default
 ]
@@ -19,18 +18,29 @@ ToResizeGripEventHandler >> dragEndEvent: anEvent [
 { #category : 'event handling' }
 ToResizeGripEventHandler >> dragEvent: anEvent [
 
-	super dragEvent: anEvent.
 	anEvent currentTarget drag: gripTarget by: anEvent position - anEvent currentTarget initialDragPosition
 ]
 
 { #category : 'event handling' }
 ToResizeGripEventHandler >> dragStartEvent: anEvent [
 
-	super dragStartEvent: anEvent.
+
 	anEvent consumed: true.
 	anEvent currentTarget initialDragPosition: anEvent position.
 	anEvent currentTarget initialPosition: gripTarget position.
 	anEvent currentTarget initialSize: gripTarget size
+]
+
+{ #category : 'api - accessing' }
+ToResizeGripEventHandler >> eventsToHandle [
+
+	^ {
+		  BlDragStartEvent.
+		  BlDragEndEvent.
+		  BlDragEvent.
+		  BlMouseDownEvent.
+		  BlMouseEnterEvent.
+		  BlMouseLeaveEvent }
 ]
 
 { #category : 'accessing' }
@@ -65,7 +75,7 @@ ToResizeGripEventHandler >> leave: anElement [
 { #category : 'mouse handlers' }
 ToResizeGripEventHandler >> mouseDownEvent: anEvent [
 
-	super mouseDownEvent: anEvent.
+
 	anEvent consumed: true.
 	self hover: anEvent currentTarget
 ]
@@ -73,7 +83,6 @@ ToResizeGripEventHandler >> mouseDownEvent: anEvent [
 { #category : 'mouse handlers' }
 ToResizeGripEventHandler >> mouseEnterEvent: anEvent [
 
-	super mouseEnterEvent: anEvent.
 	anEvent consumed: true.
 	anEvent anyButtonPressed ifFalse: [
 		self hover: anEvent currentTarget ]
@@ -82,7 +91,6 @@ ToResizeGripEventHandler >> mouseEnterEvent: anEvent [
 { #category : 'mouse handlers' }
 ToResizeGripEventHandler >> mouseLeaveEvent: anEvent [
 
-	super mouseLeaveEvent: anEvent.
 	anEvent consumed: true.
 	self leave: anEvent currentTarget
 ]

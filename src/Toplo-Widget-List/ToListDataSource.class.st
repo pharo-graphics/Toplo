@@ -1,47 +1,49 @@
 Class {
-	#name : #ToListDataSource,
-	#superclass : #BlInfiniteDataSource,
-	#category : 'Toplo-Widget-List-infinite'
+	#name : 'ToListDataSource',
+	#superclass : 'BlInfiniteDataSource',
+	#category : 'Toplo-Widget-List-infinite',
+	#package : 'Toplo-Widget-List',
+	#tag : 'infinite'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToListDataSource >> data [
 
 	^ self subclassResponsibility 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToListDataSource >> data: aCollection [
 
 	self subclassResponsibility 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToListDataSource >> list [
 
 	^ self subclassResponsibility 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToListDataSource >> list: aCollection [
 
 	self subclassResponsibility 
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ToListDataSource >> onCreateHolder: anInfiniteElement [ 
 
 	^ anInfiniteElement newElementHolderFromDataSource: self
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ToListDataSource >> onElementAttached: anElementHolder [
 
 	super onElementAttached: anElementHolder.
 	anElementHolder onAttachedFromDatasource: self
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ToListDataSource >> onElementDetached: anElementHolder [
 	
 	super onElementDetached: anElementHolder.

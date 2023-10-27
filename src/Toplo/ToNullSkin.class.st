@@ -6,6 +6,12 @@ Class {
 	#tag : 'Core-Skin'
 }
 
+{ #category : 'api - accessing' }
+ToNullSkin >> eventsToHandle [
+
+	^ { }
+]
+
 { #category : 'testing' }
 ToNullSkin >> isNullSkin [ 
 

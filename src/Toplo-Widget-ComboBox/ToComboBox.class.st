@@ -1,6 +1,6 @@
 Class {
-	#name : #ToComboBox,
-	#superclass : #ToElement,
+	#name : 'ToComboBox',
+	#superclass : 'ToElement',
 	#traits : 'TObservable',
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
@@ -12,60 +12,61 @@ Class {
 		'#mode => ObservableSlot',
 		'#selectedIndex => ObservableSlot'
 	],
-	#category : 'Toplo-Widget-ComboBox'
+	#category : 'Toplo-Widget-ComboBox',
+	#package : 'Toplo-Widget-ComboBox'
 }
 
-{ #category : #'mode change' }
+{ #category : 'mode change' }
 ToComboBox >> beEditable [
 
 	self mode: ToComboBoxEditableMode new
 ]
 
-{ #category : #'mode change' }
+{ #category : 'mode change' }
 ToComboBox >> beListAutocomplete [
 
 	self mode beListAutocompleteIn: self
 
 ]
 
-{ #category : #'mode change' }
+{ #category : 'mode change' }
 ToComboBox >> beReadOnly [
 
 	self mode: ToComboBoxReadOnlyMode new
 ]
 
-{ #category : #displaying }
+{ #category : 'displaying' }
 ToComboBox >> close [
 
 	self isOpened ifFalse: [ ^ self ].
 	self listFrame close
 ]
 
-{ #category : #displaying }
+{ #category : 'displaying' }
 ToComboBox >> closeEvent: anEvent [
 
 	self close
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBox >> data [
 
 	^ data
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToComboBox >> defaultEventHandler [ 
 
 	^ ToComboBoxEventHandler new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToComboBox >> defaultHeadElement [
 
 	^ self mode defaultHeadElementIn: self
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToComboBox >> defaultListElement [
 
 	^ ToListElement new
@@ -75,13 +76,13 @@ ToComboBox >> defaultListElement [
 		  yourself
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToComboBox >> defaultListElementSize [
 
 		^ 250@230
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToComboBox >> defaultListFrame [
 
 	| win |
@@ -93,19 +94,19 @@ ToComboBox >> defaultListFrame [
 	^ win
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToComboBox >> defaultListPlaceholder [
 
 	^ nil
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToComboBox >> defaultMode [
 
 	^ ToComboBoxReadOnlyMode new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToComboBox >> defaultStartSelectedIndex [
 
 	^ 1
@@ -113,7 +114,7 @@ ToComboBox >> defaultStartSelectedIndex [
 	
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToComboBox >> fitListElementToContent [
 
 	self listElement
@@ -126,19 +127,19 @@ ToComboBox >> fitListElementToContent [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToComboBox >> hasSelectedData [
 
 	^ self selectedIndex > 0
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBox >> headElement [
 
 	^ headElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBox >> headElementFactory: aFactory [
 	" aFactory is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
 
@@ -148,20 +149,20 @@ ToComboBox >> headElementFactory: aFactory [
 		self listElement selectIndex: idx ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBox >> headPlaceholder: aPlaceholder [
 
 	self headElement placeholder: aPlaceholder.
 	self selectedIndex isZero ifTrue: [ self headElement noDataSelected ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBox >> indexOfData: aData [
 
 	^ self data indexOf: aData ifAbsent: [ 0 ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToComboBox >> initialize [
 
 	| localEventHandler |
@@ -186,37 +187,37 @@ ToComboBox >> initialize [
 	self whenModeChangedDo: [ :new :prev | self mode: prev changedWith: new ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToComboBox >> isClosed [
 
 	^ self isOpened not
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToComboBox >> isOpened [ 
 
 	^ self listFrame isAttachedToSceneGraph
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBox >> listElement [
 
 	^ listElement
 ]
 
-{ #category : #displaying }
+{ #category : 'displaying' }
 ToComboBox >> listElementRequestFocus [
 
 	self listElement infinite requestFocus
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBox >> listElementSize [
 
 	^ listElementSize
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBox >> listElementSize: aSize [
 
 	listElementSize := aSize.
@@ -224,70 +225,70 @@ ToComboBox >> listElementSize: aSize [
 	self fitListElementToContent 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBox >> listFrame [
 
 	^ listFrame
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBox >> listPlaceholder: anElement [
 
 	self listElement placeholder: anElement
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 ToComboBox >> listSelectionChangedEvent: aClickEvent [
 
 	self selectIndexInPresentedData: self listElement selectedIndex.
 	self close
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBox >> mode [
 
 	^ mode
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBox >> mode: aComboBoxMode [
 
 	mode := aComboBoxMode
 ]
 
-{ #category : #'mode change' }
+{ #category : 'mode change' }
 ToComboBox >> mode: previousMode changedWith: newMode [
 
 	self privateHeadElement: self defaultHeadElement
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToComboBox >> newDataCollection [
 
 	^ ToObservableCollection new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBox >> nodeBuilder [
 	" is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
 
 	^ self listElement nodeBuilder
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBox >> nodeBuilder: aConverter [
 
 	" is a ToActionDataToElementConverter or any object that responds to asToDataToElementConverter as a BlockClosure for example "
 	self listElement nodeBuilder: aConverter
 ]
 
-{ #category : #'private - notifications' }
+{ #category : 'private - notifications' }
 ToComboBox >> notifyChanged [
 
 	self dispatchEvent: ToComboBoxChangedEvent new
 ]
 
-{ #category : #'private - notifications' }
+{ #category : 'private - notifications' }
 ToComboBox >> notifyDataChanged: anAnnouncement [
 
 	anAnnouncement interval ifEmpty: [ ^ self ].
@@ -300,7 +301,7 @@ ToComboBox >> notifyDataChanged: anAnnouncement [
 		startingAt: anAnnouncement interval first"
 ]
 
-{ #category : #'private - notifications' }
+{ #category : 'private - notifications' }
 ToComboBox >> notifyDataInserted: anAnnouncement [
 
 	anAnnouncement interval ifEmpty: [ ^ self ].
@@ -308,7 +309,7 @@ ToComboBox >> notifyDataInserted: anAnnouncement [
 	self presentedData addAll: self data asArray
 ]
 
-{ #category : #'private - notifications' }
+{ #category : 'private - notifications' }
 ToComboBox >> notifyDataRemoved: anAnnouncement [
 
 	anAnnouncement interval ifEmpty: [ ^ self ].
@@ -318,7 +319,7 @@ ToComboBox >> notifyDataRemoved: anAnnouncement [
 		to: anAnnouncement interval last"
 ]
 
-{ #category : #displaying }
+{ #category : 'displaying' }
 ToComboBox >> placeholderHidden [
 
 	self fitListElementToContent.
@@ -326,14 +327,14 @@ ToComboBox >> placeholderHidden [
 	listElement addChild: listElement next
 ]
 
-{ #category : #displaying }
+{ #category : 'displaying' }
 ToComboBox >> placeholderShown [
 
 	listElement size: self listElementSize.
 	listElement next removeFromParent
 ]
 
-{ #category : #displaying }
+{ #category : 'displaying' }
 ToComboBox >> popupEvent: anEvent [
 
 	self isOpened ifTrue: [ ^ self ].
@@ -341,7 +342,7 @@ ToComboBox >> popupEvent: anEvent [
 	self listFrame popupEvent: anEvent
 ]
 
-{ #category : #displaying }
+{ #category : 'displaying' }
 ToComboBox >> popupOrCloseEvent: anEvent [
 
 	self isOpened
@@ -349,13 +350,13 @@ ToComboBox >> popupOrCloseEvent: anEvent [
 		ifFalse: [ self popupEvent: anEvent ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBox >> presentedData [
 
 	^ listElement data
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 ToComboBox >> privateData: anObservableCollection [
 
 	data := anObservableCollection.
@@ -366,7 +367,7 @@ ToComboBox >> privateData: anObservableCollection [
 	self notifyChanged
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 ToComboBox >> privateHeadElement: anElement [
 
 	headElement = anElement ifTrue: [ ^ self ].
@@ -376,26 +377,26 @@ ToComboBox >> privateHeadElement: anElement [
 	self selectedIndex isZero ifTrue: [ headElement noDataSelected ]
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 ToComboBox >> privateListElement: aListElement [
 
 	listElement := aListElement
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 ToComboBox >> privateListFrame: aWindow [
 
 	listFrame := aWindow
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBox >> selectIndex: anIndex [
 
 	self selectedIndex: anIndex.
 	self mode selectIndex: anIndex in: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBox >> selectIndexInPresentedData: anIndex [
 
 	| idx |
@@ -405,39 +406,39 @@ ToComboBox >> selectIndexInPresentedData: anIndex [
 	self selectIndex: idx
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBox >> selectedData [
 
 	^ self data at: self selectedIndex
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBox >> selectedDataDo: aBlock [
 	
 	self hasSelectedData ifFalse: [ ^ self ].
 	aBlock value: self selectedData
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBox >> selectedIndex [
 	
 	^ selectedIndex ifNil: [ selectedIndex := 0 ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBox >> selectedIndex: anIndex [
 
 	selectedIndex = anIndex ifTrue: [ ^ self ].
 	selectedIndex := anIndex.
 ]
 
-{ #category : #'transaction hook' }
+{ #category : 'transaction hook' }
 ToComboBox >> whenCancelRequestedDo: aBlock [
 
 	self when: ToAlbumCancelRequestedEvent do: aBlock
 ]
 
-{ #category : #'change hook' }
+{ #category : 'change hook' }
 ToComboBox >> whenModeChangedDo: aBlock [
 
 	"set a block to perform after that the slot has been changed, and its action performed"
@@ -445,25 +446,25 @@ ToComboBox >> whenModeChangedDo: aBlock [
 	self property: #mode whenChangedDo: aBlock
 ]
 
-{ #category : #'transaction hook' }
+{ #category : 'transaction hook' }
 ToComboBox >> whenSaveAcceptedDo: aBlock [
 
 	self mode whenSaveAcceptedDo: aBlock in: self
 ]
 
-{ #category : #'transaction hook' }
+{ #category : 'transaction hook' }
 ToComboBox >> whenSaveDeniedDo: aBlock [
 
 	self mode whenSaveDeniedDo: aBlock in: self
 ]
 
-{ #category : #'transaction hook' }
+{ #category : 'transaction hook' }
 ToComboBox >> whenSaveRequestedDo: aBlock [
 
 	self when: ToAlbumSaveRequestedEvent do: aBlock
 ]
 
-{ #category : #'change hook' }
+{ #category : 'change hook' }
 ToComboBox >> whenSelectedIndexChangedDo: aBlock [
 
 	"set a block to perform after that the selected item has been changed, and its action performed"
@@ -471,13 +472,13 @@ ToComboBox >> whenSelectedIndexChangedDo: aBlock [
 	self property: #selectedIndex whenChangedDo: aBlock
 ]
 
-{ #category : #'transaction hook' }
+{ #category : 'transaction hook' }
 ToComboBox >> whenTextEditedDo: aBlock [
 
 	self mode whenTextEditedDo: aBlock in: self
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToComboBox >> withSaveCapability [
 
 	self mode withSaveCapabilityIn: self

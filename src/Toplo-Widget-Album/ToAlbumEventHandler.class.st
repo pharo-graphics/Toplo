@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToAlbumEventHandler',
-	#superclass : 'ToSkinnableEventHandler',
+	#superclass : 'BlCustomEventHandler',
 	#category : 'Toplo-Widget-Album-TextPane',
 	#package : 'Toplo-Widget-Album',
 	#tag : 'TextPane'
@@ -25,7 +25,7 @@ ToAlbumEventHandler >> checkTextIn: anEditorElement [
 { #category : 'api - accessing' }
 ToAlbumEventHandler >> eventsToHandle [
 
-	^ super eventsToHandle , {
+	^ {
 		  AlbTextEditedEvent.
 		  AlbTextReplacedEvent.
 		  BlBlurEvent.

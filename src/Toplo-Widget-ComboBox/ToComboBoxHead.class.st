@@ -1,44 +1,45 @@
 Class {
-	#name : #ToComboBoxHead,
-	#superclass : #ToElement,
+	#name : 'ToComboBoxHead',
+	#superclass : 'ToElement',
 	#instVars : [
 		'comboBox',
 		'innerElement',
 		'button'
 	],
-	#category : 'Toplo-Widget-ComboBox'
+	#category : 'Toplo-Widget-ComboBox',
+	#package : 'Toplo-Widget-ComboBox'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBoxHead >> button [
 
 	^ button
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBoxHead >> comboBox [
 
 	^ comboBox
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBoxHead >> comboBox: aComboBox [
 
 	comboBox := aComboBox
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToComboBoxHead >> defaultPlaceholder [
 
 	^ (ToLabel text: '') hMatchParent; yourself
 ]
 
-{ #category : #'t - placeholder show/hide' }
+{ #category : 't - placeholder show/hide' }
 ToComboBoxHead >> hidePlaceholder [
 	^ self subclassResponsibility
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToComboBoxHead >> initialize [
 
 	| image |
@@ -71,31 +72,31 @@ ToComboBoxHead >> initialize [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBoxHead >> noDataSelected [
 
 	self showPlaceholder 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBoxHead >> placeholder [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBoxHead >> placeholder: anElement [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToComboBoxHead >> selectData: aData in: aComboBox [
 
 	self subclassResponsibility 
 ]
 
-{ #category : #'t - placeholder show/hide' }
+{ #category : 't - placeholder show/hide' }
 ToComboBoxHead >> showPlaceholder [
 
 	^ self subclassResponsibility

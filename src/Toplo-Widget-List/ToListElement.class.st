@@ -1,16 +1,18 @@
 Class {
-	#name : #ToListElement,
-	#superclass : #ToPane,
+	#name : 'ToListElement',
+	#superclass : 'ToPane',
 	#traits : 'TToListElementDecorator',
 	#classTraits : 'TToListElementDecorator classTrait',
 	#instVars : [
 		'decorations',
 		'dataFilter'
 	],
-	#category : 'Toplo-Widget-List-core'
+	#category : 'Toplo-Widget-List-core',
+	#package : 'Toplo-Widget-List',
+	#tag : 'core'
 }
 
-{ #category : #'private - selection decoration managing' }
+{ #category : 'private - selection decoration managing' }
 ToListElement >> addSecondarySelectionDecorationOnNode: aChildNode [
 	" update selection decoration to show the secondary selection on which the popup is opened"
 
@@ -23,7 +25,7 @@ ToListElement >> addSecondarySelectionDecorationOnNode: aChildNode [
 	self addChild: deco
 ]
 
-{ #category : #'private - selection decoration managing' }
+{ #category : 'private - selection decoration managing' }
 ToListElement >> adjacentSelectedNodesGroups [
 	" return an array of collection. Each collection contains a list of adjacent selected nodes "
 
@@ -40,19 +42,19 @@ ToListElement >> adjacentSelectedNodesGroups [
 		  g ifNotEmpty: [ stream nextPut: g ] ]
 ]
 
-{ #category : #'private - selection decoration managing' }
+{ #category : 'private - selection decoration managing' }
 ToListElement >> blurEvent: anEvent [
 
 	decorations do: [ :d | d blurEvent: anEvent ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToListElement >> dataFilter [
 
 	^ dataFilter
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToListElement >> dataFilter: aDataFilter [
 
 	dataFilter = aDataFilter ifTrue: [ ^ self ].
@@ -61,7 +63,7 @@ ToListElement >> dataFilter: aDataFilter [
 	dataFilter ifNotNil: [ dataFilter onInstalledIn: self ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToListElement >> dataSharedEvents [
 
 	^ {
@@ -70,7 +72,7 @@ ToListElement >> dataSharedEvents [
 		  ToCollectionUpdateEvent }
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToListElement >> dataSourceSharedEvents [
 
 	^ {
@@ -78,37 +80,37 @@ ToListElement >> dataSourceSharedEvents [
 		  ToDataFilterRequest }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToListElement >> decorations [ 
 
 	^ decorations
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToListElement >> defaultBackground [
 
 	^ BlBackground paint: Color white
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToListElement >> defaultEventHandler [
 
 	^ ToListElementEventHandler new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToListElement >> defaultLayout [
 
 	^ BlFrameLayout new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToListElement >> defaultMargin [
 
 	^ BlInsets all: 0
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToListElement >> defaultPadding [
 
 	" Must be 1 to see the focus frame AND to draw selection decoration correctly (not outside infinite bounds)  "
@@ -116,13 +118,13 @@ ToListElement >> defaultPadding [
 
 ]
 
-{ #category : #'private - selection decoration managing' }
+{ #category : 'private - selection decoration managing' }
 ToListElement >> focusEvent: anEvent [
 
 	decorations do: [ :d | d focusEvent: anEvent ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToListElement >> infiniteElementSharedEvents [
 
 	^ {
@@ -136,7 +138,7 @@ ToListElement >> infiniteElementSharedEvents [
 		  ToContextMenuClosedEvent }
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToListElement >> initialize [
 
 	| sharedDistributor |
@@ -171,7 +173,7 @@ ToListElement >> initialize [
 	self padding: self defaultPadding
 ]
 
-{ #category : #'private - selection decoration managing' }
+{ #category : 'private - selection decoration managing' }
 ToListElement >> newPrimarySelectionDecorations [
 	" return a collection with instances of ListSelectionDecorationElement "
 
@@ -182,31 +184,31 @@ ToListElement >> newPrimarySelectionDecorations [
 			  yourself ]
 ]
 
-{ #category : #'private - selection decoration managing' }
+{ #category : 'private - selection decoration managing' }
 ToListElement >> removeSecondarySelectionDecoration [
 
 	decorations do: [ :d | d hideSecondarySelection ]
 ]
 
-{ #category : #'private - selection decoration managing' }
+{ #category : 'private - selection decoration managing' }
 ToListElement >> secondarySelectionOverPrimary [
 
 	decorations do: [ :d | d showSecondarySelection ]
 ]
 
-{ #category : #'private - selection decoration managing' }
+{ #category : 'private - selection decoration managing' }
 ToListElement >> selectionIncludesNode: aNode [
 
 	^ aNode holder isSelected
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToListElement >> sharedEvents [
 
 	^ self dataSourceSharedEvents , self dataSharedEvents , self infiniteElementSharedEvents
 ]
 
-{ #category : #'private - selection decoration managing' }
+{ #category : 'private - selection decoration managing' }
 ToListElement >> updatePrimarySelectionDecorations [
 	"add a ListDecorationElement for each group of adjacent selected nodes "
 

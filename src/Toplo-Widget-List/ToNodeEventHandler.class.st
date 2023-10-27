@@ -1,19 +1,36 @@
 Class {
-	#name : #ToNodeEventHandler,
-	#superclass : #ToSkinnableEventHandler,
+	#name : 'ToNodeEventHandler',
+	#superclass : 'BlCustomEventHandler',
 	#instVars : [
-		'monitor'
+		'monitor',
+		'target'
 	],
-	#category : #'Toplo-Widget-List-node'
+	#category : 'Toplo-Widget-List-node',
+	#package : 'Toplo-Widget-List',
+	#tag : 'node'
 }
 
-{ #category : #'api - accessing' }
-ToNodeEventHandler >> eventsToHandle [ 
+{ #category : 'mouse handlers' }
+ToNodeEventHandler >> clickEvent: anEvent [
 
-	^ super eventsToHandle , { ToNodeHolderSelectedEvent. ToNodeHolderDeselectedEvent }
+	target := anEvent currentTarget.
+	self
+		launchClick: [
+			target holder fireEvent: (ToClickOnNodeEvent new
+					 holder: target holder;
+					 event: anEvent;
+					 yourself) ]
+		event: anEvent
+		for: target
 ]
 
-{ #category : #'events handling' }
+{ #category : 'api - accessing' }
+ToNodeEventHandler >> eventsToHandle [ 
+
+	^ { ToNodeHolderSelectedEvent. ToNodeHolderDeselectedEvent. BlPrimaryClickEvent }
+]
+
+{ #category : 'events handling' }
 ToNodeEventHandler >> launchClick: aBlock event: anEvent for: anElement [
 	" click launcher management to allow double click to work with several selected nodes "
 
@@ -54,41 +71,26 @@ ToNodeEventHandler >> launchClick: aBlock event: anEvent for: anElement [
 				 named: 'ToNodeDresser clickLauncher') ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToNodeEventHandler >> nodeHolderDeselectedEvent: anEvent [
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToNodeEventHandler >> nodeHolderSelectedEvent: anEvent [
 
 ]
 
-{ #category : #'api - hooks' }
+{ #category : 'api - hooks' }
 ToNodeEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	monitor := Monitor new
 ]
 
-{ #category : #'api - hooks' }
+{ #category : 'api - hooks' }
 ToNodeEventHandler >> onUninstalledIn: anElement [
 
 	monitor := nil.
 	super onUninstalledIn: anElement.
 
-]
-
-{ #category : #'mouse handlers' }
-ToNodeEventHandler >> primaryClickEvent: anEvent [
-
-	super primaryClickEvent: anEvent.
-	target := anEvent currentTarget.
-	self
-		launchClick: [
-			target holder fireEvent: (ToClickOnNodeEvent new
-					 holder: target holder;
-					 event: anEvent;
-					 yourself) ]
-		event: anEvent
-		for: target
 ]

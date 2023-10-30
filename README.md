@@ -1,5 +1,5 @@
 [![License](https://img.shields.io/github/license/plantec/Toplo.svg)](./LICENSE)
-[![Pharo 11 CI](https://github.com/plantec/Toplo/actions/workflows/Pharo11CI.yml/badge.svg?branch=master)](https://github.com/plantec/Toplo/actions/workflows/Pharo11CI.yml)
+[![SteelSheet Tests](https://github.com/plantec/Toplo/actions/workflows/Tests.yml/badge.svg?branch=SteelSheet)](https://github.com/plantec/Toplo/actions/workflows/Tests.yml)
 
 # Toplo
 ![toplo](https://github.com/plantec/Toplo/assets/49183340/57963fee-ed86-4ee0-99e1-7c39e9a9cdf9)
@@ -13,7 +13,7 @@ EpMonitor disableDuring: [
   Author useAuthor: 'Load' during: [
     [    Metacello new
         baseline: 'Toplo';
-        repository: 'github://plantec/toplo/src';
+        repository: 'github://plantec/toplo/src:SteelSheet';
         onConflictUseIncoming;
         ignoreImage;
         load.

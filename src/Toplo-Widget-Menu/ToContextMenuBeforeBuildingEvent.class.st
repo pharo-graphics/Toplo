@@ -1,9 +1,9 @@
 Class {
 	#name : 'ToContextMenuBeforeBuildingEvent',
 	#superclass : 'ToWindowBeforeBuildingEvent',
-	#category : 'Toplo-Widget-Menu-Basic',
+	#category : 'Toplo-Widget-Menu-Context Menu',
 	#package : 'Toplo-Widget-Menu',
-	#tag : 'Basic'
+	#tag : 'Context Menu'
 }
 
 { #category : 'sending' }

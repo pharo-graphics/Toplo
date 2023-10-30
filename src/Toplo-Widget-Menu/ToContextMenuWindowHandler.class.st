@@ -1,21 +1,15 @@
 Class {
 	#name : 'ToContextMenuWindowHandler',
-	#superclass : 'ToMenuWindowHandler',
-	#category : 'Toplo-Widget-Menu-Basic',
+	#superclass : 'ToPopupWindowHandler',
+	#category : 'Toplo-Widget-Menu-Context Menu',
 	#package : 'Toplo-Widget-Menu',
-	#tag : 'Basic'
+	#tag : 'Context Menu'
 }
 
 { #category : 'initialization' }
 ToContextMenuWindowHandler >> defaulPositionHook [
 
 	^ [ :event :theContextMenu | event position ]
-]
-
-{ #category : 'accessing' }
-ToContextMenuWindowHandler >> elementEventHandlerClass [ 
-
-	^ ToContextMenuEventHandler
 ]
 
 { #category : 'initialization' }

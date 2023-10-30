@@ -14,7 +14,8 @@ TToMenuItemHolder >> addAllItems: aCollection [
 { #category : 't - menu item holder - adding/removing' }
 TToMenuItemHolder >> addItem: aMenuItem [
 
-	self items add: aMenuItem
+	self items add: aMenuItem.
+	aMenuItem  addedInMenu: self
 ]
 
 { #category : 't - menu item holder - adding/removing' }

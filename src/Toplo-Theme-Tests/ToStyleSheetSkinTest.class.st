@@ -49,7 +49,7 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 	w requestSkin.
 	w applySkinInstaller.
 	self
-		should: [ w applySkinStates ]
+		should: [ w flushSkinStates ]
 		raise: MessageNotUnderstood.
 
 	" Now change writers order and it should be ok "
@@ -57,8 +57,8 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 			layoutWriter.
 			directionWriter }.
 
-	w addNextSkinState: ToInitialState new.
-	w applySkinStates.
+	w enqueueSkinState: ToInitialState new.
+	w flushSkinStates.
 	self assert: (w layout isKindOf: BlLinearLayout).
 	self assert: w layout direction isRightToLeft
 ]
@@ -100,7 +100,7 @@ ToStyleSheetSkinTest >> testSupplementWriter [
 						 build ] yourself) }.
 	w requestDefaultSkin: skin.
 	w applySkinInstaller.
-	w applySkinStates.
+	w flushSkinStates.
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color black.
 	self assert: w border style dashArray equals: #( 4 5 )
@@ -139,15 +139,15 @@ ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 	w defaultSkin: skin.
 	w requestSkin.
 	w applySkinInstaller.
-	w applySkinStates.
+	w flushSkinStates.
 
 	self assert: w background paint color equals: Color white.
 
-	w addNextSkinState: ToHoveredState new.
+	w enqueueSkinState: ToHoveredState new.
 	animation onFinishedDo: [
 		self assert: w background paint color equals: Color black.
 
-		w addNextSkinState: ToLeavedState new.
+		w enqueueSkinState: ToLeavedState new.
 		animation onFinishedDo: [
 			self assert: w background paint color equals: Color white ] ]
 ]
@@ -161,7 +161,7 @@ ToStyleSheetSkinTest >> testWithNoWriter [
 	w requestDefaultSkin: skin.
 	paint := w background paint.
 	w applySkinInstaller.
-	w applySkinStates.
+	w flushSkinStates.
 
 	self assert: w background paint equals: paint
 ]
@@ -185,7 +185,7 @@ ToStyleSheetSkinTest >> testWithTwoWriters [
 				 yourself) }.
 	w requestDefaultSkin: skin.
 	w applySkinInstaller.
-	w applySkinStates.
+	w flushSkinStates.
 
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color yellow
@@ -216,7 +216,7 @@ ToStyleSheetSkinTest >> testWithTwoWritersTwoEventClasses [
 				 yourself) }.
 	w requestDefaultSkin: skin.
 	w applySkinInstaller.
-	w applySkinStates.
+	w flushSkinStates.
 
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color red
@@ -238,7 +238,7 @@ ToStyleSheetSkinTest >> testWriters [
 	self assert: skin writers first identicalTo: propWriter.
 	w requestDefaultSkin: skin.
 	w applySkinInstaller.
-	w applySkinStates.
+	w flushSkinStates.
 
 	self assert: w background paint color equals: Color blue
 ]

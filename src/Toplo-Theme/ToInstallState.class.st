@@ -7,10 +7,10 @@ Class {
 }
 
 { #category : 'skin state engine' }
-ToInstallState >> addAsNextStateIn: anElement [
+ToInstallState >> enqueueIn: anElement [
 
 	" do not send to super here. The state engine will react accordingly "
-	anElement skinStateProcessor switchToInstallState: self in: anElement
+	anElement skinStateQueue switchToInstallState: self in: anElement
 ]
 
 { #category : 'testing' }

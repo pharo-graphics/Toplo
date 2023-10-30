@@ -2,7 +2,7 @@
 A ToSkinnableEventHandlerTest is a test class for testing the behavior of ToSkinnableEventHandler
 "
 Class {
-	#name : 'ToSkinStateGeneratorTest',
+	#name : 'ToSkinStateQueueTest',
 	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
 		'space'
@@ -13,7 +13,7 @@ Class {
 }
 
 { #category : 'tests' }
-ToSkinStateGeneratorTest >> newElementInSpace [
+ToSkinStateQueueTest >> newElementInSpace [
 
 	| e |
 	e := ToElement new.
@@ -29,25 +29,25 @@ ToSkinStateGeneratorTest >> newElementInSpace [
 ]
 
 { #category : 'running' }
-ToSkinStateGeneratorTest >> setUp [ 
+ToSkinStateQueueTest >> setUp [ 
 	super setUp.
 	space := self newTestingSpace
 ]
 
 { #category : 'tests' }
-ToSkinStateGeneratorTest >> testCheckableCheckedEvent [
+ToSkinStateQueueTest >> testCheckableCheckedEvent [
 
 	self testGenerateCheckStateFromEvent 
 ]
 
 { #category : 'tests' }
-ToSkinStateGeneratorTest >> testGenerateCheckStateFromEvent [
+ToSkinStateQueueTest >> testGenerateCheckStateFromEvent [
 
 	| e evt nextStates currentStates nextStatesSize currentStatesSize |
 	e := self newElementInSpace.
 		
-	nextStates := e skinStateProcessor nextStates.
-	currentStates := e skinStateProcessor currentStates.
+	nextStates := e skinStateQueue nextStates.
+	currentStates := e skinStateQueue currentStates.
 	
 	nextStatesSize := nextStates size.
 	currentStatesSize := currentStates size.
@@ -119,15 +119,15 @@ ToSkinStateGeneratorTest >> testGenerateCheckStateFromEvent [
 ]
 
 { #category : 'tests' }
-ToSkinStateGeneratorTest >> testGenerateClickedStateFromEvent [
+ToSkinStateQueueTest >> testGenerateClickedStateFromEvent [
 
 	| e evt nextStates currentStates |
 	e := self newElementInSpace.
 
 	evt := BlMouseButton primary clickEventClass new button: BlMouseButton primary.
 
-	nextStates := e skinStateProcessor nextStates.
-	currentStates := e skinStateProcessor currentStates.
+	nextStates := e skinStateQueue nextStates.
+	currentStates := e skinStateQueue currentStates.
 
 	self assert: nextStates size equals: 0.
 	" has ToEnabledState "
@@ -160,15 +160,15 @@ ToSkinStateGeneratorTest >> testGenerateClickedStateFromEvent [
 ]
 
 { #category : 'tests' }
-ToSkinStateGeneratorTest >> testGenerateHoveredStateFromEvent [
+ToSkinStateQueueTest >> testGenerateHoveredStateFromEvent [
 
 	| e evt nextStates currentStates |
 	e := self newElementInSpace.
 
 	evt := BlMouseEnterEvent new.
 
-	nextStates := e skinStateProcessor nextStates.
-	currentStates := e skinStateProcessor currentStates.
+	nextStates := e skinStateQueue nextStates.
+	currentStates := e skinStateQueue currentStates.
 
 	self assert: nextStates size equals: 0.
 	" has ToEnabledState "
@@ -202,12 +202,12 @@ ToSkinStateGeneratorTest >> testGenerateHoveredStateFromEvent [
 	self
 		assert: (nextStates select: [ :s | s isKindOf: ToLeavedState ]) size
 		equals: 1.
-	" ToEnabledState remains and ToLeavedState isNot persistent "
+	" ToEnabledState remains and ToLeavedState isNot persistent, ToHoveredState should have been removed "
 	self assert: currentStates size equals: 1
 ]
 
 { #category : 'api - hooks' }
-ToSkinStateGeneratorTest >> testOnInstalledIn [
+ToSkinStateQueueTest >> testOnInstalledIn [
 
 	| e h |
 	e := ToElement new.
@@ -219,19 +219,19 @@ ToSkinStateGeneratorTest >> testOnInstalledIn [
 ]
 
 { #category : 'api - hooks' }
-ToSkinStateGeneratorTest >> testOnUninstalledIn [
+ToSkinStateQueueTest >> testOnUninstalledIn [
 
 	self testOnInstalledIn
 ]
 
 { #category : 'accessing' }
-ToSkinStateGeneratorTest >> testTarget [
+ToSkinStateQueueTest >> testTarget [
 
 	self testOnInstalledIn 
 ]
 
 { #category : 'api event managing' }
-ToSkinStateGeneratorTest >> testWantsEvent [
+ToSkinStateQueueTest >> testWantsEvent [
 
 	| e h eventsToHandle eventsToHandleWhenDisabled |
 	e := ToElement new.

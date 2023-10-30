@@ -79,10 +79,9 @@ ToMenuWindow >> popupEvent: anEvent [
 
 	self element isAttachedToSceneGraph ifFalse: [
 		Error signal: 'Can''t popup a menu if the element is not attached to a space' ].
-
+	
 	self items ifEmpty: [ ^ self ].
 	self items do: [ :it |
-		self root addChild: it.
-		it addedInMenu: self itemHolder ].
+		self root addChild: it ].
 	super popupEvent: anEvent
 ]

@@ -1,12 +1,6 @@
 Extension { #name : 'BlElement' }
 
 { #category : '*Toplo' }
-BlElement >> addNextSkinState: aState [
-
-	aState addAsNextStateIn: self 
-]
-
-{ #category : '*Toplo' }
 BlElement >> addStyleStamp: aStyleStamp [
 
 	self ensureLocalStyleStampIndex.
@@ -18,12 +12,6 @@ BlElement >> applySkinInstaller [
 
 	self skinInstaller ifNotNil: [ :si | si applyOn: self ]
 
-]
-
-{ #category : '*Toplo' }
-BlElement >> applySkinStates [
-
-	self skinStateProcessor applyOn: self
 ]
 
 { #category : '*Toplo' }
@@ -47,7 +35,7 @@ BlElement >> defaultSkin: aSkin [
 	prev := self userData at: #localDefaultSkin ifAbsent: [  ]. 
 	prev = aSkin ifTrue: [ ^ self ].
 	self userData at: #localDefaultSkin put: aSkin.
-	self skinStateProcessor reinstall.
+	self skinStateQueue reinstall.
 ]
 
 { #category : '*Toplo' }
@@ -87,6 +75,12 @@ BlElement >> enable [
 ]
 
 { #category : '*Toplo' }
+BlElement >> enqueueSkinState: aState [
+
+	aState enqueueIn: self 
+]
+
+{ #category : '*Toplo' }
 BlElement >> ensureLocalStyleStampIndex [
 
 	self userData
@@ -104,6 +98,12 @@ BlElement >> flagAsDisabled [
 BlElement >> flagAsEnabled [
 
 	self userData at: #enabled put: true
+]
+
+{ #category : '*Toplo' }
+BlElement >> flushSkinStates [
+
+	self skinStateQueue applyOn: self
 ]
 
 { #category : '*Toplo' }
@@ -217,12 +217,6 @@ BlElement >> lookUpStyleStampNamed: aSymbol [
 ]
 
 { #category : '*Toplo' }
-BlElement >> nextSkinStates [
-
-	^ self skinStateProcessor nextStates
-]
-
-{ #category : '*Toplo' }
 BlElement >> openInInnerWindow [
 
 	| frame |
@@ -320,15 +314,15 @@ BlElement >> skinInstaller: aSkinInstaller [
 ]
 
 { #category : '*Toplo' }
-BlElement >> skinStateProcessor [
-
-	^ self userData at: #skinStateProcessor ifAbsentPut: (ToSkinStateProcessor new onInstalledIn: self)
-]
-
-{ #category : '*Toplo' }
 BlElement >> skinStateProcessorClass [
 
 	^ ToSkinStateGenerator 
+]
+
+{ #category : '*Toplo' }
+BlElement >> skinStateQueue [
+
+	^ self userData at: #skinStateQueue ifAbsentPut: (ToSkinStateQueue new onInstalledIn: self)
 ]
 
 { #category : '*Toplo' }

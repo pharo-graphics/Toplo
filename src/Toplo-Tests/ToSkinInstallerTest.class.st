@@ -26,5 +26,5 @@ ToSkinInstallerTest >> testApplyOn [
 	" the installer has been removed "
 	self assert: e skinInstaller isNil.
 	" the element state is initial "
-	self assert: e nextSkinStates notEmpty
+	self deny: e skinStateQueue nextStates isEmpty
 ]

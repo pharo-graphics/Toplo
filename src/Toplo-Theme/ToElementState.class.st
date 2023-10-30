@@ -15,17 +15,17 @@ ToElementState class >> sourceEvent: anEvent [
 	^ self new sourceEvent: anEvent
 ]
 
-{ #category : 'skin state engine' }
-ToElementState >> addAsNextStateIn: anElement [
-
-	anElement skinStateProcessor addSkinState: self in: anElement
-
-]
-
 { #category : 'look event sending' }
 ToElementState >> applyOn: anElement [
 
 	anElement dispatchLookEvent: (self newLookEventFromSourceEvent: self sourceEvent)
+]
+
+{ #category : 'skin state engine' }
+ToElementState >> enqueueIn: anElement [
+
+	anElement skinStateQueue enqueueState: self in: anElement
+
 ]
 
 { #category : 'accessing' }

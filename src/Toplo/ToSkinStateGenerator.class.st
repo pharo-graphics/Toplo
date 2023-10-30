@@ -137,80 +137,81 @@ ToSkinStateGenerator >> generateCheckStateFromEvent: anEvent [
 				                 ifTrue: [ ToCheckedState ]
 				                 ifFalse: [ ToUncheckedState ] ].
 
-	target addNextSkinState: (newStateClass sourceEvent: anEvent)
+	target enqueueSkinState: (newStateClass sourceEvent: anEvent)
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateClickedStateFromEvent: anEvent [
 
-	target addNextSkinState: (ToClickedState sourceEvent: anEvent)
+	target enqueueSkinState: (ToClickedState sourceEvent: anEvent)
 
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateDisabledStateFromEvent: anEvent [
 
-	target skinStateProcessor refreshStateEvent: anEvent
+	target skinStateQueue refreshStateEvent: anEvent
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateDragStartedStateFromEvent: anEvent [
 
-	target addNextSkinState: (ToDragStartedState sourceEvent: anEvent)
+	target enqueueSkinState: (ToDragStartedState sourceEvent: anEvent)
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateDraggedStateFromEvent: anEvent [
 
-	target addNextSkinState: (ToDraggedState sourceEvent: anEvent)
+	target enqueueSkinState: (ToDraggedState sourceEvent: anEvent)
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateDroppedStateFromEvent: anEvent [
 
-	target addNextSkinState: (ToDroppedState sourceEvent: anEvent)
+	target enqueueSkinState: (ToDroppedState sourceEvent: anEvent)
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateEnabledStateFromEvent: anEvent [
 
-	target skinStateProcessor refreshStateEvent: anEvent 
+	target skinStateQueue refreshStateEvent: anEvent 
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateHoveredStateFromEvent: anEvent [
 
-	target addNextSkinState: (ToHoveredState sourceEvent: anEvent)
+	target enqueueSkinState: (ToHoveredState sourceEvent: anEvent)
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateLeavedStateFromEvent: anEvent [
 
-	target addNextSkinState: (ToLeavedState sourceEvent: anEvent)
+	leaved ifTrue: [ ^ self ].
+	target enqueueSkinState: (ToLeavedState sourceEvent: anEvent)
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generatePressedStateFromEvent: anEvent [
 
-	target addNextSkinState: (ToPressedState sourceEvent: anEvent)
+	target enqueueSkinState: (ToPressedState sourceEvent: anEvent)
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateReleasedStateFromEvent: anEvent [
 
-	target addNextSkinState: (ToReleasedState sourceEvent: anEvent)
+	target enqueueSkinState: (ToReleasedState sourceEvent: anEvent)
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateStillHoveredStateFromEvent: anEvent [
 
-	target addNextSkinState: (ToStillHoveredState sourceEvent: anEvent)
+	target enqueueSkinState: (ToStillHoveredState sourceEvent: anEvent)
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateStillPressedStateFromEvent: anEvent [
 
-	target addNextSkinState: (ToStillPressedState sourceEvent: anEvent)
+	target enqueueSkinState: (ToStillPressedState sourceEvent: anEvent)
 ]
 
 { #category : 'api - event managing' }
@@ -281,9 +282,11 @@ ToSkinStateGenerator >> mouseEnterEvent: anEvent [
 { #category : 'mouse handlers' }
 ToSkinStateGenerator >> mouseLeaveEvent: anEvent [
 
-	leaved := true.
+	leaved ifTrue: [ ^ self ].
 	dragged ifTrue: [ ^ self ].
-	self generateLeavedStateFromEvent: anEvent
+	self generateLeavedStateFromEvent: anEvent.
+	leaved := true.
+
 
 
 ]

@@ -23,7 +23,7 @@ TToElementWithContextMenuTest >> testContextMenu [
 	self assert: ttwin root firstChild identicalTo: tt.
 	self assert: ttwin element identicalTo: e.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToContextMenuEventHandler ]).
+			 eh isKindOf: ToElementWithPopupEventHandler ]).
 	ttwin close.
 	^ e
 ]
@@ -89,7 +89,7 @@ TToElementWithContextMenuTest >> testContextMenuContent [
 	self assert: e currentContextMenu isNil.
 	self assert: e hasContextMenu not.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-		eh isKindOf: ToContextMenuEventHandler ]) not.
+		eh isKindOf: ToElementWithPopupEventHandler ]) not.
 
 	ttwin close.
 	^ e
@@ -155,7 +155,7 @@ TToElementWithContextMenuTest >> testCurrentContextMenu [
 	e := self testHasContextMenu.
 	self assert: e currentContextMenu isNil.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToContextMenuEventHandler ]).
+			 eh isKindOf: ToElementWithPopupEventHandler ]).
 	ttwin := e newContextMenuEvent: nil.
 	e contextMenuContent: { ToMenuItem new }.
 	self assert: e hasContextMenu.
@@ -189,7 +189,7 @@ TToElementWithContextMenuTest >> testHasContextMenu [
 	self assert: e hasContextMenu not.
 	self should: [e newContextMenuEvent: nil] raise: Error.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToContextMenuEventHandler ]) not.
+			 eh isKindOf: ToElementWithPopupEventHandler ]) not.
 	e contextMenuContent: { ToMenuItem new }.
 	self assert: e hasContextMenu.
 	^ e
@@ -256,7 +256,7 @@ TToElementWithContextMenuTest >> testRemoveContextMenuWindowHandler [
 	self assert: e hasContextMenu.
 	e removeContextMenuWindowHandler.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToContextMenuEventHandler ]) not.
+			 eh isKindOf: ToElementWithPopupEventHandler ]) not.
 	self assert: e currentContextMenu isNil.
 	self assert: e hasContextMenu not.
 	^ e

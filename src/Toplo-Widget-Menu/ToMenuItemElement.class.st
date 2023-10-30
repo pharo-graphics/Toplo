@@ -24,6 +24,7 @@ ToMenuItemElement >> closeOnMouseEvent [
 { #category : 'adding-removing' }
 ToMenuItemElement >> closeSiblingMenuWindow [
 
+	self parentMenu ifNil: [ ^ self ].
 	self parentMenu items do: [ :it |
 		it menuWindowDo: [ :w | w close ] ]
 ]

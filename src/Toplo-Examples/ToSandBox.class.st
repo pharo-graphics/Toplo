@@ -1115,6 +1115,7 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 		             yourself.
 	menu := ToMenu new.
 	menu label: (ToLabel text: 'Menu').
+	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu addItem: (ToMenuItem new
 			 icon: (ToImage inner: (self iconNamed: #solidMenu));
 			 label: (ToLabel text: 'Open')).
@@ -2207,7 +2208,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 		menu addItem: (ToMenuItem new labelText: 'Export').
 		menu addSeparator.
 
-		3 timesRepeat: [
+		1 timesRepeat: [
 			sub := ToMenu new labelText: 'Save All'.
 			sub addItem: (ToMenuItem new labelText: 'Locally').
 
@@ -2216,7 +2217,8 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 				          icon:
 					          (ToImage inner:
 							           (Smalltalk ui icons iconNamed: #solidMenu)).
-			subsub addItem: (ToMenuItem new labelText: 'Here').
+
+			subsub addItem: (ToMenuItem new id: #here; labelText: 'Here').
 
 			sub addItem: subsub.
 

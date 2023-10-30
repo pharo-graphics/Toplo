@@ -29,13 +29,6 @@ ToElementWithSkinnablePropertiesForTest class >> newPropertyIndex [
 				   writer: [ :e :v | e border: v ])) }
 ]
 
-{ #category : 'skin' }
-ToElementWithSkinnablePropertiesForTest >> applySkinStates [
-
-	skinStatesApplied := skinStatesApplied + 1.
-	super applySkinStates.
-]
-
 { #category : 'accessing' }
 ToElementWithSkinnablePropertiesForTest >> backgroundValue [
 
@@ -58,6 +51,13 @@ ToElementWithSkinnablePropertiesForTest >> borderValue [
 ToElementWithSkinnablePropertiesForTest >> borderValue: anObject [
 
 	borderValue := anObject
+]
+
+{ #category : 'skin' }
+ToElementWithSkinnablePropertiesForTest >> flushSkinStates [
+
+	skinStatesApplied := skinStatesApplied + 1.
+	super flushSkinStates.
 ]
 
 { #category : 'initialization' }

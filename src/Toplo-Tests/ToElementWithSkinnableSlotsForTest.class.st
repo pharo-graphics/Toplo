@@ -13,13 +13,6 @@ Class {
 	#tag : 'Core-Slots'
 }
 
-{ #category : 'skin' }
-ToElementWithSkinnableSlotsForTest >> applySkinStates [
-
-	skinStatesApplied := skinStatesApplied + 1.
-	super applySkinStates.
-]
-
 { #category : 'accessing' }
 ToElementWithSkinnableSlotsForTest >> child1 [
 
@@ -42,6 +35,13 @@ ToElementWithSkinnableSlotsForTest >> child2 [
 ToElementWithSkinnableSlotsForTest >> child2: aToElement [
 
 	child2 := aToElement
+]
+
+{ #category : 'skin' }
+ToElementWithSkinnableSlotsForTest >> flushSkinStates [
+
+	skinStatesApplied := skinStatesApplied + 1.
+	super flushSkinStates.
 ]
 
 { #category : 'initialization' }

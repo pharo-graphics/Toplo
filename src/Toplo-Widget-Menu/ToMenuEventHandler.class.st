@@ -9,13 +9,12 @@ Class {
 { #category : 'api - accessing' }
 ToMenuEventHandler >> eventsToHandle [ 
 
-	^ super eventsToHandle, { ToWindowClosedEvent. ToWindowClosedEvent   }
+	^ super eventsToHandle, { ToWindowClosedEvent }
 ]
 
 { #category : 'window handlers' }
 ToMenuEventHandler >> windowClosedEvent: anEvent [
 
 	anEvent currentTarget items do: [ :child |
-		child removeFromParent.
-		child removedFromMenu: anEvent currentTarget ]
+		child removeFromParent ]
 ]

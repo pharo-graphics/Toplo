@@ -8,13 +8,6 @@ BlSpace >> applySkinInstaller [
 ]
 
 { #category : '*Toplo' }
-BlSpace >> applySkinStates [
-	
-	self elementsWithUnappliedStates do: [ :e | e applySkinStates ].
-	self resetElementsWithUnappliedStates 
-]
-
-{ #category : '*Toplo' }
 BlSpace >> elementWithSkinInstaller: anElement [
 
 	self elementsWithSkinInstaller add: anElement
@@ -36,6 +29,13 @@ BlSpace >> elementsWithSkinInstaller [
 BlSpace >> elementsWithUnappliedStates [
 
 	^ self userData at: #elementsWithUnappliedStates ifAbsentPut: [ IdentitySet new ]
+]
+
+{ #category : '*Toplo' }
+BlSpace >> flushSkinStates [
+	
+	self elementsWithUnappliedStates do: [ :e | e flushSkinStates ].
+	self resetElementsWithUnappliedStates 
 ]
 
 { #category : '*Toplo' }

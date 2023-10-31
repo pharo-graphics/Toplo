@@ -946,6 +946,8 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		lab := ToLabel text: t.
 		lab beMultiLine.
 		lab beEditable.
+		lab stillPressedStartDelay: 800 milliSeconds.
+		lab when: ToStillPressedLookEvent do: [ :event | event sourceEvent consumed: true. lab editor ifNotNil: [ :ed | self halt ]. lab addEditorEvent: event].
 		lab whenTextReplacedDo: [
 			l data at: holder position put: lab text asString ].
 		node addChild: (ToLabeledIcon new

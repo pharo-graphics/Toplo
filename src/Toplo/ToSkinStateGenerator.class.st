@@ -27,8 +27,7 @@ ToSkinStateGenerator >> checkableCheckedEvent: anEvent [
 { #category : 'mouse handlers' }
 ToSkinStateGenerator >> clickAvortedEvent: anEvent [
 
-	(anEvent upEvent target ~= target and: [ (target findMouseEventTargetAt: anEvent upEvent position) isNil ])
-		ifTrue: [ ^ self ].
+	(anEvent upEvent target hasInParentChain: target) ifFalse: [ ^ self ].
 	anEvent processor fireClickEventFrom: anEvent
 ]
 
@@ -419,14 +418,14 @@ ToSkinStateGenerator >> startStillPressedEvent: anEvent [
 	startDelay := target stillPressedStartDelay.
 	startDelay ifNil: [ ^ self ].
 	stillPressedTask := [
-	                    | event |
-	                    event := anEvent copy.
 	                    startDelay asDelay wait.
-	                    [ space isOpened  and: [ target space notNil and: [event isConsumed not ] ] ]
-		                    whileTrue: [
-			                    self generateStillPressedStateFromEvent: event.
-			                    (Delay forMilliseconds: 10) wait.
-			                    target spaceDo: [ :sp | sp requestNextPulse ] ] ]
+	                    [
+	                    space isOpened and: [
+		                    target space notNil and: [
+			                    anEvent isConsumed not ] ] ] whileTrue: [
+		                    self generateStillPressedStateFromEvent: anEvent.
+		                    (Delay forMilliseconds: 10) wait.
+		                    target spaceDo: [ :sp | sp requestNextPulse ] ] ]
 		                    forkAt: Processor userBackgroundPriority
 		                    named: self class name , ' stillPressedTask'
 ]

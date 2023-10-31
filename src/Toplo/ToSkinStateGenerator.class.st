@@ -28,6 +28,8 @@ ToSkinStateGenerator >> checkableCheckedEvent: anEvent [
 ToSkinStateGenerator >> clickAvortedEvent: anEvent [
 
 	(anEvent upEvent target hasInParentChain: target) ifFalse: [ ^ self ].
+	anEvent target: target.
+	anEvent currentTarget: target.
 	anEvent processor fireClickEventFrom: anEvent
 ]
 

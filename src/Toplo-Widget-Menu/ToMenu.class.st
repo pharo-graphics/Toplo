@@ -44,6 +44,16 @@ ToMenu >> includes: anElement [
 	^ super includes: anElement
 ]
 
+{ #category : 'skin' }
+ToMenu >> initialRawStyle [
+
+	super initialRawStyle.
+	'initialRawStyle' traceCr.
+	self isSubmenu ifFalse: [ ^ self ].
+	self parentMenu items do: [ :mi |
+		(mi isKindOf: ToMenuItem) ifTrue: [ mi filler width: 15] ]
+]
+
 { #category : 'initialization' }
 ToMenu >> initialize [
 
@@ -66,8 +76,6 @@ ToMenu >> installRawStyle [
 
 	super installRawStyle.
 	self isSubmenu ifFalse: [ ^ self ].
-	self parentMenu items do: [ :mi |
-		(mi isKindOf: ToMenuItem) ifTrue: [ mi filler width: 15 ] ].
 	self rightHandSide addChild: (ToLabel new
 			 text: '...';
 			 yourself)

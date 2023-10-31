@@ -9,8 +9,7 @@ Class {
 { #category : 'skin state engine' }
 ToInstallState >> enqueueIn: anElement [
 
-	" do not send to super here. The state engine will react accordingly "
-	anElement skinStateQueue switchToInstallState: self in: anElement
+	Error signal: 'I can''t be queued directly. It is the element skin state queue responsibility in case of a skin change event.'
 ]
 
 { #category : 'testing' }

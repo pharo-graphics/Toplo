@@ -70,17 +70,6 @@ ToSkinStateQueue >> onUninstalledIn: anElement [
 
 ]
 
-{ #category : 'initialization' }
-ToSkinStateQueue >> refreshStateEvent: anEvent [ 
-	" initial state required - if the element is enabled proceed with stored persistent states "
-
-	installed ifFalse: [
-		^ self
-			  switchToInstallState: (ToInstallState sourceEvent: anEvent)
-			  in: anEvent currentTarget ].
-	self switchToInitialStateEvent: anEvent in: anEvent currentTarget
-]
-
 { #category : 'accessing' }
 ToSkinStateQueue >> reinstall [
 
@@ -90,42 +79,29 @@ ToSkinStateQueue >> reinstall [
 ]
 
 { #category : 'initialization' }
-ToSkinStateQueue >> reset [
+ToSkinStateQueue >> skinChangedEvent: anEvent [
+	" initial state required - if the element is enabled proceed with stored persistent states "
 
-	nextStates := LinkedList new.
-	installed := false
+	| target |
+	installed ifTrue: [ Error signal: 'A skin can be installed only once.' ].
+	target := anEvent currentTarget.
+	installed := true.
+	self enqueueState: (ToInstallState sourceEvent: anEvent) in: target.
+	target requestSkin
 ]
 
 { #category : 'initialization' }
-ToSkinStateQueue >> switchToInitialStateEvent: anEvent in: anElement [
+ToSkinStateQueue >> skinRequestedEvent: anEvent [
 	" initial state required - if the element is enabled proceed with stored persistent states "
 
-	installed ifFalse: [ Error signal: 'An InitialSate before an InstallState as been applied' ].
-	" FIFO management of states list "
-	" initial is applied first "
-	self enqueueState: (ToInitialState sourceEvent: anEvent) in: anElement.
-	anElement isEnabled
+	| target |
+	installed ifFalse: [ Error signal: 'The skin must be installed first' ].
+	target := anEvent currentTarget.
+	self enqueueState: (ToInitialState sourceEvent: anEvent) in: target.
+	target isEnabled
 		ifTrue: [
 			self enqueueState: (ToEnabledState sourceEvent: anEvent).
 			self currentStates do: [ :s | self enqueueState: s ] ]
-		ifFalse: [ " when disabled, do not reinstall persistent states "
+		ifFalse: [ " if disabled, do not reinstall persistent states "
 			self enqueueState: (ToDisabledState sourceEvent: anEvent) ]
-]
-
-{ #category : 'initialization' }
-ToSkinStateQueue >> switchToInstallState: anInstallState in: anElement [
-	" install state required - if the element is enabled proceed with stored persistent states "
-
-	" FIFO management of states list "
-
-	installed ifTrue: [
-		^ Error signal: 'InstallState has already been applied' ].
-
-	" install state is used only once "
-	self reset.
-	self enqueueState: anInstallState in: anElement.
-	installed := true.
-	self
-		switchToInitialStateEvent: anInstallState sourceEvent
-		in: anElement
 ]

@@ -90,9 +90,7 @@ ToSkinStateGenerator >> dropEvent: anEvent [
 { #category : 'enablement' }
 ToSkinStateGenerator >> enablementChangedEvent: anEvent [
 
-	target := anEvent currentTarget.
-	target isEnabled ifTrue: [ ^ self generateEnabledStateFromEvent: anEvent ].
-	self generateDisabledStateFromEvent: anEvent
+	target requestSkin
 	
 ]
 
@@ -148,12 +146,6 @@ ToSkinStateGenerator >> generateClickedStateFromEvent: anEvent [
 ]
 
 { #category : 'state generating' }
-ToSkinStateGenerator >> generateDisabledStateFromEvent: anEvent [
-
-	target skinStateQueue refreshStateEvent: anEvent
-]
-
-{ #category : 'state generating' }
 ToSkinStateGenerator >> generateDragStartedStateFromEvent: anEvent [
 
 	target enqueueSkinState: (ToDragStartedState sourceEvent: anEvent)
@@ -169,12 +161,6 @@ ToSkinStateGenerator >> generateDraggedStateFromEvent: anEvent [
 ToSkinStateGenerator >> generateDroppedStateFromEvent: anEvent [
 
 	target enqueueSkinState: (ToDroppedState sourceEvent: anEvent)
-]
-
-{ #category : 'state generating' }
-ToSkinStateGenerator >> generateEnabledStateFromEvent: anEvent [
-
-	target skinStateQueue refreshStateEvent: anEvent 
 ]
 
 { #category : 'state generating' }

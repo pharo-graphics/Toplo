@@ -36,6 +36,7 @@ BlElement >> defaultSkin: aSkin [
 	prev = aSkin ifTrue: [ ^ self ].
 	self userData at: #localDefaultSkin put: aSkin.
 	self skinStateQueue reinstall.
+	self requestSkin 
 ]
 
 { #category : '*Toplo' }
@@ -63,6 +64,12 @@ BlElement >> dispatchLookEvent: anEvent [
 BlElement >> dispatchSkinChangedEvent [
 
 	self dispatchEvent: ToSkinChangedEvent new
+]
+
+{ #category : '*Toplo' }
+BlElement >> dispatchSkinRequestedEvent [
+
+	self dispatchEvent: ToSkinRequestedEvent new
 ]
 
 { #category : '*Toplo' }
@@ -436,9 +443,7 @@ BlElement >> toTheme: aTheme [
 BlElement >> toThemeChanged [
 
 	self dispatchEvent: ToThemeChangedEvent new.
-	self childrenDo: [ :c | c toThemeChanged ].
-
-
+	self childrenDo: [ :c | c toThemeChanged ]
 ]
 
 { #category : '*Toplo' }

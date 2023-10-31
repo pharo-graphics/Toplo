@@ -74,7 +74,7 @@ ToSkin >> eventsToHandle [
 
 	^ {
 		  ToThemeChangedEvent.
-		  ToSkinChangedEvent.
+		  ToSkinEvent.
 		  ToElementLookEvent }
 ]
 
@@ -166,7 +166,14 @@ ToSkin >> selectedLookEvent: anEvent [
 { #category : 'event handling' }
 ToSkin >> skinChangedEvent: anEvent [
 
-	anEvent currentTarget skinStateQueue refreshStateEvent: anEvent
+	anEvent currentTarget skinStateQueue skinChangedEvent: anEvent
+
+]
+
+{ #category : 'event handling' }
+ToSkin >> skinRequestedEvent: anEvent [
+
+	anEvent currentTarget skinStateQueue skinRequestedEvent: anEvent
 
 ]
 
@@ -183,7 +190,12 @@ ToSkin >> stillPressedLookEvent: anEvent [
 { #category : 'event handling' }
 ToSkin >> themeChangedEvent: anEvent [
 
-	anEvent currentTarget requestSkin 
+	| target |
+	target := anEvent currentTarget.
+	target installedSkin == self ifFalse: [
+		Error signal: 'Baddly installed skin' ].
+	target removeEventHandler: self.
+	anEvent currentTarget requestSkin
 ]
 
 { #category : 'event handling' }

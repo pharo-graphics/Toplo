@@ -13,6 +13,7 @@ ToCheckbox >> defaultBlankCheckboxImage [
 
 	| bar im |
 	bar := ToElement new id: #bar.
+	bar withoutSkin.
 	bar constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical exact: 3.
@@ -25,6 +26,7 @@ ToCheckbox >> defaultBlankCheckboxImage [
 	im size: 16 asPoint.
 	im addChild: bar.
 	im geometry: self iconGeometry.
+	im withoutSkin.
 	^ im
 ]
 

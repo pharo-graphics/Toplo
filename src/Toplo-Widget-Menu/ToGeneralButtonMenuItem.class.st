@@ -45,16 +45,6 @@ ToGeneralButtonMenuItem >> defaultLayout [
 	^ BlLinearLayout horizontal
 ]
 
-{ #category : 'skin' }
-ToGeneralButtonMenuItem >> initialRawStyle [
-	super initialRawStyle.
-	self isTopMenu ifTrue: [ ^ self ].
-	self parentMenu ifNil: [ ^ self ].
-	(self parentMenu items anySatisfy: [ :mi | mi hasIcon ]) ifFalse: [ ^ self ].
-	self button rightLabelAlignment: 30
-	
-]
-
 { #category : 'initialization' }
 ToGeneralButtonMenuItem >> initialize [ 
 
@@ -62,6 +52,17 @@ ToGeneralButtonMenuItem >> initialize [
 	self button: self buttonClass new.
 	self button clickEventClass: BlMouseUpEvent.
 	self layout: self defaultLayout
+]
+
+{ #category : 'skin' }
+ToGeneralButtonMenuItem >> installRawStyle [
+
+	super installRawStyle.
+	self isTopMenu ifTrue: [ ^ self ].
+	self parentMenu ifNil: [ ^ self ].
+	(self parentMenu items anySatisfy: [ :mi | mi hasIcon ]) ifFalse: [
+		^ self ].
+	self button rightLabelAlignment: 25
 ]
 
 { #category : 't - clickable - click behavior' }

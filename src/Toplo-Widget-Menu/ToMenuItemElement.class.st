@@ -12,7 +12,9 @@ Class {
 { #category : 'adding-removing' }
 ToMenuItemElement >> addedInMenu: aMenu [
 
-	self parentMenu: aMenu
+	self parentMenu: aMenu.
+	aMenu requestLayout.
+	aMenu requestSkin
 ]
 
 { #category : 'testing' }

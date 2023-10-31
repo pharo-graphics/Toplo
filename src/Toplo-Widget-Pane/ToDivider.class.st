@@ -129,6 +129,7 @@ ToDivider >> installRawStyle [
 	self geometry: self defaultGeometry.
 	self margin: self defaultMargins.
 	self padding: self defaultPadding
+
 ]
 
 { #category : 'testing' }
@@ -305,7 +306,8 @@ ToDivider >> thickness [
 { #category : 'accessing' }
 ToDivider >> thickness: aNumber [
 
-	thickness := aNumber
+	thickness := aNumber.
+	self requestSkin
 ]
 
 { #category : 'accessing' }

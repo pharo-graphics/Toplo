@@ -6,6 +6,18 @@ Class {
 	#tag : 'Core-Skin'
 }
 
+{ #category : 'event dispatch' }
+ToNullSkin >> dispatchSkinChangedEventTo: anObject [
+
+	
+]
+
+{ #category : 'event dispatch' }
+ToNullSkin >> dispatchSkinRequestedEventTo: anObject [
+
+	
+]
+
 { #category : 'api - accessing' }
 ToNullSkin >> eventsToHandle [
 

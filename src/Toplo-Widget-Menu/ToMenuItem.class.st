@@ -37,6 +37,8 @@ ToMenuItem >> initialize [
 	self withStamp: #'menu-item'.
 	filler := self newFiller.
 	rightHandSide := self newRightHandSide.
+	filler withoutSkin.
+	rightHandSide withoutSkin.
 	self button addChild: filler.
 	self button addChild: rightHandSide
 ]

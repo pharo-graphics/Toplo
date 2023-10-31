@@ -39,7 +39,7 @@ ToSkinStateQueue >> enqueueState: aState [
 ToSkinStateQueue >> enqueueState: aState in: anElement [
 
 	" declare the element as dirty "
-	anElement spaceDo: [ :space | space elementWithUnappliedStates: anElement ].
+	anElement spaceDo: [ :space | space requestSkinApplicationFor: anElement ].
 	self enqueueState: aState
 ]
 
@@ -86,8 +86,7 @@ ToSkinStateQueue >> skinChangedEvent: anEvent [
 	installed ifTrue: [ Error signal: 'A skin can be installed only once.' ].
 	target := anEvent currentTarget.
 	installed := true.
-	self enqueueState: (ToInstallState sourceEvent: anEvent) in: target.
-	target requestSkin
+	self enqueueState: (ToInstallState sourceEvent: anEvent) in: target
 ]
 
 { #category : 'initialization' }

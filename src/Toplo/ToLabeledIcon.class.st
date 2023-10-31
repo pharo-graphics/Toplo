@@ -95,6 +95,7 @@ ToLabeledIcon >> icon: anElement [
 	icon := anElement.
 	anElement ifNil: [ ^ self ].
 	self iconHolder addChild: anElement.
+	self requestSkin
 
 ]
 
@@ -153,6 +154,8 @@ ToLabeledIcon >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
+	self withoutSkin.
+
 	filler := ToElement new
 		          size: 0 @ 0;
 		          id: #filler;
@@ -161,12 +164,18 @@ ToLabeledIcon >> initialize [
 		          yourself.
 	iconHolder := ToElement new
 		              fitContent;
+		              id: #iconHolder;
 		              layout: BlFrameLayout new;
 		              yourself.
 	labelHolder := ToElement new
 		               fitContent;
+		               id: #labelHolder;
 		               layout: BlFrameLayout new;
 		               yourself.
+	iconHolder withoutSkin.
+	filler withoutSkin.
+	labelHolder withoutSkin.
+
 	self addChild: iconHolder.
 	self addChild: filler.
 	self addChild: labelHolder.
@@ -202,7 +211,8 @@ ToLabeledIcon >> interspace: aPoint [
 	self filler constraints
 		minWidth: size x;
 		minHeight: size y.
-	self filler requestLayout
+	self filler requestLayout.
+	self requestSkin
 ]
 
 { #category : 'testing' }
@@ -236,7 +246,8 @@ ToLabeledIcon >> label: anElement [
 	self label ifNotNil: [ :s | s removeFromParent].
 	label := anElement.
 	anElement ifNil: [ ^ self ].
-	self labelHolder addChild: anElement
+	self labelHolder addChild: anElement.
+	self requestSkin
 ]
 
 { #category : 'configurating' }
@@ -266,5 +277,6 @@ ToLabeledIcon >> layoutStrategy [
 { #category : 'accessing' }
 ToLabeledIcon >> rightLabelAlignment: anInteger [
 
-	self iconHolderWidth: anInteger - self interspace x
+	self iconHolderWidth: anInteger.
+	self requestSkin
 ]

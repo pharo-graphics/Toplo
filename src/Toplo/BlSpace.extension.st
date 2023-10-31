@@ -14,12 +14,6 @@ BlSpace >> elementWithSkinInstaller: anElement [
 ]
 
 { #category : '*Toplo' }
-BlSpace >> elementWithUnappliedStates: anElement [
-
-	self elementsWithUnappliedStates add: anElement
-]
-
-{ #category : '*Toplo' }
 BlSpace >> elementsWithSkinInstaller [
 
 	^ self userData at: #elementsWithSkinInstaller ifAbsentPut: [ IdentitySet new ]
@@ -28,7 +22,13 @@ BlSpace >> elementsWithSkinInstaller [
 { #category : '*Toplo' }
 BlSpace >> elementsWithUnappliedStates [
 
-	^ self userData at: #elementsWithUnappliedStates ifAbsentPut: [ IdentitySet new ]
+	^ self userData at: #elementsWithUnappliedStates ifAbsentPut: [ #() ]
+]
+
+{ #category : '*Toplo' }
+BlSpace >> elementsWithUnappliedStates: anArray [
+
+	^ self userData at: #elementsWithUnappliedStates put: anArray
 ]
 
 { #category : '*Toplo' }
@@ -67,6 +67,14 @@ BlSpace >> isSkinStatePhaseInstalled [
 ]
 
 { #category : '*Toplo' }
+BlSpace >> requestSkinApplicationFor: anElement [
+
+	self elementsWithUnappliedStates:
+		((self elementsWithUnappliedStates copyWithout: anElement)
+			 copyWith: anElement)
+]
+
+{ #category : '*Toplo' }
 BlSpace >> resetElementsWithSkinInstaller [
 
 	^ self userData at: #elementsWithSkinInstaller put: IdentitySet new
@@ -75,7 +83,8 @@ BlSpace >> resetElementsWithSkinInstaller [
 { #category : '*Toplo' }
 BlSpace >> resetElementsWithUnappliedStates [
 
-	^ self userData at: #elementsWithUnappliedStates put: IdentitySet new
+	"self elementsWithUnappliedStates do: [ :e | e traceCr ]."
+	self userData at: #elementsWithUnappliedStates put: #()
 ]
 
 { #category : '*Toplo' }
@@ -87,22 +96,22 @@ BlSpace >> rootSkinInstalled [
 
 { #category : '*Toplo' }
 BlSpace >> startSkinInstallerPhase [
-	| layoutPhase |
+	| phaseAfter |
 
 	self isSkinInstallerPhaseInstalled ifTrue: [ ^ self ].
 	" The skin phase must be inserted before the layout phase (that must be present) "
-	layoutPhase := self frame detectPhase: [ :f | f class = BlSpaceFrameLayoutPhase ].
-	self frame addPhase: ToSpaceSkinInstallerPhase new before: layoutPhase
+	phaseAfter := self frame detectPhase: [ :f | f class = BlSpaceFrameLayoutPhase ].
+	self frame addPhase: ToSpaceSkinInstallerPhase new before: phaseAfter
 ]
 
 { #category : '*Toplo' }
 BlSpace >> startSkinStatePhase [
-	| layoutPhase |
+	| phaseAfter |
 
 	self isSkinStatePhaseInstalled ifTrue: [ ^ self ].
 	" The skin phase must be inserted before the layout phase (that must be present) "
-	layoutPhase := self frame detectPhase: [ :f | f class = BlSpaceFrameLayoutPhase ].
-	self frame addPhase: ToSpaceSkinStatePhase new before: layoutPhase
+	phaseAfter := self frame detectPhase: [ :f | f class = BlSpaceFrameLayoutPhase ].
+	self frame addPhase: ToSpaceSkinStatePhase new before: phaseAfter
 ]
 
 { #category : '*Toplo' }

@@ -26,7 +26,7 @@ ToAnchoredWindow >> applySizeHookFromEvent: anEvent [
 ToAnchoredWindow >> checkBeforePopupEvent: anEvent [
 
 	self applyPositionHookFromEvent: anEvent.
-	self applySizeHookFromEvent: anEvent.
+	self applySizeHookFromEvent: anEvent
 ]
 
 { #category : 'api - displaying' }
@@ -66,6 +66,7 @@ ToAnchoredWindow >> dispatchOpenedEvent: anEvent [
 		         sourceEvent: anEvent;
 		         yourself.
 	self dispatchEvent: event.
+	self requestSkin.
 	self element ifNotNil: [ :w | w dispatchEvent: event copy ]
 ]
 
@@ -111,21 +112,17 @@ ToAnchoredWindow >> popupEvent: anEvent [
 	" I have to set the position here "
 
 	self element ifNil: [
-		Error signal:
-			'Can''t popup an anchored window without associate element' ].
+		Error signal: 'Can''t popup an anchored window without associate element' ].
 	self element isAttachedToSceneGraph ifFalse: [
-		Error signal:
-			'Can''t popup an anchored window if the element is not attached to a space' ].
-	self applyPositionHookFromEvent: anEvent.
-	self applySizeHookFromEvent: anEvent.
-	self hasParent ifTrue: [ ^ self ].
+		Error signal: 'Can''t popup an anchored window if the element is not attached to a space' ].
+	self visibility: BlVisibility hidden. 
 	self element space root addChild: self.
-	self dispatchOpenedEvent: anEvent.
-	popupTimestamp := DateAndTime now.
-	"I need to finalize my position as soon as my layout is up-to-date"
+	self checkBeforePopupEvent: anEvent.
 	self whenLayoutedDoOnce: [
-		self element isAttachedToSceneGraph ifTrue: [
-			self checkBeforePopupEvent: anEvent ] ]
+		" I need to finalize my position as soon as my layout is up-to-date "
+		self visibility: BlVisibility visible. 
+		self dispatchOpenedEvent: anEvent.
+		popupTimestamp := DateAndTime now ]
 ]
 
 { #category : 'accessing' }

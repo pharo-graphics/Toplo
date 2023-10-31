@@ -54,7 +54,6 @@ ToCheckboxSkin >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
 	anEvent elementDo: [ :e | 
-		e  hasLabel ifTrue: [ e interspace: 10 ].
 		e icon border: e iconDefaultBorder  ]
 ]
 

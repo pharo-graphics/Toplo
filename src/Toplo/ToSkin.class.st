@@ -39,6 +39,18 @@ ToSkin >> disabledLookEvent: anEvent [
 
 ]
 
+{ #category : 'event dispatch' }
+ToSkin >> dispatchSkinChangedEventTo: anObject [
+
+	anObject dispatchSkinChangedEvent
+]
+
+{ #category : 'event dispatch' }
+ToSkin >> dispatchSkinRequestedEventTo: anObject [
+
+	anObject dispatchSkinRequestedEvent
+]
+
 { #category : 'event handling' }
 ToSkin >> dragStartedLookEvent: anEvent [
 

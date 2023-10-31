@@ -134,11 +134,21 @@ BlElement >> holder [
 ]
 
 { #category : '*Toplo' }
+BlElement >> ifNotWithNullSkinDo: aBlock [
+
+	(self userData at: #localDefaultSkin ifAbsent: [  ]) ifNotNil: [ :s |
+		s isNullSkin ifTrue: [ ^ self ] ].
+	aBlock value
+]
+
+{ #category : '*Toplo' }
 BlElement >> initialRawStyle [
 ]
 
 { #category : '*Toplo' }
 BlElement >> installRawStyle [
+
+	self requestSkin
 ]
 
 { #category : '*Toplo' }
@@ -289,9 +299,10 @@ BlElement >> requestDefaultSkin: aSkin [
 { #category : '*Toplo' }
 BlElement >> requestSkin [
 
-	self skinInstaller ifNotNil: [ ^ self ].
-	self skinInstaller: ToSkinInstaller new.
-	self spaceDo: [ :space | space elementWithSkinInstaller: self ]
+	self ifNotWithNullSkinDo: [
+		self skinInstaller ifNotNil: [ ^ self ].
+		self skinInstaller: ToSkinInstaller new.
+		self spaceDo: [ :space | space elementWithSkinInstaller: self ] ]
 ]
 
 { #category : '*Toplo' }

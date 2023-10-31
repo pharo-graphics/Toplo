@@ -42,7 +42,8 @@ ToLabelMultiLineInnerElement >> initialize [
 	self fitContent.
 	self layout: BlLinearLayout vertical.
 	self whenTextReplacedDo: [ :t | self textReplaced ].
-	self preventMouseEvents 
+	self preventMouseEvents.
+	self withoutSkin.
 ]
 
 { #category : 'api - editor' }

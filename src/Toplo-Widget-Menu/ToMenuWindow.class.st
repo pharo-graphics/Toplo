@@ -81,7 +81,9 @@ ToMenuWindow >> popupEvent: anEvent [
 		Error signal: 'Can''t popup a menu if the element is not attached to a space' ].
 	
 	self items ifEmpty: [ ^ self ].
+	self requestSkin.
 	self items do: [ :it |
-		self root addChild: it ].
+		self root addChild: it.
+		it requestSkin ].
 	super popupEvent: anEvent
 ]

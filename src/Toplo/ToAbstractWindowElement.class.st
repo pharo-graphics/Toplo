@@ -149,5 +149,6 @@ ToAbstractWindowElement >> rootLayout: aLayout [
 { #category : 'api - displaying' }
 ToAbstractWindowElement >> toFront [
 
-	self elevation: self defaultElevation
+	self elevation: self defaultElevation.
+	self root elevation: self defaultElevation
 ]

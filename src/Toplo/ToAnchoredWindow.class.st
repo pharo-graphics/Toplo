@@ -120,6 +120,7 @@ ToAnchoredWindow >> popupEvent: anEvent [
 	self checkBeforePopupEvent: anEvent.
 	self whenLayoutedDoOnce: [
 		" I need to finalize my position as soon as my layout is up-to-date "
+		self toFront.
 		self visibility: BlVisibility visible. 
 		self dispatchOpenedEvent: anEvent.
 		popupTimestamp := DateAndTime now ]

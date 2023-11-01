@@ -129,18 +129,19 @@ ToSkinStateQueueTest >> testGenerateClickedStateFromEvent [
 	nextStates := e skinStateQueue nextStates.
 	currentStates := e skinStateQueue currentStates.
 
-	self assert: nextStates size equals: 1.
-	self assert: (nextStates first isKindOf: ToInstallState).
-	self assert: currentStates size equals: 0.
+	self assert: nextStates size equals: 3.
+	self assert: (nextStates last isKindOf: ToInstallState).
+	self assert: currentStates size equals: 1.
+	self assert: (currentStates last isKindOf: ToEnabledState).
 
 	e dispatchEvent: evt.
 	self
 		assert:
 		(nextStates select: [ :s | s isKindOf: ToClickedState ]) size
 		equals: 1.
-	self assert: nextStates size equals: 2.
+	self assert: nextStates size equals: 4.
 
-	self assert: currentStates size equals: 0.
+	self assert: currentStates size equals: 1.
 
 	evt := BlMouseButton primary clickEventClass new button:
 		       BlMouseButton primary.
@@ -150,7 +151,7 @@ ToSkinStateQueueTest >> testGenerateClickedStateFromEvent [
 		assert:
 		(nextStates select: [ :s | s isKindOf: ToClickedState ]) size
 		equals: 1.
-	self assert: nextStates size equals: 2
+	self assert: nextStates size equals: 4
 ]
 
 { #category : 'tests' }
@@ -164,13 +165,13 @@ ToSkinStateQueueTest >> testGenerateHoveredStateFromEvent [
 	nextStates := e skinStateQueue nextStates.
 	currentStates := e skinStateQueue currentStates.
 
-	self assert: nextStates size equals: 1.
+	self assert: nextStates size equals: 3.
 	e dispatchEvent: evt.
 	self
 		assert:
 		(nextStates select: [ :s | s isKindOf: ToHoveredState ]) size
 		equals: 1.
-	self assert: nextStates size equals: 2.
+	self assert: nextStates size equals: 4.
 
 	evt := BlMouseEnterEvent new.
 
@@ -179,7 +180,7 @@ ToSkinStateQueueTest >> testGenerateHoveredStateFromEvent [
 		assert:
 		(nextStates select: [ :s | s isKindOf: ToHoveredState ]) size
 		equals: 1.
-	self assert: nextStates size equals: 2.
+	self assert: nextStates size equals: 4.
 
 	evt := BlMouseLeaveEvent new.
 
@@ -189,7 +190,7 @@ ToSkinStateQueueTest >> testGenerateHoveredStateFromEvent [
 		assert: (nextStates select: [ :s | s isKindOf: ToLeavedState ]) size
 		equals: 1.
 	" ToEnabledState remains and ToLeavedState isNot persistent, ToHoveredState should have been removed "
-	self assert: nextStates size equals: 2
+	self assert: nextStates size equals: 4
 ]
 
 { #category : 'api - hooks' }

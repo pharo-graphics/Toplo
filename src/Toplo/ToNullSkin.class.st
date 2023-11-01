@@ -7,13 +7,13 @@ Class {
 }
 
 { #category : 'event dispatch' }
-ToNullSkin >> dispatchSkinChangedEventTo: anObject [
+ToNullSkin >> dispatchSkinInitialStateRequestTo: anObject [
 
 	
 ]
 
 { #category : 'event dispatch' }
-ToNullSkin >> dispatchSkinRequestedEventTo: anObject [
+ToNullSkin >> dispatchSkinInstallStateRequestTo: anObject [
 
 	
 ]

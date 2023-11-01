@@ -93,9 +93,8 @@ ToElement >> onAddedToParent [
 ToElement >> onAddedToSceneGraph [
 
 	super onAddedToSceneGraph.
-	self skinInstaller
-		ifNil: [ self requestSkin ]
-		ifNotNil: [ self space elementWithSkinInstaller: self ]
+	self requestSkin.
+	self space elementWithSkinInstaller: self
 ]
 
 { #category : 'skin - private' }

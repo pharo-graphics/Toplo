@@ -34,6 +34,12 @@ ToTheme >> name [
 	^ self subclassResponsibility 
 ]
 
+{ #category : 'accessing' }
+ToTheme >> newSkinInstaller [
+
+	^ self subclassResponsibility 
+]
+
 { #category : 'printing' }
 ToTheme >> printOn: aStream [
 

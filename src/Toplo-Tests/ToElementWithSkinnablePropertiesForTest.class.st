@@ -72,7 +72,7 @@ ToElementWithSkinnablePropertiesForTest >> initialize [
 	" count the number of state engine applyOn: (only for dirty element stored in the space) "
 	skinStatesApplied := 0.
 	
-	self when: ToSkinChangedEvent do: [ skinRefreshedCount := skinRefreshedCount + 1 ]
+	self when: ToSkinInstallStateRequest do: [ skinRefreshedCount := skinRefreshedCount + 1 ]
 ]
 
 { #category : 'skin' }

@@ -16,7 +16,7 @@ ToBeeSkin >> initialLookEvent: anEvent [
 { #category : 'event handling' }
 ToBeeSkin >> installLookEvent: anEvent [
 
+	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e | e installBeeStyle ].
-	super installLookEvent: anEvent
 
 ]

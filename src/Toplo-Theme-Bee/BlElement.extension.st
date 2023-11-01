@@ -13,5 +13,4 @@ BlElement >> initialBeeStyle [
 { #category : '*Toplo-Theme-Bee' }
 BlElement >> installBeeStyle [ 
 
-
 ]

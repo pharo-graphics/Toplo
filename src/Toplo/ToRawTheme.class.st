@@ -13,6 +13,12 @@ ToRawTheme >> name [
 ]
 
 { #category : 'accessing' }
+ToRawTheme >> newSkinInstaller [
+
+	^ ToRawSkinInstaller new
+]
+
+{ #category : 'accessing' }
 ToRawTheme >> skinFor: anElement [
 
 	^ anElement rawSkin

@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToSkinChangedEvent',
+	#name : 'ToSkinInstallStateRequest',
 	#superclass : 'ToSkinEvent',
 	#category : 'Toplo-Core-Skin',
 	#package : 'Toplo',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'sending' }
-ToSkinChangedEvent >> sendTo: anObject [
+ToSkinInstallStateRequest >> sendTo: anObject [
 
-	anObject skinChangedEvent: self
+	anObject skinInstallStateRequest: self
 ]

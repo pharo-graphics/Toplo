@@ -28,6 +28,12 @@ ToStyleSheetTheme >> name [
 	^ #'StyleSheetTheme'
 ]
 
+{ #category : 'accessing' }
+ToStyleSheetTheme >> newSkinInstaller [
+
+	^ ToStyleSheetSkinInstaller new
+]
+
 { #category : 'writer selecting' }
 ToStyleSheetTheme >> rawWritersFor: anElement [
 
@@ -55,7 +61,7 @@ ToStyleSheetTheme >> skinFor: anElement [
 
 	anElement withAllStamps: (self defaultElementStyleStampsFor: anElement).
 	^ (self writersFor: anElement)
-		  ifEmpty: [ ToRawSkin new ]
+		  ifEmpty: [(self skinClassFor: anElement) new ]
 		  ifNotEmpty: [ :writers |
 			  (self skinClassFor: anElement) new
 				  writers: writers;

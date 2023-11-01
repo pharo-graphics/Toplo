@@ -47,24 +47,26 @@ ToThemeExamples class >> example_buttons [
 	box addChild: defaultButton.
 	
 	dashedButton := (ToButton id: #buttonC) labelText: 'Dashed Button'; tooltipText: 'I''m a button'.
-	primaryButton withStamp: #dashed.
+	dashedButton withStamp: #dashed.
 	box addChild: dashedButton.
 	
 	textButton := (ToButton id: #buttonD) labelText: 'Text Button'; tooltipText: 'I''m a button'.
-	primaryButton withStamp: #text.
+	textButton withStamp: #text.
 	box addChild: textButton.
 	
 	linkButton := (ToButton id: #buttonE) labelText: 'Link Button'; tooltipText: 'I''m a button'.
-	primaryButton withStamp: #link.
+	linkButton withStamp: #link.
 	box addChild: linkButton.
+	space show
 ]
 
 { #category : 'examples - buttons' }
 ToThemeExamples class >> example_buttons1 [
 
-	| space primaryButton |
+	| space primaryButton defaultButton |
 	ToTheme cleanUp.
 	space := BlSpace new.
+	space root layout: BlLinearLayout new.
 
 	"Configure default Theme"
 	space toTheme: ToBeeLightTheme new.
@@ -73,10 +75,13 @@ ToThemeExamples class >> example_buttons1 [
 	"Create some buttons with different skins"
 	primaryButton := (ToButton id: #buttonA)
 		                 labelText: 'Primary Button';
-		                 tooltipText: 'I''m a button'.
+		                 tooltipText: 'I''m a primary button'.
 	primaryButton withStamp: #primary.
 	space root addChild: primaryButton.
-	space inspect.
+	defaultButton := (ToButton id: #buttonB)
+		                 labelText: 'Default Button';
+		                 tooltipText: 'I''m a default button'.
+	space root addChild: defaultButton.
 	space show
 ]
 
@@ -92,12 +97,12 @@ ToThemeExamples class >> openThemeExampleSpace [
 	
 	"Create UI"
 	space root addChild: (self createThemeMenuBar: space).
-	space root addChild: (BlElement id: #themeSandBox).
+	space root addChild: (ToElement id: #themeSandBox).
 	
 	"Configure default Theme"
 	space root toTheme: ToBeeLightTheme new.
 	
-	space position: 100@100; show.	
+	space position: 100@100.	
 	^ space
 ]
 

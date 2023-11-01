@@ -23,7 +23,7 @@ ToNullSkinTest >> testWithASkinInstalledBefore [
 	self assert: installedSkin notNil.
 	self assert: w skinStateQueue nextStates notEmpty.
 	self assert: w skinStateQueue installed.
-	self assert: w skinStateQueue currentStates isEmpty.
+	self assert: w skinStateQueue currentStates notEmpty.
 	w defaultSkin: (nsk := ToNullSkin new).
 	self deny: w installedSkin identicalTo: installedSkin.
 	self assert: w installedSkin identicalTo: nsk.

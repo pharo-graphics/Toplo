@@ -40,15 +40,15 @@ ToSkin >> disabledLookEvent: anEvent [
 ]
 
 { #category : 'event dispatch' }
-ToSkin >> dispatchSkinChangedEventTo: anObject [
+ToSkin >> dispatchSkinInitialStateRequestTo: anObject [
 
-	anObject dispatchSkinChangedEvent
+	anObject dispatchSkinInitialStateRequest
 ]
 
 { #category : 'event dispatch' }
-ToSkin >> dispatchSkinRequestedEventTo: anObject [
+ToSkin >> dispatchSkinInstallStateRequestTo: anObject [
 
-	anObject dispatchSkinRequestedEvent
+	anObject dispatchSkinInstallStateRequest
 ]
 
 { #category : 'event handling' }
@@ -183,17 +183,17 @@ ToSkin >> setAsDefaultSkinIn: anElement [
 ]
 
 { #category : 'event handling' }
-ToSkin >> skinChangedEvent: anEvent [
+ToSkin >> skinInitialStateRequest: anEvent [
 
-	anEvent currentTarget skinStateQueue
-		skinChangedEvent: anEvent
+	anEvent currentTarget skinStateQueue skinInitialStateRequest: anEvent
+
 ]
 
 { #category : 'event handling' }
-ToSkin >> skinRequestedEvent: anEvent [
+ToSkin >> skinInstallStateRequest: anEvent [
 
-	anEvent currentTarget skinStateQueue skinRequestedEvent: anEvent
-
+	anEvent currentTarget skinStateQueue
+		skinInstallStateRequest: anEvent
 ]
 
 { #category : 'event handling' }

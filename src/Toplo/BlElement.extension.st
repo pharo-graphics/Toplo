@@ -60,15 +60,15 @@ BlElement >> dispatchLookEvent: anEvent [
 ]
 
 { #category : '*Toplo' }
-BlElement >> dispatchSkinChangedEvent [
+BlElement >> dispatchSkinInitialStateRequest [
 
-	self dispatchEvent: ToSkinChangedEvent new
+	self dispatchEvent: ToSkinInitialStateRequest new
 ]
 
 { #category : '*Toplo' }
-BlElement >> dispatchSkinRequestedEvent [
+BlElement >> dispatchSkinInstallStateRequest [
 
-	self dispatchEvent: ToSkinRequestedEvent new
+	self dispatchEvent: ToSkinInstallStateRequest new
 ]
 
 { #category : '*Toplo' }
@@ -133,21 +133,12 @@ BlElement >> holder [
 ]
 
 { #category : '*Toplo' }
-BlElement >> ifNotWithNullSkinDo: aBlock [
-
-	(self userData at: #localDefaultSkin ifAbsent: [  ]) ifNotNil: [ :s |
-		s isNullSkin ifTrue: [ ^ self ] ].
-	aBlock value
-]
-
-{ #category : '*Toplo' }
 BlElement >> initialRawStyle [
 ]
 
 { #category : '*Toplo' }
 BlElement >> installRawStyle [
 
-	self requestSkin
 ]
 
 { #category : '*Toplo' }
@@ -173,6 +164,12 @@ BlElement >> isEnabled [
 BlElement >> isWithoutSkin [
 
 	^ self defaultSkin ifNil: [ ^ false ] ifNotNil: [ :s | s isNullSkin ]
+]
+
+{ #category : '*Toplo' }
+BlElement >> localDefaultSkin [
+
+	^ self userData at: #localDefaultSkin ifAbsent: [  ]
 ]
 
 { #category : '*Toplo' }
@@ -298,10 +295,11 @@ BlElement >> requestDefaultSkin: aSkin [
 { #category : '*Toplo' }
 BlElement >> requestSkin [
 
-	self ifNotWithNullSkinDo: [
-		self skinInstaller ifNotNil: [ ^ self ].
-		self skinInstaller: ToSkinInstaller new.
-		self spaceDo: [ :space | space elementWithSkinInstaller: self ] ]
+	self localDefaultSkin ifNotNil: [ :s |
+		s isNullSkin ifTrue: [ ^ self ] ].
+	self skinInstaller ifNotNil: [ ^ self ].
+	self skinInstaller: self toTheme newSkinInstaller.
+	self spaceDo: [ :space | space elementWithSkinInstaller: self ]
 ]
 
 { #category : '*Toplo' }

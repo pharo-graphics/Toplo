@@ -38,9 +38,10 @@ ToSkinStateQueue >> enqueueState: aState [
 { #category : 'adding' }
 ToSkinStateQueue >> enqueueState: aState in: anElement [
 
+	self enqueueState: aState.
 	" declare the element as dirty "
 	anElement spaceDo: [ :space | space requestSkinApplicationFor: anElement ].
-	self enqueueState: aState
+
 ]
 
 { #category : 'initialization' }
@@ -91,17 +92,7 @@ ToSkinStateQueue >> reset [
 ]
 
 { #category : 'initialization' }
-ToSkinStateQueue >> skinChangedEvent: anEvent [
-	" initial state required - if the element is enabled proceed with stored persistent states "
-
-	| target |
-	target := anEvent currentTarget.
-	installed := true.
-	self enqueueState: (ToInstallState sourceEvent: anEvent) in: target
-]
-
-{ #category : 'initialization' }
-ToSkinStateQueue >> skinRequestedEvent: anEvent [
+ToSkinStateQueue >> skinInitialStateRequest: anEvent [
 	" initial state required - if the element is enabled proceed with stored persistent states "
 
 	| target |
@@ -114,4 +105,14 @@ ToSkinStateQueue >> skinRequestedEvent: anEvent [
 			self currentStates do: [ :s | self enqueueState: s ] ]
 		ifFalse: [ " if disabled, do not reinstall persistent states "
 			self enqueueState: (ToDisabledState sourceEvent: anEvent) ]
+]
+
+{ #category : 'initialization' }
+ToSkinStateQueue >> skinInstallStateRequest: anEvent [
+	" install state required  "
+
+	| target |
+	target := anEvent currentTarget.
+	installed := true.
+	self enqueueState: (ToInstallState sourceEvent: anEvent) in: target
 ]

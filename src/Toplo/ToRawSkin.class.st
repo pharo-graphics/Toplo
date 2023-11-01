@@ -8,7 +8,6 @@ Class {
 
 { #category : 'event handling' }
 ToRawSkin >> initialLookEvent: anEvent [
-anEvent currentTarget trace. ' >> initialLookEvent: ' traceCr.
 
 	anEvent elementDo: [ :e | e initialRawStyle ]
 ]
@@ -16,5 +15,7 @@ anEvent currentTarget trace. ' >> initialLookEvent: ' traceCr.
 { #category : 'event handling' }
 ToRawSkin >> installLookEvent: anEvent [
 
-	anEvent elementDo: [ :e | e installRawStyle ]
+	super installLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e installRawStyle ]
 ]

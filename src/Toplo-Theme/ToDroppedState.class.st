@@ -1,24 +1,22 @@
 Class {
-	#name : 'ToDroppedState',
-	#superclass : 'ToElementState',
-	#category : 'Toplo-Theme-State',
-	#package : 'Toplo-Theme',
-	#tag : 'State'
+	#name : #ToDroppedState,
+	#superclass : #ToElementState,
+	#category : 'Toplo-Theme-State'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToDroppedState >> incompatibleStateClasses [
 
 	^ {  }
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToDroppedState >> isPersistent [
 
 	^ false
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToDroppedState >> lookEventClass [
 
 	^ ToDroppedLookEvent

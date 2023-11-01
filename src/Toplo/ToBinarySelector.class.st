@@ -1,34 +1,32 @@
 Class {
-	#name : 'ToBinarySelector',
-	#superclass : 'ToElementSelector',
+	#name : #ToBinarySelector,
+	#superclass : #ToElementSelector,
 	#instVars : [
 		'left',
 		'right'
 	],
-	#category : 'Toplo-Core-Selector',
-	#package : 'Toplo',
-	#tag : 'Core-Selector'
+	#category : 'Toplo-Core-Selector'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToBinarySelector >> left [
 
 	^ left
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToBinarySelector >> left: aSelector [
 
 	left := aSelector
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToBinarySelector >> right [
 
 	^ right
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToBinarySelector >> right: aSelector [
 
 	right := aSelector

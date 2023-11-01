@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToSkinRequestedEvent',
-	#superclass : 'ToSkinEvent',
-	#category : 'Toplo-Core-Skin',
-	#package : 'Toplo',
-	#tag : 'Core-Skin'
+	#name : #ToSkinRequestedEvent,
+	#superclass : #ToSkinEvent,
+	#category : 'Toplo-Core-Skin'
 }
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToSkinRequestedEvent >> sendTo: anObject [
 
 	anObject skinRequestedEvent: self

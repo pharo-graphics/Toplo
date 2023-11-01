@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToFocusedLookEvent',
-	#superclass : 'ToElementLookEvent',
-	#category : 'Toplo-Theme-Look-Event',
-	#package : 'Toplo-Theme',
-	#tag : 'Look-Event'
+	#name : #ToFocusedLookEvent,
+	#superclass : #ToElementLookEvent,
+	#category : 'Toplo-Theme-Look-Event'
 }
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToFocusedLookEvent >> sendTo: anObject [
 
 	anObject focusedLookEvent: self

@@ -1,6 +1,6 @@
-Extension { #name : 'ToSelectorInterpreter' }
+Extension { #name : #ToSelectorInterpreter }
 
-{ #category : '*Toplo-Theme' }
+{ #category : #'*Toplo-Theme' }
 ToSelectorInterpreter >> visitStyleStampSelector: aSelector [
 
 	result := aSelector stampNames allSatisfy: [ :t | targetStack top hasStamp: t ]

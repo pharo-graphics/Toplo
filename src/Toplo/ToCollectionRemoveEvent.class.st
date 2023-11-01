@@ -1,27 +1,25 @@
 Class {
-	#name : 'ToCollectionRemoveEvent',
-	#superclass : 'ToCollectionAfterChangeEvent',
+	#name : #ToCollectionRemoveEvent,
+	#superclass : #ToCollectionAfterChangeEvent,
 	#instVars : [
 		'removed'
 	],
-	#category : 'Toplo-Core-Collection',
-	#package : 'Toplo',
-	#tag : 'Core-Collection'
+	#category : 'Toplo-Core-Collection'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToCollectionRemoveEvent >> removed [
 
 	^ removed
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToCollectionRemoveEvent >> removed: aCollection [
 
 	removed := aCollection
 ]
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToCollectionRemoveEvent >> sendTo: anObject [
 
 	anObject collectionRemoveEvent: self

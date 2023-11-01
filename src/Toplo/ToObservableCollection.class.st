@@ -1,18 +1,16 @@
 Class {
-	#name : 'ToObservableCollection',
-	#superclass : 'Object',
+	#name : #ToObservableCollection,
+	#superclass : #Object,
 	#traits : 'TBlEventTarget + TToObservableCollection',
 	#classTraits : 'TBlEventTarget classTrait + TToObservableCollection classTrait',
 	#instVars : [
 		'list',
 		'eventDispatcher'
 	],
-	#category : 'Toplo-Core-Collection',
-	#package : 'Toplo',
-	#tag : 'Core-Collection'
+	#category : 'Toplo-Core-Collection'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToObservableCollection class >> newFrom: aCollection [
 
 	| l |
@@ -21,7 +19,7 @@ ToObservableCollection class >> newFrom: aCollection [
 	^ l
 ]
 
-{ #category : 'event management accessing' }
+{ #category : #'event management accessing' }
 ToObservableCollection >> eventDispatcher [
 	"Return an object responsible for event dispatching"
 	<return: #BlDirectEventDispatcher>
@@ -29,7 +27,7 @@ ToObservableCollection >> eventDispatcher [
 	^ eventDispatcher
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToObservableCollection >> initialize [
 
 	super initialize.

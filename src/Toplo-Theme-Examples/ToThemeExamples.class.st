@@ -29,9 +29,31 @@ ToThemeExamples class >> createThemeMenuBar: aSpace [
 { #category : #'private - actions' }
 ToThemeExamples class >> displaySpaceStyleSheet: aSpace [
 
+	| presenter stream |
 	aSpace ifNil:[ ^ self ].
 	aSpace toTheme ifNil:[ ^ self ].
-	aSpace toTheme styleSheet inspect
+	
+	"Display Theme styleSheet in a text presenter"
+	presenter := SpTextPresenter new.
+	stream := ReadWriteStream on: String new.
+	
+	"Build the style sheet detail"
+	aSpace toTheme styleSheet ifNil:[ stream nextPutAll: 'This theme doesn''t manage a style sheet.' ] ifNotNil:[ :sheet |
+		stream 
+			nextPutAll: 'Style Sheet with '; nextPutAll: (sheet rawStyleRules size) asString; nextPutAll: ' rule(s)' ; cr;
+			nextPutAll: '###'; cr.
+			
+		sheet rawStyleRules do:[ :rule | 
+			stream cr.
+			rule printOnStyleSheet: stream.
+			stream cr.	
+		].
+	].
+	
+	"Open the presenter"
+	presenter text: stream contents.
+	presenter open.
+	presenter withWindowDo: [ :w | w title: 'Toplo Style Sheet details' ].
 ]
 
 { #category : #'private - get' }

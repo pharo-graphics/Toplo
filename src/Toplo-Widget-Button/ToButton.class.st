@@ -15,6 +15,7 @@ Class {
 ToButton >> initialRawStyle [
 
 	super initialRawStyle.
+
 	((self parent isKindOf: ToMenuItem) and: [ self parent isTopMenu not ])
 		ifTrue: [ ^ self ].
 	(self hasIcon and: [ self hasLabel ]) ifFalse: [
@@ -29,8 +30,14 @@ ToButton >> initialize [
 	super initialize.
 	labeledIcon := ToLabeledIcon new.
 	self addChild: labeledIcon.
-	self labeledIcon hMatchParent.
 	self fitContent
+]
+
+{ #category : 'skin' }
+ToButton >> installRawStyle [
+
+	super installRawStyle.
+	self labeledIcon hMatchParent
 ]
 
 { #category : 't - element with labeled icon - accessing' }

@@ -1,21 +1,20 @@
 Class {
-	#name : 'BaselineOfToplo',
-	#superclass : 'BaselineOf',
+	#name : #BaselineOfToplo,
+	#superclass : #BaselineOf,
 	#classVars : [
 		'Initialized'
 	],
-	#category : 'BaselineOfToplo',
-	#package : 'BaselineOfToplo'
+	#category : #BaselineOfToplo
 }
 
-{ #category : 'baselines' }
+{ #category : #baselines }
 BaselineOfToplo >> baseline: spec [
 
 	<baseline>
 	spec for: #common do: [ self baselineForCommon: spec ]
 ]
 
-{ #category : 'baselines' }
+{ #category : #baselines }
 BaselineOfToplo >> baselineForCommon: spec [
 
 
@@ -24,7 +23,7 @@ BaselineOfToplo >> baselineForCommon: spec [
 	self registerPackages: spec
 ]
 
-{ #category : 'dependencies' }
+{ #category : #dependencies }
 BaselineOfToplo >> dependencies: spec [
 
 	spec
@@ -36,7 +35,7 @@ BaselineOfToplo >> dependencies: spec [
 		with: [ spec repository: 'github://plantec/Album/src' ]
 ]
 
-{ #category : 'baselines' }
+{ #category : #baselines }
 BaselineOfToplo >> postload: loader package: packageSpec [
 
 	"Ignore pre and post loads if already executed"
@@ -47,7 +46,7 @@ BaselineOfToplo >> postload: loader package: packageSpec [
 	Initialized := true
 ]
 
-{ #category : 'baselines' }
+{ #category : #baselines }
 BaselineOfToplo >> registerPackages: spec [
 	"Core"
 
@@ -138,4 +137,7 @@ BaselineOfToplo >> registerPackages: spec [
 		package: #'Toplo-Theme-Bee-Tests'
 		with: [ spec requires: #( #Toplo #'Toplo-Theme-Bee') ].
 
+	spec
+		package: #'Toplo-Theme-Examples'
+		with: [ spec requires: #( #'Toplo-Theme-Bee' ) ].
 ]

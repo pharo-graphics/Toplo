@@ -18,11 +18,40 @@ ToThemeExamples class >> createThemeMenuBar: aSpace [
 	^ menu
 ]
 
-{ #category : #buttons }
+{ #category : #'private - get' }
+ToThemeExamples class >> elementSandBoxFor: aSpace [
+
+	aSpace ifNil: [ ^ nil ].
+	^ aSpace root childWithId: #themeSandBox
+]
+
+{ #category : #'examples - buttons' }
 ToThemeExamples class >> example_buttons [
 
-	| space |
-	space := self openThemeExampleSpace
+	| space primaryButton defaultButton box dashedButton textButton linkButton |
+	space := self openThemeExampleSpace.
+	box := self elementSandBoxFor: space.
+	
+	box 
+		layout: BlFlowLayout horizontal; 
+		padding: (BlInsets all: 5);
+		constraintsDo: [ :c | c vertical matchParent. c horizontal matchParent ].
+	
+	"Create some buttons with different skins"
+	primaryButton := (ToButton id: #buttonA) labelText: 'Primary Button'; tooltipText: 'I''m a button'.
+	box addChild: primaryButton.
+	
+	defaultButton := (ToButton id: #buttonB) labelText: 'Default Button'; tooltipText: 'I''m a button'.
+	box addChild: defaultButton.
+	
+	dashedButton := (ToButton id: #buttonC) labelText: 'Dashed Button'; tooltipText: 'I''m a button'.
+	box addChild: dashedButton.
+	
+	textButton := (ToButton id: #buttonD) labelText: 'Text Button'; tooltipText: 'I''m a button'.
+	box addChild: textButton.
+	
+	linkButton := (ToButton id: #buttonE) labelText: 'Link Button'; tooltipText: 'I''m a button'.
+	box addChild: linkButton.
 ]
 
 { #category : #private }
@@ -30,9 +59,16 @@ ToThemeExamples class >> openThemeExampleSpace [
 	"Prepare a space to display theme examples"
 	| space |
 	space := BlSpace new.
-	space root addChild: (self createThemeMenuBar: space).
-	space position: 100@100; show.
+
+	"Configure root layout"
+	space root layout: BlFlowLayout vertical.
+	space root constraintsDo: [ :c | c vertical matchParent. c horizontal matchParent ].
 	
+	"Create UI"
+	space root addChild: (self createThemeMenuBar: space).
+	space root addChild: (BlElement id: #themeSandBox).
+	
+	space position: 100@100; show.	
 	^ space
 ]
 

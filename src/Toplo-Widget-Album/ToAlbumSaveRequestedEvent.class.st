@@ -1,21 +1,19 @@
 Class {
-	#name : 'ToAlbumSaveRequestedEvent',
-	#superclass : 'ToAlbumClientEvent',
+	#name : #ToAlbumSaveRequestedEvent,
+	#superclass : #ToAlbumClientEvent,
 	#instVars : [
 		'unacceptedEdits'
 	],
-	#category : 'Toplo-Widget-Album-TextPane',
-	#package : 'Toplo-Widget-Album',
-	#tag : 'TextPane'
+	#category : 'Toplo-Widget-Album-TextPane'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAlbumSaveRequestedEvent >> unacceptedEdits [
 
 	^ unacceptedEdits
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAlbumSaveRequestedEvent >> unacceptedEdits: aBoolean [
 
 	unacceptedEdits := aBoolean

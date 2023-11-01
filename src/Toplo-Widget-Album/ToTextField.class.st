@@ -1,24 +1,22 @@
 Class {
-	#name : 'ToTextField',
-	#superclass : 'ToAlbum',
-	#category : 'Toplo-Widget-Album-TextField',
-	#package : 'Toplo-Widget-Album',
-	#tag : 'TextField'
+	#name : #ToTextField,
+	#superclass : #ToAlbum,
+	#category : 'Toplo-Widget-Album-TextField'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToTextField >> defaultEditorElement [
 
 	^ AlbTextFieldElement new
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToTextField >> defaultGeometry [
 
 	^ BlRoundedRectangleGeometry cornerRadius: 4
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToTextField >> initialize [
 
 	| sharedDistributor |
@@ -51,20 +49,20 @@ ToTextField >> initialize [
 	"self addEventHandler:	(AlbTextEditorDoubleClickHandler new element: self infinite)"
 ]
 
-{ #category : 't - element with placeholder' }
+{ #category : #'t - element with placeholder' }
 ToTextField >> placeholderClass [
 
 	^ ToTextFieldPlaceholder
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToTextField >> withLineWrapping [
 
 	self next hMatchParent.
 	self infinite hMatchParent
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToTextField >> withSaveCapability [
 
 	super withSaveCapability.
@@ -82,13 +80,13 @@ ToTextField >> withSaveCapability [
 			 yourself)
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToTextField >> withoutLineBreak [
 
 	self inputFilter: AlbTextEditorNoLineBreakInputFilter new
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToTextField >> withoutLineWrapping [
 
 	self infinite hFitContent.

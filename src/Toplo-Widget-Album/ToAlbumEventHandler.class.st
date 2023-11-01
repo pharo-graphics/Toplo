@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToAlbumEventHandler',
-	#superclass : 'BlCustomEventHandler',
-	#category : 'Toplo-Widget-Album-TextPane',
-	#package : 'Toplo-Widget-Album',
-	#tag : 'TextPane'
+	#name : #ToAlbumEventHandler,
+	#superclass : #BlCustomEventHandler,
+	#category : 'Toplo-Widget-Album-TextPane'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToAlbumEventHandler >> blurEvent: aBlurEvent [
 
 	| target |
@@ -14,7 +12,7 @@ ToAlbumEventHandler >> blurEvent: aBlurEvent [
 	target border: target defaultBlurBorder
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToAlbumEventHandler >> checkTextIn: anEditorElement [
 
 	anEditorElement text
@@ -22,7 +20,7 @@ ToAlbumEventHandler >> checkTextIn: anEditorElement [
 		ifNotEmpty: [ anEditorElement hidePlaceholder ]
 ]
 
-{ #category : 'api - accessing' }
+{ #category : #'api - accessing' }
 ToAlbumEventHandler >> eventsToHandle [
 
 	^ {
@@ -32,7 +30,7 @@ ToAlbumEventHandler >> eventsToHandle [
 		  BlFocusEvent }
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToAlbumEventHandler >> focusEvent: aFocusEvent [
 
 	| target |
@@ -40,14 +38,14 @@ ToAlbumEventHandler >> focusEvent: aFocusEvent [
 	target border: target defaultFocusBorder
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToAlbumEventHandler >> textEditedEvent: aTextEditedEvent [
 
 	aTextEditedEvent currentTarget edited: true.
 	self checkTextIn: aTextEditedEvent currentTarget
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToAlbumEventHandler >> textReplacedEvent: aTextReplacedEvent [
 
 	self checkTextIn: aTextReplacedEvent currentTarget

@@ -1,11 +1,10 @@
 Class {
-	#name : 'ToThemeExamples',
-	#superclass : 'Object',
-	#category : 'Toplo-Theme-Examples',
-	#package : 'Toplo-Theme-Examples'
+	#name : #ToThemeExamples,
+	#superclass : #Object,
+	#category : #'Toplo-Theme-Examples'
 }
 
-{ #category : 'private' }
+{ #category : #private }
 ToThemeExamples class >> createThemeMenuBar: aSpace [
 
 	| bar themeMenu inspectMenu |
@@ -28,7 +27,7 @@ ToThemeExamples class >> createThemeMenuBar: aSpace [
 	^ bar
 ]
 
-{ #category : 'private - actions' }
+{ #category : #'private - actions' }
 ToThemeExamples class >> displaySpaceStyleSheet: aSpace [
 
 	| presenter stream |
@@ -60,7 +59,7 @@ ToThemeExamples class >> displaySpaceStyleSheet: aSpace [
 	presenter withWindowDo: [ :w | w title: 'Toplo Style Sheet details' ].
 ]
 
-{ #category : 'private - actions' }
+{ #category : #'private - actions' }
 ToThemeExamples class >> displaySpaceValueStyleSheet: aSpace [
 
 	| presenter stream |
@@ -92,14 +91,14 @@ ToThemeExamples class >> displaySpaceValueStyleSheet: aSpace [
 	presenter withWindowDo: [ :w | w title: 'Toplo Style Sheet details' ].
 ]
 
-{ #category : 'private - get' }
+{ #category : #'private - get' }
 ToThemeExamples class >> elementSandBoxFor: aSpace [
 
 	aSpace ifNil: [ ^ nil ].
 	^ aSpace root childWithId: #themeSandBox
 ]
 
-{ #category : 'examples - buttons' }
+{ #category : #'examples - buttons' }
 ToThemeExamples class >> example_buttons [
 
 	| space primaryButton defaultButton box dashedButton textButton linkButton |
@@ -109,7 +108,7 @@ ToThemeExamples class >> example_buttons [
 	box 
 		layout: BlFlowLayout horizontal; 
 		padding: (BlInsets all: 5);
-		constraintsDo: [ :c | c vertical matchParent. c horizontal matchParent ].
+		constraintsDo: [ :c | c vertical fitContent. c horizontal fitContent ].
 	
 	"Create some buttons with different skins"
 	primaryButton := (ToButton id: #buttonA) labelText: 'Primary Button'; tooltipText: 'I''m a button'.
@@ -130,10 +129,9 @@ ToThemeExamples class >> example_buttons [
 	linkButton := (ToButton id: #buttonE) labelText: 'Link Button'; tooltipText: 'I''m a button'.
 	linkButton withStamp: #link.
 	box addChild: linkButton.
-	space show
 ]
 
-{ #category : 'examples - buttons' }
+{ #category : #'examples - buttons' }
 ToThemeExamples class >> example_buttons1 [
 
 	| space primaryButton defaultButton |
@@ -158,21 +156,21 @@ ToThemeExamples class >> example_buttons1 [
 	space show
 ]
 
-{ #category : 'private - actions' }
+{ #category : #'private - actions' }
 ToThemeExamples class >> inspectSpace: aSpace [
 
 	aSpace ifNil:[ ^ self ].
 	aSpace inspect
 ]
 
-{ #category : 'private - actions' }
+{ #category : #'private - actions' }
 ToThemeExamples class >> inspectSpaceToTheme: aSpace [
 
 	aSpace ifNil:[ ^ self ].
 	aSpace toTheme inspect
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ToThemeExamples class >> openThemeExampleSpace [
 	"Prepare a space to display theme examples"
 	| space |
@@ -190,10 +188,11 @@ ToThemeExamples class >> openThemeExampleSpace [
 	space root toTheme: ToBeeLightTheme new.
 	
 	space position: 100@100.	
+	space show.
 	^ space
 ]
 
-{ #category : 'private - actions' }
+{ #category : #'private - actions' }
 ToThemeExamples class >> randomizeBeeThemeColorFor: aSpace [
 
 	| theme |
@@ -204,7 +203,7 @@ ToThemeExamples class >> randomizeBeeThemeColorFor: aSpace [
 	aSpace toTheme: theme.
 ]
 
-{ #category : 'private - actions' }
+{ #category : #'private - actions' }
 ToThemeExamples class >> switchTheme: aToTheme for: aSpace [
 
 	aSpace ifNil:[ ^ self ].
@@ -213,6 +212,6 @@ ToThemeExamples class >> switchTheme: aToTheme for: aSpace [
 	aSpace toTheme: aToTheme.
 ]
 
-{ #category : 'see class side' }
+{ #category : #'see class side' }
 ToThemeExamples >> seeClassSide [ 
 ]

@@ -2,16 +2,15 @@
 A ToDefaultStyleSheetTest is a test class for testing the behavior of ToDefaultStyleSheet
 "
 Class {
-	#name : 'ToBeeStyleSheetTest',
-	#superclass : 'TestCase',
+	#name : #ToBeeStyleSheetTest,
+	#superclass : #TestCase,
 	#instVars : [
 		'styleSheet'
 	],
-	#category : 'Toplo-Theme-Bee-Tests',
-	#package : 'Toplo-Theme-Bee-Tests'
+	#category : 'Toplo-Theme-Bee-Tests'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 ToBeeStyleSheetTest >> setUp [ 
 
 	super setUp.
@@ -20,7 +19,7 @@ ToBeeStyleSheetTest >> setUp [
 	styleSheet inherits: false.
 ]
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToBeeStyleSheetTest >> testDefaultButtonSkin [
 
 	|  button writers skin labelSkin |
@@ -48,7 +47,7 @@ ToBeeStyleSheetTest >> testDefaultButtonSkin [
 	
 ]
 
-{ #category : 'labeled-icon' }
+{ #category : #'labeled-icon' }
 ToBeeStyleSheetTest >> testLabeledIconWithLabelAndIcon [
 
 	| li |
@@ -68,7 +67,7 @@ ToBeeStyleSheetTest >> testLabeledIconWithLabelAndIcon [
 
 ]
 
-{ #category : 'look updaters' }
+{ #category : #'look updaters' }
 ToBeeStyleSheetTest >> testWriteablePropertyList [
 
 	| index count elem |

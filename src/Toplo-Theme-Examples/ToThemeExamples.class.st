@@ -1,32 +1,47 @@
 Class {
-	#name : 'ToThemeExamples',
-	#superclass : 'Object',
-	#category : 'Toplo-Theme-Examples',
-	#package : 'Toplo-Theme-Examples'
+	#name : #ToThemeExamples,
+	#superclass : #Object,
+	#category : #'Toplo-Theme-Examples'
 }
 
-{ #category : 'private' }
+{ #category : #private }
 ToThemeExamples class >> createThemeMenuBar: aSpace [
 
-	| menu |
-	menu := ToMenu new.
-	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	| bar themeMenu inspectMenu |
+	bar := ToMenuBar new hMatchParent; vFitContent.
+	bar addMenu: (themeMenu := ToMenu new labelText: 'Bee Theme').
+	bar addMenu: (inspectMenu := ToMenu new labelText: 'Tools').
 	
+	"Theme menu"	
 	"Button to switch between light and dark theme"
-	menu addItem: (ToMenuItem new label: (ToLabel text: 'Bee Light'); tooltipText: 'Switch to Bee light theme'; whenClickedDo: [ self switchTheme: (ToBeeLightTheme new) for: aSpace ]).
-	menu addItem: (ToMenuItem new label: (ToLabel text: 'Bee Dark'); tooltipText: 'Switch to Bee dark theme'; whenClickedDo: [ self switchTheme: (ToBeeDarkTheme new) for: aSpace ]).
+	themeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Switch to light'); tooltipText: 'Change the current Bee Theme to Bee light Theme'; whenClickedDo: [ self switchTheme: (ToBeeLightTheme new) for: aSpace ]).
+	themeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Switch to dark'); tooltipText: 'Change the current Bee Theme to Bee dark Theme'; whenClickedDo: [ self switchTheme: (ToBeeDarkTheme new) for: aSpace ]).
+	themeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Randomize color'); tooltipText: 'Randomize the current bee theme primary color'; whenClickedDo: [ self randomizeBeeThemeColorFor: aSpace ]).
 	
-	^ menu
+	"Inspect menu"
+	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'Inspect Space'); tooltipText: 'Inspect the BlSpace'; whenClickedDo: [ self inspectSpace: aSpace ]).
+	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'Inspect Theme'); tooltipText: 'Inspect the current theme'; whenClickedDo: [ self inspectSpaceToTheme: aSpace ]).
+	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'Show Style Sheet'); tooltipText: 'Show the current style sheet'; whenClickedDo: [ self displaySpaceStyleSheet: aSpace ]).
+	
+	^ bar
 ]
 
-{ #category : 'private - get' }
+{ #category : #'private - actions' }
+ToThemeExamples class >> displaySpaceStyleSheet: aSpace [
+
+	aSpace ifNil:[ ^ self ].
+	aSpace toTheme ifNil:[ ^ self ].
+	aSpace toTheme styleSheet inspect
+]
+
+{ #category : #'private - get' }
 ToThemeExamples class >> elementSandBoxFor: aSpace [
 
 	aSpace ifNil: [ ^ nil ].
 	^ aSpace root childWithId: #themeSandBox
 ]
 
-{ #category : 'examples - buttons' }
+{ #category : #'examples - buttons' }
 ToThemeExamples class >> example_buttons [
 
 	| space primaryButton defaultButton box dashedButton textButton linkButton |
@@ -59,7 +74,7 @@ ToThemeExamples class >> example_buttons [
 	box addChild: linkButton.
 ]
 
-{ #category : 'examples - buttons' }
+{ #category : #'examples - buttons' }
 ToThemeExamples class >> example_buttons1 [
 
 	| space primaryButton |
@@ -80,10 +95,24 @@ ToThemeExamples class >> example_buttons1 [
 	space show
 ]
 
-{ #category : 'private' }
+{ #category : #'private - actions' }
+ToThemeExamples class >> inspectSpace: aSpace [
+
+	aSpace ifNil:[ ^ self ].
+	aSpace inspect
+]
+
+{ #category : #'private - actions' }
+ToThemeExamples class >> inspectSpaceToTheme: aSpace [
+
+	aSpace ifNil:[ ^ self ].
+	aSpace toTheme inspect
+]
+
+{ #category : #private }
 ToThemeExamples class >> openThemeExampleSpace [
 	"Prepare a space to display theme examples"
-	| space |
+	| space theme |
 	space := BlSpace new.
 
 	"Configure root layout"
@@ -94,14 +123,28 @@ ToThemeExamples class >> openThemeExampleSpace [
 	space root addChild: (self createThemeMenuBar: space).
 	space root addChild: (BlElement id: #themeSandBox).
 	
-	"Configure default Theme"
-	space root toTheme: ToBeeLightTheme new.
+	"Configure default Theme regarding Pharo current theme"
+	Smalltalk ui theme ifNotNil:[ :e |
+		theme := e class = PharoDarkTheme ifTrue:[ ToBeeDarkTheme new ] ifFalse:[ ToBeeLightTheme new ].
+		space root toTheme: theme.
+	].
 	
 	space position: 100@100; show.	
 	^ space
 ]
 
-{ #category : 'private - actions' }
+{ #category : #'private - actions' }
+ToThemeExamples class >> randomizeBeeThemeColorFor: aSpace [
+
+	| theme |
+	aSpace ifNil:[ ^ self ].
+	theme := aSpace toTheme copy.
+	theme colorPrimary: Color random.
+	
+	aSpace toTheme: theme.
+]
+
+{ #category : #'private - actions' }
 ToThemeExamples class >> switchTheme: aToTheme for: aSpace [
 
 	aSpace ifNil:[ ^ self ].
@@ -110,6 +153,6 @@ ToThemeExamples class >> switchTheme: aToTheme for: aSpace [
 	aSpace toTheme: aToTheme.
 ]
 
-{ #category : 'see class side' }
+{ #category : #'see class side' }
 ToThemeExamples >> seeClassSide [ 
 ]

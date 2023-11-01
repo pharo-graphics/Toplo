@@ -59,6 +59,27 @@ ToThemeExamples class >> example_buttons [
 	box addChild: linkButton.
 ]
 
+{ #category : 'examples - buttons' }
+ToThemeExamples class >> example_buttons1 [
+
+	| space primaryButton |
+	ToTheme cleanUp.
+	space := BlSpace new.
+
+	"Configure default Theme"
+	space toTheme: ToBeeLightTheme new.
+	space
+		position: 1000 @ 1000.
+	"Create some buttons with different skins"
+	primaryButton := (ToButton id: #buttonA)
+		                 labelText: 'Primary Button';
+		                 tooltipText: 'I''m a button'.
+	primaryButton withStamp: #primary.
+	space root addChild: primaryButton.
+	space inspect.
+	space show
+]
+
 { #category : 'private' }
 ToThemeExamples class >> openThemeExampleSpace [
 	"Prepare a space to display theme examples"

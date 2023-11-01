@@ -74,6 +74,7 @@ ToStyleSheetSkin >> indeterminateLookEvent: anEvent [
 { #category : 'event handling' }
 ToStyleSheetSkin >> initialLookEvent: anEvent [
 
+anEvent currentTarget trace. ' >> (Bee) initialLookEvent: ' traceCr.
 	self sendEventToWriters: anEvent
 ]
 

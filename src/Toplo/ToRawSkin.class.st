@@ -8,6 +8,7 @@ Class {
 
 { #category : 'event handling' }
 ToRawSkin >> initialLookEvent: anEvent [
+anEvent currentTarget trace. ' >> initialLookEvent: ' traceCr.
 
 	anEvent elementDo: [ :e | e initialRawStyle ]
 ]

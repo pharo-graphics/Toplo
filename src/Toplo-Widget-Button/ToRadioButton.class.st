@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToRadioButton',
-	#superclass : 'ToCheckbox',
-	#category : 'Toplo-Widget-Button-Checkable',
-	#package : 'Toplo-Widget-Button',
-	#tag : 'Checkable'
+	#name : #ToRadioButton,
+	#superclass : #ToCheckbox,
+	#category : 'Toplo-Widget-Button-Checkable'
 }
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToRadioButton >> iconGeometry [
 
 	^ BlCircleGeometry new

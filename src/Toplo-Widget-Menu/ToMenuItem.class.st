@@ -1,36 +1,44 @@
 Class {
-	#name : 'ToMenuItem',
-	#superclass : 'ToGeneralButtonMenuItem',
+	#name : #ToMenuItem,
+	#superclass : #ToGeneralButtonMenuItem,
 	#traits : 'TToElementWithLabeledIcon',
 	#classTraits : 'TToElementWithLabeledIcon classTrait',
 	#instVars : [
 		'filler',
 		'rightHandSide'
 	],
-	#category : 'Toplo-Widget-Menu-Basic',
-	#package : 'Toplo-Widget-Menu',
-	#tag : 'Basic'
+	#category : 'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToMenuItem >> buttonClass [
 
 	^ ToButton 
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToMenuItem >> closeOnMouseEvent [
 
 	^ self isTopMenu not
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToMenuItem >> filler [ 
 
 	^ filler
 ]
 
-{ #category : 'initialization' }
+{ #category : #skin }
+ToMenuItem >> initialRawStyle [
+
+	super initialRawStyle.
+	self labeledIcon childrenDo: [ :child |
+		child constraintsDo: [ :c |
+			c linear vertical alignCenter.
+			c linear horizontal alignCenter ] ].
+]
+
+{ #category : #initialization }
 ToMenuItem >> initialize [ 
 
 	super initialize.
@@ -43,13 +51,13 @@ ToMenuItem >> initialize [
 	self button addChild: rightHandSide
 ]
 
-{ #category : 't - element with labeled icon - accessing' }
+{ #category : #'t - element with labeled icon - accessing' }
 ToMenuItem >> labeledIcon [ 
 
 	^ self button labeledIcon 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToMenuItem >> newFiller [
 
 	^ ToElement new
@@ -59,7 +67,7 @@ ToMenuItem >> newFiller [
 		  yourself
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToMenuItem >> newRightHandSide [
 
 	| rhs |
@@ -72,7 +80,7 @@ ToMenuItem >> newRightHandSide [
 	^ rhs
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToMenuItem >> rightHandSide [
 
 	^ rightHandSide

@@ -1,30 +1,28 @@
 Class {
-	#name : 'ToSkinStateQueue',
-	#superclass : 'Object',
+	#name : #ToSkinStateQueue,
+	#superclass : #Object,
 	#instVars : [
 		'currentStates',
 		'nextStates',
 		'installed'
 	],
-	#category : 'Toplo-Theme-State',
-	#package : 'Toplo-Theme',
-	#tag : 'State'
+	#category : 'Toplo-Theme-State'
 }
 
-{ #category : 'hook' }
+{ #category : #hook }
 ToSkinStateQueue >> applyOn: anElement [
 
 	[ self nextStates isEmpty ] whileFalse: [
 		self nextStates removeLast applyOn: anElement ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSkinStateQueue >> currentStates [
 
 	^ currentStates
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 ToSkinStateQueue >> enqueueState: aState [
 
 	self nextStates removeAllSuchThat: [ :s | (s isKindOf: aState class) or: [ aState incompatibleStateClasses includes: s class ]].
@@ -35,7 +33,7 @@ ToSkinStateQueue >> enqueueState: aState [
 	self currentStates addFirst: aState
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 ToSkinStateQueue >> enqueueState: aState in: anElement [
 
 	" declare the element as dirty "
@@ -43,7 +41,7 @@ ToSkinStateQueue >> enqueueState: aState in: anElement [
 	self enqueueState: aState
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSkinStateQueue >> initialize [ 
 
 	super initialize.
@@ -52,25 +50,25 @@ ToSkinStateQueue >> initialize [
 	installed := false
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSkinStateQueue >> nextStates [
 
 	^ nextStates
 ]
 
-{ #category : 'api - hooks' }
+{ #category : #'api - hooks' }
 ToSkinStateQueue >> onInstalledIn: anElement [
 
 
 ]
 
-{ #category : 'api - hooks' }
+{ #category : #'api - hooks' }
 ToSkinStateQueue >> onUninstalledIn: anElement [
 
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSkinStateQueue >> reinstall [
 
 	installed := false
@@ -78,7 +76,7 @@ ToSkinStateQueue >> reinstall [
 	
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSkinStateQueue >> skinChangedEvent: anEvent [
 	" initial state required - if the element is enabled proceed with stored persistent states "
 
@@ -89,7 +87,7 @@ ToSkinStateQueue >> skinChangedEvent: anEvent [
 	self enqueueState: (ToInstallState sourceEvent: anEvent) in: target
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSkinStateQueue >> skinRequestedEvent: anEvent [
 	" initial state required - if the element is enabled proceed with stored persistent states "
 

@@ -1,22 +1,21 @@
 Class {
-	#name : 'ToFilterDresserOnListWithPopupExperiment2',
-	#superclass : 'Object',
+	#name : #ToFilterDresserOnListWithPopupExperiment2,
+	#superclass : #Object,
 	#instVars : [
 		'filterField',
 		'listElement',
 		'filterWin'
 	],
-	#category : 'Toplo-Examples',
-	#package : 'Toplo-Examples'
+	#category : 'Toplo-Examples'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToFilterDresserOnListWithPopupExperiment2 class >> open [
 	<script>
 	self new open 
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToFilterDresserOnListWithPopupExperiment2 >> close [
 
 	filterWin ifNil: [ ^ self ].
@@ -27,7 +26,7 @@ ToFilterDresserOnListWithPopupExperiment2 >> close [
 	
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToFilterDresserOnListWithPopupExperiment2 >> filterResultPlaceholder [
 
 	| placeholder lab |
@@ -40,7 +39,7 @@ ToFilterDresserOnListWithPopupExperiment2 >> filterResultPlaceholder [
 	^ placeholder
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToFilterDresserOnListWithPopupExperiment2 >> listElement [
 
 	^ listElement ifNil: [
@@ -49,7 +48,7 @@ ToFilterDresserOnListWithPopupExperiment2 >> listElement [
 			                 yourself ]
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToFilterDresserOnListWithPopupExperiment2 >> open [
 
 	| pane filler |
@@ -92,7 +91,7 @@ ToFilterDresserOnListWithPopupExperiment2 >> open [
 	pane openInSpace
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToFilterDresserOnListWithPopupExperiment2 >> popupTextFieldWith: aString [
 
 	filterWin ifNotNil: [
@@ -138,7 +137,7 @@ ToFilterDresserOnListWithPopupExperiment2 >> popupTextFieldWith: aString [
 	self textUpdated
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToFilterDresserOnListWithPopupExperiment2 >> requestCancel [
 
 	filterWin ifNil: [  ^ self ].
@@ -146,11 +145,11 @@ ToFilterDresserOnListWithPopupExperiment2 >> requestCancel [
 	self close
 ]
 
-{ #category : 'see class side' }
+{ #category : #'see class side' }
 ToFilterDresserOnListWithPopupExperiment2 >> seeClassSide [ 
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToFilterDresserOnListWithPopupExperiment2 >> startPlaceholder [
 
 	| placeholder lab but |
@@ -174,7 +173,7 @@ ToFilterDresserOnListWithPopupExperiment2 >> startPlaceholder [
 	^ placeholder
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToFilterDresserOnListWithPopupExperiment2 >> textUpdated [
 
 	filterField ifNil: [ ^self ].

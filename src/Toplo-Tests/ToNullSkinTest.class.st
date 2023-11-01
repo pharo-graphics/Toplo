@@ -2,14 +2,12 @@
 A ToNullSkinTest is a test class for testing the behavior of ToNullSkin
 "
 Class {
-	#name : 'ToNullSkinTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core-Skin',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Skin'
+	#name : #ToNullSkinTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Tests-Core-Skin'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToNullSkinTest >> testWithASkinInstalledBefore [
 
 	| w installedSkin nsk |
@@ -32,7 +30,7 @@ ToNullSkinTest >> testWithASkinInstalledBefore [
 	self assert: w installedSkin identicalTo: nsk
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToNullSkinTest >> testWithoutSkin [
 
 	| w sk |

@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToLayoutConstraintsChangedEvent',
-	#superclass : 'BlEvent',
-	#category : 'Toplo-Core',
-	#package : 'Toplo',
-	#tag : 'Core'
+	#name : #ToLayoutConstraintsChangedEvent,
+	#superclass : #BlEvent,
+	#category : 'Toplo-Core'
 }
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToLayoutConstraintsChangedEvent >> sendTo: anObject [
 
 	anObject layoutConstraintsChangedEvent: self

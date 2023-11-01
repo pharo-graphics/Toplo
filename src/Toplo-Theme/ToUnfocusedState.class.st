@@ -1,19 +1,17 @@
 Class {
-	#name : 'ToUnfocusedState',
-	#superclass : 'ToElementState',
-	#category : 'Toplo-Theme-State',
-	#package : 'Toplo-Theme',
-	#tag : 'State'
+	#name : #ToUnfocusedState,
+	#superclass : #ToElementState,
+	#category : 'Toplo-Theme-State'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToUnfocusedState >> incompatibleStateClasses [
 
 	^ { ToFocusedState }.
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToUnfocusedState >> lookEventClass [
 
 	^ ToUnfocusedLookEvent 

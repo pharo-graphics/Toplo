@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToWorldMenu',
-	#superclass : 'Object',
-	#category : 'Toplo-Core',
-	#package : 'Toplo',
-	#tag : 'Core'
+	#name : #ToWorldMenu,
+	#superclass : #Object,
+	#category : 'Toplo-Core'
 }
 
-{ #category : 'menu - toplo' }
+{ #category : #'menu - toplo' }
 ToWorldMenu class >> menuCleanUpUniverseOn: aBuilder [
 
 	<worldMenu>
@@ -27,7 +25,7 @@ ToWorldMenu class >> menuCleanUpUniverseOn: aBuilder [
 				start ]
 ]
 
-{ #category : 'menu - toplo' }
+{ #category : #'menu - toplo' }
 ToWorldMenu class >> menuExamples: aBuilder [
 	<worldMenu>
 	(aBuilder item: #ToploExamples)
@@ -38,7 +36,7 @@ ToWorldMenu class >> menuExamples: aBuilder [
 		icon: (self iconNamed: #glamorousGo)
 ]
 
-{ #category : 'menu - toplo - examples' }
+{ #category : #'menu - toplo - examples' }
 ToWorldMenu class >> menuExamplesLoginPage: aBuilder [
 	<worldMenu>
 	(aBuilder item: #ToploExamplesLoginPage)
@@ -50,7 +48,7 @@ ToWorldMenu class >> menuExamplesLoginPage: aBuilder [
 		action:[ ToLoginPage open ].
 ]
 
-{ #category : 'menu - toplo - examples' }
+{ #category : #'menu - toplo - examples' }
 ToWorldMenu class >> menuExamplesSandBox: aBuilder [
 	<worldMenu>
 	(aBuilder item: #ToploExamplesSandBox)
@@ -62,7 +60,7 @@ ToWorldMenu class >> menuExamplesSandBox: aBuilder [
 		action:[ ToSandBox class browse ].
 ]
 
-{ #category : 'menu - toplo - examples' }
+{ #category : #'menu - toplo - examples' }
 ToWorldMenu class >> menuExamplesSourceCodeBrowser: aBuilder [
 	<worldMenu>
 	(aBuilder item: #ToploExamplesMiniBrowser)
@@ -74,7 +72,7 @@ ToWorldMenu class >> menuExamplesSourceCodeBrowser: aBuilder [
 		action:[ ToMiniBrowser open ].
 ]
 
-{ #category : 'menu - toplo' }
+{ #category : #'menu - toplo' }
 ToWorldMenu class >> menuGithubOn: aBuilder [
 	<worldMenu>
 	(aBuilder item: #ToploGitHub)
@@ -86,7 +84,7 @@ ToWorldMenu class >> menuGithubOn: aBuilder [
 		action: [ WebBrowser openOn: 'https://github.com/plantec/Toplo/' ]
 ]
 
-{ #category : 'menu - toplo' }
+{ #category : #'menu - toplo' }
 ToWorldMenu class >> menuReportABugOn: aBuilder [
 	<worldMenu>
 	(aBuilder item: #ToploBugReport)
@@ -98,7 +96,7 @@ ToWorldMenu class >> menuReportABugOn: aBuilder [
 		action: [ WebBrowser openOn: 'https://github.com/plantec/Toplo/issues/new' ]
 ]
 
-{ #category : 'menu' }
+{ #category : #menu }
 ToWorldMenu class >> menuToploOn: aBuilder [
 	<worldMenu>
 	(aBuilder item: #Toplo) 
@@ -109,6 +107,6 @@ ToWorldMenu class >> menuToploOn: aBuilder [
 		order: 777
 ]
 
-{ #category : 'see class side' }
+{ #category : #'see class side' }
 ToWorldMenu >> seeClassSide [
 ]

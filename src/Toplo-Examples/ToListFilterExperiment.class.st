@@ -1,22 +1,21 @@
 Class {
-	#name : 'ToListFilterExperiment',
-	#superclass : 'Object',
+	#name : #ToListFilterExperiment,
+	#superclass : #Object,
 	#instVars : [
 		'filterField',
 		'listElement',
 		'dataFilter'
 	],
-	#category : 'Toplo-Examples',
-	#package : 'Toplo-Examples'
+	#category : 'Toplo-Examples'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToListFilterExperiment class >> open [
 	<script>
 	self new open 
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToListFilterExperiment >> filterResultPlaceholder [
 
 	| placeholder lab |
@@ -29,7 +28,7 @@ ToListFilterExperiment >> filterResultPlaceholder [
 	^ placeholder
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListFilterExperiment >> listElement [
 
 	^ listElement ifNil: [
@@ -38,7 +37,7 @@ ToListFilterExperiment >> listElement [
 			                 yourself ]
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToListFilterExperiment >> open [
 
 	| pane  |
@@ -65,11 +64,11 @@ ToListFilterExperiment >> open [
 	pane openInSpace
 ]
 
-{ #category : 'see class side' }
+{ #category : #'see class side' }
 ToListFilterExperiment >> seeClassSide [ 
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToListFilterExperiment >> startPlaceholder [
 
 	| placeholder lab but |
@@ -91,7 +90,7 @@ ToListFilterExperiment >> startPlaceholder [
 	^ placeholder
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToListFilterExperiment >> textUpdated [
 
 	dataFilter dataFilterPattern: filterField text asString

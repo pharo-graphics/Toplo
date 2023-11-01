@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToMenuWindowHandler',
-	#superclass : 'ToPopupWindowHandler',
-	#category : 'Toplo-Widget-Menu-Basic',
-	#package : 'Toplo-Widget-Menu',
-	#tag : 'Basic'
+	#name : #ToMenuWindowHandler,
+	#superclass : #ToPopupWindowHandler,
+	#category : 'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToMenuWindowHandler >> defaulPositionHook [ 
 
 	^ [ :event :theMenu | theMenu isSubmenu
@@ -14,13 +12,13 @@ ToMenuWindowHandler >> defaulPositionHook [
 		  ifFalse: [ theMenu bounds inSpace bounds bottomLeft ] ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToMenuWindowHandler >> elementEventHandlerClass [ 
 
 	^ ToMenuEventHandler
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToMenuWindowHandler >> windowClass [
 
 	^ ToMenuWindow 

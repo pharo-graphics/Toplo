@@ -2,17 +2,15 @@
 A ToSkinnableEventHandlerTest is a test class for testing the behavior of ToSkinnableEventHandler
 "
 Class {
-	#name : 'ToSkinStateQueueTest',
-	#superclass : 'ToParameterizedHostTest',
+	#name : #ToSkinStateQueueTest,
+	#superclass : #ToParameterizedHostTest,
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core-Skin',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Skin'
+	#category : 'Toplo-Tests-Core-Skin'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateQueueTest >> newElementInSpace [
 
 	| e |
@@ -28,19 +26,19 @@ ToSkinStateQueueTest >> newElementInSpace [
 	
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToSkinStateQueueTest >> setUp [ 
 	super setUp.
 	space := self newTestingSpace
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateQueueTest >> testCheckableCheckedEvent [
 
 	self testGenerateCheckStateFromEvent 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateQueueTest >> testGenerateCheckStateFromEvent [
 
 	| e evt nextStates currentStates nextStatesSize currentStatesSize |
@@ -118,7 +116,7 @@ ToSkinStateQueueTest >> testGenerateCheckStateFromEvent [
 		equals: 1
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateQueueTest >> testGenerateClickedStateFromEvent [
 
 	| e evt nextStates currentStates |
@@ -159,7 +157,7 @@ ToSkinStateQueueTest >> testGenerateClickedStateFromEvent [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateQueueTest >> testGenerateHoveredStateFromEvent [
 
 	| e evt nextStates currentStates |
@@ -206,7 +204,7 @@ ToSkinStateQueueTest >> testGenerateHoveredStateFromEvent [
 	self assert: currentStates size equals: 1
 ]
 
-{ #category : 'api - hooks' }
+{ #category : #'api - hooks' }
 ToSkinStateQueueTest >> testOnInstalledIn [
 
 	| e h |
@@ -218,19 +216,19 @@ ToSkinStateQueueTest >> testOnInstalledIn [
 	self assert: h target isNil
 ]
 
-{ #category : 'api - hooks' }
+{ #category : #'api - hooks' }
 ToSkinStateQueueTest >> testOnUninstalledIn [
 
 	self testOnInstalledIn
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSkinStateQueueTest >> testTarget [
 
 	self testOnInstalledIn 
 ]
 
-{ #category : 'api event managing' }
+{ #category : #'api event managing' }
 ToSkinStateQueueTest >> testWantsEvent [
 
 	| e h eventsToHandle eventsToHandleWhenDisabled |

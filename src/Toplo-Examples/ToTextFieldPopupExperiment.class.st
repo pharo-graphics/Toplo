@@ -1,18 +1,17 @@
 Class {
-	#name : 'ToTextFieldPopupExperiment',
-	#superclass : 'Object',
-	#category : 'Toplo-Examples',
-	#package : 'Toplo-Examples'
+	#name : #ToTextFieldPopupExperiment,
+	#superclass : #Object,
+	#category : 'Toplo-Examples'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToTextFieldPopupExperiment class >> open [
 
 	<script>
 	self new open
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToTextFieldPopupExperiment >> open [
 
 	| e |
@@ -27,7 +26,7 @@ ToTextFieldPopupExperiment >> open [
 	e openInInnerWindow 
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToTextFieldPopupExperiment >> popupTextFieldWith: aString on: anElement [
 
 	| tf win windowHandler |
@@ -46,6 +45,6 @@ ToTextFieldPopupExperiment >> popupTextFieldWith: aString on: anElement [
 	win popup
 ]
 
-{ #category : 'see class side' }
+{ #category : #'see class side' }
 ToTextFieldPopupExperiment >> seeClassSide [ 
 ]

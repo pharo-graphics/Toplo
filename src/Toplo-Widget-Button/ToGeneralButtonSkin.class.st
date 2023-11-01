@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToGeneralButtonSkin',
-	#superclass : 'ToRawSkin',
-	#category : 'Toplo-Widget-Button-Core',
-	#package : 'Toplo-Widget-Button',
-	#tag : 'Core'
+	#name : #ToGeneralButtonSkin,
+	#superclass : #ToRawSkin,
+	#category : 'Toplo-Widget-Button-Core'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToGeneralButtonSkin >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
@@ -16,7 +14,7 @@ ToGeneralButtonSkin >> disabledLookEvent: anEvent [
 		e background: e disabledBackground ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToGeneralButtonSkin >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
@@ -26,7 +24,7 @@ ToGeneralButtonSkin >> enabledLookEvent: anEvent [
 		e background: e defaultBackground ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToGeneralButtonSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
@@ -37,7 +35,7 @@ ToGeneralButtonSkin >> hoveredLookEvent: anEvent [
 		e background: e hoveredBackground ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToGeneralButtonSkin >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
@@ -47,7 +45,7 @@ ToGeneralButtonSkin >> initialLookEvent: anEvent [
 		e background: e defaultBackground ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToGeneralButtonSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
@@ -57,7 +55,7 @@ ToGeneralButtonSkin >> leavedLookEvent: anEvent [
 		e background: e defaultBackground ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToGeneralButtonSkin >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
@@ -66,7 +64,7 @@ ToGeneralButtonSkin >> pressedLookEvent: anEvent [
 		e background: e pressedBackground ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToGeneralButtonSkin >> releasedLookEvent: anEvent [
 
 	super releasedLookEvent: anEvent.

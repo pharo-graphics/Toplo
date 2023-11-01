@@ -1,23 +1,21 @@
 Trait {
-	#name : 'TToElementWithSkinnableProperties',
-	#category : 'Toplo-Core-Properties',
-	#package : 'Toplo',
-	#tag : 'Core-Properties'
+	#name : #TToElementWithSkinnableProperties,
+	#category : 'Toplo-Core-Properties'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 TToElementWithSkinnableProperties classSide >> newPropertyIndex [ 
 
 	^ self explicitRequirement 
 ]
 
-{ #category : 't - element with skinnable properties' }
+{ #category : #'t - element with skinnable properties' }
 TToElementWithSkinnableProperties >> propertyIndex [
 
 	^ self userData at: #propertyIndex ifAbsentPut: [self class newPropertyIndex]
 ]
 
-{ #category : 't - element with skinnable properties' }
+{ #category : #'t - element with skinnable properties' }
 TToElementWithSkinnableProperties >> propertyNamed: aSymbol [
 
 	^ self propertyIndex at: aSymbol asSymbol ifAbsent: [  ]

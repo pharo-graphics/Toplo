@@ -2,14 +2,12 @@
 A ToSpaceSkinInstallerPhaseTest is a test class for testing the behavior of ToSpaceSkinInstallerPhase
 "
 Class {
-	#name : 'ToSpaceSkinInstallerPhaseTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core-SpaceFrame',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-SpaceFrame'
+	#name : #ToSpaceSkinInstallerPhaseTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Tests-Core-SpaceFrame'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinInstallerPhaseTest >> testElementAddedToSceneGraphEvent [
 
 	| space e nb |
@@ -41,7 +39,7 @@ ToSpaceSkinInstallerPhaseTest >> testElementAddedToSceneGraphEvent [
 			 eh isKindOf: ToSpaceSkinInstallerPhaseCheckerEventHandler ])
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSpaceSkinInstallerPhaseTest >> testStopSpaceFrameSkinInstallerPhase [
 
 	| space e nb |

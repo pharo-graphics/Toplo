@@ -1,33 +1,31 @@
 Class {
-	#name : 'ToChildSelector',
-	#superclass : 'ToBinarySelector',
+	#name : #ToChildSelector,
+	#superclass : #ToBinarySelector,
 	#instVars : [
 		'depth'
 	],
-	#category : 'Toplo-Core-Selector',
-	#package : 'Toplo',
-	#tag : 'Core-Selector'
+	#category : 'Toplo-Core-Selector'
 }
 
-{ #category : 'visiting' }
+{ #category : #visiting }
 ToChildSelector >> accept: aVisitor [
 
 	aVisitor visitChildSelector: self
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToChildSelector >> depth [
 
 	^ depth
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToChildSelector >> depth: anInteger [
 
 	depth := anInteger
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToChildSelector >> initialize [ 
 
 	super initialize.

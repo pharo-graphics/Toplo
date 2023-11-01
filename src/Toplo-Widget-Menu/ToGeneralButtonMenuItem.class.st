@@ -1,21 +1,19 @@
 Class {
-	#name : 'ToGeneralButtonMenuItem',
-	#superclass : 'ToMenuItemElement',
+	#name : #ToGeneralButtonMenuItem,
+	#superclass : #ToMenuItemElement,
 	#instVars : [
 		'button'
 	],
-	#category : 'Toplo-Widget-Menu-Basic',
-	#package : 'Toplo-Widget-Menu',
-	#tag : 'Basic'
+	#category : 'Toplo-Widget-Menu-Basic'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToGeneralButtonMenuItem >> button [
 
 	^ button 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToGeneralButtonMenuItem >> button: aButton [
 
 	self button = aButton ifTrue: [ ^ self ].
@@ -27,25 +25,25 @@ ToGeneralButtonMenuItem >> button: aButton [
 	self requestSkin
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToGeneralButtonMenuItem >> buttonClass [
 
 	^ ToGeneralButton 
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToGeneralButtonMenuItem >> closeOnMouseEvent [
 
 	^ true
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToGeneralButtonMenuItem >> defaultLayout [ 
 
 	^ BlLinearLayout horizontal
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToGeneralButtonMenuItem >> initialize [ 
 
 	super initialize.
@@ -54,7 +52,7 @@ ToGeneralButtonMenuItem >> initialize [
 	self layout: self defaultLayout
 ]
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToGeneralButtonMenuItem >> installRawStyle [
 
 	super installRawStyle.
@@ -65,7 +63,7 @@ ToGeneralButtonMenuItem >> installRawStyle [
 	self button rightLabelAlignment: 25
 ]
 
-{ #category : 't - clickable - click behavior' }
+{ #category : #'t - clickable - click behavior' }
 ToGeneralButtonMenuItem >> whenClickedDo: aBlock [
 	"Inform that the widget has been clicked."
 

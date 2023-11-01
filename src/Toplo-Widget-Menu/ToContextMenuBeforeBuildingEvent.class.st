@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToContextMenuBeforeBuildingEvent',
-	#superclass : 'ToWindowBeforeBuildingEvent',
-	#category : 'Toplo-Widget-Menu-Context Menu',
-	#package : 'Toplo-Widget-Menu',
-	#tag : 'Context Menu'
+	#name : #ToContextMenuBeforeBuildingEvent,
+	#superclass : #ToWindowBeforeBuildingEvent,
+	#category : 'Toplo-Widget-Menu-Context Menu'
 }
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToContextMenuBeforeBuildingEvent >> sendTo: anEvent [
 
 	anEvent contextMenuBeforeBuildingEvent: self

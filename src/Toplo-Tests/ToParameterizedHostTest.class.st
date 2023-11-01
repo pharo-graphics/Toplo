@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToParameterizedHostTest',
-	#superclass : 'BlParameterizedHostTest',
-	#category : 'Toplo-Tests-Core',
-	#package : 'Toplo-Tests',
-	#tag : 'Core'
+	#name : #ToParameterizedHostTest,
+	#superclass : #BlParameterizedHostTest,
+	#category : 'Toplo-Tests-Core'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToParameterizedHostTest >> waitTestingSpaces [
 
 	testingSpaces do: [ :each | each requestNextPulse ].

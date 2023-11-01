@@ -1,14 +1,12 @@
 Class {
-	#name : 'ToElement',
-	#superclass : 'BlElement',
+	#name : #ToElement,
+	#superclass : #BlElement,
 	#traits : 'TBlLayoutResizable + TToEnableable + TToElementWithTooltip + TToElementWithContextMenu',
 	#classTraits : 'TBlLayoutResizable classTrait + TToEnableable classTrait + TToElementWithTooltip classTrait + TToElementWithContextMenu classTrait',
-	#category : 'Toplo-Core',
-	#package : 'Toplo',
-	#tag : 'Core'
+	#category : 'Toplo-Core'
 }
 
-{ #category : 'event management' }
+{ #category : #'event management' }
 ToElement >> addEventFilter: anEventHandler [
 
 	self checkEventHandler: anEventHandler.
@@ -16,7 +14,7 @@ ToElement >> addEventFilter: anEventHandler [
 	super addEventFilter: anEventHandler
 ]
 
-{ #category : 'event management' }
+{ #category : #'event management' }
 ToElement >> addEventHandler: anEventHandler [
 
 	self checkEventHandler: anEventHandler.
@@ -24,14 +22,14 @@ ToElement >> addEventHandler: anEventHandler [
 	super addEventHandler: anEventHandler
 ]
 
-{ #category : 'skin - private' }
+{ #category : #'skin - private' }
 ToElement >> addSkinInstallerPhaseChecker [
 
 	self skinInstallerPhaseChecker ifNotNil: [ ^ self ].
 	self addEventHandler: ToSpaceSkinInstallerPhaseCheckerEventHandler new
 ]
 
-{ #category : 'event management' }
+{ #category : #'event management' }
 ToElement >> checkEventFilter: anEventHandler [
 
 	(anEventHandler isKindOf: ToSkinStateGenerator) ifTrue: [
@@ -40,7 +38,7 @@ ToElement >> checkEventFilter: anEventHandler [
 			Error signal: 'Only one ' , ToSkinStateGenerator name , ' is allowed' ] ]
 ]
 
-{ #category : 'event management' }
+{ #category : #'event management' }
 ToElement >> checkEventHandler: anEventHandler [
 
 	(anEventHandler isKindOf: ToSkinStateGenerator) ifTrue: [
@@ -49,31 +47,31 @@ ToElement >> checkEventHandler: anEventHandler [
 			Error signal: 'Only one ' , ToSkinStateGenerator name , ' is allowed' ] ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToElement >> defaultLayout [ 
 
 	^ BlFrameLayout new
 ]
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToElement >> disabledBackground [
 
 	^ Color lightGray alpha: 0.2 
 ]
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToElement >> disabledBorder [
 
 	^ Color lightGray alpha: 0.5 
 ]
 
-{ #category : 'skin - private' }
+{ #category : #'skin - private' }
 ToElement >> hasSkinInstallerPhaseChecker [
 
 	^ self skinInstallerPhaseChecker notNil
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToElement >> initialize [
 
 	super initialize.
@@ -81,18 +79,15 @@ ToElement >> initialize [
 	self addSkinInstallerPhaseChecker
 ]
 
-{ #category : 'hooks - children' }
+{ #category : #'hooks - children' }
 ToElement >> onAddedToParent [
 
 	super onAddedToParent.
 	self hasEnablementFlag ifFalse: [
-		self enabled: self parent isEnabled ].
-	self parent isWithoutSkin
-		ifFalse: [ self parent requestSkin ]
-		ifTrue: [ self withoutSkin ]
+		self enabled: self parent isEnabled ]
 ]
 
-{ #category : 'hooks - children' }
+{ #category : #'hooks - children' }
 ToElement >> onAddedToSceneGraph [
 
 	super onAddedToSceneGraph.
@@ -101,14 +96,14 @@ ToElement >> onAddedToSceneGraph [
 		ifNotNil: [ self space elementWithSkinInstaller: self ]
 ]
 
-{ #category : 'skin - private' }
+{ #category : #'skin - private' }
 ToElement >> removeSkinInstallerPhaseChecker [
 
 	self skinInstallerPhaseChecker ifNotNil: [ :checker |
 		self removeEventHandler: checker ]
 ]
 
-{ #category : 't  - layout resizeable' }
+{ #category : #'t  - layout resizeable' }
 ToElement >> resizableConstraintsDo: aBlock [
 	"Perform aBlock with my constraints as argument.
 	Note: After evaluation I request a layout update!
@@ -126,7 +121,7 @@ ToElement >> resizableConstraintsDo: aBlock [
 	
 ]
 
-{ #category : 'skin - private' }
+{ #category : #'skin - private' }
 ToElement >> skinInstallerPhaseChecker [
 
 	^ self eventDispatcher handlers

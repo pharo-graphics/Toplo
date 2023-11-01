@@ -1,1 +1,1 @@
-Package { #name : #'Toplo-Theme-Examples' }
+Package { #name : 'Toplo-Theme-Examples' }

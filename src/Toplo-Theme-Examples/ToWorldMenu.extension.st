@@ -1,6 +1,6 @@
-Extension { #name : #ToWorldMenu }
+Extension { #name : 'ToWorldMenu' }
 
-{ #category : #'*Toplo-Theme-Examples' }
+{ #category : '*Toplo-Theme-Examples' }
 ToWorldMenu class >> menuExamplesTheme: aBuilder [
 	<worldMenu>
 	(aBuilder item: #ToploExamplesTheme)

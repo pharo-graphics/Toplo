@@ -43,6 +43,36 @@ ToStyleRule >> initialize [
 	styleRules := #(  )
 ]
 
+{ #category : 'printing' }
+ToStyleRule >> printOnStyleSheet: aStream [
+
+	self selector printOnStyleSheet: aStream.
+	aStream space; nextPutAll: '{'; cr.	
+	
+	self writers do:[ :w | 
+		w printOnStyleSheet: aStream.
+		aStream cr.
+	].
+	
+	aStream nextPutAll: ''; nextPutAll: '}'.
+	
+]
+
+{ #category : 'printing' }
+ToStyleRule >> printOnStyleSheet: aStream for: aSpace [
+
+	self selector printOnStyleSheet: aStream.
+	aStream space; nextPutAll: '{'; cr.	
+	
+	self writers do:[ :w | 
+		w printOnStyleSheet: aStream for: aSpace.
+		aStream cr.
+	].
+	
+	aStream nextPutAll: ''; nextPutAll: '}'.
+	
+]
+
 { #category : 'writers selecting' }
 ToStyleRule >> putAllWritersFor: anElement in: aStream [
 

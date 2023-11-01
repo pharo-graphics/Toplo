@@ -36,6 +36,12 @@ ToTypeSelector >> initialize [
 	exact := true
 ]
 
+{ #category : 'initialization' }
+ToTypeSelector >> printOnStyleSheet: aStream [
+
+	aStream nextPutAll: self type asString.
+]
+
 { #category : 'operating' }
 ToTypeSelector >> selectType: aClass [
 

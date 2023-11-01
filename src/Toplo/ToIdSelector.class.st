@@ -26,3 +26,9 @@ ToIdSelector >> id: aSymbol [
 
 	id := aSymbol
 ]
+
+{ #category : 'printing' }
+ToIdSelector >> printOnStyleSheet: aStream [
+
+	aStream nextPutAll: '#'; nextPutAll: self id asString.
+]

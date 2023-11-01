@@ -11,3 +11,9 @@ ToNotSelector >> accept: aVisitor [
 
 	aVisitor visitNotSelector: self
 ]
+
+{ #category : 'printing' }
+ToNotSelector >> printOnStyleSheet: aStream [
+
+	aStream nextPutAll: 'NOT'.
+]

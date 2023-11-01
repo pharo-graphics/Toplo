@@ -34,6 +34,14 @@ ToStampSelector >> initialize [
 	stampNames := Array new
 ]
 
+{ #category : 'printing' }
+ToStampSelector >> printOnStyleSheet: aStream [
+
+	self stampNames do:[ :s |
+		aStream nextPutAll: '.'; nextPutAll: s asString; space.	
+	]. 
+]
+
 { #category : 'accessing' }
 ToStampSelector >> stampNames [
 

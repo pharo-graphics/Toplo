@@ -8,6 +8,29 @@ Class {
 	#package : 'Toplo-Theme-Bee-Tests'
 }
 
+{ #category : 'test' }
+ToBeeThemeTest >> testColorPrimary [
+
+	| theme |
+	theme := ToBeeLightTheme new.
+	self assert: theme colorPrimary notNil.
+	self assert: theme colorPrimary equals: (ToBeeLightTheme new defaultColorPrimary).
+	theme colorPrimary: Color red.
+	self assert: theme colorPrimary equals: Color red.
+	
+	theme := ToBeeLightTheme colorPrimary: Color red.
+	self assert: theme colorPrimary equals: Color red.
+	
+	theme := ToBeeDarkTheme new.
+	self assert: theme colorPrimary notNil.
+	self assert: theme colorPrimary equals: (ToBeeDarkTheme new defaultColorPrimary).
+	theme colorPrimary: Color red.
+	self assert: theme colorPrimary equals: Color red.
+	
+	theme := ToBeeDarkTheme colorPrimary: Color red.
+	self assert: theme colorPrimary equals: Color red.
+]
+
 { #category : 'tests' }
 ToBeeThemeTest >> testSpaceRoot [
 

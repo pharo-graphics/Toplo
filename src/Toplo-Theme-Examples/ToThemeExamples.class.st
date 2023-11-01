@@ -8,15 +8,88 @@ Class {
 { #category : 'private' }
 ToThemeExamples class >> createThemeMenuBar: aSpace [
 
-	| menu |
-	menu := ToMenu new.
-	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	| bar themeMenu inspectMenu |
+	bar := ToMenuBar new hMatchParent; vFitContent.
+	bar addMenu: (themeMenu := ToMenu new labelText: 'Bee Theme').
+	bar addMenu: (inspectMenu := ToMenu new labelText: 'Tools').
 	
+	"Theme menu"	
 	"Button to switch between light and dark theme"
-	menu addItem: (ToMenuItem new label: (ToLabel text: 'Bee Light'); tooltipText: 'Switch to Bee light theme'; whenClickedDo: [ self switchTheme: (ToBeeLightTheme new) for: aSpace ]).
-	menu addItem: (ToMenuItem new label: (ToLabel text: 'Bee Dark'); tooltipText: 'Switch to Bee dark theme'; whenClickedDo: [ self switchTheme: (ToBeeDarkTheme new) for: aSpace ]).
+	themeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Switch to light'); tooltipText: 'Change the current Bee Theme to Bee light Theme'; whenClickedDo: [ self switchTheme: (ToBeeLightTheme new) for: aSpace ]).
+	themeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Switch to dark'); tooltipText: 'Change the current Bee Theme to Bee dark Theme'; whenClickedDo: [ self switchTheme: (ToBeeDarkTheme new) for: aSpace ]).
+	themeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Randomize color'); tooltipText: 'Randomize the current bee theme primary color'; whenClickedDo: [ self randomizeBeeThemeColorFor: aSpace ]).
 	
-	^ menu
+	"Inspect menu"
+	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'Inspect Space'); tooltipText: 'Inspect the BlSpace'; whenClickedDo: [ self inspectSpace: aSpace ]).
+	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'Inspect Theme'); tooltipText: 'Inspect the current theme'; whenClickedDo: [ self inspectSpaceToTheme: aSpace ]).
+	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'Style Sheet source'); tooltipText: 'Show the current style sheet source code'; whenClickedDo: [ self displaySpaceStyleSheet: aSpace ]).
+	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'Style Sheet values'); tooltipText: 'Show the current style sheet values'; whenClickedDo: [ self displaySpaceValueStyleSheet: aSpace ]).
+	
+	^ bar
+]
+
+{ #category : 'private - actions' }
+ToThemeExamples class >> displaySpaceStyleSheet: aSpace [
+
+	| presenter stream |
+	aSpace ifNil:[ ^ self ].
+	aSpace toTheme ifNil:[ ^ self ].
+	
+	"Display Theme styleSheet in a text presenter"
+	presenter := SpTextPresenter new.
+	stream := ReadWriteStream on: String new.
+	
+	"Build the style sheet detail"
+	aSpace toTheme styleSheet ifNil:[ stream nextPutAll: 'This theme doesn''t manage a style sheet.' ] ifNotNil:[ :sheet | | rules |
+		stream 
+			nextPutAll: 'Style Sheet with '; nextPutAll: (sheet rawStyleRules size) asString; nextPutAll: ' rule(s)' ; cr;
+			nextPutAll: '###'; cr.
+			
+		rules := sheet rawStyleRules.	
+		
+		rules do:[ :rule | 
+			stream cr.
+			rule printOnStyleSheet: stream.
+			stream cr.	
+		].
+	].
+	
+	"Open the presenter"
+	presenter text: stream contents.
+	presenter open.
+	presenter withWindowDo: [ :w | w title: 'Toplo Style Sheet details' ].
+]
+
+{ #category : 'private - actions' }
+ToThemeExamples class >> displaySpaceValueStyleSheet: aSpace [
+
+	| presenter stream |
+	aSpace ifNil:[ ^ self ].
+	aSpace toTheme ifNil:[ ^ self ].
+	
+	"Display Theme styleSheet in a text presenter"
+	presenter := SpTextPresenter new.
+	stream := ReadWriteStream on: String new.
+	
+	"Build the style sheet detail"
+	aSpace toTheme styleSheet ifNil:[ stream nextPutAll: 'This theme doesn''t manage a style sheet.' ] ifNotNil:[ :sheet | | rules |
+		stream 
+			nextPutAll: 'Style Sheet with '; nextPutAll: (sheet rawStyleRules size) asString; nextPutAll: ' rule(s)' ; cr;
+			nextPutAll: '###'; cr.
+			
+		rules := sheet rawStyleRules.	
+		
+		rules do:[ :rule | 
+			stream cr.
+			rule printOnStyleSheet: stream for: aSpace.
+			stream cr.	
+		].
+	].
+	
+	"Open the presenter"
+	presenter text: stream contents.
+	presenter open.
+	presenter withWindowDo: [ :w | w title: 'Toplo Style Sheet details' ].
 ]
 
 { #category : 'private - get' }
@@ -85,6 +158,20 @@ ToThemeExamples class >> example_buttons1 [
 	space show
 ]
 
+{ #category : 'private - actions' }
+ToThemeExamples class >> inspectSpace: aSpace [
+
+	aSpace ifNil:[ ^ self ].
+	aSpace inspect
+]
+
+{ #category : 'private - actions' }
+ToThemeExamples class >> inspectSpaceToTheme: aSpace [
+
+	aSpace ifNil:[ ^ self ].
+	aSpace toTheme inspect
+]
+
 { #category : 'private' }
 ToThemeExamples class >> openThemeExampleSpace [
 	"Prepare a space to display theme examples"
@@ -104,6 +191,17 @@ ToThemeExamples class >> openThemeExampleSpace [
 	
 	space position: 100@100.	
 	^ space
+]
+
+{ #category : 'private - actions' }
+ToThemeExamples class >> randomizeBeeThemeColorFor: aSpace [
+
+	| theme |
+	aSpace ifNil:[ ^ self ].
+	theme := aSpace toTheme copy.
+	theme colorPrimary: Color random.
+	
+	aSpace toTheme: theme.
 ]
 
 { #category : 'private - actions' }

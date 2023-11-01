@@ -61,6 +61,38 @@ ToPropertyWriter >> printOn: aStream [
 	self value printOn: aStream
 ]
 
+{ #category : 'printing' }
+ToPropertyWriter >> printOnStyleSheet: aStream [
+
+	aStream 
+		tab;
+	   nextPutAll: self property name asString;
+		nextPutAll: ':';
+		space;
+		nextPutAll: self value asString;
+		nextPutAll: ';'.
+]
+
+{ #category : 'printing' }
+ToPropertyWriter >> printOnStyleSheet: aStream for: aBlSpace [ 
+	
+	aStream 
+		tab;
+	   nextPutAll: self property name asString;
+		nextPutAll: ':';
+		space.
+	self value ifNotNil:[ 
+		(self value isKindOf: BlockClosure) ifTrue:[
+			[aStream nextPutAll: (self value value: (aBlSpace root)) asString] on: Error do:[ :e | aStream nextPutAll: e asString ].
+		] ifFalse:[
+			aStream nextPutAll: self value asString.
+		].
+	] ifNil:[ 
+		aStream nextPutAll: '[nil value]' 
+	].
+	aStream nextPutAll: ';'.
+]
+
 { #category : 'accessing' }
 ToPropertyWriter >> property [
 

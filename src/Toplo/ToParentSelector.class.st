@@ -34,3 +34,11 @@ ToParentSelector >> initialize [
 	self left: ToUniversalSelector new.
 	depth := 1 
 ]
+
+{ #category : 'printing' }
+ToParentSelector >> printOnStyleSheet: aStream [
+
+	self left ifNotNil:[ :e | e printOnStyleSheet: aStream ].
+	aStream space.
+	self right ifNotNil:[ :e | e printOnStyleSheet: aStream ].
+]

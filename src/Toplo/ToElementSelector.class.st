@@ -102,6 +102,12 @@ ToElementSelector >> parent: aSelector depth: anInteger [
 		  yourself
 ]
 
+{ #category : 'printing' }
+ToElementSelector >> printOnStyleSheet: aStream [
+
+	self subclassResponsibility
+]
+
 { #category : 'logical operator' }
 ToElementSelector >> sibling: aSelector [
 

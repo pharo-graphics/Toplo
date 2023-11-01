@@ -11,3 +11,9 @@ ToUniversalSelector >> accept: aVisitor [
 
 	aVisitor visitUniversalSelector: self
 ]
+
+{ #category : 'printing' }
+ToUniversalSelector >> printOnStyleSheet: aStream [
+
+	aStream nextPutAll: '*'.
+]

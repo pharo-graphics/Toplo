@@ -184,11 +184,14 @@ ToLabel >> innerElement [
 { #category : 'accessing' }
 ToLabel >> innerElement: anInnerElement [
 
+	| handler |
 	innerElement = anInnerElement ifTrue: [ ^ self ].
 	innerElement ifNotNil: [ innerElement removeFromParent ].
 	innerElement := anInnerElement.
-	innerElement when: ToTextReplacedEvent do: [ :evt |
-		self text: evt text ].
+	
+	handler := (BlEventHandler on: ToTextReplacedEvent do: [ :evt | self text: evt text ]).
+	innerElement addEventHandler: handler.
+	
 	self addChild: innerElement
 ]
 

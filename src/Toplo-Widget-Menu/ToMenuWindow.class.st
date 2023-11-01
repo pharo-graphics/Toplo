@@ -13,6 +13,7 @@ Class {
 ToMenuWindow >> close [ 
 
 	openedSubmenuWindow ifNotNil: [ :w | w close ].
+	self root removeChildren.
 	super close
 ]
 

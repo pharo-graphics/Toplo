@@ -947,7 +947,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		lab beMultiLine.
 		lab beEditable.
 		lab stillPressedStartDelay: 800 milliSeconds.
-		lab when: ToStillPressedLookEvent do: [ :event | event sourceEvent consumed: true. lab editor ifNotNil: [ :ed | self halt ]. lab addEditorEvent: event].
+		lab when: ToStillPressedLookEvent do: [ :event | event consumed: true. lab addEditorEvent: event].
 		lab whenTextReplacedDo: [
 			l data at: holder position put: lab text asString ].
 		node addChild: (ToLabeledIcon new
@@ -2347,7 +2347,7 @@ ToSandBox class >> example_stillHoveredEvent [
 		lab text: count asString asRopedText.
 		count := count + 1.
 		count > 50 ifTrue: [
-			event sourceEvent consumed: true.
+			event consumed: true.
 			count := 0 ] ].
 	e openInSpace
 ]
@@ -2374,7 +2374,7 @@ ToSandBox class >> example_stillPressedEvent [
 		count := count + 1.
 		color := color darker.
 		count > 50 ifTrue: [
-			event sourceEvent consumed: true.
+			event consumed: true.
 			count := 0.
 			color := Color white alpha: 0.3] ].
 	e openInSpace

@@ -15,6 +15,10 @@ Class {
 ToButton >> initialRawStyle [
 
 	super initialRawStyle.
+	self labeledIcon childrenDo: [ :child |
+		child constraintsDo: [ :c |
+			c linear vertical alignCenter.
+			c linear horizontal alignCenter ] ].
 	((self parent isKindOf: ToMenuItem) and: [ self parent isTopMenu not ])
 		ifTrue: [ ^ self ].
 	(self hasIcon and: [ self hasLabel ]) ifFalse: [

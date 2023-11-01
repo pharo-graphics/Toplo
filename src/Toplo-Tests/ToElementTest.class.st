@@ -213,9 +213,9 @@ ToElementTest >> testWithoutSkin [
 ]
 
 { #category : 'test initialize' }
-ToElementTest >> testWithoutSkinContamination [
+ToElementTest >> testWithoutSkinNonContamination [
 
-	" NullSkin is contaminant: check if children are correctly impacted (withoutSkin must be applied recursively)"
+	" NullSkin is not contaminant: check if children are not impacted "
 
 	| e child childchild |
 	
@@ -238,13 +238,13 @@ ToElementTest >> testWithoutSkinContamination [
 	self assert: e skinInstaller isNil.
 	self assert: e installedSkin  isNullSkin.
 	self assert: child skinInstaller isNil.
-	self assert: child installedSkin  isNullSkin.
+	self assert: child installedSkin isNil.
 	self assert: childchild skinInstaller isNil.
-	self assert: childchild installedSkin  isNullSkin
+	self assert: childchild installedSkin isNil
 ]
 
 { #category : 'test initialize' }
-ToElementTest >> testWithoutSkinContamination2 [
+ToElementTest >> testWithoutSkinNonContamination2 [
 
 	" check if children are correctly impacted when they are added as child of their parent 
 	(withoutSkin must be applied when a child is added )"
@@ -267,7 +267,7 @@ ToElementTest >> testWithoutSkinContamination2 [
 	child applySkinInstaller.
 	childchild applySkinInstaller.
 	self assert: child skinInstaller isNil.
-	self assert: child installedSkin  isNullSkin.
+	self assert: child installedSkin  isNil.
 	self assert: childchild skinInstaller isNil.
-	self assert: childchild installedSkin  isNullSkin
+	self assert: childchild installedSkin  isNil
 ]

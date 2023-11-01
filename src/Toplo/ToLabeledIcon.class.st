@@ -31,12 +31,6 @@ ToLabeledIcon >> beLabelFirst [
 	self requestLayout
 ]
 
-{ #category : 'accessing' }
-ToLabeledIcon >> defaultEventHandler [
-
-	^ ToLabeledIconEventHandler new
-]
-
 { #category : 'initialization' }
 ToLabeledIcon >> defaultLayout [ 
 
@@ -94,9 +88,7 @@ ToLabeledIcon >> icon: anElement [
 	self icon ifNotNil: [ :s | self icon removeFromParent ].
 	icon := anElement.
 	anElement ifNil: [ ^ self ].
-	self iconHolder addChild: anElement.
-	self requestSkin
-
+	self iconHolder addChild: anElement
 ]
 
 { #category : 'configurating' }
@@ -180,18 +172,7 @@ ToLabeledIcon >> initialize [
 	self addChild: filler.
 	self addChild: labelHolder.
 	self beIconFirst.
-	self fitContent.
-	self addEventHandler: self defaultEventHandler
-]
-
-{ #category : 'skin' }
-ToLabeledIcon >> installRawStyle [
-
-	super installRawStyle.
-	self childrenDo: [ :child |
-		child constraintsDo: [ :c |
-			c linear vertical alignCenter.
-			c linear horizontal alignCenter ] ]
+	self fitContent
 ]
 
 { #category : 'accessing' }
@@ -211,8 +192,7 @@ ToLabeledIcon >> interspace: aPoint [
 	self filler constraints
 		minWidth: size x;
 		minHeight: size y.
-	self filler requestLayout.
-	self requestSkin
+	self filler requestLayout
 ]
 
 { #category : 'testing' }
@@ -246,8 +226,7 @@ ToLabeledIcon >> label: anElement [
 	self label ifNotNil: [ :s | s removeFromParent].
 	label := anElement.
 	anElement ifNil: [ ^ self ].
-	self labelHolder addChild: anElement.
-	self requestSkin
+	self labelHolder addChild: anElement
 ]
 
 { #category : 'configurating' }
@@ -277,6 +256,5 @@ ToLabeledIcon >> layoutStrategy [
 { #category : 'accessing' }
 ToLabeledIcon >> rightLabelAlignment: anInteger [
 
-	self iconHolderWidth: anInteger.
-	self requestSkin
+	self iconHolderWidth: anInteger
 ]

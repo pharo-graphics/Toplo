@@ -30,6 +30,16 @@ ToMenuItem >> filler [
 	^ filler
 ]
 
+{ #category : 'skin' }
+ToMenuItem >> initialRawStyle [
+
+	super initialRawStyle.
+	self labeledIcon childrenDo: [ :child |
+		child constraintsDo: [ :c |
+			c linear vertical alignCenter.
+			c linear horizontal alignCenter ] ].
+]
+
 { #category : 'initialization' }
 ToMenuItem >> initialize [ 
 

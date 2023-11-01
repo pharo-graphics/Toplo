@@ -18,7 +18,10 @@ ToElementState class >> sourceEvent: anEvent [
 { #category : 'look event sending' }
 ToElementState >> applyOn: anElement [
 
-	anElement dispatchLookEvent: (self newLookEventFromSourceEvent: self sourceEvent)
+	| lookEvent |
+	lookEvent := self newLookEventFromSourceEvent: self sourceEvent.
+	anElement dispatchLookEvent: lookEvent.
+	lookEvent isConsumed ifTrue: [ self sourceEvent consumed: true ]
 ]
 
 { #category : 'skin state engine' }

@@ -86,10 +86,7 @@ ToElement >> onAddedToParent [
 
 	super onAddedToParent.
 	self hasEnablementFlag ifFalse: [
-		self enabled: self parent isEnabled ].
-	self parent isWithoutSkin
-		ifFalse: [ self parent requestSkin ]
-		ifTrue: [ self withoutSkin ]
+		self enabled: self parent isEnabled ]
 ]
 
 { #category : 'hooks - children' }

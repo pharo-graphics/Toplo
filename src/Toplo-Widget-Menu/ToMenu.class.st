@@ -1,6 +1,6 @@
 Class {
-	#name : #ToMenu,
-	#superclass : #ToMenuItem,
+	#name : 'ToMenu',
+	#superclass : 'ToMenuItem',
 	#traits : 'TToMenuItemHolder + TToMenuWindowModel',
 	#classTraits : 'TToMenuItemHolder classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
@@ -8,10 +8,12 @@ Class {
 		'isSubmenu',
 		'windowHandler'
 	],
-	#category : 'Toplo-Widget-Menu-Basic'
+	#category : 'Toplo-Widget-Menu-Basic',
+	#package : 'Toplo-Widget-Menu',
+	#tag : 'Basic'
 }
 
-{ #category : #'adding-removing' }
+{ #category : 'adding-removing' }
 ToMenu >> addedInMenu: aMenu [
 
 	super addedInMenu: aMenu.
@@ -20,20 +22,20 @@ ToMenu >> addedInMenu: aMenu [
 
 ]
 
-{ #category : #'t - clickable - click behavior' }
+{ #category : 't - clickable - click behavior' }
 ToMenu >> clickEventClass [
 
 	^ BlMouseDownEvent
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : 't - menu window model' }
 ToMenu >> closeWindow [
 
 	self items do: [ :it | it closeWindow ].
 	windowHandler closeWindow
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToMenu >> includes: anElement [
 
 	self menuWindow = anElement ifTrue: [ ^ true ].
@@ -42,7 +44,7 @@ ToMenu >> includes: anElement [
 	^ super includes: anElement
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToMenu >> initialize [
 
 	super initialize.
@@ -52,14 +54,14 @@ ToMenu >> initialize [
 	windowHandler builder: [ :menWin  :element| ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToMenu >> initializeWithMenuConstraints [
 
 	self fitContent.
 
 ]
 
-{ #category : #skin }
+{ #category : 'skin' }
 ToMenu >> installRawStyle [
 
 	super installRawStyle.
@@ -72,56 +74,56 @@ ToMenu >> installRawStyle [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToMenu >> isMenu [
 
 	^ true
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : 't - menu window model' }
 ToMenu >> isOpened [ 
 
 	^ self menuWindow notNil
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : 't - menu window model' }
 ToMenu >> isSubmenu [
 
 	^ isSubmenu 
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : 't - menu window model' }
 ToMenu >> isTopMenu [
 
 	^ self parentMenu isNil
 ]
 
-{ #category : #'t - menu item holder - accessing' }
+{ #category : 't - menu item holder - accessing' }
 ToMenu >> items [
 
 	^ items ifNil: [ items := OrderedCollection new ]
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : 't - menu window model' }
 ToMenu >> menuWindow [ 
 
 	^ windowHandler currentWindow
 ]
 
-{ #category : #'menu window' }
+{ #category : 'menu window' }
 ToMenu >> menuWindowDo: aValuable [
 
 	self menuWindow ifNil: [ ^ self ].
 	aValuable value: self menuWindow
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : 't - menu window model' }
 ToMenu >> popupEvent: anEvent [
 
 	(windowHandler newWindowEvent: anEvent) popupEvent: anEvent
 ]
 
-{ #category : #'adding-removing' }
+{ #category : 'adding-removing' }
 ToMenu >> removedFromMenu: aMenu [
 
 	super removedFromMenu: aMenu.
@@ -131,13 +133,13 @@ ToMenu >> removedFromMenu: aMenu [
 	
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : 't - menu window model' }
 ToMenu >> rootMenu [
 
 	^ super rootMenu
 ]
 
-{ #category : #'theme event handling' }
+{ #category : 'theme event handling' }
 ToMenu >> toThemeChanged [ 
 
 	super toThemeChanged.

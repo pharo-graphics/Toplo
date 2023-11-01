@@ -1,6 +1,6 @@
-Extension { #name : #Collection }
+Extension { #name : 'Collection' }
 
-{ #category : #'*Toplo-Theme' }
+{ #category : '*Toplo-Theme' }
 Collection >> asElementSelector [
 
 	^ ToStampSelector new addAllStampNames: (self collect: [ :e | e asSymbol ])

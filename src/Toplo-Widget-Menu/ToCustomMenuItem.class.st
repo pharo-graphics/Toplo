@@ -1,19 +1,21 @@
 Class {
-	#name : #ToCustomMenuItem,
-	#superclass : #ToMenuItemElement,
+	#name : 'ToCustomMenuItem',
+	#superclass : 'ToMenuItemElement',
 	#instVars : [
 		'innerElement'
 	],
-	#category : 'Toplo-Widget-Menu-Basic'
+	#category : 'Toplo-Widget-Menu-Basic',
+	#package : 'Toplo-Widget-Menu',
+	#tag : 'Basic'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToCustomMenuItem >> innerElement [
 
 	^ innerElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToCustomMenuItem >> innerElement: anElement [
 
 	innerElement := anElement.

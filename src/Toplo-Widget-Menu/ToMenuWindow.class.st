@@ -1,13 +1,15 @@
 Class {
-	#name : #ToMenuWindow,
-	#superclass : #ToAnchoredWindow,
+	#name : 'ToMenuWindow',
+	#superclass : 'ToAnchoredWindow',
 	#instVars : [
 		'openedSubmenuWindow'
 	],
-	#category : 'Toplo-Widget-Menu-Basic'
+	#category : 'Toplo-Widget-Menu-Basic',
+	#package : 'Toplo-Widget-Menu',
+	#tag : 'Basic'
 }
 
-{ #category : #'api - displaying' }
+{ #category : 'api - displaying' }
 ToMenuWindow >> close [ 
 
 	openedSubmenuWindow ifNotNil: [ :w | w close ].
@@ -15,25 +17,25 @@ ToMenuWindow >> close [
 	super close
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToMenuWindow >> defaultBackground [
 
 	^ Color white
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToMenuWindow >> defaultBorder [
 
 	^ BlBorder paint: Color lightGray width: 1
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToMenuWindow >> defaultElevation [
 
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 400)
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToMenuWindow >> includes: anElement [
 
 	self = anElement ifTrue: [ ^ true ].
@@ -42,38 +44,38 @@ ToMenuWindow >> includes: anElement [
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToMenuWindow >> itemHolder [
 
 	^ self element
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToMenuWindow >> items [
 
 	^ self itemHolder ifNil: [ ^ #(  ) ] ifNotNil: [ :w | w items ]
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : 't - menu window model' }
 ToMenuWindow >> menuWindow [
 
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToMenuWindow >> openedSubmenuWindow [
 
 	^ openedSubmenuWindow
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToMenuWindow >> openedSubmenuWindow: aWindow [
 
 	openedSubmenuWindow ifNotNil: [ openedSubmenuWindow close ].
 	openedSubmenuWindow := aWindow.
 ]
 
-{ #category : #'api - displaying' }
+{ #category : 'api - displaying' }
 ToMenuWindow >> popupEvent: anEvent [
 
 	self element isAttachedToSceneGraph ifFalse: [

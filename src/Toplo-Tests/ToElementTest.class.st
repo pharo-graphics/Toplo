@@ -2,12 +2,14 @@
 A ToElementTest is a test class for testing the behavior of ToElement
 "
 Class {
-	#name : #ToElementTest,
-	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core'
+	#name : 'ToElementTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Tests-Core',
+	#package : 'Toplo-Tests',
+	#tag : 'Core'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToElementTest >> testAddEventFilter [
 
 	| e count |
@@ -28,7 +30,7 @@ ToElementTest >> testAddEventFilter [
 		raise: Error
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToElementTest >> testAddEventHandler [
 
 	| e count |
@@ -49,7 +51,7 @@ ToElementTest >> testAddEventHandler [
 		raise: Error
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testAddSkinInstallerPhaseChecker [
 
 	| e |
@@ -80,7 +82,7 @@ ToElementTest >> testAddSkinInstallerPhaseChecker [
 		equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToElementTest >> testCheckEventFilter [
 
 	| e |
@@ -94,7 +96,7 @@ ToElementTest >> testCheckEventFilter [
 	e checkEventHandler: ToSkinStateGenerator new
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToElementTest >> testCheckEventHandler [
 
 	| e |
@@ -108,7 +110,7 @@ ToElementTest >> testCheckEventHandler [
 	e checkEventHandler: ToSkinStateGenerator new
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testHasSkinInstallerPhaseChecker [
 
 	| e |
@@ -118,7 +120,7 @@ ToElementTest >> testHasSkinInstallerPhaseChecker [
 	self deny: e hasSkinInstallerPhaseChecker
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testInitialize [
 
 	| e |
@@ -127,7 +129,7 @@ ToElementTest >> testInitialize [
 
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testOnAddedToParent [
 
 	| e container |
@@ -153,7 +155,7 @@ ToElementTest >> testOnAddedToParent [
 	self assert: e isDisabled
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testOnAddedToSceneGraph [
 
 	| e |
@@ -164,7 +166,7 @@ ToElementTest >> testOnAddedToSceneGraph [
 	self assert: (e skinInstaller isKindOf: ToSkinInstaller)
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testRemoveSkinInstallerPhaseChecker [
 
 	| e |
@@ -180,7 +182,7 @@ ToElementTest >> testRemoveSkinInstallerPhaseChecker [
 		equals: 0
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testSkinInstallerPhaseChecker [
 
 	| e |
@@ -195,7 +197,7 @@ ToElementTest >> testSkinInstallerPhaseChecker [
 	self assert: e skinInstallerPhaseChecker isNil
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testWithoutSkin [
 
 	| e |
@@ -210,7 +212,7 @@ ToElementTest >> testWithoutSkin [
 	self assert: e installedSkin  isNullSkin
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testWithoutSkinNonContamination [
 
 	" NullSkin is not contaminant: check if children are not impacted "
@@ -241,7 +243,7 @@ ToElementTest >> testWithoutSkinNonContamination [
 	self assert: childchild installedSkin isNil
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testWithoutSkinNonContamination2 [
 
 	" check if children are correctly impacted when they are added as child of their parent 

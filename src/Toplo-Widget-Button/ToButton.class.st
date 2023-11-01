@@ -1,22 +1,20 @@
 Class {
-	#name : #ToButton,
-	#superclass : #ToGeneralButton,
+	#name : 'ToButton',
+	#superclass : 'ToGeneralButton',
 	#traits : 'TToElementWithLabeledIcon',
 	#classTraits : 'TToElementWithLabeledIcon classTrait',
 	#instVars : [
 		'labeledIcon'
 	],
-	#category : 'Toplo-Widget-Button-Core'
+	#category : 'Toplo-Widget-Button-Core',
+	#package : 'Toplo-Widget-Button',
+	#tag : 'Core'
 }
 
-{ #category : #skin }
+{ #category : 'skin' }
 ToButton >> initialRawStyle [
 
 	super initialRawStyle.
-	self labeledIcon childrenDo: [ :child |
-		child constraintsDo: [ :c |
-			c linear vertical alignCenter.
-			c linear horizontal alignCenter ] ].
 	((self parent isKindOf: ToMenuItem) and: [ self parent isTopMenu not ])
 		ifTrue: [ ^ self ].
 	(self hasIcon and: [ self hasLabel ]) ifFalse: [
@@ -25,7 +23,7 @@ ToButton >> initialRawStyle [
 	self interspace: 10
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToButton >> initialize [
 
 	super initialize.
@@ -35,7 +33,7 @@ ToButton >> initialize [
 	self fitContent
 ]
 
-{ #category : #'t - element with labeled icon - accessing' }
+{ #category : 't - element with labeled icon - accessing' }
 ToButton >> labeledIcon [ 
 
 	^ labeledIcon 

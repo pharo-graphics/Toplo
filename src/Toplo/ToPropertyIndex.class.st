@@ -1,86 +1,88 @@
 Class {
-	#name : #ToPropertyIndex,
-	#superclass : #Object,
+	#name : 'ToPropertyIndex',
+	#superclass : 'Object',
 	#instVars : [
 		'index'
 	],
-	#category : 'Toplo-Core-Properties'
+	#category : 'Toplo-Core-Properties',
+	#package : 'Toplo',
+	#tag : 'Core-Properties'
 }
 
-{ #category : #adding }
+{ #category : 'adding' }
 ToPropertyIndex >> addAllProperties: aCollectionOfProperties [
 
 	aCollectionOfProperties do: [ :p | self addProperty: p ]
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 ToPropertyIndex >> addProperty: anElementProperty [
 
 	self index at: anElementProperty name asSymbol put: anElementProperty
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToPropertyIndex >> hasPropertyNamed: aName [
 
 	^ (self propertyNamed: aName asSymbol) notNil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPropertyIndex >> index [
 
 	^ index
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToPropertyIndex >> initialize [ 
 
 	super initialize.
 	index := IdentityDictionary new
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToPropertyIndex >> isEmpty [
 
 	^ self index isEmpty
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToPropertyIndex >> isNotEmpty [
 
 	^ self isEmpty not
 ]
 
-{ #category : #querying }
+{ #category : 'querying' }
 ToPropertyIndex >> propertyNamed: aName [
 
 	^ self propertyNamed: aName ifAbsent: [  ]
 ]
 
-{ #category : #querying }
+{ #category : 'querying' }
 ToPropertyIndex >> propertyNamed: aName ifAbsent: absentBlock [
 
 	^ self index at: aName asSymbol ifAbsent: absentBlock
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 ToPropertyIndex >> removeAllProperties [
 
 	index removeAll
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 ToPropertyIndex >> removeProperty: anElementProperty [
 
 	self removeProperty: anElementProperty ifAbsent: [  ]
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 ToPropertyIndex >> removeProperty: anElementProperty ifAbsent: anAbsentBlock [
 
 	self index removeKey: anElementProperty name asSymbol ifAbsent: anAbsentBlock
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 ToPropertyIndex >> removePropertyNamed: aSymbol [
 
 	self
@@ -88,13 +90,13 @@ ToPropertyIndex >> removePropertyNamed: aSymbol [
 		ifAbsent: [ (ToElementPropertyNotFound name: aSymbol) signal ]
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 ToPropertyIndex >> removePropertyNamed: aSymbol ifAbsent: anAbsentBlock [
 
 	self index removeKey: aSymbol asSymbol ifAbsent: anAbsentBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPropertyIndex >> size [ 
 
 	^ index size

@@ -1,6 +1,6 @@
 Class {
-	#name : #ToElementWithSkinnablePropertiesForTest,
-	#superclass : #ToElement,
+	#name : 'ToElementWithSkinnablePropertiesForTest',
+	#superclass : 'ToElement',
 	#traits : 'TToElementWithSkinnableProperties',
 	#classTraits : 'TToElementWithSkinnableProperties classTrait',
 	#instVars : [
@@ -10,10 +10,12 @@ Class {
 		'#backgroundValue => ToSkinnablePropertySlot',
 		'#borderValue => ToSkinnablePropertySlot'
 	],
-	#category : 'Toplo-Tests-Core-Slots'
+	#category : 'Toplo-Tests-Core-Slots',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-Slots'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ToElementWithSkinnablePropertiesForTest class >> newPropertyIndex [
 
 	^ IdentityDictionary newFrom: {
@@ -27,38 +29,38 @@ ToElementWithSkinnablePropertiesForTest class >> newPropertyIndex [
 				   writer: [ :e :v | e border: v ])) }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementWithSkinnablePropertiesForTest >> backgroundValue [
 
 	^ backgroundValue
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementWithSkinnablePropertiesForTest >> backgroundValue: anObject [
 
 	backgroundValue := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementWithSkinnablePropertiesForTest >> borderValue [
 
 	^ borderValue
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementWithSkinnablePropertiesForTest >> borderValue: anObject [
 
 	borderValue := anObject
 ]
 
-{ #category : #skin }
+{ #category : 'skin' }
 ToElementWithSkinnablePropertiesForTest >> flushSkinStates [
 
 	skinStatesApplied := skinStatesApplied + 1.
 	super flushSkinStates.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToElementWithSkinnablePropertiesForTest >> initialize [ 
 
 	self class initializeSlots: self.
@@ -73,26 +75,26 @@ ToElementWithSkinnablePropertiesForTest >> initialize [
 	self when: ToSkinChangedEvent do: [ skinRefreshedCount := skinRefreshedCount + 1 ]
 ]
 
-{ #category : #skin }
+{ #category : 'skin' }
 ToElementWithSkinnablePropertiesForTest >> requestSkin [
 
 	skinRequestCount := skinRequestCount + 1.
 	super requestSkin.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementWithSkinnablePropertiesForTest >> skinRefreshedCount [
 
 	^ skinRefreshedCount
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementWithSkinnablePropertiesForTest >> skinRequestCount [
 
 	^ skinRequestCount 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementWithSkinnablePropertiesForTest >> skinStatesApplied [
 
 	^ skinStatesApplied

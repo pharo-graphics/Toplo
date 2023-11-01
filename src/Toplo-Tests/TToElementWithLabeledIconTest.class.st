@@ -1,17 +1,19 @@
 Class {
-	#name : #TToElementWithLabeledIconTest,
-	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core'
+	#name : 'TToElementWithLabeledIconTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Tests-Core',
+	#package : 'Toplo-Tests',
+	#tag : 'Core'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 TToElementWithLabeledIconTest >> setUp [ 
 
 	super setUp.
 	ToTheme cleanUp
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testBeIconFirst [
 
 	| li |
@@ -24,7 +26,7 @@ TToElementWithLabeledIconTest >> testBeIconFirst [
 	self assert: li isIconFirst
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testBeLabelFirst [
 
 	| li |
@@ -37,7 +39,7 @@ TToElementWithLabeledIconTest >> testBeLabelFirst [
 	self assert: li isLabelFirst
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testFiller [
 
 	| li |
@@ -46,7 +48,7 @@ TToElementWithLabeledIconTest >> testFiller [
 	self assert: li filler size equals: 0 asPoint
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testFlexible [
 
 	| li |
@@ -58,7 +60,7 @@ TToElementWithLabeledIconTest >> testFlexible [
 	self assert: li isFlexible
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testFlexibleInEmpty [
 
 	| li container |
@@ -79,7 +81,7 @@ TToElementWithLabeledIconTest >> testFlexibleInEmpty [
 	self assert: li height equals: li label height.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testFlexibleWithLabel [
 
 	| li container |
@@ -99,7 +101,7 @@ TToElementWithLabeledIconTest >> testFlexibleWithLabel [
 	self assert: li iconHolder bounds left equals: 0.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testFlexibleWithLabelAndVertical [
 
 	| li container |
@@ -119,7 +121,7 @@ TToElementWithLabeledIconTest >> testFlexibleWithLabelAndVertical [
 	self assert: li iconHolder bounds top equals: 0.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testHasIcon [
 
 	| li |
@@ -132,7 +134,7 @@ TToElementWithLabeledIconTest >> testHasIcon [
 	self assert: li hasIcon
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testHasLabel [
 
 	| li |
@@ -143,7 +145,7 @@ TToElementWithLabeledIconTest >> testHasLabel [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testIcon [
 
 	| li |
@@ -158,7 +160,7 @@ TToElementWithLabeledIconTest >> testIcon [
 	^ li
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testIconFirst [
 
 	| li |
@@ -174,7 +176,7 @@ TToElementWithLabeledIconTest >> testIconFirst [
 	^ li
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testIconHolder [
 
 	| li |
@@ -191,7 +193,7 @@ TToElementWithLabeledIconTest >> testIconHolder [
 	^ li
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testIconHolderHeight [
 
 	| li |
@@ -202,7 +204,7 @@ TToElementWithLabeledIconTest >> testIconHolderHeight [
 	self assert: li height equals: (li labelHolder height max: li iconHolderHeight)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testIconHolderHeightVertical [
 
 	| li |
@@ -215,7 +217,7 @@ TToElementWithLabeledIconTest >> testIconHolderHeightVertical [
 	self assert: li width equals: (li labelHolder width max: li iconHolder width).
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testIconHolderWidth [
 
 	| li |
@@ -227,7 +229,7 @@ TToElementWithLabeledIconTest >> testIconHolderWidth [
 	self assert: li height equals: (li labelHolder height max: li iconHolder height).
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testIconHolderWidthVertical [
 
 	| li |
@@ -240,7 +242,7 @@ TToElementWithLabeledIconTest >> testIconHolderWidthVertical [
 	self assert: li height equals: (li labelHolder height + li iconHolder height).
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testIconImage [
 
 	| li |
@@ -255,7 +257,7 @@ TToElementWithLabeledIconTest >> testIconImage [
 	^ li
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testInitialize [
 
 	| li |
@@ -267,7 +269,7 @@ TToElementWithLabeledIconTest >> testInitialize [
 	^ li
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testInterspace [
 
 	| li |
@@ -285,7 +287,7 @@ TToElementWithLabeledIconTest >> testInterspace [
 	self assert: li width equals: li label width + 10.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testInterspaceWithLabel [
 
 	| li |
@@ -300,7 +302,7 @@ TToElementWithLabeledIconTest >> testInterspaceWithLabel [
 	self assert: li labelHolder bounds left equals: li iconHolder bounds right + 10
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testInterspaceWithLabelAndVertical [
 
 	| li |
@@ -316,7 +318,7 @@ TToElementWithLabeledIconTest >> testInterspaceWithLabelAndVertical [
 	self assert: li labelHolder bounds top equals: li iconHolder bounds bottom + 10
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testIsFlexible [
 
 	| li |
@@ -326,7 +328,7 @@ TToElementWithLabeledIconTest >> testIsFlexible [
 	self assert: li isFlexible
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testIsIconFirst [
 
 	| li |
@@ -337,7 +339,7 @@ TToElementWithLabeledIconTest >> testIsIconFirst [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testIsLabelFirst [
 
 	| li |
@@ -349,7 +351,7 @@ TToElementWithLabeledIconTest >> testIsLabelFirst [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testLabel [
 
 	| li |
@@ -360,7 +362,7 @@ TToElementWithLabeledIconTest >> testLabel [
 	^ li
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testLabelFirst [
 
 	| li |
@@ -376,7 +378,7 @@ TToElementWithLabeledIconTest >> testLabelFirst [
 	^ li
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testLabelHolder [
 
 	| li |
@@ -389,7 +391,7 @@ TToElementWithLabeledIconTest >> testLabelHolder [
 	^ li
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testLabelText [
 
 	| li |
@@ -405,7 +407,7 @@ TToElementWithLabeledIconTest >> testLabelText [
 	^ li
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testWithLabelAndIcon [
 
 	| li |
@@ -420,7 +422,7 @@ TToElementWithLabeledIconTest >> testWithLabelAndIcon [
 	^ li
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testWithLabelAndIconIconFirst [
 
 	| li |
@@ -437,7 +439,7 @@ TToElementWithLabeledIconTest >> testWithLabelAndIconIconFirst [
 	self assert: li labelHolder bounds left equals: li iconHolder bounds right
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testWithLabelAndIconIconFirstVertical [
 
 	| li |
@@ -455,7 +457,7 @@ TToElementWithLabeledIconTest >> testWithLabelAndIconIconFirstVertical [
 	self assert: li labelHolder bounds top equals: li iconHolder bounds bottom
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testWithLabelAndIconLabelFirst [
 
 	| li |
@@ -471,7 +473,7 @@ TToElementWithLabeledIconTest >> testWithLabelAndIconLabelFirst [
 	self assert: li iconHolder bounds left equals: li label bounds right
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testWithLabelAndIconLabelFirstVertical [
 
 	| li |
@@ -488,7 +490,7 @@ TToElementWithLabeledIconTest >> testWithLabelAndIconLabelFirstVertical [
 	self assert: li iconHolder bounds top equals: li labelHolder bounds bottom
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToElementWithLabeledIconTest >> testWithLabelAndIconVertical [
 
 	| li |

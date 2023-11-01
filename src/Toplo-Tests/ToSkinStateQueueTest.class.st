@@ -2,15 +2,17 @@
 A ToSkinnableEventHandlerTest is a test class for testing the behavior of ToSkinnableEventHandler
 "
 Class {
-	#name : #ToSkinStateQueueTest,
-	#superclass : #ToParameterizedHostTest,
+	#name : 'ToSkinStateQueueTest',
+	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core-Skin'
+	#category : 'Toplo-Tests-Core-Skin',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-Skin'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinStateQueueTest >> newElementInSpace [
 
 	| e |
@@ -19,26 +21,26 @@ ToSkinStateQueueTest >> newElementInSpace [
 	space root addChild: e.
 	self assert: e skinInstaller notNil.
 	" procesPulse here to install the element skin by the phase "
-	space processPulse.
+	space applySkinInstaller.
 
 	^ e
 
 	
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 ToSkinStateQueueTest >> setUp [ 
 	super setUp.
 	space := self newTestingSpace
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinStateQueueTest >> testCheckableCheckedEvent [
 
 	self testGenerateCheckStateFromEvent 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinStateQueueTest >> testGenerateCheckStateFromEvent [
 
 	| e evt nextStates currentStates nextStatesSize currentStatesSize |
@@ -83,7 +85,7 @@ ToSkinStateQueueTest >> testGenerateCheckStateFromEvent [
 	self
 		assert:
 		(nextStates select: [ :s | s isKindOf: ToUncheckedState ]) size
-		equals: nextStatesSize.
+		equals: 1.
 	self assert: nextStates size equals: nextStatesSize.
 	self
 		assert:
@@ -116,7 +118,7 @@ ToSkinStateQueueTest >> testGenerateCheckStateFromEvent [
 		equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinStateQueueTest >> testGenerateClickedStateFromEvent [
 
 	| e evt nextStates currentStates |
@@ -127,22 +129,18 @@ ToSkinStateQueueTest >> testGenerateClickedStateFromEvent [
 	nextStates := e skinStateQueue nextStates.
 	currentStates := e skinStateQueue currentStates.
 
-	self assert: nextStates size equals: 0.
-	" has ToEnabledState "
-	self assert: currentStates size equals: 1.
-	self assert: (currentStates first isKindOf: ToEnabledState).
+	self assert: nextStates size equals: 1.
+	self assert: (nextStates first isKindOf: ToInstallState).
+	self assert: currentStates size equals: 0.
 
 	e dispatchEvent: evt.
 	self
 		assert:
 		(nextStates select: [ :s | s isKindOf: ToClickedState ]) size
 		equals: 1.
-	self assert: nextStates size equals: 1.
+	self assert: nextStates size equals: 2.
 
-	" ClickState is not persistent but EnabledState is persistent"
-	self assert: currentStates size equals: 1.
-	self assert: (currentStates first isKindOf: ToEnabledState).
-
+	self assert: currentStates size equals: 0.
 
 	evt := BlMouseButton primary clickEventClass new button:
 		       BlMouseButton primary.
@@ -152,12 +150,10 @@ ToSkinStateQueueTest >> testGenerateClickedStateFromEvent [
 		assert:
 		(nextStates select: [ :s | s isKindOf: ToClickedState ]) size
 		equals: 1.
-	self assert: currentStates size equals: 1.
-	self assert: (currentStates first isKindOf: ToEnabledState).
-
+	self assert: nextStates size equals: 2
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinStateQueueTest >> testGenerateHoveredStateFromEvent [
 
 	| e evt nextStates currentStates |
@@ -168,21 +164,13 @@ ToSkinStateQueueTest >> testGenerateHoveredStateFromEvent [
 	nextStates := e skinStateQueue nextStates.
 	currentStates := e skinStateQueue currentStates.
 
-	self assert: nextStates size equals: 0.
-	" has ToEnabledState "
-	self assert: currentStates size equals: 1.
-	self assert: (currentStates first isKindOf: ToEnabledState).
-
+	self assert: nextStates size equals: 1.
 	e dispatchEvent: evt.
 	self
 		assert:
 		(nextStates select: [ :s | s isKindOf: ToHoveredState ]) size
 		equals: 1.
-	self assert: nextStates size equals: 1.
-
-	" ToHoveredState is persistent "
-	self assert: currentStates size equals: 2.
-
+	self assert: nextStates size equals: 2.
 
 	evt := BlMouseEnterEvent new.
 
@@ -191,7 +179,7 @@ ToSkinStateQueueTest >> testGenerateHoveredStateFromEvent [
 		assert:
 		(nextStates select: [ :s | s isKindOf: ToHoveredState ]) size
 		equals: 1.
-	self assert: currentStates size equals: 2.
+	self assert: nextStates size equals: 2.
 
 	evt := BlMouseLeaveEvent new.
 
@@ -201,10 +189,10 @@ ToSkinStateQueueTest >> testGenerateHoveredStateFromEvent [
 		assert: (nextStates select: [ :s | s isKindOf: ToLeavedState ]) size
 		equals: 1.
 	" ToEnabledState remains and ToLeavedState isNot persistent, ToHoveredState should have been removed "
-	self assert: currentStates size equals: 1
+	self assert: nextStates size equals: 2
 ]
 
-{ #category : #'api - hooks' }
+{ #category : 'api - hooks' }
 ToSkinStateQueueTest >> testOnInstalledIn [
 
 	| e h |
@@ -216,19 +204,19 @@ ToSkinStateQueueTest >> testOnInstalledIn [
 	self assert: h target isNil
 ]
 
-{ #category : #'api - hooks' }
+{ #category : 'api - hooks' }
 ToSkinStateQueueTest >> testOnUninstalledIn [
 
 	self testOnInstalledIn
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSkinStateQueueTest >> testTarget [
 
 	self testOnInstalledIn 
 ]
 
-{ #category : #'api event managing' }
+{ #category : 'api event managing' }
 ToSkinStateQueueTest >> testWantsEvent [
 
 	| e h eventsToHandle eventsToHandleWhenDisabled |

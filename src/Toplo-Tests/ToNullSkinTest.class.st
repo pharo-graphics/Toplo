@@ -2,12 +2,14 @@
 A ToNullSkinTest is a test class for testing the behavior of ToNullSkin
 "
 Class {
-	#name : #ToNullSkinTest,
-	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-Skin'
+	#name : 'ToNullSkinTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Tests-Core-Skin',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-Skin'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToNullSkinTest >> testWithASkinInstalledBefore [
 
 	| w installedSkin nsk |
@@ -19,28 +21,38 @@ ToNullSkinTest >> testWithASkinInstalledBefore [
 	w applySkinInstaller.
 	installedSkin := w installedSkin.
 	self assert: installedSkin notNil.
+	self assert: w skinStateQueue nextStates notEmpty.
+	self assert: w skinStateQueue installed.
+	self assert: w skinStateQueue currentStates isEmpty.
 	w defaultSkin: (nsk := ToNullSkin new).
-	w requestSkin.
-	self assert: w installedSkin identicalTo: installedSkin.
-	w applySkinInstaller.
 	self deny: w installedSkin identicalTo: installedSkin.
+	self assert: w installedSkin identicalTo: nsk.
+	w applySkinInstaller.
 	self assert: w installedSkin identicalTo: nsk.
 	w requestSkin.
 	w applySkinInstaller.
-	self assert: w installedSkin identicalTo: nsk
+	self assert: w installedSkin identicalTo: nsk.
+	self assert: w skinStateQueue nextStates isEmpty.
+	self assert: w skinStateQueue currentStates isEmpty.
+	self deny: w skinStateQueue installed.
+
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToNullSkinTest >> testWithoutSkin [
 
 	| w sk |
 	w := ToElement new.
 	w withoutSkin.
-	self assert: w skinInstaller notNil.
-	self assert: w installedSkin isNil.
+	self assert: w skinInstaller isNil.
+	self assert: w installedSkin isNullSkin.
 	w applySkinInstaller.
 	self assert: ((sk := w installedSkin) isKindOf: ToNullSkin).
 	w requestSkin.
 	w applySkinInstaller.
-	self assert: w installedSkin identicalTo: sk
+	self assert: w installedSkin identicalTo: sk.
+	self assert: w skinStateQueue nextStates isEmpty.
+	self assert: w skinStateQueue currentStates isEmpty.
+	self deny: w skinStateQueue installed.
+
 ]

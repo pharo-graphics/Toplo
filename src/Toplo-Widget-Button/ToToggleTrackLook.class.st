@@ -1,51 +1,53 @@
 Class {
-	#name : #ToToggleTrackLook,
-	#superclass : #Object,
+	#name : 'ToToggleTrackLook',
+	#superclass : 'Object',
 	#instVars : [
 		'animate'
 	],
-	#category : 'Toplo-Widget-Button-Toggle'
+	#category : 'Toplo-Widget-Button-Toggle',
+	#package : 'Toplo-Widget-Button',
+	#tag : 'Toggle'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToToggleTrackLook >> animate [
 
 	^ animate 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToToggleTrackLook >> animate: aBoolean [
 
 	animate := aBoolean
 ]
 
-{ #category : #sliding }
+{ #category : 'sliding' }
 ToToggleTrackLook >> animationDeltaIn: anElement [
 
 	^ anElement deltaToLeft negated
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToToggleTrackLook >> animationDuration [
 
 	^ 200 milliSeconds 
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToToggleTrackLook >> clickLookEvent: anEvent [
 
 	super clickLookEvent: anEvent.
 	anEvent elementDo: [ :e | self syncAppearanceIn: e ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToToggleTrackLook >> clickedLookEvent: anEvent [
 
 	super clickedLookEvent: anEvent.
 	anEvent elementDo: [ :e | self syncAppearanceIn: e ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToToggleTrackLook >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
@@ -54,7 +56,7 @@ ToToggleTrackLook >> installLookEvent: anEvent [
 			self syncAppearanceIn: e ]  ]
 ]
 
-{ #category : #sliding }
+{ #category : 'sliding' }
 ToToggleTrackLook >> slideToLeftWithAnimationIn: anElement [
 	
 	| anim x |
@@ -66,7 +68,7 @@ ToToggleTrackLook >> slideToLeftWithAnimationIn: anElement [
 	anElement switchBar addAnimation: anim
 ]
 
-{ #category : #sliding }
+{ #category : 'sliding' }
 ToToggleTrackLook >> slideToRightWithAnimationIn: anElement [
 	
 	| anim x |
@@ -78,7 +80,7 @@ ToToggleTrackLook >> slideToRightWithAnimationIn: anElement [
 	anElement switchBar addAnimation: anim
 ]
 
-{ #category : #sliding }
+{ #category : 'sliding' }
 ToToggleTrackLook >> switchOffIn: anElement [
 
 	anElement switchBar switchOff.
@@ -86,7 +88,7 @@ ToToggleTrackLook >> switchOffIn: anElement [
 	anElement slideToLeft 
 ]
 
-{ #category : #sliding }
+{ #category : 'sliding' }
 ToToggleTrackLook >> switchOnIn: anElement [
 
 	anElement switchBar switchOn.
@@ -94,7 +96,7 @@ ToToggleTrackLook >> switchOnIn: anElement [
 	anElement slideToRight 
 ]
 
-{ #category : #sliding }
+{ #category : 'sliding' }
 ToToggleTrackLook >> syncAppearanceIn: anElement [
 
 	anElement isChecked
@@ -102,7 +104,7 @@ ToToggleTrackLook >> syncAppearanceIn: anElement [
 		ifFalse: [ self switchOffIn: anElement ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToToggleTrackLook >> withoutAnimationWhile: aBlock [
 
 	| prev |

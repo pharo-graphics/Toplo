@@ -1,20 +1,21 @@
 Class {
-	#name : #BaselineOfToplo,
-	#superclass : #BaselineOf,
+	#name : 'BaselineOfToplo',
+	#superclass : 'BaselineOf',
 	#classVars : [
 		'Initialized'
 	],
-	#category : #BaselineOfToplo
+	#category : 'BaselineOfToplo',
+	#package : 'BaselineOfToplo'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfToplo >> baseline: spec [
 
 	<baseline>
 	spec for: #common do: [ self baselineForCommon: spec ]
 ]
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfToplo >> baselineForCommon: spec [
 
 
@@ -23,19 +24,19 @@ BaselineOfToplo >> baselineForCommon: spec [
 	self registerPackages: spec
 ]
 
-{ #category : #dependencies }
+{ #category : 'dependencies' }
 BaselineOfToplo >> dependencies: spec [
 
 	spec
 		baseline: 'Bloc'
-		with: [ spec repository: 'github://pharo-graphics/bloc:dev-1.0/src' ].
+		with: [ spec repository: 'github://pharo-graphics/Bloc:dev-1.0/src' ].
 
 	spec
 		baseline: 'Album'
 		with: [ spec repository: 'github://plantec/Album/src' ]
 ]
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfToplo >> postload: loader package: packageSpec [
 
 	"Ignore pre and post loads if already executed"
@@ -46,7 +47,7 @@ BaselineOfToplo >> postload: loader package: packageSpec [
 	Initialized := true
 ]
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfToplo >> registerPackages: spec [
 	"Core"
 

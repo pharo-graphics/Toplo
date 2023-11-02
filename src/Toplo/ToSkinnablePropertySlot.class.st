@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToSkinnablePropertySlot',
-	#superclass : 'IndexedSlot',
-	#category : 'Toplo-Core-Slots',
-	#package : 'Toplo',
-	#tag : 'Core-Slots'
+	#name : #ToSkinnablePropertySlot,
+	#superclass : #IndexedSlot,
+	#category : 'Toplo-Core-Slots'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSkinnablePropertySlot >> initialize: anObject [
 
 	| property |
@@ -15,27 +13,27 @@ ToSkinnablePropertySlot >> initialize: anObject [
 	super write: property to: anObject
 ]
 
-{ #category : 'meta-object-protocol' }
+{ #category : #'meta-object-protocol' }
 ToSkinnablePropertySlot >> rawRead: anObject [
 
 	<reflection: 'Object Inspection - State inspection'>
 	^ super read: anObject
 ]
 
-{ #category : 'meta-object-protocol' }
+{ #category : #'meta-object-protocol' }
 ToSkinnablePropertySlot >> read: anObject [
 
 	<reflection: 'Object Inspection - State inspection'>
 	^ (self rawRead: anObject) read: anObject
 ]
 
-{ #category : 'meta-object-protocol' }
+{ #category : #'meta-object-protocol' }
 ToSkinnablePropertySlot >> wantsInitialization [
 
 	^ true
 ]
 
-{ #category : 'meta-object-protocol' }
+{ #category : #'meta-object-protocol' }
 ToSkinnablePropertySlot >> write: aValue to: anObject [
 
 	<reflection: 'Object Modification - State modification'>

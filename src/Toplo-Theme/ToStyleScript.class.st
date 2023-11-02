@@ -1,35 +1,33 @@
 Class {
-	#name : 'ToStyleScript',
-	#superclass : 'Object',
+	#name : #ToStyleScript,
+	#superclass : #Object,
 	#classTraits : 'TToStyleRuleHolder classTrait',
 	#instVars : [
 		'ruleStack'
 	],
-	#category : 'Toplo-Theme-StyleSheet',
-	#package : 'Toplo-Theme',
-	#tag : 'StyleSheet'
+	#category : 'Toplo-Theme-StyleSheet'
 }
 
-{ #category : 'syntactic sugar' }
+{ #category : #'syntactic sugar' }
 ToStyleScript >> action: aValuable with: aValue [
 
 	aValuable value: aValue
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 ToStyleScript >> addWriter: aPropertyWriter [
 
 	self ruleStack top addWriter: aPropertyWriter
 ]
 
-{ #category : 'syntactic sugar' }
+{ #category : #'syntactic sugar' }
 ToStyleScript >> any [
 
  	^ ToUniversalSelector new
 
 ]
 
-{ #category : 'syntactic sugar' }
+{ #category : #'syntactic sugar' }
 ToStyleScript >> child: aSelector [
 
 	^ ToChildSelector new
@@ -38,7 +36,7 @@ ToStyleScript >> child: aSelector [
 		  yourself
 ]
 
-{ #category : 'syntactic sugar' }
+{ #category : #'syntactic sugar' }
 ToStyleScript >> child: aSelector depth: anInteger [
 
 	^ ToChildSelector new
@@ -48,20 +46,20 @@ ToStyleScript >> child: aSelector depth: anInteger [
 		  yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleScript >> eventClass [
 
 	^ self ruleStack top eventClass
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToStyleScript >> initialize [ 
 
 	super initialize.
 	ruleStack := Stack new
 ]
 
-{ #category : 'syntactic sugar' }
+{ #category : #'syntactic sugar' }
 ToStyleScript >> parent: aSelector [
 
 	^ ToParentSelector new
@@ -70,7 +68,7 @@ ToStyleScript >> parent: aSelector [
 		  yourself
 ]
 
-{ #category : 'syntactic sugar' }
+{ #category : #'syntactic sugar' }
 ToStyleScript >> parent: aSelector depth: anInteger [
 
 	^ ToParentSelector new
@@ -80,13 +78,13 @@ ToStyleScript >> parent: aSelector depth: anInteger [
 		  yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleScript >> ruleStack [
 
 	^ ruleStack
 ]
 
-{ #category : 'syntactic sugar' }
+{ #category : #'syntactic sugar' }
 ToStyleScript >> select: aStyleSelector style: aBlock [
 
 	| rule |
@@ -99,13 +97,13 @@ ToStyleScript >> select: aStyleSelector style: aBlock [
 
 ]
 
-{ #category : 'syntactic sugar' }
+{ #category : #'syntactic sugar' }
 ToStyleScript >> selector [
 
 	^ self ruleStack top selector
 ]
 
-{ #category : 'syntactic sugar' }
+{ #category : #'syntactic sugar' }
 ToStyleScript >> supplement: aProperty with: aValuableOrObject [
 
 	self
@@ -114,7 +112,7 @@ ToStyleScript >> supplement: aProperty with: aValuableOrObject [
 		with: aValuableOrObject
 ]
 
-{ #category : 'syntactic sugar' }
+{ #category : #'syntactic sugar' }
 ToStyleScript >> when: aLookEventClass supplement: aProperty with: aValuableOrObject [
 
 	aProperty ifNil: [ ^ self ].
@@ -126,7 +124,7 @@ ToStyleScript >> when: aLookEventClass supplement: aProperty with: aValuableOrOb
 			 yourself)
 ]
 
-{ #category : 'syntactic sugar' }
+{ #category : #'syntactic sugar' }
 ToStyleScript >> when: aLookEventClass write: aProperty with: aValuableOrObject [
 
 	self
@@ -136,7 +134,7 @@ ToStyleScript >> when: aLookEventClass write: aProperty with: aValuableOrObject 
 		animation: nil
 ]
 
-{ #category : 'syntactic sugar' }
+{ #category : #'syntactic sugar' }
 ToStyleScript >> when: aLookEventClass write: aWriteableProperty with: aValuableOrObject animation: aPropertyAnimation [
 
 	aWriteableProperty ifNil: [ ^ self ].
@@ -149,7 +147,7 @@ ToStyleScript >> when: aLookEventClass write: aWriteableProperty with: aValuable
 			 yourself)
 ]
 
-{ #category : 'syntactic sugar' }
+{ #category : #'syntactic sugar' }
 ToStyleScript >> write: aProperty with: aValue [
 
 	self
@@ -159,7 +157,7 @@ ToStyleScript >> write: aProperty with: aValue [
 		animation: nil
 ]
 
-{ #category : 'writing' }
+{ #category : #writing }
 ToStyleScript >> write: aProperty with: aValuableOrObject animation: aPropertyAnimation [
 
 	self

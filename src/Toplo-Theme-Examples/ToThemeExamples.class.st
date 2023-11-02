@@ -22,7 +22,6 @@ ToThemeExamples class >> createThemeMenuBar: aSpace [
 	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'Inspect Space'); tooltipText: 'Inspect the BlSpace'; whenClickedDo: [ self inspectSpace: aSpace ]).
 	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'Inspect Theme'); tooltipText: 'Inspect the current theme'; whenClickedDo: [ self inspectSpaceToTheme: aSpace ]).
 	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'Style Sheet source'); tooltipText: 'Show the current style sheet source code'; whenClickedDo: [ self displaySpaceStyleSheet: aSpace ]).
-	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'Style Sheet values'); tooltipText: 'Show the current style sheet values'; whenClickedDo: [ self displaySpaceValueStyleSheet: aSpace ]).
 	
 	^ bar
 ]
@@ -30,7 +29,7 @@ ToThemeExamples class >> createThemeMenuBar: aSpace [
 { #category : #'private - actions' }
 ToThemeExamples class >> displaySpaceStyleSheet: aSpace [
 
-	| presenter stream |
+	| presenter stream printer |
 	aSpace ifNil:[ ^ self ].
 	aSpace toTheme ifNil:[ ^ self ].
 	
@@ -44,45 +43,8 @@ ToThemeExamples class >> displaySpaceStyleSheet: aSpace [
 			nextPutAll: 'Style Sheet with '; nextPutAll: (sheet rawStyleRules size) asString; nextPutAll: ' rule(s)' ; cr;
 			nextPutAll: '###'; cr.
 			
-		rules := sheet rawStyleRules.	
-		
-		rules do:[ :rule | 
-			stream cr.
-			rule printOnStyleSheet: stream.
-			stream cr.	
-		].
-	].
-	
-	"Open the presenter"
-	presenter text: stream contents.
-	presenter open.
-	presenter withWindowDo: [ :w | w title: 'Toplo Style Sheet details' ].
-]
-
-{ #category : #'private - actions' }
-ToThemeExamples class >> displaySpaceValueStyleSheet: aSpace [
-
-	| presenter stream |
-	aSpace ifNil:[ ^ self ].
-	aSpace toTheme ifNil:[ ^ self ].
-	
-	"Display Theme styleSheet in a text presenter"
-	presenter := SpTextPresenter new.
-	stream := ReadWriteStream on: String new.
-	
-	"Build the style sheet detail"
-	aSpace toTheme styleSheet ifNil:[ stream nextPutAll: 'This theme doesn''t manage a style sheet.' ] ifNotNil:[ :sheet | | rules |
-		stream 
-			nextPutAll: 'Style Sheet with '; nextPutAll: (sheet rawStyleRules size) asString; nextPutAll: ' rule(s)' ; cr;
-			nextPutAll: '###'; cr.
-			
-		rules := sheet rawStyleRules.	
-		
-		rules do:[ :rule | 
-			stream cr.
-			rule printOnStyleSheet: stream for: aSpace.
-			stream cr.	
-		].
+		printer := ToStyleSheetPrinter styleSheet: sheet.
+		printer printStyleSheetCSSOn: stream.
 	].
 	
 	"Open the presenter"

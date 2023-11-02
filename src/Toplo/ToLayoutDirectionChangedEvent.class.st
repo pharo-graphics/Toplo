@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToLayoutDirectionChangedEvent',
-	#superclass : 'BlEvent',
-	#category : 'Toplo-Core',
-	#package : 'Toplo',
-	#tag : 'Core'
+	#name : #ToLayoutDirectionChangedEvent,
+	#superclass : #BlEvent,
+	#category : 'Toplo-Core'
 }
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToLayoutDirectionChangedEvent >> sendTo: anObject [
 
 	anObject layoutDirectionChangedEvent: self

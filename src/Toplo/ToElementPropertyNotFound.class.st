@@ -1,21 +1,19 @@
 Class {
-	#name : 'ToElementPropertyNotFound',
-	#superclass : 'Error',
+	#name : #ToElementPropertyNotFound,
+	#superclass : #Error,
 	#instVars : [
 		'stampName'
 	],
-	#category : 'Toplo-Core-Properties',
-	#package : 'Toplo',
-	#tag : 'Core-Properties'
+	#category : 'Toplo-Core-Properties'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToElementPropertyNotFound class >> name: anObject [
 
 	^ self new stampName: anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToElementPropertyNotFound >> messageText [
 
 	^ self stampName
@@ -23,13 +21,13 @@ ToElementPropertyNotFound >> messageText [
 		  ifNotNil: [ :n | n asString ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToElementPropertyNotFound >> stampName [
 
 	^ stampName
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToElementPropertyNotFound >> stampName: anObject [
 
 	stampName := anObject

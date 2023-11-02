@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToStyleSheetSkinInstaller',
-	#superclass : 'ToSkinInstaller',
-	#category : 'Toplo-Core-Skin',
-	#package : 'Toplo',
-	#tag : 'Core-Skin'
+	#name : #ToStyleSheetSkinInstaller,
+	#superclass : #ToSkinInstaller,
+	#category : 'Toplo-Core-Skin'
 }
 
-{ #category : 'hook' }
+{ #category : #hook }
 ToStyleSheetSkinInstaller >> applyOn: anElement [
 
 	anElement skinInstaller: nil.

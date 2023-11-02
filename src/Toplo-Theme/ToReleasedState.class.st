@@ -1,24 +1,22 @@
 Class {
-	#name : 'ToReleasedState',
-	#superclass : 'ToElementState',
-	#category : 'Toplo-Theme-State',
-	#package : 'Toplo-Theme',
-	#tag : 'State'
+	#name : #ToReleasedState,
+	#superclass : #ToElementState,
+	#category : 'Toplo-Theme-State'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToReleasedState >> incompatibleStateClasses [
 
 	^ { ToPressedState }   
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToReleasedState >> isPersistent [ 
 
 	^ false
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToReleasedState >> lookEventClass [
 
 	^ ToReleasedLookEvent

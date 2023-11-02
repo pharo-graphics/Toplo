@@ -1,18 +1,16 @@
 Class {
-	#name : 'ToRawSkin',
-	#superclass : 'ToSkin',
-	#category : 'Toplo-Core-Skin',
-	#package : 'Toplo',
-	#tag : 'Core-Skin'
+	#name : #ToRawSkin,
+	#superclass : #ToSkin,
+	#category : 'Toplo-Core-Skin'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkin >> initialLookEvent: anEvent [
 
 	anEvent elementDo: [ :e | e initialRawStyle ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.

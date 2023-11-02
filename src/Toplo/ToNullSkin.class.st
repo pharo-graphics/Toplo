@@ -1,36 +1,34 @@
 Class {
-	#name : 'ToNullSkin',
-	#superclass : 'ToSkin',
-	#category : 'Toplo-Core-Skin',
-	#package : 'Toplo',
-	#tag : 'Core-Skin'
+	#name : #ToNullSkin,
+	#superclass : #ToSkin,
+	#category : 'Toplo-Core-Skin'
 }
 
-{ #category : 'event dispatch' }
+{ #category : #'event dispatch' }
 ToNullSkin >> dispatchSkinInitialStateRequestTo: anObject [
 
 	
 ]
 
-{ #category : 'event dispatch' }
+{ #category : #'event dispatch' }
 ToNullSkin >> dispatchSkinInstallStateRequestTo: anObject [
 
 	
 ]
 
-{ #category : 'api - accessing' }
+{ #category : #'api - accessing' }
 ToNullSkin >> eventsToHandle [
 
 	^ { }
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToNullSkin >> isNullSkin [ 
 
 	^ true
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToNullSkin >> setAsDefaultSkinIn: anElement [
 
 	anElement skinStateQueue reset.
@@ -39,7 +37,7 @@ ToNullSkin >> setAsDefaultSkinIn: anElement [
 	anElement addEventHandler: self
 ]
 
-{ #category : 'api - event managing' }
+{ #category : #'api - event managing' }
 ToNullSkin >> wantsEvent: anEvent [
 
 	^ false

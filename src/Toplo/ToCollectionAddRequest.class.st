@@ -1,27 +1,25 @@
 Class {
-	#name : 'ToCollectionAddRequest',
-	#superclass : 'ToCollectionChangeRequest',
+	#name : #ToCollectionAddRequest,
+	#superclass : #ToCollectionChangeRequest,
 	#instVars : [
 		'candidates'
 	],
-	#category : 'Toplo-Core-Collection',
-	#package : 'Toplo',
-	#tag : 'Core-Collection'
+	#category : 'Toplo-Core-Collection'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToCollectionAddRequest >> candidates [
 
 	^ candidates
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToCollectionAddRequest >> candidates: aCollection [
 
 	candidates := aCollection
 ]
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToCollectionAddRequest >> sendTo: anObject [
 
 	anObject collectionAddRequest: self

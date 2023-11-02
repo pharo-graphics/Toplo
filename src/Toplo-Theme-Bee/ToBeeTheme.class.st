@@ -49,24 +49,23 @@ paddingXS	Control the extra small padding of the element.	number	8
 
 "
 Class {
-	#name : 'ToBeeTheme',
-	#superclass : 'ToStyleSheetTheme',
+	#name : #ToBeeTheme,
+	#superclass : #ToStyleSheetTheme,
 	#instVars : [
 		'colorPrimary',
 		'colorPrimaryHover',
 		'colorPrimaryPressed'
 	],
-	#category : 'Toplo-Theme-Bee',
-	#package : 'Toplo-Theme-Bee'
+	#category : 'Toplo-Theme-Bee'
 }
 
-{ #category : 'constructor' }
+{ #category : #constructor }
 ToBeeTheme class >> blue [
 
 	^ ToBeeLightTheme new
 ]
 
-{ #category : 'customization' }
+{ #category : #customization }
 ToBeeTheme class >> colorPrimary: aColor [
 
 	| theme |
@@ -75,7 +74,7 @@ ToBeeTheme class >> colorPrimary: aColor [
 	^theme
 ]
 
-{ #category : 'customization' }
+{ #category : #customization }
 ToBeeTheme class >> colorPrimaryDark: aColor [
 
 	| theme |
@@ -84,37 +83,37 @@ ToBeeTheme class >> colorPrimaryDark: aColor [
 	^theme
 ]
 
-{ #category : 'constructor' }
+{ #category : #constructor }
 ToBeeTheme class >> darkBlue [
 
 	^ ToBeeDarkTheme new
 ]
 
-{ #category : 'constructor' }
+{ #category : #constructor }
 ToBeeTheme class >> darkGreen [
 
 	^self colorPrimaryDark: (Color fromHexString: '#00B96B')
 ]
 
-{ #category : 'constructor' }
+{ #category : #constructor }
 ToBeeTheme class >> darkPink [
 
 	^self colorPrimaryDark: (Color fromHexString: '#ED4192')
 ]
 
-{ #category : 'constructor' }
+{ #category : #constructor }
 ToBeeTheme class >> green [
 
 	^self colorPrimary: (Color fromHexString: '#00B96B')
 ]
 
-{ #category : 'constructor' }
+{ #category : #constructor }
 ToBeeTheme class >> pink [
 
 	^self colorPrimary: (Color fromHexString: '#ED4192')
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToBeeTheme >> checkboxBlankImage [
 
 	| bar im |
@@ -126,13 +125,13 @@ ToBeeTheme >> checkboxBlankImage [
 	^ im
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToBeeTheme >> colorPrimary [
 
 	^ colorPrimary ifNil: [ self colorPrimary: self defaultColorPrimary. colorPrimary  ]
 ]
 
-{ #category : 'settings' }
+{ #category : #settings }
 ToBeeTheme >> colorPrimary: aColor [
 	"Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics"
 	
@@ -142,31 +141,31 @@ ToBeeTheme >> colorPrimary: aColor [
 	colorPrimaryPressed :=  colorPrimary darker darker
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToBeeTheme >> colorPrimaryHover [
 
 	^ colorPrimaryHover
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToBeeTheme >> colorPrimaryPressed [
 
 	^ colorPrimaryPressed
 ]
 
-{ #category : 'settings' }
+{ #category : #settings }
 ToBeeTheme >> defaultColorPrimary [
 
 	^ Color fromHexString: '#1677ff'
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToBeeTheme >> defaultElementStyleStampsFor: anElement [ 
 
 	^ anElement defaultBeeStyleStamps
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToBeeTheme >> defaultStampList [
 	" skin managing need a list of unique stamps . "
 
@@ -305,20 +304,20 @@ ToBeeTheme >> defaultStampList [
 		  (ToStyleStamp name: #'padding-XS' value: 8) }
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToBeeTheme >> defaultStyleSheet [ 
 
 	^ ToBeeStyleSheet new
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToBeeTheme >> initialize [ 
 
 	super initialize.
 	self styleSheet: self defaultStyleSheet 
 ]
 
-{ #category : 'writer selecting' }
+{ #category : #'writer selecting' }
 ToBeeTheme >> skinClassFor: anElement [
 
 	^ ToBeeSkin

@@ -1,6 +1,6 @@
-Extension { #name : 'ToCheckbox' }
+Extension { #name : #ToCheckbox }
 
-{ #category : '*Toplo-Theme-Bee' }
+{ #category : #'*Toplo-Theme-Bee' }
 ToCheckbox >> beeBlankCheckboxImage [
 
 	| bar im |
@@ -11,13 +11,13 @@ ToCheckbox >> beeBlankCheckboxImage [
 	^ im
 ]
 
-{ #category : '*Toplo-Theme-Bee' }
+{ #category : #'*Toplo-Theme-Bee' }
 ToCheckbox >> defaultBeeStyleStamps [
 
 	^ #( #button #checkable #checkbox)
 ]
 
-{ #category : '*Toplo-Theme-Bee' }
+{ #category : #'*Toplo-Theme-Bee' }
 ToCheckbox >> installBeeStyle [ 
 
 	super installBeeStyle.

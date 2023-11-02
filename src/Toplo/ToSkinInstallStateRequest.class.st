@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToSkinInstallStateRequest',
-	#superclass : 'ToSkinEvent',
-	#category : 'Toplo-Core-Skin',
-	#package : 'Toplo',
-	#tag : 'Core-Skin'
+	#name : #ToSkinInstallStateRequest,
+	#superclass : #ToSkinEvent,
+	#category : 'Toplo-Core-Skin'
 }
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToSkinInstallStateRequest >> sendTo: anObject [
 
 	anObject skinInstallStateRequest: self

@@ -1,22 +1,24 @@
 Class {
-	#name : #ToDraggedState,
-	#superclass : #ToElementState,
-	#category : 'Toplo-Theme-State'
+	#name : 'ToDraggedState',
+	#superclass : 'ToElementState',
+	#category : 'Toplo-Theme-State',
+	#package : 'Toplo-Theme',
+	#tag : 'State'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDraggedState >> incompatibleStateClasses [
 
 	^ {  }
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToDraggedState >> isPersistent [
 
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDraggedState >> lookEventClass [
 
 	^ ToDraggedLookEvent

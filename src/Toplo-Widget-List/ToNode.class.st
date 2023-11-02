@@ -1,8 +1,8 @@
 Class {
 	#name : 'ToNode',
 	#superclass : 'ToElement',
-	#traits : 'TToClickable',
-	#classTraits : 'TToClickable classTrait',
+	#traits : 'TToClickable + TToOrientable',
+	#classTraits : 'TToClickable classTrait + TToOrientable classTrait',
 	#category : 'Toplo-Widget-List-node',
 	#package : 'Toplo-Widget-List',
 	#tag : 'node'
@@ -79,4 +79,12 @@ ToNode >> initialize [
 		border: self defaultInitialBorder;
 		background: self defaultInitialBackground;
 		addEventHandler: self defaultEventHandler
+]
+
+{ #category : 't - orientable - accessing' }
+ToNode >> layoutStrategy [
+
+	^ self layout
+
+	
 ]

@@ -1,10 +1,12 @@
 Class {
-	#name : #ToOrSelector,
-	#superclass : #ToBinarySelector,
-	#category : #'Toplo-Core-Selector'
+	#name : 'ToOrSelector',
+	#superclass : 'ToBinarySelector',
+	#category : 'Toplo-Core-Selector',
+	#package : 'Toplo',
+	#tag : 'Core-Selector'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ToOrSelector >> accept: aVisitor [
 
 	aVisitor visitOrSelector: self

@@ -1,17 +1,19 @@
 Class {
-	#name : #ToSpaceSkinInstallerPhase,
-	#superclass : #BlSpaceFramePhase,
-	#category : 'Toplo-Core-SpaceFrame'
+	#name : 'ToSpaceSkinInstallerPhase',
+	#superclass : 'BlSpaceFramePhase',
+	#category : 'Toplo-Core-SpaceFrame',
+	#package : 'Toplo',
+	#tag : 'Core-SpaceFrame'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSpaceSkinInstallerPhase >> name [
 	<return: #String>
 	
 	^ 'Skin installer phase'
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 ToSpaceSkinInstallerPhase >> runOn: aSpace [
 
 	aSpace applySkinInstaller

@@ -1,22 +1,24 @@
 Class {
-	#name : #ToLeavedState,
-	#superclass : #ToElementState,
-	#category : 'Toplo-Theme-State'
+	#name : 'ToLeavedState',
+	#superclass : 'ToElementState',
+	#category : 'Toplo-Theme-State',
+	#package : 'Toplo-Theme',
+	#tag : 'State'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToLeavedState >> incompatibleStateClasses [
 
 	^ { ToHoveredState }
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToLeavedState >> isPersistent [ 
 
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToLeavedState >> lookEventClass [
 
 	^ ToLeavedLookEvent

@@ -1,25 +1,27 @@
 Class {
-	#name : #ToStyleSheetPrinter,
-	#superclass : #Object,
+	#name : 'ToStyleSheetPrinter',
+	#superclass : 'Object',
 	#instVars : [
 		'styleSheet'
 	],
-	#category : #'Toplo-Theme-StyleSheet'
+	#category : 'Toplo-Theme-StyleSheet',
+	#package : 'Toplo-Theme',
+	#tag : 'StyleSheet'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToStyleSheetPrinter class >> styleRules: aStyleRuleList [
 
 	^ self new styleSheet: (ToStyleSheet new addAllStyleRules: aStyleRuleList)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToStyleSheetPrinter class >> styleSheet: aToStyleSheet [
 
 	^ self new styleSheet: aToStyleSheet
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 ToStyleSheetPrinter >> asCSSString [
 
 	| stream |
@@ -28,7 +30,7 @@ ToStyleSheetPrinter >> asCSSString [
 	^ stream contents
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 ToStyleSheetPrinter >> getSelectorCSS: aToElementSelector hangSelector: aSelector [
 	"https://www.w3schools.com/cssref/css_selectors.php"
 	
@@ -98,7 +100,7 @@ ToStyleSheetPrinter >> getSelectorCSS: aToElementSelector hangSelector: aSelecto
 	^ stream contents
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 ToStyleSheetPrinter >> printStyleRuleCSS: aStyleRule on: aStream hangSelector: aSelector [
 		
 	"print selector"
@@ -124,7 +126,7 @@ ToStyleSheetPrinter >> printStyleRuleCSS: aStyleRule on: aStream hangSelector: a
 	].
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 ToStyleSheetPrinter >> printStyleSheetCSSOn: aStream [
 
 	self styleRules do:[ :rule |
@@ -132,19 +134,19 @@ ToStyleSheetPrinter >> printStyleSheetCSSOn: aStream [
 	].
 ]
 
-{ #category : #rules }
+{ #category : 'rules' }
 ToStyleSheetPrinter >> styleRules [
 
 	^ self styleSheet styleRules
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToStyleSheetPrinter >> styleSheet [
 
 	^ styleSheet
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToStyleSheetPrinter >> styleSheet: anObject [
 
 	styleSheet := anObject

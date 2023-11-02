@@ -1,6 +1,6 @@
-Extension { #name : #ToLabel }
+Extension { #name : 'ToLabel' }
 
-{ #category : #'*Toplo-Theme-Bee' }
+{ #category : '*Toplo-Theme-Bee' }
 ToLabel >> defaultBeeStyleStamps [ 
 
 	^ #( #label )

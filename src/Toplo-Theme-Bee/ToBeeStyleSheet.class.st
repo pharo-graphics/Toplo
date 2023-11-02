@@ -1,14 +1,16 @@
 Class {
-	#name : #ToBeeStyleSheet,
-	#superclass : #ToStyleSheet,
-	#category : #'Toplo-Theme-Bee'
+	#name : 'ToBeeStyleSheet',
+	#superclass : 'ToStyleSheet',
+	#category : 'Toplo-Theme-Bee',
+	#package : 'Toplo-Theme-Bee'
 }
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> buttonRules [
 	<script:'self new buttonRules inspect'>
 
 	^ Array streamContents: [ :str |
+		str nextPutAll: self primaryButtonRules.
 		  str nextPutAll: self commonButtonRules.
 		  str nextPutAll: self defaultButtonRules.
 		  str nextPutAll: self primaryButtonRules.
@@ -21,7 +23,7 @@ ToBeeStyleSheet >> buttonRules [
 		  str nextPutAll: self toggleButtonRules ]
 ]
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> checkableButtonRules [
 	" checkbox family "
 
@@ -156,7 +158,7 @@ ToBeeStyleSheet >> checkableButtonRules [
 						   c horizontal matchParent ] ] ] ]) }
 ]
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> checkableInnerImageRules [
 	" checkbox family "
 
@@ -272,7 +274,7 @@ ToBeeStyleSheet >> checkableInnerImageRules [
 				   with: [ :e | e stampValue: #'color-error' ] ]) }
 ]
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> circleButtonRules [
 
 
@@ -320,7 +322,7 @@ ToBeeStyleSheet >> circleButtonRules [
 					   with: [ :e | BlLinearLayout new alignCenter ] ]) }
 ]
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> commonButtonRules [
 	<script:'(ToStyleSheetPrinter styleRules: (self new commonButtonRules)) inspect'>
 
@@ -337,10 +339,6 @@ ToBeeStyleSheet >> commonButtonRules [
 				   when: ToLeavedLookEvent
 				   write: (self property: #mouseCursor)
 				   with: nil.
-
-			   sr
-				   write: (self property: #layout)
-				   with: BlLinearLayout vertical alignCenter.
 
 			   sr select: #vertical asElementSelector not style: [
 				   sr write: (self property: #padding) with: [ :e |
@@ -471,7 +469,7 @@ ToBeeStyleSheet >> commonButtonRules [
 					   c linear horizontal alignCenter ] ] ]) }
 ]
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> defaultButtonRules [
 	" ToButton default rule including icon and label "
 
@@ -491,7 +489,7 @@ ToBeeStyleSheet >> defaultButtonRules [
 
 		  (#button asElementSelector - #checkable style: [ :sr |
 			   sr
-				   when: ToInitialLookEvent
+				   when: ToEnabledLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
@@ -626,7 +624,7 @@ ToBeeStyleSheet >> defaultButtonRules [
 				   with: [ :e | e borderBuilder dashArray: (e stampValue: #'dash-array') ] ]) } 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToBeeStyleSheet >> defaultStyleRules [
 
 	^ Array streamContents: [ :str |
@@ -636,7 +634,7 @@ ToBeeStyleSheet >> defaultStyleRules [
 		str nextPutAll: self labelRules ]
 ]
 
-{ #category : #'accessing rules  - label' }
+{ #category : 'accessing rules  - label' }
 ToBeeStyleSheet >> labelRules [
 	" label  rules"
 
@@ -743,7 +741,7 @@ ToBeeStyleSheet >> labelRules [
 						   yourself ] ]) }
 ]
 
-{ #category : #'accessing rules - labeled icon' }
+{ #category : 'accessing rules - labeled icon' }
 ToBeeStyleSheet >> labeledIconRules [
 
 	^ { (self any parent: (self type: ToLabeledIcon)) style: [ :sr | 
@@ -754,7 +752,7 @@ ToBeeStyleSheet >> labeledIconRules [
 			   c linear horizontal alignCenter ] ] ] }
 ]
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> linkButtonRules [
 	" ToButton link "
 
@@ -859,7 +857,7 @@ ToBeeStyleSheet >> linkButtonRules [
 				   with: [ :e | (e stampValue: #'color-error-pressed') ] ]) }
 ]
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> primaryButtonRules [
 	" ToButton primary "
 
@@ -978,7 +976,7 @@ ToBeeStyleSheet >> primaryButtonRules [
 				   with: [ :e | (e stampValue: #'color-text-light-solid') ] ]) }
 ]
 
-{ #category : #'accessing rules  - pane' }
+{ #category : 'accessing rules  - pane' }
 ToBeeStyleSheet >> rootPaneRules [
 
 	^ { ((self id: #'Space root') style: [ :sr |
@@ -987,7 +985,7 @@ ToBeeStyleSheet >> rootPaneRules [
 			   with: [ :e | e stampValue: #'background-color' ] ]) }
 ]
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> textButtonRules [
 	" ToButton text "
 
@@ -1101,7 +1099,7 @@ ToBeeStyleSheet >> textButtonRules [
 				   with: [ :e | e stampValue: #'color-bg-container-disabled' ] ]) }
 ]
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> toggleButtonRules [
 
 	^ { ( #(#button #'toggle-button') asElementSelector style: [ :sr |
@@ -1123,7 +1121,7 @@ ToBeeStyleSheet >> toggleButtonRules [
 				] ) }
 ]
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> verticalButtonRules [
 	"  
 	'button:hover' rule: [ :e | e mouseCursor: BlCursor hand. e background: Color gray. e font-size: 18 ].

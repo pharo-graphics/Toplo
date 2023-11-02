@@ -1,10 +1,12 @@
 Class {
-	#name : #ToCollectionFilterRequest,
-	#superclass : #ToCollectionChangeRequest,
-	#category : 'Toplo-Core-Collection'
+	#name : 'ToCollectionFilterRequest',
+	#superclass : 'ToCollectionChangeRequest',
+	#category : 'Toplo-Core-Collection',
+	#package : 'Toplo',
+	#tag : 'Core-Collection'
 }
 
-{ #category : #sending }
+{ #category : 'sending' }
 ToCollectionFilterRequest >> sendTo: anObject [
 
 	anObject collectionFilterRequest: self

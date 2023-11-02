@@ -1,22 +1,24 @@
 Class {
-	#name : #ToStillHoveredState,
-	#superclass : #ToElementState,
-	#category : 'Toplo-Theme-State'
+	#name : 'ToStillHoveredState',
+	#superclass : 'ToElementState',
+	#category : 'Toplo-Theme-State',
+	#package : 'Toplo-Theme',
+	#tag : 'State'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToStillHoveredState >> incompatibleStateClasses [
 
 	^ { ToHoveredState }   
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToStillHoveredState >> isPersistent [ 
 
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToStillHoveredState >> lookEventClass [
 
 	^ ToStillHoveredLookEvent

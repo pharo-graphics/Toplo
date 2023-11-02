@@ -1,10 +1,12 @@
 Class {
-	#name : #ToRawSkinInstaller,
-	#superclass : #ToSkinInstaller,
-	#category : 'Toplo-Core-Skin'
+	#name : 'ToRawSkinInstaller',
+	#superclass : 'ToSkinInstaller',
+	#category : 'Toplo-Core-Skin',
+	#package : 'Toplo',
+	#tag : 'Core-Skin'
 }
 
-{ #category : #hook }
+{ #category : 'hook' }
 ToRawSkinInstaller >> applyOn: anElement [
 
 	anElement skinInstaller: nil.

@@ -12,6 +12,7 @@ ToRawSkinInstaller >> applyOn: anElement [
 	anElement skinInstaller: nil.
 	" is there an already installed skin"
 	anElement installedSkin ifNotNil: [ :s |
+		s isNullSkin ifTrue: [ ^ self ].
 		^ s dispatchSkinInitialStateRequestTo: anElement  ].
 	anElement defaultSkin ifNotNil: [ :found | " add the skin as an element event handler"
 		anElement addEventHandler: found.

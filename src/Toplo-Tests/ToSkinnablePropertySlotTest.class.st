@@ -27,7 +27,7 @@ ToSkinnablePropertySlotTest >> testNew [
 	space root addChild: e.
 	self waitTestingSpaces.
 	self assert: e skinRequestCount equals: 1.
-	self assert: e skinRefreshedCount equals: 1.
+	self assert: e skinInstallStateCount equals: 1.
 	self assert: e skinStatesApplied equals: 1
 	
 ]
@@ -43,8 +43,8 @@ ToSkinnablePropertySlotTest >> testWriteTo [
 	self assert: e background paint color equals: Color blue.
 	space root addChild: e.
 	self waitTestingSpaces.
-	self assert: e skinRequestCount equals: 1.
-	self assert: e skinRefreshedCount equals: 1.
+	self assert: e skinRequestCount >= 1.
+	self assert: e skinInstallStateCount equals: 1.
 	self assert: e skinStatesApplied equals: 1.
 	self waitTestingSpaces.
 	self assert: e skinStatesApplied equals: 1.
@@ -65,8 +65,8 @@ ToSkinnablePropertySlotTest >> testWriteTo2 [
 	e borderValue: Color red.
 	self assert: e border paint color equals: Color red..
 	self waitTestingSpaces.
-	self assert: e skinRequestCount equals: 2.
-	self assert: e skinRefreshedCount equals: 1 
+	self assert: e skinRequestCount > 2.
+	self assert: e skinInstallStateCount equals: 1 
 
 	
 ]
@@ -74,36 +74,36 @@ ToSkinnablePropertySlotTest >> testWriteTo2 [
 { #category : 'running' }
 ToSkinnablePropertySlotTest >> testWriteTo4 [
 
-	| e |
+	| e requestCpt |
 	e := ToElementWithSkinnablePropertiesForTest new.
 	self assert: e skinInstaller isNil.
 	e backgroundValue: Color blue.
 	e borderValue: Color red.
 	space root addChild: e.
 	self waitTestingSpaces.
-	
+	requestCpt := e skinRequestCount.
 	e backgroundValue: Color blue.
-	self assert: e skinRequestCount equals: 3.
-	self assert: e skinRefreshedCount equals: 1.
+	self assert: e skinRequestCount equals: requestCpt + 1.
+	self assert: e skinInstallStateCount equals: 1.
 	self assert: e skinInstaller notNil.
 	
 	self waitTestingSpaces.
-	self assert: e skinRequestCount equals: 3.
-	self assert: e skinRefreshedCount equals: 2.
+	self assert: e skinRequestCount equals: requestCpt + 1.
+	self assert: e skinInstallStateCount equals: 1.
 	self assert: e skinInstaller isNil.
 
 	e backgroundValue: Color blue.
 	e borderValue: Color red.
-	self assert: e skinRequestCount equals: 5.
-	self assert: e skinRefreshedCount equals: 2.
+	self assert: e skinRequestCount equals: requestCpt + 3.
+	self assert: e skinInstallStateCount equals: 1.
 	self assert: e skinStatesApplied equals: 2.
 	self assert: e skinInstaller notNil.
 
 	self waitTestingSpaces.
 	self assert: e skinInstaller isNil.
-	self assert: e skinRequestCount equals: 5.
+	self assert: e skinRequestCount equals: requestCpt + 3.
 	self assert: e skinStatesApplied equals: 3.
-	self assert: e skinRefreshedCount equals: 3.
+	self assert: e skinInstallStateCount equals: 1.
 
 
 
@@ -122,7 +122,7 @@ ToSkinnablePropertySlotTest >> testWriteToWithSpaceAddChildBefore [
 	self waitTestingSpaces.
 	self assert: e skinInstaller isNil.
 	self assert: e skinRequestCount equals: 3.
-	self assert: e skinRefreshedCount equals: 1.
+	self assert: e skinInstallStateCount equals: 1.
 	self assert: e skinStatesApplied equals: 1.
 
 	

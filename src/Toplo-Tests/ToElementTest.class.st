@@ -228,8 +228,8 @@ ToElementTest >> testWithoutSkinNonContamination [
 	e withoutSkin.
 	" withoutSkin must be applied to the element hierarchy "
 	self assert: e defaultSkin isNullSkin.
-	self assert: child defaultSkin isNullSkin.
-	self assert: childchild defaultSkin isNullSkin.
+	self deny: child defaultSkin isNullSkin.
+	self deny: childchild defaultSkin isNullSkin.
 	
 	e applySkinInstaller.
 	child applySkinInstaller.

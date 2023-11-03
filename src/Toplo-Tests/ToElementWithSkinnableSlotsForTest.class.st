@@ -66,7 +66,7 @@ ToElementWithSkinnableSlotsForTest >> requestSkin [
 ]
 
 { #category : 'accessing' }
-ToElementWithSkinnableSlotsForTest >> skinRefreshedCount [
+ToElementWithSkinnableSlotsForTest >> skinInstallStateCount [
 
 	^ skinRefreshedCount
 ]

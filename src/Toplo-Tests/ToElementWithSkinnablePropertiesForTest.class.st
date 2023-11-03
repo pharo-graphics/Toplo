@@ -5,10 +5,10 @@ Class {
 	#classTraits : 'TToElementWithSkinnableProperties classTrait',
 	#instVars : [
 		'#skinRequestCount',
-		'#skinRefreshedCount',
 		'#skinStatesApplied',
 		'#backgroundValue => ToSkinnablePropertySlot',
-		'#borderValue => ToSkinnablePropertySlot'
+		'#borderValue => ToSkinnablePropertySlot',
+		'#skinInstallStateCount'
 	],
 	#category : 'Toplo-Tests-Core-Slots',
 	#package : 'Toplo-Tests',
@@ -68,11 +68,11 @@ ToElementWithSkinnablePropertiesForTest >> initialize [
 	" count the number of #requestSkin sents"
 	skinRequestCount := 0.
 	" count the number of ToSkinchangedEvent dispatches (for the skin installer)"
-	skinRefreshedCount := 0.
+	skinInstallStateCount := 0.
 	" count the number of state engine applyOn: (only for dirty element stored in the space) "
 	skinStatesApplied := 0.
 	
-	self when: ToSkinInstallStateRequest do: [ skinRefreshedCount := skinRefreshedCount + 1 ]
+	self when: ToSkinInstallStateRequest do: [ skinInstallStateCount := skinInstallStateCount + 1 ]
 ]
 
 { #category : 'skin' }
@@ -83,9 +83,9 @@ ToElementWithSkinnablePropertiesForTest >> requestSkin [
 ]
 
 { #category : 'accessing' }
-ToElementWithSkinnablePropertiesForTest >> skinRefreshedCount [
+ToElementWithSkinnablePropertiesForTest >> skinInstallStateCount [
 
-	^ skinRefreshedCount
+	^ skinInstallStateCount
 ]
 
 { #category : 'accessing' }

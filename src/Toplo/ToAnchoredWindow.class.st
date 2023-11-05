@@ -118,6 +118,7 @@ ToAnchoredWindow >> popupEvent: anEvent [
 	self visibility: BlVisibility hidden. 
 	self element space root addChild: self.
 	self checkBeforePopupEvent: anEvent.
+	self requestLayout.
 	self whenLayoutedDoOnce: [
 		" I need to finalize my position as soon as my layout is up-to-date "
 		self toFront.

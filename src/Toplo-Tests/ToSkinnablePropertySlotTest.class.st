@@ -39,14 +39,18 @@ ToSkinnablePropertySlotTest >> testWriteTo [
 	e := ToElementWithSkinnablePropertiesForTest new.
 	self assert: e backgroundValue isTransparent.
 	e backgroundValue: Color blue.
+	self assert: e skinRequestCount equals: 1.
 	self assert: e backgroundValue paint color equals: Color blue.
 	self assert: e background paint color equals: Color blue.
 	space root addChild: e.
 	self waitTestingSpaces.
-	self assert: e skinRequestCount >= 1.
+	self assert: e skinRequestCount equals: 2.
 	self assert: e skinInstallStateCount equals: 1.
 	self assert: e skinStatesApplied equals: 1.
 	self waitTestingSpaces.
+	" no change "
+	self assert: e skinRequestCount equals: 2.
+	self assert: e skinInstallStateCount equals: 1.
 	self assert: e skinStatesApplied equals: 1.
 
 
@@ -60,15 +64,16 @@ ToSkinnablePropertySlotTest >> testWriteTo2 [
 	| e |
 	e := ToElementWithSkinnablePropertiesForTest new.
 	e backgroundValue: Color blue.
+	self assert: e skinRequestCount equals: 1.
 	space root addChild: e.
+	self assert: e skinRequestCount equals: 2.
 	self assert: e border isTransparent.
 	e borderValue: Color red.
-	self assert: e border paint color equals: Color red..
+	self assert: e skinRequestCount equals: 3.
+	self assert: e border paint color equals: Color red.
 	self waitTestingSpaces.
-	self assert: e skinRequestCount > 2.
-	self assert: e skinInstallStateCount equals: 1 
-
-	
+	self assert: e skinRequestCount equals: 3.
+	self assert: e skinInstallStateCount equals: 1
 ]
 
 { #category : 'running' }

@@ -51,37 +51,6 @@ ToElementTest >> testAddEventHandler [
 		raise: Error
 ]
 
-{ #category : 'test initialize' }
-ToElementTest >> testAddSkinInstallerPhaseChecker [
-
-	| e |
-	e := ToElement new.
-	self
-		assert: (e eventDispatcher handlers select: [ :h |
-				 h class == ToSpaceSkinInstallerPhaseCheckerEventHandler ]) size
-		equals: 1.
-	e addSkinInstallerPhaseChecker.
-	self
-		assert: (e eventDispatcher handlers select: [ :h |
-				 h class == ToSpaceSkinInstallerPhaseCheckerEventHandler ]) size
-		equals: 1.
-	e removeSkinInstallerPhaseChecker.
-	self
-		assert: (e eventDispatcher handlers select: [ :h |
-				 h class == ToSpaceSkinInstallerPhaseCheckerEventHandler ]) size
-		equals: 0.
-	e addSkinInstallerPhaseChecker.
-	self
-		assert: (e eventDispatcher handlers select: [ :h |
-				 h class == ToSpaceSkinInstallerPhaseCheckerEventHandler ]) size
-		equals: 1.
-	e addSkinInstallerPhaseChecker.
-	self
-		assert: (e eventDispatcher handlers select: [ :h |
-				 h class == ToSpaceSkinInstallerPhaseCheckerEventHandler ]) size
-		equals: 1
-]
-
 { #category : 'tests' }
 ToElementTest >> testCheckEventFilter [
 
@@ -108,25 +77,6 @@ ToElementTest >> testCheckEventHandler [
 		e := ToElement new.
 	e addEventFilter: ToSkinStateGenerator new.
 	e checkEventHandler: ToSkinStateGenerator new
-]
-
-{ #category : 'test initialize' }
-ToElementTest >> testHasSkinInstallerPhaseChecker [
-
-	| e |
-	e := ToElement new.
-	self assert: e hasSkinInstallerPhaseChecker.
-	BlSpace new root addChild: e.
-	self deny: e hasSkinInstallerPhaseChecker
-]
-
-{ #category : 'test initialize' }
-ToElementTest >> testInitialize [
-
-	| e |
-	e := ToElement new.
-	self assert: e skinInstallerPhaseChecker notNil.
-
 ]
 
 { #category : 'test initialize' }
@@ -164,37 +114,6 @@ ToElementTest >> testOnAddedToSceneGraph [
 	BlSpace new root addChild: e.
 	self assert: e skinInstaller notNil.
 	self assert: (e skinInstaller isKindOf: ToSkinInstaller)
-]
-
-{ #category : 'test initialize' }
-ToElementTest >> testRemoveSkinInstallerPhaseChecker [
-
-	| e |
-	e := ToElement new.
-	self
-		assert: (e eventDispatcher handlers select: [ :h |
-				 h class == ToSpaceSkinInstallerPhaseCheckerEventHandler ]) size
-		equals: 1.
-	e removeSkinInstallerPhaseChecker.
-	self
-		assert: (e eventDispatcher handlers select: [ :h |
-				 h class == ToSpaceSkinInstallerPhaseCheckerEventHandler ]) size
-		equals: 0
-]
-
-{ #category : 'test initialize' }
-ToElementTest >> testSkinInstallerPhaseChecker [
-
-	| e |
-	e := ToElement new.
-	self assert: e skinInstallerPhaseChecker notNil.
-	self
-		assert: e skinInstallerPhaseChecker class
-		identicalTo: ToSpaceSkinInstallerPhaseCheckerEventHandler.
-	self assert: (e eventDispatcher handlers anySatisfy: [ :h |
-			 h class == ToSpaceSkinInstallerPhaseCheckerEventHandler ]).
-	BlSpace new root addChild: e.
-	self assert: e skinInstallerPhaseChecker isNil
 ]
 
 { #category : 'test initialize' }

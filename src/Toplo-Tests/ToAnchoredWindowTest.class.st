@@ -55,6 +55,8 @@ ToAnchoredWindowTest >> testAssociateElement [
 	self assert: win element equals: e.	
 		
 	win popup.
+	self assert: openEventFromWindow isNil.
+	win forceLayout.
 	self assert: openEventFromWindow notNil.
 	self assert: openEventFromWindow currentTarget equals: win.
 	self assert: openEventFromWidget notNil.
@@ -123,6 +125,8 @@ ToAnchoredWindowTest >> testPopupWithAssociateElementInSpace2 [
 	self assert: win isClosed.
 	self assert: win popupTimestamp isNil.
 	win popup.
+	self assert: win popupTimestamp isNil.
+	win forceLayout.
 	self assert: win popupTimestamp notNil.
 	timeStamp := win popupTimestamp.
 	self assert: win popupTimestamp < DateAndTime now.

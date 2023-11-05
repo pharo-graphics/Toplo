@@ -24,13 +24,6 @@ ToElement >> addEventHandler: anEventHandler [
 	super addEventHandler: anEventHandler
 ]
 
-{ #category : 'skin - private' }
-ToElement >> addSkinInstallerPhaseChecker [
-
-	self skinInstallerPhaseChecker ifNotNil: [ ^ self ].
-	self addEventHandler: ToSpaceSkinInstallerPhaseCheckerEventHandler new
-]
-
 { #category : 'event management' }
 ToElement >> checkEventFilter: anEventHandler [
 
@@ -67,18 +60,12 @@ ToElement >> disabledBorder [
 	^ Color lightGray alpha: 0.5 
 ]
 
-{ #category : 'skin - private' }
-ToElement >> hasSkinInstallerPhaseChecker [
-
-	^ self skinInstallerPhaseChecker notNil
-]
-
 { #category : 'initialization' }
 ToElement >> initialize [
 
 	super initialize.
 	self layout: self defaultLayout.
-	self addSkinInstallerPhaseChecker
+	"self addSkinInstallerPhaseChecker"
 ]
 
 { #category : 'hooks - children' }
@@ -97,13 +84,6 @@ ToElement >> onAddedToSceneGraph [
 	self space elementWithSkinInstaller: self
 ]
 
-{ #category : 'skin - private' }
-ToElement >> removeSkinInstallerPhaseChecker [
-
-	self skinInstallerPhaseChecker ifNotNil: [ :checker |
-		self removeEventHandler: checker ]
-]
-
 { #category : 't  - layout resizeable' }
 ToElement >> resizableConstraintsDo: aBlock [
 	"Perform aBlock with my constraints as argument.
@@ -120,13 +100,4 @@ ToElement >> resizableConstraintsDo: aBlock [
 	self constraintsDo: aBlock.
 	self dispatchEvent: ToLayoutConstraintsChangedEvent new
 	
-]
-
-{ #category : 'skin - private' }
-ToElement >> skinInstallerPhaseChecker [
-
-	^ self eventDispatcher handlers
-		  detect: [ :handler |
-			  handler isKindOf: ToSpaceSkinInstallerPhaseCheckerEventHandler ]
-		  ifNone: [  ]
 ]

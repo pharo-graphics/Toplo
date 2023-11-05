@@ -13,17 +13,14 @@ ToSpaceSkinStatePhaseTest >> testElementAddedToSceneGraphEvent [
 	space := BlSpace new.
 	e := ToElement new.
 
-	" the element has the specific event handler to check phase installation"
-	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToSpaceSkinInstallerPhaseCheckerEventHandler ]).
-
 	nb := space frame phases size.
 	" before the element is added in space, its space frame phases remain unchanged "
 	self assert: (space frame phases noneSatisfy: [ :p |
 			 p isKindOf: ToSpaceSkinInstallerPhase ]).
 	self assert: (space frame phases noneSatisfy: [ :p |
 			 p isKindOf: ToSpaceSkinStatePhase ]).
-		
+	
+	" shoud result in a requestSkin which do the installation if needed "
 	space root addChild: e.
 
 	" The skin specific phase is added"
@@ -31,11 +28,7 @@ ToSpaceSkinStatePhaseTest >> testElementAddedToSceneGraphEvent [
 	self assert: (space frame phases anySatisfy: [ :p |
 			 p isKindOf: ToSpaceSkinInstallerPhase ]).
 	self assert: (space frame phases anySatisfy: [ :p |
-			 p isKindOf: ToSpaceSkinStatePhase ]).
-
-	" the specific event handler to check phase installation is removed form the element event dispatcher"
-	self deny: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToSpaceSkinInstallerPhaseCheckerEventHandler ])
+			 p isKindOf: ToSpaceSkinStatePhase ])
 ]
 
 { #category : 'tests' }

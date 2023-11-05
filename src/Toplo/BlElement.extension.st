@@ -295,6 +295,12 @@ BlElement >> requestDefaultSkin: aSkin [
 { #category : '*Toplo' }
 BlElement >> requestSkin [
 
+	" first check for the space phases "
+	self spaceDo: [ :sp |
+		sp isSkinInstallerPhaseInstalled ifFalse: [
+			sp startSkinInstallerPhase.
+			sp startSkinStatePhase ] ].
+	
 	self localDefaultSkin ifNotNil: [ :s |
 		s isNullSkin ifTrue: [ ^ self ] ].
 	self skinInstaller ifNotNil: [ ^ self ].

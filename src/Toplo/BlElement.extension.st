@@ -296,16 +296,12 @@ BlElement >> requestDefaultSkin: aSkin [
 BlElement >> requestSkin [
 
 	" first check for the space phases "
-	self spaceDo: [ :sp |
-		sp isSkinInstallerPhaseInstalled ifFalse: [
-			sp startSkinInstallerPhase.
-			sp startSkinStatePhase ] ].
-	
+	self spaceDo: [ :sp | sp installSkinPhases ].
 	self localDefaultSkin ifNotNil: [ :s |
 		s isNullSkin ifTrue: [ ^ self ] ].
 	self skinInstaller ifNotNil: [ ^ self ].
 	self skinInstaller: self toTheme newSkinInstaller.
-	self spaceDo: [ :space | space elementWithSkinInstaller: self ]
+	self spaceDo: [ :space | space skinInstallerSetIn: self ]
 ]
 
 { #category : '*Toplo' }
@@ -457,7 +453,8 @@ BlElement >> toTheme: aTheme [
 BlElement >> toThemeChanged [
 
 	self dispatchEvent: ToThemeChangedEvent new.
-	self childrenDo: [ :c | c toThemeChanged ]
+	self childrenDo: [ :c | c toThemeChanged ].
+	self requestSkin
 ]
 
 { #category : '*Toplo' }

@@ -135,11 +135,13 @@ ToBeeTheme >> colorPrimary [
 { #category : 'settings' }
 ToBeeTheme >> colorPrimary: aColor [
 	"Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics"
-	
-	colorPrimary = aColor ifTrue:[ ^ self ].
+
+	colorPrimary = aColor ifTrue: [ ^ self ].
 	colorPrimary := aColor.
-	colorPrimaryHover :=  colorPrimary whiter whiter.	
-	colorPrimaryPressed :=  colorPrimary darker darker
+	colorPrimaryHover := colorPrimary whiter whiter.
+	colorPrimaryPressed := colorPrimary darker darker.
+	self styleSheet ifNotNil: [ :ss |
+		ss defaultStampList: self defaultStampList ]
 ]
 
 { #category : 'colors' }

@@ -15,20 +15,26 @@ ToBeeThemeTest >> testColorPrimary [
 	theme := ToBeeLightTheme new.
 	self assert: theme colorPrimary notNil.
 	self assert: theme colorPrimary equals: (ToBeeLightTheme new defaultColorPrimary).
+	self assert: (theme stampNamed: #'color-primary') value equals: theme colorPrimary.
 	theme colorPrimary: Color red.
 	self assert: theme colorPrimary equals: Color red.
+	self assert: (theme stampNamed: #'color-primary') value equals: theme colorPrimary.
 	
 	theme := ToBeeLightTheme colorPrimary: Color red.
 	self assert: theme colorPrimary equals: Color red.
+	self assert: (theme stampNamed: #'color-primary') value equals: theme colorPrimary.
 	
 	theme := ToBeeDarkTheme new.
 	self assert: theme colorPrimary notNil.
 	self assert: theme colorPrimary equals: (ToBeeDarkTheme new defaultColorPrimary).
+	self assert: (theme stampNamed: #'color-primary') value equals: theme colorPrimary.
 	theme colorPrimary: Color red.
 	self assert: theme colorPrimary equals: Color red.
-	
+	self assert: (theme stampNamed: #'color-primary') value equals: theme colorPrimary.
 	theme := ToBeeDarkTheme colorPrimary: Color red.
 	self assert: theme colorPrimary equals: Color red.
+	self assert: (theme stampNamed: #'color-primary') value equals: theme colorPrimary.
+
 ]
 
 { #category : 'tests' }

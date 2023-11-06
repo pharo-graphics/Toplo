@@ -64,8 +64,7 @@ ToElement >> disabledBorder [
 ToElement >> initialize [
 
 	super initialize.
-	self layout: self defaultLayout.
-	"self addSkinInstallerPhaseChecker"
+	self layout: self defaultLayout
 ]
 
 { #category : 'hooks - children' }
@@ -81,7 +80,7 @@ ToElement >> onAddedToSceneGraph [
 
 	super onAddedToSceneGraph.
 	self requestSkin.
-	self space elementWithSkinInstaller: self
+	self space skinInstallerSetIn: self
 ]
 
 { #category : 't  - layout resizeable' }

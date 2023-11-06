@@ -1,131 +1,64 @@
 Extension { #name : 'BlSpace' }
 
 { #category : '*Toplo' }
+BlSpace >> allowSkinPhases [
+
+	^ self skinPhasesManager allowSkinPhases
+]
+
+{ #category : '*Toplo' }
+BlSpace >> allowSkinPhases: aBoolean [
+
+	" useful for testing. tests may want to run phases programmatically"
+	self skinPhasesManager allowSkinPhases: aBoolean
+]
+
+{ #category : '*Toplo' }
 BlSpace >> applySkinInstaller [
 
-	self elementsWithSkinInstaller do: [ :e | e applySkinInstaller ].
-	self resetElementsWithSkinInstaller
-]
-
-{ #category : '*Toplo' }
-BlSpace >> elementWithSkinInstaller: anElement [
-
-	self elementsWithSkinInstaller add: anElement
-]
-
-{ #category : '*Toplo' }
-BlSpace >> elementsWithSkinInstaller [
-
-	^ self userData at: #elementsWithSkinInstaller ifAbsentPut: [ IdentitySet new ]
-]
-
-{ #category : '*Toplo' }
-BlSpace >> elementsWithUnappliedStates [
-
-	^ self userData at: #elementsWithUnappliedStates ifAbsentPut: [ #() ]
-]
-
-{ #category : '*Toplo' }
-BlSpace >> elementsWithUnappliedStates: anArray [
-
-	^ self userData at: #elementsWithUnappliedStates put: anArray
+	self skinPhasesManager applySkinInstaller
 ]
 
 { #category : '*Toplo' }
 BlSpace >> flushSkinStates [
 	
-	self elementsWithUnappliedStates do: [ :e | e flushSkinStates ].
-	self resetElementsWithUnappliedStates 
+	self skinPhasesManager flushSkinStates
 ]
 
 { #category : '*Toplo' }
-BlSpace >> installedSkinInstallerPhase [
+BlSpace >> installSkinPhases [
 
-	^ self frame phases
-		  detect: [ :p | p isKindOf: ToSpaceSkinInstallerPhase ]
-		  ifNone: [  ]
+	self skinPhasesManager onInstalledIn: self
 ]
 
 { #category : '*Toplo' }
-BlSpace >> installedSkinStatePhase [
+BlSpace >> skinInstallerSetIn: anElement [
 
-	^ self frame phases
-		  detect: [ :p | p isKindOf: ToSpaceSkinStatePhase ]
-		  ifNone: [  ]
+	self skinPhasesManager skinInstallerSetIn: anElement
 ]
 
 { #category : '*Toplo' }
-BlSpace >> isSkinInstallerPhaseInstalled [
+BlSpace >> skinPhasesManager [
 
-	^ self installedSkinInstallerPhase notNil
+	^ self userData at: #skinPhasesManager ifAbsentPut: [ ToSpaceSkinPhasesManager new ]
 ]
 
 { #category : '*Toplo' }
-BlSpace >> isSkinStatePhaseInstalled [
+BlSpace >> startSkinPhases [
 
-	^ self installedSkinStatePhase notNil
+	self skinPhasesManager startSkinPhasesIn: self
 ]
 
 { #category : '*Toplo' }
-BlSpace >> requestSkinApplicationFor: anElement [
+BlSpace >> stopSkinPhases [
 
-	self elementsWithUnappliedStates:
-		((self elementsWithUnappliedStates copyWithout: anElement)
-			 copyWith: anElement)
+	self skinPhasesManager stopSkinPhasesIn: self
 ]
 
 { #category : '*Toplo' }
-BlSpace >> resetElementsWithSkinInstaller [
+BlSpace >> styleDirtyIn: anElement [
 
-	^ self userData at: #elementsWithSkinInstaller put: IdentitySet new
-]
-
-{ #category : '*Toplo' }
-BlSpace >> resetElementsWithUnappliedStates [
-
-	"self elementsWithUnappliedStates do: [ :e | e traceCr ]."
-	self userData at: #elementsWithUnappliedStates put: #()
-]
-
-{ #category : '*Toplo' }
-BlSpace >> rootSkinInstalled [
-
-	^ self root installedSkin notNil
-
-]
-
-{ #category : '*Toplo' }
-BlSpace >> startSkinInstallerPhase [
-	| phaseAfter |
-
-	self isSkinInstallerPhaseInstalled ifTrue: [ ^ self ].
-	" The skin phase must be inserted before the layout phase (that must be present) "
-	phaseAfter := self frame detectPhase: [ :f | f class = BlSpaceFrameLayoutPhase ].
-	self frame addPhase: ToSpaceSkinInstallerPhase new before: phaseAfter
-]
-
-{ #category : '*Toplo' }
-BlSpace >> startSkinStatePhase [
-	| phaseAfter |
-
-	self isSkinStatePhaseInstalled ifTrue: [ ^ self ].
-	" The skin phase must be inserted before the layout phase (that must be present) "
-	phaseAfter := self frame detectPhase: [ :f | f class = BlSpaceFrameLayoutPhase ].
-	self frame addPhase: ToSpaceSkinStatePhase new before: phaseAfter
-]
-
-{ #category : '*Toplo' }
-BlSpace >> stopSkinInstallerPhase [
-
-	self installedSkinInstallerPhase ifNotNil: [ :phase |
-		self frame removePhase: phase ]
-]
-
-{ #category : '*Toplo' }
-BlSpace >> stopSkinStatePhase [
-
-	self installedSkinStatePhase ifNotNil: [ :phase |
-		self frame removePhase: phase ]
+	self skinPhasesManager styleDirtyIn: anElement
 ]
 
 { #category : '*Toplo-LookAndFeel' }
@@ -138,4 +71,10 @@ BlSpace >> toTheme [
 BlSpace >> toTheme: aTheme [
 
 	self root toTheme: aTheme
+]
+
+{ #category : '*Toplo' }
+BlSpace >> uninstallSkinPhases [
+
+	self skinPhasesManager onUninstalledIn: self
 ]

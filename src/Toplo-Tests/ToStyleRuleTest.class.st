@@ -7,9 +7,9 @@ Class {
 	#instVars : [
 		'writeablePropertyIndex'
 	],
-	#category : 'Toplo-Theme-Tests-StyleSheet',
-	#package : 'Toplo-Theme-Tests',
-	#tag : 'StyleSheet'
+	#category : 'Toplo-Tests-Core-StyleSheet',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-StyleSheet'
 }
 
 { #category : 'running' }

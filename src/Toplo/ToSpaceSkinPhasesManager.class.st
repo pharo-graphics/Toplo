@@ -31,8 +31,7 @@ ToSpaceSkinPhasesManager >> allowSkinPhases: aBoolean [
 ToSpaceSkinPhasesManager >> applySkinInstaller [
 
 	self allowSkinPhases ifFalse: [ ^ self ].
-	self elementsWithSkinInstaller do: [ :e | e applySkinInstaller ].
-	self resetElementsWithSkinInstaller
+	self launchSkinInstaller 
 ]
 
 { #category : 'initialization' }
@@ -76,8 +75,7 @@ ToSpaceSkinPhasesManager >> elementsWithUnappliedStates: anArray [
 ToSpaceSkinPhasesManager >> flushSkinStates [
 	
 	self allowSkinPhases ifFalse: [ ^ self ].
-	self elementsWithUnappliedStates do: [ :e | e flushSkinStates ].
-	self resetElementsWithDirtySkin 
+	self launchFlushSkinStates
 ]
 
 { #category : 'initialization' }
@@ -119,6 +117,20 @@ ToSpaceSkinPhasesManager >> isSkinInstallerPhaseInstalledIn: aSpace [
 ToSpaceSkinPhasesManager >> isSkinStatePhaseInstalledIn: aSpace [
 
 	^ (self installedSkinStatePhaseIn: aSpace) notNil
+]
+
+{ #category : 'phases application' }
+ToSpaceSkinPhasesManager >> launchFlushSkinStates [
+
+	self elementsWithUnappliedStates do: [ :e | e flushSkinStates ].
+	self resetElementsWithDirtySkin
+]
+
+{ #category : 'phases application' }
+ToSpaceSkinPhasesManager >> launchSkinInstaller [
+
+	self elementsWithSkinInstaller do: [ :e | e applySkinInstaller ].
+	self resetElementsWithSkinInstaller
 ]
 
 { #category : 'initialization' }

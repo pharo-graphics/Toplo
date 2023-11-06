@@ -25,7 +25,8 @@ ToSkinnableSlotTest >> testNew [
 	| e |
 	e := ToElementWithSkinnableSlotsForTest new.
 	space root addChild: e.
-	self waitTestingSpaces.
+	space launchSkinInstaller.
+	space launchFlushSkinStates.
 	self assert: e skinRequestCount equals: 1.
 	self assert: e skinInstallStateCount equals: 1.
 	self assert: e skinStatesApplied equals: 1
@@ -39,7 +40,8 @@ ToSkinnableSlotTest >> testWriteTo [
 	e := ToElementWithSkinnableSlotsForTest new.
 	e child1: ToElement new.
 	space root addChild: e.
-	self waitTestingSpaces.
+	space launchSkinInstaller.
+	space launchFlushSkinStates.
 	space requestNextPulse.
 	self assert: e skinRequestCount equals: 2.
 	self assert: e skinInstallStateCount equals: 1.
@@ -60,7 +62,8 @@ ToSkinnableSlotTest >> testWriteTo2 [
 	e child1: ToElement new.
 	space root addChild: e.
 	e child2: ToElement new.
-	self waitTestingSpaces.
+	space launchSkinInstaller.
+	space launchFlushSkinStates.
 	self assert: e skinRequestCount equals: 3.
 	self assert: e skinInstallStateCount equals: 1 
 
@@ -75,7 +78,8 @@ ToSkinnableSlotTest >> testWriteTo3 [
 	e child1: ToElement new.
 	e child1: ToElement new.
 	space root addChild: e.
-	self waitTestingSpaces.
+	space launchSkinInstaller.
+	space launchFlushSkinStates.
 	self assert: e skinRequestCount equals: 3.
 	self assert: e skinInstallStateCount equals: 1 
 
@@ -91,7 +95,8 @@ ToSkinnableSlotTest >> testWriteTo4 [
 	e child1: ToElement new.
 	e child1: ToElement new.
 	space root addChild: e.
-	self waitTestingSpaces.
+	space launchSkinInstaller.
+	space launchFlushSkinStates.
 	
 	self assert: e skinRequestCount equals: 3.
 	e child1: ToElement new.
@@ -99,22 +104,29 @@ ToSkinnableSlotTest >> testWriteTo4 [
 	self assert: e skinInstallStateCount equals: 1.
 	self assert: e skinInstaller notNil.
 	
-	self waitTestingSpaces.
+	space launchSkinInstaller.
+	space launchFlushSkinStates.
 	self assert: e skinRequestCount equals: 4.
 	self assert: e skinInstallStateCount equals: 1.
 	self assert: e skinInstaller isNil.
 
 	e child1: ToElement new.
 	e child1: ToElement new.
+	
+	space launchSkinInstaller.
+	space launchFlushSkinStates.
+
 	self assert: e skinRequestCount equals: 6.
 	self assert: e skinInstallStateCount equals: 1.
-	self assert: e skinStatesApplied equals: 2.
-	self assert: e skinInstaller notNil.
+	self assert: e skinStatesApplied equals: 1.
+	self assert: e skinInstaller isNil.
 
-	self waitTestingSpaces.
+	space launchSkinInstaller.
+	space launchFlushSkinStates.
+
 	self assert: e skinInstaller isNil.
 	self assert: e skinRequestCount equals: 6.
-	self assert: e skinStatesApplied equals: 3.
+	self assert: e skinStatesApplied equals: 1.
 	self assert: e skinInstallStateCount equals: 1.
 
 
@@ -130,7 +142,8 @@ ToSkinnableSlotTest >> testWriteToWithSpaceAddChildBefore [
 	e := ToElementWithSkinnableSlotsForTest new.
 	space root addChild: e.
 	e child1: ToElement new.
-	self waitTestingSpaces.
+	space launchSkinInstaller.
+	space launchFlushSkinStates.
 	self assert: e skinRequestCount equals: 2.
 	self assert: e skinInstallStateCount equals: 1 
 

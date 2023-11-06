@@ -4,9 +4,9 @@ A ToPropertyWriterTest is a test class for testing the behavior of ToPropertyWri
 Class {
 	#name : 'ToPropertyWriterTest',
 	#superclass : 'TestCase',
-	#category : 'Toplo-Theme-Tests-StyleSheet',
-	#package : 'Toplo-Theme-Tests',
-	#tag : 'StyleSheet'
+	#category : 'Toplo-Tests-Core-StyleSheet',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-StyleSheet'
 }
 
 { #category : 'test writing' }

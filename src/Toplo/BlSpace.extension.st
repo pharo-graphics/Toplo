@@ -32,6 +32,18 @@ BlSpace >> installSkinPhases [
 ]
 
 { #category : '*Toplo' }
+BlSpace >> launchFlushSkinStates [
+	
+	self skinPhasesManager launchFlushSkinStates
+]
+
+{ #category : '*Toplo' }
+BlSpace >> launchSkinInstaller [
+
+	self skinPhasesManager launchSkinInstaller
+]
+
+{ #category : '*Toplo' }
 BlSpace >> skinInstallerSetIn: anElement [
 
 	self skinPhasesManager skinInstallerSetIn: anElement

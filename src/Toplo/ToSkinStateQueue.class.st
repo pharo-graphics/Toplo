@@ -75,14 +75,6 @@ ToSkinStateQueue >> onUninstalledIn: anElement [
 
 ]
 
-{ #category : 'accessing' }
-ToSkinStateQueue >> reinstall [
-
-	installed := false
-
-	
-]
-
 { #category : 'initialization' }
 ToSkinStateQueue >> reset [ 
 
@@ -115,4 +107,14 @@ ToSkinStateQueue >> skinInstallStateRequest: anEvent [
 	target := anEvent currentTarget.
 	installed := true.
 	self enqueueState: (ToInstallState sourceEvent: anEvent) in: target
+]
+
+{ #category : 'initialization' }
+ToSkinStateQueue >> skinUninstallStateRequest: anEvent [
+	" uninstall state required  "
+
+	| target |
+	target := anEvent currentTarget.
+	installed := false.
+	self enqueueState: (ToUninstallState sourceEvent: anEvent) in: target
 ]

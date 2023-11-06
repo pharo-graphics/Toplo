@@ -80,6 +80,60 @@ ToElementTest >> testCheckEventHandler [
 ]
 
 { #category : 'test initialize' }
+ToElementTest >> testDefaultSkin [
+	" check install/uninstall/initial states if defaultSkin: is used "
+
+	| e sk sk2 |
+	e := ToElement new.
+	e defaultSkin: (sk := ToRawSkinForTest new).
+	self assert: e defaultSkin identicalTo: sk.
+	self assert: e installedSkin isNil.
+	e requestSkin.
+	" no change "
+	self assert: e defaultSkin identicalTo: sk.
+	self assert: e installedSkin isNil.
+	self assert: sk installCpt equals: 0.
+	e applySkinInstaller.
+	self assert: e defaultSkin identicalTo: sk.
+	self assert: e installedSkin identicalTo: sk.
+	self
+		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ]) size
+		equals: 1.
+	self assert: sk installCpt equals: 0.
+	e flushSkinStates.
+	self assert: sk installCpt equals: 1.
+	self assert: sk initialCpt equals: 1.
+
+	e defaultSkin: sk.
+	e requestSkin.
+	e applySkinInstaller.
+	e flushSkinStates.
+	" no change since same skin "
+	self assert: sk installCpt equals: 1.
+	self assert: sk initialCpt equals: 1.
+	self assert: sk uninstallCpt equals: 0.
+
+	self
+		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ]) size
+		equals: 1.
+
+	e defaultSkin: (sk2 := ToRawSkinForTest new).
+	e applySkinInstaller.
+	e flushSkinStates.
+	
+	self
+		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ]) size
+		equals: 1.
+
+	self assert: sk installCpt equals: 1.
+	self assert: sk initialCpt equals: 1.
+	self assert: sk uninstallCpt equals: 1.
+	self assert: sk2 installCpt equals: 1.
+	self assert: sk2 initialCpt equals: 1.
+	self assert: sk2 uninstallCpt equals: 0
+]
+
+{ #category : 'test initialize' }
 ToElementTest >> testOnAddedToParent [
 
 	| e container |
@@ -117,6 +171,66 @@ ToElementTest >> testOnAddedToSceneGraph [
 ]
 
 { #category : 'test initialize' }
+ToElementTest >> testSetSkin [
+
+	" check install/uninstall/initial states if setSkin: is used"
+
+	| e  sk sk2 |
+	e := ToElement new.
+	e setSkin: (sk := ToRawSkinForTest new).
+	self assert: e defaultSkin identicalTo: sk.
+	self assert: e installedSkin isNil.
+	e requestSkin.
+	" no change "
+	self assert: e defaultSkin identicalTo: sk.
+	self assert: e installedSkin isNil.
+	self assert: sk installCpt equals: 0.
+	e applySkinInstaller.
+	self assert: e defaultSkin identicalTo: sk.
+	self assert: e installedSkin identicalTo: sk.
+	self assert: sk installCpt equals: 0.
+	e flushSkinStates.
+	self assert: sk installCpt equals: 1.
+	self assert: sk initialCpt equals: 1.
+	self assert: sk uninstallCpt equals: 0.
+	
+	self
+		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ]) size
+		equals: 1.
+
+	" force uninstall->install->initial states "
+	e setSkin: sk.
+	e applySkinInstaller.
+	e flushSkinStates.
+	self assert: sk installCpt equals: 2.
+	self assert: sk initialCpt equals: 2.
+	self assert: sk uninstallCpt equals: 1.
+	
+	self
+		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ]) size
+		equals: 1.
+
+	e setSkin: (sk2 := ToRawSkinForTest new).
+	e applySkinInstaller.
+	e flushSkinStates.
+	
+	self
+		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ]) size
+		equals: 1.
+
+	self assert: sk installCpt equals: 2.
+	self assert: sk initialCpt equals: 2.
+	self assert: sk uninstallCpt equals: 2.
+	self assert: sk2 installCpt equals: 1.
+	self assert: sk2 initialCpt equals: 1.
+	self assert: sk2 uninstallCpt equals: 0.
+	
+
+
+
+]
+
+{ #category : 'test initialize' }
 ToElementTest >> testWithoutSkin [
 
 	| e |
@@ -124,9 +238,19 @@ ToElementTest >> testWithoutSkin [
 	e requestSkin.
 	self assert: e skinInstaller notNil.
 	self assert: (e skinInstaller isKindOf: ToSkinInstaller).
+	e applySkinInstaller.
+	self
+		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ]) size
+		equals: 1.
+
 	e withoutSkin.
 	self assert: e defaultSkin isNullSkin.
+	
 	e applySkinInstaller.
+	self
+		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ]) size
+		equals: 1.
+
 	self assert: e skinInstaller isNil.
 	self assert: e installedSkin  isNullSkin
 ]

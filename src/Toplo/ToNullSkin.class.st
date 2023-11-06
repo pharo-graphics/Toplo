@@ -30,15 +30,6 @@ ToNullSkin >> isNullSkin [
 	^ true
 ]
 
-{ #category : 'initialization' }
-ToNullSkin >> setAsDefaultSkinIn: anElement [
-
-	anElement skinStateQueue reset.
-	anElement installedSkin ifNotNil: [ :s |
-		anElement removeEventHandler: s ].
-	anElement addEventHandler: self
-]
-
 { #category : 'api - event managing' }
 ToNullSkin >> wantsEvent: anEvent [
 

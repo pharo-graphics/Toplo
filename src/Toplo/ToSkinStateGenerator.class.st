@@ -91,8 +91,7 @@ ToSkinStateGenerator >> dropEvent: anEvent [
 { #category : 'enablement' }
 ToSkinStateGenerator >> enablementChangedEvent: anEvent [
 
-	target requestSkin
-	
+	target defaultSkin ifNotNil: [ :skin | skin dispatchSkinInitialStateRequestTo: target ]	
 ]
 
 { #category : 'api - accessing' }

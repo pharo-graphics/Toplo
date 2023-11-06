@@ -28,12 +28,6 @@ ToStyleSheetTheme >> name [
 	^ #'StyleSheetTheme'
 ]
 
-{ #category : 'accessing' }
-ToStyleSheetTheme >> newSkinInstaller [
-
-	^ ToStyleSheetSkinInstaller new
-]
-
 { #category : 'writer selecting' }
 ToStyleSheetTheme >> rawWritersFor: anElement [
 

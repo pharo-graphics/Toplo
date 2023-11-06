@@ -64,7 +64,7 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 	self assert: writers size equals: 5.
 
 	labelSkin writers: writers.
-	button label requestDefaultSkin: labelSkin.
+	button label defaultSkin: labelSkin.
 	button label applySkinInstaller.
 	button label flushSkinStates.
 	attributes := button label text attributesAt: 1.
@@ -159,9 +159,9 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 	self assert: writers size equals: 6.
 	skin := ToBeeSkin new.
 	skin writers: writers.
-	button requestDefaultSkin: nil.
+	button defaultSkin: nil.
 	self assert: button installedSkin isNil.
-	button requestDefaultSkin: skin.
+	button defaultSkin: skin.
 	button applySkinInstaller.
 	button flushSkinStates.
 	self assert: button border width equals: 1.
@@ -172,7 +172,6 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 
 	label := ToLabel text: 'Default'.
 	label defaultSkin: nil.
-	label requestDefaultSkin: nil.
 	button label: label.
 	labelSkin := ToStyleSheetSkin new.
 	writers := ssi writersFor: button label.
@@ -186,7 +185,7 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 	self assert: writers size equals: 4.
 
 	labelSkin writers: writers.
-	label requestDefaultSkin: labelSkin.
+	label defaultSkin: labelSkin.
 	label applySkinInstaller.
 	label flushSkinStates.
 	attributes := button label text attributesAt: 1.
@@ -232,7 +231,7 @@ ToStyleSheetBazarTest >> testButtonSkinWithInterspace [
 	self assert: writers size equals: 2.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	elem requestDefaultSkin: skin.
+	elem defaultSkin: skin.
 	elem applySkinInstaller.
 	elem flushSkinStates.
 	self assert: (elem layout isKindOf: BlLinearLayout).
@@ -300,7 +299,7 @@ ToStyleSheetBazarTest >> testSkinWithAnUniversalRule [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	elem requestDefaultSkin: skin.
+	elem defaultSkin: skin.
 	elem applySkinInstaller.
 	elem flushSkinStates.
 	self assert: elem background paint color equals: Color red
@@ -332,7 +331,7 @@ ToStyleSheetBazarTest >> testSkinWithChildRule [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	child requestDefaultSkin: skin.
+	child defaultSkin: skin.
 	parent applySkinInstaller.
 	parent flushSkinStates.
 	child applySkinInstaller.
@@ -372,7 +371,7 @@ ToStyleSheetBazarTest >> testSkinWithChildRuleLevel2 [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	child requestDefaultSkin: skin.
+	child defaultSkin: skin.
 	parent applySkinInstaller.
 	parent flushSkinStates.
 	child applySkinInstaller.
@@ -402,7 +401,7 @@ ToStyleSheetBazarTest >> testSkinWithIdRule [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	elem requestDefaultSkin: skin.
+	elem defaultSkin: skin.
 	elem applySkinInstaller.
 	elem flushSkinStates.
 	self assert: elem border width equals: 3.
@@ -439,7 +438,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyle0 [
 	self assert: writers size equals: 3.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	button requestDefaultSkin: skin.
+	button defaultSkin: skin.
 	button applySkinInstaller.
 	button flushSkinStates.
 	self assert: button background paint isColorPaint.
@@ -481,7 +480,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 	self assert: writers size equals: 3.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	button requestDefaultSkin: skin.
+	button defaultSkin: skin.
 	button applySkinInstaller.
 	button flushSkinStates.
 	self assert: button background paint isColorPaint.
@@ -491,7 +490,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 	writers := ssi writersFor: button.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	button requestDefaultSkin: skin.
+	button defaultSkin: skin.
 	button applySkinInstaller.
 	button flushSkinStates.
 	
@@ -499,9 +498,6 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 	self assert: button background paint color equals: Color black.
 
 	button disabled: true.
-	button requestSkin.
-
-	button applySkinInstaller.
 	button flushSkinStates.
 	self assert: button background paint isColorPaint.
 	self
@@ -547,7 +543,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules1 [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	child requestDefaultSkin: skin.
+	child defaultSkin: skin.
 	child applySkinInstaller.
 	child flushSkinStates.
 	self assert: child background paint isColorPaint.
@@ -594,7 +590,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules2 [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	child requestDefaultSkin: skin.
+	child defaultSkin: skin.
 
 	child applySkinInstaller.
 	child flushSkinStates.
@@ -643,7 +639,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules22 [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	child requestDefaultSkin: skin.
+	child defaultSkin: skin.
 	child applySkinInstaller.
 	child flushSkinStates.
 
@@ -693,7 +689,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules3 [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	child requestDefaultSkin: skin.
+	child defaultSkin: skin.
 
 	child applySkinInstaller.
 	child flushSkinStates.
@@ -749,7 +745,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules32 [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	child requestDefaultSkin: skin.
+	child defaultSkin: skin.
 
 	child applySkinInstaller.
 	child flushSkinStates.
@@ -796,7 +792,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules33 [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	child requestDefaultSkin: skin.
+	child defaultSkin: skin.
 
 	child applySkinInstaller.
 	child flushSkinStates.
@@ -835,7 +831,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules1 [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	child requestDefaultSkin: skin.
+	child defaultSkin: skin.
 
 	child applySkinInstaller.
 	child flushSkinStates.
@@ -875,7 +871,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules2 [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	child requestDefaultSkin: skin.
+	child defaultSkin: skin.
 
 	child applySkinInstaller.
 	child flushSkinStates.
@@ -918,7 +914,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules3 [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	child requestDefaultSkin: skin.
+	child defaultSkin: skin.
 
 	child applySkinInstaller.
 	child flushSkinStates.
@@ -967,7 +963,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	child requestDefaultSkin: skin.
+	child defaultSkin: skin.
 
 	child applySkinInstaller.
 	child flushSkinStates.
@@ -980,7 +976,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin writers: writers.
-	child requestDefaultSkin: skin.
+	child defaultSkin: skin.
 	child applySkinInstaller.
 
 	child flushSkinStates.

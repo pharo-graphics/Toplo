@@ -6,7 +6,6 @@ Class {
 		'allowSkinPhases',
 		'elementsWithSkinInstaller',
 		'elementsWithUnappliedStates',
-		'startSkinPhasesArmed',
 		'spaceShownEventHandler'
 	],
 	#category : 'Toplo-Core-Skin',
@@ -42,7 +41,7 @@ ToSpaceSkinPhasesManager >> armStartSkinPhasesIn: aSpace [
 	spaceShownEventHandler := BlEventHandler new.
 	spaceShownEventHandler eventClass: BlSpaceShownEvent.
 	spaceShownEventHandler action: [
-		'space opened -> startSkinPhasesIn:' traceCr.
+		"'space opened -> startSkinPhasesIn:' traceCr."
 		aSpace removeEventHandler: spaceShownEventHandler.
 		spaceShownEventHandler := nil.
 		self startSkinPhasesIn: aSpace ].
@@ -85,7 +84,6 @@ ToSpaceSkinPhasesManager >> flushSkinStates [
 ToSpaceSkinPhasesManager >> initialize [ 
 
 	super initialize.
-	startSkinPhasesArmed := false.
 	skinPhasesInstalled := false.
 	allowSkinPhases := true.
 	elementsWithSkinInstaller := #().
@@ -236,7 +234,7 @@ ToSpaceSkinPhasesManager >> stopSkinPhasesIn: aSpace [
 		stopSkinInstallerPhaseIn: aSpace;
 		stopSkinStatePhaseIn: aSpace.
 	
-	'stopSkinPhasesIn:' traceCr.
+	" 'stopSkinPhasesIn:' traceCr. "
 	self skinPhasesInstalled: false.
 	aSpace dispatchEvent: ToSpaceSkinPhasesStopped new
 ]

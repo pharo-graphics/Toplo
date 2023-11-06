@@ -175,13 +175,6 @@ ToSkin >> selectedLookEvent: anEvent [
 
 ]
 
-{ #category : 'initialization' }
-ToSkin >> setAsDefaultSkinIn: anElement [
-
-	anElement skinStateQueue reinstall.
-	anElement requestSkin 
-]
-
 { #category : 'event handling' }
 ToSkin >> skinInitialStateRequest: anEvent [
 
@@ -194,6 +187,13 @@ ToSkin >> skinInstallStateRequest: anEvent [
 
 	anEvent currentTarget skinStateQueue
 		skinInstallStateRequest: anEvent
+]
+
+{ #category : 'event handling' }
+ToSkin >> skinUninstallStateRequest: anEvent [
+
+	anEvent currentTarget skinStateQueue
+		skinUninstallStateRequest: anEvent
 ]
 
 { #category : 'event handling' }

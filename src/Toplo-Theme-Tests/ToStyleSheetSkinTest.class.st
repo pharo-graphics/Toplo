@@ -98,7 +98,7 @@ ToStyleSheetSkinTest >> testSupplementWriter [
 						 paint: Color black;
 						 dashArray: #( 4 5 );
 						 build ] yourself) }.
-	w requestDefaultSkin: skin.
+	w defaultSkin: skin.
 	w applySkinInstaller.
 	w flushSkinStates.
 	self assert: w background paint color equals: Color blue.
@@ -158,7 +158,7 @@ ToStyleSheetSkinTest >> testWithNoWriter [
 	| w skin paint |
 	w := ToElement new.
 	skin := ToStyleSheetSkin new.
-	w requestDefaultSkin: skin.
+	w defaultSkin: skin.
 	paint := w background paint.
 	w applySkinInstaller.
 	w flushSkinStates.
@@ -183,7 +183,7 @@ ToStyleSheetSkinTest >> testWithTwoWriters [
 				 property: borderProp;
 				 value: Color yellow;
 				 yourself) }.
-	w requestDefaultSkin: skin.
+	w defaultSkin: skin.
 	w applySkinInstaller.
 	w flushSkinStates.
 
@@ -214,7 +214,7 @@ ToStyleSheetSkinTest >> testWithTwoWritersTwoEventClasses [
 				 property: borderProp;
 				 value: Color red;
 				 yourself) }.
-	w requestDefaultSkin: skin.
+	w defaultSkin: skin.
 	w applySkinInstaller.
 	w flushSkinStates.
 
@@ -236,7 +236,7 @@ ToStyleSheetSkinTest >> testWriters [
 	skin writers: { propWriter }.
 	self assert: skin writers size equals: 1.
 	self assert: skin writers first identicalTo: propWriter.
-	w requestDefaultSkin: skin.
+	w defaultSkin: skin.
 	w applySkinInstaller.
 	w flushSkinStates.
 

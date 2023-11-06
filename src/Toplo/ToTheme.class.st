@@ -37,7 +37,7 @@ ToTheme >> name [
 { #category : 'accessing' }
 ToTheme >> newSkinInstaller [
 
-	^ self subclassResponsibility 
+	^ ToSkinInstaller new
 ]
 
 { #category : 'printing' }

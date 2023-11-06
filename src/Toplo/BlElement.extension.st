@@ -32,10 +32,10 @@ BlElement >> defaultSkin [
 BlElement >> defaultSkin: aSkin [
 
 	| prev |
-	prev := self userData at: #localDefaultSkin ifAbsent: [  ]. 
+	prev := self userData at: #localDefaultSkin ifAbsent: [  ].
 	prev = aSkin ifTrue: [ ^ self ].
-	self userData at: #localDefaultSkin put: aSkin.
-	aSkin setAsDefaultSkinIn: self 
+	self setSkin: aSkin
+
 ]
 
 { #category : '*Toplo' }
@@ -69,6 +69,12 @@ BlElement >> dispatchSkinInitialStateRequest [
 BlElement >> dispatchSkinInstallStateRequest [
 
 	self dispatchEvent: ToSkinInstallStateRequest new
+]
+
+{ #category : '*Toplo' }
+BlElement >> dispatchSkinUninstallStateRequest [
+
+	self dispatchEvent: ToSkinUninstallStateRequest new
 ]
 
 { #category : '*Toplo' }
@@ -158,12 +164,6 @@ BlElement >> isDisabled [
 BlElement >> isEnabled [
 
 	^ self userData at: #enabled ifAbsentPut: [ true ]
-]
-
-{ #category : '*Toplo' }
-BlElement >> isWithoutSkin [
-
-	^ self defaultSkin ifNil: [ ^ false ] ifNotNil: [ :s | s isNullSkin ]
 ]
 
 { #category : '*Toplo' }
@@ -285,20 +285,10 @@ BlElement >> removeStyleStampNamed: aSymbol ifAbsent: anAbsentBlock [
 ]
 
 { #category : '*Toplo' }
-BlElement >> requestDefaultSkin: aSkin [
-
-	" force the default skin. If aSkin is nil, then it means to comme back to default case "
-	self defaultSkin: aSkin.
-	self requestSkin
-]
-
-{ #category : '*Toplo' }
 BlElement >> requestSkin [
 
 	" first check for the space phases "
 	self spaceDo: [ :sp | sp installSkinPhases ].
-	self localDefaultSkin ifNotNil: [ :s |
-		s isNullSkin ifTrue: [ ^ self ] ].
 	self skinInstaller ifNotNil: [ ^ self ].
 	self skinInstaller: self toTheme newSkinInstaller.
 	self spaceDo: [ :space | space skinInstallerSetIn: self ]
@@ -308,6 +298,17 @@ BlElement >> requestSkin [
 BlElement >> requestSkinRecursively [
 
 	self childrenDo: [ :child | child requestSkinRecursively ].
+	self requestSkin
+]
+
+{ #category : '*Toplo' }
+BlElement >> setSkin: aSkin [
+
+	self skinDo: [ :s | 
+		self dispatchSkinUninstallStateRequest.
+		self flushSkinStates.
+		self removeEventHandler: s ].
+	self userData at: #localDefaultSkin put: aSkin.
 	self requestSkin
 ]
 
@@ -480,8 +481,7 @@ BlElement >> withoutAllStamps [
 { #category : '*Toplo' }
 BlElement >> withoutSkin [
 
-	self installedSkin ifNotNil: [ :s | self removeEventHandler: s ].
-	self defaultSkin: ToNullSkin new
+	self setSkin: ToNullSkin new
 ]
 
 { #category : '*Toplo' }

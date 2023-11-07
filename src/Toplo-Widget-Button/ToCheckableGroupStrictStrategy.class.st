@@ -24,6 +24,5 @@ ToCheckableGroupStrictStrategy >> checkRequestEvent: aCheckRequest in: aGroup [
 		aCheckRequest checked: true.
 		^ self ].
 	" ok, the button is unchecked -> uncheck others then check it"
-	aGroup uncheckAllExcept: aCheckRequest currentTarget.
-	aGroup notifyChanged
+	aGroup uncheckAllExcept: aCheckRequest currentTarget
 ]

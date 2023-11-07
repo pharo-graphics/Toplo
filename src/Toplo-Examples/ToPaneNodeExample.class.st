@@ -1,16 +1,17 @@
 Class {
-	#name : #ToPaneNodeExample,
-	#superclass : #ToPane,
-	#category : 'Toplo-Examples'
+	#name : 'ToPaneNodeExample',
+	#superclass : 'ToPane',
+	#category : 'Toplo-Examples',
+	#package : 'Toplo-Examples'
 }
 
-{ #category : #'t - list node - initialization' }
+{ #category : 't - list node - initialization' }
 ToPaneNodeExample >> defaultEventHandler [
 
 	^ ToPaneNodeExampleEventHandler new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToPaneNodeExample >> initialize [
 
 	| p1 p2 p3 |

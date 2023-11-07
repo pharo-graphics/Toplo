@@ -8,6 +8,4 @@ Class {
 
 { #category : 'testing' }
 ToCheckableGroupNoneStrategy >> checkRequestEvent: aCheckRequest in: aGroup [
-
-	aGroup notifyChanged
 ]

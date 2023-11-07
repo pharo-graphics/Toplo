@@ -27,8 +27,8 @@ TToCheckbox >> group: aCheckableGroup [
 	self withIndeterminate ifTrue: [
 		Error signal:
 			'Invalid checkable use: indeterminate state is not allowed with a checkable group' ].
-
 	self when: ToCheckableCheckRequest do: [ :event | aCheckableGroup checkRequestEvent: event ].
+	self when: ToCheckableChangedEvent do: [ :event | aCheckableGroup checkableChangedEvent: event ].
 	group := aCheckableGroup
 ]
 

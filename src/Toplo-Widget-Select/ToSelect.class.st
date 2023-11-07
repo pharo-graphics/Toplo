@@ -28,16 +28,10 @@ ToSelect >> addSeparator [
 ]
 
 { #category : 'initialization' }
-ToSelect >> beJustified [
+ToSelect >> beFlexible [
 
 	menuButton hMatchParent.
-	menuButton justified: true
-]
-
-{ #category : 't - orientable - orientation' }
-ToSelect >> beVertical [ 
-
-	self menuButton beVertical
+	menuButton flexible: true
 ]
 
 { #category : 'api - change hook' }
@@ -48,8 +42,7 @@ ToSelect >> checked: anItem [
 		^ self ].
 	self selectData: (self data
 			 detect: [ :c |
-				 (self dataToTextConverter value: c) asString
-				 = anItem label text asString ]
+				 (self dataToTextConverter value: c) asString = anItem label text asString ]
 			 ifNone: [ ])
 ]
 
@@ -99,6 +92,7 @@ ToSelect >> initialize [
 	self whenSelectedIndexChangedDo: [ self selectedIndexChanged ].
 	self whenPlaceholderChangedDo: [ self placeholderChanged ].
 	group when: ToCheckableGroupChangedEvent do: [ :event |
+		" #checked: must be sent before #unchecked: "
 		event checkedButtons do: [:e | self checked: e].
 		event uncheckedButtons do:[:e | self unchecked: e ]].
 ]
@@ -127,8 +121,7 @@ ToSelect >> newDataCollection [
 ToSelect >> newMenuItemFromData: anObject [
 
 	^ ToSelectItem new
-		  labelText: (self dataToTextConverter value: anObject)";
-		  group: self group;";
+		  labelText: (self dataToTextConverter value: anObject)
 		  yourself
 ]
 

@@ -10,6 +10,5 @@ Class {
 ToCheckableGroupWithUncheckStrategy >> checkRequestEvent: aCheckRequest in: aGroup [
 
 	aCheckRequest checked ifTrue: [ 
-		aGroup uncheckAllExcept: aCheckRequest currentTarget ].
-	aGroup notifyChanged
+		aGroup uncheckAllExcept: aCheckRequest currentTarget ]
 ]

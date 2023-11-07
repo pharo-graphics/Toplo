@@ -2,24 +2,24 @@
 A ToChoiceBoxTest is a test class for testing the behavior of ToChoiceBox
 "
 Class {
-	#name : #ToSelectTest,
-	#superclass : #TestCase,
-	#category : #'Toplo-Widget-Select-Tests'
+	#name : 'ToSelectTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Widget-Select-Tests',
+	#package : 'Toplo-Widget-Select-Tests'
 }
 
-{ #category : #asserting }
+{ #category : 'asserting' }
 ToSelectTest >> assertEmpty: select [
 
 	self assert: select group buttons isEmpty.
 	self assert: select placeholder isNil.
 	self assert: select menuButton label isNil.
-	self assert: select menuButton icon notNil.
 	self assert: select data isEmpty.
 	self assert: select selectedData isNil.
 	self assert: select dataToTextConverter notNil
 ]
 
-{ #category : #' tests' }
+{ #category : ' tests' }
 ToSelectTest >> testAddRemoveOneStringData [
 
 	| cb d |
@@ -31,7 +31,7 @@ ToSelectTest >> testAddRemoveOneStringData [
 
 ]
 
-{ #category : #' tests' }
+{ #category : ' tests' }
 ToSelectTest >> testCheckUncheckWithUncheckStrategy [
 
 	| cb d1 d2 d3 |
@@ -55,7 +55,7 @@ ToSelectTest >> testCheckUncheckWithUncheckStrategy [
 	self assert: cb group buttons third checked not
 ]
 
-{ #category : #' tests' }
+{ #category : ' tests' }
 ToSelectTest >> testEmpty [
 
 	| cb d |
@@ -65,7 +65,7 @@ ToSelectTest >> testEmpty [
 	self assert: (cb dataToTextConverter value: d) equals: d.
 ]
 
-{ #category : #' tests' }
+{ #category : ' tests' }
 ToSelectTest >> testNoSelectedData [
 
 	| cb d |
@@ -77,7 +77,7 @@ ToSelectTest >> testNoSelectedData [
 	self assert: (cb group buttons noneSatisfy: [ :b | b checked ])
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSelectTest >> testNoSelectedDataWithPlaceholder [
 
 	| cb |
@@ -92,7 +92,7 @@ ToSelectTest >> testNoSelectedDataWithPlaceholder [
 	self assert: (cb group buttons noneSatisfy: [ :b | b checked ])
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSelectTest >> testNoSelectedDataWithPlaceholder2 [
 
 	| cb d |
@@ -109,7 +109,7 @@ ToSelectTest >> testNoSelectedDataWithPlaceholder2 [
 	self assert: (cb group buttons noneSatisfy: [ :b | b checked ])
 ]
 
-{ #category : #' tests' }
+{ #category : ' tests' }
 ToSelectTest >> testPlaceholder [
 
 	| cb |
@@ -126,7 +126,7 @@ ToSelectTest >> testPlaceholder [
 	self assert: cb selectedData equals: 'A'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSelectTest >> testPlaceholder2 [
 
 	| cb |
@@ -144,7 +144,7 @@ ToSelectTest >> testPlaceholder2 [
 	self assert: cb selectedData isNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSelectTest >> testPlaceholder3 [
 
 	| cb |
@@ -164,7 +164,7 @@ ToSelectTest >> testPlaceholder3 [
 	self assert: cb selectedData isNil
 ]
 
-{ #category : #' tests' }
+{ #category : ' tests' }
 ToSelectTest >> testRemove [
 
 	| cb d1 d2 d3 |
@@ -191,7 +191,7 @@ ToSelectTest >> testRemove [
 	self assert: cb group buttons second checked not
 ]
 
-{ #category : #' tests' }
+{ #category : ' tests' }
 ToSelectTest >> testRemove2 [
 
 	| cb d1 d2 d3 |
@@ -222,7 +222,7 @@ ToSelectTest >> testRemove2 [
 
 ]
 
-{ #category : #' tests' }
+{ #category : ' tests' }
 ToSelectTest >> testRemoveWithSeparator [
 
 	| cb d1 d2 d3 |
@@ -254,7 +254,7 @@ ToSelectTest >> testRemoveWithSeparator [
 
 ]
 
-{ #category : #' tests' }
+{ #category : ' tests' }
 ToSelectTest >> testRemoveWithSeparator2 [
 
 	| cb d1 d2 d3 |
@@ -286,7 +286,7 @@ ToSelectTest >> testRemoveWithSeparator2 [
 
 ]
 
-{ #category : #' tests' }
+{ #category : ' tests' }
 ToSelectTest >> testSelectedData1 [
 
 	| cb d |
@@ -300,7 +300,7 @@ ToSelectTest >> testSelectedData1 [
 	self assert: cb group buttons second checked
 ]
 
-{ #category : #' tests' }
+{ #category : ' tests' }
 ToSelectTest >> testSelectedData2 [
 
 	| cb d |
@@ -315,7 +315,7 @@ ToSelectTest >> testSelectedData2 [
 	self assert: cb selectedIndex isZero
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSelectTest >> testWith5StringData [
 
 	| cb d |
@@ -326,14 +326,13 @@ ToSelectTest >> testWith5StringData [
 	self assert: cb data size equals: 5.
 	self assert: cb selectedData equals: d first.
 	self assert: cb menuButton label text asString equals: d first.
-	self assert: cb menuButton window root children size equals: 5.
 	self assert: cb group buttons size equals: 5.
 	self assert: cb placeholder isNil.
 	cb data removeAll.
 	self assertEmpty: cb
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSelectTest >> testWithOneStringData [
 
 	| cb d |
@@ -344,12 +343,11 @@ ToSelectTest >> testWithOneStringData [
 	self assert: cb data size equals: 1.
 	self assert: cb selectedData equals: d.
 	self assert: cb menuButton label text asString equals: d.
-	self assert: cb menuButton window root children size equals: 1.
 	self assert: cb group buttons size equals: 1.
 	self assert: cb placeholder isNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSelectTest >> testWithStrictStrategy [
 
 	| cb d1 d2 d3 |
@@ -365,7 +363,6 @@ ToSelectTest >> testWithStrictStrategy [
 	self assert: cb data size equals: 3.
 	self assert: cb selectedData equals: d1.
 	self assert: cb menuButton label text asString equals: d1.
-	self assert: cb menuButton window root children size equals: 3.
 	self assert: cb group buttons size equals: 3.
 	self assert: cb group buttons first checked.
 	self assert: cb group buttons second checked not.
@@ -375,7 +372,7 @@ ToSelectTest >> testWithStrictStrategy [
 	self assert: cb group buttons first checked
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSelectTest >> testWithUncheckStrategy [
 
 	| cb d1 d2 d3 |
@@ -391,7 +388,6 @@ ToSelectTest >> testWithUncheckStrategy [
 	self assert: cb data size equals: 3.
 	cb selectData: d1.
 	self assert: cb menuButton label text asString equals: d1.
-	self assert: cb menuButton window root children size equals: 3.
 	self assert: cb group buttons size equals: 3.
 	self assert: cb group buttons first checked.
 	self assert: cb group buttons second checked not.

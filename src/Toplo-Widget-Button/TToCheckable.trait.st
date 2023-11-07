@@ -24,9 +24,10 @@ TToCheckable >> checked [
 TToCheckable >> checked: aBooleanOrNil [
 	" change the checkable state. nil means indeterminate. "
 
-	| request |
+	| request prev |
 	(aBooleanOrNil isNil and: [ self withIndeterminate not ]) ifTrue: [
 		Error signal: 'nil not allowed except when indeterminate is explicitly allowed ' ].
+	prev := self checked.
 	request := ToCheckableCheckRequest new
 		           checked: aBooleanOrNil;
 		           yourself.
@@ -34,6 +35,9 @@ TToCheckable >> checked: aBooleanOrNil [
 	self dispatchEvent: request.
 	" update with the result that has been eventually changed by the group according to its strategy"
 	self privateChecked: request checked.
+	prev = self checked ifTrue: [ ^ self ].
+	" dispatch an event usable by group as it is dispatched only once for all buttons of a group "
+	self dispatchEvent: ToCheckableChangedEvent new
 ]
 
 { #category : 't - checkable - testing' }

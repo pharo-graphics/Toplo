@@ -41,6 +41,13 @@ ToCheckableGroup >> checkRequestEvent: aCheckRequest [
 
 ]
 
+{ #category : 'check-uncheck-request' }
+ToCheckableGroup >> checkableChangedEvent: aCheckedEvent [
+
+	self notifyChanged
+
+]
+
 { #category : 'accessing' }
 ToCheckableGroup >> checkedButtons [
 

@@ -4,13 +4,11 @@ Class {
 	#instVars : [
 		'skinPhasesInstalled',
 		'allowSkinPhases',
-		'elementsWithSkinInstaller',
-		'elementsWithUnappliedStates',
 		'spaceShownEventHandler'
 	],
-	#category : 'Toplo-Core-Skin',
+	#category : 'Toplo-Core-SpaceFrame',
 	#package : 'Toplo',
-	#tag : 'Core-Skin'
+	#tag : 'Core-SpaceFrame'
 }
 
 { #category : 'accessing' }
@@ -27,13 +25,6 @@ ToSpaceSkinPhasesManager >> allowSkinPhases: aBoolean [
 	allowSkinPhases := aBoolean
 ]
 
-{ #category : 'phases application' }
-ToSpaceSkinPhasesManager >> applySkinInstaller [
-
-	self allowSkinPhases ifFalse: [ ^ self ].
-	self launchSkinInstaller 
-]
-
 { #category : 'initialization' }
 ToSpaceSkinPhasesManager >> armStartSkinPhasesIn: aSpace [
 
@@ -47,45 +38,12 @@ ToSpaceSkinPhasesManager >> armStartSkinPhasesIn: aSpace [
 	aSpace addEventHandler: spaceShownEventHandler
 ]
 
-{ #category : 'accessing' }
-ToSpaceSkinPhasesManager >> elementsWithSkinInstaller [
-
-	^ elementsWithSkinInstaller 
-]
-
-{ #category : 'accessing' }
-ToSpaceSkinPhasesManager >> elementsWithSkinInstaller: anArray [
-
-	elementsWithSkinInstaller := anArray
-]
-
-{ #category : 'accessing' }
-ToSpaceSkinPhasesManager >> elementsWithUnappliedStates [
-
-	^ elementsWithUnappliedStates 
-]
-
-{ #category : 'accessing' }
-ToSpaceSkinPhasesManager >> elementsWithUnappliedStates: anArray [
-
-	elementsWithUnappliedStates := anArray
-]
-
-{ #category : 'phases application' }
-ToSpaceSkinPhasesManager >> flushSkinStates [
-	
-	self allowSkinPhases ifFalse: [ ^ self ].
-	self launchFlushSkinStates
-]
-
 { #category : 'initialization' }
 ToSpaceSkinPhasesManager >> initialize [ 
 
 	super initialize.
 	skinPhasesInstalled := false.
 	allowSkinPhases := true.
-	elementsWithSkinInstaller := #().
-	elementsWithUnappliedStates := #().
 	spaceShownEventHandler := nil
 
 	
@@ -119,20 +77,6 @@ ToSpaceSkinPhasesManager >> isSkinStatePhaseInstalledIn: aSpace [
 	^ (self installedSkinStatePhaseIn: aSpace) notNil
 ]
 
-{ #category : 'phases application' }
-ToSpaceSkinPhasesManager >> launchFlushSkinStates [
-
-	self elementsWithUnappliedStates do: [ :e | e flushSkinStates ].
-	self resetElementsWithDirtySkin
-]
-
-{ #category : 'phases application' }
-ToSpaceSkinPhasesManager >> launchSkinInstaller [
-
-	self elementsWithSkinInstaller do: [ :e | e applySkinInstaller ].
-	self resetElementsWithSkinInstaller
-]
-
 { #category : 'initialization' }
 ToSpaceSkinPhasesManager >> onInstalledIn: aSpace [
 
@@ -156,26 +100,6 @@ ToSpaceSkinPhasesManager >> onUninstalledIn: aSpace [
 	self skinPhasesInstalled: false.
 	self stopSkinPhasesIn: aSpace.
 
-]
-
-{ #category : 'phases application' }
-ToSpaceSkinPhasesManager >> resetElementsWithDirtySkin [
-
-	self elementsWithUnappliedStates: #()
-]
-
-{ #category : 'phases application' }
-ToSpaceSkinPhasesManager >> resetElementsWithSkinInstaller [
-
-	self elementsWithSkinInstaller: #()
-]
-
-{ #category : 'phases application' }
-ToSpaceSkinPhasesManager >> skinInstallerSetIn: anElement [
-
-	self elementsWithSkinInstaller:
-		((self elementsWithSkinInstaller copyWithout: anElement)
-			 copyWith: anElement)
 ]
 
 { #category : 'accessing' }
@@ -256,12 +180,4 @@ ToSpaceSkinPhasesManager >> stopSkinStatePhaseIn: aSpace [
 
 	(self installedSkinStatePhaseIn: aSpace) ifNotNil: [ :phase |
 		aSpace frame removePhase: phase]
-]
-
-{ #category : 'phases application' }
-ToSpaceSkinPhasesManager >> styleDirtyIn: anElement [
-
-	self elementsWithUnappliedStates:
-		((self elementsWithUnappliedStates copyWithout: anElement)
-			 copyWith: anElement)
 ]

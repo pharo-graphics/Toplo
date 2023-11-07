@@ -8,7 +8,7 @@ Class {
 
 { #category : 'hook' }
 ToSkinInstaller >> applyOn: anElement [
-
+"(anElement isKindOf: ToCheckbox) ifTrue: [ self halt ]."
 	anElement skinInstaller: nil.
 	" is there an already installed skin -> nothing to do "
 	anElement skinDo: [ :s | ^ self ].

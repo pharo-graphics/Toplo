@@ -116,3 +116,10 @@ ToCheckbox >> pressedBorder [
 
 	^ self defaultBorder
 ]
+
+{ #category : 'skin' }
+ToCheckbox >> uninstallRawStyle [
+
+	super uninstallRawStyle.
+	self icon: nil
+]

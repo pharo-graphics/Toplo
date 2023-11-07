@@ -37,13 +37,6 @@ ToElementWithSkinnableSlotsForTest >> child2: aToElement [
 	child2 := aToElement
 ]
 
-{ #category : 'skin' }
-ToElementWithSkinnableSlotsForTest >> flushSkinStates [
-
-	skinStatesApplied := skinStatesApplied + 1.
-	super flushSkinStates.
-]
-
 { #category : 'initialization' }
 ToElementWithSkinnableSlotsForTest >> initialize [ 
 
@@ -61,7 +54,8 @@ ToElementWithSkinnableSlotsForTest >> initialize [
 { #category : 'skin' }
 ToElementWithSkinnableSlotsForTest >> requestSkin [
 
-	skinRequestCount := skinRequestCount + 1.
+	(self skinInstaller isNil and: [ self isRequestSkinPostponed not ])
+		ifTrue: [ skinRequestCount := skinRequestCount + 1 ].
 	super requestSkin.
 ]
 
@@ -81,4 +75,11 @@ ToElementWithSkinnableSlotsForTest >> skinRequestCount [
 ToElementWithSkinnableSlotsForTest >> skinStatesApplied [
 
 	^ skinStatesApplied
+]
+
+{ #category : 'skin' }
+ToElementWithSkinnableSlotsForTest >> updateStyles [
+
+	skinStatesApplied := skinStatesApplied + 1.
+	super updateStyles.
 ]

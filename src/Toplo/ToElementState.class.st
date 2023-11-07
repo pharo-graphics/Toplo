@@ -27,7 +27,7 @@ ToElementState >> applyOn: anElement [
 { #category : 'skin state engine' }
 ToElementState >> enqueueIn: anElement [
 
-	anElement skinStateQueue enqueueState: self in: anElement
+	anElement skinStateQueue enqueueState: self
 
 ]
 

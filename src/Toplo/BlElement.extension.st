@@ -15,6 +15,14 @@ BlElement >> applySkinInstaller [
 ]
 
 { #category : '*Toplo' }
+BlElement >> applySkinInstallerRecursively [
+
+	self applySkinInstaller.
+	self childrenDo: [ :child | child applySkinInstallerRecursively ]
+
+]
+
+{ #category : '*Toplo' }
 BlElement >> borderBuilder [
 
 	^ self userData at: #borderBuilder ifAbsentPut: [ BlBorderBuilder new ]
@@ -113,12 +121,6 @@ BlElement >> flagAsEnabled [
 ]
 
 { #category : '*Toplo' }
-BlElement >> flushSkinStates [
-
-	self skinStateQueue applyOn: self
-]
-
-{ #category : '*Toplo' }
 BlElement >> hasEnablementFlag [
 
 	^ self userData includesKey: #enabled
@@ -164,6 +166,13 @@ BlElement >> isDisabled [
 BlElement >> isEnabled [
 
 	^ self userData at: #enabled ifAbsentPut: [ true ]
+]
+
+{ #category : '*Toplo' }
+BlElement >> isRequestSkinPostponed [
+
+	
+	^ (self userData at: #postponedRequestSkin ifAbsent: [  ]) notNil
 ]
 
 { #category : '*Toplo' }
@@ -245,6 +254,22 @@ BlElement >> openInInnerWindow [
 ]
 
 { #category : '*Toplo' }
+BlElement >> postponeRequestSkin [
+
+	| evtHandler |
+	self isRequestSkinPostponed ifTrue: [ ^ self ].
+	evtHandler := self userData
+		              at: #postponedRequestSkin
+		              put: BlEventHandler new.
+	evtHandler eventClass: BlElementAddedToSceneGraphEvent.
+	evtHandler action: [ :evt |
+		self userData removeKey: #postponedRequestSkin.
+		self removeEventHandler: evtHandler.
+		self requestSkin ].
+	self addEventHandler: evtHandler
+]
+
+{ #category : '*Toplo' }
 BlElement >> removeAllStyleStamps [
 
 	| index |
@@ -265,7 +290,7 @@ BlElement >> removeInstalledSkin [
 
 	self skinDo: [ :s | 
 		s dispatchSkinUninstallStateRequestTo: self.
-		self flushSkinStates.
+		self updateStyles.
 		self removeEventHandler: s ]
 ]
 
@@ -297,10 +322,12 @@ BlElement >> removeStyleStampNamed: aSymbol ifAbsent: anAbsentBlock [
 BlElement >> requestSkin [
 
 	" first check for the space phases "
-	self spaceDo: [ :sp | sp installSkinPhases ].
-	self skinInstaller ifNotNil: [ ^ self ].
-	self skinInstaller: self toTheme newSkinInstaller.
-	self spaceDo: [ :space | space skinInstallerSetIn: self ]
+	self space ifNil: [
+		^ self postponeRequestSkin ].
+	self skinInstaller ifNotNil: [ 
+		^ self ].
+	self space installSkinPhases.
+	self skinInstaller: self toTheme newSkinInstaller
 ]
 
 { #category : '*Toplo' }
@@ -467,6 +494,19 @@ BlElement >> toThemeChanged [
 { #category : '*Toplo' }
 BlElement >> uninstallRawStyle [
 
+]
+
+{ #category : '*Toplo' }
+BlElement >> updateStyles [
+
+	self skinStateQueue applyOn: self
+]
+
+{ #category : '*Toplo' }
+BlElement >> updateStylesRecursively [
+
+	self updateStyles.
+	self childrenDo: [ :child | child updateStylesRecursively ]
 ]
 
 { #category : '*Toplo' }

@@ -20,6 +20,7 @@ ToParameterizedHostTest >> testingSpace: aSpace showThenDo: aBlock [
 { #category : 'tests' }
 ToParameterizedHostTest >> waitTestingSpaces [
 
+	testingSpaces ifNil: [ ^ self ].
 	testingSpaces do: [ :each | each requestNextPulse ].
 	super waitTestingSpaces
 ]

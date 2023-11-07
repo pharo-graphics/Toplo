@@ -16,5 +16,5 @@ ToSpaceSkinInstallerPhase >> name [
 { #category : 'actions' }
 ToSpaceSkinInstallerPhase >> runOn: aSpace [
 
-	aSpace applySkinInstaller
+	aSpace applyAllSkinInstallers
 ]

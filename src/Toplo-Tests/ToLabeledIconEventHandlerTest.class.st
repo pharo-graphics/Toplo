@@ -3,17 +3,30 @@ A ToLabeledIconEventHandlerTest is a test class for testing the behavior of ToLa
 "
 Class {
 	#name : 'ToLabeledIconEventHandlerTest',
-	#superclass : 'TestCase',
+	#superclass : 'ToParameterizedHostTest',
+	#instVars : [
+		'space'
+	],
 	#category : 'Toplo-Tests-Core',
 	#package : 'Toplo-Tests',
 	#tag : 'Core'
 }
+
+{ #category : 'running' }
+ToLabeledIconEventHandlerTest >> setUp [ 
+
+	super setUp.
+	space := self newTestingSpace. 
+
+]
 
 { #category : 'layout constraints' }
 ToLabeledIconEventHandlerTest >> testDirection [
 
 	| li |
 	li := ToLabeledIcon new.
+	space root addChild: li.
+
 	li beLeftToRight.
 	li skinInstaller: nil.
 	li direction: BlLayoutDirection rightToLeft.
@@ -37,6 +50,7 @@ ToLabeledIconEventHandlerTest >> testLayoutDirectionChangedEvent [
 
 	| li |
 	li := ToLabeledIcon new.
+	space root addChild: li.
 	li beLeftToRight.
 	li beRightToLeft.
 	self assert: li skinInstaller notNil.
@@ -64,6 +78,7 @@ ToLabeledIconEventHandlerTest >> testLayoutOrientationChangedEvent [
 
 	| li |
 	li := ToLabeledIcon new.
+	space root addChild: li.
 	li beHorizontal.
 	li beVertical.
 	self assert: li skinInstaller notNil.
@@ -91,6 +106,7 @@ ToLabeledIconEventHandlerTest >> testOrientation [
 
 	| li |
 	li := ToLabeledIcon new.
+	space root addChild: li.
 	li beLeftToRight.
 	li skinInstaller: nil.
 	li orientation: BlLinearLayoutVerticalOrientation new.
@@ -114,6 +130,7 @@ ToLabeledIconEventHandlerTest >> testlayoutConstraintsChangedEvent [
 
 	| li |
 	li := ToLabeledIcon new.
+	space root addChild: li.
 	li exact: 10@10.
 	self assert: li skinInstaller notNil.
 	li skinInstaller: nil.

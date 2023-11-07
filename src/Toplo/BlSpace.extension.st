@@ -14,39 +14,15 @@ BlSpace >> allowSkinPhases: aBoolean [
 ]
 
 { #category : '*Toplo' }
-BlSpace >> applySkinInstaller [
+BlSpace >> applyAllSkinInstallers [
 
-	self skinPhasesManager applySkinInstaller
-]
-
-{ #category : '*Toplo' }
-BlSpace >> flushSkinStates [
-	
-	self skinPhasesManager flushSkinStates
+	self root applySkinInstallerRecursively
 ]
 
 { #category : '*Toplo' }
 BlSpace >> installSkinPhases [
 
 	self skinPhasesManager onInstalledIn: self
-]
-
-{ #category : '*Toplo' }
-BlSpace >> launchFlushSkinStates [
-	
-	self skinPhasesManager launchFlushSkinStates
-]
-
-{ #category : '*Toplo' }
-BlSpace >> launchSkinInstaller [
-
-	self skinPhasesManager launchSkinInstaller
-]
-
-{ #category : '*Toplo' }
-BlSpace >> skinInstallerSetIn: anElement [
-
-	self skinPhasesManager skinInstallerSetIn: anElement
 ]
 
 { #category : '*Toplo' }
@@ -67,12 +43,6 @@ BlSpace >> stopSkinPhases [
 	self skinPhasesManager stopSkinPhasesIn: self
 ]
 
-{ #category : '*Toplo' }
-BlSpace >> styleDirtyIn: anElement [
-
-	self skinPhasesManager styleDirtyIn: anElement
-]
-
 { #category : '*Toplo-LookAndFeel' }
 BlSpace >> toTheme [
 
@@ -89,4 +59,10 @@ BlSpace >> toTheme: aTheme [
 BlSpace >> uninstallSkinPhases [
 
 	self skinPhasesManager onUninstalledIn: self
+]
+
+{ #category : '*Toplo' }
+BlSpace >> updateAllStyles [
+	
+	self root updateStylesRecursively
 ]

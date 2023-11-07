@@ -17,6 +17,7 @@ ToNullSkinTest >> testWithASkinInstalledBefore [
 	self assert: w skinInstaller isNil.
 	self assert: w installedSkin isNil.
 	w requestSkin.
+	BlSpace new root addChild: w.
 	self assert: w skinInstaller notNil.
 	w applySkinInstaller.
 	installedSkin := w installedSkin.
@@ -33,7 +34,7 @@ ToNullSkinTest >> testWithASkinInstalledBefore [
 	self assert: w installedSkin identicalTo: nsk.
 	w requestSkin.
 	w applySkinInstaller.
-	w flushSkinStates.
+	w updateStyles.
 	self assert: w installedSkin identicalTo: nsk.
 	self assert: w skinStateQueue nextStates isEmpty.
 	self assert: w skinStateQueue currentStates size equals: 1.
@@ -47,6 +48,7 @@ ToNullSkinTest >> testWithoutSkin [
 	| w sk |
 	w := ToElement new.
 	w withoutSkin.
+	BlSpace new root addChild: w.
 	self assert: w skinInstaller notNil.
 	w applySkinInstaller.
 	self assert: w installedSkin isNullSkin.

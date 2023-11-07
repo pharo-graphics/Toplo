@@ -3,9 +3,10 @@ A ToDefaultStyleSheetTest is a test class for testing the behavior of ToDefaultS
 "
 Class {
 	#name : 'ToBeeStyleSheetTest',
-	#superclass : 'TestCase',
+	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
-		'styleSheet'
+		'styleSheet',
+		'space'
 	],
 	#category : 'Toplo-Theme-Bee-Tests',
 	#package : 'Toplo-Theme-Bee-Tests'
@@ -15,6 +16,8 @@ Class {
 ToBeeStyleSheetTest >> setUp [ 
 
 	super setUp.
+	space := self newTestingSpace.
+	
 	ToTheme cleanUp.
 	styleSheet := ToBeeTheme new styleSheet.
 	styleSheet inherits: false.
@@ -25,11 +28,12 @@ ToBeeStyleSheetTest >> testDefaultButtonSkin [
 
 	|  button writers skin labelSkin |
 	button := ToButton new toTheme: ToBeeLightTheme new.
+	space root addChild: button.
+	space applyAllSkinInstallers.
 	writers := button toTheme writersFor: button.
 	self assert: writers notEmpty.
 	skin := ToBeeSkin new.
 	skin writers: writers.
-	self assert: button installedSkin isNil.
 	button defaultSkin: skin.
 	button applySkinInstaller.
 	self assert: button border width equals: 1.
@@ -51,6 +55,7 @@ ToBeeStyleSheetTest >> testLabeledIconWithLabelAndIcon [
 
 	| li |
 	li := ToLabeledIcon new.
+	space root addChild: li.
 	li styleSheet: styleSheet.
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new

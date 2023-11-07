@@ -35,15 +35,6 @@ ToSkinStateQueue >> enqueueState: aState [
 	self currentStates addFirst: aState
 ]
 
-{ #category : 'adding' }
-ToSkinStateQueue >> enqueueState: aState in: anElement [
-
-	self enqueueState: aState.
-	" declare the element as dirty "
-	anElement spaceDo: [ :space | space styleDirtyIn: anElement ].
-
-]
-
 { #category : 'initialization' }
 ToSkinStateQueue >> initialize [ 
 
@@ -90,7 +81,7 @@ ToSkinStateQueue >> skinInitialStateRequest: anEvent [
 	| target |
 	installed ifFalse: [ Error signal: 'The skin must be installed first' ].
 	target := anEvent currentTarget.
-	self enqueueState: (ToInitialState sourceEvent: anEvent) in: target.
+	self enqueueState: (ToInitialState sourceEvent: anEvent).
 	target isEnabled
 		ifTrue: [
 			self enqueueState: (ToEnabledState sourceEvent: anEvent).
@@ -106,7 +97,7 @@ ToSkinStateQueue >> skinInstallStateRequest: anEvent [
 	| target |
 	target := anEvent currentTarget.
 	installed := true.
-	self enqueueState: (ToInstallState sourceEvent: anEvent) in: target
+	self enqueueState: (ToInstallState sourceEvent: anEvent)
 ]
 
 { #category : 'initialization' }
@@ -116,5 +107,5 @@ ToSkinStateQueue >> skinUninstallStateRequest: anEvent [
 	| target |
 	target := anEvent currentTarget.
 	installed := false.
-	self enqueueState: (ToUninstallState sourceEvent: anEvent) in: target
+	self enqueueState: (ToUninstallState sourceEvent: anEvent)
 ]

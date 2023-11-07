@@ -21,7 +21,7 @@ ToSkinStateQueueTest >> newElementInSpace [
 	space root addChild: e.
 	self assert: e skinInstaller notNil.
 	" procesPulse here to install the element skin by the phase "
-	space applySkinInstaller.
+	space applyAllSkinInstallers.
 
 	^ e
 

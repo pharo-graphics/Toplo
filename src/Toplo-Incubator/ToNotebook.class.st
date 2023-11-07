@@ -70,8 +70,7 @@ ToNotebook >> initialize [
 	self matchParent.
 	header := ToPane horizontal.
 	self addChild: header as: #header.
-	pages := OrderedCollection new.
-	self inspect
+	pages := OrderedCollection new
 ]
 
 { #category : 'skin' }

@@ -53,13 +53,6 @@ ToElementWithSkinnablePropertiesForTest >> borderValue: anObject [
 	borderValue := anObject
 ]
 
-{ #category : 'skin' }
-ToElementWithSkinnablePropertiesForTest >> flushSkinStates [
-
-	skinStatesApplied := skinStatesApplied + 1.
-	super flushSkinStates.
-]
-
 { #category : 'initialization' }
 ToElementWithSkinnablePropertiesForTest >> initialize [ 
 
@@ -78,8 +71,9 @@ ToElementWithSkinnablePropertiesForTest >> initialize [
 { #category : 'skin' }
 ToElementWithSkinnablePropertiesForTest >> requestSkin [
 
-	skinRequestCount := skinRequestCount + 1.
-	super requestSkin.
+	(self skinInstaller isNil and: [ self isRequestSkinPostponed not ])
+		ifTrue: [ skinRequestCount := skinRequestCount + 1 ].
+	super requestSkin
 ]
 
 { #category : 'accessing' }
@@ -98,4 +92,11 @@ ToElementWithSkinnablePropertiesForTest >> skinRequestCount [
 ToElementWithSkinnablePropertiesForTest >> skinStatesApplied [
 
 	^ skinStatesApplied
+]
+
+{ #category : 'skin' }
+ToElementWithSkinnablePropertiesForTest >> updateStyles [
+
+	skinStatesApplied := skinStatesApplied + 1.
+	super updateStyles.
 ]

@@ -6,16 +6,26 @@ Class {
 	#tag : 'Core-Skin'
 }
 
-{ #category : 'event handling' }
-ToRawSkin >> initialLookEvent: anEvent [
+{ #category : 'event dispatch' }
+ToRawSkin >> dispatchSkinInitialStateRequestTo: anObject [
 
-	super initialLookEvent: anEvent.
-	anEvent elementDo: [ :e | e initialRawStyle ]
+	super dispatchSkinInitialStateRequestTo: anObject.
+	anObject initialRawStyle
+	
 ]
 
-{ #category : 'event handling' }
-ToRawSkin >> installLookEvent: anEvent [
+{ #category : 'event dispatch' }
+ToRawSkin >> dispatchSkinInstallStateRequestTo: anObject [
 
-	super installLookEvent: anEvent.
-	anEvent elementDo: [ :e | e installRawStyle ]
+	super dispatchSkinInstallStateRequestTo: anObject.
+	anObject installRawStyle
+	
+]
+
+{ #category : 'event dispatch' }
+ToRawSkin >> dispatchSkinUninstallStateRequestTo: anObject [
+
+	super dispatchSkinUninstallStateRequestTo: anObject.
+	anObject uninstallRawStyle
+	
 ]

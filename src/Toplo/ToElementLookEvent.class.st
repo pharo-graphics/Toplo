@@ -27,6 +27,12 @@ ToElementLookEvent >> sendTo: anObject [
 	anObject elementLookEvent: self
 ]
 
+{ #category : 'sending' }
+ToElementLookEvent >> sendToStylelSheetSkin: aStyleSheetSkin [
+
+	aStyleSheetSkin sendEventToWriters: self
+]
+
 { #category : 'accessing' }
 ToElementLookEvent >> sourceEvent [
 

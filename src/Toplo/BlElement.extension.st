@@ -25,7 +25,7 @@ BlElement >> defaultSkin [
 
 	^ self userData
 		  at: #localDefaultSkin
-		  ifAbsent: [ self toTheme skinFor: self ]
+		  ifAbsent: [ self toTheme newSkinFor: self ]
 ]
 
 { #category : '*Toplo' }
@@ -230,18 +230,18 @@ BlElement >> lookUpStyleStampNamed: aSymbol [
 ]
 
 { #category : '*Toplo' }
+BlElement >> newRawSkin [
+
+	^  ToRawSkin new
+]
+
+{ #category : '*Toplo' }
 BlElement >> openInInnerWindow [
 
 	| frame |
 	frame := ToInnerWindow new.
 	frame pane addChild: self.
 	frame openInSpace
-]
-
-{ #category : '*Toplo' }
-BlElement >> rawSkin [
-
-	^  ToRawSkin new
 ]
 
 { #category : '*Toplo' }
@@ -258,6 +258,15 @@ BlElement >> removeAllStyleStamps: aStyleStampCollection [
 	| index |
 	index := self localStyleStampIndex ifNil: [ ^ self ].
 	aStyleStampCollection do: [ :s | index removeProperty: s ]
+]
+
+{ #category : '*Toplo' }
+BlElement >> removeInstalledSkin [
+
+	self skinDo: [ :s | 
+		s dispatchSkinUninstallStateRequestTo: self.
+		self flushSkinStates.
+		self removeEventHandler: s ]
 ]
 
 { #category : '*Toplo' }
@@ -304,10 +313,7 @@ BlElement >> requestSkinRecursively [
 { #category : '*Toplo' }
 BlElement >> setSkin: aSkin [
 
-	self skinDo: [ :s | 
-		self dispatchSkinUninstallStateRequest.
-		self flushSkinStates.
-		self removeEventHandler: s ].
+	self removeInstalledSkin.
 	self userData at: #localDefaultSkin put: aSkin.
 	self requestSkin
 ]
@@ -456,6 +462,11 @@ BlElement >> toThemeChanged [
 	self dispatchEvent: ToThemeChangedEvent new.
 	self childrenDo: [ :c | c toThemeChanged ].
 	self requestSkin
+]
+
+{ #category : '*Toplo' }
+BlElement >> uninstallRawStyle [
+
 ]
 
 { #category : '*Toplo' }

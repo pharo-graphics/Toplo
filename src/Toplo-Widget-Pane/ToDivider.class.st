@@ -222,6 +222,12 @@ ToDivider >> measureInVerticalPane [
 	self secondTarget constraints linear weight: w
 ]
 
+{ #category : 'skin' }
+ToDivider >> newRawSkin [
+
+	^ ToDividerSkin new
+]
+
 { #category : 'layout' }
 ToDivider >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
@@ -263,12 +269,6 @@ ToDivider >> pressedBackground [
 ToDivider >> pressedBorder [
 
 	^ self defaultBorder
-]
-
-{ #category : 'skin' }
-ToDivider >> rawSkin [
-
-	^ ToDividerSkin new
 ]
 
 { #category : 'skin' }

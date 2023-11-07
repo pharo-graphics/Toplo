@@ -28,6 +28,18 @@ ToStyleSheetTheme >> name [
 	^ #'StyleSheetTheme'
 ]
 
+{ #category : 'accessing' }
+ToStyleSheetTheme >> newSkinFor: anElement [
+
+	anElement withAllStamps: (self defaultElementStyleStampsFor: anElement).
+	^ (self writersFor: anElement)
+		  ifEmpty: [(self skinClassFor: anElement) new ]
+		  ifNotEmpty: [ :writers |
+			  (self skinClassFor: anElement) new
+				  writers: writers;
+				  yourself ]
+]
+
 { #category : 'writer selecting' }
 ToStyleSheetTheme >> rawWritersFor: anElement [
 
@@ -48,18 +60,6 @@ ToStyleSheetTheme >> rootRulesFor: anElement [
 ToStyleSheetTheme >> skinClassFor: anElement [
 
 	^ ToStyleSheetSkin
-]
-
-{ #category : 'accessing' }
-ToStyleSheetTheme >> skinFor: anElement [
-
-	anElement withAllStamps: (self defaultElementStyleStampsFor: anElement).
-	^ (self writersFor: anElement)
-		  ifEmpty: [(self skinClassFor: anElement) new ]
-		  ifNotEmpty: [ :writers |
-			  (self skinClassFor: anElement) new
-				  writers: writers;
-				  yourself ]
 ]
 
 { #category : 'accessing' }

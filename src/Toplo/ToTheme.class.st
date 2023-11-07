@@ -35,6 +35,12 @@ ToTheme >> name [
 ]
 
 { #category : 'accessing' }
+ToTheme >> newSkinFor: anElement [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : 'accessing' }
 ToTheme >> newSkinInstaller [
 
 	^ ToSkinInstaller new
@@ -45,12 +51,6 @@ ToTheme >> printOn: aStream [
 
 	aStream nextPutAll: '[Theme named: '; nextPutAll: self name; nextPutAll: ' ]'.
 	super printOn: aStream
-]
-
-{ #category : 'accessing' }
-ToTheme >> skinFor: anElement [
-
-	^ self subclassResponsibility 
 ]
 
 { #category : 'styling' }

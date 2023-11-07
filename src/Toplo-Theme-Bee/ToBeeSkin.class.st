@@ -5,19 +5,26 @@ Class {
 	#package : 'Toplo-Theme-Bee'
 }
 
-{ #category : 'event handling' }
-ToBeeSkin >> initialLookEvent: anEvent [
+{ #category : 'event dispatch' }
+ToBeeSkin >> dispatchSkinInitialStateRequestTo: anObject [
 
-	super initialLookEvent: anEvent.
-	anEvent elementDo: [ :e | e initialBeeStyle ].
-
-
+	super dispatchSkinInitialStateRequestTo: anObject.
+	anObject initialBeeStyle
+	
 ]
 
-{ #category : 'event handling' }
-ToBeeSkin >> installLookEvent: anEvent [
+{ #category : 'event dispatch' }
+ToBeeSkin >> dispatchSkinInstallStateRequestTo: anObject [
 
-	super installLookEvent: anEvent.
-	anEvent elementDo: [ :e | e installBeeStyle ].
+	super dispatchSkinInstallStateRequestTo: anObject.
+	anObject installBeeStyle
+	
+]
 
+{ #category : 'event dispatch' }
+ToBeeSkin >> dispatchSkinUninstallStateRequestTo: anObject [
+
+	super dispatchSkinUninstallStateRequestTo: anObject.
+	anObject uninstallBeeStyle
+	
 ]

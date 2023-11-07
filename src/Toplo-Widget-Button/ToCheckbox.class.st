@@ -106,13 +106,13 @@ ToCheckbox >> installRawStyle [
 ]
 
 { #category : 'skin' }
-ToCheckbox >> pressedBorder [ 
+ToCheckbox >> newRawSkin [ 
 
-	^ self defaultBorder
+	^ ToCheckboxSkin new
 ]
 
 { #category : 'skin' }
-ToCheckbox >> rawSkin [ 
+ToCheckbox >> pressedBorder [ 
 
-	^ ToCheckboxSkin new
+	^ self defaultBorder
 ]

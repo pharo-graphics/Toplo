@@ -2,7 +2,7 @@
 A ToSinnablePropertyTest is a test class for testing the behavior of ToSinnableProperty
 "
 Class {
-	#name : 'ToSinnablePropertyTest',
+	#name : 'ToSkinnablePropertyTest',
 	#superclass : 'ToParameterizedHostTest',
 	#category : 'Toplo-Tests-Core-Properties',
 	#package : 'Toplo-Tests',
@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : 'tests' }
-ToSinnablePropertyTest >> testRead [
+ToSkinnablePropertyTest >> testRead [
 
 	| w prop  reader v |
 	w := ToElement new.
@@ -25,7 +25,7 @@ ToSinnablePropertyTest >> testRead [
 ]
 
 { #category : 'tests' }
-ToSinnablePropertyTest >> testWriteTo [
+ToSkinnablePropertyTest >> testWriteTo [
 
 	| w prop  writer reader |
 	w := ToElement new.
@@ -48,7 +48,7 @@ ToSinnablePropertyTest >> testWriteTo [
 ]
 
 { #category : 'tests' }
-ToSinnablePropertyTest >> testWriteToWithDelegation [
+ToSkinnablePropertyTest >> testWriteToWithDelegation [
 
 	| w prop  writer reader |
 	w := ToLabeledIcon new.
@@ -70,7 +70,7 @@ ToSinnablePropertyTest >> testWriteToWithDelegation [
 ]
 
 { #category : 'tests' }
-ToSinnablePropertyTest >> testWrongDefinition [
+ToSkinnablePropertyTest >> testWrongDefinition [
 
 	| w prop  writer reader |
 	w := ToElement new.

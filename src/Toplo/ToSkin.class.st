@@ -51,6 +51,12 @@ ToSkin >> dispatchSkinInstallStateRequestTo: anObject [
 	anObject dispatchSkinInstallStateRequest
 ]
 
+{ #category : 'event dispatch' }
+ToSkin >> dispatchSkinUninstallStateRequestTo: anObject [
+
+	anObject dispatchSkinUninstallStateRequest
+]
+
 { #category : 'event handling' }
 ToSkin >> dragStartedLookEvent: anEvent [
 
@@ -85,7 +91,6 @@ ToSkin >> enabledLookEvent: anEvent [
 ToSkin >> eventsToHandle [
 
 	^ {
-		  ToThemeChangedEvent.
 		  ToSkinEvent.
 		  ToElementLookEvent }
 ]
@@ -213,8 +218,8 @@ ToSkin >> themeChangedEvent: anEvent [
 	target := anEvent currentTarget.
 	target installedSkin == self ifFalse: [
 		Error signal: 'Baddly installed skin' ].
-	target removeEventHandler: self.
-	anEvent currentTarget requestSkin
+	target removeInstalledSkin.
+	target requestSkin
 ]
 
 { #category : 'event handling' }

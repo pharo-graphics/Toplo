@@ -77,6 +77,12 @@ ToNotebookPageTitle >> labelPadding [
 	^ BlInsets top: 4 left: 10 bottom: 4 right: 10
 ]
 
+{ #category : 'skin' }
+ToNotebookPageTitle >> newRawSkin [ 
+
+	^ ToNoteBookPageTitleSkin new
+]
+
 { #category : 'accessing' }
 ToNotebookPageTitle >> page [
 
@@ -87,12 +93,6 @@ ToNotebookPageTitle >> page [
 ToNotebookPageTitle >> page: aPage [
 
 	page := aPage
-]
-
-{ #category : 'skin' }
-ToNotebookPageTitle >> rawSkin [ 
-
-	^ ToNoteBookPageTitleSkin new
 ]
 
 { #category : 'accessing' }

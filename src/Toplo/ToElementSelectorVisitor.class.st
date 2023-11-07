@@ -7,6 +7,10 @@ Class {
 }
 
 { #category : 'visiting' }
+ToElementSelectorVisitor >> visitActionSelector: aSelector [
+]
+
+{ #category : 'visiting' }
 ToElementSelectorVisitor >> visitAndSelector: aSelector [
 ]
 
@@ -31,7 +35,7 @@ ToElementSelectorVisitor >> visitParentSelector: aSelector [
 ]
 
 { #category : 'visiting' }
-ToElementSelectorVisitor >> visitStyleRule: aStyleRule [
+ToElementSelectorVisitor >> visitSiblingSelector: aSelector [
 
 
 ]

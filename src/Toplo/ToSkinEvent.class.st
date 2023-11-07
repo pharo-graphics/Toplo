@@ -5,3 +5,9 @@ Class {
 	#package : 'Toplo',
 	#tag : 'Core-Skin'
 }
+
+{ #category : 'sending' }
+ToSkinEvent >> sendToStylelSheetSkin: aStyleSheetSkin [
+
+	self sendTo: aStyleSheetSkin 
+]

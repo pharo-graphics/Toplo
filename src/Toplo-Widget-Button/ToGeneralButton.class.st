@@ -71,6 +71,12 @@ ToGeneralButton >> installRawStyle [
 ]
 
 { #category : 'skin' }
+ToGeneralButton >> newRawSkin [
+
+	^ ToGeneralButtonSkin new
+]
+
+{ #category : 'skin' }
 ToGeneralButton >> pressedBackground [
 
 	^ Color transparent 
@@ -80,10 +86,4 @@ ToGeneralButton >> pressedBackground [
 ToGeneralButton >> pressedBorder [
 
 	^ Color lightGray alpha: 0.6 
-]
-
-{ #category : 'skin' }
-ToGeneralButton >> rawSkin [
-
-	^ ToGeneralButtonSkin new
 ]

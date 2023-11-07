@@ -6,9 +6,9 @@ Class {
 		'nextStates',
 		'installed'
 	],
-	#category : 'Toplo-Core-ElementStates',
+	#category : 'Toplo-Core-States',
 	#package : 'Toplo',
-	#tag : 'Core-ElementStates'
+	#tag : 'Core-States'
 }
 
 { #category : 'hook' }

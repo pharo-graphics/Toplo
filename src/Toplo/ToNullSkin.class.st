@@ -31,7 +31,7 @@ ToNullSkin >> isNullSkin [
 ]
 
 { #category : 'style updating' }
-ToNullSkin >> updateStylesOn: anElement [
+ToNullSkin >> updateStylesIn: anElement [
 ]
 
 { #category : 'api - event managing' }

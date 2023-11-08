@@ -98,6 +98,12 @@ BlElement >> installedSkin [
 ]
 
 { #category : '*Toplo' }
+BlElement >> installedSkinDo: aBlock [
+
+	self toThemeManager installedSkinDo: aBlock
+]
+
+{ #category : '*Toplo' }
 BlElement >> isDisabled [
 
 	^ self isEnabled not
@@ -107,40 +113,6 @@ BlElement >> isDisabled [
 BlElement >> isEnabled [
 
 	^ self userData at: #enabled ifAbsentPut: [ true ]
-]
-
-{ #category : '*Toplo' }
-BlElement >> localStyleSheet [
-
-	^ self toStyleSheetManager styleSheet 
-]
-
-{ #category : '*Toplo' }
-BlElement >> localStyleStampIndex [
-self flag: 'R'.
-	^ self userData at: #localStyleStampIndex ifAbsent: [ ]
-]
-
-{ #category : '*Toplo' }
-BlElement >> localStyleStampNamed: aSymbol [
-
-	| index |
-self flag: 'R'.
-	index := self localStyleStampIndex ifNil: [ ^ nil ].
-	^ index propertyNamed: aSymbol ifAbsent: [  ]
-	
-]
-
-{ #category : '*Toplo' }
-BlElement >> localToTheme [
-self flag: 'R'.
-	^ self userData at: #localToTheme ifAbsent: [  ]
-]
-
-{ #category : '*Toplo' }
-BlElement >> localToTheme: aTheme [
-self flag: 'R'.
-	self userData at: #localToTheme put: aTheme
 ]
 
 { #category : '*Toplo' }
@@ -159,75 +131,10 @@ BlElement >> openInInnerWindow [
 ]
 
 { #category : '*Toplo' }
-BlElement >> postponeRequestSkin [
-
-	self toThemeManager postponeRequestSkinIn: self
-]
-
-{ #category : '*Toplo' }
-BlElement >> removeAllStyleStamps [
-
-	| index |
-self flag: 'R'.
-	index := self localStyleStampIndex ifNil: [ ^ self ].
-	index removeAllProperties 
-]
-
-{ #category : '*Toplo' }
-BlElement >> removeAllStyleStamps: aStyleStampCollection [
-
-	| index |
-self flag: 'R'.
-	index := self localStyleStampIndex ifNil: [ ^ self ].
-	aStyleStampCollection do: [ :s | index removeProperty: s ]
-]
-
-{ #category : '*Toplo' }
-BlElement >> removeInstalledSkin [
-self flag: 'R'.
-	self skinDo: [ :s | 
-		s dispatchSkinUninstallStateRequestTo: self.
-		self removeEventHandler: s ]
-]
-
-{ #category : '*Toplo' }
-BlElement >> removeStyleStamp: aStyleStamp [
-
-	| index |
-self flag: 'R'.
-	index := self localStyleStampIndex ifNil: [ ^ self ].
-	index removeProperty: aStyleStamp
-]
-
-{ #category : '*Toplo' }
-BlElement >> removeStyleStampNamed: aSymbol [
-
-	| index |
-self flag: 'R'.
-	index := self localStyleStampIndex ifNil: [ ^ self ].
-	index removePropertyNamed: aSymbol
-]
-
-{ #category : '*Toplo' }
-BlElement >> removeStyleStampNamed: aSymbol ifAbsent: anAbsentBlock [
-
-	| index |
-self flag: 'R'.
-	index := self localStyleStampIndex ifNil: [ ^ self ].
-	index removePropertyNamed: aSymbol ifAbsent: anAbsentBlock
-]
-
-{ #category : '*Toplo' }
 BlElement >> requestSkin [
 
 	" first check for the space phases "
-self flag: 'R'.
-	self space ifNil: [
-		^ self postponeRequestSkin ].
-	self skinInstaller ifNotNil: [ 
-		^ self ].
-	self space installSkinPhases.
-	self skinInstaller: self toTheme newSkinInstaller
+	self toThemeManager requestSkinIn: self 
 ]
 
 { #category : '*Toplo' }
@@ -239,29 +146,20 @@ BlElement >> requestSkinRecursively [
 
 { #category : '*Toplo' }
 BlElement >> setSkin: aSkin [
-self flag: 'R'.
-	self removeInstalledSkin.
-	self userData at: #localDefaultSkin put: aSkin.
-	self requestSkin
-]
 
-{ #category : '*Toplo' }
-BlElement >> skinDo: aBlock [
-self flag: 'R'.
-	self installedSkin ifNil: [ ^ self ].
-	aBlock value: self installedSkin
+	self toThemeManager setSkin: aSkin in: self
 ]
 
 { #category : '*Toplo' }
 BlElement >> skinInstaller [
-self flag: 'R'.
-	^ self userData at: #skinInstaller ifAbsent: [  ]
+
+	^ self toThemeManager skinInstaller 
 ]
 
 { #category : '*Toplo' }
 BlElement >> skinInstaller: aSkinInstaller [
-self flag: 'R'.
-	self userData at: #skinInstaller put: aSkinInstaller
+
+	self toThemeManager skinInstaller: aSkinInstaller
 ]
 
 { #category : '*Toplo' }
@@ -272,14 +170,14 @@ BlElement >> skinStateGeneratorClass [
 
 { #category : '*Toplo' }
 BlElement >> skinStateQueue [
-self flag: 'R'.
-	^ self userData at: #skinStateQueue ifAbsentPut: (ToSkinStateQueue new onInstalledIn: self)
+
+	^ self toThemeManager skinStateQueueIn: self
 ]
 
 { #category : '*Toplo' }
 BlElement >> stampNamed: aSymbol [
 
-	self toStyleSheetManager stampNamed: aSymbol in: self
+	^ self toStyleSheetManager stampNamed: aSymbol in: self
 ]
 
 { #category : '*Toplo' }
@@ -331,6 +229,12 @@ BlElement >> switchToNextCheckStateOnClick [
 ]
 
 { #category : '*Toplo' }
+BlElement >> textAttributesBuilder [
+
+	^ self toStyleSheetManager textAttributesBuilder
+]
+
+{ #category : '*Toplo' }
 BlElement >> toStyleSheetManager [
 
 	^ self userData at: #toStyleSheetManager ifAbsentPut: [ ToStyleSheetManager new ]
@@ -338,27 +242,14 @@ BlElement >> toStyleSheetManager [
 
 { #category : '*Toplo-LookAndFeel' }
 BlElement >> toTheme [
-self flag: 'R'.
-	^ self localToTheme ifNil: [
-		  self hasParent
-			  ifTrue: [ self parent toTheme ]
-			  ifFalse: [
-				  self isAttachedToSceneGraph
-					  ifTrue: [ " install the theme only if the root is attached to 
-						avoid default installation in another element that the space root"
-						
-						  self localToTheme: ToTheme current.
-						  self localToTheme ]
-					  ifFalse: [ Error signal: 'Should never be reached' ] ] ]
+
+		^ self toThemeManager toThemeIn: self
 ]
 
 { #category : '*Toplo-LookAndFeel' }
 BlElement >> toTheme: aTheme [
-self flag: 'R'.
-	self localToTheme = aTheme ifTrue: [ ^ self ].
-	self localToTheme: aTheme.
-	self toThemeChanged.
 
+	self toThemeManager toTheme: aTheme in: self
 ]
 
 { #category : '*Toplo-LookAndFeel' }
@@ -381,9 +272,15 @@ BlElement >> uninstallRawStyle [
 ]
 
 { #category : '*Toplo' }
+BlElement >> uninstallSkin [
+
+	self toThemeManager uninstallSkinIn: self
+]
+
+{ #category : '*Toplo' }
 BlElement >> updateStyles [
-self flag: 'R'.
-	self skinDo: [ :s | s updateStylesOn: self ]
+
+	self toThemeManager updateStylesIn: self
 ]
 
 { #category : '*Toplo' }
@@ -395,9 +292,8 @@ BlElement >> updateStylesRecursively [
 
 { #category : '*Toplo' }
 BlElement >> withAllStamps: aCollectionOfSymbol [
-self flag: 'R'.
-	aCollectionOfSymbol ifEmpty: [ ^ self ].
-	aCollectionOfSymbol do: [ :s | self withStamp: s ]
+
+	self toStyleSheetManager withAllStamps: aCollectionOfSymbol
 ]
 
 { #category : '*Toplo' }
@@ -409,18 +305,18 @@ BlElement >> withStamp: anAssociationOrSymbol [
 
 { #category : '*Toplo' }
 BlElement >> withoutAllStamps [
-self flag: 'R'.
-	self removeAllStyleStamps
+
+	self toStyleSheetManager removeAllStyleStamps
 ]
 
 { #category : '*Toplo' }
 BlElement >> withoutSkin [
-self flag: 'R'.
-	self setSkin: ToNullSkin new
+
+	self toThemeManager setSkin: ToNullSkin new in: self
 ]
 
 { #category : '*Toplo' }
 BlElement >> withoutStamp: aSymbol [
-self flag: 'R'.
-	self removeStyleStampNamed: aSymbol ifAbsent: [  ]
+
+	self toStyleSheetManager withoutStamp: aSymbol
 ]

@@ -3,8 +3,7 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'currentStates',
-		'nextStates',
-		'installed'
+		'nextStates'
 	],
 	#category : 'Toplo-Core-States',
 	#package : 'Toplo',
@@ -14,7 +13,6 @@ Class {
 { #category : 'hook' }
 ToSkinStateQueue >> applyOn: anElement [
 
-	self installed ifFalse: [ Error signal ].
 	[ self nextStates isEmpty ] whileFalse: [
 		self nextStates removeLast applyOn: anElement ]
 ]
@@ -28,10 +26,10 @@ ToSkinStateQueue >> currentStates [
 { #category : 'adding' }
 ToSkinStateQueue >> enqueueState: aState [
 
-	self nextStates removeAllSuchThat: [ :s | (s isKindOf: aState class) or: [ aState incompatibleStateClasses includes: s class ]].
+	self nextStates removeAllSuchThat: [ :s | (s isKindOf: aState class) or: [ aState incompatibleStateClasses anySatisfy: [ :cls | s isKindOf: cls ]]].
 	self nextStates addFirst: aState.
 	" then store persistent  state to be re-applied when a new install state is required (see switchToInstallState:in:)"
-	self currentStates removeAllSuchThat: [ :s | (s isKindOf: aState class) or: [ aState incompatibleStateClasses includes: s class ]].
+	self currentStates removeAllSuchThat: [ :s | (s isKindOf: aState class) or: [ aState incompatibleStateClasses anySatisfy: [ :cls | s isKindOf: cls ]]].
 	aState isPersistent ifFalse: [ ^ self ].
 	self currentStates addFirst: aState
 ]
@@ -41,12 +39,6 @@ ToSkinStateQueue >> initialize [
 
 	super initialize.
 	self reset
-]
-
-{ #category : 'accessing' }
-ToSkinStateQueue >> installed [
-
-	^ installed 
 ]
 
 { #category : 'accessing' }
@@ -71,8 +63,7 @@ ToSkinStateQueue >> onUninstalledIn: anElement [
 ToSkinStateQueue >> reset [ 
 
 	currentStates := LinkedList new.
-	nextStates := LinkedList new.
-	installed := false
+	nextStates := LinkedList new
 ]
 
 { #category : 'initialization' }
@@ -80,7 +71,6 @@ ToSkinStateQueue >> skinInitialStateRequest: anEvent [
 	" initial state required - if the element is enabled proceed with stored persistent states "
 
 	| target |
-	installed ifFalse: [ Error signal: 'The skin must be installed first' ].
 	target := anEvent currentTarget.
 	self enqueueState: (ToInitialState sourceEvent: anEvent).
 	target isEnabled
@@ -97,7 +87,6 @@ ToSkinStateQueue >> skinInstallStateRequest: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	installed := true.
 	self enqueueState: (ToInstallState sourceEvent: anEvent)
 ]
 
@@ -107,6 +96,5 @@ ToSkinStateQueue >> skinUninstallStateRequest: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	installed := false.
 	self enqueueState: (ToUninstallState sourceEvent: anEvent)
 ]

@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'stampIndex',
 		'borderBuilder',
-		'styleSheet'
+		'styleSheet',
+		'textAttributesBuilder'
 	],
 	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
@@ -135,7 +136,7 @@ ToStyleSheetManager >> styleSheetChainIn: anElement [
 		  current := anElement.
 		  inherits := true.
 		  [ current notNil and: [ inherits ] ] whileTrue: [
-			  current localStyleSheet ifNotNil: [ :ss |
+			  current toStyleSheetManager styleSheet  ifNotNil: [ :ss |
 				  str nextPut: ss.
 				  inherits := ss inherits ].
 			  current := current parent ].
@@ -151,6 +152,12 @@ ToStyleSheetManager >> styleStampNamed: aSymbol [
 	
 ]
 
+{ #category : 'accessing' }
+ToStyleSheetManager >> textAttributesBuilder [
+
+	^ textAttributesBuilder ifNil: [ textAttributesBuilder := BlTextAttributesBuilder new ]
+]
+
 { #category : 'adding-removing' }
 ToStyleSheetManager >> withAllStamps: aCollectionOfSymbol [
 
@@ -161,7 +168,7 @@ ToStyleSheetManager >> withAllStamps: aCollectionOfSymbol [
 { #category : 'adding-removing' }
 ToStyleSheetManager >> withStamp: anAssociationOrSymbol [
 
-	self withStamp: anAssociationOrSymbol asStyleStamp
+	self addStyleStamp: anAssociationOrSymbol asStyleStamp
 ]
 
 { #category : 'adding-removing' }

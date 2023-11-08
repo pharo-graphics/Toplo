@@ -141,6 +141,7 @@ ToSkin >> leavedLookEvent: anEvent [
 ToSkin >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
+	anElement toThemeManager installedSkin: self.
 	" install the event handler that generates state for the state engine"
 	anElement skinStateGeneratorClass ifNotNil: [ :cls |
 		skinStateGenerator := cls new.
@@ -151,6 +152,7 @@ ToSkin >> onInstalledIn: anElement [
 ToSkin >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
+	anElement toThemeManager installedSkin: nil.
 	skinStateGenerator ifNotNil: [
 		anElement removeEventHandler: skinStateGenerator.
 		skinStateGenerator := nil ]
@@ -218,7 +220,7 @@ ToSkin >> themeChangedEvent: anEvent [
 	target := anEvent currentTarget.
 	target installedSkin == self ifFalse: [
 		Error signal: 'Baddly installed skin' ].
-	target removeInstalledSkin.
+	target uninstallSkin.
 	target requestSkin
 ]
 
@@ -241,7 +243,7 @@ ToSkin >> uninstallLookEvent: anEvent [
 ]
 
 { #category : 'style updating' }
-ToSkin >> updateStylesOn: anElement [
+ToSkin >> updateStylesIn: anElement [
 
 	anElement skinStateQueue applyOn: anElement
 ]

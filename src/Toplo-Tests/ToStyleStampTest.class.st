@@ -15,17 +15,17 @@ ToStyleStampTest >> testAddStyleStamp [
 	| e s s2 |
 	e := BlElement new.
 	e withStamp: (#color -> Color blue) asStyleStamp.
-	self assert: (s := e localStyleStampNamed: #color) notNil.
+	self assert: (s := e toStyleSheetManager localStampNamed: #color) notNil.
 	self assert: (s isKindOf: ToStyleStamp).
 	self assert: s name equals: #color.
 	self assert: s value equals: Color blue.
-	self assert: e localStyleStampIndex size equals: 1.
+	self assert: e toStyleSheetManager stampIndex size equals: 1.
 	e withStamp: (#color -> Color red) asStyleStamp.
-	self assert: (s2 := e localStyleStampNamed: #color) notNil.
+	self assert: (s2 := e toStyleSheetManager localStampNamed: #color) notNil.
 	self assert: s2 name equals: #color.
 	self assert: s2 value equals: Color red.
 	self assert: s ~~ s2.
-	self assert: e localStyleStampIndex size equals: 1
+	self assert: e toStyleSheetManager stampIndex size equals: 1
 ]
 
 { #category : 'tests' }
@@ -70,12 +70,9 @@ ToStyleStampTest >> testLocalStyleStampIndex [
 
 	| e dict |
 	e := BlElement new.
-	dict := e localStyleStampIndex.
-	self assert: dict isNil.
-	
-	dict := e localStyleStampIndex.
+	dict := e toStyleSheetManager stampIndex.
 	self assert: dict notNil.
-	self assert: (e userData includesKey: #localStyleStampIndex)
+
 ]
 
 { #category : 'stamp  private use' }
@@ -83,10 +80,10 @@ ToStyleStampTest >> testLocalStyleStampNamed [
 
 	| e s |
 	e := BlElement new.
-	self assert: (e localStyleStampNamed: #color) isNil.
-	(e userData at: #localStyleStampIndex)
+	self assert: (e toStyleSheetManager localStampNamed: #color) isNil.
+	(e toStyleSheetManager stampIndex)
 		addProperty: #color asStyleStamp.
-	s := e localStyleStampNamed: #color.
+	s := e toStyleSheetManager localStampNamed: #color.
 	self assert: s notNil.
 	self assert: (s isKindOf: ToStyleStamp).
 	self assert: s name equals: #color.
@@ -100,18 +97,18 @@ ToStyleStampTest >> testLookUpStyleStampNamed [
 	e := BlElement new.
 	child := BlElement new.
 	e withStamp: (#color -> Color blue) asStyleStamp.
-	self assert: e localStyleStampIndex size equals: 1.
+	self assert: e toStyleSheetManager stampIndex size equals: 1.
 	self
-		assert: (e stampNamed: #color)
-		identicalTo: (e localStyleStampNamed: #color).
+		assert: (e  stampNamed: #color)
+		identicalTo: (e toStyleSheetManager localStampNamed: #color).
 	e addChild: child.
 	self
-		assert: (child stampNamed: #color)
-		identicalTo: (e localStyleStampNamed: #color).
+		assert: (child  stampNamed: #color)
+		identicalTo: (e toStyleSheetManager localStampNamed: #color).
 	child withStamp: (#color -> Color red) asStyleStamp.
 	self
-		assert: (child stampNamed: #color)
-		identicalTo: (child localStyleStampNamed: #color)
+		assert: (child  stampNamed: #color)
+		identicalTo: (child toStyleSheetManager localStampNamed: #color)
 ]
 
 { #category : 'tests' }
@@ -139,11 +136,11 @@ ToStyleStampTest >> testRemoveStyleStamp [
 	| e |
 	e := BlElement new.
 	e withStamp: (#color -> Color blue) asStyleStamp.
-	self assert: e localStyleStampIndex size equals: 1.
-	e removeStyleStamp: #color asStyleStamp.
-	self assert: e localStyleStampIndex isEmpty.
-	e removeStyleStamp: #color asStyleStamp.
-	self assert: e localStyleStampIndex isEmpty
+	self assert: e toStyleSheetManager stampIndex size equals: 1.
+	e toStyleSheetManager removeStyleStamp: #color asStyleStamp.
+	self assert: e toStyleSheetManager stampIndex isEmpty.
+	e toStyleSheetManager removeStyleStamp: #color asStyleStamp.
+	self assert: e toStyleSheetManager stampIndex isEmpty
 ]
 
 { #category : 'stamp  private use' }
@@ -152,11 +149,11 @@ ToStyleStampTest >> testRemoveStyleStampNamed [
 	| e |
 	e := BlElement new.
 	e withStamp: (#color -> Color blue) asStyleStamp.
-	self assert: e localStyleStampIndex size equals: 1.
-	e removeStyleStampNamed: #color.
-	self assert: e localStyleStampIndex isEmpty.
-	self should: [ e removeStyleStampNamed: #color ] raise: ToElementPropertyNotFound.
-	self assert: e localStyleStampIndex isEmpty
+	self assert: e toStyleSheetManager stampIndex size equals: 1.
+	e toStyleSheetManager removeStyleStampNamed: #color.
+	self assert: e toStyleSheetManager stampIndex isEmpty.
+	self should: [ e toStyleSheetManager removeStyleStampNamed: #color ] raise: ToElementPropertyNotFound.
+	self assert: e toStyleSheetManager stampIndex isEmpty
 ]
 
 { #category : 'stamp  private use' }
@@ -165,16 +162,16 @@ ToStyleStampTest >> testRemoveStyleStampNamedIfAbsent [
 	| e |
 	e := BlElement new.
 	e withStamp: (#color -> Color blue) asStyleStamp.
-	self assert: e localStyleStampIndex size equals: 1.
-	e removeStyleStampNamed: #color.
-	self assert: e localStyleStampIndex isEmpty.
-	self should: [ e removeStyleStampNamed: #color ] raise: ToElementPropertyNotFound.
+	self assert: e toStyleSheetManager stampIndex size equals: 1.
+	e toStyleSheetManager removeStyleStampNamed: #color.
+	self assert: e toStyleSheetManager stampIndex isEmpty.
+	self should: [ e toStyleSheetManager removeStyleStampNamed: #color ] raise: ToElementPropertyNotFound.
 	e withStamp: (#color -> Color red) asStyleStamp.
-	self assert: e localStyleStampIndex size equals: 1.
-	e removeStyleStampNamed: #blob ifAbsent: [  ].
-	self assert: e localStyleStampIndex size equals: 1.
-	e removeStyleStampNamed: ##color ifAbsent: [  ].
-	self assert: e localStyleStampIndex isEmpty.
+	self assert: e toStyleSheetManager stampIndex size equals: 1.
+	e toStyleSheetManager removeStyleStampNamed: #blob ifAbsent: [  ].
+	self assert: e toStyleSheetManager stampIndex size equals: 1.
+	e toStyleSheetManager removeStyleStampNamed: ##color ifAbsent: [  ].
+	self assert: e toStyleSheetManager stampIndex isEmpty.
 
 
 ]
@@ -242,13 +239,13 @@ ToStyleStampTest >> testWithAllStamps [
 	| e |
 	e := BlElement new.
 	e withAllStamps: {  }.
-	self assert: e localStyleStampIndex isNil.
+	self assert: e toStyleSheetManager stampIndex notNil.
 	e withAllStamps: { #color. #background }.
-	self assert: e localStyleStampIndex size equals: 2.
+	self assert: e toStyleSheetManager stampIndex size equals: 2.
 	self assert: (e hasStamp: #color).	
 	self assert: (e hasStamp: #background).
 	e withAllStamps: { #blob }.
-	self assert: e localStyleStampIndex size equals: 3.
+	self assert: e toStyleSheetManager stampIndex size equals: 3.
 	self assert: (e hasStamp: #color).	
 	self assert: (e hasStamp: #background).
 	self assert: (e hasStamp: #blob).
@@ -262,16 +259,15 @@ ToStyleStampTest >> testWithStamp [
 	| e |
 	e := BlElement new.
 	e withAllStamps: {  }.
-	self assert: e localStyleStampIndex isNil.
 	e withStamp: #color.
 	e withStamp: #background.
-	self assert: e localStyleStampIndex size equals: 2.
+	self assert: e toStyleSheetManager stampIndex size equals: 2.
 	self assert: (e hasStamp: #color).	
 	self assert: (e hasStamp: #background).
 	self assert: (e stampValue: #color).	
 	self assert: (e stampValue: #background).
 	e withStamp: #color.
-	self assert: e localStyleStampIndex size equals: 2.
+	self assert: e toStyleSheetManager stampIndex size equals: 2.
 	e withStamp: #blob.
 	self assert: (e hasStamp: #color).	
 	self assert: (e hasStamp: #background).
@@ -290,16 +286,15 @@ ToStyleStampTest >> testWithoutStamp [
 	e := BlElement new.
 	e toTheme: ToBeeLightTheme new.
 	e withAllStamps: {  }.
-	self assert: e localStyleStampIndex isNil.
 	e withStamp: #color.
 	e withStamp: #background.
-	self assert: e localStyleStampIndex size equals: 2.
+	self assert: e toStyleSheetManager stampIndex size equals: 2.
 	self assert: (e hasStamp: #color).	
 	self assert: (e hasStamp: #background).
 	self assert: (e stampValue: #color).	
 	self assert: (e stampValue: #background).
 	e withoutStamp: #color.
-	self assert: e localStyleStampIndex size equals: 1.
+	self assert: e toStyleSheetManager stampIndex size equals: 1.
 	e withoutStamp: #blob.
 	self deny: (e hasStamp: #color).	
 	self assert: (e hasStamp: #background).

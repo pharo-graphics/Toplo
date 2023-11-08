@@ -190,7 +190,7 @@ ToElementTest >> testSetSkin [
 	| e  sk sk2 |
 	e := ToElement new.
 	space root addChild: e.
-	e setSkin: (sk := ToRawSkinForTest new).
+	e defaultSkin: (sk := ToRawSkinForTest new).
 	self assert: e defaultSkin identicalTo: sk.
 	self assert: e installedSkin isNil.
 	e requestSkin.
@@ -223,7 +223,7 @@ ToElementTest >> testSetSkin [
 		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ]) size
 		equals: 1.
 
-	e setSkin: (sk2 := ToRawSkinForTest new).
+	e defaultSkin: (sk2 := ToRawSkinForTest new).
 	e applySkinInstaller.
 	e updateStyles.
 	

@@ -2,7 +2,6 @@ Class {
 	#name : 'ToThemeManager',
 	#superclass : 'Object',
 	#instVars : [
-		'styleSheetManager',
 		'skinInstaller',
 		'localDefaultSkin',
 		'localTheme',
@@ -18,15 +17,13 @@ Class {
 { #category : 'skin application' }
 ToThemeManager >> applySkinInstallerIn: anElement [
 
-	self skinInstaller ifNotNil: [ :si | si applyOn: anElement ]
+	self skinInstaller ifNotNil: [ :si | si installSkinIn: anElement ]
 	
 ]
 
 { #category : 'accessing - skin' }
 ToThemeManager >> defaultSkin: aSkin in: anElement [
 
-	| prev |
-	prev := self localDefaultSkin ifAbsent: [  ].
 	self localDefaultSkin = aSkin ifTrue: [ ^ self ].
 	self setSkin: aSkin in: anElement
 
@@ -59,6 +56,13 @@ ToThemeManager >> installedSkin: aSkin [
 ]
 
 { #category : 'accessing - skin' }
+ToThemeManager >> installedSkinDo: aBlock [
+
+	self installedSkin ifNil: [ ^ self ].
+	aBlock value: self installedSkin
+]
+
+{ #category : 'accessing - skin' }
 ToThemeManager >> isRequestSkinPostponed [
 
 	
@@ -78,13 +82,13 @@ ToThemeManager >> localDefaultSkin: aSkin [
 ]
 
 { #category : 'accessing' }
-ToThemeManager >> localToTheme [ 
+ToThemeManager >> localTheme [ 
 
 	^ localTheme
 ]
 
 { #category : 'accessing' }
-ToThemeManager >> localToTheme: aTheme [
+ToThemeManager >> localTheme: aTheme [
 
 	localTheme := aTheme
 ]
@@ -103,15 +107,6 @@ ToThemeManager >> postponeRequestSkinIn: anElement [
 ]
 
 { #category : 'accessing - skin' }
-ToThemeManager >> removeInstalledSkinIn: anElement [
-
-	self skinDo: [ :s |
-		s dispatchSkinUninstallStateRequestTo: anElement.
-		anElement updateStyles.
-		anElement removeEventHandler: s ]
-]
-
-{ #category : 'accessing - skin' }
 ToThemeManager >> requestSkinIn: anElement [
 
 	" first check for the space phases "
@@ -126,16 +121,9 @@ ToThemeManager >> requestSkinIn: anElement [
 { #category : 'accessing - skin' }
 ToThemeManager >> setSkin: aSkin in: anElement [
 
-	self removeInstalledSkinIn: anElement.
+	self uninstallSkinIn: anElement.
 	localDefaultSkin := aSkin.
 	anElement requestSkin
-]
-
-{ #category : 'accessing - skin' }
-ToThemeManager >> skinDo: aBlock [
-
-	self installedSkin ifNil: [ ^ self ].
-	aBlock value: self installedSkin
 ]
 
 { #category : 'accessing' }
@@ -151,6 +139,12 @@ ToThemeManager >> skinInstaller: aSkinInstaller [
 ]
 
 { #category : 'accessing' }
+ToThemeManager >> skinStateQueue [
+
+	^ skinStateQueue
+]
+
+{ #category : 'accessing' }
 ToThemeManager >> skinStateQueueIn: anElement [
 
 	^ skinStateQueue ifNil: [
@@ -160,8 +154,8 @@ ToThemeManager >> skinStateQueueIn: anElement [
 { #category : 'accessing' }
 ToThemeManager >> toTheme: aTheme in: anElement [
 
-	self localToTheme = aTheme ifTrue: [ ^ self ].
-	self localToTheme: aTheme.
+	self localTheme = aTheme ifTrue: [ ^ self ].
+	self localTheme: aTheme.
 	anElement toThemeChanged.
 
 ]
@@ -169,26 +163,30 @@ ToThemeManager >> toTheme: aTheme in: anElement [
 { #category : 'accessing' }
 ToThemeManager >> toThemeIn: anElement [
 
-	^ self localToTheme ifNil: [
+	^ self localTheme ifNil: [
 		  anElement hasParent
 			  ifTrue: [ anElement parent toTheme ]
 			  ifFalse: [
 				  anElement isAttachedToSceneGraph
 					  ifTrue: [ " install the theme only if the root is attached to 
 						avoid default installation in another element than the space root"
-						  self localToTheme: ToTheme current.
-						  self localToTheme ]
+						  self localTheme: ToTheme current.
+						  self localTheme ]
 					  ifFalse: [ Error signal: 'An element not attached should not ask for its theme' ] ] ]
 ]
 
 { #category : 'accessing - skin' }
-ToThemeManager >> updateStylesOn: anElement [
+ToThemeManager >> uninstallSkinIn: anElement [
 
-	self skinStateQueue applyOn: anElement
+	self installedSkinDo: [ :s |
+		s dispatchSkinUninstallStateRequestTo: anElement.
+		" do not wait next pulse to flush skinStateQueue state (to send ToUninstallLookEvent) "
+		anElement updateStyles.
+		anElement removeEventHandler: s ]
 ]
 
 { #category : 'accessing - skin' }
-ToThemeManager >> withoutSkinIn: anElement [
+ToThemeManager >> updateStylesIn: anElement [
 
-	self setSkin: ToNullSkin new in: anElement
+	self installedSkinDo: [ :s | s updateStylesIn: anElement ]
 ]

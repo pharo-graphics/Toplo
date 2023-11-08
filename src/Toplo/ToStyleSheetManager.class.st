@@ -36,15 +36,21 @@ ToStyleSheetManager >> initialize [
 	stampIndex := ToPropertyIndex new
 ]
 
+{ #category : 'accessing' }
+ToStyleSheetManager >> localStampNamed: aSymbol [
+
+	^ self stampIndex propertyNamed: aSymbol
+]
+
 { #category : 'lookup' }
-ToStyleSheetManager >> lookUpStyleStampNamed: aSymbol from: anElement [
+ToStyleSheetManager >> lookUpStampNamed: aSymbol from: anElement [
 	" first look-up following child-parent association 
 	for each element, try first to get the stamp from the localStyleStampIndex 
 	then from the elementl styleSheet ifPresent"
-
+self flag: 'uniform naming required localStampNamed/stampNamed'.
 	anElement withAllParentsDo: [ :p |
-		(p localStyleStampNamed: aSymbol) ifNotNil: [ :t | ^ t ].
-		p localStyleSheet ifNotNil: [ :ss |
+		(p toStyleSheetManager localStampNamed: aSymbol) ifNotNil: [ :t | ^ t ].
+		p toStyleSheetManager styleSheet ifNotNil: [ :ss |
 			(ss stampNamed: aSymbol) ifNotNil: [ :t | ^ t ] ] ].
 	" finally, try to get the stamp from the theme "
 	^ anElement toTheme stampNamed: aSymbol
@@ -89,14 +95,14 @@ ToStyleSheetManager >> stampIndex [
 { #category : 'accessing' }
 ToStyleSheetManager >> stampNamed: aSymbol in: anElement [
 
-	(self lookUpStyleStampNamed: aSymbol from: anElement) ifNotNil: [ :s | ^ s ].
+	(self lookUpStampNamed: aSymbol from: anElement) ifNotNil: [ :s | ^ s ].
 	(ToElementPropertyNotFound name: aSymbol) signal
 ]
 
 { #category : 'accessing' }
 ToStyleSheetManager >> stampValue: aSymbol in: anElement [
 
-	(self lookUpStyleStampNamed: aSymbol from: anElement) ifNotNil: [ :s | ^ s value ].
+	(self lookUpStampNamed: aSymbol from: anElement) ifNotNil: [ :s | ^ s value ].
 	(ToElementPropertyNotFound name: aSymbol) signal
 ]
 

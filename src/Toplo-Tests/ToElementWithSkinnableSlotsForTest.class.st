@@ -54,8 +54,7 @@ ToElementWithSkinnableSlotsForTest >> initialize [
 { #category : 'skin' }
 ToElementWithSkinnableSlotsForTest >> requestSkin [
 
-	(self skinInstaller isNil and: [ self isRequestSkinPostponed not ])
-		ifTrue: [ skinRequestCount := skinRequestCount + 1 ].
+	skinRequestCount := skinRequestCount + 1.
 	super requestSkin.
 ]
 

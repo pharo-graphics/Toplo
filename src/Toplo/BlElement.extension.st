@@ -1,22 +1,14 @@
 Extension { #name : 'BlElement' }
 
 { #category : '*Toplo' }
-BlElement >> addStyleStamp: aStyleStamp [
-self flag: 'R'.
-	self ensureLocalStyleStampIndex.
-	self localStyleStampIndex addProperty: aStyleStamp
-]
-
-{ #category : '*Toplo' }
 BlElement >> applySkinInstaller [
-self flag: 'R'.
-	self skinInstaller ifNotNil: [ :si | si applyOn: self ]
 
+	self toThemeManager applySkinInstallerIn: self
 ]
 
 { #category : '*Toplo' }
 BlElement >> applySkinInstallerRecursively [
-self flag: 'R'.
+
 	self applySkinInstaller.
 	self childrenDo: [ :child | child applySkinInstallerRecursively ]
 
@@ -24,27 +16,20 @@ self flag: 'R'.
 
 { #category : '*Toplo' }
 BlElement >> borderBuilder [
-self flag: 'R'.
-	^ self userData at: #borderBuilder ifAbsentPut: [ BlBorderBuilder new ]
+
+	^ self toStyleSheetManager borderBuilder
 ]
 
 { #category : '*Toplo' }
 BlElement >> defaultSkin [
-self flag: 'R'.
-	^ self userData
-		  at: #localDefaultSkin
-		  ifAbsent: [ self toTheme newSkinFor: self ]
+
+	^ self toThemeManager defaultSkinIn: self
 ]
 
 { #category : '*Toplo' }
 BlElement >> defaultSkin: aSkin [
 
-	| prev |
-	self flag: 'R'.
-	prev := self userData at: #localDefaultSkin ifAbsent: [  ].
-	prev = aSkin ifTrue: [ ^ self ].
-	self setSkin: aSkin
-
+	self toThemeManager defaultSkin: aSkin in: self
 ]
 
 { #category : '*Toplo' }
@@ -63,14 +48,6 @@ BlElement >> enable [
 		self flagAsEnabled.
 		self dispatchEvent: ToEnablementChangedEvent new ].
 	self childrenDo: [ :child | child enable ]
-]
-
-{ #category : '*Toplo' }
-BlElement >> ensureLocalStyleStampIndex [
-self flag: 'Rem'.
-	self userData
-		at: #localStyleStampIndex
-		ifAbsentPut: ToPropertyIndex new
 ]
 
 { #category : '*Toplo' }
@@ -94,10 +71,7 @@ BlElement >> hasEnablementFlag [
 { #category : '*Toplo' }
 BlElement >> hasStamp: aSymbol [
 
-	| index |
-self flag: 'R'.
-	index := self localStyleStampIndex ifNil: [ ^ false ].
-	^ index hasPropertyNamed: aSymbol
+	^ self toStyleSheetManager hasStamp: aSymbol
 ]
 
 { #category : '*Toplo' }
@@ -119,9 +93,8 @@ BlElement >> installRawStyle [
 
 { #category : '*Toplo' }
 BlElement >> installedSkin [
-self flag: 'R'.
-	self eventDispatcher handlersDo: [ :h | (h isKindOf: ToSkin) ifTrue: [ ^ h]].
-	^ nil
+
+	^ self toThemeManager installedSkin
 ]
 
 { #category : '*Toplo' }
@@ -137,33 +110,9 @@ BlElement >> isEnabled [
 ]
 
 { #category : '*Toplo' }
-BlElement >> isRequestSkinPostponed [
-
-self flag: 'R'.
-	^ (self userData at: #postponedRequestSkin ifAbsent: [  ]) notNil
-]
-
-{ #category : '*Toplo' }
-BlElement >> localDefaultSkin [
-self flag: 'R'.
-	^ self userData at: #localDefaultSkin ifAbsent: [  ]
-]
-
-{ #category : '*Toplo' }
 BlElement >> localStyleSheet [
-self flag: 'R'.
-	^ self userData at: #localStyleSheet ifAbsent: [  ]
-]
 
-{ #category : '*Toplo' }
-BlElement >> localStyleSheet: aStyleSheet [
-
-	| prev |
-self flag: 'R'.
-	prev := self userData at: #localStyleSheet ifAbsent: [  ].
-	prev ifNotNil: [ prev onUnInstalledIn: self ].
-	self userData at: #localStyleSheet put: aStyleSheet.
-	aStyleSheet ifNotNil: [ aStyleSheet onInstalledIn: self ]
+	^ self toStyleSheetManager styleSheet 
 ]
 
 { #category : '*Toplo' }
@@ -195,20 +144,6 @@ self flag: 'R'.
 ]
 
 { #category : '*Toplo' }
-BlElement >> lookUpStyleStampNamed: aSymbol [
-	" first look-up following child-parent association 
-	for each element, try first to get the stamp from the localStyleStampIndex 
-	then from the elementl styleSheet ifPresent"
-self flag: 'R'.
-	self withAllParentsDo: [ :p |
-		(p localStyleStampNamed: aSymbol) ifNotNil: [ :t | ^ t ].
-		p localStyleSheet ifNotNil: [ :ss |
-			(ss stampNamed: aSymbol) ifNotNil: [ :t | ^ t ] ] ].
-	" finally, try to get the stamp from the theme "
-	^ self toTheme stampNamed: aSymbol
-]
-
-{ #category : '*Toplo' }
 BlElement >> newRawSkin [
 
 	^  ToRawSkin new
@@ -226,18 +161,7 @@ BlElement >> openInInnerWindow [
 { #category : '*Toplo' }
 BlElement >> postponeRequestSkin [
 
-	| evtHandler |
-self flag: 'R'.
-	self isRequestSkinPostponed ifTrue: [ ^ self ].
-	evtHandler := self userData
-		              at: #postponedRequestSkin
-		              put: BlEventHandler new.
-	evtHandler eventClass: BlElementAddedToSceneGraphEvent.
-	evtHandler action: [ :evt |
-		self userData removeKey: #postponedRequestSkin.
-		self removeEventHandler: evtHandler.
-		self requestSkin ].
-	self addEventHandler: evtHandler
+	self toThemeManager postponeRequestSkinIn: self
 ]
 
 { #category : '*Toplo' }
@@ -354,16 +278,14 @@ self flag: 'R'.
 
 { #category : '*Toplo' }
 BlElement >> stampNamed: aSymbol [
-self flag: 'R'.
-	(self lookUpStyleStampNamed: aSymbol) ifNotNil: [ :s | ^ s ].
-	(ToElementPropertyNotFound name: aSymbol) signal
+
+	self toStyleSheetManager stampNamed: aSymbol in: self
 ]
 
 { #category : '*Toplo' }
 BlElement >> stampValue: aSymbol [
-self flag: 'R'.
-	(self lookUpStyleStampNamed: aSymbol) ifNotNil: [ :s | ^ s value ].
-	(ToElementPropertyNotFound name: aSymbol) signal
+
+	^ self toStyleSheetManager stampValue: aSymbol in: self
 ]
 
 { #category : '*Toplo' }
@@ -391,36 +313,15 @@ BlElement >> stillPressedStartDelay: aDuration [
 ]
 
 { #category : '*Toplo-LookAndFeel' }
-BlElement >> styleSheet [
-self flag: 'R'.
-	^ self localStyleSheet
-]
-
-{ #category : '*Toplo-LookAndFeel' }
 BlElement >> styleSheet: aStyleSheet [
-self flag: 'R'.
-	self localStyleSheet = aStyleSheet ifTrue: [ ^ self ].
-	self localStyleSheet: aStyleSheet.
-	self toThemeChanged.
 
+	self toStyleSheetManager styleSheet: aStyleSheet in: self
 ]
 
 { #category : '*Toplo-LookAndFeel' }
 BlElement >> styleSheetChain [
 	" return an array with all my inherited stylesheets "
-self flag: 'R'.
-	^ Array new: 20 streamContents: [ :str |
-		  | current inherits |
-		  current := self.
-		  inherits := true.
-		  [ current notNil and: [ inherits ] ] whileTrue: [
-			  current localStyleSheet ifNotNil: [ :ss |
-				  str nextPut: ss.
-				  inherits := ss inherits ].
-			  current := current parent ].
-		  (self toTheme notNil and: [
-			   self toTheme styleSheet notNil and: [ inherits ] ]) ifTrue: [
-			  str nextPut: self toTheme styleSheet ] ]
+	^ self toStyleSheetManager styleSheetChainIn: self
 ]
 
 { #category : '*Toplo' }
@@ -502,9 +403,8 @@ self flag: 'R'.
 { #category : '*Toplo' }
 BlElement >> withStamp: anAssociationOrSymbol [
 
-self flag: 'R'.
-	self ensureLocalStyleStampIndex.
-	self addStyleStamp: anAssociationOrSymbol asStyleStamp
+
+	self toStyleSheetManager withStamp: anAssociationOrSymbol
 ]
 
 { #category : '*Toplo' }

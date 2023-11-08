@@ -16,7 +16,7 @@ Class {
 }
 
 { #category : 'skin application' }
-ToThemeManager >> applySkinInstallerOn: anElement [
+ToThemeManager >> applySkinInstallerIn: anElement [
 
 	self skinInstaller ifNotNil: [ :si | si applyOn: anElement ]
 	

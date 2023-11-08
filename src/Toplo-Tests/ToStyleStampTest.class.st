@@ -73,7 +73,6 @@ ToStyleStampTest >> testLocalStyleStampIndex [
 	dict := e localStyleStampIndex.
 	self assert: dict isNil.
 	
-	e ensureLocalStyleStampIndex.
 	dict := e localStyleStampIndex.
 	self assert: dict notNil.
 	self assert: (e userData includesKey: #localStyleStampIndex)
@@ -84,7 +83,6 @@ ToStyleStampTest >> testLocalStyleStampNamed [
 
 	| e s |
 	e := BlElement new.
-	e ensureLocalStyleStampIndex.
 	self assert: (e localStyleStampNamed: #color) isNil.
 	(e userData at: #localStyleStampIndex)
 		addProperty: #color asStyleStamp.
@@ -104,15 +102,15 @@ ToStyleStampTest >> testLookUpStyleStampNamed [
 	e withStamp: (#color -> Color blue) asStyleStamp.
 	self assert: e localStyleStampIndex size equals: 1.
 	self
-		assert: (e lookUpStyleStampNamed: #color)
+		assert: (e stampNamed: #color)
 		identicalTo: (e localStyleStampNamed: #color).
 	e addChild: child.
 	self
-		assert: (child lookUpStyleStampNamed: #color)
+		assert: (child stampNamed: #color)
 		identicalTo: (e localStyleStampNamed: #color).
 	child withStamp: (#color -> Color red) asStyleStamp.
 	self
-		assert: (child lookUpStyleStampNamed: #color)
+		assert: (child stampNamed: #color)
 		identicalTo: (child localStyleStampNamed: #color)
 ]
 

@@ -1,9 +1,9 @@
 Class {
 	#name : 'ToSkinEvent',
 	#superclass : 'BlEvent',
-	#category : 'Toplo-Core-Skin',
+	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
-	#tag : 'Core-Skin'
+	#tag : 'Core-Theme'
 }
 
 { #category : 'sending' }

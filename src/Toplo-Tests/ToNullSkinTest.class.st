@@ -4,9 +4,9 @@ A ToNullSkinTest is a test class for testing the behavior of ToNullSkin
 Class {
 	#name : 'ToNullSkinTest',
 	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core-Skin',
+	#category : 'Toplo-Tests-Core-Theme',
 	#package : 'Toplo-Tests',
-	#tag : 'Core-Skin'
+	#tag : 'Core-Theme'
 }
 
 { #category : 'tests' }

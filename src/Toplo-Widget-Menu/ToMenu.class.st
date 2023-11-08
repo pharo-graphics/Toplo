@@ -51,7 +51,11 @@ ToMenu >> initialize [
 	isSubmenu := false.
 	self initializeWithMenuConstraints.
 	windowHandler := ToMenuWindowHandler new element: self.
-	windowHandler builder: [ :menWin  :element| ]
+	windowHandler builder: [ :menWin :element |
+		self requestSkin.
+		element items do: [ :it |
+			menWin root addChild: it.
+			it requestSkin ] ]
 ]
 
 { #category : 'initialization' }
@@ -142,7 +146,8 @@ ToMenu >> rootMenu [
 { #category : 'theme event handling' }
 ToMenu >> toThemeChanged [ 
 
+	windowHandler toThemeChanged.
 	super toThemeChanged.
-	self menuWindow ifNotNil: [ :mw | mw toThemeChanged ]
+
 	
 ]

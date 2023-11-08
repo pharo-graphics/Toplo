@@ -1,9 +1,9 @@
 Class {
 	#name : 'ToNullSkin',
 	#superclass : 'ToSkin',
-	#category : 'Toplo-Core-Skin',
+	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
-	#tag : 'Core-Skin'
+	#tag : 'Core-Theme'
 }
 
 { #category : 'event dispatch' }
@@ -28,6 +28,10 @@ ToNullSkin >> eventsToHandle [
 ToNullSkin >> isNullSkin [ 
 
 	^ true
+]
+
+{ #category : 'style updating' }
+ToNullSkin >> updateStylesOn: anElement [
 ]
 
 { #category : 'api - event managing' }

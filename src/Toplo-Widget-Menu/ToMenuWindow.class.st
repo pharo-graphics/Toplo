@@ -13,7 +13,6 @@ Class {
 ToMenuWindow >> close [ 
 
 	openedSubmenuWindow ifNotNil: [ :w | w close ].
-	self root removeChildren.
 	super close
 ]
 
@@ -73,18 +72,4 @@ ToMenuWindow >> openedSubmenuWindow: aWindow [
 
 	openedSubmenuWindow ifNotNil: [ openedSubmenuWindow close ].
 	openedSubmenuWindow := aWindow.
-]
-
-{ #category : 'api - displaying' }
-ToMenuWindow >> popupEvent: anEvent [
-
-	self element isAttachedToSceneGraph ifFalse: [
-		Error signal: 'Can''t popup a menu if the element is not attached to a space' ].
-	
-	self items ifEmpty: [ ^ self ].
-	self requestSkin.
-	self items do: [ :it |
-		self root addChild: it.
-		it requestSkin ].
-	super popupEvent: anEvent
 ]

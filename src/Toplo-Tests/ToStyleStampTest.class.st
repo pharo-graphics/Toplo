@@ -14,13 +14,13 @@ ToStyleStampTest >> testAddStyleStamp [
 
 	| e s s2 |
 	e := BlElement new.
-	e addStyleStamp: (#color -> Color blue) asStyleStamp.
+	e withStamp: (#color -> Color blue) asStyleStamp.
 	self assert: (s := e localStyleStampNamed: #color) notNil.
 	self assert: (s isKindOf: ToStyleStamp).
 	self assert: s name equals: #color.
 	self assert: s value equals: Color blue.
 	self assert: e localStyleStampIndex size equals: 1.
-	e addStyleStamp: (#color -> Color red) asStyleStamp.
+	e withStamp: (#color -> Color red) asStyleStamp.
 	self assert: (s2 := e localStyleStampNamed: #color) notNil.
 	self assert: s2 name equals: #color.
 	self assert: s2 value equals: Color red.
@@ -55,11 +55,11 @@ ToStyleStampTest >> testHasStamp [
 	| e |
 	e := BlElement new.
 	self deny: (e hasStamp: #color).
-	e addStyleStamp: (#color -> Color blue) asStyleStamp.
+	e withStamp: (#color -> Color blue) asStyleStamp.
 	self assert: (e hasStamp: #color).
-	e addStyleStamp: (#background -> Color blue) asStyleStamp.
-	e addStyleStamp: (#layout -> BlLinearLayout horizontal) asStyleStamp.
-	e addStyleStamp: (#something -> #something) asStyleStamp.
+	e withStamp: (#background -> Color blue) asStyleStamp.
+	e withStamp: (#layout -> BlLinearLayout horizontal) asStyleStamp.
+	e withStamp: (#something -> #something) asStyleStamp.
 	self assert: (e hasStamp: #something).
 	self assert: (e hasStamp: #color).
 
@@ -101,7 +101,7 @@ ToStyleStampTest >> testLookUpStyleStampNamed [
 	| e child |
 	e := BlElement new.
 	child := BlElement new.
-	e addStyleStamp: (#color -> Color blue) asStyleStamp.
+	e withStamp: (#color -> Color blue) asStyleStamp.
 	self assert: e localStyleStampIndex size equals: 1.
 	self
 		assert: (e lookUpStyleStampNamed: #color)
@@ -110,7 +110,7 @@ ToStyleStampTest >> testLookUpStyleStampNamed [
 	self
 		assert: (child lookUpStyleStampNamed: #color)
 		identicalTo: (e localStyleStampNamed: #color).
-	child addStyleStamp: (#color -> Color red) asStyleStamp.
+	child withStamp: (#color -> Color red) asStyleStamp.
 	self
 		assert: (child lookUpStyleStampNamed: #color)
 		identicalTo: (child localStyleStampNamed: #color)
@@ -140,7 +140,7 @@ ToStyleStampTest >> testRemoveStyleStamp [
 
 	| e |
 	e := BlElement new.
-	e addStyleStamp: (#color -> Color blue) asStyleStamp.
+	e withStamp: (#color -> Color blue) asStyleStamp.
 	self assert: e localStyleStampIndex size equals: 1.
 	e removeStyleStamp: #color asStyleStamp.
 	self assert: e localStyleStampIndex isEmpty.
@@ -153,7 +153,7 @@ ToStyleStampTest >> testRemoveStyleStampNamed [
 
 	| e |
 	e := BlElement new.
-	e addStyleStamp: (#color -> Color blue) asStyleStamp.
+	e withStamp: (#color -> Color blue) asStyleStamp.
 	self assert: e localStyleStampIndex size equals: 1.
 	e removeStyleStampNamed: #color.
 	self assert: e localStyleStampIndex isEmpty.
@@ -166,12 +166,12 @@ ToStyleStampTest >> testRemoveStyleStampNamedIfAbsent [
 
 	| e |
 	e := BlElement new.
-	e addStyleStamp: (#color -> Color blue) asStyleStamp.
+	e withStamp: (#color -> Color blue) asStyleStamp.
 	self assert: e localStyleStampIndex size equals: 1.
 	e removeStyleStampNamed: #color.
 	self assert: e localStyleStampIndex isEmpty.
 	self should: [ e removeStyleStampNamed: #color ] raise: ToElementPropertyNotFound.
-	e addStyleStamp: (#color -> Color red) asStyleStamp.
+	e withStamp: (#color -> Color red) asStyleStamp.
 	self assert: e localStyleStampIndex size equals: 1.
 	e removeStyleStampNamed: #blob ifAbsent: [  ].
 	self assert: e localStyleStampIndex size equals: 1.
@@ -190,11 +190,11 @@ ToStyleStampTest >> testStampNamed [
 	self
 		should: [ e stampNamed: #color ]
 		raise: ToElementPropertyNotFound.
-	e addStyleStamp: (p := (#color -> Color blue) asStyleStamp).
+	e withStamp: (p := (#color -> Color blue) asStyleStamp).
 	self assert: (e stampNamed: #color) equals: p.
-	e addStyleStamp: (#background -> Color blue) asStyleStamp.
-	e addStyleStamp: (#layout -> BlLinearLayout horizontal) asStyleStamp.
-	e addStyleStamp: (p := (#something -> #something) asStyleStamp).
+	e withStamp: (#background -> Color blue) asStyleStamp.
+	e withStamp: (#layout -> BlLinearLayout horizontal) asStyleStamp.
+	e withStamp: (p := (#something -> #something) asStyleStamp).
 	self assert: (e stampNamed: #something) equals: p.
 	self
 		should: [ e stampNamed: #Color ]
@@ -210,12 +210,12 @@ ToStyleStampTest >> testStampValue [
 	self
 		should: [ e stampValue: #color ]
 		raise: ToElementPropertyNotFound.
-	e addStyleStamp: (p := (#color -> Color blue) asStyleStamp).
+	e withStamp: (p := (#color -> Color blue) asStyleStamp).
 	self assert: (e stampValue: #color) equals: p value.
 	self assert: (e stampValue: #color) equals: Color blue.
-	e addStyleStamp: (#background -> Color blue) asStyleStamp.
-	e addStyleStamp: (#layout -> BlLinearLayout horizontal) asStyleStamp.
-	e addStyleStamp: ((#something -> #something) asStyleStamp).
+	e withStamp: (#background -> Color blue) asStyleStamp.
+	e withStamp: (#layout -> BlLinearLayout horizontal) asStyleStamp.
+	e withStamp: ((#something -> #something) asStyleStamp).
 	self assert: (e stampValue: #something) equals: #something.
 	self
 		should: [ e stampValue: #Color ]

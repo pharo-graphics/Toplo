@@ -60,7 +60,7 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 			layoutWriter.
 			directionWriter }.
 
-	w enqueueSkinState: ToInitialState new.
+	ToInitialState new enqueueIn: w.
 	w updateStyles.
 	self assert: (w layout isKindOf: BlLinearLayout).
 	self assert: w layout direction isRightToLeft
@@ -148,11 +148,11 @@ ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 
 	self assert: w background paint color equals: Color white.
 
-	w enqueueSkinState: ToHoveredState new.
+	ToHoveredState new enqueueIn: w.
 	animation onFinishedDo: [
 		self assert: w background paint color equals: Color black.
 
-		w enqueueSkinState: ToLeavedState new.
+		ToLeavedState new enqueueIn: w.
 		animation onFinishedDo: [
 			self assert: w background paint color equals: Color white ] ]
 ]

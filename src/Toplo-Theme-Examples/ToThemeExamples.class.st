@@ -18,6 +18,8 @@ ToThemeExamples class >> createThemeMenuBar: aSpace [
 	themeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Switch to light'); tooltipText: 'Change the current Bee Theme to Bee light Theme'; whenClickedDo: [ self switchTheme: (ToBeeLightTheme new) for: aSpace ]).
 	themeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Switch to dark'); tooltipText: 'Change the current Bee Theme to Bee dark Theme'; whenClickedDo: [ self switchTheme: (ToBeeDarkTheme new) for: aSpace ]).
 	themeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Randomize color'); tooltipText: 'Randomize the current bee theme primary color'; whenClickedDo: [ self randomizeBeeThemeColorFor: aSpace ]).
+	themeMenu addSeparator.
+	themeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Switch to raw theme'); whenClickedDo: [ self switchTheme: (ToRawTheme new) for: aSpace ]).
 	
 	"Inspect menu"
 	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'Inspect Space'); tooltipText: 'Inspect the BlSpace'; whenClickedDo: [ self inspectSpace: aSpace ]).

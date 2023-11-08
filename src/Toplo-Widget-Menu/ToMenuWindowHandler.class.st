@@ -20,6 +20,12 @@ ToMenuWindowHandler >> elementEventHandlerClass [
 	^ ToMenuEventHandler
 ]
 
+{ #category : 'theme event handling' }
+ToMenuWindowHandler >> toThemeChanged [
+
+	currentWindow ifNotNil: [ currentWindow toThemeChanged ]
+]
+
 { #category : 'accessing' }
 ToMenuWindowHandler >> windowClass [
 

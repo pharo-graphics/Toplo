@@ -4,9 +4,9 @@ Class {
 	#instVars : [
 		'skinStateGenerator'
 	],
-	#category : 'Toplo-Core-Skin',
+	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
-	#tag : 'Core-Skin'
+	#tag : 'Core-Theme'
 }
 
 { #category : 'event handling' }
@@ -42,19 +42,19 @@ ToSkin >> disabledLookEvent: anEvent [
 { #category : 'event dispatch' }
 ToSkin >> dispatchSkinInitialStateRequestTo: anObject [
 
-	anObject dispatchSkinInitialStateRequest
+	anObject dispatchEvent: ToSkinInitialStateRequest new
 ]
 
 { #category : 'event dispatch' }
 ToSkin >> dispatchSkinInstallStateRequestTo: anObject [
 
-	anObject dispatchSkinInstallStateRequest
+	anObject dispatchEvent: ToSkinInstallStateRequest new
 ]
 
 { #category : 'event dispatch' }
 ToSkin >> dispatchSkinUninstallStateRequestTo: anObject [
 
-	anObject dispatchSkinUninstallStateRequest
+	anObject dispatchEvent: ToSkinUninstallStateRequest new
 ]
 
 { #category : 'event handling' }
@@ -238,4 +238,10 @@ ToSkin >> unfocusedLookEvent: anEvent [
 ToSkin >> uninstallLookEvent: anEvent [
 
 
+]
+
+{ #category : 'style updating' }
+ToSkin >> updateStylesOn: anElement [
+
+	anElement skinStateQueue applyOn: anElement
 ]

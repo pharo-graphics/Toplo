@@ -14,6 +14,7 @@ Class {
 { #category : 'hook' }
 ToSkinStateQueue >> applyOn: anElement [
 
+	self installed ifFalse: [ Error signal ].
 	[ self nextStates isEmpty ] whileFalse: [
 		self nextStates removeLast applyOn: anElement ]
 ]

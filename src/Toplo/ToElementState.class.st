@@ -20,7 +20,7 @@ ToElementState >> applyOn: anElement [
 
 	| lookEvent |
 	lookEvent := self newLookEventFromSourceEvent: self sourceEvent.
-	anElement dispatchLookEvent: lookEvent.
+	anElement dispatchEvent: lookEvent.
 	lookEvent isConsumed ifTrue: [ self sourceEvent consumed: true ]
 ]
 

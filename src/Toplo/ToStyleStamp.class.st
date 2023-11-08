@@ -10,12 +10,6 @@ Class {
 }
 
 { #category : 'accessing' }
-ToStyleStamp class >> asStyleStamp [ 
-
-	^ self
-]
-
-{ #category : 'accessing' }
 ToStyleStamp class >> name: aSymbol [
 
 	^ self new name: aSymbol asSymbol
@@ -27,6 +21,12 @@ ToStyleStamp class >> name: aSymbol value: anObject [
 	^ (self name: aSymbol)
 		  value: anObject;
 		  yourself
+]
+
+{ #category : 'converting' }
+ToStyleStamp >> asStyleStamp [ 
+
+	^ self
 ]
 
 { #category : 'operating' }

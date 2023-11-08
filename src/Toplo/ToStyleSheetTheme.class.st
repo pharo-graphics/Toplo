@@ -4,9 +4,9 @@ Class {
 	#instVars : [
 		'styleSheet'
 	],
-	#category : 'Toplo-Core-Skin',
+	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
-	#tag : 'Core-Skin'
+	#tag : 'Core-Theme'
 }
 
 { #category : 'initialization' }
@@ -87,6 +87,8 @@ ToStyleSheetTheme >> writersFor: anElement [
 	are found with #rawWritersFor:. After, for each property only the last writers is kept"
 
 	| rawWriters supplement uniqueWriters eventClassIndex |
+	
+	anElement isAttachedToSceneGraph ifFalse: [ ^ #() ].
 	
 	" get all subscriptions for anElement "
 	rawWriters := self rawWritersFor: anElement.

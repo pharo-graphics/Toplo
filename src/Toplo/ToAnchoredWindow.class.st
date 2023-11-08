@@ -33,6 +33,7 @@ ToAnchoredWindow >> checkBeforePopupEvent: anEvent [
 ToAnchoredWindow >> close [
 
 	self parentDo: [ :p | super close ].
+	self root removeChildren.
 	self dispatchClosedEvent
 ]
 

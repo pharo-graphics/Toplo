@@ -8,9 +8,9 @@ Class {
 		'stillPressedTask',
 		'stillHoveredTask'
 	],
-	#category : 'Toplo-Core-Skin',
+	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
-	#tag : 'Core-Skin'
+	#tag : 'Core-Theme'
 }
 
 { #category : 'focus events handling' }
@@ -91,7 +91,7 @@ ToSkinStateGenerator >> dropEvent: anEvent [
 { #category : 'enablement' }
 ToSkinStateGenerator >> enablementChangedEvent: anEvent [
 
-	target defaultSkin ifNotNil: [ :skin | skin dispatchSkinInitialStateRequestTo: target ]	
+	target spaceDo: [:sp | target defaultSkin ifNotNil: [ :skin | skin dispatchSkinInitialStateRequestTo: target ]	]
 ]
 
 { #category : 'api - accessing' }
@@ -135,71 +135,71 @@ ToSkinStateGenerator >> generateCheckStateFromEvent: anEvent [
 				                 ifTrue: [ ToCheckedState ]
 				                 ifFalse: [ ToUncheckedState ] ].
 
-	target enqueueSkinState: (newStateClass sourceEvent: anEvent)
+	(newStateClass sourceEvent: anEvent) enqueueIn: target
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateClickedStateFromEvent: anEvent [
 
-	target enqueueSkinState: (ToClickedState sourceEvent: anEvent)
+	(ToClickedState sourceEvent: anEvent) enqueueIn: target
 
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateDragStartedStateFromEvent: anEvent [
 
-	target enqueueSkinState: (ToDragStartedState sourceEvent: anEvent)
+	(ToDragStartedState sourceEvent: anEvent) enqueueIn: target
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateDraggedStateFromEvent: anEvent [
 
-	target enqueueSkinState: (ToDraggedState sourceEvent: anEvent)
+	(ToDraggedState sourceEvent: anEvent) enqueueIn: target
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateDroppedStateFromEvent: anEvent [
 
-	target enqueueSkinState: (ToDroppedState sourceEvent: anEvent)
+	(ToDroppedState sourceEvent: anEvent) enqueueIn: target
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateHoveredStateFromEvent: anEvent [
 
 	target ifNil: [ ^ self ].
-	target enqueueSkinState: (ToHoveredState sourceEvent: anEvent)
+	(ToHoveredState sourceEvent: anEvent) enqueueIn: target
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateLeavedStateFromEvent: anEvent [
 
 	leaved ifTrue: [ ^ self ].
-	target enqueueSkinState: (ToLeavedState sourceEvent: anEvent)
+	(ToLeavedState sourceEvent: anEvent) enqueueIn: target
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generatePressedStateFromEvent: anEvent [
 
-	target enqueueSkinState: (ToPressedState sourceEvent: anEvent)
+	(ToPressedState sourceEvent: anEvent) enqueueIn: target
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateReleasedStateFromEvent: anEvent [
 
 	target ifNil: [ ^ self ].
-	target enqueueSkinState: (ToReleasedState sourceEvent: anEvent)
+	(ToReleasedState sourceEvent: anEvent) enqueueIn: target
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateStillHoveredStateFromEvent: anEvent [
 
-	target enqueueSkinState: (ToStillHoveredState sourceEvent: anEvent)
+	(ToStillHoveredState sourceEvent: anEvent) enqueueIn: target
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateStillPressedStateFromEvent: anEvent [
 
-	target enqueueSkinState: (ToStillPressedState sourceEvent: anEvent)
+	(ToStillPressedState sourceEvent: anEvent) enqueueIn: target
 ]
 
 { #category : 'api - event managing' }

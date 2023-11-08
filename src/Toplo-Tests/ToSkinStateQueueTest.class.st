@@ -7,9 +7,9 @@ Class {
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core-Skin',
+	#category : 'Toplo-Tests-Core-Theme',
 	#package : 'Toplo-Tests',
-	#tag : 'Core-Skin'
+	#tag : 'Core-Theme'
 }
 
 { #category : 'tests' }

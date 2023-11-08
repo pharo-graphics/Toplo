@@ -46,6 +46,6 @@ TToClickable >> whenClickedDo: aBlock [
 	self removeClickHandler.
 	self clickHandler: (BlEventHandler
 			 on: self clickEventClass
-			 do: [ :event | aBlock cull: event ]).
+			 do: [ :event | self isEnabled ifTrue: [ aBlock cull: event ] ]).
 	self addEventHandler: self clickHandler
 ]

@@ -117,6 +117,7 @@ ToDivider >> hoveredBorder [
 ToDivider >> initialize [
 
 	super initialize.
+	self thickness: self defaultThickness.
 	self constraintsDo: [ :c | c ignoreByLayout ].
 	self addEventHandler: self defaultEventHandler 
 ]
@@ -125,7 +126,6 @@ ToDivider >> initialize [
 ToDivider >> installRawStyle [ 
 
 	super installRawStyle.
-	self thickness: self defaultThickness.
 	self geometry: self defaultGeometry.
 	self margin: self defaultMargins.
 	self padding: self defaultPadding

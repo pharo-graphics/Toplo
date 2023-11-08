@@ -67,6 +67,6 @@ ToDividerSkin >> releasedLookEvent: anEvent [
 	super releasedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: BlCursor default.
-		e border: e hoveredBorder.
-		e background: e hoveredBackground ]
+		e border: e defaultBorder.
+		e background: e defaultBackground ]
 ]

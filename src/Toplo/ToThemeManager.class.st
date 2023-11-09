@@ -7,7 +7,8 @@ Class {
 		'localTheme',
 		'postponedRequestSkin',
 		'installedSkin',
-		'skinStateQueue'
+		'skinStateQueue',
+		'skinUninstaller'
 	],
 	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
@@ -17,7 +18,14 @@ Class {
 { #category : 'skin application' }
 ToThemeManager >> applySkinInstallerIn: anElement [
 
-	self skinInstaller ifNotNil: [ :si | si installSkinIn: anElement ]
+	self skinInstaller ifNotNil: [ :si | si applyOn: anElement ]
+	
+]
+
+{ #category : 'skin application' }
+ToThemeManager >> applySkinUninstallerIn: anElement [
+
+	self skinUninstaller ifNotNil: [ :su | su applyOn: anElement ]
 	
 ]
 
@@ -119,9 +127,17 @@ ToThemeManager >> requestSkinIn: anElement [
 ]
 
 { #category : 'accessing - skin' }
+ToThemeManager >> requestUninstallSkinIn: anElement [
+
+	self skinUninstaller ifNotNil: [ 
+		^ self ].
+	self skinUninstaller: anElement toTheme newSkinUninstaller
+]
+
+{ #category : 'accessing - skin' }
 ToThemeManager >> setSkin: aSkin in: anElement [
 
-	self uninstallSkinIn: anElement.
+	anElement requestUninstallSkin.
 	localDefaultSkin := aSkin.
 	anElement requestSkin
 ]
@@ -152,6 +168,18 @@ ToThemeManager >> skinStateQueueIn: anElement [
 ]
 
 { #category : 'accessing' }
+ToThemeManager >> skinUninstaller [
+
+	^ skinUninstaller
+]
+
+{ #category : 'accessing' }
+ToThemeManager >> skinUninstaller: aSkinUninstaller [
+
+	skinUninstaller := aSkinUninstaller 
+]
+
+{ #category : 'accessing' }
 ToThemeManager >> toTheme: aTheme in: anElement [
 
 	self localTheme = aTheme ifTrue: [ ^ self ].
@@ -173,16 +201,6 @@ ToThemeManager >> toThemeIn: anElement [
 						  self localTheme: ToTheme current.
 						  self localTheme ]
 					  ifFalse: [ Error signal: 'An element not attached should not ask for its theme' ] ] ]
-]
-
-{ #category : 'accessing - skin' }
-ToThemeManager >> uninstallSkinIn: anElement [
-
-	self installedSkinDo: [ :s |
-		s dispatchSkinUninstallStateRequestTo: anElement.
-		" do not wait next pulse to flush skinStateQueue state (to send ToUninstallLookEvent) "
-		anElement updateStyles.
-		anElement removeEventHandler: s ]
 ]
 
 { #category : 'accessing - skin' }

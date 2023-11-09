@@ -151,11 +151,12 @@ ToSkin >> onInstalledIn: anElement [
 { #category : 'api - hooks' }
 ToSkin >> onUninstalledIn: anElement [
 
-	super onUninstalledIn: anElement.
 	anElement toThemeManager installedSkin: nil.
 	skinStateGenerator ifNotNil: [
 		anElement removeEventHandler: skinStateGenerator.
-		skinStateGenerator := nil ]
+		skinStateGenerator := nil ].
+	super onUninstalledIn: anElement.
+
 ]
 
 { #category : 'event handling' }
@@ -226,7 +227,7 @@ ToSkin >> themeChangedEvent: anEvent [
 	target := anEvent currentTarget.
 	target installedSkin == self ifFalse: [
 		Error signal: 'Baddly installed skin' ].
-	target uninstallSkin.
+	target requestUninstallSkin.
 	target requestSkin
 ]
 

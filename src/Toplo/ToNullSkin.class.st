@@ -18,6 +18,12 @@ ToNullSkin >> dispatchSkinInstallStateRequestTo: anObject [
 	
 ]
 
+{ #category : 'event dispatch' }
+ToNullSkin >> dispatchSkinUninstallStateRequestTo: anObject [
+
+	
+]
+
 { #category : 'api - accessing' }
 ToNullSkin >> eventsToHandle [
 

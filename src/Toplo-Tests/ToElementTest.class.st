@@ -183,6 +183,40 @@ ToElementTest >> testOnAddedToSceneGraph [
 ]
 
 { #category : 'test initialize' }
+ToElementTest >> testPostponeRequestSkin [
+
+	" check install/uninstall/initial states if setSkin: is used"
+
+	| e |
+	e := ToElement new.
+	e requestSkin.
+	self assert: e skinInstaller isNil.
+	self assert: e toThemeManager isRequestSkinPostponed.
+	space root addChild: e.
+	self deny: e toThemeManager isRequestSkinPostponed.
+	self assert: e skinInstaller notNil
+]
+
+{ #category : 'test initialize' }
+ToElementTest >> testRequestSkin [
+
+	| e |
+	e := ToElement new.
+	self assert: e skinInstaller isNil.
+	self assert: e installedSkin isNil.
+	e requestSkin.
+	self assert: e skinInstaller isNil.
+	self assert: e installedSkin isNil.
+	space root addChild: e.
+	self assert: e skinInstaller notNil.
+	self assert: e installedSkin isNil.
+	space applyAllSkinInstallers.
+	self assert: e skinInstaller isNil.
+	self assert: e installedSkin notNil.
+
+]
+
+{ #category : 'test initialize' }
 ToElementTest >> testSetSkin [
 
 	" check install/uninstall/initial states if setSkin: is used"
@@ -214,10 +248,11 @@ ToElementTest >> testSetSkin [
 	" force uninstall->install->initial states "
 	e setSkin: sk.
 	e applySkinInstaller.
+	self assert: sk uninstallCpt equals: 1.
+	
 	e updateStyles.
 	self assert: sk installCpt equals: 2.
 	self assert: sk initialCpt equals: 2.
-	self assert: sk uninstallCpt equals: 1.
 	
 	self
 		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ]) size

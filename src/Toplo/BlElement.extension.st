@@ -3,6 +3,7 @@ Extension { #name : 'BlElement' }
 { #category : '*Toplo' }
 BlElement >> applySkinInstaller [
 
+	self toThemeManager applySkinUninstallerIn: self.
 	self toThemeManager applySkinInstallerIn: self
 ]
 
@@ -145,6 +146,13 @@ BlElement >> requestSkinRecursively [
 ]
 
 { #category : '*Toplo' }
+BlElement >> requestUninstallSkin [
+
+	" first check for the space phases "
+	self toThemeManager requestUninstallSkinIn: self 
+]
+
+{ #category : '*Toplo' }
 BlElement >> setSkin: aSkin [
 
 	self toThemeManager setSkin: aSkin in: self
@@ -172,6 +180,12 @@ BlElement >> skinStateGeneratorClass [
 BlElement >> skinStateQueue [
 
 	^ self toThemeManager skinStateQueueIn: self
+]
+
+{ #category : '*Toplo' }
+BlElement >> skinUninstaller: aSkinUninstaller [
+
+	self toThemeManager skinUninstaller: aSkinUninstaller
 ]
 
 { #category : '*Toplo' }
@@ -269,12 +283,6 @@ BlElement >> toThemeManager [
 { #category : '*Toplo' }
 BlElement >> uninstallRawStyle [
 
-]
-
-{ #category : '*Toplo' }
-BlElement >> uninstallSkin [
-
-	self toThemeManager uninstallSkinIn: self
 ]
 
 { #category : '*Toplo' }

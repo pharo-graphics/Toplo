@@ -46,6 +46,12 @@ ToTheme >> newSkinInstaller [
 	^ ToSkinInstaller new
 ]
 
+{ #category : 'accessing' }
+ToTheme >> newSkinUninstaller [
+
+	^ ToSkinUninstaller new
+]
+
 { #category : 'printing' }
 ToTheme >> printOn: aStream [
 

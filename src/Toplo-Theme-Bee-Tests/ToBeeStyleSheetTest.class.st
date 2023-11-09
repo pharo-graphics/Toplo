@@ -34,7 +34,7 @@ ToBeeStyleSheetTest >> testDefaultButtonSkin [
 	self assert: writers notEmpty.
 	skin := ToBeeSkin new.
 	skin writers: writers.
-	button defaultSkin: skin.
+	button setSkin: skin.
 	button applySkinInstaller.
 	self assert: button border width equals: 1.
 	self assert: button border paint isColorPaint.

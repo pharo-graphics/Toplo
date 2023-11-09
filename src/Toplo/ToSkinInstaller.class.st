@@ -7,13 +7,24 @@ Class {
 }
 
 { #category : 'hook' }
-ToSkinInstaller >> installSkinIn: anElement [
+ToSkinInstaller >> applyOn: anElement [
 
 	anElement skinInstaller: nil.
 	" if there is an installed skin -> nothing to do "
-	anElement installedSkinDo: [ :s | ^ self ].
+	anElement installedSkinDo: [ :s |
+		^ self ].
 	anElement defaultSkin ifNotNil: [ :found |
 		anElement addEventHandler: found.
 		found dispatchSkinInstallStateRequestTo: anElement.
 		found dispatchSkinInitialStateRequestTo: anElement ]
+]
+
+{ #category : 'hook' }
+ToSkinInstaller >> installSkinIn: anElement [
+
+	self
+		deprecated: 'Use applyOn:'
+		transformWith: '`@receiver installSkinIn: `@argument' -> '`@receiver applyOn: `@argument'.
+
+	self applyOn: anElement
 ]

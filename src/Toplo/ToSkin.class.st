@@ -2,7 +2,8 @@ Class {
 	#name : 'ToSkin',
 	#superclass : 'BlCustomEventHandler',
 	#instVars : [
-		'skinStateGenerator'
+		'skinStateGenerator',
+		'removeFromSceneGraphHandler'
 	],
 	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
@@ -143,6 +144,10 @@ ToSkin >> onInstalledIn: anElement [
 	super onInstalledIn: anElement.
 	anElement toThemeManager installedSkin: self.
 	" install the event handler that generates state for the state engine"
+	removeFromSceneGraphHandler := BlEventHandler
+		                               on: BlElementRemovedFromSceneGraphEvent
+		                               do: [ :evt | evt currentTarget requestUninstallSkin ].
+	anElement addEventHandler: removeFromSceneGraphHandler.
 	anElement skinStateGeneratorClass ifNotNil: [ :cls |
 		skinStateGenerator := cls new.
 		anElement addEventHandler: skinStateGenerator ]
@@ -155,6 +160,7 @@ ToSkin >> onUninstalledIn: anElement [
 	skinStateGenerator ifNotNil: [
 		anElement removeEventHandler: skinStateGenerator.
 		skinStateGenerator := nil ].
+	anElement removeEventHandler: removeFromSceneGraphHandler.
 	super onUninstalledIn: anElement.
 
 ]

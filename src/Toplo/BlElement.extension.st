@@ -18,7 +18,7 @@ BlElement >> applySkinInstallerRecursively [
 { #category : '*Toplo' }
 BlElement >> borderBuilder [
 
-	^ self toStyleSheetManager borderBuilder
+	^ self toStyleStore borderBuilder
 ]
 
 { #category : '*Toplo' }
@@ -72,7 +72,7 @@ BlElement >> hasEnablementFlag [
 { #category : '*Toplo' }
 BlElement >> hasStamp: aSymbol [
 
-	^ self toStyleSheetManager hasStamp: aSymbol
+	^ self toStyleStore hasStamp: aSymbol
 ]
 
 { #category : '*Toplo' }
@@ -191,13 +191,13 @@ BlElement >> skinUninstaller: aSkinUninstaller [
 { #category : '*Toplo' }
 BlElement >> stampNamed: aSymbol [
 
-	^ self toStyleSheetManager stampNamed: aSymbol in: self
+	^ self toStyleStore stampNamed: aSymbol in: self
 ]
 
 { #category : '*Toplo' }
 BlElement >> stampValue: aSymbol [
 
-	^ self toStyleSheetManager stampValue: aSymbol in: self
+	^ self toStyleStore stampValue: aSymbol in: self
 ]
 
 { #category : '*Toplo' }
@@ -227,13 +227,13 @@ BlElement >> stillPressedStartDelay: aDuration [
 { #category : '*Toplo-LookAndFeel' }
 BlElement >> styleSheet: aStyleSheet [
 
-	self toStyleSheetManager styleSheet: aStyleSheet in: self
+	self toStyleStore styleSheet: aStyleSheet in: self
 ]
 
 { #category : '*Toplo-LookAndFeel' }
 BlElement >> styleSheetChain [
 	" return an array with all my inherited stylesheets "
-	^ self toStyleSheetManager styleSheetChainIn: self
+	^ self toStyleStore styleSheetChainIn: self
 ]
 
 { #category : '*Toplo' }
@@ -245,13 +245,13 @@ BlElement >> switchToNextCheckStateOnClick [
 { #category : '*Toplo' }
 BlElement >> textAttributesBuilder [
 
-	^ self toStyleSheetManager textAttributesBuilder
+	^ self toStyleStore textAttributesBuilder
 ]
 
 { #category : '*Toplo' }
-BlElement >> toStyleSheetManager [
+BlElement >> toStyleStore [
 
-	^ self userData at: #toStyleSheetManager ifAbsentPut: [ ToStyleSheetManager new ]
+	^ self userData at: #toStyleStore ifAbsentPut: [ ToStyleStore new ]
 ]
 
 { #category : '*Toplo-LookAndFeel' }
@@ -301,20 +301,20 @@ BlElement >> updateStylesRecursively [
 { #category : '*Toplo' }
 BlElement >> withAllStamps: aCollectionOfSymbol [
 
-	self toStyleSheetManager withAllStamps: aCollectionOfSymbol
+	self toStyleStore withAllStamps: aCollectionOfSymbol
 ]
 
 { #category : '*Toplo' }
 BlElement >> withStamp: anAssociationOrSymbol [
 
 
-	self toStyleSheetManager withStamp: anAssociationOrSymbol
+	self toStyleStore withStamp: anAssociationOrSymbol
 ]
 
 { #category : '*Toplo' }
 BlElement >> withoutAllStamps [
 
-	self toStyleSheetManager removeAllStyleStamps
+	self toStyleStore removeAllStamps
 ]
 
 { #category : '*Toplo' }
@@ -326,5 +326,5 @@ BlElement >> withoutSkin [
 { #category : '*Toplo' }
 BlElement >> withoutStamp: aSymbol [
 
-	self toStyleSheetManager withoutStamp: aSymbol
+	self toStyleStore withoutStamp: aSymbol
 ]

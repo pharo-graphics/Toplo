@@ -8,7 +8,7 @@ Class {
 { #category : 'private' }
 ToThemeExamples class >> createThemeMenuBar: aSpace [
 
-	| bar themeMenu inspectMenu changeColorMenuItem |
+	| bar themeMenu inspectMenu changeColorMenuItem beeMenu |
 	bar := ToMenuBar new hMatchParent; vFitContent.
 	bar addMenu: (themeMenu := ToMenu new labelText: 'Theme').
 	bar addMenu: (inspectMenu := ToMenu new labelText: 'Tools').
@@ -16,11 +16,13 @@ ToThemeExamples class >> createThemeMenuBar: aSpace [
 	"Theme menu"	
 	"Button to switch between light and dark theme"
 	changeColorMenuItem := (ToMenuItem new label: (ToLabel text: 'Randomize color'); tooltipText: 'Randomize the current bee theme primary color'; whenClickedDo: [ self randomizeBeeThemeColorFor: aSpace ]).
-	themeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Switch to light'); tooltipText: 'Change the current Bee Theme to Bee light Theme'; whenClickedDo: [ changeColorMenuItem enable. self switchTheme: (ToBeeLightTheme new) for: aSpace ]).
-	themeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Switch to dark'); tooltipText: 'Change the current Bee Theme to Bee dark Theme'; whenClickedDo: [ changeColorMenuItem enable. self switchTheme: (ToBeeDarkTheme new) for: aSpace ]).
-	themeMenu addItem: (changeColorMenuItem).
-	themeMenu addSeparator.
-	themeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Switch to raw theme'); whenClickedDo: [ changeColorMenuItem disable. self switchTheme: (ToRawTheme new) for: aSpace ]).
+	themeMenu addItem: (beeMenu := ToMenu new labelText: 'Bee').
+	
+	beeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Switch to Light'); tooltipText: 'Change the current Bee Theme to Bee light Theme'; whenClickedDo: [ changeColorMenuItem enable. self switchTheme: (ToBeeLightTheme new) for: aSpace ]).
+	beeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Switch to Dark'); tooltipText: 'Change the current Bee Theme to Bee dark Theme'; whenClickedDo: [ changeColorMenuItem enable. self switchTheme: (ToBeeDarkTheme new) for: aSpace ]).
+	beeMenu addItem: (changeColorMenuItem).
+	
+	themeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Raw'); whenClickedDo: [ changeColorMenuItem disable. self switchTheme: (ToRawTheme new) for: aSpace ]).
 	
 	"Inspect menu"
 	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'Inspect Space'); tooltipText: 'Inspect the BlSpace'; whenClickedDo: [ self inspectSpace: aSpace ]).
@@ -42,7 +44,7 @@ ToThemeExamples class >> displaySpaceStyleSheet: aSpace [
 	stream := ReadWriteStream on: String new.
 	
 	"Build the style sheet detail"
-	aSpace toTheme styleSheet ifNil:[ stream nextPutAll: 'This theme doesn''t manage a style sheet.' ] ifNotNil:[ :sheet | | rules |
+	aSpace toTheme styleSheet ifNil:[ stream nextPutAll: 'This theme doesn''t manage a style sheet.' ] ifNotNil:[ :sheet | 
 		stream 
 			nextPutAll: 'Style Sheet with '; nextPutAll: (sheet rawStyleRules size) asString; nextPutAll: ' rule(s)' ; cr;
 			nextPutAll: '###'; cr.

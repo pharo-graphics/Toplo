@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToStyleSheetManager',
+	#name : 'ToStyleStore',
 	#superclass : 'Object',
 	#instVars : [
 		'stampIndex',
@@ -13,113 +13,118 @@ Class {
 }
 
 { #category : 'adding-removing' }
-ToStyleSheetManager >> addStyleStamp: aStyleStamp [
+ToStyleStore >> addStamp: aStyleStamp [
 
 	self stampIndex addProperty: aStyleStamp
 ]
 
 { #category : 'accessing' }
-ToStyleSheetManager >> borderBuilder [
+ToStyleStore >> borderBuilder [
 
 	^ borderBuilder ifNil: [ borderBuilder := BlBorderBuilder new ]
 ]
 
 { #category : 'testing' }
-ToStyleSheetManager >> hasStamp: aSymbol [
+ToStyleStore >> hasStamp: aSymbol [
 
-	^ self stampIndex hasPropertyNamed: aSymbol
-]
-
-{ #category : 'initialization' }
-ToStyleSheetManager >> initialize [ 
-
-	super initialize.
-	stampIndex := ToPropertyIndex new
+	self stampIndexDo: [ :si | ^ si hasPropertyNamed: aSymbol ].
+	^ false
 ]
 
 { #category : 'accessing' }
-ToStyleSheetManager >> localStampNamed: aSymbol [
+ToStyleStore >> localStampNamed: aSymbol [
 
-	^ self stampIndex propertyNamed: aSymbol
+	self stampIndexDo: [ :si | ^ si propertyNamed: aSymbol ].
+	^ nil
 ]
 
 { #category : 'lookup' }
-ToStyleSheetManager >> lookUpStampNamed: aSymbol from: anElement [
+ToStyleStore >> lookUpStampNamed: aSymbol from: anElement [
 	" first look-up following child-parent association 
 	for each element, try first to get the stamp from the localStyleStampIndex 
 	then from the elementl styleSheet ifPresent"
 	anElement withAllParentsDo: [ :p |
-		(p toStyleSheetManager localStampNamed: aSymbol) ifNotNil: [ :t | ^ t ].
-		p toStyleSheetManager styleSheet ifNotNil: [ :ss |
+		(p toStyleStore localStampNamed: aSymbol) ifNotNil: [ :t | ^ t ].
+		p toStyleStore styleSheet ifNotNil: [ :ss |
 			(ss stampNamed: aSymbol) ifNotNil: [ :t | ^ t ] ] ].
 	" finally, try to get the stamp from the theme "
 	^ anElement toTheme stampNamed: aSymbol
 ]
 
 { #category : 'adding-removing' }
-ToStyleSheetManager >> removeAllStyleStamps [
+ToStyleStore >> removeAllStamps [
 
-	self stampIndex removeAllProperties 
+	self stampIndexDo: [ :si | si removeAllProperties ] 
 ]
 
 { #category : 'adding-removing' }
-ToStyleSheetManager >> removeAllStyleStamps: aStyleStampCollection [
+ToStyleStore >> removeAllStamps: aStyleStampCollection [
 
-	aStyleStampCollection do: [ :s | self stampIndex removeProperty: s ]
+	aStyleStampCollection do: [ :s | self removeStamp: s ]
 ]
 
 { #category : 'adding-removing' }
-ToStyleSheetManager >> removeStyleStamp: aStyleStamp [
+ToStyleStore >> removeStamp: aStyleStamp [
 
-	self stampIndex removeProperty: aStyleStamp
+	self stampIndexDo: [ :si | si removeProperty: aStyleStamp ]
 ]
 
 { #category : 'adding-removing' }
-ToStyleSheetManager >> removeStyleStampNamed: aSymbol [
+ToStyleStore >> removeStampNamed: aSymbol [
 
-	self stampIndex removePropertyNamed: aSymbol
+	self stampIndexDo: [ :si | si removePropertyNamed: aSymbol ]
 ]
 
 { #category : 'adding-removing' }
-ToStyleSheetManager >> removeStyleStampNamed: aSymbol ifAbsent: anAbsentBlock [
+ToStyleStore >> removeStampNamed: aSymbol ifAbsent: anAbsentBlock [
 
-	self stampIndex removePropertyNamed: aSymbol ifAbsent: anAbsentBlock
+	self stampIndexDo: [ :si |
+		si removePropertyNamed: aSymbol ifAbsent: anAbsentBlock.
+		^ self ].
+	anAbsentBlock value
 ]
 
 { #category : 'accessing' }
-ToStyleSheetManager >> stampIndex [
+ToStyleStore >> stampIndex [
 
-	^ stampIndex
+	^ stampIndex ifNil: [ stampIndex := ToPropertyIndex new ]
 ]
 
 { #category : 'accessing' }
-ToStyleSheetManager >> stampNamed: aSymbol in: anElement [
+ToStyleStore >> stampIndexDo: aBlock [
+
+	stampIndex ifNil: [ ^ self ].
+	aBlock value: stampIndex 
+]
+
+{ #category : 'accessing' }
+ToStyleStore >> stampNamed: aSymbol in: anElement [
 
 	(self lookUpStampNamed: aSymbol from: anElement) ifNotNil: [ :s | ^ s ].
 	(ToElementPropertyNotFound name: aSymbol) signal
 ]
 
 { #category : 'accessing' }
-ToStyleSheetManager >> stampValue: aSymbol in: anElement [
+ToStyleStore >> stampValue: aSymbol in: anElement [
 
 	(self lookUpStampNamed: aSymbol from: anElement) ifNotNil: [ :s | ^ s value ].
 	(ToElementPropertyNotFound name: aSymbol) signal
 ]
 
 { #category : 'accessing' }
-ToStyleSheetManager >> styleSheet [
+ToStyleStore >> styleSheet [
 
 	^ styleSheet
 ]
 
 { #category : 'accessing' }
-ToStyleSheetManager >> styleSheet: aStyleSheet [
+ToStyleStore >> styleSheet: aStyleSheet [
 
 	styleSheet := aStyleSheet
 ]
 
 { #category : 'accessing' }
-ToStyleSheetManager >> styleSheet: aStyleSheet in: anElement [
+ToStyleStore >> styleSheet: aStyleSheet in: anElement [
 
 	self styleSheet ifNotNil: [ :prev | prev onUnInstalledIn: anElement ].
 	self styleSheet: aStyleSheet.
@@ -127,7 +132,7 @@ ToStyleSheetManager >> styleSheet: aStyleSheet in: anElement [
 ]
 
 { #category : 'accessing' }
-ToStyleSheetManager >> styleSheetChainIn: anElement [
+ToStyleStore >> styleSheetChainIn: anElement [
 	" return an array with all my inherited stylesheets "
 
 	^ Array new: 20 streamContents: [ :str |
@@ -135,7 +140,7 @@ ToStyleSheetManager >> styleSheetChainIn: anElement [
 		  current := anElement.
 		  inherits := true.
 		  [ current notNil and: [ inherits ] ] whileTrue: [
-			  current toStyleSheetManager styleSheet  ifNotNil: [ :ss |
+			  current toStyleStore styleSheet  ifNotNil: [ :ss |
 				  str nextPut: ss.
 				  inherits := ss inherits ].
 			  current := current parent ].
@@ -144,40 +149,33 @@ ToStyleSheetManager >> styleSheetChainIn: anElement [
 			  ifTrue: [ str nextPut: th styleSheet ] ]
 ]
 
-{ #category : 'testing' }
-ToStyleSheetManager >> styleStampNamed: aSymbol [
-
-	^ self stampIndex propertyNamed: aSymbol ifAbsent: [  ]
-	
-]
-
 { #category : 'accessing' }
-ToStyleSheetManager >> textAttributesBuilder [
+ToStyleStore >> textAttributesBuilder [
 
 	^ textAttributesBuilder ifNil: [ textAttributesBuilder := BlTextAttributesBuilder new ]
 ]
 
 { #category : 'adding-removing' }
-ToStyleSheetManager >> withAllStamps: aCollectionOfSymbol [
+ToStyleStore >> withAllStamps: aCollectionOfSymbol [
 
 	aCollectionOfSymbol ifEmpty: [ ^ self ].
 	aCollectionOfSymbol do: [ :s | self withStamp: s ]
 ]
 
 { #category : 'adding-removing' }
-ToStyleSheetManager >> withStamp: anAssociationOrSymbol [
+ToStyleStore >> withStamp: anAssociationOrSymbol [
 
-	self addStyleStamp: anAssociationOrSymbol asStyleStamp
+	self addStamp: anAssociationOrSymbol asStyleStamp
 ]
 
 { #category : 'adding-removing' }
-ToStyleSheetManager >> withoutAllStamps [
+ToStyleStore >> withoutAllStamps [
 
-	self removeAllStyleStamps
+	self removeAllStamps
 ]
 
 { #category : 'adding-removing' }
-ToStyleSheetManager >> withoutStamp: aSymbol [
+ToStyleStore >> withoutStamp: aSymbol [
 
-	self removeStyleStampNamed: aSymbol ifAbsent: [  ]
+	self removeStampNamed: aSymbol ifAbsent: [  ]
 ]

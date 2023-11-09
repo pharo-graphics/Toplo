@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'sending' }
-ToSkinEvent >> sendToStylelSheetSkin: aStyleSheetSkin [
+ToSkinEvent >> sendToStyleSheetSkin: aStyleSheetSkin [
 
 	self sendTo: aStyleSheetSkin 
 ]

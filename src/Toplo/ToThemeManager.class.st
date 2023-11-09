@@ -200,7 +200,7 @@ ToThemeManager >> toThemeIn: anElement [
 						avoid default installation in another element than the space root"
 						  self localTheme: ToTheme current.
 						  self localTheme ]
-					  ifFalse: [ Error signal: 'An element not attached should not ask for its theme' ] ] ]
+					  ifFalse: [ Error signal: 'A not attached element should not ask for its theme' ] ] ]
 ]
 
 { #category : 'accessing - skin' }

@@ -32,6 +32,7 @@ ToStyleStamp >> asStyleStamp [
 { #category : 'operating' }
 ToStyleStamp >> read: anObject [
 
+	self value isClosure ifFalse: [ Error signal ].
 	^ self value value: anObject
 ]
 

@@ -14,7 +14,7 @@ Class {
 { #category : 'api - event managing' }
 ToStyleSheetSkin >> handleEvent: anEvent [
 
-	anEvent sendToStylelSheetSkin: self
+	anEvent sendToStyleSheetSkin: self
 ]
 
 { #category : 'initialization' }

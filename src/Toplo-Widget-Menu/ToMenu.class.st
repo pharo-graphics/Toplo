@@ -151,3 +151,12 @@ ToMenu >> toThemeChanged [
 
 	
 ]
+
+{ #category : 'skin' }
+ToMenu >> uninstallRawStyle [
+
+	super installRawStyle.
+	self isSubmenu ifFalse: [ ^ self ].
+	self rightHandSide removeChildren.
+
+]

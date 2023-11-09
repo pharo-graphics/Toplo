@@ -123,7 +123,7 @@ ToThemeManager >> requestSkinIn: anElement [
 	self skinInstaller ifNotNil: [ 
 		^ self ].
 	anElement space installSkinPhases.
-	self skinInstaller: anElement toTheme newSkinInstaller
+	self skinInstaller: ToSkinInstaller new
 ]
 
 { #category : 'accessing - skin' }
@@ -131,7 +131,7 @@ ToThemeManager >> requestUninstallSkinIn: anElement [
 
 	self skinUninstaller ifNotNil: [ 
 		^ self ].
-	self skinUninstaller: anElement toTheme newSkinUninstaller
+	self skinUninstaller: ToSkinUninstaller new
 ]
 
 { #category : 'accessing - skin' }

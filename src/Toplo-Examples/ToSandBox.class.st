@@ -2104,7 +2104,6 @@ ToSandBox class >> example_menuBar2 [
 	
 	3 timesRepeat: [ 
 		menu := ToMenu new.
-		menu layout cellSpacing: 5.
 		menu label: (ToLabel text: 'Levels').
 		menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
 

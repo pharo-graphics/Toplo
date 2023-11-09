@@ -40,7 +40,7 @@ ToResizeGrip >> defaultGeometry [
 { #category : 'initialization' }
 ToResizeGrip >> defaultThickness [
 
-	^ 6
+	^ 7
 ]
 
 { #category : 'mouse processing' }

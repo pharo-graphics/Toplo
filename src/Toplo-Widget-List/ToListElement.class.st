@@ -165,7 +165,7 @@ ToListElement >> initialize [
 	self infinite addEventHandler: sharedDistributor.
 
 	self addChild: self next.
-	self infinite elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
+	self infinite elevation: (BlRelativeElevation elevation: 10).
 
 	self matchParent.
 	self background: self defaultBackground.
@@ -182,6 +182,12 @@ ToListElement >> newPrimarySelectionDecorations [
 			  listElement: self;
 			  nodes: g;
 			  yourself ]
+]
+
+{ #category : 't - element with placeholder' }
+ToListElement >> placeholderElevation [
+
+	^ self infinite elevation
 ]
 
 { #category : 'private - selection decoration managing' }

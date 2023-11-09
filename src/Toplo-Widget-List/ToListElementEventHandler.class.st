@@ -80,6 +80,15 @@ ToListElementEventHandler >> dataFilterRequest: anEvent [
 ]
 
 { #category : 'infinite element events handling' }
+ToListElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	target data ifEmpty: [ ^ target showPlaceholder ].
+	target hidePlaceholder
+]
+
+{ #category : 'infinite element events handling' }
 ToListElementEventHandler >> elementExtentChangedEvent: anEvent [
 
 	anEvent currentTarget updatePrimarySelectionDecorations
@@ -95,6 +104,8 @@ ToListElementEventHandler >> elementScrolledEvent: anEvent [
 ToListElementEventHandler >> eventsToHandle [
 
 	^ {
+		BlElementAddedToSceneGraphEvent.
+	
 		  BlElementExtentChangedEvent.
 		  BlElementScrolledEvent.
 

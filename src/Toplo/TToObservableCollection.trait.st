@@ -237,6 +237,16 @@ TToObservableCollection >> ifEmpty: aBlock [
 ]
 
 { #category : 't - observable collection - testing' }
+TToObservableCollection >> ifEmpty: emptyBlock ifNotEmpty: notEmptyBlock [
+	"Evaluate the given block with the receiver as argument, answering its value
+	unless the receiver is empty, in which case answer the receiver."
+
+	^ self isEmpty
+		ifTrue: [ emptyBlock cull: self ]
+		ifFalse: [ notEmptyBlock cull: self ]
+]
+
+{ #category : 't - observable collection - testing' }
 TToObservableCollection >> ifNotEmpty: aBlock [
 	"Evaluate the given block with the receiver as argument, answering its value
 	unless the receiver is empty, in which case answer the receiver."
@@ -244,6 +254,16 @@ TToObservableCollection >> ifNotEmpty: aBlock [
 	^ self isEmpty
 		ifTrue: [ self ]
 		ifFalse: [ aBlock cull: self ]
+]
+
+{ #category : 't - observable collection - testing' }
+TToObservableCollection >> ifNotEmpty: notEmptyBlock ifEmpty: emptyBlock [ 
+	"Evaluate the given block with the receiver as argument, answering its value
+	unless the receiver is empty, in which case answer the receiver."
+
+	^ self isEmpty
+		ifTrue: [ emptyBlock cull: self ]
+		ifFalse: [ notEmptyBlock cull: self ]
 ]
 
 { #category : 't - observable collection - testing' }

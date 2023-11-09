@@ -165,7 +165,8 @@ ToInnerWindow >> initialize [
 	super initialize.
 	self layout: BlLinearLayout vertical.
 	self size: self defaultSize.
-	self initializeGrips
+	self initializeGrips.
+	self grips do: [ :g | g elevation: self defaultElevation ]
 
 ]
 

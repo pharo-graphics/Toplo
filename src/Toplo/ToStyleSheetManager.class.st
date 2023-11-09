@@ -48,7 +48,6 @@ ToStyleSheetManager >> lookUpStampNamed: aSymbol from: anElement [
 	" first look-up following child-parent association 
 	for each element, try first to get the stamp from the localStyleStampIndex 
 	then from the elementl styleSheet ifPresent"
-self flag: 'uniform naming required localStampNamed/stampNamed'.
 	anElement withAllParentsDo: [ :p |
 		(p toStyleSheetManager localStampNamed: aSymbol) ifNotNil: [ :t | ^ t ].
 		p toStyleSheetManager styleSheet ifNotNil: [ :ss |

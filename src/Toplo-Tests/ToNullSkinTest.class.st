@@ -36,7 +36,11 @@ ToNullSkinTest >> testWithASkinInstalledBefore [
 	w updateStyles.
 	self assert: w installedSkin identicalTo: nsk.
 	self assert: w skinStateQueue nextStates isEmpty.
-	self assert: w skinStateQueue currentStates isEmpty
+	self assert: w skinStateQueue currentStates isEmpty.
+	ToHoveredState new enqueueIn: w.
+	w updateStyles.
+	self assert: w skinStateQueue nextStates size identicalTo: 1.
+	self assert: w skinStateQueue currentStates size identicalTo: 1
 ]
 
 { #category : 'tests' }

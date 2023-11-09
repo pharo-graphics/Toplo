@@ -10,7 +10,7 @@ ToThemeExamples class >> createThemeMenuBar: aSpace [
 
 	| bar themeMenu inspectMenu changeColorMenuItem |
 	bar := ToMenuBar new hMatchParent; vFitContent.
-	bar addMenu: (themeMenu := ToMenu new labelText: 'Bee Theme').
+	bar addMenu: (themeMenu := ToMenu new labelText: 'Theme').
 	bar addMenu: (inspectMenu := ToMenu new labelText: 'Tools').
 	
 	"Theme menu"	
@@ -62,6 +62,30 @@ ToThemeExamples class >> elementSandBoxFor: aSpace [
 
 	aSpace ifNil: [ ^ nil ].
 	^ aSpace root childWithId: #themeSandBox
+]
+
+{ #category : 'examples - buttons' }
+ToThemeExamples class >> example_beeButtonsInRawPane [
+
+	| space primaryButton1 primaryButton2 pane |
+	ToTheme cleanUp.
+	space := BlSpace new.
+	space root layout: BlLinearLayout new.
+
+	pane := ToPane vertical.
+	pane toTheme: ToRawTheme new.
+	space toTheme: ToBeeLightTheme new.
+	"Create some buttons with different skins"
+	primaryButton1 := (ToButton id: #buttonA) labelText: 'Primary Button'.
+	primaryButton1 withStamp: #primary.
+	primaryButton1 toTheme: ToBeeDarkTheme new.
+	primaryButton2 := (ToButton id: #buttonA) labelText: 'Primary Button'.
+	primaryButton2 withStamp: #primary.
+	"primaryButton2 toTheme: ToBeeDarkTheme new."
+	pane addChild: primaryButton1.
+	pane addChild: primaryButton2.
+	space root addChild: pane.
+	space show
 ]
 
 { #category : 'examples - buttons' }

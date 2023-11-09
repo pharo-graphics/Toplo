@@ -196,6 +196,12 @@ ToSkin >> skinInstallStateRequest: anEvent [
 		skinInstallStateRequest: anEvent
 ]
 
+{ #category : 'accessing' }
+ToSkin >> skinStateGenerator [
+
+	^ skinStateGenerator
+]
+
 { #category : 'event handling' }
 ToSkin >> skinUninstallStateRequest: anEvent [
 

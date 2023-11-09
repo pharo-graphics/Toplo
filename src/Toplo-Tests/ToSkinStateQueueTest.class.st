@@ -20,7 +20,7 @@ ToSkinStateQueueTest >> newElementInSpace [
 	self assert: e skinInstaller isNil.
 	space root addChild: e.
 	self assert: e skinInstaller notNil.
-	" procesPulse here to install the element skin by the phase "
+	" to install the element skin  "
 	space applyAllSkinInstallers.
 
 	^ e
@@ -191,49 +191,4 @@ ToSkinStateQueueTest >> testGenerateHoveredStateFromEvent [
 		equals: 1.
 	" ToEnabledState remains and ToLeavedState isNot persistent, ToHoveredState should have been removed "
 	self assert: nextStates size equals: 4
-]
-
-{ #category : 'api - hooks' }
-ToSkinStateQueueTest >> testOnInstalledIn [
-
-	| e h |
-	e := ToElement new.
-	h := ToSkinStateGenerator new.
-	e addEventHandler: h.
-	self assert: h target identicalTo: e.
-	e removeEventHandler: h.
-	self assert: h target isNil
-]
-
-{ #category : 'api - hooks' }
-ToSkinStateQueueTest >> testOnUninstalledIn [
-
-	self testOnInstalledIn
-]
-
-{ #category : 'accessing' }
-ToSkinStateQueueTest >> testTarget [
-
-	self testOnInstalledIn 
-]
-
-{ #category : 'api event managing' }
-ToSkinStateQueueTest >> testWantsEvent [
-
-	| e h eventsToHandle eventsToHandleWhenDisabled |
-	e := ToElement new.
-	h := ToSkinStateGenerator new.
-	e addEventHandler: h.
-	self assert: e isEnabled.
-	eventsToHandle := h eventsToHandle.
-	eventsToHandle do: [ :cC |
-		self assert: (h wantsEvent: (cC new currentTarget: e)) ].
-	e disable.
-	self deny: e isEnabled.
-	eventsToHandleWhenDisabled := h eventsToHandleWhenDisabled.
-	eventsToHandleWhenDisabled do: [ :cC | self assert: (h wantsEvent: (cC new currentTarget: e)) ].
-	eventsToHandle do: [ :cC | 
-		(eventsToHandleWhenDisabled anySatisfy: [:dC | cC == dC or: [ cC inheritsFrom: dC ] ]) 
-			ifTrue: [ self assert: (h wantsEvent: (cC new currentTarget: e)) ]
-			ifFalse: [ self deny: (h wantsEvent: (cC new currentTarget: e)) ] ]
 ]

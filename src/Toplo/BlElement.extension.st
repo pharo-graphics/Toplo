@@ -116,6 +116,12 @@ BlElement >> isEnabled [
 	^ self userData at: #enabled ifAbsentPut: [ true ]
 ]
 
+{ #category : '*Toplo-LookAndFeel' }
+BlElement >> localToTheme: aTheme [
+
+	self toThemeManager localTheme: aTheme in: self
+]
+
 { #category : '*Toplo' }
 BlElement >> newRawSkin [
 
@@ -257,13 +263,14 @@ BlElement >> toStyleStore [
 { #category : '*Toplo-LookAndFeel' }
 BlElement >> toTheme [
 
-		^ self toThemeManager toThemeIn: self
+		^ self toThemeManager lookupThemeFrom: self
 ]
 
 { #category : '*Toplo-LookAndFeel' }
 BlElement >> toTheme: aTheme [
 
-	self toThemeManager toTheme: aTheme in: self
+	self deprecated: 'Use #localToTheme: ' transformWith: '`@rcv toTheme: `@arg' -> '`@rcv localToTheme: `@arg'.
+	self localToTheme: aTheme
 ]
 
 { #category : '*Toplo-LookAndFeel' }
@@ -271,7 +278,8 @@ BlElement >> toThemeChanged [
 
 	self childrenDo: [ :c | c toThemeChanged ].
 	self dispatchEvent: ToThemeChangedEvent new.
-	self requestSkin
+	self requestUninstallSkin.	
+	self requestSkin.
 ]
 
 { #category : '*Toplo' }

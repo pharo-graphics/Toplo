@@ -5,9 +5,9 @@ Class {
 		'currentStates',
 		'nextStates'
 	],
-	#category : 'Toplo-Core-States',
+	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
-	#tag : 'Core-States'
+	#tag : 'Core-Theme'
 }
 
 { #category : 'hook' }

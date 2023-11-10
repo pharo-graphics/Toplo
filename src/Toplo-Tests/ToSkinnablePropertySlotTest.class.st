@@ -24,8 +24,11 @@ ToSkinnablePropertySlotTest >> testNew [
 
 	| e |
 	e := ToElementWithSkinnablePropertiesForTest new.
+	" -> 1 requestSkin "
 	space root addChild: e.
+	" -> 1 skin install "
 	space applyAllSkinInstallers.
+	" -> 1 skin states application "
 	space updateAllStyles.
 	self assert: e skinRequestCount equals: 1.
 	self assert: e skinInstallStateCount equals: 1.
@@ -38,10 +41,12 @@ ToSkinnablePropertySlotTest >> testWriteTo [
 	| e |
 	e := ToElementWithSkinnablePropertiesForTest new.
 	self assert: e backgroundValue isTransparent.
+	" 1 requestSkin (postponed )"
 	e backgroundValue: Color blue.
 	self assert: e skinRequestCount equals: 1.
 	self assert: e backgroundValue paint color equals: Color blue.
 	self assert: e background paint color equals: Color blue.
+	" + 2 requestSkin (#onAddedToSceneGraph is sent 2 times)"
 	space root addChild: e.
 	space applyAllSkinInstallers.
 	space updateAllStyles.
@@ -55,10 +60,13 @@ ToSkinnablePropertySlotTest >> testWriteTo2 [
 
 	| e |
 	e := ToElementWithSkinnablePropertiesForTest new.
+	" + 1 requestSkin "
 	e backgroundValue: Color blue.
+	" + 2 requestSkin (#onAddedToSceneGraph is sent 2 times)"
 	space root addChild: e.
 	self assert: e skinRequestCount equals: 3.
 	self assert: e border isTransparent.
+	" + 1 requestSkin "
 	e borderValue: Color red.
 	space applyAllSkinInstallers.
 	space updateAllStyles.
@@ -74,10 +82,15 @@ ToSkinnablePropertySlotTest >> testWriteTo4 [
 	e := ToElementWithSkinnablePropertiesForTest new.
 
 	self assert: e skinInstaller isNil.
+	" + 1 requestSkin "
 	e backgroundValue: Color blue.
+	" + 1 requestSkin "
 	e borderValue: Color red.
+	" + 2 requestSkin "
 	space root addChild: e.
 	requestCpt := e skinRequestCount.
+	self assert: requestCpt identicalTo: 4.
+	" + 1 requestSkin "
 	e backgroundValue: Color blue.
 
 	space applyAllSkinInstallers.

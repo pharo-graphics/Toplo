@@ -6,28 +6,11 @@ Class {
 	#tag : 'Core-Theme'
 }
 
-{ #category : 'event dispatch' }
-ToNullSkin >> dispatchSkinInitialStateRequestTo: anObject [
-
-	
-]
-
-{ #category : 'event dispatch' }
-ToNullSkin >> dispatchSkinInstallStateRequestTo: anObject [
-
-	
-]
-
-{ #category : 'event dispatch' }
-ToNullSkin >> dispatchSkinUninstallStateRequestTo: anObject [
-
-	
-]
-
 { #category : 'api - accessing' }
 ToNullSkin >> eventsToHandle [
 
-	^ { }
+	^ {
+		  ToSkinEvent }
 ]
 
 { #category : 'testing' }
@@ -38,10 +21,4 @@ ToNullSkin >> isNullSkin [
 
 { #category : 'style updating' }
 ToNullSkin >> updateStylesIn: anElement [
-]
-
-{ #category : 'api - event managing' }
-ToNullSkin >> wantsEvent: anEvent [
-
-	^ false
 ]

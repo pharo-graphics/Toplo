@@ -1,8 +1,8 @@
 Trait {
 	#name : 'TToElementWithSkinnableProperties',
-	#category : 'Toplo-Core-Properties',
+	#category : 'Toplo-Core-Slots',
 	#package : 'Toplo',
-	#tag : 'Core-Properties'
+	#tag : 'Core-Slots'
 }
 
 { #category : 'accessing' }

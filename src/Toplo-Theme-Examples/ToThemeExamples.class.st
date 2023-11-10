@@ -23,7 +23,7 @@ ToThemeExamples class >> createThemeMenuBar: aSpace [
 	beeMenu addItem: (changeColorMenuItem).
 	
 	themeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Raw'); whenClickedDo: [ changeColorMenuItem disable. self switchTheme: (ToRawTheme new) for: aSpace ]).
-	
+		
 	"Inspect menu"
 	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'Inspect Space'); tooltipText: 'Inspect the BlSpace'; whenClickedDo: [ self inspectSpace: aSpace ]).
 	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'Inspect Theme'); tooltipText: 'Inspect the current theme'; whenClickedDo: [ self inspectSpaceToTheme: aSpace ]).
@@ -75,12 +75,12 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	space root layout: BlLinearLayout new.
 
 	pane := ToPane vertical.
-	pane toTheme: ToRawTheme new.
+	pane localToTheme: ToRawTheme new.
 	space toTheme: ToBeeLightTheme new.
 	"Create some buttons with different skins"
 	primaryButton1 := (ToButton id: #buttonA) labelText: 'Primary Button'.
 	primaryButton1 withStamp: #primary.
-	primaryButton1 toTheme: ToBeeDarkTheme new.
+	primaryButton1 localToTheme: ToBeeDarkTheme new.
 	primaryButton2 := (ToButton id: #buttonA) labelText: 'Primary Button'.
 	primaryButton2 withStamp: #primary.
 	"primaryButton2 toTheme: ToBeeDarkTheme new."
@@ -165,21 +165,24 @@ ToThemeExamples class >> inspectSpaceToTheme: aSpace [
 { #category : 'private' }
 ToThemeExamples class >> openThemeExampleSpace [
 	"Prepare a space to display theme examples"
+
 	| space |
 	space := BlSpace new.
 
 	"Configure root layout"
 	space root layout: BlFlowLayout vertical.
-	space root constraintsDo: [ :c | c vertical matchParent. c horizontal matchParent ].
-	
+	space root constraintsDo: [ :c |
+		c vertical matchParent.
+		c horizontal matchParent ].
+
 	"Create UI"
 	space root addChild: (self createThemeMenuBar: space).
 	space root addChild: (ToElement id: #themeSandBox).
-	
+
 	"Configure default Theme"
-	space root toTheme: ToBeeLightTheme new.
-	
-	space position: 100@100.	
+	space root localToTheme: ToBeeLightTheme new.
+
+	space position: 100 @ 100.
 	space show.
 	^ space
 ]

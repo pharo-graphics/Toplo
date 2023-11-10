@@ -43,12 +43,6 @@ ToThemeManager >> defaultSkinIn: anElement [
 	^ localDefaultSkin ifNil: [ anElement toTheme newSkinFor: anElement ]
 ]
 
-{ #category : 'initialization' }
-ToThemeManager >> initialize [ 
-
-	super initialize.
-]
-
 { #category : 'accessing - skin' }
 ToThemeManager >> installedSkin [
 
@@ -99,6 +93,30 @@ ToThemeManager >> localTheme [
 ToThemeManager >> localTheme: aTheme [
 
 	localTheme := aTheme
+]
+
+{ #category : 'accessing' }
+ToThemeManager >> localTheme: aTheme in: anElement [
+
+	self localTheme = aTheme ifTrue: [ ^ self ].
+	self localTheme: aTheme.
+	anElement toThemeChanged.
+
+]
+
+{ #category : 'accessing' }
+ToThemeManager >> lookupThemeFrom: anElement [
+
+	^ self localTheme ifNil: [
+		  anElement hasParent
+			  ifTrue: [ anElement parent toTheme ]
+			  ifFalse: [
+				  anElement isAttachedToSceneGraph
+					  ifTrue: [ " install the theme only if the root is attached to 
+						avoid default installation in another element than the space root"
+						  self localTheme: ToTheme current.
+						  self localTheme ]
+					  ifFalse: [ Error signal: 'A not attached element should not ask for its theme' ] ] ]
 ]
 
 { #category : 'accessing - skin' }
@@ -177,30 +195,6 @@ ToThemeManager >> skinUninstaller [
 ToThemeManager >> skinUninstaller: aSkinUninstaller [
 
 	skinUninstaller := aSkinUninstaller 
-]
-
-{ #category : 'accessing' }
-ToThemeManager >> toTheme: aTheme in: anElement [
-
-	self localTheme = aTheme ifTrue: [ ^ self ].
-	self localTheme: aTheme.
-	anElement toThemeChanged.
-
-]
-
-{ #category : 'accessing' }
-ToThemeManager >> toThemeIn: anElement [
-
-	^ self localTheme ifNil: [
-		  anElement hasParent
-			  ifTrue: [ anElement parent toTheme ]
-			  ifFalse: [
-				  anElement isAttachedToSceneGraph
-					  ifTrue: [ " install the theme only if the root is attached to 
-						avoid default installation in another element than the space root"
-						  self localTheme: ToTheme current.
-						  self localTheme ]
-					  ifFalse: [ Error signal: 'A not attached element should not ask for its theme' ] ] ]
 ]
 
 { #category : 'accessing - skin' }

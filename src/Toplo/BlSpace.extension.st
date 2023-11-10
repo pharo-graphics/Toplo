@@ -52,7 +52,7 @@ BlSpace >> toTheme [
 { #category : '*Toplo-LookAndFeel' }
 BlSpace >> toTheme: aTheme [
 
-	self root toTheme: aTheme
+	self root localToTheme: aTheme
 ]
 
 { #category : '*Toplo' }

@@ -141,7 +141,7 @@ ToStyleStoreTest >> testStampNamed [
 
 	| e p |
 	e := BlElement new.
-	e toTheme: ToBeeLightTheme new.
+	e localToTheme: ToBeeLightTheme new.
 	self
 		should: [ e stampNamed: #color ]
 		raise: ToElementPropertyNotFound.
@@ -161,7 +161,7 @@ ToStyleStoreTest >> testStampValue [
 
 	| e p |
 	e := BlElement new.
-	e toTheme: ToBeeLightTheme new.
+	e localToTheme: ToBeeLightTheme new.
 	self
 		should: [ e stampValue: #color ]
 		raise: ToElementPropertyNotFound.
@@ -170,7 +170,7 @@ ToStyleStoreTest >> testStampValue [
 	self assert: (e stampValue: #color) equals: Color blue.
 	e withStamp: (#background -> Color blue) asStyleStamp.
 	e withStamp: (#layout -> BlLinearLayout horizontal) asStyleStamp.
-	e withStamp: ((#something -> #something) asStyleStamp).
+	e withStamp: (#something -> #something) asStyleStamp.
 	self assert: (e stampValue: #something) equals: #something.
 	self
 		should: [ e stampValue: #Color ]
@@ -228,23 +228,24 @@ ToStyleStoreTest >> testWithoutStamp [
 
 	| e |
 	e := BlElement new.
-	e toTheme: ToBeeLightTheme new.
+	e localToTheme: ToBeeLightTheme new.
 	e withAllStamps: {  }.
 	e withStamp: #color.
 	e withStamp: #background.
 	self assert: e toStyleStore stampIndex size equals: 2.
-	self assert: (e hasStamp: #color).	
+	self assert: (e hasStamp: #color).
 	self assert: (e hasStamp: #background).
-	self assert: (e stampValue: #color).	
+	self assert: (e stampValue: #color).
 	self assert: (e stampValue: #background).
 	e withoutStamp: #color.
 	self assert: e toStyleStore stampIndex size equals: 1.
 	e withoutStamp: #blob.
-	self deny: (e hasStamp: #color).	
+	self deny: (e hasStamp: #color).
 	self assert: (e hasStamp: #background).
 	self deny: (e hasStamp: #blob).
-	self should: [ e stampValue: #color ] raise: ToElementPropertyNotFound.	
+	self
+		should: [ e stampValue: #color ]
+		raise: ToElementPropertyNotFound.
 	self assert: (e stampValue: #background).
 	self should: [ e stampValue: #blob ] raise: ToElementPropertyNotFound
-
 ]

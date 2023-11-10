@@ -23,7 +23,9 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 
 	| ss button labelSkin attributes foregroundAttr prop writers label ssi |
 	" declare a local only stylesheet "
-	ss := ToStyleSheet new inherits: false; yourself.
+	ss := ToStyleSheet new
+		      inherits: false;
+		      yourself.
 	ssi := ToStyleSheetTheme new.
 
 	" danger button label rule "
@@ -33,30 +35,30 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 			(BlTextAttributesBuilder new foreground: v) attributes.
 		e textChanged ].
 
-	ss addStyleRule: (
-		((ToStampSelector new addStampName: #'button-label') 
-			parent: (ToStampSelector new addAllStampNames: #( #button #danger ))
-			depth: 3)
-			 style: [ :sr |
-				 sr write: prop with: [ :e | (e stampValue: #'color-error') ].
-				 sr
-					 when: ToDisabledLookEvent
-					 write: prop
-					 with: [ :e | e stampValue: #'color-text-disabled' ].
-				 sr
-					 when: ToInitialLookEvent
-					 write: prop
-					 with: [ :e | (e stampValue: #'color-error') ].
-				 sr
-					 when: ToHoveredLookEvent
-					 write: prop
-					 with: [ :e | (e stampValue: #'color-error-hover') ].
-				 sr
-					 when: ToPressedLookEvent
-					 write: prop
-					 with: [ :e | (e stampValue: #'color-error-pressed') ] ]).
+	ss addStyleRule:
+		(((ToStampSelector new addStampName: #'button-label')
+			  parent:
+			  (ToStampSelector new addAllStampNames: #( #button #danger ))
+			  depth: 3) style: [ :sr |
+			 sr write: prop with: [ :e | e stampValue: #'color-error' ].
+			 sr
+				 when: ToDisabledLookEvent
+				 write: prop
+				 with: [ :e | e stampValue: #'color-text-disabled' ].
+			 sr
+				 when: ToInitialLookEvent
+				 write: prop
+				 with: [ :e | e stampValue: #'color-error' ].
+			 sr
+				 when: ToHoveredLookEvent
+				 write: prop
+				 with: [ :e | e stampValue: #'color-error-hover' ].
+			 sr
+				 when: ToPressedLookEvent
+				 write: prop
+				 with: [ :e | e stampValue: #'color-error-pressed' ] ]).
 
-	button := ToButton new toTheme: ToBeeLightTheme new.
+	button := ToButton new localToTheme: ToBeeLightTheme new.
 	space root addChild: button.
 	button styleSheet: ss.
 	label := (ToLabel text: 'Default') defaultSkin: nil.
@@ -94,75 +96,77 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 ToStyleSheetBazarTest >> testButtonSkin0 [
 
 	| ss button skin labelSkin attributes foregroundAttr writers label ssi |
-	ss := ToStyleSheet new inherits: false; yourself.
+	ss := ToStyleSheet new
+		      inherits: false;
+		      yourself.
 	ssi := ToStyleSheetTheme new.
-	
+
 	" default button rule "
-	ss addStyleRule: ((ToStampSelector new addStampName: #button)
-			 style: [ :sr |
-				 | p |
-				 p := ToFeatureProperty new name: #background.
+	ss addStyleRule:
+		((ToStampSelector new addStampName: #button) style: [ :sr |
+			 | p |
+			 p := ToFeatureProperty new name: #background.
 
-				 sr
-					 when: ToDisabledLookEvent
-					 write: p
-					 with: [ :e | e stampValue: #'color-bg-container-disabled' ].
-				 sr
-					 when: ToInitialLookEvent
-					 write: p
-					 with: [ :e | Color transparent ].
+			 sr
+				 when: ToDisabledLookEvent
+				 write: p
+				 with: [ :e | e stampValue: #'color-bg-container-disabled' ].
+			 sr
+				 when: ToInitialLookEvent
+				 write: p
+				 with: [ :e | Color transparent ].
 
-				 p := ToFeatureProperty new name: #border.
+			 p := ToFeatureProperty new name: #border.
 
-				 sr
-					 when: ToDisabledLookEvent
-					 write: p
-					 with: [ :e | (e stampValue: #'color-border-disabled') ].
-				 sr
-					 when: ToInitialLookEvent
-					 write: p
-					 with: [ :e | e stampValue: #'color-border' ].
-				 sr
-					 when: ToHoveredLookEvent
-					 write: p
-					 with: [ :e | (e stampValue: #'color-primary-hover') ].
-				 sr
-					 when: ToPressedLookEvent
-					 write: p
-					 with: [ :e | (e stampValue: #'color-primary-pressed') ] ]).
+			 sr
+				 when: ToDisabledLookEvent
+				 write: p
+				 with: [ :e | e stampValue: #'color-border-disabled' ].
+			 sr
+				 when: ToInitialLookEvent
+				 write: p
+				 with: [ :e | e stampValue: #'color-border' ].
+			 sr
+				 when: ToHoveredLookEvent
+				 write: p
+				 with: [ :e | e stampValue: #'color-primary-hover' ].
+			 sr
+				 when: ToPressedLookEvent
+				 write: p
+				 with: [ :e | e stampValue: #'color-primary-pressed' ] ]).
 
 	" danger button label rule "
-	ss addStyleRule: (((ToStampSelector new addStampName: #'button-label')
-					  parent:
-					  (ToStampSelector new addAllStampNames: #( #button #danger ))
-					  depth: 3)
-			 style: [ :sr |
-				 | p |
-				 p := ToPseudoProperty new name: #'text-attributes'.
-				 p writer: [ :e :v |
-					 e text attributes:
-						 (BlTextAttributesBuilder new foreground: v) attributes.
-					 e textChanged ].
+	ss addStyleRule:
+		(((ToStampSelector new addStampName: #'button-label')
+			  parent:
+			  (ToStampSelector new addAllStampNames: #( #button #danger ))
+			  depth: 3) style: [ :sr |
+			 | p |
+			 p := ToPseudoProperty new name: #'text-attributes'.
+			 p writer: [ :e :v |
+				 e text attributes:
+					 (BlTextAttributesBuilder new foreground: v) attributes.
+				 e textChanged ].
 
-				 sr
-					 when: ToDisabledLookEvent
-					 write: p
-					 with: [ :e | e stampValue: #'color-text-disabled' ].
-				 sr
-					 when: ToInitialLookEvent
-					 write: p
-					 with: [ :e | (e stampValue: #'color-error') ].
-				 sr
-					 when: ToHoveredLookEvent
-					 write: p
-					 with: [ :e | (e stampValue: #'color-error-hover') ].
-				 sr
-					 when: ToPressedLookEvent
-					 write: p
-					 with: [ :e | (e stampValue: #'color-error-pressed') ] ]).
+			 sr
+				 when: ToDisabledLookEvent
+				 write: p
+				 with: [ :e | e stampValue: #'color-text-disabled' ].
+			 sr
+				 when: ToInitialLookEvent
+				 write: p
+				 with: [ :e | e stampValue: #'color-error' ].
+			 sr
+				 when: ToHoveredLookEvent
+				 write: p
+				 with: [ :e | e stampValue: #'color-error-hover' ].
+			 sr
+				 when: ToPressedLookEvent
+				 write: p
+				 with: [ :e | e stampValue: #'color-error-pressed' ] ]).
 
 
-	button := ToButton new toTheme: ToBeeLightTheme new.
+	button := ToButton new localToTheme: ToBeeLightTheme new.
 	space root addChild: button.
 	button withStamp: #button.
 	button styleSheet: ss.

@@ -26,11 +26,12 @@ ToStyleSheetSkinTest >> setUp [
 ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 
 	| w skin layoutDirectionProp layoutProp layoutWriter directionWriter |
-	w := ToElement new toTheme: ToBeeLightTheme new.
+	w := ToElement new localToTheme: ToBeeLightTheme new.
 	space root addChild: w.
 	w layout: BlBasicLayout new.
 	skin := ToBeeSkin new.
-	layoutDirectionProp := self writablePropertyIndex propertyNamed: #'layout-direction'.
+	layoutDirectionProp := self writablePropertyIndex propertyNamed:
+		                       #'layout-direction'.
 	layoutProp := self writablePropertyIndex propertyNamed: #layout.
 	directionWriter := ToPropertyWriter new
 		                   eventClass: ToInitialLookEvent;
@@ -45,15 +46,13 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 	skin writers: {
 			directionWriter.
 			layoutWriter }.
-	
+
 	" Since checkSkinInstallation will switch to ToInstallState "
 	" the installation will fail because the widget layout (not a BlLinearLayout) does not understand #direction:"
 	w defaultSkin: skin.
 	w requestSkin.
 	w applySkinInstaller.
-	self
-		should: [ w updateStyles ]
-		raise: MessageNotUnderstood.
+	self should: [ w updateStyles ] raise: MessageNotUnderstood.
 
 	" Now change writers order and it should be ok "
 	skin writers: {

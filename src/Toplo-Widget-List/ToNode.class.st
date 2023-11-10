@@ -1,8 +1,6 @@
 Class {
 	#name : 'ToNode',
 	#superclass : 'ToElement',
-	#traits : 'TToClickable + TToOrientable',
-	#classTraits : 'TToClickable classTrait + TToOrientable classTrait',
 	#category : 'Toplo-Widget-List-node',
 	#package : 'Toplo-Widget-List',
 	#tag : 'node'

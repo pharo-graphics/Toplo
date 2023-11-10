@@ -504,43 +504,16 @@ ToSandBox class >> example_EditableComboBoxWithStatesOfAmerica [
 ToSandBox class >> example_EditableListWithAllClassesNames [
 
 	| l vscrollBar space innerWin |
-	l := ToListElement new nodeBuilder: [ :node :holder |
-		     | lab |
-		     lab := ToLabel new
-			            text: holder data value;
-			            beEditable;
-			            margin: (BlInsets all: 1);
-			            padding: (BlInsets all: 1);
-			            yourself.
-		     lab stillPressedStartDelay: 800 milliSeconds.
-		     lab when: ToStillPressedLookEvent do: [ :event |
-			     event consumed: true.
-			     lab addEditorEvent: event ].
-		     lab whenTextReplacedDo: [
-			     node holder infiniteElement data
-				     at: node holder position
-				     put: holder data key -> lab text asString ].
-		     node addChild: (ToLabeledIcon new
-				      label: lab;
-				      icon: (ToImage inner: holder data key);
-				      interspace: 10;
-				      hMatchParent) ].
-	
-	l preserveSelectionOnFocused: false.
-	
-	l when: ToListStrongSelectionEvent do: [ :event |
-		event indexes size == 1 ifTrue: [
-			(l nodeAt: event indexes first) firstChild label addEditorEvent:
-				event ] ].
-
-	l data addAll: (Smalltalk globals allClasses collect: [ :cls |
-			 | icon isel |
-			 isel := cls hasComment
-				         ifTrue: [ #class ]
-				         ifFalse: [ #uncommentedClass ].
-			 icon := Smalltalk ui icons iconNamed: isel.
-			 icon -> cls name ]).
-	l withRowNumbers.
+	l := ToListElement new.
+	l
+		nodeClass: ToClassNodeExample;
+		nodeBuilder: [ :node :holder | node forClassNameAssoc: holder data ];
+		when: ToListStrongSelectionEvent do: [ :event |
+			event indexes size == 1 ifTrue: [
+					(l nodeAt: event indexes first) label addEditorEvent: event ] ];
+		preserveSelectionOnFocused: false;
+		withRowNumbers.
+	l data addAll: (Smalltalk globals allClasses collect: [ :cls | cls -> cls name ]).
 
 	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
@@ -553,7 +526,7 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 	innerWin pane addChild: l.
 	innerWin pane addChild: vscrollBar.
 	space := BlSpace new.
-	space root addChild: innerWin. 
+	space root addChild: innerWin.
 	space show
 ]
 

@@ -9,7 +9,8 @@ Class {
 		'secondarySelection',
 		'shortcuts',
 		'nodeBuilder',
-		'preserveSelectionOnFocused'
+		'preserveSelectionOnFocused',
+		'nodeClass'
 	],
 	#category : 'Toplo-Widget-List-infinite',
 	#package : 'Toplo-Widget-List',
@@ -267,7 +268,13 @@ ToInfiniteElement >> nodeBuilder: aValuable [
 { #category : 'initialization' }
 ToInfiniteElement >> nodeClass [
 
-	^ self subclassResponsibility 
+	^ nodeClass ifNil: [ nodeClass := ToNode ]
+]
+
+{ #category : 'initialization' }
+ToInfiniteElement >> nodeClass: aNodeClass [
+
+	nodeClass := aNodeClass
 ]
 
 { #category : 'private - commands' }

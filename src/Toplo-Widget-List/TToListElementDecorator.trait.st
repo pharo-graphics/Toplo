@@ -122,6 +122,12 @@ TToListElementDecorator >> nodeBuilder: aNodeFactory [
 	self next nodeBuilder: aNodeFactory
 ]
 
+{ #category : 't - infinite accessing' }
+TToListElementDecorator >> nodeClass: aNodeClass [
+
+	self next nodeClass: aNodeClass
+]
+
 { #category : 't - accessing selection' }
 TToListElementDecorator >> preserveSelectionOnFocused: aBoolean [
 

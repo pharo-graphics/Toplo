@@ -94,9 +94,3 @@ ToListInfiniteElement >> initialize [
 	self background: self defaultBackground.
 	self addEventHandler: self defaultEventHandler
 ]
-
-{ #category : 'initialization' }
-ToListInfiniteElement >> nodeClass [
-
-	^ ToNode
-]

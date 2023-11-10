@@ -44,7 +44,7 @@ ToNodeEventHandler >> launchClick: aBlock event: anEvent for: anElement [
 
 	infinite isFocused ifFalse: [
 		infinite hasSelection ifTrue: [
-			infinite keepSelectionOnFocused ifTrue: [
+			infinite preserveSelectionOnFocused ifTrue: [
 				infinite requestFocus.
 				^ self ] ] ].
 

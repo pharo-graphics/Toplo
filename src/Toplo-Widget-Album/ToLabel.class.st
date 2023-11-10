@@ -25,6 +25,7 @@ ToLabel class >> text: aText [
 ToLabel >> addEditorEvent: anEvent [
 
 	self innerElement visibility: BlVisibility hidden.
+	self hasEditor ifTrue: [  ^ self ].
 	(self newEditorFrameEvent: anEvent) popupEvent: anEvent.
 	self editor requestFocus.
 	self editor selecter
@@ -117,6 +118,12 @@ ToLabel >> foreground: aBlPaint [
 
 	self text foreground: aBlPaint.
 	self requestLayout 
+]
+
+{ #category : 'private-editing' }
+ToLabel >> hasEditor [
+
+	^ frameHandler notNil and: [ frameHandler currentWindow notNil ]
 ]
 
 { #category : 'accessing' }

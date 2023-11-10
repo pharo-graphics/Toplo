@@ -365,7 +365,7 @@ Here an example of a client for a method.
 		menu addItem: (ToMenuItem new labelText: 'Cancel'; whenClickedDo: [:event  | element requestCancel ]; yourself) ].
 	album contextMenu: menuBuilder. 
 	album cursorColor: Color black.
-	album openInInnerWindow 
+	album openInSpace
 
 
 ]
@@ -503,7 +503,7 @@ ToSandBox class >> example_EditableComboBoxWithStatesOfAmerica [
 { #category : 'list' }
 ToSandBox class >> example_EditableListWithAllClassesNames [
 
-	| l vscrollBar space |
+	| l vscrollBar space innerWin |
 	l := ToListElement new nodeBuilder: [ :node :holder |
 		     | lab |
 		     lab := ToLabel new
@@ -512,15 +512,27 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 			            margin: (BlInsets all: 1);
 			            padding: (BlInsets all: 1);
 			            yourself.
+		     lab stillPressedStartDelay: 800 milliSeconds.
+		     lab when: ToStillPressedLookEvent do: [ :event |
+			     event consumed: true.
+			     lab addEditorEvent: event ].
 		     lab whenTextReplacedDo: [
 			     node holder infiniteElement data
 				     at: node holder position
 				     put: holder data key -> lab text asString ].
 		     node addChild: (ToLabeledIcon new
-			     label: lab;
-			     icon: (ToImage inner: holder data key);
-			     interspace: 10;
-			     hMatchParent) ].
+				      label: lab;
+				      icon: (ToImage inner: holder data key);
+				      interspace: 10;
+				      hMatchParent) ].
+	
+	l preserveSelectionOnFocused: false.
+	
+	l when: ToListStrongSelectionEvent do: [ :event |
+		event indexes size == 1 ifTrue: [
+			(l nodeAt: event indexes first) firstChild label addEditorEvent:
+				event ] ].
+
 	l data addAll: (Smalltalk globals allClasses collect: [ :cls |
 			 | icon isel |
 			 isel := cls hasComment
@@ -529,17 +541,19 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 			 icon := Smalltalk ui icons iconNamed: isel.
 			 icon -> cls name ]).
 	l withRowNumbers.
-	
+
 	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
-			c ignoreByLayout.
-			c margin: (BlInsets right: 2).
-			c ignored horizontal alignRight.
-			c ignored vertical alignBottom]. 
+		c ignoreByLayout.
+		c margin: (BlInsets right: 2).
+		c ignored horizontal alignRight.
+		c ignored vertical alignBottom ].
 	vscrollBar attachTo: l infinite.
+	innerWin := ToInnerWindow new.
+	innerWin pane addChild: l.
+	innerWin pane addChild: vscrollBar.
 	space := BlSpace new.
-	space root addChild: l.
-	space root addChild: vscrollBar.
+	space root addChild: innerWin. 
 	space show
 ]
 

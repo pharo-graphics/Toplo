@@ -7,9 +7,9 @@ Class {
 		'clickLauncher',
 		'primarySelection',
 		'secondarySelection',
-		'keepSelectionOnFocused',
 		'shortcuts',
-		'nodeBuilder'
+		'nodeBuilder',
+		'preserveSelectionOnFocused'
 	],
 	#category : 'Toplo-Widget-List-infinite',
 	#package : 'Toplo-Widget-List',
@@ -210,12 +210,6 @@ ToInfiniteElement >> isSelectedAtIndex: anIndex [
 ]
 
 { #category : 'accessing' }
-ToInfiniteElement >> keepSelectionOnFocused [
-
-	^ keepSelectionOnFocused
-]
-
-{ #category : 'accessing' }
 ToInfiniteElement >> list [
 
 	self
@@ -334,9 +328,15 @@ ToInfiniteElement >> onLostFocus [
 ]
 
 { #category : 'accessing' }
+ToInfiniteElement >> preserveSelectionOnFocused [
+
+	^ preserveSelectionOnFocused
+]
+
+{ #category : 'accessing' }
 ToInfiniteElement >> preserveSelectionOnFocused: aBoolean [
 
-	keepSelectionOnFocused := aBoolean
+	preserveSelectionOnFocused := aBoolean
 ]
 
 { #category : 'initialization' }

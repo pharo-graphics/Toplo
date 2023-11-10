@@ -12,22 +12,13 @@ TToElementWithPlaceholder >> currentPlaceholderLayer [
 ]
 
 { #category : 't - element with placeholder' }
-TToElementWithPlaceholder >> currentPlaceholderLayer: aPlaceholderLayer [
-
-	aPlaceholderLayer ifNil: [
-		self userData removeKey: #currentPlaceholderLayer ifAbsent: [  ].
-		^ self ].
-	self userData at: #currentPlaceholderLayer put: aPlaceholderLayer
-]
-
-{ #category : 't - element with placeholder' }
 TToElementWithPlaceholder >> hidePlaceholder [
 
 	self currentPlaceholderLayer ifNil: [ ^ self ].
 	self currentPlaceholderLayer detach.
 	self removeChild: self currentPlaceholderLayer.
 	self dispatchEvent: ToPlaceholderRemovedEvent new.
-	self currentPlaceholderLayer: nil
+	self userData removeKey: #currentPlaceholderLayer
 ]
 
 { #category : 't - element with placeholder' }
@@ -76,7 +67,7 @@ TToElementWithPlaceholder >> showPlaceholder [
 		| ph |
 		ph := self placeholderClass new.
 		builder value: ph value: self.
-		self currentPlaceholderLayer: ph.
+		self userData at: #currentPlaceholderLayer put: ph.
 		ph attachTo: self.
 		ph elevation: self placeholderElevation.
 		self addChild: ph.

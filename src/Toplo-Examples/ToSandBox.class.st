@@ -556,6 +556,34 @@ ToSandBox class >> example_EditorWithPlaceholder [
 ]
 
 { #category : 'album' }
+ToSandBox class >> example_EditorWithPlaceholderWithAlbum [
+
+	| placeholderText view |
+	placeholderText := 'Here is a placeholder text visible only if the editor is empty' asRopedText.
+	placeholderText foreground: Color veryLightGray.
+	placeholderText fontSize: 30.
+
+	view := ToAlbum new
+				placeholderBuilder: [:placeholder :e | 		
+					| lab |
+					placeholder preventMeAndChildrenMouseEvents.
+					placeholder layout: BlLinearLayout new.
+					placeholder padding: (BlInsets all: 40).
+					lab := ToAlbum new text: placeholderText.
+					lab background: Color transparent.
+					lab next background: Color transparent.
+					lab border: BlBorder empty.
+					lab beReadonlyWithoutSelection.
+					placeholder addChild: lab ];
+		        withRowNumbers;
+		        withSaveCapability;
+		        whenSaveRequestedDo: [ :saveRequested |
+			        saveRequested client saveResult: true ];
+		        withEditsFeedback.
+	view openInInnerWindow 
+]
+
+{ #category : 'album' }
 ToSandBox class >> example_EditorWithoutSoftLine [
 
 	| view |

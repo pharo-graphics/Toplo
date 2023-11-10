@@ -1,8 +1,8 @@
 Trait {
 	#name : 'TToElementWithOverlayWindow',
-	#category : 'Toplo-Core',
+	#category : 'Toplo-Core-Window',
 	#package : 'Toplo',
-	#tag : 'Core'
+	#tag : 'Core-Window'
 }
 
 { #category : 't - element with placeholder' }

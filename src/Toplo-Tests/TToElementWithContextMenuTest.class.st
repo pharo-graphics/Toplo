@@ -1,16 +1,26 @@
 Class {
 	#name : 'TToElementWithContextMenuTest',
-	#superclass : 'TestCase',
+	#superclass : 'ToParameterizedHostTest',
+	#instVars : [
+		'space'
+	],
 	#category : 'Toplo-Tests-Core',
 	#package : 'Toplo-Tests',
 	#tag : 'Core'
 }
 
+{ #category : 'running' }
+TToElementWithContextMenuTest >> setUp [ 
+
+	super setUp.
+	space := self newTestingSpace. 
+
+]
+
 { #category : 'tests' }
 TToElementWithContextMenuTest >> testContextMenu [
 
-	| tt e ttwin space |
-	space := BlSpace new.
+	| tt e ttwin  |
 	tt := ToMenuItem new.
 	e := ToElement new.
 	space root addChild: e.
@@ -32,8 +42,7 @@ TToElementWithContextMenuTest >> testContextMenu [
 TToElementWithContextMenuTest >> testContextMenuAddItem [
 
 	"test that context menu item are added on popup (an not on window instanciation)"
-	| e ttwin space |
-	space := BlSpace new.
+	| e ttwin  |
 	e := ToElement new.
 	space root addChild: e.
 	self assert: e currentContextMenu isNil.
@@ -77,8 +86,7 @@ TToElementWithContextMenuTest >> testContextMenuBuilder [
 TToElementWithContextMenuTest >> testContextMenuCanPopupIfElementInSpace [
 
 	"test that context menu item are added on popup (an not on window instanciation)"
-	| e ttwin space |
-	space := BlSpace new.
+	| e ttwin  |
 	e := ToElement new.
 	self assert: e currentContextMenu isNil.
 	self assert: e rawContextMenuWindowHandler isNil.
@@ -129,8 +137,7 @@ TToElementWithContextMenuTest >> testContextMenuContent [
 { #category : 'tests' }
 TToElementWithContextMenuTest >> testContextMenuWindowHandler [
 
-	| e ttwin space |
-	space := BlSpace new.
+	| e ttwin  |
 	e := ToElement new.
 	space root addChild: e.
 	self assert: e currentContextMenu isNil.

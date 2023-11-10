@@ -6,13 +6,6 @@ Class {
 	#tag : 'TextPane'
 }
 
-{ #category : 'api - attaching / detaching' }
-ToAlbumPlaceholder >> attachTo: anElement [
-
-	super attachTo: anElement.
-	self padding: anElement padding
-]
-
 { #category : 'initialization' }
 ToAlbumPlaceholder >> initialize [
 

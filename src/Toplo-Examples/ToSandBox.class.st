@@ -555,13 +555,11 @@ ToSandBox class >> example_EditorWithPlaceholder [
 
 	view := ToAlbum new
 				placeholderBuilder: [:placeholder :e | 		
-					| lab pane |
-					pane := ToPane new fitContent.
-					lab := ToAlbum new text: placeholderText.
-					lab next fitContent.
-					lab beReadonlyWithoutSelection.
-					pane addChild: lab.
-					placeholder addChild: pane ];
+					| lab |
+					placeholder preventMeAndChildrenMouseEvents.
+					lab := ToLabel new text: placeholderText.
+					lab beMultiLine.
+					placeholder addChild: lab ];
 		        withRowNumbers;
 		        withSaveCapability;
 		        whenSaveRequestedDo: [ :saveRequested |

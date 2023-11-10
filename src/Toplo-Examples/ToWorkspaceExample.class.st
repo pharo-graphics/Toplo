@@ -96,11 +96,15 @@ ToWorkspaceExample >> initializeCodeEditor [
 
 	textModel
 		withRowNumbers;
-		placeholderText:
-			(('Workspace example' , String cr , '- doit: Cmd-d') asRopedText
+		placeholderBuilder: [ :thePlaceholder :e | | text lab |
+			text := (('Workspace example' , String cr , '- doit: Cmd-d') asRopedText
 				 fontSize: 24;
 				 foreground: Color gray lighter;
-				 yourself);
+				 yourself).
+			lab := ToLabel new text: text.
+			lab beMultiLine.
+			thePlaceholder addChild: lab.
+			thePlaceholder preventMeAndChildrenMouseEvents ];
 		styler: (BlRBTextStyler new
 				 isForWorkspace: true;
 				 workspace: self;

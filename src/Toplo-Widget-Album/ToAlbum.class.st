@@ -175,9 +175,9 @@ ToAlbum >> initialize [
 	self padding: self defaultPadding.
 	self border: self defaultBorder.
 	self background: self defaultBackground.
-	self addEventHandler: (AlbTextEditorFocusHandler new element: self).
+	"self addEventHandler: (AlbTextEditorFocusHandler new element: self)."
 	self addEventHandler:	(AlbTextEditorCursorIconHandler new element: self).
-	self addEventHandler:	(AlbTextEditorSelectionHandler new element: self infinite).
+	"self addEventHandler:	(AlbTextEditorSelectionHandler new element: self infinite)".
 
 
 
@@ -193,18 +193,6 @@ ToAlbum >> innerElement [
 ToAlbum >> placeholderClass [
 
 	^ ToAlbumPlaceholder
-]
-
-{ #category : 'layers' }
-ToAlbum >> placeholderText: aText [
-
-	aText ifNil: [
-		self placeholderBuilder: nil.
-		^ self ].
-	self placeholderBuilder: [ :placeholder :e |
-		placeholder text: aText.
-		placeholder padding: self defaultPadding ].
-	self text size isZero ifTrue: [ self showPlaceholder ]
 ]
 
 { #category : 'transaction hook' }

@@ -8,7 +8,7 @@ Class {
 { #category : 'initialization' }
 ToPlaceholderLayer >> defaultLayout [
 
-	^ BlFrameLayout new
+	^ BlLinearLayout new
 ]
 
 { #category : 'initialization' }

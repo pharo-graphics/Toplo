@@ -554,28 +554,28 @@ ToSandBox class >> example_EditorWithPlaceholder [
 	placeholderText fontSize: 24.
 
 	view := ToAlbum new
-		        placeholderText: placeholderText;
+				placeholderBuilder: [:placeholder :e | 		
+					| lab pane |
+					pane := ToPane new fitContent.
+					lab := ToAlbum new text: placeholderText.
+					lab next fitContent.
+					lab beReadonlyWithoutSelection.
+					pane addChild: lab.
+					placeholder addChild: pane ];
 		        withRowNumbers;
 		        withSaveCapability;
 		        whenSaveRequestedDo: [ :saveRequested |
 			        saveRequested client saveResult: true ];
 		        withEditsFeedback.
-	view showPlaceholder.
-	view openInSpace
+	view openInInnerWindow 
 ]
 
 { #category : 'album' }
 ToSandBox class >> example_EditorWithoutSoftLine [
 
-	| placeholderText view |
-	placeholderText := ('Here is a placeholder text' , String cr
-	                    , 'visible only if the text is empty')
-		                   asRopedText.
-	placeholderText foreground: Color lightGray.
-	placeholderText fontSize: 24.
+	| view |
 
 	view := ToAlbum new
-		        placeholderText: placeholderText;
 		        withRowNumbers;
 		        withSaveCapability;
 		        whenSaveRequestedDo: [ :saveRequested |
@@ -918,93 +918,89 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 { #category : 'list' }
 ToSandBox class >> example_ListWithEditableAndContextMenu [
 
-	| l selectionMenu menuFactory phlab |
+	| l selectionMenu menuFactory phtext |
 	l := ToListElement new.
-	phlab := ToLabel new
-		  beMultiLine;
-		  text: ((('Invoke the context menu ', String cr, 
-					'with a right-click', String cr, 
-					'to initialize the list') asRopedText 
-						foreground: Color lightGray; 
-						yourself) 
-			fontSize: 24; yourself);
-		  foreground: Color lightGray;
-		  margin: (BlInsets all: 5);
-		  constraintsDo: [ :c |
-			  c frame vertical alignCenter.
-			  c frame horizontal alignCenter ];
-		  yourself.
-	phlab layout alignCenter.
-	phlab innerElement layout alignCenter.
-	l placeholderBuilder: [:placeholder :e | 
-		phlab removeFromParent.
-		placeholder addChild: phlab ].
-	l showPlaceholder.
-	l nodeBuilder: [ :node :holder | 		
+	phtext := (('Invoke the context menu ' , String cr
+	            , 'with a right-click' , String cr
+	            , 'to initialize the list') asRopedText
+		           foreground: Color lightGray;
+		           yourself)
+		          fontSize: 24;
+		          yourself.
+	l placeholderBuilder: [ :placeholder :e |
+		| lab |
+		placeholder layout alignCenter.
+		placeholder preventMeAndChildrenMouseEvents.
+		lab := ToLabel new
+			       beMultiLine;
+			       text: phtext;
+			       yourself.
+		placeholder addChild: lab ].
+	l nodeBuilder: [ :node :holder |
 		| lab t |
 		t := holder data.
 		lab := ToLabel text: t.
 		lab beMultiLine.
 		lab beEditable.
 		lab stillPressedStartDelay: 800 milliSeconds.
-		lab when: ToStillPressedLookEvent do: [ :event | event consumed: true. lab addEditorEvent: event].
+		lab when: ToStillPressedLookEvent do: [ :event |
+			event consumed: true.
+			lab addEditorEvent: event ].
 		lab whenTextReplacedDo: [
 			l data at: holder position put: lab text asString ].
 		node addChild: (ToLabeledIcon new
-			label: lab;
-			hMatchParent) ].
+				 label: lab;
+				 hMatchParent) ].
 	l when: ToListStrongSelectionEvent do: [ :event |
 		| r |
 		r := event indexes collect: [ :idx | idx asString , ':XXXXXX' ].
 		r do: [ :e | l data addFirst: e ] ].
 	menuFactory := [ :menu :widget |
 	               | selectedIndexes |
-						selectedIndexes := widget secondarySelectionIndexes.
+	               selectedIndexes := widget secondarySelectionIndexes.
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Add initial Items';
-			                whenClickedDo: [ :event  |
-				                widget data addAll: ((1 to: 2000) collect: [:p | 'AAAAAAAAAAA'] ) ]).
+			                whenClickedDo: [ :event |
+				                widget data addAll:
+						                ((1 to: 2000) collect: [ :p | 'AAAAAAAAAAA' ]) ]).
 	               widget data ifNotEmpty: [
 		               menu addItem: (ToMenuItem new
 				                labelText: 'Select all';
-				                whenClickedDo: [ :event  | widget  selectAll ]).
-			            menu addItem: (ToMenuItem new
+				                whenClickedDo: [ :event | widget selectAll ]).
+		               menu addItem: (ToMenuItem new
 				                labelText: 'Remove all';
-				                whenClickedDo: [ :event  |
-					                widget  data removeAll ];
+				                whenClickedDo: [ :event | widget data removeAll ];
 				                yourself) ].
-	               selectedIndexes ifNotEmpty: [ 
-				         selectionMenu := ToMenu new .
+	               selectedIndexes ifNotEmpty: [
+		               selectionMenu := ToMenu new.
 		               selectionMenu label: (ToLabel new text: 'Selection').
 		               selectedIndexes size = 1 ifTrue: [
 			               | node idx label |
-			
 			               idx := selectedIndexes first.
 			               node := l nodeAt: idx.
-								label := node firstChild label.
+			               label := node firstChild label.
 			               selectionMenu addItem: (ToMenuItem new
 					                labelText: 'Edit';
-					                whenClickedDo: [ :event  | 
+					                whenClickedDo: [ :event |
 						                label addEditorEvent: nil ];
 					                yourself).
 			               selectionMenu addItem: (ToMenuItem new
 					                labelText: (label isMonoLine
 							                 ifTrue: [ 'Be multiline' ]
 							                 ifFalse: [ 'Be monoline' ]);
-					                whenClickedDo: [ :event  |
+					                whenClickedDo: [ :event |
 						                node label monoLine: label isMonoLine not ];
-					                yourself).			               
-								selectionMenu addItem: (ToMenuItem new
+					                yourself).
+			               selectionMenu addItem: (ToMenuItem new
 					                labelText: 'Inspect';
-					                whenClickedDo: [ :event  |
-						                node inspect ];
+					                whenClickedDo: [ :event | node inspect ];
 					                yourself).
 			               selectionMenu addSeparator ].
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert before';
-				                whenClickedDo: [ :event  | 
+				                whenClickedDo: [ :event |
 					                selectedIndexes do: [ :idx |
-							                widget  data
+							                widget data
 								                add: idx asString , ':XXXXXX'
 								                beforeIndex: idx ] ];
 				                yourself).
@@ -1014,18 +1010,21 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 					                | nb |
 					                nb := selectedIndexes size.
 					                selectedIndexes do: [ :idx |
-							                widget  data
+							                widget data
 								                add: idx asString , ':XXXXXX'
 								                afterIndex: idx + nb - 1 ] ];
 				                yourself).
 		               selectionMenu addSeparator.
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Remove';
-				                whenClickedDo: [ :event  | 
-					                selectedIndexes ifNotEmpty: [widget data removeFrom: selectedIndexes first to: selectedIndexes last ] ];
+				                whenClickedDo: [ :event |
+					                selectedIndexes ifNotEmpty: [
+							                widget data
+								                removeFrom: selectedIndexes first
+								                to: selectedIndexes last ] ];
 				                yourself).
-  							menu addSeparator.
-		               menu addItem: selectionMenu] ].
+		               menu addSeparator.
+		               menu addItem: selectionMenu ] ].
 
 	l contextMenu: menuFactory.
 	l withRowNumbers.
@@ -2056,8 +2055,7 @@ ToSandBox class >> example_menu6 [
 	menu addSeparator.
 	textField := ToTextField new
 		             withLineWrapping;
-		             width: 200;
-		             placeholderText: 'Your name'.
+		             width: 200.
 	menu addItem: (ToCustomMenuItem new innerElement: textField).
 	menu addSeparator.
 	sub := ToMenu new labelText: 'Save All'.
@@ -2228,8 +2226,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	bar addFiller.
 	textField := ToTextField new
 		             withLineWrapping;
-		             width: 200;
-		             placeholderText: 'search...'.
+		             width: 200.
 	bar addChild: (ToLabel new text: 'Token :').
 	bar addChild: textField.
 	bar addMenu: (ToMenu new
@@ -2426,7 +2423,7 @@ ToSandBox class >> example_textFieldWithPlaceholder [
 	| t text |
 	t := ToTextField new withSaveCapability.
 	text := ''.
-	t placeholderText: (('Enter to accept' asRopedText) foreground: Color lightGray).
+	t placeholderBuilder: [:thePlaceholder :myself | thePlaceholder addChild: (ToLabel text: (('Enter to accept' asRopedText) foreground: Color lightGray)) ].
 	t whenSaveRequestedDo: [ :saveRequested |
 		saveRequested client text ifNotEmpty: [ 
 		saveRequested client saveResult: true.

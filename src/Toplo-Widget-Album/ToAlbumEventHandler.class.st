@@ -22,10 +22,20 @@ ToAlbumEventHandler >> checkTextIn: anEditorElement [
 		ifNotEmpty: [ anEditorElement hidePlaceholder ]
 ]
 
+{ #category : 'event handling' }
+ToAlbumEventHandler >> elementAddedToSceneGraphEvent: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	target text ifEmpty: [ ^ target showPlaceholder ].
+	target hidePlaceholder
+]
+
 { #category : 'api - accessing' }
 ToAlbumEventHandler >> eventsToHandle [
 
 	^ {
+		  BlElementAddedToSceneGraphEvent.
 		  AlbTextEditedEvent.
 		  AlbTextReplacedEvent.
 		  BlBlurEvent.

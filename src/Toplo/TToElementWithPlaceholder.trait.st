@@ -1,7 +1,8 @@
 Trait {
 	#name : 'TToElementWithPlaceholder',
-	#category : 'Toplo-Widget-Pane',
-	#package : 'Toplo-Widget-Pane'
+	#category : 'Toplo-Core',
+	#package : 'Toplo',
+	#tag : 'Core'
 }
 
 { #category : 't - element with placeholder' }
@@ -32,7 +33,8 @@ TToElementWithPlaceholder >> hidePlaceholder [
 { #category : 't - element with placeholder' }
 TToElementWithPlaceholder >> placeholderBuilder: aValuable [
 
-	" aValuable takes 2 args: 1 the placeholder to build, 2 the element. If nil, the current builder is removed"
+	" aValuable takes 2 args: 1 the placeholder to build, 2 the element. 
+	If nil, the current builder is removed"
 	self rawPlaceholderBuilder: aValuable 
 ]
 
@@ -40,6 +42,12 @@ TToElementWithPlaceholder >> placeholderBuilder: aValuable [
 TToElementWithPlaceholder >> placeholderClass [
 
 	^ ToPlaceholderLayer
+]
+
+{ #category : 't - element with placeholder' }
+TToElementWithPlaceholder >> placeholderElevation [
+
+	^ self elevation
 ]
 
 { #category : 't - element with placeholder' }
@@ -70,6 +78,7 @@ TToElementWithPlaceholder >> showPlaceholder [
 		builder value: ph value: self.
 		self currentPlaceholderLayer: ph.
 		ph attachTo: self.
+		ph elevation: self placeholderElevation.
 		self addChild: ph.
 		self dispatchEvent: ToPlaceholderAddedEvent new ]
 ]

@@ -14,8 +14,10 @@ Class {
 ToLabelEditorEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
 	| target |
+	super elementAddedToSceneGraphEvent: anEvent.
 	target := anEvent currentTarget.
-	target whenLayoutedDoOnce: [ editorPosition := target positionInSpace ].
+	target whenLayoutedDoOnce: [
+		editorPosition := target positionInSpace ]
 ]
 
 { #category : 'event handling' }
@@ -31,7 +33,7 @@ ToLabelEditorEventHandler >> elementPositionInSpaceChangedEvent: anEvent [
 { #category : 'api - accessing' }
 ToLabelEditorEventHandler >> eventsToHandle [ 
 
-	^ super eventsToHandle , { BlElementAddedToSceneGraphEvent. BlElementPositionInSpaceChangedEvent  }
+	^ super eventsToHandle , { BlElementPositionInSpaceChangedEvent  }
 ]
 
 { #category : 'accessing' }

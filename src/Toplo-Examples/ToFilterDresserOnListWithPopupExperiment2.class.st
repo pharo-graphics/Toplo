@@ -78,18 +78,26 @@ ToFilterDresserOnListWithPopupExperiment2 >> open [
 	pane addChild: listElement.
 	pane addChild: filler.
 
-	listElement placeholder: self startPlaceholder.
-	listElement placeholder elevation:
-		(BlRelativeElevation elevation: SmallInteger maxVal).
+	listElement placeholderBuilder: [ :ph :e | | lab but |
+		ph layout: BlLinearLayout vertical.
+		ph addChild: (lab := ToLabel new text: ('No element - click to get data' asRopedText foreground: Color red)).
+		ph addChild: (but := ToButton new labelText: 'Fetch data').
+		lab constraintsDo: [ :c | c linear horizontal alignCenter ].
+		but constraintsDo: [ :c | c linear horizontal alignCenter ].
+		but when: BlClickEvent do: [
+			self listElement data addAll:
+				(((Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ])
+					 collect: [ :c | c name ]) "copyFrom: 1 to: 1000").
+			e placeholderBuilder: [:ph2 :e2 | ph2 addChild: self filterResultPlaceholder].
+			e requestFocus.
+			e whenLayoutedDoOnce: [ self textUpdated ] ]].
 	listElement showPlaceholder.
-
-	self listElement addDresser: ToListElementFilter new.
 
 	listElement when: ToDataFilterResultEvent do: [ :event |
 			listElement selectIndexes: event indexes ].
 
 	listElement requestFocus.
-	pane openInSpace
+	pane openInInnerWindow 
 ]
 
 { #category : 'instance creation' }
@@ -152,7 +160,6 @@ ToFilterDresserOnListWithPopupExperiment2 >> seeClassSide [
 
 { #category : 'instance creation' }
 ToFilterDresserOnListWithPopupExperiment2 >> startPlaceholder [
-
 	| placeholder lab but |
 	placeholder := ToPane vertical.
 	placeholder layout cellSpacing: 10.
@@ -164,11 +171,12 @@ ToFilterDresserOnListWithPopupExperiment2 >> startPlaceholder [
 	placeholder addChild: (but := ToButton new labelText: 'Fetch data').
 	lab constraintsDo: [ :c | c linear horizontal alignCenter ].
 	but constraintsDo: [ :c | c linear horizontal alignCenter ].
+	but elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
 	but whenClickedDo: [
 		self listElement data addAll:
 			(((Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ])
 				 collect: [ :c | c name ]) "copyFrom: 1 to: 1000").
-		self listElement placeholder: self filterResultPlaceholder.
+		self listElement placeholderBuilder: [:ph :e | ph addChild: self filterResultPlaceholder].
 		self listElement requestFocus.
 		self listElement whenLayoutedDoOnce: [ self textUpdated ] ].
 	^ placeholder

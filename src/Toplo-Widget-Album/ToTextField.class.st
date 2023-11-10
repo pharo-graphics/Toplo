@@ -27,13 +27,17 @@ ToTextField >> initialize [
 	self next vFitContent.
 	self vFitContent.
 	self withoutLineWrapping.
+	self addEventHandler: (AlbTextEditorFocusHandler new element: self).
+	"self addEventHandler:	(AlbTextEditorCursorIconHandler new element: self)."
+	self addEventHandler:	(AlbTextEditorSelectionHandler new element: self infinite).
+	self addEventHandler:	(AlbTextEditorDoubleClickHandler new element: self infinite).
 
 	sharedDistributor := BlSharedEventDistributor new.
 	sharedDistributor
 		adjustMousePosition: false;
 		shareEvents: {
 				BlMouseDownEvent.
-				BlDragEvent.
+				"BlDragEvent.
 				BlDragStartEvent.
 				BlDragEndEvent.
 				BlDragEnterEvent.
@@ -43,12 +47,11 @@ ToTextField >> initialize [
 				BlMouseOverEvent.
 				BlDoubleClickEvent.
 				BlFocusEvent.
-				BlBlurEvent }.
+				BlBlurEvent" }.
 	self addEventHandler: sharedDistributor.
 	self next addEventHandler: sharedDistributor.
 	self infinite addEventHandler: sharedDistributor.
 
-	"self addEventHandler:	(AlbTextEditorDoubleClickHandler new element: self infinite)"
 ]
 
 { #category : 't - element with placeholder' }

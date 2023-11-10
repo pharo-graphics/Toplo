@@ -52,7 +52,7 @@ ToFilterDresserOnListWithPopupExperiment >> listElement [
 { #category : 'instance creation' }
 ToFilterDresserOnListWithPopupExperiment >> open [
 
-	| pane filler |
+	| pane filler dataFilter |
 	pane := ToPane vertical
 		        matchParent;
 		        yourself.
@@ -78,12 +78,11 @@ ToFilterDresserOnListWithPopupExperiment >> open [
 	pane addChild: listElement.
 	pane addChild: filler.
 
-	listElement placeholder: self startPlaceholder.
-	listElement placeholder elevation:
-		(BlRelativeElevation elevation: SmallInteger maxVal).
+	listElement placeholderBuilder: [ :ph :e | ph elevation: e infinite elevation. ph addChild: self startPlaceholder ].
 	listElement showPlaceholder.
 
-	self listElement addDresser: ToListElementFilter new.
+	dataFilter := ToListElementFilter new.
+	listElement dataFilter: dataFilter.
 
 	listElement when: ToDataFilterResultEvent do: [ :event |
 			listElement data filterResult: event data ].
@@ -168,7 +167,7 @@ ToFilterDresserOnListWithPopupExperiment >> startPlaceholder [
 		self listElement data addAll:
 			((Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ])
 				 collect: [ :c | c name ]).
-		self listElement placeholder: self filterResultPlaceholder.
+		self listElement placeholderBuilder: [ :ph :e | self filterResultPlaceholder ].
 		self listElement requestFocus ].
 	^ placeholder
 ]

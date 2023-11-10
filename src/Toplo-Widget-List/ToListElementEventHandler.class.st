@@ -104,8 +104,8 @@ ToListElementEventHandler >> elementScrolledEvent: anEvent [
 ToListElementEventHandler >> eventsToHandle [
 
 	^ {
-		BlElementAddedToSceneGraphEvent.
-	
+		  BlElementAddedToSceneGraphEvent.
+
 		  BlElementExtentChangedEvent.
 		  BlElementScrolledEvent.
 

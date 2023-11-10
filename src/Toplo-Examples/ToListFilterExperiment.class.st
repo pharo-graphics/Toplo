@@ -16,19 +16,6 @@ ToListFilterExperiment class >> open [
 	self new open 
 ]
 
-{ #category : 'instance creation' }
-ToListFilterExperiment >> filterResultPlaceholder [
-
-	| placeholder lab |
-	placeholder := ToPane vertical.
-	placeholder matchParent.
-	lab := ToLabel new text: ('No result' asRopedText foreground: Color lightGray).
-	lab matchParent.
-	lab layout alignCenter.
-	placeholder addChild: lab.
-	^ placeholder
-]
-
 { #category : 'accessing' }
 ToListFilterExperiment >> listElement [
 
@@ -41,7 +28,7 @@ ToListFilterExperiment >> listElement [
 { #category : 'instance creation' }
 ToListFilterExperiment >> open [
 
-	| pane  |
+	| pane |
 	pane := ToPane vertical
 		        matchParent;
 		        yourself.
@@ -54,41 +41,32 @@ ToListFilterExperiment >> open [
 
 	dataFilter := ToListElementFilter new.
 	listElement dataFilter: dataFilter.
-	filterField editorDo: [:ed | ed when: AlbTextEditedEvent do: [ self textUpdated ] ].
+	filterField editorDo: [ :ed |
+		ed when: AlbTextEditedEvent do: [ self textUpdated ] ].
 
-	listElement placeholder: self startPlaceholder.
-	listElement placeholder elevation: (BlRelativeElevation elevation: SmallInteger maxVal).
-	listElement showPlaceholder.
+	self listElement data addAll:
+		((Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ])
+			 collect: [ :c | c name ]).
 
-	listElement when: ToDataFilterResultEvent do: [ :event |
-		listElement data filterResult: event data ].
-	pane openInSpace
+	listElement
+		when: ToDataFilterResultEvent
+		do: [ :event | listElement data filterResult: event data ].
+
+	self listElement placeholderBuilder: [ :ph :e | | lab |
+		lab := ToLabel new text: ('No result' asRopedText foreground: Color lightGray; fontSize: 24; yourself).
+		lab matchParent.
+		lab layout alignCenter.
+		ph addChild: lab].
+
+"	listElement data when: ToCollectionEmptinessEvent do: [ :event |
+		listElement data
+			ifEmpty: [ listElement showPlaceholder ]
+			ifNotEmpty: [ listElement hidePlaceholder ] ]."
+	pane openInInnerWindow 
 ]
 
 { #category : 'see class side' }
 ToListFilterExperiment >> seeClassSide [ 
-]
-
-{ #category : 'instance creation' }
-ToListFilterExperiment >> startPlaceholder [
-
-	| placeholder lab but |
-	placeholder := ToPane vertical.
-	placeholder layout cellSpacing: 10.
-	placeholder margin: (BlInsets all: 20).
-	placeholder matchParent.
-	placeholder addChild: (lab := ToLabel new text:
-			        ('No element - click to get data' asRopedText foreground:
-				         Color red)).
-	placeholder addChild: (but := ToButton new labelText: 'Fetch data').
-	lab constraintsDo: [ :c | c linear horizontal alignCenter ].
-	but constraintsDo: [ :c | c linear horizontal alignCenter ].
-	but whenClickedDo: [
-		self listElement data addAll:
-			((Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ])
-				 collect: [ :c | c name ]).
-		self listElement placeholder: self filterResultPlaceholder ].
-	^ placeholder
 ]
 
 { #category : 'instance creation' }

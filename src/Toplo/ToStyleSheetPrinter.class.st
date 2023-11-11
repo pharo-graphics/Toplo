@@ -34,7 +34,7 @@ ToStyleSheetPrinter >> asCSSLikeString [
 
 	| stream |
 	stream := ReadWriteStream on: String new.
-	self printStyleSheetCSSOn: stream.
+	self printStyleSheetCSSLikeOn: stream.
 	^ stream contents
 ]
 
@@ -170,7 +170,7 @@ ToStyleSheetPrinter >> printStyleRuleCSS: aStyleRule on: aStream hangSelector: a
 ]
 
 { #category : #printing }
-ToStyleSheetPrinter >> printStyleSheetCSSOn: aStream [
+ToStyleSheetPrinter >> printStyleSheetCSSLikeOn: aStream [
 
 	self styleRules do:[ :rule |
 		self printStyleRuleCSS: rule on: aStream hangSelector: nil. 		

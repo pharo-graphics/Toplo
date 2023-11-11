@@ -45,11 +45,11 @@ ToThemeExamples class >> displaySpaceStyleSheet: aSpace [
 	"Build the style sheet detail"
 	aSpace toTheme styleSheet ifNil:[ stream nextPutAll: 'This theme doesn''t manage a style sheet.' ] ifNotNil:[ :sheet | 
 		stream 
-			nextPutAll: 'Style Sheet with '; nextPutAll: (sheet rawStyleRules size) asString; nextPutAll: ' rule(s)' ; cr;
+			nextPutAll: 'CSS Like style sheet with '; nextPutAll: (sheet rawStyleRules size) asString; nextPutAll: ' rule(s)' ; cr;
 			nextPutAll: '###'; cr.
 			
 		printer := ToStyleSheetPrinter styleSheet: sheet.
-		printer printStyleSheetCSSOn: stream.
+		printer printStyleSheetCSSLikeOn: stream.
 	].
 	
 	"Open the presenter"

@@ -2,14 +2,12 @@
 A ToEnablementChangedEventTest is a test class for testing the behavior of ToEnablementChangedEvent
 "
 Class {
-	#name : 'ToEnablementChangedEventTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core',
-	#package : 'Toplo-Tests',
-	#tag : 'Core'
+	#name : #ToEnablementChangedEventTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Tests-Core'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToEnablementChangedEventTest >> testEnablement [
 
 	| cpt e |

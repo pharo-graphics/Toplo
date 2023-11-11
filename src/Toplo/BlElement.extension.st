@@ -3,8 +3,8 @@ Extension { #name : #BlElement }
 { #category : #'*Toplo' }
 BlElement >> applySkinInstaller [
 
-	self toThemeManager applySkinUninstallerIn: self.
-	self toThemeManager applySkinInstallerIn: self
+	self skinManager applySkinUninstallerIn: self.
+	self skinManager applySkinInstallerIn: self
 ]
 
 { #category : #'*Toplo' }
@@ -24,13 +24,13 @@ BlElement >> borderBuilder [
 { #category : #'*Toplo' }
 BlElement >> defaultSkin [
 
-	^ self toThemeManager defaultSkinIn: self
+	^ self skinManager defaultSkinIn: self
 ]
 
 { #category : #'*Toplo' }
 BlElement >> defaultSkin: aSkin [
 
-	self toThemeManager defaultSkin: aSkin in: self
+	self skinManager defaultSkin: aSkin in: self
 ]
 
 { #category : #'*Toplo' }
@@ -95,13 +95,13 @@ BlElement >> installRawStyle [
 { #category : #'*Toplo' }
 BlElement >> installedSkin [
 
-	^ self toThemeManager installedSkin
+	^ self skinManager installedSkin
 ]
 
 { #category : #'*Toplo' }
 BlElement >> installedSkinDo: aBlock [
 
-	self toThemeManager installedSkinDo: aBlock
+	self skinManager installedSkinDo: aBlock
 ]
 
 { #category : #'*Toplo' }
@@ -119,7 +119,7 @@ BlElement >> isEnabled [
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> localToTheme: aTheme [
 
-	self toThemeManager localTheme: aTheme in: self
+	self skinManager localTheme: aTheme in: self
 ]
 
 { #category : #'*Toplo' }
@@ -141,7 +141,7 @@ BlElement >> openInInnerWindow [
 BlElement >> requestSkin [
 
 	" first check for the space phases "
-	self toThemeManager requestSkinIn: self 
+	self skinManager requestSkinIn: self 
 ]
 
 { #category : #'*Toplo' }
@@ -155,25 +155,31 @@ BlElement >> requestSkinRecursively [
 BlElement >> requestUninstallSkin [
 
 	" first check for the space phases "
-	self toThemeManager requestUninstallSkinIn: self 
+	self skinManager requestUninstallSkinIn: self 
 ]
 
 { #category : #'*Toplo' }
 BlElement >> setSkin: aSkin [
 
-	self toThemeManager setSkin: aSkin in: self
+	self skinManager setSkin: aSkin in: self
 ]
 
 { #category : #'*Toplo' }
 BlElement >> skinInstaller [
 
-	^ self toThemeManager skinInstaller 
+	^ self skinManager skinInstaller 
 ]
 
 { #category : #'*Toplo' }
 BlElement >> skinInstaller: aSkinInstaller [
 
-	self toThemeManager skinInstaller: aSkinInstaller
+	self skinManager skinInstaller: aSkinInstaller
+]
+
+{ #category : #'*Toplo' }
+BlElement >> skinManager [
+
+	^ self userData at: #skinManager ifAbsentPut: [ ToSkinManager new ]
 ]
 
 { #category : #'*Toplo' }
@@ -185,13 +191,19 @@ BlElement >> skinStateGeneratorClass [
 { #category : #'*Toplo' }
 BlElement >> skinStateQueue [
 
-	^ self toThemeManager skinStateQueueIn: self
+	^ self skinManager skinStateQueue
+]
+
+{ #category : #'*Toplo' }
+BlElement >> skinUninstaller [
+
+	^ self skinManager skinUninstaller 
 ]
 
 { #category : #'*Toplo' }
 BlElement >> skinUninstaller: aSkinUninstaller [
 
-	self toThemeManager skinUninstaller: aSkinUninstaller
+	self skinManager skinUninstaller: aSkinUninstaller
 ]
 
 { #category : #'*Toplo' }
@@ -263,7 +275,7 @@ BlElement >> toStyleStore [
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> toTheme [
 
-		^ self toThemeManager lookupThemeFrom: self
+		^ self skinManager lookupThemeFrom: self
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
@@ -283,12 +295,6 @@ BlElement >> toThemeChanged [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> toThemeManager [
-
-	^ self userData at: #toThemeManager ifAbsentPut: [ ToThemeManager new ]
-]
-
-{ #category : #'*Toplo' }
 BlElement >> uninstallRawStyle [
 
 ]
@@ -296,7 +302,7 @@ BlElement >> uninstallRawStyle [
 { #category : #'*Toplo' }
 BlElement >> updateStyles [
 
-	self toThemeManager updateStylesIn: self
+	self skinManager updateStylesIn: self
 ]
 
 { #category : #'*Toplo' }
@@ -328,7 +334,7 @@ BlElement >> withoutAllStamps [
 { #category : #'*Toplo' }
 BlElement >> withoutSkin [
 
-	self toThemeManager setSkin: ToNullSkin new in: self
+	self skinManager setSkin: ToNullSkin new in: self
 ]
 
 { #category : #'*Toplo' }

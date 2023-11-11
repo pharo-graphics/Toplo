@@ -45,18 +45,6 @@ ToSkinStateQueue >> nextStates [
 	^ nextStates
 ]
 
-{ #category : #'api - hooks' }
-ToSkinStateQueue >> onInstalledIn: anElement [
-
-
-]
-
-{ #category : #'api - hooks' }
-ToSkinStateQueue >> onUninstalledIn: anElement [
-
-
-]
-
 { #category : #initialization }
 ToSkinStateQueue >> reset [ 
 

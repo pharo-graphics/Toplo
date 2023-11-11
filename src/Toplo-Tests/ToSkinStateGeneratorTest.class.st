@@ -2,14 +2,12 @@
 A ToSkinStateGeneratorTest is a test class for testing the behavior of ToSkinStateGenerator
 "
 Class {
-	#name : 'ToSkinStateGeneratorTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core-Theme',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Theme'
+	#name : #ToSkinStateGeneratorTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Tests-Core-Theme'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateGeneratorTest >> testOnInstalledIn [
 
 	| e h |
@@ -21,19 +19,19 @@ ToSkinStateGeneratorTest >> testOnInstalledIn [
 	self assert: h target isNil
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateGeneratorTest >> testOnUninstalledIn [
 
 	self testOnInstalledIn
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateGeneratorTest >> testTarget [
 
 	self testOnInstalledIn 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateGeneratorTest >> testWantsEvent [
 
 	| e h eventsToHandle eventsToHandleWhenDisabled |

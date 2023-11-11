@@ -2,17 +2,15 @@
 A ToSkinnableEventHandlerTest is a test class for testing the behavior of ToSkinnableEventHandler
 "
 Class {
-	#name : 'ToSkinStateQueueTest',
-	#superclass : 'ToParameterizedHostTest',
+	#name : #ToSkinStateQueueTest,
+	#superclass : #ToParameterizedHostTest,
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core-Theme',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Theme'
+	#category : 'Toplo-Tests-Core-Theme'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateQueueTest >> newElementInSpace [
 
 	| e |
@@ -28,19 +26,19 @@ ToSkinStateQueueTest >> newElementInSpace [
 	
 ]
 
-{ #category : 'running' }
+{ #category : #running }
 ToSkinStateQueueTest >> setUp [ 
 	super setUp.
 	space := self newTestingSpace
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateQueueTest >> testCheckableCheckedEvent [
 
 	self testGenerateCheckStateFromEvent 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateQueueTest >> testGenerateCheckStateFromEvent [
 
 	| e evt nextStates currentStates nextStatesSize currentStatesSize |
@@ -118,7 +116,7 @@ ToSkinStateQueueTest >> testGenerateCheckStateFromEvent [
 		equals: 1
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateQueueTest >> testGenerateClickedStateFromEvent [
 
 	| e evt nextStates currentStates |
@@ -154,7 +152,7 @@ ToSkinStateQueueTest >> testGenerateClickedStateFromEvent [
 	self assert: nextStates size equals: 4
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinStateQueueTest >> testGenerateHoveredStateFromEvent [
 
 	| e evt nextStates currentStates |

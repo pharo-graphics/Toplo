@@ -2,14 +2,12 @@
 A ToStyleSelectorInterpreterTest is a test class for testing the behavior of ToStyleSelectorInterpreter
 "
 Class {
-	#name : 'ToSelectorInterpreterTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core-Selector',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Selector'
+	#name : #ToSelectorInterpreterTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Tests-Core-Selector'
 }
 
-{ #category : 'tests - action selector' }
+{ #category : #'tests - action selector' }
 ToSelectorInterpreterTest >> testActionSelector [
 
 	| selector e engine  |
@@ -22,7 +20,7 @@ ToSelectorInterpreterTest >> testActionSelector [
 
 ]
 
-{ #category : 'tests - child selector' }
+{ #category : #'tests - child selector' }
 ToSelectorInterpreterTest >> testChildMixedWithParentSelector [
 
 	| button innerElement icon label engine innerElementSelector buttonSelector |
@@ -54,7 +52,7 @@ ToSelectorInterpreterTest >> testChildMixedWithParentSelector [
 	self assert: engine result
 ]
 
-{ #category : 'tests - child selector' }
+{ #category : #'tests - child selector' }
 ToSelectorInterpreterTest >> testChildSelector [
 
 	" selector: an element with a parent of type Object "
@@ -75,7 +73,7 @@ ToSelectorInterpreterTest >> testChildSelector [
 	
 ]
 
-{ #category : 'tests - child selector' }
+{ #category : #'tests - child selector' }
 ToSelectorInterpreterTest >> testChildSelectorWithDepth [
 
 	| childSelectorAnyDepth childSelectorDepth1 childSelectorDepth2 sub subsub parent engine |
@@ -116,7 +114,7 @@ ToSelectorInterpreterTest >> testChildSelectorWithDepth [
 	self assert: engine result not
 ]
 
-{ #category : 'tests - child selector' }
+{ #category : #'tests - child selector' }
 ToSelectorInterpreterTest >> testChildSelectorWithTwoChildrenDepth1 [
 
 	| button icon label engine buttonSelector |
@@ -139,7 +137,7 @@ ToSelectorInterpreterTest >> testChildSelectorWithTwoChildrenDepth1 [
 
 ]
 
-{ #category : 'tests - child selector' }
+{ #category : #'tests - child selector' }
 ToSelectorInterpreterTest >> testChildSelectorWithTwoChildrenWithTwoChildSelectorsDepth2 [
 
 	| button innerElement icon label engine buttonSelector |
@@ -181,7 +179,7 @@ ToSelectorInterpreterTest >> testChildSelectorWithTwoChildrenWithTwoChildSelecto
 
 ]
 
-{ #category : 'tests - with single selector' }
+{ #category : #'tests - with single selector' }
 ToSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass0 [
 
 	" element with no class, selector without class "
@@ -194,7 +192,7 @@ ToSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass0 [
 	self assert: engine result 
 ]
 
-{ #category : 'tests - with single selector' }
+{ #category : #'tests - with single selector' }
 ToSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass1 [
 
 	" element with a class, selector without class "
@@ -207,7 +205,7 @@ ToSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass1 [
 	self assert: engine result 
 ]
 
-{ #category : 'tests - with single selector' }
+{ #category : #'tests - with single selector' }
 ToSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass2 [
 
 	" element with a class, selector with the same class "
@@ -220,7 +218,7 @@ ToSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass2 [
 	self assert: engine result 
 ]
 
-{ #category : 'tests - with single selector' }
+{ #category : #'tests - with single selector' }
 ToSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass3 [
 
 	" element with a class, selector with the a different class "
@@ -238,7 +236,7 @@ ToSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass3 [
 
 ]
 
-{ #category : 'tests - with single selector' }
+{ #category : #'tests - with single selector' }
 ToSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass4 [
 	" element with multiple classes "
 
@@ -257,7 +255,7 @@ ToSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass4 [
 	self assert: engine result
 ]
 
-{ #category : 'tests - with single selector' }
+{ #category : #'tests - with single selector' }
 ToSelectorInterpreterTest >> testNotSelector [
 
 	| selector e engine |
@@ -274,7 +272,7 @@ ToSelectorInterpreterTest >> testNotSelector [
 
 ]
 
-{ #category : 'tests - parent selector' }
+{ #category : #'tests - parent selector' }
 ToSelectorInterpreterTest >> testParentSelector [
 
 	" selector: an element with a parent of type Object "
@@ -295,7 +293,7 @@ ToSelectorInterpreterTest >> testParentSelector [
 	
 ]
 
-{ #category : 'tests - with single selector' }
+{ #category : #'tests - with single selector' }
 ToSelectorInterpreterTest >> testParentSelectorWithElementWithNoParent [
 
 	| selector e engine |
@@ -306,7 +304,7 @@ ToSelectorInterpreterTest >> testParentSelectorWithElementWithNoParent [
 	self assert: engine result not
 ]
 
-{ #category : 'tests - parent selector' }
+{ #category : #'tests - parent selector' }
 ToSelectorInterpreterTest >> testParentSelectorWithoutLeft [
 
 	" selector: an element with a parent of type Object "
@@ -327,7 +325,7 @@ ToSelectorInterpreterTest >> testParentSelectorWithoutLeft [
 	
 ]
 
-{ #category : 'tests - and selector' }
+{ #category : #'tests - and selector' }
 ToSelectorInterpreterTest >> testRuleWithAndSelector [
 	" a rule with an And operator  "
 
@@ -349,7 +347,7 @@ ToSelectorInterpreterTest >> testRuleWithAndSelector [
 	self assert: engine result not
 ]
 
-{ #category : 'tests - sibling selector' }
+{ #category : #'tests - sibling selector' }
 ToSelectorInterpreterTest >> testRuleWithAndSiblingSelector [
 	" a rule with an And operator  "
 
@@ -366,7 +364,7 @@ ToSelectorInterpreterTest >> testRuleWithAndSiblingSelector [
 	self assert: engine result
 ]
 
-{ #category : 'tests - sibling selector' }
+{ #category : #'tests - sibling selector' }
 ToSelectorInterpreterTest >> testRuleWithAndSiblingSelector2 [
 	" a rule with an And operator  "
 
@@ -389,7 +387,7 @@ ToSelectorInterpreterTest >> testRuleWithAndSiblingSelector2 [
 	
 ]
 
-{ #category : 'tests - sibling selector' }
+{ #category : #'tests - sibling selector' }
 ToSelectorInterpreterTest >> testRuleWithAndSiblingSelector3 [
 	" a rule with an And operator  "
 
@@ -412,7 +410,7 @@ ToSelectorInterpreterTest >> testRuleWithAndSiblingSelector3 [
 	
 ]
 
-{ #category : 'tests - sibling selector' }
+{ #category : #'tests - sibling selector' }
 ToSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector [
 	" a rule with an And operator  "
 
@@ -435,7 +433,7 @@ ToSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector [
 	
 ]
 
-{ #category : 'tests - sibling selector' }
+{ #category : #'tests - sibling selector' }
 ToSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector2 [
 	" a rule with an And operator  "
 
@@ -459,7 +457,7 @@ ToSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector2 [
 	self assert: engine result
 ]
 
-{ #category : 'tests - sibling selector' }
+{ #category : #'tests - sibling selector' }
 ToSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector3 [
 	" a rule with an And operator  "
 
@@ -486,7 +484,7 @@ ToSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector3 [
 	self assert: engine result
 ]
 
-{ #category : 'tests - and selector' }
+{ #category : #'tests - and selector' }
 ToSelectorInterpreterTest >> testRuleWithAndWithParentSelector [
 	" a rule with an And operator  "
 
@@ -514,7 +512,7 @@ ToSelectorInterpreterTest >> testRuleWithAndWithParentSelector [
 	self assert: engine result
 ]
 
-{ #category : 'tests - or selector' }
+{ #category : #'tests - or selector' }
 ToSelectorInterpreterTest >> testRuleWithOrSelector [
 	" a rule with an And operator  "
 
@@ -535,7 +533,7 @@ ToSelectorInterpreterTest >> testRuleWithOrSelector [
 	self assert: engine result not
 ]
 
-{ #category : 'tests - or selector' }
+{ #category : #'tests - or selector' }
 ToSelectorInterpreterTest >> testRuleWithOrWithParentSelector [
 	" a rule with an Or operator with a child selector  "
 
@@ -561,7 +559,7 @@ ToSelectorInterpreterTest >> testRuleWithOrWithParentSelector [
 	self assert: engine result
 ]
 
-{ #category : 'tests - type selector' }
+{ #category : #'tests - type selector' }
 ToSelectorInterpreterTest >> testTypeSelector [ 
 
 	| selector e engine |
@@ -572,7 +570,7 @@ ToSelectorInterpreterTest >> testTypeSelector [
 	self assert: engine result.
 ]
 
-{ #category : 'tests - type selector' }
+{ #category : #'tests - type selector' }
 ToSelectorInterpreterTest >> testTypeSelectorAndChildSelector [
 
 	| selector e engine |
@@ -585,7 +583,7 @@ ToSelectorInterpreterTest >> testTypeSelectorAndChildSelector [
 
 ]
 
-{ #category : 'tests - type selector' }
+{ #category : #'tests - type selector' }
 ToSelectorInterpreterTest >> testTypeSelectorAndParentSelector [
 
 	| selector e engine |
@@ -606,7 +604,7 @@ ToSelectorInterpreterTest >> testTypeSelectorAndParentSelector [
 
 ]
 
-{ #category : 'tests - with single selector' }
+{ #category : #'tests - with single selector' }
 ToSelectorInterpreterTest >> testUniversalSelector [
 
 	| selector e engine |
@@ -617,7 +615,7 @@ ToSelectorInterpreterTest >> testUniversalSelector [
 	self assert: engine result
 ]
 
-{ #category : 'tests - with single selector' }
+{ #category : #'tests - with single selector' }
 ToSelectorInterpreterTest >> testUniversalSelectorWithParent [
 
 	| selector button engine chilLevel3 |	
@@ -632,7 +630,7 @@ ToSelectorInterpreterTest >> testUniversalSelectorWithParent [
 	self assert: engine result 
 ]
 
-{ #category : 'tests - parent selector' }
+{ #category : #'tests - parent selector' }
 ToSelectorInterpreterTest >> testparentSelectorWithDepth [
 
 	| engine parent directParentSelector1 directParentSelector2 parentParentSelector sub subsub |

@@ -7,8 +7,7 @@ Class {
 { #category : #'api - accessing' }
 ToNullSkin >> eventsToHandle [
 
-	^ {
-		  ToSkinEvent }
+	^ {  }
 ]
 
 { #category : #testing }

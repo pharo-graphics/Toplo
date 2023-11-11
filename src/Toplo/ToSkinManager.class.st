@@ -1,100 +1,89 @@
 Class {
-	#name : #ToThemeManager,
+	#name : #ToSkinManager,
 	#superclass : #Object,
 	#instVars : [
 		'skinInstaller',
-		'localDefaultSkin',
 		'localTheme',
 		'postponedRequestSkin',
 		'installedSkin',
 		'skinStateQueue',
-		'skinUninstaller'
+		'skinUninstaller',
+		'defaultSkin'
 	],
 	#category : 'Toplo-Core-Theme'
 }
 
 { #category : #'skin application' }
-ToThemeManager >> applySkinInstallerIn: anElement [
+ToSkinManager >> applySkinInstallerIn: anElement [
 
+	" ask the skin installer (if any) to actually install the skin "
 	self skinInstaller ifNotNil: [ :si | si applyOn: anElement ]
 	
 ]
 
 { #category : #'skin application' }
-ToThemeManager >> applySkinUninstallerIn: anElement [
+ToSkinManager >> applySkinUninstallerIn: anElement [
 
+	" ask the skin uninstaller (if any) to actually uninstall the skin "
 	self skinUninstaller ifNotNil: [ :su | su applyOn: anElement ]
-	
 ]
 
 { #category : #'accessing - skin' }
-ToThemeManager >> defaultSkin: aSkin in: anElement [
+ToSkinManager >> defaultSkin: aSkin in: anElement [
 
-	self localDefaultSkin = aSkin ifTrue: [ ^ self ].
+	defaultSkin = aSkin ifTrue: [ ^ self ].
 	self setSkin: aSkin in: anElement
 
 ]
 
 { #category : #'accessing - skin' }
-ToThemeManager >> defaultSkinIn: anElement [
+ToSkinManager >> defaultSkinIn: anElement [
 
-	^ localDefaultSkin ifNil: [ anElement toTheme newSkinFor: anElement ]
+	^ defaultSkin ifNil: [ (self lookupThemeFrom: anElement) newSkinFor: anElement ]
 ]
 
 { #category : #'accessing - skin' }
-ToThemeManager >> installedSkin [
+ToSkinManager >> installedSkin [
 
-	" set from the ToSkin>>onInstalledIn: and ToSkin>>onUninstalledIn: with my #installedSkin: accessor"
+	" set from the ToSkin>>onInstalledIn: and ToSkin>>onUninstalledIn: "
 	^ installedSkin
 ]
 
 { #category : #'accessing - skin' }
-ToThemeManager >> installedSkin: aSkin [
+ToSkinManager >> installedSkin: aSkin [
 
 	" send from the ToSkin>>onInstalledIn: and ToSkin>>onUninstalledIn: "
 	installedSkin := aSkin
 ]
 
 { #category : #'accessing - skin' }
-ToThemeManager >> installedSkinDo: aBlock [
+ToSkinManager >> installedSkinDo: aBlock [
 
 	self installedSkin ifNil: [ ^ self ].
 	aBlock value: self installedSkin
 ]
 
 { #category : #'accessing - skin' }
-ToThemeManager >> isRequestSkinPostponed [
+ToSkinManager >> isRequestSkinPostponed [
 
 	
 	^ postponedRequestSkin notNil
 ]
 
-{ #category : #'accessing - skin' }
-ToThemeManager >> localDefaultSkin [
-
-	^ localDefaultSkin
-]
-
-{ #category : #'accessing - skin' }
-ToThemeManager >> localDefaultSkin: aSkin [
-
-	localDefaultSkin := aSkin
-]
-
 { #category : #accessing }
-ToThemeManager >> localTheme [ 
+ToSkinManager >> localTheme [ 
 
 	^ localTheme
 ]
 
 { #category : #accessing }
-ToThemeManager >> localTheme: aTheme [
+ToSkinManager >> localTheme: aTheme [
 
 	localTheme := aTheme
 ]
 
 { #category : #accessing }
-ToThemeManager >> localTheme: aTheme in: anElement [
+ToSkinManager >> localTheme: aTheme in: anElement [
 
 	self localTheme = aTheme ifTrue: [ ^ self ].
 	self localTheme: aTheme.
@@ -103,7 +92,7 @@ ToThemeManager >> localTheme: aTheme in: anElement [
 ]
 
 { #category : #accessing }
-ToThemeManager >> lookupThemeFrom: anElement [
+ToSkinManager >> lookupThemeFrom: anElement [
 
 	^ self localTheme ifNil: [
 		  anElement hasParent
@@ -118,7 +107,7 @@ ToThemeManager >> lookupThemeFrom: anElement [
 ]
 
 { #category : #'accessing - skin' }
-ToThemeManager >> postponeRequestSkinIn: anElement [
+ToSkinManager >> postponeRequestSkinIn: anElement [
 
 	self isRequestSkinPostponed ifTrue: [ ^ self ].
 	postponedRequestSkin := BlEventHandler new.
@@ -131,7 +120,7 @@ ToThemeManager >> postponeRequestSkinIn: anElement [
 ]
 
 { #category : #'accessing - skin' }
-ToThemeManager >> requestSkinIn: anElement [
+ToSkinManager >> requestSkinIn: anElement [
 
 	" first check for the space phases "
 	anElement space ifNil: [
@@ -143,7 +132,7 @@ ToThemeManager >> requestSkinIn: anElement [
 ]
 
 { #category : #'accessing - skin' }
-ToThemeManager >> requestUninstallSkinIn: anElement [
+ToSkinManager >> requestUninstallSkinIn: anElement [
 
 	self skinUninstaller ifNotNil: [ 
 		^ self ].
@@ -151,52 +140,46 @@ ToThemeManager >> requestUninstallSkinIn: anElement [
 ]
 
 { #category : #'accessing - skin' }
-ToThemeManager >> setSkin: aSkin in: anElement [
+ToSkinManager >> setSkin: aSkin in: anElement [
 
 	anElement requestUninstallSkin.
-	localDefaultSkin := aSkin.
+	defaultSkin := aSkin.
 	anElement requestSkin
 ]
 
 { #category : #accessing }
-ToThemeManager >> skinInstaller [ 
+ToSkinManager >> skinInstaller [ 
 
 	^ skinInstaller 
 ]
 
 { #category : #accessing }
-ToThemeManager >> skinInstaller: aSkinInstaller [
+ToSkinManager >> skinInstaller: aSkinInstaller [
 
 	skinInstaller := aSkinInstaller 
 ]
 
 { #category : #accessing }
-ToThemeManager >> skinStateQueue [
+ToSkinManager >> skinStateQueue [
 
-	^ skinStateQueue
+	^ skinStateQueue ifNil: [ skinStateQueue := ToSkinStateQueue new ]
 ]
 
 { #category : #accessing }
-ToThemeManager >> skinStateQueueIn: anElement [
-
-	^ skinStateQueue ifNil: [
-		  skinStateQueue := ToSkinStateQueue new onInstalledIn: anElement ]
-]
-
-{ #category : #accessing }
-ToThemeManager >> skinUninstaller [
+ToSkinManager >> skinUninstaller [
 
 	^ skinUninstaller
 ]
 
 { #category : #accessing }
-ToThemeManager >> skinUninstaller: aSkinUninstaller [
+ToSkinManager >> skinUninstaller: aSkinUninstaller [
 
 	skinUninstaller := aSkinUninstaller 
 ]
 
-{ #category : #'accessing - skin' }
-ToThemeManager >> updateStylesIn: anElement [
+{ #category : #'skin application' }
+ToSkinManager >> updateStylesIn: anElement [
 
+	" run the skin actually by flushing the state queue"
 	self installedSkinDo: [ :s | s updateStylesIn: anElement ]
 ]

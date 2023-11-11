@@ -2,40 +2,38 @@
 A ToSkinUninstallerTest is a test class for testing the behavior of ToSkinUninstaller
 "
 Class {
-	#name : 'ToSkinUninstallerTest',
-	#superclass : 'ToParameterizedHostTest',
+	#name : #ToSkinUninstallerTest,
+	#superclass : #ToParameterizedHostTest,
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core-Theme',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Theme'
+	#category : 'Toplo-Tests-Core-Theme'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 ToSkinUninstallerTest >> setUp [ 
 	super setUp.
 	space := self newTestingSpace
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinUninstallerTest >> testApplyOn [
 
 	| e |
 	e := ToElement new.
 	e skinUninstaller: ToSkinUninstaller new.
-	e toThemeManager applySkinUninstallerIn: e.
+	e skinManager applySkinUninstallerIn: e.
 	space root addChild: e.
 	e applySkinInstaller.
 	self assert: e installedSkin notNil.
 	e skinUninstaller: ToSkinUninstaller new.
-	e toThemeManager applySkinUninstallerIn: e.
+	e skinManager applySkinUninstallerIn: e.
 	self assert: e installedSkin isNil.
 
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinUninstallerTest >> testWithSetSkin [
 
 	| e |
@@ -45,7 +43,7 @@ ToSkinUninstallerTest >> testWithSetSkin [
 	e applySkinInstaller.
 	self assert: e installedSkin notNil.
 	e setSkin: ToNullSkin new.
-	e toThemeManager applySkinUninstallerIn: e.
+	e skinManager applySkinUninstallerIn: e.
 	self assert: e installedSkin isNil.
 	self assert: e skinInstaller notNil.
 	e applySkinInstaller.
@@ -54,7 +52,7 @@ ToSkinUninstallerTest >> testWithSetSkin [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinUninstallerTest >> testWithoutSkin [
 
 	| e |
@@ -64,7 +62,7 @@ ToSkinUninstallerTest >> testWithoutSkin [
 	e applySkinInstaller.
 	self assert: e installedSkin notNil.
 	e withoutSkin.
-	e toThemeManager applySkinUninstallerIn: e.
+	e skinManager applySkinUninstallerIn: e.
 	self assert: e installedSkin isNil.
 	self assert: e skinInstaller notNil.
 	e applySkinInstaller.

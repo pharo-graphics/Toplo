@@ -1,6 +1,6 @@
-Extension { #name : 'BlBackground' }
+Extension { #name : #BlBackground }
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 BlBackground >> formImage [
 
 	^ nil

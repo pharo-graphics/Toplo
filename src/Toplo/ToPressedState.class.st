@@ -1,18 +1,16 @@
 Class {
-	#name : 'ToPressedState',
-	#superclass : 'ToElementState',
-	#category : 'Toplo-Core-States',
-	#package : 'Toplo',
-	#tag : 'Core-States'
+	#name : #ToPressedState,
+	#superclass : #ToElementState,
+	#category : 'Toplo-Core-States'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPressedState >> incompatibleStateClasses [
 
 	^ { ToReleasedState }  
 ]
 
-{ #category : 'look event sending' }
+{ #category : #'look event sending' }
 ToPressedState >> lookEventClass [
 
 	^ ToPressedLookEvent

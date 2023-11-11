@@ -1,34 +1,32 @@
 Class {
-	#name : 'ToStyleSheetTheme',
-	#superclass : 'ToTheme',
+	#name : #ToStyleSheetTheme,
+	#superclass : #ToTheme,
 	#instVars : [
 		'styleSheet'
 	],
-	#category : 'Toplo-Core-Theme',
-	#package : 'Toplo',
-	#tag : 'Core-Theme'
+	#category : #'Toplo-Core-Theme'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToStyleSheetTheme >> defaultElementStyleStampsFor: anElement [ 
 
 	^ { }
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToStyleSheetTheme >> defaultStampList [
 	" skin managing need a list of unique stamps . "
 
 	^ { }
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetTheme >> name [
 
 	^ #'StyleSheetTheme'
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetTheme >> newSkinFor: anElement [
 
 	anElement withAllStamps: (self defaultElementStyleStampsFor: anElement).
@@ -40,7 +38,16 @@ ToStyleSheetTheme >> newSkinFor: anElement [
 				  yourself ]
 ]
 
-{ #category : 'writer selecting' }
+{ #category : #'writer selecting' }
+ToStyleSheetTheme >> rawRulesFor: anElement [
+	"Return all rules that contains writers for anElement"
+
+	| rootRules |
+	rootRules := self rootRulesFor: anElement.
+	^ rootRules select: [ :r | r canBeAppliedTo: anElement ]
+]
+
+{ #category : #'writer selecting' }
 ToStyleSheetTheme >> rawWritersFor: anElement [
 
 	^ Array streamContents: [ :stream |
@@ -48,7 +55,7 @@ ToStyleSheetTheme >> rawWritersFor: anElement [
 			  r putAllWritersFor: anElement in: stream ] ]
 ]
 
-{ #category : 'writer selecting' }
+{ #category : #'writer selecting' }
 ToStyleSheetTheme >> rootRulesFor: anElement [
 
 	^ Array streamContents: [ :str |
@@ -56,32 +63,45 @@ ToStyleSheetTheme >> rootRulesFor: anElement [
 			  str nextPutAll: ss styleRules ] ]
 ]
 
-{ #category : 'writer selecting' }
+{ #category : #'writer selecting' }
+ToStyleSheetTheme >> rulesFor: anElement [
+	" for an element, several rules can be found. These rules 
+	are found with #rootRulesFor:. After, for each rules we kept only writers for this element"
+
+	| rawRules |
+	
+	anElement isAttachedToSceneGraph ifFalse: [ ^ #() ].
+	
+	" get all subscriptions for anElement "
+	^ self rawRulesFor: anElement
+]
+
+{ #category : #'writer selecting' }
 ToStyleSheetTheme >> skinClassFor: anElement [
 
 	^ ToStyleSheetSkin
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetTheme >> stampNamed: aSymbol [
 
 	^ self styleSheet stampNamed: aSymbol
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetTheme >> styleSheet [
 
 	^ styleSheet
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetTheme >> styleSheet: aStyleSheet [
 
 	aStyleSheet defaultStampList: self defaultStampList.
 	styleSheet := aStyleSheet
 ]
 
-{ #category : 'writer selecting' }
+{ #category : #'writer selecting' }
 ToStyleSheetTheme >> writersFor: anElement [
 	" for an element, several writers can be found. These writers 
 	are found with #rawWritersFor:. After, for each property only the last writers is kept"

@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToStillPressedLookEvent',
-	#superclass : 'ToElementLookEvent',
-	#category : 'Toplo-Core-LookEvents',
-	#package : 'Toplo',
-	#tag : 'Core-LookEvents'
+	#name : #ToStillPressedLookEvent,
+	#superclass : #ToElementLookEvent,
+	#category : 'Toplo-Core-LookEvents'
 }
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToStillPressedLookEvent >> sendTo: anObject [
 
 	anObject stillPressedLookEvent: self

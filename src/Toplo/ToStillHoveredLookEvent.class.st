@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToStillHoveredLookEvent',
-	#superclass : 'ToElementLookEvent',
-	#category : 'Toplo-Core-LookEvents',
-	#package : 'Toplo',
-	#tag : 'Core-LookEvents'
+	#name : #ToStillHoveredLookEvent,
+	#superclass : #ToElementLookEvent,
+	#category : 'Toplo-Core-LookEvents'
 }
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToStillHoveredLookEvent >> sendTo: anObject [
 
 	anObject stillHoveredLookEvent: self

@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToSkinUninstaller',
-	#superclass : 'Object',
-	#category : 'Toplo-Core-Theme',
-	#package : 'Toplo',
-	#tag : 'Core-Theme'
+	#name : #ToSkinUninstaller,
+	#superclass : #Object,
+	#category : 'Toplo-Core-Theme'
 }
 
-{ #category : 'hook' }
+{ #category : #hook }
 ToSkinUninstaller >> applyOn: anElement [
 
 	anElement skinUninstaller: nil.
@@ -23,7 +21,7 @@ ToSkinUninstaller >> applyOn: anElement [
 		anElement removeEventHandler: s ]
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 ToSkinUninstaller >> uninstallSkinIn: anElement [
 
 	self

@@ -1,18 +1,16 @@
 Class {
-	#name : 'ToUncheckedState',
-	#superclass : 'ToElementState',
-	#category : 'Toplo-Core-States',
-	#package : 'Toplo',
-	#tag : 'Core-States'
+	#name : #ToUncheckedState,
+	#superclass : #ToElementState,
+	#category : 'Toplo-Core-States'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToUncheckedState >> incompatibleStateClasses [
 
 	^ { ToCheckedState. ToIndeterminateState }
 ]
 
-{ #category : 'look event sending' }
+{ #category : #'look event sending' }
 ToUncheckedState >> lookEventClass [
 
 	^ ToUncheckedLookEvent

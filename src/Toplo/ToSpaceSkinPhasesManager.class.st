@@ -1,29 +1,31 @@
 Class {
-	#name : #ToSpaceSkinPhasesManager,
-	#superclass : #Object,
+	#name : 'ToSpaceSkinPhasesManager',
+	#superclass : 'Object',
 	#instVars : [
 		'skinPhasesInstalled',
 		'allowSkinPhases',
 		'spaceShownEventHandler'
 	],
-	#category : 'Toplo-Core-SpaceFrame'
+	#category : 'Toplo-Core-SpaceFrame',
+	#package : 'Toplo',
+	#tag : 'Core-SpaceFrame'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSpaceSkinPhasesManager >> allowSkinPhases [
 
 	" useful for testing. tests may want to run phases programmatically"
 	^ allowSkinPhases
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSpaceSkinPhasesManager >> allowSkinPhases: aBoolean [
 
 	" useful for testing. tests may want to run phases programmatically"
 	allowSkinPhases := aBoolean
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSpaceSkinPhasesManager >> armStartSkinPhasesIn: aSpace [
 
 	spaceShownEventHandler := BlEventHandler new.
@@ -36,7 +38,7 @@ ToSpaceSkinPhasesManager >> armStartSkinPhasesIn: aSpace [
 	aSpace addEventHandler: spaceShownEventHandler
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSpaceSkinPhasesManager >> initialize [ 
 
 	super initialize.
@@ -47,7 +49,7 @@ ToSpaceSkinPhasesManager >> initialize [
 	
 ]
 
-{ #category : #'phases installation' }
+{ #category : 'phases installation' }
 ToSpaceSkinPhasesManager >> installedSkinInstallerPhaseIn: aSpace [
 
 	^ aSpace frame phases
@@ -55,7 +57,7 @@ ToSpaceSkinPhasesManager >> installedSkinInstallerPhaseIn: aSpace [
 		  ifNone: [  ]
 ]
 
-{ #category : #'phases installation' }
+{ #category : 'phases installation' }
 ToSpaceSkinPhasesManager >> installedSkinStatePhaseIn: aSpace [
 
 	^ aSpace frame phases
@@ -63,19 +65,19 @@ ToSpaceSkinPhasesManager >> installedSkinStatePhaseIn: aSpace [
 		  ifNone: [  ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToSpaceSkinPhasesManager >> isSkinInstallerPhaseInstalledIn: aSpace [
 
 	^ (self installedSkinInstallerPhaseIn: aSpace) notNil
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToSpaceSkinPhasesManager >> isSkinStatePhaseInstalledIn: aSpace [
 
 	^ (self installedSkinStatePhaseIn: aSpace) notNil
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSpaceSkinPhasesManager >> onInstalledIn: aSpace [
 
 	self skinPhasesInstalled ifTrue: [ ^ self ].
@@ -91,7 +93,7 @@ ToSpaceSkinPhasesManager >> onInstalledIn: aSpace [
 			self armStartSkinPhasesIn: aSpace ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSpaceSkinPhasesManager >> onUninstalledIn: aSpace [ 
 
 	self skinPhasesInstalled ifFalse: [ ^ self ].
@@ -100,19 +102,19 @@ ToSpaceSkinPhasesManager >> onUninstalledIn: aSpace [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSpaceSkinPhasesManager >> skinPhasesInstalled [
 
 	^ skinPhasesInstalled
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSpaceSkinPhasesManager >> skinPhasesInstalled: aBoolean [
 
 	skinPhasesInstalled := aBoolean
 ]
 
-{ #category : #'phases installation' }
+{ #category : 'phases installation' }
 ToSpaceSkinPhasesManager >> startSkinInstallerPhaseIn: aSpace [
 	| phaseAfter |
 
@@ -122,13 +124,13 @@ ToSpaceSkinPhasesManager >> startSkinInstallerPhaseIn: aSpace [
 	aSpace frame addPhase: ToSpaceSkinInstallerPhase new before: phaseAfter
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSpaceSkinPhasesManager >> startSkinPhasesArmed [
 
 	^ spaceShownEventHandler notNil
 ]
 
-{ #category : #'phases installation' }
+{ #category : 'phases installation' }
 ToSpaceSkinPhasesManager >> startSkinPhasesIn: aSpace [
 
 	self skinPhasesInstalled ifTrue: [ ^ self ].
@@ -143,7 +145,7 @@ ToSpaceSkinPhasesManager >> startSkinPhasesIn: aSpace [
 			self stopSkinPhasesIn: aSpace ]
 ]
 
-{ #category : #'phases installation' }
+{ #category : 'phases installation' }
 ToSpaceSkinPhasesManager >> startSkinStatePhaseIn: aSpace [
 	| phaseAfter |
 
@@ -153,14 +155,14 @@ ToSpaceSkinPhasesManager >> startSkinStatePhaseIn: aSpace [
 	aSpace frame addPhase: ToSpaceSkinStatePhase new before: phaseAfter
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSpaceSkinPhasesManager >> stopSkinInstallerPhaseIn: aSpace [
 
 	(self installedSkinInstallerPhaseIn: aSpace) ifNotNil: [ :phase |
 		aSpace frame removePhase: phase ]
 ]
 
-{ #category : #'phases installation' }
+{ #category : 'phases installation' }
 ToSpaceSkinPhasesManager >> stopSkinPhasesIn: aSpace [
 
 	self skinPhasesInstalled ifFalse: [ ^ self ].
@@ -173,7 +175,7 @@ ToSpaceSkinPhasesManager >> stopSkinPhasesIn: aSpace [
 	aSpace dispatchEvent: ToSpaceSkinPhasesStopped new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSpaceSkinPhasesManager >> stopSkinStatePhaseIn: aSpace [
 
 	(self installedSkinStatePhaseIn: aSpace) ifNotNil: [ :phase |

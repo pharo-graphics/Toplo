@@ -1,22 +1,24 @@
 Class {
-	#name : #ToStillPressedState,
-	#superclass : #ToElementState,
-	#category : 'Toplo-Core-States'
+	#name : 'ToStillPressedState',
+	#superclass : 'ToElementState',
+	#category : 'Toplo-Core-States',
+	#package : 'Toplo',
+	#tag : 'Core-States'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToStillPressedState >> incompatibleStateClasses [
 
 	^ { ToPressedState }   
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToStillPressedState >> isPersistent [ 
 
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToStillPressedState >> lookEventClass [
 
 	^ ToStillPressedLookEvent

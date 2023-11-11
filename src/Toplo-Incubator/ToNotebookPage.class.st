@@ -78,8 +78,8 @@ ToNotebookPage >> isSelected: aBoolean [
 
 	isSelected := aBoolean.
 	aBoolean
-		ifTrue: [ ToCheckedState new enqueueIn: titleElement]
-		ifFalse: [ ToUncheckedState new enqueueIn: titleElement]
+		ifTrue: [ titleElement enqueueSkinState: ToCheckedState new]
+		ifFalse: [ titleElement enqueueSkinState: ToUncheckedState new]
 ]
 
 { #category : 'accessing' }

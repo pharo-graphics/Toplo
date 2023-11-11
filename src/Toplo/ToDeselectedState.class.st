@@ -1,16 +1,18 @@
 Class {
-	#name : #ToDeselectedState,
-	#superclass : #ToElementState,
-	#category : 'Toplo-Core-States'
+	#name : 'ToDeselectedState',
+	#superclass : 'ToElementState',
+	#category : 'Toplo-Core-States',
+	#package : 'Toplo',
+	#tag : 'Core-States'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDeselectedState >> incompatibleStateClasses [
 
 	^ { ToSelectedState }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToDeselectedState >> lookEventClass [
 
 	^ ToDeselectedLookEvent

@@ -26,8 +26,8 @@ ToBeeStyleSheetTest >> setUp [
 { #category : 'skin' }
 ToBeeStyleSheetTest >> testDefaultButtonSkin [
 
-	|  button writers skin labelSkin |
-	button := ToButton new toTheme: ToBeeLightTheme new.
+	| button writers skin labelSkin |
+	button := ToButton new localToTheme: ToBeeLightTheme new.
 	space root addChild: button.
 	space applyAllSkinInstallers.
 	writers := button toTheme writersFor: button.
@@ -38,16 +38,16 @@ ToBeeStyleSheetTest >> testDefaultButtonSkin [
 	button applySkinInstaller.
 	self assert: button border width equals: 1.
 	self assert: button border paint isColorPaint.
-	self assert: button border paint color equals: (button stampValue: #'color-border').
-	
-	button labelText: 'Default'.	
+	self
+		assert: button border paint color
+		equals: (button stampValue: #'color-border').
+
+	button labelText: 'Default'.
 	labelSkin := ToBeeSkin new.
 	writers := button label toTheme writersFor: button label.
 	labelSkin writers: writers.
 	button label defaultSkin: labelSkin.
-	button applySkinInstaller.
-	
-	
+	button applySkinInstaller
 ]
 
 { #category : 'labeled-icon' }

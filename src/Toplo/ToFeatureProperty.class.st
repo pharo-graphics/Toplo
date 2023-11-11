@@ -1,10 +1,12 @@
 Class {
-	#name : #ToFeatureProperty,
-	#superclass : #ToWritableProperty,
-	#category : 'Toplo-Core-Properties'
+	#name : 'ToFeatureProperty',
+	#superclass : 'ToWritableProperty',
+	#category : 'Toplo-Core-Properties',
+	#package : 'Toplo',
+	#tag : 'Core-Properties'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ToFeatureProperty class >> name: aName [ 
 
 	^ self new
@@ -12,13 +14,13 @@ ToFeatureProperty class >> name: aName [
 		  yourself
 ]
 
-{ #category : #operating }
+{ #category : 'operating' }
 ToFeatureProperty >> read: anObject [
 
 	^ anObject perform: self name asSymbol
 ]
 
-{ #category : #operating }
+{ #category : 'operating' }
 ToFeatureProperty >> write: aPropertyValue to: anObject [
 
 	anObject perform: self name asSymbol asMutator with: aPropertyValue

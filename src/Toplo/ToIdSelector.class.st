@@ -1,25 +1,27 @@
 Class {
-	#name : #ToIdSelector,
-	#superclass : #ToSimpleSelector,
+	#name : 'ToIdSelector',
+	#superclass : 'ToSimpleSelector',
 	#instVars : [
 		'id'
 	],
-	#category : 'Toplo-Core-Selector'
+	#category : 'Toplo-Core-Selector',
+	#package : 'Toplo',
+	#tag : 'Core-Selector'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ToIdSelector >> accept: aVisitor [
 
 	aVisitor visitIdSelector: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToIdSelector >> id [
 
 	^ id
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToIdSelector >> id: aSymbol [
 
 	id := aSymbol

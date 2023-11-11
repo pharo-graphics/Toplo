@@ -1,19 +1,21 @@
 Class {
-	#name : #ToSkinInstallerTest,
-	#superclass : #ToParameterizedHostTest,
+	#name : 'ToSkinInstallerTest',
+	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core-Theme'
+	#category : 'Toplo-Tests-Core-Theme',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-Theme'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 ToSkinInstallerTest >> setUp [ 
 	super setUp.
 	space := self newTestingSpace
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinInstallerTest >> testApplyOn [
 
 	| e |
@@ -28,7 +30,7 @@ ToSkinInstallerTest >> testApplyOn [
 	self assert: e installedSkin notNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinInstallerTest >> testApplyOn2 [
 
 	| e |
@@ -41,7 +43,7 @@ ToSkinInstallerTest >> testApplyOn2 [
 	self assert: e installedSkin notNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinInstallerTest >> testInstallSkinIn [
 
 	| e |
@@ -62,7 +64,7 @@ ToSkinInstallerTest >> testInstallSkinIn [
 		equals: (e toTheme newSkinFor: e) class
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinInstallerTest >> testInstallSkinIn2 [
 
 	| e myTheme |
@@ -84,7 +86,7 @@ ToSkinInstallerTest >> testInstallSkinIn2 [
 		equals: (myTheme newSkinFor: e) class
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinInstallerTest >> testInstallSkinInWithErrorNonAttachedInSpace [
 
 	| e |

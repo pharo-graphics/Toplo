@@ -1,15 +1,17 @@
 Trait {
-	#name : #TToElementWithPlaceholder,
-	#category : 'Toplo-Core'
+	#name : 'TToElementWithPlaceholder',
+	#category : 'Toplo-Core',
+	#package : 'Toplo',
+	#tag : 'Core'
 }
 
-{ #category : #'t - element with placeholder' }
+{ #category : 't - element with placeholder' }
 TToElementWithPlaceholder >> currentPlaceholderLayer [
 
 	^ self userData at: #currentPlaceholderLayer ifAbsent: [  ]
 ]
 
-{ #category : #'t - element with placeholder' }
+{ #category : 't - element with placeholder' }
 TToElementWithPlaceholder >> hidePlaceholder [
 
 	self currentPlaceholderLayer ifNil: [ ^ self ].
@@ -19,7 +21,7 @@ TToElementWithPlaceholder >> hidePlaceholder [
 	self userData removeKey: #currentPlaceholderLayer
 ]
 
-{ #category : #'t - element with placeholder' }
+{ #category : 't - element with placeholder' }
 TToElementWithPlaceholder >> placeholderBuilder: aValuable [
 
 	" aValuable takes 2 args: 1 the placeholder to build, 2 the element. 
@@ -27,19 +29,19 @@ TToElementWithPlaceholder >> placeholderBuilder: aValuable [
 	self rawPlaceholderBuilder: aValuable 
 ]
 
-{ #category : #'t - element with placeholder' }
+{ #category : 't - element with placeholder' }
 TToElementWithPlaceholder >> placeholderClass [
 
 	^ ToPlaceholderLayer
 ]
 
-{ #category : #'t - element with placeholder' }
+{ #category : 't - element with placeholder' }
 TToElementWithPlaceholder >> placeholderElevation [
 
 	^ self elevation
 ]
 
-{ #category : #'t - element with placeholder' }
+{ #category : 't - element with placeholder' }
 TToElementWithPlaceholder >> rawPlaceholderBuilder [
 
 	" if not nil, a valuable that takes 2 args: 1 the placeholder to build, 2 the element"
@@ -47,7 +49,7 @@ TToElementWithPlaceholder >> rawPlaceholderBuilder [
 	^ self userData at: #placeholderBuilder ifAbsent: [  ]
 ]
 
-{ #category : #'t - element with placeholder' }
+{ #category : 't - element with placeholder' }
 TToElementWithPlaceholder >> rawPlaceholderBuilder: aValuable [
 	" aValuaable takes 2 args: 1 the placeholder to build, 2 the element. If nil, the current builder is removed"
 
@@ -57,7 +59,7 @@ TToElementWithPlaceholder >> rawPlaceholderBuilder: aValuable [
 	self userData at: #placeholderBuilder put: aValuable
 ]
 
-{ #category : #'t - element with placeholder' }
+{ #category : 't - element with placeholder' }
 TToElementWithPlaceholder >> showPlaceholder [
 
 	self currentPlaceholderLayer ifNotNil: [ ^ self ].

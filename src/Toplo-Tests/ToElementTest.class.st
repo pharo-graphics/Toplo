@@ -2,15 +2,17 @@
 A ToElementTest is a test class for testing the behavior of ToElement
 "
 Class {
-	#name : #ToElementTest,
-	#superclass : #ToParameterizedHostTest,
+	#name : 'ToElementTest',
+	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core'
+	#category : 'Toplo-Tests-Core',
+	#package : 'Toplo-Tests',
+	#tag : 'Core'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 ToElementTest >> setUp [ 
 
 	super setUp.
@@ -18,77 +20,46 @@ ToElementTest >> setUp [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToElementTest >> testAddEventFilter [
 
-	| e count |
+	| e  |
 	e := ToElement new.
-	self deny: (e eventDispatcher hasEventFilterSuchThat: [ :eh |
-			 eh isKindOf: ToSkinStateGenerator ]).
-	e addEventFilter: ToSkinStateGenerator new.
-	count := 0.
-	self assert: (e eventDispatcher hasEventFilterSuchThat: [ :eh |
-			 (eh isKindOf: ToSkinStateGenerator)
-				 ifTrue: [
-					 count := count + 1.
-					 true ]
-				 ifFalse: [ false ] ]).
-	self assert: count equals: 1.
 	self
 		should: [ e addEventFilter: ToSkinStateGenerator new ]
 		raise: Error
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToElementTest >> testAddEventHandler [
 
-	| e count |
+	| e  |
 	e := ToElement new.
-	self deny: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToSkinStateGenerator ]).
-	e addEventHandler: ToSkinStateGenerator new.
-	count := 0.
-	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 (eh isKindOf: ToSkinStateGenerator)
-				 ifTrue: [
-					 count := count + 1.
-					 true ]
-				 ifFalse: [ false ] ]).
-	self assert: count equals: 1.
 	self
 		should: [ e addEventHandler: ToSkinStateGenerator new ]
 		raise: Error
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToElementTest >> testCheckEventFilter [
 
 	| e |
 	e := ToElement new.
-	e addEventFilter: ToSkinStateGenerator new.
-	self
-		should: [ e checkEventFilter: ToSkinStateGenerator new ]
-		raise: Error.
-	e := ToElement new.
-	e addEventFilter: ToSkinStateGenerator new.
-	e checkEventHandler: ToSkinStateGenerator new
+	e checkEventFilter: ToSkinStateGenerator new
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToElementTest >> testCheckEventHandler [
 
 	| e |
 	e := ToElement new.
-	e addEventHandler: ToSkinStateGenerator new.
 	self
 		should: [ e checkEventHandler: ToSkinStateGenerator new ]
 		raise: Error.
-		e := ToElement new.
-	e addEventFilter: ToSkinStateGenerator new.
-	e checkEventHandler: ToSkinStateGenerator new
+
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testDefaultSkin [
 	" check install/uninstall/initial states if defaultSkin: is used "
 
@@ -143,7 +114,7 @@ ToElementTest >> testDefaultSkin [
 	self assert: sk2 uninstallCpt equals: 0
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testOnAddedToParent [
 
 	| e container |
@@ -169,7 +140,7 @@ ToElementTest >> testOnAddedToParent [
 	self assert: e isDisabled
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testOnAddedToSceneGraph [
 
 	| e |
@@ -180,7 +151,7 @@ ToElementTest >> testOnAddedToSceneGraph [
 	self assert: (e skinInstaller isKindOf: ToSkinInstaller)
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testPostponeRequestSkin [
 
 	" check install/uninstall/initial states if setSkin: is used"
@@ -195,7 +166,7 @@ ToElementTest >> testPostponeRequestSkin [
 	self assert: e skinInstaller notNil
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testRequestSkin [
 
 	| e |
@@ -214,7 +185,7 @@ ToElementTest >> testRequestSkin [
 
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testSetSkin [
 
 	" check install/uninstall/initial states if setSkin: is used"
@@ -276,7 +247,7 @@ ToElementTest >> testSetSkin [
 
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testWithoutSkin [
 
 	| e |
@@ -302,7 +273,7 @@ ToElementTest >> testWithoutSkin [
 	self assert: e installedSkin  isNullSkin
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testWithoutSkinNonContamination [
 
 	" NullSkin is not contaminant: check if children are not impacted "
@@ -332,7 +303,7 @@ ToElementTest >> testWithoutSkinNonContamination [
 	self assert: childchild installedSkin notNil
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testWithoutSkinNonContamination2 [
 
 	" check if children are correctly impacted when they are added as child of their parent 

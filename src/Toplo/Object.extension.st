@@ -1,6 +1,6 @@
-Extension { #name : #Object }
+Extension { #name : 'Object' }
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 Object >> deprecatedInsteadOf: aString use: aStringToUse [
 	"Automatically tranform the deprecated call"
 
@@ -17,7 +17,7 @@ Object >> deprecatedInsteadOf: aString use: aStringToUse [
 		transform
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 Object >> deprecatedTransformWith: aRule [
 	"Automatically tranform the deprecated call"
 

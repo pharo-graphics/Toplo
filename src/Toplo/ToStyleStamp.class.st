@@ -1,19 +1,21 @@
 Class {
-	#name : #ToStyleStamp,
-	#superclass : #ToAbstractProperty,
+	#name : 'ToStyleStamp',
+	#superclass : 'ToAbstractProperty',
 	#instVars : [
 		'value'
 	],
-	#category : 'Toplo-Core-Properties'
+	#category : 'Toplo-Core-Properties',
+	#package : 'Toplo',
+	#tag : 'Core-Properties'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToStyleStamp class >> name: aSymbol [
 
 	^ self new name: aSymbol asSymbol
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToStyleStamp class >> name: aSymbol value: anObject [
 
 	^ (self name: aSymbol)
@@ -21,26 +23,26 @@ ToStyleStamp class >> name: aSymbol value: anObject [
 		  yourself
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 ToStyleStamp >> asStyleStamp [ 
 
 	^ self
 ]
 
-{ #category : #operating }
+{ #category : 'operating' }
 ToStyleStamp >> read: anObject [
 
 	self value isClosure ifFalse: [ Error signal ].
 	^ self value value: anObject
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 ToStyleStamp >> value [
 
 	^ value
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToStyleStamp >> value: anObject [
 
 	value := anObject

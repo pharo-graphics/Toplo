@@ -2,7 +2,6 @@ Class {
 	#name : 'ToSkin',
 	#superclass : 'BlCustomEventHandler',
 	#instVars : [
-		'skinStateGenerator',
 		'removeFromSceneGraphHandler'
 	],
 	#category : 'Toplo-Core-Theme',
@@ -195,12 +194,6 @@ ToSkin >> skinInstallStateRequest: anEvent [
 
 	anEvent currentTarget skinStateQueue
 		skinInstallStateRequest: anEvent
-]
-
-{ #category : 'accessing' }
-ToSkin >> skinStateGenerator [
-
-	^ skinStateGenerator
 ]
 
 { #category : 'event handling' }

@@ -55,10 +55,9 @@ ToStyleSheetPrinter >> getSelectorCSS: aToElementSelector hangSelector: aSelecto
 		^ stream contents
 	].
 
-	"Type selector => element"
-	aToElementSelector class = ToTypeSelector ifTrue:[
-		aSelector ifNotNil:[ stream space ].
-		stream nextPutAll: aToElementSelector type asString.
+	"Id selector => #id"
+	aToElementSelector class = ToIdSelector ifTrue:[
+		stream nextPutAll: aToElementSelector id asSymbol printString.	
 		^ stream contents
 	].
 
@@ -66,6 +65,13 @@ ToStyleSheetPrinter >> getSelectorCSS: aToElementSelector hangSelector: aSelecto
 	aToElementSelector class = ToUniversalSelector ifTrue:[
 		aSelector ifNotNil:[ stream space ].
 		stream nextPutAll: '*'.
+		^ stream contents
+	].
+
+	"Type selector => element"
+	aToElementSelector class = ToTypeSelector ifTrue:[
+		aSelector ifNotNil:[ stream space ].
+		stream nextPutAll: aToElementSelector type asString.
 		^ stream contents
 	].
 

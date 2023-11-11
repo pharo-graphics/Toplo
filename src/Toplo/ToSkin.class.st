@@ -142,7 +142,7 @@ ToSkin >> leavedLookEvent: anEvent [
 ToSkin >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	anElement toThemeManager installedSkin: self.
+	anElement skinManager installedSkin: self.
 	" install the event handler that generates state for the state engine"
 	removeFromSceneGraphHandler := BlEventHandler
 		                               on: BlElementRemovedFromSceneGraphEvent
@@ -156,7 +156,7 @@ ToSkin >> onInstalledIn: anElement [
 { #category : 'api - hooks' }
 ToSkin >> onUninstalledIn: anElement [
 
-	anElement toThemeManager installedSkin: nil.
+	anElement skinManager installedSkin: nil.
 	skinStateGenerator ifNotNil: [
 		anElement removeEventHandler: skinStateGenerator.
 		skinStateGenerator := nil ].

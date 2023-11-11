@@ -191,9 +191,9 @@ ToElementTest >> testPostponeRequestSkin [
 	e := ToElement new.
 	e requestSkin.
 	self assert: e skinInstaller isNil.
-	self assert: e toThemeManager isRequestSkinPostponed.
+	self assert: e skinManager isRequestSkinPostponed.
 	space root addChild: e.
-	self deny: e toThemeManager isRequestSkinPostponed.
+	self deny: e skinManager isRequestSkinPostponed.
 	self assert: e skinInstaller notNil
 ]
 

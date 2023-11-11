@@ -40,11 +40,13 @@ ToStyleSheetTheme >> newSkinFor: anElement [
 
 { #category : #'writer selecting' }
 ToStyleSheetTheme >> rawRulesFor: anElement [
-	"Return all rules that contains writers for anElement"
+	"Return all rules that contains selector for anElement"
 
-	| rootRules |
+	| rootRules list |
 	rootRules := self rootRulesFor: anElement.
-	^ rootRules select: [ :r | r canBeAppliedTo: anElement ]
+	list := OrderedCollection new.	
+	rootRules do:[ :r | (r asRuleFor: anElement) ifNotNil:[ :e | list add: e ] ].	
+	^ list
 ]
 
 { #category : #'writer selecting' }

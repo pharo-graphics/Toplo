@@ -8,13 +8,26 @@ Class {
 		'writers',
 		'styleRules'
 	],
-	#category : 'Toplo-Core-StyleSheet'
+	#category : #'Toplo-Core-StyleSheet'
 }
 
 { #category : #declaring }
 ToStyleRule >> addSubStyleRule: aStyleRule [
 
 	self addStyleRule: aStyleRule
+]
+
+{ #category : #converting }
+ToStyleRule >> asRuleFor: anElement [
+
+	| copy |
+	(self canBeAppliedTo: anElement) ifFalse:[ ^ nil ].
+	copy := self copy.
+	copy styleRules: #().
+	
+	self styleRules do:[ :r | (r asRuleFor: anElement) ifNotNil:[ :e | self addStyleRule: e ] ].
+
+	^ copy
 ]
 
 { #category : #testing }

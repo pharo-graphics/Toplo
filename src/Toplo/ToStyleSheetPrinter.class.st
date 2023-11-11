@@ -149,7 +149,8 @@ ToStyleSheetPrinter >> printStyleRuleCSS: aStyleRule on: aStream hangSelector: a
 
 	"print body"
 	aStyleRule writers do:[ :w | 
-		"w printOnStyleSheet: aStream."
+		aStream tab.
+		w printOn: aStream.
 		aStream cr.
 	].
  

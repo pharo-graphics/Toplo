@@ -30,7 +30,7 @@ ToStyleSheetPrinter class >> toElement: aToElement [
 ]
 
 { #category : #converting }
-ToStyleSheetPrinter >> asCSSString [
+ToStyleSheetPrinter >> asCSSLikeString [
 
 	| stream |
 	stream := ReadWriteStream on: String new.

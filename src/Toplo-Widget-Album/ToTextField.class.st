@@ -58,6 +58,19 @@ ToTextField >> placeholderClass [
 	^ ToTextFieldPlaceholder
 ]
 
+{ #category : #placeholder }
+ToTextField >> placeholderText: aString [
+	"Syntaxic sugar to set a string has a placeholder message"
+
+	aString ifNil: [ ^ self ].
+
+	self placeholderBuilder: [ :placeholder :e |
+		placeholder padding: e padding.
+		placeholder addChild: (ToLabel new
+				 text: aString;
+				 yourself) ]
+]
+
 { #category : #initialization }
 ToTextField >> withLineWrapping [
 

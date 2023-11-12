@@ -2,12 +2,14 @@
 A ToObservableListTest is a test class for testing the behavior of ToObservableList
 "
 Class {
-	#name : #ToObservableCollectionTest,
-	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-Collection'
+	#name : 'ToObservableCollectionTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Tests-Core-Collection',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-Collection'
 }
 
-{ #category : #'tests - adding' }
+{ #category : 'tests - adding' }
 ToObservableCollectionTest >> testAdd [
 
 	| l i|
@@ -27,7 +29,7 @@ ToObservableCollectionTest >> testAdd [
 		equals: #( 88 99 ) asOrderedCollection
 ]
 
-{ #category : #'tests - adding' }
+{ #category : 'tests - adding' }
 ToObservableCollectionTest >> testAddAfter [
 
 	| l i |
@@ -53,7 +55,7 @@ ToObservableCollectionTest >> testAddAfter [
 		equals: #( 1 88 2 99 3 4 ) asOrderedCollection
 ]
 
-{ #category : #'tests - adding' }
+{ #category : 'tests - adding' }
 ToObservableCollectionTest >> testAddAfterIndex [
 	| coll |
 	coll := ToObservableCollection newFrom: #( 1 2 3 4 ).
@@ -73,7 +75,7 @@ ToObservableCollectionTest >> testAddAfterIndex [
 	self should: [ coll add: 666 afterIndex: coll size+1 ] raise: Error
 ]
 
-{ #category : #'tests - adding' }
+{ #category : 'tests - adding' }
 ToObservableCollectionTest >> testAddAll [
 	"Allows one to add each element of an OrderedCollection at the end of another
 	 OrderedCollection"
@@ -87,7 +89,7 @@ ToObservableCollectionTest >> testAddAll [
 	self assert: i equals: (5 to: 9)
 ]
 
-{ #category : #'tests - adding' }
+{ #category : 'tests - adding' }
 ToObservableCollectionTest >> testAddAllFirst [
 	"Allows one to add each element of an OrderedCollection at the end of another
 	 OrderedCollection"
@@ -108,7 +110,7 @@ ToObservableCollectionTest >> testAddAllFirst [
 	self assert: i equals: (1 to: 4)
 ]
 
-{ #category : #'tests - adding' }
+{ #category : 'tests - adding' }
 ToObservableCollectionTest >> testAddAllLast [
 	"Allows one to add each element of an OrderedCollection at the end of another
 	 OrderedCollection"
@@ -129,7 +131,7 @@ ToObservableCollectionTest >> testAddAllLast [
 	self assert: i equals: (5 to: 9)
 ]
 
-{ #category : #'tests - adding' }
+{ #category : 'tests - adding' }
 ToObservableCollectionTest >> testAddBefore [
 
 	| l i |
@@ -157,7 +159,7 @@ ToObservableCollectionTest >> testAddBefore [
 		equals: #(88 1 99 2 3 4) asOrderedCollection
 ]
 
-{ #category : #'tests - adding' }
+{ #category : 'tests - adding' }
 ToObservableCollectionTest >> testAddBeforeAndRemove [
 
 	| l i initialCollection |
@@ -188,7 +190,7 @@ ToObservableCollectionTest >> testAddBeforeAndRemove [
 	self assert: l asArray equals: initialCollection asArray
 ]
 
-{ #category : #'tests - adding' }
+{ #category : 'tests - adding' }
 ToObservableCollectionTest >> testAddBeforeIndex [
 
 	| l i |
@@ -216,7 +218,7 @@ ToObservableCollectionTest >> testAddBeforeIndex [
 		equals: #(88 1 99 2 3 4) asOrderedCollection
 ]
 
-{ #category : #'tests - adding' }
+{ #category : 'tests - adding' }
 ToObservableCollectionTest >> testAddFirst [
 
 	| l i  |
@@ -246,7 +248,7 @@ ToObservableCollectionTest >> testAddFirst [
 	self assert: i equals: (1 to: 1)
 ]
 
-{ #category : #'tests - adding' }
+{ #category : 'tests - adding' }
 ToObservableCollectionTest >> testAddLast [
 
 	| l i |
@@ -277,7 +279,7 @@ ToObservableCollectionTest >> testAddLast [
 	self assert: i equals: (6 to: 6)
 ]
 
-{ #category : #'tests - converting' }
+{ #category : 'tests - converting' }
 ToObservableCollectionTest >> testAsArray [
 
 	| l |
@@ -285,7 +287,7 @@ ToObservableCollectionTest >> testAsArray [
 	self assert: l asArray equals: #( 1 2 3 4 )
 ]
 
-{ #category : #'tests - converting' }
+{ #category : 'tests - converting' }
 ToObservableCollectionTest >> testAsOrderedCollection [
 
 	| l |
@@ -293,7 +295,7 @@ ToObservableCollectionTest >> testAsOrderedCollection [
 	self assert: l asOrderedCollection equals: #( 1 2 3 4 ) asOrderedCollection
 ]
 
-{ #category : #'tests - accessing' }
+{ #category : 'tests - accessing' }
 ToObservableCollectionTest >> testAt [
 	| collection |
 	collection := ToObservableCollection newFrom: #('Jim' 'Mary' 'John' 'Andrew').
@@ -301,7 +303,7 @@ ToObservableCollectionTest >> testAt [
 	self assert: (collection at: 2) equals: 'Mary'
 ]
 
-{ #category : #'tests - accessing' }
+{ #category : 'tests - accessing' }
 ToObservableCollectionTest >> testAtPut [
 	"Allows one to replace an element but not at an off range index"
 
@@ -315,7 +317,7 @@ ToObservableCollectionTest >> testAtPut [
 	self deny: c asArray equals: #(1 5 3 4 8)
 ]
 
-{ #category : #'tests - adding' }
+{ #category : 'tests - adding' }
 ToObservableCollectionTest >> testComma [
 
 	| 	c1 c2 c3 |
@@ -331,7 +333,7 @@ ToObservableCollectionTest >> testComma [
 	self assert: c3 asArray equals: #(1 2 3 4 5 6 7 8 9)
 ]
 
-{ #category : #'tests - adding' }
+{ #category : 'tests - adding' }
 ToObservableCollectionTest >> testConcatenation [
 
 	| result index firstCollection secondCollection |
@@ -353,7 +355,7 @@ ToObservableCollectionTest >> testConcatenation [
 		equals: firstCollection size + secondCollection size
 ]
 
-{ #category : #'tests - accessing' }
+{ #category : 'tests - accessing' }
 ToObservableCollectionTest >> testEventDispatcher [
 
 	| l |
@@ -361,7 +363,7 @@ ToObservableCollectionTest >> testEventDispatcher [
 	self assert: (l eventDispatcher isKindOf: BlEventDispatcher)
 ]
 
-{ #category : #'tests - removing' }
+{ #category : 'tests - removing' }
 ToObservableCollectionTest >> testRemove [
 
 	"Allows one to remove an element from a collection at an index"
@@ -377,7 +379,7 @@ ToObservableCollectionTest >> testRemove [
 	self should: [ c1 remove: 10 ] raise: Error
 ]
 
-{ #category : #'tests - removing' }
+{ #category : 'tests - removing' }
 ToObservableCollectionTest >> testRemoveAll [
 
 	"Allows one to remove all elements of a collection"
@@ -404,7 +406,7 @@ ToObservableCollectionTest >> testRemoveAll [
 		description: 'the copy has not been modified'
 ]
 
-{ #category : #'tests - removing' }
+{ #category : 'tests - removing' }
 ToObservableCollectionTest >> testRemoveAt [
 
 	"Allows one to remove an element from a collection at an index"
@@ -421,7 +423,7 @@ ToObservableCollectionTest >> testRemoveAt [
 	self should: [ c1 removeAt: -1 ] raise: Error
 ]
 
-{ #category : #'tests - removing' }
+{ #category : 'tests - removing' }
 ToObservableCollectionTest >> testRemoveFirst [
 
 	"Allows one to remove n element of a collection at the first"
@@ -441,7 +443,7 @@ ToObservableCollectionTest >> testRemoveFirst [
 	self should: [ c1 removeFirst: 10 ] raise: Error
 ]
 
-{ #category : #'tests - removing' }
+{ #category : 'tests - removing' }
 ToObservableCollectionTest >> testRemoveFromTo [
 
 	"Allows one to remove an element from a collection at an index"
@@ -464,7 +466,7 @@ ToObservableCollectionTest >> testRemoveFromTo [
 	self should: [ c1 removeFrom: -1 to: 10] raise: Error
 ]
 
-{ #category : #'tests - removing' }
+{ #category : 'tests - removing' }
 ToObservableCollectionTest >> testRemoveLast [
 	"Allows one to remove n element of a collection at the end"
 
@@ -483,7 +485,7 @@ ToObservableCollectionTest >> testRemoveLast [
 	self should: [ c1 removeLast: 10 ] raise: Error
 ]
 
-{ #category : #'tests - adding' }
+{ #category : 'tests - adding' }
 ToObservableCollectionTest >> testReversed [
 
 	| collection1 collection2 |

@@ -2,12 +2,14 @@
 A ToStyleStampTest is a test class for testing the behavior of ToStyleStamp
 "
 Class {
-	#name : #ToStyleStampTest,
-	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-Properties'
+	#name : 'ToStyleStampTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Tests-Core-Properties',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-Properties'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleStampTest >> testAsStyleStamp [
 
 	| s |
@@ -28,7 +30,7 @@ ToStyleStampTest >> testAsStyleStamp [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleStampTest >> testName [
 
 	| s |
@@ -47,7 +49,7 @@ ToStyleStampTest >> testName [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleStampTest >> testRead [
 
 	| s |
@@ -60,7 +62,7 @@ ToStyleStampTest >> testRead [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleStampTest >> testValue [
 
 	| s |

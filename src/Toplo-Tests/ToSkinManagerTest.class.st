@@ -2,21 +2,23 @@
 A ToThemeManagerTest is a test class for testing the behavior of ToThemeManager
 "
 Class {
-	#name : #ToSkinManagerTest,
-	#superclass : #ToParameterizedHostTest,
+	#name : 'ToSkinManagerTest',
+	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core-Theme'
+	#category : 'Toplo-Tests-Core-Theme',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-Theme'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 ToSkinManagerTest >> setUp [ 
 	super setUp.
 	space := self newTestingSpace
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testApplySkinInstallerIn [
 
 	| e sk |
@@ -33,7 +35,7 @@ ToSkinManagerTest >> testApplySkinInstallerIn [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testApplySkinUninstallerIn [
 
 	| e sk |
@@ -51,7 +53,7 @@ ToSkinManagerTest >> testApplySkinUninstallerIn [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testDefaultSkinIn [
 
 	| e sk |
@@ -66,7 +68,7 @@ ToSkinManagerTest >> testDefaultSkinIn [
 		equals: 0
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testInstalledSkin [
 
 	| e sk |
@@ -94,7 +96,7 @@ ToSkinManagerTest >> testInstalledSkin [
 		equals: 0
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testInstalledSkinDo [
 
 	| e sk cpt |
@@ -112,7 +114,7 @@ ToSkinManagerTest >> testInstalledSkinDo [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testIsRequestSkinPostponed [
 
 	| e |
@@ -125,7 +127,7 @@ ToSkinManagerTest >> testIsRequestSkinPostponed [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testIsRequestSkinPostponed2 [
 
 	| e |
@@ -138,7 +140,7 @@ ToSkinManagerTest >> testIsRequestSkinPostponed2 [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testLocalTheme [
 
 	| e |
@@ -151,7 +153,7 @@ ToSkinManagerTest >> testLocalTheme [
 		identicalTo: ToRawTheme
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testLocalThemeIn [
 
 	| e |
@@ -169,7 +171,7 @@ ToSkinManagerTest >> testLocalThemeIn [
 	self assert: e skinUninstaller notNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testLocalThemeIn2 [
 
 	| e |
@@ -195,7 +197,7 @@ ToSkinManagerTest >> testLocalThemeIn2 [
 	self assert: e firstChild skinUninstaller notNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testLookupThemeFrom [
 
 	| e child childchild |
@@ -217,7 +219,7 @@ ToSkinManagerTest >> testLookupThemeFrom [
 	self assert: childchild skinManager localTheme isNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testLookupThemeFrom2 [
 
 	| e child childchild |
@@ -240,7 +242,7 @@ ToSkinManagerTest >> testLookupThemeFrom2 [
 	self assert: childchild skinManager localTheme isNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testLookupThemeFrom3 [
 
 	| e child childchild |
@@ -263,7 +265,7 @@ ToSkinManagerTest >> testLookupThemeFrom3 [
 	self assert: childchild skinManager localTheme isNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testPostponeRequestSkinIn [
 
 	| e handlersNb |
@@ -289,7 +291,7 @@ ToSkinManagerTest >> testPostponeRequestSkinIn [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testPostponeRequestSkinNotOnChildren [
 	
 	" requestSkin postpone does not impact children to preserve efficiency "
@@ -324,7 +326,7 @@ ToSkinManagerTest >> testPostponeRequestSkinNotOnChildren [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testRequestSkinIn [
 
 	| e  |
@@ -336,7 +338,7 @@ ToSkinManagerTest >> testRequestSkinIn [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testRequestSkinInWhenInSpace [
 
 	| e  |
@@ -348,7 +350,7 @@ ToSkinManagerTest >> testRequestSkinInWhenInSpace [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testRequestSkinInWithChildren [
 
 	| e child childchild |
@@ -366,7 +368,7 @@ ToSkinManagerTest >> testRequestSkinInWithChildren [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testRequestSkinInWithChildrenWhenInSpace [
 
 	| e child childchild |
@@ -384,7 +386,7 @@ ToSkinManagerTest >> testRequestSkinInWithChildrenWhenInSpace [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testRequestUninstallSkinIn [
 
 	| e  |
@@ -409,7 +411,7 @@ ToSkinManagerTest >> testRequestUninstallSkinIn [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testRequestUninstallSkinInWithChildrenWithInstalledSkin [
 
 	| e child childchild |
@@ -446,7 +448,7 @@ ToSkinManagerTest >> testRequestUninstallSkinInWithChildrenWithInstalledSkin [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testRequestUninstallSkinInWithChildrenWithInstalledSkin2 [
 
 	| e child childchild |
@@ -494,7 +496,7 @@ ToSkinManagerTest >> testRequestUninstallSkinInWithChildrenWithInstalledSkin2 [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testRequestUninstallSkinInWithInstalledSkin [
 
 	| e |
@@ -518,7 +520,7 @@ ToSkinManagerTest >> testRequestUninstallSkinInWithInstalledSkin [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testSetSkinIn [
 
 	| e sk |
@@ -533,7 +535,7 @@ ToSkinManagerTest >> testSetSkinIn [
 	self assert: e skinManager skinInstaller isNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testSetSkinInWhenInSpace [
 
 	| e sk |
@@ -549,7 +551,7 @@ ToSkinManagerTest >> testSetSkinInWhenInSpace [
 	self assert: e skinManager skinInstaller notNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testSkinInstaller [
 
 	| e child childchild |
@@ -569,7 +571,7 @@ ToSkinManagerTest >> testSkinInstaller [
 	self assert: childchild skinInstaller notNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testSkinInstaller2 [
 
 	| e child childchild |
@@ -589,7 +591,7 @@ ToSkinManagerTest >> testSkinInstaller2 [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testSkinStateQueue [
 
 	| e |
@@ -598,7 +600,7 @@ ToSkinManagerTest >> testSkinStateQueue [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testSkinUninstaller [
 
 	| e child childchild |
@@ -620,7 +622,7 @@ ToSkinManagerTest >> testSkinUninstaller [
 	self assert: childchild skinUninstaller isNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testSkinUninstallerWithToThemeChanged [
 
 	| e child childchild |
@@ -642,7 +644,7 @@ ToSkinManagerTest >> testSkinUninstallerWithToThemeChanged [
 	self assert: childchild skinUninstaller notNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testUpdateStylesIn [
 
 	| e sk |
@@ -651,7 +653,7 @@ ToSkinManagerTest >> testUpdateStylesIn [
 	e skinManager setSkin: (sk := ToRawSkin new) in: e.
 	e skinManager applySkinInstallerIn: e.
 	self assert: e skinManager installedSkin identicalTo: sk.
-	self assert: e skinManager skinStateQueue nextStates notEmpty.
+	self deny: e skinManager skinStateQueue nextStates isEmpty.
 	e skinManager updateStylesIn: e.
 	self assert: e skinManager skinStateQueue nextStates isEmpty.
 

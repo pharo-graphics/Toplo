@@ -2,15 +2,17 @@
 A ToSkinnableEventHandlerTest is a test class for testing the behavior of ToSkinnableEventHandler
 "
 Class {
-	#name : #ToSkinStateQueueTest,
-	#superclass : #ToParameterizedHostTest,
+	#name : 'ToSkinStateQueueTest',
+	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core-Theme'
+	#category : 'Toplo-Tests-Core-Theme',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-Theme'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinStateQueueTest >> newElementInSpace [
 
 	| e |
@@ -26,7 +28,7 @@ ToSkinStateQueueTest >> newElementInSpace [
 	
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 ToSkinStateQueueTest >> setUp [ 
 	super setUp.
 	space := self newTestingSpace

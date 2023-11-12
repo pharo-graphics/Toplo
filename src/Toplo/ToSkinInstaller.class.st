@@ -1,10 +1,12 @@
 Class {
-	#name : #ToSkinInstaller,
-	#superclass : #Object,
-	#category : 'Toplo-Core-Theme'
+	#name : 'ToSkinInstaller',
+	#superclass : 'Object',
+	#category : 'Toplo-Core-Theme',
+	#package : 'Toplo',
+	#tag : 'Core-Theme'
 }
 
-{ #category : #hook }
+{ #category : 'hook' }
 ToSkinInstaller >> applyOn: anElement [
 
 	anElement skinInstaller: nil.
@@ -17,7 +19,7 @@ ToSkinInstaller >> applyOn: anElement [
 		found dispatchSkinInitialStateRequestTo: anElement ]
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 ToSkinInstaller >> installSkinIn: anElement [
 
 	self

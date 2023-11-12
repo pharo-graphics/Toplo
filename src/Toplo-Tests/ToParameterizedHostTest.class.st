@@ -1,10 +1,12 @@
 Class {
-	#name : #ToParameterizedHostTest,
-	#superclass : #BlParameterizedHostTest,
-	#category : 'Toplo-Tests-Core'
+	#name : 'ToParameterizedHostTest',
+	#superclass : 'BlParameterizedHostTest',
+	#category : 'Toplo-Tests-Core',
+	#package : 'Toplo-Tests',
+	#tag : 'Core'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToParameterizedHostTest >> testingSpace: aSpace showThenDo: aBlock [
 
 	aSpace show.
@@ -15,7 +17,7 @@ ToParameterizedHostTest >> testingSpace: aSpace showThenDo: aBlock [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToParameterizedHostTest >> waitTestingSpaces [
 
 	testingSpaces ifNil: [ ^ self ].

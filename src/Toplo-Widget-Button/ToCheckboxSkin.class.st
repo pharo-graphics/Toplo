@@ -21,14 +21,22 @@ ToCheckboxSkin >> disabledLookEvent: anEvent [
 	super disabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: e disabledBackground.
-		e icon innerImage border: e disabledBorder ]
+		e icon innerImage border: e disabledBorder.
+		e indeterminateChild background: Color transparent ]
 ]
 
 { #category : 'event handling' }
 ToCheckboxSkin >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
-	anEvent elementDo: [ :e | e icon border: e iconDefaultBorder ]
+	anEvent elementDo: [ :e |
+		e icon border: e iconDefaultBorder.
+		e isChecked ifTrue: [
+			e icon innerImage border: e imageCheckedBorder.
+			e indeterminateChild background: Color transparent ].
+		e isIndeterminate ifTrue: [
+			e icon innerImage border: e imageIndeterminateBorder.
+			e indeterminateChild background: e defaultImageColor ] ]
 ]
 
 { #category : 'event handling' }
@@ -53,8 +61,7 @@ ToCheckboxSkin >> indeterminateLookEvent: anEvent [
 ToCheckboxSkin >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
-	anEvent elementDo: [ :e | 
-		e icon border: e iconDefaultBorder  ]
+	anEvent elementDo: [ :e | ] 
 ]
 
 { #category : 'event handling' }

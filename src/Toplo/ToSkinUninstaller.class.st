@@ -15,9 +15,6 @@ ToSkinUninstaller >> applyOn: anElement [
 		" have to dispatch UninstallStateRequest *** before *** removeEventHandler:
 		If not, the uninstall state then the uninstallLookEvent will not be sent "
 		s dispatchSkinUninstallStateRequestTo: anElement.
-		" do not wait next pulse to flush skinStateQueue 
-		(to send ToUninstallLookEvent to the current skin) "
-		anElement updateStyles.
 		" now remove the skin actually.
 		no look event applied until a new skin is installed"
 		anElement removeEventHandler: s ]

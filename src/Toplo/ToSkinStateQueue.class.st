@@ -66,6 +66,10 @@ ToSkinStateQueue >> skinUninstallStateRequest: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
+	" have to ignore previous look events to avoid to apply them to the new skin"
 	self nextStates flush.
-	self enqueueState: (ToUninstallState sourceEvent: anEvent) for: target
+	" store the uninstall state "
+	self enqueueState: (ToUninstallState sourceEvent: anEvent) for: target.
+	" do not wait next pulse to send ToUninstallLookEvent to the current skin "
+	self applyOn: target
 ]

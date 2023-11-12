@@ -13,13 +13,13 @@ ToSkinUninstaller >> applyOn: anElement [
 	" if there is an installed skin -> nothing to do "
 	anElement installedSkinDo: [ :s | 
 		" have to dispatch UninstallStateRequest *** before *** removeEventHandler:
-		If not, the uninstall state the the uninstallLookEvent will not be sent.
-		This is because removeEventHandler: actually remove the event handler and 
-		then after send #onUninstalledIn: to the skin"
+		If not, the uninstall state then the uninstallLookEvent will not be sent "
 		s dispatchSkinUninstallStateRequestTo: anElement.
-		" do not wait next pulse to flush skinStateQueue state 
-		(to send ToUninstallLookEvent) "
+		" do not wait next pulse to flush skinStateQueue 
+		(to send ToUninstallLookEvent to the current skin) "
 		anElement updateStyles.
+		" now remove the skin actually.
+		no look event applied until a new skin is installed"
 		anElement removeEventHandler: s ]
 ]
 

@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToDraggedLookEvent',
-	#superclass : 'ToElementLookEvent',
-	#category : 'Toplo-Core-LookEvents',
-	#package : 'Toplo',
-	#tag : 'Core-LookEvents'
+	#name : #ToDraggedLookEvent,
+	#superclass : #ToElementLookEvent,
+	#category : 'Toplo-Core-LookEvents'
 }
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToDraggedLookEvent >> sendTo: anObject [
 
 	anObject draggedLookEvent: self

@@ -1,18 +1,16 @@
 Class {
-	#name : 'ToClosedState',
-	#superclass : 'ToElementState',
-	#category : 'Toplo-Core-States',
-	#package : 'Toplo',
-	#tag : 'Core-States'
+	#name : #ToClosedState,
+	#superclass : #ToElementState,
+	#category : 'Toplo-Core-States'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToClosedState >> incompatibleStateClasses [
 
 	^ { ToOpenedState }
 ]
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToClosedState >> lookEventClass [
 
 	^ ToClosedLookEvent

@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToSelectedLookEvent',
-	#superclass : 'ToElementLookEvent',
-	#category : 'Toplo-Core-LookEvents',
-	#package : 'Toplo',
-	#tag : 'Core-LookEvents'
+	#name : #ToSelectedLookEvent,
+	#superclass : #ToElementLookEvent,
+	#category : 'Toplo-Core-LookEvents'
 }
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToSelectedLookEvent >> sendTo: anObject [
 
 	anObject selectedLookEvent: self

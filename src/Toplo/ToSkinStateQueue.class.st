@@ -1,29 +1,27 @@
 Class {
-	#name : 'ToSkinStateQueue',
-	#superclass : 'Object',
+	#name : #ToSkinStateQueue,
+	#superclass : #Object,
 	#instVars : [
 		'currentStates',
 		'nextStates'
 	],
-	#category : 'Toplo-Core-Theme',
-	#package : 'Toplo',
-	#tag : 'Core-Theme'
+	#category : 'Toplo-Core-Theme'
 }
 
-{ #category : 'hook' }
+{ #category : #hook }
 ToSkinStateQueue >> applyOn: anElement [
 
 	[ self nextStates isEmpty ] whileFalse: [
 		self nextStates removeLast applyOn: anElement ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSkinStateQueue >> currentStates [
 
 	^ currentStates
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 ToSkinStateQueue >> enqueueState: aState for: anElement [
 
 	self nextStates removeAllSuchThat: [ :s |
@@ -40,7 +38,7 @@ ToSkinStateQueue >> enqueueState: aState for: anElement [
 	self currentStates addFirst: aState
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSkinStateQueue >> initialize [ 
 
 	super initialize.
@@ -48,13 +46,13 @@ ToSkinStateQueue >> initialize [
 	nextStates := LinkedList new
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSkinStateQueue >> nextStates [
 
 	^ nextStates
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSkinStateQueue >> skinInitialStateRequest: anEvent [
 	" initial state required - if the element is enabled proceed with stored persistent states "
 
@@ -69,7 +67,7 @@ ToSkinStateQueue >> skinInitialStateRequest: anEvent [
 			self enqueueState: (ToDisabledState sourceEvent: anEvent) for: target]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSkinStateQueue >> skinInstallStateRequest: anEvent [
 	" install state required  "
 
@@ -78,7 +76,7 @@ ToSkinStateQueue >> skinInstallStateRequest: anEvent [
 	self enqueueState: (ToInstallState sourceEvent: anEvent) for: target
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToSkinStateQueue >> skinUninstallStateRequest: anEvent [
 	" uninstall state required  "
 

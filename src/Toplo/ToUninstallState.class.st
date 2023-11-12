@@ -1,24 +1,22 @@
 Class {
-	#name : 'ToUninstallState',
-	#superclass : 'ToElementState',
-	#category : 'Toplo-Core-States',
-	#package : 'Toplo',
-	#tag : 'Core-States'
+	#name : #ToUninstallState,
+	#superclass : #ToElementState,
+	#category : 'Toplo-Core-States'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToUninstallState >> incompatibleStateClasses [
 
 	^ { ToElementState }
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToUninstallState >> isPersistent [ 
 
 	^ false
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToUninstallState >> lookEventClass [
 
 	^ ToUninstallLookEvent

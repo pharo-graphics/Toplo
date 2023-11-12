@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToEnabledLookEvent',
-	#superclass : 'ToElementLookEvent',
-	#category : 'Toplo-Core-LookEvents',
-	#package : 'Toplo',
-	#tag : 'Core-LookEvents'
+	#name : #ToEnabledLookEvent,
+	#superclass : #ToElementLookEvent,
+	#category : 'Toplo-Core-LookEvents'
 }
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToEnabledLookEvent >> sendTo: anObject [
 
 	anObject enabledLookEvent: self

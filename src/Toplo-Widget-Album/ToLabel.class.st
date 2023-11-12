@@ -1,6 +1,6 @@
 Class {
-	#name : 'ToLabel',
-	#superclass : 'ToElement',
+	#name : #ToLabel,
+	#superclass : #ToElement,
 	#traits : 'TBlAlignable + TObservable',
 	#classTraits : 'TBlAlignable classTrait + TObservable classTrait',
 	#instVars : [
@@ -10,18 +10,16 @@ Class {
 		'#lineMode',
 		'#frameHandler'
 	],
-	#category : 'Toplo-Widget-Album-Label',
-	#package : 'Toplo-Widget-Album',
-	#tag : 'Label'
+	#category : 'Toplo-Widget-Album-Label'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToLabel class >> text: aText [
 
 	^ self new text: aText
 ]
 
-{ #category : 'private-editing' }
+{ #category : #'private-editing' }
 ToLabel >> addEditorEvent: anEvent [
 
 	self innerElement visibility: BlVisibility hidden.
@@ -34,118 +32,118 @@ ToLabel >> addEditorEvent: anEvent [
 	
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLabel >> beEditable [
 
 	self isEditable: true
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToLabel >> beMonoLine [
 
 	self lineMode: ToLabelMultiLineMode new
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToLabel >> beMultiLine [
 
 	self lineMode: ToLabelMultiLineMode new
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLabel >> beReadOnly [
 
 	self isEditable: false
 ]
 
-{ #category : 'private-editing' }
+{ #category : #'private-editing' }
 ToLabel >> cleanUpUserData [
 
 	self userData removeKey: #editor
 ]
 
-{ #category : 'private-editing' }
+{ #category : #'private-editing' }
 ToLabel >> currentEditorFrame [
 
 	^ frameHandler currentWindow
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToLabel >> defaultEventHandler [ 
 
 	^ ToLabelEventHandler new
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToLabel >> defaultLayout [ 
 
 	^ BlLinearLayout horizontal
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToLabel >> defaultLineMode [
 
 	^ ToLabelMonoLineMode new
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToLabel >> defaultPadding [
 
 	^ BlInsets empty
 		  
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToLabel >> defaultText [
 
 	^ '' asRopedText
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToLabel >> defaultTextElement [
 
 	^ self lineMode newTextElementIn: self
 ]
 
-{ #category : 'private-editing' }
+{ #category : #'private-editing' }
 ToLabel >> editor [
 
 	^ self userData at: #editor ifAbsent: [  ]
 ]
 
-{ #category : 'api - text style' }
+{ #category : #'api - text style' }
 ToLabel >> foreground: aBlPaint [
 
 	self text foreground: aBlPaint.
 	self requestLayout 
 ]
 
-{ #category : 'private-editing' }
+{ #category : #'private-editing' }
 ToLabel >> hasEditor [
 
 	^ frameHandler notNil and: [ frameHandler currentWindow notNil ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLabel >> hasText [
 
 	^ self text notNil and: [ self text isNotEmpty ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLabel >> horizontalAlignment [
 	<return: #BlElementAlignment>
 
 	^ self layout horizontalAlignment
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLabel >> horizontalAlignment: aBlElementAlignment [
 
 	self layout horizontalAlignment: aBlElementAlignment
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToLabel >> initialize [
 
 	self class initializeSlots: self.
@@ -162,7 +160,7 @@ ToLabel >> initialize [
 	self addEventHandler: self defaultEventHandler 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToLabel >> initializeEditorFrameBuilder [
 
 	self isEditable
@@ -182,13 +180,13 @@ ToLabel >> initializeEditorFrameBuilder [
 			frameHandler := nil ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLabel >> innerElement [
 
 	^ innerElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLabel >> innerElement: anInnerElement [
 
 	| handler |
@@ -202,13 +200,13 @@ ToLabel >> innerElement: anInnerElement [
 	self addChild: innerElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLabel >> isEditable [
 
 	^ isEditable 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLabel >> isEditable: aBoolean [
 
 	isEditable = aBoolean ifTrue: [ ^ self ].
@@ -216,7 +214,7 @@ ToLabel >> isEditable: aBoolean [
 	self initializeEditorFrameBuilder
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLabel >> isMonoLine [
 
 	^ self lineMode
@@ -224,7 +222,7 @@ ToLabel >> isMonoLine [
 		  ifNotNil: [ :mode | mode isMonoLine ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLabel >> isMultiLine [
 
 	^ self lineMode
@@ -232,13 +230,13 @@ ToLabel >> isMultiLine [
 		  ifNotNil: [ :mode | mode isMultiLine ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLabel >> lineMode [
 
 	^ lineMode
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLabel >> lineMode: aLineMode [
 
 	lineMode = aLineMode ifTrue: [ ^ self ].
@@ -246,14 +244,14 @@ ToLabel >> lineMode: aLineMode [
 	self lineModeChanged 
 ]
 
-{ #category : 'private-change' }
+{ #category : #'private-change' }
 ToLabel >> lineModeChanged [
 
 	self innerElement: self defaultTextElement.	
 	self innerElement text: self text
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToLabel >> monoLine: aBoolean [
 
 	aBoolean
@@ -261,26 +259,26 @@ ToLabel >> monoLine: aBoolean [
 		ifFalse: [ self beMultiLine ]
 ]
 
-{ #category : 'private-editing' }
+{ #category : #'private-editing' }
 ToLabel >> newEditor [
 
 	^ self userData at: #editor put: (self innerElement newEditorIn: self)
 ]
 
-{ #category : 'private-editing' }
+{ #category : #'private-editing' }
 ToLabel >> newEditorFrameEvent: anEvent [
 
 	^  frameHandler newWindowEvent: anEvent
 ]
 
-{ #category : 'private-change' }
+{ #category : #'private-change' }
 ToLabel >> privateText: aText [
 
 	text := aText.
 	self innerElement ifNotNil: [:inner | inner text: aText ]
 ]
 
-{ #category : 'private-editing' }
+{ #category : #'private-editing' }
 ToLabel >> removeEditor [
 
 	self currentEditorFrame close.
@@ -289,14 +287,14 @@ ToLabel >> removeEditor [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLabel >> text [
 	<return: #BlText>
 
 	^ text
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLabel >> text: aBlTextOrString [
 
 	| newText |
@@ -305,27 +303,27 @@ ToLabel >> text: aBlTextOrString [
 	self privateText: newText
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToLabel >> textChanged [
 
 	self innerElement textChanged.
 	self forceLocalLayout
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLabel >> verticalAlignment [
 	<return: #BlElementAlignment>
 	
 	^ self layout verticalAlignment
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLabel >> verticalAlignment: aBlElementAlignment [
 
 	self layout verticalAlignment: aBlElementAlignment
 ]
 
-{ #category : 'change hook' }
+{ #category : #'change hook' }
 ToLabel >> whenTextReplacedDo: aBlock [
 
 	"Inform when text property has changed. 

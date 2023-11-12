@@ -2,14 +2,12 @@
 A TToWidgetWithTooltipTest is a test class for testing the behavior of TToWidgetWithTooltip
 "
 Class {
-	#name : 'TToElementWithTooltipTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core',
-	#package : 'Toplo-Tests',
-	#tag : 'Core'
+	#name : #TToElementWithTooltipTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Tests-Core'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testCurrentTooltipWindow [
 
 	| e |
@@ -25,7 +23,7 @@ TToElementWithTooltipTest >> testCurrentTooltipWindow [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testHasOpenedTooltip [
 
 	| e |
@@ -42,7 +40,7 @@ TToElementWithTooltipTest >> testHasOpenedTooltip [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testHasTooltip [
 
 	|  e  |
@@ -56,7 +54,7 @@ TToElementWithTooltipTest >> testHasTooltip [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testNewTooltipWindowEvent [
 
 	| e |
@@ -73,7 +71,7 @@ TToElementWithTooltipTest >> testNewTooltipWindowEvent [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testRawTooltipWindowHandler [
 
 	| e |
@@ -86,7 +84,7 @@ TToElementWithTooltipTest >> testRawTooltipWindowHandler [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testRemoveTooltip [
 
 	|  e  |
@@ -100,7 +98,7 @@ TToElementWithTooltipTest >> testRemoveTooltip [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testRemoveTooltipWindowHandler [
 
 	| e |
@@ -112,7 +110,7 @@ TToElementWithTooltipTest >> testRemoveTooltipWindowHandler [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testTooltip [
 
 	| tt e ttwin |
@@ -131,7 +129,7 @@ TToElementWithTooltipTest >> testTooltip [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testTooltipBuilder [
 
 	| e b |
@@ -144,7 +142,7 @@ TToElementWithTooltipTest >> testTooltipBuilder [
 	self assert: e rawTooltipWindowHandler isNil
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testTooltipContent [
 
 	|  e ttwin |
@@ -159,7 +157,7 @@ TToElementWithTooltipTest >> testTooltipContent [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testTooltipString [
 
 	| tt e ttwin |
@@ -174,7 +172,7 @@ TToElementWithTooltipTest >> testTooltipString [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testTooltipText [
 
 	| tt e ttwin |
@@ -190,7 +188,7 @@ TToElementWithTooltipTest >> testTooltipText [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithTooltipTest >> testTooltipWindowHandler [
 
 	| e |

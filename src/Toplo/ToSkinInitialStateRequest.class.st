@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToSkinInitialStateRequest',
-	#superclass : 'ToSkinEvent',
-	#category : 'Toplo-Core-Theme',
-	#package : 'Toplo',
-	#tag : 'Core-Theme'
+	#name : #ToSkinInitialStateRequest,
+	#superclass : #ToSkinEvent,
+	#category : 'Toplo-Core-Theme'
 }
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToSkinInitialStateRequest >> sendTo: anObject [
 
 	anObject skinInitialStateRequest: self

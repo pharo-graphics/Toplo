@@ -27,9 +27,13 @@ ToElementState >> appliedOn: anElement [
 { #category : 'look event sending' }
 ToElementState >> applyOn: anElement [
 
-	lookEvent := self newLookEventFromSourceEvent: self sourceEvent.
-	anElement dispatchEvent: lookEvent.
-	self appliedOn: anElement
+	self subclassResponsibility 
+]
+
+{ #category : 'accessing' }
+ToElementState >> lookEvent [
+
+	^ lookEvent
 ]
 
 { #category : 'accessing' }

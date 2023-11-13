@@ -21,10 +21,10 @@ ToFocusState >> focused: aBoolean [
 	focused := aBoolean
 ]
 
-{ #category : 'look event sending' }
+{ #category : 'accessing' }
 ToFocusState >> lookEventClass [
 
-	^ self rawState
+	^ self focused
 		  ifTrue: [ ToFocusedLookEvent ]
 		  ifFalse: [ ToUnfocusedLookEvent ]
 ]

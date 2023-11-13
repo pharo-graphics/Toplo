@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToCheckState',
-	#superclass : 'ToPersistentState',
+	#superclass : 'ToIntrinsicState',
 	#category : 'Toplo-Core-States',
 	#package : 'Toplo',
 	#tag : 'Core-States'

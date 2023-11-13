@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToFocusState',
-	#superclass : 'ToPersistentState',
+	#superclass : 'ToIntrinsicState',
 	#category : 'Toplo-Core-States',
 	#package : 'Toplo',
 	#tag : 'Core-States'

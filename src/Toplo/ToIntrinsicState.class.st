@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToPersistentState',
+	#name : 'ToIntrinsicState',
 	#superclass : 'ToElementState',
 	#instVars : [
 		'rawState'
@@ -10,13 +10,13 @@ Class {
 }
 
 { #category : 'accessing' }
-ToPersistentState >> rawState [
+ToIntrinsicState >> rawState [
 
 	^ rawState
 ]
 
 { #category : 'accessing' }
-ToPersistentState >> rawState: anObject [
+ToIntrinsicState >> rawState: anObject [
 
 	rawState := anObject
 ]

@@ -16,12 +16,18 @@ ToElementState class >> sourceEvent: anEvent [
 ]
 
 { #category : 'look event sending' }
+ToElementState >> appliedOn: anElement [
+
+]
+
+{ #category : 'look event sending' }
 ToElementState >> applyOn: anElement [
 
 	| lookEvent |
 	lookEvent := self newLookEventFromSourceEvent: self sourceEvent.
 	anElement dispatchEvent: lookEvent.
-	lookEvent isConsumed ifTrue: [ self sourceEvent consumed: true ]
+	lookEvent isConsumed ifTrue: [ self sourceEvent consumed: true ].
+	self appliedOn: anElement
 ]
 
 { #category : 'accessing' }

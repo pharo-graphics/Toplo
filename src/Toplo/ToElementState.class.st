@@ -2,7 +2,8 @@ Class {
 	#name : 'ToElementState',
 	#superclass : 'Object',
 	#instVars : [
-		'sourceEvent'
+		'sourceEvent',
+		'lookEvent'
 	],
 	#category : 'Toplo-Core-States',
 	#package : 'Toplo',
@@ -18,15 +19,16 @@ ToElementState class >> sourceEvent: anEvent [
 { #category : 'look event sending' }
 ToElementState >> appliedOn: anElement [
 
+	lookEvent isConsumed ifTrue: [ self sourceEvent consumed: true ].
+	lookEvent := nil
+
 ]
 
 { #category : 'look event sending' }
 ToElementState >> applyOn: anElement [
 
-	| lookEvent |
 	lookEvent := self newLookEventFromSourceEvent: self sourceEvent.
 	anElement dispatchEvent: lookEvent.
-	lookEvent isConsumed ifTrue: [ self sourceEvent consumed: true ].
 	self appliedOn: anElement
 ]
 

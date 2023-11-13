@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToDroppedState',
-	#superclass : 'ToTransitionState',
+	#superclass : 'ToExplicitState',
 	#category : 'Toplo-Core-States',
 	#package : 'Toplo',
 	#tag : 'Core-States'

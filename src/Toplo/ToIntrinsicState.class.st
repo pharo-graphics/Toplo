@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToIntrinsicState',
-	#superclass : 'ToElementState',
+	#superclass : 'ToImplicitState',
 	#instVars : [
 		'rawState'
 	],

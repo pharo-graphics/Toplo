@@ -10,7 +10,7 @@ Class {
 ToSkinUninstaller >> applyOn: anElement [
 
 	anElement skinUninstaller: nil.
-	" if there is an installed skin -> nothing to do "
+	" if there is not an installed skin -> nothing to do "
 	anElement installedSkinDo: [ :s | 
 		" have to dispatch UninstallStateRequest *** before *** removeEventHandler:
 		If not, the uninstall state then the uninstallLookEvent will not be sent "

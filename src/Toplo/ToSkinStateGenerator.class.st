@@ -127,15 +127,10 @@ ToSkinStateGenerator >> focusEvent: anEvent [
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateCheckStateFromEvent: anEvent [
 
-	| newStateClass |
-	newStateClass := anEvent current
-		                 ifNil: [ ToIndeterminateState ]
-		                 ifNotNil: [ :v |
-			                 v
-				                 ifTrue: [ ToCheckedState ]
-				                 ifFalse: [ ToUncheckedState ] ].
-
-	target enqueueSkinState: (newStateClass sourceEvent: anEvent)
+	target enqueueSkinState: (ToCheckState new
+			 rawState: anEvent current;
+			 sourceEvent: anEvent;
+			 yourself)
 ]
 
 { #category : 'state generating' }

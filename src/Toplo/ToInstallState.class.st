@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToInstallState',
-	#superclass : 'ToElementState',
+	#superclass : 'ToManagementState',
 	#category : 'Toplo-Core-States',
 	#package : 'Toplo',
 	#tag : 'Core-States'

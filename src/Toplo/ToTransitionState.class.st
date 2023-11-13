@@ -1,13 +1,7 @@
 Class {
-	#name : 'ToEnabledState',
+	#name : 'ToTransitionState',
 	#superclass : 'ToElementState',
 	#category : 'Toplo-Core-States',
 	#package : 'Toplo',
 	#tag : 'Core-States'
 }
-
-{ #category : 'accessing' }
-ToEnabledState >> lookEventClass [
-
-	^ ToEnabledLookEvent 
-]

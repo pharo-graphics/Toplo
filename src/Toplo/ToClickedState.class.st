@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToClickedState',
-	#superclass : 'ToElementState',
+	#superclass : 'ToTransitionState',
 	#category : 'Toplo-Core-States',
 	#package : 'Toplo',
 	#tag : 'Core-States'

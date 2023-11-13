@@ -43,12 +43,11 @@ ToSkinStateQueue >> skinInitialStateRequest: anEvent [
 	| target |
 	target := anEvent currentTarget.
 	self enqueueState: (ToInitialState sourceEvent: anEvent) for: target.
-	target isEnabled
-		ifTrue: [
-			self enqueueState: (ToEnabledState sourceEvent: anEvent) for: target.
-			"self currentStates do: [ :s | self enqueueState: s for: target]" ]
-		ifFalse: [ " if disabled, do not reinstall persistent states "
-			self enqueueState: (ToDisabledState sourceEvent: anEvent) for: target]
+	self
+		enqueueState: ((ToEnablementState sourceEvent: anEvent)
+				 rawState: target isEnabled;
+				 yourself)
+		for: target
 ]
 
 { #category : 'initialization' }

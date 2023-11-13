@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToStillHoveredState',
-	#superclass : 'ToElementState',
+	#superclass : 'ToTransitionState',
 	#category : 'Toplo-Core-States',
 	#package : 'Toplo',
 	#tag : 'Core-States'

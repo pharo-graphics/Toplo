@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToClickedLookEvent',
-	#superclass : 'ToElementLookEvent',
+	#superclass : 'ToTransientLookEvent',
 	#category : 'Toplo-Core-LookEvents',
 	#package : 'Toplo',
 	#tag : 'Core-LookEvents'

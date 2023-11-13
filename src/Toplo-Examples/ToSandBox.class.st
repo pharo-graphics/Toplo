@@ -117,6 +117,7 @@ ToSandBox class >> example_CheckboxChecked [
 	| chb |
 	ToTheme cleanUp.
 	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
+
 	chb checked: true.
 	chb openInInnerWindow.
 	chb inspect.
@@ -328,7 +329,7 @@ ToSandBox class >> example_CheckboxWithIndeterminate [
 	ToStyleSheetTheme cleanUp.
 	but := ToCheckbox new labelText: 'Checkbox'.
 	but withIndeterminate: true.
-	but checked: nil.
+	but inspect.
 	but openInSpace
 ]
 
@@ -1276,7 +1277,9 @@ ToSandBox class >> example_RadioButtonWithIndeterminate [
 	ToTheme cleanUp.
 	but := ToRadioButton new.
 	but withIndeterminate: true.
+	but checked: #something. " any value except a boolean (and except nil) for indeterminate state "
 	but labelText: 'Radio'.
+	but inspect.
 	but openInSpace
 ]
 
@@ -1823,7 +1826,7 @@ ToSandBox class >> example_buttonWithIconAndLabel [
 	| but  |
 	but := self example_buttonWithIcon.
 	but label: (ToLabel text: 'Button with label').
-	"but inspect."
+	but inspect.
 	^ but
 ]
 

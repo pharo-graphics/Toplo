@@ -8,7 +8,8 @@ Class {
 		'installedSkin',
 		'skinStateQueue',
 		'skinUninstaller',
-		'defaultSkin'
+		'defaultSkin',
+		'intrinsicStateIndex'
 	],
 	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
@@ -50,6 +51,13 @@ ToSkinManager >> enqueueState: aSkinState for: anElement [
 	self skinStateQueue enqueueState: aSkinState for: anElement
 ]
 
+{ #category : 'initialization' }
+ToSkinManager >> initialize [ 
+
+	super initialize.
+	intrinsicStateIndex := IdentityDictionary new
+]
+
 { #category : 'accessing - skin' }
 ToSkinManager >> installedSkin [
 
@@ -69,6 +77,24 @@ ToSkinManager >> installedSkinDo: aBlock [
 
 	self installedSkin ifNil: [ ^ self ].
 	aBlock value: self installedSkin
+]
+
+{ #category : 'skin application' }
+ToSkinManager >> intrinicState: aState enqueuedFor: anElement [
+
+	intrinsicStateIndex at: aState class put: aState
+]
+
+{ #category : 'accessing' }
+ToSkinManager >> intrinsicStateIndex [
+
+	^ intrinsicStateIndex 
+]
+
+{ #category : 'skin application' }
+ToSkinManager >> intrinsicStatesDo: aBlock [
+
+	intrinsicStateIndex valuesDo: aBlock
 ]
 
 { #category : 'accessing - skin' }

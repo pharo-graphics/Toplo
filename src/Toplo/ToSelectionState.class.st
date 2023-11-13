@@ -1,6 +1,9 @@
 Class {
 	#name : 'ToSelectionState',
 	#superclass : 'ToIntrinsicState',
+	#instVars : [
+		'selected'
+	],
 	#category : 'Toplo-Core-States',
 	#package : 'Toplo',
 	#tag : 'Core-States'
@@ -9,7 +12,19 @@ Class {
 { #category : 'accessing' }
 ToSelectionState >> lookEventClass [
 
-	^ self rawState
+	^ self selected
 		  ifTrue: [ ToSelectedLookEvent ]
 		  ifFalse: [ ToDeselectedLookEvent ]
+]
+
+{ #category : 'accessing' }
+ToSelectionState >> selected [
+
+	^ selected
+]
+
+{ #category : 'accessing' }
+ToSelectionState >> selected: anObject [
+
+	selected := anObject
 ]

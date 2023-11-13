@@ -21,7 +21,7 @@ ToSkinStateGenerator >> blurEvent: anEvent [
 ToSkinStateGenerator >> checkableCheckedEvent: anEvent [
 	"ToCheclableCheckEvent can be send either because of a click or because the checkable as been checked programmatically"
 
-	self enqueueCheckStateFromEvent: anEvent
+	self generateCheckStateFromEvent: anEvent
 ]
 
 { #category : 'mouse handlers' }
@@ -91,22 +91,16 @@ ToSkinStateGenerator >> dropEvent: anEvent [
 { #category : 'enablement' }
 ToSkinStateGenerator >> enablementChangedEvent: anEvent [
 
-	target spaceDo: [:sp | target defaultSkin ifNotNil: [ :skin | skin dispatchSkinInitialStateRequestTo: target ]	]
+	self generateEnablementStateFromEvent: anEvent.
+	target requestUninstallSkin
 ]
 
 { #category : 'state generating' }
-ToSkinStateGenerator >> enqueueCheckStateFromEvent: anEvent [
+ToSkinStateGenerator >> enqueueTransientStateFromLookEvent: aLookEvent [
 
-	target enqueueSkinState: (ToCheckState new
-			 rawState: anEvent current;
-			 sourceEvent: anEvent;
+	target enqueueSkinState: (ToTransientState new
+			 lookEvent: aLookEvent;
 			 yourself)
-]
-
-{ #category : 'state generating' }
-ToSkinStateGenerator >> enqueueExplicitStateFromLookEvent: aLookEvent [
-
-	target enqueueSkinState: (ToExplicitState new lookEvent: aLookEvent; yourself)
 ]
 
 { #category : 'api - accessing' }
@@ -140,66 +134,84 @@ ToSkinStateGenerator >> focusEvent: anEvent [
 ]
 
 { #category : 'state generating' }
+ToSkinStateGenerator >> generateCheckStateFromEvent: anEvent [
+
+	target enqueueSkinState: (ToCheckState new
+			 checked: anEvent current
+			 yourself)
+
+]
+
+{ #category : 'state generating' }
 ToSkinStateGenerator >> generateClickedStateFromEvent: anEvent [
 
-	self enqueueExplicitStateFromLookEvent: (ToClickedLookEvent sourceEvent: anEvent)
+	self enqueueTransientStateFromLookEvent: (ToClickedLookEvent sourceEvent: anEvent)
 
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateDragStartedStateFromEvent: anEvent [
 
-	self enqueueExplicitStateFromLookEvent: (ToDragStartedLookEvent sourceEvent: anEvent)
+	self enqueueTransientStateFromLookEvent: (ToDragStartedLookEvent sourceEvent: anEvent)
 
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateDraggedStateFromEvent: anEvent [
 
-	self enqueueExplicitStateFromLookEvent: (ToDraggedLookEvent sourceEvent: anEvent)
+	self enqueueTransientStateFromLookEvent: (ToDraggedLookEvent sourceEvent: anEvent)
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateDroppedStateFromEvent: anEvent [
 
-	self enqueueExplicitStateFromLookEvent: (ToDroppedLookEvent sourceEvent: anEvent)
+	self enqueueTransientStateFromLookEvent: (ToDroppedLookEvent sourceEvent: anEvent)
+]
+
+{ #category : 'state generating' }
+ToSkinStateGenerator >> generateEnablementStateFromEvent: anEvent [
+
+	target enqueueSkinState: (ToEnablementState new enabled:
+			 anEvent currentTarget isEnabled yourself)
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateHoveredStateFromEvent: anEvent [
 
-	self enqueueExplicitStateFromLookEvent: (ToHoveredLookEvent sourceEvent: anEvent)
+	target isEnabled ifFalse: [ ^ self ].
+	self enqueueTransientStateFromLookEvent: (ToHoveredLookEvent sourceEvent: anEvent)
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateLeavedStateFromEvent: anEvent [
 
 	leaved ifTrue: [ ^ self ].
-	self enqueueExplicitStateFromLookEvent: (ToLeavedLookEvent sourceEvent: anEvent)
+	target isEnabled ifFalse: [ ^ self ].
+	self enqueueTransientStateFromLookEvent: (ToLeavedLookEvent sourceEvent: anEvent)
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generatePressedStateFromEvent: anEvent [
 
-	self enqueueExplicitStateFromLookEvent: (ToPressedLookEvent sourceEvent: anEvent)
+	self enqueueTransientStateFromLookEvent: (ToPressedLookEvent sourceEvent: anEvent)
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateReleasedStateFromEvent: anEvent [
 
-	self enqueueExplicitStateFromLookEvent: (ToReleasedLookEvent sourceEvent: anEvent)
+	self enqueueTransientStateFromLookEvent: (ToReleasedLookEvent sourceEvent: anEvent)
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateStillHoveredStateFromEvent: anEvent [
 
-	self enqueueExplicitStateFromLookEvent: (ToStillHoveredLookEvent sourceEvent: anEvent)
+	self enqueueTransientStateFromLookEvent: (ToStillHoveredLookEvent sourceEvent: anEvent)
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateStillPressedStateFromEvent: anEvent [
 
-	self enqueueExplicitStateFromLookEvent: (ToStillPressedLookEvent sourceEvent: anEvent)
+	self enqueueTransientStateFromLookEvent: (ToStillPressedLookEvent sourceEvent: anEvent)
 ]
 
 { #category : 'api - event managing' }

@@ -1,19 +1,10 @@
 Class {
 	#name : 'ToElementLookEvent',
 	#superclass : 'BlEvent',
-	#instVars : [
-		'sourceEvent'
-	],
 	#category : 'Toplo-Core-LookEvents',
 	#package : 'Toplo',
 	#tag : 'Core-LookEvents'
 }
-
-{ #category : 'accessing' }
-ToElementLookEvent class >> sourceEvent: anEvent [
-
-	^ self new sourceEvent: anEvent
-]
 
 { #category : 'accessing' }
 ToElementLookEvent >> elementDo: aBlock [
@@ -31,16 +22,4 @@ ToElementLookEvent >> sendTo: anObject [
 ToElementLookEvent >> sendToStyleSheetSkin: aStyleSheetSkin [
 
 	aStyleSheetSkin sendEventToWriters: self
-]
-
-{ #category : 'accessing' }
-ToElementLookEvent >> sourceEvent [
-
-	^ sourceEvent
-]
-
-{ #category : 'accessing' }
-ToElementLookEvent >> sourceEvent: anEvent [
-
-	sourceEvent := anEvent
 ]

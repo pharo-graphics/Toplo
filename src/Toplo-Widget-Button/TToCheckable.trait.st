@@ -14,22 +14,21 @@ TToCheckable >> check [
 { #category : 't - checkable - accessing' }
 TToCheckable >> checked [
 
-	^ self userData at: #checked ifAbsentPut: [
-		  self withIndeterminate
-			  ifTrue: [  ]
-			  ifFalse: [ false ] ]
+	^ self userData at: #checked ifAbsentPut: [ false ]
 ]
 
 { #category : 't - checkable - accessing' }
-TToCheckable >> checked: aBooleanOrNil [
+TToCheckable >> checked: aBooleanOrIndeterminate [
 	" change the checkable state. nil means indeterminate. "
 
 	| request prev |
-	(aBooleanOrNil isNil and: [ self withIndeterminate not ]) ifTrue: [
-		Error signal: 'nil not allowed except when indeterminate is explicitly allowed ' ].
-	prev := self checked.
+	aBooleanOrIndeterminate ifNil: [
+		Error signal: 'nil not allowed' ].
+	(aBooleanOrIndeterminate isSymbol and: [ self withIndeterminate not ]) ifTrue: [
+		Error signal: 'a symbol not allowed except when indeterminate is explicitly allowed ' ].
+	prev := self rawChecked.
 	request := ToCheckableCheckRequest new
-		           checked: aBooleanOrNil;
+		           checked: aBooleanOrIndeterminate;
 		           yourself.
 	" give a chance to the button group to verify and change the result of the checking"
 	self dispatchEvent: request.
@@ -50,7 +49,7 @@ TToCheckable >> isChecked [
 { #category : 't - checkable - testing' }
 TToCheckable >> isIndeterminate [
 
-	^ self checked isNil
+	^ self checked isSymbol
 ]
 
 { #category : 't - checkable - testing' }
@@ -66,18 +65,25 @@ TToCheckable >> nextCheckValue [
 	self withIndeterminate ifTrue: [ " unchecked -> indeterminate -> checked"
 		self isIndeterminate ifTrue: [ ^ true ].
 		self isChecked ifTrue: [ ^ false ].
-		^ nil ].
+		^ #indeterminate ].
 	^ self checked not
 ]
 
 { #category : 't - checkable - private protocol' }
-TToCheckable >> privateChecked: aBooleanOrNil [
+TToCheckable >> privateChecked: aBooleanOrIndeterminate [
 
-	| prev |
-	self checked = aBooleanOrNil ifTrue: [ ^ self ].
+	| prev request |
+	request := aBooleanOrIndeterminate.
+	self rawChecked = request ifTrue: [ ^ self ].
 	prev := self checked.
-	self userData at: #checked put: aBooleanOrNil.
-	self dispatchEvent: (ToCheckableCheckedEvent current: self checked previous: prev)
+	self userData at: #checked put: request.
+	self dispatchEvent: (ToCheckableCheckedEvent current: request previous: prev)
+]
+
+{ #category : 't - checkable - accessing' }
+TToCheckable >> rawChecked [
+
+	^ self userData at: #checked ifAbsent: [ ]
 ]
 
 { #category : 't - checkable - private protocol' }

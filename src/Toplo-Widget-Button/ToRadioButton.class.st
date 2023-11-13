@@ -6,6 +6,12 @@ Class {
 	#tag : 'Checkable'
 }
 
+{ #category : '*Toplo-Theme-Bee' }
+ToRadioButton >> defaultBeeStyleStamps [
+
+	^ { #button. #checkable. #radio}
+]
+
 { #category : 'skin' }
 ToRadioButton >> iconGeometry [
 

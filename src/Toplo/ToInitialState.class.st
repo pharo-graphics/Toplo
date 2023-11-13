@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToInitialState',
-	#superclass : 'ToManagementState',
+	#superclass : 'ToSkinManagementState',
 	#category : 'Toplo-Core-States',
 	#package : 'Toplo',
 	#tag : 'Core-States'

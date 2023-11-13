@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToDragStartedLookEvent',
-	#superclass : 'ToElementLookEvent',
+	#superclass : 'ToTransientLookEvent',
 	#category : 'Toplo-Core-LookEvents',
 	#package : 'Toplo',
 	#tag : 'Core-LookEvents'

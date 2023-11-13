@@ -31,7 +31,6 @@ ToGeneralButtonSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e isDisabled ifTrue: [ ^ self ].
 		e mouseCursor: BlCursor hand.
 		e border: e hoveredBorder.
 		e background: e hoveredBackground ]
@@ -52,7 +51,6 @@ ToGeneralButtonSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e isDisabled ifTrue: [ ^ self ].
 		e border: e defaultBorder.
 		e background: e defaultBackground ]
 ]

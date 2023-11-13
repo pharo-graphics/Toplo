@@ -16,7 +16,7 @@ ToCheckableCheckRequest >> checked [
 ]
 
 { #category : 'accessing' }
-ToCheckableCheckRequest >> checked: aBoolean [
+ToCheckableCheckRequest >> checked: aBooleanOrIndeterminate [
 
-	checked := aBoolean
+	checked := aBooleanOrIndeterminate
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToInitialLookEvent',
-	#superclass : 'ToElementLookEvent',
+	#superclass : 'ToSkinManagementLookEvent',
 	#category : 'Toplo-Core-LookEvents',
 	#package : 'Toplo',
 	#tag : 'Core-LookEvents'

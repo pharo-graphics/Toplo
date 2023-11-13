@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToInstallLookEvent',
-	#superclass : 'ToElementLookEvent',
+	#superclass : 'ToSkinManagementLookEvent',
 	#category : 'Toplo-Core-LookEvents',
 	#package : 'Toplo',
 	#tag : 'Core-LookEvents'

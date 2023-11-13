@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToEnabledLookEvent',
-	#superclass : 'ToElementLookEvent',
+	#superclass : 'ToIntrasicStateLookEvent',
 	#category : 'Toplo-Core-LookEvents',
 	#package : 'Toplo',
 	#tag : 'Core-LookEvents'

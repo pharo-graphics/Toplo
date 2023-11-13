@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToExplicitState',
+	#name : 'ToTransientState',
 	#superclass : 'ToElementState',
 	#instVars : [
 		'lookEvent'
@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : 'accessing' }
-ToExplicitState class >> lookEvent: aLookEvent [
+ToTransientState class >> lookEvent: aLookEvent [
 
 	^ self new
 		  lookEvent: aLookEvent;
@@ -18,7 +18,7 @@ ToExplicitState class >> lookEvent: aLookEvent [
 ]
 
 { #category : 'look event sending' }
-ToExplicitState >> appliedOn: anElement [
+ToTransientState >> appliedOn: anElement [
 
 	super appliedOn: anElement.
 	lookEvent isConsumed ifTrue: [ self sourceEvent consumed: true ].
@@ -27,26 +27,26 @@ ToExplicitState >> appliedOn: anElement [
 ]
 
 { #category : 'look event sending' }
-ToExplicitState >> applyOn: anElement [
+ToTransientState >> applyOn: anElement [
 
 	lookEvent ifNil: [ Error signal: 'An explicit state must provide its own look event instance' ].
 	super applyOn: anElement
 ]
 
 { #category : 'accessing' }
-ToExplicitState >> lookEvent [
+ToTransientState >> lookEvent [
 
 	^ lookEvent 
 ]
 
 { #category : 'accessing' }
-ToExplicitState >> lookEvent: aLookEvent [
+ToTransientState >> lookEvent: aLookEvent [
 
 	lookEvent := aLookEvent
 ]
 
 { #category : 'accessing' }
-ToExplicitState >> sourceEvent [
+ToTransientState >> sourceEvent [
 
 	^ self lookEvent sourceEvent
 ]

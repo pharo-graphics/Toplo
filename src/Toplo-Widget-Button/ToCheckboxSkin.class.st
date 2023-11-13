@@ -30,13 +30,7 @@ ToCheckboxSkin >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e icon border: e iconDefaultBorder.
-		e isChecked ifTrue: [
-			e icon innerImage border: e imageCheckedBorder.
-			e indeterminateChild background: Color transparent ].
-		e isIndeterminate ifTrue: [
-			e icon innerImage border: e imageIndeterminateBorder.
-			e indeterminateChild background: e defaultImageColor ] ]
+		e icon border: e iconDefaultBorder ]
 ]
 
 { #category : 'event handling' }
@@ -44,7 +38,6 @@ ToCheckboxSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e | 
-		e isDisabled ifTrue: [ ^ self ].
 		e icon border: e iconHoveredBorder ]
 ]
 
@@ -61,17 +54,12 @@ ToCheckboxSkin >> indeterminateLookEvent: anEvent [
 ToCheckboxSkin >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
-	anEvent elementDo: [ :e | ] 
+	anEvent elementDo: [ :e | e icon border: e iconDefaultBorder ] 
 ]
 
 { #category : 'event handling' }
 ToCheckboxSkin >> installIconImageIn: aCheckbox [
 
-	aCheckbox isIndeterminate ifTrue: [
-		aCheckbox indeterminateChild background: aCheckbox defaultImageColor.
-		^ aCheckbox icon innerImage border: aCheckbox imageIndeterminateBorder ].
-	aCheckbox isChecked ifTrue: [
-		^ aCheckbox icon innerImage border: aCheckbox imageCheckedBorder ].
 	aCheckbox icon innerImage border: aCheckbox imageUncheckedBorder
 ]
 
@@ -87,15 +75,7 @@ ToCheckboxSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
 	anEvent elementDo: [ :e | 
-		e isDisabled ifTrue: [ ^ self ].
 		e icon border: e iconDefaultBorder ]
-]
-
-{ #category : 'event handling' }
-ToCheckboxSkin >> releasedLookEvent: anEvent [
-
-	super releasedLookEvent: anEvent.
-	anEvent elementDo: [ :e | "e icon border: e iconDefaultBorder" ]
 ]
 
 { #category : 'event handling' }

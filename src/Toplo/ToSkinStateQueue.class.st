@@ -20,7 +20,8 @@ ToSkinStateQueue >> applyOn: anElement [
 { #category : 'adding' }
 ToSkinStateQueue >> enqueueState: aState for: anElement [
 
-	self nextStates nextPut: aState
+	self nextStates nextPut: aState.
+	aState enqueuedFor: anElement
 ]
 
 { #category : 'initialization' }
@@ -42,12 +43,11 @@ ToSkinStateQueue >> skinInitialStateRequest: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	self enqueueState: (ToInitialState sourceEvent: anEvent) for: target.
-	self
-		enqueueState: ((ToEnablementState sourceEvent: anEvent)
-				 rawState: target isEnabled;
-				 yourself)
-		for: target
+	self enqueueState: ToInitialState new for: target.
+	" restitute the intrasic states (as enablement, check, selection)"
+	target skinManager intrinsicStatesDo: [ :state |
+		self enqueueState: state for: target ].
+
 ]
 
 { #category : 'initialization' }
@@ -56,7 +56,7 @@ ToSkinStateQueue >> skinInstallStateRequest: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	self enqueueState: (ToInstallState sourceEvent: anEvent) for: target
+	self enqueueState: ToInstallState new for: target
 ]
 
 { #category : 'initialization' }
@@ -68,7 +68,5 @@ ToSkinStateQueue >> skinUninstallStateRequest: anEvent [
 	" have to ignore previous look events to avoid to apply them to the new skin"
 	self nextStates flush.
 	" store the uninstall state "
-	self enqueueState: (ToUninstallState sourceEvent: anEvent) for: target.
-	" do not wait next pulse to send ToUninstallLookEvent to the current skin "
-	self applyOn: target
+	self enqueueState: ToUninstallState new for: target
 ]

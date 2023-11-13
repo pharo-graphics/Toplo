@@ -18,14 +18,13 @@ ToElementState >> applyOn: anElement [
 	self appliedOn: anElement
 ]
 
-{ #category : 'accessing' }
-ToElementState >> lookEvent [
+{ #category : 'look event sending' }
+ToElementState >> enqueuedFor: anElement [
 
-	^ self subclassResponsibility 
 ]
 
 { #category : 'accessing' }
-ToElementState >> sourceEvent [
+ToElementState >> lookEvent [
 
 	^ self subclassResponsibility 
 ]

@@ -36,7 +36,7 @@ ToCheckableGroup >> buttons [
 { #category : 'check-uncheck-request' }
 ToCheckableGroup >> checkRequestEvent: aCheckRequest [
 
-	aCheckRequest checked ifNil: [ ^ self ].
+	aCheckRequest checked isSymbol ifTrue: [ ^ self ].
 	checkingStrategy checkRequestEvent: aCheckRequest in: self.
 
 ]

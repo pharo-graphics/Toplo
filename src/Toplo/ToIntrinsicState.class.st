@@ -1,22 +1,14 @@
 Class {
 	#name : 'ToIntrinsicState',
 	#superclass : 'ToImplicitState',
-	#instVars : [
-		'rawState'
-	],
 	#category : 'Toplo-Core-States',
 	#package : 'Toplo',
 	#tag : 'Core-States'
 }
 
-{ #category : 'accessing' }
-ToIntrinsicState >> rawState [
+{ #category : 'look event sending' }
+ToIntrinsicState >> enqueuedFor: anElement [
 
-	^ rawState
-]
-
-{ #category : 'accessing' }
-ToIntrinsicState >> rawState: anObject [
-
-	rawState := anObject
+	super enqueuedFor: anElement.
+	anElement skinManager intrinicState: self enqueuedFor: anElement
 ]

@@ -21,7 +21,7 @@ ToSkinStateGenerator >> blurEvent: anEvent [
 ToSkinStateGenerator >> checkableCheckedEvent: anEvent [
 	"ToCheclableCheckEvent can be send either because of a click or because the checkable as been checked programmatically"
 
-	self generateCheckStateFromEvent: anEvent
+	self enqueueCheckStateFromEvent: anEvent
 ]
 
 { #category : 'mouse handlers' }
@@ -94,6 +94,21 @@ ToSkinStateGenerator >> enablementChangedEvent: anEvent [
 	target spaceDo: [:sp | target defaultSkin ifNotNil: [ :skin | skin dispatchSkinInitialStateRequestTo: target ]	]
 ]
 
+{ #category : 'state generating' }
+ToSkinStateGenerator >> enqueueCheckStateFromEvent: anEvent [
+
+	target enqueueSkinState: (ToCheckState new
+			 rawState: anEvent current;
+			 sourceEvent: anEvent;
+			 yourself)
+]
+
+{ #category : 'state generating' }
+ToSkinStateGenerator >> enqueueExplicitStateFromLookEvent: aLookEvent [
+
+	target enqueueSkinState: (ToExplicitState new lookEvent: aLookEvent; yourself)
+]
+
 { #category : 'api - accessing' }
 ToSkinStateGenerator >> eventsToHandle [
 
@@ -125,76 +140,66 @@ ToSkinStateGenerator >> focusEvent: anEvent [
 ]
 
 { #category : 'state generating' }
-ToSkinStateGenerator >> generateCheckStateFromEvent: anEvent [
-
-	target enqueueSkinState: (ToCheckState new
-			 rawState: anEvent current;
-			 sourceEvent: anEvent;
-			 yourself)
-]
-
-{ #category : 'state generating' }
 ToSkinStateGenerator >> generateClickedStateFromEvent: anEvent [
 
-	target enqueueSkinState: (ToClickedState sourceEvent: anEvent)
+	self enqueueExplicitStateFromLookEvent: (ToClickedLookEvent sourceEvent: anEvent)
 
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateDragStartedStateFromEvent: anEvent [
 
-	target enqueueSkinState: (ToDragStartedState sourceEvent: anEvent)
+	self enqueueExplicitStateFromLookEvent: (ToDragStartedLookEvent sourceEvent: anEvent)
+
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateDraggedStateFromEvent: anEvent [
 
-	target enqueueSkinState: (ToDraggedState sourceEvent: anEvent)
+	self enqueueExplicitStateFromLookEvent: (ToDraggedLookEvent sourceEvent: anEvent)
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateDroppedStateFromEvent: anEvent [
 
-	target enqueueSkinState: (ToDroppedState sourceEvent: anEvent)
+	self enqueueExplicitStateFromLookEvent: (ToDroppedLookEvent sourceEvent: anEvent)
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateHoveredStateFromEvent: anEvent [
 
-	target ifNil: [ ^ self ].
-	target enqueueSkinState: (ToHoveredState sourceEvent: anEvent)
+	self enqueueExplicitStateFromLookEvent: (ToHoveredLookEvent sourceEvent: anEvent)
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateLeavedStateFromEvent: anEvent [
 
 	leaved ifTrue: [ ^ self ].
-	target enqueueSkinState: (ToLeavedState sourceEvent: anEvent)
+	self enqueueExplicitStateFromLookEvent: (ToLeavedLookEvent sourceEvent: anEvent)
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generatePressedStateFromEvent: anEvent [
 
-	target enqueueSkinState: (ToPressedState sourceEvent: anEvent)
+	self enqueueExplicitStateFromLookEvent: (ToPressedLookEvent sourceEvent: anEvent)
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateReleasedStateFromEvent: anEvent [
 
-	target ifNil: [ ^ self ].
-	target enqueueSkinState: (ToReleasedState sourceEvent: anEvent)
+	self enqueueExplicitStateFromLookEvent: (ToReleasedLookEvent sourceEvent: anEvent)
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateStillHoveredStateFromEvent: anEvent [
 
-	target enqueueSkinState: (ToStillHoveredState sourceEvent: anEvent)
+	self enqueueExplicitStateFromLookEvent: (ToStillHoveredLookEvent sourceEvent: anEvent)
 ]
 
 { #category : 'state generating' }
 ToSkinStateGenerator >> generateStillPressedStateFromEvent: anEvent [
 
-	target enqueueSkinState: (ToStillPressedState sourceEvent: anEvent)
+	self enqueueExplicitStateFromLookEvent: (ToStillPressedLookEvent sourceEvent: anEvent)
 ]
 
 { #category : 'api - event managing' }

@@ -70,9 +70,12 @@ TToElementWithPlaceholderTest >> testPlaceholderBuilder [
 	self assert: e rawPlaceholderBuilder notNil.
 	self assert: e  currentPlaceholderLayer isNil.
 	self assert: (e userData includesKey: #placeholderBuilder).
+	e showPlaceholder.
 	e placeholderBuilder: nil.
 	self assert: e rawPlaceholderBuilder isNil.
-	self assert: (e userData includesKey: #placeholderBuilder) not
+	self assert: (e userData includesKey: #placeholderBuilder) not.
+	self assert: e  currentPlaceholderLayer isNil.
+
 ]
 
 { #category : 'tests' }
@@ -89,6 +92,40 @@ TToElementWithPlaceholderTest >> testPlaceholderElevation [
 	| e |
 	e := ToElementWithPlaceholderForTest new.
 	self assert: e placeholderElevation equals: e elevation
+]
+
+{ #category : 'tests' }
+TToElementWithPlaceholderTest >> testPlaceholderText [
+
+	| e ph |
+	e := ToTextField new size: 100 asPoint.
+	e placeholderText: 'Enter text...'.
+	e showPlaceholder.
+	
+	ph := e currentPlaceholderLayer.
+	self assert: (ph children first text asString) equals: 'Enter text...'.
+]
+
+{ #category : 'tests' }
+TToElementWithPlaceholderTest >> testPlaceholderText2 [
+
+	| e ph builder |
+	e := self testRawPlaceholderBuilder.
+	e placeholderText: 'Enter text...'.
+	e showPlaceholder.
+
+	ph := e currentPlaceholderLayer.
+	self assert: ph children first text asString equals: 'Enter text...'.
+
+	builder := e rawPlaceholderBuilder.
+	self assert: builder identicalTo: e rawPlaceholderBuilder.
+	self assert: e rawPlaceholderBuilder notNil.
+	self assert: e currentPlaceholderLayer notNil.
+	self assert: (e userData includesKey: #placeholderBuilder).
+	e placeholderText: nil.
+	self assert: e rawPlaceholderBuilder isNil.
+	self assert: e currentPlaceholderLayer isNil.
+	self assert: (e userData includesKey: #placeholderBuilder) not
 ]
 
 { #category : 'tests' }

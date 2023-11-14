@@ -440,7 +440,7 @@ ToSkinManagerTest >> testRequestUninstallSkinInWithChildrenWithInstalledSkin [
 	e skinManager applySkinUninstallerIn: e.
 	self assert: e skinManager installedSkin isNil.
 	self assert: e skinManager skinUninstaller isNil.
-	self assert: e skinManager skinInstaller isNil.
+	self assert: e skinManager skinInstaller notNil.
 	
 	" but no effect on children "
 	self assert: child skinManager installedSkin notNil.
@@ -482,15 +482,15 @@ ToSkinManagerTest >> testRequestUninstallSkinInWithChildrenWithInstalledSkin2 [
 
 	" install skin on the element tree: this will uninstall all installed skin "
 	e applySkinInstallerRecursively.
-	" skin no skinInstaller was added, no skin is installed "
-	self assert: e skinManager installedSkin isNil.
+	" a skinInstaller was added, then a skin is installed "
+	self assert: e skinManager installedSkin notNil.
 	self assert: e skinManager skinUninstaller isNil.
 	self assert: e skinManager skinInstaller isNil.	
 	" with effect on children "
-	self assert: child skinManager installedSkin isNil.
+	self assert: child skinManager installedSkin notNil.
 	self assert: child skinManager skinUninstaller isNil.
 	self assert: child skinManager skinInstaller isNil.	
-	self assert: childchild skinManager installedSkin isNil.
+	self assert: childchild skinManager installedSkin notNil.
 	self assert: childchild skinManager skinUninstaller isNil.
 	self assert: childchild skinManager skinInstaller isNil.	
 
@@ -516,7 +516,7 @@ ToSkinManagerTest >> testRequestUninstallSkinInWithInstalledSkin [
 	e skinManager applySkinUninstallerIn: e.
 	self assert: e skinManager installedSkin isNil.
 	self assert: e skinManager skinUninstaller isNil.
-	self assert: e skinManager skinInstaller isNil.
+	self assert: e skinManager skinInstaller notNil.
 
 ]
 

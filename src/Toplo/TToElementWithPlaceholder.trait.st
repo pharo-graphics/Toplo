@@ -58,6 +58,20 @@ TToElementWithPlaceholder >> placeholderElevation [
 ]
 
 { #category : 't - element with placeholder' }
+TToElementWithPlaceholder >> placeholderText: aText [
+	"Syntaxic sugar to set a string has a placeholder message"
+
+	aText ifNil: [ self placeholderBuilder: nil.
+		^ self ].
+
+	self placeholderBuilder: [ :placeholder :e |
+		placeholder padding: e padding.
+		placeholder addChild: (ToLabel new
+				 text: aText;
+				 yourself) ]
+]
+
+{ #category : 't - element with placeholder' }
 TToElementWithPlaceholder >> rawPlaceholderBuilder [
 
 	" if not nil, a valuable that takes 2 args: 1 the placeholder to build, 2 the element"
@@ -70,6 +84,7 @@ TToElementWithPlaceholder >> rawPlaceholderBuilder: aValuable [
 	" aValuaable takes 2 args: 1 the placeholder to build, 2 the element. If nil, the current builder is removed"
 
 	aValuable ifNil: [
+		self isShowingPlaceholder ifTrue: [ self hidePlaceholder ].
 		self userData removeKey: #placeholderBuilder ifAbsent: [  ].
 		^ self ].
 	self userData at: #placeholderBuilder put: aValuable

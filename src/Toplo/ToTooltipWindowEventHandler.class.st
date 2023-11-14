@@ -15,6 +15,5 @@ ToTooltipWindowEventHandler >> eventsToHandle [
 { #category : 'api - accessing' }
 ToTooltipWindowEventHandler >> mouseDownEvent: anEvent [
 
-	super mouseDownEvent: anEvent.
 	anEvent currentTarget close
 ]

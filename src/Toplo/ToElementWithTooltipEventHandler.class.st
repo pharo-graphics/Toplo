@@ -21,9 +21,7 @@ ToElementWithTooltipEventHandler >> eventsToHandle [
 { #category : 'private' }
 ToElementWithTooltipEventHandler >> hideTooltipFor: anElement [
 
-	openTooltipTask ifNotNil: [ 
-		anElement dequeueTask: openTooltipTask.
-		openTooltipTask := nil ].
+	self unqueueTooltipTaskIn: anElement.
 	anElement currentTooltipWindow ifNotNil: [ :tooltip | tooltip close ]
 ]
 
@@ -45,6 +43,8 @@ ToElementWithTooltipEventHandler >> mouseEnterEvent: anEvent [
 { #category : 'api - accessing' }
 ToElementWithTooltipEventHandler >> mouseLeaveEvent: anEvent [
 
+	self unqueueTooltipTaskIn: anEvent currentTarget.
+	anEvent currentTarget closeTooltipWindowOnMouseLeave ifFalse: [ ^ self ].
 	self hideTooltipFor: anEvent currentTarget
 
 ]
@@ -58,10 +58,19 @@ ToElementWithTooltipEventHandler >> popupDelay [
 { #category : 'private' }
 ToElementWithTooltipEventHandler >> prepareDelayedPopupTooltipFromEvent: anEvent [
 
+		anEvent currentTarget hasOpenedTooltip ifTrue: [ ^ self ].
 		openTooltipTask := BlDelayedTaskAction new
 			                   delay: self popupDelay;
 			                   action: [ 
 				                   (anEvent currentTarget newTooltipWindowEvent: anEvent) popupEvent: anEvent.
 				                   openTooltipTask := nil ].
 		anEvent currentTarget enqueueTask: openTooltipTask
+]
+
+{ #category : 'private' }
+ToElementWithTooltipEventHandler >> unqueueTooltipTaskIn: anElement [
+
+	openTooltipTask ifNotNil: [ 
+		anElement dequeueTask: openTooltipTask.
+		openTooltipTask := nil ]
 ]

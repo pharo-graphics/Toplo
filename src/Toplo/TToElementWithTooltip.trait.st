@@ -6,6 +6,22 @@ Trait {
 }
 
 { #category : 't - element with tooltip' }
+TToElementWithTooltip >> closeTooltipWindowOnMouseLeave [
+
+	"Set a help string to display to the user if he let the mouse over the widget (a tooltip)."
+
+	^ self userData at: #closeTooltipWindowOnMouseLeave ifAbsentPut: [ true ]
+]
+
+{ #category : 't - element with tooltip' }
+TToElementWithTooltip >> closeTooltipWindowOnMouseLeave: aBoolean [
+
+	"Set a help string to display to the user if he let the mouse over the widget (a tooltip)."
+
+	self userData at: #closeTooltipWindowOnMouseLeave put: aBoolean
+]
+
+{ #category : 't - element with tooltip' }
 TToElementWithTooltip >> currentTooltipWindow [
 
 	^ self rawTooltipWindowHandler ifNotNil: [ :h | h currentWindow ]

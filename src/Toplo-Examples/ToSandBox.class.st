@@ -2840,6 +2840,41 @@ ToSandBox class >> example_toImage1 [
 	im openInSpace
 ]
 
+{ #category : 'tooltip' }
+ToSandBox class >> example_toKeepTooltipWindowOnMouseLeave [
+
+	| but  |
+	self flag: 'not working as expected'.
+	but := ToButton new.
+	but closeTooltipWindowOnMouseLeave: false.
+	but labelText: 'Button with tooltip text'.
+	but tooltipText: ('This is a button', String cr, 'so, click on me...') asRopedText. 
+	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
+	but openInSpace
+ 
+]
+
+{ #category : 'tooltip' }
+ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
+
+	| but  |
+	self flag: 'not working as expected'.
+	but := ToButton new.
+	but labelText: 'Button with editable tooltip'.
+	but closeTooltipWindowOnMouseLeave: false.
+	but tooltipBuilder: [ :win :theElement | | lab |
+		lab := ToLabel text: ' keep mouse pressed to edit ' asRopedText.
+		lab beEditable;
+		stillHoveredStartDelay: 800 milliSeconds;
+		when: ToStillHoveredLookEvent do: [ :event |
+			event consumed: true.
+			event currentTarget addEditorEvent: event ].
+		win root addChild: lab ].
+	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
+	but openInSpace
+ 
+]
+
 { #category : 'label' }
 ToSandBox class >> example_toLabel0 [
 

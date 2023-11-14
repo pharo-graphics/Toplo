@@ -18,10 +18,13 @@ Class {
 
 { #category : 'skin application' }
 ToSkinManager >> applySkinInstallerIn: anElement [
-
 	" ask the skin installer (if any) to actually install the skin "
-	self skinInstaller ifNotNil: [ :si | si applyOn: anElement ]
-	
+
+	self skinInstaller ifNotNil: [ :si | si applyOn: anElement ].
+	self installedSkin ifNil: [
+		((anElement isKindOf: ToElement) and: [postponedRequestSkin isNil and: [
+			 skinUninstaller isNil and: [ skinInstaller isNil ] ] ]) ifTrue: [
+			Error signal: 'A ToSkinManager has an invalid state' ] ]
 ]
 
 { #category : 'skin application' }

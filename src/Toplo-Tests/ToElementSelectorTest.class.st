@@ -73,7 +73,7 @@ ToElementSelectorTest >> testAsStyleSelectorOnSymbol [
 ]
 
 { #category : #'tests - asToTag' }
-ToElementSelectorTest >> testAsTypeSelectorOnToElement [
+ToElementSelectorTest >> testAsStyleSelectorOnToElement [
 
 	| selector  |
 	selector := ToElement asElementSelector.

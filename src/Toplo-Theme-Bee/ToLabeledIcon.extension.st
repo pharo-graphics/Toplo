@@ -12,14 +12,14 @@ ToLabeledIcon >> installBeeStyle [
 	super installBeeStyle.
 	"self withStamp: self defaultBeeStyleStamps."
 
-	self filler id: #filler.	
-	self filler withStamp: #'labeled-icon-filler'.
+	"self filler id: #filler.	
+	self filler withStamp: #'labeled-icon-filler'."
 	
-	self iconHolder id: #'icon-holder'.
-	self labelHolder id: #'label-holder'.
+	"self iconHolder id: #'icon-holder'.
+	self labelHolder id: #'label-holder'."
 	
-	self icon ifNotNil: [ :ic | ic withStamp: #icon ].
-	self label ifNotNil: [ :la | la withStamp: #label ].
+	"self icon ifNotNil: [ :ic | ic withStamp: #icon ].
+	self label ifNotNil: [ :la | la withStamp: #label ]."
 	
 	self isIconFirst
 		ifTrue: [

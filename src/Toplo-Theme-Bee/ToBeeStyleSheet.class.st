@@ -529,7 +529,6 @@ ToBeeStyleSheet >> defaultButtonRules [
 				   when: ToInitialLookEvent
 				   write: (self property: #'background-color')
 				   with: [ :e | e stampValue: #'color-bg-container' ].
-					"animation: (ToPropertyColorTransitionAnimation new duration: 50 milliSeconds)". self flag:'pla : bug when active'.
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'background-color')
@@ -540,21 +539,22 @@ ToBeeStyleSheet >> defaultButtonRules [
 				   when: ToInitialLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-border'); width: (e stampValue: #'line-width') ].
+				 sr
+				   when: ToLeavedLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-border'); width: (e stampValue: #'line-width') ]
+				   "animation: (ToPropertyColorTransitionAnimation new duration: 50 milliSeconds)".
+					self flag:'pla: make a border-color shortcut'.
+					self flag:'pla: create a border animation'.
 				sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-border-disabled'); width: (e stampValue: #'line-width') ].
-				self flag:'pla: make a border-color shortcut'.
 				sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-primary-hover'); width: (e stampValue: #'line-width') ]
 				   "animation: (ToPropertyColorTransitionAnimation new duration: 50 milliSeconds)".
-				 sr
-				   when: ToLeavedLookEvent
-				   write: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-primary'); width: (e stampValue: #'line-width') ]
-				   "animation: (ToPropertyColorTransitionAnimation new duration: 100 milliSeconds)".
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'border-with-builder')
@@ -568,6 +568,11 @@ ToBeeStyleSheet >> defaultButtonRules [
 				   when: ToInitialLookEvent
 				   write: (self property: #'label-text-foreground')
 				   with: [ :e | e stampValue: #'color-text' ].
+				sr
+				   when: ToLeavedLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | e stampValue: #'color-text' ]
+					"animation: (ToPropertyColorTransitionAnimation new duration: 50 milliSeconds)". 
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'label-text-foreground')
@@ -575,12 +580,15 @@ ToBeeStyleSheet >> defaultButtonRules [
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | (e stampValue: #'color-primary') ].
+				   with: [ :e | (e stampValue: #'color-primary') ]
+					"animation: (ToPropertyColorTransitionAnimation new duration: 50 milliSeconds)". 
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | (e stampValue: #'color-primary-pressed') ] ]
-			).  
+				   with: [ :e | (e stampValue: #'color-primary-pressed') ]
+					"animation: (ToPropertyColorTransitionAnimation new duration: 200 milliSeconds)". 
+			]
+		).  
 	} 
 ]
 
@@ -985,8 +993,12 @@ ToBeeStyleSheet >> primaryButtonRules [
 				sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'background-color')
+				   with: [ :e | (e stampValue: #'color-primary') ].
+				 sr
+				   when: ToLeavedLookEvent
+				   write: (self property: #'background-color')
 				   with: [ :e | (e stampValue: #'color-primary') ]
-					"animation: (ToPropertyColorTransitionAnimation new duration: 50 milliSeconds)". self flag:'pla : bug when active'.
+				   animation: (ToPropertyColorTransitionAnimation new duration: 50 milliSeconds).
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'background-color')
@@ -997,11 +1009,6 @@ ToBeeStyleSheet >> primaryButtonRules [
 				   with: [ :e | (e stampValue: #'color-primary-hover') ]
 				   animation: (ToPropertyColorTransitionAnimation new duration: 50 milliSeconds).
 			   sr
-				   when: ToLeavedLookEvent
-				   write: (self property: #'background-color')
-				   with: [ :e | (e stampValue: #'color-primary') ]
-				   animation: (ToPropertyColorTransitionAnimation new duration: 100 milliSeconds).
-			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'background-color')
 				   with: [ :e | (e stampValue: #'color-primary-pressed') ]
@@ -1010,6 +1017,10 @@ ToBeeStyleSheet >> primaryButtonRules [
 				"Border"
 			   sr
 				   when: ToInitialLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e | e borderBuilder paint: (Color transparent); width: (e stampValue: #'line-width') ].
+				sr
+				   when: ToLeavedLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e | e borderBuilder paint: (Color transparent); width: (e stampValue: #'line-width') ].
 			   sr
@@ -1025,6 +1036,10 @@ ToBeeStyleSheet >> primaryButtonRules [
 			
 			   sr
 				   when: ToInitialLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | (e stampValue: #'color-text-light-solid') ].
+				sr
+				   when: ToLeavedLookEvent
 				   write: (self property: #'label-text-foreground')
 				   with: [ :e | (e stampValue: #'color-text-light-solid') ].
 			   sr

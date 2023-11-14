@@ -100,7 +100,7 @@ ToThemeExamples class >> example_buttons [
 			c vertical fitContent.
 			c horizontal fitContent ].
 
-	line1 := BlElement new layout: BlFlowLayout horizontal; padding: (BlInsets all: 5); constraintsDo: [ :c |
+	line1 := BlElement new layout: BlFlowLayout horizontal; constraintsDo: [ :c |
 			c vertical fitContent.
 			c horizontal fitContent ].
 	box addChild: line1.

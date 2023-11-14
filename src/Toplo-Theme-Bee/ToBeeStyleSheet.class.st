@@ -15,17 +15,17 @@ ToBeeStyleSheet >> buttonRules [
 
 		"Available button skins"
 		str nextPutAll: self defaultButtonRules.
-		"str nextPutAll: self primaryButtonRules.
-		str nextPutAll: self textButtonRules.
+		str nextPutAll: self primaryButtonRules.
+		"str nextPutAll: self textButtonRules.
 		str nextPutAll: self linkButtonRules."
 
-		str nextPutAll: self checkableButtonRules.
-		str nextPutAll: self checkableInnerImageRules.
+		"str nextPutAll: self checkableButtonRules.
+		str nextPutAll: self checkableInnerImageRules."
 
-		str nextPutAll: self circleButtonRules.
-		str nextPutAll: self verticalButtonRules.
+		"str nextPutAll: self circleButtonRules.
+		str nextPutAll: self verticalButtonRules."
 
-		str nextPutAll: self toggleButtonRules ]
+		"str nextPutAll: self toggleButtonRules" ]
 ]
 
 { #category : #'accessing rules  -button' }
@@ -338,7 +338,7 @@ ToBeeStyleSheet >> commonButtonRules [
 			sr
 				when: ToHoveredLookEvent
 				write: (self property: #mouseCursor)
-				with: [ :e | e isEnabled ifTrue: [ BlCursor hand ] ifFalse: [  ] ].
+				with: [ :e | e isEnabled ifTrue: [ BlCursor hand ] ifFalse: [ BlCursor notAllowed ] ].
 			sr
 				when: ToLeavedLookEvent
 				write: (self property: #mouseCursor)
@@ -502,14 +502,14 @@ ToBeeStyleSheet >> defaultButtonRules [
 		"Button background and border"
 		(ToButton asElementSelector exact: false) style:[ :sr |
 			  
-				"Background styles normal"
+				"Background"
 				sr
 				   when: ToInitialLookEvent
-				   write: (self property: #background)
+				   write: (self property: #'background-color')
 				   with: [ :e | Color transparent ].
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #background)
+				   write: (self property: #'background-color')
 				   with: [ :e | e stampValue: #'color-bg-container-disabled' ]. 				
 		].	
 		
@@ -934,26 +934,28 @@ ToBeeStyleSheet >> primaryButtonRules [
 				"Background"
 				sr
 				   when: ToInitialLookEvent
-				   write: (self property: #background)
-				   with: [ :e | (e stampValue: #'color-primary') ].
+				   write: (self property: #'background-color')
+				   with: [ :e | (e stampValue: #'color-primary') ]
+					"animation: (ToPropertyColorTransitionAnimation new duration: 50 milliSeconds)". self flag:'pla : bug when active'.
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #background)
+				   write: (self property: #'background-color')
 				   with: [ :e | e stampValue: #'color-bg-container-disabled' ].
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'background-color')
 				   with: [ :e | (e stampValue: #'color-primary-hover') ]
-				   animation: ToPropertyColorTransitionAnimation new.
+				   animation: (ToPropertyColorTransitionAnimation new duration: 50 milliSeconds).
 			   sr
 				   when: ToLeavedLookEvent
 				   write: (self property: #'background-color')
 				   with: [ :e | (e stampValue: #'color-primary') ]
-				   animation: ToPropertyColorTransitionAnimation new.
+				   animation: (ToPropertyColorTransitionAnimation new duration: 100 milliSeconds).
 			   sr
 				   when: ToPressedLookEvent
-				   write: (self property: #background)
-				   with: [ :e | (e stampValue: #'color-primary-pressed') ].
+				   write: (self property: #'background-color')
+				   with: [ :e | (e stampValue: #'color-primary-pressed') ]
+					animation: (ToPropertyColorTransitionAnimation new duration: 200 milliSeconds).
 
 				"Border"
 			   sr

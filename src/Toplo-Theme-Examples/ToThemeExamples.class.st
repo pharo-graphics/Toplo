@@ -1,11 +1,10 @@
 Class {
-	#name : 'ToThemeExamples',
-	#superclass : 'Object',
-	#category : 'Toplo-Theme-Examples',
-	#package : 'Toplo-Theme-Examples'
+	#name : #ToThemeExamples,
+	#superclass : #Object,
+	#category : #'Toplo-Theme-Examples'
 }
 
-{ #category : 'private' }
+{ #category : #private }
 ToThemeExamples class >> createThemeMenuBar: aSpace [
 
 	| bar themeMenu inspectMenu changeColorMenuItem beeMenu |
@@ -32,7 +31,7 @@ ToThemeExamples class >> createThemeMenuBar: aSpace [
 	^ bar
 ]
 
-{ #category : 'private - actions' }
+{ #category : #'private - actions' }
 ToThemeExamples class >> displaySpaceStyleSheet: aSpace [
 
 	| presenter stream printer |
@@ -59,14 +58,14 @@ ToThemeExamples class >> displaySpaceStyleSheet: aSpace [
 	presenter withWindowDo: [ :w | w title: 'Toplo Style Sheet details' ].
 ]
 
-{ #category : 'private - get' }
+{ #category : #'private - get' }
 ToThemeExamples class >> elementSandBoxFor: aSpace [
 
 	aSpace ifNil: [ ^ nil ].
 	^ aSpace root childWithId: #themeSandBox
 ]
 
-{ #category : 'examples - buttons' }
+{ #category : #'examples - buttons' }
 ToThemeExamples class >> example_beeButtonsInRawPane [
 
 	| space primaryButton1 primaryButton2 pane |
@@ -90,66 +89,80 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	space show
 ]
 
-{ #category : 'examples - buttons' }
+{ #category : #'examples - buttons' }
 ToThemeExamples class >> example_buttons [
 
-	| space primaryButton defaultButton box dashedButton textButton linkButton |
+	| space primaryButton defaultButton box dashedButton textButton linkButton line1 line2 |
 	space := self openThemeExampleSpace.
 	box := self elementSandBoxFor: space.
 
-	box
-		layout: BlFlowLayout horizontal;
-		padding: (BlInsets all: 5);
-		constraintsDo: [ :c |
+	box layout: BlFlowLayout vertical; padding: (BlInsets all: 5); constraintsDo: [ :c |
 			c vertical fitContent.
 			c horizontal fitContent ].
 
-	"Create some buttons with different skins"
-	primaryButton := (ToButton id: #buttonA)
-		                 labelText: 'Primary Button';
-		                 tooltipText: 'I''m a button'.
+	line1 := BlElement new layout: BlFlowLayout horizontal; padding: (BlInsets all: 5); constraintsDo: [ :c |
+			c vertical fitContent.
+			c horizontal fitContent ].
+	box addChild: line1.
+
+	"Create some buttons with available skins"
+	primaryButton := (ToButton id: #buttonA) labelText: 'Primary Button'; tooltipText: 'I''m a button'.
 	primaryButton withStamp: #primary.
-	box addChild: primaryButton.
+	line1 addChild: primaryButton.
 
-	defaultButton := (ToButton id: #buttonB)
-		                 labelText: 'Default Button';
-		                 tooltipText: 'I''m a button'.
-	box addChild: defaultButton.
+	defaultButton := (ToButton id: #buttonB) labelText: 'Default Button'; tooltipText: 'I''m a button'.
+	line1 addChild: defaultButton.
 
-	dashedButton := (ToButton id: #buttonC)
-		                labelText: 'Dashed Button';
-		                tooltipText: 'I''m a button'.
+	dashedButton := (ToButton id: #buttonC) labelText: 'Dashed Button'; tooltipText: 'I''m a button'.
 	dashedButton withStamp: #dashed.
-	box addChild: dashedButton.
+	line1 addChild: dashedButton.
 
-	textButton := (ToButton id: #buttonD)
-		              labelText: 'Text Button';
-		              tooltipText: 'I''m a button'.
+	textButton := (ToButton id: #buttonD) labelText: 'Text Button'; tooltipText: 'I''m a button'.
 	textButton withStamp: #text.
-	box addChild: textButton.
+	line1 addChild: textButton.
 
-	linkButton := (ToButton id: #buttonE)
-		              labelText: 'Link Button';
-		              tooltipText: 'I''m a button'.
+	linkButton := (ToButton id: #buttonE) labelText: 'Link Button'; tooltipText: 'I''m a button'.
 	linkButton withStamp: #link.
-	box addChild: linkButton
+	line1 addChild: linkButton.
+	
+	line2 := BlElement new layout: BlFlowLayout horizontal; padding: (BlInsets all: 5); constraintsDo: [ :c |
+			c vertical fitContent.
+			c horizontal fitContent ].
+	box addChild: line2.
+
+	"Create some buttons with available skins - disable"
+	primaryButton := (ToButton id: #buttonA) labelText: 'Primary Button'; tooltipText: 'I''m a button'; disable.
+	primaryButton withStamp: #primary.
+	line2 addChild: primaryButton.
+
+	defaultButton := (ToButton id: #buttonB) labelText: 'Default Button'; tooltipText: 'I''m a button'; disable.
+	line2 addChild: defaultButton.
+
+	dashedButton := (ToButton id: #buttonC) labelText: 'Dashed Button'; tooltipText: 'I''m a button'; disable.
+	line2 addChild: dashedButton.
+
+	textButton := (ToButton id: #buttonD) labelText: 'Text Button'; tooltipText: 'I''m a button'; disable.
+	line2 addChild: textButton.
+
+	linkButton := (ToButton id: #buttonE) labelText: 'Link Button'; tooltipText: 'I''m a button'; disable.
+	line2 addChild: linkButton
 ]
 
-{ #category : 'private - actions' }
+{ #category : #'private - actions' }
 ToThemeExamples class >> inspectSpace: aSpace [
 
 	aSpace ifNil:[ ^ self ].
 	aSpace inspect
 ]
 
-{ #category : 'private - actions' }
+{ #category : #'private - actions' }
 ToThemeExamples class >> inspectSpaceToTheme: aSpace [
 
 	aSpace ifNil:[ ^ self ].
 	aSpace toTheme inspect
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ToThemeExamples class >> openThemeExampleSpace [
 	"Prepare a space to display theme examples"
 
@@ -174,7 +187,7 @@ ToThemeExamples class >> openThemeExampleSpace [
 	^ space
 ]
 
-{ #category : 'private - actions' }
+{ #category : #'private - actions' }
 ToThemeExamples class >> randomizeBeeThemeColorFor: aSpace [
 
 	| theme |
@@ -185,7 +198,7 @@ ToThemeExamples class >> randomizeBeeThemeColorFor: aSpace [
 	aSpace toTheme: theme.
 ]
 
-{ #category : 'private - actions' }
+{ #category : #'private - actions' }
 ToThemeExamples class >> switchTheme: aToTheme for: aSpace [
 
 	aSpace ifNil:[ ^ self ].
@@ -193,6 +206,6 @@ ToThemeExamples class >> switchTheme: aToTheme for: aSpace [
 	aSpace toTheme: aToTheme.
 ]
 
-{ #category : 'see class side' }
+{ #category : #'see class side' }
 ToThemeExamples >> seeClassSide [ 
 ]

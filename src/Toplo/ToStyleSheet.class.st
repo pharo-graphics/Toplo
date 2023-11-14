@@ -113,8 +113,7 @@ ToStyleSheet >> defaultStyleRules [
 { #category : #'syntactic sugar' }
 ToStyleSheet >> haveExactHeight [
 
-	^ self action: [ :e | e constraints vertical resizer isExact]
-
+	^ self action: [ :e | e constraints vertical resizer isExact ]
 ]
 
 { #category : #'syntactic sugar' }

@@ -68,10 +68,11 @@ ToStyleSheetPrinter >> getSelectorCSS: aToElementSelector hangSelector: aSelecto
 		^ stream contents
 	].
 
-	"Type selector => element"
+	"Type selector => element, can be inherit with element(inherit)"
 	aToElementSelector class = ToTypeSelector ifTrue:[
 		aSelector ifNotNil:[ stream space ].
 		stream nextPutAll: aToElementSelector type asString.
+		aToElementSelector exact ifFalse:[stream nextPutAll: '(inherit)'].
 		^ stream contents
 	].
 

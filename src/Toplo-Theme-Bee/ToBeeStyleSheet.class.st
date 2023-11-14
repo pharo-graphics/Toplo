@@ -343,6 +343,22 @@ ToBeeStyleSheet >> commonButtonRules [
 				when: ToLeavedLookEvent
 				write: (self property: #mouseCursor)
 				with: nil.	
+					
+			"Geometry management"
+			sr 
+				write: (self property: #geometry) 
+				with: [ :e | BlRoundedRectangleGeometry cornerRadius: (e stampValue: 'border-radius') ].
+				
+			"Size management"
+			sr 
+				write: (self property: #padding) 
+			   with: [ :e |
+					   BlInsets
+						   top: (e stampValue: #'padding-XS') / 2
+						   left: (e stampValue: #'padding-content-H') / 2
+						   bottom: (e stampValue: #'padding-XS') / 2
+						   right: (e stampValue: #'padding-content-H') / 2 ].
+
 		]  
 	}
 ]
@@ -498,23 +514,53 @@ ToBeeStyleSheet >> commonButtonRulesOld [
 ToBeeStyleSheet >> defaultButtonRules [
 	<script:'(ToStyleSheetPrinter styleRules: (self new defaultButtonRules)) asCSSLikeString inspect'>
 	
+	| buttonSelector |
+	buttonSelector := ToButton asElementSelector exact: false.
+	
 	^ {
 		"Button background and border"
-		(ToButton asElementSelector exact: false) style:[ :sr |
+		buttonSelector style:[ :sr |
 			  
 				"Background"
 				sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'background-color')
-				   with: [ :e | Color transparent ].
+				   with: [ :e | e stampValue: #'color-bg-container' ].
+					"animation: (ToPropertyColorTransitionAnimation new duration: 50 milliSeconds)". self flag:'pla : bug when active'.
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'background-color')
-				   with: [ :e | e stampValue: #'color-bg-container-disabled' ]. 				
+				   with: [ :e | e stampValue: #'color-bg-container-disabled' ].
+				
+				"Border"
+				sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-border') ].
+				sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-border-disabled') ].
+				self flag:'pla: make a border-color shortcut'.
+				sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-primary-hover') ]
+				   "animation: (ToPropertyColorTransitionAnimation new duration: 50 milliSeconds)".
+				 sr
+				   when: ToLeavedLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-primary') ]
+				   "animation: (ToPropertyColorTransitionAnimation new duration: 100 milliSeconds)".
+			   sr
+				   when: ToPressedLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-primary-pressed') ]
+					"animation: (ToPropertyColorTransitionAnimation new duration: 200 milliSeconds)".				 				
 		].	
 		
 		"Button label"
-		"((#label asElementSelector parent: ToButton depth: 2) style: [ :sr |
+		((ToLabel asElementSelector parent: buttonSelector "depth: 3") style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'label-text-foreground')
@@ -531,7 +577,7 @@ ToBeeStyleSheet >> defaultButtonRules [
 				   when: ToPressedLookEvent
 				   write: (self property: #'label-text-foreground')
 				   with: [ :e | (e stampValue: #'color-primary-pressed') ] ]
-			).  "
+			).  
 	} 
 ]
 
@@ -927,9 +973,12 @@ ToBeeStyleSheet >> linkButtonRules [
 ToBeeStyleSheet >> primaryButtonRules [
 	<script:'(ToStyleSheetPrinter styleRules: (self new primaryButtonRules)) asCSSLikeString inspect'>
 
+	| buttonSelector |
+	buttonSelector := (ToButton asElementSelector exact: false) + #primary.
+
 	^ {
 		"Button background and border"
-		((ToButton asElementSelector exact: false) + #primary style: [ :sr |
+		(buttonSelector style: [ :sr |
 			   
 				"Background"
 				sr
@@ -965,9 +1014,30 @@ ToBeeStyleSheet >> primaryButtonRules [
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-border-disabled') ]
-			   ]
+				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-border-disabled') ].
+				self flag:'pla: make a border-color shortcut'.
+			]
 		).
+		
+		"Label"
+		(ToLabel asElementSelector parent: buttonSelector depth: 3) style: [ :sr |
+			
+			   sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | (e stampValue: #'color-text-light-solid') ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | e stampValue: #'color-bg-container-disabled' ].
+			   sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | (e stampValue: #'color-text-light-solid') ].
+			   sr
+				   when: ToPressedLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | (e stampValue: #'color-text-light-solid') ] ].
 	}
 ]
 

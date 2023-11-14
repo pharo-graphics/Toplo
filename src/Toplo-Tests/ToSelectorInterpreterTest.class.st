@@ -4,7 +4,7 @@ A ToStyleSelectorInterpreterTest is a test class for testing the behavior of ToS
 Class {
 	#name : #ToSelectorInterpreterTest,
 	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-Selector'
+	#category : #'Toplo-Tests-Core-Selector'
 }
 
 { #category : #'tests - action selector' }
@@ -602,6 +602,30 @@ ToSelectorInterpreterTest >> testTypeSelectorAndParentSelector [
 	self assert: engine result.
 
 
+]
+
+{ #category : #'tests - type selector' }
+ToSelectorInterpreterTest >> testTypeSelectorExact [
+
+	| selector engine |
+	selector := ToTypeSelector new type: ToElement.
+	engine := ToSelectorInterpreter new.
+	self assert: selector exact.
+	
+	"Test if the selector trigger only the specicied class"
+	engine check: selector on: (ToElement new).
+	self assert: engine result.
+	engine check: selector on: (ToButton new).
+	self deny: engine result.
+	
+	selector exact: false.
+	self deny: selector exact.
+	
+	"Test if the selector trigger the specicied class and all subclasses"
+	engine check: selector on: (ToElement new).
+	self assert: engine result.
+	engine check: selector on: (ToButton new).
+	self assert: engine result.
 ]
 
 { #category : #'tests - with single selector' }

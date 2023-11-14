@@ -5,7 +5,7 @@ Class {
 		'type',
 		'exact'
 	],
-	#category : 'Toplo-Core-Selector'
+	#category : #'Toplo-Core-Selector'
 }
 
 { #category : #visiting }
@@ -37,9 +37,9 @@ ToTypeSelector >> initialize [
 { #category : #operating }
 ToTypeSelector >> selectType: aClass [
 
-	^ self exact
-		  ifTrue: [ self type == aClass ]
-		  ifFalse: [ aClass isKindOf: self type ]
+	self type == aClass ifTrue:[ ^ true ].
+	self exact ifFalse: [ ^ aClass inheritsFrom: self type ].
+	^ false
 ]
 
 { #category : #accessing }

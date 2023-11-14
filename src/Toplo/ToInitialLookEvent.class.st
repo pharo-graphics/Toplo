@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToInitialLookEvent',
-	#superclass : 'ToSkinManagementLookEvent',
-	#category : 'Toplo-Core-LookEvents',
-	#package : 'Toplo',
-	#tag : 'Core-LookEvents'
+	#name : #ToInitialLookEvent,
+	#superclass : #ToSkinManagementLookEvent,
+	#category : 'Toplo-Core-LookEvents'
 }
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToInitialLookEvent >> sendTo: anObject [
 
 	anObject initialLookEvent: self

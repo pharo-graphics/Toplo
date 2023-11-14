@@ -1,38 +1,36 @@
 Class {
-	#name : 'ToTooltipWindow',
-	#superclass : 'ToAnchoredWindow',
-	#category : 'Toplo-Core-Tooltip',
-	#package : 'Toplo',
-	#tag : 'Core-Tooltip'
+	#name : #ToTooltipWindow,
+	#superclass : #ToAnchoredWindow,
+	#category : 'Toplo-Core-Tooltip'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTooltipWindow >> close [
 
 	self root removeChildren.
 	^super close
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTooltipWindow >> defaultElevation [
 
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 300)
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToTooltipWindow >> defaultEventHandler [ 
 	
 	^ self defaultEventHandlerClass new
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToTooltipWindow >> defaultEventHandlerClass [
 
 	^ ToTooltipWindowEventHandler
 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToTooltipWindow >> initialize [
 
 	super initialize.
@@ -40,7 +38,7 @@ ToTooltipWindow >> initialize [
 	self addEventHandler: self defaultEventHandler 
 ]
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToTooltipWindow >> installRawStyle [
 
 	super installRawStyle.

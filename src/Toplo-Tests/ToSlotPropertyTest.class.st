@@ -2,14 +2,12 @@
 A ToSlotPropertyTest is a test class for testing the behavior of ToSlotProperty
 "
 Class {
-	#name : 'ToSlotPropertyTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core-Properties',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Properties'
+	#name : #ToSlotPropertyTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Tests-Core-Properties'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSlotPropertyTest >> testName [
 
 	| w prop |
@@ -21,7 +19,7 @@ ToSlotPropertyTest >> testName [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSlotPropertyTest >> testNew [
 
 	| w prop |
@@ -30,7 +28,7 @@ ToSlotPropertyTest >> testNew [
 	self should: [ prop read: w ] raise: Error
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSlotPropertyTest >> testRead [
 
 	| w prop |
@@ -42,7 +40,7 @@ ToSlotPropertyTest >> testRead [
 	self assert: (w readSlotNamed: #label) equals: w label
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSlotPropertyTest >> testWrite [
 
 	| w prop |
@@ -55,7 +53,7 @@ ToSlotPropertyTest >> testWrite [
 	self assert: (prop read: w) text asString equals: 'Hello'
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSlotPropertyTest >> testWrongDefinition [
 
 	| w prop |

@@ -1,17 +1,15 @@
 Class {
-	#name : 'ToElementWithLabeledIconForTest',
-	#superclass : 'ToElement',
+	#name : #ToElementWithLabeledIconForTest,
+	#superclass : #ToElement,
 	#traits : 'TToElementWithLabeledIcon',
 	#classTraits : 'TToElementWithLabeledIcon classTrait',
 	#instVars : [
 		'labeledIcon'
 	],
-	#category : 'Toplo-Tests-Core',
-	#package : 'Toplo-Tests',
-	#tag : 'Core'
+	#category : 'Toplo-Tests-Core'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToElementWithLabeledIconForTest >> initialize [ 
 
 	super initialize.
@@ -21,7 +19,7 @@ ToElementWithLabeledIconForTest >> initialize [
 	self fitContent.
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToElementWithLabeledIconForTest >> labeledIcon [
 
 	^ labeledIcon 

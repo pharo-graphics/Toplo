@@ -1,21 +1,19 @@
 Class {
-	#name : 'ToPropertyColorTransitionAnimation',
-	#superclass : 'ToPropertyAnimation',
+	#name : #ToPropertyColorTransitionAnimation,
+	#superclass : #ToPropertyAnimation,
 	#instVars : [
 		'rawAnimation'
 	],
-	#category : 'Toplo-Core-StyleSheet',
-	#package : 'Toplo',
-	#tag : 'Core-StyleSheet'
+	#category : 'Toplo-Core-StyleSheet'
 }
 
-{ #category : 't - property animation - running' }
+{ #category : #'t - property animation - running' }
 ToPropertyColorTransitionAnimation >> stop [
 
 	rawAnimation ifNotNil: [ :ra | ra isRunning ifTrue: [ ra stop ] ]
 ]
 
-{ #category : 'writing' }
+{ #category : #writing }
 ToPropertyColorTransitionAnimation >> write: aColor to: anElement [
 
 	| currentColor |

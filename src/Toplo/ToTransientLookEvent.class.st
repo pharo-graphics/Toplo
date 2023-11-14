@@ -1,27 +1,25 @@
 Class {
-	#name : 'ToTransientLookEvent',
-	#superclass : 'ToElementLookEvent',
+	#name : #ToTransientLookEvent,
+	#superclass : #ToElementLookEvent,
 	#instVars : [
 		'sourceEvent'
 	],
-	#category : 'Toplo-Core-LookEvents',
-	#package : 'Toplo',
-	#tag : 'Core-LookEvents'
+	#category : 'Toplo-Core-LookEvents'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTransientLookEvent class >> sourceEvent: anEvent [
 
 	^ self new sourceEvent: anEvent
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTransientLookEvent >> sourceEvent [
 
 	^ sourceEvent
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTransientLookEvent >> sourceEvent: anEvent [
 
 	sourceEvent := anEvent

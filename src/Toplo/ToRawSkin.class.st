@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToRawSkin',
-	#superclass : 'ToSkin',
-	#category : 'Toplo-Core-Theme',
-	#package : 'Toplo',
-	#tag : 'Core-Theme'
+	#name : #ToRawSkin,
+	#superclass : #ToSkin,
+	#category : 'Toplo-Core-Theme'
 }
 
-{ #category : 'event dispatch' }
+{ #category : #'event dispatch' }
 ToRawSkin >> dispatchSkinInitialStateRequestTo: anObject [
 
 	super dispatchSkinInitialStateRequestTo: anObject.
@@ -14,7 +12,7 @@ ToRawSkin >> dispatchSkinInitialStateRequestTo: anObject [
 	
 ]
 
-{ #category : 'event dispatch' }
+{ #category : #'event dispatch' }
 ToRawSkin >> dispatchSkinInstallStateRequestTo: anObject [
 
 	super dispatchSkinInstallStateRequestTo: anObject.
@@ -22,7 +20,7 @@ ToRawSkin >> dispatchSkinInstallStateRequestTo: anObject [
 	
 ]
 
-{ #category : 'event dispatch' }
+{ #category : #'event dispatch' }
 ToRawSkin >> dispatchSkinUninstallStateRequestTo: anObject [
 
 	super dispatchSkinUninstallStateRequestTo: anObject.

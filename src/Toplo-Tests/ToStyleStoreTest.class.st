@@ -2,14 +2,12 @@
 A ToStyleSheetManagerTest is a test class for testing the behavior of ToStyleSheetManager
 "
 Class {
-	#name : 'ToStyleStoreTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core-Theme',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Theme'
+	#name : #ToStyleStoreTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Tests-Core-Theme'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleStoreTest >> testAddStyleStamp [
 
 	| e s s2 |
@@ -28,7 +26,7 @@ ToStyleStoreTest >> testAddStyleStamp [
 	self assert: e toStyleStore stampIndex size equals: 1
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleStoreTest >> testHasStamp [
 
 	| e |
@@ -44,7 +42,7 @@ ToStyleStoreTest >> testHasStamp [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleStoreTest >> testLocalStyleStampIndex [
 
 	| e dict |
@@ -54,7 +52,7 @@ ToStyleStoreTest >> testLocalStyleStampIndex [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleStoreTest >> testLocalStyleStampNamed [
 
 	| e s |
@@ -69,7 +67,7 @@ ToStyleStoreTest >> testLocalStyleStampNamed [
 	self assert: s value
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleStoreTest >> testLookUpStyleStampNamed [
 
 	| e child |
@@ -90,7 +88,7 @@ ToStyleStoreTest >> testLookUpStyleStampNamed [
 		identicalTo: (child toStyleStore localStampNamed: #color)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleStoreTest >> testRemoveStyleStamp [
 
 	| e |
@@ -103,7 +101,7 @@ ToStyleStoreTest >> testRemoveStyleStamp [
 	self assert: e toStyleStore stampIndex isEmpty
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleStoreTest >> testRemoveStyleStampNamed [
 
 	| e |
@@ -116,7 +114,7 @@ ToStyleStoreTest >> testRemoveStyleStampNamed [
 	self assert: e toStyleStore stampIndex isEmpty
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleStoreTest >> testRemoveStyleStampNamedIfAbsent [
 
 	| e |
@@ -136,7 +134,7 @@ ToStyleStoreTest >> testRemoveStyleStampNamedIfAbsent [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleStoreTest >> testStampNamed [
 
 	| e p |
@@ -156,7 +154,7 @@ ToStyleStoreTest >> testStampNamed [
 		raise: ToElementPropertyNotFound
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleStoreTest >> testStampValue [
 
 	| e p |
@@ -177,7 +175,7 @@ ToStyleStoreTest >> testStampValue [
 		raise: ToElementPropertyNotFound
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleStoreTest >> testWithAllStamps [
 
 	| e |
@@ -197,7 +195,7 @@ ToStyleStoreTest >> testWithAllStamps [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleStoreTest >> testWithStamp [
 
 	| e |
@@ -223,7 +221,7 @@ ToStyleStoreTest >> testWithStamp [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToStyleStoreTest >> testWithoutStamp [
 
 	| e |

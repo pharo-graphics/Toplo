@@ -1,6 +1,6 @@
-Extension { #name : 'BlImageBackground' }
+Extension { #name : #BlImageBackground }
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 BlImageBackground >> formImage [
 
 	^ self image

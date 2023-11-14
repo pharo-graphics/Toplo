@@ -2,55 +2,43 @@
 A ToDefaultStyleSheetTest is a test class for testing the behavior of ToDefaultStyleSheet
 "
 Class {
-	#name : 'ToBeeStyleSheetTest',
-	#superclass : 'ToParameterizedHostTest',
+	#name : #ToBeeStyleSheetTest,
+	#superclass : #ToParameterizedHostTest,
 	#instVars : [
 		'styleSheet',
 		'space'
 	],
-	#category : 'Toplo-Theme-Bee-Tests',
-	#package : 'Toplo-Theme-Bee-Tests'
+	#category : #'Toplo-Theme-Bee-Tests'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 ToBeeStyleSheetTest >> setUp [ 
 
 	super setUp.
 	space := self newTestingSpace.
 	
 	ToTheme cleanUp.
+	space toTheme: ToBeeLightTheme new.
+	
 	styleSheet := ToBeeTheme new styleSheet.
 	styleSheet inherits: false.
 ]
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToBeeStyleSheetTest >> testDefaultButtonSkin [
 
-	| button writers skin labelSkin |
-	button := ToButton new localToTheme: ToBeeLightTheme new.
+	| button |
+	button := ToButton new.
 	space root addChild: button.
 	space applyAllSkinInstallers.
-	writers := button toTheme writersFor: button.
-	self assert: writers notEmpty.
-	skin := ToBeeSkin new.
-	skin writers: writers.
-	button setSkin: skin.
-	button applySkinInstaller.
-	self assert: button border width equals: 1.
-	self assert: button border paint isColorPaint.
-	self
-		assert: button border paint color
-		equals: (button stampValue: #'color-border').
+	space updateAllStyles.
 
-	button labelText: 'Default'.
-	labelSkin := ToBeeSkin new.
-	writers := button label toTheme writersFor: button label.
-	labelSkin writers: writers.
-	button label defaultSkin: labelSkin.
-	button applySkinInstaller
+	self assert: button border width equals: (button stampValue: #'line-width').
+	self assert: button border paint isColorPaint.
+	self assert: button border paint color equals: (button stampValue: #'color-border').
 ]
 
-{ #category : 'labeled-icon' }
+{ #category : #'labeled-icon' }
 ToBeeStyleSheetTest >> testLabeledIconWithLabelAndIcon [
 
 	| li |
@@ -71,7 +59,7 @@ ToBeeStyleSheetTest >> testLabeledIconWithLabelAndIcon [
 
 ]
 
-{ #category : 'look updaters' }
+{ #category : #'look updaters' }
 ToBeeStyleSheetTest >> testWriteablePropertyList [
 
 	| index count elem |

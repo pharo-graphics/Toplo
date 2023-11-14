@@ -28,6 +28,12 @@ ToBeeStyleSheet >> buttonRules [
 		"str nextPutAll: self toggleButtonRules" ]
 ]
 
+{ #category : #'syntactic sugar' }
+ToBeeStyleSheet >> buttonSelector [
+
+	^ ToButton asElementSelector exact: false
+]
+
 { #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> checkableButtonRules [
 	" checkbox family "
@@ -332,7 +338,7 @@ ToBeeStyleSheet >> commonButtonRules [
 	<script:'(ToStyleSheetPrinter styleRules: (self new commonButtonRules)) asCSSLikeString inspect'>
 
 	^ { 
-		(ToButton asElementSelector exact: false) style:[ :sr | 
+		self buttonSelector style:[ :sr | 
 			
 			"Mouse cursor management"
 			sr
@@ -514,12 +520,9 @@ ToBeeStyleSheet >> commonButtonRulesOld [
 ToBeeStyleSheet >> defaultButtonRules [
 	<script:'(ToStyleSheetPrinter styleRules: (self new defaultButtonRules)) asCSSLikeString inspect'>
 	
-	| buttonSelector |
-	buttonSelector := ToButton asElementSelector exact: false.
-	
 	^ {
 		"Button background and border"
-		buttonSelector style:[ :sr |
+		self buttonSelector style:[ :sr |
 			  
 				"Background"
 				sr
@@ -536,31 +539,31 @@ ToBeeStyleSheet >> defaultButtonRules [
 				sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-border') ].
+				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-border'); width: (e stampValue: #'line-width') ].
 				sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-border-disabled') ].
+				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-border-disabled'); width: (e stampValue: #'line-width') ].
 				self flag:'pla: make a border-color shortcut'.
 				sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-primary-hover') ]
+				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-primary-hover'); width: (e stampValue: #'line-width') ]
 				   "animation: (ToPropertyColorTransitionAnimation new duration: 50 milliSeconds)".
 				 sr
 				   when: ToLeavedLookEvent
 				   write: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-primary') ]
+				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-primary'); width: (e stampValue: #'line-width') ]
 				   "animation: (ToPropertyColorTransitionAnimation new duration: 100 milliSeconds)".
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-primary-pressed') ]
+				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-primary-pressed'); width: (e stampValue: #'line-width') ]
 					"animation: (ToPropertyColorTransitionAnimation new duration: 200 milliSeconds)".				 				
 		].	
 		
 		"Button label"
-		((ToLabel asElementSelector parent: buttonSelector "depth: 3") style: [ :sr |
+		((ToLabel asElementSelector parent: (ToLabeledIcon asElementSelector parent: self buttonSelector) depth: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'label-text-foreground')
@@ -855,8 +858,9 @@ ToBeeStyleSheet >> labelRules [
 
 { #category : #'accessing rules - labeled icon' }
 ToBeeStyleSheet >> labeledIconRules [
+	<script:'(ToStyleSheetPrinter styleRules: (self new labeledIconRules)) asCSSLikeString inspect'>
 
-	^ { (self any parent: (self type: ToLabeledIcon)) style: [ :sr | 
+	^ { (self any parent: (ToLabeledIcon asElementSelector)) style: [ :sr | 
 		" any child of a ToLabeledIcon is centered vertically and horizontally ( icon, label and filler) "
 		   sr write: (self property: #'layout-constraints') with: [ :e |
 			   [ :c | 
@@ -973,12 +977,9 @@ ToBeeStyleSheet >> linkButtonRules [
 ToBeeStyleSheet >> primaryButtonRules [
 	<script:'(ToStyleSheetPrinter styleRules: (self new primaryButtonRules)) asCSSLikeString inspect'>
 
-	| buttonSelector |
-	buttonSelector := (ToButton asElementSelector exact: false) + #primary.
-
 	^ {
 		"Button background and border"
-		(buttonSelector style: [ :sr |
+		((self buttonSelector + #primary) style: [ :sr |
 			   
 				"Background"
 				sr
@@ -1010,17 +1011,17 @@ ToBeeStyleSheet >> primaryButtonRules [
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder paint: Color transparent ].
+				   with: [ :e | e borderBuilder paint: (Color transparent); width: (e stampValue: #'line-width') ].
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-border-disabled') ].
+				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-border-disabled'); width: (e stampValue: #'line-width') ].
 				self flag:'pla: make a border-color shortcut'.
 			]
 		).
 		
 		"Label"
-		(ToLabel asElementSelector parent: buttonSelector depth: 3) style: [ :sr |
+		(ToLabel asElementSelector parent: (ToLabeledIcon asElementSelector parent: (self buttonSelector + #primary)) depth: 2) style: [ :sr |
 			
 			   sr
 				   when: ToInitialLookEvent

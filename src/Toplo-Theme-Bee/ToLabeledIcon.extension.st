@@ -1,21 +1,26 @@
-Extension { #name : 'ToLabeledIcon' }
+Extension { #name : #ToLabeledIcon }
 
-{ #category : '*Toplo-Theme-Bee' }
+{ #category : #'*Toplo-Theme-Bee' }
 ToLabeledIcon >> defaultBeeStyleStamps [
 
 	^ #( #'labeled-icon' )
 ]
 
-{ #category : '*Toplo-Theme-Bee' }
+{ #category : #'*Toplo-Theme-Bee' }
 ToLabeledIcon >> installBeeStyle [
 
 	super installBeeStyle.
 	self withStamp: #'labeled-icon'.
+
+	self filler id: #filler.	
 	self filler withStamp: #'labeled-icon-filler'.
-	self filler id: #filler.
+	
 	self iconHolder id: #'icon-holder'.
 	self labelHolder id: #'label-holder'.
+	
 	self icon ifNotNil: [ :ic | ic withStamp: #icon ].
+	self label ifNotNil: [ :la | la withStamp: #label ].
+	
 	self isIconFirst
 		ifTrue: [
 			self withStamp: #'icon-first'.
@@ -23,6 +28,7 @@ ToLabeledIcon >> installBeeStyle [
 		ifFalse: [
 			self withStamp: #'label-first'.
 			self withoutStamp: #'icon-first' ].
+		
 	self isHorizontal
 		ifTrue: [
 			self withStamp: #horizontal.
@@ -30,7 +36,7 @@ ToLabeledIcon >> installBeeStyle [
 		ifFalse: [
 			self withStamp: #vertical.
 			self withoutStamp: #horizontal ].
-	self label ifNotNil: [ :la | la withStamp: #label ].
+
 	self isFlexible
 		ifTrue: [
 			self withoutStamp: #'exact-interspace'.

@@ -1,11 +1,10 @@
 Class {
-	#name : 'ToBeeLightTheme',
-	#superclass : 'ToBeeTheme',
-	#category : 'Toplo-Theme-Bee',
-	#package : 'Toplo-Theme-Bee'
+	#name : #ToBeeLightTheme,
+	#superclass : #ToBeeTheme,
+	#category : 'Toplo-Theme-Bee'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToBeeLightTheme >> name [
 
 	^ #'Bee light'

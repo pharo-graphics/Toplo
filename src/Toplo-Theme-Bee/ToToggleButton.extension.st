@@ -1,6 +1,6 @@
-Extension { #name : 'ToToggleButton' }
+Extension { #name : #ToToggleButton }
 
-{ #category : '*Toplo-Theme-Bee' }
+{ #category : #'*Toplo-Theme-Bee' }
 ToToggleButton >> defaultBeeStyleStamps [
 
 	^ #( #button. #'toggle-button' )

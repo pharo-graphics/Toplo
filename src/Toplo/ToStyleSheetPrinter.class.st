@@ -5,7 +5,7 @@ Class {
 		'styleSheet',
 		'toElement'
 	],
-	#category : 'Toplo-Core-StyleSheet'
+	#category : #'Toplo-Core-StyleSheet'
 }
 
 { #category : #accessing }
@@ -90,12 +90,16 @@ ToStyleSheetPrinter >> getSelectorCSS: aToElementSelector hangSelector: aSelecto
 		^ stream contents
 	].	
 	
-	"Parent selector => parent > child"
+	"Parent selector => parent > child, width depth=2 : parent > * > child"
 	aToElementSelector class = ToParentSelector ifTrue:[ | parentSelector childSelector |
 		parentSelector := self getSelectorCSS: aToElementSelector right hangSelector: nil.
 		childSelector := self getSelectorCSS: aToElementSelector left hangSelector: nil.
 		stream nextPutAll: parentSelector.
-		stream nextPutAll: ' > '.
+		(1 to: aToElementSelector depth) do:[ :i | 
+			stream nextPutAll: ' > '.	
+		] separatedBy: [
+			stream nextPutAll: ' * '.
+		].
 		stream nextPutAll: childSelector.
 		^ stream contents
 	].	

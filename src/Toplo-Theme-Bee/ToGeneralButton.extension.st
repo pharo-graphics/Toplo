@@ -1,6 +1,6 @@
-Extension { #name : 'ToGeneralButton' }
+Extension { #name : #ToGeneralButton }
 
-{ #category : '*Toplo-Theme-Bee' }
+{ #category : #'*Toplo-Theme-Bee' }
 ToGeneralButton >> defaultBeeStyleStamps [
 
 	^ { #button }

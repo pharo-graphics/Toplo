@@ -61,8 +61,14 @@ ToThemeExamples class >> displaySpaceStyleSheet: aSpace [
 { #category : #'private - get' }
 ToThemeExamples class >> elementSandBoxFor: aSpace [
 
+	| box |
 	aSpace ifNil: [ ^ nil ].
-	^ aSpace root childWithId: #themeSandBox
+	box := aSpace root childWithId: #themeSandBox.
+	"Install default layout"
+	box layout: BlFlowLayout vertical; padding: (BlInsets all: 5); constraintsDo: [ :c |
+			c vertical fitContent.
+			c horizontal fitContent ].
+	^ box
 ]
 
 { #category : #'examples - buttons' }
@@ -95,12 +101,8 @@ ToThemeExamples class >> example_buttons [
 	| space primaryButton defaultButton box dashedButton textButton linkButton line1 line2 |
 	space := self openThemeExampleSpace.
 	box := self elementSandBoxFor: space.
-
-	box layout: BlFlowLayout vertical; padding: (BlInsets all: 5); constraintsDo: [ :c |
-			c vertical fitContent.
-			c horizontal fitContent ].
-
-	line1 := BlElement new layout: BlFlowLayout horizontal; constraintsDo: [ :c |
+	
+	line1 := BlElement new layout: (BlLinearLayout horizontal cellSpacing: 5); padding: (BlInsets all: 5); constraintsDo: [ :c |
 			c vertical fitContent.
 			c horizontal fitContent ].
 	box addChild: line1.
@@ -125,7 +127,7 @@ ToThemeExamples class >> example_buttons [
 	linkButton withStamp: #link.
 	line1 addChild: linkButton.
 	
-	line2 := BlElement new layout: BlFlowLayout horizontal; padding: (BlInsets all: 5); constraintsDo: [ :c |
+	line2 := BlElement new layout: (BlLinearLayout horizontal cellSpacing: 5); padding: (BlInsets all: 5); constraintsDo: [ :c |
 			c vertical fitContent.
 			c horizontal fitContent ].
 	box addChild: line2.

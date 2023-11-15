@@ -31,7 +31,7 @@ ToBeeStyleSheet >> buttonRules [
 { #category : #'syntactic sugar' }
 ToBeeStyleSheet >> buttonSelector [
 
-	^ ToButton asElementSelector exact: false
+	^ ToButton asElementSelector
 ]
 
 { #category : #'accessing rules  -button' }
@@ -582,32 +582,7 @@ ToBeeStyleSheet >> defaultButtonRules [
 				   when: ToPressedLookEvent
 				   write: (self property: #'button-label-text-foreground')
 				   with: [ :e | (e stampValue: #'color-primary-pressed') ]. 				
-		].	
-		
-		"Button label"
-		"((ToLabel asElementSelector parent: (ToLabeledIcon asElementSelector parent: self buttonSelector) depth: 2) style: [ :sr |
-			   sr
-				   when: ToInitialLookEvent
-				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e stampValue: #'color-text' ].
-				sr
-				   when: ToLeavedLookEvent
-				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e stampValue: #'color-text' ]. 
-			   sr
-				   when: ToDisabledLookEvent
-				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e stampValue: #'color-text-disabled' ].
-			   sr
-				   when: ToHoveredLookEvent
-				   write: (self property: #'label-text-foreground')
-				   with: [ :e | (e stampValue: #'color-primary') ]. 
-			   sr
-				   when: ToPressedLookEvent
-				   write: (self property: #'label-text-foreground')
-				   with: [ :e | (e stampValue: #'color-primary-pressed') ]. 
-			]
-		).  "
+		].
 	} 
 ]
 
@@ -1047,32 +1022,30 @@ ToBeeStyleSheet >> primaryButtonRules [
 				   write: (self property: #'border-with-builder')
 				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-border-disabled'); width: (e stampValue: #'line-width') ].
 				self flag:'pla: make a border-color shortcut'.
-			]
-		).
-		
-		"Label"
-		(ToLabel asElementSelector parent: (ToLabeledIcon asElementSelector parent: (self buttonSelector + #primary)) depth: 2) style: [ :sr |
-			
-			   sr
+				
+				"Label"
+				sr
 				   when: ToInitialLookEvent
-				   write: (self property: #'label-text-foreground')
+				   write: (self property: #'button-label-text-foreground')
 				   with: [ :e | (e stampValue: #'color-text-light-solid') ].
 				sr
 				   when: ToLeavedLookEvent
-				   write: (self property: #'label-text-foreground')
+				   write: (self property: #'button-label-text-foreground')
 				   with: [ :e | (e stampValue: #'color-text-light-solid') ].
 			   sr
 				   when: ToDisabledLookEvent
-				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e stampValue: #'color-bg-container-disabled' ].
+				   write: (self property: #'button-label-text-foreground')
+				   with: [ :e | e stampValue: #'color-text-disabled' ].
 			   sr
 				   when: ToHoveredLookEvent
-				   write: (self property: #'label-text-foreground')
+				   write: (self property: #'button-label-text-foreground')
 				   with: [ :e | (e stampValue: #'color-text-light-solid') ].
 			   sr
 				   when: ToPressedLookEvent
-				   write: (self property: #'label-text-foreground')
-				   with: [ :e | (e stampValue: #'color-text-light-solid') ] ].
+				   write: (self property: #'button-label-text-foreground')
+				   with: [ :e | (e stampValue: #'color-text-light-solid') ].
+			]
+		).
 	}
 ]
 

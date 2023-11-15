@@ -202,8 +202,8 @@ ToBeeTheme >> defaultStampList [
 		  (ToStyleStamp name: #'color-warning' value: (Color fromHexString: '#faad14')).
 		
 		  (ToStyleStamp name: #'color-text' value: (Color black)).
-		  (ToStyleStamp name: #'color-text-description' value: (Color r: 0.0 g: 0.0 b: 0.45)).
-		  (ToStyleStamp name: #'color-text-disabled' value: (Color r: 0.0 g: 0.0 b: 0.25)).
+		  (ToStyleStamp name: #'color-text-description' value: (Color black alpha: 0.45)).
+		  (ToStyleStamp name: #'color-text-disabled' value: (Color black alpha: 0.25)).
 		  (ToStyleStamp name: #'color-text-heading' value: (Color black alpha: 0.88)).
 		  (ToStyleStamp name: #'color-text-light-solid' value: (Color fromHexString: '#ffffff')).
 		  (ToStyleStamp name: #'color-text-secondary' value: (Color black alpha: 0.45)).

@@ -1,6 +1,6 @@
 Class {
-	#name : #ToStyleSheet,
-	#superclass : #Object,
+	#name : 'ToStyleSheet',
+	#superclass : 'Object',
 	#traits : 'TToStyleRuleHolder',
 	#classTraits : 'TToStyleRuleHolder classTrait',
 	#instVars : [
@@ -9,10 +9,12 @@ Class {
 		'writablePropertyIndex',
 		'stampIndex'
 	],
-	#category : #'Toplo-Core-StyleSheet'
+	#category : 'Toplo-Core-StyleSheet',
+	#package : 'Toplo',
+	#tag : 'Core-StyleSheet'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 ToStyleSheet class >> defaultWritablePropertyList [
 	" skin managing need a list of unique writeable properties. "
 
@@ -91,65 +93,65 @@ ToStyleSheet class >> defaultWritablePropertyList [
 			   writer: [ :e :v | v value: e constraints ]) }
 ]
 
-{ #category : #'syntactic sugar' }
+{ #category : 'syntactic sugar' }
 ToStyleSheet >> action: aValuable [
 
  	^ ToActionSelector new action: aValuable; yourself
 
 ]
 
-{ #category : #'syntactic sugar' }
+{ #category : 'syntactic sugar' }
 ToStyleSheet >> any [
 
  	^ ToUniversalSelector new
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToStyleSheet >> defaultStampList: aStyleStampCollection [
 
 	stampIndex := self newStampIndexFromStampList: aStyleStampCollection
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToStyleSheet >> defaultStyleRules [
 
 	^ #()
 ]
 
-{ #category : #'syntactic sugar' }
+{ #category : 'syntactic sugar' }
 ToStyleSheet >> haveExactHeight [
 
 	^ self action: [ :e | e constraints vertical resizer isExact ]
 ]
 
-{ #category : #'syntactic sugar' }
+{ #category : 'syntactic sugar' }
 ToStyleSheet >> haveExactWidth [
 
 	^ self action: [ :e | e constraints horizontal resizer isExact]
 
 ]
 
-{ #category : #'syntactic sugar' }
+{ #category : 'syntactic sugar' }
 ToStyleSheet >> id: aSymbol [
 
  	^ ToIdSelector new id: aSymbol
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToStyleSheet >> inherits [
 
 	^ inherits
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToStyleSheet >> inherits: aBoolean [
 
 	inherits := aBoolean
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToStyleSheet >> initialize [ 
 
 	super initialize.
@@ -157,74 +159,81 @@ ToStyleSheet >> initialize [
 	inherits := true
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToStyleSheet >> newStampIndexFromStampList: aStyleStampCollection [
 
 	^ ToPropertyIndex new addAllProperties: aStyleStampCollection; yourself.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToStyleSheet >> newWritablePropertyIndex [
 
 	^ ToPropertyIndex new addAllProperties: self writablePropertyList; yourself.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToStyleSheet >> onInstalledIn: anElement [
 
 	anElement requestSkinRecursively
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToStyleSheet >> onUnInstalledIn: anElement [
 
 ]
 
-{ #category : #'syntactic sugar' }
+{ #category : 'syntactic sugar' }
 ToStyleSheet >> property: aSymbol [
 
 	^ self writablePropertyNamed: aSymbol
 ]
 
-{ #category : #'t - style rule holder - accessing' }
+{ #category : 't - style rule holder - accessing' }
 ToStyleSheet >> rawStyleRules [
 
 	^ styleRules 
 ]
 
-{ #category : #'t - style rule holder - accessing' }
+{ #category : 't - style rule holder - accessing' }
 ToStyleSheet >> rawStyleRules: aStyleRuleCollection [
 
 	styleRules := aStyleRuleCollection
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToStyleSheet >> stampIndex [
 
 	^ stampIndex 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToStyleSheet >> stampNamed: aName [
 
 	^ self stampIndex ifNotNil: [ :si | si propertyNamed: aName ]
 ]
 
-{ #category : #accessing }
+{ #category : 'syntactic sugar' }
+ToStyleSheet >> type: aClass [
+
+	^ ToTypeSelector new type: aClass
+]
+
+{ #category : 'accessing' }
+
 ToStyleSheet >> writablePropertyIndex [
 
 	^ writablePropertyIndex ifNil: [ writablePropertyIndex := self newWritablePropertyIndex ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToStyleSheet >> writablePropertyList [
 	" skin managing need a list of unique writeable properties. "
 
 	^ self class defaultWritablePropertyList
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToStyleSheet >> writablePropertyNamed: aName [
 
 	^ self writablePropertyIndex propertyNamed: aName

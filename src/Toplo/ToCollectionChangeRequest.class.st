@@ -1,19 +1,21 @@
 Class {
-	#name : #ToCollectionChangeRequest,
-	#superclass : #ToCollectionChangedEvent,
+	#name : 'ToCollectionChangeRequest',
+	#superclass : 'ToCollectionChangedEvent',
 	#instVars : [
 		'validated'
 	],
-	#category : 'Toplo-Core-Collection'
+	#category : 'Toplo-Core-Collection',
+	#package : 'Toplo',
+	#tag : 'Core-Collection'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToCollectionChangeRequest >> validated [
 
 	^ validated ifNil: [ validated := true ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToCollectionChangeRequest >> validated: anObject [
 
 	validated := anObject

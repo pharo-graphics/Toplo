@@ -1,21 +1,23 @@
 Class {
-	#name : #ToNullSkin,
-	#superclass : #ToSkin,
-	#category : 'Toplo-Core-Theme'
+	#name : 'ToNullSkin',
+	#superclass : 'ToSkin',
+	#category : 'Toplo-Core-Theme',
+	#package : 'Toplo',
+	#tag : 'Core-Theme'
 }
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToNullSkin >> eventsToHandle [
 
 	^ {  }
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToNullSkin >> isNullSkin [ 
 
 	^ true
 ]
 
-{ #category : #'style updating' }
+{ #category : 'style updating' }
 ToNullSkin >> updateStylesIn: anElement [
 ]

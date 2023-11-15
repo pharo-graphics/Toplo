@@ -1,10 +1,12 @@
 Class {
-	#name : #ToAndSelector,
-	#superclass : #ToBinarySelector,
-	#category : 'Toplo-Core-Selector'
+	#name : 'ToAndSelector',
+	#superclass : 'ToBinarySelector',
+	#category : 'Toplo-Core-Selector',
+	#package : 'Toplo',
+	#tag : 'Core-Selector'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ToAndSelector >> accept: aVisitor [
 
 	aVisitor visitAndSelector: self

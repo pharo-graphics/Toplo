@@ -1,40 +1,42 @@
 Class {
-	#name : #ToTypeSelector,
-	#superclass : #ToSimpleSelector,
+	#name : 'ToTypeSelector',
+	#superclass : 'ToSimpleSelector',
 	#instVars : [
 		'type',
 		'exact'
 	],
-	#category : #'Toplo-Core-Selector'
+	#category : 'Toplo-Core-Selector',
+	#package : 'Toplo',
+	#tag : 'Core-Selector'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ToTypeSelector >> accept: aVisitor [
 
 	aVisitor visitTypeSelector: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToTypeSelector >> exact [
 
 	^ exact
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToTypeSelector >> exact: aBoolean [
 	" if true, compare with ==, else, compare with isKindOf: "
 
 	exact := aBoolean
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToTypeSelector >> initialize [ 
 
 	super initialize.
 	exact := true
 ]
 
-{ #category : #operating }
+{ #category : 'operating' }
 ToTypeSelector >> selectType: aClass [
 
 	self type == aClass ifTrue:[ ^ true ].
@@ -42,13 +44,13 @@ ToTypeSelector >> selectType: aClass [
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToTypeSelector >> type [
 
 	^ type
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToTypeSelector >> type: aClass [
 
 	type := aClass

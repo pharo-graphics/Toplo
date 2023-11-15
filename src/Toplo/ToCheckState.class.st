@@ -1,25 +1,27 @@
 Class {
-	#name : #ToCheckState,
-	#superclass : #ToIntrinsicState,
+	#name : 'ToCheckState',
+	#superclass : 'ToIntrinsicState',
 	#instVars : [
 		'checked'
 	],
-	#category : 'Toplo-Core-States'
+	#category : 'Toplo-Core-States',
+	#package : 'Toplo',
+	#tag : 'Core-States'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToCheckState >> checked [
 
 	^ checked
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToCheckState >> checked: aBooleanOrIndeterminate [
 
 	checked := aBooleanOrIndeterminate
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToCheckState >> lookEventClass [
 
 	^ self checked isSymbol

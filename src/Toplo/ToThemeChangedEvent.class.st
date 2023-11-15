@@ -1,10 +1,12 @@
 Class {
-	#name : #ToThemeChangedEvent,
-	#superclass : #ToSkinEvent,
-	#category : 'Toplo-Core-Theme'
+	#name : 'ToThemeChangedEvent',
+	#superclass : 'ToSkinEvent',
+	#category : 'Toplo-Core-Theme',
+	#package : 'Toplo',
+	#tag : 'Core-Theme'
 }
 
-{ #category : #sending }
+{ #category : 'sending' }
 ToThemeChangedEvent >> sendTo: anObject [
 
 	anObject themeChangedEvent: self

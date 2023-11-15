@@ -1,13 +1,15 @@
 Class {
-	#name : #ToSkinStateQueue,
-	#superclass : #Object,
+	#name : 'ToSkinStateQueue',
+	#superclass : 'Object',
 	#instVars : [
 		'nextStates'
 	],
-	#category : 'Toplo-Core-Theme'
+	#category : 'Toplo-Core-Theme',
+	#package : 'Toplo',
+	#tag : 'Core-Theme'
 }
 
-{ #category : #hook }
+{ #category : 'hook' }
 ToSkinStateQueue >> applyOn: anElement [
 
 	| nextInQueue |
@@ -15,27 +17,27 @@ ToSkinStateQueue >> applyOn: anElement [
 		nextInQueue applyOn: anElement ]
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 ToSkinStateQueue >> enqueueState: aState for: anElement [
 
 	self nextStates nextPut: aState.
 	aState enqueuedFor: anElement
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSkinStateQueue >> initialize [ 
 
 	super initialize.
 	nextStates := WaitfreeQueue new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSkinStateQueue >> nextStates [
 
 	^ nextStates
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSkinStateQueue >> skinInitialStateRequest: anEvent [
 	" initial state required - if the element is enabled proceed with stored persistent states "
 
@@ -48,7 +50,7 @@ ToSkinStateQueue >> skinInitialStateRequest: anEvent [
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSkinStateQueue >> skinInstallStateRequest: anEvent [
 	" install state required  "
 
@@ -57,7 +59,7 @@ ToSkinStateQueue >> skinInstallStateRequest: anEvent [
 	self enqueueState: ToInstallState new for: target
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSkinStateQueue >> skinUninstallStateRequest: anEvent [
 	" uninstall state required  "
 

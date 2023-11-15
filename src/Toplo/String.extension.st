@@ -1,12 +1,12 @@
-Extension { #name : #String }
+Extension { #name : 'String' }
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 String >> asElementSelector [ 
 
 	^ ToStampSelector new addStampName: self asSymbol
 ]
 
-{ #category : #'*Toplo' }
+{ #category : '*Toplo' }
 String >> asStyleStamp [
 
 	^ ToStyleStamp new

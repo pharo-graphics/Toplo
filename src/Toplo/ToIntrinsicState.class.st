@@ -1,10 +1,12 @@
 Class {
-	#name : #ToIntrinsicState,
-	#superclass : #ToImplicitState,
-	#category : 'Toplo-Core-States'
+	#name : 'ToIntrinsicState',
+	#superclass : 'ToImplicitState',
+	#category : 'Toplo-Core-States',
+	#package : 'Toplo',
+	#tag : 'Core-States'
 }
 
-{ #category : #'look event sending' }
+{ #category : 'look event sending' }
 ToIntrinsicState >> enqueuedFor: anElement [
 
 	super enqueuedFor: anElement.

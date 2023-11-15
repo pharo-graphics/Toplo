@@ -559,11 +559,33 @@ ToBeeStyleSheet >> defaultButtonRules [
 				   when: ToPressedLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-primary-pressed'); width: (e stampValue: #'line-width') ]
-					"animation: (ToPropertyColorTransitionAnimation new duration: 200 milliSeconds)".				 				
+					"animation: (ToPropertyColorTransitionAnimation new duration: 200 milliSeconds)".
+					
+				"Label"
+				sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'button-label-text-foreground')
+				   with: [ :e | e stampValue: #'color-text' ].
+				sr
+				   when: ToLeavedLookEvent
+				   write: (self property: #'button-label-text-foreground')
+				   with: [ :e | e stampValue: #'color-text' ]. 
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'button-label-text-foreground')
+				   with: [ :e | e stampValue: #'color-text-disabled' ].
+			   sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #'button-label-text-foreground')
+				   with: [ :e | (e stampValue: #'color-primary') ]. 
+			   sr
+				   when: ToPressedLookEvent
+				   write: (self property: #'button-label-text-foreground')
+				   with: [ :e | (e stampValue: #'color-primary-pressed') ]. 				
 		].	
 		
 		"Button label"
-		((ToLabel asElementSelector parent: (ToLabeledIcon asElementSelector parent: self buttonSelector) depth: 2) style: [ :sr |
+		"((ToLabel asElementSelector parent: (ToLabeledIcon asElementSelector parent: self buttonSelector) depth: 2) style: [ :sr |
 			   sr
 				   when: ToInitialLookEvent
 				   write: (self property: #'label-text-foreground')
@@ -571,8 +593,7 @@ ToBeeStyleSheet >> defaultButtonRules [
 				sr
 				   when: ToLeavedLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | e stampValue: #'color-text' ]
-					"animation: (ToPropertyColorTransitionAnimation new duration: 50 milliSeconds)". 
+				   with: [ :e | e stampValue: #'color-text' ]. 
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'label-text-foreground')
@@ -580,15 +601,13 @@ ToBeeStyleSheet >> defaultButtonRules [
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | (e stampValue: #'color-primary') ]
-					"animation: (ToPropertyColorTransitionAnimation new duration: 50 milliSeconds)". 
+				   with: [ :e | (e stampValue: #'color-primary') ]. 
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'label-text-foreground')
-				   with: [ :e | (e stampValue: #'color-primary-pressed') ]
-					"animation: (ToPropertyColorTransitionAnimation new duration: 200 milliSeconds)". 
+				   with: [ :e | (e stampValue: #'color-primary-pressed') ]. 
 			]
-		).  
+		).  "
 	} 
 ]
 

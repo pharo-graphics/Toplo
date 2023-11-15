@@ -30,6 +30,13 @@ ToStyleSheet class >> defaultWritablePropertyList [
 		  (ToFeatureProperty name: #label).
 		  (ToFeatureProperty name: #justified).
 
+			"buttons"
+			(ToPseudoProperty new name: #'button-label-text-foreground';
+			   writer: [ :e :v |
+				   e label text attributes: { (BlTextForegroundAttribute paint: v) }.
+				   e label textChanged ]).
+			
+			"others"
 		  (ToPseudoProperty name: #'background-color'
 			   reader: [ :e | e background paint ifNotNil: [ :f | f color ] ifNil:[ Color transparent ] ]
 			   writer: [ :e :v | e background: v ]).

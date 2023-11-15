@@ -1,22 +1,24 @@
 Trait {
-	#name : #TToElementWithContextMenu,
-	#category : 'Toplo-Core'
+	#name : 'TToElementWithContextMenu',
+	#category : 'Toplo-Core',
+	#package : 'Toplo',
+	#tag : 'Core'
 }
 
-{ #category : #'t - element with context menu' }
+{ #category : 't - element with context menu' }
 TToElementWithContextMenu >> contextMenu: aValuable [
 	" aValuable take the context menu to build as first argument and the element with context menu as second argument. if aValuable is nil, then the context menu builder is removed"
 
 	self contextMenuBuilder: aValuable
 ]
 
-{ #category : #'t - element with context menu' }
+{ #category : 't - element with context menu' }
 TToElementWithContextMenu >> contextMenuBuilder [
 
 	^ self contextMenuWindowHandler builder
 ]
 
-{ #category : #'t - element with context menu' }
+{ #category : 't - element with context menu' }
 TToElementWithContextMenu >> contextMenuBuilder: aValuable [
 
 	" aValuable take the context menu to build as first argument and the element with context menu as second aargument "
@@ -28,7 +30,7 @@ TToElementWithContextMenu >> contextMenuBuilder: aValuable [
 	self contextMenuWindowHandler builder: aValuable
 ]
 
-{ #category : #'t - element with context menu' }
+{ #category : 't - element with context menu' }
 TToElementWithContextMenu >> contextMenuContent: anArray [
 
 	anArray ifNil: [
@@ -37,7 +39,7 @@ TToElementWithContextMenu >> contextMenuContent: anArray [
 	self contextMenuBuilder: [ :win :element | win addAllItems: anArray ]
 ]
 
-{ #category : #'t - element with context menu' }
+{ #category : 't - element with context menu' }
 TToElementWithContextMenu >> contextMenuWindowHandler [
 
 	^ self userData at: #contextMenuWindowHandler ifAbsentPut: [
@@ -48,7 +50,7 @@ TToElementWithContextMenu >> contextMenuWindowHandler [
 			  yourself ]
 ]
 
-{ #category : #'t - element with context menu' }
+{ #category : 't - element with context menu' }
 TToElementWithContextMenu >> contextMenuWindowHandler: aWindowHandler [
 
 	self rawContextMenuWindowHandler = aWindowHandler ifTrue: [ ^ self ].
@@ -59,52 +61,52 @@ TToElementWithContextMenu >> contextMenuWindowHandler: aWindowHandler [
 			 yourself)
 ]
 
-{ #category : #'t - element with context menu' }
+{ #category : 't - element with context menu' }
 TToElementWithContextMenu >> currentContextMenu [
 
 	^ self rawContextMenuWindowHandler ifNotNil: [ :h | h currentWindow ]
 ]
 
-{ #category : #'t - element with context menu' }
+{ #category : 't - element with context menu' }
 TToElementWithContextMenu >> hasContextMenu [
 	" do not use #contextMenuWindowHandler to avoid ContextMenuWindowHandler installation here "
 
 	^ self rawContextMenuWindowHandler notNil
 ]
 
-{ #category : #'t - element with context menu' }
+{ #category : 't - element with context menu' }
 TToElementWithContextMenu >> hasOpenedContextMenu [
 	" do not use #contextMenuWindowHandler to avoid ContextMenuWindowHandler installation here "
 
 	^ self currentContextMenu notNil
 ]
 
-{ #category : #'t - element with context menu' }
+{ #category : 't - element with context menu' }
 TToElementWithContextMenu >> isTopMenu [
 
 	"need it for mouse outside event handling "
 	^ false
 ]
 
-{ #category : #'t - element with context menu' }
+{ #category : 't - element with context menu' }
 TToElementWithContextMenu >> newContextMenuEvent: anEvent [
 
 	^ self rawContextMenuWindowHandler newWindowEvent: anEvent
 ]
 
-{ #category : #'t - element with context menu' }
+{ #category : 't - element with context menu' }
 TToElementWithContextMenu >> rawContextMenuWindowHandler [
 
 	^ self userData at: #contextMenuWindowHandler ifAbsent: [ ]
 ]
 
-{ #category : #'t - element with context menu' }
+{ #category : 't - element with context menu' }
 TToElementWithContextMenu >> removeContextMenu [
 
 	self removeContextMenuWindowHandler
 ]
 
-{ #category : #'t - element with context menu' }
+{ #category : 't - element with context menu' }
 TToElementWithContextMenu >> removeContextMenuWindowHandler [
 
 	| handler |

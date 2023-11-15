@@ -1,25 +1,27 @@
 Class {
-	#name : #ToEnablementState,
-	#superclass : #ToIntrinsicState,
+	#name : 'ToEnablementState',
+	#superclass : 'ToIntrinsicState',
 	#instVars : [
 		'enabled'
 	],
-	#category : 'Toplo-Core-States'
+	#category : 'Toplo-Core-States',
+	#package : 'Toplo',
+	#tag : 'Core-States'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToEnablementState >> enabled [
 
 	^ enabled
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToEnablementState >> enabled: aBoolean [
 
 	enabled := aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToEnablementState >> lookEventClass [
 
 	^ self enabled

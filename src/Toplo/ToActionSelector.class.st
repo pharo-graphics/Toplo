@@ -1,25 +1,27 @@
 Class {
-	#name : #ToActionSelector,
-	#superclass : #ToSimpleSelector,
+	#name : 'ToActionSelector',
+	#superclass : 'ToSimpleSelector',
 	#instVars : [
 		'action'
 	],
-	#category : 'Toplo-Core-Selector'
+	#category : 'Toplo-Core-Selector',
+	#package : 'Toplo',
+	#tag : 'Core-Selector'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ToActionSelector >> accept: aVisitor [
 
 	aVisitor visitActionSelector: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToActionSelector >> action [
 
 	^ action
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToActionSelector >> action: aValuable [
 	" aValuable takes one ToElement as argument "
 	action := aValuable

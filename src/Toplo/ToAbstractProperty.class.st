@@ -1,25 +1,27 @@
 Class {
-	#name : #ToAbstractProperty,
-	#superclass : #Object,
+	#name : 'ToAbstractProperty',
+	#superclass : 'Object',
 	#instVars : [
 		'name'
 	],
-	#category : 'Toplo-Core-Properties'
+	#category : 'Toplo-Core-Properties',
+	#package : 'Toplo',
+	#tag : 'Core-Properties'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAbstractProperty >> name [
 
 	^ name
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToAbstractProperty >> name: anObject [
 
 	name := anObject asSymbol
 ]
 
-{ #category : #operating }
+{ #category : 'operating' }
 ToAbstractProperty >> read: anObject [
 
 	self subclassResponsibility 

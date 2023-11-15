@@ -1,25 +1,27 @@
 Class {
-	#name : #ToFocusState,
-	#superclass : #ToIntrinsicState,
+	#name : 'ToFocusState',
+	#superclass : 'ToIntrinsicState',
 	#instVars : [
 		'focused'
 	],
-	#category : 'Toplo-Core-States'
+	#category : 'Toplo-Core-States',
+	#package : 'Toplo',
+	#tag : 'Core-States'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToFocusState >> focused [
 
 	^ focused
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToFocusState >> focused: aBoolean [
 
 	focused := aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToFocusState >> lookEventClass [
 
 	^ self focused

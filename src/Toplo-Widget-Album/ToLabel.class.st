@@ -30,8 +30,8 @@ ToLabel >> addEditorEvent: anEvent [
 	self editor requestFocus.
 	self editor selecter
 		all;
-		apply
-	
+		apply.
+	self editorBuilder value: self editor value: self
 ]
 
 { #category : 'accessing' }
@@ -113,6 +113,20 @@ ToLabel >> editor [
 	^ self userData at: #editor ifAbsent: [  ]
 ]
 
+{ #category : 'accessing' }
+ToLabel >> editorBuilder [
+	" returns a valuable that takes the editor and the label as arguments "
+
+	^ self userData at: #editorBuilder ifAbsentPut: [ :ed :theLabel | ]
+]
+
+{ #category : 'accessing' }
+ToLabel >> editorBuilder: aValuable [
+	" aValuable takes the editor and the label as arguments "
+
+	self userData at: #editorBuilder put: aValuable
+]
+
 { #category : 'api - text style' }
 ToLabel >> foreground: aBlPaint [
 
@@ -162,20 +176,13 @@ ToLabel >> initialize [
 	self addEventHandler: self defaultEventHandler 
 ]
 
-{ #category : 'initialization' }
+{ #category : 'private-editing' }
 ToLabel >> initializeEditorFrameBuilder [
 
 	self isEditable
 		ifTrue: [
-			frameHandler := ToAnchoredWindowHandler new.
-			frameHandler positionHook: [ :event :theLabel |
-				theLabel innerElement bounds inSpace bounds topLeft
-				- (theLabel editor padding left
-					 @ theLabel editor padding top) ].
-			frameHandler element: self.
-			frameHandler builder: [ :anchWin :label |
-				anchWin root addChild: self newEditor.
-				self editor text: self text copy ] ]
+			frameHandler := ToLabelEditorWindowHandler new.
+			frameHandler element: self]
 		ifFalse: [
 			frameHandler ifNil: [ ^ self ].
 			frameHandler element: nil.

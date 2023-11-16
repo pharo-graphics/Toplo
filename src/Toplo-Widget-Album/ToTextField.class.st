@@ -37,7 +37,7 @@ ToTextField >> initialize [
 		adjustMousePosition: false;
 		shareEvents: {
 				BlMouseDownEvent.
-				"BlDragEvent.
+				BlDragEvent.
 				BlDragStartEvent.
 				BlDragEndEvent.
 				BlDragEnterEvent.
@@ -47,9 +47,9 @@ ToTextField >> initialize [
 				BlMouseOverEvent.
 				BlDoubleClickEvent.
 				BlFocusEvent.
-				BlBlurEvent" }.
+				BlBlurEvent }.
 	self addEventHandler: sharedDistributor.
-	self next addEventHandler: sharedDistributor.
+	"self next addEventHandler: sharedDistributor."
 	self infinite addEventHandler: sharedDistributor.
 
 ]

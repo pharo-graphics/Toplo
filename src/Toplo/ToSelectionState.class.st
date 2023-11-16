@@ -1,15 +1,13 @@
 Class {
-	#name : 'ToSelectionState',
-	#superclass : 'ToIntrinsicState',
+	#name : #ToSelectionState,
+	#superclass : #ToIntrinsicState,
 	#instVars : [
 		'selected'
 	],
-	#category : 'Toplo-Core-States',
-	#package : 'Toplo',
-	#tag : 'Core-States'
+	#category : 'Toplo-Core-States'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectionState >> lookEventClass [
 
 	^ self selected
@@ -17,13 +15,13 @@ ToSelectionState >> lookEventClass [
 		  ifFalse: [ ToDeselectedLookEvent ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectionState >> selected [
 
 	^ selected
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToSelectionState >> selected: anObject [
 
 	selected := anObject

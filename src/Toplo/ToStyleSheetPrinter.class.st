@@ -1,37 +1,35 @@
 Class {
-	#name : 'ToStyleSheetPrinter',
-	#superclass : 'Object',
+	#name : #ToStyleSheetPrinter,
+	#superclass : #Object,
 	#instVars : [
 		'styleSheet',
 		'toElement'
 	],
-	#category : 'Toplo-Core-StyleSheet',
-	#package : 'Toplo',
-	#tag : 'Core-StyleSheet'
+	#category : 'Toplo-Core-StyleSheet'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetPrinter class >> styleRules: aStyleRuleList [
 	"Initialize the printer with a style rules list to print"
 
 	^ self new styleSheet: (ToStyleSheet new addAllStyleRules: aStyleRuleList)
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetPrinter class >> styleSheet: aToStyleSheet [
 	"Initialize the printer with a style sheet to print"
 
 	^ self new styleSheet: aToStyleSheet
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetPrinter class >> toElement: aToElement [
 	"Initialize the printer with a ToElement"
 
 	^ self new toElement: aToElement
 ]
 
-{ #category : 'converting' }
+{ #category : #converting }
 ToStyleSheetPrinter >> asCSSLikeString [
 
 	| stream |
@@ -40,7 +38,7 @@ ToStyleSheetPrinter >> asCSSLikeString [
 	^ stream contents
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ToStyleSheetPrinter >> getSelectorCSS: aToElementSelector hangSelector: aSelector [
 	"https://www.w3schools.com/cssref/css_selectors.php"
 	
@@ -130,7 +128,7 @@ ToStyleSheetPrinter >> getSelectorCSS: aToElementSelector hangSelector: aSelecto
 	^ stream contents
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 ToStyleSheetPrinter >> printOn: aStream [
 
 	self toElement ifNil: [ 
@@ -149,7 +147,7 @@ ToStyleSheetPrinter >> printOn: aStream [
 	
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ToStyleSheetPrinter >> printStyleRuleCSS: aStyleRule on: aStream hangSelector: aSelector [
 		
 	"print selector"
@@ -176,7 +174,7 @@ ToStyleSheetPrinter >> printStyleRuleCSS: aStyleRule on: aStream hangSelector: a
 	].
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 ToStyleSheetPrinter >> printStyleSheetCSSLikeOn: aStream [
 
 	self styleRules do:[ :rule |
@@ -184,7 +182,7 @@ ToStyleSheetPrinter >> printStyleSheetCSSLikeOn: aStream [
 	].
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetPrinter >> styleRules [
 
 	^ self styleSheet ifNotNil: [ :e | e styleRules ] ifNil: [ 
@@ -200,25 +198,25 @@ ToStyleSheetPrinter >> styleRules [
 		  
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetPrinter >> styleSheet [
 
 	^ styleSheet
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetPrinter >> styleSheet: anObject [
 
 	styleSheet := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetPrinter >> toElement [
 
 	^ toElement ifNotNil: [ :e | e first ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetPrinter >> toElement: aToElement [
 
 	aToElement ~= toElement ifFalse: [ ^ self ].

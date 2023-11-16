@@ -1,18 +1,16 @@
 Class {
-	#name : 'ToOverlayWindowHandler',
-	#superclass : 'ToAnchoredWindowHandler',
-	#category : 'Toplo-Core-Window',
-	#package : 'Toplo',
-	#tag : 'Core-Window'
+	#name : #ToOverlayWindowHandler,
+	#superclass : #ToAnchoredWindowHandler,
+	#category : 'Toplo-Core-Window'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToOverlayWindowHandler >> defaulSizeHook [
 
 	^ [ :event :theElement | theElement size ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToOverlayWindowHandler >> elementEventHandlerClass [
 
 	^ ToOverlayedEventHandler 

@@ -67,7 +67,7 @@ ToStyleStampIndex >> removeAllProperties [
 { #category : 'removing' }
 ToStyleStampIndex >> removePropertyNamed: aSymbol [
 
+	(self hasPropertyNamed: aSymbol) ifFalse: [ ^ self ].
 	super removePropertyNamed: aSymbol.
 	self changedAction value
-
 ]

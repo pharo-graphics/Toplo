@@ -309,15 +309,15 @@ ToLabel >> text: aBlTextOrString [
 	| newText |
 	text = aBlTextOrString ifTrue: [ ^ self ].
 	newText := (aBlTextOrString ifNil: [ self defaultText ]) asRopedText.
-	self privateText: newText
+	self privateText: newText.
+	self requestNewSkin 
 ]
 
 { #category : 'event handling' }
 ToLabel >> textChanged [
 
 	self innerElement textChanged.
-	self forceLocalLayout.
-	self requestNewSkin 
+	self forceLocalLayout
 ]
 
 { #category : 'accessing' }

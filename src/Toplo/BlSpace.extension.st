@@ -20,6 +20,12 @@ BlSpace >> applyAllSkinInstallers [
 ]
 
 { #category : '*Toplo' }
+BlSpace >> applyAllStyles [
+	
+	self root applyStylesRecursively
+]
+
+{ #category : '*Toplo' }
 BlSpace >> installSkinPhases [
 
 	self skinPhasesManager onInstalledIn: self
@@ -59,10 +65,4 @@ BlSpace >> toTheme: aTheme [
 BlSpace >> uninstallSkinPhases [
 
 	self skinPhasesManager onUninstalledIn: self
-]
-
-{ #category : '*Toplo' }
-BlSpace >> updateAllStyles [
-	
-	self root updateStylesRecursively
 ]

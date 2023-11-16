@@ -66,8 +66,7 @@ ToLabeledIcon >> flexible: aBoolean [
 			self filler matchParent ]
 		ifFalse: [
 			self withStamp: #flexible -> false.
-			self filler fitContent ].
-	self requestSkin
+			self filler fitContent ]
 ]
 
 { #category : 'testing' }
@@ -95,9 +94,7 @@ ToLabeledIcon >> icon: anElement [
 	self icon ifNotNil: [ :s | self icon removeFromParent ].
 	icon := anElement.
 	anElement ifNil: [ ^ self ].
-	self iconHolder addChild: anElement.
-	self requestSkin
-
+	self iconHolder addChild: anElement
 ]
 
 { #category : 'configurating' }
@@ -213,8 +210,7 @@ ToLabeledIcon >> interspace: aPoint [
 	self filler constraints
 		minWidth: size x;
 		minHeight: size y.
-	self filler requestLayout.
-	self requestSkin
+	self filler requestLayout
 ]
 
 { #category : 'testing' }
@@ -248,8 +244,7 @@ ToLabeledIcon >> label: anElement [
 	self label ifNotNil: [ :s | s removeFromParent].
 	label := anElement.
 	anElement ifNil: [ ^ self ].
-	self labelHolder addChild: anElement.
-	self requestSkin
+	self labelHolder addChild: anElement
 ]
 
 { #category : 'configurating' }
@@ -279,6 +274,5 @@ ToLabeledIcon >> layoutStrategy [
 { #category : 'accessing' }
 ToLabeledIcon >> rightLabelAlignment: anInteger [
 
-	self iconHolderWidth: anInteger.
-	self requestSkin
+	self iconHolderWidth: anInteger
 ]

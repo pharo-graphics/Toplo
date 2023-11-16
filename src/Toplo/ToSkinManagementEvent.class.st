@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToSkinEvent',
+	#name : 'ToSkinManagementEvent',
 	#superclass : 'BlEvent',
 	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'sending' }
-ToSkinEvent >> sendToStyleSheetSkin: aStyleSheetSkin [
+ToSkinManagementEvent >> sendToStyleSheetSkin: aStyleSheetSkin [
 
 	self sendTo: aStyleSheetSkin 
 ]

@@ -12,7 +12,7 @@ Class {
 { #category : 'adding' }
 ToPropertyIndex >> addAllProperties: aCollectionOfProperties [
 
-	aCollectionOfProperties do: [ :p | self addProperty: p ]
+	aCollectionOfProperties do: [ :p | self index at: p name asSymbol put: p ]
 ]
 
 { #category : 'adding' }
@@ -37,7 +37,7 @@ ToPropertyIndex >> index [
 ToPropertyIndex >> initialize [ 
 
 	super initialize.
-	index := IdentityDictionary new
+	index := IdentityDictionary new.
 ]
 
 { #category : 'testing' }
@@ -71,29 +71,9 @@ ToPropertyIndex >> removeAllProperties [
 ]
 
 { #category : 'removing' }
-ToPropertyIndex >> removeProperty: anElementProperty [
-
-	self removeProperty: anElementProperty ifAbsent: [  ]
-]
-
-{ #category : 'removing' }
-ToPropertyIndex >> removeProperty: anElementProperty ifAbsent: anAbsentBlock [
-
-	self index removeKey: anElementProperty name asSymbol ifAbsent: anAbsentBlock
-]
-
-{ #category : 'removing' }
 ToPropertyIndex >> removePropertyNamed: aSymbol [
 
-	self
-		removePropertyNamed: aSymbol
-		ifAbsent: [ (ToElementPropertyNotFound name: aSymbol) signal ]
-]
-
-{ #category : 'removing' }
-ToPropertyIndex >> removePropertyNamed: aSymbol ifAbsent: anAbsentBlock [
-
-	self index removeKey: aSymbol asSymbol ifAbsent: anAbsentBlock
+	self index removeKey: aSymbol ifAbsent: [ ^ self ]
 ]
 
 { #category : 'accessing' }

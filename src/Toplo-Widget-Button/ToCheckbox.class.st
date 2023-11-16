@@ -8,23 +8,6 @@ Class {
 	#tag : 'Checkable'
 }
 
-{ #category : '*Toplo-Theme-Bee' }
-ToCheckbox >> beeBlankCheckboxImage [
-
-	| bar im |
-	im := self defaultBlankCheckboxImage.
-	bar := im childWithId: #bar.
-	bar withAllStamps: #( #bar ).
-	im withAllStamps: #( #'inner-image' #unchecked ).
-	^ im
-]
-
-{ #category : '*Toplo-Theme-Bee' }
-ToCheckbox >> defaultBeeStyleStamps [
-
-	^ #( #button #checkable #checkbox)
-]
-
 { #category : 'skin' }
 ToCheckbox >> defaultBlankCheckboxImage [
 
@@ -111,14 +94,6 @@ ToCheckbox >> imageUncheckedBorder [
 ToCheckbox >> indeterminateChild [
 
 	^ self iconImage childWithId: #bar
-]
-
-{ #category : '*Toplo-Theme-Bee' }
-ToCheckbox >> installBeeStyle [ 
-
-	super installBeeStyle.
-	self iconImage: self beeBlankCheckboxImage 
-	
 ]
 
 { #category : 'skin' }

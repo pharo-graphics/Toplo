@@ -2,16 +2,18 @@
 A ToSkinTest is a test class for testing the behavior of ToSkin
 "
 Class {
-	#name : #ToStyleSheetSkinTest,
-	#superclass : #ToParameterizedHostTest,
+	#name : 'ToStyleSheetSkinTest',
+	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
 		'writeablePropertyIndex',
 		'space'
 	],
-	#category : 'Toplo-Tests-Core-StyleSheet'
+	#category : 'Toplo-Tests-Core-StyleSheet',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-StyleSheet'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 ToStyleSheetSkinTest >> setUp [
 
 	super setUp.
@@ -20,7 +22,7 @@ ToStyleSheetSkinTest >> setUp [
 	writeablePropertyIndex addAllProperties: self writablePropertyList.
 ]
 
-{ #category : #'test with accessors' }
+{ #category : 'test with accessors' }
 ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 
 	| w skin layoutDirectionProp layoutProp layoutWriter directionWriter |
@@ -48,9 +50,9 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 	" Since checkSkinInstallation will switch to ToInstallState "
 	" the installation will fail because the widget layout (not a BlLinearLayout) does not understand #direction:"
 	w defaultSkin: skin.
-	w requestSkin.
+	w requestInstallSkin.
 	w applySkinInstaller.
-	self should: [ w updateStyles ] raise: MessageNotUnderstood.
+	self should: [ w applyStyles ] raise: MessageNotUnderstood.
 
 	" Now change writers order and it should be ok "
 	skin writers: {
@@ -58,12 +60,12 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 			directionWriter }.
 
 	w enqueueSkinState: ToInitialState new.
-	w updateStyles.
+	w applyStyles.
 	self assert: (w layout isKindOf: BlLinearLayout).
 	self assert: w layout direction isRightToLeft
 ]
 
-{ #category : #'test with accessors' }
+{ #category : 'test with accessors' }
 ToStyleSheetSkinTest >> testSupplementWriter [
 
 	| w skin backgroundProp borderProp borderBuilder |
@@ -101,13 +103,13 @@ ToStyleSheetSkinTest >> testSupplementWriter [
 						 build ] yourself) }.
 	w defaultSkin: skin.
 	w applySkinInstaller.
-	w updateStyles.
+	w applyStyles.
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color black.
 	self assert: w border style dashArray equals: #( 4 5 )
 ]
 
-{ #category : #'test with accessors' }
+{ #category : 'test with accessors' }
 ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 
 	| w skin prop animation |
@@ -139,9 +141,9 @@ ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 	 }.
 
 	w defaultSkin: skin.
-	w requestSkin.
+	w requestInstallSkin.
 	w applySkinInstaller.
-	w updateStyles.
+	w applyStyles.
 
 	self assert: w background paint color equals: Color white.
 
@@ -154,7 +156,7 @@ ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 			self assert: w background paint color equals: Color white ] ]
 ]
 
-{ #category : #'test with accessors' }
+{ #category : 'test with accessors' }
 ToStyleSheetSkinTest >> testWithNoWriter [
 
 	| w skin paint |
@@ -164,12 +166,12 @@ ToStyleSheetSkinTest >> testWithNoWriter [
 	w defaultSkin: skin.
 	paint := w background paint.
 	w applySkinInstaller.
-	w updateStyles.
+	w applyStyles.
 
 	self assert: w background paint equals: paint
 ]
 
-{ #category : #'test with accessors' }
+{ #category : 'test with accessors' }
 ToStyleSheetSkinTest >> testWithTwoWriters [
 
 	| w skin backgroundProp borderProp |
@@ -189,13 +191,13 @@ ToStyleSheetSkinTest >> testWithTwoWriters [
 				 yourself) }.
 	w defaultSkin: skin.
 	w applySkinInstaller.
-	w updateStyles.
+	w applyStyles.
 
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color yellow
 ]
 
-{ #category : #'test with accessors' }
+{ #category : 'test with accessors' }
 ToStyleSheetSkinTest >> testWithTwoWritersTwoEventClasses [
 
 	| w skin backgroundProp borderProp |
@@ -221,13 +223,13 @@ ToStyleSheetSkinTest >> testWithTwoWritersTwoEventClasses [
 				 yourself) }.
 	w defaultSkin: skin.
 	w applySkinInstaller.
-	w updateStyles.
+	w applyStyles.
 
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color red
 ]
 
-{ #category : #'test with accessors' }
+{ #category : 'test with accessors' }
 ToStyleSheetSkinTest >> testWriters [
 
 	| w skin prop propWriter |
@@ -244,18 +246,18 @@ ToStyleSheetSkinTest >> testWriters [
 	self assert: skin writers first identicalTo: propWriter.
 	w defaultSkin: skin.
 	w applySkinInstaller.
-	w updateStyles.
+	w applyStyles.
 
 	self assert: w background paint color equals: Color blue
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 ToStyleSheetSkinTest >> writablePropertyIndex [
 
 	^ writeablePropertyIndex
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 ToStyleSheetSkinTest >> writablePropertyList [
 
 	^ ToStyleSheet defaultWritablePropertyList

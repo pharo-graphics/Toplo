@@ -81,7 +81,7 @@ ToElement >> onAddedToParent [
 ToElement >> onAddedToSceneGraph [
 
 	super onAddedToSceneGraph.
-	self requestSkin
+	self requestInstallSkin
 ]
 
 { #category : 't  - layout resizeable' }

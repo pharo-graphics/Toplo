@@ -14,9 +14,7 @@ ToSkinInstaller >> applyOn: anElement [
 	anElement installedSkinDo: [ :s |
 		^ self ].
 	anElement defaultSkin ifNotNil: [ :found |
-		anElement addEventHandler: found.
-		found dispatchSkinInstallStateRequestTo: anElement.
-		found dispatchSkinInitialStateRequestTo: anElement ]
+		anElement skinManager installSkin: found in: anElement ]
 ]
 
 { #category : 'hook' }

@@ -18,15 +18,6 @@ ToTransientState class >> lookEvent: aLookEvent [
 ]
 
 { #category : 'look event sending' }
-ToTransientState >> appliedOn: anElement [
-
-	super appliedOn: anElement.
-	lookEvent isConsumed ifTrue: [ self sourceEvent consumed: true ].
-	lookEvent := nil
-
-]
-
-{ #category : 'look event sending' }
 ToTransientState >> applyOn: anElement [
 
 	lookEvent ifNil: [ Error signal: 'An explicit state must provide its own look event instance' ].
@@ -43,6 +34,15 @@ ToTransientState >> lookEvent [
 ToTransientState >> lookEvent: aLookEvent [
 
 	lookEvent := aLookEvent
+]
+
+{ #category : 'look event sending' }
+ToTransientState >> onAppliedOn: anElement [
+
+	super onAppliedOn: anElement.
+	lookEvent isConsumed ifTrue: [ self sourceEvent consumed: true ].
+	lookEvent := nil
+
 ]
 
 { #category : 'accessing' }

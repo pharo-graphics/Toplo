@@ -1,6 +1,6 @@
 Class {
-	#name : #ToElementWithSkinnableSlotsForTest,
-	#superclass : #ToElement,
+	#name : 'ToElementWithSkinnableSlotsForTest',
+	#superclass : 'ToElement',
 	#instVars : [
 		'#child1 => ToSkinnableSlot',
 		'#child2 => ToSkinnableSlot',
@@ -8,34 +8,43 @@ Class {
 		'#skinRefreshedCount',
 		'#skinStatesApplied'
 	],
-	#category : 'Toplo-Tests-Core-Slots'
+	#category : 'Toplo-Tests-Core-Slots',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-Slots'
 }
 
-{ #category : #accessing }
+{ #category : 'skin' }
+ToElementWithSkinnableSlotsForTest >> applyStyles [
+
+	skinStatesApplied := skinStatesApplied + 1.
+	super applyStyles.
+]
+
+{ #category : 'accessing' }
 ToElementWithSkinnableSlotsForTest >> child1 [
 
 	^ child1
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementWithSkinnableSlotsForTest >> child1: aToElement [
 
 	child1 := aToElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementWithSkinnableSlotsForTest >> child2 [
 
 	^ child2
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementWithSkinnableSlotsForTest >> child2: aToElement [
 
 	child2 := aToElement
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToElementWithSkinnableSlotsForTest >> initialize [ 
 
 	super initialize.
@@ -49,34 +58,27 @@ ToElementWithSkinnableSlotsForTest >> initialize [
 	self when: ToSkinInstallStateRequest do: [ skinRefreshedCount := skinRefreshedCount + 1 ]
 ]
 
-{ #category : #skin }
-ToElementWithSkinnableSlotsForTest >> requestSkin [
+{ #category : 'skin' }
+ToElementWithSkinnableSlotsForTest >> requestInstallSkin [
 
 	skinRequestCount := skinRequestCount + 1.
-	super requestSkin.
+	super requestInstallSkin.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementWithSkinnableSlotsForTest >> skinInstallStateCount [
 
 	^ skinRefreshedCount
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementWithSkinnableSlotsForTest >> skinRequestCount [
 
 	^ skinRequestCount 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToElementWithSkinnableSlotsForTest >> skinStatesApplied [
 
 	^ skinStatesApplied
-]
-
-{ #category : #skin }
-ToElementWithSkinnableSlotsForTest >> updateStyles [
-
-	skinStatesApplied := skinStatesApplied + 1.
-	super updateStyles.
 ]

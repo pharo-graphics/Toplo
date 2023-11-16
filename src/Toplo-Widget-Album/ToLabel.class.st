@@ -117,7 +117,7 @@ ToLabel >> editor [
 ToLabel >> editorBuilder [
 	" returns a valuable that takes the editor and the label as arguments "
 
-	^ self userData at: #editorBuilder ifAbsentPut: [ :ed :theLabel | ]
+	^ self userData at: #editorBuilder ifAbsentPut: [ [ :ed :theLabel | ] ]
 ]
 
 { #category : 'accessing' }

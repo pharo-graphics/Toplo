@@ -9,6 +9,12 @@ Class {
 	#tag : 'Core-Theme'
 }
 
+{ #category : 'style updating' }
+ToSkin >> applyStylesIn: anElement [
+
+	anElement skinStateQueue applyOn: anElement
+]
+
 { #category : 'event handling' }
 ToSkin >> checkedLookEvent: anEvent [
 
@@ -91,7 +97,7 @@ ToSkin >> enabledLookEvent: anEvent [
 ToSkin >> eventsToHandle [
 
 	^ {
-		  ToSkinEvent.
+		  ToSkinManagementEvent.
 		  ToElementLookEvent }
 ]
 
@@ -214,17 +220,6 @@ ToSkin >> stillPressedLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToSkin >> themeChangedEvent: anEvent [
-
-	| target |
-	target := anEvent currentTarget.
-	target installedSkin == self ifFalse: [
-		Error signal: 'Baddly installed skin' ].
-	target requestUninstallSkin.
-	target requestSkin
-]
-
-{ #category : 'event handling' }
 ToSkin >> uncheckedLookEvent: anEvent [
 
 
@@ -240,10 +235,4 @@ ToSkin >> unfocusedLookEvent: anEvent [
 ToSkin >> uninstallLookEvent: anEvent [
 
 
-]
-
-{ #category : 'style updating' }
-ToSkin >> updateStylesIn: anElement [
-
-	anElement skinStateQueue applyOn: anElement
 ]

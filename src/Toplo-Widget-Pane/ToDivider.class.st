@@ -306,8 +306,7 @@ ToDivider >> thickness [
 { #category : 'accessing' }
 ToDivider >> thickness: aNumber [
 
-	thickness := aNumber.
-	self requestSkin
+	thickness := aNumber
 ]
 
 { #category : 'accessing' }

@@ -1,7 +1,9 @@
 Class {
-	#name : #ToElementWithPlaceholderForTest,
-	#superclass : #BlElement,
+	#name : 'ToElementWithPlaceholderForTest',
+	#superclass : 'BlElement',
 	#traits : 'TToElementWithPlaceholder',
 	#classTraits : 'TToElementWithPlaceholder classTrait',
-	#category : 'Toplo-Tests-Core'
+	#category : 'Toplo-Tests-Core',
+	#package : 'Toplo-Tests',
+	#tag : 'Core'
 }

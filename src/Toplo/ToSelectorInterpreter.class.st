@@ -121,7 +121,7 @@ ToSelectorInterpreter >> visitSiblingSelector: aSelector [
 { #category : 'visiting' }
 ToSelectorInterpreter >> visitStyleStampSelector: aSelector [
 
-	result := aSelector stampNames allSatisfy: [ :t | targetStack top hasStamp: t ]
+	result := aSelector stampNames allSatisfy: [ :t | targetStack top hasStampNamed: t ]
 ]
 
 { #category : 'visiting' }

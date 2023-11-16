@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToSkinInitialStateRequest',
-	#superclass : 'ToSkinEvent',
+	#superclass : 'ToSkinManagementEvent',
 	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
 	#tag : 'Core-Theme'

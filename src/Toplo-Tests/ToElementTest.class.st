@@ -2,15 +2,17 @@
 A ToElementTest is a test class for testing the behavior of ToElement
 "
 Class {
-	#name : #ToElementTest,
-	#superclass : #ToParameterizedHostTest,
+	#name : 'ToElementTest',
+	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core'
+	#category : 'Toplo-Tests-Core',
+	#package : 'Toplo-Tests',
+	#tag : 'Core'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 ToElementTest >> setUp [ 
 
 	super setUp.
@@ -18,7 +20,7 @@ ToElementTest >> setUp [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToElementTest >> testAddEventFilter [
 
 	| e  |
@@ -28,7 +30,7 @@ ToElementTest >> testAddEventFilter [
 		raise: Error
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToElementTest >> testAddEventHandler [
 
 	| e  |
@@ -38,7 +40,7 @@ ToElementTest >> testAddEventHandler [
 		raise: Error
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToElementTest >> testCheckEventFilter [
 
 	| e |
@@ -46,7 +48,7 @@ ToElementTest >> testCheckEventFilter [
 	e checkEventFilter: ToSkinStateGenerator new
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToElementTest >> testCheckEventHandler [
 
 	| e |
@@ -57,7 +59,7 @@ ToElementTest >> testCheckEventHandler [
 
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testDefaultSkin [
 	" check install/uninstall/initial states if defaultSkin: is used "
 
@@ -67,7 +69,7 @@ ToElementTest >> testDefaultSkin [
 	e defaultSkin: (sk := ToRawSkinForTest new).
 	self assert: e defaultSkin identicalTo: sk.
 	self assert: e installedSkin isNil.
-	e requestSkin.
+	e requestInstallSkin.
 	" no change "
 	self assert: e defaultSkin identicalTo: sk.
 	self assert: e installedSkin isNil.
@@ -79,14 +81,15 @@ ToElementTest >> testDefaultSkin [
 		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ]) size
 		equals: 1.
 	self assert: sk installCpt equals: 0.
-	e updateStyles.
+	e applyStyles.
 	self assert: sk installCpt equals: 1.
 	self assert: sk initialCpt equals: 1.
+	self assert: sk uninstallCpt equals: 0.
 
 	e defaultSkin: sk.
-	e requestSkin.
+	e requestInstallSkin.
 	e applySkinInstaller.
-	e updateStyles.
+	e applyStyles.
 	" no change since same skin "
 	self assert: sk installCpt equals: 1.
 	self assert: sk initialCpt equals: 1.
@@ -98,7 +101,7 @@ ToElementTest >> testDefaultSkin [
 
 	e defaultSkin: (sk2 := ToRawSkinForTest new).
 	e applySkinInstaller.
-	e updateStyles.
+	e applyStyles.
 	
 	self
 		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ]) size
@@ -112,7 +115,7 @@ ToElementTest >> testDefaultSkin [
 	self assert: sk2 uninstallCpt equals: 0
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testOnAddedToParent [
 
 	| e container |
@@ -138,7 +141,7 @@ ToElementTest >> testOnAddedToParent [
 	self assert: e isDisabled
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testOnAddedToSceneGraph [
 
 	| e |
@@ -149,14 +152,14 @@ ToElementTest >> testOnAddedToSceneGraph [
 	self assert: (e skinInstaller isKindOf: ToSkinInstaller)
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testPostponeRequestSkin [
 
 	" check install/uninstall/initial states if setSkin: is used"
 
 	| e |
 	e := ToElement new.
-	e requestSkin.
+	e requestInstallSkin.
 	self assert: e skinInstaller isNil.
 	self assert: e skinManager isRequestSkinPostponed.
 	space root addChild: e.
@@ -164,14 +167,14 @@ ToElementTest >> testPostponeRequestSkin [
 	self assert: e skinInstaller notNil
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testRequestSkin [
 
 	| e |
 	e := ToElement new.
 	self assert: e skinInstaller isNil.
 	self assert: e installedSkin isNil.
-	e requestSkin.
+	e requestInstallSkin.
 	self assert: e skinInstaller isNil.
 	self assert: e installedSkin isNil.
 	space root addChild: e.
@@ -183,7 +186,7 @@ ToElementTest >> testRequestSkin [
 
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testSetSkin [
 
 	" check install/uninstall/initial states if setSkin: is used"
@@ -194,7 +197,7 @@ ToElementTest >> testSetSkin [
 	e defaultSkin: (sk := ToRawSkinForTest new).
 	self assert: e defaultSkin identicalTo: sk.
 	self assert: e installedSkin isNil.
-	e requestSkin.
+	e requestInstallSkin.
 	" no change "
 	self assert: e defaultSkin identicalTo: sk.
 	self assert: e installedSkin isNil.
@@ -203,7 +206,7 @@ ToElementTest >> testSetSkin [
 	self assert: e defaultSkin identicalTo: sk.
 	self assert: e installedSkin identicalTo: sk.
 	self assert: sk installCpt equals: 0.
-	e updateStyles.
+	e applyStyles.
 	self assert: sk installCpt equals: 1.
 	self assert: sk initialCpt equals: 1.
 	self assert: sk uninstallCpt equals: 0.
@@ -217,7 +220,7 @@ ToElementTest >> testSetSkin [
 	e applySkinInstaller.
 	self assert: sk uninstallCpt equals: 1.
 	
-	e updateStyles.
+	e applyStyles.
 	self assert: sk installCpt equals: 2.
 	self assert: sk initialCpt equals: 2.
 	
@@ -227,7 +230,7 @@ ToElementTest >> testSetSkin [
 
 	e defaultSkin: (sk2 := ToRawSkinForTest new).
 	e applySkinInstaller.
-	e updateStyles.
+	e applyStyles.
 	
 	self
 		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ]) size
@@ -245,12 +248,12 @@ ToElementTest >> testSetSkin [
 
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testWithoutSkin [
 
 	| e |
 	e := ToElement new.
-	e requestSkin.
+	e requestInstallSkin.
 	space root addChild: e.
 	self assert: e skinInstaller notNil.
 	self assert: (e skinInstaller isKindOf: ToSkinInstaller).
@@ -271,7 +274,7 @@ ToElementTest >> testWithoutSkin [
 	self assert: e installedSkin  isNullSkin
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testWithoutSkinNonContamination [
 
 	" NullSkin is not contaminant: check if children are not impacted "
@@ -284,7 +287,7 @@ ToElementTest >> testWithoutSkinNonContamination [
 	childchild := ToElement new.
 	child addChild: childchild.
 	e addChild: child.
-	e requestSkin.
+	e requestInstallSkin.
 	e withoutSkin.
 	" withoutSkin must be applied to the element hierarchy "
 	self assert: e defaultSkin isNullSkin.
@@ -301,7 +304,7 @@ ToElementTest >> testWithoutSkinNonContamination [
 	self assert: childchild installedSkin notNil
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testWithoutSkinNonContamination2 [
 
 	" check if children are correctly impacted when they are added as child of their parent 
@@ -313,7 +316,7 @@ ToElementTest >> testWithoutSkinNonContamination2 [
 	child := ToElement new.
 	childchild := ToElement new.
 	child addChild: childchild.
-	e requestSkin.
+	e requestInstallSkin.
 	e withoutSkin.
 	self assert: e defaultSkin isNullSkin.
 	self assert: child installedSkin isNil.

@@ -16,7 +16,6 @@ ToContextMenu >> addItem: aMenuItem [
 
 	self items add: aMenuItem.
 	self root addChild: aMenuItem.
-	aMenuItem requestSkin.
 	aMenuItem  addedInMenu: self
 ]
 

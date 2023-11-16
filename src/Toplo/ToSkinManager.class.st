@@ -22,8 +22,8 @@ ToSkinManager >> applySkinInstallerIn: anElement [
 
 	self skinInstaller ifNotNil: [ :si | si applyOn: anElement ].
 	self installedSkin ifNil: [
-		((anElement isKindOf: ToElement) and: [postponedRequestSkin isNil and: [
-			 skinUninstaller isNil and: [ skinInstaller isNil ] ] ]) ifTrue: [
+		" no installed skin and nothing to install it, hum, smell bad "
+		((anElement isKindOf: ToElement) and: [postponedRequestSkin isNil and: [skinInstaller isNil ] ]) ifTrue: [
 			Error signal: 'A ToSkinManager has an invalid state' ] ]
 ]
 
@@ -32,6 +32,13 @@ ToSkinManager >> applySkinUninstallerIn: anElement [
 
 	" ask the skin uninstaller (if any) to actually uninstall the skin "
 	self skinUninstaller ifNotNil: [ :su | su applyOn: anElement ]
+]
+
+{ #category : 'skin application' }
+ToSkinManager >> applyStylesIn: anElement [
+
+	" run the skin actually by flushing the state queue"
+	self installedSkinDo: [ :s | s applyStylesIn: anElement ]
 ]
 
 { #category : 'accessing - skin' }
@@ -59,6 +66,15 @@ ToSkinManager >> initialize [
 
 	super initialize.
 	intrinsicStateIndex := IdentityDictionary new
+]
+
+{ #category : 'accessing - skin' }
+ToSkinManager >> installSkin: aSkin in: anElement [
+
+	anElement addEventHandler: aSkin.
+	aSkin dispatchSkinInstallStateRequestTo: anElement.
+	aSkin dispatchSkinInitialStateRequestTo: anElement.
+
 ]
 
 { #category : 'accessing - skin' }
@@ -152,12 +168,12 @@ ToSkinManager >> postponeRequestSkinIn: anElement [
 	postponedRequestSkin action: [ :evt |
 		evt target removeEventHandler: postponedRequestSkin.
 		postponedRequestSkin := nil.
-		evt target requestSkin ].
+		evt target requestInstallSkin ].
 	anElement addEventHandler: postponedRequestSkin
 ]
 
 { #category : 'accessing - skin' }
-ToSkinManager >> requestSkinIn: anElement [
+ToSkinManager >> requestInstallSkinIn: anElement [
 
 	" first check for the space phases "
 	anElement space ifNil: [
@@ -181,7 +197,7 @@ ToSkinManager >> setSkin: aSkin in: anElement [
 
 	anElement requestUninstallSkin.
 	defaultSkin := aSkin.
-	anElement requestSkin
+	anElement requestInstallSkin
 ]
 
 { #category : 'accessing' }
@@ -214,9 +230,17 @@ ToSkinManager >> skinUninstaller: aSkinUninstaller [
 	skinUninstaller := aSkinUninstaller 
 ]
 
-{ #category : 'skin application' }
-ToSkinManager >> updateStylesIn: anElement [
+{ #category : 'accessing - skin' }
+ToSkinManager >> uninstallSkin: aSkin in: anElement [
+	" uninstall the skin "
 
-	" run the skin actually by flushing the state queue"
-	self installedSkinDo: [ :s | s updateStylesIn: anElement ]
+	" have to dispatch UninstallStateRequest *** before *** removeEventHandler:
+		If not, the uninstall state then the uninstallLookEvent will not be sent "
+	aSkin dispatchSkinUninstallStateRequestTo: anElement.
+	" do not wait next pulse to flush skinStateQueue state 
+		(to send ToUninstallLookEvent) "
+	anElement applyStyles.
+	" now remove the skin actually.
+		no look event applied until a new skin is installed"
+	anElement removeEventHandler: aSkin
 ]

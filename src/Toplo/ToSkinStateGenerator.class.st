@@ -92,7 +92,7 @@ ToSkinStateGenerator >> dropEvent: anEvent [
 ToSkinStateGenerator >> enablementChangedEvent: anEvent [
 
 	self generateEnablementStateFromEvent: anEvent.
-	target requestUninstallSkin
+	target requestNewSkin
 ]
 
 { #category : 'state generating' }
@@ -324,15 +324,10 @@ ToSkinStateGenerator >> mouseUpOutsideEvent: anEvent [
 
 	"Outside event can have a button label or icon as target. 
 	In that case, no action is triggered "
-
 	(anEvent originalEvent target notNil and: [
 		 anEvent originalEvent target hasInParentChain: target ]) ifTrue: [
 		^ self ].
 	dragged := false.
-	"MouseUpOutside for a button is managed if a MouseDown (inside) has occured before (with a consequent pressed state).
-	So, do not change the state if the button is not in pressed state"
-	"target currentSkinState ifNotNil: [ :s | 
-		s isPressedState ifFalse: [ ^ self ] ]."
 	self generateLeavedStateFromEvent: anEvent.
 	self generateReleasedStateFromEvent: anEvent
 ]

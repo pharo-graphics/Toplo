@@ -21,7 +21,6 @@ ToGeneralButtonSkin >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e mouseCursor: BlCursor default.
 		e border: e defaultBorder.
 		e background: e defaultBackground ]
 ]

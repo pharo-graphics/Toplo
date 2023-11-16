@@ -23,8 +23,7 @@ ToGeneralButtonMenuItem >> button: aButton [
 	button := aButton.
 	button ifNotNil: [
 		self addChild: button at: 1.
-		aButton hMatchParent ].
-	self requestSkin
+		aButton hMatchParent ]
 ]
 
 { #category : 'initialization' }

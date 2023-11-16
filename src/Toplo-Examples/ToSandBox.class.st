@@ -117,7 +117,7 @@ ToSandBox class >> example_CheckboxChecked [
 	| chb |
 	ToTheme cleanUp.
 	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
-
+	chb when: ToElementLookEvent do: [ :evt | evt target = chb ifTrue: [ evt traceCr ]].
 	chb checked: true.
 	chb openInInnerWindow.
 	chb inspect.
@@ -1909,6 +1909,20 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 
 	pane addDividers.
 	pane openInSpace
+]
+
+{ #category : 'look event' }
+ToSandBox class >> example_lookEventTrace [
+
+	| but |
+	but := ToButton new.
+	but icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
+	but label: (ToLabel text: 'Button with label').
+	but
+		when: ToElementLookEvent
+		do: [ :evt | evt target = but ifTrue: [ evt traceCr ] ].
+	but stillPressedStartDelay: 800 milliSeconds.
+	but openInSpace
 ]
 
 { #category : 'menu dep' }

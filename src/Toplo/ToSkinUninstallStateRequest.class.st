@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToSkinUninstallStateRequest',
-	#superclass : 'ToSkinEvent',
+	#superclass : 'ToSkinManagementEvent',
 	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
 	#tag : 'Core-Theme'

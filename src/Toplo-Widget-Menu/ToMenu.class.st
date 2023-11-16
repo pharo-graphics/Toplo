@@ -52,10 +52,10 @@ ToMenu >> initialize [
 	self initializeWithMenuConstraints.
 	windowHandler := ToMenuWindowHandler new element: self.
 	windowHandler builder: [ :menWin :element |
-		self requestSkin.
+		self requestNewSkin.
 		element items do: [ :it |
 			menWin root addChild: it.
-			it requestSkin ] ]
+			it requestNewSkin ] ]
 ]
 
 { #category : 'initialization' }

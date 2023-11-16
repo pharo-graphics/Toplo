@@ -316,7 +316,8 @@ ToLabel >> text: aBlTextOrString [
 ToLabel >> textChanged [
 
 	self innerElement textChanged.
-	self forceLocalLayout
+	self forceLocalLayout.
+	self requestNewSkin 
 ]
 
 { #category : 'accessing' }

@@ -69,7 +69,8 @@ TToElementWithLabeledIcon >> icon [
 TToElementWithLabeledIcon >> icon: anElement [
 
 	self icon = anElement ifTrue: [ ^ self ].
-	self labeledIcon icon: anElement
+	self labeledIcon icon: anElement.
+	self requestNewSkin 
 ]
 
 { #category : 't - element with labeled icon - accessing' }
@@ -179,7 +180,8 @@ TToElementWithLabeledIcon >> label [
 TToElementWithLabeledIcon >> label: anElement [
 
 	self label = anElement ifTrue: [ ^ self ].
-	self labeledIcon label: anElement
+	self labeledIcon label: anElement.
+	self requestNewSkin 
 ]
 
 { #category : 't - element with labeled icon - accessing' }

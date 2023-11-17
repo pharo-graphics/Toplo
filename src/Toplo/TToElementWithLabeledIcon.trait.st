@@ -74,6 +74,12 @@ TToElementWithLabeledIcon >> icon: anElement [
 ]
 
 { #category : 't - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> iconDo: aBlock [
+
+	self icon ifNotNil: [ :ic | aBlock value: ic ]
+]
+
+{ #category : 't - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> iconFirst: aBoolean [
 
 	self labeledIcon iconFirst: aBoolean
@@ -182,6 +188,12 @@ TToElementWithLabeledIcon >> label: anElement [
 	self label = anElement ifTrue: [ ^ self ].
 	self labeledIcon label: anElement.
 	self requestNewSkin 
+]
+
+{ #category : 't - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> labelDo: aBlock [
+
+	self label ifNotNil: [ :la | aBlock value: la ]
 ]
 
 { #category : 't - element with labeled icon - accessing' }

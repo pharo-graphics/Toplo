@@ -45,3 +45,9 @@ ToButton >> labeledIcon [
 
 	^ labeledIcon 
 ]
+
+{ #category : 'skin' }
+ToButton >> newRawSkin [
+
+	^ ToButtonSkin new
+]

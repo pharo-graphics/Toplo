@@ -11,6 +11,7 @@ ToButtonSkin >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
+		e iconDo: [ :ic | ic formColor: Color lightGray ].
 		e labelDo: [ :lab |
 			lab text attributes: { (BlTextForegroundAttribute paint: Color lightGray) }.
 			lab textChanged ] ]
@@ -21,6 +22,7 @@ ToButtonSkin >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
+		e iconDo: [ :ic | ic formColor: Color black ].
 		e labelDo: [ :lab |
 			lab text attributes: { (BlTextForegroundAttribute paint: Color black) }.
 			lab textChanged ] ]
@@ -31,6 +33,7 @@ ToButtonSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
+		e iconDo: [ :ic | ic formColor: Color blue ].
 		e labelDo: [ :lab |
 			lab text attributes: { (BlTextForegroundAttribute paint: Color blue) }.
 			lab textChanged ] ]
@@ -40,7 +43,9 @@ ToButtonSkin >> hoveredLookEvent: anEvent [
 ToButtonSkin >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
-	anEvent elementDo: [ :e | e labelDo: [ :lab |
+	anEvent elementDo: [ :e | 
+		e iconDo: [ :ic | ic formColor: Color black ].
+		e labelDo: [ :lab |
 			lab text attributes: { (BlTextForegroundAttribute paint: Color black) }.
 			lab textChanged ] ]
 ]
@@ -50,6 +55,7 @@ ToButtonSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
 	anEvent elementDo: [ :e |	
+		e iconDo: [ :ic | ic formColor: Color black ].
 		e labelDo: [ :lab |
 			lab text attributes: { (BlTextForegroundAttribute paint: Color black) }.
 			lab textChanged ] ]
@@ -60,6 +66,7 @@ ToButtonSkin >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
 	anEvent elementDo: [ :e | 	
+		e iconDo: [ :ic | ic formColor: Color blue darker ].
 		e labelDo: [ :lab |
 			lab text attributes: { (BlTextForegroundAttribute paint: Color blue darker) }.
 			lab textChanged ] ]

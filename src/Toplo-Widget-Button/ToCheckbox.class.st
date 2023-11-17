@@ -100,7 +100,6 @@ ToCheckbox >> indeterminateChild [
 ToCheckbox >> installRawStyle [
 
 	super installRawStyle.
-
 	self iconImage: self defaultBlankCheckboxImage.
 	self icon geometry: self iconGeometry
 ]

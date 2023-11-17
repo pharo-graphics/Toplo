@@ -8,13 +8,12 @@ Class {
 
 { #category : 'hook' }
 ToSkinInstaller >> applyOn: anElement [
-
-	anElement skinInstaller: nil.
 	" if there is an installed skin -> nothing to do "
-	anElement installedSkinDo: [ :s |
-		^ self ].
-	anElement defaultSkin ifNotNil: [ :found |
-		anElement skinManager installSkin: found in: anElement ]
+
+	anElement installedSkin ifNil: [
+		anElement defaultSkin ifNotNil: [ :found |
+			anElement skinManager installSkin: found in: anElement ] ].
+	anElement skinInstaller: nil
 ]
 
 { #category : 'hook' }

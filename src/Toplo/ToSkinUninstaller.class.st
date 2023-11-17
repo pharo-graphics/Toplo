@@ -9,10 +9,11 @@ Class {
 { #category : 'hook' }
 ToSkinUninstaller >> applyOn: anElement [
 
-	anElement skinUninstaller: nil.
 	" if there is not an installed skin -> nothing to do "
 	anElement installedSkinDo: [ :skin |
-		anElement skinManager uninstallSkin: skin in: anElement]
+		anElement skinManager uninstallSkin: skin in: anElement].
+	anElement skinUninstaller: nil.
+
 ]
 
 { #category : 'hook' }

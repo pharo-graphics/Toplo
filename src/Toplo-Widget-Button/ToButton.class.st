@@ -37,7 +37,9 @@ ToButton >> initialize [
 ToButton >> installRawStyle [
 
 	super installRawStyle.
-	self labeledIcon hMatchParent
+	self labeledIcon hMatchParent.
+	self iconDo: [ :ic | ic formColor: Color black ].
+
 ]
 
 { #category : 't - element with labeled icon - accessing' }

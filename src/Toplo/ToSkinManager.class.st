@@ -187,6 +187,10 @@ ToSkinManager >> requestInstallSkinIn: anElement [
 { #category : 'accessing - skin' }
 ToSkinManager >> requestUninstallSkinIn: anElement [
 
+	" having an installer means that the element is already installing a skin.
+	and a #requestNewSkin can be sent during a skin instalation.
+	Thus, to avoid infinite recurssion, do nothing if a skin installer is already set"
+	self skinInstaller ifNotNil: [ ^ self ].
 	self skinUninstaller ifNotNil: [ 
 		^ self ].
 	self skinUninstaller: ToSkinUninstaller new

@@ -59,12 +59,7 @@ ToStyleSheet class >> defaultWritablePropertyList [
 		  (ToFeatureProperty new name: #iconImage).
 		  (ToPseudoProperty new
 			   name: #'image-inner-form-color';
-			   writer: [ :e :v |
-				   e
-					   withInnerFormDo: [ :form |
-						   e innerImage:
-								   (form collectColors: [ :color | v alpha: color alpha ]) ]
-					   ifNone: [  ] ]).
+			   writer: [ :e :v | e formColor: v ]).
 		  (ToFeatureProperty name: #layout).
 		  (ToPseudoProperty
 			   name: #'layout-direction'

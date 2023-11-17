@@ -36,6 +36,16 @@ ToImage >> errorInnerFormNotFound [
 	NotFound signalFor: self
 ]
 
+{ #category : 'form accessing' }
+ToImage >> formColor: aColor [
+
+	self
+		withInnerFormDo: [ :form |
+			self innerImage:
+				(form collectColors: [ :color | aColor alpha: color alpha ]) ]
+		ifNone: [  ]
+]
+
 { #category : 'testing' }
 ToImage >> hasInnerImage [ ^ self innerImage id asSymbol ~= #emptyImage
 ]

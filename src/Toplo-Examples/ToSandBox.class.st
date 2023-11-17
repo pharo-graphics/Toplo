@@ -1922,6 +1922,7 @@ ToSandBox class >> example_lookEventTrace [
 		when: ToElementLookEvent
 		do: [ :evt | evt target = but ifTrue: [ evt traceCr ] ].
 	but stillPressedStartDelay: 3000 milliSeconds.
+	but inspect.
 	but openInSpace
 ]
 

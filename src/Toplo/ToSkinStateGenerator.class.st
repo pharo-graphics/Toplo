@@ -5,6 +5,7 @@ Class {
 		'target',
 		'leaved',
 		'dragged',
+		'pressed',
 		'stillPressedTask',
 		'stillHoveredTask'
 	],
@@ -186,6 +187,7 @@ ToSkinStateGenerator >> generateHoveredStateFromEvent: anEvent [
 ToSkinStateGenerator >> generateLeavedStateFromEvent: anEvent [
 
 	leaved ifTrue: [ ^ self ].
+	leaved := true.
 	target isEnabled ifFalse: [ ^ self ].
 	self enqueueTransientStateFromLookEvent: (ToLeavedLookEvent sourceEvent: anEvent)
 ]
@@ -258,6 +260,7 @@ ToSkinStateGenerator >> middleMouseUpEvent: anEvent [
 { #category : 'mouse handlers' }
 ToSkinStateGenerator >> mouseDownEvent: anEvent [
 
+	pressed := true.
 	anEvent
 		  ifPrimary: [ self primaryMouseDownEvent: anEvent ]
 		  secondary: [ self secondaryMouseDownEvent: anEvent ]
@@ -312,6 +315,7 @@ ToSkinStateGenerator >> mousePickOutsideEvent: anEvent [
 { #category : 'mouse handlers' }
 ToSkinStateGenerator >> mouseUpEvent: anEvent [
 	dragged := false.
+	pressed := false.
 	anEvent
 		  ifPrimary: [ self primaryMouseUpEvent: anEvent ]
 		  secondary: [ self secondaryMouseUpEvent: anEvent ]
@@ -324,11 +328,14 @@ ToSkinStateGenerator >> mouseUpOutsideEvent: anEvent [
 
 	"Outside event can have a button label or icon as target. 
 	In that case, no action is triggered "
+	| wasPressed |
+	wasPressed := pressed.
+	pressed := false.
 	(anEvent originalEvent target notNil and: [
 		 anEvent originalEvent target hasInParentChain: target ]) ifTrue: [
 		^ self ].
 	dragged := false.
-	self generateReleasedStateFromEvent: anEvent.
+	wasPressed ifTrue: [ self generateReleasedStateFromEvent: anEvent ].
 	self generateLeavedStateFromEvent: anEvent.
 
 ]
@@ -343,6 +350,7 @@ ToSkinStateGenerator >> onInstalledIn: anElement [
 	super onInstalledIn: anElement.
 	leaved := false.
 	dragged := false.
+	pressed := false.
 	" need to store the element for mouse outside event interpreting "
 	target := anElement
 ]

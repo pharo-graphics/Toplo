@@ -261,18 +261,18 @@ ToBeeTheme >> defaultStampList [
 			   name: #'color-Text-description'
 			   value: (Color r: 0.0 g: 0.0 b: 0.45)).
 		  (ToStyleStamp
-			   name: #'color-Text-disabled'
+			   name: #'color-text-disabled'
 			   value: (Color r: 0.0 g: 0.0 b: 0.25)).
-		  (ToStyleStamp name: #'color-Text-heading' value: (Color
+		  (ToStyleStamp name: #'color-text-heading' value: (Color
 				    r: 0.0
 				    g: 0.0
 				    b: 0.0
 				    alpha: 0.88)).
 		  (ToStyleStamp
-			   name: #'color-Text-light-solid'
+			   name: #'color-text-light-solid'
 			   value: (Color fromHexString: '#ffffff')).
 		  (ToStyleStamp
-			   name: #'color-Text-secondary'
+			   name: #'color-text-secondary'
 			   value: (Color black alpha: 0.45)).
 
 		  (ToStyleStamp name: #'control-height' value: 32).

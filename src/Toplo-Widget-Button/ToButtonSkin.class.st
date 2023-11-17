@@ -64,13 +64,3 @@ ToButtonSkin >> pressedLookEvent: anEvent [
 			lab text attributes: { (BlTextForegroundAttribute paint: Color blue darker) }.
 			lab textChanged ] ]
 ]
-
-{ #category : 'event handling' }
-ToButtonSkin >> releasedLookEvent: anEvent [
-
-	super releasedLookEvent: anEvent.
-	anEvent elementDo: [ :e |
-		"e labelDo: [ :lab |
-			lab text attributes: { (BlTextForegroundAttribute paint: Color red) }.
-			lab textChanged ]"  ]
-]

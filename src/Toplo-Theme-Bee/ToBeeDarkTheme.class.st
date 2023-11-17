@@ -60,12 +60,12 @@ ToBeeDarkTheme >> defaultStampList [
 				  (ToStyleStamp
 					   name: #'color-text'
 					   value: (Color r: 255 g: 255 b: 255)).
-				  (ToStyleStamp name: #'color-Text-disabled' value: (Color
+				  (ToStyleStamp name: #'color-text-disabled' value: (Color
 						    r: 0.7
 						    g: 0.7
 						    b: 0.7
 						    alpha: 0.5)).
-				  (ToStyleStamp name: #'color-Text-heading' value: (Color
+				  (ToStyleStamp name: #'color-text-heading' value: (Color
 						    r: 255
 						    g: 255
 						    b: 255

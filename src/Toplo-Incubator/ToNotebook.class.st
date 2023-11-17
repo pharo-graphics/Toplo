@@ -10,47 +10,41 @@ Class {
 	#package : 'Toplo-Incubator'
 }
 
-{ #category : 'api' }
+{ #category : 'private' }
 ToNotebook >> addPage: aPage [
 
 	pages add: aPage.
-	aPage
-		whenIsSelectedChangedDo: [ :new :old |
-			new = old
-				ifTrue: [ 'isSelected didnt change!' traceCr ]
-				ifFalse: [ self refreshOnPageIsSelectedChange: aPage ] ];
-		whenIsCloseableChangedDo: [ self refreshOnPageIsCloseableChange: aPage ];
-		whenBodyBuilderChangedDo: [ self refreshOnBodyBuilderChange: aPage ].
-
-	header addChild: aPage titleElement.
-	
-	pages size = 1 ifTrue: [ aPage isSelected: true ]
+	header addChild: aPage button.
+	aPage button
+		when: ToCheckableChangedEvent
+		do: [ :event | self selectedPage: aPage ].
+	pages buttons size = 1 ifTrue: [ aPage selected: true ]
 ]
 
-{ #category : 'adding' }
-ToNotebook >> addPageTitle: aTitle [
+{ #category : 'adding-removing' }
+ToNotebook >> addPageEntitled: aTitle [
 
 	| aPage |
-	aPage := self newPageTitle: aTitle.
+	aPage := self newPageEntitled: aTitle.
 	self addPage: aPage.
 	^ aPage
 ]
 
-{ #category : 'api' }
-ToNotebook >> addPageTitle: aTitle body: aBlElement [ 
+{ #category : 'adding-removing' }
+ToNotebook >> addPageEntitled: aTitle withBody: aBlElement [ 
 
 	| aPage |
-	aPage := self newPageTitle: aTitle.
+	aPage := self newPageEntitled: aTitle.
 	aPage bodyElement: aBlElement.
 	self addPage: aPage.
 	^ aPage
 ]
 
-{ #category : 'adding' }
-ToNotebook >> addPageTitle: aTitle bodyBuilder: aValuable [
+{ #category : 'adding-removing' }
+ToNotebook >> addPageEntitled: aTitle withBodyBuilder: aValuable [
 
 	| aPage |
-	aPage := self newPageTitle: aTitle.
+	aPage := self newPageEntitled: aTitle.
 	aPage bodyBuilder: aValuable.
 	self addPage: aPage.
 	^ aPage
@@ -62,6 +56,12 @@ ToNotebook >> header [
 	^ header
 ]
 
+{ #category : 'accessing' }
+ToNotebook >> indexOfPage: aPage [
+
+	^ pages buttons indexOf: aPage
+]
+
 { #category : 'initialization' }
 ToNotebook >> initialize [
 
@@ -70,35 +70,28 @@ ToNotebook >> initialize [
 	self matchParent.
 	header := ToPane horizontal.
 	self addChild: header as: #header.
-	pages := OrderedCollection new
-]
-
-{ #category : 'skin' }
-ToNotebook >> installRawStyle [ 
-
-	super installRawStyle.
-.
-	self background: self theme notebook backgroundColor
+	pages := ToCheckableGroup new.
 ]
 
 { #category : 'private' }
-ToNotebook >> newPageTitle: aTitle [
+ToNotebook >> newButtonForPage: aPage entitled: aText [
 
-	| aPage titleElement |
-	aPage := ToNotebookPage new.
-	titleElement := self newTitleElementFor: aPage title: aTitle.
-	aPage titleElement: titleElement.
-	^ aPage
-]
-
-{ #category : 'private' }
-ToNotebook >> newTitleElementFor: aPage title: aTitle [
-
-	^ ToNotebookPageTitle new
+	^ ToNotebookPageButton new
 		page: aPage;
-		title: aTitle;
-		whenClickedDo: [ aPage isSelected: true ];
+		labelText: aText;
 		yourself
+]
+
+{ #category : 'private' }
+ToNotebook >> newPageEntitled: aText [
+
+	| aPage pageButton |
+	aPage := ToNotebookPage new.
+	pageButton := self newButtonForPage: aPage entitled: aText.
+	pageButton when: BlElementRemovedFromParentEvent do: [ :evt |
+		self removePage: aPage ].
+	aPage button: pageButton.
+	^ aPage
 ]
 
 { #category : 'accessing' }
@@ -108,81 +101,52 @@ ToNotebook >> pages [
 ]
 
 { #category : 'private' }
-ToNotebook >> refreshOnBodyBuilderChange: aPage [
-
-	selectedPage = aPage ifFalse: [ ^ self ].
-
-	self removeBodyElement.
-	self setBodyElement: aPage bodyElement
-
-]
-
-{ #category : 'private' }
-ToNotebook >> refreshOnPageIsCloseableChange: aPage [
-
-	aPage isCloseable
-		ifTrue: [
-			| but |
-			but := ToButton new.
-			but defaultSkin: ToNoteBookPageTitleCloseButtonSkin new.
-			but icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #windowClose)).
-			but constraintsDo: [ :c | c linear vertical alignCenter].
-			but whenClickedDo: [ :evt | 
-				evt consumed: true.
-				self removePage: aPage ].
-			aPage titleElement addChild: but as: #closeButton ]
-		ifFalse: [
-			aPage titleElement removeChildNamed: #closeButton ]
-]
-
-{ #category : 'private' }
-ToNotebook >> refreshOnPageIsSelectedChange: aPage [
-
-	aPage isSelected
-		ifTrue: [ "Single selection only, for now, so deselect current."
-			selectedPage ifNotNil: [ selectedPage isSelected: false ].
-			self setBodyElement: aPage bodyElement.
-			selectedPage := aPage ]
-		ifFalse: [
-			self removeBodyElement.
-			selectedPage := nil ]
-]
-
-{ #category : 'private' }
 ToNotebook >> removeBodyElement [
 
 	self removeChildWithId: #body
 ]
 
-{ #category : 'api' }
+{ #category : 'adding-removing' }
 ToNotebook >> removePage: aPage [
 
-	| pageIndex |
-	aPage isSelected ifTrue: [ 
-		pageIndex := pages indexOf: aPage ].
-	header removeChild: aPage titleElement.
-	aPage isSelected: false.
-	pages remove: aPage.
-	self flag: #todo. "Unsubscribe from aPage"
-	
-	pageIndex ifNil: [ ^self ].
-	pages ifEmpty: [ ^self ].
+	| removedPageSelectedIndex selectedPageIndexes |
+	self flag: 'to be fixed'.
+	removedPageSelectedIndex := aPage isSelected
+		                            ifTrue: [ self indexOfPage: aPage ]
+		                            ifFalse: [ 0 ].
 
-	((pages size < pageIndex)
-		ifTrue: [ pages last ]
-		ifFalse: [ pages at: pageIndex ]) isSelected: true
+	pages remove: aPage.
+	pages buttons ifEmpty: [ ^ self ].
+
+	selectedPageIndexes := Array streamContents: [ :str |
+		                       pages buttons withIndexDo: [ :p :idx |
+			                       p isSelected ifTrue: [ str nextPut: idx ] ] ].
+
+	selectedPageIndexes do: [ :idx | "(pages buttons size < removedPageSelectedIndex
+		 ifTrue: [ pages buttons last ]
+		 ifFalse: [ pages buttons at: removedPageSelectedIndex ]) selected: true"
+		(pages buttons at: idx) selected: true.
+		self selectedPage: (pages buttons at: idx) ]
 ]
 
-{ #category : 'api' }
+{ #category : 'private' }
 ToNotebook >> selectPage: aPage [
 
-	aPage isSelected: true
+	aPage selected: true
 ]
 
 { #category : 'accessing' }
 ToNotebook >> selectedPage [
 
 	^ selectedPage
+]
+
+{ #category : 'private' }
+ToNotebook >> selectedPage: aPage [
+
+	self removeBodyElement.
+	self setBodyElement: aPage bodyElement.
+	selectedPage := aPage
 ]
 
 { #category : 'private' }

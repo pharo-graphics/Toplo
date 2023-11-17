@@ -1,8 +1,8 @@
 Class {
 	#name : 'ToCheckbox',
 	#superclass : 'ToButton',
-	#traits : 'TToCheckable + TToCheckbox',
-	#classTraits : 'TToCheckable classTrait + TToCheckbox classTrait',
+	#traits : 'TToCheckable + TToElementWithCheckableGroup',
+	#classTraits : 'TToCheckable classTrait + TToElementWithCheckableGroup classTrait',
 	#category : 'Toplo-Widget-Button-Checkable',
 	#package : 'Toplo-Widget-Button',
 	#tag : 'Checkable'

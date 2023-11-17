@@ -25,8 +25,8 @@ ToNotebookTest >> testBodyFactoryIsValuedOnSelect [
 	| redPage greenPage redCount greenCount |
 	redCount := 0.
 	redPage := notebook
-		addPageTitle: 'Red'
-		bodyBuilder: [
+		addPageEntitled: 'Red'
+		withBodyBuilder: [
 			redCount := redCount + 1.
 			BlTextElement new
 				text: (redCount asRopedText foreground: Color red darker);
@@ -34,8 +34,8 @@ ToNotebookTest >> testBodyFactoryIsValuedOnSelect [
 
 	greenCount := 0.
 	greenPage := notebook
-		addPageTitle: 'Green'
-		bodyBuilder: [
+		addPageEntitled: 'Green'
+		withBodyBuilder: [
 			greenCount := greenCount + 1.
 			BlTextElement new
 				text: (greenCount asRopedText foreground: Color green muchDarker);
@@ -45,12 +45,12 @@ ToNotebookTest >> testBodyFactoryIsValuedOnSelect [
 	self assert: redCount equals: 1.
 	self assert: greenCount equals: 0.
 	
-	BlSpace simulateClickOn: greenPage titleElement.
+	BlSpace simulateClickOn: greenPage button.
 	self waitTestingSpaces.
 	self assert: redCount equals: 1.
 	self assert: greenCount equals: 1.
 
-	BlSpace simulateClickOn: redPage titleElement.
+	BlSpace simulateClickOn: redPage button.
 	self waitTestingSpaces.
 	self assert: redCount equals: 2.
 	self assert: greenCount equals: 1
@@ -61,19 +61,19 @@ ToNotebookTest >> testCloseLastPage [
 
 	| redPage |
 	redPage := notebook
-		addPageTitle: 'Red'
-		body: (BlElement new
+		addPageEntitled: 'Red'
+		withBody: (BlElement new
 			background: Color red;
 			yourself).
-	redPage isCloseable: true.
+	redPage closeable: true.
 	
 	self waitTestingSpaces.
-	self assert: (notebook pages includes: redPage).
+	self assert: (notebook pages buttons includes: redPage).
 	self assert: redPage isSelected.
 
-	BlSpace simulateClickOn: redPage closeButton.
+	BlSpace simulateClickOn: redPage innerCloseButton.
 	self waitTestingSpaces.
-	self assert: notebook pages isEmpty.
+	self assert: notebook pages buttons isEmpty.
 
 ]
 
@@ -82,25 +82,25 @@ ToNotebookTest >> testCloseSelectedPage [
 
 	| redPage greenPage |
 	redPage := notebook
-		addPageTitle: 'Red'
-		body: (BlElement new
+		addPageEntitled: 'Red'
+		withBody: (BlElement new
 			background: Color red;
 			yourself).
-	redPage isCloseable: true.
+	redPage closeable: true.
 
 	greenPage := notebook
-		addPageTitle: 'Green'
-		body: (BlElement new
+		addPageEntitled: 'Green'
+		withBody: (BlElement new
 			background: Color green;
 			yourself).
 	
 	self waitTestingSpaces.
-	self assert: (notebook pages includes: redPage).
+	self assert: (notebook pages buttons includes: redPage).
 	self assert: redPage isSelected.
 
-	BlSpace simulateClickOn: redPage closeButton.
+	BlSpace simulateClickOn: redPage innerCloseButton.
 	self waitTestingSpaces.
-	self deny: (notebook pages includes: redPage).
+	self deny: (notebook pages buttons includes: redPage).
 	self assert: greenPage isSelected.
 
 ]
@@ -110,26 +110,27 @@ ToNotebookTest >> testCloseUnselectedPage [
 
 	| redPage greenPage |
 	redPage := notebook
-		addPageTitle: 'Red'
-		body: (BlElement new
+		addPageEntitled: 'Red'
+		withBody: (BlElement new
 			background: Color red;
 			yourself).
-	redPage isCloseable: true.
+	redPage closeable: true.
+	redPage selected: true.
 
 	greenPage := notebook
-		addPageTitle: 'Green'
-		body: (BlElement new
+		addPageEntitled: 'Green'
+		withBody: (BlElement new
 			background: Color green;
 			yourself).
-	greenPage isCloseable: true.
+	greenPage closeable: true.
 	
 	self waitTestingSpaces.
-	self assert: (notebook pages includes: redPage).
+	self assert: (notebook pages buttons includes: redPage).
 	self assert: redPage isSelected.
 
-	BlSpace simulateClickOn: greenPage closeButton.
+	BlSpace simulateClickOn: greenPage innerCloseButton.
 	self waitTestingSpaces.
-	self deny: (notebook pages includes: greenPage).
+	self deny: (notebook pages buttons includes: greenPage).
 	self assert: redPage isSelected.
 
 ]
@@ -138,24 +139,24 @@ ToNotebookTest >> testCloseUnselectedPage [
 ToNotebookTest >> testDefaultBodyIsTransparent [
 
 	| aPage |
-	aPage := notebook addPageTitle: '1'.
+	aPage := notebook addPageEntitled: '1'.
 
 	self waitTestingSpaces.
 	self assert: aPage bodyElement background isTransparent
 ]
 
 { #category : 'tests' }
-ToNotebookTest >> testSelectPage [
+ToNotebookTest >> testIsSelected [
 
 	| orangePage greenPage |
 	orangePage := notebook
-		addPageTitle: 'Orange'
-		body: (BlElement new
+		addPageEntitled: 'Orange'
+		withBody: (BlElement new
 			background: Color orange;
 			yourself).
 	greenPage := notebook
-		addPageTitle: 'Green'
-		body: (BlElement new
+		addPageEntitled: 'Green'
+		withBody: (BlElement new
 			background: Color green;
 			yourself).
 	
@@ -163,7 +164,7 @@ ToNotebookTest >> testSelectPage [
 	self assert: orangePage isSelected.
 	self deny: greenPage isSelected.
 
-	BlSpace simulateClickOn: greenPage titleElement.
+	BlSpace simulateClickOn: greenPage button.
 	self waitTestingSpaces.
 	self assert: greenPage isSelected.
 	self deny: orangePage isSelected.

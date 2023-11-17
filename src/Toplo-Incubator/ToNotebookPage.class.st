@@ -1,13 +1,12 @@
 Class {
 	#name : 'ToNotebookPage',
 	#superclass : 'Object',
-	#traits : 'TObservable',
-	#classTraits : 'TObservable classTrait',
+	#traits : 'TToElementWithCheckable + TToElementWithCheckableGroup',
+	#classTraits : 'TToElementWithCheckable classTrait + TToElementWithCheckableGroup classTrait',
 	#instVars : [
-		'#isSelected => ObservableSlot',
-		'#isCloseable => ObservableSlot',
-		'#titleElement',
-		'#bodyBuilder => ObservableSlot'
+		'bodyBuilder',
+		'closeable',
+		'pageButton'
 	],
 	#category : 'Toplo-Incubator',
 	#package : 'Toplo-Incubator'
@@ -39,73 +38,74 @@ ToNotebookPage >> bodyElement: aBlElement [
 ]
 
 { #category : 'accessing' }
-ToNotebookPage >> closeButton [
-	
-	^ titleElement childWithId: #closeButton
+ToNotebookPage >> button [
+
+	^ pageButton
+]
+
+{ #category : 'accessing' }
+ToNotebookPage >> button: aPageButton [
+
+	pageButton := aPageButton
+]
+
+{ #category : 't - checkable - accessing' }
+ToNotebookPage >> checkable [
+
+	^ self button
+]
+
+{ #category : 'accessing' }
+ToNotebookPage >> closeable: aBoolean [
+
+	closeable := aBoolean.
+	aBoolean
+		ifTrue: [
+			| but |
+			but := ToButton new.
+			but defaultSkin: ToNotebookPageInnerCloseButtonSkin new.
+			but icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #windowClose)).
+			but constraintsDo: [ :c | c linear vertical alignCenter ].
+			but when: BlClickEvent do: [ self button removeFromParent ].
+			self button addChild: but as: #innerCloseButton ]
+		ifFalse: [ self button removeChildNamed: #innerCloseButton ]
 ]
 
 { #category : 'initialization' }
 ToNotebookPage >> initialize [
 
 	super initialize.
-	self class initializeSlots: self.
-	
-	isSelected := false.
-	isCloseable := false.
+
+	closeable := false.
 	bodyBuilder := [ BlElement new ]
+]
+
+{ #category : 'accessing' }
+ToNotebookPage >> innerCloseButton [
+	
+	^ pageButton childWithId: #innerCloseButton
 ]
 
 { #category : 'accessing' }
 ToNotebookPage >> isCloseable [
 
-	^ isCloseable
-]
-
-{ #category : 'accessing' }
-ToNotebookPage >> isCloseable: aBoolean [
-
-	isCloseable := aBoolean
+	^ closeable
 ]
 
 { #category : 'accessing' }
 ToNotebookPage >> isSelected [
 
-	^ isSelected
+	^ self isChecked
 ]
 
 { #category : 'accessing' }
-ToNotebookPage >> isSelected: aBoolean [
+ToNotebookPage >> selected: aBoolean [
 
-	isSelected := aBoolean.
-	titleElement enqueueSkinState: (ToSelectionState new selected: aBoolean)
+	self checked: aBoolean
 ]
 
-{ #category : 'accessing' }
-ToNotebookPage >> titleElement [
+{ #category : 'event management' }
+ToNotebookPage >> when: anEvent do: aBlock [
 
-	^ titleElement
-]
-
-{ #category : 'accessing' }
-ToNotebookPage >> titleElement: aBlElement [
-
-	titleElement := aBlElement
-]
-
-{ #category : 'enumerating' }
-ToNotebookPage >> whenBodyBuilderChangedDo: aBlock [
-
-	self property: #bodyBuilder whenChangedDo: aBlock
-]
-
-{ #category : 'events' }
-ToNotebookPage >> whenIsCloseableChangedDo: aBlock [
-
-	self property: #isCloseable whenChangedDo: aBlock
-]
-
-{ #category : 'events' }
-ToNotebookPage >> whenIsSelectedChangedDo: aBlock [
-
-	self property: #isSelected whenChangedDo: aBlock
+	self button when: anEvent do: aBlock
 ]

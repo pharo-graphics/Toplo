@@ -1,19 +1,19 @@
 Class {
-	#name : 'ToNoteBookPageTitleCloseButtonSkin',
+	#name : 'ToNotebookPageInnerCloseButtonSkin',
 	#superclass : 'ToGeneralButtonSkin',
 	#category : 'Toplo-Incubator',
 	#package : 'Toplo-Incubator'
 }
 
 { #category : 'event handling' }
-ToNoteBookPageTitleCloseButtonSkin >> hoveredLookEvent: anEvent [
+ToNotebookPageInnerCloseButtonSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e | e border: (Color red alpha: 0.5) ]
 ]
 
 { #category : 'event handling' }
-ToNoteBookPageTitleCloseButtonSkin >> installLookEvent: anEvent [
+ToNotebookPageInnerCloseButtonSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e | e padding: BlInsets empty ]

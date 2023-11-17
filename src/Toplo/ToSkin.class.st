@@ -72,12 +72,6 @@ ToSkin >> closedLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToSkin >> deselectedLookEvent: anEvent [
-
-
-]
-
-{ #category : 'event handling' }
 ToSkin >> disabledLookEvent: anEvent [
 
 
@@ -235,12 +229,6 @@ ToSkin >> pressedLookEvent: anEvent [
 
 { #category : 'event handling' }
 ToSkin >> releasedLookEvent: anEvent [
-
-
-]
-
-{ #category : 'event handling' }
-ToSkin >> selectedLookEvent: anEvent [
 
 
 ]

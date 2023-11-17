@@ -1,5 +1,5 @@
 Trait {
-	#name : 'TToCheckbox',
+	#name : 'TToElementWithCheckableGroup',
 	#instVars : [
 		'group'
 	],
@@ -8,32 +8,34 @@ Trait {
 	#tag : 'Core'
 }
 
-{ #category : 't - checkbox - group' }
-TToCheckbox >> addToGroup: aToggleGroup [
+{ #category : 't - element with checkable group' }
+TToElementWithCheckableGroup >> addToGroup: aToggleGroup [
 
 	aToggleGroup add: self.
 	self group: aToggleGroup 
 ]
 
-{ #category : 't - checkbox - group' }
-TToCheckbox >> group [
+{ #category : 't - element with checkable group' }
+TToElementWithCheckableGroup >> group [
 
 	^ group
 ]
 
-{ #category : 't - checkbox - group' }
-TToCheckbox >> group: aCheckableGroup [
+{ #category : 't - element with checkable group' }
+TToElementWithCheckableGroup >> group: aCheckableGroup [
 
 	self withIndeterminate ifTrue: [
 		Error signal:
 			'Invalid checkable use: indeterminate state is not allowed with a checkable group' ].
+	group := aCheckableGroup.
+	group ifNil: [ ^ self ].
 	self when: ToCheckableCheckRequest do: [ :event | aCheckableGroup checkRequestEvent: event ].
 	self when: ToCheckableChangedEvent do: [ :event | aCheckableGroup checkableChangedEvent: event ].
-	group := aCheckableGroup
+
 ]
 
-{ #category : 't - checkbox - group' }
-TToCheckbox >> removeFromGroup [
+{ #category : 't - element with checkable group' }
+TToElementWithCheckableGroup >> removeFromGroup [
 
 	self group remove: self
 ]

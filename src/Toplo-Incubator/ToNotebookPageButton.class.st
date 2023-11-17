@@ -1,6 +1,8 @@
 Class {
-	#name : 'ToNotebookPageTitle',
+	#name : 'ToNotebookPageButton',
 	#superclass : 'ToGeneralButton',
+	#traits : 'TToCheckable',
+	#classTraits : 'TToCheckable classTrait',
 	#instVars : [
 		'page',
 		'labelElement'
@@ -10,15 +12,7 @@ Class {
 }
 
 { #category : 'skin' }
-ToNotebookPageTitle >> defaultBackground [
-
-	self page isSelected ifTrue: [
-		^ Color fromHexString: #ffd666 ].
-	^ super defaultBackground 
-]
-
-{ #category : 'skin' }
-ToNotebookPageTitle >> defaultBorder [
+ToNotebookPageButton >> defaultBorder [
 
 	self page isSelected ifTrue: [
 		^ Color fromHexString: #ffd666 ].
@@ -26,7 +20,7 @@ ToNotebookPageTitle >> defaultBorder [
 ]
 
 { #category : 'skin' }
-ToNotebookPageTitle >> defaultGeometry [
+ToNotebookPageButton >> defaultGeometry [
 
 	^ BlRoundedRectangleGeometry cornerRadii: (BlCornerRadii new
 			   topLeft: 8;
@@ -37,13 +31,13 @@ ToNotebookPageTitle >> defaultGeometry [
 ]
 
 { #category : 'skin' }
-ToNotebookPageTitle >> hoveredBackground [
+ToNotebookPageButton >> hoveredBackground [
 
 	^ Color white
 ]
 
 { #category : 'initialization' }
-ToNotebookPageTitle >> initialize [
+ToNotebookPageButton >> initialize [
 
 	super initialize.
 	labelElement := ToLabel new.
@@ -52,7 +46,7 @@ ToNotebookPageTitle >> initialize [
 ]
 
 { #category : 'skin' }
-ToNotebookPageTitle >> installRawStyle [
+ToNotebookPageButton >> installRawStyle [
 
 	super installRawStyle.
 
@@ -65,38 +59,51 @@ ToNotebookPageTitle >> installRawStyle [
 	
 ]
 
+{ #category : 'testing' }
+ToNotebookPageButton >> isSelected [
+
+	" since checked can be nil, test is with = "
+	^ self isChecked
+]
+
 { #category : 'accessing' }
-ToNotebookPageTitle >> labelElement [
+ToNotebookPageButton >> labelElement [
 
 	^ labelElement
 ]
 
 { #category : 'skin' }
-ToNotebookPageTitle >> labelPadding [
+ToNotebookPageButton >> labelPadding [
 
 	^ BlInsets top: 4 left: 10 bottom: 4 right: 10
 ]
 
-{ #category : 'skin' }
-ToNotebookPageTitle >> newRawSkin [ 
+{ #category : 'accessing' }
+ToNotebookPageButton >> labelText: aText [ 
+	
+	labelElement text: aText asRopedText
+]
 
-	^ ToNoteBookPageTitleSkin new
+{ #category : 'skin' }
+ToNotebookPageButton >> newRawSkin [ 
+
+	^ ToNotebookPageButtonSkin new
 ]
 
 { #category : 'accessing' }
-ToNotebookPageTitle >> page [
+ToNotebookPageButton >> page [
 
 	^ page
 ]
 
 { #category : 'accessing' }
-ToNotebookPageTitle >> page: aPage [
+ToNotebookPageButton >> page: aPage [
 
 	page := aPage
 ]
 
-{ #category : 'accessing' }
-ToNotebookPageTitle >> title: aString [ 
-	
-	labelElement text: aString asRopedText
+{ #category : 'skin' }
+ToNotebookPageButton >> selectedBackground [
+
+	^ Color fromHexString: #ffd666
 ]

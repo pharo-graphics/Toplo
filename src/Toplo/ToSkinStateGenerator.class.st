@@ -328,8 +328,9 @@ ToSkinStateGenerator >> mouseUpOutsideEvent: anEvent [
 		 anEvent originalEvent target hasInParentChain: target ]) ifTrue: [
 		^ self ].
 	dragged := false.
+	self generateReleasedStateFromEvent: anEvent.
 	self generateLeavedStateFromEvent: anEvent.
-	self generateReleasedStateFromEvent: anEvent
+
 ]
 
 { #category : 'mouse handlers' }

@@ -58,6 +58,7 @@ ToGeneralButtonMenuItem >> installRawStyle [
 
 	super installRawStyle.
 	self isTopMenu ifTrue: [ ^ self ].
+	self button geometry: BlRectangleGeometry new.
 	self parentMenu ifNil: [ ^ self ].
 	(self parentMenu items anySatisfy: [ :mi | mi hasIcon ]) ifFalse: [
 		^ self ].

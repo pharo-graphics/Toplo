@@ -2,6 +2,8 @@ Class {
 	#name : 'ToSkin',
 	#superclass : 'BlCustomEventHandler',
 	#instVars : [
+		'beforeLookEventAction',
+		'afterLookEventAction',
 		'removeFromSceneGraphHandler'
 	],
 	#category : 'Toplo-Core-Theme',
@@ -9,10 +11,46 @@ Class {
 	#tag : 'Core-Theme'
 }
 
+{ #category : 'api - event managing' }
+ToSkin >> afterLookEvent: anEvent [
+
+	self afterLookEventAction value: anEvent
+]
+
+{ #category : 'accessing' }
+ToSkin >> afterLookEventAction [
+
+	^ afterLookEventAction
+]
+
+{ #category : 'accessing' }
+ToSkin >> afterLookEventAction: anObject [
+
+	afterLookEventAction := anObject
+]
+
 { #category : 'style updating' }
 ToSkin >> applyStylesIn: anElement [
 
 	anElement skinStateQueue applyOn: anElement
+]
+
+{ #category : 'api - event managing' }
+ToSkin >> beforeLookEvent: anEvent [
+
+	self beforeLookEventAction value: anEvent
+]
+
+{ #category : 'accessing' }
+ToSkin >> beforeLookEventAction [
+
+	^ beforeLookEventAction
+]
+
+{ #category : 'accessing' }
+ToSkin >> beforeLookEventAction: anObject [
+
+	beforeLookEventAction := anObject
 ]
 
 { #category : 'event handling' }
@@ -107,6 +145,16 @@ ToSkin >> focusedLookEvent: anEvent [
 
 ]
 
+{ #category : 'api - event managing' }
+ToSkin >> handleEvent: anEvent [
+
+	self beforeLookEvent: anEvent.
+	super handleEvent: anEvent.
+	self afterLookEvent: anEvent.
+
+
+]
+
 { #category : 'event handling' }
 ToSkin >> hoveredLookEvent: anEvent [
 
@@ -122,6 +170,15 @@ ToSkin >> indeterminateLookEvent: anEvent [
 { #category : 'event handling' }
 ToSkin >> initialLookEvent: anEvent [
 
+
+]
+
+{ #category : 'initialization' }
+ToSkin >> initialize [ 
+
+	super initialize.
+	beforeLookEventAction := [ :evt | ].
+	afterLookEventAction := [ :evt | ].
 
 ]
 

@@ -108,6 +108,9 @@ ToThemeExamples class >> example_buttons [
 	primaryButton := (ToButton id: #buttonA)
 		                 labelText: 'Primary Button';
 		                 tooltipText: 'I''m a button'.
+	primaryButton
+		when: ToElementLookEvent
+		do: [ :evt | evt target = primaryButton ifTrue: [ evt traceCr ] ].
 	primaryButton withStamp: #primary.
 	box addChild: primaryButton.
 

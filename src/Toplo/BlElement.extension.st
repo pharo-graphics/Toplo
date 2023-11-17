@@ -10,8 +10,9 @@ BlElement >> applySkinInstaller [
 { #category : '*Toplo' }
 BlElement >> applySkinInstallerRecursively [
 
+	self childrenDo: [ :child | child applySkinInstallerRecursively ].
 	self applySkinInstaller.
-	self childrenDo: [ :child | child applySkinInstallerRecursively ]
+
 
 ]
 
@@ -24,8 +25,9 @@ BlElement >> applyStyles [
 { #category : '*Toplo' }
 BlElement >> applyStylesRecursively [
 
+	self childrenDo: [ :child | child applyStylesRecursively ].
 	self applyStyles.
-	self childrenDo: [ :child | child applyStylesRecursively ]
+
 ]
 
 { #category : '*Toplo' }

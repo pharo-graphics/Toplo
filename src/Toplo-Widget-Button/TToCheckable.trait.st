@@ -1,9 +1,36 @@
 Trait {
 	#name : 'TToCheckable',
-	#category : 'Toplo-Widget-Button-Checkable',
+	#category : 'Toplo-Widget-Button-Core',
 	#package : 'Toplo-Widget-Button',
-	#tag : 'Checkable'
+	#tag : 'Core'
 }
+
+{ #category : 't - checkable - group private' }
+TToCheckable >> addCheckableEventHandlers [
+
+	| requestHandler changedHandler |
+	requestHandler := BlEventHandler
+		                  on: ToCheckableCheckRequest
+		                  do: [ :event |
+			                  self group ifNotNil: [ :grp |
+				                  grp checkRequestEvent: event ] ].
+	changedHandler := BlEventHandler
+		                  on: ToCheckableChangedEvent
+		                  do: [ :event |
+			                  self group ifNotNil: [ :grp |
+				                  grp checkableChangedEvent: event ] ].
+	self userData at: #requestHandler put: requestHandler.
+	self userData at: #changedHandler put: changedHandler.
+	self addEventHandler: requestHandler.
+	self addEventHandler: changedHandler
+]
+
+{ #category : 't - checkable - group' }
+TToCheckable >> addToGroup: aGroup [
+
+	aGroup add: self.
+	self group: aGroup 
+]
 
 { #category : 't - checkable  - protocol' }
 TToCheckable >> check [
@@ -14,7 +41,7 @@ TToCheckable >> check [
 { #category : 't - checkable - accessing' }
 TToCheckable >> checked [
 
-	^ self userData at: #checked ifAbsentPut: [ false ]
+	^ self rawChecked
 ]
 
 { #category : 't - checkable - accessing' }
@@ -37,6 +64,24 @@ TToCheckable >> checked: aBooleanOrIndeterminate [
 	prev = self checked ifTrue: [ ^ self ].
 	" dispatch an event usable by group as it is dispatched only once for all buttons of a group "
 	self dispatchEvent: ToCheckableChangedEvent new
+]
+
+{ #category : 't - checkable - group' }
+TToCheckable >> group [
+
+	^ self rawGroup
+]
+
+{ #category : 't - checkable - group' }
+TToCheckable >> group: aCheckableGroup [
+
+	self withIndeterminate ifTrue: [
+		Error signal:
+			'Invalid checkable use: indeterminate state is not allowed with a checkable group' ].
+	self rawGroup: aCheckableGroup.
+	aCheckableGroup
+		ifNil: [ self removeCheckableEventHandlers ]
+		ifNotNil: [ self addCheckableEventHandlers ]
 ]
 
 { #category : 't - checkable - testing' }
@@ -76,14 +121,53 @@ TToCheckable >> privateChecked: aBooleanOrIndeterminate [
 	request := aBooleanOrIndeterminate.
 	self rawChecked = request ifTrue: [ ^ self ].
 	prev := self checked.
-	self userData at: #checked put: request.
+	self rawChecked: request.
+	" finally dispatch the event used to generate the state for the skin "
 	self dispatchEvent: (ToCheckableCheckedEvent current: request previous: prev)
 ]
 
 { #category : 't - checkable - accessing' }
 TToCheckable >> rawChecked [
 
-	^ self userData at: #checked ifAbsent: [ ]
+	^ self explicitRequirement 
+]
+
+{ #category : 't - checkable - accessing' }
+TToCheckable >> rawChecked: anObject [
+
+	self explicitRequirement 
+]
+
+{ #category : 't - checkable - group' }
+TToCheckable >> rawGroup [
+
+	^ self explicitRequirement 
+]
+
+{ #category : 't - checkable - group' }
+TToCheckable >> rawGroup: aGroup [
+
+	^ self explicitRequirement 
+]
+
+{ #category : 't - checkable - group private' }
+TToCheckable >> removeCheckableEventHandlers [
+
+	| requestHandler changedHandler |
+	requestHandler := self userData at: #requestHandler ifAbsent: [  ].
+	changedHandler := self userData at: #changedHandler ifAbsent: [  ].
+	requestHandler ifNotNil: [
+		self removeEventHandler: requestHandler.
+		self userData removeKey: #requestHandler ].
+	changedHandler ifNotNil: [
+		self removeEventHandler: changedHandler.
+		self userData removeKey: #changedHandler ]
+]
+
+{ #category : 't - checkable - group' }
+TToCheckable >> removeFromGroup [
+
+	self group remove: self
 ]
 
 { #category : 't - checkable - private protocol' }
@@ -101,11 +185,11 @@ TToCheckable >> uncheck [
 { #category : 't - checkable  - protocol' }
 TToCheckable >> withIndeterminate [
 
-	^ self userData at: #withIndeterminate ifAbsentPut: [  false ]
+	^ self explicitRequirement 
 ]
 
 { #category : 't - checkable  - protocol' }
 TToCheckable >> withIndeterminate: aBoolean [
 
-	self userData at: #withIndeterminate put: aBoolean
+	self explicitRequirement 
 ]

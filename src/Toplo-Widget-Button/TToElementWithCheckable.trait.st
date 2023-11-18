@@ -1,9 +1,16 @@
 Trait {
 	#name : 'TToElementWithCheckable',
-	#category : 'Toplo-Widget-Button-Checkable',
+	#category : 'Toplo-Widget-Button-Core',
 	#package : 'Toplo-Widget-Button',
-	#tag : 'Checkable'
+	#tag : 'Core'
 }
+
+{ #category : 't - checkable - group' }
+TToElementWithCheckable >> addToGroup: aGroup [
+
+	aGroup add: self checkable.
+	self checkable group: aGroup 
+]
 
 { #category : 't - checkable  - protocol' }
 TToElementWithCheckable >> check [
@@ -30,6 +37,18 @@ TToElementWithCheckable >> checked: aBooleanOrNil [
 	self checkable checked: aBooleanOrNil
 ]
 
+{ #category : 't - checkable - group' }
+TToElementWithCheckable >> group [
+
+	^ self checkable group
+]
+
+{ #category : 't - checkable - group' }
+TToElementWithCheckable >> group: aCheckableGroup [
+
+	self checkable group: aCheckableGroup
+]
+
 { #category : 't - checkable - testing' }
 TToElementWithCheckable >> isChecked [
 
@@ -54,6 +73,12 @@ TToElementWithCheckable >> isUnchecked [
 TToElementWithCheckable >> privateChecked: aBooleanOrNil [
 
 	self checkable privateChecked: aBooleanOrNil
+]
+
+{ #category : 't - checkable - group' }
+TToElementWithCheckable >> removeFromGroup [
+
+	self checkable removeFromGroup
 ]
 
 { #category : 't - checkable  - protocol' }

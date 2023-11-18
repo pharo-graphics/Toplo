@@ -1,8 +1,8 @@
 Class {
 	#name : 'ToCheckMenuItem',
 	#superclass : 'ToMenuItem',
-	#traits : 'TToElementWithCheckable + TToElementWithCheckbox',
-	#classTraits : 'TToElementWithCheckable classTrait + TToElementWithCheckbox classTrait',
+	#traits : 'TToElementWithCheckable',
+	#classTraits : 'TToElementWithCheckable classTrait',
 	#category : 'Toplo-Widget-Menu-Basic',
 	#package : 'Toplo-Widget-Menu',
 	#tag : 'Basic'
@@ -20,14 +20,20 @@ ToCheckMenuItem >> checkable [
 	^ self button
 ]
 
-{ #category : 't - checkbox - accessing' }
-ToCheckMenuItem >> checkbox [
-
-	^ self button
-]
-
 { #category : 'testing' }
 ToCheckMenuItem >> closeOnMouseEvent [
 
 	^ false
+]
+
+{ #category : 't - element with checkable group' }
+ToCheckMenuItem >> rawGroup [
+
+	^ self button rawGroup
+]
+
+{ #category : 't - element with checkable group' }
+ToCheckMenuItem >> rawGroup: aGroup [
+
+	self button rawGroup: aGroup
 ]

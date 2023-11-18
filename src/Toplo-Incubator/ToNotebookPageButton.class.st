@@ -5,7 +5,9 @@ Class {
 	#classTraits : 'TToCheckable classTrait',
 	#instVars : [
 		'page',
-		'labelElement'
+		'labelElement',
+		'checked',
+		'group'
 	],
 	#category : 'Toplo-Incubator',
 	#package : 'Toplo-Incubator'
@@ -102,8 +104,44 @@ ToNotebookPageButton >> page: aPage [
 	page := aPage
 ]
 
+{ #category : 't - checkable - accessing' }
+ToNotebookPageButton >> rawChecked [
+
+	^ checked ifNil: [ checked := false ]
+]
+
+{ #category : 't - checkable - accessing' }
+ToNotebookPageButton >> rawChecked: aBoolean [
+
+	checked := aBoolean
+]
+
+{ #category : 't - checkable - group' }
+ToNotebookPageButton >> rawGroup [
+
+	^ group
+]
+
+{ #category : 't - checkable - group' }
+ToNotebookPageButton >> rawGroup: aGroup [
+
+	group := aGroup
+]
+
 { #category : 'skin' }
 ToNotebookPageButton >> selectedBackground [
 
 	^ Color fromHexString: #ffd666
+]
+
+{ #category : 't - checkable  - protocol' }
+ToNotebookPageButton >> withIndeterminate [
+
+	^ false
+]
+
+{ #category : 't - checkable  - protocol' }
+ToNotebookPageButton >> withIndeterminate: aBoolean [
+
+	Error signal: 'Indeterminate not allowed'
 ]

@@ -3210,12 +3210,12 @@ ToSandBox class >> example_withCheckBox [
 		 , event uncheckedButtons asString) traceCr ].
 	center checked: true.
 
-	grp add: right.
-	grp add: center.
-	grp add: left.
+	grp add: right button.
+	grp add: center button.
+	grp add: left button.
 
 	menu addSeparator.
-	menu addAllItems: (grp buttons).
+	menu addAllItems: {right. center. left  }.
 .
 	menu addSeparator.
 

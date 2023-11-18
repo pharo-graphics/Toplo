@@ -5,40 +5,52 @@ Trait {
 	#tag : 'Core'
 }
 
-{ #category : 't - clickable - click behavior' }
+{ #category : 't - clickable' }
 TToClickable >> clickEventClass [
 
-	^ self userData at: #clickEventClass ifAbsentPut: [ BlPrimaryClickEvent ]
+	^ self rawClickEventClass ifNil: [ BlPrimaryClickEvent ]
 ]
 
-{ #category : 't - clickable - click behavior' }
+{ #category : 't - clickable' }
 TToClickable >> clickEventClass: anEventClass [
 
-	^ self userData at: #clickEventClass put: anEventClass
+	self rawClickEventClass: anEventClass 
 ]
 
-{ #category : 't - clickable - click behavior' }
+{ #category : 't - clickable' }
 TToClickable >> clickHandler [
 
-	^ self userData at: #clickHandler ifAbsent: [  ]
+	^ self explicitRequirement 
 ]
 
-{ #category : 't - clickable - click behavior' }
+{ #category : 't - clickable' }
 TToClickable >> clickHandler: anEventHandler [
 
-	self userData at: #clickHandler put: anEventHandler
+	self explicitRequirement 
 ]
 
-{ #category : 't - clickable - click behavior' }
+{ #category : 't - clickable' }
+TToClickable >> rawClickEventClass [
+
+	^ self explicitRequirement 
+]
+
+{ #category : 't - clickable' }
+TToClickable >> rawClickEventClass: anEventClass [
+
+	self explicitRequirement 
+]
+
+{ #category : 't - clickable' }
 TToClickable >> removeClickHandler [
 	"remove the click action"
 
 	self clickHandler ifNotNil: [ :ch |
 		self removeEventHandler: ch.
-		self userData removeKey: #clickHandler ]
+		self clickHandler: nil ]
 ]
 
-{ #category : 't - clickable - click behavior' }
+{ #category : 't - clickable' }
 TToClickable >> whenClickedDo: aBlock [
 	"Inform that the widget has been clicked."
 

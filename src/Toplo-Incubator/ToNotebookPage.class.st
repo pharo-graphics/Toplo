@@ -1,8 +1,8 @@
 Class {
 	#name : 'ToNotebookPage',
 	#superclass : 'Object',
-	#traits : 'TToElementWithCheckable + TToElementWithCheckableGroup',
-	#classTraits : 'TToElementWithCheckable classTrait + TToElementWithCheckableGroup classTrait',
+	#traits : 'TToElementWithCheckable',
+	#classTraits : 'TToElementWithCheckable classTrait',
 	#instVars : [
 		'bodyBuilder',
 		'closeable',

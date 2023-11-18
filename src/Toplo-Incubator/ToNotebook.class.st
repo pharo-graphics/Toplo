@@ -16,9 +16,9 @@ ToNotebook >> addPage: aPage [
 	pages add: aPage.
 	header addChild: aPage button.
 	aPage button
-		when: ToCheckableChangedEvent
+		when: BlClickEvent
 		do: [ :event | self selectedPage: aPage ].
-	pages buttons size = 1 ifTrue: [ aPage selected: true ]
+	pages buttons size = 1 ifTrue: [ self selectPage: aPage ]
 ]
 
 { #category : 'adding-removing' }
@@ -70,7 +70,7 @@ ToNotebook >> initialize [
 	self matchParent.
 	header := ToPane horizontal.
 	self addChild: header as: #header.
-	pages := ToCheckableGroup new.
+	pages := ToCheckableGroup new
 ]
 
 { #category : 'private' }
@@ -109,36 +109,26 @@ ToNotebook >> removeBodyElement [
 { #category : 'adding-removing' }
 ToNotebook >> removePage: aPage [
 
-	| removedPageSelectedIndex selectedPageIndexes |
-	self flag: 'to be fixed'.
-	removedPageSelectedIndex := aPage isSelected
-		                            ifTrue: [ self indexOfPage: aPage ]
-		                            ifFalse: [ 0 ].
+	| selectedPageIndex |
 
+	selectedPageIndex := aPage isSelected
+		                     ifTrue: [ self indexOfPage: aPage ]
+		                     ifFalse: [ 0 ].
+	"aPage selected: false."
 	pages remove: aPage.
+	
 	pages buttons ifEmpty: [ ^ self ].
-
-	selectedPageIndexes := Array streamContents: [ :str |
-		                       pages buttons withIndexDo: [ :p :idx |
-			                       p isSelected ifTrue: [ str nextPut: idx ] ] ].
-
-	selectedPageIndexes do: [ :idx | "(pages buttons size < removedPageSelectedIndex
+	selectedPageIndex isZero ifTrue: [ ^ self ].
+	self selectPage: (pages buttons size < selectedPageIndex
 		 ifTrue: [ pages buttons last ]
-		 ifFalse: [ pages buttons at: removedPageSelectedIndex ]) selected: true"
-		(pages buttons at: idx) selected: true.
-		self selectedPage: (pages buttons at: idx) ]
+		 ifFalse: [ pages buttons at: selectedPageIndex ]) 
 ]
 
 { #category : 'private' }
 ToNotebook >> selectPage: aPage [
 
-	aPage selected: true
-]
-
-{ #category : 'accessing' }
-ToNotebook >> selectedPage [
-
-	^ selectedPage
+	aPage selected: true.
+	self selectedPage: aPage
 ]
 
 { #category : 'private' }

@@ -45,24 +45,22 @@ TToCheckable >> checked [
 ]
 
 { #category : 't - checkable - accessing' }
-TToCheckable >> checked: aBooleanOrIndeterminate [
-	" change the checkable state. nil means indeterminate. "
+TToCheckable >> checked: arg1 [
 
-	| request prev |
-	aBooleanOrIndeterminate ifNil: [
-		Error signal: 'nil not allowed' ].
-	(aBooleanOrIndeterminate isSymbol and: [ self withIndeterminate not ]) ifTrue: [
-		Error signal: 'a symbol not allowed except when indeterminate is explicitly allowed ' ].
-	prev := self rawChecked.
-	request := ToCheckableCheckRequest new
-		           checked: aBooleanOrIndeterminate;
-		           yourself.
-	" give a chance to the button group to verify and change the result of the checking"
-	self dispatchEvent: request.
-	" update with the result that has been eventually changed by the group according to its strategy"
-	self privateChecked: request checked.
-	prev = self checked ifTrue: [ ^ self ].
-	" dispatch an event usable by group as it is dispatched only once for all buttons of a group "
+	| tmp1 tmp2 tmp4 |
+	arg1 ifNil: [ Error signal: 'nil not allowed' ] ifNotNil: [ arg1 ].
+	(arg1 isSymbol and: [ self withIndeterminate not ]) ifTrue: [
+		Error signal:
+			'a symbol not allowed except when indeterminate is explicitly allowed ' ].
+	tmp2 := self rawChecked.
+	tmp4 := ToCheckableCheckRequest new.
+	tmp4 checked: arg1.
+	tmp1 := tmp4 yourself.
+	self
+		dispatchEvent: tmp1;
+		privateChecked: tmp1 checked.
+	tmp2 = self checked ifTrue: [ ^ self ].
+	nil.
 	self dispatchEvent: ToCheckableChangedEvent new
 ]
 
@@ -123,7 +121,7 @@ TToCheckable >> privateChecked: aBooleanOrIndeterminate [
 	prev := self checked.
 	self rawChecked: request.
 	" finally dispatch the event used to generate the state for the skin "
-	self dispatchEvent: (ToCheckableCheckedEvent current: request previous: prev)
+	self dispatchEvent: (ToCheckableCheckEvent current: request previous: prev)
 ]
 
 { #category : 't - checkable - accessing' }

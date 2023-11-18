@@ -8,23 +8,15 @@ Class {
 { #category : 'tabs' }
 ToNotebookExamples class >> example_closeableTabs [
 
-	| space notebook |
-	space := BlSpace new.
-	notebook := ToNotebook new.
-	notebook inspect.
-	space root addChild: notebook.
-
+	| nb but |
+	nb := ToNotebook new.
 	(Color wheel: 5) withIndexDo: [ :eachColor :index |
-		| aPage |
-		aPage := notebook
-			addPageEntitled: 'Page ', index asString
-			withBody: (BlElement new
-				background: eachColor;
-				yourself).
-		aPage closeable: true ].
-
-
-	space show
+		but := ToNotebookButton new.
+		but closable: true.
+		but labelText: 'Button ' , index asString.
+		but paneBuilder: [ :pane :theNoteBook | pane background: eachColor ].
+		nb addButton: but ].
+	nb openInSpace
 ]
 
 { #category : 'tabs' }
@@ -34,21 +26,23 @@ ToNotebookExamples class >> example_tabsWith2Pages [
 	aNotebook := ToNotebook new.
 
 	redCount := 0.
-	redPage := aNotebook addPageEntitled: 'Red' withBodyBuilder: [
-		           redCount := redCount + 1.
-		           BlTextElement new
-			           text:
-				           (redCount asRopedText foreground: Color red darker);
-			           yourself ].
+	redPage := aNotebook
+		           addButtonWithText: 'RED'
+		           withPaneBuilder: [ :pane :theNotebook |
+			           redCount := redCount + 1.
+			           pane addChild: (ToLabel
+					            text:
+						            (redCount asRopedText foreground: Color red darker)) ].
 
 	greenCount := 0.
-	greenPage := aNotebook addPageEntitled: 'Green' withBodyBuilder: [
-		             greenCount := greenCount + 1.
-		             BlTextElement new
-			             text:
-				             (greenCount asRopedText foreground:
-						              Color green muchDarker);
-			             yourself ].
+	greenPage := aNotebook
+		             addButtonWithText: 'GREEN'
+		             withPaneBuilder: [ :pane :theNotebook |
+			             greenCount := greenCount + 1.
+			             pane addChild: (ToLabel
+					              text:
+						              (greenCount asRopedText foreground:
+								               Color green darker) ) ].
 
 	aNotebook openInSpace
 ]

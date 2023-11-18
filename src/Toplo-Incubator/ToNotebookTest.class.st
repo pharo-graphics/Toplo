@@ -65,7 +65,7 @@ ToNotebookTest >> testCloseLastPage [
 		withBody: (BlElement new
 			background: Color red;
 			yourself).
-	redPage closeable: true.
+	redPage closable: true.
 	
 	self waitTestingSpaces.
 	self assert: (notebook pages buttons includes: redPage).
@@ -86,7 +86,7 @@ ToNotebookTest >> testCloseSelectedPage [
 		withBody: (BlElement new
 			background: Color red;
 			yourself).
-	redPage closeable: true.
+	redPage closable: true.
 
 	greenPage := notebook
 		addPageEntitled: 'Green'
@@ -114,7 +114,7 @@ ToNotebookTest >> testCloseUnselectedPage [
 		withBody: (BlElement new
 			background: Color red;
 			yourself).
-	redPage closeable: true.
+	redPage closable: true.
 	redPage selected: true.
 
 	greenPage := notebook
@@ -122,7 +122,7 @@ ToNotebookTest >> testCloseUnselectedPage [
 		withBody: (BlElement new
 			background: Color green;
 			yourself).
-	greenPage closeable: true.
+	greenPage closable: true.
 	
 	self waitTestingSpaces.
 	self assert: (notebook pages buttons includes: redPage).

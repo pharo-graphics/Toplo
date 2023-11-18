@@ -163,7 +163,7 @@ ToMiniBrowser >> initialize [
 	classesPane addChild: classesButtonPane.
 
 	sideToggle checked: self classSide.
-	sideToggle when: ToCheckableCheckedEvent do: [ :event |
+	sideToggle when: ToCheckableCheckEvent do: [ :event |
 		classes infinite dispatchSelectionChangedAfter: [ classSide := event current. classes deselectAll. ] ].
 
 	protocols := ToListElement new id: #protocols; nodeBuilder: [  :node :holder | 

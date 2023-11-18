@@ -108,7 +108,7 @@ ToSkinStateGenerator >> enqueueTransientStateFromLookEvent: aLookEvent [
 ToSkinStateGenerator >> eventsToHandle [
 
 	^ {
-		  ToCheckableCheckedEvent.
+		  ToCheckableCheckEvent.
 		  BlBaseDragEvent.
 		  ToEnablementChangedEvent.
 		  BlKeyboardEvent.

@@ -1542,7 +1542,7 @@ ToSandBox class >> example_ToButtonSkins [
 		((ToLabel text: 'Disabled')).
 	enablementSwitcher check.
 	enablementSwitcher
-		when: ToCheckableCheckedEvent
+		when: ToCheckableCheckEvent
 		do: [ :event |
 		allButtons do: [ :b | b enabled: event target isChecked ] ].
 
@@ -1604,14 +1604,14 @@ ToSandBox class >> example_ToButtonSkins [
 	directionSwitcher := ToToggleButton new labelText: 'Icon first'; beLabelFirst; yourself.
 	directionSwitcher check.
 	directionSwitcher
-		when: ToCheckableCheckedEvent
+		when: ToCheckableCheckEvent
 		do: [ :event | allButtons do: [ :b | b iconFirst: event target isChecked ] ].
 	topBar addChild: directionSwitcher.
 	
 	orientationSwitcher := ToToggleButton new labelText: 'Horizontal'; beLabelFirst; yourself.
 	orientationSwitcher check.
 	orientationSwitcher
-		when: ToCheckableCheckedEvent
+		when: ToCheckableCheckEvent
 		do: [ :event | allButtons do: [ :b | b horizontal: event target isChecked ] ].
 	topBar addChild: orientationSwitcher.
 	
@@ -1619,7 +1619,7 @@ ToSandBox class >> example_ToButtonSkins [
 		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
 
 	circleShapingRadio 
-		when: ToCheckableCheckedEvent 
+		when: ToCheckableCheckEvent 
 		do: [ :event | 
 			event current 
 				ifTrue: [ directionSwitcher enabled: false. orientationSwitcher  enabled: false] 
@@ -1773,7 +1773,7 @@ ToSandBox class >> example_ToLabelWithHeadingSkin [
 	themeSwitcher switchBarOnElement: ((ToLabel text: ('Dark' asRopedText foreground: Color white)) ).
 	themeSwitcher switchBarOffElement: ((ToLabel text: ('Light' asRopedText foreground: Color black)) ).
 	themeSwitcher 
-		when: ToCheckableCheckedEvent 
+		when: ToCheckableCheckEvent 
 		do: [ :event | space toTheme: ( event current ifTrue: [ToBeeDarkTheme new] ifFalse: [ ToBeeLightTheme new]) ].
 	
 	space root addChild: themeSwitcher.
@@ -1939,7 +1939,7 @@ ToSandBox class >> example_menu0 [
 	themeSwitcher switchBarOnElement: ((ToLabel text: ('Dark' asRopedText foreground: Color white)) ).
 	themeSwitcher switchBarOffElement: ((ToLabel text: ('Light' asRopedText foreground: Color black)) ).
 	themeSwitcher 
-		when: ToCheckableCheckedEvent 
+		when: ToCheckableCheckEvent 
 		do: [ :event | space toTheme: ( event current ifTrue: [ToBeeDarkTheme new] ifFalse: [ ToBeeLightTheme new]) ].
 	
 	themeSwitcher checked: true.
@@ -3121,7 +3121,7 @@ ToSandBox class >> example_toggle3 [
 	th switchButtonOnElement: (ToImage inner: (Smalltalk ui icons iconNamed: #glamorousAccept)).
 	th switchButtonOffElement: (ToImage inner: (Smalltalk ui icons iconNamed: #glamorousClose)).
 
-	th when: ToCheckableCheckedEvent do: [ :event | event current traceCr ].
+	th when: ToCheckableCheckEvent do: [ :event | event current traceCr ].
 	th checked: true.
 	sp := th openInSpace.
 	sp root background: Color veryLightGray

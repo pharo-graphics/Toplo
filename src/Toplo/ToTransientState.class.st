@@ -1,15 +1,13 @@
 Class {
-	#name : 'ToTransientState',
-	#superclass : 'ToElementState',
+	#name : #ToTransientState,
+	#superclass : #ToElementState,
 	#instVars : [
 		'lookEvent'
 	],
-	#category : 'Toplo-Core-States',
-	#package : 'Toplo',
-	#tag : 'Core-States'
+	#category : 'Toplo-Core-States'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTransientState class >> lookEvent: aLookEvent [
 
 	^ self new
@@ -17,26 +15,26 @@ ToTransientState class >> lookEvent: aLookEvent [
 		  yourself
 ]
 
-{ #category : 'look event sending' }
+{ #category : #'look event sending' }
 ToTransientState >> applyOn: anElement [
 
 	lookEvent ifNil: [ Error signal: 'An explicit state must provide its own look event instance' ].
 	super applyOn: anElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTransientState >> lookEvent [
 
 	^ lookEvent 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTransientState >> lookEvent: aLookEvent [
 
 	lookEvent := aLookEvent
 ]
 
-{ #category : 'look event sending' }
+{ #category : #'look event sending' }
 ToTransientState >> onAppliedOn: anElement [
 
 	super onAppliedOn: anElement.
@@ -45,7 +43,7 @@ ToTransientState >> onAppliedOn: anElement [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToTransientState >> sourceEvent [
 
 	^ self lookEvent sourceEvent

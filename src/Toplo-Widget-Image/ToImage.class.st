@@ -1,20 +1,18 @@
 Class {
-	#name : 'ToImage',
-	#superclass : 'ToElement',
+	#name : #ToImage,
+	#superclass : #ToElement,
 	#instVars : [
 		'innerImage'
 	],
-	#category : 'Toplo-Widget-Image-Core',
-	#package : 'Toplo-Widget-Image',
-	#tag : 'Core'
+	#category : 'Toplo-Widget-Image-Core'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToImage class >> inner: anImage [
 	^ self new innerImage: anImage
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToImage >> defaultInnerImage [
 
 	^ BlElement new
@@ -23,20 +21,20 @@ ToImage >> defaultInnerImage [
 		  yourself
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToImage >> defaultLayout [ 
 
 	^ BlLinearLayout horizontal
 ]
 
-{ #category : 'form accessing' }
+{ #category : #'form accessing' }
 ToImage >> errorInnerFormNotFound [
 	"Raise a NotFound exception."
 
 	NotFound signalFor: self
 ]
 
-{ #category : 'form accessing' }
+{ #category : #'form accessing' }
 ToImage >> formColor: aColor [
 
 	self
@@ -46,11 +44,11 @@ ToImage >> formColor: aColor [
 		ifNone: [  ]
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToImage >> hasInnerImage [ ^ self innerImage id asSymbol ~= #emptyImage
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToImage >> initialize [
 
 	super initialize.
@@ -61,20 +59,20 @@ ToImage >> initialize [
 	self preventChildrenMouseEvents
 ]
 
-{ #category : 'form accessing' }
+{ #category : #'form accessing' }
 ToImage >> innerForm [
 	"Convenience method that returns nil if the request makes no sense or if there is no form."
 
 	^ self innerImage background formImage
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToImage >> innerImage [
 
 	^ innerImage
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToImage >> innerImage: anImage [
 
 	| element |
@@ -88,7 +86,7 @@ ToImage >> innerImage: anImage [
 	self requestNewSkin 
 ]
 
-{ #category : 'form accessing' }
+{ #category : #'form accessing' }
 ToImage >> withInnerFormDo: aBlock [
 	" aBlock is evaluated with the form as arguments 
 	if the result of #innerForm is not nil "
@@ -96,7 +94,7 @@ ToImage >> withInnerFormDo: aBlock [
 	self withInnerFormDo: aBlock ifNone: [ self errorInnerFormNotFound ]
 ]
 
-{ #category : 'form accessing' }
+{ #category : #'form accessing' }
 ToImage >> withInnerFormDo: aBlock ifNone: aNoneBlock [
 	" aBlock is evaluated with the form as arguments 
 	if the result of #innerForm is not nil, else, aNoneBlock is evaluated "

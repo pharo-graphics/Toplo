@@ -1,11 +1,10 @@
 Class {
-	#name : 'ToNotebookHeaderOnLeft',
-	#superclass : 'ToNotebookHeaderPositioning',
-	#category : 'Toplo-Incubator',
-	#package : 'Toplo-Incubator'
+	#name : #ToNotebookHeaderOnLeft,
+	#superclass : #ToNotebookHeaderPositioning,
+	#category : 'Toplo-Incubator'
 }
 
-{ #category : 'hook' }
+{ #category : #hook }
 ToNotebookHeaderOnLeft >> applyOn: aNotebook [
 
 	aNotebook beHorizontal.
@@ -16,7 +15,7 @@ ToNotebookHeaderOnLeft >> applyOn: aNotebook [
 	aNotebook buttons do: [ :b | b geometry: self buttonGeometry ].
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToNotebookHeaderOnLeft >> buttonGeometry [
 
 	^ BlRoundedRectangleGeometry cornerRadii: (BlCornerRadii new

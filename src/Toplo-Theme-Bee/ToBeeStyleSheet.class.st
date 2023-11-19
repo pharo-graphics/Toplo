@@ -1,29 +1,40 @@
 Class {
-	#name : 'ToBeeStyleSheet',
-	#superclass : 'ToStyleSheet',
-	#category : 'Toplo-Theme-Bee',
-	#package : 'Toplo-Theme-Bee'
+	#name : #ToBeeStyleSheet,
+	#superclass : #ToStyleSheet,
+	#category : #'Toplo-Theme-Bee'
 }
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> buttonRules [
-	<script:'self new buttonRules inspect'>
+	<script:'(ToStyleSheetPrinter styleRules: (self new buttonRules)) asCSSLikeString inspect'>
 
 	^ Array streamContents: [ :str |
+		
+		"Style common for all buttons"
+		str nextPutAll: self commonButtonRules.
+
+		"Available button skins"
+		str nextPutAll: self defaultButtonRules.
 		str nextPutAll: self primaryButtonRules.
-		  str nextPutAll: self commonButtonRules.
-		  str nextPutAll: self defaultButtonRules.
-		  str nextPutAll: self primaryButtonRules.
-		  str nextPutAll: self textButtonRules.
-		  str nextPutAll: self linkButtonRules.
-		  str nextPutAll: self checkableButtonRules.
-		  str nextPutAll: self checkableInnerImageRules.
-		  str nextPutAll: self circleButtonRules.
-		  str nextPutAll: self verticalButtonRules.
-		  str nextPutAll: self toggleButtonRules ]
+		"str nextPutAll: self textButtonRules.
+		str nextPutAll: self linkButtonRules."
+
+		"str nextPutAll: self checkableButtonRules.
+		str nextPutAll: self checkableInnerImageRules."
+
+		"str nextPutAll: self circleButtonRules.
+		str nextPutAll: self verticalButtonRules."
+
+		"str nextPutAll: self toggleButtonRules" ]
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'syntactic sugar' }
+ToBeeStyleSheet >> buttonSelector [
+
+	^ ToButton asElementSelector
+]
+
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> checkableButtonRules [
 	" checkbox family "
 
@@ -158,7 +169,7 @@ ToBeeStyleSheet >> checkableButtonRules [
 						   c horizontal matchParent ] ] ] ]) }
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> checkableInnerImageRules [
 	" checkbox family "
 
@@ -274,7 +285,7 @@ ToBeeStyleSheet >> checkableInnerImageRules [
 				   with: [ :e | e stampValue: #'color-error' ] ]) }
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> circleButtonRules [
 
 
@@ -322,9 +333,45 @@ ToBeeStyleSheet >> circleButtonRules [
 					   with: [ :e | BlLinearLayout new alignCenter ] ]) }
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> commonButtonRules [
-	<script:'(ToStyleSheetPrinter styleRules: (self new commonButtonRules)) inspect'>
+	<script:'(ToStyleSheetPrinter styleRules: (self new commonButtonRules)) asCSSLikeString inspect'>
+
+	^ { 
+		self buttonSelector style:[ :sr | 
+			
+			"Mouse cursor management"
+			sr
+				when: ToHoveredLookEvent
+				write: (self property: #mouseCursor)
+				with: [ :e | e isEnabled ifTrue: [ BlCursor hand ] ifFalse: [ BlCursor notAllowed ] ].
+			sr
+				when: ToLeavedLookEvent
+				write: (self property: #mouseCursor)
+				with: nil.	
+					
+			"Geometry management"
+			sr 
+				write: (self property: #geometry) 
+				with: [ :e | BlRoundedRectangleGeometry cornerRadius: (e stampValue: 'border-radius') ].
+				
+			"Size management"
+			sr 
+				write: (self property: #padding) 
+			   with: [ :e |
+					   BlInsets
+						   top: (e stampValue: #'padding-XS') / 2
+						   left: (e stampValue: #'padding-content-H') / 2
+						   bottom: (e stampValue: #'padding-XS') / 2
+						   right: (e stampValue: #'padding-content-H') / 2 ].
+
+		]  
+	}
+]
+
+{ #category : #'accessing rules  -button' }
+ToBeeStyleSheet >> commonButtonRulesOld [
+	<script:'(ToStyleSheetPrinter styleRules: (self new commonButtonRulesOld)) asCSSLikeString inspect'>
 
 	^ {
 		  (#button asElementSelector style: [ :sr |
@@ -469,8 +516,78 @@ ToBeeStyleSheet >> commonButtonRules [
 					   c linear horizontal alignCenter ] ] ]) }
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> defaultButtonRules [
+	<script:'(ToStyleSheetPrinter styleRules: (self new defaultButtonRules)) asCSSLikeString inspect'>
+	
+	^ {
+		"Button background and border"
+		self buttonSelector style:[ :sr |
+			  
+				"Background"
+				sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'background-color')
+				   with: [ :e | e stampValue: #'color-bg-container' ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'background-color')
+				   with: [ :e | e stampValue: #'color-bg-container-disabled' ].
+				
+				"Border"
+				sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-border'); width: (e stampValue: #'line-width') ].
+				 sr
+				   when: ToLeavedLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-border'); width: (e stampValue: #'line-width') ]
+				   "animation: (ToPropertyColorTransitionAnimation new duration: 50 milliSeconds)".
+					self flag:'pla: make a border-color shortcut'.
+					self flag:'pla: create a border animation'.
+				sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-border-disabled'); width: (e stampValue: #'line-width') ].
+				sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-primary-hover'); width: (e stampValue: #'line-width') ]
+				   "animation: (ToPropertyColorTransitionAnimation new duration: 50 milliSeconds)".
+			   sr
+				   when: ToPressedLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-primary-pressed'); width: (e stampValue: #'line-width') ]
+					"animation: (ToPropertyColorTransitionAnimation new duration: 200 milliSeconds)".
+					
+				"Label"
+				sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'button-label-text-foreground')
+				   with: [ :e | e stampValue: #'color-text' ].
+				sr
+				   when: ToLeavedLookEvent
+				   write: (self property: #'button-label-text-foreground')
+				   with: [ :e | e stampValue: #'color-text' ]. 
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'button-label-text-foreground')
+				   with: [ :e | e stampValue: #'color-text-disabled' ].
+			   sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #'button-label-text-foreground')
+				   with: [ :e | (e stampValue: #'color-primary') ]. 
+			   sr
+				   when: ToPressedLookEvent
+				   write: (self property: #'button-label-text-foreground')
+				   with: [ :e | (e stampValue: #'color-primary-pressed') ]. 				
+		].
+	} 
+]
+
+{ #category : #'accessing rules  -button' }
+ToBeeStyleSheet >> defaultButtonRulesOld [
 	" ToButton default rule including icon and label "
 
 	" default button (class #button) "
@@ -624,7 +741,7 @@ ToBeeStyleSheet >> defaultButtonRules [
 				   with: [ :e | e borderBuilder dashArray: (e stampValue: #'dash-array') ] ]) } 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToBeeStyleSheet >> defaultStyleRules [
 
 	^ Array streamContents: [ :str |
@@ -634,7 +751,7 @@ ToBeeStyleSheet >> defaultStyleRules [
 		str nextPutAll: self labelRules ]
 ]
 
-{ #category : 'accessing rules  - label' }
+{ #category : #'accessing rules  - label' }
 ToBeeStyleSheet >> labelRules [
 	" label  rules"
 
@@ -741,10 +858,11 @@ ToBeeStyleSheet >> labelRules [
 						   yourself ] ]) }
 ]
 
-{ #category : 'accessing rules - labeled icon' }
+{ #category : #'accessing rules - labeled icon' }
 ToBeeStyleSheet >> labeledIconRules [
+	<script:'(ToStyleSheetPrinter styleRules: (self new labeledIconRules)) asCSSLikeString inspect'>
 
-	^ { (self any parent: (self type: ToLabeledIcon)) style: [ :sr | 
+	^ { (self any parent: (ToLabeledIcon asElementSelector)) style: [ :sr | 
 		" any child of a ToLabeledIcon is centered vertically and horizontally ( icon, label and filler) "
 		   sr write: (self property: #'layout-constraints') with: [ :e |
 			   [ :c | 
@@ -752,7 +870,7 @@ ToBeeStyleSheet >> labeledIconRules [
 			   c linear horizontal alignCenter ] ] ] }
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> linkButtonRules [
 	" ToButton link "
 
@@ -857,9 +975,83 @@ ToBeeStyleSheet >> linkButtonRules [
 				   with: [ :e | (e stampValue: #'color-error-pressed') ] ]) }
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> primaryButtonRules [
-	" ToButton primary "
+	<script:'(ToStyleSheetPrinter styleRules: (self new primaryButtonRules)) asCSSLikeString inspect'>
+
+	^ {
+		"Button background and border"
+		((self buttonSelector + #primary) style: [ :sr |
+			   
+				"Background"
+				sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'background-color')
+				   with: [ :e | (e stampValue: #'color-primary') ].
+				 sr
+				   when: ToLeavedLookEvent
+				   write: (self property: #'background-color')
+				   with: [ :e | (e stampValue: #'color-primary') ]
+				   animation: (ToPropertyColorTransitionAnimation new duration: 50 milliSeconds).
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'background-color')
+				   with: [ :e | e stampValue: #'color-bg-container-disabled' ].
+			   sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #'background-color')
+				   with: [ :e | (e stampValue: #'color-primary-hover') ]
+				   animation: (ToPropertyColorTransitionAnimation new duration: 50 milliSeconds).
+			   sr
+				   when: ToPressedLookEvent
+				   write: (self property: #'background-color')
+				   with: [ :e | (e stampValue: #'color-primary-pressed') ]
+					animation: (ToPropertyColorTransitionAnimation new duration: 200 milliSeconds).
+
+				"Border"
+			   sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e | e borderBuilder paint: (Color transparent); width: (e stampValue: #'line-width') ].
+				sr
+				   when: ToLeavedLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e | e borderBuilder paint: (Color transparent); width: (e stampValue: #'line-width') ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-border-disabled'); width: (e stampValue: #'line-width') ].
+				self flag:'pla: make a border-color shortcut'.
+				
+				"Label"
+				sr
+				   when: ToInitialLookEvent
+				   write: (self property: #'button-label-text-foreground')
+				   with: [ :e | (e stampValue: #'color-text-light-solid') ].
+				sr
+				   when: ToLeavedLookEvent
+				   write: (self property: #'button-label-text-foreground')
+				   with: [ :e | (e stampValue: #'color-text-light-solid') ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'button-label-text-foreground')
+				   with: [ :e | e stampValue: #'color-text-disabled' ].
+			   sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #'button-label-text-foreground')
+				   with: [ :e | (e stampValue: #'color-text-light-solid') ].
+			   sr
+				   when: ToPressedLookEvent
+				   write: (self property: #'button-label-text-foreground')
+				   with: [ :e | (e stampValue: #'color-text-light-solid') ].
+			]
+		).
+	}
+]
+
+{ #category : #'accessing rules  -button' }
+ToBeeStyleSheet >> primaryButtonRulesOld [
+	<script:'(ToStyleSheetPrinter styleRules: (self new primaryButtonRulesOld)) asCSSLikeString inspect'>
 
 	^ {
 		  (#button asElementSelector + #primary style: [ :sr |
@@ -976,7 +1168,7 @@ ToBeeStyleSheet >> primaryButtonRules [
 				   with: [ :e | (e stampValue: #'color-text-light-solid') ] ]) }
 ]
 
-{ #category : 'accessing rules  - pane' }
+{ #category : #'accessing rules  - pane' }
 ToBeeStyleSheet >> rootPaneRules [
 
 	^ { ((self id: #'Space root') style: [ :sr |
@@ -985,7 +1177,7 @@ ToBeeStyleSheet >> rootPaneRules [
 			   with: [ :e | e stampValue: #'background-color' ] ]) }
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> textButtonRules [
 	" ToButton text "
 
@@ -1099,7 +1291,7 @@ ToBeeStyleSheet >> textButtonRules [
 				   with: [ :e | e stampValue: #'color-bg-container-disabled' ] ]) }
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> toggleButtonRules [
 
 	^ { ( #(#button #'toggle-button') asElementSelector style: [ :sr |
@@ -1121,7 +1313,7 @@ ToBeeStyleSheet >> toggleButtonRules [
 				] ) }
 ]
 
-{ #category : 'accessing rules  -button' }
+{ #category : #'accessing rules  -button' }
 ToBeeStyleSheet >> verticalButtonRules [
 	"  
 	'button:hover' rule: [ :e | e mouseCursor: BlCursor hand. e background: Color gray. e font-size: 18 ].

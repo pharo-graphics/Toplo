@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToSkinInstaller',
-	#superclass : 'Object',
-	#category : 'Toplo-Core-Theme',
-	#package : 'Toplo',
-	#tag : 'Core-Theme'
+	#name : #ToSkinInstaller,
+	#superclass : #Object,
+	#category : 'Toplo-Core-Theme'
 }
 
-{ #category : 'hook' }
+{ #category : #hook }
 ToSkinInstaller >> applyOn: anElement [
 	" if there is an installed skin -> nothing to do "
 
@@ -16,7 +14,7 @@ ToSkinInstaller >> applyOn: anElement [
 	anElement skinInstaller: nil
 ]
 
-{ #category : 'hook' }
+{ #category : #hook }
 ToSkinInstaller >> installSkinIn: anElement [
 
 	self

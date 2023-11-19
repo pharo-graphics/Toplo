@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToListInfiniteElementEventHandler',
-	#superclass : 'BlCustomEventHandler',
-	#category : 'Toplo-Widget-List-infinite',
-	#package : 'Toplo-Widget-List',
-	#tag : 'infinite'
+	#name : #ToListInfiniteElementEventHandler,
+	#superclass : #BlCustomEventHandler,
+	#category : 'Toplo-Widget-List-infinite'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToListInfiniteElementEventHandler >> blurEvent: aBlurEvent [
 
 	| target |
@@ -14,7 +12,7 @@ ToListInfiniteElementEventHandler >> blurEvent: aBlurEvent [
 	target border: target defaultBlurBorder
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToListInfiniteElementEventHandler >> doubleClickEvent: anEvent [
 
 	| target |
@@ -22,13 +20,13 @@ ToListInfiniteElementEventHandler >> doubleClickEvent: anEvent [
 	target primarySelection dispatchStrongSelectionChangedTo: target 
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToListInfiniteElementEventHandler >> elementScrolledEvent: anEvent [
 
 	anEvent currentTarget spaceDo: [ :sp | sp mouseProcessor handleLastMouseMove ]
 ]
 
-{ #category : 'api - accessing' }
+{ #category : #'api - accessing' }
 ToListInfiniteElementEventHandler >> eventsToHandle [
 
 	^ {
@@ -38,7 +36,7 @@ ToListInfiniteElementEventHandler >> eventsToHandle [
 		  BlFocusEvent }
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToListInfiniteElementEventHandler >> focusEvent: aFocusEvent [
 
 	| target |
@@ -46,7 +44,7 @@ ToListInfiniteElementEventHandler >> focusEvent: aFocusEvent [
 	target border: target defaultFocusBorder
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToListInfiniteElementEventHandler >> focusInEvent: aFocusEvent [
 
 	| target |

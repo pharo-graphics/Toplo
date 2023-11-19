@@ -1,6 +1,6 @@
 Class {
-	#name : 'ToToggleSwitchBarElement',
-	#superclass : 'ToElement',
+	#name : #ToToggleSwitchBarElement,
+	#superclass : #ToElement,
 	#instVars : [
 		'sideWidth',
 		'offContainer',
@@ -10,31 +10,29 @@ Class {
 		'checked',
 		'innerButton'
 	],
-	#category : 'Toplo-Widget-Button-Toggle',
-	#package : 'Toplo-Widget-Button',
-	#tag : 'Toggle'
+	#category : 'Toplo-Widget-Button-Toggle'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToToggleSwitchBarElement >> checked [
 
 	^ checked
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToToggleSwitchBarElement >> checked: aBoolean [
 
 	checked := aBoolean.
 	self innerButton checked: aBoolean
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToToggleSwitchBarElement >> defaultSideWidth [
 
 	^ 8
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToToggleSwitchBarElement >> initialize [
 
 	super initialize.
@@ -50,13 +48,13 @@ ToToggleSwitchBarElement >> initialize [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToToggleSwitchBarElement >> innerButton [
 
 	^ innerButton
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToToggleSwitchBarElement >> innerButton: anElement [
 
 	anElement ifNotNil: [
@@ -65,25 +63,25 @@ ToToggleSwitchBarElement >> innerButton: anElement [
 	self updateChildren
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToToggleSwitchBarElement >> isChecked [ 
 
 	^ self checked
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToToggleSwitchBarElement >> offContainer [
 
 	^ offContainer
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToToggleSwitchBarElement >> offElement [
 
 	^ offElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToToggleSwitchBarElement >> offElement: anElement [
 
 	anElement ifNotNil: [
@@ -94,19 +92,19 @@ ToToggleSwitchBarElement >> offElement: anElement [
 	self updateChildren
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToToggleSwitchBarElement >> onContainer [
 
 	^ onContainer
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToToggleSwitchBarElement >> onElement [
 
 	^ onElement
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToToggleSwitchBarElement >> onElement: anElement [
 
 	anElement ifNotNil: [
@@ -117,19 +115,19 @@ ToToggleSwitchBarElement >> onElement: anElement [
 	self updateChildren
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToToggleSwitchBarElement >> sideWidth [
 
 	^ sideWidth
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToToggleSwitchBarElement >> sideWidth: anInteger [
 
 	sideWidth := anInteger
 ]
 
-{ #category : 'requirements' }
+{ #category : #requirements }
 ToToggleSwitchBarElement >> switchOff [
 
 	self innerButton switchOff.
@@ -137,7 +135,7 @@ ToToggleSwitchBarElement >> switchOff [
 	offContainer visibility: BlVisibility visible
 ]
 
-{ #category : 'requirements' }
+{ #category : #requirements }
 ToToggleSwitchBarElement >> switchOn [ 
 
 	self innerButton switchOn.
@@ -145,7 +143,7 @@ ToToggleSwitchBarElement >> switchOn [
 	onContainer visibility: BlVisibility visible
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToToggleSwitchBarElement >> updateChildren [
 
 	| offw onw |

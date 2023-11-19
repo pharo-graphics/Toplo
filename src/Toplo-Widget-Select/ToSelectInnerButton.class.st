@@ -1,11 +1,10 @@
 Class {
-	#name : 'ToSelectInnerButton',
-	#superclass : 'ToMenu',
-	#category : 'Toplo-Widget-Select',
-	#package : 'Toplo-Widget-Select'
+	#name : #ToSelectInnerButton,
+	#superclass : #ToMenu,
+	#category : 'Toplo-Widget-Select'
 }
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToSelectInnerButton >> installRawStyle [
 
 	super installRawStyle.

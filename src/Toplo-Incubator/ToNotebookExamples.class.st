@@ -1,11 +1,10 @@
 Class {
-	#name : 'ToNotebookExamples',
-	#superclass : 'Object',
-	#category : 'Toplo-Incubator',
-	#package : 'Toplo-Incubator'
+	#name : #ToNotebookExamples,
+	#superclass : #Object,
+	#category : 'Toplo-Incubator'
 }
 
-{ #category : 'tabs' }
+{ #category : #tabs }
 ToNotebookExamples class >> example_closeableTabs [
 
 	| nb but |
@@ -134,7 +133,7 @@ ToNotebookExamples class >> example_preservingPane [
 	nb openInSpace
 ]
 
-{ #category : 'tabs' }
+{ #category : #tabs }
 ToNotebookExamples class >> example_tabsWith2Pages [
 
 	| aNotebook redPage greenPage redCount greenCount |
@@ -163,6 +162,6 @@ ToNotebookExamples class >> example_tabsWith2Pages [
 	aNotebook openInSpace
 ]
 
-{ #category : 'see class side' }
+{ #category : #'see class side' }
 ToNotebookExamples >> seeClassSide [ 
 ]

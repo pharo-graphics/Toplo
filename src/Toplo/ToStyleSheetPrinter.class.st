@@ -1,37 +1,35 @@
 Class {
-	#name : 'ToStyleSheetPrinter',
-	#superclass : 'Object',
+	#name : #ToStyleSheetPrinter,
+	#superclass : #Object,
 	#instVars : [
 		'styleSheet',
 		'toElement'
 	],
-	#category : 'Toplo-Core-StyleSheet',
-	#package : 'Toplo',
-	#tag : 'Core-StyleSheet'
+	#category : 'Toplo-Core-StyleSheet'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetPrinter class >> styleRules: aStyleRuleList [
 	"Initialize the printer with a style rules list to print"
 
 	^ self new styleSheet: (ToStyleSheet new addAllStyleRules: aStyleRuleList)
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetPrinter class >> styleSheet: aToStyleSheet [
 	"Initialize the printer with a style sheet to print"
 
 	^ self new styleSheet: aToStyleSheet
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetPrinter class >> toElement: aToElement [
 	"Initialize the printer with a ToElement"
 
 	^ self new toElement: aToElement
 ]
 
-{ #category : 'converting' }
+{ #category : #converting }
 ToStyleSheetPrinter >> asCSSLikeString [
 
 	| stream |
@@ -40,7 +38,7 @@ ToStyleSheetPrinter >> asCSSLikeString [
 	^ stream contents
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ToStyleSheetPrinter >> getSelectorCSS: aToElementSelector hangSelector: aSelector [
 	"https://www.w3schools.com/cssref/css_selectors.php"
 	
@@ -70,10 +68,11 @@ ToStyleSheetPrinter >> getSelectorCSS: aToElementSelector hangSelector: aSelecto
 		^ stream contents
 	].
 
-	"Type selector => element"
+	"Type selector => element, can be inherit with element(inherit)"
 	aToElementSelector class = ToTypeSelector ifTrue:[
 		aSelector ifNotNil:[ stream space ].
 		stream nextPutAll: aToElementSelector type asString.
+		aToElementSelector exact ifFalse:[stream nextPutAll: '(inherit)'].
 		^ stream contents
 	].
 
@@ -92,12 +91,16 @@ ToStyleSheetPrinter >> getSelectorCSS: aToElementSelector hangSelector: aSelecto
 		^ stream contents
 	].	
 	
-	"Parent selector => parent > child"
+	"Parent selector => parent > child, width depth=2 : parent > * > child"
 	aToElementSelector class = ToParentSelector ifTrue:[ | parentSelector childSelector |
 		parentSelector := self getSelectorCSS: aToElementSelector right hangSelector: nil.
 		childSelector := self getSelectorCSS: aToElementSelector left hangSelector: nil.
 		stream nextPutAll: parentSelector.
-		stream nextPutAll: ' > '.
+		(1 to: aToElementSelector depth) do:[ :i | 
+			stream nextPutAll: ' > '.	
+		] separatedBy: [
+			stream nextPutAll: ' * '.
+		].
 		stream nextPutAll: childSelector.
 		^ stream contents
 	].	
@@ -125,7 +128,7 @@ ToStyleSheetPrinter >> getSelectorCSS: aToElementSelector hangSelector: aSelecto
 	^ stream contents
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 ToStyleSheetPrinter >> printOn: aStream [
 
 	self toElement ifNil: [ 
@@ -144,7 +147,7 @@ ToStyleSheetPrinter >> printOn: aStream [
 	
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 ToStyleSheetPrinter >> printStyleRuleCSS: aStyleRule on: aStream hangSelector: aSelector [
 		
 	"print selector"
@@ -171,7 +174,7 @@ ToStyleSheetPrinter >> printStyleRuleCSS: aStyleRule on: aStream hangSelector: a
 	].
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 ToStyleSheetPrinter >> printStyleSheetCSSLikeOn: aStream [
 
 	self styleRules do:[ :rule |
@@ -179,7 +182,7 @@ ToStyleSheetPrinter >> printStyleSheetCSSLikeOn: aStream [
 	].
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetPrinter >> styleRules [
 
 	^ self styleSheet ifNotNil: [ :e | e styleRules ] ifNil: [ 
@@ -195,25 +198,25 @@ ToStyleSheetPrinter >> styleRules [
 		  
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetPrinter >> styleSheet [
 
 	^ styleSheet
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetPrinter >> styleSheet: anObject [
 
 	styleSheet := anObject
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetPrinter >> toElement [
 
 	^ toElement ifNotNil: [ :e | e first ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToStyleSheetPrinter >> toElement: aToElement [
 
 	aToElement ~= toElement ifFalse: [ ^ self ].

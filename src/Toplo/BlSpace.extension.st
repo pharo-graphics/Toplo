@@ -1,67 +1,67 @@
-Extension { #name : 'BlSpace' }
+Extension { #name : #BlSpace }
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 BlSpace >> allowSkinPhases [
 
 	^ self skinPhasesManager allowSkinPhases
 ]
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 BlSpace >> allowSkinPhases: aBoolean [
 
 	" useful for testing. tests may want to run phases programmatically"
 	self skinPhasesManager allowSkinPhases: aBoolean
 ]
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 BlSpace >> applyAllSkinInstallers [
 
 	self root applySkinInstallerRecursively
 ]
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 BlSpace >> applyAllStyles [
 	
 	self root applyStylesRecursively
 ]
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 BlSpace >> installSkinPhases [
 
 	self skinPhasesManager onInstalledIn: self
 ]
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 BlSpace >> skinPhasesManager [
 
 	^ self userData at: #skinPhasesManager ifAbsentPut: [ ToSpaceSkinPhasesManager new ]
 ]
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 BlSpace >> startSkinPhases [
 
 	self skinPhasesManager startSkinPhasesIn: self
 ]
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 BlSpace >> stopSkinPhases [
 
 	self skinPhasesManager stopSkinPhasesIn: self
 ]
 
-{ #category : '*Toplo-LookAndFeel' }
+{ #category : #'*Toplo-LookAndFeel' }
 BlSpace >> toTheme [
 
 	^ self root toTheme
 ]
 
-{ #category : '*Toplo-LookAndFeel' }
+{ #category : #'*Toplo-LookAndFeel' }
 BlSpace >> toTheme: aTheme [
 
 	self root localToTheme: aTheme
 ]
 
-{ #category : '*Toplo' }
+{ #category : #'*Toplo' }
 BlSpace >> uninstallSkinPhases [
 
 	self skinPhasesManager onUninstalledIn: self

@@ -2,24 +2,22 @@
 A ToSkinnableSlotTest is a test class for testing the behavior of ToSkinnableSlot
 "
 Class {
-	#name : 'ToSkinnableSlotTest',
-	#superclass : 'ToParameterizedHostTest',
+	#name : #ToSkinnableSlotTest,
+	#superclass : #ToParameterizedHostTest,
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core-Slots',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Slots'
+	#category : 'Toplo-Tests-Core-Slots'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 ToSkinnableSlotTest >> setUp [ 
 
 	super setUp.
 	space := self newTestingSpace 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinnableSlotTest >> testNew [
 
 	| e |
@@ -33,7 +31,7 @@ ToSkinnableSlotTest >> testNew [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinnableSlotTest >> testWriteTo [
 
 	| e |
@@ -54,7 +52,7 @@ ToSkinnableSlotTest >> testWriteTo [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinnableSlotTest >> testWriteTo2 [
 
 	| e |
@@ -70,7 +68,7 @@ ToSkinnableSlotTest >> testWriteTo2 [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinnableSlotTest >> testWriteTo3 [
 
 	| e |
@@ -86,7 +84,7 @@ ToSkinnableSlotTest >> testWriteTo3 [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinnableSlotTest >> testWriteTo4 [
 
 	| e |
@@ -135,7 +133,7 @@ ToSkinnableSlotTest >> testWriteTo4 [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToSkinnableSlotTest >> testWriteToWithSpaceAddChildBefore [
 
 	| e |

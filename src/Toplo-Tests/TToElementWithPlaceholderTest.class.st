@@ -2,17 +2,15 @@
 A TToElementWithPlaceholderTest is a test class for testing the behavior of TToElementWithPlaceholder
 "
 Class {
-	#name : 'TToElementWithPlaceholderTest',
-	#superclass : 'ToParameterizedHostTest',
+	#name : #TToElementWithPlaceholderTest,
+	#superclass : #ToParameterizedHostTest,
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core',
-	#package : 'Toplo-Tests',
-	#tag : 'Core'
+	#category : 'Toplo-Tests-Core'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 TToElementWithPlaceholderTest >> setUp [ 
 
 	super setUp.
@@ -20,13 +18,13 @@ TToElementWithPlaceholderTest >> setUp [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithPlaceholderTest >> testCurrentPlaceholderLayer [
 
 	self testHidePlaceholder 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithPlaceholderTest >> testHidePlaceholder [
 
 	| e ph |
@@ -42,7 +40,7 @@ TToElementWithPlaceholderTest >> testHidePlaceholder [
 	self assert: ph parent isNil.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithPlaceholderTest >> testIsShowingPlaceholder [
 
 	| e |
@@ -58,7 +56,7 @@ TToElementWithPlaceholderTest >> testIsShowingPlaceholder [
 	self deny: e isShowingPlaceholder.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithPlaceholderTest >> testPlaceholderBuilder [
 
 	| e builder |
@@ -78,7 +76,7 @@ TToElementWithPlaceholderTest >> testPlaceholderBuilder [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithPlaceholderTest >> testPlaceholderClass [
 
 	| e |
@@ -86,7 +84,7 @@ TToElementWithPlaceholderTest >> testPlaceholderClass [
 	self assert: (e placeholderClass inheritsFrom: BlOverlayElement)
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithPlaceholderTest >> testPlaceholderElevation [
 
 	| e |
@@ -94,7 +92,7 @@ TToElementWithPlaceholderTest >> testPlaceholderElevation [
 	self assert: e placeholderElevation equals: e elevation
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithPlaceholderTest >> testPlaceholderText [
 
 	| e ph |
@@ -106,7 +104,7 @@ TToElementWithPlaceholderTest >> testPlaceholderText [
 	self assert: (ph children first text asString) equals: 'Enter text...'.
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithPlaceholderTest >> testPlaceholderText2 [
 
 	| e ph builder |
@@ -128,7 +126,7 @@ TToElementWithPlaceholderTest >> testPlaceholderText2 [
 	self assert: (e userData includesKey: #placeholderBuilder) not
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithPlaceholderTest >> testRawPlaceholderBuilder [
 
 	| e |
@@ -142,7 +140,7 @@ TToElementWithPlaceholderTest >> testRawPlaceholderBuilder [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithPlaceholderTest >> testShowPlaceholder [
 
 	| e ph |

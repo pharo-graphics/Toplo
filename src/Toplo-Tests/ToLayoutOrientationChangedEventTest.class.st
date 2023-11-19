@@ -2,14 +2,12 @@
 A ToLayoutOrientationChangedEventTest is a test class for testing the behavior of ToLayoutOrientationChangedEvent
 "
 Class {
-	#name : 'ToLayoutOrientationChangedEventTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core',
-	#package : 'Toplo-Tests',
-	#tag : 'Core'
+	#name : #ToLayoutOrientationChangedEventTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Tests-Core'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 ToLayoutOrientationChangedEventTest >> test [
 
 	| li cpt bcpt |

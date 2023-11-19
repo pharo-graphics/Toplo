@@ -1,14 +1,12 @@
 Class {
-	#name : 'ToLabelMonoLineInnerElement',
-	#superclass : 'BlAttributedTextElement',
+	#name : #ToLabelMonoLineInnerElement,
+	#superclass : #BlAttributedTextElement,
 	#traits : 'TToLabelInnerElement + TBlLayoutResizable',
 	#classTraits : 'TToLabelInnerElement classTrait + TBlLayoutResizable classTrait',
-	#category : 'Toplo-Widget-Album-Label',
-	#package : 'Toplo-Widget-Album',
-	#tag : 'Label'
+	#category : 'Toplo-Widget-Album-Label'
 }
 
-{ #category : 'api - editor' }
+{ #category : #'api - editor' }
 ToLabelMonoLineInnerElement >> editorShortcutsIn: aLabel [
 
 	^ { (BlShortcutWithAction new
@@ -26,7 +24,7 @@ ToLabelMonoLineInnerElement >> editorShortcutsIn: aLabel [
 		 }
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToLabelMonoLineInnerElement >> initialize [ 
 
 	super initialize.
@@ -36,7 +34,7 @@ ToLabelMonoLineInnerElement >> initialize [
 	self withoutSkin.
 ]
 
-{ #category : 'api - editor' }
+{ #category : #'api - editor' }
 ToLabelMonoLineInnerElement >> newEditorIn: aLabel [
 
 	| ed listener |
@@ -47,7 +45,7 @@ ToLabelMonoLineInnerElement >> newEditorIn: aLabel [
 	^ ed
 ]
 
-{ #category : 't - resizeable' }
+{ #category : #'t - resizeable' }
 ToLabelMonoLineInnerElement >> resizableConstraintsDo: aBlock [
 	"Perform aBlock with my constraints as argument.
 	Note: After evaluation I request a layout update!
@@ -63,20 +61,20 @@ ToLabelMonoLineInnerElement >> resizableConstraintsDo: aBlock [
 	self constraintsDo: aBlock
 ]
 
-{ #category : 'api - text accessing' }
+{ #category : #'api - text accessing' }
 ToLabelMonoLineInnerElement >> text [
 
 	^ super text
 ]
 
-{ #category : 'api - text accessing' }
+{ #category : #'api - text accessing' }
 ToLabelMonoLineInnerElement >> text: aText [
 
 	super text: aText.
 	self forceLocalLayout 
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToLabelMonoLineInnerElement >> textChanged [
 
 	super textChanged.

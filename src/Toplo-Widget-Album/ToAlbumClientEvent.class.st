@@ -1,21 +1,19 @@
 Class {
-	#name : 'ToAlbumClientEvent',
-	#superclass : 'BlEvent',
+	#name : #ToAlbumClientEvent,
+	#superclass : #BlEvent,
 	#instVars : [
 		'client'
 	],
-	#category : 'Toplo-Widget-Album-TextPane',
-	#package : 'Toplo-Widget-Album',
-	#tag : 'TextPane'
+	#category : 'Toplo-Widget-Album-TextPane'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAlbumClientEvent >> client [
 
 	^ client
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAlbumClientEvent >> client: anObject [
 
 	client := anObject

@@ -1,8 +1,8 @@
-Extension { #name : 'ToButton' }
+Extension { #name : #ToButton }
 
-{ #category : '*Toplo-Theme-Bee' }
+{ #category : #'*Toplo-Theme-Bee' }
 ToButton >> installBeeStyle [ 
 
 	super installBeeStyle.
-	self withStamp: #button
+	"self withStamp: #button"
 ]

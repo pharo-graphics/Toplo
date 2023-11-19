@@ -1,6 +1,5 @@
 Class {
-	#name : 'ToSelectSelectedIndexChangeEvent',
-	#superclass : 'BlEvent',
-	#category : 'Toplo-Widget-Select',
-	#package : 'Toplo-Widget-Select'
+	#name : #ToSelectSelectedIndexChangeEvent,
+	#superclass : #BlEvent,
+	#category : 'Toplo-Widget-Select'
 }

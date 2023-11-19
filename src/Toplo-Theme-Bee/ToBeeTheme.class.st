@@ -49,24 +49,23 @@ paddingXS	Control the extra small padding of the element.	number	8
 
 "
 Class {
-	#name : 'ToBeeTheme',
-	#superclass : 'ToStyleSheetTheme',
+	#name : #ToBeeTheme,
+	#superclass : #ToStyleSheetTheme,
 	#instVars : [
 		'colorPrimary',
 		'colorPrimaryHover',
 		'colorPrimaryPressed'
 	],
-	#category : 'Toplo-Theme-Bee',
-	#package : 'Toplo-Theme-Bee'
+	#category : 'Toplo-Theme-Bee'
 }
 
-{ #category : 'constructor' }
+{ #category : #constructor }
 ToBeeTheme class >> blue [
 
 	^ ToBeeLightTheme new
 ]
 
-{ #category : 'customization' }
+{ #category : #customization }
 ToBeeTheme class >> colorPrimary: aColor [
 
 	| theme |
@@ -75,7 +74,7 @@ ToBeeTheme class >> colorPrimary: aColor [
 	^theme
 ]
 
-{ #category : 'customization' }
+{ #category : #customization }
 ToBeeTheme class >> colorPrimaryDark: aColor [
 
 	| theme |
@@ -84,37 +83,37 @@ ToBeeTheme class >> colorPrimaryDark: aColor [
 	^theme
 ]
 
-{ #category : 'constructor' }
+{ #category : #constructor }
 ToBeeTheme class >> darkBlue [
 
 	^ ToBeeDarkTheme new
 ]
 
-{ #category : 'constructor' }
+{ #category : #constructor }
 ToBeeTheme class >> darkGreen [
 
 	^self colorPrimaryDark: (Color fromHexString: '#00B96B')
 ]
 
-{ #category : 'constructor' }
+{ #category : #constructor }
 ToBeeTheme class >> darkPink [
 
 	^self colorPrimaryDark: (Color fromHexString: '#ED4192')
 ]
 
-{ #category : 'constructor' }
+{ #category : #constructor }
 ToBeeTheme class >> green [
 
 	^self colorPrimary: (Color fromHexString: '#00B96B')
 ]
 
-{ #category : 'constructor' }
+{ #category : #constructor }
 ToBeeTheme class >> pink [
 
 	^self colorPrimary: (Color fromHexString: '#ED4192')
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToBeeTheme >> checkboxBlankImage [
 
 	| bar im |
@@ -126,13 +125,13 @@ ToBeeTheme >> checkboxBlankImage [
 	^ im
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToBeeTheme >> colorPrimary [
 
 	^ colorPrimary ifNil: [ self colorPrimary: self defaultColorPrimary. colorPrimary  ]
 ]
 
-{ #category : 'settings' }
+{ #category : #settings }
 ToBeeTheme >> colorPrimary: aColor [
 	"Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics"
 
@@ -144,136 +143,70 @@ ToBeeTheme >> colorPrimary: aColor [
 		ss defaultStampList: self defaultStampList ]
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToBeeTheme >> colorPrimaryHover [
 
 	^ colorPrimaryHover
 ]
 
-{ #category : 'colors' }
+{ #category : #colors }
 ToBeeTheme >> colorPrimaryPressed [
 
 	^ colorPrimaryPressed
 ]
 
-{ #category : 'settings' }
+{ #category : #settings }
 ToBeeTheme >> defaultColorPrimary [
 
 	^ Color fromHexString: '#1677ff'
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToBeeTheme >> defaultElementStyleStampsFor: anElement [ 
 
 	^ anElement defaultBeeStyleStamps
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToBeeTheme >> defaultStampList [
 	" skin managing need a list of unique stamps . "
 
 	^ {
 		  (ToStyleStamp name: #'background-color' value: Color white).
+		
 		  (ToStyleStamp name: #'border-radius' value: 6).
 		  (ToStyleStamp name: #'border-radius-LG' value: 8).
 		  (ToStyleStamp name: #'border-radius-SM' value: 4).
-		  (ToStyleStamp
-			   name: #'checkbox-image-builder'
-			   value: [ self checkboxBlankImage ] ).
-		  (ToStyleStamp
-			   name: #'color-bg-container'
-			   value: (Color fromHexString: '#ffffff')).
-		  (ToStyleStamp name: #'color-bg-container-disabled' value: (Color
-				    r: 0.0
-				    g: 0.0
-				    b: 0.0
-				    alpha: 0.04)).
-		  (ToStyleStamp name: #'color-bg-text-active' value: (Color
-				    r: 0.0
-				    g: 0.0
-				    b: 0.0
-				    alpha: 0.15)).
-		  (ToStyleStamp name: #'color-bg-text-hover' value: (Color
-				    r: 0
-				    g: 0
-				    b: 0
-				    alpha: 0.2)).
-		  (ToStyleStamp
-			   name: #'color-border'
-			   value: (Color fromHexString: '#d9d9d9')).
-		  (ToStyleStamp
-			   name: #'color-border-checkable'
-			   value: Color transparent).
-		  (ToStyleStamp name: #'color-border-disabled' value: (Color
-				    r: 0.0
-				    g: 0.0
-				    b: 0.0
-				    alpha: 0.2)).
-		  (ToStyleStamp
-			   name: #'color-error-bg'
-			   value: (Color fromHexString: '#fff2f0')).
-		  (ToStyleStamp
-			   name: #'color-error-hover'
-			   value: (Color fromHexString: '#ff7875')).
-		  (ToStyleStamp
-			   name: #'color-error-pressed'
-			   value: (Color fromHexString: '#e75c5d')).
-		  (ToStyleStamp
-			   name: #'color-error'
-			   value: (Color fromHexString: '#ff4d4f')).
-		  (ToStyleStamp name: #'color-image-disabled' value: (Color
-				    r: 0.7
-				    g: 0.7
-				    b: 0.7
-				    alpha: 1.0)).
-		  (ToStyleStamp
-			   name: #'color-image-light-solid'
-			   value: (Color fromHexString: '#ffffff')).
-		  (ToStyleStamp
-			   name: #'color-text-light-solid'
-			   value: (Color fromHexString: '#ffffff')).
-		  (ToStyleStamp
-			   name: #'color-link'
-			   value: (Color fromHexString: '#1677ff')).
-		  (ToStyleStamp
-			   name: #'color-link-active'
-			   value: (Color fromHexString: '#0958d9')).
-		  (ToStyleStamp
-			   name: #'color-link-hover'
-			   value: (Color fromHexString: '#69b1ff')).
+		  (ToStyleStamp name: #'checkbox-image-builder' value: [ self checkboxBlankImage ] ).
+		  (ToStyleStamp name: #'color-bg-container' value: (Color fromHexString: '#ffffff')).
+		  (ToStyleStamp name: #'color-bg-container-disabled' value: (Color black alpha: 0.04)).
+		  (ToStyleStamp name: #'color-bg-text-active' value: (Color black alpha: 0.15)).
+		  (ToStyleStamp name: #'color-bg-text-hover' value: (Color black alpha: 0.2)).
+		  (ToStyleStamp name: #'color-border' value: (Color fromHexString: '#d9d9d9')).
+		  (ToStyleStamp name: #'color-border-checkable' value: Color transparent).
+		  (ToStyleStamp name: #'color-border-disabled' value: (Color black alpha: 0.2)).
+		  (ToStyleStamp name: #'color-error-bg' value: (Color fromHexString: '#fff2f0')).
+		  (ToStyleStamp name: #'color-error-hover' value: (Color fromHexString: '#ff7875')).
+		  (ToStyleStamp name: #'color-error-pressed' value: (Color fromHexString: '#e75c5d')).
+		  (ToStyleStamp name: #'color-error' value: (Color fromHexString: '#ff4d4f')).
+		  (ToStyleStamp name: #'color-image-disabled' value: (Color black alpha: 1.0)).
+		  (ToStyleStamp name: #'color-image-light-solid' value: (Color fromHexString: '#ffffff')).
+
+		  (ToStyleStamp name: #'color-link' value: (Color fromHexString: '#1677ff')).
+		  (ToStyleStamp name: #'color-link-active' value: (Color fromHexString: '#0958d9')).
+		  (ToStyleStamp name: #'color-link-hover' value: (Color fromHexString: '#69b1ff')).
 		  (ToStyleStamp name: #'color-primary' value: self colorPrimary).
-		  (ToStyleStamp
-			   name: #'color-primary-pressed'
-			   value: self colorPrimaryPressed).
-		  (ToStyleStamp
-			   name: #'color-primary-hover'
-			   value: self colorPrimaryHover).
-		  (ToStyleStamp
-			   name: #'color-success'
-			   value: (Color fromHexString: '#52c41a')).
-		  (ToStyleStamp
-			   name: #'color-warning'
-			   value: (Color fromHexString: '#faad14')).
-		  (ToStyleStamp
-			   name: #'color-text'
-			   value: (Color r: 0.0 g: 0.0 b: 0.0)).
-		  (ToStyleStamp
-			   name: #'color-Text-description'
-			   value: (Color r: 0.0 g: 0.0 b: 0.45)).
-		  (ToStyleStamp
-			   name: #'color-text-disabled'
-			   value: (Color r: 0.0 g: 0.0 b: 0.25)).
-		  (ToStyleStamp name: #'color-text-heading' value: (Color
-				    r: 0.0
-				    g: 0.0
-				    b: 0.0
-				    alpha: 0.88)).
-		  (ToStyleStamp
-			   name: #'color-text-light-solid'
-			   value: (Color fromHexString: '#ffffff')).
-		  (ToStyleStamp
-			   name: #'color-text-secondary'
-			   value: (Color black alpha: 0.45)).
+		  (ToStyleStamp name: #'color-primary-pressed' value: self colorPrimaryPressed).
+		  (ToStyleStamp name: #'color-primary-hover' value: self colorPrimaryHover).
+		  (ToStyleStamp name: #'color-success' value: (Color fromHexString: '#52c41a')).
+		  (ToStyleStamp name: #'color-warning' value: (Color fromHexString: '#faad14')).
+		
+		  (ToStyleStamp name: #'color-text' value: (Color black)).
+		  (ToStyleStamp name: #'color-text-description' value: (Color black alpha: 0.45)).
+		  (ToStyleStamp name: #'color-text-disabled' value: (Color black alpha: 0.25)).
+		  (ToStyleStamp name: #'color-text-heading' value: (Color black alpha: 0.88)).
+		  (ToStyleStamp name: #'color-text-light-solid' value: (Color fromHexString: '#ffffff')).
+		  (ToStyleStamp name: #'color-text-secondary' value: (Color black alpha: 0.45)).
 
 		  (ToStyleStamp name: #'control-height' value: 32).
 		  (ToStyleStamp name: #'control-height-LG' value: 40).
@@ -307,20 +240,20 @@ ToBeeTheme >> defaultStampList [
 		  (ToStyleStamp name: #'padding-XS' value: 8) }
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToBeeTheme >> defaultStyleSheet [ 
 
 	^ ToBeeStyleSheet new
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToBeeTheme >> initialize [ 
 
 	super initialize.
 	self styleSheet: self defaultStyleSheet 
 ]
 
-{ #category : 'writer selecting' }
+{ #category : #'writer selecting' }
 ToBeeTheme >> skinClassFor: anElement [
 
 	^ ToBeeSkin

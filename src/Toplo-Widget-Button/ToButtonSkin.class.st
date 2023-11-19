@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToButtonSkin',
-	#superclass : 'ToGeneralButtonSkin',
-	#category : 'Toplo-Widget-Button-Core',
-	#package : 'Toplo-Widget-Button',
-	#tag : 'Core'
+	#name : #ToButtonSkin,
+	#superclass : #ToGeneralButtonSkin,
+	#category : 'Toplo-Widget-Button-Core'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToButtonSkin >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
@@ -17,7 +15,7 @@ ToButtonSkin >> disabledLookEvent: anEvent [
 			lab textChanged ] ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToButtonSkin >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
@@ -28,7 +26,7 @@ ToButtonSkin >> enabledLookEvent: anEvent [
 			lab textChanged ] ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToButtonSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
@@ -39,7 +37,7 @@ ToButtonSkin >> hoveredLookEvent: anEvent [
 			lab textChanged ] ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToButtonSkin >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
@@ -50,7 +48,7 @@ ToButtonSkin >> initialLookEvent: anEvent [
 			lab textChanged ] ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToButtonSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
@@ -61,7 +59,7 @@ ToButtonSkin >> leavedLookEvent: anEvent [
 			lab textChanged ] ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToButtonSkin >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.

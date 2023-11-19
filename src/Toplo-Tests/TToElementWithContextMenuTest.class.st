@@ -1,15 +1,13 @@
 Class {
-	#name : 'TToElementWithContextMenuTest',
-	#superclass : 'ToParameterizedHostTest',
+	#name : #TToElementWithContextMenuTest,
+	#superclass : #ToParameterizedHostTest,
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core',
-	#package : 'Toplo-Tests',
-	#tag : 'Core'
+	#category : 'Toplo-Tests-Core'
 }
 
-{ #category : 'running' }
+{ #category : #running }
 TToElementWithContextMenuTest >> setUp [ 
 
 	super setUp.
@@ -17,7 +15,7 @@ TToElementWithContextMenuTest >> setUp [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithContextMenuTest >> testContextMenu [
 
 	| tt e ttwin  |
@@ -38,7 +36,7 @@ TToElementWithContextMenuTest >> testContextMenu [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithContextMenuTest >> testContextMenuAddItem [
 
 	"test that context menu item are added on popup (an not on window instanciation)"
@@ -68,7 +66,7 @@ TToElementWithContextMenuTest >> testContextMenuAddItem [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithContextMenuTest >> testContextMenuBuilder [
 
 	| e b |
@@ -82,7 +80,7 @@ TToElementWithContextMenuTest >> testContextMenuBuilder [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithContextMenuTest >> testContextMenuCanPopupIfElementInSpace [
 
 	"test that context menu item are added on popup (an not on window instanciation)"
@@ -115,7 +113,7 @@ TToElementWithContextMenuTest >> testContextMenuCanPopupIfElementInSpace [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithContextMenuTest >> testContextMenuContent [
 
 	|  e ttwin |
@@ -134,7 +132,7 @@ TToElementWithContextMenuTest >> testContextMenuContent [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithContextMenuTest >> testContextMenuWindowHandler [
 
 	| e ttwin  |
@@ -155,7 +153,7 @@ TToElementWithContextMenuTest >> testContextMenuWindowHandler [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithContextMenuTest >> testCurrentContextMenu [
 
 	|  e  ttwin |
@@ -172,7 +170,7 @@ TToElementWithContextMenuTest >> testCurrentContextMenu [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithContextMenuTest >> testCurrentContextMenuWindow [
 
 	| e |
@@ -188,7 +186,7 @@ TToElementWithContextMenuTest >> testCurrentContextMenuWindow [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithContextMenuTest >> testHasContextMenu [
 
 	|  e  |
@@ -202,7 +200,7 @@ TToElementWithContextMenuTest >> testHasContextMenu [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithContextMenuTest >> testHasOpenedContextMenu [
 
 	| e |
@@ -219,7 +217,7 @@ TToElementWithContextMenuTest >> testHasOpenedContextMenu [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithContextMenuTest >> testNewContextMenuEvent [
 
 	| e |
@@ -236,7 +234,7 @@ TToElementWithContextMenuTest >> testNewContextMenuEvent [
 	^ e
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithContextMenuTest >> testRawContextMenuWindowHandler [
 
 	| e |
@@ -249,13 +247,13 @@ TToElementWithContextMenuTest >> testRawContextMenuWindowHandler [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithContextMenuTest >> testRemoveContextMenu [
 
 	self testRemoveContextMenuWindowHandler 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToElementWithContextMenuTest >> testRemoveContextMenuWindowHandler [
 
 	|  e  |

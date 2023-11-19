@@ -1,6 +1,6 @@
-Extension { #name : 'ToToggleTrackElement' }
+Extension { #name : #ToToggleTrackElement }
 
-{ #category : '*Toplo-Theme-Bee' }
+{ #category : #'*Toplo-Theme-Bee' }
 ToToggleTrackElement >> defaultBeeStyleStamps [
 
 	^ #( #'toggle-track' )

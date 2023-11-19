@@ -1,18 +1,17 @@
 Class {
-	#name : 'ToLoginPage',
-	#superclass : 'Object',
-	#category : 'Toplo-Examples',
-	#package : 'Toplo-Examples'
+	#name : #ToLoginPage,
+	#superclass : #Object,
+	#category : 'Toplo-Examples'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToLoginPage class >> open [
 
 	<script>
 	self new open
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToLoginPage >> open [
 
 	| panel loginNamePanel passwdPanel btnLogin loginLabel loginValue pwLabel pwValue groupLogin btnPanel space sep btnCancel |
@@ -116,6 +115,6 @@ ToLoginPage >> open [
 	btnCancel whenClickedDo: [ space close ]
 ]
 
-{ #category : 'see class side' }
+{ #category : #'see class side' }
 ToLoginPage >> seeClassSide [
 ]

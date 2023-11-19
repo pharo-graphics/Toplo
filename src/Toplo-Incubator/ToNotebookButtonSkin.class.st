@@ -1,11 +1,10 @@
 Class {
-	#name : 'ToNotebookButtonSkin',
-	#superclass : 'ToGeneralButtonSkin',
-	#category : 'Toplo-Incubator',
-	#package : 'Toplo-Incubator'
+	#name : #ToNotebookButtonSkin,
+	#superclass : #ToGeneralButtonSkin,
+	#category : 'Toplo-Incubator'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToNotebookButtonSkin >> checkedLookEvent: anEvent [
 
 	super checkedLookEvent: anEvent.
@@ -13,7 +12,7 @@ ToNotebookButtonSkin >> checkedLookEvent: anEvent [
 		e background: e selectedBackground ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToNotebookButtonSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
@@ -23,7 +22,7 @@ ToNotebookButtonSkin >> hoveredLookEvent: anEvent [
 			ifFalse: [ e background: e hoveredBackground ] ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToNotebookButtonSkin >> leavedLookEvent: anEvent [
 
 	anEvent elementDo: [ :e | e isChecked ifTrue: [ ^ self ] ].
@@ -31,14 +30,14 @@ ToNotebookButtonSkin >> leavedLookEvent: anEvent [
 
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToNotebookButtonSkin >> pressedLookEvent: anEvent [
 
 	anEvent elementDo: [ :e | e isChecked ifTrue: [ ^ self ] ].
 	super pressedLookEvent: anEvent
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToNotebookButtonSkin >> uncheckedLookEvent: anEvent [
 
 	super uncheckedLookEvent: anEvent.

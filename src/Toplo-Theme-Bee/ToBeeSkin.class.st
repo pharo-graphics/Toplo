@@ -1,11 +1,10 @@
 Class {
-	#name : 'ToBeeSkin',
-	#superclass : 'ToStyleSheetSkin',
-	#category : 'Toplo-Theme-Bee',
-	#package : 'Toplo-Theme-Bee'
+	#name : #ToBeeSkin,
+	#superclass : #ToStyleSheetSkin,
+	#category : 'Toplo-Theme-Bee'
 }
 
-{ #category : 'event dispatch' }
+{ #category : #'event dispatch' }
 ToBeeSkin >> dispatchSkinInitialStateRequestTo: anObject [
 
 	super dispatchSkinInitialStateRequestTo: anObject.
@@ -13,7 +12,7 @@ ToBeeSkin >> dispatchSkinInitialStateRequestTo: anObject [
 	
 ]
 
-{ #category : 'event dispatch' }
+{ #category : #'event dispatch' }
 ToBeeSkin >> dispatchSkinInstallStateRequestTo: anObject [
 
 	super dispatchSkinInstallStateRequestTo: anObject.
@@ -21,7 +20,7 @@ ToBeeSkin >> dispatchSkinInstallStateRequestTo: anObject [
 	
 ]
 
-{ #category : 'event dispatch' }
+{ #category : #'event dispatch' }
 ToBeeSkin >> dispatchSkinUninstallStateRequestTo: anObject [
 
 	super dispatchSkinUninstallStateRequestTo: anObject.

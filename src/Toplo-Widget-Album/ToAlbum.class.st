@@ -1,6 +1,6 @@
 Class {
-	#name : 'ToAlbum',
-	#superclass : 'ToPane',
+	#name : #ToAlbum,
+	#superclass : #ToPane,
 	#traits : 'TToEnableable + TAlbInfiniteDecorator + TBlAnnouncerProvider + TObservable',
 	#classTraits : 'TToEnableable classTrait + TAlbInfiniteDecorator classTrait + TBlAnnouncerProvider classTrait + TObservable classTrait',
 	#instVars : [
@@ -8,30 +8,28 @@ Class {
 		'#innerElement',
 		'#edited => ObservableSlot'
 	],
-	#category : 'Toplo-Widget-Album-TextPane',
-	#package : 'Toplo-Widget-Album',
-	#tag : 'TextPane'
+	#category : 'Toplo-Widget-Album-TextPane'
 }
 
-{ #category : 'styler configuration' }
+{ #category : #'styler configuration' }
 ToAlbum >> codeFontName [ 
 
 	^ self userData at: #codeFontName ifAbsentPut: [ self defaultCodeFontName  ]
 ]
 
-{ #category : 'styler configuration' }
+{ #category : #'styler configuration' }
 ToAlbum >> codeFontName: aFontName [
 
 	^ self userData at: #codeFontName put: aFontName
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAlbum >> defaultBackground [
 
 	^ Color white
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAlbum >> defaultBlurBorder [
 
 	^ BlBorder
@@ -39,7 +37,7 @@ ToAlbum >> defaultBlurBorder [
 			 width: self defaultBorderWidth
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAlbum >> defaultBorder [
 
 	^ BlBorder
@@ -47,39 +45,39 @@ ToAlbum >> defaultBorder [
 		  width: self defaultBorderWidth
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAlbum >> defaultBorderColor [ 
 
 	^ self theme editor borderColor
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAlbum >> defaultBorderWidth [ 
 
 	^ 1
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAlbum >> defaultCodeFontName [
 
 	^ AeFontManager defaultCodeFontFamilyName
 	
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAlbum >> defaultEditorElement [
 
 	^ AlbEditorElement new
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAlbum >> defaultEventHandler [
 
 	^ ToAlbumEventHandler new.
 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAlbum >> defaultFocusBorder [
 
 	^ BlBorder
@@ -87,32 +85,32 @@ ToAlbum >> defaultFocusBorder [
 			 width: self defaultBorderWidth
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAlbum >> defaultFocusBorderColor [
 
 	^ self theme editor focusedBorderColor
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAlbum >> defaultGeometry [
 
 	^ BlRoundedRectangleGeometry cornerRadius: 8
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAlbum >> defaultMargin [
 
 	"setup to not depend on parent layout"
 	^ BlInsets all: 0
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAlbum >> defaultOutskirts [
 
 	^ BlOutskirts inside
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAlbum >> defaultPadding [
 
 	^ BlInsets all: 3
@@ -122,32 +120,32 @@ ToAlbum >> defaultPadding [
 		  right: (3 + self defaultBorderWidth )"
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAlbum >> defaultStyler [
 
 	^ nil 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAlbum >> edited [
 
 	^ edited ifNil: [ edited := false ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAlbum >> edited: aBoolean [
 
 	edited = aBoolean ifTrue: [ ^ self ].
 	edited := aBoolean
 ]
 
-{ #category : 'client - protocol' }
+{ #category : #'client - protocol' }
 ToAlbum >> flash [
 
 	self dispatchEvent: (ToAlbumFlashRequestedEvent new client: self)
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAlbum >> initialize [
 
 	self class initializeSlots: self.
@@ -183,25 +181,25 @@ ToAlbum >> initialize [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAlbum >> innerElement [
 
 	^ self next
 ]
 
-{ #category : 't - element with placeholder' }
+{ #category : #'t - element with placeholder' }
 ToAlbum >> placeholderClass [
 
 	^ ToAlbumPlaceholder
 ]
 
-{ #category : 'transaction hook' }
+{ #category : #'transaction hook' }
 ToAlbum >> requestCancel [
 
 	self dispatchEvent: (ToAlbumCancelRequestedEvent new client: self)
 ]
 
-{ #category : 'transaction hook' }
+{ #category : #'transaction hook' }
 ToAlbum >> requestSave [
 
 	self dispatchEvent: (ToAlbumSaveRequestedEvent new
@@ -210,13 +208,13 @@ ToAlbum >> requestSave [
 			 yourself)
 ]
 
-{ #category : 'styler configuration' }
+{ #category : #'styler configuration' }
 ToAlbum >> requestTextStyle [
 
 	self announce: ToTextStyleRequested new
 ]
 
-{ #category : 'transaction hook' }
+{ #category : #'transaction hook' }
 ToAlbum >> saveResult: aBoolean [
 
 	| event |
@@ -227,13 +225,13 @@ ToAlbum >> saveResult: aBoolean [
 	self dispatchEvent: event
 ]
 
-{ #category : 'styler configuration' }
+{ #category : #'styler configuration' }
 ToAlbum >> styler [
 
 	^ self userData at: #styler ifAbsent: [  ]
 ]
 
-{ #category : 'styler configuration' }
+{ #category : #'styler configuration' }
 ToAlbum >> styler: aBlStyler [
 
 	self styler ifNotNil: [ :styler |
@@ -259,7 +257,7 @@ ToAlbum >> styler: aBlStyler [
 		to: self
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToAlbum >> text: aBlText [
 
 	aBlText == self text ifTrue: [ ^ self ].
@@ -267,13 +265,13 @@ ToAlbum >> text: aBlText [
 	self edited: false
 ]
 
-{ #category : 'transaction hook' }
+{ #category : #'transaction hook' }
 ToAlbum >> whenCancelRequestedDo: aBlock [
 
 	self when: ToAlbumCancelRequestedEvent do: aBlock
 ]
 
-{ #category : 'property change hook' }
+{ #category : #'property change hook' }
 ToAlbum >> whenEditedChangedDo: aBlock [
 
 	"set a block to perform after that the text has been chanbed, and its action performed"
@@ -281,31 +279,31 @@ ToAlbum >> whenEditedChangedDo: aBlock [
 	self property: #edited whenChangedDo: aBlock
 ]
 
-{ #category : 'transaction hook' }
+{ #category : #'transaction hook' }
 ToAlbum >> whenSaveAcceptedDo: aBlock [
 
 	self when: ToAlbumSaveAcceptedEvent do: aBlock
 ]
 
-{ #category : 'transaction hook' }
+{ #category : #'transaction hook' }
 ToAlbum >> whenSaveDeniedDo: aBlock [
 
 	self when: ToAlbumSaveDeniedEvent do: aBlock
 ]
 
-{ #category : 'transaction hook' }
+{ #category : #'transaction hook' }
 ToAlbum >> whenSaveRequestedDo: aBlock [
 
 	self when: ToAlbumSaveRequestedEvent do: aBlock
 ]
 
-{ #category : 'styler configuration' }
+{ #category : #'styler configuration' }
 ToAlbum >> whenStylerStateChanged: aBlStylerStateChangedAnnouncement [
 
 	self requestTextStyle
 ]
 
-{ #category : 'styler configuration' }
+{ #category : #'styler configuration' }
 ToAlbum >> whenStylerTextStyled: aBlStylerTextStyledAnnouncement [
 
 	| result |
@@ -317,7 +315,7 @@ ToAlbum >> whenStylerTextStyled: aBlStylerTextStyledAnnouncement [
 	self textInternalRepresentationChanged
 ]
 
-{ #category : 'styler configuration' }
+{ #category : #'styler configuration' }
 ToAlbum >> whenTextStyleRequested: aToTextStyleRequested [
 
 	self styler ifNotNil: [
@@ -327,7 +325,7 @@ ToAlbum >> whenTextStyleRequested: aToTextStyleRequested [
 				 yourself) ]
 ]
 
-{ #category : 'layers' }
+{ #category : #layers }
 ToAlbum >> withEditsFeedback [
 
 	editsFeedbackLayer ifNotNil: [ ^ self ].
@@ -336,7 +334,7 @@ ToAlbum >> withEditsFeedback [
 	self addChild: editsFeedbackLayer
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToAlbum >> withSaveCapability [
 
 	self withEditsFeedback.
@@ -353,7 +351,7 @@ ToAlbum >> withSaveCapability [
 			 description: 'Cancel changes and rollback the previous accepted source code.')
 ]
 
-{ #category : 'layers' }
+{ #category : #layers }
 ToAlbum >> withoutEditsFeedback [
 
 	editsFeedbackLayer ifNil: [ ^ self ].
@@ -364,7 +362,7 @@ ToAlbum >> withoutEditsFeedback [
 	editsFeedbackLayer := nil
 ]
 
-{ #category : 'layers' }
+{ #category : #layers }
 ToAlbum >> withoutPlaceholder [ 
 
 	self hidePlaceholder 

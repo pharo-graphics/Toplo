@@ -1,13 +1,12 @@
 Class {
-	#name : 'ToPane',
-	#superclass : 'ToElement',
+	#name : #ToPane,
+	#superclass : #ToElement,
 	#traits : 'TToOrientable + TToPasteUpPane',
 	#classTraits : 'TToOrientable classTrait + TToPasteUpPane classTrait',
-	#category : 'Toplo-Widget-Pane',
-	#package : 'Toplo-Widget-Pane'
+	#category : 'Toplo-Widget-Pane'
 }
 
-{ #category : 'factory' }
+{ #category : #factory }
 ToPane class >> horizontal [
 
 	^ self new
@@ -17,7 +16,7 @@ ToPane class >> horizontal [
 		  yourself
 ]
 
-{ #category : 'factory' }
+{ #category : #factory }
 ToPane class >> vertical [
 
 	^ self new
@@ -27,7 +26,7 @@ ToPane class >> vertical [
 		  yourself
 ]
 
-{ #category : 'dividers' }
+{ #category : #dividers }
 ToPane >> addDividerBetween: aFirstElement and: aSecondElement [
 
 	| divider |
@@ -35,7 +34,7 @@ ToPane >> addDividerBetween: aFirstElement and: aSecondElement [
 	self addChild: divider
 ]
 
-{ #category : 'dividers' }
+{ #category : #dividers }
 ToPane >> addDividers [
 
 	| lastIdx |
@@ -45,13 +44,13 @@ ToPane >> addDividers [
 			self addDividerBetween: child and: (self children at: idx + 1) ] ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToPane >> defaultLayout [
 
 	^ BlLinearLayout new 
 ]
 
-{ #category : 't - orientable - accessing' }
+{ #category : #'t - orientable - accessing' }
 ToPane >> layoutStrategy [
 
 	^ self layout
@@ -59,7 +58,7 @@ ToPane >> layoutStrategy [
 
 ]
 
-{ #category : 'layout' }
+{ #category : #layout }
 ToPane >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
@@ -67,7 +66,7 @@ ToPane >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 ]
 
-{ #category : 'dividers' }
+{ #category : #dividers }
 ToPane >> removeDividers [
 
 	self removeChildren: (self children select: [ :child |

@@ -360,10 +360,15 @@ ToBeeStyleSheet >> commonButtonRules [
 				write: (self property: #padding) 
 			   with: [ :e |
 					   BlInsets
-						   top: (e stampValue: #'padding-XS') / 2
-						   left: (e stampValue: #'padding-content-H') / 2
-						   bottom: (e stampValue: #'padding-XS') / 2
-						   right: (e stampValue: #'padding-content-H') / 2 ].
+						   top: (e stampValue: #'padding-content-V')
+						   left: (e stampValue: #'padding-content-H')
+						   bottom: (e stampValue: #'padding-content-V')
+						   right: (e stampValue: #'padding-content-H') ].
+			 sr select: (self haveExactHeight not) style: [
+				sr
+					write: (self property: #height)
+					with: [ :e | e stampValue: #'control-height' ] 
+			 ].
 
 		]  
 	}

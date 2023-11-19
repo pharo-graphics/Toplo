@@ -56,7 +56,7 @@ Class {
 		'colorPrimaryHover',
 		'colorPrimaryPressed'
 	],
-	#category : 'Toplo-Theme-Bee'
+	#category : #'Toplo-Theme-Bee'
 }
 
 { #category : #constructor }
@@ -208,10 +208,6 @@ ToBeeTheme >> defaultStampList [
 		  (ToStyleStamp name: #'color-text-light-solid' value: (Color fromHexString: '#ffffff')).
 		  (ToStyleStamp name: #'color-text-secondary' value: (Color black alpha: 0.45)).
 
-		  (ToStyleStamp name: #'control-height' value: 32).
-		  (ToStyleStamp name: #'control-height-LG' value: 40).
-		  (ToStyleStamp name: #'control-height-SM' value: 24).
-
 		  (ToStyleStamp name: #'dash-array' value: #( 3 3 )).
 
 		  "#( 'SFMono-Regular' , Consolas , 'Liberation Mono', Menlo , Courier , monospace )"
@@ -235,9 +231,17 @@ ToBeeTheme >> defaultStampList [
 		  (ToStyleStamp name: #'line-width' value: 1).
 		  (ToStyleStamp name: #'line-width-focus' value: 4).
 
-		  (ToStyleStamp name: #'padding-content-H' value: 16).
-		  (ToStyleStamp name: #'padding-content-V' value: 8).
-		  (ToStyleStamp name: #'padding-XS' value: 8) }
+			"Size, margin and padding"
+		  (ToStyleStamp name: #'control-height' value: 32).
+		  (ToStyleStamp name: #'control-height-LG' value: 40).
+		  (ToStyleStamp name: #'control-height-SM' value: 24).
+
+		  (ToStyleStamp name: #'margin-XS' value: 8). 
+
+		  (ToStyleStamp name: #'padding-content-H' value: 15).
+		  (ToStyleStamp name: #'padding-content-V' value: 4).
+		  (ToStyleStamp name: #'padding-XS' value: 8) 
+	}
 ]
 
 { #category : #initialization }

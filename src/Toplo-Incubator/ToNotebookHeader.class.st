@@ -12,7 +12,7 @@ Class {
 { #category : 'accessing' }
 ToNotebookHeader >> body [
 
-	^ self parent body
+	^ self notebook body
 ]
 
 { #category : 'accessing' }
@@ -43,14 +43,36 @@ ToNotebookHeader >> initialize [
 	buttons := OrderedCollection new
 ]
 
-{ #category : 'add-remove' }
-ToNotebookHeader >> onButonAdded: aButton [
+{ #category : 'accessing' }
+ToNotebookHeader >> notebook [
 
-	self buttons add: aButton
+	^ self parent 
 ]
 
 { #category : 'add-remove' }
-ToNotebookHeader >> onButonRemoved: aButton [
+ToNotebookHeader >> onButtonAdded: aButton [
 
-	self buttons remove: aButton
+	self group add: aButton.
+	self buttons add: aButton.
+	
+]
+
+{ #category : 'add-remove' }
+ToNotebookHeader >> onButtonRemoved: aButton [
+
+	| index nextSelected |
+	self notebook onButtonRemoved: aButton.
+	index := aButton isSelected
+		         ifTrue: [ self buttons indexOf: aButton ]
+		         ifFalse: [ 0 ].
+
+	self buttons remove: aButton.
+	self group remove: aButton.
+	index > 0 ifFalse: [ ^ self ].
+	self buttons ifEmpty: [ ^ self ].
+
+	nextSelected := self buttons size < index
+		                ifTrue: [ self buttons last ]
+		                ifFalse: [ self buttons at: index ].
+	nextSelected checked: true
 ]

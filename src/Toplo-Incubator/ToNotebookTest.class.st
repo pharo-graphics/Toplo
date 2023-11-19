@@ -20,43 +20,6 @@ ToNotebookTest >> setUp [
 ]
 
 { #category : 'tests' }
-ToNotebookTest >> testBodyFactoryIsValuedOnSelect [
-
-	| redPage greenPage redCount greenCount |
-	redCount := 0.
-	redPage := notebook
-		addPageEntitled: 'Red'
-		withBodyBuilder: [
-			redCount := redCount + 1.
-			BlTextElement new
-				text: (redCount asRopedText foreground: Color red darker);
-				yourself ].
-
-	greenCount := 0.
-	greenPage := notebook
-		addPageEntitled: 'Green'
-		withBodyBuilder: [
-			greenCount := greenCount + 1.
-			BlTextElement new
-				text: (greenCount asRopedText foreground: Color green muchDarker);
-				yourself ].
-	
-	self waitTestingSpaces.
-	self assert: redCount equals: 1.
-	self assert: greenCount equals: 0.
-	
-	BlSpace simulateClickOn: greenPage button.
-	self waitTestingSpaces.
-	self assert: redCount equals: 1.
-	self assert: greenCount equals: 1.
-
-	BlSpace simulateClickOn: redPage button.
-	self waitTestingSpaces.
-	self assert: redCount equals: 2.
-	self assert: greenCount equals: 1
-]
-
-{ #category : 'tests' }
 ToNotebookTest >> testCloseLastPage [
 
 	| redPage |
@@ -169,4 +132,41 @@ ToNotebookTest >> testIsSelected [
 	self assert: greenPage isSelected.
 	self deny: orangePage isSelected.
 
+]
+
+{ #category : 'tests' }
+ToNotebookTest >> testPaneBuilderIsValuedOnSelect [
+
+	| redPage greenPage redCount greenCount |
+	redCount := 0.
+	redPage := notebook
+		addPageEntitled: 'Red'
+		withBodyBuilder: [
+			redCount := redCount + 1.
+			BlTextElement new
+				text: (redCount asRopedText foreground: Color red darker);
+				yourself ].
+
+	greenCount := 0.
+	greenPage := notebook
+		addPageEntitled: 'Green'
+		withBodyBuilder: [
+			greenCount := greenCount + 1.
+			BlTextElement new
+				text: (greenCount asRopedText foreground: Color green muchDarker);
+				yourself ].
+	
+	self waitTestingSpaces.
+	self assert: redCount equals: 1.
+	self assert: greenCount equals: 0.
+	
+	BlSpace simulateClickOn: greenPage button.
+	self waitTestingSpaces.
+	self assert: redCount equals: 1.
+	self assert: greenCount equals: 1.
+
+	BlSpace simulateClickOn: redPage button.
+	self waitTestingSpaces.
+	self assert: redCount equals: 2.
+	self assert: greenCount equals: 1
 ]

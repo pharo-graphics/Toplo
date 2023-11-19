@@ -18,27 +18,16 @@ Class {
 { #category : 'accessing' }
 ToNotebookButton >> body [
 
-	^ self parent body
-]
-
-{ #category : 'hooks - children' }
-ToNotebookButton >> buildNewInnerPane [
-
-	innerPane := ToPane new
-		             matchParent;
-		             yourself.
-	self paneBuilder value: innerPane value: self body parent
+	^ self notebook body 
 ]
 
 { #category : 'hooks - children' }
 ToNotebookButton >> checkableCheckEvent: event [
 
 	self isChecked ifTrue: [
-		innerPane ifNil: [ self buildNewInnerPane].
-		self body addChild: innerPane.
+		self onSelected.
 		^ self ].
-	innerPane ifNil: [ ^ self ].
-	self removeInnerPane
+	self onDeselected 
 ]
 
 { #category : 'accessing' }
@@ -50,9 +39,7 @@ ToNotebookButton >> closable: aBoolean [
 			| but |
 			but := ToButton new.
 			but defaultSkin: ToNotebookInnerCloseButtonSkin new.
-			but icon:
-				(ToImage new innerImage:
-					 (Smalltalk ui icons iconNamed: #windowClose)).
+			but icon: (ToImage inner: (Smalltalk ui icons iconNamed: #windowClose)).
 			but constraintsDo: [ :c | c linear vertical alignCenter ].
 			but when: BlClickEvent do: [ :event | self removeFromParent ].
 			but id: #innerCloseButton.
@@ -138,12 +125,17 @@ ToNotebookButton >> newRawSkin [
 	^ ToNotebookButtonSkin new
 ]
 
+{ #category : 'accessing' }
+ToNotebookButton >> notebook [
+
+	^ self parent notebook
+]
+
 { #category : 'hooks - children' }
 ToNotebookButton >> onAddedToParent [
 
 	super onAddedToParent.
-	self parent group add: self.
-	self parent buttons add: self.
+	self parent onButtonAdded: self.
 	checkHandler := BlEventHandler
 		                on: ToCheckableCheckEvent
 		                do: [ :event | self checkableCheckEvent: event ].
@@ -151,16 +143,36 @@ ToNotebookButton >> onAddedToParent [
 ]
 
 { #category : 'hooks - children' }
+ToNotebookButton >> onDeselected [
+
+	self removeInnerPaneFromBody.
+	self notebook preservePaneOnSelect ifFalse: [ innerPane := nil ]
+]
+
+{ #category : 'hooks - children' }
 ToNotebookButton >> onRemovedFromParent: aParentElement [
 
-	aParentElement group remove: self.
-	aParentElement buttons remove: self.
 	self removeEventHandler: checkHandler.
 	checkHandler := nil.
-	innerPane ifNil: [ ^ self ].
-	self removeInnerPane.
-	innerPane := nil.
+	innerPane ifNotNil: [
+		self removeInnerPaneFromBody.
+		innerPane := nil ].
+	aParentElement onButtonRemoved: self.
 	super onRemovedFromParent: aParentElement
+]
+
+{ #category : 'hooks - children' }
+ToNotebookButton >> onSelected [
+
+	(self notebook preservePaneOnSelect and: [ innerPane notNil ])
+		ifTrue: [
+			self body addChild: innerPane.
+			^ self ].
+	innerPane := ToPane new
+		             matchParent;
+		             yourself.
+	self paneBuilder value: innerPane value: self body parent.
+	self body addChild: innerPane
 ]
 
 { #category : 'accessing' }
@@ -202,7 +214,7 @@ ToNotebookButton >> rawGroup: aGroup [
 ]
 
 { #category : 'hooks - children' }
-ToNotebookButton >> removeInnerPane [
+ToNotebookButton >> removeInnerPaneFromBody [
 
 	innerPane removeFromParent
 ]

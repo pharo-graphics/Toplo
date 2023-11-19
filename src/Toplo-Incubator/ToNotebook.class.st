@@ -2,6 +2,7 @@ Class {
 	#name : 'ToNotebook',
 	#superclass : 'ToPane',
 	#instVars : [
+		'rebuildPaneOnSelect',
 		'header',
 		'body'
 	],
@@ -21,7 +22,7 @@ ToNotebook >> addButtonWithText: aText withPaneBuilder: aValuable [
 	| but |
 	but := ToNotebookButton new labelText: aText asString.
 	but paneBuilder: aValuable.
-	header addChild: but
+	self addButton: but
 ]
 
 { #category : 'accessing' }
@@ -31,25 +32,62 @@ ToNotebook >> body [
 ]
 
 { #category : 'accessing' }
+ToNotebook >> body: anObject [
+
+	body := anObject
+]
+
+{ #category : 'accessing' }
 ToNotebook >> header [
 
 	^ header
+]
+
+{ #category : 'accessing' }
+ToNotebook >> header: anObject [
+
+	header := anObject
 ]
 
 { #category : 'initialization' }
 ToNotebook >> initialize [
 
 	super initialize.
+	rebuildPaneOnSelect := false.
 	self beVertical.
 	self matchParent.
 	header := ToNotebookHeader horizontal.
-	body := ToNotebookBody vertical matchParent.
+	body := ToPane vertical matchParent.
 	self addChild: header as: #header.
 	self addChild: body as: #body
 ]
 
 { #category : 'adding-removing' }
-ToNotebook >> removeButton: aButton [
+ToNotebook >> onButtonRemoved: aButton [
 
-	header removeChild: aButton
+
+]
+
+{ #category : 'accessing' }
+ToNotebook >> preservePaneOnSelect [
+
+	^ self rebuildPaneOnSelect not
+]
+
+{ #category : 'accessing' }
+ToNotebook >> preservePaneOnSelect: aBoolean [
+
+	self rebuildPaneOnSelect: aBoolean not
+]
+
+{ #category : 'accessing' }
+ToNotebook >> rebuildPaneOnSelect [
+
+	^ rebuildPaneOnSelect
+]
+
+{ #category : 'accessing' }
+ToNotebook >> rebuildPaneOnSelect: aBoolean [
+
+	rebuildPaneOnSelect := aBoolean
 ]

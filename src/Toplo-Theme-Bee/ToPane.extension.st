@@ -1,6 +1,6 @@
-Extension { #name : #ToPane }
+Extension { #name : 'ToPane' }
 
-{ #category : #'*Toplo-Theme-Bee' }
+{ #category : '*Toplo-Theme-Bee' }
 ToPane >> defaultBeeStyleStamps [
 
 	^ #( #pane )

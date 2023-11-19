@@ -1,10 +1,11 @@
 Class {
-	#name : #ToBeeStyleSheet,
-	#superclass : #ToStyleSheet,
-	#category : #'Toplo-Theme-Bee'
+	#name : 'ToBeeStyleSheet',
+	#superclass : 'ToStyleSheet',
+	#category : 'Toplo-Theme-Bee',
+	#package : 'Toplo-Theme-Bee'
 }
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> buttonRules [
 	<script:'(ToStyleSheetPrinter styleRules: (self new buttonRules)) asCSSLikeString inspect'>
 
@@ -28,13 +29,13 @@ ToBeeStyleSheet >> buttonRules [
 		"str nextPutAll: self toggleButtonRules" ]
 ]
 
-{ #category : #'syntactic sugar' }
+{ #category : 'syntactic sugar' }
 ToBeeStyleSheet >> buttonSelector [
 
 	^ ToButton asElementSelector
 ]
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> checkableButtonRules [
 	" checkbox family "
 
@@ -169,7 +170,7 @@ ToBeeStyleSheet >> checkableButtonRules [
 						   c horizontal matchParent ] ] ] ]) }
 ]
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> checkableInnerImageRules [
 	" checkbox family "
 
@@ -285,7 +286,7 @@ ToBeeStyleSheet >> checkableInnerImageRules [
 				   with: [ :e | e stampValue: #'color-error' ] ]) }
 ]
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> circleButtonRules [
 
 
@@ -333,7 +334,7 @@ ToBeeStyleSheet >> circleButtonRules [
 					   with: [ :e | BlLinearLayout new alignCenter ] ]) }
 ]
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> commonButtonRules [
 	<script:'(ToStyleSheetPrinter styleRules: (self new commonButtonRules)) asCSSLikeString inspect'>
 
@@ -360,16 +361,21 @@ ToBeeStyleSheet >> commonButtonRules [
 				write: (self property: #padding) 
 			   with: [ :e |
 					   BlInsets
-						   top: (e stampValue: #'padding-XS') / 2
-						   left: (e stampValue: #'padding-content-H') / 2
-						   bottom: (e stampValue: #'padding-XS') / 2
-						   right: (e stampValue: #'padding-content-H') / 2 ].
+						   top: (e stampValue: #'padding-content-V')
+						   left: (e stampValue: #'padding-content-H')
+						   bottom: (e stampValue: #'padding-content-V')
+						   right: (e stampValue: #'padding-content-H') ].
+			 sr select: (self haveExactHeight not) style: [
+				sr
+					write: (self property: #height)
+					with: [ :e | e stampValue: #'control-height' ] 
+			 ].
 
 		]  
 	}
 ]
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> commonButtonRulesOld [
 	<script:'(ToStyleSheetPrinter styleRules: (self new commonButtonRulesOld)) asCSSLikeString inspect'>
 
@@ -516,7 +522,7 @@ ToBeeStyleSheet >> commonButtonRulesOld [
 					   c linear horizontal alignCenter ] ] ]) }
 ]
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> defaultButtonRules [
 	<script:'(ToStyleSheetPrinter styleRules: (self new defaultButtonRules)) asCSSLikeString inspect'>
 	
@@ -586,7 +592,7 @@ ToBeeStyleSheet >> defaultButtonRules [
 	} 
 ]
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> defaultButtonRulesOld [
 	" ToButton default rule including icon and label "
 
@@ -741,7 +747,7 @@ ToBeeStyleSheet >> defaultButtonRulesOld [
 				   with: [ :e | e borderBuilder dashArray: (e stampValue: #'dash-array') ] ]) } 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToBeeStyleSheet >> defaultStyleRules [
 
 	^ Array streamContents: [ :str |
@@ -751,7 +757,7 @@ ToBeeStyleSheet >> defaultStyleRules [
 		str nextPutAll: self labelRules ]
 ]
 
-{ #category : #'accessing rules  - label' }
+{ #category : 'accessing rules  - label' }
 ToBeeStyleSheet >> labelRules [
 	" label  rules"
 
@@ -858,7 +864,7 @@ ToBeeStyleSheet >> labelRules [
 						   yourself ] ]) }
 ]
 
-{ #category : #'accessing rules - labeled icon' }
+{ #category : 'accessing rules - labeled icon' }
 ToBeeStyleSheet >> labeledIconRules [
 	<script:'(ToStyleSheetPrinter styleRules: (self new labeledIconRules)) asCSSLikeString inspect'>
 
@@ -870,7 +876,7 @@ ToBeeStyleSheet >> labeledIconRules [
 			   c linear horizontal alignCenter ] ] ] }
 ]
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> linkButtonRules [
 	" ToButton link "
 
@@ -975,7 +981,7 @@ ToBeeStyleSheet >> linkButtonRules [
 				   with: [ :e | (e stampValue: #'color-error-pressed') ] ]) }
 ]
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> primaryButtonRules [
 	<script:'(ToStyleSheetPrinter styleRules: (self new primaryButtonRules)) asCSSLikeString inspect'>
 
@@ -1049,7 +1055,7 @@ ToBeeStyleSheet >> primaryButtonRules [
 	}
 ]
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> primaryButtonRulesOld [
 	<script:'(ToStyleSheetPrinter styleRules: (self new primaryButtonRulesOld)) asCSSLikeString inspect'>
 
@@ -1168,7 +1174,7 @@ ToBeeStyleSheet >> primaryButtonRulesOld [
 				   with: [ :e | (e stampValue: #'color-text-light-solid') ] ]) }
 ]
 
-{ #category : #'accessing rules  - pane' }
+{ #category : 'accessing rules  - pane' }
 ToBeeStyleSheet >> rootPaneRules [
 
 	^ { ((self id: #'Space root') style: [ :sr |
@@ -1177,7 +1183,7 @@ ToBeeStyleSheet >> rootPaneRules [
 			   with: [ :e | e stampValue: #'background-color' ] ]) }
 ]
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> textButtonRules [
 	" ToButton text "
 
@@ -1291,7 +1297,7 @@ ToBeeStyleSheet >> textButtonRules [
 				   with: [ :e | e stampValue: #'color-bg-container-disabled' ] ]) }
 ]
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> toggleButtonRules [
 
 	^ { ( #(#button #'toggle-button') asElementSelector style: [ :sr |
@@ -1313,7 +1319,7 @@ ToBeeStyleSheet >> toggleButtonRules [
 				] ) }
 ]
 
-{ #category : #'accessing rules  -button' }
+{ #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> verticalButtonRules [
 	"  
 	'button:hover' rule: [ :e | e mouseCursor: BlCursor hand. e background: Color gray. e font-size: 18 ].

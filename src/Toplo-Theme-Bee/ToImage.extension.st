@@ -1,6 +1,6 @@
-Extension { #name : #ToImage }
+Extension { #name : 'ToImage' }
 
-{ #category : #'*Toplo-Theme-Bee' }
+{ #category : '*Toplo-Theme-Bee' }
 ToImage >> defaultBeeStyleStamps [ 
 
 	^ #( #image )

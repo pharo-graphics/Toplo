@@ -1,10 +1,12 @@
 Class {
-	#name : #ToSkinUninstaller,
-	#superclass : #Object,
-	#category : 'Toplo-Core-Theme'
+	#name : 'ToSkinUninstaller',
+	#superclass : 'Object',
+	#category : 'Toplo-Core-Theme',
+	#package : 'Toplo',
+	#tag : 'Core-Theme'
 }
 
-{ #category : #hook }
+{ #category : 'hook' }
 ToSkinUninstaller >> applyOn: anElement [
 
 	" if there is not an installed skin -> nothing to do "
@@ -14,7 +16,7 @@ ToSkinUninstaller >> applyOn: anElement [
 
 ]
 
-{ #category : #hook }
+{ #category : 'hook' }
 ToSkinUninstaller >> uninstallSkinIn: anElement [
 
 	self

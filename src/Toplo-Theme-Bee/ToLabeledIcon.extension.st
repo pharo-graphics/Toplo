@@ -10,7 +10,7 @@ ToLabeledIcon >> defaultBeeStyleStamps [
 ToLabeledIcon >> installBeeStyle [
 
 	super installBeeStyle.
-	"self withStamp: self defaultBeeStyleStamps."
+	"self withAllStamps: self defaultBeeStyleStamps."
 
 	"self filler id: #filler.	
 	self filler withStamp: #'labeled-icon-filler'."

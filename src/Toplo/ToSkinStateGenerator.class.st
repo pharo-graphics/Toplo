@@ -1,6 +1,6 @@
 Class {
-	#name : #ToSkinStateGenerator,
-	#superclass : #BlCustomEventHandler,
+	#name : 'ToSkinStateGenerator',
+	#superclass : 'BlCustomEventHandler',
 	#instVars : [
 		'target',
 		'leaved',
@@ -9,21 +9,23 @@ Class {
 		'stillPressedTask',
 		'stillHoveredTask'
 	],
-	#category : 'Toplo-Core-Theme'
+	#category : 'Toplo-Core-Theme',
+	#package : 'Toplo',
+	#tag : 'Core-Theme'
 }
 
-{ #category : #'focus events handling' }
+{ #category : 'focus events handling' }
 ToSkinStateGenerator >> blurEvent: anEvent [
 ]
 
-{ #category : #'checkable event handling' }
+{ #category : 'checkable event handling' }
 ToSkinStateGenerator >> checkableCheckedEvent: anEvent [
 	"ToCheclableCheckEvent can be send either because of a click or because the checkable as been checked programmatically"
 
 	self generateCheckStateFromEvent: anEvent
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> clickAvortedEvent: anEvent [
 
 	(anEvent upEvent target hasInParentChain: target) ifFalse: [ ^ self ].
@@ -32,7 +34,7 @@ ToSkinStateGenerator >> clickAvortedEvent: anEvent [
 	anEvent processor fireClickEventFrom: anEvent
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> clickEvent: anEvent [
 
 	anEvent
@@ -42,12 +44,12 @@ ToSkinStateGenerator >> clickEvent: anEvent [
 		  other: [ self otherClickEvent: anEvent ]
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> doubleClickEvent: anEvent [
 
 ]
 
-{ #category : #'dnd handlers' }
+{ #category : 'dnd handlers' }
 ToSkinStateGenerator >> dragEndEvent: anEvent [
 
 	dragged := false.
@@ -55,46 +57,46 @@ ToSkinStateGenerator >> dragEndEvent: anEvent [
 	leaved ifTrue: [ self generateLeavedStateFromEvent: anEvent ]
 ]
 
-{ #category : #'dnd handlers' }
+{ #category : 'dnd handlers' }
 ToSkinStateGenerator >> dragEnterEvent: anEvent [
 
 	leaved := false
 ]
 
-{ #category : #'dnd handlers' }
+{ #category : 'dnd handlers' }
 ToSkinStateGenerator >> dragEvent: anEvent [
 
 	dragged ifFalse: [ ^ self ].
 	self generateDraggedStateFromEvent: anEvent
 ]
 
-{ #category : #'dnd handlers' }
+{ #category : 'dnd handlers' }
 ToSkinStateGenerator >> dragLeaveEvent: anEvent [
 
 	leaved := true
 ]
 
-{ #category : #'dnd handlers' }
+{ #category : 'dnd handlers' }
 ToSkinStateGenerator >> dragStartEvent: anEvent [
 
 	dragged := true.
 	self generateDragStartedStateFromEvent: anEvent
 ]
 
-{ #category : #'dnd handlers' }
+{ #category : 'dnd handlers' }
 ToSkinStateGenerator >> dropEvent: anEvent [
 
 	self generateDroppedStateFromEvent: anEvent
 ]
 
-{ #category : #enablement }
+{ #category : 'enablement' }
 ToSkinStateGenerator >> enablementChangedEvent: anEvent [
 
 	self generateEnablementStateFromEvent: anEvent.
 	target requestNewSkin
 ]
 
-{ #category : #'state generating' }
+{ #category : 'state generating' }
 ToSkinStateGenerator >> enqueueTransientStateFromLookEvent: aLookEvent [
 
 	target enqueueSkinState: (ToTransientState new
@@ -102,7 +104,7 @@ ToSkinStateGenerator >> enqueueTransientStateFromLookEvent: aLookEvent [
 			 yourself)
 ]
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToSkinStateGenerator >> eventsToHandle [
 
 	^ {
@@ -122,17 +124,17 @@ ToSkinStateGenerator >> eventsToHandle [
 		  BlMouseLeaveEvent }
 ]
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToSkinStateGenerator >> eventsToHandleWhenDisabled [
 
 	^ { ToEnablementChangedEvent. BlMouseEnterEvent. BlMouseLeaveEvent  }
 ]
 
-{ #category : #'focus events handling' }
+{ #category : 'focus events handling' }
 ToSkinStateGenerator >> focusEvent: anEvent [
 ]
 
-{ #category : #'state generating' }
+{ #category : 'state generating' }
 ToSkinStateGenerator >> generateCheckStateFromEvent: anEvent [
 
 	target enqueueSkinState: (ToCheckState new
@@ -141,47 +143,47 @@ ToSkinStateGenerator >> generateCheckStateFromEvent: anEvent [
 
 ]
 
-{ #category : #'state generating' }
+{ #category : 'state generating' }
 ToSkinStateGenerator >> generateClickedStateFromEvent: anEvent [
 
 	self enqueueTransientStateFromLookEvent: (ToClickedLookEvent sourceEvent: anEvent)
 
 ]
 
-{ #category : #'state generating' }
+{ #category : 'state generating' }
 ToSkinStateGenerator >> generateDragStartedStateFromEvent: anEvent [
 
 	self enqueueTransientStateFromLookEvent: (ToDragStartedLookEvent sourceEvent: anEvent)
 
 ]
 
-{ #category : #'state generating' }
+{ #category : 'state generating' }
 ToSkinStateGenerator >> generateDraggedStateFromEvent: anEvent [
 
 	self enqueueTransientStateFromLookEvent: (ToDraggedLookEvent sourceEvent: anEvent)
 ]
 
-{ #category : #'state generating' }
+{ #category : 'state generating' }
 ToSkinStateGenerator >> generateDroppedStateFromEvent: anEvent [
 
 	self enqueueTransientStateFromLookEvent: (ToDroppedLookEvent sourceEvent: anEvent)
 ]
 
-{ #category : #'state generating' }
+{ #category : 'state generating' }
 ToSkinStateGenerator >> generateEnablementStateFromEvent: anEvent [
 
 	target enqueueSkinState: (ToEnablementState new enabled:
 			 anEvent currentTarget isEnabled yourself)
 ]
 
-{ #category : #'state generating' }
+{ #category : 'state generating' }
 ToSkinStateGenerator >> generateHoveredStateFromEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
 	self enqueueTransientStateFromLookEvent: (ToHoveredLookEvent sourceEvent: anEvent)
 ]
 
-{ #category : #'state generating' }
+{ #category : 'state generating' }
 ToSkinStateGenerator >> generateLeavedStateFromEvent: anEvent [
 
 	leaved ifTrue: [ ^ self ].
@@ -190,38 +192,38 @@ ToSkinStateGenerator >> generateLeavedStateFromEvent: anEvent [
 	self enqueueTransientStateFromLookEvent: (ToLeavedLookEvent sourceEvent: anEvent)
 ]
 
-{ #category : #'state generating' }
+{ #category : 'state generating' }
 ToSkinStateGenerator >> generatePressedStateFromEvent: anEvent [
 
 	self enqueueTransientStateFromLookEvent: (ToPressedLookEvent sourceEvent: anEvent)
 ]
 
-{ #category : #'state generating' }
+{ #category : 'state generating' }
 ToSkinStateGenerator >> generateReleasedStateFromEvent: anEvent [
 
 	self enqueueTransientStateFromLookEvent: (ToReleasedLookEvent sourceEvent: anEvent)
 ]
 
-{ #category : #'state generating' }
+{ #category : 'state generating' }
 ToSkinStateGenerator >> generateStillHoveredStateFromEvent: anEvent [
 
 	self enqueueTransientStateFromLookEvent: (ToStillHoveredLookEvent sourceEvent: anEvent)
 ]
 
-{ #category : #'state generating' }
+{ #category : 'state generating' }
 ToSkinStateGenerator >> generateStillPressedStateFromEvent: anEvent [
 
 	self enqueueTransientStateFromLookEvent: (ToStillPressedLookEvent sourceEvent: anEvent)
 ]
 
-{ #category : #'api - event managing' }
+{ #category : 'api - event managing' }
 ToSkinStateGenerator >> handleEvent: anEvent [
 
 	self stopTasks: anEvent.
 	anEvent sendTo: self
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> isPickOutsideEventRelevantForTarget: anEvent [
 
 	"Outside event can have a button label or icon as target. 
@@ -231,31 +233,31 @@ ToSkinStateGenerator >> isPickOutsideEventRelevantForTarget: anEvent [
 		^ false ].
 ]
 
-{ #category : #'keyboard handlers' }
+{ #category : 'keyboard handlers' }
 ToSkinStateGenerator >> keyDownEvent: anEvent [
 
 ]
 
-{ #category : #'keyboard handlers' }
+{ #category : 'keyboard handlers' }
 ToSkinStateGenerator >> keyUpEvent: anEvent [
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> middleClickEvent: anEvent [
 
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> middleMouseDownEvent: anEvent [
 
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> middleMouseUpEvent: anEvent [
 
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> mouseDownEvent: anEvent [
 
 	pressed := true.
@@ -266,12 +268,12 @@ ToSkinStateGenerator >> mouseDownEvent: anEvent [
 		  other: [ self otherMouseDownEvent: anEvent ]
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> mouseDownOutsideEvent: anEvent [
 
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> mouseEnterEvent: anEvent [
 
 	leaved := false.
@@ -280,7 +282,7 @@ ToSkinStateGenerator >> mouseEnterEvent: anEvent [
 	self generateHoveredStateFromEvent: anEvent
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> mouseLeaveEvent: anEvent [
 
 	leaved ifTrue: [ ^ self ].
@@ -292,25 +294,25 @@ ToSkinStateGenerator >> mouseLeaveEvent: anEvent [
 
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> mouseMoveEvent: anEvent [
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> mouseOutEvent: anEvent [
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> mouseOverEvent: anEvent [
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> mousePickOutsideEvent: anEvent [
 
 
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> mouseUpEvent: anEvent [
 	dragged := false.
 	pressed := false.
@@ -321,7 +323,7 @@ ToSkinStateGenerator >> mouseUpEvent: anEvent [
 		  other: [ self otherMouseUpEvent: anEvent ]
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> mouseUpOutsideEvent: anEvent [
 
 	"Outside event can have a button label or icon as target. 
@@ -338,11 +340,11 @@ ToSkinStateGenerator >> mouseUpOutsideEvent: anEvent [
 
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> mouseWheelEvent: anEvent [
 ]
 
-{ #category : #'api - hooks' }
+{ #category : 'api - hooks' }
 ToSkinStateGenerator >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
@@ -353,59 +355,59 @@ ToSkinStateGenerator >> onInstalledIn: anElement [
 	target := anElement
 ]
 
-{ #category : #'api - hooks' }
+{ #category : 'api - hooks' }
 ToSkinStateGenerator >> onUninstalledIn: anElement [
 
 	target := nil.
 	super onUninstalledIn: anElement
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> otherClickEvent: anEvent [
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> otherMouseDownEvent: anEvent [
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> otherMouseUpEvent: anEvent [
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> primaryClickEvent: anEvent [
 
 	target switchToNextCheckStateOnClick.
 	self generateClickedStateFromEvent: anEvent
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> primaryMouseDownEvent: anEvent [
 
 	self generatePressedStateFromEvent: anEvent.
 	self startStillPressedEvent: anEvent
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> primaryMouseUpEvent: anEvent [
 
 	self generateReleasedStateFromEvent: anEvent.
 	self generateHoveredStateFromEvent: anEvent
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> secondaryClickEvent: anEvent [
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> secondaryMouseDownEvent: anEvent [
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToSkinStateGenerator >> secondaryMouseUpEvent: anEvent [
 ]
 
-{ #category : #'still pressed - hovered' }
+{ #category : 'still pressed - hovered' }
 ToSkinStateGenerator >> startStillHoveredEvent: anEvent [
 
 	| startDelay space |
@@ -426,7 +428,7 @@ ToSkinStateGenerator >> startStillHoveredEvent: anEvent [
 		                    named: self class name , ' stillHoveredTask'
 ]
 
-{ #category : #'still pressed - hovered' }
+{ #category : 'still pressed - hovered' }
 ToSkinStateGenerator >> startStillPressedEvent: anEvent [
 
 	| startDelay space |
@@ -447,19 +449,19 @@ ToSkinStateGenerator >> startStillPressedEvent: anEvent [
 		                    named: self class name , ' stillPressedTask'
 ]
 
-{ #category : #'still pressed - hovered' }
+{ #category : 'still pressed - hovered' }
 ToSkinStateGenerator >> stillHoveredTask [
 	
 	^ stillHoveredTask 
 ]
 
-{ #category : #'still pressed - hovered' }
+{ #category : 'still pressed - hovered' }
 ToSkinStateGenerator >> stillPressedTask [
 	
 	^ stillPressedTask 
 ]
 
-{ #category : #'still pressed - hovered' }
+{ #category : 'still pressed - hovered' }
 ToSkinStateGenerator >> stopStillHoveredTaskEvent: anEvent [
 
 	stillHoveredTask ifNil: [ ^ self ].
@@ -468,7 +470,7 @@ ToSkinStateGenerator >> stopStillHoveredTaskEvent: anEvent [
 	stillHoveredTask := nil
 ]
 
-{ #category : #'still pressed - hovered' }
+{ #category : 'still pressed - hovered' }
 ToSkinStateGenerator >> stopStillPressedTaskEvent: anEvent [
 
 	stillPressedTask ifNil: [ ^ self ].
@@ -478,7 +480,7 @@ ToSkinStateGenerator >> stopStillPressedTaskEvent: anEvent [
 	stillPressedTask := nil
 ]
 
-{ #category : #'still pressed - hovered' }
+{ #category : 'still pressed - hovered' }
 ToSkinStateGenerator >> stopTasks: anEvent [
 
 	self stopStillPressedTaskEvent: anEvent.
@@ -486,13 +488,13 @@ ToSkinStateGenerator >> stopTasks: anEvent [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSkinStateGenerator >> target [
 
 	^ target
 ]
 
-{ #category : #'api - event managing' }
+{ #category : 'api - event managing' }
 ToSkinStateGenerator >> wantsEvent: anEvent [
 
 	| eventsToHandle |

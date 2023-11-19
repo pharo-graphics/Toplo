@@ -1,13 +1,15 @@
 Class {
-	#name : #ToStyleStampIndex,
-	#superclass : #ToPropertyIndex,
+	#name : 'ToStyleStampIndex',
+	#superclass : 'ToPropertyIndex',
 	#instVars : [
 		'changedAction'
 	],
-	#category : 'Toplo-Core-Properties'
+	#category : 'Toplo-Core-Properties',
+	#package : 'Toplo',
+	#tag : 'Core-Properties'
 }
 
-{ #category : #adding }
+{ #category : 'adding' }
 ToStyleStampIndex >> addAllProperties: aCollectionOfProperties [
 
 	(aCollectionOfProperties anySatisfy: [ :p |
@@ -16,7 +18,7 @@ ToStyleStampIndex >> addAllProperties: aCollectionOfProperties [
 	self changedAction value
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 ToStyleStampIndex >> addProperty: anElementProperty [
 
 	(self hasProperty: anElementProperty) ifTrue: [ ^ self ].
@@ -24,19 +26,19 @@ ToStyleStampIndex >> addProperty: anElementProperty [
 	self changedAction value 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToStyleStampIndex >> changedAction [
 
 	^ changedAction
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToStyleStampIndex >> changedAction: aBlockNoArg [
 
 	changedAction := aBlockNoArg
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToStyleStampIndex >> hasProperty: anElementProperty [
 
 	" compare property value conversion to string to get a correct result in case of BlockClosure "
@@ -47,14 +49,14 @@ ToStyleStampIndex >> hasProperty: anElementProperty [
 		  (self propertyNamed: key) value asString = anElementProperty value asString ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToStyleStampIndex >> initialize [ 
 
 	super initialize.
 	changedAction := [  ]
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 ToStyleStampIndex >> removeAllProperties [
 
 	index ifEmpty: [ ^ self ].
@@ -62,7 +64,7 @@ ToStyleStampIndex >> removeAllProperties [
 	self changedAction value
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 ToStyleStampIndex >> removePropertyNamed: aSymbol [
 
 	(self hasPropertyNamed: aSymbol) ifFalse: [ ^ self ].

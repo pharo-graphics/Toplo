@@ -1,10 +1,12 @@
 Class {
-	#name : #ToElementSelector,
-	#superclass : #Object,
-	#category : 'Toplo-Core-Selector'
+	#name : 'ToElementSelector',
+	#superclass : 'Object',
+	#category : 'Toplo-Core-Selector',
+	#package : 'Toplo',
+	#tag : 'Core-Selector'
 }
 
-{ #category : #'logical operator' }
+{ #category : 'logical operator' }
 ToElementSelector >> + aStyleSelector [
 
 	^ ToAndSelector new
@@ -13,7 +15,7 @@ ToElementSelector >> + aStyleSelector [
 		  yourself
 ]
 
-{ #category : #'logical operator' }
+{ #category : 'logical operator' }
 ToElementSelector >> - aStyleSelector [
 
 	^ ToAndSelector new
@@ -22,13 +24,13 @@ ToElementSelector >> - aStyleSelector [
 		  yourself
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 ToElementSelector >> accept: aVisitor [
 
 	self subclassResponsibility 
 ]
 
-{ #category : #'logical operator' }
+{ #category : 'logical operator' }
 ToElementSelector >> and: aStyleSelector [
 
 	self
@@ -39,13 +41,13 @@ ToElementSelector >> and: aStyleSelector [
 	^ self + aStyleSelector
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 ToElementSelector >> asElementSelector [ 
 
 	^ self 
 ]
 
-{ #category : #'logical operator' }
+{ #category : 'logical operator' }
 ToElementSelector >> child: aSelector [ 
 
 	^ ToChildSelector new
@@ -54,7 +56,7 @@ ToElementSelector >> child: aSelector [
 		  yourself
 ]
 
-{ #category : #'logical operator' }
+{ #category : 'logical operator' }
 ToElementSelector >> child: aSelector depth: anInteger [
 
 	^ ToChildSelector new
@@ -64,7 +66,7 @@ ToElementSelector >> child: aSelector depth: anInteger [
 		  yourself
 ]
 
-{ #category : #'logical operator' }
+{ #category : 'logical operator' }
 ToElementSelector >> not [
 
 	^ ToNotSelector new
@@ -72,7 +74,7 @@ ToElementSelector >> not [
 		  yourself
 ]
 
-{ #category : #'logical operator' }
+{ #category : 'logical operator' }
 ToElementSelector >> or: aStyleSelector [
 
 	^ ToOrSelector new
@@ -81,7 +83,7 @@ ToElementSelector >> or: aStyleSelector [
 		  yourself
 ]
 
-{ #category : #'logical operator' }
+{ #category : 'logical operator' }
 ToElementSelector >> parent: aSelector [
 
 	^ ToParentSelector new
@@ -90,7 +92,7 @@ ToElementSelector >> parent: aSelector [
 		  yourself
 ]
 
-{ #category : #'logical operator' }
+{ #category : 'logical operator' }
 ToElementSelector >> parent: aSelector depth: anInteger [
 
 	^ ToParentSelector new
@@ -100,7 +102,7 @@ ToElementSelector >> parent: aSelector depth: anInteger [
 		  yourself
 ]
 
-{ #category : #'logical operator' }
+{ #category : 'logical operator' }
 ToElementSelector >> sibling: aSelector [
 
 	^ ToSiblingSelector new
@@ -109,7 +111,7 @@ ToElementSelector >> sibling: aSelector [
 		  yourself
 ]
 
-{ #category : #'skin rule building' }
+{ #category : 'skin rule building' }
 ToElementSelector >> style: aBlock [
 
 	^ ToStyleScript new select: self style: aBlock

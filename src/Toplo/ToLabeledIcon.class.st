@@ -1,6 +1,6 @@
 Class {
-	#name : #ToLabeledIcon,
-	#superclass : #ToElement,
+	#name : 'ToLabeledIcon',
+	#superclass : 'ToElement',
 	#traits : 'TToOrientable',
 	#classTraits : 'TToOrientable classTrait',
 	#instVars : [
@@ -10,10 +10,12 @@ Class {
 		'filler',
 		'label'
 	],
-	#category : 'Toplo-Core'
+	#category : 'Toplo-Core',
+	#package : 'Toplo',
+	#tag : 'Core'
 }
 
-{ #category : #configurating }
+{ #category : 'configurating' }
 ToLabeledIcon >> beIconFirst [
 
 	self isIconFirst ifTrue: [ ^ self ].
@@ -21,7 +23,7 @@ ToLabeledIcon >> beIconFirst [
 	self requestLayout
 ]
 
-{ #category : #configurating }
+{ #category : 'configurating' }
 ToLabeledIcon >> beLabelFirst [
 
 	self isLabelFirst ifTrue: [ ^ self ].
@@ -29,32 +31,32 @@ ToLabeledIcon >> beLabelFirst [
 	self requestLayout
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToLabeledIcon >> defaultEventHandler [
 
 	^ ToLabeledIconEventHandler new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToLabeledIcon >> defaultLayout [ 
 
 	^ BlLinearLayout horizontal.
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToLabeledIcon >> filler [
 
 	^ filler
 ]
 
-{ #category : #configurating }
+{ #category : 'configurating' }
 ToLabeledIcon >> flexible [
 
 	^ self filler constraints horizontal resizer isMatchParent
 ]
 
-{ #category : #configurating }
+{ #category : 'configurating' }
 ToLabeledIcon >> flexible: aBoolean [
 
 	self isFlexible = aBoolean ifTrue: [ ^ self ].
@@ -67,25 +69,25 @@ ToLabeledIcon >> flexible: aBoolean [
 			self filler fitContent ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToLabeledIcon >> hasIcon [
 
 	^ self icon notNil
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToLabeledIcon >> hasLabel [
 
 	^ self label notNil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToLabeledIcon >> icon [
 
 	^ icon
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToLabeledIcon >> icon: anElement [
 
 	anElement = self icon ifTrue: [ ^ self ].
@@ -95,7 +97,7 @@ ToLabeledIcon >> icon: anElement [
 	self iconHolder addChild: anElement
 ]
 
-{ #category : #configurating }
+{ #category : 'configurating' }
 ToLabeledIcon >> iconFirst: aBoolean [
 
 	aBoolean
@@ -103,49 +105,49 @@ ToLabeledIcon >> iconFirst: aBoolean [
 		ifFalse: [ self beLabelFirst ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToLabeledIcon >> iconHolder [
 
 	^ iconHolder
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToLabeledIcon >> iconHolderHeight [
 
 	^ self iconHolder requestedHeight
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToLabeledIcon >> iconHolderHeight: anInteger [
 
 	self iconHolder height: anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToLabeledIcon >> iconHolderWidth [
 
 	^ self iconHolder requestedWidth
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToLabeledIcon >> iconHolderWidth: anInteger [
 
 	self iconHolder width: anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToLabeledIcon >> iconImage [
 
 	^ self icon innerImage
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToLabeledIcon >> iconImage: anElement [
 
 	self icon: (ToImage inner: anElement)
 ]
 
-{ #category : #skin }
+{ #category : 'skin' }
 ToLabeledIcon >> initialRawStyle [
 
 	super initialRawStyle.
@@ -157,7 +159,7 @@ ToLabeledIcon >> initialRawStyle [
 	
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToLabeledIcon >> initialize [
 
 	self class initializeSlots: self.
@@ -191,7 +193,7 @@ ToLabeledIcon >> initialize [
 	self addEventHandler: self defaultEventHandler
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToLabeledIcon >> interspace [
 
 	| fc |
@@ -199,7 +201,7 @@ ToLabeledIcon >> interspace [
 	^ fc minWidth @ fc minHeight
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToLabeledIcon >> interspace: aPoint [
 
 	| size |
@@ -211,31 +213,31 @@ ToLabeledIcon >> interspace: aPoint [
 	self filler requestLayout
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToLabeledIcon >> isFlexible [
 
 	^ self flexible
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToLabeledIcon >> isIconFirst [
 
 	^ self isLeftToRight
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ToLabeledIcon >> isLabelFirst [
 
 	^ self isIconFirst not
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToLabeledIcon >> label [
 
 	^ label
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToLabeledIcon >> label: anElement [
 
 	anElement = self label ifTrue: [ ^ self ].
@@ -245,31 +247,31 @@ ToLabeledIcon >> label: anElement [
 	self labelHolder addChild: anElement
 ]
 
-{ #category : #configurating }
+{ #category : 'configurating' }
 ToLabeledIcon >> labelFirst: aBoolean [
 
 	self iconFirst: aBoolean not
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToLabeledIcon >> labelHolder [
 
 	^ labelHolder
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToLabeledIcon >> labelText: aText [
 
 	self label: (ToLabel text: aText asRopedText)
 ]
 
-{ #category : #'t - orientable - accessing' }
+{ #category : 't - orientable - accessing' }
 ToLabeledIcon >> layoutStrategy [
 
 	^ self layout
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToLabeledIcon >> rightLabelAlignment: anInteger [
 
 	self iconHolderWidth: anInteger

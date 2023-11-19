@@ -371,7 +371,18 @@ ToBeeStyleSheet >> commonButtonRules [
 					with: [ :e | e stampValue: #'control-height' ] 
 			 ].
 
-		]  
+		].
+	(#'labeled-icon' asElementSelector parent: #button) style: [ :sr |
+			   sr
+				   write: (self property: #layout)
+				   with: BlLinearLayout horizontal.
+
+			   sr write: (self property: #'layout-constraints') with: [ :e |
+				   [ :c |
+				   c horizontal fitContent.
+				   c vertical fitContent.
+				   c linear vertical alignCenter.
+				   c linear horizontal alignCenter ] ] ].
 	}
 ]
 

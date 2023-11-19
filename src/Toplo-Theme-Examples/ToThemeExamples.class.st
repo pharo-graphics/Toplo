@@ -1,10 +1,11 @@
 Class {
-	#name : #ToThemeExamples,
-	#superclass : #Object,
-	#category : #'Toplo-Theme-Examples'
+	#name : 'ToThemeExamples',
+	#superclass : 'Object',
+	#category : 'Toplo-Theme-Examples',
+	#package : 'Toplo-Theme-Examples'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 ToThemeExamples class >> createThemeMenuBar: aSpace [
 
 	| bar themeMenu inspectMenu changeColorMenuItem beeMenu |
@@ -31,7 +32,7 @@ ToThemeExamples class >> createThemeMenuBar: aSpace [
 	^ bar
 ]
 
-{ #category : #'private - actions' }
+{ #category : 'private - actions' }
 ToThemeExamples class >> displaySpaceStyleSheet: aSpace [
 
 	| presenter stream printer |
@@ -58,7 +59,7 @@ ToThemeExamples class >> displaySpaceStyleSheet: aSpace [
 	presenter withWindowDo: [ :w | w title: 'Toplo Style Sheet details' ].
 ]
 
-{ #category : #'private - get' }
+{ #category : 'private - get' }
 ToThemeExamples class >> elementSandBoxFor: aSpace [
 
 	| box |
@@ -71,7 +72,7 @@ ToThemeExamples class >> elementSandBoxFor: aSpace [
 	^ box
 ]
 
-{ #category : #'examples - buttons' }
+{ #category : 'examples - buttons' }
 ToThemeExamples class >> example_beeButtonsInRawPane [
 
 	| space primaryButton1 primaryButton2 pane |
@@ -95,10 +96,11 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	space show
 ]
 
-{ #category : #'examples - buttons' }
+{ #category : 'examples - buttons' }
 ToThemeExamples class >> example_buttons [
 
 	| space primaryButton defaultButton box dashedButton textButton linkButton line1 line2 |
+	ToTheme cleanUp.
 	space := self openThemeExampleSpace.
 	box := self elementSandBoxFor: space.
 	
@@ -150,21 +152,35 @@ ToThemeExamples class >> example_buttons [
 	line2 addChild: linkButton
 ]
 
-{ #category : #'private - actions' }
+{ #category : 'examples - buttons' }
+ToThemeExamples class >> example_oneButton [
+
+	| space defaultButton |
+	ToTheme cleanUp.
+	space := BlSpace new.
+	space toTheme: ToBeeLightTheme new.
+	defaultButton := ToButton new.
+	defaultButton labelText: 'Default button'.
+	space root addChild: defaultButton.
+	space show.
+	defaultButton inspect
+]
+
+{ #category : 'private - actions' }
 ToThemeExamples class >> inspectSpace: aSpace [
 
 	aSpace ifNil:[ ^ self ].
 	aSpace inspect
 ]
 
-{ #category : #'private - actions' }
+{ #category : 'private - actions' }
 ToThemeExamples class >> inspectSpaceToTheme: aSpace [
 
 	aSpace ifNil:[ ^ self ].
 	aSpace toTheme inspect
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ToThemeExamples class >> openThemeExampleSpace [
 	"Prepare a space to display theme examples"
 
@@ -189,7 +205,7 @@ ToThemeExamples class >> openThemeExampleSpace [
 	^ space
 ]
 
-{ #category : #'private - actions' }
+{ #category : 'private - actions' }
 ToThemeExamples class >> randomizeBeeThemeColorFor: aSpace [
 
 	| theme |
@@ -200,7 +216,7 @@ ToThemeExamples class >> randomizeBeeThemeColorFor: aSpace [
 	aSpace toTheme: theme.
 ]
 
-{ #category : #'private - actions' }
+{ #category : 'private - actions' }
 ToThemeExamples class >> switchTheme: aToTheme for: aSpace [
 
 	aSpace ifNil:[ ^ self ].
@@ -208,6 +224,6 @@ ToThemeExamples class >> switchTheme: aToTheme for: aSpace [
 	aSpace toTheme: aToTheme.
 ]
 
-{ #category : #'see class side' }
+{ #category : 'see class side' }
 ToThemeExamples >> seeClassSide [ 
 ]

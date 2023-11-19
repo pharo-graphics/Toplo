@@ -25,6 +25,8 @@ ToNotebookExamples class >> example_notPreservingPane [
 
 	| nb but |
 	nb := ToNotebook new.
+	nb withoutCheckingStrategy.
+	nb withHorizontalBody.
 	nb preservePaneOnSelect: false.
 	1 to: 5 do: [ :index |
 		but := ToNotebookButton new.
@@ -41,6 +43,8 @@ ToNotebookExamples class >> example_preservingPane [
 	| nb but |
 	nb := ToNotebook new.
 	nb preservePaneOnSelect: true.
+	nb withoutCheckingStrategy.
+	nb resizablePanes: true.
 	1 to: 5 do: [ :index |
 		but := ToNotebookButton new.
 		but closable: true.

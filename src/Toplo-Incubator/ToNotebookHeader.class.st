@@ -29,6 +29,18 @@ ToNotebookHeader >> checkableGroupChangedEvent: anEvent [
 ]
 
 { #category : 'accessing' }
+ToNotebookHeader >> checkingStrategy [
+
+	^ self group checkingStrategy
+]
+
+{ #category : 'accessing' }
+ToNotebookHeader >> checkingStrategy: aCheckingStrategy [
+
+	^ self group checkingStrategy: aCheckingStrategy
+]
+
+{ #category : 'accessing' }
 ToNotebookHeader >> group [
 
 	^ group
@@ -47,6 +59,13 @@ ToNotebookHeader >> initialize [
 ToNotebookHeader >> notebook [
 
 	^ self parent 
+]
+
+{ #category : 'hooks - children' }
+ToNotebookHeader >> onAddedToParent [ 
+
+	super onAddedToParent.
+	self parent applyHeaderPositioning 
 ]
 
 { #category : 'add-remove' }

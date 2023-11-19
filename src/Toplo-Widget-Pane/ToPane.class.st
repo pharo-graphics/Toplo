@@ -66,3 +66,10 @@ ToPane >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 	self layout layoutIgnored: self context: aBlElementBoundsUpdateContext
 
 ]
+
+{ #category : 'dividers' }
+ToPane >> removeDividers [
+
+	self removeChildren: (self children select: [ :child |
+		child isKindOf: ToDivider ])
+]

@@ -58,12 +58,7 @@ ToNotebookButton >> defaultBorder [
 { #category : 'skin' }
 ToNotebookButton >> defaultGeometry [
 
-	^ BlRoundedRectangleGeometry cornerRadii: (BlCornerRadii new
-			   topLeft: 8;
-			   topRight: 8;
-			   bottomLeft: 0;
-			   bottomRight: 0;
-			   yourself)
+	^ self notebook buttonGeometry
 ]
 
 { #category : 'skin' }
@@ -146,6 +141,7 @@ ToNotebookButton >> onAddedToParent [
 ToNotebookButton >> onDeselected [
 
 	self removeInnerPaneFromBody.
+	self notebook applyResizablePanesConfiguration.
 	self notebook preservePaneOnSelect ifFalse: [ innerPane := nil ]
 ]
 
@@ -165,14 +161,18 @@ ToNotebookButton >> onRemovedFromParent: aParentElement [
 ToNotebookButton >> onSelected [
 
 	(self notebook preservePaneOnSelect and: [ innerPane notNil ])
-		ifTrue: [
+		ifTrue: [			
 			self body addChild: innerPane.
+			self notebook applyResizablePanesConfiguration.
 			^ self ].
 	innerPane := ToPane new
 		             matchParent;
 		             yourself.
 	self paneBuilder value: innerPane value: self body parent.
-	self body addChild: innerPane
+	self body addChild: innerPane.
+	self notebook applyResizablePanesConfiguration.
+
+
 ]
 
 { #category : 'accessing' }

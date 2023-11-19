@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'rebuildPaneOnSelect',
 		'header',
-		'body'
+		'headerPositioning',
+		'body',
+		'resizablePanes'
 	],
 	#category : 'Toplo-Incubator',
 	#package : 'Toplo-Incubator'
@@ -25,16 +27,59 @@ ToNotebook >> addButtonWithText: aText withPaneBuilder: aValuable [
 	self addButton: but
 ]
 
+{ #category : 'configuration - private' }
+ToNotebook >> applyHeaderPositioning [
+
+	self headerPositioning applyOn: self
+]
+
+{ #category : 'configuration - private' }
+ToNotebook >> applyResizablePanesConfiguration [
+
+	self body removeDividers.
+	self resizablePanes ifTrue: [ self body addDividers ]
+]
+
 { #category : 'accessing' }
 ToNotebook >> body [
 
 	^ body
 ]
 
-{ #category : 'accessing' }
-ToNotebook >> body: anObject [
+{ #category : 'accessing - private' }
+ToNotebook >> buttonGeometry [
 
-	body := anObject
+	^ self headerPositioning buttonGeometry
+]
+
+{ #category : 'accessing' }
+ToNotebook >> buttons [ 
+
+	^ self header buttons
+]
+
+{ #category : 'configuration' }
+ToNotebook >> checkingStrategy [
+
+	^ self header checkingStrategy
+]
+
+{ #category : 'configuration' }
+ToNotebook >> checkingStrategy: aCheckingStrategy [
+
+	self header checkingStrategy: aCheckingStrategy
+]
+
+{ #category : 'initialization' }
+ToNotebook >> defaultHeaderPositioning [
+
+	^ ToNotebookHeaderOnTop new
+]
+
+{ #category : 'accessing' }
+ToNotebook >> group [ 
+
+	^ self header group
 ]
 
 { #category : 'accessing' }
@@ -43,10 +88,17 @@ ToNotebook >> header [
 	^ header
 ]
 
-{ #category : 'accessing' }
-ToNotebook >> header: anObject [
+{ #category : 'configuration' }
+ToNotebook >> headerPositioning [
 
-	header := anObject
+	^ headerPositioning
+]
+
+{ #category : 'configuration' }
+ToNotebook >> headerPositioning: aPositioningStategy [
+
+	headerPositioning := aPositioningStategy.
+	self headerPositioning applyOn: self
 ]
 
 { #category : 'initialization' }
@@ -54,40 +106,125 @@ ToNotebook >> initialize [
 
 	super initialize.
 	rebuildPaneOnSelect := false.
-	self beVertical.
+	resizablePanes := false.
 	self matchParent.
-	header := ToNotebookHeader horizontal.
+	header := ToNotebookHeader new.
 	body := ToPane vertical matchParent.
+	self headerPositioning: self defaultHeaderPositioning.
 	self addChild: header as: #header.
-	self addChild: body as: #body
+	self addChild: body as: #body.
+	self withVerticalBody.
+	self checkingStrategy: ToCheckableGroupStrictStrategy new
+
 ]
 
-{ #category : 'adding-removing' }
+{ #category : 'adding-removing - private' }
 ToNotebook >> onButtonRemoved: aButton [
 
 
 ]
 
-{ #category : 'accessing' }
+{ #category : 'configuration' }
 ToNotebook >> preservePaneOnSelect [
 
 	^ self rebuildPaneOnSelect not
 ]
 
-{ #category : 'accessing' }
+{ #category : 'configuration' }
 ToNotebook >> preservePaneOnSelect: aBoolean [
 
 	self rebuildPaneOnSelect: aBoolean not
 ]
 
-{ #category : 'accessing' }
+{ #category : 'configuration' }
 ToNotebook >> rebuildPaneOnSelect [
 
 	^ rebuildPaneOnSelect
 ]
 
-{ #category : 'accessing' }
+{ #category : 'configuration' }
 ToNotebook >> rebuildPaneOnSelect: aBoolean [
 
 	rebuildPaneOnSelect := aBoolean
+]
+
+{ #category : 'configuration' }
+ToNotebook >> resizablePanes [
+
+	^ resizablePanes
+]
+
+{ #category : 'configuration' }
+ToNotebook >> resizablePanes: aBoolean [
+
+	resizablePanes := aBoolean.
+	self applyResizablePanesConfiguration
+]
+
+{ #category : 'configuration' }
+ToNotebook >> withHeaderOnBottom [
+
+	self headerPositioning: ToNotebookHeaderOnBottom new
+]
+
+{ #category : 'configuration' }
+ToNotebook >> withHeaderOnLeft [
+
+	self headerPositioning: ToNotebookHeaderOnLeft new
+]
+
+{ #category : 'configuration' }
+ToNotebook >> withHeaderOnRight [
+
+	self headerPositioning: ToNotebookHeaderOnRight new
+]
+
+{ #category : 'configuration' }
+ToNotebook >> withHeaderOnTop [
+
+	self headerPositioning: ToNotebookHeaderOnTop new
+]
+
+{ #category : 'configuration' }
+ToNotebook >> withHorizontalBody [
+
+	self body beHorizontal
+]
+
+{ #category : 'configuration' }
+ToNotebook >> withResizablePanes [
+
+	self resizablePanes ifTrue: [ ^ self ].
+	self resizablePanes: true
+]
+
+{ #category : 'configuration' }
+ToNotebook >> withStrictCheckingStrategy [
+
+	self group withStrictCheckingStrategy
+]
+
+{ #category : 'configuration' }
+ToNotebook >> withUncheckingStrategy [
+
+	self group withUncheckingStrategy
+]
+
+{ #category : 'configuration' }
+ToNotebook >> withVerticalBody [
+
+	self body beVertical
+]
+
+{ #category : 'configuration' }
+ToNotebook >> withoutCheckingStrategy [
+
+	self group withoutCheckingStrategy
+]
+
+{ #category : 'configuration' }
+ToNotebook >> withoutResizablePanes [
+
+	self resizablePanes ifFalse: [ ^ self ].
+	self resizablePanes: false
 ]

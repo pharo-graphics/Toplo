@@ -1,51 +1,52 @@
 Class {
-	#name : #ToNotebookHeader,
-	#superclass : #ToPane,
+	#name : 'ToNotebookHeader',
+	#superclass : 'ToPane',
 	#instVars : [
 		'buttons',
 		'group'
 	],
-	#category : 'Toplo-Incubator'
+	#category : 'Toplo-Incubator',
+	#package : 'Toplo-Incubator'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNotebookHeader >> body [
 
 	^ self notebook body
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNotebookHeader >> buttons [ 
 
 	^ buttons
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToNotebookHeader >> checkableGroupChangedEvent: anEvent [
 
 	anEvent uncheckedButtons do: [ :but | ].
 	anEvent checkedButtons do: [ :but | ].
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNotebookHeader >> checkingStrategy [
 
 	^ self group checkingStrategy
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNotebookHeader >> checkingStrategy: aCheckingStrategy [
 
 	^ self group checkingStrategy: aCheckingStrategy
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNotebookHeader >> group [
 
 	^ group
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToNotebookHeader >> initialize [ 
 
 	super initialize.
@@ -54,20 +55,20 @@ ToNotebookHeader >> initialize [
 	buttons := OrderedCollection new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToNotebookHeader >> notebook [
 
 	^ self parent 
 ]
 
-{ #category : #'hooks - children' }
+{ #category : 'hooks - children' }
 ToNotebookHeader >> onAddedToParent [ 
 
 	super onAddedToParent.
 	self parent applyHeaderPositioning 
 ]
 
-{ #category : #'add-remove' }
+{ #category : 'add-remove' }
 ToNotebookHeader >> onButtonAdded: aButton [
 
 	self group add: aButton.
@@ -75,7 +76,7 @@ ToNotebookHeader >> onButtonAdded: aButton [
 	
 ]
 
-{ #category : #'add-remove' }
+{ #category : 'add-remove' }
 ToNotebookHeader >> onButtonRemoved: aButton [
 
 	| index nextSelected |

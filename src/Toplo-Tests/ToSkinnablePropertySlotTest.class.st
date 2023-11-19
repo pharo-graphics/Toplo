@@ -27,7 +27,7 @@ ToSkinnablePropertySlotTest >> testNew [
 	" -> 1 skin install "
 	space applyAllSkinInstallers.
 	" -> 1 skin states application "
-	space updateAllStyles.
+	space applyAllStyles.
 	self assert: e skinRequestCount equals: 1.
 	self assert: e skinInstallStateCount equals: 1.
 	self assert: e skinStatesApplied equals: 1
@@ -47,7 +47,7 @@ ToSkinnablePropertySlotTest >> testWriteTo [
 	" + 2 requestSkin (#onAddedToSceneGraph is sent 2 times)"
 	space root addChild: e.
 	space applyAllSkinInstallers.
-	space updateAllStyles.
+	space applyAllStyles.
 	self assert: e skinRequestCount equals: 3.
 	self assert: e skinInstallStateCount equals: 1.
 	self assert: e skinStatesApplied equals: 1
@@ -67,7 +67,7 @@ ToSkinnablePropertySlotTest >> testWriteTo2 [
 	" + 1 requestSkin "
 	e borderValue: Color red.
 	space applyAllSkinInstallers.
-	space updateAllStyles.
+	space applyAllStyles.
 	self assert: e skinRequestCount equals: 4.
 	self assert: e border paint color equals: Color red.
 	self assert: e skinInstallStateCount equals: 1
@@ -85,14 +85,20 @@ ToSkinnablePropertySlotTest >> testWriteTo4 [
 	" + 1 requestSkin "
 	e borderValue: Color red.
 	" + 2 requestSkin "
+	self assert: e skinInstallStateCount equals: 0.
+
 	space root addChild: e.
+	self assert: e skinInstallStateCount equals: 0.
+
 	requestCpt := e skinRequestCount.
 	self assert: requestCpt identicalTo: 4.
 	" + 1 requestSkin "
 	e backgroundValue: Color blue.
+	self assert: e skinInstallStateCount equals: 0.
 
 	space applyAllSkinInstallers.
-	space updateAllStyles.
+	self assert: e skinInstallStateCount equals: 1.
+	space applyAllStyles.
 
 	self assert: e skinRequestCount equals: requestCpt + 1.
 	self assert: e skinInstallStateCount equals: 1.
@@ -102,21 +108,24 @@ ToSkinnablePropertySlotTest >> testWriteTo4 [
 	e backgroundValue: Color blue.
 	e borderValue: Color red.
 	self assert: e skinInstaller notNil.
+	self assert: e skinStatesApplied equals: 1.
 	space applyAllSkinInstallers.
-	space updateAllStyles.
-
-	self assert: e skinRequestCount equals: requestCpt + 3.
-	self assert: e skinInstallStateCount equals: 1.
 	self assert: e skinStatesApplied equals: 2.
+
+	space applyAllStyles.
+
+	self assert: e skinRequestCount equals: requestCpt + 3.
+	self assert: e skinInstallStateCount equals: 2.
+	self assert: e skinStatesApplied equals: 3.
 	self assert: e skinInstaller isNil.
 
 	space applyAllSkinInstallers.
-	space updateAllStyles.
+	space applyAllStyles.
 
 	self assert: e skinInstaller isNil.
 	self assert: e skinRequestCount equals: requestCpt + 3.
-	self assert: e skinStatesApplied equals: 3.
-	self assert: e skinInstallStateCount equals: 1
+	self assert: e skinStatesApplied equals: 4.
+	self assert: e skinInstallStateCount equals: 2
 ]
 
 { #category : #running }
@@ -129,7 +138,7 @@ ToSkinnablePropertySlotTest >> testWriteToWithSpaceAddChildBefore [
 	e borderValue: Color red.
 	
 	space applyAllSkinInstallers.
-	space updateAllStyles.
+	space applyAllStyles.
 
 	self assert: e skinInstaller isNil.
 	self assert: e skinRequestCount equals: 3.

@@ -23,17 +23,15 @@ ToStyleStore >> borderBuilder [
 ]
 
 { #category : #testing }
-ToStyleStore >> hasStamp: aSymbol [
+ToStyleStore >> hasStampNamed: aSymbol [
 
-	self stampIndexDo: [ :si | ^ si hasPropertyNamed: aSymbol ].
-	^ false
+	^ self stampIndex hasPropertyNamed: aSymbol
 ]
 
 { #category : #accessing }
 ToStyleStore >> localStampNamed: aSymbol [
 
-	self stampIndexDo: [ :si | ^ si propertyNamed: aSymbol ].
-	^ nil
+	^ self stampIndex propertyNamed: aSymbol
 ]
 
 { #category : #lookup }
@@ -49,50 +47,28 @@ ToStyleStore >> lookUpStampNamed: aSymbol from: anElement [
 	^ anElement toTheme stampNamed: aSymbol
 ]
 
+{ #category : #'api - hooks' }
+ToStyleStore >> onInstalledIn: anElement [
+
+	self stampIndex changedAction: [ anElement requestNewSkin ]
+]
+
 { #category : #'adding-removing' }
 ToStyleStore >> removeAllStamps [
 
-	self stampIndexDo: [ :si | si removeAllProperties ] 
-]
-
-{ #category : #'adding-removing' }
-ToStyleStore >> removeAllStamps: aStyleStampCollection [
-
-	aStyleStampCollection do: [ :s | self removeStamp: s ]
-]
-
-{ #category : #'adding-removing' }
-ToStyleStore >> removeStamp: aStyleStamp [
-
-	self stampIndexDo: [ :si | si removeProperty: aStyleStamp ]
+	self stampIndex removeAllProperties
 ]
 
 { #category : #'adding-removing' }
 ToStyleStore >> removeStampNamed: aSymbol [
 
-	self stampIndexDo: [ :si | si removePropertyNamed: aSymbol ]
-]
-
-{ #category : #'adding-removing' }
-ToStyleStore >> removeStampNamed: aSymbol ifAbsent: anAbsentBlock [
-
-	self stampIndexDo: [ :si |
-		si removePropertyNamed: aSymbol ifAbsent: anAbsentBlock.
-		^ self ].
-	anAbsentBlock value
+	self stampIndex removePropertyNamed: aSymbol
 ]
 
 { #category : #accessing }
 ToStyleStore >> stampIndex [
 
-	^ stampIndex ifNil: [ stampIndex := ToPropertyIndex new ]
-]
-
-{ #category : #accessing }
-ToStyleStore >> stampIndexDo: aBlock [
-
-	stampIndex ifNil: [ ^ self ].
-	aBlock value: stampIndex 
+	^ stampIndex ifNil: [ stampIndex := ToStyleStampIndex new ]
 ]
 
 { #category : #accessing }
@@ -175,5 +151,5 @@ ToStyleStore >> withoutAllStamps [
 { #category : #'adding-removing' }
 ToStyleStore >> withoutStamp: aSymbol [
 
-	self removeStampNamed: aSymbol ifAbsent: [  ]
+	self removeStampNamed: aSymbol 
 ]

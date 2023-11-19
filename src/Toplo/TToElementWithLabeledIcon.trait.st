@@ -68,7 +68,13 @@ TToElementWithLabeledIcon >> icon: anElement [
 
 	self icon = anElement ifTrue: [ ^ self ].
 	self labeledIcon icon: anElement.
-	self requestSkin
+	self requestNewSkin
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> iconDo: aBlock [
+
+	self icon ifNotNil: [ :ic | aBlock value: ic ]
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
@@ -129,8 +135,7 @@ TToElementWithLabeledIcon >> interspace [
 TToElementWithLabeledIcon >> interspace: aPoint [
 
 	self interspace = aPoint asPoint ifTrue: [ ^ self ].
-	self labeledIcon interspace: aPoint asPoint.
-	self requestSkin
+	self labeledIcon interspace: aPoint asPoint
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
@@ -180,14 +185,19 @@ TToElementWithLabeledIcon >> label: anElement [
 
 	self label = anElement ifTrue: [ ^ self ].
 	self labeledIcon label: anElement.
-	self requestSkin
+	self requestNewSkin 
+]
+
+{ #category : #'t - element with labeled icon - accessing' }
+TToElementWithLabeledIcon >> labelDo: aBlock [
+
+	self label ifNotNil: [ :la | aBlock value: la ]
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> labelFirst: aBoolean [
 
-	self labeledIcon labelFirst: aBoolean.
-	self requestSkin
+	self labeledIcon labelFirst: aBoolean
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
@@ -223,13 +233,11 @@ TToElementWithLabeledIcon >> labeledIcon [
 { #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> rightLabelAlignment: anInteger [
 
-	self labeledIcon rightLabelAlignment: anInteger.
-	self requestSkin
+	self labeledIcon rightLabelAlignment: anInteger
 ]
 
 { #category : #'t - element with labeled icon - accessing' }
 TToElementWithLabeledIcon >> vertical: aBoolean [
 
-	self labeledIcon vertical: aBoolean.
-	self requestSkin
+	self labeledIcon vertical: aBoolean
 ]

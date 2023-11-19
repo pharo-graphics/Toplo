@@ -59,7 +59,7 @@ ToSkinnablePropertyTest >> testWriteToWithDelegation [
 	prop writer: writer.
 	prop reader: reader.
 	prop name: #'label-text'.
-
+	w requestInstallSkin.
 	w applySkinInstaller.
 	self assert: w skinInstaller isNil.
 	prop write: 'Hello' asRopedText to: w.

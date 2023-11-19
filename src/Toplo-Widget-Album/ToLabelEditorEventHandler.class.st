@@ -1,16 +1,14 @@
 Class {
-	#name : 'ToLabelEditorEventHandler',
-	#superclass : 'ToAlbumEventHandler',
+	#name : #ToLabelEditorEventHandler,
+	#superclass : #ToAlbumEventHandler,
 	#instVars : [
 		'label',
 		'editorPosition'
 	],
-	#category : 'Toplo-Widget-Album-Label',
-	#package : 'Toplo-Widget-Album',
-	#tag : 'Label'
+	#category : 'Toplo-Widget-Album-Label'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToLabelEditorEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
 	| target |
@@ -20,7 +18,7 @@ ToLabelEditorEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 		editorPosition := target positionInSpace ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToLabelEditorEventHandler >> elementPositionInSpaceChangedEvent: anEvent [
 
 	| target |
@@ -30,25 +28,25 @@ ToLabelEditorEventHandler >> elementPositionInSpaceChangedEvent: anEvent [
 		self label removeEditor ]
 ]
 
-{ #category : 'api - accessing' }
+{ #category : #'api - accessing' }
 ToLabelEditorEventHandler >> eventsToHandle [ 
 
 	^ super eventsToHandle , { BlElementPositionInSpaceChangedEvent  }
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLabelEditorEventHandler >> label [
 
 	^ label
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToLabelEditorEventHandler >> label: aLabel [
 
 	label := aLabel
 ]
 
-{ #category : 'api - hooks' }
+{ #category : #'api - hooks' }
 ToLabelEditorEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.

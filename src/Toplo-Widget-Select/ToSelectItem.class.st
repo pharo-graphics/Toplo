@@ -1,11 +1,10 @@
 Class {
-	#name : 'ToSelectItem',
-	#superclass : 'ToCheckMenuItem',
-	#category : 'Toplo-Widget-Select',
-	#package : 'Toplo-Widget-Select'
+	#name : #ToSelectItem,
+	#superclass : #ToCheckMenuItem,
+	#category : 'Toplo-Widget-Select'
 }
 
-{ #category : 'skin' }
+{ #category : #skin }
 ToSelectItem >> installRawStyle [ 
 
 	super installRawStyle.

@@ -52,6 +52,21 @@ ToSkinManagerTest >> testApplySkinUninstallerIn [
 ]
 
 { #category : #tests }
+ToSkinManagerTest >> testApplyStylesIn [
+
+	| e sk |
+	e := ToElement new. 
+	space root addChild: e.
+	e skinManager setSkin: (sk := ToRawSkin new) in: e.
+	e skinManager applySkinInstallerIn: e.
+	self assert: e skinManager installedSkin identicalTo: sk.
+	self deny: e skinManager skinStateQueue nextStates isEmpty.
+	e skinManager applyStylesIn: e.
+	self assert: e skinManager skinStateQueue nextStates isEmpty.
+
+]
+
+{ #category : #tests }
 ToSkinManagerTest >> testDefaultSkinIn [
 
 	| e sk |
@@ -118,7 +133,7 @@ ToSkinManagerTest >> testIsRequestSkinPostponed [
 	| e |
 	e := ToElement new.
 	self assert: e skinManager isRequestSkinPostponed not.
-	e skinManager requestSkinIn: e.
+	e skinManager requestInstallSkinIn: e.
 	" since the element is not attached to a space, the request skin is postponed "
 	self assert: e skinManager isRequestSkinPostponed.
 	self assert: e skinManager skinInstaller isNil
@@ -330,7 +345,7 @@ ToSkinManagerTest >> testRequestSkinIn [
 	| e  |
 	e := ToElement new.
 	self assert: e skinManager isRequestSkinPostponed not.
-	e skinManager requestSkinIn: e.
+	e skinManager requestInstallSkinIn: e.
 	" the requestSkin is postpone since the element is not attached "
 	self assert: e skinManager isRequestSkinPostponed.
 
@@ -358,7 +373,7 @@ ToSkinManagerTest >> testRequestSkinInWithChildren [
 	e addChild: child.
 	child addChild: childchild.
 	self assert: e skinManager isRequestSkinPostponed not.
-	e skinManager requestSkinIn: e.
+	e skinManager requestInstallSkinIn: e.
 	" the requestSkin is postpone since the element is not attached "
 	self assert: e skinManager isRequestSkinPostponed.
 	self assert: child skinManager isRequestSkinPostponed not.
@@ -393,7 +408,7 @@ ToSkinManagerTest >> testRequestUninstallSkinIn [
 	self assert: e skinManager skinUninstaller notNil.
 	
 	" requestSkin has not effect on skinUninstaller "
-	e skinManager requestSkinIn: e.
+	e skinManager requestInstallSkinIn: e.
 	self assert: e skinManager skinUninstaller notNil.
 	self assert: e skinManager isRequestSkinPostponed.
 	self assert: e skinManager skinInstaller isNil.
@@ -438,11 +453,20 @@ ToSkinManagerTest >> testRequestUninstallSkinInWithChildrenWithInstalledSkin [
 	e skinManager applySkinUninstallerIn: e.
 	self assert: e skinManager installedSkin isNil.
 	self assert: e skinManager skinUninstaller isNil.
-	self assert: e skinManager skinInstaller notNil.
-	
+	self assert: e skinManager skinInstaller isNil.
+
 	" but no effect on children "
 	self assert: child skinManager installedSkin notNil.
 	self assert: childchild skinManager installedSkin notNil.
+	
+	self should: [e skinManager applySkinInstallerIn: e] raise: Error.
+	e requestInstallSkin.
+	e skinManager applySkinInstallerIn: e.
+	self assert: e skinManager installedSkin notNil.
+	self assert: e skinManager skinUninstaller isNil.
+	self assert: e skinManager skinInstaller isNil.
+
+	
 
 ]
 
@@ -467,30 +491,24 @@ ToSkinManagerTest >> testRequestUninstallSkinInWithChildrenWithInstalledSkin2 [
 	self assert: childchild skinManager skinInstaller isNil.
 
 	e skinManager requestUninstallSkinIn: e.
-	child skinManager requestUninstallSkinIn: child.
-	childchild skinManager requestUninstallSkinIn: child.
 	
 	self assert: e skinManager skinUninstaller notNil.
-	self assert: child skinManager skinUninstaller notNil.
-	self assert: childchild skinManager skinUninstaller notNil.
+	self assert: child skinManager skinUninstaller isNil.
+	self assert: childchild skinManager skinUninstaller isNil.
 	" but installed skin not yet uninstalled "
 	self assert: e installedSkin notNil.
 	self assert: child installedSkin notNil.
 	self assert: childchild installedSkin notNil.
 
-	" install skin on the element tree: this will uninstall all installed skin "
-	e applySkinInstallerRecursively.
-	" a skinInstaller was added, then a skin is installed "
-	self assert: e skinManager installedSkin notNil.
-	self assert: e skinManager skinUninstaller isNil.
-	self assert: e skinManager skinInstaller isNil.	
-	" with effect on children "
-	self assert: child skinManager installedSkin notNil.
-	self assert: child skinManager skinUninstaller isNil.
-	self assert: child skinManager skinInstaller isNil.	
-	self assert: childchild skinManager installedSkin notNil.
-	self assert: childchild skinManager skinUninstaller isNil.
-	self assert: childchild skinManager skinInstaller isNil.	
+	e skinManager applySkinUninstallerIn: e.
+	self assert: e skinManager installedSkin isNil.
+	
+	" trying to install here should raise an error because no installer has been requested "
+	self should: [ e applySkinInstaller ] raise: Error.
+	
+	self assert: child installedSkin notNil.
+	self assert: childchild installedSkin notNil.
+
 
 ]
 
@@ -514,7 +532,7 @@ ToSkinManagerTest >> testRequestUninstallSkinInWithInstalledSkin [
 	e skinManager applySkinUninstallerIn: e.
 	self assert: e skinManager installedSkin isNil.
 	self assert: e skinManager skinUninstaller isNil.
-	self assert: e skinManager skinInstaller notNil.
+	self assert: e skinManager skinInstaller isNil.
 
 ]
 
@@ -583,7 +601,7 @@ ToSkinManagerTest >> testSkinInstaller2 [
 	self assert: child skinInstaller isNil.
 	self assert: childchild skinInstaller isNil.
 	
-	e requestSkin.
+	e requestInstallSkin.
 	self assert: e skinInstaller isNil.
 	self assert: e skinManager isRequestSkinPostponed.
 
@@ -640,19 +658,4 @@ ToSkinManagerTest >> testSkinUninstallerWithToThemeChanged [
 	self assert: e skinUninstaller notNil.
 	self assert: child skinUninstaller notNil.
 	self assert: childchild skinUninstaller notNil
-]
-
-{ #category : #tests }
-ToSkinManagerTest >> testUpdateStylesIn [
-
-	| e sk |
-	e := ToElement new. 
-	space root addChild: e.
-	e skinManager setSkin: (sk := ToRawSkin new) in: e.
-	e skinManager applySkinInstallerIn: e.
-	self assert: e skinManager installedSkin identicalTo: sk.
-	self deny: e skinManager skinStateQueue nextStates isEmpty.
-	e skinManager updateStylesIn: e.
-	self assert: e skinManager skinStateQueue nextStates isEmpty.
-
 ]

@@ -67,7 +67,7 @@ ToElementTest >> testDefaultSkin [
 	e defaultSkin: (sk := ToRawSkinForTest new).
 	self assert: e defaultSkin identicalTo: sk.
 	self assert: e installedSkin isNil.
-	e requestSkin.
+	e requestInstallSkin.
 	" no change "
 	self assert: e defaultSkin identicalTo: sk.
 	self assert: e installedSkin isNil.
@@ -79,14 +79,15 @@ ToElementTest >> testDefaultSkin [
 		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ]) size
 		equals: 1.
 	self assert: sk installCpt equals: 0.
-	e updateStyles.
+	e applyStyles.
 	self assert: sk installCpt equals: 1.
 	self assert: sk initialCpt equals: 1.
+	self assert: sk uninstallCpt equals: 0.
 
 	e defaultSkin: sk.
-	e requestSkin.
+	e requestInstallSkin.
 	e applySkinInstaller.
-	e updateStyles.
+	e applyStyles.
 	" no change since same skin "
 	self assert: sk installCpt equals: 1.
 	self assert: sk initialCpt equals: 1.
@@ -98,7 +99,7 @@ ToElementTest >> testDefaultSkin [
 
 	e defaultSkin: (sk2 := ToRawSkinForTest new).
 	e applySkinInstaller.
-	e updateStyles.
+	e applyStyles.
 	
 	self
 		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ]) size
@@ -156,7 +157,7 @@ ToElementTest >> testPostponeRequestSkin [
 
 	| e |
 	e := ToElement new.
-	e requestSkin.
+	e requestInstallSkin.
 	self assert: e skinInstaller isNil.
 	self assert: e skinManager isRequestSkinPostponed.
 	space root addChild: e.
@@ -171,7 +172,7 @@ ToElementTest >> testRequestSkin [
 	e := ToElement new.
 	self assert: e skinInstaller isNil.
 	self assert: e installedSkin isNil.
-	e requestSkin.
+	e requestInstallSkin.
 	self assert: e skinInstaller isNil.
 	self assert: e installedSkin isNil.
 	space root addChild: e.
@@ -194,7 +195,7 @@ ToElementTest >> testSetSkin [
 	e defaultSkin: (sk := ToRawSkinForTest new).
 	self assert: e defaultSkin identicalTo: sk.
 	self assert: e installedSkin isNil.
-	e requestSkin.
+	e requestInstallSkin.
 	" no change "
 	self assert: e defaultSkin identicalTo: sk.
 	self assert: e installedSkin isNil.
@@ -203,7 +204,7 @@ ToElementTest >> testSetSkin [
 	self assert: e defaultSkin identicalTo: sk.
 	self assert: e installedSkin identicalTo: sk.
 	self assert: sk installCpt equals: 0.
-	e updateStyles.
+	e applyStyles.
 	self assert: sk installCpt equals: 1.
 	self assert: sk initialCpt equals: 1.
 	self assert: sk uninstallCpt equals: 0.
@@ -217,7 +218,7 @@ ToElementTest >> testSetSkin [
 	e applySkinInstaller.
 	self assert: sk uninstallCpt equals: 1.
 	
-	e updateStyles.
+	e applyStyles.
 	self assert: sk installCpt equals: 2.
 	self assert: sk initialCpt equals: 2.
 	
@@ -227,7 +228,7 @@ ToElementTest >> testSetSkin [
 
 	e defaultSkin: (sk2 := ToRawSkinForTest new).
 	e applySkinInstaller.
-	e updateStyles.
+	e applyStyles.
 	
 	self
 		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ]) size
@@ -250,7 +251,7 @@ ToElementTest >> testWithoutSkin [
 
 	| e |
 	e := ToElement new.
-	e requestSkin.
+	e requestInstallSkin.
 	space root addChild: e.
 	self assert: e skinInstaller notNil.
 	self assert: (e skinInstaller isKindOf: ToSkinInstaller).
@@ -284,7 +285,7 @@ ToElementTest >> testWithoutSkinNonContamination [
 	childchild := ToElement new.
 	child addChild: childchild.
 	e addChild: child.
-	e requestSkin.
+	e requestInstallSkin.
 	e withoutSkin.
 	" withoutSkin must be applied to the element hierarchy "
 	self assert: e defaultSkin isNullSkin.
@@ -313,7 +314,7 @@ ToElementTest >> testWithoutSkinNonContamination2 [
 	child := ToElement new.
 	childchild := ToElement new.
 	child addChild: childchild.
-	e requestSkin.
+	e requestInstallSkin.
 	e withoutSkin.
 	self assert: e defaultSkin isNullSkin.
 	self assert: child installedSkin isNil.

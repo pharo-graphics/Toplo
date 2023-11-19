@@ -27,6 +27,13 @@ ToElementWithSkinnablePropertiesForTest class >> newPropertyIndex [
 				   writer: [ :e :v | e border: v ])) }
 ]
 
+{ #category : #skin }
+ToElementWithSkinnablePropertiesForTest >> applyStyles [
+
+	skinStatesApplied := skinStatesApplied + 1.
+	super applyStyles.
+]
+
 { #category : #accessing }
 ToElementWithSkinnablePropertiesForTest >> backgroundValue [
 
@@ -67,10 +74,10 @@ ToElementWithSkinnablePropertiesForTest >> initialize [
 ]
 
 { #category : #skin }
-ToElementWithSkinnablePropertiesForTest >> requestSkin [
+ToElementWithSkinnablePropertiesForTest >> requestInstallSkin [
 
 	skinRequestCount := skinRequestCount + 1.
-	super requestSkin
+	super requestInstallSkin
 ]
 
 { #category : #accessing }
@@ -89,11 +96,4 @@ ToElementWithSkinnablePropertiesForTest >> skinRequestCount [
 ToElementWithSkinnablePropertiesForTest >> skinStatesApplied [
 
 	^ skinStatesApplied
-]
-
-{ #category : #skin }
-ToElementWithSkinnablePropertiesForTest >> updateStyles [
-
-	skinStatesApplied := skinStatesApplied + 1.
-	super updateStyles.
 ]

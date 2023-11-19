@@ -9,7 +9,7 @@ Class {
 		'writablePropertyIndex',
 		'stampIndex'
 	],
-	#category : #'Toplo-Core-StyleSheet'
+	#category : 'Toplo-Core-StyleSheet'
 }
 
 { #category : #running }
@@ -174,7 +174,7 @@ ToStyleSheet >> newWritablePropertyIndex [
 { #category : #initialization }
 ToStyleSheet >> onInstalledIn: anElement [
 
-	anElement requestSkinRecursively
+	anElement requestNewSkinRecursively
 
 ]
 

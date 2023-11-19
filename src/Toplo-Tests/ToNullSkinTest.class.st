@@ -14,7 +14,7 @@ ToNullSkinTest >> testWithASkinInstalledBefore [
 	w := ToElement new.
 	self assert: w skinInstaller isNil.
 	self assert: w installedSkin isNil.
-	w requestSkin.
+	w requestInstallSkin.
 	BlSpace new root addChild: w.
 	self assert: w skinInstaller notNil.
 	w applySkinInstaller.
@@ -28,13 +28,13 @@ ToNullSkinTest >> testWithASkinInstalledBefore [
 	self assert: w installedSkin identicalTo: nsk.
 	w applySkinInstaller.
 	self assert: w installedSkin identicalTo: nsk.
-	w requestSkin.
+	w requestInstallSkin.
 	w applySkinInstaller.
-	w updateStyles.
+	w applyStyles.
 	self assert: w installedSkin identicalTo: nsk.
 	self assert: w skinStateQueue nextStates isEmpty.
 	w enqueueSkinState: (ToTransientState lookEvent:  ToHoveredLookEvent new).
-	w updateStyles.
+	w applyStyles.
 	self assert: w skinStateQueue nextStates size identicalTo: 1
 ]
 
@@ -50,7 +50,7 @@ ToNullSkinTest >> testWithoutSkin [
 	self assert: w installedSkin isNullSkin.
 
 	self assert: ((sk := w installedSkin) isKindOf: ToNullSkin).
-	w requestSkin.
+	w requestInstallSkin.
 	w applySkinInstaller.
 	self assert: w installedSkin identicalTo: sk.
 	self assert: w skinStateQueue nextStates isEmpty

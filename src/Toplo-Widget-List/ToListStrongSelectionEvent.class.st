@@ -1,15 +1,13 @@
 Class {
-	#name : 'ToListStrongSelectionEvent',
-	#superclass : 'BlEvent',
+	#name : #ToListStrongSelectionEvent,
+	#superclass : #BlEvent,
 	#instVars : [
 		'indexes'
 	],
-	#category : 'Toplo-Widget-List-infinite',
-	#package : 'Toplo-Widget-List',
-	#tag : 'infinite'
+	#category : 'Toplo-Widget-List-infinite'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListStrongSelectionEvent class >> indexes: aCollection [ 
 
 	^ self new
@@ -17,19 +15,19 @@ ToListStrongSelectionEvent class >> indexes: aCollection [
 		  yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListStrongSelectionEvent >> indexes [
 
 	^ indexes
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListStrongSelectionEvent >> indexes: aListOnInteger [
 
 	indexes := aListOnInteger
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToListStrongSelectionEvent >> sendTo: anObject [
 
 	anObject strongSelectionEvent: self 

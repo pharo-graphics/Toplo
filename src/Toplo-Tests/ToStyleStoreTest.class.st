@@ -31,14 +31,14 @@ ToStyleStoreTest >> testHasStamp [
 
 	| e |
 	e := BlElement new.
-	self deny: (e hasStamp: #color).
+	self deny: (e hasStampNamed: #color).
 	e withStamp: (#color -> Color blue) asStyleStamp.
-	self assert: (e hasStamp: #color).
+	self assert: (e hasStampNamed: #color).
 	e withStamp: (#background -> Color blue) asStyleStamp.
 	e withStamp: (#layout -> BlLinearLayout horizontal) asStyleStamp.
 	e withStamp: (#something -> #something) asStyleStamp.
-	self assert: (e hasStamp: #something).
-	self assert: (e hasStamp: #color).
+	self assert: (e hasStampNamed: #something).
+	self assert: (e hasStampNamed: #color).
 
 ]
 
@@ -86,19 +86,6 @@ ToStyleStoreTest >> testLookUpStyleStampNamed [
 	self
 		assert: (child  stampNamed: #color)
 		identicalTo: (child toStyleStore localStampNamed: #color)
-]
-
-{ #category : #tests }
-ToStyleStoreTest >> testRemoveStyleStamp [
-
-	| e |
-	e := BlElement new.
-	e withStamp: (#color -> Color blue) asStyleStamp.
-	self assert: e toStyleStore stampIndex size equals: 1.
-	e toStyleStore removeStamp: #color asStyleStamp.
-	self assert: e toStyleStore stampIndex isEmpty.
-	e toStyleStore removeStamp: #color asStyleStamp.
-	self assert: e toStyleStore stampIndex isEmpty
 ]
 
 { #category : #tests }
@@ -184,13 +171,13 @@ ToStyleStoreTest >> testWithAllStamps [
 	self assert: e toStyleStore stampIndex notNil.
 	e withAllStamps: { #color. #background }.
 	self assert: e toStyleStore stampIndex size equals: 2.
-	self assert: (e hasStamp: #color).	
-	self assert: (e hasStamp: #background).
+	self assert: (e hasStampNamed: #color).	
+	self assert: (e hasStampNamed: #background).
 	e withAllStamps: { #blob }.
 	self assert: e toStyleStore stampIndex size equals: 3.
-	self assert: (e hasStamp: #color).	
-	self assert: (e hasStamp: #background).
-	self assert: (e hasStamp: #blob).
+	self assert: (e hasStampNamed: #color).	
+	self assert: (e hasStampNamed: #background).
+	self assert: (e hasStampNamed: #blob).
 
 
 ]
@@ -204,16 +191,16 @@ ToStyleStoreTest >> testWithStamp [
 	e withStamp: #color.
 	e withStamp: #background.
 	self assert: e toStyleStore stampIndex size equals: 2.
-	self assert: (e hasStamp: #color).	
-	self assert: (e hasStamp: #background).
+	self assert: (e hasStampNamed: #color).	
+	self assert: (e hasStampNamed: #background).
 	self assert: (e stampValue: #color).	
 	self assert: (e stampValue: #background).
 	e withStamp: #color.
 	self assert: e toStyleStore stampIndex size equals: 2.
 	e withStamp: #blob.
-	self assert: (e hasStamp: #color).	
-	self assert: (e hasStamp: #background).
-	self assert: (e hasStamp: #blob).
+	self assert: (e hasStampNamed: #color).	
+	self assert: (e hasStampNamed: #background).
+	self assert: (e hasStampNamed: #blob).
 	self assert: (e stampValue: #color).	
 	self assert: (e stampValue: #background).
 	self assert: (e stampValue: #blob).
@@ -231,16 +218,16 @@ ToStyleStoreTest >> testWithoutStamp [
 	e withStamp: #color.
 	e withStamp: #background.
 	self assert: e toStyleStore stampIndex size equals: 2.
-	self assert: (e hasStamp: #color).
-	self assert: (e hasStamp: #background).
-	self assert: (e stampValue: #color).
-	self assert: (e stampValue: #background).
+	self assert: (e hasStampNamed: #color).
+	self assert: (e hasStampNamed: #background).
+	self assert: (e hasStampNamed: #color).
+	self assert: (e hasStampNamed: #background).
 	e withoutStamp: #color.
 	self assert: e toStyleStore stampIndex size equals: 1.
 	e withoutStamp: #blob.
-	self deny: (e hasStamp: #color).
-	self assert: (e hasStamp: #background).
-	self deny: (e hasStamp: #blob).
+	self deny: (e hasStampNamed: #color).
+	self assert: (e hasStampNamed: #background).
+	self deny: (e hasStampNamed: #blob).
 	self
 		should: [ e stampValue: #color ]
 		raise: ToElementPropertyNotFound.

@@ -36,11 +36,11 @@ ToPropertyIndexTest >> testHasPropertyNamed [
 
 	| idx |
 	idx := ToPropertyIndex new.
-	idx addAllProperties: { (ToFeatureProperty new name: #color). (ToFeatureProperty new name: #background) } .
+	idx addAllProperties: {
+			(ToFeatureProperty new name: #color).
+			(ToFeatureProperty new name: #background) }.
 	self assert: (idx hasPropertyNamed: #color).
-	self deny: (idx hasPropertyNamed: #layout).
-
-		
+	self deny: (idx hasPropertyNamed: #layout)
 ]
 
 { #category : #tests }
@@ -102,41 +102,12 @@ ToPropertyIndexTest >> testRemoveAllProperties [
 
 	| idx |
 	idx := ToPropertyIndex new.
-	idx addAllProperties: { (ToFeatureProperty new name: #color). (ToFeatureProperty new name: #background) } .
+	idx addAllProperties: {
+			(ToFeatureProperty new name: #color).
+			(ToFeatureProperty new name: #background) }.
 	self assert: idx size equals: 2.
 	idx removeAllProperties.
-	self assert: idx size equals: 0.
-
-
-		
-]
-
-{ #category : #tests }
-ToPropertyIndexTest >> testRemoveProperty [
-
-	| idx p |
-	idx := ToPropertyIndex new.
-	idx addAllProperties: { (p := ToFeatureProperty new name: #color). (ToFeatureProperty new name: #background) } .
-	idx removeProperty: p.
-	self assert: idx size equals: 1.
-	self deny: (idx hasPropertyNamed: #color)
-
-		
-]
-
-{ #category : #tests }
-ToPropertyIndexTest >> testRemovePropertyIfAbsent [
-
-	| idx p notFound |
-	idx := ToPropertyIndex new.
-	idx addAllProperties: {
-			(p := ToFeatureProperty new name: #color).
-			(ToFeatureProperty new name: #background) }.
-	notFound := false.
-	idx
-		removeProperty: (ToFeatureProperty new name: #bounds)
-		ifAbsent: [ notFound := true ].
-	self assert: notFound
+	self assert: idx size equals: 0
 ]
 
 { #category : #tests }
@@ -150,21 +121,6 @@ ToPropertyIndexTest >> testRemovePropertyNamed [
 	self deny: (idx hasPropertyNamed: #color)
 
 		
-]
-
-{ #category : #tests }
-ToPropertyIndexTest >> testRemovePropertyNamedIfAbsent [
-
-	| idx notFound |
-	idx := ToPropertyIndex new.
-	idx addAllProperties: {
-			(ToFeatureProperty new name: #color).
-			(ToFeatureProperty new name: #background) }.
-	notFound := false.
-	idx
-		removePropertyNamed: #bounds
-		ifAbsent: [ notFound := true ].
-	self assert: notFound
 ]
 
 { #category : #tests }

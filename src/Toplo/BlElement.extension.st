@@ -10,8 +10,23 @@ BlElement >> applySkinInstaller [
 { #category : #'*Toplo' }
 BlElement >> applySkinInstallerRecursively [
 
+	self childrenDo: [ :child | child applySkinInstallerRecursively ].
 	self applySkinInstaller.
-	self childrenDo: [ :child | child applySkinInstallerRecursively ]
+
+
+]
+
+{ #category : #'*Toplo' }
+BlElement >> applyStyles [
+
+	self skinManager applyStylesIn: self
+]
+
+{ #category : #'*Toplo' }
+BlElement >> applyStylesRecursively [
+
+	self childrenDo: [ :child | child applyStylesRecursively ].
+	self applyStyles.
 
 ]
 
@@ -76,9 +91,9 @@ BlElement >> hasEnablementFlag [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> hasStamp: aSymbol [
+BlElement >> hasStampNamed: aSymbol [
 
-	^ self toStyleStore hasStamp: aSymbol
+	^ self toStyleStore hasStampNamed: aSymbol
 ]
 
 { #category : #'*Toplo' }
@@ -122,10 +137,17 @@ BlElement >> isEnabled [
 	^ self userData at: #enabled ifAbsentPut: [ true ]
 ]
 
+{ #category : #'*Toplo' }
+BlElement >> localToTheme [
+
+	^ self skinManager localTheme
+]
+
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> localToTheme: aTheme [
 
-	self skinManager localTheme: aTheme in: self
+	self skinManager localTheme: aTheme in: self.
+	self spaceDo: [:sp | sp requestNextPulse ] 
 ]
 
 { #category : #'*Toplo' }
@@ -144,23 +166,30 @@ BlElement >> openInInnerWindow [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> requestSkin [
+BlElement >> requestInstallSkin [
 
 	" first check for the space phases "
-	self skinManager requestSkinIn: self 
+	self skinManager requestInstallSkinIn: self 
 ]
 
 { #category : #'*Toplo' }
-BlElement >> requestSkinRecursively [
+BlElement >> requestNewSkin [
 
-	self childrenDo: [ :child | child requestSkinRecursively ].
-	self requestSkin
+	self requestUninstallSkin.
+	self requestInstallSkin.
+	self spaceDo: [ :sp | sp requestNextPulse ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> requestNewSkinRecursively [
+
+	self childrenDo: [ :child | child requestNewSkinRecursively ].
+	self requestNewSkin 
 ]
 
 { #category : #'*Toplo' }
 BlElement >> requestUninstallSkin [
 
-	" first check for the space phases "
 	self skinManager requestUninstallSkinIn: self 
 ]
 
@@ -275,7 +304,7 @@ BlElement >> textAttributesBuilder [
 { #category : #'*Toplo' }
 BlElement >> toStyleStore [
 
-	^ self userData at: #toStyleStore ifAbsentPut: [ ToStyleStore new ]
+	^ self userData at: #toStyleStore ifAbsentPut: [ ToStyleStore new onInstalledIn: self; yourself]
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
@@ -296,26 +325,12 @@ BlElement >> toThemeChanged [
 
 	self childrenDo: [ :c | c toThemeChanged ].
 	self dispatchEvent: ToThemeChangedEvent new.
-	self requestUninstallSkin.	
-	self requestSkin.
+	self requestNewSkin.
 ]
 
 { #category : #'*Toplo' }
 BlElement >> uninstallRawStyle [
 
-]
-
-{ #category : #'*Toplo' }
-BlElement >> updateStyles [
-
-	self skinManager updateStylesIn: self
-]
-
-{ #category : #'*Toplo' }
-BlElement >> updateStylesRecursively [
-
-	self updateStyles.
-	self childrenDo: [ :child | child updateStylesRecursively ]
 ]
 
 { #category : #'*Toplo' }

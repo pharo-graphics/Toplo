@@ -1,6 +1,6 @@
 Class {
 	#name : #ToThemeChangedEvent,
-	#superclass : #ToSkinEvent,
+	#superclass : #BlEvent,
 	#category : 'Toplo-Core-Theme'
 }
 

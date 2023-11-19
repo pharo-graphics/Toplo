@@ -19,7 +19,13 @@ ToSkinStateQueue >> applyOn: anElement [
 ToSkinStateQueue >> enqueueState: aState for: anElement [
 
 	self nextStates nextPut: aState.
-	aState enqueuedFor: anElement
+	aState onEnqueuedFor: anElement
+]
+
+{ #category : #hook }
+ToSkinStateQueue >> flushStates: aBlock [
+
+	self nextStates flush: aBlock
 ]
 
 { #category : #initialization }

@@ -1,12 +1,10 @@
 Class {
-	#name : 'ToCheckableGroupStrictStrategy',
-	#superclass : 'ToCheckableGroupCheckingStrategy',
-	#category : 'Toplo-Widget-Button-Checkable',
-	#package : 'Toplo-Widget-Button',
-	#tag : 'Checkable'
+	#name : #ToCheckableGroupStrictStrategy,
+	#superclass : #ToCheckableGroupCheckingStrategy,
+	#category : 'Toplo-Widget-Button-Checkable'
 }
 
-{ #category : 'notifications' }
+{ #category : #notifications }
 ToCheckableGroupStrictStrategy >> buttonInserted: aCheckable in: aGroup [
 
 	aCheckable isChecked ifTrue: [
@@ -15,7 +13,7 @@ ToCheckableGroupStrictStrategy >> buttonInserted: aCheckable in: aGroup [
 	super buttonInserted: aCheckable in: aGroup
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ToCheckableGroupStrictStrategy >> checkRequestEvent: aCheckRequest in: aGroup [
 	" do not allow to uncheck a button by checking it "
 

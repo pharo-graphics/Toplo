@@ -2,10 +2,54 @@ Class {
 	#name : #ToSkin,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
+		'beforeLookEventAction',
+		'afterLookEventAction',
 		'removeFromSceneGraphHandler'
 	],
 	#category : 'Toplo-Core-Theme'
 }
+
+{ #category : #'api - event managing' }
+ToSkin >> afterLookEvent: anEvent [
+
+	self afterLookEventAction value: anEvent
+]
+
+{ #category : #accessing }
+ToSkin >> afterLookEventAction [
+
+	^ afterLookEventAction
+]
+
+{ #category : #accessing }
+ToSkin >> afterLookEventAction: anObject [
+
+	afterLookEventAction := anObject
+]
+
+{ #category : #'style updating' }
+ToSkin >> applyStylesIn: anElement [
+
+	anElement skinStateQueue applyOn: anElement
+]
+
+{ #category : #'api - event managing' }
+ToSkin >> beforeLookEvent: anEvent [
+
+	self beforeLookEventAction value: anEvent
+]
+
+{ #category : #accessing }
+ToSkin >> beforeLookEventAction [
+
+	^ beforeLookEventAction
+]
+
+{ #category : #accessing }
+ToSkin >> beforeLookEventAction: anObject [
+
+	beforeLookEventAction := anObject
+]
 
 { #category : #'event handling' }
 ToSkin >> checkedLookEvent: anEvent [
@@ -21,12 +65,6 @@ ToSkin >> clickedLookEvent: anEvent [
 
 { #category : #'event handling' }
 ToSkin >> closedLookEvent: anEvent [
-
-
-]
-
-{ #category : #'event handling' }
-ToSkin >> deselectedLookEvent: anEvent [
 
 
 ]
@@ -89,12 +127,22 @@ ToSkin >> enabledLookEvent: anEvent [
 ToSkin >> eventsToHandle [
 
 	^ {
-		  ToSkinEvent.
+		  ToSkinManagementEvent.
 		  ToElementLookEvent }
 ]
 
 { #category : #'event handling' }
 ToSkin >> focusedLookEvent: anEvent [
+
+
+]
+
+{ #category : #'api - event managing' }
+ToSkin >> handleEvent: anEvent [
+
+	self beforeLookEvent: anEvent.
+	super handleEvent: anEvent.
+	self afterLookEvent: anEvent.
 
 
 ]
@@ -114,6 +162,15 @@ ToSkin >> indeterminateLookEvent: anEvent [
 { #category : #'event handling' }
 ToSkin >> initialLookEvent: anEvent [
 
+
+]
+
+{ #category : #initialization }
+ToSkin >> initialize [ 
+
+	super initialize.
+	beforeLookEventAction := [ :evt | ].
+	afterLookEventAction := [ :evt | ].
 
 ]
 
@@ -175,12 +232,6 @@ ToSkin >> releasedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSkin >> selectedLookEvent: anEvent [
-
-
-]
-
-{ #category : #'event handling' }
 ToSkin >> skinInitialStateRequest: anEvent [
 
 	anEvent currentTarget skinStateQueue skinInitialStateRequest: anEvent
@@ -212,17 +263,6 @@ ToSkin >> stillPressedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSkin >> themeChangedEvent: anEvent [
-
-	| target |
-	target := anEvent currentTarget.
-	target installedSkin == self ifFalse: [
-		Error signal: 'Baddly installed skin' ].
-	target requestUninstallSkin.
-	target requestSkin
-]
-
-{ #category : #'event handling' }
 ToSkin >> uncheckedLookEvent: anEvent [
 
 
@@ -238,10 +278,4 @@ ToSkin >> unfocusedLookEvent: anEvent [
 ToSkin >> uninstallLookEvent: anEvent [
 
 
-]
-
-{ #category : #'style updating' }
-ToSkin >> updateStylesIn: anElement [
-
-	anElement skinStateQueue applyOn: anElement
 ]

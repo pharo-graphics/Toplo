@@ -1,17 +1,15 @@
 Class {
-	#name : 'ToMenuBar',
-	#superclass : 'ToElement',
+	#name : #ToMenuBar,
+	#superclass : #ToElement,
 	#traits : 'TToOrientable',
 	#classTraits : 'TToOrientable classTrait',
 	#instVars : [
 		'menus'
 	],
-	#category : 'Toplo-Widget-Menu-Bar',
-	#package : 'Toplo-Widget-Menu',
-	#tag : 'Bar'
+	#category : 'Toplo-Widget-Menu-Bar'
 }
 
-{ #category : 'initialize' }
+{ #category : #initialize }
 ToMenuBar >> adaptToOrientation [
 
 	self isHorizontal
@@ -23,14 +21,14 @@ ToMenuBar >> adaptToOrientation [
 			self hFitContent ]
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 ToMenuBar >> addFiller [
 
 	| filler |
 	self addChild: (filler := ToMenuBarFiller new)
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 ToMenuBar >> addMenu: aMenu [
 
 	self menus add: aMenu.
@@ -44,7 +42,7 @@ ToMenuBar >> addMenu: aMenu [
 	self dispatchEvent: (ToMenuBarMenuAddedEvent new menu: aMenu)
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 ToMenuBar >> addSeparator [
 
 	| sep |
@@ -53,7 +51,7 @@ ToMenuBar >> addSeparator [
 	sep horizontal: self isHorizontal not
 ]
 
-{ #category : 'initialize' }
+{ #category : #initialize }
 ToMenuBar >> initialize [ 
 
 	super initialize.
@@ -69,7 +67,7 @@ ToMenuBar >> initialize [
 	self addEventFilter: ToMenuBarEventHandler new
 ]
 
-{ #category : 't - orientable - accessing' }
+{ #category : #'t - orientable - accessing' }
 ToMenuBar >> layoutStrategy [
 
 	^ self layout
@@ -77,13 +75,13 @@ ToMenuBar >> layoutStrategy [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToMenuBar >> menus [
 
 	^ menus
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 ToMenuBar >> removeMenu: aMenu [
 
 	self menus remove: aMenu.

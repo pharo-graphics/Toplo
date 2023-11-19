@@ -16,17 +16,17 @@ ToLabeledIconEventHandler >> eventsToHandle [
 { #category : #'events handling' }
 ToLabeledIconEventHandler >> layoutConstraintsChangedEvent: anEvent [
 
-	anEvent currentTarget requestSkin 
+	anEvent currentTarget requestNewSkin 
 ]
 
 { #category : #'events handling' }
 ToLabeledIconEventHandler >> layoutDirectionChangedEvent: anEvent [
 
-	anEvent currentTarget requestSkin 
+	anEvent currentTarget requestNewSkin 
 ]
 
 { #category : #'events handling' }
 ToLabeledIconEventHandler >> layoutOrientationChangedEvent: anEvent [
 
-	anEvent currentTarget requestSkin 
+	anEvent currentTarget requestInstallSkin 
 ]

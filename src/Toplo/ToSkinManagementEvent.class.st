@@ -1,11 +1,11 @@
 Class {
-	#name : #ToSkinEvent,
+	#name : #ToSkinManagementEvent,
 	#superclass : #BlEvent,
 	#category : 'Toplo-Core-Theme'
 }
 
 { #category : #sending }
-ToSkinEvent >> sendToStyleSheetSkin: aStyleSheetSkin [
+ToSkinManagementEvent >> sendToStyleSheetSkin: aStyleSheetSkin [
 
 	self sendTo: aStyleSheetSkin 
 ]

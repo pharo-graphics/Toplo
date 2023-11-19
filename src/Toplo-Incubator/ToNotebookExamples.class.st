@@ -1,57 +1,87 @@
 Class {
-	#name : 'ToNotebookExamples',
-	#superclass : 'Object',
-	#category : 'Toplo-Incubator',
-	#package : 'Toplo-Incubator'
+	#name : #ToNotebookExamples,
+	#superclass : #Object,
+	#category : 'Toplo-Incubator'
 }
 
-{ #category : 'tabs' }
+{ #category : #tabs }
 ToNotebookExamples class >> example_closeableTabs [
 
-	| space notebook |
-	space := BlSpace new.
-	notebook := ToNotebook new.
-	space root addChild: notebook.
-
+	| nb but |
+	nb := ToNotebook new.
+	nb preservePaneOnSelect: false.
 	(Color wheel: 5) withIndexDo: [ :eachColor :index |
-		| aPage |
-		aPage := notebook
-			addPageTitle: 'Page ', index asString
-			body: (BlElement new
-				background: eachColor;
-				yourself).
-		aPage isCloseable: true ].
-
-
-	space show
+		but := ToNotebookButton new.
+		but closable: true.
+		but labelText: 'Button ' , index asString.
+		but paneBuilder: [ :pane :theNoteBook | pane background: eachColor ].
+		nb addButton: but ].
+	nb openInSpace
 ]
 
-{ #category : 'tabs' }
+{ #category : #tabs }
+ToNotebookExamples class >> example_notPreservingPane [
+
+	| nb but |
+	nb := ToNotebook new.
+	nb withoutCheckingStrategy.
+	nb withHorizontalBody.
+	nb preservePaneOnSelect: false.
+	1 to: 5 do: [ :index |
+		but := ToNotebookButton new.
+		but closable: true.
+		but labelText: 'Button ' , index asString.
+		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
+		nb addButton: but ].
+	nb openInSpace
+]
+
+{ #category : #tabs }
+ToNotebookExamples class >> example_preservingPane [
+
+	| nb but |
+	nb := ToNotebook new.
+	nb preservePaneOnSelect: true.
+	nb withoutCheckingStrategy.
+	nb resizablePanes: true.
+	1 to: 5 do: [ :index |
+		but := ToNotebookButton new.
+		but closable: true.
+		but labelText: 'Button ' , index asString.
+		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
+		nb addButton: but ].
+	nb openInSpace
+]
+
+{ #category : #tabs }
 ToNotebookExamples class >> example_tabsWith2Pages [
 
 	| aNotebook redPage greenPage redCount greenCount |
 	aNotebook := ToNotebook new.
+	aNotebook rebuildPaneOnSelect: true.
 
 	redCount := 0.
-	redPage := aNotebook addPageTitle: 'Red' bodyBuilder: [
-		           redCount := redCount + 1.
-		           BlTextElement new
-			           text:
-				           (redCount asRopedText foreground: Color red darker);
-			           yourself ].
+	redPage := aNotebook
+		           addButtonWithText: 'RED'
+		           withPaneBuilder: [ :pane :theNotebook |
+			           redCount := redCount + 1.
+			           pane addChild: (ToLabel
+					            text:
+						            (redCount asRopedText foreground: Color red darker)) ].
 
 	greenCount := 0.
-	greenPage := aNotebook addPageTitle: 'Green' bodyBuilder: [
-		             greenCount := greenCount + 1.
-		             BlTextElement new
-			             text:
-				             (greenCount asRopedText foreground:
-						              Color green muchDarker);
-			             yourself ].
+	greenPage := aNotebook
+		             addButtonWithText: 'GREEN'
+		             withPaneBuilder: [ :pane :theNotebook |
+			             greenCount := greenCount + 1.
+			             pane addChild: (ToLabel
+					              text:
+						              (greenCount asRopedText foreground:
+								               Color green darker) ) ].
 
 	aNotebook openInSpace
 ]
 
-{ #category : 'see class side' }
+{ #category : #'see class side' }
 ToNotebookExamples >> seeClassSide [ 
 ]

@@ -1,40 +1,38 @@
 Class {
-	#name : 'ToDataFilterResultEvent',
-	#superclass : 'BlEvent',
+	#name : #ToDataFilterResultEvent,
+	#superclass : #BlEvent,
 	#instVars : [
 		'data',
 		'indexes'
 	],
-	#category : 'Toplo-Widget-List-filter',
-	#package : 'Toplo-Widget-List',
-	#tag : 'filter'
+	#category : 'Toplo-Widget-List-filter'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToDataFilterResultEvent >> data [
 
 	^ data
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToDataFilterResultEvent >> data: aCollection [
 
 	data := aCollection
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToDataFilterResultEvent >> indexes [
 
 	^ indexes
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToDataFilterResultEvent >> indexes: aCollection [
 
 	indexes := aCollection
 ]
 
-{ #category : 'sending' }
+{ #category : #sending }
 ToDataFilterResultEvent >> sendTo: anObject [
 
 	anObject dataFilterResultEvent: self

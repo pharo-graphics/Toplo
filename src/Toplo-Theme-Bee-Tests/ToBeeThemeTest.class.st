@@ -50,12 +50,12 @@ ToBeeThemeTest >> testSpaceRoot [
 			 background: Color white).
 	space root addChild: e.
 	space applyAllSkinInstallers.
-	space updateAllStyles.
+	space applyAllStyles.
 	self assert: space root background paint color equals: (ssi styleSheet stampNamed: 'background-color') value.
 	ssi := ToBeeDarkTheme new.
 	space toTheme: ssi.
 	space applyAllSkinInstallers.
-	space updateAllStyles.
+	space applyAllStyles.
 	self assert: space root background paint color equals: (ssi styleSheet stampNamed: 'background-color') value.
 
 

@@ -13,7 +13,7 @@ When to use ?
 Class {
 	#name : #ToBeeDarkTheme,
 	#superclass : #ToBeeTheme,
-	#category : #'Toplo-Theme-Bee'
+	#category : 'Toplo-Theme-Bee'
 }
 
 { #category : #initialization }

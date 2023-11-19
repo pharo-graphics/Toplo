@@ -65,7 +65,6 @@ ToAnchoredWindow >> dispatchOpenedEvent: anEvent [
 		         sourceEvent: anEvent;
 		         yourself.
 	self dispatchEvent: event.
-	self requestSkin.
 	self element ifNotNil: [ :w | w dispatchEvent: event copy ]
 ]
 

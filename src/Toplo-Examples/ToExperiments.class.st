@@ -1,11 +1,10 @@
 Class {
-	#name : 'ToExperiments',
-	#superclass : 'Object',
-	#category : 'Toplo-Examples',
-	#package : 'Toplo-Examples'
+	#name : #ToExperiments,
+	#superclass : #Object,
+	#category : 'Toplo-Examples'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToExperiments class >> embeddedFontsText [
 
 	"
@@ -71,7 +70,7 @@ AeFontStretch: condensed expanded extraCondensed extraExpanded normal semiConden
 	^ text
 ]
 
-{ #category : 'drag and drop' }
+{ #category : #'drag and drop' }
 ToExperiments class >> example_DragAndDropWithLinearLayout [
 
 	| container red blue space  |
@@ -103,7 +102,7 @@ ToExperiments class >> example_DragAndDropWithLinearLayout [
 		do: [ :event | blue border: BlBorder empty ]
 ]
 
-{ #category : 'elements' }
+{ #category : #elements }
 ToExperiments class >> example_ExperimentForMultilineLabel [
 
 	| element l |
@@ -119,7 +118,7 @@ ToExperiments class >> example_ExperimentForMultilineLabel [
 	element openInSpace
 ]
 
-{ #category : 'elements' }
+{ #category : #elements }
 ToExperiments class >> example_ExperimentForMultilineLabel0 [
 
 	| element l |
@@ -138,7 +137,7 @@ ToExperiments class >> example_ExperimentForMultilineLabel0 [
 	element openInSpace
 ]
 
-{ #category : 'elements' }
+{ #category : #elements }
 ToExperiments class >> example_ExperimentForMultilineLabel2 [
 
 	| element l |
@@ -158,7 +157,7 @@ ToExperiments class >> example_ExperimentForMultilineLabel2 [
 	element openInSpace
 ]
 
-{ #category : 'elements' }
+{ #category : #elements }
 ToExperiments class >> example_ExperimentForMultilineLabel3 [
 
 	| root text itor |
@@ -190,7 +189,7 @@ ToExperiments class >> example_ExperimentForMultilineLabel3 [
 	root openInOBlSpace
 ]
 
-{ #category : 'elements' }
+{ #category : #elements }
 ToExperiments class >> example_ExperimentForMultilineLabel4 [
 
 	| root text itor |
@@ -223,7 +222,7 @@ ToExperiments class >> example_ExperimentForMultilineLabel4 [
 	root openInOBlSpace
 ]
 
-{ #category : 'elements' }
+{ #category : #elements }
 ToExperiments class >> example_ExperimentForMultilineLabel5 [
 
 	| root text itor |
@@ -254,7 +253,7 @@ ToExperiments class >> example_ExperimentForMultilineLabel5 [
 	root openInOBlSpace
 ]
 
-{ #category : 'frame' }
+{ #category : #frame }
 ToExperiments class >> example_FlowLayoutHorizontal [
 
 	| frame left right fill |
@@ -287,7 +286,7 @@ ToExperiments class >> example_FlowLayoutHorizontal [
 	frame openInNewSpace
 ]
 
-{ #category : 'frame' }
+{ #category : #frame }
 ToExperiments class >> example_FrameLayout [
 
 	| frame left right fill |
@@ -320,7 +319,7 @@ ToExperiments class >> example_FrameLayout [
 	frame openInNewSpace
 ]
 
-{ #category : 'frame' }
+{ #category : #frame }
 ToExperiments class >> example_LinearLayout [
 
 	| frame left right fill |
@@ -356,7 +355,7 @@ ToExperiments class >> example_LinearLayout [
 	frame openInNewSpace
 ]
 
-{ #category : 'frame' }
+{ #category : #frame }
 ToExperiments class >> example_LinearLayoutFillWithFitContent [
 
 	| win cpt root |
@@ -406,7 +405,7 @@ ToExperiments class >> example_LinearLayoutFillWithFitContent [
 	win openInSpace
 ]
 
-{ #category : 'frame' }
+{ #category : #frame }
 ToExperiments class >> example_LinearLayoutFillWithMatchParent [
 
 	| frame left right fill |
@@ -442,7 +441,7 @@ ToExperiments class >> example_LinearLayoutFillWithMatchParent [
 	frame openInNewSpace
 ]
 
-{ #category : 'frame' }
+{ #category : #frame }
 ToExperiments class >> example_LinearLayoutWithLabels [
 
 	| frame |
@@ -463,7 +462,7 @@ ToExperiments class >> example_LinearLayoutWithLabels [
 	frame openInNewSpace
 ]
 
-{ #category : 'drag and drop' }
+{ #category : #'drag and drop' }
 ToExperiments class >> example_PasteUpPane [
 
 	| container red blue space  |
@@ -495,7 +494,7 @@ ToExperiments class >> example_PasteUpPane [
 		do: [ :event | blue border: BlBorder empty ]
 ]
 
-{ #category : 'drag and drop' }
+{ #category : #'drag and drop' }
 ToExperiments class >> example_PasteUpWithPlaceHolder [
 
 	| container red blue pred pblue space phpane |
@@ -569,7 +568,7 @@ red when: BlDragLeaveEvent do: [ :event | event consumed: true. red background: 
 "
 ]
 
-{ #category : 'image' }
+{ #category : #image }
 ToExperiments class >> example_Smalltalk_all_classes [
 
 | column root vscrollBar container space |
@@ -604,7 +603,7 @@ ToExperiments class >> example_Smalltalk_all_classes [
 	space show
 ]
 
-{ #category : 'image' }
+{ #category : #image }
 ToExperiments class >> example_Smalltalk_ui_icons_withElements [
 
 | column root vscrollBar container space |
@@ -654,7 +653,7 @@ ToExperiments class >> example_Smalltalk_ui_icons_withElements [
 	space show
 ]
 
-{ #category : 'elements' }
+{ #category : #elements }
 ToExperiments class >> example_TextFlowWithBlElements [
 
 	| element |
@@ -680,7 +679,7 @@ ToExperiments class >> example_TextFlowWithBlElements [
 	element openInOBlSpace
 ]
 
-{ #category : 'elements' }
+{ #category : #elements }
 ToExperiments class >> example_TextFlowWithBlElements2 [
 
 	| element |
@@ -717,7 +716,7 @@ ToExperiments class >> example_TextFlowWithBlElements2 [
 	element openInNewSpace
 ]
 
-{ #category : 'mouse drag' }
+{ #category : #'mouse drag' }
 ToExperiments class >> example_drag [
 
 	| e child p |
@@ -743,7 +742,7 @@ ToExperiments class >> example_drag [
 	e openInNewSpace
 ]
 
-{ #category : 'mouse drag' }
+{ #category : #'mouse drag' }
 ToExperiments class >> example_drag2 [
 
 	| e child |
@@ -762,7 +761,7 @@ ToExperiments class >> example_drag2 [
 	e openInNewSpace
 ]
 
-{ #category : 'mouse drag' }
+{ #category : #'mouse drag' }
 ToExperiments class >> example_drag3 [
 
 	| e child |
@@ -787,7 +786,7 @@ ToExperiments class >> example_drag3 [
 	e openInNewSpace
 ]
 
-{ #category : 'mouse drag' }
+{ #category : #'mouse drag' }
 ToExperiments class >> example_drag4 [
 
 	| e child |
@@ -808,7 +807,7 @@ ToExperiments class >> example_drag4 [
 	child openInInnerWindow
 ]
 
-{ #category : 'elements' }
+{ #category : #elements }
 ToExperiments class >> example_elements_sandbox [
 
 	| sp root child1 child2 |
@@ -826,7 +825,7 @@ ToExperiments class >> example_elements_sandbox [
 	sp show
 ]
 
-{ #category : 'stuffs' }
+{ #category : #stuffs }
 ToExperiments class >> example_enterLeave [
 
 	| e1 e2 space |
@@ -839,7 +838,7 @@ ToExperiments class >> example_enterLeave [
 	space show
 ]
 
-{ #category : 'frame' }
+{ #category : #frame }
 ToExperiments class >> example_frame [
 
 	| frame bar close fill fill2 expand title root bkg pullHandler |
@@ -899,7 +898,7 @@ ToExperiments class >> example_frame [
 	frame openInNewSpace
 ]
 
-{ #category : 'frame' }
+{ #category : #frame }
 ToExperiments class >> example_mouseEvent_descending_bubbling [
 
 	| gray blue yellow world |
@@ -972,7 +971,7 @@ ToExperiments class >> example_mouseEvent_descending_bubbling [
 	world show
 ]
 
-{ #category : 'space' }
+{ #category : #space }
 ToExperiments class >> example_space [
 | space |
 space := BlSpace new "extent: 50@50;" position: 1000@800; toBack; fullscreen: true ; resizable: false; borderless: true.
@@ -980,7 +979,7 @@ space show.
 space inspect
 ]
 
-{ #category : 'popup strategy' }
+{ #category : #'popup strategy' }
 ToExperiments class >> example_strategy [
 
 	| win blue red |
@@ -1013,7 +1012,7 @@ ToExperiments class >> example_strategy [
 	win relocate: 100 @ 30
 ]
 
-{ #category : 'frame' }
+{ #category : #frame }
 ToExperiments class >> example_testTwoChildrenOnOppositeSidesWithSpan [
 	<gtExample>
 	| parent left span right |
@@ -1063,7 +1062,7 @@ ToExperiments class >> example_testTwoChildrenOnOppositeSidesWithSpan [
 	^ parent openInOBlSpace 
 ]
 
-{ #category : 'multistate' }
+{ #category : #multistate }
 ToExperiments class >> example_toScaling [
 
 	| space container |
@@ -1103,7 +1102,7 @@ ToExperiments class >> example_toScaling [
 	space show
 ]
 
-{ #category : 'toogle button' }
+{ #category : #'toogle button' }
 ToExperiments class >> example_toggle_sliding [
 
 	|  toggle track but left right slideB slide |
@@ -1142,7 +1141,7 @@ ToExperiments class >> example_toggle_sliding [
 	toggle openInSpace
 ]
 
-{ #category : 'toogle button' }
+{ #category : #'toogle button' }
 ToExperiments class >> example_toggle_sliding_with_animation1 [
 
 	| root toggle track but left right slide |
@@ -1189,7 +1188,7 @@ ToExperiments class >> example_toggle_sliding_with_animation1 [
 	root openInSpace
 ]
 
-{ #category : 'toogle button' }
+{ #category : #'toogle button' }
 ToExperiments class >> example_toggle_with_animation [
 
 	| btn track lab |
@@ -1223,7 +1222,7 @@ ToExperiments class >> example_toggle_with_animation [
 						  anElement parent border: (BlBorder paint: aColor) ]) })
 ]
 
-{ #category : 'frame' }
+{ #category : #frame }
 ToExperiments class >> example_twoChildrenInPolygon [
 
 	| top parent child child2 |
@@ -1284,7 +1283,7 @@ ToExperiments class >> example_twoChildrenInPolygon [
 	^ top openInInnerWindow
 ]
 
-{ #category : 'frame' }
+{ #category : #frame }
 ToExperiments class >> example_twoChildrenMatchParentInFitContent [
 	| parent child child2 |
 	parent := BlElement new.
@@ -1319,7 +1318,7 @@ ToExperiments class >> example_twoChildrenMatchParentInFitContent [
 	^ parent openInOBlSpace 
 ]
 
-{ #category : 'rotated text' }
+{ #category : #'rotated text' }
 ToExperiments class >> example_verticalLabel [
 
 ((ToLabel new text: 'AAAA') 

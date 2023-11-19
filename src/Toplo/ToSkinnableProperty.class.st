@@ -12,7 +12,7 @@ ToSkinnableProperty >> write: anPropertyValue to: anObject [
 
 	" change the property value actually "
 	r := super write: anPropertyValue to: anObject.
-	(prev ~= r) ifTrue: [ anObject requestSkin ].
+	(prev ~= r) ifTrue: [ anObject requestNewSkin ].
 
 	^ r
 ]

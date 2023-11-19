@@ -11,6 +11,13 @@ Class {
 	#category : 'Toplo-Tests-Core-Slots'
 }
 
+{ #category : #skin }
+ToElementWithSkinnableSlotsForTest >> applyStyles [
+
+	skinStatesApplied := skinStatesApplied + 1.
+	super applyStyles.
+]
+
 { #category : #accessing }
 ToElementWithSkinnableSlotsForTest >> child1 [
 
@@ -50,10 +57,10 @@ ToElementWithSkinnableSlotsForTest >> initialize [
 ]
 
 { #category : #skin }
-ToElementWithSkinnableSlotsForTest >> requestSkin [
+ToElementWithSkinnableSlotsForTest >> requestInstallSkin [
 
 	skinRequestCount := skinRequestCount + 1.
-	super requestSkin.
+	super requestInstallSkin.
 ]
 
 { #category : #accessing }
@@ -72,11 +79,4 @@ ToElementWithSkinnableSlotsForTest >> skinRequestCount [
 ToElementWithSkinnableSlotsForTest >> skinStatesApplied [
 
 	^ skinStatesApplied
-]
-
-{ #category : #skin }
-ToElementWithSkinnableSlotsForTest >> updateStyles [
-
-	skinStatesApplied := skinStatesApplied + 1.
-	super updateStyles.
 ]

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToThemeExamples,
 	#superclass : #Object,
-	#category : #'Toplo-Theme-Examples'
+	#category : 'Toplo-Theme-Examples'
 }
 
 { #category : #private }
@@ -182,7 +182,7 @@ ToThemeExamples class >> openThemeExampleSpace [
 	space root addChild: (ToElement id: #themeSandBox).
 
 	"Configure default Theme"
-	space root localToTheme: ToBeeLightTheme new.
+	"space root localToTheme: ToBeeLightTheme new."
 
 	space position: 100 @ 100.
 	space show.

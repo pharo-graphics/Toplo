@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'innerImage'
 	],
-	#category : #'Toplo-Widget-Image-Core'
+	#category : 'Toplo-Widget-Image-Core'
 }
 
 { #category : #'instance creation' }
@@ -32,6 +32,16 @@ ToImage >> errorInnerFormNotFound [
 	"Raise a NotFound exception."
 
 	NotFound signalFor: self
+]
+
+{ #category : #'form accessing' }
+ToImage >> formColor: aColor [
+
+	self
+		withInnerFormDo: [ :form |
+			self innerImage:
+				(form collectColors: [ :color | aColor alpha: color alpha ]) ]
+		ifNone: [  ]
 ]
 
 { #category : #testing }
@@ -72,7 +82,8 @@ ToImage >> innerImage: anImage [
 	anImage = innerImage ifTrue: [ ^ self ].
 	self removeChildren.
 	innerImage := element.
-	self addChild: element
+	self addChild: element.
+	self requestNewSkin 
 ]
 
 { #category : #'form accessing' }

@@ -14,5 +14,5 @@ ToSpaceSkinStatePhase >> name [
 { #category : #actions }
 ToSpaceSkinStatePhase >> runOn: aSpace [
 
-	aSpace updateAllStyles
+	aSpace applyAllStyles
 ]

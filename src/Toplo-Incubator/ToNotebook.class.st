@@ -1,195 +1,229 @@
 Class {
-	#name : 'ToNotebook',
-	#superclass : 'ToPane',
+	#name : #ToNotebook,
+	#superclass : #ToPane,
 	#instVars : [
-		'pages',
+		'rebuildPaneOnSelect',
 		'header',
-		'selectedPage'
+		'headerPositioning',
+		'body',
+		'resizablePanes'
 	],
-	#category : 'Toplo-Incubator',
-	#package : 'Toplo-Incubator'
+	#category : 'Toplo-Incubator'
 }
 
-{ #category : 'api' }
-ToNotebook >> addPage: aPage [
+{ #category : #'adding-removing' }
+ToNotebook >> addButton: aButton [
 
-	pages add: aPage.
-	aPage
-		whenIsSelectedChangedDo: [ :new :old |
-			new = old
-				ifTrue: [ 'isSelected didnt change!' traceCr ]
-				ifFalse: [ self refreshOnPageIsSelectedChange: aPage ] ];
-		whenIsCloseableChangedDo: [ self refreshOnPageIsCloseableChange: aPage ];
-		whenBodyBuilderChangedDo: [ self refreshOnBodyBuilderChange: aPage ].
-
-	header addChild: aPage titleElement.
-	
-	pages size = 1 ifTrue: [ aPage isSelected: true ]
+	header addChild: aButton
 ]
 
-{ #category : 'adding' }
-ToNotebook >> addPageTitle: aTitle [
+{ #category : #'adding-removing' }
+ToNotebook >> addButtonWithText: aText withPaneBuilder: aValuable [
 
-	| aPage |
-	aPage := self newPageTitle: aTitle.
-	self addPage: aPage.
-	^ aPage
+	| but |
+	but := ToNotebookButton new labelText: aText asString.
+	but paneBuilder: aValuable.
+	self addButton: but
 ]
 
-{ #category : 'api' }
-ToNotebook >> addPageTitle: aTitle body: aBlElement [ 
+{ #category : #'configuration - private' }
+ToNotebook >> applyHeaderPositioning [
 
-	| aPage |
-	aPage := self newPageTitle: aTitle.
-	aPage bodyElement: aBlElement.
-	self addPage: aPage.
-	^ aPage
+	self headerPositioning applyOn: self
 ]
 
-{ #category : 'adding' }
-ToNotebook >> addPageTitle: aTitle bodyBuilder: aValuable [
+{ #category : #'configuration - private' }
+ToNotebook >> applyResizablePanesConfiguration [
 
-	| aPage |
-	aPage := self newPageTitle: aTitle.
-	aPage bodyBuilder: aValuable.
-	self addPage: aPage.
-	^ aPage
+	self body removeDividers.
+	self resizablePanes ifTrue: [ self body addDividers ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
+ToNotebook >> body [
+
+	^ body
+]
+
+{ #category : #'accessing - private' }
+ToNotebook >> buttonGeometry [
+
+	^ self headerPositioning buttonGeometry
+]
+
+{ #category : #accessing }
+ToNotebook >> buttons [ 
+
+	^ self header buttons
+]
+
+{ #category : #configuration }
+ToNotebook >> checkingStrategy [
+
+	^ self header checkingStrategy
+]
+
+{ #category : #configuration }
+ToNotebook >> checkingStrategy: aCheckingStrategy [
+
+	self header checkingStrategy: aCheckingStrategy
+]
+
+{ #category : #initialization }
+ToNotebook >> defaultHeaderPositioning [
+
+	^ ToNotebookHeaderOnTop new
+]
+
+{ #category : #accessing }
+ToNotebook >> group [ 
+
+	^ self header group
+]
+
+{ #category : #accessing }
 ToNotebook >> header [
 
 	^ header
 ]
 
-{ #category : 'initialization' }
+{ #category : #configuration }
+ToNotebook >> headerPositioning [
+
+	^ headerPositioning
+]
+
+{ #category : #configuration }
+ToNotebook >> headerPositioning: aPositioningStategy [
+
+	headerPositioning := aPositioningStategy.
+	self headerPositioning applyOn: self
+]
+
+{ #category : #initialization }
 ToNotebook >> initialize [
 
 	super initialize.
-	self beVertical.
+	rebuildPaneOnSelect := false.
+	resizablePanes := false.
 	self matchParent.
-	header := ToPane horizontal.
+	header := ToNotebookHeader new.
+	body := ToPane vertical matchParent.
+	self headerPositioning: self defaultHeaderPositioning.
 	self addChild: header as: #header.
-	pages := OrderedCollection new
-]
-
-{ #category : 'skin' }
-ToNotebook >> installRawStyle [ 
-
-	super installRawStyle.
-.
-	self background: self theme notebook backgroundColor
-]
-
-{ #category : 'private' }
-ToNotebook >> newPageTitle: aTitle [
-
-	| aPage titleElement |
-	aPage := ToNotebookPage new.
-	titleElement := self newTitleElementFor: aPage title: aTitle.
-	aPage titleElement: titleElement.
-	^ aPage
-]
-
-{ #category : 'private' }
-ToNotebook >> newTitleElementFor: aPage title: aTitle [
-
-	^ ToNotebookPageTitle new
-		page: aPage;
-		title: aTitle;
-		whenClickedDo: [ aPage isSelected: true ];
-		yourself
-]
-
-{ #category : 'accessing' }
-ToNotebook >> pages [
-
-	^ pages
-]
-
-{ #category : 'private' }
-ToNotebook >> refreshOnBodyBuilderChange: aPage [
-
-	selectedPage = aPage ifFalse: [ ^ self ].
-
-	self removeBodyElement.
-	self setBodyElement: aPage bodyElement
+	self addChild: body as: #body.
+	self withVerticalBody.
+	self checkingStrategy: ToCheckableGroupStrictStrategy new
 
 ]
 
-{ #category : 'private' }
-ToNotebook >> refreshOnPageIsCloseableChange: aPage [
+{ #category : #'adding-removing - private' }
+ToNotebook >> onButtonRemoved: aButton [
 
-	aPage isCloseable
-		ifTrue: [
-			| but |
-			but := ToButton new.
-			but defaultSkin: ToNoteBookPageTitleCloseButtonSkin new.
-			but icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #windowClose)).
-			but constraintsDo: [ :c | c linear vertical alignCenter].
-			but whenClickedDo: [ :evt | 
-				evt consumed: true.
-				self removePage: aPage ].
-			aPage titleElement addChild: but as: #closeButton ]
-		ifFalse: [
-			aPage titleElement removeChildNamed: #closeButton ]
+
 ]
 
-{ #category : 'private' }
-ToNotebook >> refreshOnPageIsSelectedChange: aPage [
+{ #category : #configuration }
+ToNotebook >> preservePaneOnSelect [
 
-	aPage isSelected
-		ifTrue: [ "Single selection only, for now, so deselect current."
-			selectedPage ifNotNil: [ selectedPage isSelected: false ].
-			self setBodyElement: aPage bodyElement.
-			selectedPage := aPage ]
-		ifFalse: [
-			self removeBodyElement.
-			selectedPage := nil ]
+	^ self rebuildPaneOnSelect not
 ]
 
-{ #category : 'private' }
-ToNotebook >> removeBodyElement [
+{ #category : #configuration }
+ToNotebook >> preservePaneOnSelect: aBoolean [
 
-	self removeChildWithId: #body
+	self rebuildPaneOnSelect: aBoolean not
 ]
 
-{ #category : 'api' }
-ToNotebook >> removePage: aPage [
+{ #category : #configuration }
+ToNotebook >> rebuildPaneOnSelect [
 
-	| pageIndex |
-	aPage isSelected ifTrue: [ 
-		pageIndex := pages indexOf: aPage ].
-	header removeChild: aPage titleElement.
-	aPage isSelected: false.
-	pages remove: aPage.
-	self flag: #todo. "Unsubscribe from aPage"
-	
-	pageIndex ifNil: [ ^self ].
-	pages ifEmpty: [ ^self ].
-
-	((pages size < pageIndex)
-		ifTrue: [ pages last ]
-		ifFalse: [ pages at: pageIndex ]) isSelected: true
+	^ rebuildPaneOnSelect
 ]
 
-{ #category : 'api' }
-ToNotebook >> selectPage: aPage [
+{ #category : #configuration }
+ToNotebook >> rebuildPaneOnSelect: aBoolean [
 
-	aPage isSelected: true
+	rebuildPaneOnSelect := aBoolean
 ]
 
-{ #category : 'accessing' }
-ToNotebook >> selectedPage [
+{ #category : #configuration }
+ToNotebook >> resizablePanes [
 
-	^ selectedPage
+	^ resizablePanes
 ]
 
-{ #category : 'private' }
-ToNotebook >> setBodyElement: aBlElement [
+{ #category : #configuration }
+ToNotebook >> resizablePanes: aBoolean [
 
-	aBlElement constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical matchParent ].
-	self addChild: aBlElement as: #body
+	resizablePanes := aBoolean.
+	self applyResizablePanesConfiguration
+]
+
+{ #category : #configuration }
+ToNotebook >> withHeaderOnBottom [
+
+	self headerPositioning: ToNotebookHeaderOnBottom new
+]
+
+{ #category : #configuration }
+ToNotebook >> withHeaderOnLeft [
+
+	self headerPositioning: ToNotebookHeaderOnLeft new
+]
+
+{ #category : #configuration }
+ToNotebook >> withHeaderOnRight [
+
+	self headerPositioning: ToNotebookHeaderOnRight new
+]
+
+{ #category : #configuration }
+ToNotebook >> withHeaderOnTop [
+
+	self headerPositioning: ToNotebookHeaderOnTop new
+]
+
+{ #category : #configuration }
+ToNotebook >> withHorizontalBody [
+
+	self body beHorizontal
+]
+
+{ #category : #configuration }
+ToNotebook >> withResizablePanes [
+
+	self resizablePanes ifTrue: [ ^ self ].
+	self resizablePanes: true
+]
+
+{ #category : #configuration }
+ToNotebook >> withStrictCheckingStrategy [
+
+	self group withStrictCheckingStrategy
+]
+
+{ #category : #configuration }
+ToNotebook >> withUncheckingStrategy [
+
+	self group withUncheckingStrategy
+]
+
+{ #category : #configuration }
+ToNotebook >> withVerticalBody [
+
+	self body beVertical
+]
+
+{ #category : #configuration }
+ToNotebook >> withoutCheckingStrategy [
+
+	self group withoutCheckingStrategy
+]
+
+{ #category : #configuration }
+ToNotebook >> withoutResizablePanes [
+
+	self resizablePanes ifFalse: [ ^ self ].
+	self resizablePanes: false
 ]

@@ -56,7 +56,7 @@ Class {
 		'colorPrimaryHover',
 		'colorPrimaryPressed'
 	],
-	#category : #'Toplo-Theme-Bee'
+	#category : 'Toplo-Theme-Bee'
 }
 
 { #category : #constructor }

@@ -1,24 +1,22 @@
 Class {
-	#name : 'ToListSecondarySelectionElement',
-	#superclass : 'ToListSelectionElement',
-	#category : 'Toplo-Widget-List-core',
-	#package : 'Toplo-Widget-List',
-	#tag : 'core'
+	#name : #ToListSecondarySelectionElement,
+	#superclass : #ToListSelectionElement,
+	#category : 'Toplo-Widget-List-core'
 }
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListSecondarySelectionElement >> defaultPadding [
 
 	^ BlInsets all: 3
 ]
 
-{ #category : 'secondary selection' }
+{ #category : #'secondary selection' }
 ToListSecondarySelectionElement >> hideSecondarySelection [
 
 	self removeFromParent
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToListSecondarySelectionElement >> initialize [ 
 
 	super initialize.

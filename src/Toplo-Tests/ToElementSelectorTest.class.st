@@ -2,12 +2,14 @@
 A ToStyleSelectorEngineTest is a test class for testing the behavior of ToStyleSelectorEngine
 "
 Class {
-	#name : #ToElementSelectorTest,
-	#superclass : #TestCase,
-	#category : #'Toplo-Tests-Core-Selector'
+	#name : 'ToElementSelectorTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Tests-Core-Selector',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-Selector'
 }
 
-{ #category : #'tests - asToTag' }
+{ #category : 'tests - asToTag' }
 ToElementSelectorTest >> testAsStyleSelectorOnArray [
 
 	| selector  |
@@ -17,7 +19,7 @@ ToElementSelectorTest >> testAsStyleSelectorOnArray [
 
 ]
 
-{ #category : #'tests - asToTag' }
+{ #category : 'tests - asToTag' }
 ToElementSelectorTest >> testAsStyleSelectorOnArray2 [
 
 	| selector |
@@ -26,7 +28,7 @@ ToElementSelectorTest >> testAsStyleSelectorOnArray2 [
 	self assert: (selector stampNames includesAll: #( #'small-sizing' #x ))
 ]
 
-{ #category : #'tests - asToTag' }
+{ #category : 'tests - asToTag' }
 ToElementSelectorTest >> testAsStyleSelectorOnArray3 [
 
 	| selector |
@@ -35,14 +37,14 @@ ToElementSelectorTest >> testAsStyleSelectorOnArray3 [
 	self assert: (selector stampNames includesAll: #( #'small-sizing' #x ))
 ]
 
-{ #category : #'tests - asToTag' }
+{ #category : 'tests - asToTag' }
 ToElementSelectorTest >> testAsStyleSelectorOnObjectNotImplemented [
 
 	self should: [Object new asElementSelector] raise: MessageNotUnderstood .
 
 ]
 
-{ #category : #'tests - asToTag' }
+{ #category : 'tests - asToTag' }
 ToElementSelectorTest >> testAsStyleSelectorOnSet3 [
 
 	| selector  |
@@ -52,7 +54,7 @@ ToElementSelectorTest >> testAsStyleSelectorOnSet3 [
 
 ]
 
-{ #category : #'tests - asToTag' }
+{ #category : 'tests - asToTag' }
 ToElementSelectorTest >> testAsStyleSelectorOnString [
 
 	| selector  |
@@ -62,7 +64,7 @@ ToElementSelectorTest >> testAsStyleSelectorOnString [
 
 ]
 
-{ #category : #'tests - asToTag' }
+{ #category : 'tests - asToTag' }
 ToElementSelectorTest >> testAsStyleSelectorOnSymbol [
 
 	| selector  |
@@ -72,7 +74,7 @@ ToElementSelectorTest >> testAsStyleSelectorOnSymbol [
 
 ]
 
-{ #category : #'tests - asToTag' }
+{ #category : 'tests - asToTag' }
 ToElementSelectorTest >> testAsStyleSelectorOnToElement [
 
 	| selector  |

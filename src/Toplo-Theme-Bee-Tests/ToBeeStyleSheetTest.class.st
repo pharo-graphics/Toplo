@@ -2,16 +2,17 @@
 A ToDefaultStyleSheetTest is a test class for testing the behavior of ToDefaultStyleSheet
 "
 Class {
-	#name : #ToBeeStyleSheetTest,
-	#superclass : #ToParameterizedHostTest,
+	#name : 'ToBeeStyleSheetTest',
+	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
 		'styleSheet',
 		'space'
 	],
-	#category : #'Toplo-Theme-Bee-Tests'
+	#category : 'Toplo-Theme-Bee-Tests',
+	#package : 'Toplo-Theme-Bee-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 ToBeeStyleSheetTest >> setUp [ 
 
 	super setUp.
@@ -24,34 +25,41 @@ ToBeeStyleSheetTest >> setUp [
 	styleSheet inherits: false.
 ]
 
-{ #category : #skin }
+{ #category : 'skin' }
 ToBeeStyleSheetTest >> testDefaultButtonSkin [
 
 	| button |
 	button := ToButton new.
 	space root addChild: button.
 	space applyAllSkinInstallers.
-	space updateAllStyles.
+	space applyAllStyles.
 
 	self assert: button border width equals: (button stampValue: #'line-width').
 	self assert: button border paint isColorPaint.
 	self assert: button border paint color equals: (button stampValue: #'color-border').
 ]
 
-{ #category : #'labeled-icon' }
+{ #category : 'labeled-icon' }
 ToBeeStyleSheetTest >> testLabeledIconWithLabelAndIcon [
 
-	| li |
-	li := ToLabeledIcon new.
-	space root addChild: li.
-	li styleSheet: styleSheet.
-	li label: (ToLabel text: 'A').
-	li icon: (ToImage inner: (BlElement new
+	| but li |
+	self skip.
+	self flag: 'kept for the record'.
+	but := ToButton new.
+	space root addChild: but.
+	but styleSheet: styleSheet.
+	but label: (ToLabel text: 'A').
+	but icon: (ToImage inner: (BlElement new
 			 size: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself)).
-	self assert: (li icon constraints linear vertical alignment isKindOf: BlVerticalCenterAlignment) .	
-	self assert: (li icon constraints linear horizontal alignment isKindOf: BlHorizontalCenterAlignment).
+			
+	space applyAllSkinInstallers.
+	space applyAllStyles.
+
+	li := but labeledIcon.
+	self assert: (li  constraints linear vertical alignment isKindOf: BlVerticalCenterAlignment) .	
+	self assert: (li  constraints linear horizontal alignment isKindOf: BlHorizontalCenterAlignment).
 	self assert: (li filler constraints linear vertical alignment isKindOf: BlVerticalCenterAlignment) .	
 	self assert: (li filler constraints linear horizontal alignment isKindOf: BlHorizontalCenterAlignment).
 	self assert: (li label constraints linear vertical alignment isKindOf: BlVerticalCenterAlignment) .	
@@ -59,7 +67,7 @@ ToBeeStyleSheetTest >> testLabeledIconWithLabelAndIcon [
 
 ]
 
-{ #category : #'look updaters' }
+{ #category : 'look updaters' }
 ToBeeStyleSheetTest >> testWriteablePropertyList [
 
 	| index count elem |

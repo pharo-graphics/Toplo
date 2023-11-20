@@ -2,12 +2,14 @@
 A TToEnableableTest is a test class for testing the behavior of TToEnableable
 "
 Class {
-	#name : #TToEnableableTest,
-	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core'
+	#name : 'TToEnableableTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Tests-Core',
+	#package : 'Toplo-Tests',
+	#tag : 'Core'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToEnableableTest >> testDisabled [
 
 	| element |
@@ -21,7 +23,7 @@ TToEnableableTest >> testDisabled [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToEnableableTest >> testEnableable [
 
 	| element |
@@ -54,7 +56,7 @@ TToEnableableTest >> testEnableable [
 	self assert: element isDisabled not.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToEnableableTest >> testEnabled [
 
 	| element |
@@ -67,7 +69,7 @@ TToEnableableTest >> testEnabled [
 	self assert: element isEnabled not.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToEnableableTest >> testFlagAsDisabled [
 
 	| element child |
@@ -85,7 +87,7 @@ TToEnableableTest >> testFlagAsDisabled [
 	self assert: (child userData includesKey: #enabled)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToEnableableTest >> testFlagAsEnabled [
 
 	| element child |
@@ -103,7 +105,7 @@ TToEnableableTest >> testFlagAsEnabled [
 	self assert: (child userData includesKey: #enabled)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToEnableableTest >> testMultipleDisable [
 
 	| element |
@@ -114,7 +116,7 @@ TToEnableableTest >> testMultipleDisable [
 	self assert: element isDisabled.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToEnableableTest >> testOnAddedToParent [
 
 	| parent child |
@@ -126,7 +128,7 @@ TToEnableableTest >> testOnAddedToParent [
 	self assert: child isDisabled
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToEnableableTest >> testWithChild [
 
 	| parent child |

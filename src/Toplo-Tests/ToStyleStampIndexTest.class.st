@@ -1,10 +1,12 @@
 Class {
-	#name : #ToStyleStampIndexTest,
-	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-Properties'
+	#name : 'ToStyleStampIndexTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Tests-Core-Properties',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-Properties'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleStampIndexTest >> testAddAllProperties [
 
 	| idx count |
@@ -22,7 +24,7 @@ ToStyleStampIndexTest >> testAddAllProperties [
 		
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleStampIndexTest >> testAddProperty [
 
 	| idx count |
@@ -42,7 +44,7 @@ ToStyleStampIndexTest >> testAddProperty [
 		
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleStampIndexTest >> testAddPropertyWithBlockClosure [
 
 	| idx count |
@@ -62,7 +64,7 @@ ToStyleStampIndexTest >> testAddPropertyWithBlockClosure [
 		
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleStampIndexTest >> testChangedAction [
 
 	| idx action |
@@ -77,7 +79,7 @@ ToStyleStampIndexTest >> testChangedAction [
 		
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleStampIndexTest >> testHasProperty [
 
 	| idx  |
@@ -95,7 +97,7 @@ ToStyleStampIndexTest >> testHasProperty [
 		
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleStampIndexTest >> testInitialize [
 
 	| idx  |
@@ -105,7 +107,7 @@ ToStyleStampIndexTest >> testInitialize [
 		
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleStampIndexTest >> testRemoveAllProperties [
 
 	| idx count |
@@ -124,7 +126,7 @@ ToStyleStampIndexTest >> testRemoveAllProperties [
 	self assert: idx size equals: 0
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleStampIndexTest >> testRemovePropertyNamed [
 
 	| idx count |

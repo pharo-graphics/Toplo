@@ -200,6 +200,12 @@ BlElement >> setSkin: aSkin [
 ]
 
 { #category : '*Toplo' }
+BlElement >> setUpForTheme: aTheme [
+
+
+]
+
+{ #category : '*Toplo' }
 BlElement >> skinInstaller [
 
 	^ self skinManager skinInstaller 

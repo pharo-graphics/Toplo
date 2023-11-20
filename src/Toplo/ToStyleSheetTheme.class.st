@@ -31,9 +31,10 @@ ToStyleSheetTheme >> name [
 { #category : 'accessing' }
 ToStyleSheetTheme >> newSkinFor: anElement [
 
-	anElement withAllParentsDo: [ :p | p withAllStamps: (self defaultElementStyleStampsFor: p). ].
+	anElement withAllParentsDo: [ :p |
+		p withAllStamps: (self defaultElementStyleStampsFor: p) ].
 	^ (self writersFor: anElement)
-		  ifEmpty: [(self skinClassFor: anElement) new ]
+		  ifEmpty: [ (self skinClassFor: anElement) new ]
 		  ifNotEmpty: [ :writers |
 			  (self skinClassFor: anElement) new
 				  writers: writers;

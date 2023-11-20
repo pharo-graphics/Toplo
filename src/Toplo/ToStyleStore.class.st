@@ -5,7 +5,8 @@ Class {
 		'stampIndex',
 		'borderBuilder',
 		'styleSheet',
-		'textAttributesBuilder'
+		'textAttributesBuilder',
+		'themeClasses'
 	],
 	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
@@ -52,6 +53,7 @@ ToStyleStore >> lookUpStampNamed: aSymbol from: anElement [
 { #category : 'api - hooks' }
 ToStyleStore >> onInstalledIn: anElement [
 
+	themeClasses := IdentitySet new.
 	self stampIndex changedAction: [ anElement requestNewSkin ]
 ]
 
@@ -65,6 +67,14 @@ ToStyleStore >> removeAllStamps [
 ToStyleStore >> removeStampNamed: aSymbol [
 
 	self stampIndex removePropertyNamed: aSymbol
+]
+
+{ #category : 'api - hooks' }
+ToStyleStore >> setUpForTheme: aTheme in: anElement [
+
+	(self themeClasses includes: aTheme class) ifTrue: [ ^ self ].
+	anElement withAllParentsDo: [ :p |
+		p withAllStamps: (aTheme defaultElementStyleStampsFor: p) ].
 ]
 
 { #category : 'accessing' }
@@ -129,6 +139,12 @@ ToStyleStore >> styleSheetChainIn: anElement [
 ToStyleStore >> textAttributesBuilder [
 
 	^ textAttributesBuilder ifNil: [ textAttributesBuilder := BlTextAttributesBuilder new ]
+]
+
+{ #category : 'accessing' }
+ToStyleStore >> themeClasses [
+
+	^ themeClasses
 ]
 
 { #category : 'adding-removing' }

@@ -71,6 +71,7 @@ ToSkinManager >> initialize [
 { #category : 'accessing - skin' }
 ToSkinManager >> installSkin: aSkin in: anElement [
 
+	anElement setUpForTheme: anElement toTheme.
 	anElement addEventHandler: aSkin.
 	aSkin dispatchSkinInstallStateRequestTo: anElement.
 	aSkin dispatchSkinInitialStateRequestTo: anElement.

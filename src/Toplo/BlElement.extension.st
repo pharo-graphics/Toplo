@@ -202,6 +202,8 @@ BlElement >> setSkin: aSkin [
 { #category : '*Toplo' }
 BlElement >> setUpForTheme: aTheme [
 
+	self toStyleStore setUpForTheme: aTheme in: self
+
 
 ]
 

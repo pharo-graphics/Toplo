@@ -13,7 +13,7 @@ Class {
 ToSkinInstaller >> applyOn: anElement [
 	" if there is an installed skin -> nothing to do "
 
-	self install: [
+	self installingWhile: [
 		anElement installedSkin ifNil: [
 			anElement defaultSkin ifNotNil: [ :found |
 				anElement skinManager installSkin: found in: anElement ] ].
@@ -25,14 +25,6 @@ ToSkinInstaller >> initialize [
 
 	super initialize.
 	installing := false
-]
-
-{ #category : 'hook' }
-ToSkinInstaller >> install: aBlock [
-
-	self installing: true.	
-	aBlock value.
-	self installing: false
 ]
 
 { #category : 'hook' }
@@ -55,6 +47,14 @@ ToSkinInstaller >> installing [
 ToSkinInstaller >> installing: aBoolean [
 
 	installing := aBoolean
+]
+
+{ #category : 'hook' }
+ToSkinInstaller >> installingWhile: aBlock [
+
+	self installing: true.	
+	aBlock value.
+	self installing: false
 ]
 
 { #category : 'testing' }

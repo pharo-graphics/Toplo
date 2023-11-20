@@ -70,12 +70,6 @@ ToStyleStore >> registerTheme: aTheme [
 ]
 
 { #category : 'adding-removing' }
-ToStyleStore >> removeAllStamps [
-
-	self stampIndex removeAllProperties
-]
-
-{ #category : 'adding-removing' }
 ToStyleStore >> removeStampNamed: aSymbol [
 
 	self stampIndex removePropertyNamed: aSymbol
@@ -96,14 +90,14 @@ ToStyleStore >> stampIndex [
 ]
 
 { #category : 'accessing' }
-ToStyleStore >> stampNamed: aSymbol in: anElement [
+ToStyleStore >> stampNamed: aSymbol from: anElement [
 
 	(self lookUpStampNamed: aSymbol from: anElement) ifNotNil: [ :s | ^ s ].
 	(ToElementPropertyNotFound name: aSymbol) signal
 ]
 
 { #category : 'accessing' }
-ToStyleStore >> stampValue: aSymbol in: anElement [
+ToStyleStore >> stampValue: aSymbol from: anElement [
 
 	(self lookUpStampNamed: aSymbol from: anElement) ifNotNil: [ :s | ^ s value ].
 	(ToElementPropertyNotFound name: aSymbol) signal
@@ -116,16 +110,10 @@ ToStyleStore >> styleSheet [
 ]
 
 { #category : 'accessing' }
-ToStyleStore >> styleSheet: aStyleSheet [
-
-	styleSheet := aStyleSheet
-]
-
-{ #category : 'accessing' }
 ToStyleStore >> styleSheet: aStyleSheet in: anElement [
 
 	self styleSheet ifNotNil: [ :prev | prev onUnInstalledIn: anElement ].
-	self styleSheet: aStyleSheet.
+	styleSheet := aStyleSheet.
 	self styleSheet ifNotNil: [ :curr | curr onInstalledIn: anElement ]
 ]
 
@@ -175,7 +163,7 @@ ToStyleStore >> withStamp: anAssociationOrSymbol [
 { #category : 'adding-removing' }
 ToStyleStore >> withoutAllStamps [
 
-	self removeAllStamps
+	self stampIndex removeAllProperties
 ]
 
 { #category : 'adding-removing' }

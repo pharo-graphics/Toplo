@@ -69,7 +69,7 @@ BlElement >> enable [
 { #category : '*Toplo' }
 BlElement >> enqueueSkinState: aSkinState [
 
-	self skinManager enqueueState: aSkinState for: self 
+	self skinStateQueue enqueueState: aSkinState for: self 
 ]
 
 { #category : '*Toplo' }
@@ -250,13 +250,13 @@ BlElement >> skinUninstaller: aSkinUninstaller [
 { #category : '*Toplo' }
 BlElement >> stampNamed: aSymbol [
 
-	^ self toStyleStore stampNamed: aSymbol in: self
+	^ self toStyleStore stampNamed: aSymbol from: self
 ]
 
 { #category : '*Toplo' }
 BlElement >> stampValue: aSymbol [
 
-	^ self toStyleStore stampValue: aSymbol in: self
+	^ self toStyleStore stampValue: aSymbol from: self
 ]
 
 { #category : '*Toplo' }
@@ -355,7 +355,7 @@ BlElement >> withStamp: anAssociationOrSymbol [
 { #category : '*Toplo' }
 BlElement >> withoutAllStamps [
 
-	self toStyleStore removeAllStamps
+	self toStyleStore withoutAllStamps
 ]
 
 { #category : '*Toplo' }

@@ -141,7 +141,7 @@ ToBeeTheme >> colorPrimary: aColor [
 	colorPrimaryHover := colorPrimary whiter whiter.
 	colorPrimaryPressed := colorPrimary darker darker.
 	self styleSheet ifNotNil: [ :ss |
-		ss defaultStampList: self defaultStampList ]
+		ss buildStampIndexFromList: self defaultStampList ]
 ]
 
 { #category : 'colors' }
@@ -163,7 +163,7 @@ ToBeeTheme >> defaultColorPrimary [
 ]
 
 { #category : 'initialization' }
-ToBeeTheme >> defaultElementStyleStampsFor: anElement [ 
+ToBeeTheme >> defaultElementStampsFor: anElement [ 
 
 	^ anElement defaultBeeStyleStamps
 ]

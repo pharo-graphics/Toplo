@@ -1,14 +1,16 @@
 Class {
-	#name : #ToCheckableCheckEvent,
-	#superclass : #BlEvent,
+	#name : 'ToCheckableCheckEvent',
+	#superclass : 'BlEvent',
 	#instVars : [
 		'previous',
 		'current'
 	],
-	#category : 'Toplo-Widget-Button-Checkable'
+	#category : 'Toplo-Widget-Button-Checkable',
+	#package : 'Toplo-Widget-Button',
+	#tag : 'Checkable'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ToCheckableCheckEvent class >> current: aBoolean previous: aPreviousBoolean [
 
 	^ self new
@@ -17,31 +19,31 @@ ToCheckableCheckEvent class >> current: aBoolean previous: aPreviousBoolean [
 		  yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToCheckableCheckEvent >> current [
 
 	^ current
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToCheckableCheckEvent >> current: aBoolean [
 
 	current := aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToCheckableCheckEvent >> previous [
 
 	^ previous
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToCheckableCheckEvent >> previous: aBoolean [
 
 	previous := aBoolean
 ]
 
-{ #category : #sending }
+{ #category : 'sending' }
 ToCheckableCheckEvent >> sendTo: anObject [
 
 	anObject checkableCheckedEvent: self

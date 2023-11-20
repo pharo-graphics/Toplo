@@ -1,10 +1,12 @@
 Class {
-	#name : #ToCheckboxSkin,
-	#superclass : #ToGeneralButtonSkin,
-	#category : 'Toplo-Widget-Button-Checkable'
+	#name : 'ToCheckboxSkin',
+	#superclass : 'ToGeneralButtonSkin',
+	#category : 'Toplo-Widget-Button-Checkable',
+	#package : 'Toplo-Widget-Button',
+	#tag : 'Checkable'
 }
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToCheckboxSkin >> checkedLookEvent: anEvent [
 
 	super checkedLookEvent: anEvent.
@@ -13,7 +15,7 @@ ToCheckboxSkin >> checkedLookEvent: anEvent [
 		e indeterminateChild background: Color transparent ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToCheckboxSkin >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
@@ -23,7 +25,7 @@ ToCheckboxSkin >> disabledLookEvent: anEvent [
 		e indeterminateChild background: Color transparent ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToCheckboxSkin >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
@@ -31,7 +33,7 @@ ToCheckboxSkin >> enabledLookEvent: anEvent [
 		e icon border: e iconDefaultBorder ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToCheckboxSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
@@ -39,7 +41,7 @@ ToCheckboxSkin >> hoveredLookEvent: anEvent [
 		e icon border: e iconHoveredBorder ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToCheckboxSkin >> indeterminateLookEvent: anEvent [
 
 	super indeterminateLookEvent: anEvent.
@@ -48,27 +50,27 @@ ToCheckboxSkin >> indeterminateLookEvent: anEvent [
 		e indeterminateChild background: e defaultImageColor]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToCheckboxSkin >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
 	anEvent elementDo: [ :e | e icon border: e iconDefaultBorder ] 
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToCheckboxSkin >> installIconImageIn: aCheckbox [
 
 	aCheckbox icon innerImage border: aCheckbox imageUncheckedBorder
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToCheckboxSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e | self installIconImageIn: e ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToCheckboxSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
@@ -76,7 +78,7 @@ ToCheckboxSkin >> leavedLookEvent: anEvent [
 		e icon border: e iconDefaultBorder ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToCheckboxSkin >> uncheckedLookEvent: anEvent [
 
 	super uncheckedLookEvent: anEvent.

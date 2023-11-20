@@ -1,9 +1,11 @@
 Trait {
-	#name : #TToCheckable,
-	#category : 'Toplo-Widget-Button-Core'
+	#name : 'TToCheckable',
+	#category : 'Toplo-Widget-Button-Core',
+	#package : 'Toplo-Widget-Button',
+	#tag : 'Core'
 }
 
-{ #category : #'t - checkable - group private' }
+{ #category : 't - checkable - group private' }
 TToCheckable >> addCheckableEventHandlers [
 
 	| requestHandler changedHandler |
@@ -23,26 +25,26 @@ TToCheckable >> addCheckableEventHandlers [
 	self addEventHandler: changedHandler
 ]
 
-{ #category : #'t - checkable - group' }
+{ #category : 't - checkable - group' }
 TToCheckable >> addToGroup: aGroup [
 
 	aGroup add: self.
 	self group: aGroup 
 ]
 
-{ #category : #'t - checkable  - protocol' }
+{ #category : 't - checkable  - protocol' }
 TToCheckable >> check [
 
 	self checked: true
 ]
 
-{ #category : #'t - checkable - accessing' }
+{ #category : 't - checkable - accessing' }
 TToCheckable >> checked [
 
 	^ self rawChecked
 ]
 
-{ #category : #'t - checkable - accessing' }
+{ #category : 't - checkable - accessing' }
 TToCheckable >> checked: arg1 [
 
 	| tmp1 tmp2 tmp4 |
@@ -62,13 +64,13 @@ TToCheckable >> checked: arg1 [
 	self dispatchEvent: ToCheckableChangedEvent new
 ]
 
-{ #category : #'t - checkable - group' }
+{ #category : 't - checkable - group' }
 TToCheckable >> group [
 
 	^ self rawGroup
 ]
 
-{ #category : #'t - checkable - group' }
+{ #category : 't - checkable - group' }
 TToCheckable >> group: aCheckableGroup [
 
 	self withIndeterminate ifTrue: [
@@ -80,27 +82,27 @@ TToCheckable >> group: aCheckableGroup [
 		ifNotNil: [ self addCheckableEventHandlers ]
 ]
 
-{ #category : #'t - checkable - testing' }
+{ #category : 't - checkable - testing' }
 TToCheckable >> isChecked [
 
 	" since checked can be nil, test is with = "
 	^ self checked = true
 ]
 
-{ #category : #'t - checkable - testing' }
+{ #category : 't - checkable - testing' }
 TToCheckable >> isIndeterminate [
 
 	^ self checked isSymbol
 ]
 
-{ #category : #'t - checkable - testing' }
+{ #category : 't - checkable - testing' }
 TToCheckable >> isUnchecked [
 
 	" since checked can be nil, test is with = "
 	^ self checked = false
 ]
 
-{ #category : #'t - checkable - private protocol' }
+{ #category : 't - checkable - private protocol' }
 TToCheckable >> nextCheckValue [
 
 	self withIndeterminate ifTrue: [ " unchecked -> indeterminate -> checked"
@@ -110,7 +112,7 @@ TToCheckable >> nextCheckValue [
 	^ self checked not
 ]
 
-{ #category : #'t - checkable - private protocol' }
+{ #category : 't - checkable - private protocol' }
 TToCheckable >> privateChecked: aBooleanOrIndeterminate [
 
 	| prev request |
@@ -122,31 +124,31 @@ TToCheckable >> privateChecked: aBooleanOrIndeterminate [
 	self dispatchEvent: (ToCheckableCheckEvent current: request previous: prev)
 ]
 
-{ #category : #'t - checkable - accessing' }
+{ #category : 't - checkable - accessing' }
 TToCheckable >> rawChecked [
 
 	^ self explicitRequirement 
 ]
 
-{ #category : #'t - checkable - accessing' }
+{ #category : 't - checkable - accessing' }
 TToCheckable >> rawChecked: anObject [
 
 	self explicitRequirement 
 ]
 
-{ #category : #'t - checkable - group' }
+{ #category : 't - checkable - group' }
 TToCheckable >> rawGroup [
 
 	^ self explicitRequirement 
 ]
 
-{ #category : #'t - checkable - group' }
+{ #category : 't - checkable - group' }
 TToCheckable >> rawGroup: aGroup [
 
 	^ self explicitRequirement 
 ]
 
-{ #category : #'t - checkable - group private' }
+{ #category : 't - checkable - group private' }
 TToCheckable >> removeCheckableEventHandlers [
 
 	| requestHandler changedHandler |
@@ -160,31 +162,31 @@ TToCheckable >> removeCheckableEventHandlers [
 		self userData removeKey: #changedHandler ]
 ]
 
-{ #category : #'t - checkable - group' }
+{ #category : 't - checkable - group' }
 TToCheckable >> removeFromGroup [
 
 	self group remove: self
 ]
 
-{ #category : #'t - checkable - private protocol' }
+{ #category : 't - checkable - private protocol' }
 TToCheckable >> switchToNextCheckStateOnClick [
 
 	self checked: self nextCheckValue 
 ]
 
-{ #category : #'t - checkable  - protocol' }
+{ #category : 't - checkable  - protocol' }
 TToCheckable >> uncheck [
 
 	self checked: false
 ]
 
-{ #category : #'t - checkable  - protocol' }
+{ #category : 't - checkable  - protocol' }
 TToCheckable >> withIndeterminate [
 
 	^ self explicitRequirement 
 ]
 
-{ #category : #'t - checkable  - protocol' }
+{ #category : 't - checkable  - protocol' }
 TToCheckable >> withIndeterminate: aBoolean [
 
 	self explicitRequirement 

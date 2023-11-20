@@ -50,7 +50,8 @@ ToSkinStateQueue >> skinInitialStateRequest: anEvent [
 	| target |
 	target := anEvent currentTarget.
 	self enqueueState: ToInitialState new for: target.
-	" restitute the intrasic states (as enablement, check, selection)"
+	" restitute the intrasic states (as enablement, check)
+	enablement state must always be the last one to be enqueued "
 	target skinManager intrinsicStatesDo: [ :state |
 		self enqueueState: state for: target ].
 

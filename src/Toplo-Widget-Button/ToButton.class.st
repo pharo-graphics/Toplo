@@ -1,15 +1,17 @@
 Class {
-	#name : #ToButton,
-	#superclass : #ToGeneralButton,
+	#name : 'ToButton',
+	#superclass : 'ToGeneralButton',
 	#traits : 'TToElementWithLabeledIcon',
 	#classTraits : 'TToElementWithLabeledIcon classTrait',
 	#instVars : [
 		'labeledIcon'
 	],
-	#category : 'Toplo-Widget-Button-Core'
+	#category : 'Toplo-Widget-Button-Core',
+	#package : 'Toplo-Widget-Button',
+	#tag : 'Core'
 }
 
-{ #category : #skin }
+{ #category : 'skin' }
 ToButton >> initialRawStyle [
 
 	super initialRawStyle.
@@ -22,7 +24,7 @@ ToButton >> initialRawStyle [
 	self interspace: 10
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToButton >> initialize [
 
 	super initialize.
@@ -31,7 +33,7 @@ ToButton >> initialize [
 	self fitContent
 ]
 
-{ #category : #skin }
+{ #category : 'skin' }
 ToButton >> installRawStyle [
 
 	super installRawStyle.
@@ -40,13 +42,13 @@ ToButton >> installRawStyle [
 
 ]
 
-{ #category : #'t - element with labeled icon - accessing' }
+{ #category : 't - element with labeled icon - accessing' }
 ToButton >> labeledIcon [ 
 
 	^ labeledIcon 
 ]
 
-{ #category : #skin }
+{ #category : 'skin' }
 ToButton >> newRawSkin [
 
 	^ ToButtonSkin new

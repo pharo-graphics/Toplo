@@ -93,6 +93,9 @@ ToSkinStateGenerator >> dropEvent: anEvent [
 ToSkinStateGenerator >> enablementChangedEvent: anEvent [
 
 	self generateEnablementStateFromEvent: anEvent.
+	" a requestNewSkin ** must ** be send here after the state generation to ensure that the
+	enablement state is the last intrinsic state stored in the element skinManager and that
+	as a consequence, an IntialState is runned by the element skinStateQueue"
 	target requestNewSkin
 ]
 

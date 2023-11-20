@@ -110,7 +110,7 @@ ToStyleSheet >> any [
 ]
 
 { #category : 'accessing' }
-ToStyleSheet >> defaultStampList: aStyleStampCollection [
+ToStyleSheet >> buildStampIndexFromList: aStyleStampCollection [
 
 	stampIndex := self newStampIndexFromStampList: aStyleStampCollection
 ]

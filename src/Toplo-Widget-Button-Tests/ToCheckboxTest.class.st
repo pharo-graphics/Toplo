@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToCheckboxTest',
-	#superclass : 'TestCase',
+	#superclass : 'ToParameterizedHostTest',
 	#category : 'Toplo-Widget-Button-Tests-Checkable',
 	#package : 'Toplo-Widget-Button-Tests',
 	#tag : 'Checkable'
@@ -33,6 +33,20 @@ ToCheckboxTest >> testStartChecked [
 	cb := ToCheckbox new.
 	cb checked: true.
 	space := cb openInSpace.
+	self assert: cb checked.
+	cb when: BlElementAddedToSceneGraphEvent do: [ space close ].
+
+]
+
+{ #category : 'tests' }
+ToCheckboxTest >> testStartCheckedThenDisabled [
+
+	| cb space |
+	cb := ToCheckbox new.
+	cb checked: true.
+	space := cb openInSpace.
+	self assert: cb checked.
+	cb disable.
 	self assert: cb checked.
 	cb when: BlElementAddedToSceneGraphEvent do: [ space close ].
 

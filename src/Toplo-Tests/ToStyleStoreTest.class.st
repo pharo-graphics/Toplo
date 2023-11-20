@@ -10,11 +10,11 @@ Class {
 }
 
 { #category : 'tests' }
-ToStyleStoreTest >> testAddStyleStamp [
+ToStyleStoreTest >> testAddStamp [
 
 	| e s s2 |
 	e := BlElement new.
-	e withStamp: (#color -> Color blue) asStyleStamp.
+	e toStyleStore addStamp: (#color -> Color blue) asStyleStamp.
 	self assert: (s := e toStyleStore localStampNamed: #color) notNil.
 	self assert: (s isKindOf: ToStyleStamp).
 	self assert: s name equals: #color.
@@ -29,7 +29,15 @@ ToStyleStoreTest >> testAddStyleStamp [
 ]
 
 { #category : 'tests' }
-ToStyleStoreTest >> testHasStamp [
+ToStyleStoreTest >> testBorderBuilder [
+
+	| e  |
+	e := BlElement new.
+	self assert: (e toStyleStore borderBuilder ) notNil
+]
+
+{ #category : 'tests' }
+ToStyleStoreTest >> testHasStampNamed [
 
 	| e |
 	e := BlElement new.
@@ -45,17 +53,20 @@ ToStyleStoreTest >> testHasStamp [
 ]
 
 { #category : 'tests' }
-ToStyleStoreTest >> testLocalStyleStampIndex [
+ToStyleStoreTest >> testIsSetUpForTheme [
 
-	| e dict |
+	| e theme skin |
 	e := BlElement new.
-	dict := e toStyleStore stampIndex.
-	self assert: dict notNil.
-
+	theme := ToRawTheme new.
+	self deny: (e toStyleStore isSetUpForTheme: theme).
+	self assert: e toStyleStore themeClasses isEmpty.
+	skin := theme newSkinFor: e.
+	self assert: e toStyleStore themeClasses size equals: 1.
+	self assert: e toStyleStore themeClasses anyOne = ToRawTheme
 ]
 
 { #category : 'tests' }
-ToStyleStoreTest >> testLocalStyleStampNamed [
+ToStyleStoreTest >> testLocalStampNamed [
 
 	| e s |
 	e := BlElement new.
@@ -70,7 +81,7 @@ ToStyleStoreTest >> testLocalStyleStampNamed [
 ]
 
 { #category : 'tests' }
-ToStyleStoreTest >> testLookUpStyleStampNamed [
+ToStyleStoreTest >> testLookUpStampNamedFrom [
 
 	| e child |
 	e := BlElement new.
@@ -78,16 +89,58 @@ ToStyleStoreTest >> testLookUpStyleStampNamed [
 	e withStamp: (#color -> Color blue) asStyleStamp.
 	self assert: e toStyleStore stampIndex size equals: 1.
 	self
-		assert: (e  stampNamed: #color)
+		assert: (e toStyleStore lookUpStampNamed: #color from: e)
 		identicalTo: (e toStyleStore localStampNamed: #color).
 	e addChild: child.
 	self
-		assert: (child  stampNamed: #color)
+		assert: (child toStyleStore lookUpStampNamed: #color from: child)
 		identicalTo: (e toStyleStore localStampNamed: #color).
 	child withStamp: (#color -> Color red) asStyleStamp.
 	self
-		assert: (child  stampNamed: #color)
-		identicalTo: (child toStyleStore localStampNamed: #color)
+		assert: (child toStyleStore lookUpStampNamed: #color from: child)
+		identicalTo: (child toStyleStore localStampNamed: #color).
+	self
+		should: [(child toStyleStore lookUpStampNamed: #something from: child)] raise: Error
+]
+
+{ #category : 'tests' }
+ToStyleStoreTest >> testOnInstalledIn [
+
+	| e |
+	e := BlElement new.
+	self assert: e toStyleStore themeClasses notNil.
+	self assert: e toStyleStore themeClasses isEmpty.
+	self deny: e skinManager hasPostponedRequestInstallSkin.
+	self assert: e skinInstaller isNil.
+	e toStyleStore stampIndex changedAction value.
+	self assert: e skinManager hasPostponedRequestInstallSkin.
+	self assert: e skinInstaller isNil
+]
+
+{ #category : 'tests' }
+ToStyleStoreTest >> testRegisterTheme [
+
+	| e |
+	e := BlElement new.
+	self assert: e toStyleStore themeClasses notNil.
+	self assert: e toStyleStore themeClasses isEmpty.
+	e toStyleStore registerTheme: ToRawTheme new.
+	self assert: e toStyleStore themeClasses size equals: 1.
+	self assert: e toStyleStore themeClasses anyOne = ToRawTheme
+]
+
+{ #category : 'tests' }
+ToStyleStoreTest >> testRemoveStampNamed [
+
+	| e |
+	e := BlElement new.
+	e withStamp: (#color1 -> Color blue) asStyleStamp.
+	e withStamp: (#color2 -> Color blue) asStyleStamp.
+	self assert: e toStyleStore stampIndex size equals: 2.
+	e toStyleStore removeStampNamed: #color1.
+	self assert: e toStyleStore stampIndex size = 1.
+	e toStyleStore removeStampNamed: #color2.
+	self assert: e toStyleStore stampIndex isEmpty
 ]
 
 { #category : 'tests' }
@@ -124,6 +177,48 @@ ToStyleStoreTest >> testRemoveStyleStampNamedIfAbsent [
 ]
 
 { #category : 'tests' }
+ToStyleStoreTest >> testSetUpForThemeIn [
+
+	| e theme  |
+	e := BlElement new.
+	self assert: e toStyleStore themeClasses notNil.
+	self assert: e toStyleStore themeClasses isEmpty.
+	theme := ToRawTheme new.
+	self deny: (e toStyleStore isSetUpForTheme: theme).
+	e toStyleStore setUpForTheme: theme in: e.
+	self assert: (e toStyleStore isSetUpForTheme: theme).
+	self assert: e toStyleStore themeClasses size equals: 1.
+	self assert: e toStyleStore themeClasses anyOne = ToRawTheme.
+	e toStyleStore setUpForTheme: ToRawTheme new in: e.
+	self assert: e toStyleStore themeClasses size equals: 1.
+	self assert: e toStyleStore themeClasses anyOne = ToRawTheme.
+
+]
+
+{ #category : 'tests' }
+ToStyleStoreTest >> testSetUpForThemeIn2 [
+
+	| e theme skin |
+	e := BlElement new.
+	self assert: e toStyleStore themeClasses notNil.
+	self assert: e toStyleStore themeClasses isEmpty.
+	theme := ToRawTheme new.
+	skin := theme newSkinFor: e.
+	self assert: e toStyleStore themeClasses size equals: 1.
+	self assert: e toStyleStore themeClasses anyOne = ToRawTheme
+]
+
+{ #category : 'tests' }
+ToStyleStoreTest >> testStampIndex [
+
+	| e dict |
+	e := BlElement new.
+	dict := e toStyleStore stampIndex.
+	self assert: dict notNil.
+
+]
+
+{ #category : 'tests' }
 ToStyleStoreTest >> testStampNamed [
 
 	| e p |
@@ -144,24 +239,132 @@ ToStyleStoreTest >> testStampNamed [
 ]
 
 { #category : 'tests' }
-ToStyleStoreTest >> testStampValue [
+ToStyleStoreTest >> testStampNamedFrom [
+
+	| e child space |
+	e := BlElement new.
+	child := BlElement new.
+	e withStamp: (#color -> Color blue) asStyleStamp.
+	e addChild: child.
+	self
+		assert: (child toStyleStore stampNamed: #color from: child)
+		identicalTo: (e toStyleStore localStampNamed: #color).
+	child withStamp: (#color -> Color red) asStyleStamp.
+	self
+		assert: (child toStyleStore stampNamed: #color from:  child)
+		identicalTo: (child toStyleStore localStampNamed: #color).
+	self
+		should: [(child toStyleStore stampNamed: #something from: child)] raise: Error.
+		
+	space := BlSpace new.
+	space root addChild: e.
+	self
+		should: [(child toStyleStore stampNamed: #something from: child)] raise: ToElementPropertyNotFound.
+
+	
+]
+
+{ #category : 'tests' }
+ToStyleStoreTest >> testStampValueFrom [
 
 	| e p |
 	e := BlElement new.
 	e localToTheme: ToBeeLightTheme new.
 	self
-		should: [ e stampValue: #color ]
+		should: [ e toStyleStore stampValue: #color from: e ]
 		raise: ToElementPropertyNotFound.
 	e withStamp: (p := (#color -> Color blue) asStyleStamp).
-	self assert: (e stampValue: #color) equals: p value.
-	self assert: (e stampValue: #color) equals: Color blue.
+	self assert: (e toStyleStore stampValue: #color from: e) equals: p value.
+	self assert: (e toStyleStore stampValue: #color from: e) equals: Color blue.
 	e withStamp: (#background -> Color blue) asStyleStamp.
 	e withStamp: (#layout -> BlLinearLayout horizontal) asStyleStamp.
 	e withStamp: (#something -> #something) asStyleStamp.
-	self assert: (e stampValue: #something) equals: #something.
+	self assert: (e toStyleStore stampValue: #something from: e) equals: #something.
 	self
-		should: [ e stampValue: #Color ]
+		should: [ e toStyleStore stampValue: #Color from: e]
 		raise: ToElementPropertyNotFound
+]
+
+{ #category : 'tests' }
+ToStyleStoreTest >> testStyleSheet [
+
+	self testStyleSheetIn 
+]
+
+{ #category : 'tests' }
+ToStyleStoreTest >> testStyleSheetChainIn [
+
+	| e child childchild childchildchild space |
+	e := BlElement new.
+	child := BlElement new.
+	childchild := BlElement new.
+	childchildchild := BlElement new.
+	e addChild: child.
+	child addChild: childchild.
+	childchild addChild: childchildchild.
+	" e is not attached -> Error"
+	self
+		should: [
+		childchildchild toStyleStore styleSheetChainIn: childchildchild ]
+		raise: Error.
+	space := BlSpace new.
+	space root addChild: e.
+	" no styleSheet theme by default "
+	self assert:
+		(childchildchild toStyleStore styleSheetChainIn: childchildchild)
+			isEmpty.
+	space toTheme: ToStyleSheetTheme new.
+	" no style sheet in theme "
+	self assert:
+		(childchildchild toStyleStore styleSheetChainIn: childchildchild)
+			isEmpty.
+	childchild styleSheet: ToStyleSheet new.
+	self
+		assert:
+		(childchildchild toStyleStore styleSheetChainIn: childchildchild)
+			size
+		equals: 1.
+	e toTheme styleSheet: ToStyleSheet new.
+	self
+		assert:
+		(childchildchild toStyleStore styleSheetChainIn: childchildchild)
+			size
+		equals: 2.
+	childchild toStyleStore styleSheet inherits: false.
+	self
+		assert:
+		(childchildchild toStyleStore styleSheetChainIn: childchildchild)
+			size
+		equals: 1
+]
+
+{ #category : 'tests' }
+ToStyleStoreTest >> testStyleSheetIn [
+
+	| e |
+	e := BlElement new.
+	e styleSheet: ToStyleSheet new.
+	self assert: e toStyleStore styleSheet notNil
+]
+
+{ #category : 'tests' }
+ToStyleStoreTest >> testTextAttributesBuilder [
+
+	| e  |
+	e := BlElement new.
+	self assert: (e toStyleStore textAttributesBuilder ) notNil
+]
+
+{ #category : 'tests' }
+ToStyleStoreTest >> testThemeClasses [
+
+	| e |
+	e := BlElement new.
+	self assert: e toStyleStore themeClasses notNil.
+	self assert: e toStyleStore themeClasses isEmpty.
+	e toStyleStore setUpForTheme: ToRawTheme new in: e.
+	self assert: e toStyleStore themeClasses size equals: 1.
+	self assert: e toStyleStore themeClasses anyOne = ToRawTheme
 ]
 
 { #category : 'tests' }
@@ -208,6 +411,20 @@ ToStyleStoreTest >> testWithStamp [
 	self assert: (e stampValue: #blob).
 
 
+]
+
+{ #category : 'tests' }
+ToStyleStoreTest >> testWithoutAllStamps [
+
+	| e |
+	e := BlElement new.
+	e withStamp: (#color1 -> Color blue) asStyleStamp.
+	e withStamp: (#color2 -> Color blue) asStyleStamp.
+	self assert: e toStyleStore stampIndex size equals: 2.
+	e toStyleStore withoutAllStamps.
+	self assert: e toStyleStore stampIndex isEmpty.
+	e toStyleStore removeStampNamed: #color.
+	self assert: e toStyleStore stampIndex isEmpty
 ]
 
 { #category : 'tests' }

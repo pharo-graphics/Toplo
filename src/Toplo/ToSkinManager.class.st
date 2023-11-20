@@ -4,12 +4,12 @@ Class {
 	#instVars : [
 		'skinInstaller',
 		'localTheme',
-		'postponedRequestSkin',
 		'installedSkin',
 		'skinStateQueue',
 		'skinUninstaller',
 		'defaultSkin',
-		'intrinsicStateIndex'
+		'intrinsicStateIndex',
+		'postponedRequestInstallSkin'
 	],
 	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
@@ -23,7 +23,7 @@ ToSkinManager >> applySkinInstallerIn: anElement [
 	self skinInstaller ifNotNil: [ :si | si applyOn: anElement ].
 	self installedSkin ifNil: [
 		" no installed skin and nothing to install it, hum, smell bad "
-		((anElement isKindOf: ToElement) and: [postponedRequestSkin isNil and: [skinInstaller isNil ] ]) ifTrue: [
+		((anElement isKindOf: ToElement) and: [postponedRequestInstallSkin isNil and: [skinInstaller isNil ] ]) ifTrue: [
 			Error signal: 'A ToSkinManager has an invalid state' ] ]
 ]
 
@@ -59,16 +59,25 @@ ToSkinManager >> defaultSkinIn: anElement [
 ]
 
 { #category : 'skin application' }
-ToSkinManager >> enqueueState: aSkinState for: anElement [
+ToSkinManager >> enqueuedIntrinicState: aState [
 
-	self skinStateQueue enqueueState: aSkinState for: anElement
+	intrinsicStateIndex at: aState class put: aState
+]
+
+{ #category : 'testing' }
+ToSkinManager >> hasPostponedRequestInstallSkin [
+
+	
+	^ postponedRequestInstallSkin notNil
 ]
 
 { #category : 'initialization' }
 ToSkinManager >> initialize [ 
 
 	super initialize.
-	intrinsicStateIndex := IdentityDictionary new
+	" Use an ordered dictionary for intrinsicStateIndex to ensure that an 
+	EnableState is always the last state "
+	intrinsicStateIndex := OrderedIdentityDictionary new
 ]
 
 { #category : 'accessing - skin' }
@@ -102,28 +111,9 @@ ToSkinManager >> installedSkinDo: aBlock [
 ]
 
 { #category : 'skin application' }
-ToSkinManager >> intrinicState: aState enqueuedFor: anElement [
-
-	intrinsicStateIndex at: aState class put: aState
-]
-
-{ #category : 'accessing' }
-ToSkinManager >> intrinsicStateIndex [
-
-	^ intrinsicStateIndex 
-]
-
-{ #category : 'skin application' }
 ToSkinManager >> intrinsicStatesDo: aBlock [
 
 	intrinsicStateIndex valuesDo: aBlock
-]
-
-{ #category : 'accessing - skin' }
-ToSkinManager >> isRequestSkinPostponed [
-
-	
-	^ postponedRequestSkin notNil
 ]
 
 { #category : 'accessing' }
@@ -165,14 +155,14 @@ ToSkinManager >> lookupThemeFrom: anElement [
 { #category : 'accessing - skin' }
 ToSkinManager >> postponeRequestSkinIn: anElement [
 
-	self isRequestSkinPostponed ifTrue: [ ^ self ].
-	postponedRequestSkin := BlEventHandler new.
-	postponedRequestSkin eventClass: BlElementAddedToSceneGraphEvent.
-	postponedRequestSkin action: [ :evt |
-		evt target removeEventHandler: postponedRequestSkin.
-		postponedRequestSkin := nil.
+	self hasPostponedRequestInstallSkin ifTrue: [ ^ self ].
+	postponedRequestInstallSkin := BlEventHandler new.
+	postponedRequestInstallSkin eventClass: BlElementAddedToSceneGraphEvent.
+	postponedRequestInstallSkin action: [ :evt |
+		evt target removeEventHandler: postponedRequestInstallSkin.
+		postponedRequestInstallSkin := nil.
 		evt target requestInstallSkin ].
-	anElement addEventHandler: postponedRequestSkin
+	anElement addEventHandler: postponedRequestInstallSkin
 ]
 
 { #category : 'accessing - skin' }

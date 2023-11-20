@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : 'initialization' }
-ToStyleSheetTheme >> defaultElementStyleStampsFor: anElement [ 
+ToStyleSheetTheme >> defaultElementStampsFor: anElement [ 
 
 	^ { }
 ]
@@ -43,7 +43,7 @@ ToStyleSheetTheme >> newSkinInstanceFor: anElement [
 ToStyleSheetTheme >> onSetUpIn: anElement [
 
 	super onSetUpIn: anElement.
-	anElement withAllStamps: (self defaultElementStyleStampsFor: anElement) 
+	anElement withAllStamps: (self defaultElementStampsFor: anElement) 
 ]
 
 { #category : 'writer selecting' }
@@ -105,7 +105,7 @@ ToStyleSheetTheme >> styleSheet [
 { #category : 'accessing' }
 ToStyleSheetTheme >> styleSheet: aStyleSheet [
 
-	aStyleSheet defaultStampList: self defaultStampList.
+	aStyleSheet buildStampIndexFromList: self defaultStampList.
 	styleSheet := aStyleSheet
 ]
 

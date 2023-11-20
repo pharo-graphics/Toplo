@@ -10,5 +10,5 @@ Class {
 ToIntrinsicState >> onEnqueuedFor: anElement [
 
 	super onEnqueuedFor: anElement.
-	anElement skinManager intrinicState: self enqueuedFor: anElement
+	anElement skinManager enqueuedIntrinicState: self
 ]

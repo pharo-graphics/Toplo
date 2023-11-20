@@ -2,6 +2,7 @@ Class {
 	#name : 'ToSelectorInterpreter',
 	#superclass : 'ToElementSelectorVisitor',
 	#instVars : [
+		'theme',
 		'targetStack',
 		'result'
 	],
@@ -14,10 +15,23 @@ Class {
 ToSelectorInterpreter >> check: aSelector on: anElement [
 
 	targetStack := Stack new.
-	targetStack push: anElement.
+	self push: anElement.
 	result := true.
 	aSelector value accept: self.
 	^ result
+]
+
+{ #category : 'accessing' }
+ToSelectorInterpreter >> pop [
+
+	^ targetStack pop
+]
+
+{ #category : 'accessing' }
+ToSelectorInterpreter >> push: anElement [
+
+	self themeDo: [ :th | anElement setUpForTheme: th ].
+	targetStack push: anElement
 ]
 
 { #category : 'accessing' }
@@ -26,10 +40,35 @@ ToSelectorInterpreter >> result [
 	^ result
 ]
 
+{ #category : 'accessing' }
+ToSelectorInterpreter >> theme [
+
+	^ theme
+]
+
+{ #category : 'accessing' }
+ToSelectorInterpreter >> theme: aTheme [
+
+	theme := aTheme
+]
+
+{ #category : 'accessing' }
+ToSelectorInterpreter >> themeDo: aBlock [
+
+	self theme ifNil: [ ^ self ].
+	aBlock value: self theme
+]
+
+{ #category : 'accessing' }
+ToSelectorInterpreter >> top [
+
+	^ targetStack top
+]
+
 { #category : 'visiting' }
 ToSelectorInterpreter >> visitActionSelector: aSelector [
 
-	result := aSelector action value: targetStack top
+	result := aSelector action value: self top
 ]
 
 { #category : 'visiting' }
@@ -48,20 +87,20 @@ ToSelectorInterpreter >> visitChildSelector: aSelector [
 	result ifFalse: [ ^ self ].
 
 	result := false.
-	parent := targetStack top.
+	parent := self top.
 	"evaluate only for children at a given depth or at any depth if selector depth is not specified "
 	parent allChildrenBreadthFirstWithDepthDo: [ :child :depth |
 		(aSelector depth isNil or: [ aSelector depth = depth ]) ifTrue: [
-			targetStack push: child.
+			self push: child.
 			aSelector right accept: self.
-			targetStack pop.
+			self pop.
 			result ifTrue: [ ^ self ] ] ]
 ]
 
 { #category : 'visiting' }
 ToSelectorInterpreter >> visitIdSelector: aSelector [
 
-	result := aSelector id = targetStack top id
+	result := aSelector id = self top id
 ]
 
 { #category : 'visiting' }
@@ -87,7 +126,7 @@ ToSelectorInterpreter >> visitParentSelector: aSelector [
 	result ifFalse: [ ^ self ].
 
 	result := false.
-	current := targetStack top.
+	current := self top.
 	depth := aSelector depth.
 
 	[
@@ -96,9 +135,9 @@ ToSelectorInterpreter >> visitParentSelector: aSelector [
 	depth := depth - 1.
 	depth < 0 ifTrue: [ ^ self ].
 	depth isZero ifTrue: [
-		targetStack push: current.
+		self push: current.
 		aSelector right accept: self.
-		targetStack pop.
+		self pop.
 		^ self ] ] repeat
 ]
 
@@ -110,24 +149,24 @@ ToSelectorInterpreter >> visitSiblingSelector: aSelector [
 	result ifFalse: [ ^ self ].
 
 	result := false.
-	current := targetStack top.
+	current := self top.
 	current siblingsDo: [ :sib |
-		targetStack push: sib.
+		self push: sib.
 		aSelector right accept: self.
-		targetStack pop.
+		self pop.
 		result ifTrue: [ ^ self ] ]
 ]
 
 { #category : 'visiting' }
 ToSelectorInterpreter >> visitStyleStampSelector: aSelector [
 
-	result := aSelector stampNames allSatisfy: [ :t | targetStack top hasStampNamed: t ]
+	result := aSelector stampNames allSatisfy: [ :t | self top hasStampNamed: t ]
 ]
 
 { #category : 'visiting' }
 ToSelectorInterpreter >> visitTypeSelector: aSelector [
 
-	result := (aSelector selectType: targetStack top class)
+	result := (aSelector selectType: self top class)
 ]
 
 { #category : 'visiting' }

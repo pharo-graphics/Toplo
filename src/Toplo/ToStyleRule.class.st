@@ -20,14 +20,14 @@ ToStyleRule >> addSubStyleRule: aStyleRule [
 ]
 
 { #category : 'converting' }
-ToStyleRule >> asRuleFor: anElement [
+ToStyleRule >> asRuleFor: anElement inTheme: aTheme [
 
 	| copy |
-	(self canBeAppliedTo: anElement) ifFalse:[ ^ nil ].
+	(self canBeAppliedTo: anElement inTheme: aTheme) ifFalse:[ ^ nil ].
 	copy := self copy.
 	copy styleRules: #().
 	
-	self styleRules do:[ :r | (r asRuleFor: anElement) ifNotNil:[ :e | self addStyleRule: e ] ].
+	self styleRules do:[ :r | (r asRuleFor: anElement inTheme: aTheme) ifNotNil:[ :e | self addStyleRule: e ] ].
 
 	^ copy
 ]
@@ -35,8 +35,15 @@ ToStyleRule >> asRuleFor: anElement [
 { #category : 'testing' }
 ToStyleRule >> canBeAppliedTo: anElement [
 
+	^ self canBeAppliedTo: anElement inTheme: nil
+]
+
+{ #category : 'testing' }
+ToStyleRule >> canBeAppliedTo: anElement inTheme: aTheme [
+
 	| engine |
 	engine := ToSelectorInterpreter new.
+	engine theme: aTheme.
 	engine check: self selector on: anElement.
 	^ engine result
 ]
@@ -57,11 +64,11 @@ ToStyleRule >> initialize [
 ]
 
 { #category : 'writers selecting' }
-ToStyleRule >> putAllWritersFor: anElement in: aStream [
+ToStyleRule >> putAllWritersForElement: anElement forTheme: aTheme in: aStream [
 
-	(self canBeAppliedTo: anElement) ifFalse: [ ^ self ].
+	(self canBeAppliedTo: anElement inTheme: aTheme) ifFalse: [ ^ self ].
 	aStream nextPutAll: self writers.
-	self styleRules do: [ :r | r putAllWritersFor: anElement in: aStream ] 
+	self styleRules do: [ :r | r putAllWritersForElement: anElement forTheme: aTheme in: aStream ] 
 ]
 
 { #category : 't - style rule holder - accessing' }

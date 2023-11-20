@@ -192,7 +192,7 @@ ToStyleSheetPrinter >> styleRules [
 			theme := self toElement toTheme.
 			(theme notNil and:[theme styleSheet notNil]) 
 				ifFalse:[ nil ] 
-				ifTrue:[ | writers |
+				ifTrue:[ 
 					^ theme rulesFor: self toElement
 				].	
 		] ifNil: [ OrderedCollection new ]. 

@@ -29,15 +29,21 @@ ToStyleSheetTheme >> name [
 ]
 
 { #category : 'accessing' }
-ToStyleSheetTheme >> newSkinFor: anElement [
+ToStyleSheetTheme >> newSkinInstanceFor: anElement [
 
-	anElement setUpForTheme: self.
 	^ (self writersFor: anElement)
 		  ifEmpty: [ (self skinClassFor: anElement) new ]
 		  ifNotEmpty: [ :writers |
 			  (self skinClassFor: anElement) new
 				  writers: writers;
 				  yourself ]
+]
+
+{ #category : 'hook' }
+ToStyleSheetTheme >> onSetUpIn: anElement [
+
+	super onSetUpIn: anElement.
+	anElement withAllStamps: (self defaultElementStyleStampsFor: anElement) 
 ]
 
 { #category : 'writer selecting' }
@@ -47,7 +53,7 @@ ToStyleSheetTheme >> rawRulesFor: anElement [
 	| rootRules list |
 	rootRules := self rootRulesFor: anElement.
 	list := OrderedCollection new.	
-	rootRules do:[ :r | (r asRuleFor: anElement) ifNotNil:[ :e | list add: e ] ].	
+	rootRules do:[ :r | (r asRuleFor: anElement inTheme: self) ifNotNil:[ :e | list add: e ] ].	
 	^ list
 ]
 
@@ -56,7 +62,7 @@ ToStyleSheetTheme >> rawWritersFor: anElement [
 
 	^ Array streamContents: [ :stream |
 		  (self rootRulesFor: anElement) do: [ :r |
-			  r putAllWritersFor: anElement in: stream ] ]
+			  r putAllWritersForElement: anElement forTheme: self in: stream ] ]
 ]
 
 { #category : 'writer selecting' }
@@ -72,8 +78,6 @@ ToStyleSheetTheme >> rulesFor: anElement [
 	" for an element, several rules can be found. These rules 
 	are found with #rootRulesFor:. After, for each rules we kept only writers for this element"
 
-	| rawRules |
-	
 	anElement isAttachedToSceneGraph ifFalse: [ ^ #() ].
 	
 	" get all subscriptions for anElement "

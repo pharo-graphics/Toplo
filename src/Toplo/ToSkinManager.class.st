@@ -52,7 +52,10 @@ ToSkinManager >> defaultSkin: aSkin in: anElement [
 { #category : 'accessing - skin' }
 ToSkinManager >> defaultSkinIn: anElement [
 
-	^ defaultSkin ifNil: [ (self lookupThemeFrom: anElement) newSkinFor: anElement ]
+	^ defaultSkin ifNil: [
+		  | th |
+		  th := self lookupThemeFrom: anElement.
+		  th newSkinFor: anElement ]
 ]
 
 { #category : 'skin application' }
@@ -71,7 +74,6 @@ ToSkinManager >> initialize [
 { #category : 'accessing - skin' }
 ToSkinManager >> installSkin: aSkin in: anElement [
 
-	anElement setUpForTheme: anElement toTheme.
 	anElement addEventHandler: aSkin.
 	aSkin dispatchSkinInstallStateRequestTo: anElement.
 	aSkin dispatchSkinInitialStateRequestTo: anElement.

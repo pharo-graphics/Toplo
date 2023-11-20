@@ -31,6 +31,12 @@ ToStyleStore >> hasStampNamed: aSymbol [
 	^ self stampIndex hasPropertyNamed: aSymbol
 ]
 
+{ #category : 'api - hooks' }
+ToStyleStore >> isSetUpForTheme: aTheme [
+
+	^ self themeClasses includes: aTheme class
+]
+
 { #category : 'accessing' }
 ToStyleStore >> localStampNamed: aSymbol [
 
@@ -57,6 +63,12 @@ ToStyleStore >> onInstalledIn: anElement [
 	self stampIndex changedAction: [ anElement requestNewSkin ]
 ]
 
+{ #category : 'api - hooks' }
+ToStyleStore >> registerTheme: aTheme [
+
+	self themeClasses add: aTheme class
+]
+
 { #category : 'adding-removing' }
 ToStyleStore >> removeAllStamps [
 
@@ -72,9 +84,9 @@ ToStyleStore >> removeStampNamed: aSymbol [
 { #category : 'api - hooks' }
 ToStyleStore >> setUpForTheme: aTheme in: anElement [
 
-	(self themeClasses includes: aTheme class) ifTrue: [ ^ self ].
-	anElement withAllParentsDo: [ :p |
-		p withAllStamps: (aTheme defaultElementStyleStampsFor: p) ].
+	(self isSetUpForTheme: aTheme) ifTrue: [ ^ self ].
+	self registerTheme: aTheme.
+	aTheme onSetUpIn: anElement
 ]
 
 { #category : 'accessing' }

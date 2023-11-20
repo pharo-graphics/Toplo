@@ -37,7 +37,18 @@ ToTheme >> name [
 { #category : 'accessing' }
 ToTheme >> newSkinFor: anElement [
 
+	anElement setUpForTheme: self.
+	^ self newSkinInstanceFor: anElement
+]
+
+{ #category : 'accessing' }
+ToTheme >> newSkinInstanceFor: anElement [
+
 	^ self subclassResponsibility 
+]
+
+{ #category : 'hook' }
+ToTheme >> onSetUpIn: anElement [
 ]
 
 { #category : 'printing' }

@@ -203,8 +203,6 @@ BlElement >> setSkin: aSkin [
 BlElement >> setUpForTheme: aTheme [
 
 	self toStyleStore setUpForTheme: aTheme in: self
-
-
 ]
 
 { #category : '*Toplo' }

@@ -10,9 +10,17 @@ Class {
 }
 
 { #category : 't - property animation - running' }
+ToPropertyColorTransitionAnimation >> isRunning [
+
+	^ rawAnimation notNil and: [rawAnimation isRunning]
+]
+
+{ #category : 't - property animation - running' }
 ToPropertyColorTransitionAnimation >> stop [
 
-	rawAnimation ifNotNil: [ :ra | ra isRunning ifTrue: [ ra stop ] ]
+	self isRunning ifFalse: [ ^ self ].
+	rawAnimation stop.
+	rawAnimation := nil
 ]
 
 { #category : 'writing' }

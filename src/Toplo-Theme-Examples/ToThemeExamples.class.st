@@ -160,6 +160,8 @@ ToThemeExamples class >> example_oneButton [
 	space := BlSpace new.
 	space toTheme: ToBeeLightTheme new.
 	defaultButton := ToButton new.
+	"defaultButton when: ToElementLookEvent do: [ :evt | evt traceCr ]."
+	defaultButton withStamp: #'primary'.
 	defaultButton labelText: 'Default button'.
 	space root addChild: defaultButton.
 	space show.

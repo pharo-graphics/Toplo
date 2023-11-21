@@ -6,14 +6,20 @@ Class {
 	#tag : 'Core'
 }
 
+{ #category : 'stamp values' }
+ToGeneralButtonSkin >> defaultBackground [
+
+	^ Color transparent 
+]
+
 { #category : 'event handling' }
 ToGeneralButtonSkin >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: BlCursor default.
-		e border: e disabledBorder.
-		e background: e disabledBackground ]
+		e border: (BlBorder paint: (e stampValue: #'color-border-disabled') width: (e stampValue: #'line-width')).
+		e background: (e stampValue: #'color-bg-container-disabled') ]
 ]
 
 { #category : 'event handling' }
@@ -21,8 +27,8 @@ ToGeneralButtonSkin >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: e defaultBorder.
-		e background: e defaultBackground ]
+		e border: (BlBorder paint: (e stampValue: #'color-border') width: (e stampValue: #'line-width')).
+		e background: (e stampValue: #'color-bg-container') ]
 ]
 
 { #category : 'event handling' }
@@ -31,7 +37,7 @@ ToGeneralButtonSkin >> hoveredLookEvent: anEvent [
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: BlCursor hand.
-		e border: e hoveredBorder.
+		e border: (BlBorder paint: (e stampValue: #'color-primary-hover') width: (e stampValue: #'line-width')).
 		e background: e hoveredBackground ]
 ]
 
@@ -41,8 +47,16 @@ ToGeneralButtonSkin >> initialLookEvent: anEvent [
 	super initialLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: BlCursor default.
-		e border: e defaultBorder.
-		e background: e defaultBackground ]
+		e background: (e stampValue: #'color-bg-container').
+		e border: (BlBorder paint: (e stampValue: #'color-border') width: (e stampValue: #'line-width')). ]
+]
+
+{ #category : 'event handling' }
+ToGeneralButtonSkin >> installLookEvent: anEvent [
+
+	super installLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e mouseCursor: BlCursor default]
 ]
 
 { #category : 'event handling' }
@@ -50,8 +64,8 @@ ToGeneralButtonSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: e defaultBorder.
-		e background: e defaultBackground ]
+		e border: (BlBorder paint: (e stampValue: #'color-border') width: (e stampValue: #'line-width')).
+		e background: (e stampValue: #'color-bg-container') ]
 ]
 
 { #category : 'event handling' }
@@ -59,6 +73,6 @@ ToGeneralButtonSkin >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: e pressedBorder.
+		e border: (BlBorder paint: (e stampValue: #'color-primary-pressed') width: (e stampValue: #'line-width')).
 		e background: e pressedBackground ]
 ]

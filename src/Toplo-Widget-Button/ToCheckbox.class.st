@@ -16,29 +16,13 @@ Class {
 { #category : 'skin' }
 ToCheckbox >> defaultBlankCheckboxImage [
 
-	| bar im |
-	bar := ToElement new id: #bar.
-	bar withoutSkin.
-	bar constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical exact: 3.
-		c frame horizontal alignCenter.
-		c frame vertical alignCenter ].
-	bar margin: (BlInsets left: 2 right: 2).
-	bar geometry: (BlRoundedRectangleGeometry cornerRadius: 2).
-	im := ToElement new.
-	im layout: BlFrameLayout new.
-	im size: 16 asPoint.
-	im addChild: bar.
-	im geometry: self iconGeometry.
-	im withoutSkin.
-	^ im
+	^ (self stampValue: #'checkbox-image-builder') value
 ]
 
 { #category : 'skin' }
 ToCheckbox >> defaultBorder [ 
 
-	^ BlBorder empty
+	^ self stampValue: #'color-border-checkable'
 ]
 
 { #category : 'skin' }

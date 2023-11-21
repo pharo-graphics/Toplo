@@ -118,11 +118,22 @@ ToBeeTheme class >> pink [
 ToBeeTheme >> checkboxBlankImage [
 
 	| bar im |
-	bar := ToElement new.
-	bar withAllStamps: #( #bar ).
+	bar := ToElement new id: #bar.
+	bar withoutSkin.
+	bar constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical exact: 3.
+		c frame horizontal alignCenter.
+		c frame vertical alignCenter ].
+	bar margin: (BlInsets left: 2 right: 2).
+	bar geometry: (BlRoundedRectangleGeometry cornerRadius: 2).
 	im := ToElement new.
-	im withAllStamps: #( #'inner-image' #unchecked ).
+	im layout: BlFrameLayout new.
+	im size: 16 asPoint.
 	im addChild: bar.
+	im withoutSkin.
+	bar withAllStamps: #( #bar ).
+	im withAllStamps: #( #'inner-image' #unchecked ).
 	^ im
 ]
 

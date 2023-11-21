@@ -6,16 +6,15 @@ Class {
 	#tag : 'Core-StyleSheet'
 }
 
-{ #category : 'writing' }
+{ #category : 'instance creation' }
 ToPropertyBorderEffectTransitionAnimation >> newRawAnimationFor: anElement to: aStopBorder [
 
 	| newAnim origEffect |
 	origEffect := anElement effect.
 	newAnim := BlGaussianEffectOpacityAnimation new
 		           color: (self property read: anElement) paint color;
-		           widthTransition: true;
-		           opacity: 0.6;
-		           width: 20.
+		           opacity: 0.2;
+		           width: 10.
 	newAnim onFinishedDo: [ anElement effect: origEffect ].
 	^ newAnim
 ]

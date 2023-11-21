@@ -6,7 +6,7 @@ Class {
 	#tag : 'Core-StyleSheet'
 }
 
-{ #category : 'writing' }
+{ #category : 'instance creation' }
 ToPropertyColorTransitionAnimation >> newRawAnimationFor: anElement to: aStopColor [
 
 	| newAnim |

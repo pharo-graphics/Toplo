@@ -26,7 +26,8 @@ ToPropertyWriterTest >> testAnimationNeedPropertyWithReader [
 	
 	"now setup a reader and it should be ok "
 	prop reader: [ :e | e background ].
-	anim onFinishedDo: [ :e |
+	propWriter animation: (anim := ToPropertyColorTransitionAnimation new property: prop).
+	anim onFinishedDo: [ :e | 
 		self assert: (e background isKindOf: BlPaintBackground).
 		self assert: e background paint color equals: Color blue.
 		self assert: (prop read: e) equals: e background ].

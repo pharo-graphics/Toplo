@@ -81,15 +81,17 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	space root layout: BlLinearLayout new.
 
 	pane := ToPane vertical.
+	pane padding: (BlInsets all: 15).
+	pane layout cellSpacing: 5.
 	pane localToTheme: ToRawTheme new.
 	space toTheme: ToBeeLightTheme new.
 	"Create some buttons with different skins"
-	primaryButton1 := (ToButton id: #buttonA) labelText: 'Primary Button'.
-	primaryButton1 withStamp: #primary.
-	primaryButton1 localToTheme: ToBeeDarkTheme new.
-	primaryButton2 := (ToButton id: #buttonA) labelText: 'Primary Button'.
-	primaryButton2 withStamp: #primary.
-	"primaryButton2 toTheme: ToBeeDarkTheme new."
+	primaryButton1 := (ToButton id: #buttonA) labelText: 'Default Button Light Bee'.
+	"primaryButton1 withStamp: #primary."
+	primaryButton1 localToTheme: ToBeeLightTheme new.
+	primaryButton2 := (ToButton id: #buttonA) labelText: 'Default Button Dark Bee'.
+	"primaryButton2 withStamp: #primary."
+	primaryButton2 localToTheme: ToBeeDarkTheme new.
 	pane addChild: primaryButton1.
 	pane addChild: primaryButton2.
 	space root addChild: pane.

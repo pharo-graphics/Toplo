@@ -2,41 +2,44 @@ Class {
 	#name : 'ToPropertyColorTransitionAnimation',
 	#superclass : 'ToPropertyAnimation',
 	#instVars : [
-		'rawAnimation'
+		'rawAnimIndex'
 	],
 	#category : 'Toplo-Core-StyleSheet',
 	#package : 'Toplo',
 	#tag : 'Core-StyleSheet'
 }
 
-{ #category : 't - property animation - running' }
-ToPropertyColorTransitionAnimation >> isRunning [
+{ #category : 'initialization' }
+ToPropertyColorTransitionAnimation >> initialize [ 
 
-	^ rawAnimation notNil and: [rawAnimation isRunning]
+	super initialize.
+	rawAnimIndex := IdentityDictionary new
 ]
 
-{ #category : 't - property animation - running' }
-ToPropertyColorTransitionAnimation >> stop [
+{ #category : 'writing' }
+ToPropertyColorTransitionAnimation >> newRawAnimationFor: anElement to: aStopColor [
 
-	self isRunning ifFalse: [ ^ self ].
-	rawAnimation stop.
-	rawAnimation := nil
+	| newAnim |
+	newAnim := BlColorTransition new
+		           duration: self duration asDuration;
+		           from: (self property read: anElement);
+		           to: aStopColor;
+		           onStepDo: [ :c :e | self property write: c to: e ].
+	newAnim onFinishedDo: [
+		self property write: aStopColor to: anElement.
+		rawAnimIndex removeKey: anElement ifAbsent: [  ] ].
+	rawAnimIndex at: anElement put: newAnim.
+	^ newAnim
 ]
 
 { #category : 'writing' }
 ToPropertyColorTransitionAnimation >> write: aColor to: anElement [
 
-	| currentColor |
-	self isRunning ifTrue: [ self stop ].
-	currentColor := self property read: anElement.
-	rawAnimation := BlColorTransition new
-		                duration: self duration asDuration;
-		                from: currentColor;
-		                to: aColor;
-		                onStepDo: [ :c :e | self property write: c to: e ].
-	rawAnimation onFinishedDo: [
-		self finishedHandlers do: #value.
-		self property write: aColor to: anElement.
-		rawAnimation := nil ].
+	| rawAnimation |
+	rawAnimIndex
+		at: anElement
+		ifPresent: [ :anim | anim isRunning ifTrue: [ anim stop ] ].
+	rawAnimation := self newRawAnimationFor: anElement to: aColor.
+	rawAnimIndex at: anElement put: rawAnimation.
 	anElement addAnimation: rawAnimation
 ]

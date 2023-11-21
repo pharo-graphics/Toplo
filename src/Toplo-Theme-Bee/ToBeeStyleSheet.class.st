@@ -537,6 +537,10 @@ ToBeeStyleSheet >> commonButtonRulesOld [
 ToBeeStyleSheet >> defaultButtonRules [
 	<script:'(ToStyleSheetPrinter styleRules: (self new defaultButtonRules)) asCSSLikeString inspect'>
 	
+	| borderColorAnim borderEffectAnim |
+	borderColorAnim := ToPropertyBorderColorTransitionAnimation new duration: 500 milliSeconds.
+	borderEffectAnim := ToPropertyBorderEffectTransitionAnimation new duration: 200 milliSeconds.
+
 	^ {
 		"Button background and border"
 		self buttonSelector style:[ :sr |
@@ -552,31 +556,32 @@ ToBeeStyleSheet >> defaultButtonRules [
 				   with: [ :e | e stampValue: #'color-bg-container-disabled' ].
 				
 				"Border"
-				sr
-				   when: ToInitialLookEvent
-				   write: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-border'); width: (e stampValue: #'line-width') ].
-				 sr
-				   when: ToLeavedLookEvent
-				   write: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-border'); width: (e stampValue: #'line-width') ]
-				   "animation: (ToPropertyColorTransitionAnimation new duration: 50 milliSeconds)".
-					self flag:'pla: make a border-color shortcut'.
-					self flag:'pla: create a border animation'.
-				sr
-				   when: ToDisabledLookEvent
-				   write: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-border-disabled'); width: (e stampValue: #'line-width') ].
-				sr
-				   when: ToHoveredLookEvent
-				   write: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-primary-hover'); width: (e stampValue: #'line-width') ]
-				   "animation: (ToPropertyColorTransitionAnimation new duration: 50 milliSeconds)".
-			   sr
-				   when: ToPressedLookEvent
-				   write: (self property: #'border-with-builder')
-				   with: [ :e | e borderBuilder paint: (e stampValue: #'color-primary-pressed'); width: (e stampValue: #'line-width') ]
-					"animation: (ToPropertyColorTransitionAnimation new duration: 200 milliSeconds)".
+				sr select: #primary asElementSelector not style: [ 
+				   
+					sr when: ToInitialLookEvent
+				 		write: (self property: #border)
+						with: [ :e | BlBorder paint: (e stampValue: #'color-border') width: (e stampValue: #'line-width') ].
+					sr
+				   		when: ToLeavedLookEvent
+						write: (self property: #border)
+				 	  	with: [ :e | BlBorder paint: (e stampValue: #'color-border') width: (e stampValue: #'line-width') ]
+						animation: borderColorAnim.
+						self flag:'pla: make a border-color shortcut'.
+						self flag:'pla: create a border animation'.
+					sr
+				  		when: ToDisabledLookEvent
+				   		write: (self property: #border)
+				   		with: [ :e | BlBorder paint: (e stampValue: #'color-border-disabled') width: (e stampValue: #'line-width') ].
+					sr
+				   		when: ToHoveredLookEvent
+				   		write: (self property: #border)
+				   		with: [ :e | BlBorder paint: (e stampValue: #'color-primary-hover') width: (e stampValue: #'line-width') ]
+						animation: borderColorAnim.
+			   		sr
+				  		when: ToReleasedLookEvent
+				   		write: (self property: #border)
+				   		with: [ :e | BlBorder paint: (e stampValue: #'color-primary-pressed') width: (e stampValue: #'line-width') ]
+				   		animation: borderEffectAnim ] .
 					
 				"Label"
 				sr
@@ -999,6 +1004,7 @@ ToBeeStyleSheet >> primaryButtonRules [
 	| backgroundColorAnim |
 	" the animation must be shared by all writers which are using it to stop it correctly "
 	backgroundColorAnim := ToPropertyColorTransitionAnimation new duration: 150 milliSeconds.
+	
 	^ {
 		"Button background and border"
 		((self buttonSelector + #primary) style: [ :sr |

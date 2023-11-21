@@ -2,9 +2,10 @@ Class {
 	#name : 'ToPropertyAnimation',
 	#superclass : 'Object',
 	#instVars : [
+		'finishedAction',
+		'rawAnimIndex',
 		'property',
-		'duration',
-		'finishedHandlers'
+		'duration'
 	],
 	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
@@ -23,23 +24,24 @@ ToPropertyAnimation >> duration: aDuration [
 	duration := aDuration
 ]
 
-{ #category : 'accessing' }
-ToPropertyAnimation >> finishedHandlers [
-
-	^ finishedHandlers 
-]
-
 { #category : 'initialization' }
 ToPropertyAnimation >> initialize [ 
 
 	super initialize.
-	finishedHandlers := OrderedCollection new
+	rawAnimIndex := IdentityDictionary new
 ]
 
-{ #category : 'action handling' }
-ToPropertyAnimation >> onFinishedDo: aBlock [
+{ #category : 'instance creation' }
+ToPropertyAnimation >> newRawAnimationFor: anElement to: aValue [
 
-	self finishedHandlers add: aBlock
+	^ self subclassResponsibility 
+]
+
+{ #category : 'writing' }
+ToPropertyAnimation >> onFinishedDo: aValuable [
+	" aValuable takes the element as argument "
+
+	finishedAction := aValuable
 ]
 
 { #category : 'accessing' }
@@ -55,7 +57,18 @@ ToPropertyAnimation >> property: aProperty [
 ]
 
 { #category : 'writing' }
-ToPropertyAnimation >> write: anObject to: anElement [
+ToPropertyAnimation >> write: aValue to: anElement [
 
-	self explicitRequirement 
+	| rawAnimation |
+	rawAnimIndex 
+		at: anElement
+		ifPresent: [ :anim | anim isRunning ifTrue: [ anim stop ] ].
+	rawAnimation := self newRawAnimationFor: anElement to: aValue.
+	rawAnimation duration: self duration asDuration.
+	rawAnimation onFinishedDo: [
+		finishedAction ifNotNil: [ :fa | fa value: anElement ].
+		self property write: aValue to: anElement.
+		rawAnimIndex removeKey: anElement ifAbsent: [  ] ].
+	rawAnimIndex at: anElement put: rawAnimation.
+	anElement addAnimation: rawAnimation
 ]

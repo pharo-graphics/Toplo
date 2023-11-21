@@ -107,7 +107,7 @@ ToPropertyWriter >> value: aBlockOrObject [
 ]
 
 { #category : 'operating' }
-ToPropertyWriter >> valueIn: anElement [
+ToPropertyWriter >> valueFrom: anElement [
 
 	^ value isClosure
 		  ifTrue: [ value value: anElement ]
@@ -117,7 +117,7 @@ ToPropertyWriter >> valueIn: anElement [
 { #category : 't - property writer - writing' }
 ToPropertyWriter >> writeTo: anElement [
 
-	self animation ifNil: [ ^ self property write: (self valueIn: anElement) to: anElement ].
+	self animation ifNil: [ ^ self property write: (self valueFrom: anElement) to: anElement ].
 	self animation property: self property.
-	self animation write: (self valueIn: anElement) to: anElement
+	self animation write: (self valueFrom: anElement) to: anElement
 ]

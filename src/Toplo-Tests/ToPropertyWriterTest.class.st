@@ -3,17 +3,40 @@ A ToPropertyWriterTest is a test class for testing the behavior of ToPropertyWri
 "
 Class {
 	#name : 'ToPropertyWriterTest',
-	#superclass : 'TestCase',
+	#superclass : 'ToParameterizedHostTest',
+	#instVars : [
+		'space'
+	],
 	#category : 'Toplo-Tests-Core-StyleSheet',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-StyleSheet'
 }
 
+{ #category : 'running' }
+ToPropertyWriterTest >> setUp [ 
+
+	super setUp.
+	space := self newTestingSpace. 
+
+]
+
+{ #category : 'tests' }
+ToPropertyWriterTest >> testAnimation [
+
+	| propWriter |
+	propWriter := ToPropertyWriter new.
+	self assert: propWriter animation isNil.
+	propWriter animation: ToPropertyBorderColorTransitionAnimation new.
+	self assert: propWriter animation notNil
+]
+
 { #category : 'test writing' }
 ToPropertyWriterTest >> testAnimationNeedPropertyWithReader [
 
-	| w prop propWriter anim |
+	| w prop propWriter anim wasHere |
 	w := BlElement new.
+	w background: Color red.
+	space root addChild: w.
 	prop := ToPseudoProperty new.
 	prop name: #background.
 	prop writer: [ :e :v | e background: v ].
@@ -21,17 +44,64 @@ ToPropertyWriterTest >> testAnimationNeedPropertyWithReader [
 	propWriter := ToPropertyWriter new.
 	propWriter property: prop.
 	propWriter value: Color blue.
-	propWriter animation: (anim := ToPropertyColorTransitionAnimation new property: prop).
-	self should: [propWriter writeTo: w ] raise: MessageNotUnderstood.
-	
+	propWriter animation:
+		(anim := ToPropertyColorTransitionAnimation new
+			         property: prop;
+			         duration: 10 milliSeconds).
+	self should: [ propWriter writeTo: w ] raise: MessageNotUnderstood.
+
 	"now setup a reader and it should be ok "
-	prop reader: [ :e | e background ].
-	propWriter animation: (anim := ToPropertyColorTransitionAnimation new property: prop).
-	anim onFinishedDo: [ :e | 
+	prop reader: [ :e | e background paint color ].
+	propWriter animation:
+		(anim := ToPropertyColorTransitionAnimation new property: prop).
+	wasHere := false.
+	anim onFinishedDo: [ :e |
+		wasHere := true.
 		self assert: (e background isKindOf: BlPaintBackground).
 		self assert: e background paint color equals: Color blue.
-		self assert: (prop read: e) equals: e background ].
-	propWriter writeTo: w
+		self assert: (prop read: e) equals: e background paint color ].
+
+	propWriter writeTo: w.
+	self waitTestingSpaces.
+	self assert: wasHere
+]
+
+{ #category : 'tests' }
+ToPropertyWriterTest >> testCanReceiveEvent [
+
+	| propWriter |
+	propWriter := ToPropertyWriter new.
+	propWriter eventClass: ToHoveredLookEvent.
+	self assert: (propWriter canReceiveEvent: ToHoveredLookEvent new).
+	self deny: (propWriter canReceiveEvent: ToLeavedLookEvent new)
+]
+
+{ #category : 'tests' }
+ToPropertyWriterTest >> testEventClass [
+
+	| propWriter |
+	propWriter := ToPropertyWriter new.
+	propWriter eventClass: ToHoveredLookEvent.
+	self assert: propWriter eventClass identicalTo: ToHoveredLookEvent
+]
+
+{ #category : 'tests' }
+ToPropertyWriterTest >> testIsSupplement [
+
+	| propWriter |
+	propWriter := ToPropertyWriter new.
+	propWriter supplement: true.
+	self assert: propWriter isSupplement
+]
+
+{ #category : 'tests' }
+ToPropertyWriterTest >> testProperty [
+
+	| propWriter |
+	propWriter := ToPropertyWriter new.
+	propWriter property: (ToFeatureProperty new name: #background).
+	self assert: propWriter property name equals: #background
+
 ]
 
 { #category : 'test event receiving' }
@@ -49,10 +119,34 @@ ToPropertyWriterTest >> testReceiveDefaultEventWithFeaturePropertyWithRawValue [
 	self assert: target background paint color equals: Color blue.
 ]
 
+{ #category : 'tests' }
+ToPropertyWriterTest >> testReceiveEvent [
+
+	| w propWriter evt |
+	w := BlElement new.
+	w background: Color red.
+	evt := ToHoveredLookEvent new currentTarget: w.
+	propWriter := ToPropertyWriter new.
+	propWriter eventClass: ToHoveredLookEvent.
+	propWriter property: (ToFeatureProperty new name: #background).
+	propWriter value: (BlBackground paint: Color blue).
+	self assert: w background paint color equals: Color red.
+	propWriter receiveEvent: evt.
+	self assert: w background paint color equals: Color blue.
+	evt := ToLeavedLookEvent new currentTarget: w.
+	propWriter receiveEvent: evt.
+	self assert: w background paint color equals: Color blue
+
+
+
+	
+
+]
+
 { #category : 'test event receiving' }
 ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithAnimationWithRawValue [
 
-	| prop propWriter target anim |
+	| prop propWriter target anim wasHere |
 	prop := ToFeatureProperty new.
 	prop name: #background.
 	propWriter := ToPropertyWriter new.
@@ -61,19 +155,24 @@ ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithAnimationWithRawV
 	propWriter eventClass: ToHoveredLookEvent.
 	propWriter animation: (anim := ToBackgroundColorAnimationForTest new property: prop).
 	target := BlElement new.
-	anim onFinishedDo: [
+	space root addChild: target.
+	wasHere := false.
+	anim onFinishedDo: [ :w |
+		wasHere := true.
 		self assert: (target background isKindOf: BlPaintBackground).
 		self assert: target background paint color equals: Color blue.
 		self assert: (prop read: target) equals: target background ].
 	propWriter receiveEvent: (ToHoveredLookEvent new currentTarget: target).
-	" have to wait animation termination "
-	self assert: target background paint isNil
+	" have to wait animation termination ".
+	self waitTestingSpaces.
+	self assert: wasHere.
+	self assert: target background paint color equals: Color blue
 ]
 
 { #category : 'test event receiving' }
 ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithAnimationWithValuable [
 
-	| prop propWriter target target2 anim |
+	| prop propWriter target target2 anim wasHere |
 	prop := ToFeatureProperty new.
 	prop name: #background.
 	propWriter := ToPropertyWriter new.
@@ -82,7 +181,10 @@ ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithAnimationWithValu
 	propWriter eventClass: ToHoveredLookEvent.
 	propWriter animation: (anim := ToBackgroundColorAnimationForTest new property: prop).
 	target := BlElement new.
-	anim onFinishedDo: [
+	space root addChild: target.
+	wasHere := false.
+	anim onFinishedDo: [ :w |
+		wasHere := true.
 		self assert: (target background isKindOf: BlPaintBackground).
 		self assert: target background paint color equals: Color blue.
 		self assert: (prop read: target) equals: target background. ].
@@ -90,7 +192,10 @@ ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithAnimationWithValu
 	" the valuable value is interpreted ** before ** animation running "
 	self assert: target2 identicalTo: target.
 	" have to wait animation termination "
-	self assert: target background paint isNil
+	self assert: target background paint isNil.
+	self waitTestingSpaces.
+	self assert: wasHere.
+	self assert: target background paint color equals: Color blue
 ]
 
 { #category : 'test event receiving' }
@@ -128,22 +233,60 @@ ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithValuable [
 
 ]
 
+{ #category : 'tests' }
+ToPropertyWriterTest >> testSupplement [
+
+	| propWriter |
+	propWriter := ToPropertyWriter new.
+	propWriter supplement: true.
+	self assert: (propWriter supplement).
+
+]
+
+{ #category : 'tests' }
+ToPropertyWriterTest >> testValue [
+
+	| propWriter |
+	propWriter := ToPropertyWriter new.
+	propWriter value: Color blue.
+	self assert: propWriter value equals: Color blue
+]
+
+{ #category : 'tests' }
+ToPropertyWriterTest >> testValueFrom [
+
+	| w propWriter |
+	propWriter := ToPropertyWriter new.
+	propWriter value: Color blue.
+	self assert: propWriter value equals: Color blue.
+	w := BlElement new.
+	w background: Color red.
+	self assert: (propWriter valueFrom: w) equals: Color blue.
+	propWriter value: [:e | e background paint color ].
+	self assert: (propWriter valueFrom: w) equals: Color red
+]
+
 { #category : 'test writing' }
 ToPropertyWriterTest >> testWithFeaturePropertyAndAnimation [
 
-	| w prop propWriter anim |
+	| w prop propWriter anim wasHere |
 	w := BlElement new.
+	space root addChild: w.
 	prop := ToFeatureProperty new.
 	prop name: #background.
 	propWriter := ToPropertyWriter new.
 	propWriter property: prop.
 	propWriter value: Color blue.
 	propWriter animation: (anim := ToBackgroundColorAnimationForTest new property: prop).
-	anim onFinishedDo: [
+	wasHere := false.
+	anim onFinishedDo: [:args |
+		wasHere := true.
 		self assert: (w background isKindOf: BlPaintBackground).
 		self assert: w background paint color equals: Color blue.
 		self assert: (prop read: w) equals: w background ].
-	propWriter writeTo: w
+	propWriter writeTo: w.
+	self waitTestingSpaces.
+	self assert: wasHere
 ]
 
 { #category : 'test writing' }
@@ -200,8 +343,9 @@ ToPropertyWriterTest >> testWithPseudoProperty [
 { #category : 'test writing' }
 ToPropertyWriterTest >> testWithPseudoPropertyAndAnimation [
 
-	| w prop propWriter anim |
+	| w prop propWriter anim wasHere |
 	w := BlElement new.
+	space root addChild: w.
 	prop := ToPseudoProperty new.
 	prop writer: [ :e :v | e background: v ].
 	prop reader: [ :e | e background ].
@@ -210,18 +354,23 @@ ToPropertyWriterTest >> testWithPseudoPropertyAndAnimation [
 	propWriter property: prop.
 	propWriter value: Color blue.
 	propWriter animation: (anim := ToBackgroundColorAnimationForTest new property: prop).
-	anim onFinishedDo: [
+	wasHere := false.
+	anim onFinishedDo: [:args |
+		wasHere := true.
 		self assert: (w background isKindOf: BlPaintBackground).
 		self assert: w background paint color equals: Color blue.
 		self assert: (prop read: w) equals: w background ].
-	propWriter writeTo: w
+	propWriter writeTo: w.
+	self waitTestingSpaces.
+	self assert: wasHere
 ]
 
 { #category : 'test writing' }
 ToPropertyWriterTest >> testWithPseudoPropertyWithValuableAndAnimation [
 
-	| w prop propWriter anim w2 |
+	| w prop propWriter anim w2 wasHere |
 	w := BlElement new.
+	space root addChild: w.
 	prop := ToPseudoProperty new.
 	prop writer: [ :e :v | e background: v ].
 	prop reader: [ :e | e background ].
@@ -230,12 +379,38 @@ ToPropertyWriterTest >> testWithPseudoPropertyWithValuableAndAnimation [
 	propWriter property: prop.
 	propWriter value: [:e | w2 := e. Color blue].
 	propWriter animation: (anim := ToBackgroundColorAnimationForTest new property: prop).
-	anim onFinishedDo: [
+	wasHere := false.
+	anim onFinishedDo: [:args |
+		wasHere := true.
 		self assert: w2 identicalTo: w.
 		self assert: (w background isKindOf: BlPaintBackground).
 		self assert: w background paint color equals: Color blue.
 		self assert: (prop read: w) equals: w background ].
-	propWriter writeTo: w
+	propWriter writeTo: w.
+	self waitTestingSpaces.
+	self assert: wasHere
+]
+
+{ #category : 'tests' }
+ToPropertyWriterTest >> testWriteTo [
+
+	| w propWriter color |
+	w := BlElement new.
+	color := Color yellow.
+	w background: Color red.
+	propWriter := ToPropertyWriter new.
+	propWriter property: (ToFeatureProperty new name: #background).
+	propWriter value: (BlBackground paint: Color blue).
+	propWriter writeTo: w.
+	self assert: w background paint color equals: Color blue.
+	propWriter value: [:e | color].
+	propWriter writeTo: w.
+	self assert: w background paint color equals: Color yellow
+
+
+
+	
+
 ]
 
 { #category : 'test event receiving' }

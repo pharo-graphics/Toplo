@@ -60,6 +60,6 @@ ToCheckboxTest >> testStartUnchecked [
 	cb checked: false.
 	space := cb openInSpace.
 	self assert: cb checked not.
-	cb when: BlElementAddedToSceneGraphEvent do: [ space close ].
+	cb when: BlElementAddedToSceneGraphEvent do: [ space close ]
 
 ]

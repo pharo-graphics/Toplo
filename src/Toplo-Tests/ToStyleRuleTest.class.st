@@ -4,9 +4,6 @@ A ToStyleRuleTest is a test class for testing the behavior of ToStyleRule
 Class {
 	#name : 'ToStyleRuleTest',
 	#superclass : 'TestCase',
-	#instVars : [
-		'writeablePropertyIndex'
-	],
 	#category : 'Toplo-Tests-Core-StyleSheet',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-StyleSheet'
@@ -16,27 +13,7 @@ Class {
 ToStyleRuleTest >> setUp [
 
 	super setUp.
-	writeablePropertyIndex := ToPropertyIndex new
-		                          addAllProperties: ToStyleSheet defaultWritablePropertyList;
-		                          yourself
-]
 
-{ #category : 'tests - simple rule' }
-ToStyleRuleTest >> testNewStyleRuleFromSelector [
-	".button:initial {
-		background: blue;
-		border: red;
-	}"
-
-	ToStyleRule new
-		selectedWith: (ToStampSelector new addStampName: #button)
-		style: [ :sr |
-			sr
-				write: (self writablePropertyIndex propertyNamed: #background)
-				with: Color blue.
-			sr
-				write: (self writablePropertyIndex propertyNamed: #border)
-				with: Color red ]
 ]
 
 { #category : 'tests - simple rule' }
@@ -344,10 +321,4 @@ ToStyleRuleTest >> testRuleWithUniversalSelector2 [
 		        selector: ((ToIdSelector new id: #a) or: ToUniversalSelector new).
 	e := ToElement new.
 	self assert: (rule canBeAppliedTo: e)
-]
-
-{ #category : 'running' }
-ToStyleRuleTest >> writablePropertyIndex [ 
-
-	^ writeablePropertyIndex 
 ]

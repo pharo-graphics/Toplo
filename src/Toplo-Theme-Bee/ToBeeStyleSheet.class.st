@@ -576,7 +576,7 @@ ToBeeStyleSheet >> defaultButtonRules [
 				   		with: [ :e | BlBorder paint: (e stampValue: #'color-primary-hover') width: (e stampValue: #'line-width') ]
 						animation: borderColorAnim.
 					sr
-				  		when: ToReleasedLookEvent
+				  		when: ToClickedLookEvent 
 				   		write: (self property: #border)
 				   		with: [ :e | BlBorder paint: (e stampValue: #'color-primary-hover') width: (e stampValue: #'line-width') ]
 				   		animation: borderEffectAnim.

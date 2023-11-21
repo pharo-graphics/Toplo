@@ -27,14 +27,16 @@ ToPropertyColorTransitionAnimation >> stop [
 ToPropertyColorTransitionAnimation >> write: aColor to: anElement [
 
 	| currentColor |
+	self isRunning ifTrue: [ self stop ].
 	currentColor := self property read: anElement.
 	rawAnimation := BlColorTransition new
-		             duration: self duration asDuration;
-		             from: currentColor;
-		             to: aColor;
-		             onStepDo: [ :c :e | self property write: c to: e ].
-	self finishedHandlers do: [ :h | rawAnimation onFinishedDo: h ].
-	rawAnimation onFinishedDo: [ self property write: aColor to: anElement ].
+		                duration: self duration asDuration;
+		                from: currentColor;
+		                to: aColor;
+		                onStepDo: [ :c :e | self property write: c to: e ].
+	rawAnimation onFinishedDo: [
+		self finishedHandlers do: #value.
+		self property write: aColor to: anElement.
+		rawAnimation := nil ].
 	anElement addAnimation: rawAnimation
-
 ]

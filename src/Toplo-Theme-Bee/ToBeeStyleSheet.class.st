@@ -995,7 +995,10 @@ ToBeeStyleSheet >> linkButtonRules [
 { #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> primaryButtonRules [
 	<script:'(ToStyleSheetPrinter styleRules: (self new primaryButtonRules)) asCSSLikeString inspect'>
-
+	
+	| backgroundColorAnim |
+	" the animation must be shared by all writers which are using it to stop it correctly "
+	backgroundColorAnim := ToPropertyColorTransitionAnimation new duration: 150 milliSeconds.
 	^ {
 		"Button background and border"
 		((self buttonSelector + #primary) style: [ :sr |
@@ -1009,7 +1012,7 @@ ToBeeStyleSheet >> primaryButtonRules [
 				   when: ToLeavedLookEvent
 				   write: (self property: #'background-color')
 				   with: [ :e | (e stampValue: #'color-primary') ]
-				   animation: (ToPropertyColorTransitionAnimation new duration: 50 milliSeconds).
+				   animation: backgroundColorAnim.
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'background-color')
@@ -1018,12 +1021,12 @@ ToBeeStyleSheet >> primaryButtonRules [
 				   when: ToHoveredLookEvent
 				   write: (self property: #'background-color')
 				   with: [ :e | (e stampValue: #'color-primary-hover') ]
-				   animation: (ToPropertyColorTransitionAnimation new duration: 50 milliSeconds).
+				   animation: backgroundColorAnim.
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'background-color')
 				   with: [ :e | (e stampValue: #'color-primary-pressed') ]
-					animation: (ToPropertyColorTransitionAnimation new duration: 200 milliSeconds).
+					animation: backgroundColorAnim.
 
 				"Border"
 			   sr

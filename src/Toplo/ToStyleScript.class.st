@@ -1,7 +1,7 @@
 Class {
 	#name : 'ToStyleScript',
 	#superclass : 'Object',
-	#classTraits : 'TToStyleRuleHolder classTrait',
+	#classTraits : 'TToStyleRulesHolder classTrait',
 	#instVars : [
 		'ruleStack'
 	],
@@ -17,9 +17,9 @@ ToStyleScript >> action: aValuable with: aValue [
 ]
 
 { #category : 'adding' }
-ToStyleScript >> addWriter: aPropertyWriter [
+ToStyleScript >> addPropertyWriter: aPropertyWriter [
 
-	self ruleStack top addWriter: aPropertyWriter
+	self ruleStack top addPropertyWriter: aPropertyWriter
 ]
 
 { #category : 'syntactic sugar' }
@@ -93,9 +93,8 @@ ToStyleScript >> select: aStyleSelector style: aBlock [
 	self ruleStack push: (ToStyleRule new selector: aStyleSelector asElementSelector).
 	aBlock cull: self.
 	rule := self ruleStack pop.
-	self ruleStack isEmpty
-		ifTrue: [ ^ rule ].
-	self ruleStack top addSubStyleRule: rule
+	self ruleStack ifNotEmpty: [:stk | stk top addStyleRule: rule ].
+	^ rule
 
 ]
 
@@ -115,12 +114,11 @@ ToStyleScript >> supplement: aProperty with: aValuableOrObject [
 ]
 
 { #category : 'syntactic sugar' }
-ToStyleScript >> when: aLookEventClass supplement: aProperty with: aValuableOrObject [
+ToStyleScript >> when: aLookEventClass supplement: aWritableProperty with: aValuableOrObject [
 
-	aProperty ifNil: [ ^ self ].
-	self addWriter: (ToPropertyWriter new
+	self addPropertyWriter: (ToPropertyWriter new
 			 eventClass: aLookEventClass;
-			 property: aProperty;
+			 property: aWritableProperty;
 			 value: aValuableOrObject;
 			 supplement: true;
 			 yourself)
@@ -139,8 +137,7 @@ ToStyleScript >> when: aLookEventClass write: aProperty with: aValuableOrObject 
 { #category : 'syntactic sugar' }
 ToStyleScript >> when: aLookEventClass write: aWriteableProperty with: aValuableOrObject animation: aPropertyAnimation [
 
-	aWriteableProperty ifNil: [ ^ self ].
-	self addWriter: (ToPropertyWriter new
+	self addPropertyWriter: (ToPropertyWriter new
 			 eventClass: aLookEventClass;
 			 property: aWriteableProperty;
 			 value: aValuableOrObject;
@@ -157,14 +154,4 @@ ToStyleScript >> write: aProperty with: aValue [
 		write: aProperty
 		with: aValue
 		animation: nil
-]
-
-{ #category : 'writing' }
-ToStyleScript >> write: aProperty with: aValuableOrObject animation: aPropertyAnimation [
-
-	self
-		when: self eventClass
-		write: aProperty
-		with: aValuableOrObject
-		animation: aPropertyAnimation
 ]

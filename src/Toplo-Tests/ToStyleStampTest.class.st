@@ -34,7 +34,7 @@ ToStyleStampTest >> testAsStyleStamp [
 ToStyleStampTest >> testName [
 
 	| s |
-	s := ToStyleStamp new.
+	s := ToReadOnlyStyleStamp new.
 	self assert: s name isNil.
 	
 	s name: #color.
@@ -43,7 +43,7 @@ ToStyleStampTest >> testName [
 	self assert: s name identicalTo: #color.
 	self should: [s name: Object new] raise: Error.
 	
-	s := ToStyleStamp name: #background value: (BlBackground paint: Color white).
+	s := ToReadOnlyStyleStamp name: #background value: (BlBackground paint: Color white).
 	self assert: s name equals: #background.
 	self assert: s value paint color equals: Color white
 
@@ -53,7 +53,7 @@ ToStyleStampTest >> testName [
 ToStyleStampTest >> testRead [
 
 	| s |
-	s := ToStyleStamp new.
+	s := ToReadOnlyStyleStamp new.
 
 	s name: #color.
 	s value: [ :e | Color red ].
@@ -66,7 +66,7 @@ ToStyleStampTest >> testRead [
 ToStyleStampTest >> testValue [
 
 	| s |
-	s := ToStyleStamp new.
+	s := ToReadOnlyStyleStamp new.
 	self assert: s value isNil.
 	
 	s name: #color.

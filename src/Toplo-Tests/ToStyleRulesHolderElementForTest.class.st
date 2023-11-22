@@ -1,9 +1,9 @@
 Class {
-	#name : 'ToStyleRuleHolderElementForTest',
+	#name : 'ToStyleRulesHolderElementForTest',
 	#superclass : 'Object',
-	#classTraits : 'TToStyleRuleHolder classTrait',
+	#classTraits : 'TToStyleRulesHolder classTrait',
 	#instVars : [
-		'rules'
+		'styleRules'
 	],
 	#category : 'Toplo-Tests-Core-StyleSheet',
 	#package : 'Toplo-Tests',
@@ -11,44 +11,44 @@ Class {
 }
 
 { #category : 't - style rule holder - accessing' }
-ToStyleRuleHolderElementForTest >> addAllStyleRules: aStyleRuleCollection [
+ToStyleRulesHolderElementForTest >> addAllStyleRules: aStyleRuleCollection [
 
 	self rawStyleRules: (self rawStyleRules copyWithAll: aStyleRuleCollection)
 ]
 
 { #category : 't - style rule holder - accessing' }
-ToStyleRuleHolderElementForTest >> addStyleRule: aStyleRule [
+ToStyleRulesHolderElementForTest >> addStyleRule: aStyleRule [
 
 	self rawStyleRules: (self rawStyleRules copyWith: aStyleRule)
 ]
 
 { #category : 'initialization' }
-ToStyleRuleHolderElementForTest >> initialize [ 
+ToStyleRulesHolderElementForTest >> initialize [ 
 
 	super 	initialize.
-	rules := #(  )
+	self rawStyleRules: #(  )
 ]
 
 { #category : 't - style rule holder - accessing' }
-ToStyleRuleHolderElementForTest >> rawStyleRules [
+ToStyleRulesHolderElementForTest >> rawStyleRules [
 
-	^ rules
+	^ styleRules
 ]
 
 { #category : 't - style rule holder - accessing' }
-ToStyleRuleHolderElementForTest >> rawStyleRules: aStyleRuleCollection [
+ToStyleRulesHolderElementForTest >> rawStyleRules: aStyleRuleCollection [
 
-	rules := aStyleRuleCollection
+	styleRules := aStyleRuleCollection
 ]
 
 { #category : 't - style rule holder - accessing' }
-ToStyleRuleHolderElementForTest >> styleRules [
+ToStyleRulesHolderElementForTest >> styleRules [
 
 	^ self rawStyleRules 
 ]
 
 { #category : 't - style rule holder - accessing' }
-ToStyleRuleHolderElementForTest >> styleRules: aStyleRuleCollection [
+ToStyleRulesHolderElementForTest >> styleRules: aStyleRuleCollection [
 
 	self rawStyleRules: aStyleRuleCollection
 ]

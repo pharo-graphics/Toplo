@@ -12,12 +12,12 @@ ToStyleStampIndexTest >> testAddAllProperties [
 	| idx count |
 	count := 0.
 	idx := ToStyleStampIndex new changedAction: [ count := count + 1 ].
-	idx addAllProperties: { (ToStyleStamp new name: #color). (ToStyleStamp new name: #background) } .
+	idx addAllProperties: { (ToReadOnlyStyleStamp new name: #color). (ToReadOnlyStyleStamp new name: #background) } .
 	self assert: idx size equals: 2.
 	self assert: count equals: 1.
 	
 	" no duplication allowed "
-	idx addAllProperties: { (ToStyleStamp new name: #color). (ToStyleStamp new name: #background) } .
+	idx addAllProperties: { (ToReadOnlyStyleStamp new name: #color). (ToReadOnlyStyleStamp new name: #background) } .
 	self assert: idx size equals: 2.
 	self assert: count equals: 1
 
@@ -30,13 +30,13 @@ ToStyleStampIndexTest >> testAddProperty [
 	| idx count |
 	count := 0.
 	idx := ToStyleStampIndex new changedAction: [ count := count + 1 ].
-	idx addProperty: (ToStyleStamp new name: #color).
+	idx addProperty: (ToReadOnlyStyleStamp new name: #color).
 	self assert: count equals: 1.
 	self assert: idx size equals: 1.
-	idx addProperty: (ToStyleStamp new name: #color; value: Color blue).
+	idx addProperty: (ToReadOnlyStyleStamp new name: #color; value: Color blue).
 	self assert: count equals: 2.
 	self assert: idx size equals: 1.
-	idx addProperty: (ToStyleStamp new name: #color; value: Color blue).
+	idx addProperty: (ToReadOnlyStyleStamp new name: #color; value: Color blue).
 	self assert: count equals: 2.
 	self assert: idx size equals: 1.
 
@@ -50,13 +50,13 @@ ToStyleStampIndexTest >> testAddPropertyWithBlockClosure [
 	| idx count |
 	count := 0.
 	idx := ToStyleStampIndex new changedAction: [ count := count + 1 ].
-	idx addProperty: (ToStyleStamp new name: #color; value: [:e | e defaultColor ] ).
+	idx addProperty: (ToReadOnlyStyleStamp new name: #color; value: [:e | e defaultColor ] ).
 	self assert: count equals: 1.
 	self assert: idx size equals: 1.
-	idx addProperty: (ToStyleStamp new name: #color; value: [:e | e defaultColor ]).
+	idx addProperty: (ToReadOnlyStyleStamp new name: #color; value: [:e | e defaultColor ]).
 	self assert: count equals: 1.
 	self assert: idx size equals: 1.
-	idx addProperty: (ToStyleStamp new name: #color; value: Color blue).
+	idx addProperty: (ToReadOnlyStyleStamp new name: #color; value: Color blue).
 	self assert: count equals: 2.
 	self assert: idx size equals: 1.
 
@@ -84,13 +84,13 @@ ToStyleStampIndexTest >> testHasProperty [
 
 	| idx  |
 	idx := ToStyleStampIndex new .
-	idx addProperty: (ToStyleStamp new name: #color1; value: Color blue ).
-	idx addProperty: (ToStyleStamp new name: #color2; value: [:e | e defaultColor ] ).
-	self assert: (idx hasProperty: (ToStyleStamp  new name: #color1; value: Color blue)).
-	self deny: (idx hasProperty: (ToStyleStamp  new name: #color1; value: Color red)).
-	self assert: (idx hasProperty: (ToStyleStamp  new name: #color2; value: [:e | e defaultColor ])).
-	self deny: (idx hasProperty: (ToStyleStamp  new name: #color2; value: [:e | e color ])).
-	self deny: (idx hasProperty: (ToStyleStamp  new name: #color; value: [:e | e color ]))
+	idx addProperty: (ToReadOnlyStyleStamp new name: #color1; value: Color blue ).
+	idx addProperty: (ToReadOnlyStyleStamp new name: #color2; value: [:e | e defaultColor ] ).
+	self assert: (idx hasProperty: (ToReadOnlyStyleStamp  new name: #color1; value: Color blue)).
+	self deny: (idx hasProperty: (ToReadOnlyStyleStamp  new name: #color1; value: Color red)).
+	self assert: (idx hasProperty: (ToReadOnlyStyleStamp  new name: #color2; value: [:e | e defaultColor ])).
+	self deny: (idx hasProperty: (ToReadOnlyStyleStamp  new name: #color2; value: [:e | e color ])).
+	self deny: (idx hasProperty: (ToReadOnlyStyleStamp  new name: #color; value: [:e | e color ]))
 
 
 
@@ -116,8 +116,8 @@ ToStyleStampIndexTest >> testRemoveAllProperties [
 	idx removeAllProperties.
 	self assert: count equals: 0.
 	idx addAllProperties: {
-			(ToStyleStamp new name: #color).
-			(ToStyleStamp new name: #background) }.
+			(ToReadOnlyStyleStamp new name: #color).
+			(ToReadOnlyStyleStamp new name: #background) }.
 	self assert: idx size equals: 2.
 	self assert: count equals: 1.
 
@@ -132,7 +132,7 @@ ToStyleStampIndexTest >> testRemovePropertyNamed [
 	| idx count |
 	count := 0.
 	idx := ToStyleStampIndex new changedAction: [ count := count + 1 ].
-	idx addAllProperties: { (ToStyleStamp new name: #color). (ToStyleStamp new name: #background) } .
+	idx addAllProperties: { (ToReadOnlyStyleStamp new name: #color). (ToReadOnlyStyleStamp new name: #background) } .
 	self assert: count equals: 1.
 	idx removePropertyNamed: #color.
 	self assert: count equals: 2.

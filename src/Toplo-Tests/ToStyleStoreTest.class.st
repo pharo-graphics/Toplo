@@ -16,7 +16,7 @@ ToStyleStoreTest >> testAddStamp [
 	e := BlElement new.
 	e toStyleStore addStamp: (#color -> Color blue) asStyleStamp.
 	self assert: (s := e toStyleStore localStampNamed: #color) notNil.
-	self assert: (s isKindOf: ToStyleStamp).
+	self assert: (s isKindOf: ToReadOnlyStyleStamp).
 	self assert: s name equals: #color.
 	self assert: s value equals: Color blue.
 	self assert: e toStyleStore stampIndex size equals: 1.
@@ -75,7 +75,7 @@ ToStyleStoreTest >> testLocalStampNamed [
 		addProperty: #color asStyleStamp.
 	s := e toStyleStore localStampNamed: #color.
 	self assert: s notNil.
-	self assert: (s isKindOf: ToStyleStamp).
+	self assert: (s isKindOf: ToReadOnlyStyleStamp).
 	self assert: s name equals: #color.
 	self assert: s value
 ]

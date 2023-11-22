@@ -74,10 +74,10 @@ ToBeeStyleSheetTest >> testWriteablePropertyList [
 	elem := ToElement new.
 	elem styleSheet: styleSheet.
 	index := IdentityDictionary new.
-	styleSheet writablePropertyList do: [ :p |
+	styleSheet defaultWritablePropertyList do: [ :p |
 		index at: p name ifAbsentPut: [ 0 ].
 		count := (index at: p name) + 1.
 		index at: p name put: count ].
 	index keysAndValuesDo: [ :k :v | self assert: v identicalTo: 1 ].
-	styleSheet writablePropertyList do: [ :p | self assert: (styleSheet writablePropertyNamed: p name) notNil ]
+	styleSheet defaultWritablePropertyList do: [ :p | self assert: (styleSheet writablePropertyNamed: p name) notNil ]
 ]

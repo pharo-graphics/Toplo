@@ -1,8 +1,8 @@
 Class {
 	#name : 'ToStyleSheet',
 	#superclass : 'Object',
-	#traits : 'TToStyleRuleHolder',
-	#classTraits : 'TToStyleRuleHolder classTrait',
+	#traits : 'TToStyleRulesHolder + TToReadOnlyStampIndexHolder + TToWritablePropertyIndexHolder',
+	#classTraits : 'TToStyleRulesHolder classTrait + TToReadOnlyStampIndexHolder classTrait + TToWritablePropertyIndexHolder classTrait',
 	#instVars : [
 		'styleRules',
 		'inherits',
@@ -109,16 +109,17 @@ ToStyleSheet >> any [
 
 ]
 
-{ #category : 'accessing' }
-ToStyleSheet >> buildStampIndexFromList: aStyleStampCollection [
-
-	stampIndex := self newStampIndexFromStampList: aStyleStampCollection
-]
-
 { #category : 'initialization' }
 ToStyleSheet >> defaultStyleRules [
 
 	^ #()
+]
+
+{ #category : 't - writable property index holder' }
+ToStyleSheet >> defaultWritablePropertyList [
+	" skin managing need a list of unique writeable properties. "
+
+	^ self class defaultWritablePropertyList
 ]
 
 { #category : 'syntactic sugar' }
@@ -157,20 +158,8 @@ ToStyleSheet >> inherits: aBoolean [
 ToStyleSheet >> initialize [ 
 
 	super initialize.
-	styleRules := self defaultStyleRules.
+	self rawStyleRules: self defaultStyleRules.
 	inherits := true
-]
-
-{ #category : 'initialization' }
-ToStyleSheet >> newStampIndexFromStampList: aStyleStampCollection [
-
-	^ ToPropertyIndex new addAllProperties: aStyleStampCollection; yourself.
-]
-
-{ #category : 'initialization' }
-ToStyleSheet >> newWritablePropertyIndex [
-
-	^ ToPropertyIndex new addAllProperties: self writablePropertyList; yourself.
 ]
 
 { #category : 'initialization' }
@@ -191,51 +180,44 @@ ToStyleSheet >> property: aSymbol [
 	^ self writablePropertyNamed: aSymbol
 ]
 
-{ #category : 't - style rule holder - accessing' }
+{ #category : 't - readonly stamp index holder' }
+ToStyleSheet >> rawStampIndex [
+
+	^ stampIndex 
+]
+
+{ #category : 't - readonly stamp index holder' }
+ToStyleSheet >> rawStampIndex: aPropertyIndex [
+
+	stampIndex := aPropertyIndex
+]
+
+{ #category : 't - style rules holder' }
 ToStyleSheet >> rawStyleRules [
 
 	^ styleRules 
 ]
 
-{ #category : 't - style rule holder - accessing' }
+{ #category : 't - style rules holder' }
 ToStyleSheet >> rawStyleRules: aStyleRuleCollection [
 
 	styleRules := aStyleRuleCollection
 ]
 
-{ #category : 'accessing' }
-ToStyleSheet >> stampIndex [
+{ #category : 't - writable property index holder' }
+ToStyleSheet >> rawWritablePropertyIndex [
 
-	^ stampIndex 
+	^ writablePropertyIndex 
 ]
 
-{ #category : 'accessing' }
-ToStyleSheet >> stampNamed: aName [
+{ #category : 't - writable property index holder' }
+ToStyleSheet >> rawWritablePropertyIndex: aPropertyIndex [
 
-	^ self stampIndex ifNotNil: [ :si | si propertyNamed: aName ]
+	writablePropertyIndex := aPropertyIndex
 ]
 
 { #category : 'syntactic sugar' }
 ToStyleSheet >> type: aClass [
 
 	^ ToTypeSelector new type: aClass
-]
-
-{ #category : 'accessing' }
-ToStyleSheet >> writablePropertyIndex [
-
-	^ writablePropertyIndex ifNil: [ writablePropertyIndex := self newWritablePropertyIndex ]
-]
-
-{ #category : 'accessing' }
-ToStyleSheet >> writablePropertyList [
-	" skin managing need a list of unique writeable properties. "
-
-	^ self class defaultWritablePropertyList
-]
-
-{ #category : 'accessing' }
-ToStyleSheet >> writablePropertyNamed: aName [
-
-	^ self writablePropertyIndex propertyNamed: aName
 ]

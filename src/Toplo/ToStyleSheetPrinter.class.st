@@ -133,20 +133,15 @@ ToStyleSheetPrinter >> getSelectorCSS: aToElementSelector hangSelector: aSelecto
 { #category : 'printing' }
 ToStyleSheetPrinter >> printOn: aStream [
 
-	self toElement ifNil: [ 
-	
-		self styleSheet ifNil: [ ^ aStream nextPutAll: 'an empty StyleSheet printer' ].
-		aStream nextPutAll: 'a Stylesheet printer on '.
-		self styleSheet printOn: aStream	
-		
-	] ifNotNil: [ :e | 
-	
-		aStream nextPutAll: 'a Stylesheet printer on '.
-		self toElement printOn: aStream	
-	
-	]. 
-
-	
+	self toElement
+		ifNil: [
+			self styleSheet ifNil: [
+				^ aStream nextPutAll: 'an empty StyleSheet printer' ].
+			aStream nextPutAll: 'a Stylesheet printer on '.
+			self styleSheet printOn: aStream ]
+		ifNotNil: [ :e |
+			aStream nextPutAll: 'a Stylesheet printer on '.
+			self toElement printOn: aStream ]
 ]
 
 { #category : 'private' }
@@ -161,7 +156,7 @@ ToStyleSheetPrinter >> printStyleRuleCSS: aStyleRule on: aStream hangSelector: a
 	aStream space; nextPutAll: '{'; cr.
 
 	"print body"
-	aStyleRule writers do:[ :w | 
+	aStyleRule propertyWriters do:[ :w | 
 		aStream tab.
 		w printOn: aStream.
 		aStream cr.
@@ -187,17 +182,15 @@ ToStyleSheetPrinter >> printStyleSheetCSSLikeOn: aStream [
 { #category : 'accessing' }
 ToStyleSheetPrinter >> styleRules [
 
-	^ self styleSheet ifNotNil: [ :e | e styleRules ] ifNil: [ 
-		self toElement ifNotNil: [ :e | | theme |
-			theme := self toElement toTheme.
-			(theme notNil and:[theme styleSheet notNil]) 
-				ifFalse:[ nil ] 
-				ifTrue:[ 
-					^ theme rulesFor: self toElement
-				].	
-		] ifNil: [ OrderedCollection new ]. 
-	]
-		  
+	^ self styleSheet ifNotNil: [ :e | e styleRules ] ifNil: [
+		  self toElement
+			  ifNotNil: [ :e |
+				  | theme |
+				  theme := self toElement toTheme.
+				  (theme notNil and: [ theme styleSheet notNil ])
+					  ifFalse: [ nil ]
+					  ifTrue: [ theme applicableRulesFor: self toElement ] ]
+			  ifNil: [ #(  ) ] ]
 ]
 
 { #category : 'accessing' }

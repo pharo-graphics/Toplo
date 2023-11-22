@@ -2,7 +2,7 @@
 A TToStyleRuleHolderTest is a test class for testing the behavior of TToStyleRuleHolder
 "
 Class {
-	#name : 'TToStyleRuleHolderTest',
+	#name : 'TToStyleRulesHolderTest',
 	#superclass : 'TestCase',
 	#category : 'Toplo-Tests-Core-StyleSheet',
 	#package : 'Toplo-Tests',
@@ -10,10 +10,10 @@ Class {
 }
 
 { #category : 'tests' }
-TToStyleRuleHolderTest >> testAddAllStyleRules [
+TToStyleRulesHolderTest >> testAddAllStyleRules [
 
 	| e |
-	e := ToStyleRuleHolderElementForTest new.
+	e := ToStyleRulesHolderElementForTest new.
 	e addAllStyleRules: {ToStyleRule new}.
 	self assert: e styleRules size equals: 1.
 	e addAllStyleRules: {ToStyleRule new. ToStyleRule new}.
@@ -22,19 +22,19 @@ TToStyleRuleHolderTest >> testAddAllStyleRules [
 ]
 
 { #category : 'tests' }
-TToStyleRuleHolderTest >> testAddStyleRule [
+TToStyleRulesHolderTest >> testAddStyleRule [
 
 	| e |
-	e := ToStyleRuleHolderElementForTest new.
+	e := ToStyleRulesHolderElementForTest new.
 	e addStyleRule: ToStyleRule new.
 	self assert: e styleRules size equals: 1
 ]
 
 { #category : 'tests' }
-TToStyleRuleHolderTest >> testStyleRules [
+TToStyleRulesHolderTest >> testStyleRules [
 
 	| e |
-	e := ToStyleRuleHolderElementForTest new.
+	e := ToStyleRulesHolderElementForTest new.
 	self assert: e styleRules size equals: 0.
 
 ]

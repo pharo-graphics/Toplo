@@ -21,5 +21,5 @@ ToElementLookEvent >> sendTo: anObject [
 { #category : 'sending' }
 ToElementLookEvent >> sendToStyleSheetSkin: aStyleSheetSkin [
 
-	aStyleSheetSkin sendEventToWriters: self
+	aStyleSheetSkin sendEventToPropertyWriters: self
 ]

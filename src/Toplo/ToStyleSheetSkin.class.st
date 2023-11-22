@@ -1,10 +1,10 @@
 Class {
 	#name : 'ToStyleSheetSkin',
 	#superclass : 'ToSkin',
-	#traits : 'TToPropertyWriterHolder',
-	#classTraits : 'TToPropertyWriterHolder classTrait',
+	#traits : 'TToPropertyWritersHolder',
+	#classTraits : 'TToPropertyWritersHolder classTrait',
 	#instVars : [
-		'writers'
+		'propertyWriters'
 	],
 	#category : 'Toplo-Core-StyleSheet',
 	#package : 'Toplo',
@@ -25,23 +25,23 @@ ToStyleSheetSkin >> handleEvent: anEvent [
 ToStyleSheetSkin >> initialize [
 
 	super initialize.
-	writers := #(  )
+	self rawPropertyWriters: #(  )
 ]
 
-{ #category : 't - property writer holder - accessing' }
-ToStyleSheetSkin >> rawWriters [
+{ #category : 't - property writers holder - accessing' }
+ToStyleSheetSkin >> rawPropertyWriters [
 
-	^ writers
+	^ propertyWriters
 ]
 
-{ #category : 't - property writer holder - accessing' }
-ToStyleSheetSkin >> rawWriters: aPropertyWriterCollection [
+{ #category : 't - property writers holder - accessing' }
+ToStyleSheetSkin >> rawPropertyWriters: aPropertyWriterCollection [
 
-	writers := aPropertyWriterCollection asArray
+	propertyWriters := aPropertyWriterCollection asArray
 ]
 
-{ #category : 'private - event handling' }
-ToStyleSheetSkin >> sendEventToWriters: anEvent [
+{ #category : 'hook - event managing' }
+ToStyleSheetSkin >> sendEventToPropertyWriters: anEvent [
 
-	self writers do: [ :s | s receiveEvent: anEvent  ]
+	self propertyWriters do: [ :s | s receiveEvent: anEvent  ] 
 ]

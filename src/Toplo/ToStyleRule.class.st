@@ -1,36 +1,17 @@
 Class {
 	#name : 'ToStyleRule',
 	#superclass : 'Object',
-	#traits : 'TToPropertyWriterHolder + TToStyleRuleHolder',
-	#classTraits : 'TToPropertyWriterHolder classTrait + TToStyleRuleHolder classTrait',
+	#traits : 'TToPropertyWritersHolder + TToStyleRulesHolder',
+	#classTraits : 'TToPropertyWritersHolder classTrait + TToStyleRulesHolder classTrait',
 	#instVars : [
 		'selector',
-		'writers',
-		'styleRules'
+		'subStyleRules',
+		'propertyWriters'
 	],
 	#category : 'Toplo-Core-StyleSheet',
 	#package : 'Toplo',
 	#tag : 'Core-StyleSheet'
 }
-
-{ #category : 'declaring' }
-ToStyleRule >> addSubStyleRule: aStyleRule [
-
-	self addStyleRule: aStyleRule
-]
-
-{ #category : 'converting' }
-ToStyleRule >> asRuleFor: anElement inTheme: aTheme [
-
-	| copy |
-	(self canBeAppliedTo: anElement inTheme: aTheme) ifFalse:[ ^ nil ].
-	copy := self copy.
-	copy styleRules: #().
-	
-	self styleRules do:[ :r | (r asRuleFor: anElement inTheme: aTheme) ifNotNil:[ :e | self addStyleRule: e ] ].
-
-	^ copy
-]
 
 { #category : 'testing' }
 ToStyleRule >> canBeAppliedTo: anElement [
@@ -48,6 +29,19 @@ ToStyleRule >> canBeAppliedTo: anElement inTheme: aTheme [
 	^ engine result
 ]
 
+{ #category : 'copying' }
+ToStyleRule >> copyWithOnlyApplicableRuleFor: anElement inTheme: aTheme [
+
+	| copy |
+	(self canBeAppliedTo: anElement inTheme: aTheme) ifFalse: [ ^ nil ].
+	copy := self copy.
+	copy styleRules: #(  ).
+	self styleRules do: [ :r |
+		(r copyWithOnlyApplicableRuleFor: anElement inTheme: aTheme) ifNotNil: [ :e |
+			copy addStyleRule: e ] ].
+	^ copy
+]
+
 { #category : 'accessing' }
 ToStyleRule >> eventClass [
 
@@ -59,48 +53,40 @@ ToStyleRule >> initialize [
 
 	super initialize.
 	selector := ToUniversalSelector new.
-	writers := #(  ).
-	styleRules := #(  )
+	self rawPropertyWriters: #(  ).
+	self rawStyleRules: #(  )
 ]
 
 { #category : 'writers selecting' }
-ToStyleRule >> putAllWritersForElement: anElement forTheme: aTheme in: aStream [
+ToStyleRule >> putApplicableWritersForElement: anElement forTheme: aTheme in: aStream [
 
 	(self canBeAppliedTo: anElement inTheme: aTheme) ifFalse: [ ^ self ].
-	aStream nextPutAll: self writers.
-	self styleRules do: [ :r | r putAllWritersForElement: anElement forTheme: aTheme in: aStream ] 
+	aStream nextPutAll: self propertyWriters.
+	self styleRules do: [ :r | r putApplicableWritersForElement: anElement forTheme: aTheme in: aStream ] 
 ]
 
-{ #category : 't - style rule holder - accessing' }
+{ #category : 't - property writers holder - accessing' }
+ToStyleRule >> rawPropertyWriters [
+
+	^ propertyWriters
+]
+
+{ #category : 't - property writers holder - accessing' }
+ToStyleRule >> rawPropertyWriters: aPropertyWriterCollection [
+
+	propertyWriters := aPropertyWriterCollection 
+]
+
+{ #category : 't - style rules holder' }
 ToStyleRule >> rawStyleRules [
 
-	^ styleRules
+	^ subStyleRules
 ]
 
-{ #category : 't - style rule holder - accessing' }
+{ #category : 't - style rules holder' }
 ToStyleRule >> rawStyleRules: aStyleRuleCollection [
 
-	styleRules := aStyleRuleCollection
-]
-
-{ #category : 't - property writer holder - accessing' }
-ToStyleRule >> rawWriters [
-
-	^ writers
-]
-
-{ #category : 't - property writer holder - accessing' }
-ToStyleRule >> rawWriters: aPropertyWriterCollection [
-
-	writers := aPropertyWriterCollection 
-]
-
-{ #category : 'declaring' }
-ToStyleRule >> selectedWith: aStyleSelector style: aBlock [
-
-	self selector: aStyleSelector.
-	aBlock value: self
-	
+	subStyleRules := aStyleRuleCollection
 ]
 
 { #category : 'accessing' }
@@ -113,68 +99,4 @@ ToStyleRule >> selector [
 ToStyleRule >> selector: aStyleSelector [
 
 	selector := aStyleSelector
-]
-
-{ #category : 'syntactic sugar' }
-ToStyleRule >> supplement: aWriteableProperty with: aValuableOrObject [
-
-	self
-		when: self eventClass
-		supplement: aWriteableProperty
-		with: aValuableOrObject
-]
-
-{ #category : 'syntactic sugar' }
-ToStyleRule >> when: aLookEventClass supplement: aWriteableProperty with: aValuableOrObject [
-
-	aWriteableProperty ifNil: [ ^ self ].
-	self addWriter: (ToPropertyWriter new
-			 eventClass: aLookEventClass;
-			 property: aWriteableProperty;
-			 value: aValuableOrObject;
-			 supplement: true;
-			 yourself)
-]
-
-{ #category : 'syntactic sugar' }
-ToStyleRule >> when: aLookEventClass write: aWriteableProperty with: aValuableOrObject [
-
-	self
-		when: aLookEventClass
-		write: aWriteableProperty
-		with: aValuableOrObject
-		animation: nil
-]
-
-{ #category : 'syntactic sugar' }
-ToStyleRule >> when: aLookEventClass write: aWriteableProperty with: aValuableOrObject animation: aPropertyAnimation [
-
-	aWriteableProperty ifNil: [ ^ self ].
-	self addWriter: (ToPropertyWriter new
-			 eventClass: aLookEventClass;
-			 property: aWriteableProperty;
-			 value: aValuableOrObject;
-			 animation: aPropertyAnimation;
-			 supplement: false;
-			 yourself)
-]
-
-{ #category : 'syntactic sugar' }
-ToStyleRule >> write: aWriteableProperty with: aValue [
-
-	self
-		when: self eventClass
-		write: aWriteableProperty
-		with: aValue
-		animation: nil
-]
-
-{ #category : 'syntactic sugar' }
-ToStyleRule >> write: aWriteableProperty with: aValuableOrObject animation: aPropertyAnimation [
-
-	self
-		when: self eventClass
-		write: aWriteableProperty
-		with: aValuableOrObject
-		animation: aPropertyAnimation
 ]

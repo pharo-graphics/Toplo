@@ -14,12 +14,18 @@ Class {
 }
 
 { #category : 'running' }
+ToStyleSheetSkinTest >> defaultWritablePropertyList [
+
+	^ ToStyleSheet defaultWritablePropertyList
+]
+
+{ #category : 'running' }
 ToStyleSheetSkinTest >> setUp [
 
 	super setUp.
 	space := self newTestingSpace.
 	writeablePropertyIndex := ToPropertyIndex new.
-	writeablePropertyIndex addAllProperties: self writablePropertyList.
+	writeablePropertyIndex addAllProperties: self defaultWritablePropertyList.
 ]
 
 { #category : 'test with accessors' }
@@ -43,7 +49,7 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 		                property: layoutProp;
 		                value: BlLinearLayout new;
 		                yourself.
-	skin writers: {
+	skin propertyWriters: {
 			directionWriter.
 			layoutWriter }.
 
@@ -55,7 +61,7 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 	self should: [ w applyStyles ] raise: MessageNotUnderstood.
 
 	" Now change writers order and it should be ok "
-	skin writers: {
+	skin propertyWriters: {
 			layoutWriter.
 			directionWriter }.
 
@@ -63,6 +69,28 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 	w applyStyles.
 	self assert: (w layout isKindOf: BlLinearLayout).
 	self assert: w layout direction isRightToLeft
+]
+
+{ #category : 'test with accessors' }
+ToStyleSheetSkinTest >> testPropertyWriters [
+
+	| w skin prop propWriter |
+	w := ToElement new.
+	space root addChild: w.
+	skin := ToStyleSheetSkin new.
+	prop := self writablePropertyIndex propertyNamed: #background.
+	propWriter := ToPropertyWriter new
+		              property: prop;
+		              value: Color blue;
+		              yourself.
+	skin propertyWriters: { propWriter }.
+	self assert: skin propertyWriters size equals: 1.
+	self assert: skin propertyWriters first identicalTo: propWriter.
+	w defaultSkin: skin.
+	w applySkinInstaller.
+	w applyStyles.
+
+	self assert: w background paint color equals: Color blue
 ]
 
 { #category : 'test with accessors' }
@@ -75,7 +103,7 @@ ToStyleSheetSkinTest >> testSupplementWriter [
 	borderBuilder := BlBorderBuilder new.
 	backgroundProp := self writablePropertyIndex propertyNamed: #background.
 	borderProp := self writablePropertyIndex propertyNamed: #border.
-	skin writers: {
+	skin propertyWriters: {
 			(ToPropertyWriter new
 				 eventClass: ToInitialLookEvent;
 				 property: backgroundProp;
@@ -119,7 +147,7 @@ ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 	animation := ToPropertyColorTransitionAnimation new.
 	prop := self writablePropertyIndex propertyNamed: #'background-color'.
 
-	skin writers: { 
+	skin propertyWriters: { 
 		ToPropertyWriter new
 			property: prop;
 			eventClass: ToInstallLookEvent;
@@ -180,7 +208,7 @@ ToStyleSheetSkinTest >> testWithTwoWriters [
 	skin := ToStyleSheetSkin new.
 	backgroundProp := self writablePropertyIndex propertyNamed: #background.
 	borderProp := self writablePropertyIndex propertyNamed: #border.
-	skin writers: {
+	skin propertyWriters: {
 			(ToPropertyWriter new
 				 property: backgroundProp;
 				 value: Color blue;
@@ -206,7 +234,7 @@ ToStyleSheetSkinTest >> testWithTwoWritersTwoEventClasses [
 	skin := ToStyleSheetSkin new.
 	backgroundProp := self writablePropertyIndex propertyNamed: #background.
 	borderProp := self writablePropertyIndex propertyNamed: #border.
-	skin writers: {
+	skin propertyWriters: {
 			(ToPropertyWriter new
 				 eventClass: ToInitialLookEvent;
 				 property: backgroundProp;
@@ -229,36 +257,8 @@ ToStyleSheetSkinTest >> testWithTwoWritersTwoEventClasses [
 	self assert: w border paint color equals: Color red
 ]
 
-{ #category : 'test with accessors' }
-ToStyleSheetSkinTest >> testWriters [
-
-	| w skin prop propWriter |
-	w := ToElement new.
-	space root addChild: w.
-	skin := ToStyleSheetSkin new.
-	prop := self writablePropertyIndex propertyNamed: #background.
-	propWriter := ToPropertyWriter new
-		              property: prop;
-		              value: Color blue;
-		              yourself.
-	skin writers: { propWriter }.
-	self assert: skin writers size equals: 1.
-	self assert: skin writers first identicalTo: propWriter.
-	w defaultSkin: skin.
-	w applySkinInstaller.
-	w applyStyles.
-
-	self assert: w background paint color equals: Color blue
-]
-
 { #category : 'running' }
 ToStyleSheetSkinTest >> writablePropertyIndex [
 
 	^ writeablePropertyIndex
-]
-
-{ #category : 'running' }
-ToStyleSheetSkinTest >> writablePropertyList [
-
-	^ ToStyleSheet defaultWritablePropertyList
 ]

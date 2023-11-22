@@ -9,6 +9,54 @@ Class {
 	#tag : 'Core-Theme'
 }
 
+{ #category : 'writer selecting' }
+ToStyleSheetTheme >> applicableRulesFor: anElement [
+	" return applicable rules for an element "
+
+	| rootRules |
+	anElement isAttachedToSceneGraph ifFalse: [ ^ #(  ) ].
+	" get all subscriptions for anElement "
+	rootRules := self rootRulesFor: anElement.
+	Array streamContents: [:str | 
+		rootRules do:[ :r | (r copyWithOnlyApplicableRuleFor: anElement inTheme: self) 
+			ifNotNil:[ :anApplicableRule | str nextPut: anApplicableRule ] ] ]
+]
+
+{ #category : 'writer selecting' }
+ToStyleSheetTheme >> applicableWritersFor: anElement [
+	" for an element, several writers can be found. These writers 
+	are found with #rawWritersFor:. After, for each property only the last writers is kept"
+
+	| rawWriters supplement uniqueWriters eventClassIndex |
+	
+	anElement isAttachedToSceneGraph ifFalse: [ ^ #() ].
+	
+	" get all subscriptions for anElement "
+	rawWriters := self rawApplicableWritersFor: anElement.
+	
+	" keep only the last writers for each property except those which are declared as supplement"
+	eventClassIndex := IdentityDictionary new.
+	supplement := OrderedCollection new.
+	
+	rawWriters do: [ :w |
+		w supplement
+			ifTrue: [ supplement add: w ]
+			ifFalse: [
+				| indexByProperty |
+				indexByProperty := eventClassIndex
+					                   at: w eventClass
+					                   ifAbsentPut: [ IdentityDictionary new ].
+				indexByProperty at: w property put: w ] ].
+		
+	uniqueWriters := Array streamContents: [ :str |
+		                 eventClassIndex valuesDo: [ :indexByProperty |
+			                 str nextPutAll: indexByProperty values ] ].
+	
+	^ Array streamContents: [:str | 
+			str nextPutAll: (uniqueWriters sort: [ :a :b | a property name < b property name ]).
+	  		str nextPutAll: supplement ]
+]
+
 { #category : 'initialization' }
 ToStyleSheetTheme >> defaultElementStampsFor: anElement [ 
 
@@ -31,11 +79,11 @@ ToStyleSheetTheme >> name [
 { #category : 'accessing' }
 ToStyleSheetTheme >> newSkinInstanceFor: anElement [
 
-	^ (self writersFor: anElement)
+	^ (self applicableWritersFor: anElement)
 		  ifEmpty: [ (self skinClassFor: anElement) new ]
 		  ifNotEmpty: [ :writers |
 			  (self skinClassFor: anElement) new
-				  writers: writers;
+				  propertyWriters: writers;
 				  yourself ]
 ]
 
@@ -47,22 +95,11 @@ ToStyleSheetTheme >> onSetUpIn: anElement [
 ]
 
 { #category : 'writer selecting' }
-ToStyleSheetTheme >> rawRulesFor: anElement [
-	"Return all rules that contains selector for anElement"
-
-	| rootRules list |
-	rootRules := self rootRulesFor: anElement.
-	list := OrderedCollection new.	
-	rootRules do:[ :r | (r asRuleFor: anElement inTheme: self) ifNotNil:[ :e | list add: e ] ].	
-	^ list
-]
-
-{ #category : 'writer selecting' }
-ToStyleSheetTheme >> rawWritersFor: anElement [
+ToStyleSheetTheme >> rawApplicableWritersFor: anElement [
 
 	^ Array streamContents: [ :stream |
 		  (self rootRulesFor: anElement) do: [ :r |
-			  r putAllWritersForElement: anElement forTheme: self in: stream ] ]
+			  r putApplicableWritersForElement: anElement forTheme: self in: stream ] ]
 ]
 
 { #category : 'writer selecting' }
@@ -71,17 +108,6 @@ ToStyleSheetTheme >> rootRulesFor: anElement [
 	^ Array streamContents: [ :str |
 		  anElement styleSheetChain reverseDo: [ :ss |
 			  str nextPutAll: ss styleRules ] ]
-]
-
-{ #category : 'writer selecting' }
-ToStyleSheetTheme >> rulesFor: anElement [
-	" for an element, several rules can be found. These rules 
-	are found with #rootRulesFor:. After, for each rules we kept only writers for this element"
-
-	anElement isAttachedToSceneGraph ifFalse: [ ^ #() ].
-	
-	" get all subscriptions for anElement "
-	^ self rawRulesFor: anElement
 ]
 
 { #category : 'writer selecting' }
@@ -105,41 +131,6 @@ ToStyleSheetTheme >> styleSheet [
 { #category : 'accessing' }
 ToStyleSheetTheme >> styleSheet: aStyleSheet [
 
-	aStyleSheet buildStampIndexFromList: self defaultStampList.
+	aStyleSheet resetStampIndexFromList: self defaultStampList.
 	styleSheet := aStyleSheet
-]
-
-{ #category : 'writer selecting' }
-ToStyleSheetTheme >> writersFor: anElement [
-	" for an element, several writers can be found. These writers 
-	are found with #rawWritersFor:. After, for each property only the last writers is kept"
-
-	| rawWriters supplement uniqueWriters eventClassIndex |
-	
-	anElement isAttachedToSceneGraph ifFalse: [ ^ #() ].
-	
-	" get all subscriptions for anElement "
-	rawWriters := self rawWritersFor: anElement.
-	
-	" keep only the last writers for each property except those which are declared as supplement"
-	eventClassIndex := IdentityDictionary new.
-	supplement := OrderedCollection new.
-	
-	rawWriters do: [ :w |
-		w supplement
-			ifTrue: [ supplement add: w ]
-			ifFalse: [
-				| indexByProperty |
-				indexByProperty := eventClassIndex
-					                   at: w eventClass
-					                   ifAbsentPut: [ IdentityDictionary new ].
-				indexByProperty at: w property put: w ] ].
-		
-	uniqueWriters := Array streamContents: [ :str |
-		                 eventClassIndex valuesDo: [ :indexByProperty |
-			                 str nextPutAll: indexByProperty values ] ].
-	
-	^ Array streamContents: [:str | 
-			str nextPutAll: (uniqueWriters sort: [ :a :b | a property name < b property name ]).
-	  		str nextPutAll: supplement ]
 ]

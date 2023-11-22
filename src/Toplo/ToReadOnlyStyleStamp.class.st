@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToStyleStamp',
+	#name : 'ToReadOnlyStyleStamp',
 	#superclass : 'ToAbstractProperty',
 	#instVars : [
 		'value'
@@ -10,13 +10,13 @@ Class {
 }
 
 { #category : 'accessing' }
-ToStyleStamp class >> name: aSymbol [
+ToReadOnlyStyleStamp class >> name: aSymbol [
 
 	^ self new name: aSymbol asSymbol
 ]
 
 { #category : 'accessing' }
-ToStyleStamp class >> name: aSymbol value: anObject [
+ToReadOnlyStyleStamp class >> name: aSymbol value: anObject [
 
 	^ (self name: aSymbol)
 		  value: anObject;
@@ -24,26 +24,26 @@ ToStyleStamp class >> name: aSymbol value: anObject [
 ]
 
 { #category : 'converting' }
-ToStyleStamp >> asStyleStamp [ 
+ToReadOnlyStyleStamp >> asStyleStamp [ 
 
 	^ self
 ]
 
 { #category : 'operating' }
-ToStyleStamp >> read: anObject [
+ToReadOnlyStyleStamp >> read: anObject [
 
 	self value isClosure ifFalse: [ Error signal ].
 	^ self value value: anObject
 ]
 
 { #category : 'evaluating' }
-ToStyleStamp >> value [
+ToReadOnlyStyleStamp >> value [
 
 	^ value
 ]
 
 { #category : 'accessing' }
-ToStyleStamp >> value: anObject [
+ToReadOnlyStyleStamp >> value: anObject [
 
 	value := anObject
 ]

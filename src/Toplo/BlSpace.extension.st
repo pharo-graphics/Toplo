@@ -58,7 +58,8 @@ BlSpace >> toTheme [
 { #category : '*Toplo-LookAndFeel' }
 BlSpace >> toTheme: aTheme [
 
-	self root localToTheme: aTheme
+	self root localToTheme: aTheme.
+	self root requestNewSkin
 ]
 
 { #category : '*Toplo' }

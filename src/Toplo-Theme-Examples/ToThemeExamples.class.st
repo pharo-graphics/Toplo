@@ -88,7 +88,7 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	pane := ToPane vertical.
 	pane padding: (BlInsets all: 15).
 	pane layout cellSpacing: 5.
-	pane localToTheme: ToRawTheme new.
+	"pane localToTheme: ToRawTheme new."
 	space toTheme: ToBeeLightTheme new.
 	"Create some buttons with different skins"
 	primaryButton1 := (ToButton id: #buttonA) labelText: 'Default Button Light Bee'.
@@ -207,7 +207,7 @@ ToThemeExamples class >> openThemeExampleSpace [
 	space root addChild: (ToElement id: #themeSandBox).
 
 	"Configure default Theme"
-	space root localToTheme: ToBeeLightTheme new.
+	space toTheme: ToBeeLightTheme new.
 
 	space position: 100 @ 100.
 	space show.

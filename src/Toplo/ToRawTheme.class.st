@@ -135,11 +135,17 @@ ToRawTheme >> name [
 ]
 
 { #category : 'accessing' }
+ToRawTheme >> newRootSkinInstance [
+
+	^ ToSpaceRootSkin new
+]
+
+{ #category : 'accessing' }
 ToRawTheme >> newSkinInstanceFor: anElement [
 
-	anElement spaceDo: [ :sp |
-		sp root == self ifTrue: [ ^ ToSpaceRootSkin new ] ].
-	^ anElement newRawSkin
+	^ anElement space root == anElement
+		  ifTrue: [ self newRootSkinInstance ]
+		  ifFalse: [ anElement newRawSkin ]
 ]
 
 { #category : 't - primary color holder' }

@@ -54,6 +54,7 @@ ToRawTheme >> defaultReadOnlyStampList [
 		  (ToReadOnlyStyleStamp name: #'border-radius-LG' value: 8).
 		  (ToReadOnlyStyleStamp name: #'border-radius-SM' value: 4).
 		  (ToReadOnlyStyleStamp name: #'checkbox-image-builder' value: [ self checkboxBlankImage ] ).
+		
 		  (ToReadOnlyStyleStamp name: #'color-bg-container' value: (Color fromHexString: '#ffffff')).
 		  (ToReadOnlyStyleStamp name: #'color-bg-container-disabled' value: (Color black alpha: 0.04)).
 		  (ToReadOnlyStyleStamp name: #'color-bg-text-active' value: (Color black alpha: 0.15)).
@@ -136,6 +137,8 @@ ToRawTheme >> name [
 { #category : 'accessing' }
 ToRawTheme >> newSkinInstanceFor: anElement [
 
+	anElement spaceDo: [ :sp |
+		sp root == self ifTrue: [ ^ ToSpaceRootSkin new ] ].
 	^ anElement newRawSkin
 ]
 

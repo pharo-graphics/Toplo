@@ -1,16 +1,18 @@
 Class {
-	#name : #ToLabelMultiLineMode,
-	#superclass : #ToLabelLineMode,
-	#category : 'Toplo-Widget-Album-Label'
+	#name : 'ToLabelMultiLineMode',
+	#superclass : 'ToLabelLineMode',
+	#category : 'Toplo-Widget-Album-Label',
+	#package : 'Toplo-Widget-Album',
+	#tag : 'Label'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToLabelMultiLineMode >> isMultiLine [ 
 
 	^ true
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToLabelMultiLineMode >> newTextElementIn: aLabel [
 
 	^ ToLabelMultiLineInnerElement  new

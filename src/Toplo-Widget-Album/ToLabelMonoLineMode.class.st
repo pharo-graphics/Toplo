@@ -1,16 +1,18 @@
 Class {
-	#name : #ToLabelMonoLineMode,
-	#superclass : #ToLabelLineMode,
-	#category : 'Toplo-Widget-Album-Label'
+	#name : 'ToLabelMonoLineMode',
+	#superclass : 'ToLabelLineMode',
+	#category : 'Toplo-Widget-Album-Label',
+	#package : 'Toplo-Widget-Album',
+	#tag : 'Label'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToLabelMonoLineMode >> isMonoLine [ 
 
 	^ true
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToLabelMonoLineMode >> newTextElementIn: aLabel [
 
 	^ ToLabelMonoLineInnerElement new

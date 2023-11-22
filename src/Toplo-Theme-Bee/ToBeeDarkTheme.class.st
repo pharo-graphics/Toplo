@@ -17,12 +17,12 @@ Class {
 	#package : 'Toplo-Theme-Bee'
 }
 
-{ #category : 'initialization' }
-ToBeeDarkTheme >> defaultStampList [
+{ #category : 't - readonly stamp index holder' }
+ToBeeDarkTheme >> defaultReadOnlyStampList [
 	" skin managing need a list of unique stamps . "
 
 	^ Array streamContents: [ :str |
-		  str nextPutAll: super defaultStampList.
+		  str nextPutAll: super defaultReadOnlyStampList.
 		  str nextPutAll: {
 				  (ToReadOnlyStyleStamp name: #'background-color' value: Color black).
 				  (ToReadOnlyStyleStamp name: #'color-bg-container' value: (Color fromHexString: '#1b1b1b')).

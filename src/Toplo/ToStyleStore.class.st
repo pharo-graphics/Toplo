@@ -16,7 +16,7 @@ Class {
 { #category : 'adding-removing' }
 ToStyleStore >> addStamp: aStyleStamp [
 
-	self stampIndex addProperty: aStyleStamp
+	self readOnlyStampIndex addProperty: aStyleStamp
 ]
 
 { #category : 'accessing' }
@@ -28,7 +28,7 @@ ToStyleStore >> borderBuilder [
 { #category : 'testing' }
 ToStyleStore >> hasStampNamed: aSymbol [
 
-	^ self stampIndex hasPropertyNamed: aSymbol
+	^ self readOnlyStampIndex hasPropertyNamed: aSymbol
 ]
 
 { #category : 'api - hooks' }
@@ -40,7 +40,7 @@ ToStyleStore >> isSetUpForTheme: aTheme [
 { #category : 'accessing' }
 ToStyleStore >> localStampNamed: aSymbol [
 
-	^ self stampIndex propertyNamed: aSymbol
+	^ self readOnlyStampIndex propertyNamed: aSymbol
 ]
 
 { #category : 'lookup' }
@@ -60,7 +60,13 @@ ToStyleStore >> lookUpStampNamed: aSymbol from: anElement [
 ToStyleStore >> onInstalledIn: anElement [
 
 	themeClasses := IdentitySet new.
-	self stampIndex changedAction: [ anElement requestNewSkin ]
+	self readOnlyStampIndex changedAction: [ anElement requestNewSkin ]
+]
+
+{ #category : 'accessing' }
+ToStyleStore >> readOnlyStampIndex [
+
+	^ stampIndex ifNil: [ stampIndex := ToStyleStampIndex new ]
 ]
 
 { #category : 'api - hooks' }
@@ -72,7 +78,7 @@ ToStyleStore >> registerTheme: aTheme [
 { #category : 'adding-removing' }
 ToStyleStore >> removeStampNamed: aSymbol [
 
-	self stampIndex removePropertyNamed: aSymbol
+	self readOnlyStampIndex removePropertyNamed: aSymbol
 ]
 
 { #category : 'api - hooks' }
@@ -81,12 +87,6 @@ ToStyleStore >> setUpForTheme: aTheme in: anElement [
 	(self isSetUpForTheme: aTheme) ifTrue: [ ^ self ].
 	self registerTheme: aTheme.
 	aTheme onSetUpIn: anElement
-]
-
-{ #category : 'accessing' }
-ToStyleStore >> stampIndex [
-
-	^ stampIndex ifNil: [ stampIndex := ToStyleStampIndex new ]
 ]
 
 { #category : 'accessing' }
@@ -163,7 +163,7 @@ ToStyleStore >> withStamp: anAssociationOrSymbol [
 { #category : 'adding-removing' }
 ToStyleStore >> withoutAllStamps [
 
-	self stampIndex removeAllProperties
+	self readOnlyStampIndex removeAllProperties
 ]
 
 { #category : 'adding-removing' }

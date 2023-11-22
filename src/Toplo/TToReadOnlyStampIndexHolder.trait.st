@@ -6,38 +6,50 @@ Trait {
 }
 
 { #category : 't - readonly stamp index holder' }
-TToReadOnlyStampIndexHolder >> addAllStamps: aStyleStampCollection [
+TToReadOnlyStampIndexHolder >> addAllReadOnlyStamps: aStyleStampCollection [
 
-	self stampIndex addAllProperties: aStyleStampCollection
+	self readOnlyStampIndex addAllProperties: aStyleStampCollection
 ]
 
 { #category : 't - readonly stamp index holder' }
-TToReadOnlyStampIndexHolder >> rawStampIndex [
+TToReadOnlyStampIndexHolder >> defaultReadOnlyStampList [
 
 	^ self explicitRequirement 
 ]
 
 { #category : 't - readonly stamp index holder' }
-TToReadOnlyStampIndexHolder >> rawStampIndex: aPropertyIndex [
+TToReadOnlyStampIndexHolder >> rawReadOnlyStampIndex [
 
 	^ self explicitRequirement 
 ]
 
 { #category : 't - readonly stamp index holder' }
-TToReadOnlyStampIndexHolder >> resetStampIndexFromList: aStyleStampCollection [
+TToReadOnlyStampIndexHolder >> rawReadOnlyStampIndex: aPropertyIndex [
 
-	self rawStampIndex: nil.
-	self stampIndex addAllProperties: aStyleStampCollection
+	^ self explicitRequirement 
 ]
 
 { #category : 't - readonly stamp index holder' }
-TToReadOnlyStampIndexHolder >> stampIndex [
+TToReadOnlyStampIndexHolder >> readOnlyStampIndex [
 
-	^ self rawStampIndex ifNil: [ self rawStampIndex: ToPropertyIndex new. self rawStampIndex ]
+	^ self rawReadOnlyStampIndex ifNil: [ self rawReadOnlyStampIndex: ToPropertyIndex new. self rawReadOnlyStampIndex ]
+]
+
+{ #category : 't - readonly stamp index holder' }
+TToReadOnlyStampIndexHolder >> readOnlyStampNamed: aName [
+
+	^ self rawReadOnlyStampIndex ifNotNil: [ :si | si propertyNamed: aName ]
+]
+
+{ #category : 't - readonly stamp index holder' }
+TToReadOnlyStampIndexHolder >> resetReadOnlyStampIndexFromList: aStyleStampCollection [
+
+	self rawReadOnlyStampIndex: nil.
+	self readOnlyStampIndex addAllProperties: aStyleStampCollection
 ]
 
 { #category : 't - readonly stamp index holder' }
 TToReadOnlyStampIndexHolder >> stampNamed: aName [
 
-	^ self rawStampIndex ifNotNil: [ :si | si propertyNamed: aName ]
+	^ self readOnlyStampNamed: aName
 ]

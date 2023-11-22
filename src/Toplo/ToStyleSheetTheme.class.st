@@ -63,8 +63,8 @@ ToStyleSheetTheme >> defaultElementStampsFor: anElement [
 	^ { }
 ]
 
-{ #category : 'initialization' }
-ToStyleSheetTheme >> defaultStampList [
+{ #category : 't - readonly stamp index holder' }
+ToStyleSheetTheme >> defaultReadOnlyStampList [
 	" skin managing need a list of unique stamps . "
 
 	^ { }
@@ -116,7 +116,7 @@ ToStyleSheetTheme >> skinClassFor: anElement [
 	^ ToStyleSheetSkin
 ]
 
-{ #category : 'accessing' }
+{ #category : 't - readonly stamp index holder' }
 ToStyleSheetTheme >> stampNamed: aSymbol [
 
 	^ self styleSheet stampNamed: aSymbol
@@ -131,6 +131,6 @@ ToStyleSheetTheme >> styleSheet [
 { #category : 'accessing' }
 ToStyleSheetTheme >> styleSheet: aStyleSheet [
 
-	aStyleSheet resetStampIndexFromList: self defaultStampList.
+	aStyleSheet resetReadOnlyStampIndexFromList: self defaultReadOnlyStampList.
 	styleSheet := aStyleSheet
 ]

@@ -19,13 +19,13 @@ ToStyleStoreTest >> testAddStamp [
 	self assert: (s isKindOf: ToReadOnlyStyleStamp).
 	self assert: s name equals: #color.
 	self assert: s value equals: Color blue.
-	self assert: e toStyleStore stampIndex size equals: 1.
+	self assert: e toStyleStore readOnlyStampIndex size equals: 1.
 	e withStamp: (#color -> Color red) asStyleStamp.
 	self assert: (s2 := e toStyleStore localStampNamed: #color) notNil.
 	self assert: s2 name equals: #color.
 	self assert: s2 value equals: Color red.
 	self assert: s ~~ s2.
-	self assert: e toStyleStore stampIndex size equals: 1
+	self assert: e toStyleStore readOnlyStampIndex size equals: 1
 ]
 
 { #category : 'tests' }
@@ -71,7 +71,7 @@ ToStyleStoreTest >> testLocalStampNamed [
 	| e s |
 	e := BlElement new.
 	self assert: (e toStyleStore localStampNamed: #color) isNil.
-	(e toStyleStore stampIndex)
+	(e toStyleStore readOnlyStampIndex)
 		addProperty: #color asStyleStamp.
 	s := e toStyleStore localStampNamed: #color.
 	self assert: s notNil.
@@ -87,7 +87,7 @@ ToStyleStoreTest >> testLookUpStampNamedFrom [
 	e := BlElement new.
 	child := BlElement new.
 	e withStamp: (#color -> Color blue) asStyleStamp.
-	self assert: e toStyleStore stampIndex size equals: 1.
+	self assert: e toStyleStore readOnlyStampIndex size equals: 1.
 	self
 		assert: (e toStyleStore lookUpStampNamed: #color from: e)
 		identicalTo: (e toStyleStore localStampNamed: #color).
@@ -112,7 +112,7 @@ ToStyleStoreTest >> testOnInstalledIn [
 	self assert: e toStyleStore themeClasses isEmpty.
 	self deny: e skinManager hasPostponedRequestInstallSkin.
 	self assert: e skinInstaller isNil.
-	e toStyleStore stampIndex changedAction value.
+	e toStyleStore readOnlyStampIndex changedAction value.
 	self assert: e skinManager hasPostponedRequestInstallSkin.
 	self assert: e skinInstaller isNil
 ]
@@ -136,11 +136,11 @@ ToStyleStoreTest >> testRemoveStampNamed [
 	e := BlElement new.
 	e withStamp: (#color1 -> Color blue) asStyleStamp.
 	e withStamp: (#color2 -> Color blue) asStyleStamp.
-	self assert: e toStyleStore stampIndex size equals: 2.
+	self assert: e toStyleStore readOnlyStampIndex size equals: 2.
 	e toStyleStore removeStampNamed: #color1.
-	self assert: e toStyleStore stampIndex size = 1.
+	self assert: e toStyleStore readOnlyStampIndex size = 1.
 	e toStyleStore removeStampNamed: #color2.
-	self assert: e toStyleStore stampIndex isEmpty
+	self assert: e toStyleStore readOnlyStampIndex isEmpty
 ]
 
 { #category : 'tests' }
@@ -149,11 +149,11 @@ ToStyleStoreTest >> testRemoveStyleStampNamed [
 	| e |
 	e := BlElement new.
 	e withStamp: (#color -> Color blue) asStyleStamp.
-	self assert: e toStyleStore stampIndex size equals: 1.
+	self assert: e toStyleStore readOnlyStampIndex size equals: 1.
 	e toStyleStore removeStampNamed: #color.
-	self assert: e toStyleStore stampIndex isEmpty.
+	self assert: e toStyleStore readOnlyStampIndex isEmpty.
 	e toStyleStore removeStampNamed: #color.
-	self assert: e toStyleStore stampIndex isEmpty
+	self assert: e toStyleStore readOnlyStampIndex isEmpty
 ]
 
 { #category : 'tests' }
@@ -162,16 +162,16 @@ ToStyleStoreTest >> testRemoveStyleStampNamedIfAbsent [
 	| e |
 	e := BlElement new.
 	e withStamp: (#color -> Color blue) asStyleStamp.
-	self assert: e toStyleStore stampIndex size equals: 1.
+	self assert: e toStyleStore readOnlyStampIndex size equals: 1.
 	e toStyleStore removeStampNamed: #color.
-	self assert: e toStyleStore stampIndex isEmpty.
+	self assert: e toStyleStore readOnlyStampIndex isEmpty.
 	e toStyleStore removeStampNamed: #color.
 	e withStamp: (#color -> Color red) asStyleStamp.
-	self assert: e toStyleStore stampIndex size equals: 1.
+	self assert: e toStyleStore readOnlyStampIndex size equals: 1.
 	e toStyleStore removeStampNamed: #blob .
-	self assert: e toStyleStore stampIndex size equals: 1.
+	self assert: e toStyleStore readOnlyStampIndex size equals: 1.
 	e toStyleStore removeStampNamed: #color.
-	self assert: e toStyleStore stampIndex isEmpty.
+	self assert: e toStyleStore readOnlyStampIndex isEmpty.
 
 
 ]
@@ -213,7 +213,7 @@ ToStyleStoreTest >> testStampIndex [
 
 	| e dict |
 	e := BlElement new.
-	dict := e toStyleStore stampIndex.
+	dict := e toStyleStore readOnlyStampIndex.
 	self assert: dict notNil.
 
 ]
@@ -373,13 +373,13 @@ ToStyleStoreTest >> testWithAllStamps [
 	| e |
 	e := BlElement new.
 	e withAllStamps: {  }.
-	self assert: e toStyleStore stampIndex notNil.
+	self assert: e toStyleStore readOnlyStampIndex notNil.
 	e withAllStamps: { #color. #background }.
-	self assert: e toStyleStore stampIndex size equals: 2.
+	self assert: e toStyleStore readOnlyStampIndex size equals: 2.
 	self assert: (e hasStampNamed: #color).	
 	self assert: (e hasStampNamed: #background).
 	e withAllStamps: { #blob }.
-	self assert: e toStyleStore stampIndex size equals: 3.
+	self assert: e toStyleStore readOnlyStampIndex size equals: 3.
 	self assert: (e hasStampNamed: #color).	
 	self assert: (e hasStampNamed: #background).
 	self assert: (e hasStampNamed: #blob).
@@ -395,13 +395,13 @@ ToStyleStoreTest >> testWithStamp [
 	e withAllStamps: {  }.
 	e withStamp: #color.
 	e withStamp: #background.
-	self assert: e toStyleStore stampIndex size equals: 2.
+	self assert: e toStyleStore readOnlyStampIndex size equals: 2.
 	self assert: (e hasStampNamed: #color).	
 	self assert: (e hasStampNamed: #background).
 	self assert: (e stampValue: #color).	
 	self assert: (e stampValue: #background).
 	e withStamp: #color.
-	self assert: e toStyleStore stampIndex size equals: 2.
+	self assert: e toStyleStore readOnlyStampIndex size equals: 2.
 	e withStamp: #blob.
 	self assert: (e hasStampNamed: #color).	
 	self assert: (e hasStampNamed: #background).
@@ -420,11 +420,11 @@ ToStyleStoreTest >> testWithoutAllStamps [
 	e := BlElement new.
 	e withStamp: (#color1 -> Color blue) asStyleStamp.
 	e withStamp: (#color2 -> Color blue) asStyleStamp.
-	self assert: e toStyleStore stampIndex size equals: 2.
+	self assert: e toStyleStore readOnlyStampIndex size equals: 2.
 	e toStyleStore withoutAllStamps.
-	self assert: e toStyleStore stampIndex isEmpty.
+	self assert: e toStyleStore readOnlyStampIndex isEmpty.
 	e toStyleStore removeStampNamed: #color.
-	self assert: e toStyleStore stampIndex isEmpty
+	self assert: e toStyleStore readOnlyStampIndex isEmpty
 ]
 
 { #category : 'tests' }
@@ -436,13 +436,13 @@ ToStyleStoreTest >> testWithoutStamp [
 	e withAllStamps: {  }.
 	e withStamp: #color.
 	e withStamp: #background.
-	self assert: e toStyleStore stampIndex size equals: 2.
+	self assert: e toStyleStore readOnlyStampIndex size equals: 2.
 	self assert: (e hasStampNamed: #color).
 	self assert: (e hasStampNamed: #background).
 	self assert: (e hasStampNamed: #color).
 	self assert: (e hasStampNamed: #background).
 	e withoutStamp: #color.
-	self assert: e toStyleStore stampIndex size equals: 1.
+	self assert: e toStyleStore readOnlyStampIndex size equals: 1.
 	e withoutStamp: #blob.
 	self deny: (e hasStampNamed: #color).
 	self assert: (e hasStampNamed: #background).

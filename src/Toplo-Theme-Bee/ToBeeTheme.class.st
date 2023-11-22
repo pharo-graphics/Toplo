@@ -51,6 +51,8 @@ paddingXS	Control the extra small padding of the element.	number	8
 Class {
 	#name : 'ToBeeTheme',
 	#superclass : 'ToStyleSheetTheme',
+	#traits : 'TToPrimaryColorHolder',
+	#classTraits : 'TToPrimaryColorHolder classTrait',
 	#instVars : [
 		'colorPrimary',
 		'colorPrimaryHover',
@@ -137,37 +139,7 @@ ToBeeTheme >> checkboxBlankImage [
 	^ im
 ]
 
-{ #category : 'colors' }
-ToBeeTheme >> colorPrimary [
-
-	^ colorPrimary ifNil: [ self colorPrimary: self defaultColorPrimary. colorPrimary  ]
-]
-
-{ #category : 'settings' }
-ToBeeTheme >> colorPrimary: aColor [
-	"Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics"
-
-	colorPrimary = aColor ifTrue: [ ^ self ].
-	colorPrimary := aColor.
-	colorPrimaryHover := colorPrimary whiter whiter.
-	colorPrimaryPressed := colorPrimary darker darker.
-	self styleSheet ifNotNil: [ :ss |
-		ss resetStampIndexFromList: self defaultStampList ]
-]
-
-{ #category : 'colors' }
-ToBeeTheme >> colorPrimaryHover [
-
-	^ colorPrimaryHover
-]
-
-{ #category : 'colors' }
-ToBeeTheme >> colorPrimaryPressed [
-
-	^ colorPrimaryPressed
-]
-
-{ #category : 'settings' }
+{ #category : 't - primary color holder' }
 ToBeeTheme >> defaultColorPrimary [
 
 	^ Color fromHexString: '#1677ff'
@@ -179,8 +151,8 @@ ToBeeTheme >> defaultElementStampsFor: anElement [
 	^ anElement defaultBeeStyleStamps
 ]
 
-{ #category : 'initialization' }
-ToBeeTheme >> defaultStampList [
+{ #category : 't - readonly stamp index holder' }
+ToBeeTheme >> defaultReadOnlyStampList [
 	" skin managing need a list of unique stamps . "
 
 	^ {
@@ -267,6 +239,51 @@ ToBeeTheme >> initialize [
 
 	super initialize.
 	self styleSheet: self defaultStyleSheet 
+]
+
+{ #category : 't - primary color holder' }
+ToBeeTheme >> onColorPrimaryChanged [
+
+	self rawColorPrimaryHover: colorPrimary whiter whiter.
+	self rawColorPrimaryPressed: colorPrimary darker darker.
+	self styleSheet ifNotNil: [ :ss |
+		ss resetReadOnlyStampIndexFromList: self defaultReadOnlyStampList ]
+]
+
+{ #category : 't - primary color holder' }
+ToBeeTheme >> rawColorPrimary [
+
+	^ colorPrimary
+]
+
+{ #category : 't - primary color holder' }
+ToBeeTheme >> rawColorPrimary: aColor [
+
+	colorPrimary := aColor
+]
+
+{ #category : 't - primary color holder' }
+ToBeeTheme >> rawColorPrimaryHover [
+
+	^ colorPrimaryHover
+]
+
+{ #category : 't - primary color holder' }
+ToBeeTheme >> rawColorPrimaryHover: aColor [
+
+	colorPrimaryHover := aColor
+]
+
+{ #category : 't - primary color holder' }
+ToBeeTheme >> rawColorPrimaryPressed [
+
+	^ colorPrimaryPressed
+]
+
+{ #category : 't - primary color holder' }
+ToBeeTheme >> rawColorPrimaryPressed: aColor [
+
+	colorPrimaryPressed := aColor
 ]
 
 { #category : 'writer selecting' }

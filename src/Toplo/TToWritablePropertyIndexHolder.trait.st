@@ -12,6 +12,12 @@ TToWritablePropertyIndexHolder >> defaultWritablePropertyList [
 ]
 
 { #category : 't - writable property index holder' }
+TToWritablePropertyIndexHolder >> property: aSymbol [
+
+	^ self writablePropertyNamed: aSymbol
+]
+
+{ #category : 't - writable property index holder' }
 TToWritablePropertyIndexHolder >> rawWritablePropertyIndex [
 
 	^ self explicitRequirement 

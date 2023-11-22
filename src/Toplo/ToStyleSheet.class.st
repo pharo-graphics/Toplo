@@ -7,7 +7,7 @@ Class {
 		'styleRules',
 		'inherits',
 		'writablePropertyIndex',
-		'stampIndex'
+		'readOnlyStampIndex'
 	],
 	#category : 'Toplo-Core-StyleSheet',
 	#package : 'Toplo',
@@ -174,22 +174,16 @@ ToStyleSheet >> onUnInstalledIn: anElement [
 
 ]
 
-{ #category : 'syntactic sugar' }
-ToStyleSheet >> property: aSymbol [
+{ #category : 't - readonly stamp index holder' }
+ToStyleSheet >> rawReadOnlyStampIndex [
 
-	^ self writablePropertyNamed: aSymbol
+	^ readOnlyStampIndex 
 ]
 
 { #category : 't - readonly stamp index holder' }
-ToStyleSheet >> rawStampIndex [
+ToStyleSheet >> rawReadOnlyStampIndex: aPropertyIndex [
 
-	^ stampIndex 
-]
-
-{ #category : 't - readonly stamp index holder' }
-ToStyleSheet >> rawStampIndex: aPropertyIndex [
-
-	stampIndex := aPropertyIndex
+	readOnlyStampIndex := aPropertyIndex
 ]
 
 { #category : 't - style rules holder' }

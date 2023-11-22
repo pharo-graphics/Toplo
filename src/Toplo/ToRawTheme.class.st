@@ -1,13 +1,13 @@
 Class {
 	#name : 'ToRawTheme',
 	#superclass : 'ToTheme',
-	#traits : 'TToReadOnlyStampIndexHolder',
-	#classTraits : 'TToReadOnlyStampIndexHolder classTrait',
+	#traits : 'TToReadOnlyStampIndexHolder + TToPrimaryColorHolder',
+	#classTraits : 'TToReadOnlyStampIndexHolder classTrait + TToPrimaryColorHolder classTrait',
 	#instVars : [
 		'colorPrimary',
 		'colorPrimaryHover',
 		'colorPrimaryPressed',
-		'stampIndex'
+		'readOnlyStampIndex'
 	],
 	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
@@ -37,43 +37,14 @@ ToRawTheme >> checkboxBlankImage [
 	^ im
 ]
 
-{ #category : 'accessing' }
-ToRawTheme >> colorPrimary [
-
-	^ colorPrimary ifNil: [ self colorPrimary: self defaultColorPrimary. colorPrimary  ]
-]
-
-{ #category : 'accessing' }
-ToRawTheme >> colorPrimary: aColor [
-	"Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics"
-
-	colorPrimary = aColor ifTrue: [ ^ self ].
-	colorPrimary := aColor.
-	colorPrimaryHover := colorPrimary whiter whiter.
-	colorPrimaryPressed := colorPrimary darker darker.
-	self resetStampIndexFromList: self defaultStampList
-]
-
-{ #category : 'accessing' }
-ToRawTheme >> colorPrimaryHover [
-
-	^ colorPrimaryHover
-]
-
-{ #category : 'accessing' }
-ToRawTheme >> colorPrimaryPressed [
-
-	^ colorPrimaryPressed
-]
-
-{ #category : 'accessing' }
+{ #category : 't - primary color holder' }
 ToRawTheme >> defaultColorPrimary [
 
 	^ Color blue
 ]
 
-{ #category : 'initialization' }
-ToRawTheme >> defaultStampList [
+{ #category : 't - readonly stamp index holder' }
+ToRawTheme >> defaultReadOnlyStampList [
 	" skin managing need a list of unique stamps . "
 
 	^ {
@@ -168,14 +139,59 @@ ToRawTheme >> newSkinInstanceFor: anElement [
 	^ anElement newRawSkin
 ]
 
-{ #category : 't - readonly stamp index holder' }
-ToRawTheme >> rawStampIndex [
+{ #category : 't - primary color holder' }
+ToRawTheme >> onColorPrimaryChanged [
+	"Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics"
 
-	^ stampIndex
+	self rawColorPrimaryHover: self rawColorPrimary whiter whiter.
+	self rawColorPrimaryPressed: self rawColorPrimary darker darker.
+	self resetReadOnlyStampIndexFromList: self defaultReadOnlyStampList
+]
+
+{ #category : 't - primary color holder' }
+ToRawTheme >> rawColorPrimary [
+
+	^ colorPrimary 
+]
+
+{ #category : 't - primary color holder' }
+ToRawTheme >> rawColorPrimary: aColor [
+
+	colorPrimary := aColor
+]
+
+{ #category : 't - primary color holder' }
+ToRawTheme >> rawColorPrimaryHover [
+
+	^ colorPrimaryHover 
+]
+
+{ #category : 't - primary color holder' }
+ToRawTheme >> rawColorPrimaryHover: aColor [
+
+	colorPrimaryHover := aColor
+]
+
+{ #category : 't - primary color holder' }
+ToRawTheme >> rawColorPrimaryPressed [
+
+	^ colorPrimaryPressed 
+]
+
+{ #category : 't - primary color holder' }
+ToRawTheme >> rawColorPrimaryPressed: aColor [
+
+	colorPrimaryPressed := aColor
 ]
 
 { #category : 't - readonly stamp index holder' }
-ToRawTheme >> rawStampIndex: aPropertyIndex [
+ToRawTheme >> rawReadOnlyStampIndex [
 
-	stampIndex := aPropertyIndex
+	^ readOnlyStampIndex
+]
+
+{ #category : 't - readonly stamp index holder' }
+ToRawTheme >> rawReadOnlyStampIndex: aPropertyIndex [
+
+	readOnlyStampIndex := aPropertyIndex
 ]

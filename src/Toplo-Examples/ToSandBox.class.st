@@ -1813,10 +1813,13 @@ ToSandBox class >> example_ToLabelWithHeadingSkin [
 { #category : 'button' }
 ToSandBox class >> example_buttonWithIcon [
 
-	| but  |
+	| but space |
 	ToTheme cleanUp.
+	space := BlSpace new.
+	space toTheme: ToTheme current.
 	but := ToButton new.
-	but openInSpace.
+	space root addChild: but.
+	space show.
 	but icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
 	^ but
 ]

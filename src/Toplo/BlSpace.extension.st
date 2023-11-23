@@ -52,14 +52,15 @@ BlSpace >> stopSkinPhases [
 { #category : '*Toplo-LookAndFeel' }
 BlSpace >> toTheme [
 
-	^ self root toTheme
+	^ self userData at: #toTheme ifAbsent: [ self toTheme: ToTheme current. self toTheme ]
 ]
 
 { #category : '*Toplo-LookAndFeel' }
 BlSpace >> toTheme: aTheme [
 
-	self root localToTheme: aTheme.
-	self root requestNewSkin
+	self userData at: #toTheme put: aTheme.
+	self root toStyleStore resetReadOnlyStampIndexFromList: aTheme defaultReadOnlyStampList.
+	self root toThemeChanged
 ]
 
 { #category : '*Toplo' }

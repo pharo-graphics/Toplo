@@ -18,8 +18,8 @@ ToThemeExamples class >> createThemeMenuBar: aSpace [
 	changeColorMenuItem := (ToMenuItem new label: (ToLabel text: 'Randomize color'); tooltipText: 'Randomize the current bee theme primary color'; whenClickedDo: [ self randomizeBeeThemeColorFor: aSpace ]).
 	themeMenu addItem: (beeMenu := ToMenu new labelText: 'Bee').
 	
-	beeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Switch to Light'); tooltipText: 'Change the current Bee Theme to Bee light Theme'; whenClickedDo: [ changeColorMenuItem enable. self switchTheme: (ToBeeLightTheme new) for: aSpace ]).
-	beeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Switch to Dark'); tooltipText: 'Change the current Bee Theme to Bee dark Theme'; whenClickedDo: [ changeColorMenuItem enable. self switchTheme: (ToBeeDarkTheme new) for: aSpace ]).
+	beeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Switch to Light'); tooltipText: 'Change the current Bee Theme to Bee light Theme'; whenClickedDo: [ self switchTheme: (ToBeeLightTheme new) for: aSpace ]).
+	beeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Switch to Dark'); tooltipText: 'Change the current Bee Theme to Bee dark Theme'; whenClickedDo: [ self switchTheme: (ToBeeDarkTheme new) for: aSpace ]).
 	beeMenu addItem: (changeColorMenuItem).
 	
 	themeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Raw'); whenClickedDo: [ self switchTheme: (ToRawTheme new) for: aSpace ]).
@@ -84,7 +84,6 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	ToTheme cleanUp.
 	space := BlSpace new.
 	space root layout: BlLinearLayout new.
-
 	pane := ToPane vertical.
 	pane padding: (BlInsets all: 15).
 	pane layout cellSpacing: 5.
@@ -93,10 +92,10 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	"Create some buttons with different skins"
 	primaryButton1 := (ToButton id: #buttonA) labelText: 'Default Button Light Bee'.
 	"primaryButton1 withStamp: #primary."
-	primaryButton1 localToTheme: ToBeeLightTheme new.
+	"darkStyleSheet := ToBeeStyleSheet new."
 	primaryButton2 := (ToButton id: #buttonA) labelText: 'Default Button Dark Bee'.
+	primaryButton2 toStyleStore resetReadOnlyStampIndexFromList: ToBeeDarkTheme new defaultReadOnlyStampList.
 	"primaryButton2 withStamp: #primary."
-	primaryButton2 localToTheme: ToBeeDarkTheme new.
 	pane addChild: primaryButton1.
 	pane addChild: primaryButton2.
 	space root addChild: pane.
@@ -217,12 +216,13 @@ ToThemeExamples class >> openThemeExampleSpace [
 { #category : 'private - actions' }
 ToThemeExamples class >> randomizeBeeThemeColorFor: aSpace [
 
-	| theme |
+	| c |
 	aSpace ifNil:[ ^ self ].
-	theme := aSpace toTheme copy.
-	theme colorPrimary: Color random.
-	
-	aSpace toTheme: theme.
+	c := Color random.
+	aSpace root toStyleStore withStamp: (#'color-primary'-> c).
+	aSpace root toStyleStore withStamp: (#'color-primary-pressed'-> c twiceDarker ).
+	aSpace root toStyleStore withStamp: (#'color-primary-hover'-> c twiceLighter ).
+	aSpace root toThemeChanged.
 ]
 
 { #category : 'private - actions' }

@@ -138,20 +138,6 @@ BlElement >> isEnabled [
 ]
 
 { #category : '*Toplo' }
-BlElement >> localToTheme [
-
-	^ self skinManager localTheme
-]
-
-{ #category : '*Toplo-LookAndFeel' }
-BlElement >> localToTheme: aTheme [
-
-	self skinManager localTheme: aTheme in: self.
-	self styleSheet: aTheme newStyleSheet.
-	self spaceDo: [:sp | sp requestNextPulse ] 
-]
-
-{ #category : '*Toplo' }
 BlElement >> newRawSkin [
 
 	^  ToRawSkin new
@@ -321,17 +307,11 @@ BlElement >> toTheme [
 ]
 
 { #category : '*Toplo-LookAndFeel' }
-BlElement >> toTheme: aTheme [
-
-	self deprecated: 'Use #localToTheme: ' transformWith: '`@rcv toTheme: `@arg' -> '`@rcv localToTheme: `@arg'.
-	self localToTheme: aTheme
-]
-
-{ #category : '*Toplo-LookAndFeel' }
 BlElement >> toThemeChanged [
 
 	self childrenDo: [ :c | c toThemeChanged ].
 	self dispatchEvent: ToThemeChangedEvent new.
+	self styleSheet: self toTheme newStyleSheet.
 	self requestNewSkin.
 ]
 

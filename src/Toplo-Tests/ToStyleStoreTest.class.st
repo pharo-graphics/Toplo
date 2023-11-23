@@ -228,7 +228,6 @@ ToStyleStoreTest >> testStampNamed [
 
 	| e p |
 	e := BlElement new.
-	e localToTheme: ToBeeLightTheme new.
 	self
 		should: [ e stampNamed: #color ]
 		raise: ToElementPropertyNotFound.
@@ -274,7 +273,6 @@ ToStyleStoreTest >> testStampValueFrom [
 
 	| e p |
 	e := BlElement new.
-	e localToTheme: ToBeeLightTheme new.
 	self
 		should: [ e toStyleStore stampValue: #color from: e ]
 		raise: ToElementPropertyNotFound.
@@ -437,7 +435,6 @@ ToStyleStoreTest >> testWithoutStamp [
 
 	| e |
 	e := BlElement new.
-	e localToTheme: ToBeeLightTheme new.
 	e withAllStamps: {  }.
 	e withStamp: #color.
 	e withStamp: #background.

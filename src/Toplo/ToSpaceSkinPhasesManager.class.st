@@ -141,10 +141,11 @@ ToSpaceSkinPhasesManager >> startSkinPhasesIn: aSpace [
 	self skinPhasesInstalled: true.
 	" If no theme has been already set, now I can set the root default theme
 	( before skinPhasesInstalled: true it would start an endless loop )"
-	aSpace root localToTheme ifNil: [ aSpace toTheme: ToTheme current ].
+	
+	" reading the theme will install the default "
+	aSpace toTheme.
 	aSpace addEventHandlerOn: BlSpaceRootChangeEvent do: [ 
-		aSpace root localToTheme ifNil: [
-			aSpace toTheme: ToTheme current ] ].
+		aSpace toTheme ].
 
 	aSpace dispatchEvent: ToSpaceSkinPhasesStarted new.
 	aSpace

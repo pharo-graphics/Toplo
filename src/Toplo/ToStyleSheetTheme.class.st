@@ -60,6 +60,12 @@ ToStyleSheetTheme >> defaultElementStampsFor: anElement [
 	^ { }
 ]
 
+{ #category : 'default stamp list accessing' }
+ToStyleSheetTheme >> defaultReadOnlyStampList [
+
+	^ #(  )
+]
+
 { #category : 'accessing' }
 ToStyleSheetTheme >> name [
 
@@ -77,13 +83,6 @@ ToStyleSheetTheme >> newSkinInstanceFor: anElement [
 				  yourself ]
 ]
 
-{ #category : 'hook' }
-ToStyleSheetTheme >> onSetUpIn: anElement [
-
-	super onSetUpIn: anElement.
-	anElement withAllStamps: (self defaultElementStampsFor: anElement) 
-]
-
 { #category : 'writer selecting' }
 ToStyleSheetTheme >> rawApplicableWritersFor: anElement [
 
@@ -98,6 +97,13 @@ ToStyleSheetTheme >> rootRulesFor: anElement [
 	^ Array streamContents: [ :str |
 		  anElement styleSheetChain reverseDo: [ :ss |
 			  str nextPutAll: ss styleRules ] ]
+]
+
+{ #category : 'hook' }
+ToStyleSheetTheme >> setUpElementForTheme: anElement [
+
+	super setUpElementForTheme: anElement.
+	anElement withAllStamps: (self defaultElementStampsFor: anElement) 
 ]
 
 { #category : 'writer selecting' }

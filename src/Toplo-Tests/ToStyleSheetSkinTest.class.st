@@ -32,7 +32,8 @@ ToStyleSheetSkinTest >> setUp [
 ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 
 	| w skin layoutDirectionProp layoutProp layoutWriter directionWriter |
-	w := ToElement new localToTheme: ToBeeLightTheme new.
+	w := ToElement new.
+	space toTheme: ToBeeLightTheme new.
 	space root addChild: w.
 	w layout: BlBasicLayout new.
 	skin := ToBeeSkin new.

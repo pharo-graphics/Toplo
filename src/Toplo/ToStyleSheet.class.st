@@ -1,8 +1,8 @@
 Class {
 	#name : 'ToStyleSheet',
 	#superclass : 'Object',
-	#traits : 'TToStyleRulesHolder + TToWritablePropertyIndexHolder + TToReadOnlyStampIndexHolder',
-	#classTraits : 'TToStyleRulesHolder classTrait + TToWritablePropertyIndexHolder classTrait + TToReadOnlyStampIndexHolder classTrait',
+	#traits : 'TToStyleRulesHolder + TToWritablePropertyIndexHolder',
+	#classTraits : 'TToStyleRulesHolder classTrait + TToWritablePropertyIndexHolder classTrait',
 	#instVars : [
 		'styleRules',
 		'inherits',

@@ -3,7 +3,6 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'skinInstaller',
-		'localTheme',
 		'installedSkin',
 		'skinStateQueue',
 		'skinUninstaller',
@@ -117,39 +116,11 @@ ToSkinManager >> intrinsicStatesDo: aBlock [
 ]
 
 { #category : 'accessing' }
-ToSkinManager >> localTheme [ 
-
-	^ localTheme
-]
-
-{ #category : 'accessing' }
-ToSkinManager >> localTheme: aTheme [
-
-	localTheme := aTheme
-]
-
-{ #category : 'accessing' }
-ToSkinManager >> localTheme: aTheme in: anElement [
-
-	self localTheme = aTheme ifTrue: [ ^ self ].
-	self localTheme: aTheme.
-	anElement toThemeChanged.
-
-]
-
-{ #category : 'accessing' }
 ToSkinManager >> lookupThemeFrom: anElement [
 
-	^ self localTheme ifNil: [
-		  anElement hasParent
-			  ifTrue: [ anElement parent toTheme ]
-			  ifFalse: [
-				  anElement isAttachedToSceneGraph
-					  ifTrue: [ " install the theme only if the root is attached to 
-						avoid default installation in another element than the space root"
-						  self localTheme: ToTheme current.
-						  self localTheme ]
-					  ifFalse: [ Error signal: 'A not attached element should not ask for its theme' ] ] ]
+	anElement isAttachedToSceneGraph ifFalse: [
+		Error signal: 'A not attached element should not ask for its theme' ].
+	^ anElement space toTheme
 ]
 
 { #category : 'accessing - skin' }

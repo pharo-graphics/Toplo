@@ -17,7 +17,7 @@ Class {
 	#package : 'Toplo-Theme-Bee'
 }
 
-{ #category : 't - readonly stamp index holder' }
+{ #category : 'default stamp list accessing' }
 ToBeeDarkTheme >> defaultReadOnlyStampList [
 	" skin managing need a list of unique stamps . "
 

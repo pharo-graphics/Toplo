@@ -51,13 +51,6 @@ paddingXS	Control the extra small padding of the element.	number	8
 Class {
 	#name : 'ToBeeTheme',
 	#superclass : 'ToStyleSheetTheme',
-	#traits : 'TToPrimaryColorHolder',
-	#classTraits : 'TToPrimaryColorHolder classTrait',
-	#instVars : [
-		'colorPrimary',
-		'colorPrimaryHover',
-		'colorPrimaryPressed'
-	],
 	#category : 'Toplo-Theme-Bee',
 	#package : 'Toplo-Theme-Bee'
 }
@@ -116,7 +109,7 @@ ToBeeTheme class >> pink [
 	^self colorPrimary: (Color fromHexString: '#ED4192')
 ]
 
-{ #category : 'accessing' }
+{ #category : 'default stamp list accessing' }
 ToBeeTheme >> checkboxBlankImage [
 
 	| bar im |
@@ -139,7 +132,7 @@ ToBeeTheme >> checkboxBlankImage [
 	^ im
 ]
 
-{ #category : 't - primary color holder' }
+{ #category : 'initialization' }
 ToBeeTheme >> defaultColorPrimary [
 
 	^ Color fromHexString: '#1677ff'
@@ -151,7 +144,7 @@ ToBeeTheme >> defaultElementStampsFor: anElement [
 	^ anElement defaultBeeStyleStamps
 ]
 
-{ #category : 't - readonly stamp index holder' }
+{ #category : 'default stamp list accessing' }
 ToBeeTheme >> defaultReadOnlyStampList [
 	" skin managing need a list of unique stamps . "
 
@@ -179,9 +172,9 @@ ToBeeTheme >> defaultReadOnlyStampList [
 		  (ToReadOnlyStyleStamp name: #'color-link' value: (Color fromHexString: '#1677ff')).
 		  (ToReadOnlyStyleStamp name: #'color-link-active' value: (Color fromHexString: '#0958d9')).
 		  (ToReadOnlyStyleStamp name: #'color-link-hover' value: (Color fromHexString: '#69b1ff')).
-		  (ToReadOnlyStyleStamp name: #'color-primary' value: self colorPrimary).
-		  (ToReadOnlyStyleStamp name: #'color-primary-pressed' value: self colorPrimaryPressed).
-		  (ToReadOnlyStyleStamp name: #'color-primary-hover' value: self colorPrimaryHover).
+		  (ToReadOnlyStyleStamp name: #'color-primary' value: (self defaultColorPrimary)).
+		  (ToReadOnlyStyleStamp name: #'color-primary-pressed' value: self defaultColorPrimary twiceDarker ).
+		  (ToReadOnlyStyleStamp name: #'color-primary-hover' value: self defaultColorPrimary twiceLighter ).
 		  (ToReadOnlyStyleStamp name: #'color-success' value: (Color fromHexString: '#52c41a')).
 		  (ToReadOnlyStyleStamp name: #'color-warning' value: (Color fromHexString: '#faad14')).
 		
@@ -229,58 +222,9 @@ ToBeeTheme >> defaultReadOnlyStampList [
 ]
 
 { #category : 'initialization' }
-ToBeeTheme >> initialize [ 
-
-	super initialize
-]
-
-{ #category : 'initialization' }
 ToBeeTheme >> newStyleSheet [ 
 
-	^ ToBeeStyleSheet stampList: self defaultReadOnlyStampList
-]
-
-{ #category : 't - primary color holder' }
-ToBeeTheme >> onColorPrimaryChanged [
-
-	self rawColorPrimaryHover: colorPrimary whiter whiter.
-	self rawColorPrimaryPressed: colorPrimary darker darker
-]
-
-{ #category : 't - primary color holder' }
-ToBeeTheme >> rawColorPrimary [
-
-	^ colorPrimary
-]
-
-{ #category : 't - primary color holder' }
-ToBeeTheme >> rawColorPrimary: aColor [
-
-	colorPrimary := aColor
-]
-
-{ #category : 't - primary color holder' }
-ToBeeTheme >> rawColorPrimaryHover [
-
-	^ colorPrimaryHover
-]
-
-{ #category : 't - primary color holder' }
-ToBeeTheme >> rawColorPrimaryHover: aColor [
-
-	colorPrimaryHover := aColor
-]
-
-{ #category : 't - primary color holder' }
-ToBeeTheme >> rawColorPrimaryPressed [
-
-	^ colorPrimaryPressed
-]
-
-{ #category : 't - primary color holder' }
-ToBeeTheme >> rawColorPrimaryPressed: aColor [
-
-	colorPrimaryPressed := aColor
+	^ ToBeeStyleSheet new
 ]
 
 { #category : 'writer selecting' }

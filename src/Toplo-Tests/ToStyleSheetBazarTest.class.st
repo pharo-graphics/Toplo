@@ -58,7 +58,8 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 				 write: prop
 				 with: [ :e | e stampValue: #'color-error-pressed' ] ]).
 
-	button := ToButton new localToTheme: ToBeeLightTheme new.
+	button := ToButton new .
+	space toTheme: ToBeeLightTheme new.
 	space root addChild: button.
 	button styleSheet: ss.
 	label := (ToLabel text: 'Default') defaultSkin: nil.
@@ -166,7 +167,8 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 				 with: [ :e | e stampValue: #'color-error-pressed' ] ]).
 
 
-	button := ToButton new localToTheme: ToBeeLightTheme new.
+	button := ToButton new.
+	space toTheme: ToBeeLightTheme new.
 	space root addChild: button.
 	button withStamp: #button.
 	button styleSheet: ss.

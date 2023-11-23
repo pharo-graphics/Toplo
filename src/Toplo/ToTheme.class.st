@@ -53,13 +53,13 @@ ToTheme >> newStyleSheet [
 	^ nil
 ]
 
-{ #category : 'hook' }
-ToTheme >> onSetUpIn: anElement [
-]
-
 { #category : 'printing' }
 ToTheme >> printOn: aStream [
 
 	aStream nextPutAll: '[Theme named: '; nextPutAll: self name; nextPutAll: ' ]'.
 	super printOn: aStream
+]
+
+{ #category : 'hook' }
+ToTheme >> setUpElementForTheme: anElement [
 ]

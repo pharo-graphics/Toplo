@@ -144,7 +144,7 @@ ToAnchoredWindowHandler >> newWindowInstance [
 	w := self windowClass new handler: self; yourself.
 	builder value: w value: self element.
 	w localToTheme ifNil: [
-		 w localToTheme: self element localToTheme ].
+		self element localToTheme ifNotNil: [ :ltt | w localToTheme: ltt ] ].
 	^ w
 ]
 

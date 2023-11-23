@@ -1,20 +1,20 @@
 Class {
 	#name : 'ToStyleSheet',
 	#superclass : 'Object',
-	#traits : 'TToStyleRulesHolder + TToReadOnlyStampIndexHolder + TToWritablePropertyIndexHolder',
-	#classTraits : 'TToStyleRulesHolder classTrait + TToReadOnlyStampIndexHolder classTrait + TToWritablePropertyIndexHolder classTrait',
+	#traits : 'TToStyleRulesHolder + TToWritablePropertyIndexHolder + TToReadOnlyStampIndexHolder',
+	#classTraits : 'TToStyleRulesHolder classTrait + TToWritablePropertyIndexHolder classTrait + TToReadOnlyStampIndexHolder classTrait',
 	#instVars : [
 		'styleRules',
 		'inherits',
 		'writablePropertyIndex',
-		'readOnlyStampIndex'
+		'stampIndex'
 	],
 	#category : 'Toplo-Core-StyleSheet',
 	#package : 'Toplo',
 	#tag : 'Core-StyleSheet'
 }
 
-{ #category : 'running' }
+{ #category : 'class initialization' }
 ToStyleSheet class >> defaultWritablePropertyList [
 	" skin managing need a list of unique writeable properties. "
 
@@ -93,6 +93,14 @@ ToStyleSheet class >> defaultWritablePropertyList [
 		  (ToPseudoProperty name: #'layout-constraints'
 			   reader: [ :e | e constraints ]
 			   writer: [ :e :v | v value: e constraints ]) }
+]
+
+{ #category : 'accessing' }
+ToStyleSheet class >> stampList: aReadOnlyStampList [
+
+	^ self new
+		  stampList: aReadOnlyStampList;
+		  yourself
 ]
 
 { #category : 'syntactic sugar' }
@@ -177,13 +185,13 @@ ToStyleSheet >> onUnInstalledIn: anElement [
 { #category : 't - readonly stamp index holder' }
 ToStyleSheet >> rawReadOnlyStampIndex [
 
-	^ readOnlyStampIndex 
+	^ stampIndex
 ]
 
 { #category : 't - readonly stamp index holder' }
 ToStyleSheet >> rawReadOnlyStampIndex: aPropertyIndex [
 
-	readOnlyStampIndex := aPropertyIndex
+	stampIndex := aPropertyIndex
 ]
 
 { #category : 't - style rules holder' }
@@ -208,6 +216,12 @@ ToStyleSheet >> rawWritablePropertyIndex [
 ToStyleSheet >> rawWritablePropertyIndex: aPropertyIndex [
 
 	writablePropertyIndex := aPropertyIndex
+]
+
+{ #category : 'accessing' }
+ToStyleSheet >> stampList: aReadOnlyStampList [
+
+	self resetReadOnlyStampIndexFromList: aReadOnlyStampList
 ]
 
 { #category : 'syntactic sugar' }

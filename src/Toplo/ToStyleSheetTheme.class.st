@@ -1,9 +1,6 @@
 Class {
 	#name : 'ToStyleSheetTheme',
 	#superclass : 'ToTheme',
-	#instVars : [
-		'styleSheet'
-	],
 	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
 	#tag : 'Core-Theme'
@@ -63,13 +60,6 @@ ToStyleSheetTheme >> defaultElementStampsFor: anElement [
 	^ { }
 ]
 
-{ #category : 't - readonly stamp index holder' }
-ToStyleSheetTheme >> defaultReadOnlyStampList [
-	" skin managing need a list of unique stamps . "
-
-	^ { }
-]
-
 { #category : 'accessing' }
 ToStyleSheetTheme >> name [
 
@@ -114,23 +104,4 @@ ToStyleSheetTheme >> rootRulesFor: anElement [
 ToStyleSheetTheme >> skinClassFor: anElement [
 
 	^ ToStyleSheetSkin
-]
-
-{ #category : 't - readonly stamp index holder' }
-ToStyleSheetTheme >> stampNamed: aSymbol [
-
-	^ self styleSheet stampNamed: aSymbol
-]
-
-{ #category : 'accessing' }
-ToStyleSheetTheme >> styleSheet [
-
-	^ styleSheet
-]
-
-{ #category : 'accessing' }
-ToStyleSheetTheme >> styleSheet: aStyleSheet [
-
-	aStyleSheet resetReadOnlyStampIndexFromList: self defaultReadOnlyStampList.
-	styleSheet := aStyleSheet
 ]

@@ -1,13 +1,14 @@
 Class {
-	#name : #ToClassNodeExample,
-	#superclass : #ToNode,
+	#name : 'ToClassNodeExample',
+	#superclass : 'ToNode',
 	#instVars : [
 		'label'
 	],
-	#category : 'Toplo-Examples'
+	#category : 'Toplo-Examples',
+	#package : 'Toplo-Examples'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ToClassNodeExample >> forClassNameAssoc: aClassNameAssoc [
 
 	| icon isel |
@@ -36,7 +37,7 @@ ToClassNodeExample >> forClassNameAssoc: aClassNameAssoc [
 			 hMatchParent)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToClassNodeExample >> label [
 
 	^ label

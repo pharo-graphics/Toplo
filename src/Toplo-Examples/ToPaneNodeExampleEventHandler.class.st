@@ -1,31 +1,32 @@
 Class {
-	#name : #ToPaneNodeExampleEventHandler,
-	#superclass : #BlCustomEventHandler,
+	#name : 'ToPaneNodeExampleEventHandler',
+	#superclass : 'BlCustomEventHandler',
 	#instVars : [
 		'nodeButton',
 		'changeBackground'
 	],
-	#category : 'Toplo-Examples'
+	#category : 'Toplo-Examples',
+	#package : 'Toplo-Examples'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPaneNodeExampleEventHandler >> changeBackground [
 
 	^ changeBackground ifNil: [ changeBackground := true ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToPaneNodeExampleEventHandler >> changeBackground: aBoolean [
 
 	changeBackground := aBoolean
 ]
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToPaneNodeExampleEventHandler >> eventsToHandle [
 	^ { BlMouseEnterEvent . BlMouseLeaveEvent }
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToPaneNodeExampleEventHandler >> mouseEnterEvent: anEvent [
 
 	self changeBackground ifTrue: [
@@ -40,7 +41,7 @@ ToPaneNodeExampleEventHandler >> mouseEnterEvent: anEvent [
 	nodeButton position: 0 @ -10
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToPaneNodeExampleEventHandler >> mouseLeaveEvent: anEvent [
 
 	self changeBackground ifTrue: [ anEvent currentTarget background: (Color transparent) ].

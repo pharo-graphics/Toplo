@@ -12,12 +12,6 @@ TToReadOnlyStampIndexHolder >> addAllReadOnlyStamps: aStyleStampCollection [
 ]
 
 { #category : 't - readonly stamp index holder' }
-TToReadOnlyStampIndexHolder >> defaultReadOnlyStampList [
-
-	^ self explicitRequirement 
-]
-
-{ #category : 't - readonly stamp index holder' }
 TToReadOnlyStampIndexHolder >> rawReadOnlyStampIndex [
 
 	^ self explicitRequirement 

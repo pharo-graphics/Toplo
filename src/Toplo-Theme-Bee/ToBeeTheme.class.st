@@ -229,25 +229,22 @@ ToBeeTheme >> defaultReadOnlyStampList [
 ]
 
 { #category : 'initialization' }
-ToBeeTheme >> defaultStyleSheet [ 
+ToBeeTheme >> initialize [ 
 
-	^ ToBeeStyleSheet new
+	super initialize
 ]
 
 { #category : 'initialization' }
-ToBeeTheme >> initialize [ 
+ToBeeTheme >> newStyleSheet [ 
 
-	super initialize.
-	self styleSheet: self defaultStyleSheet 
+	^ ToBeeStyleSheet stampList: self defaultReadOnlyStampList
 ]
 
 { #category : 't - primary color holder' }
 ToBeeTheme >> onColorPrimaryChanged [
 
 	self rawColorPrimaryHover: colorPrimary whiter whiter.
-	self rawColorPrimaryPressed: colorPrimary darker darker.
-	self styleSheet ifNotNil: [ :ss |
-		ss resetReadOnlyStampIndexFromList: self defaultReadOnlyStampList ]
+	self rawColorPrimaryPressed: colorPrimary darker darker
 ]
 
 { #category : 't - primary color holder' }

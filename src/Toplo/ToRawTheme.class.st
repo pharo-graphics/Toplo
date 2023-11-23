@@ -1,13 +1,13 @@
 Class {
 	#name : 'ToRawTheme',
 	#superclass : 'ToTheme',
-	#traits : 'TToReadOnlyStampIndexHolder + TToPrimaryColorHolder',
-	#classTraits : 'TToReadOnlyStampIndexHolder classTrait + TToPrimaryColorHolder classTrait',
+	#traits : 'TToReadOnlyStampIndexHolder',
+	#classTraits : 'TToReadOnlyStampIndexHolder classTrait',
 	#instVars : [
+		'readOnlyStampIndex',
 		'colorPrimary',
 		'colorPrimaryHover',
-		'colorPrimaryPressed',
-		'readOnlyStampIndex'
+		'colorPrimaryPressed'
 	],
 	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
@@ -35,6 +35,35 @@ ToRawTheme >> checkboxBlankImage [
 	bar withAllStamps: #( #bar ).
 	im withAllStamps: #( #'inner-image' #unchecked ).
 	^ im
+]
+
+{ #category : 't - primary color holder' }
+ToRawTheme >> colorPrimary [
+
+	^ self rawColorPrimary ifNil: [
+		  self colorPrimary: self defaultColorPrimary.
+		  self rawColorPrimary ]
+]
+
+{ #category : 't - primary color holder' }
+ToRawTheme >> colorPrimary: aColor [
+	"Brand color is one of the most direct visual elements to reflect the characteristics and communication of the product. After you have selected the brand color, we will automatically generate a complete color palette and assign it effective design semantics"
+
+	self rawColorPrimary = aColor ifTrue: [ ^ self ].
+	self rawColorPrimary: aColor.
+	self onColorPrimaryChanged
+]
+
+{ #category : 't - primary color holder' }
+ToRawTheme >> colorPrimaryHover [
+
+	^ self rawColorPrimaryHover 
+]
+
+{ #category : 't - primary color holder' }
+ToRawTheme >> colorPrimaryPressed [
+
+	^ self rawColorPrimaryPressed 
 ]
 
 { #category : 't - primary color holder' }
@@ -143,7 +172,9 @@ ToRawTheme >> newRootSkinInstance [
 { #category : 'accessing' }
 ToRawTheme >> newSkinInstanceFor: anElement [
 
-	^ anElement space root == anElement
+	| space |
+	space := anElement space.
+	^ (space notNil and: [ space root == anElement ])
 		  ifTrue: [ self newRootSkinInstance ]
 		  ifFalse: [ anElement newRawSkin ]
 ]

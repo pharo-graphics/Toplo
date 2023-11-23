@@ -147,6 +147,7 @@ BlElement >> localToTheme [
 BlElement >> localToTheme: aTheme [
 
 	self skinManager localTheme: aTheme in: self.
+	self styleSheet: aTheme newStyleSheet.
 	self spaceDo: [:sp | sp requestNextPulse ] 
 ]
 

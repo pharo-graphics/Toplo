@@ -122,17 +122,14 @@ ToStyleStore >> styleSheetChainIn: anElement [
 	" return an array with all my inherited stylesheets "
 
 	^ Array new: 20 streamContents: [ :str |
-		  | current inherits th |
+		  | current inherits |
 		  current := anElement.
 		  inherits := true.
 		  [ current notNil and: [ inherits ] ] whileTrue: [
 			  current toStyleStore styleSheet  ifNotNil: [ :ss |
 				  str nextPut: ss.
 				  inherits := ss inherits ].
-			  current := current parent ].
-		  th := anElement toTheme.
-		  (th notNil and: [ th styleSheet notNil and: [ inherits ] ])
-			  ifTrue: [ str nextPut: th styleSheet ] ]
+			  current := current parent ] ]
 ]
 
 { #category : 'accessing' }

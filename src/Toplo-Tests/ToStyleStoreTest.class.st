@@ -55,14 +55,17 @@ ToStyleStoreTest >> testHasStampNamed [
 { #category : 'tests' }
 ToStyleStoreTest >> testIsSetUpForTheme [
 
-	| e theme skin |
+	| e theme skin space |
 	e := BlElement new.
+	space := BlSpace new.
 	theme := ToRawTheme new.
 	self deny: (e toStyleStore isSetUpForTheme: theme).
 	self assert: e toStyleStore themeClasses isEmpty.
+	self assert: ((theme newSkinFor: e) isKindOf: ToRawSkin).
+	space root addChild: e.
 	skin := theme newSkinFor: e.
 	self assert: e toStyleStore themeClasses size equals: 1.
-	self assert: e toStyleStore themeClasses anyOne = ToRawTheme
+	self assert: e toStyleStore themeClasses anyOne equals: ToRawTheme
 ]
 
 { #category : 'tests' }
@@ -100,7 +103,7 @@ ToStyleStoreTest >> testLookUpStampNamedFrom [
 		assert: (child toStyleStore lookUpStampNamed: #color from: child)
 		identicalTo: (child toStyleStore localStampNamed: #color).
 	self
-		should: [(child toStyleStore lookUpStampNamed: #something from: child)] raise: Error
+		assert: (child toStyleStore lookUpStampNamed: #something from: child) isNil
 ]
 
 { #category : 'tests' }
@@ -198,11 +201,13 @@ ToStyleStoreTest >> testSetUpForThemeIn [
 { #category : 'tests' }
 ToStyleStoreTest >> testSetUpForThemeIn2 [
 
-	| e theme skin |
+	| e theme skin space |
 	e := BlElement new.
+	space := BlSpace new.
 	self assert: e toStyleStore themeClasses notNil.
 	self assert: e toStyleStore themeClasses isEmpty.
 	theme := ToRawTheme new.
+	space root addChild: e.
 	skin := theme newSkinFor: e.
 	self assert: e toStyleStore themeClasses size equals: 1.
 	self assert: e toStyleStore themeClasses anyOne = ToRawTheme
@@ -302,11 +307,11 @@ ToStyleStoreTest >> testStyleSheetChainIn [
 	e addChild: child.
 	child addChild: childchild.
 	childchild addChild: childchildchild.
-	" e is not attached -> Error"
+	" e is not attached -> # ( )"
 	self
-		should: [
-		childchildchild toStyleStore styleSheetChainIn: childchildchild ]
-		raise: Error.
+		assert:
+		(childchildchild toStyleStore styleSheetChainIn: childchildchild)
+		equals: #(  ).
 	space := BlSpace new.
 	space root addChild: e.
 	" no styleSheet theme by default "
@@ -324,7 +329,7 @@ ToStyleStoreTest >> testStyleSheetChainIn [
 		(childchildchild toStyleStore styleSheetChainIn: childchildchild)
 			size
 		equals: 1.
-	e toTheme styleSheet: ToStyleSheet new.
+	e styleSheet: ToStyleSheet new.
 	self
 		assert:
 		(childchildchild toStyleStore styleSheetChainIn: childchildchild)

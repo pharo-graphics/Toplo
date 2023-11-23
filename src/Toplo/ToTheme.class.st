@@ -47,10 +47,10 @@ ToTheme >> newSkinInstanceFor: anElement [
 	^ self subclassResponsibility 
 ]
 
-{ #category : 'instance creation' }
-ToTheme >> newStampIndexFromStampList: aStyleStampCollection [
+{ #category : 'styling' }
+ToTheme >> newStyleSheet [ 
 
-	^ ToPropertyIndex new addAllProperties: aStyleStampCollection; yourself.
+	^ nil
 ]
 
 { #category : 'hook' }
@@ -62,16 +62,4 @@ ToTheme >> printOn: aStream [
 
 	aStream nextPutAll: '[Theme named: '; nextPutAll: self name; nextPutAll: ' ]'.
 	super printOn: aStream
-]
-
-{ #category : 'styling' }
-ToTheme >> stampNamed: aSymbol [
-
-	^ nil
-]
-
-{ #category : 'styling' }
-ToTheme >> styleSheet [
-
-	^ nil
 ]

@@ -22,7 +22,7 @@ ToThemeExamples class >> createThemeMenuBar: aSpace [
 	beeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Switch to Dark'); tooltipText: 'Change the current Bee Theme to Bee dark Theme'; whenClickedDo: [ changeColorMenuItem enable. self switchTheme: (ToBeeDarkTheme new) for: aSpace ]).
 	beeMenu addItem: (changeColorMenuItem).
 	
-	themeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Raw'); whenClickedDo: [ changeColorMenuItem disable. self switchTheme: (ToRawTheme new) for: aSpace ]).
+	themeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Raw'); whenClickedDo: [ self switchTheme: (ToRawTheme new) for: aSpace ]).
 		
 	"Inspect menu"
 	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'Inspect Space'); tooltipText: 'Inspect the BlSpace'; whenClickedDo: [ self inspectSpace: aSpace ]).
@@ -44,7 +44,7 @@ ToThemeExamples class >> displaySpaceStyleSheet: aSpace [
 	stream := ReadWriteStream on: String new.
 
 	"Build the style sheet detail"
-	aSpace toTheme styleSheet
+	aSpace root toStyleStore styleSheet
 		ifNil: [
 		stream nextPutAll: 'This theme is not based on style sheets.' ]
 		ifNotNil: [ :sheet |

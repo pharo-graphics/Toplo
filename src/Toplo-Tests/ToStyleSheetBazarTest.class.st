@@ -26,7 +26,7 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToStyleSheetTheme new.
+	ssi := ToBeeTheme new.
 
 	" danger button label rule "
 	prop := ToPseudoProperty new name: #'text-attributes'.

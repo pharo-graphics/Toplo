@@ -1,6 +1,6 @@
 Class {
-	#name : #ToMiniBrowser,
-	#superclass : #Object,
+	#name : 'ToMiniBrowser',
+	#superclass : 'Object',
 	#instVars : [
 		'listsPane',
 		'mainPane',
@@ -12,16 +12,17 @@ Class {
 		'classSide',
 		'selectedSelector'
 	],
-	#category : 'Toplo-Examples'
+	#category : 'Toplo-Examples',
+	#package : 'Toplo-Examples'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ToMiniBrowser class >> open [
 	<script>
 	self new open
 ]
 
-{ #category : #'class selection' }
+{ #category : 'class selection' }
 ToMiniBrowser >> candidateProtocolsForClass: aClass [
 
 	| prots |
@@ -33,7 +34,7 @@ ToMiniBrowser >> candidateProtocolsForClass: aClass [
 	^ prots sort: [ :a :b | a name < b name ]
 ]
 
-{ #category : #'code editor' }
+{ #category : 'code editor' }
 ToMiniBrowser >> changeCodeInEditor [
 
 	| selected cls sel codeText |
@@ -47,7 +48,7 @@ ToMiniBrowser >> changeCodeInEditor [
 	codePane text: codeText copy
 ]
 
-{ #category : #'class selection' }
+{ #category : 'class selection' }
 ToMiniBrowser >> classSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedClasses allProtocols |
@@ -73,14 +74,14 @@ ToMiniBrowser >> classSelectionChangedEvent: aToSelectionChanged [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToMiniBrowser >> classSide [
 
 	^ classSide ifNil: [ classSide := false ]
 
 ]
 
-{ #category : #'code editor' }
+{ #category : 'code editor' }
 ToMiniBrowser >> clearCodeInEditor [
 
 	codePane styler classOrMetaClass: nil.
@@ -88,7 +89,7 @@ ToMiniBrowser >> clearCodeInEditor [
 
 ]
 
-{ #category : #'class selection' }
+{ #category : 'class selection' }
 ToMiniBrowser >> filteredProtocolsFrom: aListOfProtocols [
 
 	^ aListOfProtocols collect: [ :assoc | 
@@ -97,7 +98,7 @@ ToMiniBrowser >> filteredProtocolsFrom: aListOfProtocols [
 		   assoc ]
 ]
 
-{ #category : #'class selection' }
+{ #category : 'class selection' }
 ToMiniBrowser >> finalProtocolsFrom: aListOfProtocols forClass: aClass [
 
 	^ Array streamContents: [ :stream | 
@@ -105,7 +106,7 @@ ToMiniBrowser >> finalProtocolsFrom: aListOfProtocols forClass: aClass [
 			  stream nextPut: aClass -> prot ] ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToMiniBrowser >> initialize [
 
 	| classesPane classesButtonPane sideToggle |
@@ -213,13 +214,13 @@ ToMiniBrowser >> initialize [
 	mainPane addDividers
 ]
 
-{ #category : #opening }
+{ #category : 'opening' }
 ToMiniBrowser >> open [
 
 	mainPane openInSpace title: 'Mini browser'
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedPackages clsList |
@@ -234,7 +235,7 @@ ToMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
 	classes data addAll: clsList	
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToMiniBrowser >> protocolSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedProtocols |
@@ -248,7 +249,7 @@ ToMiniBrowser >> protocolSelectionChangedEvent: aToSelectionChanged [
 				 assoc key -> sel ]) ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToMiniBrowser >> selectorSelectionChangedEvent: aToSelectionChanged [
 
 	aToSelectionChanged newSelectedIndexes size = 1 ifTrue: [ ^ self changeCodeInEditor ].

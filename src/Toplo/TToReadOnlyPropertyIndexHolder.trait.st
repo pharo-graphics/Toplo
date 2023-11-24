@@ -1,30 +1,30 @@
 Trait {
-	#name : 'TToReadOnlyStampIndexHolder',
-	#category : 'Toplo-Core-StyleSheet',
+	#name : 'TToReadOnlyPropertyIndexHolder',
+	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
-	#tag : 'Core-StyleSheet'
+	#tag : 'Core-Theme'
 }
 
 { #category : 't - readonly stamp index holder' }
-TToReadOnlyStampIndexHolder >> addAllReadOnlyStamps: aStyleStampCollection [
+TToReadOnlyPropertyIndexHolder >> addAllReadOnlyStamps: aStyleStampCollection [
 
 	self readOnlyStampIndex addAllProperties: aStyleStampCollection
 ]
 
 { #category : 't - readonly stamp index holder' }
-TToReadOnlyStampIndexHolder >> addReadOnlyStamp: aStyleStamp [
+TToReadOnlyPropertyIndexHolder >> addReadOnlyStamp: aStyleStamp [
 
 	self readOnlyStampIndex addProperty: aStyleStamp
 ]
 
 { #category : 't - readonly stamp index holder' }
-TToReadOnlyStampIndexHolder >> localStampNamed: aSymbol [
+TToReadOnlyPropertyIndexHolder >> localStampNamed: aSymbol [
 
 	^ self rawReadOnlyStampIndex propertyNamed: aSymbol
 ]
 
 { #category : 't - readonly stamp index holder' }
-TToReadOnlyStampIndexHolder >> lookUpStampNamed: aSymbol from: anElement [
+TToReadOnlyPropertyIndexHolder >> lookUpStampNamed: aSymbol from: anElement [
 	" look-up following child-parent association 
 	for each element, try first to get the stamp from the local styleStampIndex 
 	"
@@ -34,44 +34,43 @@ TToReadOnlyStampIndexHolder >> lookUpStampNamed: aSymbol from: anElement [
 ]
 
 { #category : 't - readonly stamp index holder' }
-TToReadOnlyStampIndexHolder >> newStampIndex [
+TToReadOnlyPropertyIndexHolder >> newStampIndex [
 
 	^ ToPropertyIndex new
 ]
 
 { #category : 't - readonly stamp index holder' }
-TToReadOnlyStampIndexHolder >> rawReadOnlyStampIndex [
+TToReadOnlyPropertyIndexHolder >> rawReadOnlyStampIndex [
 
 	^ self explicitRequirement 
 ]
 
 { #category : 't - readonly stamp index holder' }
-TToReadOnlyStampIndexHolder >> rawReadOnlyStampIndex: aPropertyIndex [
+TToReadOnlyPropertyIndexHolder >> rawReadOnlyStampIndex: aPropertyIndex [
 
 	^ self explicitRequirement 
 ]
 
 { #category : 't - readonly stamp index holder' }
-TToReadOnlyStampIndexHolder >> readOnlyStampIndex [
+TToReadOnlyPropertyIndexHolder >> readOnlyStampIndex [
 
 	^ self rawReadOnlyStampIndex ifNil: [ self rawReadOnlyStampIndex: self newStampIndex. self rawReadOnlyStampIndex ]
 ]
 
 { #category : 't - readonly stamp index holder' }
-TToReadOnlyStampIndexHolder >> readOnlyStampNamed: aName [
+TToReadOnlyPropertyIndexHolder >> readOnlyStampNamed: aName [
 
 	^ self rawReadOnlyStampIndex ifNotNil: [ :si | si propertyNamed: aName ]
 ]
 
 { #category : 't - readonly stamp index holder' }
-TToReadOnlyStampIndexHolder >> resetReadOnlyStampIndexFromList: aStyleStampCollection [
+TToReadOnlyPropertyIndexHolder >> stampList: aStampCollection [
 
-	self rawReadOnlyStampIndex: nil.
-	self readOnlyStampIndex addAllProperties: aStyleStampCollection
+	self readOnlyStampIndex addAllProperties: aStampCollection
 ]
 
 { #category : 't - readonly stamp index holder' }
-TToReadOnlyStampIndexHolder >> stampNamed: aName from: anElement [
+TToReadOnlyPropertyIndexHolder >> stampNamed: aName from: anElement [
 
 	(self lookUpStampNamed: aName from: anElement) ifNotNil: [ :s | ^ s ].
 	(ToElementPropertyNotFound name: aName) signal

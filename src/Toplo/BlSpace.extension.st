@@ -59,7 +59,7 @@ BlSpace >> toTheme [
 BlSpace >> toTheme: aTheme [
 
 	self userData at: #toTheme put: aTheme.
-	self root toStyleStore resetReadOnlyStampIndexFromList: aTheme defaultReadOnlyStampList.
+	self root stampList: aTheme defaultReadOnlyStampList.
 	self root toThemeChanged
 ]
 

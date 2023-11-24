@@ -95,14 +95,6 @@ ToStyleSheet class >> defaultWritablePropertyList [
 			   writer: [ :e :v | v value: e constraints ]) }
 ]
 
-{ #category : 'accessing' }
-ToStyleSheet class >> stampList: aReadOnlyStampList [
-
-	^ self new
-		  stampList: aReadOnlyStampList;
-		  yourself
-]
-
 { #category : 'syntactic sugar' }
 ToStyleSheet >> action: aValuable [
 
@@ -216,12 +208,6 @@ ToStyleSheet >> rawWritablePropertyIndex [
 ToStyleSheet >> rawWritablePropertyIndex: aPropertyIndex [
 
 	writablePropertyIndex := aPropertyIndex
-]
-
-{ #category : 'accessing' }
-ToStyleSheet >> stampList: aReadOnlyStampList [
-
-	self resetReadOnlyStampIndexFromList: aReadOnlyStampList
 ]
 
 { #category : 'syntactic sugar' }

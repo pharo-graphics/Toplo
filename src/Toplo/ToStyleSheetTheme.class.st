@@ -6,7 +6,7 @@ Class {
 	#tag : 'Core-Theme'
 }
 
-{ #category : 'writer selecting' }
+{ #category : 'styling' }
 ToStyleSheetTheme >> applicableRulesFor: anElement [
 	" return applicable rules for an element "
 
@@ -19,7 +19,7 @@ ToStyleSheetTheme >> applicableRulesFor: anElement [
 			ifNotNil:[ :anApplicableRule | str nextPut: anApplicableRule ] ] ]
 ]
 
-{ #category : 'writer selecting' }
+{ #category : 'styling' }
 ToStyleSheetTheme >> applicableWritersFor: anElement [
 	" for an element, several writers can be found. These writers 
 	are found with #rawWritersFor:. After, for each property only the last writers is kept"
@@ -60,12 +60,6 @@ ToStyleSheetTheme >> defaultElementStampsFor: anElement [
 	^ { }
 ]
 
-{ #category : 'default stamp list accessing' }
-ToStyleSheetTheme >> defaultReadOnlyStampList [
-
-	^ #(  )
-]
-
 { #category : 'accessing' }
 ToStyleSheetTheme >> name [
 
@@ -83,7 +77,7 @@ ToStyleSheetTheme >> newSkinInstanceFor: anElement [
 				  yourself ]
 ]
 
-{ #category : 'writer selecting' }
+{ #category : 'styling' }
 ToStyleSheetTheme >> rawApplicableWritersFor: anElement [
 
 	^ Array streamContents: [ :stream |
@@ -91,7 +85,7 @@ ToStyleSheetTheme >> rawApplicableWritersFor: anElement [
 			  r putApplicableWritersForElement: anElement forTheme: self in: stream ] ]
 ]
 
-{ #category : 'writer selecting' }
+{ #category : 'styling' }
 ToStyleSheetTheme >> rootRulesFor: anElement [
 
 	^ Array streamContents: [ :str |
@@ -106,7 +100,7 @@ ToStyleSheetTheme >> setUpElementForTheme: anElement [
 	anElement withAllStamps: (self defaultElementStampsFor: anElement) 
 ]
 
-{ #category : 'writer selecting' }
+{ #category : 'styling' }
 ToStyleSheetTheme >> skinClassFor: anElement [
 
 	^ ToStyleSheetSkin

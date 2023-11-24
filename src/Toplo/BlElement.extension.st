@@ -33,7 +33,7 @@ BlElement >> applyStylesRecursively [
 { #category : '*Toplo' }
 BlElement >> borderBuilder [
 
-	^ self toStyleStore borderBuilder
+	^ self skinManager borderBuilder
 ]
 
 { #category : '*Toplo' }
@@ -189,7 +189,7 @@ BlElement >> setSkin: aSkin [
 { #category : '*Toplo' }
 BlElement >> setUpForTheme: aTheme [
 
-	self toStyleStore setUpForTheme: aTheme in: self
+	self skinManager setUpForTheme: aTheme in: self
 ]
 
 { #category : '*Toplo' }
@@ -207,7 +207,7 @@ BlElement >> skinInstaller: aSkinInstaller [
 { #category : '*Toplo' }
 BlElement >> skinManager [
 
-	^ self userData at: #skinManager ifAbsentPut: [ ToSkinManager new ]
+	^ self userData at: #skinManager ifAbsentPut:  [ ToSkinManager new onInstalledIn: self; yourself]
 ]
 
 { #category : '*Toplo' }
@@ -232,6 +232,12 @@ BlElement >> skinUninstaller [
 BlElement >> skinUninstaller: aSkinUninstaller [
 
 	self skinManager skinUninstaller: aSkinUninstaller
+]
+
+{ #category : '*Toplo' }
+BlElement >> stampList: aStampCollection [
+
+	self toStyleStore stampList: aStampCollection
 ]
 
 { #category : '*Toplo' }
@@ -273,13 +279,13 @@ BlElement >> stillPressedStartDelay: aDuration [
 { #category : '*Toplo-LookAndFeel' }
 BlElement >> styleSheet: aStyleSheet [
 
-	self toStyleStore styleSheet: aStyleSheet in: self
+	self skinManager styleSheet: aStyleSheet in: self
 ]
 
 { #category : '*Toplo-LookAndFeel' }
 BlElement >> styleSheetChain [
 	" return an array with all my inherited stylesheets "
-	^ self toStyleStore styleSheetChainIn: self
+	^ self skinManager styleSheetChainIn: self
 ]
 
 { #category : '*Toplo' }
@@ -291,7 +297,7 @@ BlElement >> switchToNextCheckStateOnClick [
 { #category : '*Toplo' }
 BlElement >> textAttributesBuilder [
 
-	^ self toStyleStore textAttributesBuilder
+	^ self skinManager textAttributesBuilder
 ]
 
 { #category : '*Toplo' }

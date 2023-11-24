@@ -1,14 +1,10 @@
 Class {
 	#name : 'ToStyleStore',
 	#superclass : 'Object',
-	#traits : 'TToReadOnlyStampIndexHolder',
-	#classTraits : 'TToReadOnlyStampIndexHolder classTrait',
+	#traits : 'TToReadOnlyPropertyIndexHolder',
+	#classTraits : 'TToReadOnlyPropertyIndexHolder classTrait',
 	#instVars : [
-		'stampIndex',
-		'borderBuilder',
-		'styleSheet',
-		'textAttributesBuilder',
-		'themeClasses'
+		'stampIndex'
 	],
 	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
@@ -21,22 +17,10 @@ ToStyleStore >> addStamp: aStyleStamp [
 	self addReadOnlyStamp: aStyleStamp
 ]
 
-{ #category : 'accessing' }
-ToStyleStore >> borderBuilder [
-
-	^ borderBuilder ifNil: [ borderBuilder := BlBorderBuilder new ]
-]
-
 { #category : 'testing' }
 ToStyleStore >> hasStampNamed: aSymbol [
 
 	^ self readOnlyStampIndex hasPropertyNamed: aSymbol
-]
-
-{ #category : 'api - hooks' }
-ToStyleStore >> isSetUpForTheme: aTheme [
-
-	^ self themeClasses includes: aTheme class
 ]
 
 { #category : 't - readonly stamp index holder' }
@@ -65,7 +49,6 @@ ToStyleStore >> newStampIndex [
 { #category : 'api - hooks' }
 ToStyleStore >> onInstalledIn: anElement [
 
-	themeClasses := IdentitySet new.
 	self readOnlyStampIndex changedAction: [ anElement requestNewSkin ]
 ]
 
@@ -81,24 +64,10 @@ ToStyleStore >> rawReadOnlyStampIndex: aPropertyIndex [
 	^ stampIndex := aPropertyIndex
 ]
 
-{ #category : 'api - hooks' }
-ToStyleStore >> registerTheme: aTheme [
-
-	self themeClasses add: aTheme class
-]
-
 { #category : 'adding-removing' }
 ToStyleStore >> removeStampNamed: aSymbol [
 
 	self readOnlyStampIndex removePropertyNamed: aSymbol
-]
-
-{ #category : 'api - hooks' }
-ToStyleStore >> setUpForTheme: aTheme in: anElement [
-
-	(self isSetUpForTheme: aTheme) ifTrue: [ ^ self ].
-	self registerTheme: aTheme.
-	aTheme setUpElementForTheme: anElement
 ]
 
 { #category : 'accessing' }
@@ -106,47 +75,6 @@ ToStyleStore >> stampValue: aSymbol from: anElement [
 
 	(self lookUpStampNamed: aSymbol from: anElement) ifNotNil: [ :s | ^ s value ].
 	(ToElementPropertyNotFound name: aSymbol) signal
-]
-
-{ #category : 'accessing' }
-ToStyleStore >> styleSheet [
-
-	^ styleSheet
-]
-
-{ #category : 'accessing' }
-ToStyleStore >> styleSheet: aStyleSheet in: anElement [
-
-	self styleSheet ifNotNil: [ :prev | prev onUnInstalledIn: anElement ].
-	styleSheet := aStyleSheet.
-	self styleSheet ifNotNil: [ :curr | curr onInstalledIn: anElement ]
-]
-
-{ #category : 'accessing' }
-ToStyleStore >> styleSheetChainIn: anElement [
-	" return an array with all my inherited stylesheets "
-
-	^ Array new: 20 streamContents: [ :str |
-		  | current inherits |
-		  current := anElement.
-		  inherits := true.
-		  [ current notNil and: [ inherits ] ] whileTrue: [
-			  current toStyleStore styleSheet  ifNotNil: [ :ss |
-				  str nextPut: ss.
-				  inherits := ss inherits ].
-			  current := current parent ] ]
-]
-
-{ #category : 'accessing' }
-ToStyleStore >> textAttributesBuilder [
-
-	^ textAttributesBuilder ifNil: [ textAttributesBuilder := BlTextAttributesBuilder new ]
-]
-
-{ #category : 'accessing' }
-ToStyleStore >> themeClasses [
-
-	^ themeClasses
 ]
 
 { #category : 'adding-removing' }

@@ -84,6 +84,14 @@ ToSkinManagerTest >> testApplyStylesIn [
 ]
 
 { #category : 'tests' }
+ToSkinManagerTest >> testBorderBuilder [
+
+	| e  |
+	e := BlElement new.
+	self assert: (e skinManager borderBuilder ) notNil
+]
+
+{ #category : 'tests' }
 ToSkinManagerTest >> testDefaultSkinIn [
 
 	| e sk |
@@ -207,6 +215,36 @@ ToSkinManagerTest >> testIsRequestSkinPostponed2 [
 ]
 
 { #category : 'tests' }
+ToSkinManagerTest >> testIsSetUpForTheme [
+
+	| e theme skin |
+	e := BlElement new.
+	space := BlSpace new.
+	theme := ToRawTheme new.
+	self deny: (e skinManager isSetUpForTheme: theme).
+	self assert: e skinManager themeClasses isEmpty.
+	self assert: ((theme newSkinFor: e) isKindOf: ToRawSkin).
+	space root addChild: e.
+	skin := theme newSkinFor: e.
+	self assert: e skinManager themeClasses size equals: 1.
+	self assert: e skinManager themeClasses anyOne equals: ToRawTheme
+]
+
+{ #category : 'tests' }
+ToSkinManagerTest >> testOnInstalledIn [
+
+	| e |
+	e := BlElement new.
+	self assert: e skinManager themeClasses notNil.
+	self assert: e skinManager themeClasses isEmpty.
+	self deny: e skinManager hasPostponedRequestInstallSkin.
+	self assert: e skinInstaller isNil.
+	e toStyleStore readOnlyStampIndex changedAction value.
+	self assert: e skinManager hasPostponedRequestInstallSkin.
+	self assert: e skinInstaller isNil
+]
+
+{ #category : 'tests' }
 ToSkinManagerTest >> testPostponeRequestSkinIn [
 
 	| e handlersNb |
@@ -230,6 +268,18 @@ ToSkinManagerTest >> testPostponeRequestSkinIn [
 
 	
 
+]
+
+{ #category : 'tests' }
+ToSkinManagerTest >> testRegisterTheme [
+
+	| e |
+	e := BlElement new.
+	self assert: e skinManager themeClasses notNil.
+	self assert: e skinManager themeClasses isEmpty.
+	e skinManager registerTheme: ToRawTheme new.
+	self assert: e skinManager themeClasses size equals: 1.
+	self assert: e skinManager themeClasses anyOne = ToRawTheme
 ]
 
 { #category : 'tests' }
@@ -461,6 +511,40 @@ ToSkinManagerTest >> testSetSkinInWhenInSpace [
 ]
 
 { #category : 'tests' }
+ToSkinManagerTest >> testSetUpForThemeIn [
+
+	| e theme  |
+	e := BlElement new.
+	self assert: e skinManager themeClasses notNil.
+	self assert: e skinManager themeClasses isEmpty.
+	theme := ToRawTheme new.
+	self deny: (e skinManager isSetUpForTheme: theme).
+	e skinManager setUpForTheme: theme in: e.
+	self assert: (e skinManager isSetUpForTheme: theme).
+	self assert: e skinManager themeClasses size equals: 1.
+	self assert: e skinManager themeClasses anyOne = ToRawTheme.
+	e skinManager setUpForTheme: ToRawTheme new in: e.
+	self assert: e skinManager themeClasses size equals: 1.
+	self assert: e skinManager themeClasses anyOne = ToRawTheme.
+
+]
+
+{ #category : 'tests' }
+ToSkinManagerTest >> testSetUpForThemeIn2 [
+
+	| e theme skin |
+	e := BlElement new.
+	space := BlSpace new.
+	self assert: e skinManager themeClasses notNil.
+	self assert: e skinManager themeClasses isEmpty.
+	theme := ToRawTheme new.
+	space root addChild: e.
+	skin := theme newSkinFor: e.
+	self assert: e skinManager themeClasses size equals: 1.
+	self assert: e skinManager themeClasses anyOne = ToRawTheme
+]
+
+{ #category : 'tests' }
 ToSkinManagerTest >> testSkinInstaller [
 
 	| e child childchild |
@@ -551,6 +635,88 @@ ToSkinManagerTest >> testSkinUninstallerWithToThemeChanged [
 	self assert: e skinUninstaller notNil.
 	self assert: child skinUninstaller notNil.
 	self assert: childchild skinUninstaller notNil
+]
+
+{ #category : 'tests' }
+ToSkinManagerTest >> testStyleSheet [
+
+	self testStyleSheetIn 
+]
+
+{ #category : 'tests' }
+ToSkinManagerTest >> testStyleSheetChainIn [
+
+	| e child childchild childchildchild |
+	e := BlElement new.
+	child := BlElement new.
+	childchild := BlElement new.
+	childchildchild := BlElement new.
+	e addChild: child.
+	child addChild: childchild.
+	childchild addChild: childchildchild.
+	" e is not attached -> # ( )"
+	self
+		assert:
+		(childchildchild skinManager styleSheetChainIn: childchildchild)
+		equals: #(  ).
+	space := BlSpace new.
+	space root addChild: e.
+	" no styleSheet theme by default "
+	self assert:
+		(childchildchild skinManager styleSheetChainIn: childchildchild)
+			isEmpty.
+	space toTheme: ToStyleSheetTheme new.
+	" no style sheet in theme "
+	self assert:
+		(childchildchild skinManager styleSheetChainIn: childchildchild)
+			isEmpty.
+	childchild styleSheet: ToStyleSheet new.
+	self
+		assert:
+		(childchildchild skinManager styleSheetChainIn: childchildchild)
+			size
+		equals: 1.
+	e styleSheet: ToStyleSheet new.
+	self
+		assert:
+		(childchildchild skinManager styleSheetChainIn: childchildchild)
+			size
+		equals: 2.
+	childchild skinManager styleSheet inherits: false.
+	self
+		assert:
+		(childchildchild skinManager styleSheetChainIn: childchildchild)
+			size
+		equals: 1
+]
+
+{ #category : 'tests' }
+ToSkinManagerTest >> testStyleSheetIn [
+
+	| e |
+	e := BlElement new.
+	e styleSheet: ToStyleSheet new.
+	self assert: e skinManager styleSheet notNil
+]
+
+{ #category : 'tests' }
+ToSkinManagerTest >> testTextAttributesBuilder [
+
+	| e  |
+	e := BlElement new.
+	self assert: (e skinManager textAttributesBuilder ) notNil
+]
+
+{ #category : 'tests' }
+ToSkinManagerTest >> testThemeClasses [
+
+	| e |
+	e := BlElement new.
+	self assert: e skinManager themeClasses notNil.
+	self assert: e skinManager themeClasses isEmpty.
+	e skinManager setUpForTheme: ToRawTheme new in: e.
+	self assert: e skinManager themeClasses size equals: 1.
+	self assert: e skinManager themeClasses anyOne = ToRawTheme
 ]
 
 { #category : 'tests' }

@@ -17,8 +17,8 @@ Class {
 	#package : 'Toplo-Theme-Bee'
 }
 
-{ #category : 'default stamp list accessing' }
-ToBeeDarkTheme >> defaultReadOnlyStampList [
+{ #category : 'accessing' }
+ToBeeDarkTheme class >> defaultReadOnlyStampList [
 	" skin managing need a list of unique stamps . "
 
 	^ Array streamContents: [ :str |

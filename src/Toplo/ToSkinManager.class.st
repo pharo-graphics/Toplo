@@ -8,7 +8,11 @@ Class {
 		'skinUninstaller',
 		'defaultSkin',
 		'intrinsicStateIndex',
-		'postponedRequestInstallSkin'
+		'postponedRequestInstallSkin',
+		'styleSheet',
+		'themeClasses',
+		'borderBuilder',
+		'textAttributesBuilder'
 	],
 	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
@@ -38,6 +42,12 @@ ToSkinManager >> applyStylesIn: anElement [
 
 	" run the skin actually by flushing the state queue"
 	self installedSkinDo: [ :s | s applyStylesIn: anElement ]
+]
+
+{ #category : 'accessing' }
+ToSkinManager >> borderBuilder [
+
+	^ borderBuilder ifNil: [ borderBuilder := BlBorderBuilder new ] 
 ]
 
 { #category : 'accessing - skin' }
@@ -115,12 +125,24 @@ ToSkinManager >> intrinsicStatesDo: aBlock [
 	intrinsicStateIndex valuesDo: aBlock
 ]
 
+{ #category : 'skin application' }
+ToSkinManager >> isSetUpForTheme: aTheme [
+
+	^ self themeClasses includes: aTheme class
+]
+
 { #category : 'accessing' }
 ToSkinManager >> lookupThemeFrom: anElement [
 
 	anElement isAttachedToSceneGraph ifFalse: [
 		Error signal: 'A not attached element should not ask for its theme' ].
 	^ anElement space toTheme
+]
+
+{ #category : 'skin application' }
+ToSkinManager >> onInstalledIn: anElement [
+
+	themeClasses := IdentitySet new
 ]
 
 { #category : 'accessing - skin' }
@@ -134,6 +156,12 @@ ToSkinManager >> postponeRequestSkinIn: anElement [
 		postponedRequestInstallSkin := nil.
 		evt target requestInstallSkin ].
 	anElement addEventHandler: postponedRequestInstallSkin
+]
+
+{ #category : 'skin application' }
+ToSkinManager >> registerTheme: aTheme [
+
+	self themeClasses add: aTheme class
 ]
 
 { #category : 'accessing - skin' }
@@ -170,6 +198,14 @@ ToSkinManager >> setSkin: aSkin in: anElement [
 	anElement requestInstallSkin
 ]
 
+{ #category : 'api - hooks' }
+ToSkinManager >> setUpForTheme: aTheme in: anElement [
+
+	(self isSetUpForTheme: aTheme) ifTrue: [ ^ self ].
+	self registerTheme: aTheme.
+	aTheme setUpElementForTheme: anElement
+]
+
 { #category : 'accessing' }
 ToSkinManager >> skinInstaller [ 
 
@@ -198,6 +234,47 @@ ToSkinManager >> skinUninstaller [
 ToSkinManager >> skinUninstaller: aSkinUninstaller [
 
 	skinUninstaller := aSkinUninstaller 
+]
+
+{ #category : 'accessing stylesheet' }
+ToSkinManager >> styleSheet [
+
+	^ styleSheet
+]
+
+{ #category : 'accessing stylesheet' }
+ToSkinManager >> styleSheet: aStyleSheet in: anElement [
+
+	self styleSheet ifNotNil: [ :prev | prev onUnInstalledIn: anElement ].
+	styleSheet := aStyleSheet.
+	self styleSheet ifNotNil: [ :curr | curr onInstalledIn: anElement ]
+]
+
+{ #category : 'accessing' }
+ToSkinManager >> styleSheetChainIn: anElement [
+	" return an array with all my inherited stylesheets "
+
+	^ Array new: 20 streamContents: [ :str |
+		  | current inherits |
+		  current := anElement.
+		  inherits := true.
+		  [ current notNil and: [ inherits ] ] whileTrue: [
+			  current skinManager styleSheet ifNotNil: [ :ss |
+				  str nextPut: ss.
+				  inherits := ss inherits ].
+			  current := current parent ] ]
+]
+
+{ #category : 'accessing' }
+ToSkinManager >> textAttributesBuilder [
+
+	^ textAttributesBuilder ifNil: [ textAttributesBuilder := BlTextAttributesBuilder new ]
+]
+
+{ #category : 'skin application' }
+ToSkinManager >> themeClasses [
+
+	^ themeClasses
 ]
 
 { #category : 'accessing - skin' }

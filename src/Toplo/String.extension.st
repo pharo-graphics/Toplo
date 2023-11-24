@@ -7,9 +7,9 @@ String >> asElementSelector [
 ]
 
 { #category : '*Toplo' }
-String >> asStyleStamp [
+String >> asTokenProperty [
 
-	^ ToReadOnlyStyleStamp new
+	^ ToTokenProperty new
 		  name: self asSymbol;
 		  value: true;
 		  yourself

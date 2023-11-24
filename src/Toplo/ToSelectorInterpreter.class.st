@@ -160,7 +160,7 @@ ToSelectorInterpreter >> visitSiblingSelector: aSelector [
 { #category : 'visiting' }
 ToSelectorInterpreter >> visitStyleStampSelector: aSelector [
 
-	result := aSelector stampNames allSatisfy: [ :t | self top hasStampNamed: t ]
+	result := aSelector stampNames allSatisfy: [ :t | self top hasTokenPropertyNamed: t ]
 ]
 
 { #category : 'visiting' }

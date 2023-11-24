@@ -93,7 +93,7 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	"primaryButton1 withStamp: #primary."
 	"darkStyleSheet := ToBeeStyleSheet new."
 	primaryButton2 := (ToButton id: #buttonA) labelText: 'Default Button Dark Bee'.
-	primaryButton2 stampList: ToBeeDarkTheme defaultReadOnlyStampList.
+	primaryButton2 tokenProperties: ToBeeDarkTheme defaultTokenPropertyList.
 	"primaryButton2 withStamp: #primary."
 	pane addChild: primaryButton1.
 	pane addChild: primaryButton2.
@@ -220,8 +220,7 @@ ToThemeExamples class >> randomizePrimaryColorFor: aSpace [
 	c := Color random.
 	aSpace root withStamp: (#'color-primary'-> c).
 	aSpace root withStamp: (#'color-primary-pressed'-> c twiceDarker ).
-	aSpace root withStamp: (#'color-primary-hover'-> c twiceLighter ).
-	aSpace root toThemeChanged
+	aSpace root withStamp: (#'color-primary-hover'-> c twiceLighter )
 ]
 
 { #category : 'private - actions' }

@@ -6,8 +6,7 @@ Class {
 	#instVars : [
 		'styleRules',
 		'inherits',
-		'writablePropertyIndex',
-		'stampIndex'
+		'writablePropertyIndex'
 	],
 	#category : 'Toplo-Core-StyleSheet',
 	#package : 'Toplo',
@@ -172,18 +171,6 @@ ToStyleSheet >> onInstalledIn: anElement [
 { #category : 'initialization' }
 ToStyleSheet >> onUnInstalledIn: anElement [
 
-]
-
-{ #category : 't - readonly stamp index holder' }
-ToStyleSheet >> rawReadOnlyStampIndex [
-
-	^ stampIndex
-]
-
-{ #category : 't - readonly stamp index holder' }
-ToStyleSheet >> rawReadOnlyStampIndex: aPropertyIndex [
-
-	stampIndex := aPropertyIndex
 ]
 
 { #category : 't - style rules holder' }

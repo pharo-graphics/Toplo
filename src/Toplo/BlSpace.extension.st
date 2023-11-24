@@ -59,7 +59,7 @@ BlSpace >> toTheme [
 BlSpace >> toTheme: aTheme [
 
 	self userData at: #toTheme put: aTheme.
-	self root stampList: aTheme defaultReadOnlyStampList.
+	self root tokenProperties: aTheme defaultTokenPropertyList.
 	self root toThemeChanged
 ]
 

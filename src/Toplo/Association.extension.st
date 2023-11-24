@@ -1,7 +1,7 @@
 Extension { #name : 'Association' }
 
 { #category : '*Toplo' }
-Association >> asStyleStamp [
+Association >> asTokenProperty [
 
-	^ ToReadOnlyStyleStamp new name: self key asSymbol; value: self value; yourself
+	^ ToTokenProperty new name: self key asSymbol; value: self value; yourself
 ]

@@ -91,9 +91,9 @@ BlElement >> hasEnablementFlag [
 ]
 
 { #category : '*Toplo' }
-BlElement >> hasStampNamed: aSymbol [
+BlElement >> hasTokenPropertyNamed: aSymbol [
 
-	^ self toStyleStore hasStampNamed: aSymbol
+	^ self toStyleStore hasTokenPropertyNamed: aSymbol
 ]
 
 { #category : '*Toplo' }
@@ -235,21 +235,15 @@ BlElement >> skinUninstaller: aSkinUninstaller [
 ]
 
 { #category : '*Toplo' }
-BlElement >> stampList: aStampCollection [
-
-	self toStyleStore stampList: aStampCollection
-]
-
-{ #category : '*Toplo' }
 BlElement >> stampNamed: aSymbol [
 
-	^ self toStyleStore stampNamed: aSymbol from: self
+	^ self toStyleStore tokenPropertyNamed: aSymbol from: self
 ]
 
 { #category : '*Toplo' }
 BlElement >> stampValue: aSymbol [
 
-	^ self toStyleStore stampValue: aSymbol from: self
+	^ self toStyleStore tokenPropertyValue: aSymbol from: self
 ]
 
 { #category : '*Toplo' }
@@ -317,8 +311,13 @@ BlElement >> toThemeChanged [
 
 	self childrenDo: [ :c | c toThemeChanged ].
 	self dispatchEvent: ToThemeChangedEvent new.
-	self styleSheet: self toTheme newStyleSheet.
 	self requestNewSkin.
+]
+
+{ #category : '*Toplo' }
+BlElement >> tokenProperties: aTokenPropertyCollection [
+
+	self toStyleStore tokenProperties: aTokenPropertyCollection
 ]
 
 { #category : '*Toplo' }
@@ -336,7 +335,8 @@ BlElement >> withAllStamps: aCollectionOfSymbol [
 BlElement >> withStamp: anAssociationOrSymbol [
 
 
-	self toStyleStore withStamp: anAssociationOrSymbol
+	self toStyleStore withStamp: anAssociationOrSymbol.
+	self spaceDo: [ :sp | sp requestNextPulse ]
 ]
 
 { #category : '*Toplo' }

@@ -66,8 +66,8 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 	label withStamp: #'button-label'.
 	button label: label.
 	labelSkin := ToBeeSkin new.
-	self assert: (button hasStampNamed: #danger) not.
-	self assert: (button label hasStampNamed: #'button-label').
+	self assert: (button hasTokenPropertyNamed: #danger) not.
+	self assert: (button label hasTokenPropertyNamed: #'button-label').
 	writers := ssi applicableWritersFor: button label.
 	" writers should be empty since the label rule expect the button 
 	to be of class #danger and the label to be with style class #'button-label'"

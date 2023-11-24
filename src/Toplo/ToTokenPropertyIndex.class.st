@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToStyleStampIndex',
+	#name : 'ToTokenPropertyIndex',
 	#superclass : 'ToPropertyIndex',
 	#instVars : [
 		'changedAction'
@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : 'adding' }
-ToStyleStampIndex >> addAllProperties: aCollectionOfProperties [
+ToTokenPropertyIndex >> addAllProperties: aCollectionOfProperties [
 
 	(aCollectionOfProperties anySatisfy: [ :p |
 		 (self hasProperty: p) not ]) ifFalse: [ ^ self ].
@@ -19,7 +19,7 @@ ToStyleStampIndex >> addAllProperties: aCollectionOfProperties [
 ]
 
 { #category : 'adding' }
-ToStyleStampIndex >> addProperty: anElementProperty [
+ToTokenPropertyIndex >> addProperty: anElementProperty [
 
 	(self hasProperty: anElementProperty) ifTrue: [ ^ self ].
 	super addProperty: anElementProperty.
@@ -27,19 +27,19 @@ ToStyleStampIndex >> addProperty: anElementProperty [
 ]
 
 { #category : 'accessing' }
-ToStyleStampIndex >> changedAction [
+ToTokenPropertyIndex >> changedAction [
 
 	^ changedAction
 ]
 
 { #category : 'accessing' }
-ToStyleStampIndex >> changedAction: aBlockNoArg [
+ToTokenPropertyIndex >> changedAction: aBlockNoArg [
 
 	changedAction := aBlockNoArg
 ]
 
 { #category : 'testing' }
-ToStyleStampIndex >> hasProperty: anElementProperty [
+ToTokenPropertyIndex >> hasProperty: anElementProperty [
 
 	" compare property value conversion to string to get a correct result in case of BlockClosure "
 
@@ -50,14 +50,14 @@ ToStyleStampIndex >> hasProperty: anElementProperty [
 ]
 
 { #category : 'initialization' }
-ToStyleStampIndex >> initialize [ 
+ToTokenPropertyIndex >> initialize [ 
 
 	super initialize.
 	changedAction := [  ]
 ]
 
 { #category : 'removing' }
-ToStyleStampIndex >> removeAllProperties [
+ToTokenPropertyIndex >> removeAllProperties [
 
 	index ifEmpty: [ ^ self ].
 	super removeAllProperties.
@@ -65,7 +65,7 @@ ToStyleStampIndex >> removeAllProperties [
 ]
 
 { #category : 'removing' }
-ToStyleStampIndex >> removePropertyNamed: aSymbol [
+ToTokenPropertyIndex >> removePropertyNamed: aSymbol [
 
 	(self hasPropertyNamed: aSymbol) ifFalse: [ ^ self ].
 	super removePropertyNamed: aSymbol.

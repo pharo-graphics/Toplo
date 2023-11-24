@@ -239,7 +239,7 @@ ToSkinManagerTest >> testOnInstalledIn [
 	self assert: e skinManager themeClasses isEmpty.
 	self deny: e skinManager hasPostponedRequestInstallSkin.
 	self assert: e skinInstaller isNil.
-	e toStyleStore readOnlyStampIndex changedAction value.
+	e toStyleStore tokenPropertyIndex changedAction value.
 	self assert: e skinManager hasPostponedRequestInstallSkin.
 	self assert: e skinInstaller isNil
 ]

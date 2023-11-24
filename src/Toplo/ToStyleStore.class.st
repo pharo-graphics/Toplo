@@ -1,80 +1,32 @@
 Class {
 	#name : 'ToStyleStore',
 	#superclass : 'Object',
-	#traits : 'TToReadOnlyPropertyIndexHolder',
-	#classTraits : 'TToReadOnlyPropertyIndexHolder classTrait',
+	#traits : 'TToTokenPropertyIndexHolder',
+	#classTraits : 'TToTokenPropertyIndexHolder classTrait',
 	#instVars : [
-		'stampIndex'
+		'tokenPropertyIndex'
 	],
 	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
 	#tag : 'Core-Theme'
 }
 
-{ #category : 'adding-removing' }
-ToStyleStore >> addStamp: aStyleStamp [
-
-	self addReadOnlyStamp: aStyleStamp
-]
-
-{ #category : 'testing' }
-ToStyleStore >> hasStampNamed: aSymbol [
-
-	^ self readOnlyStampIndex hasPropertyNamed: aSymbol
-]
-
-{ #category : 't - readonly stamp index holder' }
-ToStyleStore >> lookUpStampNamed: aSymbol from: anElement [
-	" look-up following child-parent association 
-	for each element, try first to get the stamp from the local styleStampIndex 
-	"
-
-	anElement withAllParentsDo: [ :p |
-		(p toStyleStore localStampNamed: aSymbol) ifNotNil: [ :t | ^ t ] ].
-	" I'm in the space root. reaching here can mean that the theme is not installed. "
-	anElement space ifNotNil: [ :sp | "reading the space toTheme should install the default raw theme"
-		sp toTheme.
-		" second try "
-		^ self localStampNamed: aSymbol ].
-	" really not found "
-	^ nil
-]
-
-{ #category : 't - readonly stamp index holder' }
-ToStyleStore >> newStampIndex [
-
-	^ ToStyleStampIndex new
-]
-
 { #category : 'api - hooks' }
 ToStyleStore >> onInstalledIn: anElement [
 
-	self readOnlyStampIndex changedAction: [ anElement requestNewSkin ]
+	self tokenPropertyIndex changedAction: [ anElement requestNewSkin ]
 ]
 
-{ #category : 't - readonly stamp index holder' }
-ToStyleStore >> rawReadOnlyStampIndex [
+{ #category : 't - token property index holder' }
+ToStyleStore >> rawTokenPropertyIndex [
 
-	^ stampIndex
+	^ tokenPropertyIndex
 ]
 
-{ #category : 't - readonly stamp index holder' }
-ToStyleStore >> rawReadOnlyStampIndex: aPropertyIndex [
+{ #category : 't - token property index holder' }
+ToStyleStore >> rawTokenPropertyIndex: aPropertyIndex [
 
-	^ stampIndex := aPropertyIndex
-]
-
-{ #category : 'adding-removing' }
-ToStyleStore >> removeStampNamed: aSymbol [
-
-	self readOnlyStampIndex removePropertyNamed: aSymbol
-]
-
-{ #category : 'accessing' }
-ToStyleStore >> stampValue: aSymbol from: anElement [
-
-	(self lookUpStampNamed: aSymbol from: anElement) ifNotNil: [ :s | ^ s value ].
-	(ToElementPropertyNotFound name: aSymbol) signal
+	^ tokenPropertyIndex := aPropertyIndex
 ]
 
 { #category : 'adding-removing' }
@@ -87,17 +39,17 @@ ToStyleStore >> withAllStamps: aCollectionOfSymbol [
 { #category : 'adding-removing' }
 ToStyleStore >> withStamp: anAssociationOrSymbol [
 
-	self addStamp: anAssociationOrSymbol asStyleStamp
+	self addTokenProperty: anAssociationOrSymbol asTokenProperty
 ]
 
 { #category : 'adding-removing' }
 ToStyleStore >> withoutAllStamps [
 
-	self readOnlyStampIndex removeAllProperties
+	self tokenPropertyIndex removeAllProperties
 ]
 
 { #category : 'adding-removing' }
 ToStyleStore >> withoutStamp: aSymbol [
 
-	self removeStampNamed: aSymbol 
+	self removeTokenPropertyNamed: aSymbol 
 ]

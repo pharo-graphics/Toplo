@@ -1,5 +1,9 @@
+"
+terminology : https://design-tokens.github.io/community-group/format/#design-token
+
+"
 Class {
-	#name : 'ToReadOnlyStyleStamp',
+	#name : 'ToTokenProperty',
 	#superclass : 'ToAbstractProperty',
 	#instVars : [
 		'value'
@@ -10,13 +14,13 @@ Class {
 }
 
 { #category : 'accessing' }
-ToReadOnlyStyleStamp class >> name: aSymbol [
+ToTokenProperty class >> name: aSymbol [
 
 	^ self new name: aSymbol asSymbol
 ]
 
 { #category : 'accessing' }
-ToReadOnlyStyleStamp class >> name: aSymbol value: anObject [
+ToTokenProperty class >> name: aSymbol value: anObject [
 
 	^ (self name: aSymbol)
 		  value: anObject;
@@ -24,26 +28,26 @@ ToReadOnlyStyleStamp class >> name: aSymbol value: anObject [
 ]
 
 { #category : 'converting' }
-ToReadOnlyStyleStamp >> asStyleStamp [ 
+ToTokenProperty >> asTokenProperty [ 
 
 	^ self
 ]
 
 { #category : 'operating' }
-ToReadOnlyStyleStamp >> read: anObject [
+ToTokenProperty >> read: anObject [
 
 	self value isClosure ifFalse: [ Error signal ].
 	^ self value value: anObject
 ]
 
 { #category : 'evaluating' }
-ToReadOnlyStyleStamp >> value [
+ToTokenProperty >> value [
 
 	^ value
 ]
 
 { #category : 'accessing' }
-ToReadOnlyStyleStamp >> value: anObject [
+ToTokenProperty >> value: anObject [
 
 	value := anObject
 ]

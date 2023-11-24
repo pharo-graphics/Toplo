@@ -51,7 +51,7 @@ ToStyleStore >> lookUpStampNamed: aSymbol from: anElement [
 	anElement space ifNotNil: [ :sp | "reading the space toTheme should install the default raw theme"
 		sp toTheme.
 		" second try "
-		^ self lookUpStampNamed: aSymbol from: anElement ].
+		^ self localStampNamed: aSymbol ].
 	" really not found "
 	^ nil
 ]

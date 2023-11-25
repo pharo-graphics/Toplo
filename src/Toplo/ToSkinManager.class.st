@@ -61,10 +61,7 @@ ToSkinManager >> defaultSkin: aSkin in: anElement [
 { #category : 'accessing - skin' }
 ToSkinManager >> defaultSkinIn: anElement [
 
-	^ defaultSkin ifNil: [
-		  | th |
-		  th := self lookupThemeFrom: anElement.
-		  th newSkinFor: anElement ]
+	^ defaultSkin ifNil: [ anElement toTheme newSkinFor: anElement ]
 ]
 
 { #category : 'skin application' }
@@ -129,14 +126,6 @@ ToSkinManager >> intrinsicStatesDo: aBlock [
 ToSkinManager >> isSetUpForTheme: aTheme [
 
 	^ self themeClasses includes: aTheme class
-]
-
-{ #category : 'accessing' }
-ToSkinManager >> lookupThemeFrom: anElement [
-
-	anElement isAttachedToSceneGraph ifFalse: [
-		Error signal: 'A not attached element should not ask for its theme' ].
-	^ anElement space toTheme
 ]
 
 { #category : 'skin application' }

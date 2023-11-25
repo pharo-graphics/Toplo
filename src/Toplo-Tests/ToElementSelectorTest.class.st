@@ -15,7 +15,7 @@ ToElementSelectorTest >> testAsStyleSelectorOnArray [
 	| selector  |
 	selector := #(#'small-sizing' #x) asElementSelector.
 	self assert: (selector isKindOf: ToStampSelector).
-	self assert: (selector stampNames includesAll: #(#'small-sizing' #x)).
+	self assert: (selector allStamps includesAll: #(#'small-sizing' #x)).
 
 ]
 
@@ -25,7 +25,7 @@ ToElementSelectorTest >> testAsStyleSelectorOnArray2 [
 	| selector |
 	selector := { 'small-sizing'. 'x' } asElementSelector.
 	self assert: (selector isKindOf: ToStampSelector).
-	self assert: (selector stampNames includesAll: #( #'small-sizing' #x ))
+	self assert: (selector allStamps includesAll: #( #'small-sizing' #x ))
 ]
 
 { #category : 'tests - asToTag' }
@@ -34,7 +34,7 @@ ToElementSelectorTest >> testAsStyleSelectorOnArray3 [
 	| selector |
 	selector := { 'small-sizing'. 'x' } asElementSelector.
 	self assert: (selector isKindOf: ToStampSelector).
-	self assert: (selector stampNames includesAll: #( #'small-sizing' #x ))
+	self assert: (selector allStamps includesAll: #( #'small-sizing' #x ))
 ]
 
 { #category : 'tests - asToTag' }
@@ -50,7 +50,7 @@ ToElementSelectorTest >> testAsStyleSelectorOnSet3 [
 	| selector  |
 	selector := { 'small-sizing'.  'x' } asSet asElementSelector.
 	self assert: (selector isKindOf: ToStampSelector).
-	self assert: (selector stampNames includesAll: #(#'small-sizing' #x)).
+	self assert: (selector allStamps includesAll: #(#'small-sizing' #x)).
 
 ]
 
@@ -60,7 +60,7 @@ ToElementSelectorTest >> testAsStyleSelectorOnString [
 	| selector  |
 	selector := 'small-sizing' asElementSelector.
 	self assert: (selector isKindOf: ToStampSelector).
-	self assert: selector stampNames equals: #(#'small-sizing').
+	self assert: selector allStamps asArray equals: #(#'small-sizing').
 
 ]
 
@@ -70,7 +70,7 @@ ToElementSelectorTest >> testAsStyleSelectorOnSymbol [
 	| selector  |
 	selector := #'small-sizing' asElementSelector.
 	self assert: (selector isKindOf: ToStampSelector).
-	self assert: selector stampNames equals: #(#'small-sizing').
+	self assert: selector allStamps asArray equals: #(#'small-sizing').
 
 ]
 

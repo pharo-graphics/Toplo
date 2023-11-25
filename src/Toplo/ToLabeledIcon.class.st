@@ -62,10 +62,10 @@ ToLabeledIcon >> flexible: aBoolean [
 	self isFlexible = aBoolean ifTrue: [ ^ self ].
 	aBoolean
 		ifTrue: [
-			self withStamp: #flexible -> true.
+			self addStamp: #flexible.
 			self filler matchParent ]
 		ifFalse: [
-			self withStamp: #flexible -> false.
+			self removeStamp: #flexible.
 			self filler fitContent ]
 ]
 

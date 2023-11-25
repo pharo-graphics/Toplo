@@ -51,7 +51,7 @@ ToStyleSheetPrinter >> getSelectorCSS: aToElementSelector hangSelector: aSelecto
 	"Stamp selector => .class"
 	aToElementSelector class = ToStampSelector ifTrue:[
 		aSelector ifNotNil:[ stream space ].
-		aToElementSelector stampNames do:[ :s |
+		aToElementSelector allStamps do:[ :s |
 			stream nextPutAll: '.'; nextPutAll: s asString.	
 		]. 	
 		^ stream contents

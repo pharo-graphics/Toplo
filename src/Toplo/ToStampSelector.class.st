@@ -2,7 +2,7 @@ Class {
 	#name : 'ToStampSelector',
 	#superclass : 'ToSimpleSelector',
 	#instVars : [
-		'stampNames'
+		'stampSet'
 	],
 	#category : 'Toplo-Core-Selector',
 	#package : 'Toplo',
@@ -16,26 +16,26 @@ ToStampSelector >> accept: aVisitor [
 ]
 
 { #category : 'accessing' }
-ToStampSelector >> addAllStampNames: aCollectionOfSymbols [
+ToStampSelector >> addAllStamps: aCollectionOfSymbols [
 
-	stampNames := (stampNames copyWithAll: (aCollectionOfSymbols asArray collect: [ :s | s asSymbol  ])) asSet asArray
+	stampSet addAll: (aCollectionOfSymbols collect: [ :s | s asSymbol ])
 ]
 
 { #category : 'accessing' }
-ToStampSelector >> addStampName: aSymbol [
+ToStampSelector >> addStamp: aSymbol [
 
-	self addAllStampNames: { aSymbol }
+	stampSet add: aSymbol asSymbol
+]
+
+{ #category : 'accessing' }
+ToStampSelector >> allStamps [
+
+	^ stampSet 
 ]
 
 { #category : 'initialization' }
 ToStampSelector >> initialize [ 
 
 	super initialize.
-	stampNames := Array new
-]
-
-{ #category : 'accessing' }
-ToStampSelector >> stampNames [
-
-	^ stampNames
+	stampSet := IdentitySet new
 ]

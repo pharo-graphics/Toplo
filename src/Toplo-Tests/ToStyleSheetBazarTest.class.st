@@ -36,43 +36,43 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 		e textChanged ].
 
 	ss addStyleRule:
-		(((ToStampSelector new addStampName: #'button-label')
+		(((ToStampSelector new addStamp: #'button-label')
 			  parent:
-			  (ToStampSelector new addAllStampNames: #( #button #danger ))
+			  (ToStampSelector new addAllStamps: #( #button #danger ))
 			  depth: 3) style: [ :sr |
-			 sr write: prop with: [ :e | e stampValue: #'color-error' ].
+			 sr write: prop with: [ :e | e tokenValue: #'color-error' ].
 			 sr
 				 when: ToDisabledLookEvent
 				 write: prop
-				 with: [ :e | e stampValue: #'color-text-disabled' ].
+				 with: [ :e | e tokenValue: #'color-text-disabled' ].
 			 sr
 				 when: ToInitialLookEvent
 				 write: prop
-				 with: [ :e | e stampValue: #'color-error' ].
+				 with: [ :e | e tokenValue: #'color-error' ].
 			 sr
 				 when: ToHoveredLookEvent
 				 write: prop
-				 with: [ :e | e stampValue: #'color-error-hover' ].
+				 with: [ :e | e tokenValue: #'color-error-hover' ].
 			 sr
 				 when: ToPressedLookEvent
 				 write: prop
-				 with: [ :e | e stampValue: #'color-error-pressed' ] ]).
+				 with: [ :e | e tokenValue: #'color-error-pressed' ] ]).
 
 	button := ToButton new .
 	space toTheme: ToBeeLightTheme new.
 	space root addChild: button.
 	button styleSheet: ss.
 	label := (ToLabel text: 'Default') defaultSkin: nil.
-	label withStamp: #'button-label'.
+	label addStamp: #'button-label'.
 	button label: label.
 	labelSkin := ToBeeSkin new.
-	self assert: (button hasTokenPropertyNamed: #danger) not.
-	self assert: (button label hasTokenPropertyNamed: #'button-label').
+	self assert: (button hasStamp: #danger) not.
+	self assert: (button label hasStamp: #'button-label').
 	writers := ssi applicableWritersFor: button label.
 	" writers should be empty since the label rule expect the button 
 	to be of class #danger and the label to be with style class #'button-label'"
 	self assert: writers isEmpty.
-	button withAllStamps: #( #button #danger ).
+	button addAllStamps: #( #button #danger ).
 	writers := ssi applicableWritersFor: button label.
 	self assert: writers size equals: 5.
 
@@ -90,13 +90,13 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 				                  'should have a foreground attribute (toTheme colorError)' ].
 	self
 		assert: foregroundAttr paint
-		equals: (button stampValue: #'color-error')
+		equals: (button tokenValue: #'color-error')
 ]
 
 { #category : 'tests' }
 ToStyleSheetBazarTest >> testButtonSkin0 [
 
-	| ss button skin labelSkin attributes foregroundAttr writers label ssi |
+	| ss button skin labelSkin attributes foregroundAttr writers label ssi nb |
 	ss := ToStyleSheet new
 		      inherits: false;
 		      yourself.
@@ -104,14 +104,14 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 
 	" default button rule "
 	ss addStyleRule:
-		((ToStampSelector new addStampName: #button) style: [ :sr |
+		((ToStampSelector new addStamp: #button) style: [ :sr |
 			 | p |
 			 p := ToFeatureProperty new name: #background.
 
 			 sr
 				 when: ToDisabledLookEvent
 				 write: p
-				 with: [ :e | e stampValue: #'color-bg-container-disabled' ].
+				 with: [ :e | e tokenValue: #'color-bg-container-disabled' ].
 			 sr
 				 when: ToInitialLookEvent
 				 write: p
@@ -122,25 +122,25 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 			 sr
 				 when: ToDisabledLookEvent
 				 write: p
-				 with: [ :e | e stampValue: #'color-border-disabled' ].
+				 with: [ :e | e tokenValue: #'color-border-disabled' ].
 			 sr
 				 when: ToInitialLookEvent
 				 write: p
-				 with: [ :e | e stampValue: #'color-border' ].
+				 with: [ :e | e tokenValue: #'color-border' ].
 			 sr
 				 when: ToHoveredLookEvent
 				 write: p
-				 with: [ :e | e stampValue: #'color-primary-hover' ].
+				 with: [ :e | e tokenValue: #'color-primary-hover' ].
 			 sr
 				 when: ToPressedLookEvent
 				 write: p
-				 with: [ :e | e stampValue: #'color-primary-pressed' ] ]).
+				 with: [ :e | e tokenValue: #'color-primary-pressed' ] ]).
 
 	" danger button label rule "
 	ss addStyleRule:
-		(((ToStampSelector new addStampName: #'button-label')
+		(((ToStampSelector new addStamp: #'button-label')
 			  parent:
-			  (ToStampSelector new addAllStampNames: #( #button #danger ))
+			  (ToStampSelector new addAllStamps: #( #button #danger ))
 			  depth: 3) style: [ :sr |
 			 | p |
 			 p := ToPseudoProperty new name: #'text-attributes'.
@@ -152,25 +152,25 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 			 sr
 				 when: ToDisabledLookEvent
 				 write: p
-				 with: [ :e | e stampValue: #'color-text-disabled' ].
+				 with: [ :e | e tokenValue: #'color-text-disabled' ].
 			 sr
 				 when: ToInitialLookEvent
 				 write: p
-				 with: [ :e | e stampValue: #'color-error' ].
+				 with: [ :e | e tokenValue: #'color-error' ].
 			 sr
 				 when: ToHoveredLookEvent
 				 write: p
-				 with: [ :e | e stampValue: #'color-error-hover' ].
+				 with: [ :e | e tokenValue: #'color-error-hover' ].
 			 sr
 				 when: ToPressedLookEvent
 				 write: p
-				 with: [ :e | e stampValue: #'color-error-pressed' ] ]).
+				 with: [ :e | e tokenValue: #'color-error-pressed' ] ]).
 
 
 	button := ToButton new.
 	space toTheme: ToBeeLightTheme new.
 	space root addChild: button.
-	button withStamp: #button.
+	button addStamp: #button.
 	button styleSheet: ss.
 	writers := ssi applicableWritersFor: button.
 	self assert: writers size equals: 6.
@@ -185,21 +185,22 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 	self assert: button border paint isColorPaint.
 	self
 		assert: button border paint color
-		equals: (button stampValue: #'color-border').
+		equals: (button tokenValue: #'color-border').
 
 	label := ToLabel text: 'Default'.
 	label defaultSkin: nil.
 	button label: label.
 	labelSkin := ToStyleSheetSkin new.
 	writers := ssi applicableWritersFor: button label.
-	self assert: writers isEmpty.
-	button label withStamp: #'button-label'.
+	nb := writers size.
+	self assert: nb = 0.
+	button label addStamp: #'button-label'.
 	writers := ssi applicableWritersFor: button label.
 	" should be empty since the label rule expect the button to be of class #danger "
-	self assert: writers isEmpty.
-	button withAllStamps: #( #button #danger ).
+	self assert: writers size equals: nb.
+	button addAllStamps: #( #button #danger ).
 	writers := ssi applicableWritersFor: button label.
-	self assert: writers size equals: 4.
+	self assert: writers size equals: nb + 4.
 
 	labelSkin propertyWriters: writers.
 	label defaultSkin: labelSkin.
@@ -215,7 +216,7 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 				                  'should have a foreground attribute (toTheme colorError)' ].
 	self
 		assert: foregroundAttr paint
-		equals: (button label stampValue: #'color-error')
+		equals: (button label tokenValue: #'color-error')
 ]
 
 { #category : 'tests' }
@@ -231,8 +232,8 @@ ToStyleSheetBazarTest >> testButtonSkinWithInterspace [
 	layoutProp := ToFeatureProperty name: #layout.
 	
 	ss := ToStyleSheet new inherits: false; yourself.
-	ss addStyleRule: (((ToStampSelector new addStampName: #button) 
-				or: (ToStampSelector new addAllStampNames: #( #button #horizontal )))
+	ss addStyleRule: (((ToStampSelector new addStamp: #button) 
+				or: (ToStampSelector new addAllStamps: #( #button #horizontal )))
 			 style: [ :sr |
 				 sr
 					 write: layoutProp
@@ -244,7 +245,7 @@ ToStyleSheetBazarTest >> testButtonSkinWithInterspace [
 	elem styleSheet: ss.
 	writers := ssi applicableWritersFor: elem.
 	self assert: writers size equals: 0.
-	elem withStamp: #button.
+	elem addStamp: #button.
 	writers := ssi applicableWritersFor: elem.
 	self assert: writers size equals: 2.
 	skin := ToStyleSheetSkin new.
@@ -274,7 +275,7 @@ ToStyleSheetBazarTest >> testNewStyleSheetWith2Rules [
 	space root addChild: elem.
 	elem styleSheet: styleSheet.
 	styleSheet addAllStyleRules: {
-			((ToStampSelector new addStampName: #button)
+			((ToStampSelector new addStamp: #button)
 				 style: [ :sr |
 					 sr
 						 write: (styleSheet writablePropertyNamed: #background)
@@ -286,7 +287,7 @@ ToStyleSheetBazarTest >> testNewStyleSheetWith2Rules [
 				background: blue;
 				border: red;
 			}"
-			((ToStampSelector new addStampName: #button)
+			((ToStampSelector new addStamp: #button)
 				 style: [ :sr |
 					 sr
 						 write: (styleSheet writablePropertyNamed: #background)
@@ -333,14 +334,14 @@ ToStyleSheetBazarTest >> testSkinWithChildRule [
 	ss := ToStyleSheet new inherits: false; yourself.
 	ssi := ToStyleSheetTheme new.
 	ss addStyleRule: (((ToIdSelector new id: #child) parent:
-					  (ToStampSelector new addStampName: #parent))
+					  (ToStampSelector new addStamp: #parent))
 			 style: [ :sr |
 				 sr
 					 when: ToInstallLookEvent
 					 write: (ToFeatureProperty new name: #border)
 					 with: (BlBorder paint: Color red width: 3) ]).
 
-	parent := ToElement new withStamp: #parent.
+	parent := ToElement new addStamp: #parent.
 	space root addChild: parent.
 	parent styleSheet: ss.
 	child := ToElement new id: #child.
@@ -371,7 +372,7 @@ ToStyleSheetBazarTest >> testSkinWithChildRuleLevel2 [
 	ss := ToStyleSheet new inherits: false; yourself.
 	ssi := ToStyleSheetTheme new.
 	ss addStyleRule: (((ToIdSelector new id: #child)
-					  parent: (ToStampSelector new addStampName: #parent)
+					  parent: (ToStampSelector new addStamp: #parent)
 					  depth: 2)
 			 style: [ :sr |
 				 sr
@@ -379,7 +380,7 @@ ToStyleSheetBazarTest >> testSkinWithChildRuleLevel2 [
 					 write: (ToFeatureProperty new name: #border)
 					 with: (BlBorder paint: Color red width: 3) ]).
 
-	parent := ToElement new withStamp: #parent.
+	parent := ToElement new addStamp: #parent.
 	space root addChild: parent.
 	parent styleSheet: ss.
 	subParent := ToElement new.
@@ -453,10 +454,10 @@ ToStyleSheetBazarTest >> testStyleSheetStyle0 [
 		          sr
 			          when: ToDisabledLookEvent
 			          write: (ss property: #background)
-			          with: [ :e | e stampValue: #'color-bg-container-disabled' ] ]) }.
+			          with: [ :e | e tokenValue: #'color-bg-container-disabled' ] ]) }.
 
 	ss addAllStyleRules: rules.
-	button withStamp: #button.
+	button addStamp: #button.
 	space root addChild: button.
 	writers := ssi applicableWritersFor: button.
 	self assert: writers size equals: 3.
@@ -500,7 +501,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 			          with: [ :e | Color lightGray ] ]) }.
 
 	ss addAllStyleRules: rules.
-	button withStamp: #button.
+	button addStamp: #button.
 	writers := ssi applicableWritersFor: button.
 	self assert: writers size equals: 3.
 	skin := ToStyleSheetSkin new.
@@ -511,7 +512,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color black.
 
-	button withStamp: #danger.
+	button addStamp: #danger.
 	writers := ssi applicableWritersFor: button.
 	skin := ToStyleSheetSkin new.
 	skin propertyWriters: writers.
@@ -539,12 +540,12 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules1 [
 		      yourself.
 	ssi := ToStyleSheetTheme new.
 
-	elem := ToElement new withStamp: #elem.
+	elem := ToElement new addStamp: #elem.
 	space root addChild: elem.
 
-	child := ToElement new withStamp: #child.
-	childchild1 := ToElement new withStamp: #childchild1.
-	childchild2 := ToElement new withStamp: #childchild2.
+	child := ToElement new addStamp: #child.
+	childchild1 := ToElement new addStamp: #childchild1.
+	childchild2 := ToElement new addStamp: #childchild2.
 
 	child styleSheet: ss.
 	" default button rule "
@@ -587,12 +588,12 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules2 [
 	ssi := ToStyleSheetTheme new.
 
 
-	elem := ToElement new withStamp: #elem.
+	elem := ToElement new addStamp: #elem.
 	space root addChild: elem.
 
-	child := ToElement new withStamp: #child.
-	childchild1 := ToElement new withStamp: #childchild1.
-	childchild2 := ToElement new withStamp: #childchild2.
+	child := ToElement new addStamp: #child.
+	childchild1 := ToElement new addStamp: #childchild1.
+	childchild2 := ToElement new addStamp: #childchild2.
 
 	elem styleSheet: ss.
 	elem addChild: child.
@@ -636,12 +637,12 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules22 [
 		      yourself.
 	ssi := ToStyleSheetTheme new.
 
-	elem := ToElement new withAllStamps: #( elem #red ).
+	elem := ToElement new addAllStamps: #( elem #red ).
 	space root addChild: elem.
 
-	child := ToElement new withStamp: #child.
-	childchild1 := ToElement new withStamp: #childchild1.
-	childchild2 := ToElement new withStamp: #childchild2.
+	child := ToElement new addStamp: #child.
+	childchild1 := ToElement new addStamp: #childchild1.
+	childchild2 := ToElement new addStamp: #childchild2.
 
 	elem styleSheet: ss.
 	elem addChild: child.
@@ -688,12 +689,12 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules3 [
 	ssi := ToStyleSheetTheme new.
 
 
-	elem := ToElement new withAllStamps: #( elem #red ).
+	elem := ToElement new addAllStamps: #( elem #red ).
 	space root addChild: elem.
 
-	child := ToElement new withStamp: #child.
-	childchild1 := ToElement new withStamp: #childchild1.
-	childchild2 := ToElement new withStamp: #childchild2.
+	child := ToElement new addStamp: #child.
+	childchild1 := ToElement new addStamp: #childchild1.
+	childchild2 := ToElement new addStamp: #childchild2.
 
 	elem styleSheet: ss.
 	elem addChild: child.
@@ -740,12 +741,12 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules32 [
 	ssi := ToStyleSheetTheme new.
 
 
-	elem := ToElement new withAllStamps: #( elem #red ).
+	elem := ToElement new addAllStamps: #( elem #red ).
 	space root addChild: elem.
 
-	child := ToElement new withStamp: #child.
-	childchild1 := ToElement new withStamp: #childchild1.
-	childchild2 := ToElement new withStamp: #childchild2.
+	child := ToElement new addStamp: #child.
+	childchild1 := ToElement new addStamp: #childchild1.
+	childchild2 := ToElement new addStamp: #childchild2.
 
 	elem styleSheet: ss.
 	elem addChild: child.
@@ -798,12 +799,12 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules33 [
 	ssi := ToStyleSheetTheme new.
 
 
-	elem := ToElement new withAllStamps: #( elem #red ).
+	elem := ToElement new addAllStamps: #( elem #red ).
 	space root addChild: elem.
 
-	child := ToElement new withStamp: #child.
-	childchild1 := ToElement new withStamp: #childchild1.
-	childchild2 := ToElement new withStamp: #childchild2.
+	child := ToElement new addStamp: #child.
+	childchild1 := ToElement new addStamp: #childchild1.
+	childchild2 := ToElement new addStamp: #childchild2.
 
 	elem styleSheet: ss.
 	elem addChild: child.
@@ -847,12 +848,12 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules1 [
 	ssi := ToStyleSheetTheme new.
 
 
-	elem := ToElement new withStamp: #elem.
+	elem := ToElement new addStamp: #elem.
 	space root addChild: elem.
 
-	child := ToElement new withStamp: #child.
-	childchild1 := ToElement new withStamp: #childchild1.
-	childchild2 := ToElement new withStamp: #childchild2.
+	child := ToElement new addStamp: #child.
+	childchild1 := ToElement new addStamp: #childchild1.
+	childchild2 := ToElement new addStamp: #childchild2.
 
 	elem styleSheet: ss.
 	elem addChild: child.
@@ -888,12 +889,12 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules2 [
 	ssi := ToStyleSheetTheme new.
 
 
-	elem := ToElement new withStamp: #elem.
+	elem := ToElement new addStamp: #elem.
 	space root addChild: elem.
 
-	child := ToElement new withStamp: #child.
-	childchild1 := ToElement new withStamp: #childchild1.
-	childchild2 := ToElement new withStamp: #childchild2.
+	child := ToElement new addStamp: #child.
+	childchild1 := ToElement new addStamp: #childchild1.
+	childchild2 := ToElement new addStamp: #childchild2.
 
 	elem styleSheet: ss.
 	elem addChild: child.
@@ -930,12 +931,12 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules3 [
 	ssi := ToStyleSheetTheme new.
 
 
-	elem := ToElement new withAllStamps: #( elem #red ).
+	elem := ToElement new addAllStamps: #( elem #red ).
 	space root addChild: elem.
 
-	child := ToElement new withStamp: #child.
-	childchild1 := ToElement new withStamp: #childchild1.
-	childchild2 := ToElement new withStamp: #childchild2.
+	child := ToElement new addStamp: #child.
+	childchild1 := ToElement new addStamp: #childchild1.
+	childchild2 := ToElement new addStamp: #childchild2.
 
 	elem styleSheet: ss.
 	elem addChild: child.
@@ -974,12 +975,12 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 		      yourself.
 	ssi := ToStyleSheetTheme new.
 
-	elem := ToElement new withAllStamps: #( #elem #red ).
+	elem := ToElement new addAllStamps: #( #elem #red ).
 	space root addChild: elem.
 
-	child := ToElement new withStamp: #child.
-	childchild1 := ToElement new withStamp: #childchild1.
-	childchild2 := ToElement new withStamp: #childchild2.
+	child := ToElement new addStamp: #child.
+	childchild1 := ToElement new addStamp: #childchild1.
+	childchild2 := ToElement new addStamp: #childchild2.
 
 	elem styleSheet: ss.
 	elem addChild: child.
@@ -1015,8 +1016,8 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red.
 	
-	elem withAllStamps: #( #elem #blue ).
-	elem withoutStamp: #red.
+	elem addAllStamps: #( #elem #blue ).
+	elem resmoveStamp: #red.
 	writers := ssi applicableWritersFor: child.
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.

@@ -65,7 +65,7 @@ ToComboBoxHead >> initialize [
 	image constraintsDo: [ :c | c linear vertical alignCenter ].
 	button := ToButton new.
 	button icon: image.
-	button withStamp: #'small-sizing'.
+	button addStamp: #'small-sizing'.
 
 	self addChild: innerElement.
 	self addChild: button after: innerElement.

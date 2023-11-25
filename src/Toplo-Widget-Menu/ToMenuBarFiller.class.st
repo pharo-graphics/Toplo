@@ -1,10 +1,12 @@
 Class {
-	#name : #ToMenuBarFiller,
-	#superclass : #ToElement,
-	#category : 'Toplo-Widget-Menu-Bar'
+	#name : 'ToMenuBarFiller',
+	#superclass : 'ToElement',
+	#category : 'Toplo-Widget-Menu-Bar',
+	#package : 'Toplo-Widget-Menu',
+	#tag : 'Bar'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToMenuBarFiller >> initialize [
 
 	super initialize.

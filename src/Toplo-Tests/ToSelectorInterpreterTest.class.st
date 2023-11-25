@@ -33,13 +33,13 @@ ToSelectorInterpreterTest >> testChildMixedWithParentSelector [
 		                        buttonSelector.
 
 	button := ToElement new.
-	button withAllStamps: #( #button ).
+	button addAllStamps: #( #button ).
 	innerElement := ToElement new.
-	innerElement withStamp: #'inner-element'.
+	innerElement addStamp: #'inner-element'.
 	icon := ToElement new.
-	icon withStamp: #'button-icon'.
+	icon addStamp: #'button-icon'.
 	label := ToElement new.
-	label withStamp: #'button-label'.
+	label addStamp: #'button-label'.
 
 	button addChild: innerElement.
 	innerElement addChild: icon.
@@ -120,14 +120,14 @@ ToSelectorInterpreterTest >> testChildSelectorWithDepth [
 ToSelectorInterpreterTest >> testChildSelectorWithTwoChildrenDepth1 [
 
 	| button icon label engine buttonSelector |
-	buttonSelector := ((ToStampSelector new addStampName: #button) child: #'button-label' ).
+	buttonSelector := ((ToStampSelector new addStamp: #button) child: #'button-label' ).
 
 	button := ToElement new.
-	button withAllStamps: #( #button ).
+	button addAllStamps: #( #button ).
 	icon := ToElement new.
-	icon withStamp: #'button-icon'.
+	icon addStamp: #'button-icon'.
 	label := ToElement new.
-	label withStamp: #'button-label'.
+	label addStamp: #'button-label'.
 
 	button addChild: icon.
 	button addChild: label.
@@ -143,16 +143,16 @@ ToSelectorInterpreterTest >> testChildSelectorWithTwoChildrenDepth1 [
 ToSelectorInterpreterTest >> testChildSelectorWithTwoChildrenWithTwoChildSelectorsDepth2 [
 
 	| button innerElement icon label engine buttonSelector |
-	buttonSelector := ((ToStampSelector new addStampName: #button) child: #'button-label' depth: 2) child: #'button-icon' depth: 2.
+	buttonSelector := ((ToStampSelector new addStamp: #button) child: #'button-label' depth: 2) child: #'button-icon' depth: 2.
 
 	button := ToElement new id: #button.
-	button withAllStamps: #( #button ).
+	button addAllStamps: #( #button ).
 	innerElement := ToElement new id: #innerElement.
-	innerElement withStamp: #'inner-element'.
+	innerElement addStamp: #'inner-element'.
 	icon := ToElement new id: #icon.
-	icon withStamp: #'button-icon'.
+	icon addStamp: #'button-icon'.
 	label := ToElement new id: #label.
-	label withStamp: #'button-label'.
+	label addStamp: #'button-label'.
 
 	button addChild: innerElement.
 	innerElement addChild: icon.
@@ -201,7 +201,7 @@ ToSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass1 [
 
 	| selector e engine |
 	selector := ToStampSelector new.
-	e := ToElement new withStamp: #a.
+	e := ToElement new addStamp: #a.
 	engine := ToSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result 
@@ -213,8 +213,8 @@ ToSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass2 [
 	" element with a class, selector with the same class "
 
 	| selector e engine |
-	selector := ToStampSelector new addStampName: #a.
-	e := ToElement new withStamp: #a.
+	selector := ToStampSelector new addStamp: #a.
+	e := ToElement new addStamp: #a.
 	engine := ToSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result 
@@ -226,13 +226,13 @@ ToSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass3 [
 	" element with a class, selector with the a different class "
 
 	| selector e engine |
-	selector := ToStampSelector new addStampName: #b.
-	e := ToElement new withStamp: #a.
+	selector := ToStampSelector new addStamp: #b.
+	e := ToElement new addStamp: #a.
 	engine := ToSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result not.
-	selector := ToStampSelector new addStampName: #b.
-	e := ToElement new withStamp: #a.
+	selector := ToStampSelector new addStamp: #b.
+	e := ToElement new addStamp: #a.
 	self assert: engine result not.
 
 
@@ -243,16 +243,16 @@ ToSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass4 [
 	" element with multiple classes "
 
 	| selector e engine |
-	selector := ToStampSelector new addStampName: #a.
-	e := ToElement new withStamp: #a.
+	selector := ToStampSelector new addStamp: #a.
+	e := ToElement new addStamp: #a.
 	engine := ToSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result.
-	e withStamp: #c.
+	e addStamp: #c.
 	self assert: engine result.
 	engine check: selector on: e.
 	self assert: engine result.
-	e withStamp: #b.
+	e addStamp: #b.
 	engine check: selector on: e.
 	self assert: engine result
 ]
@@ -332,14 +332,14 @@ ToSelectorInterpreterTest >> testRuleWithAndSelector [
 	" a rule with an And operator  "
 
 	| selector e engine |
-	selector := (ToStampSelector new addAllStampNames: #( #button ))
-	            + (ToStampSelector new addAllStampNames: #( #danger )).
+	selector := (ToStampSelector new addAllStamps: #( #button ))
+	            + (ToStampSelector new addAllStamps: #( #danger )).
 
-	e := ToElement new withStamp: #button.
+	e := ToElement new addStamp: #button.
 	engine := ToSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result not.
-	e withStamp: #danger.
+	e addStamp: #danger.
 	" ko since no child "
 	engine check: selector on: e.
 	self assert: engine result.
@@ -354,11 +354,11 @@ ToSelectorInterpreterTest >> testRuleWithAndSiblingSelector [
 	" a rule with an And operator  "
 
 	| selector engine parent child sibling |
-	selector := (ToStampSelector new addStampName: #child ) sibling: #sibling.
+	selector := (ToStampSelector new addStamp: #child ) sibling: #sibling.
 
 	parent := ToElement new.
-	child := ToElement new withStamp: #child.
-	sibling := ToElement new withStamp: #sibling.
+	child := ToElement new addStamp: #child.
+	sibling := ToElement new addStamp: #sibling.
 	parent addChild: child.
 	parent addChild: sibling.
 	engine := ToSelectorInterpreter new.
@@ -371,18 +371,18 @@ ToSelectorInterpreterTest >> testRuleWithAndSiblingSelector2 [
 	" a rule with an And operator  "
 
 	| selector engine parent child sibling |
-	selector := ((ToStampSelector new addStampName: #child ) parent: #( #parent )) sibling: #sibling.
+	selector := ((ToStampSelector new addStamp: #child ) parent: #( #parent )) sibling: #sibling.
 
 	parent := ToElement new .
-	child := ToElement new withStamp: #child.
-	sibling := ToElement new withStamp: #sibling.
+	child := ToElement new addStamp: #child.
+	sibling := ToElement new addStamp: #sibling.
 	parent addChild: child.
 	parent addChild: sibling.
 	engine := ToSelectorInterpreter new.
 	engine check: selector on: child.
 	" result false since parent do not have #parent tag "
 	self assert: engine result not.
-	parent withStamp: #parent.
+	parent addStamp: #parent.
 	" should be ok now "
 	engine check: selector on: child.
 	self assert: engine result.
@@ -394,18 +394,18 @@ ToSelectorInterpreterTest >> testRuleWithAndSiblingSelector3 [
 	" a rule with an And operator  "
 
 	| selector engine parent child sibling |
-	selector := ((ToStampSelector new addStampName: #child ) parent: #( #parent )) sibling: #sibling.
+	selector := ((ToStampSelector new addStamp: #child ) parent: #( #parent )) sibling: #sibling.
 
 	parent := ToElement new .
-	child := ToElement new withStamp: #child.
-	sibling := ToElement new withAllStamps: #(#image #sibling).
+	child := ToElement new addStamp: #child.
+	sibling := ToElement new addAllStamps: #(#image #sibling).
 	parent addChild: child.
 	parent addChild: sibling.
 	engine := ToSelectorInterpreter new.
 	engine check: selector on: child.
 	" result false since parent do not have #parent tag "
 	self assert: engine result not.
-	parent withStamp: #parent.
+	parent addStamp: #parent.
 	" should be ok now "
 	engine check: selector on: child.
 	self assert: engine result.
@@ -417,17 +417,17 @@ ToSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector [
 	" a rule with an And operator  "
 
 	| selector engine parent child sibling1 sibling2 |
-	selector := (((ToStampSelector new addStampName: #child ) parent: #( #parent )) sibling: #'image-sibling') sibling: #'label-sibling'.
+	selector := (((ToStampSelector new addStamp: #child ) parent: #( #parent )) sibling: #'image-sibling') sibling: #'label-sibling'.
 
 	parent := ToElement new .
-	child := ToElement new withStamp: #child.
-	sibling1 := ToElement new withAllStamps: #(#image #'image-sibling').
-	sibling2 := ToElement new withAllStamps: #(#label #'label-sibling').
+	child := ToElement new addStamp: #child.
+	sibling1 := ToElement new addAllStamps: #(#image #'image-sibling').
+	sibling2 := ToElement new addAllStamps: #(#label #'label-sibling').
 	parent addChild: sibling1.
 	parent addChild: child.
 	parent addChild: sibling2.
 	
-	parent withStamp: #parent.
+	parent addStamp: #parent.
 	
 	engine := ToSelectorInterpreter new.
 	engine check: selector on: child.
@@ -440,19 +440,19 @@ ToSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector2 [
 	" a rule with an And operator  "
 
 	| selector engine parent child sibling1 sibling2 |
-	selector := (((ToStampSelector new addStampName: #child) parent:
+	selector := (((ToStampSelector new addStamp: #child) parent:
 		              #( #parent )) sibling: #( #image #'image-sibling' ))
 		            sibling: #( #label #'label-sibling' ).
 
 	parent := ToElement new.
-	child := ToElement new withStamp: #child.
-	sibling1 := ToElement new withAllStamps: #( #image #'image-sibling' ).
-	sibling2 := ToElement new withAllStamps: #( #label #'label-sibling' ).
+	child := ToElement new addStamp: #child.
+	sibling1 := ToElement new addAllStamps: #( #image #'image-sibling' ).
+	sibling2 := ToElement new addAllStamps: #( #label #'label-sibling' ).
 	parent addChild: sibling1.
 	parent addChild: child.
 	parent addChild: sibling2.
 
-	parent withStamp: #parent.
+	parent addStamp: #parent.
 
 	engine := ToSelectorInterpreter new.
 	engine check: selector on: child.
@@ -464,22 +464,22 @@ ToSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector3 [
 	" a rule with an And operator  "
 
 	| selector engine parent inner child sibling1 sibling2 |
-	selector := (((ToStampSelector new addStampName: #child) 
+	selector := (((ToStampSelector new addStamp: #child) 
 						parent: #( #parent ) depth: 2) 
 							sibling: #( #image #'image-sibling' ))
 		     			       sibling: #( #label #'label-sibling' ).
 
 	parent := ToElement new.
 	inner := ToElement new.
-	child := ToElement new withStamp: #child.
-	sibling1 := ToElement new withAllStamps: #( #image #'image-sibling' ).
-	sibling2 := ToElement new withAllStamps: #( #label #'label-sibling' ).
+	child := ToElement new addStamp: #child.
+	sibling1 := ToElement new addAllStamps: #( #image #'image-sibling' ).
+	sibling2 := ToElement new addAllStamps: #( #label #'label-sibling' ).
 	parent addChild: inner.
 	inner addChild: sibling1.
 	inner addChild: child.
 	inner addChild: sibling2.
 
-	parent withStamp: #parent.
+	parent addStamp: #parent.
 
 	engine := ToSelectorInterpreter new.
 	engine check: selector on: child.
@@ -491,21 +491,21 @@ ToSelectorInterpreterTest >> testRuleWithAndWithParentSelector [
 	" a rule with an And operator  "
 
 	| selector e engine child |
-	selector := (ToStampSelector new addStampName: #'button-label')
+	selector := (ToStampSelector new addStamp: #'button-label')
 		            parent:
-			            (ToStampSelector new addStampName: #button)
-			            + (ToStampSelector new addStampName: #danger )
+			            (ToStampSelector new addStamp: #button)
+			            + (ToStampSelector new addStamp: #danger )
 		            depth: 1.
 
-	e := ToElement new withStamp: #button.
+	e := ToElement new addStamp: #button.
 	engine := ToSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result not.
-	e withStamp: #danger.
+	e addStamp: #danger.
 	" ko since no child "
 	engine check: selector on: e.
 	self assert: engine result not.
-	e addChild: (child := ToElement new withStamp: #'button-label').
+	e addChild: (child := ToElement new addStamp: #'button-label').
 	" ko since no child "
 	engine check: selector on: e.
 	self assert: engine result not.
@@ -519,18 +519,18 @@ ToSelectorInterpreterTest >> testRuleWithOrSelector [
 	" a rule with an And operator  "
 
 	| selector e engine |
-	selector := (ToStampSelector new addStampName: #button)
-		            or: (ToStampSelector new addAllStampNames: #( #button #horizontal )).
+	selector := (ToStampSelector new addStamp: #button)
+		            or: (ToStampSelector new addAllStamps: #( #button #horizontal )).
 
-	e := ToElement new withStamp: #button.
+	e := ToElement new addStamp: #button.
 	engine := ToSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result.
-	e withStamp: #horizontal.
+	e addStamp: #horizontal.
 	engine check: selector on: e.
 	self assert: engine result.
-	e withoutAllStamps.
-	e withAllStamps: { #blob }.
+	e removeAllStamps.
+	e addAllStamps: { #blob }.
 	engine check: selector on: e.
 	self assert: engine result not
 ]
@@ -540,23 +540,23 @@ ToSelectorInterpreterTest >> testRuleWithOrWithParentSelector [
 	" a rule with an Or operator with a child selector  "
 
 	| selector e engine child |
-	selector := (ToStampSelector new addStampName: #'inner-element')
-		            parent: ((ToStampSelector new addAllStampNames:
+	selector := (ToStampSelector new addStamp: #'inner-element')
+		            parent: ((ToStampSelector new addAllStamps:
 				              #( #button #horizontal #justified )) or:
-				             (ToStampSelector new addAllStampNames:
+				             (ToStampSelector new addAllStamps:
 					              #( #button #justified )))
 		            depth: 1.
 
-	e := ToElement new withStamp: #button.
+	e := ToElement new addStamp: #button.
 	engine := ToSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result not.
 
-	e addChild: (child := ToElement new withStamp: #'inner-element').
+	e addChild: (child := ToElement new addStamp: #'inner-element').
 	engine check: selector on: child.
 	self assert: engine result not.
 
-	e withStamp: #justified.
+	e addStamp: #justified.
 	engine check: selector on: child.
 	self assert: engine result
 ]
@@ -645,9 +645,9 @@ ToSelectorInterpreterTest >> testUniversalSelector [
 ToSelectorInterpreterTest >> testUniversalSelectorWithParent [
 
 	| selector button engine chilLevel3 |	
-	selector := ToUniversalSelector new parent: (ToStampSelector new addAllStampNames: #( #button #circle ) ) depth: 2.	
+	selector := ToUniversalSelector new parent: (ToStampSelector new addAllStamps: #( #button #circle ) ) depth: 2.	
 	button := ToElement new id: #button.
-	button withAllStamps: #(#button #circle).
+	button addAllStamps: #(#button #circle).
 	button addChild: (ToElement new  id: #inner).
 	button firstChild addChild: (chilLevel3 := ToElement new).
 	chilLevel3 id: #childLevel3.

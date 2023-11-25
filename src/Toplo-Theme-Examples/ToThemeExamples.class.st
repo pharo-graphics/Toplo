@@ -1,6 +1,9 @@
 Class {
 	#name : 'ToThemeExamples',
 	#superclass : 'Object',
+	#classInstVars : [
+		'primaryButton1'
+	],
 	#category : 'Toplo-Theme-Examples',
 	#package : 'Toplo-Theme-Examples'
 }
@@ -43,7 +46,7 @@ ToThemeExamples class >> displaySpaceStyleSheet: aSpace [
 	stream := ReadWriteStream on: String new.
 
 	"Build the style sheet detail"
-	aSpace root toStyleStore styleSheet
+	aSpace root skinManager styleSheet
 		ifNil: [
 		stream nextPutAll: 'This theme is not based on style sheets.' ]
 		ifNotNil: [ :sheet |
@@ -93,7 +96,7 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	"primaryButton1 withStamp: #primary."
 	"darkStyleSheet := ToBeeStyleSheet new."
 	primaryButton2 := (ToButton id: #buttonA) labelText: 'Default Button Dark Bee'.
-	primaryButton2 tokenProperties: ToBeeDarkTheme defaultTokenPropertyList.
+	primaryButton2 addAllTokenProperties: ToBeeDarkTheme defaultTokenProperties.
 	"primaryButton2 withStamp: #primary."
 	pane addChild: primaryButton1.
 	pane addChild: primaryButton2.
@@ -104,56 +107,87 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 { #category : 'examples - buttons' }
 ToThemeExamples class >> example_buttons [
 
-	| space primaryButton defaultButton box dashedButton textButton linkButton line1 line2 |
+	| space defaultButton box dashedButton textButton linkButton line1 line2 primaryButton |
 	ToTheme cleanUp.
 	space := self openThemeExampleSpace.
 	box := self elementSandBoxFor: space.
-	
-	line1 := BlElement new layout: (BlLinearLayout horizontal cellSpacing: 5); padding: (BlInsets all: 5); constraintsDo: [ :c |
-			c vertical fitContent.
-			c horizontal fitContent ].
+
+	line1 := BlElement new
+		         layout: (BlLinearLayout horizontal cellSpacing: 5);
+		         padding: (BlInsets all: 5);
+		         constraintsDo: [ :c |
+			         c vertical fitContent.
+			         c horizontal fitContent ].
 	box addChild: line1.
 
 	"Create some buttons with available skins"
-	primaryButton := (ToButton id: #buttonA) labelText: 'Primary Button'; tooltipText: 'I''m a button'.
-	primaryButton withStamp: #primary.
-	line1 addChild: primaryButton.
+	primaryButton1 := (ToButton id: #buttonA)
+		                 labelText: 'Primary Button';
+		                 tooltipText: 'I''m a button'.
+	primaryButton1 addStamp: #primary.
+	line1 addChild: primaryButton1.
 
-	defaultButton := (ToButton id: #buttonB) labelText: 'Default Button'; tooltipText: 'I''m a button'.
+	defaultButton := (ToButton id: #buttonB)
+		                 labelText: 'Default Button';
+		                 tooltipText: 'I''m a button'.
 	line1 addChild: defaultButton.
 
-	dashedButton := (ToButton id: #buttonC) labelText: 'Dashed Button'; tooltipText: 'I''m a button'.
-	dashedButton withStamp: #dashed.
+	dashedButton := (ToButton id: #buttonC)
+		                labelText: 'Dashed Button';
+		                tooltipText: 'I''m a button'.
+	dashedButton addStamp: #dashed.
 	line1 addChild: dashedButton.
 
-	textButton := (ToButton id: #buttonD) labelText: 'Text Button'; tooltipText: 'I''m a button'.
-	textButton withStamp: #text.
+	textButton := (ToButton id: #buttonD)
+		              labelText: 'Text Button';
+		              tooltipText: 'I''m a button'.
+	textButton addStamp: #text.
 	line1 addChild: textButton.
 
-	linkButton := (ToButton id: #buttonE) labelText: 'Link Button'; tooltipText: 'I''m a button'.
-	linkButton withStamp: #link.
+	linkButton := (ToButton id: #buttonE)
+		              labelText: 'Link Button';
+		              tooltipText: 'I''m a button'.
+	linkButton addStamp: #link.
 	line1 addChild: linkButton.
-	
-	line2 := BlElement new layout: (BlLinearLayout horizontal cellSpacing: 5); padding: (BlInsets all: 5); constraintsDo: [ :c |
-			c vertical fitContent.
-			c horizontal fitContent ].
+
+	line2 := BlElement new
+		         layout: (BlLinearLayout horizontal cellSpacing: 5);
+		         padding: (BlInsets all: 5);
+		         constraintsDo: [ :c |
+			         c vertical fitContent.
+			         c horizontal fitContent ].
 	box addChild: line2.
 
 	"Create some buttons with available skins - disable"
-	primaryButton := (ToButton id: #buttonA) labelText: 'Primary Button'; tooltipText: 'I''m a button'; disable.
-	primaryButton withStamp: #primary.
+	primaryButton := (ToButton id: #buttonA)
+		                 labelText: 'Primary Button';
+		                 tooltipText: 'I''m a button';
+		                 disable.
+	primaryButton addStamp: #primary.
 	line2 addChild: primaryButton.
 
-	defaultButton := (ToButton id: #buttonB) labelText: 'Default Button'; tooltipText: 'I''m a button'; disable.
+	defaultButton := (ToButton id: #buttonB)
+		                 labelText: 'Default Button';
+		                 tooltipText: 'I''m a button';
+		                 disable.
 	line2 addChild: defaultButton.
 
-	dashedButton := (ToButton id: #buttonC) labelText: 'Dashed Button'; tooltipText: 'I''m a button'; disable.
+	dashedButton := (ToButton id: #buttonC)
+		                labelText: 'Dashed Button';
+		                tooltipText: 'I''m a button';
+		                disable.
 	line2 addChild: dashedButton.
 
-	textButton := (ToButton id: #buttonD) labelText: 'Text Button'; tooltipText: 'I''m a button'; disable.
+	textButton := (ToButton id: #buttonD)
+		              labelText: 'Text Button';
+		              tooltipText: 'I''m a button';
+		              disable.
 	line2 addChild: textButton.
 
-	linkButton := (ToButton id: #buttonE) labelText: 'Link Button'; tooltipText: 'I''m a button'; disable.
+	linkButton := (ToButton id: #buttonE)
+		              labelText: 'Link Button';
+		              tooltipText: 'I''m a button';
+		              disable.
 	line2 addChild: linkButton
 ]
 
@@ -166,7 +200,7 @@ ToThemeExamples class >> example_oneButton [
 	space toTheme: ToBeeLightTheme new.
 	defaultButton := ToButton new.
 	"defaultButton when: ToElementLookEvent do: [ :evt | evt traceCr ]."
-	defaultButton withStamp: #'primary'.
+	defaultButton addStamp: #'primary'.
 	defaultButton labelText: 'Default button'.
 	space root addChild: defaultButton.
 	space show.
@@ -218,9 +252,9 @@ ToThemeExamples class >> randomizePrimaryColorFor: aSpace [
 	| c |
 	aSpace ifNil:[ ^ self ].
 	c := Color random.
-	aSpace root withStamp: (#'color-primary'-> c).
-	aSpace root withStamp: (#'color-primary-pressed'-> c twiceDarker ).
-	aSpace root withStamp: (#'color-primary-hover'-> c twiceLighter )
+	aSpace root token: #'color-primary' value: c.
+	aSpace root token: #'color-primary-pressed' value: c twiceDarker .
+	aSpace root token: #'color-primary-hover' value: c twiceLighter
 ]
 
 { #category : 'private - actions' }

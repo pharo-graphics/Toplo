@@ -32,6 +32,12 @@ BlSpace >> installSkinPhases [
 ]
 
 { #category : '*Toplo' }
+BlSpace >> renewRootStyleSheet [
+
+	self root styleSheet: self toTheme newStyleSheet
+]
+
+{ #category : '*Toplo' }
 BlSpace >> skinPhasesManager [
 
 	^ self userData at: #skinPhasesManager ifAbsentPut: [ ToSpaceSkinPhasesManager new ]
@@ -59,7 +65,7 @@ BlSpace >> toTheme [
 BlSpace >> toTheme: aTheme [
 
 	self userData at: #toTheme put: aTheme.
-	self root tokenProperties: aTheme defaultTokenPropertyList.
+	self root addAllTokenProperties: aTheme defaultTokenProperties.
 	self root toThemeChanged
 ]
 

@@ -15,7 +15,6 @@ ToSkinInstaller >> applyOn: anElement [
 
 	self installingWhile: [
 		anElement installedSkin ifNil: [
-			anElement styleSheet: anElement toTheme newStyleSheet.
 			anElement defaultSkin ifNotNil: [ :found |
 				anElement skinManager installSkin: found in: anElement ] ].
 		anElement skinInstaller: nil ]

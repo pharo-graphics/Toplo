@@ -165,13 +165,13 @@ ToLabel >> initialRawStyle [
 	super initialRawStyle.
 	self hasText ifFalse: [ ^ self ].
 	self textAttributesBuilder
-		weight: (self stampValue: #'font-weight-strong');
-		defaultFontName: (self stampValue: #'font-family-code');
-		defaultFontSize: (self stampValue: #'font-size');
-		lineSpacing: (self stampValue: #'line-height').
+		weight: (self tokenValue: #'font-weight-strong');
+		defaultFontName: (self tokenValue: #'font-family-code');
+		defaultFontSize: (self tokenValue: #'font-size');
+		lineSpacing: (self tokenValue: #'line-height').
 	self isDisabled ifTrue: [
 		self textAttributesBuilder foreground:
-			(self stampValue: #'color-text-disabled') ].
+			(self tokenValue: #'color-text-disabled') ].
 	self textAttributesBuilder applyOn: self text
 ]
 

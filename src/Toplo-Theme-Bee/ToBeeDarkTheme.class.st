@@ -18,11 +18,11 @@ Class {
 }
 
 { #category : 'accessing' }
-ToBeeDarkTheme class >> defaultTokenPropertyList [
+ToBeeDarkTheme class >> defaultTokenProperties [
 	" skin managing need a list of unique stamps . "
 
 	^ Array streamContents: [ :str |
-		  str nextPutAll: super defaultTokenPropertyList.
+		  str nextPutAll: super defaultTokenProperties.
 		  str nextPutAll: {
 				  (ToTokenProperty name: #'background-color' value: Color black).
 				  (ToTokenProperty name: #'color-bg-container' value: (Color fromHexString: '#1b1b1b')).

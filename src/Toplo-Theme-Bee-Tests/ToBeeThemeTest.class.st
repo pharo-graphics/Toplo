@@ -15,25 +15,25 @@ ToBeeThemeTest >> testColorPrimary [
 	theme := ToBeeLightTheme new.
 	self assert: theme colorPrimary notNil.
 	self assert: theme colorPrimary equals: (ToBeeLightTheme new defaultColorPrimary).
-	self assert: (theme stampNamed: #'color-primary') value equals: theme colorPrimary.
+	self assert: (theme tokenPropertyNamed: #'color-primary') value equals: theme colorPrimary.
 	theme colorPrimary: Color red.
 	self assert: theme colorPrimary equals: Color red.
-	self assert: (theme stampNamed: #'color-primary') value equals: theme colorPrimary.
+	self assert: (theme tokenPropertyNamed: #'color-primary') value equals: theme colorPrimary.
 	
 	theme := ToBeeLightTheme colorPrimary: Color red.
 	self assert: theme colorPrimary equals: Color red.
-	self assert: (theme stampNamed: #'color-primary') value equals: theme colorPrimary.
+	self assert: (theme tokenPropertyNamed: #'color-primary') value equals: theme colorPrimary.
 	
 	theme := ToBeeDarkTheme new.
 	self assert: theme colorPrimary notNil.
 	self assert: theme colorPrimary equals: (ToBeeDarkTheme new defaultColorPrimary).
-	self assert: (theme stampNamed: #'color-primary') value equals: theme colorPrimary.
+	self assert: (theme tokenPropertyNamed: #'color-primary') value equals: theme colorPrimary.
 	theme colorPrimary: Color red.
 	self assert: theme colorPrimary equals: Color red.
-	self assert: (theme stampNamed: #'color-primary') value equals: theme colorPrimary.
+	self assert: (theme tokenPropertyNamed: #'color-primary') value equals: theme colorPrimary.
 	theme := ToBeeDarkTheme colorPrimary: Color red.
 	self assert: theme colorPrimary equals: Color red.
-	self assert: (theme stampNamed: #'color-primary') value equals: theme colorPrimary.
+	self assert: (theme tokenPropertyNamed: #'color-primary') value equals: theme colorPrimary.
 
 ]
 
@@ -47,17 +47,17 @@ ToBeeThemeTest >> testSpaceRoot [
 	e := (ToElement new
 			 size: 100 @ 100;
 			 position: 10 @ 10;
-			 withStamp: #machin;
+			 addStamp: #machin;
 			 background: Color white).
 	space root addChild: e.
 	space applyAllSkinInstallers.
 	space applyAllStyles.
-	self assert: space root background paint color equals: (ssi styleSheet stampNamed: 'background-color') value.
+	self assert: space root background paint color equals: (ssi styleSheet tokenPropertyNamed: 'background-color') value.
 	ssi := ToBeeDarkTheme new.
 	space toTheme: ssi.
 	space applyAllSkinInstallers.
 	space applyAllStyles.
-	self assert: space root background paint color equals: (ssi styleSheet stampNamed: 'background-color') value.
+	self assert: space root background paint color equals: (ssi styleSheet tokenPropertyNamed: 'background-color') value.
 
 
 

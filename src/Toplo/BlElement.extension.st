@@ -1,6 +1,27 @@
 Extension { #name : 'BlElement' }
 
 { #category : '*Toplo' }
+BlElement >> addAllStamps: aCollectionOfSymbol [
+
+	self toStyleStore addAllStamps: aCollectionOfSymbol
+]
+
+{ #category : '*Toplo' }
+BlElement >> addAllTokenProperties: aTokenPropertyCollection [
+
+	self toStyleStore addAllTokenProperties: aTokenPropertyCollection
+]
+
+{ #category : '*Toplo' }
+BlElement >> addStamp: aSymbol [
+
+
+	self toStyleStore addStamp: aSymbol.
+	self requestNewSkin.
+	self spaceDo: [ :sp | sp requestNextPulse ]
+]
+
+{ #category : '*Toplo' }
 BlElement >> applySkinInstaller [
 
 	self skinManager applySkinUninstallerIn: self.
@@ -91,9 +112,10 @@ BlElement >> hasEnablementFlag [
 ]
 
 { #category : '*Toplo' }
-BlElement >> hasTokenPropertyNamed: aSymbol [
+BlElement >> hasStamp: aSymbol [
 
-	^ self toStyleStore hasTokenPropertyNamed: aSymbol
+
+	^ self toStyleStore hasStamp: aSymbol
 ]
 
 { #category : '*Toplo' }
@@ -153,6 +175,21 @@ BlElement >> openInInnerWindow [
 ]
 
 { #category : '*Toplo' }
+BlElement >> removeAllStamps [
+
+	self toStyleStore removeAllStamps
+]
+
+{ #category : '*Toplo' }
+BlElement >> removeStamp: aSymbol [
+
+
+	self toStyleStore removeStamp: aSymbol.
+	self requestNewSkin.
+	self spaceDo: [ :sp | sp requestNextPulse ]
+]
+
+{ #category : '*Toplo' }
 BlElement >> requestInstallSkin [
 
 	" first check for the space phases "
@@ -178,6 +215,12 @@ BlElement >> requestNewSkinRecursively [
 BlElement >> requestUninstallSkin [
 
 	self skinManager requestUninstallSkinIn: self 
+]
+
+{ #category : '*Toplo' }
+BlElement >> resmoveStamp: aSymbol [
+
+	self toStyleStore removeStamp: aSymbol
 ]
 
 { #category : '*Toplo' }
@@ -232,18 +275,6 @@ BlElement >> skinUninstaller [
 BlElement >> skinUninstaller: aSkinUninstaller [
 
 	self skinManager skinUninstaller: aSkinUninstaller
-]
-
-{ #category : '*Toplo' }
-BlElement >> stampNamed: aSymbol [
-
-	^ self toStyleStore tokenPropertyNamed: aSymbol from: self
-]
-
-{ #category : '*Toplo' }
-BlElement >> stampValue: aSymbol [
-
-	^ self toStyleStore tokenPropertyValue: aSymbol from: self
 ]
 
 { #category : '*Toplo' }
@@ -303,7 +334,9 @@ BlElement >> toStyleStore [
 { #category : '*Toplo-LookAndFeel' }
 BlElement >> toTheme [
 
-		^ self skinManager lookupThemeFrom: self
+	self isAttachedToSceneGraph ifFalse: [
+		Error signal: 'A not attached element should not ask for its theme' ].
+	^ self space toTheme
 ]
 
 { #category : '*Toplo-LookAndFeel' }
@@ -311,13 +344,29 @@ BlElement >> toThemeChanged [
 
 	self childrenDo: [ :c | c toThemeChanged ].
 	self dispatchEvent: ToThemeChangedEvent new.
-	self requestNewSkin.
+	" if i'm the space root element then take care to renew my base stylesheet "
+	self parent ifNil: [
+		self spaceDo: [ :sp |
+			sp root == self ifTrue: [ sp renewRootStyleSheet ] ] ].
+	self requestNewSkin
 ]
 
 { #category : '*Toplo' }
-BlElement >> tokenProperties: aTokenPropertyCollection [
+BlElement >> token: aSymbol value: anObject [
 
-	self toStyleStore tokenProperties: aTokenPropertyCollection
+	self toStyleStore addTokenProperty: (aSymbol -> anObject) asTokenProperty 
+]
+
+{ #category : '*Toplo' }
+BlElement >> tokenPropertyNamed: aSymbol [
+
+	^ self toStyleStore tokenPropertyNamed: aSymbol from: self
+]
+
+{ #category : '*Toplo' }
+BlElement >> tokenValue: aSymbol [
+
+	^ self toStyleStore tokenPropertyValue: aSymbol from: self
 ]
 
 { #category : '*Toplo' }
@@ -326,33 +375,7 @@ BlElement >> uninstallRawStyle [
 ]
 
 { #category : '*Toplo' }
-BlElement >> withAllStamps: aCollectionOfSymbol [
-
-	self toStyleStore withAllStamps: aCollectionOfSymbol
-]
-
-{ #category : '*Toplo' }
-BlElement >> withStamp: anAssociationOrSymbol [
-
-
-	self toStyleStore withStamp: anAssociationOrSymbol.
-	self spaceDo: [ :sp | sp requestNextPulse ]
-]
-
-{ #category : '*Toplo' }
-BlElement >> withoutAllStamps [
-
-	self toStyleStore withoutAllStamps
-]
-
-{ #category : '*Toplo' }
 BlElement >> withoutSkin [
 
 	self skinManager setSkin: ToNullSkin new in: self
-]
-
-{ #category : '*Toplo' }
-BlElement >> withoutStamp: aSymbol [
-
-	self toStyleStore withoutStamp: aSymbol
 ]

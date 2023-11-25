@@ -46,8 +46,8 @@ ToTheme class >> defaultCheckboxBlankImage [
 	im size: 16 asPoint.
 	im addChild: bar.
 	im withoutSkin.
-	bar withAllStamps: #( #bar ).
-	im withAllStamps: #( #'inner-image' #unchecked ).
+	bar addAllStamps: #( #bar ).
+	im addAllStamps: #( #'inner-image' #unchecked ).
 	^ im
 ]
 
@@ -58,7 +58,7 @@ ToTheme class >> defaultColorPrimary [
 ]
 
 { #category : 'accessing' }
-ToTheme class >> defaultTokenPropertyList [
+ToTheme class >> defaultTokenProperties [
 	" skin managing need a list of unique stamps . "
 
 
@@ -194,8 +194,8 @@ ToTheme class >> defaultTokenPropertyList [
 ]
 
 { #category : 'initialization' }
-ToTheme >> defaultTokenPropertyList [
-	^ self class defaultTokenPropertyList
+ToTheme >> defaultTokenProperties [
+	^ self class defaultTokenProperties
 ]
 
 { #category : 'accessing' }

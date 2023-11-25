@@ -33,9 +33,9 @@ ToButtonSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e iconDo: [ :ic | ic formColor: (e stampValue: #'color-primary') ].
+		e iconDo: [ :ic | ic formColor: (e tokenValue: #'color-primary') ].
 		e labelDo: [ :lab |
-			lab text attributes: { (BlTextForegroundAttribute paint: (e stampValue: #'color-primary')) }.
+			lab text attributes: { (BlTextForegroundAttribute paint: (e tokenValue: #'color-primary')) }.
 			lab textChanged ] ]
 ]
 
@@ -66,8 +66,8 @@ ToButtonSkin >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
 	anEvent elementDo: [ :e | 	
-		e iconDo: [ :ic | ic formColor: (e stampValue: #'color-primary-pressed') ].
+		e iconDo: [ :ic | ic formColor: (e tokenValue: #'color-primary-pressed') ].
 		e labelDo: [ :lab |
-			lab text attributes: { (BlTextForegroundAttribute paint: (e stampValue: #'color-primary-pressed')) }.
+			lab text attributes: { (BlTextForegroundAttribute paint: (e tokenValue: #'color-primary-pressed')) }.
 			lab textChanged ] ]
 ]

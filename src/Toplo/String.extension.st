@@ -3,7 +3,7 @@ Extension { #name : 'String' }
 { #category : '*Toplo' }
 String >> asElementSelector [ 
 
-	^ ToStampSelector new addStampName: self asSymbol
+	^ ToStampSelector new addStamp: self asSymbol
 ]
 
 { #category : '*Toplo' }

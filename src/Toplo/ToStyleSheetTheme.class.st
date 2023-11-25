@@ -97,7 +97,7 @@ ToStyleSheetTheme >> rootRulesFor: anElement [
 ToStyleSheetTheme >> setUpElementForTheme: anElement [
 
 	super setUpElementForTheme: anElement.
-	anElement withAllStamps: (self defaultElementStampsFor: anElement) 
+	anElement addAllStamps: (self defaultElementStampsFor: anElement) 
 ]
 
 { #category : 'styling' }

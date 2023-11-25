@@ -71,15 +71,11 @@ TToTokenPropertyIndexHolder >> removeTokenPropertyNamed: aSymbol [
 ]
 
 { #category : 't - token property index holder' }
-TToTokenPropertyIndexHolder >> tokenProperties: aTokenPropertyCollection [
-
-	self tokenPropertyIndex addAllProperties: aTokenPropertyCollection
-]
-
-{ #category : 't - token property index holder' }
 TToTokenPropertyIndexHolder >> tokenPropertyIndex [
 
-	^ self rawTokenPropertyIndex ifNil: [ self rawTokenPropertyIndex: self newTokenPropertyIndex. self rawTokenPropertyIndex ]
+	^ self rawTokenPropertyIndex ifNil: [
+		  self rawTokenPropertyIndex: self newTokenPropertyIndex.
+		  self rawTokenPropertyIndex ]
 ]
 
 { #category : 't - token property index holder' }

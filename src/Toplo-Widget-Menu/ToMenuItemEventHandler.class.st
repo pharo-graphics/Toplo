@@ -1,19 +1,21 @@
 Class {
-	#name : #ToMenuItemEventHandler,
-	#superclass : #BlCustomEventHandler,
+	#name : 'ToMenuItemEventHandler',
+	#superclass : 'BlCustomEventHandler',
 	#instVars : [
 		'target'
 	],
-	#category : 'Toplo-Widget-Menu-Basic'
+	#category : 'Toplo-Widget-Menu-Basic',
+	#package : 'Toplo-Widget-Menu',
+	#tag : 'Basic'
 }
 
-{ #category : #'api - accessing' }
+{ #category : 'api - accessing' }
 ToMenuItemEventHandler >> eventsToHandle [
 
 	^  { BlMouseEnterEvent. BlMouseUpEvent }
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToMenuItemEventHandler >> mouseEnterEvent: anEvent [
 
 	" check event and current target "
@@ -26,7 +28,7 @@ ToMenuItemEventHandler >> mouseEnterEvent: anEvent [
 	target popupEvent: anEvent
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : 'mouse handlers' }
 ToMenuItemEventHandler >> mouseUpEvent: anEvent [
 
 	" check event and current target "
@@ -38,14 +40,14 @@ ToMenuItemEventHandler >> mouseUpEvent: anEvent [
 	target rootMenu closeWindow
 ]
 
-{ #category : #'api - hooks' }
+{ #category : 'api - hooks' }
 ToMenuItemEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	target := anElement
 ]
 
-{ #category : #'api - hooks' }
+{ #category : 'api - hooks' }
 ToMenuItemEventHandler >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.

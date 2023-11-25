@@ -22,25 +22,25 @@ ToLabeledIcon >> installBeeStyle [
 	
 	self isIconFirst
 		ifTrue: [
-			self withStamp: #'icon-first'.
-			self withoutStamp: #'label-first' ]
+			self addStamp: #'icon-first'.
+			self resmoveStamp: #'label-first' ]
 		ifFalse: [
-			self withStamp: #'label-first'.
-			self withoutStamp: #'icon-first' ].
+			self addStamp: #'label-first'.
+			self resmoveStamp: #'icon-first' ].
 		
 	self isHorizontal
 		ifTrue: [
-			self withStamp: #horizontal.
-			self withoutStamp: #vertical ]
+			self addStamp: #horizontal.
+			self resmoveStamp: #vertical ]
 		ifFalse: [
-			self withStamp: #vertical.
-			self withoutStamp: #horizontal ].
+			self addStamp: #vertical.
+			self resmoveStamp: #horizontal ].
 
 	self isFlexible
 		ifTrue: [
-			self withoutStamp: #'exact-interspace'.
-			self withStamp: #flexible ]
+			self resmoveStamp: #'exact-interspace'.
+			self addStamp: #flexible ]
 		ifFalse: [
-			self withStamp: #'exact-interspace'.
-			self withoutStamp: #flexible ]
+			self addStamp: #'exact-interspace'.
+			self resmoveStamp: #flexible ]
 ]

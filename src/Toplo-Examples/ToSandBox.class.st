@@ -61,9 +61,9 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
 	btn := ToButton new.
 	btn labelText: 'Erase all your Pharo images?'.
 	btn iconImage: ToThemeIcons iconSearchOutlined16x16.
-	btn label withStamp: #H3.
-	btn withStamp: #primary.
-	btn withStamp: #danger.
+	btn label addStamp: #H3.
+	btn addStamp: #primary.
+	btn addStamp: #danger.
 	btn size: 500 @ 100.
 	space := BlSpace new.
 	space toTheme: ToBeeLightTheme new.
@@ -84,9 +84,9 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheetDarkTheme [
 	btn := ToButton new.
 	btn labelText: 'Erase all your Pharo images?'.
 	btn iconImage: ToThemeIcons iconSearchOutlined16x16.
-	btn label withStamp: #H3.
-	btn withStamp: #primary.
-	btn withStamp: #danger.
+	btn label addStamp: #H3.
+	btn addStamp: #primary.
+	btn addStamp: #danger.
 	btn size: 500 @ 100.
 	space := BlSpace new toTheme: ToBeeDarkTheme new; yourself.
 	space root layout: BlLinearLayout vertical.
@@ -1350,7 +1350,7 @@ ToSandBox class >> example_SelectWithStructuredData [
 
 	select := ToSelect new
 		             hMatchParent;
-		             withStamp: #justified.
+		             addStamp: #justified.
 	select dataToTextConverter: [ :assoc | assoc key ].
 	select data addAll: {
 			('Morphic SDL' -> BlMorphicWindowHost).
@@ -1449,8 +1449,8 @@ ToSandBox class >> example_StyleSheetSandbox [
 	"b stampWith: #'small-sizing'."
 
 	"b stampWith: #vertical."
-	b withStamp: #'icon-first'.
-	b withStamp: #'label-first'.
+	b addStamp: #'icon-first'.
+	b addStamp: #'label-first'.
 	"b withStamp: #'interspace-1' -> 300."
 	b interspace: #flexible.
 	"b stampWith: #circle."
@@ -1488,9 +1488,9 @@ ToSandBox class >> example_StyleSheetSandboxDarkTheme [
 	"b stampWith: #'small-sizing'."
 
 	"b stampWith: #vertical."
-	b withStamp: #'icon-first'.
-	b withStamp: #'label-first'.
-	b withStamp: #'interspace-1' -> 300.
+	b addStamp: #'icon-first'.
+	b addStamp: #'label-first'.
+	b addStamp: #'interspace-1' -> 300.
 	"b justified: true."
 	"b stampWith: #circle."
 	"b stampWith: #round."
@@ -1656,7 +1656,7 @@ ToSandBox class >> example_ToButtonSkins [
 		| but |
 		but := ToButton new.
 		allButtons add: but.
-		arr second ifNotNil: [ :s | but withStamp: s ].
+		arr second ifNotNil: [ :s | but addStamp: s ].
 		but labelText: arr first.
 		pane addChild: but ].
 
@@ -1670,7 +1670,7 @@ ToSandBox class >> example_ToButtonSkins [
 		| but |
 		but := ToButton new.
 		allButtons add: but.
-		arr second ifNotNil: [ :s | but withStamp: s ].
+		arr second ifNotNil: [ :s | but addStamp: s ].
 		but labelText: arr first.
 		but icon: butBuilder value.
 		pane addChild: but ].
@@ -1685,7 +1685,7 @@ ToSandBox class >> example_ToButtonSkins [
 		| but |
 		but := ToButton new.
 		allButtons add: but.
-		arr second ifNotNil: [ :s | but withStamp: s ].
+		arr second ifNotNil: [ :s | but addStamp: s ].
 		but icon: butBuilder value.
 		pane addChild: but ].
 
@@ -1699,7 +1699,7 @@ ToSandBox class >> example_ToButtonSkins [
 		| but |
 		but := ToButton new.
 		allButtons add: but.
-		arr second ifNotNil: [ :s | but withStamp: s ].
+		arr second ifNotNil: [ :s | but addStamp: s ].
 		but labelText: arr first.
 		pane addChild: but ].
 
@@ -1713,7 +1713,7 @@ ToSandBox class >> example_ToButtonSkins [
 		| but |
 		but := ToButton new.
 		allButtons add: but.
-		arr second ifNotNil: [ :s | but withStamp: s ].
+		arr second ifNotNil: [ :s | but addStamp: s ].
 		but labelText: arr first.
 		but icon: butBuilder value.
 		pane addChild: but ].
@@ -1728,7 +1728,7 @@ ToSandBox class >> example_ToButtonSkins [
 		| but |
 		but := ToButton new.
 		allButtons add: but.
-		arr second ifNotNil: [ :s | but withStamp: s ].
+		arr second ifNotNil: [ :s | but addStamp: s ].
 		but icon: butBuilder value.
 		pane addChild: but ].
 

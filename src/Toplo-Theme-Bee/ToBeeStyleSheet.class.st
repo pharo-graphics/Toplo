@@ -370,7 +370,6 @@ ToBeeStyleSheet >> commonButtonRules [
 					write: (self property: #height)
 					with: [ :e | e tokenValue: #'control-height' ] 
 			 ].
-
 		].
 	(#'labeled-icon' asElementSelector parent: #button) style: [ :sr |
 			   sr

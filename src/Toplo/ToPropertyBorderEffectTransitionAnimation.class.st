@@ -11,7 +11,7 @@ ToPropertyBorderEffectTransitionAnimation >> newRawAnimationFor: anElement to: a
 
 	| newAnim origEffect |
 	origEffect := anElement effect.
-	newAnim := BlGaussianEffectOpacityAnimation new
+	newAnim := ToGaussianEffectOpacityAnimation new
 		           color: (self property read: anElement) paint color;
 		           opacity: 0.2;
 		           width: 10.

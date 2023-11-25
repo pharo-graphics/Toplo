@@ -82,7 +82,7 @@ ToThemeExamples class >> elementSandBoxFor: aSpace [
 { #category : 'examples - buttons' }
 ToThemeExamples class >> example_beeButtonsInRawPane [
 
-	| space primaryButton1 primaryButton2 pane |
+	| space primaryButton2 pane c chb |
 	ToTheme cleanUp.
 	space := BlSpace new.
 	space root layout: BlLinearLayout new.
@@ -91,14 +91,31 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	pane layout cellSpacing: 5.
 	"pane localToTheme: ToRawTheme new."
 	space toTheme: ToBeeLightTheme new.
+
+	chb := ToCheckbox new label: (ToLabel text: 'Swith primary').
+	chb checked: true.
+
 	"Create some buttons with different skins"
-	primaryButton1 := (ToButton id: #buttonA) labelText: 'Default Button Light Bee'.
+	primaryButton1 := (ToButton id: #buttonA) labelText:
+		                  'Change button 2 primary color'.
 	"primaryButton1 withStamp: #primary."
 	"darkStyleSheet := ToBeeStyleSheet new."
-	primaryButton2 := (ToButton id: #buttonA) labelText: 'Default Button Dark Bee'.
-	primaryButton2 addAllTokenProperties: ToBeeDarkTheme defaultTokenProperties.
+	primaryButton2 := (ToButton id: #buttonA) labelText: 'Button 2'.
+	primaryButton1 whenClickedDo: [
+		c := Color random.
+		primaryButton2 token: #'color-primary' value: c.
+		primaryButton2 token: #'color-primary-pressed' value: c twiceDarker.
+		primaryButton2 token: #'color-primary-hover' value: c twiceLighter ].
+	
+	chb when: ToCheckableChangedEvent do: [ :evt |
+		(primaryButton2 hasStamp: #primary)
+			ifTrue: [ primaryButton2 removeStamp: #primary ]
+			ifFalse: [ primaryButton2 addStamp: #primary ] ].
+
+	"primaryButton2 addAllTokenProperties: ToBeeDarkTheme defaultTokenProperties."
 	"primaryButton2 withStamp: #primary."
 	pane addChild: primaryButton1.
+	pane addChild: chb.
 	pane addChild: primaryButton2.
 	space root addChild: pane.
 	space show

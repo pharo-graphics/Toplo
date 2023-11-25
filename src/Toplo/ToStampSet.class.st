@@ -5,9 +5,9 @@ Class {
 		'changedAction',
 		'set'
 	],
-	#category : 'Toplo-Core-Theme',
+	#category : 'Toplo-Core-Properties',
 	#package : 'Toplo',
-	#tag : 'Core-Theme'
+	#tag : 'Core-Properties'
 }
 
 { #category : 'adding-removing' }
@@ -55,6 +55,13 @@ ToStampSet >> includes: anObject [
 ToStampSet >> includesAll: aCollection [
 
 	^ self set includesAll: aCollection
+]
+
+{ #category : 'initialization' }
+ToStampSet >> initialize [ 
+
+	super initialize.
+	changedAction := [  ]
 ]
 
 { #category : 'testing' }

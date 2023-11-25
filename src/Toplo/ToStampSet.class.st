@@ -13,13 +13,18 @@ Class {
 { #category : 'adding-removing' }
 ToStampSet >> add: anObject [
 
-	self set add: anObject
+	(self includes: anObject) ifTrue: [ ^ self ].
+	self set add: anObject.
+	self onChanged 
 ]
 
 { #category : 'adding-removing' }
 ToStampSet >> addAll: aCollection [
 
-	self set addAll: aCollection
+	(aCollection anySatisfy: [ :p |
+		 (self includes: p) not ]) ifFalse: [ ^ self ].
+	self set addAll: aCollection.
+	self onChanged 
 ]
 
 { #category : 'accessing' }
@@ -52,22 +57,40 @@ ToStampSet >> includesAll: aCollection [
 	^ self set includesAll: aCollection
 ]
 
+{ #category : 'testing' }
+ToStampSet >> isEmpty [
+
+	^ self set isEmpty
+]
+
+{ #category : 'hook - updating' }
+ToStampSet >> onChanged [
+
+	self changedAction value
+]
+
 { #category : 'adding-removing' }
 ToStampSet >> remove: anObject [
 
-	self set remove: anObject ifAbsent: [  ]
+	self set remove: anObject ifAbsent: [ ^ self ].
+	self onChanged 
 ]
 
 { #category : 'adding-removing' }
 ToStampSet >> removeAll [
 
-	set := nil
+	self isEmpty ifTrue: [ ^self ].
+	set := nil.
+	self onChanged 
 ]
 
 { #category : 'adding-removing' }
 ToStampSet >> removeAll: aCollection [
 
-	self set removeAll: aCollection
+	(aCollection anySatisfy: [ :p | self includes: p ]) ifFalse: [
+		^ self ].
+	self set removeAll: aCollection.
+	self onChanged 
 ]
 
 { #category : 'accessing' }

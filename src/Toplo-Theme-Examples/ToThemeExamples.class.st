@@ -93,7 +93,7 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	space toTheme: ToBeeLightTheme new.
 
 	chb := ToCheckbox new label: (ToLabel text: 'Swith primary').
-	chb checked: true.
+	chb defaultSkin: ToCheckboxSkin new.
 
 	"Create some buttons with different skins"
 	primaryButton1 := (ToButton id: #buttonA) labelText:
@@ -107,10 +107,11 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 		primaryButton2 token: #'color-primary-pressed' value: c twiceDarker.
 		primaryButton2 token: #'color-primary-hover' value: c twiceLighter ].
 	
-	chb when: ToCheckableChangedEvent do: [ :evt |
-		(primaryButton2 hasStamp: #primary)
-			ifTrue: [ primaryButton2 removeStamp: #primary ]
-			ifFalse: [ primaryButton2 addStamp: #primary ] ].
+	chb when: ToCheckableCheckEvent do: [ :evt |
+		(evt current)
+			ifTrue: [ primaryButton2 addStamp: #primary ]
+			ifFalse: [ primaryButton2 removeStamp: #primary ] ].
+	chb checked: true.
 
 	"primaryButton2 addAllTokenProperties: ToBeeDarkTheme defaultTokenProperties."
 	"primaryButton2 withStamp: #primary."

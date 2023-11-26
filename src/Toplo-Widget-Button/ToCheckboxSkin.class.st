@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToCheckboxSkin',
-	#superclass : 'ToGeneralButtonSkin',
+	#superclass : 'ToRawSkin',
 	#category : 'Toplo-Widget-Button-Checkable',
 	#package : 'Toplo-Widget-Button',
 	#tag : 'Checkable'
@@ -38,6 +38,7 @@ ToCheckboxSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e | 
+		e mouseCursor: BlCursor hand.
 		e icon border: e iconHoveredBorder ]
 ]
 
@@ -54,7 +55,7 @@ ToCheckboxSkin >> indeterminateLookEvent: anEvent [
 ToCheckboxSkin >> initialLookEvent: anEvent [
 
 	super initialLookEvent: anEvent.
-	anEvent elementDo: [ :e | e icon border: e iconDefaultBorder ] 
+	anEvent elementDo: [ :e | "e icon border: e iconDefaultBorder" ] 
 ]
 
 { #category : 'event handling' }
@@ -67,15 +68,24 @@ ToCheckboxSkin >> installIconImageIn: aCheckbox [
 ToCheckboxSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
-	anEvent elementDo: [ :e | self installIconImageIn: e ]
+	anEvent elementDo: [ :e | 
+		e border: (BlBorder empty).		
+		e iconImage: (e toValueOf: #'checkbox-image-builder') value.
+		e icon geometry: e iconGeometry.
+		self installIconImageIn: e.
+		e padding: (BlInsets
+				 top: (e toValueOf: #'padding-content-V-S')
+				 left: (e toValueOf: #'padding-content-H')
+				 bottom: (e toValueOf: #'padding-content-V-S')
+				 right: (e toValueOf: #'padding-content-H')).
+		e icon border: e iconDefaultBorder ]
 ]
 
 { #category : 'event handling' }
 ToCheckboxSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
-	anEvent elementDo: [ :e | 
-		e icon border: e iconDefaultBorder ]
+	anEvent elementDo: [ :e | e mouseCursor: BlCursor default. ]
 ]
 
 { #category : 'event handling' }

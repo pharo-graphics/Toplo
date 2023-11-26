@@ -16,13 +16,13 @@ Class {
 { #category : 'skin' }
 ToCheckbox >> defaultBlankCheckboxImage [
 
-	^ (self tokenValue: #'checkbox-image-builder') value
+	^ (self toValueOf: #'checkbox-image-builder') value
 ]
 
 { #category : 'skin' }
 ToCheckbox >> defaultBorder [ 
 
-	^ self tokenValue: #'color-border-checkable'
+	^ self toValueOf: #'color-border-checkable'
 ]
 
 { #category : 'skin' }

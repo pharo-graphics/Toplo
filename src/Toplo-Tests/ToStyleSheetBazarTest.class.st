@@ -40,23 +40,23 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 			  parent:
 			  (ToStampSelector new addAllStamps: #( #button #danger ))
 			  depth: 3) style: [ :sr |
-			 sr write: prop with: [ :e | e tokenValue: #'color-error' ].
+			 sr write: prop with: [ :e | e toValueOf: #'color-error' ].
 			 sr
 				 when: ToDisabledLookEvent
 				 write: prop
-				 with: [ :e | e tokenValue: #'color-text-disabled' ].
+				 with: [ :e | e toValueOf: #'color-text-disabled' ].
 			 sr
 				 when: ToInitialLookEvent
 				 write: prop
-				 with: [ :e | e tokenValue: #'color-error' ].
+				 with: [ :e | e toValueOf: #'color-error' ].
 			 sr
 				 when: ToHoveredLookEvent
 				 write: prop
-				 with: [ :e | e tokenValue: #'color-error-hover' ].
+				 with: [ :e | e toValueOf: #'color-error-hover' ].
 			 sr
 				 when: ToPressedLookEvent
 				 write: prop
-				 with: [ :e | e tokenValue: #'color-error-pressed' ] ]).
+				 with: [ :e | e toValueOf: #'color-error-pressed' ] ]).
 
 	button := ToButton new .
 	space toTheme: ToBeeLightTheme new.
@@ -90,7 +90,7 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 				                  'should have a foreground attribute (toTheme colorError)' ].
 	self
 		assert: foregroundAttr paint
-		equals: (button tokenValue: #'color-error')
+		equals: (button toValueOf: #'color-error')
 ]
 
 { #category : 'tests' }
@@ -111,7 +111,7 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 			 sr
 				 when: ToDisabledLookEvent
 				 write: p
-				 with: [ :e | e tokenValue: #'color-bg-container-disabled' ].
+				 with: [ :e | e toValueOf: #'color-bg-container-disabled' ].
 			 sr
 				 when: ToInitialLookEvent
 				 write: p
@@ -122,19 +122,19 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 			 sr
 				 when: ToDisabledLookEvent
 				 write: p
-				 with: [ :e | e tokenValue: #'color-border-disabled' ].
+				 with: [ :e | e toValueOf: #'color-border-disabled' ].
 			 sr
 				 when: ToInitialLookEvent
 				 write: p
-				 with: [ :e | e tokenValue: #'color-border' ].
+				 with: [ :e | e toValueOf: #'color-border' ].
 			 sr
 				 when: ToHoveredLookEvent
 				 write: p
-				 with: [ :e | e tokenValue: #'color-primary-hover' ].
+				 with: [ :e | e toValueOf: #'color-primary-hover' ].
 			 sr
 				 when: ToPressedLookEvent
 				 write: p
-				 with: [ :e | e tokenValue: #'color-primary-pressed' ] ]).
+				 with: [ :e | e toValueOf: #'color-primary-pressed' ] ]).
 
 	" danger button label rule "
 	ss addStyleRule:
@@ -152,19 +152,19 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 			 sr
 				 when: ToDisabledLookEvent
 				 write: p
-				 with: [ :e | e tokenValue: #'color-text-disabled' ].
+				 with: [ :e | e toValueOf: #'color-text-disabled' ].
 			 sr
 				 when: ToInitialLookEvent
 				 write: p
-				 with: [ :e | e tokenValue: #'color-error' ].
+				 with: [ :e | e toValueOf: #'color-error' ].
 			 sr
 				 when: ToHoveredLookEvent
 				 write: p
-				 with: [ :e | e tokenValue: #'color-error-hover' ].
+				 with: [ :e | e toValueOf: #'color-error-hover' ].
 			 sr
 				 when: ToPressedLookEvent
 				 write: p
-				 with: [ :e | e tokenValue: #'color-error-pressed' ] ]).
+				 with: [ :e | e toValueOf: #'color-error-pressed' ] ]).
 
 
 	button := ToButton new.
@@ -185,7 +185,7 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 	self assert: button border paint isColorPaint.
 	self
 		assert: button border paint color
-		equals: (button tokenValue: #'color-border').
+		equals: (button toValueOf: #'color-border').
 
 	label := ToLabel text: 'Default'.
 	label defaultSkin: nil.
@@ -216,7 +216,7 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 				                  'should have a foreground attribute (toTheme colorError)' ].
 	self
 		assert: foregroundAttr paint
-		equals: (button label tokenValue: #'color-error')
+		equals: (button label toValueOf: #'color-error')
 ]
 
 { #category : 'tests' }
@@ -454,7 +454,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyle0 [
 		          sr
 			          when: ToDisabledLookEvent
 			          write: (ss property: #background)
-			          with: [ :e | e tokenValue: #'color-bg-container-disabled' ] ]) }.
+			          with: [ :e | e toValueOf: #'color-bg-container-disabled' ] ]) }.
 
 	ss addAllStyleRules: rules.
 	button addStamp: #button.

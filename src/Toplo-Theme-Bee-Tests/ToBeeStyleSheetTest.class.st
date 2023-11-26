@@ -34,9 +34,9 @@ ToBeeStyleSheetTest >> testDefaultButtonSkin [
 	space applyAllSkinInstallers.
 	space applyAllStyles.
 
-	self assert: button border width equals: (button tokenValue: #'line-width').
+	self assert: button border width equals: (button toValueOf: #'line-width').
 	self assert: button border paint isColorPaint.
-	self assert: button border paint color equals: (button tokenValue: #'color-border').
+	self assert: button border paint color equals: (button toValueOf: #'color-border').
 ]
 
 { #category : 'labeled-icon' }

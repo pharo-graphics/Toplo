@@ -16,9 +16,7 @@ BlElement >> addAllTokenProperties: aTokenPropertyCollection [
 BlElement >> addStamp: aSymbol [
 
 
-	self toStyleStore addStamp: aSymbol.
-	self requestNewSkin.
-	self spaceDo: [ :sp | sp requestNextPulse ]
+	self toStyleStore addStamp: aSymbol
 ]
 
 { #category : '*Toplo' }
@@ -352,6 +350,12 @@ BlElement >> toThemeChanged [
 ]
 
 { #category : '*Toplo' }
+BlElement >> toValueOf: aSymbol [
+
+	^ self toStyleStore tokenPropertyValue: aSymbol from: self
+]
+
+{ #category : '*Toplo' }
 BlElement >> token: aSymbol value: anObject [
 
 	self toStyleStore addTokenProperty: (aSymbol -> anObject) asTokenProperty 
@@ -361,12 +365,6 @@ BlElement >> token: aSymbol value: anObject [
 BlElement >> tokenPropertyNamed: aSymbol [
 
 	^ self toStyleStore tokenPropertyNamed: aSymbol from: self
-]
-
-{ #category : '*Toplo' }
-BlElement >> tokenValue: aSymbol [
-
-	^ self toStyleStore tokenPropertyValue: aSymbol from: self
 ]
 
 { #category : '*Toplo' }

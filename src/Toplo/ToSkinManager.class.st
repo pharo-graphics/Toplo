@@ -91,8 +91,7 @@ ToSkinManager >> installSkin: aSkin in: anElement [
 
 	anElement addEventHandler: aSkin.
 	aSkin dispatchSkinInstallStateRequestTo: anElement.
-	aSkin dispatchSkinInitialStateRequestTo: anElement.
-
+	aSkin dispatchSkinInitialStateRequestTo: anElement
 ]
 
 { #category : 'accessing - skin' }

@@ -145,7 +145,7 @@ ToTheme class >> defaultTokenProperties [
 			   value: (Color black alpha: 0.45)).
 		  (ToTokenProperty
 			   name: #'color-text-disabled'
-			   value: (Color black alpha: 0.25)).
+			   value: (Color lightGray)).
 		  (ToTokenProperty
 			   name: #'color-text-heading'
 			   value: (Color black alpha: 0.88)).

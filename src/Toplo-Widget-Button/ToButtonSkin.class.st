@@ -11,7 +11,7 @@ ToButtonSkin >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e iconDo: [ :ic | ic formColor: (e toValueOf: #'color-bg-container-disabled') ].
+		e iconDo: [ :ic | ic formColor: (e toValueOf: #'color-text-disabled') ].
 		e labelDo: [ :lab |
 			lab text attributes: { (BlTextForegroundAttribute paint: (e toValueOf: #'color-text-disabled')) }.
 			lab textChanged ] ]

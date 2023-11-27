@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToNotebookInnerCloseButtonSkin',
-	#superclass : 'ToGeneralButtonSkin',
+	#superclass : 'ToRawSkin',
 	#category : 'Toplo-Incubator',
 	#package : 'Toplo-Incubator'
 }
@@ -16,5 +16,15 @@ ToNotebookInnerCloseButtonSkin >> hoveredLookEvent: anEvent [
 ToNotebookInnerCloseButtonSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
-	anEvent elementDo: [ :e | e padding: BlInsets empty ]
+	anEvent elementDo: [ :e |
+		e geometry: BlCircleGeometry new.
+		e border: BlBorder empty.
+		e padding: BlInsets empty ]
+]
+
+{ #category : 'event handling' }
+ToNotebookInnerCloseButtonSkin >> leavedLookEvent: anEvent [
+
+	super leavedLookEvent: anEvent.
+	anEvent elementDo: [ :e | e border: BlBorder empty ]
 ]

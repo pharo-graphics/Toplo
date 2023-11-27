@@ -6,7 +6,9 @@ Class {
 		'#child2 => ToSkinnableSlot',
 		'#skinRequestCount',
 		'#skinRefreshedCount',
-		'#skinStatesApplied'
+		'#skinStatesApplied',
+		'#prevSkinInstaller',
+		'#newSkinInstallerCount'
 	],
 	#category : 'Toplo-Tests-Core-Slots',
 	#package : 'Toplo-Tests',
@@ -50,6 +52,8 @@ ToElementWithSkinnableSlotsForTest >> initialize [
 	super initialize.
 	" count the number of #requestSkin sents"
 	skinRequestCount := 0.
+	" count the number of skin installer instanciated "
+	newSkinInstallerCount := 0.
 	" count the number of ToSkinchangedEvent dispatches (for the skin installer)"
 	skinRefreshedCount := 0.
 	" count the number of state engine applyOn: (only for dirty element stored in the space) "
@@ -58,11 +62,20 @@ ToElementWithSkinnableSlotsForTest >> initialize [
 	self when: ToSkinInstallStateRequest do: [ skinRefreshedCount := skinRefreshedCount + 1 ]
 ]
 
+{ #category : 'accessing' }
+ToElementWithSkinnableSlotsForTest >> newSkinInstallerCount [
+
+	^ newSkinInstallerCount
+]
+
 { #category : 'skin' }
 ToElementWithSkinnableSlotsForTest >> requestInstallSkin [
 
+	prevSkinInstaller := self skinInstaller.
 	skinRequestCount := skinRequestCount + 1.
 	super requestInstallSkin.
+	prevSkinInstaller ~= self skinInstaller ifTrue: [newSkinInstallerCount := newSkinInstallerCount + 1 ]
+
 ]
 
 { #category : 'accessing' }

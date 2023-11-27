@@ -9,7 +9,8 @@ Class {
 		'checkHandler',
 		'innerPane',
 		'paneBuilder',
-		'closable'
+		'closable',
+		'filler'
 	],
 	#category : 'Toplo-Incubator',
 	#package : 'Toplo-Incubator'
@@ -43,9 +44,7 @@ ToNotebookButton >> closable: aBoolean [
 			but constraintsDo: [ :c | c linear vertical alignCenter ].
 			but when: BlClickEvent do: [ :event | self removeFromParent ].
 			but id: #innerCloseButton.
-			self hasChildren
-				ifTrue: [ self addChild: but after: self lastChild ]
-				ifFalse: [ self addChild: but as: #innerCloseButton ] ]
+			self addChild: but after: self lastChild ]
 		ifFalse: [ self removeChildNamed: #innerCloseButton ]
 ]
 
@@ -72,7 +71,10 @@ ToNotebookButton >> initialize [
 
 	super initialize.
 	closable := false.
-	paneBuilder := [ :pane :theNotebook | ]
+	paneBuilder := [ :pane :theNotebook | ].
+	filler := ToElement new size: 10@10.
+	filler id: #filler.
+	self addChild: filler.
 ]
 
 { #category : 'accessing' }
@@ -88,9 +90,7 @@ ToNotebookButton >> installRawStyle [
 
 	self fitContent.
 	self constraintsDo: [ :c | c linear vertical alignCenter ].
-	self border: Color black.
-	self geometry: self defaultGeometry.
-	
+	self border: Color black
 ]
 
 { #category : 'testing' }

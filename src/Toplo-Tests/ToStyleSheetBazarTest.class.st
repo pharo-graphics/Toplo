@@ -74,7 +74,7 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 	self assert: writers isEmpty.
 	button addAllStamps: #( #button #danger ).
 	writers := ssi applicableWritersFor: button label.
-	self assert: writers size equals: 5.
+	self assert: writers size equals: 4.
 
 	labelSkin propertyWriters: writers.
 	button label defaultSkin: labelSkin.
@@ -455,7 +455,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyle0 [
 	button addStamp: #button.
 	space root addChild: button.
 	writers := ssi applicableWritersFor: button.
-	self assert: writers size equals: 3.
+	self assert: writers size equals: 2.
 	skin := ToStyleSheetSkin new.
 	skin propertyWriters: writers.
 	button defaultSkin: skin.
@@ -498,7 +498,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 	ss addAllStyleRules: rules.
 	button addStamp: #button.
 	writers := ssi applicableWritersFor: button.
-	self assert: writers size equals: 3.
+	self assert: writers size equals: 2.
 	skin := ToStyleSheetSkin new.
 	skin propertyWriters: writers.
 	button defaultSkin: skin.
@@ -516,7 +516,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 	button applyStyles.
 	
 	self assert: button background paint isColorPaint.
-	self assert: button background paint color equals: Color black.
+	self assert: button background paint color equals: Color red.
 
 	button disabled: true.
 	button applyStyles.

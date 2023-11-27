@@ -33,6 +33,12 @@ ToStampSet >> all [
 	^ self set asArray
 ]
 
+{ #category : 'converting' }
+ToStampSet >> asArray [ 
+
+	^ self set asArray
+]
+
 { #category : 'accessing' }
 ToStampSet >> changedAction [
 

@@ -6,10 +6,6 @@ Class {
 	#tag : 'Core-Theme'
 }
 
-{ #category : 'style updating' }
-ToNullSkin >> applyStylesIn: anElement [
-]
-
 { #category : 'api - accessing' }
 ToNullSkin >> eventsToHandle [
 

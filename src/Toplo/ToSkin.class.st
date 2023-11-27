@@ -77,18 +77,6 @@ ToSkin >> disabledLookEvent: anEvent [
 
 ]
 
-{ #category : 'event dispatch' }
-ToSkin >> dispatchSkinInstallStateRequestTo: anObject [
-
-	anObject dispatchEvent: ToSkinInstallStateRequest new
-]
-
-{ #category : 'event dispatch' }
-ToSkin >> dispatchSkinUninstallStateRequestTo: anObject [
-
-	anObject dispatchEvent: ToSkinUninstallStateRequest new
-]
-
 { #category : 'event handling' }
 ToSkin >> dragStartedLookEvent: anEvent [
 

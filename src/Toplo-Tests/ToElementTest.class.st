@@ -80,8 +80,6 @@ ToElementTest >> testDefaultSkin [
 	self
 		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ]) size
 		equals: 1.
-	self assert: sk installCpt equals: 0.
-	e applyStyles.
 	self assert: sk installCpt equals: 1.
 	self assert: sk initialCpt equals: 1.
 	self assert: sk uninstallCpt equals: 0.
@@ -205,8 +203,6 @@ ToElementTest >> testSetSkin [
 	e applySkinInstaller.
 	self assert: e defaultSkin identicalTo: sk.
 	self assert: e installedSkin identicalTo: sk.
-	self assert: sk installCpt equals: 0.
-	e applyStyles.
 	self assert: sk installCpt equals: 1.
 	self assert: sk initialCpt equals: 1.
 	self assert: sk uninstallCpt equals: 0.
@@ -219,8 +215,6 @@ ToElementTest >> testSetSkin [
 	e setSkin: sk.
 	e applySkinInstaller.
 	self assert: sk uninstallCpt equals: 1.
-	
-	e applyStyles.
 	self assert: sk installCpt equals: 2.
 	self assert: sk initialCpt equals: 2.
 	

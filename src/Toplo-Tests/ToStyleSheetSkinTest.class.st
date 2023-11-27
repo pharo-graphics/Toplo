@@ -58,8 +58,8 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 	" the installation will fail because the widget layout (not a BlLinearLayout) does not understand #direction:"
 	w defaultSkin: skin.
 	w requestInstallSkin.
-	w applySkinInstaller.
-	self should: [ w applyStyles ] raise: MessageNotUnderstood.
+	" since applySkinInstaller will applyStyles "
+	self should: [ w applySkinInstaller ] raise: MessageNotUnderstood.
 
 	" Now change writers order and it should be ok "
 	skin propertyWriters: {

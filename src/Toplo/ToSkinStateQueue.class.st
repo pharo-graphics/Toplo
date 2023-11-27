@@ -44,7 +44,7 @@ ToSkinStateQueue >> nextStates [
 ]
 
 { #category : 'initialization' }
-ToSkinStateQueue >> skinInstallStateRequestIn: anElement [
+ToSkinStateQueue >> onSkinInstallStateRequestIn: anElement [
 	" install state required  "
 
 	self enqueueState: ToInstallState new for: anElement.
@@ -55,11 +55,12 @@ ToSkinStateQueue >> skinInstallStateRequestIn: anElement [
 ]
 
 { #category : 'initialization' }
-ToSkinStateQueue >> skinUninstallStateRequestIn: anElement [
+ToSkinStateQueue >> onSkinUninstallStateRequestIn: anElement [
 	" uninstall state required  "
 
 	" have to ignore previous look events to avoid to apply them to the new skin"
 	self nextStates flush.
 	" store the uninstall state "
-	self enqueueState: ToUninstallState new for: anElement
+	self enqueueState: ToUninstallState new for: anElement.
+	self applyOn: anElement
 ]

@@ -91,7 +91,6 @@ ToSkinManager >> initialize [
 ToSkinManager >> installSkin: aSkin in: anElement [
 
 	" have to add the skin as an event handler *** before *** dispatching UninstallStateRequest "
-	anElement addEventHandler: aSkin.
 	anElement dispatchEvent: (ToSkinInstallStateRequest new skin: aSkin; yourself)
 ]
 
@@ -272,7 +271,6 @@ ToSkinManager >> themeClasses [
 ToSkinManager >> uninstallSkin: aSkin in: anElement [
 	" uninstall the skin "
 
-	" have to dispatch UninstallStateRequest *** before *** removeEventHandler: "
 	anElement dispatchEvent: (ToSkinUninstallStateRequest new skin: aSkin; yourself).
-	anElement removeEventHandler: aSkin
+
 ]

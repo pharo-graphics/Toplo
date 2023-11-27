@@ -89,16 +89,16 @@ ToSkinStateGeneratorTest >> testGenerateClickedStateFromEvent [
 
 	nextStates := e skinStateQueue nextStates.
 
-	self assert: nextStates size equals: 2.
+	self assert: nextStates size equals: 0.
 	e dispatchEvent: evt.
-	self assert: nextStates size equals: 3.
+	self assert: nextStates size equals: 1.
 
 
 	evt := BlMouseButton primary clickEventClass new button:
 		       BlMouseButton primary.
 
 	e dispatchEvent: evt.
-	self assert: nextStates size equals: 4
+	self assert: nextStates size equals: 2
 ]
 
 { #category : 'tests' }
@@ -111,20 +111,20 @@ ToSkinStateGeneratorTest >> testGenerateHoveredStateFromEvent [
 
 	nextStates := e skinStateQueue nextStates.
 
-	self assert: nextStates size equals: 2.
+	self assert: nextStates size equals: 0.
 	e dispatchEvent: evt.
-	self assert: nextStates size equals: 3.
+	self assert: nextStates size equals: 1.
 
 	evt := BlMouseEnterEvent new.
 
 	e dispatchEvent: evt.
-	self assert: nextStates size equals: 4.
+	self assert: nextStates size equals: 2.
 
 	evt := BlMouseLeaveEvent new.
 
 	e dispatchEvent: evt.
 
-	self assert: nextStates size equals: 5
+	self assert: nextStates size equals: 3
 ]
 
 { #category : 'tests' }

@@ -224,8 +224,8 @@ ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithValuable [
 	propWriter := ToPropertyWriter new.
 	propWriter property: prop.
 	propWriter value: [:e | target2 := e. Color blue].
-	propWriter eventClass: ToInitialLookEvent.
-	propWriter receiveEvent: (ToInitialLookEvent new currentTarget: target).
+	propWriter eventClass: ToInstallLookEvent.
+	propWriter receiveEvent: (ToInstallLookEvent new currentTarget: target).
 	self assert: target2 identicalTo: target.
 	self assert: (target background isKindOf: BlPaintBackground).
 	self assert: target background paint color equals: Color blue.

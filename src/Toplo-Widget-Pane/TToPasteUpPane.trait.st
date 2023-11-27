@@ -1,9 +1,10 @@
 Trait {
-	#name : #TToPasteUpPane,
-	#category : 'Toplo-Widget-Pane'
+	#name : 'TToPasteUpPane',
+	#category : 'Toplo-Widget-Pane',
+	#package : 'Toplo-Widget-Pane'
 }
 
-{ #category : #'t - paste-up pane' }
+{ #category : 't - paste-up pane' }
 TToPasteUpPane >> draggedElement [
 
 	^ self pasteUpField ifNotNil: [ :field |
@@ -12,31 +13,31 @@ TToPasteUpPane >> draggedElement [
 			  ifFalse: [  ] ]
 ]
 
-{ #category : #'t - paste-up pane' }
+{ #category : 't - paste-up pane' }
 TToPasteUpPane >> initialGap [
 
 	^ self userData at: #initialGap ifAbsent: [ 0 ]
 ]
 
-{ #category : #'t - paste-up pane' }
+{ #category : 't - paste-up pane' }
 TToPasteUpPane >> initialGap: anInteger [
 
 	self userData at: #initialGap put: anInteger
 ]
 
-{ #category : #'t - paste-up pane' }
+{ #category : 't - paste-up pane' }
 TToPasteUpPane >> pasteUpField [
 
 	^ self userData at: #pasteUpField
 ]
 
-{ #category : #'t - paste-up pane' }
+{ #category : 't - paste-up pane' }
 TToPasteUpPane >> pasteUpField: aLayer [
 
 	self userData at: #pasteUpField put: aLayer
 ]
 
-{ #category : #'t - paste-up pane' }
+{ #category : 't - paste-up pane' }
 TToPasteUpPane >> setUpAsPasteUp [
 
 	| field |

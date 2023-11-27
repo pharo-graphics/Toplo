@@ -17,12 +17,6 @@ ToRawSkinForTest >> initialCpt [
 	^ initialCpt
 ]
 
-{ #category : 'event handling' }
-ToRawSkinForTest >> initialLookEvent: anEvent [
-
-	initialCpt := initialCpt + 1
-]
-
 { #category : 'initialization' }
 ToRawSkinForTest >> initialize [ 
 
@@ -41,7 +35,8 @@ ToRawSkinForTest >> installCpt [
 { #category : 'event handling' }
 ToRawSkinForTest >> installLookEvent: anEvent [
 
-	installCpt := installCpt + 1
+	installCpt := installCpt + 1.
+	initialCpt := initialCpt + 1
 ]
 
 { #category : 'accessing' }

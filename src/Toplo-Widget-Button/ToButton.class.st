@@ -11,19 +11,6 @@ Class {
 	#tag : 'Core'
 }
 
-{ #category : 'skin' }
-ToButton >> initialRawStyle [
-
-	super initialRawStyle.
-
-	((self parent isKindOf: ToMenuItem) and: [ self parent isTopMenu not ])
-		ifTrue: [ ^ self ].
-	(self hasIcon and: [ self hasLabel ]) ifFalse: [
-		self interspace: 0.
-		^ self ].
-	self interspace: 10
-]
-
 { #category : 'initialization' }
 ToButton >> initialize [
 
@@ -39,6 +26,12 @@ ToButton >> installRawStyle [
 	super installRawStyle.
 	self labeledIcon hMatchParent.
 	self iconDo: [ :ic | ic formColor: Color black ].
+	((self parent isKindOf: ToMenuItem) and: [ self parent isTopMenu not ])
+		ifTrue: [ ^ self ].
+	(self hasIcon and: [ self hasLabel ]) ifFalse: [
+		self interspace: 0.
+		^ self ].
+	self interspace: 10
 
 ]
 

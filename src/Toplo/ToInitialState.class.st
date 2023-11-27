@@ -5,9 +5,3 @@ Class {
 	#package : 'Toplo',
 	#tag : 'Core-States'
 }
-
-{ #category : 'look event sending' }
-ToInitialState >> lookEventClass [
-
-	^ ToInitialLookEvent
-]

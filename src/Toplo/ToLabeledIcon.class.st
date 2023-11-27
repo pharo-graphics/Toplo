@@ -147,18 +147,6 @@ ToLabeledIcon >> iconImage: anElement [
 	self icon: (ToImage inner: anElement)
 ]
 
-{ #category : 'skin' }
-ToLabeledIcon >> initialRawStyle [
-
-	super initialRawStyle.
-	self childrenDo: [ :child |
-		child constraintsDo: [ :c |
-			c linear vertical alignCenter.
-			c linear horizontal alignCenter ] ].
-
-	
-]
-
 { #category : 'initialization' }
 ToLabeledIcon >> initialize [
 
@@ -191,6 +179,18 @@ ToLabeledIcon >> initialize [
 	self beIconFirst.
 	self fitContent.
 	self addEventHandler: self defaultEventHandler
+]
+
+{ #category : 'skin' }
+ToLabeledIcon >> installRawStyle [
+
+	super installRawStyle.
+	self childrenDo: [ :child |
+		child constraintsDo: [ :c |
+			c linear vertical alignCenter.
+			c linear horizontal alignCenter ] ].
+
+	
 ]
 
 { #category : 'accessing' }

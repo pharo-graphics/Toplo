@@ -1,10 +1,11 @@
 Class {
-	#name : #ToDividerSkin,
-	#superclass : #ToRawSkin,
-	#category : 'Toplo-Widget-Pane'
+	#name : 'ToDividerSkin',
+	#superclass : 'ToRawSkin',
+	#category : 'Toplo-Widget-Pane',
+	#package : 'Toplo-Widget-Pane'
 }
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToDividerSkin >> dragStartedLookEvent: anEvent [
 
 	super dragStartedLookEvent: anEvent.
@@ -12,7 +13,7 @@ ToDividerSkin >> dragStartedLookEvent: anEvent [
 		e mouseCursor: e resizerCursor ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToDividerSkin >> draggedLookEvent: anEvent [
 
 	super draggedLookEvent: anEvent.
@@ -22,7 +23,7 @@ ToDividerSkin >> draggedLookEvent: anEvent [
 		e background: e draggedBackground ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToDividerSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
@@ -32,16 +33,16 @@ ToDividerSkin >> hoveredLookEvent: anEvent [
 		e background: e hoveredBackground ]
 ]
 
-{ #category : #'event handling' }
-ToDividerSkin >> initialLookEvent: anEvent [
+{ #category : 'event handling' }
+ToDividerSkin >> installLookEvent: anEvent [
 
-	super initialLookEvent: anEvent.
+	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: e defaultBorder.
 		e background: e defaultBackground ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToDividerSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
@@ -50,7 +51,7 @@ ToDividerSkin >> leavedLookEvent: anEvent [
 		e background: e defaultBackground ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToDividerSkin >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
@@ -60,7 +61,7 @@ ToDividerSkin >> pressedLookEvent: anEvent [
 		e background: e pressedBackground ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 ToDividerSkin >> releasedLookEvent: anEvent [
 
 	super releasedLookEvent: anEvent.

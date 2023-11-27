@@ -44,36 +44,22 @@ ToSkinStateQueue >> nextStates [
 ]
 
 { #category : 'initialization' }
-ToSkinStateQueue >> skinInitialStateRequest: anEvent [
-	" initial state required - if the element is enabled proceed with stored persistent states "
-
-	| target |
-	target := anEvent currentTarget.
-	self enqueueState: ToInitialState new for: target.
-	" restitute the intrasic states (as enablement, check)
-	enablement state must always be the last one to be enqueued "
-	target skinManager intrinsicStatesDo: [ :state |
-		self enqueueState: state for: target ].
-
-]
-
-{ #category : 'initialization' }
-ToSkinStateQueue >> skinInstallStateRequest: anEvent [
+ToSkinStateQueue >> skinInstallStateRequestIn: anElement [
 	" install state required  "
 
-	| target |
-	target := anEvent currentTarget.
-	self enqueueState: ToInstallState new for: target
+	self enqueueState: ToInstallState new for: anElement.
+	" restitute the intrasic states (as enablement, check)
+	enablement state must always be the last one to be enqueued "
+	anElement skinManager intrinsicStatesDo: [ :state |
+		self enqueueState: state for: anElement ]
 ]
 
 { #category : 'initialization' }
-ToSkinStateQueue >> skinUninstallStateRequest: anEvent [
+ToSkinStateQueue >> skinUninstallStateRequestIn: anElement [
 	" uninstall state required  "
 
-	| target |
-	target := anEvent currentTarget.
 	" have to ignore previous look events to avoid to apply them to the new skin"
 	self nextStates flush.
 	" store the uninstall state "
-	self enqueueState: ToUninstallState new for: target
+	self enqueueState: ToUninstallState new for: anElement
 ]

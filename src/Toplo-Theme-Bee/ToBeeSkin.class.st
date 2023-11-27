@@ -6,18 +6,10 @@ Class {
 }
 
 { #category : 'event dispatch' }
-ToBeeSkin >> dispatchSkinInitialStateRequestTo: anObject [
-
-	super dispatchSkinInitialStateRequestTo: anObject.
-	anObject initialBeeStyle
-	
-]
-
-{ #category : 'event dispatch' }
 ToBeeSkin >> dispatchSkinInstallStateRequestTo: anObject [
 
 	super dispatchSkinInstallStateRequestTo: anObject.
-	anObject installBeeStyle
+	"anObject installBeeStyle"
 	
 ]
 
@@ -25,6 +17,22 @@ ToBeeSkin >> dispatchSkinInstallStateRequestTo: anObject [
 ToBeeSkin >> dispatchSkinUninstallStateRequestTo: anObject [
 
 	super dispatchSkinUninstallStateRequestTo: anObject.
-	anObject uninstallBeeStyle
+	"anObject uninstallBeeStyle"
+	
+]
+
+{ #category : 'event dispatch' }
+ToBeeSkin >> onInstallStateRequestIn: anElement [
+
+	super onInstallStateRequestIn: anElement.
+	anElement installBeeStyle
+	
+]
+
+{ #category : 'event dispatch' }
+ToBeeSkin >> onUninstallStateRequestIn: anElement [
+
+	super onUninstallStateRequestIn: anElement.
+	anElement uninstallBeeStyle
 	
 ]

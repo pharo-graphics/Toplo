@@ -46,7 +46,7 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 				 write: prop
 				 with: [ :e | e toValueOf: #'color-text-disabled' ].
 			 sr
-				 when: ToInitialLookEvent
+				 when: ToInstallLookEvent
 				 write: prop
 				 with: [ :e | e toValueOf: #'color-error' ].
 			 sr
@@ -107,15 +107,10 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 		((ToStampSelector new addStamp: #button) style: [ :sr |
 			 | p |
 			 p := ToFeatureProperty new name: #background.
-
 			 sr
 				 when: ToDisabledLookEvent
 				 write: p
 				 with: [ :e | e toValueOf: #'color-bg-container-disabled' ].
-			 sr
-				 when: ToInitialLookEvent
-				 write: p
-				 with: [ :e | Color transparent ].
 
 			 p := ToFeatureProperty new name: #border.
 
@@ -124,7 +119,7 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 				 write: p
 				 with: [ :e | e toValueOf: #'color-border-disabled' ].
 			 sr
-				 when: ToInitialLookEvent
+				 when: ToInstallLookEvent
 				 write: p
 				 with: [ :e | e toValueOf: #'color-border' ].
 			 sr
@@ -154,7 +149,7 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 				 write: p
 				 with: [ :e | e toValueOf: #'color-text-disabled' ].
 			 sr
-				 when: ToInitialLookEvent
+				 when: ToInstallLookEvent
 				 write: p
 				 with: [ :e | e toValueOf: #'color-error' ].
 			 sr
@@ -310,7 +305,7 @@ ToStyleSheetBazarTest >> testSkinWithAnUniversalRule [
 	ss addStyleRule:
 		(ToUniversalSelector new style: [ :sr |
 			 sr
-				 when: ToInitialLookEvent
+				 when: ToInstallLookEvent
 				 write: (ToFeatureProperty new name: #background)
 				 with: Color red ]).
 	elem := ToElement new.
@@ -376,7 +371,7 @@ ToStyleSheetBazarTest >> testSkinWithChildRuleLevel2 [
 					  depth: 2)
 			 style: [ :sr |
 				 sr
-					 when: ToInitialLookEvent
+					 when: ToInstallLookEvent
 					 write: (ToFeatureProperty new name: #border)
 					 with: (BlBorder paint: Color red width: 3) ]).
 
@@ -448,7 +443,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyle0 [
 	rules := { (#button asElementSelector style: [ :sr |
 		          sr write: (ss property: #background) with: Color white.
 		          sr
-			          when: ToInitialLookEvent
+			          when: ToInstallLookEvent
 			          write: (ss property: #background)
 			          with: [ :e | Color black ].
 		          sr
@@ -492,7 +487,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 				          with: [ :e | Color red alpha: 0.1 ] ].
 		          sr write: (ss property: #background) with: Color white.
 		          sr
-			          when: ToInitialLookEvent
+			          when: ToInstallLookEvent
 			          write: (ss property: #background)
 			          with: [ :e | Color black ].
 		          sr
@@ -992,7 +987,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 			           ((#( #elem #red ) asElementSelector
 				             child: #childchild1
 				             depth: 2) child: #childchild2 depth: 2)) style: [ :sr |
-			          sr when: ToInitialLookEvent
+			          sr when: ToInstallLookEvent
 				          write: (ss property: #background)
 				          with: [ :e | Color red ] ]).
 			
@@ -1000,7 +995,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 			           ((#( #elem #blue ) asElementSelector
 				             child: #childchild1
 				             depth: 2) child: #childchild2 depth: 2)) style: [ :sr |
-			          sr when: ToInitialLookEvent
+			          sr when: ToInstallLookEvent
 				          write: (ss property: #background)
 				          with: [ :e | Color blue ] ]) }.
 
@@ -1017,7 +1012,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 	self assert: child background paint color equals: Color red.
 	
 	elem addAllStamps: #( #elem #blue ).
-	elem resmoveStamp: #red.
+	elem removeStamp: #red.
 	writers := ssi applicableWritersFor: child.
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.

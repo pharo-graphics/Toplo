@@ -7,18 +7,10 @@ Class {
 }
 
 { #category : 'event dispatch' }
-ToRawSkin >> dispatchSkinInitialStateRequestTo: anObject [
-
-	super dispatchSkinInitialStateRequestTo: anObject.
-	anObject initialRawStyle
-	
-]
-
-{ #category : 'event dispatch' }
 ToRawSkin >> dispatchSkinInstallStateRequestTo: anObject [
 
 	super dispatchSkinInstallStateRequestTo: anObject.
-	anObject installRawStyle
+	"anObject installRawStyle"
 	
 ]
 
@@ -26,6 +18,22 @@ ToRawSkin >> dispatchSkinInstallStateRequestTo: anObject [
 ToRawSkin >> dispatchSkinUninstallStateRequestTo: anObject [
 
 	super dispatchSkinUninstallStateRequestTo: anObject.
-	anObject uninstallRawStyle
+	"anObject uninstallRawStyle"
+	
+]
+
+{ #category : 'event dispatch' }
+ToRawSkin >> onInstallStateRequestIn: anElement [
+
+	super onInstallStateRequestIn: anElement.
+	anElement installRawStyle
+	
+]
+
+{ #category : 'event dispatch' }
+ToRawSkin >> onUninstallStateRequestIn: anElement [
+
+	super onUninstallStateRequestIn: anElement.
+	anElement uninstallRawStyle
 	
 ]

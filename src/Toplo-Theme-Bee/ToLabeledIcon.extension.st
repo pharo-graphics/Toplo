@@ -11,36 +11,36 @@ ToLabeledIcon >> installBeeStyle [
 
 	super installBeeStyle.
 
-	"self filler id: #filler.	
-	self filler withStamp: #'labeled-icon-filler'."
+	self filler id: #filler.	
+	self filler addStamp: #'labeled-icon-filler'.
 	
-	"self iconHolder id: #'icon-holder'.
-	self labelHolder id: #'label-holder'."
+	self iconHolder id: #'icon-holder'.
+	self labelHolder id: #'label-holder'.
 	
-	"self icon ifNotNil: [ :ic | ic withStamp: #icon ].
-	self label ifNotNil: [ :la | la withStamp: #label ]."
+	self icon ifNotNil: [ :ic | ic addStamp: #icon ].
+	self label ifNotNil: [ :la | la addStamp: #label ].
 	
 	self isIconFirst
 		ifTrue: [
 			self addStamp: #'icon-first'.
-			self resmoveStamp: #'label-first' ]
+			self removeStamp: #'label-first' ]
 		ifFalse: [
 			self addStamp: #'label-first'.
-			self resmoveStamp: #'icon-first' ].
+			self removeStamp: #'icon-first' ].
 		
 	self isHorizontal
 		ifTrue: [
 			self addStamp: #horizontal.
-			self resmoveStamp: #vertical ]
+			self removeStamp: #vertical ]
 		ifFalse: [
 			self addStamp: #vertical.
-			self resmoveStamp: #horizontal ].
+			self removeStamp: #horizontal ].
 
 	self isFlexible
 		ifTrue: [
-			self resmoveStamp: #'exact-interspace'.
+			self removeStamp: #'exact-interspace'.
 			self addStamp: #flexible ]
 		ifFalse: [
 			self addStamp: #'exact-interspace'.
-			self resmoveStamp: #flexible ]
+			self removeStamp: #flexible ]
 ]

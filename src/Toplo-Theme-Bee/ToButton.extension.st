@@ -4,5 +4,5 @@ Extension { #name : 'ToButton' }
 ToButton >> installBeeStyle [ 
 
 	super installBeeStyle.
-	"self withStamp: #button"
+	self addStamp: #button
 ]

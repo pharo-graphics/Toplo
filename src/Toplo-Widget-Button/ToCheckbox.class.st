@@ -34,7 +34,7 @@ ToCheckbox >> defaultImageBorder [
 { #category : 'skin' }
 ToCheckbox >> defaultImageColor [
 
-	^ Color blue
+	^ (self toValueOf: #'color-primary')
 ]
 
 { #category : 'skin' }
@@ -58,7 +58,7 @@ ToCheckbox >> iconGeometry [
 { #category : 'skin' }
 ToCheckbox >> iconHoveredBorder [ 
 
-	^ BlBorder paint: (Color lightGray) width: 1
+	^ BlBorder paint: (self toValueOf: #'color-primary') width: 1
 ]
 
 { #category : 'skin' }
@@ -90,7 +90,8 @@ ToCheckbox >> installRawStyle [
 
 	super installRawStyle.
 	self iconImage: self defaultBlankCheckboxImage.
-	self icon geometry: self iconGeometry
+	self icon geometry: self iconGeometry.
+	self interspace: 10
 ]
 
 { #category : 'skin' }

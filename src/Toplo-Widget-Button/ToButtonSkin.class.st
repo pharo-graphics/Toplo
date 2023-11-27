@@ -40,9 +40,9 @@ ToButtonSkin >> hoveredLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToButtonSkin >> initialLookEvent: anEvent [
+ToButtonSkin >> installLookEvent: anEvent [
 
-	super initialLookEvent: anEvent.
+	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e | 
 		e iconDo: [ :ic | ic formColor: (e toValueOf: #'color-text') ].
 		e labelDo: [ :lab |

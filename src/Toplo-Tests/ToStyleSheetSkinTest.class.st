@@ -41,12 +41,12 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 		                       #'layout-direction'.
 	layoutProp := self writablePropertyIndex propertyNamed: #layout.
 	directionWriter := ToPropertyWriter new
-		                   eventClass: ToInitialLookEvent;
+		                   eventClass: ToInstallLookEvent;
 		                   property: layoutDirectionProp;
 		                   value: BlLayoutDirection rightToLeft;
 		                   yourself.
 	layoutWriter := ToPropertyWriter new
-		                eventClass: ToInitialLookEvent;
+		                eventClass: ToInstallLookEvent;
 		                property: layoutProp;
 		                value: BlLinearLayout new;
 		                yourself.
@@ -66,7 +66,7 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 			layoutWriter.
 			directionWriter }.
 
-	w enqueueSkinState: ToInitialState new.
+	w enqueueSkinState: ToInstallState new.
 	w applyStyles.
 	self assert: (w layout isKindOf: BlLinearLayout).
 	self assert: w layout direction isRightToLeft
@@ -106,7 +106,7 @@ ToStyleSheetSkinTest >> testSupplementWriter [
 	borderProp := self writablePropertyIndex propertyNamed: #border.
 	skin propertyWriters: {
 			(ToPropertyWriter new
-				 eventClass: ToInitialLookEvent;
+				 eventClass: ToInstallLookEvent;
 				 property: backgroundProp;
 				 value: Color blue;
 				 yourself).
@@ -115,7 +115,7 @@ ToStyleSheetSkinTest >> testSupplementWriter [
 				 value: [ :e | Color yellow ];
 				 yourself).
 			(ToPropertyWriter new
-				 eventClass: ToInitialLookEvent;
+				 eventClass: ToInstallLookEvent;
 				 property: borderProp;
 				 value: [ :e |
 					 borderBuilder
@@ -123,7 +123,7 @@ ToStyleSheetSkinTest >> testSupplementWriter [
 						 build ] yourself).
 			(ToPropertyWriter new
 				 supplement: true;
-				 eventClass: ToInitialLookEvent;
+				 eventClass: ToInstallLookEvent;
 				 property: borderProp;
 				 value: [ :e |
 					 borderBuilder
@@ -237,7 +237,7 @@ ToStyleSheetSkinTest >> testWithTwoWritersTwoEventClasses [
 	borderProp := self writablePropertyIndex propertyNamed: #border.
 	skin propertyWriters: {
 			(ToPropertyWriter new
-				 eventClass: ToInitialLookEvent;
+				 eventClass: ToInstallLookEvent;
 				 property: backgroundProp;
 				 value: Color blue;
 				 yourself).
@@ -246,7 +246,7 @@ ToStyleSheetSkinTest >> testWithTwoWritersTwoEventClasses [
 				 value: Color yellow;
 				 yourself).
 			(ToPropertyWriter new
-				 eventClass: ToInitialLookEvent;
+				 eventClass: ToInstallLookEvent;
 				 property: borderProp;
 				 value: Color red;
 				 yourself) }.

@@ -12,7 +12,8 @@ Class {
 		'styleSheet',
 		'themeClasses',
 		'borderBuilder',
-		'textAttributesBuilder'
+		'textAttributesBuilder',
+		'skinManagementEventHandler'
 	],
 	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
@@ -89,9 +90,9 @@ ToSkinManager >> initialize [
 { #category : 'accessing - skin' }
 ToSkinManager >> installSkin: aSkin in: anElement [
 
+	" have to add the skin as an event handler *** before *** dispatching UninstallStateRequest "
 	anElement addEventHandler: aSkin.
-	aSkin dispatchSkinInstallStateRequestTo: anElement.
-	aSkin dispatchSkinInitialStateRequestTo: anElement
+	anElement dispatchEvent: (ToSkinInstallStateRequest new skin: aSkin; yourself)
 ]
 
 { #category : 'accessing - skin' }
@@ -130,7 +131,9 @@ ToSkinManager >> isSetUpForTheme: aTheme [
 { #category : 'skin application' }
 ToSkinManager >> onInstalledIn: anElement [
 
-	themeClasses := IdentitySet new
+	themeClasses := IdentitySet new.
+	skinManagementEventHandler := ToSkinManagementEventHandler new.
+	anElement addEventHandler: skinManagementEventHandler
 ]
 
 { #category : 'accessing - skin' }
@@ -269,13 +272,7 @@ ToSkinManager >> themeClasses [
 ToSkinManager >> uninstallSkin: aSkin in: anElement [
 	" uninstall the skin "
 
-	" have to dispatch UninstallStateRequest *** before *** removeEventHandler:
-		If not, the uninstall state then the uninstallLookEvent will not be sent "
-	aSkin dispatchSkinUninstallStateRequestTo: anElement.
-	" do not wait next pulse to flush skinStateQueue state 
-		(to send ToUninstallLookEvent) "
-	anElement applyStyles.
-	" now remove the skin actually.
-		no look event applied until a new skin is installed"
+	" have to dispatch UninstallStateRequest *** before *** removeEventHandler: "
+	anElement dispatchEvent: (ToSkinUninstallStateRequest new skin: aSkin; yourself).
 	anElement removeEventHandler: aSkin
 ]

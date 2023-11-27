@@ -88,7 +88,6 @@ ToNotebookButton >> installRawStyle [
 
 	self fitContent.
 	self constraintsDo: [ :c | c linear vertical alignCenter ].
-	self padding: self defaultPadding.
 	self border: Color black.
 	self geometry: self defaultGeometry.
 	

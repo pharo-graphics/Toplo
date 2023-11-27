@@ -78,12 +78,6 @@ ToSkin >> disabledLookEvent: anEvent [
 ]
 
 { #category : 'event dispatch' }
-ToSkin >> dispatchSkinInitialStateRequestTo: anObject [
-
-	anObject dispatchEvent: ToSkinInitialStateRequest new
-]
-
-{ #category : 'event dispatch' }
 ToSkin >> dispatchSkinInstallStateRequestTo: anObject [
 
 	anObject dispatchEvent: ToSkinInstallStateRequest new
@@ -128,9 +122,7 @@ ToSkin >> enabledLookEvent: anEvent [
 { #category : 'api - accessing' }
 ToSkin >> eventsToHandle [
 
-	^ {
-		  ToSkinManagementEvent.
-		  ToElementLookEvent }
+	^ { ToElementLookEvent }
 ]
 
 { #category : 'event handling' }
@@ -157,12 +149,6 @@ ToSkin >> hoveredLookEvent: anEvent [
 
 { #category : 'event handling' }
 ToSkin >> indeterminateLookEvent: anEvent [
-
-
-]
-
-{ #category : 'event handling' }
-ToSkin >> initialLookEvent: anEvent [
 
 
 ]
@@ -195,6 +181,10 @@ ToSkin >> leavedLookEvent: anEvent [
 ]
 
 { #category : 'api - hooks' }
+ToSkin >> onInstallStateRequestIn: anElement [
+]
+
+{ #category : 'api - hooks' }
 ToSkin >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
@@ -204,6 +194,10 @@ ToSkin >> onInstalledIn: anElement [
 		                               on: BlElementRemovedFromSceneGraphEvent
 		                               do: [ :evt | evt currentTarget requestUninstallSkin ].
 	anElement addEventHandler: removeFromSceneGraphHandler
+]
+
+{ #category : 'api - hooks' }
+ToSkin >> onUninstallStateRequestIn: anElement [
 ]
 
 { #category : 'api - hooks' }
@@ -231,27 +225,6 @@ ToSkin >> pressedLookEvent: anEvent [
 ToSkin >> releasedLookEvent: anEvent [
 
 
-]
-
-{ #category : 'event handling' }
-ToSkin >> skinInitialStateRequest: anEvent [
-
-	anEvent currentTarget skinStateQueue skinInitialStateRequest: anEvent
-
-]
-
-{ #category : 'event handling' }
-ToSkin >> skinInstallStateRequest: anEvent [
-
-	anEvent currentTarget skinStateQueue
-		skinInstallStateRequest: anEvent
-]
-
-{ #category : 'event handling' }
-ToSkin >> skinUninstallStateRequest: anEvent [
-
-	anEvent currentTarget skinStateQueue
-		skinUninstallStateRequest: anEvent
 ]
 
 { #category : 'event handling' }

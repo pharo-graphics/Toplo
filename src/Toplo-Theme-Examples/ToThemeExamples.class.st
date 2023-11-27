@@ -82,15 +82,20 @@ ToThemeExamples class >> elementSandBoxFor: aSpace [
 { #category : 'examples - buttons' }
 ToThemeExamples class >> example_beeButtonsInRawPane [
 
-	| space primaryButton2 pane c chb |
+	| space primaryButton2 pane c chb disachb |
 	ToTheme cleanUp.
 	space := BlSpace new.
 	space root layout: BlLinearLayout new.
+	space root layout beVertical.
 	pane := ToPane vertical.
 	pane padding: (BlInsets all: 15).
 	pane layout cellSpacing: 5.
+	pane border: Color lightGray.
 	"pane localToTheme: ToRawTheme new."
 	space toTheme: ToBeeLightTheme new.
+
+	disachb := ToCheckbox new label: (ToLabel text: 'Disable all buttons').
+	disachb defaultSkin: ToCheckboxSkin new.
 
 	chb := ToCheckbox new label: (ToLabel text: 'Swith primary').
 	chb defaultSkin: ToCheckboxSkin new.
@@ -112,12 +117,17 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 			ifTrue: [ primaryButton2 addStamp: #primary ]
 			ifFalse: [ primaryButton2 removeStamp: #primary ] ].
 	chb checked: true.
+	disachb when: ToCheckableCheckEvent do: [ :evt |
+		(evt current)
+			ifTrue: [ pane childrenDo: [ :child | child disable ] ]
+			ifFalse: [ pane childrenDo: [ :child | child enable ] ] ].
 
 	"primaryButton2 addAllTokenProperties: ToBeeDarkTheme defaultTokenProperties."
 	"primaryButton2 withStamp: #primary."
 	pane addChild: primaryButton1.
 	pane addChild: chb.
 	pane addChild: primaryButton2.
+	space root addChild: disachb.
 	space root addChild: pane.
 	space show
 ]

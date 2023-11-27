@@ -69,12 +69,8 @@ ToBeeStyleSheet >> checkableButtonRules [
 
 		  ((#image asElementSelector parent: #( #button #checkable ) depth: 3)
 			   style: [ :sr | " icon border "
-				   sr write: (self property: #'border-with-builder') with: [ :e |
-					   e borderBuilder
-						   paint: (e toValueOf: #'color-border');
-						   yourself ].
 				   sr
-					   when: ToInitialLookEvent
+					   when: ToInstallLookEvent
 					   write: (self property: #'border-with-builder')
 					   with: [ :e |
 						   e borderBuilder
@@ -106,7 +102,7 @@ ToBeeStyleSheet >> checkableButtonRules [
 			    parent: #( #button #checkable #danger )
 			    depth: 3) style: [ :sr | " icon border "
 			   sr
-				   when: ToInitialLookEvent
+				   when: ToInstallLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
@@ -546,7 +542,7 @@ ToBeeStyleSheet >> defaultButtonRules [
 			  
 				"Background"
 				sr
-				   when: ToInitialLookEvent
+				   when: ToInstallLookEvent
 				   write: (self property: #'background-color')
 				   with: [ :e | e toValueOf: #'color-bg-container' ].
 			   sr
@@ -557,7 +553,7 @@ ToBeeStyleSheet >> defaultButtonRules [
 				"Border"
 				sr select: #primary asElementSelector not style: [ 
 				   
-					sr when: ToInitialLookEvent
+					sr when: ToInstallLookEvent
 				 		write: (self property: #border)
 						with: [ :e | BlBorder paint: (e toValueOf: #'color-border') width: (e toValueOf: #'line-width') ].
 					sr
@@ -586,7 +582,7 @@ ToBeeStyleSheet >> defaultButtonRules [
 					
 				"Label"
 				sr
-				   when: ToInitialLookEvent
+				   when: ToInstallLookEvent
 				   write: (self property: #'button-label-text-foreground')
 				   with: [ :e | e toValueOf: #'color-text' ].
 				sr
@@ -619,7 +615,7 @@ ToBeeStyleSheet >> defaultButtonRulesOld [
 		{ 
 			  (#button asElementSelector style: [ :sr |
 			   sr
-				   when: ToInitialLookEvent
+				   when: ToInstallLookEvent
 				   write: (self property: #background)
 				   with: [ :e | Color transparent ].
 			   sr
@@ -660,7 +656,7 @@ ToBeeStyleSheet >> defaultButtonRulesOld [
 		  " default button form icon "
 		  ((#image asElementSelector parent: #button depth: 2) style: [ :sr |
 			   sr
-				   when: ToInitialLookEvent
+				   when: ToInstallLookEvent
 				   write: (self property: #'image-inner-form-color')
 				   with: [ :e | e toValueOf: #'color-text' ].
 			   sr
@@ -679,7 +675,7 @@ ToBeeStyleSheet >> defaultButtonRulesOld [
 		  " default button label "
 		  ((#label asElementSelector parent: #button depth: 2) style: [ :sr |
 			   sr
-				   when: ToInitialLookEvent
+				   when: ToInstallLookEvent
 				   write: (self property: #'label-text-foreground')
 				   with: [ :e | e toValueOf: #'color-text' ].
 			   sr
@@ -698,7 +694,7 @@ ToBeeStyleSheet >> defaultButtonRulesOld [
 		  " ToButton default danger"
 		  (#( #button #danger ) asElementSelector - #checkable style: [ :sr |
 			   sr
-				   when: ToInitialLookEvent
+				   when: ToInstallLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e | e borderBuilder paint: (e toValueOf: #'color-error') ].
 			   sr
@@ -720,7 +716,7 @@ ToBeeStyleSheet >> defaultButtonRulesOld [
 		  ((#image asElementSelector parent: #( #button #danger ) depth: 2)
 			   style: [ :sr |
 				   sr
-					   when: ToInitialLookEvent
+					   when: ToInstallLookEvent
 					   write: (self property: #'image-inner-form-color')
 					   with: [ :e | (e toValueOf: #'color-error') ].
 				   sr
@@ -740,7 +736,7 @@ ToBeeStyleSheet >> defaultButtonRulesOld [
 		  ((#label asElementSelector parent: #( #button #danger ) depth: 2)
 			   style: [ :sr |
 				   sr
-					   when: ToInitialLookEvent
+					   when: ToInstallLookEvent
 					   write: (self property: #'label-text-foreground')
 					   with: [ :e | (e toValueOf: #'color-error') ].
 				   sr
@@ -919,7 +915,7 @@ ToBeeStyleSheet >> linkButtonRules [
 		  ((#image asElementSelector parent: #( #button #link ) depth: 2)
 			   style: [ :sr |
 				   sr
-					   when: ToInitialLookEvent
+					   when: ToInstallLookEvent
 					   write: (self property: #'image-inner-form-color')
 					   with: [ :e | (e toValueOf: #'color-link') ].
 				   sr
@@ -939,7 +935,7 @@ ToBeeStyleSheet >> linkButtonRules [
 		  ((#label asElementSelector parent: #( #button #link ) depth: 2)
 			   style: [ :sr |
 				   sr
-					   when: ToInitialLookEvent
+					   when: ToInstallLookEvent
 					   write: (self property: #'label-text-foreground')
 					   with: [ :e | (e toValueOf: #'color-link') ].
 				   sr
@@ -960,7 +956,7 @@ ToBeeStyleSheet >> linkButtonRules [
 			    parent: #( #button #link #danger )
 			    depth: 2) style: [ :sr |
 			   sr
-				   when: ToInitialLookEvent
+				   when: ToInstallLookEvent
 				   write: (self property: #'image-inner-form-color')
 				   with: [ :e | (e toValueOf: #'color-error') ].
 			   sr
@@ -981,7 +977,7 @@ ToBeeStyleSheet >> linkButtonRules [
 			    parent: #( #button #link #danger )
 			    depth: 2) style: [ :sr |
 			   sr
-				   when: ToInitialLookEvent
+				   when: ToInstallLookEvent
 				   write: (self property: #'label-text-foreground')
 				   with: [ :e | (e toValueOf: #'color-error') ].
 			   sr
@@ -1012,7 +1008,7 @@ ToBeeStyleSheet >> primaryButtonRules [
 			   
 				"Background"
 				sr
-				   when: ToInitialLookEvent
+				   when: ToInstallLookEvent
 				   write: (self property: #'background-color')
 				   with: [ :e | (e toValueOf: #'color-primary') ].
 				 sr
@@ -1037,7 +1033,7 @@ ToBeeStyleSheet >> primaryButtonRules [
 
 				"Border"
 			   sr
-				   when: ToInitialLookEvent
+				   when: ToInstallLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e | e borderBuilder paint: (Color transparent); width: (e toValueOf: #'line-width') ].
 				sr
@@ -1052,7 +1048,7 @@ ToBeeStyleSheet >> primaryButtonRules [
 				
 				"Label"
 				sr
-				   when: ToInitialLookEvent
+				   when: ToInstallLookEvent
 				   write: (self property: #'button-label-text-foreground')
 				   with: [ :e | (e toValueOf: #'color-text-light-solid') ].
 				sr
@@ -1083,7 +1079,7 @@ ToBeeStyleSheet >> primaryButtonRulesOld [
 	^ {
 		  (#button asElementSelector + #primary style: [ :sr |
 			   sr
-				   when: ToInitialLookEvent
+				   when: ToInstallLookEvent
 				   write: (self property: #background)
 				   with: [ :e | (e toValueOf: #'color-primary') ].
 			   sr
@@ -1106,7 +1102,7 @@ ToBeeStyleSheet >> primaryButtonRulesOld [
 				   with: [ :e | (e toValueOf: #'color-primary-pressed') ].
 
 			   sr
-				   when: ToInitialLookEvent
+				   when: ToInstallLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e | e borderBuilder paint: Color transparent ].
 			   sr
@@ -1118,7 +1114,7 @@ ToBeeStyleSheet >> primaryButtonRulesOld [
 
 			   sr select: #danger style: [
 				   sr
-					   when: ToInitialLookEvent
+					   when: ToInstallLookEvent
 					   write: (self property: #background)
 					   with: [ :e | (e toValueOf: #'color-error') ].
 				   sr
@@ -1141,7 +1137,7 @@ ToBeeStyleSheet >> primaryButtonRulesOld [
 					   with: [ :e | e toValueOf: #'color-error-pressed' ].
 
 				   sr
-					   when: ToInitialLookEvent
+					   when: ToInstallLookEvent
 					   write: (self property: #'border-with-builder')
 					   with: [ :e | e borderBuilder paint: Color transparent ].
 				   sr
@@ -1156,7 +1152,7 @@ ToBeeStyleSheet >> primaryButtonRulesOld [
 			    parent: #button asElementSelector + #primary
 			    depth: 2) style: [ :sr |
 			   sr
-				   when: ToInitialLookEvent
+				   when: ToInstallLookEvent
 				   write: (self property: #'image-inner-form-color')
 				   with: [ :e | (e toValueOf: #'color-image-light-solid') ].
 			   sr
@@ -1178,7 +1174,7 @@ ToBeeStyleSheet >> primaryButtonRulesOld [
 			    parent: #button asElementSelector + #primary
 			    depth: 2) style: [ :sr |
 			   sr
-				   when: ToInitialLookEvent
+				   when: ToInstallLookEvent
 				   write: (self property: #'label-text-foreground')
 				   with: [ :e | (e toValueOf: #'color-text-light-solid') ].
 			   sr
@@ -1211,7 +1207,7 @@ ToBeeStyleSheet >> textButtonRules [
 	^ {
 		  (#( #button #text ) asElementSelector style: [ :sr |
 			   sr
-				   when: ToInitialLookEvent
+				   when: ToInstallLookEvent
 				   write: (self property: #background)
 				   with: [ :e | Color transparent ].
 			   sr
@@ -1239,7 +1235,7 @@ ToBeeStyleSheet >> textButtonRules [
 
 		  (#( #button #text #danger ) asElementSelector style: [ :sr |
 			   sr
-				   when: ToInitialLookEvent
+				   when: ToInstallLookEvent
 				   write: (self property: #background)
 				   with: [ :e | Color transparent ].
 			   sr
@@ -1268,7 +1264,7 @@ ToBeeStyleSheet >> textButtonRules [
 		  ((#image asElementSelector parent: #( #button #text ) depth: 2)
 			   style: [ :sr |
 				   sr
-					   when: ToInitialLookEvent
+					   when: ToInstallLookEvent
 					   write: (self property: #'image-inner-form-color')
 					   with: [ :e | e toValueOf: #'color-text' ].
 				   sr
@@ -1281,7 +1277,7 @@ ToBeeStyleSheet >> textButtonRules [
 		  ((#label asElementSelector parent: #( #button #text ) depth: 2)
 			   style: [ :sr |
 				   sr
-					   when: ToInitialLookEvent
+					   when: ToInstallLookEvent
 					   write: (self property: #'label-text-foreground')
 					   with: [ :e | e toValueOf: #'color-text' ].
 				   sr
@@ -1295,7 +1291,7 @@ ToBeeStyleSheet >> textButtonRules [
 			    parent: #( #button #text #danger )
 			    depth: 2) style: [ :sr |
 			   sr
-				   when: ToInitialLookEvent
+				   when: ToInstallLookEvent
 				   write: (self property: #'image-inner-form-color')
 				   with: [ :e | (e toValueOf: #'color-error') ].
 			   sr
@@ -1309,7 +1305,7 @@ ToBeeStyleSheet >> textButtonRules [
 			    parent: #( #button #text #danger )
 			    depth: 2) style: [ :sr |
 			   sr
-				   when: ToInitialLookEvent
+				   when: ToInstallLookEvent
 				   write: (self property: #'label-text-foreground')
 				   with: [ :e | (e toValueOf: #'color-error') ].
 			   sr
@@ -1326,7 +1322,7 @@ ToBeeStyleSheet >> toggleButtonRules [
 			   write: (self property: #background)
 			   with: [ :e | Color transparent ].
 			sr
-				   when: ToInitialLookEvent
+				   when: ToInstallLookEvent
 				   write: (self property: #'border-with-builder')
 				   with: [ :e |
 					   e borderBuilder
@@ -1370,7 +1366,7 @@ ToBeeStyleSheet >> verticalButtonRules [
 		  ((#'inner-element' asElementSelector parent: #( #button #vertical ))
 			   style: [ :sr |
 				   sr
-					   when: ToInitialLookEvent
+					   when: ToInstallLookEvent
 					   write: (self property: #layout)
 					   with: BlLinearLayout vertical ]) }
 ]

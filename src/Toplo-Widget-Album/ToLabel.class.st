@@ -159,22 +159,6 @@ ToLabel >> horizontalAlignment: aBlElementAlignment [
 	self layout horizontalAlignment: aBlElementAlignment
 ]
 
-{ #category : 'skin' }
-ToLabel >> initialRawStyle [
-
-	super initialRawStyle.
-	self hasText ifFalse: [ ^ self ].
-	self textAttributesBuilder
-		weight: (self toValueOf: #'font-weight-strong');
-		defaultFontName: (self toValueOf: #'font-family-code');
-		defaultFontSize: (self toValueOf: #'font-size');
-		lineSpacing: (self toValueOf: #'line-height').
-	self isDisabled ifTrue: [
-		self textAttributesBuilder foreground:
-			(self toValueOf: #'color-text-disabled') ].
-	self textAttributesBuilder applyOn: self text
-]
-
 { #category : 'initialization' }
 ToLabel >> initialize [
 
@@ -223,6 +207,22 @@ ToLabel >> innerElement: anInnerElement [
 	innerElement addEventHandler: handler.
 	
 	self addChild: innerElement
+]
+
+{ #category : 'skin' }
+ToLabel >> installRawStyle [ 
+
+	super installRawStyle.
+	self hasText ifFalse: [ ^ self ].
+	self textAttributesBuilder
+		weight: (self toValueOf: #'font-weight-strong');
+		defaultFontName: (self toValueOf: #'font-family-code');
+		defaultFontSize: (self toValueOf: #'font-size');
+		lineSpacing: (self toValueOf: #'line-height').
+	self isDisabled ifTrue: [
+		self textAttributesBuilder foreground:
+			(self toValueOf: #'color-text-disabled') ].
+	self textAttributesBuilder applyOn: self text
 ]
 
 { #category : 'accessing' }

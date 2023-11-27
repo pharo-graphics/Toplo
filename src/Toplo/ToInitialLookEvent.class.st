@@ -5,9 +5,3 @@ Class {
 	#package : 'Toplo',
 	#tag : 'Core-LookEvents'
 }
-
-{ #category : 'sending' }
-ToInitialLookEvent >> sendTo: anObject [
-
-	anObject initialLookEvent: self
-]

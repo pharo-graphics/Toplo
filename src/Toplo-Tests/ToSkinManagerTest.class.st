@@ -77,8 +77,6 @@ ToSkinManagerTest >> testApplyStylesIn [
 	e skinManager setSkin: (sk := ToRawSkin new) in: e.
 	e skinManager applySkinInstallerIn: e.
 	self assert: e skinManager installedSkin identicalTo: sk.
-	self deny: e skinManager skinStateQueue nextStates isEmpty.
-	e skinManager applyStylesIn: e.
 	self assert: e skinManager skinStateQueue nextStates isEmpty.
 
 ]

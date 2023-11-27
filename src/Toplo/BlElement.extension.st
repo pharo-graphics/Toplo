@@ -181,10 +181,7 @@ BlElement >> removeAllStamps [
 { #category : '*Toplo' }
 BlElement >> removeStamp: aSymbol [
 
-
-	self toStyleStore removeStamp: aSymbol.
-	self requestNewSkin.
-	self spaceDo: [ :sp | sp requestNextPulse ]
+	self toStyleStore removeStamp: aSymbol
 ]
 
 { #category : '*Toplo' }
@@ -213,12 +210,6 @@ BlElement >> requestNewSkinRecursively [
 BlElement >> requestUninstallSkin [
 
 	self skinManager requestUninstallSkinIn: self 
-]
-
-{ #category : '*Toplo' }
-BlElement >> resmoveStamp: aSymbol [
-
-	self toStyleStore removeStamp: aSymbol
 ]
 
 { #category : '*Toplo' }

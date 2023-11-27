@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToCheckboxSkin',
-	#superclass : 'ToRawSkin',
+	#superclass : 'ToButtonSkin',
 	#category : 'Toplo-Widget-Button-Checkable',
 	#package : 'Toplo-Widget-Button',
 	#tag : 'Checkable'
@@ -30,6 +30,7 @@ ToCheckboxSkin >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
+		e border: (BlBorder empty).
 		e background: e defaultBackground.
 		e icon border: e iconDefaultBorder ]
 ]
@@ -39,6 +40,7 @@ ToCheckboxSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e | 
+		e border: (BlBorder empty).		
 		e mouseCursor: BlCursor hand.
 		e icon border: e iconHoveredBorder ]
 ]
@@ -50,13 +52,6 @@ ToCheckboxSkin >> indeterminateLookEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e icon innerImage border: e imageIndeterminateBorder.
 		e indeterminateChild background: e defaultImageColor]
-]
-
-{ #category : 'event handling' }
-ToCheckboxSkin >> initialLookEvent: anEvent [
-
-	super initialLookEvent: anEvent.
-	anEvent elementDo: [ :e | "e icon border: e iconDefaultBorder" ] 
 ]
 
 { #category : 'event handling' }
@@ -86,7 +81,17 @@ ToCheckboxSkin >> installLookEvent: anEvent [
 ToCheckboxSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
-	anEvent elementDo: [ :e | e mouseCursor: BlCursor default. ]
+	anEvent elementDo: [ :e | 
+		e border: (BlBorder empty).		
+		e icon border: e iconDefaultBorder ]
+]
+
+{ #category : 'event handling' }
+ToCheckboxSkin >> pressedLookEvent: anEvent [
+
+	super pressedLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e border: BlBorder empty ]
 ]
 
 { #category : 'event handling' }

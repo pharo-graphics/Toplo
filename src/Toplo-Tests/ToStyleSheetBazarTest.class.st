@@ -132,10 +132,8 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 				 with: [ :e | e toValueOf: #'color-primary-pressed' ] ]).
 
 	" danger button label rule "
-	ss addStyleRule:
-		(((ToStampSelector new addStamp: #'button-label')
-			  parent:
-			  (ToStampSelector new addAllStamps: #( #button #danger ))
+	ss addStyleRule: (((ToStampSelector new addStamp: #'button-label')
+			  parent: (ToStampSelector new addAllStamps: #( #button #danger ))
 			  depth: 3) style: [ :sr |
 			 | p |
 			 p := ToPseudoProperty new name: #'text-attributes'.
@@ -168,7 +166,7 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 	button addStamp: #button.
 	button styleSheet: ss.
 	writers := ssi applicableWritersFor: button.
-	self assert: writers size equals: 6.
+	self assert: writers size equals: 5.
 	skin := ToBeeSkin new.
 	skin propertyWriters: writers.
 	button defaultSkin: nil.
@@ -188,7 +186,7 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 	labelSkin := ToStyleSheetSkin new.
 	writers := ssi applicableWritersFor: button label.
 	nb := writers size.
-	self assert: nb = 0.
+	self assert: nb equals: 0.
 	button label addStamp: #'button-label'.
 	writers := ssi applicableWritersFor: button label.
 	" should be empty since the label rule expect the button to be of class #danger "

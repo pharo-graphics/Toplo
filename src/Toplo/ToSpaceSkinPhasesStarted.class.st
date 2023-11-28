@@ -1,7 +1,7 @@
 Class {
 	#name : 'ToSpaceSkinPhasesStarted',
 	#superclass : 'BlSpaceEvent',
-	#category : 'Toplo-Core-Theme',
+	#category : 'Toplo-Core-SpaceFrame',
 	#package : 'Toplo',
-	#tag : 'Core-Theme'
+	#tag : 'Core-SpaceFrame'
 }

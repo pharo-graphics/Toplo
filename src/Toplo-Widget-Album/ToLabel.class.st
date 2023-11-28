@@ -215,13 +215,13 @@ ToLabel >> installRawStyle [
 	super installRawStyle.
 	self hasText ifFalse: [ ^ self ].
 	self textAttributesBuilder
-		weight: (self toValueOf: #'font-weight-strong');
-		defaultFontName: (self toValueOf: #'font-family-code');
-		defaultFontSize: (self toValueOf: #'font-size');
-		lineSpacing: (self toValueOf: #'line-height').
+		weight: (self tokenValueNamed: #'font-weight-strong');
+		defaultFontName: (self tokenValueNamed: #'font-family-code');
+		defaultFontSize: (self tokenValueNamed: #'font-size');
+		lineSpacing: (self tokenValueNamed: #'line-height').
 	self isDisabled ifTrue: [
 		self textAttributesBuilder foreground:
-			(self toValueOf: #'color-text-disabled') ].
+			(self tokenValueNamed: #'color-text-disabled') ].
 	self textAttributesBuilder applyOn: self text
 ]
 

@@ -13,6 +13,12 @@ ToElementState >> applyOn: anElement [
 	self onAppliedOn: anElement
 ]
 
+{ #category : 'testing' }
+ToElementState >> isQueueReady: aStateQueue [
+
+	^ aStateQueue previousInstallState notNil
+]
+
 { #category : 'accessing' }
 ToElementState >> lookEvent [
 
@@ -25,7 +31,8 @@ ToElementState >> onAppliedOn: anElement [
 ]
 
 { #category : 'look event sending' }
-ToElementState >> onEnqueuedFor: anElement [
-	
-	anElement spaceDo: [:sp | sp requestNextPulse ]
+ToElementState >> onEnqueueRequestFor: anElement inQueue: aStateQueue [
+
+	(self isQueueReady: aStateQueue) ifTrue: [
+		aStateQueue enqueueState: self for: anElement ]
 ]

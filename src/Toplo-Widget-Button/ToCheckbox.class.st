@@ -16,13 +16,13 @@ Class {
 { #category : 'skin' }
 ToCheckbox >> defaultBlankCheckboxImage [
 
-	^ (self toValueOf: #'checkbox-image-builder') value
+	^ (self tokenValueNamed: #'checkbox-image-builder') value
 ]
 
 { #category : 'skin' }
 ToCheckbox >> defaultBorder [ 
 
-	^ self toValueOf: #'color-border-checkable'
+	^ self tokenValueNamed: #'color-border-checkable'
 ]
 
 { #category : 'skin' }
@@ -34,7 +34,7 @@ ToCheckbox >> defaultImageBorder [
 { #category : 'skin' }
 ToCheckbox >> defaultImageColor [
 
-	^ (self toValueOf: #'color-primary')
+	^ (self tokenValueNamed: #'color-primary')
 ]
 
 { #category : 'skin' }
@@ -70,7 +70,7 @@ ToCheckbox >> iconGeometry [
 { #category : 'skin' }
 ToCheckbox >> iconHoveredBorder [ 
 
-	^ BlBorder paint: (self toValueOf: #'color-primary') width: 1
+	^ BlBorder paint: (self tokenValueNamed: #'color-primary') width: 1
 ]
 
 { #category : 'skin' }
@@ -101,9 +101,7 @@ ToCheckbox >> indeterminateChild [
 ToCheckbox >> installRawStyle [
 
 	super installRawStyle.
-	self iconImage: self defaultBlankCheckboxImage.
-	self icon geometry: self iconGeometry.
-	self interspace: 10
+
 ]
 
 { #category : 'skin' }

@@ -1,19 +1,19 @@
 Class {
-	#name : 'ToNotebookInnerCloseButtonSkin',
+	#name : 'ToTabInnerCloseButtonSkin',
 	#superclass : 'ToRawSkin',
 	#category : 'Toplo-Incubator',
 	#package : 'Toplo-Incubator'
 }
 
 { #category : 'event handling' }
-ToNotebookInnerCloseButtonSkin >> hoveredLookEvent: anEvent [
+ToTabInnerCloseButtonSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e | e border: (Color red alpha: 0.5) ]
 ]
 
 { #category : 'event handling' }
-ToNotebookInnerCloseButtonSkin >> installLookEvent: anEvent [
+ToTabInnerCloseButtonSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -23,7 +23,7 @@ ToNotebookInnerCloseButtonSkin >> installLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToNotebookInnerCloseButtonSkin >> leavedLookEvent: anEvent [
+ToTabInnerCloseButtonSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
 	anEvent elementDo: [ :e | e border: BlBorder empty ]

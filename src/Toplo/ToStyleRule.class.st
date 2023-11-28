@@ -29,6 +29,15 @@ ToStyleRule >> canBeAppliedTo: anElement inTheme: aTheme [
 	^ engine result
 ]
 
+{ #category : 'writers selecting' }
+ToStyleRule >> canBeFullyAppliedTo: anElement forTheme: aTheme [
+
+	" for testing purpose. "
+	(self canBeAppliedTo: anElement inTheme: aTheme) ifFalse: [ ^ false ].
+	^ self styleRules allSatisfy: [ :r |
+		  r canBeFullyAppliedTo: anElement forTheme: aTheme ]
+]
+
 { #category : 'copying' }
 ToStyleRule >> copyWithOnlyApplicableRuleFor: anElement inTheme: aTheme [
 

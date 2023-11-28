@@ -21,7 +21,7 @@ ToBeeStyleSheetTest >> setUp [
 	ToTheme cleanUp.
 	space toTheme: ToBeeLightTheme new.
 	
-	styleSheet := ToBeeTheme new styleSheet.
+	styleSheet := ToBeeTheme new newStyleSheet.
 	styleSheet inherits: false.
 ]
 
@@ -34,9 +34,9 @@ ToBeeStyleSheetTest >> testDefaultButtonSkin [
 	space applyAllSkinInstallers.
 	space applyAllStyles.
 
-	self assert: button border width equals: (button toValueOf: #'line-width').
+	self assert: button border width equals: (button tokenValueNamed: #'line-width').
 	self assert: button border paint isColorPaint.
-	self assert: button border paint color equals: (button toValueOf: #'color-border').
+	self assert: button border paint color equals: (button tokenValueNamed: #'color-border').
 ]
 
 { #category : 'labeled-icon' }
@@ -60,8 +60,6 @@ ToBeeStyleSheetTest >> testLabeledIconWithLabelAndIcon [
 	li := but labeledIcon.
 	self assert: (li  constraints linear vertical alignment isKindOf: BlVerticalCenterAlignment) .	
 	self assert: (li  constraints linear horizontal alignment isKindOf: BlHorizontalCenterAlignment).
-	self assert: (li filler constraints linear vertical alignment isKindOf: BlVerticalCenterAlignment) .	
-	self assert: (li filler constraints linear horizontal alignment isKindOf: BlHorizontalCenterAlignment).
 	self assert: (li label constraints linear vertical alignment isKindOf: BlVerticalCenterAlignment) .	
 	self assert: (li label constraints linear horizontal alignment isKindOf: BlHorizontalCenterAlignment).
 

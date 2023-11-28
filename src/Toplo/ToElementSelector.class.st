@@ -50,20 +50,23 @@ ToElementSelector >> asElementSelector [
 { #category : 'logical operator' }
 ToElementSelector >> child: aSelector [ 
 
-	^ ToChildSelector new
-		  right: aSelector value asElementSelector;
-		  left: self;
-		  yourself
+	self
+		deprecated: 'Please use #withChild: instead.'
+		transformWith:
+			'`@receiver child: `@arg1'
+				-> '`@receiver withChild: `@arg1'.	
+	^ self withChild: aSelector
 ]
 
 { #category : 'logical operator' }
 ToElementSelector >> child: aSelector depth: anInteger [
 
-	^ ToChildSelector new
-		  right: aSelector value asElementSelector;
-		  left: self;
-		  depth: anInteger;
-		  yourself
+	self
+		deprecated: 'Please use #withChild:atDepth: instead.'
+		transformWith:
+			'`@receiver child: `@arg1 depth: `@arg2'
+				-> '`@receiver withChild: `@arg1 atDepth: `@arg2 '.	
+	^ self withChild: aSelector atDepth: anInteger
 ]
 
 { #category : 'logical operator' }
@@ -84,22 +87,25 @@ ToElementSelector >> or: aStyleSelector [
 ]
 
 { #category : 'logical operator' }
-ToElementSelector >> parent: aSelector [
+ToElementSelector >> parent: aSelector [ 
 
-	^ ToParentSelector new
-		  left: self;
-		  right: aSelector value asElementSelector;
-		  yourself
+	self
+		deprecated: 'Please use #withParent: instead.'
+		transformWith:
+			'`@receiver parent: `@arg1'
+				-> '`@receiver withParent: `@arg1'.	
+	^ self withParent: aSelector
 ]
 
 { #category : 'logical operator' }
 ToElementSelector >> parent: aSelector depth: anInteger [
 
-	^ ToParentSelector new
-		  left: self;
-		  right: aSelector value asElementSelector;
-		  depth: anInteger;
-		  yourself
+	self
+		deprecated: 'Please use #withParent:atDepth: instead.'
+		transformWith:
+			'`@receiver parent: `@arg1 depth: `@arg2'
+				-> '`@receiver withParent: `@arg1 atDepth: `@arg2 '.	
+	^ self withParent: aSelector atDepth: anInteger
 ]
 
 { #category : 'logical operator' }
@@ -115,4 +121,42 @@ ToElementSelector >> sibling: aSelector [
 ToElementSelector >> style: aBlock [
 
 	^ ToStyleScript new select: self style: aBlock
+]
+
+{ #category : 'logical operator' }
+ToElementSelector >> withChild: aSelector [ 
+
+	^ ToChildSelector new
+		  right: aSelector value asElementSelector;
+		  left: self;
+		  yourself
+]
+
+{ #category : 'logical operator' }
+ToElementSelector >> withChild: aSelector atDepth: anInteger [
+
+	^ ToChildSelector new
+		  right: aSelector value asElementSelector;
+		  left: self;
+		  depth: anInteger;
+		  yourself
+]
+
+{ #category : 'logical operator' }
+ToElementSelector >> withParent: aSelector [
+
+	^ ToParentSelector new
+		  left: self;
+		  right: aSelector value asElementSelector;
+		  yourself
+]
+
+{ #category : 'logical operator' }
+ToElementSelector >> withParent: aSelector atDepth: anInteger [
+
+	^ ToParentSelector new
+		  left: self;
+		  right: aSelector value asElementSelector;
+		  depth: anInteger;
+		  yourself
 ]

@@ -7,7 +7,6 @@ Class {
 		'skinStateQueue',
 		'skinUninstaller',
 		'defaultSkin',
-		'intrinsicStateIndex',
 		'postponedRequestInstallSkin',
 		'styleSheet',
 		'themeClasses',
@@ -65,26 +64,11 @@ ToSkinManager >> defaultSkinIn: anElement [
 	^ defaultSkin ifNil: [ anElement toTheme newSkinFor: anElement ]
 ]
 
-{ #category : 'skin application' }
-ToSkinManager >> enqueuedIntrinicState: aState [
-
-	intrinsicStateIndex at: aState class put: aState
-]
-
 { #category : 'testing' }
 ToSkinManager >> hasPostponedRequestInstallSkin [
 
 	
 	^ postponedRequestInstallSkin notNil
-]
-
-{ #category : 'initialization' }
-ToSkinManager >> initialize [ 
-
-	super initialize.
-	" Use an ordered dictionary for intrinsicStateIndex to ensure that an 
-	EnableState is always the last state "
-	intrinsicStateIndex := OrderedIdentityDictionary new
 ]
 
 { #category : 'accessing - skin' }
@@ -113,12 +97,6 @@ ToSkinManager >> installedSkinDo: aBlock [
 
 	self installedSkin ifNil: [ ^ self ].
 	aBlock value: self installedSkin
-]
-
-{ #category : 'skin application' }
-ToSkinManager >> intrinsicStatesDo: aBlock [
-
-	intrinsicStateIndex valuesDo: aBlock
 ]
 
 { #category : 'skin application' }

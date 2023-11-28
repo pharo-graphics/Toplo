@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToNotebookButton',
+	#name : 'ToTab',
 	#superclass : 'ToGeneralButton',
 	#traits : 'TToCheckable',
 	#classTraits : 'TToCheckable classTrait',
@@ -17,13 +17,13 @@ Class {
 }
 
 { #category : 'accessing' }
-ToNotebookButton >> body [
+ToTab >> body [
 
 	^ self notebook body 
 ]
 
 { #category : 'hooks - children' }
-ToNotebookButton >> checkableCheckEvent: event [
+ToTab >> checkableCheckEvent: event [
 
 	self isChecked ifTrue: [
 		self onSelected.
@@ -32,14 +32,14 @@ ToNotebookButton >> checkableCheckEvent: event [
 ]
 
 { #category : 'accessing' }
-ToNotebookButton >> closable: aBoolean [
+ToTab >> closable: aBoolean [
 
 	closable := aBoolean.
 	aBoolean
 		ifTrue: [
 			| but |
 			but := ToButton new.
-			but defaultSkin: ToNotebookInnerCloseButtonSkin new.
+			but defaultSkin: ToTabInnerCloseButtonSkin new.
 			but icon: (ToImage inner: (Smalltalk ui icons iconNamed: #windowClose)).
 			but constraintsDo: [ :c | c linear vertical alignCenter ].
 			but when: BlClickEvent do: [ :event | self removeFromParent ].
@@ -49,25 +49,25 @@ ToNotebookButton >> closable: aBoolean [
 ]
 
 { #category : 'skin' }
-ToNotebookButton >> defaultBorder [
+ToTab >> defaultBorder [
 
 	^ Color veryLightGray alpha: 0.5
 ]
 
 { #category : 'skin' }
-ToNotebookButton >> defaultGeometry [
+ToTab >> defaultGeometry [
 
-	^ self notebook buttonGeometry
+	^ self notebook tabGeometry
 ]
 
 { #category : 'skin' }
-ToNotebookButton >> hoveredBackground [
+ToTab >> hoveredBackground [
 
 	^ Color white
 ]
 
 { #category : 'initialization' }
-ToNotebookButton >> initialize [
+ToTab >> initialize [
 
 	super initialize.
 	closable := false.
@@ -78,13 +78,13 @@ ToNotebookButton >> initialize [
 ]
 
 { #category : 'accessing' }
-ToNotebookButton >> innerCloseButton [
+ToTab >> innerCloseButton [
 
 	^ self childWithId: #innerCloseButton ifNone: [  ]
 ]
 
 { #category : 'skin' }
-ToNotebookButton >> installRawStyle [
+ToTab >> installRawStyle [
 
 	super installRawStyle.
 
@@ -94,25 +94,25 @@ ToNotebookButton >> installRawStyle [
 ]
 
 { #category : 'testing' }
-ToNotebookButton >> isClosable [
+ToTab >> isClosable [
 
 	^ closable
 ]
 
 { #category : 'testing' }
-ToNotebookButton >> isSelected [
+ToTab >> isSelected [
 
 	^ self isChecked
 ]
 
 { #category : 'skin' }
-ToNotebookButton >> labelPadding [
+ToTab >> labelPadding [
 
 	^ BlInsets top: 4 left: 10 bottom: 4 right: 10
 ]
 
 { #category : 'accessing' }
-ToNotebookButton >> labelText: aText [ 
+ToTab >> labelText: aText [ 
 	
 	| lab |
 	lab := ToLabel text: aText asRopedText.
@@ -120,19 +120,19 @@ ToNotebookButton >> labelText: aText [
 ]
 
 { #category : 'skin' }
-ToNotebookButton >> newRawSkin [ 
+ToTab >> newRawSkin [ 
 
-	^ ToNotebookButtonSkin new
+	^ ToTabSkin new
 ]
 
 { #category : 'accessing' }
-ToNotebookButton >> notebook [
+ToTab >> notebook [
 
 	^ self parent notebook
 ]
 
 { #category : 'hooks - children' }
-ToNotebookButton >> onAddedToParent [
+ToTab >> onAddedToParent [
 
 	super onAddedToParent.
 	self parent onButtonAdded: self.
@@ -143,7 +143,7 @@ ToNotebookButton >> onAddedToParent [
 ]
 
 { #category : 'hooks - children' }
-ToNotebookButton >> onDeselected [
+ToTab >> onDeselected [
 
 	self removeInnerPaneFromBody.
 	self notebook applyResizablePanesConfiguration.
@@ -151,19 +151,19 @@ ToNotebookButton >> onDeselected [
 ]
 
 { #category : 'hooks - children' }
-ToNotebookButton >> onRemovedFromParent: aParentElement [
+ToTab >> onRemovedFromParent: aParentElement [
 
 	self removeEventHandler: checkHandler.
 	checkHandler := nil.
 	innerPane ifNotNil: [
 		self removeInnerPaneFromBody.
 		innerPane := nil ].
-	aParentElement onButtonRemoved: self.
+	aParentElement onTabRemoved: self.
 	super onRemovedFromParent: aParentElement
 ]
 
 { #category : 'hooks - children' }
-ToNotebookButton >> onSelected [
+ToTab >> onSelected [
 
 	(self notebook preservePaneOnSelect and: [ innerPane notNil ])
 		ifTrue: [			
@@ -181,13 +181,13 @@ ToNotebookButton >> onSelected [
 ]
 
 { #category : 'accessing' }
-ToNotebookButton >> paneBuilder [
+ToTab >> paneBuilder [
 
 	^ paneBuilder
 ]
 
 { #category : 'accessing' }
-ToNotebookButton >> paneBuilder: aValuable [
+ToTab >> paneBuilder: aValuable [
 	"Establish what is my body. When a page is selected in a notebook, it will send `#value:value:` to this factory, 
 	with the page pane and the notebook as arguments"
 
@@ -195,55 +195,55 @@ ToNotebookButton >> paneBuilder: aValuable [
 ]
 
 { #category : 't - checkable - accessing' }
-ToNotebookButton >> rawChecked [
+ToTab >> rawChecked [
 
 	^ checked ifNil: [ checked := false ]
 ]
 
 { #category : 't - checkable - accessing' }
-ToNotebookButton >> rawChecked: aBoolean [
+ToTab >> rawChecked: aBoolean [
 
 	checked := aBoolean
 ]
 
 { #category : 't - checkable - group' }
-ToNotebookButton >> rawGroup [
+ToTab >> rawGroup [
 
 	^ group
 ]
 
 { #category : 't - checkable - group' }
-ToNotebookButton >> rawGroup: aGroup [
+ToTab >> rawGroup: aGroup [
 
 	group := aGroup
 ]
 
 { #category : 'hooks - children' }
-ToNotebookButton >> removeInnerPaneFromBody [
+ToTab >> removeInnerPaneFromBody [
 
 	innerPane removeFromParent
 ]
 
 { #category : 'testing' }
-ToNotebookButton >> selected: aBoolean [
+ToTab >> selected: aBoolean [
 
 	self checked: aBoolean
 ]
 
 { #category : 'skin' }
-ToNotebookButton >> selectedBackground [
+ToTab >> selectedBackground [
 
 	^ Color fromHexString: #ffd666
 ]
 
 { #category : 't - checkable  - protocol' }
-ToNotebookButton >> withIndeterminate [
+ToTab >> withIndeterminate [
 
 	^ false
 ]
 
 { #category : 't - checkable  - protocol' }
-ToNotebookButton >> withIndeterminate: aBoolean [
+ToTab >> withIndeterminate: aBoolean [
 
 	Error signal: 'Indeterminate not allowed'
 ]

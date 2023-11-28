@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToNotebook',
+	#name : 'ToTabPane',
 	#superclass : 'ToPane',
 	#instVars : [
 		'rebuildPaneOnSelect',
@@ -13,111 +13,99 @@ Class {
 }
 
 { #category : 'adding-removing' }
-ToNotebook >> addButton: aButton [
+ToTabPane >> addTab: aButton [
 
 	header addChild: aButton.
-	self buttons size = 1 ifTrue: [ aButton selected: true ]
+	self tabs size = 1 ifTrue: [ aButton selected: true ]
 ]
 
 { #category : 'adding-removing' }
-ToNotebook >> addButtonWithText: aText [ 
+ToTabPane >> addTabWithText: aText [ 
 
 	| but |
-	but := ToNotebookButton new labelText: aText asString.
-	self addButton: but
+	but := ToTab new labelText: aText asString.
+	self addTab: but
 ]
 
 { #category : 'adding-removing' }
-ToNotebook >> addButtonWithText: aText withPaneBuilder: aValuable [
+ToTabPane >> addTabWithText: aText builder: aValuable [
 
 	| but |
-	but := ToNotebookButton new labelText: aText asString.
+	but := ToTab new labelText: aText asString.
 	but paneBuilder: aValuable.
-	self addButton: but
+	self addTab: but
 ]
 
 { #category : 'configuration - private' }
-ToNotebook >> applyHeaderPositioning [
+ToTabPane >> applyHeaderPositioning [
 
 	self headerPositioning applyOn: self
 ]
 
 { #category : 'configuration - private' }
-ToNotebook >> applyResizablePanesConfiguration [
+ToTabPane >> applyResizablePanesConfiguration [
 
 	self body removeDividers.
 	self resizablePanes ifTrue: [ self body addDividers ]
 ]
 
 { #category : 'accessing' }
-ToNotebook >> body [
+ToTabPane >> body [
 
 	^ body
 ]
 
-{ #category : 'accessing - private' }
-ToNotebook >> buttonGeometry [
-
-	^ self headerPositioning buttonGeometry
-]
-
-{ #category : 'accessing' }
-ToNotebook >> buttons [ 
-
-	^ self header buttons
-]
-
 { #category : 'configuration' }
-ToNotebook >> checkingStrategy [
+ToTabPane >> checkingStrategy [
 
 	^ self header checkingStrategy
 ]
 
 { #category : 'configuration' }
-ToNotebook >> checkingStrategy: aCheckingStrategy [
+ToTabPane >> checkingStrategy: aCheckingStrategy [
 
 	self header checkingStrategy: aCheckingStrategy
 ]
 
 { #category : 'initialization' }
-ToNotebook >> defaultHeaderPositioning [
+ToTabPane >> defaultHeaderPositioning [
 
-	^ ToNotebookHeaderOnTop new
+	^ ToTabPaneHeaderOnTop new
 ]
 
 { #category : 'accessing' }
-ToNotebook >> group [ 
+ToTabPane >> group [ 
 
 	^ self header group
 ]
 
 { #category : 'accessing' }
-ToNotebook >> header [
+ToTabPane >> header [
 
 	^ header
 ]
 
 { #category : 'configuration' }
-ToNotebook >> headerPositioning [
+ToTabPane >> headerPositioning [
 
 	^ headerPositioning
 ]
 
 { #category : 'configuration' }
-ToNotebook >> headerPositioning: aPositioningStategy [
+ToTabPane >> headerPositioning: aPositioningStategy [
 
 	headerPositioning := aPositioningStategy.
 	self headerPositioning applyOn: self
 ]
 
 { #category : 'initialization' }
-ToNotebook >> initialize [
+ToTabPane >> initialize [
 
 	super initialize.
 	rebuildPaneOnSelect := false.
 	resizablePanes := false.
 	self matchParent.
-	header := ToNotebookHeader new.
+	header := ToTabPaneHeader new.
 	body := ToPane vertical matchParent.
 	self headerPositioning: self defaultHeaderPositioning.
 	self addChild: header as: #header.
@@ -128,117 +116,129 @@ ToNotebook >> initialize [
 ]
 
 { #category : 'accessing' }
-ToNotebook >> lastButton [
+ToTabPane >> lastTab [
 
-	^ self buttons last
+	^ self tabs last
 ]
 
 { #category : 'adding-removing - private' }
-ToNotebook >> onButtonRemoved: aButton [
+ToTabPane >> onTabRemoved: aTab [
 
 
 ]
 
 { #category : 'configuration' }
-ToNotebook >> preservePaneOnSelect [
+ToTabPane >> preservePaneOnSelect [
 
 	^ self rebuildPaneOnSelect not
 ]
 
 { #category : 'configuration' }
-ToNotebook >> preservePaneOnSelect: aBoolean [
+ToTabPane >> preservePaneOnSelect: aBoolean [
 
 	self rebuildPaneOnSelect: aBoolean not
 ]
 
 { #category : 'configuration' }
-ToNotebook >> rebuildPaneOnSelect [
+ToTabPane >> rebuildPaneOnSelect [
 
 	^ rebuildPaneOnSelect
 ]
 
 { #category : 'configuration' }
-ToNotebook >> rebuildPaneOnSelect: aBoolean [
+ToTabPane >> rebuildPaneOnSelect: aBoolean [
 
 	rebuildPaneOnSelect := aBoolean
 ]
 
 { #category : 'configuration' }
-ToNotebook >> resizablePanes [
+ToTabPane >> resizablePanes [
 
 	^ resizablePanes
 ]
 
 { #category : 'configuration' }
-ToNotebook >> resizablePanes: aBoolean [
+ToTabPane >> resizablePanes: aBoolean [
 
 	resizablePanes := aBoolean.
 	self applyResizablePanesConfiguration
 ]
 
-{ #category : 'configuration' }
-ToNotebook >> withHeaderOnBottom [
+{ #category : 'accessing - private' }
+ToTabPane >> tabGeometry [
 
-	self headerPositioning: ToNotebookHeaderOnBottom new
+	^ self headerPositioning tabGeometry
+]
+
+{ #category : 'accessing' }
+ToTabPane >> tabs [ 
+
+	^ self header tabs
 ]
 
 { #category : 'configuration' }
-ToNotebook >> withHeaderOnLeft [
+ToTabPane >> withHeaderOnBottom [
 
-	self headerPositioning: ToNotebookHeaderOnLeft new
+	self headerPositioning: ToPabPaneHeaderOnBottom new
 ]
 
 { #category : 'configuration' }
-ToNotebook >> withHeaderOnRight [
+ToTabPane >> withHeaderOnLeft [
 
-	self headerPositioning: ToNotebookHeaderOnRight new
+	self headerPositioning: ToTabPaneHeaderOnLeft new
 ]
 
 { #category : 'configuration' }
-ToNotebook >> withHeaderOnTop [
+ToTabPane >> withHeaderOnRight [
 
-	self headerPositioning: ToNotebookHeaderOnTop new
+	self headerPositioning: ToTabPaneHeaderOnRight new
 ]
 
 { #category : 'configuration' }
-ToNotebook >> withHorizontalBody [
+ToTabPane >> withHeaderOnTop [
+
+	self headerPositioning: ToTabPaneHeaderOnTop new
+]
+
+{ #category : 'configuration' }
+ToTabPane >> withHorizontalBody [
 
 	self body beHorizontal
 ]
 
 { #category : 'configuration' }
-ToNotebook >> withResizablePanes [
+ToTabPane >> withResizablePanes [
 
 	self resizablePanes ifTrue: [ ^ self ].
 	self resizablePanes: true
 ]
 
 { #category : 'configuration' }
-ToNotebook >> withStrictCheckingStrategy [
+ToTabPane >> withStrictCheckingStrategy [
 
 	self group withStrictCheckingStrategy
 ]
 
 { #category : 'configuration' }
-ToNotebook >> withUncheckingStrategy [
+ToTabPane >> withUncheckingStrategy [
 
 	self group withUncheckingStrategy
 ]
 
 { #category : 'configuration' }
-ToNotebook >> withVerticalBody [
+ToTabPane >> withVerticalBody [
 
 	self body beVertical
 ]
 
 { #category : 'configuration' }
-ToNotebook >> withoutCheckingStrategy [
+ToTabPane >> withoutCheckingStrategy [
 
 	self group withoutCheckingStrategy
 ]
 
 { #category : 'configuration' }
-ToNotebook >> withoutResizablePanes [
+ToTabPane >> withoutResizablePanes [
 
 	self resizablePanes ifFalse: [ ^ self ].
 	self resizablePanes: false

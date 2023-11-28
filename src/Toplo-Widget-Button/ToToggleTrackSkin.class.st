@@ -77,7 +77,7 @@ ToToggleTrackSkin >> onSkinInstalledIn: anElement [
 
 	super onSkinInstalledIn: anElement.
 	self addLookUpdater: ((self forProperty: (ToFeatureProperty new name: #background; yourself))
-			when: ToDisabledLookEvent value: [ :e | e toValueOf: #'color-bg-container-disabled'  ];
+			when: ToDisabledLookEvent value: [ :e | e tokenValueNamed: #'color-bg-container-disabled'  ];
 			when: ToInstallLookEvent value: [  :e | e isChecked
 					 ifTrue: [ e toTheme colorPrimary ]
 					 ifFalse: [ e toTheme colorBgContainer  ] ];

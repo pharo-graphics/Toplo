@@ -10,10 +10,10 @@ Class {
 	#tag : 'Core-StyleSheet'
 }
 
-{ #category : 'syntactic sugar' }
-ToStyleScript >> action: aValuable with: aValue [
+{ #category : 'selector syntactic sugar' }
+ToStyleScript >> action: aValuable [ 
 
-	aValuable value: aValue
+	 ^ ToActionSelector new action: aValuable 
 ]
 
 { #category : 'adding' }
@@ -22,30 +22,34 @@ ToStyleScript >> addPropertyWriter: aPropertyWriter [
 	self ruleStack top addPropertyWriter: aPropertyWriter
 ]
 
-{ #category : 'syntactic sugar' }
+{ #category : 'selector syntactic sugar' }
 ToStyleScript >> any [
 
- 	^ ToUniversalSelector new
-
+	^ self ruleStack
+		  ifEmpty: [ ToUniversalSelector new ]
+		  ifNotEmpty: [ :stk | stk top selector ]
 ]
 
-{ #category : 'syntactic sugar' }
-ToStyleScript >> child: aSelector [
+{ #category : 'selector syntactic sugar' }
+ToStyleScript >> child: aSelector [ 
 
-	^ ToChildSelector new
-		  left: self any;
-		  right: aSelector value asElementSelector;
-		  yourself
+	self
+		deprecated: 'Please use #withChild: instead.'
+		transformWith:
+			'`@receiver child: `@arg1'
+				-> '`@receiver withChild: `@arg1'.	
+	^ self withChild: aSelector
 ]
 
-{ #category : 'syntactic sugar' }
+{ #category : 'selector syntactic sugar' }
 ToStyleScript >> child: aSelector depth: anInteger [
 
-	^ ToChildSelector new
-		  depth: anInteger;
-		  left: self any;
-		  right: aSelector value asElementSelector;
-		  yourself
+	self
+		deprecated: 'Please use #withChild:atDepth: instead.'
+		transformWith:
+			'`@receiver child: `@arg1 depth: `@arg2'
+				-> '`@receiver withChild: `@arg1 atDepth: `@arg2 '.	
+	^ self withChild: aSelector atDepth: anInteger
 ]
 
 { #category : 'accessing' }
@@ -61,23 +65,26 @@ ToStyleScript >> initialize [
 	ruleStack := Stack new
 ]
 
-{ #category : 'syntactic sugar' }
-ToStyleScript >> parent: aSelector [
+{ #category : 'selector syntactic sugar' }
+ToStyleScript >> parent: aSelector [ 
 
-	^ ToParentSelector new
-		  left: self any;
-		  right: aSelector value asElementSelector;
-		  yourself
+	self
+		deprecated: 'Please use #withParent: instead.'
+		transformWith:
+			'`@receiver parent: `@arg1'
+				-> '`@receiver withParent: `@arg1'.	
+	^ self withParent: aSelector
 ]
 
-{ #category : 'syntactic sugar' }
+{ #category : 'selector syntactic sugar' }
 ToStyleScript >> parent: aSelector depth: anInteger [
 
-	^ ToParentSelector new
-		depth: anInteger;
-		  left: self any;
-		  right: aSelector value asElementSelector;
-		  yourself
+	self
+		deprecated: 'Please use #withParent:atDepth: instead.'
+		transformWith:
+			'`@receiver parent: `@arg1 depth: `@arg2'
+				-> '`@receiver withParent: `@arg1 atDepth: `@arg2 '.	
+	^ self withParent: aSelector atDepth: anInteger
 ]
 
 { #category : 'accessing' }
@@ -86,7 +93,7 @@ ToStyleScript >> ruleStack [
 	^ ruleStack
 ]
 
-{ #category : 'syntactic sugar' }
+{ #category : 'sub rule adding' }
 ToStyleScript >> select: aStyleSelector style: aBlock [
 
 	| rule |
@@ -98,13 +105,13 @@ ToStyleScript >> select: aStyleSelector style: aBlock [
 
 ]
 
-{ #category : 'syntactic sugar' }
+{ #category : 'accessing' }
 ToStyleScript >> selector [
 
 	^ self ruleStack top selector
 ]
 
-{ #category : 'syntactic sugar' }
+{ #category : 'writer adding' }
 ToStyleScript >> supplement: aProperty with: aValuableOrObject [
 
 	self
@@ -113,7 +120,7 @@ ToStyleScript >> supplement: aProperty with: aValuableOrObject [
 		with: aValuableOrObject
 ]
 
-{ #category : 'syntactic sugar' }
+{ #category : 'writer adding' }
 ToStyleScript >> when: aLookEventClass supplement: aWritableProperty with: aValuableOrObject [
 
 	self addPropertyWriter: (ToPropertyWriter new
@@ -124,7 +131,7 @@ ToStyleScript >> when: aLookEventClass supplement: aWritableProperty with: aValu
 			 yourself)
 ]
 
-{ #category : 'syntactic sugar' }
+{ #category : 'writer adding' }
 ToStyleScript >> when: aLookEventClass write: aProperty with: aValuableOrObject [
 
 	self
@@ -134,7 +141,7 @@ ToStyleScript >> when: aLookEventClass write: aProperty with: aValuableOrObject 
 		animation: nil
 ]
 
-{ #category : 'syntactic sugar' }
+{ #category : 'writer adding' }
 ToStyleScript >> when: aLookEventClass write: aWriteableProperty with: aValuableOrObject animation: aPropertyAnimation [
 
 	self addPropertyWriter: (ToPropertyWriter new
@@ -146,7 +153,45 @@ ToStyleScript >> when: aLookEventClass write: aWriteableProperty with: aValuable
 			 yourself)
 ]
 
-{ #category : 'syntactic sugar' }
+{ #category : 'selector syntactic sugar' }
+ToStyleScript >> withChild: aSelector [
+
+	^ ToChildSelector new
+		  left: self any;
+		  right: aSelector value asElementSelector;
+		  yourself
+]
+
+{ #category : 'selector syntactic sugar' }
+ToStyleScript >> withChild: aSelector atDepth: anInteger [
+
+	^ ToChildSelector new
+		  depth: anInteger;
+		  left: self any;
+		  right: aSelector value asElementSelector;
+		  yourself
+]
+
+{ #category : 'selector syntactic sugar' }
+ToStyleScript >> withParent: aSelector [
+
+	^ ToParentSelector new
+		  left: self any;
+		  right: aSelector value asElementSelector;
+		  yourself
+]
+
+{ #category : 'selector syntactic sugar' }
+ToStyleScript >> withParent: aSelector atDepth: anInteger [
+
+	^ ToParentSelector new
+		depth: anInteger;
+		  left: self any;
+		  right: aSelector value asElementSelector;
+		  yourself
+]
+
+{ #category : 'writer adding' }
 ToStyleScript >> write: aProperty with: aValue [
 
 	self

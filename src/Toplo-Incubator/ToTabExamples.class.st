@@ -1,27 +1,30 @@
 Class {
-	#name : 'ToNotebookExamples',
+	#name : 'ToTabExamples',
 	#superclass : 'Object',
 	#category : 'Toplo-Incubator',
 	#package : 'Toplo-Incubator'
 }
 
 { #category : 'tabs' }
-ToNotebookExamples class >> example_closeableTabs [
+ToTabExamples class >> example_closeableTabs [
 
 	| nb but |
-	nb := ToNotebook new.
+	nb := ToTabPane new.
+	nb group when: ToCheckableGroupChangedEvent do: [ :event | event traceCr ].
 	nb preservePaneOnSelect: false.
 	(Color wheel: 5) withIndexDo: [ :eachColor :index |
-		but := ToNotebookButton new.
+		but := ToTab new.
 		but closable: true.
+		but when: ToCheckableCheckEvent do: [ :event | event current traceCr ].
+		
 		but labelText: 'Button ' , index asString.
 		but paneBuilder: [ :pane :theNoteBook | pane background: eachColor ].
-		nb addButton: but ].
+		nb addTab: but ].
 	nb openInSpace
 ]
 
 { #category : 'tabs' }
-ToNotebookExamples class >> example_headerOnBottom [
+ToTabExamples class >> example_headerOnBottom [
 
 	| nb |
 	nb := self example_notebook.
@@ -30,7 +33,7 @@ ToNotebookExamples class >> example_headerOnBottom [
 ]
 
 { #category : 'tabs' }
-ToNotebookExamples class >> example_headerOnBottomResizablePanes [
+ToTabExamples class >> example_headerOnBottomResizablePanes [
 
 	| nb |
 	nb := self example_headerOnBottom.
@@ -39,7 +42,7 @@ ToNotebookExamples class >> example_headerOnBottomResizablePanes [
 ]
 
 { #category : 'tabs' }
-ToNotebookExamples class >> example_headerOnLeft [
+ToTabExamples class >> example_headerOnLeft [
 
 	| nb |
 	nb := self example_notebook.
@@ -48,7 +51,7 @@ ToNotebookExamples class >> example_headerOnLeft [
 ]
 
 { #category : 'tabs' }
-ToNotebookExamples class >> example_headerOnLeftResizablePanes [
+ToTabExamples class >> example_headerOnLeftResizablePanes [
 
 	| nb |
 	nb := self example_headerOnLeft.
@@ -57,7 +60,7 @@ ToNotebookExamples class >> example_headerOnLeftResizablePanes [
 ]
 
 { #category : 'tabs' }
-ToNotebookExamples class >> example_headerOnRight [
+ToTabExamples class >> example_headerOnRight [
 
 	| nb |
 	nb := self example_notebook.
@@ -66,7 +69,7 @@ ToNotebookExamples class >> example_headerOnRight [
 ]
 
 { #category : 'tabs' }
-ToNotebookExamples class >> example_headerOnTopResizablePanes [
+ToTabExamples class >> example_headerOnTopResizablePanes [
 
 	| nb |
 	nb := self example_notebook.
@@ -75,7 +78,7 @@ ToNotebookExamples class >> example_headerOnTopResizablePanes [
 ]
 
 { #category : 'tabs' }
-ToNotebookExamples class >> example_headerOnTopResizablePanesHorizontalBody [
+ToTabExamples class >> example_headerOnTopResizablePanesHorizontalBody [
 
 	| nb |
 	nb := self example_notebook.
@@ -85,66 +88,66 @@ ToNotebookExamples class >> example_headerOnTopResizablePanesHorizontalBody [
 ]
 
 { #category : 'tabs' }
-ToNotebookExamples class >> example_notPreservingPane [
+ToTabExamples class >> example_notPreservingPane [
 
 	| nb but |
-	nb := ToNotebook new.
+	nb := ToTabPane new.
 	nb withoutCheckingStrategy.
 	nb withHorizontalBody.
 	nb preservePaneOnSelect: false.
 	1 to: 5 do: [ :index |
-		but := ToNotebookButton new.
+		but := ToTab new.
 		but closable: true.
 		but labelText: 'Button ' , index asString.
 		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
-		nb addButton: but ].
+		nb addTab: but ].
 	nb openInSpace
 ]
 
 { #category : 'tabs' }
-ToNotebookExamples class >> example_notebook [
+ToTabExamples class >> example_notebook [
 
 	| nb but |
-	nb := ToNotebook new.
+	nb := ToTabPane new.
 	nb resizablePanes: true.
 	1 to: 5 do: [ :index |
-		but := ToNotebookButton new.
+		but := ToTab new.
 		but closable: true.
 		but labelText: 'Button ' , index asString.
 		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
-		nb addButton: but ].
+		nb addTab: but ].
 	nb openInSpace.
 	^ nb
 ]
 
 { #category : 'tabs' }
-ToNotebookExamples class >> example_preservingPane [
+ToTabExamples class >> example_preservingPane [
 
 	| nb but |
-	nb := ToNotebook new.
+	nb := ToTabPane new.
 	nb preservePaneOnSelect: true.
 	nb withoutCheckingStrategy.
 	nb resizablePanes: true.
 	1 to: 5 do: [ :index |
-		but := ToNotebookButton new.
+		but := ToTab new.
 		but closable: true.
 		but labelText: 'Button ' , index asString.
 		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
-		nb addButton: but ].
+		nb addTab: but ].
 	nb openInSpace
 ]
 
 { #category : 'tabs' }
-ToNotebookExamples class >> example_tabsWith2Pages [
+ToTabExamples class >> example_tabsWith2Pages [
 
 	| aNotebook redPage greenPage redCount greenCount |
-	aNotebook := ToNotebook new.
+	aNotebook := ToTabPane new.
 	aNotebook rebuildPaneOnSelect: true.
 
 	redCount := 0.
 	redPage := aNotebook
-		           addButtonWithText: 'RED'
-		           withPaneBuilder: [ :pane :theNotebook |
+		           addTabWithText: 'RED'
+		           builder: [ :pane :theNotebook |
 			           redCount := redCount + 1.
 			           pane addChild: (ToLabel
 					            text:
@@ -152,8 +155,8 @@ ToNotebookExamples class >> example_tabsWith2Pages [
 
 	greenCount := 0.
 	greenPage := aNotebook
-		             addButtonWithText: 'GREEN'
-		             withPaneBuilder: [ :pane :theNotebook |
+		             addTabWithText: 'GREEN'
+		             builder: [ :pane :theNotebook |
 			             greenCount := greenCount + 1.
 			             pane addChild: (ToLabel
 					              text:
@@ -164,5 +167,5 @@ ToNotebookExamples class >> example_tabsWith2Pages [
 ]
 
 { #category : 'see class side' }
-ToNotebookExamples >> seeClassSide [ 
+ToTabExamples >> seeClassSide [ 
 ]

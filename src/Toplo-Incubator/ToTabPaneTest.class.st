@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToNotebookTest',
+	#name : 'ToTabPaneTest',
 	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
 		'notebook'
@@ -9,131 +9,131 @@ Class {
 }
 
 { #category : 'running' }
-ToNotebookTest >> setUp [
+ToTabPaneTest >> setUp [
 
 	| space |
 	super setUp.
 
 	space := self newTestingSpace.
-	notebook := ToNotebook new.
+	notebook := ToTabPane new.
 	space root addChild: notebook.
 ]
 
 { #category : 'tests' }
-ToNotebookTest >> testCloseLastPage [
+ToTabPaneTest >> testCloseLastPage [
 
 	notebook
-		addButtonWithText: 'Red'
-		withPaneBuilder: [ :pane :theNotebook |
+		addTabWithText: 'Red'
+		builder: [ :pane :theNotebook |
 			pane addChild: (BlElement new
 					 background: Color red;
 					 yourself) ].
 
-	notebook lastButton closable: true.
+	notebook lastTab closable: true.
 
 	self waitTestingSpaces.
-	self assert: notebook buttons size = 1.
-	self assert: notebook buttons last isSelected.
+	self assert: notebook tabs size = 1.
+	self assert: notebook tabs last isSelected.
 
-	BlSpace simulateClickOn: notebook buttons last innerCloseButton.
+	BlSpace simulateClickOn: notebook tabs last innerCloseButton.
 	self waitTestingSpaces.
-	self assert: notebook buttons isEmpty
+	self assert: notebook tabs isEmpty
 ]
 
 { #category : 'tests' }
-ToNotebookTest >> testCloseSelectedPage [
+ToTabPaneTest >> testCloseSelectedPage [
 
 	| redButton greenButton |
 	notebook
-		addButtonWithText: 'Red'
-		withPaneBuilder: [ :pane :theNotebook |
+		addTabWithText: 'Red'
+		builder: [ :pane :theNotebook |
 			pane addChild: (BlElement new
 					 background: Color red;
 					 yourself) ].
-	redButton := notebook lastButton.
+	redButton := notebook lastTab.
 	redButton closable: true.
 
 	notebook
-		addButtonWithText: 'Green'
-		withPaneBuilder: [ :pane :theNotebook |
+		addTabWithText: 'Green'
+		builder: [ :pane :theNotebook |
 			pane addChild: (BlElement new
 					 background: Color green;
 					 yourself) ].
-	greenButton := notebook lastButton.
+	greenButton := notebook lastTab.
 	
 	self waitTestingSpaces.
-	self assert: (notebook  buttons includes: redButton ).
+	self assert: (notebook  tabs includes: redButton ).
 	self assert: redButton isSelected.
 
 	BlSpace simulateClickOn: redButton innerCloseButton.
 	self waitTestingSpaces.
-	self deny: (notebook buttons includes: redButton).
+	self deny: (notebook tabs includes: redButton).
 	self assert: greenButton isSelected.
 
 ]
 
 { #category : 'tests' }
-ToNotebookTest >> testCloseUnselectedPage [
+ToTabPaneTest >> testCloseUnselectedPage [
 
 	| redButton greenButton |
 	notebook
-		addButtonWithText: 'Red'
-		withPaneBuilder: [ :pane :theNotebook |
+		addTabWithText: 'Red'
+		builder: [ :pane :theNotebook |
 			pane addChild: (BlElement new
 					 background: Color red;
 					 yourself) ].
-	redButton := notebook lastButton.
+	redButton := notebook lastTab.
 	redButton closable: true.
 	redButton selected: true.
 
 	notebook
-		addButtonWithText: 'Green'
-		withPaneBuilder: [ :pane :theNotebook |
+		addTabWithText: 'Green'
+		builder: [ :pane :theNotebook |
 			pane addChild: (BlElement new
 					 background: Color green;
 					 yourself) ].
-	greenButton := notebook lastButton.
+	greenButton := notebook lastTab.
 	greenButton closable: true.
 	
 	self waitTestingSpaces.
-	self assert: (notebook buttons includes: redButton).
+	self assert: (notebook tabs includes: redButton).
 	self assert: redButton isSelected.
 
 	BlSpace simulateClickOn: greenButton innerCloseButton.
 	self waitTestingSpaces.
-	self deny: (notebook buttons includes: greenButton).
+	self deny: (notebook tabs includes: greenButton).
 	self assert: redButton isSelected.
 ]
 
 { #category : 'tests' }
-ToNotebookTest >> testDefaultBodyIsTransparent [
+ToTabPaneTest >> testDefaultBodyIsTransparent [
 
 	| aPage |
-	aPage := notebook addButtonWithText: 'Red'.
+	aPage := notebook addTabWithText: 'Red'.
 
 	self waitTestingSpaces.
 	self assert: aPage body background isTransparent
 ]
 
 { #category : 'tests' }
-ToNotebookTest >> testIsSelected [
+ToTabPaneTest >> testIsSelected [
 
 	| redButton greenButton |
 	notebook
-		addButtonWithText: 'Red'
-		withPaneBuilder: [ :pane :theNotebook |
+		addTabWithText: 'Red'
+		builder: [ :pane :theNotebook |
 			pane addChild: (BlElement new
 					 background: Color red;
 					 yourself) ].
-	redButton := notebook lastButton.
+	redButton := notebook lastTab.
 
 	notebook
-		addButtonWithText: 'Green'
-		withPaneBuilder: [ :pane :theNotebook |
+		addTabWithText: 'Green'
+		builder: [ :pane :theNotebook |
 			pane addChild: (BlElement new
 					 background: Color green;
 					 yourself) ].
-	greenButton := notebook lastButton.
+	greenButton := notebook lastTab.
 	
 	self waitTestingSpaces.
 	self assert: redButton isSelected.
@@ -147,29 +147,29 @@ ToNotebookTest >> testIsSelected [
 ]
 
 { #category : 'tests' }
-ToNotebookTest >> testPaneBuilderIsValuedOnSelect [
+ToTabPaneTest >> testPaneBuilderIsValuedOnSelect [
 
 	| redButton greenButton redCount greenCount |
 	redCount := 0.
 	notebook rebuildPaneOnSelect: true.
 	notebook
-		addButtonWithText: 'Red'
-		withPaneBuilder: [ :pane :theNotebook |
+		addTabWithText: 'Red'
+		builder: [ :pane :theNotebook |
 			redCount := redCount + 1.
 			pane addChild: (BlElement new
 					 background: Color red;
 					 yourself) ].
-	redButton := notebook lastButton.
+	redButton := notebook lastTab.
 	
 	greenCount := 0.
 	notebook
-		addButtonWithText: 'Green'
-		withPaneBuilder: [ :pane :theNotebook |
+		addTabWithText: 'Green'
+		builder: [ :pane :theNotebook |
 			greenCount := greenCount + 1.
 			pane addChild: (BlElement new
 					 background: Color green;
 					 yourself) ].
-	greenButton := notebook lastButton.
+	greenButton := notebook lastTab.
 	
 	self waitTestingSpaces.
 	self assert: redCount equals: 1.

@@ -1,23 +1,23 @@
 Class {
-	#name : 'ToNotebookHeaderOnRight',
-	#superclass : 'ToNotebookHeaderPositioning',
+	#name : 'ToTabPaneHeaderOnRight',
+	#superclass : 'ToTabPaneHeaderPositioning',
 	#category : 'Toplo-Incubator',
 	#package : 'Toplo-Incubator'
 }
 
 { #category : 'hook' }
-ToNotebookHeaderOnRight >> applyOn: aNotebook [
+ToTabPaneHeaderOnRight >> applyOn: aNotebook [
 
 	aNotebook beHorizontal.
 	aNotebook beRightToLeft.
 	aNotebook header beVertical.
 	aNotebook header hFitContent.
 	aNotebook header vMatchParent.
-	aNotebook buttons do: [ :b | b geometry: self buttonGeometry ].
+	aNotebook tabs do: [ :b | b geometry: self tabGeometry ].
 ]
 
 { #category : 'accessing' }
-ToNotebookHeaderOnRight >> buttonGeometry [
+ToTabPaneHeaderOnRight >> tabGeometry [
 
 	^ BlRoundedRectangleGeometry cornerRadii: (BlCornerRadii new
 			   topLeft: 0;

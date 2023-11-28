@@ -7,8 +7,8 @@ Class {
 }
 
 { #category : 'look event sending' }
-ToIntrinsicState >> onEnqueuedFor: anElement [
+ToIntrinsicState >> onEnqueueRequestFor: anElement inQueue: aStateQueue [
 
-	super onEnqueuedFor: anElement.
-	anElement skinManager enqueuedIntrinicState: self
+	super onEnqueueRequestFor: anElement inQueue: aStateQueue.
+	aStateQueue onIntrinsicStateEnqueueRequested: self
 ]

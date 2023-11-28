@@ -2,7 +2,9 @@ Class {
 	#name : 'ToSkinStateQueue',
 	#superclass : 'Object',
 	#instVars : [
-		'nextStates'
+		'nextStates',
+		'previousInstallState',
+		'intrinsicStateIndex'
 	],
 	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
@@ -21,7 +23,13 @@ ToSkinStateQueue >> applyOn: anElement [
 ToSkinStateQueue >> enqueueState: aState for: anElement [
 
 	self nextStates nextPut: aState.
-	aState onEnqueuedFor: anElement
+	anElement spaceDo: [:sp | sp requestNextPulse ]
+]
+
+{ #category : 'adding' }
+ToSkinStateQueue >> enqueueStateRequest: aState for: anElement [
+
+	aState onEnqueueRequestFor: anElement inQueue: self
 ]
 
 { #category : 'hook' }
@@ -34,7 +42,16 @@ ToSkinStateQueue >> flushStates: aBlock [
 ToSkinStateQueue >> initialize [ 
 
 	super initialize.
-	nextStates := WaitfreeQueue new
+	nextStates := WaitfreeQueue new.
+	" Use an ordered dictionary for intrinsicStateIndex to ensure that an 
+	EnableState is always the last state "
+	intrinsicStateIndex := OrderedIdentityDictionary new
+]
+
+{ #category : 'intrinsic states' }
+ToSkinStateQueue >> intrinsicStatesDo: aBlock [
+
+	intrinsicStateIndex valuesDo: aBlock
 ]
 
 { #category : 'accessing' }
@@ -43,15 +60,29 @@ ToSkinStateQueue >> nextStates [
 	^ nextStates
 ]
 
+{ #category : 'accessing' }
+ToSkinStateQueue >> nextStates: anObject [
+
+	nextStates := anObject
+]
+
+{ #category : 'intrinsic states' }
+ToSkinStateQueue >> onIntrinsicStateEnqueueRequested: aState [
+
+	intrinsicStateIndex at: aState class put: aState
+]
+
 { #category : 'initialization' }
 ToSkinStateQueue >> onSkinInstallStateRequestIn: anElement [
 	" install state required  "
 
-	self enqueueState: ToInstallState new for: anElement.
+	previousInstallState := ToInstallState new.
+	self enqueueStateRequest: previousInstallState for: anElement.
+	
 	" restitute the intrasic states (as enablement, check)
 	enablement state must always be the last one to be enqueued "
-	anElement skinManager intrinsicStatesDo: [ :state |
-		self enqueueState: state for: anElement ]
+	self intrinsicStatesDo: [ :state |
+		self enqueueStateRequest: state for: anElement ]
 ]
 
 { #category : 'initialization' }
@@ -60,8 +91,15 @@ ToSkinStateQueue >> onSkinUninstallStateRequestIn: anElement [
 
 	" have to ignore previous look events to avoid to apply them to the new skin"
 	self nextStates flush.
+	previousInstallState := nil.
 	" store the uninstall state "
-	self enqueueState: ToUninstallState new for: anElement.
+	self enqueueStateRequest: ToUninstallState new for: anElement.
 	" do not wait the next pulse to ensure the uninstallation is done here "
 	self applyOn: anElement
+]
+
+{ #category : 'accessing' }
+ToSkinStateQueue >> previousInstallState [
+
+	^ previousInstallState
 ]

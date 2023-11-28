@@ -1,16 +1,16 @@
 Class {
-	#name : 'ToNotebookHeaderPositioning',
+	#name : 'ToTabPaneHeaderPositioning',
 	#superclass : 'Object',
 	#category : 'Toplo-Incubator',
 	#package : 'Toplo-Incubator'
 }
 
 { #category : 'hook' }
-ToNotebookHeaderPositioning >> applyOn: aNotebook [
+ToTabPaneHeaderPositioning >> applyOn: aNotebook [
 ]
 
 { #category : 'accessing' }
-ToNotebookHeaderPositioning >> buttonGeometry [
+ToTabPaneHeaderPositioning >> tabGeometry [
 
 	^ self subclassResponsibility 
 ]

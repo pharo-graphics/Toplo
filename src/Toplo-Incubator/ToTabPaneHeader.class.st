@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToNotebookHeader',
+	#name : 'ToTabPaneHeader',
 	#superclass : 'ToPane',
 	#instVars : [
 		'buttons',
@@ -10,44 +10,38 @@ Class {
 }
 
 { #category : 'accessing' }
-ToNotebookHeader >> body [
+ToTabPaneHeader >> body [
 
 	^ self notebook body
 ]
 
-{ #category : 'accessing' }
-ToNotebookHeader >> buttons [ 
-
-	^ buttons
-]
-
 { #category : 'initialization' }
-ToNotebookHeader >> checkableGroupChangedEvent: anEvent [
+ToTabPaneHeader >> checkableGroupChangedEvent: anEvent [
 
 	anEvent uncheckedButtons do: [ :but | ].
 	anEvent checkedButtons do: [ :but | ].
 ]
 
 { #category : 'accessing' }
-ToNotebookHeader >> checkingStrategy [
+ToTabPaneHeader >> checkingStrategy [
 
 	^ self group checkingStrategy
 ]
 
 { #category : 'accessing' }
-ToNotebookHeader >> checkingStrategy: aCheckingStrategy [
+ToTabPaneHeader >> checkingStrategy: aCheckingStrategy [
 
 	^ self group checkingStrategy: aCheckingStrategy
 ]
 
 { #category : 'accessing' }
-ToNotebookHeader >> group [
+ToTabPaneHeader >> group [
 
 	^ group
 ]
 
 { #category : 'initialization' }
-ToNotebookHeader >> initialize [ 
+ToTabPaneHeader >> initialize [ 
 
 	super initialize.
 	group := ToCheckableGroup new.
@@ -56,42 +50,48 @@ ToNotebookHeader >> initialize [
 ]
 
 { #category : 'accessing' }
-ToNotebookHeader >> notebook [
+ToTabPaneHeader >> notebook [
 
 	^ self parent 
 ]
 
 { #category : 'hooks - children' }
-ToNotebookHeader >> onAddedToParent [ 
+ToTabPaneHeader >> onAddedToParent [ 
 
 	super onAddedToParent.
 	self parent applyHeaderPositioning 
 ]
 
 { #category : 'add-remove' }
-ToNotebookHeader >> onButtonAdded: aButton [
+ToTabPaneHeader >> onButtonAdded: aButton [
 
 	self group add: aButton.
-	self buttons add: aButton.
+	self tabs add: aButton.
 	
 ]
 
 { #category : 'add-remove' }
-ToNotebookHeader >> onButtonRemoved: aButton [
+ToTabPaneHeader >> onTabRemoved: aButton [
 
 	| index nextSelected |
-	self notebook onButtonRemoved: aButton.
+	self notebook onTabRemoved: aButton.
 	index := aButton isSelected
-		         ifTrue: [ self buttons indexOf: aButton ]
+		         ifTrue: [ self tabs indexOf: aButton ]
 		         ifFalse: [ 0 ].
 
-	self buttons remove: aButton.
+	self tabs remove: aButton.
 	self group remove: aButton.
 	index > 0 ifFalse: [ ^ self ].
-	self buttons ifEmpty: [ ^ self ].
+	self tabs ifEmpty: [ ^ self ].
 
-	nextSelected := self buttons size < index
-		                ifTrue: [ self buttons last ]
-		                ifFalse: [ self buttons at: index ].
+	nextSelected := self tabs size < index
+		                ifTrue: [ self tabs last ]
+		                ifFalse: [ self tabs at: index ].
 	nextSelected checked: true
+]
+
+{ #category : 'accessing' }
+ToTabPaneHeader >> tabs [ 
+
+	^ buttons
 ]

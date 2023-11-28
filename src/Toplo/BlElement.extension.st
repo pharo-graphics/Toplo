@@ -88,7 +88,7 @@ BlElement >> enable [
 { #category : '*Toplo' }
 BlElement >> enqueueSkinState: aSkinState [
 
-	self skinStateQueue enqueueState: aSkinState for: self 
+	self skinStateQueue enqueueStateRequest: aSkinState for: self 
 ]
 
 { #category : '*Toplo' }
@@ -184,6 +184,12 @@ BlElement >> removeStamp: aSymbol [
 ]
 
 { #category : '*Toplo' }
+BlElement >> removeTokenNamed: aSymbol [
+
+	self toStyleStore removeTokenPropertyNamed: aSymbol
+]
+
+{ #category : '*Toplo' }
 BlElement >> requestInstallSkin [
 
 	" first check for the space phases "
@@ -215,6 +221,18 @@ BlElement >> requestUninstallSkin [
 BlElement >> setSkin: aSkin [
 
 	self skinManager setSkin: aSkin in: self
+]
+
+{ #category : '*Toplo' }
+BlElement >> setToken: aTokenProperty [
+
+	self toStyleStore addTokenProperty: aTokenProperty asTokenProperty 
+]
+
+{ #category : '*Toplo' }
+BlElement >> setTokenNamed: aSymbol value: anObject [
+
+	self toStyleStore addTokenProperty: (aSymbol -> anObject) asTokenProperty 
 ]
 
 { #category : '*Toplo' }
@@ -340,21 +358,15 @@ BlElement >> toThemeChanged [
 ]
 
 { #category : '*Toplo' }
-BlElement >> toValueOf: aSymbol [
-
-	^ self toStyleStore tokenPropertyValue: aSymbol from: self
-]
-
-{ #category : '*Toplo' }
-BlElement >> token: aSymbol value: anObject [
-
-	self toStyleStore addTokenProperty: (aSymbol -> anObject) asTokenProperty 
-]
-
-{ #category : '*Toplo' }
 BlElement >> tokenPropertyNamed: aSymbol [
 
 	^ self toStyleStore tokenPropertyNamed: aSymbol from: self
+]
+
+{ #category : '*Toplo' }
+BlElement >> tokenValueNamed: aSymbol [
+
+	^ self toStyleStore tokenPropertyValue: aSymbol from: self
 ]
 
 { #category : '*Toplo' }

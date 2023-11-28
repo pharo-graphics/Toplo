@@ -38,6 +38,18 @@ ToCheckbox >> defaultImageColor [
 ]
 
 { #category : 'skin' }
+ToCheckbox >> disabledBackground [
+
+	^ Color transparent
+]
+
+{ #category : 'skin' }
+ToCheckbox >> disabledBorder [
+
+	^ Color transparent
+]
+
+{ #category : 'skin' }
 ToCheckbox >> hoveredBorder [ 
 
 	^ self defaultBorder

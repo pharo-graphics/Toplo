@@ -129,8 +129,7 @@ BlElement >> initialRawStyle [
 { #category : '*Toplo' }
 BlElement >> installRawStyle [
 
-	self parent ifNil: [
-		self spaceDo: [ :sp | self background: sp defaultRootBackground ] ]
+	
 ]
 
 { #category : '*Toplo' }

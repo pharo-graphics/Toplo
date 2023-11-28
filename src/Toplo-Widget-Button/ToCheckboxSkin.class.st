@@ -21,6 +21,7 @@ ToCheckboxSkin >> disabledLookEvent: anEvent [
 	super disabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e background: e disabledBackground.
+		e border: e disabledBorder.
 		e icon innerImage border: e disabledBorder.
 		e indeterminateChild background: Color transparent ]
 ]

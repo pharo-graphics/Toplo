@@ -44,8 +44,11 @@ ToTab >> closable: aBoolean [
 			but constraintsDo: [ :c | c linear vertical alignCenter ].
 			but when: BlClickEvent do: [ :event | self removeFromParent ].
 			but id: #innerCloseButton.
+			filler size: 10 @ 10.
 			self addChild: but after: self lastChild ]
-		ifFalse: [ self removeChildNamed: #innerCloseButton ]
+		ifFalse: [
+			filler size: 0 @ 0.
+			self removeChildNamed: #innerCloseButton ]
 ]
 
 { #category : 'skin' }
@@ -72,7 +75,7 @@ ToTab >> initialize [
 	super initialize.
 	closable := false.
 	paneBuilder := [ :pane :theNotebook | ].
-	filler := ToElement new size: 10@10.
+	filler := ToElement new size: 0@0.
 	filler id: #filler.
 	self addChild: filler
 ]

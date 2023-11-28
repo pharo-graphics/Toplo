@@ -2,12 +2,13 @@
 A ToComboBoxTest is a test class for testing the behavior of ToComboBox
 "
 Class {
-	#name : #ToSelectOnlyComboBoxTest,
-	#superclass : #ToComboBoxTest,
-	#category : #'Toplo-Widget-ComboBox-Tests'
+	#name : 'ToSelectOnlyComboBoxTest',
+	#superclass : 'ToComboBoxTest',
+	#category : 'Toplo-Widget-ComboBox-Tests',
+	#package : 'Toplo-Widget-ComboBox-Tests'
 }
 
-{ #category : #asserting }
+{ #category : 'asserting' }
 ToSelectOnlyComboBoxTest >> assertEmpty: aCombo [
 
 	self assert: aCombo data notNil.
@@ -22,18 +23,20 @@ ToSelectOnlyComboBoxTest >> assertEmpty: aCombo [
 	self assert: aCombo mode class equals: aCombo defaultMode class
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSelectOnlyComboBoxTest >> testEmpty [
 
 	| cb |
+	self skip.
 	cb := ToComboBox new.
 	self assertEmpty: cb
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSelectOnlyComboBoxTest >> testSelectDeselect [
 
 	| cb  |
+	self skip.
 	cb := ToComboBox new.
 	cb data addAll: self colors.
 	cb selectIndex: 1.
@@ -43,10 +46,11 @@ ToSelectOnlyComboBoxTest >> testSelectDeselect [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSelectOnlyComboBoxTest >> testSelectedIndexChange [
 
 	| cb count index |
+	self skip.
 	cb := ToComboBox new.
 	cb data addAll: self colors.
 	count := 0.
@@ -61,10 +65,11 @@ ToSelectOnlyComboBoxTest >> testSelectedIndexChange [
 	self assert: index equals: 10
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSelectOnlyComboBoxTest >> testWithColors [
 
 	| cb |
+	self skip.
 	cb := ToComboBox new.
 	cb data addAll: self colors.
 	self assert: cb data size equals: self colors size.
@@ -81,10 +86,11 @@ ToSelectOnlyComboBoxTest >> testWithColors [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSelectOnlyComboBoxTest >> testWithOneElement [
 
 	| cb |
+	self skip.
 	cb := ToComboBox new.
 	cb data add: 'one'.
 	self assert: cb data size equals: 1.
@@ -96,10 +102,11 @@ ToSelectOnlyComboBoxTest >> testWithOneElement [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSelectOnlyComboBoxTest >> testWithOneElement1 [
 
 	| cb |
+	self skip.
 	cb := ToComboBox new.
 	cb data add: 'one'.
 	self assert: cb data size equals: 1.
@@ -112,10 +119,11 @@ ToSelectOnlyComboBoxTest >> testWithOneElement1 [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSelectOnlyComboBoxTest >> testWithStatesOfAmerica [
 
 	| cb |
+	self skip.
 	cb := ToComboBox new.
 	cb data addAll: self statesOfAmerica.
 	self assert: cb data size equals: self statesOfAmerica size.

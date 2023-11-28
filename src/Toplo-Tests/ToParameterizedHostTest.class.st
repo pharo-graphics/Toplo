@@ -21,6 +21,9 @@ ToParameterizedHostTest >> testingSpace: aSpace showThenDo: aBlock [
 ToParameterizedHostTest >> waitTestingSpaces [
 
 	testingSpaces ifNil: [ ^ self ].
-	testingSpaces do: [ :each | each requestNextPulse ].
+	testingSpaces do: [ :each | 
+		each applyAllSkinInstallers.
+		each applyAllStyles. 
+		each requestNextPulse ].
 	super waitTestingSpaces
 ]

@@ -2,7 +2,8 @@ Class {
 	#name : 'ToTabPaneTest',
 	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
-		'notebook'
+		'notebook',
+		'space'
 	],
 	#category : 'Toplo-Incubator',
 	#package : 'Toplo-Incubator'
@@ -11,7 +12,6 @@ Class {
 { #category : 'running' }
 ToTabPaneTest >> setUp [
 
-	| space |
 	super setUp.
 
 	space := self newTestingSpace.
@@ -45,6 +45,39 @@ ToTabPaneTest >> testCloseSelectedPage [
 
 	| redButton greenButton |
 	notebook
+		addTabWithText: 'Green'
+		builder: [ :pane :theNotebook |
+			pane addChild: (BlElement new
+					 background: Color green;
+					 yourself) ].
+	greenButton := notebook lastTab.
+	greenButton closable: true.
+	
+	notebook
+		addTabWithText: 'Red'
+		builder: [ :pane :theNotebook |
+			pane addChild: (BlElement new
+					 background: Color red;
+					 yourself) ].
+	redButton := notebook lastTab.
+	redButton closable: true.
+	
+	self waitTestingSpaces.
+	self assert: (notebook  tabs includes: redButton ).
+	self deny: redButton isSelected.
+
+	BlSpace simulateClickOn: redButton innerCloseButton.
+	self waitTestingSpaces.
+	self deny: (notebook tabs includes: redButton).
+	self assert: greenButton isSelected.
+
+]
+
+{ #category : 'tests' }
+ToTabPaneTest >> testCloseSelectedPage2 [
+
+	| redButton greenButton |
+	notebook
 		addTabWithText: 'Red'
 		builder: [ :pane :theNotebook |
 			pane addChild: (BlElement new
@@ -60,16 +93,16 @@ ToTabPaneTest >> testCloseSelectedPage [
 					 background: Color green;
 					 yourself) ].
 	greenButton := notebook lastTab.
+	greenButton closable: true.
+	greenButton selected: true.
 	
 	self waitTestingSpaces.
 	self assert: (notebook  tabs includes: redButton ).
-	self assert: redButton isSelected.
-
-	BlSpace simulateClickOn: redButton innerCloseButton.
-	self waitTestingSpaces.
-	self deny: (notebook tabs includes: redButton).
 	self assert: greenButton isSelected.
 
+	BlSpace simulateClickOn: greenButton innerCloseButton.
+	self waitTestingSpaces.
+	self deny: (notebook tabs includes: greenButton)
 ]
 
 { #category : 'tests' }
@@ -97,11 +130,54 @@ ToTabPaneTest >> testCloseUnselectedPage [
 	
 	self waitTestingSpaces.
 	self assert: (notebook tabs includes: redButton).
+	self assert: (notebook tabs includes: greenButton).
 	self assert: redButton isSelected.
-
-	BlSpace simulateClickOn: greenButton innerCloseButton.
+	self deny: greenButton isSelected.
+	
+	space class simulateClickOn: greenButton innerCloseButton.
+	greenButton when: BlEvent do: [ :event | event traceCr ].
 	self waitTestingSpaces.
+	space requestNextPulse.
 	self deny: (notebook tabs includes: greenButton).
+	self assert: (notebook tabs includes: redButton).
+	self assert: redButton isSelected.
+]
+
+{ #category : 'tests' }
+ToTabPaneTest >> testCloseUnselectedPage2 [
+
+	| redButton greenButton |
+	notebook
+		addTabWithText: 'Green'
+		builder: [ :pane :theNotebook |
+			pane addChild: (BlElement new
+					 background: Color green;
+					 yourself) ].
+	greenButton := notebook lastTab.
+	greenButton closable: true.
+
+	notebook
+		addTabWithText: 'Red'
+		builder: [ :pane :theNotebook |
+			pane addChild: (BlElement new
+					 background: Color red;
+					 yourself) ].
+	redButton := notebook lastTab.
+	redButton closable: true.
+	redButton selected: true.
+	
+	self waitTestingSpaces.
+	self assert: (notebook tabs includes: redButton).
+	self assert: (notebook tabs includes: greenButton).
+	self assert: redButton isSelected.
+	self deny: greenButton isSelected.
+	
+	space class simulateClickOn: greenButton innerCloseButton.
+	greenButton when: BlEvent do: [ :event | event traceCr ].
+	self waitTestingSpaces.
+	space requestNextPulse.
+	self deny: (notebook tabs includes: greenButton).
+	self assert: (notebook tabs includes: redButton).
 	self assert: redButton isSelected.
 ]
 

@@ -30,6 +30,7 @@ ToTabSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e | 
+		e vFitContent.
 		e border: (BlBorder paint: (e tokenValueNamed: #'color-border') width: (e tokenValueNamed: #'line-width')).
 		e padding: (BlInsets
 				 top: (e tokenValueNamed: #'padding-content-V')

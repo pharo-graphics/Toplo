@@ -74,7 +74,7 @@ ToTab >> initialize [
 	paneBuilder := [ :pane :theNotebook | ].
 	filler := ToElement new size: 10@10.
 	filler id: #filler.
-	self addChild: filler.
+	self addChild: filler
 ]
 
 { #category : 'accessing' }

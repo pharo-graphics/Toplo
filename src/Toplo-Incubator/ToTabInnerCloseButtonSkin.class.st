@@ -17,6 +17,7 @@ ToTabInnerCloseButtonSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
+		e vFitContent.
 		e geometry: BlCircleGeometry new.
 		e border: BlBorder empty.
 		e padding: BlInsets empty ]

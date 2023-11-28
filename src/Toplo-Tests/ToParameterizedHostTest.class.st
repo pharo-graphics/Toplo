@@ -7,6 +7,16 @@ Class {
 }
 
 { #category : 'tests' }
+ToParameterizedHostTest >> applyAllStyles [
+
+	testingSpaces ifNil: [ ^ self ].
+	testingSpaces do: [ :each | 
+		each applyAllSkinInstallers.
+		each applyAllStyles. 
+		each requestNextPulse ].
+]
+
+{ #category : 'tests' }
 ToParameterizedHostTest >> testingSpace: aSpace showThenDo: aBlock [
 
 	aSpace show.
@@ -21,9 +31,7 @@ ToParameterizedHostTest >> testingSpace: aSpace showThenDo: aBlock [
 ToParameterizedHostTest >> waitTestingSpaces [
 
 	testingSpaces ifNil: [ ^ self ].
-	testingSpaces do: [ :each | 
-		each applyAllSkinInstallers.
-		each applyAllStyles. 
+	testingSpaces do: [ :each |
 		each requestNextPulse ].
 	super waitTestingSpaces
 ]

@@ -97,6 +97,7 @@ ToTabPaneTest >> testCloseSelectedPage2 [
 	greenButton selected: true.
 	
 	self waitTestingSpaces.
+	self applyAllStyles.
 	self assert: (notebook  tabs includes: redButton ).
 	self assert: greenButton isSelected.
 
@@ -133,7 +134,8 @@ ToTabPaneTest >> testCloseUnselectedPage [
 	self assert: (notebook tabs includes: greenButton).
 	self assert: redButton isSelected.
 	self deny: greenButton isSelected.
-	
+	self applyAllStyles.
+
 	space class simulateClickOn: greenButton innerCloseButton.
 	greenButton when: BlEvent do: [ :event | event traceCr ].
 	self waitTestingSpaces.
@@ -171,7 +173,8 @@ ToTabPaneTest >> testCloseUnselectedPage2 [
 	self assert: (notebook tabs includes: greenButton).
 	self assert: redButton isSelected.
 	self deny: greenButton isSelected.
-	
+	self applyAllStyles.
+
 	space class simulateClickOn: greenButton innerCloseButton.
 	greenButton when: BlEvent do: [ :event | event traceCr ].
 	self waitTestingSpaces.

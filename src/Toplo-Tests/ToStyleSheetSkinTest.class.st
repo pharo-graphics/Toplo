@@ -177,11 +177,11 @@ ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 	self assert: w background paint color equals: Color white.
 
 	w enqueueSkinState: (ToTransientState lookEvent:  ToHoveredLookEvent new).
-	animation onFinishedDo: [
+	animation onFinishedDo: [ :x |
 		self assert: w background paint color equals: Color black.
 
 		w enqueueSkinState: (ToTransientState lookEvent:  ToLeavedLookEvent new).
-		animation onFinishedDo: [
+		animation onFinishedDo: [ :xx |
 			self assert: w background paint color equals: Color white ] ]
 ]
 

@@ -42,6 +42,9 @@ ToLabeledIconEventHandlerTest >> testDirection [
 	li direction: BlLayoutDirection leftToRight.
 	self assert: li skinInstaller isNil.
 
+	li direction: BlLayoutDirection rightToLeft.
+	self assert: li skinInstaller notNil.
+
 
 ]
 

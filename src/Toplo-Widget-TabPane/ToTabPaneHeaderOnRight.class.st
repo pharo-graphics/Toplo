@@ -14,7 +14,12 @@ ToTabPaneHeaderOnRight >> applyOn: aTabPane [
 	aTabPane header beVertical.
 	aTabPane header hFitContent.
 	aTabPane header vMatchParent.
-	aTabPane header tabsContainer beVertical.
+	aTabPane header tabRow beVertical.
+	aTabPane header tabRowContainer hFitContent.
+	aTabPane header tabRowContainer vMatchParent.
+	aTabPane header tabRowContainer beVertical.
+	aTabPane header startContainer hMatchParent; vFitContent.
+	aTabPane header endContainer hMatchParent; vFitContent.
 	aTabPane tabs do: [ :b | b geometry: self tabGeometry ].
 ]
 

@@ -9,5 +9,5 @@ Class {
 ToTabPaneHeaderOnBottomRight >> applyOn: aTabPane [
 
 	super applyOn: aTabPane.
-	aTabPane header layout alignCenterRight
+	aTabPane header tabRowContainer layout alignCenterRight
 ]

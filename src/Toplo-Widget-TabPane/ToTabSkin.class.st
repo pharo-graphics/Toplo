@@ -45,6 +45,7 @@ ToTabSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
 	anEvent elementDo: [ :e | 
+		e isChecked ifFalse: [e background: e defaultBackground].
 		e border: (BlBorder paint: (e tokenValueNamed: #'color-border') width: (e tokenValueNamed: #'line-width')).
 		e isChecked ifTrue: [ ^ self ] ].
 

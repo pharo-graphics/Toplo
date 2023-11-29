@@ -6,7 +6,10 @@ Class {
 		'group',
 		'positioningStrategy',
 		'tabs',
-		'tabsContainer'
+		'tabRow',
+		'tabRowContainer',
+		'startContainer',
+		'endContainer'
 	],
 	#category : 'Toplo-Widget-TabPane',
 	#package : 'Toplo-Widget-TabPane'
@@ -16,7 +19,7 @@ Class {
 ToTabPaneHeader >> addTab: aTab [
 
 	aTab header: self.
-	self tabsContainer addChild: aTab
+	self tabRow addChild: aTab
 ]
 
 { #category : 'initialization' }
@@ -57,6 +60,12 @@ ToTabPaneHeader >> defaultPositioningStrategy [
 ]
 
 { #category : 'accessing' }
+ToTabPaneHeader >> endContainer [
+
+	^ endContainer
+]
+
+{ #category : 'accessing' }
 ToTabPaneHeader >> group [
 
 	^ group
@@ -69,8 +78,15 @@ ToTabPaneHeader >> initialize [
 	group := ToCheckableGroup new.
 	group when: ToCheckableGroupChangedEvent do: [ :event | self checkableGroupChangedEvent: event ].
 	tabs := OrderedCollection new.
-	tabsContainer := ToPane horizontal fitContent.
-	self addChild: tabsContainer
+	tabRowContainer := ToPane new vFitContent; hMatchParent; yourself.
+	tabRow := ToPane horizontal fitContent; yourself.
+	tabRowContainer addChild: tabRow.
+	startContainer := ToPane new vMatchParent; hFitContent; yourself.
+	endContainer := ToPane new vMatchParent; hFitContent; yourself.
+	self addChild: startContainer.
+	self addChild: tabRowContainer.
+	self addChild: endContainer.
+
 ]
 
 { #category : 'add-remove' }
@@ -119,19 +135,31 @@ ToTabPaneHeader >> positioningStrategy: anObject [
 { #category : 'add-remove' }
 ToTabPaneHeader >> removeTab: aTab [
 
-	self tabsContainer removeChild: aTab
+	self tabRow removeChild: aTab
+]
+
+{ #category : 'accessing' }
+ToTabPaneHeader >> startContainer [
+
+	^ startContainer
+]
+
+{ #category : 'accessing' }
+ToTabPaneHeader >> tabRow [
+
+	^ tabRow 
+]
+
+{ #category : 'accessing' }
+ToTabPaneHeader >> tabRowContainer [
+
+	^ tabRowContainer
 ]
 
 { #category : 'accessing' }
 ToTabPaneHeader >> tabs [ 
 
 	^ tabs
-]
-
-{ #category : 'accessing' }
-ToTabPaneHeader >> tabsContainer [
-
-	^ tabsContainer 
 ]
 
 { #category : 'accessing' }

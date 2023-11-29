@@ -5,8 +5,8 @@ Class {
 		'notebook',
 		'space'
 	],
-	#category : 'Toplo-Incubator',
-	#package : 'Toplo-Incubator'
+	#category : 'Toplo-Widget-TabPane-Tests',
+	#package : 'Toplo-Widget-TabPane-Tests'
 }
 
 { #category : 'running' }
@@ -22,17 +22,15 @@ ToTabPaneTest >> setUp [
 { #category : 'tests' }
 ToTabPaneTest >> testCloseLastPage [
 
-	notebook
-		addTabWithText: 'Red'
-		builder: [ :pane :theNotebook |
-			pane addChild: (BlElement new
-					 background: Color red;
-					 yourself) ].
+	notebook addTabWithText: 'Red' builder: [ :pane :theNotebook |
+		pane addChild: (BlElement new
+				 background: Color red;
+				 yourself) ].
 
 	notebook lastTab closable: true.
 
 	self waitTestingSpaces.
-	self assert: notebook tabs size = 1.
+	self assert: notebook tabs size equals: 1.
 	self assert: notebook tabs last isSelected.
 
 	BlSpace simulateClickOn: notebook tabs last innerCloseButton.

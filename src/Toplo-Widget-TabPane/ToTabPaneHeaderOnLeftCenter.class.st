@@ -1,8 +1,8 @@
 Class {
 	#name : 'ToTabPaneHeaderOnLeftCenter',
 	#superclass : 'ToTabPaneHeaderOnLeft',
-	#category : 'Toplo-Incubator',
-	#package : 'Toplo-Incubator'
+	#category : 'Toplo-Widget-TabPane',
+	#package : 'Toplo-Widget-TabPane'
 }
 
 { #category : 'hook' }

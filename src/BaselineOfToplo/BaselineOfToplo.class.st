@@ -1,20 +1,21 @@
 Class {
-	#name : #BaselineOfToplo,
-	#superclass : #BaselineOf,
+	#name : 'BaselineOfToplo',
+	#superclass : 'BaselineOf',
 	#classVars : [
 		'Initialized'
 	],
-	#category : #BaselineOfToplo
+	#category : 'BaselineOfToplo',
+	#package : 'BaselineOfToplo'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfToplo >> baseline: spec [
 
 	<baseline>
 	spec for: #common do: [ self baselineForCommon: spec ]
 ]
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfToplo >> baselineForCommon: spec [
 
 
@@ -23,7 +24,7 @@ BaselineOfToplo >> baselineForCommon: spec [
 	self registerPackages: spec
 ]
 
-{ #category : #dependencies }
+{ #category : 'dependencies' }
 BaselineOfToplo >> dependencies: spec [
 
 	spec
@@ -35,7 +36,7 @@ BaselineOfToplo >> dependencies: spec [
 		with: [ spec repository: 'github://plantec/Album/src' ]
 ]
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfToplo >> postload: loader package: packageSpec [
 
 	"Ignore pre and post loads if already executed"
@@ -46,7 +47,7 @@ BaselineOfToplo >> postload: loader package: packageSpec [
 	Initialized := true
 ]
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfToplo >> registerPackages: spec [
 	"Core"
 
@@ -132,7 +133,15 @@ BaselineOfToplo >> registerPackages: spec [
 	spec package: #'Toplo-Widget-Select-Tests' with: [
 		spec requires:
 			#( #Toplo #'Toplo-Widget-Select' ) ].
-		
+	
+	spec package: #'Toplo-Widget-TabPane' with: [
+		spec requires:
+			#( #Toplo #'Toplo-Widget-Pane' ) ].
+
+	spec package: #'Toplo-Widget-TabPane-Tests' with: [
+		spec requires:
+			#( #Toplo #'Toplo-Widget-TabPane' ) ].
+	
 	spec
 		package: #'Toplo-Theme-Bee'
 		with: [ spec requires: #( #'Toplo-Theme' #'Toplo-Widget-Button'  #'Toplo-Widget-Album'  #'Toplo-Widget-Image'  #'Toplo-Widget-Pane') ].

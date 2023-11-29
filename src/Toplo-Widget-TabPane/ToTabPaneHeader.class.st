@@ -8,8 +8,8 @@ Class {
 		'tabs',
 		'tabsContainer'
 	],
-	#category : 'Toplo-Incubator',
-	#package : 'Toplo-Incubator'
+	#category : 'Toplo-Widget-TabPane',
+	#package : 'Toplo-Widget-TabPane'
 }
 
 { #category : 'add-remove' }

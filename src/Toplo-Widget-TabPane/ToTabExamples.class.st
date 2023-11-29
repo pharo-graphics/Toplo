@@ -1,8 +1,8 @@
 Class {
 	#name : 'ToTabExamples',
 	#superclass : 'Object',
-	#category : 'Toplo-Incubator',
-	#package : 'Toplo-Incubator'
+	#category : 'Toplo-Widget-TabPane',
+	#package : 'Toplo-Widget-TabPane'
 }
 
 { #category : 'tabs' }
@@ -145,7 +145,7 @@ ToTabExamples class >> example_headerOnTopLeft [
 ToTabExamples class >> example_headerOnTopResizablePanes [
 
 	| nb |
-	nb := self example_notebook.
+	nb := self example_tabPane.
 	nb withoutCheckingStrategy.
 	nb withResizablePanes 
 ]
@@ -154,7 +154,7 @@ ToTabExamples class >> example_headerOnTopResizablePanes [
 ToTabExamples class >> example_headerOnTopResizablePanesHorizontalBody [
 
 	| nb |
-	nb := self example_notebook.
+	nb := self example_tabPane.
 	nb withoutCheckingStrategy.
 	nb withResizablePanes.
 	nb withHorizontalBody

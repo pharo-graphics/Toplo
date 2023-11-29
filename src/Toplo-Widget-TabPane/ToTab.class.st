@@ -13,8 +13,8 @@ Class {
 		'filler',
 		'header'
 	],
-	#category : 'Toplo-Incubator',
-	#package : 'Toplo-Incubator'
+	#category : 'Toplo-Widget-TabPane',
+	#package : 'Toplo-Widget-TabPane'
 }
 
 { #category : 'accessing' }
@@ -52,13 +52,13 @@ ToTab >> closable: aBoolean [
 			self removeChildNamed: #innerCloseButton ]
 ]
 
-{ #category : 'skin' }
+{ #category : 'initialization' }
 ToTab >> defaultBorder [
 
 	^ Color veryLightGray alpha: 0.5
 ]
 
-{ #category : 'skin' }
+{ #category : 'initialization' }
 ToTab >> defaultGeometry [
 
 	^ self tabsPane tabGeometry
@@ -105,8 +105,7 @@ ToTab >> installRawStyle [
 	super installRawStyle.
 
 	self fitContent.
-	self constraintsDo: [ :c | c linear vertical alignCenter ].
-	self border: Color black
+	self constraintsDo: [ :c | c linear vertical alignCenter ]
 ]
 
 { #category : 'testing' }

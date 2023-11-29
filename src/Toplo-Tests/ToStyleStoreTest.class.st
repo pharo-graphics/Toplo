@@ -2,14 +2,12 @@
 A ToStyleSheetManagerTest is a test class for testing the behavior of ToStyleSheetManager
 "
 Class {
-	#name : 'ToStyleStoreTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core-Theme',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Theme'
+	#name : #ToStyleStoreTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Tests-Core-Theme'
 }
 
-{ #category : 'stamps' }
+{ #category : #stamps }
 ToStyleStoreTest >> testAddAllStamps [
 
 	| e |
@@ -29,7 +27,7 @@ ToStyleStoreTest >> testAddAllStamps [
 
 ]
 
-{ #category : 'stamps' }
+{ #category : #stamps }
 ToStyleStoreTest >> testAddStamp [
 
 	| e |
@@ -49,7 +47,7 @@ ToStyleStoreTest >> testAddStamp [
 
 ]
 
-{ #category : 'token properties' }
+{ #category : #'token properties' }
 ToStyleStoreTest >> testAddTokenProperty [
 
 	| e s s2 |
@@ -68,7 +66,7 @@ ToStyleStoreTest >> testAddTokenProperty [
 	self assert: e toStyleStore tokenPropertyIndex size equals: 1
 ]
 
-{ #category : 'token properties' }
+{ #category : #'token properties' }
 ToStyleStoreTest >> testHasTokenPropertyNamed [
 
 	| e |
@@ -83,7 +81,7 @@ ToStyleStoreTest >> testHasTokenPropertyNamed [
 	self assert: (e toStyleStore hasTokenPropertyNamed: #color)
 ]
 
-{ #category : 'token properties' }
+{ #category : #'token properties' }
 ToStyleStoreTest >> testLocalTokenPropertyNamed [
 
 	| e s |
@@ -98,7 +96,7 @@ ToStyleStoreTest >> testLocalTokenPropertyNamed [
 	self assert: s value
 ]
 
-{ #category : 'token properties' }
+{ #category : #'token properties' }
 ToStyleStoreTest >> testLookUpTokenPropertyNamedFrom [
 
 	| e child |
@@ -121,7 +119,7 @@ ToStyleStoreTest >> testLookUpTokenPropertyNamedFrom [
 		assert: (child toStyleStore lookUpTokenPropertyNamed: #something from: child) isNil
 ]
 
-{ #category : 'stamps' }
+{ #category : #stamps }
 ToStyleStoreTest >> testRemoveAllStamps [
 
 	| e |
@@ -135,7 +133,7 @@ ToStyleStoreTest >> testRemoveAllStamps [
 	self assert: e toStyleStore allStamps isEmpty
 ]
 
-{ #category : 'stamps' }
+{ #category : #stamps }
 ToStyleStoreTest >> testRemoveStamp [
 
 	| e |
@@ -153,7 +151,7 @@ ToStyleStoreTest >> testRemoveStamp [
 	self assert: (e toStyleStore hasStamp: #background)
 ]
 
-{ #category : 'token properties' }
+{ #category : #'token properties' }
 ToStyleStoreTest >> testRemoveTokenPropertyNamed [
 
 	| e |
@@ -167,7 +165,7 @@ ToStyleStoreTest >> testRemoveTokenPropertyNamed [
 	self assert: e toStyleStore tokenPropertyIndex isEmpty
 ]
 
-{ #category : 'token properties' }
+{ #category : #'token properties' }
 ToStyleStoreTest >> testRemoveTokenPropertyNamed2 [
 
 	| e |
@@ -180,7 +178,7 @@ ToStyleStoreTest >> testRemoveTokenPropertyNamed2 [
 	self assert: e toStyleStore tokenPropertyIndex isEmpty
 ]
 
-{ #category : 'token properties' }
+{ #category : #'token properties' }
 ToStyleStoreTest >> testRemoveTokenPropertyNamed4 [
 
 	| e |
@@ -200,7 +198,7 @@ ToStyleStoreTest >> testRemoveTokenPropertyNamed4 [
 
 ]
 
-{ #category : 'token properties' }
+{ #category : #'token properties' }
 ToStyleStoreTest >> testTokenPropertyIndex [
 
 	| e dict |
@@ -210,7 +208,7 @@ ToStyleStoreTest >> testTokenPropertyIndex [
 
 ]
 
-{ #category : 'token properties' }
+{ #category : #'token properties' }
 ToStyleStoreTest >> testTokenPropertyNamed [
 
 	| e p |
@@ -225,7 +223,7 @@ ToStyleStoreTest >> testTokenPropertyNamed [
 	self assert: (e toStyleStore tokenPropertyNamed: #color) notNil
 ]
 
-{ #category : 'token properties' }
+{ #category : #'token properties' }
 ToStyleStoreTest >> testTokenPropertyNamedFrom [
 
 	| e child space |
@@ -251,7 +249,7 @@ ToStyleStoreTest >> testTokenPropertyNamedFrom [
 	
 ]
 
-{ #category : 'token properties' }
+{ #category : #'token properties' }
 ToStyleStoreTest >> testTokenPropertyValueFrom [
 
 	| e p |

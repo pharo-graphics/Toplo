@@ -1,23 +1,21 @@
 Class {
-	#name : 'ToRawSkinForTest',
-	#superclass : 'ToRawSkin',
+	#name : #ToRawSkinForTest,
+	#superclass : #ToRawSkin,
 	#instVars : [
 		'initialCpt',
 		'installCpt',
 		'uninstallCpt'
 	],
-	#category : 'Toplo-Tests-Core',
-	#package : 'Toplo-Tests',
-	#tag : 'Core'
+	#category : 'Toplo-Tests-Core'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToRawSkinForTest >> initialCpt [
 
 	^ initialCpt
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToRawSkinForTest >> initialize [ 
 
 	super initialize.
@@ -26,26 +24,26 @@ ToRawSkinForTest >> initialize [
 	uninstallCpt := 0
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToRawSkinForTest >> installCpt [
 
 	^ installCpt
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> installLookEvent: anEvent [
 
 	installCpt := installCpt + 1.
 	initialCpt := initialCpt + 1
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToRawSkinForTest >> uninstallCpt [
 
 	^ uninstallCpt
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 ToRawSkinForTest >> uninstallLookEvent: anEvent [
 
 	uninstallCpt := uninstallCpt + 1

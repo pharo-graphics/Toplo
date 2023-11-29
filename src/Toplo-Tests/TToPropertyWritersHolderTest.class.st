@@ -2,14 +2,12 @@
 A TToPropertyWriterHolderTest is a test class for testing the behavior of TToPropertyWriterHolder
 "
 Class {
-	#name : 'TToPropertyWritersHolderTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core-StyleSheet',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-StyleSheet'
+	#name : #TToPropertyWritersHolderTest,
+	#superclass : #TestCase,
+	#category : 'Toplo-Tests-Core-StyleSheet'
 }
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToPropertyWritersHolderTest >> testAddAllPropertyWriters [
 
 	| e |
@@ -23,7 +21,7 @@ TToPropertyWritersHolderTest >> testAddAllPropertyWriters [
 	
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToPropertyWritersHolderTest >> testAddPropertyWriter [
 
 	| e |
@@ -33,7 +31,7 @@ TToPropertyWritersHolderTest >> testAddPropertyWriter [
 	self assert: e propertyWriters size equals: 1
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToPropertyWritersHolderTest >> testPropertyWriters [
 
 	| e |
@@ -42,7 +40,7 @@ TToPropertyWritersHolderTest >> testPropertyWriters [
 
 ]
 
-{ #category : 'tests' }
+{ #category : #tests }
 TToPropertyWritersHolderTest >> testRemoveAllPropertyWriters [
 
 	| e |

@@ -2,14 +2,12 @@
 A ToStyleSelectorInterpreterTest is a test class for testing the behavior of ToStyleSelectorInterpreter
 "
 Class {
-	#name : 'ToSelectorInterpreterTest',
-	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core-Selector',
-	#package : 'Toplo-Tests',
-	#tag : 'Core-Selector'
+	#name : #ToSelectorInterpreterTest,
+	#superclass : #TestCase,
+	#category : #'Toplo-Tests-Core-Selector'
 }
 
-{ #category : 'tests - action selector' }
+{ #category : #'tests - action selector' }
 ToSelectorInterpreterTest >> testActionSelector [
 
 	| selector e engine  |
@@ -22,15 +20,15 @@ ToSelectorInterpreterTest >> testActionSelector [
 
 ]
 
-{ #category : 'tests - child selector' }
+{ #category : #'tests - child selector' }
 ToSelectorInterpreterTest >> testChildMixedWithParentSelector [
 
 	| button innerElement icon label engine innerElementSelector buttonSelector |
-	buttonSelector := (#button  asElementSelector
-		                   child: #'button-label'
-		                   depth: 2) "child: #'button-icon' depth: 2".
-	innerElementSelector := #'inner-element' asElementSelector parent:
-		                        buttonSelector.
+	buttonSelector := #button asElementSelector
+		                  withChild: #'button-label'
+		                  atDepth: 2. "child: #'button-icon' depth: 2"
+	innerElementSelector := #'inner-element' asElementSelector
+		                        withParent: buttonSelector.
 
 	button := ToElement new.
 	button addAllStamps: #( #button ).
@@ -54,16 +52,17 @@ ToSelectorInterpreterTest >> testChildMixedWithParentSelector [
 	self assert: engine result
 ]
 
-{ #category : 'tests - child selector' }
+{ #category : #'tests - child selector' }
 ToSelectorInterpreterTest >> testChildSelector [
-
 	" selector: an element with a parent of type Object "
+
 	| selector e engine parent |
-	selector := ToUniversalSelector new child: (ToTypeSelector new type: Object).
+	selector := ToUniversalSelector new withChild:
+		            (ToTypeSelector new type: Object).
 	e := ToElement new.
 	parent := ToElement new.
 	parent addChild: e.
-	self assert: e parent == parent.
+	self assert: e parent identicalTo: parent.
 	engine := ToSelectorInterpreter new.
 	" the result is false since the selector is exact by default "
 	engine check: selector on: parent.
@@ -71,19 +70,24 @@ ToSelectorInterpreterTest >> testChildSelector [
 	" now allow isKindOf: "
 	selector right exact: false.
 	engine check: selector on: parent.
-	self assert: engine result.
-	
+	self assert: engine result
 ]
 
-{ #category : 'tests - child selector' }
+{ #category : #'tests - child selector' }
 ToSelectorInterpreterTest >> testChildSelectorWithDepth [
 
 	| childSelectorAnyDepth childSelectorDepth1 childSelectorDepth2 sub subsub parent engine |
-	
-	childSelectorAnyDepth := ToUniversalSelector new child: (ToTypeSelector new type: ToElement).
-	childSelectorDepth1 := ToUniversalSelector new child: (ToTypeSelector new type: ToElement) depth: 1.
-	childSelectorDepth2 := ToUniversalSelector new child: (ToTypeSelector new type: ToElement) depth: 2.
-	
+	childSelectorAnyDepth := ToUniversalSelector new withChild:
+		                         (ToTypeSelector new type: ToElement).
+	childSelectorDepth1 := ToUniversalSelector new
+		                       withChild:
+		                       (ToTypeSelector new type: ToElement)
+		                       atDepth: 1.
+	childSelectorDepth2 := ToUniversalSelector new
+		                       withChild:
+		                       (ToTypeSelector new type: ToElement)
+		                       atDepth: 2.
+
 	sub := ToElement new.
 	subsub := ToElement new.
 	parent := ToElement new.
@@ -116,11 +120,12 @@ ToSelectorInterpreterTest >> testChildSelectorWithDepth [
 	self assert: engine result not
 ]
 
-{ #category : 'tests - child selector' }
+{ #category : #'tests - child selector' }
 ToSelectorInterpreterTest >> testChildSelectorWithTwoChildrenDepth1 [
 
 	| button icon label engine buttonSelector |
-	buttonSelector := ((ToStampSelector new addStamp: #button) child: #'button-label' ).
+	buttonSelector := (ToStampSelector new addStamp: #button) withChild:
+		                  #'button-label'.
 
 	button := ToElement new.
 	button addAllStamps: #( #button ).
@@ -135,15 +140,16 @@ ToSelectorInterpreterTest >> testChildSelectorWithTwoChildrenDepth1 [
 	engine := ToSelectorInterpreter new.
 
 	engine check: buttonSelector on: button.
-	self assert: engine result.
-
+	self assert: engine result
 ]
 
-{ #category : 'tests - child selector' }
+{ #category : #'tests - child selector' }
 ToSelectorInterpreterTest >> testChildSelectorWithTwoChildrenWithTwoChildSelectorsDepth2 [
 
 	| button innerElement icon label engine buttonSelector |
-	buttonSelector := ((ToStampSelector new addStamp: #button) child: #'button-label' depth: 2) child: #'button-icon' depth: 2.
+	buttonSelector := ((ToStampSelector new addStamp: #button)
+		                   withChild: #'button-label'
+		                   atDepth: 2) withChild: #'button-icon' atDepth: 2.
 
 	button := ToElement new id: #button.
 	button addAllStamps: #( #button ).
@@ -162,26 +168,23 @@ ToSelectorInterpreterTest >> testChildSelectorWithTwoChildrenWithTwoChildSelecto
 
 	engine check: buttonSelector on: button.
 	self assert: engine result.
-	
+
 	button removeChild: innerElement.
 	engine check: buttonSelector on: button.
 	self assert: engine result not.
-	
+
 	button addChild: innerElement.
 	innerElement removeChild: icon.
 	engine check: buttonSelector on: button.
 	self assert: engine result not.
-	
+
 	innerElement addChild: icon.
 	innerElement removeChild: label.
 	engine check: buttonSelector on: button.
-	self assert: engine result not.
-
-	
-
+	self assert: engine result not
 ]
 
-{ #category : 'tests - with single selector' }
+{ #category : #'tests - with single selector' }
 ToSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass0 [
 
 	" element with no class, selector without class "
@@ -194,7 +197,7 @@ ToSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass0 [
 	self assert: engine result 
 ]
 
-{ #category : 'tests - with single selector' }
+{ #category : #'tests - with single selector' }
 ToSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass1 [
 
 	" element with a class, selector without class "
@@ -207,7 +210,7 @@ ToSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass1 [
 	self assert: engine result 
 ]
 
-{ #category : 'tests - with single selector' }
+{ #category : #'tests - with single selector' }
 ToSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass2 [
 
 	" element with a class, selector with the same class "
@@ -220,7 +223,7 @@ ToSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass2 [
 	self assert: engine result 
 ]
 
-{ #category : 'tests - with single selector' }
+{ #category : #'tests - with single selector' }
 ToSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass3 [
 
 	" element with a class, selector with the a different class "
@@ -238,7 +241,7 @@ ToSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass3 [
 
 ]
 
-{ #category : 'tests - with single selector' }
+{ #category : #'tests - with single selector' }
 ToSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass4 [
 	" element with multiple classes "
 
@@ -257,7 +260,7 @@ ToSelectorInterpreterTest >> testClassSelectorWithElementWithoutClass4 [
 	self assert: engine result
 ]
 
-{ #category : 'tests - with single selector' }
+{ #category : #'tests - with single selector' }
 ToSelectorInterpreterTest >> testNotSelector [
 
 	| selector e engine |
@@ -274,16 +277,17 @@ ToSelectorInterpreterTest >> testNotSelector [
 
 ]
 
-{ #category : 'tests - parent selector' }
+{ #category : #'tests - parent selector' }
 ToSelectorInterpreterTest >> testParentSelector [
-
 	" selector: an element with a parent of type Object "
+
 	| selector e engine parent |
-	selector := ToUniversalSelector new parent: (ToTypeSelector new type: Object).
+	selector := ToUniversalSelector new withParent:
+		            (ToTypeSelector new type: Object).
 	e := ToElement new.
 	parent := ToElement new.
 	parent addChild: e.
-	self assert: e parent == parent.
+	self assert: e parent identicalTo: parent.
 	engine := ToSelectorInterpreter new.
 	" the result is false since the selector is exact by default "
 	engine check: selector on: e.
@@ -291,11 +295,10 @@ ToSelectorInterpreterTest >> testParentSelector [
 	" now allow isKindOf: "
 	selector right exact: false.
 	engine check: selector on: e.
-	self assert: engine result.
-	
+	self assert: engine result
 ]
 
-{ #category : 'tests - with single selector' }
+{ #category : #'tests - with single selector' }
 ToSelectorInterpreterTest >> testParentSelectorWithElementWithNoParent [
 
 	| selector e engine |
@@ -306,7 +309,7 @@ ToSelectorInterpreterTest >> testParentSelectorWithElementWithNoParent [
 	self assert: engine result not
 ]
 
-{ #category : 'tests - parent selector' }
+{ #category : #'tests - parent selector' }
 ToSelectorInterpreterTest >> testParentSelectorWithoutLeft [
 
 	" selector: an element with a parent of type Object "
@@ -327,7 +330,7 @@ ToSelectorInterpreterTest >> testParentSelectorWithoutLeft [
 	
 ]
 
-{ #category : 'tests - and selector' }
+{ #category : #'tests - and selector' }
 ToSelectorInterpreterTest >> testRuleWithAndSelector [
 	" a rule with an And operator  "
 
@@ -349,7 +352,7 @@ ToSelectorInterpreterTest >> testRuleWithAndSelector [
 	self assert: engine result not
 ]
 
-{ #category : 'tests - sibling selector' }
+{ #category : #'tests - sibling selector' }
 ToSelectorInterpreterTest >> testRuleWithAndSiblingSelector [
 	" a rule with an And operator  "
 
@@ -366,14 +369,15 @@ ToSelectorInterpreterTest >> testRuleWithAndSiblingSelector [
 	self assert: engine result
 ]
 
-{ #category : 'tests - sibling selector' }
+{ #category : #'tests - sibling selector' }
 ToSelectorInterpreterTest >> testRuleWithAndSiblingSelector2 [
 	" a rule with an And operator  "
 
 	| selector engine parent child sibling |
-	selector := ((ToStampSelector new addStamp: #child ) parent: #( #parent )) sibling: #sibling.
+	selector := ((ToStampSelector new addStamp: #child) withParent:
+		             #( #parent )) sibling: #sibling.
 
-	parent := ToElement new .
+	parent := ToElement new.
 	child := ToElement new addStamp: #child.
 	sibling := ToElement new addStamp: #sibling.
 	parent addChild: child.
@@ -385,20 +389,20 @@ ToSelectorInterpreterTest >> testRuleWithAndSiblingSelector2 [
 	parent addStamp: #parent.
 	" should be ok now "
 	engine check: selector on: child.
-	self assert: engine result.
-	
+	self assert: engine result
 ]
 
-{ #category : 'tests - sibling selector' }
+{ #category : #'tests - sibling selector' }
 ToSelectorInterpreterTest >> testRuleWithAndSiblingSelector3 [
 	" a rule with an And operator  "
 
 	| selector engine parent child sibling |
-	selector := ((ToStampSelector new addStamp: #child ) parent: #( #parent )) sibling: #sibling.
+	selector := ((ToStampSelector new addStamp: #child) withParent:
+		             #( #parent )) sibling: #sibling.
 
-	parent := ToElement new .
+	parent := ToElement new.
 	child := ToElement new addStamp: #child.
-	sibling := ToElement new addAllStamps: #(#image #sibling).
+	sibling := ToElement new addAllStamps: #( #image #sibling ).
 	parent addChild: child.
 	parent addChild: sibling.
 	engine := ToSelectorInterpreter new.
@@ -408,39 +412,39 @@ ToSelectorInterpreterTest >> testRuleWithAndSiblingSelector3 [
 	parent addStamp: #parent.
 	" should be ok now "
 	engine check: selector on: child.
-	self assert: engine result.
-	
+	self assert: engine result
 ]
 
-{ #category : 'tests - sibling selector' }
+{ #category : #'tests - sibling selector' }
 ToSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector [
 	" a rule with an And operator  "
 
 	| selector engine parent child sibling1 sibling2 |
-	selector := (((ToStampSelector new addStamp: #child ) parent: #( #parent )) sibling: #'image-sibling') sibling: #'label-sibling'.
+	selector := (((ToStampSelector new addStamp: #child) withParent:
+		              #( #parent )) sibling: #'image-sibling') sibling:
+		            #'label-sibling'.
 
-	parent := ToElement new .
+	parent := ToElement new.
 	child := ToElement new addStamp: #child.
-	sibling1 := ToElement new addAllStamps: #(#image #'image-sibling').
-	sibling2 := ToElement new addAllStamps: #(#label #'label-sibling').
+	sibling1 := ToElement new addAllStamps: #( #image #'image-sibling' ).
+	sibling2 := ToElement new addAllStamps: #( #label #'label-sibling' ).
 	parent addChild: sibling1.
 	parent addChild: child.
 	parent addChild: sibling2.
-	
+
 	parent addStamp: #parent.
-	
+
 	engine := ToSelectorInterpreter new.
 	engine check: selector on: child.
-	self assert: engine result.
-	
+	self assert: engine result
 ]
 
-{ #category : 'tests - sibling selector' }
+{ #category : #'tests - sibling selector' }
 ToSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector2 [
 	" a rule with an And operator  "
 
 	| selector engine parent child sibling1 sibling2 |
-	selector := (((ToStampSelector new addStamp: #child) parent:
+	selector := (((ToStampSelector new addStamp: #child) withParent:
 		              #( #parent )) sibling: #( #image #'image-sibling' ))
 		            sibling: #( #label #'label-sibling' ).
 
@@ -459,15 +463,15 @@ ToSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector2 [
 	self assert: engine result
 ]
 
-{ #category : 'tests - sibling selector' }
+{ #category : #'tests - sibling selector' }
 ToSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector3 [
 	" a rule with an And operator  "
 
 	| selector engine parent inner child sibling1 sibling2 |
-	selector := (((ToStampSelector new addStamp: #child) 
-						parent: #( #parent ) depth: 2) 
-							sibling: #( #image #'image-sibling' ))
-		     			       sibling: #( #label #'label-sibling' ).
+	selector := (((ToStampSelector new addStamp: #child)
+		              withParent: #( #parent )
+		              atDepth: 2) sibling: #( #image #'image-sibling' ))
+		            sibling: #( #label #'label-sibling' ).
 
 	parent := ToElement new.
 	inner := ToElement new.
@@ -486,16 +490,15 @@ ToSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector3 [
 	self assert: engine result
 ]
 
-{ #category : 'tests - and selector' }
+{ #category : #'tests - and selector' }
 ToSelectorInterpreterTest >> testRuleWithAndWithParentSelector [
 	" a rule with an And operator  "
 
 	| selector e engine child |
 	selector := (ToStampSelector new addStamp: #'button-label')
-		            parent:
-			            (ToStampSelector new addStamp: #button)
-			            + (ToStampSelector new addStamp: #danger )
-		            depth: 1.
+		            withParent: (ToStampSelector new addStamp: #button)
+			            + (ToStampSelector new addStamp: #danger)
+		            atDepth: 1.
 
 	e := ToElement new addStamp: #button.
 	engine := ToSelectorInterpreter new.
@@ -514,7 +517,7 @@ ToSelectorInterpreterTest >> testRuleWithAndWithParentSelector [
 	self assert: engine result
 ]
 
-{ #category : 'tests - or selector' }
+{ #category : #'tests - or selector' }
 ToSelectorInterpreterTest >> testRuleWithOrSelector [
 	" a rule with an And operator  "
 
@@ -535,17 +538,17 @@ ToSelectorInterpreterTest >> testRuleWithOrSelector [
 	self assert: engine result not
 ]
 
-{ #category : 'tests - or selector' }
+{ #category : #'tests - or selector' }
 ToSelectorInterpreterTest >> testRuleWithOrWithParentSelector [
 	" a rule with an Or operator with a child selector  "
 
 	| selector e engine child |
 	selector := (ToStampSelector new addStamp: #'inner-element')
-		            parent: ((ToStampSelector new addAllStamps:
+		            withParent: ((ToStampSelector new addAllStamps:
 				              #( #button #horizontal #justified )) or:
 				             (ToStampSelector new addAllStamps:
 					              #( #button #justified )))
-		            depth: 1.
+		            atDepth: 1.
 
 	e := ToElement new addStamp: #button.
 	engine := ToSelectorInterpreter new.
@@ -561,7 +564,7 @@ ToSelectorInterpreterTest >> testRuleWithOrWithParentSelector [
 	self assert: engine result
 ]
 
-{ #category : 'tests - type selector' }
+{ #category : #'tests - type selector' }
 ToSelectorInterpreterTest >> testTypeSelector [ 
 
 	| selector e engine |
@@ -572,41 +575,43 @@ ToSelectorInterpreterTest >> testTypeSelector [
 	self assert: engine result.
 ]
 
-{ #category : 'tests - type selector' }
+{ #category : #'tests - type selector' }
 ToSelectorInterpreterTest >> testTypeSelectorAndChildSelector [
 
 	| selector e engine |
-	selector := (ToTypeSelector new type: ToLabeledIcon ) child: (ToTypeSelector new type: ToLabel).
+	selector := (ToTypeSelector new type: ToLabeledIcon) withChild:
+		            (ToTypeSelector new type: ToLabel).
 	e := ToLabeledIcon new.
 	e label: (ToLabel text: 'A').
 	engine := ToSelectorInterpreter new.
 	engine check: selector on: e.
-	self assert: engine result.
-
+	self assert: engine result
 ]
 
-{ #category : 'tests - type selector' }
+{ #category : #'tests - type selector' }
 ToSelectorInterpreterTest >> testTypeSelectorAndParentSelector [
 
 	| selector e engine |
 	e := ToLabeledIcon new.
 	e label: (ToLabel text: 'A').
-	selector := (ToTypeSelector new type: ToLabel ) parent: (ToTypeSelector new type: ToLabeledIcon ) depth: 2.
+	selector := (ToTypeSelector new type: ToLabel)
+		            withParent: (ToTypeSelector new type: ToLabeledIcon)
+		            atDepth: 2.
 	engine := ToSelectorInterpreter new.
 	engine check: selector on: e.
 	self assert: engine result not.
 	engine check: selector on: e label.
 	self assert: engine result.
-	selector := (ToUniversalSelector new ) parent: (ToTypeSelector new type: ToLabeledIcon ) depth: 2.
+	selector := ToUniversalSelector new
+		            withParent: (ToTypeSelector new type: ToLabeledIcon)
+		            atDepth: 2.
 	engine check: selector on: e.
 	self assert: engine result not.
 	engine check: selector on: e label.
-	self assert: engine result.
-
-
+	self assert: engine result
 ]
 
-{ #category : 'tests - type selector' }
+{ #category : #'tests - type selector' }
 ToSelectorInterpreterTest >> testTypeSelectorExact [
 
 	| selector engine |
@@ -630,7 +635,7 @@ ToSelectorInterpreterTest >> testTypeSelectorExact [
 	self assert: engine result.
 ]
 
-{ #category : 'tests - with single selector' }
+{ #category : #'tests - with single selector' }
 ToSelectorInterpreterTest >> testUniversalSelector [
 
 	| selector e engine |
@@ -641,34 +646,44 @@ ToSelectorInterpreterTest >> testUniversalSelector [
 	self assert: engine result
 ]
 
-{ #category : 'tests - with single selector' }
+{ #category : #'tests - with single selector' }
 ToSelectorInterpreterTest >> testUniversalSelectorWithParent [
 
-	| selector button engine chilLevel3 |	
-	selector := ToUniversalSelector new parent: (ToStampSelector new addAllStamps: #( #button #circle ) ) depth: 2.	
+	| selector button engine chilLevel3 |
+	selector := ToUniversalSelector new
+		            withParent:
+		            (ToStampSelector new addAllStamps: #( #button #circle ))
+		            atDepth: 2.
 	button := ToElement new id: #button.
-	button addAllStamps: #(#button #circle).
-	button addChild: (ToElement new  id: #inner).
+	button addAllStamps: #( #button #circle ).
+	button addChild: (ToElement new id: #inner).
 	button firstChild addChild: (chilLevel3 := ToElement new).
 	chilLevel3 id: #childLevel3.
 	engine := ToSelectorInterpreter new.
 	engine check: selector on: chilLevel3.
-	self assert: engine result 
+	self assert: engine result
 ]
 
-{ #category : 'tests - parent selector' }
+{ #category : #'tests - parent selector' }
 ToSelectorInterpreterTest >> testparentSelectorWithDepth [
 
 	| engine parent directParentSelector1 directParentSelector2 parentParentSelector sub subsub |
-	directParentSelector1 := ToUniversalSelector new parent: (ToTypeSelector new type: ToElement).
-	directParentSelector2 := ToUniversalSelector new parent: (ToTypeSelector new type: ToElement) depth: 1.
-	parentParentSelector := ToUniversalSelector new parent: (ToTypeSelector new type: ToElement) depth: 2.
+	directParentSelector1 := ToUniversalSelector new withParent:
+		                         (ToTypeSelector new type: ToElement).
+	directParentSelector2 := ToUniversalSelector new
+		                         withParent:
+		                         (ToTypeSelector new type: ToElement)
+		                         atDepth: 1.
+	parentParentSelector := ToUniversalSelector new
+		                        withParent:
+		                        (ToTypeSelector new type: ToElement)
+		                        atDepth: 2.
 	sub := ToElement new.
 	subsub := ToElement new.
 	parent := ToElement new.
 	parent addChild: subsub.
 	subsub addChild: sub.
-	self assert: subsub parent == parent.
+	self assert: subsub parent identicalTo: parent.
 	engine := ToSelectorInterpreter new.
 	engine check: directParentSelector1 on: subsub.
 	self assert: engine result.

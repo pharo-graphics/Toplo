@@ -182,7 +182,7 @@ ToTab >> onSelected [
 	innerPane := ToPane new
 		             matchParent;
 		             yourself.
-	self paneBuilder value: innerPane value: self body parent.
+	self paneBuilder value: innerPane value: self tabsPane.
 	self body addChild: innerPane.
 	self tabsPane applyResizablePanesConfiguration.
 

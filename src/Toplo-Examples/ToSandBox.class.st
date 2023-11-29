@@ -1,10 +1,11 @@
 Class {
-	#name : #ToSandBox,
-	#superclass : #Object,
-	#category : #'Toplo-Examples'
+	#name : 'ToSandBox',
+	#superclass : 'Object',
+	#category : 'Toplo-Examples',
+	#package : 'Toplo-Examples'
 }
 
-{ #category : #combobox }
+{ #category : 'combobox' }
 ToSandBox class >> example_BasicComboBox [
 
 	| win combo |
@@ -17,7 +18,7 @@ ToSandBox class >> example_BasicComboBox [
 	win openInSpace
 ]
 
-{ #category : #combobox }
+{ #category : 'combobox' }
 ToSandBox class >> example_BasicComboBoxWith5Elements [
 
 	| win combo |
@@ -30,7 +31,7 @@ ToSandBox class >> example_BasicComboBoxWith5Elements [
 	win openInSpace
 ]
 
-{ #category : #combobox }
+{ #category : 'combobox' }
 ToSandBox class >> example_BasicComboBoxWithStatesOfAmerica [
 
 	| win combo placeholder |
@@ -49,7 +50,7 @@ ToSandBox class >> example_BasicComboBoxWithStatesOfAmerica [
 	win openInSpace
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
 
 	| chk btn space |
@@ -73,7 +74,7 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
 	space show
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheetDarkTheme [
 
 	| chk btn space |
@@ -95,7 +96,7 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheetDarkTheme [
 	space show
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_CheckBoxWithDefaultStyleSheetDarkTheme [
 
 	| chk  space |
@@ -110,7 +111,7 @@ ToSandBox class >> example_CheckBoxWithDefaultStyleSheetDarkTheme [
 	space show
 ]
 
-{ #category : #checkbox }
+{ #category : 'checkbox' }
 ToSandBox class >> example_CheckboxChecked [
 
 	| chb |
@@ -122,7 +123,7 @@ ToSandBox class >> example_CheckboxChecked [
 	chb inspect.
 ]
 
-{ #category : #checkbox }
+{ #category : 'checkbox' }
 ToSandBox class >> example_CheckboxFlexible [
 
 	| chb |
@@ -135,7 +136,7 @@ ToSandBox class >> example_CheckboxFlexible [
 	chb openInInnerWindow
 ]
 
-{ #category : #checkbox }
+{ #category : 'checkbox' }
 ToSandBox class >> example_CheckboxFlexibleWithGroup [
 
 	| group container buttons |
@@ -167,7 +168,7 @@ ToSandBox class >> example_CheckboxFlexibleWithGroup [
 	container openInSpace
 ]
 
-{ #category : #checkbox }
+{ #category : 'checkbox' }
 ToSandBox class >> example_CheckboxGroupAndNoneStrategy [
 
 	| group container buttons |
@@ -199,7 +200,7 @@ ToSandBox class >> example_CheckboxGroupAndNoneStrategy [
 	container openInSpace
 ]
 
-{ #category : #checkbox }
+{ #category : 'checkbox' }
 ToSandBox class >> example_CheckboxGroupAndStrictStrategy [
 
 	| group container buttons |
@@ -230,7 +231,7 @@ ToSandBox class >> example_CheckboxGroupAndStrictStrategy [
 	container openInSpace
 ]
 
-{ #category : #checkbox }
+{ #category : 'checkbox' }
 ToSandBox class >> example_CheckboxGroupAndUnckekingStrategy [
 
 	| group container buttons |
@@ -262,7 +263,7 @@ ToSandBox class >> example_CheckboxGroupAndUnckekingStrategy [
 	container openInSpace
 ]
 
-{ #category : #checkbox }
+{ #category : 'checkbox' }
 ToSandBox class >> example_CheckboxNoLabel [
 
 	| chb |
@@ -273,7 +274,7 @@ ToSandBox class >> example_CheckboxNoLabel [
 	chb openInInnerWindow
 ]
 
-{ #category : #checkbox }
+{ #category : 'checkbox' }
 ToSandBox class >> example_CheckboxUnchecked [
 
 	| chb |
@@ -285,7 +286,7 @@ ToSandBox class >> example_CheckboxUnchecked [
 	chb openInInnerWindow
 ]
 
-{ #category : #checkbox }
+{ #category : 'checkbox' }
 ToSandBox class >> example_CheckboxVerticalGroupHorizontal [
 
 	| group container |
@@ -310,7 +311,7 @@ ToSandBox class >> example_CheckboxVerticalGroupHorizontal [
 	container openInInnerWindow 
 ]
 
-{ #category : #checkbox }
+{ #category : 'checkbox' }
 ToSandBox class >> example_CheckboxWithExactWidth [
 
 	| chb |
@@ -321,7 +322,7 @@ ToSandBox class >> example_CheckboxWithExactWidth [
 	chb openInInnerWindow
 ]
 
-{ #category : #checkbox }
+{ #category : 'checkbox' }
 ToSandBox class >> example_CheckboxWithIndeterminate [
 
 	| but |
@@ -332,7 +333,7 @@ ToSandBox class >> example_CheckboxWithIndeterminate [
 	but openInSpace
 ]
 
-{ #category : #album }
+{ #category : 'album' }
 ToSandBox class >> example_CodeEditor [
 
 "
@@ -370,7 +371,7 @@ Here an example of a client for a method.
 
 ]
 
-{ #category : #combobox }
+{ #category : 'combobox' }
 ToSandBox class >> example_ComboBoxEmpty [
 
 	| win combo |
@@ -380,7 +381,7 @@ ToSandBox class >> example_ComboBoxEmpty [
 	win openInSpace
 ]
 
-{ #category : #combobox }
+{ #category : 'combobox' }
 ToSandBox class >> example_ComboBoxWithAllClasses [
 
 	| win combo |
@@ -396,7 +397,7 @@ ToSandBox class >> example_ComboBoxWithAllClasses [
 	win openInSpace
 ]
 
-{ #category : #combobox }
+{ #category : 'combobox' }
 ToSandBox class >> example_ComboBoxWithColors [
 
 	| win combo |
@@ -422,7 +423,7 @@ ToSandBox class >> example_ComboBoxWithColors [
 	win openInSpace
 ]
 
-{ #category : #combobox }
+{ #category : 'combobox' }
 ToSandBox class >> example_ComboBoxWithHeadPlaceholder [
 
 	| win combo but t |
@@ -441,7 +442,7 @@ ToSandBox class >> example_ComboBoxWithHeadPlaceholder [
 	win openInSpace
 ]
 
-{ #category : #combobox }
+{ #category : 'combobox' }
 ToSandBox class >> example_ComboBoxWithListPlaceholder [
 
 	| win combo placeholder lab but |
@@ -467,7 +468,7 @@ ToSandBox class >> example_ComboBoxWithListPlaceholder [
 	win openInSpace
 ]
 
-{ #category : #combobox }
+{ #category : 'combobox' }
 ToSandBox class >> example_EditableComboBoxEmpty [
 
 	| win combo res |
@@ -484,7 +485,7 @@ ToSandBox class >> example_EditableComboBoxEmpty [
 	win openInSpace
 ]
 
-{ #category : #combobox }
+{ #category : 'combobox' }
 ToSandBox class >> example_EditableComboBoxWithStatesOfAmerica [
 
 	| win combo |
@@ -500,11 +501,12 @@ ToSandBox class >> example_EditableComboBoxWithStatesOfAmerica [
 	win openInSpace
 ]
 
-{ #category : #list }
+{ #category : 'list' }
 ToSandBox class >> example_EditableListWithAllClassesNames [
 
 	| l vscrollBar space innerWin |
 	l := ToListElement new.
+	l beVertical.
 	l
 		nodeClass: ToClassNodeExample;
 		nodeBuilder: [ :node :holder | node forClassNameAssoc: holder data ];
@@ -530,7 +532,7 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 	space show
 ]
 
-{ #category : #album }
+{ #category : 'album' }
 ToSandBox class >> example_EditorWithPlaceholder [
 
 	| placeholderText view |
@@ -555,7 +557,7 @@ ToSandBox class >> example_EditorWithPlaceholder [
 	view openInInnerWindow 
 ]
 
-{ #category : #album }
+{ #category : 'album' }
 ToSandBox class >> example_EditorWithPlaceholderWithAlbum [
 
 	| placeholderText view |
@@ -583,7 +585,7 @@ ToSandBox class >> example_EditorWithPlaceholderWithAlbum [
 	view openInInnerWindow 
 ]
 
-{ #category : #album }
+{ #category : 'album' }
 ToSandBox class >> example_EditorWithoutSoftLine [
 
 	| view |
@@ -599,7 +601,7 @@ ToSandBox class >> example_EditorWithoutSoftLine [
 	view openInSpace
 ]
 
-{ #category : #list }
+{ #category : 'list' }
 ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
 
 	| l pane filter |
@@ -617,7 +619,7 @@ ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
 	pane openInSpace
 ]
 
-{ #category : #'general button' }
+{ #category : 'general button' }
 ToSandBox class >> example_GeneralButtonWithIconAndLabel [
 
 	| but lab ico pane |
@@ -644,7 +646,7 @@ ToSandBox class >> example_GeneralButtonWithIconAndLabel [
 	^ but
 ]
 
-{ #category : #'general button' }
+{ #category : 'general button' }
 ToSandBox class >> example_GeneralButtonWithIconAndLabel_matchParent [
 
 	| but |
@@ -657,7 +659,7 @@ ToSandBox class >> example_GeneralButtonWithIconAndLabel_matchParent [
 	but matchParent
 ]
 
-{ #category : #'general button' }
+{ #category : 'general button' }
 ToSandBox class >> example_GeneralButtonWithLabel [
 
 	| but |
@@ -670,7 +672,7 @@ ToSandBox class >> example_GeneralButtonWithLabel [
 	^ but
 ]
 
-{ #category : #list }
+{ #category : 'list' }
 ToSandBox class >> example_HorizontalListWithIndexedColors [
 
 	| l space |
@@ -680,16 +682,14 @@ ToSandBox class >> example_HorizontalListWithIndexedColors [
 				      size: 70@50;
 				      background: holder data) ].
 	l background: Color yellow.
-	l infinite layout beHorizontal.
-	l infinite constraintsDo: [ :c | c horizontal matchParent. c vertical fitContent].
-	l  constraintsDo: [ :c | c horizontal matchParent. c vertical fitContent].
+	l beHorizontal.
 	l data addAll: Color indexedColors.
 	space := BlSpace new.
 	space root addChild: l.
 	space show
 ]
 
-{ #category : #'labeled icon' }
+{ #category : 'labeled icon' }
 ToSandBox class >> example_LabeledIconlWithIconAndText [
 
 	| but  |
@@ -700,7 +700,7 @@ ToSandBox class >> example_LabeledIconlWithIconAndText [
 	^ but
 ]
 
-{ #category : #'labeled icon' }
+{ #category : 'labeled icon' }
 ToSandBox class >> example_LabeledIconlWithIconAndText_flexible [
 
 	| but  |
@@ -712,7 +712,7 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_flexible [
 	^ but
 ]
 
-{ #category : #'labeled icon' }
+{ #category : 'labeled icon' }
 ToSandBox class >> example_LabeledIconlWithIconAndText_flexible_inFitContent [
 
 	| but container |
@@ -730,7 +730,7 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_flexible_inFitContent [
 	^ but
 ]
 
-{ #category : #'labeled icon' }
+{ #category : 'labeled icon' }
 ToSandBox class >> example_LabeledIconlWithIconAndText_interspace [
 
 	| but  |
@@ -740,7 +740,7 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_interspace [
 	^ but
 ]
 
-{ #category : #'labeled icon' }
+{ #category : 'labeled icon' }
 ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst [
 
 	| but  |
@@ -749,7 +749,7 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst [
 	^ but
 ]
 
-{ #category : #'labeled icon' }
+{ #category : 'labeled icon' }
 ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst_flexible [
 
 	| but  |
@@ -759,7 +759,7 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst_flexible [
 	^ but
 ]
 
-{ #category : #'labeled icon' }
+{ #category : 'labeled icon' }
 ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst_vertical [
 
 	| but  |
@@ -768,7 +768,7 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst_vertical [
 	^ but
 ]
 
-{ #category : #'labeled icon' }
+{ #category : 'labeled icon' }
 ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst_vertical_flexible [
 
 	| but  |
@@ -778,7 +778,7 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst_vertical_flexi
 	^ but
 ]
 
-{ #category : #'labeled icon' }
+{ #category : 'labeled icon' }
 ToSandBox class >> example_LabeledIconlWithIconAndText_vertical [
 
 	| but  |
@@ -787,7 +787,7 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_vertical [
 	^ but
 ]
 
-{ #category : #'labeled icon' }
+{ #category : 'labeled icon' }
 ToSandBox class >> example_LabeledIconlWithIconAndText_vertical_interspace [
 
 	| but  |
@@ -796,7 +796,7 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_vertical_interspace [
 	^ but
 ]
 
-{ #category : #combobox }
+{ #category : 'combobox' }
 ToSandBox class >> example_ListAutocompleteComboBoxEmpty [
 
 	| win combo  |
@@ -807,7 +807,7 @@ ToSandBox class >> example_ListAutocompleteComboBoxEmpty [
 	win openInSpace
 ]
 
-{ #category : #combobox }
+{ #category : 'combobox' }
 ToSandBox class >> example_ListAutocompleteComboBoxWithAllClasses [
 
 	| win combo placeholder |
@@ -823,7 +823,7 @@ ToSandBox class >> example_ListAutocompleteComboBoxWithAllClasses [
 	win openInSpace
 ]
 
-{ #category : #combobox }
+{ #category : 'combobox' }
 ToSandBox class >> example_ListAutocompleteComboBoxWithStatesOfAmerica [
 
 	| win combo placeholder |
@@ -842,7 +842,7 @@ ToSandBox class >> example_ListAutocompleteComboBoxWithStatesOfAmerica [
 	win openInSpace
 ]
 
-{ #category : #combobox }
+{ #category : 'combobox' }
 ToSandBox class >> example_ListAutocompleteWithSaveInListComboBoxEmpty [
 
 	| win combo  |
@@ -852,7 +852,7 @@ ToSandBox class >> example_ListAutocompleteWithSaveInListComboBoxEmpty [
 	win openInSpace
 ]
 
-{ #category : #list }
+{ #category : 'list' }
 ToSandBox class >> example_ListOneClass [
 
 	| l |
@@ -865,7 +865,7 @@ ToSandBox class >> example_ListOneClass [
 	l openInSpace
 ]
 
-{ #category : #list }
+{ #category : 'list' }
 ToSandBox class >> example_ListWith6Elements [
 
 	| l |
@@ -875,7 +875,7 @@ ToSandBox class >> example_ListWith6Elements [
 	l openInInnerWindow
 ]
 
-{ #category : #list }
+{ #category : 'list' }
 ToSandBox class >> example_ListWithAllClasses [
 
 	| l |
@@ -884,7 +884,7 @@ ToSandBox class >> example_ListWithAllClasses [
 	l openInSpace
 ]
 
-{ #category : #list }
+{ #category : 'list' }
 ToSandBox class >> example_ListWithAllClasses3 [
 
 	| l |
@@ -910,7 +910,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 	l openInInnerWindow
 ]
 
-{ #category : #list }
+{ #category : 'list' }
 ToSandBox class >> example_ListWithAllClasses4 [
 
 	| l |
@@ -925,7 +925,7 @@ ToSandBox class >> example_ListWithAllClasses4 [
 	l openInSpace
 ]
 
-{ #category : #list }
+{ #category : 'list' }
 ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 
 	| l |
@@ -935,7 +935,7 @@ ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 	l openInSpace
 ]
 
-{ #category : #list }
+{ #category : 'list' }
 ToSandBox class >> example_ListWithAllClassesAsButton [
 
 	| l |
@@ -947,7 +947,7 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 	l openInSpace
 ]
 
-{ #category : #list }
+{ #category : 'list' }
 ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l selectionMenu menuFactory phtext |
@@ -1063,7 +1063,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 	l openInInnerWindow
 ]
 
-{ #category : #list }
+{ #category : 'list' }
 ToSandBox class >> example_ListWithIndexedColors [
 
 	| l vscrollBar space |
@@ -1087,7 +1087,7 @@ ToSandBox class >> example_ListWithIndexedColors [
 	space show
 ]
 
-{ #category : #list }
+{ #category : 'list' }
 ToSandBox class >> example_ListWithPanes [
 
 	| list |
@@ -1118,7 +1118,7 @@ ToSandBox class >> example_ListWithPanes [
 	list openInSpace
 ]
 
-{ #category : #list }
+{ #category : 'list' }
 ToSandBox class >> example_ListWithSingleSelection [
 
 	| l |
@@ -1128,7 +1128,7 @@ ToSandBox class >> example_ListWithSingleSelection [
 	l openInSpace
 ]
 
-{ #category : #list }
+{ #category : 'list' }
 ToSandBox class >> example_ListWithoutSelection [
 
 	| l |
@@ -1138,7 +1138,7 @@ ToSandBox class >> example_ListWithoutSelection [
 	l openInSpace
 ]
 
-{ #category : #menu }
+{ #category : 'menu' }
 ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 
 	| menu container saveAs lbl |
@@ -1186,7 +1186,7 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 	container openInSpace
 ]
 
-{ #category : #list }
+{ #category : 'list' }
 ToSandBox class >> example_PicsumPhotosGallery [
 	" cool example adapted from the feenk Glamorous Toolkit version BlInfiniteExample>>exampleGallery"
 	" Images loaded from https://picsum.photos "
@@ -1234,7 +1234,7 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	space show
 ]
 
-{ #category : #window }
+{ #category : 'window' }
 ToSandBox class >> example_Popup1 [
 
 	| container menu item sub popupWindowHandler |
@@ -1267,7 +1267,7 @@ ToSandBox class >> example_Popup1 [
 	container openInSpace
 ]
 
-{ #category : #checkbox }
+{ #category : 'checkbox' }
 ToSandBox class >> example_RadioButtonChecked [
 
 	| but |
@@ -1278,7 +1278,7 @@ ToSandBox class >> example_RadioButtonChecked [
 	but openInSpace
 ]
 
-{ #category : #checkbox }
+{ #category : 'checkbox' }
 ToSandBox class >> example_RadioButtonUnchecked [
 
 	| but |
@@ -1288,7 +1288,7 @@ ToSandBox class >> example_RadioButtonUnchecked [
 	but openInSpace
 ]
 
-{ #category : #checkbox }
+{ #category : 'checkbox' }
 ToSandBox class >> example_RadioButtonWithIndeterminate [
 
 	| but |
@@ -1301,7 +1301,7 @@ ToSandBox class >> example_RadioButtonWithIndeterminate [
 	but openInSpace
 ]
 
-{ #category : #select }
+{ #category : 'select' }
 ToSandBox class >> example_SelectWithPlaceholder [
 
 	| win select |
@@ -1317,7 +1317,7 @@ ToSandBox class >> example_SelectWithPlaceholder [
 	win openInSpace
 ]
 
-{ #category : #select }
+{ #category : 'select' }
 ToSandBox class >> example_SelectWithPlaceholderWithUncheckingStrategy [
 
 	| win select t |
@@ -1341,7 +1341,7 @@ ToSandBox class >> example_SelectWithPlaceholderWithUncheckingStrategy [
 	win openInSpace
 ]
 
-{ #category : #select }
+{ #category : 'select' }
 ToSandBox class >> example_SelectWithStringData [
 
 	| win select |
@@ -1360,7 +1360,7 @@ ToSandBox class >> example_SelectWithStringData [
 	win openInSpace
 ]
 
-{ #category : #select }
+{ #category : 'select' }
 ToSandBox class >> example_SelectWithStructuredData [
 
 	| win select |
@@ -1381,7 +1381,7 @@ ToSandBox class >> example_SelectWithStructuredData [
 	win openInSpace
 ]
 
-{ #category : #menu }
+{ #category : 'menu' }
 ToSandBox class >> example_SimpleOpenSaveSaveAsClose [
 
 	| menu container |
@@ -1413,7 +1413,7 @@ ToSandBox class >> example_SimpleOpenSaveSaveAsClose [
 	container openInSpace
 ]
 
-{ #category : #image }
+{ #category : 'image' }
 ToSandBox class >> example_Smalltalk_ui_icons [
 
 	| column root vscrollBar container |
@@ -1451,7 +1451,7 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 	container openInSpace
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_StyleSheetSandbox [
 
 	| b |
@@ -1492,7 +1492,7 @@ ToSandBox class >> example_StyleSheetSandbox [
 	"b matchParent"
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_StyleSheetSandboxDarkTheme [
 
 	| b |
@@ -1531,7 +1531,7 @@ ToSandBox class >> example_StyleSheetSandboxDarkTheme [
 	b matchParent"
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_ToButtonSkins [
 
 	| space pane themeSwitcher butBuilder buttonSpecsBuilder enablementSwitcher allButtons sizingGroup smallSizingRadio middleSizingRadio largeSizingRadio shapingGroup circleShapingRadio defaultShapingRadio roundShapingRadio topBar buttonBar directionSwitcher orientationSwitcher |
@@ -1757,7 +1757,7 @@ ToSandBox class >> example_ToButtonSkins [
 	^ space
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_ToButtonWithDefaultSkin0 [
 
 
@@ -1778,7 +1778,7 @@ ToSandBox class >> example_ToButtonWithDefaultSkin0 [
 	space show.
 ]
 
-{ #category : #label }
+{ #category : 'label' }
 ToSandBox class >> example_ToLabelWithHeadingSkin [
 
 	|  typeArr headingArr listElement themeSwitcher space |
@@ -1828,7 +1828,7 @@ ToSandBox class >> example_ToLabelWithHeadingSkin [
 	space show
 ]
 
-{ #category : #button }
+{ #category : 'button' }
 ToSandBox class >> example_buttonWithIcon [
 
 	| but space |
@@ -1842,7 +1842,7 @@ ToSandBox class >> example_buttonWithIcon [
 	^ but
 ]
 
-{ #category : #button }
+{ #category : 'button' }
 ToSandBox class >> example_buttonWithIconAndLabel [
 
 	| but  |
@@ -1852,7 +1852,7 @@ ToSandBox class >> example_buttonWithIconAndLabel [
 	^ but
 ]
 
-{ #category : #button }
+{ #category : 'button' }
 ToSandBox class >> example_buttonWithIconAndLabelDisabled [
 
 	| but  |
@@ -1862,7 +1862,7 @@ ToSandBox class >> example_buttonWithIconAndLabelDisabled [
 	^ but
 ]
 
-{ #category : #button }
+{ #category : 'button' }
 ToSandBox class >> example_buttonWithIconDisabled [
 
 	| but  |
@@ -1873,7 +1873,7 @@ ToSandBox class >> example_buttonWithIconDisabled [
 	^ but
 ]
 
-{ #category : #button }
+{ #category : 'button' }
 ToSandBox class >> example_buttonWithLabel [
 
 	| but  |
@@ -1883,7 +1883,7 @@ ToSandBox class >> example_buttonWithLabel [
 	^ but
 ]
 
-{ #category : #'context menu + menubar' }
+{ #category : 'context menu + menubar' }
 ToSandBox class >> example_contextMenu [
 
 	| container |
@@ -1897,7 +1897,7 @@ ToSandBox class >> example_contextMenu [
 	container openInSpace
 ]
 
-{ #category : #pane }
+{ #category : 'pane' }
 ToSandBox class >> example_horizontalPaneWithDivider [
 
 	| pane e1 e2 e3 btn |
@@ -1933,7 +1933,7 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 	pane openInSpace
 ]
 
-{ #category : #'look event' }
+{ #category : 'look event' }
 ToSandBox class >> example_lookEventTrace [
 
 	| but |
@@ -1948,7 +1948,7 @@ ToSandBox class >> example_lookEventTrace [
 	but openInSpace
 ]
 
-{ #category : #'menu dep' }
+{ #category : 'menu dep' }
 ToSandBox class >> example_menu0 [
 
 	| menu space themeSwitcher |
@@ -1981,7 +1981,7 @@ ToSandBox class >> example_menu0 [
 	space show
 ]
 
-{ #category : #'menu dep' }
+{ #category : 'menu dep' }
 ToSandBox class >> example_menu6 [
 
 	| menu grp right center left textField sub lbl |
@@ -2119,7 +2119,7 @@ ToSandBox class >> example_menu6 [
 	menu openInInnerWindow
 ]
 
-{ #category : #'context menu + menubar' }
+{ #category : 'context menu + menubar' }
 ToSandBox class >> example_menuBar1 [
 
 	| win bar fileMenu |
@@ -2143,7 +2143,7 @@ ToSandBox class >> example_menuBar1 [
 	win openInSpace
 ]
 
-{ #category : #'context menu + menubar' }
+{ #category : 'context menu + menubar' }
 ToSandBox class >> example_menuBar2 [
 
 	| menu frame bar |
@@ -2189,7 +2189,7 @@ ToSandBox class >> example_menuBar2 [
 	frame openInSpace
 ]
 
-{ #category : #window }
+{ #category : 'window' }
 ToSandBox class >> example_overlayWindow1 [
 
 	| e windowHandler |
@@ -2207,7 +2207,7 @@ ToSandBox class >> example_overlayWindow1 [
 	(windowHandler newWindowEvent: nil) popup
 ]
 
-{ #category : #window }
+{ #category : 'window' }
 ToSandBox class >> example_overlayWindow2 [
 
 	| e windowHandler |
@@ -2225,7 +2225,7 @@ ToSandBox class >> example_overlayWindow2 [
 	(windowHandler newWindowEvent: nil) popup
 ]
 
-{ #category : #window }
+{ #category : 'window' }
 ToSandBox class >> example_rootFrame1 [
 
 	| e |
@@ -2234,7 +2234,7 @@ ToSandBox class >> example_rootFrame1 [
 		openInSpace
 ]
 
-{ #category : #'context menu + menubar' }
+{ #category : 'context menu + menubar' }
 ToSandBox class >> example_rootFrameWithContextMenu [
 
 	| win sub subsub bar textField |
@@ -2292,7 +2292,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	win openInSpace
 ]
 
-{ #category : #'context menu + menubar' }
+{ #category : 'context menu + menubar' }
 ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 
 	| win menu sub subsub bar |
@@ -2343,7 +2343,7 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 	win openInSpace
 ]
 
-{ #category : #image }
+{ #category : 'image' }
 ToSandBox class >> example_scaledImage [
 
 	| im scale |
@@ -2359,7 +2359,7 @@ ToSandBox class >> example_scaledImage [
 	im openInSpace
 ]
 
-{ #category : #space }
+{ #category : 'space' }
 ToSandBox class >> example_spaceRootSkin [
 
 	| space themeSwitcher |
@@ -2376,7 +2376,7 @@ ToSandBox class >> example_spaceRootSkin [
 	space show
 ]
 
-{ #category : #'still pressed hovered event' }
+{ #category : 'still pressed hovered event' }
 ToSandBox class >> example_stillHoveredEvent [
 
 	| e count lab |
@@ -2400,7 +2400,7 @@ ToSandBox class >> example_stillHoveredEvent [
 	e openInSpace
 ]
 
-{ #category : #'still pressed hovered event' }
+{ #category : 'still pressed hovered event' }
 ToSandBox class >> example_stillPressedEvent [
 
 	| e count lab color |
@@ -2428,7 +2428,7 @@ ToSandBox class >> example_stillPressedEvent [
 	e openInSpace
 ]
 
-{ #category : #'text field' }
+{ #category : 'text field' }
 ToSandBox class >> example_textField0 [
 
 	| t |
@@ -2436,7 +2436,7 @@ ToSandBox class >> example_textField0 [
 	t openInSpace
 ]
 
-{ #category : #'text field' }
+{ #category : 'text field' }
 ToSandBox class >> example_textFieldOnlyDigits [
 
 	| t |
@@ -2444,7 +2444,7 @@ ToSandBox class >> example_textFieldOnlyDigits [
 	t openInSpace
 ]
 
-{ #category : #'text field' }
+{ #category : 'text field' }
 ToSandBox class >> example_textFieldWithLineWrapping [
 
 	| t |
@@ -2454,7 +2454,7 @@ ToSandBox class >> example_textFieldWithLineWrapping [
 	t openInSpace
 ]
 
-{ #category : #'text field' }
+{ #category : 'text field' }
 ToSandBox class >> example_textFieldWithLineWrappingWithSaveCapability [
 
 	| t text |
@@ -2470,7 +2470,7 @@ ToSandBox class >> example_textFieldWithLineWrappingWithSaveCapability [
 	t openInInnerWindow
 ]
 
-{ #category : #'text field' }
+{ #category : 'text field' }
 ToSandBox class >> example_textFieldWithPlaceholder [
 
 	| t text |
@@ -2487,7 +2487,7 @@ ToSandBox class >> example_textFieldWithPlaceholder [
 	t openInSpace
 ]
 
-{ #category : #'text field' }
+{ #category : 'text field' }
 ToSandBox class >> example_textFieldWithPlaceholder2 [
 
 	| t text |
@@ -2508,7 +2508,7 @@ ToSandBox class >> example_textFieldWithPlaceholder2 [
 	t inspect
 ]
 
-{ #category : #'text field' }
+{ #category : 'text field' }
 ToSandBox class >> example_textFieldWithSaveCapability [
 
 	| t text |
@@ -2523,7 +2523,7 @@ ToSandBox class >> example_textFieldWithSaveCapability [
 	t openInInnerWindow 
 ]
 
-{ #category : #'text field' }
+{ #category : 'text field' }
 ToSandBox class >> example_textFieldWithoutLineWrapping [
 
 	| t |
@@ -2533,7 +2533,7 @@ ToSandBox class >> example_textFieldWithoutLineWrapping [
 	t openInSpace
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_toAlbumAsButton [
 
 	| but |
@@ -2548,7 +2548,7 @@ ToSandBox class >> example_toAlbumAsButton [
 	but openInSpace
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_toBasicButton0 [
 
 	| but |
@@ -2557,7 +2557,7 @@ ToSandBox class >> example_toBasicButton0 [
 	but openInSpace
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_toBasicButton1 [
 
 	| but |
@@ -2570,7 +2570,7 @@ ToSandBox class >> example_toBasicButton1 [
 	but openInSpace
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_toBasicButton2 [
 
 	| but lab |
@@ -2586,7 +2586,7 @@ ToSandBox class >> example_toBasicButton2 [
 	but openInSpace
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_toBasicButton3 [
 
 	| but |
@@ -2599,7 +2599,7 @@ ToSandBox class >> example_toBasicButton3 [
 	but openInSpace
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_toBasicButton4 [
 
 	| but lab ico pane |
@@ -2620,7 +2620,7 @@ ToSandBox class >> example_toBasicButton4 [
 	but openInSpace
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_toButton0 [
 
 	| but |
@@ -2629,7 +2629,7 @@ ToSandBox class >> example_toButton0 [
 	but inspect.
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_toButtonOrientationChanger [
 
 	| but space iconImage count |
@@ -2647,7 +2647,7 @@ ToSandBox class >> example_toButtonOrientationChanger [
 	space show 
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_toButtonOrientationChanger3 [
 
 	| but space iconImage count |
@@ -2665,7 +2665,7 @@ ToSandBox class >> example_toButtonOrientationChanger3 [
 	space show 
 ]
 
-{ #category : #tooltip }
+{ #category : 'tooltip' }
 ToSandBox class >> example_toButtonWithElementTooltip [
 
 	| but |
@@ -2680,7 +2680,7 @@ ToSandBox class >> example_toButtonWithElementTooltip [
 	but openInInnerWindow
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_toButtonWithIconAndText [
 
 	| but space  icon |
@@ -2701,7 +2701,7 @@ ToSandBox class >> example_toButtonWithIconAndText [
 	space show 
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_toButtonWithIconAndTextAndExtra [
 
 	| but space  icon |
@@ -2719,7 +2719,7 @@ ToSandBox class >> example_toButtonWithIconAndTextAndExtra [
 	space show 
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_toButtonWithIconOnly [
 
 	| but space container |
@@ -2741,7 +2741,7 @@ ToSandBox class >> example_toButtonWithIconOnly [
 	space show 
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 
 	| but space count |
@@ -2762,7 +2762,7 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 	space show 
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_toButtonWithTextAndIconHorizontal2 [
 
 	| but count |
@@ -2779,7 +2779,7 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal2 [
 	but openInInnerWindow 
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_toButtonWithTextAndIconHorizontal3 [
 
 	| but count pane |
@@ -2801,7 +2801,7 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal3 [
 	but id: 'BUT'
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_toButtonWithTextAndIconVertical [
 
 	| but space |
@@ -2818,7 +2818,7 @@ ToSandBox class >> example_toButtonWithTextAndIconVertical [
 	space show 
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_toButtonWithTextOnly [
 
 	| but space |
@@ -2832,7 +2832,7 @@ ToSandBox class >> example_toButtonWithTextOnly [
 	space show 
 ]
 
-{ #category : #tooltip }
+{ #category : 'tooltip' }
 ToSandBox class >> example_toButtonWithTooltipString [
 
 	| but  |
@@ -2844,7 +2844,7 @@ ToSandBox class >> example_toButtonWithTooltipString [
  
 ]
 
-{ #category : #tooltip }
+{ #category : 'tooltip' }
 ToSandBox class >> example_toButtonWithTooltipText [
 
 	| but  |
@@ -2856,7 +2856,7 @@ ToSandBox class >> example_toButtonWithTooltipText [
  
 ]
 
-{ #category : #image }
+{ #category : 'image' }
 ToSandBox class >> example_toImage0 [
 
 	| im |
@@ -2865,7 +2865,7 @@ ToSandBox class >> example_toImage0 [
 	im openInSpace
 ]
 
-{ #category : #image }
+{ #category : 'image' }
 ToSandBox class >> example_toImage1 [
 
 	| im |
@@ -2877,7 +2877,7 @@ ToSandBox class >> example_toImage1 [
 	im openInSpace
 ]
 
-{ #category : #tooltip }
+{ #category : 'tooltip' }
 ToSandBox class >> example_toKeepTooltipWindowOnMouseLeave [
 
 	| but  |
@@ -2891,7 +2891,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeave [
  
 ]
 
-{ #category : #tooltip }
+{ #category : 'tooltip' }
 ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 
 	| but  |
@@ -2912,7 +2912,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
  
 ]
 
-{ #category : #label }
+{ #category : 'label' }
 ToSandBox class >> example_toLabel0 [
 
 	| lab |
@@ -2922,7 +2922,7 @@ ToSandBox class >> example_toLabel0 [
 	lab openInSpace
 ]
 
-{ #category : #label }
+{ #category : 'label' }
 ToSandBox class >> example_toLabel1 [
 
 	| lab |
@@ -2930,7 +2930,7 @@ ToSandBox class >> example_toLabel1 [
 	lab openInSpace
 ]
 
-{ #category : #label }
+{ #category : 'label' }
 ToSandBox class >> example_toLabel2 [
 
 	| lab |
@@ -2943,7 +2943,7 @@ ToSandBox class >> example_toLabel2 [
 
 ]
 
-{ #category : #label }
+{ #category : 'label' }
 ToSandBox class >> example_toLabel3 [
 
 	| lab |
@@ -2960,7 +2960,7 @@ ToSandBox class >> example_toLabel3 [
 	lab openInSpace
 ]
 
-{ #category : #label }
+{ #category : 'label' }
 ToSandBox class >> example_toLabel4 [
 
 	| lab1 lab2 lab3 root |
@@ -3002,7 +3002,7 @@ ToSandBox class >> example_toLabel4 [
 	root openInInnerWindow 
 ]
 
-{ #category : #label }
+{ #category : 'label' }
 ToSandBox class >> example_toLabelWithTime [
 
 	| lab timeLab container anim |
@@ -3035,7 +3035,7 @@ ToSandBox class >> example_toLabelWithTime [
 	container openInSpace
 ]
 
-{ #category : #label }
+{ #category : 'label' }
 ToSandBox class >> example_toLabel_Multiline1 [
 
 	| lab |
@@ -3044,7 +3044,7 @@ ToSandBox class >> example_toLabel_Multiline1 [
 	lab openInSpace
 ]
 
-{ #category : #label }
+{ #category : 'label' }
 ToSandBox class >> example_toLabel_Multiline2_Centered [
 
 	| lab1 lab2 space container |
@@ -3085,7 +3085,7 @@ ToSandBox class >> example_toLabel_Multiline2_Centered [
 	space := container openInSpace
 ]
 
-{ #category : #'button-dep' }
+{ #category : 'button-dep' }
 ToSandBox class >> example_toWidgetAsButton0 [
 
 	| but |
@@ -3099,7 +3099,7 @@ ToSandBox class >> example_toWidgetAsButton0 [
 	but openInSpace
 ]
 
-{ #category : #'toggle button' }
+{ #category : 'toggle button' }
 ToSandBox class >> example_toggle [
 
 	| th tv win |
@@ -3131,7 +3131,7 @@ ToSandBox class >> example_toggle [
 	win openInSpace
 ]
 
-{ #category : #'toggle button' }
+{ #category : 'toggle button' }
 ToSandBox class >> example_toggle3 [
 
 	| th sp |
@@ -3149,7 +3149,7 @@ ToSandBox class >> example_toggle3 [
 	sp root background: Color veryLightGray
 ]
 
-{ #category : #pane }
+{ #category : 'pane' }
 ToSandBox class >> example_twoSubPanesWithDivider [
 
 	| pane e1 e2 |
@@ -3173,7 +3173,7 @@ ToSandBox class >> example_twoSubPanesWithDivider [
 	pane openInSpace
 ]
 
-{ #category : #pane }
+{ #category : 'pane' }
 ToSandBox class >> example_verticalPaneWithDivider [
 
 	| pane e1 e2 e3 btn |
@@ -3208,7 +3208,7 @@ ToSandBox class >> example_verticalPaneWithDivider [
 	pane openInInnerWindow 
 ]
 
-{ #category : #menu }
+{ #category : 'menu' }
 ToSandBox class >> example_withCheckBox [
 
 	| menu sub subsub grp right center left |
@@ -3254,7 +3254,7 @@ ToSandBox class >> example_withCheckBox [
 	menu openInInnerWindow
 ]
 
-{ #category : #checkbox }
+{ #category : 'checkbox' }
 ToSandBox class >> group [ 
 
 	| group container |
@@ -3281,7 +3281,7 @@ ToSandBox class >> group [
 		openInSpace
 ]
 
-{ #category : #'labeled icon' }
+{ #category : 'labeled icon' }
 ToSandBox class >> labeledIconlWithIconAndText [
 
 	| but  |
@@ -3295,12 +3295,12 @@ ToSandBox class >> labeledIconlWithIconAndText [
 	^ but
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSandBox class >> methodText [
 	^ self  class sourceCodeAt: #example_CodeEditor
 ]
 
-{ #category : #combobox }
+{ #category : 'combobox' }
 ToSandBox class >> statesOfAmerica [
 
 	^ { #Alabama. #Alaska. #Arizona. #Arkansas. #California. #Colorado.
@@ -3314,6 +3314,6 @@ ToSandBox class >> statesOfAmerica [
 		#Washington. #'West Virginia'. #Wisconsin. #Wyoming }.
 ]
 
-{ #category : #'see class side' }
+{ #category : 'see class side' }
 ToSandBox >> seeClassSide [ 
 ]

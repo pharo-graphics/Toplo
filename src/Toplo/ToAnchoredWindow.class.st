@@ -119,12 +119,13 @@ ToAnchoredWindow >> popupEvent: anEvent [
 	self element space root addChild: self.
 	self checkBeforePopupEvent: anEvent.
 	self requestLayout.
+	self flag: 'If popupTimestamp is set in the whenLayoutedDoOnce: block then some tests are failing'.
+	popupTimestamp := DateAndTime now.
 	self whenLayoutedDoOnce: [
 		" I need to finalize my position as soon as my layout is up-to-date "
 		self toFront.
 		self visibility: BlVisibility visible. 
-		self dispatchOpenedEvent: anEvent.
-		popupTimestamp := DateAndTime now ]
+		self dispatchOpenedEvent: anEvent ]
 ]
 
 { #category : 'accessing' }

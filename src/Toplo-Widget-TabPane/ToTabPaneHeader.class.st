@@ -79,7 +79,7 @@ ToTabPaneHeader >> initialize [
 	group when: ToCheckableGroupChangedEvent do: [ :event | self checkableGroupChangedEvent: event ].
 	tabs := OrderedCollection new.
 	tabRowContainer := ToPane new vFitContent; hMatchParent; yourself.
-	tabRow := ToPane horizontal fitContent; yourself.
+	tabRow := ToPane horizontal hMatchParent; yourself.
 	tabRowContainer addChild: tabRow.
 	startContainer := ToPane new vMatchParent; hFitContent; yourself.
 	endContainer := ToPane new vMatchParent; hFitContent; yourself.

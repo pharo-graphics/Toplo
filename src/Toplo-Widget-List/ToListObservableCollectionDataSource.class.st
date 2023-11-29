@@ -1,19 +1,21 @@
 Class {
-	#name : #ToListObservableCollectionDataSource,
-	#superclass : #ToListDataSource,
+	#name : 'ToListObservableCollectionDataSource',
+	#superclass : 'ToListDataSource',
 	#instVars : [
 		'data'
 	],
-	#category : 'Toplo-Widget-List-infinite'
+	#category : 'Toplo-Widget-List-infinite',
+	#package : 'Toplo-Widget-List',
+	#tag : 'infinite'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToListObservableCollectionDataSource >> data [
 
 	^ data
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToListObservableCollectionDataSource >> data: anObservableCollection [
 
 	data := anObservableCollection.
@@ -27,7 +29,7 @@ ToListObservableCollectionDataSource >> data: anObservableCollection [
 	self notifyChanged
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToListObservableCollectionDataSource >> itemCount [
 	"Return the total number of items in the data set"
 	<return: #Number>
@@ -35,7 +37,7 @@ ToListObservableCollectionDataSource >> itemCount [
 	^ self data ifNil: [0] ifNotNil: [:l | l size]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToListObservableCollectionDataSource >> list [
 
 	self 
@@ -44,7 +46,7 @@ ToListObservableCollectionDataSource >> list [
 	^ self data	
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToListObservableCollectionDataSource >> list: anObservableCollection [
 
 	self
@@ -55,7 +57,7 @@ ToListObservableCollectionDataSource >> list: anObservableCollection [
 	^ self data: anObservableCollection
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 ToListObservableCollectionDataSource >> onBindHolder: anElementHolder at: aPosition [
 
 	"Update holder's model"

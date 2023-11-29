@@ -125,8 +125,8 @@ ToAnchoredWindowTest >> testPopupWithAssociateElementInSpace2 [
 	self assert: win isClosed.
 	self assert: win popupTimestamp isNil.
 	win popup.
-	self waitTestingSpaces.
 	self applyAllStyles.
+	self waitTestingSpaces.
 
 	self assert: win popupTimestamp notNil.
 	timeStamp := win popupTimestamp.
@@ -134,6 +134,7 @@ ToAnchoredWindowTest >> testPopupWithAssociateElementInSpace2 [
 	self assert: win isOpened.
 	self assert: win isClosed not.
 	win close.
+	self waitTestingSpaces.
 	self assert: win popupTimestamp equals: timeStamp.
 	self assert: win isOpened not.
 	self assert: win isClosed

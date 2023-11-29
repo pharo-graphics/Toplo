@@ -10,7 +10,8 @@ Class {
 		'innerPane',
 		'paneBuilder',
 		'closable',
-		'filler'
+		'filler',
+		'header'
 	],
 	#category : 'Toplo-Incubator',
 	#package : 'Toplo-Incubator'
@@ -19,7 +20,7 @@ Class {
 { #category : 'accessing' }
 ToTab >> body [
 
-	^ self notebook body 
+	^ self tabsPane body 
 ]
 
 { #category : 'hooks - children' }
@@ -60,7 +61,19 @@ ToTab >> defaultBorder [
 { #category : 'skin' }
 ToTab >> defaultGeometry [
 
-	^ self notebook tabGeometry
+	^ self tabsPane tabGeometry
+]
+
+{ #category : 'accessing' }
+ToTab >> header [
+
+	^ header
+]
+
+{ #category : 'accessing' }
+ToTab >> header: aTabPaneHeader [
+
+	header := aTabPaneHeader 
 ]
 
 { #category : 'skin' }
@@ -128,17 +141,11 @@ ToTab >> newRawSkin [
 	^ ToTabSkin new
 ]
 
-{ #category : 'accessing' }
-ToTab >> notebook [
-
-	^ self parent notebook
-]
-
 { #category : 'hooks - children' }
 ToTab >> onAddedToParent [
 
 	super onAddedToParent.
-	self parent onButtonAdded: self.
+	self header onTabAdded: self.
 	checkHandler := BlEventHandler
 		                on: ToCheckableCheckEvent
 		                do: [ :event | self checkableCheckEvent: event ].
@@ -149,8 +156,8 @@ ToTab >> onAddedToParent [
 ToTab >> onDeselected [
 
 	self removeInnerPaneFromBody.
-	self notebook applyResizablePanesConfiguration.
-	self notebook preservePaneOnSelect ifFalse: [ innerPane := nil ]
+	self tabsPane applyResizablePanesConfiguration.
+	self tabsPane preservePaneOnSelect ifFalse: [ innerPane := nil ]
 ]
 
 { #category : 'hooks - children' }
@@ -161,24 +168,24 @@ ToTab >> onRemovedFromParent: aParentElement [
 	innerPane ifNotNil: [
 		self removeInnerPaneFromBody.
 		innerPane := nil ].
-	aParentElement onTabRemoved: self.
+	header onTabRemoved: self.
 	super onRemovedFromParent: aParentElement
 ]
 
 { #category : 'hooks - children' }
 ToTab >> onSelected [
 
-	(self notebook preservePaneOnSelect and: [ innerPane notNil ])
+	(self tabsPane preservePaneOnSelect and: [ innerPane notNil ])
 		ifTrue: [			
 			self body addChild: innerPane.
-			self notebook applyResizablePanesConfiguration.
+			self tabsPane applyResizablePanesConfiguration.
 			^ self ].
 	innerPane := ToPane new
 		             matchParent;
 		             yourself.
 	self paneBuilder value: innerPane value: self body parent.
 	self body addChild: innerPane.
-	self notebook applyResizablePanesConfiguration.
+	self tabsPane applyResizablePanesConfiguration.
 
 
 ]
@@ -237,6 +244,12 @@ ToTab >> selected: aBoolean [
 ToTab >> selectedBackground [
 
 	^ Color fromHexString: #ffd666
+]
+
+{ #category : 'accessing' }
+ToTab >> tabsPane [ 
+
+	^ self header parent
 ]
 
 { #category : 't - checkable  - protocol' }

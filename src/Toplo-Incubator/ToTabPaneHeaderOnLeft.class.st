@@ -6,14 +6,16 @@ Class {
 }
 
 { #category : 'hook' }
-ToTabPaneHeaderOnLeft >> applyOn: aNotebook [
+ToTabPaneHeaderOnLeft >> applyOn: aTabPane [
 
-	aNotebook beHorizontal.
-	aNotebook beLeftToRight.
-	aNotebook header beVertical.
-	aNotebook header hFitContent.
-	aNotebook header vMatchParent.
-	aNotebook tabs do: [ :b | b geometry: self tabGeometry ].
+	super applyOn: aTabPane.
+	aTabPane beHorizontal.
+	aTabPane beRightToLeft.
+	aTabPane header beVertical.
+	aTabPane header hFitContent.
+	aTabPane header vMatchParent.
+	aTabPane header tabsContainer beVertical.
+	aTabPane tabs do: [ :b | b geometry: self tabGeometry ].
 ]
 
 { #category : 'accessing' }

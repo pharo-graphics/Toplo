@@ -6,7 +6,7 @@ Class {
 }
 
 { #category : 'hook' }
-ToTabPaneHeaderPositioning >> applyOn: aNotebook [
+ToTabPaneHeaderPositioning >> applyOn: aTabPane [
 ]
 
 { #category : 'accessing' }

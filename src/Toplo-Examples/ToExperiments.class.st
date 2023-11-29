@@ -899,6 +899,24 @@ ToExperiments class >> example_frame [
 	frame openInNewSpace
 ]
 
+{ #category : 'linear layout' }
+ToExperiments class >> example_linearLayoutWithChildAlign [
+
+	| parent child |
+	parent := ToElement new.
+	child := ToElement new.
+	parent layout: BlLinearLayout new.
+	parent layout alignCenterRight.
+	child size: 50 @ 30.
+	child layout: BlLinearLayout new.
+	parent addChild: child.
+	child background: Color yellow.
+	parent background: Color blue.
+	parent hMatchParent.
+	parent vFitContent.
+	parent openInSpace
+]
+
 { #category : 'frame' }
 ToExperiments class >> example_mouseEvent_descending_bubbling [
 

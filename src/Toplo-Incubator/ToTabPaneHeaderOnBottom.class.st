@@ -1,16 +1,16 @@
 Class {
-	#name : 'ToTabPaneHeaderOnTop',
+	#name : 'ToTabPaneHeaderOnBottom',
 	#superclass : 'ToTabPaneHeaderPositioning',
 	#category : 'Toplo-Incubator',
 	#package : 'Toplo-Incubator'
 }
 
 { #category : 'hook' }
-ToTabPaneHeaderOnTop >> applyOn: aTabPane [
+ToTabPaneHeaderOnBottom >> applyOn: aTabPane [
 
 	super applyOn: aTabPane.
 	aTabPane beVertical.
-	aTabPane beRightToLeft.
+	aTabPane beLeftToRight.
 	aTabPane header beHorizontal.
 	aTabPane header hMatchParent.
 	aTabPane header vFitContent.
@@ -18,12 +18,12 @@ ToTabPaneHeaderOnTop >> applyOn: aTabPane [
 ]
 
 { #category : 'accessing' }
-ToTabPaneHeaderOnTop >> tabGeometry [
+ToTabPaneHeaderOnBottom >> tabGeometry [
 
 	^ BlRoundedRectangleGeometry cornerRadii: (BlCornerRadii new
-			   topLeft: 8;
-			   topRight: 8;
-			   bottomLeft: 0;
-			   bottomRight: 0;
+			   topLeft: 0;
+			   topRight: 0;
+			   bottomLeft: 8;
+			   bottomRight: 8;
 			   yourself)
 ]

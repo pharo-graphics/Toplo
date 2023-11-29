@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'rebuildPaneOnSelect',
 		'header',
-		'headerPositioning',
 		'body',
 		'resizablePanes'
 	],
@@ -13,10 +12,11 @@ Class {
 }
 
 { #category : 'adding-removing' }
-ToTabPane >> addTab: aButton [
+ToTabPane >> addTab: aTab [
 
-	header addChild: aButton.
-	self tabs size = 1 ifTrue: [ aButton selected: true ]
+	aTab header: self header.
+	header addTab: aTab.
+	self tabs size = 1 ifTrue: [ aTab selected: true ]
 ]
 
 { #category : 'adding-removing' }
@@ -39,7 +39,7 @@ ToTabPane >> addTabWithText: aText builder: aValuable [
 { #category : 'configuration - private' }
 ToTabPane >> applyHeaderPositioning [
 
-	self headerPositioning applyOn: self
+	self header applyPositioning
 ]
 
 { #category : 'configuration - private' }
@@ -67,12 +67,6 @@ ToTabPane >> checkingStrategy: aCheckingStrategy [
 	self header checkingStrategy: aCheckingStrategy
 ]
 
-{ #category : 'initialization' }
-ToTabPane >> defaultHeaderPositioning [
-
-	^ ToTabPaneHeaderOnTop new
-]
-
 { #category : 'accessing' }
 ToTabPane >> group [ 
 
@@ -86,16 +80,9 @@ ToTabPane >> header [
 ]
 
 { #category : 'configuration' }
-ToTabPane >> headerPositioning [
-
-	^ headerPositioning
-]
-
-{ #category : 'configuration' }
 ToTabPane >> headerPositioning: aPositioningStategy [
 
-	headerPositioning := aPositioningStategy.
-	self headerPositioning applyOn: self
+	self header positioningStrategy: aPositioningStategy
 ]
 
 { #category : 'initialization' }
@@ -106,10 +93,11 @@ ToTabPane >> initialize [
 	resizablePanes := false.
 	self matchParent.
 	header := ToTabPaneHeader new.
+	header tabsPane: self.
+	header applyPositioning.
 	body := ToPane vertical matchParent.
-	self headerPositioning: self defaultHeaderPositioning.
-	self addChild: header as: #header.
 	self addChild: body as: #body.
+	self addChild: header as: #header.
 	self withVerticalBody.
 	self checkingStrategy: ToCheckableGroupStrictStrategy new
 
@@ -119,6 +107,12 @@ ToTabPane >> initialize [
 ToTabPane >> lastTab [
 
 	^ self tabs last
+]
+
+{ #category : 'instance creation' }
+ToTabPane >> newRawSkin [
+
+	^ ToTabPaneSkin new
 ]
 
 { #category : 'adding-removing - private' }
@@ -167,7 +161,7 @@ ToTabPane >> resizablePanes: aBoolean [
 { #category : 'accessing - private' }
 ToTabPane >> tabGeometry [
 
-	^ self headerPositioning tabGeometry
+	^ self header positioningStrategy tabGeometry
 ]
 
 { #category : 'accessing' }
@@ -177,27 +171,75 @@ ToTabPane >> tabs [
 ]
 
 { #category : 'configuration' }
-ToTabPane >> withHeaderOnBottom [
+ToTabPane >> withHeaderOnBottomCenter [
 
-	self headerPositioning: ToPabPaneHeaderOnBottom new
+	self headerPositioning: ToTabPaneHeaderOnBottomCenter new
 ]
 
 { #category : 'configuration' }
-ToTabPane >> withHeaderOnLeft [
+ToTabPane >> withHeaderOnBottomLeft [
 
-	self headerPositioning: ToTabPaneHeaderOnLeft new
+	self headerPositioning: ToTabPaneHeaderOnBottomLeft new
 ]
 
 { #category : 'configuration' }
-ToTabPane >> withHeaderOnRight [
+ToTabPane >> withHeaderOnBottomRight [
 
-	self headerPositioning: ToTabPaneHeaderOnRight new
+	self headerPositioning: ToTabPaneHeaderOnBottomRight new
 ]
 
 { #category : 'configuration' }
-ToTabPane >> withHeaderOnTop [
+ToTabPane >> withHeaderOnLeftBottom [
 
-	self headerPositioning: ToTabPaneHeaderOnTop new
+	self headerPositioning: ToTabPaneHeaderOnLeftBottom new
+]
+
+{ #category : 'configuration' }
+ToTabPane >> withHeaderOnLeftCenter [
+
+	self headerPositioning: ToTabPaneHeaderOnLeftCenter new
+]
+
+{ #category : 'configuration' }
+ToTabPane >> withHeaderOnLeftTop [
+
+	self headerPositioning: ToTabPaneHeaderOnLeftTop new
+]
+
+{ #category : 'configuration' }
+ToTabPane >> withHeaderOnRightBottom [
+
+	self headerPositioning: ToTabPaneHeaderOnRightBottom new
+]
+
+{ #category : 'configuration' }
+ToTabPane >> withHeaderOnRightCenter [
+
+	self headerPositioning: ToTabPaneHeaderOnRightCenter new
+]
+
+{ #category : 'configuration' }
+ToTabPane >> withHeaderOnRightTop [
+
+	self headerPositioning: ToTabPaneHeaderOnRightTop new
+]
+
+{ #category : 'configuration' }
+ToTabPane >> withHeaderOnTopCenter [
+
+	self headerPositioning: ToTabPaneHeaderOnTopCenter new
+]
+
+{ #category : 'configuration' }
+ToTabPane >> withHeaderOnTopLeft [
+
+	self headerPositioning: ToTabPaneHeaderOnTopLeft new
+]
+
+{ #category : 'configuration' }
+ToTabPane >> withHeaderOnTopRight [
+
+	self headerPositioning: ToTabPaneHeaderOnTopRight new
 ]
 
 { #category : 'configuration' }

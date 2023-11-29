@@ -2,17 +2,33 @@ Class {
 	#name : 'ToTabPaneHeader',
 	#superclass : 'ToPane',
 	#instVars : [
-		'buttons',
-		'group'
+		'tabsPane',
+		'group',
+		'positioningStrategy',
+		'tabs',
+		'tabsContainer'
 	],
 	#category : 'Toplo-Incubator',
 	#package : 'Toplo-Incubator'
 }
 
+{ #category : 'add-remove' }
+ToTabPaneHeader >> addTab: aTab [
+
+	aTab header: self.
+	self tabsContainer addChild: aTab
+]
+
+{ #category : 'initialization' }
+ToTabPaneHeader >> applyPositioning [
+
+	self positioningStrategy applyOn: self tabsPane
+]
+
 { #category : 'accessing' }
 ToTabPaneHeader >> body [
 
-	^ self notebook body
+	^ self tabsPane body
 ]
 
 { #category : 'initialization' }
@@ -34,6 +50,12 @@ ToTabPaneHeader >> checkingStrategy: aCheckingStrategy [
 	^ self group checkingStrategy: aCheckingStrategy
 ]
 
+{ #category : 'initialization' }
+ToTabPaneHeader >> defaultPositioningStrategy [
+
+	^ ToTabPaneHeaderOnTopLeft new
+]
+
 { #category : 'accessing' }
 ToTabPaneHeader >> group [
 
@@ -46,24 +68,13 @@ ToTabPaneHeader >> initialize [
 	super initialize.
 	group := ToCheckableGroup new.
 	group when: ToCheckableGroupChangedEvent do: [ :event | self checkableGroupChangedEvent: event ].
-	buttons := OrderedCollection new
-]
-
-{ #category : 'accessing' }
-ToTabPaneHeader >> notebook [
-
-	^ self parent 
-]
-
-{ #category : 'hooks - children' }
-ToTabPaneHeader >> onAddedToParent [ 
-
-	super onAddedToParent.
-	self parent applyHeaderPositioning 
+	tabs := OrderedCollection new.
+	tabsContainer := ToPane horizontal fitContent.
+	self addChild: tabsContainer
 ]
 
 { #category : 'add-remove' }
-ToTabPaneHeader >> onButtonAdded: aButton [
+ToTabPaneHeader >> onTabAdded: aButton [
 
 	self group add: aButton.
 	self tabs add: aButton.
@@ -71,16 +82,18 @@ ToTabPaneHeader >> onButtonAdded: aButton [
 ]
 
 { #category : 'add-remove' }
-ToTabPaneHeader >> onTabRemoved: aButton [
+ToTabPaneHeader >> onTabRemoved: aTab [
 
 	| index nextSelected |
-	self notebook onTabRemoved: aButton.
-	index := aButton isSelected
-		         ifTrue: [ self tabs indexOf: aButton ]
+	self tabsPane onTabRemoved: aTab.
+	aTab header: nil.
+
+	index := aTab isSelected
+		         ifTrue: [ self tabs indexOf: aTab ]
 		         ifFalse: [ 0 ].
 
-	self tabs remove: aButton.
-	self group remove: aButton.
+	self tabs remove: aTab.
+	self group remove: aTab.
 	index > 0 ifFalse: [ ^ self ].
 	self tabs ifEmpty: [ ^ self ].
 
@@ -91,7 +104,44 @@ ToTabPaneHeader >> onTabRemoved: aButton [
 ]
 
 { #category : 'accessing' }
+ToTabPaneHeader >> positioningStrategy [
+
+	^ positioningStrategy ifNil: [ positioningStrategy := self defaultPositioningStrategy ]
+]
+
+{ #category : 'accessing' }
+ToTabPaneHeader >> positioningStrategy: anObject [
+
+	positioningStrategy := anObject.
+	self applyPositioning 
+]
+
+{ #category : 'add-remove' }
+ToTabPaneHeader >> removeTab: aTab [
+
+	self tabsContainer removeChild: aTab
+]
+
+{ #category : 'accessing' }
 ToTabPaneHeader >> tabs [ 
 
-	^ buttons
+	^ tabs
+]
+
+{ #category : 'accessing' }
+ToTabPaneHeader >> tabsContainer [
+
+	^ tabsContainer 
+]
+
+{ #category : 'accessing' }
+ToTabPaneHeader >> tabsPane [ 
+
+	^ tabsPane 
+]
+
+{ #category : 'accessing' }
+ToTabPaneHeader >> tabsPane: aTabPane [ 
+
+	tabsPane := aTabPane
 ]

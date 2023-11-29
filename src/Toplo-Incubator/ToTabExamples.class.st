@@ -23,12 +23,22 @@ ToTabExamples class >> example_closeableTabs [
 	nb openInSpace
 ]
 
-{ #category : 'tabs' }
-ToTabExamples class >> example_headerOnBottom [
+{ #category : 'header positionning' }
+ToTabExamples class >> example_headerOnBottomCenter [
 
 	| nb |
-	nb := self example_notebook.
-	nb withHeaderOnBottom.
+	nb := self example_tabPane.
+	nb withHeaderOnBottomCenter.
+	nb inspect.
+	^ nb
+]
+
+{ #category : 'header positionning' }
+ToTabExamples class >> example_headerOnBottomLeft [
+
+	| nb |
+	nb := self example_tabPane.
+	nb withHeaderOnBottomLeft.
 	^ nb
 ]
 
@@ -36,17 +46,35 @@ ToTabExamples class >> example_headerOnBottom [
 ToTabExamples class >> example_headerOnBottomResizablePanes [
 
 	| nb |
-	nb := self example_headerOnBottom.
+	nb := self example_headerOnBottomLeft.
 	nb withoutCheckingStrategy.
 	nb withResizablePanes 
 ]
 
-{ #category : 'tabs' }
-ToTabExamples class >> example_headerOnLeft [
+{ #category : 'header positionning' }
+ToTabExamples class >> example_headerOnBottomRight [
 
 	| nb |
-	nb := self example_notebook.
-	nb withHeaderOnLeft.
+	nb := self example_tabPane.
+	nb withHeaderOnBottomRight.
+	^ nb
+]
+
+{ #category : 'header positionning' }
+ToTabExamples class >> example_headerOnLeftBottom [
+
+	| nb |
+	nb := self example_tabPane.
+	nb withHeaderOnLeftBottom.
+	^ nb
+]
+
+{ #category : 'header positionning' }
+ToTabExamples class >> example_headerOnLeftCenter [
+
+	| nb |
+	nb := self example_tabPane.
+	nb withHeaderOnLeftCenter.
 	^ nb
 ]
 
@@ -54,17 +82,62 @@ ToTabExamples class >> example_headerOnLeft [
 ToTabExamples class >> example_headerOnLeftResizablePanes [
 
 	| nb |
-	nb := self example_headerOnLeft.
+	nb := self example_headerOnLeftTop.
 	nb withoutCheckingStrategy.
 	nb withResizablePanes 
 ]
 
-{ #category : 'tabs' }
-ToTabExamples class >> example_headerOnRight [
+{ #category : 'header positionning' }
+ToTabExamples class >> example_headerOnLeftTop [
 
 	| nb |
-	nb := self example_notebook.
-	nb withHeaderOnRight.
+	nb := self example_tabPane.
+	nb withHeaderOnLeftTop.
+	^ nb
+]
+
+{ #category : 'header positionning' }
+ToTabExamples class >> example_headerOnRightBottom [
+
+	| nb |
+	nb := self example_tabPane.
+	nb withHeaderOnRightBottom.
+	^ nb
+]
+
+{ #category : 'header positionning' }
+ToTabExamples class >> example_headerOnRightCenter [
+
+	| nb |
+	nb := self example_tabPane.
+	nb withHeaderOnRightCenter.
+	^ nb
+]
+
+{ #category : 'header positionning' }
+ToTabExamples class >> example_headerOnRightTop [
+
+	| nb |
+	nb := self example_tabPane.
+	nb withHeaderOnRightTop.
+	^ nb
+]
+
+{ #category : 'header positionning' }
+ToTabExamples class >> example_headerOnTopCenter [
+
+	| nb |
+	nb := self example_tabPane.
+	nb withHeaderOnTopCenter.
+	^ nb
+]
+
+{ #category : 'header positionning' }
+ToTabExamples class >> example_headerOnTopLeft [
+
+	| nb |
+	nb := self example_tabPane.
+	nb withHeaderOnTopLeft.
 	^ nb
 ]
 
@@ -87,6 +160,15 @@ ToTabExamples class >> example_headerOnTopResizablePanesHorizontalBody [
 	nb withHorizontalBody
 ]
 
+{ #category : 'header positionning' }
+ToTabExamples class >> example_headerOnTopRight [
+
+	| nb |
+	nb := self example_tabPane.
+	nb withHeaderOnTopRight.
+	^ nb
+]
+
 { #category : 'tabs' }
 ToTabExamples class >> example_notPreservingPane [
 
@@ -105,22 +187,6 @@ ToTabExamples class >> example_notPreservingPane [
 ]
 
 { #category : 'tabs' }
-ToTabExamples class >> example_notebook [
-
-	| nb but |
-	nb := ToTabPane new.
-	nb resizablePanes: true.
-	1 to: 5 do: [ :index |
-		but := ToTab new.
-		but closable: true.
-		but labelText: 'Button ' , index asString.
-		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
-		nb addTab: but ].
-	nb openInSpace.
-	^ nb
-]
-
-{ #category : 'tabs' }
 ToTabExamples class >> example_preservingPane [
 
 	| nb but |
@@ -135,6 +201,35 @@ ToTabExamples class >> example_preservingPane [
 		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
 		nb addTab: but ].
 	nb openInSpace
+]
+
+{ #category : 'tabs' }
+ToTabExamples class >> example_tabPane [
+	| nb but |
+	nb := ToTabPane new.
+	nb resizablePanes: true.
+	1 to: 5 do: [ :index |
+		but := ToTab new.
+		but closable: true.
+		but labelText: 'Button ' , index asString.
+		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
+		nb addTab: but ].
+	nb openInSpace.
+	^ nb
+]
+
+{ #category : 'composing tabs' }
+ToTabExamples class >> example_tabPaneInTabPane [
+
+	| tabPane tab |
+	tabPane := ToTabPane new.
+	tabPane group when: ToCheckableGroupChangedEvent do: [ :event | event traceCr ].
+	1 to: 3 do: [ :index |
+		tab := ToTab new.
+		tab labelText: 'Tab ' , index asString.
+		tab paneBuilder: [ :pane :theTabPane | pane addChild: self subTabPane withHeaderOnLeftTop ].
+		tabPane addTab: tab ].
+	tabPane openInSpace
 ]
 
 { #category : 'tabs' }
@@ -164,6 +259,48 @@ ToTabExamples class >> example_tabsWith2Pages [
 								               Color green darker) ) ].
 
 	aNotebook openInSpace
+]
+
+{ #category : 'composing tabs' }
+ToTabExamples class >> subTabPane [
+
+	| nb but |
+	nb := ToTabPane new.
+	nb resizablePanes: true.
+	1 to: 3 do: [ :index |
+		but := ToTab new.
+		but labelText: 'sub tab ' , index asString.
+		but paneBuilder: [ :pane :theNoteBook | pane addChild: self subsubTabPane withHeaderOnRightBottom ].
+		nb addTab: but ].
+	^ nb
+]
+
+{ #category : 'composing tabs' }
+ToTabExamples class >> subsubTabPane [
+
+	| nb but |
+	nb := ToTabPane new.
+	nb resizablePanes: true.
+	1 to: 4 do: [ :index |
+		but := ToTab new.
+		but labelText: 'sub sub tab ' , index asString.
+		but paneBuilder: [ :pane :theNoteBook | pane addChild: self subsubsubTabPane withHeaderOnBottomLeft ].
+		nb addTab: but ].
+	^ nb
+]
+
+{ #category : 'composing tabs' }
+ToTabExamples class >> subsubsubTabPane [
+
+	| nb but |
+	nb := ToTabPane new.
+	nb resizablePanes: true.
+	1 to: 2 do: [ :index |
+		but := ToTab new.
+		but labelText: 'sub sub sub tab ' , index asString.
+		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
+		nb addTab: but ].
+	^ nb
 ]
 
 { #category : 'see class side' }

@@ -12,7 +12,7 @@ Class {
 		'preserveSelectionOnFocused',
 		'nodeClass'
 	],
-	#category : 'Toplo-Widget-List-infinite'
+	#category : #'Toplo-Widget-List-infinite'
 }
 
 { #category : #'selection mode' }
@@ -83,6 +83,14 @@ ToInfiniteElement >> defaultLayout [
 ToInfiniteElement >> defaultListNodeFactory [
 
 	^ self subclassResponsibility 
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> defaultMouseScrollEventHandler [
+
+	^ BlInfiniteMouseScrollListener new
+		  restrictedByOrientation: true;
+		  yourself
 ]
 
 { #category : #initialization }

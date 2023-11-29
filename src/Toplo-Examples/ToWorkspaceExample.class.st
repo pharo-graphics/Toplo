@@ -2,17 +2,16 @@
 I'm a workspace example made with Album/Toplo
 "
 Class {
-	#name : 'ToWorkspaceExample',
-	#superclass : 'Object',
+	#name : #ToWorkspaceExample,
+	#superclass : #Object,
 	#instVars : [
 		'textModel',
 		'bindings'
 	],
-	#category : 'Toplo-Examples',
-	#package : 'Toplo-Examples'
+	#category : 'Toplo-Examples'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToWorkspaceExample class >> openInHost: aBlOSWindowHost [
 
 	<script>
@@ -23,21 +22,21 @@ ToWorkspaceExample class >> openInHost: aBlOSWindowHost [
 	space show
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToWorkspaceExample class >> openInMorphic [
 
 	<script>
 	self openInHost: BlMorphicWindowHost new
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 ToWorkspaceExample class >> openInSDL [
 
 	<script>
 	self openInHost: BlOSWindowSDL2Host new
 ]
 
-{ #category : 'binding' }
+{ #category : #binding }
 ToWorkspaceExample >> bindingOf: aString [
 
 	"I want to have workspace that force the user to declare  
@@ -50,19 +49,19 @@ ToWorkspaceExample >> bindingOf: aString [
 	^ bindings at: key
 ]
 
-{ #category : 'bindings' }
+{ #category : #bindings }
 ToWorkspaceExample >> bindings [
 
 	^ bindings 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToWorkspaceExample >> correctFrom: start to: stop with: aString [
 
 	('correctFrom: ', start asString, ' to: ', stop asString, ' with: ', aString asString) traceCr
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToWorkspaceExample >> doIt [
 
 	| toDo |
@@ -78,12 +77,12 @@ ToWorkspaceExample >> doIt [
 		do: [ :warn | warn traceCr ]
 ]
 
-{ #category : 'bindings' }
+{ #category : #bindings }
 ToWorkspaceExample >> hasBindingOf: aString [
 	^ bindings includesKey: aString asSymbol
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToWorkspaceExample >> initialize [
 	super initialize.
 	bindings := Dictionary new.
@@ -91,7 +90,7 @@ ToWorkspaceExample >> initialize [
 
 ]
 
-{ #category : 'user interface' }
+{ #category : #'user interface' }
 ToWorkspaceExample >> initializeCodeEditor [
 
 	textModel
@@ -117,24 +116,24 @@ ToWorkspaceExample >> initializeCodeEditor [
 				 description: 'Run selected expression.')
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToWorkspaceExample >> isScripting [
 
 	^ true
 ]
 
-{ #category : 'bindings' }
+{ #category : #bindings }
 ToWorkspaceExample >> notify: aString at: anInteger in: aString3 [ 
 	('parse error: ', aString, ' at: ', anInteger asString) traceCr.
 ]
 
-{ #category : 'user interface' }
+{ #category : #'user interface' }
 ToWorkspaceExample >> open [
 
 	self openInSpace: BlSpace new
 ]
 
-{ #category : 'user interface' }
+{ #category : #'user interface' }
 ToWorkspaceExample >> openInSpace: aSpace [
 
 	| frame |
@@ -146,7 +145,7 @@ ToWorkspaceExample >> openInSpace: aSpace [
 	aSpace root addChild: frame
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToWorkspaceExample >> text [
 
 	^ textModel text

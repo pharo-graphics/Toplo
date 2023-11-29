@@ -1,40 +1,39 @@
 Class {
-	#name : 'ToPicsumPhotosGalleryImageElement',
-	#superclass : 'ToElement',
+	#name : #ToPicsumPhotosGalleryImageElement,
+	#superclass : #ToElement,
 	#instVars : [
 		'loader',
 		'imageData',
 		'label'
 	],
-	#category : 'Toplo-Examples',
-	#package : 'Toplo-Examples'
+	#category : 'Toplo-Examples'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPicsumPhotosGalleryImageElement >> attached [
 
 	imageData form ifNil: [ ^ self loadImage ].
 	self setBackgroundFromData
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToPicsumPhotosGalleryImageElement >> defaultLayout [
 	^ BlFrameLayout new
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToPicsumPhotosGalleryImageElement >> defaultWidth [
 	^ 500
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPicsumPhotosGalleryImageElement >> detached [
 
 	loader ifNotNil: #terminate.
 	loader := nil
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPicsumPhotosGalleryImageElement >> form: aForm [
 	
 	imageData form == aForm
@@ -43,7 +42,7 @@ ToPicsumPhotosGalleryImageElement >> form: aForm [
 	self setBackgroundFromData
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPicsumPhotosGalleryImageElement >> imageData: anImageData [
 
 	imageData = anImageData
@@ -54,7 +53,7 @@ ToPicsumPhotosGalleryImageElement >> imageData: anImageData [
 		fontSize: 14)
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 ToPicsumPhotosGalleryImageElement >> initialize [
 
 	super initialize.
@@ -67,7 +66,7 @@ ToPicsumPhotosGalleryImageElement >> initialize [
 	self whenLayoutedDo: [ self loadImage ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPicsumPhotosGalleryImageElement >> loadImage [
 
 	loader ifNotNil: [ ^ self ].
@@ -90,14 +89,14 @@ ToPicsumPhotosGalleryImageElement >> loadImage [
 	loader resume
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPicsumPhotosGalleryImageElement >> loadedForm: aForm [
 	
 	self form: aForm.
 	loader := nil
 ]
 
-{ #category : 'layout' }
+{ #category : #layout }
 ToPicsumPhotosGalleryImageElement >> onMeasure: anExtentMeasurementSpec [
 
 	" ensure a 16/9 size "
@@ -119,7 +118,7 @@ ToPicsumPhotosGalleryImageElement >> onMeasure: anExtentMeasurementSpec [
 	self measuredExtent: aWidth @ aHeight
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 ToPicsumPhotosGalleryImageElement >> setBackgroundFromData [
 	
 	self background: (BlBackground image: imageData form).

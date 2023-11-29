@@ -130,7 +130,7 @@ ToAnchoredWindowTest >> testPopupWithAssociateElementInSpace2 [
 
 	self assert: win popupTimestamp notNil.
 	timeStamp := win popupTimestamp.
-	self assert: win popupTimestamp < DateAndTime now.
+	self assert: win popupTimestamp <= DateAndTime now.
 	self assert: win isOpened.
 	self assert: win isClosed not.
 	win close.

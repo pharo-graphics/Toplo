@@ -1,5 +1,5 @@
 [![License](https://img.shields.io/github/license/plantec/Toplo.svg)](./LICENSE)
-[![SteelSheet Tests](https://github.com/plantec/Toplo/actions/workflows/Tests.yml/badge.svg?branch=SteelSheet)](https://github.com/plantec/Toplo/actions/workflows/Tests.yml)
+[![main Tests](https://github.com/plantec/Toplo/actions/workflows/Tests.yml/badge.svg?branch=main)](https://github.com/plantec/Toplo/actions/workflows/Tests.yml)
 
 # Toplo
 ![toplo](https://github.com/plantec/Toplo/assets/49183340/57963fee-ed86-4ee0-99e1-7c39e9a9cdf9)

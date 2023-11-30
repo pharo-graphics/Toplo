@@ -146,15 +146,15 @@ ToCheckboxSkin >> installLookEvent: anEvent [
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e | 
 		e interspace: 10.
-		e border: (self defaultBorderIn: e).		
 		e iconImage: (self defaultBlankCheckboxImageIn: e).
 		e icon geometry: (self iconGeometryIn: e).
+		e border: (BlBorder empty).		
+		e icon border: e iconDefaultBorder.
 		e padding: (BlInsets
 				 top: (e tokenValueNamed: #'padding-content-V-S')
 				 left: (e tokenValueNamed: #'padding-content-H')
 				 bottom: (e tokenValueNamed: #'padding-content-V-S')
-				 right: (e tokenValueNamed: #'padding-content-H')).
-		e icon border: (self defaultImageBorderIn: e) ]
+				 right: (e tokenValueNamed: #'padding-content-H')) ]
 	
 ]
 

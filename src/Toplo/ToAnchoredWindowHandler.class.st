@@ -123,13 +123,14 @@ ToAnchoredWindowHandler >> newElementEventHandler [
 
 { #category : 'window handling' }
 ToAnchoredWindowHandler >> newWindowEvent: anEvent [
-
+	| request |
 	currentWindow ifNotNil: [
 		Error signal: 'Asking for a associate window building twice' ].
-	element dispatchEvent: (self windowBeforeBuildingEventClass new
+	request := self windowRequestClass new
 			 sourceEvent: anEvent;
-			 yourself).
-	currentWindow := self newWindowInstance.
+			 yourself.
+	element dispatchEvent: request.
+	currentWindow := self newWindowInstanceAfterRequest: request.
 	windowClosedHandler := BlEventHandler
 		                       on: ToWindowClosedEvent
 		                       do: [ self windowClosed ].
@@ -138,11 +139,11 @@ ToAnchoredWindowHandler >> newWindowEvent: anEvent [
 ]
 
 { #category : 'window handling' }
-ToAnchoredWindowHandler >> newWindowInstance [
+ToAnchoredWindowHandler >> newWindowInstanceAfterRequest: aRequest [
 
 	| w |
 	w := self windowClass new handler: self; yourself.
-	builder value: w value: self element.
+	builder value: w value: aRequest.
 	^ w
 ]
 
@@ -174,12 +175,6 @@ ToAnchoredWindowHandler >> sizeHook: aValuable [
 ]
 
 { #category : 'accessing' }
-ToAnchoredWindowHandler >> windowBeforeBuildingEventClass [
-
-	^ ToWindowBeforeBuildingEvent 
-]
-
-{ #category : 'accessing' }
 ToAnchoredWindowHandler >> windowClass [
 
 	^ ToAnchoredWindow 
@@ -192,4 +187,10 @@ ToAnchoredWindowHandler >> windowClosed [
 	windowClosedHandler := nil.
 	currentWindow handler: nil.
 	currentWindow := nil
+]
+
+{ #category : 'accessing' }
+ToAnchoredWindowHandler >> windowRequestClass [
+
+	^ ToWindowRequest 
 ]

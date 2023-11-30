@@ -40,7 +40,7 @@ ToListFilterExperiment >> open [
 	pane addChild: filterField.
 
 	dataFilter := ToListElementFilter new.
-	listElement dataFilter: dataFilter.
+	listElement addEventHandler: (ToListElementFilterEventHandler new dataFilter: dataFilter; yourself).
 	filterField editorDo: [ :ed |
 		ed when: AlbTextEditedEvent do: [ self textUpdated ] ].
 

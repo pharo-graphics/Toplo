@@ -26,18 +26,6 @@ TToListElementDecorator >> beWithoutSelection [
 	self next beWithoutSelection
 ]
 
-{ #category : 't - accessing context menu' }
-TToListElementDecorator >> contextMenu: aValuable [
-
-	self next contextMenu: aValuable
-]
-
-{ #category : 't - accessing context menu' }
-TToListElementDecorator >> contextMenuBuilder: aValuable [
-
-	self next contextMenuBuilder: aValuable
-]
-
 { #category : 't - infinite accessing' }
 TToListElementDecorator >> data [
 
@@ -134,24 +122,6 @@ TToListElementDecorator >> preserveSelectionOnFocused: aBoolean [
 	self next preserveSelectionOnFocused: aBoolean
 ]
 
-{ #category : 't - accessing selection' }
-TToListElementDecorator >> primarySelection [
-
-	^ self next primarySelection
-]
-
-{ #category : 't - accessing selection' }
-TToListElementDecorator >> primarySelectionDo: aBlock [
-
-	^ self next primarySelectionDo: aBlock
-]
-
-{ #category : 't - accessing selection' }
-TToListElementDecorator >> primarySelectionIndexes [
-
-	^ self next primarySelectionIndexes
-]
-
 { #category : 't - infinite accessing' }
 TToListElementDecorator >> scrollToIndex: anIndex [
 
@@ -162,24 +132,6 @@ TToListElementDecorator >> scrollToIndex: anIndex [
 TToListElementDecorator >> scrollToIndexAtTop: anIndex [
 
 	self next scrollToIndexAtTop: anIndex
-]
-
-{ #category : 't - accessing selection' }
-TToListElementDecorator >> secondarySelection [
-
-	^ self next secondarySelection
-]
-
-{ #category : 't - accessing selection' }
-TToListElementDecorator >> secondarySelectionDo: aBlock [
-
-	^ self next secondarySelectionDo: aBlock
-]
-
-{ #category : 't - accessing selection' }
-TToListElementDecorator >> secondarySelectionIndexes [
-
-	^ self next secondarySelectionIndexes
 ]
 
 { #category : 't - accessing selection' }
@@ -219,9 +171,15 @@ TToListElementDecorator >> selectedIndexes [
 ]
 
 { #category : 't - accessing selection' }
-TToListElementDecorator >> selectionDo: aBlock [
+TToListElementDecorator >> selection [
 
-	self next selectionDo: aBlock
+	^ self next selection
+]
+
+{ #category : 't - accessing selection' }
+TToListElementDecorator >> selectionIndexes [
+
+	^ self next selectionIndexes
 ]
 
 { #category : 't - infinite accessing' }

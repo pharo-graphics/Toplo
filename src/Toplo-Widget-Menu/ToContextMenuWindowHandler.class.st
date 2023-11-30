@@ -20,13 +20,13 @@ ToContextMenuWindowHandler >> initialize [
 ]
 
 { #category : 'accessing' }
-ToContextMenuWindowHandler >> windowBeforeBuildingEventClass [
-
-	^ ToContextMenuBeforeBuildingEvent 
-]
-
-{ #category : 'accessing' }
 ToContextMenuWindowHandler >> windowClass [
 
 	^ ToContextMenu
+]
+
+{ #category : 'accessing' }
+ToContextMenuWindowHandler >> windowRequestClass [
+
+	^ ToContextMenuRequest 
 ]

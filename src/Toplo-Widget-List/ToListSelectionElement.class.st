@@ -27,6 +27,20 @@ ToListSelectionElement >> borderWidth [
 ]
 
 { #category : 'private' }
+ToListSelectionElement >> boundsFromSelectedNodes [
+	" compute my bounds from my list of adjacent nodes. "
+
+	| first last top bottom |
+	first := nodes first.
+	last := nodes last.
+	top := self nodeBounds: first.
+	bottom := first = last
+		          ifTrue: [ top ]
+		          ifFalse: [ self nodeBounds: last ].
+	^ BlBounds origin: top origin corner: bottom corner
+]
+
+{ #category : 'private' }
 ToListSelectionElement >> computeBounds [
 	" compute my bounds from my list of adjacent nodes. "
 
@@ -37,7 +51,7 @@ ToListSelectionElement >> computeBounds [
 	bottom := first = last
 		          ifTrue: [ top ]
 		          ifFalse: [ self nodeBounds: last ].
-	self bounds: (BlBounds origin: top origin corner: bottom corner)
+	self bounds: self boundsFromSelectedNodes
 ]
 
 { #category : 'initialization' }
@@ -52,7 +66,13 @@ ToListSelectionElement >> defaultGeometry [
 	^ BlRoundedRectangleGeometry cornerRadius: 5
 ]
 
-{ #category : 'accessing' }
+{ #category : 'initialization' }
+ToListSelectionElement >> defaultHorizontalGap [
+
+	^ 0
+]
+
+{ #category : 'initialization' }
 ToListSelectionElement >> defaultLayout [
 
 	^ BlFrameLayout new
@@ -62,6 +82,13 @@ ToListSelectionElement >> defaultLayout [
 ToListSelectionElement >> defaultPadding [
 
 	^ BlInsets all: 0
+]
+
+{ #category : 'initialization' }
+ToListSelectionElement >> defaultVerticalGap [
+
+
+	^ listElement isVertical ifTrue: [1] ifFalse: [ 0 ]
 ]
 
 { #category : 'event handling' }
@@ -106,7 +133,20 @@ ToListSelectionElement >> nodeBounds: aNode [
 	bnds := aNode bounds inSpace bounds.
 	aNode globalBoundsToLocal: bnds.
 	aNode localBoundsToParent: bnds.
-	^ BlBounds origin: bnds origin + listElement padding topLeft corner: bnds corner + listElement padding topLeft
+	^ listElement isHorizontal
+		  ifTrue: [ bnds ]
+		  ifFalse: [
+			  ^ BlBounds
+				    origin:
+					    bnds origin
+					    - (self defaultHorizontalGap @ self defaultVerticalGap)
+					    - (listElement padding left @ 0)
+					    - (listElement infinite padding left @ 0)
+				    corner:
+					    bnds corner
+					    + (self defaultHorizontalGap @ self defaultVerticalGap)
+					    + (listElement padding right @ 0)
+					    + (listElement infinite padding right @ 0) ]
 ]
 
 { #category : 'accessing' }

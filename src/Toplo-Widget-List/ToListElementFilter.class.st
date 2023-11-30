@@ -157,8 +157,6 @@ ToListElementFilter >> onUninstalledIn: anElement [
 	originalData := nil.
 	pattern := nil.
 	semaphore := nil.
-	super onUninstalledIn: anElement.
-
 ]
 
 { #category : 'accessing' }

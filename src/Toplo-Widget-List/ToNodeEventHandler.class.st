@@ -37,11 +37,6 @@ ToNodeEventHandler >> launchClick: aBlock event: anEvent for: anElement [
 	| infinite |
 
 	infinite := anElement holder infiniteElement.
-
-	infinite hasOpenedContextMenu ifTrue: [
-		infinite terminateClickLauncher.
-		^ self ].
-
 	infinite isFocused ifFalse: [
 		infinite hasSelection ifTrue: [
 			infinite preserveSelectionOnFocused ifTrue: [

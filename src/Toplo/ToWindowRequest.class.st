@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToWindowBeforeBuildingEvent',
+	#name : 'ToWindowRequest',
 	#superclass : 'ToWindowOpeningEvent',
 	#category : 'Toplo-Core-Window',
 	#package : 'Toplo',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'sending' }
-ToWindowBeforeBuildingEvent >> sendTo: anObject [
+ToWindowRequest >> sendTo: anObject [
 
-	anObject windowBeforeBuildingEvent: self
+	anObject windowRequest: self
 ]

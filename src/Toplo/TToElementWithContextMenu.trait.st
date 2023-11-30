@@ -44,7 +44,7 @@ TToElementWithContextMenu >> contextMenuWindowHandler [
 
 	^ self userData at: #contextMenuWindowHandler ifAbsentPut: [
 		  | handler |
-		  handler := ToContextMenuWindowHandler new.
+		  handler := self contextMenuWindowHandlerClass new.
 		  handler
 			  element: self;
 			  yourself ]
@@ -59,6 +59,18 @@ TToElementWithContextMenu >> contextMenuWindowHandler: aWindowHandler [
 	self userData at: #contextMenuWindowHandler put: (aWindowHandler
 			 element: self;
 			 yourself)
+]
+
+{ #category : 't - element with context menu' }
+TToElementWithContextMenu >> contextMenuWindowHandlerClass [
+
+	^ self userData at: #contextMenuWindowHandlerClass ifAbsentPut: [ ToContextMenuWindowHandler]
+]
+
+{ #category : 't - element with context menu' }
+TToElementWithContextMenu >> contextMenuWindowHandlerClass: aHandlerClass [
+
+	self userData at: #contextMenuWindowHandlerClass put: aHandlerClass
 ]
 
 { #category : 't - element with context menu' }

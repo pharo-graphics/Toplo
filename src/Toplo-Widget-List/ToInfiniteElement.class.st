@@ -1,16 +1,15 @@
 Class {
 	#name : 'ToInfiniteElement',
 	#superclass : 'BlInfiniteElement',
-	#traits : 'TBlLayoutResizable + TToElementWithContextMenu',
-	#classTraits : 'TBlLayoutResizable classTrait + TToElementWithContextMenu classTrait',
+	#traits : 'TBlLayoutResizable',
+	#classTraits : 'TBlLayoutResizable classTrait',
 	#instVars : [
 		'clickLauncher',
-		'primarySelection',
-		'secondarySelection',
 		'shortcuts',
 		'nodeBuilder',
 		'preserveSelectionOnFocused',
-		'nodeClass'
+		'nodeClass',
+		'selectionStrategy'
 	],
 	#category : 'Toplo-Widget-List-infinite',
 	#package : 'Toplo-Widget-List',
@@ -20,7 +19,7 @@ Class {
 { #category : 'selection mode' }
 ToInfiniteElement >> beMultipleSelection [ 
 
-	self primarySelection beMultipleSelection
+	self selection beMultipleSelection
 ]
 
 { #category : 'selection mode' }
@@ -96,15 +95,9 @@ ToInfiniteElement >> defaultMouseScrollEventHandler [
 ]
 
 { #category : 'initialization' }
-ToInfiniteElement >> defaultPrimarySelection [
+ToInfiniteElement >> defaultSelectionStrategy [
 
 	^ ToListSelectionStrategy new infiniteElement: self
-]
-
-{ #category : 'initialization' }
-ToInfiniteElement >> defaultSecondarySelection [
-
-	^ ToListSelectionModel new
 ]
 
 { #category : 'selection events' }
@@ -191,8 +184,7 @@ ToInfiniteElement >> initialize [
 	self class initializeSlots: self.
 	super initialize.
 	
-	primarySelection := self defaultPrimarySelection.
-	secondarySelection := self defaultSecondarySelection.
+	selectionStrategy := self defaultSelectionStrategy.
 	self privateData: ToObservableCollection new.
 	
 	self primarySelection whenModeChangedDo: [
@@ -269,7 +261,7 @@ ToInfiniteElement >> nodeBuilder [
 { #category : 'accessing' }
 ToInfiniteElement >> nodeBuilder: aValuable [
 
-	"aValuable takes 2 args: first, the ToNode to build and second, the data "
+	"aValuable takes 2 args: first, the ToNode to build and second, its holder in the list element "
 	nodeBuilder := aValuable
 ]
 
@@ -363,14 +355,7 @@ ToInfiniteElement >> preserveSelectionOnFocusedByDefault [
 { #category : 'accessing' }
 ToInfiniteElement >> primarySelection [
 
-	^ primarySelection
-]
-
-{ #category : 'accessing' }
-ToInfiniteElement >> primarySelectionDo: aBlock [
-
-	self primarySelectionIndexes ifEmpty: [ ^ self ].
-	aBlock value: self primarySelection 
+	^ self selection
 ]
 
 { #category : 'accessing' }
@@ -421,25 +406,6 @@ ToInfiniteElement >> scrollToIndexAtTop: anIndex [
 	"As a result, item at anIndex is positionned at the top of the listElement"
 
 	self scrollToPosition: anIndex offset: self layout computeExtraLayoutSpace y.
-]
-
-{ #category : 'accessing' }
-ToInfiniteElement >> secondarySelection [
-
-	^ secondarySelection
-]
-
-{ #category : 'accessing' }
-ToInfiniteElement >> secondarySelectionDo: aBlock [
-
-	self secondarySelectionIndexes ifEmpty: [ ^ self ].
-	aBlock value: self secondarySelection 
-]
-
-{ #category : 'accessing' }
-ToInfiniteElement >> secondarySelectionIndexes [ 
-
-	^ self secondarySelection selectedIndexes
 ]
 
 { #category : 'selection events' }
@@ -494,26 +460,31 @@ ToInfiniteElement >> selectToIndex: anIndex [
 { #category : 'accessing' }
 ToInfiniteElement >> selectedIndex [
 
-	^ self primarySelection selectedIndex
+	^ self selection selectedIndex
 ]
 
 { #category : 'accessing' }
 ToInfiniteElement >> selectedIndexes [
 
-	^ self primarySelectionIndexes 
+	^ self selectionIndexes 
 ]
 
 { #category : 'accessing' }
 ToInfiniteElement >> selection [
 
-	^ self primarySelection 
+	^ self selectionStrategy
 ]
 
 { #category : 'accessing' }
-ToInfiniteElement >> selectionDo: aBlock [
+ToInfiniteElement >> selectionIndexes [
 
-	self primarySelectionDo: aBlock
+	^ self selection selectedIndexes
+]
 
+{ #category : 'accessing' }
+ToInfiniteElement >> selectionStrategy [
+
+	^ selectionStrategy
 ]
 
 { #category : 'private' }

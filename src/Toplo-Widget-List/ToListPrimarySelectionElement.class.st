@@ -40,6 +40,7 @@ ToListPrimarySelectionElement >> initialize [
 	backgroundElement := ToElement new matchParent.
 	self background: Color transparent.
 	backgroundElement background: self theme item selectedColor.
+	backgroundElement geometry: self defaultGeometry.
 	self addChild: backgroundElement
 ]
 

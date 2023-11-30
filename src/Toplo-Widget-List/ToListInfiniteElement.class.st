@@ -67,7 +67,7 @@ ToListInfiniteElement >> defaultListNodeFactory [
 { #category : 'initialization' }
 ToListInfiniteElement >> defaultMargin [
 
-	^ BlInsets all: 0
+	^ BlInsets empty
 ]
 
 { #category : 'initialization' }

@@ -355,7 +355,8 @@ Here an example of a client for a method.
 	album whenSaveRequestedDo: [ :saveRequested | saveRequested client saveResult: true ].
 	album whenCancelRequestedDo: [ :cancelRequested | cancelRequested client text: text copy ].
 	
-	menuBuilder := [ :menu :element |
+	menuBuilder := [ :menu :request | | element |
+		element := request currentTarget.
 		menu addItem: (ToMenuItem new labelText: 'Select all'; whenClickedDo: [:event  | element selecter all; apply ]; yourself).
 		menu addItem: (ToMenuItem new labelText: 'Copy'; whenClickedDo: [:event  | element editor copySelected ]; yourself).
 		menu addItem: (ToMenuItem new labelText: 'Cut'; whenClickedDo: [:event  | element editor cutSelected ]; yourself).
@@ -987,21 +988,22 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		| r |
 		r := event indexes collect: [ :idx | idx asString , ':XXXXXX' ].
 		r do: [ :e | l data addFirst: e ] ].
-	menuFactory := [ :menu :widget |
-	               | selectedIndexes |
-	               selectedIndexes := widget secondarySelectionIndexes.
+	menuFactory := [ :menu :request |
+	               | selectedIndexes target | 
+						target := request currentTarget.
+	               selectedIndexes := request secondarySelectionIndexes.
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Add initial Items';
 			                whenClickedDo: [ :event |
-				                widget data addAll:
-						                ((1 to: 2000) collect: [ :p | 'AAAAAAAAAAA' ]) ]).
-	               widget data ifNotEmpty: [
+				                target data addAll:
+						                ((1 to: 2000) collect: [ :p | p asString, ' AAAAAAAAAAA' ]) ]).
+	               target data ifNotEmpty: [
 		               menu addItem: (ToMenuItem new
 				                labelText: 'Select all';
-				                whenClickedDo: [ :event | widget selectAll ]).
+				                whenClickedDo: [ :event | target selectAll ]).
 		               menu addItem: (ToMenuItem new
 				                labelText: 'Remove all';
-				                whenClickedDo: [ :event | widget data removeAll ];
+				                whenClickedDo: [ :event | target data removeAll ];
 				                yourself) ].
 	               selectedIndexes ifNotEmpty: [
 		               selectionMenu := ToMenu new.
@@ -1031,8 +1033,9 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert before';
 				                whenClickedDo: [ :event |
+					selectedIndexes traceCr.
 					                selectedIndexes do: [ :idx |
-							                widget data
+							                target data
 								                add: idx asString , ':XXXXXX'
 								                beforeIndex: idx ] ];
 				                yourself).
@@ -1040,9 +1043,10 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				                labelText: 'Insert after';
 				                whenClickedDo: [ :event |
 					                | nb |
+					selectedIndexes traceCr.
 					                nb := selectedIndexes size.
 					                selectedIndexes do: [ :idx |
-							                widget data
+							                target data
 								                add: idx asString , ':XXXXXX'
 								                afterIndex: idx + nb - 1 ] ];
 				                yourself).
@@ -1051,7 +1055,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				                labelText: 'Remove';
 				                whenClickedDo: [ :event |
 					                selectedIndexes ifNotEmpty: [
-							                widget data
+							                target data
 								                removeFrom: selectedIndexes first
 								                to: selectedIndexes last ] ];
 				                yourself).
@@ -1888,7 +1892,7 @@ ToSandBox class >> example_contextMenu [
 
 	| container |
 	container := ToElement new matchParent.
-	container contextMenu: [ :win :element |
+	container contextMenu: [ :win :request |
 		win addItem: (ToMenuItem new
 				 labelText: 'Open';
 				 whenClickedDo: [ self inform: 'Open' ];
@@ -2241,7 +2245,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	win := ToInnerWindow new title: 'Context menu Example'.
 	win width: 600.
 
-	win pane contextMenu: [ :menu :element |
+	win pane contextMenu: [ :menu :request |
 		menu addItem: (ToMenuItem new
 				 id: #openFile;
 				 labelText: 'Open file';
@@ -2318,7 +2322,7 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 
 	menu addItem: sub.
 
-	win pane contextMenu: [ :menu :element | ].
+	win pane contextMenu: [ :contextMenu :request | ].
 
 	bar := ToMenuBar new
 		       hMatchParent;

@@ -18,11 +18,8 @@ ToListSecondarySelectionElement >> hideSecondarySelection [
 	self removeFromParent
 ]
 
-{ #category : 'initialization' }
-ToListSecondarySelectionElement >> initialize [ 
+{ #category : 'secondary selection' }
+ToListSecondarySelectionElement >> showSecondarySelection [
 
-	super initialize.
-	"self background: Color red"
-
-
+	" nothing to do "
 ]

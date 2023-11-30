@@ -44,12 +44,6 @@ ToCheckbox >> disabledBackground [
 ]
 
 { #category : 'skin' }
-ToCheckbox >> disabledBorder [
-
-	^ Color transparent
-]
-
-{ #category : 'skin' }
 ToCheckbox >> hoveredBorder [ 
 
 	^ self defaultBorder

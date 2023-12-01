@@ -44,7 +44,7 @@ ToFilterDresserOnListWithPopupExperiment >> filterResultPlaceholder [
 ToFilterDresserOnListWithPopupExperiment >> listElement [
 
 	^ listElement ifNil: [
-		  listElement := ToListElement new
+		  listElement := ToList new
 			                 matchParent;
 			                 yourself ]
 ]
@@ -62,7 +62,7 @@ ToFilterDresserOnListWithPopupExperiment >> open [
 		          vExact: 80;
 		          yourself.
 	filler margin: (BlInsets all: 2).
-	listElement := ToListElement new matchParent.
+	listElement := ToList new matchParent.
 	listElement addEventHandler: (BlEventHandler
 			 on: BlTextInputEvent
 			 do: [ :anEvent | self popupTextFieldWith: anEvent text ]).

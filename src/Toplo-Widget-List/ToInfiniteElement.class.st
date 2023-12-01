@@ -183,7 +183,6 @@ ToInfiniteElement >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	
 	selectionStrategy := self defaultSelectionStrategy.
 	self privateData: ToObservableCollection new.
 	

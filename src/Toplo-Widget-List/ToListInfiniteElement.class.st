@@ -73,7 +73,7 @@ ToListInfiniteElement >> defaultMargin [
 { #category : 'initialization' }
 ToListInfiniteElement >> defaultPadding [
 
-	^ BlInsets all: 4
+	^ BlInsets empty
 ]
 
 { #category : 'initialization' }

@@ -2,25 +2,12 @@ Class {
 	#name : 'ToListElementContextMenuRequest',
 	#superclass : 'ToContextMenuRequest',
 	#instVars : [
-		'selectionIndexes',
-		'secondarySelectionIndexes'
+		'selectionIndexes'
 	],
 	#category : 'Toplo-Widget-List-core',
 	#package : 'Toplo-Widget-List',
 	#tag : 'core'
 }
-
-{ #category : 'accessing' }
-ToListElementContextMenuRequest >> secondarySelectionIndexes [
-
-	^ secondarySelectionIndexes
-]
-
-{ #category : 'accessing' }
-ToListElementContextMenuRequest >> secondarySelectionIndexes: aCollection [
-
-	secondarySelectionIndexes := aCollection
-]
 
 { #category : 'accessing' }
 ToListElementContextMenuRequest >> selectionIndexes [

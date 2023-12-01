@@ -10,10 +10,6 @@ Class {
 	#tag : 'core'
 }
 
-{ #category : 'event handling' }
-ToListSelectionElement >> blurEvent: anEvent [
-]
-
 { #category : 'accessing' }
 ToListSelectionElement >> borderColor [
 
@@ -33,24 +29,40 @@ ToListSelectionElement >> boundsFromSelectedNodes [
 	| first last top bottom |
 	first := nodes first.
 	last := nodes last.
-	top := self nodeBounds: first.
+	top := self boundsOfNode: first.
 	bottom := first = last
 		          ifTrue: [ top ]
-		          ifFalse: [ self nodeBounds: last ].
+		          ifFalse: [ self boundsOfNode: last ].
 	^ BlBounds origin: top origin corner: bottom corner
+]
+
+{ #category : 'private' }
+ToListSelectionElement >> boundsOfNode: aNode [
+	" compute local node bounds "
+
+	| bnds lpad tpad hgap vgap |
+	bnds := (aNode bounds inSpace inChild: listElement) bounds.
+	" expand to ensure a confortable context menu selection visual"
+	listElement isVertical
+		ifTrue: [
+			lpad := listElement next padding left.
+			tpad := listElement next padding top ]
+		ifFalse: [
+			lpad := aNode padding left.
+			tpad := aNode padding top ].
+	hgap := lpad > 0
+		        ifTrue: [ lpad - 1 ]
+		        ifFalse: [ 0 ].
+	vgap := tpad > 0
+		        ifTrue: [ 1 ]
+		        ifFalse: [ 0 ].
+	^ bnds expandBy: hgap @ vgap
 ]
 
 { #category : 'private' }
 ToListSelectionElement >> computeBounds [
 	" compute my bounds from my list of adjacent nodes. "
 
-	| first last top bottom |
-	first := nodes first.
-	last := nodes last.
-	top := self nodeBounds: first.
-	bottom := first = last
-		          ifTrue: [ top ]
-		          ifFalse: [ self nodeBounds: last ].
 	self bounds: self boundsFromSelectedNodes
 ]
 
@@ -67,12 +79,6 @@ ToListSelectionElement >> defaultGeometry [
 ]
 
 { #category : 'initialization' }
-ToListSelectionElement >> defaultHorizontalGap [
-
-	^ 0
-]
-
-{ #category : 'initialization' }
 ToListSelectionElement >> defaultLayout [
 
 	^ BlFrameLayout new
@@ -81,22 +87,7 @@ ToListSelectionElement >> defaultLayout [
 { #category : 'initialization' }
 ToListSelectionElement >> defaultPadding [
 
-	^ BlInsets all: 0
-]
-
-{ #category : 'initialization' }
-ToListSelectionElement >> defaultVerticalGap [
-
-
-	^ listElement isVertical ifTrue: [1] ifFalse: [ 0 ]
-]
-
-{ #category : 'event handling' }
-ToListSelectionElement >> focusEvent: anEvent [
-]
-
-{ #category : 'secondary selection' }
-ToListSelectionElement >> hideSecondarySelection [
+	^ BlInsets empty 
 ]
 
 { #category : 'initialization' }
@@ -123,30 +114,6 @@ ToListSelectionElement >> listElement [
 ToListSelectionElement >> listElement: aListElement [
 
 	listElement := aListElement
-]
-
-{ #category : 'private' }
-ToListSelectionElement >> nodeBounds: aNode [
-	" compute local node bounds "
-
-	| bnds |
-	bnds := aNode bounds inSpace bounds.
-	aNode globalBoundsToLocal: bnds.
-	aNode localBoundsToParent: bnds.
-	^ listElement isHorizontal
-		  ifTrue: [ bnds ]
-		  ifFalse: [
-			  ^ BlBounds
-				    origin:
-					    bnds origin
-					    - (self defaultHorizontalGap @ self defaultVerticalGap)
-					    - (listElement padding left @ 0)
-					    - (listElement infinite padding left @ 0)
-				    corner:
-					    bnds corner
-					    + (self defaultHorizontalGap @ self defaultVerticalGap)
-					    + (listElement padding right @ 0)
-					    + (listElement infinite padding right @ 0) ]
 ]
 
 { #category : 'accessing' }

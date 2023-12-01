@@ -19,8 +19,9 @@ ToLabelEditorWindowHandler >> defaulPositionHook [
 ToLabelEditorWindowHandler >> initialize [
 
 	super initialize.
-	self builder: [ :anchWin :label |
-		| ed |
+	self builder: [ :anchWin :request |
+		| ed label |
+		label := request currentTarget.
 		ed := label newEditor.
 		anchWin root addChild: ed.
 		ed text: label text copy ]

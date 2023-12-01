@@ -89,10 +89,8 @@ ToListElement >> initialize [
 
 	self layout: self defaultLayout.
 	self next: ToListInfiniteElement new.
-	self contextMenuWindowHandlerClass: ToListElementContextMenuWindowHandler.
-
+	self next padding: (BlInsets top: 1 left: 4 bottom: 1 right: 4).
 	self addEventHandler: ToListElementEventHandler new.
-	self addEventHandler: ToListElementSelectionManagementEventHandler new.
 	
 	"Also installs shared event distributors between the list element, 
 	the infinite, the data and the data source. 

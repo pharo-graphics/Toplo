@@ -69,7 +69,7 @@ ToComboBox >> defaultHeadElement [
 { #category : 'initialization' }
 ToComboBox >> defaultListElement [
 
-	^ ToListElement new
+	^ ToList new
 		  preserveSelectionOnFocused: false;
 		  in: [ :le | le infinite focusability: BlFocusability none ];
 		  geometry: (BlRoundedRectangleGeometry cornerRadius: 4);

@@ -183,6 +183,8 @@ ToInfiniteElement >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
+	self skinStateGeneratorClass ifNotNil: [ :cls |
+		self addEventHandler: cls new ].
 	selectionStrategy := self defaultSelectionStrategy.
 	self privateData: ToObservableCollection new.
 	
@@ -320,17 +322,6 @@ ToInfiniteElement >> offsetPositionRecordsForRemove: aStartPosition itemCount: a
 					offsetPositionForRemove: aStartPosition
 					itemCount: anItemCount ]
 			to: self ]
-]
-
-{ #category : 'private - focus' }
-ToInfiniteElement >> onGotFocus [ 
-
-
-]
-
-{ #category : 'private - focus' }
-ToInfiniteElement >> onLostFocus [ 
-
 ]
 
 { #category : 'accessing' }

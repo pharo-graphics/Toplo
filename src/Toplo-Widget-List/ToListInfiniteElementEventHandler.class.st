@@ -7,14 +7,6 @@ Class {
 }
 
 { #category : 'event handling' }
-ToListInfiniteElementEventHandler >> blurEvent: aBlurEvent [
-
-	| target |
-	target := aBlurEvent currentTarget.
-	target border: target defaultBlurBorder
-]
-
-{ #category : 'event handling' }
 ToListInfiniteElementEventHandler >> doubleClickEvent: anEvent [
 
 	| target |
@@ -33,23 +25,5 @@ ToListInfiniteElementEventHandler >> eventsToHandle [
 
 	^ {
 		  BlDoubleClickEvent.
-		  BlElementScrolledEvent.
-		  BlBlurEvent.
-		  BlFocusEvent }
-]
-
-{ #category : 'event handling' }
-ToListInfiniteElementEventHandler >> focusEvent: aFocusEvent [
-
-	| target |
-	target := aFocusEvent currentTarget.
-	target border: target defaultFocusBorder
-]
-
-{ #category : 'event handling' }
-ToListInfiniteElementEventHandler >> focusInEvent: aFocusEvent [
-
-	| target |
-	target := aFocusEvent currentTarget.
-	target border: target defaultFocusBorder
+		  BlElementScrolledEvent }
 ]

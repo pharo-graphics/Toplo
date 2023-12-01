@@ -38,29 +38,9 @@ ToListElement >> dataSourceSharedEvents [
 ]
 
 { #category : 'initialization' }
-ToListElement >> defaultBackground [
-
-	^ BlBackground paint: Color white
-]
-
-{ #category : 'initialization' }
 ToListElement >> defaultLayout [
 
 	^ BlFrameLayout new
-]
-
-{ #category : 'initialization' }
-ToListElement >> defaultMargin [
-
-	^ BlInsets all: 0
-]
-
-{ #category : 'initialization' }
-ToListElement >> defaultPadding [
-
-	" Must be 1 to see the focus frame AND to draw selection decoration correctly (not outside infinite bounds)  "
-	^ BlInsets all: 1
-
 ]
 
 { #category : 'orientation' }
@@ -89,7 +69,7 @@ ToListElement >> initialize [
 
 	self layout: self defaultLayout.
 	self next: ToListInfiniteElement new.
-	self next padding: (BlInsets top: 1 left: 4 bottom: 1 right: 4).
+	
 	self addEventHandler: ToListElementEventHandler new.
 	
 	"Also installs shared event distributors between the list element, 
@@ -109,11 +89,7 @@ ToListElement >> initialize [
 	self addChild: self next.
 	self infinite elevation: (BlRelativeElevation elevation: 10).
 
-	self matchParent.
-	self background: self defaultBackground.
-	self margin: self defaultMargin.
-	self padding: self defaultPadding.
-
+	self matchParent
 ]
 
 { #category : 'orientation' }
@@ -126,6 +102,12 @@ ToListElement >> isHorizontal [
 ToListElement >> isVertical [
 
 	^ self infinite layout isVertical
+]
+
+{ #category : 'skin' }
+ToListElement >> newRawSkin [ 
+
+	^ ToListElementSkin new
 ]
 
 { #category : 't - element with placeholder' }

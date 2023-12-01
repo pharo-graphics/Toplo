@@ -7,32 +7,6 @@ Class {
 }
 
 { #category : 'initialization' }
-ToListInfiniteElement >> defaultBackground [
-
-	^ Color transparent
-]
-
-{ #category : 'initialization' }
-ToListInfiniteElement >> defaultBlurBorder [
-
-	^ BlBorder
-			 paint: self defaultBorderColor
-			 width: self defaultBorderWidth
-]
-
-{ #category : 'initialization' }
-ToListInfiniteElement >> defaultBorderColor [ 
-
-	^ self theme editor borderColor
-]
-
-{ #category : 'initialization' }
-ToListInfiniteElement >> defaultBorderWidth [ 
-
-	^ 1
-]
-
-{ #category : 'initialization' }
 ToListInfiniteElement >> defaultDataSource [
 
 	^ ToListObservableCollectionDataSource new
@@ -45,35 +19,9 @@ ToListInfiniteElement >> defaultEventHandler [
 ]
 
 { #category : 'initialization' }
-ToListInfiniteElement >> defaultFocusBorder [
-
-	^ BlBorder
-			 paint: self defaultFocusBorderColor
-			 width: self defaultBorderWidth
-]
-
-{ #category : 'initialization' }
-ToListInfiniteElement >> defaultFocusBorderColor [
-
-	^ self theme editor focusedBorderColor
-]
-
-{ #category : 'initialization' }
 ToListInfiniteElement >> defaultListNodeFactory [
 
 	^ [ :node :holder | node addChild: ((ToLabel text: holder data asString) hMatchParent) ]
-]
-
-{ #category : 'initialization' }
-ToListInfiniteElement >> defaultMargin [
-
-	^ BlInsets empty
-]
-
-{ #category : 'initialization' }
-ToListInfiniteElement >> defaultPadding [
-
-	^ BlInsets empty
 ]
 
 { #category : 'initialization' }
@@ -86,11 +34,11 @@ ToListInfiniteElement >> holderClass [
 ToListInfiniteElement >> initialize [
 
 	super initialize.
-	self outskirts: BlOutskirts outside.
-	self padding: self defaultPadding.
-	self margin: self defaultMargin.
-	self clipChildren: true.
-	self border: self defaultBorder.
-	self background: self defaultBackground.
 	self addEventHandler: self defaultEventHandler
+]
+
+{ #category : 'skin' }
+ToListInfiniteElement >> newRawSkin [
+
+	^ ToListInfiniteElementSkin new
 ]

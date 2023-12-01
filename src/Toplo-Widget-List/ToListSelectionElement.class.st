@@ -10,18 +10,6 @@ Class {
 	#tag : 'core'
 }
 
-{ #category : 'accessing' }
-ToListSelectionElement >> borderColor [
-
-	^ Color gray
-]
-
-{ #category : 'accessing' }
-ToListSelectionElement >> borderWidth [
-
-	^ 1
-]
-
 { #category : 'private' }
 ToListSelectionElement >> boundsFromSelectedNodes [
 	" compute my bounds from my list of adjacent nodes. "
@@ -67,41 +55,10 @@ ToListSelectionElement >> computeBounds [
 ]
 
 { #category : 'initialization' }
-ToListSelectionElement >> defaultBorder [
-
-	^ BlBorder paint: self borderColor width: self borderWidth
-]
-
-{ #category : 'initialization' }
-ToListSelectionElement >> defaultGeometry [
-
-	^ BlRoundedRectangleGeometry cornerRadius: 5
-]
-
-{ #category : 'initialization' }
-ToListSelectionElement >> defaultLayout [
-
-	^ BlFrameLayout new
-]
-
-{ #category : 'initialization' }
-ToListSelectionElement >> defaultPadding [
-
-	^ BlInsets empty 
-]
-
-{ #category : 'initialization' }
-ToListSelectionElement >> initialize [ 
+ToListSelectionElement >> initialize [
 
 	super initialize.
-	self layout: self defaultLayout.
-	self geometry: self defaultGeometry.
-	self background: Color transparent.
-	self padding: self defaultPadding.
-	self border:	self defaultBorder.
-	self constraintsDo: [ :c | c ignoreByLayout ].
-	self outskirts: BlOutskirts inside
-
+	self constraintsDo: [ :c | c ignoreByLayout ]
 ]
 
 { #category : 'accessing' }
@@ -127,11 +84,4 @@ ToListSelectionElement >> nodes: aCollection [
 
 	nodes := aCollection.
 	self computeBounds
-]
-
-{ #category : 'private' }
-ToListSelectionElement >> nodesDo: aBlock [
-
-	self nodes ifNil: [ ^ self ].
-	self nodes do: aBlock
 ]

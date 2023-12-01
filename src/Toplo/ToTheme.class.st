@@ -54,13 +54,12 @@ ToTheme class >> defaultCheckboxBlankImage [
 { #category : 'accessing' }
 ToTheme class >> defaultColorPrimary [
 
-	^ Color blue
+	^ Color fromHexString: '#1677ff'
 ]
 
 { #category : 'accessing' }
 ToTheme class >> defaultTokenProperties [
 	" skin managing need a list of unique stamps . "
-
 
 	^ {
 		  (ToTokenProperty name: #'background-color' value: Color white).
@@ -145,7 +144,7 @@ ToTheme class >> defaultTokenProperties [
 			   value: (Color black alpha: 0.45)).
 		  (ToTokenProperty
 			   name: #'color-text-disabled'
-			   value: (Color lightGray)).
+			   value: Color lightGray).
 		  (ToTokenProperty
 			   name: #'color-text-heading'
 			   value: (Color black alpha: 0.88)).
@@ -159,9 +158,7 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'dash-array' value: #( 3 3 )).
 
 		  "#( 'SFMono-Regular' , Consolas , 'Liberation Mono', Menlo , Courier , monospace )"
-		  (ToTokenProperty
-			   name: #'font-family-code'
-			   value: 'SFMono-Regular').
+		  (ToTokenProperty name: #'font-family-code' value: 'SFMono-Regular').
 		  (ToTokenProperty name: #'font-size' value: 14).
 		  (ToTokenProperty name: #'font-size-H1' value: 38).
 		  (ToTokenProperty name: #'font-size-H2' value: 30).
@@ -191,7 +188,29 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'padding-content-H' value: 15).
 		  (ToTokenProperty name: #'padding-content-V' value: 4).
 		  (ToTokenProperty name: #'padding-content-V-S' value: 2).
-		  (ToTokenProperty name: #'padding-XS' value: 8) }
+		  (ToTokenProperty name: #'padding-XS' value: 8).
+
+		  (ToTokenProperty name: #'list-infinite-padding-H' value: 4).
+		  (ToTokenProperty name: #'list-infinite-padding-V' value: 1).
+
+		  (ToTokenProperty name: #'list-padding-H' value: 1).
+		  (ToTokenProperty name: #'list-padding-V' value: 1).
+		  (ToTokenProperty name: #'list-node-padding-H' value: 2).
+		  (ToTokenProperty name: #'list-node-padding-V' value: 1).
+
+		  (ToTokenProperty
+			   name: #'primary-selection-geometry-class'
+			   value: BlRoundedRectangleGeometry).
+		  (ToTokenProperty
+			   name: #'color-primary-selection-focused'
+			   value: self defaultColorPrimary).
+		  (ToTokenProperty
+			   name: #'color-primary-selection-unfocused'
+			   value: self defaultColorPrimary veryMuchLighter).
+		  (ToTokenProperty name: #'border-width-primary-selection' value: 1).
+		  (ToTokenProperty
+			   name: #'border-color-primary-selection'
+			   value: self defaultColorPrimary) }
 ]
 
 { #category : 'initialization' }

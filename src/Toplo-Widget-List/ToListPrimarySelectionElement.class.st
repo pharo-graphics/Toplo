@@ -6,21 +6,8 @@ Class {
 	#tag : 'core'
 }
 
-{ #category : 'initialization' }
-ToListPrimarySelectionElement >> blurEvent: anEvent [
+{ #category : 'skin' }
+ToListPrimarySelectionElement >> newRawSkin [ 
 
-	self background: Color lightGray lighter
-]
-
-{ #category : 'initialization' }
-ToListPrimarySelectionElement >> focusEvent: anEvent [
-
-	self background: Color lightGray
-]
-
-{ #category : 'initialization' }
-ToListPrimarySelectionElement >> initialize [ 
-
-	super initialize.
-	self background: Color lightGray
+	^ ToListPrimarySelectionElementSkin new
 ]

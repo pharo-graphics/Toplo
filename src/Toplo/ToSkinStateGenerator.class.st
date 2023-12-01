@@ -16,6 +16,8 @@ Class {
 
 { #category : 'focus events handling' }
 ToSkinStateGenerator >> blurEvent: anEvent [
+
+	self generateFocusStateFromEvent: anEvent
 ]
 
 { #category : 'checkable event handling' }
@@ -135,6 +137,8 @@ ToSkinStateGenerator >> eventsToHandleWhenDisabled [
 
 { #category : 'focus events handling' }
 ToSkinStateGenerator >> focusEvent: anEvent [
+
+	self generateFocusStateFromEvent: anEvent
 ]
 
 { #category : 'state generating' }
@@ -177,6 +181,15 @@ ToSkinStateGenerator >> generateEnablementStateFromEvent: anEvent [
 
 	target enqueueSkinState: (ToEnablementState new enabled:
 			 anEvent currentTarget isEnabled yourself)
+]
+
+{ #category : 'state generating' }
+ToSkinStateGenerator >> generateFocusStateFromEvent: anEvent [
+
+	target enqueueSkinState: (ToFocusState new
+			 focused: target isFocused
+			 yourself)
+
 ]
 
 { #category : 'state generating' }

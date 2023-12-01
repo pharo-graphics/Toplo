@@ -1,6 +1,9 @@
 Class {
 	#name : 'ToTooltipWindowHandler',
 	#superclass : 'ToAnchoredWindowHandler',
+	#instVars : [
+		'popupDelay'
+	],
 	#category : 'Toplo-Core-Tooltip',
 	#package : 'Toplo',
 	#tag : 'Core-Tooltip'
@@ -15,6 +18,12 @@ ToTooltipWindowHandler >> defaulPositionHook [
 ]
 
 { #category : 'accessing' }
+ToTooltipWindowHandler >> defaultPopupDelay [
+
+	^ 700 milliSeconds
+]
+
+{ #category : 'accessing' }
 ToTooltipWindowHandler >> elementEventHandlerClass [
 
 	^ ToElementWithTooltipEventHandler 
@@ -23,7 +32,13 @@ ToTooltipWindowHandler >> elementEventHandlerClass [
 { #category : 'accessing' }
 ToTooltipWindowHandler >> popupDelay [
 
-	^ 700 milliSeconds
+	^ popupDelay ifNil: [ popupDelay:= self defaultPopupDelay] 
+]
+
+{ #category : 'accessing' }
+ToTooltipWindowHandler >> popupDelay: aDuration [
+
+	popupDelay := aDuration asDuration
 ]
 
 { #category : 'accessing' }

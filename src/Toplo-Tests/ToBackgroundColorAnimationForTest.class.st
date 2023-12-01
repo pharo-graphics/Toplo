@@ -1,10 +1,12 @@
 Class {
-	#name : #ToBackgroundColorAnimationForTest,
-	#superclass : #ToPropertyAnimation,
-	#category : 'Toplo-Tests-Core-Theme'
+	#name : 'ToBackgroundColorAnimationForTest',
+	#superclass : 'ToPropertyAnimation',
+	#category : 'Toplo-Tests-Core-Theme',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-Theme'
 }
 
-{ #category : #writing }
+{ #category : 'writing' }
 ToBackgroundColorAnimationForTest >> newRawAnimationFor: anElement to: aValue [
 
 	^ BlTaskAction new action: [
@@ -12,13 +14,13 @@ ToBackgroundColorAnimationForTest >> newRawAnimationFor: anElement to: aValue [
 		  self property write: anElement to: anElement ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 ToBackgroundColorAnimationForTest >> stop [
 
 
 ]
 
-{ #category : #writing }
+{ #category : 'writing' }
 ToBackgroundColorAnimationForTest >> write: anObject to: anElement [
 
 	anElement enqueueTask: (BlTaskAction new action: [

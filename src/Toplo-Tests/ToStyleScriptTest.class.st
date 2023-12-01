@@ -2,12 +2,14 @@
 A ToStyleScriptTest is a test class for testing the behavior of ToStyleScript
 "
 Class {
-	#name : #ToStyleScriptTest,
-	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-StyleSheet'
+	#name : 'ToStyleScriptTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Tests-Core-StyleSheet',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-StyleSheet'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleScriptTest >> testAny [
 	" a rule with an And operator  "
 
@@ -16,7 +18,7 @@ ToStyleScriptTest >> testAny [
 	self assert: (selector isKindOf: ToUniversalSelector )
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleScriptTest >> testRuleWithAndSelector [
 	" a rule with an And operator  "
 
@@ -49,7 +51,7 @@ ToStyleScriptTest >> testRuleWithAndSelector [
 	self assert: (rule canBeAppliedTo: e)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleScriptTest >> testRuleWithSubRule [
 	" a rule with an And operator  "
 
@@ -69,7 +71,7 @@ ToStyleScriptTest >> testRuleWithSubRule [
 	self assert: (rule canBeFullyAppliedTo: parent forTheme: nil)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleScriptTest >> testRuleWithSubRule2 [
 	" a rule with an And operator  "
 

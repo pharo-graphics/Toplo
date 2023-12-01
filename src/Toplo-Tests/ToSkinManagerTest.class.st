@@ -2,21 +2,23 @@
 A ToThemeManagerTest is a test class for testing the behavior of ToThemeManager
 "
 Class {
-	#name : #ToSkinManagerTest,
-	#superclass : #ToParameterizedHostTest,
+	#name : 'ToSkinManagerTest',
+	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core-Theme'
+	#category : 'Toplo-Tests-Core-Theme',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-Theme'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 ToSkinManagerTest >> setUp [ 
 	super setUp.
 	space := self newTestingSpace
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testApplySkinInstallerIn [
 
 	| e sk |
@@ -33,7 +35,7 @@ ToSkinManagerTest >> testApplySkinInstallerIn [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testApplySkinInstallerIn2 [
 
 	| e |
@@ -48,7 +50,7 @@ ToSkinManagerTest >> testApplySkinInstallerIn2 [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testApplySkinUninstallerIn [
 
 	| e sk |
@@ -66,7 +68,7 @@ ToSkinManagerTest >> testApplySkinUninstallerIn [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testApplyStylesIn [
 
 	| e sk |
@@ -79,7 +81,7 @@ ToSkinManagerTest >> testApplyStylesIn [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testBorderBuilder [
 
 	| e  |
@@ -87,7 +89,7 @@ ToSkinManagerTest >> testBorderBuilder [
 	self assert: (e skinManager borderBuilder ) notNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testDefaultSkinIn [
 
 	| e sk |
@@ -102,7 +104,7 @@ ToSkinManagerTest >> testDefaultSkinIn [
 		equals: 0
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testHasPostponedRequestInstallSkin [
 
 	| e handlersNb |
@@ -128,7 +130,7 @@ ToSkinManagerTest >> testHasPostponedRequestInstallSkin [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testInstallSkinIn [
 
 	| e skin |
@@ -138,7 +140,7 @@ ToSkinManagerTest >> testInstallSkinIn [
 	self assert: e skinManager installedSkin notNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testInstalledSkin [
 
 	| e sk |
@@ -166,7 +168,7 @@ ToSkinManagerTest >> testInstalledSkin [
 		equals: 0
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testInstalledSkinDo [
 
 	| e sk cpt |
@@ -184,7 +186,7 @@ ToSkinManagerTest >> testInstalledSkinDo [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testIsRequestSkinPostponed [
 
 	| e |
@@ -197,7 +199,7 @@ ToSkinManagerTest >> testIsRequestSkinPostponed [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testIsRequestSkinPostponed2 [
 
 	| e |
@@ -210,7 +212,7 @@ ToSkinManagerTest >> testIsRequestSkinPostponed2 [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testIsSetUpForTheme [
 
 	| e theme skin |
@@ -226,7 +228,7 @@ ToSkinManagerTest >> testIsSetUpForTheme [
 	self assert: e skinManager themeClasses anyOne equals: ToRawTheme
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testOnInstalledIn [
 
 	| e |
@@ -240,7 +242,7 @@ ToSkinManagerTest >> testOnInstalledIn [
 	self assert: e skinInstaller isNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testPostponeRequestSkinIn [
 
 	| e handlersNb |
@@ -266,7 +268,7 @@ ToSkinManagerTest >> testPostponeRequestSkinIn [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testRegisterTheme [
 
 	| e |
@@ -278,7 +280,7 @@ ToSkinManagerTest >> testRegisterTheme [
 	self assert: e skinManager themeClasses anyOne = ToRawTheme
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testRequestInstaallSkinInWithChildren [
 
 	| e child childchild |
@@ -296,7 +298,7 @@ ToSkinManagerTest >> testRequestInstaallSkinInWithChildren [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testRequestInstallSkinIn [
 
 	| e  |
@@ -308,7 +310,7 @@ ToSkinManagerTest >> testRequestInstallSkinIn [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testRequestInstallSkinInWhenInSpace [
 
 	| e  |
@@ -320,7 +322,7 @@ ToSkinManagerTest >> testRequestInstallSkinInWhenInSpace [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testRequestSkinInWithChildrenWhenInSpace [
 
 	| e child childchild |
@@ -338,7 +340,7 @@ ToSkinManagerTest >> testRequestSkinInWithChildrenWhenInSpace [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testRequestUninstallSkinIn [
 
 	| e  |
@@ -363,7 +365,7 @@ ToSkinManagerTest >> testRequestUninstallSkinIn [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testRequestUninstallSkinInWithChildrenWithInstalledSkin [
 
 	| e child childchild |
@@ -409,7 +411,7 @@ ToSkinManagerTest >> testRequestUninstallSkinInWithChildrenWithInstalledSkin [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testRequestUninstallSkinInWithChildrenWithInstalledSkin2 [
 
 	| e child childchild |
@@ -451,7 +453,7 @@ ToSkinManagerTest >> testRequestUninstallSkinInWithChildrenWithInstalledSkin2 [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testRequestUninstallSkinInWithInstalledSkin [
 
 	| e |
@@ -475,7 +477,7 @@ ToSkinManagerTest >> testRequestUninstallSkinInWithInstalledSkin [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testSetSkinIn [
 
 	| e sk |
@@ -490,7 +492,7 @@ ToSkinManagerTest >> testSetSkinIn [
 	self assert: e skinManager skinInstaller isNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testSetSkinInWhenInSpace [
 
 	| e sk |
@@ -506,7 +508,7 @@ ToSkinManagerTest >> testSetSkinInWhenInSpace [
 	self assert: e skinManager skinInstaller notNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testSetUpForThemeIn [
 
 	| e theme  |
@@ -525,7 +527,7 @@ ToSkinManagerTest >> testSetUpForThemeIn [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testSetUpForThemeIn2 [
 
 	| e theme skin |
@@ -540,7 +542,7 @@ ToSkinManagerTest >> testSetUpForThemeIn2 [
 	self assert: e skinManager themeClasses anyOne = ToRawTheme
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testSkinInstaller [
 
 	| e child childchild |
@@ -560,7 +562,7 @@ ToSkinManagerTest >> testSkinInstaller [
 	self assert: childchild skinInstaller notNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testSkinInstaller2 [
 
 	| e child childchild |
@@ -580,7 +582,7 @@ ToSkinManagerTest >> testSkinInstaller2 [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testSkinStateQueue [
 
 	| e |
@@ -589,7 +591,7 @@ ToSkinManagerTest >> testSkinStateQueue [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testSkinUninstaller [
 
 	| e child childchild |
@@ -611,7 +613,7 @@ ToSkinManagerTest >> testSkinUninstaller [
 	self assert: childchild skinUninstaller isNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testSkinUninstallerWithToThemeChanged [
 
 	| e child childchild |
@@ -633,13 +635,13 @@ ToSkinManagerTest >> testSkinUninstallerWithToThemeChanged [
 	self assert: childchild skinUninstaller notNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testStyleSheet [
 
 	self testStyleSheetIn 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testStyleSheetChainIn [
 
 	| e child childchild childchildchild |
@@ -686,7 +688,7 @@ ToSkinManagerTest >> testStyleSheetChainIn [
 		equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testStyleSheetIn [
 
 	| e |
@@ -695,7 +697,7 @@ ToSkinManagerTest >> testStyleSheetIn [
 	self assert: e skinManager styleSheet notNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testTextAttributesBuilder [
 
 	| e  |
@@ -703,7 +705,7 @@ ToSkinManagerTest >> testTextAttributesBuilder [
 	self assert: (e skinManager textAttributesBuilder ) notNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testThemeClasses [
 
 	| e |
@@ -715,7 +717,7 @@ ToSkinManagerTest >> testThemeClasses [
 	self assert: e skinManager themeClasses anyOne = ToRawTheme
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToSkinManagerTest >> testUninstallSkinIn [
 
 	| e skin |

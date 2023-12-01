@@ -447,17 +447,20 @@ ToSkinStateGenerator >> startStillHoveredEvent: anEvent [
 { #category : 'still pressed - hovered' }
 ToSkinStateGenerator >> startStillPressedEvent: anEvent [
 
-	| startDelay space |
+	| startDelay space targetPos |
 	target space ifNil: [ ^ self ].
 	space := target space.
 	startDelay := target stillPressedStartDelay.
 	startDelay ifNil: [ ^ self ].
+	targetPos := target bounds inSpace bounds position.
 	stillPressedTask := [
 	                    startDelay asDelay wait.
 	                    [
 	                    space isOpened and: [
 		                    target space notNil and: [
-			                    anEvent isConsumed not ] ] ] whileTrue: [
+			                    anEvent isConsumed not and: [
+				                    target bounds inSpace bounds position
+				                    = targetPos ] ] ] ] whileTrue: [
 		                    self generateStillPressedStateFromEvent: anEvent.
 		                    (Delay forMilliseconds: 10) wait.
 		                    target spaceDo: [ :sp | sp requestNextPulse ] ] ]

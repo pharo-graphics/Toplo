@@ -2,15 +2,17 @@
 A ToElementTest is a test class for testing the behavior of ToElement
 "
 Class {
-	#name : #ToElementTest,
-	#superclass : #ToParameterizedHostTest,
+	#name : 'ToElementTest',
+	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core'
+	#category : 'Toplo-Tests-Core',
+	#package : 'Toplo-Tests',
+	#tag : 'Core'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 ToElementTest >> setUp [ 
 
 	super setUp.
@@ -18,7 +20,7 @@ ToElementTest >> setUp [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToElementTest >> testAddEventFilter [
 
 	| e  |
@@ -28,7 +30,7 @@ ToElementTest >> testAddEventFilter [
 		raise: Error
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToElementTest >> testAddEventHandler [
 
 	| e  |
@@ -38,7 +40,7 @@ ToElementTest >> testAddEventHandler [
 		raise: Error
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToElementTest >> testCheckEventFilter [
 
 	| e |
@@ -46,7 +48,7 @@ ToElementTest >> testCheckEventFilter [
 	e checkEventFilter: ToSkinStateGenerator new
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToElementTest >> testCheckEventHandler [
 
 	| e |
@@ -57,7 +59,7 @@ ToElementTest >> testCheckEventHandler [
 
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testDefaultSkin [
 	" check install/uninstall/initial states if defaultSkin: is used "
 
@@ -111,7 +113,7 @@ ToElementTest >> testDefaultSkin [
 	self assert: sk2 uninstallCpt equals: 0
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testOnAddedToParent [
 
 	| e container |
@@ -137,7 +139,7 @@ ToElementTest >> testOnAddedToParent [
 	self assert: e isDisabled
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testOnAddedToSceneGraph [
 
 	| e |
@@ -148,7 +150,7 @@ ToElementTest >> testOnAddedToSceneGraph [
 	self assert: (e skinInstaller isKindOf: ToSkinInstaller)
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testPostponeRequestSkin [
 
 	" check install/uninstall/initial states if setSkin: is used"
@@ -163,7 +165,7 @@ ToElementTest >> testPostponeRequestSkin [
 	self assert: e skinInstaller notNil
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testRequestSkin [
 
 	| e |
@@ -182,7 +184,7 @@ ToElementTest >> testRequestSkin [
 
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testSetSkin [
 
 	" check install/uninstall/initial states if setSkin: is used"
@@ -240,7 +242,7 @@ ToElementTest >> testSetSkin [
 
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testWithoutSkin [
 
 	| e |
@@ -266,7 +268,7 @@ ToElementTest >> testWithoutSkin [
 	self assert: e installedSkin  isNullSkin
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testWithoutSkinNonContamination [
 
 	" NullSkin is not contaminant: check if children are not impacted "
@@ -296,7 +298,7 @@ ToElementTest >> testWithoutSkinNonContamination [
 	self assert: childchild installedSkin notNil
 ]
 
-{ #category : #'test initialize' }
+{ #category : 'test initialize' }
 ToElementTest >> testWithoutSkinNonContamination2 [
 
 	" check if children are correctly impacted when they are added as child of their parent 

@@ -2,12 +2,14 @@
 A TToStyleRuleHolderTest is a test class for testing the behavior of TToStyleRuleHolder
 "
 Class {
-	#name : #TToStyleRulesHolderTest,
-	#superclass : #TestCase,
-	#category : 'Toplo-Tests-Core-StyleSheet'
+	#name : 'TToStyleRulesHolderTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Tests-Core-StyleSheet',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-StyleSheet'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToStyleRulesHolderTest >> testAddAllStyleRules [
 
 	| e |
@@ -19,7 +21,7 @@ TToStyleRulesHolderTest >> testAddAllStyleRules [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToStyleRulesHolderTest >> testAddStyleRule [
 
 	| e |
@@ -28,7 +30,7 @@ TToStyleRulesHolderTest >> testAddStyleRule [
 	self assert: e styleRules size equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TToStyleRulesHolderTest >> testStyleRules [
 
 	| e |

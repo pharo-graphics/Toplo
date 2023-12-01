@@ -2,21 +2,23 @@
 A ToStyleSheetTest is a test class for testing the behavior of ToStyleSheet
 "
 Class {
-	#name : #ToStyleSheetBazarTest,
-	#superclass : #ToParameterizedHostTest,
+	#name : 'ToStyleSheetBazarTest',
+	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core-StyleSheet'
+	#category : 'Toplo-Tests-Core-StyleSheet',
+	#package : 'Toplo-Tests',
+	#tag : 'Core-StyleSheet'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 ToStyleSheetBazarTest >> setUp [ 
 	super setUp.
 	space := self newTestingSpace
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 
 	| ss button labelSkin attributes foregroundAttr prop writers label ssi |
@@ -90,7 +92,7 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 		equals: (button tokenValueNamed: #'color-error')
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleSheetBazarTest >> testButtonSkin0 [
 
 	| ss button skin labelSkin attributes foregroundAttr writers label ssi nb |
@@ -210,7 +212,7 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 		equals: (button label tokenValueNamed: #'color-error')
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleSheetBazarTest >> testButtonSkinWithInterspace [
 
 	| ss elem writers skin interspaceProp layoutProp ssi |
@@ -248,7 +250,7 @@ ToStyleSheetBazarTest >> testButtonSkinWithInterspace [
 	self assert: elem layout interspace equals: 10
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleSheetBazarTest >> testEmptyStyleSheet [
 
 	| ss ssi |
@@ -257,7 +259,7 @@ ToStyleSheetBazarTest >> testEmptyStyleSheet [
 	self assert: (ssi applicableWritersFor: (ToElement new)) isEmpty
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleSheetBazarTest >> testNewStyleSheetWith2Rules [
 
 	| styleSheet elem |
@@ -292,7 +294,7 @@ ToStyleSheetBazarTest >> testNewStyleSheetWith2Rules [
 			}" }
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleSheetBazarTest >> testSkinWithAnUniversalRule [
 
 	| ss elem skin writers ssi |
@@ -317,7 +319,7 @@ ToStyleSheetBazarTest >> testSkinWithAnUniversalRule [
 	self assert: elem background paint color equals: Color red
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleSheetBazarTest >> testSkinWithChildRule [
 	" with a direct child "
 
@@ -356,7 +358,7 @@ ToStyleSheetBazarTest >> testSkinWithChildRule [
 	self assert: child border paint color equals: Color red
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleSheetBazarTest >> testSkinWithChildRuleLevel2 [
 	" with a direct child "
 
@@ -397,7 +399,7 @@ ToStyleSheetBazarTest >> testSkinWithChildRuleLevel2 [
 	self assert: child border paint color equals: Color red
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ToStyleSheetBazarTest >> testSkinWithIdRule [
 
 	| ss elem writers skin ssi |
@@ -426,7 +428,7 @@ ToStyleSheetBazarTest >> testSkinWithIdRule [
 	self assert: elem border paint color equals: Color red
 ]
 
-{ #category : #'tests - style sheet style' }
+{ #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyle0 [
 
 	| ss button skin writers ssi rules |
@@ -463,7 +465,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyle0 [
 	self assert: button background paint color equals: Color black
 ]
 
-{ #category : #'tests - style sheet style' }
+{ #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 
 	| ss button skin writers ssi rules |
@@ -524,7 +526,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 		equals: (Color red alpha: 0.1)
 ]
 
-{ #category : #'tests - style sheet style' }
+{ #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules1 [
 
 	| ss elem child childchild1 childchild2 skin writers ssi rules |
@@ -571,7 +573,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules1 [
 	self assert: child background paint color equals: Color red
 ]
 
-{ #category : #'tests - style sheet style' }
+{ #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules2 [
 
 	| ss elem child childchild1 childchild2 skin writers ssi rules |
@@ -621,7 +623,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules2 [
 	self assert: child background paint color equals: Color red
 ]
 
-{ #category : #'tests - style sheet style' }
+{ #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules22 [
 
 	| ss elem child childchild1 childchild2 skin writers ssi rules |
@@ -672,7 +674,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules22 [
 	self assert: child background paint color equals: Color red
 ]
 
-{ #category : #'tests - style sheet style' }
+{ #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules3 [
 
 	| ss elem child childchild1 childchild2 skin writers ssi rules |
@@ -725,7 +727,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules3 [
 	self assert: child background paint color equals: Color red
 ]
 
-{ #category : #'tests - style sheet style' }
+{ #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules32 [
 
 	| ss elem child childchild1 childchild2 skin writers ssi rules |
@@ -786,7 +788,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules32 [
 	self assert: child background paint color equals: Color red
 ]
 
-{ #category : #'tests - style sheet style' }
+{ #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules33 [
 
 	| ss elem child childchild1 childchild2 skin writers ssi rules |
@@ -836,7 +838,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules33 [
 	self assert: child background paint color equals: Color red
 ]
 
-{ #category : #'tests - style sheet style' }
+{ #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules1 [
 
 	| ss elem child childchild1 childchild2 skin writers ssi rules |
@@ -877,7 +879,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules1 [
 	self assert: child background paint color equals: Color red
 ]
 
-{ #category : #'tests - style sheet style' }
+{ #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules2 [
 
 	| ss elem child childchild1 childchild2 skin writers ssi rules |
@@ -919,7 +921,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules2 [
 	self assert: child background paint color equals: Color red
 ]
 
-{ #category : #'tests - style sheet style' }
+{ #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules3 [
 
 	| ss elem child childchild1 childchild2 skin writers ssi rules |
@@ -965,7 +967,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules3 [
 	self assert: child background paint color equals: Color red
 ]
 
-{ #category : #'tests - style sheet style' }
+{ #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 
 	| ss elem child childchild1 childchild2 writers ssi rules skin |

@@ -214,6 +214,13 @@ ToLabeledIcon >> interspace: aPoint [
 ]
 
 { #category : 'testing' }
+ToLabeledIcon >> isExact [
+
+	^ self constraints vertical resizer isExact and: [
+		  self constraints horizontal resizer isExact ]
+]
+
+{ #category : 'testing' }
 ToLabeledIcon >> isFlexible [
 
 	^ self flexible

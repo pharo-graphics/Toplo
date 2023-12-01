@@ -2,15 +2,17 @@
 A ToLabeledIconEventHandlerTest is a test class for testing the behavior of ToLabeledIconEventHandler
 "
 Class {
-	#name : #ToLabeledIconEventHandlerTest,
-	#superclass : #ToParameterizedHostTest,
+	#name : 'ToLabeledIconEventHandlerTest',
+	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core'
+	#category : 'Toplo-Tests-Core',
+	#package : 'Toplo-Tests',
+	#tag : 'Core'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 ToLabeledIconEventHandlerTest >> setUp [ 
 
 	super setUp.
@@ -18,7 +20,7 @@ ToLabeledIconEventHandlerTest >> setUp [
 
 ]
 
-{ #category : #'layout constraints' }
+{ #category : 'layout constraints' }
 ToLabeledIconEventHandlerTest >> testDirection [
 
 	| li |
@@ -46,7 +48,7 @@ ToLabeledIconEventHandlerTest >> testDirection [
 
 ]
 
-{ #category : #'layout constraints' }
+{ #category : 'layout constraints' }
 ToLabeledIconEventHandlerTest >> testLayoutDirectionChangedEvent [
 
 	| li |
@@ -74,7 +76,7 @@ ToLabeledIconEventHandlerTest >> testLayoutDirectionChangedEvent [
 
 ]
 
-{ #category : #'layout constraints' }
+{ #category : 'layout constraints' }
 ToLabeledIconEventHandlerTest >> testLayoutOrientationChangedEvent [
 
 	| li |
@@ -102,7 +104,7 @@ ToLabeledIconEventHandlerTest >> testLayoutOrientationChangedEvent [
 
 ]
 
-{ #category : #'layout constraints' }
+{ #category : 'layout constraints' }
 ToLabeledIconEventHandlerTest >> testOrientation [
 
 	| li |
@@ -126,7 +128,7 @@ ToLabeledIconEventHandlerTest >> testOrientation [
 
 ]
 
-{ #category : #'layout constraints' }
+{ #category : 'layout constraints' }
 ToLabeledIconEventHandlerTest >> testlayoutConstraintsChangedEvent [
 
 	| li |

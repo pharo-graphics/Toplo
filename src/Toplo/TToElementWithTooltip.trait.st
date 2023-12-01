@@ -105,6 +105,19 @@ TToElementWithTooltip >> tooltipContent: anElement [
 ]
 
 { #category : 't - element with tooltip' }
+TToElementWithTooltip >> tooltipPopupDelay [
+	
+	^ self userData at: #tooltipPopupDelay ifAbsent: [  ]
+]
+
+{ #category : 't - element with tooltip' }
+TToElementWithTooltip >> tooltipPopupDelay: aDuration [
+	
+	self userData at: #tooltipPopupDelay put: aDuration.
+	self rawTooltipWindowHandler ifNotNil: [ :h | h popupDelay: aDuration ]
+]
+
+{ #category : 't - element with tooltip' }
 TToElementWithTooltip >> tooltipString: aString [
 
 	"Set a help string to display to the user if he let the mouse over the widget (a tooltip)."
@@ -126,6 +139,7 @@ TToElementWithTooltip >> tooltipWindowHandler [
 	^ self userData at: #tooltipWindowHandler ifAbsentPut: [
 		  | handler |
 		  handler := ToTooltipWindowHandler new.
+		  self tooltipPopupDelay ifNotNil: [ :d | handler popupDelay: d ].
 		  handler
 			  element: self;
 			  yourself ]

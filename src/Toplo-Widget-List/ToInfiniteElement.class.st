@@ -118,10 +118,10 @@ ToInfiniteElement >> deselectIndex: anIndex [
 		to: self
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'scrolled event' }
 ToInfiniteElement >> disableScrolledEvent [
 
-	self eventDispatcher disableEventType: BlMouseWheelEvent 
+	self eventDispatcher disableScrolledEvent 
 ]
 
 { #category : 'selection events' }
@@ -142,10 +142,10 @@ ToInfiniteElement >> dispatchStrongSelectionChanged [
 	self dispatchEvent: (ToListStrongSelectionEvent indexes: self primarySelectionIndexes)
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'scrolled event' }
 ToInfiniteElement >> enableScrolledEvent [
 
-	self eventDispatcher enableEventType: BlMouseWheelEvent  
+	self eventDispatcher enableScrolledEvent 
 ]
 
 { #category : 'selection events' }

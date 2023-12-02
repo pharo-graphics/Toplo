@@ -21,13 +21,13 @@ ToPropertyIndex >> addProperty: anElementProperty [
 	self index at: anElementProperty name asSymbol put: anElementProperty
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 ToPropertyIndex >> allProperties [
 
 	^ self index associations
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 ToPropertyIndex >> allPropertyNames [
 
 	^ self index keys

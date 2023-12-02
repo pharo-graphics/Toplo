@@ -213,6 +213,17 @@ ToElementTest >> testInstallNewSkinNow [
 ]
 
 { #category : 'test initialize' }
+ToElementTest >> testInstallNewSkinNowForANonAttachedElementShouldRaiseError [
+
+	| e  |
+	e := ToElement new.
+	" now try to force a new skin installation -> error 
+	because the element is not attached "
+	self should: [ e installNewSkinNow ] raise: Error.
+
+]
+
+{ #category : 'test initialize' }
 ToElementTest >> testOnAddedToParent [
 
 	| e container |

@@ -8,13 +8,19 @@ Trait {
 { #category : 't - stamps holder' }
 TToStampsHolder >> addAllStamps: aSymbolCollection [
 
-	self stampIndex addAllProperties: (aSymbolCollection collect: [ :s | s-> true ])
+	self stampIndex addAllProperties: (aSymbolCollection collect: [ :s | (s-> true) asStampProperty ])
 ]
 
 { #category : 't - stamps holder' }
 TToStampsHolder >> addStamp: aSymbol [
 
-	self stampIndex addProperty: (aSymbol -> true)
+	self stampIndex addProperty: (aSymbol -> true) asStampProperty
+]
+
+{ #category : 't - stamps holder' }
+TToStampsHolder >> addStamp: aSymbol value: anObject [
+
+	self stampIndex addProperty: (aSymbol -> anObject) asStampProperty
 ]
 
 { #category : 't - stamps holder' }
@@ -71,4 +77,19 @@ TToStampsHolder >> stampIndex [
 	^ self rawStampIndex ifNil: [
 		  self rawStampIndex: ToPropertyIndexWithChangedAction new.
 		  self rawStampIndex ]
+]
+
+{ #category : 't - stamps holder' }
+TToStampsHolder >> stampPropertyNamed: aSymbol [
+
+	^ self stampIndex
+		  propertyNamed: aSymbol
+		  ifAbsent: [
+		  Error signal: 'Trying to get an undeclared stamp property' ]
+]
+
+{ #category : 't - stamps holder' }
+TToStampsHolder >> stampValue: aSymbol [
+
+	^ (self stampPropertyNamed: aSymbol) value
 ]

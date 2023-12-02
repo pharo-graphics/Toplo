@@ -7,6 +7,15 @@ String >> asElementSelector [
 ]
 
 { #category : '*Toplo' }
+String >> asStampProperty [
+
+	^ ToStampProperty new
+		  name: self asSymbol;
+		  value: true;
+		  yourself
+]
+
+{ #category : '*Toplo' }
 String >> asTokenProperty [
 
 	^ ToTokenProperty new

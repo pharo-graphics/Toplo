@@ -29,6 +29,28 @@ ToStyleStoreTest >> testAddAllStamps [
 
 ]
 
+{ #category : 'token properties' }
+ToStyleStoreTest >> testAddAllTokenProperties [
+
+	| e s |
+	e := BlElement new.
+	e toStyleStore addAllTokenProperties: {
+			(#color1 -> Color blue) asTokenProperty.
+			(#color2 -> Color red) asTokenProperty }.
+	self assert:
+		(s := e toStyleStore localTokenPropertyNamed: #color1) notNil.
+	self assert:
+		(s := e toStyleStore localTokenPropertyNamed: #color2) notNil.
+	self assert: e toStyleStore tokenPropertyIndex size equals: 2.
+	e toStyleStore addAllTokenProperties: {
+			(#color1 -> Color white) asTokenProperty.
+			(#color2 -> Color yellow) asTokenProperty }.
+	self assert: e toStyleStore tokenPropertyIndex size equals: 2.
+	self assert: (e toStyleStore tokenPropertyNamed: #color1) value equals: Color white.
+	self assert: (e toStyleStore tokenPropertyNamed: #color2) value equals: Color yellow.
+
+]
+
 { #category : 'stamps' }
 ToStyleStoreTest >> testAddStamp [
 
@@ -66,6 +88,45 @@ ToStyleStoreTest >> testAddTokenProperty [
 	self assert: s2 value equals: Color red.
 	self assert: s ~~ s2.
 	self assert: e toStyleStore tokenPropertyIndex size equals: 1
+]
+
+{ #category : 'stamps' }
+ToStyleStoreTest >> testAllStamps [
+
+	| e |
+	e := BlElement new.
+	e toStyleStore addAllStamps: {  }.
+	self assert: e toStyleStore allStamps isEmpty.
+	e toStyleStore addAllStamps: { #color. #background }.
+	self assert: e toStyleStore allStamps size equals: 2.
+	self assert: (e toStyleStore hasStamp: #color).	
+	self assert: (e toStyleStore hasStamp: #background)
+]
+
+{ #category : 'stamps' }
+ToStyleStoreTest >> testHasAllStamps [
+
+	| e |
+	e := BlElement new.
+	e toStyleStore addAllStamps: {  }.
+	self assert: e toStyleStore allStamps isEmpty.
+	e toStyleStore addAllStamps: { #color. #background }.
+	self assert: (e toStyleStore hasAllStamps: { #color. #background }).	
+	self deny: (e toStyleStore hasAllStamps: { #something. #background }).	
+
+]
+
+{ #category : 'stamps' }
+ToStyleStoreTest >> testHasStamp [
+
+	| e |
+	e := BlElement new.
+	e toStyleStore addAllStamps: {  }.
+	self assert: e toStyleStore allStamps isEmpty.
+	e toStyleStore addAllStamps: { #color. #background }.
+	self assert: (e toStyleStore hasStamp: #color ).	
+	self deny: (e toStyleStore hasStamp: #something ).	
+
 ]
 
 { #category : 'token properties' }
@@ -136,6 +197,20 @@ ToStyleStoreTest >> testRemoveAllStamps [
 ]
 
 { #category : 'stamps' }
+ToStyleStoreTest >> testRemoveAllStamps2 [
+
+	| e |
+	e := BlElement new.
+	e toStyleStore addStamp: (#color1).
+	e toStyleStore addStamp: (#color2 ).
+	e toStyleStore addStamp: (#color3).
+	e toStyleStore addStamp: (#color4 ).
+	self assert: e toStyleStore allStamps size equals: 4.
+	e toStyleStore removeAllStamps: { #color1. #color3 }.
+	self assert: e toStyleStore allStamps asSet equals: #(#color2 #color4) asSet
+]
+
+{ #category : 'stamps' }
 ToStyleStoreTest >> testRemoveStamp [
 
 	| e |
@@ -198,6 +273,31 @@ ToStyleStoreTest >> testRemoveTokenPropertyNamed4 [
 	self assert: e toStyleStore tokenPropertyIndex isEmpty.
 
 
+]
+
+{ #category : 'stamps' }
+ToStyleStoreTest >> testStampPropertyNamed [
+
+	| e |
+	e := BlElement new.
+	e toStyleStore addStamp: #color.
+	e toStyleStore addStamp: #background.
+	self assert: ((e toStyleStore stampPropertyNamed: #color) isKindOf: ToStampProperty).
+	self should: [ e e toStyleStore stampPropertyNamed: #something ] raise: Error
+]
+
+{ #category : 'stamps' }
+ToStyleStoreTest >> testStampValue [
+
+	| e |
+	e := BlElement new.
+	e toStyleStore addStamp: #color value: Color blue.
+	e toStyleStore addStamp: #background value: Color red.
+	e toStyleStore addStamp: #primary.
+	self assert: (e toStyleStore stampValue: #color) equals: Color blue.
+	self assert: (e toStyleStore stampValue: #background) equals: Color red.
+	self assert: (e toStyleStore stampValue: #primary) equals: true.
+	self should: [ e toStyleStore stampValue: #something ] raise: Error
 ]
 
 { #category : 'token properties' }

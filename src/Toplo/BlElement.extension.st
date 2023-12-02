@@ -20,6 +20,13 @@ BlElement >> addStamp: aSymbol [
 ]
 
 { #category : '*Toplo' }
+BlElement >> addStamp: aSymbol value: anObject [
+
+
+	self toStyleStore addStamp: aSymbol value: anObject
+]
+
+{ #category : '*Toplo' }
 BlElement >> applySkinInstaller [
 
 	self skinManager applySkinUninstallerIn: self.
@@ -245,6 +252,12 @@ BlElement >> setSkin: aSkin [
 ]
 
 { #category : '*Toplo' }
+BlElement >> setStamp: aSymbol value: anObject [
+
+	self toStyleStore addStamp: aSymbol value: anObject
+]
+
+{ #category : '*Toplo' }
 BlElement >> setToken: aTokenProperty [
 
 	self toStyleStore addTokenProperty: aTokenProperty asTokenProperty 
@@ -302,6 +315,12 @@ BlElement >> skinUninstaller [
 BlElement >> skinUninstaller: aSkinUninstaller [
 
 	self skinManager skinUninstaller: aSkinUninstaller
+]
+
+{ #category : '*Toplo' }
+BlElement >> stampValueNamed: aSymbol [
+
+	^ self toStyleStore stampValue: aSymbol
 ]
 
 { #category : '*Toplo' }

@@ -210,6 +210,12 @@ ToSkinManager >> setUpForTheme: aTheme in: anElement [
 ]
 
 { #category : 'accessing' }
+ToSkinManager >> skinInstallRequestCount [ 
+
+	^ skinInstallRequestCount
+]
+
+{ #category : 'accessing' }
 ToSkinManager >> skinInstaller [ 
 
 	^ skinInstaller 

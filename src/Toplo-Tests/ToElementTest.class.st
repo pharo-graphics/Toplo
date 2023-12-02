@@ -40,6 +40,79 @@ ToElementTest >> testAddEventHandler [
 		raise: Error
 ]
 
+{ #category : 'test initialize' }
+ToElementTest >> testApplySkinInstallerOnFirstRequest [
+
+	| e |
+	e := ToElement new.
+	e applySkinInstallerOnFirstRequest: false.
+	space root addChild: e.
+	self assert: e skinInstaller notNil.
+	self assert: e installedSkin isNil.
+	space applyAllSkinInstallers.
+	self assert: e skinInstaller isNil.
+	self assert: e installedSkin notNil.
+
+	e := ToElement new.
+	e applySkinInstallerOnFirstRequest: true.
+	space root addChild: e.
+	self assert: e skinInstaller isNil.
+	self assert: e installedSkin notNil.
+	space applyAllSkinInstallers.
+	self assert: e skinInstaller isNil.
+	self assert: e installedSkin notNil.
+	
+
+
+]
+
+{ #category : 'test initialize' }
+ToElementTest >> testApplySkinInstallerOnFirstRequestButWithNoEffect [
+
+	| e |
+	e := ToElement new.
+	space root addChild: e.
+	" asking to apply the skin installer on first request after it has been already requested has no effect.
+	Indeed, the better place for a send applySkinInstallerOnFirstRequest: is in the initialize method
+	to be sure it will have an effect on the first requestInstallSkin "
+	self assert: e skinManager skinInstallRequestCount equals: 1.
+	e applySkinInstallerOnFirstRequest: true.
+	" have a skin installer"
+	self assert: e skinInstaller notNil.
+	" and to not have an installed skin -> illustrates no effect of applySkinInstallerOnFirstRequest: "
+	self assert: e installedSkin isNil.
+	e requestInstallSkin.
+	self assert: e skinInstaller notNil.
+	self assert: e installedSkin isNil.
+
+]
+
+{ #category : 'test initialize' }
+ToElementTest >> testApplySkinInstallerOnFirstRequestWithPostponedRequest [
+
+	| e |
+	e := ToElement new.
+	e applySkinInstallerOnFirstRequest: true.
+	e requestInstallSkin.
+	" request install skin should be posponed here "
+	self assert: e skinManager hasPostponedRequestInstallSkin.
+	self assert: e skinManager skinInstallRequestCount equals: 0.
+	self assert: e skinInstaller isNil.
+	self assert: e installedSkin isNil.
+	space root addChild: e.
+	self assert: e skinManager skinInstallRequestCount > 1.
+	" the skin is installed "
+	self assert: e installedSkin notNil.
+	" but other install have been requested after the first installation :
+	- by the postponed request
+	- by the theme installation "
+	self assert: e skinInstaller notNil.
+	space applyAllSkinInstallers.
+	" now all is in normal state "
+	self assert: e skinInstaller isNil.
+	self assert: e installedSkin notNil
+]
+
 { #category : 'tests' }
 ToElementTest >> testCheckEventFilter [
 
@@ -111,6 +184,32 @@ ToElementTest >> testDefaultSkin [
 	self assert: sk2 installCpt equals: 1.
 	self assert: sk2 initialCpt equals: 1.
 	self assert: sk2 uninstallCpt equals: 0
+]
+
+{ #category : 'test initialize' }
+ToElementTest >> testInstallNewSkinNow [
+
+	| e skin |
+	e := ToElement new.
+	space root addChild: e.
+	self assert: e skinInstaller notNil.
+	self assert: e installedSkin isNil.
+	space applyAllSkinInstallers.
+	self assert: e skinInstaller isNil.
+	self assert: e installedSkin notNil.
+	skin := e installedSkin.
+	" now request a skin installation "
+	e requestInstallSkin.
+	self assert: e skinInstaller notNil.
+	" apply all skin installers "
+	space applyAllSkinInstallers.
+	" but the installation has no effect because there is already one skin installed "
+	self assert: e installedSkin identicalTo: skin.
+	" now force a new skin installation "
+	e installNewSkinNow.
+	self deny: e installedSkin identicalTo: skin.
+	self assert: e skinInstaller isNil.
+	self assert: e skinUninstaller isNil
 ]
 
 { #category : 'test initialize' }
@@ -240,6 +339,23 @@ ToElementTest >> testSetSkin [
 
 
 
+]
+
+{ #category : 'test initialize' }
+ToElementTest >> testSkinInstallRequestCount [
+
+	| e |
+	e := ToElement new.
+	self assert: e skinManager skinInstallRequestCount equals: 0.
+	e requestInstallSkin.
+	" request install skin should be posponed here "
+	self assert: e skinManager hasPostponedRequestInstallSkin.
+	self assert: e skinManager skinInstallRequestCount equals: 0.
+	space root addChild: e.
+	self assert: e skinManager skinInstallRequestCount > 1
+	" several install may be requested after the first installation :
+	- by the postponed request
+	- by the theme installation "
 ]
 
 { #category : 'test initialize' }

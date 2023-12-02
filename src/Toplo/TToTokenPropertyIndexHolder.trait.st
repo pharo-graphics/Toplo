@@ -49,7 +49,7 @@ TToTokenPropertyIndexHolder >> lookUpTokenPropertyNamed: aSymbol from: anElement
 { #category : 't - token property index holder' }
 TToTokenPropertyIndexHolder >> newTokenPropertyIndex [
 
-	^ ToTokenPropertyIndex new
+	^ ToPropertyIndexWithChangedAction new
 ]
 
 { #category : 't - token property index holder' }

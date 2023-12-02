@@ -12,7 +12,9 @@ Class {
 		'themeClasses',
 		'borderBuilder',
 		'textAttributesBuilder',
-		'skinManagementEventHandler'
+		'skinManagementEventHandler',
+		'skinInstallRequestCount',
+		'applySkinInstallerOnFirstRequest'
 	],
 	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
@@ -28,6 +30,18 @@ ToSkinManager >> applySkinInstallerIn: anElement [
 		" no installed skin and nothing to install it, hum, smell bad "
 		((anElement isKindOf: ToElement) and: [postponedRequestInstallSkin isNil and: [skinInstaller isNil ] ]) ifTrue: [
 			Error signal: 'A ToSkinManager has an invalid state' ] ]
+]
+
+{ #category : 'accessing' }
+ToSkinManager >> applySkinInstallerOnFirstRequest [
+
+	^ applySkinInstallerOnFirstRequest
+]
+
+{ #category : 'accessing' }
+ToSkinManager >> applySkinInstallerOnFirstRequest: aBoolean [
+
+	applySkinInstallerOnFirstRequest := aBoolean
 ]
 
 { #category : 'skin application' }
@@ -71,11 +85,28 @@ ToSkinManager >> hasPostponedRequestInstallSkin [
 	^ postponedRequestInstallSkin notNil
 ]
 
+{ #category : 'initialization' }
+ToSkinManager >> initialize [ 
+
+	super initialize.
+	skinInstallRequestCount := 0.
+	applySkinInstallerOnFirstRequest := false
+]
+
 { #category : 'accessing - skin' }
 ToSkinManager >> installSkin: aSkin in: anElement [
 
-	" have to add the skin as an event handler *** before *** dispatching UninstallStateRequest "
 	anElement dispatchEvent: (ToSkinInstallStateRequest new skin: aSkin; yourself)
+]
+
+{ #category : 'accessing - skin' }
+ToSkinManager >> installSkinNow: aSkin in: anElement [
+
+	anElement addEventHandler: aSkin.
+	aSkin onInstallStateRequestIn: anElement.
+	self skinStateQueue onSkinInstallStateRequestIn: anElement.
+	self skinStateQueue applyOn: anElement
+
 ]
 
 { #category : 'accessing - skin' }
@@ -134,14 +165,17 @@ ToSkinManager >> registerTheme: aTheme [
 
 { #category : 'accessing - skin' }
 ToSkinManager >> requestInstallSkinIn: anElement [
-
 	" first check for the space phases "
-	anElement space ifNil: [
-		^ self postponeRequestSkinIn: anElement ].
-	self skinInstaller ifNotNil: [ 
-		^ self ].
+
+	anElement space ifNil: [ ^ self postponeRequestSkinIn: anElement ].
+	skinInstallRequestCount := skinInstallRequestCount + 1.
+	(skinInstallRequestCount > 1 and: [ self skinInstaller notNil ])
+		ifTrue: [ ^ self ].
 	anElement space installSkinPhases.
-	self skinInstaller: ToSkinInstaller new
+	self skinInstaller: ToSkinInstaller new.
+	skinInstallRequestCount > 1 ifTrue: [ ^ self ].
+	self applySkinInstallerOnFirstRequest ifFalse: [ ^ self ].
+	self skinInstaller applyOn: anElement
 ]
 
 { #category : 'accessing - skin' }
@@ -152,6 +186,7 @@ ToSkinManager >> requestUninstallSkinIn: anElement [
 	Thus, to avoid infinite recurssion, do nothing if a skin installer is already installing"
 
 	| installer |
+	anElement installedSkin ifNil: [ ^ self ].
 	installer := self skinInstaller.
 	(installer notNil and: [ installer isInstalling ]) ifTrue: [ ^ self ].
 	self skinUninstaller ifNotNil: [ ^ self ].
@@ -250,5 +285,17 @@ ToSkinManager >> uninstallSkin: aSkin in: anElement [
 	" uninstall the skin "
 
 	anElement dispatchEvent: (ToSkinUninstallStateRequest new skin: aSkin; yourself).
+
+]
+
+{ #category : 'accessing - skin' }
+ToSkinManager >> uninstallSkinNow: aSkin in: anElement [
+
+	aSkin ifNil: [ ^ self ].
+	aSkin onUninstallStateRequestIn: anElement.
+	self skinStateQueue onSkinUninstallStateRequestIn: anElement.
+	" do not wait the next pulse to ensure the uninstallation is done here "
+	self skinStateQueue applyOn: anElement.
+	anElement removeEventHandler: aSkin
 
 ]

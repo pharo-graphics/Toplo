@@ -6,43 +6,43 @@ Trait {
 }
 
 { #category : 't - stamps holder' }
-TToStampsHolder >> addAllStamps: aSymbolCollect [
+TToStampsHolder >> addAllStamps: aSymbolCollection [
 
-	self stampSet addAll: aSymbolCollect
+	self stampIndex addAllProperties: (aSymbolCollection collect: [ :s | s-> true ])
 ]
 
 { #category : 't - stamps holder' }
 TToStampsHolder >> addStamp: aSymbol [
 
-	self stampSet add: aSymbol
+	self stampIndex addProperty: (aSymbol -> true)
 ]
 
 { #category : 't - stamps holder' }
 TToStampsHolder >> allStamps [
 
-	^ self stampSet asArray
+	^ self stampIndex allPropertyNames
 ]
 
 { #category : 't - stamps holder' }
 TToStampsHolder >> hasAllStamps: aSymbolCollection [
 
-	self stampSet includesAll: aSymbolCollection
+	^ aSymbolCollection allSatisfy: [ :s | self hasStamp: s ]
 ]
 
 { #category : 't - stamps holder' }
 TToStampsHolder >> hasStamp: aSymbol [
 
-	^ self stampSet includes: aSymbol
+	^ self stampIndex hasPropertyNamed: aSymbol
 ]
 
 { #category : 't - stamps holder' }
-TToStampsHolder >> rawStampSet [
+TToStampsHolder >> rawStampIndex [
 
 	^ self explicitRequirement 
 ]
 
 { #category : 't - stamps holder' }
-TToStampsHolder >> rawStampSet: aSet [
+TToStampsHolder >> rawStampIndex: aPropertyIndex [
 
 	self explicitRequirement 
 ]
@@ -50,25 +50,25 @@ TToStampsHolder >> rawStampSet: aSet [
 { #category : 't - stamps holder' }
 TToStampsHolder >> removeAllStamps [
 
-	self stampSet removeAll
+	self stampIndex removeAllProperties
 ]
 
 { #category : 't - stamps holder' }
-TToStampsHolder >> removeAllStamps: aSymbolCollect [
+TToStampsHolder >> removeAllStamps: aSymbolCollection [
 
-	self stampSet removeAll: aSymbolCollect
+	self stampIndex removeAllPropertyFromNames: aSymbolCollection
 ]
 
 { #category : 't - stamps holder' }
 TToStampsHolder >> removeStamp: aSymbol [
 
-	self stampSet remove: aSymbol
+	self stampIndex removePropertyNamed: aSymbol
 ]
 
 { #category : 't - stamps holder' }
-TToStampsHolder >> stampSet [
+TToStampsHolder >> stampIndex [
 
-	^ self rawStampSet ifNil: [
-		  self rawStampSet: ToStampSet new.
-		  self rawStampSet ]
+	^ self rawStampIndex ifNil: [
+		  self rawStampIndex: ToPropertyIndexWithChangedAction new.
+		  self rawStampIndex ]
 ]

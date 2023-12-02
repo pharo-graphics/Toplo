@@ -94,8 +94,7 @@ ToSkinStateQueue >> onSkinUninstallStateRequestIn: anElement [
 	previousInstallState := nil.
 	" store the uninstall state "
 	self enqueueStateRequest: ToUninstallState new for: anElement.
-	" do not wait the next pulse to ensure the uninstallation is done here "
-	self applyOn: anElement
+
 ]
 
 { #category : 'accessing' }

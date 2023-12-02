@@ -43,6 +43,7 @@ ToSkinInstallerTest >> testInstallSkinIn [
 	" if not theme is found in its parent chain, then an element must be attached to a space. 
 	If not, skin installation raises an Error because during skin installation the element theme is lookup "
 	space root addChild: e.
+	self assert: e skinInstaller notNil.
 	e skinInstaller applyOn: e.
 	self assert: e skinInstaller isNil.
 	self assert: e installedSkin notNil.

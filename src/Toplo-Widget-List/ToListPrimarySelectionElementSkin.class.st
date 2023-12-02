@@ -27,7 +27,7 @@ ToListPrimarySelectionElementSkin >> installLookEvent: anEvent [
 				 paint: (e tokenValueNamed: #'border-color-primary-selection')
 				 width: (e tokenValueNamed: #'border-width-primary-selection')).
 		e background:
-			(e tokenValueNamed: #'color-primary-selection-unfocused').
+			(e tokenValueNamed: #'color-primary-selection-focused').
 		e padding: (BlInsets
 				 horizontal: (e tokenValueNamed: #'list-padding-H')
 				 vertical: (e tokenValueNamed: #'list-padding-V')) ]

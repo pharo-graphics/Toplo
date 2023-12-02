@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToTokenPropertyIndexTest',
+	#name : 'ToPropertyIndexWithChangedActionTest',
 	#superclass : 'TestCase',
 	#category : 'Toplo-Tests-Core-Properties',
 	#package : 'Toplo-Tests',
@@ -7,11 +7,11 @@ Class {
 }
 
 { #category : 'tests' }
-ToTokenPropertyIndexTest >> testAddAllProperties [
+ToPropertyIndexWithChangedActionTest >> testAddAllProperties [
 
 	| idx count |
 	count := 0.
-	idx := ToTokenPropertyIndex new changedAction: [ count := count + 1 ].
+	idx := ToPropertyIndexWithChangedAction new changedAction: [ count := count + 1 ].
 	idx addAllProperties: { (ToTokenProperty new name: #color). (ToTokenProperty new name: #background) } .
 	self assert: idx size equals: 2.
 	self assert: count equals: 1.
@@ -25,11 +25,11 @@ ToTokenPropertyIndexTest >> testAddAllProperties [
 ]
 
 { #category : 'tests' }
-ToTokenPropertyIndexTest >> testAddProperty [
+ToPropertyIndexWithChangedActionTest >> testAddProperty [
 
 	| idx count |
 	count := 0.
-	idx := ToTokenPropertyIndex new changedAction: [ count := count + 1 ].
+	idx := ToPropertyIndexWithChangedAction new changedAction: [ count := count + 1 ].
 	idx addProperty: (ToTokenProperty new name: #color).
 	self assert: count equals: 1.
 	self assert: idx size equals: 1.
@@ -45,11 +45,11 @@ ToTokenPropertyIndexTest >> testAddProperty [
 ]
 
 { #category : 'tests' }
-ToTokenPropertyIndexTest >> testAddPropertyWithBlockClosure [
+ToPropertyIndexWithChangedActionTest >> testAddPropertyWithBlockClosure [
 
 	| idx count |
 	count := 0.
-	idx := ToTokenPropertyIndex new changedAction: [ count := count + 1 ].
+	idx := ToPropertyIndexWithChangedAction new changedAction: [ count := count + 1 ].
 	idx addProperty: (ToTokenProperty new name: #color; value: [:e | e defaultColor ] ).
 	self assert: count equals: 1.
 	self assert: idx size equals: 1.
@@ -65,10 +65,10 @@ ToTokenPropertyIndexTest >> testAddPropertyWithBlockClosure [
 ]
 
 { #category : 'tests' }
-ToTokenPropertyIndexTest >> testChangedAction [
+ToPropertyIndexWithChangedActionTest >> testChangedAction [
 
 	| idx action |
-	idx := ToTokenPropertyIndex new.
+	idx := ToPropertyIndexWithChangedAction new.
 	self assert: idx changedAction notNil.
 	self assert: idx changedAction isClosure.
 	action := [ ].
@@ -80,10 +80,10 @@ ToTokenPropertyIndexTest >> testChangedAction [
 ]
 
 { #category : 'tests' }
-ToTokenPropertyIndexTest >> testHasProperty [
+ToPropertyIndexWithChangedActionTest >> testHasProperty [
 
 	| idx  |
-	idx := ToTokenPropertyIndex new .
+	idx := ToPropertyIndexWithChangedAction new .
 	idx addProperty: (ToTokenProperty new name: #color1; value: Color blue ).
 	idx addProperty: (ToTokenProperty new name: #color2; value: [:e | e defaultColor ] ).
 	self assert: (idx hasProperty: (ToTokenProperty  new name: #color1; value: Color blue)).
@@ -98,21 +98,21 @@ ToTokenPropertyIndexTest >> testHasProperty [
 ]
 
 { #category : 'tests' }
-ToTokenPropertyIndexTest >> testInitialize [
+ToPropertyIndexWithChangedActionTest >> testInitialize [
 
 	| idx  |
-	idx := ToTokenPropertyIndex new.
+	idx := ToPropertyIndexWithChangedAction new.
 	self assert: idx changedAction notNil.
 	self assert: idx changedAction isClosure.
 		
 ]
 
 { #category : 'tests' }
-ToTokenPropertyIndexTest >> testRemoveAllProperties [
+ToPropertyIndexWithChangedActionTest >> testRemoveAllProperties [
 
 	| idx count |
 	count := 0.
-	idx := ToTokenPropertyIndex new changedAction: [ count := count + 1 ].
+	idx := ToPropertyIndexWithChangedAction new changedAction: [ count := count + 1 ].
 	idx removeAllProperties.
 	self assert: count equals: 0.
 	idx addAllProperties: {
@@ -127,11 +127,11 @@ ToTokenPropertyIndexTest >> testRemoveAllProperties [
 ]
 
 { #category : 'tests' }
-ToTokenPropertyIndexTest >> testRemovePropertyNamed [
+ToPropertyIndexWithChangedActionTest >> testRemovePropertyNamed [
 
 	| idx count |
 	count := 0.
-	idx := ToTokenPropertyIndex new changedAction: [ count := count + 1 ].
+	idx := ToPropertyIndexWithChangedAction new changedAction: [ count := count + 1 ].
 	idx addAllProperties: { (ToTokenProperty new name: #color). (ToTokenProperty new name: #background) } .
 	self assert: count equals: 1.
 	idx removePropertyNamed: #color.

@@ -27,6 +27,12 @@ BlElement >> applySkinInstaller [
 ]
 
 { #category : '*Toplo' }
+BlElement >> applySkinInstallerOnFirstRequest: aBoolean [
+
+	self skinManager applySkinInstallerOnFirstRequest: aBoolean
+]
+
+{ #category : '*Toplo' }
 BlElement >> applySkinInstallerRecursively [
 
 	self childrenDo: [ :child | child applySkinInstallerRecursively ].
@@ -124,6 +130,21 @@ BlElement >> holder [
 
 { #category : '*Toplo' }
 BlElement >> initialRawStyle [
+]
+
+{ #category : '*Toplo' }
+BlElement >> installNewSkinNow [
+
+	" useful for testing purpose. Except this case, do not use this feature that bypass the normal skinRequest/skinInstallation scheme"
+
+	self space ifNil: [
+		Error signal:
+			'A non attached element can''t ask for an immediate skin change ' ].
+	self requestUninstallSkin.
+	self skinUninstaller ifNotNil: [:su | su applyOn: self].
+	self requestInstallSkin.
+	self skinInstaller ifNotNil: [:si | si applyOn: self].
+	self spaceDo: [ :sp | sp requestNextPulse ]
 ]
 
 { #category : '*Toplo' }

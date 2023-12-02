@@ -6,6 +6,13 @@ Class {
 	#tag : 'core'
 }
 
+{ #category : 'initialization' }
+ToListPrimarySelectionElement >> initialize [ 
+
+	super initialize.
+	self applySkinInstallerOnFirstRequest: true
+]
+
 { #category : 'skin' }
 ToListPrimarySelectionElement >> newRawSkin [ 
 

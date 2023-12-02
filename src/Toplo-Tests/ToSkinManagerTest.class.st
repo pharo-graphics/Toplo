@@ -346,11 +346,13 @@ ToSkinManagerTest >> testRequestUninstallSkinIn [
 	| e  |
 	e := ToElement new.
 	e skinManager requestUninstallSkinIn: e.
-	self assert: e skinManager skinUninstaller notNil.
+	self assert: e installedSkin isNil.
+	self deny: e skinManager skinUninstaller notNil.
 	
 	" requestSkin has not effect on skinUninstaller "
 	e skinManager requestInstallSkinIn: e.
-	self assert: e skinManager skinUninstaller notNil.
+	self assert: e installedSkin isNil.
+	self deny: e skinManager skinUninstaller notNil.
 	self assert: e skinManager hasPostponedRequestInstallSkin.
 	self assert: e skinManager skinInstaller isNil.
 
@@ -487,7 +489,7 @@ ToSkinManagerTest >> testSetSkinIn [
 	self assert: (e skinManager defaultSkinIn: e) identicalTo: sk.
 	self assert: e installedSkin isNil.
 	self assert: e skinManager installedSkin isNil.
-	self assert: e skinManager skinUninstaller notNil.
+	self deny: e skinManager skinUninstaller notNil.
 	self assert: e skinManager hasPostponedRequestInstallSkin.
 	self assert: e skinManager skinInstaller isNil
 ]
@@ -503,7 +505,7 @@ ToSkinManagerTest >> testSetSkinInWhenInSpace [
 	self assert: (e skinManager defaultSkinIn: e) identicalTo: sk.
 	self assert: e installedSkin isNil.
 	self assert: e skinManager installedSkin isNil.
-	self assert: e skinManager skinUninstaller notNil.
+	self deny: e skinManager skinUninstaller notNil.
 	self assert: e skinManager hasPostponedRequestInstallSkin not.
 	self assert: e skinManager skinInstaller notNil
 ]
@@ -630,9 +632,13 @@ ToSkinManagerTest >> testSkinUninstallerWithToThemeChanged [
 	space root addChild: e.
 	e toThemeChanged.
 	self assert: e skinInstaller notNil.
-	self assert: e skinUninstaller notNil.
-	self assert: child skinUninstaller notNil.
-	self assert: childchild skinUninstaller notNil
+	self assert: e installedSkin isNil.
+	self deny: e skinUninstaller notNil.
+	self assert: child installedSkin isNil.
+	self deny: child skinUninstaller notNil.
+	self assert: childchild installedSkin isNil.
+	self deny: childchild skinUninstaller notNil.
+
 ]
 
 { #category : 'tests' }

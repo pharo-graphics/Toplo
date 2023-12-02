@@ -21,6 +21,18 @@ ToPropertyIndex >> addProperty: anElementProperty [
 	self index at: anElementProperty name asSymbol put: anElementProperty
 ]
 
+{ #category : 'as yet unclassified' }
+ToPropertyIndex >> allProperties [
+
+	^ self index associations
+]
+
+{ #category : 'as yet unclassified' }
+ToPropertyIndex >> allPropertyNames [
+
+	^ self index keys
+]
+
 { #category : 'testing' }
 ToPropertyIndex >> hasPropertyNamed: aName [
 
@@ -68,6 +80,12 @@ ToPropertyIndex >> propertyNamed: aName ifAbsent: absentBlock [
 ToPropertyIndex >> removeAllProperties [
 
 	index removeAll
+]
+
+{ #category : 'removing' }
+ToPropertyIndex >> removeAllPropertyFromNames: aCollectionOfSymbol [
+
+	aCollectionOfSymbol do: [ :s | self removePropertyNamed: s ]
 ]
 
 { #category : 'removing' }

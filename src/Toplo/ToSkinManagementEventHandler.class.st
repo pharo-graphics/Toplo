@@ -17,11 +17,7 @@ ToSkinManagementEventHandler >> skinInstallStateRequest: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target addEventHandler: anEvent skin.
-	anEvent skin onInstallStateRequestIn: target.
-	"'ToSkinManagementEventHandler>>skinInstallStateRequest: ' traceCr."
-	target skinStateQueue onSkinInstallStateRequestIn: target
-
+	target skinManager installSkinNow: anEvent skin in: target
 ]
 
 { #category : 'event handling' }
@@ -29,9 +25,5 @@ ToSkinManagementEventHandler >> skinUninstallStateRequest: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	"'		ToSkinManagementEventHandler>>skinUninstallStateRequest: ' traceCr."
-	anEvent skin onUninstallStateRequestIn: target.
-	target skinStateQueue onSkinUninstallStateRequestIn: target.
-	target removeEventHandler: anEvent skin
-
+	target skinManager uninstallSkinNow: anEvent skin in: target
 ]

@@ -112,16 +112,10 @@ ToListElementSelectionEventHandler >> selectionElementsIn: aListElement [
 ToListElementSelectionEventHandler >> updatePrimarySelectionFromEvent: anEvent [
 	"add a ListDecorationElement for each group of adjacent selected nodes "
 
-	| prevSelection newSelection background |
+	| prevSelection newSelection  |
 	prevSelection := self selectionElementsIn: anEvent currentTarget.
 	prevSelection do: [ :d | d removeFromParent ].
 	newSelection := self newPrimarySelectionFromEvent: anEvent.
-	" optimization: because selection element can be added/removed very intensively 
-	one have to anticipate its background to avoid a disturbing flash effect due to 
-	separate styling phases "
-	anEvent currentTarget installedSkin ifNotNil: [
-		background := anEvent currentTarget tokenValueNamed: #'color-primary-selection-focused'.
-		newSelection do: [ :sel | sel background: background ] ].
 	anEvent currentTarget addChildren: newSelection.
 	anEvent currentTarget dispatchEvent:
 		ToListSelectionElementUpdatedEvent new

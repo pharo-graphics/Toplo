@@ -5,9 +5,9 @@ Class {
 		'dataFilter',
 		'target'
 	],
-	#category : 'Toplo-Widget-List-core',
+	#category : 'Toplo-Widget-List-Filter',
 	#package : 'Toplo-Widget-List',
-	#tag : 'core'
+	#tag : 'Filter'
 }
 
 { #category : 'data events handling' }

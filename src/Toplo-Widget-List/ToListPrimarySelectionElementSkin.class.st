@@ -1,9 +1,9 @@
 Class {
 	#name : 'ToListPrimarySelectionElementSkin',
 	#superclass : 'ToRawSkin',
-	#category : 'Toplo-Widget-List-core',
+	#category : 'Toplo-Widget-List-Selection',
 	#package : 'Toplo-Widget-List',
-	#tag : 'core'
+	#tag : 'Selection'
 }
 
 { #category : 'event handling' }

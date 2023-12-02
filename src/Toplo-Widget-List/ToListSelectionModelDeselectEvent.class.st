@@ -1,7 +1,7 @@
 Class {
 	#name : 'ToListSelectionModelDeselectEvent',
 	#superclass : 'ToListSelectionModelChangedEvent',
-	#category : 'Toplo-Widget-List-infinite',
+	#category : 'Toplo-Widget-List-Infinite',
 	#package : 'Toplo-Widget-List',
-	#tag : 'infinite'
+	#tag : 'Infinite'
 }

@@ -1,9 +1,9 @@
 Class {
 	#name : 'ToListElementEventHandler',
 	#superclass : 'BlCustomEventHandler',
-	#category : 'Toplo-Widget-List-core',
+	#category : 'Toplo-Widget-List-Core',
 	#package : 'Toplo-Widget-List',
-	#tag : 'core'
+	#tag : 'Core'
 }
 
 { #category : 'data source events handling' }

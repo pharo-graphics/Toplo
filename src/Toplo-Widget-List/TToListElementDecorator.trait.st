@@ -3,9 +3,9 @@ Trait {
 	#instVars : [
 		'next'
 	],
-	#category : 'Toplo-Widget-List-core',
+	#category : 'Toplo-Widget-List-Core',
 	#package : 'Toplo-Widget-List',
-	#tag : 'core'
+	#tag : 'Core'
 }
 
 { #category : 't - selection mode changing' }
@@ -48,6 +48,18 @@ TToListElementDecorator >> deselectAll [
 TToListElementDecorator >> deselectIndex: anIndex [
 
 	self next deselectIndex: anIndex
+]
+
+{ #category : 't - infinite scrolled event' }
+TToListElementDecorator >> disableScrolledEvent [
+
+	self next disableScrolledEvent
+]
+
+{ #category : 't - infinite scrolled event' }
+TToListElementDecorator >> enableScrolledEvent [
+
+	self next enableScrolledEvent
 ]
 
 { #category : 't - accessing selection' }

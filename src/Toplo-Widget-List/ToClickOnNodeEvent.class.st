@@ -1,7 +1,7 @@
 Class {
 	#name : 'ToClickOnNodeEvent',
 	#superclass : 'ToNodeEvent',
-	#category : 'Toplo-Widget-List-node',
+	#category : 'Toplo-Widget-List-Node',
 	#package : 'Toplo-Widget-List',
-	#tag : 'node'
+	#tag : 'Node'
 }

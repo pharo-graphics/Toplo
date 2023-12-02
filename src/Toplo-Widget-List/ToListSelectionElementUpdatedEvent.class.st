@@ -1,9 +1,9 @@
 Class {
 	#name : 'ToListSelectionElementUpdatedEvent',
 	#superclass : 'BlEvent',
-	#category : 'Toplo-Widget-List-core',
+	#category : 'Toplo-Widget-List-Selection',
 	#package : 'Toplo-Widget-List',
-	#tag : 'core'
+	#tag : 'Selection'
 }
 
 { #category : 'sending' }

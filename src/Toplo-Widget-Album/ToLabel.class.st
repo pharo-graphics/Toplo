@@ -31,7 +31,8 @@ ToLabel >> addEditorEvent: anEvent [
 	self editor selecter
 		all;
 		apply.
-	self editorBuilder value: self editor value: self
+	self editorBuilder value: self editor value: self.
+	self dispatchEvent: ToLabelEditorOpenedEvent new
 ]
 
 { #category : 'accessing' }
@@ -308,7 +309,8 @@ ToLabel >> removeEditor [
 
 	self currentEditorFrame close.
 	self innerElement visibility: BlVisibility visible.
-	self cleanUpUserData
+	self cleanUpUserData.
+	self dispatchEvent: ToLabelEditorClosedEvent new
 
 ]
 

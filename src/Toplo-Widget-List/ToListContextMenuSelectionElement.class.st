@@ -4,9 +4,9 @@ Class {
 	#instVars : [
 		'inner'
 	],
-	#category : 'Toplo-Widget-List-core',
+	#category : 'Toplo-Widget-List-Context-menu',
 	#package : 'Toplo-Widget-List',
-	#tag : 'core'
+	#tag : 'Context-menu'
 }
 
 { #category : 'initialization' }

@@ -5,9 +5,9 @@ Class {
 		'listElement',
 		'nodes'
 	],
-	#category : 'Toplo-Widget-List-core',
+	#category : 'Toplo-Widget-List-Core',
 	#package : 'Toplo-Widget-List',
-	#tag : 'core'
+	#tag : 'Core'
 }
 
 { #category : 'private' }

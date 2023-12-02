@@ -43,10 +43,7 @@ ToSpaceSkinPhasesManager >> initialize [
 
 	super initialize.
 	skinPhasesInstalled := false.
-	allowSkinPhases := true.
-	spaceShownEventHandler := nil
-
-	
+	allowSkinPhases := true
 ]
 
 { #category : 'phases installation' }

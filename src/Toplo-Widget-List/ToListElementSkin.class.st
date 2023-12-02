@@ -1,9 +1,9 @@
 Class {
 	#name : 'ToListElementSkin',
 	#superclass : 'ToRawSkin',
-	#category : 'Toplo-Widget-List-core',
+	#category : 'Toplo-Widget-List-Core',
 	#package : 'Toplo-Widget-List',
-	#tag : 'core'
+	#tag : 'Core'
 }
 
 { #category : 'event handling' }

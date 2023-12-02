@@ -1,9 +1,9 @@
 Class {
 	#name : 'ToListElementSelectionEventHandler',
 	#superclass : 'BlCustomEventHandler',
-	#category : 'Toplo-Widget-List-core',
+	#category : 'Toplo-Widget-List-Selection',
 	#package : 'Toplo-Widget-List',
-	#tag : 'core'
+	#tag : 'Selection'
 }
 
 { #category : 'selection managing' }

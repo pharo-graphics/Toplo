@@ -4,9 +4,9 @@ Class {
 	#instVars : [
 		'holder'
 	],
-	#category : 'Toplo-Widget-List-node',
+	#category : 'Toplo-Widget-List-Node',
 	#package : 'Toplo-Widget-List',
-	#tag : 'node'
+	#tag : 'Node'
 }
 
 { #category : 'accessing' }

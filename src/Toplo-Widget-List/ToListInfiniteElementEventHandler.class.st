@@ -1,9 +1,9 @@
 Class {
 	#name : 'ToListInfiniteElementEventHandler',
 	#superclass : 'BlCustomEventHandler',
-	#category : 'Toplo-Widget-List-infinite',
+	#category : 'Toplo-Widget-List-Infinite',
 	#package : 'Toplo-Widget-List',
-	#tag : 'infinite'
+	#tag : 'Infinite'
 }
 
 { #category : 'event handling' }

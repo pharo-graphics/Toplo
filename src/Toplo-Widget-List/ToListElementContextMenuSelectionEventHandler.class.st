@@ -4,9 +4,9 @@ Class {
 	#instVars : [
 		'contextMenuSelection'
 	],
-	#category : 'Toplo-Widget-List-core',
+	#category : 'Toplo-Widget-List-Context-menu',
 	#package : 'Toplo-Widget-List',
-	#tag : 'core'
+	#tag : 'Context-menu'
 }
 
 { #category : 'selection managing' }
@@ -32,7 +32,7 @@ ToListElementContextMenuSelectionEventHandler >> contextMenuClosedEvent: anEvent
 			 selectedIndexes: #(  );
 			 sourceEvent: anEvent;
 			 yourself).
-	target infinite enableScrolledEvent
+	target enableScrolledEvent
 ]
 
 { #category : 'accessing' }
@@ -78,7 +78,7 @@ ToListElementContextMenuSelectionEventHandler >> listElementContextMenuRequest: 
 	| pos targetChildren childNode target infinite |
 	target := anEvent currentTarget.
 	infinite := target infinite.
-	infinite disableScrolledEvent.
+	target disableScrolledEvent.
 
 	pos := infinite globalPointToLocal: anEvent sourceEvent position.
 	targetChildren := (infinite withAllChildrenAt: pos) allButLast.

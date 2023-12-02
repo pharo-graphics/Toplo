@@ -1,9 +1,9 @@
 Class {
 	#name : 'ToList',
 	#superclass : 'ToListElement',
-	#category : 'Toplo-Widget-List-list',
+	#category : 'Toplo-Widget-List-List',
 	#package : 'Toplo-Widget-List',
-	#tag : 'list'
+	#tag : 'List'
 }
 
 { #category : 'initialization' }

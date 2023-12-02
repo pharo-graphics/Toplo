@@ -979,6 +979,8 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		lab when: ToStillPressedLookEvent do: [ :event |
 			event consumed: true.
 			lab addEditorEvent: event ].
+		lab when: ToLabelEditorOpenedEvent do: [ l disableScrolledEvent ].
+		lab when: ToLabelEditorClosedEvent do: [ l enableScrolledEvent ].
 		lab whenTextReplacedDo: [
 			l data at: holder position put: lab text asString ].
 		node addChild: (ToLabeledIcon new

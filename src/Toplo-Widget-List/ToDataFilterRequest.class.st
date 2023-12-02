@@ -4,9 +4,9 @@ Class {
 	#instVars : [
 		'pattern'
 	],
-	#category : 'Toplo-Widget-List-filter',
+	#category : 'Toplo-Widget-List-Filter',
 	#package : 'Toplo-Widget-List',
-	#tag : 'filter'
+	#tag : 'Filter'
 }
 
 { #category : 'accessing' }

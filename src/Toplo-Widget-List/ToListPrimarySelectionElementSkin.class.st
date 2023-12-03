@@ -26,8 +26,11 @@ ToListPrimarySelectionElementSkin >> installLookEvent: anEvent [
 		e border: (BlBorder
 				 paint: (e tokenValueNamed: #'border-color-primary-selection')
 				 width: (e tokenValueNamed: #'border-width-primary-selection')).
-		e background:
-			(e tokenValueNamed: #'color-primary-selection-focused').
+		e listElement infinite focused
+			ifTrue: [ 
+				e background: (e tokenValueNamed: #'color-primary-selection-focused') ]
+			ifFalse: [
+				e background: (e tokenValueNamed: #'color-primary-selection-unfocused') ].
 		e padding: (BlInsets
 				 horizontal: (e tokenValueNamed: #'list-padding-H')
 				 vertical: (e tokenValueNamed: #'list-padding-V')) ]

@@ -171,7 +171,7 @@ ToSkinManager >> requestInstallSkinIn: anElement [
 	skinInstallRequestCount := skinInstallRequestCount + 1.
 	(skinInstallRequestCount > 1 and: [ self skinInstaller notNil ])
 		ifTrue: [ ^ self ].
-	anElement space installSkinPhases.
+	anElement space checkSkinPhases.
 	self skinInstaller: ToSkinInstaller new.
 	skinInstallRequestCount > 1 ifTrue: [ ^ self ].
 	self applySkinInstallerOnFirstRequest ifFalse: [ ^ self ].

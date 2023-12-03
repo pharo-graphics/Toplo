@@ -25,17 +25,13 @@ ToSpaceSkinPhasesManager >> allowSkinPhases: aBoolean [
 	allowSkinPhases := aBoolean
 ]
 
-{ #category : 'initialization' }
-ToSpaceSkinPhasesManager >> armStartSkinPhasesIn: aSpace [
+{ #category : 'phases installation' }
+ToSpaceSkinPhasesManager >> checkSkinPhasesIn: aSpace [
 
-	spaceShownEventHandler := BlEventHandler new.
-	spaceShownEventHandler eventClass: BlSpaceShownEvent.
-	spaceShownEventHandler action: [
-		"'space opened -> startSkinPhasesIn:' traceCr."
-		aSpace removeEventHandler: spaceShownEventHandler.
-		spaceShownEventHandler := nil.
-		self startSkinPhasesIn: aSpace ].
-	aSpace addEventHandler: spaceShownEventHandler
+	self allowSkinPhases ifFalse: [
+		self onUninstalledIn: aSpace.
+		^ self ].
+	self onInstalledIn: aSpace
 ]
 
 { #category : 'initialization' }
@@ -69,34 +65,52 @@ ToSpaceSkinPhasesManager >> isSkinInstallerPhaseInstalledIn: aSpace [
 ]
 
 { #category : 'testing' }
+ToSpaceSkinPhasesManager >> isSkinPhasesInstallationPostponed [
+
+	^ spaceShownEventHandler notNil
+]
+
+{ #category : 'testing' }
 ToSpaceSkinPhasesManager >> isSkinStatePhaseInstalledIn: aSpace [
 
 	^ (self installedSkinStatePhaseIn: aSpace) notNil
 ]
 
-{ #category : 'initialization' }
+{ #category : 'phases installation' }
 ToSpaceSkinPhasesManager >> onInstalledIn: aSpace [
 
 	self skinPhasesInstalled ifTrue: [ ^ self ].
+	self allowSkinPhases ifFalse: [ ^ self ].
 	aSpace isOpened
 		ifTrue: [ 
 			"'space already opened -> startSkinPhasesIn:' traceCr."
 			self startSkinPhasesIn: aSpace ]
 		ifFalse: [
-			self startSkinPhasesArmed ifTrue: [ 
+			self isSkinPhasesInstallationPostponed ifTrue: [ 
 				"'space not oppened -> startSkinPhasesArmed already armed' traceCr."
 				^ self ].
 			"'space not oppened -> startSkinPhasesArmed ' traceCr."
-			self armStartSkinPhasesIn: aSpace ]
+			self postponeStartSkinPhasesIn: aSpace ]
 ]
 
-{ #category : 'initialization' }
+{ #category : 'phases installation' }
 ToSpaceSkinPhasesManager >> onUninstalledIn: aSpace [ 
 
-	self skinPhasesInstalled ifFalse: [ ^ self ].
-	self skinPhasesInstalled: false.
 	self stopSkinPhasesIn: aSpace.
 
+]
+
+{ #category : 'phases installation' }
+ToSpaceSkinPhasesManager >> postponeStartSkinPhasesIn: aSpace [
+
+	spaceShownEventHandler := BlEventHandler new.
+	spaceShownEventHandler eventClass: BlSpaceShownEvent.
+	spaceShownEventHandler action: [
+		"'space opened -> startSkinPhasesIn:' traceCr."
+		aSpace removeEventHandler: spaceShownEventHandler.
+		spaceShownEventHandler := nil.
+		self startSkinPhasesIn: aSpace ].
+	aSpace addEventHandler: spaceShownEventHandler
 ]
 
 { #category : 'accessing' }
@@ -119,12 +133,6 @@ ToSpaceSkinPhasesManager >> startSkinInstallerPhaseIn: aSpace [
 	" The skin phase must be inserted before the layout phase (that must be present) "
 	phaseAfter := aSpace frame detectPhase: [ :f | f class = BlSpaceFrameLayoutPhase ].
 	aSpace frame addPhase: ToSpaceSkinInstallerPhase new before: phaseAfter
-]
-
-{ #category : 'accessing' }
-ToSpaceSkinPhasesManager >> startSkinPhasesArmed [
-
-	^ spaceShownEventHandler notNil
 ]
 
 { #category : 'phases installation' }
@@ -161,7 +169,7 @@ ToSpaceSkinPhasesManager >> startSkinStatePhaseIn: aSpace [
 	aSpace frame addPhase: ToSpaceSkinStatePhase new before: phaseAfter
 ]
 
-{ #category : 'initialization' }
+{ #category : 'phases installation' }
 ToSpaceSkinPhasesManager >> stopSkinInstallerPhaseIn: aSpace [
 
 	(self installedSkinInstallerPhaseIn: aSpace) ifNotNil: [ :phase |
@@ -171,6 +179,10 @@ ToSpaceSkinPhasesManager >> stopSkinInstallerPhaseIn: aSpace [
 { #category : 'phases installation' }
 ToSpaceSkinPhasesManager >> stopSkinPhasesIn: aSpace [
 
+	self isSkinPhasesInstallationPostponed ifTrue: [ 
+		aSpace removeEventHandler: spaceShownEventHandler.
+		spaceShownEventHandler := nil. ].
+	
 	self skinPhasesInstalled ifFalse: [ ^ self ].
 	self
 		stopSkinInstallerPhaseIn: aSpace;
@@ -181,7 +193,7 @@ ToSpaceSkinPhasesManager >> stopSkinPhasesIn: aSpace [
 	aSpace dispatchEvent: ToSpaceSkinPhasesStopped new
 ]
 
-{ #category : 'initialization' }
+{ #category : 'phases installation' }
 ToSpaceSkinPhasesManager >> stopSkinStatePhaseIn: aSpace [
 
 	(self installedSkinStatePhaseIn: aSpace) ifNotNil: [ :phase |

@@ -10,7 +10,8 @@ BlSpace >> allowSkinPhases [
 BlSpace >> allowSkinPhases: aBoolean [
 
 	" useful for testing. tests may want to run phases programmatically"
-	self skinPhasesManager allowSkinPhases: aBoolean
+	self skinPhasesManager allowSkinPhases: aBoolean.
+	self skinPhasesManager checkSkinPhasesIn: self
 ]
 
 { #category : '*Toplo' }
@@ -26,8 +27,9 @@ BlSpace >> applyAllStyles [
 ]
 
 { #category : '*Toplo' }
-BlSpace >> installSkinPhases [
+BlSpace >> checkSkinPhases [
 
+	self skinPhasesManager skinPhasesInstalled ifTrue: [^ self ].
 	self skinPhasesManager onInstalledIn: self
 ]
 

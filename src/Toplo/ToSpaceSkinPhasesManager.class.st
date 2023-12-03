@@ -139,6 +139,10 @@ ToSpaceSkinPhasesManager >> startSkinInstallerPhaseIn: aSpace [
 ToSpaceSkinPhasesManager >> startSkinPhasesIn: aSpace [
 
 	self skinPhasesInstalled ifTrue: [ ^ self ].
+	self allowSkinPhases ifFalse: [ ^ self ].
+	self isSkinPhasesInstallationPostponed ifTrue: [ 
+		aSpace removeEventHandler: spaceShownEventHandler.
+		spaceShownEventHandler := nil. ].
 	self
 		startSkinInstallerPhaseIn: aSpace;
 		startSkinStatePhaseIn: aSpace.

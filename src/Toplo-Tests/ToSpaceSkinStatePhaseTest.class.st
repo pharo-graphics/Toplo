@@ -37,7 +37,7 @@ ToSpaceSkinStatePhaseTest >> testStartSkinPhases [
 				 p isKindOf: ToSpaceSkinStatePhase ]).
 		space close ].
 	
-	space skinPhasesManager onInstalledIn: space
+	space skinPhasesManager startSkinPhasesIn: space
 
 
 ]

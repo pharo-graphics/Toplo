@@ -41,14 +41,15 @@ ToSpaceSkinPhasesManagerTest >> testCheckSkinPhasesIn [
 	space allowSkinPhases: false.
 	self deny: space skinPhasesManager isSkinPhasesInstallationPostponed.
 	space show.
-	space when: BlSpaceShownEvent do: [ :event |
-		space checkSkinPhases.
+	space when: BlSpaceShownEvent do: [ :event | | theSpace |
+		theSpace := event currentTarget.
+		theSpace checkSkinPhases.
 		" since skin phases are not allowed "
-		self deny: space skinPhasesManager skinPhasesInstalled.
+		self deny: theSpace skinPhasesManager skinPhasesInstalled.
 		" now allow skin phases "
-		space allowSkinPhases: true.
+		theSpace allowSkinPhases: true.
 		" since skin phases are allowed and the space is opened "
-		self assert: space skinPhasesManager skinPhasesInstalled ].
+		self assert: theSpace skinPhasesManager skinPhasesInstalled ].
 	
 
 	

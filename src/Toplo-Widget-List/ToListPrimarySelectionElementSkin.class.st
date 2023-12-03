@@ -27,8 +27,8 @@ ToListPrimarySelectionElementSkin >> installLookEvent: anEvent [
 				 paint: (e tokenValueNamed: #'border-color-primary-selection')
 				 width: (e tokenValueNamed: #'border-width-primary-selection')).
 		" I must take into account the focused state of the infinite element to start with the right background.
-		If not done like that, then it works but with a flashing selection background in case of extent change 
-		or in case of scrolling.
+		If not done like that, then it works because the right state is applied after but with a flashing selection 
+		background in case of extent change or in case of scrolling.
 		(as an example, if the default is focused background and if the infinite state is unfocused) "
 		e listElement infinite focused
 			ifTrue: [ 

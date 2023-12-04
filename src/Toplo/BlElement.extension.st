@@ -101,7 +101,7 @@ BlElement >> enable [
 { #category : '*Toplo' }
 BlElement >> enqueueSkinState: aSkinState [
 
-	self skinStateQueue enqueueStateRequest: aSkinState for: self 
+	aSkinState requestEnqueueFromElement: self inQueue:self skinStateQueue
 ]
 
 { #category : '*Toplo' }

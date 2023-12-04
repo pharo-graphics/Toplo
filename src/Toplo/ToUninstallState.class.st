@@ -6,12 +6,6 @@ Class {
 	#tag : 'Core-States'
 }
 
-{ #category : 'testing' }
-ToUninstallState >> isQueueReady: aStateQueue [
-
-	^ true
-]
-
 { #category : 'accessing' }
 ToUninstallState >> lookEventClass [
 

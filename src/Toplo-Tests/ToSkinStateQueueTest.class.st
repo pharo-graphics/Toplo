@@ -35,26 +35,7 @@ ToSkinStateQueueTest >> setUp [
 ]
 
 { #category : 'tests' }
-ToSkinStateQueueTest >> testInitialize [
-
-	| q |
-	q := ToSkinStateQueue new.
-	self assert: q nextStates notNil
-]
-
-{ #category : 'tests' }
-ToSkinStateQueueTest >> testInitializeThroughAnElement [
-
-	| q e  |
-	e := self newElementInSpace.
-	q := e skinManager skinStateQueue.
-	q := ToSkinStateQueue new.
-	self assert: q nextStates notNil.
-	self assert: q nextStates size isZero
-]
-
-{ #category : 'tests' }
-ToSkinStateQueueTest >> testOnSkinInstallStateRequestIn [
+ToSkinStateQueueTest >> testEnqueueInstallStateFor [
 
 	| q e sk isk |
 	e := self newElementInSpace.
@@ -70,7 +51,7 @@ ToSkinStateQueueTest >> testOnSkinInstallStateRequestIn [
 	self assert: e defaultSkin identicalTo: sk.
 	" but not installed for now "
 	self deny: e installedSkin identicalTo: sk.
-	q onSkinInstallStateRequestIn: e.
+	q enqueueInstallStateForElement: e.
 	" on enqueued, the state requests a next pulse and the queue is emptied "
 	self assert: q nextStates size equals: 1.
 	self assert: q nextStates nextOrNil class identicalTo: ToInstallState.
@@ -79,7 +60,7 @@ ToSkinStateQueueTest >> testOnSkinInstallStateRequestIn [
 ]
 
 { #category : 'tests' }
-ToSkinStateQueueTest >> testOnSkinInstallStateRequestInThroughARequest [
+ToSkinStateQueueTest >> testEnqueueInstallStateForThroughARequest [
 
 	| q e sk isk |
 	e := self newElementInSpace.
@@ -102,4 +83,23 @@ ToSkinStateQueueTest >> testOnSkinInstallStateRequestInThroughARequest [
 	reacts to a ToSkinInstallStateRequest by installing the skin 
 	(see #ToSkinManagementEventHandler>>skinInstallStateRequest:)"
 	self assert: e installedSkin identicalTo: sk
+]
+
+{ #category : 'tests' }
+ToSkinStateQueueTest >> testInitialize [
+
+	| q |
+	q := ToSkinStateQueue new.
+	self assert: q nextStates notNil
+]
+
+{ #category : 'tests' }
+ToSkinStateQueueTest >> testInitializeThroughAnElement [
+
+	| q e  |
+	e := self newElementInSpace.
+	q := e skinManager skinStateQueue.
+	q := ToSkinStateQueue new.
+	self assert: q nextStates notNil.
+	self assert: q nextStates size isZero
 ]

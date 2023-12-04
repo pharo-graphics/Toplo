@@ -2,7 +2,8 @@ Class {
 	#name : 'ToTransientStateForTest',
 	#superclass : 'ToTransientState',
 	#instVars : [
-		'applyCount'
+		'applyCount',
+		'canBeEnqueued'
 	],
 	#category : 'Toplo-Tests-Core-States',
 	#package : 'Toplo-Tests',
@@ -13,6 +14,12 @@ Class {
 ToTransientStateForTest >> applyCount [
 
 	^ applyCount
+]
+
+{ #category : 'accessing' }
+ToTransientStateForTest >> canBeEnqueued [
+
+	^ canBeEnqueued
 ]
 
 { #category : 'initialization' }
@@ -27,4 +34,11 @@ ToTransientStateForTest >> onAppliedOn: anElement [
 
 	super onAppliedOn: anElement.
 	applyCount := applyCount + 1
+]
+
+{ #category : 'look event sending' }
+ToTransientStateForTest >> requestEnqueueFromElement: anElement inQueue: aStateQueue [
+
+	canBeEnqueued := self canBeEnqueuedFromElement: anElement inQueue: aStateQueue.
+	super requestEnqueueFromElement: anElement inQueue: aStateQueue
 ]

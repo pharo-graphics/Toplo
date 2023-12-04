@@ -19,23 +19,48 @@ ToSkinStateQueue >> applyOn: anElement [
 		nextInQueue applyOn: anElement ]
 ]
 
+{ #category : 'initialization' }
+ToSkinStateQueue >> enqueueInstallStateForElement: anElement [
+	" install state required  "
+
+	previousInstallState := ToInstallState new.
+	self enqueueState: previousInstallState for: anElement.
+	
+	" restitute the intrasic states (as enablement, check)
+	enablement state must always be the last one to be enqueued "
+	self intrinsicStatesDo: [ :state |
+		self enqueueState: state for: anElement. ]
+]
+
 { #category : 'adding' }
 ToSkinStateQueue >> enqueueState: aState for: anElement [
 
+	" all states kinds are enqueued here "
 	self nextStates nextPut: aState.
 	anElement spaceDo: [:sp | sp requestNextPulse ]
 ]
 
-{ #category : 'adding' }
-ToSkinStateQueue >> enqueueStateRequest: aState for: anElement [
+{ #category : 'initialization' }
+ToSkinStateQueue >> enqueueUninstallStateForElement: anElement [
+	" uninstall state required  "
 
-	aState onEnqueueRequestFor: anElement inQueue: self
+	" have to ignore previous look events to avoid to apply them to the new skin"
+	self nextStates flush.
+	previousInstallState := nil.
+	" store the uninstall state "
+	self enqueueState: ToUninstallState new for: anElement
 ]
 
 { #category : 'hook' }
 ToSkinStateQueue >> flushStates: aBlock [
 
 	self nextStates flush: aBlock
+]
+
+{ #category : 'accessing' }
+ToSkinStateQueue >> hasInstallStateEnqueued [
+
+	^ previousInstallState notNil
 ]
 
 { #category : 'initialization' }
@@ -70,35 +95,4 @@ ToSkinStateQueue >> nextStates: anObject [
 ToSkinStateQueue >> onIntrinsicStateEnqueueRequested: aState [
 
 	intrinsicStateIndex at: aState class put: aState
-]
-
-{ #category : 'initialization' }
-ToSkinStateQueue >> onSkinInstallStateRequestIn: anElement [
-	" install state required  "
-
-	previousInstallState := ToInstallState new.
-	self enqueueStateRequest: previousInstallState for: anElement.
-	
-	" restitute the intrasic states (as enablement, check)
-	enablement state must always be the last one to be enqueued "
-	self intrinsicStatesDo: [ :state |
-		self enqueueStateRequest: state for: anElement ]
-]
-
-{ #category : 'initialization' }
-ToSkinStateQueue >> onSkinUninstallStateRequestIn: anElement [
-	" uninstall state required  "
-
-	" have to ignore previous look events to avoid to apply them to the new skin"
-	self nextStates flush.
-	previousInstallState := nil.
-	" store the uninstall state "
-	self enqueueStateRequest: ToUninstallState new for: anElement.
-
-]
-
-{ #category : 'accessing' }
-ToSkinStateQueue >> previousInstallState [
-
-	^ previousInstallState
 ]

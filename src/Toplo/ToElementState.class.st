@@ -14,9 +14,9 @@ ToElementState >> applyOn: anElement [
 ]
 
 { #category : 'testing' }
-ToElementState >> isQueueReady: aStateQueue [
+ToElementState >> canBeEnqueuedFromElement: anElement inQueue: aStateQueue [
 
-	^ aStateQueue previousInstallState notNil
+	^ aStateQueue hasInstallStateEnqueued
 ]
 
 { #category : 'accessing' }
@@ -31,8 +31,8 @@ ToElementState >> onAppliedOn: anElement [
 ]
 
 { #category : 'look event sending' }
-ToElementState >> onEnqueueRequestFor: anElement inQueue: aStateQueue [
+ToElementState >> requestEnqueueFromElement: anElement inQueue: aStateQueue [
 
-	(self isQueueReady: aStateQueue) ifTrue: [
+	(self canBeEnqueuedFromElement: anElement inQueue: aStateQueue) ifTrue: [
 		aStateQueue enqueueState: self for: anElement ]
 ]

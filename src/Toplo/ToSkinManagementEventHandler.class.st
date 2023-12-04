@@ -6,17 +6,10 @@ Class {
 	#tag : 'Core-Theme'
 }
 
-{ #category : 'event handling' }
-ToSkinManagementEventHandler >> enablementChangedEvent: anEvent [
-
-	anEvent currentTarget requestNewSkin.
-
-]
-
 { #category : 'api - accessing' }
 ToSkinManagementEventHandler >> eventsToHandle [
 
-	^ { ToSkinManagementEvent. ToEnablementChangedEvent }
+	^ { ToSkinManagementEvent }
 ]
 
 { #category : 'event handling' }

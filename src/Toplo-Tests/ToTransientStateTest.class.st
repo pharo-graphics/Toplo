@@ -60,44 +60,12 @@ ToTransientStateTest >> testLookEvent [
 { #category : 'tests' }
 ToTransientStateTest >> testOnAppliedOn [
 
-	| e lookEvt state |
+	| e stateEvt state |
 	e := ToElement new.
 	space root addChild: e.
-	state := ToTransientStateForTest lookEvent: (lookEvt := ToHoveredLookEvent new).
+	state := ToTransientStateForTest lookEvent: (stateEvt := ToHoveredLookEvent new).
 	state applyOn: e.
-	self assert: state applyCount equals: 1.
-	self assert: state lookEvent isNil
-	
-]
-
-{ #category : 'tests' }
-ToTransientStateTest >> testOnAppliedOnEventConsumed [
-
-	| e lookEvt state |
-	e := ToElement new.
-	space root addChild: e.
-	state := ToTransientStateForTest lookEvent: (lookEvt := ToHoveredLookEvent new).
-	lookEvt sourceEvent: BlMouseEnterEvent new. 
-	self deny: lookEvt sourceEvent isConsumed.
-	lookEvt consumed: true.
-	state applyOn: e.
-	self assert: lookEvt sourceEvent isConsumed.
-	self assert: lookEvt isConsumed
-	
-]
-
-{ #category : 'tests' }
-ToTransientStateTest >> testOnAppliedOnEventNotConsumed [
-
-	| e lookEvt state |
-	e := ToElement new.
-	space root addChild: e.
-	state := ToTransientStateForTest lookEvent: (lookEvt := ToHoveredLookEvent new).
-	lookEvt sourceEvent: BlMouseEnterEvent new. 
-	self deny: lookEvt sourceEvent isConsumed.
-	state applyOn: e.
-	self deny: lookEvt sourceEvent isConsumed.
-	self deny: lookEvt isConsumed
+	self assert: state applyCount equals: 1
 	
 ]
 
@@ -115,8 +83,7 @@ ToTransientStateTest >> testRequestEnqueueFromElementInQueue [
 	e skinStateQueue enqueueInstallStateForElement: e.
 	state requestEnqueueFromElement: e inQueue: e skinStateQueue.
 	self assert: state canBeEnqueued.
-	" 3 states: install, enabled and the transient state "
-	self assert: e skinStateQueue nextStates size equals: 3
+	self assert: e skinStateQueue nextStates size equals: 2
 ]
 
 { #category : 'tests' }

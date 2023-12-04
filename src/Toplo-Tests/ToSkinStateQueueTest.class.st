@@ -35,7 +35,7 @@ ToSkinStateQueueTest >> setUp [
 ]
 
 { #category : 'tests' }
-ToSkinStateQueueTest >> testEnqueueInstallStateForElement [
+ToSkinStateQueueTest >> testEnqueueInstallStateFor [
 
 	| q e sk isk |
 	e := self newElementInSpace.
@@ -53,14 +53,14 @@ ToSkinStateQueueTest >> testEnqueueInstallStateForElement [
 	self deny: e installedSkin identicalTo: sk.
 	q enqueueInstallStateForElement: e.
 	" on enqueued, the state requests a next pulse and the queue is emptied "
-	self assert: q nextStates size equals: 2.
+	self assert: q nextStates size equals: 1.
 	self assert: q nextStates nextOrNil class identicalTo: ToInstallState.
 	" the skin should not be installed for now because the element has no skin installer"
 	self deny: e installedSkin identicalTo: sk
 ]
 
 { #category : 'tests' }
-ToSkinStateQueueTest >> testEnqueueInstallStateForElementThroughARequest [
+ToSkinStateQueueTest >> testEnqueueInstallStateForThroughARequest [
 
 	| q e sk isk |
 	e := self newElementInSpace.

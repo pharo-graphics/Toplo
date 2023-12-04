@@ -156,15 +156,20 @@ ToSkinStateGeneratorTest >> testTarget [
 { #category : 'tests' }
 ToSkinStateGeneratorTest >> testWantsEvent [
 
-	| e gen |
+	| e gen eventsToHandle eventsToHandleWhenDisabled |
 	e := ToElement new.
 	self assert: e isEnabled.
 	gen := e eventDispatcher handlers detect: [ :h |
 		       h isKindOf: e skinStateGeneratorClass ].
-	gen eventsToHandle do: [ :cC |
+	eventsToHandle := gen eventsToHandle.
+	eventsToHandle do: [ :cC |
 		self assert: (gen wantsEvent: (cC new currentTarget: e)) ].
 	e disable.
 	self deny: e isEnabled.
-	gen eventsToHandle do: [ :cC |
-		self deny: (gen wantsEvent: (cC new currentTarget: e)) ]
+	eventsToHandleWhenDisabled := gen eventsToHandleWhenDisabled.
+	eventsToHandleWhenDisabled do: [ :cC | self assert: (gen wantsEvent: (cC new currentTarget: e)) ].
+	eventsToHandle do: [ :cC | 
+		(eventsToHandleWhenDisabled anySatisfy: [:dC | cC == dC or: [ cC inheritsFrom: dC ] ]) 
+			ifTrue: [ self assert: (gen wantsEvent: (cC new currentTarget: e)) ]
+			ifFalse: [ self deny: (gen wantsEvent: (cC new currentTarget: e)) ] ]
 ]

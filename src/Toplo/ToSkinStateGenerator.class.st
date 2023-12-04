@@ -91,16 +91,6 @@ ToSkinStateGenerator >> dropEvent: anEvent [
 	self generateDroppedStateFromEvent: anEvent
 ]
 
-{ #category : 'enablement' }
-ToSkinStateGenerator >> enablementChangedEvent: anEvent [
-
-	self generateEnablementStateFromEvent: anEvent.
-	" a requestNewSkin ** must ** be send here after the state generation to ensure that the
-	enablement state is the last intrinsic state stored in the element skinManager and that
-	as a consequence, an IntialState is runned by the element skinStateQueue"
-	target requestNewSkin
-]
-
 { #category : 'state generating' }
 ToSkinStateGenerator >> enqueueTransientStateFromLookEvent: aLookEvent [
 
@@ -115,7 +105,6 @@ ToSkinStateGenerator >> eventsToHandle [
 	^ {
 		  ToCheckableCheckEvent.
 		  BlBaseDragEvent.
-		  ToEnablementChangedEvent.
 		  BlKeyboardEvent.
 		  BlBlurEvent.
 		  BlFocusEvent.
@@ -127,12 +116,6 @@ ToSkinStateGenerator >> eventsToHandle [
 		  BlMousePickOutsideEvent.
 		  BlMouseEnterEvent.
 		  BlMouseLeaveEvent }
-]
-
-{ #category : 'api - accessing' }
-ToSkinStateGenerator >> eventsToHandleWhenDisabled [
-
-	^ { ToEnablementChangedEvent. BlMouseEnterEvent. BlMouseLeaveEvent  }
 ]
 
 { #category : 'focus events handling' }
@@ -174,13 +157,6 @@ ToSkinStateGenerator >> generateDraggedStateFromEvent: anEvent [
 ToSkinStateGenerator >> generateDroppedStateFromEvent: anEvent [
 
 	self enqueueTransientStateFromLookEvent: (ToDroppedLookEvent sourceEvent: anEvent)
-]
-
-{ #category : 'state generating' }
-ToSkinStateGenerator >> generateEnablementStateFromEvent: anEvent [
-
-	target enqueueSkinState: (ToEnablementState new enabled:
-			 anEvent currentTarget isEnabled yourself)
 ]
 
 { #category : 'state generating' }
@@ -516,11 +492,6 @@ ToSkinStateGenerator >> target [
 { #category : 'api - event managing' }
 ToSkinStateGenerator >> wantsEvent: anEvent [
 
-	| eventsToHandle |
-	eventsToHandle := anEvent currentTarget isEnabled
-		                  ifTrue: [ self eventsToHandle ]
-		                  ifFalse: [ self eventsToHandleWhenDisabled ].
-
-	^ eventsToHandle anySatisfy: [ :eachEventClass |
-		  anEvent isKindOf: eachEventClass ]
+	anEvent currentTarget isEnabled ifFalse: [ ^ false ].
+	^ super wantsEvent: anEvent
 ]

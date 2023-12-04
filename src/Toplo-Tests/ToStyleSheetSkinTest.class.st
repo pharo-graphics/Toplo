@@ -66,7 +66,7 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 			layoutWriter.
 			directionWriter }.
 
-	w enqueueSkinState: ToInstallState new.
+	w skinStateQueue enqueueInstallStateForElement: w.
 	w applyStyles.
 	self assert: (w layout isKindOf: BlLinearLayout).
 	self assert: w layout direction isRightToLeft

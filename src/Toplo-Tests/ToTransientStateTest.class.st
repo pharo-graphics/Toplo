@@ -83,7 +83,11 @@ ToTransientStateTest >> testRequestEnqueueFromElementInQueue [
 	e skinStateQueue enqueueInstallStateForElement: e.
 	state requestEnqueueFromElement: e inQueue: e skinStateQueue.
 	self assert: state canBeEnqueued.
-	self assert: e skinStateQueue nextStates size equals: 2
+	self assert: e skinStateQueue nextStates size equals: 3.
+	self assert: (e skinStateQueue nextStates nextOrNil isKindOf: ToInstallState).
+	self assert: (e skinStateQueue nextStates nextOrNil isKindOf: ToEnablementState).
+	self assert: (e skinStateQueue nextStates nextOrNil isKindOf: ToTransientState).
+	
 ]
 
 { #category : 'tests' }

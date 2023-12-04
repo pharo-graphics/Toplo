@@ -11,7 +11,7 @@ ToSkinManagementEventHandler >> enablementChangedEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target enqueueSkinState: (ToEnablementState new enabled: anEvent currentTarget isEnabled yourself)
+	target requestNewSkin
 ]
 
 { #category : 'api - accessing' }

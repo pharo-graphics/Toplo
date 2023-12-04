@@ -19,28 +19,32 @@ ToSkinStateQueue >> applyOn: anElement [
 		nextInQueue applyOn: anElement ]
 ]
 
-{ #category : 'initialization' }
+{ #category : 'adding' }
 ToSkinStateQueue >> enqueueInstallStateForElement: anElement [
 	" install state required  "
 
 	previousInstallState := ToInstallState new.
 	self enqueueState: previousInstallState for: anElement.
-	
+
 	" restitute the intrasic states (as enablement, check)
 	enablement state must always be the last one to be enqueued "
 	self intrinsicStatesDo: [ :state |
-		self enqueueState: state for: anElement. ]
+		self enqueueState: state for: anElement ].
+	self
+		enqueueState: (ToEnablementState new enabled: anElement isEnabled)
+		for: anElement.
+
+	anElement spaceDo: [:sp | sp requestNextPulse ]
 ]
 
 { #category : 'adding' }
 ToSkinStateQueue >> enqueueState: aState for: anElement [
 
 	" all states kinds are enqueued here "
-	self nextStates nextPut: aState.
-	anElement spaceDo: [:sp | sp requestNextPulse ]
+	self nextStates nextPut: aState
 ]
 
-{ #category : 'initialization' }
+{ #category : 'adding' }
 ToSkinStateQueue >> enqueueUninstallStateForElement: anElement [
 	" uninstall state required  "
 
@@ -48,7 +52,8 @@ ToSkinStateQueue >> enqueueUninstallStateForElement: anElement [
 	self nextStates flush.
 	previousInstallState := nil.
 	" store the uninstall state "
-	self enqueueState: ToUninstallState new for: anElement
+	self enqueueState: ToUninstallState new for: anElement.
+	anElement spaceDo: [:sp | sp requestNextPulse ]
 ]
 
 { #category : 'hook' }

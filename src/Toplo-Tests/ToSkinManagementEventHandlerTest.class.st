@@ -37,7 +37,9 @@ ToSkinManagementEventHandlerTest >> testSkinInstallStateRequest [
 	self assert: e installedSkin identicalTo: nk.
 	nextInQueue := e skinManager skinStateQueue nextStates nextOrNil.
 	self assert: (nextInQueue isKindOf: ToInstallState).
-	self assert: e skinManager skinStateQueue nextStates nextOrNil isNil
+	nextInQueue := e skinManager skinStateQueue nextStates nextOrNil.
+	self assert: (nextInQueue isKindOf: ToEnablementState).
+
 ]
 
 { #category : 'tests' }

@@ -519,6 +519,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 	self assert: button background paint color equals: Color red.
 
 	button disabled: true.
+	button applySkinInstaller.
 	button applyStyles.
 	self assert: button background paint isColorPaint.
 	self

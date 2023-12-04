@@ -25,11 +25,17 @@ ToSkinStateQueue >> enqueueInstallStateForElement: anElement [
 
 	previousInstallState := ToInstallState new.
 	self enqueueState: previousInstallState for: anElement.
-	
-	" restitute the intrasic states (as enablement, check)
-	enablement state must always be the last one to be enqueued "
+
+	" restitute the intrasic states (as focused, checked) "
 	self intrinsicStatesDo: [ :state |
-		self enqueueState: state for: anElement. ]
+		self enqueueState: state for: anElement ].
+	
+	" enablement state must always be the last one to be enqueued "
+	self
+		enqueueState: (anElement isEnabled
+				 ifTrue: [ ToEnabledState new ]
+				 ifFalse: [ ToDisabledState new ])
+		for: anElement
 ]
 
 { #category : 'adding' }

@@ -11,11 +11,7 @@ ToSkinManagementEventHandler >> enablementChangedEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target enqueueSkinState: (ToEnablementState new enabled: anEvent currentTarget isEnabled yourself).
-	" a requestNewSkin ** must ** be send here after the state generation to ensure that the
-	enablement state is the last intrinsic state stored in the element skinManager and that
-	as a consequence, an IntialState is runned by the element skinStateQueue"
-	target requestNewSkin
+	target enqueueSkinState: (ToEnablementState new enabled: anEvent currentTarget isEnabled yourself)
 ]
 
 { #category : 'api - accessing' }

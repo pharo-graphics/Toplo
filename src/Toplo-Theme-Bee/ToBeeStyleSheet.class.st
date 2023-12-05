@@ -783,6 +783,7 @@ ToBeeStyleSheet >> labelRules [
 						   defaultFontSize: (e tokenValueNamed: #'font-size');
 						   lineSpacing: (e tokenValueNamed: #'line-height');
 						   yourself ].
+					
 			   sr
 				   when: ToDisabledLookEvent
 				   write: (self property: #'text-attributes-with-builder')
@@ -798,6 +799,7 @@ ToBeeStyleSheet >> labelRules [
 							   defaultFontSize: (e tokenValueNamed: #'font-size-H1');
 							   lineSpacing: (e tokenValueNamed: #'line-height-H1');
 							   yourself ] ].
+					
 			   sr select: #H2 style: [
 				   sr
 					   supplement: (self property: #'text-attributes-with-builder')
@@ -806,6 +808,7 @@ ToBeeStyleSheet >> labelRules [
 							   defaultFontSize: (e tokenValueNamed: #'font-size-H2');
 							   lineSpacing: (e tokenValueNamed: #'line-height-H2');
 							   yourself ] ].
+					
 			   sr select: #H3 style: [
 				   sr
 					   supplement: (self property: #'text-attributes-with-builder')
@@ -814,6 +817,7 @@ ToBeeStyleSheet >> labelRules [
 							   defaultFontSize: (e tokenValueNamed: #'font-size-H3');
 							   lineSpacing: (e tokenValueNamed: #'line-height-H3');
 							   yourself ] ].
+					
 			   sr select: #H4 style: [
 				   sr
 					   supplement: (self property: #'text-attributes-with-builder')
@@ -822,6 +826,7 @@ ToBeeStyleSheet >> labelRules [
 							   defaultFontSize: (e tokenValueNamed: #'font-size-H4');
 							   lineSpacing: (e tokenValueNamed: #'line-height-H4');
 							   yourself ] ].
+					
 			   sr select: #H5 style: [
 				   sr
 					   supplement: (self property: #'text-attributes-with-builder')
@@ -831,20 +836,14 @@ ToBeeStyleSheet >> labelRules [
 							   lineSpacing: (e tokenValueNamed: #'line-height-H5');
 							   yourself ] ].
 
-			   sr
-				   supplement: (self property: #'text-attributes-with-builder')
-				   with: [ :e |
-					   e textAttributesBuilder
-						   foreground: (e tokenValueNamed: #'color-text');
-						   yourself ].
-
-			   sr select: #default style: [
+			   sr select: (self any or: #default) style: [
 				   sr
 					   supplement: (self property: #'text-attributes-with-builder')
 					   with: [ :e |
 						   e textAttributesBuilder
 							   foreground: (e tokenValueNamed: #'color-text');
 							   yourself ] ].
+
 			   sr select: #danger style: [
 				   sr
 					   supplement: (self property: #'text-attributes-with-builder')
@@ -852,6 +851,7 @@ ToBeeStyleSheet >> labelRules [
 						   e textAttributesBuilder
 							   foreground: (e tokenValueNamed: #'color-error');
 							   yourself ] ].
+					
 			   sr select: #link style: [
 				   sr
 					   supplement: (self property: #'text-attributes-with-builder')
@@ -859,6 +859,7 @@ ToBeeStyleSheet >> labelRules [
 						   e textAttributesBuilder
 							   foreground: (e tokenValueNamed: #'color-link');
 							   yourself ] ].
+					
 			   sr select: #primary style: [
 				   sr
 					   supplement: (self property: #'text-attributes-with-builder')
@@ -866,6 +867,7 @@ ToBeeStyleSheet >> labelRules [
 						   e textAttributesBuilder
 							   foreground: (e tokenValueNamed: #'color-text-light-solid');
 							   yourself ] ].
+					
 			   sr select: #secondary style: [
 				   sr
 					   supplement: (self property: #'text-attributes-with-builder')
@@ -873,6 +875,7 @@ ToBeeStyleSheet >> labelRules [
 						   e textAttributesBuilder
 							   foreground: (e tokenValueNamed: #'color-text-secondary');
 							   yourself ] ].
+					
 			   sr select: #success style: [
 				   sr
 					   supplement: (self property: #'text-attributes-with-builder')
@@ -880,6 +883,7 @@ ToBeeStyleSheet >> labelRules [
 						   e textAttributesBuilder
 							   foreground: (e tokenValueNamed: #'color-success');
 							   yourself ] ].
+					
 			   sr select: #warning style: [
 				   sr
 					   supplement: (self property: #'text-attributes-with-builder')

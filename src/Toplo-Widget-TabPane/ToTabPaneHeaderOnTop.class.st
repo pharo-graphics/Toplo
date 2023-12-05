@@ -18,8 +18,8 @@ ToTabPaneHeaderOnTop >> applyOn: aTabPane [
 	aTabPane header tabRowContainer vFitContent.
 	aTabPane header tabRowContainer hMatchParent.
 	aTabPane header tabRowContainer beHorizontal.
-	aTabPane header startContainer vMatchParent; hFitContent.
-	aTabPane header endContainer vMatchParent; hFitContent.
+	"aTabPane header startContainer vMatchParent; hFitContent.
+	aTabPane header endContainer vMatchParent; hFitContent."
 	aTabPane tabs do: [ :b | b geometry: self tabGeometry ].
 ]
 

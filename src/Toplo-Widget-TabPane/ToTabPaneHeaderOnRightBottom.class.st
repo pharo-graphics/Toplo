@@ -9,5 +9,8 @@ Class {
 ToTabPaneHeaderOnRightBottom >> applyOn: aTabPane [
 
 	super applyOn: aTabPane.
-	aTabPane header tabRowContainer layout alignBottomCenter
+	aTabPane header tabRowContainer layout alignBottomCenter.
+	aTabPane header startFiller matchParent.
+	aTabPane header endFiller size: 0 asPoint
+
 ]

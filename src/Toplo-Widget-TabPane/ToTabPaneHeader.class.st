@@ -7,6 +7,8 @@ Class {
 		'positioningStrategy',
 		'tabs',
 		'tabRow',
+		'startFiller',
+		'endFiller',
 		'tabRowContainer',
 		'startContainer',
 		'endContainer'
@@ -66,6 +68,12 @@ ToTabPaneHeader >> endContainer [
 ]
 
 { #category : 'accessing' }
+ToTabPaneHeader >> endFiller [
+
+	^ endFiller
+]
+
+{ #category : 'accessing' }
 ToTabPaneHeader >> group [
 
 	^ group
@@ -78,9 +86,13 @@ ToTabPaneHeader >> initialize [
 	group := ToCheckableGroup new.
 	group when: ToCheckableGroupChangedEvent do: [ :event | self checkableGroupChangedEvent: event ].
 	tabs := OrderedCollection new.
-	tabRowContainer := ToPane new vFitContent; hMatchParent; yourself.
-	tabRow := ToPane horizontal hMatchParent; yourself.
+	startFiller := ToElement new.
+	endFiller := ToElement new.
+	tabRowContainer := ToPane new.
+	tabRow := ToPane new fitContent.
+	tabRowContainer addChild: startFiller.
 	tabRowContainer addChild: tabRow.
+	tabRowContainer addChild: endFiller.
 	startContainer := ToPane new vMatchParent; hFitContent; yourself.
 	endContainer := ToPane new vMatchParent; hFitContent; yourself.
 	self addChild: startContainer.
@@ -142,6 +154,12 @@ ToTabPaneHeader >> removeTab: aTab [
 ToTabPaneHeader >> startContainer [
 
 	^ startContainer
+]
+
+{ #category : 'accessing' }
+ToTabPaneHeader >> startFiller [
+
+	^ startFiller
 ]
 
 { #category : 'accessing' }

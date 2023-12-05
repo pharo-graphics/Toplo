@@ -14,11 +14,7 @@ Class {
 { #category : 'api - event managing' }
 ToStyleSheetSkin >> handleEvent: anEvent [
 
-	self beforeLookEvent: anEvent.
-	anEvent sendToStyleSheetSkin: self.
-	self afterLookEvent: anEvent.
-
-
+	anEvent sendToStyleSheetSkin: self
 ]
 
 { #category : 'initialization' }

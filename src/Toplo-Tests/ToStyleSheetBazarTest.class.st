@@ -21,12 +21,12 @@ ToStyleSheetBazarTest >> setUp [
 { #category : 'tests' }
 ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 
-	| ss button labelSkin attributes foregroundAttr prop writers label ssi |
+	| styleSheet button labelSkin attributes foregroundAttr prop writers label theme |
 	" declare a local only stylesheet "
-	ss := ToStyleSheet new
+	styleSheet := ToStyleSheet new
 		      inherits: false;
 		      yourself.
-	ssi := ToBeeTheme new.
+	theme := ToStyleSheetTheme new.
 
 	" danger button label rule "
 	prop := ToPseudoProperty new name: #'text-attributes'.
@@ -35,7 +35,7 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 			(BlTextAttributesBuilder new foreground: v) attributes.
 		e textChanged ].
 
-	ss addStyleRule: (((ToStampSelector new addStamp: #'button-label')
+	styleSheet addStyleRule: (((ToStampSelector new addStamp: #'button-label')
 			  withParent:
 			  (ToStampSelector new addAllStamps: #( #button #danger ))
 			  atDepth: 3) style: [ :sr |
@@ -60,19 +60,19 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 	button := ToButton new.
 	space toTheme: ToBeeLightTheme new.
 	space root addChild: button.
-	button styleSheet: ss.
+	button styleSheet: styleSheet.
 	label := (ToLabel text: 'Default') defaultSkin: nil.
 	label addStamp: #'button-label'.
 	button label: label.
 	labelSkin := ToBeeSkin new.
 	self assert: (button hasStamp: #danger) not.
 	self assert: (button label hasStamp: #'button-label').
-	writers := ssi applicableWritersFor: button label.
+	writers := theme applicableWritersFor: button label.
 	" writers should be empty since the label rule expect the button 
 	to be of class #danger and the label to be with style class #'button-label'"
 	self assert: writers isEmpty.
 	button addAllStamps: #( #button #danger ).
-	writers := ssi applicableWritersFor: button label.
+	writers := theme applicableWritersFor: button label.
 	self assert: writers size equals: 4.
 
 	labelSkin propertyWriters: writers.

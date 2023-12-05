@@ -17,6 +17,35 @@ ToCheckboxTest >> testCheckUncheckStates [
 ]
 
 { #category : 'tests' }
+ToCheckboxTest >> testChecked [
+
+	| cb  |
+	cb := ToCheckbox new.
+	cb checked: true.
+	self assert: cb checked.
+	cb disable.
+	self assert: cb checked.
+	
+
+]
+
+{ #category : 'tests' }
+ToCheckboxTest >> testCheckedWhenDisabled [
+
+	| cb  checked |
+	cb := ToCheckbox new.
+	checked := cb isChecked.
+	cb checked: checked not.
+	self deny: cb isChecked equals: checked.
+	cb disable.
+	checked := cb isChecked.
+	cb checked: checked not.
+	self assert: cb isChecked equals: checked.
+	
+
+]
+
+{ #category : 'tests' }
 ToCheckboxTest >> testIndeterminateState [
 
 	| cb |

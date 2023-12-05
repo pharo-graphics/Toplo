@@ -57,6 +57,18 @@ ToButtonTest >> testClickReplacingHandler [
 ]
 
 { #category : 'click handler' }
+ToButtonTest >> testClickWhenDisabled [
+
+	| but done |
+	but := ToButton new.
+	but disable.
+	done := 0.
+	but whenClickedDo: [ done := done +1 ].
+	self assert: done equals: 0.
+	
+]
+
+{ #category : 'click handler' }
 ToButtonTest >> testClickWithSimpleHandler [
 
 	| but done |

@@ -22,8 +22,8 @@ BlSpace >> applyAllSkinInstallers [
 
 { #category : '*Toplo' }
 BlSpace >> applyAllStyles [
-	
-	self root applyStylesRecursively
+
+	self root applyEnqueuedStatesRecursively
 ]
 
 { #category : '*Toplo' }

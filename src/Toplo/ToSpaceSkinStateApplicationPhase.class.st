@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToSpaceSkinStatePhase',
+	#name : 'ToSpaceSkinStateApplicationPhase',
 	#superclass : 'BlSpaceFramePhase',
 	#category : 'Toplo-Core-SpaceFrame',
 	#package : 'Toplo',
@@ -7,14 +7,14 @@ Class {
 }
 
 { #category : 'accessing' }
-ToSpaceSkinStatePhase >> name [
+ToSpaceSkinStateApplicationPhase >> name [
 	<return: #String>
 	
 	^ 'Skin state phase'
 ]
 
 { #category : 'actions' }
-ToSpaceSkinStatePhase >> runOn: aSpace [
+ToSpaceSkinStateApplicationPhase >> runOn: aSpace [
 
 	aSpace applyAllStyles
 ]

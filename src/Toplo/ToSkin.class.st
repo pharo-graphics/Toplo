@@ -10,9 +10,20 @@ Class {
 }
 
 { #category : 'style updating' }
+ToSkin >> applyEnqueuedStatesIn: anElement [
+
+	anElement skinStateQueue applyEnqueuedStatesIn: anElement
+]
+
+{ #category : 'style updating' }
 ToSkin >> applyStylesIn: anElement [
 
-	anElement skinStateQueue applyOn: anElement
+	self
+		deprecated: 'Use applyEnqueuedStatesIn: instead'
+		transformWith: '`@receiver applyStylesIn: `@argument'
+			-> '`@receiver applyEnqueuedStatesIn: `@argument'.
+
+	anElement skinStateQueue applyEnqueuedStatesIn: anElement
 ]
 
 { #category : 'api - accessing' }

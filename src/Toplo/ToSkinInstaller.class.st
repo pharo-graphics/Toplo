@@ -19,7 +19,7 @@ ToSkinInstaller >> applyOn: anElement [
 				anElement skinManager installSkin: found in: anElement.
 				" apply style here directly to benefit from the installer recursion protection
 				because  requestNewSkin may be send during installation "
-				anElement skinManager applyStylesIn: anElement ] ].
+				anElement skinManager applyEnqueuedStatesIn: anElement ] ].
 		anElement skinInstaller: nil ]
 ]
 

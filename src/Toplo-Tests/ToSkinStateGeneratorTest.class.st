@@ -7,9 +7,9 @@ Class {
 	#instVars : [
 		'space'
 	],
-	#category : 'Toplo-Tests-Core-Theme',
+	#category : 'Toplo-Tests-Core-States',
 	#package : 'Toplo-Tests',
-	#tag : 'Core-Theme'
+	#tag : 'Core-States'
 }
 
 { #category : 'instance creation' }

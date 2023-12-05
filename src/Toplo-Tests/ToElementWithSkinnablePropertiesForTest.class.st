@@ -32,10 +32,10 @@ ToElementWithSkinnablePropertiesForTest class >> newPropertyIndex [
 ]
 
 { #category : 'skin' }
-ToElementWithSkinnablePropertiesForTest >> applyStyles [
+ToElementWithSkinnablePropertiesForTest >> applyEnqueuedStates [
 
 	skinStatesApplied := skinStatesApplied + 1.
-	super applyStyles.
+	super applyEnqueuedStates
 ]
 
 { #category : 'accessing' }

@@ -67,7 +67,7 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 			directionWriter }.
 
 	w skinStateQueue enqueueInstallStateForElement: w.
-	w applyStyles.
+	w applyEnqueuedStates.
 	self assert: (w layout isKindOf: BlLinearLayout).
 	self assert: w layout direction isRightToLeft
 ]
@@ -89,7 +89,7 @@ ToStyleSheetSkinTest >> testPropertyWriters [
 	self assert: skin propertyWriters first identicalTo: propWriter.
 	w defaultSkin: skin.
 	w applySkinInstaller.
-	w applyStyles.
+	w applyEnqueuedStates.
 
 	self assert: w background paint color equals: Color blue
 ]
@@ -102,7 +102,8 @@ ToStyleSheetSkinTest >> testSupplementWriter [
 	space root addChild: w.
 	skin := ToStyleSheetSkin new.
 	borderBuilder := BlBorderBuilder new.
-	backgroundProp := self writablePropertyIndex propertyNamed: #background.
+	backgroundProp := self writablePropertyIndex propertyNamed:
+		                  #background.
 	borderProp := self writablePropertyIndex propertyNamed: #border.
 	skin propertyWriters: {
 			(ToPropertyWriter new
@@ -132,7 +133,7 @@ ToStyleSheetSkinTest >> testSupplementWriter [
 						 build ] yourself) }.
 	w defaultSkin: skin.
 	w applySkinInstaller.
-	w applyStyles.
+	w applyEnqueuedStates.
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color black.
 	self assert: w border style dashArray equals: #( 4 5 )
@@ -148,39 +149,39 @@ ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 	animation := ToPropertyColorTransitionAnimation new.
 	prop := self writablePropertyIndex propertyNamed: #'background-color'.
 
-	skin propertyWriters: { 
-		ToPropertyWriter new
-			property: prop;
-			eventClass: ToInstallLookEvent;
-			value: Color white;
-			yourself.
-		ToPropertyWriter new
-			property: prop;
-			eventClass: ToHoveredLookEvent;
-			value: Color black;
-			animation: animation;
-			yourself.
-		ToPropertyWriter new
-			property: prop;
-			eventClass: ToLeavedLookEvent;
-			value: Color white;
-			animation: animation;
-			yourself.
-	
-	 }.
+	skin propertyWriters: {
+			(ToPropertyWriter new
+				 property: prop;
+				 eventClass: ToInstallLookEvent;
+				 value: Color white;
+				 yourself).
+			(ToPropertyWriter new
+				 property: prop;
+				 eventClass: ToHoveredLookEvent;
+				 value: Color black;
+				 animation: animation;
+				 yourself).
+			(ToPropertyWriter new
+				 property: prop;
+				 eventClass: ToLeavedLookEvent;
+				 value: Color white;
+				 animation: animation;
+				 yourself) }.
 
 	w defaultSkin: skin.
 	w requestInstallSkin.
 	w applySkinInstaller.
-	w applyStyles.
+	w applyEnqueuedStates.
 
 	self assert: w background paint color equals: Color white.
 
-	w enqueueSkinState: (ToTransientState lookEvent:  ToHoveredLookEvent new).
+	w enqueueSkinState:
+		(ToTransientState lookEvent: ToHoveredLookEvent new).
 	animation onFinishedDo: [ :x |
 		self assert: w background paint color equals: Color black.
 
-		w enqueueSkinState: (ToTransientState lookEvent:  ToLeavedLookEvent new).
+		w enqueueSkinState:
+			(ToTransientState lookEvent: ToLeavedLookEvent new).
 		animation onFinishedDo: [ :xx |
 			self assert: w background paint color equals: Color white ] ]
 ]
@@ -195,7 +196,7 @@ ToStyleSheetSkinTest >> testWithNoWriter [
 	w defaultSkin: skin.
 	paint := w background paint.
 	w applySkinInstaller.
-	w applyStyles.
+	w applyEnqueuedStates.
 
 	self assert: w background paint equals: paint
 ]
@@ -207,7 +208,8 @@ ToStyleSheetSkinTest >> testWithTwoWriters [
 	w := ToElement new.
 	space root addChild: w.
 	skin := ToStyleSheetSkin new.
-	backgroundProp := self writablePropertyIndex propertyNamed: #background.
+	backgroundProp := self writablePropertyIndex propertyNamed:
+		                  #background.
 	borderProp := self writablePropertyIndex propertyNamed: #border.
 	skin propertyWriters: {
 			(ToPropertyWriter new
@@ -220,7 +222,7 @@ ToStyleSheetSkinTest >> testWithTwoWriters [
 				 yourself) }.
 	w defaultSkin: skin.
 	w applySkinInstaller.
-	w applyStyles.
+	w applyEnqueuedStates.
 
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color yellow
@@ -233,7 +235,8 @@ ToStyleSheetSkinTest >> testWithTwoWritersTwoEventClasses [
 	w := ToElement new.
 	space root addChild: w.
 	skin := ToStyleSheetSkin new.
-	backgroundProp := self writablePropertyIndex propertyNamed: #background.
+	backgroundProp := self writablePropertyIndex propertyNamed:
+		                  #background.
 	borderProp := self writablePropertyIndex propertyNamed: #border.
 	skin propertyWriters: {
 			(ToPropertyWriter new
@@ -252,7 +255,7 @@ ToStyleSheetSkinTest >> testWithTwoWritersTwoEventClasses [
 				 yourself) }.
 	w defaultSkin: skin.
 	w applySkinInstaller.
-	w applyStyles.
+	w applyEnqueuedStates.
 
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color red

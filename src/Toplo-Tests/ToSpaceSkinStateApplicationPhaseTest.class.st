@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToSpaceSkinStatePhaseTest',
+	#name : 'ToSpaceSkinStateApplicationPhaseTest',
 	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
 		'space'
@@ -10,13 +10,13 @@ Class {
 }
 
 { #category : 'running' }
-ToSpaceSkinStatePhaseTest >> setUp [
+ToSpaceSkinStateApplicationPhaseTest >> setUp [
 	super setUp.
 	space := self newTestingSpace 
 ]
 
 { #category : 'tests' }
-ToSpaceSkinStatePhaseTest >> testStartSkinPhases [
+ToSpaceSkinStateApplicationPhaseTest >> testStartSkinPhases [
 
 	| nb |
 	nb := space frame phases size.
@@ -25,7 +25,7 @@ ToSpaceSkinStatePhaseTest >> testStartSkinPhases [
 	self assert: (space frame phases noneSatisfy: [ :p |
 			 p isKindOf: ToSpaceSkinInstallerPhase ]).
 	self assert: (space frame phases noneSatisfy: [ :p |
-			 p isKindOf: ToSpaceSkinStatePhase ]).
+			 p isKindOf: ToSpaceSkinStateApplicationPhase ]).
 
 	" shoud result in a requestSkin which do the installation if needed "
 	" The skin specific phase is added"
@@ -34,7 +34,7 @@ ToSpaceSkinStatePhaseTest >> testStartSkinPhases [
 		self assert: (space frame phases anySatisfy: [ :p |
 				 p isKindOf: ToSpaceSkinInstallerPhase ]).
 		self assert: (space frame phases anySatisfy: [ :p |
-				 p isKindOf: ToSpaceSkinStatePhase ]).
+				 p isKindOf: ToSpaceSkinStateApplicationPhase ]).
 		space close ].
 	
 	space skinPhasesManager startSkinPhasesIn: space
@@ -43,7 +43,7 @@ ToSpaceSkinStatePhaseTest >> testStartSkinPhases [
 ]
 
 { #category : 'tests' }
-ToSpaceSkinStatePhaseTest >> testStartStopSkinStatePhases [
+ToSpaceSkinStateApplicationPhaseTest >> testStartStopSkinStatePhases [
 
 	| nb stopped started |
 	nb := space frame phases size.
@@ -57,7 +57,7 @@ ToSpaceSkinStatePhaseTest >> testStartStopSkinStatePhases [
 		self assert: (space frame phases anySatisfy: [ :p |
 				 p isKindOf: ToSpaceSkinInstallerPhase ]).
 		self assert: (space frame phases anySatisfy: [ :p |
-				 p isKindOf: ToSpaceSkinStatePhase ]) ].
+				 p isKindOf: ToSpaceSkinStateApplicationPhase ]) ].
 		
 	space startSkinPhases.
 	self assert: started.
@@ -68,7 +68,7 @@ ToSpaceSkinStatePhaseTest >> testStartStopSkinStatePhases [
 		" The skin specific phase is removed "
 		self assert: space frame phases size equals: nb.
 		self assert: (space frame phases noneSatisfy: [ :p |
-				 p isKindOf: ToSpaceSkinStatePhase ]).
+				 p isKindOf: ToSpaceSkinStateApplicationPhase ]).
 		self assert: (space frame phases noneSatisfy: [ :p |
 				 p isKindOf: ToSpaceSkinInstallerPhase ]) ].
 

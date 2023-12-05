@@ -27,6 +27,19 @@ BlElement >> addStamp: aSymbol value: anObject [
 ]
 
 { #category : '*Toplo' }
+BlElement >> applyEnqueuedStates [
+
+	self skinManager applyEnqueuedStatesIn: self
+]
+
+{ #category : '*Toplo' }
+BlElement >> applyEnqueuedStatesRecursively [
+
+	self childrenDo: [ :child | child applyEnqueuedStatesRecursively ].
+	self applyEnqueuedStates
+]
+
+{ #category : '*Toplo' }
 BlElement >> applySkinInstaller [
 
 	self skinManager applySkinUninstallerIn: self.
@@ -51,15 +64,22 @@ BlElement >> applySkinInstallerRecursively [
 { #category : '*Toplo' }
 BlElement >> applyStyles [
 
-	self skinManager applyStylesIn: self
+	self
+		deprecated: 'Use applyEnqueuedStates instead'
+		transformWith:
+		'`@receiver applyStyles' -> '`@receiver applyEnqueuedStates'.
+	self skinManager applyEnqueuedStatesIn: self
 ]
 
 { #category : '*Toplo' }
 BlElement >> applyStylesRecursively [
 
-	self childrenDo: [ :child | child applyStylesRecursively ].
-	self applyStyles.
-
+	self
+		deprecated: 'Use applyEnqueuedStatesRecursively instead'
+		transformWith: '`@receiver applyStylesRecursively'
+			-> '`@receiver applyEnqueuedStatesRecursively'.
+			
+	self applyEnqueuedStatesRecursively
 ]
 
 { #category : '*Toplo' }

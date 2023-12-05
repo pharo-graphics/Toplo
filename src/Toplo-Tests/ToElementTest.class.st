@@ -137,7 +137,7 @@ ToElementTest >> testDefaultSkin [
 	" check install/uninstall/initial states if defaultSkin: is used "
 
 	| e sk sk2 |
-	e := ToElement new. 
+	e := ToElement new.
 	space root addChild: e.
 	e defaultSkin: (sk := ToRawSkinForTest new).
 	self assert: e defaultSkin identicalTo: sk.
@@ -151,7 +151,9 @@ ToElementTest >> testDefaultSkin [
 	self assert: e defaultSkin identicalTo: sk.
 	self assert: e installedSkin identicalTo: sk.
 	self
-		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ]) size
+		assert:
+		(e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ])
+			size
 		equals: 1.
 	self assert: sk installCpt equals: 1.
 	self assert: sk initialCpt equals: 1.
@@ -160,22 +162,26 @@ ToElementTest >> testDefaultSkin [
 	e defaultSkin: sk.
 	e requestInstallSkin.
 	e applySkinInstaller.
-	e applyStyles.
+	e applyEnqueuedStates.
 	" no change since same skin "
 	self assert: sk installCpt equals: 1.
 	self assert: sk initialCpt equals: 1.
 	self assert: sk uninstallCpt equals: 0.
 
 	self
-		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ]) size
+		assert:
+		(e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ])
+			size
 		equals: 1.
 
 	e defaultSkin: (sk2 := ToRawSkinForTest new).
 	e applySkinInstaller.
-	e applyStyles.
-	
+	e applyEnqueuedStates.
+
 	self
-		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ]) size
+		assert:
+		(e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ])
+			size
 		equals: 1.
 
 	self assert: sk installCpt equals: 1.
@@ -296,10 +302,9 @@ ToElementTest >> testRequestSkin [
 
 { #category : 'test initialize' }
 ToElementTest >> testSetSkin [
-
 	" check install/uninstall/initial states if setSkin: is used"
 
-	| e  sk sk2 |
+	| e sk sk2 |
 	e := ToElement new.
 	space root addChild: e.
 	e defaultSkin: (sk := ToRawSkinForTest new).
@@ -316,9 +321,11 @@ ToElementTest >> testSetSkin [
 	self assert: sk installCpt equals: 1.
 	self assert: sk initialCpt equals: 1.
 	self assert: sk uninstallCpt equals: 0.
-	
+
 	self
-		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ]) size
+		assert:
+		(e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ])
+			size
 		equals: 1.
 
 	" force uninstall->install->initial states "
@@ -327,17 +334,21 @@ ToElementTest >> testSetSkin [
 	self assert: sk uninstallCpt equals: 1.
 	self assert: sk installCpt equals: 2.
 	self assert: sk initialCpt equals: 2.
-	
+
 	self
-		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ]) size
+		assert:
+		(e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ])
+			size
 		equals: 1.
 
 	e defaultSkin: (sk2 := ToRawSkinForTest new).
 	e applySkinInstaller.
-	e applyStyles.
-	
+	e applyEnqueuedStates.
+
 	self
-		assert: (e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ]) size
+		assert:
+		(e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ])
+			size
 		equals: 1.
 
 	self assert: sk installCpt equals: 2.
@@ -345,11 +356,7 @@ ToElementTest >> testSetSkin [
 	self assert: sk uninstallCpt equals: 2.
 	self assert: sk2 installCpt equals: 1.
 	self assert: sk2 initialCpt equals: 1.
-	self assert: sk2 uninstallCpt equals: 0.
-	
-
-
-
+	self assert: sk2 uninstallCpt equals: 0
 ]
 
 { #category : 'test initialize' }

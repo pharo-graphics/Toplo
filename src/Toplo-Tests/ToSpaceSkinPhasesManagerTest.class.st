@@ -75,10 +75,10 @@ ToSpaceSkinPhasesManagerTest >> testInstalledSkinInstallerPhaseIn [
 ]
 
 { #category : 'tests' }
-ToSpaceSkinPhasesManagerTest >> testInstalledSkinStatePhaseIn [
+ToSpaceSkinPhasesManagerTest >> testInstalledSkinStateApplicationPhaseIn [
 
 	space skinPhasesManager startSkinPhasesIn: space.
-	self assert: ((space skinPhasesManager installedSkinStatePhaseIn: space) isKindOf: ToSpaceSkinStatePhase).
+	self assert: ((space skinPhasesManager installedSkinStateApplicationPhaseIn: space) isKindOf: ToSpaceSkinStateApplicationPhase).
 ]
 
 { #category : 'tests' }
@@ -106,13 +106,13 @@ ToSpaceSkinPhasesManagerTest >> testIsSkinPhasesInstallationPostponed [
 ]
 
 { #category : 'tests' }
-ToSpaceSkinPhasesManagerTest >> testIsSkinStatePhaseInstalledIn [
+ToSpaceSkinPhasesManagerTest >> testIsSkinStateApplicationPhaseInstalledIn [
 
 	space checkSkinPhases.
 	" since space is not opened, the skin phases installation should be postponed "
-	self deny: (space skinPhasesManager isSkinStatePhaseInstalledIn: space).
+	self deny: (space skinPhasesManager isSkinStateApplicationPhaseInstalledIn: space).
 	space skinPhasesManager startSkinPhasesIn: space.
-	self assert: (space skinPhasesManager isSkinStatePhaseInstalledIn: space).
+	self assert: (space skinPhasesManager isSkinStateApplicationPhaseInstalledIn: space).
 
 ]
 
@@ -191,21 +191,21 @@ ToSpaceSkinPhasesManagerTest >> testStartSkinPhasesIn [
 
 	space checkSkinPhases.
 	" since space is not opened, the skin phases installation should be postponed "
-	self deny: (space skinPhasesManager isSkinStatePhaseInstalledIn: space).
+	self deny: (space skinPhasesManager isSkinStateApplicationPhaseInstalledIn: space).
 	space skinPhasesManager startSkinPhasesIn: space.
 	self assert: (space skinPhasesManager isSkinInstallerPhaseInstalledIn: space).
-	self assert: (space skinPhasesManager isSkinStatePhaseInstalledIn: space).
+	self assert: (space skinPhasesManager isSkinStateApplicationPhaseInstalledIn: space).
 
 ]
 
 { #category : 'tests' }
-ToSpaceSkinPhasesManagerTest >> testStartSkinStatePhaseIn [
+ToSpaceSkinPhasesManagerTest >> testStartSkinStateApplicationPhaseIn [
 
 	space checkSkinPhases.
 	space skinPhasesManager onUninstalledIn: space.
 	" here nothing is installed nor postponed"
-	space skinPhasesManager startSkinStatePhaseIn: space.
-	self assert: (space skinPhasesManager isSkinStatePhaseInstalledIn: space)
+	space skinPhasesManager startSkinStateApplicationPhaseIn: space.
+	self assert: (space skinPhasesManager isSkinStateApplicationPhaseInstalledIn: space)
 ]
 
 { #category : 'tests' }
@@ -226,28 +226,28 @@ ToSpaceSkinPhasesManagerTest >> testStopSkinPhasesIn [
 
 	space checkSkinPhases.
 	" since space is not opened, the skin phases installation should be postponed "
-	self deny: (space skinPhasesManager isSkinStatePhaseInstalledIn: space).
+	self deny: (space skinPhasesManager isSkinStateApplicationPhaseInstalledIn: space).
 	space skinPhasesManager startSkinPhasesIn: space.
 	self assert: space skinPhasesManager skinPhasesInstalled.
 	self assert: (space skinPhasesManager isSkinInstallerPhaseInstalledIn: space).
-	self assert: (space skinPhasesManager isSkinStatePhaseInstalledIn: space).
+	self assert: (space skinPhasesManager isSkinStateApplicationPhaseInstalledIn: space).
 	space skinPhasesManager stopSkinPhasesIn: space.
 	self deny: space skinPhasesManager skinPhasesInstalled.
 	self deny: (space skinPhasesManager isSkinInstallerPhaseInstalledIn: space).
-	self deny: (space skinPhasesManager isSkinStatePhaseInstalledIn: space).
+	self deny: (space skinPhasesManager isSkinStateApplicationPhaseInstalledIn: space).
 
 
 
 ]
 
 { #category : 'tests' }
-ToSpaceSkinPhasesManagerTest >> testStopSkinStatePhaseIn [
+ToSpaceSkinPhasesManagerTest >> testStopSkinStateApplicationPhaseIn [
 
 	space checkSkinPhases.
 	space skinPhasesManager onUninstalledIn: space.
 	" here nothing is installed nor postponed"
-	space skinPhasesManager startSkinStatePhaseIn: space.
-	self assert: (space skinPhasesManager isSkinStatePhaseInstalledIn: space).
-	space skinPhasesManager stopSkinStatePhaseIn: space.
-	self deny: (space skinPhasesManager isSkinStatePhaseInstalledIn: space)
+	space skinPhasesManager startSkinStateApplicationPhaseIn: space.
+	self assert: (space skinPhasesManager isSkinStateApplicationPhaseInstalledIn: space).
+	space skinPhasesManager stopSkinStateApplicationPhaseIn: space.
+	self deny: (space skinPhasesManager isSkinStateApplicationPhaseInstalledIn: space)
 ]

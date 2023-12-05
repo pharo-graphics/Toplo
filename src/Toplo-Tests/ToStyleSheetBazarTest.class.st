@@ -24,8 +24,8 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 	| styleSheet button labelSkin attributes foregroundAttr prop writers label theme |
 	" declare a local only stylesheet "
 	styleSheet := ToStyleSheet new
-		      inherits: false;
-		      yourself.
+		              inherits: false;
+		              yourself.
 	theme := ToStyleSheetTheme new.
 
 	" danger button label rule "
@@ -35,7 +35,8 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 			(BlTextAttributesBuilder new foreground: v) attributes.
 		e textChanged ].
 
-	styleSheet addStyleRule: (((ToStampSelector new addStamp: #'button-label')
+	styleSheet addStyleRule:
+		(((ToStampSelector new addStamp: #'button-label')
 			  withParent:
 			  (ToStampSelector new addAllStamps: #( #button #danger ))
 			  atDepth: 3) style: [ :sr |
@@ -78,7 +79,7 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 	labelSkin propertyWriters: writers.
 	button label defaultSkin: labelSkin.
 	button label applySkinInstaller.
-	button label applyStyles.
+	button label applyEnqueuedStates.
 	attributes := button label text attributesAt: 1.
 	self assert: attributes notEmpty.
 	foregroundAttr := attributes
@@ -173,7 +174,7 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 	self assert: button installedSkin isNil.
 	button defaultSkin: skin.
 	button applySkinInstaller.
-	button applyStyles.
+	button applyEnqueuedStates.
 	self assert: button border width equals: 1.
 	self assert: button border paint isColorPaint.
 	self
@@ -198,7 +199,7 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 	labelSkin propertyWriters: writers.
 	label defaultSkin: labelSkin.
 	label applySkinInstaller.
-	label applyStyles.
+	label applyEnqueuedStates.
 	attributes := button label text attributesAt: 1.
 	self assert: attributes notEmpty.
 	foregroundAttr := attributes
@@ -216,22 +217,21 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 ToStyleSheetBazarTest >> testButtonSkinWithInterspace [
 
 	| ss elem writers skin interspaceProp layoutProp ssi |
-	
 	ssi := ToStyleSheetTheme new.
 	interspaceProp := ToPseudoProperty
-			   name: #'layout-interspace'
-			   reader: [ :e | e layout interspace ]
-			   writer: [ :e :v | e layout interspace: v ].
+		                  name: #'layout-interspace'
+		                  reader: [ :e | e layout interspace ]
+		                  writer: [ :e :v | e layout interspace: v ].
 	layoutProp := ToFeatureProperty name: #layout.
-	
-	ss := ToStyleSheet new inherits: false; yourself.
-	ss addStyleRule: (((ToStampSelector new addStamp: #button) 
-				or: (ToStampSelector new addAllStamps: #( #button #horizontal )))
+
+	ss := ToStyleSheet new
+		      inherits: false;
+		      yourself.
+	ss addStyleRule: (((ToStampSelector new addStamp: #button) or:
+			  (ToStampSelector new addAllStamps: #( #button #horizontal )))
 			 style: [ :sr |
-				 sr
-					 write: layoutProp
-					 with: BlLinearLayout horizontal.
-				 sr  write: interspaceProp with: 10]).
+				 sr write: layoutProp with: BlLinearLayout horizontal.
+				 sr write: interspaceProp with: 10 ]).
 
 	elem := ToElement new.
 	space root addChild: elem.
@@ -245,7 +245,7 @@ ToStyleSheetBazarTest >> testButtonSkinWithInterspace [
 	skin propertyWriters: writers.
 	elem defaultSkin: skin.
 	elem applySkinInstaller.
-	elem applyStyles.
+	elem applyEnqueuedStates.
 	self assert: (elem layout isKindOf: BlLinearLayout).
 	self assert: elem layout interspace equals: 10
 ]
@@ -298,10 +298,11 @@ ToStyleSheetBazarTest >> testNewStyleSheetWith2Rules [
 ToStyleSheetBazarTest >> testSkinWithAnUniversalRule [
 
 	| ss elem skin writers ssi |
-	ss := ToStyleSheet new inherits: false; yourself.
+	ss := ToStyleSheet new
+		      inherits: false;
+		      yourself.
 	ssi := ToStyleSheetTheme new.
-	ss addStyleRule:
-		(ToUniversalSelector new style: [ :sr |
+	ss addStyleRule: (ToUniversalSelector new style: [ :sr |
 			 sr
 				 when: ToInstallLookEvent
 				 write: (ToFeatureProperty new name: #background)
@@ -315,7 +316,7 @@ ToStyleSheetBazarTest >> testSkinWithAnUniversalRule [
 	skin propertyWriters: writers.
 	elem defaultSkin: skin.
 	elem applySkinInstaller.
-	elem applyStyles.
+	elem applyEnqueuedStates.
 	self assert: elem background paint color equals: Color red
 ]
 
@@ -349,9 +350,9 @@ ToStyleSheetBazarTest >> testSkinWithChildRule [
 	skin propertyWriters: writers.
 	child defaultSkin: skin.
 	parent applySkinInstaller.
-	parent applyStyles.
+	parent applyEnqueuedStates.
 	child applySkinInstaller.
-	child applyStyles.
+	child applyEnqueuedStates.
 
 	self assert: child border width equals: 3.
 	self assert: child border paint isColorPaint.
@@ -391,9 +392,9 @@ ToStyleSheetBazarTest >> testSkinWithChildRuleLevel2 [
 	skin propertyWriters: writers.
 	child defaultSkin: skin.
 	parent applySkinInstaller.
-	parent applyStyles.
+	parent applyEnqueuedStates.
 	child applySkinInstaller.
-	child applyStyles.
+	child applyEnqueuedStates.
 	self assert: child border width equals: 3.
 	self assert: child border paint isColorPaint.
 	self assert: child border paint color equals: Color red
@@ -403,10 +404,11 @@ ToStyleSheetBazarTest >> testSkinWithChildRuleLevel2 [
 ToStyleSheetBazarTest >> testSkinWithIdRule [
 
 	| ss elem writers skin ssi |
-	ss := ToStyleSheet new inherits: false; yourself.
+	ss := ToStyleSheet new
+		      inherits: false;
+		      yourself.
 	ssi := ToStyleSheetTheme new.
-	ss addStyleRule:
-		((ToIdSelector new id: #a) style: [ :sr |
+	ss addStyleRule: ((ToIdSelector new id: #a) style: [ :sr |
 			 sr
 				 write: (ToFeatureProperty new name: #border)
 				 with: (BlBorder paint: Color red width: 3) ]).
@@ -422,7 +424,7 @@ ToStyleSheetBazarTest >> testSkinWithIdRule [
 	skin propertyWriters: writers.
 	elem defaultSkin: skin.
 	elem applySkinInstaller.
-	elem applyStyles.
+	elem applyEnqueuedStates.
 	self assert: elem border width equals: 3.
 	self assert: elem border paint isColorPaint.
 	self assert: elem border paint color equals: Color red
@@ -449,7 +451,8 @@ ToStyleSheetBazarTest >> testStyleSheetStyle0 [
 		          sr
 			          when: ToDisabledLookEvent
 			          write: (ss property: #background)
-			          with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ] ]) }.
+			          with: [ :e |
+			          e tokenValueNamed: #'color-bg-container-disabled' ] ]) }.
 
 	ss addAllStyleRules: rules.
 	button addStamp: #button.
@@ -460,7 +463,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyle0 [
 	skin propertyWriters: writers.
 	button defaultSkin: skin.
 	button applySkinInstaller.
-	button applyStyles.
+	button applyEnqueuedStates.
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color black
 ]
@@ -478,8 +481,8 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 	button styleSheet: ss.
 
 	" default button rule "
-	rules := { (#button asElementSelector style: [ :sr | 
-		          sr select: #danger asElementSelector style: [ 
+	rules := { (#button asElementSelector style: [ :sr |
+		          sr select: #danger asElementSelector style: [
 			          sr write: (ss property: #background) with: Color red.
 			          sr
 				          when: ToDisabledLookEvent
@@ -503,7 +506,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 	skin propertyWriters: writers.
 	button defaultSkin: skin.
 	button applySkinInstaller.
-	button applyStyles.
+	button applyEnqueuedStates.
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color black.
 
@@ -513,14 +516,14 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 	skin propertyWriters: writers.
 	button defaultSkin: skin.
 	button applySkinInstaller.
-	button applyStyles.
-	
+	button applyEnqueuedStates.
+
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color red.
 
 	button disabled: true.
 	button applySkinInstaller.
-	button applyStyles.
+	button applyEnqueuedStates.
 	self assert: button background paint isColorPaint.
 	self
 		assert: button background paint color
@@ -546,7 +549,9 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules1 [
 	child styleSheet: ss.
 	" default button rule "
 	rules := { (#child asElementSelector style: [ :sr |
-		          sr select: sr any style: [
+		          sr
+			          select: sr any
+			          style: [
 			          sr
 				          write: (ss property: #background)
 				          with: [ :e | Color red ] ] ]) }.
@@ -558,18 +563,18 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules1 [
 
 	writers := ssi applicableWritersFor: elem.
 	self assert: writers size equals: 0.
-	writers := ssi applicableWritersFor: childchild1 .
+	writers := ssi applicableWritersFor: childchild1.
 	self assert: writers size equals: 0.
 	writers := ssi applicableWritersFor: childchild1.
 	self assert: writers size equals: 0.
-	
+
 	writers := ssi applicableWritersFor: child.
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
 	skin propertyWriters: writers.
 	child defaultSkin: skin.
 	child applySkinInstaller.
-	child applyStyles.
+	child applyEnqueuedStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -619,7 +624,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules2 [
 	child defaultSkin: skin.
 
 	child applySkinInstaller.
-	child applyStyles.
+	child applyEnqueuedStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -669,7 +674,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules22 [
 	skin propertyWriters: writers.
 	child defaultSkin: skin.
 	child applySkinInstaller.
-	child applyStyles.
+	child applyEnqueuedStates.
 
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
@@ -723,7 +728,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules3 [
 	child defaultSkin: skin.
 
 	child applySkinInstaller.
-	child applyStyles.
+	child applyEnqueuedStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -784,7 +789,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules32 [
 	child defaultSkin: skin.
 
 	child applySkinInstaller.
-	child applyStyles.
+	child applyEnqueuedStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -834,7 +839,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules33 [
 	child defaultSkin: skin.
 
 	child applySkinInstaller.
-	child applyStyles.
+	child applyEnqueuedStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -860,7 +865,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules1 [
 	elem addChild: child.
 	child addChild: childchild1.
 	child addChild: childchild2.
-	
+
 	" default button rule "
 	rules := { (#child asElementSelector style: [ :sr |
 		          sr
@@ -875,7 +880,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules1 [
 	child defaultSkin: skin.
 
 	child applySkinInstaller.
-	child applyStyles.
+	child applyEnqueuedStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -917,7 +922,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules2 [
 	child defaultSkin: skin.
 
 	child applySkinInstaller.
-	child applyStyles.
+	child applyEnqueuedStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -963,7 +968,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules3 [
 	child defaultSkin: skin.
 
 	child applySkinInstaller.
-	child applyStyles.
+	child applyEnqueuedStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -1018,7 +1023,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 	child defaultSkin: skin.
 
 	child applySkinInstaller.
-	child applyStyles.
+	child applyEnqueuedStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red.
 
@@ -1031,7 +1036,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 	child defaultSkin: skin.
 	child applySkinInstaller.
 
-	child applyStyles.
+	child applyEnqueuedStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color blue
 ]

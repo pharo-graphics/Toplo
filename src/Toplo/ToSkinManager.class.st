@@ -22,6 +22,13 @@ Class {
 }
 
 { #category : 'skin application' }
+ToSkinManager >> applyEnqueuedStatesIn: anElement [
+	" run the skin actually by flushing the state queue"
+
+	self installedSkinDo: [ :s | s applyEnqueuedStatesIn: anElement ]
+]
+
+{ #category : 'skin application' }
 ToSkinManager >> applySkinInstallerIn: anElement [
 	" ask the skin installer (if any) to actually install the skin "
 
@@ -54,8 +61,12 @@ ToSkinManager >> applySkinUninstallerIn: anElement [
 { #category : 'skin application' }
 ToSkinManager >> applyStylesIn: anElement [
 
-	" run the skin actually by flushing the state queue"
-	self installedSkinDo: [ :s | s applyStylesIn: anElement ]
+	self
+		deprecated: 'Use applyEnqueuedStatesIn: instead'
+		transformWith: '`@receiver applyStylesIn: `@argument'
+			-> '`@receiver applyEnqueuedStatesIn: `@argument'.
+			
+	self installedSkinDo: [ :s | s applyEnqueuedStatesIn: anElement ]
 ]
 
 { #category : 'accessing' }
@@ -246,13 +257,13 @@ ToSkinManager >> skinUninstaller: aSkinUninstaller [
 	skinUninstaller := aSkinUninstaller 
 ]
 
-{ #category : 'accessing stylesheet' }
+{ #category : 'accessing - stylesheet' }
 ToSkinManager >> styleSheet [
 
 	^ styleSheet
 ]
 
-{ #category : 'accessing stylesheet' }
+{ #category : 'accessing - stylesheet' }
 ToSkinManager >> styleSheet: aStyleSheet in: anElement [
 
 	self styleSheet ifNotNil: [ :prev | prev onUnInstalledIn: anElement ].
@@ -302,7 +313,6 @@ ToSkinManager >> uninstallSkinNow: aSkin in: anElement [
 	aSkin onUninstallStateRequestIn: anElement.
 	self skinStateQueue enqueueUninstallStateForElement: anElement.
 	" do not wait the next pulse to ensure the uninstallation is done here "
-	self skinStateQueue applyOn: anElement.
+	self skinStateQueue applyEnqueuedStatesIn: anElement.
 	anElement removeEventHandler: aSkin
-
 ]

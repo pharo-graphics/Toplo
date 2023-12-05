@@ -6,17 +6,28 @@ Class {
 		'previousInstallState',
 		'intrinsicStateIndex'
 	],
-	#category : 'Toplo-Core-Theme',
+	#category : 'Toplo-Core-States',
 	#package : 'Toplo',
-	#tag : 'Core-Theme'
+	#tag : 'Core-States'
 }
 
 { #category : 'hook' }
-ToSkinStateQueue >> applyOn: anElement [
+ToSkinStateQueue >> applyEnqueuedStatesIn: anElement [
 
 	| nextInQueue |
 	[ (nextInQueue := self nextStates nextOrNil) isNotNil ] whileTrue: [
 		nextInQueue applyOn: anElement ]
+]
+
+{ #category : 'hook' }
+ToSkinStateQueue >> applyOn: anElement [
+
+	self
+		deprecated: 'Use applyEnqueuedStatesIn: instead'
+		transformWith: '`@receiver applyOn: `@argument'
+			-> '`@receiver applyEnqueuedStatesIn: `@argument'.
+
+	self applyEnqueuedStatesIn: anElement
 ]
 
 { #category : 'adding' }

@@ -9,9 +9,9 @@ Class {
 		'stillPressedTask',
 		'stillHoveredTask'
 	],
-	#category : 'Toplo-Core-Theme',
+	#category : 'Toplo-Core-States',
 	#package : 'Toplo',
-	#tag : 'Core-Theme'
+	#tag : 'Core-States'
 }
 
 { #category : 'focus events handling' }

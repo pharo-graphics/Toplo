@@ -29,7 +29,7 @@ ToIntrinsicStateTest >> testApplyOn [
 { #category : 'tests' }
 ToIntrinsicStateTest >> testApplyOnEnqueueFromElementInQueue [
 
-	| e  nextInQueue firstValState secondValState |
+	| e nextInQueue firstValState secondValState |
 	e := ToElement new.
 	firstValState := ToIntrinsicStateForTest new val: #firstVal.
 	firstValState requestEnqueueFromElement: e inQueue: e skinStateQueue.
@@ -40,8 +40,8 @@ ToIntrinsicStateTest >> testApplyOnEnqueueFromElementInQueue [
 	e skinStateQueue enqueueInstallStateForElement: e.
 	secondValState requestEnqueueFromElement: e inQueue: e skinStateQueue.
 	self assert: secondValState canBeEnqueued.
-	e skinStateQueue applyOn: e.
-	
+	e skinStateQueue applyEnqueuedStatesIn: e.
+
 	self assert: firstValState applyCount equals: 1.
 	self assert: secondValState applyCount equals: 1.
 	nextInQueue := e skinStateQueue nextStates nextOrNil.

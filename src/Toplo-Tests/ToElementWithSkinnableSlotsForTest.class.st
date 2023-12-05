@@ -16,10 +16,10 @@ Class {
 }
 
 { #category : 'skin' }
-ToElementWithSkinnableSlotsForTest >> applyStyles [
+ToElementWithSkinnableSlotsForTest >> applyEnqueuedStates [
 
 	skinStatesApplied := skinStatesApplied + 1.
-	super applyStyles.
+	super applyEnqueuedStates
 ]
 
 { #category : 'accessing' }

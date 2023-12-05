@@ -51,10 +51,10 @@ ToSpaceSkinPhasesManager >> installedSkinInstallerPhaseIn: aSpace [
 ]
 
 { #category : 'phases installation' }
-ToSpaceSkinPhasesManager >> installedSkinStatePhaseIn: aSpace [
+ToSpaceSkinPhasesManager >> installedSkinStateApplicationPhaseIn: aSpace [
 
 	^ aSpace frame phases
-		  detect: [ :p | p isKindOf: ToSpaceSkinStatePhase ]
+		  detect: [ :p | p isKindOf: ToSpaceSkinStateApplicationPhase ]
 		  ifNone: [  ]
 ]
 
@@ -71,9 +71,9 @@ ToSpaceSkinPhasesManager >> isSkinPhasesInstallationPostponed [
 ]
 
 { #category : 'testing' }
-ToSpaceSkinPhasesManager >> isSkinStatePhaseInstalledIn: aSpace [
+ToSpaceSkinPhasesManager >> isSkinStateApplicationPhaseInstalledIn: aSpace [
 
-	^ (self installedSkinStatePhaseIn: aSpace) notNil
+	^ (self installedSkinStateApplicationPhaseIn: aSpace) notNil
 ]
 
 { #category : 'phases installation' }
@@ -145,11 +145,11 @@ ToSpaceSkinPhasesManager >> startSkinPhasesIn: aSpace [
 		spaceShownEventHandler := nil. ].
 	self
 		startSkinInstallerPhaseIn: aSpace;
-		startSkinStatePhaseIn: aSpace.
+		startSkinStateApplicationPhaseIn: aSpace.
 	
 	self skinPhasesInstalled: true.
 	" If no theme has been already set, now I can set the root default theme
-	( before skinPhasesInstalled: true it would start an endless loop )"
+	( *** before skinPhasesInstalled: true *** it would start an endless loop )"
 	
 	" reading the theme will install the default "
 	aSpace toTheme.
@@ -164,13 +164,13 @@ ToSpaceSkinPhasesManager >> startSkinPhasesIn: aSpace [
 ]
 
 { #category : 'phases installation' }
-ToSpaceSkinPhasesManager >> startSkinStatePhaseIn: aSpace [
+ToSpaceSkinPhasesManager >> startSkinStateApplicationPhaseIn: aSpace [
 	| phaseAfter |
 
-	(self isSkinStatePhaseInstalledIn: aSpace) ifTrue: [ ^ self ].
+	(self isSkinStateApplicationPhaseInstalledIn: aSpace) ifTrue: [ ^ self ].
 	" The skin phase must be inserted before the layout phase (that must be present) "
 	phaseAfter := aSpace frame detectPhase: [ :f | f class = BlSpaceFrameLayoutPhase ].
-	aSpace frame addPhase: ToSpaceSkinStatePhase new before: phaseAfter
+	aSpace frame addPhase: ToSpaceSkinStateApplicationPhase new before: phaseAfter
 ]
 
 { #category : 'phases installation' }
@@ -190,7 +190,7 @@ ToSpaceSkinPhasesManager >> stopSkinPhasesIn: aSpace [
 	self skinPhasesInstalled ifFalse: [ ^ self ].
 	self
 		stopSkinInstallerPhaseIn: aSpace;
-		stopSkinStatePhaseIn: aSpace.
+		stopSkinStateApplicationPhaseIn: aSpace.
 	
 	" 'stopSkinPhasesIn:' traceCr. "
 	self skinPhasesInstalled: false.
@@ -198,8 +198,8 @@ ToSpaceSkinPhasesManager >> stopSkinPhasesIn: aSpace [
 ]
 
 { #category : 'phases installation' }
-ToSpaceSkinPhasesManager >> stopSkinStatePhaseIn: aSpace [
+ToSpaceSkinPhasesManager >> stopSkinStateApplicationPhaseIn: aSpace [
 
-	(self installedSkinStatePhaseIn: aSpace) ifNotNil: [ :phase |
+	(self installedSkinStateApplicationPhaseIn: aSpace) ifNotNil: [ :phase |
 		aSpace frame removePhase: phase]
 ]

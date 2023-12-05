@@ -32,11 +32,12 @@ ToNullSkinTest >> testWithASkinInstalledBefore [
 	self assert: w installedSkin identicalTo: nsk.
 	w requestInstallSkin.
 	w applySkinInstaller.
-	w applyStyles.
+	w applyEnqueuedStates.
 	self assert: w installedSkin identicalTo: nsk.
 	self assert: w skinStateQueue nextStates isEmpty.
-	w enqueueSkinState: (ToTransientState lookEvent:  ToHoveredLookEvent new).
-	w applyStyles.
+	w enqueueSkinState:
+		(ToTransientState lookEvent: ToHoveredLookEvent new).
+	w applyEnqueuedStates.
 	self assert: w skinStateQueue nextStates isEmpty
 ]
 
@@ -55,6 +56,6 @@ ToNullSkinTest >> testWithoutSkin [
 	w requestInstallSkin.
 	w applySkinInstaller.
 	self assert: w installedSkin identicalTo: sk.
-	w applyStyles.
+	w applyEnqueuedStates.
 	self assert: w skinStateQueue nextStates isEmpty
 ]

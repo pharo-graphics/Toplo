@@ -80,7 +80,7 @@ ToLabel >> defaultEventHandler [
 { #category : 'initialization' }
 ToLabel >> defaultLayout [ 
 
-	^ BlLinearLayout horizontal
+	^ BlFrameLayout new
 ]
 
 { #category : 'initialization' }
@@ -312,6 +312,14 @@ ToLabel >> removeEditor [
 	self cleanUpUserData.
 	self dispatchEvent: ToLabelEditorClosedEvent new
 
+]
+
+{ #category : 'rotation' }
+ToLabel >> rotateBy: aDegreesAngle [
+
+	self innerElement
+		constraintsDo: [ :c | c accountTransformation ];
+		transformDo: [ :t | t rotateBy: aDegreesAngle ]
 ]
 
 { #category : 'accessing' }

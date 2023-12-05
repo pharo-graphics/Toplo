@@ -23,7 +23,7 @@ ToTabPane >> addTab: aTab [
 ToTabPane >> addTabWithText: aText [ 
 
 	| but |
-	but := ToTabDep new labelText: aText asString.
+	but := ToTab new labelText: aText asString.
 	self addTab: but
 ]
 
@@ -31,7 +31,7 @@ ToTabPane >> addTabWithText: aText [
 ToTabPane >> addTabWithText: aText builder: aValuable [
 
 	| but |
-	but := ToTabDep new labelText: aText asString.
+	but := ToTab new labelText: aText asString.
 	but paneBuilder: aValuable.
 	self addTab: but
 ]
@@ -92,7 +92,7 @@ ToTabPane >> initialize [
 	rebuildPaneOnSelect := false.
 	resizablePanes := false.
 	self matchParent.
-	header := ToTabPaneHeaderDep new.
+	header := ToTabPaneHeader new.
 	header tabsPane: self.
 	header applyPositioning.
 	body := ToPane vertical matchParent.

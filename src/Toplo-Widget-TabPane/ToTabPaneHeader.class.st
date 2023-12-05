@@ -1,45 +1,62 @@
 Class {
 	#name : 'ToTabPaneHeader',
 	#superclass : 'ToPane',
-	#classTraits : 'TToOrientable classTrait',
 	#instVars : [
+		'tabsPane',
+		'group',
+		'positioningStrategy',
 		'tabs',
 		'tabRow',
 		'tabRowContainer',
 		'startContainer',
-		'endContainer',
-		'vertical',
-		'sharedDistributor'
+		'endContainer'
 	],
 	#category : 'Toplo-Widget-TabPane',
 	#package : 'Toplo-Widget-TabPane'
 }
 
-{ #category : 'orientation' }
-ToTabPaneHeader >> beHorizontal [
+{ #category : 'add-remove' }
+ToTabPaneHeader >> addTab: aTab [
 
-	self tabs beHorizontal
-]
-
-{ #category : 'orientation' }
-ToTabPaneHeader >> beVertical [
-
-	self tabs beVertical
-]
-
-{ #category : 'tabs selection' }
-ToTabPaneHeader >> dataEmptinessChangeEvent: anEvent [
-
-	self tabs selectionIndexes ifEmpty: [ self selectIndex: 1 ]
+	aTab header: self.
+	self tabRow addChild: aTab
 ]
 
 { #category : 'initialization' }
-ToTabPaneHeader >> defaultTabRowNodeBuilder [
+ToTabPaneHeader >> applyPositioning [
 
-	^ [ :node :holder |
-	  | tabModel |
-	  tabModel := holder data.
-	  tabModel buttonBuilder value: node value: holder ]
+	self positioningStrategy applyOn: self tabsPane
+]
+
+{ #category : 'accessing' }
+ToTabPaneHeader >> body [
+
+	^ self tabsPane body
+]
+
+{ #category : 'initialization' }
+ToTabPaneHeader >> checkableGroupChangedEvent: anEvent [
+
+	anEvent uncheckedButtons do: [ :but | ].
+	anEvent checkedButtons do: [ :but | ].
+]
+
+{ #category : 'accessing' }
+ToTabPaneHeader >> checkingStrategy [
+
+	^ self group checkingStrategy
+]
+
+{ #category : 'accessing' }
+ToTabPaneHeader >> checkingStrategy: aCheckingStrategy [
+
+	^ self group checkingStrategy: aCheckingStrategy
+]
+
+{ #category : 'initialization' }
+ToTabPaneHeader >> defaultPositioningStrategy [
+
+	^ ToTabPaneHeaderOnTopLeft new
 ]
 
 { #category : 'accessing' }
@@ -48,67 +65,77 @@ ToTabPaneHeader >> endContainer [
 	^ endContainer
 ]
 
-{ #category : 'orientation' }
-ToTabPaneHeader >> horizontal [
+{ #category : 'accessing' }
+ToTabPaneHeader >> group [
 
-	^ self vertical not
-]
-
-{ #category : 'orientation' }
-ToTabPaneHeader >> horizontal: aBoolean [
-
-	self vertical: aBoolean not
+	^ group
 ]
 
 { #category : 'initialization' }
 ToTabPaneHeader >> initialize [ 
 
 	super initialize.
-	tabRowContainer := ToPane new fitContent; yourself.
-	tabs := ToList new nodeBuilder: self defaultTabRowNodeBuilder; yourself.
-	tabs nodeClass: ToTabNode.
-	tabs matchParent.
-	tabs infinite matchParent.
-	tabRowContainer addChild: tabs.
-	tabRowContainer matchParent.
-	startContainer := ToPane new fitContent; yourself.
-	endContainer := ToPane new fitContent; yourself.
+	group := ToCheckableGroup new.
+	group when: ToCheckableGroupChangedEvent do: [ :event | self checkableGroupChangedEvent: event ].
+	tabs := OrderedCollection new.
+	tabRowContainer := ToPane new vFitContent; hMatchParent; yourself.
+	tabRow := ToPane horizontal hMatchParent; yourself.
+	tabRowContainer addChild: tabRow.
+	startContainer := ToPane new vMatchParent; hFitContent; yourself.
+	endContainer := ToPane new vMatchParent; hFitContent; yourself.
 	self addChild: startContainer.
 	self addChild: tabRowContainer.
 	self addChild: endContainer.
-	self initializeEventHandler.
-	self when: ToInfiniteSelectionChangedEvent do: [ :evt | self tabsSelectionChangedEvent: evt ].
-	tabs data when: ToDataEmptinessChangeEvent do: [ :evt | self dataEmptinessChangeEvent: evt ]
-]
-
-{ #category : 'initialization' }
-ToTabPaneHeader >> initializeEventHandler [
-
-	sharedDistributor := BlSharedEventDistributor new shareEvents:
-		                     self sharedEvents yourself.
-	self addEventHandler: sharedDistributor.
-	self tabs addEventHandler: sharedDistributor.
 
 ]
 
-{ #category : 'orientation' }
-ToTabPaneHeader >> orientationChanged [
+{ #category : 'add-remove' }
+ToTabPaneHeader >> onTabAdded: aButton [
 
-	self vertical
-		ifTrue: [ self beVertical ]
-		ifFalse: [ self beHorizontal ]
+	self group add: aButton.
+	self tabs add: aButton.
+	
 ]
 
-{ #category : 'tabs selection' }
-ToTabPaneHeader >> selectIndex: anInteger [
+{ #category : 'add-remove' }
+ToTabPaneHeader >> onTabRemoved: aTab [
 
-	self tabs selectIndex: anInteger
+	| index nextSelected |
+	self tabsPane onTabRemoved: aTab.
+	aTab header: nil.
+
+	index := aTab isSelected
+		         ifTrue: [ self tabs indexOf: aTab ]
+		         ifFalse: [ 0 ].
+
+	self tabs remove: aTab.
+	self group remove: aTab.
+	index > 0 ifFalse: [ ^ self ].
+	self tabs ifEmpty: [ ^ self ].
+
+	nextSelected := self tabs size < index
+		                ifTrue: [ self tabs last ]
+		                ifFalse: [ self tabs at: index ].
+	nextSelected checked: true
 ]
 
-{ #category : 'initialization' }
-ToTabPaneHeader >> sharedEvents [
+{ #category : 'accessing' }
+ToTabPaneHeader >> positioningStrategy [
 
-	^ { ToInfiniteSelectionChangedEvent. }
+	^ positioningStrategy ifNil: [ positioningStrategy := self defaultPositioningStrategy ]
+]
+
+{ #category : 'accessing' }
+ToTabPaneHeader >> positioningStrategy: anObject [
+
+	positioningStrategy := anObject.
+	self applyPositioning 
+]
+
+{ #category : 'add-remove' }
+ToTabPaneHeader >> removeTab: aTab [
+
+	self tabRow removeChild: aTab
 ]
 
 { #category : 'accessing' }
@@ -135,24 +162,14 @@ ToTabPaneHeader >> tabs [
 	^ tabs
 ]
 
-{ #category : 'tabs selection' }
-ToTabPaneHeader >> tabsSelectionChangedEvent: anEvent [
+{ #category : 'accessing' }
+ToTabPaneHeader >> tabsPane [ 
 
-	anEvent oldSelectedIndexes trace. ' -> ' trace.
-	anEvent newSelectedIndexes traceCr.
+	^ tabsPane 
 ]
 
-{ #category : 'orientation' }
-ToTabPaneHeader >> vertical [
+{ #category : 'accessing' }
+ToTabPaneHeader >> tabsPane: aTabPane [ 
 
-	^ vertical
-]
-
-{ #category : 'orientation' }
-ToTabPaneHeader >> vertical: aBoolean [
-
-	vertical = aBoolean ifTrue: [ ^ self ].
-	vertical := aBoolean.
-	self orientationChanged
-
+	tabsPane := aTabPane
 ]

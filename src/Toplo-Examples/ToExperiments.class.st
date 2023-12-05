@@ -660,11 +660,11 @@ ToExperiments class >> example_TextFlowWithBlElements [
 	| element |
 	element := BlElement new
 		           layout: (AlbLineFlowLayout new lineSpacing: 10);
-		           constraintsDo: [ :c | 
-							c minWidth: 50.
+		           constraintsDo: [ :c |
+			           c minWidth: 50.
 			           c horizontal matchParent.
 			           c vertical matchParent ];
-		           addChildren: (20 timesCollect: [ 
+		           addChildren: (20 timesCollect: [
 					            | anAnimation |
 					            anAnimation := BlSequentialAnimation new.
 					            anAnimation add:
@@ -677,7 +677,7 @@ ToExperiments class >> example_TextFlowWithBlElements [
 						            margin: (BlInsets all: 4);
 						            background: (Color random alpha: 0.5);
 						            addAnimation: anAnimation ]).
-	element openInOBlSpace
+	element openInSpace
 ]
 
 { #category : 'elements' }

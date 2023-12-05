@@ -13,7 +13,7 @@ ToTabExamples class >> example_closeableTabs [
 	nb group when: ToCheckableGroupChangedEvent do: [ :event | event traceCr ].
 	nb preservePaneOnSelect: false.
 	(Color wheel: 5) withIndexDo: [ :eachColor :index |
-		but := ToTabDep new.
+		but := ToTab new.
 		but closable: true.
 		but when: ToCheckableCheckEvent do: [ :event | event current traceCr ].
 		
@@ -21,23 +21,6 @@ ToTabExamples class >> example_closeableTabs [
 		but paneBuilder: [ :pane :theNoteBook | pane background: eachColor ].
 		nb addTab: but ].
 	nb openInSpace
-]
-
-{ #category : 'header' }
-ToTabExamples class >> example_headerFourTab [
-
-	| header |
-	header := ToTabPaneHeader new.
-	header tabs data add: (ToTab new data: 'Tab 1').
-	header tabs data add: (ToTab new data: 'Tab 2').
-	header tabs data add: (ToTab new data: 'Tab 3').
-	header tabs data add: (ToTab new data: 'Tab 4').
-	header background: Color yellow.
-	header matchParent.
-	header beVertical.
-	header openInSpace.
-	header inspect.
-	^ header
 ]
 
 { #category : 'header positionning' }
@@ -78,37 +61,6 @@ ToTabExamples class >> example_headerOnBottomRight [
 ]
 
 { #category : 'header positionning' }
-ToTabExamples class >> example_headerOnBottomVerticalLabels [
-
-	| nb but |
-	nb := ToTabPane new.
-	nb constraintsDo: [ :c | c accountTransformation ].
-	nb resizablePanes: true.
-	1 to: 5 do: [ :index | | lab |
-		but := ToTabDep new.
-		but closable: true.
-		"but labelText: 'Button ' , index asString."
-		lab := ToLabel new text: 'Button ' , index asString.
-		but constraintsDo: [ :c | c accountTransformation ].
-		lab constraintsDo: [ :c | c accountTransformation ].
-		lab constraintsDo: [ :c |
-				c linear vertical alignCenter.
-				c accountTransformation ];
-			transformDo: [ :t | 
-				t rotateBy: 270 ].
-		"lab transformDo: [ :t |
-			 t normalizedOrigin: 0.5 @ 1.
-			 t rotateBy: 270 ]."
-		but addChild: lab at: 1.
-		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
-		nb addTab: but ].
-	nb openInSpace.
-	nb header constraintsDo: [ :c | c accountTransformation ].
-	nb withHeaderOnLeftBottom.
-	^ nb
-]
-
-{ #category : 'header positionning' }
 ToTabExamples class >> example_headerOnLeftBottom [
 
 	| nb |
@@ -144,6 +96,25 @@ ToTabExamples class >> example_headerOnLeftTop [
 	^ nb
 ]
 
+{ #category : 'vertical labels' }
+ToTabExamples class >> example_headerOnLeftTopVerticalLabels [
+
+	| nb but |
+	nb := ToTabPane new.
+	nb constraintsDo: [ :c | c accountTransformation ].
+	nb resizablePanes: true.
+	1 to: 5 do: [ :index |
+		but := ToTab new.
+		but labelText: 'Button ' , index asString.
+		but firstChild rotateBy: 270.
+		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
+		nb addTab: but ].
+	nb openInSpace.
+	nb header constraintsDo: [ :c | c accountTransformation ].
+	nb withHeaderOnLeftTop.
+	^ nb
+]
+
 { #category : 'header positionning' }
 ToTabExamples class >> example_headerOnRightBottom [
 
@@ -167,6 +138,28 @@ ToTabExamples class >> example_headerOnRightTop [
 
 	| nb |
 	nb := self example_tabPane.
+	nb withHeaderOnRightTop.
+	^ nb
+]
+
+{ #category : 'vertical labels' }
+ToTabExamples class >> example_headerOnRightTopLabelsDiagonally [
+
+	| nb but |
+	nb := ToTabPane new.
+	nb constraintsDo: [ :c | c accountTransformation ].
+	nb resizablePanes: true.
+	1 to: 5 do: [ :index |
+		but := ToTab new.
+		but layout beVertical.
+		but layout alignCenter.
+		but closable: true.
+		but labelText: 'Button ' , index asString.
+		but firstChild rotateBy: 50.
+		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
+		nb addTab: but ].
+	nb openInSpace.
+	nb header constraintsDo: [ :c | c accountTransformation ].
 	nb withHeaderOnRightTop.
 	^ nb
 ]
@@ -226,7 +219,7 @@ ToTabExamples class >> example_notPreservingPane [
 	nb withHorizontalBody.
 	nb preservePaneOnSelect: false.
 	1 to: 5 do: [ :index |
-		but := ToTabDep new.
+		but := ToTab new.
 		but closable: true.
 		but labelText: 'Button ' , index asString.
 		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
@@ -243,7 +236,7 @@ ToTabExamples class >> example_preservingPane [
 	nb withoutCheckingStrategy.
 	nb resizablePanes: true.
 	1 to: 5 do: [ :index |
-		but := ToTabDep new.
+		but := ToTab new.
 		but closable: true.
 		but labelText: 'Button ' , index asString.
 		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
@@ -257,7 +250,7 @@ ToTabExamples class >> example_tabPane [
 	nb := ToTabPane new.
 	nb resizablePanes: true.
 	1 to: 5 do: [ :index |
-		but := ToTabDep new.
+		but := ToTab new.
 		but closable: true.
 		but labelText: 'Button ' , index asString.
 		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
@@ -273,7 +266,7 @@ ToTabExamples class >> example_tabPaneInTabPane [
 	tabPane := ToTabPane new.
 	tabPane group when: ToCheckableGroupChangedEvent do: [ :event | event traceCr ].
 	1 to: 3 do: [ :index |
-		tab := ToTabDep new.
+		tab := ToTab new.
 		tab labelText: 'Tab ' , index asString.
 		tab paneBuilder: [ :pane :theTabPane | pane addChild: self subTabPane withHeaderOnLeftTop ].
 		tabPane addTab: tab ].
@@ -316,7 +309,7 @@ ToTabExamples class >> subTabPane [
 	nb := ToTabPane new.
 	nb resizablePanes: true.
 	1 to: 3 do: [ :index |
-		but := ToTabDep new.
+		but := ToTab new.
 		but labelText: 'sub tab ' , index asString.
 		but paneBuilder: [ :pane :theNoteBook | pane addChild: self subsubTabPane withHeaderOnRightBottom ].
 		nb addTab: but ].
@@ -330,7 +323,7 @@ ToTabExamples class >> subsubTabPane [
 	nb := ToTabPane new.
 	nb resizablePanes: true.
 	1 to: 4 do: [ :index |
-		but := ToTabDep new.
+		but := ToTab new.
 		but labelText: 'sub sub tab ' , index asString.
 		but paneBuilder: [ :pane :theNoteBook | pane addChild: self subsubsubTabPane withHeaderOnBottomLeft ].
 		nb addTab: but ].
@@ -344,7 +337,7 @@ ToTabExamples class >> subsubsubTabPane [
 	nb := ToTabPane new.
 	nb resizablePanes: true.
 	1 to: 2 do: [ :index |
-		but := ToTabDep new.
+		but := ToTab new.
 		but labelText: 'sub sub sub tab ' , index asString.
 		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
 		nb addTab: but ].

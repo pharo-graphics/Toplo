@@ -1,28 +1,35 @@
 Class {
 	#name : 'ToTab',
-	#superclass : 'Object',
-	#classTraits : 'TToCheckable classTrait',
+	#superclass : 'ToGeneralButton',
+	#traits : 'TToCheckable + TToOrientable',
+	#classTraits : 'TToCheckable classTrait + TToOrientable classTrait',
 	#instVars : [
-		'data',
-		'preserveOnSelect',
+		'checked',
+		'group',
+		'checkHandler',
+		'innerPane',
+		'paneBuilder',
 		'closable',
-		'pageBuilder',
-		'buttonBuilder'
+		'filler',
+		'header'
 	],
 	#category : 'Toplo-Widget-TabPane',
 	#package : 'Toplo-Widget-TabPane'
 }
 
 { #category : 'accessing' }
-ToTab >> buttonBuilder [
+ToTab >> body [
 
-	^ buttonBuilder
+	^ self tabsPane body 
 ]
 
-{ #category : 'accessing' }
-ToTab >> buttonBuilder: aValuable2Args [
+{ #category : 'hooks - children' }
+ToTab >> checkableCheckEvent: event [
 
-	buttonBuilder := aValuable2Args
+	self isChecked ifTrue: [
+		self onSelected.
+		^ self ].
+	self onDeselected 
 ]
 
 { #category : 'accessing' }
@@ -36,32 +43,43 @@ ToTab >> closable: aBoolean [
 			but defaultSkin: ToTabInnerCloseButtonSkin new.
 			but icon: (ToImage inner: (Smalltalk ui icons iconNamed: #windowClose)).
 			but constraintsDo: [ :c | c linear vertical alignCenter ].
-			but when: BlClickEvent do: [ :event | event currentTarget removeFromParent ].
-			but id: #innerCloseButton. ]
+			but when: BlClickEvent do: [ :event | self removeFromParent ].
+			but id: #innerCloseButton.
+			filler size: 10 @ 10.
+			self addChild: but after: self lastChild ]
 		ifFalse: [
+			filler size: 0 @ 0.
 			self removeChildNamed: #innerCloseButton ]
 ]
 
-{ #category : 'accessing' }
-ToTab >> data [
+{ #category : 'initialization' }
+ToTab >> defaultBorder [
 
-	^ data
-]
-
-{ #category : 'accessing' }
-ToTab >> data: anObject [
-
-	data := anObject
+	^ Color veryLightGray alpha: 0.5
 ]
 
 { #category : 'initialization' }
-ToTab >> defaultButtonBuilder [
+ToTab >> defaultGeometry [
 
-	^ [ :node :holder |
-	  | but |
-	  but := ToLabeledIcon new labelText: self data asString.
-	  node addChild: but.
-	  node fitContent ]
+	^ self tabsPane tabGeometry
+]
+
+{ #category : 'accessing' }
+ToTab >> header [
+
+	^ header
+]
+
+{ #category : 'accessing' }
+ToTab >> header: aTabPaneHeader [
+
+	header := aTabPaneHeader 
+]
+
+{ #category : 'skin' }
+ToTab >> hoveredBackground [
+
+	^ Color white
 ]
 
 { #category : 'initialization' }
@@ -69,8 +87,25 @@ ToTab >> initialize [
 
 	super initialize.
 	closable := false.
-	pageBuilder := [ :arg1 :arg2 |  ].
-	buttonBuilder := self defaultButtonBuilder
+	paneBuilder := [ :pane :theNotebook | ].
+	filler := ToElement new size: 0@0.
+	filler id: #filler.
+	self addChild: filler
+]
+
+{ #category : 'accessing' }
+ToTab >> innerCloseButton [
+
+	^ self childWithId: #innerCloseButton ifNone: [  ]
+]
+
+{ #category : 'skin' }
+ToTab >> installRawStyle [
+
+	super installRawStyle.
+
+	self fitContent.
+	self constraintsDo: [ :c | c linear vertical alignCenter ]
 ]
 
 { #category : 'testing' }
@@ -79,28 +114,159 @@ ToTab >> isClosable [
 	^ closable
 ]
 
-{ #category : 'accessing' }
-ToTab >> pageBuilder [
+{ #category : 'testing' }
+ToTab >> isSelected [
 
-	^ pageBuilder
+	^ self isChecked
+]
+
+{ #category : 'skin' }
+ToTab >> labelPadding [
+
+	^ BlInsets top: 4 left: 10 bottom: 4 right: 10
 ]
 
 { #category : 'accessing' }
-ToTab >> pageBuilder: aValuable2Args [
-	"Establish what is my body. When a tab is selected in a notebook, it will send `#value:value:` to this factory, 
+ToTab >> labelText: aText [ 
+	
+	| lab |
+	lab := ToLabel text: aText asRopedText.
+	self addChild: lab at: 1
+]
+
+{ #category : 't - orientable - accessing' }
+ToTab >> layoutStrategy [
+
+	^ self layout
+
+	
+]
+
+{ #category : 'skin' }
+ToTab >> newRawSkin [ 
+
+	^ ToTabSkin new
+]
+
+{ #category : 'hooks - children' }
+ToTab >> onAddedToParent [
+
+	super onAddedToParent.
+	self header onTabAdded: self.
+	checkHandler := BlEventHandler
+		                on: ToCheckableCheckEvent
+		                do: [ :event | self checkableCheckEvent: event ].
+	self addEventHandler: checkHandler
+]
+
+{ #category : 'hooks - children' }
+ToTab >> onDeselected [
+
+	self removeInnerPaneFromBody.
+	self tabsPane applyResizablePanesConfiguration.
+	self tabsPane preservePaneOnSelect ifFalse: [ innerPane := nil ]
+]
+
+{ #category : 'hooks - children' }
+ToTab >> onRemovedFromParent: aParentElement [
+
+	self removeEventHandler: checkHandler.
+	checkHandler := nil.
+	innerPane ifNotNil: [
+		self removeInnerPaneFromBody.
+		innerPane := nil ].
+	header onTabRemoved: self.
+	super onRemovedFromParent: aParentElement
+]
+
+{ #category : 'hooks - children' }
+ToTab >> onSelected [
+
+	(self tabsPane preservePaneOnSelect and: [ innerPane notNil ])
+		ifTrue: [			
+			self body addChild: innerPane.
+			self tabsPane applyResizablePanesConfiguration.
+			^ self ].
+	innerPane := ToPane new
+		             matchParent;
+		             yourself.
+	self paneBuilder value: innerPane value: self tabsPane.
+	self body addChild: innerPane.
+	self tabsPane applyResizablePanesConfiguration.
+
+
+]
+
+{ #category : 'accessing' }
+ToTab >> paneBuilder [
+
+	^ paneBuilder
+]
+
+{ #category : 'accessing' }
+ToTab >> paneBuilder: aValuable [
+	"Establish what is my body. When a page is selected in a notebook, it will send `#value:value:` to this factory, 
 	with the page pane and the notebook as arguments"
 
-	pageBuilder := aValuable2Args
+	paneBuilder := aValuable
+]
+
+{ #category : 't - checkable - accessing' }
+ToTab >> rawChecked [
+
+	^ checked ifNil: [ checked := false ]
+]
+
+{ #category : 't - checkable - accessing' }
+ToTab >> rawChecked: aBoolean [
+
+	checked := aBoolean
+]
+
+{ #category : 't - checkable - group' }
+ToTab >> rawGroup [
+
+	^ group
+]
+
+{ #category : 't - checkable - group' }
+ToTab >> rawGroup: aGroup [
+
+	group := aGroup
+]
+
+{ #category : 'hooks - children' }
+ToTab >> removeInnerPaneFromBody [
+
+	innerPane removeFromParent
+]
+
+{ #category : 'testing' }
+ToTab >> selected: aBoolean [
+
+	self checked: aBoolean
+]
+
+{ #category : 'skin' }
+ToTab >> selectedBackground [
+
+	^ Color fromHexString: #ffd666
 ]
 
 { #category : 'accessing' }
-ToTab >> preserveOnSelect [
+ToTab >> tabsPane [ 
 
-	^ preserveOnSelect
+	^ self header parent
 ]
 
-{ #category : 'accessing' }
-ToTab >> preserveOnSelect: aBoolean [
+{ #category : 't - checkable  - protocol' }
+ToTab >> withIndeterminate [
 
-	preserveOnSelect := aBoolean
+	^ false
+]
+
+{ #category : 't - checkable  - protocol' }
+ToTab >> withIndeterminate: aBoolean [
+
+	Error signal: 'Indeterminate not allowed'
 ]

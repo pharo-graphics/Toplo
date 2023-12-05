@@ -2300,6 +2300,16 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 ]
 
 { #category : 'image' }
+ToSandBox class >> example_rotateImage [
+
+	| im  |
+	im := ToImage new innerImage: (Smalltalk ui icons iconNamed: #pharoBig).
+	im rotateBy: 270.
+	im border: (BlBorder paint: Color black width: 2).
+	im openInSpace
+]
+
+{ #category : 'image' }
 ToSandBox class >> example_scaledImage [
 
 	| im scale |
@@ -2911,7 +2921,7 @@ ToSandBox class >> example_toLabel3 [
 	lab background: Color lightBlue.
 	lab hMatchParent.
 	lab isEditable: true.
-	lab layout alignCenter.
+	lab innerElement constraintsDo: [:c | c frame horizontal alignCenter].
 	lab border: (BlBorder paint: Color yellow width: 1).
 	lab openInSpace
 ]
@@ -2931,7 +2941,7 @@ ToSandBox class >> example_toLabel4 [
 	lab1 isEditable: true.
 	lab1 vFitContent.
 	lab1 hMatchParent.
-	lab1 layout alignCenter.
+	lab1 innerElement constraintsDo: [:c | c frame horizontal alignCenter].
 	lab1 border: (BlBorder paint: Color lightGray width: 1).
 	root addChild: lab1.
 
@@ -3024,8 +3034,9 @@ ToSandBox class >> example_toLabel_Multiline2_Centered [
 	lab2 beMultiLine.
 	lab1 matchParent.
 	lab2 matchParent.
-	lab1 layout alignCenter.
-	lab2 layout alignCenter.
+	lab1 innerElement constraintsDo: [:c | c frame horizontal alignCenter].
+
+	lab2 innerElement constraintsDo: [:c | c frame horizontal alignCenter].
 	lab1 innerElement layout alignCenter.
 	lab2 innerElement layout alignCenter.
 	lab1 isEditable: true.
@@ -3046,7 +3057,6 @@ ToSandBox class >> example_toWidgetAsButton0 [
 
 	| but |
 	but := ToElement new.
-	but addEventHandler: (ToSkinStateGenerator new target: but)..
 	but
 		when: BlPrimaryClickEvent
 		do: [ self inform: 'Click' ].

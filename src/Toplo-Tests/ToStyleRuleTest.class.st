@@ -16,28 +16,37 @@ ToStyleRuleTest >> setUp [
 
 ]
 
+{ #category : 'tests' }
+ToStyleRuleTest >> testCanBeAppliedTo [
+
+	| rule |
+	rule := ToStyleRule new selector: ToUniversalSelector new.
+	self assert: (rule canBeAppliedTo: ToElement new)
+]
+
 { #category : 'tests - simple rule' }
-ToStyleRuleTest >> testRuleWithAndWithParentSelector [
+ToStyleRuleTest >> testCanBeAppliedToWithRuleWithAndWithParentSelector [
 	" a rule with an And operator  "
 
 	| rule e child |
+	" select a button label in a button + danger "
 	rule := ToStyleRule new selector:
 		        ((ToStampSelector new addStamp: #'button-label')
 			         withParent: (ToStampSelector new addStamp: #button)
 				         + (ToStampSelector new addStamp: #danger)
 			         atDepth: 1).
 	e := ToElement new addStamp: #button.
-	self assert: (rule canBeAppliedTo: e) not.
+	self deny: (rule canBeAppliedTo: e).
 	e addStamp: #danger.
 	" ko since no child "
-	self assert: (rule canBeAppliedTo: e) not.
+	self deny: (rule canBeAppliedTo: e).
 	e addChild: (child := ToElement new addStamp: #'button-label').
-	" ko since no child "
+	" ok now "
 	self assert: (rule canBeAppliedTo: child)
 ]
 
 { #category : 'tests - simple rule' }
-ToStyleRuleTest >> testRuleWithChildSelector1 [
+ToStyleRuleTest >> testCanBeAppliedToWithRuleWithChildSelector1 [
 	" a rule with a universal selector among others accept any element "
 
 	| rule parent child |
@@ -55,7 +64,7 @@ ToStyleRuleTest >> testRuleWithChildSelector1 [
 ]
 
 { #category : 'tests - simple rule' }
-ToStyleRuleTest >> testRuleWithChildSelector2 [
+ToStyleRuleTest >> testCanBeAppliedToWithRuleWithChildSelector2 [
 	" a rule with a universal selector among others accept any element "
 
 	| rule child childchild |
@@ -74,7 +83,7 @@ ToStyleRuleTest >> testRuleWithChildSelector2 [
 ]
 
 { #category : 'tests - simple rule' }
-ToStyleRuleTest >> testRuleWithChildSelector3 [
+ToStyleRuleTest >> testCanBeAppliedToWithRuleWithChildSelector3 [
 	" a rule with a universal selector among others accept any element "
 
 	| rule parent child childchild |
@@ -95,7 +104,7 @@ ToStyleRuleTest >> testRuleWithChildSelector3 [
 ]
 
 { #category : 'tests - simple rule' }
-ToStyleRuleTest >> testRuleWithChildSelector4 [
+ToStyleRuleTest >> testCanBeAppliedToWithRuleWithChildSelector4 [
 	" a rule with a universal selector among others accept any element "
 
 	| parent child childchild childchildchild childRule childchildRule childchildchildRule |
@@ -132,7 +141,7 @@ ToStyleRuleTest >> testRuleWithChildSelector4 [
 ]
 
 { #category : 'tests - simple rule' }
-ToStyleRuleTest >> testRuleWithChildSelector5 [
+ToStyleRuleTest >> testCanBeAppliedToWithRuleWithChildSelector5 [
 	" a rule with a universal selector among others accept any element "
 
 	| parent child childchild childchildchild childRule childchildRule childchildchildRule |
@@ -207,7 +216,7 @@ ToStyleRuleTest >> testRuleWithChildSelector5 [
 ]
 
 { #category : 'tests - simple rule' }
-ToStyleRuleTest >> testRuleWithClassSelector [
+ToStyleRuleTest >> testCanBeAppliedToWithRuleWithClassSelector [
 
 	| rule e |
 	rule := ToStyleRule new selector:
@@ -223,7 +232,7 @@ ToStyleRuleTest >> testRuleWithClassSelector [
 ]
 
 { #category : 'tests - simple rule' }
-ToStyleRuleTest >> testRuleWithNoSelector [
+ToStyleRuleTest >> testCanBeAppliedToWithRuleWithNoSelector [
 	" a rule with no selector accepts any alement "
 	| rule e |
 	rule := ToStyleRule new.
@@ -232,7 +241,7 @@ ToStyleRuleTest >> testRuleWithNoSelector [
 ]
 
 { #category : 'tests - simple rule' }
-ToStyleRuleTest >> testRuleWithUniversalSelector [
+ToStyleRuleTest >> testCanBeAppliedToWithRuleWithUniversalSelector [
 	" a rule with a unique univesal selector accept any element "
 
 	| rule e |
@@ -242,7 +251,7 @@ ToStyleRuleTest >> testRuleWithUniversalSelector [
 ]
 
 { #category : 'tests - simple rule' }
-ToStyleRuleTest >> testRuleWithUniversalSelector2 [
+ToStyleRuleTest >> testCanBeAppliedToWithRuleWithUniversalSelector2 [
 	" a rule with a universal selector among others accept any element "
 
 	| rule e |

@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToStyleSheetPrinter',
+	#name : 'ToStyleSheetCSSLikePrinter',
 	#superclass : 'Object',
 	#instVars : [
 		'styleSheet',
@@ -11,28 +11,28 @@ Class {
 }
 
 { #category : 'accessing' }
-ToStyleSheetPrinter class >> styleRules: aStyleRuleList [
+ToStyleSheetCSSLikePrinter class >> styleRules: aStyleRuleList [
 	"Initialize the printer with a style rules list to print"
 
 	^ self new styleSheet: (ToStyleSheet new addAllStyleRules: aStyleRuleList)
 ]
 
 { #category : 'accessing' }
-ToStyleSheetPrinter class >> styleSheet: aToStyleSheet [
+ToStyleSheetCSSLikePrinter class >> styleSheet: aToStyleSheet [
 	"Initialize the printer with a style sheet to print"
 
 	^ self new styleSheet: aToStyleSheet
 ]
 
 { #category : 'accessing' }
-ToStyleSheetPrinter class >> toElement: aToElement [
+ToStyleSheetCSSLikePrinter class >> toElement: aToElement [
 	"Initialize the printer with a ToElement"
 
 	^ self new toElement: aToElement
 ]
 
 { #category : 'converting' }
-ToStyleSheetPrinter >> asCSSLikeString [
+ToStyleSheetCSSLikePrinter >> asCSSLikeString [
 
 	| stream |
 	stream := ReadWriteStream on: String new.
@@ -41,7 +41,7 @@ ToStyleSheetPrinter >> asCSSLikeString [
 ]
 
 { #category : 'private' }
-ToStyleSheetPrinter >> getSelectorCSS: aToElementSelector hangSelector: aSelector [
+ToStyleSheetCSSLikePrinter >> getSelectorCSS: aToElementSelector hangSelector: aSelector [
 	"https://www.w3schools.com/cssref/css_selectors.php"
 	
 	| stream |
@@ -131,7 +131,7 @@ ToStyleSheetPrinter >> getSelectorCSS: aToElementSelector hangSelector: aSelecto
 ]
 
 { #category : 'printing' }
-ToStyleSheetPrinter >> printOn: aStream [
+ToStyleSheetCSSLikePrinter >> printOn: aStream [
 
 	self toElement
 		ifNil: [
@@ -145,7 +145,7 @@ ToStyleSheetPrinter >> printOn: aStream [
 ]
 
 { #category : 'private' }
-ToStyleSheetPrinter >> printStyleRuleCSS: aStyleRule on: aStream hangSelector: aSelector [
+ToStyleSheetCSSLikePrinter >> printStyleRuleCSS: aStyleRule on: aStream hangSelector: aSelector [
 		
 	"print selector"
 	| selector |
@@ -172,7 +172,7 @@ ToStyleSheetPrinter >> printStyleRuleCSS: aStyleRule on: aStream hangSelector: a
 ]
 
 { #category : 'printing' }
-ToStyleSheetPrinter >> printStyleSheetCSSLikeOn: aStream [
+ToStyleSheetCSSLikePrinter >> printStyleSheetCSSLikeOn: aStream [
 
 	self styleRules do:[ :rule |
 		self printStyleRuleCSS: rule on: aStream hangSelector: nil. 		
@@ -180,7 +180,7 @@ ToStyleSheetPrinter >> printStyleSheetCSSLikeOn: aStream [
 ]
 
 { #category : 'accessing' }
-ToStyleSheetPrinter >> styleRules [
+ToStyleSheetCSSLikePrinter >> styleRules [
 
 	^ self styleSheet ifNotNil: [ :e | e styleRules ] ifNil: [
 		  self toElement
@@ -194,25 +194,25 @@ ToStyleSheetPrinter >> styleRules [
 ]
 
 { #category : 'accessing' }
-ToStyleSheetPrinter >> styleSheet [
+ToStyleSheetCSSLikePrinter >> styleSheet [
 
 	^ styleSheet
 ]
 
 { #category : 'accessing' }
-ToStyleSheetPrinter >> styleSheet: anObject [
+ToStyleSheetCSSLikePrinter >> styleSheet: anObject [
 
 	styleSheet := anObject
 ]
 
 { #category : 'accessing' }
-ToStyleSheetPrinter >> toElement [
+ToStyleSheetCSSLikePrinter >> toElement [
 
 	^ toElement ifNotNil: [ :e | e first ]
 ]
 
 { #category : 'accessing' }
-ToStyleSheetPrinter >> toElement: aToElement [
+ToStyleSheetCSSLikePrinter >> toElement: aToElement [
 
 	aToElement ~= toElement ifFalse: [ ^ self ].
 	aToElement

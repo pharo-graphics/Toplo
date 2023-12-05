@@ -57,7 +57,7 @@ ToThemeExamples class >> displaySpaceStyleSheet: aSpace [
 				cr;
 				nextPutAll: '###';
 				cr.
-			printer := ToStyleSheetPrinter styleSheet: sheet.
+			printer := ToStyleSheetCSSLikePrinter styleSheet: sheet.
 			printer printStyleSheetCSSLikeOn: stream ].
 
 	"Open the presenter"

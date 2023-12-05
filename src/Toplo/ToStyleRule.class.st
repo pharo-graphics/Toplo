@@ -22,6 +22,10 @@ ToStyleRule >> canBeAppliedTo: anElement [
 { #category : 'testing' }
 ToStyleRule >> canBeAppliedTo: anElement inTheme: aTheme [
 
+	" check if my rules are applicable to the element.
+	aTheme is used to set-up the element *** before *** evaluating rules.
+	see ToTheme>>setUpElementForTheme: "
+
 	| engine |
 	engine := ToSelectorInterpreter new.
 	engine theme: aTheme.
@@ -30,12 +34,16 @@ ToStyleRule >> canBeAppliedTo: anElement inTheme: aTheme [
 ]
 
 { #category : 'writers selecting' }
-ToStyleRule >> canBeFullyAppliedTo: anElement forTheme: aTheme [
+ToStyleRule >> canBeRecursivelyAppliedTo: anElement forTheme: aTheme [
 
 	" for testing purpose. "
+	" check if my rules are applicable to the element.
+	aTheme is used to set-up the element *** before *** evaluating rules.
+	see ToTheme>>setUpElementForTheme: "
+	
 	(self canBeAppliedTo: anElement inTheme: aTheme) ifFalse: [ ^ false ].
 	^ self styleRules allSatisfy: [ :r |
-		  r canBeFullyAppliedTo: anElement forTheme: aTheme ]
+		  r canBeRecursivelyAppliedTo: anElement forTheme: aTheme ]
 ]
 
 { #category : 'copying' }

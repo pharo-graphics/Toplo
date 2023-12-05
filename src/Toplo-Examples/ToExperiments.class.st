@@ -1086,7 +1086,7 @@ ToExperiments class >> example_toScaling [
 
 	| space container |
 	container := ToElement new
-		             constraintsDo: [ :c | c accountTransformation ];
+		             "constraintsDo: [ :c | c accountTransformation ];"
 		             layout: BlLinearLayout vertical;
 		             border: (BlBorder paint: Color black);
 		             fitContent;
@@ -1340,10 +1340,9 @@ ToExperiments class >> example_twoChildrenMatchParentInFitContent [
 { #category : 'rotated text' }
 ToExperiments class >> example_verticalLabel [
 
-((ToLabel new text: 'AAAA') 
-	transformDo: [ :t | 
-		"t normalizedOrigin: 0 @ 1."
-		t rotateBy: 270 ]) 
-	border: (BlBorder paint: Color gray); 
-	openInOBlSpace 
+	((ToLabel new text: 'AAAA') transformDo: [ :t |
+			 t normalizedOrigin: 0.5 @ 1.
+			 t rotateBy: 270 ])
+		border: (BlBorder paint: Color gray);
+		openInSpace
 ]

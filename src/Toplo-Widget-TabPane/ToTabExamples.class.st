@@ -78,6 +78,37 @@ ToTabExamples class >> example_headerOnBottomRight [
 ]
 
 { #category : 'header positionning' }
+ToTabExamples class >> example_headerOnBottomVerticalLabels [
+
+	| nb but |
+	nb := ToTabPane new.
+	nb constraintsDo: [ :c | c accountTransformation ].
+	nb resizablePanes: true.
+	1 to: 5 do: [ :index | | lab |
+		but := ToTabDep new.
+		but closable: true.
+		"but labelText: 'Button ' , index asString."
+		lab := ToLabel new text: 'Button ' , index asString.
+		but constraintsDo: [ :c | c accountTransformation ].
+		lab constraintsDo: [ :c | c accountTransformation ].
+		lab constraintsDo: [ :c |
+				c linear vertical alignCenter.
+				c accountTransformation ];
+			transformDo: [ :t | 
+				t rotateBy: 270 ].
+		"lab transformDo: [ :t |
+			 t normalizedOrigin: 0.5 @ 1.
+			 t rotateBy: 270 ]."
+		but addChild: lab at: 1.
+		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
+		nb addTab: but ].
+	nb openInSpace.
+	nb header constraintsDo: [ :c | c accountTransformation ].
+	nb withHeaderOnLeftBottom.
+	^ nb
+]
+
+{ #category : 'header positionning' }
 ToTabExamples class >> example_headerOnLeftBottom [
 
 	| nb |

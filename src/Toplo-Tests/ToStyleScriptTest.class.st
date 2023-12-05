@@ -65,10 +65,10 @@ ToStyleScriptTest >> testRuleWithSubRule [
 					         atDepth: 1)
 				        style: [  ] ].
 	parent := ToElement new addStamp: #parent.
-	self deny: (rule canBeFullyAppliedTo: parent forTheme: nil).
+	self deny: (rule canBeRecursivelyAppliedTo: parent forTheme: nil).
 	child := ToElement new addStamp: #child.
 	parent addChild: child.
-	self assert: (rule canBeFullyAppliedTo: parent forTheme: nil)
+	self assert: (rule canBeRecursivelyAppliedTo: parent forTheme: nil)
 ]
 
 { #category : 'tests' }

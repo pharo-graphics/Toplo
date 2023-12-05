@@ -79,6 +79,58 @@ ToThemeExamples class >> elementSandBoxFor: aSpace [
 	^ box
 ]
 
+{ #category : 'examples - labels' }
+ToThemeExamples class >> example_ToLabelWithHeadingSkin [
+
+	| typeArr headingArr listElement themeSwitcher space |
+	ToTheme cleanUp.
+	space := BlSpace new.
+	space toTheme: ToBeeLightTheme new.
+	space root layout: (BlLinearLayout vertical cellSpacing: 10).
+	themeSwitcher := ToCheckbox new
+		                 labelText: 'Dark Theme';
+		                 beLabelFirst.
+	themeSwitcher defaultSkin: ToCheckboxSkin new.
+	themeSwitcher when: ToCheckableChangedEvent do: [ :event |
+		space toTheme: (themeSwitcher isChecked
+				 ifTrue: [ ToBeeDarkTheme new ]
+				 ifFalse: [ ToBeeLightTheme new ]) ].
+
+	space root addChild: themeSwitcher.
+
+	listElement := ToListElement new nodeBuilder: [ :node :holder |
+		               | lab |
+		               lab := holder data.
+							lab removeFromParent.
+		               lab hMatchParent.
+		               node addChild: lab ].
+	listElement background: Color transparent.
+	typeArr := {
+		           ('Default' -> #( #default )).
+		           ('Danger' -> #( #danger )).
+		           ('Secondary' -> #( #secondary )).
+		           ('Success' -> #( #success )).
+		           ('Warning' -> #( #warning )) }.
+	headingArr := {
+		              ('H0' -> #H0).
+		              ('H1' -> #H1).
+		              ('H2' -> #H2).
+		              ('H3' -> #H3).
+		              ('H4' -> #H4).
+		              ('H5' -> #H5) }.
+
+	typeArr do: [ :typeAssoc |
+		headingArr do: [ :headingAssoc |
+			| lab |
+			lab := ToLabel new.
+			lab addAllStamps: typeAssoc value.
+			lab addStamp: headingAssoc value.
+			lab text: typeAssoc key , ' ' , headingAssoc key.
+			listElement data add: lab ] ].
+	space root addChild: listElement.
+	space show
+]
+
 { #category : 'examples - buttons' }
 ToThemeExamples class >> example_beeButtonsInRawPane [
 

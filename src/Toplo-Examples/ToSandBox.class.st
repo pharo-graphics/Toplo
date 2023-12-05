@@ -1784,56 +1784,6 @@ ToSandBox class >> example_ToButtonWithDefaultSkin0 [
 	space show.
 ]
 
-{ #category : 'label' }
-ToSandBox class >> example_ToLabelWithHeadingSkin [
-
-	|  typeArr headingArr listElement themeSwitcher space |
-
-	space := BlSpace new.
-	space root layout: (BlLinearLayout vertical cellSpacing: 10).
-	themeSwitcher := ToToggleButton new
-		      labelText: 'Theme';
-		      beLabelFirst.
-	themeSwitcher switchBarOnElement: ((ToLabel text: ('Dark' asRopedText foreground: Color white)) ).
-	themeSwitcher switchBarOffElement: ((ToLabel text: ('Light' asRopedText foreground: Color black)) ).
-	themeSwitcher 
-		when: ToCheckableCheckEvent 
-		do: [ :event | space toTheme: ( event current ifTrue: [ToBeeDarkTheme new] ifFalse: [ ToBeeLightTheme new]) ].
-	
-	space root addChild: themeSwitcher.
-
-	listElement := ToListElement new nodeBuilder: [ :lab |
-		     lab hMatchParent; yourself].
-	listElement background: Color transparent.
-	typeArr := {
-		           ('Default' -> ToLabelDefaultType).
-		           ('Danger' -> ToLabelDangerType).
-		           ('Disabled' -> ToLabelDisabledType).
-		           ('Secondary' -> ToLabelSecondaryType).
-		           ('Success' -> ToLabelSuccessType).
-		           ('Warning' -> ToLabelWarningType) }.
-	headingArr := {
-		              ('H0' -> ToTextH0).
-		              ('H1' -> ToTextH1).
-		              ('H2' -> ToTextH2).
-		              ('H3' -> ToTextH3).
-		              ('H4' -> ToTextH4).
-		              ('H5' -> ToTextH5) }.
-
-	typeArr do: [ :typeAssoc |
-		headingArr do: [ :headingAssoc |
-			| lab skin |
-			skin := ToLabelSkin new
-				        type: typeAssoc value new;
-				        heading: headingAssoc value new;
-				        yourself.
-			lab := ToLabel new requestDefaultSkin: skin.
-			lab text: typeAssoc key , ' ' , headingAssoc key.
-			listElement data add: lab ] ].
-	space root addChild: listElement.
-	space show
-]
-
 { #category : 'button' }
 ToSandBox class >> example_buttonWithIcon [
 

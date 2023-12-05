@@ -45,22 +45,21 @@ TToCheckable >> checked [
 ]
 
 { #category : 't - checkable - accessing' }
-TToCheckable >> checked: arg1 [
+TToCheckable >> checked: aBooleanOrIndeterminate [
 
-	| tmp1 tmp2 tmp4 |
-	arg1 ifNil: [ Error signal: 'nil not allowed' ] ifNotNil: [ arg1 ].
-	(arg1 isSymbol and: [ self withIndeterminate not ]) ifTrue: [
+	| current request |
+	aBooleanOrIndeterminate ifNil: [ Error signal: 'nil not allowed' ].
+	(aBooleanOrIndeterminate isSymbol and: [ self withIndeterminate not ]) ifTrue: [
 		Error signal:
 			'a symbol not allowed except when indeterminate is explicitly allowed ' ].
-	tmp2 := self rawChecked.
-	tmp4 := ToCheckableCheckRequest new.
-	tmp4 checked: arg1.
-	tmp1 := tmp4 yourself.
+	self isDisabled ifTrue: [ ^ self ].
+	current := self rawChecked.
+	request := ToCheckableCheckRequest new.
+	request checked: aBooleanOrIndeterminate.
 	self
-		dispatchEvent: tmp1;
-		privateChecked: tmp1 checked.
-	tmp2 = self checked ifTrue: [ ^ self ].
-	nil.
+		dispatchEvent: request;
+		privateChecked: request checked.
+	current = self checked ifTrue: [ ^ self ].
 	self dispatchEvent: ToCheckableChangedEvent new
 ]
 

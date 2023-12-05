@@ -34,14 +34,15 @@ ToSkinStateQueue >> enqueueInstallStateForElement: anElement [
 		enqueueState: (ToEnablementState new enabled: anElement isEnabled)
 		for: anElement.
 
-	anElement spaceDo: [:sp | sp requestNextPulse ]
+	
 ]
 
 { #category : 'adding' }
 ToSkinStateQueue >> enqueueState: aState for: anElement [
 
 	" all states kinds are enqueued here "
-	self nextStates nextPut: aState
+	self nextStates nextPut: aState.
+	anElement spaceDo: [:sp | sp requestNextPulse ]
 ]
 
 { #category : 'adding' }
@@ -52,8 +53,7 @@ ToSkinStateQueue >> enqueueUninstallStateForElement: anElement [
 	self nextStates flush.
 	previousInstallState := nil.
 	" store the uninstall state "
-	self enqueueState: ToUninstallState new for: anElement.
-	anElement spaceDo: [:sp | sp requestNextPulse ]
+	self enqueueState: ToUninstallState new for: anElement
 ]
 
 { #category : 'hook' }

@@ -25,7 +25,6 @@ ToEnablementStateTest >> testApplyOn [
 	space root addChild: e.
 	e when: ToEnabledLookEvent do: [ :event | receivedEnabledEvt := event ].
 	e when: ToDisabledLookEvent do: [ :event | receivedDisabledEvt := event ].
-	e when: ToElementLookEvent do: [ :event | event traceCr ].
 	e applySkinInstaller.
 	self assert: (receivedEnabledEvt isKindOf: ToEnabledLookEvent)
 	
@@ -40,7 +39,6 @@ ToEnablementStateTest >> testApplyOn2 [
 	space root addChild: e.
 	e when: ToEnabledLookEvent do: [ :event | receivedEnabledEvt := event ].
 	e when: ToDisabledLookEvent do: [ :event | receivedDisabledEvt := event ].
-	e when: ToElementLookEvent do: [ :event | event traceCr ].
 	e applySkinInstaller.
 	self assert: (receivedEnabledEvt isKindOf: ToEnabledLookEvent)
 	
@@ -55,7 +53,6 @@ ToEnablementStateTest >> testApplyOn3 [
 	e enable.
 	e when: ToEnabledLookEvent do: [ :event | receivedEnabledEvt := event ].
 	e when: ToDisabledLookEvent do: [ :event | receivedDisabledEvt := event ].
-	e when: ToElementLookEvent do: [ :event | event traceCr ].
 	e applySkinInstaller.
 	self assert: (receivedEnabledEvt isKindOf: ToEnabledLookEvent)
 	
@@ -70,7 +67,6 @@ ToEnablementStateTest >> testApplyOnWhenDisabled [
 	space root addChild: e.
 	e when: ToEnabledLookEvent do: [ :event | receivedEnabledEvt := event ].
 	e when: ToDisabledLookEvent do: [ :event | receivedDisabledEvt := event ].
-	e when: ToElementLookEvent do: [ :event | event traceCr ].
 	e applySkinInstaller.
 	self assert: (receivedDisabledEvt isKindOf: ToDisabledLookEvent)
 	
@@ -85,7 +81,6 @@ ToEnablementStateTest >> testApplyOnWhenDisabled2 [
 	e disable.
 	e when: ToEnabledLookEvent do: [ :event | receivedEnabledEvt := event ].
 	e when: ToDisabledLookEvent do: [ :event | receivedDisabledEvt := event ].
-	e when: ToElementLookEvent do: [ :event | event traceCr ].
 	e applySkinInstaller.
 	self assert: (receivedDisabledEvt isKindOf: ToDisabledLookEvent)
 	

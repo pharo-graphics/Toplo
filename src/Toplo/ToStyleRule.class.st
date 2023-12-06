@@ -36,7 +36,7 @@ ToStyleRule >> canBeAppliedTo: anElement inTheme: aTheme [
 { #category : 'private - for tests implementation  only' }
 ToStyleRule >> canBeRecursivelyAppliedTo: anElement forTheme: aTheme [
 
-	" for testing purpose. **** It does'nt make sense to use this method for writer interpreting *** "
+	" I'm an helper for testing purpose. **** It does'nt make sense to use this method for writer interpreting *** "
 	" check if my rules are applicable to the element.
 	aTheme is used to set-up the element *** before *** evaluating rules.
 	see ToTheme>>setUpElementForTheme: "

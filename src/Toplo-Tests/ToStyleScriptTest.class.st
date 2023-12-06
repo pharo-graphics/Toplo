@@ -206,6 +206,61 @@ ToStyleScriptTest >> testSelectStyleWithSubRule3 [
 ]
 
 { #category : 'tests' }
+ToStyleScriptTest >> testSupplementWith [
+
+	| styleScript styleRule wasHere writer |
+	styleScript := ToStyleScript new.
+	wasHere := false.
+	styleRule := styleScript select: #button style: [ :theStyleScript |
+		             wasHere := true.
+		             theStyleScript
+			             supplement: (ToPseudoProperty
+					              name: #'border-with-builder'
+					              reader: [ :e | e border ]
+					              writer: [ :e :v | e border: v build ])
+			             with: [ :e |
+				             e borderBuilder
+					             width: 1;
+					             paint: Color red ] ].
+	self assert: wasHere.
+	self assert: styleRule propertyWriters size equals: 1.
+	writer := styleRule propertyWriters first.
+	self assert: writer supplement.
+	self assert: writer eventClass equals: ToInstallLookEvent.
+	self assert: (writer property isKindOf: ToPseudoProperty).
+	self assert: writer property name equals: #'border-with-builder'.
+	self assert: (writer value isKindOf: BlockClosure)
+]
+
+{ #category : 'tests' }
+ToStyleScriptTest >> testWhenSupplementWith [
+
+	| styleScript styleRule wasHere writer |
+	styleScript := ToStyleScript new.
+	wasHere := false.
+	styleRule := styleScript select: #button style: [ :theStyleScript |
+		             wasHere := true.
+		             theStyleScript
+			             when: ToHoveredLookEvent
+			             supplement: (ToPseudoProperty
+					              name: #'border-with-builder'
+					              reader: [ :e | e border ]
+					              writer: [ :e :v | e border: v build ])
+			             with: [ :e |
+				             e borderBuilder
+					             width: 1;
+					             paint: Color red ] ].
+	self assert: wasHere.
+	self assert: styleRule propertyWriters size equals: 1.
+	writer := styleRule propertyWriters first.
+	self assert: writer supplement.
+	self assert: writer eventClass equals: ToHoveredLookEvent.
+	self assert: (writer property isKindOf: ToPseudoProperty).
+	self assert: writer property name equals: #'border-with-builder'.
+	self assert: (writer value isKindOf: BlockClosure)
+]
+
+{ #category : 'tests' }
 ToStyleScriptTest >> testWhenWriteWith [
 
 	| styleScript styleRule wasHere writer |
@@ -220,7 +275,30 @@ ToStyleScriptTest >> testWhenWriteWith [
 	self assert: wasHere.
 	self assert: styleRule propertyWriters size equals: 1.
 	writer := styleRule propertyWriters first.
+	self deny: writer supplement.
 	self assert: writer eventClass identicalTo: ToEnabledLookEvent
+]
+
+{ #category : 'tests' }
+ToStyleScriptTest >> testWhenWriteWithAnimation [
+
+	| styleScript styleRule wasHere writer |
+	styleScript := ToStyleScript new.
+	wasHere := false.
+	styleRule := styleScript select: #button style: [ :theStyleScript |
+		             wasHere := true.
+		             theStyleScript
+			             when: ToHoveredLookEvent
+			             write: (ToFeatureProperty new name: #background)
+			             with: Color red
+			             animation: ToPropertyColorTransitionAnimation new ].
+	self assert: wasHere.
+	self assert: styleRule propertyWriters size equals: 1.
+	writer := styleRule propertyWriters first.
+	self deny: writer supplement.
+	self assert: writer eventClass identicalTo: ToHoveredLookEvent.
+	self assert: (writer property isKindOf: ToFeatureProperty).
+	self assert: (writer animation isKindOf: ToPropertyColorTransitionAnimation)
 ]
 
 { #category : 'tests' }
@@ -285,6 +363,8 @@ ToStyleScriptTest >> testWriteWith [
 	self assert: wasHere.
 	self assert: styleRule propertyWriters size equals: 1.
 	writer := styleRule propertyWriters first.
+	self deny: writer supplement.
+	self assert: writer eventClass equals: ToInstallLookEvent.
 	self assert: (writer property isKindOf: ToFeatureProperty).
 	self assert: writer property name equals: #size.
 	self assert: writer value equals: 40 asPoint
@@ -304,6 +384,7 @@ ToStyleScriptTest >> testWriteWith2 [
 	self assert: wasHere.
 	self assert: styleRule propertyWriters size equals: 1.
 	writer := styleRule propertyWriters first.
+	self deny: writer supplement.
 	self assert: (writer property isKindOf: ToFeatureProperty).
 	self assert: writer property name equals: #size.
 	self assert: (writer value isKindOf: BlockClosure).
@@ -339,6 +420,7 @@ ToStyleScriptTest >> testWriteWith3 [
 	self assert: (dangerRule selector isKindOf: ToStampSelector).
 	self assert: dangerRule propertyWriters size equals: 1.
 	dangerWriter := dangerRule propertyWriters first.
+	self deny: dangerWriter supplement.
 	self assert: dangerWriter eventClass identicalTo: ToInstallLookEvent.
 	self assert: (dangerWriter property isKindOf: ToFeatureProperty).
 	self assert: dangerWriter property name equals: #border.

@@ -16,7 +16,7 @@ ToStyleScript >> action: aValuable [
 	 ^ ToActionSelector new action: aValuable 
 ]
 
-{ #category : 'adding' }
+{ #category : 'private - adding' }
 ToStyleScript >> addPropertyWriter: aPropertyWriter [
 
 	self ruleStack top addPropertyWriter: aPropertyWriter
@@ -97,12 +97,6 @@ ToStyleScript >> select: aStyleSelector style: aBlock [
 	self ruleStack ifNotEmpty: [:stk | stk top addStyleRule: rule ].
 	^ rule
 
-]
-
-{ #category : 'accessing' }
-ToStyleScript >> selector [
-
-	^ self ruleStack top selector
 ]
 
 { #category : 'writer adding' }

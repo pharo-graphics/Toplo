@@ -17,12 +17,14 @@ ToChildSelector >> accept: aVisitor [
 
 { #category : 'accessing' }
 ToChildSelector >> depth [
+	"evaluate only for children at a given depth or at any depth if selector depth is not specified "
 
 	^ depth
 ]
 
 { #category : 'accessing' }
 ToChildSelector >> depth: anInteger [
+	"evaluate only for children at a given depth or at any depth if selector depth is not specified "
 
 	depth := anInteger
 ]

@@ -17,12 +17,14 @@ ToParentSelector >> accept: aVisitor [
 
 { #category : 'accessing' }
 ToParentSelector >> depth [
+	"evaluate only for parent at a given depth or at any depth if selector depth is not specified "
 
 	^ depth
 ]
 
 { #category : 'accessing' }
 ToParentSelector >> depth: anInteger [
+	"evaluate only for parent at a given depth or at any depth if selector depth is not specified "
 
 	depth := anInteger
 ]
@@ -31,6 +33,5 @@ ToParentSelector >> depth: anInteger [
 ToParentSelector >> initialize [ 
 
 	super initialize.
-	self left: ToUniversalSelector new.
-	depth := 1 
+	self left: ToUniversalSelector new
 ]

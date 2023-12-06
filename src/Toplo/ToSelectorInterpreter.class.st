@@ -132,13 +132,14 @@ ToSelectorInterpreter >> visitParentSelector: aSelector [
 	[
 	current := current parent.
 	current ifNil: [ ^ self ].
-	depth := depth - 1.
-	depth < 0 ifTrue: [ ^ self ].
-	depth isZero ifTrue: [
+	depth ifNotNil: [
+		depth := depth - 1.
+		depth < 0 ifTrue: [ ^ self ] ].
+	(depth isNil or: [ depth isZero ]) ifTrue: [
 		self push: current.
 		aSelector right accept: self.
 		self pop.
-		^ self ] ] repeat
+		(depth notNil or: [ result ]) ifTrue: [ ^ self ] ] ] repeat
 ]
 
 { #category : 'visiting' }

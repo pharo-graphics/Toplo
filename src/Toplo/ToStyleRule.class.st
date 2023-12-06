@@ -23,8 +23,8 @@ ToStyleRule >> canBeAppliedTo: anElement [
 ToStyleRule >> canBeAppliedTo: anElement inTheme: aTheme [
 
 	" check if my rules are applicable to the element.
-	aTheme is used to set-up the element *** before *** evaluating rules.
-	see ToTheme>>setUpElementForTheme: "
+	aTheme is used to setup the element *** before *** evaluating rules.
+	see ToTheme>>setUpElement: "
 
 	| engine |
 	engine := ToSelectorInterpreter new.

@@ -23,6 +23,6 @@ ToActionSelector >> action [
 
 { #category : 'accessing' }
 ToActionSelector >> action: aValuable [
-	" aValuable takes one ToElement as argument "
+	" aValuable takes one element as argument "
 	action := aValuable
 ]

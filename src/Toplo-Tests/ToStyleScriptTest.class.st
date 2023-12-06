@@ -37,6 +37,16 @@ ToStyleScriptTest >> testAddPropertyWriter [
 ]
 
 { #category : 'tests' }
+ToStyleScriptTest >> testAddPropertyWriter1 [
+
+	| styleScript |
+	styleScript := ToStyleScript new.
+	" can't add a property write outside a select:style: block because 
+	there is no access to any style rule outside a select:style: block"
+	self should: [styleScript addPropertyWriter: ToPropertyWriter new] raise: Error
+]
+
+{ #category : 'tests' }
 ToStyleScriptTest >> testAny [
 	" a rule with an And operator  "
 

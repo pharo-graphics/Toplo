@@ -18,9 +18,13 @@ ToTabPaneHeaderOnTop >> applyOn: aTabPane [
 	aTabPane header tabRowContainer vFitContent.
 	aTabPane header tabRowContainer hMatchParent.
 	aTabPane header tabRowContainer beHorizontal.
-	aTabPane header startContainer vMatchParent; hFitContent.
-	aTabPane header endContainer vMatchParent; hFitContent.
-	aTabPane tabs do: [ :b | b geometry: self tabGeometry ].
+	aTabPane header tabRow constraintsDo: [ :c |
+		c linear vertical alignBottom ].
+	aTabPane header tabRowContainer constraintsDo: [ :c |
+		c linear vertical alignBottom ].
+	aTabPane tabs do: [ :b |
+		b geometry: self tabGeometry.
+		b constraintsDo: [ :c | c linear vertical alignBottom ] ]
 ]
 
 { #category : 'accessing' }

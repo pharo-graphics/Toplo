@@ -5,18 +5,18 @@ Class {
 	#package : 'Toplo-Theme-Bee'
 }
 
-{ #category : 'event dispatch' }
-ToBeeSkin >> onInstallStateRequestIn: anElement [
+{ #category : 'api - hooks' }
+ToBeeSkin >> onInstalledIn: anElement [
 
-	super onInstallStateRequestIn: anElement.
+	super onInstalledIn: anElement.
 	anElement installBeeStyle
 	
 ]
 
-{ #category : 'event dispatch' }
-ToBeeSkin >> onUninstallStateRequestIn: anElement [
+{ #category : 'api - hooks' }
+ToBeeSkin >> onUninstalledIn: anElement [
 
-	super onUninstallStateRequestIn: anElement.
+	super onUninstalledIn: anElement.
 	anElement uninstallBeeStyle
 	
 ]

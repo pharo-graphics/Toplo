@@ -114,11 +114,7 @@ ToSkinManager >> installSkin: aSkin in: anElement [
 ToSkinManager >> installSkinNow: aSkin in: anElement [
 
 	anElement addEventHandler: aSkin.
-	aSkin onInstallStateRequestIn: anElement.
-	self skinStateQueue enqueueInstallStateForElement: anElement.
-	self flag: 'Wait to see if one have to apply now. For now, let the normal procedure based on the space phases run'.
-	"self skinStateQueue applyOn: anElement"
-
+	self skinStateQueue enqueueInstallStateForElement: anElement
 ]
 
 { #category : 'accessing - skin' }
@@ -310,7 +306,6 @@ ToSkinManager >> uninstallSkin: aSkin in: anElement [
 ToSkinManager >> uninstallSkinNow: aSkin in: anElement [
 
 	aSkin ifNil: [ ^ self ].
-	aSkin onUninstallStateRequestIn: anElement.
 	self skinStateQueue enqueueUninstallStateForElement: anElement.
 	" do not wait the next pulse to ensure the uninstallation is done here "
 	self skinStateQueue applyEnqueuedStatesIn: anElement.

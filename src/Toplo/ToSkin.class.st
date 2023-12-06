@@ -39,10 +39,6 @@ ToSkin >> isNullSkin [
 ]
 
 { #category : 'api - hooks' }
-ToSkin >> onInstallStateRequestIn: anElement [
-]
-
-{ #category : 'api - hooks' }
 ToSkin >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
@@ -52,10 +48,6 @@ ToSkin >> onInstalledIn: anElement [
 		                               on: BlElementRemovedFromSceneGraphEvent
 		                               do: [ :evt | evt currentTarget requestUninstallSkin ].
 	anElement addEventHandler: removeFromSceneGraphHandler
-]
-
-{ #category : 'api - hooks' }
-ToSkin >> onUninstallStateRequestIn: anElement [
 ]
 
 { #category : 'api - hooks' }

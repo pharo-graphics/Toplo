@@ -274,6 +274,33 @@ ToTabExamples class >> example_tabPaneInTabPane [
 ]
 
 { #category : 'tabs' }
+ToTabExamples class >> example_tabPaneWithStartContainer [
+	| nb but header |
+	nb := ToTabPane new.
+	header := nb header.
+	header startContainer addChild: ((ToElement new size: 150 asPoint) background: Color red; layout: BlFrameLayout new).
+	header startContainer fitContent.
+	header startContainer constraintsDo: [ :c |
+		c linear vertical alignCenter ].
+
+	header endContainer addChild: ((ToElement new size: 50 asPoint) background: Color red; layout: BlFrameLayout new).
+	header endContainer fitContent.
+	header endContainer constraintsDo: [ :c |
+		c linear vertical alignCenter ].
+
+	nb resizablePanes: true.
+	1 to: 5 do: [ :index |
+		but := ToTab new.
+		but closable: true.
+		but labelText: 'Button ' , index asString.
+		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
+		nb addTab: but ].
+	nb openInSpace.
+	nb withHeaderOnRightCenter.
+	^ nb
+]
+
+{ #category : 'tabs' }
 ToTabExamples class >> example_tabsWith2Pages [
 
 	| aNotebook redPage greenPage redCount greenCount |

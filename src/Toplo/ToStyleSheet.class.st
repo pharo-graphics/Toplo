@@ -36,7 +36,7 @@ ToStyleSheet class >> defaultWritablePropertyList [
 			   writer: [ :e :v |
 				   e label ifNotNil:[ 
 						e label text attributes: { (BlTextForegroundAttribute paint: v) }.
-				  	 	e label textChanged ]
+				  	 	e label textChanged]
 				]).
 			
 			"others"

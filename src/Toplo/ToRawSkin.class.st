@@ -90,20 +90,20 @@ ToRawSkin >> leavedLookEvent: anEvent [
 
 ]
 
-{ #category : 'event dispatch' }
-ToRawSkin >> onInstallStateRequestIn: anElement [
+{ #category : 'api - hooks' }
+ToRawSkin >> onInstalledIn: anElement [
 
-	super onInstallStateRequestIn: anElement.
+	super onInstalledIn: anElement.
 	anElement installRawStyle
-	
+
 ]
 
-{ #category : 'event dispatch' }
-ToRawSkin >> onUninstallStateRequestIn: anElement [
+{ #category : 'api - hooks' }
+ToRawSkin >> onUninstalledIn: anElement [
 
-	super onUninstallStateRequestIn: anElement.
+	super onUninstalledIn: anElement.
 	anElement uninstallRawStyle
-	
+
 ]
 
 { #category : 'event handling' }

@@ -762,10 +762,10 @@ ToBeeStyleSheet >> defaultButtonRulesOld [
 ToBeeStyleSheet >> defaultStyleRules [
 
 	^ Array streamContents: [ :str |
-		str nextPutAll: self rootPaneRules.
-		str nextPutAll: self labeledIconRules.
-		str nextPutAll: self buttonRules.
-		str nextPutAll: self labelRules ]
+		  str nextPutAll: self rootPaneRules.
+		  str nextPutAll: self labelRules.
+		  str nextPutAll: self labeledIconRules.
+		  str nextPutAll: self buttonRules ]
 ]
 
 { #category : 'accessing rules  - label' }
@@ -773,7 +773,7 @@ ToBeeStyleSheet >> labelRules [
 	" label  rules"
 
 	^ { (ToLabel asElementSelector style: [ :sr |
-		   sr select: (self any or: #H0) style: [
+		   sr select: self any style: [
 			   sr
 				   write: (self property: #'text-attributes-with-builder')
 				   with: [ :e |
@@ -836,10 +836,10 @@ ToBeeStyleSheet >> labelRules [
 						   lineSpacing: (e tokenValueNamed: #'line-height-H5');
 						   yourself ] ].
 
-		   sr select: (self any or: #default) style: [
+		   sr select: #default style: [
 			   sr
 				   supplement: (self property: #'text-attributes-with-builder')
-				   with: [ :e |
+				   with: [ :e | 
 					   e textAttributesBuilder
 						   foreground: (e tokenValueNamed: #'color-text');
 						   yourself ] ].

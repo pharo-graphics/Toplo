@@ -24,6 +24,18 @@ ToStyleRuleTest >> testCanBeAppliedTo [
 	self assert: (rule canBeAppliedTo: ToElement new)
 ]
 
+{ #category : 'tests' }
+ToStyleRuleTest >> testCanBeAppliedToInTheme [
+
+	| rule theme e |
+	e := ToElementForStyleRuleTest new.
+	theme := ToThemeForStyleRuleTest new.
+	rule := ToStyleRule new selector: ToUniversalSelector new.
+	self assert: (rule canBeAppliedTo: e inTheme: theme).
+	self assert: (e skinManager isSetUpForTheme: theme).
+	self assert: e themeForSetup identicalTo: theme
+]
+
 { #category : 'tests - simple rule' }
 ToStyleRuleTest >> testCanBeAppliedToWithRuleWithAndWithParentSelector [
 	" a rule with an And operator  "
@@ -259,4 +271,78 @@ ToStyleRuleTest >> testCanBeAppliedToWithRuleWithUniversalSelector2 [
 		        selector: ((ToIdSelector new id: #a) or: ToUniversalSelector new).
 	e := ToElement new.
 	self assert: (rule canBeAppliedTo: e)
+]
+
+{ #category : 'tests' }
+ToStyleRuleTest >> testCanBeRecursivelyAppliedToForTheme [
+
+	| rule theme e |
+	theme := ToThemeForStyleRuleTest new.
+	e := ToElementForStyleRuleTest new.
+	rule := ToStyleRule new selector: ToUniversalSelector new.
+	self assert: (rule canBeRecursivelyAppliedTo: e forTheme: theme).
+	self assert: (e skinManager isSetUpForTheme: theme).
+	rule addStyleRule: (ToStyleRule new selector:
+			 (ToTypeSelector new type: ToElementForStyleRuleTest)).
+	self assert: (rule canBeRecursivelyAppliedTo: e forTheme: theme).
+	rule addStyleRule:
+		(ToStyleRule new selector: (ToNotSelector new left:
+				  (ToTypeSelector new type: ToElementForStyleRuleTest))).
+	self deny: (rule canBeRecursivelyAppliedTo: e forTheme: theme)
+]
+
+{ #category : 'tests' }
+ToStyleRuleTest >> testEventClass [
+
+	| rule |
+	rule := ToStyleRule new.
+	self assert: rule eventClass identicalTo: ToInstallLookEvent
+]
+
+{ #category : 'tests' }
+ToStyleRuleTest >> testPutApplicableWritersForElementForThemeIn [
+
+	| rule subRule w1 w2 e writers |
+	e := ToElementForStyleRuleTest new.
+	rule := ToStyleRule new selector: ToUniversalSelector new.
+	subRule := ToStyleRule new selector:
+		           (ToTypeSelector new type: ToElementForStyleRuleTest).
+	rule addStyleRule: subRule.
+	writers := Array streamContents: [ :stream |
+		           rule
+			           putApplicableWritersForElement: e
+			           forTheme: nil
+			           in: stream ].
+	self assert: writers isEmpty.
+	rule addPropertyWriter: (w1 := ToPropertyWriter new).
+	subRule addPropertyWriter: (w2 := ToPropertyWriter new).
+	writers := Array streamContents: [ :stream |
+		                      rule
+			                      putApplicableWritersForElement: e
+			                      forTheme: nil
+			                      in: stream ].
+	self assert: writers size equals: 2.
+	self assert: (writers includes: w1).
+	self assert: (writers includes: w2)
+]
+
+{ #category : 'tests' }
+ToStyleRuleTest >> testRawStyleRules [
+
+	| rule |
+	rule := ToStyleRule new selector: ToUniversalSelector new.
+	self assert: rule rawStyleRules isEmpty.
+	rule addStyleRule: (ToStyleRule new selector:
+			 (ToTypeSelector new type: ToElementForStyleRuleTest)).
+	self assert: rule rawStyleRules size equals: 1
+]
+
+{ #category : 'tests' }
+ToStyleRuleTest >> testSelector [
+
+	| rule s |
+	rule := ToStyleRule new.
+	self assert: (rule selector isKindOf: ToUniversalSelector).
+	rule selector: (s := ToUniversalSelector new).
+	self assert: rule selector identicalTo: s.
 ]

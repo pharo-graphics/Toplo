@@ -94,9 +94,9 @@ ToStyleSheetTheme >> rootRulesFor: anElement [
 ]
 
 { #category : 'hook' }
-ToStyleSheetTheme >> setUpElementForTheme: anElement [
+ToStyleSheetTheme >> setUpElement: anElement [
 
-	super setUpElementForTheme: anElement.
+	super setUpElement: anElement.
 	anElement addAllStamps: (self defaultElementStampsFor: anElement) 
 ]
 

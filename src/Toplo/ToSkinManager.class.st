@@ -218,7 +218,7 @@ ToSkinManager >> setUpForTheme: aTheme in: anElement [
 
 	(self isSetUpForTheme: aTheme) ifTrue: [ ^ self ].
 	self registerTheme: aTheme.
-	aTheme setUpElementForTheme: anElement
+	aTheme setUpElement: anElement
 ]
 
 { #category : 'accessing' }

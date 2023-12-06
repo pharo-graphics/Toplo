@@ -251,5 +251,5 @@ ToTheme >> printOn: aStream [
 ]
 
 { #category : 'hook' }
-ToTheme >> setUpElementForTheme: anElement [
+ToTheme >> setUpElement: anElement [
 ]

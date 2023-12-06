@@ -57,7 +57,7 @@ ToStyleRuleTest >> testCanBeAppliedToInTheme [
 	
 ]
 
-{ #category : 'tests - simple rule' }
+{ #category : 'tests - rule application' }
 ToStyleRuleTest >> testCanBeAppliedToWithRuleWithAndWithParentSelector [
 	" a rule with an And operator  "
 
@@ -78,7 +78,7 @@ ToStyleRuleTest >> testCanBeAppliedToWithRuleWithAndWithParentSelector [
 	self assert: (rule canBeAppliedTo: child)
 ]
 
-{ #category : 'tests - simple rule' }
+{ #category : 'tests - rule application' }
 ToStyleRuleTest >> testCanBeAppliedToWithRuleWithChildSelector1 [
 	" a rule with a universal selector among others accept any element "
 
@@ -96,7 +96,7 @@ ToStyleRuleTest >> testCanBeAppliedToWithRuleWithChildSelector1 [
 	self assert: (rule canBeAppliedTo: child)
 ]
 
-{ #category : 'tests - simple rule' }
+{ #category : 'tests - rule application' }
 ToStyleRuleTest >> testCanBeAppliedToWithRuleWithChildSelector2 [
 	" a rule with a universal selector among others accept any element "
 
@@ -115,7 +115,7 @@ ToStyleRuleTest >> testCanBeAppliedToWithRuleWithChildSelector2 [
 	self assert: (rule canBeAppliedTo: childchild)
 ]
 
-{ #category : 'tests - simple rule' }
+{ #category : 'tests - rule application' }
 ToStyleRuleTest >> testCanBeAppliedToWithRuleWithChildSelector3 [
 	" a rule with a universal selector among others accept any element "
 
@@ -136,7 +136,7 @@ ToStyleRuleTest >> testCanBeAppliedToWithRuleWithChildSelector3 [
 	self assert: (rule canBeAppliedTo: childchild)
 ]
 
-{ #category : 'tests - simple rule' }
+{ #category : 'tests - rule application' }
 ToStyleRuleTest >> testCanBeAppliedToWithRuleWithChildSelector4 [
 	" a rule with a universal selector among others accept any element "
 
@@ -173,7 +173,7 @@ ToStyleRuleTest >> testCanBeAppliedToWithRuleWithChildSelector4 [
 	self assert: (childchildchildRule canBeAppliedTo: childchildchild)
 ]
 
-{ #category : 'tests - simple rule' }
+{ #category : 'tests - rule application' }
 ToStyleRuleTest >> testCanBeAppliedToWithRuleWithChildSelector5 [
 	" a rule with a universal selector among others accept any element "
 
@@ -248,7 +248,7 @@ ToStyleRuleTest >> testCanBeAppliedToWithRuleWithChildSelector5 [
 	self assert: (childchildchildRule canBeAppliedTo: childchildchild)
 ]
 
-{ #category : 'tests - simple rule' }
+{ #category : 'tests - rule application' }
 ToStyleRuleTest >> testCanBeAppliedToWithRuleWithClassSelector [
 
 	| rule e |
@@ -264,7 +264,7 @@ ToStyleRuleTest >> testCanBeAppliedToWithRuleWithClassSelector [
 	self assert: (rule canBeAppliedTo: e)
 ]
 
-{ #category : 'tests - simple rule' }
+{ #category : 'tests - rule application' }
 ToStyleRuleTest >> testCanBeAppliedToWithRuleWithNoSelector [
 	" a rule with no selector accepts any alement "
 	| rule e |
@@ -273,7 +273,7 @@ ToStyleRuleTest >> testCanBeAppliedToWithRuleWithNoSelector [
 	self assert: (rule canBeAppliedTo: e) 
 ]
 
-{ #category : 'tests - simple rule' }
+{ #category : 'tests - rule application' }
 ToStyleRuleTest >> testCanBeAppliedToWithRuleWithUniversalSelector [
 	" a rule with a unique univesal selector accept any element "
 
@@ -283,7 +283,7 @@ ToStyleRuleTest >> testCanBeAppliedToWithRuleWithUniversalSelector [
 	self assert: (rule canBeAppliedTo: e)
 ]
 
-{ #category : 'tests - simple rule' }
+{ #category : 'tests - rule application' }
 ToStyleRuleTest >> testCanBeAppliedToWithRuleWithUniversalSelector2 [
 	" a rule with a universal selector among others accept any element "
 

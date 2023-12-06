@@ -52,12 +52,6 @@ ToStyleScript >> child: aSelector depth: anInteger [
 	^ self withChild: aSelector atDepth: anInteger
 ]
 
-{ #category : 'accessing' }
-ToStyleScript >> eventClass [
-
-	^ self ruleStack top eventClass
-]
-
 { #category : 'initialization' }
 ToStyleScript >> initialize [ 
 
@@ -115,7 +109,7 @@ ToStyleScript >> selector [
 ToStyleScript >> supplement: aProperty with: aValuableOrObject [
 
 	self
-		when: self eventClass
+		when: nil
 		supplement: aProperty
 		with: aValuableOrObject
 ]
@@ -195,7 +189,7 @@ ToStyleScript >> withParent: aSelector atDepth: anInteger [
 ToStyleScript >> write: aProperty with: aValue [
 
 	self
-		when: self eventClass
+		when: nil
 		write: aProperty
 		with: aValue
 		animation: nil

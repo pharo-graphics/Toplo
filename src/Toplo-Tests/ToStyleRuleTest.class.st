@@ -313,14 +313,6 @@ ToStyleRuleTest >> testCanBeRecursivelyAppliedToForTheme [
 ]
 
 { #category : 'tests' }
-ToStyleRuleTest >> testEventClass [
-
-	| rule |
-	rule := ToStyleRule new.
-	self assert: rule eventClass identicalTo: ToInstallLookEvent
-]
-
-{ #category : 'tests' }
 ToStyleRuleTest >> testPutApplicableWritersForElementForThemeIn [
 
 	| rule subRule w1 w2 e writers |

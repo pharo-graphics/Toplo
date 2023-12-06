@@ -56,20 +56,6 @@ ToStyleScriptTest >> testAny [
 ]
 
 { #category : 'tests' }
-ToStyleScriptTest >> testEventClass [
-
-	| script rule  eventClass1 eventClass2 |
-	script := ToStyleScript new.
-	" the stack is empty -> not event class "
-	self should: [script eventClass] raise: Error.
-	rule := script select: #button style: [ :sr |
-		        eventClass1 := sr eventClass.
-		        sr select: #danger style: [ eventClass2 := sr eventClass ] ].
-	self assert: eventClass1 identicalTo: ToInstallLookEvent.
-	self assert: eventClass2 identicalTo: ToInstallLookEvent
-]
-
-{ #category : 'tests' }
 ToStyleScriptTest >> testRuleStack [
 
 	| styleScript |

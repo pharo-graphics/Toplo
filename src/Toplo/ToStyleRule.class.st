@@ -59,12 +59,6 @@ ToStyleRule >> copyWithOnlyApplicableRuleFor: anElement inTheme: aTheme [
 	^ copy
 ]
 
-{ #category : 'accessing' }
-ToStyleRule >> eventClass [
-
-	^ ToInstallLookEvent 
-]
-
 { #category : 'initialization' }
 ToStyleRule >> initialize [
 

@@ -482,7 +482,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 
 	" default button rule "
 	rules := { (#button asElementSelector style: [ :sr |
-		          sr select: #danger asElementSelector style: [
+		          sr ruleFromSelector: #danger asElementSelector style: [
 			          sr write: (ss property: #background) with: Color red.
 			          sr
 				          when: ToDisabledLookEvent
@@ -550,7 +550,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules1 [
 	" default button rule "
 	rules := { (#child asElementSelector style: [ :sr |
 		          sr
-			          select: sr any
+			          ruleFromSelector: sr any
 			          style: [
 			          sr
 				          write: (ss property: #background)
@@ -653,7 +653,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules22 [
 	" default button rule "
 	rules := { ((#child asElementSelector withParent: #elem) style: [ :sr |
 		          sr
-			          select: (sr withParent: #red)
+			          ruleFromSelector: (sr withParent: #red)
 			          style: [
 			          sr
 				          write: (ss property: #background)
@@ -757,7 +757,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules32 [
 
 	rules := { ((#child asElementSelector withParent: #elem) style: [ :sr |
 		          sr
-			          select:
+			          ruleFromSelector:
 				          (((sr withParent: #red)
 					            withChild: #childchild1
 					            atDepth: 1) withChild: #childchild2 atDepth: 1)

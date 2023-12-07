@@ -1094,102 +1094,105 @@ ToBeeStyleSheet >> defaultButtonScript: aStyleScript [
 		                    duration: 350 milliSeconds.
 
 	"Button background and border"
-	aStyleScript select: self buttonSelector style: [ :sr | "Background"
-		sr
-			when: ToInstallLookEvent
-			write: (self property: #'background-color')
-			with: [ :e | e tokenValueNamed: #'color-bg-container' ].
-		sr
-			when: ToDisabledLookEvent
-			write: (self property: #'background-color')
-			with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ].
-
-		"Border"
-		sr select: #primary asElementSelector not style: [
+	aStyleScript
+		select: self buttonSelector
+		style: [ :sr | "Background"
 			sr
 				when: ToInstallLookEvent
-				write: (self property: #border)
-				with: [ :e |
-					BlBorder
-						paint: (e tokenValueNamed: #'color-border')
-						width: (e tokenValueNamed: #'line-width') ].
-			sr
-				when: ToLeavedLookEvent
-				write: (self property: #border)
-				with: [ :e |
-					BlBorder
-						paint: (e tokenValueNamed: #'color-border')
-						width: (e tokenValueNamed: #'line-width') ]
-				animation: borderColorAnim.
+				write: (self property: #'background-color')
+				with: [ :e | e tokenValueNamed: #'color-bg-container' ].
 			sr
 				when: ToDisabledLookEvent
-				write: (self property: #border)
-				with: [ :e |
-					BlBorder
-						paint: (e tokenValueNamed: #'color-border-disabled')
-						width: (e tokenValueNamed: #'line-width') ].
-			sr
-				when: ToHoveredLookEvent
-				write: (self property: #border)
-				with: [ :e |
-					BlBorder
-						paint: (e tokenValueNamed: #'color-primary-hover')
-						width: (e tokenValueNamed: #'line-width') ]
-				animation: borderColorAnim.
-			sr
-				when: ToClickedLookEvent
-				write: (self property: #border)
-				with: [ :e |
-					BlBorder
-						paint: (e tokenValueNamed: #'color-primary-hover')
-						width: (e tokenValueNamed: #'line-width') ]
-				animation: borderEffectAnim.
-			sr
-				when: ToPressedLookEvent
-				write: (self property: #border)
-				with: [ :e |
-					BlBorder
-						paint: (e tokenValueNamed: #'color-primary-pressed')
-						width: (e tokenValueNamed: #'line-width') ] ].
+				write: (self property: #'background-color')
+				with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ].
 
-		"Label"
-		sr
-			when: ToInstallLookEvent
-			write: (self property: #'button-label-text-foreground')
-			with: [ :e | e tokenValueNamed: #'color-text' ].
-		sr
-			when: ToLeavedLookEvent
-			write: (self property: #'button-label-text-foreground')
-			with: [ :e | e tokenValueNamed: #'color-text' ].
-		sr
-			when: ToDisabledLookEvent
-			write: (self property: #'button-label-text-foreground')
-			with: [ :e | e tokenValueNamed: #'color-text-disabled' ].
-		sr
-			when: ToHoveredLookEvent
-			write: (self property: #'button-label-text-foreground')
-			with: [ :e | e tokenValueNamed: #'color-primary' ].
-		sr
-			when: ToPressedLookEvent
-			write: (self property: #'button-label-text-foreground')
-			with: [ :e | e tokenValueNamed: #'color-primary-pressed' ].
+			"Border"
+			sr select: #primary asElementSelector not style: [
+				sr
+					when: ToInstallLookEvent
+					write: (self property: #border)
+					with: [ :e |
+						BlBorder
+							paint: (e tokenValueNamed: #'color-border')
+							width: (e tokenValueNamed: #'line-width') ].
+				sr
+					when: ToLeavedLookEvent
+					write: (self property: #border)
+					with: [ :e |
+						BlBorder
+							paint: (e tokenValueNamed: #'color-border')
+							width: (e tokenValueNamed: #'line-width') ]
+					animation: borderColorAnim.
+				sr
+					when: ToDisabledLookEvent
+					write: (self property: #border)
+					with: [ :e |
+						BlBorder
+							paint: (e tokenValueNamed: #'color-border-disabled')
+							width: (e tokenValueNamed: #'line-width') ].
+				sr
+					when: ToHoveredLookEvent
+					write: (self property: #border)
+					with: [ :e |
+						BlBorder
+							paint: (e tokenValueNamed: #'color-primary-hover')
+							width: (e tokenValueNamed: #'line-width') ]
+					animation: borderColorAnim.
+				sr
+					when: ToClickedLookEvent
+					write: (self property: #border)
+					with: [ :e |
+						BlBorder
+							paint: (e tokenValueNamed: #'color-primary-hover')
+							width: (e tokenValueNamed: #'line-width') ]
+					animation: borderEffectAnim.
+				sr
+					when: ToPressedLookEvent
+					write: (self property: #border)
+					with: [ :e |
+						BlBorder
+							paint: (e tokenValueNamed: #'color-primary-pressed')
+							width: (e tokenValueNamed: #'line-width') ] ].
 
-		sr select: #( #dashed ) style: [
+			"Label"
 			sr
 				when: ToInstallLookEvent
-				supplement: (self property: #'border-with-builder')
-				with: [ :e |
-				e borderBuilder dashArray: (e tokenValueNamed: #'dash-array') ] ] ]
+				write: (self property: #'button-label-text-foreground')
+				with: [ :e | e tokenValueNamed: #'color-text' ].
+			sr
+				when: ToLeavedLookEvent
+				write: (self property: #'button-label-text-foreground')
+				with: [ :e | e tokenValueNamed: #'color-text' ].
+			sr
+				when: ToDisabledLookEvent
+				write: (self property: #'button-label-text-foreground')
+				with: [ :e | e tokenValueNamed: #'color-text-disabled' ].
+			sr
+				when: ToHoveredLookEvent
+				write: (self property: #'button-label-text-foreground')
+				with: [ :e | e tokenValueNamed: #'color-primary' ].
+			sr
+				when: ToPressedLookEvent
+				write: (self property: #'button-label-text-foreground')
+				with: [ :e | e tokenValueNamed: #'color-primary-pressed' ].
+
+			sr select: #( #dashed ) style: [
+				sr
+					when: ToInstallLookEvent
+					supplement: (self property: #'border-with-builder')
+					with: [ :e |
+					e borderBuilder dashArray: (e tokenValueNamed: #'dash-array') ] ] ]
 ]
 
 { #category : 'initialization' }
 ToBeeStyleSheet >> defaultStyleRules [
 
-	^ Array streamContents: [ :str |
-		  str nextPutAll: self rootPaneRules.
-		  str nextPutAll: self labelRules.
-		  str nextPutAll: self labeledIconRules.
-		  str nextPutAll: self buttonRules ]
+	| script |
+	script := ToStyleScript new.
+	self rootPaneScript: script.
+	self labelScript: script.
+	self buttonScript: script.
+	^ script styleRules
 ]
 
 { #category : 'accessing rules  - label' }
@@ -1317,11 +1320,138 @@ ToBeeStyleSheet >> labelRules [
 						   yourself ] ] ]) }
 ]
 
+{ #category : 'rules declaring - label' }
+ToBeeStyleSheet >> labelScript: aStyleScript [
+	" label  rules"
+
+	aStyleScript
+		select: ToLabel asElementSelector
+		style: [ :sr |
+			sr
+				write: (self property: #'text-attributes-with-builder')
+				with: [ :e |
+					e textAttributesBuilder
+						weight: (e tokenValueNamed: #'font-weight-strong');
+						defaultFontName: (e tokenValueNamed: #'font-family-code');
+						defaultFontSize: (e tokenValueNamed: #'font-size');
+						lineSpacing: (e tokenValueNamed: #'line-height');
+						yourself ].
+
+			sr
+				when: ToDisabledLookEvent
+				write: (self property: #'text-attributes-with-builder')
+				with: [ :e |
+					e textAttributesBuilder foreground:
+						(e tokenValueNamed: #'color-text-disabled') ].
+
+			sr ruleFromSelector: #H1 style: [
+				sr
+					supplement: (self property: #'text-attributes-with-builder')
+					with: [ :e |
+						e textAttributesBuilder
+							defaultFontSize: (e tokenValueNamed: #'font-size-H1');
+							lineSpacing: (e tokenValueNamed: #'line-height-H1');
+							yourself ] ].
+
+			sr ruleFromSelector: #H2 style: [
+				sr
+					supplement: (self property: #'text-attributes-with-builder')
+					with: [ :e |
+						e textAttributesBuilder
+							defaultFontSize: (e tokenValueNamed: #'font-size-H2');
+							lineSpacing: (e tokenValueNamed: #'line-height-H2');
+							yourself ] ].
+
+			sr ruleFromSelector: #H3 style: [
+				sr
+					supplement: (self property: #'text-attributes-with-builder')
+					with: [ :e |
+						e textAttributesBuilder
+							defaultFontSize: (e tokenValueNamed: #'font-size-H3');
+							lineSpacing: (e tokenValueNamed: #'line-height-H3');
+							yourself ] ].
+
+			sr ruleFromSelector: #H4 style: [
+				sr
+					supplement: (self property: #'text-attributes-with-builder')
+					with: [ :e |
+						e textAttributesBuilder
+							defaultFontSize: (e tokenValueNamed: #'font-size-H4');
+							lineSpacing: (e tokenValueNamed: #'line-height-H4');
+							yourself ] ].
+
+			sr ruleFromSelector: #H5 style: [
+				sr
+					supplement: (self property: #'text-attributes-with-builder')
+					with: [ :e |
+						e textAttributesBuilder
+							defaultFontSize: (e tokenValueNamed: #'font-size-H5');
+							lineSpacing: (e tokenValueNamed: #'line-height-H5');
+							yourself ] ].
+
+			sr ruleFromSelector: #default style: [
+				sr
+					supplement: (self property: #'text-attributes-with-builder')
+					with: [ :e |
+						e textAttributesBuilder
+							foreground: (e tokenValueNamed: #'color-text');
+							yourself ] ].
+
+			sr ruleFromSelector: #danger style: [
+				sr
+					supplement: (self property: #'text-attributes-with-builder')
+					with: [ :e |
+						e textAttributesBuilder
+							foreground: (e tokenValueNamed: #'color-error');
+							yourself ] ].
+
+			sr ruleFromSelector: #link style: [
+				sr
+					supplement: (self property: #'text-attributes-with-builder')
+					with: [ :e |
+						e textAttributesBuilder
+							foreground: (e tokenValueNamed: #'color-link');
+							yourself ] ].
+
+			sr ruleFromSelector: #primary style: [
+				sr
+					supplement: (self property: #'text-attributes-with-builder')
+					with: [ :e |
+						e textAttributesBuilder
+							foreground: (e tokenValueNamed: #'color-text-light-solid');
+							yourself ] ].
+
+			sr ruleFromSelector: #secondary style: [
+				sr
+					supplement: (self property: #'text-attributes-with-builder')
+					with: [ :e |
+						e textAttributesBuilder
+							foreground: (e tokenValueNamed: #'color-text-secondary');
+							yourself ] ].
+
+			sr ruleFromSelector: #success style: [
+				sr
+					supplement: (self property: #'text-attributes-with-builder')
+					with: [ :e |
+						e textAttributesBuilder
+							foreground: (e tokenValueNamed: #'color-success');
+							yourself ] ].
+
+			sr ruleFromSelector: #warning style: [
+				sr
+					supplement: (self property: #'text-attributes-with-builder')
+					with: [ :e |
+						e textAttributesBuilder
+							foreground: (e tokenValueNamed: #'color-warning');
+							yourself ] ] ]
+]
+
 { #category : 'rules declaring - button' }
 ToBeeStyleSheet >> labeledIconInButtonScript: aStyleScript [
 
 	aStyleScript
-		select: (#'labeled-icon' asElementSelector withParent: #button atDepth: 1)
+		select:
+		(#'labeled-icon' asElementSelector withParent: #button atDepth: 1)
 		style: [ :sr |
 			sr write: (self property: #layout) with: BlLinearLayout horizontal.
 
@@ -1345,21 +1475,27 @@ ToBeeStyleSheet >> labeledIconInButtonScript: aStyleScript [
 						c linear horizontal alignCenter ] ] ].
 
 			" with justification: innerElement is matchParent if it has a parent with #justified "
-			sr select: (sr withParent: #flexible atDepth: 1) style: [
-				sr write: (self property: #'layout-constraints') with: [ :e |
-					[ :c |
-					c horizontal matchParent.
-					c vertical matchParent ] ] ].
+			sr
+				select: (sr withParent: #flexible atDepth: 1)
+				style: [
+					sr write: (self property: #'layout-constraints') with: [ :e |
+						[ :c |
+						c horizontal matchParent.
+						c vertical matchParent ] ] ].
 
-			sr select: (sr withParent: #'icon-first' atDepth: 1) style: [
-				sr
-					write: (self property: #'layout-direction')
-					with: [ :e | BlLayoutDirection leftToRight ] ].
+			sr
+				select: (sr withParent: #'icon-first' atDepth: 1)
+				style: [
+					sr
+						write: (self property: #'layout-direction')
+						with: [ :e | BlLayoutDirection leftToRight ] ].
 
-			sr select: (sr withParent: #'label-first' atDepth: 1) style: [
-				sr
-					write: (self property: #'layout-direction')
-					with: [ :e | BlLayoutDirection rightToLeft ] ] ]
+			sr
+				select: (sr withParent: #'label-first' atDepth: 1)
+				style: [
+					sr
+						write: (self property: #'layout-direction')
+						with: [ :e | BlLayoutDirection rightToLeft ] ] ]
 ]
 
 { #category : 'accessing rules - labeled icon' }
@@ -1766,6 +1902,17 @@ ToBeeStyleSheet >> rootPaneRules [
 		   sr
 			   write: (self property: #background)
 			   with: [ :e | e tokenValueNamed: #'background-color' ] ]) }
+]
+
+{ #category : 'rules declaring - pane' }
+ToBeeStyleSheet >> rootPaneScript: aStyleScript [
+
+	aStyleScript
+		select: (self id: #'Space root')
+		style: [ :sr |
+			sr
+				write: (self property: #background)
+				with: [ :e | e tokenValueNamed: #'background-color' ] ]
 ]
 
 { #category : 'accessing rules  -button' }

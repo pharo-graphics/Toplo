@@ -1,14 +1,20 @@
 Class {
 	#name : 'ToStyleScript',
 	#superclass : 'Object',
+	#traits : 'TToStyleRulesHolder',
 	#classTraits : 'TToStyleRulesHolder classTrait',
 	#instVars : [
-		'ruleStack'
+		'ruleStack',
+		'styleRules'
 	],
 	#category : 'Toplo-Core-StyleSheet',
 	#package : 'Toplo',
 	#tag : 'Core-StyleSheet'
 }
+
+{ #category : 'style declaration' }
+ToStyleScript class >> style: aBlock [ 
+]
 
 { #category : 'selector syntactic sugar' }
 ToStyleScript >> action: aValuable [ 
@@ -53,10 +59,11 @@ ToStyleScript >> child: aSelector depth: anInteger [
 ]
 
 { #category : 'initialization' }
-ToStyleScript >> initialize [ 
+ToStyleScript >> initialize [
 
 	super initialize.
-	ruleStack := Stack new
+	ruleStack := Stack new.
+	styleRules := #(  )
 ]
 
 { #category : 'selector syntactic sugar' }
@@ -81,6 +88,30 @@ ToStyleScript >> parent: aSelector depth: anInteger [
 	^ self withParent: aSelector atDepth: anInteger
 ]
 
+{ #category : 't - style rules holder' }
+ToStyleScript >> rawStyleRules [
+
+	^ styleRules
+]
+
+{ #category : 't - style rules holder' }
+ToStyleScript >> rawStyleRules: aStyleRuleCollection [
+
+	styleRules := aStyleRuleCollection
+]
+
+{ #category : 'sub rule adding' }
+ToStyleScript >> ruleFromSelector: aStyleSelector style: aBlock [
+
+	| rule |		
+	self ruleStack push: (ToStyleRule new selector: aStyleSelector asElementSelector).
+	aBlock cull: self.
+	rule := self ruleStack pop.
+	self ruleStack 
+		ifEmpty: [ ^ rule ]
+		ifNotEmpty: [:stk | stk top addStyleRule: rule ]
+]
+
 { #category : 'accessing' }
 ToStyleScript >> ruleStack [
 
@@ -91,12 +122,13 @@ ToStyleScript >> ruleStack [
 ToStyleScript >> select: aStyleSelector style: aBlock [
 
 	| rule |
-	self ruleStack push: (ToStyleRule new selector: aStyleSelector asElementSelector).
+	self ruleStack push:
+		(ToStyleRule new selector: aStyleSelector asElementSelector).
 	aBlock cull: self.
 	rule := self ruleStack pop.
-	self ruleStack ifNotEmpty: [:stk | stk top addStyleRule: rule ].
-	^ rule
-
+	self ruleStack
+		ifEmpty: [ self addStyleRule: rule ]
+		ifNotEmpty: [ :stk | stk top addStyleRule: rule ]
 ]
 
 { #category : 'writer adding' }

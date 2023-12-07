@@ -23,12 +23,14 @@ ToStyleScriptTest >> testAddPropertyWriter [
 
 	| styleScript styleRule writer |
 	styleScript := ToStyleScript new.
-	styleRule := styleScript select: #button style: [ :theStyleScript |
-		             theStyleScript addPropertyWriter:
-			             (ToPropertyWriter new
-				              property: (ToFeatureProperty new name: #size);
-				              value: 40 asPoint;
-				              yourself) ].
+	styleRule := styleScript
+		             ruleFromSelector: #button
+		             style: [ :theStyleScript |
+			             theStyleScript addPropertyWriter:
+				             (ToPropertyWriter new
+					              property: (ToFeatureProperty new name: #size);
+					              value: 40 asPoint;
+					              yourself) ].
 	self assert: styleRule propertyWriters size equals: 1.
 	writer := styleRule propertyWriters first.
 	self assert: (writer property isKindOf: ToFeatureProperty).
@@ -69,12 +71,18 @@ ToStyleScriptTest >> testRuleStackWithSelectStyle [
 	| styleScript styleRule rhs |
 	rhs := ToIdSelector new id: #button.
 	styleScript := ToStyleScript new.
-	styleRule := styleScript select: #button style: [ :theStyleScript |
-		theStyleScript select: #danger asElementSelector style: [  ].
-		theStyleScript select: #dashed asElementSelector style: [  ] ].
+	styleRule := styleScript
+		             ruleFromSelector: #button
+		             style: [ :theStyleScript |
+			             theStyleScript
+				             select: #danger asElementSelector
+				             style: [  ].
+			             theStyleScript
+				             select: #dashed asElementSelector
+				             style: [  ] ].
 	self assert: (styleRule selector isKindOf: ToStampSelector).
 	self assert: (styleRule selector allStamps includes: #button).
-	self assert: styleRule styleRules size equals: 2.
+	self assert: styleRule styleRules size equals: 2
 ]
 
 { #category : 'tests' }
@@ -83,16 +91,19 @@ ToStyleScriptTest >> testRuleStackWithSelectStyle2 [
 	| styleScript styleRule wasHere top |
 	styleScript := ToStyleScript new.
 	wasHere := false.
-	styleRule := styleScript select: #button style: [ :theStyleScript | 
-		wasHere := true. 
-		self assert: theStyleScript identicalTo: styleScript.
-		self assert: theStyleScript ruleStack size equals: 1.
-		self assert: (theStyleScript ruleStack top isKindOf: ToStyleRule).
-		top := theStyleScript ruleStack top ].
+	styleRule := styleScript
+		             ruleFromSelector: #button
+		             style: [ :theStyleScript |
+			             wasHere := true.
+			             self assert: theStyleScript identicalTo: styleScript.
+			             self assert: theStyleScript ruleStack size equals: 1.
+			             self assert:
+				             (theStyleScript ruleStack top isKindOf: ToStyleRule).
+			             top := theStyleScript ruleStack top ].
 	self assert: wasHere.
 	self assert: top identicalTo: styleRule.
 	self assert: (styleRule selector isKindOf: ToStampSelector).
-	self assert: styleRule styleRules isEmpty.
+	self assert: styleRule styleRules isEmpty
 ]
 
 { #category : 'tests' }
@@ -101,7 +112,7 @@ ToStyleScriptTest >> testRuleStackWithSelectStyleWithSubSelect [
 	| styleScript styleRule wasHere top |
 	styleScript := ToStyleScript new.
 	wasHere := false.
-	styleRule := styleScript select: #button style: [ :scr |
+	styleRule := styleScript ruleFromSelector: #button style: [ :scr |
 		             scr select: #label style: [
 			             wasHere := true.
 			             self assert: scr ruleStack size equals: 2.
@@ -118,9 +129,11 @@ ToStyleScriptTest >> testSelectStyle [
 
 	| styleRule rhs |
 	rhs := ToIdSelector new id: #button.
-	styleRule := ToStyleScript new select: #button style: [:theStyleScript |].
-	self assert: (styleRule selector isKindOf: ToStampSelector ).	
-	self assert: (styleRule selector allStamps includes: #button).
+	styleRule := ToStyleScript new
+		             ruleFromSelector: #button
+		             style: [ :theStyleScript |  ].
+	self assert: (styleRule selector isKindOf: ToStampSelector).
+	self assert: (styleRule selector allStamps includes: #button)
 ]
 
 { #category : 'tests' }
@@ -128,7 +141,8 @@ ToStyleScriptTest >> testSelectStyleWithAndSelector [
 	" a rule with an And operator  "
 
 	| rule e |
-	rule := ToStyleScript new select: (ToStampSelector new addStamp: #button )
+	rule := ToStyleScript new
+		        ruleFromSelector: (ToStampSelector new addStamp: #button)
 		        style: [ :sr |  ].
 
 	e := ToElement new addStamp: #something.
@@ -137,9 +151,9 @@ ToStyleScriptTest >> testSelectStyleWithAndSelector [
 	e addStamp: #button.
 	self assert: (rule canBeAppliedTo: e).
 
-	rule := ToStyleScript new 
-		        select: (ToStampSelector new addStamp: #button )
-			        + (ToStampSelector new addStamp: #danger )
+	rule := ToStyleScript new
+		        ruleFromSelector: (ToStampSelector new addStamp: #button)
+			        + (ToStampSelector new addStamp: #danger)
 		        style: [ :sr |  ].
 	self assert: (rule canBeAppliedTo: e) not.
 
@@ -147,7 +161,8 @@ ToStyleScriptTest >> testSelectStyleWithAndSelector [
 	self assert: (rule canBeAppliedTo: e).
 
 	rule := ToStyleScript new
-		        select: (ToStampSelector new addAllStamps: #( #button #danger ))
+		        ruleFromSelector:
+		        (ToStampSelector new addAllStamps: #( #button #danger ))
 		        style: [ :sr |  ].
 
 	self assert: (rule canBeAppliedTo: e).
@@ -159,11 +174,17 @@ ToStyleScriptTest >> testSelectStyleWithAndSelector [
 { #category : 'tests' }
 ToStyleScriptTest >> testSelectStyleWithSubRule [
 
-	| styleScript styleRule  |
+	| styleScript styleRule |
 	styleScript := ToStyleScript new.
-	styleRule := styleScript select: #button style: [ :theStyleScript |
-		theStyleScript select: #danger asElementSelector style: [  ].
-		theStyleScript select: #dashed asElementSelector style: [  ] ].
+	styleRule := styleScript
+		             ruleFromSelector: #button
+		             style: [ :theStyleScript |
+			             theStyleScript
+				             select: #danger asElementSelector
+				             style: [  ].
+			             theStyleScript
+				             select: #dashed asElementSelector
+				             style: [  ] ].
 	self assert: (styleRule selector isKindOf: ToStampSelector).
 	self assert: (styleRule selector allStamps includes: #button).
 	self assert: styleRule styleRules size equals: 2
@@ -173,16 +194,12 @@ ToStyleScriptTest >> testSelectStyleWithSubRule [
 ToStyleScriptTest >> testSelectStyleWithSubRule2 [
 	" a rule with an And operator  "
 
-	| rule  |
+	| rule |
 	self flag: 'add assertions'.
 	rule := ToStyleScript new
-		        select: #button asElementSelector 
+		        ruleFromSelector: #button asElementSelector
 		        style: [ :sr |
-			        sr
-				        select: #checkable asElementSelector 
-				        style: [ :sr2 |  ] ].
-
-
+		        sr select: #checkable asElementSelector style: [ :sr2 |  ] ]
 ]
 
 { #category : 'tests' }
@@ -191,11 +208,12 @@ ToStyleScriptTest >> testSelectStyleWithSubRule3 [
 
 	| rule parent child |
 	rule := ToStyleScript new
-		        select: (ToStampSelector new addStamp: #parent)
+		        ruleFromSelector: (ToStampSelector new addStamp: #parent)
 		        style: [ :sr |
 			        sr
 				        select:
-				        (sr withChild: (ToStampSelector new addStamp: #child)
+				        (sr
+					         withChild: (ToStampSelector new addStamp: #child)
 					         atDepth: 1)
 				        style: [  ] ].
 	parent := ToElement new addStamp: #parent.
@@ -211,17 +229,19 @@ ToStyleScriptTest >> testSupplementWith [
 	| styleScript styleRule wasHere writer |
 	styleScript := ToStyleScript new.
 	wasHere := false.
-	styleRule := styleScript select: #button style: [ :theStyleScript |
-		             wasHere := true.
-		             theStyleScript
-			             supplement: (ToPseudoProperty
-					              name: #'border-with-builder'
-					              reader: [ :e | e border ]
-					              writer: [ :e :v | e border: v build ])
-			             with: [ :e |
-				             e borderBuilder
-					             width: 1;
-					             paint: Color red ] ].
+	styleRule := styleScript
+		             ruleFromSelector: #button
+		             style: [ :theStyleScript |
+			             wasHere := true.
+			             theStyleScript
+				             supplement: (ToPseudoProperty
+						              name: #'border-with-builder'
+						              reader: [ :e | e border ]
+						              writer: [ :e :v | e border: v build ])
+				             with: [ :e |
+					             e borderBuilder
+						             width: 1;
+						             paint: Color red ] ].
 	self assert: wasHere.
 	self assert: styleRule propertyWriters size equals: 1.
 	writer := styleRule propertyWriters first.
@@ -238,18 +258,20 @@ ToStyleScriptTest >> testWhenSupplementWith [
 	| styleScript styleRule wasHere writer |
 	styleScript := ToStyleScript new.
 	wasHere := false.
-	styleRule := styleScript select: #button style: [ :theStyleScript |
-		             wasHere := true.
-		             theStyleScript
-			             when: ToHoveredLookEvent
-			             supplement: (ToPseudoProperty
-					              name: #'border-with-builder'
-					              reader: [ :e | e border ]
-					              writer: [ :e :v | e border: v build ])
-			             with: [ :e |
-				             e borderBuilder
-					             width: 1;
-					             paint: Color red ] ].
+	styleRule := styleScript
+		             ruleFromSelector: #button
+		             style: [ :theStyleScript |
+			             wasHere := true.
+			             theStyleScript
+				             when: ToHoveredLookEvent
+				             supplement: (ToPseudoProperty
+						              name: #'border-with-builder'
+						              reader: [ :e | e border ]
+						              writer: [ :e :v | e border: v build ])
+				             with: [ :e |
+					             e borderBuilder
+						             width: 1;
+						             paint: Color red ] ].
 	self assert: wasHere.
 	self assert: styleRule propertyWriters size equals: 1.
 	writer := styleRule propertyWriters first.
@@ -266,12 +288,14 @@ ToStyleScriptTest >> testWhenWriteWith [
 	| styleScript styleRule wasHere writer |
 	styleScript := ToStyleScript new.
 	wasHere := false.
-	styleRule := styleScript select: #button style: [ :theStyleScript |
-		             wasHere := true.
-		             theStyleScript
-			             when: ToEnabledLookEvent
-			             write: (ToFeatureProperty new name: #size)
-			             with: [ :e | 40 asPoint ] ].
+	styleRule := styleScript
+		             ruleFromSelector: #button
+		             style: [ :theStyleScript |
+			             wasHere := true.
+			             theStyleScript
+				             when: ToEnabledLookEvent
+				             write: (ToFeatureProperty new name: #size)
+				             with: [ :e | 40 asPoint ] ].
 	self assert: wasHere.
 	self assert: styleRule propertyWriters size equals: 1.
 	writer := styleRule propertyWriters first.
@@ -285,20 +309,23 @@ ToStyleScriptTest >> testWhenWriteWithAnimation [
 	| styleScript styleRule wasHere writer |
 	styleScript := ToStyleScript new.
 	wasHere := false.
-	styleRule := styleScript select: #button style: [ :theStyleScript |
-		             wasHere := true.
-		             theStyleScript
-			             when: ToHoveredLookEvent
-			             write: (ToFeatureProperty new name: #background)
-			             with: Color red
-			             animation: ToPropertyColorTransitionAnimation new ].
+	styleRule := styleScript
+		             ruleFromSelector: #button
+		             style: [ :theStyleScript |
+			             wasHere := true.
+			             theStyleScript
+				             when: ToHoveredLookEvent
+				             write: (ToFeatureProperty new name: #background)
+				             with: Color red
+				             animation: ToPropertyColorTransitionAnimation new ].
 	self assert: wasHere.
 	self assert: styleRule propertyWriters size equals: 1.
 	writer := styleRule propertyWriters first.
 	self deny: writer supplement.
 	self assert: writer eventClass identicalTo: ToHoveredLookEvent.
 	self assert: (writer property isKindOf: ToFeatureProperty).
-	self assert: (writer animation isKindOf: ToPropertyColorTransitionAnimation)
+	self assert:
+		(writer animation isKindOf: ToPropertyColorTransitionAnimation)
 ]
 
 { #category : 'tests' }
@@ -355,11 +382,13 @@ ToStyleScriptTest >> testWriteWith [
 	| styleScript styleRule wasHere writer |
 	styleScript := ToStyleScript new.
 	wasHere := false.
-	styleRule := styleScript select: #button style: [ :theStyleScript |
-		             wasHere := true.
-		             theStyleScript
-			             write: (ToFeatureProperty new name: #size)
-			             with: 40 asPoint ].
+	styleRule := styleScript
+		             ruleFromSelector: #button
+		             style: [ :theStyleScript |
+			             wasHere := true.
+			             theStyleScript
+				             write: (ToFeatureProperty new name: #size)
+				             with: 40 asPoint ].
 	self assert: wasHere.
 	self assert: styleRule propertyWriters size equals: 1.
 	writer := styleRule propertyWriters first.
@@ -376,11 +405,13 @@ ToStyleScriptTest >> testWriteWith2 [
 	| styleScript styleRule wasHere writer |
 	styleScript := ToStyleScript new.
 	wasHere := false.
-	styleRule := styleScript select: #button style: [ :theStyleScript |
-		             wasHere := true.
-		             theStyleScript
-			             write: (ToFeatureProperty new name: #size)
-			             with: [ :e | 40 asPoint ] ].
+	styleRule := styleScript
+		             ruleFromSelector: #button
+		             style: [ :theStyleScript |
+			             wasHere := true.
+			             theStyleScript
+				             write: (ToFeatureProperty new name: #size)
+				             with: [ :e | 40 asPoint ] ].
 	self assert: wasHere.
 	self assert: styleRule propertyWriters size equals: 1.
 	writer := styleRule propertyWriters first.
@@ -388,7 +419,7 @@ ToStyleScriptTest >> testWriteWith2 [
 	self assert: (writer property isKindOf: ToFeatureProperty).
 	self assert: writer property name equals: #size.
 	self assert: (writer value isKindOf: BlockClosure).
-	self assert: writer eventClass identicalTo: ToInstallLookEvent 
+	self assert: writer eventClass identicalTo: ToInstallLookEvent
 ]
 
 { #category : 'tests' }
@@ -396,17 +427,19 @@ ToStyleScriptTest >> testWriteWith3 [
 
 	| styleScript styleRule dangerRule dangerWriter |
 	styleScript := ToStyleScript new.
-	styleRule := styleScript select: #button style: [ :theStyleScript |
-		             theStyleScript
-			             write: (ToFeatureProperty new name: #border)
-			             with: Color black.
-		             theStyleScript
-			             write: (ToFeatureProperty new name: #background)
-			             with: Color gray.
-		             theStyleScript select: #danger style: [
+	styleRule := styleScript
+		             ruleFromSelector: #button
+		             style: [ :theStyleScript |
 			             theStyleScript
 				             write: (ToFeatureProperty new name: #border)
-				             with: Color red ] ].
+				             with: Color black.
+			             theStyleScript
+				             write: (ToFeatureProperty new name: #background)
+				             with: Color gray.
+			             theStyleScript select: #danger style: [
+				             theStyleScript
+					             write: (ToFeatureProperty new name: #border)
+					             with: Color red ] ].
 	self assert: styleRule propertyWriters size equals: 2.
 	self
 		assert: styleRule propertyWriters first eventClass

@@ -117,12 +117,6 @@ ToElementSelector >> sibling: aSelector [
 		  yourself
 ]
 
-{ #category : 'skin rule building' }
-ToElementSelector >> style: aBlock [
-
-	^ ToStyleScript new ruleFromSelector: self style: aBlock
-]
-
 { #category : 'logical operator' }
 ToElementSelector >> withChild: aSelector [ 
 

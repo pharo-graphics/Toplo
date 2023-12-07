@@ -197,14 +197,6 @@ ToStyleSheet >> rawWritablePropertyIndex: aPropertyIndex [
 	writablePropertyIndex := aPropertyIndex
 ]
 
-{ #category : 'rules declaring' }
-ToStyleSheet >> style: aStyleScript [
-
-	self subclassResponsibility 
-
-	
-]
-
 { #category : 'syntactic sugar' }
 ToStyleSheet >> type: aClass [
 

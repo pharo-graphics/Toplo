@@ -12,10 +12,6 @@ Class {
 	#tag : 'Core-StyleSheet'
 }
 
-{ #category : 'style declaration' }
-ToStyleScript class >> style: aBlock [ 
-]
-
 { #category : 'selector syntactic sugar' }
 ToStyleScript >> action: aValuable [ 
 
@@ -100,30 +96,17 @@ ToStyleScript >> rawStyleRules: aStyleRuleCollection [
 	styleRules := aStyleRuleCollection
 ]
 
-{ #category : 'sub rule adding' }
-ToStyleScript >> ruleFromSelector: aStyleSelector style: aBlock [
-
-	| rule |		
-	self ruleStack push: (ToStyleRule new selector: aStyleSelector asElementSelector).
-	aBlock cull: self.
-	rule := self ruleStack pop.
-	self ruleStack 
-		ifEmpty: [ ^ rule ]
-		ifNotEmpty: [:stk | stk top addStyleRule: rule ]
-]
-
 { #category : 'accessing' }
 ToStyleScript >> ruleStack [
 
 	^ ruleStack
 ]
 
-{ #category : 'sub rule adding' }
+{ #category : 'rules declaring' }
 ToStyleScript >> select: aStyleSelector style: aBlock [
 
 	| rule |
-	self ruleStack push:
-		(ToStyleRule new selector: aStyleSelector asElementSelector).
+	self ruleStack push: (ToStyleRule new selector: aStyleSelector asElementSelector).
 	aBlock cull: self.
 	rule := self ruleStack pop.
 	self ruleStack

@@ -7,12 +7,12 @@ Class {
 
 { #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> buttonRules [
-	<script:'(ToStyleSheetPrinter styleRules: (self new buttonRules)) asCSSLikeString inspect'>
+	<script:'(ToStyleSheetCSSLikePrinter styleRules: (self new buttonRules)) asCSSLikeString inspect'>
 
 	^ Array streamContents: [ :str |
 		
 		"Style common for all buttons"
-		str nextPutAll: self commonButtonRules.
+		str nextPutAll: self commonButtonRulesNew.
 
 		"Available button skins"
 		str nextPutAll: self defaultButtonRules.
@@ -334,7 +334,7 @@ ToBeeStyleSheet >> circleButtonRules [
 ToBeeStyleSheet >> commonButtonRules [
 
 	<script:
-	'(ToStyleSheetPrinter styleRules: (self new commonButtonRules)) asCSSLikeString inspect'>
+	'(ToStyleSheetCSSLikePrinter styleRules: (self new commonButtonRules)) asCSSLikeString inspect'>
 	^ {
 		  (self buttonSelector style: [ :sr | "Mouse cursor management"
 			   sr
@@ -365,7 +365,8 @@ ToBeeStyleSheet >> commonButtonRules [
 				   sr
 					   write: (self property: #height)
 					   with: [ :e | e tokenValueNamed: #'control-height' ] ] ]).
-		  ((#'labeled-icon' asElementSelector withParent: #button) style: [
+			
+		  (((#'labeled-icon' asElementSelector) withParent: #button atDepth: 1) style: [
 			   :sr |
 			   sr
 				   write: (self property: #layout)
@@ -380,9 +381,10 @@ ToBeeStyleSheet >> commonButtonRules [
 ]
 
 { #category : 'accessing rules  -button' }
-ToBeeStyleSheet >> commonButtonRulesOld [
-	<script:'(ToStyleSheetPrinter styleRules: (self new commonButtonRulesOld)) asCSSLikeString inspect'>
+ToBeeStyleSheet >> commonButtonRulesNew [
 
+	<script:
+	'(ToStyleSheetCSSLikePrinter styleRules: (self new commonButtonRulesOld)) asCSSLikeString inspect'>
 	^ {
 		  (#button asElementSelector style: [ :sr |
 			   sr
@@ -432,103 +434,203 @@ ToBeeStyleSheet >> commonButtonRulesOld [
 						   with: [ :e |
 						   BlRoundedRectangleGeometry cornerRadius: e requestedHeight ] ] ] ]).
 
-		  ((#'labeled-icon' asElementSelector parent: #button) style: [ :sr |
-			   sr
-				   write: (self property: #layout)
-				   with: BlLinearLayout horizontal.
-
-			   sr write: (self property: #'layout-constraints') with: [ :e |
-				   [ :c |
-				   c horizontal fitContent.
-				   c vertical fitContent.
-				   c linear vertical alignCenter.
-				   c linear horizontal alignCenter ] ].
-
-			   " without justification "
-			   sr select: (sr parent: #justified asElementSelector not) style: [
-				   sr write: (self property: #'layout-constraints') with: [ :e |
-					   [ :c |
-					   c frame vertical alignCenter.
-					   c frame horizontal alignCenter.
-					   c linear vertical alignCenter.
-					   c linear horizontal alignCenter ] ] ].
-
-			   " with justification: innerElement is matchParent if it has a parent with #justified "
-			   sr select: (sr parent: #justified) style: [
-				   sr write: (self property: #'layout-constraints') with: [ :e |
-					   [ :c |
-					   c horizontal matchParent.
-					   c vertical matchParent ] ] ].
-
-			   sr select: (sr parent: #'icon-first') style: [
-				   sr
-					   write: (self property: #'layout-direction')
-					   with: [ :e | BlLayoutDirection leftToRight ] ].
-
-			   sr select: (sr parent: #'label-first') style: [
-				   sr
-					   write: (self property: #'layout-direction')
-					   with: [ :e | BlLayoutDirection rightToLeft ] ] ]).
-
-		  ((((#'filler' asElementSelector
-			      parent: #( #button )
-			      depth: 2) sibling: #'button-label') sibling: #'button-icon')
+		  ((#'labeled-icon' asElementSelector withParent: #button atDepth: 1)
 			   style: [ :sr |
 				   sr
 					   write: (self property: #layout)
-					   with: [ :e | BlFrameLayout new ].
+					   with: BlLinearLayout horizontal.
 
 				   sr write: (self property: #'layout-constraints') with: [ :e |
 					   [ :c |
-					   c horizontal exact: (e tokenValueNamed: #'padding-content-H') / 3.
-					   c vertical exact: (e tokenValueNamed: #'padding-content-H') / 3 ] ].
+					   c horizontal fitContent.
+					   c vertical fitContent.
+					   c linear vertical alignCenter.
+					   c linear horizontal alignCenter ] ].
 
+				   " without justification "
+				   sr
+					   select:
+					   (sr withParent: #flexible asElementSelector atDepth: 1) not
+					   style: [
+						   sr
+							   write: (self property: #'layout-constraints')
+							   with: [ :e |
+								   [ :c |
+								   c frame vertical alignCenter.
+								   c frame horizontal alignCenter.
+								   c linear vertical alignCenter.
+								   c linear horizontal alignCenter ] ] ].
 
-				   sr select: (sr parent: #justified depth: 2) style: [
+				   " with justification: innerElement is matchParent if it has a parent with #justified "
+				   sr select: (sr withParent: #flexible atDepth: 1) style: [
 					   sr write: (self property: #'layout-constraints') with: [ :e |
 						   [ :c |
 						   c horizontal matchParent.
-						   c vertical matchParent.
-						   c minWidth: (e tokenValueNamed: #'padding-content-H') / 3.
-						   c minHeight: (e tokenValueNamed: #'padding-content-H') / 3 ] ] ].
+						   c vertical matchParent ] ] ].
 
-				   sr
-					   select:
-					   (sr
-						    parent: #'interspace-1' asElementSelector - #vertical
-						    depth: 2)
-					   style: [
-						   sr
-							   write: (self property: #'layout-constraints')
-							   with: [ :e |
-								   [ :c |
-								   c horizontal exact: (e tokenValueNamed: #'interspace-1') value.
-								   c vertical matchParent ] ] ].
+				   sr select: (sr withParent: #'icon-first' atDepth: 1) style: [
+					   sr
+						   write: (self property: #'layout-direction')
+						   with: [ :e | BlLayoutDirection leftToRight ] ].
 
-				   sr
-					   select:
-					   (sr
-						    parent: #'interspace-1' asElementSelector + #vertical
-						    depth: 2)
-					   style: [
-						   sr
-							   write: (self property: #'layout-constraints')
-							   with: [ :e |
-								   [ :c |
-								   c vertical exact: (e tokenValueNamed: #'interspace-1') value.
-								   c horizontal matchParent ] ] ] ]).
+				   sr select: (sr withParent: #'label-first' atDepth: 1) style: [
+					   sr
+						   write: (self property: #'layout-direction')
+						   with: [ :e | BlLayoutDirection rightToLeft ] ] ]) }
+]
 
-		  ((self any - #'filler' parent: #( #button ) depth: 2)
+{ #category : 'accessing rules  -button' }
+ToBeeStyleSheet >> commonButtonRulesOld [
+
+	<script:
+	'(ToStyleSheetCSSLikePrinter styleRules: (self new commonButtonRulesOld)) asCSSLikeString inspect'>
+	^ {
+		  (#button asElementSelector style: [ :sr |
+			   sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #mouseCursor)
+				   with: [ :e |
+					   e isEnabled
+						   ifTrue: [ BlCursor hand ]
+						   ifFalse: [  ] ].
+			   sr
+				   when: ToLeavedLookEvent
+				   write: (self property: #mouseCursor)
+				   with: nil.
+
+			   sr select: #vertical asElementSelector not style: [
+				   sr write: (self property: #padding) with: [ :e |
+					   BlInsets
+						   top: (e tokenValueNamed: #'padding-XS') / 2
+						   left: (e tokenValueNamed: #'padding-content-H') / 2
+						   bottom: (e tokenValueNamed: #'padding-XS') / 2
+						   right: (e tokenValueNamed: #'padding-content-H') / 2 ].
+
+				   sr select: self haveExactHeight not style: [
+					   sr
+						   write: (self property: #height)
+						   with: [ :e | e tokenValueNamed: #'control-height' ] ].
+
+				   sr select: #'large-sizing' style: [
+					   sr
+						   write: (self property: #height)
+						   with: [ :e | e tokenValueNamed: #'control-height-LG' ] ].
+
+				   sr select: #'small-sizing' style: [
+					   sr
+						   write: (self property: #height)
+						   with: [ :e | e tokenValueNamed: #'control-height-SM' ] ] ].
+
+			   " non circular button corner radius"
+			   sr select: #circle asElementSelector not style: [
+				   sr write: (self property: #geometry) with: [ :e |
+					   BlRoundedRectangleGeometry cornerRadius:
+						   (e tokenValueNamed: 'border-radius') ].
+
+				   sr select: #round asElementSelector style: [
+					   sr
+						   write: (self property: #geometry)
+						   with: [ :e |
+						   BlRoundedRectangleGeometry cornerRadius: e requestedHeight ] ] ] ]).
+
+		  ((#'labeled-icon' asElementSelector withParent: #button atDepth: 1)
 			   style: [ :sr |
+				   sr
+					   write: (self property: #layout)
+					   with: BlLinearLayout horizontal.
+
 				   sr write: (self property: #'layout-constraints') with: [ :e |
 					   [ :c |
+					   c horizontal fitContent.
+					   c vertical fitContent.
 					   c linear vertical alignCenter.
-					   c linear horizontal alignCenter ] ] ]) }
+					   c linear horizontal alignCenter ] ].
+
+				   " without justification "
+				   sr
+					   select:
+					   (sr withParent: #flexible asElementSelector atDepth: 1) not
+					   style: [
+						   sr
+							   write: (self property: #'layout-constraints')
+							   with: [ :e |
+								   [ :c |
+								   c frame vertical alignCenter.
+								   c frame horizontal alignCenter.
+								   c linear vertical alignCenter.
+								   c linear horizontal alignCenter ] ] ].
+
+				   " with justification: innerElement is matchParent if it has a parent with #justified "
+				   sr select: (sr withParent: #flexible atDepth: 1) style: [
+					   sr write: (self property: #'layout-constraints') with: [ :e |
+						   [ :c |
+						   c horizontal matchParent.
+						   c vertical matchParent ] ] ].
+
+				   sr select: (sr withParent: #'icon-first') style: [
+					   sr
+						   write: (self property: #'layout-direction')
+						   with: [ :e | BlLayoutDirection leftToRight ] ].
+
+				   sr select: (sr withParent: #'label-first') style: [
+					   sr
+						   write: (self property: #'layout-direction')
+						   with: [ :e | BlLayoutDirection rightToLeft ] ] ]).
+
+		  ((((#filler asElementSelector withParent: #( #button ) atDepth: 2)
+			     sibling: #'button-label') sibling: #'button-icon') style: [
+			   :sr |
+			   sr
+				   write: (self property: #layout)
+				   with: [ :e | BlFrameLayout new ].
+
+			   sr write: (self property: #'layout-constraints') with: [ :e |
+				   [ :c |
+				   c horizontal exact:
+					   (e tokenValueNamed: #'padding-content-H') / 3.
+				   c vertical exact: (e tokenValueNamed: #'padding-content-H') / 3 ] ].
+
+
+			   sr select: (sr withParent: #justified atDepth: 2) style: [
+				   sr write: (self property: #'layout-constraints') with: [ :e |
+					   [ :c |
+					   c horizontal matchParent.
+					   c vertical matchParent.
+					   c minWidth: (e tokenValueNamed: #'padding-content-H') / 3.
+					   c minHeight: (e tokenValueNamed: #'padding-content-H') / 3 ] ] ].
+
+			   sr
+				   select: (sr
+						    withParent: #'interspace-1' asElementSelector - #vertical
+						    atDepth: 2)
+				   style: [
+					   sr write: (self property: #'layout-constraints') with: [ :e |
+						   [ :c |
+						   c horizontal exact:
+							   (e tokenValueNamed: #'interspace-1') value.
+						   c vertical matchParent ] ] ].
+
+			   sr
+				   select: (sr
+						    withParent: #'interspace-1' asElementSelector + #vertical
+						    atDepth: 2)
+				   style: [
+					   sr write: (self property: #'layout-constraints') with: [ :e |
+						   [ :c |
+						   c vertical exact: (e tokenValueNamed: #'interspace-1') value.
+						   c horizontal matchParent ] ] ] ]).
+
+		  ((self any - #filler withParent: #( #button ) atDepth: 2) style: [
+			   :sr |
+			   sr write: (self property: #'layout-constraints') with: [ :e |
+				   [ :c |
+				   c linear vertical alignCenter.
+				   c linear horizontal alignCenter ] ] ]) }
 ]
 
 { #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> defaultButtonRules [
-	<script:'(ToStyleSheetPrinter styleRules: (self new defaultButtonRules)) asCSSLikeString inspect'>
+	<script:'(ToStyleSheetCSSLikePrinter styleRules: (self new defaultButtonRules)) asCSSLikeString inspect'>
 	
 	| borderColorAnim borderEffectAnim |
 	borderColorAnim := ToPropertyBorderColorTransitionAnimation new duration: 500 milliSeconds.
@@ -598,9 +700,169 @@ ToBeeStyleSheet >> defaultButtonRules [
 			   sr
 				   when: ToPressedLookEvent
 				   write: (self property: #'button-label-text-foreground')
-				   with: [ :e | (e tokenValueNamed: #'color-primary-pressed') ]. 				
-		].
+				   with: [ :e | (e tokenValueNamed: #'color-primary-pressed') ].
+			
+		  sr select: #( #dashed ) style: [ 
+			   sr
+				   when: ToInstallLookEvent
+				   supplement: (self property: #'border-with-builder')
+				   with: [ :e | e borderBuilder dashArray: (e tokenValueNamed: #'dash-array') ] ] ]
 	} 
+]
+
+{ #category : 'accessing rules  -button' }
+ToBeeStyleSheet >> defaultButtonRulesNew [
+	" ToButton default rule including icon and label "
+
+	" default button (class #button) "
+
+	^ 
+		{ 
+			  (#button asElementSelector style: [ :sr |
+			   sr
+				   when: ToInstallLookEvent
+				   write: (self property: #background)
+				   with: [ :e | Color transparent ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #background)
+				   with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ] ]).
+
+		  (#button asElementSelector - #checkable style: [ :sr |
+			   sr
+				   when: ToEnabledLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e |
+					   e borderBuilder
+						   paint: (e tokenValueNamed: #'color-border');
+						   yourself ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e |
+					   e borderBuilder
+						   paint: (e tokenValueNamed: #'color-border-disabled');
+						   yourself ].
+			   sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e |
+					   e borderBuilder
+						   paint: (e tokenValueNamed: #'color-primary-hover');
+						   yourself ].
+			   sr
+				   when: ToPressedLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e |
+					   e borderBuilder
+						   paint: (e tokenValueNamed: #'color-primary-pressed');
+						   yourself ] ]).
+
+		  " default button form icon "
+		  ((#image asElementSelector withParent: #button atDepth: 3) style: [ :sr |
+			   sr
+				   when: ToInstallLookEvent
+				   write: (self property: #'image-inner-form-color')
+				   with: [ :e | e tokenValueNamed: #'color-text' ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'image-inner-form-color')
+				   with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ].
+			   sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #'image-inner-form-color')
+				   with: [ :e | (e tokenValueNamed: #'color-primary') ].
+			   sr
+				   when: ToPressedLookEvent
+				   write: (self property: #'image-inner-form-color')
+				   with: [ :e | (e tokenValueNamed: #'color-primary-pressed') ] ]).
+
+		  " default button label "
+		  ((#label asElementSelector withParent: #button atDepth: 3) style: [ :sr |
+			   sr
+				   when: ToInstallLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | e tokenValueNamed: #'color-text' ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | e tokenValueNamed: #'color-text-disabled' ].
+			   sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | (e tokenValueNamed: #'color-primary') ].
+			   sr
+				   when: ToPressedLookEvent
+				   write: (self property: #'label-text-foreground')
+				   with: [ :e | (e tokenValueNamed: #'color-primary-pressed') ] ]).
+
+		  " ToButton default danger"
+		  (#( #button #danger ) asElementSelector - #checkable style: [ :sr |
+			   sr
+				   when: ToInstallLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e | e borderBuilder paint: (e tokenValueNamed: #'color-error') ].
+			   sr
+				   when: ToDisabledLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e |
+				   e borderBuilder paint: (e tokenValueNamed: #'color-border-disabled') ].
+			   sr
+				   when: ToHoveredLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e | e borderBuilder paint: (e tokenValueNamed: #'color-error-hover') ].
+			   sr
+				   when: ToPressedLookEvent
+				   write: (self property: #'border-with-builder')
+				   with: [ :e |
+				   e borderBuilder paint: (e tokenValueNamed: #'color-error-pressed') ] ]).
+
+		  " danger button form icon "
+		  ((#image asElementSelector withParent: #( #button #danger ) atDepth: 3)
+			   style: [ :sr |
+				   sr
+					   when: ToInstallLookEvent
+					   write: (self property: #'image-inner-form-color')
+					   with: [ :e | (e tokenValueNamed: #'color-error') ].
+				   sr
+					   when: ToDisabledLookEvent
+					   write: (self property: #'image-inner-form-color')
+					   with: [ :e | (e tokenValueNamed: #'color-image-disabled') ].
+				   sr
+					   when: ToHoveredLookEvent
+					   write: (self property: #'image-inner-form-color')
+					   with: [ :e | (e tokenValueNamed: #'color-error-hover') ].
+				   sr
+					   when: ToPressedLookEvent
+					   write: (self property: #'image-inner-form-color')
+					   with: [ :e | (e tokenValueNamed: #'color-error-pressed') ] ]).
+
+		  " danger button label "
+		  ((#label asElementSelector withParent: #( #button #danger ) atDepth: 3)
+			   style: [ :sr |
+				   sr
+					   when: ToInstallLookEvent
+					   write: (self property: #'label-text-foreground')
+					   with: [ :e | (e tokenValueNamed: #'color-error') ].
+				   sr
+					   when: ToDisabledLookEvent
+					   write: (self property: #'label-text-foreground')
+					   with: [ :e | e tokenValueNamed: #'color-text-disabled' ].
+				   sr
+					   when: ToHoveredLookEvent
+					   write: (self property: #'label-text-foreground')
+					   with: [ :e | (e tokenValueNamed: #'color-error-hover') ].
+				   sr
+					   when: ToPressedLookEvent
+					   write: (self property: #'label-text-foreground')
+					   with: [ :e | (e tokenValueNamed: #'color-error-pressed') ] ]).
+
+		  " default button dashed "
+		  (#( #dashed ) asElementSelector style: [ :sr |
+			   sr
+				   when: ToInstallLookEvent
+				   supplement: (self property: #'border-with-builder')
+				   with: [ :e | e borderBuilder dashArray: (e tokenValueNamed: #'dash-array') ] ]) } 
 ]
 
 { #category : 'accessing rules  -button' }
@@ -897,7 +1159,7 @@ ToBeeStyleSheet >> labelRules [
 ToBeeStyleSheet >> labeledIconRules [
 
 	<script:
-	'(ToStyleSheetPrinter styleRules: (self new labeledIconRules)) asCSSLikeString inspect'>
+	'(ToStyleSheetCSSLikePrinter styleRules: (self new labeledIconRules)) asCSSLikeString inspect'>
 	^ { ((self any withParent: ToLabeledIcon asElementSelector) style: [
 		   :sr | " any child of a ToLabeledIcon is centered vertically and horizontally ( icon, label and filler) "
 		   sr write: (self property: #'layout-constraints') with: [ :e |
@@ -1013,7 +1275,7 @@ ToBeeStyleSheet >> linkButtonRules [
 
 { #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> primaryButtonRules [
-	<script:'(ToStyleSheetPrinter styleRules: (self new primaryButtonRules)) asCSSLikeString inspect'>
+	<script:'(ToStyleSheetCSSLikePrinter styleRules: (self new primaryButtonRules)) asCSSLikeString inspect'>
 	
 	| backgroundColorAnim |
 	" the animation must be shared by all writers which are using it to stop it correctly "
@@ -1091,7 +1353,7 @@ ToBeeStyleSheet >> primaryButtonRules [
 
 { #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> primaryButtonRulesOld [
-	<script:'(ToStyleSheetPrinter styleRules: (self new primaryButtonRulesOld)) asCSSLikeString inspect'>
+	<script:'(ToStyleSheetCSSLikePrinter styleRules: (self new primaryButtonRulesOld)) asCSSLikeString inspect'>
 
 	^ {
 		  (#button asElementSelector + #primary style: [ :sr |

@@ -93,8 +93,8 @@ ToTabPaneHeader >> initialize [
 	tabRowContainer addChild: startFiller.
 	tabRowContainer addChild: tabRow.
 	tabRowContainer addChild: endFiller.
-	startContainer := ToPane new vMatchParent; hFitContent; yourself.
-	endContainer := ToPane new vMatchParent; hFitContent; yourself.
+	startContainer := ToPane new fitContent.
+	endContainer := ToPane new fitContent.
 	self addChild: startContainer.
 	self addChild: tabRowContainer.
 	self addChild: endContainer.

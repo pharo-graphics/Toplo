@@ -1874,6 +1874,14 @@ ToSandBox class >> example_contactList [
 							                ('Adress' asRopedText foreground:
 									                 Color lightGray);
 						                yourself) ].
+
+	list when: ToListElementSelectionChangedEvent do: [ :evt |
+		evt newSelectedIndexes size = 1 ifTrue: [
+			contact := list data at: evt newSelectedIndexes anyOne.
+			nameTxtF text: contact name.
+			phoneTxtF text: contact phoneNumber.
+			addressTxtF text: contact address ] ].
+
 	button := ToButton new label: (ToLabel text: 'Update table').
 	button whenClickedDo: [
 		| n p a c idx |
@@ -1924,7 +1932,7 @@ ToSandBox class >> example_contactList [
 				 margin: (BlInsets right: 10)).
 		line addChild: ToElement new matchParent.
 		remBut := ToButton new.
-		remBut defaultSkin: ToNullSkin new.
+		remBut withoutSkin.
 		remBut icon: (ToImage inner: (self iconNamed: #windowClose)).
 		remBut constraintsDo: [ :c | c linear vertical alignCenter ].
 		remBut

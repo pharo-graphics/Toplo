@@ -77,7 +77,7 @@ ToTabPaneHeaderNew >> initialize [
 	self addChild: tabRowContainer.
 	self addChild: endContainer.
 	self initializeEventHandler.
-	self when: ToInfiniteSelectionChangedEvent do: [ :evt | self tabsSelectionChangedEvent: evt ].
+	self when: ToListElementSelectionChangedEvent do: [ :evt | self tabsSelectionChangedEvent: evt ].
 	tabs data when: ToDataEmptinessChangeEvent do: [ :evt | self dataEmptinessChangeEvent: evt ]
 ]
 

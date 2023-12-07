@@ -39,7 +39,11 @@ ToListElementEventHandler >> eventsToHandle [
 { #category : 'infinite element events handling' }
 ToListElementEventHandler >> infiniteSelectionChangedEvent: anEvent [
 
-	anEvent currentTarget dispatchEvent: ToListElementSelectionChangedEvent new
+	anEvent currentTarget dispatchEvent:
+		(ToListElementSelectionChangedEvent new
+			 newSelectedIndexes: anEvent newSelectedIndexes;
+			 oldSelectedIndexes: anEvent oldSelectedIndexes;
+			 yourself)
 ]
 
 { #category : 'mouse handlers' }

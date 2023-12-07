@@ -185,6 +185,27 @@ TToObservableCollection >> detect: aBlock ifNone: exceptionBlock [
 ]
 
 { #category : 't - observable collection - enumerating' }
+TToObservableCollection >> detectIndex: aBlock [ 
+
+	"Return index of first element that satisfies aBlock.
+	If no matching element is found, raise an error."
+	
+	^ list detectIndex: aBlock 
+]
+
+{ #category : 't - observable collection - enumerating' }
+TToObservableCollection >> detectIndex: aBlock ifNone: exceptionBlock [
+
+	"Return index of first element that satisfies aBlock.
+	If no matching element is found, evaluate exceptionBlock."
+
+	"(#(1 5 10) detectIndex: [ :each | each > 3 ] ifNone: ['Not found']) >>> 2"
+	"(#(1 5 10) detectIndex: [ :each | each > 15 ] ifNone: ['Not found']) >>> 'Not found'"
+	
+	^ list detectIndex: aBlock ifNone: exceptionBlock
+]
+
+{ #category : 't - observable collection - enumerating' }
 TToObservableCollection >> do: aBlock [
 
 	list do: aBlock

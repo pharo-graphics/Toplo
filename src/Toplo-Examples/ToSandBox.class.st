@@ -1839,6 +1839,106 @@ ToSandBox class >> example_buttonWithLabel [
 	^ but
 ]
 
+{ #category : 'list' }
+ToSandBox class >> example_contactList [
+
+	| panel button list contacts contact nameTxtF phoneTxtF addressTxtF inputPane |
+	panel := ToPane vertical.
+	panel constraints horizontal matchParent.
+	panel layout cellSpacing: 10.
+
+	list := ToList new.
+
+	nameTxtF := ToTextField new
+		            width: 100;
+		            placeholderBuilder: [ :placeholder :e |
+			            placeholder padding: e padding.
+			            placeholder addChild: (ToLabel new
+						             text:
+							             ('Name' asRopedText foreground: Color lightGray);
+						             yourself) ].
+	phoneTxtF := ToTextField new
+		             width: 100;
+		             placeholderBuilder: [ :placeholder :e |
+			             placeholder padding: e padding.
+			             placeholder addChild: (ToLabel new
+						              text:
+							              ('Phone' asRopedText foreground: Color lightGray);
+						              yourself) ].
+	addressTxtF := ToTextField new
+		               width: 200;
+		               placeholderBuilder: [ :placeholder :e |
+			               placeholder padding: e padding.
+			               placeholder addChild: (ToLabel new
+						                text:
+							                ('Adress' asRopedText foreground:
+									                 Color lightGray);
+						                yourself) ].
+	button := ToButton new label: (ToLabel text: 'Update table').
+	button whenClickedDo: [
+		| n p a c idx |
+		n := nameTxtF text asString.
+		p := phoneTxtF text asString.
+		a := addressTxtF text asString.
+		idx := list data detectIndex: [ :e | e name = n ] ifNone: [  ].
+		c := ToContactExample new
+			     name: n;
+			     phoneNumber: p;
+			     address: a;
+			     yourself.
+		idx
+			ifNotNil: [ list data at: idx put: c ]
+			ifNil: [ list data add: c ] ].
+	inputPane := ToPane horizontal.
+	inputPane layout cellSpacing: 10.
+	inputPane addChildren: {
+			nameTxtF.
+			phoneTxtF.
+			addressTxtF.
+			button }.
+	contacts := OrderedCollection new.
+	contact := ToContactExample new.
+	contact name: 'Patty'.
+	contact phoneNumber: '0299041101'.
+	contact address: 'Brest'.
+	contacts add: contact.
+	contact := ToContactExample new.
+	contact name: 'Paulie'.
+	contact phoneNumber: '0298010101'.
+	contact address: 'Brest'.
+	contacts add: contact.
+	list nodeBuilder: [ :node :holder |
+		| line remBut |
+		line := ToPane horizontal.
+		line addChild: (ToLabel new
+				 text: holder data name;
+				 width: 100;
+				 margin: (BlInsets right: 10)).
+		line addChild: (ToLabel new
+				 text: holder data phoneNumber;
+				 width: 100;
+				 margin: (BlInsets right: 10)).
+		line addChild: (ToLabel new
+				 text: holder data address;
+				 width: 200;
+				 margin: (BlInsets right: 10)).
+		line addChild: ToElement new matchParent.
+		remBut := ToButton new.
+		remBut defaultSkin: ToNullSkin new.
+		remBut icon: (ToImage inner: (self iconNamed: #windowClose)).
+		remBut constraintsDo: [ :c | c linear vertical alignCenter ].
+		remBut
+			when: BlClickEvent
+			do: [ :event |
+			holder infiniteElement data removeAt: holder position ].
+		line addChild: remBut.
+		node addChild: line ].
+	list data addAll: contacts.
+	panel addChild: inputPane.
+	panel addChild: list.
+	panel openInSpace
+]
+
 { #category : 'context menu + menubar' }
 ToSandBox class >> example_contextMenu [
 

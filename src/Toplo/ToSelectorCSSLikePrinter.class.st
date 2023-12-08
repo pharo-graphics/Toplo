@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToSelectorPrinter',
+	#name : 'ToSelectorCSSLikePrinter',
 	#superclass : 'ToElementSelectorVisitor',
 	#instVars : [
 		'stream'
@@ -10,26 +10,26 @@ Class {
 }
 
 { #category : 'accessing' }
-ToSelectorPrinter >> contents [
+ToSelectorCSSLikePrinter >> contents [
 	
 	^ stream contents
 ]
 
 { #category : 'initialization' }
-ToSelectorPrinter >> initialize [ 
+ToSelectorCSSLikePrinter >> initialize [ 
 
 	super initialize.
 	stream := String new writeStream
 ]
 
 { #category : 'private' }
-ToSelectorPrinter >> nextPut: aString [
+ToSelectorCSSLikePrinter >> nextPut: aString [
 
 	stream nextPutAll: aString
 ]
 
 { #category : 'initialization' }
-ToSelectorPrinter >> reset [
+ToSelectorCSSLikePrinter >> reset [
 
 	stream reset
 
@@ -37,14 +37,14 @@ ToSelectorPrinter >> reset [
 ]
 
 { #category : 'visiting' }
-ToSelectorPrinter >> visitActionSelector: aSelector [
+ToSelectorCSSLikePrinter >> visitActionSelector: aSelector [
 
 	self nextPut: 'action:'.
 	self nextPut: aSelector action printString
 ]
 
 { #category : 'visiting' }
-ToSelectorPrinter >> visitAndSelector: aSelector [
+ToSelectorCSSLikePrinter >> visitAndSelector: aSelector [
 
 	self nextPut: '('.
 	aSelector left accept: self.
@@ -54,7 +54,7 @@ ToSelectorPrinter >> visitAndSelector: aSelector [
 ]
 
 { #category : 'visiting' }
-ToSelectorPrinter >> visitChildSelector: aSelector [
+ToSelectorCSSLikePrinter >> visitChildSelector: aSelector [
 
 	self nextPut: '('.
 	aSelector left accept: self.
@@ -70,14 +70,14 @@ ToSelectorPrinter >> visitChildSelector: aSelector [
 ]
 
 { #category : 'visiting' }
-ToSelectorPrinter >> visitIdSelector: aSelector [
+ToSelectorCSSLikePrinter >> visitIdSelector: aSelector [
 
-	self nextPut: 'id:'.
-	self nextPut: aSelector id printString
+	self nextPut: '#'.
+	self nextPut: aSelector id asString
 ]
 
 { #category : 'visiting' }
-ToSelectorPrinter >> visitMinusSelector: aSelector [
+ToSelectorCSSLikePrinter >> visitMinusSelector: aSelector [
 
 	self nextPut: '('.
 	aSelector left accept: self.
@@ -87,7 +87,7 @@ ToSelectorPrinter >> visitMinusSelector: aSelector [
 ]
 
 { #category : 'visiting' }
-ToSelectorPrinter >> visitNotSelector: aSelector [
+ToSelectorCSSLikePrinter >> visitNotSelector: aSelector [
 
 	self nextPut: '('.
 	aSelector left accept: self.
@@ -95,7 +95,7 @@ ToSelectorPrinter >> visitNotSelector: aSelector [
 ]
 
 { #category : 'visiting' }
-ToSelectorPrinter >> visitOrSelector: aSelector [
+ToSelectorCSSLikePrinter >> visitOrSelector: aSelector [
 
 	self nextPut: '('.
 	aSelector left accept: self.
@@ -105,7 +105,7 @@ ToSelectorPrinter >> visitOrSelector: aSelector [
 ]
 
 { #category : 'visiting' }
-ToSelectorPrinter >> visitParentSelector: aSelector [
+ToSelectorCSSLikePrinter >> visitParentSelector: aSelector [
 
 	self nextPut: '('.
 	aSelector left accept: self.
@@ -121,7 +121,7 @@ ToSelectorPrinter >> visitParentSelector: aSelector [
 ]
 
 { #category : 'visiting' }
-ToSelectorPrinter >> visitSiblingSelector: aSelector [
+ToSelectorCSSLikePrinter >> visitSiblingSelector: aSelector [
 
 	self nextPut: '('.
 	aSelector left accept: self.
@@ -133,29 +133,24 @@ ToSelectorPrinter >> visitSiblingSelector: aSelector [
 ]
 
 { #category : 'visiting' }
-ToSelectorPrinter >> visitStyleStampSelector: aSelector [
+ToSelectorCSSLikePrinter >> visitStyleStampSelector: aSelector [
 
-	aSelector allStamps size = 1
-		ifTrue: [
-			self nextPut: 'stamp:'.
-			self nextPut: aSelector allStamps anyOne printString ]
-		ifFalse: [
-			self nextPut: 'stamps:('.
-			aSelector allStamps
-				do: [ :stp | self nextPut: stp printString ]
-				separatedBy: [ self nextPut: ', ' ].
-			self nextPut: ')' ]
+	aSelector allStamps
+		do: [ :stp |
+			self nextPut: '.'.
+			self nextPut: stp asString ]
+		separatedBy: [ self nextPut: ', ' ]
 ]
 
 { #category : 'visiting' }
-ToSelectorPrinter >> visitTypeSelector: aSelector [
+ToSelectorCSSLikePrinter >> visitTypeSelector: aSelector [
 
 	self nextPut: 'type:'.
 	self nextPut: aSelector type name
 ]
 
 { #category : 'visiting' }
-ToSelectorPrinter >> visitUniversalSelector: aSelector [
+ToSelectorCSSLikePrinter >> visitUniversalSelector: aSelector [
 
 	self nextPut: '*'
 ]

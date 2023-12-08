@@ -6,7 +6,7 @@ Class {
 	#tag : 'Core-Theme'
 }
 
-{ #category : 'styling' }
+{ #category : 'css like printing' }
 ToStyleSheetTheme >> applicableRulesFor: anElement [
 	" return applicable rules for an element "
 

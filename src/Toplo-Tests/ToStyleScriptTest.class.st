@@ -153,7 +153,7 @@ ToStyleScriptTest >> testSelectStyleWithAndSelector [
 	styleScript := ToStyleScript new.
 	styleScript
 		select: (ToStampSelector new addStamp: #button)
-			+ (ToStampSelector new addStamp: #danger)
+			&& (ToStampSelector new addStamp: #danger)
 		style: [ :sr |  ].
 	self assert: styleScript styleRules size equals: 1.
 	rule := styleScript styleRules first.

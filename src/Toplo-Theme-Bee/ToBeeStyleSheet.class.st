@@ -1823,7 +1823,7 @@ ToBeeStyleSheet >> primaryButtonScript: aStyleScript [
 
 	"Button background and border"
 	aStyleScript
-		select: self buttonSelector + #primary asStampSelector
+		select: self buttonSelector && #primary asStampSelector
 		style: [ :sr | "Background"
 			sr
 				when: ToInstallLookEvent

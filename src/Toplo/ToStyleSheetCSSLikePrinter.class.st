@@ -31,15 +31,6 @@ ToStyleSheetCSSLikePrinter class >> toElement: aToElement [
 	^ self new toElement: aToElement
 ]
 
-{ #category : 'converting' }
-ToStyleSheetCSSLikePrinter >> asCSSLikeString [
-
-	| stream |
-	stream := ReadWriteStream on: String new.
-	self printStyleSheetCSSLikeOn: stream.
-	^ stream contents
-]
-
 { #category : 'private' }
 ToStyleSheetCSSLikePrinter >> getSelectorCSS: aToElementSelector hangSelector: aSelector [
 	"https://www.w3schools.com/cssref/css_selectors.php"
@@ -146,11 +137,11 @@ ToStyleSheetCSSLikePrinter >> printOn: aStream [
 	self toElement
 		ifNil: [
 			self styleSheet ifNil: [
-				^ aStream nextPutAll: 'an empty StyleSheet printer' ].
+				^ aStream nextPutAll: 'an empty StyleSheet ccs like printer' ].
 			aStream nextPutAll: 'a Stylesheet printer on '.
 			self styleSheet printOn: aStream ]
 		ifNotNil: [ :e |
-			aStream nextPutAll: 'a Stylesheet printer on '.
+			aStream nextPutAll: 'a Stylesheet css like printer on '.
 			self toElement printOn: aStream ]
 ]
 

@@ -29,9 +29,42 @@ ToThemeExamples class >> createThemeMenuBar: aSpace [
 	"Inspect menu"
 	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'Inspect Space'); tooltipText: 'Inspect the BlSpace'; whenClickedDo: [ self inspectSpace: aSpace ]).
 	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'Inspect Theme'); tooltipText: 'Inspect the current theme'; whenClickedDo: [ self inspectSpaceToTheme: aSpace ]).
-	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'Style Sheet source'); tooltipText: 'Show the current style sheet source code'; whenClickedDo: [ self displaySpaceStyleSheet: aSpace ]).
+	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'CSS like Style Sheet'); tooltipText: 'Show the current style sheet source code'; whenClickedDo: [ self displaySpaceCSSLikeStyleSheet: aSpace ]).
+	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'Style Sheet'); tooltipText: 'Show the current style sheet source code'; whenClickedDo: [ self displaySpaceStyleSheet: aSpace ]).
 	
 	^ bar
+]
+
+{ #category : 'private - actions' }
+ToThemeExamples class >> displaySpaceCSSLikeStyleSheet: aSpace [
+
+	| presenter stream printer |
+	aSpace ifNil: [ ^ self ].
+	aSpace toTheme ifNil: [ ^ self ].
+
+	"Display Theme styleSheet in a text presenter"
+	presenter := SpTextPresenter new.
+	stream := ReadWriteStream on: String new.
+
+	"Build the style sheet detail"
+	aSpace root skinManager styleSheet
+		ifNil: [
+		stream nextPutAll: 'This theme is not based on style sheets.' ]
+		ifNotNil: [ :sheet |
+			stream
+				nextPutAll: 'CSS Like style sheet with ';
+				nextPutAll: sheet rawStyleRules size asString;
+				nextPutAll: ' rule(s)';
+				cr;
+				nextPutAll: '###';
+				cr.
+			printer := ToStyleSheetCSSLikePrinter styleSheet: sheet.
+			printer printStyleSheetCSSLikeOn: stream ].
+
+	"Open the presenter"
+	presenter text: stream contents.
+	presenter open.
+	presenter withWindowDo: [ :w | w title: 'Toplo Style Sheet details' ]
 ]
 
 { #category : 'private - actions' }
@@ -57,8 +90,8 @@ ToThemeExamples class >> displaySpaceStyleSheet: aSpace [
 				cr;
 				nextPutAll: '###';
 				cr.
-			printer := ToStyleSheetCSSLikePrinter styleSheet: sheet.
-			printer printStyleSheetCSSLikeOn: stream ].
+			printer := ToStyleSheetPrinter new.
+			printer printStyleSheet: sheet on: stream ].
 
 	"Open the presenter"
 	presenter text: stream contents.

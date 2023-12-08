@@ -230,15 +230,16 @@ ToStyleSheetBazarTest >> testButtonSkinWithInterspace [
 	layoutProp := ToFeatureProperty name: #layout.
 
 	styleSheet := ToStyleSheet new
-		      inherits: false;
-		      yourself.
-		
+		              inherits: false;
+		              yourself.
+
 	script := ToStyleScript new.
-	script select: ((ToStampSelector new addStamp: #button) or:
-			  (ToStampSelector new addAllStamps: #( #button #horizontal )))
-			 style: [ :sr |
-				 sr write: layoutProp with: BlLinearLayout horizontal.
-				 sr write: interspaceProp with: 10 ].
+	script
+		select: (ToStampSelector new addStamp: #button)
+			|| (ToStampSelector new addAllStamps: #( #button #horizontal ))
+		style: [ :sr |
+			sr write: layoutProp with: BlLinearLayout horizontal.
+			sr write: interspaceProp with: 10 ].
 	styleSheet addAllStyleRules: script styleRules.
 
 	elem := ToElement new.

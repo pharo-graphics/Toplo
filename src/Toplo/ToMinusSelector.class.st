@@ -5,9 +5,3 @@ Class {
 	#package : 'Toplo',
 	#tag : 'Core-Selectors'
 }
-
-{ #category : 'visiting' }
-ToMinusSelector >> accept: aVisitor [
-
-	aVisitor visitMinusSelector: self
-]

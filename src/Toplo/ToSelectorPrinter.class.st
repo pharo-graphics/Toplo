@@ -2,7 +2,8 @@ Class {
 	#name : 'ToSelectorPrinter',
 	#superclass : 'ToElementSelectorVisitor',
 	#instVars : [
-		'stream'
+		'stream',
+		'indentLevel'
 	],
 	#category : 'Toplo-Core-Selectors',
 	#package : 'Toplo',
@@ -15,11 +16,30 @@ ToSelectorPrinter >> contents [
 	^ stream contents
 ]
 
+{ #category : 'printing utility' }
+ToSelectorPrinter >> indent [
+
+	self indentLevel timesRepeat: [ self nextPut: '    ' ].
+]
+
+{ #category : 'accessing' }
+ToSelectorPrinter >> indentLevel [
+
+	^ indentLevel
+]
+
+{ #category : 'accessing' }
+ToSelectorPrinter >> indentLevel: anObject [
+
+	indentLevel := anObject
+]
+
 { #category : 'initialization' }
 ToSelectorPrinter >> initialize [ 
 
 	super initialize.
-	stream := String new writeStream
+	stream := String new writeStream.
+	indentLevel := 0
 ]
 
 { #category : 'private' }
@@ -36,6 +56,12 @@ ToSelectorPrinter >> reset [
 
 ]
 
+{ #category : 'accessing' }
+ToSelectorPrinter >> stream: aStream [
+
+	stream := aStream
+]
+
 { #category : 'visiting' }
 ToSelectorPrinter >> visitActionSelector: aSelector [
 
@@ -48,7 +74,7 @@ ToSelectorPrinter >> visitAndSelector: aSelector [
 
 	self nextPut: '('.
 	aSelector left accept: self.
-	self nextPut: ' + '.
+	self nextPut: ' && '.
 	aSelector right accept: self.
 	self nextPut: ')'.
 ]
@@ -77,21 +103,11 @@ ToSelectorPrinter >> visitIdSelector: aSelector [
 ]
 
 { #category : 'visiting' }
-ToSelectorPrinter >> visitMinusSelector: aSelector [
-
-	self nextPut: '('.
-	aSelector left accept: self.
-	self nextPut: ' - '.
-	aSelector right accept: self.
-	self nextPut: ')'.
-]
-
-{ #category : 'visiting' }
 ToSelectorPrinter >> visitNotSelector: aSelector [
 
-	self nextPut: '('.
+	self nextPut: 'not('.
 	aSelector left accept: self.
-	self nextPut: ') not'.
+	self nextPut: ')'.
 ]
 
 { #category : 'visiting' }
@@ -99,7 +115,7 @@ ToSelectorPrinter >> visitOrSelector: aSelector [
 
 	self nextPut: '('.
 	aSelector left accept: self.
-	self nextPut: ' or: '.
+	self nextPut: ' || '.
 	aSelector right accept: self.
 	self nextPut: ')'.
 ]

@@ -66,7 +66,7 @@ ToStyleRuleTest >> testCanBeAppliedToWithRuleWithAndWithParentSelector [
 	rule := ToStyleRule new selector:
 		        ((ToStampSelector new addStamp: #'button-label')
 			         withParent: (ToStampSelector new addStamp: #button)
-				         + (ToStampSelector new addStamp: #danger)
+				         && (ToStampSelector new addStamp: #danger)
 			         atDepth: 1).
 	e := ToElement new addStamp: #button.
 	self deny: (rule canBeAppliedTo: e).
@@ -288,8 +288,8 @@ ToStyleRuleTest >> testCanBeAppliedToWithRuleWithUniversalSelector2 [
 	" a rule with a universal selector among others accept any element "
 
 	| rule e |
-	rule := ToStyleRule new
-		        selector: ((ToIdSelector new id: #a) or: ToUniversalSelector new).
+	rule := ToStyleRule new selector:
+		        (ToIdSelector new id: #a) || ToUniversalSelector new.
 	e := ToElement new.
 	self assert: (rule canBeAppliedTo: e)
 ]

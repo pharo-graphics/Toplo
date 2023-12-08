@@ -25,11 +25,14 @@ ToSelectorPrinterTest >> test1 [
 
 	| selector |
 	selector := (ToStampSelector new addStamp: #'button-label')
-			         withParent: (ToStampSelector new addStamp: #button)
-				         + (ToStampSelector new addStamp: #danger)
-			         atDepth: 1.
+		            withParent: (ToStampSelector new addStamp: #button)
+			            && (ToStampSelector new addStamp: #danger)
+		            atDepth: 1.
 	selector accept: printer.
-	self assert: printer contents equals: '(stamp:#''button-label'' parent:((stamp:#button + stamp:#danger) depth:1))'
+	self
+		assert: printer contents
+		equals:
+		'(stamp:#''button-label'' parent:((stamp:#button && stamp:#danger) depth:1))'
 ]
 
 { #category : 'tests' }
@@ -38,17 +41,29 @@ ToSelectorPrinterTest >> test2 [
 	| selector |
 	selector := ((ToStampSelector new addStamp: #'button-label')
 		             withParent: (ToStampSelector new addStamp: #button)
-			             + (ToStampSelector new addStamp: #danger)
+			             && (ToStampSelector new addStamp: #danger)
 		             atDepth: 1)
-	            - ((ToStampSelector new addStamp: #'button-label')
+	            && ((ToStampSelector new addStamp: #'button-label')
 			             withParent: (ToStampSelector new addStamp: #button)
-				             + (ToStampSelector new addStamp: #danger)
-			             atDepth: 1).
+				             && (ToStampSelector new addStamp: #danger)
+			             atDepth: 1) not.
 	selector accept: printer.
 	self
 		assert: printer contents
 		equals:
-		'((stamp:#''button-label'' parent:((stamp:#button + stamp:#danger) depth:1)) - (stamp:#''button-label'' parent:((stamp:#button + stamp:#danger) depth:1)))'
+		'((stamp:#''button-label'' parent:((stamp:#button && stamp:#danger) depth:1)) && not((stamp:#''button-label'' parent:((stamp:#button && stamp:#danger) depth:1))))'
+]
+
+{ #category : 'tests' }
+ToSelectorPrinterTest >> testAndNot [
+
+	| selector |
+	selector := #'labeled-icon' asStampSelector
+	            && ToImage asTypeSelector not.
+	selector accept: printer.
+	self
+		assert: printer contents
+		equals: '(stamp:#''labeled-icon'' && not(type:ToImage))'
 ]
 
 { #category : 'tests' }
@@ -64,9 +79,11 @@ ToSelectorPrinterTest >> testVisitActionSelector [
 ToSelectorPrinterTest >> testVisitAndSelector [
 
 	| selector |
-	selector := (#'labeled-icon' asStampSelector) + (ToImage asTypeSelector).
+	selector := #'labeled-icon' asStampSelector && ToImage asTypeSelector.
 	selector accept: printer.
-	self assert: printer contents equals: '(stamp:#''labeled-icon'' + type:ToImage)'
+	self
+		assert: printer contents
+		equals: '(stamp:#''labeled-icon'' && type:ToImage)'
 ]
 
 { #category : 'tests' }
@@ -97,30 +114,23 @@ ToSelectorPrinterTest >> testVisitIdSelector [
 ]
 
 { #category : 'tests' }
-ToSelectorPrinterTest >> testVisitMinusSelector [
-
-	| selector |
-	selector := (#'labeled-icon' asStampSelector) - (ToImage asTypeSelector).
-	selector accept: printer.
-	self assert: printer contents equals: '(stamp:#''labeled-icon'' - type:ToImage)'
-]
-
-{ #category : 'tests' }
 ToSelectorPrinterTest >> testVisitNotSelector [
 
 	| selector |
 	selector := (#'labeled-icon' asStampSelector) not.
 	selector accept: printer.
-	self assert: printer contents equals: '(stamp:#''labeled-icon'') not'
+	self assert: printer contents equals: 'not(stamp:#''labeled-icon'')'
 ]
 
 { #category : 'tests' }
 ToSelectorPrinterTest >> testVisitOrSelector [
 
 	| selector |
-	selector := (#'labeled-icon' asStampSelector) or: (ToImage asTypeSelector).
+	selector := #'labeled-icon' asStampSelector || ToImage asTypeSelector.
 	selector accept: printer.
-	self assert: printer contents equals: '(stamp:#''labeled-icon'' or: type:ToImage)'
+	self
+		assert: printer contents
+		equals: '(stamp:#''labeled-icon'' || type:ToImage)'
 ]
 
 { #category : 'tests' }

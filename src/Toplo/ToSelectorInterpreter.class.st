@@ -17,7 +17,7 @@ ToSelectorInterpreter >> check: aSelector on: anElement [
 	targetStack := Stack new.
 	self push: anElement.
 	result := true.
-	aSelector value accept: self.
+	aSelector accept: self.
 	^ result
 ]
 
@@ -101,16 +101,6 @@ ToSelectorInterpreter >> visitChildSelector: aSelector [
 ToSelectorInterpreter >> visitIdSelector: aSelector [
 
 	result := aSelector id = self top id
-]
-
-{ #category : 'visiting' }
-ToSelectorInterpreter >> visitMinusSelector: aSelector [
-
-	aSelector left accept: self.
-	result ifFalse: [ ^ self ].
-	aSelector right accept: self.
-	result := result not.
-
 ]
 
 { #category : 'visiting' }

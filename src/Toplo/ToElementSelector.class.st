@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'logical operator' }
-ToElementSelector >> + aStyleSelector [
+ToElementSelector >> && aStyleSelector [
 
 	^ ToAndSelector new
 		  left: self;
@@ -16,11 +16,29 @@ ToElementSelector >> + aStyleSelector [
 ]
 
 { #category : 'logical operator' }
+ToElementSelector >> + aStyleSelector [
+
+	self
+		deprecated: 'Please use && instead.'
+		transformWith:
+			'`@receiver + `@statements1'
+				-> '`@receiver && `@statements1'.	
+
+	^ self && aStyleSelector
+]
+
+{ #category : 'logical operator' }
 ToElementSelector >> - aStyleSelector [
 
-	^ ToMinusSelector new
+
+	self
+		deprecated: 'Please use && not instead.'
+		transformWith:
+			'`@receiver - `@selector'
+				-> '`@receiver && ((`@selector) not)'.	
+	^ ToAndSelector new
 		  left: self;
-		  right: aStyleSelector;
+		  right: (aStyleSelector) not;
 		  yourself
 ]
 
@@ -34,11 +52,11 @@ ToElementSelector >> accept: aVisitor [
 ToElementSelector >> and: aStyleSelector [
 
 	self
-		deprecated: 'Please use + instead.'
+		deprecated: 'Please use && instead.'
 		transformWith:
 			'`@receiver and: `@statements1'
-				-> '`@receiver + `@statements1'.	
-	^ self + aStyleSelector
+				-> '`@receiver && `@statements1'.	
+	^ self && aStyleSelector
 ]
 
 { #category : 'converting' }
@@ -98,10 +116,12 @@ ToElementSelector >> not [
 { #category : 'logical operator' }
 ToElementSelector >> or: aStyleSelector [
 
-	^ ToOrSelector new
-		  left: self;
-		  right: aStyleSelector;
-		  yourself
+	self
+		deprecated: 'Please use || instead.'
+		transformWith:
+			'`@receiver or: `@statements1'
+				-> '`@receiver || `@statements1'.	
+	^ self || aStyleSelector
 ]
 
 { #category : 'logical operator' }
@@ -181,5 +201,14 @@ ToElementSelector >> withSibling: aSelector [
 	^ ToSiblingSelector new
 		  left: self;
 		  right: aSelector;
+		  yourself
+]
+
+{ #category : 'logical operator' }
+ToElementSelector >> || aStyleSelector [
+
+	^ ToOrSelector new
+		  left: self;
+		  right: aStyleSelector;
 		  yourself
 ]

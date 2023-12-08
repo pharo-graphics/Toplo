@@ -7,12 +7,12 @@ Class {
 }
 
 { #category : 'tests' }
-ToParameterizedHostTest >> applyAllStyles [
+ToParameterizedHostTest >> applyAllEnqueuedStates [
 
 	testingSpaces ifNil: [ ^ self ].
 	testingSpaces do: [ :each | 
 		each applyAllSkinInstallers.
-		each applyAllStyles. 
+		each applyAllEnqueuedStates. 
 		each requestNextPulse ].
 ]
 

@@ -10,6 +10,68 @@ Class {
 }
 
 { #category : 'tests' }
+ToSelectorInterpreterTest >> testPush [
+
+	| selector e engine theme |
+	selector := ToIdSelector new id: #'my-id'.
+	e := ToElementForStyleRuleTest new.
+	e id: #'my-id'.
+	engine := ToSelectorInterpreter new.
+	" the result is false since the selector is exact by default "
+	engine check: selector on: e.
+	self assert: engine result.
+	self assert: e themeForSetup isNil.
+	
+	theme := ToThemeForStyleRuleTest new.
+	engine theme: theme.
+	engine check: selector on: e.
+	self assert: engine result.
+	self assert: e themeForSetup identicalTo: theme.
+
+	
+	
+]
+
+{ #category : 'tests' }
+ToSelectorInterpreterTest >> testResult [
+
+	| selector e engine  |
+	e := ToElement new.
+	selector := ToActionSelector new action: [:target | target == e].
+	engine := ToSelectorInterpreter new.
+	self deny: engine result.
+	engine check: selector on: e.
+	self assert: engine result.
+
+]
+
+{ #category : 'tests' }
+ToSelectorInterpreterTest >> testTheme [
+
+	| engine  th |
+	engine := ToSelectorInterpreter new.
+	self assert: engine theme isNil.
+	engine theme: (th := ToTheme new).
+	self assert: engine theme identicalTo: th
+
+]
+
+{ #category : 'tests' }
+ToSelectorInterpreterTest >> testThemeDo [
+
+	| engine wentHere|
+	engine := ToSelectorInterpreter new.
+	wentHere := false.
+	self assert: engine theme isNil.
+	engine themeDo: [ :th | wentHere := true ].
+	self deny: wentHere.
+	engine theme: (ToTheme new).
+	engine themeDo: [ :th | wentHere := true ].
+	self assert: wentHere.
+
+]
+
+{ #category : 'tests' }
 ToSelectorInterpreterTest >> testVisitActionSelector [
 
 	| selector e engine  |

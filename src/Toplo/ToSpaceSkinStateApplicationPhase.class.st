@@ -16,5 +16,5 @@ ToSpaceSkinStateApplicationPhase >> name [
 { #category : 'actions' }
 ToSpaceSkinStateApplicationPhase >> runOn: aSpace [
 
-	aSpace applyAllStyles
+	aSpace applyAllEnqueuedStates
 ]

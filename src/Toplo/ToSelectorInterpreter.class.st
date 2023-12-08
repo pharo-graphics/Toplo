@@ -21,6 +21,13 @@ ToSelectorInterpreter >> check: aSelector on: anElement [
 	^ result
 ]
 
+{ #category : 'initialization' }
+ToSelectorInterpreter >> initialize [ 
+
+	super initialize.
+	result := false
+]
+
 { #category : 'accessing' }
 ToSelectorInterpreter >> pop [
 

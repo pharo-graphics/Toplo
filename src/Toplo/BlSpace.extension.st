@@ -15,15 +15,15 @@ BlSpace >> allowSkinPhases: aBoolean [
 ]
 
 { #category : '*Toplo' }
-BlSpace >> applyAllSkinInstallers [
+BlSpace >> applyAllEnqueuedStates [
 
-	self root applySkinInstallerRecursively
+	self root applyEnqueuedStatesRecursively
 ]
 
 { #category : '*Toplo' }
-BlSpace >> applyAllStyles [
+BlSpace >> applyAllSkinInstallers [
 
-	self root applyEnqueuedStatesRecursively
+	self root applySkinInstallerRecursively
 ]
 
 { #category : '*Toplo' }

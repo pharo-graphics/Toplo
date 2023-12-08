@@ -32,7 +32,7 @@ ToBeeStyleSheetTest >> testDefaultButtonSkin [
 	button := ToButton new.
 	space root addChild: button.
 	space applyAllSkinInstallers.
-	space applyAllStyles.
+	space applyAllEnqueuedStates.
 
 	self assert: button border width equals: (button tokenValueNamed: #'line-width').
 	self assert: button border paint isColorPaint.
@@ -55,7 +55,7 @@ ToBeeStyleSheetTest >> testLabeledIconWithLabelAndIcon [
 			 yourself)).
 			
 	space applyAllSkinInstallers.
-	space applyAllStyles.
+	space applyAllEnqueuedStates.
 
 	li := but labeledIcon.
 	self assert: (li  constraints linear vertical alignment isKindOf: BlVerticalCenterAlignment) .	

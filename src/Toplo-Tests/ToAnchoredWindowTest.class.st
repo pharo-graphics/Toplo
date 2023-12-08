@@ -117,7 +117,7 @@ ToAnchoredWindowTest >> testPopupWithAssociateElementInSpace2 [
 	e := ToElement new.
 	space root addChild: e.
 	self waitTestingSpaces.
-	self applyAllStyles.
+	self applyAllEnqueuedStates.
 
 	windowHandler := ToAnchoredWindowHandler new builder: [ :anchWin :element | ].
 	windowHandler element: e.
@@ -127,7 +127,7 @@ ToAnchoredWindowTest >> testPopupWithAssociateElementInSpace2 [
 	self assert: win isClosed.
 	self assert: win popupTimestamp isNil.
 	win popup.
-	self applyAllStyles.
+	self applyAllEnqueuedStates.
 	self waitTestingSpaces.
 
 	self assert: win popupTimestamp notNil.

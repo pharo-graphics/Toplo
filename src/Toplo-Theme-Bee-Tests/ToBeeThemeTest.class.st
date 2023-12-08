@@ -22,12 +22,12 @@ ToBeeThemeTest >> testSpaceRoot [
 			 background: Color white).
 	space root addChild: e.
 	space applyAllSkinInstallers.
-	space applyAllStyles.
+	space applyAllEnqueuedStates.
 	self assert: space root background paint color equals: (space root tokenValueNamed: 'background-color').
 	theme := ToBeeDarkTheme new.
 	space toTheme: theme.
 	space applyAllSkinInstallers.
-	space applyAllStyles.
+	space applyAllEnqueuedStates.
 	self assert: space root background paint color equals: (space root tokenValueNamed: 'background-color').
 
 

@@ -30,7 +30,7 @@ ToSkinnablePropertySlotTest >> testNew [
 	" -> toThemeChanged : -> 1 requestSkin "
 	space applyAllSkinInstallers.
 
-	space applyAllStyles.
+	space applyAllEnqueuedStates.
 	self assert: e skinRequestCount equals: 3.
 	self assert: e newSkinInstallerCount equals: 1.
 	self assert: e skinInstallStateCount equals: 1.
@@ -52,7 +52,7 @@ ToSkinnablePropertySlotTest >> testWriteTo [
 	space root addChild: e.
 	" + 2 because of the theme installation "
 	space applyAllSkinInstallers.
-	space applyAllStyles.
+	space applyAllEnqueuedStates.
 	self assert: e skinRequestCount equals: 5.
 	self assert: e newSkinInstallerCount equals: 1.
 	self assert: e skinInstallStateCount equals: 1.
@@ -76,7 +76,7 @@ ToSkinnablePropertySlotTest >> testWriteTo2 [
 	e borderValue: Color red.
 	self assert: e newSkinInstallerCount equals: 1.
 	space applyAllSkinInstallers.
-	space applyAllStyles.
+	space applyAllEnqueuedStates.
 	self assert: e skinRequestCount equals: 6.
 	self assert: e border paint color equals: Color red.
 	self assert: e skinInstallStateCount equals: 1
@@ -113,7 +113,7 @@ ToSkinnablePropertySlotTest >> testWriteTo4 [
 
 	space applyAllSkinInstallers.
 	self assert: e skinInstallStateCount equals: 1.
-	space applyAllStyles.
+	space applyAllEnqueuedStates.
 
 	self assert: e skinRequestCount equals: requestCpt + 3.
 	self assert: e skinInstallStateCount equals: 1.
@@ -133,7 +133,7 @@ ToSkinnablePropertySlotTest >> testWriteTo4 [
 	space applyAllSkinInstallers.
 	self assert: e skinStatesApplied equals: 1.
 
-	space applyAllStyles.
+	space applyAllEnqueuedStates.
 
 	self assert: e skinRequestCount equals: requestCpt + 5.
 	self assert: e skinInstallStateCount equals: 2.
@@ -141,7 +141,7 @@ ToSkinnablePropertySlotTest >> testWriteTo4 [
 	self assert: e skinInstaller isNil.
 
 	space applyAllSkinInstallers.
-	space applyAllStyles.
+	space applyAllEnqueuedStates.
 
 	self assert: e skinInstaller isNil.
 	self assert: e newSkinInstallerCount equals: 2.
@@ -161,7 +161,7 @@ ToSkinnablePropertySlotTest >> testWriteToWithSpaceAddChildBefore [
 	self assert: e newSkinInstallerCount equals: 1.
 
 	space applyAllSkinInstallers.
-	space applyAllStyles.
+	space applyAllEnqueuedStates.
 
 	self assert: e skinInstaller isNil.
 	self assert: e skinRequestCount equals: 5.

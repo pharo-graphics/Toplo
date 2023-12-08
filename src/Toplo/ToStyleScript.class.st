@@ -106,7 +106,7 @@ ToStyleScript >> ruleStack [
 ToStyleScript >> select: aStyleSelector style: aBlock [
 
 	| rule |
-	self ruleStack push: (ToStyleRule new selector: aStyleSelector asElementSelector).
+	self ruleStack push: (ToStyleRule new selector: aStyleSelector).
 	aBlock cull: self.
 	rule := self ruleStack pop.
 	self ruleStack
@@ -161,7 +161,7 @@ ToStyleScript >> withChild: aSelector [
 
 	^ ToChildSelector new
 		  left: self any;
-		  right: aSelector value asElementSelector;
+		  right: aSelector;
 		  yourself
 ]
 
@@ -171,7 +171,7 @@ ToStyleScript >> withChild: aSelector atDepth: anInteger [
 	^ ToChildSelector new
 		  depth: anInteger;
 		  left: self any;
-		  right: aSelector value asElementSelector;
+		  right: aSelector;
 		  yourself
 ]
 
@@ -180,7 +180,7 @@ ToStyleScript >> withParent: aSelector [
 
 	^ ToParentSelector new
 		  left: self any;
-		  right: aSelector value asElementSelector;
+		  right: aSelector;
 		  yourself
 ]
 
@@ -190,7 +190,7 @@ ToStyleScript >> withParent: aSelector atDepth: anInteger [
 	^ ToParentSelector new
 		depth: anInteger;
 		  left: self any;
-		  right: aSelector value asElementSelector;
+		  right: aSelector;
 		  yourself
 ]
 

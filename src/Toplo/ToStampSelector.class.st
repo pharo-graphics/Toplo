@@ -33,6 +33,14 @@ ToStampSelector >> allStamps [
 	^ stampSet 
 ]
 
+{ #category : 'converting' }
+ToStampSelector >> asStampSelector [
+
+	^ self
+
+	
+]
+
 { #category : 'initialization' }
 ToStampSelector >> initialize [ 
 

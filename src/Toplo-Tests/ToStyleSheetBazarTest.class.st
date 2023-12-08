@@ -437,7 +437,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyle0 [
 	theme := ToStyleSheetTheme new.
 
 	script := ToStyleScript new.
-	script select: #button asElementSelector style: [ :sr |
+	script select: #button asStampSelector style: [ :sr |
 		sr write: (styleSheet property: #background) with: Color white.
 		sr
 			when: ToInstallLookEvent
@@ -476,8 +476,8 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 	theme := ToStyleSheetTheme new.
 
 	script := ToStyleScript new.
-	script select: #button asElementSelector style: [ :sr |
-		sr select: #danger asElementSelector style: [
+	script select: #button asStampSelector style: [ :sr |
+		sr select: #danger asStampSelector style: [
 			sr write: (styleSheet property: #background) with: Color red.
 			sr
 				when: ToDisabledLookEvent
@@ -548,7 +548,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules1 [
 	child styleSheet: styleSheet.
 	" default button rule "
 	script := ToStyleScript new.
-	script select: #child style: [ :sr |
+	script select: #child asStampSelector style: [ :sr |
 		sr select: sr any style: [
 			sr
 				write: (styleSheet property: #background)
@@ -603,7 +603,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules2 [
 
 	" default button rule "
 	script
-		select: (#child asElementSelector withParent: #elem)
+		select: (#child asStampSelector withParent: #elem asStampSelector)
 		style: [ :sr |
 			sr select: sr any style: [
 				sr
@@ -656,9 +656,9 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules22 [
 
 	" default button rule "
 	script
-		select: (#child asElementSelector withParent: #elem)
+		select: (#child asStampSelector withParent: #elem asStampSelector)
 		style: [ :sr |
-			sr select: (sr withParent: #red) style: [
+			sr select: (sr withParent: #red asStampSelector) style: [
 				sr
 					write: (styleSheet property: #background)
 					with: [ :e | Color red ] ] ].
@@ -708,10 +708,10 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules3 [
 	" default button rule "
 	script := ToStyleScript new.
 	script
-		select: (#child asElementSelector withParent:
-				 ((#( #elem #red ) asElementSelector
-					   withChild: #childchild1
-					   atDepth: 2) withChild: #childchild2 atDepth: 2))
+		select: (#child asStampSelector withParent:
+				 ((#( #elem #red ) asStampSelector
+					   withChild: #childchild1 asStampSelector
+					   atDepth: 2) withChild: #childchild2 asStampSelector atDepth: 2))
 		style: [ :sr |
 			sr
 				write: (styleSheet property: #background)
@@ -761,12 +761,12 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules32 [
 	
 	script := ToStyleScript new.
 	script
-		select: (#child asElementSelector withParent: #elem) style: [ :sr |
+		select: (#child asStampSelector withParent: #elem asStampSelector) style: [ :sr |
 		          sr
 			          select:
-				          (((sr withParent: #red)
-					            withChild: #childchild1
-					            atDepth: 1) withChild: #childchild2 atDepth: 1)
+				          (((sr withParent: #red asStampSelector)
+					            withChild: #childchild1 asStampSelector
+					            atDepth: 1) withChild: #childchild2 asStampSelector atDepth: 1)
 			          style: [
 			          sr
 				          write: (styleSheet property: #background)
@@ -815,12 +815,12 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules33 [
 
 	script := ToStyleScript new.
 	script
-		select: (#child asElementSelector withParent: #elem)
+		select: (#child asStampSelector withParent: #elem asStampSelector)
 		style: [ :sr |
 			sr
-				select: ((sr withParent: #red) withChild: #childchild1 atDepth: 1)
+				select: ((sr withParent: #red asStampSelector) withChild: #childchild1 asStampSelector atDepth: 1)
 				style: [
-					sr select: (sr withChild: #childchild2 atDepth: 1) style: [
+					sr select: (sr withChild: #childchild2 asStampSelector atDepth: 1) style: [
 						sr
 							write: (styleSheet property: #background)
 							with: [ :e | Color red ] ] ] ].
@@ -868,7 +868,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules1 [
 
 	" default button rule "
 	script := ToStyleScript new.
-	script select: #child asElementSelector style: [ :sr |
+	script select: #child asStampSelector style: [ :sr |
 		sr
 			write: (styleSheet property: #background)
 			with: [ :e | Color red ] ].
@@ -909,7 +909,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules2 [
 
 	" default button rule "
 	script := ToStyleScript new.
-	script select: (#child asElementSelector withParent: #elem) style: [ :sr |
+	script select: (#child asStampSelector withParent: #elem asStampSelector) style: [ :sr |
 		          sr
 			          write: (styleSheet property: #background)
 			          with: [ :e | Color red ] ].
@@ -952,10 +952,10 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules3 [
 	" default button rule "
 	script := ToStyleScript new.
 	script
-		select: (#child asElementSelector withParent:
-				 ((#( #elem #red ) asElementSelector
-					   withChild: #childchild1
-					   atDepth: 2) withChild: #childchild2 atDepth: 2))
+		select: (#child asStampSelector withParent:
+				 ((#( #elem #red ) asStampSelector
+					   withChild: #childchild1 asStampSelector
+					   atDepth: 2) withChild: #childchild2 asStampSelector atDepth: 2))
 		style: [ :sr |
 			sr
 				write: (styleSheet property: #background)
@@ -998,20 +998,20 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 
 	script := ToStyleScript new.
 	script
-		select: (#child asElementSelector withParent:
-				 ((#( #elem #red ) asElementSelector
-					   withChild: #childchild1
-					   atDepth: 2) withChild: #childchild2 atDepth: 2))
+		select: (#child asStampSelector withParent:
+				 ((#( #elem #red ) asStampSelector
+					   withChild: #childchild1 asStampSelector
+					   atDepth: 2) withChild: #childchild2 asStampSelector atDepth: 2))
 		style: [ :sr |
 			sr
 				when: ToInstallLookEvent
 				write: (styleSheet property: #background)
 				with: [ :e | Color red ] ].
 	script
-		select: (#child asElementSelector withParent:
-				 ((#( #elem #blue ) asElementSelector
-					   withChild: #childchild1
-					   atDepth: 2) withChild: #childchild2 atDepth: 2))
+		select: (#child asStampSelector withParent:
+				 ((#( #elem #blue ) asStampSelector
+					   withChild: #childchild1 asStampSelector
+					   atDepth: 2) withChild: #childchild2 asStampSelector atDepth: 2))
 		style: [ :sr |
 			sr
 				when: ToInstallLookEvent

@@ -1,7 +1,7 @@
 Extension { #name : 'Collection' }
 
 { #category : '*Toplo' }
-Collection >> asElementSelector [
+Collection >> asStampSelector [
 
 	^ ToStampSelector new addAllStamps: (self collect: [ :e | e asSymbol ])
 ]

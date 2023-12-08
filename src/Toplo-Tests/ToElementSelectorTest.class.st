@@ -13,7 +13,7 @@ Class {
 ToElementSelectorTest >> testAsStyleSelectorOnArray [
 
 	| selector  |
-	selector := #(#'small-sizing' #x) asElementSelector.
+	selector := #(#'small-sizing' #x) asStampSelector.
 	self assert: (selector isKindOf: ToStampSelector).
 	self assert: (selector allStamps includesAll: #(#'small-sizing' #x)).
 
@@ -23,7 +23,7 @@ ToElementSelectorTest >> testAsStyleSelectorOnArray [
 ToElementSelectorTest >> testAsStyleSelectorOnArray2 [
 
 	| selector |
-	selector := { 'small-sizing'. 'x' } asElementSelector.
+	selector := { 'small-sizing'. 'x' } asStampSelector.
 	self assert: (selector isKindOf: ToStampSelector).
 	self assert: (selector allStamps includesAll: #( #'small-sizing' #x ))
 ]
@@ -32,7 +32,7 @@ ToElementSelectorTest >> testAsStyleSelectorOnArray2 [
 ToElementSelectorTest >> testAsStyleSelectorOnArray3 [
 
 	| selector |
-	selector := { 'small-sizing'. 'x' } asElementSelector.
+	selector := { 'small-sizing'. 'x' } asStampSelector.
 	self assert: (selector isKindOf: ToStampSelector).
 	self assert: (selector allStamps includesAll: #( #'small-sizing' #x ))
 ]
@@ -40,7 +40,7 @@ ToElementSelectorTest >> testAsStyleSelectorOnArray3 [
 { #category : 'tests - asToTag' }
 ToElementSelectorTest >> testAsStyleSelectorOnObjectNotImplemented [
 
-	self should: [Object new asElementSelector] raise: MessageNotUnderstood .
+	self should: [Object new asTypeSelector] raise: MessageNotUnderstood .
 
 ]
 
@@ -48,7 +48,7 @@ ToElementSelectorTest >> testAsStyleSelectorOnObjectNotImplemented [
 ToElementSelectorTest >> testAsStyleSelectorOnSet3 [
 
 	| selector  |
-	selector := { 'small-sizing'.  'x' } asSet asElementSelector.
+	selector := { 'small-sizing'.  'x' } asSet asStampSelector.
 	self assert: (selector isKindOf: ToStampSelector).
 	self assert: (selector allStamps includesAll: #(#'small-sizing' #x)).
 
@@ -58,7 +58,7 @@ ToElementSelectorTest >> testAsStyleSelectorOnSet3 [
 ToElementSelectorTest >> testAsStyleSelectorOnString [
 
 	| selector  |
-	selector := 'small-sizing' asElementSelector.
+	selector := 'small-sizing' asStampSelector.
 	self assert: (selector isKindOf: ToStampSelector).
 	self assert: selector allStamps asArray equals: #(#'small-sizing').
 
@@ -68,7 +68,7 @@ ToElementSelectorTest >> testAsStyleSelectorOnString [
 ToElementSelectorTest >> testAsStyleSelectorOnSymbol [
 
 	| selector  |
-	selector := #'small-sizing' asElementSelector.
+	selector := #'small-sizing' asStampSelector.
 	self assert: (selector isKindOf: ToStampSelector).
 	self assert: selector allStamps asArray equals: #(#'small-sizing').
 
@@ -78,7 +78,7 @@ ToElementSelectorTest >> testAsStyleSelectorOnSymbol [
 ToElementSelectorTest >> testAsStyleSelectorOnToElement [
 
 	| selector  |
-	selector := ToElement asElementSelector.
+	selector := ToElement asTypeSelector.
 	self assert: (selector isKindOf: ToTypeSelector).
 	self assert: selector type equals: ToElement.
 

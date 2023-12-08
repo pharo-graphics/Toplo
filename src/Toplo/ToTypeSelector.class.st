@@ -16,6 +16,12 @@ ToTypeSelector >> accept: aVisitor [
 	aVisitor visitTypeSelector: self
 ]
 
+{ #category : 'converting' }
+ToTypeSelector >> asTypeSelector [
+
+	^ self
+]
+
 { #category : 'accessing' }
 ToTypeSelector >> exact [
 

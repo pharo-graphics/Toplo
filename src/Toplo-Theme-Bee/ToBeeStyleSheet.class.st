@@ -44,7 +44,7 @@ ToBeeStyleSheet >> buttonScript: aStyleScript [
 { #category : 'syntactic sugar' }
 ToBeeStyleSheet >> buttonSelector [
 
-	^ ToButton asElementSelector
+	^ ToButton asTypeSelector
 ]
 
 { #category : 'accessing rules  -button' }
@@ -52,8 +52,8 @@ ToBeeStyleSheet >> checkableButtonRules [
 	" checkbox family "
 
 	^ {
-		  (#( #button #checkable ) asElementSelector style: [ :sr |
-			   (#checkbox asElementSelector or: #radio asElementSelector) style: [
+		  (#( #button #checkable ) asStampSelector style: [ :sr |
+			   (#checkbox asStampSelector or: #radio asStampSelector) style: [
 				   sr write: (self property: #'border-with-builder') with: [ :e |
 					   e borderBuilder
 						   width: 1;
@@ -64,7 +64,7 @@ ToBeeStyleSheet >> checkableButtonRules [
 					   with: [ :e | (e tokenValueNamed: #'checkbox-image-builder') value ] ] ]).
 
 		  " checkbox icon geometry "
-		  ((#image asElementSelector
+		  ((#image asStampSelector
 			    parent: #( #button #checkable #checkbox )
 			    depth: 3) style: [ :sr |
 			   sr
@@ -72,14 +72,14 @@ ToBeeStyleSheet >> checkableButtonRules [
 				   with: [ :e | BlRoundedRectangleGeometry cornerRadius: 3 ] ]).
 
 		  " radio button icon geometry "
-		  ((#image asElementSelector
+		  ((#image asStampSelector
 			    parent: #( #button #checkable #radio )
 			    depth: 3) style: [ :sr |
 			   sr
 				   write: (self property: #geometry)
 				   with: [ :e | BlCircleGeometry new ] ]).
 
-		  ((#image asElementSelector parent: #( #button #checkable ) depth: 3)
+		  ((#image asStampSelector parent: #( #button #checkable ) depth: 3)
 			   style: [ :sr | " icon border "
 				   sr
 					   when: ToInstallLookEvent
@@ -110,7 +110,7 @@ ToBeeStyleSheet >> checkableButtonRules [
 							   paint: (e tokenValueNamed: #'color-primary-pressed');
 							   yourself ] ]).
 
-		  ((#image asElementSelector
+		  ((#image asStampSelector
 			    parent: #( #button #checkable #danger )
 			    depth: 3) style: [ :sr | " icon border "
 			   sr
@@ -135,7 +135,7 @@ ToBeeStyleSheet >> checkableButtonRules [
 						   paint: (e tokenValueNamed: #'color-error-pressed');
 						   yourself ] ]).
 
-		  (((#filler asElementSelector
+		  (((#filler asStampSelector
 			     parent: #( #button #checkable )
 			     depth: 2) sibling: #'button-label') style: [ :sr |
 			   sr
@@ -158,7 +158,7 @@ ToBeeStyleSheet >> checkableButtonRules [
 			   sr
 				   select:
 				   (sr
-					    parent: #'interspace-1' asElementSelector - #vertical
+					    parent: #'interspace-1' asStampSelector - #vertical
 					    depth: 2)
 				   style: [
 					   sr write: (self property: #'layout-constraints') with: [ :e |
@@ -169,7 +169,7 @@ ToBeeStyleSheet >> checkableButtonRules [
 			   sr
 				   select:
 				   (sr
-					    parent: #'interspace-1' asElementSelector + #vertical
+					    parent: #'interspace-1' asStampSelector + #vertical
 					    depth: 2)
 				   style: [
 					   sr write: (self property: #'layout-constraints') with: [ :e |
@@ -183,7 +183,7 @@ ToBeeStyleSheet >> checkableInnerImageRules [
 	" checkbox family "
 
 	^ {
-		  ((#( #'inner-image' ) asElementSelector
+		  ((#( #'inner-image' ) asStampSelector
 			    parent: #( #button #checkable )
 			    depth: 4) style: [ :sr |
 			   sr
@@ -234,7 +234,7 @@ ToBeeStyleSheet >> checkableInnerImageRules [
 						   width: 0;
 						   yourself ] ]).
 
-		  ((#( #'inner-image' ) asElementSelector
+		  ((#( #'inner-image' ) asStampSelector
 			    parent: #( #button #checkable #danger )
 			    depth: 4) style: [ :sr |
 			   sr
@@ -251,8 +251,8 @@ ToBeeStyleSheet >> checkableInnerImageRules [
 						   paint: (e tokenValueNamed: #'color-border-disabled');
 						   yourself ] ]).
 
-		  ((#bar asElementSelector
-			    parent: (#( #'inner-image' ) asElementSelector
+		  ((#bar asStampSelector
+			    parent: (#( #'inner-image' ) asStampSelector
 					     parent: #( #button #checkable )
 					     depth: 4)
 			    depth: 1) style: [ :sr |
@@ -283,8 +283,8 @@ ToBeeStyleSheet >> checkableInnerImageRules [
 				   write: (self property: #background)
 				   with: [ :e | Color transparent ] ]).
 
-		  ((#bar asElementSelector
-			    parent: (#( #'inner-image' ) asElementSelector
+		  ((#bar asStampSelector
+			    parent: (#( #'inner-image' ) asStampSelector
 					     parent: #( #button #checkable #danger )
 					     depth: 3)
 			    depth: 1) style: [ :sr |
@@ -300,7 +300,7 @@ ToBeeStyleSheet >> circleButtonRules [
 
 	^ {
 
-		  (#( #button #circle ) asElementSelector style: [ :sr |
+		  (#( #button #circle ) asStampSelector style: [ :sr |
 			   sr
 				   write: (self property: #layout)
 				   with: [ :e | BlFrameLayout new ].
@@ -309,7 +309,7 @@ ToBeeStyleSheet >> circleButtonRules [
 				   write: (self property: #geometry)
 				   with: [ :e | BlCircleGeometry new ] ]).
 			
-		(#(#button #circle) asElementSelector - self haveExactHeight style: [ :sr |
+		(#(#button #circle) asStampSelector - self haveExactHeight style: [ :sr |
 			   sr
 				   write: (self property: #height)
 				   with: [ :e | (e tokenValueNamed: #'control-height') ].
@@ -317,7 +317,7 @@ ToBeeStyleSheet >> circleButtonRules [
 				   write: (self property: #width)
 				   with: [ :e | (e tokenValueNamed: #'control-height') ]]).
 			
-		(#(#button #circle) asElementSelector + #'small-sizing' style: [
+		(#(#button #circle) asStampSelector + #'small-sizing' style: [
 			   :sr |
 			   sr
 				   write: (self property: #height)
@@ -326,7 +326,7 @@ ToBeeStyleSheet >> circleButtonRules [
 				   write: (self property: #width)
 				   with: [ :e | (e tokenValueNamed: #'control-height-SM') ] ]).
 
-		(#(#button #circle) asElementSelector + #'large-sizing' style: [
+		(#(#button #circle) asStampSelector + #'large-sizing' style: [
 			   :sr |
 			   sr
 				   write: (self property: #height)
@@ -335,7 +335,7 @@ ToBeeStyleSheet >> circleButtonRules [
 				   write: (self property: #width)
 				   with: [ :e | (e tokenValueNamed: #'control-height-LG') ] ]).
 			
-		((#'inner-element' asElementSelector parent: #( #button #circle ))
+		((#'inner-element' asStampSelector parent: #( #button #circle ))
 			   style: [ :sr |
 				   sr
 					   write: (self property: #layout)
@@ -378,7 +378,7 @@ ToBeeStyleSheet >> commonButtonRules [
 					   write: (self property: #height)
 					   with: [ :e | e tokenValueNamed: #'control-height' ] ] ]).
 			
-		  (((#'labeled-icon' asElementSelector) withParent: #button atDepth: 1) style: [
+		  (((#'labeled-icon' asStampSelector) withParent: #button atDepth: 1) style: [
 			   :sr |
 			   sr
 				   write: (self property: #layout)
@@ -398,7 +398,7 @@ ToBeeStyleSheet >> commonButtonRulesNew [
 	<script:
 	'(ToStyleSheetCSSLikePrinter styleRules: (self new commonButtonRulesOld)) asCSSLikeString inspect'>
 	^ {
-		  (#button asElementSelector style: [ :sr |
+		  (#button asStampSelector style: [ :sr |
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #mouseCursor)
@@ -411,7 +411,7 @@ ToBeeStyleSheet >> commonButtonRulesNew [
 				   write: (self property: #mouseCursor)
 				   with: nil.
 
-			   sr select: #vertical asElementSelector not style: [
+			   sr select: #vertical asStampSelector not style: [
 				   sr write: (self property: #padding) with: [ :e |
 					   BlInsets
 						   top: (e tokenValueNamed: #'padding-XS') / 2
@@ -435,18 +435,18 @@ ToBeeStyleSheet >> commonButtonRulesNew [
 						   with: [ :e | e tokenValueNamed: #'control-height-SM' ] ] ].
 
 			   " non circular button corner radius"
-			   sr select: #circle asElementSelector not style: [
+			   sr select: #circle asStampSelector not style: [
 				   sr write: (self property: #geometry) with: [ :e |
 					   BlRoundedRectangleGeometry cornerRadius:
 						   (e tokenValueNamed: 'border-radius') ].
 
-				   sr select: #round asElementSelector style: [
+				   sr select: #round asStampSelector style: [
 					   sr
 						   write: (self property: #geometry)
 						   with: [ :e |
 						   BlRoundedRectangleGeometry cornerRadius: e requestedHeight ] ] ] ]).
 
-		  ((#'labeled-icon' asElementSelector withParent: #button atDepth: 1)
+		  ((#'labeled-icon' asStampSelector withParent: #button atDepth: 1)
 			   style: [ :sr |
 				   sr
 					   write: (self property: #layout)
@@ -462,7 +462,7 @@ ToBeeStyleSheet >> commonButtonRulesNew [
 				   " without justification "
 				   sr
 					   select:
-					   (sr withParent: #flexible asElementSelector atDepth: 1) not
+					   (sr withParent: #flexible asStampSelector atDepth: 1) not
 					   style: [
 						   sr
 							   write: (self property: #'layout-constraints')
@@ -497,7 +497,7 @@ ToBeeStyleSheet >> commonButtonRulesOld [
 	<script:
 	'(ToStyleSheetCSSLikePrinter styleRules: (self new commonButtonRulesOld)) asCSSLikeString inspect'>
 	^ {
-		  (#button asElementSelector style: [ :sr |
+		  (#button asStampSelector style: [ :sr |
 			   sr
 				   when: ToHoveredLookEvent
 				   write: (self property: #mouseCursor)
@@ -510,7 +510,7 @@ ToBeeStyleSheet >> commonButtonRulesOld [
 				   write: (self property: #mouseCursor)
 				   with: nil.
 
-			   sr select: #vertical asElementSelector not style: [
+			   sr select: #vertical asStampSelector not style: [
 				   sr write: (self property: #padding) with: [ :e |
 					   BlInsets
 						   top: (e tokenValueNamed: #'padding-XS') / 2
@@ -534,18 +534,18 @@ ToBeeStyleSheet >> commonButtonRulesOld [
 						   with: [ :e | e tokenValueNamed: #'control-height-SM' ] ] ].
 
 			   " non circular button corner radius"
-			   sr select: #circle asElementSelector not style: [
+			   sr select: #circle asStampSelector not style: [
 				   sr write: (self property: #geometry) with: [ :e |
 					   BlRoundedRectangleGeometry cornerRadius:
 						   (e tokenValueNamed: 'border-radius') ].
 
-				   sr select: #round asElementSelector style: [
+				   sr select: #round asStampSelector style: [
 					   sr
 						   write: (self property: #geometry)
 						   with: [ :e |
 						   BlRoundedRectangleGeometry cornerRadius: e requestedHeight ] ] ] ]).
 
-		  ((#'labeled-icon' asElementSelector withParent: #button atDepth: 1)
+		  ((#'labeled-icon' asStampSelector withParent: #button atDepth: 1)
 			   style: [ :sr |
 				   sr
 					   write: (self property: #layout)
@@ -561,7 +561,7 @@ ToBeeStyleSheet >> commonButtonRulesOld [
 				   " without justification "
 				   sr
 					   select:
-					   (sr withParent: #flexible asElementSelector atDepth: 1) not
+					   (sr withParent: #flexible asStampSelector atDepth: 1) not
 					   style: [
 						   sr
 							   write: (self property: #'layout-constraints')
@@ -589,7 +589,7 @@ ToBeeStyleSheet >> commonButtonRulesOld [
 						   write: (self property: #'layout-direction')
 						   with: [ :e | BlLayoutDirection rightToLeft ] ] ]).
 
-		  ((((#filler asElementSelector withParent: #( #button ) atDepth: 2)
+		  ((((#filler asStampSelector withParent: #( #button ) atDepth: 2)
 			     sibling: #'button-label') sibling: #'button-icon') style: [
 			   :sr |
 			   sr
@@ -613,7 +613,7 @@ ToBeeStyleSheet >> commonButtonRulesOld [
 
 			   sr
 				   select: (sr
-						    withParent: #'interspace-1' asElementSelector - #vertical
+						    withParent: #'interspace-1' asStampSelector - #vertical
 						    atDepth: 2)
 				   style: [
 					   sr write: (self property: #'layout-constraints') with: [ :e |
@@ -624,7 +624,7 @@ ToBeeStyleSheet >> commonButtonRulesOld [
 
 			   sr
 				   select: (sr
-						    withParent: #'interspace-1' asElementSelector + #vertical
+						    withParent: #'interspace-1' asStampSelector + #vertical
 						    atDepth: 2)
 				   style: [
 					   sr write: (self property: #'layout-constraints') with: [ :e |
@@ -656,7 +656,7 @@ ToBeeStyleSheet >> commonButtonScript: aStyleScript [
 			write: (self property: #mouseCursor)
 			with: nil.
 
-		scr select: #vertical asElementSelector not style: [
+		scr select: #vertical asStampSelector not style: [
 			scr write: (self property: #padding) with: [ :e |
 				BlInsets
 					top: (e tokenValueNamed: #'padding-XS') / 2
@@ -669,23 +669,23 @@ ToBeeStyleSheet >> commonButtonScript: aStyleScript [
 					write: (self property: #height)
 					with: [ :e | e tokenValueNamed: #'control-height' ] ].
 
-			scr select: #'large-sizing' style: [
+			scr select: #'large-sizing' asStampSelector style: [
 				scr
 					write: (self property: #height)
 					with: [ :e | e tokenValueNamed: #'control-height-LG' ] ].
 
-			scr select: #'small-sizing' style: [
+			scr select: #'small-sizing' asStampSelector style: [
 				scr
 					write: (self property: #height)
 					with: [ :e | e tokenValueNamed: #'control-height-SM' ] ] ].
 
 		" non circular button corner radius"
-		scr select: #circle asElementSelector not style: [
+		scr select: #circle asStampSelector not style: [
 			scr write: (self property: #geometry) with: [ :e |
 				BlRoundedRectangleGeometry cornerRadius:
 					(e tokenValueNamed: 'border-radius') ].
 
-			scr select: #round asElementSelector style: [
+			scr select: #round asStampSelector style: [
 				scr
 					write: (self property: #geometry)
 					with: [ :e |
@@ -715,7 +715,7 @@ ToBeeStyleSheet >> defaultButtonRules [
 				   with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ].
 				
 				"Border"
-				sr select: #primary asElementSelector not style: [ 
+				sr select: #primary asStampSelector not style: [ 
 				   
 					sr when: ToInstallLookEvent
 				 		write: (self property: #border)
@@ -782,7 +782,7 @@ ToBeeStyleSheet >> defaultButtonRulesNew [
 
 	^ 
 		{ 
-			  (#button asElementSelector style: [ :sr |
+			  (#button asStampSelector style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #background)
@@ -792,7 +792,7 @@ ToBeeStyleSheet >> defaultButtonRulesNew [
 				   write: (self property: #background)
 				   with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ] ]).
 
-		  (#button asElementSelector - #checkable style: [ :sr |
+		  (#button asStampSelector - #checkable style: [ :sr |
 			   sr
 				   when: ToEnabledLookEvent
 				   write: (self property: #'border-with-builder')
@@ -823,7 +823,7 @@ ToBeeStyleSheet >> defaultButtonRulesNew [
 						   yourself ] ]).
 
 		  " default button form icon "
-		  ((#image asElementSelector withParent: #button atDepth: 3) style: [ :sr |
+		  ((#image asStampSelector withParent: #button atDepth: 3) style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'image-inner-form-color')
@@ -842,7 +842,7 @@ ToBeeStyleSheet >> defaultButtonRulesNew [
 				   with: [ :e | (e tokenValueNamed: #'color-primary-pressed') ] ]).
 
 		  " default button label "
-		  ((#label asElementSelector withParent: #button atDepth: 3) style: [ :sr |
+		  ((#label asStampSelector withParent: #button atDepth: 3) style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'label-text-foreground')
@@ -861,7 +861,7 @@ ToBeeStyleSheet >> defaultButtonRulesNew [
 				   with: [ :e | (e tokenValueNamed: #'color-primary-pressed') ] ]).
 
 		  " ToButton default danger"
-		  (#( #button #danger ) asElementSelector - #checkable style: [ :sr |
+		  (#( #button #danger ) asStampSelector - #checkable style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'border-with-builder')
@@ -882,7 +882,7 @@ ToBeeStyleSheet >> defaultButtonRulesNew [
 				   e borderBuilder paint: (e tokenValueNamed: #'color-error-pressed') ] ]).
 
 		  " danger button form icon "
-		  ((#image asElementSelector withParent: #( #button #danger ) atDepth: 3)
+		  ((#image asStampSelector withParent: #( #button #danger ) atDepth: 3)
 			   style: [ :sr |
 				   sr
 					   when: ToInstallLookEvent
@@ -902,7 +902,7 @@ ToBeeStyleSheet >> defaultButtonRulesNew [
 					   with: [ :e | (e tokenValueNamed: #'color-error-pressed') ] ]).
 
 		  " danger button label "
-		  ((#label asElementSelector withParent: #( #button #danger ) atDepth: 3)
+		  ((#label asStampSelector withParent: #( #button #danger ) atDepth: 3)
 			   style: [ :sr |
 				   sr
 					   when: ToInstallLookEvent
@@ -922,7 +922,7 @@ ToBeeStyleSheet >> defaultButtonRulesNew [
 					   with: [ :e | (e tokenValueNamed: #'color-error-pressed') ] ]).
 
 		  " default button dashed "
-		  (#( #dashed ) asElementSelector style: [ :sr |
+		  (#( #dashed ) asStampSelector style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   supplement: (self property: #'border-with-builder')
@@ -937,7 +937,7 @@ ToBeeStyleSheet >> defaultButtonRulesOld [
 
 	^ 
 		{ 
-			  (#button asElementSelector style: [ :sr |
+			  (#button asStampSelector style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #background)
@@ -947,7 +947,7 @@ ToBeeStyleSheet >> defaultButtonRulesOld [
 				   write: (self property: #background)
 				   with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ] ]).
 
-		  (#button asElementSelector - #checkable style: [ :sr |
+		  (#button asStampSelector - #checkable style: [ :sr |
 			   sr
 				   when: ToEnabledLookEvent
 				   write: (self property: #'border-with-builder')
@@ -978,7 +978,7 @@ ToBeeStyleSheet >> defaultButtonRulesOld [
 						   yourself ] ]).
 
 		  " default button form icon "
-		  ((#image asElementSelector parent: #button depth: 2) style: [ :sr |
+		  ((#image asStampSelector parent: #button depth: 2) style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'image-inner-form-color')
@@ -997,7 +997,7 @@ ToBeeStyleSheet >> defaultButtonRulesOld [
 				   with: [ :e | (e tokenValueNamed: #'color-primary-pressed') ] ]).
 
 		  " default button label "
-		  ((#label asElementSelector parent: #button depth: 2) style: [ :sr |
+		  ((#label asStampSelector parent: #button depth: 2) style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'label-text-foreground')
@@ -1016,7 +1016,7 @@ ToBeeStyleSheet >> defaultButtonRulesOld [
 				   with: [ :e | (e tokenValueNamed: #'color-primary-pressed') ] ]).
 
 		  " ToButton default danger"
-		  (#( #button #danger ) asElementSelector - #checkable style: [ :sr |
+		  (#( #button #danger ) asStampSelector - #checkable style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #'border-with-builder')
@@ -1037,7 +1037,7 @@ ToBeeStyleSheet >> defaultButtonRulesOld [
 				   e borderBuilder paint: (e tokenValueNamed: #'color-error-pressed') ] ]).
 
 		  " danger button form icon "
-		  ((#image asElementSelector parent: #( #button #danger ) depth: 2)
+		  ((#image asStampSelector parent: #( #button #danger ) depth: 2)
 			   style: [ :sr |
 				   sr
 					   when: ToInstallLookEvent
@@ -1057,7 +1057,7 @@ ToBeeStyleSheet >> defaultButtonRulesOld [
 					   with: [ :e | (e tokenValueNamed: #'color-error-pressed') ] ]).
 
 		  " danger button label "
-		  ((#label asElementSelector parent: #( #button #danger ) depth: 2)
+		  ((#label asStampSelector parent: #( #button #danger ) depth: 2)
 			   style: [ :sr |
 				   sr
 					   when: ToInstallLookEvent
@@ -1077,7 +1077,7 @@ ToBeeStyleSheet >> defaultButtonRulesOld [
 					   with: [ :e | (e tokenValueNamed: #'color-error-pressed') ] ]).
 
 		  " default button dashed "
-		  (#( #dashed ) asElementSelector style: [ :sr |
+		  (#( #dashed ) asStampSelector style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   supplement: (self property: #'border-with-builder')
@@ -1107,7 +1107,7 @@ ToBeeStyleSheet >> defaultButtonScript: aStyleScript [
 				with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ].
 
 			"Border"
-			sr select: #primary asElementSelector not style: [
+			sr select: #primary asStampSelector not style: [
 				sr
 					when: ToInstallLookEvent
 					write: (self property: #border)
@@ -1176,7 +1176,7 @@ ToBeeStyleSheet >> defaultButtonScript: aStyleScript [
 				write: (self property: #'button-label-text-foreground')
 				with: [ :e | e tokenValueNamed: #'color-primary-pressed' ].
 
-			sr select: #( #dashed ) style: [
+			sr select: #( #dashed ) asStampSelector style: [
 				sr
 					when: ToInstallLookEvent
 					supplement: (self property: #'border-with-builder')
@@ -1199,7 +1199,7 @@ ToBeeStyleSheet >> defaultStyleRules [
 ToBeeStyleSheet >> labelRules [
 	" label  rules"
 
-	^ { (ToLabel asElementSelector style: [ :sr |
+	^ { (ToLabel asTypeSelector style: [ :sr |
 		   sr select: self any style: [
 			   sr
 				   write: (self property: #'text-attributes-with-builder')
@@ -1325,7 +1325,7 @@ ToBeeStyleSheet >> labelScript: aStyleScript [
 	" label  rules"
 
 	aStyleScript
-		select: ToLabel asElementSelector
+		select: ToLabel asTypeSelector
 		style: [ :sr |
 			sr
 				write: (self property: #'text-attributes-with-builder')
@@ -1344,7 +1344,7 @@ ToBeeStyleSheet >> labelScript: aStyleScript [
 					e textAttributesBuilder foreground:
 						(e tokenValueNamed: #'color-text-disabled') ].
 
-			sr select: #H1 style: [
+			sr select: #H1 asStampSelector style: [
 				sr
 					supplement: (self property: #'text-attributes-with-builder')
 					with: [ :e |
@@ -1353,7 +1353,7 @@ ToBeeStyleSheet >> labelScript: aStyleScript [
 							lineSpacing: (e tokenValueNamed: #'line-height-H1');
 							yourself ] ].
 
-			sr select: #H2 style: [
+			sr select: #H2 asStampSelector style: [
 				sr
 					supplement: (self property: #'text-attributes-with-builder')
 					with: [ :e |
@@ -1362,7 +1362,7 @@ ToBeeStyleSheet >> labelScript: aStyleScript [
 							lineSpacing: (e tokenValueNamed: #'line-height-H2');
 							yourself ] ].
 
-			sr select: #H3 style: [
+			sr select: #H3 asStampSelector style: [
 				sr
 					supplement: (self property: #'text-attributes-with-builder')
 					with: [ :e |
@@ -1371,7 +1371,7 @@ ToBeeStyleSheet >> labelScript: aStyleScript [
 							lineSpacing: (e tokenValueNamed: #'line-height-H3');
 							yourself ] ].
 
-			sr select: #H4 style: [
+			sr select: #H4 asStampSelector style: [
 				sr
 					supplement: (self property: #'text-attributes-with-builder')
 					with: [ :e |
@@ -1380,7 +1380,7 @@ ToBeeStyleSheet >> labelScript: aStyleScript [
 							lineSpacing: (e tokenValueNamed: #'line-height-H4');
 							yourself ] ].
 
-			sr select: #H5 style: [
+			sr select: #H5 asStampSelector style: [
 				sr
 					supplement: (self property: #'text-attributes-with-builder')
 					with: [ :e |
@@ -1389,7 +1389,7 @@ ToBeeStyleSheet >> labelScript: aStyleScript [
 							lineSpacing: (e tokenValueNamed: #'line-height-H5');
 							yourself ] ].
 
-			sr select: #default style: [
+			sr select: #default asStampSelector style: [
 				sr
 					supplement: (self property: #'text-attributes-with-builder')
 					with: [ :e |
@@ -1397,7 +1397,7 @@ ToBeeStyleSheet >> labelScript: aStyleScript [
 							foreground: (e tokenValueNamed: #'color-text');
 							yourself ] ].
 
-			sr select: #danger style: [
+			sr select: #danger asStampSelector style: [
 				sr
 					supplement: (self property: #'text-attributes-with-builder')
 					with: [ :e |
@@ -1405,7 +1405,7 @@ ToBeeStyleSheet >> labelScript: aStyleScript [
 							foreground: (e tokenValueNamed: #'color-error');
 							yourself ] ].
 
-			sr select: #link style: [
+			sr select: #link asStampSelector style: [
 				sr
 					supplement: (self property: #'text-attributes-with-builder')
 					with: [ :e |
@@ -1413,7 +1413,7 @@ ToBeeStyleSheet >> labelScript: aStyleScript [
 							foreground: (e tokenValueNamed: #'color-link');
 							yourself ] ].
 
-			sr select: #primary style: [
+			sr select: #primary asStampSelector style: [
 				sr
 					supplement: (self property: #'text-attributes-with-builder')
 					with: [ :e |
@@ -1421,7 +1421,7 @@ ToBeeStyleSheet >> labelScript: aStyleScript [
 							foreground: (e tokenValueNamed: #'color-text-light-solid');
 							yourself ] ].
 
-			sr select: #secondary style: [
+			sr select: #secondary asStampSelector style: [
 				sr
 					supplement: (self property: #'text-attributes-with-builder')
 					with: [ :e |
@@ -1429,7 +1429,7 @@ ToBeeStyleSheet >> labelScript: aStyleScript [
 							foreground: (e tokenValueNamed: #'color-text-secondary');
 							yourself ] ].
 
-			sr select: #success style: [
+			sr select: #success asStampSelector style: [
 				sr
 					supplement: (self property: #'text-attributes-with-builder')
 					with: [ :e |
@@ -1437,7 +1437,7 @@ ToBeeStyleSheet >> labelScript: aStyleScript [
 							foreground: (e tokenValueNamed: #'color-success');
 							yourself ] ].
 
-			sr select: #warning style: [
+			sr select: #warning asStampSelector style: [
 				sr
 					supplement: (self property: #'text-attributes-with-builder')
 					with: [ :e |
@@ -1451,7 +1451,7 @@ ToBeeStyleSheet >> labeledIconInButtonScript: aStyleScript [
 
 	aStyleScript
 		select:
-		(#'labeled-icon' asElementSelector withParent: #button atDepth: 1)
+		(#'labeled-icon' asStampSelector withParent: #button asStampSelector atDepth: 1)
 		style: [ :sr |
 			sr write: (self property: #layout) with: BlLinearLayout horizontal.
 
@@ -1465,7 +1465,7 @@ ToBeeStyleSheet >> labeledIconInButtonScript: aStyleScript [
 			" without justification "
 			sr
 				select:
-				(sr withParent: #flexible asElementSelector atDepth: 1) not
+				(sr withParent: #flexible asStampSelector atDepth: 1) not
 				style: [
 					sr write: (self property: #'layout-constraints') with: [ :e |
 						[ :c |
@@ -1476,7 +1476,7 @@ ToBeeStyleSheet >> labeledIconInButtonScript: aStyleScript [
 
 			" with justification: innerElement is matchParent if it has a parent with #justified "
 			sr
-				select: (sr withParent: #flexible atDepth: 1)
+				select: (sr withParent: #flexible asStampSelector atDepth: 1)
 				style: [
 					sr write: (self property: #'layout-constraints') with: [ :e |
 						[ :c |
@@ -1484,14 +1484,14 @@ ToBeeStyleSheet >> labeledIconInButtonScript: aStyleScript [
 						c vertical matchParent ] ] ].
 
 			sr
-				select: (sr withParent: #'icon-first' atDepth: 1)
+				select: (sr withParent: #'icon-first' asStampSelector atDepth: 1)
 				style: [
 					sr
 						write: (self property: #'layout-direction')
 						with: [ :e | BlLayoutDirection leftToRight ] ].
 
 			sr
-				select: (sr withParent: #'label-first' atDepth: 1)
+				select: (sr withParent: #'label-first' asStampSelector atDepth: 1)
 				style: [
 					sr
 						write: (self property: #'layout-direction')
@@ -1503,7 +1503,7 @@ ToBeeStyleSheet >> labeledIconRules [
 
 	<script:
 	'(ToStyleSheetCSSLikePrinter styleRules: (self new labeledIconRules)) asCSSLikeString inspect'>
-	^ { ((self any withParent: ToLabeledIcon asElementSelector) style: [
+	^ { ((self any withParent: ToLabeledIcon asTypeSelector) style: [
 		   :sr | " any child of a ToLabeledIcon is centered vertically and horizontally ( icon, label and filler) "
 		   sr write: (self property: #'layout-constraints') with: [ :e |
 			   [ :c |
@@ -1516,7 +1516,7 @@ ToBeeStyleSheet >> linkButtonRules [
 	" ToButton link "
 
 	^ {
-		  (#( #button #link ) asElementSelector style: [ :sr |
+		  (#( #button #link ) asStampSelector style: [ :sr |
 			   sr
 				   write: (self property: #background)
 				   with: [ :e | Color transparent ].
@@ -1525,7 +1525,7 @@ ToBeeStyleSheet >> linkButtonRules [
 				   with: [ :e | e borderBuilder width: 0 ] ]).
 
 		  " ToButton link danger "
-		  (#( #button #link #danger ) asElementSelector style: [ :sr |
+		  (#( #button #link #danger ) asStampSelector style: [ :sr |
 			   sr
 				   write: (self property: #background)
 				   with: [ :e | Color transparent ].
@@ -1534,7 +1534,7 @@ ToBeeStyleSheet >> linkButtonRules [
 				   with: [ :e | e borderBuilder width: 0 ] ]).
 
 		  " button link form icon "
-		  ((#image asElementSelector parent: #( #button #link ) depth: 2)
+		  ((#image asStampSelector parent: #( #button #link ) depth: 2)
 			   style: [ :sr |
 				   sr
 					   when: ToInstallLookEvent
@@ -1554,7 +1554,7 @@ ToBeeStyleSheet >> linkButtonRules [
 					   with: [ :e | (e tokenValueNamed: #'color-primary-pressed') ] ]).
 
 		  " button link label "
-		  ((#label asElementSelector parent: #( #button #link ) depth: 2)
+		  ((#label asStampSelector parent: #( #button #link ) depth: 2)
 			   style: [ :sr |
 				   sr
 					   when: ToInstallLookEvent
@@ -1574,7 +1574,7 @@ ToBeeStyleSheet >> linkButtonRules [
 					   with: [ :e | (e tokenValueNamed: #'color-primary-pressed') ] ]).
 
 		  " button link danger form icon "
-		  ((#image asElementSelector
+		  ((#image asStampSelector
 			    parent: #( #button #link #danger )
 			    depth: 2) style: [ :sr |
 			   sr
@@ -1595,7 +1595,7 @@ ToBeeStyleSheet >> linkButtonRules [
 				   with: [ :e | (e tokenValueNamed: #'color-error-pressed') ] ]).
 
 		  " button link danger label "
-		  ((#label asElementSelector
+		  ((#label asStampSelector
 			    parent: #( #button #link #danger )
 			    depth: 2) style: [ :sr |
 			   sr
@@ -1699,7 +1699,7 @@ ToBeeStyleSheet >> primaryButtonRulesOld [
 	<script:'(ToStyleSheetCSSLikePrinter styleRules: (self new primaryButtonRulesOld)) asCSSLikeString inspect'>
 
 	^ {
-		  (#button asElementSelector + #primary style: [ :sr |
+		  (#button asStampSelector + #primary style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #background)
@@ -1770,8 +1770,8 @@ ToBeeStyleSheet >> primaryButtonRulesOld [
 
 		  " primary button form icon "
 
-		  ((#image asElementSelector
-			    parent: #button asElementSelector + #primary
+		  ((#image asStampSelector
+			    parent: #button asStampSelector + #primary
 			    depth: 2) style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
@@ -1792,8 +1792,8 @@ ToBeeStyleSheet >> primaryButtonRulesOld [
 
 		  " primary button label "
 
-		  ((#label asElementSelector
-			    parent: #button asElementSelector + #primary
+		  ((#label asStampSelector
+			    parent: #button asStampSelector + #primary
 			    depth: 2) style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
@@ -1823,7 +1823,7 @@ ToBeeStyleSheet >> primaryButtonScript: aStyleScript [
 
 	"Button background and border"
 	aStyleScript
-		select: self buttonSelector + #primary
+		select: self buttonSelector + #primary asStampSelector
 		style: [ :sr | "Background"
 			sr
 				when: ToInstallLookEvent
@@ -1920,7 +1920,7 @@ ToBeeStyleSheet >> textButtonRules [
 	" ToButton text "
 
 	^ {
-		  (#( #button #text ) asElementSelector style: [ :sr |
+		  (#( #button #text ) asStampSelector style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #background)
@@ -1948,7 +1948,7 @@ ToBeeStyleSheet >> textButtonRules [
 
 		  " ToButton text danger "
 
-		  (#( #button #text #danger ) asElementSelector style: [ :sr |
+		  (#( #button #text #danger ) asStampSelector style: [ :sr |
 			   sr
 				   when: ToInstallLookEvent
 				   write: (self property: #background)
@@ -1976,7 +1976,7 @@ ToBeeStyleSheet >> textButtonRules [
 
 		  " button text form icon "
 
-		  ((#image asElementSelector parent: #( #button #text ) depth: 2)
+		  ((#image asStampSelector parent: #( #button #text ) depth: 2)
 			   style: [ :sr |
 				   sr
 					   when: ToInstallLookEvent
@@ -1989,7 +1989,7 @@ ToBeeStyleSheet >> textButtonRules [
 
 		  " button test label "
 
-		  ((#label asElementSelector parent: #( #button #text ) depth: 2)
+		  ((#label asStampSelector parent: #( #button #text ) depth: 2)
 			   style: [ :sr |
 				   sr
 					   when: ToInstallLookEvent
@@ -2002,7 +2002,7 @@ ToBeeStyleSheet >> textButtonRules [
 
 		  " button text danger form icon "
 
-		  ((#image asElementSelector
+		  ((#image asStampSelector
 			    parent: #( #button #text #danger )
 			    depth: 2) style: [ :sr |
 			   sr
@@ -2016,7 +2016,7 @@ ToBeeStyleSheet >> textButtonRules [
 
 		  " button test danger label "
 
-		  ((#label asElementSelector
+		  ((#label asStampSelector
 			    parent: #( #button #text #danger )
 			    depth: 2) style: [ :sr |
 			   sr
@@ -2032,7 +2032,7 @@ ToBeeStyleSheet >> textButtonRules [
 { #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> toggleButtonRules [
 
-	^ { ( #(#button #'toggle-button') asElementSelector style: [ :sr |
+	^ { ( #(#button #'toggle-button') asStampSelector style: [ :sr |
 		   sr
 			   write: (self property: #background)
 			   with: [ :e | Color transparent ].
@@ -2065,7 +2065,7 @@ ToBeeStyleSheet >> verticalButtonRules [
 	"
 
 	^ {
-		  (#( #button #vertical ) asElementSelector style: [ :sr |
+		  (#( #button #vertical ) asStampSelector style: [ :sr |
 			   sr write: (self property: #padding) with: [ :e |
 				   BlInsets
 					   top: (e tokenValueNamed: #'padding-content-H') / 2
@@ -2078,7 +2078,7 @@ ToBeeStyleSheet >> verticalButtonRules [
 				   c linear vertical alignCenter.
 				   c linear horizontal alignCenter ] ] ]).
 
-		  ((#'inner-element' asElementSelector parent: #( #button #vertical ))
+		  ((#'inner-element' asStampSelector parent: #( #button #vertical ))
 			   style: [ :sr |
 				   sr
 					   when: ToInstallLookEvent

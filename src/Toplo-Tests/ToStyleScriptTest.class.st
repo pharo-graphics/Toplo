@@ -69,9 +69,9 @@ ToStyleScriptTest >> testRuleStackWithSelectStyle [
 	| styleScript styleRule rhs |
 	rhs := ToIdSelector new id: #button.
 	styleScript := ToStyleScript new.
-	styleScript select: #button style: [ :theStyleScript |
-		theStyleScript select: #danger asElementSelector style: [  ].
-		theStyleScript select: #dashed asElementSelector style: [  ] ].
+	styleScript select: #button asStampSelector style: [ :theStyleScript |
+		theStyleScript select: #danger asStampSelector style: [  ].
+		theStyleScript select: #dashed asStampSelector style: [  ] ].
 	self assert: styleScript styleRules size equals: 1.
 	styleRule := styleScript styleRules first.
 	self assert: (styleRule selector isKindOf: ToStampSelector).
@@ -85,7 +85,7 @@ ToStyleScriptTest >> testRuleStackWithSelectStyle2 [
 	| styleScript styleRule wasHere top |
 	styleScript := ToStyleScript new.
 	wasHere := false.
-	styleScript select: #button style: [ :theStyleScript |
+	styleScript select: #button asStampSelector style: [ :theStyleScript |
 		wasHere := true.
 		self assert: theStyleScript identicalTo: styleScript.
 		self assert: theStyleScript ruleStack size equals: 1.
@@ -105,8 +105,8 @@ ToStyleScriptTest >> testRuleStackWithSelectStyleWithSubSelect [
 	| styleScript styleRule wasHere top |
 	styleScript := ToStyleScript new.
 	wasHere := false.
-	styleScript select: #button style: [ :scr |
-		scr select: #label style: [
+	styleScript select: #button asStampSelector style: [ :scr |
+		scr select: #label asStampSelector style: [
 			wasHere := true.
 			self assert: scr ruleStack size equals: 2.
 			top := scr ruleStack top ] ].
@@ -125,7 +125,7 @@ ToStyleScriptTest >> testSelectStyle [
 	| styleRule rhs styleScript |
 	rhs := ToIdSelector new id: #button.
 	(styleScript := ToStyleScript new)
-		             select: #button
+		             select: #button asStampSelector
 		             style: [ :theStyleScript |  ].
 	self assert: styleScript styleRules size equals: 1.
 	styleRule := styleScript styleRules first.
@@ -181,9 +181,9 @@ ToStyleScriptTest >> testSelectStyleWithSubRule [
 
 	| styleScript styleRule |
 	styleScript := ToStyleScript new.
-	styleScript select: #button style: [ :theStyleScript |
-		theStyleScript select: #danger asElementSelector style: [  ].
-		theStyleScript select: #dashed asElementSelector style: [  ] ].
+	styleScript select: #button asStampSelector style: [ :theStyleScript |
+		theStyleScript select: #danger asStampSelector style: [  ].
+		theStyleScript select: #dashed asStampSelector style: [  ] ].
 	self assert: styleScript styleRules size equals: 1.
 	styleRule := styleScript styleRules first.
 	self assert: (styleRule selector isKindOf: ToStampSelector).
@@ -198,9 +198,9 @@ ToStyleScriptTest >> testSelectStyleWithSubRule2 [
 	| styleScript |
 	self flag: 'add assertions'.
 	(styleScript := ToStyleScript new)
-		select: #button asElementSelector
+		select: #button asStampSelector
 		style: [ :sr |
-		sr select: #checkable asElementSelector style: [ :sr2 |  ] ]
+		sr select: #checkable asStampSelector style: [ :sr2 |  ] ]
 ]
 
 { #category : 'tests' }
@@ -428,14 +428,14 @@ ToStyleScriptTest >> testWriteWith3 [
 
 	| styleScript styleRule dangerRule dangerWriter |
 	styleScript := ToStyleScript new.
-	styleScript select: #button style: [ :theStyleScript |
+	styleScript select: #button asStampSelector style: [ :theStyleScript |
 		theStyleScript
 			write: (ToFeatureProperty new name: #border)
 			with: Color black.
 		theStyleScript
 			write: (ToFeatureProperty new name: #background)
 			with: Color gray.
-		theStyleScript select: #danger style: [
+		theStyleScript select: #danger asStampSelector style: [
 			theStyleScript
 				write: (ToFeatureProperty new name: #border)
 				with: Color red ] ].

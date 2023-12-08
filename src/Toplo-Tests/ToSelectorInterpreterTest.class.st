@@ -26,10 +26,10 @@ ToSelectorInterpreterTest >> testActionSelector [
 ToSelectorInterpreterTest >> testChildMixedWithParentSelector [
 
 	| button innerElement icon label engine innerElementSelector buttonSelector |
-	buttonSelector := #button asElementSelector
-		                  withChild: #'button-label'
-		                  atDepth: 2. "child: #'button-icon' depth: 2"
-	innerElementSelector := #'inner-element' asElementSelector
+	buttonSelector := #button asStampSelector
+		                  withChild: #'button-label' asStampSelector 
+		                  atDepth: 2. 
+	innerElementSelector := #'inner-element' asStampSelector
 		                        withParent: buttonSelector.
 
 	button := ToElement new.
@@ -127,7 +127,7 @@ ToSelectorInterpreterTest >> testChildSelectorWithTwoChildrenDepth1 [
 
 	| button icon label engine buttonSelector |
 	buttonSelector := (ToStampSelector new addStamp: #button) withChild:
-		                  #'button-label'.
+		                  #'button-label' asStampSelector.
 
 	button := ToElement new.
 	button addAllStamps: #( #button ).
@@ -150,8 +150,8 @@ ToSelectorInterpreterTest >> testChildSelectorWithTwoChildrenWithTwoChildSelecto
 
 	| button innerElement icon label engine buttonSelector |
 	buttonSelector := ((ToStampSelector new addStamp: #button)
-		                   withChild: #'button-label'
-		                   atDepth: 2) withChild: #'button-icon' atDepth: 2.
+		                   withChild: #'button-label' asStampSelector 
+		                   atDepth: 2) withChild: #'button-icon' asStampSelector atDepth: 2.
 
 	button := ToElement new id: #button.
 	button addAllStamps: #( #button ).
@@ -359,7 +359,7 @@ ToSelectorInterpreterTest >> testRuleWithAndSiblingSelector [
 	" a rule with an And operator  "
 
 	| selector engine parent child sibling |
-	selector := (ToStampSelector new addStamp: #child ) sibling: #sibling.
+	selector := (ToStampSelector new addStamp: #child ) sibling: #sibling asStampSelector.
 
 	parent := ToElement new.
 	child := ToElement new addStamp: #child.
@@ -377,7 +377,7 @@ ToSelectorInterpreterTest >> testRuleWithAndSiblingSelector2 [
 
 	| selector engine parent child sibling |
 	selector := ((ToStampSelector new addStamp: #child) withParent:
-		             #( #parent )) sibling: #sibling.
+		             #( #parent ) asStampSelector )  sibling: #sibling asStampSelector.
 
 	parent := ToElement new.
 	child := ToElement new addStamp: #child.
@@ -400,7 +400,7 @@ ToSelectorInterpreterTest >> testRuleWithAndSiblingSelector3 [
 
 	| selector engine parent child sibling |
 	selector := ((ToStampSelector new addStamp: #child) withParent:
-		             #( #parent )) sibling: #sibling.
+		             #( #parent ) asStampSelector) sibling: #sibling asStampSelector.
 
 	parent := ToElement new.
 	child := ToElement new addStamp: #child.
@@ -423,8 +423,8 @@ ToSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector [
 
 	| selector engine parent child sibling1 sibling2 |
 	selector := (((ToStampSelector new addStamp: #child) withParent:
-		              #( #parent )) sibling: #'image-sibling') sibling:
-		            #'label-sibling'.
+		              #( #parent ) asStampSelector) sibling: #'image-sibling' asStampSelector) sibling:
+		            #'label-sibling' asStampSelector.
 
 	parent := ToElement new.
 	child := ToElement new addStamp: #child.
@@ -447,8 +447,8 @@ ToSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector2 [
 
 	| selector engine parent child sibling1 sibling2 |
 	selector := (((ToStampSelector new addStamp: #child) withParent:
-		              #( #parent )) sibling: #( #image #'image-sibling' ))
-		            sibling: #( #label #'label-sibling' ).
+		              #( #parent ) asStampSelector ) sibling: #( #image #'image-sibling' ) asStampSelector )
+		            sibling: #( #label #'label-sibling' ) asStampSelector.
 
 	parent := ToElement new.
 	child := ToElement new addStamp: #child.
@@ -471,9 +471,9 @@ ToSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector3 [
 
 	| selector engine parent inner child sibling1 sibling2 |
 	selector := (((ToStampSelector new addStamp: #child)
-		              withParent: #( #parent )
-		              atDepth: 2) sibling: #( #image #'image-sibling' ))
-		            sibling: #( #label #'label-sibling' ).
+		              withParent: #( #parent ) asStampSelector
+		              atDepth: 2) sibling: #( #image #'image-sibling' ) asStampSelector)
+		            sibling: #( #label #'label-sibling' ) asStampSelector.
 
 	parent := ToElement new.
 	inner := ToElement new.

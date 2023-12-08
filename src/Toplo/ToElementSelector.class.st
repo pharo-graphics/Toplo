@@ -11,7 +11,7 @@ ToElementSelector >> + aStyleSelector [
 
 	^ ToAndSelector new
 		  left: self;
-		  right: aStyleSelector value asElementSelector;
+		  right: aStyleSelector;
 		  yourself
 ]
 
@@ -20,7 +20,7 @@ ToElementSelector >> - aStyleSelector [
 
 	^ ToAndSelector new
 		  left: self;
-		  right: aStyleSelector value asElementSelector not;
+		  right: aStyleSelector not;
 		  yourself
 ]
 
@@ -42,9 +42,15 @@ ToElementSelector >> and: aStyleSelector [
 ]
 
 { #category : 'converting' }
-ToElementSelector >> asElementSelector [ 
+ToElementSelector >> asStampSelector [ 
 
-	^ self 
+	Error signal: 'Can''t convert an abstract selector'
+]
+
+{ #category : 'converting' }
+ToElementSelector >> asTypeSelector [ 
+
+	Error signal: 'Can''t convert an abstract selector'
 ]
 
 { #category : 'logical operator' }
@@ -82,7 +88,7 @@ ToElementSelector >> or: aStyleSelector [
 
 	^ ToOrSelector new
 		  left: self;
-		  right: aStyleSelector value asElementSelector;
+		  right: aStyleSelector;
 		  yourself
 ]
 
@@ -113,7 +119,7 @@ ToElementSelector >> sibling: aSelector [
 
 	^ ToSiblingSelector new
 		  left: self;
-		  right: aSelector value asElementSelector;
+		  right: aSelector;
 		  yourself
 ]
 
@@ -121,7 +127,7 @@ ToElementSelector >> sibling: aSelector [
 ToElementSelector >> withChild: aSelector [ 
 
 	^ ToChildSelector new
-		  right: aSelector value asElementSelector;
+		  right: aSelector;
 		  left: self;
 		  yourself
 ]
@@ -130,7 +136,7 @@ ToElementSelector >> withChild: aSelector [
 ToElementSelector >> withChild: aSelector atDepth: anInteger [
 
 	^ ToChildSelector new
-		  right: aSelector value asElementSelector;
+		  right: aSelector;
 		  left: self;
 		  depth: anInteger;
 		  yourself
@@ -141,7 +147,7 @@ ToElementSelector >> withParent: aSelector [
 
 	^ ToParentSelector new
 		  left: self;
-		  right: aSelector value asElementSelector;
+		  right: aSelector;
 		  yourself
 ]
 
@@ -150,7 +156,7 @@ ToElementSelector >> withParent: aSelector atDepth: anInteger [
 
 	^ ToParentSelector new
 		  left: self;
-		  right: aSelector value asElementSelector;
+		  right: aSelector;
 		  depth: anInteger;
 		  yourself
 ]

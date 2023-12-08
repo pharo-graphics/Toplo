@@ -1,7 +1,7 @@
 Extension { #name : 'Object' }
 
 { #category : '*Toplo' }
-Object class >> asElementSelector [
+Object class >> asTypeSelector [
 
 	^ ToTypeSelector new type: self
 ]

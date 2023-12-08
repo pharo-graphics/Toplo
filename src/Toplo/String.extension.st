@@ -1,6 +1,12 @@
 Extension { #name : 'String' }
 
 { #category : '*Toplo' }
+String >> asIdSelector [ 
+
+	^ ToIdSelector new id: self asSymbol
+]
+
+{ #category : '*Toplo' }
 String >> asStampProperty [
 
 	^ ToStampProperty new

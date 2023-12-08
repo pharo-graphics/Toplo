@@ -1,9 +1,9 @@
 Class {
 	#name : 'ToElementSelector',
 	#superclass : 'Object',
-	#category : 'Toplo-Core-Selector',
+	#category : 'Toplo-Core-Selectors',
 	#package : 'Toplo',
-	#tag : 'Core-Selector'
+	#tag : 'Core-Selectors'
 }
 
 { #category : 'logical operator' }
@@ -18,9 +18,9 @@ ToElementSelector >> + aStyleSelector [
 { #category : 'logical operator' }
 ToElementSelector >> - aStyleSelector [
 
-	^ ToAndSelector new
+	^ ToMinusSelector new
 		  left: self;
-		  right: aStyleSelector not;
+		  right: aStyleSelector;
 		  yourself
 ]
 
@@ -39,6 +39,18 @@ ToElementSelector >> and: aStyleSelector [
 			'`@receiver and: `@statements1'
 				-> '`@receiver + `@statements1'.	
 	^ self + aStyleSelector
+]
+
+{ #category : 'converting' }
+ToElementSelector >> asActionSelector [ 
+
+	Error signal: 'Can''t convert an abstract selector'
+]
+
+{ #category : 'converting' }
+ToElementSelector >> asIdelector [ 
+
+	Error signal: 'Can''t convert an abstract selector'
 ]
 
 { #category : 'converting' }
@@ -117,10 +129,12 @@ ToElementSelector >> parent: aSelector depth: anInteger [
 { #category : 'logical operator' }
 ToElementSelector >> sibling: aSelector [
 
-	^ ToSiblingSelector new
-		  left: self;
-		  right: aSelector;
-		  yourself
+	self
+		deprecated: 'Please use #withSibling: instead.'
+		transformWith:
+			'`@receiver sibling: `@arg1'
+				-> '`@receiver withSibling: `@arg1'.	
+	^ self withSibling: aSelector
 ]
 
 { #category : 'logical operator' }
@@ -158,5 +172,14 @@ ToElementSelector >> withParent: aSelector atDepth: anInteger [
 		  left: self;
 		  right: aSelector;
 		  depth: anInteger;
+		  yourself
+]
+
+{ #category : 'logical operator' }
+ToElementSelector >> withSibling: aSelector [
+
+	^ ToSiblingSelector new
+		  left: self;
+		  right: aSelector;
 		  yourself
 ]

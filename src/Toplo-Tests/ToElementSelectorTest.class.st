@@ -4,9 +4,9 @@ A ToStyleSelectorEngineTest is a test class for testing the behavior of ToStyleS
 Class {
 	#name : 'ToElementSelectorTest',
 	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core-Selector',
+	#category : 'Toplo-Tests-Core-Selectors',
 	#package : 'Toplo-Tests',
-	#tag : 'Core-Selector'
+	#tag : 'Core-Selectors'
 }
 
 { #category : 'tests - asToTag' }

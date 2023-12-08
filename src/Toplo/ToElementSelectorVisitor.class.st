@@ -1,9 +1,9 @@
 Class {
 	#name : 'ToElementSelectorVisitor',
 	#superclass : 'Object',
-	#category : 'Toplo-Core-Selector',
+	#category : 'Toplo-Core-Selectors',
 	#package : 'Toplo',
-	#tag : 'Core-Selector'
+	#tag : 'Core-Selectors'
 }
 
 { #category : 'visiting' }
@@ -20,6 +20,12 @@ ToElementSelectorVisitor >> visitChildSelector: aSelector [
 
 { #category : 'visiting' }
 ToElementSelectorVisitor >> visitIdSelector: aSelector [
+]
+
+{ #category : 'visiting' }
+ToElementSelectorVisitor >> visitMinusSelector: aSelector [
+
+
 ]
 
 { #category : 'visiting' }

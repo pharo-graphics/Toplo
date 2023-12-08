@@ -184,9 +184,8 @@ ToStyleSheetCSSLikePrinter >> printStyleRuleCSS: aStyleRule on: aStream hangSele
 { #category : 'printing' }
 ToStyleSheetCSSLikePrinter >> printStyleSheetCSSLikeOn: aStream [
 
-	self styleRules do:[ :rule |
-		self printStyleRuleCSS: rule on: aStream hangSelector: nil. 		
-	].
+	self styleRules do: [ :rule |
+		self printStyleRuleCSS: rule on: aStream hangSelector: nil ]
 ]
 
 { #category : 'accessing' }

@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToOrSelector',
+	#name : 'ToMinusSelector',
 	#superclass : 'ToBinarySelector',
 	#category : 'Toplo-Core-Selectors',
 	#package : 'Toplo',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'visiting' }
-ToOrSelector >> accept: aVisitor [
+ToMinusSelector >> accept: aVisitor [
 
-	aVisitor visitOrSelector: self
+	aVisitor visitMinusSelector: self
 ]

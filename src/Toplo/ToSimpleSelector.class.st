@@ -1,7 +1,7 @@
 Class {
 	#name : 'ToSimpleSelector',
 	#superclass : 'ToElementSelector',
-	#category : 'Toplo-Core-Selector',
+	#category : 'Toplo-Core-Selectors',
 	#package : 'Toplo',
-	#tag : 'Core-Selector'
+	#tag : 'Core-Selectors'
 }

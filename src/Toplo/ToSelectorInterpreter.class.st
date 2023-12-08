@@ -6,9 +6,9 @@ Class {
 		'targetStack',
 		'result'
 	],
-	#category : 'Toplo-Core-Selector',
+	#category : 'Toplo-Core-Selectors',
 	#package : 'Toplo',
-	#tag : 'Core-Selector'
+	#tag : 'Core-Selectors'
 }
 
 { #category : 'operating' }
@@ -101,6 +101,16 @@ ToSelectorInterpreter >> visitChildSelector: aSelector [
 ToSelectorInterpreter >> visitIdSelector: aSelector [
 
 	result := aSelector id = self top id
+]
+
+{ #category : 'visiting' }
+ToSelectorInterpreter >> visitMinusSelector: aSelector [
+
+	aSelector left accept: self.
+	result ifFalse: [ ^ self ].
+	aSelector right accept: self.
+	result := result not.
+
 ]
 
 { #category : 'visiting' }

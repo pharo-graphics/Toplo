@@ -4,9 +4,9 @@ Class {
 	#instVars : [
 		'action'
 	],
-	#category : 'Toplo-Core-Selector',
+	#category : 'Toplo-Core-Selectors',
 	#package : 'Toplo',
-	#tag : 'Core-Selector'
+	#tag : 'Core-Selectors'
 }
 
 { #category : 'visiting' }
@@ -25,4 +25,10 @@ ToActionSelector >> action [
 ToActionSelector >> action: aValuable [
 	" aValuable takes one element as argument "
 	action := aValuable
+]
+
+{ #category : 'converting' }
+ToActionSelector >> asActionSelector [
+
+	^ self
 ]

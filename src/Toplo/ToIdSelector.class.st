@@ -4,15 +4,21 @@ Class {
 	#instVars : [
 		'id'
 	],
-	#category : 'Toplo-Core-Selector',
+	#category : 'Toplo-Core-Selectors',
 	#package : 'Toplo',
-	#tag : 'Core-Selector'
+	#tag : 'Core-Selectors'
 }
 
 { #category : 'visiting' }
 ToIdSelector >> accept: aVisitor [
 
 	aVisitor visitIdSelector: self
+]
+
+{ #category : 'converting' }
+ToIdSelector >> asIdSelector [
+
+	^ self
 ]
 
 { #category : 'accessing' }

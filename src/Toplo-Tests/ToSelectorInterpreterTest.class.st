@@ -4,9 +4,9 @@ A ToStyleSelectorInterpreterTest is a test class for testing the behavior of ToS
 Class {
 	#name : 'ToSelectorInterpreterTest',
 	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Core-Selector',
+	#category : 'Toplo-Tests-Core-Selectors',
 	#package : 'Toplo-Tests',
-	#tag : 'Core-Selector'
+	#tag : 'Core-Selectors'
 }
 
 { #category : 'tests - action selector' }
@@ -359,7 +359,8 @@ ToSelectorInterpreterTest >> testRuleWithAndSiblingSelector [
 	" a rule with an And operator  "
 
 	| selector engine parent child sibling |
-	selector := (ToStampSelector new addStamp: #child ) sibling: #sibling asStampSelector.
+	selector := (ToStampSelector new addStamp: #child) withSibling:
+		            #sibling asStampSelector.
 
 	parent := ToElement new.
 	child := ToElement new addStamp: #child.
@@ -377,7 +378,8 @@ ToSelectorInterpreterTest >> testRuleWithAndSiblingSelector2 [
 
 	| selector engine parent child sibling |
 	selector := ((ToStampSelector new addStamp: #child) withParent:
-		             #( #parent ) asStampSelector )  sibling: #sibling asStampSelector.
+		             #( #parent ) asStampSelector) withSibling:
+		            #sibling asStampSelector.
 
 	parent := ToElement new.
 	child := ToElement new addStamp: #child.
@@ -400,7 +402,8 @@ ToSelectorInterpreterTest >> testRuleWithAndSiblingSelector3 [
 
 	| selector engine parent child sibling |
 	selector := ((ToStampSelector new addStamp: #child) withParent:
-		             #( #parent ) asStampSelector) sibling: #sibling asStampSelector.
+		             #( #parent ) asStampSelector) withSibling:
+		            #sibling asStampSelector.
 
 	parent := ToElement new.
 	child := ToElement new addStamp: #child.
@@ -423,7 +426,8 @@ ToSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector [
 
 	| selector engine parent child sibling1 sibling2 |
 	selector := (((ToStampSelector new addStamp: #child) withParent:
-		              #( #parent ) asStampSelector) sibling: #'image-sibling' asStampSelector) sibling:
+		              #( #parent ) asStampSelector) withSibling:
+		             #'image-sibling' asStampSelector) withSibling:
 		            #'label-sibling' asStampSelector.
 
 	parent := ToElement new.
@@ -447,8 +451,10 @@ ToSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector2 [
 
 	| selector engine parent child sibling1 sibling2 |
 	selector := (((ToStampSelector new addStamp: #child) withParent:
-		              #( #parent ) asStampSelector ) sibling: #( #image #'image-sibling' ) asStampSelector )
-		            sibling: #( #label #'label-sibling' ) asStampSelector.
+		              #( #parent ) asStampSelector) withSibling:
+		             #( #image #'image-sibling' ) asStampSelector)
+		            withSibling:
+		            #( #label #'label-sibling' ) asStampSelector.
 
 	parent := ToElement new.
 	child := ToElement new addStamp: #child.
@@ -472,8 +478,10 @@ ToSelectorInterpreterTest >> testRuleWithAndTwoSiblingSelector3 [
 	| selector engine parent inner child sibling1 sibling2 |
 	selector := (((ToStampSelector new addStamp: #child)
 		              withParent: #( #parent ) asStampSelector
-		              atDepth: 2) sibling: #( #image #'image-sibling' ) asStampSelector)
-		            sibling: #( #label #'label-sibling' ) asStampSelector.
+		              atDepth: 2) withSibling:
+		             #( #image #'image-sibling' ) asStampSelector)
+		            withSibling:
+		            #( #label #'label-sibling' ) asStampSelector.
 
 	parent := ToElement new.
 	inner := ToElement new.

@@ -53,11 +53,16 @@ ToPropertyWriter >> isSupplement [
 ToPropertyWriter >> printOn: aStream [
 
 	super printOn: aStream.
+	self supplement 
+		ifTrue: [ aStream nextPutAll: ' supplement: '] 
+		ifFalse: [ aStream nextPutAll: ' write: ' ].
 	aStream space.
-	self property name printOn: aStream.
+	aStream nextPutAll: self property name.
 	aStream space.
-	self eventClass printOn: aStream.
+	aStream nextPutAll: 'when: '.
+	aStream nextPutAll: self eventClass name.
 	aStream space.
+	aStream nextPutAll: 'with: '.
 	self value printOn: aStream
 ]
 

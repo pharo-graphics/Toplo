@@ -990,6 +990,92 @@ ToExperiments class >> example_mouseEvent_descending_bubbling [
 	world show
 ]
 
+{ #category : 'rotation' }
+ToExperiments class >> example_rotation [
+
+	| space container expected handle button count |
+	space := BlSpace new.
+
+	container := BlElement new
+		             size: 200 @ 200;
+		             border: (BlBorder paint: Color lightRed width: 3);
+		             position: 200 @ 200;
+		             clipChildren: false.
+
+	container layout: BlBasicLayout new.
+
+	expected := BlElement new
+		            background: Color lightGreen;
+		            size: 50 @ 100;
+		            border: (BlBorder paint: Color orange width: 3).
+	container addChild: expected.
+
+	handle := BlElement new
+		          background: (Color lightBlue asBlBackground opacity: 0.5);
+		          size: 100 @ 50;
+		          border: (BlBorder paint: Color red width: 3).
+
+	container addChild: handle.
+	button := BlElement new.
+	button layout: BlFrameLayout new.
+	button addChild: (BlTextElement text: 'Click to rotate by 90' asRopedText).
+	button padding: (BlInsets all: 5).
+	button border: (BlBorder paint: Color gray).
+	button constraintsDo: [ :c |
+		c horizontal fitContent.
+		c vertical fitContent ].
+	count := 0.
+	button when: BlClickEvent do: [
+		count := count + 1.
+		handle transformDo: [ :t |
+			t normalizedOrigin: 0.25 @ 0.5.
+			t rotateBy: count * 90 ] ].
+	space root addChild: button.
+	space root addChild: container.
+
+	space show
+]
+
+{ #category : 'rotation' }
+ToExperiments class >> example_rotationAnimation [
+
+	| space container expected handle count anim |
+	space := BlSpace new.
+
+	container := BlElement new
+		             size: 200 @ 200;
+		             border: (BlBorder paint: Color lightRed width: 3);
+		             position: 50 @ 50;
+		             clipChildren: false.
+
+	container layout: BlBasicLayout new.
+
+	expected := BlElement new
+		            background: Color lightGreen;
+		            size: 50 @ 100;
+		            border: (BlBorder paint: Color orange width: 3).
+	container addChild: expected.
+
+	handle := BlElement new
+		          background: (Color lightBlue asBlBackground opacity: 0.5);
+		          size: 100 @ 50;
+		          border: (BlBorder paint: Color red width: 3).
+
+	container addChild: handle.
+	space root addChild: container.
+
+	space show.
+	count := 0.
+	anim := BlRepeatedTaskAction new
+		        delay: 300 milliSeconds;
+		        action: [
+			        handle transformDo: [ :t |
+					        count := count + 1.
+					        t normalizedOrigin: 0.25 @ 0.5.
+					        t rotateBy: 10 * count ] ].
+	handle enqueueTask: anim
+]
+
 { #category : 'space' }
 ToExperiments class >> example_space [
 | space |
@@ -1337,7 +1423,7 @@ ToExperiments class >> example_twoChildrenMatchParentInFitContent [
 	^ parent openInOBlSpace 
 ]
 
-{ #category : 'rotated text' }
+{ #category : 'rotation' }
 ToExperiments class >> example_verticalLabel [
 
 	((ToLabel new text: 'AAAA') transformDo: [ :t |

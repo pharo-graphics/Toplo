@@ -141,6 +141,22 @@ ToSkinManagerTest >> testInstallSkinIn [
 ]
 
 { #category : 'tests' }
+ToSkinManagerTest >> testInstallSkinIn2 [
+
+	| e |
+	e := ToElement new.
+	self assert: e installedSkin isNil.
+	" if not theme is found in its parent chain, then an element must be attached to a space. 
+	If not, skin installation raises an Error because during skin installation the element theme is lookup "
+	space root addChild: e.
+	e skinManager installSkin: e defaultSkin in: e.
+	self assert: e installedSkin notNil.
+	self
+		assert: e installedSkin class
+		equals: (e toTheme newSkinFor: e) class
+]
+
+{ #category : 'tests' }
 ToSkinManagerTest >> testInstalledSkin [
 
 	| e sk |

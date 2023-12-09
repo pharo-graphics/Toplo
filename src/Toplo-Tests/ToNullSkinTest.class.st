@@ -10,6 +10,18 @@ Class {
 }
 
 { #category : 'tests' }
+ToNullSkinTest >> testEventsToHandle [ 
+
+	self assert: ToNullSkin new eventsToHandle isEmpty
+]
+
+{ #category : 'tests' }
+ToNullSkinTest >> testIsNullSkin [
+
+	self assert: ToNullSkin new isNullSkin
+]
+
+{ #category : 'tests' }
 ToNullSkinTest >> testWithASkinInstalledBefore [
 
 	| w installedSkin nsk |

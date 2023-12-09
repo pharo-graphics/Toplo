@@ -145,3 +145,9 @@ ToRawSkin >> unfocusedLookEvent: anEvent [
 
 
 ]
+
+{ #category : 'event handling' }
+ToRawSkin >> uninstallLookEvent: anEvent [
+
+
+]

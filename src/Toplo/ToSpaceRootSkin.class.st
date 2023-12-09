@@ -10,6 +10,7 @@ Class {
 ToSpaceRootSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
+
 	anEvent elementDo: [ :e |
 		e background: (e tokenValueNamed: #'background-color') ]
 ]

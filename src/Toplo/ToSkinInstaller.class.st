@@ -30,16 +30,6 @@ ToSkinInstaller >> initialize [
 	installing := false
 ]
 
-{ #category : 'hook' }
-ToSkinInstaller >> installSkinIn: anElement [
-
-	self
-		deprecated: 'Use applyOn:'
-		transformWith: '`@receiver installSkinIn: `@argument' -> '`@receiver applyOn: `@argument'.
-
-	self applyOn: anElement
-]
-
 { #category : 'accessing' }
 ToSkinInstaller >> installing [
 

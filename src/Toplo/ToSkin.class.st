@@ -9,23 +9,6 @@ Class {
 	#tag : 'Core-Theme'
 }
 
-{ #category : 'style updating' }
-ToSkin >> applyEnqueuedStatesIn: anElement [
-
-	anElement skinStateQueue applyEnqueuedStatesIn: anElement
-]
-
-{ #category : 'style updating' }
-ToSkin >> applyStylesIn: anElement [
-
-	self
-		deprecated: 'Use applyEnqueuedStatesIn: instead'
-		transformWith: '`@receiver applyStylesIn: `@argument'
-			-> '`@receiver applyEnqueuedStatesIn: `@argument'.
-
-	anElement skinStateQueue applyEnqueuedStatesIn: anElement
-]
-
 { #category : 'api - accessing' }
 ToSkin >> eventsToHandle [
 
@@ -56,11 +39,5 @@ ToSkin >> onUninstalledIn: anElement [
 	anElement skinManager installedSkin: nil.
 	anElement removeEventHandler: removeFromSceneGraphHandler.
 	super onUninstalledIn: anElement.
-
-]
-
-{ #category : 'event handling' }
-ToSkin >> uninstallLookEvent: anEvent [
-
 
 ]

@@ -31,28 +31,6 @@ ToSkinInstallerTest >> testApplyOn [
 ]
 
 { #category : 'tests' }
-ToSkinInstallerTest >> testInstallSkinIn [
-
-	| e |
-	e := ToElement new.
-	self assert: e skinInstaller isNil.
-	self assert: e installedSkin isNil.
-	e skinInstaller: ToSkinInstaller new.
-	self assert: e skinInstaller notNil.
-	self assert: e installedSkin isNil.
-	" if not theme is found in its parent chain, then an element must be attached to a space. 
-	If not, skin installation raises an Error because during skin installation the element theme is lookup "
-	space root addChild: e.
-	self assert: e skinInstaller notNil.
-	e skinInstaller applyOn: e.
-	self assert: e skinInstaller isNil.
-	self assert: e installedSkin notNil.
-	self
-		assert: e installedSkin class
-		equals: (e toTheme newSkinFor: e) class
-]
-
-{ #category : 'tests' }
 ToSkinInstallerTest >> testInstallSkinInWithErrorNonAttachedInSpace [
 
 	| e |

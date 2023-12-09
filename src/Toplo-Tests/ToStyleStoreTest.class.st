@@ -352,6 +352,59 @@ ToStyleStoreTest >> testTokenPropertyNamedFrom [
 ]
 
 { #category : 'token properties' }
+ToStyleStoreTest >> testTokenPropertyNamedFromBeforeSpaceShownRaiseError [
+
+	| e space |	
+	space := BlSpace new.
+	e := ToElement new.
+	space root addChild: e.
+	self should: [e tokenValueNamed: #'background-color'] raise: ToElementPropertyNotFound
+]
+
+{ #category : 'token properties' }
+ToStyleStoreTest >> testTokenPropertyNamedFromBeforeSpaceShownRaiseError2 [
+
+	| e space goneHere |
+	space := BlSpace new.
+	e := ToElement new.
+	e defaultSkin: ToSpaceRootSkin new.
+	space root addChild: e.
+	" since the space skin phases are not not installed by the the skin phase manager,
+	the theme is not installed an then, installing a skin that requires a property fails "
+	self flag: 'the next statement make the test fail because the skin of e is installed (and then a new skinInstaller will not change the skin)'.
+	"self should: [space applyAllSkinInstallers] raise: ToElementPropertyNotFound."
+	self assert: e background isTransparent.
+	goneHere := false.
+	space when: ToSpaceSkinPhasesStarted do: [
+		goneHere := true.
+		self assert: e installedSkin isNil.
+		self assert: e skinInstaller notNil.
+		self assert: (e tokenValueNamed: #'background-color') notNil.
+		e applySkinInstaller.
+		self deny: e background isTransparent ].
+	space startSkinPhases.
+	self assert: goneHere
+]
+
+{ #category : 'token properties' }
+ToStyleStoreTest >> testTokenPropertyNamedRequiresSpaceSkinPhasesStarted [
+
+	| e space goneHere |
+	space := BlSpace new.
+	e := ToElement new.
+	e defaultSkin: ToSpaceRootSkin new.
+	space root addChild: e.
+	self assert: e background isTransparent.
+	goneHere := false.
+	space when: ToSpaceSkinPhasesStarted do: [
+		goneHere := true.
+		e applySkinInstaller.
+		self deny: e background isTransparent ].
+	space startSkinPhases.
+	self assert: goneHere
+]
+
+{ #category : 'token properties' }
 ToStyleStoreTest >> testTokenPropertyValueFrom [
 
 	| e p |

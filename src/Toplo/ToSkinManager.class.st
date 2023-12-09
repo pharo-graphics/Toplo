@@ -25,7 +25,7 @@ Class {
 ToSkinManager >> applyEnqueuedStatesIn: anElement [
 	" run the skin actually by flushing the state queue"
 
-	self installedSkinDo: [ :s | s applyEnqueuedStatesIn: anElement ]
+	self skinStateQueue applyEnqueuedStatesIn: anElement
 ]
 
 { #category : 'skin application' }
@@ -79,6 +79,7 @@ ToSkinManager >> borderBuilder [
 ToSkinManager >> defaultSkin: aSkin in: anElement [
 
 	defaultSkin = aSkin ifTrue: [ ^ self ].
+	skinInstallRequestCount := 0.
 	self setSkin: aSkin in: anElement
 
 ]

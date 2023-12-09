@@ -344,7 +344,7 @@ ToStyleSheetBazarTest >> testSkinWithChildRule [
 ]
 
 { #category : 'tests' }
-ToStyleSheetBazarTest >> testSkinWithChildRuleLevel2 [
+ToStyleSheetBazarTest >> testSkinWithChildRule2 [
 	" with a direct child "
 
 	| skin parent child writers subParent styleSheet theme script |

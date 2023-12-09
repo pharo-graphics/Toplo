@@ -40,6 +40,12 @@ BlSpace >> renewRootStyleSheet [
 ]
 
 { #category : '*Toplo' }
+BlSpace >> skinPhasesInstalled [
+
+	^ self skinPhasesManager skinPhasesInstalled
+]
+
+{ #category : '*Toplo' }
 BlSpace >> skinPhasesManager [
 
 	^ self userData at: #skinPhasesManager ifAbsentPut: [ ToSpaceSkinPhasesManager new ]

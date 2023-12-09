@@ -171,6 +171,8 @@ ToStyleSheet >> onInstalledIn: anElement [
 { #category : 'initialization' }
 ToStyleSheet >> onUnInstalledIn: anElement [
 
+	anElement requestUninstallSkinRecursively
+
 ]
 
 { #category : 't - style rules holder' }

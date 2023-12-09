@@ -266,6 +266,13 @@ BlElement >> requestUninstallSkin [
 ]
 
 { #category : '*Toplo' }
+BlElement >> requestUninstallSkinRecursively [
+
+	self childrenDo: [ :child | child requestUninstallSkinRecursively ].
+	self requestUninstallSkin
+]
+
+{ #category : '*Toplo' }
 BlElement >> setSkin: aSkin [
 
 	self skinManager setSkin: aSkin in: self

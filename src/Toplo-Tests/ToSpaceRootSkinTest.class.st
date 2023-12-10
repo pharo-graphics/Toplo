@@ -21,6 +21,8 @@ ToSpaceRootSkinTest >> setUp [
 { #category : 'tests' }
 ToSpaceRootSkinTest >> testInstallLookEvent [
 
+	" test that a ToSpaceRootSkin is installed as soon a the space skin related phases are installed "
+
 	| e goneHere |
 	space := BlSpace new.
 	e := ToElement new.

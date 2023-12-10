@@ -10,17 +10,21 @@ Class {
 }
 
 { #category : 'tests' }
+ToRawSkinTest >> instanciableLookEventClasses [
+	" returns all look event classes that implement #sendTo: "
+
+	^ Array streamContents: [ :str |
+		  ToElementLookEvent allSubclasses do: [ :cls |
+			  cls localMethods do: [ :cm |
+				  cm selector asSymbol = #sendTo: ifTrue: [ str nextPut: cls ] ] ] ]
+]
+
+{ #category : 'tests' }
 ToRawSkinTest >> testHasAllNecessaryLookEventHandlingMethods [
 
-	| instanciableLookEventClasses lookEventClasses lookEventSelectors |
+	| lookEventClasses lookEventSelectors |
 	" collect all look event classes "
-	instanciableLookEventClasses := ToElementLookEvent allSubclasses.
-	" collect all look event classes that implement #sendTo: "
-	lookEventClasses := Array streamContents: [ :str |
-		                    instanciableLookEventClasses do: [ :cls |
-			                    cls localMethods do: [ :cm |
-				                    cm selector asSymbol = #sendTo: ifTrue: [
-					                    str nextPut: cls ] ] ] ].
+	lookEventClasses := self instanciableLookEventClasses.
 	" collect all selectors that a raw skin class must implement "
 	lookEventSelectors := lookEventClasses collect: [ :cls |
 		                      | n |
@@ -40,10 +44,12 @@ ToRawSkinTest >> testIsAbleToHandleAnyLookEvent [
 
 	| e skin instanciableLookEventClasses |
 	e := BlElement new.
-	skin := ToRawSkin new.
+	skin := ToRawSkinForTest new.
 	e addEventHandler: skin.
-	instanciableLookEventClasses := ToElementLookEvent allSubclasses select: [ :c | c allSubclasses isEmpty ].
-	instanciableLookEventClasses do: [ :cls | e dispatchEvent: cls new ]
+	instanciableLookEventClasses := self instanciableLookEventClasses.
+	instanciableLookEventClasses do: [ :cls |
+		e dispatchEvent: cls new.
+		self assert: (skin receivedCountForClass: cls) equals: 1 ]
 ]
 
 { #category : 'tests' }

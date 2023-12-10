@@ -14,7 +14,7 @@ ToStyleSheetTheme >> applicableRulesFor: anElement [
 	anElement isAttachedToSceneGraph ifFalse: [ ^ #(  ) ].
 	" get all subscriptions for anElement "
 	rootRules := self rootRulesFor: anElement.
-	Array streamContents: [:str | 
+	^ Array streamContents: [:str | 
 		rootRules do:[ :r | (r copyWithOnlyApplicableRuleFor: anElement inTheme: self) 
 			ifNotNil:[ :anApplicableRule | str nextPut: anApplicableRule ] ] ]
 ]
@@ -25,16 +25,15 @@ ToStyleSheetTheme >> applicableWritersFor: anElement [
 	are found with #rawWritersFor:. After, for each property only the last writers is kept"
 
 	| rawWriters supplement uniqueWriters eventClassIndex |
-	
-	anElement isAttachedToSceneGraph ifFalse: [ ^ #() ].
-	
+	anElement isAttachedToSceneGraph ifFalse: [ ^ #(  ) ].
+
 	" get all subscriptions for anElement "
 	rawWriters := self rawApplicableWritersFor: anElement.
-	
+
 	" keep only the last writers for each property except those which are declared as supplement"
 	eventClassIndex := IdentityDictionary new.
 	supplement := OrderedCollection new.
-	
+
 	rawWriters do: [ :w |
 		w supplement
 			ifTrue: [ supplement add: w ]
@@ -44,14 +43,15 @@ ToStyleSheetTheme >> applicableWritersFor: anElement [
 					                   at: w eventClass
 					                   ifAbsentPut: [ IdentityDictionary new ].
 				indexByProperty at: w property put: w ] ].
-		
+
 	uniqueWriters := Array streamContents: [ :str |
 		                 eventClassIndex valuesDo: [ :indexByProperty |
 			                 str nextPutAll: indexByProperty values ] ].
-	
-	^ Array streamContents: [:str | 
-			str nextPutAll: (uniqueWriters sort: [ :a :b | a property name < b property name ]).
-	  		str nextPutAll: supplement ]
+
+	^ Array streamContents: [ :str |
+		  str nextPutAll:
+			  (uniqueWriters sort: [ :a :b | a property name < b property name ]).
+		  str nextPutAll: supplement ]
 ]
 
 { #category : 'initialization' }
@@ -69,12 +69,11 @@ ToStyleSheetTheme >> name [
 { #category : 'accessing' }
 ToStyleSheetTheme >> newSkinInstanceFor: anElement [
 
-	^ (self applicableWritersFor: anElement)
-		  ifEmpty: [ (self skinClassFor: anElement) new ]
-		  ifNotEmpty: [ :writers |
-			  (self skinClassFor: anElement) new
-				  propertyWriters: writers;
-				  yourself ]
+	| skin |
+	skin := (self skinClassFor: anElement) new.
+	(self applicableWritersFor: anElement) ifNotEmpty: [ :writers |
+		skin propertyWriters: writers ].
+	^ skin
 ]
 
 { #category : 'styling' }

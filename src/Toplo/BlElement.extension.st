@@ -27,6 +27,12 @@ BlElement >> addStamp: aSymbol value: anObject [
 ]
 
 { #category : '*Toplo' }
+BlElement >> allStamps [
+
+	^ self toStyleStore allStamps
+]
+
+{ #category : '*Toplo' }
 BlElement >> applyEnqueuedStates [
 
 	self skinManager applyEnqueuedStatesIn: self

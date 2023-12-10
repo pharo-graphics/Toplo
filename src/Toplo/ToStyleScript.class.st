@@ -203,3 +203,13 @@ ToStyleScript >> write: aProperty with: aValue [
 		with: aValue
 		animation: nil
 ]
+
+{ #category : 'writer adding' }
+ToStyleScript >> write: aProperty withAll: anArrayOfEventValueAssociations [
+
+	anArrayOfEventValueAssociations do: [ :assoc |
+		| event value |
+		event := assoc key.
+		value := assoc value.
+		self when: event write: aProperty with: value ]
+]

@@ -8,3 +8,104 @@ Class {
 	#package : 'Toplo-Tests',
 	#tag : 'Core-Theme'
 }
+
+{ #category : 'tests' }
+ToStyleSheetThemeTest >> testApplicableRulesFor [
+
+	| e space theme |
+	e := BlElement new.
+	space := BlSpace new.
+	theme := ToStyleSheetThemeForTest new.
+	space toTheme: theme.
+	
+	space root addChild: e.
+	self assert: (theme applicableRulesFor: e) size equals: 1
+	
+]
+
+{ #category : 'tests' }
+ToStyleSheetThemeTest >> testApplicableWritersFor [
+
+	| e space theme |
+	e := BlElement new.
+	space := BlSpace new.
+	theme := ToStyleSheetThemeForTest new.
+	space toTheme: theme.
+	
+	space root addChild: e.
+	self assert: (theme applicableWritersFor: e) size equals: 3
+	
+]
+
+{ #category : 'tests' }
+ToStyleSheetThemeTest >> testDefaultElementStampsFor [
+
+	| e theme skin |
+	e := BlElement new.
+	theme := ToStyleSheetThemeForTest new.
+	self assert: (theme defaultElementStampsFor: e) equals: { #'element' }.
+	skin := theme newSkinFor: e.
+	self assert: (skin isKindOf: ToStyleSheetSkin).
+	self assert: (e allStamps includesAll: (theme defaultElementStampsFor: e))
+]
+
+{ #category : 'tests' }
+ToStyleSheetThemeTest >> testNewSkinInstanceFor [
+
+	| e theme skin |
+	e := BlElement new.
+	theme := ToStyleSheetThemeForTest new.
+	skin := theme newSkinInstanceFor: e.
+	self assert: (skin isKindOf: ToStyleSheetSkin)
+]
+
+{ #category : 'tests' }
+ToStyleSheetThemeTest >> testRawApplicableWritersFor [
+
+	| e space theme |
+	e := BlElement new.
+	space := BlSpace new.
+	theme := ToStyleSheetThemeForTest new.
+	space toTheme: theme.
+	
+	space root addChild: e.
+	self assert: (theme rawApplicableWritersFor: e) size equals: 5
+]
+
+{ #category : 'tests' }
+ToStyleSheetThemeTest >> testRootRulesFor [
+
+	| e space theme |
+	e := BlElement new.
+	space := BlSpace new.
+	theme := ToStyleSheetThemeForTest new.
+	space toTheme: theme.
+	
+	space root addChild: e.
+	self assert: (theme rootRulesFor: e) size equals: 1
+	
+]
+
+{ #category : 'tests' }
+ToStyleSheetThemeTest >> testSetUpElement [
+
+	| e theme skin |
+	e := BlElement new.
+	theme := ToStyleSheetThemeForTest new.
+	self assert: (theme defaultElementStampsFor: e) equals: { #element }.
+	skin := theme newSkinInstanceFor: e.
+	self assert: (skin isKindOf: ToStyleSheetSkin).
+	self assert: (e allStamps isEmpty).
+	theme setUpElement: e.
+	self assert: (e allStamps includesAll: (theme defaultElementStampsFor: e))
+]
+
+{ #category : 'tests' }
+ToStyleSheetThemeTest >> testSkinClassFor [
+
+	| e theme skinCls |
+	e := BlElement new.
+	theme := ToStyleSheetThemeForTest new.
+	skinCls := theme skinClassFor: e.
+	self assert: skinCls identicalTo: ToStyleSheetSkin 
+]

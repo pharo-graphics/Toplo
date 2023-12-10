@@ -49,12 +49,6 @@ ToRawSkin >> droppedLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToRawSkin >> elementLookEvent: anEvent [
-
-
-]
-
-{ #category : 'event handling' }
 ToRawSkin >> enabledLookEvent: anEvent [
 
 

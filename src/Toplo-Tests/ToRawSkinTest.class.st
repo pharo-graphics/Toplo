@@ -12,10 +12,27 @@ Class {
 { #category : 'tests' }
 ToRawSkinTest >> testHasAllNecessaryLookEventHandlingMethods [
 
-	| instanciableLookEventClasses lookEventHandlingMethods |
-	instanciableLookEventClasses := ToElementLookEvent allSubclasses select: [ :c | c allSubclasses isEmpty ].
-	lookEventHandlingMethods := Array streamContents: [:str | 
-		instanciableLookEventClasses do: [ :cls | cls localMethods  ] ]
+	| instanciableLookEventClasses lookEventClasses lookEventSelectors |
+	" collect all look event classes "
+	instanciableLookEventClasses := ToElementLookEvent allSubclasses.
+	" collect all look event classes that implement #sendTo: "
+	lookEventClasses := Array streamContents: [ :str |
+		                    instanciableLookEventClasses do: [ :cls |
+			                    cls localMethods do: [ :cm |
+				                    cm selector asSymbol = #sendTo: ifTrue: [
+					                    str nextPut: cls ] ] ] ].
+	" collect all selectors that a raw skin class must implement "
+	lookEventSelectors := lookEventClasses collect: [ :cls |
+		                      | n |
+		                      n := (cls name asString
+			                            copyFrom: 3
+			                            to: cls name size) asSymbol asMutator.
+		                      n asString
+			                      at: 1 put: n first asLowercase;
+			                      yourself ].
+	" check that ToRawSkin has all necessary methods "
+	lookEventSelectors do: [ :s |
+		self assert: (ToRawSkin canUnderstand: s asSymbol) ]
 ]
 
 { #category : 'tests' }

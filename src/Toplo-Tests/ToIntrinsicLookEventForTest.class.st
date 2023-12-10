@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToIntrinsicLookEventForTest',
-	#superclass : 'ToIntrasicStateLookEvent',
+	#superclass : 'BlEvent',
 	#category : 'Toplo-Tests-Core-States',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-States'

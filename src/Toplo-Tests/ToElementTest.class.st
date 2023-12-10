@@ -146,7 +146,7 @@ ToElementTest >> testDefaultSkin [
 	" no change "
 	self assert: e defaultSkin identicalTo: sk.
 	self assert: e installedSkin isNil.
-	self assert: sk installCpt equals: 0.
+	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 0.
 	e applySkinInstaller.
 	self assert: e defaultSkin identicalTo: sk.
 	self assert: e installedSkin identicalTo: sk.
@@ -155,18 +155,16 @@ ToElementTest >> testDefaultSkin [
 		(e eventDispatcher handlers select: [ :h | h isKindOf: ToSkin ])
 			size
 		equals: 1.
-	self assert: sk installCpt equals: 1.
-	self assert: sk initialCpt equals: 1.
-	self assert: sk uninstallCpt equals: 0.
+	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 1.
+	self assert: (sk receivedCountForClass: ToUninstallLookEvent) equals: 0.
 
 	e defaultSkin: sk.
 	e requestInstallSkin.
 	e applySkinInstaller.
 	e applyEnqueuedStates.
 	" no change since same skin "
-	self assert: sk installCpt equals: 1.
-	self assert: sk initialCpt equals: 1.
-	self assert: sk uninstallCpt equals: 0.
+	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 1.
+	self assert: (sk receivedCountForClass: ToUninstallLookEvent) equals: 0.
 
 	self
 		assert:
@@ -184,12 +182,10 @@ ToElementTest >> testDefaultSkin [
 			size
 		equals: 1.
 
-	self assert: sk installCpt equals: 1.
-	self assert: sk initialCpt equals: 1.
-	self assert: sk uninstallCpt equals: 1.
-	self assert: sk2 installCpt equals: 1.
-	self assert: sk2 initialCpt equals: 1.
-	self assert: sk2 uninstallCpt equals: 0
+	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 1.
+	self assert: (sk receivedCountForClass: ToUninstallLookEvent) equals: 1.
+	self assert: (sk2 receivedCountForClass: ToInstallLookEvent) equals: 1.
+	self assert: (sk2 receivedCountForClass: ToUninstallLookEvent) equals: 0
 ]
 
 { #category : 'test initialize' }
@@ -314,13 +310,12 @@ ToElementTest >> testSetSkin [
 	" no change "
 	self assert: e defaultSkin identicalTo: sk.
 	self assert: e installedSkin isNil.
-	self assert: sk installCpt equals: 0.
+	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 0.
 	e applySkinInstaller.
 	self assert: e defaultSkin identicalTo: sk.
 	self assert: e installedSkin identicalTo: sk.
-	self assert: sk installCpt equals: 1.
-	self assert: sk initialCpt equals: 1.
-	self assert: sk uninstallCpt equals: 0.
+	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 1.
+	self assert: (sk receivedCountForClass: ToUninstallLookEvent) equals: 0.
 
 	self
 		assert:
@@ -331,9 +326,8 @@ ToElementTest >> testSetSkin [
 	" force uninstall->install->initial states "
 	e setSkin: sk.
 	e applySkinInstaller.
-	self assert: sk uninstallCpt equals: 1.
-	self assert: sk installCpt equals: 2.
-	self assert: sk initialCpt equals: 2.
+	self assert: (sk receivedCountForClass: ToUninstallLookEvent) equals: 1.
+	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 2.
 
 	self
 		assert:
@@ -351,12 +345,10 @@ ToElementTest >> testSetSkin [
 			size
 		equals: 1.
 
-	self assert: sk installCpt equals: 2.
-	self assert: sk initialCpt equals: 2.
-	self assert: sk uninstallCpt equals: 2.
-	self assert: sk2 installCpt equals: 1.
-	self assert: sk2 initialCpt equals: 1.
-	self assert: sk2 uninstallCpt equals: 0
+	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 2.
+	self assert: (sk receivedCountForClass: ToUninstallLookEvent) equals: 2.
+	self assert: (sk2 receivedCountForClass: ToInstallLookEvent) equals: 1.
+	self assert: (sk2 receivedCountForClass: ToUninstallLookEvent) equals: 0
 ]
 
 { #category : 'test initialize' }

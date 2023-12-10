@@ -149,7 +149,7 @@ ToSkinManager >> isSetUpForTheme: aTheme [
 ToSkinManager >> onInstalledIn: anElement [
 
 	themeClasses := IdentitySet new.
-	skinManagementEventHandler := ToSkinManagementEventHandler new.
+	skinManagementEventHandler := ToSkinInstallStateRequestEventHandler new.
 	anElement addEventHandler: skinManagementEventHandler
 ]
 

@@ -26,7 +26,7 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme new.
+	theme := ToStyleSheetTheme light.
 	prop := ToPseudoProperty new name: #'text-attributes'.
 	prop writer: [ :e :v |
 		e text attributes:
@@ -58,7 +58,7 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 				 with: [ :e | e tokenValueNamed: #'color-error-pressed' ] ].
 			
 	button := ToButton new.
-	space toTheme: ToBeeLightTheme new.
+	space toTheme: theme.
 	space root addChild: button.
 	button styleSheet: styleSheet.
 	label := (ToLabel text: 'Default') defaultSkin: nil.
@@ -99,7 +99,7 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme new.
+	theme := ToStyleSheetTheme light.
 
 	" default button rule "
 	styleSheet 
@@ -162,7 +162,7 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 				with: [ :e | e tokenValueNamed: #'color-error-pressed' ] ].
 
 	button := ToButton new.
-	space toTheme: ToBeeLightTheme new.
+	space toTheme: theme.
 	space root addChild: button.
 	button addStamp: #button.
 	button styleSheet: styleSheet.
@@ -217,7 +217,7 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 ToStyleSheetBazarTest >> testButtonSkinWithInterspace [
 
 	| elem writers skin interspaceProp layoutProp theme styleSheet  |
-	theme := ToStyleSheetTheme new.
+	theme := ToStyleSheetTheme light.
 	interspaceProp := ToPseudoProperty
 		                  name: #'layout-interspace'
 		                  reader: [ :e | e layout interspace ]
@@ -257,7 +257,7 @@ ToStyleSheetBazarTest >> testEmptyStyleSheet [
 
 	| ss ssi |
 	ss := ToStyleSheet new inherits: false; yourself.
-	ssi := ToStyleSheetTheme new.
+	ssi := ToStyleSheetTheme light.
 	self assert: (ssi applicableWritersFor: (ToElement new)) isEmpty
 ]
 
@@ -268,7 +268,7 @@ ToStyleSheetBazarTest >> testSkinWithAnUniversalRule [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme new.
+	theme := ToStyleSheetTheme light.
 
 	styleSheet select: ToUniversalSelector new style: [ :sr |
 		sr
@@ -297,7 +297,7 @@ ToStyleSheetBazarTest >> testSkinWithChildRule [
 		              inherits: false;
 		              yourself.
 
-	theme := ToStyleSheetTheme new.
+	theme := ToStyleSheetTheme light.
 
 	styleSheet 
 		select: ((ToIdSelector new id: #child) withParent:
@@ -341,7 +341,7 @@ ToStyleSheetBazarTest >> testSkinWithChildRule2 [
 		              inherits: false;
 		              yourself.
 
-	theme := ToStyleSheetTheme new.
+	theme := ToStyleSheetTheme light.
 
 	styleSheet 
 		select: ((ToIdSelector new id: #child)
@@ -385,7 +385,7 @@ ToStyleSheetBazarTest >> testSkinWithIdRule [
 		              inherits: false;
 		              yourself.
 
-	theme := ToStyleSheetTheme new.
+	theme := ToStyleSheetTheme light.
 
 	styleSheet  select: (ToIdSelector new id: #a) style: [ :sr |
 		sr
@@ -418,7 +418,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyle0 [
 		              inherits: false;
 		              yourself.
 
-	theme := ToStyleSheetTheme new.
+	theme := ToStyleSheetTheme light.
 
 	styleSheet select: #button asStampSelector style: [ :sr |
 		sr write: (styleSheet property: #background) with: Color white.
@@ -455,7 +455,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 		              inherits: false;
 		              yourself.
 
-	theme := ToStyleSheetTheme new.
+	theme := ToStyleSheetTheme light.
 
 	styleSheet select: #button asStampSelector style: [ :sr |
 		sr select: #danger asStampSelector style: [
@@ -516,7 +516,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules1 [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme new.
+	theme := ToStyleSheetTheme light.
 
 	elem := ToElement new addStamp: #elem.
 	space root addChild: elem.
@@ -562,7 +562,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules2 [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme new.
+	theme := ToStyleSheetTheme light.
 
 	elem := ToElement new addStamp: #elem.
 	space root addChild: elem.
@@ -613,7 +613,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules22 [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme new.
+	theme := ToStyleSheetTheme light.
 
 	elem := ToElement new addAllStamps: #( elem #red ).
 	space root addChild: elem.
@@ -664,7 +664,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules3 [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme new.
+	theme := ToStyleSheetTheme light.
 
 	elem := ToElement new addAllStamps: #( elem #red ).
 	space root addChild: elem.
@@ -715,7 +715,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules32 [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme new.
+	theme := ToStyleSheetTheme light.
 
 	elem := ToElement new addAllStamps: #( elem #red ).
 	space root addChild: elem.
@@ -767,7 +767,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules33 [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme new.
+	theme := ToStyleSheetTheme light.
 
 	elem := ToElement new addAllStamps: #( elem #red ).
 	space root addChild: elem.
@@ -818,7 +818,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules1 [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme new.
+	theme := ToStyleSheetTheme light.
 
 	elem := ToElement new addStamp: #elem.
 	space root addChild: elem.
@@ -857,7 +857,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules2 [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme new.
+	theme := ToStyleSheetTheme light.
 
 	elem := ToElement new addStamp: #elem.
 	space root addChild: elem.
@@ -897,7 +897,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules3 [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme new.
+	theme := ToStyleSheetTheme light.
 
 	elem := ToElement new addAllStamps: #( elem #red ).
 	space root addChild: elem.
@@ -942,7 +942,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
-	theme := ToStyleSheetTheme new.
+	theme := ToStyleSheetTheme light.
 
 	elem := ToElement new addAllStamps: #( #elem #red ).
 	space root addChild: elem.

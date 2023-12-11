@@ -6,10 +6,22 @@ Class {
 	#tag : 'Core-Theme'
 }
 
-{ #category : 'accessing' }
-ToRawTheme >> name [
+{ #category : 'testing' }
+ToRawTheme class >> canBeDefault [
 
-	^ #'RawTheme'
+	^ true
+]
+
+{ #category : 'accessing' }
+ToRawTheme class >> label [
+
+	^'Raw'
+]
+
+{ #category : 'testing' }
+ToRawTheme class >> supportedVariantClasses [
+
+	^ { ToThemeDarkVariant. ToThemeLightVariant }
 ]
 
 { #category : 'accessing' }

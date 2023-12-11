@@ -66,7 +66,7 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
 	btn addStamp: #danger.
 	btn size: 500 @ 100.
 	space := BlSpace new.
-	space toTheme: ToBeeLightTheme new.
+	space toTheme: ToBeeTheme light.
 	space root layout: BlLinearLayout vertical.
 	space root addChildren: {
 			chk.
@@ -88,7 +88,7 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheetDarkTheme [
 	btn addStamp: #primary.
 	btn addStamp: #danger.
 	btn size: 500 @ 100.
-	space := BlSpace new toTheme: ToBeeDarkTheme new; yourself.
+	space := BlSpace new toTheme: ToBeeTheme dark.
 	space root layout: BlLinearLayout vertical.
 	space root addChildren: {
 			chk.
@@ -103,7 +103,7 @@ ToSandBox class >> example_CheckBoxWithDefaultStyleSheetDarkTheme [
 	ToTheme cleanUp.
 	chk := ToCheckbox new.
 	chk labelText: 'OK'.
-	space := BlSpace new toTheme: ToBeeDarkTheme new; yourself.
+	space := BlSpace new toTheme: ToBeeTheme dark.
 	space root layout: BlLinearLayout vertical.
 	space root addChildren: {
 			chk }.
@@ -326,7 +326,6 @@ ToSandBox class >> example_CheckboxWithExactWidth [
 ToSandBox class >> example_CheckboxWithIndeterminate [
 
 	| but |
-	ToStyleSheetTheme cleanUp.
 	but := ToCheckbox new labelText: 'Checkbox'.
 	but withIndeterminate: true.
 	but inspect.
@@ -1461,11 +1460,10 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 ToSandBox class >> example_StyleSheetSandbox [
 
 	| b |
-	ToTheme cleanUp.
 	"b := ToCheckbox new."
 	"b := ToRadioButton new."
 	b := ToButton new.
-	b toTheme: ToBeeLightTheme new.
+	b toTheme: ToBeeTheme light.
 
 	"b := ToToggleButton new."
 	"b stampWith: #primary. "
@@ -1502,7 +1500,6 @@ ToSandBox class >> example_StyleSheetSandbox [
 ToSandBox class >> example_StyleSheetSandboxDarkTheme [
 
 	| b |
-	ToStyleSheetTheme cleanUp.
 	"b := ToCheckbox new."
 	"b := ToRadioButton new."
 	b := ToButton new.
@@ -1529,7 +1526,7 @@ ToSandBox class >> example_StyleSheetSandboxDarkTheme [
 	"b withIndeterminate: true."
 	"b innerElement border: (BlBorder paint: Color black)."
 
-	(b openInSpace) toTheme: ToBeeDarkTheme new.
+	(b openInSpace) toTheme: ToBeeTheme dark.
 	"b width: 200."
 	"b size: 100 @ 100."
 
@@ -1551,8 +1548,8 @@ ToSandBox class >> example_ToButtonSkins [
 	themeSwitcher := ToSelect new.
 	themeSwitcher width: 150.
 	themeSwitcher data addAll: {
-			ToBeeLightTheme.
-			ToBeeDarkTheme }.
+			ToBeeTheme light.
+			ToBeeTheme dark. }.
 
 	themeSwitcher whenSelectedIndexChangedDo: [
 		space toTheme: themeSwitcher selectedData new ].
@@ -2026,7 +2023,7 @@ ToSandBox class >> example_menu0 [
 	themeSwitcher switchBarOffElement: ((ToLabel text: ('Light' asRopedText foreground: Color black)) ).
 	themeSwitcher 
 		when: ToCheckableCheckEvent 
-		do: [ :event | space toTheme: ( event current ifTrue: [ToBeeDarkTheme new] ifFalse: [ ToBeeLightTheme new]) ].
+		do: [ :event | space toTheme: ( event current ifTrue: [ToBeeTheme dark] ifFalse: [ ToBeeTheme light ]) ].
 	
 	themeSwitcher checked: true.
 	space root addChild: themeSwitcher.
@@ -2436,10 +2433,10 @@ ToSandBox class >> example_scaledImage [
 { #category : 'space' }
 ToSandBox class >> example_spaceRootSkin [
 
-	| space themeSwitcher |
+	| space  |
 	space := BlSpace new.
 	space inspect.
-	space toTheme: ToBeeDarkTheme new.
+	space toTheme: ToBeeTheme dark.
 "	themeSwitcher := ToToggleButton new
 		      labelText: 'Theme';
 		      beLabelFirst.
@@ -3359,7 +3356,6 @@ ToSandBox class >> group [
 ToSandBox class >> labeledIconlWithIconAndText [
 
 	| but  |
-	ToStyleSheetTheme cleanUp.
 	but := ToLabeledIcon new.
 	but label: (ToLabel text: 'Labeled icon').
 	but icon: (ToImage inner: (BlElement new

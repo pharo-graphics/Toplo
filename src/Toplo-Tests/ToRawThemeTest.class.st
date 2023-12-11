@@ -12,7 +12,7 @@ Class {
 { #category : 'tests' }
 ToRawThemeTest >> testName [
 	| theme |
-	theme := ToRawTheme new.
+	theme := ToRawTheme light.
 	theme name
 ]
 
@@ -20,7 +20,7 @@ ToRawThemeTest >> testName [
 ToRawThemeTest >> testNewRootSkinInstance [
 
 	| space e theme |
-	theme := ToRawTheme new.
+	theme := ToRawTheme light.
 	space := BlSpace new.
 	e := space root.
 	self assert: ((theme newSkinInstanceFor: e) isKindOf: ToRawSkin).
@@ -32,6 +32,6 @@ ToRawThemeTest >> testNewSkinInstanceFor [
 
 	| e |
 	e := BlElement new.
-	self assert: ((ToRawTheme new newSkinInstanceFor: e) isKindOf: ToRawSkin).
-	self assert: (ToRawTheme new newSkinInstanceFor: e) class identicalTo: e newRawSkin class
+	self assert: ((ToRawTheme light newSkinInstanceFor: e) isKindOf: ToRawSkin).
+	self assert: (ToRawTheme light newSkinInstanceFor: e) class identicalTo: e newRawSkin class
 ]

@@ -11,27 +11,54 @@ Class {
 { #category : 'private' }
 ToThemeExamples class >> createThemeMenuBar: aSpace [
 
-	| bar themeMenu inspectMenu  beeMenu |
-	bar := ToMenuBar new hMatchParent; vFitContent.
+	| bar themeMenu inspectMenu beeMenu rawMenu |
+	bar := ToMenuBar new
+		       hMatchParent;
+		       vFitContent.
 	bar addMenu: (themeMenu := ToMenu new labelText: 'Theme').
 	bar addMenu: (inspectMenu := ToMenu new labelText: 'Tools').
-	
-	"Theme menu"	
+
+	"Theme menu"
 	"Button to switch between light and dark theme"
 	themeMenu addItem: (beeMenu := ToMenu new labelText: 'Bee').
-	
-	beeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Switch to Light'); tooltipText: 'Change the current Bee Theme to Bee light Theme'; whenClickedDo: [ self switchTheme: (ToBeeLightTheme new) for: aSpace ]).
-	beeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Switch to Dark'); tooltipText: 'Change the current Bee Theme to Bee dark Theme'; whenClickedDo: [ self switchTheme: (ToBeeDarkTheme new) for: aSpace ]).
-	
-	themeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Raw'); whenClickedDo: [ self switchTheme: (ToRawTheme new) for: aSpace ]).
-	themeMenu addItem: (ToMenuItem new label: (ToLabel text: 'Randomize color'); tooltipText: 'Randomize the current bee theme primary color'; whenClickedDo: [ self randomizePrimaryColorFor: aSpace ]).
-	
+
+	beeMenu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'Switch to Light');
+			 whenClickedDo: [ self switchTheme: ToBeeTheme light for: aSpace ]).
+	beeMenu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'Switch to Dark');
+			 whenClickedDo: [ self switchTheme: ToBeeTheme dark for: aSpace ]).
+
+	themeMenu addItem: (rawMenu := ToMenu new labelText: 'Raw theme').
+	rawMenu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'Switch to Light');
+			 whenClickedDo: [ self switchTheme: ToRawTheme light for: aSpace ]).
+	rawMenu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'Switch to Dark');
+			 whenClickedDo: [ self switchTheme: ToRawTheme dark for: aSpace ]).
+			
+	themeMenu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'Randomize color');
+			 whenClickedDo: [ self randomizePrimaryColorFor: aSpace ]).
+
 	"Inspect menu"
-	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'Inspect Space'); tooltipText: 'Inspect the BlSpace'; whenClickedDo: [ self inspectSpace: aSpace ]).
-	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'Inspect Theme'); tooltipText: 'Inspect the current theme'; whenClickedDo: [ self inspectSpaceToTheme: aSpace ]).
-	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'CSS like Style Sheet'); tooltipText: 'Show the current style sheet source code'; whenClickedDo: [ self displaySpaceCSSLikeStyleSheet: aSpace ]).
-	inspectMenu addItem: (ToMenuItem new label: (ToLabel text: 'Style Sheet'); tooltipText: 'Show the current style sheet source code'; whenClickedDo: [ self displaySpaceStyleSheet: aSpace ]).
-	
+	inspectMenu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'Inspect Space');
+			 tooltipText: 'Inspect the BlSpace';
+			 whenClickedDo: [ self inspectSpace: aSpace ]).
+	inspectMenu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'Inspect Theme');
+			 tooltipText: 'Inspect the current theme';
+			 whenClickedDo: [ self inspectSpaceToTheme: aSpace ]).
+	inspectMenu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'CSS like Style Sheet');
+			 tooltipText: 'Show the current style sheet source code';
+			 whenClickedDo: [ self displaySpaceCSSLikeStyleSheet: aSpace ]).
+	inspectMenu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'Style Sheet');
+			 tooltipText: 'Show the current style sheet source code';
+			 whenClickedDo: [ self displaySpaceStyleSheet: aSpace ]).
+
 	^ bar
 ]
 
@@ -118,7 +145,7 @@ ToThemeExamples class >> example_ToLabelWithHeadingSkin [
 	| typeArr headingArr listElement themeSwitcher space |
 	ToTheme cleanUp.
 	space := BlSpace new.
-	space toTheme: ToBeeLightTheme new.
+	space toTheme: ToBeeTheme light.
 	space root layout: (BlLinearLayout vertical cellSpacing: 10).
 	themeSwitcher := ToCheckbox new
 		                 labelText: 'Dark Theme';
@@ -126,8 +153,8 @@ ToThemeExamples class >> example_ToLabelWithHeadingSkin [
 	themeSwitcher defaultSkin: ToCheckboxSkin new.
 	themeSwitcher when: ToCheckableChangedEvent do: [ :event |
 		space toTheme: (themeSwitcher isChecked
-				 ifTrue: [ ToBeeDarkTheme new ]
-				 ifFalse: [ ToBeeLightTheme new ]) ].
+				 ifTrue: [ ToBeeTheme dark ]
+				 ifFalse: [ ToBeeTheme light ]) ].
 
 	space root addChild: themeSwitcher.
 
@@ -177,7 +204,7 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	pane layout cellSpacing: 5.
 	pane border: Color lightGray.
 	"pane localToTheme: ToRawTheme new."
-	space toTheme: ToBeeLightTheme new.
+	space toTheme: ToBeeTheme light.
 
 	disachb := ToCheckbox new label: (ToLabel text: 'Disable all buttons').
 	disachb defaultSkin: ToCheckboxSkin new.
@@ -309,9 +336,8 @@ ToThemeExamples class >> example_buttons [
 ToThemeExamples class >> example_oneButton [
 
 	| space defaultButton |
-	ToTheme cleanUp.
 	space := BlSpace new.
-	space toTheme: ToBeeLightTheme new.
+	space toTheme: ToBeeTheme light.
 	defaultButton := ToButton new.
 	"defaultButton when: ToElementLookEvent do: [ :evt | evt traceCr ]."
 	defaultButton addStamp: #'primary'.
@@ -353,7 +379,7 @@ ToThemeExamples class >> openThemeExampleSpace [
 	space root addChild: (ToElement id: #themeSandBox).
 
 	"Configure default Theme"
-	space toTheme: ToBeeLightTheme new.
+	space toTheme: ToBeeTheme light.
 
 	space position: 100 @ 100.
 	space show.

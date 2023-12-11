@@ -15,7 +15,7 @@ ToStyleSheetThemeTest >> testApplicableRulesFor [
 	| e space theme |
 	e := BlElement new.
 	space := BlSpace new.
-	theme := ToStyleSheetThemeForTest new.
+	theme := ToStyleSheetThemeForTest light.
 	space toTheme: theme.
 	
 	space root addChild: e.
@@ -29,7 +29,7 @@ ToStyleSheetThemeTest >> testApplicableWritersFor [
 	| e space theme |
 	e := BlElement new.
 	space := BlSpace new.
-	theme := ToStyleSheetThemeForTest new.
+	theme := ToStyleSheetThemeForTest light.
 	space toTheme: theme.
 	
 	space root addChild: e.
@@ -42,7 +42,7 @@ ToStyleSheetThemeTest >> testDefaultElementStampsFor [
 
 	| e theme skin |
 	e := BlElement new.
-	theme := ToStyleSheetThemeForTest new.
+	theme := ToStyleSheetThemeForTest light.
 	self assert: (theme defaultElementStampsFor: e) equals: { #'element' }.
 	skin := theme newSkinFor: e.
 	self assert: (skin isKindOf: ToStyleSheetSkin).
@@ -54,7 +54,7 @@ ToStyleSheetThemeTest >> testNewSkinInstanceFor [
 
 	| e theme skin |
 	e := BlElement new.
-	theme := ToStyleSheetThemeForTest new.
+	theme := ToStyleSheetThemeForTest light.
 	skin := theme newSkinInstanceFor: e.
 	self assert: (skin isKindOf: ToStyleSheetSkin)
 ]
@@ -65,7 +65,7 @@ ToStyleSheetThemeTest >> testRawApplicableWritersFor [
 	| e space theme |
 	e := BlElement new.
 	space := BlSpace new.
-	theme := ToStyleSheetThemeForTest new.
+	theme := ToStyleSheetThemeForTest light.
 	space toTheme: theme.
 	
 	space root addChild: e.
@@ -78,7 +78,7 @@ ToStyleSheetThemeTest >> testRootRulesFor [
 	| e space theme |
 	e := BlElement new.
 	space := BlSpace new.
-	theme := ToStyleSheetThemeForTest new.
+	theme := ToStyleSheetThemeForTest light.
 	space toTheme: theme.
 	
 	space root addChild: e.
@@ -91,7 +91,7 @@ ToStyleSheetThemeTest >> testSetUpElement [
 
 	| e theme skin |
 	e := BlElement new.
-	theme := ToStyleSheetThemeForTest new.
+	theme := ToStyleSheetThemeForTest light.
 	self assert: (theme defaultElementStampsFor: e) equals: { #element }.
 	skin := theme newSkinInstanceFor: e.
 	self assert: (skin isKindOf: ToStyleSheetSkin).
@@ -105,7 +105,7 @@ ToStyleSheetThemeTest >> testSkinClassFor [
 
 	| e theme skinCls |
 	e := BlElement new.
-	theme := ToStyleSheetThemeForTest new.
+	theme := ToStyleSheetThemeForTest light.
 	skinCls := theme skinClassFor: e.
 	self assert: skinCls identicalTo: ToStyleSheetSkin 
 ]

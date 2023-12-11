@@ -7,9 +7,9 @@ Class {
 }
 
 { #category : 'accessing' }
-ToThemeForStyleRuleTest >> name [
+ToThemeForStyleRuleTest class >> label [ 
 
-	^ 'A theme for style rules testing'
+	^ 'A theme class for tests'
 ]
 
 { #category : 'accessing' }

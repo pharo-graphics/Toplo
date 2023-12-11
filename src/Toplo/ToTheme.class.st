@@ -1,31 +1,24 @@
 Class {
 	#name : 'ToTheme',
 	#superclass : 'Object',
-	#classInstVars : [
-		'current'
+	#instVars : [
+		'variant'
 	],
 	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
 	#tag : 'Core-Theme'
 }
 
-{ #category : 'cleanup' }
-ToTheme class >> cleanUp [
-	<script>
+{ #category : 'testing' }
+ToTheme class >> canBeDefault [
 
-	current := nil
+	^ false
 ]
 
-{ #category : 'cleanup' }
-ToTheme class >> cleanUp: anObject [
+{ #category : 'instance creation' }
+ToTheme class >> dark [
 
-	self cleanUp
-]
-
-{ #category : 'current' }
-ToTheme class >> current [
-
-	^ current ifNil: [ current := ToRawTheme new ]
+	^ self variant: ToThemeDarkVariant new
 ]
 
 { #category : 'accessing' }
@@ -213,21 +206,40 @@ ToTheme class >> defaultTokenProperties [
 			   value: self defaultColorPrimary) }
 ]
 
-{ #category : 'initialization' }
+{ #category : 'accessing' }
+ToTheme class >> label [
+
+	^ 'Unsupported abstract theme'
+]
+
+{ #category : 'instance creation' }
+ToTheme class >> light [
+
+	^ self variant: ToThemeLightVariant new
+]
+
+{ #category : 'instance creation' }
+ToTheme class >> new [
+
+	self error: 'Use one of the builder methods'
+]
+
+{ #category : 'instance creation' }
+ToTheme class >> variant: aThemeVariant [
+
+	^ self basicNew initialize variant: aThemeVariant
+]
+
+{ #category : 'accessing' }
 ToTheme >> defaultTokenProperties [
+
 	^ self class defaultTokenProperties
 ]
 
 { #category : 'accessing' }
 ToTheme >> name [
 
-	^ self subclassResponsibility 
-]
-
-{ #category : 'styling' }
-ToTheme >> newRootStyleSheet [ 
-
-	^ nil
+	^ self class label, ' - ', self variant class label
 ]
 
 { #category : 'accessing' }
@@ -243,13 +255,42 @@ ToTheme >> newSkinInstanceFor: anElement [
 	^ self subclassResponsibility 
 ]
 
+{ #category : 'space configurating' }
+ToTheme >> onInstalledIn: aSpace [
+
+	aSpace root addAllTokenProperties: self defaultTokenProperties.
+	self variant onInstalledIn: aSpace
+]
+
 { #category : 'printing' }
 ToTheme >> printOn: aStream [
 
-	aStream nextPutAll: '[Theme named: '; nextPutAll: self name; nextPutAll: ' ]'.
-	super printOn: aStream
+	super printOn: aStream.
+	aStream
+		nextPutAll: ' [ ';
+		nextPutAll: self name;
+		nextPutAll: ' ]'
 ]
 
 { #category : 'hook' }
 ToTheme >> setUpElement: anElement [
+]
+
+{ #category : 'styling' }
+ToTheme >> styleSheet [ 
+
+	^ nil
+]
+
+{ #category : 'accessing' }
+ToTheme >> variant [
+
+	^ variant
+]
+
+{ #category : 'accessing' }
+ToTheme >> variant: aThemeVariant [
+
+	variant ifNotNil: [ (BlImmutableObjectChangeError object: self) signal ].
+	variant := aThemeVariant
 ]

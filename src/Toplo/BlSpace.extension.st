@@ -36,7 +36,7 @@ BlSpace >> checkSkinPhases [
 { #category : '*Toplo' }
 BlSpace >> renewRootStyleSheet [
 
-	self root styleSheet: self toTheme newRootStyleSheet
+	self root styleSheet: self toTheme styleSheet
 ]
 
 { #category : '*Toplo' }
@@ -66,14 +66,14 @@ BlSpace >> stopSkinPhases [
 { #category : '*Toplo-LookAndFeel' }
 BlSpace >> toTheme [
 
-	^ self userData at: #toTheme ifAbsent: [ self toTheme: ToTheme current. self toTheme ]
+	^ self userData at: #toTheme ifAbsent: [  self toTheme: Toplo newDefaultThemeInstance. self toTheme ]
 ]
 
 { #category : '*Toplo-LookAndFeel' }
 BlSpace >> toTheme: aTheme [
 
 	self userData at: #toTheme put: aTheme.
-	self root addAllTokenProperties: aTheme defaultTokenProperties.
+	aTheme onInstalledIn:  self.
 	self root toThemeChanged
 ]
 

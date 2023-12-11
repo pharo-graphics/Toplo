@@ -234,7 +234,7 @@ ToSkinManagerTest >> testIsSetUpForTheme [
 	| e theme skin |
 	e := BlElement new.
 	space := BlSpace new.
-	theme := ToRawTheme new.
+	theme := ToRawTheme light.
 	self deny: (e skinManager isSetUpForTheme: theme).
 	self assert: e skinManager themeClasses isEmpty.
 	self assert: ((theme newSkinFor: e) isKindOf: ToRawSkin).
@@ -291,7 +291,7 @@ ToSkinManagerTest >> testRegisterTheme [
 	e := BlElement new.
 	self assert: e skinManager themeClasses notNil.
 	self assert: e skinManager themeClasses isEmpty.
-	e skinManager registerTheme: ToRawTheme new.
+	e skinManager registerTheme: ToRawTheme light.
 	self assert: e skinManager themeClasses size equals: 1.
 	self assert: e skinManager themeClasses anyOne = ToRawTheme
 ]
@@ -533,13 +533,13 @@ ToSkinManagerTest >> testSetUpForThemeIn [
 	e := BlElement new.
 	self assert: e skinManager themeClasses notNil.
 	self assert: e skinManager themeClasses isEmpty.
-	theme := ToRawTheme new.
+	theme := ToRawTheme light.
 	self deny: (e skinManager isSetUpForTheme: theme).
 	e skinManager setUpForTheme: theme in: e.
 	self assert: (e skinManager isSetUpForTheme: theme).
 	self assert: e skinManager themeClasses size equals: 1.
 	self assert: e skinManager themeClasses anyOne = ToRawTheme.
-	e skinManager setUpForTheme: ToRawTheme new in: e.
+	e skinManager setUpForTheme: ToRawTheme light in: e.
 	self assert: e skinManager themeClasses size equals: 1.
 	self assert: e skinManager themeClasses anyOne = ToRawTheme.
 
@@ -553,7 +553,7 @@ ToSkinManagerTest >> testSetUpForThemeIn2 [
 	space := BlSpace new.
 	self assert: e skinManager themeClasses notNil.
 	self assert: e skinManager themeClasses isEmpty.
-	theme := ToRawTheme new.
+	theme := ToRawTheme light.
 	space root addChild: e.
 	skin := theme newSkinFor: e.
 	self assert: e skinManager themeClasses size equals: 1.
@@ -685,23 +685,23 @@ ToSkinManagerTest >> testStyleSheetChainIn [
 	self assert:
 		(childchildchild skinManager styleSheetChainIn: childchildchild)
 			isEmpty.
-	space toTheme: ToStyleSheetTheme new.
-	" no style sheet in theme "
+	space toTheme: ToStyleSheetTheme light.
+	" one style sheet in theme by default "
 	self assert:
 		(childchildchild skinManager styleSheetChainIn: childchildchild)
-			isEmpty.
+			size equals: 1.
 	childchild styleSheet: ToStyleSheet new.
 	self
 		assert:
 		(childchildchild skinManager styleSheetChainIn: childchildchild)
 			size
-		equals: 1.
+		equals: 2.
 	e styleSheet: ToStyleSheet new.
 	self
 		assert:
 		(childchildchild skinManager styleSheetChainIn: childchildchild)
 			size
-		equals: 2.
+		equals: 3.
 	childchild skinManager styleSheet inherits: false.
 	self
 		assert:
@@ -734,7 +734,7 @@ ToSkinManagerTest >> testThemeClasses [
 	e := BlElement new.
 	self assert: e skinManager themeClasses notNil.
 	self assert: e skinManager themeClasses isEmpty.
-	e skinManager setUpForTheme: ToRawTheme new in: e.
+	e skinManager setUpForTheme: ToRawTheme light in: e.
 	self assert: e skinManager themeClasses size equals: 1.
 	self assert: e skinManager themeClasses anyOne = ToRawTheme
 ]

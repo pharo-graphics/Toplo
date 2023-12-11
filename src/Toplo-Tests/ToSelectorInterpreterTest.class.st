@@ -22,7 +22,7 @@ ToSelectorInterpreterTest >> testPush [
 	self assert: engine result.
 	self assert: e themeForSetup isNil.
 	
-	theme := ToThemeForStyleRuleTest new.
+	theme := ToThemeForStyleRuleTest light.
 	engine theme: theme.
 	engine check: selector on: e.
 	self assert: engine result.
@@ -51,7 +51,7 @@ ToSelectorInterpreterTest >> testTheme [
 	| engine  th |
 	engine := ToSelectorInterpreter new.
 	self assert: engine theme isNil.
-	engine theme: (th := ToTheme new).
+	engine theme: (th := Toplo newDefaultThemeInstance ).
 	self assert: engine theme identicalTo: th
 
 ]
@@ -65,7 +65,7 @@ ToSelectorInterpreterTest >> testThemeDo [
 	self assert: engine theme isNil.
 	engine themeDo: [ :th | wentHere := true ].
 	self deny: wentHere.
-	engine theme: (ToTheme new).
+	engine theme: Toplo newDefaultThemeInstance.
 	engine themeDo: [ :th | wentHere := true ].
 	self assert: wentHere.
 

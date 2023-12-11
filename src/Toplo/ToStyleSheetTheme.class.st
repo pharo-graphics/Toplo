@@ -1,10 +1,21 @@
 Class {
 	#name : 'ToStyleSheetTheme',
 	#superclass : 'ToTheme',
+	#traits : 'TToStyleSheetScripter',
+	#classTraits : 'TToStyleSheetScripter classTrait',
+	#instVars : [
+		'styleSheet'
+	],
 	#category : 'Toplo-Core-Theme',
 	#package : 'Toplo',
 	#tag : 'Core-Theme'
 }
+
+{ #category : 'testing' }
+ToStyleSheetTheme class >> canBeDefault [
+
+	^ false
+]
 
 { #category : 'css like printing' }
 ToStyleSheetTheme >> applicableRulesFor: anElement [
@@ -60,10 +71,16 @@ ToStyleSheetTheme >> defaultElementStampsFor: anElement [
 	^ { }
 ]
 
-{ #category : 'accessing' }
-ToStyleSheetTheme >> name [
+{ #category : 'initialization' }
+ToStyleSheetTheme >> initialize [ 
 
-	^ #'StyleSheetTheme'
+	super initialize.
+	styleSheet := ToStyleSheet new.
+	self initializeStyleRules
+]
+
+{ #category : 'initialization' }
+ToStyleSheetTheme >> initializeStyleRules [
 ]
 
 { #category : 'accessing' }
@@ -74,6 +91,18 @@ ToStyleSheetTheme >> newSkinInstanceFor: anElement [
 	(self applicableWritersFor: anElement) ifNotEmpty: [ :writers |
 		skin propertyWriters: writers ].
 	^ skin
+]
+
+{ #category : 'accessing - writable properties' }
+ToStyleSheetTheme >> property: aSymbol [
+
+	^ self styleSheet writablePropertyNamed: aSymbol
+]
+
+{ #category : 't - stylesheet scripter' }
+ToStyleSheetTheme >> propertyWritersHolder [ 
+
+	^ self styleSheet script
 ]
 
 { #category : 'styling' }
@@ -103,4 +132,10 @@ ToStyleSheetTheme >> setUpElement: anElement [
 ToStyleSheetTheme >> skinClassFor: anElement [
 
 	^ ToStyleSheetSkin
+]
+
+{ #category : 'accessing' }
+ToStyleSheetTheme >> styleSheet [
+
+	^ styleSheet
 ]

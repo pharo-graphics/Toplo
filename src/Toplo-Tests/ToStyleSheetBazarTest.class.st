@@ -34,7 +34,7 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 		e textChanged ].
 
 
-	styleSheet script select: ((ToStampSelector new addStamp: #'button-label')
+	styleSheet select: ((ToStampSelector new addStamp: #'button-label')
 			  withParent:
 			  (ToStampSelector new addAllStamps: #( #button #danger ))
 			  atDepth: 3)
@@ -95,14 +95,14 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 { #category : 'tests' }
 ToStyleSheetBazarTest >> testButtonSkin0 [
 
-	| styleSheet button skin labelSkin attributes foregroundAttr writers label theme nb script |
+	| styleSheet button skin labelSkin attributes foregroundAttr writers label theme nb  |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
 	theme := ToStyleSheetTheme new.
 
 	" default button rule "
-	styleSheet script
+	styleSheet 
 		select: (ToStampSelector new addStamp: #button)
 		style: [ :sr |
 			| p |
@@ -228,7 +228,7 @@ ToStyleSheetBazarTest >> testButtonSkinWithInterspace [
 		              inherits: false;
 		              yourself.
 
-	styleSheet script
+	styleSheet 
 		select: (ToStampSelector new addStamp: #button)
 			|| (ToStampSelector new addAllStamps: #( #button #horizontal ))
 		style: [ :sr |
@@ -270,7 +270,7 @@ ToStyleSheetBazarTest >> testSkinWithAnUniversalRule [
 		              yourself.
 	theme := ToStyleSheetTheme new.
 
-	styleSheet script select: ToUniversalSelector new style: [ :sr |
+	styleSheet select: ToUniversalSelector new style: [ :sr |
 		sr
 			when: ToInstallLookEvent
 			write: (ToFeatureProperty new name: #background)
@@ -299,7 +299,7 @@ ToStyleSheetBazarTest >> testSkinWithChildRule [
 
 	theme := ToStyleSheetTheme new.
 
-	styleSheet script
+	styleSheet 
 		select: ((ToIdSelector new id: #child) withParent:
 				 (ToStampSelector new addStamp: #parent))
 		style: [ :sr |
@@ -343,7 +343,7 @@ ToStyleSheetBazarTest >> testSkinWithChildRule2 [
 
 	theme := ToStyleSheetTheme new.
 
-	styleSheet script
+	styleSheet 
 		select: ((ToIdSelector new id: #child)
 				 withParent: (ToStampSelector new addStamp: #parent)
 				 atDepth: 2)
@@ -387,7 +387,7 @@ ToStyleSheetBazarTest >> testSkinWithIdRule [
 
 	theme := ToStyleSheetTheme new.
 
-	styleSheet script select: (ToIdSelector new id: #a) style: [ :sr |
+	styleSheet  select: (ToIdSelector new id: #a) style: [ :sr |
 		sr
 			write: (ToFeatureProperty new name: #border)
 			with: (BlBorder paint: Color red width: 3) ].
@@ -413,15 +413,14 @@ ToStyleSheetBazarTest >> testSkinWithIdRule [
 { #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyle0 [
 
-	| button skin writers styleSheet theme script |
+	| button skin writers styleSheet theme |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
 
 	theme := ToStyleSheetTheme new.
 
-	script := ToStyleScript new.
-	styleSheet script select: #button asStampSelector style: [ :sr |
+	styleSheet select: #button asStampSelector style: [ :sr |
 		sr write: (styleSheet property: #background) with: Color white.
 		sr
 			when: ToInstallLookEvent
@@ -458,7 +457,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 
 	theme := ToStyleSheetTheme new.
 
-	styleSheet script select: #button asStampSelector style: [ :sr |
+	styleSheet select: #button asStampSelector style: [ :sr |
 		sr select: #danger asStampSelector style: [
 			sr write: (styleSheet property: #background) with: Color red.
 			sr
@@ -528,7 +527,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules1 [
 
 	child styleSheet: styleSheet.
 	" default button rule "
-	styleSheet script select: #child asStampSelector style: [ :sr |
+	styleSheet select: #child asStampSelector style: [ :sr |
 		sr select: sr any style: [
 			sr
 				write: (styleSheet property: #background)
@@ -579,7 +578,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules2 [
 
 
 	" default button rule "
-	styleSheet script
+	styleSheet 
 		select: (#child asStampSelector withParent: #elem asStampSelector)
 		style: [ :sr |
 			sr select: sr any style: [
@@ -630,7 +629,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules22 [
 
 
 	" default button rule "
-	styleSheet script
+	styleSheet 
 		select: (#child asStampSelector withParent: #elem asStampSelector)
 		style: [ :sr |
 			sr select: (sr withParent: #red asStampSelector) style: [
@@ -661,7 +660,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules22 [
 { #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules3 [
 
-	| elem child childchild1 childchild2 skin writers rules styleSheet theme  |
+	| elem child childchild1 childchild2 skin writers  styleSheet theme  |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -680,7 +679,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules3 [
 	child addChild: childchild2.
 
 	" default button rule "
-	styleSheet script
+	styleSheet 
 		select: (#child asStampSelector withParent:
 				 ((#( #elem #red ) asStampSelector
 					   withChild: #childchild1 asStampSelector
@@ -730,7 +729,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules32 [
 	child addChild: childchild1.
 	child addChild: childchild2.
 	
-	styleSheet script
+	styleSheet 
 		select: (#child asStampSelector withParent: #elem asStampSelector) style: [ :sr |
 		          sr
 			          select:
@@ -782,7 +781,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules33 [
 	child addChild: childchild1.
 	child addChild: childchild2.
 
-	styleSheet script
+	styleSheet 
 		select: (#child asStampSelector withParent: #elem asStampSelector)
 		style: [ :sr |
 			sr
@@ -834,7 +833,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules1 [
 	child addChild: childchild2.
 
 	" default button rule "
-	styleSheet script select: #child asStampSelector style: [ :sr |
+	styleSheet  select: #child asStampSelector style: [ :sr |
 		sr
 			write: (styleSheet property: #background)
 			with: [ :e | Color red ] ].
@@ -873,7 +872,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules2 [
 	child addChild: childchild2.
 
 	" default button rule "
-	styleSheet script select: (#child asStampSelector withParent: #elem asStampSelector) style: [ :sr |
+	styleSheet  select: (#child asStampSelector withParent: #elem asStampSelector) style: [ :sr |
 		          sr
 			          write: (styleSheet property: #background)
 			          with: [ :e | Color red ] ].
@@ -913,7 +912,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules3 [
 	child addChild: childchild2.
 
 	" default button rule "
-	styleSheet script
+	styleSheet 
 		select: (#child asStampSelector withParent:
 				 ((#( #elem #red ) asStampSelector
 					   withChild: #childchild1 asStampSelector
@@ -957,7 +956,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 	child addChild: childchild1.
 	child addChild: childchild2.
 
-	styleSheet script
+	styleSheet 
 		select: (#child asStampSelector withParent:
 				 ((#( #elem #red ) asStampSelector
 					   withChild: #childchild1 asStampSelector

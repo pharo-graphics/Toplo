@@ -8,6 +8,7 @@ Class {
 { #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> buttonRules [
 	<script:'(ToStyleSheetCSSLikePrinter styleRules: (self new buttonRules)) asCSSLikeString inspect'>
+	self deprecated: 'Not used anymore. see #initializeStyleRules'.
 
 	^ Array streamContents: [ :str |
 		
@@ -29,18 +30,6 @@ ToBeeStyleSheet >> buttonRules [
 		"str nextPutAll: self toggleButtonRules" ]
 ]
 
-{ #category : 'rules declaring - button' }
-ToBeeStyleSheet >> buttonScript: aStyleScript [
-	
-	self labeledIconInButtonScript: aStyleScript.
-	self commonButtonScript: aStyleScript.
-	self defaultButtonScript: aStyleScript.
-	self primaryButtonScript: aStyleScript
-	
-
-	
-]
-
 { #category : 'syntactic sugar' }
 ToBeeStyleSheet >> buttonSelector [
 
@@ -50,6 +39,7 @@ ToBeeStyleSheet >> buttonSelector [
 { #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> checkableButtonRules [
 	" checkbox family "
+	self deprecated: 'Not used anymore. see #initializeStyleRules'.
 
 	^ {
 		  (#( #button #checkable ) asStampSelector style: [ :sr |
@@ -181,6 +171,7 @@ ToBeeStyleSheet >> checkableButtonRules [
 { #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> checkableInnerImageRules [
 	" checkbox family "
+	self deprecated: 'Not used anymore. see #initializeStyleRules'.
 
 	^ {
 		  ((#( #'inner-image' ) asStampSelector
@@ -297,6 +288,7 @@ ToBeeStyleSheet >> checkableInnerImageRules [
 { #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> circleButtonRules [
 
+	self deprecated: 'Not used anymore. see #initializeStyleRules'.
 
 	^ {
 
@@ -347,6 +339,8 @@ ToBeeStyleSheet >> commonButtonRules [
 
 	<script:
 	'(ToStyleSheetCSSLikePrinter styleRules: (self new commonButtonRules)) asCSSLikeString inspect'>
+	self deprecated: 'Not used anymore. see #initializeStyleRules'.
+
 	^ {
 		  (self buttonSelector style: [ :sr | "Mouse cursor management"
 			   sr
@@ -397,6 +391,8 @@ ToBeeStyleSheet >> commonButtonRulesNew [
 
 	<script:
 	'(ToStyleSheetCSSLikePrinter styleRules: (self new commonButtonRulesOld)) asCSSLikeString inspect'>
+	self deprecated: 'Not used anymore. see #initializeStyleRules'.
+
 	^ {
 		  (#button asStampSelector style: [ :sr |
 			   sr
@@ -496,6 +492,8 @@ ToBeeStyleSheet >> commonButtonRulesOld [
 
 	<script:
 	'(ToStyleSheetCSSLikePrinter styleRules: (self new commonButtonRulesOld)) asCSSLikeString inspect'>
+	self deprecated: 'Not used anymore. see #initializeStyleRules'.
+
 	^ {
 		  (#button asStampSelector style: [ :sr |
 			   sr
@@ -641,55 +639,438 @@ ToBeeStyleSheet >> commonButtonRulesOld [
 ]
 
 { #category : 'rules declaring - button' }
-ToBeeStyleSheet >> commonButtonScript: aStyleScript [
+ToBeeStyleSheet >> declareButtonRules [
+	
+	self declareLabeledIconInButtonRules.
+	self declareCommonButtonRules.
+	self declareDefaultButtonRules.
+	self declarePrimaryButtonRules.
+	
 
-	aStyleScript select: self buttonSelector style: [ :scr |
-		scr
+	
+]
+
+{ #category : 'rules declaring - button' }
+ToBeeStyleSheet >> declareCommonButtonRules [
+
+	self select: self buttonSelector style: [
+		self
 			when: ToHoveredLookEvent
 			write: (self property: #mouseCursor)
 			with: [ :e |
 				e isEnabled
 					ifTrue: [ BlCursor hand ]
 					ifFalse: [  ] ].
-		scr
+		self
 			when: ToLeavedLookEvent
 			write: (self property: #mouseCursor)
 			with: nil.
 
-		scr select: #vertical asStampSelector not style: [
-			scr write: (self property: #padding) with: [ :e |
+		self select: #vertical asStampSelector not style: [
+			self write: (self property: #padding) with: [ :e |
 				BlInsets
 					top: (e tokenValueNamed: #'padding-XS') / 2
 					left: (e tokenValueNamed: #'padding-content-H') / 2
 					bottom: (e tokenValueNamed: #'padding-XS') / 2
 					right: (e tokenValueNamed: #'padding-content-H') / 2 ].
 
-			scr select: self haveExactHeight not style: [
-				scr
+			self select: self haveExactHeight not style: [
+				self
 					write: (self property: #height)
 					with: [ :e | e tokenValueNamed: #'control-height' ] ].
 
-			scr select: #'large-sizing' asStampSelector style: [
-				scr
+			self select: #'large-sizing' asStampSelector style: [
+				self
 					write: (self property: #height)
 					with: [ :e | e tokenValueNamed: #'control-height-LG' ] ].
 
-			scr select: #'small-sizing' asStampSelector style: [
-				scr
+			self select: #'small-sizing' asStampSelector style: [
+				self
 					write: (self property: #height)
 					with: [ :e | e tokenValueNamed: #'control-height-SM' ] ] ].
 
 		" non circular button corner radius"
-		scr select: #circle asStampSelector not style: [
-			scr write: (self property: #geometry) with: [ :e |
+		self select: #circle asStampSelector not style: [
+			self write: (self property: #geometry) with: [ :e |
 				BlRoundedRectangleGeometry cornerRadius:
 					(e tokenValueNamed: 'border-radius') ].
 
-			scr select: #round asStampSelector style: [
-				scr
+			self select: #round asStampSelector style: [
+				self
 					write: (self property: #geometry)
 					with: [ :e |
 					BlRoundedRectangleGeometry cornerRadius: e requestedHeight ] ] ] ]
+]
+
+{ #category : 'rules declaring - button' }
+ToBeeStyleSheet >> declareDefaultButtonRules [
+
+	| borderColorAnim borderEffectAnim |
+	borderColorAnim := ToPropertyBorderColorTransitionAnimation new
+		                   duration: 500 milliSeconds.
+	borderEffectAnim := ToPropertyBorderEffectTransitionAnimation new
+		                    duration: 350 milliSeconds.
+
+	"Button background and border"
+	self
+		select: self buttonSelector
+		style: [  "Background"
+			self
+				when: ToInstallLookEvent
+				write: (self property: #'background-color')
+				with: [ :e | e tokenValueNamed: #'color-bg-container' ].
+			self
+				when: ToDisabledLookEvent
+				write: (self property: #'background-color')
+				with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ].
+
+			"Border"
+			self select: #primary asStampSelector not style: [
+				self
+					when: ToInstallLookEvent
+					write: (self property: #border)
+					with: [ :e |
+						BlBorder
+							paint: (e tokenValueNamed: #'color-border')
+							width: (e tokenValueNamed: #'line-width') ].
+				self
+					when: ToLeavedLookEvent
+					write: (self property: #border)
+					with: [ :e |
+						BlBorder
+							paint: (e tokenValueNamed: #'color-border')
+							width: (e tokenValueNamed: #'line-width') ]
+					animation: borderColorAnim.
+				self
+					when: ToDisabledLookEvent
+					write: (self property: #border)
+					with: [ :e |
+						BlBorder
+							paint: (e tokenValueNamed: #'color-border-disabled')
+							width: (e tokenValueNamed: #'line-width') ].
+				self
+					when: ToHoveredLookEvent
+					write: (self property: #border)
+					with: [ :e |
+						BlBorder
+							paint: (e tokenValueNamed: #'color-primary-hover')
+							width: (e tokenValueNamed: #'line-width') ]
+					animation: borderColorAnim.
+				self
+					when: ToClickedLookEvent
+					write: (self property: #border)
+					with: [ :e |
+						BlBorder
+							paint: (e tokenValueNamed: #'color-primary-hover')
+							width: (e tokenValueNamed: #'line-width') ]
+					animation: borderEffectAnim.
+				self
+					when: ToPressedLookEvent
+					write: (self property: #border)
+					with: [ :e |
+						BlBorder
+							paint: (e tokenValueNamed: #'color-primary-pressed')
+							width: (e tokenValueNamed: #'line-width') ] ].
+
+			"Label"
+			self
+				when: ToInstallLookEvent
+				write: (self property: #'button-label-text-foreground')
+				with: [ :e | e tokenValueNamed: #'color-text' ].
+			self
+				when: ToLeavedLookEvent
+				write: (self property: #'button-label-text-foreground')
+				with: [ :e | e tokenValueNamed: #'color-text' ].
+			self
+				when: ToDisabledLookEvent
+				write: (self property: #'button-label-text-foreground')
+				with: [ :e | e tokenValueNamed: #'color-text-disabled' ].
+			self
+				when: ToHoveredLookEvent
+				write: (self property: #'button-label-text-foreground')
+				with: [ :e | e tokenValueNamed: #'color-primary' ].
+			self
+				when: ToPressedLookEvent
+				write: (self property: #'button-label-text-foreground')
+				with: [ :e | e tokenValueNamed: #'color-primary-pressed' ].
+
+			self select: #( #dashed ) asStampSelector style: [
+				self
+					when: ToInstallLookEvent
+					supplement: (self property: #'border-with-builder')
+					with: [ :e |
+					e borderBuilder dashArray: (e tokenValueNamed: #'dash-array') ] ] ]
+]
+
+{ #category : 'rules declaring - label' }
+ToBeeStyleSheet >> declareLabelRules [
+	" label  rules"
+
+	self
+		select: ToLabel asTypeSelector
+		style: [ 
+			self
+				write: (self property: #'text-attributes-with-builder')
+				with: [ :e |
+					e textAttributesBuilder
+						weight: (e tokenValueNamed: #'font-weight-strong');
+						defaultFontName: (e tokenValueNamed: #'font-family-code');
+						defaultFontSize: (e tokenValueNamed: #'font-size');
+						lineSpacing: (e tokenValueNamed: #'line-height');
+						yourself ].
+
+			self
+				when: ToDisabledLookEvent
+				write: (self property: #'text-attributes-with-builder')
+				with: [ :e |
+					e textAttributesBuilder foreground:
+						(e tokenValueNamed: #'color-text-disabled') ].
+
+			self select: #H1 asStampSelector style: [
+				self
+					supplement: (self property: #'text-attributes-with-builder')
+					with: [ :e |
+						e textAttributesBuilder
+							defaultFontSize: (e tokenValueNamed: #'font-size-H1');
+							lineSpacing: (e tokenValueNamed: #'line-height-H1');
+							yourself ] ].
+
+			self select: #H2 asStampSelector style: [
+				self
+					supplement: (self property: #'text-attributes-with-builder')
+					with: [ :e |
+						e textAttributesBuilder
+							defaultFontSize: (e tokenValueNamed: #'font-size-H2');
+							lineSpacing: (e tokenValueNamed: #'line-height-H2');
+							yourself ] ].
+
+			self select: #H3 asStampSelector style: [
+				self
+					supplement: (self property: #'text-attributes-with-builder')
+					with: [ :e |
+						e textAttributesBuilder
+							defaultFontSize: (e tokenValueNamed: #'font-size-H3');
+							lineSpacing: (e tokenValueNamed: #'line-height-H3');
+							yourself ] ].
+
+			self select: #H4 asStampSelector style: [
+				self
+					supplement: (self property: #'text-attributes-with-builder')
+					with: [ :e |
+						e textAttributesBuilder
+							defaultFontSize: (e tokenValueNamed: #'font-size-H4');
+							lineSpacing: (e tokenValueNamed: #'line-height-H4');
+							yourself ] ].
+
+			self select: #H5 asStampSelector style: [
+				self
+					supplement: (self property: #'text-attributes-with-builder')
+					with: [ :e |
+						e textAttributesBuilder
+							defaultFontSize: (e tokenValueNamed: #'font-size-H5');
+							lineSpacing: (e tokenValueNamed: #'line-height-H5');
+							yourself ] ].
+
+			self select: #default asStampSelector style: [
+				self
+					supplement: (self property: #'text-attributes-with-builder')
+					with: [ :e |
+						e textAttributesBuilder
+							foreground: (e tokenValueNamed: #'color-text');
+							yourself ] ].
+
+			self select: #danger asStampSelector style: [
+				self
+					supplement: (self property: #'text-attributes-with-builder')
+					with: [ :e |
+						e textAttributesBuilder
+							foreground: (e tokenValueNamed: #'color-error');
+							yourself ] ].
+
+			self select: #link asStampSelector style: [
+				self
+					supplement: (self property: #'text-attributes-with-builder')
+					with: [ :e |
+						e textAttributesBuilder
+							foreground: (e tokenValueNamed: #'color-link');
+							yourself ] ].
+
+			self select: #primary asStampSelector style: [
+				self
+					supplement: (self property: #'text-attributes-with-builder')
+					with: [ :e |
+						e textAttributesBuilder
+							foreground: (e tokenValueNamed: #'color-text-light-solid');
+							yourself ] ].
+
+			self select: #secondary asStampSelector style: [
+				self
+					supplement: (self property: #'text-attributes-with-builder')
+					with: [ :e |
+						e textAttributesBuilder
+							foreground: (e tokenValueNamed: #'color-text-secondary');
+							yourself ] ].
+
+			self select: #success asStampSelector style: [
+				self
+					supplement: (self property: #'text-attributes-with-builder')
+					with: [ :e |
+						e textAttributesBuilder
+							foreground: (e tokenValueNamed: #'color-success');
+							yourself ] ].
+
+			self select: #warning asStampSelector style: [
+				self
+					supplement: (self property: #'text-attributes-with-builder')
+					with: [ :e |
+						e textAttributesBuilder
+							foreground: (e tokenValueNamed: #'color-warning');
+							yourself ] ] ]
+]
+
+{ #category : 'rules declaring - button' }
+ToBeeStyleSheet >> declareLabeledIconInButtonRules [
+
+	self
+		select:
+		(#'labeled-icon' asStampSelector withParent: #button asStampSelector atDepth: 1)
+		style: [ 
+			self write: (self property: #layout) with: BlLinearLayout horizontal.
+
+			self write: (self property: #'layout-constraints') with: [ :e |
+				[ :c |
+				c horizontal fitContent.
+				c vertical fitContent.
+				c linear vertical alignCenter.
+				c linear horizontal alignCenter ] ].
+
+			" without justification "
+			self
+				select:
+				(self withParent: #flexible asStampSelector atDepth: 1) not
+				style: [
+					self write: (self property: #'layout-constraints') with: [ :e |
+						[ :c |
+						c frame vertical alignCenter.
+						c frame horizontal alignCenter.
+						c linear vertical alignCenter.
+						c linear horizontal alignCenter ] ] ].
+
+			" with justification: innerElement is matchParent if it has a parent with #justified "
+			self
+				select: (self withParent: #flexible asStampSelector atDepth: 1)
+				style: [
+					self write: (self property: #'layout-constraints') with: [ :e |
+						[ :c |
+						c horizontal matchParent.
+						c vertical matchParent ] ] ].
+
+			self
+				select: (self withParent: #'icon-first' asStampSelector atDepth: 1)
+				style: [
+					self
+						write: (self property: #'layout-direction')
+						with: [ :e | BlLayoutDirection leftToRight ] ].
+
+			self
+				select: (self withParent: #'label-first' asStampSelector atDepth: 1)
+				style: [
+					self
+						write: (self property: #'layout-direction')
+						with: [ :e | BlLayoutDirection rightToLeft ] ] ]
+]
+
+{ #category : 'rules declaring - button' }
+ToBeeStyleSheet >> declarePrimaryButtonRules [
+
+	| backgroundColorAnim |
+	" the animation must be shared by all writers which are using it to stop it correctly "
+	backgroundColorAnim := ToPropertyColorTransitionAnimation new
+		                       duration: 150 milliSeconds.
+
+	"Button background and border"
+	self
+		select: self buttonSelector && #primary asStampSelector
+		style: [  "Background"
+			self
+				when: ToInstallLookEvent
+				write: (self property: #'background-color')
+				with: [ :e | e tokenValueNamed: #'color-primary' ].
+			self
+				when: ToLeavedLookEvent
+				write: (self property: #'background-color')
+				with: [ :e | e tokenValueNamed: #'color-primary' ]
+				animation: backgroundColorAnim.
+			self
+				when: ToDisabledLookEvent
+				write: (self property: #'background-color')
+				with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ].
+			self
+				when: ToHoveredLookEvent
+				write: (self property: #'background-color')
+				with: [ :e | e tokenValueNamed: #'color-primary-hover' ]
+				animation: backgroundColorAnim.
+			self
+				when: ToPressedLookEvent
+				write: (self property: #'background-color')
+				with: [ :e | e tokenValueNamed: #'color-primary-pressed' ]
+				animation: backgroundColorAnim.
+
+			"Border"
+			self
+				when: ToInstallLookEvent
+				write: (self property: #'border-with-builder')
+				with: [ :e |
+					e borderBuilder
+						paint: Color transparent;
+						width: (e tokenValueNamed: #'line-width') ].
+			self
+				when: ToLeavedLookEvent
+				write: (self property: #'border-with-builder')
+				with: [ :e |
+					e borderBuilder
+						paint: Color transparent;
+						width: (e tokenValueNamed: #'line-width') ].
+			self
+				when: ToDisabledLookEvent
+				write: (self property: #'border-with-builder')
+				with: [ :e |
+					e borderBuilder
+						paint: (e tokenValueNamed: #'color-border-disabled');
+						width: (e tokenValueNamed: #'line-width') ].
+
+			"Label"
+			self
+				when: ToInstallLookEvent
+				write: (self property: #'button-label-text-foreground')
+				with: [ :e | e tokenValueNamed: #'color-text-light-solid' ].
+			self
+				when: ToLeavedLookEvent
+				write: (self property: #'button-label-text-foreground')
+				with: [ :e | e tokenValueNamed: #'color-text-light-solid' ].
+			self
+				when: ToDisabledLookEvent
+				write: (self property: #'button-label-text-foreground')
+				with: [ :e | e tokenValueNamed: #'color-text-disabled' ].
+			self
+				when: ToHoveredLookEvent
+				write: (self property: #'button-label-text-foreground')
+				with: [ :e | e tokenValueNamed: #'color-text-light-solid' ].
+			self
+				when: ToPressedLookEvent
+				write: (self property: #'button-label-text-foreground')
+				with: [ :e | e tokenValueNamed: #'color-text-light-solid' ] ]
+]
+
+{ #category : 'rules declaring - pane' }
+ToBeeStyleSheet >> declareRootPaneRules [
+
+	self
+		select: (self id: #'Space root')
+		style: [ 
+			self
+				write: (self property: #background)
+				with: [ :e | e tokenValueNamed: #'background-color' ] ]
 ]
 
 { #category : 'accessing rules  -button' }
@@ -697,6 +1078,8 @@ ToBeeStyleSheet >> defaultButtonRules [
 	<script:'(ToStyleSheetCSSLikePrinter styleRules: (self new defaultButtonRules)) asCSSLikeString inspect'>
 	
 	| borderColorAnim borderEffectAnim |
+		self deprecated: 'Not used anymore. see #initializeStyleRules'.
+
 	borderColorAnim := ToPropertyBorderColorTransitionAnimation new duration: 500 milliSeconds.
 	borderEffectAnim := ToPropertyBorderEffectTransitionAnimation new duration: 350 milliSeconds.
 
@@ -779,6 +1162,8 @@ ToBeeStyleSheet >> defaultButtonRulesNew [
 	" ToButton default rule including icon and label "
 
 	" default button (class #button) "
+		self deprecated: 'Not used anymore. see #initializeStyleRules'.
+
 
 	^ 
 		{ 
@@ -934,6 +1319,7 @@ ToBeeStyleSheet >> defaultButtonRulesOld [
 	" ToButton default rule including icon and label "
 
 	" default button (class #button) "
+	self deprecated: 'Not used anymore. see #initializeStyleRules'.
 
 	^ 
 		{ 
@@ -1084,121 +1470,18 @@ ToBeeStyleSheet >> defaultButtonRulesOld [
 				   with: [ :e | e borderBuilder dashArray: (e tokenValueNamed: #'dash-array') ] ]) } 
 ]
 
-{ #category : 'rules declaring - button' }
-ToBeeStyleSheet >> defaultButtonScript: aStyleScript [
-
-	| borderColorAnim borderEffectAnim |
-	borderColorAnim := ToPropertyBorderColorTransitionAnimation new
-		                   duration: 500 milliSeconds.
-	borderEffectAnim := ToPropertyBorderEffectTransitionAnimation new
-		                    duration: 350 milliSeconds.
-
-	"Button background and border"
-	aStyleScript
-		select: self buttonSelector
-		style: [ :sr | "Background"
-			sr
-				when: ToInstallLookEvent
-				write: (self property: #'background-color')
-				with: [ :e | e tokenValueNamed: #'color-bg-container' ].
-			sr
-				when: ToDisabledLookEvent
-				write: (self property: #'background-color')
-				with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ].
-
-			"Border"
-			sr select: #primary asStampSelector not style: [
-				sr
-					when: ToInstallLookEvent
-					write: (self property: #border)
-					with: [ :e |
-						BlBorder
-							paint: (e tokenValueNamed: #'color-border')
-							width: (e tokenValueNamed: #'line-width') ].
-				sr
-					when: ToLeavedLookEvent
-					write: (self property: #border)
-					with: [ :e |
-						BlBorder
-							paint: (e tokenValueNamed: #'color-border')
-							width: (e tokenValueNamed: #'line-width') ]
-					animation: borderColorAnim.
-				sr
-					when: ToDisabledLookEvent
-					write: (self property: #border)
-					with: [ :e |
-						BlBorder
-							paint: (e tokenValueNamed: #'color-border-disabled')
-							width: (e tokenValueNamed: #'line-width') ].
-				sr
-					when: ToHoveredLookEvent
-					write: (self property: #border)
-					with: [ :e |
-						BlBorder
-							paint: (e tokenValueNamed: #'color-primary-hover')
-							width: (e tokenValueNamed: #'line-width') ]
-					animation: borderColorAnim.
-				sr
-					when: ToClickedLookEvent
-					write: (self property: #border)
-					with: [ :e |
-						BlBorder
-							paint: (e tokenValueNamed: #'color-primary-hover')
-							width: (e tokenValueNamed: #'line-width') ]
-					animation: borderEffectAnim.
-				sr
-					when: ToPressedLookEvent
-					write: (self property: #border)
-					with: [ :e |
-						BlBorder
-							paint: (e tokenValueNamed: #'color-primary-pressed')
-							width: (e tokenValueNamed: #'line-width') ] ].
-
-			"Label"
-			sr
-				when: ToInstallLookEvent
-				write: (self property: #'button-label-text-foreground')
-				with: [ :e | e tokenValueNamed: #'color-text' ].
-			sr
-				when: ToLeavedLookEvent
-				write: (self property: #'button-label-text-foreground')
-				with: [ :e | e tokenValueNamed: #'color-text' ].
-			sr
-				when: ToDisabledLookEvent
-				write: (self property: #'button-label-text-foreground')
-				with: [ :e | e tokenValueNamed: #'color-text-disabled' ].
-			sr
-				when: ToHoveredLookEvent
-				write: (self property: #'button-label-text-foreground')
-				with: [ :e | e tokenValueNamed: #'color-primary' ].
-			sr
-				when: ToPressedLookEvent
-				write: (self property: #'button-label-text-foreground')
-				with: [ :e | e tokenValueNamed: #'color-primary-pressed' ].
-
-			sr select: #( #dashed ) asStampSelector style: [
-				sr
-					when: ToInstallLookEvent
-					supplement: (self property: #'border-with-builder')
-					with: [ :e |
-					e borderBuilder dashArray: (e tokenValueNamed: #'dash-array') ] ] ]
-]
-
 { #category : 'initialization' }
-ToBeeStyleSheet >> defaultScript [
+ToBeeStyleSheet >> initializeStyleRules [ 
 
-	| script |
-	script := super defaultScript.
-	self rootPaneScript: script.
-	self labelScript: script.
-	self buttonScript: script.
-	^ script 
+	self declareRootPaneRules.
+	self declareLabelRules.
+	self declareButtonRules
 ]
 
 { #category : 'accessing rules  - label' }
 ToBeeStyleSheet >> labelRules [
 	" label  rules"
-
+	self deprecated: 'Not used anymore. see #initializeStyleRules'.
 	^ { (ToLabel asTypeSelector style: [ :sr |
 		   sr select: self any style: [
 			   sr
@@ -1320,189 +1603,13 @@ ToBeeStyleSheet >> labelRules [
 						   yourself ] ] ]) }
 ]
 
-{ #category : 'rules declaring - label' }
-ToBeeStyleSheet >> labelScript: aStyleScript [
-	" label  rules"
-
-	aStyleScript
-		select: ToLabel asTypeSelector
-		style: [ :sr |
-			sr
-				write: (self property: #'text-attributes-with-builder')
-				with: [ :e |
-					e textAttributesBuilder
-						weight: (e tokenValueNamed: #'font-weight-strong');
-						defaultFontName: (e tokenValueNamed: #'font-family-code');
-						defaultFontSize: (e tokenValueNamed: #'font-size');
-						lineSpacing: (e tokenValueNamed: #'line-height');
-						yourself ].
-
-			sr
-				when: ToDisabledLookEvent
-				write: (self property: #'text-attributes-with-builder')
-				with: [ :e |
-					e textAttributesBuilder foreground:
-						(e tokenValueNamed: #'color-text-disabled') ].
-
-			sr select: #H1 asStampSelector style: [
-				sr
-					supplement: (self property: #'text-attributes-with-builder')
-					with: [ :e |
-						e textAttributesBuilder
-							defaultFontSize: (e tokenValueNamed: #'font-size-H1');
-							lineSpacing: (e tokenValueNamed: #'line-height-H1');
-							yourself ] ].
-
-			sr select: #H2 asStampSelector style: [
-				sr
-					supplement: (self property: #'text-attributes-with-builder')
-					with: [ :e |
-						e textAttributesBuilder
-							defaultFontSize: (e tokenValueNamed: #'font-size-H2');
-							lineSpacing: (e tokenValueNamed: #'line-height-H2');
-							yourself ] ].
-
-			sr select: #H3 asStampSelector style: [
-				sr
-					supplement: (self property: #'text-attributes-with-builder')
-					with: [ :e |
-						e textAttributesBuilder
-							defaultFontSize: (e tokenValueNamed: #'font-size-H3');
-							lineSpacing: (e tokenValueNamed: #'line-height-H3');
-							yourself ] ].
-
-			sr select: #H4 asStampSelector style: [
-				sr
-					supplement: (self property: #'text-attributes-with-builder')
-					with: [ :e |
-						e textAttributesBuilder
-							defaultFontSize: (e tokenValueNamed: #'font-size-H4');
-							lineSpacing: (e tokenValueNamed: #'line-height-H4');
-							yourself ] ].
-
-			sr select: #H5 asStampSelector style: [
-				sr
-					supplement: (self property: #'text-attributes-with-builder')
-					with: [ :e |
-						e textAttributesBuilder
-							defaultFontSize: (e tokenValueNamed: #'font-size-H5');
-							lineSpacing: (e tokenValueNamed: #'line-height-H5');
-							yourself ] ].
-
-			sr select: #default asStampSelector style: [
-				sr
-					supplement: (self property: #'text-attributes-with-builder')
-					with: [ :e |
-						e textAttributesBuilder
-							foreground: (e tokenValueNamed: #'color-text');
-							yourself ] ].
-
-			sr select: #danger asStampSelector style: [
-				sr
-					supplement: (self property: #'text-attributes-with-builder')
-					with: [ :e |
-						e textAttributesBuilder
-							foreground: (e tokenValueNamed: #'color-error');
-							yourself ] ].
-
-			sr select: #link asStampSelector style: [
-				sr
-					supplement: (self property: #'text-attributes-with-builder')
-					with: [ :e |
-						e textAttributesBuilder
-							foreground: (e tokenValueNamed: #'color-link');
-							yourself ] ].
-
-			sr select: #primary asStampSelector style: [
-				sr
-					supplement: (self property: #'text-attributes-with-builder')
-					with: [ :e |
-						e textAttributesBuilder
-							foreground: (e tokenValueNamed: #'color-text-light-solid');
-							yourself ] ].
-
-			sr select: #secondary asStampSelector style: [
-				sr
-					supplement: (self property: #'text-attributes-with-builder')
-					with: [ :e |
-						e textAttributesBuilder
-							foreground: (e tokenValueNamed: #'color-text-secondary');
-							yourself ] ].
-
-			sr select: #success asStampSelector style: [
-				sr
-					supplement: (self property: #'text-attributes-with-builder')
-					with: [ :e |
-						e textAttributesBuilder
-							foreground: (e tokenValueNamed: #'color-success');
-							yourself ] ].
-
-			sr select: #warning asStampSelector style: [
-				sr
-					supplement: (self property: #'text-attributes-with-builder')
-					with: [ :e |
-						e textAttributesBuilder
-							foreground: (e tokenValueNamed: #'color-warning');
-							yourself ] ] ]
-]
-
-{ #category : 'rules declaring - button' }
-ToBeeStyleSheet >> labeledIconInButtonScript: aStyleScript [
-
-	aStyleScript
-		select:
-		(#'labeled-icon' asStampSelector withParent: #button asStampSelector atDepth: 1)
-		style: [ :sr |
-			sr write: (self property: #layout) with: BlLinearLayout horizontal.
-
-			sr write: (self property: #'layout-constraints') with: [ :e |
-				[ :c |
-				c horizontal fitContent.
-				c vertical fitContent.
-				c linear vertical alignCenter.
-				c linear horizontal alignCenter ] ].
-
-			" without justification "
-			sr
-				select:
-				(sr withParent: #flexible asStampSelector atDepth: 1) not
-				style: [
-					sr write: (self property: #'layout-constraints') with: [ :e |
-						[ :c |
-						c frame vertical alignCenter.
-						c frame horizontal alignCenter.
-						c linear vertical alignCenter.
-						c linear horizontal alignCenter ] ] ].
-
-			" with justification: innerElement is matchParent if it has a parent with #justified "
-			sr
-				select: (sr withParent: #flexible asStampSelector atDepth: 1)
-				style: [
-					sr write: (self property: #'layout-constraints') with: [ :e |
-						[ :c |
-						c horizontal matchParent.
-						c vertical matchParent ] ] ].
-
-			sr
-				select: (sr withParent: #'icon-first' asStampSelector atDepth: 1)
-				style: [
-					sr
-						write: (self property: #'layout-direction')
-						with: [ :e | BlLayoutDirection leftToRight ] ].
-
-			sr
-				select: (sr withParent: #'label-first' asStampSelector atDepth: 1)
-				style: [
-					sr
-						write: (self property: #'layout-direction')
-						with: [ :e | BlLayoutDirection rightToLeft ] ] ]
-]
-
 { #category : 'accessing rules - labeled icon' }
 ToBeeStyleSheet >> labeledIconRules [
 
 	<script:
 	'(ToStyleSheetCSSLikePrinter styleRules: (self new labeledIconRules)) asCSSLikeString inspect'>
+	self deprecated: 'Not used anymore. see #initializeStyleRules'.
+
 	^ { ((self any withParent: ToLabeledIcon asTypeSelector) style: [
 		   :sr | " any child of a ToLabeledIcon is centered vertically and horizontally ( icon, label and filler) "
 		   sr write: (self property: #'layout-constraints') with: [ :e |
@@ -1514,6 +1621,7 @@ ToBeeStyleSheet >> labeledIconRules [
 { #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> linkButtonRules [
 	" ToButton link "
+	self deprecated: 'Not used anymore. see #initializeStyleRules'.
 
 	^ {
 		  (#( #button #link ) asStampSelector style: [ :sr |
@@ -1623,7 +1731,8 @@ ToBeeStyleSheet >> primaryButtonRules [
 	| backgroundColorAnim |
 	" the animation must be shared by all writers which are using it to stop it correctly "
 	backgroundColorAnim := ToPropertyColorTransitionAnimation new duration: 150 milliSeconds.
-	
+		self deprecated: 'Not used anymore. see #initializeStyleRules'.
+
 	^ {
 		"Button background and border"
 		((self buttonSelector + #primary) style: [ :sr |
@@ -1697,6 +1806,7 @@ ToBeeStyleSheet >> primaryButtonRules [
 { #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> primaryButtonRulesOld [
 	<script:'(ToStyleSheetCSSLikePrinter styleRules: (self new primaryButtonRulesOld)) asCSSLikeString inspect'>
+	self deprecated: 'Not used anymore. see #initializeStyleRules'.
 
 	^ {
 		  (#button asStampSelector + #primary style: [ :sr |
@@ -1813,90 +1923,9 @@ ToBeeStyleSheet >> primaryButtonRulesOld [
 				   with: [ :e | (e tokenValueNamed: #'color-text-light-solid') ] ]) }
 ]
 
-{ #category : 'rules declaring - button' }
-ToBeeStyleSheet >> primaryButtonScript: aStyleScript [
-
-	| backgroundColorAnim |
-	" the animation must be shared by all writers which are using it to stop it correctly "
-	backgroundColorAnim := ToPropertyColorTransitionAnimation new
-		                       duration: 150 milliSeconds.
-
-	"Button background and border"
-	aStyleScript
-		select: self buttonSelector && #primary asStampSelector
-		style: [ :sr | "Background"
-			sr
-				when: ToInstallLookEvent
-				write: (self property: #'background-color')
-				with: [ :e | e tokenValueNamed: #'color-primary' ].
-			sr
-				when: ToLeavedLookEvent
-				write: (self property: #'background-color')
-				with: [ :e | e tokenValueNamed: #'color-primary' ]
-				animation: backgroundColorAnim.
-			sr
-				when: ToDisabledLookEvent
-				write: (self property: #'background-color')
-				with: [ :e | e tokenValueNamed: #'color-bg-container-disabled' ].
-			sr
-				when: ToHoveredLookEvent
-				write: (self property: #'background-color')
-				with: [ :e | e tokenValueNamed: #'color-primary-hover' ]
-				animation: backgroundColorAnim.
-			sr
-				when: ToPressedLookEvent
-				write: (self property: #'background-color')
-				with: [ :e | e tokenValueNamed: #'color-primary-pressed' ]
-				animation: backgroundColorAnim.
-
-			"Border"
-			sr
-				when: ToInstallLookEvent
-				write: (self property: #'border-with-builder')
-				with: [ :e |
-					e borderBuilder
-						paint: Color transparent;
-						width: (e tokenValueNamed: #'line-width') ].
-			sr
-				when: ToLeavedLookEvent
-				write: (self property: #'border-with-builder')
-				with: [ :e |
-					e borderBuilder
-						paint: Color transparent;
-						width: (e tokenValueNamed: #'line-width') ].
-			sr
-				when: ToDisabledLookEvent
-				write: (self property: #'border-with-builder')
-				with: [ :e |
-					e borderBuilder
-						paint: (e tokenValueNamed: #'color-border-disabled');
-						width: (e tokenValueNamed: #'line-width') ].
-
-			"Label"
-			sr
-				when: ToInstallLookEvent
-				write: (self property: #'button-label-text-foreground')
-				with: [ :e | e tokenValueNamed: #'color-text-light-solid' ].
-			sr
-				when: ToLeavedLookEvent
-				write: (self property: #'button-label-text-foreground')
-				with: [ :e | e tokenValueNamed: #'color-text-light-solid' ].
-			sr
-				when: ToDisabledLookEvent
-				write: (self property: #'button-label-text-foreground')
-				with: [ :e | e tokenValueNamed: #'color-text-disabled' ].
-			sr
-				when: ToHoveredLookEvent
-				write: (self property: #'button-label-text-foreground')
-				with: [ :e | e tokenValueNamed: #'color-text-light-solid' ].
-			sr
-				when: ToPressedLookEvent
-				write: (self property: #'button-label-text-foreground')
-				with: [ :e | e tokenValueNamed: #'color-text-light-solid' ] ]
-]
-
 { #category : 'accessing rules  - pane' }
 ToBeeStyleSheet >> rootPaneRules [
+	self deprecated: 'Not used anymore. see #initializeStyleRules'.
 
 	^ { ((self id: #'Space root') style: [ :sr |
 		   sr
@@ -1904,20 +1933,10 @@ ToBeeStyleSheet >> rootPaneRules [
 			   with: [ :e | e tokenValueNamed: #'background-color' ] ]) }
 ]
 
-{ #category : 'rules declaring - pane' }
-ToBeeStyleSheet >> rootPaneScript: aStyleScript [
-
-	aStyleScript
-		select: (self id: #'Space root')
-		style: [ :sr |
-			sr
-				write: (self property: #background)
-				with: [ :e | e tokenValueNamed: #'background-color' ] ]
-]
-
 { #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> textButtonRules [
 	" ToButton text "
+	self deprecated: 'Not used anymore. see #initializeStyleRules'.
 
 	^ {
 		  (#( #button #text ) asStampSelector style: [ :sr |
@@ -2031,6 +2050,7 @@ ToBeeStyleSheet >> textButtonRules [
 
 { #category : 'accessing rules  -button' }
 ToBeeStyleSheet >> toggleButtonRules [
+	self deprecated: 'Not used anymore. see #initializeStyleRules'.
 
 	^ { ( #(#button #'toggle-button') asStampSelector style: [ :sr |
 		   sr
@@ -2063,6 +2083,7 @@ ToBeeStyleSheet >> verticalButtonRules [
 	'button:hover, button:leave' rule: [ :e | e background: Color gray ].
 	'button:leave' rule: [ :e | e background: Color white ].
 	"
+	self deprecated: 'Not used anymore. see #initializeStyleRules'.
 
 	^ {
 		  (#( #button #vertical ) asStampSelector style: [ :sr |

@@ -6,32 +6,29 @@ Class {
 	#tag : 'Core-Theme'
 }
 
-{ #category : 'initialization' }
-ToStyleSheetForTest >> defaultScript [
-
-	| script |
-	script := super defaultScript.
-	self elementScript: script.
-	^ script 
-]
-
 { #category : 'rules declaring' }
-ToStyleSheetForTest >> elementScript: aStyleScript [
+ToStyleSheetForTest >> declareElementRules [
 	" one rule for elements with the stamp #element "
 
-	aStyleScript
+	self
 		select: #element asStampSelector
-		style: [ :scr | " 5 writers - but only 3 of them remain (override) "
-			scr write: (self property: #background) with: Color white.
-			scr write: (self property: #background) withAll: {
+		style: [  " 5 writers - but only 3 of them remain (override) "
+			self write: (self property: #background) with: Color white.
+			self write: (self property: #background) withAll: {
 					(ToHoveredLookEvent -> Color blue).
 					(ToLeavedLookEvent -> Color red) }.
-			scr
+			self
 				when: ToHoveredLookEvent
 				write: (self property: #background)
 				with: Color yellow.
-			scr
+			self
 				when: ToLeavedLookEvent
 				write: (self property: #background)
 				with: Color brown ]
+]
+
+{ #category : 'initialization' }
+ToStyleSheetForTest >> initializeStyleRules [ 
+
+	self declareElementRules
 ]

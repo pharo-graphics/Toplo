@@ -1,8 +1,8 @@
 Class {
 	#name : 'ToStyleSheet',
 	#superclass : 'Object',
-	#traits : 'TToWritablePropertyIndexHolder',
-	#classTraits : 'TToWritablePropertyIndexHolder classTrait',
+	#traits : 'TToStyleSheetScripter',
+	#classTraits : 'TToStyleSheetScripter classTrait',
 	#instVars : [
 		'styleScript',
 		'inherits',
@@ -94,51 +94,17 @@ ToStyleSheet class >> defaultWritablePropertyList [
 			   writer: [ :e :v | v value: e constraints ]) }
 ]
 
-{ #category : 'syntactic sugar' }
-ToStyleSheet >> action: aValuable [
-
- 	^ ToActionSelector new action: aValuable; yourself
-
-]
-
-{ #category : 'syntactic sugar' }
-ToStyleSheet >> any [
-
- 	^ ToUniversalSelector new
-
-]
-
 { #category : 'initialization' }
 ToStyleSheet >> defaultScript [
 
 	^ ToStyleScript new
 ]
 
-{ #category : 't - writable property index holder' }
+{ #category : 'accessing - writable properties' }
 ToStyleSheet >> defaultWritablePropertyList [
 	" skin managing need a list of unique writeable properties. "
 
 	^ self class defaultWritablePropertyList
-]
-
-{ #category : 'syntactic sugar' }
-ToStyleSheet >> haveExactHeight [
-
-	^ self action: [ :e | e constraints vertical resizer isExact ]
-]
-
-{ #category : 'syntactic sugar' }
-ToStyleSheet >> haveExactWidth [
-
-	^ self action: [ :e | e constraints horizontal resizer isExact]
-
-]
-
-{ #category : 'syntactic sugar' }
-ToStyleSheet >> id: aSymbol [
-
- 	^ ToIdSelector new id: aSymbol
-
 ]
 
 { #category : 'accessing' }
@@ -158,7 +124,12 @@ ToStyleSheet >> initialize [
 
 	super initialize.
 	styleScript := self defaultScript.
-	inherits := true
+	inherits := true.
+	self initializeStyleRules.
+]
+
+{ #category : 'initialization' }
+ToStyleSheet >> initializeStyleRules [
 ]
 
 { #category : 'initialization' }
@@ -175,13 +146,25 @@ ToStyleSheet >> onUnInstalledIn: anElement [
 
 ]
 
-{ #category : 't - writable property index holder' }
+{ #category : 'accessing - writable properties' }
+ToStyleSheet >> property: aSymbol [
+
+	^ self writablePropertyNamed: aSymbol
+]
+
+{ #category : 't - stylesheet scripter' }
+ToStyleSheet >> propertyWritersHolder [ 
+
+	^ self script
+]
+
+{ #category : 'accessing - writable properties' }
 ToStyleSheet >> rawWritablePropertyIndex [
 
 	^ writablePropertyIndex 
 ]
 
-{ #category : 't - writable property index holder' }
+{ #category : 'accessing - writable properties' }
 ToStyleSheet >> rawWritablePropertyIndex: aPropertyIndex [
 
 	writablePropertyIndex := aPropertyIndex
@@ -193,14 +176,23 @@ ToStyleSheet >> script [
 	^ styleScript
 ]
 
-{ #category : 't - style rules holder' }
+{ #category : 'accessing' }
 ToStyleSheet >> styleRules [
 
 	^ styleScript styleRules
 ]
 
-{ #category : 'syntactic sugar' }
-ToStyleSheet >> type: aClass [
+{ #category : 'accessing - writable properties' }
+ToStyleSheet >> writablePropertyIndex [
 
-	^ ToTypeSelector new type: aClass
+	^ self rawWritablePropertyIndex ifNil: [
+		  self rawWritablePropertyIndex: ToPropertyIndex new.
+		  self rawWritablePropertyIndex addAllProperties: self defaultWritablePropertyList.
+		  self rawWritablePropertyIndex ]
+]
+
+{ #category : 'accessing - writable properties' }
+ToStyleSheet >> writablePropertyNamed: aName [ 
+
+	^ self writablePropertyIndex propertyNamed: aName
 ]

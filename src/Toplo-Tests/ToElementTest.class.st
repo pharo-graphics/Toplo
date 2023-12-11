@@ -161,7 +161,6 @@ ToElementTest >> testDefaultSkin [
 	e defaultSkin: sk.
 	e requestInstallSkin.
 	e applySkinInstaller.
-	e applyEnqueuedStates.
 	" no change since same skin "
 	self assert: (sk receivedCountForClass: ToInstallLookEvent) equals: 1.
 	self assert: (sk receivedCountForClass: ToUninstallLookEvent) equals: 0.
@@ -174,7 +173,6 @@ ToElementTest >> testDefaultSkin [
 
 	e defaultSkin: (sk2 := ToRawSkinForTest new).
 	e applySkinInstaller.
-	e applyEnqueuedStates.
 
 	self
 		assert:
@@ -337,7 +335,6 @@ ToElementTest >> testSetSkin [
 
 	e defaultSkin: (sk2 := ToRawSkinForTest new).
 	e applySkinInstaller.
-	e applyEnqueuedStates.
 
 	self
 		assert:

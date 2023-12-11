@@ -78,7 +78,6 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 	labelSkin propertyWriters: writers.
 	button label defaultSkin: labelSkin.
 	button label applySkinInstaller.
-	button label applyEnqueuedStates.
 	attributes := button label text attributesAt: 1.
 	self assert: attributes notEmpty.
 	foregroundAttr := attributes
@@ -174,7 +173,6 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 	self assert: button installedSkin isNil.
 	button defaultSkin: skin.
 	button applySkinInstaller.
-	button applyEnqueuedStates.
 	self assert: button border width equals: 1.
 	self assert: button border paint isColorPaint.
 	self
@@ -199,7 +197,6 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 	labelSkin propertyWriters: writers.
 	label defaultSkin: labelSkin.
 	label applySkinInstaller.
-	label applyEnqueuedStates.
 	attributes := button label text attributesAt: 1.
 	self assert: attributes notEmpty.
 	foregroundAttr := attributes
@@ -247,7 +244,6 @@ ToStyleSheetBazarTest >> testButtonSkinWithInterspace [
 	skin propertyWriters: writers.
 	elem defaultSkin: skin.
 	elem applySkinInstaller.
-	elem applyEnqueuedStates.
 	self assert: (elem layout isKindOf: BlLinearLayout).
 	self assert: elem layout interspace equals: 10
 ]
@@ -284,7 +280,6 @@ ToStyleSheetBazarTest >> testSkinWithAnUniversalRule [
 	skin propertyWriters: writers.
 	elem defaultSkin: skin.
 	elem applySkinInstaller.
-	elem applyEnqueuedStates.
 	self assert: elem background paint color equals: Color red
 ]
 
@@ -323,9 +318,7 @@ ToStyleSheetBazarTest >> testSkinWithChildRule [
 	skin propertyWriters: writers.
 	child defaultSkin: skin.
 	parent applySkinInstaller.
-	parent applyEnqueuedStates.
 	child applySkinInstaller.
-	child applyEnqueuedStates.
 
 	self assert: child border width equals: 3.
 	self assert: child border paint isColorPaint.
@@ -369,9 +362,7 @@ ToStyleSheetBazarTest >> testSkinWithChildRule2 [
 	skin propertyWriters: writers.
 	child defaultSkin: skin.
 	parent applySkinInstaller.
-	parent applyEnqueuedStates.
 	child applySkinInstaller.
-	child applyEnqueuedStates.
 	self assert: child border width equals: 3.
 	self assert: child border paint isColorPaint.
 	self assert: child border paint color equals: Color red
@@ -404,7 +395,6 @@ ToStyleSheetBazarTest >> testSkinWithIdRule [
 	skin propertyWriters: writers.
 	elem defaultSkin: skin.
 	elem applySkinInstaller.
-	elem applyEnqueuedStates.
 	self assert: elem border width equals: 3.
 	self assert: elem border paint isColorPaint.
 	self assert: elem border paint color equals: Color red
@@ -442,7 +432,6 @@ ToStyleSheetBazarTest >> testStyleSheetStyle0 [
 	skin propertyWriters: writers.
 	button defaultSkin: skin.
 	button applySkinInstaller.
-	button applyEnqueuedStates.
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color black
 ]
@@ -485,7 +474,6 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 	skin propertyWriters: writers.
 	button defaultSkin: skin.
 	button applySkinInstaller.
-	button applyEnqueuedStates.
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color black.
 
@@ -495,14 +483,12 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 	skin propertyWriters: writers.
 	button defaultSkin: skin.
 	button applySkinInstaller.
-	button applyEnqueuedStates.
 
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color red.
 
 	button disabled: true.
 	button applySkinInstaller.
-	button applyEnqueuedStates.
 	self assert: button background paint isColorPaint.
 	self
 		assert: button background paint color
@@ -550,7 +536,6 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules1 [
 	skin propertyWriters: writers.
 	child defaultSkin: skin.
 	child applySkinInstaller.
-	child applyEnqueuedStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -601,7 +586,6 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules2 [
 	child defaultSkin: skin.
 
 	child applySkinInstaller.
-	child applyEnqueuedStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -651,7 +635,6 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules22 [
 	skin propertyWriters: writers.
 	child defaultSkin: skin.
 	child applySkinInstaller.
-	child applyEnqueuedStates.
 
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
@@ -703,7 +686,6 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules3 [
 	child defaultSkin: skin.
 
 	child applySkinInstaller.
-	child applyEnqueuedStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -755,7 +737,6 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules32 [
 	child defaultSkin: skin.
 
 	child applySkinInstaller.
-	child applyEnqueuedStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -806,7 +787,6 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules33 [
 	child defaultSkin: skin.
 
 	child applySkinInstaller.
-	child applyEnqueuedStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -845,7 +825,6 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules1 [
 	child defaultSkin: skin.
 
 	child applySkinInstaller.
-	child applyEnqueuedStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -885,7 +864,6 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules2 [
 	child defaultSkin: skin.
 
 	child applySkinInstaller.
-	child applyEnqueuedStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -930,7 +908,6 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules3 [
 	child defaultSkin: skin.
 
 	child applySkinInstaller.
-	child applyEnqueuedStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -984,7 +961,6 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 	child defaultSkin: skin.
 
 	child applySkinInstaller.
-	child applyEnqueuedStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red.
 
@@ -996,8 +972,6 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 	skin propertyWriters: writers.
 	child defaultSkin: skin.
 	child applySkinInstaller.
-
-	child applyEnqueuedStates.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color blue
 ]

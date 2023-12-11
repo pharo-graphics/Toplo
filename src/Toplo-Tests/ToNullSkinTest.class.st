@@ -44,7 +44,6 @@ ToNullSkinTest >> testWithASkinInstalledBefore [
 	self assert: w installedSkin identicalTo: nsk.
 	w requestInstallSkin.
 	w applySkinInstaller.
-	w applyEnqueuedStates.
 	self assert: w installedSkin identicalTo: nsk.
 	self assert: w skinStateQueue nextStates isEmpty.
 	w enqueueSkinState:
@@ -68,6 +67,5 @@ ToNullSkinTest >> testWithoutSkin [
 	w requestInstallSkin.
 	w applySkinInstaller.
 	self assert: w installedSkin identicalTo: sk.
-	w applyEnqueuedStates.
 	self assert: w skinStateQueue nextStates isEmpty
 ]

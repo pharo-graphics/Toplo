@@ -89,7 +89,6 @@ ToStyleSheetSkinTest >> testPropertyWriters [
 	self assert: skin propertyWriters first identicalTo: propWriter.
 	w defaultSkin: skin.
 	w applySkinInstaller.
-	w applyEnqueuedStates.
 
 	self assert: w background paint color equals: Color blue
 ]
@@ -133,7 +132,6 @@ ToStyleSheetSkinTest >> testSupplementWriter [
 						 build ] yourself) }.
 	w defaultSkin: skin.
 	w applySkinInstaller.
-	w applyEnqueuedStates.
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color black.
 	self assert: w border style dashArray equals: #( 4 5 )
@@ -171,7 +169,6 @@ ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 	w defaultSkin: skin.
 	w requestInstallSkin.
 	w applySkinInstaller.
-	w applyEnqueuedStates.
 
 	self assert: w background paint color equals: Color white.
 
@@ -196,7 +193,6 @@ ToStyleSheetSkinTest >> testWithNoWriter [
 	w defaultSkin: skin.
 	paint := w background paint.
 	w applySkinInstaller.
-	w applyEnqueuedStates.
 
 	self assert: w background paint equals: paint
 ]
@@ -222,7 +218,6 @@ ToStyleSheetSkinTest >> testWithTwoWriters [
 				 yourself) }.
 	w defaultSkin: skin.
 	w applySkinInstaller.
-	w applyEnqueuedStates.
 
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color yellow
@@ -255,7 +250,6 @@ ToStyleSheetSkinTest >> testWithTwoWritersTwoEventClasses [
 				 yourself) }.
 	w defaultSkin: skin.
 	w applySkinInstaller.
-	w applyEnqueuedStates.
 
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color red

@@ -53,7 +53,7 @@ ToThemeExamples class >> displaySpaceCSSLikeStyleSheet: aSpace [
 		ifNotNil: [ :sheet |
 			stream
 				nextPutAll: 'CSS Like style sheet with ';
-				nextPutAll: sheet rawStyleRules size asString;
+				nextPutAll: sheet styleRules size asString;
 				nextPutAll: ' rule(s)';
 				cr;
 				nextPutAll: '###';
@@ -85,7 +85,7 @@ ToThemeExamples class >> displaySpaceStyleSheet: aSpace [
 		ifNotNil: [ :sheet |
 			stream
 				nextPutAll: 'CSS Like style sheet with ';
-				nextPutAll: sheet rawStyleRules size asString;
+				nextPutAll: sheet styleRules size asString;
 				nextPutAll: ' rule(s)';
 				cr;
 				nextPutAll: '###';

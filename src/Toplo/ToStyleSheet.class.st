@@ -1,10 +1,10 @@
 Class {
 	#name : 'ToStyleSheet',
 	#superclass : 'Object',
-	#traits : 'TToStyleRulesHolder + TToWritablePropertyIndexHolder',
-	#classTraits : 'TToStyleRulesHolder classTrait + TToWritablePropertyIndexHolder classTrait',
+	#traits : 'TToWritablePropertyIndexHolder',
+	#classTraits : 'TToWritablePropertyIndexHolder classTrait',
 	#instVars : [
-		'styleRules',
+		'styleScript',
 		'inherits',
 		'writablePropertyIndex'
 	],
@@ -109,9 +109,9 @@ ToStyleSheet >> any [
 ]
 
 { #category : 'initialization' }
-ToStyleSheet >> defaultStyleRules [
+ToStyleSheet >> defaultScript [
 
-	^ #()
+	^ ToStyleScript new
 ]
 
 { #category : 't - writable property index holder' }
@@ -157,7 +157,7 @@ ToStyleSheet >> inherits: aBoolean [
 ToStyleSheet >> initialize [ 
 
 	super initialize.
-	self rawStyleRules: self defaultStyleRules.
+	styleScript := self defaultScript.
 	inherits := true
 ]
 
@@ -175,18 +175,6 @@ ToStyleSheet >> onUnInstalledIn: anElement [
 
 ]
 
-{ #category : 't - style rules holder' }
-ToStyleSheet >> rawStyleRules [
-
-	^ styleRules 
-]
-
-{ #category : 't - style rules holder' }
-ToStyleSheet >> rawStyleRules: aStyleRuleCollection [
-
-	styleRules := aStyleRuleCollection
-]
-
 { #category : 't - writable property index holder' }
 ToStyleSheet >> rawWritablePropertyIndex [
 
@@ -197,6 +185,18 @@ ToStyleSheet >> rawWritablePropertyIndex [
 ToStyleSheet >> rawWritablePropertyIndex: aPropertyIndex [
 
 	writablePropertyIndex := aPropertyIndex
+]
+
+{ #category : 'accessing' }
+ToStyleSheet >> script [
+
+	^ styleScript
+]
+
+{ #category : 't - style rules holder' }
+ToStyleSheet >> styleRules [
+
+	^ styleScript styleRules
 ]
 
 { #category : 'syntactic sugar' }

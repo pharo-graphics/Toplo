@@ -1185,14 +1185,14 @@ ToBeeStyleSheet >> defaultButtonScript: aStyleScript [
 ]
 
 { #category : 'initialization' }
-ToBeeStyleSheet >> defaultStyleRules [
+ToBeeStyleSheet >> defaultScript [
 
 	| script |
-	script := ToStyleScript new.
+	script := super defaultScript.
 	self rootPaneScript: script.
 	self labelScript: script.
 	self buttonScript: script.
-	^ script styleRules
+	^ script 
 ]
 
 { #category : 'accessing rules  - label' }

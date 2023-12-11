@@ -102,6 +102,12 @@ ToStyleScript >> ruleStack [
 	^ ruleStack
 ]
 
+{ #category : 'accessing' }
+ToStyleScript >> rules [
+
+	^ self styleRules 
+]
+
 { #category : 'rules declaring' }
 ToStyleScript >> select: aStyleSelector style: aBlock [
 

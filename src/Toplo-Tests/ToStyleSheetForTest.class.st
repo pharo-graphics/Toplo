@@ -7,12 +7,12 @@ Class {
 }
 
 { #category : 'initialization' }
-ToStyleSheetForTest >> defaultStyleRules [
+ToStyleSheetForTest >> defaultScript [
 
 	| script |
-	script := ToStyleScript new.
+	script := super defaultScript.
 	self elementScript: script.
-	^ script styleRules
+	^ script 
 ]
 
 { #category : 'rules declaring' }

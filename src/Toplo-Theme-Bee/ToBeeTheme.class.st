@@ -68,7 +68,7 @@ ToBeeTheme >> defaultElementStampsFor: anElement [
 ]
 
 { #category : 'styling' }
-ToBeeTheme >> newStyleSheet [ 
+ToBeeTheme >> newRootStyleSheet [ 
 
 	^ ToBeeStyleSheet new
 ]

@@ -13,7 +13,7 @@ ToStyleSheetThemeForTest >> defaultElementStampsFor: anElement [
 ]
 
 { #category : 'styling' }
-ToStyleSheetThemeForTest >> newStyleSheet [ 
+ToStyleSheetThemeForTest >> newRootStyleSheet [ 
 
 	^ ToStyleSheetForTest new
 ]

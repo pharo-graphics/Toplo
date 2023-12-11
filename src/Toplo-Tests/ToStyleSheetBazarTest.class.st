@@ -21,7 +21,7 @@ ToStyleSheetBazarTest >> setUp [
 { #category : 'tests' }
 ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 
-	| script styleSheet button labelSkin attributes foregroundAttr prop writers label theme |
+	|  styleSheet button labelSkin attributes foregroundAttr prop writers label theme |
 	" declare a local only stylesheet "
 	styleSheet := ToStyleSheet new
 		              inherits: false;
@@ -33,8 +33,8 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 			(BlTextAttributesBuilder new foreground: v) attributes.
 		e textChanged ].
 
-	script := ToStyleScript new.
-	script select: ((ToStampSelector new addStamp: #'button-label')
+
+	styleSheet script select: ((ToStampSelector new addStamp: #'button-label')
 			  withParent:
 			  (ToStampSelector new addAllStamps: #( #button #danger ))
 			  atDepth: 3)
@@ -57,7 +57,6 @@ ToStyleSheetBazarTest >> testButtonLabelSkin0 [
 				 write: prop
 				 with: [ :e | e tokenValueNamed: #'color-error-pressed' ] ].
 			
-	styleSheet addAllStyleRules: script styleRules.
 	button := ToButton new.
 	space toTheme: ToBeeLightTheme new.
 	space root addChild: button.
@@ -103,8 +102,7 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 	theme := ToStyleSheetTheme new.
 
 	" default button rule "
-	script := ToStyleScript new.
-	script
+	styleSheet script
 		select: (ToStampSelector new addStamp: #button)
 		style: [ :sr |
 			| p |
@@ -133,7 +131,7 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 				write: p
 				with: [ :e | e tokenValueNamed: #'color-primary-pressed' ] ].
 
-	script
+	styleSheet script
 		select: ((ToStampSelector new addStamp: #'button-label')
 				 withParent:
 				 (ToStampSelector new addAllStamps: #( #button #danger ))
@@ -163,7 +161,6 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 				write: tp
 				with: [ :e | e tokenValueNamed: #'color-error-pressed' ] ].
 
-	styleSheet addAllStyleRules: script styleRules.
 	button := ToButton new.
 	space toTheme: ToBeeLightTheme new.
 	space root addChild: button.
@@ -219,7 +216,7 @@ ToStyleSheetBazarTest >> testButtonSkin0 [
 { #category : 'tests' }
 ToStyleSheetBazarTest >> testButtonSkinWithInterspace [
 
-	| elem writers skin interspaceProp layoutProp theme styleSheet script |
+	| elem writers skin interspaceProp layoutProp theme styleSheet  |
 	theme := ToStyleSheetTheme new.
 	interspaceProp := ToPseudoProperty
 		                  name: #'layout-interspace'
@@ -231,15 +228,13 @@ ToStyleSheetBazarTest >> testButtonSkinWithInterspace [
 		              inherits: false;
 		              yourself.
 
-	script := ToStyleScript new.
-	script
+	styleSheet script
 		select: (ToStampSelector new addStamp: #button)
 			|| (ToStampSelector new addAllStamps: #( #button #horizontal ))
 		style: [ :sr |
 			sr write: layoutProp with: BlLinearLayout horizontal.
 			sr write: interspaceProp with: 10 ].
-	styleSheet addAllStyleRules: script styleRules.
-
+		
 	elem := ToElement new.
 	space root addChild: elem.
 	elem styleSheet: styleSheet.
@@ -269,19 +264,17 @@ ToStyleSheetBazarTest >> testEmptyStyleSheet [
 { #category : 'tests' }
 ToStyleSheetBazarTest >> testSkinWithAnUniversalRule [
 
-	| styleSheet elem skin writers theme script |
+	| styleSheet elem skin writers theme  |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
 	theme := ToStyleSheetTheme new.
 
-	script := ToStyleScript new.
-	script select: ToUniversalSelector new style: [ :sr |
+	styleSheet script select: ToUniversalSelector new style: [ :sr |
 		sr
 			when: ToInstallLookEvent
 			write: (ToFeatureProperty new name: #background)
 			with: Color red ].
-	styleSheet addAllStyleRules: script styleRules.
 	elem := ToElement new.
 	space root addChild: elem.
 	elem styleSheet: styleSheet.
@@ -299,15 +292,14 @@ ToStyleSheetBazarTest >> testSkinWithAnUniversalRule [
 ToStyleSheetBazarTest >> testSkinWithChildRule [
 	" with a direct child "
 
-	| skin parent child writers theme styleSheet script |
+	| skin parent child writers theme styleSheet  |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
 
 	theme := ToStyleSheetTheme new.
 
-	script := ToStyleScript new.
-	script
+	styleSheet script
 		select: ((ToIdSelector new id: #child) withParent:
 				 (ToStampSelector new addStamp: #parent))
 		style: [ :sr |
@@ -316,7 +308,6 @@ ToStyleSheetBazarTest >> testSkinWithChildRule [
 				write: (ToFeatureProperty new name: #border)
 				with: (BlBorder paint: Color red width: 3) ].
 
-	styleSheet addAllStyleRules: script styleRules.
 
 	parent := ToElement new addStamp: #parent.
 	space root addChild: parent.
@@ -345,15 +336,14 @@ ToStyleSheetBazarTest >> testSkinWithChildRule [
 ToStyleSheetBazarTest >> testSkinWithChildRule2 [
 	" with a direct child "
 
-	| skin parent child writers subParent styleSheet theme script |
+	| skin parent child writers subParent styleSheet theme  |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
 
 	theme := ToStyleSheetTheme new.
 
-	script := ToStyleScript new.
-	script
+	styleSheet script
 		select: ((ToIdSelector new id: #child)
 				 withParent: (ToStampSelector new addStamp: #parent)
 				 atDepth: 2)
@@ -362,8 +352,6 @@ ToStyleSheetBazarTest >> testSkinWithChildRule2 [
 				when: ToInstallLookEvent
 				write: (ToFeatureProperty new name: #border)
 				with: (BlBorder paint: Color red width: 3) ].
-
-	styleSheet addAllStyleRules: script styleRules.
 
 	parent := ToElement new addStamp: #parent.
 	space root addChild: parent.
@@ -392,20 +380,17 @@ ToStyleSheetBazarTest >> testSkinWithChildRule2 [
 { #category : 'tests' }
 ToStyleSheetBazarTest >> testSkinWithIdRule [
 
-	| elem writers skin styleSheet theme script |
+	| elem writers skin styleSheet theme  |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
 
 	theme := ToStyleSheetTheme new.
 
-	script := ToStyleScript new.
-	script select: (ToIdSelector new id: #a) style: [ :sr |
+	styleSheet script select: (ToIdSelector new id: #a) style: [ :sr |
 		sr
 			write: (ToFeatureProperty new name: #border)
 			with: (BlBorder paint: Color red width: 3) ].
-
-	styleSheet addAllStyleRules: script styleRules.
 
 	elem := ToElement new.
 	space root addChild: elem.
@@ -436,7 +421,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyle0 [
 	theme := ToStyleSheetTheme new.
 
 	script := ToStyleScript new.
-	script select: #button asStampSelector style: [ :sr |
+	styleSheet script select: #button asStampSelector style: [ :sr |
 		sr write: (styleSheet property: #background) with: Color white.
 		sr
 			when: ToInstallLookEvent
@@ -450,7 +435,6 @@ ToStyleSheetBazarTest >> testStyleSheetStyle0 [
 	button := ToElement new.
 	button styleSheet: styleSheet.
 
-	styleSheet addAllStyleRules: script styleRules.
 	button addStamp: #button.
 	space root addChild: button.
 	writers := theme applicableWritersFor: button.
@@ -467,15 +451,14 @@ ToStyleSheetBazarTest >> testStyleSheetStyle0 [
 { #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 
-	| button skin writers styleSheet theme script |
+	| button skin writers styleSheet theme  |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
 
 	theme := ToStyleSheetTheme new.
 
-	script := ToStyleScript new.
-	script select: #button asStampSelector style: [ :sr |
+	styleSheet script select: #button asStampSelector style: [ :sr |
 		sr select: #danger asStampSelector style: [
 			sr write: (styleSheet property: #background) with: Color red.
 			sr
@@ -496,7 +479,6 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 	space root addChild: button.
 	button styleSheet: styleSheet.
 
-	styleSheet addAllStyleRules: script styleRules.
 	button addStamp: #button.
 	writers := theme applicableWritersFor: button.
 	self assert: writers size equals: 2.
@@ -531,7 +513,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules0 [
 { #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules1 [
 
-	| elem child childchild1 childchild2 skin writers rules styleSheet theme script |
+	| elem child childchild1 childchild2 skin writers  styleSheet theme  |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -546,14 +528,11 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules1 [
 
 	child styleSheet: styleSheet.
 	" default button rule "
-	script := ToStyleScript new.
-	script select: #child asStampSelector style: [ :sr |
+	styleSheet script select: #child asStampSelector style: [ :sr |
 		sr select: sr any style: [
 			sr
 				write: (styleSheet property: #background)
 				with: [ :e | Color red ] ] ].
-	rules := script styleRules.
-	styleSheet addAllStyleRules: rules.
 
 	elem addChild: child.
 	child addChild: childchild1.
@@ -580,7 +559,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules1 [
 { #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules2 [
 
-	| elem child childchild1 childchild2 skin writers styleSheet theme script |
+	| elem child childchild1 childchild2 skin writers styleSheet theme  |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -598,10 +577,9 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules2 [
 	child addChild: childchild1.
 	child addChild: childchild2.
 
-	script := ToStyleScript new.
 
 	" default button rule "
-	script
+	styleSheet script
 		select: (#child asStampSelector withParent: #elem asStampSelector)
 		style: [ :sr |
 			sr select: sr any style: [
@@ -609,7 +587,6 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules2 [
 					write: (styleSheet property: #background)
 					with: [ :e | Color red ] ] ].
 
-	styleSheet addAllStyleRules: script styleRules.
 
 	writers := theme applicableWritersFor: elem.
 	self assert: writers size equals: 0.
@@ -633,7 +610,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules2 [
 { #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules22 [
 
-	| elem child childchild1 childchild2 skin writers styleSheet theme script |
+	| elem child childchild1 childchild2 skin writers styleSheet theme  |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -651,10 +628,9 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules22 [
 	child addChild: childchild1.
 	child addChild: childchild2.
 
-	script := ToStyleScript new.
 
 	" default button rule "
-	script
+	styleSheet script
 		select: (#child asStampSelector withParent: #elem asStampSelector)
 		style: [ :sr |
 			sr select: (sr withParent: #red asStampSelector) style: [
@@ -662,7 +638,6 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules22 [
 					write: (styleSheet property: #background)
 					with: [ :e | Color red ] ] ].
 
-	styleSheet addAllStyleRules: script styleRules.
 
 	writers := theme applicableWritersFor: elem.
 	self assert: writers size equals: 0.
@@ -686,7 +661,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules22 [
 { #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules3 [
 
-	| elem child childchild1 childchild2 skin writers rules styleSheet theme script |
+	| elem child childchild1 childchild2 skin writers rules styleSheet theme  |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -705,8 +680,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules3 [
 	child addChild: childchild2.
 
 	" default button rule "
-	script := ToStyleScript new.
-	script
+	styleSheet script
 		select: (#child asStampSelector withParent:
 				 ((#( #elem #red ) asStampSelector
 					   withChild: #childchild1 asStampSelector
@@ -715,8 +689,6 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules3 [
 			sr
 				write: (styleSheet property: #background)
 				with: [ :e | Color red ] ].
-	rules := script styleRules.
-	styleSheet addAllStyleRules: rules.
 
 	writers := theme applicableWritersFor: elem.
 	self assert: writers size equals: 0.
@@ -740,7 +712,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules3 [
 { #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules32 [
 
-	| elem child childchild1 childchild2 skin writers styleSheet theme script |
+	| elem child childchild1 childchild2 skin writers styleSheet theme  |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -758,8 +730,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules32 [
 	child addChild: childchild1.
 	child addChild: childchild2.
 	
-	script := ToStyleScript new.
-	script
+	styleSheet script
 		select: (#child asStampSelector withParent: #elem asStampSelector) style: [ :sr |
 		          sr
 			          select:
@@ -771,7 +742,6 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules32 [
 				          write: (styleSheet property: #background)
 				          with: [ :e | Color red ] ] ].
 
-	styleSheet addAllStyleRules: script styleRules.
 	writers := theme applicableWritersFor: elem.
 	self assert: writers size equals: 0.
 	writers := theme applicableWritersFor: childchild1.
@@ -794,7 +764,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules32 [
 { #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules33 [
 
-	| elem child childchild1 childchild2 skin writers styleSheet theme script |
+	| elem child childchild1 childchild2 skin writers styleSheet theme  |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -812,8 +782,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules33 [
 	child addChild: childchild1.
 	child addChild: childchild2.
 
-	script := ToStyleScript new.
-	script
+	styleSheet script
 		select: (#child asStampSelector withParent: #elem asStampSelector)
 		style: [ :sr |
 			sr
@@ -824,7 +793,6 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules33 [
 							write: (styleSheet property: #background)
 							with: [ :e | Color red ] ] ] ].
 
-	styleSheet addAllStyleRules: script styleRules.
 	writers := theme applicableWritersFor: elem.
 	self assert: writers size equals: 0.
 	writers := theme applicableWritersFor: childchild1.
@@ -847,7 +815,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithSubRules33 [
 { #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules1 [
 
-	| elem child childchild1 childchild2 skin writers styleSheet theme script |
+	| elem child childchild1 childchild2 skin writers styleSheet theme  |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -866,13 +834,11 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules1 [
 	child addChild: childchild2.
 
 	" default button rule "
-	script := ToStyleScript new.
-	script select: #child asStampSelector style: [ :sr |
+	styleSheet script select: #child asStampSelector style: [ :sr |
 		sr
 			write: (styleSheet property: #background)
 			with: [ :e | Color red ] ].
 
-	styleSheet addAllStyleRules: script styleRules.
 	writers := theme applicableWritersFor: child.
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.
@@ -888,7 +854,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules1 [
 { #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules2 [
 
-	| elem child childchild1 childchild2 skin writers styleSheet theme script |
+	| elem child childchild1 childchild2 skin writers styleSheet theme  |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -907,13 +873,11 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules2 [
 	child addChild: childchild2.
 
 	" default button rule "
-	script := ToStyleScript new.
-	script select: (#child asStampSelector withParent: #elem asStampSelector) style: [ :sr |
+	styleSheet script select: (#child asStampSelector withParent: #elem asStampSelector) style: [ :sr |
 		          sr
 			          write: (styleSheet property: #background)
 			          with: [ :e | Color red ] ].
 
-	styleSheet addAllStyleRules: script styleRules.
 
 	writers := theme applicableWritersFor: child.
 	self assert: writers size equals: 1.
@@ -930,7 +894,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules2 [
 { #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules3 [
 
-	| elem child childchild1 childchild2 skin writers styleSheet theme script |
+	| elem child childchild1 childchild2 skin writers styleSheet theme  |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -949,8 +913,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules3 [
 	child addChild: childchild2.
 
 	" default button rule "
-	script := ToStyleScript new.
-	script
+	styleSheet script
 		select: (#child asStampSelector withParent:
 				 ((#( #elem #red ) asStampSelector
 					   withChild: #childchild1 asStampSelector
@@ -960,7 +923,6 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules3 [
 				write: (styleSheet property: #background)
 				with: [ :e | Color red ] ].
 
-	styleSheet addAllStyleRules: script styleRules.
 
 	writers := theme applicableWritersFor: child.
 	self assert: writers size equals: 1.
@@ -977,7 +939,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules3 [
 { #category : 'tests - style sheet style' }
 ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 
-	| elem child childchild1 childchild2 writers skin styleSheet theme script |
+	| elem child childchild1 childchild2 writers skin styleSheet theme  |
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
@@ -995,8 +957,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 	child addChild: childchild1.
 	child addChild: childchild2.
 
-	script := ToStyleScript new.
-	script
+	styleSheet script
 		select: (#child asStampSelector withParent:
 				 ((#( #elem #red ) asStampSelector
 					   withChild: #childchild1 asStampSelector
@@ -1006,7 +967,7 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 				when: ToInstallLookEvent
 				write: (styleSheet property: #background)
 				with: [ :e | Color red ] ].
-	script
+	styleSheet script
 		select: (#child asStampSelector withParent:
 				 ((#( #elem #blue ) asStampSelector
 					   withChild: #childchild1 asStampSelector
@@ -1017,7 +978,6 @@ ToStyleSheetBazarTest >> testStyleSheetStyleWithoutSubRules4 [
 				write: (styleSheet property: #background)
 				with: [ :e | Color blue ] ].
 
-	styleSheet addAllStyleRules: script styleRules.
 	writers := theme applicableWritersFor: child.
 	self assert: writers size equals: 1.
 	skin := ToStyleSheetSkin new.

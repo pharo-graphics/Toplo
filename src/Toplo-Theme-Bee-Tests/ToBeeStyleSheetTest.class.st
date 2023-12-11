@@ -21,7 +21,7 @@ ToBeeStyleSheetTest >> setUp [
 	ToTheme cleanUp.
 	space toTheme: ToBeeLightTheme new.
 	
-	styleSheet := ToBeeTheme new newStyleSheet.
+	styleSheet := ToBeeTheme new newRootStyleSheet.
 	styleSheet inherits: false.
 ]
 

@@ -224,6 +224,12 @@ ToTheme >> name [
 	^ self subclassResponsibility 
 ]
 
+{ #category : 'styling' }
+ToTheme >> newRootStyleSheet [ 
+
+	^ nil
+]
+
 { #category : 'accessing' }
 ToTheme >> newSkinFor: anElement [
 
@@ -235,12 +241,6 @@ ToTheme >> newSkinFor: anElement [
 ToTheme >> newSkinInstanceFor: anElement [
 
 	^ self subclassResponsibility 
-]
-
-{ #category : 'styling' }
-ToTheme >> newStyleSheet [ 
-
-	^ nil
 ]
 
 { #category : 'printing' }

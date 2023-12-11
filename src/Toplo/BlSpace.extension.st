@@ -36,7 +36,7 @@ BlSpace >> checkSkinPhases [
 { #category : '*Toplo' }
 BlSpace >> renewRootStyleSheet [
 
-	self root styleSheet: self toTheme newStyleSheet
+	self root styleSheet: self toTheme newRootStyleSheet
 ]
 
 { #category : '*Toplo' }

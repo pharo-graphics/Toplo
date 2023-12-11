@@ -21,6 +21,16 @@ ToStyleSheetTest >> setUp [
 ]
 
 { #category : 'tests' }
+ToStyleSheetTest >> testDefaultStyleScript [
+
+	| sheet defaultScript |
+	sheet := ToStyleSheet new.
+	defaultScript := sheet defaultScript.
+	self assert: sheet script class identicalTo: defaultScript class.
+	self assert: sheet script styleRules size equals: defaultScript styleRules size
+]
+
+{ #category : 'tests' }
 ToStyleSheetTest >> testInherits [
 
 	| sheet |
@@ -36,7 +46,7 @@ ToStyleSheetTest >> testInitialize [
 	| sheet |
 	sheet := ToStyleSheet new.
 	self assert: sheet styleRules notNil.
-	self assert: sheet styleRules size equals: sheet defaultStyleRules size.
+	self assert: sheet styleRules size equals: sheet defaultScript styleRules size.
 	self assert: sheet inherits.
 ]
 

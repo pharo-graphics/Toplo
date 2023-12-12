@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToElementForRawSkinTest',
-	#superclass : 'BlElement',
+	#superclass : 'ToElement',
 	#instVars : [
 		'styleInstalled',
 		'styleUninstalled'

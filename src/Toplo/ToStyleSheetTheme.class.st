@@ -1,8 +1,8 @@
 Class {
 	#name : 'ToStyleSheetTheme',
 	#superclass : 'ToTheme',
-	#traits : 'TToStyleSheetScripter',
-	#classTraits : 'TToStyleSheetScripter classTrait',
+	#traits : 'TToStyleRuleScripter',
+	#classTraits : 'TToStyleRuleScripter classTrait',
 	#instVars : [
 		'styleSheet'
 	],

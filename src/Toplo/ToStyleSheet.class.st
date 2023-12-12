@@ -1,8 +1,8 @@
 Class {
 	#name : 'ToStyleSheet',
 	#superclass : 'Object',
-	#traits : 'TToStyleSheetScripter',
-	#classTraits : 'TToStyleSheetScripter classTrait',
+	#traits : 'TToStyleRuleScripter',
+	#classTraits : 'TToStyleRuleScripter classTrait',
 	#instVars : [
 		'styleScript',
 		'inherits',

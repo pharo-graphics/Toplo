@@ -25,12 +25,37 @@ ToSkinUninstallerTest >> testApplyOn [
 	e := ToElement new.
 	e skinUninstaller: ToSkinUninstaller new.
 	e skinManager applySkinUninstallerIn: e.
+	self deny: e installedSkin notNil.
 	space root addChild: e.
 	e applySkinInstaller.
 	self assert: e installedSkin notNil.
 	e skinUninstaller: ToSkinUninstaller new.
 	e skinManager applySkinUninstallerIn: e.
 	self assert: e installedSkin isNil.
+
+
+]
+
+{ #category : 'tests' }
+ToSkinUninstallerTest >> testApplyOnWithRawSkin [ 
+
+	| e |
+	e := ToElementForRawSkinTest new.
+	space toTheme: ToRawTheme light.
+	e skinUninstaller: ToSkinUninstaller new.
+	e skinManager applySkinUninstallerIn: e.
+	self deny: e installedSkin notNil.
+	" since the element is not attached "
+	self deny: e styleUninstalled.
+	space root addChild: e.
+	e applySkinInstaller.
+	self assert: e installedSkin notNil.
+	self assert: e styleInstalled.
+	e skinUninstaller: ToSkinUninstaller new.
+	e skinManager applySkinUninstallerIn: e.
+	self assert: e installedSkin isNil.
+	self assert: e styleUninstalled.
+
 
 
 ]

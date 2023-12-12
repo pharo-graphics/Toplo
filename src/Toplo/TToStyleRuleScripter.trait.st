@@ -1,56 +1,56 @@
 Trait {
-	#name : 'TToStyleSheetScripter',
+	#name : 'TToStyleRuleScripter',
 	#category : 'Toplo-Core-StyleSheet',
 	#package : 'Toplo',
 	#tag : 'Core-StyleSheet'
 }
 
 { #category : 't - stylesheet scripter - syntactic sugar' }
-TToStyleSheetScripter >> action: aValuable [ 
+TToStyleRuleScripter >> action: aValuable [ 
 
 	 ^ ToActionSelector new action: aValuable 
 ]
 
 { #category : 't - stylesheet scripter - syntactic sugar' }
-TToStyleSheetScripter >> any [
+TToStyleRuleScripter >> any [
 
 	^ self propertyWritersHolder newUniversalSelector
 ]
 
 { #category : 't - stylesheet scripter - syntactic sugar' }
-TToStyleSheetScripter >> haveExactHeight [
+TToStyleRuleScripter >> haveExactHeight [
 
 	^ self action: [ :e | e constraints vertical resizer isExact ]
 ]
 
 { #category : 't - stylesheet scripter - syntactic sugar' }
-TToStyleSheetScripter >> haveExactWidth [
+TToStyleRuleScripter >> haveExactWidth [
 
 	^ self action: [ :e | e constraints horizontal resizer isExact]
 
 ]
 
 { #category : 't - stylesheet scripter - syntactic sugar' }
-TToStyleSheetScripter >> id: aSymbol [
+TToStyleRuleScripter >> id: aSymbol [
 
  	^ ToIdSelector new id: aSymbol
 
 ]
 
 { #category : 't - stylesheet scripter' }
-TToStyleSheetScripter >> propertyWritersHolder [ 
+TToStyleRuleScripter >> propertyWritersHolder [ 
 
 	^ self explicitRequirement 
 ]
 
 { #category : 't - stylesheet scripter' }
-TToStyleSheetScripter >> select: aStyleSelector style: aBlock [
+TToStyleRuleScripter >> select: aStyleSelector style: aBlock [
 
 	self propertyWritersHolder pushStyleRuleFor: aStyleSelector styleWith: aBlock
 ]
 
 { #category : 't - stylesheet scripter' }
-TToStyleSheetScripter >> supplement: aProperty with: aValuableOrObject [
+TToStyleRuleScripter >> supplement: aProperty with: aValuableOrObject [
 
 	self
 		when: nil
@@ -59,13 +59,13 @@ TToStyleSheetScripter >> supplement: aProperty with: aValuableOrObject [
 ]
 
 { #category : 't - stylesheet scripter - syntactic sugar' }
-TToStyleSheetScripter >> type: aClass [
+TToStyleRuleScripter >> type: aClass [
 
 	^ ToTypeSelector new type: aClass
 ]
 
 { #category : 't - stylesheet scripter' }
-TToStyleSheetScripter >> when: aLookEventClass supplement: aWritableProperty with: aValuableOrObject [
+TToStyleRuleScripter >> when: aLookEventClass supplement: aWritableProperty with: aValuableOrObject [
 
 	self propertyWritersHolder addPropertyWriter: (ToPropertyWriter new
 			 eventClass: aLookEventClass;
@@ -76,7 +76,7 @@ TToStyleSheetScripter >> when: aLookEventClass supplement: aWritableProperty wit
 ]
 
 { #category : 't - stylesheet scripter' }
-TToStyleSheetScripter >> when: aLookEventClass write: aProperty with: aValuableOrObject [
+TToStyleRuleScripter >> when: aLookEventClass write: aProperty with: aValuableOrObject [
 
 	self
 		when: aLookEventClass
@@ -86,7 +86,7 @@ TToStyleSheetScripter >> when: aLookEventClass write: aProperty with: aValuableO
 ]
 
 { #category : 't - stylesheet scripter' }
-TToStyleSheetScripter >> when: aLookEventClass write: aWriteableProperty with: aValuableOrObject animation: aPropertyAnimation [
+TToStyleRuleScripter >> when: aLookEventClass write: aWriteableProperty with: aValuableOrObject animation: aPropertyAnimation [
 
 	self propertyWritersHolder addPropertyWriter: (ToPropertyWriter new
 			 eventClass: aLookEventClass;
@@ -98,7 +98,7 @@ TToStyleSheetScripter >> when: aLookEventClass write: aWriteableProperty with: a
 ]
 
 { #category : 't - stylesheet scripter - syntactic sugar' }
-TToStyleSheetScripter >> withChild: aSelector [
+TToStyleRuleScripter >> withChild: aSelector [
 
 	^ ToChildSelector new
 		  left: self any;
@@ -107,7 +107,7 @@ TToStyleSheetScripter >> withChild: aSelector [
 ]
 
 { #category : 't - stylesheet scripter - syntactic sugar' }
-TToStyleSheetScripter >> withChild: aSelector atDepth: anInteger [
+TToStyleRuleScripter >> withChild: aSelector atDepth: anInteger [
 
 	^ ToChildSelector new
 		  depth: anInteger;
@@ -117,7 +117,7 @@ TToStyleSheetScripter >> withChild: aSelector atDepth: anInteger [
 ]
 
 { #category : 't - stylesheet scripter - syntactic sugar' }
-TToStyleSheetScripter >> withParent: aSelector [
+TToStyleRuleScripter >> withParent: aSelector [
 
 	^ ToParentSelector new
 		  left: self any;
@@ -126,7 +126,7 @@ TToStyleSheetScripter >> withParent: aSelector [
 ]
 
 { #category : 't - stylesheet scripter - syntactic sugar' }
-TToStyleSheetScripter >> withParent: aSelector atDepth: anInteger [
+TToStyleRuleScripter >> withParent: aSelector atDepth: anInteger [
 
 	^ ToParentSelector new
 		depth: anInteger;
@@ -136,7 +136,7 @@ TToStyleSheetScripter >> withParent: aSelector atDepth: anInteger [
 ]
 
 { #category : 't - stylesheet scripter' }
-TToStyleSheetScripter >> write: aProperty with: aValue [
+TToStyleRuleScripter >> write: aProperty with: aValue [
 
 	self
 		when: nil
@@ -146,7 +146,7 @@ TToStyleSheetScripter >> write: aProperty with: aValue [
 ]
 
 { #category : 't - stylesheet scripter' }
-TToStyleSheetScripter >> write: aProperty withAll: anArrayOfEventValueAssociations [
+TToStyleRuleScripter >> write: aProperty withAll: anArrayOfEventValueAssociations [
 
 	anArrayOfEventValueAssociations do: [ :assoc |
 		| event value |

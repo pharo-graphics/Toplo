@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToPropertyWriter',
-	#superclass : 'ToLookEventActor',
+	#superclass : 'ToLookEventListener',
 	#instVars : [
 		'property',
 		'value',
@@ -44,10 +44,10 @@ ToPropertyWriter >> printOn: aStream [
 		ifTrue: [ aStream nextPutAll: ' supplement: '] 
 		ifFalse: [ aStream nextPutAll: ' write: ' ].
 	aStream space.
-	aStream nextPutAll: self property name.
+	self property ifNotNil: [ aStream nextPutAll: self property name ].
 	aStream space.
 	aStream nextPutAll: 'when: '.
-	aStream nextPutAll: self eventClass name.
+	aStream nextPutAll: self eventClass asString.
 	aStream space.
 	aStream nextPutAll: 'with: '.
 	self value printOn: aStream

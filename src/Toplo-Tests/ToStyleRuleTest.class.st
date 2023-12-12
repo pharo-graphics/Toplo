@@ -313,30 +313,30 @@ ToStyleRuleTest >> testCanBeRecursivelyAppliedToForTheme [
 ]
 
 { #category : 'tests' }
-ToStyleRuleTest >> testPutApplicableWritersForElementForThemeIn [
+ToStyleRuleTest >> testPutApplicableListenersForElementForThemeIn [
 
-	| rule subRule w1 w2 e writers |
+	| rule subRule w1 w2 e listeners |
 	e := ToElementForStyleRuleTest new.
 	rule := ToStyleRule new selector: ToUniversalSelector new.
 	subRule := ToStyleRule new selector:
 		           (ToTypeSelector new type: ToElementForStyleRuleTest).
 	rule addStyleRule: subRule.
-	writers := Array streamContents: [ :stream |
+	listeners := Array streamContents: [ :stream |
 		           rule
-			           putApplicableWritersForElement: e
+			           putApplicableListenersForElement: e
 			           forTheme: nil
 			           in: stream ].
-	self assert: writers isEmpty.
-	rule addPropertyWriter: (w1 := ToPropertyWriter new).
-	subRule addPropertyWriter: (w2 := ToPropertyWriter new).
-	writers := Array streamContents: [ :stream |
+	self assert: listeners isEmpty.
+	rule addLookEventListener: (w1 := ToPropertyWriter new).
+	subRule addLookEventListener: (w2 := ToPropertyWriter new).
+	listeners := Array streamContents: [ :stream |
 		                      rule
-			                      putApplicableWritersForElement: e
+			                      putApplicableListenersForElement: e
 			                      forTheme: nil
 			                      in: stream ].
-	self assert: writers size equals: 2.
-	self assert: (writers includes: w1).
-	self assert: (writers includes: w2)
+	self assert: listeners size equals: 2.
+	self assert: (listeners includes: w1).
+	self assert: (listeners includes: w2)
 ]
 
 { #category : 'tests' }

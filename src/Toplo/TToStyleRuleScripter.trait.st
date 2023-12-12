@@ -14,7 +14,13 @@ TToStyleRuleScripter >> action: aValuable [
 { #category : 't - stylesheet scripter - syntactic sugar' }
 TToStyleRuleScripter >> any [
 
-	^ self propertyWritersHolder newUniversalSelector
+	^ self lookEventListenerHolder newUniversalSelector
+]
+
+{ #category : 't - stylesheet scripter' }
+TToStyleRuleScripter >> do: aValuable [
+
+	self when: nil do: aValuable
 ]
 
 { #category : 't - stylesheet scripter - syntactic sugar' }
@@ -38,7 +44,7 @@ TToStyleRuleScripter >> id: aSymbol [
 ]
 
 { #category : 't - stylesheet scripter' }
-TToStyleRuleScripter >> propertyWritersHolder [ 
+TToStyleRuleScripter >> lookEventListenerHolder [ 
 
 	^ self explicitRequirement 
 ]
@@ -46,7 +52,7 @@ TToStyleRuleScripter >> propertyWritersHolder [
 { #category : 't - stylesheet scripter' }
 TToStyleRuleScripter >> select: aStyleSelector style: aBlock [
 
-	self propertyWritersHolder pushStyleRuleFor: aStyleSelector styleWith: aBlock
+	self lookEventListenerHolder pushStyleRuleFor: aStyleSelector styleWith: aBlock
 ]
 
 { #category : 't - stylesheet scripter' }
@@ -65,9 +71,18 @@ TToStyleRuleScripter >> type: aClass [
 ]
 
 { #category : 't - stylesheet scripter' }
+TToStyleRuleScripter >> when: aLookEventClass do: aValuable [
+
+	self lookEventListenerHolder addLookEventListener: (ToLookEventAction new
+			 eventClass: aLookEventClass;
+			 action: aValuable;
+			 yourself)
+]
+
+{ #category : 't - stylesheet scripter' }
 TToStyleRuleScripter >> when: aLookEventClass supplement: aWritableProperty with: aValuableOrObject [
 
-	self propertyWritersHolder addPropertyWriter: (ToPropertyWriter new
+	self lookEventListenerHolder addLookEventListener: (ToPropertyWriter new
 			 eventClass: aLookEventClass;
 			 property: aWritableProperty;
 			 value: aValuableOrObject;
@@ -88,7 +103,7 @@ TToStyleRuleScripter >> when: aLookEventClass write: aProperty with: aValuableOr
 { #category : 't - stylesheet scripter' }
 TToStyleRuleScripter >> when: aLookEventClass write: aWriteableProperty with: aValuableOrObject animation: aPropertyAnimation [
 
-	self propertyWritersHolder addPropertyWriter: (ToPropertyWriter new
+	self lookEventListenerHolder addLookEventListener: (ToPropertyWriter new
 			 eventClass: aLookEventClass;
 			 property: aWriteableProperty;
 			 value: aValuableOrObject;

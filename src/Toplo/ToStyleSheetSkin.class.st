@@ -1,10 +1,10 @@
 Class {
 	#name : 'ToStyleSheetSkin',
 	#superclass : 'ToSkin',
-	#traits : 'TToPropertyWritersHolder',
-	#classTraits : 'TToPropertyWritersHolder classTrait',
+	#traits : 'TToLookEventListenerRegistry',
+	#classTraits : 'TToLookEventListenerRegistry classTrait',
 	#instVars : [
-		'propertyWriters'
+		'lookEventListeners'
 	],
 	#category : 'Toplo-Core-StyleSheet',
 	#package : 'Toplo',
@@ -17,27 +17,20 @@ ToStyleSheetSkin >> handleEvent: anEvent [
 	anEvent sendToStyleSheetSkin: self
 ]
 
-{ #category : 'initialization' }
-ToStyleSheetSkin >> initialize [
+{ #category : 't - look event listener registry' }
+ToStyleSheetSkin >> rawLookEventListeners [
 
-	super initialize.
-	self rawPropertyWriters: #(  )
+	^ lookEventListeners
 ]
 
-{ #category : 't - property writers holder - accessing' }
-ToStyleSheetSkin >> rawPropertyWriters [
+{ #category : 't - look event listener registry' }
+ToStyleSheetSkin >> rawLookEventListeners: aLookEventListenerCollection [
 
-	^ propertyWriters
-]
-
-{ #category : 't - property writers holder - accessing' }
-ToStyleSheetSkin >> rawPropertyWriters: aPropertyWriterCollection [
-
-	propertyWriters := aPropertyWriterCollection asArray
+	lookEventListeners := aLookEventListenerCollection
 ]
 
 { #category : 'hook - event managing' }
 ToStyleSheetSkin >> sendEventToPropertyWriters: anEvent [
 
-	self propertyWriters do: [ :s | s receiveEvent: anEvent  ] 
+	self lookEventListeners do: [ :s | s receiveEvent: anEvent  ] 
 ]

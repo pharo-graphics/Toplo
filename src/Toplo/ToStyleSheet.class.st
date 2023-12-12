@@ -132,6 +132,12 @@ ToStyleSheet >> initialize [
 ToStyleSheet >> initializeStyleRules [
 ]
 
+{ #category : 't - stylesheet scripter' }
+ToStyleSheet >> lookEventListenerHolder [ 
+
+	^ self script
+]
+
 { #category : 'initialization' }
 ToStyleSheet >> onInstalledIn: anElement [
 
@@ -150,12 +156,6 @@ ToStyleSheet >> onUnInstalledIn: anElement [
 ToStyleSheet >> property: aSymbol [
 
 	^ self writablePropertyNamed: aSymbol
-]
-
-{ #category : 't - stylesheet scripter' }
-ToStyleSheet >> propertyWritersHolder [ 
-
-	^ self script
 ]
 
 { #category : 'accessing - writable properties' }

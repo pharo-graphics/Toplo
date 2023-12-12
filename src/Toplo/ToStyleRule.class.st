@@ -1,12 +1,12 @@
 Class {
 	#name : 'ToStyleRule',
 	#superclass : 'Object',
-	#traits : 'TToPropertyWritersHolder + TToStyleRulesHolder',
-	#classTraits : 'TToPropertyWritersHolder classTrait + TToStyleRulesHolder classTrait',
+	#traits : 'TToLookEventListenerRegistry + TToStyleRulesHolder',
+	#classTraits : 'TToLookEventListenerRegistry classTrait + TToStyleRulesHolder classTrait',
 	#instVars : [
 		'selector',
 		'subStyleRules',
-		'propertyWriters'
+		'lookEventListeners'
 	],
 	#category : 'Toplo-Core-StyleSheet',
 	#package : 'Toplo',
@@ -64,28 +64,27 @@ ToStyleRule >> initialize [
 
 	super initialize.
 	selector := ToUniversalSelector new.
-	self rawPropertyWriters: #(  ).
 	self rawStyleRules: #(  )
 ]
 
-{ #category : 'writers selecting' }
-ToStyleRule >> putApplicableWritersForElement: anElement forTheme: aTheme in: aStream [
+{ #category : 'listener selecting' }
+ToStyleRule >> putApplicableListenersForElement: anElement forTheme: aTheme in: aStream [
 
 	(self canBeAppliedTo: anElement inTheme: aTheme) ifFalse: [ ^ self ].
-	aStream nextPutAll: self propertyWriters.
-	self styleRules do: [ :r | r putApplicableWritersForElement: anElement forTheme: aTheme in: aStream ] 
+	aStream nextPutAll: self lookEventListeners.
+	self styleRules do: [ :r | r putApplicableListenersForElement: anElement forTheme: aTheme in: aStream ] 
 ]
 
-{ #category : 't - property writers holder - accessing' }
-ToStyleRule >> rawPropertyWriters [
+{ #category : 't - look event listener registry' }
+ToStyleRule >> rawLookEventListeners [
 
-	^ propertyWriters
+	^ lookEventListeners
 ]
 
-{ #category : 't - property writers holder - accessing' }
-ToStyleRule >> rawPropertyWriters: aPropertyWriterCollection [
+{ #category : 't - look event listener registry' }
+ToStyleRule >> rawLookEventListeners: aLookEventListenerCollection [
 
-	propertyWriters := aPropertyWriterCollection 
+	lookEventListeners := aLookEventListenerCollection
 ]
 
 { #category : 't - style rules holder' }

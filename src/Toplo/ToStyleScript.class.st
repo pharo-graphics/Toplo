@@ -13,9 +13,9 @@ Class {
 }
 
 { #category : 'private - adding' }
-ToStyleScript >> addPropertyWriter: aPropertyWriter [
+ToStyleScript >> addLookEventListener: aPropertyWriter [
 
-	self ruleStack top addPropertyWriter: aPropertyWriter
+	self ruleStack top addLookEventListener: aPropertyWriter
 ]
 
 { #category : 'initialization' }
@@ -26,18 +26,18 @@ ToStyleScript >> initialize [
 	styleRules := #(  )
 ]
 
+{ #category : 't - stylesheet scripter' }
+ToStyleScript >> lookEventListenerHolder [ 
+
+	^ self 
+]
+
 { #category : 'rules declaring' }
 ToStyleScript >> newUniversalSelector [
 
 	^ self ruleStack
 		  ifEmpty: [ ToUniversalSelector new ]
 		  ifNotEmpty: [ :stk | stk top selector ]
-]
-
-{ #category : 't - stylesheet scripter' }
-ToStyleScript >> propertyWritersHolder [ 
-
-	^ self 
 ]
 
 { #category : 'rules declaring' }

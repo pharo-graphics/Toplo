@@ -10,6 +10,20 @@ Class {
 }
 
 { #category : 'tests' }
+ToStyleSheetThemeTest >> testApplicableListenersFor [
+
+	| e space theme |
+	e := BlElement new.
+	space := BlSpace new.
+	theme := ToStyleSheetThemeForTest light.
+	space toTheme: theme.
+	
+	space root addChild: e.
+	self assert: (theme applicableListenersFor: e) size equals: 3
+	
+]
+
+{ #category : 'tests' }
 ToStyleSheetThemeTest >> testApplicableRulesFor [
 
 	| e space theme |
@@ -20,20 +34,6 @@ ToStyleSheetThemeTest >> testApplicableRulesFor [
 	
 	space root addChild: e.
 	self assert: (theme applicableRulesFor: e) size equals: 1
-	
-]
-
-{ #category : 'tests' }
-ToStyleSheetThemeTest >> testApplicableWritersFor [
-
-	| e space theme |
-	e := BlElement new.
-	space := BlSpace new.
-	theme := ToStyleSheetThemeForTest light.
-	space toTheme: theme.
-	
-	space root addChild: e.
-	self assert: (theme applicableWritersFor: e) size equals: 3
 	
 ]
 
@@ -57,19 +57,6 @@ ToStyleSheetThemeTest >> testNewSkinInstanceFor [
 	theme := ToStyleSheetThemeForTest light.
 	skin := theme newSkinInstanceFor: e.
 	self assert: (skin isKindOf: ToStyleSheetSkin)
-]
-
-{ #category : 'tests' }
-ToStyleSheetThemeTest >> testRawApplicableWritersFor [
-
-	| e space theme |
-	e := BlElement new.
-	space := BlSpace new.
-	theme := ToStyleSheetThemeForTest light.
-	space toTheme: theme.
-	
-	space root addChild: e.
-	self assert: (theme rawApplicableWritersFor: e) size equals: 5
 ]
 
 { #category : 'tests' }
@@ -108,4 +95,17 @@ ToStyleSheetThemeTest >> testSkinClassFor [
 	theme := ToStyleSheetThemeForTest light.
 	skinCls := theme skinClassFor: e.
 	self assert: skinCls identicalTo: ToStyleSheetSkin 
+]
+
+{ #category : 'tests' }
+ToStyleSheetThemeTest >> testUnsortedApplicableListenersFor [
+
+	| e space theme |
+	e := BlElement new.
+	space := BlSpace new.
+	theme := ToStyleSheetThemeForTest light.
+	space toTheme: theme.
+	
+	space root addChild: e.
+	self assert: (theme unsortedApplicableListenersFor: e) size equals: 5
 ]

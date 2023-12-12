@@ -17,6 +17,56 @@ ToStyleSheetTheme class >> canBeDefault [
 	^ false
 ]
 
+{ #category : 'styling' }
+ToStyleSheetTheme >> applicableListenersFor: anElement [
+	" for an element, several writers can be found. These writers 
+	are found with #rawWritersFor:. After, for each property only the last writers is kept"
+
+	| unsortedListeners supplement uniqueListeners eventClassIndex lookEventActions |
+	anElement isAttachedToSceneGraph ifFalse: [ ^ #(  ) ].
+
+	" get all subscriptions for anElement "
+	unsortedListeners := self unsortedApplicableListenersFor: anElement.
+
+	" keep only the last writers for each property except those which are declared as supplement"
+	eventClassIndex := IdentityDictionary new.
+	supplement := OrderedCollection new.
+	lookEventActions := OrderedCollection new.
+
+	" first build a 2 level index : the first level key is the eventClass, the second level key is the property "
+	unsortedListeners do: [ :w |
+		w isSupplement
+			ifTrue: [ supplement add: w ]
+			ifFalse: [
+				| indexByProperty |
+				indexByProperty := eventClassIndex
+					                   at: w eventClass
+					                   ifAbsentPut: [ IdentityDictionary new ].
+				indexByProperty at: w property put: w ] ].
+
+	uniqueListeners := Array streamContents: [ :str |
+		                   eventClassIndex valuesDo: [ :indexByProperty | 
+									" actions property is the ToNullProperty uniqueInstance "
+			                   indexByProperty
+				                   at: ToNullProperty uniqueInstance
+				                   ifPresent: [ :listener |
+				                   lookEventActions add: listener ].
+
+			                   indexByProperty
+				                   removeKey: ToNullProperty uniqueInstance
+				                   ifAbsent: [  ].
+
+			                   " add all other listeners - these are all property writers "
+			                   str nextPutAll: indexByProperty values ] ].
+
+	^ Array streamContents: [ :str |
+		  str nextPutAll: lookEventActions.
+		  str nextPutAll:
+			  (uniqueListeners sort: [ :a :b |
+				   a property name < b property name ]).
+		  str nextPutAll: supplement ]
+]
+
 { #category : 'css like printing' }
 ToStyleSheetTheme >> applicableRulesFor: anElement [
 	" return applicable rules for an element "
@@ -28,41 +78,6 @@ ToStyleSheetTheme >> applicableRulesFor: anElement [
 	^ Array streamContents: [:str | 
 		rootRules do:[ :r | (r copyWithOnlyApplicableRuleFor: anElement inTheme: self) 
 			ifNotNil:[ :anApplicableRule | str nextPut: anApplicableRule ] ] ]
-]
-
-{ #category : 'styling' }
-ToStyleSheetTheme >> applicableWritersFor: anElement [
-	" for an element, several writers can be found. These writers 
-	are found with #rawWritersFor:. After, for each property only the last writers is kept"
-
-	| rawWriters supplement uniqueWriters eventClassIndex |
-	anElement isAttachedToSceneGraph ifFalse: [ ^ #(  ) ].
-
-	" get all subscriptions for anElement "
-	rawWriters := self rawApplicableWritersFor: anElement.
-
-	" keep only the last writers for each property except those which are declared as supplement"
-	eventClassIndex := IdentityDictionary new.
-	supplement := OrderedCollection new.
-
-	rawWriters do: [ :w |
-		w supplement
-			ifTrue: [ supplement add: w ]
-			ifFalse: [
-				| indexByProperty |
-				indexByProperty := eventClassIndex
-					                   at: w eventClass
-					                   ifAbsentPut: [ IdentityDictionary new ].
-				indexByProperty at: w property put: w ] ].
-
-	uniqueWriters := Array streamContents: [ :str |
-		                 eventClassIndex valuesDo: [ :indexByProperty |
-			                 str nextPutAll: indexByProperty values ] ].
-
-	^ Array streamContents: [ :str |
-		  str nextPutAll:
-			  (uniqueWriters sort: [ :a :b | a property name < b property name ]).
-		  str nextPutAll: supplement ]
 ]
 
 { #category : 'initialization' }
@@ -83,13 +98,19 @@ ToStyleSheetTheme >> initialize [
 ToStyleSheetTheme >> initializeStyleRules [
 ]
 
+{ #category : 't - stylesheet scripter' }
+ToStyleSheetTheme >> lookEventListenerHolder [ 
+
+	^ self styleSheet script
+]
+
 { #category : 'accessing' }
 ToStyleSheetTheme >> newSkinInstanceFor: anElement [
 
 	| skin |
 	skin := (self skinClassFor: anElement) new.
-	(self applicableWritersFor: anElement) ifNotEmpty: [ :writers |
-		skin propertyWriters: writers ].
+	(self applicableListenersFor: anElement) ifNotEmpty: [ :writers |
+		skin lookEventListeners: writers ].
 	^ skin
 ]
 
@@ -97,20 +118,6 @@ ToStyleSheetTheme >> newSkinInstanceFor: anElement [
 ToStyleSheetTheme >> property: aSymbol [
 
 	^ self styleSheet writablePropertyNamed: aSymbol
-]
-
-{ #category : 't - stylesheet scripter' }
-ToStyleSheetTheme >> propertyWritersHolder [ 
-
-	^ self styleSheet script
-]
-
-{ #category : 'styling' }
-ToStyleSheetTheme >> rawApplicableWritersFor: anElement [
-
-	^ Array streamContents: [ :stream |
-		  (self rootRulesFor: anElement) do: [ :r |
-			  r putApplicableWritersForElement: anElement forTheme: self in: stream ] ]
 ]
 
 { #category : 'styling' }
@@ -138,4 +145,12 @@ ToStyleSheetTheme >> skinClassFor: anElement [
 ToStyleSheetTheme >> styleSheet [
 
 	^ styleSheet
+]
+
+{ #category : 'styling' }
+ToStyleSheetTheme >> unsortedApplicableListenersFor: anElement [
+
+	^ Array streamContents: [ :stream |
+		  (self rootRulesFor: anElement) do: [ :r |
+			  r putApplicableListenersForElement: anElement forTheme: self in: stream ] ]
 ]

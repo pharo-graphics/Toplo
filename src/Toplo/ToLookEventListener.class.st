@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToLookEventActor',
+	#name : 'ToLookEventListener',
 	#superclass : 'Object',
 	#instVars : [
 		'eventClass'
@@ -10,31 +10,37 @@ Class {
 }
 
 { #category : 'look event handling' }
-ToLookEventActor >> applyOn: anObject [
+ToLookEventListener >> applyOn: anObject [
 
 	self subclassResponsibility 
 ]
 
 { #category : 'testing' }
-ToLookEventActor >> canReceiveEvent: aLookEvent [ 
+ToLookEventListener >> canReceiveEvent: aLookEvent [ 
 
 	^ self eventClass = aLookEvent class 
 ]
 
 { #category : 'accessing' }
-ToLookEventActor >> eventClass [
+ToLookEventListener >> eventClass [
 
 	^ eventClass ifNil: [ eventClass := ToInstallLookEvent  ]
 ]
 
 { #category : 'accessing' }
-ToLookEventActor >> eventClass: aLookEventClass [
+ToLookEventListener >> eventClass: aLookEventClass [
 
 	eventClass := aLookEventClass
 ]
 
+{ #category : 'testing' }
+ToLookEventListener >> isSupplement [ 
+
+	^ self subclassResponsibility 
+]
+
 { #category : 'look event handling' }
-ToLookEventActor >> receiveEvent: aLookEvent [
+ToLookEventListener >> receiveEvent: aLookEvent [
 
 	| target |
 	(self canReceiveEvent: aLookEvent) ifFalse: [ ^ self ].

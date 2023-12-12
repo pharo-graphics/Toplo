@@ -1,31 +1,24 @@
 Class {
 	#name : 'ToPropertyWritersHolderElementForTest',
 	#superclass : 'Object',
-	#traits : 'TToPropertyWritersHolder',
-	#classTraits : 'TToPropertyWritersHolder classTrait',
+	#traits : 'TToLookEventListenerRegistry',
+	#classTraits : 'TToLookEventListenerRegistry classTrait',
 	#instVars : [
-		'propertyWriters'
+		'lookEventListeners'
 	],
 	#category : 'Toplo-Tests-Core-StyleSheet',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-StyleSheet'
 }
 
-{ #category : 'initialization' }
-ToPropertyWritersHolderElementForTest >> initialize [ 
+{ #category : 't - look event listener registry' }
+ToPropertyWritersHolderElementForTest >> rawLookEventListeners [
 
-	super 	initialize.
-	self rawPropertyWriters: #(  )
+	^ lookEventListeners
 ]
 
-{ #category : 't - property writers holder - accessing' }
-ToPropertyWritersHolderElementForTest >> rawPropertyWriters [
+{ #category : 't - look event listener registry' }
+ToPropertyWritersHolderElementForTest >> rawLookEventListeners: aLookEventListenerCollection [
 
-	^ propertyWriters
-]
-
-{ #category : 't - property writers holder - accessing' }
-ToPropertyWritersHolderElementForTest >> rawPropertyWriters: aPropertyWriterCollection [
-
-	propertyWriters := aPropertyWriterCollection
+	lookEventListeners := aLookEventListenerCollection
 ]

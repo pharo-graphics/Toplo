@@ -19,18 +19,18 @@ ToStyleScriptTest >> testAction [
 ]
 
 { #category : 'tests' }
-ToStyleScriptTest >> testAddPropertyWriter [
+ToStyleScriptTest >> testAddLookEventListener [
 
 	| styleScript styleRule writer |
 	styleScript := ToStyleScript new.
 	styleScript select: #button style: [ :theStyleScript |
-		theStyleScript addPropertyWriter: (ToPropertyWriter new
+		theStyleScript addLookEventListener: (ToPropertyWriter new
 				 property: (ToFeatureProperty new name: #size);
 				 value: 40 asPoint;
 				 yourself) ].
 	styleRule := styleScript styleRules first.
-	self assert: styleRule propertyWriters size equals: 1.
-	writer := styleRule propertyWriters first.
+	self assert: styleRule lookEventListeners size equals: 1.
+	writer := styleRule lookEventListeners first.
 	self assert: (writer property isKindOf: ToFeatureProperty).
 	self assert: writer property name equals: #size.
 	self assert: writer value equals: 40 asPoint
@@ -43,7 +43,7 @@ ToStyleScriptTest >> testAddPropertyWriter1 [
 	styleScript := ToStyleScript new.
 	" can't add a property write outside a select:style: block because 
 	there is no access to any style rule outside a select:style: block"
-	self should: [styleScript addPropertyWriter: ToPropertyWriter new] raise: Error
+	self should: [styleScript addLookEventListener: ToPropertyWriter new] raise: Error
 ]
 
 { #category : 'tests' }
@@ -244,13 +244,33 @@ ToStyleScriptTest >> testSupplementWith [
 	self assert: styleScript styleRules size equals: 1.
 	styleRule := styleScript styleRules first.
 	self assert: wasHere.
-	self assert: styleRule propertyWriters size equals: 1.
-	writer := styleRule propertyWriters first.
+	self assert: styleRule lookEventListeners size equals: 1.
+	writer := styleRule lookEventListeners first.
 	self assert: writer supplement.
 	self assert: writer eventClass equals: ToInstallLookEvent.
 	self assert: (writer property isKindOf: ToPseudoProperty).
 	self assert: writer property name equals: #'border-with-builder'.
 	self assert: (writer value isKindOf: BlockClosure)
+]
+
+{ #category : 'tests' }
+ToStyleScriptTest >> testWhenDo [
+
+	| styleScript styleRule wasHere listener |
+	styleScript := ToStyleScript new.
+	wasHere := false.
+	styleScript select: #button style: [ :theStyleScript |
+		wasHere := true.
+		theStyleScript
+			when: ToEnabledLookEvent
+			do: [ :e | e size: 40 asPoint ]].
+	self assert: styleScript styleRules size equals: 1.
+	styleRule := styleScript styleRules first.
+	self assert: wasHere.
+	self assert: styleRule lookEventListeners size equals: 1.
+	listener := styleRule lookEventListeners first.
+	self deny: listener isSupplement.
+	self assert: listener eventClass identicalTo: ToEnabledLookEvent
 ]
 
 { #category : 'tests' }
@@ -274,8 +294,8 @@ ToStyleScriptTest >> testWhenSupplementWith [
 	self assert: styleScript styleRules size equals: 1.
 	styleRule := styleScript styleRules first.
 	self assert: wasHere.
-	self assert: styleRule propertyWriters size equals: 1.
-	writer := styleRule propertyWriters first.
+	self assert: styleRule lookEventListeners size equals: 1.
+	writer := styleRule lookEventListeners first.
 	self assert: writer supplement.
 	self assert: writer eventClass equals: ToHoveredLookEvent.
 	self assert: (writer property isKindOf: ToPseudoProperty).
@@ -298,8 +318,8 @@ ToStyleScriptTest >> testWhenWriteWith [
 	self assert: styleScript styleRules size equals: 1.
 	styleRule := styleScript styleRules first.
 	self assert: wasHere.
-	self assert: styleRule propertyWriters size equals: 1.
-	writer := styleRule propertyWriters first.
+	self assert: styleRule lookEventListeners size equals: 1.
+	writer := styleRule lookEventListeners first.
 	self deny: writer supplement.
 	self assert: writer eventClass identicalTo: ToEnabledLookEvent
 ]
@@ -320,8 +340,8 @@ ToStyleScriptTest >> testWhenWriteWithAnimation [
 	self assert: styleScript styleRules size equals: 1.
 	styleRule := styleScript styleRules first.
 	self assert: wasHere.
-	self assert: styleRule propertyWriters size equals: 1.
-	writer := styleRule propertyWriters first.
+	self assert: styleRule lookEventListeners size equals: 1.
+	writer := styleRule lookEventListeners first.
 	self deny: writer supplement.
 	self assert: writer eventClass identicalTo: ToHoveredLookEvent.
 	self assert: (writer property isKindOf: ToFeatureProperty).
@@ -391,8 +411,8 @@ ToStyleScriptTest >> testWriteWith [
 	self assert: styleScript styleRules size equals: 1.
 	styleRule := styleScript styleRules first.
 	self assert: wasHere.
-	self assert: styleRule propertyWriters size equals: 1.
-	writer := styleRule propertyWriters first.
+	self assert: styleRule lookEventListeners size equals: 1.
+	writer := styleRule lookEventListeners first.
 	self deny: writer supplement.
 	self assert: writer eventClass equals: ToInstallLookEvent.
 	self assert: (writer property isKindOf: ToFeatureProperty).
@@ -414,8 +434,8 @@ ToStyleScriptTest >> testWriteWith2 [
 	self assert: styleScript styleRules size equals: 1.
 	styleRule := styleScript styleRules first.
 	self assert: wasHere.
-	self assert: styleRule propertyWriters size equals: 1.
-	writer := styleRule propertyWriters first.
+	self assert: styleRule lookEventListeners size equals: 1.
+	writer := styleRule lookEventListeners first.
 	self deny: writer supplement.
 	self assert: (writer property isKindOf: ToFeatureProperty).
 	self assert: writer property name equals: #size.
@@ -441,19 +461,19 @@ ToStyleScriptTest >> testWriteWith3 [
 				with: Color red ] ].
 	self assert: styleScript styleRules size equals: 1.
 	styleRule := styleScript styleRules first.
-	self assert: styleRule propertyWriters size equals: 2.
+	self assert: styleRule lookEventListeners size equals: 2.
 	self
-		assert: styleRule propertyWriters first eventClass
+		assert: styleRule lookEventListeners first eventClass
 		identicalTo: ToInstallLookEvent.
 	self
-		assert: styleRule propertyWriters second eventClass
+		assert: styleRule lookEventListeners second eventClass
 		identicalTo: ToInstallLookEvent.
 
 	self assert: styleRule styleRules size equals: 1.
 	dangerRule := styleRule styleRules first.
 	self assert: (dangerRule selector isKindOf: ToStampSelector).
-	self assert: dangerRule propertyWriters size equals: 1.
-	dangerWriter := dangerRule propertyWriters first.
+	self assert: dangerRule lookEventListeners size equals: 1.
+	dangerWriter := dangerRule lookEventListeners first.
 	self deny: dangerWriter supplement.
 	self assert: dangerWriter eventClass identicalTo: ToInstallLookEvent.
 	self assert: (dangerWriter property isKindOf: ToFeatureProperty).

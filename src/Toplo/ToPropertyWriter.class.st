@@ -1,11 +1,10 @@
 Class {
 	#name : 'ToPropertyWriter',
-	#superclass : 'Object',
+	#superclass : 'ToLookEventActor',
 	#instVars : [
 		'property',
 		'value',
 		'animation',
-		'eventClass',
 		'supplement'
 	],
 	#category : 'Toplo-Core-StyleSheet',
@@ -25,22 +24,10 @@ ToPropertyWriter >> animation: aPropertyAnimation [
 	animation := aPropertyAnimation
 ]
 
-{ #category : 'testing' }
-ToPropertyWriter >> canReceiveEvent: aLookEvent [ 
+{ #category : 'look event handling' }
+ToPropertyWriter >> applyOn: anObject [
 
-	^ self eventClass = aLookEvent class 
-]
-
-{ #category : 'accessing' }
-ToPropertyWriter >> eventClass [
-
-	^ eventClass ifNil: [ eventClass := ToInstallLookEvent  ]
-]
-
-{ #category : 'accessing' }
-ToPropertyWriter >> eventClass: aLookEventClass [
-
-	eventClass := aLookEventClass
+	self writeTo: anObject
 ]
 
 { #category : 'testing' }
@@ -78,15 +65,6 @@ ToPropertyWriter >> property: anObject [
 	property := anObject
 ]
 
-{ #category : 'writing' }
-ToPropertyWriter >> receiveEvent: aLookEvent [
-
-	| target |
-	(self canReceiveEvent: aLookEvent) ifFalse: [ ^ self ].
-	target := aLookEvent currentTarget.
-	self writeTo: target
-]
-
 { #category : 'accessing' }
 ToPropertyWriter >> supplement [ 
 
@@ -119,7 +97,7 @@ ToPropertyWriter >> valueFrom: anElement [
 		  ifFalse: [ value ]
 ]
 
-{ #category : 't - property writer - writing' }
+{ #category : 'operating' }
 ToPropertyWriter >> writeTo: anElement [
 
 	self animation ifNil: [ ^ self property write: (self valueFrom: anElement) to: anElement ].

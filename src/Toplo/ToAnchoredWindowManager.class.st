@@ -62,13 +62,21 @@ ToAnchoredWindowManager >> currentWindow: aWindowElement [
 ]
 
 { #category : 'initialization' }
-ToAnchoredWindowManager >> defaulPositionHook [
+ToAnchoredWindowManager >> defaultBuilder [
+
+	^ [ :theWindow :theElement | ]
+
+	
+]
+
+{ #category : 'initialization' }
+ToAnchoredWindowManager >> defaultPositionHook [
 
 	^ [ :event :theElement| theElement bounds inSpace bounds topLeft ]
 ]
 
 { #category : 'initialization' }
-ToAnchoredWindowManager >> defaulSizeHook [
+ToAnchoredWindowManager >> defaultSizeHook [
 
 	^ nil
 ]
@@ -91,6 +99,12 @@ ToAnchoredWindowManager >> element: anElement [
 ]
 
 { #category : 'accessing' }
+ToAnchoredWindowManager >> elementEventHandler [
+
+	^ elementEventHandler
+]
+
+{ #category : 'accessing' }
 ToAnchoredWindowManager >> elementEventHandlerClass [
 
 	^ ToAnchorEventHandler 
@@ -106,8 +120,9 @@ ToAnchoredWindowManager >> hasWindow [
 ToAnchoredWindowManager >> initialize [ 
 
 	super initialize.
-	self positionHook: self defaulPositionHook.
-	self sizeHook: self defaulSizeHook.
+	self positionHook: self defaultPositionHook.
+	self sizeHook: self defaultSizeHook.
+	self builder: self defaultBuilder.
 
 	
 ]
@@ -122,28 +137,34 @@ ToAnchoredWindowManager >> newElementEventHandler [
 
 { #category : 'window handling' }
 ToAnchoredWindowManager >> newWindowEvent: anEvent [
+
 	| request |
 	self currentWindow ifNotNil: [
-		Error signal: 'Asking for a associate window building twice' ].
+		^ Error signal: 'Asking for a window building twice' ].
+	self element ifNil: [ ^ Error signal: 'An element is required for building a window' ].
+	self builder ifNil: [ ^ Error signal: 'A window builder is required for building a window' ].
 	request := self windowRequestClass new
-			 sourceEvent: anEvent;
-			 yourself.
+		           sourceEvent: anEvent;
+		           yourself.
 	self element dispatchEvent: request.
-	self currentWindow: (self newWindowInstanceAfterRequest: request).
+	self currentWindow: (self windowClass new
+			 manager: self;
+			 yourself).
+	builder value: self currentWindow value: request.
 	windowClosedHandler := BlEventHandler
 		                       on: ToWindowClosedEvent
-		                       do: [ self windowClosed ].
+		                       do: [ self onWindowClosed ].
 	self currentWindow addEventHandler: windowClosedHandler.
 	^ self currentWindow
 ]
 
 { #category : 'window handling' }
-ToAnchoredWindowManager >> newWindowInstanceAfterRequest: aRequest [
+ToAnchoredWindowManager >> onWindowClosed [
 
-	| w |
-	w := self windowClass new manager: self; yourself.
-	builder value: w value: aRequest.
-	^ w
+	self currentWindow removeEventHandler: windowClosedHandler.
+	windowClosedHandler := nil.
+	currentWindow manager: nil.
+	currentWindow := nil
 ]
 
 { #category : 'accessing' }
@@ -180,15 +201,6 @@ ToAnchoredWindowManager >> sizeHook: aValuable [
 ToAnchoredWindowManager >> windowClass [
 
 	^ ToAnchoredWindow 
-]
-
-{ #category : 'window handling' }
-ToAnchoredWindowManager >> windowClosed [
-
-	self currentWindow removeEventHandler: windowClosedHandler.
-	windowClosedHandler := nil.
-	currentWindow manager: nil.
-	currentWindow := nil
 ]
 
 { #category : 'accessing' }

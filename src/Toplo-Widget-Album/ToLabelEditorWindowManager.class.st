@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'initialization' }
-ToLabelEditorWindowManager >> defaulPositionHook [
+ToLabelEditorWindowManager >> defaultPositionHook [
 
 	^ [ :event :theLabel |
 				theLabel innerElement bounds inSpace bounds topLeft

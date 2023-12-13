@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'initialization' }
-ToContextMenuWindowManager >> defaulPositionHook [
+ToContextMenuWindowManager >> defaultPositionHook [
 
 	^ [ :event :theContextMenu | event position ]
 ]

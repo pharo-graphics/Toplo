@@ -9,18 +9,18 @@ Class {
 	#tag : 'Core-Tooltip'
 }
 
-{ #category : 'initialization' }
-ToTooltipWindowManager >> defaulPositionHook [
-
-	^ [ :event :theElement| 
-	  event position x
-	  @ (theElement localPointToGlobal: 0 @ theElement height) y + self vgap ]
-]
-
 { #category : 'accessing' }
 ToTooltipWindowManager >> defaultPopupDelay [
 
 	^ 700 milliSeconds
+]
+
+{ #category : 'initialization' }
+ToTooltipWindowManager >> defaultPositionHook [
+
+	^ [ :event :theElement| 
+	  event position x
+	  @ (theElement localPointToGlobal: 0 @ theElement height) y + self vgap ]
 ]
 
 { #category : 'accessing' }

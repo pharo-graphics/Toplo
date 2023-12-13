@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'initialization' }
-ToMenuWindowManager >> defaulPositionHook [ 
+ToMenuWindowManager >> defaultPositionHook [ 
 
 	^ [ :event :theMenu | theMenu isSubmenu
 		  ifTrue: [ theMenu bounds inSpace bounds topRight ]

@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'initialization' }
-ToOverlayWindowManager >> defaulSizeHook [
+ToOverlayWindowManager >> defaultSizeHook [
 
 	^ [ :event :theElement | theElement size ]
 ]

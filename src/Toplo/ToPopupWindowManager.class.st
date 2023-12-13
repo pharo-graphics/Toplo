@@ -23,7 +23,7 @@ ToPopupWindowManager >> autoCloseOnMouseUpDelay: aDelay [
 ]
 
 { #category : 'initialization' }
-ToPopupWindowManager >> defaulPositionHook [
+ToPopupWindowManager >> defaultPositionHook [
 
 	^ [ :event :theElement | theElement bounds inSpace bounds bottomLeft ]
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToInfiniteTest',
-	#superclass : 'TestCase',
+	#superclass : 'ToParameterizedHostTest',
 	#category : 'Toplo-Widget-List-Tests-Core',
 	#package : 'Toplo-Widget-List-Tests',
 	#tag : 'Core'

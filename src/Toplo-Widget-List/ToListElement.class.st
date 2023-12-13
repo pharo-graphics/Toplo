@@ -3,6 +3,9 @@ Class {
 	#superclass : 'ToElement',
 	#traits : 'TToListElementDecorator',
 	#classTraits : 'TToListElementDecorator classTrait',
+	#instVars : [
+		'selectionElements'
+	],
 	#category : 'Toplo-Widget-List-Core',
 	#package : 'Toplo-Widget-List',
 	#tag : 'Core'
@@ -68,6 +71,7 @@ ToListElement >> initialize [
 	| sharedDistributor |
 	super initialize.
 
+	selectionElements := #(  ).
 	self layout: self defaultLayout.
 	self next: ToListInfiniteElement new.
 	
@@ -89,7 +93,9 @@ ToListElement >> initialize [
 
 	self addChild: self next.
 	self infinite elevation: (BlRelativeElevation elevation: 10).
-
+	self contextMenuWindowManagerClass: ToListElementContextMenuWindowManager.
+	self addEventHandler: ToListElementSelectionEventHandler new.
+	self addEventHandler: ToListElementContextMenuSelectionEventHandler new.
 	self matchParent
 ]
 
@@ -115,6 +121,18 @@ ToListElement >> newRawSkin [
 ToListElement >> placeholderElevation [
 
 	^ self infinite elevation
+]
+
+{ #category : 'accessing' }
+ToListElement >> selectionElements [
+
+	^ selectionElements
+]
+
+{ #category : 'accessing' }
+ToListElement >> selectionElements: aListElementSelectionCollection [
+
+	selectionElements := aListElementSelectionCollection
 ]
 
 { #category : 'initialization' }

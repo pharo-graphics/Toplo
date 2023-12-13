@@ -44,8 +44,7 @@ ToListElementContextMenuSelectionEventHandler >> contextMenuSelection [
 { #category : 'selection managing' }
 ToListElementContextMenuSelectionEventHandler >> contextMenuSelectionOverPrimaryIn: aListElement [
 
-	(aListElement allChildrenBreadthFirstSelect: [ :child |
-		 child isKindOf: ToListPrimarySelectionElement ]) do: [ :d |
+	aListElement selectionElements do: [ :d |
 		| deco |
 		deco := self secondarySelectionElementClass new
 			        listElement: aListElement;

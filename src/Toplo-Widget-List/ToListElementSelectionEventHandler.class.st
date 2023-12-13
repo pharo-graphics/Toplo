@@ -26,7 +26,7 @@ ToListElementSelectionEventHandler >> adjacentSelectedNodesGroupsIn: aListElemen
 { #category : 'element handlers' }
 ToListElementSelectionEventHandler >> blurEvent: anEvent [
 
-	(self selectionElementsIn: anEvent currentTarget) do: [ :d |
+	anEvent currentTarget selectionElements do: [ :d |
 		d focused: false.
 		d dispatchEvent: (anEvent copy consumed: false) ]
 ]
@@ -58,7 +58,7 @@ ToListElementSelectionEventHandler >> eventsToHandle [
 { #category : 'element handlers' }
 ToListElementSelectionEventHandler >> focusEvent: anEvent [
 
-	(self selectionElementsIn: anEvent currentTarget) do: [ :d |
+	anEvent currentTarget selectionElements do: [ :d |
 		d focused: true.
 		d dispatchEvent: (anEvent copy consumed: false) ]
 ]
@@ -77,14 +77,14 @@ ToListElementSelectionEventHandler >> listSelectionElementUpdatedEvent: anEvent 
 	focusEventClass := target infinite isFocused
 		                   ifTrue: [ BlFocusEvent ]
 		                   ifFalse: [ BlBlurEvent ].
-	(self selectionElementsIn: target) do: [ :d |
+	target selectionElements do: [ :d |
 		d focused: target infinite isFocused.
 		d dispatchEvent: (focusEventClass new
 				 yourself) ]
 ]
 
 { #category : 'selection managing' }
-ToListElementSelectionEventHandler >> newPrimarySelectionFromEvent: anEvent [
+ToListElementSelectionEventHandler >> newPrimarySelectionElementsFromEvent: anEvent [
 	" return a collection with instances of ListSelectionDecorationElement "
 
 	^ (self adjacentSelectedNodesGroupsIn: anEvent currentTarget)
@@ -95,28 +95,15 @@ ToListElementSelectionEventHandler >> newPrimarySelectionFromEvent: anEvent [
 				  yourself ]
 ]
 
-{ #category : 'accessing' }
-ToListElementSelectionEventHandler >> primarySelectionElementClass [
-
-	^ ToListPrimarySelectionElement 
-]
-
-{ #category : 'element handlers' }
-ToListElementSelectionEventHandler >> selectionElementsIn: aListElement [
-
-	^ aListElement allChildrenBreadthFirstSelect: [ :child |
-		  child isKindOf: ToListPrimarySelectionElement ]
-]
-
 { #category : 'selection managing' }
 ToListElementSelectionEventHandler >> updatePrimarySelectionFromEvent: anEvent [
 	"add a ListDecorationElement for each group of adjacent selected nodes "
 
-	| prevSelection newSelection  |
-	prevSelection := self selectionElementsIn: anEvent currentTarget.
-	prevSelection do: [ :d | d removeFromParent ].
-	newSelection := self newPrimarySelectionFromEvent: anEvent.
-	anEvent currentTarget addChildren: newSelection.
-	anEvent currentTarget dispatchEvent:
-		ToListSelectionElementUpdatedEvent new
+	| newSelectionElements target |
+	target := anEvent currentTarget.
+	target selectionElements do: [ :d | d removeFromParent ].
+	newSelectionElements := self newPrimarySelectionElementsFromEvent: anEvent.
+	target addChildren: newSelectionElements.
+	target selectionElements: newSelectionElements.
+	target dispatchEvent: ToListSelectionElementUpdatedEvent new
 ]

@@ -315,13 +315,12 @@ ToInfiniteElement >> offsetPositionRecordsForRemove: aStartPosition itemCount: a
 		itemCount: anItemCount
 		applyToPreLayout: applyToPreLayout.
 
-	self whenLayoutedDoOnce: [ 
-		self primarySelection
-			dispatchSelectionChangedAfter: [
-				self primarySelection
-					offsetPositionForRemove: aStartPosition
-					itemCount: anItemCount ]
-			to: self ]
+	self primarySelection
+		dispatchSelectionChangedAfter: [
+			self primarySelection
+				offsetPositionForRemove: aStartPosition
+				itemCount: anItemCount ]
+		to: self
 ]
 
 { #category : 'accessing' }

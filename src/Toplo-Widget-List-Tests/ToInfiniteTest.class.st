@@ -6,40 +6,6 @@ Class {
 	#tag : 'Core'
 }
 
-{ #category : 'tests' }
-ToInfiniteTest >> listWithRemoveRowButtons [
-
-	|  list |
-	list := self newList.
-	list nodeBuilder: [ :node :holder |
-		| line remBut filler |
-		line := ToPane horizontal id: #row.
-		remBut := ToButton new id: #'remove-button-', holder position asString.
-		remBut withoutSkin.
-		remBut icon: (ToImage inner: (self iconNamed: #windowClose)).
-		remBut constraintsDo: [ :c | c linear vertical alignCenter ].
-		remBut
-			when: BlClickEvent
-			do: [ :event |
-			event consumed: true.
-			holder infiniteElement data removeAt: holder position ].
-		filler := ToElement new matchParent; id: #filler.
-		line addChild: filler.
-		line addChild: remBut.
-		node addChild: line ].
-	^ list
-
-
-
-]
-
-{ #category : 'tests' }
-ToInfiniteTest >> newList [
-
-	^ self subclassResponsibility 
-	
-]
-
 { #category : 'accessing' }
 ToInfiniteTest >> statesOfAmerica [
 

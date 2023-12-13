@@ -20,7 +20,7 @@ ToListFilterExperiment class >> open [
 ToListFilterExperiment >> listElement [
 
 	^ listElement ifNil: [
-		  listElement := ToList new
+		  listElement := ToListElement new
 			                 matchParent;
 			                 yourself ]
 ]
@@ -33,7 +33,7 @@ ToListFilterExperiment >> open [
 		        matchParent;
 		        yourself.
 	filterField := ToTextField new withLineWrapping.
-	listElement := ToList new matchParent.
+	listElement := ToListElement new matchParent.
 	listElement margin: (BlInsets all: 2).
 	filterField margin: (BlInsets all: 2).
 	pane addChild: listElement.

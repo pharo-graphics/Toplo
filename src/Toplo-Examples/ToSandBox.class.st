@@ -505,7 +505,7 @@ ToSandBox class >> example_EditableComboBoxWithStatesOfAmerica [
 ToSandBox class >> example_EditableListWithAllClassesNames [
 
 	| l vscrollBar space innerWin |
-	l := ToList new.
+	l := ToListElement new.
 	l beVertical.
 	l
 		nodeClass: ToClassNodeExample;
@@ -609,7 +609,7 @@ ToSandBox class >> example_FilterOnListWithAllClassesAndTraitsSorted [
 		        beVertical;
 		        matchParent.
 	filter := ToTextField new.
-	l := ToList new nodeBuilder: [  :node :holder | 
+	l := ToListElement new nodeBuilder: [  :node :holder | 
 			node addChild: (ToClassNameViewExample new class: holder data position: holder position; yourself) ].
 	l data addAll: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
 	l margin: (BlInsets all: 2).
@@ -676,7 +676,7 @@ ToSandBox class >> example_GeneralButtonWithLabel [
 ToSandBox class >> example_HorizontalListWithIndexedColors [
 
 	| l space |
-	l := ToList new nodeBuilder: [ :node :holder |
+	l := ToListElement new nodeBuilder: [ :node :holder |
 				node fitContent.
 		     node addChild: (ToElement new
 				      size: 70@50;
@@ -856,7 +856,7 @@ ToSandBox class >> example_ListAutocompleteWithSaveInListComboBoxEmpty [
 ToSandBox class >> example_ListOneClass [
 
 	| l |
-	l := ToList new nodeBuilder: [ :node :holder |
+	l := ToListElement new nodeBuilder: [ :node :holder |
 		     node addChild: (ToCheckbox new
 				      labelText: holder data name;
 				      interspace: 10;
@@ -869,7 +869,7 @@ ToSandBox class >> example_ListOneClass [
 ToSandBox class >> example_ListWith6Elements [
 
 	| l |
-	l := ToList new.
+	l := ToListElement new.
 	l data addAll: ((1 to: 6) collect: [:i | i asString]).
 	l selectIndex: 4.
 	l openInInnerWindow
@@ -879,7 +879,7 @@ ToSandBox class >> example_ListWith6Elements [
 ToSandBox class >> example_ListWithAllClasses [
 
 	| l |
-	l := ToList new.
+	l := ToListElement new.
 	l data addAll: (Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInSpace
 ]
@@ -888,7 +888,7 @@ ToSandBox class >> example_ListWithAllClasses [
 ToSandBox class >> example_ListWithAllClasses3 [
 
 	| l |
-	l := ToList new 
+	l := ToListElement new 
 			nodeBuilder: [ :node :holder |
 		     | icn lab |
 		     icn := holder data hasComment
@@ -914,7 +914,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 ToSandBox class >> example_ListWithAllClasses4 [
 
 	| l |
-	l := ToList new
+	l := ToListElement new
 		     beWithoutSelection;
 		     nodeBuilder: [ :node :holder |
 			     node addChild: (ToCheckbox new
@@ -929,7 +929,7 @@ ToSandBox class >> example_ListWithAllClasses4 [
 ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 
 	| l |
-	l := ToList new nodeBuilder: [  :node :holder | 
+	l := ToListElement new nodeBuilder: [  :node :holder | 
 			node addChild: (ToClassNameViewExample new class: holder data position: holder position; yourself) ].
 	l data addAll: (Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
 	l openInSpace
@@ -939,7 +939,7 @@ ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 ToSandBox class >> example_ListWithAllClassesAsButton [
 
 	| l |
-	l := ToList new nodeBuilder: [ :node :holder |
+	l := ToListElement new nodeBuilder: [ :node :holder |
 		     node addChild: (ToButton new
 				      labelText: holder data name;
 				      hMatchParent) ].
@@ -951,7 +951,7 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l selectionMenu menuFactory phtext |
-	l := ToList new.
+	l := ToListElement new.
 	phtext := (('Invoke the context menu ' , String cr
 	            , 'with a right-click' , String cr
 	            , 'to initialize the list') asRopedText
@@ -1072,7 +1072,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 ToSandBox class >> example_ListWithIndexedColors [
 
 	| l vscrollBar space |
-	l := ToList new nodeBuilder: [ :node :holder |
+	l := ToListElement new nodeBuilder: [ :node :holder |
 		     node addChild: (ToLabel new
 				      text: holder data asString asRopedText;
 				      hMatchParent;
@@ -1096,7 +1096,7 @@ ToSandBox class >> example_ListWithIndexedColors [
 ToSandBox class >> example_ListWithPanes [
 
 	| list |
-	list := ToList new
+	list := ToListElement new
 		        withRowNumbers;
 		        nodeBuilder: [ :node :holder |
 			        | title blContent |
@@ -1127,7 +1127,7 @@ ToSandBox class >> example_ListWithPanes [
 ToSandBox class >> example_ListWithSingleSelection [
 
 	| l |
-	l := ToList new.
+	l := ToListElement new.
 	l data addAll: Smalltalk globals allClasses.
 	l beSingleSelection.
 	l openInSpace
@@ -1137,7 +1137,7 @@ ToSandBox class >> example_ListWithSingleSelection [
 ToSandBox class >> example_ListWithoutSelection [
 
 	| l |
-	l := ToList new.
+	l := ToListElement new.
 	l data addAll: Smalltalk globals allClasses.
 	l beWithoutSelection.
 	l openInSpace
@@ -1196,7 +1196,7 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	" cool example adapted from the feenk Glamorous Toolkit version BlInfiniteExample>>exampleGallery"
 	" Images loaded from https://picsum.photos "
 	| space list vscrollBar |
-	list := ToList new
+	list := ToListElement new
 		        matchParent;
 		        yourself.
 	list padding: (BlInsets all: 1).
@@ -1847,7 +1847,8 @@ ToSandBox class >> example_contactList [
 	panel constraints horizontal matchParent.
 	panel layout cellSpacing: 10.
 
-	list := ToList new.
+	list := ToListElement new.
+	list inspect.
 
 	nameTxtF := ToTextField new
 		            width: 100;

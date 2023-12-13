@@ -119,7 +119,7 @@ ToMiniBrowser >> initialize [
 	mainPane := ToPane new beVertical.
 	mainPane matchParent.
 
-	packages := ToList new 
+	packages := ToListElement new 
 		id: #packages;
 		nodeBuilder: [ :node :holder | 
 			node addChild: (ToLabel new
@@ -141,7 +141,7 @@ ToMiniBrowser >> initialize [
 		(RPackage organizer packages asSortedCollection: [ :p1 :p2 |
 			 p1 name < p2 name ]).
 
-	classes := ToList new 
+	classes := ToListElement new 
 		id: #classes; 
 		nodeBuilder:  [  :node :holder | 
 			node addChild: (ToClassNameViewExample new class: holder data position: holder position; yourself) ].
@@ -166,7 +166,7 @@ ToMiniBrowser >> initialize [
 	sideToggle when: ToCheckableCheckEvent do: [ :event |
 		classes infinite dispatchSelectionChangedAfter: [ classSide := event current. classes deselectAll. ] ].
 
-	protocols := ToList new id: #protocols; nodeBuilder: [  :node :holder | 
+	protocols := ToListElement new id: #protocols; nodeBuilder: [  :node :holder | 
 			node addChild: (
 		             ToLabel new
 			             text: holder data value name;
@@ -178,7 +178,7 @@ ToMiniBrowser >> initialize [
 		do: [ :event | self protocolSelectionChangedEvent: event ].
 	protocols data whenRemoveChangeDo: [ selectors data removeAll ].
 
-	selectors := ToList new id: #selectors; nodeBuilder: [:node :holder | 
+	selectors := ToListElement new id: #selectors; nodeBuilder: [:node :holder | 
 			node addChild: (
 		             ToLabel new
 			             text: holder data value asString;

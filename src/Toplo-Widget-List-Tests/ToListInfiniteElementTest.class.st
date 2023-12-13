@@ -1,9 +1,9 @@
 Class {
 	#name : 'ToListInfiniteElementTest',
 	#superclass : 'ToInfiniteTest',
-	#category : 'Toplo-Tests-Widget-List',
-	#package : 'Toplo-Tests',
-	#tag : 'Widget-List'
+	#category : 'Toplo-Widget-List-Tests-Infinite',
+	#package : 'Toplo-Widget-List-Tests',
+	#tag : 'Infinite'
 }
 
 { #category : 'tests' }

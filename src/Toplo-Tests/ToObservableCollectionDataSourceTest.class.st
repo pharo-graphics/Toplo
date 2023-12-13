@@ -4,9 +4,9 @@ A ToObservableCollectionDataSourceTest is a test class for testing the behavior 
 Class {
 	#name : 'ToObservableCollectionDataSourceTest',
 	#superclass : 'ToInfiniteTest',
-	#category : 'Toplo-Tests-Widget-List',
+	#category : 'Toplo-Tests-Core-Collection',
 	#package : 'Toplo-Tests',
-	#tag : 'Widget-List'
+	#tag : 'Core-Collection'
 }
 
 { #category : 'tests' }

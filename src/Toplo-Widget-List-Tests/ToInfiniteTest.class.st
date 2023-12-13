@@ -1,9 +1,9 @@
 Class {
 	#name : 'ToInfiniteTest',
 	#superclass : 'TestCase',
-	#category : 'Toplo-Tests-Widget-List',
-	#package : 'Toplo-Tests',
-	#tag : 'Widget-List'
+	#category : 'Toplo-Widget-List-Tests-Core',
+	#package : 'Toplo-Widget-List-Tests',
+	#tag : 'Core'
 }
 
 { #category : 'accessing' }

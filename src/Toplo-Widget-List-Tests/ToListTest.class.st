@@ -2,7 +2,7 @@
 A ToListElementTest is a test class for testing the behavior of ToListElement
 "
 Class {
-	#name : 'ToListElementTest',
+	#name : 'ToListTest',
 	#superclass : 'ToInfiniteTest',
 	#instVars : [
 		'space'
@@ -13,14 +13,14 @@ Class {
 }
 
 { #category : 'tests' }
-ToListElementTest >> newList [
+ToListTest >> newList [
 
-	^ ToListElement new
+	^ ToList new
 	
 ]
 
 { #category : 'running' }
-ToListElementTest >> setUp [ 
+ToListTest >> setUp [ 
 
 	super setUp.
 	space := self newTestingSpace. 
@@ -28,7 +28,7 @@ ToListElementTest >> setUp [
 ]
 
 { #category : 'tests' }
-ToListElementTest >> testDataRemovedWhenNodeRemoved [
+ToListTest >> testDataRemovedWhenNodeRemoved [
 
 	| list but remButtons |
 	list := self listWithRemoveRowButtons.
@@ -48,7 +48,7 @@ ToListElementTest >> testDataRemovedWhenNodeRemoved [
 ]
 
 { #category : 'tests' }
-ToListElementTest >> testNodeDeselectedWhenNodeRemoved [
+ToListTest >> testNodeDeselectedWhenNodeRemoved [
 
 	| list fillers remButtons but |
 	list := self listWithRemoveRowButtons.
@@ -73,7 +73,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved [
 ]
 
 { #category : 'tests' }
-ToListElementTest >> testNodeDeselectedWhenNodeRemoved2 [
+ToListTest >> testNodeDeselectedWhenNodeRemoved2 [
 
 	| list fillers  but |
 	list := self listWithRemoveRowButtons.

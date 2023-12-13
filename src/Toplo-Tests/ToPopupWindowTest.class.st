@@ -21,7 +21,7 @@ ToPopupWindowTest >> setUp [
 ]
 
 { #category : 'tests' }
-ToPopupWindowTest >> testAssociateElement [
+ToPopupWindowTest >> testElement [
 
 	| win e windowHandler |
 	e := ToElement new
@@ -32,7 +32,7 @@ ToPopupWindowTest >> testAssociateElement [
 	
 	" have to layout the space here to ensure that no position changed event is sent (which should close the window and make the test failing fail the test)"
 	self waitTestingSpaces.
-	windowHandler := ToPopupWindowHandler new builder: [ :anchWin :element | ].
+	windowHandler := ToPopupWindowManager new builder: [ :anchWin :element | ].
 	windowHandler element: e.
 	win := windowHandler newWindowEvent: nil.	
 	win popup.
@@ -66,7 +66,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp [
 	space root addChild: e.
 	self waitTestingSpaces.
 	
-	windowHandler := ToPopupWindowHandler new builder: [ :anchWin :element | ].
+	windowHandler := ToPopupWindowManager new builder: [ :anchWin :element | ].
 	windowHandler element: e.
 	
 	" mouse down immediately followed by a mouse up -> the popup should stay opened"
@@ -93,7 +93,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp2 [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowHandler := ToPopupWindowHandler new builder: [ :anchWin :element | ].
+	windowHandler := ToPopupWindowManager new builder: [ :anchWin :element | ].
 	windowHandler element: e.
 		
 	" mouse down then wait a delay then a mouse up -> the popup should be closed"
@@ -117,7 +117,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowHandler := ToPopupWindowHandler new builder: [ :anchWin :element | anchWin addChild: (ToElement new size: 20@20)].
+	windowHandler := ToPopupWindowManager new builder: [ :anchWin :element | anchWin addChild: (ToElement new size: 20@20)].
 	windowHandler element: e.
 
 	" mouse down immediately followed by a mouse up -> the popup should stay opened"
@@ -146,7 +146,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseUpOutsideAssociateElement [
 	space root addChild: e.
 	self waitTestingSpaces.
 	
-	windowHandler := ToPopupWindowHandler new builder: [ :anchWin :element | anchWin addChild: (ToElement new size: 20@20)].
+	windowHandler := ToPopupWindowManager new builder: [ :anchWin :element | anchWin addChild: (ToElement new size: 20@20)].
 	windowHandler element: e.
 	
 	" mouse down on widget then up on popup"

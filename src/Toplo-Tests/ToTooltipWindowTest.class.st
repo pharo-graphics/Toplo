@@ -26,8 +26,8 @@ ToTooltipWindowTest >> testContent [
 
 	e := ToElement new  size: 100@100.
 	e tooltipContent: (ToLabel text: 'Tooltip content').
-	windowHandler := e tooltipWindowHandler.
-	self assert: (windowHandler isKindOf: ToTooltipWindowHandler).
+	windowHandler := e tooltipWindowManager.
+	self assert: (windowHandler isKindOf: ToTooltipWindowManager).
 	space root addChild: e.
 	self waitTestingSpaces.
 
@@ -52,7 +52,7 @@ ToTooltipWindowTest >> testCurrentWindow [
 ]
 
 { #category : 'tests' }
-ToTooltipWindowTest >> testElevation [
+ToTooltipWindowTest >> testDefaultElevation [
 
 	| window |
 	window := self testContent.

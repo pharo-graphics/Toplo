@@ -2,7 +2,7 @@ Class {
 	#name : 'ToAnchorEventHandler',
 	#superclass : 'BlCustomEventHandler',
 	#instVars : [
-		'windowHandler'
+		'windowManager'
 	],
 	#category : 'Toplo-Core-Window',
 	#package : 'Toplo',
@@ -12,19 +12,20 @@ Class {
 { #category : 'event handling' }
 ToAnchorEventHandler >> elementPositionInSpaceChangedEvent: anEvent [
 
-	windowHandler applyPositionHookFromEvent: anEvent
+	windowManager currentWindow ifNil: [ ^ self ].
+	windowManager applyPositionHookFromEvent: anEvent
 ]
 
 { #category : 'element handlers' }
 ToAnchorEventHandler >> elementRemovedFromParentEvent: anEvent [
 
-	windowHandler closeWindow
+	windowManager closeWindow
 ]
 
 { #category : 'element handlers' }
 ToAnchorEventHandler >> elementRemovedFromSceneGraphEvent: anEvent [
 
-	windowHandler closeWindow
+	windowManager closeWindow
 ]
 
 { #category : 'api - accessing' }
@@ -34,7 +35,7 @@ ToAnchorEventHandler >> eventsToHandle [
 ]
 
 { #category : 'api - accessing' }
-ToAnchorEventHandler >> windowHandler: aWindowHandler [
+ToAnchorEventHandler >> windowManager: aWindowManager [
 
-	windowHandler := aWindowHandler
+	windowManager := aWindowManager
 ]

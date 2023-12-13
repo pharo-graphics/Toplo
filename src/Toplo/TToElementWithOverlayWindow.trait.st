@@ -8,19 +8,19 @@ Trait {
 { #category : 't - element with placeholder' }
 TToElementWithOverlayWindow >> currentPlaceholder [
 
-	^ self rawPlaceholderHandler ifNotNil: [ :h | h currentWindow ]
+	^ self rawPlaceholderManager ifNotNil: [ :h | h currentWindow ]
 ]
 
 { #category : 't - element with placeholder' }
 TToElementWithOverlayWindow >> hidePlaceholder [
 
-	self rawPlaceholderHandler ifNotNil: [ :h | h currentWindow ifNotNil: [:w | w close ]]
+	self rawPlaceholderManager ifNotNil: [ :h | h currentWindow ifNotNil: [:w | w close ]]
 ]
 
 { #category : 't - element with placeholder' }
 TToElementWithOverlayWindow >> newPlaceholderEvent: anEvent [
 
-	^ self rawPlaceholderHandler newWindowEvent: anEvent
+	^ self rawPlaceholderManager newWindowEvent: anEvent
 ]
 
 { #category : 't - element with placeholder' }
@@ -30,50 +30,50 @@ TToElementWithOverlayWindow >> placeholderBuilder: aValuable [
 	
 	aValuable 
 		ifNil: [
-			self removePlaceholderHandler.
+			self removePlaceholderManager.
 			^ self ].
-	self placeholderHandler builder: aValuable
+	self placeholderManager builder: aValuable
 ]
 
 { #category : 't - element with placeholder' }
-TToElementWithOverlayWindow >> placeholderHandler [
+TToElementWithOverlayWindow >> placeholderManager [
 
-	^ self userData at: #placeholderHandler ifAbsentPut: [
+	^ self userData at: #placeholderManager ifAbsentPut: [
 		  | handler |
-		  handler := ToOverlayWindowHandler new.
+		  handler := ToOverlayWindowManager new.
 		  handler
 			  element: self;
 			  yourself ]
 ]
 
 { #category : 't - element with placeholder' }
-TToElementWithOverlayWindow >> rawPlaceholderHandler [
+TToElementWithOverlayWindow >> rawPlaceholderManager [
 
-	^ self userData at: #placeholderHandler ifAbsent: [ ]
+	^ self userData at: #placeholderManager ifAbsent: [ ]
 ]
 
 { #category : 't - element with placeholder' }
 TToElementWithOverlayWindow >> removePlaceholder [
 
-	self removePlaceholderHandler
+	self removePlaceholderManager
 ]
 
 { #category : 't - element with placeholder' }
-TToElementWithOverlayWindow >> removePlaceholderHandler [
+TToElementWithOverlayWindow >> removePlaceholderManager [
 
 
 	| handler |
-	handler := self rawPlaceholderHandler.
+	handler := self rawPlaceholderManager.
 	handler ifNil: [ ^ self ].
 	handler hasWindow ifTrue: [ handler closeWindow ].
 	handler element: nil.
-	self userData removeKey: #placeholderHandler
+	self userData removeKey: #placeholderManager
 ]
 
 { #category : 't - element with placeholder' }
 TToElementWithOverlayWindow >> showPlaceholder [
 
-	self rawPlaceholderHandler ifNotNil: [ :h |
+	self rawPlaceholderManager ifNotNil: [ :h |
 		h currentWindow ifNotNil: [ ^ self ].
 		h newWindowEvent: nil.
 		h currentWindow popupEvent: nil ]

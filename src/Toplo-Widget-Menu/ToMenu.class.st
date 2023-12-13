@@ -50,7 +50,7 @@ ToMenu >> initialize [
 	super initialize.
 	isSubmenu := false.
 	self initializeWithMenuConstraints.
-	windowHandler := ToMenuWindowHandler new element: self.
+	windowHandler := ToMenuWindowManager new element: self.
 	windowHandler builder: [ :menWin :request |
 		self requestNewSkin.
 		request currentTarget items do: [ :it |

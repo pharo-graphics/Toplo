@@ -31,7 +31,7 @@ ToTextFieldPopupExperiment >> open [
 ToTextFieldPopupExperiment >> popupTextFieldWith: aString on: anElement [
 
 	| tf win windowHandler |
-	windowHandler := ToAnchoredWindowHandler new.
+	windowHandler := ToAnchoredWindowManager new.
 	windowHandler builder: [ :anchWin :element |
 		tf := ToTextField new.
 		tf editorDo: [:ed | ed when: AlbTextEditedEvent do: [ :event | event text traceCr ] ].

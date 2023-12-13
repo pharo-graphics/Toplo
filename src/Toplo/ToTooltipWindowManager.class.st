@@ -1,6 +1,6 @@
 Class {
-	#name : 'ToTooltipWindowHandler',
-	#superclass : 'ToAnchoredWindowHandler',
+	#name : 'ToTooltipWindowManager',
+	#superclass : 'ToAnchoredWindowManager',
 	#instVars : [
 		'popupDelay'
 	],
@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : 'initialization' }
-ToTooltipWindowHandler >> defaulPositionHook [
+ToTooltipWindowManager >> defaulPositionHook [
 
 	^ [ :event :theElement| 
 	  event position x
@@ -18,37 +18,37 @@ ToTooltipWindowHandler >> defaulPositionHook [
 ]
 
 { #category : 'accessing' }
-ToTooltipWindowHandler >> defaultPopupDelay [
+ToTooltipWindowManager >> defaultPopupDelay [
 
 	^ 700 milliSeconds
 ]
 
 { #category : 'accessing' }
-ToTooltipWindowHandler >> elementEventHandlerClass [
+ToTooltipWindowManager >> elementEventHandlerClass [
 
 	^ ToElementWithTooltipEventHandler 
 ]
 
 { #category : 'accessing' }
-ToTooltipWindowHandler >> popupDelay [
+ToTooltipWindowManager >> popupDelay [
 
 	^ popupDelay ifNil: [ popupDelay:= self defaultPopupDelay] 
 ]
 
 { #category : 'accessing' }
-ToTooltipWindowHandler >> popupDelay: aDuration [
+ToTooltipWindowManager >> popupDelay: aDuration [
 
 	popupDelay := aDuration asDuration
 ]
 
 { #category : 'accessing' }
-ToTooltipWindowHandler >> vgap [
+ToTooltipWindowManager >> vgap [
 
 	^ 5
 ]
 
 { #category : 'accessing' }
-ToTooltipWindowHandler >> windowClass [
+ToTooltipWindowManager >> windowClass [
 
 	^ ToTooltipWindow 
 ]

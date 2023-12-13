@@ -8,7 +8,7 @@ Class {
 		'#innerElement',
 		'#text => ObservableSlot',
 		'#lineMode',
-		'#frameHandler'
+		'#frameManager'
 	],
 	#category : 'Toplo-Widget-Album-Label',
 	#package : 'Toplo-Widget-Album',
@@ -68,7 +68,7 @@ ToLabel >> cleanUpUserData [
 { #category : 'private-editing' }
 ToLabel >> currentEditorFrame [
 
-	^ frameHandler currentWindow
+	^ frameManager currentWindow
 ]
 
 { #category : 'initialization' }
@@ -138,7 +138,7 @@ ToLabel >> foreground: aBlPaint [
 { #category : 'private-editing' }
 ToLabel >> hasEditor [
 
-	^ frameHandler notNil and: [ frameHandler currentWindow notNil ]
+	^ frameManager notNil and: [ frameManager currentWindow notNil ]
 ]
 
 { #category : 'accessing' }
@@ -182,12 +182,12 @@ ToLabel >> initializeEditorFrameBuilder [
 
 	self isEditable
 		ifTrue: [
-			frameHandler := ToLabelEditorWindowHandler new.
-			frameHandler element: self]
+			frameManager := ToLabelEditorWindowManager new.
+			frameManager element: self]
 		ifFalse: [
-			frameHandler ifNil: [ ^ self ].
-			frameHandler element: nil.
-			frameHandler := nil ]
+			frameManager ifNil: [ ^ self ].
+			frameManager element: nil.
+			frameManager := nil ]
 ]
 
 { #category : 'accessing' }
@@ -294,7 +294,7 @@ ToLabel >> newEditor [
 { #category : 'private-editing' }
 ToLabel >> newEditorFrameEvent: anEvent [
 
-	^  frameHandler newWindowEvent: anEvent
+	^  frameManager newWindowEvent: anEvent
 ]
 
 { #category : 'private-change' }

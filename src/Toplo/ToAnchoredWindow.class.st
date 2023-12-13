@@ -3,7 +3,7 @@ Class {
 	#superclass : 'ToAbstractWindowElement',
 	#instVars : [
 		'popupTimestamp',
-		'windowHandler'
+		'windowManager'
 	],
 	#category : 'Toplo-Core-Window',
 	#package : 'Toplo',
@@ -13,13 +13,13 @@ Class {
 { #category : 'accessing' }
 ToAnchoredWindow >> applyPositionHookFromEvent: anEvent [
 
-	^ windowHandler applyPositionHookFromEvent: anEvent
+	windowManager applyPositionHookFromEvent: anEvent
 ]
 
 { #category : 'accessing' }
 ToAnchoredWindow >> applySizeHookFromEvent: anEvent [
 
-	windowHandler applySizeHookFromEvent: anEvent
+	windowManager applySizeHookFromEvent: anEvent
 ]
 
 { #category : 'api - displaying' }
@@ -73,13 +73,7 @@ ToAnchoredWindow >> dispatchOpenedEvent: anEvent [
 { #category : 'accessing' }
 ToAnchoredWindow >> element [
 
-	^ windowHandler ifNotNil: [:h | h element]
-]
-
-{ #category : 'accessing' }
-ToAnchoredWindow >> handler: aWindowHandler [
-
-	windowHandler := aWindowHandler 
+	^ windowManager ifNotNil: [:h | h element]
 ]
 
 { #category : 'start' }
@@ -93,6 +87,12 @@ ToAnchoredWindow >> initialize [
 
 	super initialize.
 	self fitContent
+]
+
+{ #category : 'accessing' }
+ToAnchoredWindow >> manager: aWindowHandler [
+
+	windowManager := aWindowHandler 
 ]
 
 { #category : 'accessing' }
@@ -119,7 +119,6 @@ ToAnchoredWindow >> popupEvent: anEvent [
 	self element space root addChild: self.
 	self checkBeforePopupEvent: anEvent.
 	self requestLayout.
-	self flag: 'If popupTimestamp is set in the whenLayoutedDoOnce: block then some tests are failing'.
 	popupTimestamp := DateAndTime now.
 	self whenLayoutedDoOnce: [
 		" I need to finalize my position as soon as my layout is up-to-date "

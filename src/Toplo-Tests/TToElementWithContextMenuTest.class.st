@@ -46,25 +46,25 @@ TToElementWithContextMenuTest >> testContextMenuAddItem [
 	e := ToElement new.
 	space root addChild: e.
 	self assert: e currentContextMenu isNil.
-	self assert: e rawContextMenuWindowHandler isNil.
+	self assert: e rawContextMenuWindowManager isNil.
 	e contextMenu: [:win :theElement | win addItem: ToMenuItem new].
 	self assert: e hasContextMenu.
-	self assert: e rawContextMenuWindowHandler notNil.
+	self assert: e rawContextMenuWindowManager notNil.
 	ttwin := e newContextMenuEvent: nil.
 	self assert: ttwin isClosed.
 	self assert: ttwin root hasChildren.
 	ttwin popupEvent: (BlMouseDownEvent new position: 0@0).
 	self assert: ttwin isOpened.
 	self assert: ttwin root hasChildren.
-	self assert: e contextMenuWindowHandler currentWindow notNil.
-	self assert: e contextMenuWindowHandler element identicalTo: e.
+	self assert: e contextMenuWindowManager currentWindow notNil.
+	self assert: e contextMenuWindowManager element identicalTo: e.
 	self assert: e currentContextMenu identicalTo: ttwin.
-	self assert: e currentContextMenu identicalTo: e contextMenuWindowHandler currentWindow.
+	self assert: e currentContextMenu identicalTo: e contextMenuWindowManager currentWindow.
 	ttwin close.
 	self assert: ttwin isClosed.
 	self assert: e currentContextMenu isNil.
-	self assert: e contextMenuWindowHandler currentWindow isNil.
-	self assert: e contextMenuWindowHandler element identicalTo: e.
+	self assert: e contextMenuWindowManager currentWindow isNil.
+	self assert: e contextMenuWindowManager element identicalTo: e.
 	^ e
 ]
 
@@ -75,10 +75,10 @@ TToElementWithContextMenuTest >> testContextMenuBuilder [
 	e := ToElement new.
 	b := [:win :theElement | win addItem: ToMenuItem new ].
 	e contextMenuBuilder: b.
-	self assert: e rawContextMenuWindowHandler notNil.
-	self assert: e rawContextMenuWindowHandler builder identicalTo: b.
-	e removeContextMenuWindowHandler.
-	self assert: e rawContextMenuWindowHandler isNil.
+	self assert: e rawContextMenuWindowManager notNil.
+	self assert: e rawContextMenuWindowManager builder identicalTo: b.
+	e removeContextMenuWindowManager.
+	self assert: e rawContextMenuWindowManager isNil.
 
 ]
 
@@ -89,10 +89,10 @@ TToElementWithContextMenuTest >> testContextMenuCanPopupIfElementInSpace [
 	| e ttwin  |
 	e := ToElement new.
 	self assert: e currentContextMenu isNil.
-	self assert: e rawContextMenuWindowHandler isNil.
+	self assert: e rawContextMenuWindowManager isNil.
 	e contextMenu: [:win :theElement | win addItem: ToMenuItem new].
 	self assert: e hasContextMenu.
-	self assert: e rawContextMenuWindowHandler notNil.
+	self assert: e rawContextMenuWindowManager notNil.
 	ttwin := e newContextMenuEvent: nil.
 	self assert: ttwin isClosed.
 	self assert: ttwin root hasChildren.
@@ -103,15 +103,15 @@ TToElementWithContextMenuTest >> testContextMenuCanPopupIfElementInSpace [
 	ttwin popupEvent: (BlMouseDownEvent new position: 0@0).
 	self assert: ttwin isOpened.
 	self assert: ttwin root hasChildren.
-	self assert: e contextMenuWindowHandler currentWindow notNil.
-	self assert: e contextMenuWindowHandler element identicalTo: e.
+	self assert: e contextMenuWindowManager currentWindow notNil.
+	self assert: e contextMenuWindowManager element identicalTo: e.
 	self assert: e currentContextMenu identicalTo: ttwin.
-	self assert: e currentContextMenu identicalTo: e contextMenuWindowHandler currentWindow.
+	self assert: e currentContextMenu identicalTo: e contextMenuWindowManager currentWindow.
 	ttwin close.
 	self assert: ttwin isClosed.
 	self assert: e currentContextMenu isNil.
-	self assert: e contextMenuWindowHandler currentWindow isNil.
-	self assert: e contextMenuWindowHandler element identicalTo: e.
+	self assert: e contextMenuWindowManager currentWindow isNil.
+	self assert: e contextMenuWindowManager element identicalTo: e.
 	^ e
 ]
 
@@ -135,33 +135,33 @@ TToElementWithContextMenuTest >> testContextMenuContent [
 ]
 
 { #category : 'tests' }
-TToElementWithContextMenuTest >> testContextMenuWindowHandler [
+TToElementWithContextMenuTest >> testContextMenuWindowManager [
 
 	| e ttwin  |
 	e := ToElement new.
 	space root addChild: e.
 	self assert: e currentContextMenu isNil.
-	self assert: e rawContextMenuWindowHandler isNil.
+	self assert: e rawContextMenuWindowManager isNil.
 	e contextMenu: [:win :theElement | win addItem: ToMenuItem new].
 	self assert: e hasContextMenu.
-	self assert: e rawContextMenuWindowHandler notNil.
+	self assert: e rawContextMenuWindowManager notNil.
 	ttwin := e newContextMenuEvent: nil.
 	ttwin popupEvent: (BlMouseDownEvent new position: 0@0).
-	self assert: e contextMenuWindowHandler currentWindow notNil.
-	self assert: e contextMenuWindowHandler element identicalTo: e.
+	self assert: e contextMenuWindowManager currentWindow notNil.
+	self assert: e contextMenuWindowManager element identicalTo: e.
 	ttwin close.
-	self assert: e contextMenuWindowHandler currentWindow isNil.
-	self assert: e contextMenuWindowHandler element identicalTo: e.
+	self assert: e contextMenuWindowManager currentWindow isNil.
+	self assert: e contextMenuWindowManager element identicalTo: e.
 	^ e
 ]
 
 { #category : 'tests' }
-TToElementWithContextMenuTest >> testContextMenuWindowHandlerClass [
+TToElementWithContextMenuTest >> testContextMenuWindowManagerClass [
 
 	| e  |
 	e := ToElement new.
 	space root addChild: e.
-	self assert: e contextMenuWindowHandlerClass identicalTo: ToContextMenuWindowHandler.
+	self assert: e contextMenuWindowManagerClass identicalTo: ToContextMenuWindowManager.
 	
 
 ]
@@ -195,7 +195,7 @@ TToElementWithContextMenuTest >> testCurrentContextMenuWindow [
 	self assert: e currentContextMenu notNil.
 	self
 		assert: e currentContextMenu class
-		equals: e contextMenuWindowHandler windowClass.
+		equals: e contextMenuWindowManager windowClass.
 	^ e
 ]
 
@@ -226,7 +226,7 @@ TToElementWithContextMenuTest >> testHasOpenedContextMenu [
 	self assert: e currentContextMenu notNil.
 	self
 		assert: e currentContextMenu class
-		equals: e contextMenuWindowHandler windowClass.
+		equals: e contextMenuWindowManager windowClass.
 	^ e
 ]
 
@@ -236,43 +236,43 @@ TToElementWithContextMenuTest >> testNewContextMenuEvent [
 	| e |
 	e := ToElement new.
 	self assert: e currentContextMenu isNil.
-	self assert: e rawContextMenuWindowHandler isNil.
+	self assert: e rawContextMenuWindowManager isNil.
 	self should: [ e newContextMenuEvent: nil ] raise: Error.
 	e contextMenuContent: { }.
 	self assert: e hasContextMenu.
-	self assert: e rawContextMenuWindowHandler notNil.
+	self assert: e rawContextMenuWindowManager notNil.
 	e newContextMenuEvent: nil.
-	self assert: e contextMenuWindowHandler currentWindow notNil.
-	self assert: e currentContextMenu identicalTo: e contextMenuWindowHandler currentWindow.
+	self assert: e contextMenuWindowManager currentWindow notNil.
+	self assert: e currentContextMenu identicalTo: e contextMenuWindowManager currentWindow.
 	^ e
 ]
 
 { #category : 'tests' }
-TToElementWithContextMenuTest >> testRawContextMenuWindowHandler [
+TToElementWithContextMenuTest >> testRawContextMenuWindowManager [
 
 	| e |
 	e := ToElement new.
-	self assert: e rawContextMenuWindowHandler isNil.
+	self assert: e rawContextMenuWindowManager isNil.
 	e contextMenuContent: { }.
-	self assert: e rawContextMenuWindowHandler notNil.
-	e removeContextMenuWindowHandler.
-	self assert: e rawContextMenuWindowHandler isNil.
+	self assert: e rawContextMenuWindowManager notNil.
+	e removeContextMenuWindowManager.
+	self assert: e rawContextMenuWindowManager isNil.
 
 ]
 
 { #category : 'tests' }
 TToElementWithContextMenuTest >> testRemoveContextMenu [
 
-	self testRemoveContextMenuWindowHandler 
+	self testRemoveContextMenuWindowManager 
 ]
 
 { #category : 'tests' }
-TToElementWithContextMenuTest >> testRemoveContextMenuWindowHandler [
+TToElementWithContextMenuTest >> testRemoveContextMenuWindowManager [
 
 	|  e  |
 	e := self testContextMenu.
 	self assert: e hasContextMenu.
-	e removeContextMenuWindowHandler.
+	e removeContextMenuWindowManager.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
 			 eh isKindOf: ToElementWithPopupEventHandler ]) not.
 	self assert: e currentContextMenu isNil.

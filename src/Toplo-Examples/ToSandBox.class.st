@@ -1260,7 +1260,7 @@ ToSandBox class >> example_Popup1 [
 		       size: 20 @ 20;
 		       position: 10 @ 10.
 	menu addChild: sub.
-	popupWindowHandler := ToPopupWindowHandler new.
+	popupWindowHandler := ToPopupWindowManager new.
 	popupWindowHandler builder: [ :popup :element |
 		popup border: Color black.
 		item := ToElement new size: 50 @ 90.
@@ -1840,6 +1840,9 @@ ToSandBox class >> example_buttonWithLabel [
 ToSandBox class >> example_contactList [
 
 	| panel button list contacts contact nameTxtF phoneTxtF addressTxtF inputPane |
+	
+	self flag: 'issue when clicking on the row remove button in case the row is selected: the selection element is not correctly removed '.
+	
 	panel := ToPane vertical.
 	panel constraints horizontal matchParent.
 	panel layout cellSpacing: 10.
@@ -1935,6 +1938,7 @@ ToSandBox class >> example_contactList [
 		remBut
 			when: BlClickEvent
 			do: [ :event |
+			event consumed: true.
 			holder infiniteElement data removeAt: holder position ].
 		line addChild: remBut.
 		node addChild: line ].
@@ -2259,7 +2263,7 @@ ToSandBox class >> example_overlayWindow1 [
 		     position: 50 @ 50;
 		     background: Color yellow;
 		     border: (BlBorder paint: Color red).
-	windowHandler := ToOverlayWindowHandler new.
+	windowHandler := ToOverlayWindowManager new.
 	windowHandler element: e.
 	windowHandler builder: [ :anchWin :element |
 		anchWin background: (Color gray alpha: 0.2).
@@ -2275,7 +2279,7 @@ ToSandBox class >> example_overlayWindow2 [
 	e := ToInnerWindow new
 		     size: 100 @ 100;
 		     position: 50 @ 50.
-	windowHandler := ToOverlayWindowHandler new.
+	windowHandler := ToOverlayWindowManager new.
 	windowHandler positionHook: [ :event :theElement| theElement bounds inSpace bounds topLeft + (20 @ 40) ].
 	windowHandler sizeHook: [ :event :theElement|  theElement size - (40 @ 60)].
 	windowHandler element: e.

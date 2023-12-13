@@ -1,6 +1,6 @@
 Class {
-	#name : 'ToPopupWindowHandler',
-	#superclass : 'ToAnchoredWindowHandler',
+	#name : 'ToPopupWindowManager',
+	#superclass : 'ToAnchoredWindowManager',
 	#instVars : [
 		'autoCloseOnMouseUpDelay',
 		'mouseButton'
@@ -11,38 +11,38 @@ Class {
 }
 
 { #category : 'accessing' }
-ToPopupWindowHandler >> autoCloseOnMouseUpDelay [
+ToPopupWindowManager >> autoCloseOnMouseUpDelay [
 
 	^ autoCloseOnMouseUpDelay ifNil: [ autoCloseOnMouseUpDelay := 300 milliSeconds ]
 ]
 
 { #category : 'accessing' }
-ToPopupWindowHandler >> autoCloseOnMouseUpDelay: aDelay [
+ToPopupWindowManager >> autoCloseOnMouseUpDelay: aDelay [
 
 	autoCloseOnMouseUpDelay := aDelay asDelay
 ]
 
 { #category : 'initialization' }
-ToPopupWindowHandler >> defaulPositionHook [
+ToPopupWindowManager >> defaulPositionHook [
 
 	^ [ :event :theElement | theElement bounds inSpace bounds bottomLeft ]
 ]
 
 { #category : 'accessing' }
-ToPopupWindowHandler >> elementEventHandlerClass [ 
+ToPopupWindowManager >> elementEventHandlerClass [ 
 
 	^ ToElementWithPopupEventHandler
 ]
 
 { #category : 'initialization' }
-ToPopupWindowHandler >> initialize [ 
+ToPopupWindowManager >> initialize [ 
 
 	super initialize.
 	self usePrimaryMouseButton 
 ]
 
 { #category : 'mouse handlers' }
-ToPopupWindowHandler >> mouseDownInElementEvent: anEvent [
+ToPopupWindowManager >> mouseDownInElementEvent: anEvent [
 
 	builder ifNil: [ ^ self ].
 	anEvent button = mouseButton ifFalse: [ ^ self ].
@@ -54,7 +54,7 @@ ToPopupWindowHandler >> mouseDownInElementEvent: anEvent [
 ]
 
 { #category : 'mouse handlers' }
-ToPopupWindowHandler >> mouseUpInElementEvent: anEvent [
+ToPopupWindowManager >> mouseUpInElementEvent: anEvent [
 
 	| delay |
 	currentWindow ifNil: [ ^ self ].
@@ -67,13 +67,13 @@ ToPopupWindowHandler >> mouseUpInElementEvent: anEvent [
 ]
 
 { #category : 'initialization' }
-ToPopupWindowHandler >> usePrimaryMouseButton [
+ToPopupWindowManager >> usePrimaryMouseButton [
 
 	mouseButton := BlMouseButton primary
 ]
 
 { #category : 'initialization' }
-ToPopupWindowHandler >> useSecondaryMouseButton [
+ToPopupWindowManager >> useSecondaryMouseButton [
 
 	mouseButton := BlMouseButton secondary
 ]

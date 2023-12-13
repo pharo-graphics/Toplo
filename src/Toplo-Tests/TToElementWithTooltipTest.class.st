@@ -71,7 +71,7 @@ TToElementWithTooltipTest >> testCurrentTooltipWindow [
 	self assert: e currentTooltipWindow notNil.
 	self
 		assert: e currentTooltipWindow class
-		equals: e tooltipWindowHandler windowClass.
+		equals: e tooltipWindowManager windowClass.
 	^ e
 ]
 
@@ -88,7 +88,7 @@ TToElementWithTooltipTest >> testHasOpenedTooltip [
 	self assert: e currentTooltipWindow notNil.
 	self
 		assert: e currentTooltipWindow class
-		equals: e tooltipWindowHandler windowClass.
+		equals: e tooltipWindowManager windowClass.
 	^ e
 ]
 
@@ -112,27 +112,27 @@ TToElementWithTooltipTest >> testNewTooltipWindowEvent [
 	| e |
 	e := ToElement new.
 	self assert: e currentTooltipWindow isNil.
-	self assert: e rawTooltipWindowHandler isNil.
+	self assert: e rawTooltipWindowManager isNil.
 	self should: [ e newTooltipWindowEvent: nil ] raise: Error.
 	e tooltipContent: ToElement new.
 	self assert: e hasTooltip.
-	self assert: e rawTooltipWindowHandler notNil.
+	self assert: e rawTooltipWindowManager notNil.
 	e newTooltipWindowEvent: nil.
-	self assert: e tooltipWindowHandler currentWindow notNil.
-	self assert: e currentTooltipWindow identicalTo: e tooltipWindowHandler currentWindow.
+	self assert: e tooltipWindowManager currentWindow notNil.
+	self assert: e currentTooltipWindow identicalTo: e tooltipWindowManager currentWindow.
 	^ e
 ]
 
 { #category : 'tests' }
-TToElementWithTooltipTest >> testRawTooltipWindowHandler [
+TToElementWithTooltipTest >> testRawTooltipWindowManager [
 
 	| e |
 	e := ToElement new.
-	self assert: e rawTooltipWindowHandler isNil.
+	self assert: e rawTooltipWindowManager isNil.
 	e tooltipContent: ToElement new.
-	self assert: e rawTooltipWindowHandler notNil.
-	e removeTooltipWindowHandler.
-	self assert: e rawTooltipWindowHandler isNil.
+	self assert: e rawTooltipWindowManager notNil.
+	e removeTooltipWindowManager.
+	self assert: e rawTooltipWindowManager isNil.
 
 ]
 
@@ -151,14 +151,14 @@ TToElementWithTooltipTest >> testRemoveTooltip [
 ]
 
 { #category : 'tests' }
-TToElementWithTooltipTest >> testRemoveTooltipWindowHandler [
+TToElementWithTooltipTest >> testRemoveTooltipWindowManager [
 
 	| e |
 	e := self testTooltip.
 	self assert: e hasTooltip.
-	self assert: (e userData includesKey: #tooltipWindowHandler).
-	e removeTooltipWindowHandler.
-	self deny: (e userData includesKey: #tooltipWindowHandler).
+	self assert: (e userData includesKey: #tooltipWindowManager).
+	e removeTooltipWindowManager.
+	self deny: (e userData includesKey: #tooltipWindowManager).
 	^ e
 ]
 
@@ -188,10 +188,10 @@ TToElementWithTooltipTest >> testTooltipBuilder [
 	e := ToElement new.
 	b := [ :win :theElement | win root addChild: ToElement new ].
 	e tooltipBuilder: b.
-	self assert: e rawTooltipWindowHandler notNil.
-	self assert: e rawTooltipWindowHandler builder identicalTo: b.
-	e removeTooltipWindowHandler.
-	self assert: e rawTooltipWindowHandler isNil
+	self assert: e rawTooltipWindowManager notNil.
+	self assert: e rawTooltipWindowManager builder identicalTo: b.
+	e removeTooltipWindowManager.
+	self assert: e rawTooltipWindowManager isNil
 ]
 
 { #category : 'tests' }
@@ -262,17 +262,17 @@ TToElementWithTooltipTest >> testTooltipText [
 ]
 
 { #category : 'tests' }
-TToElementWithTooltipTest >> testTooltipWindowHandler [
+TToElementWithTooltipTest >> testTooltipWindowManager [
 
 	| e |
 	e := ToElement new.
 	self assert: e currentTooltipWindow isNil.
-	self assert: e rawTooltipWindowHandler isNil.
+	self assert: e rawTooltipWindowManager isNil.
 	e tooltip: [:win :theElement | win root addChild: ToElement new].
 	self assert: e hasTooltip.
-	self assert: e rawTooltipWindowHandler notNil.
+	self assert: e rawTooltipWindowManager notNil.
 	e newTooltipWindowEvent: nil.
-	self assert: e tooltipWindowHandler currentWindow notNil.
-	self assert: e tooltipWindowHandler element identicalTo: e.
+	self assert: e tooltipWindowManager currentWindow notNil.
+	self assert: e tooltipWindowManager element identicalTo: e.
 	^ e
 ]

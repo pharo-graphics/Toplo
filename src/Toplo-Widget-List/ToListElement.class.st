@@ -25,6 +25,7 @@ ToListElement >> dataSharedEvents [
 
 	^ {
 		  ToCollectionAddEvent.
+		  ToCollectionRemoveRequest.
 		  ToCollectionRemoveEvent.
 		  ToCollectionUpdateEvent }
 ]

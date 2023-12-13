@@ -1,13 +1,13 @@
 Class {
-	#name : 'ToLabelEditorWindowHandler',
-	#superclass : 'ToAnchoredWindowHandler',
+	#name : 'ToLabelEditorWindowManager',
+	#superclass : 'ToAnchoredWindowManager',
 	#category : 'Toplo-Widget-Album-Label',
 	#package : 'Toplo-Widget-Album',
 	#tag : 'Label'
 }
 
 { #category : 'initialization' }
-ToLabelEditorWindowHandler >> defaulPositionHook [
+ToLabelEditorWindowManager >> defaulPositionHook [
 
 	^ [ :event :theLabel |
 				theLabel innerElement bounds inSpace bounds topLeft
@@ -16,7 +16,7 @@ ToLabelEditorWindowHandler >> defaulPositionHook [
 ]
 
 { #category : 'initialization' }
-ToLabelEditorWindowHandler >> initialize [
+ToLabelEditorWindowManager >> initialize [
 
 	super initialize.
 	self builder: [ :anchWin :request |
@@ -28,7 +28,7 @@ ToLabelEditorWindowHandler >> initialize [
 ]
 
 { #category : 'accessing' }
-ToLabelEditorWindowHandler >> windowClass [
+ToLabelEditorWindowManager >> windowClass [
 
 	^ ToLabelEditorWindow 
 ]

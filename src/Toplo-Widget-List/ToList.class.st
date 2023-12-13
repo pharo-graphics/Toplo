@@ -10,7 +10,7 @@ Class {
 ToList >> initialize [
 
 	super initialize.
-	self contextMenuWindowHandlerClass: ToListElementContextMenuWindowHandler.
+	self contextMenuWindowManagerClass: ToListElementContextMenuWindowManager.
 	self addEventHandler: ToListElementSelectionEventHandler new.
 	self addEventHandler: ToListElementContextMenuSelectionEventHandler new.
 	self matchParent

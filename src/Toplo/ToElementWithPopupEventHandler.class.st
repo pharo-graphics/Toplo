@@ -12,13 +12,13 @@ Class {
 { #category : 'event handling' }
 ToElementWithPopupEventHandler >> closeWindow [
 
-	windowHandler closeWindow
+	windowManager closeWindow
 ]
 
 { #category : 'event handling' }
 ToElementWithPopupEventHandler >> elementPositionInSpaceChangedEvent: anEvent [
 
-	windowHandler closeWindow
+	windowManager closeWindow
 ]
 
 { #category : 'api - accessing' }
@@ -30,13 +30,13 @@ ToElementWithPopupEventHandler >> eventsToHandle [
 { #category : 'mouse handlers' }
 ToElementWithPopupEventHandler >> mouseDownEvent: anEvent [
 
-	windowHandler mouseDownInElementEvent: anEvent 
+	windowManager mouseDownInElementEvent: anEvent 
 ]
 
 { #category : 'mouse handlers' }
 ToElementWithPopupEventHandler >> mouseUpEvent: anEvent [
 
-	windowHandler mouseUpInElementEvent: anEvent
+	windowManager mouseUpInElementEvent: anEvent
 ]
 
 { #category : 'mouse handlers' }
@@ -49,7 +49,7 @@ ToElementWithPopupEventHandler >> mouseUpOutsideEvent: anEvent [
 
 	anEvent originalEvent target ifNotNil: [ :originalTarget |
 		(originalTarget hasInParentChain: target) ifTrue: [ ^ self  ].
-		(originalTarget hasInParentChain: windowHandler currentWindow) ifTrue: [ ^ self ] ].
+		(originalTarget hasInParentChain: windowManager currentWindow) ifTrue: [ ^ self ] ].
 	
 	" ok, mouseUp outside the element and outside of the popup window "
 	anEvent consumed: true.

@@ -24,7 +24,7 @@ TToElementWithTooltip >> closeTooltipWindowOnMouseLeave: aBoolean [
 { #category : 't - element with tooltip' }
 TToElementWithTooltip >> currentTooltipWindow [
 
-	^ self rawTooltipWindowHandler ifNotNil: [ :h | h currentWindow ]
+	^ self rawTooltipWindowManager ifNotNil: [ :h | h currentWindow ]
 ]
 
 { #category : 't - element with tooltip' }
@@ -38,36 +38,36 @@ TToElementWithTooltip >> hasOpenedTooltip [
 TToElementWithTooltip >> hasTooltip [
 	" do not use #tooltipWindowHandler to avoid TooltipWindowHandler installation here "
 
-	^ self rawTooltipWindowHandler notNil
+	^ self rawTooltipWindowManager notNil
 ]
 
 { #category : 't - element with tooltip' }
 TToElementWithTooltip >> newTooltipWindowEvent: anEvent [
 
-	^ self rawTooltipWindowHandler newWindowEvent: anEvent
+	^ self rawTooltipWindowManager newWindowEvent: anEvent
 ]
 
 { #category : 't - element with tooltip' }
-TToElementWithTooltip >> rawTooltipWindowHandler [
+TToElementWithTooltip >> rawTooltipWindowManager [
 
-	^ self userData at: #tooltipWindowHandler ifAbsent: [ ]
+	^ self userData at: #tooltipWindowManager ifAbsent: [ ]
 ]
 
 { #category : 't - element with tooltip' }
 TToElementWithTooltip >> removeTooltip [
 
-	self removeTooltipWindowHandler
+	self removeTooltipWindowManager
 ]
 
 { #category : 't - element with tooltip' }
-TToElementWithTooltip >> removeTooltipWindowHandler [
+TToElementWithTooltip >> removeTooltipWindowManager [
 
 	| tmp1 |
-	tmp1 := self rawTooltipWindowHandler.
+	tmp1 := self rawTooltipWindowManager.
 	tmp1 ifNil: [ ^ self ] ifNotNil: [ tmp1 ].
 	tmp1 hasWindow ifTrue: [ tmp1 closeWindow ].
 	tmp1 element: nil.
-	self userData removeKey: #tooltipWindowHandler
+	self userData removeKey: #tooltipWindowManager
 ]
 
 { #category : 't - element with tooltip' }
@@ -80,7 +80,7 @@ TToElementWithTooltip >> tooltip: aValuable [
 { #category : 't - element with tooltip' }
 TToElementWithTooltip >> tooltipBuilder [
 
-	^ self tooltipWindowHandler builder
+	^ self tooltipWindowManager builder
 ]
 
 { #category : 't - element with tooltip' }
@@ -90,16 +90,16 @@ TToElementWithTooltip >> tooltipBuilder: aValuable [
 	
 	aValuable 
 		ifNil: [
-			self tooltipWindowHandler: nil.
+			self tooltipWindowManager: nil.
 			^ self ].
-	self tooltipWindowHandler builder: aValuable
+	self tooltipWindowManager builder: aValuable
 ]
 
 { #category : 't - element with tooltip' }
 TToElementWithTooltip >> tooltipContent: anElement [
 
 	anElement ifNil: [
-		self removeTooltipWindowHandler.
+		self removeTooltipWindowManager.
 		^ self ].
 	self tooltipBuilder: [ :win :element | win root addChild: anElement ]
 ]
@@ -114,7 +114,7 @@ TToElementWithTooltip >> tooltipPopupDelay [
 TToElementWithTooltip >> tooltipPopupDelay: aDuration [
 	
 	self userData at: #tooltipPopupDelay put: aDuration.
-	self rawTooltipWindowHandler ifNotNil: [ :h | h popupDelay: aDuration ]
+	self rawTooltipWindowManager ifNotNil: [ :h | h popupDelay: aDuration ]
 ]
 
 { #category : 't - element with tooltip' }
@@ -134,11 +134,11 @@ TToElementWithTooltip >> tooltipText: aText [
 ]
 
 { #category : 't - element with tooltip' }
-TToElementWithTooltip >> tooltipWindowHandler [
+TToElementWithTooltip >> tooltipWindowManager [
 
-	^ self userData at: #tooltipWindowHandler ifAbsentPut: [
+	^ self userData at: #tooltipWindowManager ifAbsentPut: [
 		  | handler |
-		  handler := ToTooltipWindowHandler new.
+		  handler := ToTooltipWindowManager new.
 		  self tooltipPopupDelay ifNotNil: [ :d | handler popupDelay: d ].
 		  handler
 			  element: self;
@@ -146,12 +146,12 @@ TToElementWithTooltip >> tooltipWindowHandler [
 ]
 
 { #category : 't - element with tooltip' }
-TToElementWithTooltip >> tooltipWindowHandler: aWindowHandler [
+TToElementWithTooltip >> tooltipWindowManager: aWindowHandler [
 
-	self rawTooltipWindowHandler = aWindowHandler ifTrue: [ ^ self ].
-	self removeTooltipWindowHandler.
+	self rawTooltipWindowManager = aWindowHandler ifTrue: [ ^ self ].
+	self removeTooltipWindowManager.
 	aWindowHandler ifNil: [ ^ self ].
-	self userData at: #tooltipWindowHandler put: (aWindowHandler
+	self userData at: #tooltipWindowManager put: (aWindowHandler
 			 element: self;
 			 yourself)
 ]

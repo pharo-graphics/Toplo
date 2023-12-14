@@ -3,7 +3,7 @@ A ToSkinnablePropertySlotTest is a test class for testing the behavior of ToSkin
 "
 Class {
 	#name : 'ToSkinnablePropertySlotTest',
-	#superclass : 'ToParameterizedHostTest',
+	#superclass : 'ToTestCaseWithSpace',
 	#category : 'Toplo-Tests-Core-Slots',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-Slots'

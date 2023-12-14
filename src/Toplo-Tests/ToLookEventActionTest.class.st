@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToLookEventActionTest',
-	#superclass : 'ToParameterizedHostTest',
+	#superclass : 'ToTestCaseWithSpace',
 	#category : 'Toplo-Tests-Core-StyleSheet',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-StyleSheet'

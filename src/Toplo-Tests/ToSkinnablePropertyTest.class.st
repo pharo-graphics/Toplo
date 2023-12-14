@@ -3,7 +3,7 @@ A ToSinnablePropertyTest is a test class for testing the behavior of ToSinnableP
 "
 Class {
 	#name : 'ToSkinnablePropertyTest',
-	#superclass : 'ToParameterizedHostTest',
+	#superclass : 'ToTestCaseWithSpace',
 	#category : 'Toplo-Tests-Core-Properties',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-Properties'

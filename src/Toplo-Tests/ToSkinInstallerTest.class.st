@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToSkinInstallerTest',
-	#superclass : 'ToParameterizedHostTest',
+	#superclass : 'ToTestCaseWithSpace',
 	#category : 'Toplo-Tests-Core-Theme',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-Theme'

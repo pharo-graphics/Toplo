@@ -1,6 +1,6 @@
 Class {
 	#name : 'TToElementWithContextMenuTest',
-	#superclass : 'ToParameterizedHostTest',
+	#superclass : 'ToTestCaseWithSpace',
 	#category : 'Toplo-Tests-Core',
 	#package : 'Toplo-Tests',
 	#tag : 'Core'

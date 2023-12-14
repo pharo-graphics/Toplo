@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToCheckStateTest',
-	#superclass : 'ToParameterizedHostTest',
+	#superclass : 'ToTestCaseWithSpace',
 	#category : 'Toplo-Tests-Core-States',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-States'

@@ -3,7 +3,7 @@ A ToBeeThemeTest is a test class for testing the behavior of ToBeeTheme
 "
 Class {
 	#name : 'ToBeeThemeTest',
-	#superclass : 'ToParameterizedHostTest',
+	#superclass : 'ToTestCaseWithSpace',
 	#category : 'Toplo-Theme-Bee-Tests',
 	#package : 'Toplo-Theme-Bee-Tests'
 }
@@ -34,7 +34,6 @@ ToBeeThemeTest >> testSpaceRoot [
 
 	| theme e |
 	theme := ToStyleSheetTheme light.
-	space := self newTestingSpace.
 	space toTheme: theme.
 	e := (ToElement new
 			 size: 100 @ 100;

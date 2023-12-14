@@ -3,7 +3,7 @@ A ToElementTest is a test class for testing the behavior of ToElement
 "
 Class {
 	#name : 'ToElementTest',
-	#superclass : 'ToParameterizedHostTest',
+	#superclass : 'ToTestCaseWithSpace',
 	#category : 'Toplo-Tests-Core',
 	#package : 'Toplo-Tests',
 	#tag : 'Core'

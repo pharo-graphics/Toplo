@@ -3,7 +3,7 @@ A ToThemeManagerTest is a test class for testing the behavior of ToThemeManager
 "
 Class {
 	#name : 'ToSkinManagerTest',
-	#superclass : 'ToParameterizedHostTest',
+	#superclass : 'ToTestCaseWithSpace',
 	#category : 'Toplo-Tests-Core-Theme',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-Theme'

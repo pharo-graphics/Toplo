@@ -3,7 +3,7 @@ A ToLabeledIconEventHandlerTest is a test class for testing the behavior of ToLa
 "
 Class {
 	#name : 'ToLabeledIconEventHandlerTest',
-	#superclass : 'ToParameterizedHostTest',
+	#superclass : 'ToTestCaseWithSpace',
 	#category : 'Toplo-Tests-Core',
 	#package : 'Toplo-Tests',
 	#tag : 'Core'

@@ -3,7 +3,7 @@ A ToTransientStateTest is a test class for testing the behavior of ToTransientSt
 "
 Class {
 	#name : 'ToTransientStateTest',
-	#superclass : 'ToParameterizedHostTest',
+	#superclass : 'ToTestCaseWithSpace',
 	#category : 'Toplo-Tests-Core-States',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-States'

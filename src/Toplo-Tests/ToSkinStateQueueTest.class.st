@@ -3,7 +3,7 @@ A ToSkinnableEventHandlerTest is a test class for testing the behavior of ToSkin
 "
 Class {
 	#name : 'ToSkinStateQueueTest',
-	#superclass : 'ToParameterizedHostTest',
+	#superclass : 'ToTestCaseWithSpace',
 	#category : 'Toplo-Tests-Core-States',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-States'

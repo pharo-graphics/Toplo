@@ -26,12 +26,12 @@ ToTabPaneTest >> testCloseLastPage [
 
 	notebook lastTab closable: true.
 
-	self waitTestingSpaces.
+	"self waitTestingSpaces."
 	self assert: notebook tabs size equals: 1.
 	self assert: notebook tabs last isSelected.
 
 	BlSpace simulateClickOn: notebook tabs last innerCloseButton.
-	self waitTestingSpaces.
+	"self waitTestingSpaces."
 	self assert: notebook tabs isEmpty
 ]
 
@@ -57,12 +57,12 @@ ToTabPaneTest >> testCloseSelectedPage [
 	redButton := notebook lastTab.
 	redButton closable: true.
 	
-	self waitTestingSpaces.
+	"self waitTestingSpaces."
 	self assert: (notebook  tabs includes: redButton ).
 	self deny: redButton isSelected.
 
 	BlSpace simulateClickOn: redButton innerCloseButton.
-	self waitTestingSpaces.
+	"self waitTestingSpaces."
 	self deny: (notebook tabs includes: redButton).
 	self assert: greenButton isSelected.
 

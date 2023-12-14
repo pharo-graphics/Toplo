@@ -10,12 +10,6 @@ Class {
 }
 
 { #category : 'event handling' }
-ToElementWithPopupEventHandler >> closeWindow [
-
-	windowManager closeWindow
-]
-
-{ #category : 'event handling' }
 ToElementWithPopupEventHandler >> elementPositionInSpaceChangedEvent: anEvent [
 
 	windowManager closeWindow
@@ -48,12 +42,12 @@ ToElementWithPopupEventHandler >> mouseUpOutsideEvent: anEvent [
 	"
 
 	anEvent originalEvent target ifNotNil: [ :originalTarget |
-		(originalTarget hasInParentChain: target) ifTrue: [ ^ self  ].
+		(originalTarget hasInParentChain: self target) ifTrue: [ ^ self  ].
 		(originalTarget hasInParentChain: windowManager currentWindow) ifTrue: [ ^ self ] ].
 	
 	" ok, mouseUp outside the element and outside of the popup window "
 	anEvent consumed: true.
-	self closeWindow
+	windowManager closeWindow
 ]
 
 { #category : 'api - hooks' }
@@ -70,4 +64,10 @@ ToElementWithPopupEventHandler >> onUninstalledIn: anElement [
 	target := nil.
 	super onUninstalledIn: anElement.
 
+]
+
+{ #category : 'accessing' }
+ToElementWithPopupEventHandler >> target [
+
+	^ target
 ]

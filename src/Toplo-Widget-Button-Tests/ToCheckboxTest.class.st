@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToCheckboxTest',
-	#superclass : 'ToParameterizedHostTest',
+	#superclass : 'ToTestCaseWithSpace',
 	#category : 'Toplo-Widget-Button-Tests-Checkable',
 	#package : 'Toplo-Widget-Button-Tests',
 	#tag : 'Checkable'

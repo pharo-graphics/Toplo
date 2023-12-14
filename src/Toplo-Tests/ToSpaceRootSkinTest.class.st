@@ -3,7 +3,7 @@ A ToSpaceRootSkinTest is a test class for testing the behavior of ToSpaceRootSki
 "
 Class {
 	#name : 'ToSpaceRootSkinTest',
-	#superclass : 'ToParameterizedHostTest',
+	#superclass : 'ToTestCaseWithSpace',
 	#category : 'Toplo-Tests-Core-Theme',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-Theme'

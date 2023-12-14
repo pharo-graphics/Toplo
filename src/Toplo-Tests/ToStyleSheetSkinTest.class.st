@@ -3,7 +3,7 @@ A ToSkinTest is a test class for testing the behavior of ToSkin
 "
 Class {
 	#name : 'ToStyleSheetSkinTest',
-	#superclass : 'ToParameterizedHostTest',
+	#superclass : 'ToTestCaseWithSpace',
 	#instVars : [
 		'writeablePropertyIndex'
 	],

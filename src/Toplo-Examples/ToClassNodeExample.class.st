@@ -24,9 +24,11 @@ ToClassNodeExample >> forClassNameAssoc: aClassNameAssoc [
 		padding: (BlInsets all: 1);
 		beEditable;
 		stillPressedStartDelay: 800 milliSeconds;
-		when: ToStillPressedLookEvent do: [ :event |
-			event consumed: true.
-			event currentTarget addEditorEvent: event ];
+		addEventHandler: (BlEventHandler
+				 on: ToStillPressedLookEvent
+				 do: [ :event |
+					 event consumed: true.
+					 event currentTarget addEditorEvent: event ]);
 		whenTextReplacedDo: [ self holder data value: label text asString ].
 
 

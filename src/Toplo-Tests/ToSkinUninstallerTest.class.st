@@ -3,7 +3,7 @@ A ToSkinUninstallerTest is a test class for testing the behavior of ToSkinUninst
 "
 Class {
 	#name : 'ToSkinUninstallerTest',
-	#superclass : 'ToParameterizedHostTest',
+	#superclass : 'ToTestCaseWithSpace',
 	#category : 'Toplo-Tests-Core-Theme',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-Theme'

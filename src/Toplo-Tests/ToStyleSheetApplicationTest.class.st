@@ -3,7 +3,7 @@ A ToStyleSheetTest is a test class for testing the behavior of ToStyleSheet
 "
 Class {
 	#name : 'ToStyleSheetApplicationTest',
-	#superclass : 'ToParameterizedHostTest',
+	#superclass : 'ToTestCaseWithSpace',
 	#category : 'Toplo-Tests-Core-StyleSheet',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-StyleSheet'

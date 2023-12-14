@@ -510,12 +510,15 @@ ToSandBox class >> example_EditableListWithAllClassesNames [
 	l
 		nodeClass: ToClassNodeExample;
 		nodeBuilder: [ :node :holder | node forClassNameAssoc: holder data ];
-		when: ToListStrongSelectionEvent do: [ :event |
-			event indexes size == 1 ifTrue: [
-					(l nodeAt: event indexes first) label addEditorEvent: event ] ];
+		addEventHandler: (BlEventHandler
+				 on: ToListStrongSelectionEvent
+				 do: [ :event |
+					 event indexes size == 1 ifTrue: [
+							 (l nodeAt: event indexes first) label addEditorEvent: event ] ]);
 		preserveSelectionOnFocused: false;
 		withRowNumbers.
-	l data addAll: (Smalltalk globals allClasses collect: [ :cls | cls -> cls name ]).
+	l data addAll:
+		(Smalltalk globals allClasses collect: [ :cls | cls -> cls name ]).
 
 	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
@@ -888,8 +891,7 @@ ToSandBox class >> example_ListWithAllClasses [
 ToSandBox class >> example_ListWithAllClasses3 [
 
 	| l |
-	l := ToListElement new 
-			nodeBuilder: [ :node :holder |
+	l := ToListElement new nodeBuilder: [ :node :holder |
 		     | icn lab |
 		     icn := holder data hasComment
 			            ifTrue: [ #class ]
@@ -899,11 +901,13 @@ ToSandBox class >> example_ListWithAllClasses3 [
 			            beEditable;
 			            yourself.
 		     node addChild: (ToLabeledIcon new
-			     label: lab;
-			     icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
-			     interspace: 10;
-			     hMatchParent) ].
-	l when: ToInfiniteSelectionChangedEvent do: [ :evt | evt traceCr ].
+				      label: lab;
+				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
+				      interspace: 10;
+				      hMatchParent) ].
+	l addEventHandler: (BlEventHandler
+			 on: ToInfiniteSelectionChangedEvent
+			 do: [ :evt | evt traceCr ]).
 	l data addAll: Smalltalk globals allClasses.
 	l withRowNumbers.
 	l infinite requestFocus.

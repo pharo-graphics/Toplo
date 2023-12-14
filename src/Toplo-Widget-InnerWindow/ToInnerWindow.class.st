@@ -49,13 +49,21 @@ ToInnerWindow >> defaultBarElement [
 		     border: BlBorder empty;
 		     vFitContent;
 		     yourself.
-	b when: BlDoubleClickEvent do: [ self maximize ].
-	b when: BlMouseDownEvent do: [ self toFront ].
-	closeButton := ToButton new id: #'close-button'; yourself.
+	b addEventHandler: (BlEventHandler
+			 on: BlDoubleClickEvent
+			 do: [ self maximize ]).
+	b addEventHandler: (BlEventHandler
+			 on: BlMouseDownEvent
+			 do: [ self toFront ]).
+	closeButton := ToButton new
+		               id: #'close-button';
+		               yourself.
 	closeButton whenClickedDo: [ self close ].
 	closeButton withoutSkin.
 	closeButton border: (Color red alpha: 0.3).
-	expandButton := ToButton new id: #'expand-button'; yourself.
+	expandButton := ToButton new
+		                id: #'expand-button';
+		                yourself.
 	expandButton whenClickedDo: [ self maximize ].
 	expandButton withoutSkin.
 
@@ -90,7 +98,8 @@ ToInnerWindow >> defaultBarElement [
 			fill3.
 			expandButton.
 			fill4 }.
-	b childrenDo: [ :child | child constraintsDo: [ :c | c linear vertical alignCenter ] ].
+	b childrenDo: [ :child |
+		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
 	^ b
 ]
 

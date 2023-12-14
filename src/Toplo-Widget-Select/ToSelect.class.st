@@ -1,6 +1,6 @@
 Class {
-	#name : #ToSelect,
-	#superclass : #ToElement,
+	#name : 'ToSelect',
+	#superclass : 'ToElement',
 	#traits : 'TObservable',
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
@@ -11,29 +11,30 @@ Class {
 		'#dataToTextConverter',
 		'#selectedIndex => ObservableSlot'
 	],
-	#category : 'Toplo-Widget-Select'
+	#category : 'Toplo-Widget-Select',
+	#package : 'Toplo-Widget-Select'
 }
 
-{ #category : #'adding / removing' }
+{ #category : 'adding / removing' }
 ToSelect >> addData: anObject [
 
 	self data add: anObject
 ]
 
-{ #category : #'adding / removing' }
+{ #category : 'adding / removing' }
 ToSelect >> addSeparator [
 
 	menuButton addSeparator
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSelect >> beFlexible [
 
 	menuButton hMatchParent.
 	menuButton flexible: true
 ]
 
-{ #category : #'api - change hook' }
+{ #category : 'api - change hook' }
 ToSelect >> checked: anItem [
 
 	anItem ifNil: [
@@ -45,37 +46,37 @@ ToSelect >> checked: anItem [
 			 ifNone: [ ])
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSelect >> data [
 
 	^ data 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSelect >> dataToTextConverter [
 
 	^ dataToTextConverter
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSelect >> dataToTextConverter: aValuable [
 
 	dataToTextConverter := aValuable
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSelect >> group [
 
 	^ group
 ]
 
-{ #category : #'api - change hook' }
+{ #category : 'api - change hook' }
 ToSelect >> indexOfData: aData [
 
 	^ self data indexOf: aData ifAbsent: [ 0 ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSelect >> initialize [
 
 	self class initializeSlots: self.
@@ -90,19 +91,20 @@ ToSelect >> initialize [
 	self addChild: menuButton.
 	self whenSelectedIndexChangedDo: [ self selectedIndexChanged ].
 	self whenPlaceholderChangedDo: [ self placeholderChanged ].
-	group when: ToCheckableGroupChangedEvent do: [ :event |
-		" #checked: must be sent before #unchecked: "
-		event checkedButtons do: [:e | self checked: e].
-		event uncheckedButtons do:[:e | self unchecked: e ]].
+	group addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event | " #checked: must be sent before #unchecked: "
+				 event checkedButtons do: [ :e | self checked: e ].
+				 event uncheckedButtons do: [ :e | self unchecked: e ] ])
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSelect >> menuButton [
 
 	^ menuButton 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSelect >> menuItemFromData: anObject [
 
 	^ group buttons
@@ -110,13 +112,13 @@ ToSelect >> menuItemFromData: anObject [
 		  ifNone: [  ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ToSelect >> newDataCollection [
 
 	^ ToObservableCollection new
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 ToSelect >> newMenuItemFromData: anObject [
 
 	^ ToSelectItem new
@@ -124,13 +126,13 @@ ToSelect >> newMenuItemFromData: anObject [
 		  yourself
 ]
 
-{ #category : #'private - notifications' }
+{ #category : 'private - notifications' }
 ToSelect >> notifyChanged [
 
 	self dispatchEvent: ToSelectChangedEvent new
 ]
 
-{ #category : #'private - notifications' }
+{ #category : 'private - notifications' }
 ToSelect >> notifyDataChanged: anInterval [
 
 	anInterval ifEmpty: [ ^ self ].
@@ -143,7 +145,7 @@ ToSelect >> notifyDataChanged: anInterval [
 		(self selectedData = self data at: idx) ifTrue: [ self selectData: nil ] ]
 ]
 
-{ #category : #'private - notifications' }
+{ #category : 'private - notifications' }
 ToSelect >> notifyDataInserted: anInterval [
 
 	| items |
@@ -153,7 +155,7 @@ ToSelect >> notifyDataInserted: anInterval [
 	self group addAll: items
 ]
 
-{ #category : #'private - notifications' }
+{ #category : 'private - notifications' }
 ToSelect >> notifyDataRemoved: anInterval [
 
 	| removedData |
@@ -167,26 +169,26 @@ ToSelect >> notifyDataRemoved: anInterval [
 		self selectedData = d ifTrue: [ self selectData: nil ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSelect >> placeholder [
 
 	^ placeholder
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSelect >> placeholder: anElement [
 
 	placeholder := anElement
 ]
 
-{ #category : #'api - change hook' }
+{ #category : 'api - change hook' }
 ToSelect >> placeholderChanged [
 
 	self selectedData ifNotNil: [ ^ self ].
 	self usePlaceholder
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 ToSelect >> privateData: anObservableCollection [
 
 	data := anObservableCollection.
@@ -197,7 +199,7 @@ ToSelect >> privateData: anObservableCollection [
 	self notifyChanged
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 ToSelect >> privateSelectedIndex: anInteger [
 
 	selectedIndex := anInteger.
@@ -205,7 +207,7 @@ ToSelect >> privateSelectedIndex: anInteger [
 
 ]
 
-{ #category : #'adding / removing' }
+{ #category : 'adding / removing' }
 ToSelect >> removeData: anObject [
 
 	| item |
@@ -214,7 +216,7 @@ ToSelect >> removeData: anObject [
 	self data remove: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSelect >> selectData: aData [
 	| idx |
 	idx := self indexOfData: aData.
@@ -222,7 +224,7 @@ ToSelect >> selectData: aData [
 	self privateSelectedIndex: idx
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSelect >> selectIndex: anInteger [
 
 	self selectedIndex = anInteger ifTrue: [ ^ self ].
@@ -230,7 +232,7 @@ ToSelect >> selectIndex: anInteger [
 	self privateSelectedIndex: anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSelect >> selectedData [
 
 	^ self selectedIndex isZero
@@ -238,13 +240,13 @@ ToSelect >> selectedData [
 		  ifFalse: [ self data at: self selectedIndex ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSelect >> selectedIndex [
 
 	^ selectedIndex 
 ]
 
-{ #category : #'api - change hook' }
+{ #category : 'api - change hook' }
 ToSelect >> selectedIndexChanged [
 
 	| menuItem |
@@ -257,21 +259,21 @@ ToSelect >> selectedIndexChanged [
 	menuItem checked ifFalse: [ menuItem check ]
 ]
 
-{ #category : #'api - change hook' }
+{ #category : 'api - change hook' }
 ToSelect >> unchecked: anItem [
 
 	self group checkedButtons ifNotEmpty: [ ^ self ].
 	self selectData: nil
 ]
 
-{ #category : #'api - change hook' }
+{ #category : 'api - change hook' }
 ToSelect >> usePlaceholder [
 
 	menuButton label: self placeholder.
 	group uncheckAll
 ]
 
-{ #category : #'api - change hook' }
+{ #category : 'api - change hook' }
 ToSelect >> whenPlaceholderChangedDo: aBlock [
 
 	"set a block to perform after that the selected item has been changed, and its action performed"
@@ -279,7 +281,7 @@ ToSelect >> whenPlaceholderChangedDo: aBlock [
 	self property: #placeholder whenChangedDo: aBlock
 ]
 
-{ #category : #'api - change hook' }
+{ #category : 'api - change hook' }
 ToSelect >> whenSelectedIndexChangedDo: aBlock [
 
 	"set a block to perform after that the selected item has been changed, and its action performed"
@@ -287,13 +289,13 @@ ToSelect >> whenSelectedIndexChangedDo: aBlock [
 	self property: #selectedIndex whenChangedDo: aBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSelect >> withStrictCheckingStrategy [
 
 	self group withStrictCheckingStrategy
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ToSelect >> withUncheckingStrategy [
 
 	self group withUncheckingStrategy

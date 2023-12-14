@@ -573,49 +573,65 @@ TToObservableCollection >> third [
 { #category : 't - observable collection - event management' }
 TToObservableCollection >> whenAddChangeDo: aBlock [
 
-	self when: ToCollectionAddEvent  do: [ :ann | aBlock cull: ann ] 
+	self addEventHandler: (BlEventHandler
+			 on: ToCollectionAddEvent
+			 do: [ :ann | aBlock cull: ann ])
 ]
 
 { #category : 't - observable collection - event management' }
 TToObservableCollection >> whenBeforeAddChangeDo: aBlock [
 
-	self when: ToCollectionAddRequest  do: [ :ann | aBlock cull: ann ] 
+	self addEventHandler: (BlEventHandler
+			 on: ToCollectionAddRequest
+			 do: [ :ann | aBlock cull: ann ])
 ]
 
 { #category : 't - observable collection - event management' }
 TToObservableCollection >> whenBeforeFilterChangeDo: aBlock [
 
-	self when: ToCollectionFilterRequest  do: [ :ann | aBlock cull: ann ] 
+	self addEventHandler: (BlEventHandler
+			 on: ToCollectionFilterRequest
+			 do: [ :ann | aBlock cull: ann ])
 ]
 
 { #category : 't - observable collection - event management' }
 TToObservableCollection >> whenBeforeRemoveChangeDo: aBlock [
 
-	self when: ToCollectionRemoveRequest  do: [ :ann | aBlock cull: ann ] 
+	self addEventHandler: (BlEventHandler
+			 on: ToCollectionRemoveRequest
+			 do: [ :ann | aBlock cull: ann ])
 ]
 
 { #category : 't - observable collection - event management' }
 TToObservableCollection >> whenBeforeUpdateChangeDo: aBlock [
 
-	self when: ToCollectionUpdateRequest  do: [ :ann | aBlock cull: ann ] 
+	self addEventHandler: (BlEventHandler
+			 on: ToCollectionUpdateRequest
+			 do: [ :ann | aBlock cull: ann ])
 ]
 
 { #category : 't - observable collection - event management' }
 TToObservableCollection >> whenFilterChangeDo: aBlock [
 
-	self when: ToCollectionFilterEvent  do: [ :event | aBlock cull: event ] 
+	self addEventHandler: (BlEventHandler
+			 on: ToCollectionFilterEvent
+			 do: [ :event | aBlock cull: event ])
 ]
 
 { #category : 't - observable collection - event management' }
 TToObservableCollection >> whenRemoveChangeDo: aBlock [
 
-	self when: ToCollectionRemoveEvent  do: [ :ann | aBlock cull: ann ] 
+	self addEventHandler: (BlEventHandler
+			 on: ToCollectionRemoveEvent
+			 do: [ :ann | aBlock cull: ann ])
 ]
 
 { #category : 't - observable collection - event management' }
 TToObservableCollection >> whenUpdateChangeDo: aBlock [
 
-	self when: ToCollectionUpdateEvent  do: [ :ann | aBlock cull: ann ] 
+	self addEventHandler: (BlEventHandler
+			 on: ToCollectionUpdateEvent
+			 do: [ :ann | aBlock cull: ann ])
 ]
 
 { #category : 't - observable collection - enumerating' }

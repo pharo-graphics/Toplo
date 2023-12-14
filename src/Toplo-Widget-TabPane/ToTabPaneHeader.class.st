@@ -80,11 +80,13 @@ ToTabPaneHeader >> group [
 ]
 
 { #category : 'initialization' }
-ToTabPaneHeader >> initialize [ 
+ToTabPaneHeader >> initialize [
 
 	super initialize.
 	group := ToCheckableGroup new.
-	group when: ToCheckableGroupChangedEvent do: [ :event | self checkableGroupChangedEvent: event ].
+	group addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event | self checkableGroupChangedEvent: event ]).
 	tabs := OrderedCollection new.
 	startFiller := ToElement new.
 	endFiller := ToElement new.
@@ -97,8 +99,7 @@ ToTabPaneHeader >> initialize [
 	endContainer := ToPane new fitContent.
 	self addChild: startContainer.
 	self addChild: tabRowContainer.
-	self addChild: endContainer.
-
+	self addChild: endContainer
 ]
 
 { #category : 'add-remove' }

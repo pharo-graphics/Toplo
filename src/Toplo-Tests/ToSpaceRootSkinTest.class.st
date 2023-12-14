@@ -20,7 +20,6 @@ ToSpaceRootSkinTest >> setUp [
 
 { #category : 'tests' }
 ToSpaceRootSkinTest >> testInstallLookEvent [
-
 	" test that a ToSpaceRootSkin is installed as soon a the space skin related phases are installed "
 
 	| e goneHere |
@@ -30,10 +29,12 @@ ToSpaceRootSkinTest >> testInstallLookEvent [
 	space root addChild: e.
 	self assert: e background isTransparent.
 	goneHere := false.
-	space when: ToSpaceSkinPhasesStarted do: [
-		goneHere := true.
-		e applySkinInstaller.
-		self deny: e background isTransparent ].
+	space addEventHandler: (BlEventHandler
+			 on: ToSpaceSkinPhasesStarted
+			 do: [
+				 goneHere := true.
+				 e applySkinInstaller.
+				 self deny: e background isTransparent ]).
 	space startSkinPhases.
 	self assert: goneHere
 ]

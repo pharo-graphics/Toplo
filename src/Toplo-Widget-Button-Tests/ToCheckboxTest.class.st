@@ -63,8 +63,9 @@ ToCheckboxTest >> testStartChecked [
 	cb checked: true.
 	space := cb openInSpace.
 	self assert: cb checked.
-	cb when: BlElementAddedToSceneGraphEvent do: [ space close ].
-
+	cb addEventHandler: (BlEventHandler
+			 on: BlElementAddedToSceneGraphEvent
+			 do: [ space close ])
 ]
 
 { #category : 'tests' }
@@ -77,8 +78,9 @@ ToCheckboxTest >> testStartCheckedThenDisabled [
 	self assert: cb checked.
 	cb disable.
 	self assert: cb checked.
-	cb when: BlElementAddedToSceneGraphEvent do: [ space close ].
-
+	cb addEventHandler: (BlEventHandler
+			 on: BlElementAddedToSceneGraphEvent
+			 do: [ space close ])
 ]
 
 { #category : 'tests' }
@@ -89,6 +91,7 @@ ToCheckboxTest >> testStartUnchecked [
 	cb checked: false.
 	space := cb openInSpace.
 	self assert: cb checked not.
-	cb when: BlElementAddedToSceneGraphEvent do: [ space close ]
-
+	cb addEventHandler: (BlEventHandler
+			 on: BlElementAddedToSceneGraphEvent
+			 do: [ space close ])
 ]

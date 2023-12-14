@@ -15,28 +15,28 @@ Class {
 { #category : 'tests' }
 ToListElementTest >> listWithRemoveRowButtons [
 
-	|  list |
+	| list |
 	list := ToListElement new.
 	list nodeBuilder: [ :node :holder |
 		| line remBut filler |
 		line := ToPane horizontal id: #row.
-		remBut := ToButton new id: #'remove-button-', holder position asString.
+		remBut := ToButton new id:
+			          #'remove-button-' , holder position asString.
 		remBut withoutSkin.
 		remBut icon: (ToImage inner: (self iconNamed: #windowClose)).
 		remBut constraintsDo: [ :c | c linear vertical alignCenter ].
-		remBut
-			when: BlClickEvent
-			do: [ :event |
-			event consumed: true.
-			holder infiniteElement data removeAt: holder position ].
-		filler := ToElement new matchParent; id: #filler.
+		remBut addEventHandler: (BlEventHandler
+				 on: BlClickEvent
+				 do: [ :event |
+					 event consumed: true.
+					 holder infiniteElement data removeAt: holder position ]).
+		filler := ToElement new
+			          matchParent;
+			          id: #filler.
 		line addChild: filler.
 		line addChild: remBut.
 		node addChild: line ].
 	^ list
-
-
-
 ]
 
 { #category : 'running' }

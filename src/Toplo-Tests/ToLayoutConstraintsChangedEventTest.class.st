@@ -15,7 +15,9 @@ ToLayoutConstraintsChangedEventTest >> test [
 	| bcpt cpt e |
 	e := ToElement new.
 	cpt := 0.
-	e when: ToLayoutConstraintsChangedEvent do: [ cpt := cpt + 1 ].
+	e addEventHandler: (BlEventHandler
+			 on: ToLayoutConstraintsChangedEvent
+			 do: [ cpt := cpt + 1 ]).
 	bcpt := cpt.
 	e exact: 10 @ 10.
 	self assert: cpt equals: bcpt + 1.

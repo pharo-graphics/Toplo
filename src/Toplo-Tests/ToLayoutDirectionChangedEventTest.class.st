@@ -16,7 +16,9 @@ ToLayoutDirectionChangedEventTest >> test [
 	li := ToLabeledIcon new.
 	li beRightToLeft.
 	cpt := 0.
-	li when: ToLayoutDirectionChangedEvent do: [ cpt := cpt + 1 ].
+	li addEventHandler: (BlEventHandler
+			 on: ToLayoutDirectionChangedEvent
+			 do: [ cpt := cpt + 1 ]).
 	bcpt := cpt.
 	li beLeftToRight.
 	self assert: cpt equals: bcpt + 1.

@@ -108,25 +108,21 @@ ToTabPaneTest >> testCloseSelectedPage2 [
 ToTabPaneTest >> testCloseUnselectedPage [
 
 	| redButton greenButton |
-	notebook
-		addTabWithText: 'Red'
-		builder: [ :pane :theNotebook |
-			pane addChild: (BlElement new
-					 background: Color red;
-					 yourself) ].
+	notebook addTabWithText: 'Red' builder: [ :pane :theNotebook |
+		pane addChild: (BlElement new
+				 background: Color red;
+				 yourself) ].
 	redButton := notebook lastTab.
 	redButton closable: true.
 	redButton selected: true.
 
-	notebook
-		addTabWithText: 'Green'
-		builder: [ :pane :theNotebook |
-			pane addChild: (BlElement new
-					 background: Color green;
-					 yourself) ].
+	notebook addTabWithText: 'Green' builder: [ :pane :theNotebook |
+		pane addChild: (BlElement new
+				 background: Color green;
+				 yourself) ].
 	greenButton := notebook lastTab.
 	greenButton closable: true.
-	
+
 	self waitTestingSpaces.
 	self assert: (notebook tabs includes: redButton).
 	self assert: (notebook tabs includes: greenButton).
@@ -135,37 +131,35 @@ ToTabPaneTest >> testCloseUnselectedPage [
 	self applyAllEnqueuedStates.
 
 	space class simulateClickOn: greenButton innerCloseButton.
-	greenButton when: BlEvent do: [ :event | event traceCr ].
+	greenButton addEventHandler: (BlEventHandler
+			 on: BlEvent
+			 do: [ :event | event traceCr ]).
 	self waitTestingSpaces.
 	space requestNextPulse.
 	self deny: (notebook tabs includes: greenButton).
 	self assert: (notebook tabs includes: redButton).
-	self assert: redButton isSelected.
+	self assert: redButton isSelected
 ]
 
 { #category : 'tests' }
 ToTabPaneTest >> testCloseUnselectedPage2 [
 
 	| redButton greenButton |
-	notebook
-		addTabWithText: 'Green'
-		builder: [ :pane :theNotebook |
-			pane addChild: (BlElement new
-					 background: Color green;
-					 yourself) ].
+	notebook addTabWithText: 'Green' builder: [ :pane :theNotebook |
+		pane addChild: (BlElement new
+				 background: Color green;
+				 yourself) ].
 	greenButton := notebook lastTab.
 	greenButton closable: true.
 
-	notebook
-		addTabWithText: 'Red'
-		builder: [ :pane :theNotebook |
-			pane addChild: (BlElement new
-					 background: Color red;
-					 yourself) ].
+	notebook addTabWithText: 'Red' builder: [ :pane :theNotebook |
+		pane addChild: (BlElement new
+				 background: Color red;
+				 yourself) ].
 	redButton := notebook lastTab.
 	redButton closable: true.
 	redButton selected: true.
-	
+
 	self waitTestingSpaces.
 	self assert: (notebook tabs includes: redButton).
 	self assert: (notebook tabs includes: greenButton).
@@ -174,12 +168,14 @@ ToTabPaneTest >> testCloseUnselectedPage2 [
 	self applyAllEnqueuedStates.
 
 	space class simulateClickOn: greenButton innerCloseButton.
-	greenButton when: BlEvent do: [ :event | event traceCr ].
+	greenButton addEventHandler: (BlEventHandler
+			 on: BlEvent
+			 do: [ :event | event traceCr ]).
 	self waitTestingSpaces.
 	space requestNextPulse.
 	self deny: (notebook tabs includes: greenButton).
 	self assert: (notebook tabs includes: redButton).
-	self assert: redButton isSelected.
+	self assert: redButton isSelected
 ]
 
 { #category : 'tests' }

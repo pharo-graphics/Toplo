@@ -47,7 +47,7 @@ ToElementWithSkinnableSlotsForTest >> child2: aToElement [
 ]
 
 { #category : 'initialization' }
-ToElementWithSkinnableSlotsForTest >> initialize [ 
+ToElementWithSkinnableSlotsForTest >> initialize [
 
 	super initialize.
 	" count the number of #requestSkin sents"
@@ -58,8 +58,10 @@ ToElementWithSkinnableSlotsForTest >> initialize [
 	skinRefreshedCount := 0.
 	" count the number of state engine applyOn: (only for dirty element stored in the space) "
 	skinStatesApplied := 0.
-	
-	self when: ToSkinInstallStateRequest do: [ skinRefreshedCount := skinRefreshedCount + 1 ]
+
+	self addEventHandler: (BlEventHandler
+			 on: ToSkinInstallStateRequest
+			 do: [ skinRefreshedCount := skinRefreshedCount + 1 ])
 ]
 
 { #category : 'accessing' }

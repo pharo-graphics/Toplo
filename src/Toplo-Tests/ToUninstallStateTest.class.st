@@ -18,14 +18,15 @@ ToUninstallStateTest >> setUp [
 ]
 
 { #category : 'running' }
-ToUninstallStateTest >> testApplyOn [ 
+ToUninstallStateTest >> testApplyOn [
 
 	| e stateEvt receivedEvt |
 	e := ToElement new.
-	e when: ToUninstallLookEvent do: [ :event | receivedEvt := event ].
+	e addEventHandler: (BlEventHandler
+			 on: ToUninstallLookEvent
+			 do: [ :event | receivedEvt := event ]).
 	(stateEvt := ToUninstallState new) applyOn: e.
 	self assert: (receivedEvt isKindOf: ToUninstallLookEvent)
-	
 ]
 
 { #category : 'running' }

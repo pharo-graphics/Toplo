@@ -41,9 +41,12 @@ ToTab >> closable: aBoolean [
 			| but |
 			but := ToButton new.
 			but defaultSkin: ToTabInnerCloseButtonSkin new.
-			but icon: (ToImage inner: (Smalltalk ui icons iconNamed: #windowClose)).
+			but icon:
+				(ToImage inner: (Smalltalk ui icons iconNamed: #windowClose)).
 			but constraintsDo: [ :c | c linear vertical alignCenter ].
-			but when: BlClickEvent do: [ :event | self removeFromParent ].
+			but addEventHandler: (BlEventHandler
+					 on: BlClickEvent
+					 do: [ :event | self removeFromParent ]).
 			but id: #innerCloseButton.
 			filler size: 10 @ 10.
 			self addChild: but after: self lastChild ]

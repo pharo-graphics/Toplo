@@ -18,20 +18,25 @@ Class {
 }
 
 { #category : 'running' }
-TToOrientableTest >> setUp [ 
+TToOrientableTest >> setUp [
 
 	super setUp.
 	space := self newTestingSpace.
 	pane := ToPane new.
 	oriCpt := 0.
 	dirCpt := 0.
-	pane when: ToLayoutOrientationChangedEvent do: [ oriCpt := oriCpt + 1 ].
-	pane when: ToLayoutDirectionChangedEvent do: [ dirCpt := dirCpt + 1 ].
+	pane addEventHandler: (BlEventHandler
+			 on: ToLayoutOrientationChangedEvent
+			 do: [ oriCpt := oriCpt + 1 ]).
+	pane addEventHandler: (BlEventHandler
+			 on: ToLayoutDirectionChangedEvent
+			 do: [ dirCpt := dirCpt + 1 ]).
 	space root addChild: pane.
 	child1 := ToElement new.
 	child2 := ToElement new.
-	pane addChildren: { child1. child2 }.
-
+	pane addChildren: {
+			child1.
+			child2 }
 ]
 
 { #category : 'tests' }

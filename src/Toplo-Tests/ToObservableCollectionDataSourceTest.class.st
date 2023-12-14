@@ -28,9 +28,9 @@ ToObservableCollectionDataSourceTest >> testRangeChangedNotification [
 
 	| datasource rangeEvent |
 	datasource := ToListObservableCollectionDataSource new.
-	datasource
-		when: BlInfiniteDataSourceItemRangeChanged
-		do: [ :event | rangeEvent := event ].
+	datasource addEventHandler: (BlEventHandler
+			 on: BlInfiniteDataSourceItemRangeChanged
+			 do: [ :event | rangeEvent := event ]).
 	datasource data: ToObservableCollection new.
 	datasource data addAll: self statesOfAmerica.
 	self assert: rangeEvent isNil.
@@ -56,9 +56,9 @@ ToObservableCollectionDataSourceTest >> testRangeInsertedNotification [
 
 	| datasource rangeEvent |
 	datasource := ToListObservableCollectionDataSource new.
-	datasource
-		when: BlInfiniteDataSourceItemRangeInserted
-		do: [ :event | rangeEvent := event ].
+	datasource addEventHandler: (BlEventHandler
+			 on: BlInfiniteDataSourceItemRangeInserted
+			 do: [ :event | rangeEvent := event ]).
 	datasource data: ToObservableCollection new.
 	datasource data addAll: self statesOfAmerica.
 	self assert: rangeEvent notNil.
@@ -75,9 +75,9 @@ ToObservableCollectionDataSourceTest >> testRangeRemovedNotification [
 
 	| datasource rangeEvent |
 	datasource := ToListObservableCollectionDataSource new.
-	datasource
-		when: BlInfiniteDataSourceItemRangeRemoved
-		do: [ :event | rangeEvent := event ].
+	datasource addEventHandler: (BlEventHandler
+			 on: BlInfiniteDataSourceItemRangeRemoved
+			 do: [ :event | rangeEvent := event ]).
 	datasource data: ToObservableCollection new.
 	datasource data addAll: self statesOfAmerica.
 	datasource data remove: self statesOfAmerica first.
@@ -107,9 +107,9 @@ ToObservableCollectionDataSourceTest >> testWithData [
 
 	| datasource changedEvent |
 	datasource := ToListObservableCollectionDataSource new.
-	datasource
-		when: BlInfiniteDataSourceChanged
-		do: [ :event | changedEvent := event ].
+	datasource addEventHandler: (BlEventHandler
+			 on: BlInfiniteDataSourceChanged
+			 do: [ :event | changedEvent := event ]).
 	datasource data:
 		(ToObservableCollection newFrom: self statesOfAmerica).
 	self assert: changedEvent notNil.

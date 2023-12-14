@@ -18,17 +18,20 @@ ToFocusStateTest >> setUp [
 ]
 
 { #category : 'running' }
-ToFocusStateTest >> testApplyOn [ 
+ToFocusStateTest >> testApplyOn [
 
 	| e state focusedEvt unfocusedEvt |
 	e := ToElement new.
-	e when: ToFocusedLookEvent do: [ :event | focusedEvt := event ].
-	e when: ToUnfocusedLookEvent do: [ :event | unfocusedEvt := event ].
+	e addEventHandler: (BlEventHandler
+			 on: ToFocusedLookEvent
+			 do: [ :event | focusedEvt := event ]).
+	e addEventHandler: (BlEventHandler
+			 on: ToUnfocusedLookEvent
+			 do: [ :event | unfocusedEvt := event ]).
 	state := ToFocusState new focused: true.
 	state applyOn: e.
 	self assert: (focusedEvt isKindOf: ToFocusedLookEvent).
-	self assert: (unfocusedEvt isNil)
-	
+	self assert: unfocusedEvt isNil
 ]
 
 { #category : 'running' }
@@ -36,13 +39,16 @@ ToFocusStateTest >> testApplyOnUnfocused [
 
 	| e state focusedEvt unfocusedEvt |
 	e := ToElement new.
-	e when: ToFocusedLookEvent do: [ :event | focusedEvt := event ].
-	e when: ToUnfocusedLookEvent do: [ :event | unfocusedEvt := event ].
+	e addEventHandler: (BlEventHandler
+			 on: ToFocusedLookEvent
+			 do: [ :event | focusedEvt := event ]).
+	e addEventHandler: (BlEventHandler
+			 on: ToUnfocusedLookEvent
+			 do: [ :event | unfocusedEvt := event ]).
 	state := ToFocusState new focused: false.
 	state applyOn: e.
 	self assert: (unfocusedEvt isKindOf: ToUnfocusedLookEvent).
-	self assert: (focusedEvt isNil)
-	
+	self assert: focusedEvt isNil
 ]
 
 { #category : 'running' }
@@ -54,16 +60,18 @@ ToFocusStateTest >> testApplyOnWhenDisabled [
 	| e state focusedEvt unfocusedEvt |
 	e := ToElement new.
 	e disable.
-	e when: ToFocusedLookEvent do: [ :event | focusedEvt := event ].
-	e when: ToUnfocusedLookEvent do: [ :event | unfocusedEvt := event ].
+	e addEventHandler: (BlEventHandler
+			 on: ToFocusedLookEvent
+			 do: [ :event | focusedEvt := event ]).
+	e addEventHandler: (BlEventHandler
+			 on: ToUnfocusedLookEvent
+			 do: [ :event | unfocusedEvt := event ]).
 	state := ToFocusState new focused: true.
 	state applyOn: e.
 	self assert: (focusedEvt isKindOf: ToFocusedLookEvent).
 	state := ToFocusState new focused: false.
 	state applyOn: e.
 	self assert: (unfocusedEvt isKindOf: ToUnfocusedLookEvent)
-
-	
 ]
 
 { #category : 'running' }

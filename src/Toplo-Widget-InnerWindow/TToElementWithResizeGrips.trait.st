@@ -19,22 +19,24 @@ TToElementWithResizeGrips >> grips: resizeGripList [
 { #category : 't - element with resize grips -  initializing' }
 TToElementWithResizeGrips >> initializeGrips [
 
-	self grips: ({ 
-		 ToBottomRightResizeGrip.
-		 ToBottomLeftResizeGrip.
-		 ToTopRightResizeGrip.
-		 ToTopLeftResizeGrip.
-		 ToRightResizeGrip.
-		 ToLeftResizeGrip.
-		 ToBottomResizeGrip.
-		 ToTopResizeGrip } collect: [ :eachClass |
-			eachClass new target: self; yourself ]).
+	self grips: ({
+			 ToBottomRightResizeGrip.
+			 ToBottomLeftResizeGrip.
+			 ToTopRightResizeGrip.
+			 ToTopLeftResizeGrip.
+			 ToRightResizeGrip.
+			 ToLeftResizeGrip.
+			 ToBottomResizeGrip.
+			 ToTopResizeGrip } collect: [ :eachClass |
+			 eachClass new
+				 target: self;
+				 yourself ]).
 
 	self addChildren: self grips.
 
-	self
-		when: BlElementExtentChangedEvent
-		do: [ :evt | self layoutGrips ]
+	self addEventHandler: (BlEventHandler
+			 on: BlElementExtentChangedEvent
+			 do: [ :evt | self layoutGrips ])
 ]
 
 { #category : 't - element with resize grips - layouting' }

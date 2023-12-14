@@ -16,7 +16,9 @@ ToCollectionEmptinessEventTest >> testSendTo [
 	l := ToObservableCollection new.
 	l add: 5.
 	count := 0.
-	l when: ToCollectionEmptinessEvent do: [ count := count + 1 ].
+	l addEventHandler: (BlEventHandler
+			 on: ToCollectionEmptinessEvent
+			 do: [ count := count + 1 ]).
 	l removeAt: 1.
 	self assert: count equals: 1.
 	l add: 5.

@@ -18,14 +18,15 @@ ToInstallStateTest >> setUp [
 ]
 
 { #category : 'running' }
-ToInstallStateTest >> testApplyOn [ 
+ToInstallStateTest >> testApplyOn [
 
 	| e stateEvt receivedEvt |
 	e := ToElement new.
-	e when: ToInstallLookEvent do: [ :event | receivedEvt := event ].
+	e addEventHandler: (BlEventHandler
+			 on: ToInstallLookEvent
+			 do: [ :event | receivedEvt := event ]).
 	(stateEvt := ToInstallState new) applyOn: e.
 	self assert: (receivedEvt isKindOf: ToInstallLookEvent)
-	
 ]
 
 { #category : 'running' }

@@ -192,36 +192,37 @@ ToAnchoredWindowManagerTest >> testDefaultSizeHook [
 ToAnchoredWindowManagerTest >> testElement [
 
 	| win e openEventFromWindow openEventFromWidget closeEventFromWindow closeEventFromWidget windowManager |
-
 	e := ToElement new.
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
 	self waitTestingSpaces.
 
-	windowManager := ToAnchoredWindowManager new builder: [ :window :element | ].
+	windowManager := ToAnchoredWindowManager new builder: [
+		                 :window
+		                 :element |  ].
 	windowManager element: e.
 	" create the window -> plug-in the window handler "
 	win := windowManager newWindowEvent: nil.
-	
+
 	self assert: win element identicalTo: e.
-	
+
 	" a window handler can be used only for one window  "
-	self should: [ windowManager newWindowEvent: nil  ] raise: Error.
-	win
-		when: ToWindowOpenedEvent
-		do: [ :event | openEventFromWindow := event ].
-	e
-		when: ToWindowOpenedEvent
-		do: [ :event | openEventFromWidget := event ].
-	win
-		when: ToWindowClosedEvent
-		do: [ :event | closeEventFromWindow := event ].
-	e
-		when: ToWindowClosedEvent
-		do: [ :event | closeEventFromWidget := event ].
-	self assert: win element equals: e.	
-		
+	self should: [ windowManager newWindowEvent: nil ] raise: Error.
+	win addEventHandler: (BlEventHandler
+			 on: ToWindowOpenedEvent
+			 do: [ :event | openEventFromWindow := event ]).
+	e addEventHandler: (BlEventHandler
+			 on: ToWindowOpenedEvent
+			 do: [ :event | openEventFromWidget := event ]).
+	win addEventHandler: (BlEventHandler
+			 on: ToWindowClosedEvent
+			 do: [ :event | closeEventFromWindow := event ]).
+	e addEventHandler: (BlEventHandler
+			 on: ToWindowClosedEvent
+			 do: [ :event | closeEventFromWidget := event ]).
+	self assert: win element equals: e.
+
 	win popup.
 	self assert: openEventFromWindow isNil.
 	win forceLayout.

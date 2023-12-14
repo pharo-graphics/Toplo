@@ -19,12 +19,19 @@ ToListObservableCollectionDataSource >> data [
 ToListObservableCollectionDataSource >> data: anObservableCollection [
 
 	data := anObservableCollection.
-	data whenAddChangeDo: [ :ann | self notifyItemsInserted: ann interval ].
-	data whenRemoveChangeDo: [ :ann | self notifyItemsRemoved: ann interval ].
-	data whenUpdateChangeDo: [ :ann | self notifyItemsChanged: ann interval ].
-	data whenBeforeFilterChangeDo: [ :ann | self notifyItemsRemoved: ann interval ]. 
-	data whenFilterChangeDo: [ :ann | self notifyItemsInserted: ann interval ].
-	data when: ToCollectionEmptinessEvent do: [ self dispatchEvent: ToDataEmptinessChangeEvent new  ].
+	data whenAddChangeDo: [ :ann |
+		self notifyItemsInserted: ann interval ].
+	data whenRemoveChangeDo: [ :ann |
+		self notifyItemsRemoved: ann interval ].
+	data whenUpdateChangeDo: [ :ann |
+		self notifyItemsChanged: ann interval ].
+	data whenBeforeFilterChangeDo: [ :ann |
+		self notifyItemsRemoved: ann interval ].
+	data whenFilterChangeDo: [ :ann |
+		self notifyItemsInserted: ann interval ].
+	data addEventHandler: (BlEventHandler
+			 on: ToCollectionEmptinessEvent
+			 do: [ self dispatchEvent: ToDataEmptinessChangeEvent new ]).
 
 	self notifyChanged
 ]

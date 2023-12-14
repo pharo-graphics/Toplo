@@ -16,7 +16,9 @@ ToLayoutOrientationChangedEventTest >> test [
 	li := ToLabeledIcon new.
 	li beHorizontal.
 	cpt := 0.
-	li when: ToLayoutOrientationChangedEvent do: [ cpt := cpt + 1 ].
+	li addEventHandler: (BlEventHandler
+			 on: ToLayoutOrientationChangedEvent
+			 do: [ cpt := cpt + 1 ]).
 	bcpt := cpt.
 	li beVertical.
 	self assert: cpt equals: bcpt + 1.
@@ -47,5 +49,4 @@ ToLayoutOrientationChangedEventTest >> test [
 	bcpt := cpt.
 	li orientation: BlLinearLayoutHorizontalOrientation new.
 	self assert: cpt equals: bcpt
-
 ]

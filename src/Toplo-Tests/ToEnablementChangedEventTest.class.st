@@ -15,7 +15,9 @@ ToEnablementChangedEventTest >> testEnablement [
 	| cpt e |
 	e := ToElement new.
 	cpt := 0.
-	e when: ToEnablementChangedEvent do: [ cpt := cpt + 1 ].
+	e addEventHandler: (BlEventHandler
+			 on: ToEnablementChangedEvent
+			 do: [ cpt := cpt + 1 ]).
 	self assert: e isEnabled.
 	e enabled: true.
 	self assert: cpt equals: 0.

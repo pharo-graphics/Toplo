@@ -53,12 +53,15 @@ ToIntrinsicStateTest >> testApplyOnUnchecked [
 
 	| e state checkedEvt uncheckedEvt |
 	e := ToElement new.
-	e when: ToCheckedLookEvent do: [ :event | checkedEvt := event ].
-	e when: ToUncheckedLookEvent do: [ :event | uncheckedEvt := event ].
+	e addEventHandler: (BlEventHandler
+			 on: ToCheckedLookEvent
+			 do: [ :event | checkedEvt := event ]).
+	e addEventHandler: (BlEventHandler
+			 on: ToUncheckedLookEvent
+			 do: [ :event | uncheckedEvt := event ]).
 	state := ToCheckState new checked: false.
 	state applyOn: e.
 	self assert: (uncheckedEvt isKindOf: ToUncheckedLookEvent)
-	
 ]
 
 { #category : 'running' }
@@ -70,16 +73,18 @@ ToIntrinsicStateTest >> testApplyOnWhenDisabled [
 	| e state checkedEvt uncheckedEvt |
 	e := ToElement new.
 	e disable.
-	e when: ToCheckedLookEvent do: [ :event | checkedEvt := event ].
-	e when: ToUncheckedLookEvent do: [ :event | uncheckedEvt := event ].
+	e addEventHandler: (BlEventHandler
+			 on: ToCheckedLookEvent
+			 do: [ :event | checkedEvt := event ]).
+	e addEventHandler: (BlEventHandler
+			 on: ToUncheckedLookEvent
+			 do: [ :event | uncheckedEvt := event ]).
 	state := ToCheckState new checked: true.
 	state applyOn: e.
 	self assert: (checkedEvt isKindOf: ToCheckedLookEvent).
 	state := ToCheckState new checked: false.
 	state applyOn: e.
 	self assert: (uncheckedEvt isKindOf: ToUncheckedLookEvent)
-
-	
 ]
 
 { #category : 'running' }

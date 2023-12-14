@@ -63,7 +63,7 @@ ToElementWithSkinnablePropertiesForTest >> borderValue: anObject [
 ]
 
 { #category : 'initialization' }
-ToElementWithSkinnablePropertiesForTest >> initialize [ 
+ToElementWithSkinnablePropertiesForTest >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
@@ -75,8 +75,10 @@ ToElementWithSkinnablePropertiesForTest >> initialize [
 	skinInstallStateCount := 0.
 	" count the number of state engine applyOn: (only for dirty element stored in the space) "
 	skinStatesApplied := 0.
-	
-	self when: ToSkinInstallStateRequest do: [ skinInstallStateCount := skinInstallStateCount + 1 ]
+
+	self addEventHandler: (BlEventHandler
+			 on: ToSkinInstallStateRequest
+			 do: [ skinInstallStateCount := skinInstallStateCount + 1 ])
 ]
 
 { #category : 'skin' }

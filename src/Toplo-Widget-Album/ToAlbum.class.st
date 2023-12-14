@@ -152,22 +152,32 @@ ToAlbum >> initialize [
 
 	self class initializeSlots: self.
 	super initialize.
-	
+
 	self next: self defaultEditorElement.
 	self addChild: self next.
 
 	self matchParent.
-	
+
 	self editorDo: [ :ed |
-		ed when: AlbTextEditedEvent do: [ :evt | self dispatchEvent: evt ].
-		ed when: AlbTextReplacedEvent do: [ :evt | self dispatchEvent: evt ] ].
+		ed addEventHandler: (BlEventHandler
+				 on: AlbTextEditedEvent
+				 do: [ :evt | self dispatchEvent: evt ]).
+		ed addEventHandler: (BlEventHandler
+				 on: AlbTextReplacedEvent
+				 do: [ :evt | self dispatchEvent: evt ]) ].
 	self infiniteDo: [ :inf |
-		inf when: BlBlurEvent do: [ :evt | self dispatchEvent: evt ].
-		inf when: BlFocusEvent do: [ :evt | self dispatchEvent: evt ] ].
-	
+		inf addEventHandler: (BlEventHandler
+				 on: BlBlurEvent
+				 do: [ :evt | self dispatchEvent: evt ]).
+		inf addEventHandler: (BlEventHandler
+				 on: BlFocusEvent
+				 do: [ :evt | self dispatchEvent: evt ]) ].
+
 	self addEventHandler: self defaultEventHandler.
 	self whenTextReplacedDo: [ :t | self requestTextStyle ].
-	self when: AlbTextEditedEvent do: [ :evt | self requestTextStyle ].
+	self addEventHandler: (BlEventHandler
+			 on: AlbTextEditedEvent
+			 do: [ :evt | self requestTextStyle ]).
 
 	self geometry: self defaultGeometry.
 	self outskirts: self defaultOutskirts.
@@ -176,11 +186,9 @@ ToAlbum >> initialize [
 	self border: self defaultBorder.
 	self background: self defaultBackground.
 	"self addEventHandler: (AlbTextEditorFocusHandler new element: self)."
-	self addEventHandler:	(AlbTextEditorCursorIconHandler new element: self).
-	"self addEventHandler:	(AlbTextEditorSelectionHandler new element: self infinite)".
-
-
-
+	self addEventHandler:
+		(AlbTextEditorCursorIconHandler new element: self)
+	"self addEventHandler:	(AlbTextEditorSelectionHandler new element: self infinite)"
 ]
 
 { #category : 'accessing' }

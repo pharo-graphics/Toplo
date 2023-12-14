@@ -151,17 +151,19 @@ ToThemeExamples class >> example_ToLabelWithHeadingSkin [
 		                 labelText: 'Dark Theme';
 		                 beLabelFirst.
 	themeSwitcher defaultSkin: ToCheckboxSkin new.
-	themeSwitcher when: ToCheckableChangedEvent do: [ :event |
-		space toTheme: (themeSwitcher isChecked
-				 ifTrue: [ ToBeeTheme dark ]
-				 ifFalse: [ ToBeeTheme light ]) ].
+	themeSwitcher addEventHandler: (BlEventHandler
+			 on: ToCheckableChangedEvent
+			 do: [ :event |
+				 space toTheme: (themeSwitcher isChecked
+						  ifTrue: [ ToBeeTheme dark ]
+						  ifFalse: [ ToBeeTheme light ]) ]).
 
 	space root addChild: themeSwitcher.
 
 	listElement := ToListElement new nodeBuilder: [ :node :holder |
 		               | lab |
 		               lab := holder data.
-							lab removeFromParent.
+		               lab removeFromParent.
 		               lab hMatchParent.
 		               node addChild: lab ].
 	listElement background: Color transparent.
@@ -224,16 +226,15 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 		primaryButton2 setToken: #'color-primary' -> c.
 		primaryButton2 setTokenNamed: #'color-primary-pressed' value: c twiceDarker.
 		primaryButton2 setTokenNamed: #'color-primary-hover' value: c twiceLighter ].
-	
-	chb when: ToCheckableCheckEvent do: [ :evt |
+	chb addEventHandler: (BlEventHandler on: ToCheckableCheckEvent do: [ :evt |
 		(evt current)
 			ifTrue: [ primaryButton2 addStamp: #primary ]
-			ifFalse: [ primaryButton2 removeStamp: #primary ] ].
+			ifFalse: [ primaryButton2 removeStamp: #primary ] ]).
 	chb checked: true.
-	disachb when: ToCheckableCheckEvent do: [ :evt |
+	disachb addEventHandler: (BlEventHandler on: ToCheckableCheckEvent do: [ :evt |
 		(evt current)
 			ifTrue: [ pane childrenDo: [ :child | child disable ] ]
-			ifFalse: [ pane childrenDo: [ :child | child enable ] ] ].
+			ifFalse: [ pane childrenDo: [ :child | child enable ] ] ]).
 
 	"primaryButton2 addAllTokenProperties: ToBeeDarkTheme defaultTokenProperties."
 	"primaryButton2 withStamp: #primary."

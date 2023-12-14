@@ -21,16 +21,18 @@ ToTransientStateTest >> setUp [
 ]
 
 { #category : 'tests' }
-ToTransientStateTest >> testApplyOn [ 
+ToTransientStateTest >> testApplyOn [
 
 	| e stateEvt receivedEvt |
 	e := ToElement new.
 	" nooo, a transient state must have a lookevent "
-	self should: [ToTransientState new  applyOn: e] raise: Error.
-	e when: ToHoveredLookEvent do: [ :event | receivedEvt := event ].
-	(ToTransientState lookEvent: (stateEvt := ToHoveredLookEvent new) ) applyOn: e.
+	self should: [ ToTransientState new applyOn: e ] raise: Error.
+	e addEventHandler: (BlEventHandler
+			 on: ToHoveredLookEvent
+			 do: [ :event | receivedEvt := event ]).
+	(ToTransientState lookEvent: (stateEvt := ToHoveredLookEvent new))
+		applyOn: e.
 	self assert: receivedEvt identicalTo: stateEvt
-	
 ]
 
 { #category : 'tests' }

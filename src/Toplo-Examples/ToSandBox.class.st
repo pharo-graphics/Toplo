@@ -975,29 +975,38 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		lab beMultiLine.
 		lab beEditable.
 		lab stillPressedStartDelay: 800 milliSeconds.
-		lab when: ToStillPressedLookEvent do: [ :event |
-			event consumed: true.
-			lab addEditorEvent: event ].
-		lab when: ToLabelEditorOpenedEvent do: [ l disableScrolledEvent ].
-		lab when: ToLabelEditorClosedEvent do: [ l enableScrolledEvent ].
+		lab addEventHandler: (BlEventHandler
+				 on: ToStillPressedLookEvent
+				 do: [ :event |
+					 event consumed: true.
+					 lab addEditorEvent: event ]).
+		lab addEventHandler: (BlEventHandler
+				 on: ToLabelEditorOpenedEvent
+				 do: [ l disableScrolledEvent ]).
+		lab addEventHandler: (BlEventHandler
+				 on: ToLabelEditorClosedEvent
+				 do: [ l enableScrolledEvent ]).
 		lab whenTextReplacedDo: [
 			l data at: holder position put: lab text asString ].
 		node addChild: (ToLabeledIcon new
 				 label: lab;
 				 hMatchParent) ].
-	l when: ToListStrongSelectionEvent do: [ :event |
-		| r |
-		r := event indexes collect: [ :idx | idx asString , ':XXXXXX' ].
-		r do: [ :e | l data addFirst: e ] ].
+	l addEventHandler: (BlEventHandler
+			 on: ToListStrongSelectionEvent
+			 do: [ :event |
+				 | r |
+				 r := event indexes collect: [ :idx | idx asString , ':XXXXXX' ].
+				 r do: [ :e | l data addFirst: e ] ]).
 	menuFactory := [ :menu :request |
-	               | selectedIndexes target | 
-						target := request currentTarget.
+	               | selectedIndexes target |
+	               target := request currentTarget.
 	               selectedIndexes := request selectionIndexes.
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Add initial Items';
 			                whenClickedDo: [ :event |
 				                target data addAll:
-						                ((1 to: 2000) collect: [ :p | p asString, ' AAAAAAAAAAA' ]) ]).
+						                ((1 to: 2000) collect: [ :p |
+								                 p asString , ' AAAAAAAAAAA' ]) ]).
 	               target data ifNotEmpty: [
 		               menu addItem: (ToMenuItem new
 				                labelText: 'Select all';
@@ -1034,7 +1043,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert before';
 				                whenClickedDo: [ :event |
-					selectedIndexes traceCr.
+					                selectedIndexes traceCr.
 					                selectedIndexes do: [ :idx |
 							                target data
 								                add: idx asString , ':XXXXXX'
@@ -1044,7 +1053,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 				                labelText: 'Insert after';
 				                whenClickedDo: [ :event |
 					                | nb |
-					selectedIndexes traceCr.
+					                selectedIndexes traceCr.
 					                nb := selectedIndexes size.
 					                selectedIndexes do: [ :idx |
 							                target data
@@ -1840,9 +1849,9 @@ ToSandBox class >> example_buttonWithLabel [
 ToSandBox class >> example_contactList [
 
 	| panel button list contacts contact nameTxtF phoneTxtF addressTxtF inputPane |
-	
-	self flag: 'issue when clicking on the row remove button in case the row is selected: the selection element is not correctly removed '.
-	
+	self flag:
+		'issue when clicking on the row remove button in case the row is selected: the selection element is not correctly removed '.
+
 	panel := ToPane vertical.
 	panel constraints horizontal matchParent.
 	panel layout cellSpacing: 10.
@@ -1936,11 +1945,11 @@ ToSandBox class >> example_contactList [
 		remBut withoutSkin.
 		remBut icon: (ToImage inner: (self iconNamed: #windowClose)).
 		remBut constraintsDo: [ :c | c linear vertical alignCenter ].
-		remBut
-			when: BlClickEvent
-			do: [ :event |
-			event consumed: true.
-			holder infiniteElement data removeAt: holder position ].
+		remBut addEventHandler: (BlEventHandler
+				 on: BlClickEvent
+				 do: [ :event |
+					 event consumed: true.
+					 holder infiniteElement data removeAt: holder position ]).
 		line addChild: remBut.
 		node addChild: line ].
 	list data addAll: contacts.

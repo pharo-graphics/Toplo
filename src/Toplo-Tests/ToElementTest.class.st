@@ -4,21 +4,10 @@ A ToElementTest is a test class for testing the behavior of ToElement
 Class {
 	#name : 'ToElementTest',
 	#superclass : 'ToParameterizedHostTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Tests-Core',
 	#package : 'Toplo-Tests',
 	#tag : 'Core'
 }
-
-{ #category : 'running' }
-ToElementTest >> setUp [ 
-
-	super setUp.
-	space := self newTestingSpace. 
-
-]
 
 { #category : 'tests' }
 ToElementTest >> testAddEventFilter [

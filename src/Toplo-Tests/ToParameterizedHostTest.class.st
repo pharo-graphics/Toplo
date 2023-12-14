@@ -1,6 +1,9 @@
 Class {
 	#name : 'ToParameterizedHostTest',
 	#superclass : 'BlParameterizedHostTest',
+	#instVars : [
+		'space'
+	],
 	#category : 'Toplo-Tests-Core',
 	#package : 'Toplo-Tests',
 	#tag : 'Core'
@@ -14,6 +17,14 @@ ToParameterizedHostTest >> applyAllEnqueuedStates [
 		each applyAllSkinInstallers.
 		each applyAllEnqueuedStates. 
 		each requestNextPulse ].
+]
+
+{ #category : 'running' }
+ToParameterizedHostTest >> setUp [ 
+
+	super setUp.
+	space := self newTestingSpace. 
+
 ]
 
 { #category : 'tests' }

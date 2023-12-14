@@ -1,20 +1,10 @@
 Class {
 	#name : 'ToLookEventActionTest',
 	#superclass : 'ToParameterizedHostTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Tests-Core-StyleSheet',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-StyleSheet'
 }
-
-{ #category : 'running' }
-ToLookEventActionTest >> setUp [ 
-
-	super setUp.
-	space := self newTestingSpace
-]
 
 { #category : 'tests' }
 ToLookEventActionTest >> testCanReceiveEvent [

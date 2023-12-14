@@ -4,9 +4,6 @@ A ToSkinStateGeneratorTest is a test class for testing the behavior of ToSkinSta
 Class {
 	#name : 'ToSkinStateGeneratorTest',
 	#superclass : 'ToParameterizedHostTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Tests-Core-States',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-States'
@@ -24,12 +21,6 @@ ToSkinStateGeneratorTest >> newElementInSpace [
 	space applyAllSkinInstallers.
 
 	^ e
-]
-
-{ #category : 'running' }
-ToSkinStateGeneratorTest >> setUp [ 
-	super setUp.
-	space := self newTestingSpace
 ]
 
 { #category : 'tests' }

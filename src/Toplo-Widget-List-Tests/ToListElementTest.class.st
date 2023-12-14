@@ -4,9 +4,6 @@ A ToListElementTest is a test class for testing the behavior of ToListElement
 Class {
 	#name : 'ToListElementTest',
 	#superclass : 'ToInfiniteTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Widget-List-Tests-Core',
 	#package : 'Toplo-Widget-List-Tests',
 	#tag : 'Core'
@@ -37,14 +34,6 @@ ToListElementTest >> listWithRemoveRowButtons [
 		line addChild: remBut.
 		node addChild: line ].
 	^ list
-]
-
-{ #category : 'running' }
-ToListElementTest >> setUp [ 
-
-	super setUp.
-	space := self newTestingSpace. 
-
 ]
 
 { #category : 'tests' }

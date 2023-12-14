@@ -4,19 +4,10 @@ A ToSpaceRootSkinTest is a test class for testing the behavior of ToSpaceRootSki
 Class {
 	#name : 'ToSpaceRootSkinTest',
 	#superclass : 'ToParameterizedHostTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Tests-Core-Theme',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-Theme'
 }
-
-{ #category : 'running' }
-ToSpaceRootSkinTest >> setUp [ 
-	super setUp.
-	space := self newTestingSpace
-]
 
 { #category : 'tests' }
 ToSpaceRootSkinTest >> testInstallLookEvent [

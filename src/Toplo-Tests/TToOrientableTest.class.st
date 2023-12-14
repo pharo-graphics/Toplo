@@ -5,7 +5,6 @@ Class {
 	#name : 'TToOrientableTest',
 	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
-		'space',
 		'pane',
 		'child1',
 		'child2',
@@ -21,7 +20,6 @@ Class {
 TToOrientableTest >> setUp [
 
 	super setUp.
-	space := self newTestingSpace.
 	pane := ToPane new.
 	oriCpt := 0.
 	dirCpt := 0.

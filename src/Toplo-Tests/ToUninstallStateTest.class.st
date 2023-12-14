@@ -1,21 +1,10 @@
 Class {
 	#name : 'ToUninstallStateTest',
 	#superclass : 'ToParameterizedHostTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Tests-Core-States',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-States'
 }
-
-{ #category : 'running' }
-ToUninstallStateTest >> setUp [ 
-
-	super setUp.
-	space := self newTestingSpace. 
-
-]
 
 { #category : 'running' }
 ToUninstallStateTest >> testApplyOn [

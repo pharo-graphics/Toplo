@@ -4,21 +4,10 @@ A ToAnchoredWindowHandlerTest is a test class for testing the behavior of ToAnch
 Class {
 	#name : 'ToAnchoredWindowManagerTest',
 	#superclass : 'ToParameterizedHostTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Tests-Core-Window',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-Window'
 }
-
-{ #category : 'running' }
-ToAnchoredWindowManagerTest >> setUp [ 
-
-	super setUp.
-	space := self newTestingSpace.
-
-]
 
 { #category : 'tests' }
 ToAnchoredWindowManagerTest >> testApplyPositionHookFromEvent [

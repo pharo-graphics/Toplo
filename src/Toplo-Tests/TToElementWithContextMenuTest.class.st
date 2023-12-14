@@ -1,21 +1,10 @@
 Class {
 	#name : 'TToElementWithContextMenuTest',
 	#superclass : 'ToParameterizedHostTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Tests-Core',
 	#package : 'Toplo-Tests',
 	#tag : 'Core'
 }
-
-{ #category : 'running' }
-TToElementWithContextMenuTest >> setUp [ 
-
-	super setUp.
-	space := self newTestingSpace. 
-
-]
 
 { #category : 'tests' }
 TToElementWithContextMenuTest >> testContextMenu [

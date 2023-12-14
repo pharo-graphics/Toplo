@@ -4,21 +4,10 @@ A ToTransientStateTest is a test class for testing the behavior of ToTransientSt
 Class {
 	#name : 'ToTransientStateTest',
 	#superclass : 'ToParameterizedHostTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Tests-Core-States',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-States'
 }
-
-{ #category : 'running' }
-ToTransientStateTest >> setUp [ 
-
-	super setUp.
-	space := self newTestingSpace. 
-
-]
 
 { #category : 'tests' }
 ToTransientStateTest >> testApplyOn [

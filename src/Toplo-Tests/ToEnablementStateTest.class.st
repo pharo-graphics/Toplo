@@ -1,21 +1,10 @@
 Class {
 	#name : 'ToEnablementStateTest',
 	#superclass : 'ToParameterizedHostTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Tests-Core-States',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-States'
 }
-
-{ #category : 'running' }
-ToEnablementStateTest >> setUp [ 
-
-	super setUp.
-	space := self newTestingSpace. 
-
-]
 
 { #category : 'running' }
 ToEnablementStateTest >> testApplyOn [

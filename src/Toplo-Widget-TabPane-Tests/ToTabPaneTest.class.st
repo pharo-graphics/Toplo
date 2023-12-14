@@ -2,8 +2,7 @@ Class {
 	#name : 'ToTabPaneTest',
 	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
-		'notebook',
-		'space'
+		'notebook'
 	],
 	#category : 'Toplo-Widget-TabPane-Tests',
 	#package : 'Toplo-Widget-TabPane-Tests'
@@ -13,8 +12,6 @@ Class {
 ToTabPaneTest >> setUp [
 
 	super setUp.
-
-	space := self newTestingSpace.
 	notebook := ToTabPane new.
 	space root addChild: notebook.
 ]

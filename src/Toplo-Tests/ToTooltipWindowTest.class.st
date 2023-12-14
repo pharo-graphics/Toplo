@@ -4,20 +4,10 @@ A ToTooltipWindowTest is a test class for testing the behavior of ToTooltipWindo
 Class {
 	#name : 'ToTooltipWindowTest',
 	#superclass : 'ToParameterizedHostTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Tests-Core-Tooltip',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-Tooltip'
 }
-
-{ #category : 'running' }
-ToTooltipWindowTest >> setUp [ 
-
-	super setUp.
-	space := self newTestingSpace 
-]
 
 { #category : 'tests' }
 ToTooltipWindowTest >> testContent [

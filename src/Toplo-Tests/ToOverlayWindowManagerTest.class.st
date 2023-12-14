@@ -4,21 +4,10 @@ A ToOverlayWindowManagerTest is a test class for testing the behavior of ToOverl
 Class {
 	#name : 'ToOverlayWindowManagerTest',
 	#superclass : 'ToParameterizedHostTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Tests-Core-Window',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-Window'
 }
-
-{ #category : 'running' }
-ToOverlayWindowManagerTest >> setUp [ 
-
-	super setUp.
-	space := self newTestingSpace.
-
-]
 
 { #category : 'tests' }
 ToOverlayWindowManagerTest >> testDefaultSizeHook [

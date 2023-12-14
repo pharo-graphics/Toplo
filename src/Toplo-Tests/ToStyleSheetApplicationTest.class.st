@@ -4,19 +4,10 @@ A ToStyleSheetTest is a test class for testing the behavior of ToStyleSheet
 Class {
 	#name : 'ToStyleSheetApplicationTest',
 	#superclass : 'ToParameterizedHostTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Tests-Core-StyleSheet',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-StyleSheet'
 }
-
-{ #category : 'running' }
-ToStyleSheetApplicationTest >> setUp [ 
-	super setUp.
-	space := self newTestingSpace
-]
 
 { #category : 'tests' }
 ToStyleSheetApplicationTest >> testButtonLabelSkin0 [

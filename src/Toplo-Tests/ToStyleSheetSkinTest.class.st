@@ -5,8 +5,7 @@ Class {
 	#name : 'ToStyleSheetSkinTest',
 	#superclass : 'ToParameterizedHostTest',
 	#instVars : [
-		'writeablePropertyIndex',
-		'space'
+		'writeablePropertyIndex'
 	],
 	#category : 'Toplo-Tests-Core-StyleSheet',
 	#package : 'Toplo-Tests',
@@ -23,7 +22,6 @@ ToStyleSheetSkinTest >> defaultWritablePropertyList [
 ToStyleSheetSkinTest >> setUp [
 
 	super setUp.
-	space := self newTestingSpace.
 	writeablePropertyIndex := ToPropertyIndex new.
 	writeablePropertyIndex addAllProperties: self defaultWritablePropertyList.
 ]

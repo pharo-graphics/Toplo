@@ -1,19 +1,10 @@
 Class {
 	#name : 'ToSkinInstallerTest',
 	#superclass : 'ToParameterizedHostTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Tests-Core-Theme',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-Theme'
 }
-
-{ #category : 'running' }
-ToSkinInstallerTest >> setUp [ 
-	super setUp.
-	space := self newTestingSpace
-]
 
 { #category : 'tests' }
 ToSkinInstallerTest >> testApplyOn [

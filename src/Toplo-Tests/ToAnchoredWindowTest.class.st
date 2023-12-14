@@ -4,21 +4,10 @@ A ToAnchoredWindowTest is a test class for testing the behavior of ToAnchoredWin
 Class {
 	#name : 'ToAnchoredWindowTest',
 	#superclass : 'ToParameterizedHostTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Tests-Core-Window',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-Window'
 }
-
-{ #category : 'running' }
-ToAnchoredWindowTest >> setUp [ 
-
-	super setUp.
-	space := self newTestingSpace.
-
-]
 
 { #category : 'tests' }
 ToAnchoredWindowTest >> testDefaultElevation [

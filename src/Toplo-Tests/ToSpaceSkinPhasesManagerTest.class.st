@@ -4,21 +4,10 @@ A ToSpaceSkinPhasesManagerTest is a test class for testing the behavior of ToSpa
 Class {
 	#name : 'ToSpaceSkinPhasesManagerTest',
 	#superclass : 'ToParameterizedHostTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Tests-Core-SpaceFrame',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-SpaceFrame'
 }
-
-{ #category : 'running' }
-ToSpaceSkinPhasesManagerTest >> setUp [ 
-
-	super setUp.
-	space := self newTestingSpace.
-
-]
 
 { #category : 'tests' }
 ToSpaceSkinPhasesManagerTest >> testAllowSkinPhases [

@@ -4,20 +4,10 @@ A ToSkinnableSlotTest is a test class for testing the behavior of ToSkinnableSlo
 Class {
 	#name : 'ToSkinnableSlotTest',
 	#superclass : 'ToParameterizedHostTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Tests-Core-Slots',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-Slots'
 }
-
-{ #category : 'running' }
-ToSkinnableSlotTest >> setUp [ 
-
-	super setUp.
-	space := self newTestingSpace 
-]
 
 { #category : 'tests' }
 ToSkinnableSlotTest >> testNew [

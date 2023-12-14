@@ -4,21 +4,10 @@ A ToPopupWindowTest is a test class for testing the behavior of ToPopupWindow
 Class {
 	#name : 'ToPopupWindowTest',
 	#superclass : 'ToParameterizedHostTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Tests-Core-Window',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-Window'
 }
-
-{ #category : 'running' }
-ToPopupWindowTest >> setUp [ 
-
-	super setUp.
-	space := self newTestingSpace.
-
-]
 
 { #category : 'tests' }
 ToPopupWindowTest >> testElement [

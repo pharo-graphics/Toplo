@@ -4,21 +4,10 @@ A ToLabeledIconEventHandlerTest is a test class for testing the behavior of ToLa
 Class {
 	#name : 'ToLabeledIconEventHandlerTest',
 	#superclass : 'ToParameterizedHostTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Tests-Core',
 	#package : 'Toplo-Tests',
 	#tag : 'Core'
 }
-
-{ #category : 'running' }
-ToLabeledIconEventHandlerTest >> setUp [ 
-
-	super setUp.
-	space := self newTestingSpace. 
-
-]
 
 { #category : 'layout constraints' }
 ToLabeledIconEventHandlerTest >> testDirection [

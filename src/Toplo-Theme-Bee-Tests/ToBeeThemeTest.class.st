@@ -4,9 +4,6 @@ A ToBeeThemeTest is a test class for testing the behavior of ToBeeTheme
 Class {
 	#name : 'ToBeeThemeTest',
 	#superclass : 'ToParameterizedHostTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Theme-Bee-Tests',
 	#package : 'Toplo-Theme-Bee-Tests'
 }
@@ -15,7 +12,6 @@ Class {
 ToBeeThemeTest >> setUp [ 
 
 	super setUp.
-	space := self newTestingSpace.
 	space toTheme: ToBeeTheme light.
 ]
 

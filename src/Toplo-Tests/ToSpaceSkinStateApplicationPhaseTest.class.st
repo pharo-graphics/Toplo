@@ -1,19 +1,10 @@
 Class {
 	#name : 'ToSpaceSkinStateApplicationPhaseTest',
 	#superclass : 'ToParameterizedHostTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Tests-Core-SpaceFrame',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-SpaceFrame'
 }
-
-{ #category : 'running' }
-ToSpaceSkinStateApplicationPhaseTest >> setUp [
-	super setUp.
-	space := self newTestingSpace 
-]
 
 { #category : 'tests' }
 ToSpaceSkinStateApplicationPhaseTest >> testStartSkinPhases [

@@ -4,21 +4,10 @@ A TToWidgetWithTooltipTest is a test class for testing the behavior of TToWidget
 Class {
 	#name : 'TToElementWithTooltipTest',
 	#superclass : 'ToParameterizedHostTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Tests-Core',
 	#package : 'Toplo-Tests',
 	#tag : 'Core'
 }
-
-{ #category : 'running' }
-TToElementWithTooltipTest >> setUp [ 
-
-	super setUp.
-	space := self newTestingSpace. 
-
-]
 
 { #category : 'tests' }
 TToElementWithTooltipTest >> testCloseTooltipWindowOnMouseLeave [

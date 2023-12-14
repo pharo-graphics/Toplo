@@ -1,21 +1,10 @@
 Class {
 	#name : 'ToInstallStateTest',
 	#superclass : 'ToParameterizedHostTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Tests-Core-States',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-States'
 }
-
-{ #category : 'running' }
-ToInstallStateTest >> setUp [ 
-
-	super setUp.
-	space := self newTestingSpace. 
-
-]
 
 { #category : 'running' }
 ToInstallStateTest >> testApplyOn [

@@ -4,21 +4,10 @@ A TToElementWithPlaceholderTest is a test class for testing the behavior of TToE
 Class {
 	#name : 'TToElementWithPlaceholderTest',
 	#superclass : 'ToParameterizedHostTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Tests-Core',
 	#package : 'Toplo-Tests',
 	#tag : 'Core'
 }
-
-{ #category : 'running' }
-TToElementWithPlaceholderTest >> setUp [ 
-
-	super setUp.
-	space := self newTestingSpace. 
-
-]
 
 { #category : 'tests' }
 TToElementWithPlaceholderTest >> testCurrentPlaceholderLayer [

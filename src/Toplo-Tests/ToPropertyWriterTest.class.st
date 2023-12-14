@@ -4,21 +4,10 @@ A ToPropertyWriterTest is a test class for testing the behavior of ToPropertyWri
 Class {
 	#name : 'ToPropertyWriterTest',
 	#superclass : 'ToParameterizedHostTest',
-	#instVars : [
-		'space'
-	],
 	#category : 'Toplo-Tests-Core-StyleSheet',
 	#package : 'Toplo-Tests',
 	#tag : 'Core-StyleSheet'
 }
-
-{ #category : 'running' }
-ToPropertyWriterTest >> setUp [ 
-
-	super setUp.
-	space := self newTestingSpace. 
-
-]
 
 { #category : 'tests' }
 ToPropertyWriterTest >> testAnimation [

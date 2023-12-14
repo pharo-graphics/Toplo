@@ -1,63 +1,64 @@
 Class {
-	#name : 'ToToggleSwitchInnerButtonElement',
+	#name : 'ToToggleSwitchInnerButton',
 	#superclass : 'ToElement',
 	#instVars : [
 		'offElement',
 		'onElement',
 		'checked'
 	],
-	#category : 'Toplo-Widget-Button-Toggle',
+	#category : 'Toplo-Widget-Button-Switch',
 	#package : 'Toplo-Widget-Button',
-	#tag : 'Toggle'
+	#tag : 'Switch'
 }
 
 { #category : 'accessing' }
-ToToggleSwitchInnerButtonElement >> checked [
+ToToggleSwitchInnerButton >> checked [
 
 	^ checked
 ]
 
 { #category : 'accessing' }
-ToToggleSwitchInnerButtonElement >> checked: aBoolean [
+ToToggleSwitchInnerButton >> checked: aBoolean [
 
 	checked := aBoolean
 ]
 
 { #category : 'initialization' }
-ToToggleSwitchInnerButtonElement >> defaultWidth [
+ToToggleSwitchInnerButton >> defaultWidth [
 
 	^ 14
 ]
 
 { #category : 'requirements' }
-ToToggleSwitchInnerButtonElement >> empty [
+ToToggleSwitchInnerButton >> empty [
 
 	self removeChildren
 ]
 
 { #category : 'initialization' }
-ToToggleSwitchInnerButtonElement >> initialize [
+ToToggleSwitchInnerButton >> initialize [
 
 	super initialize.
 	self layout: BlFrameLayout new.
 	self geometry: BlCircleGeometry new.
-	self width: self defaultWidth
+	self width: self defaultWidth.
+	self background: Color blue.
 ]
 
 { #category : 'testing' }
-ToToggleSwitchInnerButtonElement >> isChecked [ 
+ToToggleSwitchInnerButton >> isChecked [ 
 
 	^ self checked
 ]
 
 { #category : 'accessing' }
-ToToggleSwitchInnerButtonElement >> offElement [
+ToToggleSwitchInnerButton >> offElement [
 
 	^ offElement
 ]
 
 { #category : 'accessing' }
-ToToggleSwitchInnerButtonElement >> offElement: anElement [
+ToToggleSwitchInnerButton >> offElement: anElement [
 
 	anElement ifNotNil: [
 		anElement constraintsDo: [ :c |
@@ -67,13 +68,13 @@ ToToggleSwitchInnerButtonElement >> offElement: anElement [
 ]
 
 { #category : 'accessing' }
-ToToggleSwitchInnerButtonElement >> onElement [
+ToToggleSwitchInnerButton >> onElement [
 
 	^ onElement
 ]
 
 { #category : 'accessing' }
-ToToggleSwitchInnerButtonElement >> onElement: anElement [
+ToToggleSwitchInnerButton >> onElement: anElement [
 
 	anElement ifNotNil: [
 		anElement constraintsDo: [ :c |
@@ -83,7 +84,7 @@ ToToggleSwitchInnerButtonElement >> onElement: anElement [
 ]
 
 { #category : 'requirements' }
-ToToggleSwitchInnerButtonElement >> switchOff [
+ToToggleSwitchInnerButton >> switchOff [
 
 	self empty.
 	self offElement ifNil: [ ^ self ].
@@ -91,7 +92,7 @@ ToToggleSwitchInnerButtonElement >> switchOff [
 ]
 
 { #category : 'requirements' }
-ToToggleSwitchInnerButtonElement >> switchOn [
+ToToggleSwitchInnerButton >> switchOn [
 
 	self empty.
 	self onElement ifNil: [ ^ self ].

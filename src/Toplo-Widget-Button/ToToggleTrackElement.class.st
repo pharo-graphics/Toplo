@@ -5,15 +5,15 @@ Class {
 		'switchBar',
 		'checked'
 	],
-	#category : 'Toplo-Widget-Button-Toggle',
+	#category : 'Toplo-Widget-Button-Switch',
 	#package : 'Toplo-Widget-Button',
-	#tag : 'Toggle'
+	#tag : 'Switch'
 }
 
 { #category : 'accessing' }
 ToToggleTrackElement >> checked [
 
-	^ checked
+	^ checked ifNil: [ checked := false ]
 ]
 
 { #category : 'accessing' }
@@ -56,6 +56,12 @@ ToToggleTrackElement >> innerButton [
 ToToggleTrackElement >> isChecked [ 
 
 	^ self checked
+]
+
+{ #category : 'skin' }
+ToToggleTrackElement >> newRawSkin [ 
+
+	^ ToToggleTrackSkin new
 ]
 
 { #category : 'sliding' }

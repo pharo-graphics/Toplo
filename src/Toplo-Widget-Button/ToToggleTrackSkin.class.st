@@ -1,94 +1,23 @@
 Class {
 	#name : 'ToToggleTrackSkin',
-	#superclass : 'Object',
-	#category : 'Toplo-Widget-Button-Toggle',
+	#superclass : 'ToRawSkin',
+	#category : 'Toplo-Widget-Button-Switch',
 	#package : 'Toplo-Widget-Button',
-	#tag : 'Toggle'
+	#tag : 'Switch'
 }
 
-{ #category : 't - reshapeable - private - shaping/sizing' }
-ToToggleTrackSkin >> applyLargeSizing: aSizing on: anElement [
+{ #category : 'as yet unclassified' }
+ToToggleTrackSkin >> installLookEvent: anEvent [
 
-	
-]
-
-{ #category : 't - reshapeable - private - shaping/sizing' }
-ToToggleTrackSkin >> applyMiddleSizing: aSizing on: anElement [
-
-	
-]
-
-{ #category : 'private - shaping/sizing' }
-ToToggleTrackSkin >> applyQuadShaping: aShaping on: anElement [
-
-	(anElement layout isKindOf: BlLinearLayout) ifFalse: [ 
-		anElement layout: BlLinearLayout new]. 
-	anElement padding: (self defaultPaddingIn: anElement).
-	anElement innerButton size: (aShaping sizing heightOn: anElement) asPoint.
-	anElement innerButton background: Color white.
-	anElement innerButton margin: (BlInsets
-			 left: anElement toTheme paddingXS
-			 right: anElement toTheme paddingXS).
-	anElement updateWidth
-]
-
-{ #category : 't - reshapeable - private - shaping/sizing' }
-ToToggleTrackSkin >> applyRectangleShaping: aShaping on: anElement [
-
-	| radius |
-	self applyQuadShaping: aShaping on: anElement.
-	radius := aShaping sizing shapingRadiusIn: anElement.
-	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: radius)
-]
-
-{ #category : 't - reshapeable - private - shaping/sizing' }
-ToToggleTrackSkin >> applyRoundShaping: aShaping on: anElement [
-
-	| radius |
-	self applyQuadShaping: aShaping on: anElement.	
-	radius := anElement requestedHeight / 2.
-	anElement geometry: (BlRoundedRectangleGeometry cornerRadius: radius)
-]
-
-{ #category : 't - reshapeable - private - shaping/sizing' }
-ToToggleTrackSkin >> applySmallSizing: aSizing on: anElement [
-
-	
-]
-
-{ #category : 'private - shaping/sizing' }
-ToToggleTrackSkin >> defaultPaddingIn: anElement [
-
-	^ BlInsets
-		  top: 2
-		  left: 2
-		  bottom: 2
-		  right: 2
-]
-
-{ #category : 'event handling' }
-ToToggleTrackSkin >> innerButtonSizeIn: anElement [
-
-	^ 16 asPoint
-]
-
-{ #category : 'api - install/uninstall  hook' }
-ToToggleTrackSkin >> onSkinInstalledIn: anElement [
-
-	super onSkinInstalledIn: anElement.
-	self addLookUpdater: ((self forProperty: (ToFeatureProperty new name: #background; yourself))
-			when: ToDisabledLookEvent value: [ :e | e tokenValueNamed: #'color-bg-container-disabled'  ];
-			when: ToInstallLookEvent value: [  :e | e isChecked
-					 ifTrue: [ e toTheme colorPrimary ]
-					 ifFalse: [ e toTheme colorBgContainer  ] ];
-			when: ToPressedLookEvent value: [ :e | e isChecked
-					 ifTrue: [ e toTheme colorPrimary ]
-					 ifFalse: [ e toTheme colorBgContainer ] ];
-			when: ToHoveredLookEvent value: [ :e | e isChecked
-					 ifTrue: [ e toTheme colorPrimaryHover ]
-					 ifFalse: [ e toTheme colorBgContainer ] ] ).
-	self addLookUpdater: (ToToggleTrackLook new
-			 animate: true;
-			 yourself).
-
+	super installLookEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e geometry: (BlRoundedRectangleGeometry cornerRadius: 8).
+		e background: (e isChecked
+				 ifTrue: [ e tokenValueNamed: #'color-primary' ]
+				 ifFalse: [ e tokenValueNamed: #'color-bg-container' ]).
+		e layout: BlLinearLayout new.
+		e padding: (BlInsets all: 2).
+		e innerButton size: 16 asPoint.
+		e innerButton background: Color white.
+		e innerButton margin: (BlInsets left: 4 right: 4) ]
 ]

@@ -4,9 +4,9 @@ Class {
 	#instVars : [
 		'animate'
 	],
-	#category : 'Toplo-Widget-Button-Toggle',
+	#category : 'Toplo-Widget-Button-Switch',
 	#package : 'Toplo-Widget-Button',
-	#tag : 'Toggle'
+	#tag : 'Switch'
 }
 
 { #category : 'accessing' }

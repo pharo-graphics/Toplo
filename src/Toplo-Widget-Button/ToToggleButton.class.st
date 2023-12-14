@@ -3,22 +3,53 @@ Class {
 	#superclass : 'ToGeneralButton',
 	#traits : 'TToCheckable',
 	#classTraits : 'TToCheckable classTrait',
-	#category : 'Toplo-Widget-Button-Toggle',
+	#instVars : [
+		'checked',
+		'group'
+	],
+	#category : 'Toplo-Widget-Button-Switch',
 	#package : 'Toplo-Widget-Button',
-	#tag : 'Toggle'
+	#tag : 'Switch'
 }
 
-{ #category : 'as yet unclassified' }
-ToToggleButton >> initialize [ 
+{ #category : 'initialization' }
+ToToggleButton >> initialize [
 
 	super initialize.
-	self track: (ToToggleTrackElement new checked: self isChecked; yourself)
+	self track: (ToToggleTrackElement new
+			 checked: self isChecked;
+			 yourself)
 ]
 
 { #category : 'accessing' }
 ToToggleButton >> innerButton [
 
 	^ self track innerButton
+]
+
+{ #category : 't - checkable - accessing' }
+ToToggleButton >> rawChecked [
+
+	^ checked ifNil: [ checked := false ]
+]
+
+{ #category : 't - checkable - accessing' }
+ToToggleButton >> rawChecked: anObject [
+
+	checked := anObject
+]
+
+{ #category : 't - checkable - accessing' }
+ToToggleButton >> rawGroup [
+
+	^ group
+]
+
+{ #category : 't - checkable - accessing' }
+ToToggleButton >> rawGroup: aGroup [
+
+	group = aGroup ifNil: [ ^ self ].
+	group := aGroup
 ]
 
 { #category : 'accessing' }
@@ -78,5 +109,17 @@ ToToggleButton >> track [
 { #category : 'accessing' }
 ToToggleButton >> track: anElement [
 
-	self icon: anElement
+	self addChild: ToToggleTrackElement new
+]
+
+{ #category : 't - checkable  - protocol' }
+ToToggleButton >> withIndeterminate [
+
+	^ false
+]
+
+{ #category : 't - checkable  - protocol' }
+ToToggleButton >> withIndeterminate: aBoolean [
+
+	self shouldNotImplement 
 ]

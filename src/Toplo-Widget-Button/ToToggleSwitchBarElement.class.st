@@ -10,9 +10,9 @@ Class {
 		'checked',
 		'innerButton'
 	],
-	#category : 'Toplo-Widget-Button-Toggle',
+	#category : 'Toplo-Widget-Button-Switch',
 	#package : 'Toplo-Widget-Button',
-	#tag : 'Toggle'
+	#tag : 'Switch'
 }
 
 { #category : 'accessing' }
@@ -45,7 +45,7 @@ ToToggleSwitchBarElement >> initialize [
 	offContainer constraintsDo: [ :c | c linear vertical alignCenter ].
 	onContainer := ToElement new vFitContent; width: self sideWidth; layout: BlFrameLayout new; yourself.
 	onContainer constraintsDo: [ :c | c linear vertical alignCenter ].
-	self innerButton: ToToggleSwitchInnerButtonElement new.
+	self innerButton: ToToggleSwitchInnerButton new.
 	self addChildren: { onContainer. innerButton. offContainer }
 
 ]

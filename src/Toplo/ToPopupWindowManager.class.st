@@ -13,13 +13,19 @@ Class {
 { #category : 'accessing' }
 ToPopupWindowManager >> autoCloseOnMouseUpDelay [
 
-	^ autoCloseOnMouseUpDelay ifNil: [ autoCloseOnMouseUpDelay := 300 milliSeconds ]
+	^ autoCloseOnMouseUpDelay ifNil: [ autoCloseOnMouseUpDelay := self defaultAutoCloseOnMouseUpDelay ]
 ]
 
 { #category : 'accessing' }
 ToPopupWindowManager >> autoCloseOnMouseUpDelay: aDelay [
 
-	autoCloseOnMouseUpDelay := aDelay asDelay
+	autoCloseOnMouseUpDelay := aDelay ifNotNil: [:d| d asDuration ]
+]
+
+{ #category : 'accessing' }
+ToPopupWindowManager >> defaultAutoCloseOnMouseUpDelay [
+
+	^ 300 milliSeconds
 ]
 
 { #category : 'initialization' }

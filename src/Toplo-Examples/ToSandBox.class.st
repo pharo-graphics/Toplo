@@ -2222,45 +2222,48 @@ ToSandBox class >> example_menuBar1 [
 ToSandBox class >> example_menuBar2 [
 
 	| menu frame bar |
-
 	bar := ToMenuBar new
 		       hMatchParent;
 		       vFitContent.
 	frame := ToInnerWindow new.
-	
-	3 timesRepeat: [ 
+
+	3 timesRepeat: [
 		menu := ToMenu new.
 		menu label: (ToLabel text: 'Levels').
-		menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+		menu icon:
+			(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
 
 		4 to: 12 by: 2 do: [ :index |
 			| subMenu |
 			subMenu := ToMenu new label:
-			           (ToLabel new text: (String streamContents: [ :out |
-					             out
-						             print: index;
-						             nextPut: $x;
-						             print: index ])).
+				           (ToLabel new text: (String streamContents: [ :out |
+						             out
+							             print: index;
+							             nextPut: $x;
+							             print: index ])).
 			1 to: 5 do: [ :i |
 				| stream selector |
 				stream := String streamContents: [ :out |
-				          out
-					          nextPutAll: 'Level ';
-					          space;
-					          print: i ].
+					          out
+						          nextPutAll: 'Level ';
+						          space;
+						          print: i ].
 				selector := String streamContents: [ :out |
-				            out
-					            nextPutAll: 'level ';
-					            print: index;
-					            nextPutAll: ' Grid ';
-					            print: i ].
-				subMenu addItem: ((ToMenuItem new labelText: stream) 
-					when: BlPrimaryMouseUpEvent do: [ :event | self inform: selector asSymbol ]) ].
+					            out
+						            nextPutAll: 'level ';
+						            print: index;
+						            nextPutAll: ' Grid ';
+						            print: i ].
+				subMenu addItem:
+					((ToMenuItem new labelText: stream) addEventHandler:
+						 (BlEventHandler
+							  on: BlPrimaryMouseUpEvent
+							  do: [ :event | self inform: selector asSymbol ])) ].
 			menu addItem: subMenu ].
 
-		bar addMenu: menu	].
-	
-	frame pane addChild: bar. 
+		bar addMenu: menu ].
+
+	frame pane addChild: bar.
 	frame openInSpace
 ]
 
@@ -3300,7 +3303,7 @@ ToSandBox class >> example_withCheckBox [
 	menu := ToMenu new.
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new labelText: 'Open file').
-	menu items last icon: ((ToImage inner: (self iconNamed: #solidMenu))).
+	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu addItem: (ToMenuItem new labelText: 'Export').
 	grp := ToCheckableGroup new.
 	right := ToCheckMenuItem new
@@ -3312,9 +3315,11 @@ ToSandBox class >> example_withCheckBox [
 	left := ToCheckMenuItem new
 		        labelText: 'Left';
 		        id: #left.
-	grp when: ToCheckableGroupChangedEvent do: [ :event |
-		('checked: ' , event checkedButtons asString , ' unchecked: '
-		 , event uncheckedButtons asString) traceCr ].
+	grp addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event |
+				 ('checked: ' , event checkedButtons asString , ' unchecked: '
+				  , event uncheckedButtons asString) traceCr ]).
 	center checked: true.
 
 	grp add: right button.
@@ -3322,8 +3327,10 @@ ToSandBox class >> example_withCheckBox [
 	grp add: left button.
 
 	menu addSeparator.
-	menu addAllItems: {right. center. left  }.
-.
+	menu addAllItems: {
+			right.
+			center.
+			left }.
 	menu addSeparator.
 
 	sub := ToMenu new labelText: 'Save All'.

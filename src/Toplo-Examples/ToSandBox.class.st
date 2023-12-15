@@ -117,10 +117,12 @@ ToSandBox class >> example_CheckboxChecked [
 	| chb |
 	ToTheme cleanUp.
 	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
-	chb when: ToElementLookEvent do: [ :evt | evt target = chb ifTrue: [ evt traceCr ]].
+	chb addEventHandler: (BlEventHandler
+			 on: ToElementLookEvent
+			 do: [ :evt | evt target = chb ifTrue: [ evt traceCr ] ]).
 	chb checked: true.
 	chb openInInnerWindow.
-	chb inspect.
+	chb inspect
 ]
 
 { #category : 'checkbox' }
@@ -1569,7 +1571,7 @@ ToSandBox class >> example_ToButtonSkins [
 	themeSwitcher selectData: space toTheme class.
 	topBar addChild: themeSwitcher.
 
-	enablementSwitcher := ToToggleButton new.
+	enablementSwitcher := ToSwitchButton new.
 	enablementSwitcher switchBarOnElement:
 		((ToLabel text: 'Enabled')).
 	enablementSwitcher switchBarOffElement:
@@ -1635,14 +1637,14 @@ ToSandBox class >> example_ToButtonSkins [
 	
 	topBar addChild: buttonBar.
 	
-	directionSwitcher := ToToggleButton new labelText: 'Icon first'; beLabelFirst; yourself.
+	directionSwitcher := ToSwitchButton new labelText: 'Icon first'; beLabelFirst; yourself.
 	directionSwitcher check.
 	directionSwitcher
 		when: ToCheckableCheckEvent
 		do: [ :event | allButtons do: [ :b | b iconFirst: event target isChecked ] ].
 	topBar addChild: directionSwitcher.
 	
-	orientationSwitcher := ToToggleButton new labelText: 'Horizontal'; beLabelFirst; yourself.
+	orientationSwitcher := ToSwitchButton new labelText: 'Horizontal'; beLabelFirst; yourself.
 	orientationSwitcher check.
 	orientationSwitcher
 		when: ToCheckableCheckEvent
@@ -2025,39 +2027,6 @@ ToSandBox class >> example_lookEventTrace [
 	but stillPressedStartDelay: 3000 milliSeconds.
 	but inspect.
 	but openInSpace
-]
-
-{ #category : 'menu dep' }
-ToSandBox class >> example_menu0 [
-
-	| menu space themeSwitcher |
-	
-	space := BlSpace new.
-	space root layout: (BlLinearLayout vertical cellSpacing: 10).
-	themeSwitcher := ToToggleButton new
-		      labelText: 'Theme';
-		      beLabelFirst.
-	themeSwitcher switchBarOnElement: ((ToLabel text: ('Dark' asRopedText foreground: Color white)) ).
-	themeSwitcher switchBarOffElement: ((ToLabel text: ('Light' asRopedText foreground: Color black)) ).
-	themeSwitcher 
-		when: ToCheckableCheckEvent 
-		do: [ :event | space toTheme: ( event current ifTrue: [ToBeeTheme dark] ifFalse: [ ToBeeTheme light ]) ].
-	
-	themeSwitcher checked: true.
-	space root addChild: themeSwitcher.
-	
-	menu := ToMenu new.
-	menu label: (ToLabel new text: 'File').
-	menu icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
-	menu addItem: (ToMenuItem new 
-		label: (ToLabel new text: 'Openfile'; id: #open; yourself); 
-		icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #config))).
-	menu addItem: (ToMenuItem new 
-		label: (ToLabel new text: 'Openfile'; id: #open2; yourself)"; 
-		icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #config))").
-	"menu inspect."
-	space root addChild: menu.
-	space show
 ]
 
 { #category : 'menu dep' }
@@ -2518,6 +2487,61 @@ ToSandBox class >> example_stillPressedEvent [
 			count := 0.
 			color := Color white alpha: 0.3] ].
 	e openInSpace
+]
+
+{ #category : 'toggle button' }
+ToSandBox class >> example_switchButton [
+
+	| th  |
+	th := ToSwitchButton new.
+	th checked: true.
+
+
+	th openInSpace
+]
+
+{ #category : 'toggle button' }
+ToSandBox class >> example_switchButton2 [
+
+	| th sp |
+	th := ToSwitchButton new.
+	th checkedContainer addChild:
+		(ToImage inner: (self iconNamed: #glamorousAccept)).
+	th uncheckedContainer addChild:
+		(ToImage inner: (self iconNamed: #glamorousClose)).
+
+	th addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :event | event current traceCr ]).
+	sp := th openInSpace
+]
+
+{ #category : 'toggle button' }
+ToSandBox class >> example_switchButton3 [
+
+	| but onLab offLab onHandleIm handler |
+	but := ToSwitchButton new.
+	handler := BlEventHandler
+		           on: ToElementLookEvent
+		           do: [ :event | event traceCr ].
+	but addEventHandler: handler.
+	onLab := ToLabel text: ('In' asRopedText foreground: Color white).
+	offLab := ToLabel text: ('Out' asRopedText foreground: Color white).
+	onHandleIm := ToImage inner: (but iconNamed: #glamorousAccept).
+	{
+		onLab.
+		offLab.
+		onHandleIm } do: [ :e |
+		e constraintsDo: [ :c |
+			c frame vertical alignCenter.
+			c frame horizontal alignCenter ] ].
+	but checkedContainer addChild: onLab.
+	but uncheckedContainer addChild: offLab.
+	but handleCheckedBuilder: [ :handle :switch |
+		handle addChild: onHandleIm ].
+	"but checked: true."
+	"but disable."
+	but openInSpace
 ]
 
 { #category : 'text field' }
@@ -3189,56 +3213,6 @@ ToSandBox class >> example_toWidgetAsButton0 [
 	but background: Color blue.
 	but size: 50 @ 50.
 	but openInSpace
-]
-
-{ #category : 'toggle button' }
-ToSandBox class >> example_toggle [
-
-	| th tv win |
-	th := ToToggleButton new
-		      labelText: 'Cheesecake';
-		      beLabelFirst;
-				justified: true;
-		      hMatchParent.
-	th innerElement hMatchParent.
-	th checked: true.
-
-	tv := ToToggleButton new
-		      beVertical;
-		      labelText: 'Cheesecake';
-		      beLabelFirst;
-				justified: true;
-		      hMatchParent.
-	tv innerElement hMatchParent.
-	
-	win := ToInnerWindow new
-		       position: 10 @ 10;
-		       size: 400 @ 200;
-		       yourself.
-	win root layout: BlLinearLayout vertical.
-	win root addChildren: {
-			th.
-			tv }.
-
-	win openInSpace
-]
-
-{ #category : 'toggle button' }
-ToSandBox class >> example_toggle3 [
-
-	| th sp |
-	th := ToToggleButton new
-		      labelText: 'Cheesecake';
-		      beLabelFirst;
-				justified: true;
-				hMatchParent.
-	th switchButtonOnElement: (ToImage inner: (Smalltalk ui icons iconNamed: #glamorousAccept)).
-	th switchButtonOffElement: (ToImage inner: (Smalltalk ui icons iconNamed: #glamorousClose)).
-
-	th when: ToCheckableCheckEvent do: [ :event | event current traceCr ].
-	th checked: true.
-	sp := th openInSpace.
-	sp root background: Color veryLightGray
 ]
 
 { #category : 'pane' }

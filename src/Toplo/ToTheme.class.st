@@ -192,6 +192,22 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'list-node-padding-V' value: 1).
 
 		  (ToTokenProperty
+			   name: #'switch-checked-background'
+			   value: self defaultColorPrimary).
+		  (ToTokenProperty
+			   name: #'switch-unchecked-background'
+			   value: Color lightGray).
+		  (ToTokenProperty
+			   name: #'switch-disabled-background'
+			   value: Color lightGray).
+		  (ToTokenProperty
+			   name: #'switch-handle-disabled-background'
+			   value: Color veryLightGray ).
+		  (ToTokenProperty
+			   name: #'switch-handle-enabled-background'
+			   value: Color white ).
+			
+		  (ToTokenProperty
 			   name: #'primary-selection-geometry-class'
 			   value: BlRoundedRectangleGeometry).
 		  (ToTokenProperty

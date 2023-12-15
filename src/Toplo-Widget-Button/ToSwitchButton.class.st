@@ -18,14 +18,17 @@ Class {
 	#tag : 'Switch'
 }
 
-{ #category : 'initialization' }
+{ #category : 'layout' }
 ToSwitchButton >> applySize: aPoint [
+	" given my expected size, adapt the size of my handle and of onSide and offSide "
 
-	self size: aPoint.
+	| handleWidth sideWidth |
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: aPoint y / 2).
-	self handle size: (aPoint y - (self defaultHandleMarginWidth * 2)) asPoint.
-	onSide size: (aPoint x / 2) @ aPoint y.
-	offSide size: (aPoint x / 2) @ aPoint y.
+	handleWidth := aPoint y - (self defaultHandleMarginWidth * 2).
+	sideWidth := aPoint x - handleWidth - (handleWidth / 2).
+	self handle size: handleWidth asPoint.
+	onSide size: sideWidth @ aPoint y.
+	offSide size: sideWidth @ aPoint y
 ]
 
 { #category : 'initialization' }
@@ -35,15 +38,9 @@ ToSwitchButton >> defaultHandleMarginWidth [
 ]
 
 { #category : 'initialization' }
-ToSwitchButton >> defaultHeight [ 
+ToSwitchButton >> defaultSize [
 
-	^ 16
-]
-
-{ #category : 'initialization' }
-ToSwitchButton >> defaultSideWidth [
-
-	^ 35
+	^ 50@20
 ]
 
 { #category : 'accessing' }
@@ -74,8 +71,8 @@ ToSwitchButton >> initialize [
 	offContainer := ToElement new
 		                layout: BlFrameLayout new;
 		                fitContent.
-	onSide := ToElement new layout: BlFrameLayout new; border: Color black.
-	offSide := ToElement new layout: BlFrameLayout new; border: Color black.
+	onSide := ToElement new layout: BlFrameLayout new.
+	offSide := ToElement new layout: BlFrameLayout new.
 	onSide addChild: onContainer.
 	offSide addChild: offContainer.
 
@@ -86,24 +83,19 @@ ToSwitchButton >> initialize [
 
 	track childrenDo: [ :child |
 		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
-	
+
 	onSide childrenDo: [ :child |
 		child constraintsDo: [ :c |
 			c frame vertical alignCenter.
 			c frame horizontal alignCenter ] ].
-	
+
 	offSide childrenDo: [ :child |
 		child constraintsDo: [ :c |
 			c frame vertical alignCenter.
 			c frame horizontal alignCenter ] ].
-	
-	self applySize: self defaultSideWidth + self defaultHeight
-		+ (self defaultHandleMarginWidth * 2)
-		@ (self defaultHeight + (self defaultHandleMarginWidth * 2)).
-	self whenLayoutedDoOnce: [
-		self isChecked
-			ifTrue: [ self switchOn ]
-			ifFalse: [ self switchOff ] ]
+		
+	self size: self defaultSize.
+
 ]
 
 { #category : 'skin' }
@@ -122,6 +114,27 @@ ToSwitchButton >> offContainer [
 ToSwitchButton >> onContainer [
 
 	^ onContainer
+]
+
+{ #category : 'layout' }
+ToSwitchButton >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
+	self isChecked
+		ifTrue: [ self switchOn ]
+		ifFalse: [ self switchOff ]
+]
+
+{ #category : 'layout' }
+ToSwitchButton >> onMeasure: anExtentMeasurementSpec [
+
+	| expectedSize |
+	expectedSize := anExtentMeasurementSpec widthSpec size
+	                @ anExtentMeasurementSpec heightSpec size.
+	self size = expectedSize ifFalse: [
+		self applySize: anExtentMeasurementSpec widthSpec size
+			@ anExtentMeasurementSpec heightSpec size ].
+	super onMeasure: anExtentMeasurementSpec
 ]
 
 { #category : 't - checkable - accessing' }
@@ -149,17 +162,23 @@ ToSwitchButton >> rawGroup: aGroup [
 	group := aGroup
 ]
 
-{ #category : 'initialization' }
+{ #category : 'layout' }
 ToSwitchButton >> switchOff [
 
-	"self track position: (((self width - self handle width) - (self width - (self handle width + self onContainer width))) negated + self defaultHandleMarginWidth) @ 0"
-	self track position: onSide width negated + self defaultHandleMarginWidth @ 0
+	| expected |
+	expected := onSide measuredWidth negated
+	            + self defaultHandleMarginWidth @ 0.
+	self track position: expected
 ]
 
-{ #category : 'initialization' }
+{ #category : 'layout' }
 ToSwitchButton >> switchOn [
 
-	self track position: self width - self handle width - onSide width - self defaultHandleMarginWidth @ 0
+	| expected |
+	expected := self measuredWidth - self handle measuredWidth
+	            - onSide measuredWidth - self defaultHandleMarginWidth
+	            @ 0.
+	self track position: expected
 ]
 
 { #category : 'accessing' }

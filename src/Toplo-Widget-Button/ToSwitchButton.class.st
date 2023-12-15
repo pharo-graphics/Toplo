@@ -9,7 +9,9 @@ Class {
 		'offContainer',
 		'onContainer',
 		'checked',
-		'group'
+		'group',
+		'onSide',
+		'offSide'
 	],
 	#category : 'Toplo-Widget-Button-Switch',
 	#package : 'Toplo-Widget-Button',
@@ -22,26 +24,26 @@ ToSwitchButton >> applySize: aPoint [
 	self size: aPoint.
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: aPoint y / 2).
 	self handle size: (aPoint y - (self defaultHandleMarginWidth * 2)) asPoint.
-	self onContainer size: aPoint x / 2 @ aPoint y.
-	self offContainer size: aPoint x / 2 @ aPoint y.
+	onSide size: (aPoint x / 2) @ aPoint y.
+	offSide size: (aPoint x / 2) @ aPoint y.
 ]
 
 { #category : 'initialization' }
 ToSwitchButton >> defaultHandleMarginWidth [
 
-	^ 6
+	^ 2
 ]
 
 { #category : 'initialization' }
 ToSwitchButton >> defaultHeight [ 
 
-	^ 40
+	^ 16
 ]
 
 { #category : 'initialization' }
 ToSwitchButton >> defaultSideWidth [
 
-	^ 60
+	^ 35
 ]
 
 { #category : 'accessing' }
@@ -54,7 +56,6 @@ ToSwitchButton >> handle [
 ToSwitchButton >> initialize [
 
 	super initialize.
-	self background: Color lightBlue.
 	self layout: BlBasicLayout new.
 	track := ToElement new
 		         layout: BlLinearLayout horizontal;
@@ -64,17 +65,41 @@ ToSwitchButton >> initialize [
 	self addChild: track.
 	handle := ToElement new
 		          geometry: BlCircleGeometry new;
+		          layout: BlFrameLayout new;
 		          background: Color white;
 		          yourself.
-	onContainer := ToElement new layout: BlFrameLayout new.
-	offContainer := ToElement new layout: BlFrameLayout new.
+	onContainer := ToElement new
+		               layout: BlFrameLayout new;
+		               fitContent.
+	offContainer := ToElement new
+		                layout: BlFrameLayout new;
+		                fitContent.
+	onSide := ToElement new layout: BlFrameLayout new; border: Color black.
+	offSide := ToElement new layout: BlFrameLayout new; border: Color black.
+	onSide addChild: onContainer.
+	offSide addChild: offContainer.
+
 	track addChildren: {
-			onContainer.
+			onSide.
 			handle.
-			offContainer }.
+			offSide }.
+
 	track childrenDo: [ :child |
 		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
-	self applySize: (self defaultSideWidth + self defaultHeight + self defaultHandleMarginWidth * 2) @ (self defaultHeight + self defaultHandleMarginWidth * 2).
+	
+	onSide childrenDo: [ :child |
+		child constraintsDo: [ :c |
+			c frame vertical alignCenter.
+			c frame horizontal alignCenter ] ].
+	
+	offSide childrenDo: [ :child |
+		child constraintsDo: [ :c |
+			c frame vertical alignCenter.
+			c frame horizontal alignCenter ] ].
+	
+	self applySize: self defaultSideWidth + self defaultHeight
+		+ (self defaultHandleMarginWidth * 2)
+		@ (self defaultHeight + (self defaultHandleMarginWidth * 2)).
 	self whenLayoutedDoOnce: [
 		self isChecked
 			ifTrue: [ self switchOn ]
@@ -128,13 +153,13 @@ ToSwitchButton >> rawGroup: aGroup [
 ToSwitchButton >> switchOff [
 
 	"self track position: (((self width - self handle width) - (self width - (self handle width + self onContainer width))) negated + self defaultHandleMarginWidth) @ 0"
-	self track position: self onContainer width negated + self defaultHandleMarginWidth @ 0
+	self track position: onSide width negated + self defaultHandleMarginWidth @ 0
 ]
 
 { #category : 'initialization' }
 ToSwitchButton >> switchOn [
 
-	self track position: self width - self handle width - self onContainer width - self defaultHandleMarginWidth @ 0
+	self track position: self width - self handle width - onSide width - self defaultHandleMarginWidth @ 0
 ]
 
 { #category : 'accessing' }

@@ -203,7 +203,7 @@ ToSwitchIcon >> onChildAddedInSideContainer [
 ToSwitchIcon >> onMeasure: anExtentMeasurementSpec [
 
 	| expectedSize sideContainerSize |
-	super onMeasure: anExtentMeasurementSpec.
+	"super onMeasure: anExtentMeasurementSpec."
 	sideContainerSize := (self checkedContainer measuredWidth max:
 		                      self uncheckedContainer measuredWidth)
 	                     @ (self checkedContainer measuredHeight max:

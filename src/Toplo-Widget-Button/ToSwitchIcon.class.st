@@ -62,7 +62,7 @@ ToSwitchIcon >> defaultHandleMarginWidth [
 { #category : 'initialization' }
 ToSwitchIcon >> defaultSize [
 
-	^ 40@20.0
+	^ 35@20.0
 ]
 
 { #category : 'accessing' }
@@ -202,24 +202,15 @@ ToSwitchIcon >> onChildAddedInSideContainer [
 { #category : 'layout' }
 ToSwitchIcon >> onMeasure: anExtentMeasurementSpec [
 
-	| expectedSize widthSpec heightSpec sideContainerSize |
-	widthSpec := BlMeasurementSpec unspecified.
-	heightSpec := BlMeasurementSpec unspecified.
-	self track measure: (BlExtentMeasurementSpec new
-			 widthSpec: (self track layout
-					  measurementSpecFor: widthSpec
-					  usedSize: 0.0
-					  resizer: self track constraints horizontal resizer);
-			 heightSpec: (self track layout
-					  measurementSpecFor: heightSpec
-					  usedSize: 0.0
-					  resizer: self track constraints vertical resizer)).
+	| expectedSize sideContainerSize |
+	super onMeasure: anExtentMeasurementSpec.
 	sideContainerSize := (self checkedContainer measuredWidth max:
 		                      self uncheckedContainer measuredWidth)
 	                     @ (self checkedContainer measuredHeight max:
 			                      self uncheckedContainer measuredHeight).
-	expectedSize := sideContainerSize x + 4 + sideContainerSize y
-	                @ (sideContainerSize y + 2).
+	expectedSize := ((sideContainerSize x + 4 + sideContainerSize y) 
+	                @ (sideContainerSize y + 2)) max: self defaultSize.
+	
 	anExtentMeasurementSpec widthSpec size:
 		(expectedSize x max: anExtentMeasurementSpec widthSpec size).
 	self size = expectedSize ifFalse: [ self applySize: expectedSize ].

@@ -1571,7 +1571,7 @@ ToSandBox class >> example_ToButtonSkins [
 	themeSwitcher selectData: space toTheme class.
 	topBar addChild: themeSwitcher.
 
-	enablementSwitcher := ToSwitchButton new.
+	enablementSwitcher := ToSwitchIcon new.
 	enablementSwitcher switchBarOnElement:
 		((ToLabel text: 'Enabled')).
 	enablementSwitcher switchBarOffElement:
@@ -1637,14 +1637,14 @@ ToSandBox class >> example_ToButtonSkins [
 	
 	topBar addChild: buttonBar.
 	
-	directionSwitcher := ToSwitchButton new labelText: 'Icon first'; beLabelFirst; yourself.
+	directionSwitcher := ToSwitchIcon new labelText: 'Icon first'; beLabelFirst; yourself.
 	directionSwitcher check.
 	directionSwitcher
 		when: ToCheckableCheckEvent
 		do: [ :event | allButtons do: [ :b | b iconFirst: event target isChecked ] ].
 	topBar addChild: directionSwitcher.
 	
-	orientationSwitcher := ToSwitchButton new labelText: 'Horizontal'; beLabelFirst; yourself.
+	orientationSwitcher := ToSwitchIcon new labelText: 'Horizontal'; beLabelFirst; yourself.
 	orientationSwitcher check.
 	orientationSwitcher
 		when: ToCheckableCheckEvent
@@ -1802,7 +1802,6 @@ ToSandBox class >> example_buttonWithIcon [
 	| but space |
 	ToTheme cleanUp.
 	space := BlSpace new.
-	space toTheme: ToTheme current.
 	but := ToButton new.
 	space root addChild: but.
 	space show.
@@ -2539,7 +2538,7 @@ ToSandBox class >> example_switchButton3 [
 	but uncheckedContainer addChild: offLab.
 	but handleCheckedBuilder: [ :handle :switch |
 		handle addChild: onHandleIm ].
-	"but checked: true."
+	but checked: true.
 	"but disable."
 	but openInSpace
 ]

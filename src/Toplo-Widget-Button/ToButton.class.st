@@ -25,7 +25,6 @@ ToButton >> installRawStyle [
 
 	super installRawStyle.
 	self labeledIcon hMatchParent.
-	self iconDo: [ :ic | ic formColor: Color black ].
 	((self parent isKindOf: ToMenuItem) and: [ self parent isTopMenu not ])
 		ifTrue: [ ^ self ].
 	(self hasIcon and: [ self hasLabel ]) ifFalse: [

@@ -28,9 +28,7 @@ ToSwitchIcon >> applySize: aPoint [
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: aPoint y / 2).
 	handleWidth := aPoint y - (self defaultHandleMarginWidth * 2).
 	sideWidth := aPoint x - handleWidth - (handleWidth / 2).
-	self handle size: handleWidth asPoint.
-	checkedSide size: sideWidth @ aPoint y.
-	uncheckedSide size: sideWidth @ aPoint y
+	self handle size: handleWidth asPoint
 ]
 
 { #category : 'accessing' }
@@ -125,7 +123,6 @@ ToSwitchIcon >> initialize [
 	super initialize.
 	self layout: BlBasicLayout new.
 	track := self newTrack.
-	self addChild: track.
 	handle := self newHandle.
 	checkedContainer := ToElement new
 		                    layout: BlFrameLayout new;
@@ -133,8 +130,8 @@ ToSwitchIcon >> initialize [
 	uncheckedContainer := ToElement new
 		                      layout: BlFrameLayout new;
 		                      fitContent.
-	checkedSide := ToElement new layout: BlFrameLayout new.
-	uncheckedSide := ToElement new layout: BlFrameLayout new.
+	checkedSide := ToElement new layout: BlFrameLayout new; fitContent.
+	uncheckedSide := ToElement new layout: BlFrameLayout new; fitContent.
 	checkedSide addChild: checkedContainer.
 	uncheckedSide addChild: uncheckedContainer.
 
@@ -155,7 +152,8 @@ ToSwitchIcon >> initialize [
 		child constraintsDo: [ :c |
 			c frame vertical alignCenter.
 			c frame horizontal alignCenter ] ].
-
+	
+	self addChild: track.
 	self size: self defaultSize.
 	self checked: false
 ]
@@ -174,6 +172,7 @@ ToSwitchIcon >> newHandle [
 		  margin: (BlInsets all: self defaultHandleMarginWidth);
 		  layout: BlFrameLayout new;
 		  background: Color white;
+		vMatchParent;
 		  yourself
 ]
 
@@ -203,16 +202,18 @@ ToSwitchIcon >> onChildAddedInSideContainer [
 ToSwitchIcon >> onMeasure: anExtentMeasurementSpec [
 
 	| expectedSize sideContainerSize |
-	"super onMeasure: anExtentMeasurementSpec."
+	super onMeasure: anExtentMeasurementSpec.
 	sideContainerSize := (self checkedContainer measuredWidth max:
 		                      self uncheckedContainer measuredWidth)
 	                     @ (self checkedContainer measuredHeight max:
 			                      self uncheckedContainer measuredHeight).
-	expectedSize := ((sideContainerSize x + 4 + sideContainerSize y) 
+	expectedSize := ((sideContainerSize x + 8 + sideContainerSize y) 
 	                @ (sideContainerSize y + 2)) max: self defaultSize.
 	
 	anExtentMeasurementSpec widthSpec size:
 		(expectedSize x max: anExtentMeasurementSpec widthSpec size).
+	anExtentMeasurementSpec heightSpec size:
+		(expectedSize y max: anExtentMeasurementSpec heightSpec size).
 	self size = expectedSize ifFalse: [ self applySize: expectedSize ].
 	super onMeasure: anExtentMeasurementSpec
 ]

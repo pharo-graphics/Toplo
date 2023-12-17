@@ -2488,7 +2488,7 @@ ToSandBox class >> example_stillPressedEvent [
 	e openInSpace
 ]
 
-{ #category : 'toggle button' }
+{ #category : 'switch button' }
 ToSandBox class >> example_switchButton [
 
 	| th  |
@@ -2499,15 +2499,17 @@ ToSandBox class >> example_switchButton [
 	th openInSpace
 ]
 
-{ #category : 'toggle button' }
+{ #category : 'switch button' }
 ToSandBox class >> example_switchButton2 [
 
 	| th sp |
 	th := ToSwitchButton new.
 	th checkedContainer addChild:
-		(ToImage inner: (self iconNamed: #glamorousAccept)).
+		((ToImage inner: (self iconNamed: #glamorousAccept)) formColor:
+			 Color white).
 	th uncheckedContainer addChild:
-		(ToImage inner: (self iconNamed: #glamorousClose)).
+		((ToImage inner: (self iconNamed: #glamorousClose)) formColor:
+			 Color white).
 
 	th addEventHandler: (BlEventHandler
 			 on: ToCheckableCheckEvent
@@ -2515,17 +2517,21 @@ ToSandBox class >> example_switchButton2 [
 	sp := th openInSpace
 ]
 
-{ #category : 'toggle button' }
+{ #category : 'switch button' }
 ToSandBox class >> example_switchButton3 [
 
 	| but onLab offLab onHandleIm handler |
 	but := ToSwitchButton new.
+	but labelFirst: true.
+	but flexible: true.
+	but hMatchParent.
+	but labelText: ('Something' asRopedText fontSize: 44).
 	handler := BlEventHandler
 		           on: ToElementLookEvent
 		           do: [ :event | event traceCr ].
 	but addEventHandler: handler.
-	onLab := ToLabel text: ('In' asRopedText foreground: Color white).
-	offLab := ToLabel text: ('Out' asRopedText foreground: Color white).
+	onLab := ToLabel text: ('In' asRopedText foreground: Color white; fontSize: 44).
+	offLab := ToLabel text: ('Out' asRopedText foreground: Color white; fontSize: 44).
 	onHandleIm := ToImage inner: (but iconNamed: #glamorousAccept).
 	{
 		onLab.
@@ -2540,6 +2546,7 @@ ToSandBox class >> example_switchButton3 [
 		handle addChild: onHandleIm ].
 	but checked: true.
 	"but disable."
+	"but inspect."
 	but openInSpace
 ]
 

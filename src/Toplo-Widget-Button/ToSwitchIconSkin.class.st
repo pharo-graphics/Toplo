@@ -50,14 +50,7 @@ ToSwitchIconSkin >> installLookEvent: anEvent [
 	justInstalled := true.
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		| background |
-		background := (e isChecked
-			               ifTrue: [ e tokenValueNamed: #'switch-checked-background' ]
-			               ifFalse: [ e tokenValueNamed: #'switch-unchecked-background' ])
-			              asBlBackground.
-		e background: background.
-		e whenLayoutedDoOnce: [ e switch: e isChecked ].
-		e handle background: (e tokenValueNamed: #'switch-handle-enabled-background') ]
+		e switch: e isChecked ]
 ]
 
 { #category : 'event handling' }

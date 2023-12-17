@@ -48,18 +48,6 @@ ToElement >> defaultLayout [
 	^ BlFrameLayout new
 ]
 
-{ #category : 'skin' }
-ToElement >> disabledBackground [
-
-	^ Color lightGray alpha: 0.2 
-]
-
-{ #category : 'skin' }
-ToElement >> disabledBorder [
-
-	^ Color lightGray alpha: 0.5 
-]
-
 { #category : 'initialization' }
 ToElement >> initialize [
 

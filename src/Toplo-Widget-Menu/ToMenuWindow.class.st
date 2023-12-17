@@ -16,18 +16,6 @@ ToMenuWindow >> close [
 	super close
 ]
 
-{ #category : 'initialization' }
-ToMenuWindow >> defaultBackground [
-
-	^ Color white
-]
-
-{ #category : 'initialization' }
-ToMenuWindow >> defaultBorder [
-
-	^ BlBorder paint: Color lightGray width: 1
-]
-
 { #category : 'accessing' }
 ToMenuWindow >> defaultElevation [
 

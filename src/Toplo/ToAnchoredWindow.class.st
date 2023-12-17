@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToAnchoredWindow',
-	#superclass : 'ToAbstractWindowElement',
+	#superclass : 'ToBasicWindowElement',
 	#instVars : [
 		'popupTimestamp',
 		'windowManager'
@@ -32,7 +32,7 @@ ToAnchoredWindow >> checkBeforePopupEvent: anEvent [
 { #category : 'api - displaying' }
 ToAnchoredWindow >> close [
 
-	self parentDo: [ :p | super close ].
+	super close.
 	self root removeChildren.
 	self dispatchClosedEvent
 ]

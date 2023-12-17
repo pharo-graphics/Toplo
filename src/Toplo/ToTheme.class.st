@@ -60,9 +60,6 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'border-radius' value: 6).
 		  (ToTokenProperty name: #'border-radius-LG' value: 8).
 		  (ToTokenProperty name: #'border-radius-SM' value: 4).
-		  (ToTokenProperty
-			   name: #'checkbox-image-builder'
-			   value: [ self defaultCheckboxBlankImage ]).
 
 		  (ToTokenProperty
 			   name: #'color-bg-container'
@@ -191,6 +188,9 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'list-node-padding-H' value: 2).
 		  (ToTokenProperty name: #'list-node-padding-V' value: 1).
 
+		  (ToTokenProperty
+			   name: #'checkbox-image-builder'
+			   value: [ self defaultCheckboxBlankImage ]).
 		  (ToTokenProperty
 			   name: #'switch-checked-background'
 			   value: self defaultColorPrimary).

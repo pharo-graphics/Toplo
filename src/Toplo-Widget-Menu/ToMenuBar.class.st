@@ -51,7 +51,9 @@ ToMenuBar >> addSeparator [
 
 	| sep |
 	self addChild: (sep := ToMenuBarSeparator new).
-	self when: ToLayoutOrientationChangedEvent do: [ sep horizontal: self isHorizontal not ].
+	self addEventHandler: (BlEventHandler
+			 on: ToLayoutOrientationChangedEvent
+			 do: [ sep horizontal: self isHorizontal not ]).
 	sep horizontal: self isHorizontal not
 ]
 

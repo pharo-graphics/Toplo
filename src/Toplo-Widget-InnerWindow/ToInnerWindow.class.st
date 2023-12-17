@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToInnerWindow',
-	#superclass : 'ToAbstractWindowElement',
+	#superclass : 'ToBasicWindowElement',
 	#traits : 'TToElementWithResizeGrips',
 	#classTraits : 'TToElementWithResizeGrips classTrait',
 	#instVars : [
@@ -46,7 +46,6 @@ ToInnerWindow >> defaultBarElement [
 
 	| b fill1 fill2 fill3 fill4 |
 	b := ToPane horizontal
-		     border: BlBorder empty;
 		     vFitContent;
 		     yourself.
 	b addEventHandler: (BlEventHandler
@@ -68,22 +67,18 @@ ToInnerWindow >> defaultBarElement [
 	expandButton withoutSkin.
 
 	fill1 := BlElement new
-		         background: Color transparent;
 		         constraintsDo: [ :c |
 			         c vertical exact: 1.
 			         c horizontal exact: 6 ].
 	fill2 := BlElement new
-		         background: Color transparent;
 		         constraintsDo: [ :c |
 			         c vertical exact: 1.
 			         c horizontal matchParent ].
 	fill3 := BlElement new
-		         background: Color transparent;
 		         constraintsDo: [ :c |
 			         c vertical exact: 1.
 			         c horizontal matchParent ].
 	fill4 := BlElement new
-		         background: Color transparent;
 		         constraintsDo: [ :c |
 			         c vertical exact: 1.
 			         c horizontal exact: 8 ].
@@ -104,35 +99,10 @@ ToInnerWindow >> defaultBarElement [
 ]
 
 { #category : 'initialization' }
-ToInnerWindow >> defaultBorder [
-
-	^ BlBorder paint: self defaultBorderPaint width: self defaultBorderWidth
-]
-
-{ #category : 'initialization' }
-ToInnerWindow >> defaultBorderPaint [
-
-	^ Color veryLightGray alpha: 0.8
-]
-
-{ #category : 'initialization' }
-ToInnerWindow >> defaultBorderWidth [
-
-	^ 2
-]
-
-{ #category : 'initialization' }
-ToInnerWindow >> defaultPaneBackground [
-
-	^ Color white
-]
-
-{ #category : 'initialization' }
 ToInnerWindow >> defaultPaneElement [
 
 	^ ToInnerWindowPane new
 		  matchParent;
-		  background: self defaultPaneBackground;
 		  layout: self defaultPaneLayout;
 		  yourself
 ]
@@ -192,10 +162,10 @@ ToInnerWindow >> installRawStyle [
 
 	super installRawStyle.
 
-	self background: Color lightGray.
 	self bar
 		padding: (BlInsets top: 2 bottom: 1);
-		outskirts: BlOutskirts inside.
+		outskirts: BlOutskirts inside;
+		border: (	self tokenValueNamed: #'color-border').
 	self closeButton icon: (ToImage inner: (self iconNamed: #windowCloseForm)).
 	self expandButton icon: (ToImage inner: (self iconNamed: #windowMaximizeForm)).
 

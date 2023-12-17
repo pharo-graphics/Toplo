@@ -6,11 +6,11 @@ Class {
 	#tag : 'Core-Tooltip'
 }
 
-{ #category : 'accessing' }
+{ #category : 'api - displaying' }
 ToTooltipWindow >> close [
 
 	self root removeChildren.
-	^super close
+	super close
 ]
 
 { #category : 'accessing' }
@@ -44,8 +44,6 @@ ToTooltipWindow >> initialize [
 ToTooltipWindow >> installRawStyle [
 
 	super installRawStyle.
-	self geometry: (BlRoundedRectangleGeometry cornerRadius: 8).
-	self border: (BlBorder paint: (Color gray alpha: 0.4)).
 	self background: Color yellow.
 	self padding: (BlInsets all: 4)
 ]

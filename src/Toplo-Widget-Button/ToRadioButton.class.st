@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'skin' }
-ToRadioButton >> iconGeometry [
+ToRadioButton >> newRawSkin [ 
 
-	^ BlCircleGeometry new
+	^ ToRadioButtonSkin new
 ]

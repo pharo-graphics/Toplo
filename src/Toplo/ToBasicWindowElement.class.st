@@ -1,5 +1,5 @@
 Class {
-	#name : 'ToAbstractWindowElement',
+	#name : 'ToBasicWindowElement',
 	#superclass : 'ToElement',
 	#instVars : [
 		'rootElement'
@@ -10,102 +10,89 @@ Class {
 }
 
 { #category : 'api - displaying' }
-ToAbstractWindowElement >> close [
+ToBasicWindowElement >> close [
 
-	self parentDo: [ :p | self removeFromParent ]
-]
-
-{ #category : 'initialization' }
-ToAbstractWindowElement >> defaultBorder [
-
-	^ BlBorder empty
+	self isOpened ifFalse: [ ^ self ].
+	self removeFromParent
 ]
 
 { #category : 'accessing' }
-ToAbstractWindowElement >> defaultElevation [
+ToBasicWindowElement >> defaultElevation [
 
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 1000)
 ]
 
 { #category : 'initialization' }
-ToAbstractWindowElement >> defaultGeometry [ 
-	
-	^ (BlRoundedRectangleGeometry cornerRadius: 4)
-]
-
-{ #category : 'initialization' }
-ToAbstractWindowElement >> defaultLayout [
+ToBasicWindowElement >> defaultLayout [
 
 	^ BlFrameLayout new
 ]
 
 { #category : 'initialization' }
-ToAbstractWindowElement >> defaultRootBackground [
-
-	^ Color transparent
-]
-
-{ #category : 'initialization' }
-ToAbstractWindowElement >> defaultRootElement [
+ToBasicWindowElement >> defaultRootElement [
 
 	^ ToElement new
-		  background: self defaultRootBackground;
 		  id: self defaultRootId;
 		  layout: self defaultRootLayout;
 		  fitContent
 ]
 
 { #category : 'initialization' }
-ToAbstractWindowElement >> defaultRootId [
+ToBasicWindowElement >> defaultRootId [
 
 	^ 'windowElement-root'
 ]
 
 { #category : 'initialization' }
-ToAbstractWindowElement >> defaultRootLayout [
+ToBasicWindowElement >> defaultRootLayout [
 
 	^ BlLinearLayout vertical 
 
 ]
 
 { #category : 'initialization' }
-ToAbstractWindowElement >> initialize [
+ToBasicWindowElement >> initialize [
 
 	super initialize.
-	
 	self
 		elevation: self defaultElevation;
-		border: self defaultBorder;
-		background: self defaultBackground;
 		layout: self defaultLayout;
-		outskirts: BlOutskirts outside;
-		geometry: self defaultGeometry;
 		fitContent.
 	self constraintsDo: [ :c | c ignoreByLayout ].	
 	self initializeRootElement 
 ]
 
 { #category : 'initialization' }
-ToAbstractWindowElement >> initializeRootElement [
+ToBasicWindowElement >> initializeRootElement [
 
 	rootElement := self defaultRootElement.
 	self addChild: rootElement
 ]
 
+{ #category : 'skin' }
+ToBasicWindowElement >> installRawStyle [
+
+	super installRawStyle.
+	self geometry: (BlRoundedRectangleGeometry cornerRadius:
+			 (self tokenValueNamed: #'border-radius-SM')).
+	self border: (self tokenValueNamed: #'color-border').
+	self background: (self tokenValueNamed: #'color-bg-container')
+]
+
 { #category : 'api - displaying' }
-ToAbstractWindowElement >> isClosed [
+ToBasicWindowElement >> isClosed [
 
 	^ self isOpened not
 ]
 
 { #category : 'api - displaying' }
-ToAbstractWindowElement >> isOpened [
+ToBasicWindowElement >> isOpened [
 
 	^ self hasParent
 ]
 
 { #category : 'accessing' }
-ToAbstractWindowElement >> root [
+ToBasicWindowElement >> root [
 	"Return my current root element.
 	root can not be nil"
 	
@@ -113,7 +100,7 @@ ToAbstractWindowElement >> root [
 ]
 
 { #category : 'accessing' }
-ToAbstractWindowElement >> root: anElement [
+ToBasicWindowElement >> root: anElement [
 
 	"Make a given element my root element.
 	anElement must not be nil.
@@ -125,7 +112,7 @@ ToAbstractWindowElement >> root: anElement [
 ]
 
 { #category : 'accessing' }
-ToAbstractWindowElement >> rootDo: aBlock [
+ToBasicWindowElement >> rootDo: aBlock [
 	"A helper method to evaluate a given block with the root element as its argument.
 	May be useful for scripting"
 
@@ -133,21 +120,21 @@ ToAbstractWindowElement >> rootDo: aBlock [
 ]
 
 { #category : 'initialization' }
-ToAbstractWindowElement >> rootLayout [
+ToBasicWindowElement >> rootLayout [
 
 	^ self root layout
 
 ]
 
 { #category : 'initialization' }
-ToAbstractWindowElement >> rootLayout: aLayout [
+ToBasicWindowElement >> rootLayout: aLayout [
 
 	self root layout: aLayout
 
 ]
 
 { #category : 'api - displaying' }
-ToAbstractWindowElement >> toFront [
+ToBasicWindowElement >> toFront [
 
 	self elevation: self defaultElevation.
 	self root elevation: self defaultElevation

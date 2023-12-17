@@ -24,10 +24,9 @@ Class {
 ToSwitchIcon >> applySize: aPoint [
 	" given my expected size, adapt the size of my handle and of onSide and offSide "
 
-	| handleWidth sideWidth |
+	| handleWidth  |
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: aPoint y / 2).
 	handleWidth := aPoint y - (self defaultHandleMarginWidth * 2).
-	sideWidth := aPoint x - handleWidth - (handleWidth / 2).
 	self handle size: handleWidth asPoint
 ]
 

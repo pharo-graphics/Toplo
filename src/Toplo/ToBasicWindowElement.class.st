@@ -16,7 +16,7 @@ ToBasicWindowElement >> close [
 	self removeFromParent
 ]
 
-{ #category : 'accessing' }
+{ #category : 'initialization' }
 ToBasicWindowElement >> defaultElevation [
 
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 1000)
@@ -40,7 +40,7 @@ ToBasicWindowElement >> defaultRootElement [
 { #category : 'initialization' }
 ToBasicWindowElement >> defaultRootId [
 
-	^ 'windowElement-root'
+	^ 'window-root'
 ]
 
 { #category : 'initialization' }
@@ -59,14 +59,15 @@ ToBasicWindowElement >> initialize [
 		layout: self defaultLayout;
 		fitContent.
 	self constraintsDo: [ :c | c ignoreByLayout ].	
+	rootElement := self defaultRootElement.
+	self addChild: rootElement.
 	self initializeRootElement 
 ]
 
 { #category : 'initialization' }
 ToBasicWindowElement >> initializeRootElement [
 
-	rootElement := self defaultRootElement.
-	self addChild: rootElement
+
 ]
 
 { #category : 'skin' }
@@ -76,7 +77,8 @@ ToBasicWindowElement >> installRawStyle [
 	self geometry: (BlRoundedRectangleGeometry cornerRadius:
 			 (self tokenValueNamed: #'border-radius-SM')).
 	self border: (self tokenValueNamed: #'color-border').
-	self background: (self tokenValueNamed: #'color-bg-container')
+	self background: (self tokenValueNamed: #'color-bg-container').
+	self outskirts: BlOutskirts outside 
 ]
 
 { #category : 'api - displaying' }
@@ -109,14 +111,6 @@ ToBasicWindowElement >> root: anElement [
 	rootElement ifNotNil: [ 
 		rootElement removeFromParent ].
 	rootElement := anElement
-]
-
-{ #category : 'accessing' }
-ToBasicWindowElement >> rootDo: aBlock [
-	"A helper method to evaluate a given block with the root element as its argument.
-	May be useful for scripting"
-
-	aBlock value: self root
 ]
 
 { #category : 'initialization' }

@@ -181,7 +181,7 @@ ToSkinManager >> requestInstallSkinIn: anElement [
 	(skinInstallRequestCount > 1 and: [ self skinInstaller notNil ])
 		ifTrue: [ ^ self ].
 	anElement space checkSkinPhases.
-	self skinInstaller: ToSkinInstaller new.
+	self skinInstaller: ToSkinInstaller new in: anElement.
 	skinInstallRequestCount > 1 ifTrue: [ ^ self ].
 	self applySkinInstallerOnFirstRequest ifFalse: [ ^ self ].
 	self skinInstaller applyOn: anElement
@@ -191,15 +191,16 @@ ToSkinManager >> requestInstallSkinIn: anElement [
 ToSkinManager >> requestUninstallSkinIn: anElement [
 	" having an installer which responds true to isInstalling means that the element 
 	is already installing a skin.
-	and a #requestNewSkin can be sent during a skin instalation.
-	Thus, to avoid infinite recurssion, do nothing if a skin installer is already installing"
+	and a #requestNewSkin can be sent during a skin installation.
+	Thus, to avoid infinite recurssion, do nothing if a skin installer is 
+	already installing"
 
 	| installer |
 	anElement installedSkin ifNil: [ ^ self ].
 	installer := self skinInstaller.
 	(installer notNil and: [ installer isInstalling ]) ifTrue: [ ^ self ].
 	self skinUninstaller ifNotNil: [ ^ self ].
-	self skinUninstaller: ToSkinUninstaller new
+	self skinUninstaller: ToSkinUninstaller new in: anElement
 ]
 
 { #category : 'accessing - skin' }
@@ -231,9 +232,11 @@ ToSkinManager >> skinInstaller [
 ]
 
 { #category : 'accessing' }
-ToSkinManager >> skinInstaller: aSkinInstaller [
+ToSkinManager >> skinInstaller: aSkinInstaller in: anElement [
 
-	skinInstaller := aSkinInstaller 
+	skinInstaller := aSkinInstaller.
+	aSkinInstaller ifNil: [ ^ self ].
+	anElement spaceDo: [ :sp | sp needSkinInstallPass: true ]
 ]
 
 { #category : 'accessing' }
@@ -249,9 +252,11 @@ ToSkinManager >> skinUninstaller [
 ]
 
 { #category : 'accessing' }
-ToSkinManager >> skinUninstaller: aSkinUninstaller [
+ToSkinManager >> skinUninstaller: aSkinUninstaller in: anElement [
 
-	skinUninstaller := aSkinUninstaller 
+	skinUninstaller := aSkinUninstaller.
+	aSkinUninstaller ifNil: [ ^ self ].
+	anElement spaceDo: [ :sp | sp needSkinInstallPass: true ]
 ]
 
 { #category : 'accessing - stylesheet' }

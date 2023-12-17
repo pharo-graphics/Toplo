@@ -17,13 +17,13 @@ BlSpace >> allowSkinPhases: aBoolean [
 { #category : '*Toplo' }
 BlSpace >> applyAllEnqueuedStates [
 
-	self root applyEnqueuedStatesRecursively
+	self skinPhasesManager applyAllEnqueuedStatesIn: self
 ]
 
 { #category : '*Toplo' }
 BlSpace >> applyAllSkinInstallers [
 
-	self root applySkinInstallerRecursively
+	self skinPhasesManager applyAllSkinInstallersIn: self
 ]
 
 { #category : '*Toplo' }
@@ -31,6 +31,18 @@ BlSpace >> checkSkinPhases [
 
 	self skinPhasesManager skinPhasesInstalled ifTrue: [^ self ].
 	self skinPhasesManager onInstalledIn: self
+]
+
+{ #category : '*Toplo' }
+BlSpace >> needSkinInstallPass [
+
+	^ self skinPhasesManager needSkinInstallPass
+]
+
+{ #category : '*Toplo' }
+BlSpace >> needSkinInstallPass: aBoolean [
+
+	self skinPhasesManager needSkinInstallPass: aBoolean
 ]
 
 { #category : '*Toplo' }

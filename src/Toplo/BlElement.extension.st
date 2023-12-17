@@ -317,7 +317,7 @@ BlElement >> skinInstaller [
 { #category : '*Toplo' }
 BlElement >> skinInstaller: aSkinInstaller [
 
-	self skinManager skinInstaller: aSkinInstaller
+	self skinManager skinInstaller: aSkinInstaller in: self
 ]
 
 { #category : '*Toplo' }
@@ -347,7 +347,7 @@ BlElement >> skinUninstaller [
 { #category : '*Toplo' }
 BlElement >> skinUninstaller: aSkinUninstaller [
 
-	self skinManager skinUninstaller: aSkinUninstaller
+	self skinManager skinUninstaller: aSkinUninstaller in: self
 ]
 
 { #category : '*Toplo' }

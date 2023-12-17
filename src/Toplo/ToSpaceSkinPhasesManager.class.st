@@ -169,9 +169,7 @@ ToSpaceSkinPhasesManager >> startSkinStateApplicationPhaseIn: aSpace [
 	(self isSkinStateApplicationPhaseInstalledIn: aSpace) ifTrue: [ ^ self ].
 	" The skin phase must be inserted before the layout phase (that must be present) "
 	phaseAfter := aSpace frame detectPhase: [ :f | f class = BlSpaceFrameLayoutPhase ].
-	aSpace frame addPhase: ToSpaceSkinStateApplicationPhase new before: phaseAfter.
-	phaseAfter := aSpace frame detectPhase: [ :f | f class = ToSpaceSkinInstallerPhase ].
-	aSpace frame addPhase: BlSpaceFrameLayoutPhase new before: phaseAfter
+	aSpace frame addPhase: ToSpaceSkinStateApplicationPhase new before: phaseAfter
 ]
 
 { #category : 'phases installation' }

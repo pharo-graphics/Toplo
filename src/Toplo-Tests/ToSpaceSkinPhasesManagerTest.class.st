@@ -22,6 +22,29 @@ ToSpaceSkinPhasesManagerTest >> testAllowSkinPhases [
 ]
 
 { #category : 'tests' }
+ToSpaceSkinPhasesManagerTest >> testApplyAllEnqueuedStatesIn [
+
+	| e |
+	e := ToElement new.
+	space root addChild: e.
+	space applyAllSkinInstallers.
+	e enqueueSkinState: (ToFocusState new focused: true).
+	self assert: e skinManager skinStateQueue nextStates size > 0.
+	space skinPhasesManager applyAllEnqueuedStatesIn: space.
+	self assert: e skinManager skinStateQueue nextStates size equals: 0.
+
+
+]
+
+{ #category : 'tests' }
+ToSpaceSkinPhasesManagerTest >> testApplyAllSkinInstallersIn [
+
+	space skinPhasesManager applyAllSkinInstallersIn: space.
+	self deny: space skinPhasesManager needSkinInstallPass 
+
+]
+
+{ #category : 'tests' }
 ToSpaceSkinPhasesManagerTest >> testCheckSkinPhasesIn [
 
 	space checkSkinPhases.
@@ -51,7 +74,8 @@ ToSpaceSkinPhasesManagerTest >> testInitialize [
 	m := ToSpaceSkinPhasesManager new.
 	self deny: m skinPhasesInstalled.
 	self deny: m  isSkinPhasesInstallationPostponed.
-	self assert: m allowSkinPhases
+	self assert: m allowSkinPhases.
+	self assert: m needSkinInstallPass 
 ]
 
 { #category : 'tests' }
@@ -103,6 +127,29 @@ ToSpaceSkinPhasesManagerTest >> testIsSkinStateApplicationPhaseInstalledIn [
 	space skinPhasesManager startSkinPhasesIn: space.
 	self assert: (space skinPhasesManager isSkinStateApplicationPhaseInstalledIn: space).
 
+]
+
+{ #category : 'tests' }
+ToSpaceSkinPhasesManagerTest >> testNeedSkinInstallPass [
+
+	| e |
+	e := ToElement new.
+	space applyAllSkinInstallers.
+	self deny: space needSkinInstallPass.
+	space root addChild: e.
+	self assert: space needSkinInstallPass.
+	space applyAllSkinInstallers.
+	" because of the theme installation with theme token properties installed on root "
+	self assert: space needSkinInstallPass.
+	space applyAllSkinInstallers.
+	self deny: space needSkinInstallPass.
+	e addStamp: #stamp.
+	self assert: space needSkinInstallPass
+	
+
+
+
+	
 ]
 
 { #category : 'tests' }

@@ -61,15 +61,26 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'border-radius-LG' value: 8).
 		  (ToTokenProperty name: #'border-radius-SM' value: 4).
 
+		  (ToTokenProperty name: #'animation-window-tooltip-opening' value: [ :win |
+			   win opacity: 0.3.
+			   win addAnimation:
+				   ((BlOpacityAnimation new opacity: 1.8) duration:
+					    800 milliSeconds) ]).
+		  (ToTokenProperty
+			   name: #'effect-window-tooltip'
+			   value:
+			   (BlGaussianShadowEffect
+				    color: Color gray
+				    width: 20
+				    offset: 0 asPoint)).
+
 		  (ToTokenProperty
 			   name: #'color-bg-container'
 			   value: (Color fromHexString: '#ffffff')).
 		  (ToTokenProperty
 			   name: #'color-bg-container-disabled'
 			   value: (Color black alpha: 0.04)).
-		  (ToTokenProperty
-			   name: #'color-bg-tooltip'
-			   value: (Color fromHexString: '#1b1b1b' )).
+		  (ToTokenProperty name: #'color-bg-tooltip' value: Color white).
 		  (ToTokenProperty
 			   name: #'color-bg-text-active'
 			   value: (Color black alpha: 0.15)).
@@ -149,7 +160,7 @@ ToTheme class >> defaultTokenProperties [
 			   value: (Color black alpha: 0.45)).
 		  (ToTokenProperty
 			   name: #'color-text-tooltip'
-			   value: (Color fromHexString: '#ffffff')).
+			   value: (Color fromHexString: '#313339')).
 
 		  (ToTokenProperty name: #'dash-array' value: #( 3 3 )).
 
@@ -209,11 +220,11 @@ ToTheme class >> defaultTokenProperties [
 			   value: Color lightGray).
 		  (ToTokenProperty
 			   name: #'switch-handle-disabled-background'
-			   value: Color veryLightGray ).
+			   value: Color veryLightGray).
 		  (ToTokenProperty
 			   name: #'switch-handle-enabled-background'
-			   value: Color white ).
-			
+			   value: Color white).
+
 		  (ToTokenProperty
 			   name: #'primary-selection-geometry-class'
 			   value: BlRoundedRectangleGeometry).

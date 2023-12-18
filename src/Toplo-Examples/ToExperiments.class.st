@@ -1372,12 +1372,18 @@ ToExperiments class >> example_twoChildrenInPolygon [
 
 	parent addChild: child.
 	parent addChild: child2.
-	parent when: BlMouseEnterEvent do: [ 'Enter' traceCr ].
-	parent when: BlMouseLeaveEvent do: [ 'Leave' traceCr ].
-	child when: BlClickEvent do: [
-		child2 hasParent
-			ifTrue: [ child2 removeFromParent ]
-			ifFalse: [ parent addChild: child2 ] ].
+	parent addEventHandler: (BlEventHandler
+			 on: BlMouseEnterEvent
+			 do: [ 'Enter' traceCr ]).
+	parent addEventHandler: (BlEventHandler
+			 on: BlMouseLeaveEvent
+			 do: [ 'Leave' traceCr ]).
+	child addEventHandler: (BlEventHandler
+			 on: BlClickEvent
+			 do: [
+				 child2 hasParent
+					 ifTrue: [ child2 removeFromParent ]
+					 ifFalse: [ parent addChild: child2 ] ]).
 
 	top := ToElement new fitContent.
 	top clipChildren: true.

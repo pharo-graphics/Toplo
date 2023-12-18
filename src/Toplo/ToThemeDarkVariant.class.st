@@ -6,24 +6,18 @@ Class {
 	#tag : 'Core-Theme'
 }
 
-{ #category : 'accessing' }
-ToThemeDarkVariant class >> label [
-
-	^ 'Dark variant'
-]
-
 { #category : 'space configurating' }
-ToThemeDarkVariant >> changedTokenProperties [
+ToThemeDarkVariant class >> changedTokenProperties [
 
 	^ Array streamContents: [ :str |
 		  str nextPutAll: {
-				  (ToTokenProperty name: #'background-color' value: Color black).
+				  (ToTokenProperty name: #'background-color' value: (Color fromHexString: '#313339')).
 				  (ToTokenProperty
 					   name: #'color-bg-container'
-					   value: (Color fromHexString: '#1b1b1b')).
+					   value: (Color fromHexString: '#313339')).
 				  (ToTokenProperty
 					   name: #'color-bg-tooltip'
-					   value: (Color fromHexString: '#ffffff')).
+					   value: (Color black)).
 
 				  (ToTokenProperty
 					   name: #'color-bg-container-disabled'
@@ -68,6 +62,12 @@ ToThemeDarkVariant >> changedTokenProperties [
 					   value: (Color white alpha: 0.45)).
 					(ToTokenProperty
 			   			name: #'color-text-tooltip'
-			   			value: (Color fromHexString: '#1b1b1b')).
+			   			value: (Color white)).
  } ]
+]
+
+{ #category : 'accessing' }
+ToThemeDarkVariant class >> label [
+
+	^ 'Dark variant'
 ]

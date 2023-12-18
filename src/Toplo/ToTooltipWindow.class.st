@@ -23,12 +23,11 @@ ToTooltipWindow >> initialize [
 { #category : 'skin' }
 ToTooltipWindow >> installRawStyle [
 
-	| anim |
 	super installRawStyle.
 	self opacity: 0.
-	anim := ((BlOpacityAnimation new opacity: 1.8) duration: 800 milliSeconds).
 	self background: (self tokenValueNamed: #'color-bg-tooltip').
-	self addAnimation: anim.
+	(self tokenValueNamed: #'animation-window-tooltip-opening') value: self.
+	self effect: (self tokenValueNamed: #'effect-window-tooltip').
 	self padding: (BlInsets
 				 top: (self tokenValueNamed: #'padding-content-V')
 				 left: (self tokenValueNamed: #'padding-content-H')

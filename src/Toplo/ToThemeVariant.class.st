@@ -7,9 +7,15 @@ Class {
 }
 
 { #category : 'space configurating' }
-ToThemeVariant >> changedTokenProperties [
+ToThemeVariant class >> changedTokenProperties [
 
 	^ {  }
+]
+
+{ #category : 'space configurating' }
+ToThemeVariant >> changedTokenProperties [
+
+	^ self class changedTokenProperties
 ]
 
 { #category : 'api - hooks' }

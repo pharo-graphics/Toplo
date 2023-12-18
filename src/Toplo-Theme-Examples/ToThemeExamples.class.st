@@ -196,16 +196,52 @@ ToThemeExamples class >> example_ToLabelWithHeadingSkin [
 { #category : 'examples - buttons' }
 ToThemeExamples class >> example_beeButtonsInRawPane [
 
-	| space primaryButton2 pane c chb disachb |
-	ToTheme cleanUp.
+	| space primaryButton2 pane c chb disachb themeSelect themePane themeVariant variantGroup lightVariantChk darkVariantChk variantPane mainPane |
 	space := BlSpace new.
-	space root layout: BlLinearLayout new.
-	space root layout beVertical.
+	space root layout: BlLinearLayout vertical. 
+	
+	themePane := ToPane horizontal.
+	variantPane := ToPane vertical.
+	variantPane fitContent.
+	variantPane padding: (BlInsets horizontal: 10).
 	pane := ToPane vertical.
-	pane padding: (BlInsets all: 15).
+
 	pane layout cellSpacing: 5.
-	pane border: Color lightGray.
-	space toTheme: ToBeeTheme light.
+
+	themeVariant := #light.
+
+	themeSelect := ToSelect new.
+	themeSelect width: 100.
+	themeSelect dataToTextConverter: [ :assoc | assoc key ].
+	themeSelect data addAll: {
+			('Bee' -> ToBeeTheme).
+			('Raw' -> ToRawTheme) }.
+	themeSelect selectIndex: 2.
+
+	themeSelect whenSelectedIndexChangedDo: [
+		space toTheme:
+			(themeSelect selectedData value perform: themeVariant) ].
+
+	variantGroup := ToCheckableGroup new.
+
+	lightVariantChk := ToCheckbox new
+		                   labelText: 'Light'.
+	darkVariantChk := ToCheckbox new
+		                  labelText: 'Dark'.
+	lightVariantChk defaultSkin: ToCheckboxSkin new.
+	darkVariantChk defaultSkin: ToCheckboxSkin new.
+	variantGroup addAll: {
+			lightVariantChk.
+			darkVariantChk }.
+	variantGroup addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event |
+				 themeVariant := event checkedButtons anyOne = lightVariantChk
+					                 ifTrue: [ #light ]
+					                 ifFalse: [ #dark ].
+				 space toTheme:
+					 (themeSelect selectedData value perform: themeVariant) ]).
+	lightVariantChk checked: true.
 
 	disachb := ToCheckbox new label:
 		           (ToLabel text: 'Disable all buttons').
@@ -220,10 +256,8 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 		                  tooltipText:
 			                  'When clicked, change the theme primary color to a random one';
 		                  yourself.
-	"primaryButton1 withStamp: #primary."
-	"darkStyleSheet := ToBeeStyleSheet new."
+
 	primaryButton2 := (ToButton id: #buttonA) labelText: 'Button 2'.
-	primaryButton2 inspect.
 	primaryButton1 whenClickedDo: [
 		c := Color random.
 		primaryButton2 setToken: #'color-primary' -> c.
@@ -247,13 +281,18 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 					 ifTrue: [ pane childrenDo: [ :child | child disable ] ]
 					 ifFalse: [ pane childrenDo: [ :child | child enable ] ] ]).
 
-	"primaryButton2 addAllTokenProperties: ToBeeDarkTheme defaultTokenProperties."
-	"primaryButton2 withStamp: #primary."
 	pane addChild: primaryButton1.
 	pane addChild: chb.
 	pane addChild: primaryButton2.
-	space root addChild: disachb.
-	space root addChild: pane.
+	themePane addChild: themeSelect.
+	variantPane addChildren: variantGroup buttons.
+	themePane addChild: variantPane.
+	mainPane := ToPane vertical.
+	mainPane padding: (BlInsets all: 10).
+	mainPane addChild: themePane.
+	mainPane addChild: disachb.
+	mainPane addChild: pane.
+	space root addChild: mainPane.
 	space show
 ]
 
@@ -261,7 +300,6 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 ToThemeExamples class >> example_buttons [
 
 	| space defaultButton box dashedButton textButton linkButton line1 line2 primaryButton |
-	ToTheme cleanUp.
 	space := self openThemeExampleSpace.
 	box := self elementSandBoxFor: space.
 

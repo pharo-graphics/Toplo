@@ -72,11 +72,7 @@ ToCheckboxSkin >> installLookEvent: anEvent [
 		e icon geometry: (self iconGeometryIn: e).
 		e border: (e tokenValueNamed: #'color-border-checkable').		
 		e icon border: (e tokenValueNamed: #'color-border').
-		e padding: (BlInsets
-				 top: (e tokenValueNamed: #'padding-content-V-S')
-				 left: (e tokenValueNamed: #'padding-content-H')
-				 bottom: (e tokenValueNamed: #'padding-content-V-S')
-				 right: (e tokenValueNamed: #'padding-content-H')) ]
+		e padding: (BlInsets vertical: (e tokenValueNamed: #'padding-content-V-S')) ]
 	
 ]
 

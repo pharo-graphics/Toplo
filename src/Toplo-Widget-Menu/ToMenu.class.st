@@ -52,10 +52,8 @@ ToMenu >> initialize [
 	self initializeWithMenuConstraints.
 	windowHandler := ToMenuWindowManager new element: self.
 	windowHandler builder: [ :menWin :request |
-		self requestNewSkin.
 		request currentTarget items do: [ :it |
-			menWin root addChild: it.
-			it requestNewSkin ] ]
+			menWin root addChild: it] ]
 ]
 
 { #category : 'initialization' }
@@ -69,14 +67,16 @@ ToMenu >> initializeWithMenuConstraints [
 ToMenu >> installRawStyle [
 
 	super installRawStyle.
-	self isSubmenu ifFalse: [ ^ self ].
-	"self parentMenu items do: [ :mi |
-		(mi isKindOf: ToMenuItem) ifTrue: [ mi filler width: 15] ]."
-	self filler width: 15.
+	self isSubmenu ifFalse: [
+		(self hasIcon and: [ self hasLabel ])
+			ifTrue: [ self interspace: 10 ]
+			ifFalse: [ self interspace: 0 ].
+		^ self ].
+	self parentMenu items do: [ :mi |
+		(mi isKindOf: ToMenuItem) ifTrue: [ mi filler width: 15 ] ].
 	self rightHandSide addChild: (ToLabel new
 			 text: '...';
-			 yourself).
-
+			 yourself)
 ]
 
 { #category : 'testing' }

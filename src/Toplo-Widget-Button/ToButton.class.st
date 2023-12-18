@@ -24,14 +24,7 @@ ToButton >> initialize [
 ToButton >> installRawStyle [
 
 	super installRawStyle.
-	self labeledIcon hMatchParent.
-	((self parent isKindOf: ToMenuItem) and: [ self parent isTopMenu not ])
-		ifTrue: [ ^ self ].
-	(self hasIcon and: [ self hasLabel ]) ifFalse: [
-		self interspace: 0.
-		^ self ].
-	self interspace: 10
-
+	self labeledIcon hMatchParent
 ]
 
 { #category : 't - element with labeled icon - accessing' }

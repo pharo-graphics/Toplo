@@ -31,6 +31,14 @@ ToMenuWindow >> includes: anElement [
 	^ false
 ]
 
+{ #category : 'skin' }
+ToMenuWindow >> installRawStyle [
+
+	super installRawStyle.
+	self padding: (BlInsets all: 5).
+	self effect: (self tokenValueNamed: #'effect-window-menu')
+]
+
 { #category : 'accessing' }
 ToMenuWindow >> itemHolder [
 

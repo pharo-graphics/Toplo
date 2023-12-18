@@ -150,7 +150,6 @@ ToLabeledIcon >> iconImage: anElement [
 { #category : 'initialization' }
 ToLabeledIcon >> initialize [
 
-	self class initializeSlots: self.
 	super initialize.
 
 	filler := ToElement new

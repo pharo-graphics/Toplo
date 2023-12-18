@@ -49,19 +49,15 @@ ToGeneralButtonMenuItem >> initialize [
 
 	super initialize.
 	self button: self buttonClass new.
+	self button withoutSkin.
 	self button clickEventClass: BlMouseUpEvent.
 	self layout: self defaultLayout
 ]
 
 { #category : 'skin' }
-ToGeneralButtonMenuItem >> installRawStyle [
+ToGeneralButtonMenuItem >> newRawSkin [
 
-	super installRawStyle.
-	self isTopMenu ifTrue: [ ^ self ].
-	self parentMenu ifNil: [ ^ self ].
-	(self parentMenu items anySatisfy: [ :mi | mi hasIcon ]) ifFalse: [
-		^ self ].
-	self button rightLabelAlignment: 25
+	^ ToGeneralButtonMenuItemSkin new
 ]
 
 { #category : 't - clickable - click behavior' }

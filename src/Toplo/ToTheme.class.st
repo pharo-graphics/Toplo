@@ -73,6 +73,13 @@ ToTheme class >> defaultTokenProperties [
 				    color: Color gray
 				    width: 20
 				    offset: 0 asPoint)).
+		  (ToTokenProperty
+			   name: #'effect-window-menu'
+			   value:
+			   (BlGaussianShadowEffect
+				    color: Color lightGray
+				    width: 15
+				    offset: 0 asPoint)).
 
 		  (ToTokenProperty
 			   name: #'color-bg-container'

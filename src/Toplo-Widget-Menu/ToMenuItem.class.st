@@ -59,6 +59,12 @@ ToMenuItem >> newFiller [
 		  yourself
 ]
 
+{ #category : 'skin' }
+ToMenuItem >> newRawSkin [
+
+	^ ToMenuItemSkin new
+]
+
 { #category : 'initialization' }
 ToMenuItem >> newRightHandSide [
 

@@ -1197,7 +1197,7 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.pdf')).
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.doc')).
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.xml')).
-	menu addItem: (ToMenu new label: (ToLabel text: 'Save as again...')).
+	menu addItem: (ToMenu new label: (ToLabel text: 'Save as again')).
 	menu items last addItem: saveAs.
 	menu addSeparator.
 	menu addItem: (ToMenuItem new label: (ToLabel text: 'Close')).
@@ -2063,9 +2063,11 @@ ToSandBox class >> example_menu6 [
 			center.
 			left }.
 
-	grp when: ToCheckableGroupChangedEvent do: [ :event |
-		('checked: ' , event checkedButtons asString , ' unchecked: '
-		 , event uncheckedButtons asString) traceCr ].
+	grp addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event |
+				 ('checked: ' , event checkedButtons asString , ' unchecked: '
+				  , event uncheckedButtons asString) traceCr ]).
 
 	menu addSeparator.
 
@@ -2097,9 +2099,11 @@ ToSandBox class >> example_menu6 [
 			right.
 			center.
 			left }.
-	grp when: ToCheckableGroupChangedEvent do: [ :event |
-		('checked: ' , event checkedButtons asString , ' unchecked: '
-		 , event uncheckedButtons asString) traceCr ].
+	grp addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event |
+				 ('checked: ' , event checkedButtons asString , ' unchecked: '
+				  , event uncheckedButtons asString) traceCr ]).
 
 	menu addSeparator.
 
@@ -2135,9 +2139,11 @@ ToSandBox class >> example_menu6 [
 			center.
 			left }.
 
-	grp when: ToCheckableGroupChangedEvent do: [ :event |
-		('checked: ' , event checkedButtons asString , ' unchecked: '
-		 , event uncheckedButtons asString) traceCr ].
+	grp addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event |
+				 ('checked: ' , event checkedButtons asString , ' unchecked: '
+				  , event uncheckedButtons asString) traceCr ]).
 
 	center checked: true.
 
@@ -2655,6 +2661,40 @@ ToSandBox class >> example_textFieldWithoutLineWrapping [
 	t openInSpace
 ]
 
+{ #category : 'checkbox' }
+ToSandBox class >> example_themeSelectPlusCheckbox [
+
+	| space themePane themeSelect chb |
+	space := BlSpace new.
+	space root layout: BlLinearLayout vertical.
+
+	themePane := ToPane horizontal.
+
+	themeSelect := ToSelect new.
+	themeSelect width: 100.
+	themeSelect dataToTextConverter: [ :assoc | assoc key ].
+	themeSelect data addAll: {
+			('Bee' -> ToBeeTheme).
+			('Raw' -> ToRawTheme) }.
+	themeSelect selectIndex: 2.
+
+	themeSelect whenSelectedIndexChangedDo: [
+		space toTheme: themeSelect selectedData value light ].
+
+	themePane addChild: themeSelect.
+	space root addChild: themePane.
+
+	chb := ToCheckbox new label: (ToLabel text: 'Swith primary').
+	chb defaultSkin: ToCheckboxSkin new.
+	chb labeledIcon addEventHandler: (BlEventHandler
+			 on: ToLayoutDirectionChangedEvent
+			 do: [ self halt ]).
+	chb inspect.
+
+	space root addChild: chb.
+	space show
+]
+
 { #category : 'button-dep' }
 ToSandBox class >> example_toAlbumAsButton [
 
@@ -2805,22 +2845,24 @@ ToSandBox class >> example_toButtonWithElementTooltip [
 { #category : 'button-dep' }
 ToSandBox class >> example_toButtonWithIconAndText [
 
-	| but space  icon |
+	| but space icon |
 	but := ToButton new.
 
 	but label: (ToLabel text: 'Button').
-	icon := ToImage new innerImage: (ToThemeIcons iconSearchOutlined16x16).
+	icon := ToImage new innerImage: ToThemeIcons iconSearchOutlined16x16.
 	but icon: icon.
 	"but effect: (BlGaussianShadowEffect
 					color: Color green
 					width: 4.5
 					offset: 0 @ 0)."
 	but effect: (BlBlurAboveEffect new radius: 20).
-	but when: BlPrimaryClickEvent do: [ :event | event currentTarget traceCr ].
+	but addEventHandler: (BlEventHandler
+			 on: BlPrimaryClickEvent
+			 do: [ :event | event currentTarget traceCr ]).
 
 	space := BlSpace new.
 	space root addChild: but.
-	space show 
+	space show
 ]
 
 { #category : 'button-dep' }

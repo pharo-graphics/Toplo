@@ -372,7 +372,7 @@ ToBeeTheme >> declareLabeledIconInButtonRules [
 		style: [
 			self
 				write: (self property: #layout)
-				with: BlLinearLayout horizontal.
+				with: [ :e | BlLinearLayout horizontal].
 
 			self write: (self property: #'layout-constraints') with: [ :e |
 				[ :c |

@@ -1,13 +1,13 @@
 Class {
-	#name : 'ToButtonSkin',
-	#superclass : 'ToGeneralButtonSkin',
-	#category : 'Toplo-Widget-Button-Core',
-	#package : 'Toplo-Widget-Button',
-	#tag : 'Core'
+	#name : 'ToMenuItemSkin',
+	#superclass : 'ToGeneralButtonMenuItemSkin',
+	#category : 'Toplo-Widget-Menu-Basic',
+	#package : 'Toplo-Widget-Menu',
+	#tag : 'Basic'
 }
 
 { #category : 'event handling' }
-ToButtonSkin >> disabledLookEvent: anEvent [
+ToMenuItemSkin >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -18,7 +18,7 @@ ToButtonSkin >> disabledLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToButtonSkin >> enabledLookEvent: anEvent [
+ToMenuItemSkin >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -29,7 +29,7 @@ ToButtonSkin >> enabledLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToButtonSkin >> hoveredLookEvent: anEvent [
+ToMenuItemSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -40,13 +40,11 @@ ToButtonSkin >> hoveredLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToButtonSkin >> installLookEvent: anEvent [
+ToMenuItemSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
-	anEvent elementDo: [ :e | 
-		(e hasIcon and: [ e hasLabel ])
-			ifTrue: [ e interspace: 10 ]
-			ifFalse: [ e interspace: 0 ].
+	anEvent elementDo: [ :e |
+		e labeledIcon hMatchParent.
 		e iconDo: [ :ic | ic formColor: (e tokenValueNamed: #'color-text') ].
 		e labelDo: [ :lab |
 			lab text attributes:
@@ -56,7 +54,7 @@ ToButtonSkin >> installLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToButtonSkin >> leavedLookEvent: anEvent [
+ToMenuItemSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
 	anEvent elementDo: [ :e |	
@@ -67,7 +65,7 @@ ToButtonSkin >> leavedLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToButtonSkin >> pressedLookEvent: anEvent [
+ToMenuItemSkin >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
 	anEvent elementDo: [ :e | 	

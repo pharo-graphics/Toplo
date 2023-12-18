@@ -29,8 +29,6 @@ ToTooltipWindow >> installRawStyle [
 	(self tokenValueNamed: #'animation-window-tooltip-opening') value: self.
 	self effect: (self tokenValueNamed: #'effect-window-tooltip').
 	self padding: (BlInsets
-				 top: (self tokenValueNamed: #'padding-content-V')
-				 left: (self tokenValueNamed: #'padding-content-H')
-				 bottom: (self tokenValueNamed: #'padding-content-V')
-				 right: (self tokenValueNamed: #'padding-content-H'))
+			 horizontal: (self tokenValueNamed: #'padding-content-H')
+			 vertical: (self tokenValueNamed: #'padding-content-V'))
 ]

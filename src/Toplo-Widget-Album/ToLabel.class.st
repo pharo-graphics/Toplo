@@ -207,8 +207,7 @@ ToLabel >> innerElement: anInnerElement [
 	handler := BlEventHandler
 		           on: ToTextReplacedEvent
 		           do: [ :evt |
-			           self text: evt text.
-			           self textAttributesBuilder applyOn: self text ].
+			           self text: evt text ].
 	innerElement addEventHandler: handler.
 
 	self addChild: innerElement
@@ -222,7 +221,8 @@ ToLabel >> installRawStyle [
 		weight: (self tokenValueNamed: #'font-weight-strong');
 		defaultFontName: (self tokenValueNamed: #'font-family-code');
 		defaultFontSize: (self tokenValueNamed: #'font-size');
-		lineSpacing: (self tokenValueNamed: #'line-height').
+		lineSpacing: (self tokenValueNamed: #'line-height');
+		foreground: (self tokenValueNamed: #'color-text').
 	(self hasStamp: #tooltip) ifTrue: [
 		self textAttributesBuilder 
 			foreground: (self tokenValueNamed: #'color-text-tooltip');

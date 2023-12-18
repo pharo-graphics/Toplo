@@ -13,6 +13,6 @@ ToSelectInnerButton >> installRawStyle [
 	self flexible: true.
 	self hMatchParent.
 	self icon: (ToImage inner: (Smalltalk ui icons iconNamed: #bottom)).
-	self iconDo: [ :ic | ic formColor: Color black ].
+	self iconDo: [ :ic | ic formColor: (self tokenValueNamed: #'color-text') ].
 
 ]

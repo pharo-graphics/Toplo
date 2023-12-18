@@ -5,6 +5,12 @@ Class {
 	#package : 'Toplo-Widget-Select'
 }
 
+{ #category : 'testing' }
+ToSelectItem >> closeOnMouseEvent [
+
+	^ true
+]
+
 { #category : 'skin' }
 ToSelectItem >> installRawStyle [ 
 

@@ -1,13 +1,13 @@
 Class {
-	#name : 'ToGeneralButtonSkin',
+	#name : 'ToGeneralButtonMenuItemSkin',
 	#superclass : 'ToRawSkin',
-	#category : 'Toplo-Widget-Button-Core',
-	#package : 'Toplo-Widget-Button',
-	#tag : 'Core'
+	#category : 'Toplo-Widget-Menu-Basic',
+	#package : 'Toplo-Widget-Menu',
+	#tag : 'Basic'
 }
 
 { #category : 'event handling' }
-ToGeneralButtonSkin >> disabledLookEvent: anEvent [
+ToGeneralButtonMenuItemSkin >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -17,16 +17,16 @@ ToGeneralButtonSkin >> disabledLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToGeneralButtonSkin >> enabledLookEvent: anEvent [
+ToGeneralButtonMenuItemSkin >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: (BlBorder paint: (e tokenValueNamed: #'color-border') width: (e tokenValueNamed: #'line-width')).
+		e border: (BlBorder paint: (Color transparent) width: (e tokenValueNamed: #'line-width')).
 		e background: (e tokenValueNamed: #'color-bg-container') ]
 ]
 
 { #category : 'event handling' }
-ToGeneralButtonSkin >> hoveredLookEvent: anEvent [
+ToGeneralButtonMenuItemSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -35,7 +35,7 @@ ToGeneralButtonSkin >> hoveredLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToGeneralButtonSkin >> installLookEvent: anEvent [
+ToGeneralButtonMenuItemSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -44,9 +44,10 @@ ToGeneralButtonSkin >> installLookEvent: anEvent [
 		e background: (e tokenValueNamed: #'color-bg-container').
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e tokenValueNamed: 'border-radius')).
-		e border: (BlBorder
-				 paint: (e tokenValueNamed: #'color-border')
-				 width: (e tokenValueNamed: #'line-width')).
+		e isTopMenu ifFalse: [ 
+		(e parentMenu notNil and: [
+			 e parentMenu items anySatisfy: [ :mi | mi hasIcon ] ]) ifTrue: [
+			e button rightLabelAlignment: 25 ] ].
 		e padding: (BlInsets
 				 top: (e tokenValueNamed: #'padding-content-V')
 				 left: (e tokenValueNamed: #'padding-XS')
@@ -55,16 +56,16 @@ ToGeneralButtonSkin >> installLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToGeneralButtonSkin >> leavedLookEvent: anEvent [
+ToGeneralButtonMenuItemSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: (BlBorder paint: (e tokenValueNamed: #'color-border') width: (e tokenValueNamed: #'line-width')).
+		e border: (BlBorder paint: (Color transparent) width: (e tokenValueNamed: #'line-width')).
 		e background: (e tokenValueNamed: #'color-bg-container') ]
 ]
 
 { #category : 'event handling' }
-ToGeneralButtonSkin >> pressedLookEvent: anEvent [
+ToGeneralButtonMenuItemSkin >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |

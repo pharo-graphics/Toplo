@@ -205,18 +205,21 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	pane padding: (BlInsets all: 15).
 	pane layout cellSpacing: 5.
 	pane border: Color lightGray.
-	"pane localToTheme: ToRawTheme new."
 	space toTheme: ToBeeTheme light.
 
-	disachb := ToCheckbox new label: (ToLabel text: 'Disable all buttons').
+	disachb := ToCheckbox new label:
+		           (ToLabel text: 'Disable all buttons').
 	disachb defaultSkin: ToCheckboxSkin new.
 
 	chb := ToCheckbox new label: (ToLabel text: 'Swith primary').
 	chb defaultSkin: ToCheckboxSkin new.
 
 	"Create some buttons with different skins"
-	primaryButton1 := (ToButton id: #buttonA) labelText:
-		                  'Change button 2 primary color'.
+	primaryButton1 := (ToButton id: #buttonA)
+		                  labelText: 'Change button 2 primary color';
+		                  tooltipText:
+			                  'When clicked, change the theme primary color to a random one';
+		                  yourself.
 	"primaryButton1 withStamp: #primary."
 	"darkStyleSheet := ToBeeStyleSheet new."
 	primaryButton2 := (ToButton id: #buttonA) labelText: 'Button 2'.
@@ -224,17 +227,25 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	primaryButton1 whenClickedDo: [
 		c := Color random.
 		primaryButton2 setToken: #'color-primary' -> c.
-		primaryButton2 setTokenNamed: #'color-primary-pressed' value: c twiceDarker.
-		primaryButton2 setTokenNamed: #'color-primary-hover' value: c twiceLighter ].
-	chb addEventHandler: (BlEventHandler on: ToCheckableCheckEvent do: [ :evt |
-		(evt current)
-			ifTrue: [ primaryButton2 addStamp: #primary ]
-			ifFalse: [ primaryButton2 removeStamp: #primary ] ]).
+		primaryButton2
+			setTokenNamed: #'color-primary-pressed'
+			value: c twiceDarker.
+		primaryButton2
+			setTokenNamed: #'color-primary-hover'
+			value: c twiceLighter ].
+	chb addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :evt |
+				 evt current
+					 ifTrue: [ primaryButton2 addStamp: #primary ]
+					 ifFalse: [ primaryButton2 removeStamp: #primary ] ]).
 	chb checked: true.
-	disachb addEventHandler: (BlEventHandler on: ToCheckableCheckEvent do: [ :evt |
-		(evt current)
-			ifTrue: [ pane childrenDo: [ :child | child disable ] ]
-			ifFalse: [ pane childrenDo: [ :child | child enable ] ] ]).
+	disachb addEventHandler: (BlEventHandler
+			 on: ToCheckableCheckEvent
+			 do: [ :evt |
+				 evt current
+					 ifTrue: [ pane childrenDo: [ :child | child disable ] ]
+					 ifFalse: [ pane childrenDo: [ :child | child enable ] ] ]).
 
 	"primaryButton2 addAllTokenProperties: ToBeeDarkTheme defaultTokenProperties."
 	"primaryButton2 withStamp: #primary."

@@ -129,6 +129,7 @@ TToElementWithTooltip >> tooltipString: aString [
 TToElementWithTooltip >> tooltipText: aText [
 
 	self tooltipContent: ((ToLabel text: aText asRopedText)
+			 addStamp: #tooltip;
 			 beMultiLine;
 			 yourself)
 ]

@@ -203,27 +203,36 @@ ToLabel >> innerElement: anInnerElement [
 	innerElement = anInnerElement ifTrue: [ ^ self ].
 	innerElement ifNotNil: [ innerElement removeFromParent ].
 	innerElement := anInnerElement.
-	
-	handler := (BlEventHandler on: ToTextReplacedEvent do: [ :evt | self text: evt text ]).
+
+	handler := BlEventHandler
+		           on: ToTextReplacedEvent
+		           do: [ :evt |
+			           self text: evt text.
+			           self textAttributesBuilder applyOn: self text ].
 	innerElement addEventHandler: handler.
-	
+
 	self addChild: innerElement
 ]
 
 { #category : 'skin' }
-ToLabel >> installRawStyle [ 
+ToLabel >> installRawStyle [
 
 	super installRawStyle.
-	self hasText ifFalse: [ ^ self ].
 	self textAttributesBuilder
 		weight: (self tokenValueNamed: #'font-weight-strong');
 		defaultFontName: (self tokenValueNamed: #'font-family-code');
 		defaultFontSize: (self tokenValueNamed: #'font-size');
 		lineSpacing: (self tokenValueNamed: #'line-height').
+	(self hasStamp: #tooltip) ifTrue: [
+		self textAttributesBuilder 
+			foreground: (self tokenValueNamed: #'color-text-tooltip');
+			defaultFontSize: (self tokenValueNamed: #'font-size-tooltip') ].
 	self isDisabled ifTrue: [
 		self textAttributesBuilder foreground:
 			(self tokenValueNamed: #'color-text-disabled') ].
-	self textAttributesBuilder applyOn: self text
+	self hasText ifFalse: [ ^ self ].
+	self textAttributesBuilder applyOn: self text.
+	self textChanged
 ]
 
 { #category : 'accessing' }

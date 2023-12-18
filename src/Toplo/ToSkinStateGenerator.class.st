@@ -46,6 +46,18 @@ ToSkinStateGenerator >> clickEvent: anEvent [
 		  other: [ self otherClickEvent: anEvent ]
 ]
 
+{ #category : 'window opening - closing handlers' }
+ToSkinStateGenerator >> contextMenuClosedEvent: anEvent [
+
+	self generateClosedStateFromEvent: anEvent
+]
+
+{ #category : 'window opening - closing handlers' }
+ToSkinStateGenerator >> contextMenuOpenedEvent: anEvent [
+
+	self generateOpenedStateFromEvent: anEvent
+]
+
 { #category : 'mouse handlers' }
 ToSkinStateGenerator >> doubleClickEvent: anEvent [
 
@@ -115,7 +127,9 @@ ToSkinStateGenerator >> eventsToHandle [
 		  BlMouseUpEvent.
 		  BlMousePickOutsideEvent.
 		  BlMouseEnterEvent.
-		  BlMouseLeaveEvent }
+		  BlMouseLeaveEvent.
+		ToWindowOpenedEvent.
+		ToWindowClosedEvent }
 ]
 
 { #category : 'focus events handling' }
@@ -138,6 +152,12 @@ ToSkinStateGenerator >> generateClickedStateFromEvent: anEvent [
 
 	self enqueueTransientStateFromLookEvent: (ToClickedLookEvent sourceEvent: anEvent)
 
+]
+
+{ #category : 'state generating' }
+ToSkinStateGenerator >> generateClosedStateFromEvent: anEvent [
+
+	self enqueueTransientStateFromLookEvent: (ToClosedLookEvent sourceEvent: anEvent)
 ]
 
 { #category : 'state generating' }
@@ -182,6 +202,12 @@ ToSkinStateGenerator >> generateLeavedStateFromEvent: anEvent [
 	leaved := true.
 	target isEnabled ifFalse: [ ^ self ].
 	self enqueueTransientStateFromLookEvent: (ToLeavedLookEvent sourceEvent: anEvent)
+]
+
+{ #category : 'state generating' }
+ToSkinStateGenerator >> generateOpenedStateFromEvent: anEvent [
+
+	self enqueueTransientStateFromLookEvent: (ToOpenedLookEvent sourceEvent: anEvent)
 ]
 
 { #category : 'state generating' }
@@ -494,4 +520,16 @@ ToSkinStateGenerator >> wantsEvent: anEvent [
 
 	anEvent currentTarget isEnabled ifFalse: [ ^ false ].
 	^ super wantsEvent: anEvent
+]
+
+{ #category : 'window opening - closing handlers' }
+ToSkinStateGenerator >> windowClosedEvent: anEvent [
+
+	self generateClosedStateFromEvent: anEvent
+]
+
+{ #category : 'window opening - closing handlers' }
+ToSkinStateGenerator >> windowOpenedEvent: anEvent [
+
+	self generateOpenedStateFromEvent: anEvent
 ]

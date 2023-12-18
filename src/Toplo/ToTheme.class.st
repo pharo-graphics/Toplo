@@ -68,6 +68,9 @@ ToTheme class >> defaultTokenProperties [
 			   name: #'color-bg-container-disabled'
 			   value: (Color black alpha: 0.04)).
 		  (ToTokenProperty
+			   name: #'color-bg-tooltip'
+			   value: (Color fromHexString: '#1b1b1b' )).
+		  (ToTokenProperty
 			   name: #'color-bg-text-active'
 			   value: (Color black alpha: 0.15)).
 		  (ToTokenProperty
@@ -144,12 +147,16 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty
 			   name: #'color-text-secondary'
 			   value: (Color black alpha: 0.45)).
+		  (ToTokenProperty
+			   name: #'color-text-tooltip'
+			   value: (Color fromHexString: '#ffffff')).
 
 		  (ToTokenProperty name: #'dash-array' value: #( 3 3 )).
 
 		  "#( 'SFMono-Regular' , Consolas , 'Liberation Mono', Menlo , Courier , monospace )"
 		  (ToTokenProperty name: #'font-family-code' value: 'SFMono-Regular').
 		  (ToTokenProperty name: #'font-size' value: 14).
+		  (ToTokenProperty name: #'font-size-tooltip' value: 12).
 		  (ToTokenProperty name: #'font-size-H1' value: 38).
 		  (ToTokenProperty name: #'font-size-H2' value: 30).
 		  (ToTokenProperty name: #'font-size-H3' value: 24).

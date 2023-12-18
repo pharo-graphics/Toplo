@@ -22,6 +22,10 @@ ToThemeDarkVariant >> changedTokenProperties [
 					   name: #'color-bg-container'
 					   value: (Color fromHexString: '#1b1b1b')).
 				  (ToTokenProperty
+					   name: #'color-bg-tooltip'
+					   value: (Color fromHexString: '#ffffff')).
+
+				  (ToTokenProperty
 					   name: #'color-bg-container-disabled'
 					   value: (Color white alpha: 0.15)).
 				  (ToTokenProperty
@@ -61,5 +65,9 @@ ToThemeDarkVariant >> changedTokenProperties [
 						    alpha: 0.88)).
 				  (ToTokenProperty
 					   name: #'color-text-secondary'
-					   value: (Color white alpha: 0.45)) } ]
+					   value: (Color white alpha: 0.45)).
+					(ToTokenProperty
+			   			name: #'color-text-tooltip'
+			   			value: (Color fromHexString: '#1b1b1b')).
+ } ]
 ]

@@ -60,9 +60,9 @@ TToElementWithContextMenuTest >> testContextMenuAddItem [
 { #category : 'tests' }
 TToElementWithContextMenuTest >> testContextMenuBuilder [
 
-	| e b |
+	| e b  |
 	e := ToElement new.
-	b := [:win :theElement | win addItem: ToMenuItem new ].
+	b := [:win :theRequest | win addItem: ToMenuItem new.  ].
 	e contextMenuBuilder: b.
 	self assert: e rawContextMenuWindowManager notNil.
 	self assert: e rawContextMenuWindowManager builder identicalTo: b.
@@ -120,6 +120,22 @@ TToElementWithContextMenuTest >> testContextMenuContent [
 		eh isKindOf: ToElementWithPopupEventHandler ]) not.
 	self should: [ttwin close] raise: Error.
 	^ e
+]
+
+{ #category : 'tests' }
+TToElementWithContextMenuTest >> testContextMenuRequest [
+
+	"test that context menu item are added on popup (an not on window instanciation)"
+	| e ttwin request |
+	e := ToElement new.
+	space root addChild: e.
+	self assert: e currentContextMenu isNil.
+	self assert: e rawContextMenuWindowManager isNil.
+	e contextMenu: [:win :theRequest | win addItem: ToMenuItem new. request := theRequest].
+	ttwin := e newContextMenuEvent: nil.
+	self assert: request notNil.
+	self assert: request class identicalTo: ttwin manager windowRequestClass.
+	self assert: request target identicalTo: e 
 ]
 
 { #category : 'tests' }

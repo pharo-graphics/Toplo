@@ -72,7 +72,7 @@ TToElementWithTooltip >> removeTooltipWindowManager [
 
 { #category : 't - element with tooltip' }
 TToElementWithTooltip >> tooltip: aValuable [
-	" aValuable take the window to build as first argument and the element with tooltip as second argument. if aValuable is nil, then the context menu builder is removed"
+	" aValuable take the window to build as first argument and the request event as second argument. if aValuable is nil, then the context menu builder is removed"
 
 	self tooltipBuilder: aValuable
 ]
@@ -86,7 +86,7 @@ TToElementWithTooltip >> tooltipBuilder [
 { #category : 't - element with tooltip' }
 TToElementWithTooltip >> tooltipBuilder: aValuable [
 
-	" aValuable take the tooltip window to build as first argument and the element with tooltip as second argument "
+	" aValuable take the tooltip window to build as first argument and the request event as second argument "
 	
 	aValuable 
 		ifNil: [
@@ -101,7 +101,7 @@ TToElementWithTooltip >> tooltipContent: anElement [
 	anElement ifNil: [
 		self removeTooltipWindowManager.
 		^ self ].
-	self tooltipBuilder: [ :win :element | win root addChild: anElement ]
+	self tooltipBuilder: [ :win :requestEventt | win root addChild: anElement ]
 ]
 
 { #category : 't - element with tooltip' }

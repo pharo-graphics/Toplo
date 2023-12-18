@@ -158,7 +158,7 @@ TToElementWithTooltipTest >> testTooltip [
 	tt := BlElement new.
 	e := ToElement new.
 	self assert: e hasTooltip not.
-	e tooltip: [:win :theElement | win root addChild: tt].
+	e tooltip: [:win :theRequest | win root addChild: tt].
 	self assert: e hasTooltip.
 	ttwin := e newTooltipWindowEvent: nil.
 	self assert: e currentTooltipWindow identicalTo: ttwin.
@@ -175,7 +175,7 @@ TToElementWithTooltipTest >> testTooltipBuilder [
 
 	| e b |
 	e := ToElement new.
-	b := [ :win :theElement | win root addChild: ToElement new ].
+	b := [ :win :theRequest | win root addChild: ToElement new ].
 	e tooltipBuilder: b.
 	self assert: e rawTooltipWindowManager notNil.
 	self assert: e rawTooltipWindowManager builder identicalTo: b.
@@ -220,6 +220,21 @@ TToElementWithTooltipTest >> testTooltipPopupDelay [
 ]
 
 { #category : 'tests' }
+TToElementWithTooltipTest >> testTooltipRequestEvent [
+
+	"test that context menu item are added on popup (an not on window instanciation)"
+	| tt e ttwin request |
+	tt := BlElement new.
+	e := ToElement new.
+	self assert: e hasTooltip not.
+	e tooltip: [:win :theRequest | win root addChild: tt. request := theRequest].
+	self assert: e hasTooltip.
+	ttwin := e newTooltipWindowEvent: nil.
+	self assert: request class identicalTo: ttwin manager windowRequestClass.
+	self assert: request target identicalTo: e
+]
+
+{ #category : 'tests' }
 TToElementWithTooltipTest >> testTooltipString [
 
 	| tt e ttwin |
@@ -257,7 +272,7 @@ TToElementWithTooltipTest >> testTooltipWindowManager [
 	e := ToElement new.
 	self assert: e currentTooltipWindow isNil.
 	self assert: e rawTooltipWindowManager isNil.
-	e tooltip: [:win :theElement | win root addChild: ToElement new].
+	e tooltip: [:win :theRequest | win root addChild: ToElement new].
 	self assert: e hasTooltip.
 	self assert: e rawTooltipWindowManager notNil.
 	e newTooltipWindowEvent: nil.

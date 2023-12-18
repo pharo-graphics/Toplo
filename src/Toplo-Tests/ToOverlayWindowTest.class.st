@@ -17,7 +17,7 @@ ToOverlayWindowTest >> testWindowSize [
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	windowHandler := ToOverlayWindowManager new builder: [ :anchWin  :element | ].
+	windowHandler := ToOverlayWindowManager new builder: [ :anchWin  :requestEvent | ].
 	windowHandler element: e.
 	win := windowHandler newWindowEvent: nil.
 	win popup.
@@ -50,7 +50,7 @@ ToOverlayWindowTest >> testWindowSize2 [
 	space root addChild: e.
 	e position: 10 asPoint.
 	e size: 10 asPoint.
-	windowHandler := ToOverlayWindowManager new builder: [ :anchWin  :element |
+	windowHandler := ToOverlayWindowManager new builder: [ :anchWin  :requestEvent |
 		anchWin root addChild: (ToElement new size: 100 asPoint) ].
 	windowHandler element: e.
 	win := windowHandler newWindowEvent: nil.

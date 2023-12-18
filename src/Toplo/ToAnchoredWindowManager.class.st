@@ -63,8 +63,9 @@ ToAnchoredWindowManager >> currentWindow: aWindowElement [
 
 { #category : 'initialization' }
 ToAnchoredWindowManager >> defaultBuilder [
+	" return a valuable used to build the window. The window is passed as first argument and the argument is request event "
 
-	^ [ :theWindow :theElement | ]
+	^ [ :theWindow :theRequest | ]
 
 	
 ]

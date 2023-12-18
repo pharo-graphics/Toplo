@@ -7,7 +7,7 @@ Trait {
 
 { #category : 't - element with context menu' }
 TToElementWithContextMenu >> contextMenu: aValuable [
-	" aValuable take the context menu to build as first argument and the element with context menu as second argument. if aValuable is nil, then the context menu builder is removed"
+	" aValuable take the context menu to build as first argument and the request event as second argument. if aValuable is nil, then the context menu builder is removed"
 
 	self contextMenuBuilder: aValuable
 ]
@@ -21,7 +21,7 @@ TToElementWithContextMenu >> contextMenuBuilder [
 { #category : 't - element with context menu' }
 TToElementWithContextMenu >> contextMenuBuilder: aValuable [
 
-	" aValuable take the context menu to build as first argument and the element with context menu as second aargument "
+	" aValuable take the context menu to build as first argument and the request event  as second aargument "
 	
 	aValuable 
 		ifNil: [
@@ -36,7 +36,7 @@ TToElementWithContextMenu >> contextMenuContent: anArray [
 	anArray ifNil: [
 		self removeContextMenuWindowManager.
 		^ self ].
-	self contextMenuBuilder: [ :win :element | win addAllItems: anArray ]
+	self contextMenuBuilder: [ :win :theRequestEvent | win addAllItems: anArray ]
 ]
 
 { #category : 't - element with context menu' }

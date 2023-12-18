@@ -29,34 +29,117 @@ ToAnchoredWindowTest >> testDefaultElevation [
 ]
 
 { #category : 'tests' }
-ToAnchoredWindowTest >> testPopupEvent [
+ToAnchoredWindowTest >> testElement [
 
-	| win e  timeStamp windowHandler |
+	| win e  windowManager |
+	win := ToAnchoredWindow new.
+	self assert: win element isNil.
+	e := ToElement new.
+	space root addChild: e.
+	self waitTestingSpaces.
+
+	windowManager := ToAnchoredWindowManager new.
+	windowManager element: e.
+	win := windowManager newWindowEvent: nil.
+	self assert: win element identicalTo: e.
+]
+
+{ #category : 'tests' }
+ToAnchoredWindowTest >> testHasAssociateElement [
+
+	| win e  windowManager |
+	win := ToAnchoredWindow new.
+	self deny: win hasAssociateElement.
+	self should: [win popup] raise: Error.
+	e := ToElement new.
+	space root addChild: e.
+	self waitTestingSpaces.
+
+	windowManager := ToAnchoredWindowManager new.
+	windowManager element: e.
+	win := windowManager newWindowEvent: nil.
+	self assert: win hasAssociateElement.
+]
+
+{ #category : 'tests' }
+ToAnchoredWindowTest >> testManager [
+
+	| win e  windowManager |
+	win := ToAnchoredWindow new.
+	self assert: win manager isNil.
+	self should: [win popup] raise: Error.
+	e := ToElement new.
+	space root addChild: e.
+	self waitTestingSpaces.
+
+	windowManager := ToAnchoredWindowManager new.
+	windowManager element: e.
+	win := windowManager newWindowEvent: nil.
+	self assert: win manager identicalTo: windowManager
+]
+
+{ #category : 'tests' }
+ToAnchoredWindowTest >> testOpenedEventClass [
+
+	| win windowManager e openedEvent |
+	e := ToElement new.
+	space root addChild: e.
+	windowManager := ToAnchoredWindowManager new builder: [ :anchWin :element | ].
+	windowManager element: e.
+	win := windowManager newWindowEvent: nil.
+	win addEventHandler: (BlEventHandler on: win openedEventClass do: [:event | openedEvent := event]).
+	self assert: openedEvent isNil.
+	win popup.
+	" need to wait space pulsing "
+	self waitTestingSpaces.
+	self assert: openedEvent notNil
+]
+
+{ #category : 'tests' }
+ToAnchoredWindowTest >> testPopup [
+
+	| win e  windowHandler openedEvent |
 	e := ToElement new.
 	space root addChild: e.
 	self waitTestingSpaces.
 	self applyAllEnqueuedStates.
 
-	windowHandler := ToAnchoredWindowManager new builder: [ :anchWin :element | ].
+	windowHandler := ToAnchoredWindowManager new.
 	windowHandler element: e.
 	win := windowHandler newWindowEvent: nil.
-
-	self assert: win isOpened not.
-	self assert: win isClosed.
-	self assert: win popupTimestamp isNil.
+	win addEventHandler: (BlEventHandler on: win openedEventClass do: [:event | openedEvent := event]).
 	win popup.
 	self waitTestingSpaces.
+	self assert: openedEvent sourceEvent isNil
+]
 
-	self assert: win popupTimestamp notNil.
-	timeStamp := win popupTimestamp.
-	self assert: win popupTimestamp <= DateAndTime now.
-	self assert: win isOpened.
-	self assert: win isClosed not.
-	win close.
+{ #category : 'tests' }
+ToAnchoredWindowTest >> testPopupEvent [
+
+	| win e  windowHandler openedEvent sourceEvent |
+	e := ToElement new.
+	space root addChild: e.
 	self waitTestingSpaces.
-	self assert: win popupTimestamp equals: timeStamp.
-	self assert: win isOpened not.
-	self assert: win isClosed
+	self applyAllEnqueuedStates.
+
+	windowHandler := ToAnchoredWindowManager new.
+	windowHandler element: e.
+	win := windowHandler newWindowEvent: nil.
+	win addEventHandler: (BlEventHandler on: win openedEventClass do: [:event | openedEvent := event]).
+	win popupEvent: nil.
+	self waitTestingSpaces.
+	self assert: openedEvent sourceEvent isNil.
+	win close.
+	sourceEvent := BlEvent new.
+	win := windowHandler newWindowEvent: nil.
+	win addEventHandler: (BlEventHandler on: win openedEventClass do: [:event | openedEvent := event]).
+	win popupEvent: sourceEvent.
+	self waitTestingSpaces.
+	self assert: openedEvent sourceEvent identicalTo: sourceEvent.
+	
+	
+
+
 ]
 
 { #category : 'tests' }
@@ -114,6 +197,33 @@ ToAnchoredWindowTest >> testPopupEventWithoutElement [
 	w := ToAnchoredWindow new.
 	self assert: w hasAssociateElement not.
 	self should: [ w popup ] raise: Error
+]
+
+{ #category : 'tests' }
+ToAnchoredWindowTest >> testPopupTimeStamp [
+
+	| win windowManager e openedEvent timeStamp |
+	e := ToElement new.
+	space root addChild: e.
+	windowManager := ToAnchoredWindowManager new builder: [ :anchWin :element | ].
+	windowManager element: e.
+	win := windowManager newWindowEvent: nil.
+	win addEventHandler: (BlEventHandler on: win openedEventClass do: [:event | openedEvent := event]).
+	self assert: openedEvent isNil.
+	self assert: win popupTimestamp isNil.
+	win popup.
+	self waitTestingSpaces.
+
+	self assert: win popupTimestamp notNil.
+	timeStamp := win popupTimestamp.
+	self assert: win popupTimestamp <= DateAndTime now.
+	self assert: win isOpened.
+	self assert: win isClosed not.
+	win close.
+	self waitTestingSpaces.
+	self assert: win popupTimestamp equals: timeStamp.
+	self assert: win isOpened not.
+	self assert: win isClosed
 ]
 
 { #category : 'tests' }

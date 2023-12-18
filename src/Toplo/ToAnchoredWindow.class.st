@@ -54,8 +54,8 @@ ToAnchoredWindow >> dispatchClosedEvent [
 
 	| event |
 	event := self closedEventClass new.
-	self element ifNotNil: [ :w | w dispatchEvent: event ].
-	self dispatchEvent: event copy.
+	self element dispatchEvent: event copy.
+	self dispatchEvent: event.
 
 ]
 
@@ -67,26 +67,25 @@ ToAnchoredWindow >> dispatchOpenedEvent: anEvent [
 		         sourceEvent: anEvent;
 		         yourself.
 	self dispatchEvent: event.
-	self element ifNotNil: [ :w | w dispatchEvent: event copy ]
+	self element dispatchEvent: event copy
 ]
 
 { #category : 'accessing' }
 ToAnchoredWindow >> element [
 
-	^ windowManager ifNotNil: [:h | h element]
+	^ self manager ifNotNil: [:h | h element]
 ]
 
-{ #category : 'start' }
+{ #category : 'testing' }
 ToAnchoredWindow >> hasAssociateElement [
 
 	^ self element notNil
 ]
 
-{ #category : 'initialization' }
-ToAnchoredWindow >> initialize [
+{ #category : 'accessing' }
+ToAnchoredWindow >> manager [
 
-	super initialize.
-	self fitContent
+	^ windowManager 
 ]
 
 { #category : 'accessing' }
@@ -111,7 +110,9 @@ ToAnchoredWindow >> popup [
 ToAnchoredWindow >> popupEvent: anEvent [
 	" I have to set the position here "
 
-	self element ifNil: [
+	self manager ifNil: [
+		Error signal: 'Can''t popup an anchored window without window manager' ].
+	self hasAssociateElement ifFalse: [
 		Error signal: 'Can''t popup an anchored window without associate element' ].
 	self element isAttachedToSceneGraph ifFalse: [
 		Error signal: 'Can''t popup an anchored window if the element is not attached to a space' ].

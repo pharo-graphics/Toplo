@@ -118,8 +118,7 @@ TToElementWithContextMenuTest >> testContextMenuContent [
 	self assert: e hasContextMenu not.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
 		eh isKindOf: ToElementWithPopupEventHandler ]) not.
-
-	ttwin close.
+	self should: [ttwin close] raise: Error.
 	^ e
 ]
 

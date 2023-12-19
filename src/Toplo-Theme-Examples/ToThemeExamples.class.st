@@ -210,7 +210,7 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 
 	themeVariant := #light.
 
-	themeSelect := ToSelect new.
+	themeSelect := ToChoiceMenu new.
 	themeSelect dataToTextConverter: [ :assoc | assoc key ].
 	themeSelect data addAll: {
 			('Bee Theme' -> ToBeeTheme).

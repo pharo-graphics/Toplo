@@ -1,40 +1,27 @@
 Class {
-	#name : 'ToSelect',
-	#superclass : 'ToElement',
-	#traits : 'TObservable',
+	#name : 'ToChoiceMenu',
+	#superclass : 'ToMenu',
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
 		'group',
-		'menuButton',
 		'data',
 		'dataToTextConverter',
-		'selectedIndex'
+		'selectedIndex',
+		'defaultLabel'
 	],
-	#category : 'Toplo-Widget-Select',
-	#package : 'Toplo-Widget-Select'
+	#category : 'Toplo-Widget-Menu-Choice menu',
+	#package : 'Toplo-Widget-Menu',
+	#tag : 'Choice menu'
 }
 
 { #category : 'adding / removing' }
-ToSelect >> addData: anObject [
+ToChoiceMenu >> addData: anObject [
 
 	self data add: anObject
 ]
 
-{ #category : 'adding / removing' }
-ToSelect >> addSeparator [
-
-	menuButton addSeparator
-]
-
-{ #category : 'initialization' }
-ToSelect >> beFlexible [
-
-	menuButton hMatchParent.
-	menuButton flexible: true
-]
-
 { #category : 'api - change hook' }
-ToSelect >> checked: anItem [
+ToChoiceMenu >> checked: anItem [
 
 	anItem ifNil: [
 		self selectData: nil.
@@ -46,64 +33,82 @@ ToSelect >> checked: anItem [
 ]
 
 { #category : 'accessing' }
-ToSelect >> data [
+ToChoiceMenu >> data [
 
 	^ data 
 ]
 
 { #category : 'accessing' }
-ToSelect >> dataToTextConverter [
+ToChoiceMenu >> dataToTextConverter [
 
 	^ dataToTextConverter
 ]
 
 { #category : 'accessing' }
-ToSelect >> dataToTextConverter: aValuable [
+ToChoiceMenu >> dataToTextConverter: aValuable [
 
 	dataToTextConverter := aValuable
 ]
 
 { #category : 'accessing' }
-ToSelect >> group [
+ToChoiceMenu >> defaultLabel [ 
+
+	^ defaultLabel
+]
+
+{ #category : 'accessing' }
+ToChoiceMenu >> defaultLabel: aLabel [
+
+	defaultLabel = aLabel ifTrue: [ ^ self ].
+	defaultLabel := aLabel.
+	self selectedIndex > 0 ifFalse: [ self label: self defaultLabel ]
+]
+
+{ #category : 'accessing' }
+ToChoiceMenu >> defaultLabelText: aText [
+
+	self defaultLabel: (ToLabel text: aText)
+]
+
+{ #category : 'accessing' }
+ToChoiceMenu >> group [
 
 	^ group
 ]
 
 { #category : 'api - change hook' }
-ToSelect >> indexOfData: aData [
+ToChoiceMenu >> indexOfData: aData [
 
 	^ self data indexOf: aData ifAbsent: [ 0 ]
 ]
 
 { #category : 'initialization' }
-ToSelect >> initialize [
+ToChoiceMenu >> initialize [
 
 	super initialize.
 	dataToTextConverter := [ :i | i ].
 	selectedIndex := 0.
 	self privateData: self newDataCollection.
-	self layout: self defaultLayout.
-	self fitContent.
-	menuButton := ToSelectInnerButton new.
 	group := ToCheckableGroup new.
-	self addChild: menuButton.
 	group addEventHandler: (BlEventHandler
 			 on: ToCheckableGroupChangedEvent
 			 do: [ :event | " #checked: must be sent before #unchecked: "
 				 event checkedButtons do: [ :e | self checked: e ].
-				 event uncheckedButtons do: [ :e | self unchecked: e ] ]).
-	self showPlaceholder 
+				 event uncheckedButtons do: [ :e | self unchecked: e ] ])
+]
 
+{ #category : 'skin' }
+ToChoiceMenu >> installRawStyle [ 
+
+	super installRawStyle.
+	self beLabelFirst.
+	self flexible: true.
+	self interspace: 10.
+	self icon: (ToImage inner: (Smalltalk ui icons iconNamed: #bottom))
 ]
 
 { #category : 'accessing' }
-ToSelect >> menuButton [
-
-	^ menuButton 
-]
-
-{ #category : 'accessing' }
-ToSelect >> menuItemFromData: anObject [
+ToChoiceMenu >> menuItemFromData: anObject [
 
 	^ group buttons
 		  detect: [ :i | i label text asString = (self dataToTextConverter value: anObject) asString ]
@@ -111,50 +116,51 @@ ToSelect >> menuItemFromData: anObject [
 ]
 
 { #category : 'initialization' }
-ToSelect >> newDataCollection [
+ToChoiceMenu >> newDataCollection [
 
 	^ ToObservableCollection new
 ]
 
 { #category : 'private - accessing' }
-ToSelect >> newMenuItemFromData: anObject [
+ToChoiceMenu >> newMenuItemFromData: anObject [
 
-	^ ToSelectItem new
+	^ ToChoiceItem new
 		  labelText: (self dataToTextConverter value: anObject)
 		  yourself
 ]
 
 { #category : 'private - notifications' }
-ToSelect >> notifyChanged [
+ToChoiceMenu >> notifyChanged [
 
-	self dispatchEvent: ToSelectChangedEvent new
+	self dispatchEvent: ToChoiceChangedEvent new
 ]
 
 { #category : 'private - notifications' }
-ToSelect >> notifyDataChanged: anInterval [
+ToChoiceMenu >> notifyDataChanged: anInterval [
 
 	anInterval ifEmpty: [ ^ self ].
 	anInterval do: [ :idx |
 		| prevItem newItem |
-		prevItem := self menuButton items at: idx.
+		prevItem := self items at: idx.
 		newItem := self newMenuItemFromData: (self data at: idx).
-		self menuButton replaceItemAt: idx with: newItem.
+		self flag: 'ToDo'.
+		self replaceItemAt: idx with: newItem.
 		self group replace: prevItem with: newItem.
 		(self selectedData = self data at: idx) ifTrue: [ self selectData: nil ] ]
 ]
 
 { #category : 'private - notifications' }
-ToSelect >> notifyDataInserted: anInterval [
+ToChoiceMenu >> notifyDataInserted: anInterval [
 
-	| items |
+	| found |
 	anInterval ifEmpty: [ ^ self ].
-	items := anInterval collect: [ :idx | self newMenuItemFromData: (self data at: idx) ].
-	self menuButton addAllItems: items.
-	self group addAll: items
+	found := anInterval collect: [ :idx | self newMenuItemFromData: (self data at: idx) ].
+	self addAllItems: found.
+	self group addAll: found
 ]
 
 { #category : 'private - notifications' }
-ToSelect >> notifyDataRemoved: anInterval [
+ToChoiceMenu >> notifyDataRemoved: anInterval [
 
 	| removedData |
 	anInterval ifEmpty: [ ^ self ].
@@ -162,13 +168,13 @@ ToSelect >> notifyDataRemoved: anInterval [
 	removedData do: [ :d |
 		| item |
 		item := self menuItemFromData: d.
-		self menuButton removeItem: item.
+		self removeItem: item.
 		self group remove: item.
 		self selectedData = d ifTrue: [ self selectData: nil ] ]
 ]
 
 { #category : 'api - change hook' }
-ToSelect >> placeholderChanged [
+ToChoiceMenu >> placeholderChanged [
 
 	self selectedData ifNotNil: [
 		self hidePlaceholder.
@@ -177,7 +183,7 @@ ToSelect >> placeholderChanged [
 ]
 
 { #category : 'private - accessing' }
-ToSelect >> privateData: anObservableCollection [
+ToChoiceMenu >> privateData: anObservableCollection [
 
 	data := anObservableCollection.
 	data whenAddChangeDo: [ :ann | self notifyDataInserted: ann interval ].
@@ -188,17 +194,16 @@ ToSelect >> privateData: anObservableCollection [
 ]
 
 { #category : 'private - accessing' }
-ToSelect >> privateSelectedIndex: anInteger [
+ToChoiceMenu >> privateSelectedIndex: anInteger [
 
 	selectedIndex := anInteger.
 	self selectedIndexChanged.
-	self showHidePlaceHolder.
-	self dispatchEvent: ToSelectSelectedIndexChangeEvent new.
+	self dispatchEvent: ToChoiceSelectedIndexChangeEvent new.
 
 ]
 
 { #category : 'adding / removing' }
-ToSelect >> removeData: anObject [
+ToChoiceMenu >> removeData: anObject [
 
 	| item |
 	item := self menuItemFromData: anObject.
@@ -207,7 +212,7 @@ ToSelect >> removeData: anObject [
 ]
 
 { #category : 'accessing' }
-ToSelect >> selectData: aData [
+ToChoiceMenu >> selectData: aData [
 	| idx |
 	idx := self indexOfData: aData.
 	self selectedIndex = idx ifTrue: [ ^ self ].
@@ -215,7 +220,7 @@ ToSelect >> selectData: aData [
 ]
 
 { #category : 'accessing' }
-ToSelect >> selectIndex: anInteger [
+ToChoiceMenu >> selectIndex: anInteger [
 
 	self selectedIndex = anInteger ifTrue: [ ^ self ].
 	anInteger > self data size ifTrue: [ ^ self ].
@@ -223,7 +228,7 @@ ToSelect >> selectIndex: anInteger [
 ]
 
 { #category : 'accessing' }
-ToSelect >> selectedData [
+ToChoiceMenu >> selectedData [
 
 	^ self selectedIndex isZero
 		  ifTrue: [ nil ]
@@ -231,47 +236,39 @@ ToSelect >> selectedData [
 ]
 
 { #category : 'accessing' }
-ToSelect >> selectedIndex [
+ToChoiceMenu >> selectedIndex [
 
 	^ selectedIndex 
 ]
 
 { #category : 'api - change hook' }
-ToSelect >> selectedIndexChanged [
+ToChoiceMenu >> selectedIndexChanged [
 
 	| menuItem |
 	self selectedData ifNil: [
-		self showPlaceholder.
+		self label: self defaultLabel.
 		^ self ].
 	menuItem := self menuItemFromData: self selectedData.
 	menuItem ifNil: [ ^ self error: 'A menu item should exist for the current selectedData' ].
-	menuButton label: (ToLabel text: (self dataToTextConverter value: self selectedData) copy).
+	self label: (ToLabel text: (self dataToTextConverter value: self selectedData) copy).
 	menuItem checked ifFalse: [ menuItem check ]
 ]
 
-{ #category : 'private - accessing' }
-ToSelect >> showHidePlaceHolder [
-
-	self selectedIndex > 0
-		ifTrue: [ self hidePlaceholder ]
-		ifFalse: [ self showPlaceholder ]
-]
-
 { #category : 'api - change hook' }
-ToSelect >> unchecked: anItem [
+ToChoiceMenu >> unchecked: anItem [
 
 	self group checkedButtons ifNotEmpty: [ ^ self ].
 	self selectData: nil
 ]
 
 { #category : 'accessing' }
-ToSelect >> withStrictCheckingStrategy [
+ToChoiceMenu >> withStrictCheckingStrategy [
 
 	self group withStrictCheckingStrategy
 ]
 
 { #category : 'accessing' }
-ToSelect >> withUncheckingStrategy [
+ToChoiceMenu >> withUncheckingStrategy [
 
 	self group withUncheckingStrategy
 ]

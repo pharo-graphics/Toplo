@@ -110,6 +110,10 @@ BaselineOfToplo >> registerPackages: spec [
 	spec
 		package: #'Toplo-Widget-Menu'
 		with: [ spec requires: #( #Toplo #'Toplo-Widget-Button' #'Toplo-Theme') ].
+		
+	spec
+		package: #'Toplo-Widget-Menu-Tests'
+		with: [ spec requires: #( #Toplo #'Toplo-Widget-Menu') ].
 
 	spec
 		package: #'Toplo-Widget-Pane'

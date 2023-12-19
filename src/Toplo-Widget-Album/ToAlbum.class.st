@@ -1,8 +1,8 @@
 Class {
 	#name : 'ToAlbum',
 	#superclass : 'ToPane',
-	#traits : 'TToEnableable + TAlbInfiniteDecorator + TBlAnnouncerProvider + TObservable',
-	#classTraits : 'TToEnableable classTrait + TAlbInfiniteDecorator classTrait + TBlAnnouncerProvider classTrait + TObservable classTrait',
+	#traits : 'TAlbInfiniteDecorator + TBlAnnouncerProvider + TObservable',
+	#classTraits : 'TAlbInfiniteDecorator classTrait + TBlAnnouncerProvider classTrait + TObservable classTrait',
 	#instVars : [
 		'#editsFeedbackLayer',
 		'#innerElement',

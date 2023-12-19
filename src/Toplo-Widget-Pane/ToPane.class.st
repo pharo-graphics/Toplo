@@ -1,8 +1,8 @@
 Class {
 	#name : 'ToPane',
 	#superclass : 'ToElement',
-	#traits : 'TToOrientable + TToPasteUpPane',
-	#classTraits : 'TToOrientable classTrait + TToPasteUpPane classTrait',
+	#traits : 'TToOrientable + TToPasteUpPane + TToElementWithPlaceholder',
+	#classTraits : 'TToOrientable classTrait + TToPasteUpPane classTrait + TToElementWithPlaceholder classTrait',
 	#category : 'Toplo-Widget-Pane',
 	#package : 'Toplo-Widget-Pane'
 }

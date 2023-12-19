@@ -1,9 +1,9 @@
 Class {
 	#name : 'ToContextMenuWindowManager',
 	#superclass : 'ToPopupWindowManager',
-	#category : 'Toplo-Widget-Menu-Context Menu',
+	#category : 'Toplo-Widget-Menu-Context menu',
 	#package : 'Toplo-Widget-Menu',
-	#tag : 'Context Menu'
+	#tag : 'Context menu'
 }
 
 { #category : 'initialization' }

@@ -1321,90 +1321,6 @@ ToSandBox class >> example_RadioButtonWithIndeterminate [
 	but openInSpace
 ]
 
-{ #category : 'select' }
-ToSandBox class >> example_SelectWithPlaceholder [
-
-	| win select |
-	win := ToInnerWindow new title: 'Operating system'.
-
-	select := ToSelect new.
-	select width: 250.
-	select withUncheckingStrategy.
-	select data addAll: { 'OS-X'. 'Windows'. 'Linux' }.
-	select placeholderBuilder: [ :thePlaceholder :theElement |
-		thePlaceholder addChild:
-			(ToLabel text: ('Invalid choice' asRopedText foreground: Color red)) ].
-	select selectData: 'Windows'.
-	win pane addChild: select.
-	win openInSpace
-]
-
-{ #category : 'select' }
-ToSandBox class >> example_SelectWithPlaceholderWithUncheckingStrategy [
-
-	| win select t |
-	win := ToInnerWindow new title: 'Some host'.
-	select := ToSelect new hMatchParent.
-	select withUncheckingStrategy.
-	t := 'No selection...' asRopedText , String cr asRopedText
-	     , ('Please choose an host from the list' asRopedText
-			      foreground: Color lightGray;
-			      fontSize: 12).
-	"select placeholder: (ToLabel new
-			 beMultiLine;
-			 text: t)."
-	select dataToTextConverter: [ :assoc | assoc key ].
-	select addEventHandler: (BlEventHandler
-			 on: ToSelectSelectedIndexChangeEvent
-			 do: [ self inform: select selectedData value asString ]).
-	select data addAll: {
-			('Morphic SDL' -> BlMorphicWindowHost).
-			('Native SDL' -> BlOSWindowSDL2Host) }.
-	win pane addChild: select.
-	win openInSpace
-]
-
-{ #category : 'select' }
-ToSandBox class >> example_SelectWithStringData [
-
-	| win select |
-	win := ToInnerWindow new title: 'Choice box Example'.
-
-	select := ToSelect new.
-	select hMatchParent.
-
-	"select withUncheckingStrategy."
-	select data addAll: { 'OS-X'. 'Windows' }.
-	select addSeparator.
-	select data add: 'Linux'.
-	select selectData: 'Windows'.
-
-	win pane addChild: select.
-	win openInSpace
-]
-
-{ #category : 'select' }
-ToSandBox class >> example_SelectWithStructuredData [
-
-	| win select |
-	win := ToInnerWindow new title: 'Alexandrie host'.
-
-	select := ToSelect new
-		          hMatchParent;
-		          addStamp: #justified.
-	select dataToTextConverter: [ :assoc | assoc key ].
-	select data addAll: {
-			('Morphic SDL' -> BlMorphicWindowHost).
-			('Native SDL' -> BlOSWindowSDL2Host) }.
-	"select placeholder: (ToLabel text: 'Place holder')."
-	select selectIndex: 2.
-	select addEventHandler: (BlEventHandler
-			 on: ToSelectSelectedIndexChangeEvent
-			 do: [ self inform: select selectedData asString ]).
-	win pane addChild: select.
-	win openInSpace
-]
-
 { #category : 'menu' }
 ToSandBox class >> example_SimpleOpenSaveSaveAsClose [
 
@@ -1564,7 +1480,7 @@ ToSandBox class >> example_ToButtonSkins [
 	topBar := ToMenuBar new beHorizontal; hMatchParent; vFitContent.
 	topBar layout cellSpacing: 10.
 
-	themeSwitcher := ToSelect new.
+	themeSwitcher := ToChoiceMenu new.
 	themeSwitcher width: 150.
 	themeSwitcher data addAll: {
 			ToBeeTheme light.
@@ -1852,6 +1768,71 @@ ToSandBox class >> example_buttonWithLabel [
 	but label: (ToLabel text: 'Button with label').
 	but openInSpace.
 	^ but
+]
+
+{ #category : 'choice menu' }
+ToSandBox class >> example_choiceButtonWithPlaceholder [
+
+	| win choice |
+	win := ToInnerWindow new title: 'Operating system'.
+
+	choice := ToChoiceMenu new.
+	"choice width: 250."
+	choice withUncheckingStrategy.
+	choice data addAll: { 'OS-X'. 'Windows'. 'Linux' }.
+	choice placeholderBuilder: [ :thePlaceholder :theElement |
+		thePlaceholder addChild:
+			(ToLabel text: ('Invalid choice' asRopedText foreground: Color red)) ].
+	choice selectData: 'Windows'.
+	win pane addChild: choice.
+	win openInSpace
+]
+
+{ #category : 'choice menu' }
+ToSandBox class >> example_choiceButtonWithStructuredData [
+
+	| win choice |
+	win := ToInnerWindow new title: 'Alexandrie host'.
+
+	choice := ToChoiceMenu new
+		          hMatchParent;
+		          addStamp: #justified.
+	choice dataToTextConverter: [ :assoc | assoc key ].
+	choice data addAll: {
+			('Morphic SDL' -> BlMorphicWindowHost).
+			('Native SDL' -> BlOSWindowSDL2Host) }.
+	"select placeholder: (ToLabel text: 'Place holder')."
+	choice selectIndex: 2.
+	choice addEventHandler: (BlEventHandler
+			 on: ToChoiceSelectedIndexChangeEvent
+			 do: [ self inform: choice selectedData asString ]).
+	win pane addChild: choice.
+	win openInSpace
+]
+
+{ #category : 'choice menu' }
+ToSandBox class >> example_choiceButtonWithUncheckingStrategy [
+
+	| win choice t |
+	win := ToInnerWindow new title: 'Some host'.
+	choice := ToChoiceMenu new hMatchParent.
+	choice withUncheckingStrategy.
+	t := 'No selection...' asRopedText , String cr asRopedText
+	     , ('Please choose an host from the list' asRopedText
+			      foreground: Color lightGray;
+			      fontSize: 12).
+	"select placeholder: (ToLabel new
+			 beMultiLine;
+			 text: t)."
+	choice dataToTextConverter: [ :assoc | assoc key ].
+	choice addEventHandler: (BlEventHandler
+			 on: ToChoiceSelectedIndexChangeEvent
+			 do: [ self inform: choice selectedData value asString ]).
+	choice data addAll: {
+			('Morphic SDL' -> BlMorphicWindowHost).
+			('Native SDL' -> BlOSWindowSDL2Host) }.
+	win pane addChild: choice.
+	win openInSpace
 ]
 
 { #category : 'list' }
@@ -2674,7 +2655,7 @@ ToSandBox class >> example_themeSelectPlusCheckbox [
 
 	themePane := ToPane horizontal.
 
-	themeSelect := ToSelect new.
+	themeSelect := ToChoiceMenu new.
 	themeSelect width: 100.
 	themeSelect dataToTextConverter: [ :assoc | assoc key ].
 	themeSelect data addAll: {
@@ -2682,17 +2663,15 @@ ToSandBox class >> example_themeSelectPlusCheckbox [
 			('Raw' -> ToRawTheme) }.
 	themeSelect selectIndex: 2.
 
-	themeSelect whenSelectedIndexChangedDo: [
-		space toTheme: themeSelect selectedData value light ].
+	themeSelect addEventHandler: (BlEventHandler
+			 on: ToChoiceSelectedIndexChangeEvent
+			 do: [ space toTheme: themeSelect selectedData value light ]).
 
 	themePane addChild: themeSelect.
 	space root addChild: themePane.
 
 	chb := ToCheckbox new label: (ToLabel text: 'Swith primary').
 	chb defaultSkin: ToCheckboxSkin new.
-	chb labeledIcon addEventHandler: (BlEventHandler
-			 on: ToLayoutDirectionChangedEvent
-			 do: [ self halt ]).
 	chb inspect.
 
 	space root addChild: chb.

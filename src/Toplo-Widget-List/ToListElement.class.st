@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToListElement',
-	#superclass : 'ToElement',
+	#superclass : 'ToPane',
 	#traits : 'TToListElementDecorator',
 	#classTraits : 'TToListElementDecorator classTrait',
 	#instVars : [

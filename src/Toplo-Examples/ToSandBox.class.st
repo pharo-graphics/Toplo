@@ -3341,11 +3341,6 @@ ToSandBox class >> example_withCheckBox [
 	left := ToCheckMenuItem new
 		        labelText: 'Left';
 		        id: #left.
-	grp addEventHandler: (BlEventHandler
-			 on: ToCheckableGroupChangedEvent
-			 do: [ :event |
-				 ('checked: ' , event checkedButtons asString , ' unchecked: '
-				  , event uncheckedButtons asString) traceCr ]).
 	center checked: true.
 
 	grp add: right button.

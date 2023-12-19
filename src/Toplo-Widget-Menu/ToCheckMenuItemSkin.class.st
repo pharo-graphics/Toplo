@@ -1,13 +1,13 @@
 Class {
-	#name : 'ToCheckboxSkin',
-	#superclass : 'ToButtonSkin',
-	#category : 'Toplo-Widget-Button-Checkable',
-	#package : 'Toplo-Widget-Button',
-	#tag : 'Checkable'
+	#name : 'ToCheckMenuItemSkin',
+	#superclass : 'ToMenuItemSkin',
+	#category : 'Toplo-Widget-Menu-Basic',
+	#package : 'Toplo-Widget-Menu',
+	#tag : 'Basic'
 }
 
 { #category : 'event handling' }
-ToCheckboxSkin >> checkedLookEvent: anEvent [
+ToCheckMenuItemSkin >> checkedLookEvent: anEvent [
 
 	super checkedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -16,7 +16,7 @@ ToCheckboxSkin >> checkedLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToCheckboxSkin >> disabledLookEvent: anEvent [
+ToCheckMenuItemSkin >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -28,7 +28,7 @@ ToCheckboxSkin >> disabledLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToCheckboxSkin >> enabledLookEvent: anEvent [
+ToCheckMenuItemSkin >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -38,7 +38,7 @@ ToCheckboxSkin >> enabledLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToCheckboxSkin >> hoveredLookEvent: anEvent [
+ToCheckMenuItemSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
 	anEvent elementDo: [ :e | 
@@ -48,13 +48,13 @@ ToCheckboxSkin >> hoveredLookEvent: anEvent [
 ]
 
 { #category : 'accessing' }
-ToCheckboxSkin >> iconGeometryIn: aCheckbox [
+ToCheckMenuItemSkin >> iconGeometryIn: aCheckbox [
 
 	^ BlRoundedRectangleGeometry cornerRadius: 4
 ]
 
 { #category : 'event handling' }
-ToCheckboxSkin >> indeterminateLookEvent: anEvent [
+ToCheckMenuItemSkin >> indeterminateLookEvent: anEvent [
 
 	super indeterminateLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -63,20 +63,19 @@ ToCheckboxSkin >> indeterminateLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToCheckboxSkin >> installLookEvent: anEvent [
+ToCheckMenuItemSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e | 
 		e iconImage: ((e tokenValueNamed: #'checkbox-image-builder') value).
 		e icon geometry: (self iconGeometryIn: e).
 		e border: (e tokenValueNamed: #'color-border-checkable').		
-		e icon border: (e tokenValueNamed: #'color-border').
-		e padding: (BlInsets vertical: (e tokenValueNamed: #'padding-content-V-S')) ]
+		e icon border: (e tokenValueNamed: #'color-border') ]
 	
 ]
 
 { #category : 'event handling' }
-ToCheckboxSkin >> leavedLookEvent: anEvent [
+ToCheckMenuItemSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
 	anEvent elementDo: [ :e | 
@@ -85,7 +84,7 @@ ToCheckboxSkin >> leavedLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToCheckboxSkin >> pressedLookEvent: anEvent [
+ToCheckMenuItemSkin >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -93,7 +92,7 @@ ToCheckboxSkin >> pressedLookEvent: anEvent [
 ]
 
 { #category : 'event handling' }
-ToCheckboxSkin >> uncheckedLookEvent: anEvent [
+ToCheckMenuItemSkin >> uncheckedLookEvent: anEvent [
 
 	super uncheckedLookEvent: anEvent.
 	anEvent elementDo: [ :e |

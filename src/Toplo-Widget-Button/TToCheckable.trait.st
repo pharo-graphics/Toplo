@@ -11,7 +11,7 @@ TToCheckable >> addCheckableEventHandlers [
 	| requestHandler changedHandler |
 	requestHandler := BlEventHandler
 		                  on: ToCheckableCheckRequest
-		                  do: [ :event |
+		                  do: [ :event | 
 			                  self group ifNotNil: [ :grp |
 				                  grp checkRequestEvent: event ] ].
 	changedHandler := BlEventHandler

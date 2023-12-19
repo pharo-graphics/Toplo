@@ -1,6 +1,9 @@
 Class {
 	#name : 'ToChoiceItem',
 	#superclass : 'ToCheckMenuItem',
+	#instVars : [
+		'data'
+	],
 	#category : 'Toplo-Widget-Menu-Choice menu',
 	#package : 'Toplo-Widget-Menu',
 	#tag : 'Choice menu'
@@ -10,6 +13,18 @@ Class {
 ToChoiceItem >> closeOnMouseEvent [
 
 	^ true
+]
+
+{ #category : 'accessing' }
+ToChoiceItem >> data [
+
+	^ data
+]
+
+{ #category : 'accessing' }
+ToChoiceItem >> data: anObject [
+
+	data := anObject
 ]
 
 { #category : 'skin' }

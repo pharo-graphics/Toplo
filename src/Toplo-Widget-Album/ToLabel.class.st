@@ -132,7 +132,8 @@ ToLabel >> editorBuilder: aValuable [
 ToLabel >> foreground: aBlPaint [
 
 	self text foreground: aBlPaint.
-	self requestLayout 
+	self requestLayout.
+	self textChanged.
 ]
 
 { #category : 'private-editing' }

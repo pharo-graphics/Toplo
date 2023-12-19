@@ -198,8 +198,8 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 
 	| space primaryButton2 pane c chb disachb themeSelect themePane themeVariant variantGroup lightVariantChk darkVariantChk variantPane mainPane |
 	space := BlSpace new.
-	space root layout: BlLinearLayout vertical. 
-	
+	space root layout: BlLinearLayout vertical.
+
 	themePane := ToPane horizontal.
 	variantPane := ToPane vertical.
 	variantPane fitContent.
@@ -217,16 +217,16 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 			('Raw Theme' -> ToRawTheme) }.
 	themeSelect selectIndex: 2.
 
-	themeSelect whenSelectedIndexChangedDo: [
-		space toTheme:
-			(themeSelect selectedData value perform: themeVariant) ].
+	themeSelect addEventHandler: (BlEventHandler
+			 on: ToChoiceChangedEvent
+			 do: [
+				 space toTheme:
+					 (themeSelect selectedData value perform: themeVariant) ]).
 
 	variantGroup := ToCheckableGroup new.
 
-	lightVariantChk := ToCheckbox new
-		                   labelText: 'Light'.
-	darkVariantChk := ToCheckbox new
-		                  labelText: 'Dark'.
+	lightVariantChk := ToCheckbox new labelText: 'Light'.
+	darkVariantChk := ToCheckbox new labelText: 'Dark'.
 	lightVariantChk defaultSkin: ToCheckboxSkin new.
 	darkVariantChk defaultSkin: ToCheckboxSkin new.
 	variantGroup addAll: {

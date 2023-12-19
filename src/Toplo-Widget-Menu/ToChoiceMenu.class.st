@@ -6,7 +6,6 @@ Class {
 		'group',
 		'data',
 		'dataToTextConverter',
-		'selectedIndex',
 		'defaultLabel'
 	],
 	#category : 'Toplo-Widget-Menu-Choice menu',
@@ -20,16 +19,19 @@ ToChoiceMenu >> addData: anObject [
 	self data add: anObject
 ]
 
-{ #category : 'api - change hook' }
-ToChoiceMenu >> checked: anItem [
+{ #category : 'private - notifications' }
+ToChoiceMenu >> checkableGroupChangedEvent: anEvent [
 
-	anItem ifNil: [
-		self selectData: nil.
-		^ self ].
-	self selectData: (self data
-			 detect: [ :c |
-				 (self dataToTextConverter value: c) asString = anItem label text asString ]
-			 ifNone: [ ])
+	self updateLabel.
+	self notifyChanged
+]
+
+{ #category : 'private - accessing' }
+ToChoiceMenu >> checkedMenuItem [
+
+	^ group buttons
+		  detect: [ :btn | btn isChecked ]
+		  ifNone: [  ]
 ]
 
 { #category : 'accessing' }
@@ -76,7 +78,7 @@ ToChoiceMenu >> group [
 	^ group
 ]
 
-{ #category : 'api - change hook' }
+{ #category : 'private - accessing' }
 ToChoiceMenu >> indexOfData: aData [
 
 	^ self data indexOf: aData ifAbsent: [ 0 ]
@@ -87,14 +89,12 @@ ToChoiceMenu >> initialize [
 
 	super initialize.
 	dataToTextConverter := [ :i | i ].
-	selectedIndex := 0.
 	self privateData: self newDataCollection.
+	" a group with strict strategy by default "
 	group := ToCheckableGroup new.
 	group addEventHandler: (BlEventHandler
 			 on: ToCheckableGroupChangedEvent
-			 do: [ :event | " #checked: must be sent before #unchecked: "
-				 event checkedButtons do: [ :e | self checked: e ].
-				 event uncheckedButtons do: [ :e | self unchecked: e ] ])
+			 do: [ :event | self checkableGroupChangedEvent: event ])
 ]
 
 { #category : 'skin' }
@@ -107,11 +107,11 @@ ToChoiceMenu >> installRawStyle [
 	self icon: (ToImage inner: (Smalltalk ui icons iconNamed: #bottom))
 ]
 
-{ #category : 'accessing' }
+{ #category : 'private - accessing' }
 ToChoiceMenu >> menuItemFromData: anObject [
 
 	^ group buttons
-		  detect: [ :i | i label text asString = (self dataToTextConverter value: anObject) asString ]
+		  detect: [ :btn | btn data = anObject ]
 		  ifNone: [  ]
 ]
 
@@ -121,12 +121,33 @@ ToChoiceMenu >> newDataCollection [
 	^ ToObservableCollection new
 ]
 
-{ #category : 'private - accessing' }
+{ #category : 'private - notifications' }
 ToChoiceMenu >> newMenuItemFromData: anObject [
 
 	^ ToChoiceItem new
-		  labelText: (self dataToTextConverter value: anObject)
+		  labelText: (self dataToTextConverter value: anObject);
+		  data: anObject;
 		  yourself
+]
+
+{ #category : 'private - notifications' }
+ToChoiceMenu >> notifyBeforeDataRemoved: anEvent [
+
+	| removedData |
+	anEvent interval ifEmpty: [ ^ self ].
+	removedData := anEvent interval collect: [ :idx | self data at: idx ].
+	removedData do: [ :d |
+		| item |
+		item := self menuItemFromData: d.
+		item isChecked ifTrue: [ item checked: false ].
+		item isChecked ifTrue: [ 
+			anEvent validated: false.
+			^ Error signal: 'Can''t removed a checked item' ] ].
+	removedData do: [ :d |
+		| item |
+		item := self menuItemFromData: d.
+		self removeItem: item.
+		self group remove: item ]
 ]
 
 { #category : 'private - notifications' }
@@ -152,34 +173,11 @@ ToChoiceMenu >> notifyDataChanged: anInterval [
 { #category : 'private - notifications' }
 ToChoiceMenu >> notifyDataInserted: anInterval [
 
-	| found |
+	| newItems |
 	anInterval ifEmpty: [ ^ self ].
-	found := anInterval collect: [ :idx | self newMenuItemFromData: (self data at: idx) ].
-	self addAllItems: found.
-	self group addAll: found
-]
-
-{ #category : 'private - notifications' }
-ToChoiceMenu >> notifyDataRemoved: anInterval [
-
-	| removedData |
-	anInterval ifEmpty: [ ^ self ].
-	removedData := anInterval collect: [ :idx | self data at: idx ].
-	removedData do: [ :d |
-		| item |
-		item := self menuItemFromData: d.
-		self removeItem: item.
-		self group remove: item.
-		self selectedData = d ifTrue: [ self selectData: nil ] ]
-]
-
-{ #category : 'api - change hook' }
-ToChoiceMenu >> placeholderChanged [
-
-	self selectedData ifNotNil: [
-		self hidePlaceholder.
-		^ self ].
-	self showPlaceholder
+	newItems := anInterval collect: [ :idx | self newMenuItemFromData: (self data at: idx) ].
+	self addAllItems: newItems.
+	self group addAll: newItems
 ]
 
 { #category : 'private - accessing' }
@@ -187,19 +185,10 @@ ToChoiceMenu >> privateData: anObservableCollection [
 
 	data := anObservableCollection.
 	data whenAddChangeDo: [ :ann | self notifyDataInserted: ann interval ].
-	data whenBeforeRemoveChangeDo: [ :ann | self notifyDataRemoved: ann interval ].
+	data whenBeforeRemoveChangeDo: [ :ann | self notifyBeforeDataRemoved: ann ].
 	data whenUpdateChangeDo: [ :ann | self notifyDataChanged: ann interval ].
 
 	self notifyChanged
-]
-
-{ #category : 'private - accessing' }
-ToChoiceMenu >> privateSelectedIndex: anInteger [
-
-	selectedIndex := anInteger.
-	self selectedIndexChanged.
-	self dispatchEvent: ToChoiceSelectedIndexChangeEvent new.
-
 ]
 
 { #category : 'adding / removing' }
@@ -213,52 +202,49 @@ ToChoiceMenu >> removeData: anObject [
 
 { #category : 'accessing' }
 ToChoiceMenu >> selectData: aData [
-	| idx |
-	idx := self indexOfData: aData.
-	self selectedIndex = idx ifTrue: [ ^ self ].
-	self privateSelectedIndex: idx
+
+	aData
+		ifNil: [
+			self checkedMenuItem ifNotNil: [ :mitem |
+				mitem checked: false.
+				self checkedMenuItem ifNotNil: [
+					Error signal: 'Can''t uncheck a selected item' ] ] ]
+		ifNotNil: [
+			(self menuItemFromData: aData)
+				ifNil: [ Error signal: 'Not found data' ]
+				ifNotNil: [ :mitem | mitem checked: true ] ]
 ]
 
 { #category : 'accessing' }
 ToChoiceMenu >> selectIndex: anInteger [
 
-	self selectedIndex = anInteger ifTrue: [ ^ self ].
-	anInteger > self data size ifTrue: [ ^ self ].
-	self privateSelectedIndex: anInteger
+	self selectData: (self data at: anInteger)
 ]
 
 { #category : 'accessing' }
 ToChoiceMenu >> selectedData [
 
-	^ self selectedIndex isZero
-		  ifTrue: [ nil ]
-		  ifFalse: [ self data at: self selectedIndex ]
+	^ self checkedMenuItem ifNotNil: [ :cmi | cmi data ]
 ]
 
 { #category : 'accessing' }
 ToChoiceMenu >> selectedIndex [
 
-	^ selectedIndex 
+	^ self selectedData
+		  ifNil: [ 0 ]
+		  ifNotNil: [ :d | self data indexOf: d ]
 ]
 
-{ #category : 'api - change hook' }
-ToChoiceMenu >> selectedIndexChanged [
+{ #category : 'private - notifications' }
+ToChoiceMenu >> updateLabel [
 
-	| menuItem |
-	self selectedData ifNil: [
+	self selectedData ifNotNil: [ :d |
+		self label: (ToLabel text: (self dataToTextConverter value: d)).
+		^ self ].
+	self defaultLabel ifNotNil: [ :l |
 		self label: self defaultLabel.
 		^ self ].
-	menuItem := self menuItemFromData: self selectedData.
-	menuItem ifNil: [ ^ self error: 'A menu item should exist for the current selectedData' ].
-	self label: (ToLabel text: (self dataToTextConverter value: self selectedData) copy).
-	menuItem checked ifFalse: [ menuItem check ]
-]
-
-{ #category : 'api - change hook' }
-ToChoiceMenu >> unchecked: anItem [
-
-	self group checkedButtons ifNotEmpty: [ ^ self ].
-	self selectData: nil
+	self label: nil
 ]
 
 { #category : 'accessing' }

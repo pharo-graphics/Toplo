@@ -1780,9 +1780,7 @@ ToSandBox class >> example_choiceButtonWithPlaceholder [
 	"choice width: 250."
 	choice withUncheckingStrategy.
 	choice data addAll: { 'OS-X'. 'Windows'. 'Linux' }.
-	choice placeholderBuilder: [ :thePlaceholder :theElement |
-		thePlaceholder addChild:
-			(ToLabel text: ('Invalid choice' asRopedText foreground: Color red)) ].
+	choice defaultLabel: (ToLabel text: ('Invalid choice' asRopedText foreground: Color red)).
 	choice selectData: 'Windows'.
 	win pane addChild: choice.
 	win openInSpace

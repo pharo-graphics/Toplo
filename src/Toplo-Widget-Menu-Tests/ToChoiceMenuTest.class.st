@@ -130,23 +130,6 @@ ToChoiceMenuTest >> testNoSelectedDataWithDefaultLabel [
 	self assert: (cb group buttons noneSatisfy: [ :b | b checked ])
 ]
 
-{ #category : 'tests' }
-ToChoiceMenuTest >> testNoSelectedDataWithDefaultLabel2 [
-
-	| cb d |
-	cb := ToChoiceMenu new.
-	cb defaultLabel: (ToLabel text: 'No choice').
-	d := { '#1'. '#2'. '#3'. '#4'. '#5' }.
-	cb data addAll: d.
-	cb selectIndex: 1.
-	self assert: cb selectedData equals: '#1'.
-	self assert: cb label text asString equals: d first.
-	cb selectData: nil.
-	self assert: cb selectedData isNil.
-	self assert: cb label text asString equals: 'No choice'.
-	self assert: (cb group buttons noneSatisfy: [ :b | b checked ])
-]
-
 { #category : ' tests' }
 ToChoiceMenuTest >> testRemove [
 
@@ -175,41 +158,11 @@ ToChoiceMenuTest >> testRemove [
 ]
 
 { #category : ' tests' }
-ToChoiceMenuTest >> testRemove2 [
-
-	| cb d1 d2 d3 |
-	cb := ToChoiceMenu new.
-	d1 := '#1'.
-	d2 := '#2'.
-	d3 := '#3'.
-	cb data addAll: {
-			d1.
-			d2.
-			d3 }.
-	cb selectIndex: 2.
-	self assert: cb group buttons second checked.
-	self assert: cb data size equals: 3.
-	self assert: cb selectedData equals: d2.
-	self assert: cb label text asString equals: d2.
-	self assert: cb group buttons size equals: 3.
-	cb removeData: '#2'.
-	self assert: cb selectedIndex equals: 0.
-	self assert: cb label isNil.
-	self assert: cb group buttons first checked not.
-	self assert: cb group buttons second checked not.
-	self assert: cb data first = '#1'.
-	self assert: cb data second = '#3'.
-	self assert: cb group buttons size equals: 2.
-	self assert: cb group buttons first label text asString = '#1'.
-	self assert: cb group buttons second label text asString = '#3'.
-
-]
-
-{ #category : ' tests' }
 ToChoiceMenuTest >> testRemoveWithSeparator [
 
 	| cb d1 d2 d3 |
 	cb := ToChoiceMenu new.
+	cb withUncheckingStrategy.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
@@ -257,7 +210,7 @@ ToChoiceMenuTest >> testRemoveWithSeparator2 [
 	self assert: cb label text asString equals: d2.
 	self assert: cb group buttons size equals: 3.
 	cb removeData: '#1'.
-	self assert: cb selectedIndex equals: 2.
+	self assert: cb selectedIndex equals: 1.
 	self assert: cb label text asString equals: d2.
 	self assert: cb group buttons first checked.
 	self assert: cb group buttons second checked not.
@@ -265,6 +218,71 @@ ToChoiceMenuTest >> testRemoveWithSeparator2 [
 	self assert: cb data second = '#3'.
 	self assert: cb group buttons size equals: 2.
 	self assert: cb group buttons first label text asString = '#2'.
+	self assert: cb group buttons second label text asString = '#3'.
+
+]
+
+{ #category : ' tests' }
+ToChoiceMenuTest >> testRemoveWithStrictStrategy [
+
+	| cb d1 d2 d3 |
+	cb := ToChoiceMenu new.
+	d1 := '#1'.
+	d2 := '#2'.
+	d3 := '#3'.
+	cb data addAll: {
+			d1.
+			d2.
+			d3 }.
+	cb selectIndex: 2.
+	self assert: cb group buttons second checked.
+	self assert: cb data size equals: 3.
+	self assert: cb selectedData equals: d2.
+	self assert: cb label text asString equals: d2.
+	self assert: cb group buttons size equals: 3.
+	" since the strategy is strict, it is impossible to remove a checked item "
+	self should: [cb removeData: '#2'] raise: Error.
+	self assert: cb selectedIndex equals: 2.
+	cb selectIndex: 1.
+	cb removeData: '#2'.
+	self assert: cb group buttons first checked.
+	self assert: cb group buttons second checked not.
+	self assert: cb data first = '#1'.
+	self assert: cb data second = '#3'.
+	self assert: cb group buttons size equals: 2.
+	self assert: cb group buttons first label text asString = '#1'.
+	self assert: cb group buttons second label text asString = '#3'.
+
+]
+
+{ #category : ' tests' }
+ToChoiceMenuTest >> testRemoveWithStrictUncheckingStrategy [
+
+	| cb d1 d2 d3 |
+	cb := ToChoiceMenu new.
+	cb withUncheckingStrategy.
+	d1 := '#1'.
+	d2 := '#2'.
+	d3 := '#3'.
+	cb data addAll: {
+			d1.
+			d2.
+			d3 }.
+	cb selectIndex: 2.
+	self assert: cb group buttons second checked.
+	self assert: cb data size equals: 3.
+	self assert: cb selectedData equals: d2.
+	self assert: cb label text asString equals: d2.
+	self assert: cb group buttons size equals: 3.
+	" since the strategy allows unchecking, it is possible to remove a checked item "
+	cb removeData: '#2'.
+	self assert: cb selectedIndex equals: 0.
+	self assert: cb group buttons first checked not.
+	self assert: cb group buttons second checked not.
+	self assert: cb data first = '#1'.
+	self assert: cb data second = '#3'.
+	self assert: cb group buttons size equals: 2.
+	self assert: cb group buttons first label text asString = '#1'.
 	self assert: cb group buttons second label text asString = '#3'.
 
 ]
@@ -292,10 +310,28 @@ ToChoiceMenuTest >> testSelectedData2 [
 	cb data addAll: d.
 	cb selectIndex: 1.
 	self assert: cb selectedData equals: '#1'.
-	cb selectData: '#99999'.
-	self assert: cb selectedData isNil.
-	self assert: cb label isNil.
-	self assert: cb selectedIndex isZero
+	self should: [ cb selectData: '#99999' ] raise: Error.
+	self assert: cb selectedData equals: '#1'.
+	self assert: cb label text asString equals: '#1'.
+	self assert: cb selectedIndex equals: 1
+]
+
+{ #category : 'tests' }
+ToChoiceMenuTest >> testTryNoSelectedDataWithStrictStrategy [
+
+	| cb d |
+	cb := ToChoiceMenu new.
+	cb defaultLabel: (ToLabel text: 'No choice').
+	d := { '#1'. '#2'. '#3'. '#4'. '#5' }.
+	cb data addAll: d.
+	cb selectIndex: 1.
+	self assert: cb selectedData equals: '#1'.
+	self assert: cb label text asString equals: d first.
+	" try to uncheck but a strict strategy deny having none selected "
+	self should: [cb selectData: nil ] raise: Error.
+	self assert: cb selectedData equals: '#1'.
+	self assert: cb label text asString equals: '#1'.
+	self assert: (cb group buttons detect: [ :b | b checked ] ifNone: []) notNil
 ]
 
 { #category : 'tests' }
@@ -305,14 +341,19 @@ ToChoiceMenuTest >> testWith5StringData [
 	cb := ToChoiceMenu new.
 	d := { '#1'. '#2'. '#3'. '#4'. '#5' }.
 	cb data addAll: d.
-	cb selectIndex: 1.
+	cb selectIndex: 5.
 	self assert: cb data size equals: 5.
-	self assert: cb selectedData equals: d first.
-	self assert: cb label text asString equals: d first.
+	self assert: cb selectedData equals: d fifth.
+	self assert: cb label text asString equals: d fifth.
 	self assert: cb group buttons size equals: 5.
 	self assert: cb defaultLabel isNil.
-	cb data removeAll.
-	self assertEmpty: cb
+	" since the strategy is strict, unable to remove a checked item "
+	self should: [cb data removeAll] raise: Error.
+	self assert: cb data size equals: 5.
+	self assert: cb selectedData equals: d fifth.
+	self assert: cb label text asString equals: d fifth.
+	self assert: cb group buttons size equals: 5.
+
 ]
 
 { #category : 'tests' }
@@ -353,6 +394,53 @@ ToChoiceMenuTest >> testWithStrictStrategy [
 	self assert: cb defaultLabel isNil.
 	cb group buttons first uncheck.
 	self assert: cb group buttons first checked
+]
+
+{ #category : 'tests' }
+ToChoiceMenuTest >> testWithStructuredDataWithStrictStrategy [
+
+	| space cb d |
+	space := BlSpace new.
+	cb := ToChoiceMenu new.
+	space root addChild: cb.
+	cb dataToTextConverter: [ :assoc | assoc key ].
+	cb data addAll: (d := {
+			('Bee Theme' -> ToBeeTheme).
+			('Raw Theme' -> ToRawTheme) }).
+	cb selectIndex: 2.
+
+	cb addEventHandler: (BlEventHandler
+			 on: ToChoiceSelectedIndexChangeEvent
+			 do: [ cb selectedData ifNotNil: [:data | space toTheme: (data value light) ] ] ).
+			
+	cb selectIndex: 1.
+	self assert: cb selectedData value identicalTo: ToBeeTheme.
+	self assert: cb label text asString equals: d first key.
+	self should: [cb selectData: nil] raise: Error.
+	self assert: cb selectedIndex equals: 1.
+	self assert: cb label text asString equals: d first key.
+	self assert: (cb group buttons select: [ :b | b checked ]) size equals: 1
+]
+
+{ #category : 'tests' }
+ToChoiceMenuTest >> testWithStructuredDataWithUncheckingStrategy [
+
+	| space cb d |
+	space := BlSpace new.
+	cb := ToChoiceMenu new.
+	cb withUncheckingStrategy.
+	space root addChild: cb.
+	cb dataToTextConverter: [ :assoc | assoc key ].
+	cb data addAll: (d := {
+			('Bee Theme' -> ToBeeTheme).
+			('Raw Theme' -> ToRawTheme) }).
+	cb selectIndex: 1.
+	self assert: cb selectedData value identicalTo: ToBeeTheme.
+	self assert: cb label text asString equals: d first key.
+	cb selectData: nil.
+	self assert: cb selectedData isNil.
+	self assert: cb label isNil.
+	self assert: (cb group buttons noneSatisfy: [ :b | b checked ])
 ]
 
 { #category : 'tests' }

@@ -12,7 +12,6 @@ Class {
 ToSelectTest >> assertEmpty: select [
 
 	self assert: select group buttons isEmpty.
-	self assert: select placeholder isNil.
 	self assert: select menuButton label isNil.
 	self assert: select data isEmpty.
 	self assert: select selectedData isNil.
@@ -82,7 +81,8 @@ ToSelectTest >> testNoSelectedDataWithPlaceholder [
 
 	| cb |
 	cb := ToSelect new.
-	cb placeholder: (ToLabel text: 'No choice').
+	cb placeholderBuilder: [ :thePlaceholder :theElement |
+		thePlaceholder addChild: (ToLabel text: 'No choice') ].
 	self assert: cb selectedData isNil.
 	self assert: cb menuButton label text asString equals: 'No choice'.
 	self assert: (cb group buttons noneSatisfy: [ :b | b checked ]).

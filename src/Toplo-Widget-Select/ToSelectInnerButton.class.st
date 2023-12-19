@@ -6,7 +6,7 @@ Class {
 }
 
 { #category : 'skin' }
-ToSelectInnerButton >> newRawSkin [ 
+ToSelectInnerButton >> newRawSkin [
 
-	^ToSelectInnerButtonSkin new
+	^ ToSelectInnerButtonSkin new
 ]

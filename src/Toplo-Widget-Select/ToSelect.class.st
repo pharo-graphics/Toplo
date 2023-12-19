@@ -4,12 +4,11 @@ Class {
 	#traits : 'TObservable',
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
-		'#group',
-		'#placeholder => ObservableSlot',
-		'#menuButton',
-		'#data',
-		'#dataToTextConverter',
-		'#selectedIndex => ObservableSlot'
+		'group',
+		'menuButton',
+		'data',
+		'dataToTextConverter',
+		'selectedIndex'
 	],
 	#category : 'Toplo-Widget-Select',
 	#package : 'Toplo-Widget-Select'
@@ -79,7 +78,6 @@ ToSelect >> indexOfData: aData [
 { #category : 'initialization' }
 ToSelect >> initialize [
 
-	self class initializeSlots: self.
 	super initialize.
 	dataToTextConverter := [ :i | i ].
 	selectedIndex := 0.
@@ -89,13 +87,13 @@ ToSelect >> initialize [
 	menuButton := ToSelectInnerButton new.
 	group := ToCheckableGroup new.
 	self addChild: menuButton.
-	self whenSelectedIndexChangedDo: [ self selectedIndexChanged ].
-	self whenPlaceholderChangedDo: [ self placeholderChanged ].
 	group addEventHandler: (BlEventHandler
 			 on: ToCheckableGroupChangedEvent
 			 do: [ :event | " #checked: must be sent before #unchecked: "
 				 event checkedButtons do: [ :e | self checked: e ].
-				 event uncheckedButtons do: [ :e | self unchecked: e ] ])
+				 event uncheckedButtons do: [ :e | self unchecked: e ] ]).
+	self showPlaceholder 
+
 ]
 
 { #category : 'accessing' }
@@ -169,23 +167,13 @@ ToSelect >> notifyDataRemoved: anInterval [
 		self selectedData = d ifTrue: [ self selectData: nil ] ]
 ]
 
-{ #category : 'accessing' }
-ToSelect >> placeholder [
-
-	^ placeholder
-]
-
-{ #category : 'accessing' }
-ToSelect >> placeholder: anElement [
-
-	placeholder := anElement
-]
-
 { #category : 'api - change hook' }
 ToSelect >> placeholderChanged [
 
-	self selectedData ifNotNil: [ ^ self ].
-	self usePlaceholder
+	self selectedData ifNotNil: [
+		self hidePlaceholder.
+		^ self ].
+	self showPlaceholder
 ]
 
 { #category : 'private - accessing' }
@@ -203,7 +191,9 @@ ToSelect >> privateData: anObservableCollection [
 ToSelect >> privateSelectedIndex: anInteger [
 
 	selectedIndex := anInteger.
-	self dispatchEvent: ToSelectSelectedIndexChangeEvent new	
+	self selectedIndexChanged.
+	self showHidePlaceHolder.
+	self dispatchEvent: ToSelectSelectedIndexChangeEvent new.
 
 ]
 
@@ -251,7 +241,7 @@ ToSelect >> selectedIndexChanged [
 
 	| menuItem |
 	self selectedData ifNil: [
-		self usePlaceholder.
+		self showPlaceholder.
 		^ self ].
 	menuItem := self menuItemFromData: self selectedData.
 	menuItem ifNil: [ ^ self error: 'A menu item should exist for the current selectedData' ].
@@ -259,34 +249,19 @@ ToSelect >> selectedIndexChanged [
 	menuItem checked ifFalse: [ menuItem check ]
 ]
 
+{ #category : 'private - accessing' }
+ToSelect >> showHidePlaceHolder [
+
+	self selectedIndex > 0
+		ifTrue: [ self hidePlaceholder ]
+		ifFalse: [ self showPlaceholder ]
+]
+
 { #category : 'api - change hook' }
 ToSelect >> unchecked: anItem [
 
 	self group checkedButtons ifNotEmpty: [ ^ self ].
 	self selectData: nil
-]
-
-{ #category : 'api - change hook' }
-ToSelect >> usePlaceholder [
-
-	menuButton label: self placeholder.
-	group uncheckAll
-]
-
-{ #category : 'api - change hook' }
-ToSelect >> whenPlaceholderChangedDo: aBlock [
-
-	"set a block to perform after that the selected item has been changed, and its action performed"
-
-	self property: #placeholder whenChangedDo: aBlock
-]
-
-{ #category : 'api - change hook' }
-ToSelect >> whenSelectedIndexChangedDo: aBlock [
-
-	"set a block to perform after that the selected item has been changed, and its action performed"
-
-	self property: #selectedIndex whenChangedDo: aBlock
 ]
 
 { #category : 'accessing' }

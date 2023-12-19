@@ -1331,7 +1331,9 @@ ToSandBox class >> example_SelectWithPlaceholder [
 	select width: 250.
 	select withUncheckingStrategy.
 	select data addAll: { 'OS-X'. 'Windows'. 'Linux' }.
-	select placeholder: (ToLabel text: ('Invalid choice' asRopedText foreground: Color red)).
+	select placeholderBuilder: [ :thePlaceholder :theElement |
+		thePlaceholder addChild:
+			(ToLabel text: ('Invalid choice' asRopedText foreground: Color red)) ].
 	select selectData: 'Windows'.
 	win pane addChild: select.
 	win openInSpace
@@ -1348,12 +1350,13 @@ ToSandBox class >> example_SelectWithPlaceholderWithUncheckingStrategy [
 	     , ('Please choose an host from the list' asRopedText
 			      foreground: Color lightGray;
 			      fontSize: 12).
-	select placeholder: (ToLabel new
+	"select placeholder: (ToLabel new
 			 beMultiLine;
-			 text: t).
+			 text: t)."
 	select dataToTextConverter: [ :assoc | assoc key ].
-	select whenSelectedIndexChangedDo: [
-		self inform: select selectedData value asString ].
+	select addEventHandler: (BlEventHandler
+			 on: ToSelectSelectedIndexChangeEvent
+			 do: [ self inform: select selectedData value asString ]).
 	select data addAll: {
 			('Morphic SDL' -> BlMorphicWindowHost).
 			('Native SDL' -> BlOSWindowSDL2Host) }.
@@ -1387,16 +1390,17 @@ ToSandBox class >> example_SelectWithStructuredData [
 	win := ToInnerWindow new title: 'Alexandrie host'.
 
 	select := ToSelect new
-		             hMatchParent;
-		             addStamp: #justified.
+		          hMatchParent;
+		          addStamp: #justified.
 	select dataToTextConverter: [ :assoc | assoc key ].
 	select data addAll: {
 			('Morphic SDL' -> BlMorphicWindowHost).
 			('Native SDL' -> BlOSWindowSDL2Host) }.
-	select placeholder: (ToLabel text: 'Place holder').
+	"select placeholder: (ToLabel text: 'Place holder')."
 	select selectIndex: 2.
-	select whenSelectedIndexChangedDo: [
-		self inform: select selectedData asString ].
+	select addEventHandler: (BlEventHandler
+			 on: ToSelectSelectedIndexChangeEvent
+			 do: [ self inform: select selectedData asString ]).
 	win pane addChild: select.
 	win openInSpace
 ]

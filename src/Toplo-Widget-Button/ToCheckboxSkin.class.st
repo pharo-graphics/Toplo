@@ -67,6 +67,7 @@ ToCheckboxSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e | 
+		e interspace: 10.
 		e iconImage: ((e tokenValueNamed: #'checkbox-image-builder') value).
 		e icon geometry: (self iconGeometryIn: e).
 		e border: (e tokenValueNamed: #'color-border-checkable').		

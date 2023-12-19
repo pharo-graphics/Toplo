@@ -61,18 +61,20 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'border-radius-LG' value: 8).
 		  (ToTokenProperty name: #'border-radius-SM' value: 4).
 
-		  (ToTokenProperty name: #'animation-window-tooltip-opening' value: [ :win |
+		  (ToTokenProperty name: #'animation-window-opening' value: [ :win |
 			   win opacity: 0.3.
 			   win addAnimation:
 				   ((BlOpacityAnimation new opacity: 1.8) duration:
-					    800 milliSeconds) ]).
+					    600 milliSeconds) ]).
+
 		  (ToTokenProperty
-			   name: #'effect-window-tooltip'
+			   name: #'effect-window'
 			   value:
 			   (BlGaussianShadowEffect
 				    color: Color gray
 				    width: 20
 				    offset: 0 asPoint)).
+	
 		  (ToTokenProperty
 			   name: #'effect-window-menu'
 			   value:

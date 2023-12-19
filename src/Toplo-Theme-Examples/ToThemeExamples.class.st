@@ -211,11 +211,10 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 	themeVariant := #light.
 
 	themeSelect := ToSelect new.
-	themeSelect width: 100.
 	themeSelect dataToTextConverter: [ :assoc | assoc key ].
 	themeSelect data addAll: {
-			('Bee' -> ToBeeTheme).
-			('Raw' -> ToRawTheme) }.
+			('Bee Theme' -> ToBeeTheme).
+			('Raw Theme' -> ToRawTheme) }.
 	themeSelect selectIndex: 2.
 
 	themeSelect whenSelectedIndexChangedDo: [

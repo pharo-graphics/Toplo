@@ -6,13 +6,7 @@ Class {
 }
 
 { #category : 'skin' }
-ToSelectInnerButton >> installRawStyle [
+ToSelectInnerButton >> newRawSkin [ 
 
-	super installRawStyle.
-	self beLabelFirst.
-	self flexible: true.
-	self hMatchParent.
-	self icon: (ToImage inner: (Smalltalk ui icons iconNamed: #bottom)).
-	self iconDo: [ :ic | ic formColor: (self tokenValueNamed: #'color-text') ].
-
+	^ToSelectInnerButtonSkin new
 ]

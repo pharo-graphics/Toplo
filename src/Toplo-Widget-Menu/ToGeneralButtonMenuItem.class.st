@@ -49,7 +49,7 @@ ToGeneralButtonMenuItem >> initialize [
 
 	super initialize.
 	self button: self buttonClass new.
-	self button withoutSkin.
+	(self button isKindOf: ToCheckbox) ifFalse: [self button withoutSkin].
 	self button clickEventClass: BlMouseUpEvent.
 	self layout: self defaultLayout
 ]

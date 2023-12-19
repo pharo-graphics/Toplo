@@ -1,8 +1,8 @@
 Class {
 	#name : 'ToLabel',
 	#superclass : 'ToElement',
-	#traits : 'TBlAlignable + TObservable',
-	#classTraits : 'TBlAlignable classTrait + TObservable classTrait',
+	#traits : 'TBlAlignable + TObservable + TBlTextStyleable',
+	#classTraits : 'TBlAlignable classTrait + TObservable classTrait + TBlTextStyleable classTrait',
 	#instVars : [
 		'#isEditable',
 		'#innerElement',
@@ -33,6 +33,19 @@ ToLabel >> addEditorEvent: anEvent [
 		apply.
 	self editorBuilder value: self editor value: self.
 	self dispatchEvent: ToLabelEditorOpenedEvent new
+]
+
+{ #category : 'text decoration applying ' }
+ToLabel >> applyAttributesBuilder [
+
+	self attributesBuilder applyOn: self text
+]
+
+{ #category : 'accessing' }
+ToLabel >> attributesBuilder [
+	<return: #BlTextAttributesBuilder>
+	
+	^ self textAttributesBuilder
 ]
 
 { #category : 'accessing' }
@@ -126,14 +139,6 @@ ToLabel >> editorBuilder: aValuable [
 	" aValuable takes the editor and the label as arguments "
 
 	self userData at: #editorBuilder put: aValuable
-]
-
-{ #category : 'api - text style' }
-ToLabel >> foreground: aBlPaint [
-
-	self text foreground: aBlPaint.
-	self requestLayout.
-	self textChanged.
 ]
 
 { #category : 'private-editing' }
@@ -352,8 +357,10 @@ ToLabel >> text: aBlTextOrString [
 { #category : 'event handling' }
 ToLabel >> textChanged [
 
+	self forceLocalLayout.
+	self innerElement ifNil: [ ^ self ].
 	self innerElement textChanged.
-	self forceLocalLayout
+
 ]
 
 { #category : 'accessing' }

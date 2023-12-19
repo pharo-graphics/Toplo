@@ -1,6 +1,6 @@
 Class {
 	#name : 'ToLabelMonoLineInnerElement',
-	#superclass : 'BlAttributedTextElement',
+	#superclass : 'BlTextElement',
 	#traits : 'TToLabelInnerElement + TBlLayoutResizable',
 	#classTraits : 'TToLabelInnerElement classTrait + TBlLayoutResizable classTrait',
 	#category : 'Toplo-Widget-Album-Label',

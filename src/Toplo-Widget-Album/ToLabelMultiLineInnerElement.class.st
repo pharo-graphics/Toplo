@@ -94,27 +94,34 @@ ToLabelMultiLineInnerElement >> requestLayout [
 { #category : 'private - text splitting' }
 ToLabelMultiLineInnerElement >> splitText [
 
-	^ Array streamContents: [ :stream | 
+	^ Array streamContents: [ :stream |
 		  | itor lineElement |
 		  text
-			  ifEmpty: [ | textElement |
-					textElement := self newTextElement.
-					textElement text: ('' asRopedText attributes: text iterator attributes).
-				 	lineElement := self newLineElement addChild: textElement ;                 yourself.
-				  	stream nextPut: lineElement ]
-			  ifNotEmpty: [ 
+			  ifEmpty: [
+				  | textElement |
+				  textElement := self newTextElement.
+				  textElement text:
+					  ('' asRopedText attributes: text iterator attributes).
+				  lineElement := self newLineElement
+					                 addChild: textElement;
+					                 yourself.
+				  stream nextPut: lineElement ]
+			  ifNotEmpty: [
 				  itor := text iterator.
-				  [ itor hasNext ] whileTrue: [ 
-					  itor nextLineIndicesDo: [ :aLineStart :aLineEnd :aLineDelimiterEnd | 
+				  [ itor hasNext ] whileTrue: [
+					  itor nextLineIndicesDo: [ :aLineStart :aLineEnd :aLineDelimiterEnd |
 						  | sub cutted |
 						  sub := text from: aLineStart to: aLineEnd.
 						  cutted := ToTextScissor new cut: sub.
-						  cutted ifEmpty: [ cutted := Array with: (BlText empty attributes: sub iterator attributes) ].
+						  cutted ifEmpty: [
+							  cutted := Array with:
+								            (BlText empty attributes: sub iterator attributes) ].
 						  lineElement := self newLineElement
-							                 addChildren: (cutted collect: [ :w | | textElement |
-				textElement := self newTextElement.
-				textElement text: w.
-				textElement]);
+							                 addChildren: (cutted collect: [ :w |
+										                  | textElement |
+										                  textElement := self newTextElement.
+										                  textElement text: w.
+										                  textElement ]);
 							                 yourself.
 						  stream nextPut: lineElement ] ] ] ]
 ]

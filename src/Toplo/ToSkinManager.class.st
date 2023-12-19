@@ -291,7 +291,8 @@ ToSkinManager >> styleSheetChainIn: anElement [
 { #category : 'accessing' }
 ToSkinManager >> textAttributesBuilder [
 
-	^ textAttributesBuilder ifNil: [ textAttributesBuilder := BlTextAttributesBuilder new ]
+	^ textAttributesBuilder ifNil: [
+		  textAttributesBuilder := BlTextDelegatedAttributesBuilder new ]
 ]
 
 { #category : 'skin application' }

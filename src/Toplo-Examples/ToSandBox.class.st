@@ -1780,7 +1780,8 @@ ToSandBox class >> example_choiceButtonWithPlaceholder [
 	"choice width: 250."
 	choice withUncheckingStrategy.
 	choice data addAll: { 'OS-X'. 'Windows'. 'Linux' }.
-	choice defaultLabel: (ToLabel text: ('Invalid choice' asRopedText foreground: Color red)).
+	choice defaultLabel: ((ToAttributedLabel text: ('Invalid choice' asRopedText foreground: Color red))
+			 yourself).
 	choice selectData: 'Windows'.
 	win pane addChild: choice.
 	win openInSpace
@@ -1799,7 +1800,6 @@ ToSandBox class >> example_choiceButtonWithStructuredData [
 	choice data addAll: {
 			('Morphic SDL' -> BlMorphicWindowHost).
 			('Native SDL' -> BlOSWindowSDL2Host) }.
-	"select placeholder: (ToLabel text: 'Place holder')."
 	choice selectIndex: 2.
 	choice addEventHandler: (BlEventHandler
 			 on: ToChoiceSelectedIndexChangeEvent
@@ -1819,9 +1819,11 @@ ToSandBox class >> example_choiceButtonWithUncheckingStrategy [
 	     , ('Please choose an host from the list' asRopedText
 			      foreground: Color lightGray;
 			      fontSize: 12).
-	"select placeholder: (ToLabel new
+	choice defaultLabel: (ToAttributedLabel new
 			 beMultiLine;
-			 text: t)."
+			 text: t;
+			"foreground: Color lightGray;"
+			textChanged).
 	choice dataToTextConverter: [ :assoc | assoc key ].
 	choice addEventHandler: (BlEventHandler
 			 on: ToChoiceSelectedIndexChangeEvent

@@ -27,6 +27,12 @@ ToCheckableGroup >> addAll: aCollection [
 
 ]
 
+{ #category : 'testing' }
+ToCheckableGroup >> allowUnchecking [
+
+	^ self checkingStrategy allowUnchecking
+]
+
 { #category : 'accessing' }
 ToCheckableGroup >> buttons [
 
@@ -79,6 +85,12 @@ ToCheckableGroup >> eventDispatcher [
 	<return: #BlDirectEventDispatcher>
 
 	^ eventDispatcher
+]
+
+{ #category : 'testing' }
+ToCheckableGroup >> forbidUnchecking [
+
+	^ self allowUnchecking not
 ]
 
 { #category : 'initialization' }

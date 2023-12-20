@@ -1784,7 +1784,6 @@ ToSandBox class >> example_choiceButtonWithPlaceholder [
 		(ToAttributedLabel text: ('Invalid choice' asRopedText
 				  foreground: Color red;
 				  yourself)).
-	choice selectData: 'Windows'.
 	win pane addChild: choice.
 	win openInSpace
 ]
@@ -1799,10 +1798,14 @@ ToSandBox class >> example_choiceButtonWithStructuredData [
 		          hMatchParent;
 		          addStamp: #justified.
 	choice dataToTextConverter: [ :assoc | assoc key ].
+	choice	
+		defaultSelectedIndex: 2;
+		withStrictCheckingStrategy.
+
 	choice data addAll: {
 			('Morphic SDL' -> BlMorphicWindowHost).
 			('Native SDL' -> BlOSWindowSDL2Host) }.
-	choice selectIndex: 2.
+
 	choice addEventHandler: (BlEventHandler
 			 on: ToChoiceSelectedIndexChangeEvent
 			 do: [ self inform: choice selectedData asString ]).
@@ -2646,6 +2649,30 @@ ToSandBox class >> example_textFieldWithoutLineWrapping [
 		     withoutLineWrapping;
 		     withSaveCapability.
 	t openInSpace
+]
+
+{ #category : 'choice menu' }
+ToSandBox class >> example_themeChoiceButton [
+
+	| win themeSelect space |
+	space := BlSpace new.
+	win := ToInnerWindow new title: 'Some host'.
+	themeSelect := ToChoiceMenu new.
+	themeSelect withStrictCheckingStrategy.
+	themeSelect defaultSelectedIndex: 3.
+	themeSelect dataToTextConverter: [ :assoc | assoc key ].
+	themeSelect data addAll: {
+			('Bee Light' -> ToBeeTheme light).
+			('Bee Dark' -> ToBeeTheme dark).
+			('Raw Light' -> ToRawTheme light).
+			('Raw Dark' -> ToRawTheme dark) }.
+
+	themeSelect addEventHandler: (BlEventHandler
+			 on: ToChoiceChangedEvent
+			 do: [ space toTheme: themeSelect selectedData value ]).
+
+	space root addChild: themeSelect.
+	space show
 ]
 
 { #category : 'checkbox' }

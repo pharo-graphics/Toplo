@@ -13,6 +13,12 @@ Class {
 	#tag : 'Checkable'
 }
 
+{ #category : 'testing' }
+ToCheckableGroupCheckingStrategy >> allowUnchecking [
+
+	^ true
+]
+
 { #category : 'notifications' }
 ToCheckableGroupCheckingStrategy >> buttonInserted: aCheckable in: aGroup [
 

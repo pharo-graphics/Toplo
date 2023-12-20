@@ -227,6 +227,7 @@ ToChoiceMenuTest >> testRemoveWithStrictStrategy [
 
 	| cb d1 d2 d3 |
 	cb := ToChoiceMenu new.
+	cb withStrictCheckingStrategy.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
@@ -321,6 +322,7 @@ ToChoiceMenuTest >> testTryNoSelectedDataWithStrictStrategy [
 
 	| cb d |
 	cb := ToChoiceMenu new.
+	cb withStrictCheckingStrategy.
 	cb defaultLabel: (ToLabel text: 'No choice').
 	d := { '#1'. '#2'. '#3'. '#4'. '#5' }.
 	cb data addAll: d.
@@ -339,6 +341,7 @@ ToChoiceMenuTest >> testWith5StringData [
 
 	| cb d |
 	cb := ToChoiceMenu new.
+	cb withStrictCheckingStrategy.
 	d := { '#1'. '#2'. '#3'. '#4'. '#5' }.
 	cb data addAll: d.
 	cb selectIndex: 5.
@@ -376,6 +379,7 @@ ToChoiceMenuTest >> testWithStrictStrategy [
 
 	| cb d1 d2 d3 |
 	cb := ToChoiceMenu new.
+	cb withStrictCheckingStrategy.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
@@ -402,12 +406,13 @@ ToChoiceMenuTest >> testWithStructuredDataWithStrictStrategy [
 	| space cb d |
 	space := BlSpace new.
 	cb := ToChoiceMenu new.
-	space root addChild: cb.
+	cb withStrictCheckingStrategy.
+	cb defaultSelectedIndex: 2.
 	cb dataToTextConverter: [ :assoc | assoc key ].
 	cb data addAll: (d := {
 			('Bee Theme' -> ToBeeTheme).
 			('Raw Theme' -> ToRawTheme) }).
-	cb selectIndex: 2.
+	space root addChild: cb.
 
 	cb addEventHandler: (BlEventHandler
 			 on: ToChoiceSelectedIndexChangeEvent
@@ -473,6 +478,7 @@ ToChoiceMenuTest >> testdefaultLabel [
 
 	| cb |
 	cb := ToChoiceMenu new.
+	cb withStrictCheckingStrategy.
 	cb data addAll: { 'A'. 'B'. }.
 	cb defaultLabel: (ToLabel text: 'X').
 	self assert: cb label text asString equals: 'X'.

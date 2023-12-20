@@ -6,7 +6,8 @@ Class {
 		'group',
 		'data',
 		'dataToTextConverter',
-		'defaultLabel'
+		'defaultLabel',
+		'defaultSelectedIndex'
 	],
 	#category : 'Toplo-Widget-Menu-Choice menu',
 	#package : 'Toplo-Widget-Menu',
@@ -73,6 +74,22 @@ ToChoiceMenu >> defaultLabelText: aText [
 ]
 
 { #category : 'accessing' }
+ToChoiceMenu >> defaultSelectedIndex [
+
+	^ defaultSelectedIndex 
+]
+
+{ #category : 'accessing' }
+ToChoiceMenu >> defaultSelectedIndex: anInteger [
+
+	defaultSelectedIndex = anInteger ifTrue: [ ^ self ].
+	defaultSelectedIndex := anInteger.
+	self selectedIndex > 0 ifFalse: [
+		self data size >= self defaultSelectedIndex ifTrue: [
+			self selectIndex: self defaultSelectedIndex ] ]
+]
+
+{ #category : 'accessing' }
 ToChoiceMenu >> group [
 
 	^ group
@@ -88,10 +105,11 @@ ToChoiceMenu >> indexOfData: aData [
 ToChoiceMenu >> initialize [
 
 	super initialize.
+	defaultSelectedIndex := 0.
 	dataToTextConverter := [ :i | i ].
 	self privateData: self newDataCollection.
-	" a group with strict strategy by default "
-	group := ToCheckableGroup new.
+	" a group with unchecking strategy by default "
+	group := ToCheckableGroup new withUncheckingStrategy.
 	group addEventHandler: (BlEventHandler
 			 on: ToCheckableGroupChangedEvent
 			 do: [ :event | self checkableGroupChangedEvent: event ])
@@ -178,6 +196,18 @@ ToChoiceMenu >> notifyDataInserted: anInterval [
 	newItems := anInterval collect: [ :idx | self newMenuItemFromData: (self data at: idx) ].
 	self addAllItems: newItems.
 	self group addAll: newItems
+]
+
+{ #category : 'hooks - children' }
+ToChoiceMenu >> onAddedToSceneGraph [
+
+	super onAddedToSceneGraph.
+	(self defaultSelectedIndex > 0 and: [ self selectedIndex isZero ]) ifTrue: [
+		self data size >= self defaultSelectedIndex ifTrue: [
+			self selectIndex: self defaultSelectedIndex ]
+		ifFalse: [ self group forbidUnchecking ifTrue: [ Error signal: 'Items must be added before adding to a space' ] ] ].
+	(self group forbidUnchecking and: [ self selectedIndex isZero  ])
+		ifTrue: [ Error signal: 'An item must be selected before with #selectIndex: or #defaultSelectedIndex:' ]
 ]
 
 { #category : 'private - accessing' }

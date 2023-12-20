@@ -2,12 +2,14 @@
 A ToTextFieldTest is a test class for testing the behavior of ToTextField
 "
 Class {
-	#name : #ToTextFieldTest,
-	#superclass : #TestCase,
-	#category : #'Toplo-Widget-Album-Tests-TextField'
+	#name : 'ToTextFieldTest',
+	#superclass : 'TestCase',
+	#category : 'Toplo-Widget-Album-Tests-TextField',
+	#package : 'Toplo-Widget-Album-Tests',
+	#tag : 'TextField'
 }
 
-{ #category : #test }
+{ #category : 'test' }
 ToTextFieldTest >> testPlaceholderText [
 
 	| e ph |

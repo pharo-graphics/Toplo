@@ -223,21 +223,21 @@ ToLabel >> innerElement: anInnerElement [
 ToLabel >> installRawStyle [
 
 	super installRawStyle.
-	self textAttributesBuilder
+	self 
 		weight: (self tokenValueNamed: #'font-weight-strong');
 		defaultFontName: (self tokenValueNamed: #'font-family-code');
 		defaultFontSize: (self tokenValueNamed: #'font-size');
 		lineSpacing: (self tokenValueNamed: #'line-height');
 		foreground: (self tokenValueNamed: #'color-text').
 	(self hasStamp: #tooltip) ifTrue: [
-		self textAttributesBuilder 
+		self 
 			foreground: (self tokenValueNamed: #'color-text-tooltip');
 			defaultFontSize: (self tokenValueNamed: #'font-size-tooltip') ].
 	self isDisabled ifTrue: [
-		self textAttributesBuilder foreground:
+		self foreground:
 			(self tokenValueNamed: #'color-text-disabled') ].
 	self hasText ifFalse: [ ^ self ].
-	self textAttributesBuilder applyOn: self text.
+	self applyAttributesBuilder.
 	self textChanged
 ]
 

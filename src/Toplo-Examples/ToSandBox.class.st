@@ -1780,8 +1780,10 @@ ToSandBox class >> example_choiceButtonWithPlaceholder [
 	"choice width: 250."
 	choice withUncheckingStrategy.
 	choice data addAll: { 'OS-X'. 'Windows'. 'Linux' }.
-	choice defaultLabel: ((ToAttributedLabel text: ('Invalid choice' asRopedText foreground: Color red))
-			 yourself).
+	choice defaultLabel:
+		(ToAttributedLabel text: ('Invalid choice' asRopedText
+				  foreground: Color red;
+				  yourself)).
 	choice selectData: 'Windows'.
 	win pane addChild: choice.
 	win openInSpace

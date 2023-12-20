@@ -1,7 +1,6 @@
 Class {
 	#name : 'ToChoiceMenu',
 	#superclass : 'ToMenu',
-	#classTraits : 'TObservable classTrait',
 	#instVars : [
 		'group',
 		'data',
@@ -202,12 +201,10 @@ ToChoiceMenu >> notifyDataInserted: anInterval [
 ToChoiceMenu >> onAddedToSceneGraph [
 
 	super onAddedToSceneGraph.
-	(self defaultSelectedIndex > 0 and: [ self selectedIndex isZero ]) ifTrue: [
-		self data size >= self defaultSelectedIndex ifTrue: [
-			self selectIndex: self defaultSelectedIndex ]
-		ifFalse: [ self group forbidUnchecking ifTrue: [ Error signal: 'Items must be added before adding to a space' ] ] ].
-	(self group forbidUnchecking and: [ self selectedIndex isZero  ])
-		ifTrue: [ Error signal: 'An item must be selected before with #selectIndex: or #defaultSelectedIndex:' ]
+	(self defaultSelectedIndex > 0 and: [ self selectedIndex isZero ])
+		ifTrue: [
+			self data size >= self defaultSelectedIndex ifTrue: [
+				self selectIndex: self defaultSelectedIndex ] ]
 ]
 
 { #category : 'private - accessing' }

@@ -57,7 +57,7 @@ ToLabel >> beEditable [
 { #category : 'initialization' }
 ToLabel >> beMonoLine [
 
-	self lineMode: ToLabelMultiLineMode new
+	self lineMode: ToLabelMonoLineMode new
 ]
 
 { #category : 'initialization' }

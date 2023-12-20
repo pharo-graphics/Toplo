@@ -19,7 +19,8 @@ ToOverlayedEventHandlerTest >> testElementExtentChangedEvent [
 	e size: 10 asPoint.
 	windowManager := ToOverlayWindowManager new.
 	windowManager element: e.
-	self assert: (windowManager defaultSizeHook isKindOf: BlockClosure).
+	self assert: (windowManager defaultHeightHook isKindOf: BlockClosure).
+	self assert: (windowManager defaultWidthHook isKindOf: BlockClosure).
 	win := windowManager newWindowEvent: nil.
 	win popup.
 	self waitTestingSpaces.

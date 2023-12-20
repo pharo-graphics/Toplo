@@ -2262,7 +2262,8 @@ ToSandBox class >> example_overlayWindow2 [
 		     position: 50 @ 50.
 	windowHandler := ToOverlayWindowManager new.
 	windowHandler positionHook: [ :event :theElement| theElement bounds inSpace bounds topLeft + (20 @ 40) ].
-	windowHandler sizeHook: [ :event :theElement|  theElement size - (40 @ 60)].
+	windowHandler widthHook: [ :event :theElement|  theElement measuredWidth - 40 ].
+	windowHandler heightHook: [ :event :theElement|  theElement measuredHeight - 60 ].
 	windowHandler element: e.
 	windowHandler builder: [ :anchWin :element |
 		anchWin background: (Color gray alpha: 0.2).
@@ -2413,6 +2414,17 @@ ToSandBox class >> example_scaledImage [
 				         ifFalse: [ 0.5 ] ] ].
 	im border: (BlBorder paint: Color black width: 2).
 	im openInSpace
+]
+
+{ #category : 'select' }
+ToSandBox class >> example_selectReadOnly [
+
+	| select |
+	select := ToSelect new.
+	select hMatchParent.
+	select height: 30.
+	select data addAll: self statesOfAmerica.
+	select openInInnerWindow
 ]
 
 { #category : 'space' }

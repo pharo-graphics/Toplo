@@ -9,7 +9,8 @@ Class {
 { #category : 'element handlers' }
 ToOverlayedEventHandler >> elementExtentChangedEvent: anEvent [
 
-	windowManager applySizeHookFromEvent: anEvent
+	windowManager applyWidthHookFromEvent: anEvent.
+	windowManager applyHeightHookFromEvent: anEvent
 ]
 
 { #category : 'api - accessing' }

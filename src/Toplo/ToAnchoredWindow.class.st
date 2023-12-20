@@ -11,22 +11,29 @@ Class {
 }
 
 { #category : 'accessing' }
+ToAnchoredWindow >> applyHeightHookFromEvent: anEvent [
+
+	windowManager applyHeightHookFromEvent: anEvent
+]
+
+{ #category : 'accessing' }
 ToAnchoredWindow >> applyPositionHookFromEvent: anEvent [
 
 	windowManager applyPositionHookFromEvent: anEvent
 ]
 
 { #category : 'accessing' }
-ToAnchoredWindow >> applySizeHookFromEvent: anEvent [
+ToAnchoredWindow >> applyWidthHookFromEvent: anEvent [
 
-	windowManager applySizeHookFromEvent: anEvent
+	windowManager applyWidthHookFromEvent: anEvent
 ]
 
 { #category : 'api - displaying' }
 ToAnchoredWindow >> checkBeforePopupEvent: anEvent [
 
 	self applyPositionHookFromEvent: anEvent.
-	self applySizeHookFromEvent: anEvent
+	self applyWidthHookFromEvent: anEvent.
+	self applyHeightHookFromEvent: anEvent
 ]
 
 { #category : 'api - displaying' }

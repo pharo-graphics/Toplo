@@ -8,12 +8,21 @@ Class {
 		'elementEventHandler',
 		'windowClosedHandler',
 		'positionHook',
-		'sizeHook'
+		'widthHook',
+		'heightHook'
 	],
 	#category : 'Toplo-Core-Window',
 	#package : 'Toplo',
 	#tag : 'Core-Window'
 }
+
+{ #category : 'position hook' }
+ToAnchoredWindowManager >> applyHeightHookFromEvent: anEvent [
+
+	self currentWindow ifNil: [ Error signal: 'No current window' ].
+	self heightHook ifNil: [ ^ self ].
+	self currentWindow height: (self heightHook value: anEvent value: self element)
+]
 
 { #category : 'position hook' }
 ToAnchoredWindowManager >> applyPositionHookFromEvent: anEvent [
@@ -23,11 +32,11 @@ ToAnchoredWindowManager >> applyPositionHookFromEvent: anEvent [
 ]
 
 { #category : 'position hook' }
-ToAnchoredWindowManager >> applySizeHookFromEvent: anEvent [
+ToAnchoredWindowManager >> applyWidthHookFromEvent: anEvent [
 
 	self currentWindow ifNil: [ Error signal: 'No current window' ].
-	self sizeHook ifNil: [ ^ self ].
-	self currentWindow size: (self sizeHook value: anEvent value: self element)
+	self widthHook ifNil: [ ^ self ].
+	self currentWindow width: (self widthHook value: anEvent value: self element)
 ]
 
 { #category : 'accessing' }
@@ -71,13 +80,19 @@ ToAnchoredWindowManager >> defaultBuilder [
 ]
 
 { #category : 'initialization' }
+ToAnchoredWindowManager >> defaultHeightHook [
+
+	^ nil
+]
+
+{ #category : 'initialization' }
 ToAnchoredWindowManager >> defaultPositionHook [
 
 	^ [ :event :theElement| theElement bounds inSpace bounds topLeft ]
 ]
 
 { #category : 'initialization' }
-ToAnchoredWindowManager >> defaultSizeHook [
+ToAnchoredWindowManager >> defaultWidthHook [
 
 	^ nil
 ]
@@ -117,12 +132,27 @@ ToAnchoredWindowManager >> hasWindow [
 	^ self currentWindow notNil
 ]
 
+{ #category : 'accessing' }
+ToAnchoredWindowManager >> heightHook [
+	
+	^ heightHook
+]
+
+{ #category : 'accessing' }
+ToAnchoredWindowManager >> heightHook: aValuable [
+	
+	heightHook := aValuable.
+	self currentWindow ifNil: [  ^self ].
+	self applyHeightHookFromEvent: nil
+]
+
 { #category : 'initialization' }
 ToAnchoredWindowManager >> initialize [ 
 
 	super initialize.
 	self positionHook: self defaultPositionHook.
-	self sizeHook: self defaultSizeHook.
+	self heightHook: self defaultHeightHook.
+	self widthHook: self defaultWidthHook.
 	self builder: self defaultBuilder.
 
 	
@@ -187,15 +217,21 @@ ToAnchoredWindowManager >> positionHook: aValuable [
 { #category : 'accessing' }
 ToAnchoredWindowManager >> sizeHook [
 	
-	^ sizeHook
+	^ nil
 ]
 
 { #category : 'accessing' }
-ToAnchoredWindowManager >> sizeHook: aValuable [
+ToAnchoredWindowManager >> widthHook [
 	
-	sizeHook := aValuable.
+	^ widthHook
+]
+
+{ #category : 'accessing' }
+ToAnchoredWindowManager >> widthHook: aValuable [
+	
+	widthHook := aValuable.
 	self currentWindow ifNil: [  ^self ].
-	self applySizeHookFromEvent: nil
+	self applyWidthHookFromEvent: nil
 ]
 
 { #category : 'accessing' }

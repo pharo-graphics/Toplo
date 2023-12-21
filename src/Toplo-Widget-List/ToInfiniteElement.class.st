@@ -69,21 +69,9 @@ ToInfiniteElement >> defaultDataSource [
 ]
 
 { #category : 'initialization' }
-ToInfiniteElement >> defaultHolderFactory [
-
-	^ [ :infinite | self holderClass new infiniteElement: infinite ] 
-]
-
-{ #category : 'initialization' }
 ToInfiniteElement >> defaultLayout [
 
 	^ BlInfiniteLinearLayout new
-]
-
-{ #category : 'initialization' }
-ToInfiniteElement >> defaultListNodeFactory [
-
-	^ self subclassResponsibility 
 ]
 
 { #category : 'initialization' }
@@ -92,6 +80,12 @@ ToInfiniteElement >> defaultMouseScrollEventHandler [
 	^ BlInfiniteMouseScrollListener new
 		  restrictedByOrientation: true;
 		  yourself
+]
+
+{ #category : 'initialization' }
+ToInfiniteElement >> defaultNodeBuilder [
+
+	^ self subclassResponsibility 
 ]
 
 { #category : 'initialization' }
@@ -194,7 +188,7 @@ ToInfiniteElement >> initialize [
 	self installShortcuts.
 	
 	self preserveSelectionOnFocused: self preserveSelectionOnFocusedByDefault.
-	self nodeBuilder: self defaultListNodeFactory.
+	self nodeBuilder: self defaultNodeBuilder.
 	self matchParent
 ]
 

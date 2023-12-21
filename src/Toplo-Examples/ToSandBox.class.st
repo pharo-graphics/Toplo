@@ -912,7 +912,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 				      interspace: 10;
 				      hMatchParent) ].
 	l addEventHandler: (BlEventHandler
-			 on: ToInfiniteSelectionChangedEvent
+			 on: ToListElementSelectionChangedEvent
 			 do: [ :evt | evt traceCr ]).
 	l data addAll: Smalltalk globals allClasses.
 	l withRowNumbers.

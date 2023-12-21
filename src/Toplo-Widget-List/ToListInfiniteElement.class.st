@@ -19,7 +19,7 @@ ToListInfiniteElement >> defaultEventHandler [
 ]
 
 { #category : 'initialization' }
-ToListInfiniteElement >> defaultListNodeFactory [
+ToListInfiniteElement >> defaultNodeBuilder [
 
 	^ [ :node :holder | node addChild: ((ToLabel text: holder data asString) hMatchParent) ]
 ]

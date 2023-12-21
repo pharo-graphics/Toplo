@@ -4,3 +4,18 @@ Class {
 	#category : 'Toplo-Widget-Select',
 	#package : 'Toplo-Widget-Select'
 }
+
+{ #category : 'element handlers' }
+ToSelectEventHandler >> elementExtentChangedEvent: anEvent [
+
+	windowManager currentWindow ifNil: [ ^ self ].
+	windowManager applyPositionHookFromEvent: anEvent.
+	windowManager applyWidthHookFromEvent: anEvent.
+	windowManager applyHeightHookFromEvent: anEvent
+]
+
+{ #category : 'api - accessing' }
+ToSelectEventHandler >> eventsToHandle [ 
+
+	^ super eventsToHandle , { BlElementExtentChangedEvent }
+]

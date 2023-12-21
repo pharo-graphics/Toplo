@@ -14,11 +14,21 @@ Class {
 }
 
 { #category : 'accessing' }
+ToSelect >> contentBuilder [
+
+	" builds the content element. 
+	aValuable take the content element as first argument 
+	and the list as second argument "
+	
+	^ contentBuilder
+]
+
+{ #category : 'accessing' }
 ToSelect >> contentBuilder: aValuable [
 
-	" builds the content of the selected list nodes. 
-	aValuable take the selected node collection as first argument 
-	then the list node holder as second argument "
+	" builds the content element. 
+	aValuable take the content element as first argument 
+	and the list as second argument "
 	
 	contentBuilder := aValuable
 ]
@@ -30,9 +40,30 @@ ToSelect >> contentElement [
 ]
 
 { #category : 'accessing' }
+ToSelect >> currentSelectContentElement [
+
+	^ self contentElement childWithId: #'select-content' ifNone: [  ]
+]
+
+{ #category : 'accessing' }
 ToSelect >> data [
 
 	^ self listElement data
+]
+
+{ #category : 'initialization' }
+ToSelect >> defaultContentBuilder [
+
+	^ [ :theSelectContent :aSelectedData |
+	  theSelectContent addChild: ((ToLabel text: aSelectedData asString)
+			   padding: (BlInsets horizontal: 3);
+			   yourself) ]
+]
+
+{ #category : 'accessing' }
+ToSelect >> filler [ 
+
+	^ filler
 ]
 
 { #category : 'accessing' }
@@ -63,6 +94,7 @@ ToSelect >> initialize [
 	super initialize.
 	self fitContent.
 	self layout beHorizontal.
+	contentBuilder := self defaultContentBuilder.
 	contentElement := self newContentElement.
 	filler := self newFiller.
 	iconHolder := self newIconHolder.
@@ -83,9 +115,10 @@ ToSelect >> listElement [
 ToSelect >> newContentElement [
 
 	^ ToElement new
-		  fitContent;
-		  id: #innerElement;
-		  layout: BlFlowLayout horizontal;
+		  vFitContent;
+		hMatchParent;
+		  id: #contentElement;
+		  layout: BlLinearLayout horizontal;
 		  constraintsDo: [ :c | c linear vertical alignCenter ];
 		  yourself
 ]
@@ -116,10 +149,37 @@ ToSelect >> newRawSkin [
 	^ ToSelectSkin new
 ]
 
+{ #category : 'accessing' }
+ToSelect >> newSelectContentElement [
+
+	^ ToElement new
+		  vFitContent;
+		  hMatchParent;
+		  id: #'select-content';
+		  layout: BlFlowLayout horizontal;
+		  constraintsDo: [ :c | c linear vertical alignCenter ];
+		  yourself
+]
+
 { #category : 't - infinite accessing' }
 ToSelect >> nodeBuilder: aNodeFactory [
 
 	self listElement nodeBuilder: aNodeFactory
+]
+
+{ #category : 'accessing' }
+ToSelect >> selectIndexes: aCollectionOfInteger [
+
+	| selectContent |
+	aCollectionOfInteger
+		ifEmpty: [ self filler matchParent ]
+		ifNotEmpty: [ self filler size: 0 @ 0 ].
+	self currentSelectContentElement ifNotNil: [ :child |
+		child removeFromParent ].
+	selectContent := self newSelectContentElement.
+	self contentElement addChild: selectContent at: 1.
+	aCollectionOfInteger do: [ :idx |
+		self contentBuilder value: selectContent value: (self data at: idx) ]
 ]
 
 { #category : 'accessing' }

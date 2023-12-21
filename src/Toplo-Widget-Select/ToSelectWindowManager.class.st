@@ -31,6 +31,9 @@ ToSelectWindowManager >> initialize [
 
 	super initialize.
 	listElement := ToListElement new matchParent.
+	listElement addEventHandler: (BlEventHandler
+			 on: ToListElementSelectionChangedEvent
+			 do: [ :evt | evt sendTo: self  ]).
 	self builder: [ :selectWin :request | 
 		selectWin root matchParent.
 		selectWin root addChild: self listElement ].
@@ -40,4 +43,10 @@ ToSelectWindowManager >> initialize [
 ToSelectWindowManager >> listElement [
 
 	^ listElement 
+]
+
+{ #category : 'element handlers' }
+ToSelectWindowManager >> listElementSelectionChangedEvent: anEvent [
+
+	self element selectIndexes: anEvent newSelectedIndexes
 ]

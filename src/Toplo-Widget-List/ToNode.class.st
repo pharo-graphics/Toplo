@@ -7,43 +7,9 @@ Class {
 }
 
 { #category : 'initialization' }
-ToNode >> colorProvider [
-
-	^ self theme item 
-
-]
-
-{ #category : 'initialization' }
 ToNode >> defaultEventHandler [
 
 	^ ToNodeEventHandler new
-]
-
-{ #category : 'initialization' }
-ToNode >> defaultHoveredBackground [  
-
-	^ self colorProvider hoveredBackgroundColor
-
-]
-
-{ #category : 'initialization' }
-ToNode >> defaultHoveredBorder [
-
-	^ BlBorder paint: self colorProvider hoveredBorderColor
-
-]
-
-{ #category : 'initialization' }
-ToNode >> defaultInitialBackground [
-
-	^ self colorProvider defaultBackgroundColor
-]
-
-{ #category : 'initialization' }
-ToNode >> defaultInitialBorder [
-
-	^ BlBorder paint: self colorProvider defaultBorderColor.
-
 ]
 
 { #category : 'initialization' }
@@ -74,15 +40,5 @@ ToNode >> initialize [
 		geometry: self defaultGeometry;
 		padding: self defaultPadding;
 		margin: self defaultMargin;
-		border: self defaultInitialBorder;
-		background: self defaultInitialBackground;
 		addEventHandler: self defaultEventHandler
-]
-
-{ #category : 't - orientable - accessing' }
-ToNode >> layoutStrategy [
-
-	^ self layout
-
-	
 ]

@@ -7,31 +7,13 @@ Class {
 		'icon',
 		'filler',
 		'contentElement',
-		'contentBuilder'
+		'nodeClass',
+		'nodeBuilder',
+		'nodeHolders'
 	],
 	#category : 'Toplo-Widget-Select',
 	#package : 'Toplo-Widget-Select'
 }
-
-{ #category : 'accessing' }
-ToSelect >> contentBuilder [
-
-	" builds the content element. 
-	aValuable take the content element as first argument 
-	and the list as second argument "
-	
-	^ contentBuilder
-]
-
-{ #category : 'accessing' }
-ToSelect >> contentBuilder: aValuable [
-
-	" builds the content element. 
-	aValuable take the content element as first argument 
-	and the list as second argument "
-	
-	contentBuilder := aValuable
-]
 
 { #category : 'accessing' }
 ToSelect >> contentElement [
@@ -52,12 +34,10 @@ ToSelect >> data [
 ]
 
 { #category : 'initialization' }
-ToSelect >> defaultContentBuilder [
+ToSelect >> defaultNodeBuilder [
 
-	^ [ :theSelectContent :aSelectedData |
-	  theSelectContent addChild: ((ToLabel text: aSelectedData asString)
-			   padding: (BlInsets horizontal: 3);
-			   yourself) ]
+	^ [ :aSelectNode :aNodeHolder |
+	  aSelectNode addChild: (ToLabel text: aNodeHolder data asString) ]
 ]
 
 { #category : 'accessing' }
@@ -94,7 +74,8 @@ ToSelect >> initialize [
 	super initialize.
 	self fitContent.
 	self layout beHorizontal.
-	contentBuilder := self defaultContentBuilder.
+	nodeHolders := OrderedCollection new.
+	nodeBuilder := self defaultNodeBuilder.
 	contentElement := self newContentElement.
 	filler := self newFiller.
 	iconHolder := self newIconHolder.
@@ -111,15 +92,20 @@ ToSelect >> listElement [
 	^ self windowManager listElement
 ]
 
+{ #category : 't - infinite accessing' }
+ToSelect >> listNodeBuilder: aNodeFactory [
+
+	self listElement nodeBuilder: aNodeFactory
+]
+
 { #category : 'initialization' }
 ToSelect >> newContentElement [
 
 	^ ToElement new
 		  vFitContent;
-		hMatchParent;
+		  hMatchParent;
 		  id: #contentElement;
 		  layout: BlLinearLayout horizontal;
-		  constraintsDo: [ :c | c linear vertical alignCenter ];
 		  yourself
 ]
 
@@ -143,6 +129,18 @@ ToSelect >> newIconHolder [
 		  yourself
 ]
 
+{ #category : 'accessing selection' }
+ToSelect >> newNode [
+
+	^ self nodeClass new
+]
+
+{ #category : 'accessing selection' }
+ToSelect >> newNodeHolder [
+
+	^ self nodeHolderClass new
+]
+
 { #category : 'skin' }
 ToSelect >> newRawSkin [ 
 
@@ -161,13 +159,49 @@ ToSelect >> newSelectContentElement [
 		  yourself
 ]
 
-{ #category : 't - infinite accessing' }
-ToSelect >> nodeBuilder: aNodeFactory [
+{ #category : 'accessing' }
+ToSelect >> nodeBuilder [
 
-	self listElement nodeBuilder: aNodeFactory
+	" see the mutator method  "
+	
+	^ nodeBuilder
 ]
 
 { #category : 'accessing' }
+ToSelect >> nodeBuilder: aValuable [
+
+	" builds a select node element from list data. 
+	aValuable take the select node element to build as first argument 
+	and the select node holder as second argument"
+	
+	nodeBuilder := aValuable
+]
+
+{ #category : 'accessing' }
+ToSelect >> nodeClass [ 
+
+	^ nodeClass ifNil: [nodeClass := ToSelectNode]
+]
+
+{ #category : 'accessing' }
+ToSelect >> nodeClass: aNodeClass [
+
+	nodeClass := aNodeClass
+]
+
+{ #category : 'accessing selection' }
+ToSelect >> nodeHolderClass [ 
+
+	^ ToSelectNodeHolder
+]
+
+{ #category : 'accessing selection' }
+ToSelect >> nodeHolders [
+
+	^ nodeHolders
+]
+
+{ #category : 'accessing selection' }
 ToSelect >> selectIndexes: aCollectionOfInteger [
 
 	| selectContent |
@@ -178,8 +212,19 @@ ToSelect >> selectIndexes: aCollectionOfInteger [
 		child removeFromParent ].
 	selectContent := self newSelectContentElement.
 	self contentElement addChild: selectContent at: 1.
+	self nodeHolders reset.
 	aCollectionOfInteger do: [ :idx |
-		self contentBuilder value: selectContent value: (self data at: idx) ]
+		| node holder |
+		node := self newNode.
+		holder := self newNodeHolder.
+		self nodeHolders add: holder.
+		holder
+			node: node;
+			position: idx;
+			select: self;
+			data: (self data at: idx).
+		self nodeBuilder value: node value: holder.
+		selectContent addChild: node ]
 ]
 
 { #category : 'accessing' }

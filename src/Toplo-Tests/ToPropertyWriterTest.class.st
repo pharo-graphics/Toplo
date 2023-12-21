@@ -36,7 +36,7 @@ ToPropertyWriterTest >> testAnimationNeedPropertyWithReader [
 	propWriter animation:
 		(anim := ToPropertyColorTransitionAnimation new
 			         property: prop;
-			         duration: 10 milliSeconds).
+			         duration: 1 milliSeconds).
 	self should: [ propWriter writeTo: w ] raise: MessageNotUnderstood.
 
 	"now setup a reader and it should be ok "

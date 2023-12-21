@@ -45,6 +45,10 @@ ToMenuItemSkin >> installLookEvent: anEvent [
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e labeledIcon hMatchParent.
+		e isTopMenu ifFalse: [
+			e parentMenuDo: [ :pm |
+				(pm items anySatisfy: [ :mi | mi hasIcon ]) ifTrue: [
+					e button rightLabelAlignment: 25 ] ] ].
 		e iconDo: [ :ic | ic formColor: (e tokenValueNamed: #'color-text') ].
 		e labelDo: [ :lab |
 			lab text attributes:

@@ -6,7 +6,7 @@ Class {
 	#tag : 'Choice menu'
 }
 
-{ #category : 'event handling' }
+{ #category : 'as yet unclassified' }
 ToChoiceMenuSkin >> disabledLookEvent: anEvent [
 
 	super disabledLookEvent: anEvent.
@@ -16,7 +16,7 @@ ToChoiceMenuSkin >> disabledLookEvent: anEvent [
 				 width: (e tokenValueNamed: #'line-width')) ]
 ]
 
-{ #category : 'event handling' }
+{ #category : 'as yet unclassified' }
 ToChoiceMenuSkin >> enabledLookEvent: anEvent [
 
 	super enabledLookEvent: anEvent.
@@ -26,7 +26,7 @@ ToChoiceMenuSkin >> enabledLookEvent: anEvent [
 				 width: (e tokenValueNamed: #'line-width')) ]
 ]
 
-{ #category : 'event handling' }
+{ #category : 'as yet unclassified' }
 ToChoiceMenuSkin >> hoveredLookEvent: anEvent [
 
 	super hoveredLookEvent: anEvent.
@@ -47,7 +47,7 @@ ToChoiceMenuSkin >> installLookEvent: anEvent [
 		e icon: (ToImage inner: (self iconNamed: #bottom)) ]
 ]
 
-{ #category : 'event handling' }
+{ #category : 'as yet unclassified' }
 ToChoiceMenuSkin >> leavedLookEvent: anEvent [
 
 	super leavedLookEvent: anEvent.
@@ -57,7 +57,7 @@ ToChoiceMenuSkin >> leavedLookEvent: anEvent [
 				 width: (e tokenValueNamed: #'line-width')) ]
 ]
 
-{ #category : 'event handling' }
+{ #category : 'as yet unclassified' }
 ToChoiceMenuSkin >> pressedLookEvent: anEvent [
 
 	super pressedLookEvent: anEvent.

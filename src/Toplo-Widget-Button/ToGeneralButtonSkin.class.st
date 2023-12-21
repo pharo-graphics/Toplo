@@ -45,7 +45,6 @@ ToGeneralButtonSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e vFitContent.
 		e mouseCursor: BlCursor default.
 		e background: (e tokenValueNamed: #'color-bg-container').
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:

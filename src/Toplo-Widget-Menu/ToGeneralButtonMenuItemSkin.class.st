@@ -44,10 +44,6 @@ ToGeneralButtonMenuItemSkin >> installLookEvent: anEvent [
 		e background: (e tokenValueNamed: #'color-bg-container').
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e tokenValueNamed: 'border-radius')).
-		e isTopMenu ifFalse: [ 
-		(e parentMenu notNil and: [
-			 e parentMenu items anySatisfy: [ :mi | mi hasIcon ] ]) ifTrue: [
-			e button rightLabelAlignment: 25 ] ].
 		e padding: (BlInsets
 				 top: (e tokenValueNamed: #'padding-content-V')
 				 left: (e tokenValueNamed: #'padding-XS')

@@ -155,9 +155,11 @@ ToSandBox class >> example_CheckboxFlexibleWithGroup [
 		buttons add: chb ].
 	buttons second checked: true.
 	group addAll: buttons.
-	group when: ToCheckableGroupChangedEvent do: [ :event |
-		('checked: ' , event checkedButtons asString , ' unchecked: '
-		 , event uncheckedButtons asString) traceCr ].
+	group addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event |
+				 ('checked: ' , event checkedButtons asString , ' unchecked: '
+				  , event uncheckedButtons asString) traceCr ]).
 
 	container := ToElement new.
 	container background: Color veryLightGray.
@@ -217,9 +219,11 @@ ToSandBox class >> example_CheckboxGroupAndStrictStrategy [
 		buttons add: chb ].
 	buttons second checked: true.
 	group addAll: buttons.
-	group when: ToCheckableGroupChangedEvent do: [ :event |
-		('checked: ' , event checkedButtons asString , ' unchecked: '
-		 , event uncheckedButtons asString) traceCr ].
+	group addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event |
+				 ('checked: ' , event checkedButtons asString , ' unchecked: '
+				  , event uncheckedButtons asString) traceCr ]).
 
 	container := ToElement new.
 	container constraintsDo: [ :c |
@@ -1172,9 +1176,10 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 	menu addItem: (ToMenuItem new
 			 icon: (ToImage inner: (self iconNamed: #solidMenu));
 			 label: (ToLabel text: 'Open')).
-	lbl := ToLabel new text: ('Save stuffs' asRopedText
+	lbl := ToAttributedLabel new text: ('Save stuffs' asRopedText
 			        fontSize: 12;
-			        foreground: (Color black alpha: 0.7)).
+			        italic;
+			        foreground: (Color blue alpha: 0.7)).
 	menu addSeparator.
 	menu addItem: (ToCustomMenuItem new innerElement: lbl).
 
@@ -2277,7 +2282,6 @@ ToSandBox class >> example_selectReadOnly [
 	| select |
 	select := ToSelect new.
 	select hMatchParent.
-	select height: 30.
 	select data addAll: self statesOfAmerica.
 	select openInInnerWindow
 ]
@@ -2314,12 +2318,14 @@ ToSandBox class >> example_stillHoveredEvent [
 	e size: 200 asPoint.
 	e border: Color black.
 	count := 0.
-	e when: ToStillHoveredLookEvent do: [ :event |
-		lab text: count asString asRopedText.
-		count := count + 1.
-		count > 50 ifTrue: [
-			event consumed: true.
-			count := 0 ] ].
+	e addEventHandler: (BlEventHandler
+			 on: ToStillHoveredLookEvent
+			 do: [ :event |
+				 lab text: count asString asRopedText.
+				 count := count + 1.
+				 count > 50 ifTrue: [
+					 event consumed: true.
+					 count := 0 ] ]).
 	e openInSpace
 ]
 
@@ -2339,15 +2345,17 @@ ToSandBox class >> example_stillPressedEvent [
 	e border: Color black.
 	count := 0.
 	color := Color white alpha: 0.3.
-	e when: ToStillPressedLookEvent do: [ :event | 
-		e background: color.
-		lab text: count asString asRopedText.
-		count := count + 1.
-		color := color darker.
-		count > 50 ifTrue: [
-			event consumed: true.
-			count := 0.
-			color := Color white alpha: 0.3] ].
+	e addEventHandler: (BlEventHandler
+			 on: ToStillPressedLookEvent
+			 do: [ :event |
+				 e background: color.
+				 lab text: count asString asRopedText.
+				 count := count + 1.
+				 color := color darker.
+				 count > 50 ifTrue: [
+					 event consumed: true.
+					 count := 0.
+					 color := Color white alpha: 0.3 ] ]).
 	e openInSpace
 ]
 

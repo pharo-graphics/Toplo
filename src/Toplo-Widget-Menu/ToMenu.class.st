@@ -63,22 +63,6 @@ ToMenu >> initializeWithMenuConstraints [
 
 ]
 
-{ #category : 'skin' }
-ToMenu >> installRawStyle [
-
-	super installRawStyle.
-	self isSubmenu ifFalse: [
-		(self hasIcon and: [ self hasLabel ])
-			ifTrue: [ self interspace: 10 ]
-			ifFalse: [ self interspace: 0 ].
-		^ self ].
-	self parentMenu items do: [ :mi |
-		(mi isKindOf: ToMenuItem) ifTrue: [ mi filler width: 15 ] ].
-	self rightHandSide addChild: (ToLabel new
-			 text: '...';
-			 yourself)
-]
-
 { #category : 'testing' }
 ToMenu >> isMenu [
 
@@ -122,6 +106,12 @@ ToMenu >> menuWindowDo: aValuable [
 	aValuable value: self menuWindow
 ]
 
+{ #category : 'skin' }
+ToMenu >> newRawSkin [ 
+
+	^ ToMenuSkin new
+]
+
 { #category : 't - menu window model' }
 ToMenu >> popupEvent: anEvent [
 
@@ -151,13 +141,4 @@ ToMenu >> toThemeChanged [
 	super toThemeChanged.
 
 	
-]
-
-{ #category : 'skin' }
-ToMenu >> uninstallRawStyle [
-
-	super uninstallRawStyle.
-	self isSubmenu ifFalse: [ ^ self ].
-	self rightHandSide removeChildren.
-
 ]

@@ -2018,150 +2018,6 @@ ToSandBox class >> example_lookEventTrace [
 	but openInSpace
 ]
 
-{ #category : 'menu dep' }
-ToSandBox class >> example_menu6 [
-
-	| menu grp right center left textField sub lbl |
-	menu := ToMenu new.
-
-	menu labelText: 'File'.
-	menu addItem: (ToMenuItem new
-			 labelText: 'Open file';
-			 whenClickedDo: [ self inform: 'Open file' ];
-			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
-
-	menu addItem: (ToMenuItem new
-			 labelText: 'Export';
-			 whenClickedDo: [ self inform: 'Export' ]).
-	menu addItem: (ToMenuItem new
-			 labelText: 'Export';
-			 whenClickedDo: [ self inform: 'Export' ]).
-
-	grp := ToCheckableGroup new.
-	right := ToRadioMenuItem new
-		         labelText: 'Right';
-		         id: #right.
-	center := ToRadioMenuItem new
-		          labelText: 'Center';
-		          id: #center.
-	left := ToRadioMenuItem new
-		        labelText: 'Left';
-		        id: #left.
-	center checked: true.
-	grp addAll: {
-			right.
-			center.
-			left }.
-
-	grp addEventHandler: (BlEventHandler
-			 on: ToCheckableGroupChangedEvent
-			 do: [ :event |
-				 ('checked: ' , event checkedButtons asString , ' unchecked: '
-				  , event uncheckedButtons asString) traceCr ]).
-
-	menu addSeparator.
-
-	lbl := ToLabel new text: ('Radio button icon first' asRopedText
-			        fontSize: 12;
-			        foreground: (Color black alpha: 0.7)).
-	menu addItem: (ToCustomMenuItem new
-			 innerElement: lbl;
-			 margin: (BlInsets
-					  top: 2;
-					  bottom: 4)).
-	menu addAllItems: grp buttons.
-
-	grp := ToCheckableGroup new.
-	right := ToRadioMenuItem new
-		         beLabelFirst;
-		         labelText: 'Right';
-		         id: #right.
-	center := ToRadioMenuItem new
-		          beLabelFirst;
-		          labelText: 'Center';
-		          id: #center.
-	left := ToRadioMenuItem new
-		        beLabelFirst;
-		        labelText: 'Left';
-		        id: #left.
-	center checked: true.
-	grp addAll: {
-			right.
-			center.
-			left }.
-	grp addEventHandler: (BlEventHandler
-			 on: ToCheckableGroupChangedEvent
-			 do: [ :event |
-				 ('checked: ' , event checkedButtons asString , ' unchecked: '
-				  , event uncheckedButtons asString) traceCr ]).
-
-	menu addSeparator.
-
-	lbl := ToLabel new text: ('Radio button label first' asRopedText
-			        fontSize: 12;
-			        foreground: (Color black alpha: 0.7)).
-	menu addItem: (ToCustomMenuItem new
-			 innerElement: lbl;
-			 margin: (BlInsets
-					  top: 2;
-					  bottom: 4)).
-	menu addAllItems: grp buttons.
-
-	grp := ToCheckableGroup new.
-	right := ToRadioMenuItem new
-		         beLabelFirst;
-		         flexible: true;
-		         labelText: 'Right';
-		         id: #right.
-	center := ToRadioMenuItem new
-		          beLabelFirst;
-		          flexible: true;
-		          labelText: 'Center';
-		          id: #center.
-	left := ToRadioMenuItem new
-		        beLabelFirst;
-		        flexible: true;
-		        labelText: 'Left';
-		        id: #left.
-	center checked: true.
-	grp addAll: {
-			right.
-			center.
-			left }.
-
-	grp addEventHandler: (BlEventHandler
-			 on: ToCheckableGroupChangedEvent
-			 do: [ :event |
-				 ('checked: ' , event checkedButtons asString , ' unchecked: '
-				  , event uncheckedButtons asString) traceCr ]).
-
-	center checked: true.
-
-	menu addSeparator.
-	lbl := ToLabel new text:
-		       ('Radio buttons label first and justified' asRopedText
-			        fontSize: 12;
-			        foreground: (Color black alpha: 0.7)).
-	menu addItem: (ToCustomMenuItem new
-			 innerElement: lbl;
-			 margin: (BlInsets
-					  top: 2;
-					  bottom: 4)).
-	menu addAllItems: grp buttons.
-	menu addSeparator.
-	textField := ToTextField new
-		             withLineWrapping;
-		             width: 200.
-	menu addItem: (ToCustomMenuItem new innerElement: textField).
-	menu addSeparator.
-	sub := ToMenu new labelText: 'Save All'.
-	sub addItem: (ToMenuItem new labelText: 'Locally').
-	menu addItem: sub.
-
-	menu position: 10 @ 10.
-	menu openInInnerWindow
-]
-
 { #category : 'context menu + menubar' }
 ToSandBox class >> example_menuBar1 [
 
@@ -3387,6 +3243,162 @@ ToSandBox class >> example_withCheckBox [
 	sub addItem: subsub.
 
 	menu addItem: sub.
+	menu position: 10 @ 10.
+	menu openInInnerWindow
+]
+
+{ #category : 'menu' }
+ToSandBox class >> example_withCustomMenuItems [
+
+	| menu grp right center left textField sub lbl |
+	menu := ToMenu new.
+
+	menu labelText: 'File'.
+	menu addItem: (ToMenuItem new
+			 labelText: 'Open file';
+			 whenClickedDo: [ self inform: 'Open file' ];
+			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
+
+	menu addItem: (ToMenuItem new
+			 labelText: 'Export';
+			 whenClickedDo: [ self inform: 'Export' ]).
+	menu addItem: (ToMenuItem new
+			 labelText: 'Export';
+			 whenClickedDo: [ self inform: 'Export' ]).
+
+	grp := ToCheckableGroup new.
+	right := ToRadioMenuItem new
+		         labelText: 'Right';
+		         id: #right.
+	center := ToRadioMenuItem new
+		          labelText: 'Center';
+		          id: #center.
+	left := ToRadioMenuItem new
+		        labelText: 'Left';
+		        id: #left.
+	center checked: true.
+	grp addAll: {
+			right.
+			center.
+			left }.
+
+	grp addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event |
+				 ('checked: ' , event checkedButtons asString , ' unchecked: '
+				  , event uncheckedButtons asString) traceCr ]).
+
+	menu addSeparator.
+
+	lbl := ToAttributedLabel new text:
+		       ('Radio button icon first' asRopedText
+			        italic;
+			        fontSize: 12;
+			        foreground: (Color black alpha: 0.7)).
+	menu addItem: (ToCustomMenuItem new
+			 innerElement: lbl;
+			 margin: (BlInsets
+					  top: 2;
+					  bottom: 4)).
+	menu addAllItems: grp buttons.
+
+	grp := ToCheckableGroup new.
+	right := ToRadioMenuItem new
+		         beLabelFirst;
+		         labelText: 'Right';
+		         id: #right.
+	center := ToRadioMenuItem new
+		          beLabelFirst;
+		          labelText: 'Center';
+		          id: #center.
+	left := ToRadioMenuItem new
+		        beLabelFirst;
+		        labelText: 'Left';
+		        id: #left.
+	center checked: true.
+	grp addAll: {
+			right.
+			center.
+			left }.
+	grp addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event |
+				 ('checked: ' , event checkedButtons asString , ' unchecked: '
+				  , event uncheckedButtons asString) traceCr ]).
+
+	menu addSeparator.
+
+	lbl := ToAttributedLabel new text:
+		       ('Radio button label first' asRopedText
+			        italic;
+			        fontSize: 12;
+			        foreground: (Color black alpha: 0.7)).
+	menu addItem: (ToCustomMenuItem new
+			 innerElement: lbl;
+			 margin: (BlInsets
+					  top: 2;
+					  bottom: 4)).
+	menu addAllItems: grp buttons.
+
+	grp := ToCheckableGroup new.
+	right := ToRadioMenuItem new
+		         beLabelFirst;
+		         flexible: true;
+		         labelText: 'Right';
+		         id: #right.
+	center := ToRadioMenuItem new
+		          beLabelFirst;
+		          flexible: true;
+		          labelText: 'Center';
+		          id: #center.
+	left := ToRadioMenuItem new
+		        beLabelFirst;
+		        flexible: true;
+		        labelText: 'Left';
+		        id: #left.
+	center checked: true.
+	grp addAll: {
+			right.
+			center.
+			left }.
+
+	grp addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event |
+				 ('checked: ' , event checkedButtons asString , ' unchecked: '
+				  , event uncheckedButtons asString) traceCr ]).
+
+	center checked: true.
+
+	menu addSeparator.
+	lbl := ToAttributedLabel new text:
+		       ('Radio buttons label first and justified' asRopedText
+			        fontSize: 12;
+			        italic;
+			        foreground: (Color black alpha: 0.7)).
+	menu addItem: (ToCustomMenuItem new
+			 innerElement: lbl;
+			 margin: (BlInsets
+					  top: 2;
+					  bottom: 4)).
+	menu addAllItems: grp buttons.
+	menu addSeparator.
+	textField := ToTextField new
+		             placeholderBuilder: [ :thePlaceholder :theElement |
+			             thePlaceholder padding: theElement padding.
+			             thePlaceholder addChild:
+					             (ToAttributedLabel new text:
+							              ('Your name' asRopedText
+								               foreground: Color lightGray;
+								               yourself)) ];
+		             withLineWrapping;
+		             width: 200.
+	menu addItem: (ToCustomMenuItem new innerElement: textField).
+	menu addSeparator.
+	sub := ToMenu new labelText: 'Save All'.
+	sub addItem: (ToMenuItem new labelText: 'Locally').
+	menu addItem: sub.
+
 	menu position: 10 @ 10.
 	menu openInInnerWindow
 ]

@@ -111,6 +111,13 @@ ToMenuItemElement >> parentMenu: aMenu [
 	parentMenu := aMenu
 ]
 
+{ #category : 'parent menu' }
+ToMenuItemElement >> parentMenuDo: aBlock [
+
+	self parentMenu ifNil: [ ^ self ].
+	aBlock value: self parentMenu
+]
+
 { #category : 'adding-removing' }
 ToMenuItemElement >> removedFromMenu: aMenu [
 

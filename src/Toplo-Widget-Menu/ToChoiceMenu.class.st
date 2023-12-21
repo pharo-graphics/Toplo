@@ -114,16 +114,6 @@ ToChoiceMenu >> initialize [
 			 do: [ :event | self checkableGroupChangedEvent: event ])
 ]
 
-{ #category : 'skin' }
-ToChoiceMenu >> installRawStyle [ 
-
-	super installRawStyle.
-	self beLabelFirst.
-	self flexible: true.
-	self interspace: 10.
-	self icon: (ToImage inner: (Smalltalk ui icons iconNamed: #bottom))
-]
-
 { #category : 'private - accessing' }
 ToChoiceMenu >> menuItemFromData: anObject [
 
@@ -145,6 +135,13 @@ ToChoiceMenu >> newMenuItemFromData: anObject [
 		  labelText: (self dataToTextConverter value: anObject);
 		  data: anObject;
 		  yourself
+]
+
+{ #category : 'skin' }
+ToChoiceMenu >> newRawSkin [
+
+	^ ToChoiceMenuSkin new
+	
 ]
 
 { #category : 'private - notifications' }

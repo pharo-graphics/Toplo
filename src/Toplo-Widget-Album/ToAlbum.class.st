@@ -198,6 +198,14 @@ ToAlbum >> innerElement [
 ]
 
 { #category : 't - element with placeholder' }
+ToAlbum >> newPlaceholder [
+
+	^ super newPlaceholder
+		  padding: self padding;
+		  yourself
+]
+
+{ #category : 't - element with placeholder' }
 ToAlbum >> placeholderClass [
 
 	^ ToAlbumPlaceholder
@@ -278,7 +286,9 @@ ToAlbum >> text: aBlText [
 { #category : 'transaction hook' }
 ToAlbum >> whenCancelRequestedDo: aBlock [
 
-	self when: ToAlbumCancelRequestedEvent do: aBlock
+	self addEventHandler: (BlEventHandler
+			 on: ToAlbumCancelRequestedEvent
+			 do: aBlock)
 ]
 
 { #category : 'property change hook' }
@@ -304,7 +314,9 @@ ToAlbum >> whenSaveDeniedDo: aBlock [
 { #category : 'transaction hook' }
 ToAlbum >> whenSaveRequestedDo: aBlock [
 
-	self when: ToAlbumSaveRequestedEvent do: aBlock
+	self addEventHandler: (BlEventHandler
+			 on: ToAlbumSaveRequestedEvent
+			 do: aBlock)
 ]
 
 { #category : 'styler configuration' }

@@ -38,6 +38,12 @@ TToElementWithPlaceholder >> isShowingPlaceholder: aBoolean [
 ]
 
 { #category : 't - element with placeholder' }
+TToElementWithPlaceholder >> newPlaceholder [
+
+	^ self placeholderClass new
+]
+
+{ #category : 't - element with placeholder' }
 TToElementWithPlaceholder >> placeholderBuilder: aValuable [
 
 	" aValuable takes 2 args: 1 the placeholder to build, 2 the element. 
@@ -96,7 +102,7 @@ TToElementWithPlaceholder >> showPlaceholder [
 	self currentPlaceholderLayer ifNotNil: [ ^ self ].
 	self rawPlaceholderBuilder ifNotNil: [ :builder |
 		| ph |
-		ph := self placeholderClass new.
+		ph := self newPlaceholder.
 		builder value: ph value: self.
 		self userData at: #currentPlaceholderLayer put: ph.
 		ph attachTo: self.

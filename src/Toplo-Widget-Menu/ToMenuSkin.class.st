@@ -11,7 +11,9 @@ ToMenuSkin >> installLookEvent: anEvent [
 
 	super installLookEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e parentMenuDo: [ :pm | pm items do: [ :it | it filler width: 20 ] ].
+		e parentMenuDo: [ :pm |
+			pm items do: [ :it |
+				(it isKindOf: ToMenuItem) ifTrue: [ it filler width: 10 ] ] ].
 		e isSubmenu
 			ifTrue: [
 				e rightHandSide addChild: (ToAttributedLabel new

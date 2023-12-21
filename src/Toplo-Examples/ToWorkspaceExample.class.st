@@ -101,7 +101,7 @@ ToWorkspaceExample >> initializeCodeEditor [
 				 fontSize: 24;
 				 foreground: Color gray lighter;
 				 yourself).
-			lab := ToLabel new text: text.
+			lab := ToAttributedLabel new text: text.
 			lab beMultiLine.
 			thePlaceholder addChild: lab.
 			thePlaceholder preventMeAndChildrenMouseEvents ];

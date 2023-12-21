@@ -48,6 +48,14 @@ TToElementWithPlaceholderTest >> testIsShowingPlaceholder [
 ]
 
 { #category : 'tests' }
+TToElementWithPlaceholderTest >> testNewPlaceholder [
+
+	| e |
+	e := ToElementWithPlaceholderForTest new.
+	self assert: (e newPlaceholder class inheritsFrom: BlOverlayElement)
+]
+
+{ #category : 'tests' }
 TToElementWithPlaceholderTest >> testPlaceholderBuilder [
 
 	| e builder |

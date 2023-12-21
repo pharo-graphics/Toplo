@@ -12,22 +12,22 @@ Class {
 }
 
 { #category : 'api - attaching / detaching' }
-ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement [ 
+ToAlbumEditsFeedbackLayer >> attachTo: anEditorElement [
 
 	super attachTo: anEditorElement.
-	
+
 	coverColor := anEditorElement selectionColor alpha: 0.1.
-	anEditorElement
-		when: ToAlbumFlashRequestedEvent
-		do: [ self flash ].
+	anEditorElement addEventHandler: (BlEventHandler
+			 on: ToAlbumFlashRequestedEvent
+			 do: [ self flash ]).
 
 	" flash if save requested with no text change "
-	anEditorElement
-		when: ToAlbumSaveRequestedEvent
-		do: [ :event | event unacceptedEdits ifFalse: [ self flash ] ].
+	anEditorElement addEventHandler: (BlEventHandler
+			 on: ToAlbumSaveRequestedEvent
+			 do: [ :event | event unacceptedEdits ifFalse: [ self flash ] ]).
 
 	" visual flag add/remove according to unaccepted edits or not"
-	anEditorElement whenEditedChangedDo: [ :state | 
+	anEditorElement whenEditedChangedDo: [ :state |
 		state
 			ifTrue: [ self showEditsFeedback ]
 			ifFalse: [ self hideEditsFeedback ] ]

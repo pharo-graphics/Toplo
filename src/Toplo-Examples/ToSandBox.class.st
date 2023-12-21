@@ -551,7 +551,7 @@ ToSandBox class >> example_EditorWithPlaceholder [
 				placeholderBuilder: [:placeholder :e | 		
 					| lab |
 					placeholder preventMeAndChildrenMouseEvents.
-					lab := ToLabel new text: placeholderText.
+					lab := ToAttributedLabel new text: placeholderText.
 					lab beMultiLine.
 					placeholder addChild: lab ];
 		        withRowNumbers;
@@ -969,7 +969,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 		| lab |
 		placeholder layout alignCenter.
 		placeholder preventMeAndChildrenMouseEvents.
-		lab := ToLabel new
+		lab := ToAttributedLabel new
 			       beMultiLine;
 			       text: phtext;
 			       yourself.
@@ -1857,35 +1857,34 @@ ToSandBox class >> example_contactList [
 	nameTxtF := ToTextField new
 		            width: 100;
 		            placeholderBuilder: [ :placeholder :e |
-			            placeholder padding: e padding.
-			            placeholder addChild: (ToLabel new
+			            placeholder addChild: (ToAttributedLabel new
 						             text:
 							             ('Name' asRopedText foreground: Color lightGray);
 						             yourself) ].
 	phoneTxtF := ToTextField new
 		             width: 100;
 		             placeholderBuilder: [ :placeholder :e |
-			             placeholder padding: e padding.
-			             placeholder addChild: (ToLabel new
+			             placeholder addChild: (ToAttributedLabel new
 						              text:
 							              ('Phone' asRopedText foreground: Color lightGray);
 						              yourself) ].
 	addressTxtF := ToTextField new
 		               width: 200;
 		               placeholderBuilder: [ :placeholder :e |
-			               placeholder padding: e padding.
-			               placeholder addChild: (ToLabel new
+			               placeholder addChild: (ToAttributedLabel new
 						                text:
 							                ('Adress' asRopedText foreground:
 									                 Color lightGray);
 						                yourself) ].
 
-	list when: ToListElementSelectionChangedEvent do: [ :evt |
-		evt newSelectedIndexes size = 1 ifTrue: [
-			contact := list data at: evt newSelectedIndexes anyOne.
-			nameTxtF text: contact name.
-			phoneTxtF text: contact phoneNumber.
-			addressTxtF text: contact address ] ].
+	list addEventHandler: (BlEventHandler
+			 on: ToListElementSelectionChangedEvent
+			 do: [ :evt |
+				 evt newSelectedIndexes size = 1 ifTrue: [
+					 contact := list data at: evt newSelectedIndexes anyOne.
+					 nameTxtF text: contact name.
+					 phoneTxtF text: contact phoneNumber.
+					 addressTxtF text: contact address ] ]).
 
 	button := ToButton new label: (ToLabel text: 'Update table').
 	button whenClickedDo: [
@@ -2462,7 +2461,7 @@ ToSandBox class >> example_textFieldWithPlaceholder [
 	| t text |
 	t := ToTextField new withSaveCapability.
 	text := ''.
-	t placeholderBuilder: [:thePlaceholder :myself | thePlaceholder addChild: (ToLabel text: (('Enter to accept' asRopedText) foreground: Color lightGray)) ].
+	t placeholderBuilder: [:thePlaceholder :myself | thePlaceholder addChild: (ToAttributedLabel text: (('Enter to accept' asRopedText) foreground: Color lightGray)) ].
 	t whenSaveRequestedDo: [ :saveRequested |
 		saveRequested client text ifNotEmpty: [ 
 		saveRequested client saveResult: true.
@@ -2480,8 +2479,7 @@ ToSandBox class >> example_textFieldWithPlaceholder2 [
 	t := ToTextField new withSaveCapability.
 	text := ''.
 	t placeholderBuilder: [ :placeholder :e |
-		placeholder padding: e padding. 
-		placeholder addChild: (ToLabel new
+		placeholder addChild: (ToAttributedLabel new
 				 text: 'Enter text';
 				 yourself) ].
 	t whenSaveRequestedDo: [ :saveRequested |
@@ -3385,7 +3383,6 @@ ToSandBox class >> example_withCustomMenuItems [
 	menu addSeparator.
 	textField := ToTextField new
 		             placeholderBuilder: [ :thePlaceholder :theElement |
-			             thePlaceholder padding: theElement padding.
 			             thePlaceholder addChild:
 					             (ToAttributedLabel new text:
 							              ('Your name' asRopedText
